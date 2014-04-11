@@ -50,7 +50,7 @@ class Calendar extends Entity {
 			$this->fromRow($createFrom);
 		}
 
-		//create from vcalendar
+		//create from VCalendar
 		if($createFrom instanceof VCalendar) {
 			$this->fromVObject($createFrom);
 		}
@@ -122,11 +122,13 @@ class Calendar extends Entity {
 	 * @brief set uri property
 	 */
 	public function setURI($uri) {
-		if(is_string($uri) === false) {
+		if(is_string($uri) === false || trim($uri) === '') {
 			return null;
 		}
+
 		$this->uri = $uri;
 		parent::setUri($this->slugify('uri'));
+		return $this;
 	}
 
 	/**

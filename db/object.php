@@ -287,6 +287,21 @@ class Object extends Entity {
 		}
 	}
 
+	public function getRuds($force=false) {
+		if($this->ruds !== null) {
+			return $this->ruds;
+		} else {
+			if($this->calendar instanceof Calendar) {
+				$cruds = $this->calendar->getCruds();
+				if($cruds & Permission::CREATE) {
+					$cruds -= Permission::CREATE;
+				}
+				return $cruds;
+			}
+			return null;
+		}
+	}
+
 	/**
 	 * @brief get last modified of object
 	 * @return DateTime
