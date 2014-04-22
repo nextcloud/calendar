@@ -1,0 +1,23 @@
+{
+	"name": "calendar",
+	"description": "Calendar Application for ownCloud",
+	"version": "2.0.0",
+	"private": true,
+	"homepage": "https://github.com/owncloud/calendar",
+	"repository": {
+		"type": "git",
+		"url": "git@github.com:owncloud/calendar.git"
+	},
+	"bugs": "https://github.com/owncloud/calendar/issues",
+	"dependencies": {},
+	"devDependencies": {
+		"grunt": "*",
+		"grunt-cli": "*",
+		"grunt-contrib-concat": "*",
+		"grunt-contrib-jshint": "*",
+		"grunt-contrib-watch": "*",
+		"grunt-wrap": "*",
+		"grunt-phpunit": "*"
+	},
+	"engine": "node >= 0.8"
+}
