@@ -20,48 +20,42 @@ class JSONCalendarReader extends JSONReader{
 	 * @brief parse jsoncalendar
 	 */
 	public function parse() {
-		try{
-			$data = $this->getData();
-			$isCollection = false;
+		$data = $this->getData();
+		$isCollection = $this->isDataACollection();
 
-			if(array_key_exists(0, $data) === true && is_array($data[0]) === true) {
-				$isCollection = true;
-			}
+		if($isCollection) {
+			$collection = new CalendarCollection();
 
-			if($isCollection === false) {
+			foreach($data as $singleEntity) {
 				try {
-					$object = $this->parseSingleEntry($data);
-					$this->setObject($object);
-				} catch(/* some */Exception $ex) {
-					//TODO - log error msg
-					return;
+					$calendar = $this->parseJSONCalendar($singleEntity);
+					$collection->add($calendar);
+				} catch(JSONReaderException $ex) {
+					//TODO - log error message
+					continue;
 				}
-			} else {
-				$collection = new CalendarCollection();
-
-				foreach($data as $entry) {
-					try {
-						$object = $this->parseSingleEntry($data);
-						$collection->add($object);
-					} catch(/* some */Exception $ex) {
-						//TODO - log some error msg
-						continue;
-					}
-				}
-
-				$this->setObject($collection);
 			}
-		} catch(Exception $ex /* What exception is being thrown??? */) {
-			throw new JSONCalendarReaderException($ex->getMessage());
+
+			$this->setObject($collection);
+		} else {
+			try {
+				$calendar = $this->parseJSONCalendar($data);
+				$this->setObject($calendar);
+			} catch(JSONReaderException $ex) {
+				//TODO - log error message
+				return;
+			}
 		}
+		return $this;
 	}
 
 	/**
 	 * @brief overwrite values that should not be set by user with null
 	 */
 	public function sanitize() {
-		//make sure object exists
-		$this->getObject();
+		if($this->object === null) {
+			$this->parse();
+		}
 
 		$sanitize = array(
 			'userId',
@@ -74,45 +68,70 @@ class JSONCalendarReader extends JSONReader{
 		return $this;
 	}
 
-	private function parseSingleEntry($data) {
+	/**
+	 * @brief check if $this->data is a collection
+	 * @return boolean
+	 */
+	private function isDataACollection() {
+		$data = $this->data;
+
+		if(array_key_exists(0, $data) && is_array($data[0])) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * @brief parse a single json calendar
+	 * @return \OCA\Calendar\Db\Calendar
+	 */
+	private function parseJSONCalendar($data) {
 		$calendar = new Calendar();
 
 		foreach($data as $key => $value) {
-			$propertySetter = 'set' . ucfirst($key);
+			$setter = 'set' . ucfirst($key);
 
 			switch($key) {
 				case 'color':
 				case 'displayname':
-				case 'timezone':
-					$calendar->{$propertySetter}((string) $value);
+				case 'backend':
+				case 'uri':
+				//case 'timezone':
+					$value = strval($value);
+					$calendar->$setter($value);
 					break;
 
 				case 'ctag':
 				case 'order':
-					$calendar->{$propertySetter}((int) $value);
+					$value = intval($value);
+					$calendar->$setter($value);
 					break;
 
 				case 'enabled':
-					$calendar->{$propertySetter}((bool) $value);
+					//$value = boolval($value); boolval is PHP >= 5.5 only
+					$calendar->$setter($value);
 					break;
 
 				case 'components':
-					$calendar->{$propertySetter}(JSONUtility::parseComponents($value));
+					$value = JSONUtility::parseComponents($value);
+					$calendar->$setter($value);
 					break;
 
 				case 'cruds':
-					$calendar->{$propertySetter}(JSONUtility::parseCruds($value));
+					$value = JSONUtility::parseCruds($value);
+					$calendar->$setter($value);
 					break;
 
 				case 'owner':
 				case 'user':
 					$propertySetter .= 'Id';
-					$calendar->{$propertySetter}(JSONUtility::parseUserInformation($value));
+					$value = JSONUtility::parseUserInformation($value);
+					$calendar->$setter($value);
 					break;
 
 				case 'calendarURI':
-					$calendar->setBackend(JSONUtility::parseCalendarURIForBackend($value));
-					$calendar->setUri(JSONUtility::parseCalendarURIForURI($value));
+					$this->setCalendarURI($value);
+					break;
 
 				//blacklist:
 				case 'url':
@@ -125,6 +144,8 @@ class JSONCalendarReader extends JSONReader{
 
 		return $calendar;
 	}
-}
 
-class JSONCalendarReaderException extends \Exception{}
+	private function setCalendarURI($calendarURI) {
+		//Todo - check 
+	}
+}

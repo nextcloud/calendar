@@ -14,49 +14,28 @@ use OCA\Calendar\VObject\Splitter\ICalendar;
 
 class JSONObjectReader {
 
+	/**
+	 * @brief parse json object
+	 */
 	public function parse() {
 		try {
-			$this->fixData();
+			$data = $this->getData();
 
-			$stream = fopen('php://memory','r+');
-			fwrite($stream, $this->getData());
-			rewind($stream);
+			$vcalendar = Reader::readJson($data);
+			$uniqueUIDs = SabreUtility::countUniqueUIDs($vcalendar);
+			$isCollection = ($uniqueUIDs !== 1);
 
-			//TODO - does the vobject splitter support json-encoded calendar data???????
-			$vcalendar = new ICalendar($stream);
-
-			$objectCollection = new ObjectCollection();
-
-			while($vobject = $vcalendar->next()) {
-				$object = new Object();
-				$object->fromVObject($vcalendar);
-				$objectCollection->add($object);
-			}
-
-			if($objectCollection->count() === 1) {
-				$this->setObject($objectCollection->reset()->current());
+			if($isCollection) {
+				$singleObjects = SabreUtility::splitByUID($vcalendar);
+				$collection = new ObjectCollection($singleObjects);
+				$this->setObject($collection);
 			} else {
-				$this->setObject($objectCollection);
+				$object = new Object($vcalendar);
+				$this->setObject($object);
 			}
-
 			return $this;
 		} catch(/* some */Exception $e) {
 			throw new JSONObjectReaderException($ex->getMessage());
 		}
 	}
-
-	protected function fixData() {
-		$data = $this->getData();
-
-		//fix malformed timestamp in some google calendar events
-		//originally contributed by nezzi@github
-		//TODO - convert to json representation of created
-		$data = str_replace('CREATED:00001231T000000Z', 'CREATED:19700101T000000Z', $data);
-
-		//add some more fixes over time
-
-		$this->setData($data);
-	}
 }
-
-class JSONObjectReaderException extends Exception{}

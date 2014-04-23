@@ -13,9 +13,14 @@ use \OCA\Calendar\Http\IResponse;
 abstract class JSONCollection extends JSON {
 
 	/**
-	 * @brief Constructor
+	 * @brief set object
+	 * @param Collection $object
 	 */
-	public function __construct(Collection $object) {
-		$this->object = $object;
+	public function setObject($object) {
+		if($object instanceof Collection) {
+			$this->object = $object;
+			return $this;
+		}
+		return null;
 	}
 }

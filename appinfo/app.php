@@ -19,4 +19,17 @@ $app->registerCron();
 $app->registerHooks();
 $app->registerProviders();
 
-Sabre\VObject\Document::$propertyMap['DateTime'] = '\OCA\Calendar\CustomSabre\Property\DateTime';
+\OCA\Calendar\Sabre\VObject\Component\VCalendar::$valueMap['DATE-TIME'] = 'SabreProperty\DateTime';
+\OCA\Calendar\Sabre\VObject\Component\VCalendar::$valueMap['DATE'] = 'SabreProperty\DateTime';
+
+\OCA\Calendar\Sabre\VObject\Component\VCalendar::$propertyMap['COMPLETED'] = 'SabreProperty\DateTime';
+\OCA\Calendar\Sabre\VObject\Component\VCalendar::$propertyMap['DTEND'] = 'SabreProperty\DateTime';
+\OCA\Calendar\Sabre\VObject\Component\VCalendar::$propertyMap['DUE'] = 'SabreProperty\DateTime';
+\OCA\Calendar\Sabre\VObject\Component\VCalendar::$propertyMap['DTSTART'] = 'SabreProperty\DateTime';
+
+\OCA\Calendar\Sabre\VObject\Component\VCalendar::$propertyMap['RECURRENCE-ID'] = 'SabreProperty\DateTime';
+
+\OCA\Calendar\Sabre\VObject\Component\VCalendar::$propertyMap['CREATED'] = 'SabreProperty\DateTime';
+\OCA\Calendar\Sabre\VObject\Component\VCalendar::$propertyMap['DTSTAMP'] = 'SabreProperty\DateTime';
+\OCA\Calendar\Sabre\VObject\Component\VCalendar::$propertyMap['LAST-MODIFIED'] = 'SabreProperty\DateTime';
+\OCA\Calendar\Sabre\VObject\Component\VCalendar::$propertyMap['ACKNOWLEDGED'] = 'SabreProperty\DateTime';

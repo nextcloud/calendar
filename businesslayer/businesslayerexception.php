@@ -7,9 +7,16 @@
  */
 namespace OCA\Calendar\BusinessLayer;
 
+use \OCP\AppFramework\Http;
+
 class BusinessLayerException extends \Exception {
-	const FORBIDDEN = 403;
-	const NOTFOUND = 404;
-	const CONFLICT = 409;
-	const INTERNAL = 500;
+
+	public function __construct($message=null, $code=null, \Exception $previous=null) {
+		if($code === null) {
+			$code = Http::STATUS_BAD_REQUEST;
+		}
+
+		parent::__construct($message, $code, $previous);
+	}
+
 }

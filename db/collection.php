@@ -7,6 +7,16 @@
  */
 namespace OCA\Calendar\Db;
 
+use \OCA\Calendar\Sabre\VObject\Component\VCalendar;
+use \OCA\Calendar\Sabre\VObject\Reader;
+use \OCA\Calendar\Sabre\VObject\ParseException;
+use \OCA\Calendar\Sabre\VObject\EofException;
+
+use \OCA\Calendar\Sabre\VObject\Component\VTimezone;
+use \OCA\Calendar\Sabre\VObject\Component\VEvent;
+use \OCA\Calendar\Sabre\VObject\Component\VJournal;
+use \OCA\Calendar\Sabre\VObject\Component\VTodo;
+
 abstract class Collection {
 
 	protected $objects;
@@ -239,13 +249,18 @@ abstract class Collection {
 
 		foreach($this->objects as &$object) {
 			$vElement = $object->getVObject();
-			$children = $vElement->getChildren();
+			$children = $vElement->children();
 			foreach($children as $child) {
-				$vObject->add($child);
+				if($child instanceof VEvent || 
+				   $child instanceof VJournal ||
+				   $child instanceof VTodo ||
+				   $child instanceof VTimezone) {
+					$vObject->add($child);
+				}
 			}
 		}
 
-		return $vobject;
+		return $vObject;
 	}
 
 	/**

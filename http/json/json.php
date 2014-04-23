@@ -8,43 +8,45 @@
 namespace OCA\Calendar\Http\JSON;
 
 use \OCA\Calendar\Db\Entity;
-use \OCA\Calendar\Http\IResponse;
 
-abstract class JSON implements IResponse {
+use \OCA\Calendar\Http\Serializer;
+use \OCA\Calendar\Http\ISerializer;
+
+abstract class JSON implements ISerializer {
 
 	protected $object;
-	protected $vobject;
-
-	/**
-	 * @brief Constructor
-	 */
-	public function __construct(Entity $object) {
-		$this->object = $object;
-		try {
-			$this->vobject = $object->getVObject();
-		} catch(/* some */Exception $ex) {
-			
-		}
-	}
 
 	/**
 	 * @brief get object JSONObject was initialized with.
 	 */
-	protected function getObject() {
+	public function getObject() {
 		return $this->object;
 	}
 
 	/**
-	 * @brief get mimetype of serialized output
+	 * @brief set object
+	 * @param Entity $object
 	 */
-	public function getMimeType() {
-		return 'application/calendar+json';
+	public function setObject($object) {
+		if($object instanceof Entity) {
+			$this->object = $object;
+			return $this;
+		}
+		return null;
+	}
+
+	/**
+	 * @brief get headers for response
+	 * @return array
+	 */
+	public function getHeaders() {
+		return array(
+			'X-Content-Type-Options' => 'nosniff',
+		);
 	}
 
 	/**
 	 * @brief get json-encoded string containing all information
 	 */
-	abstract public function serialize();
+	abstract public function serialize($convenience=true);
 }
-
-class JSONException extends \Exception {}

@@ -9,11 +9,11 @@ namespace OCA\Calendar\Utility;
 
 class CalendarUtility extends Utility{
 
-	const SEPERATOR = '-';
+	const SEPERATOR = '::';
 
 	public static function suggestURI($calendarURI) {
 		if(substr_count($calendarURI, '-') === 0) {
-			$calendarURI . '-1';
+			$calendarURI .= '-1';
 		} else {
 			$positionLastDash = strrpos($calendarURI, '-');
 			$firstPart = substr($calendarURI, 0, strlen($calendarURI) - $positionLastDash);
@@ -24,16 +24,18 @@ class CalendarUtility extends Utility{
 				$lastPart++;
 				$calendarURI = $firstPart . '-' . $lastPart;
 			} else {
-				$calendarURI . '-1';
+				$calendarURI .= '-1';
 			}
 		}
+		return $calendarURI;
 	}
 
 	public static function splitURI($publicURI) {
-		if ( $publicURI === false || $publicURI === null || $publicURI === '' ) {
+		if ($publicURI === false || $publicURI === null || $publicURI === '') {
 			return array(false, false);
 		}
-		if ( substr_count($publicURI, self::SEPERATOR) === 0 ){
+
+		if (substr_count($publicURI, self::SEPERATOR) === 0){
 			return array(false, false);
 		}
 
@@ -42,8 +44,17 @@ class CalendarUtility extends Utility{
 		return array($backend, $realCalendarURI);
 	}
 
+	/**
+	 * @brief get uri from backend and calendarURI
+	 * @param string $backend
+	 * @param string $calendarURI
+	 * @return string uri
+	 */
 	public static function getURI($backend, $calendarURI) {
-		return $backend . self::SEPERATOR . $calendarURI;
+		return implode(self::SEPERATOR, array(
+			$backend,
+			$calendarURI,
+		));
 	}
 
 }

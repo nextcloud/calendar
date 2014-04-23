@@ -22,6 +22,9 @@ use \OCA\Calendar\Utility\ObjectUtility;
 use \OCA\Calendar\Utility\SabreUtility;
 use \OCA\Calendar\Utility\Utility;
 
+use \OCA\Calendar\Sabre\VObject\Property\Text as TextProperty;
+use \OCA\Calendar\Sabre\VObject\Property\Integer as IntegerProperty;
+
 class Object extends Entity {
 
 	public $id;
@@ -38,7 +41,7 @@ class Object extends Entity {
 	 * @brief init Object object with data from db row
 	 * @param array $fromRow
 	 */
-	public function __construct($fromRow=null){
+	public function __construct($fromRow=null) {
 		$this->addType('objectURI', 'string');
 		$this->addType('etag', 'string');
 		$this->addType('ruds', 'integer');
@@ -56,7 +59,7 @@ class Object extends Entity {
 	 * @param array $row the row to map onto the entity
 	 */
 	public function fromRow(array $row) {
-		foreach($row as $key => $value){
+		foreach($row as $key => $value) {
 			$prop = $this->columnToProperty($key);
 			if(property_exists($this, $prop)) {
 				if($value !== null && array_key_exists($prop, $this->fieldTypes)){
@@ -80,9 +83,11 @@ class Object extends Entity {
 	 */
 	public function setCalendarData($data) {
 		try {
-			$this->vobject = Reader::read($data);
-			$this->objectName = SabreUtility::getObjectName($this->vobject);
-		} catch(/* some */Exception $ex) {
+			$vobject = Reader::read($data);
+			$this->fromVObject($vobject);
+		} catch(ParseException $ex) {
+			
+		} catch(EofException $ex) {
 			
 		}
 	}
@@ -124,6 +129,7 @@ class Object extends Entity {
 			throw new MultipleObjectsReturnedException($msg);
 		}
 
+		
 		$this->vobject = $vcalendar;
 		$this->objectName = SabreUtility::getObjectName($vcalendar);
 	}
@@ -133,6 +139,23 @@ class Object extends Entity {
 	 * @return \Sabre\VObject\Component\VCalendar object
 	 */
 	public function getVObject() {
+		$objectName = $this->objectName;
+		if(!isset($this->vobject->{$objectName}->{'X-OC-URI'})) {
+			$uri = new TextProperty($this->vobject, 'X-OC-URI', $this->objectURI);
+			$this->vobject->{$objectName}->add($uri);
+		}
+		if(!isset($this->vobject->{$objectName}->{'X-OC-ETAG'})) {
+			if($this->etag === null) {
+				$this->generateEtag();
+			}
+			$etag = new TextProperty($this->vobject, 'X-OC-ETAG', $this->etag);
+			$this->vobject->{$objectName}->add($etag);
+		}
+		if(!isset($this->vobject->{$objectName}->{'X-OC-RUDS'})) {
+			$ruds = new IntegerProperty($this->vobject, 'X-OC-RUDS', $this->ruds);
+			$this->vobject->{$objectName}->add($ruds);
+		}
+
 		return $this->vobject;
 	}
 
@@ -165,8 +188,7 @@ class Object extends Entity {
 	 * @brief update Etag
 	 */
 	public function generateEtag() {
-		$etag  = $this->getCalendarId();
-		$etag .= $this->getObjectURI();
+		$etag  = $this->getObjectURI();
 		$etag .= $this->getCalendarData();
 
 		$this->etag = md5($etag);
@@ -185,19 +207,8 @@ class Object extends Entity {
 	 * @return DateTime
 	 */
 	public function getStartDate() {
-		//TODO - USE UTILITY!!
-		//If recurrenceId is set, that's the actual start
-		//DTSTART has the value of the first object of recurring events
-		//This doesn't make any sense, but that's how it is in the standard
-		if(isset($this->vobject->{$objectName}->{'RECURRENCE-ID'})) {
-			return $this->vobject->{$objectName}->{'RECURRENCE-ID'}->getDateTime();
-		}
-
-		if(isset($this->vobject->{$objectName}->{'DTSTART'})) {
-			return $this->vobject->{$objectName}->{'DTSTART'}->getDateTime();
-		}
-
-		return null;
+		$objectName = $this->objectName;
+		return SabreUtility::getDTStart($this->vobject->{$objectName});
 	}
 
 	/**
@@ -206,15 +217,7 @@ class Object extends Entity {
 	 */
 	public function getEndDate() {
 		$objectName = $this->objectName;
-
-		if(isset($this->vobject->{$objectName}->{'DTEND'})) {
-			return $this->vobject->{$objectName}->{'DTEND'}->getDateTime();
-		} elseif(isset($this->vobject->{$objectName}->{'DURATION'})) {
-			$dtend = SabreUtility::getDTEnd($this->vobject->{$objectName});
-			return $dtend->getDateTime();
-		} else {
-			return $this->getStartDate();
-		}
+		return SabreUtility::getDTEnd($this->vobject->{$objectName});
 	}
 
 	/**
@@ -293,13 +296,21 @@ class Object extends Entity {
 		} else {
 			if($this->calendar instanceof Calendar) {
 				$cruds = $this->calendar->getCruds();
-				if($cruds & Permission::CREATE) {
-					$cruds -= Permission::CREATE;
+				if($cruds & Permissions::CREATE) {
+					$cruds -= Permissions::CREATE;
 				}
 				return $cruds;
 			}
 			return null;
 		}
+	}
+
+	public function setRuds($ruds) {
+		if($ruds & Permissions::CREATE) {
+			$ruds -= Permissions::CREATE;
+		}
+
+		$this->ruds = $ruds;
 	}
 
 	/**
@@ -342,5 +353,9 @@ class Object extends Entity {
 
 		$isVObjectValid = $this->vobject->validate();
 		//TODO - finish implementation
+	}
+
+	private function iterateOverObjects() {
+		
 	}
 }

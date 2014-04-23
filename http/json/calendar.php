@@ -4,45 +4,11 @@
  * This file is licensed under the Affero General Public License version 3 or
  * later.
  * See the COPYING-README file.
- * 
- * Example output:
- * ```json
- * {
- *   "displayname" : "Work",
- *   "calendarURI" : "local-work",
- *   "owner" : {
- *     "userid" : "developer42",
- *     "displayname" : "developer42"
- *   },
- *   "ctag" : 0,
- *   "url" : "https://owncloud/index.php/apps/calendar/calendars/local-work",
- *   "color" : "#000000",
- *   "order" : 0,
- *   "enabled" : true,
- *   "components" : {
- *     "vevent" : true,
- *     "vjournal" : false,
- *     "vtodo" : true
- *   },
- *   "timezone" : {}, //see JSONTIMEZONE
- *   "user" : {
- *     "userid" : "developer42",
- *     "displayname" : "developer42"
- *   },
- *   "cruds" : {
- *     "create" : true,
- *     "update" : true,
- *     "delete" : true,
- *     "code" : 31,
- *     "read" : true,
- *     "share" : true
- *   }
- * }
- * ```
  */
 namespace OCA\Calendar\Http\JSON;
 
 use \OCA\Calendar\Db\Calendar;
+
 use \OCA\Calendar\Db\ObjectType;
 use \OCA\Calendar\Db\Permissions;
 
@@ -54,13 +20,22 @@ class JSONCalendar extends JSON {
 	private $jsonArray;
 
 	/**
-	 * @brief get mimetype of serialized output
+	 * @brief get headers for response
+	 * @return array
 	 */
-	public function getMimeType() {
-		return 'application/json';
+	public function getHeaders() {
+		return array_merge(
+			parent::getHeaders(),
+			array(
+				'Content-type' => 'application/json; charset=utf-8',
+			)
+		);
 	}
 
-
+	/**
+	 * @brief get json-encoded string containing all information
+	 * @return array
+	 */
 	public function serialize($convenience=true) {
 		$this->jsonArray = array();
 
@@ -75,6 +50,8 @@ class JSONCalendar extends JSON {
 				case 'color':
 				case 'displayname':
 				case 'timezone':
+				case 'backend':
+				case 'uri':
 					$this->jsonArray[$key] = (string) $value;
 					break;
 
@@ -103,8 +80,6 @@ class JSONCalendar extends JSON {
 
 				//blacklist
 				case 'id':
-				case 'backend':
-				case 'uri':
 					break;
 
 				default:
@@ -114,34 +89,26 @@ class JSONCalendar extends JSON {
 			}
 		}
 
-		$this->setCalendarURI();
 		$this->setCalendarURL();
+		$this->setCalDAVURL();
 
 		return $this->jsonArray;
-	}
-
-	/**
-	 * @brief set public calendar uri
-	 */
-	private function setCalendarURI() {
-		$backend = $this->object->getBackend();
-		$calendarURI = $this->object->getUri();
-
-		$calendarURI = CalendarUtility::getURI($backend, $calendarURI);
-
-		$this->jsonArray['calendarURI'] = $calendarURI;
 	}
 
 	/**
 	 * @brief set api url to calendar
 	 */
 	private function setCalendarURL() {
-		$calendarURI = $this->jsonArray['calendarURI'];
+		$calendarURI = CalendarUtility::getURI($this->object->getBackend(), $this->object->getUri());
 
-		//TODO - fix me
-		//$calendarURL = JSONUtility::getURL($calendarURI);
-		$calendarURL = '';
-
+		$calendarURL = JSONUtility::getURL($calendarURI);
 		$this->jsonArray['url'] = $calendarURL;
+	}
+
+	private function setCalDAVURL() {
+		$calendarURI = CalendarUtility::getURI($this->object->getBackend(), $this->object->getUri());
+
+		$calDAVURL = JSONUtility::getCalDAV($calendarURI);
+		$this->jsonArray['caldav'] = $calDAVURL;
 	}
 }

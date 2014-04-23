@@ -150,33 +150,37 @@ class JSONUtility extends Utility{
 			'calendarId' => $calendarURI,
 		);
 
-		$url = \OCP\Util::linkToRoute('calendar.calendars.show', $properties);
-		$this->url = \OCP\Util::linkToAbsolute('', substr($url, 1));
+		$url = \OCP\Util::linkToRoute('calendar.calendar.show', $properties);
+		return \OCP\Util::linkToAbsolute('', substr($url, 1));
+	}
+
+	public static function getCalDAV($calendarURI, $user) {
+		$url  = \OCP\Util::linkToRemote('caldav');
+		$url .= urlencode($user) . '/';
+		$url .= $calendarURI . '/';
+
+		return $url;
 	}
 
 	public static function addConvenience(&$vobject) {
-		$dtstart = SabreUtility::getDTStart($vobject);
-		if($dtstart !== null) {
-			$vobject->{'X-OC-DTSTART'} = $dtstart->getDateTime()->format(\DateTime::ISO8601);
-		}
+		/*foreach($vobject as &$child) {
+			if(!($child instanceof VEvent) &&
+			   !($child instanceof VJournal) &&
+			   !($child instanceof VTodo)) {
+				continue;
+			}
 
-		$dtend = SabreUtility::getDTEnd($vobject);
-		if($dtend !== null) {
-			$vobject->{'X-OC-DTEND'} = $dtend->getDateTime()->format(\DateTime::ISO8601);
-		}
-
-		//extending SabreDAV's date and datetime jsonSerialize method would probably be easier
-		//iterate over all VALARMs
-		//iterate over all VTIMEZONEs
-		//iterate over all FREEBUSY
-		//DTSTART
-		//DTEND
-		//CREATED
-		//DTSTAMP
-		//LAST-MODIFIED
-		//DUE
-		//COMPLETED
-		//RECCURENCE-ID
+			if(isset($child->{'DTSTART'})) {
+				$dtstart = SabreUtility::getDTStart($vobject);
+				if($dtstart !== null) {
+					$vobject->{'X-OC-DTSTART'} = $dtstart->getDateTime()->format(\DateTime::ISO8601);
+				}
+	
+			$dtend = SabreUtility::getDTEnd($vobject);
+			if($dtend !== null) {
+				$vobject->{'X-OC-DTEND'} = $dtend->getDateTime()->format(\DateTime::ISO8601);
+			}
+		}*/
 	}
 
 	public static function dropAttachements(&$vobject) {

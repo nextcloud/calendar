@@ -20,14 +20,15 @@ define('OCA\Calendar\Backend\CREATE_CALENDAR', 			   1);
 define('OCA\Calendar\Backend\UPDATE_CALENDAR',			   2);
 define('OCA\Calendar\Backend\DELETE_CALENDAR',			   4);
 define('OCA\Calendar\Backend\MERGE_CALENDAR',			   8);
-define('OCA\Calendar\Backend\CREATE_OBJECT',			  16);
-define('OCA\Calendar\Backend\UPDATE_OBJECT',			  32);
-define('OCA\Calendar\Backend\DELETE_OBJECT',			  64);
-define('OCA\Calendar\Backend\FIND_IN_PERIOD',			 128);
-define('OCA\Calendar\Backend\FIND_OBJECTS_BY_TYPE',		 256);
-define('OCA\Calendar\Backend\FIND_IN_PERIOD_BY_TYPE',	 521);
-define('OCA\Calendar\Backend\SEARCH_BY_PROPERTIES',		1024);
-define('OCA\Calendar\Backend\PROVIDES_CRON_SCRIPT',		2048);
+define('OCA\Calendar\Backend\MOVE_CALENDAR',			  16);
+define('OCA\Calendar\Backend\CREATE_OBJECT',			  32);
+define('OCA\Calendar\Backend\UPDATE_OBJECT',			  64);
+define('OCA\Calendar\Backend\DELETE_OBJECT',			 128);
+define('OCA\Calendar\Backend\FIND_IN_PERIOD',			 256);
+define('OCA\Calendar\Backend\FIND_OBJECTS_BY_TYPE',		 512);
+define('OCA\Calendar\Backend\FIND_IN_PERIOD_BY_TYPE',	1024);
+define('OCA\Calendar\Backend\SEARCH_BY_PROPERTIES',		2048);
+define('OCA\Calendar\Backend\PROVIDES_CRON_SCRIPT',		4096);
 
 abstract class Backend implements IBackend {
 
@@ -52,6 +53,7 @@ abstract class Backend implements IBackend {
 		UPDATE_CALENDAR			=> 'updateCalendar',
 		DELETE_CALENDAR 		=> 'deleteCalendar',
 		MERGE_CALENDAR 			=> 'mergeCalendar',
+		MOVE_CALENDAR			=> 'moveCalendar',
 		CREATE_OBJECT 			=> 'createObject',
 		UPDATE_OBJECT 			=> 'updateObject',
 		DELETE_OBJECT 			=> 'deleteObject',

@@ -7,14 +7,15 @@
  */
 namespace OCA\Calendar\SabreProperty;
 
-class DateTime extends \OCA\Calendar\Sabre\VObject\Property\DateTime {
+use \OCA\Calendar\Sabre\VObject\Property;
+use \OCA\Calendar\Sabre\VObject\Parameter;
 
-	public function getJsonValue() {
-		$array = parent::getJsonValue();
+class DateTime extends \OCA\Calendar\Sabre\VObject\Property\ICalendar\DateTime {
 
-		//do smth
-		
-		return $array;
-	}	
+	public function jsonSerialize() {
+		$dateTime = $this->getDateTime();
+		$this->add('X-OC-RFC8601', $dateTime->format(\DateTime::ISO8601));
+		return parent::jsonSerialize();
+	}
 
 }

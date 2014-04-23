@@ -8,6 +8,7 @@
 namespace OCA\Calendar\BusinessLayer;
 
 use \OCP\AppFramework\IAppContainer;
+use \OCP\AppFramework\Http;
 
 use \OCA\Calendar\Db\DoesNotExistException;
 use \OCA\Calendar\Db\MultipleObjectsReturnedException;
@@ -91,6 +92,7 @@ class ObjectBusinessLayer extends BusinessLayer {
 			throw new BusinessLayerException($ex->getMessage());
 		}
 	}
+
 
 	/**
 	 * get the number how many calendars a user has
@@ -227,6 +229,8 @@ class ObjectBusinessLayer extends BusinessLayer {
 				$msg .= 'Backend found but not enabled!';
 				throw new BusinessLayerException($msg);
 			}
+
+			$api = &$this->backends->find($backend)->api;
 
 			$cacheObjects = $api->cacheObjects($calendarURI, $userId);
 			if($cacheObjects === true) {
@@ -398,7 +402,7 @@ class ObjectBusinessLayer extends BusinessLayer {
 	 * @throws BusinessLayerException
 	 * @return array containing all items
 	 */
-	public function create(Object $object) {
+	public function create(Object &$object) {
 		try {
 			$backend = $object->calendar->getBackend();
 			$calendarURI = $object->calendar->getUri();
@@ -450,6 +454,10 @@ class ObjectBusinessLayer extends BusinessLayer {
 		}
 	}
 
+	public function createFromRequest(Object &$object) {
+		
+	}
+
 	/**
 	 * updates an object
 	 * @param Object $object 
@@ -459,7 +467,7 @@ class ObjectBusinessLayer extends BusinessLayer {
 	 * @throws BusinessLayerException
 	 * @return array containing all items
 	 */
-	public function update(Object $object, Calendar $calendar, $objectURI, $userId) {
+	public function update(Object &$object, Calendar &$calendar, $objectURI) {
 		try {
 			if(is_array($calendarId)) {
 				$backend = $calendarId[0];
@@ -500,6 +508,19 @@ class ObjectBusinessLayer extends BusinessLayer {
 		} catch(BackendException $ex) {
 			throw new BusinessLayerException($ex->getMessage());
 		}
+	}
+
+
+	public function updateFromRequest(Object $object, Calendar &$calendar, $objectURI, $etag) {
+		$oldObject = $this->find($calendar, $objectURI);
+
+		if($oldObject->getEtag() !== $etag) {
+			$msg  = 'ObjectBusinessLayer::updateFromRequest(): User Error: ';
+			$msg .= 'If-Match failed; etags are not equal!';
+			throw new BusinessLayerException($msg, Http::STATUS_PRECONDITION_FAILED);
+		}
+
+		return $this->update($object, $calendar, $objectURI);
 	}
 
 	/**

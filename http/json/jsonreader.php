@@ -7,9 +7,12 @@
  */
 namespace OCA\Calendar\Http\JSON;
 
+use \OCA\Calendar\Db\Entity;
 use \OCA\Calendar\Db\Collection;
 
-abstract class JSONReader {
+use \OCA\Calendar\Http\IReader;
+
+abstract class JSONReader implements IReader {
 
 	protected $data;
 	protected $object;
@@ -35,6 +38,7 @@ abstract class JSONReader {
 	 * @brief set data
 	 */
 	public function setData($json) {
+		//reset object
 		$this->object = null;
 
 		if(is_array($json)) {
@@ -129,4 +133,4 @@ abstract class JSONReader {
 	abstract public function parse();
 }
 
-class JSONReaderException extends Exception {}
+class JSONReaderException extends \Exception {}

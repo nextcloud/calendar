@@ -246,7 +246,7 @@ abstract class Document extends Component {
 
         $valueParam = strtoupper($valueParam);
         if (isset(static::$valueMap[$valueParam])) {
-            return static::$valueMap[$valueParam];
+            return 'OCA\\Calendar\\' . static::$valueMap[$valueParam];
         }
 
     }

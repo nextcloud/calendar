@@ -21,16 +21,20 @@ use \OCA\Calendar\BusinessLayer\ObjectBusinessLayer;
 
 use \OCA\Calendar\Controller\BackendController;
 use \OCA\Calendar\Controller\CalendarController;
+use \OCA\Calendar\Controller\SubscriptionController;
 use \OCA\Calendar\Controller\ObjectController;
 use \OCA\Calendar\Controller\EventController;
 use \OCA\Calendar\Controller\JournalController;
 use \OCA\Calendar\Controller\TodoController;
+use \OCA\Calendar\Controller\TimezoneController;
 use \OCA\Calendar\Controller\SettingsController;
 use \OCA\Calendar\Controller\ViewController;
 
 use \OCA\Calendar\Db\BackendMapper;
 use \OCA\Calendar\Db\CalendarMapper;
+use \OCA\Calendar\Db\SubscriptionMapper;
 use \OCA\Calendar\Db\ObjectMapper;
+use \OCA\Calendar\Db\TimezoneMapper;
 
 use \OCA\Calendar\Fetcher\Fetcher;
 use \OCA\Calendar\Fetcher\CalDAVFetcher;
@@ -53,6 +57,14 @@ class App extends \OCP\AppFramework\App {
 
 			return new CalendarController($c, $req, $cbl, $obl);
 		});
+
+		$this->getContainer()->registerService('SubscriptionController', function(IAppContainer $c) {
+			$req = $c->query('Request');
+			$smp = $c->query('SubscriptionMapper');
+
+			return new ViewController($c, $req, $smp);
+		});
+
 
 		$this->getContainer()->registerService('ObjectController', function(IAppContainer $c) {
 			$req = $c->query('Request');
@@ -84,6 +96,20 @@ class App extends \OCP\AppFramework\App {
 			$obl = $c->query('ObjectBusinessLayer');
 
 			return new TodoController($c, $req, $cbl, $obl);
+		});
+
+		$this->getContainer()->registerService('TimezoneController', function(IAppContainer $c) {
+			$req = $c->query('Request');
+			$tmp = $c->query('TimezoneMapper');
+
+			return new ViewController($c, $req, $tmp);
+		});
+
+
+		$this->getContainer()->registerService('SettingsController', function(IAppContainer $c) {
+			$req = $c->query('Request');
+
+			return new SettingsController($c, $req);
 		});
 
 		$this->getContainer()->registerService('ViewController', function(IAppContainer $c) {
@@ -121,8 +147,16 @@ class App extends \OCP\AppFramework\App {
 			return new CalendarMapper($c);
 		});
 
+		$this->getContainer()->registerService('SubscriptionMapper', function(IAppContainer $c) {
+			return new SubscriptionMapper($c);
+		});
+
 		$this->getContainer()->registerService('ObjectMapper', function(IAppContainer $c) {
 			return new ObjectMapper($c);
+		});
+
+		$this->getContainer()->registerService('TimezoneMapper', function(IAppContainer $c) {
+			return new TimezoneMapper($c);
 		});
 
 		/**
@@ -173,14 +207,8 @@ class App extends \OCP\AppFramework\App {
 				'enabled' => true,
 			),
 			array (
-				'backend' => 'birthday',
-				'classname' => '\\OCA\\Calendar\\Backend\\Birthday',
-				'arguments' => array(),
-				'enabled' => true,
-			),
-			array (
-				'backend' => 'anniversary',
-				'classname' => '\\OCA\\Calendar\\Backend\\Anniversary',
+				'backend' => 'contact',
+				'classname' => '\\OCA\\Calendar\\Backend\\Contact',
 				'arguments' => array(),
 				'enabled' => true,
 			),

@@ -45,6 +45,13 @@ class Calendar extends Entity {
 		$this->addType('enabled', 'boolean');
 		$this->addType('cruds', 'integer');
 
+		//fillup default values
+		$this->setCtag(0);
+		$this->setTimezone(new Timezone('UTC'));
+		$this->setColor('#FFFFFF');
+		$this->setOrder(0);
+		$this->setEnabled(true);
+
 		//create from array
 		if(is_array($createFrom)){
 			$this->fromRow($createFrom);
@@ -259,5 +266,13 @@ class Calendar extends Entity {
 
 	public function __toString() {
 		return $this->userId . '::' . $this->getCalendarId();
+	}
+
+	public function doesAllow($cruds) {
+		return ($this->cruds & $cruds);
+	}
+
+	public function doesSupport($components) {
+		return ($this->components & $components);
 	}
 }

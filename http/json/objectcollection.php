@@ -7,9 +7,38 @@
  */
 namespace OCA\Calendar\Http\JSON;
 
-class JSONObjectCollection extends JSONObject {
+class JSONObjectCollection extends JSONCollection {
 
-	public function extend(\DateTime $start, \DateTime $end) {
-		$this->vobject->extend($start, $end);
+	/**
+	 * @brief get headers for response
+	 * @return array
+	 */
+	public function getHeaders() {
+		return array_merge(
+			parent::getHeaders(),
+			array(
+				'Content-type' => 'application/calendar+json; charset=utf-8',
+			)
+		);
+	}
+
+	/**
+	 * @brief get json-encoded string containing all information
+	 * @return mixed (null|array)
+	 */
+	public function serialize($convenience=true) {
+		//if the collection does not contain any object,
+		//return the http 204 no content status code
+		if($this->object->count() === 0) {
+			return null;
+		}
+
+		$vcalendar = $this->object->getVObject();
+
+		if($convenience === true) {
+			//JSONUtility::addConvenience($vcalendar);
+		}
+
+		return $vcalendar->jsonSerialize();
 	}
 }

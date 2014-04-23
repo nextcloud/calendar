@@ -28,6 +28,11 @@ $this->create('calendar.calendars.forceUpdate', '/v1/calendars-forceUpdate')->ac
 	$app->dispatch('CalendarController', 'forceUpdate');
 });
 
+$this->create('calendar.calendars.indexInPeriod', '/v1/calendars/{calendarId}/objects/inPeriod/{start}/{end}')->action(function($params){
+	$app = new \OCA\Calendar\App($params);
+	$app->dispatch('ObjectController', 'indexInPeriod');
+});
+
 //set up resources
 $routes = array(
 	'resources' => array(

@@ -27,6 +27,8 @@ abstract class BusinessLayer {
 	 */
 	protected $app;
 
+	protected $api;
+
 	/**
 	 * app container for dependency injection
 	 * @var \OCA\Calendar\BusinessLayer\BackendBusinessLayer
@@ -46,6 +48,7 @@ abstract class BusinessLayer {
 	 */
 	public function __construct(IAppContainer $app, BackendMapper $backendMapper){
 		$this->app = $app;
+		$this->api = $app->getCoreApi();
 		$this->bmp = $backendMapper;
 
 		$this->setupBackends();

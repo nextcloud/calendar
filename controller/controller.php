@@ -22,17 +22,20 @@ abstract class Controller extends \OCP\AppFramework\Controller {
 	 */
 	protected $calendarBusinessLayer;
 
+
 	/**
 	 * object business layer
 	 * @var \OCA\Calendar\BusinessLayer\ObjectBusinessLayer
 	 */
 	protected $objectBusinessLayer;
 
+
 	/**
 	 * core api
 	 * @var \OCP\AppFramework\IApi
 	 */
 	protected $api;
+
 
 	/**
 	 * constructor
@@ -46,6 +49,7 @@ abstract class Controller extends \OCP\AppFramework\Controller {
 
 		parent::__construct($app, $request);
 
+		$this->app = $app;
 		$this->api = $app->getCoreApi();
 
 		if($calendarBusinessLayer instanceof CalendarBusinessLayer) {
@@ -56,6 +60,22 @@ abstract class Controller extends \OCP\AppFramework\Controller {
 		}
 	}
 
+
+	/**
+	 * get a param
+	 * @param string $key
+	 * @param mixed $default
+	 * @return mixed $value
+	 */
+	public function params($key, $default=null){
+		$value = parent::params($key, $default);
+		if($default !== null) {
+			settype($value, gettype($default));
+		}
+		return $value;
+	}
+
+
 	/*
 	 * Lets you access http request header
 	 * @param string $key the key which you want to access in the http request header
@@ -64,6 +84,8 @@ abstract class Controller extends \OCP\AppFramework\Controller {
 	 */
 	protected function header($key, $type='string', $default=null){
 		$key = 'HTTP_' . strtoupper($key);
+
+		$key = str_replace('-', '_', $key);
 
 		if(isset($this->request->server[$key]) === false) {
 			return $default;
@@ -78,62 +100,28 @@ abstract class Controller extends \OCP\AppFramework\Controller {
 		}
 	}
 
-	/**
-	 * did user request raw ics instead of json
-	 * @param boolean
-	 */
-	protected function doesClientAcceptRawICS() {
+
+	protected function accept() {
 		$accept = $this->header('accept');
 
-		//check if text/calendar is in the text
-		//if not, return false
-		$textCalendarPosition = stripos($accept, 'text/calendar');
-		if($textCalendarPosition === false) {
-			return false;
+		if(substr_count($accept, ',')) {
+			list($accept) = explode(',', $accept);
+		}
+		if(substr_count($accept, ';')) {
+			list($accept) = explode(';', $accept);
 		}
 
-		//get posistion of application/json and application/calendar+json
-		$applicationJSONPosition = stripos($accept, 'application/json');
-		$applicationCalendarJSONPosition = stripos($accept, 'application/calendar+json');
-
-		if($applicationJSONPosition === false && $applicationCalendarJSONPosition === false) {
-			return true;
-		}
-
-		$firstApplicationPosition = min($applicationJSONPosition, $applicationCalendarJSONPosition);
-
-		return ($firstApplicationPosition < $textCalendarPosition) ? false : true;
+		return $accept;
 	}
 
-	/**
-	 * did user request raw ics instead of json
-	 * @param boolean
-	 */
-	protected function didClientSendRawICS() {
-		$contentType = $this->header('content-type'); 
 
-		//check if there is some charset info
-		if(stripos($contentType, ';')) {
-			$explodeContentType = explode(';', $contentType);
-			$contentType = $explodeContentType[0];
+	protected function contentType() {
+		$contentType = $this->header('content-type');
+
+		if(substr_count($contentType, ';')) {
+			list($contentType) = explode(';', $contentType);
 		}
 
-		$didClientSendRawICS = false;
-		switch($contentType) {
-			case 'text/calendar':
-				$didClientSendRawICS = true;
-				break;
-
-			case 'application/json':
-			case 'application/calendar+json':
-				$didClientSendRawICS = false;
-				break;
-
-			default:
-				$didClientSendRawICS = false;
-				break;
-		}
-
-		return $didClientSendRawICS;
+		return $contentType;
 	}
 }

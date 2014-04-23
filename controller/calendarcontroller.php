@@ -7,7 +7,7 @@
  */
 namespace OCA\Calendar\Controller;
 
-use \OCP\AppFramework\Http\Http;
+use \OCP\AppFramework\Http;
 
 use \OCA\Calendar\Db\DoesNotExistException;
 use \OCA\Calendar\BusinessLayer\BusinessLayerException;
@@ -15,192 +15,164 @@ use \OCA\Calendar\BusinessLayer\BusinessLayerException;
 use \OCA\Calendar\Db\Calendar;
 use \OCA\Calendar\Db\CalendarCollection;
 
-use \OCA\Calendar\Http\JSONResponse;
+use \OCA\Calendar\Db\ObjectType;
+use \OCA\Calendar\Db\Permission;
 
-use \OCA\Calendar\Http\ICS\ICSCalendar;
-use \OCA\Calendar\Http\ICS\ICSCalendarCollection;
-use \OCA\Calendar\Http\ICS\ICSCalendarReader;
+use \OCA\Calendar\Http\Response;
 
-use \OCA\Calendar\Http\JSON\JSONCalendar;
-use \OCA\Calendar\Http\JSON\JSONCalendarCollection;
-use \OCA\Calendar\Http\JSON\JSONCalendarReader;
+use \OCA\Calendar\Http\Reader;
+use \OCA\Calendar\Http\Serializer;
+use \OCA\Calendar\Http\ReaderExpcetion;
+use \OCA\Calendar\Http\SerializerException;
 
 class CalendarController extends Controller {
 
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
-	 * @API
 	 */
 	public function index() {
 		try {
 			$userId = $this->api->getUserId();
-			$limit = $this->header('X-OC-CAL-LIMIT', 'integer');
-			$offset	= $this->header('X-OC-CAL-OFFSET', 'integer');
 
-			$doesAcceptRawICS = $this->doesClientAcceptRawICS();
-
-			$calendarCollection = $this->calendarBusinessLayer->findAll($userId, $limit, $offset);
-			if($doesAcceptRawICS === true) {
-				$serializer = new ICSCalendarCollection($calendarCollection);
+			$nolimit = $this->params('nolimit', false);
+			if($nolimit) {
+				$limit = $offset = null;
 			} else {
-				$serializer = new JSONCalendarCollection($calendarCollection);
+				$limit = $this->params('limit', 25);
+				$offset = $this->params('offset', 0);
 			}
 
-			return new JSONResponse($serializer);
+			$calendarCollection = $this->calendarBusinessLayer->findAll($userId, $limit, $offset);
+
+			$serializer = new Serializer(Serializer::CalendarCollection, $calendarCollection, $this->accept());
+			return new Response($serializer);
 		} catch (BusinessLayerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new JSONResponse(null, HTTP::STATUS_BAD_REQUEST);
+			return new Response(array('message' => $ex->getMessage()), $ex->getCode());
 		}
 	}
+
 
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
-	 * @API
 	 */
 	 public function show() {
 		try {
 			$userId = $this->api->getUserId();
-			$calendarId = $this->params('calendarId');
-
-			$doesAcceptRawICS = $this->doesClientAcceptRawICS();
+			$calendarId = $this->request->getParam('calendarId');
 
 			$calendar = $this->calendarBusinessLayer->find($calendarId, $userId);
-			if($doesAcceptRawICS === true) {
-				$serializer = new ICSCalendar($calendar);
-			} else {
-				$serializer = new JSONCalendar($calendar);
-			}
 
-			return new JSONResponse($serializer);
+			$serializer = new Serializer(Serializer::Calendar, $calendar, $this->accept());
+			return new Response($serializer);
 		} catch (BusinessLayerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new JSONResponse(null, HTTP::STATUS_BAD_REQUEST);
+			return new Response(array('message' => $ex->getMessage()), $ex->getCode());
 		}
 	}
+
 
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
-	 * @API
 	 */
 	public function create() {
 		try {
 			$userId = $this->api->getUserId();
 			$data = $this->request->params;
 
-			$didSendRawICS = $this->didClientSendRawICS();
-			$doesAcceptRawICS = $this->doesClientAcceptRawICS();
+			$reader = new Reader(Reader::Calendar, $data, $this->contentType());
 
-			if($didSendRawICS === true) {
-				$reader = new ICSCalendarReader($data);
+			$calendar = $reader->sanitize()->getObject();
+
+			if($calendar instanceof Calendar) {
+				$calendar = $this->calendarBusinessLayer->createFromRequest($calendar);
+				$serializer = new Serializer(Serializer::Calendar, $calendar, $this->accept());
+			} elseif($calendar instanceof CalendarCollection) {
+				$calendar = $this->calendarBusinessLayer->createCollectionFromRequest($calendar);
+				$serializer = new serializer(Serializer::CalendarCollection, $calendar, $this->accept());
 			} else {
-				$reader = new JSONCalendarReader($data);
+				throw new ReaderException('Reader returned unrecognised format.');
 			}
 
-			var_dump($reader->sanitize()->getObject());
-			exit;
-
-			$calendar = $reader->sanitize()->getCalendar();
-			$calendar->setUser($userId)->setOwner($userId);
-
-			$calendar = $this->calendarBusinessLayer->create($calendar);
-
-			if($doesAcceptRawICS === true) {
-				$serializer = new ICSCalendar($calendar);
-			} else {
-				$serializer = new JSONCalendar($calendar);
-			}
-
-			return new JSONResponse($serializer, HTTP::STATUS_CREATED);
+			$serializer = new Serializer(Serializer::Calendar, $calendar, $this->accept());
+			return new Response($serializer, Http::STATUS_CREATED);
 		} catch (BusinessLayerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new JSONResponse(null, HTTP::STATUS_BAD_REQUEST);
+			return new Response(array('message' => $ex->getMessage()), $ex->getCode());
+		} catch(ReaderException $ex) {
+			return new Response(array('message' => $ex->getMessage()), Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
 	}
+
 
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
-	 * @API
 	 */
 	public function update() {
 		try {
 			$userId = $this->api->getUserId();
 			$calendarId = $this->params('calendarId');
+			$ctag = $this->header('if-match');
 			$data = $this->request->params;
 
-			$didSendRawICS = $this->didClientSendRawICS();
-			$doesAcceptRawICS = $this->doesClientAcceptRawICS();
+			$reader = new Reader(Reader::Calendar, $data, $this->contentType());
 
-			//check if calendar exists, if not return 404
-			if($this->calendarBusinessLayer->doesExist($calendarId, $userId) === false) {
-				return new JSONResponse(null, HTTP::STATUS_NOT_FOUND);
-			}
-
-			if($didSendRawICS === true) {
-				$reader = new ICSCalendarReader($data);
+			$calendar = $reader->sanitize()->getObject();
+			if($calendar instanceof Calendar) {
+				$calendar = $this->calendarBusinessLayer->updateFromRequest($calendar, $calendarId, $userId, $ctag);
+			} elseif($calendar instanceof CalendarCollection) {
+				throw new ReaderException('Updates can only be applied to a single resource.', Http::STATUS_BAD_REQUEST);
 			} else {
-				$reader = new JSONCalendarReader($data);
+				throw new ReaderException('Reader returned unrecognised format.');
 			}
 
-			$calendar = $reader->sanitize()->getCalendar();
-			$calendar->setUser($userId);
-
-			$calendar = $this->calendarBusinessLayer->update($calendar, $calendarId, $userId);
-
-			if($doesAcceptRawICS === true) {
-				$serializer = new ICSCalendar($calendar);
-			} else {
-				$serializer = new JSONCalendar($calendar);
-			}
-
-			return new JSONResponse($serializer);
+			$serializer = new Serializer(Serializer::Calendar, $calendar, $this->accept());
+			return new Response($serializer);
 		} catch(BusinessLayerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new JSONResponse(null, HTTP::STATUS_BAD_REQUEST);
+			return new Response(array('message' => $ex->getMessage()), $ex->getCode());
+		} catch(ReaderException $ex) {
+			return new Response(array('message' => $ex->getMessage()), Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
 	}
 
-	/** 
+
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
-	 * @API
 	 */
 	public function destroy() {
 		try {
 			$userId	= $this->api->getUserId();
 			$calendarId	= $this->params('calendarId');
 
-			//check if calendar exists, if not return 404
-			if($this->calendarBusinessLayer->doesExist($calendarId, $userId) === false) {
-				return new JSONResponse(null, HTTP::STATUS_NOT_FOUND);
-			}
+			$calendar = $this->calendarBusinessLayer->find($calendarId, $userId);
+			$this->calendarBusinessLayer->delete($calendar);
 
-			$this->calendarBusinessLayer->delete($calendarId, $userId);
-
-			return new JSONResponse();
+			return new Response();
 		} catch (BusinessLayerException $ex) {
-			$this->app->log($ex->getMessage(), 'warn');
-			return new JSONResponse(null, HTTP::STATUS_BAD_REQUEST);
+			$this->app->log($ex->getMessage(), 'debug');
+			return new Response(array('message' => $ex->getMessage()), $ex->getCode());
 		}
 	}
+
 
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
-	 * @API
 	 */
 	public function forceUpdate() {
 		try {
 			$userId	= $this->api->getUserId();
 			$this->calendarBusinessLayer->updateCacheForAllFromRemote($userId);
-			return new JSONResponse();
+			return new Response();
 		} catch (BusinessLayerException $ex) {
-			$this->app->log($ex->getMessage(), 'warn');
-			return new JSONResponse(null, HTTP::STATUS_BAD_REQUEST);
+			$this->app->log($ex->getMessage(), 'debug');
+			return new Response(array('message' => $ex->getMessage()), $ex->getCode());
 		}
 	}
 }

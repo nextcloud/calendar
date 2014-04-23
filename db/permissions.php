@@ -14,4 +14,7 @@ class Permissions {
 	const DELETE	= 8;
 	const SHARE		= 16;
 	const ALL		= 31;
+
+	const ALL_CALENDAR = 31;
+	const ALL_OBJECT = 27;
 }

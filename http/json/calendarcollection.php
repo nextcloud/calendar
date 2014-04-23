@@ -12,27 +12,34 @@ use \OCA\Calendar\Db\Calendar;
 class JSONCalendarCollection extends JSONCollection {
 
 	/**
-	 * @brief get mimetype of serialized output
+	 * @brief get headers for response
+	 * @return array
 	 */
-	public function getMimeType() {
-		return 'application/json';
+	public function getHeaders() {
+		return array_merge(
+			parent::getHeaders(),
+			array(
+				'Content-type' => 'application/json; charset=utf-8',
+			)
+		);
 	}
-
 
 	/**
 	 * @brief get json-encoded string containing all information
+	 * @return array
 	 */
-	public function serialize() {
+	public function serialize($convenience=true) {
 		$jsonArray = array();
 
-		$this->object->iterate(function(&$object) use (&$jsonArray) {
+		$this->object->iterate(function(&$object) use (&$jsonArray, $convenience) {
 			try {
 				if($object instanceof Calendar) {
-					$jsonCalendar = new JSONCalendar($object);
-					$jsonArray[] = $jsonCalendar->serialize();
+					$jsonCalendar = new JSONCalendar();
+					$jsonCalendar->setObject($object);
+					$jsonArray[] = $jsonCalendar->serialize($convenience);
 				}
 				if($object instanceof JSONCalendar) {
-					$jsonArray[] = $object->serialize();
+					$jsonArray[] = $object->serialize($convenience);
 				}
 			} catch (JSONException $ex) {
 				//TODO - log error msg

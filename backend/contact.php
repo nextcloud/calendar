@@ -8,29 +8,29 @@
  */
 namespace OCA\Calendar\Backend;
 
-use \OCA\Calendar\AppFramework\Core\API;
-use \OCA\Calendar\AppFramework\Db\Mapper;
-use \OCA\Calendar\AppFramework\Db\DoesNotExistException;
-use \OCA\Calendar\AppFramework\Db\MultipleObjectsReturnedException;
-
 use \OCA\Calendar\Db\Calendar;
 use \OCA\Calendar\Db\CalendarCollection;
+
 use \OCA\Calendar\Db\Object;
 use \OCA\Calendar\Db\ObjectCollection;
+
 use \OCA\Calendar\Db\TimeZone;
 use \OCA\Calendar\Db\TimeZoneCollection;
-use \OCA\Calendar\Db\ObjectType;
 
+use \OCA\Calendar\Db\ObjectType;
 use \OCA\Calendar\Db\Permissions;
 
-class Birthday extends Backend {
+class Contact extends Backend {
 
-	public $calendarURI;
+	public $calendarURIs;
 
 	public function __construct($api, $parameters){
-		parent::__construct($api, 'Birthday');
+		parent::__construct($api, 'Contact');
 
-		$this->calendarURI = 'birthday';
+		$this->calendarURIs = array(
+			'anniversary',
+			'birthday',
+		);
 	}
 
 	/**
@@ -41,7 +41,7 @@ class Birthday extends Backend {
 	 * This method is mandatory!
 	 */
 	public function canBeEnabled() {
-		return true;//\OCP\App::isEnabled('contacts');
+		return true;//return \OCP\App::isEnabled('contacts');
 	}
 
 	/**
@@ -68,8 +68,8 @@ class Birthday extends Backend {
 	 * This method is mandatory!
 	 */
 	public function findCalendar($calendarURI, $userId) {
-		if($calendarURI !== $this->calendarURI) {
-			$msg  = 'Backend\Birthday::findCalendar(): ';
+		if(!$this->doesCalendarExist($calendarURI, $userId)) {
+			$msg  = 'Backend\Contact::findCalendar(): ';
 			$msg .= '"' . $calendarURI . '" doesn\'t exist';
 			throw new DoesNotExistException($msg);
 		}
@@ -78,12 +78,20 @@ class Birthday extends Backend {
 		$calendar->setUserId($userId);
 		$calendar->setOwnerId($userId);
 		$calendar->setBackend($this->backend);
-		$calendar->setUri($this->calendarURI);
-		$calendar->setDisplayname('Birthday'); //TODO - use translation
+		$calendar->setUri($calendarURI);
 		$calendar->setComponents(ObjectType::EVENT);
 		$calendar->setCtag(1); //sum of all addressbook ctags
 		$calendar->setTimezone(new TimeZone('UTC'));
 		$calendar->setCruds(Permissions::READ + Permissions::SHARE);
+		$calendar->setColor('#ffffff');
+		$calendar->setOrder(0);
+		$calendar->setEnabled(true);
+
+		if($calendarURI === 'anniversary') {
+			$calendar->setDisplayname('Anniversary'); //TODO - use translation
+		} elseif($calendarURI === 'birthday') {
+			$calendar->setDisplayname('Birthday'); //TODO - use translation
+		}
 
 		return $calendar;
 	}
@@ -98,9 +106,13 @@ class Birthday extends Backend {
 	 * This method is mandatory!
 	 */
 	public function findCalendars($userId, $limit=null, $offset=null) {
-		$collection =  new CalendarCollection($this->findCalendar($this->calendarURI, $userId));
-		$collection = $collection->subset($limit, $offset);
-		return $collection;
+		$calendars = new CalendarCollection();
+
+		foreach($this->calendarURIs as $uri) {
+			$calendars->add($this->findCalendar($uri, $userId));
+		}
+
+		return $calendars;
 	}
 
 	/**
@@ -125,7 +137,7 @@ class Birthday extends Backend {
 	 * This method is mandatory!
 	 */
 	public function doesCalendarExist($calendarURI, $userId) {
-		if($calendarURI === $this->calendarURI) {
+		if(in_array($calendarURI, $this->calendarURIs)) {
 			return true;
 		} else {
 			return false;

@@ -11,37 +11,36 @@
  */
 namespace OCA\Calendar\Backend;
 
-use \OCA\Calendar\AppFramework\Core\API;
-use \OCA\Calendar\AppFramework\Db\Mapper;
-use \OCA\Calendar\AppFramework\Db\DoesNotExistException;
-use \OCA\Calendar\AppFramework\Db\MultipleObjectsReturnedException;
+use \OCP\AppFramework\IAppContainer;
+
+use \OCA\Calendar\Db\DoesNotExistException;
+use \OCA\Calendar\Db\MultipleObjectsReturnedException;
 
 use \OCA\Calendar\Db\Calendar;
-use \OCA\Calendar\Db\Object;
-use \OCA\Calendar\Db\ObjectType;
+use \OCA\Calendar\Db\CalendarCollection;
 
+use \OCA\Calendar\Db\Object;
+use \OCA\Calendar\Db\ObjectCollection;
+
+use \OCA\Calendar\Db\Timezone;
+use \OCA\Calendar\Db\TimezoneCollection;
+
+use \OCA\Calendar\Db\ObjectType;
 use \OCA\Calendar\Db\Permissions;
+
+use \DateTime;
 
 class Sharing extends Backend {
 
 	private $backend;
 
-	private $crudsMapper = array(
+	private static $crudsMapper = array(
 		\OCP\PERMISSION_CREATE	=> Permissions::CREATE,
 		\OCP\PERMISSION_READ	=> Permissions::READ,
 		\OCP\PERMISSION_UPDATE	=> Permissions::UPDATE,
 		\OCP\PERMISSION_DELETE	=> Permissions::DELETE,
 		\OCP\PERMISSION_SHARE	=> Permissions::SHARE,
 		\OCP\PERMISSION_ALL		=> Permissions::ALL,
-	);
-
-	private $reverseCrudsMapper = array(
-		Permissions::CREATE	=> \OCP\PERMISSION_CREATE,
-		Permissions::READ	=> \OCP\PERMISSION_READ,
-		Permissions::UPDATE	=> \OCP\PERMISSION_UPDATE,
-		Permissions::DELETE	=> \OCP\PERMISSION_DELETE,
-		Permissions::SHARE	=> \OCP\PERMISSION_SHARE,
-		Permissions::ALL	=> \OCP\PERMISSION_ALL,
 	);
 
 	public function __construct($api, $parameters, &$backendBusinessLayer){

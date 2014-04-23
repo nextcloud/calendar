@@ -25,7 +25,7 @@ abstract class Mapper {
 	 * queries without using sql
 	 */
 	public function __construct(IAppContainer $api, $tableName){
-		$this->api = $api;
+		$this->app = $app;
 		$this->tableName = '*PREFIX*' . $tableName;
 	}
 

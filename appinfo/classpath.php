@@ -51,8 +51,12 @@
 \OC::$CLASSPATH['OCA\Calendar\Db\ObjectType'] = 'calendar/db/objecttype.php';
 \OC::$CLASSPATH['OCA\Calendar\Db\Permissions'] = 'calendar/db/permissions.php';
 
-\OC::$CLASSPATH['OCA\Calendar\Http\JSONResponse'] = 'calendar/http/jsonresponse.php';
-\OC::$CLASSPATH['OCA\Calendar\Http\IResponse'] = 'calendar/http/iresponse.php';
+\OC::$CLASSPATH['OCA\Calendar\Http\IReader'] = 'calendar/http/ireader.php';
+\OC::$CLASSPATH['OCA\Calendar\Http\ISerializer'] = 'calendar/http/iserializer.php';
+\OC::$CLASSPATH['OCA\Calendar\Http\Manager'] = 'calendar/http/manager.php';
+\OC::$CLASSPATH['OCA\Calendar\Http\Reader'] = 'calendar/http/reader.php';
+\OC::$CLASSPATH['OCA\Calendar\Http\Serializer'] = 'calendar/http/serializer.php';
+\OC::$CLASSPATH['OCA\Calendar\Http\Response'] = 'calendar/http/response.php';
 
 \OC::$CLASSPATH['OCA\Calendar\Http\ICS\ICS'] = 'calendar/http/ics/ics.php';
 \OC::$CLASSPATH['OCA\Calendar\Http\ICS\ICSCollection'] = 'calendar/http/ics/icscollection.php';

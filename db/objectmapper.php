@@ -15,8 +15,8 @@ class ObjectMapper extends Mapper {
 	/**
 	 * @param API $api: Instance of the API abstraction layer
 	 */
-	public function __construct($api, $tablename = 'clndr_objcache'){
-		parent::__construct($api, $tablename);
+	public function __construct($app, $tablename = 'clndr_objcache'){
+		parent::__construct($app, $tablename);
 	}
 
 	/**

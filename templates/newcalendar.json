@@ -1,13 +1,14 @@
 {
-	"displayname" : "",
-	"calendarURI" : "",
-	"color" : "#FFFFFF",
-	"order" : 0,
-	"enabled" : false,
-	"components" : {
-		"vevent" : false,
-		"vjournal" : false,
-		"vtodo" : false
+	'displayname' : '',
+	'backend' : '',
+	'uri' : '',
+	'color' : '#FFFFFF',
+	'order' : 0,
+	'enabled' : false,
+	'components' : {
+		'vevent' : false,
+		'vjournal' : false,
+		'vtodo' : false
 	},
-	"timezone" : ""
+	'timezone' : 'UTC'
 }
