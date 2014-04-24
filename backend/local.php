@@ -323,18 +323,25 @@ class Local extends Backend {
 	 */
 	public function deleteCalendar($calendarURI, $userId) {
 		$caltbl = $this->calTableName;
+		$objtbl = $this->objTableName;
 
-		//TODO - delete objects
+		$sql1  = 'DELETE FROM `' . $objtbl . '` WHERE EXISTS ';
+		$sql1 .= '(SELECT caltbl.`id` FROM `' . $caltbl . '` AS caltbl ';
+		$sql1 .= 'WHERE caltbl.`id` = `' . $objtbl . '`.`calendarId` AND ';
+		$sql1 .= 'caltbl.`uri` = ? AND caltbl.`userid` = ?)';
 
-		$sql  = 'DELETE FROM `' . $caltbl . '` WHERE ';
-		$sql .= '`uri` = ? AND `userid` = ?';
-
-		$result = \OCP\DB::prepare($sql)->execute(array(
+		$result1 = \OCP\DB::prepare($sql1)->execute(array(
 			$calendarURI,
 			$userId
 		));
 
-		return $result;
+		$sql2  = 'DELETE FROM `' . $caltbl . '` WHERE ';
+		$sql2 .= '`uri` = ? AND `userid` = ?';
+
+		$result2 = \OCP\DB::prepare($sql2)->execute(array(
+			$calendarURI,
+			$userId
+		));
 	}
 
 
@@ -343,15 +350,30 @@ class Local extends Backend {
 	 * @param Calendar $calendar
 	 * @param string $oldCalendarURI
 	 * @param string $oldUserId
-	 * @return boolean
 	 */
-	public function mergeCalendar(Calendar $calendar, $oldCalendarURI, $oldUserId) {
+	public function mergeCalendar(Calendar &$calendar, $oldCalendarURI, $oldUserId) {
 		$newCalendarURI = $calendar->getUri();
 		$newUserId = $calendar->getUserId();
 
-		//TODO - implement
+		$caltbl = $this->calTableName;
+		$objtbl = $this->objTableName;
 
-		//$this->deleteCalendar($oldCalendarURI, $oldUserId);
+		$sql  = 'UPDATE `' . $objtbl . '` SET `calendarid` = ';
+		$sql .= '(SELECT `id` FROM `' . $caltbl . '` WHERE `uri` = ? AND `userid` = ?) ';
+		$sql .= 'WHERE `calendarid` = ';
+		$sql .= '(SELECT `id` FROM `' . $caltbl . '` WHERE `uri` = ? AND `userid` = ?)';
+
+		$result = \OCP\DB::prepare($sql)->execute(array(
+			$newCalendarURI,
+			$newUserId,
+			$oldCalendarURI,
+			$oldUserId
+		));
+
+		$this->deleteCalendar($oldCalendarURI, $oldUserId);
+
+		$calendar->touch();
+		$this->updateCalendar($calendar);
 	}
 
 
@@ -360,11 +382,22 @@ class Local extends Backend {
 	 * @param Calendar $calendar
 	 * @param string $oldCalendarURI
 	 * @param string $oldUserId
-	 * @return boolean
 	 */
 	public function moveCalendar(Calendar &$calendar, $oldCalendarURI, $oldUserId) {
 		$newCalendarURI = $calendar->getUri();
 		$newUserId = $calendar->getUserId();
+
+		$caltbl = $this->calTableName;
+
+		$sql  = 'UPDATE `' . $caltbl . '` SET `uri` = ?, `userid` = ? WHERE ';
+		$sql .= '`uri` = ? AND `userId` = ?';
+
+		$result = \OCP\DB::prepare($sql)->execute(array(
+			$newCalendarURI,
+			$newUserId,
+			$oldCalendarURI,
+			$oldUserId,
+		));
 	}
 
 
@@ -652,8 +685,6 @@ class Local extends Backend {
 		$sql .= 'WHERE objtbl.`calendarid` = caltbl.`id` ';
 		$sql .= 'AND caltbl.`uri` = ? AND caltbl.`userid` = ?';
 
-		//TODO validate if sql query is correct
-
 		$result	= \OCP\DB::prepare($sql)->execute(array(
 			$calendarURI,
 			$userId
@@ -699,11 +730,11 @@ class Local extends Backend {
 			$msg .= 'Calendar not found!';
 			throw new CacheOutDatedException($msg);
 		}
-		/*if ($this->doesObjectExist($calendarURI, $userId)) {
+		if ($this->doesObjectExist($object->getCalendar(), $object->getObjectURI())) {
 			$msg  = 'Backend\Local::createObject(): User Error: ';
 			$msg .= 'Object already exists';
 			throw new BackendException($msg);
-		}*/ //TODO fix me
+		}
 
 		$caltbl = $this->calTableName;
 		$objtbl = $this->objTableName;
@@ -742,15 +773,15 @@ class Local extends Backend {
 		$userId = $object->getCalendar()->getUserId();
 
 		if (!$this->doesCalendarExist($calendarURI, $userId)) {
-			$msg  = 'Backend\Local::createObject(): Internal Error: ';
-			$msg .= 'Calendar not fouund!';
+			$msg  = 'Backend\Local::updateObject(): Internal Error: ';
+			$msg .= 'Calendar not found!';
 			throw new CacheOutDatedException($msg);
 		}
-		/*if (!$this->doesObjectExist($calendarURI, $userId)) {
-			$msg  = 'Backend\Local::createObject(): User Error: ';
-			$msg .= 'Object already exists';
+		if (!$this->doesObjectExist($object->getCalendar(), $object->getObjectURI())) {
+			$msg  = 'Backend\Local::updateObject(): User Error: ';
+			$msg .= 'Object does not exists';
 			throw new BackendException($msg);
-		}*/ //TODO fix me
+		}
 
 		$caltbl = $this->calTableName;
 		$objtbl = $this->objTableName;
