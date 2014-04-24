@@ -145,6 +145,7 @@ abstract class Entity {
 
 		if (strpos($methodName, 'set') === 0){
 			$this->setter($attr, $args);
+			return $this;
 		} elseif (strpos($methodName, 'get') === 0) {
 			return $this->getter($attr);
 		} else {
