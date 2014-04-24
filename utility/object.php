@@ -22,6 +22,7 @@ class ObjectUtility extends Utility{
 		$md5 = md5($random);
 		$substr = substr($md5, rand(0,11),20);
 
+		$substr .= '.ics';
 		return $substr;
 	}
 
