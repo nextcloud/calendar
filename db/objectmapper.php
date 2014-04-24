@@ -67,7 +67,8 @@ class ObjectMapper extends Mapper {
 		$sql .= 'AND ((`startdate` >= ? AND `startdate` <= ?)';
 		$sql .= ' OR (`enddate` >= ? AND `enddate` <= ?)';
 		$sql .= ' OR (`startdate` <= ? AND `enddate` >= ?)';
-		$sql .= ' OR (`lastoccurence` >= ? AND `startdate` <= ? AND `repeating` = 1))';
+		$sql .= ' OR (`lastoccurence` >= ? AND `startdate` <= ? AND `repeating` = 1)) ';
+		$sql .= 'ORDER BY `repeating`';
 		return $this->findEntities($sql, array($calendarId,
 											   $utcStart, $utcEnd,
 											   $utcStart, $utcEnd,
@@ -91,7 +92,8 @@ class ObjectMapper extends Mapper {
 		$sql .= 'AND ((`startdate` >= ? AND `startdate` <= ?)';
 		$sql .= ' OR (`enddate` >= ? AND `enddate` <= ?)';
 		$sql .= ' OR (`startdate` <= ? AND `enddate` >= ?)';
-		$sql .= ' OR (`lastoccurence` >= ? AND `startdate` <= ? AND `repeating` = 1))';
+		$sql .= ' OR (`lastoccurence` >= ? AND `startdate` <= ? AND `repeating` = 1)) ';
+		$sql .= 'ORDER BY `repeating`';
 		return $this->findEntities($sql, array($calendarId, $type,
 											   $utcStart, $utcEnd,
 											   $utcStart, $utcEnd,
