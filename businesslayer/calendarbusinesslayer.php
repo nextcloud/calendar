@@ -515,6 +515,7 @@ class CalendarBusinessLayer extends BusinessLayer {
 		}
 	}
 
+
 	/**
 	 * update a new calendar from request
 	 * @param Calendar $calendar

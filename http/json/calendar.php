@@ -108,7 +108,7 @@ class JSONCalendar extends JSON {
 	private function setCalDAVURL() {
 		$calendarURI = CalendarUtility::getURI($this->object->getBackend(), $this->object->getUri());
 
-		$calDAVURL = JSONUtility::getCalDAV($calendarURI);
+		$calDAVURL = JSONUtility::getCalDAV($calendarURI, $this->object->getUserId());
 		$this->jsonArray['caldav'] = $calDAVURL;
 	}
 }

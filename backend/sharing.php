@@ -15,6 +15,7 @@ use \OCP\AppFramework\IAppContainer;
 
 use \OCA\Calendar\Db\DoesNotExistException;
 use \OCA\Calendar\Db\MultipleObjectsReturnedException;
+use \OCA\Calendar\Db\CorruptDataException;
 
 use \OCA\Calendar\Db\Calendar;
 use \OCA\Calendar\Db\CalendarCollection;
@@ -27,6 +28,8 @@ use \OCA\Calendar\Db\TimezoneCollection;
 
 use \OCA\Calendar\Db\ObjectType;
 use \OCA\Calendar\Db\Permissions;
+
+use \OCA\Calendar\Utility\ObjectUtility;
 
 use \DateTime;
 
@@ -42,8 +45,13 @@ class Sharing extends Backend {
 	);
 
 
-	public function __construct(IAppContainer $api, $parameters){
-		parent::__construct($api, 'sharing');
+	/**
+	 * @brief constructor
+	 * @param IAppContainer $app
+	 * @param array $parameters
+	 */
+	public function __construct(IAppContainer $app, array $parameters){
+		parent::__construct($app, 'Sharing');
 	}
 
 

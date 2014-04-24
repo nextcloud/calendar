@@ -27,7 +27,13 @@ abstract class BusinessLayer {
 	 */
 	protected $app;
 
+
+	/**
+	 * ownCloud's core api
+	 * @var \OCP\AppFramework\IApi
+	 */
 	protected $api;
+
 
 	/**
 	 * app container for dependency injection
@@ -35,11 +41,13 @@ abstract class BusinessLayer {
 	 */
 	private $bmp;
 
+
 	/**
 	 * Backend Collection
 	 * @var \OCA\Calendar\Db\BackendCollection
 	 */
 	protected $backends;
+
 
 	/**
 	 * Constructor
@@ -48,18 +56,17 @@ abstract class BusinessLayer {
 	 */
 	public function __construct(IAppContainer $app, BackendMapper $backendMapper){
 		$this->app = $app;
-		$this->api = $app->getCoreApi();
 		$this->bmp = $backendMapper;
+		$this->api = $app->getCoreApi();
 
 		$this->setupBackends();
 	}
 
+
 	/**
-	 * get backend and   uri from public uri
-	 * public uri: backend-uri; e.g. local-work
-	 * backend: backend; e.g. local for standard database backend
-	 * real uri: uri; e.g. work
-	 * @param string $uri public uri
+	 * @brief split up calendarURI
+	 * @param string $calendarId e.g. local::personal
+	 * @return array [$backend, $calendarURI]
 	 * @throws BusinessLayerException if uri is empty
 	 * @throws BusinessLayerException if uri is not valid
 	 */
@@ -67,50 +74,30 @@ abstract class BusinessLayer {
 		$split = CalendarUtility::splitURI($calendarId);
 
 		if($split[0] === false || $split[1] === false) {
-			throw new BusinessLayerException('calendar uri is not valid');
+			$msg  = 'BusinessLayer::splitCalendarURI(): User Error: ';
+			$msg .= 'Given calendarId is not valid!';
+			throw new BusinessLayerException($msg);
 		}
 
 		return $split;
 	}
 
-	/**
-	 * get backend and real calendar uri and real object uri from public uri
-	 * public uri: backend-uri; e.g. local-work
-	 * backend: backend; e.g. local for standard database backend
-	 * real uri: uri; e.g. work
-	 * @param string $uri public uri
-	 * @throws BusinessLayerException if uri is empty
-	 * @throws BusinessLayerException if uri is not valid
-	 * @throws DoesNotImplementException if backend does not implement searched implementation
-	 */
-	final protected function splitObjectURI($objectURI=null) {
-		$split = ObjectUtility::splitURI($objectURI);
-
-		if($split[0] === false || $split[1] === false || $split[2] === false) {
-			throw new BusinessLayerException('object uri is not valid');
-		}
-
-		return $split;
-	}
 
 	/**
-	 * check if a backend does support a certian action
+	 * @brief check if a backend does support a certian action
 	 * @param string $backend
-	 * @param action
+	 * @param integer $action
+	 * @return boolean
 	 */
 	final protected function doesBackendSupport($backend, $action) {
-		try {
-			return $this->backends->search('backend', $backend)->current()->api->implementsActions($action);
-		} catch(DoesNotExistException $ex){
-			throw new BusinessLayerException($ex->getMessage());
-		} catch(MultipleObjectsReturnedException $ex){
-			throw new BusinessLayerException($ex->getMessage());
-		}
+		return $this->backends->search('backend', $backend)->current()->api->implementsActions($action);
 	}
 
+
 	/**
-	 * check if a backend is enabled
+	 * @brief check if a backend is enabled
 	 * @param string $backend
+	 * @return boolean
 	 */
 	final protected function isBackendEnabled($backend) {
 		try {
@@ -122,24 +109,29 @@ abstract class BusinessLayer {
 		}
 	}
 
+
 	/**
-	 * get the default backend
+	 * @brief get the default backend
+	 * @return string
 	 */
 	final protected function getDefaultBackend(){
 		return $this->bmp->getDefault();
 	}
 
+
 	/**
-	 * set the default backend
+	 * @brief set the default backend
 	 * @param string $backend
 	 */
 	final protected function setDefaultBackend($backend){
 		return $this->bmp->setDefault($backend);
 	}
 
+
 	/**
-	 * find a backend
+	 * @brief find a backend
 	 * @param string $backend
+	 * @return \OCA\Calendar\Db\Backend
 	 */
 	final protected function findBackend($backendId) {
 		try {
@@ -151,35 +143,42 @@ abstract class BusinessLayer {
 		}
 	}
 
+
 	/**
-	 * find all backend
+	 * @brief find all backend
 	 * @param integer $limit
 	 * @param integer $offset
+	 * @return \OCA\Calendar\Db\BackendCollection
 	 */
 	final protected function findAllBackends($limit=null, $offset=null) {
 		return $this->bmp->findAll($limit, $offset);
 	}
 
+
 	/**
-	 * find all disabled backend
+	 * @brief find all disabled backend
 	 * @param integer $limit
 	 * @param integer $offset
+	 * @return \OCA\Calendar\Db\BackendCollection
 	 */
 	final protected function findAllDisabledBackeds($limit=null, $offset=null) {
 		return $this->bmp->findWhereEnabledIs(false, $limit, $offset);
 	}
 
+
 	/**
-	 * find all enabled backend
+	 * @brief find all enabled backend
 	 * @param integer $limit
 	 * @param integer $offset
+	 * @return \OCA\Calendar\Db\BackendCollection
 	 */
 	final protected function findAllEnabledBackends($limit=null, $offset=null) {
 		return $this->bmp->findWhereEnabledIs(true, $limit, $offset);
 	}
 
+
 	/**
-	 * create a backend
+	 * @brief create a backend
 	 * @param Backend $backend
 	 */
 	final protected function createBackend(Backend $backend) {
@@ -192,16 +191,18 @@ abstract class BusinessLayer {
 		return $this->bmp->create($create);
 	}
 
+
 	/**
-	 * update a backend
+	 * @brief update a backend
 	 * @param Backend $backend
 	 */
 	final protected function updateBackend(Backend $backend) {
 		return $this->bmp->update($backend);
 	}
 
+
 	/**
-	 * enable a backend
+	 * @brief enable a backend
 	 * @param string $backend
 	 */
 	final protected function enableBackend($backendId){
@@ -209,8 +210,9 @@ abstract class BusinessLayer {
 		return $this->bmp->update($backend);
 	}
 
+
 	/**
-	 * disable a backend
+	 * @brief disable a backend
 	 * @param string $backend
 	 */
 	final protected function disableBackend($backendId){
@@ -218,16 +220,18 @@ abstract class BusinessLayer {
 		return $this->bmp->update($backend);
 	}
 
+
 	/**
-	 * delete a backend
+	 * @brief delete a backend
 	 * @param Backend $backend
 	 */
 	final protected function deleteBackend(Backend $backend) {
 		return $this->bmp->delete($backend);
 	}
 
+
 	/**
-	 * setup backends
+	 * @brief setup backends
 	 * @throws BusinessLayerException if no backends could be setup
 	 */
 	private function setupBackends() {

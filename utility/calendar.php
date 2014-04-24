@@ -16,9 +16,9 @@ class CalendarUtility extends Utility{
 			$calendarURI .= '-1';
 		} else {
 			$positionLastDash = strrpos($calendarURI, '-');
-			$firstPart = substr($calendarURI, 0, strlen($calendarURI) - $positionLastDash);
+			$firstPart = substr($calendarURI, 0, $positionLastDash);
 			$lastPart = substr($calendarURI, $positionLastDash + 1);
-			$pattern = "^\d$";
+			$pattern = '/^\d+$/';
 			if(preg_match($pattern, $lastPart)) {
 				$lastPart = (int) $lastPart;
 				$lastPart++;

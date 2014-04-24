@@ -261,6 +261,7 @@ class Local extends Backend {
 		$sql .= '(`userid`, `displayname`, `uri`, `active`, `ctag`, `calendarorder`, ';
 		$sql .= '`calendarcolor`, `timezone`, `components`) ';
 		$sql .= 'VALUES(?,?,?,?,?,?,?,?,?)';
+
 		$result = \OCP\DB::prepare($sql)->execute(array(
 			$calendar->getUserId(),
 			$calendar->getDisplayname(),
@@ -293,9 +294,11 @@ class Local extends Backend {
 		$caltbl = $this->calTableName;
 
 		$sql  = 'UPDATE `' . $caltbl . '` SET ';
-		$sql .= '`userid` = ?, `displayname` = ?, `uri` = ?, `active` = ?, `ctag` = ?, ';
-		$sql .= '`calendarorder` = ?, `calendarcolor` = ?, `timezone` = ?, `components` = ? ';
+		$sql .= '`userid` = ?, `displayname` = ?, `uri` = ?, `active` = ?, ';
+		$sql .= '`ctag` = ?, `calendarorder` = ?, `calendarcolor` = ?, ';
+		$sql .= '`timezone` = ?, `components` = ? ';
 		$sql .= 'WHERE `userid` = ? AND `uri` = ?';
+
 		$result = \OCP\DB::prepare($sql)->execute(array(
 			$calendar->getUserId(),
 			$calendar->getDisplayname(),
@@ -321,10 +324,12 @@ class Local extends Backend {
 	public function deleteCalendar($calendarURI, $userId) {
 		$caltbl = $this->calTableName;
 
-		$sql  = 'DELETE FROM `' . $caltbl . '` ';
+		//TODO - delete objects
+
+		$sql  = 'DELETE FROM `' . $caltbl . '` WHERE ';
 		$sql .= '`uri` = ? AND `userid` = ?';
+
 		$result = \OCP\DB::prepare($sql)->execute(array(
-			$this->calTableName,
 			$calendarURI,
 			$userId
 		));
@@ -928,10 +933,6 @@ class Local extends Backend {
 		$object->setCalendar($calendar);
 		$object->setObjectURI(strval($row['uri']));
 		$object->setCalendarData(strval($row['calendardata']));
-		ObjectUtility::addMissingVTimezones(
-			$object,
-			$this->app->query('TimezoneMapper')
-		);
 
 		return $object;
 	}

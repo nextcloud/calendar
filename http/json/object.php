@@ -30,6 +30,12 @@ class JSONObject extends JSON {
 	 */
 	public function serialize($convenience=true) {
 		$vcalendar = $this->object->getVObject();
+
+		/*ObjectUtility::addMissingVTimezones(
+			$vcalendar,
+			$this->app->query('TimezoneMapper')
+		);*/
+
 		return $vcalendar->jsonSerialize();
 	}
 }

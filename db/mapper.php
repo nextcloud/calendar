@@ -24,7 +24,7 @@ abstract class Mapper {
 	 * @param string $tableName the name of the table. set this to allow entity 
 	 * queries without using sql
 	 */
-	public function __construct(IAppContainer $api, $tableName){
+	public function __construct(IAppContainer $app, $tableName){
 		$this->app = $app;
 		$this->tableName = '*PREFIX*' . $tableName;
 	}

@@ -11,6 +11,12 @@ use \OCP\AppFramework\Http;
 
 class BusinessLayerException extends \Exception {
 
+	/**
+	 * @brief Constructor
+	 * @param string $message
+	 * @param integer $code
+	 * @param Exception $previous
+	 */
 	public function __construct($message=null, $code=null, \Exception $previous=null) {
 		if($code === null) {
 			$code = Http::STATUS_BAD_REQUEST;
@@ -18,5 +24,4 @@ class BusinessLayerException extends \Exception {
 
 		parent::__construct($message, $code, $previous);
 	}
-
 }

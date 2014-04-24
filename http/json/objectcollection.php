@@ -35,6 +35,11 @@ class JSONObjectCollection extends JSONCollection {
 
 		$vcalendar = $this->object->getVObject();
 
+		/*ObjectUtility::addMissingVTimezones(
+			$vcalendar,
+			$this->app->query('TimezoneMapper')
+		);*/
+
 		return $vcalendar->jsonSerialize();
 	}
 }
