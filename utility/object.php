@@ -7,6 +7,10 @@
  */
 namespace OCA\Calendar\Utility;
 
+use \OCA\Calendar\Db\Object;
+use \OCA\Calendar\Db\Timezone;
+use \OCA\Calendar\Db\TimezoneMapper;
+
 class ObjectUtility extends Utility{
 
 	/**
@@ -21,4 +25,13 @@ class ObjectUtility extends Utility{
 		return $substr;
 	}
 
+
+	/**
+	 * @brief add missing timezones to an object
+	 * @param \OCA\Calendar\Db\Object $object
+	 * @param \OCA\Calendar\Db\TimezoneMapper $tzMapper
+	 */
+	public static function addMissingVTimezones(Object &$object, TimezoneMapper &$tzMapper) {
+		
+	}
 }

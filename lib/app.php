@@ -102,7 +102,7 @@ class App extends \OCP\AppFramework\App {
 			$req = $c->query('Request');
 			$tmp = $c->query('TimezoneMapper');
 
-			return new ViewController($c, $req, $tmp);
+			return new TimezoneController($c, $req, $tmp);
 		});
 
 

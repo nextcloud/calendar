@@ -8,24 +8,30 @@
 namespace OCA\Calendar\Db;
 
 use \OCA\Calendar\Sabre\VObject\Component\VCalendar;
+use \OCA\Calendar\Sabre\VObject\Reader;
+use \OCA\Calendar\Sabre\VObject\ParseException;
+use \OCA\Calendar\Sabre\VObject\EofException;
 
 use \OCA\Calendar\Utility\Utility;
 
 class Timezone extends Entity {
 
-	protected $timezone;
+	public $tzId;
+	public $vobject;
 
 	/**
 	 * @brief init Timezone object with timezone name
 	 * @param string $timezone
 	 */
-	public function __construct($timezone='UTC') {
-		if(Utility::isTimezoneSupported($timezone)) {
-			$this->timezone = new \DateTimeZone($timezone);
-		} else {
+	public function __construct($tzId, $tzData) {
+		$this->addType('tzId', 'string');
+		$this->addType('tzData', 'string');
 
-			$msg = '';
-			throw new /* some */Exception($msg);
+		if(!is_null($tzId)) {
+			$this->setTzId($tzId);
+		}
+		if(!is_null($tzData)) {
+			$this->setTzData($tzData);
 		}
 	}
 
@@ -35,9 +41,23 @@ class Timezone extends Entity {
 	 * @return boolean
 	 */
 	public function isValid() {
-		return true;
+		$strings = array('tzId', 'tzData');
+		foreach($strings as $string) {
+			if(is_null($this->$string)) {
+				return false;
+			}
+			if($this->$string === '') {
+				return false;
+			}
+		}
 	}
 
+	public function setTzData($data) {
+		$tzData  = "BEGIN:VCALENDAR\n";
+		$tzData .= $data;
+		$tzData .= "END:VCALENDAR";
+		$this->vobject = Reader::read($tzData);
+	}
 
 	/**
 	 * @brief take data from VObject and put into this Timezone object
@@ -45,7 +65,14 @@ class Timezone extends Entity {
 	 * @return $this
 	 */
 	public function fromVObject(VCalendar $vcalendar) {
-		//TODO implement		
+		if(!isset($vcalendar->{'VTIMEZONE'})) {
+			throw new DoesNotExistException('no vtimezones found');
+		}
+		if(is_array($vcalendar->{'VTIMEZONE'})) {
+			throw new MultipleObjectsReturnedException('multiple vtimezones found');
+		}
+		$this->vobject = $vcalendar;
+
 	}
 
 
@@ -54,11 +81,11 @@ class Timezone extends Entity {
 	 * @return \Sabre\VObject\Component\VCalendar object
 	 */
 	public function getVObject() {
-		//TODO implement
+		return $this->vobject;
 	}
 
 
 	public function __toString() {
-		return $this->timezone->getName();
+		return $this->tzId;
 	}
 }

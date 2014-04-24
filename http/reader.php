@@ -79,4 +79,3 @@ Reader::set(Reader::Timezone, 'OCA\\Calendar\\Http\\JSON\\JSONTimezoneReader', '
 
 Reader::set(Reader::Calendar, 'OCA\\Calendar\\Http\\ICS\\ICSCalendarReader', 'text/calendar');
 Reader::set(Reader::Object, 'OCA\\Calendar\\Http\\ICS\\ICSObjectReader', 'text/calendar');
-Reader::set(Reader::Timezone, 'OCA\\Calendar\\Http\\ICS\\ICSTimezoneReader', 'text/calendar');

@@ -30,11 +30,6 @@ class JSONObject extends JSON {
 	 */
 	public function serialize($convenience=true) {
 		$vcalendar = $this->object->getVObject();
-
-		if($convenience === true) {
-			JSONUtility::addConvenience($vcalendar);
-		}
-
 		return $vcalendar->jsonSerialize();
 	}
 }

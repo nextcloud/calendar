@@ -35,10 +35,6 @@ class JSONObjectCollection extends JSONCollection {
 
 		$vcalendar = $this->object->getVObject();
 
-		if($convenience === true) {
-			//JSONUtility::addConvenience($vcalendar);
-		}
-
 		return $vcalendar->jsonSerialize();
 	}
 }

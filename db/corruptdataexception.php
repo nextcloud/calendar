@@ -5,6 +5,6 @@
  * later.
  * See the COPYING-README file.
  */
-namespace OCA\Calendar\Http\JSON;
+namespace OCA\Calendar\Db;
 
-class JSONTimezoneCollection extends JSONObjectCollection {}
+class CorruptDataException extends \Exception {}

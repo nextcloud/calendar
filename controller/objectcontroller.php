@@ -35,8 +35,6 @@ class ObjectController extends Controller {
 			$userId = $this->api->getUserId();
 			$calendarId = $this->params('calendarId');
 
-			$expand = $this->params('expand', false);
-
 			$nolimit = $this->params('nolimit', false);
 			if($nolimit) {
 				$limit = $offset = null;
@@ -50,8 +48,7 @@ class ObjectController extends Controller {
 				return new Response(null, HTTP::STATUS_FORBIDDEN);
 			}
 
-			$objectCollection = $this->objectBusinessLayer->findAll($calendar, $expand,
-																	$limit, $offset);
+			$objectCollection = $this->objectBusinessLayer->findAll($calendar, $limit, $offset);
 
 			$serializer = new Serializer(Serializer::ObjectCollection, $objectCollection, $this->accept());
 
@@ -81,7 +78,6 @@ class ObjectController extends Controller {
 				$offset = $this->params('offset', 0);
 			}
 
-			$expand = $this->params('expand', false);
 			$start = $this->params('start', new DateTime(date('Y-m-01')));
 			$end = $this->params('end', new DateTime(date('Y-m-t')));
 
@@ -91,7 +87,7 @@ class ObjectController extends Controller {
 			}
 
 			$objectCollection = $this->objectBusinessLayer->findAllInPeriod($calendar, $start, $end,
-																			$expand, $limit, $offset);
+																			$limit, $offset);
 
 			$serializer = new Serializer(Serializer::ObjectCollection, $objectCollection, $this->accept());
 

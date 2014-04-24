@@ -76,7 +76,6 @@ abstract class ObjectTypeController extends ObjectController {
 				$offset = $this->params('offset', 0);
 			}
 
-			$expand = $this->params('expand', false);
 			$start = $this->params('start');
 			$end = $this->params('end');
 
@@ -87,7 +86,7 @@ abstract class ObjectTypeController extends ObjectController {
 				throw new ForbiddenExpcetion();
 			}
 
-			$objectCollection = $this->objectBusinessLayer->findAllByType($calendar, $type, $expand,
+			$objectCollection = $this->objectBusinessLayer->findAllByType($calendar, $type,
 																		  $limit, $offset);
 
 			$serializer = new Serializer(Serializer::ObjectCollection, $objectCollection, $this->accept());
@@ -116,7 +115,6 @@ abstract class ObjectTypeController extends ObjectController {
 				$offset = $this->params('offset', 0);
 			}
 
-			$expand = $this->params('expand', false);
 			$start = $this->params('start', new DateTime(date('Y-m-01')));
 			$end = $this->params('end', new DateTime(date('Y-m-t')));
 
@@ -128,7 +126,7 @@ abstract class ObjectTypeController extends ObjectController {
 			}
 
 			$objectCollection = $this->objectBusinessLayer->findAllByTypeInPeriod($calendar, $type, $start, $end,
-																				  $expand, $limit, $offset);
+																				  $limit, $offset);
 
 			$serializer = new Serializer(Serializer::ObjectCollection, $objectCollection, $this->accept());
 

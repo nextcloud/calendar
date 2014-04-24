@@ -41,6 +41,7 @@ $routes = array(
 		'event' => array('url' => '/v1/calendars/{calendarId}/events'),
 		'journal' => array('url' => '/v1/calendars/{calendarId}/journals'),
 		'todo' => array('url' => '/v1/calendars/{calendarId}/todos'),
+		'timezone' => array('url' => '/v1/timezones'),
 	)
 );
 

@@ -19,7 +19,7 @@ $app->registerCron();
 $app->registerHooks();
 $app->registerProviders();
 
-\OCA\Calendar\Sabre\VObject\Component\VCalendar::$valueMap['DATE-TIME'] = 'SabreProperty\DateTime';
+/*\OCA\Calendar\Sabre\VObject\Component\VCalendar::$valueMap['DATE-TIME'] = 'SabreProperty\DateTime';
 \OCA\Calendar\Sabre\VObject\Component\VCalendar::$valueMap['DATE'] = 'SabreProperty\DateTime';
 
 \OCA\Calendar\Sabre\VObject\Component\VCalendar::$propertyMap['COMPLETED'] = 'SabreProperty\DateTime';
@@ -32,4 +32,4 @@ $app->registerProviders();
 \OCA\Calendar\Sabre\VObject\Component\VCalendar::$propertyMap['CREATED'] = 'SabreProperty\DateTime';
 \OCA\Calendar\Sabre\VObject\Component\VCalendar::$propertyMap['DTSTAMP'] = 'SabreProperty\DateTime';
 \OCA\Calendar\Sabre\VObject\Component\VCalendar::$propertyMap['LAST-MODIFIED'] = 'SabreProperty\DateTime';
-\OCA\Calendar\Sabre\VObject\Component\VCalendar::$propertyMap['ACKNOWLEDGED'] = 'SabreProperty\DateTime';
+\OCA\Calendar\Sabre\VObject\Component\VCalendar::$propertyMap['ACKNOWLEDGED'] = 'SabreProperty\DateTime';*/

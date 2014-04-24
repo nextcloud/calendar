@@ -254,7 +254,7 @@ abstract class Collection {
 				if($child instanceof VEvent || 
 				   $child instanceof VJournal ||
 				   $child instanceof VTodo ||
-				   $child instanceof VTimezone) {
+				   $child->name === 'VTIMEZONE') {
 					$vObject->add($child);
 				}
 			}
