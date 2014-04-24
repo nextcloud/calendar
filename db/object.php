@@ -131,8 +131,7 @@ class Object extends Entity {
 			throw new MultipleObjectsReturnedException($msg);
 		}
 
-		
-		$this->vobject = $vcalendar;
+		$this->vObject = $vcalendar;
 		$this->objectName = SabreUtility::getObjectName($vcalendar);
 	}
 
