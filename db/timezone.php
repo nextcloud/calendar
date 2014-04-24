@@ -30,10 +30,10 @@ class Timezone extends Entity {
 		$this->addType('tzId', 'string');
 		$this->addType('tzData', 'string');
 
-		if(!is_null($tzId)) {
+		if (!is_null($tzId)) {
 			$this->setTzId($tzId);
 		}
-		if(!is_null($tzData)) {
+		if (!is_null($tzData)) {
 			$this->setTzData($tzData);
 		}
 	}
@@ -54,7 +54,7 @@ class Timezone extends Entity {
 	 * @param string $data
 	 */
 	public function setTzData($data) {
-		if(substr_count($data, 'BEGIN:VCALENDAR') === 0) {
+		if (substr_count($data, 'BEGIN:VCALENDAR') === 0) {
 			$data = 'BEGIN:VCALENDAR' . "\n" . $data . "\n" . 'END:VCALENDAR';
 		}
 
@@ -68,10 +68,10 @@ class Timezone extends Entity {
 	 * @return $this
 	 */
 	public function fromVObject(VCalendar $vcalendar) {
-		if(!isset($vcalendar->{'VTIMEZONE'})) {
+		if (!isset($vcalendar->{'VTIMEZONE'})) {
 			throw new DoesNotExistException('no vtimezones found');
 		}
-		if(is_array($vcalendar->{'VTIMEZONE'})) {
+		if (is_array($vcalendar->{'VTIMEZONE'})) {
 			throw new MultipleObjectsReturnedException('multiple vtimezones found');
 		}
 		$this->vobject = $vcalendar;

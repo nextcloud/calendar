@@ -17,7 +17,7 @@ abstract class JSONCollection extends JSON {
 	 * @param Collection $object
 	 */
 	public function setObject($object) {
-		if($object instanceof Collection) {
+		if ($object instanceof Collection) {
 			$this->object = $object;
 			return $this;
 		}

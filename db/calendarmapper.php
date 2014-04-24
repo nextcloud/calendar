@@ -113,7 +113,7 @@ class CalendarMapper extends Mapper {
 		$row = $this->findOneQuery($sql, array($backend, $calendarURI, $userId));
 
 		$count = intval($row['count']);
-		if($count === 0) {
+		if ($count === 0) {
 			return false;
 		} else {
 			return true;
@@ -136,7 +136,7 @@ class CalendarMapper extends Mapper {
 		$row = $this->findOneQuery($sql, array($cruds, $backend, $calendarURI, $userId));
 
 		$count = intval($row['count']);
-		if($count === 0) {
+		if ($count === 0) {
 			return false;
 		} else {
 			return true;
@@ -159,7 +159,7 @@ class CalendarMapper extends Mapper {
 		$row = $this->findOneQuery($sql, array($component, $backend, $calendarURI, $userId));
 
 		$count = intval($row['count']);
-		if($count === 0) {
+		if ($count === 0) {
 			return false;
 		} else {
 			return true;

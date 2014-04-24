@@ -22,14 +22,14 @@ class CalendarUtility extends Utility{
 	 * @return string $calendarURI
 	 */
 	public static function suggestURI($calendarURI) {
-		if(substr_count($calendarURI, '-') === 0) {
+		if (substr_count($calendarURI, '-') === 0) {
 			$calendarURI .= '-1';
 		} else {
 			$positionLastDash = strrpos($calendarURI, '-');
 			$firstPart = substr($calendarURI, 0, $positionLastDash);
 			$lastPart = substr($calendarURI, $positionLastDash + 1);
 			$pattern = '/^\d+$/';
-			if(preg_match($pattern, $lastPart)) {
+			if (preg_match($pattern, $lastPart)) {
 				$lastPart = (int) $lastPart;
 				$lastPart++;
 				$calendarURI = $firstPart . '-' . $lastPart;

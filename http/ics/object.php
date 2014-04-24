@@ -22,7 +22,7 @@ class ICSObject extends ICS {
 	public function serialize($convenience=true) {
 		$vcalendar = $this->object->getVObject();
 
-		if($convenience === true) {
+		if ($convenience === true) {
 			JSONUtility::addConvenience($vcalendar);
 		}
 

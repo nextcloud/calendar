@@ -23,7 +23,7 @@ class Reader extends Manager implements IReader {
 	 */
 	public function __construct($type, $data, $requestedMimeType) {
 		$class = self::get($type, $requestedMimeType);
-		if(!$class) {
+		if (!$class) {
 			throw new \Exception('No reader found.');
 		}
 

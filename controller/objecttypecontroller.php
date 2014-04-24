@@ -69,7 +69,7 @@ abstract class ObjectTypeController extends ObjectController {
 			$calendarId = $this->params('calendarId');
 
 			$nolimit = $this->params('nolimit', false);
-			if($nolimit) {
+			if ($nolimit) {
 				$limit = $offset = null;
 			} else {
 				$limit = $this->params('limit', 25);
@@ -82,7 +82,7 @@ abstract class ObjectTypeController extends ObjectController {
 			$type = $this->objectType;
 
 			$calendar = $this->calendarBusinessLayer->find($calendarId, $userId);
-			if($calendar->doesAllow(Permissions::READ) === false) {
+			if ($calendar->doesAllow(Permissions::READ) === false) {
 				throw new ForbiddenExpcetion();
 			}
 
@@ -108,7 +108,7 @@ abstract class ObjectTypeController extends ObjectController {
 			$calendarId = $this->params('calendarId');
 
 			$nolimit = $this->params('nolimit', false);
-			if($nolimit) {
+			if ($nolimit) {
 				$limit = $offset = null;
 			} else {
 				$limit = $this->params('limit', 25);
@@ -121,7 +121,7 @@ abstract class ObjectTypeController extends ObjectController {
 			$type = $this->objectType;
 
 			$calendar = $this->calendarBusinessLayer->find($calendarId, $userId);
-			if(!$calendar->doesAllow(Permissions::READ)) {
+			if (!$calendar->doesAllow(Permissions::READ)) {
 				return new Response(null, HTTP::STATUS_FORBIDDEN);
 			}
 
@@ -152,7 +152,7 @@ abstract class ObjectTypeController extends ObjectController {
 			$type = $this->objectType;
 
 			$calendar = $this->calendarBusinessLayer->find($calendarId, $userId);
-			if(!$calendar->doesAllow(Permissions::READ)) {
+			if (!$calendar->doesAllow(Permissions::READ)) {
 				return new Response(null, HTTP::STATUS_FORBIDDEN);
 			}
 

@@ -43,7 +43,7 @@ class TimezoneMapper extends Mapper {
 		 * - [x] $tzId is not a valid filename or
 		 * - [x] file inside /../timezones/ does not exist
 		 */ 
-		if(strtolower($tzId) === 'info.md' ||
+		if (strtolower($tzId) === 'info.md' ||
 		   !\OCP\Util::isValidFileName($tzIdName) ||
 		   !file_exists($path)) {
 			throw new DoesNotExistException();
@@ -64,10 +64,10 @@ class TimezoneMapper extends Mapper {
 		$tzFiles = scandir($this->folderName);
 		$files = array_values(array_diff($tzFiles, $this->fileBlacklist));
 
-		if(is_null($limit)) {
+		if (is_null($limit)) {
 			$limit = (count($files) - 1);
 		}
-		if(is_null($offset)) {
+		if (is_null($offset)) {
 			$offset = 0;
 		}
 

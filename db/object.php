@@ -48,10 +48,10 @@ class Object extends Entity {
 		$this->addType('etag', 'string');
 		$this->addType('ruds', 'integer');
 
-		if(is_array($fromRow)) {
+		if (is_array($fromRow)) {
 			$this->fromRow($fromRow);
 		}
-		if($fromRow instanceof VCalendar) {
+		if ($fromRow instanceof VCalendar) {
 			$this->fromVObject($fromRow);
 		}
 	}
@@ -63,8 +63,8 @@ class Object extends Entity {
 	public function fromRow(array $row) {
 		foreach($row as $key => $value) {
 			$prop = $this->columnToProperty($key);
-			if(property_exists($this, $prop)) {
-				if($value !== null && array_key_exists($prop, $this->fieldTypes)){
+			if (property_exists($this, $prop)) {
+				if ($value !== null && array_key_exists($prop, $this->fieldTypes)){
 					settype($value, $this->fieldTypes[$prop]);
 					
 				}
@@ -72,7 +72,7 @@ class Object extends Entity {
 			}
 		}
 
-		if(array_key_exists('calendarData', $row) && trim($row['calendarData'] !== '')) {
+		if (array_key_exists('calendarData', $row) && trim($row['calendarData'] !== '')) {
 			$this->setCalendarData($row['calendarData']);
 		}
 
@@ -125,7 +125,7 @@ class Object extends Entity {
 	public function fromVObject(VCalendar $vcalendar) {
 		$count = SabreUtility::countUniqueUIDs($vcalendar);
 
-		if($count !== 1) {
+		if ($count !== 1) {
 			$msg  = 'Db\Object::fromVObject(): ';
 			$msg .= 'Multiple objects can\'t be stored in one resource.';
 			throw new MultipleObjectsReturnedException($msg);
@@ -142,18 +142,18 @@ class Object extends Entity {
 	 */
 	public function getVObject() {
 		$objectName = $this->objectName;
-		if(!isset($this->vobject->{$objectName}->{'X-OC-URI'})) {
+		if (!isset($this->vobject->{$objectName}->{'X-OC-URI'})) {
 			$uri = new TextProperty($this->vobject, 'X-OC-URI', $this->objectURI);
 			$this->vobject->{$objectName}->add($uri);
 		}
-		if(!isset($this->vobject->{$objectName}->{'X-OC-ETAG'})) {
-			if($this->etag === null) {
+		if (!isset($this->vobject->{$objectName}->{'X-OC-ETAG'})) {
+			if ($this->etag === null) {
 				$this->generateEtag();
 			}
 			$etag = new TextProperty($this->vobject, 'X-OC-ETAG', $this->etag);
 			$this->vobject->{$objectName}->add($etag);
 		}
-		if(!isset($this->vobject->{$objectName}->{'X-OC-RUDS'})) {
+		if (!isset($this->vobject->{$objectName}->{'X-OC-RUDS'})) {
 			$ruds = new IntegerProperty($this->vobject, 'X-OC-RUDS', $this->ruds);
 			$this->vobject->{$objectName}->add($ruds);
 		}
@@ -229,7 +229,7 @@ class Object extends Entity {
 	public function getRepeating() {
 		$objectName = $this->objectName;
 
-		if(isset($this->vobject->{$objectName}->{'RRULE'}) ||
+		if (isset($this->vobject->{$objectName}->{'RRULE'}) ||
 		   isset($this->vobject->{$objectName}->{'RDATE'}) ||
 		   isset($this->vobject->{$objectName}->{'RECURRENCE-ID'})) {
 			return true;
@@ -243,7 +243,7 @@ class Object extends Entity {
 	 * @return mixed DateTime/null
 	 */
 	public function getLastOccurence() {
-		if($this->isRepeating() === false) {
+		if ($this->isRepeating() === false) {
 			return null;
 		}
 
@@ -251,16 +251,16 @@ class Object extends Entity {
 
 		$lastOccurences = array();
 
-		if(isset($this->vobject->{$objectName}->{'RRULE'})) {
+		if (isset($this->vobject->{$objectName}->{'RRULE'})) {
 			$rrule = $this->vobject->{$objectName}->{'RRULE'};
 			//https://github.com/fruux/sabre-vobject/wiki/Sabre-VObject-Property-Recur
 			$parts = $rrule->getParts();
-			if(!array_key_exists('COUNT', $parts) && array_key_exists('UNTIL', $parts)) {
+			if (!array_key_exists('COUNT', $parts) && array_key_exists('UNTIL', $parts)) {
 				return null;
 			}
 			//$lastOccurences[] = DateTime of last occurence
 		}
-		if(isset($this->vobject->{$objectName}->{'RDATE'})) {
+		if (isset($this->vobject->{$objectName}->{'RDATE'})) {
 			//$lastOccurences[] = DateTime of last occurence
 		}
 	}
@@ -272,7 +272,7 @@ class Object extends Entity {
 	public function getSummary() {
 		$objectName = $this->objectName;
 
-		if(isset($this->vobject->{$objectName}->{'SUMMARY'})) {
+		if (isset($this->vobject->{$objectName}->{'SUMMARY'})) {
 			return $this->vobject->{$objectName}->{'SUMMARY'}->getValue();
 		}
 
@@ -293,12 +293,12 @@ class Object extends Entity {
 	}
 
 	public function getRuds($force=false) {
-		if($this->ruds !== null) {
+		if ($this->ruds !== null) {
 			return $this->ruds;
 		} else {
-			if($this->calendar instanceof Calendar) {
+			if ($this->calendar instanceof Calendar) {
 				$cruds = $this->calendar->getCruds();
-				if($cruds & Permissions::CREATE) {
+				if ($cruds & Permissions::CREATE) {
 					$cruds -= Permissions::CREATE;
 				}
 				return $cruds;
@@ -308,7 +308,7 @@ class Object extends Entity {
 	}
 
 	public function setRuds($ruds) {
-		if($ruds & Permissions::CREATE) {
+		if ($ruds & Permissions::CREATE) {
 			$ruds -= Permissions::CREATE;
 		}
 
@@ -322,7 +322,7 @@ class Object extends Entity {
 	public function getLastModified() {
 		$objectName = $this->objectName;
 
-		if(isset($this->vobject->{$objectName}->{'LAST-MODIFIED'})) {
+		if (isset($this->vobject->{$objectName}->{'LAST-MODIFIED'})) {
 			return $this->vobject->{$objectName}->{'LAST-MODIFIED'}->getDateTime();
 		}
 
@@ -340,15 +340,15 @@ class Object extends Entity {
 		);
 
 		foreach($strings as $string) {
-			if(is_string($string) === false) {
+			if (is_string($string) === false) {
 				return false;
 			}
-			if(trim($string) === '') {
+			if (trim($string) === '') {
 				return false;
 			}
 		}
 
-		if(!($this->calendar instanceof Calendar)) {
+		if (!($this->calendar instanceof Calendar)) {
 			return false;
 		}
 

@@ -23,7 +23,7 @@ class JSONCalendarReader extends JSONReader{
 		$data = $this->getData();
 		$isCollection = $this->isDataACollection();
 
-		if($isCollection) {
+		if ($isCollection) {
 			$collection = new CalendarCollection();
 
 			foreach($data as $singleEntity) {
@@ -53,7 +53,7 @@ class JSONCalendarReader extends JSONReader{
 	 * @brief overwrite values that should not be set by user with null
 	 */
 	public function sanitize() {
-		if($this->object === null) {
+		if ($this->object === null) {
 			$this->parse();
 		}
 
@@ -75,7 +75,7 @@ class JSONCalendarReader extends JSONReader{
 	private function isDataACollection() {
 		$data = $this->data;
 
-		if(array_key_exists(0, $data) && is_array($data[0])) {
+		if (array_key_exists(0, $data) && is_array($data[0])) {
 			return true;
 		}
 		return false;

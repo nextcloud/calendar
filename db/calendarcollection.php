@@ -45,7 +45,7 @@ class CalendarCollection extends Collection {
 		$newCollection = new CalendarCollection();
 
 		$this->iterate(function($object) use (&$newCollection, $component) {
-			if($object->getComponents() & $component) {
+			if ($object->getComponents() & $component) {
 				$newCollection->add(clone $object);
 			}
 		});
@@ -62,7 +62,7 @@ class CalendarCollection extends Collection {
 		$newCollection = new CalendarCollection();
 
 		$this->iterate(function($object) use (&$newCollection, $cruds) {
-			if($object->getCruds() & $cruds) {
+			if ($object->getCruds() & $cruds) {
 				$newCollection->add(clone $object);
 			}
 		});
@@ -76,7 +76,7 @@ class CalendarCollection extends Collection {
 
 		$this->iterate(function($object) use (&$filteredCalendars, $objects) {
 			foreach($objects as $backend) {
-				if($object->getBackend() === $backend->getBackend()) {
+				if ($object->getBackend() === $backend->getBackend()) {
 					$filteredCalendars->add(clone $object);
 				}
 			}

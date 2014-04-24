@@ -36,7 +36,7 @@ class ObjectController extends Controller {
 			$calendarId = $this->params('calendarId');
 
 			$nolimit = $this->params('nolimit', false);
-			if($nolimit) {
+			if ($nolimit) {
 				$limit = $offset = null;
 			} else {
 				$limit = $this->params('limit', 25);
@@ -44,7 +44,7 @@ class ObjectController extends Controller {
 			}
 
 			$calendar = $this->calendarBusinessLayer->find($calendarId, $userId);
-			if(!$calendar->doesAllow(Permissions::READ)) {
+			if (!$calendar->doesAllow(Permissions::READ)) {
 				return new Response(null, HTTP::STATUS_FORBIDDEN);
 			}
 
@@ -71,7 +71,7 @@ class ObjectController extends Controller {
 			$calendarId = $this->params('calendarId');
 
 			$nolimit = $this->params('nolimit', false);
-			if($nolimit) {
+			if ($nolimit) {
 				$limit = $offset = null;
 			} else {
 				$limit = $this->params('limit', 25);
@@ -82,7 +82,7 @@ class ObjectController extends Controller {
 			$end = $this->params('end', new DateTime(date('Y-m-t')));
 
 			$calendar = $this->calendarBusinessLayer->find($calendarId, $userId);
-			if(!$calendar->doesAllow(Permissions::READ)) {
+			if (!$calendar->doesAllow(Permissions::READ)) {
 				return new Response(null, HTTP::STATUS_FORBIDDEN);
 			}
 
@@ -111,7 +111,7 @@ class ObjectController extends Controller {
 			$objectURI = $this->params('objectId');
 
 			$calendar = $this->calendarBusinessLayer->find($calendarId, $userId);
-			if(!$calendar->doesAllow(Permissions::READ)) {
+			if (!$calendar->doesAllow(Permissions::READ)) {
 				return new Response(null, HTTP::STATUS_FORBIDDEN);
 			}
 
@@ -139,24 +139,24 @@ class ObjectController extends Controller {
 			$data = $this->request->params;
 
 			$calendar = $this->calendarBusinessLayer->find($calendarId, $userId);
-			if(!$calendar->doesAllow(Permissions::CREATE)) {
+			if (!$calendar->doesAllow(Permissions::CREATE)) {
 				return new Response(null, HTTP::STATUS_FORBIDDEN);
 			}
 
 			$reader = new Reader(Reader::Object, $data, $this->contentType());
 			$object = $reader->sanitize()->getObject()->setCalendar($calendar);
 
-			if($object instanceof Object) {
+			if ($object instanceof Object) {
 				$object = $this->objectBusinessLayer->createFromRequest($object);
 				$serializer = new Serializer(Serializer::$object, $object, $this->accept());
-			} elseif($object instanceof ObjectCollection) {
+			} elseif ($object instanceof ObjectCollection) {
 				$object = $this->objectBusinessLayer->createCollectionFromRequest($object);
 				$serializer = new serializer(Serializer::ObjectCollection, $object, $this->accept());
 			} else {
 				throw new ReaderException('Reader returned unrecognised format.');
 			}
 
-			if(!$calendar->doesAllow(Permissions::READ)) {
+			if (!$calendar->doesAllow(Permissions::READ)) {
 				return new Response(null, HTTP::STATUS_NO_CONTENT);
 			}
 
@@ -181,22 +181,22 @@ class ObjectController extends Controller {
 			$data = $this->request->params;
 
 			$calendar = $this->calendarBusinessLayer->find($calendarId, $userId);
-			if(!$calendar->doesAllow(Permissions::UPDATE)) {
+			if (!$calendar->doesAllow(Permissions::UPDATE)) {
 				return new Response(null, HTTP::STATUS_FORBIDDEN);
 			}
 
 			$reader = new Reader(Reader::Object, $data, $this->contentType());
 
 			$object = $reader->sanitize()->getObject()->setCalendar($calendar);
-			if($object instanceof Object) {
+			if ($object instanceof Object) {
 				$object = $this->objectBusinessLayer->updateFromRequest($object, $calendar, $objectURI, $etag);
-			} elseif($object instanceof ObjectCollection) {
+			} elseif ($object instanceof ObjectCollection) {
 				throw new ReaderException('Updates can only be applied to a single resource.', Http::STATUS_BAD_REQUEST);
 			} else {
 				throw new ReaderException('Reader returned unrecognised format.');
 			}
 
-			if(!$calendar->doesAllow(Permissions::READ)) {
+			if (!$calendar->doesAllow(Permissions::READ)) {
 				return new Response(null, HTTP::STATUS_NO_CONTENT);
 			}
 
@@ -220,7 +220,7 @@ class ObjectController extends Controller {
 			$objectURI = $this->params('objectId');
 
 			$calendar = $this->calendarBusinessLayer->find($calendarId, $userId);
-			if(!$calendar->doesAllow(Permissions::DELETE)) {
+			if (!$calendar->doesAllow(Permissions::DELETE)) {
 				return new Response(null, HTTP::STATUS_FORBIDDEN);
 			}
 

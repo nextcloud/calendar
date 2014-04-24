@@ -30,7 +30,7 @@ class ICSObjectReader extends ICSReader {
 				$objectCollection->add($object);
 			}
 
-			if($objectCollection->count() === 1) {
+			if ($objectCollection->count() === 1) {
 				$this->setObject($objectCollection->reset()->current());
 			} else {
 				$this->setObject($objectCollection);

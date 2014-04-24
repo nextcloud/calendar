@@ -22,8 +22,8 @@ class Response extends CoreResponse {
 	public function __construct($data=null, $statusCode=null) {
 		$this->data = $data;
 
-		if($statusCode === null) {
-			if($data === null) {
+		if ($statusCode === null) {
+			if ($data === null) {
 				$statusCode = Http::STATUS_NO_CONTENT;
 			} else {
 				$statusCode = Http::STATUS_OK;
@@ -31,7 +31,7 @@ class Response extends CoreResponse {
 		}
 		$this->setStatus($statusCode);
 
-		if($data instanceof ISerializer) {
+		if ($data instanceof ISerializer) {
 			$headers = $data->getHeaders();
 			foreach($headers as $key => $value) {
 				$this->addHeader($key, $value);
@@ -44,17 +44,17 @@ class Response extends CoreResponse {
 	 * @return string the rendered data
 	 */
 	public function render(){
-		if(is_string($this->data)) {
+		if (is_string($this->data)) {
 			return $this->data;
-		} elseif(is_array($this->data)) {
+		} elseif (is_array($this->data)) {
 			return json_encode($this->data);
-		} elseif($this->data instanceof ISerializer) {
+		} elseif ($this->data instanceof ISerializer) {
 			$data = $this->data->serialize();
 
-			if(is_null($data)) {
+			if (is_null($data)) {
 				$this->setStatus(Http::STATUS_NO_CONTENT);
 				return '';
-			}else if(is_array($data)) {
+			}else if (is_array($data)) {
 				return json_encode($data);
 			} else {
 				return $data;

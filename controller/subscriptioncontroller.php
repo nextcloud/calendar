@@ -52,7 +52,7 @@ class SubscriptionController extends Controller {
 	public function index() {
 		$userId = $this->api->getUserId();
 		$nolimit = $this->params('nolimit', false);
-		if($nolimit) {
+		if ($nolimit) {
 			$limit = $offset = null;
 		} else {
 			$limit = $this->params('limit', 25);

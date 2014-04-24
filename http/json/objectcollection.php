@@ -29,7 +29,7 @@ class JSONObjectCollection extends JSONCollection {
 	public function serialize($convenience=true) {
 		//if the collection does not contain any object,
 		//return the http 204 no content status code
-		if($this->object->count() === 0) {
+		if ($this->object->count() === 0) {
 			return null;
 		}
 

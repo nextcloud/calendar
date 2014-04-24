@@ -21,7 +21,7 @@ class ObjectCollection extends Collection {
 		$objectsInPeriod = new ObjectCollection();
 
 		$this->iterate(function($object) use (&$objectsInPeriod) {
-			if($object->isRepeating() === true) {
+			if ($object->isRepeating() === true) {
 				$objectsInPeriod->add(clone $object);
 			} else {
 				
@@ -43,7 +43,7 @@ class ObjectCollection extends Collection {
 		$expandedObjects = new ObjectCollection();
 
 		$this->iterate(function($object) use (&$expandedObjects) {
-			if($object->isRepeating() === true) {
+			if ($object->isRepeating() === true) {
 				
 
 
@@ -72,7 +72,7 @@ class ObjectCollection extends Collection {
 		$objectsOfType = new ObjectCollection();
 
 		$this->iterate(function($object) use (&$objectsOfType, $type) {
-			if($object->getType() & $type) {
+			if ($object->getType() & $type) {
 				$collection->add(clone $object);
 			}
 		});

@@ -18,7 +18,7 @@ class BusinessLayerException extends \Exception {
 	 * @param Exception $previous
 	 */
 	public function __construct($message=null, $code=null, \Exception $previous=null) {
-		if($code === null) {
+		if ($code === null) {
 			$code = Http::STATUS_BAD_REQUEST;
 		}
 

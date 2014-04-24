@@ -25,7 +25,7 @@ class Backend extends Entity {
 	 * @param array $fromRow
 	 */
 	public function __construct($fromRow=null){
-		if(is_array($fromRow)){
+		if (is_array($fromRow)){
 			$this->fromRow($fromRow);
 		}
 
@@ -83,29 +83,29 @@ class Backend extends Entity {
 	 * @return boolean
 	 */
 	public function isValid() {
-		if(is_string($this->backend) === false) {
+		if (is_string($this->backend) === false) {
 			return false;
 		}
-		if(trim($this->backend) === '') {
-			return false;
-		}
-
-		if(is_string($this->classname) === false) {
-			return false;
-		}
-		if(class_exists($this->classname) === false) {
+		if (trim($this->backend) === '') {
 			return false;
 		}
 
-		if(is_array($this->arguments) === false && $this->arguments !== null) {
+		if (is_string($this->classname) === false) {
+			return false;
+		}
+		if (class_exists($this->classname) === false) {
 			return false;
 		}
 
-		if(is_bool($this->enabled) === false) {
+		if (is_array($this->arguments) === false && $this->arguments !== null) {
 			return false;
 		}
 
-		if(($this->api instanceof IBackend) === false  && $this->api !== null) {
+		if (is_bool($this->enabled) === false) {
+			return false;
+		}
+
+		if (($this->api instanceof IBackend) === false  && $this->api !== null) {
 			return false;
 		}
 

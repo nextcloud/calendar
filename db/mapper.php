@@ -71,7 +71,7 @@ abstract class Mapper {
 			$values .= '?';
 
 			// only append colon if there are more entries
-			if($i < count($properties)-1){
+			if ($i < count($properties)-1){
 				$columns .= ',';
 				$values .= ',';
 			}
@@ -100,7 +100,7 @@ abstract class Mapper {
 	public function update(Entity $entity){
 		// entity needs an id
 		$id = $entity->getId();
-		if($id === null){
+		if ($id === null){
 			throw new \InvalidArgumentException(
 				'Entity which should be updated has no id');
 		}
@@ -112,7 +112,7 @@ abstract class Mapper {
 		// dont update the id field
 		unset($properties['id']);
 
-		if(count($properties) === 0) {
+		if (count($properties) === 0) {
 			return;
 		}
 
@@ -129,7 +129,7 @@ abstract class Mapper {
 			$columns .= '`' . $column . '` = ?';
 
 			// only append colon if there are more entries
-			if($i < count($properties)-1){
+			if ($i < count($properties)-1){
 				$columns .= ',';
 			}
 
@@ -159,12 +159,12 @@ abstract class Mapper {
 		$result = $this->execute($sql, $params);
 		$row = $result->fetchRow();
 
-		if($row === false || $row === null){
+		if ($row === false || $row === null){
 			throw new DoesNotExistException('No matching entry found');
 		}
 		$row2 = $result->fetchRow();
 		//MDB2 returns null, PDO and doctrine false when no row is available
-		if( ! ($row2 === false || $row2 === null )) {
+		if ( ! ($row2 === false || $row2 === null )) {
 			throw new MultipleObjectsReturnedException('More than one result');
 		} else {
 			return $row;
@@ -233,12 +233,12 @@ abstract class Mapper {
 		$result = $this->execute($sql, $params);
 		$row = $result->fetchRow();
 
-		if($row === false){
+		if ($row === false){
 			throw new DoesNotExistException('No matching entry found');
 		}
 		$row2 = $result->fetchRow();
 		//MDB2 returns null, PDO and doctrine false when no row is available
-		if( ! ($row2 === false || $row2 === null )) {
+		if ( ! ($row2 === false || $row2 === null )) {
 			throw new MultipleObjectsReturnedException('More than one result');
 		} else {
 			return $this->mapRowToEntity($row);

@@ -33,12 +33,12 @@ class JSONCalendarCollection extends JSONCollection {
 
 		$this->object->iterate(function(&$object) use (&$jsonArray, $convenience) {
 			try {
-				if($object instanceof Calendar) {
+				if ($object instanceof Calendar) {
 					$jsonCalendar = new JSONCalendar();
 					$jsonCalendar->setObject($object);
 					$jsonArray[] = $jsonCalendar->serialize($convenience);
 				}
-				if($object instanceof JSONCalendar) {
+				if ($object instanceof JSONCalendar) {
 					$jsonArray[] = $object->serialize($convenience);
 				}
 			} catch (JSONException $ex) {

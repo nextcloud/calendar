@@ -73,7 +73,7 @@ abstract class BusinessLayer {
 	final protected function splitCalendarURI($calendarId) {
 		$split = CalendarUtility::splitURI($calendarId);
 
-		if($split[0] === false || $split[1] === false) {
+		if ($split[0] === false || $split[1] === false) {
 			$msg  = 'BusinessLayer::splitCalendarURI(): User Error: ';
 			$msg .= 'Given calendarId is not valid!';
 			throw new BusinessLayerException($msg);
@@ -182,7 +182,7 @@ abstract class BusinessLayer {
 	 * @param Backend $backend
 	 */
 	final protected function createBackend(Backend $backend) {
-		if($this->bmp->doesExist($backend)) {
+		if ($this->bmp->doesExist($backend)) {
 			$msg  = 'BusinessLayer::allowNoBackendTwice(): ';
 			$msg .= 'Backend already exists';
 			throw new BusinessLayerException($msg, BusinessLayerException::CONFLICT);
@@ -242,7 +242,7 @@ abstract class BusinessLayer {
 			$className = $backend->getClassname();
 			$args = is_array($backend->getArguments()) ? $backend->getArguments() : array();
 
-			if(class_exists($className) === false){
+			if (class_exists($className) === false){
 				$msg  = 'BusinessLayer::setupBackends(): ';
 				$msg .= '"' . $className . '" not found';
 				\OCP\Util::writeLog('calendar', $msg, \OCP\Util::DEBUG);
@@ -250,7 +250,7 @@ abstract class BusinessLayer {
 				return false;
 			}
 
-			if($backendCollection->search('backend', $backend->getBackend())->count() > 0) {
+			if ($backendCollection->search('backend', $backend->getBackend())->count() > 0) {
 				$msg  = 'BusinessLayer::setupBackends(): ';
 				$msg .= '"' . $className . '" already initialized. ';
 				$msg .= 'Please check for double entries';
@@ -263,12 +263,12 @@ abstract class BusinessLayer {
 			$backend->registerAPI($api);
 
 			//check if a backend can enabled
-			if($backend->api->canBeEnabled()) {
+			if ($backend->api->canBeEnabled()) {
 				$backendCollection->add($backend);
 			}
 		});
 
-		if($backendCollection->count() === 0){
+		if ($backendCollection->count() === 0){
 			$msg  = 'BusinessLayer::setupBackends(): ';
 			$msg .= 'No backend was setup successfully';
 			throw new BusinessLayerException($msg);

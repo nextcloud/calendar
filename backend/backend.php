@@ -71,7 +71,7 @@ abstract class Backend implements IBackend {
 	public function __construct(IAppContainer $app, $backend=null){
 		$this->app = $app;
 
-		if($backend === null) {
+		if ($backend === null) {
 			$backend = get_class($this);
 		}
 
@@ -88,7 +88,7 @@ abstract class Backend implements IBackend {
 	public function getSupportedActions() {
 		$actions = 0;
 		foreach($this->possibleActions as $action => $methodName) {
-			if(method_exists($this, $methodName)) {
+			if (method_exists($this, $methodName)) {
 				$actions |= $action;
 			}
 		}

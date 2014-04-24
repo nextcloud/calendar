@@ -25,7 +25,7 @@ class SabreUtility extends Utility {
 	 */
 	public static function getObjectName($vcalendar) {
 		foreach($vcalendar->children() as $child) {
-			if($child instanceof VEvent ||
+			if ($child instanceof VEvent ||
 			   $child instanceof VJournal ||
 			   $child instanceof VTodo ||
 			   $child instanceof VFreeBusy) {
@@ -75,11 +75,11 @@ class SabreUtility extends Utility {
 		$count = 0;
 
 		foreach($properties as $property) {
-			if(isset($vcalendar->$property)) {
-				if(is_array($vcalendar->$object)) {
+			if (isset($vcalendar->$property)) {
+				if (is_array($vcalendar->$object)) {
 					$count += count($vcalendar->$object);
 				}
-				if($vcalendar->$object instanceof Component) {
+				if ($vcalendar->$object instanceof Component) {
 					$count++;
 				}
 			}
@@ -98,7 +98,7 @@ class SabreUtility extends Utility {
 		$uids = array();
 
 		foreach($vcalendar->children() as $child) {
-			if($child instanceof VEvent ||
+			if ($child instanceof VEvent ||
 			   $child instanceof VJournal ||
 			   $child instanceof VTodo ||
 			   $child instanceof VFreeBusy) {
@@ -119,14 +119,14 @@ class SabreUtility extends Utility {
 	 * @return \OCA\Calendar\Sabre\VObject\Property\DateTime $dstart
 	 */
 	public static function getDTStart(Component $vobject) {
-		if(!isset($vobject->{'DTSTART'})) {
+		if (!isset($vobject->{'DTSTART'})) {
 			return null;
 		}
 
 		//If recurrenceId is set, that's the actual start
 		//DTSTART has the value of the first object of recurring events
 		//This doesn't make any sense, but that's how it is in the standard
-		if(isset($vobject->{'RECURRENCE-ID'})) {
+		if (isset($vobject->{'RECURRENCE-ID'})) {
 			return $vobject->{'RECURRENCE-ID'};
 		}
 
@@ -140,17 +140,17 @@ class SabreUtility extends Utility {
 	 * @return \OCA\Calendar\Sabre\VObject\Property\DateTime $dtend
 	 */
 	public static function getDTEnd(Component $vobject) {
-		if(isset($vobject->{'DTEND'})) {
+		if (isset($vobject->{'DTEND'})) {
 			return $vobject->{'DTEND'};
 		}
 
-		if(!isset($vobject->{'DTSTART'})) {
+		if (!isset($vobject->{'DTSTART'})) {
 			return null;
 		}
 
 		$dtend = self::getDTStart($vobject);
 
-		if(!isset($vobject->{'DURATION'})) {
+		if (!isset($vobject->{'DURATION'})) {
 			return $dtend;
 		}
 

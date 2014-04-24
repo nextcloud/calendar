@@ -43,7 +43,7 @@ abstract class Entity {
 	public function fromRow(array $row){
 		foreach($row as $key => $value){
 			$prop = $this->columnToProperty($key);
-			if($value !== null && array_key_exists($prop, $this->fieldTypes)){
+			if ($value !== null && array_key_exists($prop, $this->fieldTypes)){
 				settype($value, $this->fieldTypes[$prop]);
 			}
 			$this->$prop = $value;
@@ -71,7 +71,7 @@ abstract class Entity {
 			$setter = 'set' . ucfirst($key);
 
 			$newValue = $object->$getter();
-			if($newValue !== null && $newValue !== $value) {
+			if ($newValue !== null && $newValue !== $value) {
 				$this->$setter($newValue);
 			}
 		}
@@ -90,7 +90,7 @@ abstract class Entity {
 		foreach($properties as $property) {
 			$method = 'get' . ucfirst($property);
 
-			if($this->$method() === null) {
+			if ($this->$method() === null) {
 				return true;
 			}
 		}
@@ -107,11 +107,11 @@ abstract class Entity {
 
 	protected function setter($name, $args) {
 		// setters should only work for existing attributes
-		if(property_exists($this, $name)){
+		if (property_exists($this, $name)){
 			$this->markFieldUpdated($name);
 
 			// if type definition exists, cast to correct type
-			if($args[0] !== null && array_key_exists($name, $this->fieldTypes)) {
+			if ($args[0] !== null && array_key_exists($name, $this->fieldTypes)) {
 				settype($args[0], $this->fieldTypes[$name]);
 			}
 			$this->$name = $args[0];
@@ -125,7 +125,7 @@ abstract class Entity {
 
 	protected function getter($name) {
 		// getters should only work for existing attributes
-		if(property_exists($this, $name)){
+		if (property_exists($this, $name)){
 			return $this->$name;
 		} else {
 			throw new \BadFunctionCallException($name . 
@@ -143,9 +143,9 @@ abstract class Entity {
 	public function __call($methodName, $args){
 		$attr = lcfirst( substr($methodName, 3) );
 
-		if(strpos($methodName, 'set') === 0){
+		if (strpos($methodName, 'set') === 0){
 			$this->setter($attr, $args);
-		} elseif(strpos($methodName, 'get') === 0) {
+		} elseif (strpos($methodName, 'get') === 0) {
 			return $this->getter($attr);
 		} else {
 			throw new \BadFunctionCallException($methodName . 
@@ -174,7 +174,7 @@ abstract class Entity {
 		$property = null;
 
 		foreach($parts as $part){
-			if($property === null){
+			if ($property === null){
 				$property = $part;
 			} else {
 				$property .= ucfirst($part);
@@ -195,7 +195,7 @@ abstract class Entity {
 		$column = null;
 
 		foreach($parts as $part){
-			if($column === null){
+			if ($column === null){
 				$column = $part;
 			} else {
 				$column .= '_' . lcfirst($part);
@@ -233,7 +233,7 @@ abstract class Entity {
 	 */
 	public function slugify($attributeName){
 		// toSlug should only work for existing attributes
-		if(property_exists($this, $attributeName)){
+		if (property_exists($this, $attributeName)){
 			$value = $this->$attributeName;
 			// replace everything except alphanumeric with a single '-'
 			$value = preg_replace('/[^A-Za-z0-9]+/', '-', $value);

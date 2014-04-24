@@ -107,14 +107,14 @@ class Local extends Backend {
 		));
 		$row = $result->fetchRow();
 
-		if($row === false || $row === null){
+		if ($row === false || $row === null){
 			$msg  = 'Backend\Local::findCalendar(): Internal Error: ';
 			$msg .= 'No matching entry found';
 			throw new CacheOutDatedException($msg);
 		}
 
 		$row2 = $result->fetchRow();
-		if(($row2 === false || $row2 === null ) === false) {
+		if (($row2 === false || $row2 === null ) === false) {
 			$msg  = 'Backend\Local::findCalendar(): Internal Error: ';
 			$msg .= 'More than one result';
 			throw new MultipleObjectsReturnedException($msg);
@@ -176,7 +176,7 @@ class Local extends Backend {
 		));
 		$count = $result->fetchOne();
 
-		if(gettype($count) !== 'integer') {
+		if (gettype($count) !== 'integer') {
 			$count = intval($count);
 		}
 
@@ -202,11 +202,11 @@ class Local extends Backend {
 		));
 		$count = $result->fetchOne();
 
-		if(gettype($count) !== 'integer') {
+		if (gettype($count) !== 'integer') {
 			$count = intval($count);
 		}
 
-		if($count === 0) {
+		if ($count === 0) {
 			return false;
 		} else {
 			return true;
@@ -232,7 +232,7 @@ class Local extends Backend {
 		));
 		$ctag = $result->fetchOne();
 
-		if(gettype($ctag) !== 'integer') {
+		if (gettype($ctag) !== 'integer') {
 			$ctag = intval($ctag);
 		}
 
@@ -249,7 +249,7 @@ class Local extends Backend {
 		$calendarURI = $calendar->getUri();
 		$userId = $calendar->getUserId();
 
-		if($this->doesCalendarExist($calendarURI, $userId) === true) {
+		if ($this->doesCalendarExist($calendarURI, $userId) === true) {
 			$msg  = 'Backend\Local::createCalendar(): Internal Error: ';
 			$msg .= 'Calendar with uri and userid combination already exists!';
 			throw new CacheOutDatedException($msg);
@@ -285,7 +285,7 @@ class Local extends Backend {
 	 * @return Calendar
 	 */
 	public function updateCalendar(Calendar &$calendar) {
-		if($this->doesCalendarExist($oldCalendarURI, $oldUserId) === false) {
+		if ($this->doesCalendarExist($oldCalendarURI, $oldUserId) === false) {
 			$msg  = 'Backend\Local::updateCalendar(): Internal Error: ';
 			$msg .= 'Calendar with uri and userid combination not found!';
 			throw new CacheOutDatedException($msg);
@@ -396,14 +396,14 @@ class Local extends Backend {
 		));
 		$row = $result->fetchRow();
 
-		if($row === false || $row === null){
+		if ($row === false || $row === null){
 			$msg  = 'Backend\Local::findObject(): Internal Error: ';
 			$msg .= 'No matching entry found';
 			throw new CacheOutDatedException($msg);
 		}
 
 		$row2 = $result->fetchRow();
-		if(($row2 === false || $row2 === null ) === false) {
+		if (($row2 === false || $row2 === null ) === false) {
 			$msg  = 'Backend\Local::findObject(): Internal Error: ';
 			$msg .= 'More than one result';
 			throw new MultipleObjectsReturnedException($msg);
@@ -627,7 +627,7 @@ class Local extends Backend {
 		));
 		$count = $result->fetchOne();
 
-		if(gettype($count) !== 'integer') {
+		if (gettype($count) !== 'integer') {
 			$count = intval($count);
 		}
 
@@ -660,11 +660,11 @@ class Local extends Backend {
 		));
 		$count = $result->fetchOne();
 
-		if(gettype($count) !== 'integer') {
+		if (gettype($count) !== 'integer') {
 			$count = intval($count);
 		}
 
-		if($count === 0) {
+		if ($count === 0) {
 			return false;
 		} else {
 			return true;
@@ -694,12 +694,12 @@ class Local extends Backend {
 		$calendarURI = $object->getCalendar()->getUri();
 		$userId = $object->getCalendar()->getUserId();
 
-		if(!$this->doesCalendarExist($calendarURI, $userId)) {
+		if (!$this->doesCalendarExist($calendarURI, $userId)) {
 			$msg  = 'Backend\Local::createObject(): Internal Error: ';
 			$msg .= 'Calendar not found!';
 			throw new CacheOutDatedException($msg);
 		}
-		/*if($this->doesObjectExist($calendarURI, $userId)) {
+		/*if ($this->doesObjectExist($calendarURI, $userId)) {
 			$msg  = 'Backend\Local::createObject(): User Error: ';
 			$msg .= 'Object already exists';
 			throw new BackendException($msg);
@@ -741,12 +741,12 @@ class Local extends Backend {
 		$calendarURI = $object->getCalendar()->getUri();
 		$userId = $object->getCalendar()->getUserId();
 
-		if(!$this->doesCalendarExist($calendarURI, $userId)) {
+		if (!$this->doesCalendarExist($calendarURI, $userId)) {
 			$msg  = 'Backend\Local::createObject(): Internal Error: ';
 			$msg .= 'Calendar not fouund!';
 			throw new CacheOutDatedException($msg);
 		}
-		/*if(!$this->doesObjectExist($calendarURI, $userId)) {
+		/*if (!$this->doesObjectExist($calendarURI, $userId)) {
 			$msg  = 'Backend\Local::createObject(): User Error: ';
 			$msg .= 'Object already exists';
 			throw new BackendException($msg);
@@ -788,7 +788,7 @@ class Local extends Backend {
 		$objectURI = $object->getObjectURI();
 		$userId = $object->getCalendar()->getUserId();
 
-		if(!$this->doesCalendarExist($calendarURI, $userId)) {
+		if (!$this->doesCalendarExist($calendarURI, $userId)) {
 			$msg  = 'Backend\Local::createObject(): Internal Error: ';
 			$msg .= 'Calendar not fouund!';
 			throw new CacheOutDatedException($msg);
@@ -816,13 +816,13 @@ class Local extends Backend {
 	 * @return ObjectCollection
 	 */
 	public function searchByProperties(Calendar $calendar, array $properties=array(), $limit, $offset) {
-		if(!$this->doesCalendarExist($calendarURI, $userId)) {
+		if (!$this->doesCalendarExist($calendarURI, $userId)) {
 			$msg  = 'Backend\Local::createObject(): Internal Error: ';
 			$msg .= 'Calendar not fouund!';
 			throw new CacheOutDatedException($msg);
 		}
 
-		if(empty($properties)) {
+		if (empty($properties)) {
 			return $this->findObjects($calendarId, $userId);
 		}
 
@@ -944,7 +944,7 @@ class Local extends Backend {
 	 * @param mixed (integer|string)
 	 */
 	public function getType($type) {
-		if(is_int($type)) {
+		if (is_int($type)) {
 			return ObjectType::getAsString($type);
 		} else {
 			return ObjectType::getTypeByString($type);
@@ -958,7 +958,7 @@ class Local extends Backend {
 	 * @param mixed (integer|string)
 	 */
 	public function getTypes($type) {
-		if(is_int($type)) {
+		if (is_int($type)) {
 			return ObjectType::getAsString($type);
 		} else {
 			return ObjectType::getTypesByString($type);

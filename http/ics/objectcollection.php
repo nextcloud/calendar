@@ -15,7 +15,7 @@ class ICSObjectCollection extends ICSCollection {
 	public function serialize($convenience=true) {
 		$vcalendar = $this->collection->getVObject();
 
-		if($convenience === true) {
+		if ($convenience === true) {
 			JSONUtility::addConvenience($vcalendar);
 		}
 

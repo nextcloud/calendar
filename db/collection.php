@@ -26,13 +26,13 @@ abstract class Collection {
 	public function __construct($objects=null) {
 		$this->objects = array();
 
-		if($objects !== null) {
+		if ($objects !== null) {
 
-			if(is_array($objects) === true) {
+			if (is_array($objects) === true) {
 				$this->objects = $objects;
-			} else if($objects instanceof Entity) {
+			} else if ($objects instanceof Entity) {
 				$this->add($objects);
-			} else if($objects instanceof Collection) {
+			} else if ($objects instanceof Collection) {
 				$this->addCollection($objects);
 			}
 
@@ -46,7 +46,7 @@ abstract class Collection {
 	 * @return integer 
 	 */
 	public function add(Entity $object, $nth=null) {
-		if($nth === null) {
+		if ($nth === null) {
 			$nth = $this->count();
 		}
 		for($i = $this->count(); $i > $nth; $i--) {
@@ -63,7 +63,7 @@ abstract class Collection {
 	 * @return integer 
 	 */
 	public function addCollection(Collection $objects, $nth=null) {
-		if($nth === null) {
+		if ($nth === null) {
 			$nth = $this->count();
 		}
 		$numberOfNewEntities = $objects->count();
@@ -83,7 +83,7 @@ abstract class Collection {
 	 * @return 
 	 */
 	public function remove($nth=null) {
-		if($nth === null){
+		if ($nth === null){
 			$nth = $this->key();
 		}
 		unset($this->objects[$nth]);
@@ -99,7 +99,7 @@ abstract class Collection {
 		for($i = 0; $i < $this->count(); $i++) {
 			//use of (==) instead of (===) is intended!
 			//see http://php.net/manual/en/language.oop5.object-comparison.php
-			if($this->objects[$i] == $entity) {
+			if ($this->objects[$i] == $entity) {
 				unset($this->objects[($i--)]);
 			}
 		}
@@ -117,7 +117,7 @@ abstract class Collection {
 		$propertyGetter = 'get' . ucfirst($key);
 
 		for($i = 0; $i < $this->count(); $i++) {
-			if(is_callable(array($this->objects[$i], $propertyGetter)) && $object->{$propertyGetter}() === $value) {
+			if (is_callable(array($this->objects[$i], $propertyGetter)) && $object->{$propertyGetter}() === $value) {
 				unset($this->objects[($i--)]);
 			}
 		}
@@ -187,7 +187,7 @@ abstract class Collection {
 	 * @return mixed (single Entity) or null
 	 */
 	public function get($nth) {
-		if(array_key_exists($nth, $this->objects)) {
+		if (array_key_exists($nth, $this->objects)) {
 			return $this->objects[$nth];
 		} else {
 			return null;
@@ -211,17 +211,17 @@ abstract class Collection {
 	public function subset($limit=null, $offset=null) {
 		$class = get_class($this);
 
-		if($offset === null) {
+		if ($offset === null) {
 			$offset = 0;
 		}
 
-		if($limit === null) {
+		if ($limit === null) {
 			return $this;
 		} else {
 			$subset = new $class();
 
 			for($i = $offset; $i < ($offset + $limit); $i++) {
-				if(array_key_exists($i, $this->objects)) {
+				if (array_key_exists($i, $this->objects)) {
 					$subset->add($this->objects[$i]);
 				}
 			}
@@ -253,7 +253,7 @@ abstract class Collection {
 			$vElement = $object->getVObject();
 			$children = $vElement->children();
 			foreach($children as $child) {
-				if($child instanceof VEvent || 
+				if ($child instanceof VEvent || 
 				   $child instanceof VJournal ||
 				   $child instanceof VTodo ||
 				   $child->name === 'VTIMEZONE') {
@@ -293,7 +293,7 @@ abstract class Collection {
 		$propertyGetter = 'get' . ucfirst($key);
 
 		foreach($this->objects as &$object) {
-			if(is_callable(array($object, $propertyGetter)) && $object->{$propertyGetter}() === $value) {
+			if (is_callable(array($object, $propertyGetter)) && $object->{$propertyGetter}() === $value) {
 				$matchingObjects->add($object);
 			}
 		}
@@ -315,7 +315,7 @@ abstract class Collection {
 		$dataGetter = 'get' . ucfirst($dataProperty);
 
 		foreach($this->objects as &$object) {
-			if(is_callable(array($object, $propertyGetter)) && preg_match($regex, $object->{$dataGetter}()) === 1) {
+			if (is_callable(array($object, $propertyGetter)) && preg_match($regex, $object->{$dataGetter}()) === 1) {
 				$matchingObjects->add($object);
 			}
 		}
@@ -333,7 +333,7 @@ abstract class Collection {
 		$propertySetter = 'set' . ucfirst($key);
 
 		foreach($this->objects as &$object) {
-			if(is_callable(array($object, $propertySetter))) {
+			if (is_callable(array($object, $propertySetter))) {
 				$object->{$propertySetter}($value);
 			}
 		}
@@ -348,7 +348,7 @@ abstract class Collection {
 	 */
 	public function isValid() {
 		foreach($this->objects as &$object) {
-			if($object->isValid() === false) {
+			if ($object->isValid() === false) {
 				return false;
 			}
 		}

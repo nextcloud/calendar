@@ -19,10 +19,10 @@ abstract class Manager {
 	 * @return mixed (boolean|string)
 	 */
 	public static function get($type, $requestedMimeType) {
-		if(!array_key_exists($type, self::$all)) {
+		if (!array_key_exists($type, self::$all)) {
 			return false;
 		}
-		if(!array_key_exists($requestedMimeType, self::$all[$type])) {
+		if (!array_key_exists($requestedMimeType, self::$all[$type])) {
 			return false;
 		}
 		return self::$all[$type][$requestedMimeType];
@@ -37,7 +37,7 @@ abstract class Manager {
 	 * @return boolean 
 	 */
 	public static function set($type, $class, $requestedMimeType, $overwrite=false) {
-		if($overwrite === false && self::get($type, $requestedMimeType) !== false) {
+		if ($overwrite === false && self::get($type, $requestedMimeType) !== false) {
 			return false;
 		}
 
@@ -51,7 +51,7 @@ abstract class Manager {
 	 * @return mixed (boolean|string)
 	 */
 	public static function getFallback($type) {
-		if(!array_key_exists($type, self::$fallback)) {
+		if (!array_key_exists($type, self::$fallback)) {
 			return false;
 		}
 		return self::$fallback[$type];

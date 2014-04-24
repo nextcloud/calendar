@@ -21,7 +21,7 @@ abstract class JSONReader implements IReader {
 	 * @brief Constructor
 	 */
 	public function __construct($json=null) {
-		if($json !== null) {
+		if ($json !== null) {
 			$this->setData($json);
 		}
 	}
@@ -41,20 +41,20 @@ abstract class JSONReader implements IReader {
 		//reset object
 		$this->object = null;
 
-		if(is_array($json)) {
+		if (is_array($json)) {
 			$this->data = $json;
 			return $this;
 		}
 
-		if(is_string($json)) {
-			if(trim($json) === '') {
+		if (is_string($json)) {
+			if (trim($json) === '') {
 				$msg  = 'JSONReader::setData(): User Error: ';
 				$msg .= 'Given string is empty';
 				throw new JSONReaderException($msg);
 			}
 
 			$data = json_decode($json, true);
-			if(!is_string($data)) {
+			if (!is_string($data)) {
 				$msg  = 'JSONReader::setData(): User Error: ';
 				$msg .= 'Could not parse given (json) string!';
 				throw new JSONReaderException($msg);
@@ -73,13 +73,13 @@ abstract class JSONReader implements IReader {
 	 * @brief get object created from reader
 	 */
 	public function getObject() {
-		if($this->getData() === null) {
+		if ($this->getData() === null) {
 			$msg  = 'JSONReader::getObject(): Internal Error: ';
 			$msg .= 'getObject may not be called before any data was set!';
 			throw new JSONReaderException($msg);
 		}
 
-		if($this->object === null) {
+		if ($this->object === null) {
 			$this->parse();
 		}
 
@@ -90,7 +90,7 @@ abstract class JSONReader implements IReader {
 	 * @brief set object
 	 */
 	protected function setObject($object) {
-		if(($object instanceof Entity) ||
+		if (($object instanceof Entity) ||
 		   ($object instanceof Collection)) {
 			$this->object = $object;
 			return $this;
@@ -103,7 +103,7 @@ abstract class JSONReader implements IReader {
 	 * @brief get if reader will return collection
 	 */
 	public function isCollection() {
-		if($this->object === null) {
+		if ($this->object === null) {
 			$this->parse();
 		}
 
@@ -119,7 +119,7 @@ abstract class JSONReader implements IReader {
 		$isCollection = $this->isCollection();
 
 		foreach($properties as $property) {
-			if($isCollection) {
+			if ($isCollection) {
 				$this->object->setProperty($property, null);
 			} else {
 				$setter = 'set' . ucfirst($property);

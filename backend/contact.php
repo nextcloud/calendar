@@ -77,7 +77,7 @@ class Contact extends Backend {
 	 * @throws DoesNotExistException if uri does not exist
 	 */
 	public function findCalendar($calendarURI, $userId) {
-		if(!$this->doesCalendarExist($calendarURI, $userId)) {
+		if (!$this->doesCalendarExist($calendarURI, $userId)) {
 			$msg  = 'Backend\Contact::findCalendar(): ';
 			$msg .= '"' . $calendarURI . '" doesn\'t exist';
 			throw new DoesNotExistException($msg);
@@ -96,9 +96,9 @@ class Contact extends Backend {
 		$calendar->setOrder(0);
 		$calendar->setEnabled(true);
 
-		if($calendarURI === 'anniversary') {
+		if ($calendarURI === 'anniversary') {
 			$calendar->setDisplayname('Anniversary'); //TODO - use translation
-		} elseif($calendarURI === 'birthday') {
+		} elseif ($calendarURI === 'birthday') {
 			$calendar->setDisplayname('Birthday'); //TODO - use translation
 		}
 
@@ -140,7 +140,7 @@ class Contact extends Backend {
 	 * @returns boolean
 	 */
 	public function doesCalendarExist($calendarURI, $userId) {
-		if(in_array($calendarURI, $this->calendarURIs)) {
+		if (in_array($calendarURI, $this->calendarURIs)) {
 			return true;
 		} else {
 			return false;

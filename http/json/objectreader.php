@@ -25,7 +25,7 @@ class JSONObjectReader {
 			$uniqueUIDs = SabreUtility::countUniqueUIDs($vcalendar);
 			$isCollection = ($uniqueUIDs !== 1);
 
-			if($isCollection) {
+			if ($isCollection) {
 				$singleObjects = SabreUtility::splitByUID($vcalendar);
 				$collection = new ObjectCollection($singleObjects);
 				$this->setObject($collection);

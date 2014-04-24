@@ -20,10 +20,10 @@ class Serializer extends Manager implements ISerializer {
 
 	public function __construct($type, $data, $requestedMimeType) {
 		$class = self::get($type, $requestedMimeType);
-		if(!$class) {
+		if (!$class) {
 			$class = self::getFallback($type);
 		}
-		if(!$class) {
+		if (!$class) {
 			throw new Exception('No serializer found.');
 		}
 

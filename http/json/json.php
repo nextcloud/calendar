@@ -28,7 +28,7 @@ abstract class JSON implements ISerializer {
 	 * @param Entity $object
 	 */
 	public function setObject($object) {
-		if($object instanceof Entity) {
+		if ($object instanceof Entity) {
 			$this->object = $object;
 			return $this;
 		}

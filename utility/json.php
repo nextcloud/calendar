@@ -20,7 +20,7 @@ class JSONUtility extends Utility{
 	 * @return array
 	 */
 	public static function getUserInformation($userId) {
-		if($userId === null) {
+		if ($userId === null) {
 			$userId = \OCP\User::getUser();
 		}
 
@@ -37,11 +37,11 @@ class JSONUtility extends Utility{
 	 * @return string $userId
 	 */
 	public static function parseUserInformation($value) {
-		if(is_array($value) === false) {
+		if (is_array($value) === false) {
 			return null;
 		}
 
-		if(array_key_exists('userid', $value) === false) {
+		if (array_key_exists('userid', $value) === false) {
 			return null;
 		} else {
 			return $value['userid'];
@@ -71,13 +71,13 @@ class JSONUtility extends Utility{
 	public static function parseComponents($value) {
 		$components = 0;
 
-		if(array_key_exists('vevent', $value) && $value['vevent'] === true) {
+		if (array_key_exists('vevent', $value) && $value['vevent'] === true) {
 			$components += ObjectType::EVENT;
 		}
-		if(array_key_exists('vjournal', $value) && $value['vjournal'] === true) {
+		if (array_key_exists('vjournal', $value) && $value['vjournal'] === true) {
 			$components += ObjectType::JOURNAL;
 		}
-		if(array_key_exists('vtodo', $value) && $value['vtodo'] === true) {
+		if (array_key_exists('vtodo', $value) && $value['vtodo'] === true) {
 			$components += ObjectType::TODO;
 		}
 
@@ -111,22 +111,22 @@ class JSONUtility extends Utility{
 		$cruds = 0;
 
 		//use code if given
-		if(array_key_exists('code', $value) && (int) $value['code'] >= 0 && (int) $value['code'] <= 31) {
+		if (array_key_exists('code', $value) && (int) $value['code'] >= 0 && (int) $value['code'] <= 31) {
 			$cruds = (int) $value['code'];
 		} else {
-			if(array_key_exists('create', $value) && $value['create'] === true) {
+			if (array_key_exists('create', $value) && $value['create'] === true) {
 				$cruds += Permissions::CREATE;
 			}
-			if(array_key_exists('update', $value) && $value['update'] === true) {
+			if (array_key_exists('update', $value) && $value['update'] === true) {
 				$cruds += Permissions::UPDATE;
 			}
-			if(array_key_exists('delete', $value) && $value['delete'] === true) {
+			if (array_key_exists('delete', $value) && $value['delete'] === true) {
 				$cruds += Permissions::DELETE;
 			}
-			if(array_key_exists('read', $value) && $value['read'] === true) {
+			if (array_key_exists('read', $value) && $value['read'] === true) {
 				$cruds += Permissions::READ;
 			}
-			if(array_key_exists('share', $value) && $value['share'] === true) {
+			if (array_key_exists('share', $value) && $value['share'] === true) {
 				$cruds += Permissions::SHARE;
 			}
 		}

@@ -29,7 +29,7 @@ class BackendMapper extends Mapper {
 		$this->configName = $configName;
 
 		$backends = \OCP\Config::getSystemValue($configName);
-		if($backends === null) {
+		if ($backends === null) {
 			$backends = $api->query('fallbackBackendConfig');
 		}
 
@@ -50,7 +50,7 @@ class BackendMapper extends Mapper {
 	 * @param API $api: Instance of the API abstraction layer
 	 */
 	public function __destruct() {
-		if($this->didChange === true) {
+		if ($this->didChange === true) {
 			$newConfig = $this->backendCollection->getObjects();
 			//\OCP\Config::setSystemValue($this->configName, $newConfig);
 		}

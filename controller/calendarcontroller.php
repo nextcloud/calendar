@@ -36,7 +36,7 @@ class CalendarController extends Controller {
 			$userId = $this->api->getUserId();
 
 			$nolimit = $this->params('nolimit', false);
-			if($nolimit) {
+			if ($nolimit) {
 				$limit = $offset = null;
 			} else {
 				$limit = $this->params('limit', 25);
@@ -87,10 +87,10 @@ class CalendarController extends Controller {
 
 			$calendar = $reader->sanitize()->getObject();
 
-			if($calendar instanceof Calendar) {
+			if ($calendar instanceof Calendar) {
 				$calendar = $this->calendarBusinessLayer->createFromRequest($calendar);
 				$serializer = new Serializer(Serializer::Calendar, $calendar, $this->accept());
-			} elseif($calendar instanceof CalendarCollection) {
+			} elseif ($calendar instanceof CalendarCollection) {
 				$calendar = $this->calendarBusinessLayer->createCollectionFromRequest($calendar);
 				$serializer = new serializer(Serializer::CalendarCollection, $calendar, $this->accept());
 			} else {
@@ -122,9 +122,9 @@ class CalendarController extends Controller {
 			$reader = new Reader(Reader::Calendar, $data, $this->contentType());
 
 			$calendar = $reader->sanitize()->getObject();
-			if($calendar instanceof Calendar) {
+			if ($calendar instanceof Calendar) {
 				$calendar = $this->calendarBusinessLayer->updateFromRequest($calendar, $calendarId, $userId, $ctag);
-			} elseif($calendar instanceof CalendarCollection) {
+			} elseif ($calendar instanceof CalendarCollection) {
 				throw new ReaderException('Updates can only be applied to a single resource.', Http::STATUS_BAD_REQUEST);
 			} else {
 				throw new ReaderException('Reader returned unrecognised format.');

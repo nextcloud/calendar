@@ -52,10 +52,10 @@ abstract class Controller extends \OCP\AppFramework\Controller {
 		$this->app = $app;
 		$this->api = $app->getCoreApi();
 
-		if($calendarBusinessLayer instanceof CalendarBusinessLayer) {
+		if ($calendarBusinessLayer instanceof CalendarBusinessLayer) {
 			$this->calendarBusinessLayer = $calendarBusinessLayer;
 		}
-		if($objectBusinessLayer instanceof ObjectBusinessLayer) {
+		if ($objectBusinessLayer instanceof ObjectBusinessLayer) {
 			$this->objectBusinessLayer = $objectBusinessLayer;		
 		}
 	}
@@ -69,7 +69,7 @@ abstract class Controller extends \OCP\AppFramework\Controller {
 	 */
 	public function params($key, $default=null){
 		$value = parent::params($key, $default);
-		if($default !== null) {
+		if ($default !== null) {
 			settype($value, gettype($default));
 		}
 		return $value;
@@ -87,11 +87,11 @@ abstract class Controller extends \OCP\AppFramework\Controller {
 
 		$key = str_replace('-', '_', $key);
 
-		if(isset($this->request->server[$key]) === false) {
+		if (isset($this->request->server[$key]) === false) {
 			return $default;
 		} else {
 			$value = $this->request->server[$key];
-			if(strtolower($type) === 'datetime') {
+			if (strtolower($type) === 'datetime') {
 				$value = \DateTime::createFromFormat(\DateTime::ISO8601);
 			} else {
 				settype($value, $type);
@@ -104,10 +104,10 @@ abstract class Controller extends \OCP\AppFramework\Controller {
 	protected function accept() {
 		$accept = $this->header('accept');
 
-		if(substr_count($accept, ',')) {
+		if (substr_count($accept, ',')) {
 			list($accept) = explode(',', $accept);
 		}
-		if(substr_count($accept, ';')) {
+		if (substr_count($accept, ';')) {
 			list($accept) = explode(';', $accept);
 		}
 
@@ -118,7 +118,7 @@ abstract class Controller extends \OCP\AppFramework\Controller {
 	protected function contentType() {
 		$contentType = $this->header('content-type');
 
-		if(substr_count($contentType, ';')) {
+		if (substr_count($contentType, ';')) {
 			list($contentType) = explode(';', $contentType);
 		}
 

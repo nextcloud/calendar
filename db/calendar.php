@@ -53,12 +53,12 @@ class Calendar extends Entity {
 		$this->setEnabled(true);
 
 		//create from array
-		if(is_array($createFrom)){
+		if (is_array($createFrom)){
 			$this->fromRow($createFrom);
 		}
 
 		//create from VCalendar
-		if($createFrom instanceof VCalendar) {
+		if ($createFrom instanceof VCalendar) {
 			$this->fromVObject($createFrom);
 		}
 	}
@@ -70,17 +70,17 @@ class Calendar extends Entity {
 	 * @return $this
 	 */
 	public function fromVObject(VCalendar $vcalendar) {
-		if(isset($vcalendar->{'X-WR-CALNAME'})) {
+		if (isset($vcalendar->{'X-WR-CALNAME'})) {
 			$this->setDisplayname($vcalendar->{'X-WR-CALNAME'});
 		}
 
-		if(isset($vcalendar->{'X-WR-TIMEZONE'})) {
+		if (isset($vcalendar->{'X-WR-TIMEZONE'})) {
 			try {
 				$this->setTimezone(new Timezone($vcalendar->{'X-WR-TIMEZONE'}));
 			} catch(\Exception $ex) {}
 		}
 
-		if(isset($calendar->{'X-APPLE-CALENDAR-COLOR'})) {
+		if (isset($calendar->{'X-APPLE-CALENDAR-COLOR'})) {
 			$this->setColor($vcalendar->{'X-APPLE-CALENDAR-COLOR'});
 		}
 
@@ -129,7 +129,7 @@ class Calendar extends Entity {
 	 * @brief set uri property
 	 */
 	public function setURI($uri) {
-		if(is_string($uri) === false || trim($uri) === '') {
+		if (is_string($uri) === false || trim($uri) === '') {
 			return null;
 		}
 
@@ -152,7 +152,7 @@ class Calendar extends Entity {
 	 * @return string
 	 */
 	public function getCalendarId(){
-		if(!property_exists($this, 'backend') || !property_exists($this, 'uri')) {
+		if (!property_exists($this, 'backend') || !property_exists($this, 'uri')) {
 			$msg = 'getCalendarId is not applicable to this kind of object';
 			throw new \BadFunctionCallException($msg);
 		}
@@ -174,14 +174,14 @@ class Calendar extends Entity {
 	 *         false if calendarId could not be set
 	 */
 	public function setCalendarId($calendarId) {
-		if(!property_exists($this, 'backend') || !property_exists($this, 'uri')) {
+		if (!property_exists($this, 'backend') || !property_exists($this, 'uri')) {
 			$msg = 'setCalendarId is not applicable to this kind of object';
 			throw new \BadFunctionCallException($msg);
 		}
 
 		list($backend, $calendarURI) = CalendarUtility::splitURI($calendarId);
 
-		if($backend !== false && $calendarURI !== false) {
+		if ($backend !== false && $calendarURI !== false) {
 			$this->backend = $backend;
 			$this->uri = $calendarURI;
 
@@ -206,10 +206,10 @@ class Calendar extends Entity {
 		);
 
 		foreach($strings as $string) {
-			if(is_string($string) === false) {
+			if (is_string($string) === false) {
 				return false;
 			}
-			if(trim($string) === '') {
+			if (trim($string) === '') {
 				return false;
 			}
 		}
@@ -222,10 +222,10 @@ class Calendar extends Entity {
 		);
 
 		foreach($uInts as $integer) {
-			if(is_int($integer) === false) {
+			if (is_int($integer) === false) {
 				return false;
 			}
-			if($integer < 0) {
+			if ($integer < 0) {
 				return false;
 			}
 		}
@@ -235,28 +235,28 @@ class Calendar extends Entity {
 		);
 
 		foreach($booleans as $boolean) {
-			if(is_bool($boolean) === false) {
+			if (is_bool($boolean) === false) {
 				return false;
 			}
 		}
 
-		if(preg_match('/[A-Za-z0-9]+/', $this->uri) !== 1) {
+		if (preg_match('/[A-Za-z0-9]+/', $this->uri) !== 1) {
 			return false;
 		}
 
-		if(preg_match('/#((?:[0-9a-fA-F]{2}){3}|(?:[0-9a-fA-F]{1}){3}|(?:[0-9a-fA-F]{1}){4}|(?:[0-9a-fA-F]{2}){4})$/', $this->color) !== 1) {
+		if (preg_match('/#((?:[0-9a-fA-F]{2}){3}|(?:[0-9a-fA-F]{1}){3}|(?:[0-9a-fA-F]{1}){4}|(?:[0-9a-fA-F]{2}){4})$/', $this->color) !== 1) {
 			return false;
 		}
 
-		if($this->components > ObjectType::ALL) {
+		if ($this->components > ObjectType::ALL) {
 			return false;
 		}
 
-		if($this->cruds > Permissions::ALL) {
+		if ($this->cruds > Permissions::ALL) {
 			return false;
 		}
  
-		if($this->timezone instanceof Timezone && $this->timezone->isValid() === false) {
+		if ($this->timezone instanceof Timezone && $this->timezone->isValid() === false) {
 			return false;
 		}
 
