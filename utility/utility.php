@@ -7,11 +7,13 @@
  */
 namespace OCA\Calendar\Utility;
 
-use \DateTimeZone;
-use \OCA\Calendar\Sabre\VObject\Component;
-
 class Utility {
 
+	/**
+	 * @brief slugify a string
+	 * @param string $string
+	 * @param string $string
+	 */
 	public static function slugify($string) {
 		$string = preg_replace('~[^\\pL\d\.]+~u', '-', $string);
 		$string = trim($string, '-');
@@ -29,10 +31,5 @@ class Utility {
 		}
 
 		return $string;
-	}
-
-	public static function isTimezoneSupported($timezone) {
-		$supportedTimezones = DateTimeZone::listIdentifiers();
-		return in_array($timezone, $supportedTimezones);
 	}
 }

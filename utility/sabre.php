@@ -34,6 +34,7 @@ class SabreUtility extends Utility {
 		}
 	}
 
+
 	/**
 	 * @brief count number of events, journals, todos
 	 * @param \OCA\Calendar\Sabre\VObject\Component\VCalendar $vcalendar
@@ -42,6 +43,7 @@ class SabreUtility extends Utility {
 	public static function countObjects(VCalendar $vcalendar) {
 		return self::countSabreObjects($vcalendar, array('VEVENT', 'VJOURNAL', 'VTODO'));
 	}
+
 
 	/**
 	 * @brief count number of freebusys
@@ -52,6 +54,7 @@ class SabreUtility extends Utility {
 		return self::countSabreObjects($vcalendar, array('VFREEBUSY'));
 	}
 
+
 	/**
 	 * @brief count number of timezones
 	 * @param \OCA\Calendar\Sabre\VObject\Component\VCalendar $vcalendar
@@ -60,6 +63,7 @@ class SabreUtility extends Utility {
 	public static function countTimezones(VCalendar $vcalendar) {
 		return self::countSabreObjects($vcalendar, array('VTIMEZONE'));
 	}
+
 
 	/**
 	 * @brief count number of components by identifier definied in $properties
@@ -84,6 +88,7 @@ class SabreUtility extends Utility {
 		return $count;
 	}
 
+
 	/**
 	 * @brief count number of unique UIDs inside a calendar
 	 * @param \OCA\Calendar\Sabre\VObject\Component\VCalendar $vcalendar
@@ -107,6 +112,7 @@ class SabreUtility extends Utility {
 		return $numberOfUniqueUIDs;
 	}
 
+
 	/**
 	 * @brief get dtstart property of object
 	 * @param \OCA\Calendar\Sabre\VObject\Component $vobject
@@ -126,6 +132,7 @@ class SabreUtility extends Utility {
 
 		return $vobject->{'DTSTART'};
 	}
+
 
 	/**
 	 * @brief get dtend property of object

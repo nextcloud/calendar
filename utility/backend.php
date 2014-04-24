@@ -7,6 +7,4 @@
  */
 namespace OCA\Calendar\Utility;
 
-class BackendUtility extends Utility{
-	
-}
+class BackendUtility extends Utility{}

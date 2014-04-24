@@ -9,8 +9,18 @@ namespace OCA\Calendar\Utility;
 
 class CalendarUtility extends Utility{
 
+	/**
+	 * seperator for backend and uri
+	 * @var string
+	 */
 	const SEPERATOR = '::';
 
+
+	/**
+	 * @brief suggest a new uri
+	 * @param string $calendarURI
+	 * @return string $calendarURI
+	 */
 	public static function suggestURI($calendarURI) {
 		if(substr_count($calendarURI, '-') === 0) {
 			$calendarURI .= '-1';
@@ -30,19 +40,24 @@ class CalendarUtility extends Utility{
 		return $calendarURI;
 	}
 
-	public static function splitURI($publicURI) {
-		if ($publicURI === false || $publicURI === null || $publicURI === '') {
+
+	/**
+	 * @brief split $calendarURI
+	 * @param string $calendarURI
+	 * @return array (backend|uri)
+	 */
+	public static function splitURI($calendarURI) {
+		if ($calendarURI === false || $calendarURI === null || $calendarURI === '') {
 			return array(false, false);
 		}
 
-		if (substr_count($publicURI, self::SEPERATOR) === 0){
+		if (substr_count($calendarURI, self::SEPERATOR) === 0){
 			return array(false, false);
 		}
 
-		list($backend, $realCalendarURI) = explode(self::SEPERATOR, $publicURI, 2);
-
-		return array($backend, $realCalendarURI);
+		return explode(self::SEPERATOR, $calendarURI, 2);
 	}
+
 
 	/**
 	 * @brief get uri from backend and calendarURI
@@ -56,5 +71,4 @@ class CalendarUtility extends Utility{
 			$calendarURI,
 		));
 	}
-
 }

@@ -10,8 +10,15 @@ namespace OCA\Calendar\Utility;
 use \OCA\Calendar\Db\ObjectType;
 use \OCA\Calendar\Db\Permissions;
 
+use \OCA\Calendar\Db\Timezone;
+
 class JSONUtility extends Utility{
 
+	/**
+	 * @brief get json-encoded user-information
+	 * @param string $userId
+	 * @return array
+	 */
 	public static function getUserInformation($userId) {
 		if($userId === null) {
 			$userId = \OCP\User::getUser();
@@ -23,6 +30,12 @@ class JSONUtility extends Utility{
 		);
 	}
 
+
+	/**
+	 * @brief parse json-encoded user-information
+	 * @param array $value
+	 * @return string $userId
+	 */
 	public static function parseUserInformation($value) {
 		if(is_array($value) === false) {
 			return null;
@@ -35,6 +48,12 @@ class JSONUtility extends Utility{
 		}
 	}
 
+
+	/**
+	 * @brief get json-encoded component-information
+	 * @param integer $components
+	 * @return array
+	 */
 	public static function getComponents($components) {
 		return array(
 			'vevent'	=> (bool) ($components & ObjectType::EVENT),
@@ -43,11 +62,13 @@ class JSONUtility extends Utility{
 		);
 	}
 
-	public static function parseComponents($value) {
-		if(is_array($value) === false) {
-			return null;
-		}
 
+	/**
+	 * @brief parse json-encoded component-information
+	 * @param array $value
+	 * @return integer $userId
+	 */
+	public static function parseComponents($value) {
 		$components = 0;
 
 		if(array_key_exists('vevent', $value) && $value['vevent'] === true) {
@@ -63,6 +84,12 @@ class JSONUtility extends Utility{
 		return $components;
 	}
 
+
+	/**
+	 * @brief get json-encoded cruds-information
+	 * @param integer $cruds
+	 * @return array
+	 */
 	public static function getCruds($cruds) {
 		return array(
 			'code' => 	$cruds,
@@ -74,11 +101,13 @@ class JSONUtility extends Utility{
 		);
 	}
 
-	public static function parseCruds($value) {
-		if(is_array($value) === false) {
-			return null;
-		}
 
+	/**
+	 * @brief parse json-encoded cruds-information
+	 * @param array $value
+	 * @return integer $userId
+	 */
+	public static function parseCruds($value) {
 		$cruds = 0;
 
 		//use code if given
@@ -101,50 +130,37 @@ class JSONUtility extends Utility{
 				$cruds += Permissions::SHARE;
 			}
 		}
+
+		return $code;
 	}
 
-	public static function parseCalendarURIForBackend($calendarURI) {
-		list($backend, $uri) = CalendarUtility::splitURI($calendarURI);
-		if($backend === false) {
-			return null;
-		}
 
-		return $backend;
-	}
-
-	public static function parseCalendarURIForURI($calendarURI) {
-		list($backend, $uri) =  CalendarUtility::splitURI($calendarURI);
-		if($uri === false) {
-			return null;
-		}
-
-		return $uri;
-	}
-
-	public static function parseCalendarURI($key, $value) {
-		list($backend, $calendarURI) = CalendarUtility::splitURI($value);
-
-		if($backend === false || $calendarURI === false) {
-			return null;
-		}
-
-		return array(
-			$backend,
-			$calendarURI
-		);
-	}
-
-	public static function getTimeZone($timezone, $convenience) {
+	/**
+	 * @brief get json-encoded timezone-information
+	 * @param Timezone
+	 * @return array
+	 */
+	public static function getTimeZone(Timezone $timezone) {
 		$jsonTimezone = new JSONTimezone($timezone);
-		return $jsonTimezone->serialize($convenience);
+		return $jsonTimezone->serialize();
 	}
 
+
+	/**
+	 * @brief parse json-encoded timezone-information
+	 * @param array
+	 * @return null
+	 */
 	public static function parseTimeZone($value) {
-		//$timezoneReader = new JSONTimezoneReader($value);
-		//return $timezoneReader->getObject();
 		return null;
 	}
 
+
+	/**
+	 * @brief get url for calendar
+	 * @param string $calendarURI
+	 * @return string
+	 */
 	public static function getURL($calendarURI) {
 		$properties = array(
 			'calendarId' => $calendarURI,
@@ -154,40 +170,18 @@ class JSONUtility extends Utility{
 		return \OCP\Util::linkToAbsolute('', substr($url, 1));
 	}
 
-	public static function getCalDAV($calendarURI, $user) {
+
+	/**
+	 * @brief get caldav url for calendar
+	 * @param string $calendarURI
+	 * @param string $userId
+	 * @return array
+	 */
+	public static function getCalDAV($calendarURI, $userId) {
 		$url  = \OCP\Util::linkToRemote('caldav');
-		$url .= urlencode($user) . '/';
+		$url .= urlencode($userId) . '/';
 		$url .= $calendarURI . '/';
 
 		return $url;
-	}
-
-	public static function addConvenience(&$vobject) {
-		/*foreach($vobject as &$child) {
-			if(!($child instanceof VEvent) &&
-			   !($child instanceof VJournal) &&
-			   !($child instanceof VTodo)) {
-				continue;
-			}
-
-			if(isset($child->{'DTSTART'})) {
-				$dtstart = SabreUtility::getDTStart($vobject);
-				if($dtstart !== null) {
-					$vobject->{'X-OC-DTSTART'} = $dtstart->getDateTime()->format(\DateTime::ISO8601);
-				}
-	
-			$dtend = SabreUtility::getDTEnd($vobject);
-			if($dtend !== null) {
-				$vobject->{'X-OC-DTEND'} = $dtend->getDateTime()->format(\DateTime::ISO8601);
-			}
-		}*/
-	}
-
-	public static function dropAttachements(&$vobject) {
-		
-	}
-
-	public static function removeConvenience(&$vobject) {
-		
 	}
 }
