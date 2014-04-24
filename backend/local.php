@@ -680,14 +680,16 @@ class Local extends Backend {
 		$objtbl = $this->objTableName;
 		$caltbl = $this->calTableName;
 
-		$sql  = 'SELECT COUNT(objtbl.*) FROM `' . $objtbl . '` AS objtbl, ';
+		$sql  = 'SELECT COUNT(objtbl.`id`) FROM `' . $objtbl . '` AS objtbl, ';
 		$sql .= '`' . $caltbl . '` AS caltbl ';
 		$sql .= 'WHERE objtbl.`calendarid` = caltbl.`id` ';
-		$sql .= 'AND caltbl.`uri` = ? AND caltbl.`userid` = ?';
+		$sql .= 'AND caltbl.`uri` = ? AND caltbl.`userid` = ? ';
+		$sql .= 'AND objtbl.`uri` = ?';
 
 		$result	= \OCP\DB::prepare($sql)->execute(array(
 			$calendarURI,
-			$userId
+			$userId,
+			$objectURI
 		));
 		$count = $result->fetchOne();
 
@@ -700,6 +702,18 @@ class Local extends Backend {
 		} else {
 			return true;
 		}
+	}
+
+
+	/**
+	 * check if object allows a certain action
+	 * @param integer $cruds
+	 * @param Calendar $calendar
+	 * @param string $objectURI
+	 * @return boolean
+	 */
+	public function doesObjectAllow($cruds, Calendar $calendar, $objectURI) {
+		return ($cruds & Permissions::ALL);
 	}
 
 
@@ -742,19 +756,19 @@ class Local extends Backend {
 		$sql  = 'INSERT INTO `' . $objtbl . '` ';
 		$sql .= '(`calendarid`,`objecttype`,`startdate`,`enddate`,';
 		$sql .= '`repeating`,`summary`,`calendardata`,`uri`,`lastmodified`) ';
-		$sql .= 'SELECT clndr.`id`, ?, ?, ?, ?, ?, ?, ?, ? ';
+		$sql .= 'SELECT caltbl.`id`, ?, ?, ?, ?, ?, ?, ?, ? ';
 		$sql .= 'FROM `' . $caltbl . '` AS caltbl ';
 		$sql .= 'WHERE caltbl.`userid` = ? AND caltbl.`uri` = ?';
 
 		$result = \OCP\DB::prepare($sql)->execute(array(
-			$object->getType(),
-			$object->getStartDate(),
-			$object->getEndDate(),
+			$this->getType($object->getType()),
+			$this->getUTCforMDB($object->getStartDate()->getDateTime()),
+			$this->getUTCforMDB($object->getEndDate()->getDateTime()),
 			$object->getRepeating(),
 			$object->getSummary(),
 			$object->getCalendarData(),
 			$object->getObjectURI(),
-			$object->getLastModified(),
+			$this->getUTCforMDB($object->getLastModified()),
 			$userId,
 			$calendarURI,
 		));

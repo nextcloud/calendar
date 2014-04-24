@@ -20,10 +20,10 @@ class ObjectUtility extends Utility{
 	public static function randomURI() {
 		$random = rand().time().rand();
 		$md5 = md5($random);
-		$substr = substr($md5, rand(0,11),20);
+		$substr = substr($md5, rand(0,5),26);
 
-		$substr .= '.ics';
-		return $substr;
+		$uri = 'owncloud-' . $substr . '.ics';
+		return $uri;
 	}
 
 

@@ -28,6 +28,8 @@ use \OCA\Calendar\Db\TimezoneCollection;
 use \OCA\Calendar\Backend\BackendException;
 use \OCA\Calendar\Backend\DoesNotImplementException;
 
+use \OCA\Calendar\Utility\ObjectUtility;
+
 class ObjectBusinessLayer extends BusinessLayer {
 
 	private $omp;
@@ -70,7 +72,6 @@ class ObjectBusinessLayer extends BusinessLayer {
 			}
 
 			$api = &$this->backends->find($backend)->api;
-
 			$cacheObjects = $api->cacheObjects($calendarURI, $userId);
 			if ($cacheObjects === true) {
 				$objects = $this->omp->findAll($calendar, $limit, $offset);
@@ -113,13 +114,11 @@ class ObjectBusinessLayer extends BusinessLayer {
 			}
 
 			$api = &$this->backends->find($backend)->api;
-
 			$cacheObjects = $api->cacheObjects($calendarURI, $userId);
-			//TODO implement
 			if ($cacheObjects === true) {
-				$number = 0;
+				$number = $cacheObjects->countObjects($calendar);
 			} else {
-				$number = 0;
+				$number = $this->omp->count($calendar);
 			}
 
 			//check if number is an integer, if not throw an exception
@@ -134,6 +133,7 @@ class ObjectBusinessLayer extends BusinessLayer {
 			throw new BusinessLayerException($ex->getMessage());
 		}
 	}
+
 
 	/**
 	 * Find the object $objectURI of calendar $calendarId of user $userId
@@ -155,7 +155,6 @@ class ObjectBusinessLayer extends BusinessLayer {
 			}
 
 			$api = &$this->backends->find($backend)->api;
-
 			$cacheObjects = $api->cacheObjects($calendarURI, $userId);
 			if ($cacheObjects === true) {
 				$object = $this->omp->find($calendar, $objectURI);
@@ -178,6 +177,7 @@ class ObjectBusinessLayer extends BusinessLayer {
 			throw new BusinessLayerException($ex->getMessage());
 		}
 	}
+
 
 	/**
 	 * Find the object $objectURI of type $type of calendar $calendarId of user $userId
@@ -207,6 +207,7 @@ class ObjectBusinessLayer extends BusinessLayer {
 			throw new BusinessLayerException($ex->getMessage());
 		}
 	}
+
 
 	/**
 	 * Finds all objects of type $type of calendar $calendarId of user $userId
@@ -265,6 +266,7 @@ class ObjectBusinessLayer extends BusinessLayer {
 			throw new BusinessLayerException($ex->getMessage());
 		}
 	}
+
 
 	/**
 	 * Finds all objects in timespan from $start to $end of calendar $calendarId of user $userId
@@ -328,6 +330,7 @@ class ObjectBusinessLayer extends BusinessLayer {
 			throw new BusinessLayerException($ex->getMessage());
 		}
 	}
+
 
 	/**
 	 * Finds all objects of type $type in timeframe from $start to $end of calendar $calendarId of user $userId
@@ -396,6 +399,69 @@ class ObjectBusinessLayer extends BusinessLayer {
 		}
 	}
 
+
+	/**
+	 * checks if a calendar exists
+	 * @param string $calendarId
+	 * @param string $userId
+	 * @param boolean $checkRemote
+	 * @return boolean
+	 */
+	public function doesExist(Calendar &$calendar, $objectURI, $checkRemote=false) {
+		try {
+			$backend = $calendar->getBackend();
+			$calendarURI = $calendar->getUri();
+			$userId = $calendar->getUserId();
+
+			$api = &$this->backends->find($backend)->api;
+			$cacheObjects = $api->cacheObjects($calendarURI, $userId);
+			if ($cacheObjects === true) {
+				$doesExist = $this->omp->doesExist($calendar, $objectURI);
+
+				if(!$checkRemote) {
+					return $doesExist;
+				}
+
+				return $api->doesObjectExist($calendar, $objectURI);
+			} else {
+				return $api->doesObjectExist($calendar, $objectURI);
+			}
+		} catch(BackendException $ex) {
+			throw new BusinessLayerException($ex->getMessage());
+		} catch(DoesNotExistException $ex) {
+			throw new BusinessLayerException($ex->getMessage());
+		}
+	}
+
+
+	/**
+	 * checks if a calendar allows a certain action
+	 * @param integer $cruds
+	 * @param string $calendarId
+	 * @param string $userId
+	 * @return boolean
+	 */
+	public function doesAllow($cruds, Calendar &$calendar, $objectURI) {
+		try {
+			$backend = $calendar->getBackend();
+			$calendarURI = $calendar->getUri();
+			$userId = $calendar->getUserId();
+
+			$api = &$this->backends->find($backend)->api;
+			$cacheObjects = $api->cacheObjects($calendarURI, $userId);
+			if ($cacheObjects === true) {
+				return $this->omp->doesAllow($cruds, $calendar, $objectURI);
+			} else {
+				return $api->doesObjectAllow($cruds, $calendar, $objectURI);
+			}
+		} catch(BackendException $ex) {
+			throw new BusinessLayerException($ex->getMessage());
+		} catch(DoesNotExistException $ex) {
+			throw new BusinessLayerException($ex->getMessage());
+		}
+	}
+
+
 	/**
 	 * creates a new object
 	 * @param Object $object
@@ -404,8 +470,10 @@ class ObjectBusinessLayer extends BusinessLayer {
 	 */
 	public function create(Object &$object) {
 		try {
-			$backend = $object->calendar->getBackend();
-			$calendarURI = $object->calendar->getUri();
+			$calendar = $object->getCalendar();
+			$backend = $calendar->getBackend();
+			$calendarURI = $calendar->getUri();
+			$userId = $calendar->getUserId();
 			$objectURI = $object->getObjectURI();
 
 			if ($this->isBackendEnabled($backend) !== true) {
@@ -414,7 +482,7 @@ class ObjectBusinessLayer extends BusinessLayer {
 				throw new BusinessLayerException($msg);
 			}
 			//validate that calendar exists
-			if ($this->doesObjectExist($calendarId, $objectURI, $userId) !== false) {
+			if ($this->doesExist($calendar, $objectURI) !== false) {
 				$msg  = 'ObjectBusinessLayer::create(): User Error: ';
 				$msg .= 'Object already exists!';
 				throw new BusinessLayerException($msg);
@@ -426,25 +494,18 @@ class ObjectBusinessLayer extends BusinessLayer {
 			}
 
 			if ($object->isValid() !== true) {
-				//try to fix the object
-				$object->fix();
-
-				//check again
-				if ($object->isValid() !== true) {
-					$msg  = 'ObjectBusinessLayer::create(): User Error: ';
-					$msg .= 'Given object data is not valid and not fixable';
-					throw new BusinessLayerException($msg);
-				}
+				$msg  = 'ObjectBusinessLayer::create(): User Error: ';
+				$msg .= 'Given object data is not valid and not fixable';
+				throw new BusinessLayerException($msg);
 			}
 
-			$api->createObject($object, $calendarURI, $objectURI, $userId);
+			$api = &$this->backends->find($backend)->api;
+			$api->createObject($object);
 
 			$cacheObjects = $api->cacheObjects($calendarURI, $userId);
 			if ($cacheObjects === true) {
 				$this->omp->insert($object, $calendarURI, $objectURI, $userId);
 			}
-
-			$this->calendarBusinessLayer->touch($calendarId, $userId);
 
 			return $object;
 		} catch(DoesNotImplementException $ex) {
@@ -454,14 +515,27 @@ class ObjectBusinessLayer extends BusinessLayer {
 		}
 	}
 
+
+	/**
+	 * creates a new object from request
+	 * @param Object $object
+	 * @throws BusinessLayerException
+	 * @return array containing all items
+	 */
 	public function createFromRequest(Object &$object) {
-		
+		if($object->getObjectURI() === null) {
+			$randomURI = ObjectUtility::randomURI();
+			$object->setObjectURI($randomURI);
+		}
+
+		return $this->create($object);
 	}
+
 
 	/**
 	 * updates an object
 	 * @param Object $object 
-	 * @param string $calendarId global uri of calendar e.g. local-work
+	 * @param Calendar $calendar
 	 * @param string $objectURI UID of the object
 	 * @param string $userId
 	 * @throws BusinessLayerException
@@ -500,8 +574,6 @@ class ObjectBusinessLayer extends BusinessLayer {
 				$this->omp->update($object, $calendarURI, $objectURI, $userId);
 			}
 
-			$this->calendarBusinessLayer->touch($calendarId, $userId);
-
 			return $object;
 		} catch(DoesNotImplementException $ex) {
 			throw new BusinessLayerException($ex->getMessage());
@@ -511,6 +583,15 @@ class ObjectBusinessLayer extends BusinessLayer {
 	}
 
 
+	/**
+	 * updates an object from request
+	 * @param Object $object
+	 * @param Calendar $calendar
+	 * @param string $objectURI UID of the object
+	 * @param string $etag
+	 * @throws BusinessLayerException
+	 * @return array containing all items
+	 */
 	public function updateFromRequest(Object $object, Calendar &$calendar, $objectURI, $etag) {
 		$oldObject = $this->find($calendar, $objectURI);
 
@@ -522,6 +603,7 @@ class ObjectBusinessLayer extends BusinessLayer {
 
 		return $this->update($object, $calendar, $objectURI);
 	}
+
 
 	/**
 	 * delete an object from a calendar

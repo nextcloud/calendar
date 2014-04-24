@@ -141,23 +141,23 @@ class Object extends Entity {
 	 */
 	public function getVObject() {
 		$objectName = $this->objectName;
-		if (!isset($this->vobject->{$objectName}->{'X-OC-URI'})) {
-			$uri = new TextProperty($this->vobject, 'X-OC-URI', $this->objectURI);
-			$this->vobject->{$objectName}->add($uri);
+		if (!isset($this->vObject->{$objectName}->{'X-OC-URI'})) {
+			$uri = new TextProperty($this->vObject, 'X-OC-URI', $this->objectURI);
+			$this->vObject->{$objectName}->add($uri);
 		}
-		if (!isset($this->vobject->{$objectName}->{'X-OC-ETAG'})) {
+		if (!isset($this->vObject->{$objectName}->{'X-OC-ETAG'})) {
 			if ($this->etag === null) {
 				$this->generateEtag();
 			}
-			$etag = new TextProperty($this->vobject, 'X-OC-ETAG', $this->etag);
-			$this->vobject->{$objectName}->add($etag);
+			$etag = new TextProperty($this->vObject, 'X-OC-ETAG', $this->etag);
+			$this->vObject->{$objectName}->add($etag);
 		}
-		if (!isset($this->vobject->{$objectName}->{'X-OC-RUDS'})) {
-			$ruds = new IntegerProperty($this->vobject, 'X-OC-RUDS', $this->ruds);
-			$this->vobject->{$objectName}->add($ruds);
+		if (!isset($this->vObject->{$objectName}->{'X-OC-RUDS'})) {
+			$ruds = new IntegerProperty($this->vObject, 'X-OC-RUDS', $this->ruds);
+			$this->vObject->{$objectName}->add($ruds);
 		}
 
-		return $this->vobject;
+		return $this->vObject;
 	}
 
 	/**
@@ -168,7 +168,7 @@ class Object extends Entity {
 	 */
 	public function expand(DateTime $start, DateTime $end) {
 		try {
-			$this->vobject->expand($start, $end);
+			$this->vObject->expand($start, $end);
 		} catch(/* some */Exception $ex) {
 			//log debug msg;
 		}
@@ -181,7 +181,7 @@ class Object extends Entity {
 	 */
 	public function touch() {
 		$now = new DateTime();
-		$this->vobject->{$objectName}->{'LAST-MODIFIED'}->setDateTime($now);
+		$this->vObject->{$objectName}->{'LAST-MODIFIED'}->setDateTime($now);
 		$this->generateEtag();
 	}
 
@@ -209,7 +209,7 @@ class Object extends Entity {
 	 */
 	public function getStartDate() {
 		$objectName = $this->objectName;
-		return SabreUtility::getDTStart($this->vobject->{$objectName});
+		return SabreUtility::getDTStart($this->vObject->{$objectName});
 	}
 
 	/**
@@ -218,7 +218,7 @@ class Object extends Entity {
 	 */
 	public function getEndDate() {
 		$objectName = $this->objectName;
-		return SabreUtility::getDTEnd($this->vobject->{$objectName});
+		return SabreUtility::getDTEnd($this->vObject->{$objectName});
 	}
 
 	/**
@@ -228,9 +228,9 @@ class Object extends Entity {
 	public function getRepeating() {
 		$objectName = $this->objectName;
 
-		if (isset($this->vobject->{$objectName}->{'RRULE'}) ||
-		   isset($this->vobject->{$objectName}->{'RDATE'}) ||
-		   isset($this->vobject->{$objectName}->{'RECURRENCE-ID'})) {
+		if (isset($this->vObject->{$objectName}->{'RRULE'}) ||
+		   isset($this->vObject->{$objectName}->{'RDATE'}) ||
+		   isset($this->vObject->{$objectName}->{'RECURRENCE-ID'})) {
 			return true;
 		}
 
@@ -250,8 +250,8 @@ class Object extends Entity {
 
 		$lastOccurences = array();
 
-		if (isset($this->vobject->{$objectName}->{'RRULE'})) {
-			$rrule = $this->vobject->{$objectName}->{'RRULE'};
+		if (isset($this->vObject->{$objectName}->{'RRULE'})) {
+			$rrule = $this->vObject->{$objectName}->{'RRULE'};
 			//https://github.com/fruux/sabre-vobject/wiki/Sabre-VObject-Property-Recur
 			$parts = $rrule->getParts();
 			if (!array_key_exists('COUNT', $parts) && array_key_exists('UNTIL', $parts)) {
@@ -259,7 +259,7 @@ class Object extends Entity {
 			}
 			//$lastOccurences[] = DateTime of last occurence
 		}
-		if (isset($this->vobject->{$objectName}->{'RDATE'})) {
+		if (isset($this->vObject->{$objectName}->{'RDATE'})) {
 			//$lastOccurences[] = DateTime of last occurence
 		}
 	}
@@ -271,8 +271,8 @@ class Object extends Entity {
 	public function getSummary() {
 		$objectName = $this->objectName;
 
-		if (isset($this->vobject->{$objectName}->{'SUMMARY'})) {
-			return $this->vobject->{$objectName}->{'SUMMARY'}->getValue();
+		if (isset($this->vObject->{$objectName}->{'SUMMARY'})) {
+			return $this->vObject->{$objectName}->{'SUMMARY'}->getValue();
 		}
 
 		return null;
@@ -284,7 +284,7 @@ class Object extends Entity {
 	 */
 	public function getCalendarData() {
 		try {
-			return $this->vobject->serialize();
+			return $this->vObject->serialize();
 		} catch(/* some */Exception $ex) {
 			//log debug msg;
 			return null;
@@ -321,8 +321,8 @@ class Object extends Entity {
 	public function getLastModified() {
 		$objectName = $this->objectName;
 
-		if (isset($this->vobject->{$objectName}->{'LAST-MODIFIED'})) {
-			return $this->vobject->{$objectName}->{'LAST-MODIFIED'}->getDateTime();
+		if (isset($this->vObject->{$objectName}->{'LAST-MODIFIED'})) {
+			return $this->vObject->{$objectName}->{'LAST-MODIFIED'}->getDateTime();
 		}
 
 		return null;
@@ -334,9 +334,12 @@ class Object extends Entity {
 	 */
 	public function isValid() {
 		$strings = array(
-			$this->objectURI, 
-			$this->etag, 
+			$this->objectURI
 		);
+
+		if($this->etag !== null) {
+			$strings[] = $this->etag;
+		}
 
 		foreach($strings as $string) {
 			if (is_string($string) === false) {
@@ -351,8 +354,8 @@ class Object extends Entity {
 			return false;
 		}
 
-
-		$isVObjectValid = $this->vobject->validate();
+		return true;
+		$isVObjectValid = $this->vObject->validate();
 		//TODO - finish implementation
 	}
 

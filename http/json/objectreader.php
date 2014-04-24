@@ -7,12 +7,19 @@
  */
 namespace OCA\Calendar\Http\JSON;
 
-use OCA\Calendar\Db\Object;
-use OCA\Calendar\Db\ObjectCollection;
+require_once(__DIR__ . '/../../3rdparty/VObject/includes.php');
 
-use OCA\Calendar\VObject\Splitter\ICalendar;
+use \OCA\Calendar\Db\Object;
+use \OCA\Calendar\Db\ObjectCollection;
 
-class JSONObjectReader {
+use \OCA\Calendar\VObject\Splitter\ICalendar;
+use \OCA\Calendar\Sabre\VObject\Reader;
+use \OCA\Calendar\Sabre\VObject\ParseException;
+use \OCA\Calendar\Sabre\VObject\EofException;
+
+use \OCA\Calendar\Utility\SabreUtility;
+
+class JSONObjectReader extends JSONReader {
 
 	/**
 	 * @brief parse json object
@@ -37,5 +44,10 @@ class JSONObjectReader {
 		} catch(/* some */Exception $e) {
 			throw new JSONObjectReaderException($ex->getMessage());
 		}
+	}
+
+
+	public function sanitize(){
+		return $this;
 	}
 }

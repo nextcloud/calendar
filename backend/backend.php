@@ -38,11 +38,13 @@ abstract class Backend implements IBackend {
 	 */
 	protected $app;
 
+
 	/**
 	 * backend name
 	 * @var string
 	 */
 	protected $backend;
+
 
 	/**
 	 * maps action-constants to method names
@@ -63,6 +65,7 @@ abstract class Backend implements IBackend {
 		SEARCH_BY_PROPERTIES	=> 'searchByProperties',
 	);
 
+
 	/**
 	 * Constructor
 	 * @param \OCP\AppFramework\IAppContainer $api
@@ -77,6 +80,7 @@ abstract class Backend implements IBackend {
 
 		$this->backend = strtolower($backend);
 	}
+
 
 	/**
 	 * @brief get integer that represents supported actions 
@@ -96,6 +100,7 @@ abstract class Backend implements IBackend {
 		return $actions;
 	}
 
+
 	/**
 	 * @brief Check if backend implements actions
 	 * @param string $actions
@@ -110,6 +115,7 @@ abstract class Backend implements IBackend {
 		return (bool)($this->getSupportedActions() & $actions);
 	}
 
+
 	/**
 	 * @brief returns whether or not a backend can be enabled
 	 * @returns boolean
@@ -120,6 +126,7 @@ abstract class Backend implements IBackend {
 	public function canBeEnabled() {
 		return true;
 	}
+
 
 	/**
 	 * @brief returns whether or not calendar objects should be cached
@@ -134,6 +141,7 @@ abstract class Backend implements IBackend {
 		return true;
 	}
 
+
 	/**
 	 * @brief returns information about calendar $calendarURI of the user $userId
 	 * @param string $calendarURI
@@ -146,6 +154,7 @@ abstract class Backend implements IBackend {
 	 */
 	abstract public function findCalendar($calendarURI, $userId);
 
+
 	/**
 	 * @brief returns all calendars of the user $userId
 	 * @param string $userId
@@ -156,6 +165,7 @@ abstract class Backend implements IBackend {
 	 * This method is mandatory!
 	 */
 	abstract public function findCalendars($userId, $limit, $offset);
+
 
 	/**
 	 * @brief returns number of calendar
@@ -168,6 +178,7 @@ abstract class Backend implements IBackend {
 	public function countCalendars($userId) {
 		return $this->findCalendars($userId)->count();
 	}
+
 
 	/**
 	 * @brief returns whether or not a calendar exists
@@ -187,6 +198,7 @@ abstract class Backend implements IBackend {
 		}
 	}
 
+
 	/**
 	 * @brief returns ctag of a calendar
 	 * @param string $calendarURI
@@ -200,6 +212,7 @@ abstract class Backend implements IBackend {
 	public function getCalendarsCTag($calendarURI, $userId) {
 		$calendar = $this->findCalendar($calendarURI, $userId)->getCTag();
 	}
+
 
 	/**
 	 * @brief returns information about the object (event/journal/todo) with the uid $objectURI in the calendar $calendarURI of the user $userId 
@@ -215,6 +228,7 @@ abstract class Backend implements IBackend {
 	 */
 	abstract public function findObject(Calendar &$calendar, $objectURI);
 
+
 	/**
 	 * @brief returns all objects in the calendar $calendarURI of the user $userId
 	 * @param string $calendarURI
@@ -226,6 +240,7 @@ abstract class Backend implements IBackend {
 	 * This method is mandatory!
 	 */
 	abstract public function findObjects(Calendar &$calendar, $limit, $offset);
+
 
 	/**
 	 * @brief returns number of objects in calendar
@@ -241,6 +256,7 @@ abstract class Backend implements IBackend {
 		return $this->findObjects($calendarURI, $userId)->count();
 	}
 
+
 	/**
 	 * @brief returns whether or not an object exists
 	 * @param string $calendarURI
@@ -253,12 +269,25 @@ abstract class Backend implements IBackend {
 	 */
 	public function doesObjectExist(Calendar $calendar, $objectURI) {
 		try {
-			$this->findObject($calendarURI, $objectURI, $userId);
+			$this->findObject($calendar, $objectURI);
 			return true;
 		} catch (Exception $ex) {
 			return false;
 		}
 	}
+
+
+	/**
+	 * check if object allows a certain action
+	 * @param integer $cruds
+	 * @param Calendar $calendar
+	 * @param string $objectURI
+	 * @return boolean
+	 */
+	public function doesObjectAllow($cruds, Calendar $calendar, $objectURI) {
+		return ($cruds & $this->findObject($calendar, $objectURI)->getRuds());
+	}
+
 
 	/**
 	 * @brief returns etag of an object
@@ -273,8 +302,9 @@ abstract class Backend implements IBackend {
 	 * This method is mandatory!
 	 */
 	public function getObjectsETag(Calendar $calendar, $objectURI) {
-		return $this->find($calendarURI, $objectURI, $userId)->getEtag();
+		return $this->find($calendar, $objectURI)->getEtag();
 	}
+
 
 	/**
 	 * @brief returns whether or not a backend can store a calendar's color
@@ -287,6 +317,7 @@ abstract class Backend implements IBackend {
 		return false;
 	}
 
+
 	/**
 	 * @brief returns whether or not a backend can store a calendar's supported components
 	 * @returns boolean
@@ -297,6 +328,7 @@ abstract class Backend implements IBackend {
 	public function canStoreComponents() {
 		return false;
 	}
+
 
 	/**
 	 * @brief returns whether or not a backend can store a calendar's displayname
@@ -309,6 +341,7 @@ abstract class Backend implements IBackend {
 		return false;
 	}
 
+
 	/**
 	 * @brief returns whether or not a backend can store if a calendar is enabled
 	 * @returns boolean
@@ -319,6 +352,7 @@ abstract class Backend implements IBackend {
 	public function canStoreEnabled() {
 		return false;
 	}
+
 
 	/**
 	 * @brief returns whether or not a backend can store a calendar's order

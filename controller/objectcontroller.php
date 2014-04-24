@@ -7,7 +7,7 @@
  */
 namespace OCA\Calendar\Controller;
 
-use \OCP\AppFramework\Http\Http;
+use \OCP\AppFramework\Http;
 
 use \OCA\Calendar\Db\DoesNotExistException;
 use \OCA\Calendar\BusinessLayer\BusinessLayerException;
@@ -148,7 +148,7 @@ class ObjectController extends Controller {
 
 			if ($object instanceof Object) {
 				$object = $this->objectBusinessLayer->createFromRequest($object);
-				$serializer = new Serializer(Serializer::$object, $object, $this->accept());
+				$serializer = new Serializer(Serializer::Object, $object, $this->accept());
 			} elseif ($object instanceof ObjectCollection) {
 				$object = $this->objectBusinessLayer->createCollectionFromRequest($object);
 				$serializer = new serializer(Serializer::ObjectCollection, $object, $this->accept());
