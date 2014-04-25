@@ -19,6 +19,7 @@ class CalendarCollection extends Collection {
 		return $this->search('enabled', true);
 	}
 
+
 	/**
 	 * @brief get a collection of all disabled calendars within collection
 	 * @return CalendarCollection of all disabled calendars
@@ -26,6 +27,7 @@ class CalendarCollection extends Collection {
 	public function disabled() {
 		return $this->search('enabled', false);
 	}
+
 
 	/**
 	 * @brief get a collection of all calendars owned by a certian user
@@ -35,6 +37,7 @@ class CalendarCollection extends Collection {
 	public function ownedBy($userId) {
 		return $this->search('ownerId', $userId);
 	}
+
 
 	/**
 	 * @brief get a collection of calendars that supports certian components
@@ -53,6 +56,7 @@ class CalendarCollection extends Collection {
 		return $newCollection;
 	}
 
+
 	/**
 	 * @brief get a collection of calendars with a certain permission
 	 * @param int $cruds use \OCA\Calendar\Db\Permissions to get wanted permission code
@@ -70,6 +74,12 @@ class CalendarCollection extends Collection {
 		return $newCollection;
 	}
 
+
+	/**
+	 * @brief filter calendars by BackendCollection
+	 * @param BackendCollection $backends
+	 * @return CalendarCollection of calendars on backends in BackendCollection
+	 */
 	public function filterByBackends(BackendCollection $backends) {
 		$filteredCalendars = new CalendarCollection();
 		$objects = $backends->getObjects();

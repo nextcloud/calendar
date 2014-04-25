@@ -9,13 +9,22 @@ namespace OCA\Calendar\Controller;
 
 use \OCA\Calendar\Http\Response;
 
-class ViewController extends Controller {
+class SettingsController extends Controller {
 
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
 	public function setView() {
+		$userId = $this->api->getUserId();
+		$app = $this->appName;
+		$key = 'currentView';
+		$view = $this->params('view');
+
+		if(trim($view) !== '') {
+			OCP\Config::setUserValue($userId, $app, $key, $view);
+		}
+
 		return new Response();
 	}
 
@@ -25,6 +34,16 @@ class ViewController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	public function getView() {
-		return new Response();
+		$userId = $this->api->getUserId();
+		$app = $this->appName;
+		$key = 'currentView';
+		$default = $this->params('month');
+
+		$value = OCP\Config::getUserValue($userId, $app, $key, $default);
+		$response = array(
+			'view' => $value
+		);
+
+		return new Response($response);
 	}
 }

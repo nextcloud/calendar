@@ -28,6 +28,7 @@ class CalendarMapper extends Mapper {
 		$this->timezoneMapper = $app->query('TimezoneMapper');
 	}
 
+
 	/**
 	 * find calendar by backend, uri and userId
 	 * @param string $backend
@@ -46,6 +47,7 @@ class CalendarMapper extends Mapper {
 		return new Calendar($row);
 	}
 
+
 	/**
 	 * find all calendars of a user
 	 * @param string $userId
@@ -59,6 +61,7 @@ class CalendarMapper extends Mapper {
 
 		return $this->findEntities($sql, array($userId), $limit, $offset);
 	}
+
 
 	/**
 	 * find all calendars of a user on a backend
@@ -75,6 +78,7 @@ class CalendarMapper extends Mapper {
 		return $this->findEntities($sql, array($backend, $userId), $limit, $offset);
 	}
 
+
 	/**
 	 * number of calendars by user
 	 * @param string $userId
@@ -89,6 +93,7 @@ class CalendarMapper extends Mapper {
 
 		return intval($row['count']);
 	}
+
 
 	/**
 	 * number of calendars by user on a backend
@@ -105,6 +110,7 @@ class CalendarMapper extends Mapper {
 
 		return intval($row['count']);
 	}
+
 
 	/**
 	 * does a calendar exist
@@ -128,6 +134,7 @@ class CalendarMapper extends Mapper {
 		}
 	}
 
+
 	/**
 	 * checks if a calendar allows a certain action
 	 * @param integer $cruds
@@ -150,6 +157,7 @@ class CalendarMapper extends Mapper {
 			return true;
 		}
 	}
+
 
 	/**
 	 * checks if a calendar supports a certian component

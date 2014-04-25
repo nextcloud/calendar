@@ -17,6 +17,7 @@ class BackendCollection extends Collection {
 		return $this->search('enabled', true);
 	}
 
+
 	/**
 	 * @brief get a collection of all disabled backends within collection
 	 * @return BackendCollection of all disabled backends
@@ -24,6 +25,7 @@ class BackendCollection extends Collection {
 	public function disabled() {
 		return $this->search('enabled', false);
 	}
+
 
 	/**
 	 * @brief find backend by name

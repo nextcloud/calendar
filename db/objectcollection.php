@@ -33,6 +33,7 @@ class ObjectCollection extends Collection {
 		return $objectsInPeriod;
 	}
 
+
 	/**
 	 * @brief expand all entities of collection
 	 * @param DateTime $start
@@ -55,6 +56,7 @@ class ObjectCollection extends Collection {
 		return $expandedObjects;
 	}
 
+
 	/**
 	 * @brief get a collection of all calendars owned by a certian user
 	 * @param string userId of owner
@@ -63,6 +65,7 @@ class ObjectCollection extends Collection {
 	public function ownedBy($userId) {
 		return $this->search('ownerId', $userId);
 	}
+
 
 	/**
 	 * @brief get a collection of all enabled calendars within collection

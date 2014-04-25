@@ -8,11 +8,18 @@
 namespace OCA\Calendar\Db;
 
 class ObjectType {
+
 	const EVENT		= 1;
 	const JOURNAL	= 2;
 	const TODO		= 4;
 	const ALL		= 7;
 
+
+	/**
+	 * @brief get type as string
+	 * @param integer $type
+	 * @return string
+	 */
 	public static function getAsString($type) {
 		$types = array();
 
@@ -30,6 +37,12 @@ class ObjectType {
 		return $string;
 	}
 
+
+	/**
+	 * @brief get types as string
+	 * @param integer $type
+	 * @return string
+	 */
 	public static function getAsReadableString($type) {
 		$types = array();
 
@@ -47,6 +60,12 @@ class ObjectType {
 		return $string; 
 	}
 
+
+	/**
+	 * @brief get type by string
+	 * @param string $string
+	 * @return integer
+	 */
 	public static function getTypeByString($string) {
 		$type = 0;
 
@@ -70,6 +89,12 @@ class ObjectType {
 		return $type;
 	}
 
+
+	/**
+	 * @brief get types by string
+	 * @param string $string
+	 * @return integer
+	 */
 	public static function getTypesByString($string) {
 		$types = 0;
 
@@ -85,10 +110,16 @@ class ObjectType {
 		}
 	}
 
+
+	/**
+	 * @brief get type by sabre classname
+	 * @param mixed (string|object) $string
+	 * @return integer
+	 */
 	public static function getTypeBySabreClass($class) {
 		$type = 0;
 
-		if (is_string($class)) {
+		if (!is_string($class)) {
 			$class = get_class($class);
 		}
 

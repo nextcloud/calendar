@@ -39,6 +39,7 @@ abstract class Collection {
 		}
 	}
 
+
 	/**
 	 * @brief add entity to collection
 	 * @param Entity $object entity to be added
@@ -55,6 +56,7 @@ abstract class Collection {
 		$this->objects[$nth] = $object;
 		return $this;
 	}
+
 
 	/**
 	 * @brief add entities to collection
@@ -77,6 +79,7 @@ abstract class Collection {
 		return $this;
 	}
 
+
 	/**
 	 * @brief remove entity from collection
 	 * @param integer $nth remove nth element, if not set, current element will be removed
@@ -89,6 +92,7 @@ abstract class Collection {
 		unset($this->objects[$nth]);
 		return $this;
 	}
+
 
 	/**
 	 * @brief remove entity by it's information
@@ -106,6 +110,7 @@ abstract class Collection {
 
 		return $this;
 	}
+
 
 	/**
 	 * @brief remove entities by a single property
@@ -125,6 +130,7 @@ abstract class Collection {
 		return $this;
 	}
 
+
 	/**
 	 * @brief get number of elements within collection
 	 * @return integer 
@@ -132,6 +138,7 @@ abstract class Collection {
 	public function count() {
 		return count($this->objects);
 	}
+
 
 	/**
 	 * @brief get current entity 
@@ -141,6 +148,7 @@ abstract class Collection {
 		return current($this->objects);
 	}
 
+
 	/**
 	 * @brief get num index of current entity
 	 * @return integer 
@@ -148,6 +156,7 @@ abstract class Collection {
 	public function key() {
 		return key($this->objects);
 	}
+
 
 	/**
 	 * @brief goto next entity and get it
@@ -157,6 +166,7 @@ abstract class Collection {
 		return next($this->objects);
 	}
 
+
 	/**
 	 * @brief goto previous entity and get it
 	 * @return single Entity 
@@ -164,6 +174,7 @@ abstract class Collection {
 	public function prev() {
 		return prev($this->objects);
 	}
+
 
 	/**
 	 * @brief goto first entity and get it
@@ -173,6 +184,7 @@ abstract class Collection {
 		return reset($this->objects);
 	}
 
+
 	/**
 	 * @brief goto last entity and get it
 	 * @return single Entity 
@@ -180,6 +192,7 @@ abstract class Collection {
 	public function end() {
 		return end($this->objects);
 	}
+
 
 	/**
 	 * @brief get nth entity of collection
@@ -194,6 +207,7 @@ abstract class Collection {
 		}
 	}
 
+
 	/**
 	 * @brief get array of all entities
 	 * @return array of Entities
@@ -201,6 +215,7 @@ abstract class Collection {
 	public function getObjects() {
 		return $this->objects;
 	}
+
 
 	/**
 	 * @brief get a subset of current collection
@@ -231,16 +246,15 @@ abstract class Collection {
 
 	}
 
+
 	/**
 	 * @brief check if entity is in collection
 	 * @return boolean
 	 */
 	public function inCollection(Entity $object) {
-		var_dump($object);
-		var_dump($this->objects);
-		exit;
 		return in_array($object, $this->objects);
 	}
+
 
 	/**
 	 * @brief get one VCalendar object containing all information
@@ -265,6 +279,7 @@ abstract class Collection {
 		return $vObject;
 	}
 
+
 	/**
 	 * @brief get an array of VCalendar objects
 	 * @return array of VCalendar object
@@ -278,6 +293,7 @@ abstract class Collection {
 
 		return $vobjects;
 	}
+
 
 	/**
 	 * @brief get a collection of entities that meet criteria
@@ -301,6 +317,7 @@ abstract class Collection {
 		return $matchingObjects;
 	}
 
+
 	/**
 	 * @brief get a collection of entities that meet criteria; search calendar data
 	 * @param string $class class of new collection
@@ -323,6 +340,7 @@ abstract class Collection {
 		return $matchingObjects;
 	}
 
+
 	/**
 	 * @brief set a property for all calendars
 	 * @param string $key key for property
@@ -341,6 +359,7 @@ abstract class Collection {
 		return $this;
 	}
 
+
 	/**
 	 * @brief checks if all entities are valid
 	 * Stops when it finds the first invalid one
@@ -348,13 +367,14 @@ abstract class Collection {
 	 */
 	public function isValid() {
 		foreach($this->objects as &$object) {
-			if ($object->isValid() === false) {
+			if (!$object->isValid()) {
 				return false;
 			}
 		}
 
 		return true;
 	}
+
 
 	/**
 	 * @brief iterate over each entity of collection
@@ -368,7 +388,13 @@ abstract class Collection {
 		}
 	}
 
+
+	/**
+	 * @brief remove duplicates from collection
+	 * @return $this
+	 */
 	public function noDuplicates() {
 		$this->objects = array_unique($this->objects);
+		return $this;
 	}
 }

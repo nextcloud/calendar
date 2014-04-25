@@ -20,17 +20,21 @@ class Backend extends Entity {
 
 	public $api;
 
+
 	/**
 	 * @brief init Backend object with data from db row
 	 * @param array $fromRow
 	 */
 	public function __construct($fromRow=null){
+		$this->addType('backend', 'string');
+		$this->addType('classname', 'string');
+		$this->addType('enabled', 'boolean');
+
 		if (is_array($fromRow)){
 			$this->fromRow($fromRow);
 		}
-
-		$this->api = null;
 	}
+
 
 	/**
 	 * registers an API for a backend
@@ -42,6 +46,7 @@ class Backend extends Entity {
 		return $this;
 	}
 
+
 	/**
 	 * @brief take data from VObject and put into this Calendar object
 	 * @return VCalendar Object
@@ -50,6 +55,7 @@ class Backend extends Entity {
 		$msg = 'Can\'t create backend from vobject!';
 		throw new \BadFunctionCallException($msg);
 	}
+
 
 	/**
 	 * @brief get VObject from Calendar Object
@@ -60,44 +66,45 @@ class Backend extends Entity {
 		throw new \BadFunctionCallException($msg);
 	}
 
+
 	/**
 	 * disables a backend
 	 * @return Backend
 	 */
 	public function disable() {
-		$this->setEnabled(false);
-		return $this;
+		return $this->setEnabled(false);
 	}
+
 
 	/**
 	 * enables a backend
 	 * @return Backend
 	 */
 	public function enable() {
-		$this->setEnabled(true);
-		return $this;
+		return $this->setEnabled(true);
 	}
+
 
 	/**
 	 * @brief check if object is valid
 	 * @return boolean
 	 */
 	public function isValid() {
-		if (is_string($this->backend) === false) {
+		if (!is_string($this->backend)) {
 			return false;
 		}
 		if (trim($this->backend) === '') {
 			return false;
 		}
 
-		if (is_string($this->classname) === false) {
+		if (!is_string($this->classname)) {
 			return false;
 		}
-		if (class_exists($this->classname) === false) {
+		if (!class_exists($this->classname)) {
 			return false;
 		}
 
-		if (is_array($this->arguments) === false && $this->arguments !== null) {
+		if ($this->arguments !== null && !is_array($this->arguments)) {
 			return false;
 		}
 
@@ -105,13 +112,18 @@ class Backend extends Entity {
 			return false;
 		}
 
-		if (($this->api instanceof IBackend) === false  && $this->api !== null) {
+		if ($this->api !== null && !($this->api instanceof IBackend)) {
 			return false;
 		}
 
 		return true;
 	}
 
+
+	/**
+	 * @brief create string representation of object
+	 * @return string
+	 */
 	public function __toString() {
 		return $this->backend . '::' . $this->classname;
 	}

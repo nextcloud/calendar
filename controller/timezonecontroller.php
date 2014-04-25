@@ -7,9 +7,8 @@
  */
 namespace OCA\Calendar\Controller;
 
-use \OCP\AppFramework\Http;
-
 use \OCP\AppFramework\IAppContainer;
+use \OCP\AppFramework\Http;
 use \OCP\IRequest;
 
 use \OCA\Calendar\Db\DoesNotExistException;
@@ -19,10 +18,9 @@ use \OCA\Calendar\Db\TimezoneCollection;
 use \OCA\Calendar\Db\TimezoneMapper;
 
 use \OCA\Calendar\Http\Response;
-
 use \OCA\Calendar\Http\Reader;
-use \OCA\Calendar\Http\Serializer;
 use \OCA\Calendar\Http\ReaderExpcetion;
+use \OCA\Calendar\Http\Serializer;
 use \OCA\Calendar\Http\SerializerException;
 
 class TimezoneController extends Controller {
@@ -52,18 +50,23 @@ class TimezoneController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	public function index() {
-		$nolimit = $this->params('nolimit', false);
-		if ($nolimit) {
-			$limit = $offset = null;
-		} else {
-			$limit = $this->params('limit', 25);
-			$offset = $this->params('offset', 0);
+		try {
+			$nolimit = $this->params('nolimit', false);
+			if ($nolimit) {
+				$limit = $offset = null;
+			} else {
+				$limit = $this->params('limit', 25);
+				$offset = $this->params('offset', 0);
+			}
+
+			$timezoneCollection = $this->timezoneMapper->findAll($limit, $offset);
+
+			$serializer = new Serializer($this->app, Serializer::TimezoneCollection, $timezoneCollection, $this->accept());
+			return new Response($serializer);
+		} catch (SerializerException $ex) {
+			$this->app->log($ex->getMessage(), 'debug');
+			return new Response(array('message' => $ex->getMessage()), Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
-
-		$timezoneCollection = $this->timezoneMapper->findAll($limit, $offset);
-
-		$serializer = new Serializer($this->app, Serializer::TimezoneCollection, $timezoneCollection, $this->accept());
-		return new Response($serializer);
 	}
 
 
@@ -81,7 +84,20 @@ class TimezoneController extends Controller {
 			return new Response($serializer);
 		} catch (DoesNotExistException $ex) {
 			return new Response(null, Http::STATUS_NOT_FOUND);
+		} catch (SerializerException $ex) {
+			$this->app->log($ex->getMessage(), 'debug');
+			return new Response(array('message' => $ex->getMessage()), Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
+	}
+
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 */
+	 public function getList() {
+		$timezones = $this->timezoneMapper->getList();
+		return new Response($timezones);
 	}
 
 

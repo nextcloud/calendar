@@ -41,6 +41,7 @@ abstract class ObjectTypeController extends ObjectController {
 	 */
 	protected $objectType;
 
+
 	/**
 	 * constructor
 	 * @param IAppContainer $app interface to the app
@@ -60,6 +61,7 @@ abstract class ObjectTypeController extends ObjectController {
 
 		$this->objectType = $type;
 	}
+
 
 	/**
 	 * @NoAdminRequired
@@ -84,8 +86,8 @@ abstract class ObjectTypeController extends ObjectController {
 			$type = $this->objectType;
 
 			$calendar = $this->calendarBusinessLayer->find($calendarId, $userId);
-			if ($calendar->doesAllow(Permissions::READ) === false) {
-				throw new ForbiddenExpcetion();
+			if (!$calendar->doesAllow(Permissions::READ)) {
+				return new Reponse(null, Http::STATUS_FORBIDDEN);
 			}
 
 			$objectCollection = $this->objectBusinessLayer->findAllByType($calendar, $type,
@@ -95,10 +97,14 @@ abstract class ObjectTypeController extends ObjectController {
 
 			return new Response($serializer);
 		} catch (BusinessLayerException $ex) {
-			$this->app->log($ex->getMessage(), 'warn');
+			$this->app->log($ex->getMessage(), 'debug');
 			return new Response(array('message' => $ex->getMessage()), $ex->getCode());
+		} catch (SerializerException $ex) {
+			$this->app->log($ex->getMessage(), 'debug');
+			return new Response(array('message' => $ex->getMessage()), Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
+
 
 	/**
 	 * @NoAdminRequired
@@ -134,12 +140,14 @@ abstract class ObjectTypeController extends ObjectController {
 
 			return new Response($serializer);
 		} catch (BusinessLayerException $ex) {
-			$this->app->log($ex->getMessage(), 'warn');
+			$this->app->log($ex->getMessage(), 'debug');
 			return new Response(array('message' => $ex->getMessage()), $ex->getCode());
 		} catch (SerializerException $ex) {
-
+			$this->app->log($ex->getMessage(), 'debug');
+			return new Response(array('message' => $ex->getMessage()), Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
+
 
 	/**
 	 * @NoAdminRequired
@@ -164,10 +172,14 @@ abstract class ObjectTypeController extends ObjectController {
 
 			return new Response($serializer);
 		} catch (BusinessLayerException $ex) {
-			$this->app->log($ex->getMessage(), 'warn');
+			$this->app->log($ex->getMessage(), 'debug');
 			return new Response(array('message' => $ex->getMessage()), $ex->getCode());
+		} catch (SerializerException $ex) {
+			$this->app->log($ex->getMessage(), 'debug');
+			return new Response(array('message' => $ex->getMessage()), Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
+
 
 	/**
 	 * @brief get objectId of request

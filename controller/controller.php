@@ -107,6 +107,10 @@ abstract class Controller extends \OCP\AppFramework\Controller {
 	}
 
 
+	/*
+	 * get accept header
+	 * @return string
+	 */
 	protected function accept() {
 		$accept = $this->header('accept');
 
@@ -121,6 +125,10 @@ abstract class Controller extends \OCP\AppFramework\Controller {
 	}
 
 
+	/*
+	 * get content type header
+	 * @return string
+	 */
 	protected function contentType() {
 		$contentType = $this->header('content-type');
 

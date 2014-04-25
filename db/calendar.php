@@ -116,6 +116,24 @@ class Calendar extends Entity {
 
 
 	/**
+	 * @brief does a calendar allow
+	 * @return boolean
+	 */
+	public function doesAllow($cruds) {
+		return ($this->cruds & $cruds);
+	}
+
+
+	/**
+	 * @brief does a calendar allow a certian component
+	 * @return boolean
+	 */
+	public function doesSupport($components) {
+		return ($this->components & $components);
+	}
+
+
+	/**
 	 * @brief increment ctag
 	 * @return $this
 	 */
@@ -129,14 +147,15 @@ class Calendar extends Entity {
 	 * @brief set uri property
 	 */
 	public function setURI($uri) {
-		if (is_string($uri) === false || trim($uri) === '') {
+		if (!is_string($uri) || trim($uri) === '') {
 			return null;
 		}
 
+		$slugified = CalendarUtility::slugify($uri);
 		$this->uri = $uri;
-		parent::setUri($this->slugify('uri'));
 		return $this;
 	}
+
 
 	/**
 	 * @brief set timezone
@@ -147,16 +166,12 @@ class Calendar extends Entity {
 		return $this;
 	}
 
+
 	/**
 	 * @brief get calendarId of object
 	 * @return string
 	 */
 	public function getCalendarId(){
-		if (!property_exists($this, 'backend') || !property_exists($this, 'uri')) {
-			$msg = 'getCalendarId is not applicable to this kind of object';
-			throw new \BadFunctionCallException($msg);
-		}
-
 		$backend = $this->backend;
 		$calendarURI = $this->uri;
 
@@ -174,11 +189,6 @@ class Calendar extends Entity {
 	 *         false if calendarId could not be set
 	 */
 	public function setCalendarId($calendarId) {
-		if (!property_exists($this, 'backend') || !property_exists($this, 'uri')) {
-			$msg = 'setCalendarId is not applicable to this kind of object';
-			throw new \BadFunctionCallException($msg);
-		}
-
 		list($backend, $calendarURI) = CalendarUtility::splitURI($calendarId);
 
 		if ($backend !== false && $calendarURI !== false) {
@@ -190,6 +200,7 @@ class Calendar extends Entity {
 
 		return false;
 	}
+
 
 	/**
 	 * @brief check if object is valid
@@ -206,7 +217,7 @@ class Calendar extends Entity {
 		);
 
 		foreach($strings as $string) {
-			if (is_string($string) === false) {
+			if (!is_string($string)) {
 				return false;
 			}
 			if (trim($string) === '') {
@@ -222,7 +233,7 @@ class Calendar extends Entity {
 		);
 
 		foreach($uInts as $integer) {
-			if (is_int($integer) === false) {
+			if (!is_int($integer)) {
 				return false;
 			}
 			if ($integer < 0) {
@@ -235,7 +246,7 @@ class Calendar extends Entity {
 		);
 
 		foreach($booleans as $boolean) {
-			if (is_bool($boolean) === false) {
+			if (!is_bool($boolean)) {
 				return false;
 			}
 		}
@@ -256,7 +267,7 @@ class Calendar extends Entity {
 			return false;
 		}
  
-		if ($this->timezone instanceof Timezone && $this->timezone->isValid() === false) {
+		if ($this->timezone instanceof Timezone && !$this->timezone->isValid()) {
 			return false;
 		}
 
@@ -264,15 +275,11 @@ class Calendar extends Entity {
 	}
 
 
+	/**
+	 * @brief create string representation of object
+	 * @return string
+	 */
 	public function __toString() {
 		return $this->userId . '::' . $this->getCalendarId();
-	}
-
-	public function doesAllow($cruds) {
-		return ($this->cruds & $cruds);
-	}
-
-	public function doesSupport($components) {
-		return ($this->components & $components);
 	}
 }

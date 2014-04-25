@@ -88,6 +88,10 @@ class Timezone extends Entity {
 	}
 
 
+	/**
+	 * @brief create string representation of object
+	 * @return string
+	 */
 	public function __toString() {
 		return $this->tzId;
 	}

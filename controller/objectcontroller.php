@@ -56,12 +56,14 @@ class ObjectController extends Controller {
 
 			return new Response($serializer);
 		} catch (BusinessLayerException $ex) {
-			$this->app->log($ex->getMessage(), 'warn');
+			$this->app->log($ex->getMessage(), 'debug');
 			return new Response(array('message' => $ex->getMessage()), $ex->getCode());
 		} catch (SerializerException $ex) {
-
+			$this->app->log($ex->getMessage(), 'debug');
+			return new Response(array('message' => $ex->getMessage()), Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
+
 
 	/**
 	 * @NoAdminRequired
@@ -95,12 +97,14 @@ class ObjectController extends Controller {
 
 			return new Response($serializer);
 		} catch (BusinessLayerException $ex) {
-			$this->app->log($ex->getMessage(), 'warn');
+			$this->app->log($ex->getMessage(), 'debug');
 			return new Response(array('message' => $ex->getMessage()), $ex->getCode());
 		} catch (SerializerException $ex) {
-
+			$this->app->log($ex->getMessage(), 'debug');
+			return new Response(array('message' => $ex->getMessage()), Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
+
 
 	/**
 	 * @NoAdminRequired
@@ -123,12 +127,14 @@ class ObjectController extends Controller {
 
 			return new Response($serializer);
 		} catch (BusinessLayerException $ex) {
-			$this->app->log($ex->getMessage(), 'warn');
+			$this->app->log($ex->getMessage(), 'debug');
 			return new Response(array('message' => $ex->getMessage()), $ex->getCode());
 		} catch (SerializerException $ex) {
-
+			$this->app->log($ex->getMessage(), 'debug');
+			return new Response(array('message' => $ex->getMessage()), Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
+
 
 	/**
 	 * @NoAdminRequired
@@ -164,10 +170,16 @@ class ObjectController extends Controller {
 
 			return new Response($serializer, Http::STATUS_CREATED);
 		} catch (BusinessLayerException $ex) {
-			$this->app->log($ex->getMessage(), 'warn');
+			$this->app->log($ex->getMessage(), 'debug');
 			return new Response(array('message' => $ex->getMessage()), $ex->getCode());
+		} catch(ReaderException $ex) {
+			return new Response(array('message' => $ex->getMessage()), Http::STATUS_UNPROCESSABLE_ENTITY);
+		} catch (SerializerException $ex) {
+			$this->app->log($ex->getMessage(), 'debug');
+			return new Response(array('message' => $ex->getMessage()), Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
+
 
 	/**
 	 * @NoAdminRequired
@@ -205,11 +217,17 @@ class ObjectController extends Controller {
 			$serializer = new Serializer($this->app, Serializer::Object, $object, $this->accept());
 
 			return new Response($serializer);
-		} catch(BusinessLayerException $ex) {
-			$this->app->log($ex->getMessage(), 'warn');
+		} catch (BusinessLayerException $ex) {
+			$this->app->log($ex->getMessage(), 'debug');
 			return new Response(array('message' => $ex->getMessage()), $ex->getCode());
+		} catch(ReaderException $ex) {
+			return new Response(array('message' => $ex->getMessage()), Http::STATUS_UNPROCESSABLE_ENTITY);
+		} catch (SerializerException $ex) {
+			$this->app->log($ex->getMessage(), 'debug');
+			return new Response(array('message' => $ex->getMessage()), Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
+
 
 	/**
 	 * @NoAdminRequired
@@ -231,8 +249,8 @@ class ObjectController extends Controller {
 
 			return new Response(null, HTTP::STATUS_NO_CONTENT);
 		} catch (BusinessLayerException $ex) {
-			$this->app->log($ex->getMessage(), 'warn');
-			return new Response(null, HTTP::STATUS_BAD_REQUEST);
+			$this->app->log($ex->getMessage(), 'debug');
+			return new Response(array('message' => $ex->getMessage()), $ex->getCode());
 		}
 	}
 }

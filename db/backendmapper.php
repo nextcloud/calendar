@@ -14,15 +14,38 @@ use \OCA\Calendar\Db\BackendCollection;
 
 class BackendMapper extends Mapper {
 
+	/**
+	 * IAppContainer object
+	 * @var \OCP\AppFramework\IAppContainer
+	 */
 	protected $app;
+
+
+	/**
+	 * name of config
+	 * @var string
+	 */
 	protected $configName;
 
+
+	/**
+	 * backendcollection object
+	 * @var \OCA\Calendar\Db\BackendCollectiom
+	 */
 	private $backendCollection;
-	private $didChange;
+
+
+	/**
+	 * whether or not object changed
+	 * @var boolean
+	 */
+	private $didChange=false;
+
 
 	/**
 	 * @brief Constructor
-	 * @param API $api: Instance of the API abstraction layer
+	 * @param IAppContainer $api: Instance of the API abstraction layer
+	 * @param string $configName
 	 */
 	public function __construct(IAppContainer $app, $configName='calendar_backends'){
 		$this->app = $app;
@@ -34,27 +57,29 @@ class BackendMapper extends Mapper {
 		}
 
 		$backendCollection = new BackendCollection();
+
 		foreach($backends as $id => $backend) {
 			$backend = new Backend($backend);
 			$backend->setId($id);
 
 			$backendCollection->add($backend);
 		}
-		$this->backendCollection = $backendCollection;
 
-		$this->didChange = false;
+		$this->backendCollection = $backendCollection;
 	}
+
 
 	/**
 	 * @brief Destructor - write changes
 	 * @param API $api: Instance of the API abstraction layer
 	 */
 	public function __destruct() {
-		if ($this->didChange === true) {
+		if ($this->didChange) {
 			$newConfig = $this->backendCollection->getObjects();
 			//\OCP\Config::setSystemValue($this->configName, $newConfig);
 		}
 	}
+
 
 	/**
 	 * @brief Finds an item by it's name
@@ -66,6 +91,7 @@ class BackendMapper extends Mapper {
 		return $this->backendCollection->find($backend);
 	}
 
+
 	/**
 	 * Finds all Items
 	 * @return array containing all items
@@ -74,6 +100,7 @@ class BackendMapper extends Mapper {
 		return $this->backendCollection;
 	}
 
+
 	/**
 	 * Finds all Items where enabled is ?
 	 * @return array containing all items where enabled is ?
@@ -81,6 +108,7 @@ class BackendMapper extends Mapper {
 	public function findWhereEnabledIs($isEnabled){
 		return $this->backendCollection->search('enabled', $isEnabled);
 	}
+
 
 	/**
 	 * Saves an item into the database
@@ -93,6 +121,7 @@ class BackendMapper extends Mapper {
 		$this->didChange = true;
 		return $this;
 	}
+
 
 	/**
 	 * Updates an item
@@ -107,6 +136,7 @@ class BackendMapper extends Mapper {
 		return $this;
 	}
 
+
 	/**
 	 * Deletes an item
 	 * @param Entity $item: the item to be deleted
@@ -119,6 +149,11 @@ class BackendMapper extends Mapper {
 		return $this;
 	}
 
+
+	/**
+	 * get backend object of default backend
+	 * @return Backend object
+	 */
 	public function getDefault() {
 		return $this->find($this->app->query('defaultBackend'));
 	}

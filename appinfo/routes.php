@@ -7,11 +7,12 @@
  * See the COPYING-README file.
  */
 use \OCA\Calendar;
-//set up simple routes
+
 $this->create('calendar.view.index', '/')->action(function($params){
 	$app = new \OCA\Calendar\App($params);
 	$app->dispatch('ViewController', 'index');
 });
+
 
 $this->create('calendar.settings.getView', '/getView')->get()->action(function($params){
 	$app = new \OCA\Calendar\App($params);
@@ -47,6 +48,11 @@ $this->create('calendar.calendars.forceUpdate', '/v1/calendars-forceUpdate')->ac
 	$app->dispatch('CalendarController', 'forceUpdate');
 });
 
+
+$this->create('calendar.timezone.getList', '/v1/timezones-list')->action(function($params){
+	$app = new \OCA\Calendar\App($params);
+	$app->dispatch('TimezoneController', 'getList');
+});
 
 
 

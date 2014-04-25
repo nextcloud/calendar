@@ -12,7 +12,8 @@ use \OCP\IRequest;
 
 use \OCA\Calendar\BusinessLayer\CalendarBusinessLayer;
 use \OCA\Calendar\BusinessLayer\ObjectBusinessLayer;
-use OCA\Calendar\Db\ObjectType;
+
+use \OCA\Calendar\Db\ObjectType;
 
 class EventController extends ObjectTypeController {
 

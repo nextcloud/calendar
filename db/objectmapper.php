@@ -12,12 +12,14 @@ use \OCP\AppFramework\IAppContainer;
 use \OCA\Calendar\Db\Object;
 
 class ObjectMapper extends Mapper {
+
 	/**
 	 * @param API $api: Instance of the API abstraction layer
 	 */
-	public function __construct($app, $tablename = 'clndr_objcache'){
+	public function __construct(IAppContainer $app, $tablename = 'clndr_objcache'){
 		parent::__construct($app, $tablename);
 	}
+
 
 	/**
 	 * Finds an item from user by it's uri
@@ -32,6 +34,7 @@ class ObjectMapper extends Mapper {
 		return new Object($row);
 	}
 
+
 	/**
 	 * Finds all Items of calendar $calendarId
 	 * @param integer $calendarId
@@ -41,6 +44,7 @@ class ObjectMapper extends Mapper {
 		$sql = 'SELECT * FROM `'. $this->tableName . '` WHERE `calendarid` = ?';
 		return $this->findEntities($sql, array($calendarId), $limit, $offset);
 	}
+
 
 	/**
 	 * Finds all Items of calendar $calendarId of type $type
@@ -52,6 +56,7 @@ class ObjectMapper extends Mapper {
 		$sql = 'SELECT * FROM `'. $this->tableName . '` WHERE `calendarid` = ? AND `type` = ?';
 		return $this->findEntities($sql, array($calendarId, $type), $limit, $offset);
 	}
+
 
 	/**
 	 * Finds all Items of calendar $calendarId from $start to $end
@@ -76,6 +81,7 @@ class ObjectMapper extends Mapper {
 											   $utcStart, $utcEnd),
 											   $limit, $offset);
 	}
+
 
 	/**
 	 * Finds all Items of calendar $calendarId of type $type in period from $start to $end
@@ -102,6 +108,7 @@ class ObjectMapper extends Mapper {
 											   $limit, $offset);
 	}
 
+
 	/**
 	 * Deletes all objects of calendar $calendarid
 	 * @param integer $calendarId
@@ -112,6 +119,7 @@ class ObjectMapper extends Mapper {
 
 		$this->execute($sql, array($calendarId));
 	}
+
 
 	/**
 	 * get UTC from a datetime object

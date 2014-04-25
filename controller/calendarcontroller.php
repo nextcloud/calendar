@@ -9,20 +9,15 @@ namespace OCA\Calendar\Controller;
 
 use \OCP\AppFramework\Http;
 
-use \OCA\Calendar\Db\DoesNotExistException;
 use \OCA\Calendar\BusinessLayer\BusinessLayerException;
 
 use \OCA\Calendar\Db\Calendar;
 use \OCA\Calendar\Db\CalendarCollection;
 
-use \OCA\Calendar\Db\ObjectType;
-use \OCA\Calendar\Db\Permission;
-
 use \OCA\Calendar\Http\Response;
-
 use \OCA\Calendar\Http\Reader;
-use \OCA\Calendar\Http\Serializer;
 use \OCA\Calendar\Http\ReaderExpcetion;
+use \OCA\Calendar\Http\Serializer;
 use \OCA\Calendar\Http\SerializerException;
 
 class CalendarController extends Controller {
@@ -50,6 +45,9 @@ class CalendarController extends Controller {
 		} catch (BusinessLayerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
 			return new Response(array('message' => $ex->getMessage()), $ex->getCode());
+		} catch (SerializerException $ex) {
+			$this->app->log($ex->getMessage(), 'debug');
+			return new Response(array('message' => $ex->getMessage()), Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -70,6 +68,9 @@ class CalendarController extends Controller {
 		} catch (BusinessLayerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
 			return new Response(array('message' => $ex->getMessage()), $ex->getCode());
+		} catch (SerializerException $ex) {
+			$this->app->log($ex->getMessage(), 'debug');
+			return new Response(array('message' => $ex->getMessage()), Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -104,6 +105,9 @@ class CalendarController extends Controller {
 			return new Response(array('message' => $ex->getMessage()), $ex->getCode());
 		} catch(ReaderException $ex) {
 			return new Response(array('message' => $ex->getMessage()), Http::STATUS_UNPROCESSABLE_ENTITY);
+		} catch (SerializerException $ex) {
+			$this->app->log($ex->getMessage(), 'debug');
+			return new Response(array('message' => $ex->getMessage()), Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -137,6 +141,9 @@ class CalendarController extends Controller {
 			return new Response(array('message' => $ex->getMessage()), $ex->getCode());
 		} catch(ReaderException $ex) {
 			return new Response(array('message' => $ex->getMessage()), Http::STATUS_UNPROCESSABLE_ENTITY);
+		} catch (SerializerException $ex) {
+			$this->app->log($ex->getMessage(), 'debug');
+			return new Response(array('message' => $ex->getMessage()), Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -170,34 +177,6 @@ class CalendarController extends Controller {
 			$userId	= $this->api->getUserId();
 			$this->calendarBusinessLayer->updateCacheForAllFromRemote($userId);
 			return new Response();
-		} catch (BusinessLayerException $ex) {
-			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(array('message' => $ex->getMessage()), $ex->getCode());
-		}
-	}
-
-
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 */
-	public function availableBackends() {
-		try {
-			$avialableBackends = $this->calendarBusinessLayer->findAllEnabledBackends();
-
-			$backends = array();
-			$avialableBackends->iterate(function($backend) use (&$backends) {
-				$backends[$backend->getBackend()] = array(
-					'createCalendar' => $backend->api->implementsActions(\OCA\Calendar\Backend\CREATE_CALENDAR),
-					'updateCalendar' => $backend->api->implementsActions(\OCA\Calendar\Backend\UPDATE_CALENDAR),
-					'deleteCalendar' => $backend->api->implementsActions(\OCA\Calendar\Backend\DELETE_CALENDAR),
-					'createObject' => $backend->api->implementsActions(\OCA\Calendar\Backend\CREATE_OBJECT),
-					'updateObject' => $backend->api->implementsActions(\OCA\Calendar\Backend\UPDATE_OBJECT),
-					'deleteObject' => $backend->api->implementsActions(\OCA\Calendar\Backend\DELETE_OBJECT),
-				);
-			});
-
-			return new Response($backends);
 		} catch (BusinessLayerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
 			return new Response(array('message' => $ex->getMessage()), $ex->getCode());

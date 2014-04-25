@@ -54,6 +54,24 @@ class TimezoneMapper extends Mapper {
 		return new Timezone($tzId, $data);
 	}
 
+
+	/**
+	 * @brief get all timezones as a list 
+	 * @param integer $limit
+	 * @param integer $offset
+	 * @return array
+	 */
+	public function getList() {
+		$tzFiles = scandir($this->folderName);
+		$timezones = array_values(array_diff($tzFiles, $this->fileBlacklist));
+
+		return array_map(function($value) {
+			$value = str_replace('-', '/', $value);
+			return substr($value, 0, -4);
+		}, $timezones);
+	}
+
+
 	/**
 	 * @brief find all timezones 
 	 * @param integer $limit
@@ -61,8 +79,7 @@ class TimezoneMapper extends Mapper {
 	 * @return \OCA\Calendar\Db\TimezoneCollection
 	 */
 	public function findAll($limit, $offset) {
-		$tzFiles = scandir($this->folderName);
-		$files = array_values(array_diff($tzFiles, $this->fileBlacklist));
+		$files = $this->getList();
 
 		if (is_null($limit)) {
 			$limit = (count($files) - 1);
@@ -73,8 +90,13 @@ class TimezoneMapper extends Mapper {
 
 		$collection = new TimezoneCollection();
 		for($i = $offset; $i < ($offset + $limit); $i++) {
-			$tzId = str_replace('-', '/', str_replace('.ics', '', $files[$i]));
-			$data = file_get_contents($this->folderName . $files[$i]);
+			$tzId = $files[$i];
+
+			$filename  = $this->folderName;
+			$filename .= str_replace('/', '-', $files[$i]);
+			$filename .= '.ics';
+			$data = file_get_contents($filename);
+
 			$timezone = new Timezone($tzId, $data);
 			$collection->add($timezone);
 		}
@@ -83,16 +105,25 @@ class TimezoneMapper extends Mapper {
 	}
 
 
+	/**
+	 * @brief deleting timezones is not supported
+	 */
 	public function delete(Entity $entity){
 		return null;
 	}
 
 
+	/**
+	 * @brief create timezones is not supported
+	 */
 	public function insert(Entity $entity){
 		return null;
 	}
 
 
+	/**
+	 * @brief updating timezones is not supported
+	 */
 	public function update(Entity $entity){
 		return null;
 	}

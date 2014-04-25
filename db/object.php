@@ -56,6 +56,7 @@ class Object extends Entity {
 		}
 	}
 
+
 	/**
 	 * Maps the keys of the row array to the attributes
 	 * @param array $row the row to map onto the entity
@@ -79,6 +80,7 @@ class Object extends Entity {
 		return $this;
 	}
 
+
 	/**
 	 * set the calendarData
 	 * @param string $data CalendarData
@@ -93,6 +95,7 @@ class Object extends Entity {
 			
 		}
 	}
+
 
 	/**
 	 * @return array array of updated fields for update query
@@ -117,6 +120,7 @@ class Object extends Entity {
 		return $updatedFields;
 	}
 
+
 	/**
 	 * @brief take data from VObject and put into this Object object
 	 * @param \Sabre\VObject\Component\VCalendar $vcalendar
@@ -134,6 +138,7 @@ class Object extends Entity {
 		$this->vObject = $vcalendar;
 		$this->objectName = SabreUtility::getObjectName($vcalendar);
 	}
+
 
 	/**
 	 * @brief get VObject from Calendar Object
@@ -155,13 +160,16 @@ class Object extends Entity {
 			$etag = new TextProperty($this->vObject, 'X-OC-ETAG', $currentETag);
 			$this->vObject->{$objectName}->add($etag);
 		}
-		if (!isset($this->vObject->{$objectName}->{'X-OC-RUDS'})) {
-			$ruds = new IntegerProperty($this->vObject, 'X-OC-RUDS', $this->ruds);
-			$this->vObject->{$objectName}->add($ruds);
+		if ($this->ruds !== null) {
+			if (!isset($this->vObject->{$objectName}->{'X-OC-RUDS'})) {
+				$ruds = new IntegerProperty($this->vObject, 'X-OC-RUDS', $this->ruds);
+				$this->vObject->{$objectName}->add($ruds);
+			}
 		}
 
 		return $this->vObject;
 	}
+
 
 	/**
 	 * @brief expand an Array
@@ -179,15 +187,23 @@ class Object extends Entity {
 		return $this;
 	}
 
+
 	/**
 	 * @brief set lastModified to now and update ETag
+	 * @return $this
 	 */
 	public function touch() {
 		$now = new DateTime();
 		$this->vObject->{$objectName}->{'LAST-MODIFIED'}->setDateTime($now);
 		$this->generateEtag();
+		return $this;
 	}
 
+
+	/**
+	 * @brief get etag
+	 * @return string
+	 */
 	public function getETag() {
 		if($this->etag === null) {
 			$this->generateEtag();
@@ -195,6 +211,7 @@ class Object extends Entity {
 
 		return $this->etag;
 	}
+
 
 	/**
 	 * @brief update Etag
@@ -206,6 +223,7 @@ class Object extends Entity {
 		$this->etag = md5($etag);
 	}
 
+
 	/**
 	 * @brief get type of stored object
 	 * @return integer
@@ -213,6 +231,7 @@ class Object extends Entity {
 	public function getType() {
 		return ObjectType::getTypeByString($this->objectName);
 	}
+
 
 	/**
 	 * @brief get startDate
@@ -223,6 +242,7 @@ class Object extends Entity {
 		return SabreUtility::getDTStart($this->vObject->{$objectName});
 	}
 
+
 	/**
 	 * @brief get endDate
 	 * @return DateTime
@@ -232,6 +252,7 @@ class Object extends Entity {
 		return SabreUtility::getDTEnd($this->vObject->{$objectName});
 	}
 
+
 	/**
 	 * @brief get whether or not object is repeating
 	 * @return boolean
@@ -240,13 +261,14 @@ class Object extends Entity {
 		$objectName = $this->objectName;
 
 		if (isset($this->vObject->{$objectName}->{'RRULE'}) ||
-		   isset($this->vObject->{$objectName}->{'RDATE'}) ||
-		   isset($this->vObject->{$objectName}->{'RECURRENCE-ID'})) {
+			isset($this->vObject->{$objectName}->{'RDATE'}) ||
+			isset($this->vObject->{$objectName}->{'RECURRENCE-ID'})) {
 			return true;
 		}
 
 		return false;
 	}
+
 
 	/**
 	 * @brief get last occurence of repeating object
@@ -275,6 +297,7 @@ class Object extends Entity {
 		}
 	}
 
+
 	/**
 	 * @brief get summary of object
 	 * @return string
@@ -289,6 +312,7 @@ class Object extends Entity {
 		return null;
 	}
 
+
 	/**
 	 * @brief get text/calendar representation of stored object
 	 * @return integer
@@ -302,6 +326,12 @@ class Object extends Entity {
 		}
 	}
 
+
+	/**
+	 * @brief get ruds
+	 * @param boolean $force return value all the time
+	 * @return mixed (integer|null)
+	 */
 	public function getRuds($force=false) {
 		if ($this->ruds !== null) {
 			return $this->ruds;
@@ -317,13 +347,19 @@ class Object extends Entity {
 		}
 	}
 
+
+	/**
+	 * @brief set ruds value
+	 */
 	public function setRuds($ruds) {
 		if ($ruds & Permissions::CREATE) {
 			$ruds -= Permissions::CREATE;
 		}
 
 		$this->ruds = $ruds;
+		return $this;
 	}
+
 
 	/**
 	 * @brief get last modified of object
@@ -339,6 +375,7 @@ class Object extends Entity {
 		return null;
 	}
 
+
 	/**
 	 * @brief check if object is valid
 	 * @return boolean
@@ -353,7 +390,7 @@ class Object extends Entity {
 		}
 
 		foreach($strings as $string) {
-			if (is_string($string) === false) {
+			if (!is_string($string)) {
 				return false;
 			}
 			if (trim($string) === '') {
@@ -368,9 +405,5 @@ class Object extends Entity {
 		return true;
 		$isVObjectValid = $this->vObject->validate();
 		//TODO - finish implementation
-	}
-
-	private function iterateOverObjects() {
-		
 	}
 }
