@@ -94,7 +94,7 @@ abstract class ObjectTypeController extends ObjectController {
 			return new Response($serializer);
 		} catch (BusinessLayerException $ex) {
 			$this->app->log($ex->getMessage(), 'warn');
-			return new JSONResponse(null, Http::STATUS_BAD_REQUEST);
+			return new Response(array('message' => $ex->getMessage()), $ex->getCode());
 		}
 	}
 
@@ -147,7 +147,7 @@ abstract class ObjectTypeController extends ObjectController {
 		try {
 			$userId = $this->api->getUserId();
 			$calendarId = $this->params('calendarId');
-			$objectURI = $this->params('objectId');
+			$objectURI = $this->getObjectId();
 
 			$type = $this->objectType;
 
@@ -156,14 +156,14 @@ abstract class ObjectTypeController extends ObjectController {
 				return new Response(null, HTTP::STATUS_FORBIDDEN);
 			}
 
-			$object = $this->objectBusinessLayer->find($calendar, $objectURI, $type);
+			$object = $this->objectBusinessLayer->findByType($calendar, $objectURI, $type);
 
 			$serializer = new Serializer(Serializer::Object, $object, $this->accept());
 
 			return new Response($serializer);
 		} catch (BusinessLayerException $ex) {
 			$this->app->log($ex->getMessage(), 'warn');
-			return new JSONResponse(null, HTTP::STATUS_BAD_REQUEST);
+			return new Response(array('message' => $ex->getMessage()), $ex->getCode());
 		}
 	}
 
@@ -174,6 +174,6 @@ abstract class ObjectTypeController extends ObjectController {
 	 */
 	private function getObjectId() {
 		list($routeApp, $routeController, $routeMethod) = explode('.', $this->params('_route'));
-		return $this->params(substr($routeController, 0, strlen($routeController) - 1) . 'Id');
+		return $this->params($routeController . 'Id');
 	}
 }

@@ -163,7 +163,7 @@ class ObjectController extends Controller {
 			return new Response($serializer, Http::STATUS_CREATED);
 		} catch (BusinessLayerException $ex) {
 			$this->app->log($ex->getMessage(), 'warn');
-			return new Response(null, HTTP::STATUS_BAD_REQUEST);
+			return new Response(array('message' => $ex->getMessage()), $ex->getCode());
 		}
 	}
 
@@ -205,7 +205,7 @@ class ObjectController extends Controller {
 			return new Response($serializer);
 		} catch(BusinessLayerException $ex) {
 			$this->app->log($ex->getMessage(), 'warn');
-			return new Response(null, HTTP::STATUS_BAD_REQUEST);
+			return new Response(array('message' => $ex->getMessage()), $ex->getCode());
 		}
 	}
 
