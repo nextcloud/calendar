@@ -11,9 +11,9 @@ use \OCP\AppFramework\IAppContainer;
 
 class Reader extends Manager implements IReader {
 
-	const Calendar = 7;
-	const Object = 8;
-	const Timezone = 9;
+	const Calendar = 107;
+	const Object = 108;
+	const Timezone = 109;
 
 
 	/**

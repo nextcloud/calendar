@@ -175,4 +175,32 @@ class CalendarController extends Controller {
 			return new Response(array('message' => $ex->getMessage()), $ex->getCode());
 		}
 	}
+
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 */
+	public function availableBackends() {
+		try {
+			$avialableBackends = $this->calendarBusinessLayer->findAllEnabledBackends();
+
+			$backends = array();
+			$avialableBackends->iterate(function($backend) use (&$backends) {
+				$backends[$backend->getBackend()] = array(
+					'createCalendar' => $backend->api->implementsActions(\OCA\Calendar\Backend\CREATE_CALENDAR),
+					'updateCalendar' => $backend->api->implementsActions(\OCA\Calendar\Backend\UPDATE_CALENDAR),
+					'deleteCalendar' => $backend->api->implementsActions(\OCA\Calendar\Backend\DELETE_CALENDAR),
+					'createObject' => $backend->api->implementsActions(\OCA\Calendar\Backend\CREATE_OBJECT),
+					'updateObject' => $backend->api->implementsActions(\OCA\Calendar\Backend\UPDATE_OBJECT),
+					'deleteObject' => $backend->api->implementsActions(\OCA\Calendar\Backend\DELETE_OBJECT),
+				);
+			});
+
+			return new Response($backends);
+		} catch (BusinessLayerException $ex) {
+			$this->app->log($ex->getMessage(), 'debug');
+			return new Response(array('message' => $ex->getMessage()), $ex->getCode());
+		}
+	}
 }

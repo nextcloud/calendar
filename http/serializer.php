@@ -18,6 +18,9 @@ class Serializer extends Manager {
 	const Timezone = 5;
 	const TimezoneCollection = 6;
 
+	const Backend = 7;
+	const BackendCollection = 8;
+
 	/**
 	 * reader object
 	 * @var \OCA\Calendar\Http\ISerializer
@@ -46,10 +49,10 @@ class Serializer extends Manager {
 	}
 }
 
+Serializer::set(Serializer::Backend, 'OCA\\Calendar\\Http\\JSON\\JSONBackend', 'application/json');
+Serializer::set(Serializer::BackendCollection, 'OCA\\Calendar\\Http\\JSON\\JSONBackendCollection', 'application/json');
 Serializer::set(Serializer::Calendar, 'OCA\\Calendar\\Http\\JSON\\JSONCalendar', 'application/json');
-Serializer::set(Serializer::Calendar, 'OCA\\Calendar\\Http\\JSON\\JSONCalendar', 'application/calendar+json');
 Serializer::set(Serializer::CalendarCollection, 'OCA\\Calendar\\Http\\JSON\\JSONCalendarCollection', 'application/json');
-Serializer::set(Serializer::CalendarCollection, 'OCA\\Calendar\\Http\\JSON\\JSONCalendarCollection', 'application/calendar+json');
 Serializer::set(Serializer::Object, 'OCA\\Calendar\\Http\\JSON\\JSONObject', 'application/json');
 Serializer::set(Serializer::Object, 'OCA\\Calendar\\Http\\JSON\\JSONObject', 'application/calendar+json');
 Serializer::set(Serializer::ObjectCollection, 'OCA\\Calendar\\Http\\JSON\\JSONObjectCollection', 'application/json');
@@ -66,6 +69,8 @@ Serializer::set(Serializer::ObjectCollection, 'OCA\\Calendar\\Http\\ICS\\ICSObje
 Serializer::set(Serializer::Timezone, 'OCA\\Calendar\\Http\\ICS\\ICSTimezone', 'text/calendar');
 Serializer::set(Serializer::TimezoneCollection, 'OCA\\Calendar\\Http\\ICS\\ICSTimezoneCollection', 'text/calendar');
 
+Serializer::setFallback(Serializer::Backend, 'OCA\\Calendar\\Http\\JSON\\JSONBackend');
+Serializer::setFallback(Serializer::BackendCollection, 'OCA\\Calendar\\Http\\JSON\\JSONBackendCollection');
 Serializer::setFallback(Serializer::Calendar, 'OCA\\Calendar\\Http\\JSON\\JSONCalendar');
 Serializer::setFallback(Serializer::CalendarCollection, 'OCA\\Calendar\\Http\\JSON\\JSONCalendarCollection');
 Serializer::setFallback(Serializer::Object, 'OCA\\Calendar\\Http\\JSON\\JSONObject');

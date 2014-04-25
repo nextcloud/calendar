@@ -786,7 +786,7 @@ class CalendarBusinessLayer extends BusinessLayer {
 	 * @return boolean
 	 */
 	public function updateCacheForAllFromRemote($userId) {
-		$this->backends->iterate(function($calendar) use ($userId) {
+		$this->backends->iterate(function($backend) use ($userId) {
 			try{
 				$backendName = $backend->getBackend();
 				$this->updateCacheForBackendFromRemote($backendName, $userId);

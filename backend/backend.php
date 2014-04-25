@@ -85,9 +85,6 @@ abstract class Backend implements IBackend {
 	/**
 	 * @brief get integer that represents supported actions 
 	 * @returns integer
-	 * 
-	 * This method returns an integer.
-	 * This method is mandatory!
 	 */
 	public function getSupportedActions() {
 		$actions = 0;
@@ -105,11 +102,6 @@ abstract class Backend implements IBackend {
 	 * @brief Check if backend implements actions
 	 * @param string $actions
 	 * @returns integer
-	 * 
-	 * This method returns an integer.
-	 * If the action is supported, it returns an integer that can be compared with \OC\Calendar\Backend\CREATE_CALENDAR, etc...
-	 * If the action is not supported, it returns -501
-	 * This method is mandatory!
 	 */
 	public function implementsActions($actions) {
 		return (bool)($this->getSupportedActions() & $actions);
@@ -119,9 +111,6 @@ abstract class Backend implements IBackend {
 	/**
 	 * @brief returns whether or not a backend can be enabled
 	 * @returns boolean
-	 * 
-	 * This method returns a boolean.
-	 * This method is mandatory!
 	 */
 	public function canBeEnabled() {
 		return true;
@@ -133,9 +122,6 @@ abstract class Backend implements IBackend {
 	 * @param string $calendarURI
 	 * @param string $userId
 	 * @returns boolean
-	 * 
-	 * This method returns a boolen.
-	 * This method is mandatory!
 	 */
 	public function cacheObjects($calendarURI, $userId) {
 		return true;
@@ -143,14 +129,29 @@ abstract class Backend implements IBackend {
 
 
 	/**
+	 * @brief returns whether or not a prefix is required
+	 * @returns boolean
+	 */
+	public function needsPrefix() {
+		return false;
+	}
+
+
+	/**
+	 * @brief returns list of available uri prefixes
+	 * @returns array
+	 */
+	public function getAvailablePrefixes() {
+		return array();
+	}
+
+
+	/**
 	 * @brief returns information about calendar $calendarURI of the user $userId
 	 * @param string $calendarURI
 	 * @param string $userId
-	 * @returns array with \OCA\Calendar\Db\Calendar object
+	 * @returns \OCA\Calendar\Db\Calendar object
 	 * @throws DoesNotExistException if uri does not exist
-	 * 
-	 * This method returns an \OCA\Calendar\Db\Calendar object.
-	 * This method is mandatory!
 	 */
 	abstract public function findCalendar($calendarURI, $userId);
 
@@ -160,9 +161,6 @@ abstract class Backend implements IBackend {
 	 * @param string $userId
 	 * @returns \OCA\Calendar\Db\CalendarCollection
 	 * @throws DoesNotExistException if uri does not exist
-	 * 
-	 * This method returns an \OCA\Calendar\Db\CalendarCollection object.
-	 * This method is mandatory!
 	 */
 	abstract public function findCalendars($userId, $limit, $offset);
 
@@ -171,9 +169,6 @@ abstract class Backend implements IBackend {
 	 * @brief returns number of calendar
 	 * @param string $userid
 	 * @returns integer
-	 * 
-	 * This method returns an integer
-	 * This method is mandatory!
 	 */
 	public function countCalendars($userId) {
 		return $this->findCalendars($userId)->count();
@@ -185,9 +180,6 @@ abstract class Backend implements IBackend {
 	 * @param string $calendarURI
 	 * @param string $userid
 	 * @returns boolean
-	 * 
-	 * This method returns a boolean
-	 * This method is mandatory!
 	 */
 	public function doesCalendarExist($calendarURI, $userId) {
 		try {
@@ -205,9 +197,6 @@ abstract class Backend implements IBackend {
 	 * @param string $userid
 	 * @returns integer
 	 * @throws DoesNotExistException if calendar does not exist
-	 * 
-	 * This method returns a integer
-	 * This method is mandatory!
 	 */
 	public function getCalendarsCTag($calendarURI, $userId) {
 		$calendar = $this->findCalendar($calendarURI, $userId)->getCTag();
@@ -222,9 +211,6 @@ abstract class Backend implements IBackend {
 	 * @returns \OCA\Calendar\Db\Object object
 	 * @throws DoesNotExistException if calendar does not exist
 	 * @throws DoesNotExistException if object does not exist
-	 *
-	 * This method returns an \OCA\Calendar\Db\Object object.
-	 * This method is mandatory!
 	 */
 	abstract public function findObject(Calendar &$calendar, $objectURI);
 
@@ -235,9 +221,6 @@ abstract class Backend implements IBackend {
 	 * @param string $userId
 	 * @returns \OCA\Calendar\Db\ObjectCollection
 	 * @throws DoesNotExistException if calendar does not exist
-	 * 
-	 * This method returns an \OCA\Calendar\Db\ObjectCollection object.
-	 * This method is mandatory!
 	 */
 	abstract public function findObjects(Calendar &$calendar, $limit, $offset);
 
@@ -248,9 +231,6 @@ abstract class Backend implements IBackend {
 	 * @param string $userid
 	 * @returns integer
 	 * @throws DoesNotExistException if calendar does not exist
-	 * 
-	 * This method returns an integer
-	 * This method is mandatory!
 	 */
 	public function countObjects(Calendar $calendar) {
 		return $this->findObjects($calendarURI, $userId)->count();
@@ -263,9 +243,6 @@ abstract class Backend implements IBackend {
 	 * @param string $objectURI
 	 * @param string $userid
 	 * @returns boolean
-	 * 
-	 * This method returns a boolean
-	 * This method is mandatory!
 	 */
 	public function doesObjectExist(Calendar $calendar, $objectURI) {
 		try {
@@ -297,9 +274,6 @@ abstract class Backend implements IBackend {
 	 * @returns string
 	 * @throws DoesNotExistException if calendar does not exist
 	 * @throws DoesNotExistException if object does not exist
-	 * 
-	 * This method returns a string
-	 * This method is mandatory!
 	 */
 	public function getObjectsETag(Calendar $calendar, $objectURI) {
 		return $this->find($calendar, $objectURI)->getEtag();
@@ -309,9 +283,6 @@ abstract class Backend implements IBackend {
 	/**
 	 * @brief returns whether or not a backend can store a calendar's color
 	 * @returns boolean
-	 * 
-	 * This method returns a boolean
-	 * This method is mandatory!
 	 */
 	public function canStoreColor() {
 		return false;
@@ -321,9 +292,6 @@ abstract class Backend implements IBackend {
 	/**
 	 * @brief returns whether or not a backend can store a calendar's supported components
 	 * @returns boolean
-	 * 
-	 * This method returns a boolean
-	 * This method is mandatory!
 	 */
 	public function canStoreComponents() {
 		return false;
@@ -333,9 +301,6 @@ abstract class Backend implements IBackend {
 	/**
 	 * @brief returns whether or not a backend can store a calendar's displayname
 	 * @returns boolean
-	 * 
-	 * This method returns a boolean
-	 * This method is mandatory!
 	 */
 	public function canStoreDisplayname() {
 		return false;
@@ -345,9 +310,6 @@ abstract class Backend implements IBackend {
 	/**
 	 * @brief returns whether or not a backend can store if a calendar is enabled
 	 * @returns boolean
-	 * 
-	 * This method returns a boolean
-	 * This method is mandatory!
 	 */
 	public function canStoreEnabled() {
 		return false;
@@ -357,9 +319,6 @@ abstract class Backend implements IBackend {
 	/**
 	 * @brief returns whether or not a backend can store a calendar's order
 	 * @returns boolean
-	 * 
-	 * This method returns a boolean
-	 * This method is mandatory!
 	 */
 	public function canStoreOrder() {
 		return false;

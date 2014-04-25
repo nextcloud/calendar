@@ -23,10 +23,34 @@ $this->create('calendar.settings.setView', '/setView/{view}')->get()->action(fun
 	$app->dispatch('SettingsController', 'setView');
 });
 
+
+$this->create('calendar.backends.all', '/v1/backends')->action(function($params){
+	$app = new \OCA\Calendar\App($params);
+	$app->dispatch('BackendController', 'index');
+});
+$this->create('calendar.backends.disabled', '/v1/backends-disabled')->action(function($params){
+	$app = new \OCA\Calendar\App($params);
+	$app->dispatch('BackendController', 'disabled');
+});
+$this->create('calendar.backends.enabled', '/v1/backends-enabled')->action(function($params){
+	$app = new \OCA\Calendar\App($params);
+	$app->dispatch('BackendController', 'enabled');
+});
+$this->create('calendar.backends.default', '/v1/backends-default')->action(function($params){
+	$app = new \OCA\Calendar\App($params);
+	$app->dispatch('BackendController', 'defaultBackend');
+});
+
+
 $this->create('calendar.calendars.forceUpdate', '/v1/calendars-forceUpdate')->action(function($params){
 	$app = new \OCA\Calendar\App($params);
 	$app->dispatch('CalendarController', 'forceUpdate');
 });
+
+
+
+
+
 
 $this->create('calendar.object.indexInPeriod', '/v1/calendars/{calendarId}/objects/inPeriod/{start}/{end}')->action(function($params){
 	$app = new \OCA\Calendar\App($params);

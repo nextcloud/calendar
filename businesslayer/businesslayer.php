@@ -19,7 +19,7 @@ use \OCA\Calendar\Db\MultipleObjectsReturnedException;
 use \OCA\Calendar\Utility\CalendarUtility;
 use \OCA\Calendar\Utility\ObjectUtility;
 
-abstract class BusinessLayer {
+class BusinessLayer {
 
 	/**
 	 * app container for dependency injection
@@ -70,7 +70,7 @@ abstract class BusinessLayer {
 	 * @throws BusinessLayerException if uri is empty
 	 * @throws BusinessLayerException if uri is not valid
 	 */
-	final protected function splitCalendarURI($calendarId) {
+	public function splitCalendarURI($calendarId) {
 		$split = CalendarUtility::splitURI($calendarId);
 
 		if ($split[0] === false || $split[1] === false) {
@@ -89,7 +89,7 @@ abstract class BusinessLayer {
 	 * @param integer $action
 	 * @return boolean
 	 */
-	final protected function doesBackendSupport($backend, $action) {
+	public function doesBackendSupport($backend, $action) {
 		return $this->backends->search('backend', $backend)->current()->api->implementsActions($action);
 	}
 
@@ -99,7 +99,7 @@ abstract class BusinessLayer {
 	 * @param string $backend
 	 * @return boolean
 	 */
-	final protected function isBackendEnabled($backend) {
+	public function isBackendEnabled($backend) {
 		try {
 			return $this->backends->search('backend', $backend)->current()->getEnabled();
 		} catch(DoesNotExistException $ex){
@@ -114,7 +114,7 @@ abstract class BusinessLayer {
 	 * @brief get the default backend
 	 * @return string
 	 */
-	final protected function getDefaultBackend(){
+	public function getDefaultBackend(){
 		return $this->bmp->getDefault();
 	}
 
@@ -123,7 +123,7 @@ abstract class BusinessLayer {
 	 * @brief set the default backend
 	 * @param string $backend
 	 */
-	final protected function setDefaultBackend($backend){
+	public function setDefaultBackend($backend){
 		return $this->bmp->setDefault($backend);
 	}
 
@@ -133,7 +133,7 @@ abstract class BusinessLayer {
 	 * @param string $backend
 	 * @return \OCA\Calendar\Db\Backend
 	 */
-	final protected function findBackend($backendId) {
+	public function findBackend($backendId) {
 		try {
 			return $this->bmp->find($backendId);
 		} catch(DoesNotExistException $ex){
@@ -150,7 +150,7 @@ abstract class BusinessLayer {
 	 * @param integer $offset
 	 * @return \OCA\Calendar\Db\BackendCollection
 	 */
-	final protected function findAllBackends($limit=null, $offset=null) {
+	public function findAllBackends($limit=null, $offset=null) {
 		return $this->bmp->findAll($limit, $offset);
 	}
 
@@ -161,7 +161,7 @@ abstract class BusinessLayer {
 	 * @param integer $offset
 	 * @return \OCA\Calendar\Db\BackendCollection
 	 */
-	final protected function findAllDisabledBackeds($limit=null, $offset=null) {
+	public function findAllDisabledBackends($limit=null, $offset=null) {
 		return $this->bmp->findWhereEnabledIs(false, $limit, $offset);
 	}
 
@@ -172,7 +172,7 @@ abstract class BusinessLayer {
 	 * @param integer $offset
 	 * @return \OCA\Calendar\Db\BackendCollection
 	 */
-	final protected function findAllEnabledBackends($limit=null, $offset=null) {
+	public function findAllEnabledBackends($limit=null, $offset=null) {
 		return $this->bmp->findWhereEnabledIs(true, $limit, $offset);
 	}
 
@@ -181,7 +181,7 @@ abstract class BusinessLayer {
 	 * @brief create a backend
 	 * @param Backend $backend
 	 */
-	final protected function createBackend(Backend $backend) {
+	public function createBackend(Backend $backend) {
 		if ($this->bmp->doesExist($backend)) {
 			$msg  = 'BusinessLayer::allowNoBackendTwice(): ';
 			$msg .= 'Backend already exists';
@@ -196,7 +196,7 @@ abstract class BusinessLayer {
 	 * @brief update a backend
 	 * @param Backend $backend
 	 */
-	final protected function updateBackend(Backend $backend) {
+	public function updateBackend(Backend $backend) {
 		return $this->bmp->update($backend);
 	}
 
@@ -205,7 +205,7 @@ abstract class BusinessLayer {
 	 * @brief enable a backend
 	 * @param string $backend
 	 */
-	final protected function enableBackend($backendId){
+	public function enableBackend($backendId){
 		$backend = $this->findBackend($backendId)->setEnabled(false);
 		return $this->bmp->update($backend);
 	}
@@ -215,7 +215,7 @@ abstract class BusinessLayer {
 	 * @brief disable a backend
 	 * @param string $backend
 	 */
-	final protected function disableBackend($backendId){
+	public function disableBackend($backendId){
 		$backend = $this->findByName($backendId)->setEnabled(true);
 		return $this->bmp->update($backend);
 	}
@@ -225,7 +225,7 @@ abstract class BusinessLayer {
 	 * @brief delete a backend
 	 * @param Backend $backend
 	 */
-	final protected function deleteBackend(Backend $backend) {
+	public function deleteBackend(Backend $backend) {
 		return $this->bmp->delete($backend);
 	}
 

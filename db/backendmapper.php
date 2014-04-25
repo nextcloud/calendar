@@ -14,7 +14,7 @@ use \OCA\Calendar\Db\BackendCollection;
 
 class BackendMapper extends Mapper {
 
-	protected $api;
+	protected $app;
 	protected $configName;
 
 	private $backendCollection;
@@ -24,13 +24,13 @@ class BackendMapper extends Mapper {
 	 * @brief Constructor
 	 * @param API $api: Instance of the API abstraction layer
 	 */
-	public function __construct(IAppContainer $api, $configName='calendar_backends'){
-		$this->api = $api;
+	public function __construct(IAppContainer $app, $configName='calendar_backends'){
+		$this->app = $app;
 		$this->configName = $configName;
 
 		$backends = \OCP\Config::getSystemValue($configName);
 		if ($backends === null) {
-			$backends = $api->query('fallbackBackendConfig');
+			$backends = $app->query('fallbackBackendConfig');
 		}
 
 		$backendCollection = new BackendCollection();
@@ -117,5 +117,9 @@ class BackendMapper extends Mapper {
 
 		$this->didChange = true;
 		return $this;
+	}
+
+	public function getDefault() {
+		return $this->find($this->app->query('defaultBackend'));
 	}
 }

@@ -74,6 +74,8 @@
 \OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSON'] = 'calendar/http/json/json.php';
 \OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONCollection'] = 'calendar/http/json/jsoncollection.php';
 \OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONReader'] = 'calendar/http/json/jsonreader.php';
+\OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONBackend'] = 'calendar/http/json/backend.php';
+\OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONBackendCollection'] = 'calendar/http/json/backendcollection.php';
 \OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONCalendar'] = 'calendar/http/json/calendar.php';
 \OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONCalendarCollection'] = 'calendar/http/json/calendarcollection.php';
 \OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONCalendarReader'] = 'calendar/http/json/calendarreader.php';

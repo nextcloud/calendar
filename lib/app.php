@@ -15,7 +15,7 @@ use \OCA\Calendar\PublicAPI\Event;
 use \OCA\Calendar\PublicAPI\Journal;
 use \OCA\Calendar\PublicAPI\Todo;
 
-use \OCA\Calendar\BusinessLayer\BackendBusinessLayer;
+use \OCA\Calendar\BusinessLayer\BusinessLayer;
 use \OCA\Calendar\BusinessLayer\CalendarBusinessLayer;
 use \OCA\Calendar\BusinessLayer\ObjectBusinessLayer;
 
@@ -105,6 +105,12 @@ class App extends \OCP\AppFramework\App {
 			return new TimezoneController($c, $req, $tmp);
 		});
 
+		$this->getContainer()->registerService('BackendController', function(IAppContainer $c) {
+			$req = $c->query('Request');
+			$bsl = $c->query('BusinessLayer');
+
+			return new BackendController($c, $req, $bsl);
+		});
 
 		$this->getContainer()->registerService('SettingsController', function(IAppContainer $c) {
 			$req = $c->query('Request');
@@ -121,6 +127,11 @@ class App extends \OCP\AppFramework\App {
 		/**
 		 * BusinessLayer
 		 */
+		$this->getContainer()->registerService('BusinessLayer', function(IAppContainer $c) {
+			$bbl = $c->query('BackendMapper');
+
+			return new BusinessLayer($c, $bbl);
+		});
 		$this->getContainer()->registerService('CalendarBusinessLayer', function(IAppContainer $c) {
 			$bbl = $c->query('BackendMapper');
 			$cmp = $c->query('CalendarMapper');
