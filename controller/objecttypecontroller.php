@@ -31,6 +31,8 @@ use \OCA\Calendar\Http\Serializer;
 use \OCA\Calendar\Http\ReaderExpcetion;
 use \OCA\Calendar\Http\SerializerException;
 
+use \DateTime;
+
 abstract class ObjectTypeController extends ObjectController {
 
 	/**

@@ -43,6 +43,13 @@ class CalendarBusinessLayer extends BusinessLayer {
 
 
 	/**
+	 * runtime cache for calendars
+	 * @var array
+	 */
+	private $runtimeCache;
+
+
+	/**
 	 * @param IAppContainer $app
 	 * @param BackendMapper $backendMapper
 	 * @param CalendarMapper $objectMapper: mapper for objects cache

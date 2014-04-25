@@ -30,18 +30,35 @@ use \OCA\Calendar\Backend\DoesNotImplementException;
 
 use \OCA\Calendar\Utility\ObjectUtility;
 
+use \DateTime;
+
 class ObjectBusinessLayer extends BusinessLayer {
 
+	/**
+	 * object objectmapper object
+	 * @var \OCA\Calendar\Db\ObjectMapper
+	 */
 	private $omp;
 
-	private $runTimeCache=array();
-	private $remoteObjectObjectCache=array();
 
 	/**
+	 * object objectcachemanager object
+	 * @var \OCA\Calendar\Db\ObjectCacheManager
+	 */
+	private $ocm;
+
+
+	/**
+	 * runtime cache for calendars
+	 * @var array
+	 */
+	private $runtimeCache;
+
+
+	/**
+	 * @param IAppContainer $app
+	 * @param BackendMapper $backendMapper
 	 * @param ObjectMapper $objectMapper: mapper for objects cache
-	 * @param CalendarBusinessLayer $calendarBusinessLayer
-	 * @param BackendBusinessLayer $backendBusinessLayer
-	 * @param API $api: an api wrapper instance    return new ObjectBusinessLayer($c, $bbl, $omp);
 	 */
 	public function __construct(IAppContainer $app,
 								BackendMapper $backendMapper,
@@ -65,7 +82,7 @@ class ObjectBusinessLayer extends BusinessLayer {
 			$calendarURI = $calendar->getUri();
 			$userId = $calendar->getUserId();
 
-			if ($this->isBackendEnabled($backend) !== true) {
+			if (!$this->isBackendEnabled($backend)) {
 				$msg  = 'ObjectBusinessLayer::findAll(): User Error: ';
 				$msg .= 'Backend found but not enabled!';
 				throw new BusinessLayerException($msg, BusinessLayerException::INTERNAL);
@@ -73,14 +90,14 @@ class ObjectBusinessLayer extends BusinessLayer {
 
 			$api = &$this->backends->find($backend)->api;
 			$cacheObjects = $api->cacheObjects($calendarURI, $userId);
-			if ($cacheObjects === true) {
+
+			if ($cacheObjects) {
 				$objects = $this->omp->findAll($calendar, $limit, $offset);
 			} else {
 				$objects = $api->findObjects($calendar, $limit, $offset);
 			}
 
-			//check if $calendars is a CalendarCollection, if not throw an exception
-			if (($objects instanceof ObjectCollection) === false) {
+			if (!($objects instanceof ObjectCollection)) {
 				$msg  = 'ObjectBusinessLayer::findAll(): Internal Error: ';
 				$msg .= ($cacheObjects ? 'ObjectCache' : 'Backend') . ' returned unrecognised format!';
 				throw new BusinessLayerException($msg, BusinessLayerException::INTERNAL);
@@ -107,7 +124,7 @@ class ObjectBusinessLayer extends BusinessLayer {
 			$calendarURI = $calendar->getUri();
 			$userId = $calendar->getUserId();
 
-			if ($this->isBackendEnabled($backend) !== true) {
+			if (!$this->isBackendEnabled($backend)) {
 				$msg  = 'ObjectBusinessLayer::findAll(): User Error: ';
 				$msg .= 'Backend found but not enabled!';
 				throw new BusinessLayerException($msg);
@@ -115,13 +132,13 @@ class ObjectBusinessLayer extends BusinessLayer {
 
 			$api = &$this->backends->find($backend)->api;
 			$cacheObjects = $api->cacheObjects($calendarURI, $userId);
-			if ($cacheObjects === true) {
-				$number = $cacheObjects->countObjects($calendar);
-			} else {
+
+			if ($cacheObjects) {
 				$number = $this->omp->count($calendar);
+			} else {
+				$number = $cacheObjects->countObjects($calendar);
 			}
 
-			//check if number is an integer, if not throw an exception
 			if (gettype($number) !== 'integer') {
 				$msg  = 'CalendarBusinessLayer::numberOfObjects(): Internal Error: ';
 				$msg .= ($cacheObjects ? 'ObjectCache' : 'Backend') . ' returned unrecognised format!';
@@ -140,7 +157,7 @@ class ObjectBusinessLayer extends BusinessLayer {
 	 * @param string $calendarId global uri of calendar e.g. local-work
 	 * @param string $objectURI UID of the object
 	 * @throws BusinessLayerException
-	 * @return object
+	 * @return Object
 	 */
 	public function find(Calendar &$calendar, $objectURI) {
 		try {
@@ -148,7 +165,7 @@ class ObjectBusinessLayer extends BusinessLayer {
 			$calendarURI = $calendar->getUri();
 			$userId = $calendar->getUserId();
 
-			if ($this->isBackendEnabled($backend) !== true) {
+			if (!$this->isBackendEnabled($backend)) {
 				$msg  = 'ObjectBusinessLayer::find(): User Error: ';
 				$msg .= 'Backend found but not enabled!';
 				throw new BusinessLayerException($msg);
@@ -156,13 +173,14 @@ class ObjectBusinessLayer extends BusinessLayer {
 
 			$api = &$this->backends->find($backend)->api;
 			$cacheObjects = $api->cacheObjects($calendarURI, $userId);
-			if ($cacheObjects === true) {
+
+			if ($cacheObjects) {
 				$object = $this->omp->find($calendar, $objectURI);
 			} else {
 				$object = $api->findObject($calendar, $objectURI);
 			}
 
-			if (($object instanceof Object) === false) {
+			if (!($object instanceof Object)) {
 				$msg  = 'ObjectBusinessLayer::find(): Internal Error: ';
 				$msg .= ($cacheObjects ? 'ObjectCache' : 'Backend') . ' returned unrecognised format!';
 				throw new BusinessLayerException($msg);
@@ -181,12 +199,11 @@ class ObjectBusinessLayer extends BusinessLayer {
 
 	/**
 	 * Find the object $objectURI of type $type of calendar $calendarId of user $userId
-	 * @param string $calendarId global uri of calendar e.g. local-work
+	 * @param Calendar $calendar
 	 * @param string $objectURI UID of the object
-	 * @param string $type type of the searched objects, use OCA\Calendar\Db\ObjectType
-	 * @param string $userId
+	 * @param integer $type
 	 * @throws BusinessLayerException
-	 * @return object
+	 * @return Object
 	 */
 	public function findByType(Calendar &$calendar, $objectURI, $type) {
 		try {
@@ -200,7 +217,9 @@ class ObjectBusinessLayer extends BusinessLayer {
 
 			return $object;
 		} catch (DoesNotExistException $ex) {
-			throw new BusinessLayerException($ex->getMessage());
+			var_dump($ex);
+			exit;
+			throw new BusinessLayerException($ex->getMessage(), Http::STATUS_NOT_FOUND);
 		} catch (MultipleObjectsReturnedException $ex) {
 			throw new BusinessLayerException($ex->getMessage());
 		} catch (BackendException $ex) {
@@ -211,13 +230,12 @@ class ObjectBusinessLayer extends BusinessLayer {
 
 	/**
 	 * Finds all objects of type $type of calendar $calendarId of user $userId
-	 * @param string $calendarId global uri of calendar e.g. local-work
-	 * @param string $type type of the searched objects, use OCA\Calendar\Db\ObjectType
-	 * @param string $userId
+	 * @parm Calendar $calendar
+	 * @param integer $type
 	 * @param int limit
 	 * @param int offset
 	 * @throws BusinessLayerException
-	 * @return array containing all items
+	 * @return ObjectCollection
 	 */
 	public function findAllByType(Calendar &$calendar, $type, $limit=null, $offset=null) {
 		try {
@@ -225,22 +243,19 @@ class ObjectBusinessLayer extends BusinessLayer {
 			$calendarURI = $calendar->getUri();
 			$userId = $calendar->getUserId();
 
-			if ($this->isBackendEnabled($backend) !== true) {
+			if (!$this->isBackendEnabled($backend)) {
 				$msg  = 'ObjectBusinessLayer::findAllByType(): User Error: ';
 				$msg .= 'Backend found but not enabled!';
 				throw new BusinessLayerException($msg);
 			}
 
 			$api = &$this->backends->find($backend)->api;
-
 			$cacheObjects = $api->cacheObjects($calendarURI, $userId);
-			if ($cacheObjects === true) {
+
+			if ($cacheObjects) {
 				$objects = $this->omp->findAllByType($calendar, $type, $limit, $offset);
 			} else {
-				$api = &$this->backends->find($backend)->api;
-
-				$doesBackendSupport = $this->doesBackendSupport($backend, \OCA\Calendar\Backend\FIND_OBJECTS_BY_TYPE);
-				if ($doesBackendSupport === true) {
+				if ($this->doesBackendSupport($backend, \OCA\Calendar\Backend\FIND_OBJECTS_BY_TYPE)) {
 					$objects = $api->findObjectsByType($calendar, $type, $limit, $offset);
 				} else {
 					//TODO - don't query for all
@@ -252,8 +267,7 @@ class ObjectBusinessLayer extends BusinessLayer {
 				}
 			}
 
-			//check if $objects is a ObjectCollection, if not throw an exception
-			if (($objects instanceof ObjectCollection) === false) {
+			if (!($objects instanceof ObjectCollection)) {
 				$msg  = 'ObjectBusinessLayer::findAllByType(): Internal Error: ';
 				$msg .= ($cacheObjects ? 'ObjectCache' : 'Backend') . ' returned unrecognised format!';
 				throw new BusinessLayerException($msg);
@@ -270,57 +284,46 @@ class ObjectBusinessLayer extends BusinessLayer {
 
 	/**
 	 * Finds all objects in timespan from $start to $end of calendar $calendarId of user $userId
-	 * @param string $calendarId global uri of calendar e.g. local-work
+	 * @param Calendar $calendar
 	 * @param DateTime $start start of timeframe
 	 * @param DateTime $end end of timeframe
-	 * @param string $userId
 	 * @param int limit
 	 * @param int offset
 	 * @throws BusinessLayerException
-	 * @return array containing all items
+	 * @return ObjectCollection
 	 */
-	public function findAllInPeriod(Calendar &$calendar, $start, $end, $limit=null, $offset=null) {
+	public function findAllInPeriod(Calendar &$calendar, DateTime $start, DateTime $end, $limit=null, $offset=null) {
 		try {
 			$backend = $calendar->getBackend();
 			$calendarURI = $calendar->getUri();
 			$userId = $calendar->getUserId();
 
-			if ($this->isBackendEnabled($backend) !== true) {
+			if (!$this->isBackendEnabled($backend)) {
 				$msg  = 'ObjectBusinessLayer::findAllInPeriod(): User Error: ';
 				$msg .= 'Backend found but not enabled!';
 				throw new BusinessLayerException($msg);
 			}
 
+			$api = &$this->backends->find($backend)->api;
 			$cacheObjects = $api->cacheObjects($calendarURI, $userId);
-			if ($cacheObjects === true) {
+
+			if ($cacheObjects) {
 				$objects = $this->omp->findAllInPeriod($calendar, $start, $end, $limit, $offset);
-
-				//check if $objects is a ObjectCollection, if not throw an exception
-				if (($objects instanceof ObjectCollection) === false) {
-					$msg  = 'ObjectBusinessLayer::findAllInPeriod(): Internal Error: ';
-					$msg .= 'ObjectCache returned unrecognised format!';
-					throw new BusinessLayerException($msg);
-				}
 			} else {
-				$api = &$this->backends->find($backend)->api;
-
-				$doesBackendSupport = $this->doesBackendSupport($backend, \OCA\Calendar\Backend\FIND_IN_PERIOD);
-				if ($doesBackendSupport === true) {
-					$objects = $api->findObjectsInPeriod($calendar, $type, $limit, $offset);
+				if ($this->doesBackendSupport($backend, \OCA\Calendar\Backend\FIND_IN_PERIOD)) {
+					$objects = $api->findObjectsInPeriod($calendar, $start, $end, $limit, $offset);
 				} else {
+					//TODO - don't query for all
+					//query for subsets until we've got what we want
 					$objects = $api->findObjects($calendar);
-				}
-
-				//check if $objects is a ObjectCollection, if not throw an exception
-				if (($objects instanceof ObjectCollection) === false) {
-					$msg  = 'ObjectBusinessLayer::findAllByType(): Internal Error: ';
-					$msg .= 'Backend returned unrecognised format!';
-					throw new BusinessLayerException($msg);
-				}
-
-				if ($doesBackendSupport === false) {
 					$objects = $objects->inPeriod($start, $end)->subset($limit, $offset);
 				}
+			}
+
+			if (!($objects instanceof ObjectCollection)) {
+				$msg  = 'ObjectBusinessLayer::findAllInPeriod(): Internal Error: ';
+				$msg .= ($cacheObjects ? 'ObjectCache' : 'Backend') . ' returned unrecognised format!';
+				throw new BusinessLayerException($msg);
 			}
 
 			return $objects;
@@ -334,18 +337,14 @@ class ObjectBusinessLayer extends BusinessLayer {
 
 	/**
 	 * Finds all objects of type $type in timeframe from $start to $end of calendar $calendarId of user $userId
-	 * @param string $calendarId global uri of calendar e.g. local-work
-	 * @param string $type type of the searched objects, use OCA\Calendar\Db\ObjectType
+	 * @param Calendar $calendar
+	 * @param integer $type
 	 * @param DateTime $start start of the timeframe
 	 * @param DateTime $end end of the timeframe
-	 * @param string $userId
-	 * @param boolean $expand expand if repeating event
-	 * @param DateTime $expandStart don't return repeating events earlier than $expandStart
-	 * @param DateTime $expandEnd  don't return repeating events later than $expandEnd
 	 * @param int limit
 	 * @param int offset
 	 * @throws BusinessLayerException
-	 * @return array containing all items
+	 * @return ObjectCollection
 	 */
 	public function findAllByTypeInPeriod(Calendar &$calendar, $type, $start, $end, $limit=null, $offset=null) {
 		try {
@@ -353,42 +352,32 @@ class ObjectBusinessLayer extends BusinessLayer {
 			$calendarURI = $calendar->getUri();
 			$userId = $calendar->getUserId();
 
-			if ($this->isBackendEnabled($backend) !== true) {
+			if (!$this->isBackendEnabled($backend)) {
 				$msg  = 'ObjectBusinessLayer::findAllInPeriod(): User Error: ';
 				$msg .= 'Backend found but not enabled!';
 				throw new BusinessLayerException($msg);
 			}
 
+			$api = &$this->backends->find($backend)->api;
 			$cacheObjects = $api->cacheObjects($calendarURI, $userId);
-			if ($cacheObjects === true) {
-				$objects = $this->omp->findAllByTypeInPeriod($calendar, $start, $end, $type);
 
-				//check if $objects is a ObjectCollection, if not throw an exception
-				if (($objects instanceof ObjectCollection) === false) {
-					$msg  = 'ObjectBusinessLayer::findAllByTypeInPeriod(): Internal Error: ';
-					$msg .= 'ObjectCache returned unrecognised format!';
-					throw new BusinessLayerException($msg);
-				}
+			if ($cacheObjects) {
+				$objects = $this->omp->findAllByTypeInPeriod($calendar, $type, $start, $end, $limit, $offset);
 			} else {
-				$api = &$this->backends->find($backend)->api;
-
-				$doesBackendSupport = $this->doesBackendSupport($backend, \OCA\Calendar\Backend\FIND_IN_PERIOD_BY_TYPE);
-				if ($doesBackendSupport === true) {
-					$objects = $api->findObjectsByTypeInPeriod($calendar, $start, $end, $type);
+				if ($this->doesBackendSupport($backend, \OCA\Calendar\Backend\FIND_IN_PERIOD_BY_TYPE)) {
+					$objects = $api->findObjectsByTypeInPeriod($calendar, $type, $start, $end, $limit, $offset);
 				} else {
+					//TODO - don't query for all
+					//query for subsets until we've got what we want
 					$objects = $api->findObjects($calendar);
-				}
-
-				//check if $objects is a ObjectCollection, if not throw an exception
-				if (($objects instanceof ObjectCollection) === false) {
-					$msg  = 'ObjectBusinessLayer::findAllByType(): Internal Error: ';
-					$msg .= 'Backend returned unrecognised format!';
-					throw new BusinessLayerException($msg);
-				}
-
-				if ($doesBackendSupport === false) {
 					$objects = $objects->byType($type)->inPeriod($start, $end)->subset($limit, $offset);
 				}
+			}
+
+			if (!($objects instanceof ObjectCollection)) {
+				$msg  = 'ObjectBusinessLayer::findAllByType(): Internal Error: ';
+				$msg .= ($cacheObjects ? 'ObjectCache' : 'Backend') . ' returned unrecognised format!';
+				throw new BusinessLayerException($msg);
 			}
 
 			return $objects;
@@ -401,9 +390,9 @@ class ObjectBusinessLayer extends BusinessLayer {
 
 
 	/**
-	 * checks if a calendar exists
-	 * @param string $calendarId
-	 * @param string $userId
+	 * checks if an object exists
+	 * @param Calendar $calendar
+	 * @param string $objectURI
 	 * @param boolean $checkRemote
 	 * @return boolean
 	 */
@@ -415,17 +404,12 @@ class ObjectBusinessLayer extends BusinessLayer {
 
 			$api = &$this->backends->find($backend)->api;
 			$cacheObjects = $api->cacheObjects($calendarURI, $userId);
-			if ($cacheObjects === true) {
-				$doesExist = $this->omp->doesExist($calendar, $objectURI);
 
-				if(!$checkRemote) {
-					return $doesExist;
-				}
-
-				return $api->doesObjectExist($calendar, $objectURI);
-			} else {
-				return $api->doesObjectExist($calendar, $objectURI);
+			if ($cacheObjects && !$checkRemote) {
+				return $this->omp->doesExist($calendar, $objectURI);
 			}
+
+			return $api->doesObjectExist($calendar, $objectURI);
 		} catch(BackendException $ex) {
 			throw new BusinessLayerException($ex->getMessage());
 		} catch(DoesNotExistException $ex) {
@@ -435,13 +419,13 @@ class ObjectBusinessLayer extends BusinessLayer {
 
 
 	/**
-	 * checks if a calendar allows a certain action
+	 * checks if an object allows a certain action
+	 * @param Calendar $calendar
+	 * @param string $objectURI
 	 * @param integer $cruds
-	 * @param string $calendarId
-	 * @param string $userId
 	 * @return boolean
 	 */
-	public function doesAllow($cruds, Calendar &$calendar, $objectURI) {
+	public function doesAllow(Calendar &$calendar, $objectURI, $cruds) {
 		try {
 			$backend = $calendar->getBackend();
 			$calendarURI = $calendar->getUri();
@@ -449,7 +433,8 @@ class ObjectBusinessLayer extends BusinessLayer {
 
 			$api = &$this->backends->find($backend)->api;
 			$cacheObjects = $api->cacheObjects($calendarURI, $userId);
-			if ($cacheObjects === true) {
+
+			if ($cacheObjects) {
 				return $this->omp->doesAllow($cruds, $calendar, $objectURI);
 			} else {
 				return $api->doesObjectAllow($cruds, $calendar, $objectURI);
@@ -466,34 +451,34 @@ class ObjectBusinessLayer extends BusinessLayer {
 	 * creates a new object
 	 * @param Object $object
 	 * @throws BusinessLayerException
-	 * @return array containing all items
+	 * @return Object
 	 */
 	public function create(Object &$object) {
 		try {
 			$calendar = $object->getCalendar();
+			$objectURI = $object->getObjectURI();
+
 			$backend = $calendar->getBackend();
 			$calendarURI = $calendar->getUri();
 			$userId = $calendar->getUserId();
-			$objectURI = $object->getObjectURI();
 
-			if ($this->isBackendEnabled($backend) !== true) {
+			if (!$this->isBackendEnabled($backend)) {
 				$msg  = 'ObjectBusinessLayer::create(): User Error: ';
 				$msg .= 'Backend found but not enabled!';
 				throw new BusinessLayerException($msg);
 			}
-			//validate that calendar exists
-			if ($this->doesExist($calendar, $objectURI) !== false) {
+			if ($this->doesExist($calendar, $objectURI)) {
 				$msg  = 'ObjectBusinessLayer::create(): User Error: ';
 				$msg .= 'Object already exists!';
 				throw new BusinessLayerException($msg);
 			}
-			if ($this->doesBackendSupport($backend, \OCA\Calendar\Backend\CREATE_OBJECT) !== true) {
+			if (!$this->doesBackendSupport($backend, \OCA\Calendar\Backend\CREATE_OBJECT)) {
 				$msg  = 'ObjectBusinessLayer::create(): User Error: ';
 				$msg .= 'Backend does not support creating objects!';
 				throw new BusinessLayerException($msg);
 			}
 
-			if ($object->isValid() !== true) {
+			if (!$object->isValid()) {
 				$msg  = 'ObjectBusinessLayer::create(): User Error: ';
 				$msg .= 'Given object data is not valid and not fixable';
 				throw new BusinessLayerException($msg);
@@ -502,8 +487,7 @@ class ObjectBusinessLayer extends BusinessLayer {
 			$api = &$this->backends->find($backend)->api;
 			$api->createObject($object);
 
-			$cacheObjects = $api->cacheObjects($calendarURI, $userId);
-			if ($cacheObjects === true) {
+			if ($api->cacheObjects($calendarURI, $userId)) {
 				$this->omp->insert($object, $calendarURI, $objectURI, $userId);
 			}
 
@@ -520,7 +504,7 @@ class ObjectBusinessLayer extends BusinessLayer {
 	 * creates a new object from request
 	 * @param Object $object
 	 * @throws BusinessLayerException
-	 * @return array containing all items
+	 * @return Object
 	 */
 	public function createFromRequest(Object &$object) {
 		if($object->getObjectURI() === null) {
@@ -533,44 +517,107 @@ class ObjectBusinessLayer extends BusinessLayer {
 
 
 	/**
+	 * creates new objects
+	 * @param ObjectCollection $collection
+	 * @throws BusinessLayerException
+	 * @return ObjectCollection
+	 */
+	public function createCollection(ObjectCollection $collection) {
+		$createdObjects = new ObjectCollection();
+
+		$collection->iterate(function($object) use ($createdObjects) {
+			try {
+				$object = $this->create($object);
+			} catch(BusinessLayerException $ex) {
+				continue;
+			}
+			$createdObjects->add($object);
+		});
+
+		return $createdObjects;
+	}
+
+
+	/**
+	 * creates new objects from request
+	 * @param ObjectCollection $collection
+	 * @throws BusinessLayerException
+	 * @return ObjectCollection
+	 */
+	public function createCollectionFromRequest(ObjectCollection $collection) {
+		$createdObjects = new ObjectCollection();
+
+		$collection->iterate(function($object) use ($createdObjects) {
+			try {
+				$object = $this->createFromRequest($object);
+			} catch(BusinessLayerException $ex) {
+				continue;
+			}
+			$createdObjects->add($object);
+		});
+
+		return $createdObjects;
+	}
+
+
+	/**
 	 * updates an object
-	 * @param Object $object 
+	 * @param Object $object
 	 * @param Calendar $calendar
 	 * @param string $objectURI UID of the object
-	 * @param string $userId
 	 * @throws BusinessLayerException
-	 * @return array containing all items
+	 * @return Object
 	 */
-	public function update(Object &$object, Calendar &$calendar, $objectURI) {
+	public function update(Object &$object, Calendar &$oldCalendar, $oldObjectURI) {
 		try {
-			if (is_array($calendarId)) {
-				$backend = $calendarId[0];
-				$calendarURI = $calendarId[1];
-			} else {
-				list($backend, $calendarURI) = $this->splitCalendarURI($calendarId);
+			$newCalendar = $object->getCalendar();
+			$newObjectURI = $object->getObjectURI();
+
+			$newBackend = $newCalendar->getBackend();
+			$oldBackend = $oldCalendar->getBackend();
+			$newCalendarURI = $newCalendar->getUri();
+			$oldCalendarURI = $oldCalendar->getUri();
+			$newUserId = $newCalendar->getUserId();
+			$oldUserId = $oldCalendar->getUserId();
+
+			if ($newUserId !== $oldUserId) {
+				$msg  = 'ObjectBusinessLayer::update(): Not supported: ';
+				$msg .= 'Transferring an object to another user is not supported yet.';
+				throw new BusinessLayerException($msg, Http::STATUS_UNPROCESSABLE_ENTITY);
+				/* return $this->transfer($object, $oldCalendar, $oldObjectURI); */
+			}
+			if ($newBackend !== $oldBackend ||
+				$newCalendarURI !== $oldCalendarURI ||
+				$newObjectURI !== $oldObjectURI) {
+				return $this->move($object, $oldCalendar, $oldObjectURI);
 			}
 
-			if ($this->isBackendEnabled($backend) !== true) {
+			if (!$this->isBackendEnabled($newBackend)) {
 				$msg  = 'ObjectBusinessLayer::findAllByType(): User Error: ';
 				$msg .= 'Backend found but not enabled!';
 				throw new BusinessLayerException($msg);
 			}
-
-			if ($object->getBackend() !== $backend || $object->getUri() !== $calendarURI) {
-				return $this->move($object, $calendarId, $objectURI, $userId);
+			if (!$this->doesExist($calendar, $objectURI)) {
+				$msg  = 'ObjectBusinessLayer::update(): User Error: ';
+				$msg .= 'Object does not exists!';
+				throw new BusinessLayerException($msg);
+			}
+			if (!$this->doesBackendSupport($backend, \OCA\Calendar\Backend\UPDATE_OBJECT)) {
+				$msg  = 'CalendarBusinessLayer::update(): User Error: ';
+				$msg .= 'Backend does not support updating objects!';
+				throw new BusinessLayerException($msg, Http::STATUS_UNPROCESSABLE_ENTITY);
 			}
 
-			$this->checkBackendSupports($backend, \OCA\Calendar\Backend\UPDATE_OBJECT);
+			if (!$object->isValid()) {
+				$msg  = 'ObjectBusinessLayer::update(): User Error: ';
+				$msg .= 'Given object data is not valid and not fixable';
+				throw new BusinessLayerException($msg);
+			}
 
 			$api = &$this->backends->find($backend)->api;
+			$object = $api->updateObject($object, $calendar);
 
-			if ($object->isValid() === false) {
-				$object->fix();
-			}
-
-			$object = $api->updateObject($object, $calendarURI, $objectURI, $userId);
-			$cacheObjects = $api->cacheObjects($calendarURI, $userId);
-			if ($cacheObjects) {
+			if ($api->cacheObjects($calendarURI, $userId)) {
 				$this->omp->update($object, $calendarURI, $objectURI, $userId);
 			}
 
@@ -590,7 +637,7 @@ class ObjectBusinessLayer extends BusinessLayer {
 	 * @param string $objectURI UID of the object
 	 * @param string $etag
 	 * @throws BusinessLayerException
-	 * @return array containing all items
+	 * @return Object
 	 */
 	public function updateFromRequest(Object $object, Calendar &$calendar, $objectURI, $etag) {
 		$oldObject = $this->find($calendar, $objectURI);
@@ -601,60 +648,23 @@ class ObjectBusinessLayer extends BusinessLayer {
 			throw new BusinessLayerException($msg, Http::STATUS_PRECONDITION_FAILED);
 		}
 
+		$oldObject->overwriteWith($object);
+		$object = $oldObject;
+
 		return $this->update($object, $calendar, $objectURI);
 	}
 
 
 	/**
-	 * delete an object from a calendar
-	 * @param string $calendarId global uri of calendar e.g. local-work
+	 * move object
+	 * @param Object $object 
+	 * @param Calendar $calendar
 	 * @param string $objectURI UID of the object
-	 * @param string $userId
 	 * @throws BusinessLayerException
-	 * @return boolean
+	 * @return Object
 	 */
-	public function delete(Calendar $calendar, $objectURI, $userId) {
-		try {
-			if (is_array($calendarId)) {
-				$backend = $calendarId[0];
-				$calendarURI = $calendarId[1];
-			} else {
-				list($backend, $calendarURI) = $this->splitCalendarURI($calendarId);
-			}
-
-
-			$this->checkBackendEnabled($backend);
-
-			$this->checkBackendSupports($backend, \OCA\Calendar\Backend\DELETE_OBJECT);
-
-			$api = &$this->backends->find($backend)->api;
-			$api->deleteObject($calendarURI, $objectURI, $userId);
-
-			if ($api->cacheObjects($calendarURI, $userId)) {
-				$this->omp->delete($calendar);
-			}
-
-			$this->calendarBusinessLayer->touch($calendarId, $userId);
-
-			return true;
-		} catch(DoesNotImplementException $ex) {
-			throw new BusinessLayerException($ex->getMessage());
-		} catch(BackendException $ex) {
-			throw new BusinessLayerException($ex->getMessage());
-		}
-	}
-
-	/**
-	 * moves an object from one to another calendar
-	 * @param Object $object
-	 * @param string $calendarId global uri of calendar e.g. local-work
-	 * @param string $objectURI UID of the object
-	 * @param string $userId
-	 * @throws BusinessLayerException
-	 * @return array containing all items
-	 */
-	public function move($object, Calendar $calendar, $objectURI, $userId) {
-		try {
+	public function move(Object &$object, Calendar &$oldCalendar, $oldObjectURI) {
+		/*try {
 			if (is_array($calendarId)) {
 				$backend = $calendarId[0];
 				$calendarURI = $calendarId[1];
@@ -715,49 +725,80 @@ class ObjectBusinessLayer extends BusinessLayer {
 			throw new BusinessLayerException($ex->getMessage());
 		} catch(BackendException $ex) {
 			throw new BusinessLayerException($ex->getMessage());
-		}
+		}*/
 	}
 
-	public function moveAll() {
-						/*if ($this->doesBackendSupport($oldBackend, \OCA\Calendar\Backend\DELETE_OBJECT) !== true) {
-					$msg  = 'CalendarBusinessLayer::update(): User Error: ';
-					$msg .= 'Backend does not support deleting objects!';
-					throw new BusinessLayerException($msg);
-				}
-				if ($this->doesBackendSupport($newBackend, \OCA\Calendar\Backend\CREATE_OBJECT) !== true) {
-					$msg  = 'CalendarBusinessLayer::update(): User Error: ';
-					$msg .= 'Backend does not support creating objects!';
-					throw new BusinessLayerException($msg);
-				}*/
-	}
 
-	public function deleteAll() {
+	/**
+	 * move object
+	 * @param Calendar $newCalendar
+	 * @param Calendar $oldCalendar
+	 * @param integer $limit
+	 * @param integer $offset
+	 * @throws BusinessLayerException
+	 * @return boolean
+	 */
+	public function moveAll(Calendar &$newCalendar, Calendar &$oldCalendar, $limit, $offset) {
 		
 	}
 
+
 	/**
-	 * touch an object
-	 * @param string $calendarId global uri of calendar e.g. local-work
+	 * transfer object to another user
+	 * @param Object $object 
+	 * @param Calendar $calendar
 	 * @param string $objectURI UID of the object
-	 * @param string $userId
 	 * @throws BusinessLayerException
-	 * @return array containing all items
+	 * @return Object
 	 */
-	public function touch(Calendar $calendar, $objectURI, $userId) {
+	public function transfer(Object &$object, Calendar &$oldCalendar, $oldObjectURI) {
+		
+	}
+
+
+	/**
+	 * transfer object to another user
+	 * @param Calendar $newCalendar
+	 * @param Calendar $oldCalendar
+	 * @param integer $limit
+	 * @param integer $offset
+	 * @throws BusinessLayerException
+	 * @return boolean
+	 */
+	public function transferAll(Calendar &$newCalendar, Calendar &$oldCalendar, $limit, $offset) {
+		
+	}
+
+
+	/**
+	 * delete an object from a calendar
+	 * @param Object $object
+	 * @throws BusinessLayerException
+	 * @return boolean
+	 */
+	public function delete(Object &$object) {
 		try {
-			if (is_array($calendarId)) {
-				$backend = $calendarId[0];
-				$calendarURI = $calendarId[1];
-			} else {
-				list($backend, $calendarURI) = $this->splitCalendarURI($calendarId);
-			}
+			$calendar = $object->getCalendar();
+			$objectURI = $object->getObjectURI();
+
+			$backend = $calendar->getBackend();
+			$calendarURI = $calendar->getUri();
+
 
 			$this->checkBackendEnabled($backend);
 
-			$object = $this->find($calendarId, $objectURI, $userid);
-			$object->touch();
+			$this->checkBackendSupports($backend, \OCA\Calendar\Backend\DELETE_OBJECT);
 
-			$this->update($object, $calendarId, $userId);
+			$api = &$this->backends->find($backend)->api;
+			$api->deleteObject($calendarURI, $objectURI, $userId);
+
+			if ($api->cacheObjects($calendarURI, $userId)) {
+				$this->omp->delete($calendar);
+			}
+
+			$this->calendarBusinessLayer->touch($calendarId, $userId);
+
+			return true;
 		} catch(DoesNotImplementException $ex) {
 			throw new BusinessLayerException($ex->getMessage());
 		} catch(BackendException $ex) {
@@ -765,127 +806,153 @@ class ObjectBusinessLayer extends BusinessLayer {
 		}
 	}
 
+
 	/**
-	 * make sure that uri does not already exist when creating a new object
-	 * @param string $backend
-	 * @param string $calendarURI
-	 * @param string $userId
+	 * delete all objects from a calendar
+	 * @param Calendar $calendar
+	 * @param integer $limit
+	 * @param integer $offset
+	 * @throws BusinessLayerException
 	 * @return boolean
-	 * @throws BusinessLayerException if uri is already taken
 	 */
-	private function allowNoObjectURITwice($backend, $calendarURI, $objectURI, $userId){
-		if ($this->isObjectURIAvailable($backend, $calendarURI, $objectURI, $userId, true) === false) {
-			throw new BusinessLayerException('Can not add object: UID already exists');
-		}
+	public function deleteAll(Calendar &$calendar, $limit, $offset) {
+		
 	}
 
+
 	/**
-	 * checks if a uri is available
-	 * @param string $backend
-	 * @param string $calendarURI
-	 * @param string $objectURI
-	 * @param string $userId
+	 * updates cache manager for a certian calendar
+	 * @param Calendar $calendar
 	 * @return boolean
 	 */
-	private function isObjectURIAvailable($backend, $calendarURI, $objectURI, $userId, $checkRemote=false) {
-		$existingObjects = $this->omp->find($backend, $calendarURI, $objectURI, $userId);
-		if (count($existingObjects) !== 0) {
-			return false;
+	public function updateCacheManagerFromRemote(Calendar $calendar/*, $limit, $offset*/) {
+		$backend = $calendar->getBackend();
+		$calendarURI = $calendar->getUri();
+		$userId = $calendar->getUserId();
+
+		$api = &$this->backends->find($backend)->api;
+		if (!$api->cacheObjects($calendarURI, $userId)) {
+			return true;
 		}
 
-		if ($checkRemote === true) {
-			$existingRemoteObjects = $this->backends->find($backend)->api->findObject($calendarURI, $objectURI, $userId);
-			if (count($existingRemoteObjects) !== 0) {
-				return false;
-			}
+		$cachedEtags = $this->omp->getUriToEtagMap($calendar, $limit, $offset);
+		$remoteEtags = $api->getUriToEtagMap($calendar, $limit, $offset);
+
+		$deletedObjects = array_diff_key($remoteEtags, $cachedEtags);
+		$createdObjects = array_diff_key($cachedEtags, $remoteEtags);
+
+		$this->ocm->setDeleted($calendar, $deletedObjects);
+		$this->ocm->setCreated($calendar, $createdObjects);
+
+		$otherCachedObjects = array_intersect_assoc(
+			$cachedEtags, 
+			array_merge($deletedObjects, $createdObjects)
+		);
+
+		$otherRemoteObjects = array_intersect_assoc(
+			$remoteEtags, 
+			array_merge($deletedObjects, $createdObjects)
+		);
+
+		$updatedObjects = array_diff_assoc($otherCachedObjects, $otherRemoteObjects);
+
+		$this->ocm->setOutDated($calendar, $updatedObjects);
+
+		return true;
+	}
+
+
+	/**
+	 * create objects marked as created in cache manager
+	 * @param Calendar $calendar
+	 * @param integer $limit
+	 * @param integer $offset
+	 * @return boolean
+	 */
+	public function updateCacheFromCacheManagerCreate(Calendar $calendar, $limit, $offset) {
+		$backend = $calendar->getBackend();
+		$calendarURI = $calendar->getUri();
+		$userId = $calendar->getUserId();
+
+		$api = &$this->backends->find($backend)->api;
+		$createdObjects = $this->ocm->getCreated($calendar, $limit, $offset);
+
+		foreach($createdObjects as $objectURI) {
+			try {
+				if($this->doesObjectExist($calendar, $objectURI)) {
+					$object = $api->findObject($calendar, $objectURI);
+					if($object->isValid()) {
+						$this->omp->insert($object);
+					}
+				}
+			} catch(/* some */Exception $ex) {}
+			$this->ocm->deleteCreated($calendar, $objectURI);
 		}
 
 		return true;
 	}
 
+
 	/**
-	 * update a specific calendar
-	 * @param string $userId
+	 * delete objects marked as deleted in cache manager
+	 * @param Calendar $calendar
+	 * @param integer $limit
+	 * @param integer $offset
 	 * @return boolean
 	 */
-	public function updateCacheForCalendarFromRemote($calendarId, $userId=null) {
-		try{
-			if (is_array($calendarId)) {
-				$backend = $calendarId[0];
-				$calendarURI = $calendarId[1];
-			} else {
-				list($backend, $calendarURI) = $this->splitCalendarURI($calendarId);
-			}
+	public function updateCacheFromCacheManagerDelete(Calendar $calendar, $limit, $offset) {
+		$backend = $calendar->getBackend();
+		$calendarURI = $calendar->getUri();
+		$userId = $calendar->getUserId();
 
-			
+		$api = &$this->backends->find($backend)->api;
+		$deletedObjects = $this->ocm->getDeleted($calendar, $limit, $offset);
 
-			return true;
-		}catch(BackendException $ex) {
-			
+		foreach($deletedObjects as $objectURI) {
+			try {
+				if($api->doesObjectExist($calendar, $objectURI)) {
+					$this->ocm->setOneCreated($calendar, $objectURI);
+				} else {
+					$object = $this->findObject($calendar, $objectURI);
+					$this->omp->delete($object);
+				}
+			} catch(/* some */Exception $ex) {}
+			$this->ocm->deleteDeleted($calendar, $objectURI);
 		}
+
+		return true;
 	}
 
+
 	/**
-	 * update a specific calendar
-	 * @param string $userId
+	 * updates objects marked as outdated in cache manager
+	 * @param Calendar $calendar
+	 * @param integer $limit
+	 * @param integer $offset
 	 * @return boolean
 	 */
-	public function updateCacheForObjectFromRemote($calendarId, $objectURI, $userId) {
-		try{
-			if (is_array($calendarId)) {
-				$backend = $calendarId[0];
-				$calendarURI = $calendarId[1];
-			} else {
-				list($backend, $calendarURI) = $this->splitCalendarURI($calendarId);
-			}
+	public function updateCacheFromCacheManagerUpdate(Calendar $calendar, $limit, $offset) {
+		$backend = $calendar->getBackend();
+		$calendarURI = $calendar->getUri();
+		$userId = $calendar->getUserId();
 
-			$remoteAPI = &$this->backends->find($backend)->api;
+		$api = &$this->backends->find($backend)->api;
+		$updatedObjects = $this->ocm->getOutDated($calendar, $limit, $offset);
 
-			$doesObjectExistCached = $this->doesExist(array($backend, $calendarURI), $objectURI, $userId, false);
-			$doesObjectExistRemote = $remoteAPI->doesObjectExist($calendarURI, $objectURI, $userId);
-
-			if ($doesObjectExistCached === false && $doesObjectExistRemote === false) {
-				$msg  = 'ObjectBusinessLayer::updateCacheForObjectFromRemote(): ';
-				$msg .= '"b:' . $backend . ';cu:' . $calendarURI . ';ou:' . $objectURI . '" doesn\'t exist';
-				$msg .= 'Neither cached nor remote!';
-				throw new DoesNotExistException($msg);
-			}
-
-			if ($doesObjectExistRemote === false) {
-				$msg  = 'ObjectBusinessLayer::updateCacheForObjectFromRemote(): ';
-				$msg .= 'Object vanished from remote - removing object from cache!';
-				//TODO - log debug message
-
-				$cachedObject = $this->find(array($backend, $calendarURI), $objectURI, $userId);
-
-				$this->omp->delete($cachedObject);
-				return true;
-			}
-
-			$remoteObject = $remoteAPI->findObject($calendarURI, $objectURI, $userId);
-
-			if ($doesCalendarExistCached === false) {
-				$msg  = 'ObjectBusinessLayer::updateCacheForObjectFromRemote(): ';
-				$msg .= 'Object not cached - creating object from remote!';
-				//TODO - log debug message
-
-				$this->omp->insert($remoteCalendar);
-				return true;
-			}
-
-			if ($cachedObject === null) {
-				$cachedObject = $this->find(array($backend, $calendarURI), $objectURI, $userId);
-			}
-
-			if ($cachedObject->getEtag() === $remoteObject->getEtag()) {
-				return true;
-			}
-
-			$this->omp->update($cachedCalendar);
-
-			return true;
-		}catch(BackendException $ex) {
-			
+		foreach($updatedObjects as $objectURI) {
+			try {
+				if($api->doesObjectExist($calendar, $objectURI)) {
+					$object = $api->findObject($calendar, $objectURI);
+					if($object->isValid()) {
+						$this->omp->update($object);
+					}
+				} else {
+					$this->ocm->setOneDeleted($calendar, $objectURI);
+				}
+			} catch(/* some */Exception $ex) {}
+			$this->ocm->deleteUpdated($calendar, $objectURI);
 		}
+
+		return true;
 	}
 }

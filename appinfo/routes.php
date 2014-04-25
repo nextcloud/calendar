@@ -28,9 +28,21 @@ $this->create('calendar.calendars.forceUpdate', '/v1/calendars-forceUpdate')->ac
 	$app->dispatch('CalendarController', 'forceUpdate');
 });
 
-$this->create('calendar.calendars.indexInPeriod', '/v1/calendars/{calendarId}/objects/inPeriod/{start}/{end}')->action(function($params){
+$this->create('calendar.object.indexInPeriod', '/v1/calendars/{calendarId}/objects/inPeriod/{start}/{end}')->action(function($params){
 	$app = new \OCA\Calendar\App($params);
 	$app->dispatch('ObjectController', 'indexInPeriod');
+});
+$this->create('calendar.event.indexInPeriod', '/v1/calendars/{calendarId}/events/inPeriod/{start}/{end}')->action(function($params){
+	$app = new \OCA\Calendar\App($params);
+	$app->dispatch('EventController', 'indexInPeriod');
+});
+$this->create('calendar.journal.indexInPeriod', '/v1/calendars/{calendarId}/journals/inPeriod/{start}/{end}')->action(function($params){
+	$app = new \OCA\Calendar\App($params);
+	$app->dispatch('JournalController', 'indexInPeriod');
+});
+$this->create('calendar.todo.indexInPeriod', '/v1/calendars/{calendarId}/objects/todos/{start}/{end}')->action(function($params){
+	$app = new \OCA\Calendar\App($params);
+	$app->dispatch('TodoController', 'indexInPeriod');
 });
 
 //set up resources

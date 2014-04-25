@@ -141,15 +141,18 @@ class Object extends Entity {
 	 */
 	public function getVObject() {
 		$objectName = $this->objectName;
+
+		if ($this->etag === null) {
+			$this->generateEtag();
+		}
+		$currentETag = $this->etag;
+
 		if (!isset($this->vObject->{$objectName}->{'X-OC-URI'})) {
 			$uri = new TextProperty($this->vObject, 'X-OC-URI', $this->objectURI);
 			$this->vObject->{$objectName}->add($uri);
 		}
 		if (!isset($this->vObject->{$objectName}->{'X-OC-ETAG'})) {
-			if ($this->etag === null) {
-				$this->generateEtag();
-			}
-			$etag = new TextProperty($this->vObject, 'X-OC-ETAG', $this->etag);
+			$etag = new TextProperty($this->vObject, 'X-OC-ETAG', $currentETag);
 			$this->vObject->{$objectName}->add($etag);
 		}
 		if (!isset($this->vObject->{$objectName}->{'X-OC-RUDS'})) {
@@ -183,6 +186,14 @@ class Object extends Entity {
 		$now = new DateTime();
 		$this->vObject->{$objectName}->{'LAST-MODIFIED'}->setDateTime($now);
 		$this->generateEtag();
+	}
+
+	public function getETag() {
+		if($this->etag === null) {
+			$this->generateEtag();
+		}
+
+		return $this->etag;
 	}
 
 	/**

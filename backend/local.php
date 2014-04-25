@@ -402,6 +402,15 @@ class Local extends Backend {
 
 
 	/**
+	 * transfer a calendar to another user
+	 * @param Calendar $calendar
+	 * @param string $oldCalendarURI
+	 * @param string $oldUserId
+	 */
+	/*public function transferCalendar(Calendar &$calendar, $oldCalendarURI, $oldUserId) {}*/
+
+
+	/**
 	 * find object
 	 * @param Calendar $calendar
 	 * @param string $objectURI
@@ -432,7 +441,7 @@ class Local extends Backend {
 		if ($row === false || $row === null){
 			$msg  = 'Backend\Local::findObject(): Internal Error: ';
 			$msg .= 'No matching entry found';
-			throw new CacheOutDatedException($msg);
+			throw new DoesNotExistException($msg);
 		}
 
 		$row2 = $result->fetchRow();
@@ -515,16 +524,14 @@ class Local extends Backend {
         $sql .= ' OR (objtbl.`startdate` <= ? AND objtbl.`repeating` = 1))';
         $sql .= ' ORDER BY objtbl.`repeating`';
 
-		$start	= $this->getUTCforMDB($start);
-		$end	= $this->getUTCforMDB($end);
-		$result	= $stmt->execute(array(
+		$result	= \OCP\DB::prepare($sql, $limit, $offset)->execute(array(
 			$calendarURI,
 			$userId,
-			$start,
-			$end,
-			$start,
-			$end,
-			$end
+			$this->getUTCforMDB($start),
+			$this->getUTCforMDB($end),
+			$this->getUTCforMDB($start),
+			$this->getUTCforMDB($end),
+			$this->getUTCforMDB($end),
 		));
 
 		$objectCollection = new ObjectCollection();
@@ -554,7 +561,6 @@ class Local extends Backend {
 	public function findObjectsByType(Calendar $calendar, $type, $limit, $offset) {
 		$calendarURI = $calendar->getUri();
 		$userId = $calendar->getUserId();
-		$type = static::$typeMapper[$type];
 
 		$caltbl = $this->calTableName;
 		$objtbl = $this->objTableName;
@@ -563,10 +569,11 @@ class Local extends Backend {
 		$sql .= '`' . $caltbl . '` AS caltbl ';
 		$sql .= 'WHERE objtbl.`calendarid` = caltbl.`id` ';
 		$sql .= 'AND caltbl.`uri` = ? and caltbl.`userid` = ? AND objtbl.`objecttype` = ?';
+
 		$result = \OCP\DB::prepare($sql, $limit, $offset)->execute(array(
 			$calendarURI,
 			$userId,
-			$type
+			$this->getType($type)
 		));
 
 		$objectCollection = new ObjectCollection();
@@ -606,20 +613,22 @@ class Local extends Backend {
 		$sql .= '`' . $caltbl . '` AS caltbl ';
 		$sql .= 'WHERE objtbl.`calendarid` = caltbl.`id`';
 		$sql .= ' AND caltbl.`uri` = ? AND caltbl.`userid` = ?';
-        $sql .= ' AND ((objtbl.`startdate` >= ? AND objtbl.`enddate` <= ? AND objtbl`.repeating` = 0)';
+        $sql .= ' AND ((objtbl.`startdate` >= ? AND objtbl.`enddate` <= ? AND objtbl.`repeating` = 0)';
         $sql .= ' OR (objtbl.`enddate` >= ? AND objtbl.`startdate` <= ? AND objtbl.`repeating` = 0)';
         $sql .= ' OR (objtbl.`startdate` <= ? AND objtbl.`repeating` = 1))';
         $sql .= ' AND objtbl.`objecttype` = ?';
         $sql .= ' ORDER BY objtbl.`repeating`';
 
-		$start	= $this->getUTCforMDB($start);
-		$end	= $this->getUTCforMDB($end);
-		$result	= $stmt->execute(array(
-					$calendarURI, $userId,
-					$start, $end,
-					$start, $end,
-					$end,
-					$type));
+		$result	= \OCP\DB::prepare($sql, $limit, $offset)->execute(array(
+			$calendarURI,
+			$userId,
+			$this->getUTCforMDB($start),
+			$this->getUTCforMDB($end),
+			$this->getUTCforMDB($start),
+			$this->getUTCforMDB($end),
+			$this->getUTCforMDB($end),
+			$this->getType($type)
+		));
 
 		$objectCollection = new ObjectCollection();
 		while($row = $result->fetchRow()){
@@ -770,7 +779,7 @@ class Local extends Backend {
 			$object->getObjectURI(),
 			$this->getUTCforMDB($object->getLastModified()),
 			$userId,
-			$calendarURI,
+			$calendarURI
 		));
 	}
 
@@ -778,11 +787,10 @@ class Local extends Backend {
 	/**
 	 * update an object
 	 * @param Object $object
-	 * @param Calendar $oldCalendar
 	 * @throws CacheOutDatedException if calendar does not exist
 	 * @return Calendar
 	 */
-	public function updateObject(Object &$object, Calendar $oldCalendar) {
+	public function updateObject(Object &$object) {
 		$calendarURI = $object->getCalendar()->getUri();
 		$userId = $object->getCalendar()->getUserId();
 
@@ -800,25 +808,53 @@ class Local extends Backend {
 		$caltbl = $this->calTableName;
 		$objtbl = $this->objTableName;
 
-		$sql  = 'UPDATE objtbl SET objecttype` = ?, `startdate` = ?, ';
+		$sql  = 'UPDATE objtbl SET `objecttype` = ?, `startdate` = ?, ';
 		$sql .= '`enddate` = ?, `repeating` = ?, `summary` = ?, `calendardata` = ?, ';
-		$sql .= '`lastmodified` = ? FROM `' . $obltbl . '` AS objtbl, ';
+		$sql .= '`lastmodified` = ? FROM `' . $objtbl . '` AS objtbl, ';
 		$sql .= '`' . $caltbl . '` AS caltbl WHERE objtbl.`calendarid` = caltbl.`id` ';
-		$sql .= 'AND caltbl.`uri` = ? AND caltbl.`userid` = ?';
+		$sql .= 'AND caltbl.`uri` = ? AND caltbl.`userid` = ? AND objtbl.`uri` = ?';
 
 		$result = \OCP\DB::prepare($sql)->execute(array(
-			$object->getType(),
-			$object->getStartDate(),
-			$object->getEndDate(),
+			$this->getType($object->getType()),
+			$this->getUTCforMDB($object->getStartDate()->getDateTime()),
+			$this->getUTCforMDB($object->getEndDate()->getDateTime()),
 			$object->getRepeating(),
 			$object->getSummary(),
 			$object->getCalendarData(),
-			$object->getLastModified(),
-			$object->getObjectURI(),
-			$object->gerLastModified(),
+			$this->getUTCforMDB($object->getLastModified()),
 			$calendarURI,
 			$userId,
+			$object->getObjectURI()
 		));
+	}
+
+
+	/**
+	 * move an object to another calendar
+	 * @param Object $object
+	 * @param Calendar $oldCalendar
+	 * @throws CacheOutDatedException if calendar does not exist
+	 * @return Calendar
+	 */
+	public function moveObject(Object &$object, Calendar $oldCalendar) {
+		$newCalendarURI = $object->getCalendar()->getUri();
+		$oldCalendarURI = $oldCalendar->getUri();
+	}
+
+
+	/**
+	 * move an object to another user
+	 * @param Object $object
+	 * @param Calendar $oldCalendar
+	 * @throws CacheOutDatedException if calendar does not exist
+	 * @return Calendar
+	 */
+	public function transferObject(Object &$object, Calendar $oldCalendar) {
+		$newCalendarURI = $object->getCalendar()->getUri();
+		$oldCalendarURI = $oldCalendar->getUri();
+
+		$newUserId = $object->getCalendar()->getUserId();
+		$oldUserId = $oldCalendar->getUserId();
 	}
 
 

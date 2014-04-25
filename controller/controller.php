@@ -14,6 +14,8 @@ use \OCA\Calendar\BusinessLayer\BusinessLayer;
 use \OCA\Calendar\BusinessLayer\CalendarBusinessLayer;
 use \OCA\Calendar\BusinessLayer\ObjectBusinessLayer;
 
+use \DateTime;
+
 abstract class Controller extends \OCP\AppFramework\Controller {
 
 	/**
@@ -70,7 +72,11 @@ abstract class Controller extends \OCP\AppFramework\Controller {
 	public function params($key, $default=null){
 		$value = parent::params($key, $default);
 		if ($default !== null) {
-			settype($value, gettype($default));
+			if ($default instanceof DateTime) {
+				$value = DateTime::createFromFormat(DateTime::ISO8601, $value);
+			} else {
+				settype($value, gettype($default));
+			}
 		}
 		return $value;
 	}
