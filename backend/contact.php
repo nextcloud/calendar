@@ -54,7 +54,7 @@ class Contact extends Backend {
 	 * @returns boolean
 	 */
 	public function canBeEnabled() {
-		return \OCP\App::isEnabled('contacts');
+		return true;//return \OCP\App::isEnabled('contacts');
 	}
 
 

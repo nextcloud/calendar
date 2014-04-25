@@ -15,21 +15,23 @@ interface IReader {
 	 */
 	public function getObject();
 
+
 	/**
 	 * @brief is object a collection
 	 * @return boolean
 	 */
 	public function isCollection();
 
+
 	/**
 	 * @brief parse data
 	 */
 	public function parse();
+
 
 	/**
 	 * @brief set data
 	 * @param mixed $data
 	 */
 	public function setData($data);
-
 }

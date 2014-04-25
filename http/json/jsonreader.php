@@ -35,6 +35,14 @@ abstract class JSONReader implements IReader {
 	}
 
 	/**
+	 * @brief sanitize input
+	 * @return $this
+	 */
+	public function sanitize(){
+		return $this;
+	}
+
+	/**
 	 * @brief set data
 	 */
 	public function setData($json) {

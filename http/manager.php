@@ -9,8 +9,19 @@ namespace OCA\Calendar\Http;
 
 abstract class Manager {
 
+	/**
+	 * all serializers/readers
+	 * @var array
+	 */
 	protected static $all=array();
+
+
+	/**
+	 * array for fallbacks
+	 * @var array
+	 */
 	private static $fallback=array();
+
 
 	/**
 	 * @brief get
@@ -27,6 +38,7 @@ abstract class Manager {
 		}
 		return self::$all[$type][$requestedMimeType];
 	}
+
 
 	/**
 	 * @brief set
@@ -45,6 +57,7 @@ abstract class Manager {
 		return true;
 	}
 
+
 	/**
 	 * @brief getFallback
 	 * @param integer $type
@@ -57,11 +70,12 @@ abstract class Manager {
 		return self::$fallback[$type];
 	}
 
+
 	/**
 	 * @brief setFallback
 	 * @param integer $type
 	 * @param string $class
-	 * @return mixed (boolean|string)
+	 * @return mixed boolean
 	 */
 	public static function setFallback($type, $class) {
 		self::$fallback[$type] = $class;

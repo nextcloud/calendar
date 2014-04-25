@@ -7,7 +7,7 @@
  */
 namespace OCA\Calendar\Http\JSON;
 
-use \OCA\Calendar\Utility\JSONUtility;
+use \OCA\Calendar\Utility\SabreUtility;
 
 class JSONObject extends JSON {
 
@@ -24,17 +24,19 @@ class JSONObject extends JSON {
 		);
 	}
 
+
 	/**
 	 * @brief get json-encoded string containing all information
 	 * @return array
 	 */
 	public function serialize($convenience=true) {
 		$vcalendar = $this->object->getVObject();
+		$timezoneMapper = $this->app->query('TimezoneMapper');
 
-		/*ObjectUtility::addMissingVTimezones(
+		SabreUtility::addMissingVTimezones(
 			$vcalendar,
-			$this->app->query('TimezoneMapper')
-		);*/
+			$timezoneMapper
+		);
 
 		return $vcalendar->jsonSerialize();
 	}

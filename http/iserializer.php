@@ -15,11 +15,13 @@ interface ISerializer {
 	 */
 	public function getHeaders();
 
+
 	/**
 	 * @brief get serialized data
 	 * @return string
 	 */
-	public function serialize($convenience);
+	public function serialize();
+
 
 	/**
 	 * @brief set object

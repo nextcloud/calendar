@@ -31,7 +31,8 @@ class Response extends CoreResponse {
 		}
 		$this->setStatus($statusCode);
 
-		if ($data instanceof ISerializer) {
+		if ($data instanceof Serializer ||
+			$data instanceof ISerializer) {
 			$headers = $data->getHeaders();
 			foreach($headers as $key => $value) {
 				$this->addHeader($key, $value);
@@ -48,7 +49,8 @@ class Response extends CoreResponse {
 			return $this->data;
 		} elseif (is_array($this->data)) {
 			return json_encode($this->data);
-		} elseif ($this->data instanceof ISerializer) {
+		} elseif ($this->data instanceof ISerializer ||
+				  $this->data instanceof Serializer) {
 			$data = $this->data->serialize();
 
 			if (is_null($data)) {

@@ -7,6 +7,8 @@
  */
 namespace OCA\Calendar\Http\JSON;
 
+use \OCP\AppFramework\IAppContainer;
+
 use \OCA\Calendar\Db\Entity;
 
 use \OCA\Calendar\Http\Serializer;
@@ -14,7 +16,39 @@ use \OCA\Calendar\Http\ISerializer;
 
 abstract class JSON implements ISerializer {
 
+	/**
+	 * @brief object
+	 * @var mixed (Entity|Collection)
+	 */
 	protected $object;
+
+
+	/**
+	 * @brief app container
+	 * @var IAppContainer $app
+	 */
+	protected $app;
+
+
+	/**
+	 * @brief constructor
+	 * @param IAppContainer $app
+	 */
+	public function __construct(IAppContainer $app) {
+		$this->app = $app;
+	}
+
+
+	/**
+	 * @brief get headers for response
+	 * @return array
+	 */
+	public function getHeaders() {
+		return array(
+			'X-Content-Type-Options' => 'nosniff',
+		);
+	}
+
 
 	/**
 	 * @brief get object JSONObject was initialized with.
@@ -22,6 +56,7 @@ abstract class JSON implements ISerializer {
 	public function getObject() {
 		return $this->object;
 	}
+
 
 	/**
 	 * @brief set object
@@ -35,18 +70,10 @@ abstract class JSON implements ISerializer {
 		return null;
 	}
 
-	/**
-	 * @brief get headers for response
-	 * @return array
-	 */
-	public function getHeaders() {
-		return array(
-			'X-Content-Type-Options' => 'nosniff',
-		);
-	}
 
 	/**
 	 * @brief get json-encoded string containing all information
+	 * @return array
 	 */
-	abstract public function serialize($convenience=true);
+	abstract public function serialize();
 }

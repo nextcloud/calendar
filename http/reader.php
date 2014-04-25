@@ -7,13 +7,21 @@
  */
 namespace OCA\Calendar\Http;
 
+use \OCP\AppFramework\IAppContainer;
+
 class Reader extends Manager implements IReader {
 
 	const Calendar = 7;
 	const Object = 8;
 	const Timezone = 9;
 
+
+	/**
+	 * reader object
+	 * @var \OCA\Calendar\Http\IReader
+	 */
 	private $reader;
+
 
 	/**
 	 * @brief Constructor
@@ -21,52 +29,22 @@ class Reader extends Manager implements IReader {
 	 * @param mixed $data
 	 * @param string $requestedMimeType
 	 */
-	public function __construct($type, $data, $requestedMimeType) {
+	public function __construct(IAppContainer $app, $type, $data, $requestedMimeType) {
 		$class = self::get($type, $requestedMimeType);
 		if (!$class) {
 			throw new \Exception('No reader found.');
 		}
 
-		$this->reader = new $class();
+		$this->reader = new $class($app);
 		$this->reader->setData($data);
 	}
 
-	/**
-	 * @brief get object
-	 * @return mixed (\OCA\Calendar\Db\Entity|\OCA\Calendar\Db\Collection)
-	 */
-	public function getObject() {
-		return $this->reader->getObject();
-	}
 
-	/**
-	 * @brief is object a collection
-	 * @return boolean
-	 */
-	public function isCollection() {
-		return $this->reader->isCollection();
-	}
-
-	/**
-	 * @brief parse data
-	 */
-	public function parse() {
-		$this->reader->parse();
-		return $this;
-	}
-
-	/**
-	 * @brief set data
-	 * @param mixed $data
-	 */
-	public function setData($data) {
-		$this->reader->setData($data);
-		return $this;
-	}
-
-	public function sanitize() {
-		$this->reader->sanitize();
-		return $this;
+	public function __call($method, $params) {
+		if(is_callable(array($this->reader, $method))) {
+			return call_user_func_array(array($this->reader, $method), $params);
+		}
+		throw new \BadFunctionCallException('Call to undefined method ' . $method);
 	}
 }
 

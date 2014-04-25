@@ -24,6 +24,7 @@ class JSONCalendarCollection extends JSONCollection {
 		);
 	}
 
+
 	/**
 	 * @brief get json-encoded string containing all information
 	 * @return array
@@ -33,14 +34,8 @@ class JSONCalendarCollection extends JSONCollection {
 
 		$this->object->iterate(function(&$object) use (&$jsonArray, $convenience) {
 			try {
-				if ($object instanceof Calendar) {
-					$jsonCalendar = new JSONCalendar();
-					$jsonCalendar->setObject($object);
-					$jsonArray[] = $jsonCalendar->serialize($convenience);
-				}
-				if ($object instanceof JSONCalendar) {
-					$jsonArray[] = $object->serialize($convenience);
-				}
+				$jsonCalendar = new JSONCalendar($this->app);
+				$jsonArray[] = $jsonCalendar->setObject($object)->serialize($convenience);
 			} catch (JSONException $ex) {
 				//TODO - log error msg
 				return;

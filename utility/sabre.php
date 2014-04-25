@@ -16,6 +16,13 @@ use \OCA\Calendar\Sabre\VObject\Component\VJournal;
 use \OCA\Calendar\Sabre\VObject\Component\VTodo;
 use \OCA\Calendar\Sabre\VObject\Component\VFreeBusy;
 
+use \OCA\Calendar\Sabre\VObject\Property\ICalendar\DateTime as DateTimeProperty;
+
+use \OCA\Calendar\Db\Timezone;
+use \OCA\Calendar\Db\TimezoneMapper;
+
+use \OCA\Calendar\Db\DoesNotExistException;
+
 class SabreUtility extends Utility {
 
 	/**
@@ -159,5 +166,59 @@ class SabreUtility extends Utility {
 		$dtend->getDateTime()->add($interval);
 
 		return $dtend;
+	}
+
+
+	/**
+	 * @brief add missing timezones to an object
+	 * @param \OCA\Calendar\Sabre\VObject\Component\VCalendar $vcalendar
+	 * @param \OCA\Calendar\Db\TimezoneMapper $tzMapper
+	 */
+	public static function addMissingVTimezones(VCalendar &$vcalendar, TimezoneMapper &$tzMapper) {
+		$tzIds = self::parseComponentForTzIds($vcalendar);
+		$tzIds = array_unique($tzIds);
+
+		$tzIdsInVCalendar = array();
+
+		foreach($vcalendar->select('VTIMEZONE') as $vtimezone) {
+			$tzIdsInVCalendar[] = (string)$vtimezone->TZID;
+		}
+
+		$missingTzIds = array_diff($tzIds, $tzIdsInVCalendar);
+
+		foreach($missingTzIds as $tzId) {
+			try {
+				$timezonesVCalendar = $tzMapper->find($tzId)->vobject;
+				$vcalendar->add($timezonesVCalendar->{'VTIMEZONE'});
+			} catch(DoesNotExistException $ex) {
+				continue;
+			}
+		}
+	}
+
+
+	/**
+	 * @brief parse a component 
+	 * @param \OCA\Calendar\Sabre\VObject\Component\VCalendar $vcalendar
+	 * @return array
+	 */
+	public static function parseComponentForTzIds(Component &$component) {
+		$tzIds = array();
+
+		foreach($component->children() as $child) {
+			if($child instanceof Component) {
+				$tzIds = array_merge(
+					$tzIds,
+					self::parseComponentForTzIds($child)
+				);
+			} elseif($child instanceof DateTimeProperty) {
+				$parameters = $child->parameters;
+				if(array_key_exists('TZID', $parameters)) {
+					$tzIds[] = $parameters['TZID']->getValue();
+				}
+			}
+		}
+
+		return $tzIds;
 	}
 }

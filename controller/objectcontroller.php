@@ -52,7 +52,7 @@ class ObjectController extends Controller {
 
 			$objectCollection = $this->objectBusinessLayer->findAll($calendar, $limit, $offset);
 
-			$serializer = new Serializer(Serializer::ObjectCollection, $objectCollection, $this->accept());
+			$serializer = new Serializer($this->app, Serializer::ObjectCollection, $objectCollection, $this->accept());
 
 			return new Response($serializer);
 		} catch (BusinessLayerException $ex) {
@@ -91,7 +91,7 @@ class ObjectController extends Controller {
 			$objectCollection = $this->objectBusinessLayer->findAllInPeriod($calendar, $start, $end,
 																			$limit, $offset);
 
-			$serializer = new Serializer(Serializer::ObjectCollection, $objectCollection, $this->accept());
+			$serializer = new Serializer($this->app, Serializer::ObjectCollection, $objectCollection, $this->accept());
 
 			return new Response($serializer);
 		} catch (BusinessLayerException $ex) {
@@ -119,7 +119,7 @@ class ObjectController extends Controller {
 
 			$object = $this->objectBusinessLayer->find($calendar, $objectURI);
 
-			$serializer = new Serializer(Serializer::Object, $object, $this->accept());
+			$serializer = new Serializer($this->app, Serializer::Object, $object, $this->accept());
 
 			return new Response($serializer);
 		} catch (BusinessLayerException $ex) {
@@ -145,15 +145,15 @@ class ObjectController extends Controller {
 				return new Response(null, HTTP::STATUS_FORBIDDEN);
 			}
 
-			$reader = new Reader(Reader::Object, $data, $this->contentType());
+			$reader = new Reader($this->app, Reader::Object, $data, $this->contentType());
 			$object = $reader->sanitize()->getObject()->setCalendar($calendar);
 
 			if ($object instanceof Object) {
 				$object = $this->objectBusinessLayer->createFromRequest($object);
-				$serializer = new Serializer(Serializer::Object, $object, $this->accept());
+				$serializer = new Serializer($this->app, Serializer::Object, $object, $this->accept());
 			} elseif ($object instanceof ObjectCollection) {
 				$object = $this->objectBusinessLayer->createCollectionFromRequest($object);
-				$serializer = new serializer(Serializer::ObjectCollection, $object, $this->accept());
+				$serializer = new Serializer($this->app, Serializer::ObjectCollection, $object, $this->accept());
 			} else {
 				throw new ReaderException('Reader returned unrecognised format.');
 			}
@@ -187,7 +187,7 @@ class ObjectController extends Controller {
 				return new Response(null, HTTP::STATUS_FORBIDDEN);
 			}
 
-			$reader = new Reader(Reader::Object, $data, $this->contentType());
+			$reader = new Reader($this->app, Reader::Object, $data, $this->contentType());
 
 			$object = $reader->sanitize()->getObject()->setCalendar($calendar);
 			if ($object instanceof Object) {
@@ -202,7 +202,7 @@ class ObjectController extends Controller {
 				return new Response(null, HTTP::STATUS_NO_CONTENT);
 			}
 
-			$serializer = new Serializer(Serializer::Object, $object, $this->accept());
+			$serializer = new Serializer($this->app, Serializer::Object, $object, $this->accept());
 
 			return new Response($serializer);
 		} catch(BusinessLayerException $ex) {

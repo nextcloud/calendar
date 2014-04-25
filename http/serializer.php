@@ -7,7 +7,9 @@
  */
 namespace OCA\Calendar\Http;
 
-class Serializer extends Manager implements ISerializer {
+use \OCP\AppFramework\IAppContainer;
+
+class Serializer extends Manager {
 
 	const Calendar = 1;
 	const CalendarCollection = 2;
@@ -16,9 +18,14 @@ class Serializer extends Manager implements ISerializer {
 	const Timezone = 5;
 	const TimezoneCollection = 6;
 
+	/**
+	 * reader object
+	 * @var \OCA\Calendar\Http\ISerializer
+	 */
 	private $serializer;
 
-	public function __construct($type, $data, $requestedMimeType) {
+
+	public function __construct(IAppContainer $app, $type, $data, $requestedMimeType) {
 		$class = self::get($type, $requestedMimeType);
 		if (!$class) {
 			$class = self::getFallback($type);
@@ -27,33 +34,15 @@ class Serializer extends Manager implements ISerializer {
 			throw new Exception('No serializer found.');
 		}
 
-		$this->serializer = new $class();
+		$this->serializer = new $class($app);
 		$this->serializer->setObject($data);
 	}
 
-	/**
-	 * @brief get headers for response
-	 * @return array
-	 */
-	public function getHeaders() {
-		return $this->serializer->getHeaders();
-	}
-
-	/**
-	 * @brief get serialized data
-	 * @return string
-	 */
-	public function serialize($convenience=true) {
-		return $this->serializer->serialize($convenience);
-	}
-
-	/**
-	 * @brief set object
-	 * @param mixed $object
-	 */
-	public function setObject($object) {
-		$this->serializer->setObject($object);
-		return $this;
+	public function __call($method, $params) {
+		if(is_callable(array($this->serializer, $method))) {
+			return call_user_func_array(array($this->serializer, $method), $params);
+		}
+		throw new \BadFunctionCallException('Call to undefined method ' . $method);
 	}
 }
 

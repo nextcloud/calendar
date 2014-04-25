@@ -21,33 +21,16 @@ class JSONCalendarReader extends JSONReader{
 	 */
 	public function parse() {
 		$data = $this->getData();
-		$isCollection = $this->isDataACollection();
 
-		if ($isCollection) {
-			$collection = new CalendarCollection();
-
-			foreach($data as $singleEntity) {
-				try {
-					$calendar = $this->parseJSONCalendar($singleEntity);
-					$collection->add($calendar);
-				} catch(JSONReaderException $ex) {
-					//TODO - log error message
-					continue;
-				}
-			}
-
-			$this->setObject($collection);
+		if ($this->isUserDataACollection()) {
+			$object = $this->parseCollection($data);
 		} else {
-			try {
-				$calendar = $this->parseJSONCalendar($data);
-				$this->setObject($calendar);
-			} catch(JSONReaderException $ex) {
-				//TODO - log error message
-				return;
-			}
+			$object = $this->parseSingleEntity($data);
 		}
-		return $this;
+
+		return $this->setObject($object);
 	}
+
 
 	/**
 	 * @brief overwrite values that should not be set by user with null
@@ -64,28 +47,51 @@ class JSONCalendarReader extends JSONReader{
 			'ctag',
 		);
 
-		parent::nullProperties($sanitize);
-		return $this;
+		return parent::nullProperties($sanitize);
 	}
+
 
 	/**
 	 * @brief check if $this->data is a collection
 	 * @return boolean
 	 */
-	private function isDataACollection() {
+	private function isUserDataACollection() {
 		$data = $this->data;
 
 		if (array_key_exists(0, $data) && is_array($data[0])) {
 			return true;
 		}
+
 		return false;
 	}
 
+
 	/**
-	 * @brief parse a single json calendar
+	 * @brief parse a json calendar collection
+	 * @return \OCA\Calendar\Db\CalendarCollection
+	 */
+	private function parseCollection($data) {
+		$collection = new CalendarCollection();
+
+		foreach($data as $singleEntity) {
+			try {
+				$calendar = $this->parseSingleEntity($singleEntity);
+				$collection->add($calendar);
+			} catch(JSONReaderException $ex) {
+				//TODO - log error message
+				continue;
+			}
+		}
+
+		return $collection;
+	}
+
+
+	/**
+	 * @brief parse a json calendar
 	 * @return \OCA\Calendar\Db\Calendar
 	 */
-	private function parseJSONCalendar($data) {
+	private function parseSingleEntity($data) {
 		$calendar = new Calendar();
 
 		foreach($data as $key => $value) {
@@ -96,20 +102,17 @@ class JSONCalendarReader extends JSONReader{
 				case 'displayname':
 				case 'backend':
 				case 'uri':
-				//case 'timezone':
-					$value = strval($value);
-					$calendar->$setter($value);
+				case 'timezone':
+					$calendar->$setter(strval($value));
 					break;
 
 				case 'ctag':
 				case 'order':
-					$value = intval($value);
-					$calendar->$setter($value);
+					$calendar->$setter(intval($value));
 					break;
 
 				case 'enabled':
-					//$value = boolval($value); boolval is PHP >= 5.5 only
-					$calendar->$setter($value);
+					$calendar->$setter((bool) $value); //boolval is PHP >= 5.5 only
 					break;
 
 				case 'components':
@@ -129,12 +132,9 @@ class JSONCalendarReader extends JSONReader{
 					$calendar->$setter($value);
 					break;
 
-				case 'calendarURI':
-					$this->setCalendarURI($value);
-					break;
-
 				//blacklist:
 				case 'url':
+				case 'caldav':
 					break;
 
 				default:
@@ -143,9 +143,5 @@ class JSONCalendarReader extends JSONReader{
 		}
 
 		return $calendar;
-	}
-
-	private function setCalendarURI($calendarURI) {
-		//Todo - check 
 	}
 }

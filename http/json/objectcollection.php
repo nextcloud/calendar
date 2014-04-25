@@ -7,6 +7,8 @@
  */
 namespace OCA\Calendar\Http\JSON;
 
+use \OCA\Calendar\Utility\SabreUtility;
+
 class JSONObjectCollection extends JSONCollection {
 
 	/**
@@ -22,24 +24,27 @@ class JSONObjectCollection extends JSONCollection {
 		);
 	}
 
+
 	/**
 	 * @brief get json-encoded string containing all information
 	 * @return mixed (null|array)
 	 */
 	public function serialize($convenience=true) {
-		//if the collection does not contain any object,
-		//return the http 204 no content status code
+		/**
+		 * If the collection is empty, return 204
+		 */
 		if ($this->object->count() === 0) {
 			return null;
+		} else {
+			$vcalendar = $this->object->getVObject();
+			$timezoneMapper = $this->app->query('TimezoneMapper');
+		
+			SabreUtility::addMissingVTimezones(
+				$vcalendar,
+				$timezoneMapper
+			);
+
+			return $vcalendar->jsonSerialize();
 		}
-
-		$vcalendar = $this->object->getVObject();
-
-		/*ObjectUtility::addMissingVTimezones(
-			$vcalendar,
-			$this->app->query('TimezoneMapper')
-		);*/
-
-		return $vcalendar->jsonSerialize();
 	}
 }

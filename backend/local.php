@@ -48,6 +48,13 @@ class Local extends Backend {
 
 
 	/**
+	 * timezoneMapper object
+	 * @var \OCA\Calendar\Db\TimezoneMapper
+	 */
+	private $timezoneMapper;
+
+
+	/**
 	 * maps values from \OCA\Calendar\Db\ObjectType to strings from db
 	 * @var array
 	 */
@@ -71,6 +78,8 @@ class Local extends Backend {
 		$this->objTableName = (array_key_exists('objTableName', $parameters) ? 
 									$parameters['objTableName'] : 
 									'*PREFIX*clndr_objects');
+
+		$this->timezoneMapper = $app->query('TimezoneMapper');
 
 		parent::__construct($app, 'local');
 	}
@@ -996,7 +1005,7 @@ class Local extends Backend {
 	 */
 	private function createTimezoneFromRow(&$row) {
 		try {
-			return new Timezone(strval($row['timezone']));
+			//return $this->timezoneMapper->find(strval($row['timezone']));
 		} catch(DoesNotExistException $ex) {
 			return new Timezone('UTC');
 		}

@@ -45,7 +45,7 @@ class CalendarController extends Controller {
 
 			$calendarCollection = $this->calendarBusinessLayer->findAll($userId, $limit, $offset);
 
-			$serializer = new Serializer(Serializer::CalendarCollection, $calendarCollection, $this->accept());
+			$serializer = new Serializer($this->app, Serializer::CalendarCollection, $calendarCollection, $this->accept());
 			return new Response($serializer);
 		} catch (BusinessLayerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
@@ -65,7 +65,7 @@ class CalendarController extends Controller {
 
 			$calendar = $this->calendarBusinessLayer->find($calendarId, $userId);
 
-			$serializer = new Serializer(Serializer::Calendar, $calendar, $this->accept());
+			$serializer = new Serializer($this->app, Serializer::Calendar, $calendar, $this->accept());
 			return new Response($serializer);
 		} catch (BusinessLayerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
@@ -83,21 +83,21 @@ class CalendarController extends Controller {
 			$userId = $this->api->getUserId();
 			$data = $this->request->params;
 
-			$reader = new Reader(Reader::Calendar, $data, $this->contentType());
+			$reader = new Reader($this->app, Reader::Calendar, $data, $this->contentType());
 
 			$calendar = $reader->sanitize()->getObject();
 
 			if ($calendar instanceof Calendar) {
 				$calendar = $this->calendarBusinessLayer->createFromRequest($calendar);
-				$serializer = new Serializer(Serializer::Calendar, $calendar, $this->accept());
+				$serializer = new Serializer($this->app, Serializer::Calendar, $calendar, $this->accept());
 			} elseif ($calendar instanceof CalendarCollection) {
 				$calendar = $this->calendarBusinessLayer->createCollectionFromRequest($calendar);
-				$serializer = new serializer(Serializer::CalendarCollection, $calendar, $this->accept());
+				$serializer = new Serializer($this->app, Serializer::CalendarCollection, $calendar, $this->accept());
 			} else {
 				throw new ReaderException('Reader returned unrecognised format.');
 			}
 
-			$serializer = new Serializer(Serializer::Calendar, $calendar, $this->accept());
+			$serializer = new Serializer($this->app, Serializer::Calendar, $calendar, $this->accept());
 			return new Response($serializer, Http::STATUS_CREATED);
 		} catch (BusinessLayerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
@@ -119,7 +119,7 @@ class CalendarController extends Controller {
 			$ctag = $this->header('if-match');
 			$data = $this->request->params;
 
-			$reader = new Reader(Reader::Calendar, $data, $this->contentType());
+			$reader = new Reader($this->app, Reader::Calendar, $data, $this->contentType());
 
 			$calendar = $reader->sanitize()->getObject();
 			if ($calendar instanceof Calendar) {
@@ -130,7 +130,7 @@ class CalendarController extends Controller {
 				throw new ReaderException('Reader returned unrecognised format.');
 			}
 
-			$serializer = new Serializer(Serializer::Calendar, $calendar, $this->accept());
+			$serializer = new Serializer($this->app, Serializer::Calendar, $calendar, $this->accept());
 			return new Response($serializer);
 		} catch(BusinessLayerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');

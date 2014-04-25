@@ -91,7 +91,7 @@ abstract class ObjectTypeController extends ObjectController {
 			$objectCollection = $this->objectBusinessLayer->findAllByType($calendar, $type,
 																		  $limit, $offset);
 
-			$serializer = new Serializer(Serializer::ObjectCollection, $objectCollection, $this->accept());
+			$serializer = new Serializer($this->app, Serializer::ObjectCollection, $objectCollection, $this->accept());
 
 			return new Response($serializer);
 		} catch (BusinessLayerException $ex) {
@@ -130,7 +130,7 @@ abstract class ObjectTypeController extends ObjectController {
 			$objectCollection = $this->objectBusinessLayer->findAllByTypeInPeriod($calendar, $type, $start, $end,
 																				  $limit, $offset);
 
-			$serializer = new Serializer(Serializer::ObjectCollection, $objectCollection, $this->accept());
+			$serializer = new Serializer($this->app, Serializer::ObjectCollection, $objectCollection, $this->accept());
 
 			return new Response($serializer);
 		} catch (BusinessLayerException $ex) {
@@ -160,7 +160,7 @@ abstract class ObjectTypeController extends ObjectController {
 
 			$object = $this->objectBusinessLayer->findByType($calendar, $objectURI, $type);
 
-			$serializer = new Serializer(Serializer::Object, $object, $this->accept());
+			$serializer = new Serializer($this->app, Serializer::Object, $object, $this->accept());
 
 			return new Response($serializer);
 		} catch (BusinessLayerException $ex) {

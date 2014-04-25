@@ -14,10 +14,18 @@ use \OCA\Calendar\Db\Calendar;
 class CalendarMapper extends Mapper {
 
 	/**
+	 * timezoneMapper object
+	 * @var \OCA\Calendar\Db\TimezoneMapper
+	 */
+	private $timezoneMapper;
+
+
+	/**
 	 * @param API $api: Instance of the API abstraction layer
 	 */
-	public function __construct($api, $tablename='clndr_calcache'){
-		parent::__construct($api, $tablename);
+	public function __construct($app, $tablename='clndr_calcache'){
+		parent::__construct($app, $tablename);
+		$this->timezoneMapper = $app->query('TimezoneMapper');
 	}
 
 	/**

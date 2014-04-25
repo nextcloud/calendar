@@ -62,7 +62,7 @@ class TimezoneController extends Controller {
 
 		$timezoneCollection = $this->timezoneMapper->findAll($limit, $offset);
 
-		$serializer = new Serializer(Serializer::TimezoneCollection, $timezoneCollection, $this->accept());
+		$serializer = new Serializer($this->app, Serializer::TimezoneCollection, $timezoneCollection, $this->accept());
 		return new Response($serializer);
 	}
 
@@ -77,7 +77,7 @@ class TimezoneController extends Controller {
 
 			$timezone = $this->timezoneMapper->find($tzId);
 
-			$serializer = new Serializer(Serializer::Timezone, $timezone, $this->accept());
+			$serializer = new Serializer($this->app, Serializer::Timezone, $timezone, $this->accept());
 			return new Response($serializer);
 		} catch (DoesNotExistException $ex) {
 			return new Response(null, Http::STATUS_NOT_FOUND);
