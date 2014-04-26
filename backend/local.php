@@ -97,6 +97,21 @@ class Local extends Backend {
 
 
 	/**
+	 * get translated string for createOn dialog
+	 * @return string
+	 */
+	public function getAvailablePrefixes() {
+		return array(
+			array(
+				'name' => 'this ownCloud',
+				'l10n' => 'this ownCloud', //
+				'prefix' => '',
+			),
+		);
+	}
+
+
+	/**
 	 * Find a calendar
 	 * @param string $calendarURI
 	 * @param string $userId

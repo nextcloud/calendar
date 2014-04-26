@@ -7,6 +7,7 @@
  */
 namespace OCA\Calendar\Controller;
 
+use \OCP\AppFramework\Http\TemplateResponse;
 use \OCA\Calendar\Http\Response;
 
 class ViewController extends Controller {
@@ -16,8 +17,9 @@ class ViewController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	public function index(){
-		var_dump('index_called');
-		exit;
+		//$this->api->addStyle();
+		//$this->api->addScript();
+		return new TemplateResponse('calendar', 'main');
 	}
 
 

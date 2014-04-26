@@ -127,16 +127,6 @@ abstract class Backend implements IBackend {
 		return true;
 	}
 
-
-	/**
-	 * @brief returns whether or not a prefix is required
-	 * @returns boolean
-	 */
-	public function needsPrefix() {
-		return false;
-	}
-
-
 	/**
 	 * @brief returns list of available uri prefixes
 	 * @returns array

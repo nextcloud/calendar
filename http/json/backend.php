@@ -87,24 +87,33 @@ class JSONBackend extends JSON {
 	 * @return $this
 	 */
 	private function setSupportedActions() {
-		$actions = array(
-			'createCalendar' => 
+		$calActions = array(
+			'create' => 
 				$this->object->api->implementsActions(\OCA\Calendar\Backend\CREATE_CALENDAR),
-			'updateCalendar' => 
+			'update' => 
 				$this->object->api->implementsActions(\OCA\Calendar\Backend\UPDATE_CALENDAR),
-			'deleteCalendar' => 
+			'delete' => 
 				$this->object->api->implementsActions(\OCA\Calendar\Backend\DELETE_CALENDAR),
-			'mergeCalendar' => 
+			'merge' => 
 				$this->object->api->implementsActions(\OCA\Calendar\Backend\MERGE_CALENDAR),
-			'moveCalendar' => 
+			'move' => 
 				$this->object->api->implementsActions(\OCA\Calendar\Backend\MOVE_CALENDAR),
-			'createObject' => 
+		);
+
+		$objActions = array(
+			'create' => 
 				$this->object->api->implementsActions(\OCA\Calendar\Backend\CREATE_OBJECT),
-			'updateObject' => 
+			'update' => 
 				$this->object->api->implementsActions(\OCA\Calendar\Backend\UPDATE_OBJECT),
-			'deleteObject' => 
+			'delete' => 
 				$this->object->api->implementsActions(\OCA\Calendar\Backend\DELETE_OBJECT),
 		);
+
+		$actions = array(
+			'calendar' => $calActions,
+			'object' => $objActions,
+		);
+
 		$this->jsonArray['actions'] = $actions;
 	}
 
@@ -114,7 +123,7 @@ class JSONBackend extends JSON {
 	 * @return $this
 	 */
 	private function setPrefixInformation() {
-		$this->jsonArray['needsPrefix'] = $this->object->api->needsPrefix();
 		$this->jsonArray['prefixes'] = $this->object->api->getAvailablePrefixes();
+		return $this;
 	}
 }
