@@ -104,7 +104,7 @@ class Local extends Backend {
 		return array(
 			array(
 				'name' => 'this ownCloud',
-				'l10n' => 'this ownCloud', //
+				'l10n' => 'this ownCloud', //TODO - translate
 				'prefix' => '',
 			),
 		);
@@ -122,9 +122,7 @@ class Local extends Backend {
 	public function findCalendar($calendarURI, $userId) {
 		$caltbl = $this->calTableName;
 
-		$sql  = 'SELECT * FROM `' . $caltbl . '` ';
-		$sql .= 'WHERE `uri` = ? AND `userid` = ?';
-
+		$sql  = 'SELECT * FROM `' . $caltbl . '` WHERE `uri` = ? AND `userid` = ?';
 		$result = \OCP\DB::prepare($sql)->execute(array(
 			$calendarURI,
 			$userId
@@ -161,7 +159,6 @@ class Local extends Backend {
 
 		$sql  = 'SELECT * FROM `' . $caltbl . '` ';
 		$sql .= 'WHERE `userid` = ? ORDER BY `calendarorder`';
-
 		$result = \OCP\DB::prepare($sql, $limit, $offset)->execute(array(
 			$userId
 		));
@@ -192,9 +189,7 @@ class Local extends Backend {
 	public function countCalendars($userId) {
 		$caltbl = $this->calTableName;
 
-		$sql  = 'SELECT COUNT(*) FROM `' . $caltbl . '` ';
-		$sql .= 'WHERE `userid` = ?';
-
+		$sql  = 'SELECT COUNT(*) FROM `' . $caltbl . '` WHERE `userid` = ?';
 		$result	= \OCP\DB::prepare($sql)->execute(array(
 			$userId
 		));
@@ -219,7 +214,6 @@ class Local extends Backend {
 
 		$sql  = 'SELECT COUNT(*) FROM `' . $caltbl . '` ';
 		$sql .= 'WHERE `uri` = ? AND `userid` = ?';
-
 		$result	= \OCP\DB::prepare($sql)->execute(array(
 			$calendarURI,
 			$userId
@@ -239,6 +233,35 @@ class Local extends Backend {
 
 
 	/**
+	 * get calendar id, false if calendar does not exist
+	 * @param string $calendarURI
+	 * @param string $userId
+	 * @return mixed (boolean|integer)
+	 */
+	private function getCalendarId($calendarURI, $userId) {
+		$caltbl = $this->calTableName;
+
+		$sql  = 'SELECT `id` FROM `' . $caltbl . '` ';
+		$sql .= 'WHERE `uri` = ? AND `userid` = ?';
+		$result	= \OCP\DB::prepare($sql)->execute(array(
+			$calendarURI,
+			$userId
+		));
+		$id = $result->fetchOne();
+
+		if ($id === false || $id === null){
+			return false;
+		}
+
+		if (gettype($id) !== 'integer') {
+			$id = intval($id);
+		}
+
+		return $id;
+	}
+
+
+	/**
 	 * get ctag of a calendar
 	 * @param string $calendarURI
 	 * @param string $userId
@@ -249,7 +272,6 @@ class Local extends Backend {
 
 		$sql  = 'SELECT `ctag` FROM `' . $caltbl . '` ';
 		$sql .= 'WHERE `uri` = ? AND `userid` = ?';
-
 		$result	= \OCP\DB::prepare($sql)->execute(array(
 			$calendarURI,
 			$userId
@@ -273,7 +295,7 @@ class Local extends Backend {
 		$calendarURI = $calendar->getUri();
 		$userId = $calendar->getUserId();
 
-		if ($this->doesCalendarExist($calendarURI, $userId) === true) {
+		if ($this->doesCalendarExist($calendarURI, $userId)) {
 			$msg  = 'Backend\Local::createCalendar(): Internal Error: ';
 			$msg .= 'Calendar with uri and userid combination already exists!';
 			throw new CacheOutDatedException($msg);
@@ -285,7 +307,6 @@ class Local extends Backend {
 		$sql .= '(`userid`, `displayname`, `uri`, `active`, `ctag`, `calendarorder`, ';
 		$sql .= '`calendarcolor`, `timezone`, `components`) ';
 		$sql .= 'VALUES(?,?,?,?,?,?,?,?,?)';
-
 		$result = \OCP\DB::prepare($sql)->execute(array(
 			$calendar->getUserId(),
 			$calendar->getDisplayname(),
@@ -309,7 +330,8 @@ class Local extends Backend {
 	 * @return Calendar
 	 */
 	public function updateCalendar(Calendar &$calendar) {
-		if ($this->doesCalendarExist($oldCalendarURI, $oldUserId) === false) {
+		$calendarId = $this->getCalendarId($calendarURI, $userId);
+		if (!$calendarId) {
 			$msg  = 'Backend\Local::updateCalendar(): Internal Error: ';
 			$msg .= 'Calendar with uri and userid combination not found!';
 			throw new CacheOutDatedException($msg);
@@ -320,9 +342,7 @@ class Local extends Backend {
 		$sql  = 'UPDATE `' . $caltbl . '` SET ';
 		$sql .= '`userid` = ?, `displayname` = ?, `uri` = ?, `active` = ?, ';
 		$sql .= '`ctag` = ?, `calendarorder` = ?, `calendarcolor` = ?, ';
-		$sql .= '`timezone` = ?, `components` = ? ';
-		$sql .= 'WHERE `userid` = ? AND `uri` = ?';
-
+		$sql .= '`timezone` = ?, `components` = ? WHERE `id = ?';
 		$result = \OCP\DB::prepare($sql)->execute(array(
 			$calendar->getUserId(),
 			$calendar->getDisplayname(),
@@ -333,8 +353,7 @@ class Local extends Backend {
 			$calendar->getColor(),
 			$calendar->getTimezone(),
 			$calendar->getComponents(),
-			$oldUserId,
-			$oldCalendarURI,
+			$calendarId
 		));
 	}
 
@@ -349,22 +368,21 @@ class Local extends Backend {
 		$caltbl = $this->calTableName;
 		$objtbl = $this->objTableName;
 
-		$sql1  = 'DELETE FROM `' . $objtbl . '` WHERE EXISTS ';
-		$sql1 .= '(SELECT caltbl.`id` FROM `' . $caltbl . '` AS caltbl ';
-		$sql1 .= 'WHERE caltbl.`id` = `' . $objtbl . '`.`calendarId` AND ';
-		$sql1 .= 'caltbl.`uri` = ? AND caltbl.`userid` = ?)';
+		$calendarId = $this->getCalendarId($calendarURI, $userId);
+		if (!$calendarId) {
+			$msg  = 'Backend\Local::findObjects(): Internal Error: ';
+			$msg .= 'Calendar not found!';
+			throw new CacheOutDatedException($msg);
+		}
 
+		$sql1 = 'DELETE FROM `' . $objtbl . '` WHERE `calendarid` = ?';
 		$result1 = \OCP\DB::prepare($sql1)->execute(array(
-			$calendarURI,
-			$userId
+			$calendarId
 		));
 
-		$sql2  = 'DELETE FROM `' . $caltbl . '` WHERE ';
-		$sql2 .= '`uri` = ? AND `userid` = ?';
-
+		$sql2  = 'DELETE FROM `' . $caltbl . '` WHERE `id` = ?';
 		$result2 = \OCP\DB::prepare($sql2)->execute(array(
-			$calendarURI,
-			$userId
+			$calendarId
 		));
 	}
 
@@ -379,25 +397,38 @@ class Local extends Backend {
 		$newCalendarURI = $calendar->getUri();
 		$newUserId = $calendar->getUserId();
 
+		$newCalendarId = $this->getCalendarId($newCalendarURI, $newUserId);
+		if (!$newCalendarId) {
+			$msg  = 'Backend\Local::mergeCalendar(): Internal Error: ';
+			$msg .= 'New Calendar not found!';
+			throw new CacheOutDatedException($msg);
+		}
+
+		$oldCalendarId = $this->getCalendarId($oldCalendarURI, $oldUserId);
+		if (!$oldCalendarId) {
+			$msg  = 'Backend\Local::mergeCalendar(): Internal Error: ';
+			$msg .= 'Old Calendar not found!';
+			throw new CacheOutDatedException($msg);
+		}
+
 		$caltbl = $this->calTableName;
 		$objtbl = $this->objTableName;
 
-		$sql  = 'UPDATE `' . $objtbl . '` SET `calendarid` = ';
-		$sql .= '(SELECT `id` FROM `' . $caltbl . '` WHERE `uri` = ? AND `userid` = ?) ';
-		$sql .= 'WHERE `calendarid` = ';
-		$sql .= '(SELECT `id` FROM `' . $caltbl . '` WHERE `uri` = ? AND `userid` = ?)';
-
+		$sql1 = 'UPDATE `' . $objtbl . '` SET `calendarid` = ? WHERE `calendarId` = ?';
 		$result = \OCP\DB::prepare($sql)->execute(array(
-			$newCalendarURI,
-			$newUserId,
-			$oldCalendarURI,
-			$oldUserId
+			$newCalendarId,
+			$oldCalendarId
 		));
 
-		$this->deleteCalendar($oldCalendarURI, $oldUserId);
+		$sql2  = 'DELETE FROM `' . $caltbl . '` WHERE `id` = ?';
+		$result2 = \OCP\DB::prepare($sql2)->execute(array(
+			$oldCalendarId
+		));
 
-		$calendar->touch();
-		$this->updateCalendar($calendar);
+		$sql3 = 'UPDATE `' . $caltbl . '` set `ctag` = `ctag` + 1 WHERE `id` = ?';
+		$result3 = \OCP\DB::prepare($sql3)->execute(array(
+			$newCalendarId
+		));
 	}
 
 
@@ -411,16 +442,19 @@ class Local extends Backend {
 		$newCalendarURI = $calendar->getUri();
 		$newUserId = $calendar->getUserId();
 
+		$calendarId = $this->getCalendarId($newCalendarURI, $newUserId);
+		if (!$calendarId) {
+			$msg  = 'Backend\Local::moveCalendar(): Internal Error: ';
+			$msg .= 'Calendar not found!';
+			throw new CacheOutDatedException($msg);
+		}
+
 		$caltbl = $this->calTableName;
 
-		$sql  = 'UPDATE `' . $caltbl . '` SET `uri` = ?, `userid` = ? WHERE ';
-		$sql .= '`uri` = ? AND `userId` = ?';
-
+		$sql  = 'UPDATE `' . $caltbl . '` SET `uri` = ? WHERE `id` = ?';
 		$result = \OCP\DB::prepare($sql)->execute(array(
 			$newCalendarURI,
-			$newUserId,
-			$oldCalendarURI,
-			$oldUserId,
+			$calendarId
 		));
 	}
 
@@ -446,18 +480,18 @@ class Local extends Backend {
 		$calendarURI = $calendar->getUri();
 		$userId = $calendar->getUserId();
 
-		$caltbl = $this->calTableName;
+		$calendarId = $this->getCalendarId($calendarURI, $userId);
+		if (!$calendarId) {
+			$msg  = 'Backend\Local::findObject(): Internal Error: ';
+			$msg .= 'Calendar not found!';
+			throw new CacheOutDatedException($msg);
+		}
+
 		$objtbl = $this->objTableName;
 
-		$sql  = 'SELECT objtbl.* FROM `' . $objtbl . '` AS objtbl, ';
-		$sql .= '`' . $caltbl . '` AS caltbl ';
-		$sql .= 'WHERE objtbl.`calendarid` = caltbl.`id` ';
-		$sql .= 'AND caltbl.`uri` = ? AND caltbl.`userid` = ? ';
-		$sql .= 'AND objtbl.`uri`= ?';
-
+		$sql = 'SELECT * FROM `' . $objtbl . '` WHERE `calendarid` = ? AND `uri` =? ';
 		$result = \OCP\DB::prepare($sql)->execute(array(
-			$calendarURI,
-			$userId,
+			$calendarId,
 			$objectURI
 		));
 		$row = $result->fetchRow();
@@ -491,17 +525,18 @@ class Local extends Backend {
 		$calendarURI = $calendar->getUri();
 		$userId = $calendar->getUserId();
 
-		$caltbl = $this->calTableName;
+		$calendarId = $this->getCalendarId($calendarURI, $userId);
+		if (!$calendarId) {
+			$msg  = 'Backend\Local::findObjects(): Internal Error: ';
+			$msg .= 'Calendar not found!';
+			throw new CacheOutDatedException($msg);
+		}
+
 		$objtbl = $this->objTableName;
 
-		$sql  = 'SELECT objtbl.* FROM `' . $objtbl . '` AS objtbl, ';
-		$sql .= '`' . $caltbl . '` AS caltbl ';
-		$sql .= 'WHERE objtbl.`calendarid` = caltbl.`id` ';
-		$sql .= 'AND caltbl.`uri` = ? AND caltbl.`userid` = ?';
-
+		$sql = 'SELECT * FROM `' . $objtbl . '` WHERE `calendarid` = ?';
 		$result = \OCP\DB::prepare($sql, $limit, $offset)->execute(array(
-			$calendarURI,
-			$userId
+			$calendarId
 		));
 
 		$objectCollection = new ObjectCollection();
@@ -534,28 +569,30 @@ class Local extends Backend {
 		$calendarURI = $calendar->getUri();
 		$userId = $calendar->getUserId();
 
-		$caltbl = $this->calTableName;
+		$calendarId = $this->getCalendarId($calendarURI, $userId);
+		if (!$calendarId) {
+			$msg  = 'Backend\Local::findObjects(): Internal Error: ';
+			$msg .= 'Calendar not found!';
+			throw new CacheOutDatedException($msg);
+		}
+
 		$objtbl = $this->objTableName;
 
-		$sql  = 'SELECT objtbl.* FROM `' . $objtbl . '` AS objtbl, ';
-		$sql .= '`' . $caltbl . '` AS caltbl ';
-		$sql .= 'WHERE objtbl.`calendarid` = caltbl.`id`';
-		$sql .= ' AND caltbl.`uri` = ? AND caltbl.`userid` = ?';
-        $sql .= ' AND ((objtbl.`startdate` >= ? AND ';
-        $sql .= 'objtbl.`enddate` <= ? AND objtbl.`repeating` = 0)';
-        $sql .= ' OR (objtbl.`enddate` >= ? AND ';
-        $sql .= 'objtbl.`startdate` <= ? AND objtbl.`repeating` = 0)';
-        $sql .= ' OR (objtbl.`startdate` <= ? AND objtbl.`repeating` = 1))';
-        $sql .= ' ORDER BY objtbl.`repeating`';
+		$sql  = 'SELECT * FROM `' . $objtbl . '` WHERE `calendarid` = ? AND ';
+        $sql .= '((`startdate` >= ? AND `enddate` <= ? AND `repeating` = 0)';
+        $sql .= ' OR (`enddate` >= ? AND `startdate` <= ? AND `repeating` = 0)';
+        $sql .= ' OR (`startdate` <= ? AND `repeating` = 1)) ORDER BY `repeating`';
+
+		$utcStart = $this->getUTCforMDB($start);
+		$utcEnd = $this->getUTCforMDB($end);
 
 		$result	= \OCP\DB::prepare($sql, $limit, $offset)->execute(array(
-			$calendarURI,
-			$userId,
-			$this->getUTCforMDB($start),
-			$this->getUTCforMDB($end),
-			$this->getUTCforMDB($start),
-			$this->getUTCforMDB($end),
-			$this->getUTCforMDB($end),
+			$calendarId,
+			$utcStart,
+			$utcEnd,
+			$utcStart,
+			$utcEnd,
+			$utcEnd
 		));
 
 		$objectCollection = new ObjectCollection();
@@ -586,17 +623,18 @@ class Local extends Backend {
 		$calendarURI = $calendar->getUri();
 		$userId = $calendar->getUserId();
 
-		$caltbl = $this->calTableName;
+		$calendarId = $this->getCalendarId($calendarURI, $userId);
+		if (!$calendarId) {
+			$msg  = 'Backend\Local::findObjects(): Internal Error: ';
+			$msg .= 'Calendar not found!';
+			throw new CacheOutDatedException($msg);
+		}
+
 		$objtbl = $this->objTableName;
 
-		$sql  = 'SELECT objtbl.* FROM `' . $objtbl . '` AS objtbl, ';
-		$sql .= '`' . $caltbl . '` AS caltbl ';
-		$sql .= 'WHERE objtbl.`calendarid` = caltbl.`id` ';
-		$sql .= 'AND caltbl.`uri` = ? and caltbl.`userid` = ? AND objtbl.`objecttype` = ?';
-
+		$sql = 'SELECT * FROM `' . $objtbl . '` WHERE `calendarid` = ? AND `objecttype` = ?';
 		$result = \OCP\DB::prepare($sql, $limit, $offset)->execute(array(
-			$calendarURI,
-			$userId,
+			$calendarId,
 			$this->getType($type)
 		));
 
@@ -630,27 +668,31 @@ class Local extends Backend {
 		$calendarURI = $calendar->getUri();
 		$userId = $calendar->getUserId();
 
-		$objtbl = $this->objTableName;
-		$caltbl = $this->calTableName;
+		$calendarId = $this->getCalendarId($calendarURI, $userId);
+		if (!$calendarId) {
+			$msg  = 'Backend\Local::findObjects(): Internal Error: ';
+			$msg .= 'Calendar not found!';
+			throw new CacheOutDatedException($msg);
+		}
 
-		$sql  = 'SELECT objtbl.* FROM `' . $objtbl . '` AS objtbl, ';
-		$sql .= '`' . $caltbl . '` AS caltbl ';
-		$sql .= 'WHERE objtbl.`calendarid` = caltbl.`id`';
-		$sql .= ' AND caltbl.`uri` = ? AND caltbl.`userid` = ?';
-        $sql .= ' AND ((objtbl.`startdate` >= ? AND objtbl.`enddate` <= ? AND objtbl.`repeating` = 0)';
-        $sql .= ' OR (objtbl.`enddate` >= ? AND objtbl.`startdate` <= ? AND objtbl.`repeating` = 0)';
-        $sql .= ' OR (objtbl.`startdate` <= ? AND objtbl.`repeating` = 1))';
-        $sql .= ' AND objtbl.`objecttype` = ?';
-        $sql .= ' ORDER BY objtbl.`repeating`';
+		$objtbl = $this->objTableName;
+
+		$sql  = 'SELECT * FROM `' . $objtbl . '` WHERE `calendarid` = ? AND ';
+        $sql .= '((`startdate` >= ? AND `enddate` <= ? AND `repeating` = 0)';
+        $sql .= ' OR (`enddate` >= ? AND `startdate` <= ? AND `repeating` = 0)';
+        $sql .= ' OR (`startdate` <= ? AND `repeating` = 1)) AND `objecttype` = ? ';
+        $sql .= 'ORDER BY `repeating`';
+
+		$utcStart = $this->getUTCforMDB($start);
+		$utcEnd = $this->getUTCforMDB($end);
 
 		$result	= \OCP\DB::prepare($sql, $limit, $offset)->execute(array(
-			$calendarURI,
-			$userId,
-			$this->getUTCforMDB($start),
-			$this->getUTCforMDB($end),
-			$this->getUTCforMDB($start),
-			$this->getUTCforMDB($end),
-			$this->getUTCforMDB($end),
+			$calendarId,
+			$utcStart,
+			$utcEnd,
+			$utcStart,
+			$utcEnd,
+			$utcEnd,
 			$this->getType($type)
 		));
 
@@ -686,7 +728,6 @@ class Local extends Backend {
 		$sql .= '`' . $caltbl . '` AS caltbl ';
 		$sql .= 'WHERE objtbl.`calendarid` = caltbl.`id` ';
 		$sql .= 'AND caltbl.`uri` = ? AND caltbl.`userid` = ?';
-
 		$result	= \OCP\DB::prepare($sql)->execute(array(
 			$calendarURI,
 			$userId
@@ -718,7 +759,6 @@ class Local extends Backend {
 		$sql .= 'WHERE objtbl.`calendarid` = caltbl.`id` ';
 		$sql .= 'AND caltbl.`uri` = ? AND caltbl.`userid` = ? ';
 		$sql .= 'AND objtbl.`uri` = ?';
-
 		$result	= \OCP\DB::prepare($sql)->execute(array(
 			$calendarURI,
 			$userId,
@@ -772,7 +812,8 @@ class Local extends Backend {
 		$calendarURI = $object->getCalendar()->getUri();
 		$userId = $object->getCalendar()->getUserId();
 
-		if (!$this->doesCalendarExist($calendarURI, $userId)) {
+		$calendarId = $this->getCalendarId($calendarURI, $userId);
+		if (!$calendarId) {
 			$msg  = 'Backend\Local::createObject(): Internal Error: ';
 			$msg .= 'Calendar not found!';
 			throw new CacheOutDatedException($msg);
@@ -783,17 +824,14 @@ class Local extends Backend {
 			throw new BackendException($msg);
 		}
 
-		$caltbl = $this->calTableName;
 		$objtbl = $this->objTableName;
 
 		$sql  = 'INSERT INTO `' . $objtbl . '` ';
 		$sql .= '(`calendarid`,`objecttype`,`startdate`,`enddate`,';
 		$sql .= '`repeating`,`summary`,`calendardata`,`uri`,`lastmodified`) ';
-		$sql .= 'SELECT caltbl.`id`, ?, ?, ?, ?, ?, ?, ?, ? ';
-		$sql .= 'FROM `' . $caltbl . '` AS caltbl ';
-		$sql .= 'WHERE caltbl.`userid` = ? AND caltbl.`uri` = ?';
-
+		$sql .= 'VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)';
 		$result = \OCP\DB::prepare($sql)->execute(array(
+			$calendarId,
 			$this->getType($object->getType()),
 			$this->getUTCforMDB($object->getStartDate()->getDateTime()),
 			$this->getUTCforMDB($object->getEndDate()->getDateTime()),
@@ -802,8 +840,6 @@ class Local extends Backend {
 			$object->getCalendarData(),
 			$object->getObjectURI(),
 			$this->getUTCforMDB($object->getLastModified()),
-			$userId,
-			$calendarURI
 		));
 	}
 
@@ -818,7 +854,8 @@ class Local extends Backend {
 		$calendarURI = $object->getCalendar()->getUri();
 		$userId = $object->getCalendar()->getUserId();
 
-		if (!$this->doesCalendarExist($calendarURI, $userId)) {
+		$calendarId = $this->getCalendarId($calendarURI, $userId);
+		if (!$calendarId) {
 			$msg  = 'Backend\Local::updateObject(): Internal Error: ';
 			$msg .= 'Calendar not found!';
 			throw new CacheOutDatedException($msg);
@@ -829,15 +866,11 @@ class Local extends Backend {
 			throw new BackendException($msg);
 		}
 
-		$caltbl = $this->calTableName;
 		$objtbl = $this->objTableName;
 
-		$sql  = 'UPDATE objtbl SET `objecttype` = ?, `startdate` = ?, ';
+		$sql  = 'UPDATE `' . $objtbl . '`  SET `objecttype` = ?, `startdate` = ?, ';
 		$sql .= '`enddate` = ?, `repeating` = ?, `summary` = ?, `calendardata` = ?, ';
-		$sql .= '`lastmodified` = ? FROM `' . $objtbl . '` AS objtbl, ';
-		$sql .= '`' . $caltbl . '` AS caltbl WHERE objtbl.`calendarid` = caltbl.`id` ';
-		$sql .= 'AND caltbl.`uri` = ? AND caltbl.`userid` = ? AND objtbl.`uri` = ?';
-
+		$sql .= '`lastmodified` = ? WHERE `uri` = ? and `calendarid` = ?';
 		$result = \OCP\DB::prepare($sql)->execute(array(
 			$this->getType($object->getType()),
 			$this->getUTCforMDB($object->getStartDate()->getDateTime()),
@@ -846,9 +879,8 @@ class Local extends Backend {
 			$object->getSummary(),
 			$object->getCalendarData(),
 			$this->getUTCforMDB($object->getLastModified()),
-			$calendarURI,
-			$userId,
-			$object->getObjectURI()
+			$object->getObjectURI(),
+			$calendarId,
 		));
 	}
 
@@ -863,6 +895,26 @@ class Local extends Backend {
 	public function moveObject(Object &$object, Calendar $oldCalendar) {
 		$newCalendarURI = $object->getCalendar()->getUri();
 		$oldCalendarURI = $oldCalendar->getUri();
+
+		$newCalendarId = $this->getCalendarId($newCalendarURI, $userId);
+		if (!$calendarId) {
+			$msg  = 'Backend\Local::moveObject(): Internal Error: ';
+			$msg .= 'Calendar not found!';
+			throw new CacheOutDatedException($msg);
+		}
+
+		$oldCalendarId = $this->getCalendarId($oldCalendarURI, $userId);
+		if (!$calendarId) {
+			$msg  = 'Backend\Local::moveObject(): Internal Error: ';
+			$msg .= 'Calendar not found!';
+			throw new CacheOutDatedException($msg);
+		}
+
+		$sql  = 'UPDATE `' . $objtbl . '` SET `calendarid` = ? WHERE `calendarid` = ?';
+		$result = \OCP\DB::prepare($sql)->execute(array(
+			$newCalendarId,
+			$oldCalendarId
+		));
 	}
 
 
@@ -893,21 +945,19 @@ class Local extends Backend {
 		$objectURI = $object->getObjectURI();
 		$userId = $object->getCalendar()->getUserId();
 
-		if (!$this->doesCalendarExist($calendarURI, $userId)) {
-			$msg  = 'Backend\Local::createObject(): Internal Error: ';
-			$msg .= 'Calendar not fouund!';
+		$calendarId = $this->getCalendarId($calendarURI, $userId);
+		if (!$calendarId) {
+			$msg  = 'Backend\Local::deleteObject(): Internal Error: ';
+			$msg .= 'Calendar not found!';
 			throw new CacheOutDatedException($msg);
 		}
 
-		$sql  = 'DELETE * FROM obltbl ';
-		$sql .= 'FROM `' . $objtbl . '` AS objtbl, `' . $caltbl . '` AS caltbl ';
-		$sql .= 'WHERE objtbl.`uri` = ? AND objtbl.`calendarid` = caltbl.`id` AND ';
-		$sql .= 'caltbl.uri = ? AND caltbl.userid = ?';
+		$objtbl = $this->objTableName;
 
+		$sql  = 'DELETE FROM `' . $objtbl . '` WHERE `uri` = ? AND `calendarid` = ?';
 		$result = \OCP\DB::prepare($sql)->execute(array(
 			$objectURI,
-			$calendarURI,
-			$userid
+			$calendarId
 		));
 	}
 
