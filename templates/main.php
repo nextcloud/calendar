@@ -1,3 +1,4 @@
+<?php
 /**
  * ownCloud - Calendar App
  *
@@ -20,4 +21,29 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-var app = angular.module('Calendar', ['ngAnimate', 'ngResource', 'ngRoute']);
+?>
+
+<!-- TODO: Add all Angular, Bootstrap and Custom URLs to this file.-->
+
+<div ng-app="Calendar" ng-controller="AppController">
+
+	<!-- The Left Calendar Navigation -->
+	<div id="app-navigation" ng-controller="NavController">
+		
+		<ul>
+			<?php print_unescaped($this->inc('part.switcher')); ?>
+			<?php print_unescaped($this->inc('part.datepicker')); ?>
+			<?php print_unescaped($this->inc('part.addnew')); ?>
+			<?php print_unescaped($this->inc('part.calendarlist')); ?>
+		</ul>
+
+		<div id="app-settings" ng-controller="SettingsController">
+			<?php print_unescaped($this->inc('part.settings')); ?>
+		</div>
+	</div>
+
+	<!-- The Calendar on the right -->
+	<div id="app-content" ng-controller="CalController">
+		<?php print_unescaped($this->inc('part.fullcalendar')); ?>
+	</div>
+</div>

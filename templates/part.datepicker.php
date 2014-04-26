@@ -1,3 +1,4 @@
+<?php
 /**
  * ownCloud - Calendar App
  *
@@ -20,4 +21,4 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-var app = angular.module('Calendar', ['ngAnimate', 'ngResource', 'ngRoute']);
+?>
