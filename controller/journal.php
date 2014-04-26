@@ -15,7 +15,7 @@ use \OCA\Calendar\BusinessLayer\ObjectBusinessLayer;
 
 use \OCA\Calendar\Db\ObjectType;
 
-class EventController extends ObjectTypeController {
+class JournalController extends ObjectTypeController {
 
 	/**
 	 * constructor
@@ -27,6 +27,12 @@ class EventController extends ObjectTypeController {
 	public function __construct(IAppContainer $app, IRequest $request,
 								CalendarBusinessLayer $calendarBusinessLayer,
 								ObjectBusinessLayer $objectBusinessLayer){
-		parent::__construct($app, $request, $calendarBusinessLayer, $objectBusinessLayer, ObjectType::EVENT);
+		parent::__construct(
+			$app,
+			$request,
+			$calendarBusinessLayer,
+			$objectBusinessLayer,
+			ObjectType::JOURNAL
+		);
 	}
 }

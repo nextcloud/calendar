@@ -22,14 +22,14 @@ abstract class Controller extends \OCP\AppFramework\Controller {
 	 * calendar business layer
 	 * @var \OCA\Calendar\BusinessLayer\CalendarBusinessLayer
 	 */
-	protected $calendarBusinessLayer;
+	protected $cbl;
 
 
 	/**
 	 * object business layer
 	 * @var \OCA\Calendar\BusinessLayer\ObjectBusinessLayer
 	 */
-	protected $objectBusinessLayer;
+	protected $obl;
 
 
 	/**
@@ -55,10 +55,10 @@ abstract class Controller extends \OCP\AppFramework\Controller {
 		$this->api = $app->getCoreApi();
 
 		if ($calendarBusinessLayer instanceof CalendarBusinessLayer) {
-			$this->calendarBusinessLayer = $calendarBusinessLayer;
+			$this->cbl = $calendarBusinessLayer;
 		}
 		if ($objectBusinessLayer instanceof ObjectBusinessLayer) {
-			$this->objectBusinessLayer = $objectBusinessLayer;		
+			$this->obl = $objectBusinessLayer;		
 		}
 	}
 

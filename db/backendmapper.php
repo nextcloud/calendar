@@ -155,6 +155,6 @@ class BackendMapper extends Mapper {
 	 * @return Backend object
 	 */
 	public function getDefault() {
-		return $this->find($this->app->query('defaultBackend'));
+		return $this->app->query('defaultBackend');
 	}
 }

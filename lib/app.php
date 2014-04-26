@@ -16,8 +16,11 @@ use \OCA\Calendar\PublicAPI\Journal;
 use \OCA\Calendar\PublicAPI\Todo;
 
 use \OCA\Calendar\BusinessLayer\BusinessLayer;
+use \OCA\Calendar\BusinessLayer\BackendBusinessLayer;
+use \OCA\Calendar\BusinessLayer\BackendDependendBusinessLayer;
 use \OCA\Calendar\BusinessLayer\CalendarBusinessLayer;
 use \OCA\Calendar\BusinessLayer\ObjectBusinessLayer;
+use \OCA\Calendar\BusinessLayer\SubscriptionBusinessLayer;
 
 use \OCA\Calendar\Controller\BackendController;
 use \OCA\Calendar\Controller\CalendarController;
@@ -107,9 +110,9 @@ class App extends \OCP\AppFramework\App {
 
 		$this->getContainer()->registerService('BackendController', function(IAppContainer $c) {
 			$req = $c->query('Request');
-			$bsl = $c->query('BusinessLayer');
+			$bbl = $c->query('BackendBusinessLayer');
 
-			return new BackendController($c, $req, $bsl);
+			return new BackendController($c, $req, $bbl);
 		});
 
 		$this->getContainer()->registerService('SettingsController', function(IAppContainer $c) {
@@ -128,12 +131,23 @@ class App extends \OCP\AppFramework\App {
 		 * BusinessLayer
 		 */
 		$this->getContainer()->registerService('BusinessLayer', function(IAppContainer $c) {
-			$bbl = $c->query('BackendMapper');
-
-			return new BusinessLayer($c, $bbl);
+			return new BusinessLayer($c);
 		});
+
+		$this->getContainer()->registerService('BackendBusinessLayer', function(IAppContainer $c) {
+			$bmp = $c->query('BackendMapper');
+
+			return new BackendBusinessLayer($c, $bmp);
+		});
+
+		$this->getContainer()->registerService('BackendDependedBusinessLayer', function(IAppContainer $c) {
+			$bbl = $c->query('BackendBusinessLayer');
+
+			return new BackendDependedBusinessLayer($c, $bbl);
+		});
+
 		$this->getContainer()->registerService('CalendarBusinessLayer', function(IAppContainer $c) {
-			$bbl = $c->query('BackendMapper');
+			$bbl = $c->query('BackendBusinessLayer');
 			$cmp = $c->query('CalendarMapper');
 			$obl = $c->query('ObjectBusinessLayer');
 
@@ -141,10 +155,16 @@ class App extends \OCP\AppFramework\App {
 		});
 
 		$this->getContainer()->registerService('ObjectBusinessLayer', function(IAppContainer $c) {
-			$bbl = $c->query('BackendMapper');
+			$bbl = $c->query('BackendBusinessLayer');
 			$omp = $c->query('ObjectMapper');
 
 			return new ObjectBusinessLayer($c, $bbl, $omp);
+		});
+
+		$this->getContainer()->registerService('SubscriptionBusinessLayer', function(IAppContainer $c) {
+			$smp = $c->query('SubscriptionMapper');
+
+			return new BusinessLayer($c, $smp);
 		});
 
 		/**

@@ -26,7 +26,7 @@ use \OCA\Calendar\Db\MultipleObjectsReturnedException;
 
 use \OCA\Calendar\Utility\CalendarUtility;
 
-class CalendarBusinessLayer extends BusinessLayer {
+class CalendarBusinessLayer extends BackendDependedBusinessLayer {
 
 	/**
 	 * object calendarmapper object
@@ -57,11 +57,11 @@ class CalendarBusinessLayer extends BusinessLayer {
 	 * @param API $api: an api wrapper instance
 	 */
 	public function __construct(IAppContainer $app,
-								BackendMapper $backendMapper,
+								BackendBusinessLayer $backendBusinessLayer,
 								CalendarMapper $calendarMapper,
 								ObjectBusinessLayer $objectBusinessLayer){
 
-		parent::__construct($app, $backendMapper);
+		parent::__construct($app, $backendBusinessLayer);
 
 		$this->cmp = $calendarMapper;
 		$this->obl = $objectBusinessLayer;

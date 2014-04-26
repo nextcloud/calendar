@@ -59,13 +59,25 @@ class TimezoneController extends Controller {
 				$offset = $this->params('offset', 0);
 			}
 
-			$timezoneCollection = $this->timezoneMapper->findAll($limit, $offset);
+			$timezoneCollection = $this->timezoneMapper->findAll(
+				$limit,
+				$offset
+			);
 
-			$serializer = new Serializer($this->app, Serializer::TimezoneCollection, $timezoneCollection, $this->accept());
+			$serializer = new Serializer(
+				$this->app,
+				Serializer::TimezoneCollection,
+				$timezoneCollection,
+				$this->accept()
+			);
+
 			return new Response($serializer);
 		} catch (SerializerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(array('message' => $ex->getMessage()), Http::STATUS_INTERNAL_SERVER_ERROR);
+			return new Response(
+				array('message' => $ex->getMessage()),
+				Http::STATUS_INTERNAL_SERVER_ERROR
+			);
 		}
 	}
 
@@ -78,15 +90,29 @@ class TimezoneController extends Controller {
 		try {
 			$tzId = str_replace('-', '/', $this->params('timezoneId'));
 
-			$timezone = $this->timezoneMapper->find($tzId);
+			$timezone = $this->timezoneMapper->find(
+				$tzId
+			);
 
-			$serializer = new Serializer($this->app, Serializer::Timezone, $timezone, $this->accept());
+			$serializer = new Serializer(
+				$this->app,
+				Serializer::Timezone,
+				$timezone, 
+				$this->accept()
+			);
+
 			return new Response($serializer);
 		} catch (DoesNotExistException $ex) {
-			return new Response(null, Http::STATUS_NOT_FOUND);
+			return new Response(
+				null,
+				Http::STATUS_NOT_FOUND
+			);
 		} catch (SerializerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(array('message' => $ex->getMessage()), Http::STATUS_INTERNAL_SERVER_ERROR);
+			return new Response(
+				array('message' => $ex->getMessage()),
+				Http::STATUS_INTERNAL_SERVER_ERROR
+			);
 		}
 	}
 

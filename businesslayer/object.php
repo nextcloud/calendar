@@ -32,7 +32,7 @@ use \OCA\Calendar\Utility\ObjectUtility;
 
 use \DateTime;
 
-class ObjectBusinessLayer extends BusinessLayer {
+class ObjectBusinessLayer extends BackendDependedBusinessLayer {
 
 	/**
 	 * object objectmapper object
@@ -61,9 +61,9 @@ class ObjectBusinessLayer extends BusinessLayer {
 	 * @param ObjectMapper $objectMapper: mapper for objects cache
 	 */
 	public function __construct(IAppContainer $app,
-								BackendMapper $backendMapper,
+								BackendBusinessLayer $backendBusinessLayer,
 								ObjectMapper $objectMapper){
-		parent::__construct($app, $backendMapper);
+		parent::__construct($app, $backendBusinessLayer);
 		$this->omp = $objectMapper;
 	}
 

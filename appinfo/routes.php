@@ -55,7 +55,10 @@ $this->create('calendar.timezone.getList', '/v1/timezones-list')->action(functio
 });
 
 
-
+$this->create('calendar.subscription.getTypes', '/v1/subscriptions-type')->action(function($params){
+	$app = new \OCA\Calendar\App($params);
+	$app->dispatch('SubscriptionController', 'getTypes');
+});
 
 
 $this->create('calendar.object.indexInPeriod', '/v1/calendars/{calendarId}/objects/inPeriod/{start}/{end}')->action(function($params){
@@ -84,6 +87,7 @@ $routes = array(
 		'journal' => array('url' => '/v1/calendars/{calendarId}/journals'),
 		'todo' => array('url' => '/v1/calendars/{calendarId}/todos'),
 		'timezone' => array('url' => '/v1/timezones'),
+		'subscription' => array('url' => '/v1/subscriptions'),
 	)
 );
 

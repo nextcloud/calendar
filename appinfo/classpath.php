@@ -8,10 +8,9 @@
 
 \OC::$CLASSPATH['OCA\Calendar\App'] = 'calendar/lib/app.php';
 
-\OC::$CLASSPATH['OCA\Calendar\Backend\Anniversary'] = 'calendar/backend/anniversary.php';
 \OC::$CLASSPATH['OCA\Calendar\Backend\Backend'] = 'calendar/backend/backend.php';
-\OC::$CLASSPATH['OCA\Calendar\Backend\Birthday'] = 'calendar/backend/birthday.php';
 \OC::$CLASSPATH['OCA\Calendar\Backend\CalDAV'] = 'calendar/backend/caldav.php';
+\OC::$CLASSPATH['OCA\Calendar\Backend\Contact'] = 'calendar/backend/contact.php';
 \OC::$CLASSPATH['OCA\Calendar\Backend\IBackend'] = 'calendar/backend/ibackend.php';
 \OC::$CLASSPATH['OCA\Calendar\Backend\Local'] = 'calendar/backend/local.php';
 \OC::$CLASSPATH['OCA\Calendar\Backend\LocalStorage'] = 'calendar/backend/localstorage.php';
@@ -21,18 +20,23 @@
 \OC::$CLASSPATH['OCA\Calendar\Backgroundjob\Task'] = 'calendar/backgroundjob/task.php';
 
 \OC::$CLASSPATH['OCA\Calendar\BusinessLayer\BusinessLayer'] = 'calendar/businesslayer/businesslayer.php';
-\OC::$CLASSPATH['OCA\Calendar\BusinessLayer\CalendarBusinessLayer'] = 'calendar/businesslayer/calendarbusinesslayer.php';
-\OC::$CLASSPATH['OCA\Calendar\BusinessLayer\ObjectBusinessLayer'] = 'calendar/businesslayer/objectbusinesslayer.php';
+\OC::$CLASSPATH['OCA\Calendar\BusinessLayer\BackendDependedBusinessLayer'] = 'calendar/businesslayer/backenddep.php';
+\OC::$CLASSPATH['OCA\Calendar\BusinessLayer\BackendBusinessLayer'] = 'calendar/businesslayer/backend.php';
+\OC::$CLASSPATH['OCA\Calendar\BusinessLayer\CalendarBusinessLayer'] = 'calendar/businesslayer/calendar.php';
+\OC::$CLASSPATH['OCA\Calendar\BusinessLayer\ObjectBusinessLayer'] = 'calendar/businesslayer/object.php';
+\OC::$CLASSPATH['OCA\Calendar\BusinessLayer\SubscriptionBusinessLayer'] = 'calendar/businesslayer/subscription.php';
 
 \OC::$CLASSPATH['OCA\Calendar\Controller\Controller'] = 'calendar/controller/controller.php';
-\OC::$CLASSPATH['OCA\Calendar\Controller\CalendarController'] = 'calendar/controller/calendarcontroller.php';
-\OC::$CLASSPATH['OCA\Calendar\Controller\ObjectController'] = 'calendar/controller/objectcontroller.php';
-\OC::$CLASSPATH['OCA\Calendar\Controller\ObjectTypeController'] = 'calendar/controller/objecttypecontroller.php';
-\OC::$CLASSPATH['OCA\Calendar\Controller\EventController'] = 'calendar/controller/eventcontroller.php';
-\OC::$CLASSPATH['OCA\Calendar\Controller\JournalController'] = 'calendar/controller/journalcontroller.php';
-\OC::$CLASSPATH['OCA\Calendar\Controller\TodoController'] = 'calendar/controller/todocontroller.php';
-\OC::$CLASSPATH['OCA\Calendar\Controller\SettingsController'] = 'calendar/controller/settingscontroller.php';
-\OC::$CLASSPATH['OCA\Calendar\Controller\ViewController'] = 'calendar/controller/viewcontroller.php';
+\OC::$CLASSPATH['OCA\Calendar\Controller\BackendController'] = 'calendar/controller/backend.php';
+\OC::$CLASSPATH['OCA\Calendar\Controller\CalendarController'] = 'calendar/controller/calendar.php';
+\OC::$CLASSPATH['OCA\Calendar\Controller\ObjectController'] = 'calendar/controller/object.php';
+\OC::$CLASSPATH['OCA\Calendar\Controller\ObjectTypeController'] = 'calendar/controller/objecttype.php';
+\OC::$CLASSPATH['OCA\Calendar\Controller\EventController'] = 'calendar/controller/event.php';
+\OC::$CLASSPATH['OCA\Calendar\Controller\JournalController'] = 'calendar/controller/journal.php';
+\OC::$CLASSPATH['OCA\Calendar\Controller\TodoController'] = 'calendar/controller/todo.php';
+\OC::$CLASSPATH['OCA\Calendar\Controller\SettingsController'] = 'calendar/controller/settings.php';
+\OC::$CLASSPATH['OCA\Calendar\Controller\TimezoneController'] = 'calendar/controller/timezone.php';
+\OC::$CLASSPATH['OCA\Calendar\Controller\ViewController'] = 'calendar/controller/view.php';
 
 \OC::$CLASSPATH['OCA\Calendar\Db\Entity'] = 'calendar/db/entity.php';
 \OC::$CLASSPATH['OCA\Calendar\Db\Collection'] = 'calendar/db/collection.php';

@@ -25,10 +25,9 @@ use \OCA\Calendar\BusinessLayer\CalendarBusinessLayer;
 use \OCA\Calendar\BusinessLayer\ObjectBusinessLayer;
 
 use \OCA\Calendar\Http\Response;
-
 use \OCA\Calendar\Http\Reader;
-use \OCA\Calendar\Http\Serializer;
 use \OCA\Calendar\Http\ReaderExpcetion;
+use \OCA\Calendar\Http\Serializer;
 use \OCA\Calendar\Http\SerializerException;
 
 use \DateTime;
@@ -55,7 +54,8 @@ abstract class ObjectTypeController extends ObjectController {
 								ObjectBusinessLayer $objectBusinessLayer,
 								$type){
 
-		parent::__construct($app, $request,
+		parent::__construct($app,
+							$request,
 							$calendarBusinessLayer,
 							$objectBusinessLayer);
 
@@ -85,23 +85,41 @@ abstract class ObjectTypeController extends ObjectController {
 
 			$type = $this->objectType;
 
-			$calendar = $this->calendarBusinessLayer->find($calendarId, $userId);
+			$calendar = $this->cbl->find(
+				$calendarId,
+				$userId
+			);
 			if (!$calendar->doesAllow(Permissions::READ)) {
 				return new Reponse(null, Http::STATUS_FORBIDDEN);
 			}
 
-			$objectCollection = $this->objectBusinessLayer->findAllByType($calendar, $type,
-																		  $limit, $offset);
+			$objectCollection = $this->obl->findAllByType(
+				$calendar,
+				$type,
+				$limit,
+				$offset
+			);
 
-			$serializer = new Serializer($this->app, Serializer::ObjectCollection, $objectCollection, $this->accept());
+			$serializer = new Serializer(
+				$this->app,
+				Serializer::ObjectCollection,
+				$objectCollection,
+				$this->accept()
+			);
 
 			return new Response($serializer);
 		} catch (BusinessLayerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(array('message' => $ex->getMessage()), $ex->getCode());
+			return new Response(
+				array('message' => $ex->getMessage()),
+				$ex->getCode()
+			);
 		} catch (SerializerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(array('message' => $ex->getMessage()), Http::STATUS_INTERNAL_SERVER_ERROR);
+			return new Response(
+				array('message' => $ex->getMessage()),
+				Http::STATUS_INTERNAL_SERVER_ERROR
+			);
 		}
 	}
 
@@ -128,23 +146,43 @@ abstract class ObjectTypeController extends ObjectController {
 
 			$type = $this->objectType;
 
-			$calendar = $this->calendarBusinessLayer->find($calendarId, $userId);
+			$calendar = $this->cbl->find(
+				$calendarId,
+				$userId
+			);
 			if (!$calendar->doesAllow(Permissions::READ)) {
 				return new Response(null, HTTP::STATUS_FORBIDDEN);
 			}
 
-			$objectCollection = $this->objectBusinessLayer->findAllByTypeInPeriod($calendar, $type, $start, $end,
-																				  $limit, $offset);
+			$objectCollection = $this->obl->findAllByTypeInPeriod(
+				$calendar,
+				$type,
+				$start,
+				$end,
+				$limit,
+				$offset
+			);
 
-			$serializer = new Serializer($this->app, Serializer::ObjectCollection, $objectCollection, $this->accept());
+			$serializer = new Serializer(
+				$this->app,
+				Serializer::ObjectCollection,
+				$objectCollection,
+				$this->accept()
+			);
 
 			return new Response($serializer);
 		} catch (BusinessLayerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(array('message' => $ex->getMessage()), $ex->getCode());
+			return new Response(
+				array('message' => $ex->getMessage()),
+				$ex->getCode()
+			);
 		} catch (SerializerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(array('message' => $ex->getMessage()), Http::STATUS_INTERNAL_SERVER_ERROR);
+			return new Response(
+				array('message' => $ex->getMessage()),
+				Http::STATUS_INTERNAL_SERVER_ERROR
+			);
 		}
 	}
 
@@ -161,22 +199,40 @@ abstract class ObjectTypeController extends ObjectController {
 
 			$type = $this->objectType;
 
-			$calendar = $this->calendarBusinessLayer->find($calendarId, $userId);
+			$calendar = $this->cbl->find(
+				$calendarId,
+				$userId
+			);
 			if (!$calendar->doesAllow(Permissions::READ)) {
 				return new Response(null, HTTP::STATUS_FORBIDDEN);
 			}
 
-			$object = $this->objectBusinessLayer->findByType($calendar, $objectURI, $type);
+			$object = $this->obl->findByType(
+				$calendar,
+				$objectURI,
+				$type
+			);
 
-			$serializer = new Serializer($this->app, Serializer::Object, $object, $this->accept());
+			$serializer = new Serializer(
+				$this->app,
+				Serializer::Object,
+				$object,
+				$this->accept()
+			);
 
 			return new Response($serializer);
 		} catch (BusinessLayerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(array('message' => $ex->getMessage()), $ex->getCode());
+			return new Response(
+				array('message' => $ex->getMessage()),
+				$ex->getCode()
+			);
 		} catch (SerializerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(array('message' => $ex->getMessage()), Http::STATUS_INTERNAL_SERVER_ERROR);
+			return new Response(
+				array('message' => $ex->getMessage()),
+				Http::STATUS_INTERNAL_SERVER_ERROR
+			);
 		}
 	}
 
@@ -187,7 +243,7 @@ abstract class ObjectTypeController extends ObjectController {
 	 * @return $string objectId
 	 */
 	private function getObjectId() {
-		list($routeApp, $routeController, $routeMethod) = explode('.', $this->params('_route'));
-		return $this->params($routeController . 'Id');
+		list($app, $controller, $method) = explode('.', $this->params('_route'));
+		return $this->params($controller . 'Id');
 	}
 }

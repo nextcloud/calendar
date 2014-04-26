@@ -32,6 +32,6 @@ class BackendCollection extends Collection {
 	 * @return Backend object
 	 */
 	public function find($backendName) {
-		return $this->search('backend', $backendName)->current();
+		return $this->search('backend', $backendName)->reset();
 	}
 }

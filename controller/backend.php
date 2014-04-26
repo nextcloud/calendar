@@ -12,6 +12,7 @@ use \OCP\AppFramework\Http;
 use \OCP\IRequest;
 
 use \OCA\Calendar\BusinessLayer\BusinessLayer;
+use \OCA\Calendar\BusinessLayer\BackendBusinessLayer;
 use \OCA\Calendar\BusinessLayer\BusinessLayerException;
 
 use \OCA\Calendar\Db\Backend;
@@ -28,7 +29,7 @@ class BackendController extends Controller {
 	 * businesslayer
 	 * @var \OCA\Calendar\BusinessLayer\BusinessLayer
 	 */
-	private $businessLayer;
+	private $bbl;
 
 
 	/**
@@ -37,10 +38,10 @@ class BackendController extends Controller {
 	 * @param IRequest $request an instance of the request
 	 */
 	public function __construct(IAppContainer $app, IRequest $request,
-								BusinessLayer $businessLayer){
+								BackendBusinessLayer $businessLayer){
 		parent::__construct($app, $request);
 
-		$this->businessLayer = $businessLayer;
+		$this->bbl = $businessLayer;
 	}
 
 
@@ -58,16 +59,31 @@ class BackendController extends Controller {
 				$offset = $this->params('offset', 0);
 			}
 
-			$allBackends = $this->businessLayer->findAllBackends($limit, $offset);
+			$allBackends = $this->bbl->setup()->subset(
+				$limit,
+				$offset
+			);
 
-			$serializer = new Serializer($this->app, Serializer::BackendCollection, $allBackends, $this->accept());
+			$serializer = new Serializer(
+				$this->app,
+				Serializer::BackendCollection,
+				$allBackends,
+				$this->accept()
+			);
+
 			return new Response($serializer);
 		} catch (BusinessLayerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(array('message' => $ex->getMessage()), $ex->getCode());
+			return new Response(
+				array('message' => $ex->getMessage()),
+				$ex->getCode()
+			);
 		} catch (SerializerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(array('message' => $ex->getMessage()), Http::STATUS_INTERNAL_SERVER_ERROR);
+			return new Response(
+				array('message' => $ex->getMessage()),
+				Http::STATUS_INTERNAL_SERVER_ERROR
+			);
 		}
 	}
 
@@ -86,16 +102,31 @@ class BackendController extends Controller {
 				$offset = $this->params('offset', 0);
 			}
 
-			$allEnabled = $this->businessLayer->findAllEnabledBackends($limit, $offset);
+			$allEnabled = $this->bbl->setup()->enabled()->subset(
+				$limit,
+				$offset
+			);
 
-			$serializer = new Serializer($this->app, Serializer::BackendCollection, $allEnabled, $this->accept());
+			$serializer = new Serializer(
+				$this->app,
+				Serializer::BackendCollection,
+				$allEnabled,
+				$this->accept()
+			);
+
 			return new Response($serializer);
 		} catch (BusinessLayerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(array('message' => $ex->getMessage()), $ex->getCode());
+			return new Response(
+				array('message' => $ex->getMessage()),
+				$ex->getCode()
+			);
 		} catch (SerializerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(array('message' => $ex->getMessage()), Http::STATUS_INTERNAL_SERVER_ERROR);
+			return new Response(
+				array('message' => $ex->getMessage()),
+				Http::STATUS_INTERNAL_SERVER_ERROR
+			);
 		}
 	}
 
@@ -114,16 +145,31 @@ class BackendController extends Controller {
 				$offset = $this->params('offset', 0);
 			}
 
-			$allDisabled = $this->businessLayer->findAllDisabledBackends($limit, $offset);
+			$allDisabled = $this->bbl->setup()->disabled()->subset(
+				$limit,
+				$offset
+			);
 
-			$serializer = new Serializer($this->app, Serializer::BackendCollection, $allDisabled, $this->accept());
+			$serializer = new Serializer(
+				$this->app,
+				Serializer::BackendCollection,
+				$allDisabled,
+				$this->accept()
+			);
+
 			return new Response($serializer);
 		} catch (BusinessLayerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(array('message' => $ex->getMessage()), $ex->getCode());
+			return new Response(
+				array('message' => $ex->getMessage()),
+				$ex->getCode()
+			);
 		} catch (SerializerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(array('message' => $ex->getMessage()), Http::STATUS_INTERNAL_SERVER_ERROR);
+			return new Response(
+				array('message' => $ex->getMessage()),
+				Http::STATUS_INTERNAL_SERVER_ERROR
+			);
 		}
 	}
 
@@ -134,16 +180,35 @@ class BackendController extends Controller {
 	 */
 	public function defaultBackend() {
 		try {
-			$default = $this->businessLayer->getDefaultBackend();
+			$default = $this->bbl->getDefault();
+			$backend = $this->bbl->setup()->find($default);
 
-			$serializer = new Serializer($this->app, Serializer::Backend, $default, $this->accept());
+			if (!$backend) {
+				throw new SerializerException(
+					'default backend not configured or not activatable.'
+				);
+			}
+
+			$serializer = new Serializer(
+				$this->app,
+				Serializer::Backend,
+				$backend,
+				$this->accept()
+			);
+
 			return new Response($serializer);
 		} catch (BusinessLayerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(array('message' => $ex->getMessage()), $ex->getCode());
+			return new Response(
+				array('message' => $ex->getMessage()),
+				$ex->getCode()
+			);
 		} catch (SerializerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(array('message' => $ex->getMessage()), Http::STATUS_INTERNAL_SERVER_ERROR);
+			return new Response(
+				array('message' => $ex->getMessage()),
+				Http::STATUS_INTERNAL_SERVER_ERROR
+			);
 		}
 	}
 }

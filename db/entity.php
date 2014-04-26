@@ -51,9 +51,24 @@ abstract class Entity {
 		return $this;
 	}
 
-	abstract public function fromVObject(VCalendar $vcalendar);
+	/**
+	 * @brief take data from VObject and put into this Calendar object
+	 * @return VCalendar Object
+	 */
+	public function fromVObject(VCalendar $vcalendar) {
+		$msg = 'Can\'t create from vobject!';
+		throw new \BadFunctionCallException($msg);
+	}
 
-	abstract public function getVObject();
+
+	/**
+	 * @brief get VObject from Calendar Object
+	 * @return VCalendar Object
+	 */
+	public function getVObject() {
+		$msg = 'Can\'t create vobject!';
+		throw new \BadFunctionCallException($msg);
+	}
 
 	/**
 	 * @brief overwrite current objects with properties 

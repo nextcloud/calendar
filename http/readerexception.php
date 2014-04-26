@@ -5,6 +5,6 @@
  * later.
  * See the COPYING-README file.
  */
-namespace OCA\Calendar\Db;
+namespace OCA\Calendar\Http;
 
-class SubscriptionCollection extends Collection {}
+class ReaderException extends \Exception{}
