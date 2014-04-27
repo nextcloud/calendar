@@ -67,23 +67,6 @@ class BackendDependedBusinessLayer extends BusinessLayer {
 		return $split;
 	}
 
-
-	/**
-	 * @brief check if a backend is enabled
-	 * @param string $backend
-	 * @return boolean
-	 */
-	public function isBackendEnabled($backend) {
-		try {
-			return $this->backends->search('backend', $backend)->current()->getEnabled();
-		} catch(DoesNotExistException $ex){
-			throw new BusinessLayerException($ex->getMessage());
-		} catch(MultipleObjectsReturnedException $ex){
-			throw new BusinessLayerException($ex->getMessage());
-		}
-	}
-
-
 	/**
 	 * @brief check if a backend does support a certian action
 	 * @param string $backend

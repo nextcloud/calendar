@@ -94,19 +94,11 @@ class Calendar extends Entity {
 	 */
 	public function getVObject() {
 		$properties = array(
-			'X-OC-ID' => $this->getId(),
-			'X-OC-USERID' => $this->getUserId(),
-			'X-OC-OWNERID' => $this->getOwnerId(),
-			'X-OC-BACKEND' => $this->getBackend(),
-			'X-OC-URI' => $this->getUri(),
+			/*'X-OC-BACKEND' => $this->getBackend(),
+			'X-OC-URI' => $this->getUri(),*/
 			'X-WR-CALNAME' => $this->getDisplayname(),
-			'X-OC-COMPS' => ObjectType::getAsString($this->getComponents()),			
-			'X-OC-CTAG' => $this->getCtag(),
-			//'X-WR-TIMEZONE' => $this->getTimezone(),
+			'X-WR-TIMEZONE' => $this->getTimezone(),
 			'X-APPLE-CALENDAR-COLOR' => $this->getColor(),
-			'X-OC-ORDER' => $this->getOrder(),
-			'X-OC-ENABLED' => $this->getEnabled(),
-			'X-OC-CRUDS' => $this->getCruds()
 		);
 		$vcalendar = new VCalendar($properties);
 		//$vcalendar->addComponent($this->timezone->getVObject());

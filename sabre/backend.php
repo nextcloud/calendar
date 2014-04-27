@@ -26,8 +26,8 @@ class Caldav extends Sabre_CalDAV_Backend_Abstract {
 	public $propertyMap = array(
 		'{DAV:}displayname'									=> 'displayname',
 		'{urn:ietf:params:xml:ns:caldav}calendar-timezone'	=> 'timezone',
-		'{http://apple.com/ns/ical/}calendar-order'			=> 'calendarorder',
-		'{http://apple.com/ns/ical/}calendar-color'			=> 'calendarcolor',
+		'{http://apple.com/ns/ical/}calendar-order'			=> 'order',
+		'{http://apple.com/ns/ical/}calendar-color'			=> 'color',
 	);
 
 	/**

@@ -196,7 +196,7 @@ class ObjectController extends Controller {
 		try {
 			$userId = $this->api->getUserId();
 			$calendarId = $this->params('calendarId');
-			$data = $this->request->params;
+			$data = fopen('php://input', 'rb');
 
 			$calendar = $this->cbl->find(
 				$calendarId,
@@ -213,9 +213,10 @@ class ObjectController extends Controller {
 				$this->contentType()
 			);
 
-			$object = $reader->sanitize()->getObject()->setCalendar($calendar);
+			$object = $reader->sanitize()->getObject()/*->setCalendar($calendar)*/;
 
 			if ($object instanceof Object) {
+				$object->setCalendar($calendar);
 				$object = $this->obl->createFromRequest(
 					$object
 				);
@@ -227,6 +228,7 @@ class ObjectController extends Controller {
 					$this->accept()
 				);
 			} elseif ($object instanceof ObjectCollection) {
+				$object->setProperty('calendar', $calendar);
 				$object = $this->obl->createCollectionFromRequest(
 					$object
 				);
@@ -279,8 +281,7 @@ class ObjectController extends Controller {
 			$calendarId = $this->params('calendarId');
 			$objectURI = $this->params('objectId');
 			$etag = $this->header('if-match');
-
-			$data = $this->request->params;
+			$data = fopen('php://input', 'rb');
 
 			$calendar = $this->cbl->find($calendarId, $userId);
 			if (!$calendar->doesAllow(Permissions::UPDATE)) {

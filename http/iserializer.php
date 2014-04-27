@@ -21,12 +21,4 @@ interface ISerializer {
 	 * @return string
 	 */
 	public function serialize();
-
-
-	/**
-	 * @brief set object
-	 * @param mixed $object
-	 */
-	public function setObject($object);
-
 }

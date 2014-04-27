@@ -82,7 +82,7 @@ class ObjectBusinessLayer extends BackendDependedBusinessLayer {
 			$calendarURI = $calendar->getUri();
 			$userId = $calendar->getUserId();
 
-			if (!$this->isBackendEnabled($backend)) {
+			if (!$this->backends->find($backend)->getEnabled()) {
 				$msg  = 'ObjectBusinessLayer::findAll(): User Error: ';
 				$msg .= 'Backend found but not enabled!';
 				throw new BusinessLayerException($msg, BusinessLayerException::INTERNAL);
@@ -124,7 +124,7 @@ class ObjectBusinessLayer extends BackendDependedBusinessLayer {
 			$calendarURI = $calendar->getUri();
 			$userId = $calendar->getUserId();
 
-			if (!$this->isBackendEnabled($backend)) {
+			if (!$this->backends->find($backend)->getEnabled()) {
 				$msg  = 'ObjectBusinessLayer::findAll(): User Error: ';
 				$msg .= 'Backend found but not enabled!';
 				throw new BusinessLayerException($msg);
@@ -165,7 +165,7 @@ class ObjectBusinessLayer extends BackendDependedBusinessLayer {
 			$calendarURI = $calendar->getUri();
 			$userId = $calendar->getUserId();
 
-			if (!$this->isBackendEnabled($backend)) {
+			if (!$this->backends->find($backend)->getEnabled()) {
 				$msg  = 'ObjectBusinessLayer::find(): User Error: ';
 				$msg .= 'Backend found but not enabled!';
 				throw new BusinessLayerException($msg);
@@ -243,7 +243,7 @@ class ObjectBusinessLayer extends BackendDependedBusinessLayer {
 			$calendarURI = $calendar->getUri();
 			$userId = $calendar->getUserId();
 
-			if (!$this->isBackendEnabled($backend)) {
+			if (!$this->backends->find($backend)->getEnabled()) {
 				$msg  = 'ObjectBusinessLayer::findAllByType(): User Error: ';
 				$msg .= 'Backend found but not enabled!';
 				throw new BusinessLayerException($msg);
@@ -298,7 +298,7 @@ class ObjectBusinessLayer extends BackendDependedBusinessLayer {
 			$calendarURI = $calendar->getUri();
 			$userId = $calendar->getUserId();
 
-			if (!$this->isBackendEnabled($backend)) {
+			if (!$this->backends->find($backend)->getEnabled()) {
 				$msg  = 'ObjectBusinessLayer::findAllInPeriod(): User Error: ';
 				$msg .= 'Backend found but not enabled!';
 				throw new BusinessLayerException($msg);
@@ -352,7 +352,7 @@ class ObjectBusinessLayer extends BackendDependedBusinessLayer {
 			$calendarURI = $calendar->getUri();
 			$userId = $calendar->getUserId();
 
-			if (!$this->isBackendEnabled($backend)) {
+			if (!$this->backends->find($backend)->getEnabled()) {
 				$msg  = 'ObjectBusinessLayer::findAllInPeriod(): User Error: ';
 				$msg .= 'Backend found but not enabled!';
 				throw new BusinessLayerException($msg);
@@ -462,7 +462,7 @@ class ObjectBusinessLayer extends BackendDependedBusinessLayer {
 			$calendarURI = $calendar->getUri();
 			$userId = $calendar->getUserId();
 
-			if (!$this->isBackendEnabled($backend)) {
+			if (!$this->backends->find($backend)->getEnabled()) {
 				$msg  = 'ObjectBusinessLayer::create(): User Error: ';
 				$msg .= 'Backend found but not enabled!';
 				throw new BusinessLayerException($msg);
@@ -592,7 +592,7 @@ class ObjectBusinessLayer extends BackendDependedBusinessLayer {
 				return $this->move($object, $oldCalendar, $oldObjectURI);
 			}
 
-			if (!$this->isBackendEnabled($newBackend)) {
+			if (!$this->backends->find($newBackend)->getEnabled()) {
 				$msg  = 'ObjectBusinessLayer::findAllByType(): User Error: ';
 				$msg .= 'Backend found but not enabled!';
 				throw new BusinessLayerException($msg);

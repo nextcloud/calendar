@@ -37,8 +37,7 @@ class Serializer extends Manager {
 			throw new Exception('No serializer found.');
 		}
 
-		$this->serializer = new $class($app);
-		$this->serializer->setObject($data);
+		$this->serializer = new $class($app, $data);
 	}
 
 	public function __call($method, $params) {
@@ -62,8 +61,6 @@ Serializer::set(Serializer::Timezone, 'OCA\\Calendar\\Http\\JSON\\JSONTimezone',
 Serializer::set(Serializer::TimezoneCollection, 'OCA\\Calendar\\Http\\JSON\\JSONTimezoneCollection', 'application/json');
 Serializer::set(Serializer::TimezoneCollection, 'OCA\\Calendar\\Http\\JSON\\JSONTimezoneCollection', 'application/calendar+json');
 
-Serializer::set(Serializer::Calendar, 'OCA\\Calendar\\Http\\ICS\\ICSCalendar', 'text/calendar');
-Serializer::set(Serializer::CalendarCollection, 'OCA\\Calendar\\Http\\ICS\\ICSCalendarCollection', 'text/calendar');
 Serializer::set(Serializer::Object, 'OCA\\Calendar\\Http\\ICS\\ICSObject', 'text/calendar');
 Serializer::set(Serializer::ObjectCollection, 'OCA\\Calendar\\Http\\ICS\\ICSObjectCollection', 'text/calendar');
 Serializer::set(Serializer::Timezone, 'OCA\\Calendar\\Http\\ICS\\ICSTimezone', 'text/calendar');

@@ -198,7 +198,7 @@ class SabreUtility extends Utility {
 
 
 	/**
-	 * @brief parse a component 
+	 * @brief parse a component for tzIds
 	 * @param \OCA\Calendar\Sabre\VObject\Component\VCalendar $vcalendar
 	 * @return array
 	 */
@@ -220,5 +220,20 @@ class SabreUtility extends Utility {
 		}
 
 		return $tzIds;
+	}
+
+
+	/**
+	 * @brief parse a component for X-OC-* properties and removes them
+	 * @param \OCA\Calendar\Sabre\VObject\Component\VCalendar $vcalendar
+	 */
+	public static function removeXOCAttrFromComponent(Component &$component) {
+		foreach($component->children() as $child) {
+			if($child instanceof Component) {
+				self::removeXOCAttrFromComponent($child);
+			} elseif(substr($child->name, 0, 5) === 'X-OC-') {
+				$component->remove($child->name);
+			}
+		}
 	}
 }

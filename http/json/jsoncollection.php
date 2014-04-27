@@ -7,20 +7,19 @@
  */
 namespace OCA\Calendar\Http\JSON;
 
+use \OCP\AppFramework\IAppContainer;
+
 use \OCA\Calendar\Db\Collection;
-use \OCA\Calendar\Http\IResponse;
 
 abstract class JSONCollection extends JSON {
 
 	/**
-	 * @brief set object
+	 * @brief constructor
+	 * @param IAppContainer $app
 	 * @param Collection $object
 	 */
-	public function setObject($object) {
-		if ($object instanceof Collection) {
-			$this->object = $object;
-			return $this;
-		}
-		return null;
+	public function __construct(IAppContainer $app, Collection $object) {
+		$this->app = $app;
+		$this->object = $object;
 	}
 }

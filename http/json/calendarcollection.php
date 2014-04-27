@@ -34,8 +34,8 @@ class JSONCalendarCollection extends JSONCollection {
 
 		$this->object->iterate(function(&$object) use (&$jsonArray, $convenience) {
 			try {
-				$jsonCalendar = new JSONCalendar($this->app);
-				$jsonArray[] = $jsonCalendar->setObject($object)->serialize($convenience);
+				$jsonCalendar = new JSONCalendar($this->app, $object);
+				$jsonArray[] = $jsonCalendar->serialize($convenience);
 			} catch (JSONException $ex) {
 				//TODO - log error msg
 				return;

@@ -188,7 +188,7 @@ class CalendarBusinessLayer extends BackendDependedBusinessLayer {
 			list($backend, $calendarURI) = (is_array($calendarId)) ? $calendarId :
 											$this->splitCalendarURI($calendarId);
 
-			if (!$this->isBackendEnabled($backend)) {
+			if (!$this->backends->find($backend)->getEnabled()) {
 				$msg  = 'CalendarBusinessLayer::find(): User Error: ';
 				$msg .= 'Backend found but not enabled';
 				throw new BusinessLayerException($msg, Http::STATUS_FORBIDDEN);
@@ -311,7 +311,7 @@ class CalendarBusinessLayer extends BackendDependedBusinessLayer {
 				throw new BusinessLayerException($msg, Http::STATUS_UNPROCESSABLE_ENTITY);
 			}
 
-			if (!$this->isBackendEnabled($backend)) {
+			if (!$this->backends->find($backend)->getEnabled()) {
 				$msg  = 'CalendarBusinessLayer::create(): User Error: ';
 				$msg .= 'Backend found but not enabled!';
 				throw new BusinessLayerException($msg, Http::STATUS_UNPROCESSABLE_ENTITY);
@@ -466,12 +466,12 @@ class CalendarBusinessLayer extends BackendDependedBusinessLayer {
 				$msg .= 'Transferring a calendar to another user is not supported yet.';
 				throw new BusinessLayerException($msg, Http::STATUS_UNPROCESSABLE_ENTITY);
 			}
-			if (!$this->isBackendEnabled($oldBackend)) {
+			if (!$this->backends->find($oldBackend)->getEnabled()) {
 				$msg  = 'CalendarBusinessLayer::update(): User Error: ';
 				$msg .= 'Old backend found but not enabled!';
 				throw new BusinessLayerException($msg, Http::STATUS_UNPROCESSABLE_ENTITY);
 			}
-			if ($newBackend !== $oldBackend && !$this->isBackendEnabled($newBackend)) {
+			if ($newBackend !== $oldBackend && !$this->backends->find($newBackend)->getEnabled()) {
 				$msg  = 'CalendarBusinessLayer::update(): User Error: ';
 				$msg .= 'New backend found but not enabled!';
 				throw new BusinessLayerException($msg, Http::STATUS_UNPROCESSABLE_ENTITY);
@@ -722,7 +722,7 @@ class CalendarBusinessLayer extends BackendDependedBusinessLayer {
 
 			$calendar = $this->find(array($backend, $calendarURI), $userId);
 
-			if (!$this->isBackendEnabled($backend)) {
+			if (!$this->backends->find($backend)->getEnabled()) {
 				$msg  = 'CalendarBusinessLayer::delete(): User Error: ';
 				$msg .= 'Backend found but not enabled!';
 				throw new BusinessLayerException($msg);

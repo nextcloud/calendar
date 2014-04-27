@@ -7,6 +7,8 @@
  */
 namespace OCA\Calendar;
 
+require_once(__DIR__ . '/../3rdparty/VObject/includes.php');
+
 define('OCA\Calendar\JSON_API_VERSION', '1.0');
 define('OCA\Calendar\PHP_API_VERSION', '1.0');
 

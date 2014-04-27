@@ -7,18 +7,44 @@
  */
 namespace OCA\Calendar\Http\ICS;
 
+use \OCA\Calendar\Utility\SabreUtility;
+
 class ICSObjectCollection extends ICSCollection {
 
 	/**
+	 * @brief get headers for response
+	 * @return array
+	 */
+	public function getHeaders() {
+		return array_merge(
+			parent::getHeaders(),
+			array(
+				'Content-type' => 'test/calendar; charset=utf-8',
+			)
+		);
+	}
+
+
+	/**
 	 * @brief get json-encoded string containing all information
+	 * @return mixed (null|array)
 	 */
 	public function serialize($convenience=true) {
-		$vcalendar = $this->collection->getVObject();
+		/**
+		 * If the collection is empty, return 204
+		 */
+		if ($this->object->count() === 0) {
+			return null;
+		} else {
+			$vcalendar = $this->object->getVObject();
+			$timezoneMapper = $this->app->query('TimezoneMapper');
 
-		if ($convenience === true) {
-			JSONUtility::addConvenience($vcalendar);
+			SabreUtility::addMissingVTimezones(
+				$vcalendar,
+				$timezoneMapper
+			);
+
+			return $vcalendar->serialize();
 		}
-
-		return $vcalendar->serialize();
 	}
 }

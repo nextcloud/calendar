@@ -91,7 +91,7 @@
 \OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONTimezoneReader'] = 'calendar/http/json/timezonereader.php';
 
 \OC::$CLASSPATH['OCA\Calendar\SabreProperty\DateTime'] = 'calendar/sabre/property/datetime.php';
-
+\OC::$CLASSPATH['OCA\Calendar\Sabre\Splitter\JCalendar'] = 'calendar/sabre/splitter/jcalsplitter.php';
 //caldav implementation
 /*\OC::$CLASSPATH['OCA\Calendar\Sabre'] = '';
 \OC::$CLASSPATH['OCA\Calendar\Sabre'] = '';

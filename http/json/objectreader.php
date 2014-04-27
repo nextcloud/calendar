@@ -7,8 +7,6 @@
  */
 namespace OCA\Calendar\Http\JSON;
 
-require_once(__DIR__ . '/../../3rdparty/VObject/includes.php');
-
 use \OCA\Calendar\Sabre\VObject\Reader;
 use \OCA\Calendar\Sabre\VObject\ParseException;
 use \OCA\Calendar\Sabre\VObject\EofException;
@@ -17,6 +15,8 @@ use \OCA\Calendar\Db\Object;
 use \OCA\Calendar\Db\ObjectCollection;
 
 use \OCA\Calendar\Utility\SabreUtility;
+
+use \OCA\Calendar\Sabre\Splitter\JCalendar;
 
 class JSONObjectReader extends JSONReader {
 
@@ -27,15 +27,20 @@ class JSONObjectReader extends JSONReader {
 	public function parse() {
 		try {
 			$data = $this->getData();
+			$objectCollection = new ObjectCollection();
 
-			$vcalendar = Reader::readJson($data);
-			$uniqueUIDs = SabreUtility::countUniqueUIDs($vcalendar);
+			$splitter = new JCalendar($data);
+			while($vobject = $splitter->getNext()) {
+				SabreUtility::removeXOCAttrFromComponent($vobject);
+				$object = new Object();
+				$object->fromVObject($vobject);
+				$objectCollection->add($object);
+			}
 
-			if ($uniqueUIDs === 1) {
-				$object = new Object($vcalendar);
+			if ($objectCollection->count() === 1) {
+				$object = $objectCollection->reset();
 			} else {
-				$singleObjects = SabreUtility::splitByUID($vcalendar);
-				$object = new ObjectCollection($singleObjects);
+				$object = $objectCollection;
 			}
 
 			return $this->setObject($object);

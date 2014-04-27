@@ -7,35 +7,71 @@
  */
 namespace OCA\Calendar\Http\ICS;
 
-use \OCA\Calendar\Http\IResponse;
+use \OCP\AppFramework\IAppContainer;
 
-abstract class ICS implements IResponse {
+use \OCA\Calendar\Db\Entity;
 
-	protected $object;
+use \OCA\Calendar\Http\Serializer;
+use \OCA\Calendar\Http\ISerializer;
+
+abstract class ICS implements ISerializer {
 
 	/**
-	 * @brief Constructor
+	 * @brief app container
+	 * @var IAppContainer $app
 	 */
-	public function __construct($object) {
-		$this->object = $object;
+	protected $app;
+
+
+	/**
+	 * @brief object
+	 * @var mixed (Entity|Collection)
+	 */
+	protected $object;
+
+
+	/**
+	 * @brief constructor
+	 * @param IAppContainer $app
+	 */
+	public function __construct(IAppContainer $app) {
+		$this->app = $app;
 	}
+
+
+	/**
+	 * @brief get headers for response
+	 * @return array
+	 */
+	public function getHeaders() {
+		return array();
+	}
+
 
 	/**
 	 * @brief get object JSONObject was initialized with.
 	 */
-	protected function getObject() {
+	public function getObject() {
 		return $this->object;
 	}
 
-	/**
-	 * @brief get mimetype of serialized output
-	 */
-	public function getMimeType() {
-		return 'text/calendar';
-	}
 
 	/**
-	 * @brief get ics-encoded string containing all information
+	 * @brief set object
+	 * @param Entity $object
+	 */
+	public function setObject($object) {
+		if ($object instanceof Entity) {
+			$this->object = $object;
+			return $this;
+		}
+		return null;
+	}
+
+
+	/**
+	 * @brief get json-encoded string containing all information
+	 * @return array
 	 */
 	abstract public function serialize();
 }

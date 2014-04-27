@@ -9,7 +9,7 @@ namespace OCA\Calendar\Http;
 
 use \OCP\AppFramework\IAppContainer;
 
-class Reader extends Manager implements IReader {
+class Reader extends Manager {
 
 	const Calendar = 107;
 	const Object = 108;
@@ -25,18 +25,18 @@ class Reader extends Manager implements IReader {
 
 	/**
 	 * @brief Constructor
+	 * @param IAppContainer $app
 	 * @param integer $type
-	 * @param mixed $data
+	 * @param resource $handle
 	 * @param string $requestedMimeType
 	 */
-	public function __construct(IAppContainer $app, $type, $data, $requestedMimeType) {
+	public function __construct(IAppContainer $app, $type, $handle, $requestedMimeType) {
 		$class = self::get($type, $requestedMimeType);
 		if (!$class) {
 			throw new \Exception('No reader found.');
 		}
 
-		$this->reader = new $class($app);
-		$this->reader->setData($data);
+		$this->reader = new $class($app, $handle);
 	}
 
 
@@ -52,8 +52,5 @@ Reader::set(Reader::Calendar, 'OCA\\Calendar\\Http\\JSON\\JSONCalendarReader', '
 Reader::set(Reader::Calendar, 'OCA\\Calendar\\Http\\JSON\\JSONCalendarReader', 'application/calendar+json');
 Reader::set(Reader::Object, 'OCA\\Calendar\\Http\\JSON\\JSONObjectReader', 'application/json');
 Reader::set(Reader::Object, 'OCA\\Calendar\\Http\\JSON\\JSONObjectReader', 'application/calendar+json');
-Reader::set(Reader::Timezone, 'OCA\\Calendar\\Http\\JSON\\JSONTimezoneReader', 'application/json');
-Reader::set(Reader::Timezone, 'OCA\\Calendar\\Http\\JSON\\JSONTimezoneReader', 'application/calendar+json');
 
-Reader::set(Reader::Calendar, 'OCA\\Calendar\\Http\\ICS\\ICSCalendarReader', 'text/calendar');
 Reader::set(Reader::Object, 'OCA\\Calendar\\Http\\ICS\\ICSObjectReader', 'text/calendar');

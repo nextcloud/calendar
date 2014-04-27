@@ -113,7 +113,7 @@ class CalendarController extends Controller {
 	public function create() {
 		try {
 			$userId = $this->api->getUserId();
-			$data = $this->request->params;
+			$data = fopen('php://input', 'rb');
 
 			$reader = new Reader(
 				$this->app,
@@ -185,7 +185,7 @@ class CalendarController extends Controller {
 			$userId = $this->api->getUserId();
 			$calendarId = $this->params('calendarId');
 			$ctag = $this->header('if-match');
-			$data = $this->request->params;
+			$data = fopen('php://input', 'rb');
 
 			$reader = new Reader(
 				$this->app,

@@ -29,7 +29,7 @@ class JSONObjectCollection extends JSONCollection {
 	 * @brief get json-encoded string containing all information
 	 * @return mixed (null|array)
 	 */
-	public function serialize($convenience=true) {
+	public function serialize() {
 		/**
 		 * If the collection is empty, return 204
 		 */

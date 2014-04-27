@@ -7,42 +7,47 @@
  */
 namespace OCA\Calendar\Http\ICS;
 
-use OCA\Calendar\Sabre\VObject\Reader;
+use \OCA\Calendar\Sabre\VObject\Reader;
+use \OCA\Calendar\Sabre\VObject\ParseException;
+use \OCA\Calendar\Sabre\VObject\EofException;
+
+use \OCA\Calendar\Db\Object;
+use \OCA\Calendar\Db\ObjectCollection;
+
+use \OCA\Calendar\Utility\SabreUtility;
+
+use \OCA\Calendar\Sabre\VObject\Splitter\ICalendar;
 
 class ICSObjectReader extends ICSReader {
 
+	/**
+	 * @brief parse data
+	 */
 	public function parse() {
 		try{
-			$this->fixData();
-
-			$stream = fopen('php://memory','r+');
-			fwrite($stream, $this->getData());
-			rewind($stream);
-
-			//TODO - does the vobject splitter support json-encoded calendar data???????
-			$vcalendar = new ICalendar($stream);
-
 			$objectCollection = new ObjectCollection();
 
-			while($vobject = $vcalendar->next()) {
+			$splitter = new ICalendar($this->handle);
+			while($vobject = $splitter->getNext()) {
+				SabreUtility::removeXOCAttrFromComponent($vobject);
 				$object = new Object();
-				$object->fromVObject($vcalendar);
+				$object->fromVObject($vobject);
 				$objectCollection->add($object);
 			}
 
 			if ($objectCollection->count() === 1) {
-				$this->setObject($objectCollection->reset()->current());
+				$object = $objectCollection->reset();
 			} else {
-				$this->setObject($objectCollection);
+				$object = $objectCollection;
 			}
 
-			return $this;
+			return $this->setObject($object);
 		} catch(Exception $e /* What exception is being thrown??? */) {
 			throw new JSONObjectReaderException($ex->getMessage());
 		}
 	}
 
-	protected function fixData() {
+	protected function fixData() {/*
 		$data = $this->getData();
 
 		//fix malformed timestamp in some google calendar events
@@ -51,8 +56,6 @@ class ICSObjectReader extends ICSReader {
 
 		//add some more fixes over time
 
-		$this->setData($data);
+		$this->setData($data);*/
 	}
 }
-
-class JSONObjectReaderException extends Exception{}

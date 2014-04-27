@@ -7,8 +7,6 @@
  */
 namespace OCA\Calendar\Db;
 
-require_once(__DIR__ . '/../3rdparty/VObject/includes.php');
-
 use \OCA\Calendar\Sabre\VObject\Component\VCalendar;
 use \OCA\Calendar\Sabre\VObject\Reader;
 use \OCA\Calendar\Sabre\VObject\ParseException;
@@ -44,17 +42,19 @@ abstract class Collection {
 	 * @brief add entity to collection
 	 * @param Entity $object entity to be added
 	 * @param integer $nth insert at index, if not set, entity will be appended
-	 * @return integer 
+	 * @return $this
 	 */
 	public function add(Entity $object, $nth=null) {
 		if ($nth === null) {
-			$nth = $this->count();
+			$this->objects[$this->count()] = $object;
+			return $this;
+		} else {
+			for($i = $this->count(); $i > $nth; $i--) {
+				$this->objects[$i] = $this->objects[($i - 1)];
+			}
+			$this->objects[$nth] = $object;
+			return $this;
 		}
-		for($i = $this->count(); $i > $nth; $i--) {
-			$this->objects[$i] = $this->objects[($i - 1)];
-		}
-		$this->objects[$nth] = $object;
-		return $this;
 	}
 
 
@@ -122,7 +122,7 @@ abstract class Collection {
 		$propertyGetter = 'get' . ucfirst($key);
 
 		for($i = 0; $i < $this->count(); $i++) {
-			if (is_callable(array($this->objects[$i], $propertyGetter)) && $object->{$propertyGetter}() === $value) {
+			if (is_callable(array($this->objects[$i], $propertyGetter)) && $this->objects[$i]->{$propertyGetter}() === $value) {
 				unset($this->objects[($i--)]);
 			}
 		}

@@ -7,8 +7,6 @@
  */
 namespace OCA\Calendar\Db;
 
-require_once(__DIR__ . '/../3rdparty/VObject/includes.php');
-
 use \BadFunctionCallException;
 use \DateTime;
 use \OCA\Calendar\Sabre\VObject\Component\VCalendar;

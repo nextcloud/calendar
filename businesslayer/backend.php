@@ -175,7 +175,7 @@ class BackendBusinessLayer extends BusinessLayer {
 				$msg  = 'BackendBusinessLayer::setupBackends(): ';
 				$msg .= '"' . $className . '" not found';
 				\OCP\Util::writeLog('calendar', $msg, \OCP\Util::DEBUG);
-				$this->updateBackend($backend->disable());
+				$this->update($backend->disable());
 				return false;
 			}
 
