@@ -89,7 +89,7 @@ abstract class JSONReader implements IReader {
 	 * 		  string should represent key
 	 */
 	protected function nullProperties($properties) {
-		$isCollection = $this->isCollection();
+		$isCollection = ($this->object instanceof Collection);
 
 		foreach($properties as $property) {
 			if ($isCollection) {

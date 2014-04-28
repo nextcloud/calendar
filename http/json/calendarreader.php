@@ -11,6 +11,8 @@ use \OCA\Calendar\Db\Calendar;
 use \OCA\Calendar\Db\ObjectType;
 use \OCA\Calendar\Db\Permissions;
 
+use \OCA\Calendar\Http\ReaderException;
+
 use \OCA\Calendar\Utility\CalendarUtility;
 use \OCA\Calendar\Utility\JSONUtility;
 
@@ -20,12 +22,19 @@ class JSONCalendarReader extends JSONReader{
 	 * @brief parse jsoncalendar
 	 */
 	public function parse() {
-		$data = $this->getData();
+		$data = stream_get_contents($this->handle);
+		$json = json_decode($data, true);
 
-		if ($this->isUserDataACollection()) {
-			$object = $this->parseCollection($data);
+		if ($json === null) {
+			$msg  = 'JSONCalendarReader: User Error';
+			$msg .= 'Could not decode json string.';
+			throw new ReaderException($msg);
+		}
+
+		if ($this->isUserDataACollection($json)) {
+			$object = $this->parseCollection($json);
 		} else {
-			$object = $this->parseSingleEntity($data);
+			$object = $this->parseSingleEntity($json);
 		}
 
 		return $this->setObject($object);
@@ -55,10 +64,8 @@ class JSONCalendarReader extends JSONReader{
 	 * @brief check if $this->data is a collection
 	 * @return boolean
 	 */
-	private function isUserDataACollection() {
-		$data = $this->data;
-
-		if (array_key_exists(0, $data) && is_array($data[0])) {
+	private function isUserDataACollection($json) {
+		if (array_key_exists(0, $json) && is_array($json[0])) {
 			return true;
 		}
 

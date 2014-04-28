@@ -138,14 +138,13 @@ class Calendar extends Entity {
 	/**
 	 * @brief set uri property
 	 */
-	public function setURI($uri) {
+	public function setUri($uri) {
 		if (!is_string($uri) || trim($uri) === '') {
 			return null;
 		}
 
 		$slugified = CalendarUtility::slugify($uri);
-		$this->uri = $uri;
-		return $this;
+		return parent::setUri($slugified);
 	}
 
 
