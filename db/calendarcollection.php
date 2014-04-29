@@ -81,17 +81,17 @@ class CalendarCollection extends Collection {
 	 * @return CalendarCollection of calendars on backends in BackendCollection
 	 */
 	public function filterByBackends(BackendCollection $backends) {
-		$filteredCalendars = new CalendarCollection();
-		$objects = $backends->getObjects();
+		$newCollection = new CalendarCollection();
+		$backendObjects = $backends->getObjects();
 
-		$this->iterate(function($object) use (&$filteredCalendars, $objects) {
-			foreach($objects as $backend) {
-				if ($object->getBackend() === $backend->getBackend()) {
-					$filteredCalendars->add(clone $object);
+		$this->iterate(function($object) use (&$newCollection, $backendObjects) {
+			foreach($backendObjects as $backendObject) {
+				if ($object->getBackend() === $backendObject->getBackend()) {
+					$newCollection->add(clone $object);
 				}
 			}
 		});
 
-		return $filteredCalendars;
+		return $newCollection;
 	}
 }

@@ -8,10 +8,6 @@
 namespace OCA\Calendar\Db;
 
 use \OCA\Calendar\Sabre\VObject\Component\VCalendar;
-use \OCA\Calendar\Sabre\VObject\Reader;
-use \OCA\Calendar\Sabre\VObject\ParseException;
-use \OCA\Calendar\Sabre\VObject\EofException;
-
 use \OCA\Calendar\Sabre\VObject\Component\VTimezone;
 use \OCA\Calendar\Sabre\VObject\Component\VEvent;
 use \OCA\Calendar\Sabre\VObject\Component\VJournal;
@@ -19,21 +15,28 @@ use \OCA\Calendar\Sabre\VObject\Component\VTodo;
 
 abstract class Collection {
 
+	/**
+	 * array containing all entities
+	 * @var array
+	 */
 	protected $objects;
 
+
+	/**
+	 * @bried constructur
+	 * @param mixed (array|Entity|Collection) $object
+	 */
 	public function __construct($objects=null) {
 		$this->objects = array();
 
 		if ($objects !== null) {
-
-			if (is_array($objects) === true) {
-				$this->objects = $objects;
-			} else if ($objects instanceof Entity) {
+			if (is_array($objects)) {
+				$this->addObjects($objects);
+			} elseif ($objects instanceof Entity) {
 				$this->add($objects);
-			} else if ($objects instanceof Collection) {
+			} elseif ($objects instanceof Collection) {
 				$this->addCollection($objects);
 			}
-
 		}
 	}
 
@@ -47,35 +50,55 @@ abstract class Collection {
 	public function add(Entity $object, $nth=null) {
 		if ($nth === null) {
 			$this->objects[$this->count()] = $object;
-			return $this;
 		} else {
-			for($i = $this->count(); $i > $nth; $i--) {
-				$this->objects[$i] = $this->objects[($i - 1)];
-			}
-			$this->objects[$nth] = $object;
-			return $this;
+			$objects  = array_slice($this->objects, 0, $nth, true);
+			$objects += array($object);
+			$objects += array_slice($this->objects, $nth, $this->count() - 1, true);
+
+			$this->objects = $objects;
 		}
+
+		return $this;
 	}
 
 
 	/**
 	 * @brief add entities to collection
 	 * @param Collection $objects collection of entities to be added
-	 * @param integer $nth insert at index, if not set, entity will be appended
-	 * @return integer 
+	 * @param integer $nth insert at index, if not set, collection will be appended
+	 * @return integer
 	 */
-	public function addCollection(Collection $objects, $nth=null) {
+	public function addCollection(Collection $collection, $nth=null) {
 		if ($nth === null) {
 			$nth = $this->count();
 		}
-		$numberOfNewEntities = $objects->count();
-		for($i = ($this->count() + $numberOfNewEntities); $i > ($nth + $numberOfNewEntities); $i--) {
-			$this->objects[$i] = $this->objects[($i - $numberOfNewEntities)];
+
+		$objects  = array_slice($this->objects, 0, $nth, true);
+		$objects += $collection->getObjects();
+		$objects += array_slice($this->objects, $nth, $this->count() - $collection->count(), true);
+
+		$this->objects = $objects;
+		return $this;
+	}
+
+
+	/**
+	 * @brief add objects to collection
+	 * @param array $objects
+	 * @param integer $nth insert at index, if not set, objects will be appended
+	 * @return integer
+	 */
+	protected function addObjects(array $array, $nth=null) {
+		if ($nth === null) {
+			$this->objects += $objects;
+		} else {
+			$objects  = array_slice($this->objects, 0, $nth, true);
+			$objects += $array;
+			$objects += array_slice($this->objects, $nth, $this->count() - count($array), true);
+
+			$this->objects = $objects;
 		}
-		for($i = $nth; $i < ($nth + $numberOfNewEntities); $i++) {
-			$this->objects[$i] = $objects->current();
-			$objects->next();
-		}
+
 		return $this;
 	}
 
@@ -89,7 +112,12 @@ abstract class Collection {
 		if ($nth === null){
 			$nth = $this->key();
 		}
-		unset($this->objects[$nth]);
+
+		$objects = $this->objects;
+		unset($objects[$nth]);
+		$objects = array_values($objects);
+
+		$this->objects = $objects;
 		return $this;
 	}
 
@@ -100,11 +128,13 @@ abstract class Collection {
 	 * @return this
 	 */
 	public function removeByEntity(Entity $entity) {
-		for($i = 0; $i < $this->count(); $i++) {
-			//use of (==) instead of (===) is intended!
-			//see http://php.net/manual/en/language.oop5.object-comparison.php
-			if ($this->objects[$i] == $entity) {
-				unset($this->objects[($i--)]);
+		if (in_array($entity, $this->objects)) {
+			for($i = 0; $i < $this->count(); $i++) {
+				//use of (==) instead of (===) is intended!
+				//see http://php.net/manual/en/language.oop5.object-comparison.php
+				if ($this->objects[$i] == $entity) {
+					$this->remove($i--);
+				}
 			}
 		}
 
@@ -119,11 +149,12 @@ abstract class Collection {
 	 * @return this;
 	 */
 	public function removeByProperty($key, $value) {
-		$propertyGetter = 'get' . ucfirst($key);
+		$getter = 'get' . ucfirst($key);
 
 		for($i = 0; $i < $this->count(); $i++) {
-			if (is_callable(array($this->objects[$i], $propertyGetter)) && $this->objects[$i]->{$propertyGetter}() === $value) {
-				unset($this->objects[($i--)]);
+			if (is_callable(array($this->objects[$i], $getter)) &&
+				$this->objects[$i]->{$getter}() === $value) {
+				$this->remove($i--);
 			}
 		}
 
@@ -224,31 +255,33 @@ abstract class Collection {
 	 * @return array of Entities
 	 */
 	public function subset($limit=null, $offset=null) {
-		$class = get_class($this);
+		if ($limit === null && $offset === null) {
+			return $this;
+		}
 
+		if ($limit === null) {
+			$limit = 0;
+		}
 		if ($offset === null) {
 			$offset = 0;
 		}
 
-		if ($limit === null) {
-			return $this;
-		} else {
-			$subset = new $class();
+		$class = get_class($this);
+		$subset = new $class();
 
-			for($i = $offset; $i < ($offset + $limit); $i++) {
-				if (array_key_exists($i, $this->objects)) {
-					$subset->add($this->objects[$i]);
-				}
+		for($i = $offset; $i < ($offset + $limit); $i++) {
+			if (array_key_exists($i, $this->objects)) {
+				$subset->add($this->objects[$i]);
 			}
-
-			return $subset;
 		}
 
+		return $subset;
 	}
 
 
 	/**
 	 * @brief check if entity is in collection
+	 * @param Entity $object
 	 * @return boolean
 	 */
 	public function inCollection(Entity $object) {
@@ -261,22 +294,21 @@ abstract class Collection {
 	 * @return VCalendar object
 	 */
 	public function getVObject() {
-		$vObject = new VCalendar();
+		$vCalendar = new VCalendar();
 
 		foreach($this->objects as &$object) {
-			$vElement = $object->getVObject();
-			$children = $vElement->children();
-			foreach($children as $child) {
+			$vObject = $object->getVObject();
+			foreach($vObject->children() as $child) {
 				if ($child instanceof VEvent || 
-				   $child instanceof VJournal ||
-				   $child instanceof VTodo ||
-				   $child->name === 'VTIMEZONE') {
-					$vObject->add($child);
+					$child instanceof VJournal ||
+					$child instanceof VTodo ||
+					$child->name === 'VTIMEZONE') {
+					$vCalendar->add($child);
 				}
 			}
 		}
 
-		return $vObject;
+		return $vCalendar;
 	}
 
 
@@ -285,13 +317,13 @@ abstract class Collection {
 	 * @return array of VCalendar object
 	 */
 	public function getVObjects() {
-		$vobjects = array();
+		$vObjects = array();
 
 		foreach($this->objects as &$object) {
-			$vobjects[] = $object->getVObject();
+			$vObjects[] = $object->getVObject();
 		}
 
-		return $vobjects;
+		return $vObjects;
 	}
 
 
@@ -299,17 +331,17 @@ abstract class Collection {
 	 * @brief get a collection of entities that meet criteria
 	 * @param string $key property that's supposed to be searched
 	 * @param mixed $value expected value, can be a regular expression when 3rd param is set to true
-	 * @param boolean $regex disable / enable search based on regular expression
 	 * @return collection
 	 */
-	public function search($key, $value, $regex=false) {
+	public function search($key, $value) {
 		$class = get_class($this);
 		$matchingObjects = new $class();
 
-		$propertyGetter = 'get' . ucfirst($key);
+		$getter = 'get' . ucfirst($key);
 
 		foreach($this->objects as &$object) {
-			if (is_callable(array($object, $propertyGetter)) && $object->{$propertyGetter}() === $value) {
+			if (is_callable(array($object, $getter)) &&
+				$object->{$getter}() === $value) {
 				$matchingObjects->add($object);
 			}
 		}
@@ -325,14 +357,15 @@ abstract class Collection {
 	 * @param string $regex regular expression
 	 * @return ObjectCollection
 	 */
-	public function searchData($dataProperty, $regex) {
+	public function searchData($key, $regex) {
 		$class = get_class($this);
 		$matchingObjects = new $class();
 
-		$dataGetter = 'get' . ucfirst($dataProperty);
+		$getter = 'get' . ucfirst($key);
 
 		foreach($this->objects as &$object) {
-			if (is_callable(array($object, $propertyGetter)) && preg_match($regex, $object->{$dataGetter}()) === 1) {
+			if (is_callable(array($object, $getter)) &&
+				preg_match($regex, $object->{$getter}()) === 1) {
 				$matchingObjects->add($object);
 			}
 		}
@@ -348,11 +381,11 @@ abstract class Collection {
 	 * @return this
 	 */
 	public function setProperty($key, $value) {
-		$propertySetter = 'set' . ucfirst($key);
+		$setter = 'set' . ucfirst($key);
 
 		foreach($this->objects as &$object) {
-			if (is_callable(array($object, $propertySetter))) {
-				$object->{$propertySetter}($value);
+			if (is_callable(array($object, $setter))) {
+				$object->{$setter}($value);
 			}
 		}
 
@@ -386,6 +419,8 @@ abstract class Collection {
 		foreach($this->objects as &$object) {
 			$function($object);
 		}
+
+		return $this;
 	}
 
 

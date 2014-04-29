@@ -20,13 +20,13 @@ class ObjectCollection extends Collection {
 	public function inPeriod(DateTime $start, DateTime $end) {
 		$objectsInPeriod = new ObjectCollection();
 
-		$this->iterate(function($object) use (&$objectsInPeriod) {
+		$this->iterate(function($object) use (&$objectsInPeriod, $start, $end) {
 			if ($object->isRepeating() === true) {
-				$objectsInPeriod->add(clone $object);
+				$objectsInPeriod->add($object);
 			} else {
-				
-				
-				
+				if ($object->isInTimeRange($start, $end)) {
+					$objectsInPeriod->add($object);
+				}
 			}
 		});
 
@@ -43,13 +43,10 @@ class ObjectCollection extends Collection {
 	public function expand(DateTime $start, DateTime $end) {
 		$expandedObjects = new ObjectCollection();
 
-		$this->iterate(function($object) use (&$expandedObjects) {
+		$this->iterate(function($object) use (&$expandedObjects, $start, $end) {
 			if ($object->isRepeating() === true) {
-				
-
-
-			} else {
-				$expandedObjects->add(clone $object);
+				$object->vobject->expand($start, $end);
+				$expandedObjects->add($object);
 			}
 		});
 
@@ -63,7 +60,16 @@ class ObjectCollection extends Collection {
 	 * @return ObjectCollection
 	 */
 	public function ownedBy($userId) {
-		return $this->search('ownerId', $userId);
+		$objectsOwnedBy = new ObjectCollection();
+
+		$this->iterate(function($object) use (&$objectsOwnedBy, $userId) {
+			if ($object->calendar instanceof Calendar &&
+				$object->calendar->getOwner() === $userId) {
+				$objectsOwnedBy->add($object);
+			}
+		});
+
+		return $objectsOwnedBy;
 	}
 
 
@@ -76,7 +82,7 @@ class ObjectCollection extends Collection {
 
 		$this->iterate(function($object) use (&$objectsOfType, $type) {
 			if ($object->getType() & $type) {
-				$collection->add(clone $object);
+				$objectsOfType->add($object);
 			}
 		});
 

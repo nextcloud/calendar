@@ -27,10 +27,10 @@ use \OCA\Calendar\Http\SerializerException;
 class SubscriptionController extends Controller {
 
 	/**
-	 * timezone mapper
-	 * @var \OCA\Calendar\BusinessLayer\SubscriptionBusinessLayer
+	 * subscription mapper
+	 * @var \OCA\Calendar\BusinessLayer\SubscriptionMapper
 	 */
-	private $sbl;
+	private $smp;
 
 
 	/**
@@ -39,10 +39,10 @@ class SubscriptionController extends Controller {
 	 * @param IRequest $request an instance of the request
 	 */
 	public function __construct(IAppContainer $app, IRequest $request,
-								SubscriptionMapper $subscriptionBusinessLayer){
+								SubscriptionMapper $subscriptionMapper){
 		parent::__construct($app, $request);
 
-		$this->sbl = $subscriptionBusinessLayer;
+		$this->smp = $subscriptionMapper;
 	}
 
 
@@ -62,7 +62,7 @@ class SubscriptionController extends Controller {
 				$offset = $this->params('offset', 0);
 			}
 
-			$allSubscriptions = $this->subscriptionMapper->findAll(
+			$allSubscriptions = $this->smp->findAll(
 				$userId,
 				$limit,
 				$offset
@@ -95,7 +95,7 @@ class SubscriptionController extends Controller {
 			$userId = $this->api->getUserId();
 			$name = $this->request->getParam('subscriptionId');
 
-			$subscription = $this->sbl->find(
+			$subscription = $this->smp->find(
 				$name,
 				$userId
 			);
@@ -143,9 +143,22 @@ class SubscriptionController extends Controller {
 			$subscription = $reader->sanitize()->getObject();
 
 			if ($subscription instanceof Subscription) {
-				$subscription = $this->sbl->createFromRequest(
-					$subscription
-				);
+				$subscription->setUserId($userId);
+
+				try {
+					$this->smp->find(
+						$subscription->getName(),
+						$subscription->getUserId()
+					);
+
+					return new Response(null, Http::STATUS_CONFLICT);
+				} catch(DoesNotExistException $ex) {
+					//Do nothing
+				} catch(MultipleObjectsReturnedException $ex) {
+					return new Response(null, Http::STATUS_INTERNAL_SERVER_ERROR);
+				}
+
+				$subscription = $this->smp->insert($subscription);
 
 				$serializer = new Serializer(
 					$this->app,
@@ -153,15 +166,32 @@ class SubscriptionController extends Controller {
 					$subscription,
 					$this->accept()
 				);
-			} elseif ($subscription instanceof SubscriptionController) {
-				$subscription = $this->sbl->createCollectionFromRequest(
-					$subscription
-				);
+			} elseif ($subscription instanceof SubscriptionCollection) {
+				$createdSubscriptions = new SubscriptionCollection();
+				$subscription->setProperty('userId', $userId);
+
+				$subscription->iterate(function($subscription) use (&$createdSubscriptions) {
+					try {
+						$this->smp->find(
+							$subscription->getName(),
+							$subscription->getUserId()
+						);
+
+						return;
+					} catch(DoesNotExistException $ex) {
+						//Do nothing
+					} catch(MultipleObjectsReturnedException $ex) {
+						return;
+					}
+
+					$subscription = $this->smp->insert($subscription);
+					$createdSubscriptions->add($subscription);
+				});
 
 				$serializer = new Serializer(
 					$this->app,
 					Serializer::SubscriptionCollection,
-					$subscription,
+					$createdSubscriptions,
 					$this->accept()
 				);
 			} else {
@@ -212,11 +242,20 @@ class SubscriptionController extends Controller {
 			$subscription = $reader->sanitize()->getObject();
 
 			if ($subscription instanceof Subscription) {
-				$subscription = $this->sbl->updateFromRequest(
-					$subscription,
-					$name,
-					$userId
-				);
+				try {
+					$oldSubscription = $this->smp->find(
+						$name,
+						$userId
+					);
+
+					$subscription = $oldSubscription->overwriteWith($subscription);
+				} catch(DoesNotExistException $ex) {
+					return new Response(null, Http::STATUS_NOT_FOUND);
+				} catch(MultipleObjectsReturnedException $ex) {
+					return new Response(null, Http::STATUS_INTERNAL_SERVER_ERROR);
+				}
+
+				$subscription = $this->smp->update($subscription);
 
 				$serializer = new Serializer(
 					$this->app,
@@ -266,13 +305,19 @@ class SubscriptionController extends Controller {
 			$userId	= $this->api->getUserId();
 			$name = $this->request->getParam('subscriptionId');
 
-			$subscription = $this->sbl->find(
-				$name, 
-				$userId
-			);
-			$this->sbl->delete(
-				$subscription
-			);
+			try {
+				$subscription = $this->smp->find(
+					$name,
+					$userId
+				);
+
+			} catch(DoesNotExistException $ex) {
+				return new Response(null, Http::STATUS_NOT_FOUND);
+			} catch(MultipleObjectsReturnedException $ex) {
+				return new Response(null, Http::STATUS_INTERNAL_SERVER_ERROR);
+			}
+
+			$this->smp->delete($subscription);
 
 			return new Response();
 		} catch (BusinessLayerException $ex) {
@@ -290,7 +335,7 @@ class SubscriptionController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	public function getTypes() {
-		$types = $this->sbl->getTypes();
+		$types = $this->smp->getTypes();
 		return new Reponse($types);
 	}
 }

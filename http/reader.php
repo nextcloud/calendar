@@ -40,6 +40,10 @@ class Reader extends Manager {
 	}
 
 
+	/**
+	 * @brief hand over function calls to reader instance
+	 * @return mixed
+	 */
 	public function __call($method, $params) {
 		if(is_callable(array($this->reader, $method))) {
 			return call_user_func_array(array($this->reader, $method), $params);

@@ -9,7 +9,6 @@ namespace OCA\Calendar\Db;
 
 class Subscription extends Entity {
 
-	public $id;
 	public $name;
 	public $type;
 	public $url;

@@ -81,6 +81,9 @@ class Local extends Backend {
 
 		$this->timezoneMapper = $app->query('TimezoneMapper');
 
+		$columns  = '`uri`, `calendarData`';
+		$this->columnsToQuery = $columns;
+
 		parent::__construct($app, 'local');
 	}
 
@@ -1037,11 +1040,7 @@ class Local extends Backend {
 	 * @return string
 	 */
 	private function getUTCforMDB($datetime){
-		if($datetime instanceof \Datetime) {
-			return date('Y-m-d H:i:s', $datetime->format('U'));
-		} else {
-			return '1970-01-01 00:00:00';
-		}
+		return ObjectUtility::getUTCforMDB($datetime);
 	}
 
 

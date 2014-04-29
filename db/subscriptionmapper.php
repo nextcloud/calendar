@@ -13,7 +13,6 @@ use \OCA\Calendar\Db\Subscription;
 
 class SubscriptionMapper extends Mapper {
 
-
 	/**
 	 * array to register types
 	 * @var array
@@ -22,7 +21,9 @@ class SubscriptionMapper extends Mapper {
 
 
 	/**
-	 * @param API $api: Instance of the API abstraction layer
+	 * @brief Constructor
+	 * @param IAppContainer $app
+	 * @param string $tablename
 	 */
 	public function __construct($app, $tablename='clndr_subscriptions'){
 		parent::__construct($app, $tablename);
@@ -60,6 +61,15 @@ class SubscriptionMapper extends Mapper {
 		$sql .= 'WHERE `user_id` = ?';
 
 		return $this->findEntities($sql, array($userId), $limit, $offset);
+	}
+
+
+	/**
+	 * get possible types
+	 * @return array
+	 */
+	public function getTypes() {
+		return self::$types;
 	}
 }
 

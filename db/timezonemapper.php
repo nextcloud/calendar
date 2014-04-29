@@ -14,8 +14,19 @@ use \OCA\Calendar\Db\TimezoneCollection;
 
 class TimezoneMapper extends Mapper {
 
+	/**
+	 * foldername for timezonefiles
+	 * @var string
+	 */
 	private $folderName;
+
+
+	/**
+	 * blacklist of files that are not supposed to be indexed
+	 * @var array
+	 */
 	private $fileBlacklist;
+
 
 	/**
 	 * @param API $api: Instance of the API abstraction layer

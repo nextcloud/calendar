@@ -11,19 +11,21 @@ interface IReader {
 
 	/**
 	 * @brief get object
-	 * @return mixed (\OCA\Calendar\Db\Entity|\OCA\Calendar\Db\Collection)
+	 * @return mixed (Entity|Collection)
 	 */
 	public function getObject();
 
 
 	/**
 	 * @brief parse data
+	 * @return $this
 	 */
 	public function parse();
 
 
 	/**
 	 * @brief sanitize data
+	 * @return $this
 	 */
 	public function sanitize();
 }

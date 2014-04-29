@@ -42,7 +42,9 @@ class CalendarMapper extends Mapper {
 		$sql  = 'SELECT * FROM `' . $this->getTableName() . '` ';
 		$sql .= 'WHERE `backend` = ? AND `uri` = ? AND `user_id` = ?';
 
-		$row = $this->findOneQuery($sql, array($backend, $uri, $userId));
+		$row = $this->findOneQuery($sql, array(
+			$backend, $uri, $userId
+		));
 
 		return new Calendar($row);
 	}
@@ -59,7 +61,9 @@ class CalendarMapper extends Mapper {
 		$sql  = 'SELECT * FROM `'. $this->getTableName() . '` ';
 		$sql .= 'WHERE `user_id` = ? ORDER BY `order`';
 
-		return $this->findEntities($sql, array($userId), $limit, $offset);
+		return $this->findEntities($sql, array(
+			$userId
+		), $limit, $offset);
 	}
 
 
@@ -75,7 +79,9 @@ class CalendarMapper extends Mapper {
 		$sql  = 'SELECT * FROM `'. $this->getTableName() . '` ';
 		$sql .= 'WHERE `backend` = ? AND `user_id` = ? ORDER BY `order`';
 
-		return $this->findEntities($sql, array($backend, $userId), $limit, $offset);
+		return $this->findEntities($sql, array(
+			$backend, $userId
+		), $limit, $offset);
 	}
 
 
@@ -89,7 +95,9 @@ class CalendarMapper extends Mapper {
 		$sql  = 'SELECT COUNT(*) AS `count` FROM ';
 		$sql .= '`' . $this->getTableName() . '` WHERE `user_id` = ?';
 
-		$row = $this->findOneQuery($sql, array($userId));
+		$row = $this->findOneQuery($sql, array(
+			$userId
+		));
 
 		return intval($row['count']);
 	}
@@ -103,10 +111,13 @@ class CalendarMapper extends Mapper {
 	 * @return integer
 	 */
 	public function countOnBackend($backend, $userId) {
-		$sql  = 'SELECT COUNT(*) AS `count` FROM ';
-		$sql .= '`' . $this->getTableName() . '` WHERE `backend` = ? AND `user_id` = ?';
+		$sql  = 'SELECT COUNT(*) AS `count` FROM `' . $this->getTableName() . '` ';
+		$sql .= 'WHERE `backend` = ? AND `user_id` = ?';
 
-		$row = $this->findOneQuery($sql, array($backend, $userId));
+		$row = $this->findOneQuery($sql, array(
+			$backend,
+			$userId
+		));
 
 		return intval($row['count']);
 	}
@@ -124,61 +135,63 @@ class CalendarMapper extends Mapper {
 		$sql  = 'SELECT COUNT(*) AS `count` FROM `' . $this->tableName . '`';
 		$sql .= ' WHERE `backend` = ? AND `uri` = ? AND `user_id` = ?';
 
-		$row = $this->findOneQuery($sql, array($backend, $calendarURI, $userId));
+		$row = $this->findOneQuery($sql, array(
+			$backend,
+			$calendarURI,
+			$userId
+		));
 
 		$count = intval($row['count']);
-		if ($count === 0) {
-			return false;
-		} else {
-			return true;
-		}
+		return ($count !== 0);
 	}
 
 
 	/**
 	 * checks if a calendar allows a certain action
-	 * @param integer $cruds
 	 * @param string $backend
 	 * @param string $calendarURI
 	 * @param string $userId
+	 * @param integer $cruds
 	 * @throws DoesNotExistException: if the item does not exist
 	 * @return boolean
 	 */
-	public function doesAllow($cruds, $backend, $calendarURI, $userId) {
+	public function doesAllow($backend, $calendarURI, $userId, $cruds) {
 		$sql  = 'SELECT COUNT(*) AS `count` FROM `' . $this->tableName . '`';
 		$sql .= ' WHERE `cruds` & ? AND `backend` = ? AND `uri` = ? AND `user_id` = ?';
 
-		$row = $this->findOneQuery($sql, array($cruds, $backend, $calendarURI, $userId));
+		$row = $this->findOneQuery($sql, array(
+			$cruds,
+			$backend,
+			$calendarURI,
+			$userId
+		));
 
 		$count = intval($row['count']);
-		if ($count === 0) {
-			return false;
-		} else {
-			return true;
-		}
+		return ($count !== 0);
 	}
 
 
 	/**
 	 * checks if a calendar supports a certian component
-	 * @param integer $component
 	 * @param string $backend
 	 * @param string $calendarURI
 	 * @param string $userId
+	 * @param integer $component
 	 * @throws DoesNotExistException: if the item does not exist
 	 * @return boolean
 	 */
-	public function doesSupport($component, $backend, $calendarURI, $userId) {
+	public function doesSupport($backend, $calendarURI, $userId, $component) {
 		$sql  = 'SELECT COUNT(*) AS `count` FROM `' . $this->tableName . '`';
 		$sql .= ' WHERE `components` & ? AND `backend` = ? AND `uri` = ? AND `user_id` = ?';
 
-		$row = $this->findOneQuery($sql, array($component, $backend, $calendarURI, $userId));
+		$row = $this->findOneQuery($sql, array(
+			$component,
+			$backend,
+			$calendarURI,
+			$userId
+		));
 
 		$count = intval($row['count']);
-		if ($count === 0) {
-			return false;
-		} else {
-			return true;
-		}
+		return ($count !== 0);
 	}
 }

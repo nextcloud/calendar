@@ -104,15 +104,15 @@ class Backend extends Entity {
 			return false;
 		}
 
-		if ($this->arguments !== null && !is_array($this->arguments)) {
+		if (!is_null($this->arguments) && !is_array($this->arguments)) {
 			return false;
 		}
 
-		if (is_bool($this->enabled) === false) {
+		if (!is_bool($this->enabled)) {
 			return false;
 		}
 
-		if ($this->api !== null && !($this->api instanceof IBackend)) {
+		if (!is_null($this->api) && !($this->api instanceof IBackend)) {
 			return false;
 		}
 

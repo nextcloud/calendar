@@ -13,7 +13,12 @@ use \OCA\Calendar\Http\ISerializer;
 
 class Response extends CoreResponse {
 
+	/**
+	 * data for output
+	 * @var mixed
+	 */
 	protected $data;
+
 
 	/**
 	 * @param mixed $data
@@ -22,47 +27,49 @@ class Response extends CoreResponse {
 	public function __construct($data=null, $statusCode=null) {
 		$this->data = $data;
 
-		if ($statusCode === null) {
-			if ($data === null) {
-				$statusCode = Http::STATUS_NO_CONTENT;
+		if (is_null($statusCode)) {
+			if (is_null($data)) {
+				$this->setStatus(Http::STATUS_NO_CONTENT);
 			} else {
-				$statusCode = Http::STATUS_OK;
+				$this->setStatus(Http::STATUS_OK);
 			}
 		}
-		$this->setStatus($statusCode);
 
-		if ($data instanceof Serializer ||
-			$data instanceof ISerializer) {
-			$headers = $data->getHeaders();
-			foreach($headers as $key => $value) {
-				$this->addHeader($key, $value);
-			}
+		if ($data instanceof ISerializer || $data instanceof Serializer) {
+			$this->addHeaders($data->getHeaders());
 		}
 	}
+
 
 	/**
 	 * Returns the rendered data
 	 * @return string the rendered data
 	 */
 	public function render(){
-		if (is_string($this->data)) {
-			return $this->data;
-		} elseif (is_array($this->data)) {
-			return json_encode($this->data);
-		} elseif ($this->data instanceof ISerializer ||
-				  $this->data instanceof Serializer) {
-			$data = $this->data->serialize();
+		$data = $this->data;
 
-			if (is_null($data)) {
-				$this->setStatus(Http::STATUS_NO_CONTENT);
-				return '';
-			}else if (is_array($data)) {
-				return json_encode($data);
-			} else {
-				return $data;
-			}
-		} else {
+		if ($data instanceof ISeriliazier || $data instanceof Serializer) {
+			$data = $data->serialize();
+		}
+
+		if (is_string($data)) {
+			return $data;
+		}
+		if (is_array($data)) {
+			return json_encode($data);
+		}
+		if (is_null($data)) {
 			return '';
+		}
+	}
+
+
+	/**
+	 * @brief add array of headers
+	 */
+	private function addHeaders(array $headers) {
+		foreach($headers as $key => $value) {
+			$this->addHeader($key, $value);
 		}
 	}
 }

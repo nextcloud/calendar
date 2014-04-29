@@ -67,6 +67,7 @@ class BackendDependedBusinessLayer extends BusinessLayer {
 		return $split;
 	}
 
+
 	/**
 	 * @brief check if a backend does support a certian action
 	 * @param string $backend

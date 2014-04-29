@@ -10,6 +10,7 @@ namespace OCA\Calendar\Db;
 use \OCA\Calendar\Sabre\VObject\Component\VCalendar;
 
 use \OCA\Calendar\Utility\CalendarUtility;
+use \OCA\Calendar\Utility\RegexUtility;
 use \OCA\Calendar\Utility\Utility;
 
 class Calendar extends Entity {
@@ -139,10 +140,6 @@ class Calendar extends Entity {
 	 * @brief set uri property
 	 */
 	public function setUri($uri) {
-		if (!is_string($uri) || trim($uri) === '') {
-			return null;
-		}
-
 		$slugified = CalendarUtility::slugify($uri);
 		return parent::setUri($slugified);
 	}
@@ -198,12 +195,8 @@ class Calendar extends Entity {
 	 */
 	public function isValid() {
 		$strings = array(
-			$this->userId, 
-			$this->ownerId, 
-			$this->backend,
-			$this->uri,
-			$this->displayname,
-			$this->color,
+			$this->userId, $this->ownerId, $this->backend,
+			$this->uri, $this->displayname, $this->color
 		);
 
 		foreach($strings as $string) {
@@ -216,10 +209,8 @@ class Calendar extends Entity {
 		}
 
 		$uInts = array(
-			$this->components,
-			$this->ctag,
-			$this->order,
-			$this->cruds,
+			$this->components, $this->ctag,
+			$this->order, $this->cruds
 		);
 
 		foreach($uInts as $integer) {
@@ -232,7 +223,7 @@ class Calendar extends Entity {
 		}
 
 		$booleans = array(
-			$this->enabled,
+			$this->enabled
 		);
 
 		foreach($booleans as $boolean) {
@@ -241,11 +232,11 @@ class Calendar extends Entity {
 			}
 		}
 
-		if (preg_match('/[A-Za-z0-9]+/', $this->uri) !== 1) {
+		if (preg_match(RegexUtility::URI, $this->uri) !== 1) {
 			return false;
 		}
 
-		if (preg_match('/#((?:[0-9a-fA-F]{2}){3}|(?:[0-9a-fA-F]{1}){3}|(?:[0-9a-fA-F]{1}){4}|(?:[0-9a-fA-F]{2}){4})$/', $this->color) !== 1) {
+		if (preg_match(RegexUtility::RGBA, $this->color) !== 1) {
 			return false;
 		}
 
@@ -257,7 +248,7 @@ class Calendar extends Entity {
 			return false;
 		}
  
-		if ($this->timezone instanceof Timezone && !$this->timezone->isValid()) {
+		if (($this->timezone instanceof Timezone) && !$this->timezone->isValid()) {
 			return false;
 		}
 

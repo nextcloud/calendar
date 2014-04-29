@@ -11,6 +11,8 @@ use \OCP\AppFramework\IAppContainer;
 
 class Serializer extends Manager {
 
+	const Backend = 7;
+	const BackendCollection = 8;
 	const Calendar = 1;
 	const CalendarCollection = 2;
 	const Object = 3;
@@ -18,8 +20,6 @@ class Serializer extends Manager {
 	const Timezone = 5;
 	const TimezoneCollection = 6;
 
-	const Backend = 7;
-	const BackendCollection = 8;
 
 	/**
 	 * reader object
@@ -28,6 +28,13 @@ class Serializer extends Manager {
 	private $serializer;
 
 
+	/**
+	 * @brief Constructor
+	 * @param IAppContainer $app
+	 * @param integer $type
+	 * @param resource $data
+	 * @param string $requestedMimeType
+	 */
 	public function __construct(IAppContainer $app, $type, $data, $requestedMimeType) {
 		$class = self::get($type, $requestedMimeType);
 		if (!$class) {
@@ -40,6 +47,11 @@ class Serializer extends Manager {
 		$this->serializer = new $class($app, $data);
 	}
 
+
+	/**
+	 * @brief hand over function calls to reader instance
+	 * @return mixed
+	 */
 	public function __call($method, $params) {
 		if(is_callable(array($this->serializer, $method))) {
 			return call_user_func_array(array($this->serializer, $method), $params);

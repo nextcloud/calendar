@@ -13,15 +13,11 @@ use \OCP\AppFramework\Http;
 use \OCA\Calendar\Db\DoesNotExistException;
 use \OCA\Calendar\Db\MultipleObjectsReturnedException;
 
-use \OCA\Calendar\Db\BackendMapper;
-use \OCA\Calendar\Db\ObjectMapper;
-
 use \OCA\Calendar\Db\Calendar;
 use \OCA\Calendar\Db\CalendarCollection;
-
 use \OCA\Calendar\Db\Object;
 use \OCA\Calendar\Db\ObjectCollection;
-
+use \OCA\Calendar\Db\ObjectMapper;
 use \OCA\Calendar\Db\Timezone;
 use \OCA\Calendar\Db\TimezoneCollection;
 
@@ -62,9 +58,11 @@ class ObjectBusinessLayer extends BackendDependedBusinessLayer {
 	 */
 	public function __construct(IAppContainer $app,
 								BackendBusinessLayer $backendBusinessLayer,
-								ObjectMapper $objectMapper){
+								ObjectMapper $objectMapper,
+								ObjectCacheManager $objectCacheManange){
 		parent::__construct($app, $backendBusinessLayer);
 		$this->omp = $objectMapper;
+		$this->ocm = $objectCacheManager;
 	}
 
 
@@ -212,13 +210,11 @@ class ObjectBusinessLayer extends BackendDependedBusinessLayer {
 			if ($object->getType() !== $type) {
 				$msg  = 'ObjectBusinessLayer::find(): User Error: ';
 				$msg .= 'Requested object exists but is of different type!';
-				throw new BusinessLayerException($msg);
+				throw new BusinessLayerException($msg, Http:STATUS_NOT_FOUND);
 			}
 
 			return $object;
 		} catch (DoesNotExistException $ex) {
-			var_dump($ex);
-			exit;
 			throw new BusinessLayerException($ex->getMessage(), Http::STATUS_NOT_FOUND);
 		} catch (MultipleObjectsReturnedException $ex) {
 			throw new BusinessLayerException($ex->getMessage());
@@ -435,9 +431,9 @@ class ObjectBusinessLayer extends BackendDependedBusinessLayer {
 			$cacheObjects = $api->cacheObjects($calendarURI, $userId);
 
 			if ($cacheObjects) {
-				return $this->omp->doesAllow($cruds, $calendar, $objectURI);
+				return $this->omp->doesAllow($calendar, $objectURI, $cruds);
 			} else {
-				return $api->doesObjectAllow($cruds, $calendar, $objectURI);
+				return $api->doesObjectAllow($calendar, $objectURI, $cruds);
 			}
 		} catch(BackendException $ex) {
 			throw new BusinessLayerException($ex->getMessage());
@@ -529,6 +525,7 @@ class ObjectBusinessLayer extends BackendDependedBusinessLayer {
 			try {
 				$object = $this->create($object);
 			} catch(BusinessLayerException $ex) {
+				$this->app->log($ex->getMessage(), 'debug');
 				continue;
 			}
 			$createdObjects->add($object);
@@ -551,6 +548,7 @@ class ObjectBusinessLayer extends BackendDependedBusinessLayer {
 			try {
 				$object = $this->createFromRequest($object);
 			} catch(BusinessLayerException $ex) {
+				$this->app->log($ex->getMessage(), 'debug');
 				continue;
 			}
 			$createdObjects->add($object);
@@ -572,12 +570,12 @@ class ObjectBusinessLayer extends BackendDependedBusinessLayer {
 		try {
 			$newCalendar = $object->getCalendar();
 			$newObjectURI = $object->getObjectURI();
-
 			$newBackend = $newCalendar->getBackend();
-			$oldBackend = $oldCalendar->getBackend();
 			$newCalendarURI = $newCalendar->getUri();
-			$oldCalendarURI = $oldCalendar->getUri();
 			$newUserId = $newCalendar->getUserId();
+
+			$oldBackend = $oldCalendar->getBackend();
+			$oldCalendarURI = $oldCalendar->getUri();
 			$oldUserId = $oldCalendar->getUserId();
 
 			if ($newUserId !== $oldUserId) {
@@ -600,7 +598,7 @@ class ObjectBusinessLayer extends BackendDependedBusinessLayer {
 			if (!$this->doesExist($oldCalendar, $oldObjectURI)) {
 				$msg  = 'ObjectBusinessLayer::update(): User Error: ';
 				$msg .= 'Object does not exists!';
-				throw new BusinessLayerException($msg);
+				throw new BusinessLayerException($msg, Http::STATUS_NOT_FOUND);
 			}
 			if (!$this->doesBackendSupport($oldBackend, \OCA\Calendar\Backend\UPDATE_OBJECT)) {
 				$msg  = 'CalendarBusinessLayer::update(): User Error: ';
@@ -611,14 +609,14 @@ class ObjectBusinessLayer extends BackendDependedBusinessLayer {
 			if (!$object->isValid()) {
 				$msg  = 'ObjectBusinessLayer::update(): User Error: ';
 				$msg .= 'Given object data is not valid and not fixable';
-				throw new BusinessLayerException($msg);
+				throw new BusinessLayerException($msg, Http::STATUS_UNPROCESSABLE_ENTITY);
 			}
 
 			$api = &$this->backends->find($oldBackend)->api;
 			$api->updateObject($object, $oldCalendar);
 
 			if ($api->cacheObjects($oldCalendarURI, $oldUserId)) {
-				//$this->omp->update($object, $oldCalendarURI, $ObjectURI, $userId);
+				$this->omp->update($object);
 			}
 
 			return $object;
