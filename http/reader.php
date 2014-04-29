@@ -33,7 +33,7 @@ class Reader extends Manager {
 	public function __construct(IAppContainer $app, $type, $handle, $requestedMimeType) {
 		$class = self::get($type, $requestedMimeType);
 		if (!$class) {
-			throw new \Exception('No reader found.');
+			throw new ReaderException('No reader for mimeType found.');
 		}
 
 		$this->reader = new $class($app, $handle);

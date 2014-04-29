@@ -202,7 +202,7 @@ class Object extends Entity {
 	 * @brief get etag
 	 * @return string
 	 */
-	public function getETag() {
+	public function getEtag() {
 		if($this->etag === null) {
 			$this->generateEtag();
 		}

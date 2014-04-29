@@ -18,7 +18,7 @@ use \OCA\Calendar\Db\Permissions;
 
 use \OCA\Calendar\Http\Response;
 use \OCA\Calendar\Http\Reader;
-use \OCA\Calendar\Http\ReaderExpcetion;
+use \OCA\Calendar\Http\ReaderException;
 use \OCA\Calendar\Http\Serializer;
 use \OCA\Calendar\Http\SerializerException;
 
@@ -279,7 +279,7 @@ class ObjectController extends Controller {
 		try {
 			$userId = $this->api->getUserId();
 			$calendarId = $this->params('calendarId');
-			$objectURI = $this->params('objectId');
+			$objectURI = $this->getObjectId();
 			$etag = $this->header('if-match');
 			$data = fopen('php://input', 'rb');
 
@@ -356,7 +356,7 @@ class ObjectController extends Controller {
 		try {
 			$userId = $this->api->getUserId();
 			$calendarId = $this->params('calendarId');
-			$objectURI = $this->params('objectId');
+			$objectURI = $this->getObjectId();
 
 			$calendar = $this->cbl->find(
 				$calendarId,
@@ -382,5 +382,17 @@ class ObjectController extends Controller {
 				$ex->getCode()
 			);
 		}
+	}
+
+
+
+	/**
+	 * @brief get objectId of request
+	 * TODO - find a better solution
+	 * @return $string objectId
+	 */
+	protected function getObjectId() {
+		list($app, $controller, $method) = explode('.', $this->params('_route'));
+		return $this->params($controller . 'Id');
 	}
 }

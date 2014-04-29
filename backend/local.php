@@ -316,7 +316,7 @@ class Local extends Backend {
 			$calendar->getOrder(),
 			$calendar->getColor(),
 			$calendar->getTimezone(),
-			$calendar->getComponents(),
+			$this->getTypes($calendar->getComponents()),
 		));
 	}
 
@@ -330,6 +330,9 @@ class Local extends Backend {
 	 * @return Calendar
 	 */
 	public function updateCalendar(Calendar &$calendar) {
+		$calendarURI = $calendar->getUri();
+		$userId = $calendar->getUserId();
+
 		$calendarId = $this->getCalendarId($calendarURI, $userId);
 		if (!$calendarId) {
 			$msg  = 'Backend\Local::updateCalendar(): Internal Error: ';
@@ -342,7 +345,7 @@ class Local extends Backend {
 		$sql  = 'UPDATE `' . $caltbl . '` SET ';
 		$sql .= '`userid` = ?, `displayname` = ?, `uri` = ?, `active` = ?, ';
 		$sql .= '`ctag` = ?, `calendarorder` = ?, `calendarcolor` = ?, ';
-		$sql .= '`timezone` = ?, `components` = ? WHERE `id = ?';
+		$sql .= '`timezone` = ?, `components` = ? WHERE `id` = ?';
 		$result = \OCP\DB::prepare($sql)->execute(array(
 			$calendar->getUserId(),
 			$calendar->getDisplayname(),
@@ -352,7 +355,7 @@ class Local extends Backend {
 			$calendar->getOrder(),
 			$calendar->getColor(),
 			$calendar->getTimezone(),
-			$calendar->getComponents(),
+			$this->getTypes($calendar->getComponents()),
 			$calendarId
 		));
 	}
@@ -1074,7 +1077,7 @@ class Local extends Backend {
 	 */
 	private function createTimezoneFromRow(&$row) {
 		try {
-			//return $this->timezoneMapper->find(strval($row['timezone']));
+			return $this->timezoneMapper->find(strval($row['timezone']));
 		} catch(DoesNotExistException $ex) {
 			return new Timezone('UTC');
 		}

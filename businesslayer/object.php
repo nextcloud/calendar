@@ -597,12 +597,12 @@ class ObjectBusinessLayer extends BackendDependedBusinessLayer {
 				$msg .= 'Backend found but not enabled!';
 				throw new BusinessLayerException($msg);
 			}
-			if (!$this->doesExist($calendar, $objectURI)) {
+			if (!$this->doesExist($oldCalendar, $oldObjectURI)) {
 				$msg  = 'ObjectBusinessLayer::update(): User Error: ';
 				$msg .= 'Object does not exists!';
 				throw new BusinessLayerException($msg);
 			}
-			if (!$this->doesBackendSupport($backend, \OCA\Calendar\Backend\UPDATE_OBJECT)) {
+			if (!$this->doesBackendSupport($oldBackend, \OCA\Calendar\Backend\UPDATE_OBJECT)) {
 				$msg  = 'CalendarBusinessLayer::update(): User Error: ';
 				$msg .= 'Backend does not support updating objects!';
 				throw new BusinessLayerException($msg, Http::STATUS_UNPROCESSABLE_ENTITY);
@@ -614,11 +614,11 @@ class ObjectBusinessLayer extends BackendDependedBusinessLayer {
 				throw new BusinessLayerException($msg);
 			}
 
-			$api = &$this->backends->find($backend)->api;
-			$object = $api->updateObject($object, $calendar);
+			$api = &$this->backends->find($oldBackend)->api;
+			$api->updateObject($object, $oldCalendar);
 
-			if ($api->cacheObjects($calendarURI, $userId)) {
-				$this->omp->update($object, $calendarURI, $objectURI, $userId);
+			if ($api->cacheObjects($oldCalendarURI, $oldUserId)) {
+				//$this->omp->update($object, $oldCalendarURI, $ObjectURI, $userId);
 			}
 
 			return $object;

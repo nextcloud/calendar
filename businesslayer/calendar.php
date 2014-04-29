@@ -461,7 +461,7 @@ class CalendarBusinessLayer extends BackendDependedBusinessLayer {
 			$newCalendarURI = $calendar->getUri();
 			$newUserId = $calendar->getUserId();
 
-			if ($oldUserId === $newUserId) {
+			if ($oldUserId !== $newUserId) {
 				$msg  = 'CalendarBusinessLayer::update(): Not supported: ';
 				$msg .= 'Transferring a calendar to another user is not supported yet.';
 				throw new BusinessLayerException($msg, Http::STATUS_UNPROCESSABLE_ENTITY);
@@ -485,14 +485,14 @@ class CalendarBusinessLayer extends BackendDependedBusinessLayer {
 
 			if ($oldUserId !== $newUserId) {
 				return $this->transfer($calendar, array($oldBackend, $oldCalendarURI), $oldUserId);
-			} else if (!$this->doesCalendarExist(array($newBackend, $newCalendarURI), $newUserId)) {
+			} else if (!$this->doesExist(array($newBackend, $newCalendarURI), $newUserId)) {
 				/** Move a calendar when
 				 * [x] uri and/or backend changed
 				 * [x] new calendar does not exist
 				 */
 				return $this->move($calendar, array($oldBackend, $oldCalendarURI), $oldUserId);
 			} else if (($newBackend !== $oldBackend || $newCalendarURI !== $oldCalendarURI) && 
-					   $this->doesCalendarExist(array($newBackend, $newCalendarURI), $newUserId)) {
+					   $this->doesExist(array($newBackend, $newCalendarURI), $newUserId)) {
 				/** Merge a calendar when
 				 * [x] uri and/or backend changed
 				 * [x] new calendar exists
@@ -856,7 +856,7 @@ class CalendarBusinessLayer extends BackendDependedBusinessLayer {
 			}
 
 			if (!$doesCalendarExistRemote) {
-				$this->obl->deleteAll(array($backend, $calendarURI), $userId);
+				//$this->->deleteAll(array($backend, $calendarURI), $userId);
 				$this->cmp->delete($cachedCalendar);
 				return true;
 			}
@@ -877,11 +877,11 @@ class CalendarBusinessLayer extends BackendDependedBusinessLayer {
 				return true;
 			}
 
-			if ($api->cacheObjects() && $cachedCalendar->getCtag() < $remoteCalendar->getCtag()) {
+			if ($api->cacheObjects($calendarURI, $userId) && $cachedCalendar->getCtag() < $remoteCalendar->getCtag()) {
 				$this->obl->updateCacheForCalendarFromRemote(array($backend, $calendarURI), $userId);
 			}
 
-			$this->resetValuesNotSupportedByAPI($remoteCalendar, $remoteAPI);
+			$this->resetValuesNotSupportedByAPI($remoteCalendar, $api);
 
 			if ($cachedCalendar == $remoteCalendar) {
 				return true;

@@ -16,7 +16,7 @@ use \OCA\Calendar\Db\CalendarCollection;
 
 use \OCA\Calendar\Http\Response;
 use \OCA\Calendar\Http\Reader;
-use \OCA\Calendar\Http\ReaderExpcetion;
+use \OCA\Calendar\Http\ReaderException;
 use \OCA\Calendar\Http\Serializer;
 use \OCA\Calendar\Http\SerializerException;
 

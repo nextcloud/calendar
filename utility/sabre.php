@@ -232,7 +232,7 @@ class SabreUtility extends Utility {
 			if($child instanceof Component) {
 				self::removeXOCAttrFromComponent($child);
 			} elseif(substr($child->name, 0, 5) === 'X-OC-') {
-				$component->remove($child->name);
+				unset($component->{$child->name});
 			}
 		}
 	}

@@ -7,6 +7,8 @@
  */
 namespace OCA\Calendar;
 
+use OC\AppFramework\Http\Request;
+
 use \OCP\AppFramework\IAppContainer;
 
 use \OCA\Calendar\PublicAPI\Calendar;
@@ -45,10 +47,52 @@ use \OCA\Calendar\Fetcher\WebCalFetcher;
 
 use \OCA\Calendar\Utility\Updater;
 
+use \OCA\Calendar\lib\CalendarRequest;
+
 class App extends \OCP\AppFramework\App {
 
 	public function __construct($params = array()) {
 		parent::__construct('calendar', $params);
+
+		//overwrite request
+		//you can't rewind php://input ...
+		//if we wouldn't overwrite request, it would automatically read php://input
+		$this->getContainer()['ServerContainer']->registerService('Request', function($c) {
+			if (isset($c['urlParams'])) {
+				$urlParams = $c['urlParams'];
+			} else {
+				$urlParams = array();
+			}
+
+			if (\OC::$session->exists('requesttoken')) {
+				$requesttoken = \OC::$session->get('requesttoken');
+			} else {
+				$requesttoken = false;
+			}
+
+			if (defined('PHPUNIT_RUN') && PHPUNIT_RUN
+			&& in_array('fakeinput', stream_get_wrappers())) {
+				$stream = 'fakeinput://data';
+			} else {
+				$stream = 'data://text/plain;base64,';
+			}
+
+			return new Request(
+				array(
+					'get' => $_GET,
+					'post' => $_POST,
+					'files' => $_FILES,
+					'server' => $_SERVER,
+					'env' => $_ENV,
+					'cookies' => $_COOKIE,
+					'method' => (isset($_SERVER) && isset($_SERVER['REQUEST_METHOD']))
+						? $_SERVER['REQUEST_METHOD']
+						: null,
+					'urlParams' => $urlParams,
+					'requesttoken' => $requesttoken,
+				), $stream
+			);
+		});
 
 		/**
 		 * Controller

@@ -26,7 +26,7 @@ use \OCA\Calendar\BusinessLayer\ObjectBusinessLayer;
 
 use \OCA\Calendar\Http\Response;
 use \OCA\Calendar\Http\Reader;
-use \OCA\Calendar\Http\ReaderExpcetion;
+use \OCA\Calendar\Http\ReaderException;
 use \OCA\Calendar\Http\Serializer;
 use \OCA\Calendar\Http\SerializerException;
 
@@ -234,16 +234,5 @@ abstract class ObjectTypeController extends ObjectController {
 				Http::STATUS_INTERNAL_SERVER_ERROR
 			);
 		}
-	}
-
-
-	/**
-	 * @brief get objectId of request
-	 * TODO - find a better solution
-	 * @return $string objectId
-	 */
-	private function getObjectId() {
-		list($app, $controller, $method) = explode('.', $this->params('_route'));
-		return $this->params($controller . 'Id');
 	}
 }

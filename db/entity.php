@@ -102,8 +102,11 @@ abstract class Entity {
 	public function doesContainNullValues() {
 		$properties = get_object_vars($this);
 
-		foreach($properties as $property) {
-			$method = 'get' . ucfirst($property);
+		foreach($properties as $key => $value) {
+			if($key === 'updatedFields' || $key === 'fieldTypes') {
+				continue;
+			}
+			$method = 'get' . ucfirst($key);
 
 			if ($this->$method() === null) {
 				return true;

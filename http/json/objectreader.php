@@ -26,7 +26,7 @@ class JSONObjectReader extends JSONReader {
 	 */
 	public function parse() {
 		try {
-			$data = $this->getData();
+			$data = $this->handle;
 			$objectCollection = new ObjectCollection();
 
 			$splitter = new JCalendar($data);

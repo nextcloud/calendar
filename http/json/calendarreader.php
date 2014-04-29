@@ -10,6 +10,7 @@ namespace OCA\Calendar\Http\JSON;
 use \OCA\Calendar\Db\Calendar;
 use \OCA\Calendar\Db\ObjectType;
 use \OCA\Calendar\Db\Permissions;
+use \OCA\Calendar\Db\DoesNotExistException;
 
 use \OCA\Calendar\Http\ReaderException;
 
@@ -26,7 +27,7 @@ class JSONCalendarReader extends JSONReader{
 		$json = json_decode($data, true);
 
 		if ($json === null) {
-			$msg  = 'JSONCalendarReader: User Error';
+			$msg  = 'JSONCalendarReader: User Error: ';
 			$msg .= 'Could not decode json string.';
 			throw new ReaderException($msg);
 		}
@@ -109,7 +110,6 @@ class JSONCalendarReader extends JSONReader{
 				case 'displayname':
 				case 'backend':
 				case 'uri':
-				case 'timezone':
 					$calendar->$setter(strval($value));
 					break;
 
@@ -134,9 +134,14 @@ class JSONCalendarReader extends JSONReader{
 
 				case 'owner':
 				case 'user':
-					$propertySetter .= 'Id';
+					$setter .= 'Id';
 					$value = JSONUtility::parseUserInformation($value);
 					$calendar->$setter($value);
+					break;
+
+				case 'timezone':
+					$timezoneObject = $this->parseTimezone($value);
+					$calendar->$setter($timezoneObject);
 					break;
 
 				//blacklist:
@@ -150,5 +155,19 @@ class JSONCalendarReader extends JSONReader{
 		}
 
 		return $calendar;
+	}
+
+
+	/**
+	 * @brief get timezone Object from timezoneId
+	 * @return \OCA\Calendar\Db\Timezone
+	 */
+	private function parseTimezone($timezoneId) {
+		try {
+			$timezoneMapper = $this->app->query('TimezoneMapper');
+			return $timezoneMapper->find($timezoneId);
+		} catch(DoesNotExistException $ex) {
+			return null;
+		}
 	}
 }

@@ -153,8 +153,7 @@ class Calendar extends Entity {
 	 * @param \OCA\Calendar\Db\Timezone $timezone
 	 */
 	public function setTimezone(Timezone $timezone) {
-		$this->timezone = $timezone;
-		return $this;
+		return parent::setTimezone($timezone);
 	}
 
 
