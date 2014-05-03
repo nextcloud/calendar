@@ -25,6 +25,18 @@
 
 <!-- TODO: Add all Angular, Bootstrap and Custom URLs to this file.-->
 
+<?php
+	\OCP\Util::addScript('calendar', '../3rdparty/js/angular/angular');
+	\OCP\Util::addScript('calendar', '../3rdparty/js/angular/angular-animate');
+	\OCP\Util::addScript('calendar', '../3rdparty/js/angular/angular-resource');
+	\OCP\Util::addScript('calendar', '../3rdparty/js/angular/angular-route');
+	\OCP\Util::addScript('calendar', 'public/app');
+
+
+	\OCP\Util::addStyle('calendar', 'calendar');
+
+?>
+
 <div ng-app="Calendar" ng-controller="AppController">
 
 	<!-- The Left Calendar Navigation -->
