@@ -1,4 +1,3 @@
-<?php
 /**
  * ownCloud - Calendar App
  *
@@ -21,4 +20,577 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-?>
+
+#datecontrol {text-align: center;}
+#datecontrol_date_label {margin: 0; padding: 0; font-size: 12px;}
+#choosecalendar {margin-right: 10px; float: right; font-size: 12px;}
+
+#choosecalendar_dialog {display: none;}
+#newentry_dialog {display: none;}
+#editentry_dialog {display: none;}
+#parsingfail_dialog{display: none;}
+#dialog_holder {display: none;}
+
+#loading {
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 10;
+	background-color: rgba(255,255,255,0.3);
+}
+
+body {
+	overflow: hidden;
+}
+
+#fullcalendar {
+	overflow: auto;
+	position: relative;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	top: 0;
+}
+#listview {margin: 0; padding: 10px; background: #EEEEEE;}
+#listview #more_before, #listview #more_after {border: 1px solid #1a1a1a; width:25em;padding: 3px;text-align: center;}
+#listview #events {width:25em;padding: 4px;}
+#listview #events .day {width:auto;padding-left:10px;border-bottom: 2px solid #EEEEEE;text-align:left;}
+
+.actions {height: 33px;	min-width: 800px;}
+.actionsfloatleft {float:left;margin-left: 1.4em;}
+.actionsfloatright {float:right;margin-right: 1.4em;}
+.controls {min-width: 800px;}
+.center {text-align: center;}
+.dateinfo {height: 20px;width: 100%; overflow: hidden; margin-top: 0; padding: 0; font-size: 12px;background: #F7F7F7;}
+.events {width: 100%; margin: 0; padding: 0;min-height: 100px;}
+.calendar_row {height: 20px; text-align: center;background: #ffffff;}
+#oneweekview .calendar_row {width: 13.5%;}
+.calendar_time {height: 20px; width: 50px; text-align:right;background: #ffffff;}
+.day {text-align: center; background: #ffffff; margin: 0; padding: 0; vertical-align: top; width: 14%; height: 22%;}
+.weekend {background: #F3F3F3; }
+.weekend_thead, .weekend_row{height: 20px;text-align: center;text-align: center;background: #F3F3F3;}
+.thisday{background: #FFFABC;}
+.event {position:relative;}
+.event.colored {border-bottom: 1px solid white;}
+
+#fromtime, #totime {
+color:#333;
+}
+#fromtime.disabled, #totime.disabled {
+color:#A9A9A9;
+}
+select#category{width:140px;}
+button.category{margin:0 3px;}
+
+.calendar-colorpicker-color{display:inline-block;width:20px;height:20px;margin-right:2px;cursor:pointer;border:2px solid transparent;}
+.calendar-colorpicker-color.active{border:2px solid black;}
+
+#event {
+	height: initial !important;
+	padding: 0;
+	margin: -5px 0 5px;
+}
+
+
+
+#sharewith {
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	width: 100%;
+	margin: 5px 0 10px;
+}
+
+.sharedby li {
+	padding: 7px 0;
+}
+.sharedby .shareactions {
+	float: right;
+	clear: both;
+}
+.sharedby .shareactions label {
+	padding: 9px 5px;
+}
+.sharedby .shareactions input {
+	vertical-align: middle;
+}
+.sharedby .shareactions .delete {
+	float: right;
+	padding: 3px;
+}
+
+.fc-state-highlight { background: #ffa; }
+
+.fc-list-table
+{
+    margin: 10px;
+    border-style: hidden;
+    border-width: 10px;
+    padding: 10px;
+    vertical-align: top;
+    width: 100%;
+}
+.fc-list-table tr:hover
+{
+    color: #0000FF;
+    background-color: #CCFFCC;
+}
+
+
+.fc-list-date
+{
+    margin: 16px;
+    white-space: nowrap;
+    text-align: left;
+    width: 100%;
+    background-color: #808080;
+    color: #FFFFFF;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.fc-list-time
+{
+    text-align: center;
+    white-space: nowrap;
+    width: 1%;
+}
+
+.fc-list-event
+{
+     text-align: left;
+}
+
+.fc-list-event .fc-event-title
+{
+     cursor: pointer;
+}
+
+.ui-timepicker-hour-cell *, .ui-timepicker-minute-cell *{
+	text-overflow: clip !important;
+}
+
+.link{
+	color:#148cf6;
+}
+
+
+/* fit buttons to control bar */
+#controls input[type="button"] {
+	height: 38px;
+	margin: 0;
+	font-weight: normal;
+}
+#controls #view, #controls #datecontrol {
+	margin: 3px;
+}
+#controls #datecontrol_date,
+#controls input[type="button"].active {
+	font-weight: bold;
+}
+
+/* input fields take whole width */
+#event-title,
+#event-location,
+#category,
+#event-description {
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	width: 100%;
+	margin: 3px 0;
+}
+/* bigger event title in detail view */
+#event-title {
+	font-size: 20px;
+}
+/* group from and to date fields */
+#event-time {
+	display: block;
+	margin: 5px 0;
+}
+#event-time-from {
+	float: left;
+}
+#event-time-to {
+	float: right;
+}
+#from, #to {
+	width: 65px;
+	margin: 0;
+}
+#fromtime, #totime {
+	margin: 0;
+	width: 80px;
+}
+#event-allday {
+	display: inline-block;
+	margin: 7px 0;
+	width: 100%;
+}
+/* category input field leaves room for edit button */
+#category {
+	width: 90%;
+}
+#editCategories {
+	display: inline-block;
+	padding: 6px 12px;
+}
+/* whole line for buttons of 'Advanced' and 'Export' */
+#advanced_options_button,
+#editEvent-export {
+	display: block;
+	margin: 0;
+}
+/* normal font weight for secondary buttons for less obtrusiveness */
+#advanced_options_button,
+#editEvent-export,
+#editEvent-delete {
+	font-weight: normal;
+}
+/* more space for action buttons below */
+#actions {
+	height: 45px;
+}
+
+
+/* make popups scrollable in smaller viewports */
+.ui-dialog {
+	max-height: 75% !important;
+	top: 15% !important;
+	overflow-y: auto;
+	overflow-x: hidden;
+	padding: 0;
+}
+.ui-dialog .ui-dialog-content {
+	overflow: initial;
+}
+#appsettings_popup {
+	max-height: 70%;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+/* fix share dropdown being hidden and hiding calendar which will be shared */
+#appsettings_popup #dropdown {
+	left: 0;
+	margin-top: 20px;
+}
+
+/* color weekends */
+.fc-sat, .fc-sun {
+	background-color: #f8f8f8;
+}
+
+/* don't bold weekday names in header */
+#fullcalendar th {
+	font-weight: normal;
+	color: rgb(120,120,120);
+}
+
+/* lighter border color */
+.fc-widget-header, .fc-widget-content {
+	border: 1px solid #e8e8e8;
+}
+
+#calendar td a.share {
+	display: block;
+	width: 20px;
+	height: 20px;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+#app-navigation {
+	width: 250px;
+}
+
+#app-settings {
+	width: 249px;
+}
+#app-settings input, #app-settings select {
+	margin-left: 0;
+	margin-right: 0;
+}
+#navigation-list form {
+	width: 100%;
+}
+
+#navigation-list input[type=button], #navigation-list button {
+	height: 34px;
+	margin-top: 6px;
+	margin-left: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	font-weight: normal;
+}
+
+#navigation-list #onedayview_radio {
+	margin-left: 6px;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+	border-right: 0;
+}
+
+#oneweekview_radio {
+	border-radius: 0;
+}
+
+#onemonthview_radio {
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+	border-left: 0;
+}
+
+#datecontrol_current {
+	float: left;
+	width: 169px;
+	height: 26px;
+	margin-top: 6px;
+	margin-left: 6px;
+	padding-top: 6px;
+	background-color: white;
+	border: 1px solid rgba(190, 190, 190, 0.9);
+	border-radius: 3px;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+	color: rgb(85, 85, 85);
+	font-weight: bold;
+	text-align: center;
+	overflow: hidden;
+}
+
+#datecontrol_left {
+	width: 33px;
+	margin-top: 6px;
+	border-radius: 0;
+	border-left: 0;
+}
+
+#datecontrol_right {
+	width: 33px;
+	margin-top: 6px;
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+	border-left: 0;
+}
+
+#navigation-list #datecontrol_today {
+	float: right;
+	margin-right: 6px;
+}
+
+#datecontrol_date {
+	margin: 6px 6px 0 6px;
+}
+
+#datecontrol_date select {
+	padding: 0;
+}
+
+#datecontrol_date .ui-datepicker-prev {
+	position: relative;
+	float: left;
+}
+
+#datecontrol_date .ui-datepicker-next {
+	position: relative;
+	float: left;
+}
+
+#datecontrol_date ui-datepicker-inline,
+#datecontrol_date .ui-widget-header,
+#datecontrol_date .ui-datepicker-title,
+#datecontrol_date .ui-datepicker-prev,
+#datecontrol_date .ui-datepicker-next,
+#datecontrol_date .ui-widget-content {
+	background: 0;
+	border: 0;
+	margin: 0;
+	padding: 0;
+	color: rgb(85, 85, 85);
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+#datecontrol_date .ui-datepicker-inline {
+	width: 100%;
+}
+
+#datecontrol_date table a {
+	text-align: center;
+}
+
+#datecontrol_date table thead th {
+	padding-top: 0px;
+}
+
+#datecontrol_date .ui-datepicker-month,
+#datecontrol_date .ui-datepicker-year,
+#datecontrol_date .ui-datepicker-prev,
+#datecontrol_date .ui-datepicker-next,
+#datecontrol_date .ui-datepicker-current {
+	display: none;
+}
+
+#app-navigation li {
+	min-height: 44px;
+}
+
+#app-navigation li:nth-child(2) {
+	min-height: 0;
+}
+
+#app-navigation label {
+	vertical-align: text-bottom;
+}
+
+#app-navigation li[data-id]:hover {
+	background-color: rgb(221, 221, 221);
+}
+
+#newCalendar:before {
+	position: absolute;
+	content: '+';
+	font-weight: bold;
+	font-size: 150%;
+	left: 7px;
+}
+
+#newCalendar {
+	padding-left: 23px !important;
+}
+
+#newcalendar_dialog, #editcalendar_dialog {
+	margin: 6px;
+	margin-top: 0px;
+}
+
+#newcalendar_dialog input[type=text], #editcalendar_dialog input[type=text] {
+	height: 18px;
+	width: 191px;
+	float: left;
+	margin: 0;
+	margin-top: 6px;
+	margin-bottom: 6px;
+	padding-top: 7px;
+	padding-bottom: 7px;
+	border: 1px solid rgba(190, 190, 190, 0.9);
+	border-right: 0;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+#newcalendar_dialog #editCalendar-submit, #editcalendar_dialog #editCalendar-submit {
+	width: 32px;
+	float: left;
+	margin-bottom: 6px;
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+}
+
+.activeCalendar {
+	display: none;
+}
+
+.calendarCheckbox {
+	margin-left: 6px;
+	margin-top: 13px;
+	margin-bottom: -1px;
+	display: inline-block;
+	width: 11px;
+	height: 11px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: black;
+	cursor: pointer;
+}
+
+.calendarCheckbox.unchecked {
+	background: rgba(0, 0, 0, 0) !important;
+	border-color: #aaa;
+}
+
+.calendarLabel {
+	display: block;
+	height: 44px;
+}
+
+#app-navigation .utils {
+	display: inline-block;
+	height: 44px;
+	padding: 0 5px 0 0;
+}
+
+
+/* BEGIN overrule apps.css */
+#shareWithList {
+	display: initial !important;
+	padding: 0;
+}
+
+#shareWithList ul:hover {
+	background: 0 !important;
+}
+
+#shareWithList a {
+	width: auto !important;
+	display: initial !important;
+	padding: 0 !important;
+	margin: 0;
+	float: none;
+	line-height: 22px !important;
+}
+
+#shareWithList label, #dropdown #expiration label {
+	vertical-align: baseline !important;
+}
+/* END overrule apps.css */
+
+#app-navigation .utils .action a {
+	display: inline-block;
+	line-height: 44px;
+	height: 16px;
+	width: 16px;
+	padding: 14px  2px 14px 2px ;
+}
+
+.utils #dropdown {
+	margin-right: 0px;
+	width: 224px;
+	top: 44px;
+}
+
+#navigation-list #caldav_url_entry {
+	min-height: 0;
+}
+
+.activeDay{
+	background-color:#D9EDF7;
+}
+
+.timeline {
+	position: absolute;
+	margin: 0;
+	padding: 0;
+	border: none;
+	border-top: 1px solid red;
+	width: 100%;
+
+	z-index: 999;
+}
+
+.fc-event-draggable { cursor: default; }
+
+.fc-agenda .fc-agenda-axis{
+	padding:0;
+	padding-right:4px;
+}
+
+button.ui-multiselect{
+	padding:2px 0 2px 4px;
+	line-height:22px;
+	height:26px;
+	 text-align:left;
+}
