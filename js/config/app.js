@@ -20,4 +20,4 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-var app = angular.module('Calendar', ['ngAnimate', 'ngResource', 'ngRoute']);
+var app = angular.module('Calendar', ['OC', 'ngAnimate', 'ngResource', 'ngRoute']);

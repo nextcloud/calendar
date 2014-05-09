@@ -1,5 +1,5 @@
 
-var app = angular.module('Calendar', ['ngAnimate', 'ngResource', 'ngRoute']);
+var app = angular.module('Calendar', ['OC', 'ngAnimate', 'ngResource', 'ngRoute']);
 app.controller('AppController', ['$scope',
 	function ($scope) {
 
