@@ -23,18 +23,26 @@
  */
 ?>
 
-<!-- TODO: Add all Angular, Bootstrap and Custom URLs to this file.-->
-
 <?php
+
+  \OCP\Util::addScript('calendar', '../3rdparty/js/jquery-ui/jquery-ui');
+  \OCP\Util::addScript('calendar', '../3rdparty/js/fullcalendar/fullcalendar');
+
 	\OCP\Util::addScript('calendar', '../3rdparty/js/angular/angular');
 	\OCP\Util::addScript('calendar', '../3rdparty/js/angular/angular-animate');
 	\OCP\Util::addScript('calendar', '../3rdparty/js/restangular/restangular');
 	\OCP\Util::addScript('calendar', '../3rdparty/js/angular/angular-route');
-	\OCP\Util::addScript('calendar', '../3rdparty/js/appframework/app');
-	\OCP\Util::addScript('calendar', 'public/app');
+
+  \OCP\Util::addScript('calendar', '../3rdparty/js/angular-ui/angular-ui');
+  \OCP\Util::addScript('calendar', '../3rdparty/js/angular-ui/angular-ui-calendar');
+
+  \OCP\Util::addScript('calendar', '../3rdparty/js/appframework/app');
+
+  \OCP\Util::addScript('calendar', 'public/app');
 
 
 	\OCP\Util::addStyle('calendar', 'calendar');
+  \OCP\Util::addStyle('calendar', '../3rdparty/css/fullcalendar/fullcalendar');
 
 ?>
 
