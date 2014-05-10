@@ -20,15 +20,22 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-var app = angular.module('Calendar', ['OC', 'ngAnimate', 'restangular', 'ngRoute']).
-config(['$provide', '$routeProvider', 'RestangularProvider', '$httpProvider', '$windowProvider',
-  function ($provide,$routeProvider,RestangularProvider,$httpProvider,$windowProvider) {
 
-    $httpProvider.defaults.headers.common.requesttoken = oc_requesttoken;
+ app.factory('TimezoneModel', function () {
+   var TimezoneModel = function () {
+     this.timezones = [];
+     this.timezoneslist = [];
+     this.timezoneId = {};
+   };
 
-    var $window = $windowProvider.$get();
-		var url = $window.location.href;
-		var baseUrl = url.split('index.php')[0] + 'index.php/apps/calendar';
-    RestangularProvider.setBaseUrl(baseUrl);
-  }
-]);
+   TimezoneModel.prototype = {
+     getAll: function () {
+       return this.timezones;
+     },
+     get: function (id) {
+       return this.timezoneId[id];
+     }
+   };
+
+   return new TimezoneModel();
+ });

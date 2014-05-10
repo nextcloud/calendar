@@ -28,7 +28,7 @@
 <?php
 	\OCP\Util::addScript('calendar', '../3rdparty/js/angular/angular');
 	\OCP\Util::addScript('calendar', '../3rdparty/js/angular/angular-animate');
-	\OCP\Util::addScript('calendar', '../3rdparty/js/angular/angular-resource');
+	\OCP\Util::addScript('calendar', '../3rdparty/js/restangular/restangular');
 	\OCP\Util::addScript('calendar', '../3rdparty/js/angular/angular-route');
 	\OCP\Util::addScript('calendar', '../3rdparty/js/appframework/app');
 	\OCP\Util::addScript('calendar', 'public/app');
@@ -42,7 +42,7 @@
 
 	<!-- The Left Calendar Navigation -->
 	<div id="app-navigation" ng-controller="NavController">
-		
+
 		<ul>
 			<?php print_unescaped($this->inc('part.switcher')); ?>
 			<?php print_unescaped($this->inc('part.datepicker')); ?>

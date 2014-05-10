@@ -21,8 +21,29 @@
  *
  */
 
-app.controller('SettingsController', ['$scope',
-	function ($scope) {
+app.controller('SettingsController', ['$scope','Restangular','TimezoneModel',
+	function ($scope,Restangular,TimezoneModel) {
 
+    $scope.timezone = TimezoneModel.getAll();
+
+    var timezoneResource = Restangular.all('calendar/v1');
+
+    // Time Format Dropdown
+    $scope.timeformatSelect = [
+      { time : t('calendar', '24h'), val : '24' },
+      { time : t('calendar' , '12h'), val : 'ampm' }
+    ];
+
+    // First Day Dropdown
+    $scope.firstdaySelect = [
+      { day : t('calendar', 'Monday'), val : 'mo' },
+      { day : t('calendar', 'Sunday'), val : 'su' },
+      { day : t('calendar', 'Saturday'), val : 'sa' }
+    ];
+
+    // Changing the first day
+    $scope.changefirstday = function () {
+
+    };
 	}
 ]);

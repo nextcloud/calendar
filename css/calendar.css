@@ -300,13 +300,10 @@ button.category{margin:0 3px;}
 	background-position: center;
 }
 
-#app-navigation {
-	width: 250px;
+#app-navigation input[type="text"] {
+  width:90%;
 }
 
-#app-settings {
-	width: 249px;
-}
 #app-settings input, #app-settings select {
 	margin-left: 0;
 	margin-right: 0;
