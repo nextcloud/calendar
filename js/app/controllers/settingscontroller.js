@@ -21,12 +21,19 @@
  *
  */
 
-app.controller('SettingsController', ['$scope','Restangular','TimezoneModel',
-	function ($scope,Restangular,TimezoneModel) {
+app.controller('SettingsController', ['$scope','Restangular','$routeParams','TimezoneModel',
+	function ($scope,Restangular,$routeParams,TimezoneModel) {
 
+    // In case, routes are need.
+    $scope.route = $routeParams;
     $scope.timezone = TimezoneModel.getAll();
 
-    var timezoneResource = Restangular.all('calendar/v1');
+    var calendarResource = Restangular.all('calendar');
+
+    // Gets All Calendar Timezones.
+    //calendarResource.getList().then(function (zone) {
+    //TimezoneModel.addAll(zone);
+    //});
 
     // Time Format Dropdown
     $scope.timeformatSelect = [
@@ -42,8 +49,22 @@ app.controller('SettingsController', ['$scope','Restangular','TimezoneModel',
     ];
 
     // Changing the first day
-    $scope.changefirstday = function () {
+    $scope.changefirstday = function (firstday) {
+    };
 
+    // Creating Timezone, not yet implemented Server Side.
+    $scope.create = function () {
+      calendarResource.post().then(function (newtimezone) {
+        TimezoneModel.add(newtimezone);
+      });
+    };
+
+    // Deleting Timezone, not yet implemented Server Side.
+    $scope.delete = function (timezoneId) {
+      var timezone = TimezoneModel.get(timezoneId);
+      timezone.remove().then(function () {
+        TimezoneModel.remove(timezoneId);
+      });
     };
 	}
 ]);

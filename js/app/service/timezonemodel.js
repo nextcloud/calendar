@@ -29,11 +29,22 @@
    };
 
    TimezoneModel.prototype = {
+     addAll: function (timezones) {
+       for(var i=0; i<timezones.length; i++) {
+         this.add(timezones[i]);
+       }
+     },
      getAll: function () {
        return this.timezones;
      },
      get: function (id) {
        return this.timezoneId[id];
+     },
+     add: function (timezone) {
+       return 0;
+     },
+     delete: function (id) {
+       return 0;
      }
    };
 

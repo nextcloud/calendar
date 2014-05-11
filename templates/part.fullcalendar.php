@@ -22,3 +22,6 @@
  *
  */
 ?>
+<div ng-controller="CalController">
+  <div ui-calendar="uiConfig.calendar" class="calendar" ng-model="eventSources"></div>
+</div>

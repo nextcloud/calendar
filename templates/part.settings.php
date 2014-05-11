@@ -44,7 +44,13 @@
           </select>
         </li>
         <li>
-					<input type="checkbox" name="timezonedetection" id="timezonedetection" ng-model="timezonedetection">
+					<input
+            type="checkbox"
+            name="timezonedetection"
+            id="timezonedetection"
+            ng-model="timezonedetection"
+            ng-toggle="changetimezone"
+           />
 					<label for="timezonedetection"><?php p($l->t('Update timezone automatically')); ?></label>
 				</li>
         <li>
@@ -72,15 +78,31 @@
 				</li>
         <li>
 					<label class="bold"><?php p($l->t('Cache')); ?></label>
-					<input id="cleancalendarcache" type="button" class="button" value="<?php p($l->t('Clear cache for repeating events')); ?>">
+					<input
+            id="cleancalendarcache"
+            type="button"
+            class="button"
+            value="<?php p($l->t('Clear cache for repeating events')); ?>"
+            ng-click="cleancalendarcache()"
+           />
 				</li>
 				<li>
 					<label class="bold"><?php p($l->t('Primary CalDAV address')); ?></label>
-					<input id="primarycaldav" type="text" value="<?php print_unescaped(OCP\Util::linkToRemote('caldav')); ?>" />
+					<input
+            id="primarycaldav"
+            type="text"
+            value="<?php print_unescaped(OCP\Util::linkToRemote('caldav')); ?>"
+            ng-model="primarycaldav"
+           />
 				</li>
 				<li>
 					<label class="bold"><?php p($l->t('iOS/OS X CalDAV address')); ?></label>
-					<input id="ioscaldav" type="text" value="<?php print_unescaped(OCP\Util::linkToRemote('caldav')); ?>principals/<?php p(urlencode(OCP\USER::getUser())); ?>/" />
+					<input
+            id="ioscaldav"
+            type="text"
+            value="<?php print_unescaped(OCP\Util::linkToRemote('caldav')); ?>principals/<?php p(urlencode(OCP\USER::getUser())); ?>/"
+            ng-model="ioscaldav"
+           />
 				</li>
     </ul>
   </fieldset>
