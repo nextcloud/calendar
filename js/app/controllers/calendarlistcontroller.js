@@ -1,4 +1,3 @@
-<?php
 /**
  * ownCloud - Calendar App
  *
@@ -21,7 +20,17 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-?>
 
-<li ng-controller="CalendarListController">
-</li>
+ app.controller('CalendarListController', ['$scope','Restangular','CalendarModel',
+   function ($scope,Restangular,CalendarModel) {
+
+     $scope.calendars = CalendarModel.getAll();
+
+     var calendarResource = Restangular.all('v1/calendars');
+
+     // Gets All Calendars.
+     calendarResource.getList().then(function (calendars) {
+       CalendarModel.addAll(calendars);
+     });
+   }
+ ]);

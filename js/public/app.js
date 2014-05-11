@@ -22,6 +22,20 @@ app.controller('CalController', ['$scope',
 
 	}
 ]);
+app.controller('CalendarListController', ['$scope','Restangular','CalendarModel',
+   function ($scope,Restangular,CalendarModel) {
+
+     $scope.calendars = CalendarModel.getAll();
+
+     var calendarResource = Restangular.all('v1/calendars');
+
+     // Gets All Calendars.
+     calendarResource.getList().then(function (calendars) {
+       CalendarModel.addAll(calendars);
+     });
+   }
+ ]);
+
 app.controller('DatePickerController', ['$scope',
   function ($scope) {
   }
@@ -37,14 +51,13 @@ app.controller('SettingsController', ['$scope','Restangular','$routeParams','Tim
 
     // In case, routes are need.
     $scope.route = $routeParams;
-    $scope.timezone = TimezoneModel.getAll();
-
-    var calendarResource = Restangular.all('calendar');
+    $scope.timezones = TimezoneModel.getAll();
+    var calendarResource = Restangular.all('v1/timezones');
 
     // Gets All Calendar Timezones.
-    //calendarResource.getList().then(function (zone) {
-    //TimezoneModel.addAll(zone);
-    //});
+    calendarResource.getList().then(function (timezones) {
+      TimezoneModel.addAll(timezones);
+    });
 
     // Time Format Dropdown
     $scope.timeformatSelect = [
@@ -79,6 +92,38 @@ app.controller('SettingsController', ['$scope','Restangular','$routeParams','Tim
     };
 	}
 ]);
+
+app.factory('CalendarModel', function() {
+   var CalendarModel = function () {
+     this.calendars = [];
+     this.calendarId = {};
+   };
+
+   CalendarModel.prototype = {
+     addAll : function (calendars) {
+      for(var i=0; i<calendars.length; i++) {
+        this.add(calendars[i]);
+      }
+     },
+     getAll : function () {
+      return this.calendars;
+     },
+     get : function (id) {
+       return this.calendarId[id];
+     },
+     updateIfExists : function () {
+
+     },
+     create : function () {
+
+     },
+     delete : function (id) {
+
+     },
+   };
+
+   return new CalendarModel();
+ });
 
 app.factory('TimezoneModel', function () {
    var TimezoneModel = function () {

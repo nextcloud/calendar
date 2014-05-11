@@ -1,4 +1,3 @@
-<?php
 /**
  * ownCloud - Calendar App
  *
@@ -21,7 +20,35 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-?>
 
-<li ng-controller="CalendarListController">
-</li>
+ app.factory('CalendarModel', function() {
+   var CalendarModel = function () {
+     this.calendars = [];
+     this.calendarId = {};
+   };
+
+   CalendarModel.prototype = {
+     addAll : function (calendars) {
+      for(var i=0; i<calendars.length; i++) {
+        this.add(calendars[i]);
+      }
+     },
+     getAll : function () {
+      return this.calendars;
+     },
+     get : function (id) {
+       return this.calendarId[id];
+     },
+     updateIfExists : function () {
+
+     },
+     create : function () {
+
+     },
+     delete : function (id) {
+
+     },
+   };
+
+   return new CalendarModel();
+ });
