@@ -62,49 +62,49 @@ app.controller('NavController', ['$scope',
 app.controller('SettingsController', ['$scope','Restangular','$routeParams','TimezoneModel',
 	function ($scope,Restangular,$routeParams,TimezoneModel) {
 
-    // In case, routes are need.
-    $scope.route = $routeParams;
-    $scope.timezones = TimezoneModel.getAll();
-    var calendarResource = Restangular.all('v1/timezones');
+		// In case, routes are need.
+		$scope.route = $routeParams;
+		$scope.timezones = TimezoneModel.getAll();
+		var calendarResource = Restangular.all('v1/timezones');
 
-    // Gets All Calendar Timezones.
-    calendarResource.getList().then(function (timezones) {
-      TimezoneModel.addAll(timezones);
-    });
+		// Gets All Calendar Timezones.
+		// TODO: Georg, explain me the structure of the JSON of the Timezones, it's weird.
+		// this will change accordingly.
+		// calendarResource.getList().then(function (timezones) {
+		//	TimezoneModel.addAll(timezones);
+		//});
 
-    console.log($scope.timezones);
+		// Time Format Dropdown
+		$scope.timeformatSelect = [
+			{ time : t('calendar', '24h'), val : '24' },
+			{ time : t('calendar' , '12h'), val : 'ampm' }
+		];
 
-    // Time Format Dropdown
-    $scope.timeformatSelect = [
-      { time : t('calendar', '24h'), val : '24' },
-      { time : t('calendar' , '12h'), val : 'ampm' }
-    ];
+		// First Day Dropdown
+		$scope.firstdaySelect = [
+			{ day : t('calendar', 'Monday'), val : 'mo' },
+			{ day : t('calendar', 'Sunday'), val : 'su' },
+			{ day : t('calendar', 'Saturday'), val : 'sa' }
+		];
 
-    // First Day Dropdown
-    $scope.firstdaySelect = [
-      { day : t('calendar', 'Monday'), val : 'mo' },
-      { day : t('calendar', 'Sunday'), val : 'su' },
-      { day : t('calendar', 'Saturday'), val : 'sa' }
-    ];
+		// Changing the first day
+		$scope.changefirstday = function (firstday) {
+		};
 
-    // Changing the first day
-    $scope.changefirstday = function (firstday) {
-    };
+		// Creating Timezone, not yet implemented Server Side.
+		$scope.create = function () {
+			calendarResource.post().then(function (newtimezone) {
+				TimezoneModel.add(newtimezone);
+			});
+		};
 
-    // Creating Timezone, not yet implemented Server Side.
-    $scope.create = function () {
-      calendarResource.post().then(function (newtimezone) {
-        TimezoneModel.add(newtimezone);
-      });
-    };
-
-    // Deleting Timezone, not yet implemented Server Side.
-    $scope.delete = function (timezoneId) {
-      var timezone = TimezoneModel.get(timezoneId);
-      timezone.remove().then(function () {
-        TimezoneModel.remove(timezoneId);
-      });
-    };
+		// Deleting Timezone, not yet implemented Server Side.
+		$scope.delete = function (timezoneId) {
+			var timezone = TimezoneModel.get(timezoneId);
+			timezone.remove().then(function () {
+				TimezoneModel.remove(timezoneId);
+			});
+		};
 	}
 ]);
 
@@ -158,6 +158,9 @@ app.factory('TimezoneModel', function () {
 	};
 
 	TimezoneModel.prototype = {
+		add: function (timezone) {
+			this.timezones.push(timezone);
+		},
 		addAll: function (timezones) {
 			for(var i=0; i<timezones.length; i++) {
 				this.add(timezones[i]);
@@ -168,9 +171,6 @@ app.factory('TimezoneModel', function () {
 		},
 		get: function (id) {
 			return this.timezoneId[id];
-		},
-		add: function (timezone) {
-			return 0;
 		},
 		delete: function (id) {
 			return 0;

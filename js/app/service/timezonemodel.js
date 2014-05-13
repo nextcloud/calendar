@@ -29,6 +29,9 @@ app.factory('TimezoneModel', function () {
 	};
 
 	TimezoneModel.prototype = {
+		add: function (timezone) {
+			this.timezones.push(timezone);
+		},
 		addAll: function (timezones) {
 			for(var i=0; i<timezones.length; i++) {
 				this.add(timezones[i]);
@@ -39,9 +42,6 @@ app.factory('TimezoneModel', function () {
 		},
 		get: function (id) {
 			return this.timezoneId[id];
-		},
-		add: function (timezone) {
-			return 0;
 		},
 		delete: function (id) {
 			return 0;

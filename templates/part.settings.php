@@ -40,7 +40,7 @@
         <li>
           <label for="timezone" class="bold"><?php p($l->t('Timezone')); ?></label>
           <select id="timezone" name="timezone">
-            <option ng-repeat="zones in timezoneSelect"></option>
+            <option ng-repeat="timezone in timezones">{{ timezone }}</option>
           </select>
         </li>
         <li>
