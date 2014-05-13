@@ -22,15 +22,28 @@
  */
 
  app.controller('CalendarListController', ['$scope','Restangular','CalendarModel',
-   function ($scope,Restangular,CalendarModel) {
+ 	function ($scope,Restangular,CalendarModel) {
 
-     $scope.calendars = CalendarModel.getAll();
+ 		$scope.calendars = CalendarModel.getAll();
+ 		var calendarResource = Restangular.all('v1/calendars');
 
-     var calendarResource = Restangular.all('v1/calendars');
+ 		// Gets All Calendars.
+ 		calendarResource.getList().then(function (calendars) {
+ 			CalendarModel.addAll(calendars);
+ 		});
 
-     // Gets All Calendars.
-     calendarResource.getList().then(function (calendars) {
-       CalendarModel.addAll(calendars);
-     });
-   }
- ]);
+ 		$scope.create = function () {
+ 			calendarResource.post().then(function (calendar) {
+ 				CalendarModel.add(calendar);
+ 				$scope.path('/' + calendar.uri);
+ 			});
+ 		};
+
+ 		$scope.delete = function (calendarId) {
+ 			var calendar = CalendarModel.get(calendarId);
+ 			calendar.remove().then(function () {
+ 				CalendarModel.remove(calendarId);
+ 			});
+ 		};
+ 	}
+]);

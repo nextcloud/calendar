@@ -21,32 +21,32 @@
  *
  */
 
- app.factory('TimezoneModel', function () {
-   var TimezoneModel = function () {
-     this.timezones = [];
-     this.timezoneslist = [];
-     this.timezoneId = {};
-   };
+app.factory('TimezoneModel', function () {
+	var TimezoneModel = function () {
+		this.timezones = [];
+		this.timezoneslist = [];
+		this.timezoneId = {};
+	};
 
-   TimezoneModel.prototype = {
-     addAll: function (timezones) {
-       for(var i=0; i<timezones.length; i++) {
-         this.add(timezones[i]);
-       }
-     },
-     getAll: function () {
-       return this.timezones;
-     },
-     get: function (id) {
-       return this.timezoneId[id];
-     },
-     add: function (timezone) {
-       return 0;
-     },
-     delete: function (id) {
-       return 0;
-     }
-   };
+	TimezoneModel.prototype = {
+		addAll: function (timezones) {
+			for(var i=0; i<timezones.length; i++) {
+				this.add(timezones[i]);
+			}
+		},
+		getAll: function () {
+			return this.timezones;
+		},
+		get: function (id) {
+			return this.timezoneId[id];
+		},
+		add: function (timezone) {
+			return 0;
+		},
+		delete: function (id) {
+			return 0;
+		}
+	};
 
-   return new TimezoneModel();
- });
+	return new TimezoneModel();
+});

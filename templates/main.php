@@ -52,8 +52,9 @@
 	<div id="app-navigation" ng-controller="NavController">
 
 		<ul>
-			<?php print_unescaped($this->inc('part.switcher')); ?>
 			<?php print_unescaped($this->inc('part.datepicker')); ?>
+		</ul>
+		<ul ng-controller="CalendarListController">
 			<?php print_unescaped($this->inc('part.addnew')); ?>
 			<?php print_unescaped($this->inc('part.calendarlist')); ?>
 		</ul>

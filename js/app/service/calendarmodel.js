@@ -21,34 +21,44 @@
  *
  */
 
- app.factory('CalendarModel', function() {
-   var CalendarModel = function () {
-     this.calendars = [];
-     this.calendarId = {};
-   };
+app.factory('CalendarModel', function() {
+	var CalendarModel = function () {
+		this.calendars = [];
+		this.calendarId = {};
+	};
 
-   CalendarModel.prototype = {
-     addAll : function (calendars) {
-      for(var i=0; i<calendars.length; i++) {
-        this.add(calendars[i]);
-      }
-     },
-     getAll : function () {
-      return this.calendars;
-     },
-     get : function (id) {
-       return this.calendarId[id];
-     },
-     updateIfExists : function () {
+	CalendarModel.prototype = {
+		add: function (calendar) {
+			this.calendars.push(calendar);
+		},
+		addAll : function (calendars) {
+			for(var i=0; i<calendars.length; i++) {
+				this.add(calendars[i]);
+			}
+		},
+		getAll : function () {
+			return this.calendars;
+		},
+		get : function (id) {
+			return this.calendarId[id];
+		},
+		updateIfExists : function () {
 
-     },
-     create : function () {
+		},
+		create : function () {
 
-     },
-     delete : function (id) {
+		},
+		remove : function (uri) {
+			for (var i=0; i<this.calendars.length; i++) {
+				var calendar = this.calendars[i];
+				if (calendar.uri === uri) {
+					this.calendars.splice(i, 1);
+					delete this.calendarId[uri];
+					break;
+				}
+			}
+		},
+	};
 
-     },
-   };
-
-   return new CalendarModel();
- });
+	return new CalendarModel();
+});

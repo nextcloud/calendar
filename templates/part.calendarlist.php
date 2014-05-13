@@ -23,5 +23,54 @@
  */
 ?>
 
-<li ng-controller="CalendarListController">
+<!-- TODO : Add a ng animate form for create calendars over here itself -->
+
+<li ng-init="newCalendarInput = false; newCalendarToggler = true;">
+	<a href="#"
+		ng-show="newCalendarToggler"
+		ng-click="
+			newCalendarToggler = !newCalendarToggler;
+			newCalendarInput = !newCalendarInput;"
+		>
+		<span id="newCalendar"><?php p($l->t('New Calendar')); ?></span>
+	</a>
+	<fieldset class="personalblock" ng-show="newCalendarInput">
+		<form>
+			<input id="newCalendarInputVal" type="text"
+				ng-blur="newCalendarToggler = !newCalendarToggler;
+					newCalendarInput = !newCalendarInput;" 
+			autofocus />
+			<button
+				ng-click="create()"
+				id="submitnewCalendar"
+				class="primary">
+				<?php p($l->t('Add')); ?>
+			</button>
+		</form>
+	</fieldset>
+</li>
+
+<li ng-repeat="calendar in calendars|orderBy:'reverse'"
+	ng-class="{ active: calendar.uri == route.uri }">
+	<span class="calendarCheckbox" style="background-color:{{calendar.color}}"></span>
+	<a href="#/{{ calendar.uri }}">
+		{{ calendar.displayname }}
+	</a>
+	<span class="utils">
+		<span class="action">
+			<a href="#" class="share icon-share permanent" data-item-type="calendar" data-item="" data-possible-permissions="" title="Share Calendar"></a>
+		</span>
+		<span class="action">
+			<a href="#" id="chooseCalendar-showCalDAVURL" data-user="{{ calendar.ownwerid }}" data-caldav="" title="CalDav Link" class="icon-public permanent"></a>
+		</span>
+		<span class="action">
+			<a href="#" title="Download" class="icon-download"></a>
+		</span>
+		<span class="action">
+			<a href="#" id="chooseCalendar-edit" data-id="{{ calendar.uri }}" title="Edit" class="icon-rename"></a>
+		</span>
+		<span class="action">
+			<a href="#" id="chooseCalendar-delete" data-id="{{ calendar.uri }}" title="Delete" class="icon-delete" ng-click="remove(calendar.uri)"></a>
+		</span>
+	</span>
 </li>

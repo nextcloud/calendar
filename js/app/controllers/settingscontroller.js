@@ -34,6 +34,8 @@ app.controller('SettingsController', ['$scope','Restangular','$routeParams','Tim
       TimezoneModel.addAll(timezones);
     });
 
+    console.log($scope.timezones);
+
     // Time Format Dropdown
     $scope.timeformatSelect = [
       { time : t('calendar', '24h'), val : '24' },
