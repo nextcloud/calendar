@@ -11,14 +11,16 @@ use \OCP\AppFramework\IAppContainer;
 
 class Serializer extends Manager {
 
-	const Backend = 7;
-	const BackendCollection = 8;
-	const Calendar = 1;
-	const CalendarCollection = 2;
-	const Object = 3;
-	const ObjectCollection = 4;
-	const Timezone = 5;
-	const TimezoneCollection = 6;
+	const Backend = 1;
+	const BackendCollection = 2;
+	const Calendar = 3;
+	const CalendarCollection = 4;
+	const Object = 5;
+	const ObjectCollection = 6;
+	const Subscription = 7;
+	const SubscriptionCollection = 8;
+	const Timezone = 9;
+	const TimezoneCollection = 10;
 
 
 	/**
@@ -41,7 +43,7 @@ class Serializer extends Manager {
 			$class = self::getFallback($type);
 		}
 		if (!$class) {
-			throw new Exception('No serializer found.');
+			throw new SerializerException('No serializer found.');
 		}
 
 		$this->serializer = new $class($app, $data);
@@ -62,12 +64,18 @@ class Serializer extends Manager {
 
 Serializer::set(Serializer::Backend, 'OCA\\Calendar\\Http\\JSON\\JSONBackend', 'application/json');
 Serializer::set(Serializer::BackendCollection, 'OCA\\Calendar\\Http\\JSON\\JSONBackendCollection', 'application/json');
+
 Serializer::set(Serializer::Calendar, 'OCA\\Calendar\\Http\\JSON\\JSONCalendar', 'application/json');
 Serializer::set(Serializer::CalendarCollection, 'OCA\\Calendar\\Http\\JSON\\JSONCalendarCollection', 'application/json');
+
 Serializer::set(Serializer::Object, 'OCA\\Calendar\\Http\\JSON\\JSONObject', 'application/json');
 Serializer::set(Serializer::Object, 'OCA\\Calendar\\Http\\JSON\\JSONObject', 'application/calendar+json');
 Serializer::set(Serializer::ObjectCollection, 'OCA\\Calendar\\Http\\JSON\\JSONObjectCollection', 'application/json');
 Serializer::set(Serializer::ObjectCollection, 'OCA\\Calendar\\Http\\JSON\\JSONObjectCollection', 'application/calendar+json');
+
+Serializer::set(Serializer::Subscription, 'OCA\\Calendar\\Http\\JSON\\JSONSubscription', 'application/json');
+Serializer::set(Serializer::SubscriptionCollection, 'OCA\\Calendar\\Http\\JSON\\JSONSubscriptionCollection', 'application/json');
+
 Serializer::set(Serializer::Timezone, 'OCA\\Calendar\\Http\\JSON\\JSONTimezone', 'application/json');
 Serializer::set(Serializer::Timezone, 'OCA\\Calendar\\Http\\JSON\\JSONTimezone', 'application/calendar+json');
 Serializer::set(Serializer::TimezoneCollection, 'OCA\\Calendar\\Http\\JSON\\JSONTimezoneCollection', 'application/json');
@@ -78,11 +86,18 @@ Serializer::set(Serializer::ObjectCollection, 'OCA\\Calendar\\Http\\ICS\\ICSObje
 Serializer::set(Serializer::Timezone, 'OCA\\Calendar\\Http\\ICS\\ICSTimezone', 'text/calendar');
 Serializer::set(Serializer::TimezoneCollection, 'OCA\\Calendar\\Http\\ICS\\ICSTimezoneCollection', 'text/calendar');
 
+
 Serializer::setFallback(Serializer::Backend, 'OCA\\Calendar\\Http\\JSON\\JSONBackend');
 Serializer::setFallback(Serializer::BackendCollection, 'OCA\\Calendar\\Http\\JSON\\JSONBackendCollection');
+
 Serializer::setFallback(Serializer::Calendar, 'OCA\\Calendar\\Http\\JSON\\JSONCalendar');
 Serializer::setFallback(Serializer::CalendarCollection, 'OCA\\Calendar\\Http\\JSON\\JSONCalendarCollection');
+
 Serializer::setFallback(Serializer::Object, 'OCA\\Calendar\\Http\\JSON\\JSONObject');
 Serializer::setFallback(Serializer::ObjectCollection, 'OCA\\Calendar\\Http\\JSON\\JSONObjectCollection');
+
+Serializer::setFallback(Serializer::Subscription, 'OCA\\Calendar\\Http\\JSON\\JSONSubscription');
+Serializer::setFallback(Serializer::SubscriptionCollection, 'OCA\\Calendar\\Http\\JSON\\JSONSubscriptionCollection');
+
 Serializer::setFallback(Serializer::Timezone, 'OCA\\Calendar\\Http\\JSON\\JSONTimezone');
 Serializer::setFallback(Serializer::TimezoneCollection, 'OCA\\Calendar\\Http\\JSON\\JSONTimezoneCollection');

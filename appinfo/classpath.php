@@ -5,13 +5,13 @@
  * later.
  * See the COPYING-README file.
  */
-
 \OC::$CLASSPATH['OCA\Calendar\App'] = 'calendar/lib/app.php';
 
+\OC::$CLASSPATH['OCA\Calendar\Backend\IBackend'] = 'calendar/backend/ibackend.php';
 \OC::$CLASSPATH['OCA\Calendar\Backend\Backend'] = 'calendar/backend/backend.php';
+
 \OC::$CLASSPATH['OCA\Calendar\Backend\CalDAV'] = 'calendar/backend/caldav.php';
 \OC::$CLASSPATH['OCA\Calendar\Backend\Contact'] = 'calendar/backend/contact.php';
-\OC::$CLASSPATH['OCA\Calendar\Backend\IBackend'] = 'calendar/backend/ibackend.php';
 \OC::$CLASSPATH['OCA\Calendar\Backend\Local'] = 'calendar/backend/local.php';
 \OC::$CLASSPATH['OCA\Calendar\Backend\LocalStorage'] = 'calendar/backend/localstorage.php';
 \OC::$CLASSPATH['OCA\Calendar\Backend\Sharing'] = 'calendar/backend/sharing.php';
@@ -24,7 +24,6 @@
 \OC::$CLASSPATH['OCA\Calendar\BusinessLayer\BackendBusinessLayer'] = 'calendar/businesslayer/backend.php';
 \OC::$CLASSPATH['OCA\Calendar\BusinessLayer\CalendarBusinessLayer'] = 'calendar/businesslayer/calendar.php';
 \OC::$CLASSPATH['OCA\Calendar\BusinessLayer\ObjectBusinessLayer'] = 'calendar/businesslayer/object.php';
-\OC::$CLASSPATH['OCA\Calendar\BusinessLayer\SubscriptionBusinessLayer'] = 'calendar/businesslayer/subscription.php';
 
 \OC::$CLASSPATH['OCA\Calendar\Controller\Controller'] = 'calendar/controller/controller.php';
 \OC::$CLASSPATH['OCA\Calendar\Controller\BackendController'] = 'calendar/controller/backend.php';
@@ -35,25 +34,39 @@
 \OC::$CLASSPATH['OCA\Calendar\Controller\JournalController'] = 'calendar/controller/journal.php';
 \OC::$CLASSPATH['OCA\Calendar\Controller\TodoController'] = 'calendar/controller/todo.php';
 \OC::$CLASSPATH['OCA\Calendar\Controller\SettingsController'] = 'calendar/controller/settings.php';
+\OC::$CLASSPATH['OCA\Calendar\Controller\SubscriptionController'] = 'calendar/controller/subscription.php';
 \OC::$CLASSPATH['OCA\Calendar\Controller\TimezoneController'] = 'calendar/controller/timezone.php';
 \OC::$CLASSPATH['OCA\Calendar\Controller\ViewController'] = 'calendar/controller/view.php';
 
 \OC::$CLASSPATH['OCA\Calendar\Db\Entity'] = 'calendar/db/entity.php';
 \OC::$CLASSPATH['OCA\Calendar\Db\Collection'] = 'calendar/db/collection.php';
 \OC::$CLASSPATH['OCA\Calendar\Db\Mapper'] = 'calendar/db/mapper.php';
+
 \OC::$CLASSPATH['OCA\Calendar\Db\Backend'] = 'calendar/db/backend.php';
 \OC::$CLASSPATH['OCA\Calendar\Db\BackendCollection'] = 'calendar/db/backendcollection.php';
 \OC::$CLASSPATH['OCA\Calendar\Db\BackendMapper'] = 'calendar/db/backendmapper.php';
+
 \OC::$CLASSPATH['OCA\Calendar\Db\Calendar'] = 'calendar/db/calendar.php';
 \OC::$CLASSPATH['OCA\Calendar\Db\CalendarCollection'] = 'calendar/db/calendarcollection.php';
 \OC::$CLASSPATH['OCA\Calendar\Db\CalendarMapper'] = 'calendar/db/calendarmapper.php';
+
 \OC::$CLASSPATH['OCA\Calendar\Db\Object'] = 'calendar/db/object.php';
 \OC::$CLASSPATH['OCA\Calendar\Db\ObjectCollection'] = 'calendar/db/objectcollection.php';
 \OC::$CLASSPATH['OCA\Calendar\Db\ObjectMapper'] = 'calendar/db/objectmapper.php';
+
 \OC::$CLASSPATH['OCA\Calendar\Db\Timezone'] = 'calendar/db/timezone.php';
 \OC::$CLASSPATH['OCA\Calendar\Db\TimezoneCollection'] = 'calendar/db/timezonecollection.php';
+
 \OC::$CLASSPATH['OCA\Calendar\Db\ObjectType'] = 'calendar/db/objecttype.php';
 \OC::$CLASSPATH['OCA\Calendar\Db\Permissions'] = 'calendar/db/permissions.php';
+
+\OC::$CLASSPATH['OCA\Calendar\Db\CacheStatus'] = 'calendar/db/cachestatus.php';
+\OC::$CLASSPATH['OCA\Calendar\Db\CacheStatusCollection'] = 'calendar/db/cachestatuscollection.php';
+\OC::$CLASSPATH['OCA\Calendar\Db\CacheStatusMapper'] = 'calendar/db/cachestatusmapper.php';
+
+\OC::$CLASSPATH['OCA\Calendar\Db\Subscription'] = 'calendar/db/subscription.php';
+\OC::$CLASSPATH['OCA\Calendar\Db\SubscriptionCollection'] = 'calendar/db/subscriptioncollection.php';
+\OC::$CLASSPATH['OCA\Calendar\Db\SubscriptionMapper'] = 'calendar/db/subscriptionmapper.php';
 
 \OC::$CLASSPATH['OCA\Calendar\Http\IReader'] = 'calendar/http/ireader.php';
 \OC::$CLASSPATH['OCA\Calendar\Http\ISerializer'] = 'calendar/http/iserializer.php';
@@ -78,14 +91,22 @@
 \OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSON'] = 'calendar/http/json/json.php';
 \OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONCollection'] = 'calendar/http/json/jsoncollection.php';
 \OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONReader'] = 'calendar/http/json/jsonreader.php';
+
 \OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONBackend'] = 'calendar/http/json/backend.php';
 \OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONBackendCollection'] = 'calendar/http/json/backendcollection.php';
+
 \OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONCalendar'] = 'calendar/http/json/calendar.php';
 \OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONCalendarCollection'] = 'calendar/http/json/calendarcollection.php';
 \OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONCalendarReader'] = 'calendar/http/json/calendarreader.php';
+
 \OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONObject'] = 'calendar/http/json/object.php';
 \OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONObjectCollection'] = 'calendar/http/json/objectcollection.php';
 \OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONObjectReader'] = 'calendar/http/json/objectreader.php';
+
+\OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONSubscription'] = 'calendar/http/json/subscription.php';
+\OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONSubscriptionCollection'] = 'calendar/http/json/subscriptioncollection.php';
+\OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONSubscriptionReader'] = 'calendar/http/json/subscriptionreader.php';
+
 \OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONTimezone'] = 'calendar/http/json/timezone.php';
 \OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONTimezoneCollection'] = 'calendar/http/json/timezonecollection.php';
 \OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONTimezoneReader'] = 'calendar/http/json/timezonereader.php';
@@ -105,5 +126,6 @@
 \OC::$CLASSPATH['OCA\Calendar\Utility\CalendarUtility'] = 'calendar/utility/calendar.php';
 \OC::$CLASSPATH['OCA\Calendar\Utility\JSONUtility'] = 'calendar/utility/json.php';
 \OC::$CLASSPATH['OCA\Calendar\Utility\ObjectUtility'] = 'calendar/utility/object.php';
+\OC::$CLASSPATH['OCA\Calendar\Utility\RegexUtility'] = 'calendar/utility/regex.php';
 \OC::$CLASSPATH['OCA\Calendar\Utility\SabreUtility'] = 'calendar/utility/sabre.php';
 \OC::$CLASSPATH['OCA\Calendar\Utility\UpdateUtility'] = 'calendar/utility/update.php';

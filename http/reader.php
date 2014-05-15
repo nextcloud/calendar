@@ -11,9 +11,9 @@ use \OCP\AppFramework\IAppContainer;
 
 class Reader extends Manager {
 
-	const Calendar = 107;
-	const Object = 108;
-	const Timezone = 109;
+	const Calendar = 101;
+	const Object = 102;
+	const Subscription = 103;
 
 
 	/**
@@ -53,8 +53,8 @@ class Reader extends Manager {
 }
 
 Reader::set(Reader::Calendar, 'OCA\\Calendar\\Http\\JSON\\JSONCalendarReader', 'application/json');
-Reader::set(Reader::Calendar, 'OCA\\Calendar\\Http\\JSON\\JSONCalendarReader', 'application/calendar+json');
 Reader::set(Reader::Object, 'OCA\\Calendar\\Http\\JSON\\JSONObjectReader', 'application/json');
 Reader::set(Reader::Object, 'OCA\\Calendar\\Http\\JSON\\JSONObjectReader', 'application/calendar+json');
+Reader::set(Reader::Subscription, 'OCA\\Calendar\\Http\\JSON\\JSONSubscriptionReader', 'application/json');
 
 Reader::set(Reader::Object, 'OCA\\Calendar\\Http\\ICS\\ICSObjectReader', 'text/calendar');

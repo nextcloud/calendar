@@ -25,7 +25,7 @@ class SubscriptionMapper extends Mapper {
 	 * @param IAppContainer $app
 	 * @param string $tablename
 	 */
-	public function __construct($app, $tablename='clndr_subscriptions'){
+	public function __construct($app, $tablename='clndr_sbscrptns'){
 		parent::__construct($app, $tablename);
 	}
 
@@ -43,7 +43,11 @@ class SubscriptionMapper extends Mapper {
 		$sql  = 'SELECT * FROM `' . $this->getTableName() . '` ';
 		$sql .= 'WHERE `type` = ? AND `name` = ? AND `user_id` = ?';
 
-		$row = $this->findOneQuery($sql, array($type, $name, $userId));
+		$row = $this->findOneQuery($sql, array(
+			$type,
+			$name,
+			$userId
+		));
 
 		return new Subscription($row);
 	}
@@ -60,7 +64,28 @@ class SubscriptionMapper extends Mapper {
 		$sql  = 'SELECT * FROM `'. $this->getTableName() . '` ';
 		$sql .= 'WHERE `user_id` = ?';
 
-		return $this->findEntities($sql, array($userId), $limit, $offset);
+		return $this->findEntities($sql, array(
+			$userId
+		), $limit, $offset);
+	}
+
+
+	/**
+	 * find all subscriptions of a user by type
+	 * @param string $userId
+	 * @param string $type
+	 * @param integer $limit
+	 * @param integer $offset
+	 * @return SubscriptionCollection
+	 */
+	public function findAllByType($userId, $type, $limit, $offset){
+		$sql  = 'SELECT * FROM `'. $this->getTableName() . '` ';
+		$sql .= 'WHERE `user_id` = ? AND `type` = ?';
+
+		return $this->findEntities($sql, array(
+			$userId,
+			$type
+		), $limit, $offset);
 	}
 
 
@@ -69,9 +94,42 @@ class SubscriptionMapper extends Mapper {
 	 * @return array
 	 */
 	public function getTypes() {
-		return self::$types;
+		return array_keys(self::$types);
+	}
+
+
+	/**
+	 * get validator for function
+	 * @param string $type
+	 * @return mixed closure
+	 */
+	public function getTypeValidator($type) {
+		if (!array_key_exists($type, self::$types)) {
+			return function($url) {
+				return false;
+			};
+		} else {
+			return self::$types[$type];
+		}
 	}
 }
 
-SubscriptionMapper::$types[] = 'caldav';
-SubscriptionMapper::$types[] = 'webcal';
+
+/**
+ * @brief validator for caldav address
+ * @param string $url
+ * @return boolean
+ */
+SubscriptionMapper::$types['caldav'] = function($url) {
+	return \OCA\Calendar\Backend\CalDAV::validateUrl($url);
+};
+
+
+/**
+ * @brief validator for webcal address
+ * @param string $url
+ * @return boolean
+ */
+SubscriptionMapper::$types['webcal'] = function($url) {
+	return \OCA\Calendar\Backend\Webcal::validateUrl($url);
+};

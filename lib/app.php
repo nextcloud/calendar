@@ -18,7 +18,6 @@ use \OCA\Calendar\PublicAPI\Journal;
 use \OCA\Calendar\PublicAPI\Todo;
 
 use \OCA\Calendar\BusinessLayer\BusinessLayer;
-use \OCA\Calendar\BusinessLayer\BackendBusinessLayer;
 use \OCA\Calendar\BusinessLayer\BackendDependendBusinessLayer;
 use \OCA\Calendar\BusinessLayer\CalendarBusinessLayer;
 use \OCA\Calendar\BusinessLayer\ObjectBusinessLayer;
@@ -109,7 +108,7 @@ class App extends \OCP\AppFramework\App {
 			$req = $c->query('Request');
 			$smp = $c->query('SubscriptionMapper');
 
-			return new ViewController($c, $req, $smp);
+			return new SubscriptionController($c, $req, $smp);
 		});
 
 
@@ -178,37 +177,19 @@ class App extends \OCP\AppFramework\App {
 			return new BusinessLayer($c);
 		});
 
-		$this->getContainer()->registerService('BackendBusinessLayer', function(IAppContainer $c) {
-			$bmp = $c->query('BackendMapper');
-
-			return new BackendBusinessLayer($c, $bmp);
-		});
-
-		$this->getContainer()->registerService('BackendDependedBusinessLayer', function(IAppContainer $c) {
-			$bbl = $c->query('BackendBusinessLayer');
-
-			return new BackendDependedBusinessLayer($c, $bbl);
-		});
-
 		$this->getContainer()->registerService('CalendarBusinessLayer', function(IAppContainer $c) {
-			$bbl = $c->query('BackendBusinessLayer');
+			$bmp = $c->query('BackendMapper');
 			$cmp = $c->query('CalendarMapper');
 			$obl = $c->query('ObjectBusinessLayer');
 
-			return new CalendarBusinessLayer($c, $bbl, $cmp, $obl);
+			return new CalendarBusinessLayer($c, $bmp, $cmp, $obl);
 		});
 
 		$this->getContainer()->registerService('ObjectBusinessLayer', function(IAppContainer $c) {
-			$bbl = $c->query('BackendBusinessLayer');
+			$bmp = $c->query('BackendMapper');
 			$omp = $c->query('ObjectMapper');
 
-			return new ObjectBusinessLayer($c, $bbl, $omp);
-		});
-
-		$this->getContainer()->registerService('SubscriptionBusinessLayer', function(IAppContainer $c) {
-			$smp = $c->query('SubscriptionMapper');
-
-			return new BusinessLayer($c, $smp);
+			return new ObjectBusinessLayer($c, $bmp, $omp);
 		});
 
 		/**

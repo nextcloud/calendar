@@ -7,6 +7,8 @@
  */
 namespace OCA\Calendar\Controller;
 
+use \OCP\AppFramework\IAppContainer;
+use \OCP\IRequest;
 use \OCP\AppFramework\Http;
 
 use \OCA\Calendar\Db\DoesNotExistException;
@@ -158,6 +160,10 @@ class SubscriptionController extends Controller {
 					return new Response(null, Http::STATUS_INTERNAL_SERVER_ERROR);
 				}
 
+				if (!$subscription->isValid()) {
+					return new Response(null, Http::STATUS_UNPROCESSABLE_ENTITY);
+				}
+
 				$subscription = $this->smp->insert($subscription);
 
 				$serializer = new Serializer(
@@ -181,6 +187,10 @@ class SubscriptionController extends Controller {
 					} catch(DoesNotExistException $ex) {
 						//Do nothing
 					} catch(MultipleObjectsReturnedException $ex) {
+						return;
+					}
+
+					if (!$subscription->isValid()) {
 						return;
 					}
 
@@ -253,6 +263,10 @@ class SubscriptionController extends Controller {
 					return new Response(null, Http::STATUS_NOT_FOUND);
 				} catch(MultipleObjectsReturnedException $ex) {
 					return new Response(null, Http::STATUS_INTERNAL_SERVER_ERROR);
+				}
+
+				if (!$subscription->isValid()) {
+					return new Response(null, Http::STATUS_UNPROCESSABLE_ENTITY);
 				}
 
 				$subscription = $this->smp->update($subscription);

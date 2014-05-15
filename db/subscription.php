@@ -52,6 +52,10 @@ class Subscription extends Entity {
 			}
 		}
 
+		if (!parse_url($this->url)) {
+			return false;
+		}
+
 		return true;
 	}
 

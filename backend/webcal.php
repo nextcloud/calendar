@@ -15,12 +15,13 @@ use \OCA\Calendar\Db\CorruptDataException;
 
 use \OCA\Calendar\Db\Calendar;
 use \OCA\Calendar\Db\CalendarCollection;
-
 use \OCA\Calendar\Db\Object;
 use \OCA\Calendar\Db\ObjectCollection;
-
 use \OCA\Calendar\Db\Timezone;
 use \OCA\Calendar\Db\TimezoneCollection;
+
+use \OCA\Calendar\Db\Subscription;
+use \OCA\Calendar\Db\SubscriptionCollection;
 
 use \OCA\Calendar\Db\ObjectType;
 use \OCA\Calendar\Db\Permissions;
@@ -35,7 +36,7 @@ class WebCal extends Backend {
 	 * subscription mapper
 	 * @var \OCA\Calendar\Db\SubscriptionMapper
 	 */
-	protected $subscriptionMapper;
+	protected $smp;
 
 
 	/**
@@ -46,7 +47,7 @@ class WebCal extends Backend {
 	public function __construct(IAppContainer $app, array $parameters){
 		parent::__construct($app, 'WebCAL');
 
-		$this->subscriptionMapper = $app->query('SubscriptionMapper');
+		$this->smp = $app->query('SubscriptionMapper');
 	}
 
 
@@ -69,7 +70,21 @@ class WebCal extends Backend {
 	 * @throws DoesNotExistException if uri does not exist
 	 */
 	public function findCalendars($userId, $limit=null, $offset=null) {
-		return new CalendarCollection();
+		$subscriptions = $this->smp->findAllByType($userId, 'webcal', $limit, $offset);
+
+		$calendars = new CalendarCollection();
+		$subscriptions->interate(function($subscription) use (&$calendars) {
+			if (!$this->isSubscriptionValid($subscription)) {
+				return;
+			}
+
+			$calendar = $this->createCalendarFromSubscription($subscription);
+			if ($calendar) {
+				$calendars->add($calendar);
+			}
+		});
+
+		return $calendars;
 	}
 
 
@@ -90,7 +105,7 @@ class WebCal extends Backend {
 	 * @returns boolean
 	 */
 	public function doesCalendarExist($calendarURI, $userId) {
-		return false;
+		
 	}
 
 
@@ -117,5 +132,114 @@ class WebCal extends Backend {
 	 */
 	public function findObjects(Calendar &$calendar, $limit, $offset) {
 		return new ObjectCollection();
+	}
+
+
+	private function createCalendarFromSubscription(Subscription $subscription) {
+		$calendar = new Calendar();
+
+		$curl = $this->prepareRequest($subscription->getUrl());
+		$data = curl_exec($curl);
+		$responseCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+		$contentType = curl_getinfo($curl, CURLINFO_CONTENT_TYPE);
+
+		if ($responseCode < 200 || $responseCode >= 300) {
+			return false;
+		}
+		if ($contentType !== 'text/calendar') {
+			return false;
+		}
+
+		//we just need things like X-WR-Calname, no need to parse all objects
+		$data = preg_replace(RegexUtility::VEVENT, '', $data);
+		$data = preg_replace(RegexUtility::VJOURNAL, '', $data);
+		$data = preg_replace(RegexUtility::VTODO, '', $data);
+		$data = preg_replace(RegexUtility::VFREEBUSY, '', $data);
+		$data = preg_replace(RegexUtility::VTIMEZONE, '', $data);
+
+		try {
+			$vobject = Reader::read($data);
+			$calendar->fromVObject($vobject);
+		} catch(ParseException $ex) {
+			//TODO implement
+		} catch(EofException $ex) {
+			//TODO implement
+		}
+	}
+
+
+	/**
+	 * @brief validate a url
+	 * @param string $url
+	 * @return boolean
+	 */
+	public static function validateUrl($url) {
+		$components = parse_url($url);
+
+		if (!$components) {
+			return false;
+		}
+		if (!array_key_exists('scheme', $components)) {
+			return false;
+		}
+		if ($components['scheme'] !== 'http' && $components['scheme'] !== 'https') {
+			return false;
+		}
+
+		$curl = self::prepareRequest($url);
+		$data = curl_exec($curl);
+		$responseCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+		$contentType = curl_getinfo($curl, CURLINFO_CONTENT_TYPE);
+
+		if ($responseCode < 200 || $responseCode >= 300) {
+			return false;
+		}
+		if ($contentType !== 'text/calendar') {
+			return false;
+		}
+
+		$curl = self::prepareRequest($url);
+		curl_setopt($curl, CURLOPT_NOBODY, true);
+
+		curl_exec($curl);
+
+		return self::wasRequestSuccessful($curl);
+	}
+
+
+	/**
+	 * @brief prepare curl request
+	 * @param string $url
+	 * @return resource $ch
+	 */
+	private static function prepareRequest($url) {
+		$ch = curl_init();
+
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+		curl_setopt($ch, CURLOPT_HEADER, true);
+
+		return $ch;
+	}
+
+
+	/**
+	 * @brief check if a request was successful
+	 * @param resource $ch
+	 * @return boolean
+	 */
+	private static function wasRequestSuccessful($ch) {
+		$responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+		$contentType = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
+
+		if ($responseCode < 200 || $responseCode >= 300) {
+			return false;
+		}
+		if ($contentType !== 'text/calendar') {
+			return false;
+		}
+
+		return true;
 	}
 }

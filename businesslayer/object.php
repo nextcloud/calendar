@@ -13,6 +13,7 @@ use \OCP\AppFramework\Http;
 use \OCA\Calendar\Db\DoesNotExistException;
 use \OCA\Calendar\Db\MultipleObjectsReturnedException;
 
+use \OCA\Calendar\Db\BackendMapper;
 use \OCA\Calendar\Db\Calendar;
 use \OCA\Calendar\Db\CalendarCollection;
 use \OCA\Calendar\Db\Object;
@@ -21,6 +22,8 @@ use \OCA\Calendar\Db\ObjectMapper;
 use \OCA\Calendar\Db\Timezone;
 use \OCA\Calendar\Db\TimezoneCollection;
 
+use \OCA\Calendar\Db\ObjectCacheManager;
+
 use \OCA\Calendar\Backend\BackendException;
 use \OCA\Calendar\Backend\DoesNotImplementException;
 
@@ -28,14 +31,7 @@ use \OCA\Calendar\Utility\ObjectUtility;
 
 use \DateTime;
 
-class ObjectBusinessLayer extends BackendDependedBusinessLayer {
-
-	/**
-	 * object objectmapper object
-	 * @var \OCA\Calendar\Db\ObjectMapper
-	 */
-	private $omp;
-
+class ObjectBusinessLayer extends BusinessLayer {
 
 	/**
 	 * object objectcachemanager object
@@ -51,17 +47,18 @@ class ObjectBusinessLayer extends BackendDependedBusinessLayer {
 	private $runtimeCache;
 
 
-	/**
-	 * @param IAppContainer $app
-	 * @param BackendMapper $backendMapper
-	 * @param ObjectMapper $objectMapper: mapper for objects cache
-	 */
-	public function __construct(IAppContainer $app,
-								BackendBusinessLayer $backendBusinessLayer,
+    /**
+     * @param IAppContainer $app
+     * @param BackendMapper $backendMapper
+     * @param ObjectMapper $objectMapper
+     * @param ObjectCacheManager $objectCacheMananger
+     */
+    public function __construct(IAppContainer $app,
+								BackendMapper $backendMapper,
 								ObjectMapper $objectMapper,
-								ObjectCacheManager $objectCacheManange){
-		parent::__construct($app, $backendBusinessLayer);
-		$this->omp = $objectMapper;
+								ObjectCacheManager $objectCacheMananger){
+		parent::__construct($app, $objectMapper);
+		parent::initBackendSystem($backendMapper);
 		$this->ocm = $objectCacheManager;
 	}
 
@@ -90,7 +87,7 @@ class ObjectBusinessLayer extends BackendDependedBusinessLayer {
 			$cacheObjects = $api->cacheObjects($calendarURI, $userId);
 
 			if ($cacheObjects) {
-				$objects = $this->omp->findAll($calendar, $limit, $offset);
+				$objects = $this->mapper->findAll($calendar, $limit, $offset);
 			} else {
 				$objects = $api->findObjects($calendar, $limit, $offset);
 			}
@@ -132,7 +129,7 @@ class ObjectBusinessLayer extends BackendDependedBusinessLayer {
 			$cacheObjects = $api->cacheObjects($calendarURI, $userId);
 
 			if ($cacheObjects) {
-				$number = $this->omp->count($calendar);
+				$number = $this->mapper->count($calendar);
 			} else {
 				$number = $cacheObjects->countObjects($calendar);
 			}
@@ -173,7 +170,7 @@ class ObjectBusinessLayer extends BackendDependedBusinessLayer {
 			$cacheObjects = $api->cacheObjects($calendarURI, $userId);
 
 			if ($cacheObjects) {
-				$object = $this->omp->find($calendar, $objectURI);
+				$object = $this->mapper->find($calendar, $objectURI);
 			} else {
 				$object = $api->findObject($calendar, $objectURI);
 			}
@@ -210,7 +207,7 @@ class ObjectBusinessLayer extends BackendDependedBusinessLayer {
 			if ($object->getType() !== $type) {
 				$msg  = 'ObjectBusinessLayer::find(): User Error: ';
 				$msg .= 'Requested object exists but is of different type!';
-				throw new BusinessLayerException($msg, Http:STATUS_NOT_FOUND);
+				throw new BusinessLayerException($msg, Http::STATUS_NOT_FOUND);
 			}
 
 			return $object;
@@ -249,7 +246,7 @@ class ObjectBusinessLayer extends BackendDependedBusinessLayer {
 			$cacheObjects = $api->cacheObjects($calendarURI, $userId);
 
 			if ($cacheObjects) {
-				$objects = $this->omp->findAllByType($calendar, $type, $limit, $offset);
+				$objects = $this->mapper->findAllByType($calendar, $type, $limit, $offset);
 			} else {
 				if ($this->doesBackendSupport($backend, \OCA\Calendar\Backend\FIND_OBJECTS_BY_TYPE)) {
 					$objects = $api->findObjectsByType($calendar, $type, $limit, $offset);
@@ -304,7 +301,7 @@ class ObjectBusinessLayer extends BackendDependedBusinessLayer {
 			$cacheObjects = $api->cacheObjects($calendarURI, $userId);
 
 			if ($cacheObjects) {
-				$objects = $this->omp->findAllInPeriod($calendar, $start, $end, $limit, $offset);
+				$objects = $this->mapper->findAllInPeriod($calendar, $start, $end, $limit, $offset);
 			} else {
 				if ($this->doesBackendSupport($backend, \OCA\Calendar\Backend\FIND_IN_PERIOD)) {
 					$objects = $api->findObjectsInPeriod($calendar, $start, $end, $limit, $offset);
@@ -358,7 +355,7 @@ class ObjectBusinessLayer extends BackendDependedBusinessLayer {
 			$cacheObjects = $api->cacheObjects($calendarURI, $userId);
 
 			if ($cacheObjects) {
-				$objects = $this->omp->findAllByTypeInPeriod($calendar, $type, $start, $end, $limit, $offset);
+				$objects = $this->mapper->findAllByTypeInPeriod($calendar, $type, $start, $end, $limit, $offset);
 			} else {
 				if ($this->doesBackendSupport($backend, \OCA\Calendar\Backend\FIND_IN_PERIOD_BY_TYPE)) {
 					$objects = $api->findObjectsByTypeInPeriod($calendar, $type, $start, $end, $limit, $offset);
@@ -402,7 +399,7 @@ class ObjectBusinessLayer extends BackendDependedBusinessLayer {
 			$cacheObjects = $api->cacheObjects($calendarURI, $userId);
 
 			if ($cacheObjects && !$checkRemote) {
-				return $this->omp->doesExist($calendar, $objectURI);
+				return $this->mapper->doesExist($calendar, $objectURI);
 			}
 
 			return $api->doesObjectExist($calendar, $objectURI);
@@ -431,7 +428,7 @@ class ObjectBusinessLayer extends BackendDependedBusinessLayer {
 			$cacheObjects = $api->cacheObjects($calendarURI, $userId);
 
 			if ($cacheObjects) {
-				return $this->omp->doesAllow($calendar, $objectURI, $cruds);
+				return $this->mapper->doesAllow($calendar, $objectURI, $cruds);
 			} else {
 				return $api->doesObjectAllow($calendar, $objectURI, $cruds);
 			}
@@ -484,7 +481,7 @@ class ObjectBusinessLayer extends BackendDependedBusinessLayer {
 			$api->createObject($object);
 
 			if ($api->cacheObjects($calendarURI, $userId)) {
-				$this->omp->insert($object, $calendarURI, $objectURI, $userId);
+				$this->mapper->insert($object, $calendarURI, $objectURI, $userId);
 			}
 
 			return $object;
@@ -616,7 +613,7 @@ class ObjectBusinessLayer extends BackendDependedBusinessLayer {
 			$api->updateObject($object, $oldCalendar);
 
 			if ($api->cacheObjects($oldCalendarURI, $oldUserId)) {
-				$this->omp->update($object);
+				$this->mapper->update($object);
 			}
 
 			return $object;
@@ -706,13 +703,13 @@ class ObjectBusinessLayer extends BackendDependedBusinessLayer {
 			$cacheObjectsInOldBackend = $oldBackendsAPI->cacheObjects($calendarURI, $userId);
 			if ($cacheObjectsInOldBackend === true) {
 				//dafuq
-				$this->omp->delete($object, $calendarURI, $objectURI, $userId);
+				$this->mapper->delete($object, $calendarURI, $objectURI, $userId);
 			}
 
 			$cacheObjectsInNewBackend = $newBackendsAPI->cacheObjects($calendarURI, $userId);
 			if ($cacheObjectsInNewBackend === true) {
 				//dafuq
-				$this->omp->create($object, $object->getCalendarUri(), $object->getObjectUri(), $userId);
+				$this->mapper->create($object, $object->getCalendarUri(), $object->getObjectUri(), $userId);
 			}
 
 			$this->calendarBusinessLayer->touch($calendarId, $userId);
@@ -791,7 +788,7 @@ class ObjectBusinessLayer extends BackendDependedBusinessLayer {
 			$api->deleteObject($calendarURI, $objectURI, $userId);
 
 			if ($api->cacheObjects($calendarURI, $userId)) {
-				$this->omp->delete($calendar);
+				$this->mapper->delete($calendar);
 			}
 
 			$this->calendarBusinessLayer->touch($calendarId, $userId);
@@ -833,7 +830,7 @@ class ObjectBusinessLayer extends BackendDependedBusinessLayer {
 			return true;
 		}
 
-		$cachedEtags = $this->omp->getUriToEtagMap($calendar, $limit, $offset);
+		$cachedEtags = $this->mapper->getUriToEtagMap($calendar, $limit, $offset);
 		$remoteEtags = $api->getUriToEtagMap($calendar, $limit, $offset);
 
 		$deletedObjects = array_diff_key($remoteEtags, $cachedEtags);
@@ -880,7 +877,7 @@ class ObjectBusinessLayer extends BackendDependedBusinessLayer {
 				if($this->doesObjectExist($calendar, $objectURI)) {
 					$object = $api->findObject($calendar, $objectURI);
 					if($object->isValid()) {
-						$this->omp->insert($object);
+						$this->mapper->insert($object);
 					}
 				}
 			} catch(/* some */Exception $ex) {}
@@ -912,7 +909,7 @@ class ObjectBusinessLayer extends BackendDependedBusinessLayer {
 					$this->ocm->setOneCreated($calendar, $objectURI);
 				} else {
 					$object = $this->findObject($calendar, $objectURI);
-					$this->omp->delete($object);
+					$this->mapper->delete($object);
 				}
 			} catch(/* some */Exception $ex) {}
 			$this->ocm->deleteDeleted($calendar, $objectURI);
@@ -942,7 +939,7 @@ class ObjectBusinessLayer extends BackendDependedBusinessLayer {
 				if($api->doesObjectExist($calendar, $objectURI)) {
 					$object = $api->findObject($calendar, $objectURI);
 					if($object->isValid()) {
-						$this->omp->update($object);
+						$this->mapper->update($object);
 					}
 				} else {
 					$this->ocm->setOneDeleted($calendar, $objectURI);

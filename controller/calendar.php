@@ -247,6 +247,15 @@ class CalendarController extends Controller {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
+	public function patch() {
+		
+	}
+
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 */
 	public function destroy() {
 		try {
 			$userId	= $this->api->getUserId();
