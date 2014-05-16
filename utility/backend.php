@@ -7,23 +7,28 @@
  */
 namespace OCA\Calendar\Utility;
 
-use \OCA\Calendar\Db\BackendMapper;
+use OCP\AppFramework\IAppContainer;
+use OCP\Util;
+
+use OCA\Calendar\Db\BackendCollection;
+use OCA\Calendar\Db\BackendMapper;
 
 class BackendUtility extends Utility{
 
-	public static function setup(BackendMapper $mapper) {
+
+	public static function setup(IAppContainer $app, BackendMapper $mapper) {
 		$backendCollection = new BackendCollection();
 
-		$enabledBackends = $this->findAllEnabled();
-		$enabledBackends->iterate(function($backend) use (&$backendCollection) {
+		$enabledBackends = $mapper->findAll()->enabled();
+		$enabledBackends->iterate(function($backend) use (&$backendCollection, &$app, &$mapper) {
 			$className = $backend->getClassname();
 			$args = is_array($backend->getArguments()) ? $backend->getArguments() : array();
 
 			if (class_exists($className) === false){
 				$msg  = 'BackendBusinessLayer::setupBackends(): ';
 				$msg .= '"' . $className . '" not found';
-				\OCP\Util::writeLog('calendar', $msg, \OCP\Util::DEBUG);
-				$this->update($backend->disable());
+				Util::writeLog('calendar', $msg, Util::DEBUG);
+				$mapper->update($backend->disable());
 				return false;
 			}
 
@@ -31,12 +36,12 @@ class BackendUtility extends Utility{
 				$msg  = 'BackendBusinessLayer::setupBackends(): ';
 				$msg .= '"' . $className . '" already initialized. ';
 				$msg .= 'Please check for double entries';
-				\OCP\Util::writeLog('calendar', $msg, \OCP\Util::DEBUG);
+				Util::writeLog('calendar', $msg, Util::DEBUG);
 				return false;
 			}
 
 			$reflectionObj = new \ReflectionClass($className);
-			$api = $reflectionObj->newInstanceArgs(array($this->app, $args, $this));
+			$api = $reflectionObj->newInstanceArgs(array($app, $args));
 			$backend->registerAPI($api);
 			//check if a backend can enabled
 			if ($backend->api->canBeEnabled()) {
@@ -47,7 +52,7 @@ class BackendUtility extends Utility{
 		if ($backendCollection->count() === 0){
 			$msg  = 'BackendBusinessLayer::setupBackends(): ';
 			$msg .= 'No backend was setup successfully';
-			throw new BusinessLayerException($msg);
+			Util::writeLog('calendar', $msg, Util::ERROR);
 		}
 
 		return $backendCollection;
