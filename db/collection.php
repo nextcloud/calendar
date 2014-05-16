@@ -23,8 +23,8 @@ abstract class Collection {
 
 
 	/**
-	 * @bried constructur
-	 * @param mixed (array|Entity|Collection) $object
+	 * @brief constructur
+	 * @param mixed (array|Entity|Collection) $objects
 	 */
 	public function __construct($objects=null) {
 		$this->objects = array();
@@ -64,7 +64,7 @@ abstract class Collection {
 
 	/**
 	 * @brief add entities to collection
-	 * @param Collection $objects collection of entities to be added
+	 * @param Collection $collection collection of entities to be added
 	 * @param integer $nth insert at index, if not set, collection will be appended
 	 * @return integer
 	 */
@@ -84,7 +84,7 @@ abstract class Collection {
 
 	/**
 	 * @brief add objects to collection
-	 * @param array $objects
+	 * @param array $array
 	 * @param integer $nth insert at index, if not set, objects will be appended
 	 * @return integer
 	 */
@@ -106,7 +106,7 @@ abstract class Collection {
 	/**
 	 * @brief remove entity from collection
 	 * @param integer $nth remove nth element, if not set, current element will be removed
-	 * @return 
+	 * @return $this
 	 */
 	public function remove($nth=null) {
 		if ($nth === null){
@@ -124,8 +124,8 @@ abstract class Collection {
 
 	/**
 	 * @brief remove entity by it's information
-	 * @param integer $nth remove nth element, if not set, current element will be removed
-	 * @return this
+	 * @param Entity $entity
+	 * @return $this
 	 */
 	public function removeByEntity(Entity $entity) {
 		if (in_array($entity, $this->objects)) {
@@ -146,7 +146,7 @@ abstract class Collection {
 	 * @brief remove entities by a single property
 	 * @param string $key key for property
 	 * @param mixed $value value to be set
-	 * @return this;
+	 * @return $this;
 	 */
 	public function removeByProperty($key, $value) {
 		$getter = 'get' . ucfirst($key);
@@ -173,7 +173,7 @@ abstract class Collection {
 
 	/**
 	 * @brief get current entity 
-	 * @return single Entity 
+	 * @return Entity
 	 */
 	public function current() {
 		return current($this->objects);
@@ -191,7 +191,7 @@ abstract class Collection {
 
 	/**
 	 * @brief goto next entity and get it
-	 * @return single Entity 
+	 * @return Entity
 	 */
 	public function next() {
 		return next($this->objects);
@@ -200,7 +200,7 @@ abstract class Collection {
 
 	/**
 	 * @brief goto previous entity and get it
-	 * @return single Entity 
+	 * @return Entity
 	 */
 	public function prev() {
 		return prev($this->objects);
@@ -209,7 +209,7 @@ abstract class Collection {
 
 	/**
 	 * @brief goto first entity and get it
-	 * @return single Entity 
+	 * @return Entity
 	 */
 	public function reset() {
 		return reset($this->objects);
@@ -218,7 +218,7 @@ abstract class Collection {
 
 	/**
 	 * @brief goto last entity and get it
-	 * @return single Entity 
+	 * @return Entity
 	 */
 	public function end() {
 		return end($this->objects);
@@ -228,7 +228,7 @@ abstract class Collection {
 	/**
 	 * @brief get nth entity of collection
 	 * @param integer $nth
-	 * @return mixed (single Entity) or null
+	 * @return mixed (Entity/null)
 	 */
 	public function get($nth) {
 		if (array_key_exists($nth, $this->objects)) {
@@ -266,16 +266,10 @@ abstract class Collection {
 			$offset = 0;
 		}
 
+		$objects = array_slice($this->objects, $offset, $limit);
+
 		$class = get_class($this);
-		$subset = new $class();
-
-		for($i = $offset; $i < ($offset + $limit); $i++) {
-			if (array_key_exists($i, $this->objects)) {
-				$subset->add($this->objects[$i]);
-			}
-		}
-
-		return $subset;
+		return new $class($objects);
 	}
 
 
@@ -352,8 +346,7 @@ abstract class Collection {
 
 	/**
 	 * @brief get a collection of entities that meet criteria; search calendar data
-	 * @param string $class class of new collection
-	 * @param string $dataProperty name of property that stores data
+	 * @param string $key name of property that stores data
 	 * @param string $regex regular expression
 	 * @return ObjectCollection
 	 */
@@ -396,7 +389,7 @@ abstract class Collection {
 	/**
 	 * @brief checks if all entities are valid
 	 * Stops when it finds the first invalid one
-	 * @param boolean
+	 * @return bool
 	 */
 	public function isValid() {
 		foreach($this->objects as &$object) {
@@ -414,6 +407,7 @@ abstract class Collection {
 	 * @param anonymous function
 	 * iterate gives you a pointer to the current object. be careful!
 	 * @param array of parameters
+	 * @return $this
 	 */
 	public function iterate($function) {
 		foreach($this->objects as &$object) {
