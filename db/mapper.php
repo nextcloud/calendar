@@ -17,10 +17,15 @@ use \OCP\AppFramework\IAppContainer;
  */
 abstract class Mapper {
 
-	protected $tableName;
 
 	/**
-	 * @param API $api Instance of the API abstraction layer
+	 * @var string name of database-table
+	 */
+	protected $tableName;
+
+
+	/**
+	 * @param IAppContainer $app Instance of the API abstraction layer
 	 * @param string $tableName the name of the table. set this to allow entity 
 	 * queries without using sql
 	 */
@@ -50,8 +55,8 @@ abstract class Mapper {
 
 	/**
 	 * Creates a new entry in the db from an entity
-	 * @param Entity $enttiy the entity that should be created
-	 * @return the saved entity with the set id
+	 * @param Entity $entity the entity that should be created
+	 * @return Entity the saved entity with the set id
 	 */
 	public function insert(Entity $entity){
 		// get updated fields to save, fields have to be set using a setter to
@@ -91,11 +96,10 @@ abstract class Mapper {
 	}
 
 
-
 	/**
 	 * Updates an entry in the db from an entity
 	 * @throws \InvalidArgumentException if entity has no id
-	 * @param Entity $enttiy the entity that should be created
+	 * @param Entity $entity the entity that should be created
 	 */
 	public function update(Entity $entity){
 		// entity needs an id
@@ -185,6 +189,7 @@ abstract class Mapper {
 		return $query->execute($params);
 	}
 
+
 	/**
 	 * Creates an entity from a row. Automatically determines the entity class
 	 * from the current mapper name (MyEntityMapper -> MyEntity)
@@ -197,6 +202,7 @@ abstract class Mapper {
 		$entity = new $entityName();
 		return $entity->fromRow($row);
 	}
+
 
 	/**
 	 * Runs a sql query and returns an array of entities
@@ -219,6 +225,7 @@ abstract class Mapper {
 		}
 		return $collection;
 	}
+
 
 	/**
 	 * Returns an db result and throws exceptions when there are more or less

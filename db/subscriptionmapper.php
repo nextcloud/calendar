@@ -14,13 +14,6 @@ use \OCA\Calendar\Db\Subscription;
 class SubscriptionMapper extends Mapper {
 
 	/**
-	 * array to register types
-	 * @var array
-	 */
-	public static $types=array();
-
-
-	/**
 	 * @brief Constructor
 	 * @param IAppContainer $app
 	 * @param string $tablename
@@ -32,19 +25,17 @@ class SubscriptionMapper extends Mapper {
 
 	/**
 	 * find subscription by type, name, userId
-	 * @param string $type
 	 * @param string $name
 	 * @param string $userId
 	 * @throws DoesNotExistException: if the item does not exist
 	 * @throws MultipleObjectsReturnedException: if more than one item found
 	 * @return Subscription object
 	 */
-	public function find($type, $name, $userId){
+	public function find($name, $userId){
 		$sql  = 'SELECT * FROM `' . $this->getTableName() . '` ';
-		$sql .= 'WHERE `type` = ? AND `name` = ? AND `user_id` = ?';
+		$sql .= 'WHERE `name` = ? AND `user_id` = ?';
 
 		$row = $this->findOneQuery($sql, array(
-			$type,
 			$name,
 			$userId
 		));
@@ -87,49 +78,4 @@ class SubscriptionMapper extends Mapper {
 			$type
 		), $limit, $offset);
 	}
-
-
-	/**
-	 * get possible types
-	 * @return array
-	 */
-	public function getTypes() {
-		return array_keys(self::$types);
-	}
-
-
-	/**
-	 * get validator for function
-	 * @param string $type
-	 * @return mixed closure
-	 */
-	public function getTypeValidator($type) {
-		if (!array_key_exists($type, self::$types)) {
-			return function($url) {
-				return false;
-			};
-		} else {
-			return self::$types[$type];
-		}
-	}
 }
-
-
-/**
- * @brief validator for caldav address
- * @param string $url
- * @return boolean
- */
-SubscriptionMapper::$types['caldav'] = function($url) {
-	return \OCA\Calendar\Backend\CalDAV::validateUrl($url);
-};
-
-
-/**
- * @brief validator for webcal address
- * @param string $url
- * @return boolean
- */
-SubscriptionMapper::$types['webcal'] = function($url) {
-	return \OCA\Calendar\Backend\Webcal::validateUrl($url);
-};

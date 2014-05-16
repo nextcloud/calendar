@@ -46,7 +46,7 @@ class Calendar extends Entity {
 		$this->addType('enabled', 'boolean');
 		$this->addType('cruds', 'integer');
 
-		//fillup default values
+		//fill-up default values
 		$this->setCtag(0);
 		$this->setTimezone(new Timezone('UTC'));
 		$this->setColor('#FFFFFF');
@@ -66,23 +66,23 @@ class Calendar extends Entity {
 
 
 	/**
-	 * @brief take data from VObject and put into this Calendar object
-	 * @param \Sabre\VObject\Component\VCalendar $vcalendar
+	 * @brief create calendar object from VCalendar
+	 * @param VCalendar $vCalendar
 	 * @return $this
 	 */
-	public function fromVObject(VCalendar $vcalendar) {
-		if (isset($vcalendar->{'X-WR-CALNAME'})) {
-			$this->setDisplayname($vcalendar->{'X-WR-CALNAME'});
+	public function fromVObject(VCalendar $vCalendar) {
+		if (isset($vCalendar->{'X-WR-CALNAME'})) {
+			$this->setDisplayname($vCalendar->{'X-WR-CALNAME'});
 		}
 
-		if (isset($vcalendar->{'X-WR-TIMEZONE'})) {
+		if (isset($vCalendar->{'X-WR-TIMEZONE'})) {
 			try {
-				$this->setTimezone(new Timezone($vcalendar->{'X-WR-TIMEZONE'}));
+				$this->setTimezone(new Timezone($vCalendar->{'X-WR-TIMEZONE'}));
 			} catch(\Exception $ex) {}
 		}
 
-		if (isset($calendar->{'X-APPLE-CALENDAR-COLOR'})) {
-			$this->setColor($vcalendar->{'X-APPLE-CALENDAR-COLOR'});
+		if (isset($vCalendar->{'X-APPLE-CALENDAR-COLOR'})) {
+			$this->setColor($vCalendar->{'X-APPLE-CALENDAR-COLOR'});
 		}
 
 		return $this;
@@ -91,25 +91,24 @@ class Calendar extends Entity {
 
 	/**
 	 * @brief get VObject from Calendar Object
-	 * @return \Sabre\VObject\Component\VCalendar object
+	 * @return VCalendar object
 	 */
 	public function getVObject() {
 		$properties = array(
-			/*'X-OC-BACKEND' => $this->getBackend(),
-			'X-OC-URI' => $this->getUri(),*/
 			'X-WR-CALNAME' => $this->getDisplayname(),
 			'X-WR-TIMEZONE' => $this->getTimezone(),
 			'X-APPLE-CALENDAR-COLOR' => $this->getColor(),
 		);
-		$vcalendar = new VCalendar($properties);
-		//$vcalendar->addComponent($this->timezone->getVObject());
+		$vCalendar = new VCalendar($properties);
+		//$vCalendar->addComponent($this->timezone->getVObject());
 
-		return $vcalendar;
+		return $vCalendar;
 	}
 
 
 	/**
 	 * @brief does a calendar allow
+	 * @param integer $cruds
 	 * @return boolean
 	 */
 	public function doesAllow($cruds) {
@@ -118,7 +117,8 @@ class Calendar extends Entity {
 
 
 	/**
-	 * @brief does a calendar allow a certian component
+	 * @brief does a calendar allow a certain component
+	 * @param integer $components
 	 * @return boolean
 	 */
 	public function doesSupport($components) {

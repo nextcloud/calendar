@@ -29,8 +29,8 @@ class BackendMapper extends Mapper {
 
 
 	/**
-	 * backendcollection object
-	 * @var \OCA\Calendar\Db\BackendCollectiom
+	 * backend-collection object
+	 * @var BackendCollection
 	 */
 	private $backendCollection;
 
@@ -43,8 +43,7 @@ class BackendMapper extends Mapper {
 
 
 	/**
-	 * @brief Constructor
-	 * @param IAppContainer $api: Instance of the API abstraction layer
+	 * @param IAppContainer $app
 	 * @param string $configName
 	 */
 	public function __construct(IAppContainer $app, $configName='calendar_backends'){
@@ -70,8 +69,7 @@ class BackendMapper extends Mapper {
 
 
 	/**
-	 * @brief Destructor - write changes
-	 * @param API $api: Instance of the API abstraction layer
+	 * @brief saves config
 	 */
 	public function __destruct() {
 		if ($this->didChange) {
@@ -102,8 +100,8 @@ class BackendMapper extends Mapper {
 
 
 	/**
-	 * Finds all Items where enabled is ?
-	 * @return array containing all items where enabled is ?
+	 * @param $isEnabled
+	 * @return BackendCollection
 	 */
 	public function findWhereEnabledIs($isEnabled){
 		return $this->backendCollection->search('enabled', $isEnabled);
@@ -111,9 +109,8 @@ class BackendMapper extends Mapper {
 
 
 	/**
-	 * Saves an item into the database
-	 * @param Item $item: the item to be saved
-	 * @return $this
+	 * @param Entity $item
+	 * @return $this|the
 	 */
 	public function insert(Entity $item){
 		$this->backendCollection->add($item);
@@ -124,9 +121,8 @@ class BackendMapper extends Mapper {
 
 
 	/**
-	 * Updates an item
-	 * @param Item $item: the item to be updated
-	 * @return $this
+	 * @param Entity $item
+	 * @return $this|void
 	 */
 	public function update(Entity $item){
 		$this->backendCollection->removeByProperty('id', $item->getId());
@@ -138,9 +134,8 @@ class BackendMapper extends Mapper {
 
 
 	/**
-	 * Deletes an item
-	 * @param Entity $item: the item to be deleted
-	 * @return $this
+	 * @param Entity $item
+	 * @return $this|void
 	 */
 	public function delete(Entity $item){
 		$this->backendCollection->removeByEntity($item);

@@ -8,7 +8,6 @@
 namespace OCA\Calendar\Db;
 
 use \OCA\Calendar\Backend\IBackend;
-use \OCA\Calendar\Sabre\VObject\Component\VCalendar;
 
 class Backend extends Entity {
 
@@ -38,32 +37,12 @@ class Backend extends Entity {
 
 	/**
 	 * registers an API for a backend
-	 * @param CalendarInterface $api
+	 * @param IBackend $api
 	 * @return Backend
 	 */
 	public function registerAPI(IBackend $api){
 		$this->api = $api;
 		return $this;
-	}
-
-
-	/**
-	 * @brief take data from VObject and put into this Calendar object
-	 * @return VCalendar Object
-	 */
-	public function fromVObject(VCalendar $vcalendar) {
-		$msg = 'Can\'t create backend from vobject!';
-		throw new \BadFunctionCallException($msg);
-	}
-
-
-	/**
-	 * @brief get VObject from Calendar Object
-	 * @return VCalendar Object
-	 */
-	public function getVObject() {
-		$msg = 'Can\'t create vobject from backend!';
-		throw new \BadFunctionCallException($msg);
 	}
 
 
@@ -125,6 +104,6 @@ class Backend extends Entity {
 	 * @return string
 	 */
 	public function __toString() {
-		return $this->backend . '::' . $this->classname;
+		return $this->backend;
 	}
 }

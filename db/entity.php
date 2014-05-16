@@ -12,9 +12,24 @@ use \OCA\Calendar\Sabre\VObject\Component\VCalendar;
 
 abstract class Entity {
 
+	/**
+	 * @brief database id
+	 * @var int
+	 */
 	public $id;
 
+
+	/**
+	 * @brief updated fields
+	 * @var array
+	 */
 	protected $updatedFields = array();
+
+
+	/**
+	 * @brief map property-name to type
+	 * @var array
+	 */
 	protected $fieldTypes = array('id' => 'int');
 
 
@@ -39,6 +54,7 @@ abstract class Entity {
 	/**
 	 * Maps the keys of the row array to the attributes
 	 * @param array $row the row to map onto the entity
+	 * @return $this
 	 */
 	public function fromRow(array $row){
 		foreach($row as $key => $value){
@@ -51,24 +67,6 @@ abstract class Entity {
 		return $this;
 	}
 
-	/**
-	 * @brief take data from VObject and put into this Calendar object
-	 * @return VCalendar Object
-	 */
-	public function fromVObject(VCalendar $vcalendar) {
-		$msg = 'Can\'t create from vobject!';
-		throw new \BadFunctionCallException($msg);
-	}
-
-
-	/**
-	 * @brief get VObject from Calendar Object
-	 * @return VCalendar Object
-	 */
-	public function getVObject() {
-		$msg = 'Can\'t create vobject!';
-		throw new \BadFunctionCallException($msg);
-	}
 
 	/**
 	 * @brief overwrite current objects with properties 
@@ -184,7 +182,7 @@ abstract class Entity {
 
 
 	/**
-	 * Transform a database columnname to a property 
+	 * Transform a database column-name to a property
 	 * @param string $columnName the name of the column
 	 * @return string the property name
 	 */
@@ -248,6 +246,7 @@ abstract class Entity {
 	 * Slugify the value of a given attribute
 	 * Warning: This doesn't result in a unique value
 	 * @param string $attributeName the name of the attribute, which value should be slugified
+	 * @throws \BadFunctionCallException
 	 * @return string slugified value
 	 */
 	public function slugify($attributeName){
@@ -265,5 +264,35 @@ abstract class Entity {
 		}
 	}
 
-	abstract public function isValid();
+
+	/**
+	 * @brief check if entity's content is valid
+	 * @return bool
+	 */
+	public function isValid() {
+		return true;
+	}
+
+
+	/**
+	 * @brief take data from VObject and put into this Calendar object
+	 * @param VCalendar $vcalendar
+	 * @throws \BadFunctionCallException
+	 * @return VCalendar Object
+	 */
+	public function fromVObject(VCalendar $vcalendar) {
+		$msg = 'Can\'t create from vobject!';
+		throw new \BadFunctionCallException($msg);
+	}
+
+
+	/**
+	 * @brief get VObject from Calendar Object
+	 * @throws \BadFunctionCallException
+	 * @return VCalendar Object
+	 */
+	public function getVObject() {
+		$msg = 'Can\'t create vobject!';
+		throw new \BadFunctionCallException($msg);
+	}
 }
