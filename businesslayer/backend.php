@@ -21,21 +21,60 @@
  */
 namespace OCA\Calendar\BusinessLayer;
 
-use \OCP\AppFramework\Http;
+use OCA\Calendar\Backend\Backend;
 
-class BusinessLayerException extends \Exception {
+class BackendBusinessLayer extends BusinessLayer {
 
 	/**
-	 * @brief Constructor
-	 * @param string $message
-	 * @param integer $code
-	 * @param \Exception $previous
+	 * @param string $userId
+	 * @param limit $limit
+	 * @param limit $offset
 	 */
-	public function __construct($message, $code=null, \Exception $previous=null) {
-		if ($code === null) {
-			$code = Http::STATUS_BAD_REQUEST;
-		}
+	public function findAll($userId, $limit, $offset) {
 
-		parent::__construct($message, $code, $previous);
+	}
+
+
+	/**
+	 * @param string $name
+	 * @param string $userId
+	 */
+	public function find($name, $userId) {
+
+	}
+
+
+	/**
+	 * @param string $name
+	 * @param string $userId
+	 */
+	public function doesExist($name, $userId) {
+
+	}
+
+
+	/**
+	 * @param Backend $backend
+	 */
+	public function create(Backend $backend) {
+
+	}
+
+
+	/**
+	 * @param Backend $backend
+	 * @param $name
+	 * @param $userId
+	 */
+	public function update(Backend $backend, $name, $userId) {
+
+	}
+
+
+	/**
+	 * @param Backend $backend
+	 */
+	public function delete(Backend $backend) {
+
 	}
 }

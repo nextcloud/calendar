@@ -1,23 +1,36 @@
 <?php
 /**
- * Copyright (c) 2014 Georg Ehrke <oc.list@georgehrke.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * ownCloud - Calendar App
+ *
+ * @author Georg Ehrke
+ * @copyright 2014 Georg Ehrke <oc.list@georgehrke.com>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 namespace OCA\Calendar\BusinessLayer;
 
 use \OCP\AppFramework\IAppContainer;
-
 use \OCA\Calendar\Backend\IBackend;
-
 use \OCA\Calendar\Db\Backend;
 use \OCA\Calendar\Db\BackendCollection;
-
-use \OCA\Calendar\Db\Mapper;
 use \OCA\Calendar\Db\BackendMapper;
+use \OCA\Calendar\Db\Mapper;
+use \OCA\Calendar\Utility\BackendUtility;
+use \OCA\Calendar\Utility\CalendarUtility;
 
-class BusinessLayer {
+abstract class BusinessLayer {
 
 	/**
 	 * app container for dependency injection
@@ -64,7 +77,7 @@ class BusinessLayer {
 	 * @param BackendMapper $mapper
 	 */
 	public function initBackendSystem(BackendMapper $mapper) {
-		$this->backends = BackendUtility::setup($mapper);
+		$this->backends = BackendUtility::setup($this->app, $mapper);
 	}
 
 
