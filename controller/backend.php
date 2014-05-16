@@ -36,6 +36,7 @@ class BackendController extends Controller {
 	 * constructor
 	 * @param IAppContainer $app interface to the app
 	 * @param IRequest $request an instance of the request
+	 * @param BackendBusinessLayer $businessLayer
 	 */
 	public function __construct(IAppContainer $app, IRequest $request,
 								BackendBusinessLayer $businessLayer){

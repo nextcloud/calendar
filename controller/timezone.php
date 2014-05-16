@@ -13,9 +13,7 @@ use \OCP\IRequest;
 
 use \OCA\Calendar\Db\DoesNotExistException;
 
-use \OCA\Calendar\Db\Timezone;
-use \OCA\Calendar\Db\TimezoneCollection;
-use \OCA\Calendar\Db\TimezoneMapper;
+use OCA\Calendar\BusinessLayer\TimezoneBusinessLayer;
 
 use \OCA\Calendar\Http\Response;
 use \OCA\Calendar\Http\Reader;
@@ -27,7 +25,7 @@ class TimezoneController extends Controller {
 
 	/**
 	 * timezone mapper
-	 * @var \OCA\Calendar\Db\TimezoneMapper
+	 * @var TimezoneMapper
 	 */
 	private $timezoneMapper;
 
@@ -36,9 +34,10 @@ class TimezoneController extends Controller {
 	 * constructor
 	 * @param IAppContainer $app interface to the app
 	 * @param IRequest $request an instance of the request
+	 * @param TimezoneMapper $timezoneMapper
 	 */
 	public function __construct(IAppContainer $app, IRequest $request,
-								TimezoneMapper $timezoneMapper){
+								TimezoneBusinessLayer $timezoneBusinessLayer){
 		parent::__construct($app, $request);
 
 		$this->timezoneMapper = $timezoneMapper;
@@ -51,15 +50,18 @@ class TimezoneController extends Controller {
 	 */
 	public function index() {
 		try {
-			$nolimit = $this->params('nolimit', false);
-			if ($nolimit) {
+			$userId	= $this->api->getUserId();
+
+			$noLimit = $this->params('nolimit', false);
+			if ($noLimit) {
 				$limit = $offset = null;
 			} else {
 				$limit = $this->params('limit', 25);
 				$offset = $this->params('offset', 0);
 			}
 
-			$timezoneCollection = $this->timezoneMapper->findAll(
+			$timezoneCollection = $this->businessLayer->findAll(
+				$userId,
 				$limit,
 				$offset
 			);
@@ -89,8 +91,10 @@ class TimezoneController extends Controller {
 	 public function show() {
 		try {
 			$tzId = str_replace('-', '/', $this->params('timezoneId'));
+			$userId	= $this->api->getUserId();
 
 			$timezone = $this->timezoneMapper->find(
+				$userId,
 				$tzId
 			);
 
@@ -141,6 +145,15 @@ class TimezoneController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	public function update() {
+		return new Response(null, Http::STATUS_NOT_IMPLEMENTED);
+	}
+
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 */
+	public function patch() {
 		return new Response(null, Http::STATUS_NOT_IMPLEMENTED);
 	}
 

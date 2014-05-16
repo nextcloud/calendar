@@ -21,17 +21,17 @@ class EventController extends ObjectTypeController {
 	 * constructor
 	 * @param IAppContainer $app interface to the app
 	 * @param IRequest $request an instance of the request
-	 * @param CalendarBusinessLayer $calendarBusinessLayer
 	 * @param ObjectBusinessLayer $objectBusinessLayer
+	 * @param CalendarBusinessLayer $calendarBusinessLayer
 	 */
 	public function __construct(IAppContainer $app, IRequest $request,
-								CalendarBusinessLayer $calendarBusinessLayer,
-								ObjectBusinessLayer $objectBusinessLayer){
+								ObjectBusinessLayer $objectBusinessLayer,
+								CalendarBusinessLayer $calendarBusinessLayer){
 		parent::__construct(
 			$app,
 			$request,
-			$calendarBusinessLayer,
 			$objectBusinessLayer,
+			$calendarBusinessLayer,
 			ObjectType::EVENT
 		);
 	}

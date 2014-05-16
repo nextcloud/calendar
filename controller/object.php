@@ -7,24 +7,49 @@
  */
 namespace OCA\Calendar\Controller;
 
-use \OCP\AppFramework\Http;
+use OCP\AppFramework\IAppContainer;
+use OCP\AppFramework\Http;
+use OCP\IRequest;
 
-use \OCA\Calendar\Db\DoesNotExistException;
-use \OCA\Calendar\BusinessLayer\BusinessLayerException;
+use OCA\Calendar\BusinessLayer\BusinessLayerException;
+use OCA\Calendar\BusinessLayer\CalendarBusinessLayer;
+use OCA\Calendar\BusinessLayer\ObjectBusinessLayer;
 
-use \OCA\Calendar\Db\Object;
-use \OCA\Calendar\Db\ObjectCollection;
-use \OCA\Calendar\Db\Permissions;
+use OCA\Calendar\Db\Object;
+use OCA\Calendar\Db\ObjectCollection;
+use OCA\Calendar\Db\Permissions;
 
-use \OCA\Calendar\Http\Response;
-use \OCA\Calendar\Http\Reader;
-use \OCA\Calendar\Http\ReaderException;
-use \OCA\Calendar\Http\Serializer;
-use \OCA\Calendar\Http\SerializerException;
+use OCA\Calendar\Http\Response;
+use OCA\Calendar\Http\Reader;
+use OCA\Calendar\Http\ReaderException;
+use OCA\Calendar\Http\Serializer;
+use OCA\Calendar\Http\SerializerException;
 
-use \DateTime;
+use DateTime;
 
 class ObjectController extends Controller {
+
+	/**
+	 * object business layer
+	 * @var CalendarBusinessLayer
+	 */
+	protected $calendarbusinesslayer;
+
+
+	/**
+	 * constructor
+	 * @param IAppContainer $app interface to the app
+	 * @param IRequest $request an instance of the request
+	 * @param ObjectBusinessLayer $objectBusinessLayer
+	 * @param CalendarBusinessLayer $calendarBusinessLayer
+	 */
+	public function __construct(IAppContainer $app, IRequest $request,
+								ObjectBusinessLayer $objectBusinessLayer,
+								CalendarBusinessLayer $calendarBusinessLayer) {
+		parent::__construct($app, $request, $objectBusinessLayer);
+		$this->calendarbusinesslayer = $calendarBusinessLayer;
+	}
+
 
 	/**
 	 * @NoAdminRequired
@@ -43,7 +68,7 @@ class ObjectController extends Controller {
 				$offset = $this->params('offset', 0);
 			}
 
-			$calendar = $this->cbl->find(
+			$calendar = $this->calendarbusinesslayer->find(
 				$calendarId,
 				$userId
 			);
@@ -51,7 +76,7 @@ class ObjectController extends Controller {
 				return new Response(null, HTTP::STATUS_FORBIDDEN);
 			}
 
-			$objectCollection = $this->obl->findAll(
+			$objectCollection = $this->businesslayer->findAll(
 				$calendar,
 				$limit,
 				$offset
@@ -101,7 +126,7 @@ class ObjectController extends Controller {
 			$start = $this->params('start', new DateTime(date('Y-m-01')));
 			$end = $this->params('end', new DateTime(date('Y-m-t')));
 
-			$calendar = $this->cbl->find(
+			$calendar = $this->calendarbusinesslayer->find(
 				$calendarId,
 				$userId
 			);
@@ -109,7 +134,7 @@ class ObjectController extends Controller {
 				return new Response(null, HTTP::STATUS_FORBIDDEN);
 			}
 
-			$objectCollection = $this->obl->findAllInPeriod(
+			$objectCollection = $this->businesslayer->findAllInPeriod(
 				$calendar,
 				$start,
 				$end,
@@ -151,7 +176,7 @@ class ObjectController extends Controller {
 			$calendarId = $this->params('calendarId');
 			$objectURI = $this->params('objectId');
 
-			$calendar = $this->cbl->find(
+			$calendar = $this->calendarbusinesslayer->find(
 				$calendarId,
 				$userId
 			);
@@ -159,7 +184,7 @@ class ObjectController extends Controller {
 				return new Response(null, HTTP::STATUS_FORBIDDEN);
 			}
 
-			$object = $this->obl->find(
+			$object = $this->businesslayer->find(
 				$calendar,
 				$objectURI
 			);
@@ -198,7 +223,7 @@ class ObjectController extends Controller {
 			$calendarId = $this->params('calendarId');
 			$data = fopen('php://input', 'rb');
 
-			$calendar = $this->cbl->find(
+			$calendar = $this->calendarbusinesslayer->find(
 				$calendarId,
 				$userId
 			);
@@ -217,7 +242,7 @@ class ObjectController extends Controller {
 
 			if ($object instanceof Object) {
 				$object->setCalendar($calendar);
-				$object = $this->obl->createFromRequest(
+				$object = $this->businesslayer->createFromRequest(
 					$object
 				);
 
@@ -229,7 +254,7 @@ class ObjectController extends Controller {
 				);
 			} elseif ($object instanceof ObjectCollection) {
 				$object->setProperty('calendar', $calendar);
-				$object = $this->obl->createCollectionFromRequest(
+				$object = $this->businesslayer->createCollectionFromRequest(
 					$object
 				);
 
@@ -283,7 +308,7 @@ class ObjectController extends Controller {
 			$etag = $this->header('if-match');
 			$data = fopen('php://input', 'rb');
 
-			$calendar = $this->cbl->find($calendarId, $userId);
+			$calendar = $this->calendarbusinesslayer->find($calendarId, $userId);
 			if (!$calendar->doesAllow(Permissions::UPDATE)) {
 				return new Response(null, HTTP::STATUS_FORBIDDEN);
 			}
@@ -298,7 +323,7 @@ class ObjectController extends Controller {
 			$object = $reader->sanitize()->getObject()->setCalendar($calendar);
 
 			if ($object instanceof Object) {
-				$object = $this->obl->updateFromRequest(
+				$object = $this->businesslayer->updateFromRequest(
 					$object,
 					$calendar, 
 					$objectURI,
@@ -358,7 +383,7 @@ class ObjectController extends Controller {
 			$calendarId = $this->params('calendarId');
 			$objectURI = $this->getObjectId();
 
-			$calendar = $this->cbl->find(
+			$calendar = $this->calendarbusinesslayer->find(
 				$calendarId,
 				$userId
 			);
@@ -366,11 +391,11 @@ class ObjectController extends Controller {
 				return new Response(null, HTTP::STATUS_FORBIDDEN);
 			}
 
-			$object = $this->obl->find(
+			$object = $this->businesslayer->find(
 				$calendar,
 				$objectURI
 			);
-			$this->obl->delete(
+			$this->businesslayer->delete(
 				$object
 			);
 

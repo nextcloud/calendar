@@ -7,20 +7,46 @@
  */
 namespace OCA\Calendar\Controller;
 
-use \OCP\AppFramework\Http;
+use OCP\AppFramework\IAppContainer;
+use OCP\AppFramework\Http;
+use OCP\IRequest;
 
-use \OCA\Calendar\BusinessLayer\BusinessLayerException;
+use OCA\Calendar\BusinessLayer\BusinessLayerException;
+use OCA\Calendar\BusinessLayer\CalendarBusinessLayer;
+use OCA\Calendar\BusinessLayer\ObjectBusinessLayer;
 
-use \OCA\Calendar\Db\Calendar;
-use \OCA\Calendar\Db\CalendarCollection;
+use OCA\Calendar\Db\Calendar;
+use OCA\Calendar\Db\CalendarCollection;
 
-use \OCA\Calendar\Http\Response;
-use \OCA\Calendar\Http\Reader;
-use \OCA\Calendar\Http\ReaderException;
-use \OCA\Calendar\Http\Serializer;
-use \OCA\Calendar\Http\SerializerException;
+use OCA\Calendar\Http\Response;
+use OCA\Calendar\Http\Reader;
+use OCA\Calendar\Http\ReaderException;
+use OCA\Calendar\Http\Serializer;
+use OCA\Calendar\Http\SerializerException;
 
 class CalendarController extends Controller {
+
+	/**
+	 * object business layer
+	 * @var ObjectBusinessLayer
+	 */
+	protected $objectbusinesslayer;
+
+
+	/**
+	 * constructor
+	 * @param IAppContainer $app interface to the app
+	 * @param IRequest $request an instance of the request
+	 * @param CalendarBusinessLayer $calendarBusinessLayer
+	 * @param ObjectBusinessLayer $objectBusinessLayer
+	 */
+	public function __construct(IAppContainer $app, IRequest $request,
+								CalendarBusinessLayer $calendarBusinessLayer,
+								ObjectBusinessLayer $objectBusinessLayer) {
+		parent::__construct($app, $request, $calendarBusinessLayer);
+		$this->objectbusinesslayer = $objectBusinessLayer;
+	}
+
 
 	/**
 	 * @NoAdminRequired
@@ -30,15 +56,15 @@ class CalendarController extends Controller {
 		try {
 			$userId = $this->api->getUserId();
 
-			$nolimit = $this->params('nolimit', false);
-			if ($nolimit) {
+			$noLimit = $this->params('nolimit', false);
+			if ($noLimit) {
 				$limit = $offset = null;
 			} else {
 				$limit = $this->params('limit', 25);
 				$offset = $this->params('offset', 0);
 			}
 
-			$calendarCollection = $this->cbl->findAll(
+			$calendarCollection = $this->businesslayer->findAll(
 				$userId,
 				$limit,
 				$offset
@@ -77,7 +103,7 @@ class CalendarController extends Controller {
 			$userId = $this->api->getUserId();
 			$calendarId = $this->request->getParam('calendarId');
 
-			$calendar = $this->cbl->find(
+			$calendar = $this->businesslayer->find(
 				$calendarId,
 				$userId
 			);
@@ -125,7 +151,7 @@ class CalendarController extends Controller {
 			$calendar = $reader->sanitize()->getObject();
 
 			if ($calendar instanceof Calendar) {
-				$calendar = $this->cbl->createFromRequest(
+				$calendar = $this->businesslayer->createFromRequest(
 					$calendar
 				);
 
@@ -137,7 +163,7 @@ class CalendarController extends Controller {
 				);
 
 			} elseif ($calendar instanceof CalendarCollection) {
-				$calendar = $this->cbl->createCollectionFromRequest(
+				$calendar = $this->businesslayer->createCollectionFromRequest(
 					$calendar
 				);
 
@@ -197,7 +223,7 @@ class CalendarController extends Controller {
 			$calendar = $reader->sanitize()->getObject();
 
 			if ($calendar instanceof Calendar) {
-				$calendar = $this->cbl->updateFromRequest(
+				$calendar = $this->businesslayer->updateFromRequest(
 					$calendar,
 					$calendarId,
 					$userId,
@@ -261,11 +287,11 @@ class CalendarController extends Controller {
 			$userId	= $this->api->getUserId();
 			$calendarId	= $this->params('calendarId');
 
-			$calendar = $this->cbl->find(
+			$calendar = $this->businesslayer->find(
 				$calendarId, 
 				$userId
 			);
-			$this->cbl->delete(
+			$this->businesslayer->delete(
 				$calendar
 			);
 
@@ -288,8 +314,10 @@ class CalendarController extends Controller {
 		try {
 			$userId	= $this->api->getUserId();
 
-			$this->cbl->updateCacheForAllFromRemote(
-				$userId
+			$this->businesslayer->updateCacheForAllFromRemote(
+				$userId,
+				null,
+				null
 			);
 
 			return new Response();

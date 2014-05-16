@@ -45,19 +45,18 @@ abstract class ObjectTypeController extends ObjectController {
 	 * constructor
 	 * @param IAppContainer $app interface to the app
 	 * @param IRequest $request an instance of the request
-	 * @param CalendarBusinessLayer $calendarBusinessLayer
 	 * @param ObjectBusinessLayer $objectBusinessLayer
-	 * @param integer $objectType: type of object, use \OCA\Calendar\Db\ObjectType::...
+	 * @param CalendarBusinessLayer $calendarBusinessLayer
+	 * @param integer $type
 	 */
 	public function __construct(IAppContainer $app, IRequest $request,
-								CalendarBusinessLayer $calendarBusinessLayer,
 								ObjectBusinessLayer $objectBusinessLayer,
+								CalendarBusinessLayer $calendarBusinessLayer,
 								$type){
 
-		parent::__construct($app,
-							$request,
-							$calendarBusinessLayer,
-							$objectBusinessLayer);
+		parent::__construct($app, $request,
+							$objectBusinessLayer,
+							$calendarBusinessLayer);
 
 		$this->objectType = $type;
 	}
@@ -85,7 +84,7 @@ abstract class ObjectTypeController extends ObjectController {
 
 			$type = $this->objectType;
 
-			$calendar = $this->cbl->find(
+			$calendar = $this->calendarbusinesslayer->find(
 				$calendarId,
 				$userId
 			);
@@ -93,7 +92,7 @@ abstract class ObjectTypeController extends ObjectController {
 				return new Reponse(null, Http::STATUS_FORBIDDEN);
 			}
 
-			$objectCollection = $this->obl->findAllByType(
+			$objectCollection = $this->businesslayer->findAllByType(
 				$calendar,
 				$type,
 				$limit,
@@ -146,7 +145,7 @@ abstract class ObjectTypeController extends ObjectController {
 
 			$type = $this->objectType;
 
-			$calendar = $this->cbl->find(
+			$calendar = $this->calendarbusinesslayer->find(
 				$calendarId,
 				$userId
 			);
@@ -154,7 +153,7 @@ abstract class ObjectTypeController extends ObjectController {
 				return new Response(null, HTTP::STATUS_FORBIDDEN);
 			}
 
-			$objectCollection = $this->obl->findAllByTypeInPeriod(
+			$objectCollection = $this->businesslayer->findAllByTypeInPeriod(
 				$calendar,
 				$type,
 				$start,
@@ -199,7 +198,7 @@ abstract class ObjectTypeController extends ObjectController {
 
 			$type = $this->objectType;
 
-			$calendar = $this->cbl->find(
+			$calendar = $this->calendarbusinesslayer->find(
 				$calendarId,
 				$userId
 			);
@@ -207,7 +206,7 @@ abstract class ObjectTypeController extends ObjectController {
 				return new Response(null, HTTP::STATUS_FORBIDDEN);
 			}
 
-			$object = $this->obl->findByType(
+			$object = $this->businesslayer->findByType(
 				$calendar,
 				$objectURI,
 				$type

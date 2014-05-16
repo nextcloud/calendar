@@ -19,18 +19,10 @@ use \DateTime;
 abstract class Controller extends \OCP\AppFramework\Controller {
 
 	/**
-	 * calendar business layer
-	 * @var \OCA\Calendar\BusinessLayer\CalendarBusinessLayer
+	 * app container
+	 * @var \OCP\AppFramework\IAppContainer
 	 */
-	protected $cbl;
-
-
-	/**
-	 * object business layer
-	 * @var \OCA\Calendar\BusinessLayer\ObjectBusinessLayer
-	 */
-	protected $obl;
-
+	protected $app;
 
 	/**
 	 * core api
@@ -40,26 +32,23 @@ abstract class Controller extends \OCP\AppFramework\Controller {
 
 
 	/**
+	 * business-layer
+	 * @var \OCA\Calendar\BusinessLayer\BusinessLayer
+	 */
+	protected $businesslayer;
+
+
+	/**
 	 * constructor
 	 * @param IAppContainer $app interface to the app
 	 * @param IRequest $request an instance of the request
-	 * @param CalendarBusinessLayer $calendarBusinessLayer
-	 * @param ObjectBusinessLayer $objectBusinessLayer
+	 * @param BusinessLayer $businessLayer
 	 */
-	public function __construct(IAppContainer $app, IRequest $request,
-								$calendarBusinessLayer=null, $objectBusinessLayer=null){
-
+	public function __construct(IAppContainer $app, IRequest $request, BusinessLayer $businessLayer) {
 		parent::__construct($app, $request);
-
 		$this->app = $app;
 		$this->api = $app->getCoreApi();
-
-		if ($calendarBusinessLayer instanceof CalendarBusinessLayer) {
-			$this->cbl = $calendarBusinessLayer;
-		}
-		if ($objectBusinessLayer instanceof ObjectBusinessLayer) {
-			$this->obl = $objectBusinessLayer;		
-		}
+		$this->businesslayer = $businessLayer;
 	}
 
 
