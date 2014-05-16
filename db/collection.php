@@ -90,7 +90,7 @@ abstract class Collection {
 	 */
 	protected function addObjects(array $array, $nth=null) {
 		if ($nth === null) {
-			$this->objects += $objects;
+			$this->objects += $array;
 		} else {
 			$objects  = array_slice($this->objects, 0, $nth, true);
 			$objects += $array;
