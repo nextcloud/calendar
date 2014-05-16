@@ -24,23 +24,14 @@ use \OCA\Calendar\Http\SerializerException;
 class TimezoneController extends Controller {
 
 	/**
-	 * timezone mapper
-	 * @var TimezoneMapper
-	 */
-	private $timezoneMapper;
-
-
-	/**
 	 * constructor
 	 * @param IAppContainer $app interface to the app
 	 * @param IRequest $request an instance of the request
-	 * @param TimezoneMapper $timezoneMapper
+	 * @param TimezoneBusinessLayer $timezoneBusinessLayer
 	 */
 	public function __construct(IAppContainer $app, IRequest $request,
 								TimezoneBusinessLayer $timezoneBusinessLayer){
-		parent::__construct($app, $request);
-
-		$this->timezoneMapper = $timezoneMapper;
+		parent::__construct($app, $request, $timezoneBusinessLayer);
 	}
 
 
@@ -60,7 +51,7 @@ class TimezoneController extends Controller {
 				$offset = $this->params('offset', 0);
 			}
 
-			$timezoneCollection = $this->businessLayer->findAll(
+			$timezoneCollection = $this->businesslayer->findAll(
 				$userId,
 				$limit,
 				$offset
@@ -93,7 +84,7 @@ class TimezoneController extends Controller {
 			$tzId = str_replace('-', '/', $this->params('timezoneId'));
 			$userId	= $this->api->getUserId();
 
-			$timezone = $this->timezoneMapper->find(
+			$timezone = $this->businesslayer->find(
 				$userId,
 				$tzId
 			);
@@ -126,7 +117,7 @@ class TimezoneController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	 public function getList() {
-		$timezones = $this->timezoneMapper->getList();
+		$timezones = $this->businesslayer->listAll();
 		return new Response($timezones);
 	}
 

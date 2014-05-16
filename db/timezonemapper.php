@@ -93,9 +93,9 @@ class TimezoneMapper extends Mapper {
 	 * @param integer $offset
 	 * @return array
 	 */
-	public function listAll($userId, $limit, $offset=0) {
+	public function listAll($userId, $limit, $offset) {
 		$timezones = $this->getAllAvailableTimezones($userId);
-		return array_slice($timezones, $limit, $offset);
+		return array_slice($timezones, $offset, $limit);
 	}
 
 
@@ -108,7 +108,6 @@ class TimezoneMapper extends Mapper {
 	 */
 	public function findAll($userId, $limit, $offset) {
 		$timezones = $this->listAll($userId, $limit, $offset);
-
 
 		$timezoneCollection = new TimezoneCollection();
 		foreach($timezones as $timezone) {
