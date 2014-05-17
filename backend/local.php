@@ -82,9 +82,9 @@ class Local extends Backend {
 
 
 	/**
-	 * constructur
-	 * @param \OCP\AppFramework\IAppContainer $app
-	 * @param array $paramters
+	 * constructor
+	 * @param IAppContainer $app
+	 * @param array $parameters
 	 */
 	public function __construct(IAppContainer $app, array $parameters){
 
@@ -343,8 +343,6 @@ class Local extends Backend {
 	/**
 	 * update a calendar
 	 * @param Calendar $calendar
-	 * @param string $oldCalendarURI
-	 * @param string $oldUserId
 	 * @throws CacheOutDatedException if calendar does not exist
 	 * @return Calendar
 	 */
@@ -384,7 +382,7 @@ class Local extends Backend {
 	 * delete a calendar
 	 * @param string $calendarURI
 	 * @param string $userId
-	 * @return boolean
+	 * @throws CacheOutDatedException
 	 */
 	public function deleteCalendar($calendarURI, $userId) {
 		$caltbl = $this->calTableName;
@@ -414,6 +412,7 @@ class Local extends Backend {
 	 * @param Calendar $calendar
 	 * @param string $oldCalendarURI
 	 * @param string $oldUserId
+	 * @throws CacheOutDatedException
 	 */
 	public function mergeCalendar(Calendar &$calendar, $oldCalendarURI, $oldUserId) {
 		$newCalendarURI = $calendar->getUri();
@@ -459,6 +458,7 @@ class Local extends Backend {
 	 * @param Calendar $calendar
 	 * @param string $oldCalendarURI
 	 * @param string $oldUserId
+	 * @throws CacheOutDatedException
 	 */
 	public function moveCalendar(Calendar &$calendar, $oldCalendarURI, $oldUserId) {
 		$newCalendarURI = $calendar->getUri();
@@ -495,6 +495,7 @@ class Local extends Backend {
 	 * @param Calendar $calendar
 	 * @param string $objectURI
 	 * @throws CacheOutDatedException if calendar does not exist
+	 * @throws DoesNotExistException
 	 * @throws MultipleObjectsReturnedException if more than one result found
 	 * @return Object
 	 */
@@ -539,8 +540,9 @@ class Local extends Backend {
 	/**
 	 * Find objecs
 	 * @param Calendar $calendar
-	 * @param integer/null $limit
-	 * @param integer/null $offset
+	 * @param integer $limit
+	 * @param integer $offset
+	 * @throws CacheOutDatedException
 	 * @return ObjectCollection
 	 */
 	public function findObjects(Calendar &$calendar, $limit, $offset) {
@@ -583,8 +585,9 @@ class Local extends Backend {
 	 * @param Calendar $calendar
 	 * @param DateTime $start
 	 * @param DateTime $end
-	 * @param integer/null $limit
-	 * @param integer/null $offset
+	 * @param integer $limit
+	 * @param integer $offset
+	 * @throws CacheOutDatedException
 	 * @return ObjectCollection
 	 */
 	public function findObjectsInPeriod(Calendar $calendar, DateTime $start, DateTime $end, $limit, $offset){
@@ -637,8 +640,9 @@ class Local extends Backend {
 	 * Find objecs by type
 	 * @param Calendar $calendar
 	 * @param integer $type
-	 * @param integer/null $limit
-	 * @param integer/null $offset
+	 * @param integer $limit
+	 * @param integer $offset
+	 * @throws CacheOutDatedException
 	 * @return ObjectCollection
 	 */
 	public function findObjectsByType(Calendar $calendar, $type, $limit, $offset) {
@@ -682,8 +686,9 @@ class Local extends Backend {
 	 * @param integer $type
 	 * @param DateTime $start
 	 * @param DateTime $end
-	 * @param integer/null $limit
-	 * @param integer/null $offset
+	 * @param integer $limit
+	 * @param integer $offset
+	 * @throws CacheOutDatedException
 	 * @return ObjectCollection
 	 */
 	public function findObjectsByTypeInPeriod(Calendar $calendar, $type, DateTime $start, DateTime $end, $limit, $offset) {
@@ -767,6 +772,7 @@ class Local extends Backend {
 	/**
 	 * check if object exists
 	 * @param Calendar $calendar
+	 * @param string $objectURI
 	 * @return boolean
 	 */
 	public function doesObjectExist(Calendar $calendar, $objectURI) {
@@ -829,6 +835,7 @@ class Local extends Backend {
 	 * @param Object $object
 	 * @throws CacheOutDatedException if calendar already exists
 	 * @throws BackendException if object already exists
+	 * @return Object
 	 */
 	public function createObject(Object &$object) {
 		$calendarURI = $object->getCalendar()->getUri();
@@ -863,6 +870,8 @@ class Local extends Backend {
 			$object->getObjectURI(),
 			$this->getUTCforMDB($object->getLastModified()),
 		));
+
+		return $object;
 	}
 
 
@@ -870,8 +879,10 @@ class Local extends Backend {
 	 * update an object
 	 * @param Object $object
 	 * @throws CacheOutDatedException if calendar does not exist
+	 * @throws BackendException
 	 * @return Calendar
 	 */
+
 	public function updateObject(Object &$object) {
 		$calendarURI = $object->getCalendar()->getUri();
 		$userId = $object->getCalendar()->getUserId();
@@ -1091,6 +1102,7 @@ class Local extends Backend {
 	 * @return \OCA\Calendar\Db\Timezone
 	 */
 	private function createTimezoneFromRow(&$row) {
+		//TODO - check if timezone is VCALENDAR data
 		try {
 			return $this->timezoneMapper->find(strval($row['timezone']));
 		} catch(DoesNotExistException $ex) {
@@ -1102,9 +1114,10 @@ class Local extends Backend {
 	/**
 	 * create an object object from row
 	 * @param array $row
-	 * @return \OCA\Calendar\Db\Object
+	 * @param Calendar $calendar
+	 * @return Object
 	 */
-	private function createObjectFromRow(&$row, &$calendar) {
+	private function createObjectFromRow(&$row, Calendar &$calendar) {
 		$object = new Object();
 
 		$object->setCalendar($calendar);
@@ -1118,13 +1131,13 @@ class Local extends Backend {
 	/**
 	 * @brief get a single objectType
 	 * @param mixed (integer|string) $type
-	 * @param mixed (integer|string)
+	 * @return mixed (integer|string)
 	 */
 	public function getType($type) {
 		if (is_int($type)) {
 			return ObjectType::getAsString($type);
 		} else {
-			return ObjectType::getTypeByString($type);
+			return ObjectType::getTypeByString(strval($type));
 		}
 	}
 
@@ -1132,13 +1145,13 @@ class Local extends Backend {
 	/**
 	 * @brief get multiple objectTypes
 	 * @param mixed (integer|string) $type
-	 * @param mixed (integer|string)
+	 * @return mixed (integer|string)
 	 */
 	public function getTypes($type) {
 		if (is_int($type)) {
 			return ObjectType::getAsString($type);
 		} else {
-			return ObjectType::getTypesByString($type);
+			return ObjectType::getTypesByString(strval($type));
 		}
 	}
 
