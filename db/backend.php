@@ -17,6 +17,10 @@ class Backend extends Entity {
 	public $arguments;
 	public $enabled;
 
+
+	/**
+	 * @var IBackend
+	 */
 	public $api;
 
 

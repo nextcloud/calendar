@@ -22,8 +22,9 @@
 namespace OCA\Calendar\Db;
 
 use \DateTime;
+use OCP\Calendar\IObjectCollection;
 
-class ObjectCollection extends Collection {
+class ObjectCollection extends Collection implements IObjectCollection {
 
 	/**
 	 * @brief get a collection of entities within period

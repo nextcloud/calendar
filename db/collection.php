@@ -8,12 +8,12 @@
 namespace OCA\Calendar\Db;
 
 use \OCA\Calendar\Sabre\VObject\Component\VCalendar;
-use \OCA\Calendar\Sabre\VObject\Component\VTimezone;
 use \OCA\Calendar\Sabre\VObject\Component\VEvent;
 use \OCA\Calendar\Sabre\VObject\Component\VJournal;
 use \OCA\Calendar\Sabre\VObject\Component\VTodo;
+use OCP\Calendar\ICollection;
 
-abstract class Collection {
+abstract class Collection implements ICollection {
 
 	/**
 	 * array containing all entities

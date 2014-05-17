@@ -21,29 +21,61 @@
  */
 namespace OCA\Calendar\Db;
 
-use \OCA\Calendar\Sabre\VObject\Component\VCalendar;
+use OCA\Calendar\Sabre\VObject\Component\VCalendar;
 
-use \OCA\Calendar\Sabre\VObject\Reader;
-use \OCA\Calendar\Sabre\VObject\ParseException;
-use \OCA\Calendar\Sabre\VObject\EofException;
+use OCA\Calendar\Sabre\VObject\Reader;
+use OCA\Calendar\Sabre\VObject\ParseException;
+use OCA\Calendar\Sabre\VObject\EofException;
 
-use \OCA\Calendar\Sabre\VObject\Property\Text as TextProperty;
-use \OCA\Calendar\Sabre\VObject\Property\Integer as IntegerProperty;
+use OCA\Calendar\Sabre\VObject\Property\Text as TextProperty;
+use OCA\Calendar\Sabre\VObject\Property\Integer as IntegerProperty;
 
-use \OCA\Calendar\Utility\SabreUtility;
+use OCA\Calendar\Utility\SabreUtility;
 
-use \DateTime;
+use DateTime;
+use OCP\Calendar\IObject;
 
-class Object extends Entity {
+class Object extends Entity implements IObject {
 
+	/**
+	 * @var integer
+	 */
 	public $id;
+
+
+	/**
+	 * @var Calendar
+	 */
 	public $calendar;
+
+
+	/**
+	 * @var string
+	 */
 	public $objectURI;
+
+
+	/**
+	 * @var string
+	 */
 	public $etag;
+
+
+	/**
+	 * @var integer
+	 */
 	public $ruds;
 
+
+	/**
+	 * @var VCalendar
+	 */
 	public $vObject;
 
+
+	/**
+	 * @var string
+	 */
 	private $objectName;
 
 

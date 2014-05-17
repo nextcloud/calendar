@@ -8,9 +8,10 @@
  */
 namespace OCA\Calendar\Db;
 
-use \OCA\Calendar\Sabre\VObject\Component\VCalendar;
+use OCA\Calendar\Sabre\VObject\Component\VCalendar;
+use OCP\Calendar\IEntity;
 
-abstract class Entity {
+abstract class Entity implements IEntity{
 
 	/**
 	 * @brief database id

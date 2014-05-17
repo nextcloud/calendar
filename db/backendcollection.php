@@ -21,7 +21,9 @@
  */
 namespace OCA\Calendar\Db;
 
-class BackendCollection extends Collection {
+use OCP\Calendar\IBackendCollection;
+
+class BackendCollection extends Collection implements IBackendCollection {
 
 	/**
 	 * @brief get a collection of all enabled backends within collection
@@ -47,5 +49,15 @@ class BackendCollection extends Collection {
 	 */
 	public function find($backendName) {
 		return $this->search('backend', $backendName)->reset();
+	}
+
+
+	/**
+	 * @brief check if backend is enabled
+	 * @param string $backendName
+	 * @return bool
+	 */
+	public function isEnabled($backendName) {
+		return $this->find($backendName)->getEnabled();
 	}
 }

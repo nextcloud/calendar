@@ -21,4 +21,6 @@
  */
 namespace OCA\Calendar\Db;
 
-class TimezoneCollection extends Collection {}
+use OCP\Calendar\ITimezoneCollection;
+
+class TimezoneCollection extends Collection implements ITimezoneCollection {}

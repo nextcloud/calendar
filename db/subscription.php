@@ -7,7 +7,9 @@
  */
 namespace OCA\Calendar\Db;
 
-class Subscription extends Entity {
+use OCP\Calendar\ISubscription;
+
+class Subscription extends Entity implements ISubscription {
 
 	public $name;
 	public $type;
@@ -52,7 +54,11 @@ class Subscription extends Entity {
 			}
 		}
 
-		if (!parse_url($this->url)) {
+		$parsedURL = parse_url($this->url);
+		if (!$parsedURL) {
+			return false;
+		}
+		if (!array_key_exists('host', $parsedURL)) {
 			return false;
 		}
 

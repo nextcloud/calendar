@@ -21,7 +21,9 @@
  */
 namespace OCA\Calendar\Db;
 
-class CalendarCollection extends Collection {
+use OCP\Calendar\ICalendarCollection;
+
+class CalendarCollection extends Collection implements ICalendarCollection {
 
 	/**
 	 * @brief get a collection of all enabled calendars within collection

@@ -45,6 +45,26 @@ class SubscriptionMapper extends Mapper {
 
 
 	/**
+	 * does a subscription exist
+	 * @param string $name
+	 * @param string $userId
+	 * @return boolean
+	 */
+	public function doesExist($name, $userId) {
+		$sql  = 'SELECT COUNT(*) AS `count` FROM `' . $this->tableName . '`';
+		$sql .= ' WHERE `name` = ? AND `user_id` = ?';
+
+		$row = $this->findOneQuery($sql, array(
+			$name,
+			$userId
+		));
+
+		$count = intval($row['count']);
+		return ($count !== 0);
+	}
+
+
+	/**
 	 * find all subscriptions of a user
 	 * @param string $userId
 	 * @param integer $limit

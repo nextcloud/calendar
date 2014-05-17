@@ -12,8 +12,9 @@ use \OCA\Calendar\Sabre\VObject\Component\VCalendar;
 use \OCA\Calendar\Utility\CalendarUtility;
 use \OCA\Calendar\Utility\RegexUtility;
 use \OCA\Calendar\Utility\Utility;
+use OCP\Calendar\ICalendar;
 
-class Calendar extends Entity {
+class Calendar extends Entity implements ICalendar {
 
 	public $id;
 	public $userId;
@@ -75,11 +76,11 @@ class Calendar extends Entity {
 			$this->setDisplayname($vCalendar->{'X-WR-CALNAME'});
 		}
 
-		if (isset($vCalendar->{'X-WR-TIMEZONE'})) {
+		/*if (isset($vCalendar->{'X-WR-TIMEZONE'})) {
 			try {
 				$this->setTimezone(new Timezone($vCalendar->{'X-WR-TIMEZONE'}));
 			} catch(\Exception $ex) {}
-		}
+		}*/
 
 		if (isset($vCalendar->{'X-APPLE-CALENDAR-COLOR'})) {
 			$this->setColor($vCalendar->{'X-APPLE-CALENDAR-COLOR'});

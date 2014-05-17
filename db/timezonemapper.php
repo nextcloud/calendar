@@ -69,7 +69,7 @@ class TimezoneMapper extends Mapper {
 		}
 
 		$data = file_get_contents($path);
-		return new Timezone($tzId, $data);
+		return new Timezone($data);
 	}
 
 
@@ -114,7 +114,7 @@ class TimezoneMapper extends Mapper {
 			$fileName = $this->getFileNameForTimezone($timezone);
 
 			$data = file_get_contents($fileName);
-			$timezone = new Timezone($timezone, $data);
+			$timezone = new Timezone($data);
 			$timezoneCollection->add($timezone);
 		}
 
