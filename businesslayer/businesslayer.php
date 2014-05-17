@@ -21,6 +21,7 @@
  */
 namespace OCA\Calendar\BusinessLayer;
 
+use OCP\AppFramework\Http;
 use \OCP\AppFramework\IAppContainer;
 use \OCA\Calendar\Backend\IBackend;
 use \OCA\Calendar\Db\Backend;
@@ -116,5 +117,43 @@ abstract class BusinessLayer {
 			}
 			return $backend->api->implementsActions($action);
 		}
+	}
+
+
+	/**
+	 * @brief throw exception if backend is not enabled
+	 * @param string $backend
+	 * @throws BusinessLayerException
+	 * @return boolean
+	 */
+	public function checkBackendEnabled($backend) {
+		if (!($this->backends instanceof BackendCollection)) {
+			$msg = 'No backends set-up!';
+			throw new BusinessLayerException($msg, Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+
+		if (!$this->backends->isEnabled($backend)) {
+			$msg = 'Backend found but not enabled!';
+			throw new BusinessLayerException($msg, Http::STATUS_BAD_REQUEST);
+		}
+
+		return true;
+	}
+
+
+	/**
+	 * @brief throw exception if backend does not support action
+	 * @param string $backend
+	 * @param integer $action
+	 * @return bool
+	 * @throws BusinessLayerException
+	 */
+	public function checkBackendSupports($backend, $action) {
+		if (!$this->doesBackendSupport($backend, $action)) {
+			$msg = 'Backend does not support wanted action!';
+			throw new BusinessLayerException($msg, HTTP::STATUS_BAD_REQUEST);
+		}
+
+		return true;
 	}
 }

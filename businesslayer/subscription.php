@@ -43,6 +43,17 @@ class SubscriptionBusinessLayer extends BusinessLayer {
 
 
 	/**
+	 * @param string $userId
+	 * @param string $type
+	 * @param integer $limit
+	 * @param integer $offset
+	 * @return SubscriptionCollection
+	 */
+	public function findAllByType($userId, $type, $limit, $offset) {
+		return $this->mapper->findAllByType($userId, $type, $limit, $offset);
+	}
+
+	/**
 	 * @param string $name
 	 * @param string $userId
 	 * @throws BusinessLayerException
@@ -83,10 +94,10 @@ class SubscriptionBusinessLayer extends BusinessLayer {
 		}
 
 		if ($this->doesExist($name, $userId)) {
-			throw new BusinessLayerException('Subscription with name already exists!');
+			throw new BusinessLayerException('Subscription with name already exists!', Http::STATUS_CONFLICT);
 		}
 
-		return $this->mapper->create($subscription);
+		return $this->mapper->insert($subscription);
 	}
 
 
@@ -95,6 +106,7 @@ class SubscriptionBusinessLayer extends BusinessLayer {
 	 * @param string $name
 	 * @param string $userId
 	 * @throws BusinessLayerException
+	 * @return Subscription
 	 */
 	public function update(Subscription $subscription, $name, $userId) {
 		if (!$subscription->isValid()) {
@@ -102,9 +114,11 @@ class SubscriptionBusinessLayer extends BusinessLayer {
 		}
 
 		$oldSubscription = $this->find($name, $userId);
-		$subscription = $subscription->overwriteWith($oldSubscription);
+		$subscription = $oldSubscription->overwriteWith($subscription);
 
-		return $this->mapper->update($subscription);
+		$this->mapper->update($subscription);
+
+		return $subscription;
 	}
 
 

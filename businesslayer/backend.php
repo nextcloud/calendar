@@ -30,25 +30,41 @@ class BackendBusinessLayer extends BusinessLayer {
 	 * @param limit $limit
 	 * @param limit $offset
 	 */
-	public function findAll($userId, $limit, $offset) {
+	public function findAll($limit, $offset) {
 
 	}
 
 
 	/**
-	 * @param string $name
-	 * @param string $userId
+	 * @param integer $limit
+	 * @param integer $offset
 	 */
-	public function find($name, $userId) {
+	public function findAllEnabled($limit, $offset) {
 
 	}
 
 
 	/**
-	 * @param string $name
-	 * @param string $userId
+	 * @param integer $limit
+	 * @param integer $offset
 	 */
-	public function doesExist($name, $userId) {
+	public function findAllDisabled($limit, $offset) {
+
+	}
+
+
+	/**
+	 * @param string $backend
+	 */
+	public function find($backend) {
+
+	}
+
+
+	/**
+	 * @param string $backend
+	 */
+	public function doesExist($backend) {
 
 	}
 
@@ -64,9 +80,8 @@ class BackendBusinessLayer extends BusinessLayer {
 	/**
 	 * @param Backend $backend
 	 * @param $name
-	 * @param $userId
 	 */
-	public function update(Backend $backend, $name, $userId) {
+	public function update(Backend $backend, $name) {
 
 	}
 
@@ -75,6 +90,23 @@ class BackendBusinessLayer extends BusinessLayer {
 	 * @param Backend $backend
 	 */
 	public function delete(Backend $backend) {
+
+	}
+
+
+	/**
+	 * @brief get default backend
+	 * @return Backend
+	 */
+	public function getDefault() {
+
+	}
+
+
+	/**
+	 * @param Backend $backend
+	 */
+	public function setDefault(Backend $backend) {
 
 	}
 }
