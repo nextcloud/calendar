@@ -1,50 +1,35 @@
 <?php
 /**
- * Copyright (c) 2014 Georg Ehrke <oc.list@georgehrke.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * ownCloud - Calendar App
+ *
+ * @author Georg Ehrke
+ * @copyright 2014 Georg Ehrke <oc.list@georgehrke.com>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 namespace OCA\Calendar\Controller;
 
-use \OCP\AppFramework\IAppContainer;
-use \OCP\AppFramework\Http;
-use \OCP\IRequest;
+use OCP\AppFramework\Http;
 
-use \OCA\Calendar\BusinessLayer\BusinessLayer;
-use \OCA\Calendar\BusinessLayer\BackendBusinessLayer;
-use \OCA\Calendar\BusinessLayer\BusinessLayerException;
+use OCA\Calendar\BusinessLayer\BusinessLayerException;
 
-use \OCA\Calendar\Db\Backend;
-use \OCA\Calendar\Db\BackendCollection;
-use \OCA\Calendar\Db\DoesNotExistException;
-
-use \OCA\Calendar\Http\Response;
-use \OCA\Calendar\Http\Serializer;
-use \OCA\Calendar\Http\SerializerException;
+use OCA\Calendar\Http\Response;
+use OCA\Calendar\Http\Serializer;
+use OCA\Calendar\Http\SerializerException;
 
 class BackendController extends Controller {
-
-	/**
-	 * businesslayer
-	 * @var \OCA\Calendar\BusinessLayer\BusinessLayer
-	 */
-	private $bbl;
-
-
-	/**
-	 * constructor
-	 * @param IAppContainer $app interface to the app
-	 * @param IRequest $request an instance of the request
-	 * @param BackendBusinessLayer $businessLayer
-	 */
-	public function __construct(IAppContainer $app, IRequest $request,
-								BackendBusinessLayer $businessLayer){
-		parent::__construct($app, $request);
-
-		$this->bbl = $businessLayer;
-	}
-
 
 	/**
 	 * @NoAdminRequired
@@ -52,18 +37,15 @@ class BackendController extends Controller {
 	 */
 	public function index() {
 		try {
-			$nolimit = $this->params('nolimit', false);
-			if ($nolimit) {
+			$noLimit = $this->params('nolimit', false);
+			if ($noLimit) {
 				$limit = $offset = null;
 			} else {
 				$limit = $this->params('limit', 25);
 				$offset = $this->params('offset', 0);
 			}
 
-			$allBackends = $this->bbl->setup()->subset(
-				$limit,
-				$offset
-			);
+			$allBackends = $this->businesslayer->findAll($limit, $offset);
 
 			$serializer = new Serializer(
 				$this->app,
@@ -95,18 +77,15 @@ class BackendController extends Controller {
 	 */
 	public function enabled() {
 		try {
-			$nolimit = $this->params('nolimit', false);
-			if ($nolimit) {
+			$noLimit = $this->params('nolimit', false);
+			if ($noLimit) {
 				$limit = $offset = null;
 			} else {
 				$limit = $this->params('limit', 25);
 				$offset = $this->params('offset', 0);
 			}
 
-			$allEnabled = $this->bbl->setup()->enabled()->subset(
-				$limit,
-				$offset
-			);
+			$allEnabled = $this->businesslayer->findAllEnabled($limit, $offset);
 
 			$serializer = new Serializer(
 				$this->app,
@@ -138,18 +117,15 @@ class BackendController extends Controller {
 	 */
 	public function disabled() {
 		try {
-			$nolimit = $this->params('nolimit', false);
-			if ($nolimit) {
+			$noLimit = $this->params('nolimit', false);
+			if ($noLimit) {
 				$limit = $offset = null;
 			} else {
 				$limit = $this->params('limit', 25);
 				$offset = $this->params('offset', 0);
 			}
 
-			$allDisabled = $this->bbl->setup()->disabled()->subset(
-				$limit,
-				$offset
-			);
+			$allDisabled = $this->businesslayer->findAllDisabled($limit, $offset);
 
 			$serializer = new Serializer(
 				$this->app,
@@ -181,14 +157,7 @@ class BackendController extends Controller {
 	 */
 	public function defaultBackend() {
 		try {
-			$default = $this->bbl->getDefault();
-			$backend = $this->bbl->setup()->find($default);
-
-			if (!$backend) {
-				throw new SerializerException(
-					'default backend not configured or not activatable.'
-				);
-			}
+			$backend = $this->businesslayer->getDefault();
 
 			$serializer = new Serializer(
 				$this->app,

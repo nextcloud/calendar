@@ -29,26 +29,6 @@ use \OCA\Calendar\Http\SerializerException;
 class SubscriptionController extends Controller {
 
 	/**
-	 * subscription mapper
-	 * @var \OCA\Calendar\BusinessLayer\SubscriptionMapper
-	 */
-	private $smp;
-
-
-	/**
-	 * constructor
-	 * @param IAppContainer $app interface to the app
-	 * @param IRequest $request an instance of the request
-	 */
-	public function __construct(IAppContainer $app, IRequest $request,
-								SubscriptionMapper $subscriptionMapper){
-		parent::__construct($app, $request);
-
-		$this->smp = $subscriptionMapper;
-	}
-
-
-	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
@@ -64,7 +44,7 @@ class SubscriptionController extends Controller {
 				$offset = $this->params('offset', 0);
 			}
 
-			$allSubscriptions = $this->smp->findAll(
+			$allSubscriptions = $this->businesslayer->findAll(
 				$userId,
 				$limit,
 				$offset
@@ -97,7 +77,7 @@ class SubscriptionController extends Controller {
 			$userId = $this->api->getUserId();
 			$name = $this->request->getParam('subscriptionId');
 
-			$subscription = $this->smp->find(
+			$subscription = $this->businesslayer->find(
 				$name,
 				$userId
 			);
@@ -133,7 +113,7 @@ class SubscriptionController extends Controller {
 	public function create() {
 		try {
 			$userId = $this->api->getUserId();
-			$data = $this->request->params;
+			$data = fopen('php://input', 'rb');
 
 			$reader = new Reader(
 				$this->app,
@@ -147,24 +127,7 @@ class SubscriptionController extends Controller {
 			if ($subscription instanceof Subscription) {
 				$subscription->setUserId($userId);
 
-				try {
-					$this->smp->find(
-						$subscription->getName(),
-						$subscription->getUserId()
-					);
-
-					return new Response(null, Http::STATUS_CONFLICT);
-				} catch(DoesNotExistException $ex) {
-					//Do nothing
-				} catch(MultipleObjectsReturnedException $ex) {
-					return new Response(null, Http::STATUS_INTERNAL_SERVER_ERROR);
-				}
-
-				if (!$subscription->isValid()) {
-					return new Response(null, Http::STATUS_UNPROCESSABLE_ENTITY);
-				}
-
-				$subscription = $this->smp->insert($subscription);
+				$subscription = $this->businesslayer->create($subscription);
 
 				$serializer = new Serializer(
 					$this->app,
@@ -173,37 +136,7 @@ class SubscriptionController extends Controller {
 					$this->accept()
 				);
 			} elseif ($subscription instanceof SubscriptionCollection) {
-				$createdSubscriptions = new SubscriptionCollection();
-				$subscription->setProperty('userId', $userId);
-
-				$subscription->iterate(function($subscription) use (&$createdSubscriptions) {
-					try {
-						$this->smp->find(
-							$subscription->getName(),
-							$subscription->getUserId()
-						);
-
-						return;
-					} catch(DoesNotExistException $ex) {
-						//Do nothing
-					} catch(MultipleObjectsReturnedException $ex) {
-						return;
-					}
-
-					if (!$subscription->isValid()) {
-						return;
-					}
-
-					$subscription = $this->smp->insert($subscription);
-					$createdSubscriptions->add($subscription);
-				});
-
-				$serializer = new Serializer(
-					$this->app,
-					Serializer::SubscriptionCollection,
-					$createdSubscriptions,
-					$this->accept()
-				);
+				//TODO implement
 			} else {
 				throw new ReaderException(
 					'Reader returned unrecognised format.'
@@ -240,7 +173,7 @@ class SubscriptionController extends Controller {
 		try {
 			$userId = $this->api->getUserId();
 			$name = $this->request->getParam('subscriptionId');
-			$data = $this->request->params;
+			$data = fopen('php://input', 'rb');
 
 			$reader = new Reader(
 				$this->app,
@@ -252,24 +185,9 @@ class SubscriptionController extends Controller {
 			$subscription = $reader->sanitize()->getObject();
 
 			if ($subscription instanceof Subscription) {
-				try {
-					$oldSubscription = $this->smp->find(
-						$name,
-						$userId
-					);
+				$subscription->setUserId($userId);
 
-					$subscription = $oldSubscription->overwriteWith($subscription);
-				} catch(DoesNotExistException $ex) {
-					return new Response(null, Http::STATUS_NOT_FOUND);
-				} catch(MultipleObjectsReturnedException $ex) {
-					return new Response(null, Http::STATUS_INTERNAL_SERVER_ERROR);
-				}
-
-				if (!$subscription->isValid()) {
-					return new Response(null, Http::STATUS_UNPROCESSABLE_ENTITY);
-				}
-
-				$subscription = $this->smp->update($subscription);
+				$subscription = $this->businesslayer->update($subscription, $name, $userId);
 
 				$serializer = new Serializer(
 					$this->app,
@@ -320,7 +238,7 @@ class SubscriptionController extends Controller {
 			$name = $this->request->getParam('subscriptionId');
 
 			try {
-				$subscription = $this->smp->find(
+				$subscription = $this->businesslayer->find(
 					$name,
 					$userId
 				);
@@ -331,7 +249,7 @@ class SubscriptionController extends Controller {
 				return new Response(null, Http::STATUS_INTERNAL_SERVER_ERROR);
 			}
 
-			$this->smp->delete($subscription);
+			$this->businesslayer->delete($subscription);
 
 			return new Response();
 		} catch (BusinessLayerException $ex) {
@@ -349,7 +267,7 @@ class SubscriptionController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	public function getTypes() {
-		$types = $this->smp->getTypes();
+		$types = $this->businesslayer->getTypes();
 		return new Reponse($types);
 	}
 }
