@@ -33,6 +33,8 @@ class Response extends CoreResponse {
 			} else {
 				$this->setStatus(Http::STATUS_OK);
 			}
+		} else {
+			$this->setStatus($statusCode);
 		}
 
 		if ($data instanceof ISerializer || $data instanceof Serializer) {
