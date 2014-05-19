@@ -22,3 +22,5 @@
  *
  */
 ?>
+
+<datepicker ng-model="datemodel"></datepicker>
