@@ -70,7 +70,13 @@
 			<a href="#" id="chooseCalendar-edit" data-id="{{ calendar.uri }}" title="Edit" class="icon-rename"></a>
 		</span>
 		<span class="action">
-			<a href="#" id="chooseCalendar-delete" data-id="{{ calendar.uri }}" title="Delete" class="icon-delete" ng-click="remove(calendar.uri)"></a>
+			<a href="#"
+				id="chooseCalendar-delete"
+				data-id="{{ calendar.uri }}"
+				title="Delete"
+				class="icon-delete"
+				ng-click="delete(calendar.uri,calendar.backend)">
+			</a>
 		</span>
 	</span>
 </li>

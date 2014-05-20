@@ -39,24 +39,23 @@ app.factory('CalendarModel', function() {
 		getAll : function () {
 			return this.calendars;
 		},
-		get : function (id) {
-			return this.calendarId[id];
+		get : function (uri) {
+			for (var i = 0; i<this.calendars.length;i++) {
+				var calendar = this.calendars[i];
+				if (calendar.uri === uri) {
+					this.calendarId = this.calendars[i];
+					break;
+				}
+			}
+			return this.calendarId;
 		},
 		updateIfExists : function () {
 
 		},
-		create : function () {
-
-		},
-		remove : function (uri) {
-			for (var i=0; i<this.calendars.length; i++) {
-				var calendar = this.calendars[i];
-				if (calendar.uri === uri) {
-					this.calendars.splice(i, 1);
-					delete this.calendarId[uri];
-					break;
-				}
-			}
+		remove : function (calendar) {
+			console.log(calendar);
+			// Todo: Splice of the Calendar Input here instead the calendar.
+			delete this.calendar;
 		},
 	};
 

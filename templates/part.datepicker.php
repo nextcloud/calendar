@@ -23,4 +23,4 @@
  */
 ?>
 
-<datepicker ng-model="datemodel"></datepicker>
+<datepicker ng-model="datemodel" show-weeks="false"></datepicker>

@@ -32,6 +32,7 @@
  			CalendarModel.addAll(calendars);
  		});
 
+ 		// Create a New Calendar
  		$scope.create = function () {
  			calendarResource.post().then(function (calendar) {
  				CalendarModel.add(calendar);
@@ -39,10 +40,13 @@
  			});
  		};
 
- 		$scope.delete = function (calendarId) {
- 			var calendar = CalendarModel.get(calendarId);
- 			calendar.remove().then(function () {
- 				CalendarModel.remove(calendarId);
+ 		// To Delete a Calendar
+ 		$scope.delete = function (uri,backend) {
+ 			var calendar = CalendarModel.get(uri);
+ 			console.log(calendar);
+ 			var delcalendarResource = Restangular.one('v1/calendars',backend + '::' + uri);
+ 			delcalendarResource.remove().then( function () {
+ 				CalendarModel.remove(calendar);
  			});
  		};
  	}

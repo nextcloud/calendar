@@ -33,6 +33,7 @@ app.controller('CalendarListController', ['$scope','Restangular','CalendarModel'
  			CalendarModel.addAll(calendars);
  		});
 
+ 		// Create a New Calendar
  		$scope.create = function () {
  			calendarResource.post().then(function (calendar) {
  				CalendarModel.add(calendar);
@@ -40,10 +41,13 @@ app.controller('CalendarListController', ['$scope','Restangular','CalendarModel'
  			});
  		};
 
- 		$scope.delete = function (calendarId) {
- 			var calendar = CalendarModel.get(calendarId);
- 			calendar.remove().then(function () {
- 				CalendarModel.remove(calendarId);
+ 		// To Delete a Calendar
+ 		$scope.delete = function (uri,backend) {
+ 			var calendar = CalendarModel.get(uri);
+ 			console.log(calendar);
+ 			var delcalendarResource = Restangular.one('v1/calendars',backend + '::' + uri);
+ 			delcalendarResource.remove().then( function () {
+ 				CalendarModel.remove(calendar);
  			});
  		};
  	}
@@ -126,24 +130,23 @@ app.factory('CalendarModel', function() {
 		getAll : function () {
 			return this.calendars;
 		},
-		get : function (id) {
-			return this.calendarId[id];
+		get : function (uri) {
+			for (var i = 0; i<this.calendars.length;i++) {
+				var calendar = this.calendars[i];
+				if (calendar.uri === uri) {
+					this.calendarId = this.calendars[i];
+					break;
+				}
+			}
+			return this.calendarId;
 		},
 		updateIfExists : function () {
 
 		},
-		create : function () {
-
-		},
-		remove : function (uri) {
-			for (var i=0; i<this.calendars.length; i++) {
-				var calendar = this.calendars[i];
-				if (calendar.uri === uri) {
-					this.calendars.splice(i, 1);
-					delete this.calendarId[uri];
-					break;
-				}
-			}
+		remove : function (calendar) {
+			console.log(calendar);
+			// Todo: Splice of the Calendar Input here instead the calendar.
+			delete this.calendar;
 		},
 	};
 
