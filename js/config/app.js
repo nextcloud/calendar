@@ -20,7 +20,7 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-var app = angular.module('Calendar', ['OC', 'ngAnimate', 'restangular', 'ngRoute', 'ui.bootstrap']).
+var app = angular.module('Calendar', ['OC', 'ngAnimate', 'restangular', 'ngRoute', 'ui.bootstrap', 'ui.calendar']).
 config(['$provide', '$routeProvider', 'RestangularProvider', '$httpProvider', '$windowProvider',
 	function ($provide,$routeProvider,RestangularProvider,$httpProvider,$windowProvider) {
 
