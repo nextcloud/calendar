@@ -20,3 +20,77 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
+#datepicker .datepicker_current {
+	float: left;
+	width: 220px;
+	height: 26px;
+	margin-top: 6px;
+	margin-left: 6px;
+	padding-top: 6px;
+	background-color: white;
+	border: 1px solid rgba(190, 190, 190, 0.9);
+	border-radius: 3px;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+	color: rgb(85, 85, 85);
+	font-weight: bold;
+	text-align: center;
+	overflow: hidden;
+	cursor:pointer;
+}
+
+#datepicker .datepicker_toggle {
+	height: 34px;
+	margin-top: 6px;
+	margin-left: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	font-weight: normal;
+}
+
+#datepicker .datepicker_left {
+	width: 33px;
+	border-radius: 0;
+	border-left: 0;
+}
+
+#datepicker .datepicker_right {
+	width: 33px;
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+	border-left: 0;
+}
+
+#datepicker .days {
+	color: rgb(85, 85, 85);
+	text-align: center;
+	font-weight: bold;
+	padding: .7em .3em;
+	border: 0;
+	width:30px;
+}
+
+#datepicker .dates {
+	padding:1px;
+}
+
+#datepicker .date {
+	border: 1px solid #ddd;
+	font-weight: bold;
+	color: #555;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: block;
+	padding: .2em;
+	text-decoration: none;
+	text-align: center;
+	max-width: 33px;
+}
+
+#datepicker .date.active {
+	border: 1px solid #1d2d44;
+	background: #f8f8f8;
+	font-weight: bold;
+	color: #1d2d44;
+}
