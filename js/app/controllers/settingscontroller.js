@@ -52,20 +52,5 @@ app.controller('SettingsController', ['$scope','Restangular','$routeParams','Tim
 		// Changing the first day
 		$scope.changefirstday = function (firstday) {
 		};
-
-		// Creating Timezone, not yet implemented Server Side.
-		$scope.create = function () {
-			calendarResource.post().then(function (newtimezone) {
-				TimezoneModel.add(newtimezone);
-			});
-		};
-
-		// Deleting Timezone, not yet implemented Server Side.
-		$scope.delete = function (timezoneId) {
-			var timezone = TimezoneModel.get(timezoneId);
-			timezone.remove().then(function () {
-				TimezoneModel.remove(timezoneId);
-			});
-		};
 	}
 ]);

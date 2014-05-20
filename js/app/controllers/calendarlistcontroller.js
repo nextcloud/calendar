@@ -43,7 +43,6 @@
  		// To Delete a Calendar
  		$scope.delete = function (uri,backend) {
  			var calendar = CalendarModel.get(uri);
- 			console.log(calendar);
  			var delcalendarResource = Restangular.one('v1/calendars',backend + '::' + uri);
  			delcalendarResource.remove().then( function () {
  				CalendarModel.remove(calendar);

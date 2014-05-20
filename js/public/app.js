@@ -1,15 +1,15 @@
 
 var app = angular.module('Calendar', ['OC', 'ngAnimate', 'restangular', 'ngRoute', 'ui.bootstrap']).
 config(['$provide', '$routeProvider', 'RestangularProvider', '$httpProvider', '$windowProvider',
-  function ($provide,$routeProvider,RestangularProvider,$httpProvider,$windowProvider) {
+	function ($provide,$routeProvider,RestangularProvider,$httpProvider,$windowProvider) {
 
-    $httpProvider.defaults.headers.common.requesttoken = oc_requesttoken;
+		$httpProvider.defaults.headers.common.requesttoken = oc_requesttoken;
 
-    var $window = $windowProvider.$get();
+		var $window = $windowProvider.$get();
 		var url = $window.location.href;
 		var baseUrl = url.split('index.php')[0] + 'index.php/apps/calendar';
-    RestangularProvider.setBaseUrl(baseUrl);
-  }
+		RestangularProvider.setBaseUrl(baseUrl);
+	}
 ]);
 
 app.controller('AppController', ['$scope',
@@ -44,7 +44,6 @@ app.controller('CalendarListController', ['$scope','Restangular','CalendarModel'
  		// To Delete a Calendar
  		$scope.delete = function (uri,backend) {
  			var calendar = CalendarModel.get(uri);
- 			console.log(calendar);
  			var delcalendarResource = Restangular.one('v1/calendars',backend + '::' + uri);
  			delcalendarResource.remove().then( function () {
  				CalendarModel.remove(calendar);
@@ -94,21 +93,6 @@ app.controller('SettingsController', ['$scope','Restangular','$routeParams','Tim
 		// Changing the first day
 		$scope.changefirstday = function (firstday) {
 		};
-
-		// Creating Timezone, not yet implemented Server Side.
-		$scope.create = function () {
-			calendarResource.post().then(function (newtimezone) {
-				TimezoneModel.add(newtimezone);
-			});
-		};
-
-		// Deleting Timezone, not yet implemented Server Side.
-		$scope.delete = function (timezoneId) {
-			var timezone = TimezoneModel.get(timezoneId);
-			timezone.remove().then(function () {
-				TimezoneModel.remove(timezoneId);
-			});
-		};
 	}
 ]);
 
@@ -119,7 +103,7 @@ app.factory('CalendarModel', function() {
 	};
 
 	CalendarModel.prototype = {
-		add: function (calendar) {
+		add : function (calendar) {
 			this.calendars.push(calendar);
 		},
 		addAll : function (calendars) {

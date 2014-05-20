@@ -22,13 +22,13 @@
  */
 var app = angular.module('Calendar', ['OC', 'ngAnimate', 'restangular', 'ngRoute', 'ui.bootstrap']).
 config(['$provide', '$routeProvider', 'RestangularProvider', '$httpProvider', '$windowProvider',
-  function ($provide,$routeProvider,RestangularProvider,$httpProvider,$windowProvider) {
+	function ($provide,$routeProvider,RestangularProvider,$httpProvider,$windowProvider) {
 
-    $httpProvider.defaults.headers.common.requesttoken = oc_requesttoken;
+		$httpProvider.defaults.headers.common.requesttoken = oc_requesttoken;
 
-    var $window = $windowProvider.$get();
+		var $window = $windowProvider.$get();
 		var url = $window.location.href;
 		var baseUrl = url.split('index.php')[0] + 'index.php/apps/calendar';
-    RestangularProvider.setBaseUrl(baseUrl);
-  }
+		RestangularProvider.setBaseUrl(baseUrl);
+	}
 ]);

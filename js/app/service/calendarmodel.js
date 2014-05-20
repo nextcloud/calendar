@@ -28,7 +28,7 @@ app.factory('CalendarModel', function() {
 	};
 
 	CalendarModel.prototype = {
-		add: function (calendar) {
+		add : function (calendar) {
 			this.calendars.push(calendar);
 		},
 		addAll : function (calendars) {
