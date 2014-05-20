@@ -21,11 +21,14 @@
  */
 namespace OCA\Calendar\Db;
 
+use OCP\Calendar\CorruptDataException;
+use OCP\Calendar\ICalendar;
+use OCP\Calendar\IObject;
+
 use OCA\Calendar\Sabre\VObject\Component\VCalendar;
 
 use OCA\Calendar\Sabre\VObject\Reader;
 use OCA\Calendar\Sabre\VObject\ParseException;
-use OCA\Calendar\Sabre\VObject\EofException;
 
 use OCA\Calendar\Sabre\VObject\Property\Text as TextProperty;
 use OCA\Calendar\Sabre\VObject\Property\Integer as IntegerProperty;
@@ -33,7 +36,6 @@ use OCA\Calendar\Sabre\VObject\Property\Integer as IntegerProperty;
 use OCA\Calendar\Utility\SabreUtility;
 
 use DateTime;
-use OCP\Calendar\IObject;
 
 class Object extends Entity implements IObject {
 
@@ -44,7 +46,7 @@ class Object extends Entity implements IObject {
 
 
 	/**
-	 * @var Calendar
+	 * @var ICalendar
 	 */
 	public $calendar;
 
@@ -52,7 +54,7 @@ class Object extends Entity implements IObject {
 	/**
 	 * @var string
 	 */
-	public $objectURI;
+	public $uri;
 
 
 	/**
@@ -70,7 +72,7 @@ class Object extends Entity implements IObject {
 	/**
 	 * @var VCalendar
 	 */
-	public $vObject;
+	public $vobject;
 
 
 	/**
@@ -81,19 +83,190 @@ class Object extends Entity implements IObject {
 
 	/**
 	 * @brief constructor
-	 * @param mixed (array|null) $fromRow
+	 * @param mixed (array|null) $from
 	 */
-	public function __construct($fromRow=null) {
-		$this->addType('objectURI', 'string');
+	public function __construct($from=null) {
+		$this->addType('calendar', 'OCP\\Calendar\\ICalendar');
+		$this->addType('uri', 'string');
 		$this->addType('etag', 'string');
 		$this->addType('ruds', 'integer');
+		$this->addType('vobject', 'OCA\\Calendar\\Sabre\\vobject\\Component\\VCalendar');
 
-		if (is_array($fromRow)) {
-			$this->fromRow($fromRow);
+		$this->addMandatory('calendar');
+		$this->addMandatory('uri');
+		$this->addMandatory('etag');
+		$this->addMandatory('vobject');
+
+		if (is_array($from)) {
+			$this->fromRow($from);
 		}
-		if ($fromRow instanceof VCalendar) {
-			$this->fromVObject($fromRow);
+		if ($from instanceof VCalendar) {
+			$this->fromvobject($from);
 		}
+	}
+
+
+	/**
+	 * @brief take data from vobject and put into this Object object
+	 * @param VCalendar $vcalendar
+	 * @throws CorruptDataException
+	 * @return $this
+	 */
+	public function fromVObject(VCalendar $vcalendar) {
+		return $this->setVobject($vcalendar);
+	}
+
+
+	/**
+	 * @param ICalendar $calendar
+	 * @return $this
+	 */
+	public function setCalendar(ICalendar $calendar) {
+		return $this->setter('calendar', $calendar);
+	}
+
+
+	/**
+	 * @return ICalendar
+	 */
+	public function getCalendar() {
+		return $this->getter('calendar');
+	}
+
+
+	/**
+	 * @param string $uri
+	 * @return $this
+	 */
+	public function setUri($uri) {
+		return $this->setter('uri', $uri);
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getUri() {
+		return $this->getter('uri');
+	}
+
+
+	/**
+	 * @param string $etag
+	 * @return $this
+	 */
+	public function setEtag($etag) {
+		return $this->setter('etag', $etag);
+	}
+
+
+	/**
+	 * @param bool $force generate etag if none stored
+	 * @return mixed (string|null)
+	 */
+	public function getEtag($force=false) {
+		$etag = $this->getter('etag');
+
+		if(!$force) {
+			return $etag;
+		} else {
+			if ($etag === null) {
+				$this->generateEtag();
+			}
+			return $this->getEtag(false);
+		}
+	}
+
+
+	/**
+	 * @param integer $ruds
+	 * @return $this
+	 */
+	public function setRuds($ruds) {
+		if ($ruds & Permissions::CREATE) {
+			$ruds -= Permissions::CREATE;
+		}
+
+		$this->setter('ruds', $ruds);
+	}
+
+
+	/**
+	 * @param boolean $force return value all the time
+	 * @return mixed (integer|null)
+	 */
+	public function getRuds($force=false) {
+		$ruds = $this->getter('ruds');
+
+		if (!$force) {
+			return $ruds;
+		} else {
+			if ($ruds === null) {
+				if ($this->calendar instanceof ICalendar) {
+					$cruds = $this->calendar->getCruds();
+					if ($cruds & Permissions::CREATE) {
+						$ruds = $cruds - Permissions::CREATE;
+					} else {
+						$ruds = $cruds;
+					}
+				}
+			}
+			return $ruds;
+		}
+	}
+
+
+	/**
+	 * @param VCalendar $vobject
+	 * @throws CorruptDataException
+	 * @return $this
+	 */
+	public function setVobject(VCalendar $vobject) {
+		$uidCount = SabreUtility::countUniqueUIDs($vobject);
+		$objectName = SabreUtility::getObjectName($vobject);
+
+		if ($uidCount === 0) {
+			$msg = 'Object can\'t be empty!';
+			throw new CorruptDataException($msg);
+		}
+		if ($uidCount > 1) {
+			$msg = 'Multiple objects can\'t be stored in one resource!';
+			throw new CorruptDataException($msg);
+		}
+
+		$this->setter('vobject', $vobject);
+		return $this->setter('objectName', $objectName);
+	}
+
+
+	/**
+	 * @return VCalendar
+	 */
+	public function getVobject() {
+		$vobject =  $this->getter('vobject');
+		$objectName = $this->getObjectName();
+
+		$uri = $this->getUri();
+		$etag = $this->getEtag(true);
+		$ruds = $this->getRuds();
+
+		if ($uri !== null) {
+			$vobject->{$objectName}->remove('X-OC-URI');
+			$uriProperty = new TextProperty($vobject, 'X-OC-URI', $uri);
+			$vobject->{$objectName}->add($uriProperty);
+		}
+		if ($etag !== null) {
+			$vobject->{$objectName}->remove('X-OC-ETAG');
+			$etagProperty = new TextProperty($vobject, 'X-OC-ETAG', $etag);
+			$vobject->{$objectName}->add($etagProperty);
+		}
+		if ($ruds !== null) {
+			$vobject->{$objectName}->remove('X-OC-RUDS');
+			$rudsProperty = new IntegerProperty($vobject, 'X-OC-RUDS', $ruds);
+			$vobject->{$objectName}->add($rudsProperty);
+		}
+
+		return $vobject;
 	}
 
 
@@ -104,7 +277,7 @@ class Object extends Entity implements IObject {
 		$updatedFields = parent::getUpdatedFields();
 
 		$properties = array(
-			'objectURI', 'type', 'startDate',
+			'uri', 'type', 'startDate',
 			'endDate', 'calendarId', 'repeating', 
 			'summary', 'calendarData', 'lastModified',
 		);
@@ -114,63 +287,10 @@ class Object extends Entity implements IObject {
 		}
 
 		unset($updatedFields['calendar']);
-		unset($updatedFields['vObject']);
+		unset($updatedFields['vobject']);
 		unset($updatedFields['objectName']);
 
 		return $updatedFields;
-	}
-
-
-	/**
-	 * @brief take data from VObject and put into this Object object
-	 * @param VCalendar $vcalendar
-	 * @throws MultipleObjectsReturnedException
-	 * @return $this
-	 */
-	public function fromVObject(VCalendar $vcalendar) {
-		$count = SabreUtility::countUniqueUIDs($vcalendar);
-
-		if ($count !== 1) {
-			$msg  = 'Db\Object::fromVObject(): ';
-			$msg .= 'Multiple objects can\'t be stored in one resource.';
-			throw new MultipleObjectsReturnedException($msg);
-		}
-
-		$this->vObject = $vcalendar;
-		$this->objectName = SabreUtility::getObjectName($vcalendar);
-
-		return $this;
-	}
-
-
-	/**
-	 * @brief get VObject from Calendar Object
-	 * @return \Sabre\VObject\Component\VCalendar object
-	 */
-	public function getVObject() {
-		$objectName = $this->objectName;
-
-		if ($this->etag === null) {
-			$this->generateEtag();
-		}
-		$currentETag = $this->etag;
-
-		if (!isset($this->vObject->{$objectName}->{'X-OC-URI'})) {
-			$uri = new TextProperty($this->vObject, 'X-OC-URI', $this->objectURI);
-			$this->vObject->{$objectName}->add($uri);
-		}
-		if (!isset($this->vObject->{$objectName}->{'X-OC-ETAG'})) {
-			$etag = new TextProperty($this->vObject, 'X-OC-ETAG', $currentETag);
-			$this->vObject->{$objectName}->add($etag);
-		}
-		if ($this->ruds !== null) {
-			if (!isset($this->vObject->{$objectName}->{'X-OC-RUDS'})) {
-				$ruds = new IntegerProperty($this->vObject, 'X-OC-RUDS', $this->ruds);
-				$this->vObject->{$objectName}->add($ruds);
-			}
-		}
-
-		return $this->vObject;
 	}
 
 
@@ -180,11 +300,10 @@ class Object extends Entity implements IObject {
 	 */
 	public function touch() {
 		$now = new DateTime();
-		$this->vObject->{$objectName}->{'LAST-MODIFIED'}->setDateTime($now);
+		$this->vobject->{$this->getObjectName()}->{'LAST-MODIFIED'}->setDateTime($now);
 		$this->generateEtag();
 		return $this;
 	}
-
 
 
 	/**
@@ -193,7 +312,7 @@ class Object extends Entity implements IObject {
 	 * @return boolean
 	 */
 	public function doesAllow($cruds) {
-		return ($this->cruds & $cruds);
+		return ($this->ruds & $cruds);
 	}
 
 
@@ -202,37 +321,27 @@ class Object extends Entity implements IObject {
 	 * @return integer
 	 */
 	public function getCalendarData() {
-		return $this->vObject->serialize();
+		return $this->vobject->serialize();
 	}
 
 
 	/**
 	 * set the calendarData
 	 * @param string $data CalendarData
+	 * @throws CorruptDataException
+	 * @return $this
 	 */
 	public function setCalendarData($data) {
 		try {
 			$vobject = Reader::read($data);
-			$this->fromVObject($vobject);
+			if (!($vobject instanceof VCalendar)) {
+				$msg = 'CalendarData is not actual calendar-data!';
+				throw new CorruptDataException($msg);
+			}
+			return $this->fromVobject($vobject);
 		} catch(ParseException $ex) {
-			//TODO implement
-		} catch(EofException $ex) {
-			//TODO implement
+			throw new CorruptDataException($ex->getMessage(), $ex->getCode(), $ex);
 		}
-	}
-
-
-	/**
-	 * @brief get etag
-	 * @param bool $force
-	 * @return string
-	 */
-	public function getEtag($force=false) {
-		if($this->etag === null) {
-			$this->generateEtag();
-		}
-
-		return $this->etag;
 	}
 
 
@@ -241,52 +350,23 @@ class Object extends Entity implements IObject {
 	 * @return $this
 	 */
 	public function generateEtag() {
-		$etag  = $this->getObjectURI();
+		$etag  = $this->getUri();
 		$etag .= $this->getCalendarData();
 
-		return parent::setEtag(md5($etag));
+		return $this->setter('etag', md5($etag));
 	}
 
 
-	/**
-	 * @brief get ruds
-	 * @param boolean $force return value all the time
-	 * @return mixed (integer|null)
-	 */
-	public function getRuds($force=false) {
-		if ($this->ruds !== null) {
-			return $this->ruds;
-		} else {
-			if ($this->calendar instanceof Calendar) {
-				$cruds = $this->calendar->getCruds();
-				if ($cruds & Permissions::CREATE) {
-					$cruds -= Permissions::CREATE;
-				}
-				return $cruds;
-			}
-			return null;
-		}
-	}
 
-
-	/**
-	 * @brief set ruds value
-	 */
-	public function setRuds($ruds) {
-		if ($ruds & Permissions::CREATE) {
-			$ruds -= Permissions::CREATE;
-		}
-
-		$this->ruds = $ruds;
-		return $this;
-	}
 
 	/**
 	 * @brief get type of stored object
 	 * @return integer
 	 */
 	public function getType() {
-		return ObjectType::getTypeByString($this->objectName);
+		return ObjectType::getTypeByString(
+			$this->getObjectName()
+		);
 	}
 
 
@@ -295,8 +375,9 @@ class Object extends Entity implements IObject {
 	 * @return DateTime
 	 */
 	public function getStartDate() {
-		$objectName = $this->objectName;
-		return SabreUtility::getDTStart($this->vObject->{$objectName});
+		return SabreUtility::getDTStart(
+			$this->vobject->{$this->getObjectName()}
+		);
 	}
 
 
@@ -305,8 +386,9 @@ class Object extends Entity implements IObject {
 	 * @return DateTime
 	 */
 	public function getEndDate() {
-		$objectName = $this->objectName;
-		return SabreUtility::getDTEnd($this->vObject->{$objectName});
+		return SabreUtility::getDTEnd(
+			$this->vobject->{$this->getObjectName()}
+		);
 	}
 
 
@@ -315,17 +397,13 @@ class Object extends Entity implements IObject {
 	 * @return boolean
 	 */
 	public function getRepeating() {
-		$objectName = $this->objectName;
+		$objectName = $this->getObjectName();
 
-		if (isset($this->vObject->{$objectName}->{'RRULE'}) ||
-			isset($this->vObject->{$objectName}->{'RDATE'}) ||
-			isset($this->vObject->{$objectName}->{'EXRULE'}) ||
-			isset($this->vObject->{$objectName}->{'EXDATE'}) ||
-			isset($this->vObject->{$objectName}->{'RECURRENCE-ID'})) {
-			return true;
-		}
-
-		return false;
+		return (isset($this->vobject->{$objectName}->{'RRULE'}) ||
+				isset($this->vobject->{$objectName}->{'RDATE'}) ||
+				isset($this->vobject->{$objectName}->{'EXRULE'}) ||
+				isset($this->vobject->{$objectName}->{'EXDATE'}) ||
+				isset($this->vobject->{$objectName}->{'RECURRENCE-ID'}));
 	}
 
 
@@ -334,10 +412,10 @@ class Object extends Entity implements IObject {
 	 * @return mixed (string|null)
 	 */
 	public function getSummary() {
-		$objectName = $this->objectName;
+		$objectName = $this->getObjectName();
 
-		if (isset($this->vObject->{$objectName}->{'SUMMARY'})) {
-			return $this->vObject->{$objectName}->{'SUMMARY'}->getValue();
+		if (isset($this->vobject->{$objectName}->{'SUMMARY'})) {
+			return $this->vobject->{$objectName}->{'SUMMARY'}->getValue();
 		}
 
 		return null;
@@ -349,10 +427,10 @@ class Object extends Entity implements IObject {
 	 * @return mixed (DateTime|null)
 	 */
 	public function getLastModified() {
-		$objectName = $this->objectName;
+		$objectName = $this->getObjectName();
 
-		if (isset($this->vObject->{$objectName}->{'LAST-MODIFIED'})) {
-			return $this->vObject->{$objectName}->{'LAST-MODIFIED'}->getDateTime();
+		if (isset($this->vobject->{$objectName}->{'LAST-MODIFIED'})) {
+			return $this->vobject->{$objectName}->{'LAST-MODIFIED'}->getDateTime();
 		}
 
 		return null;
@@ -360,39 +438,10 @@ class Object extends Entity implements IObject {
 
 
 	/**
-	 * @brief check if object is valid
-	 * @return boolean
+	 * @brief get name of property inside $this->vobject
+	 * @return string
 	 */
-	public function isValid() {
-		$stringsOrNulls = array(
-			$this->etag
-		);
-
-		$strings = array(
-			$this->objectURI
-		);
-
-		foreach($stringsOrNulls as $stringOrNull) {
-			if(is_null($stringOrNull)) {
-				continue;
-			}
-
-			$strings[] = $stringOrNull;
-		}
-
-		foreach($strings as $string) {
-			if (!is_string($string)) {
-				return false;
-			}
-			if (trim($string) === '') {
-				return false;
-			}
-		}
-
-		if (!($this->calendar instanceof Calendar)) {
-			return false;
-		}
-
-		return true;
+	private function getObjectName() {
+		return $this->objectName;
 	}
 }

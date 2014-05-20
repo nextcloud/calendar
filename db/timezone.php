@@ -40,6 +40,10 @@ class Timezone extends Entity implements ITimezone {
 	 * @param string $from
 	 */
 	public function __construct($from) {
+		$this->addType('vobject', 'OCA\\Calendar\\Sabre\\vobject\\Component\\VCalendar');
+
+		$this->addMandatory('vobject');
+
 		if ($from instanceof VCalendar) {
 			$this->fromVObject($from);
 		} elseif (is_string($from)) {
@@ -49,15 +53,13 @@ class Timezone extends Entity implements ITimezone {
 
 
 	/**
-	 * @brief check if object is valid
-	 * @return bool
+	 * @param VCalendar $vcalendar
+	 * @return $this
+	 * @throws MultipleObjectsReturnedException
+	 * @throws DoesNotExistException
 	 */
-	public function isValid() {
-		if ($this->vobject instanceof VCalendar) {
-			return true;
-		} else {
-			return false;
-		}
+	public function fromVObject(VCalendar $vcalendar) {
+		return $this->setVobject($vcalendar);
 	}
 
 
@@ -89,7 +91,7 @@ class Timezone extends Entity implements ITimezone {
 	 * @throws MultipleObjectsReturnedException
 	 * @throws DoesNotExistException
 	 */
-	public function fromVObject(VCalendar $vcalendar) {
+	public function setVobject(VCalendar $vcalendar) {
 		if (!isset($vcalendar->{'VTIMEZONE'})) {
 			throw new DoesNotExistException('no vtimezones found');
 		}
@@ -97,8 +99,7 @@ class Timezone extends Entity implements ITimezone {
 			throw new MultipleObjectsReturnedException('multiple vtimezones found');
 		}
 
-		$this->vobject = $vcalendar;
-		return $this;
+		return $this->setter('vobject', $vcalendar);
 	}
 
 
@@ -116,10 +117,12 @@ class Timezone extends Entity implements ITimezone {
 	 * @return string
 	 */
 	public function getTzId() {
-		if(!($this->vobject instanceof VCalendar)) {
-			return null;
+		$vcalendar = $this->getter('vobject');
+
+		if ($vcalendar instanceof VCalendar && isset($vcalendar->{'VTIMEZONE'})) {
+			return $vcalendar->{'VTIMEZONE'}->{'TZID'};
 		} else {
-			return $this->vobject->{'VTIMEZONE'}->{'TZID'};
+			return null;
 		}
 	}
 

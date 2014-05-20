@@ -12,6 +12,7 @@ use \OCA\Calendar\Sabre\VObject\Component\VEvent;
 use \OCA\Calendar\Sabre\VObject\Component\VJournal;
 use \OCA\Calendar\Sabre\VObject\Component\VTodo;
 use OCP\Calendar\ICollection;
+use OCP\Calendar\IEntity;
 
 abstract class Collection implements ICollection {
 
@@ -47,7 +48,7 @@ abstract class Collection implements ICollection {
 	 * @param integer $nth insert at index, if not set, entity will be appended
 	 * @return $this
 	 */
-	public function add(Entity $object, $nth=null) {
+	public function add(IEntity $object, $nth=null) {
 		if ($nth === null) {
 			$this->objects[$this->count()] = $object;
 		} else {
@@ -68,7 +69,7 @@ abstract class Collection implements ICollection {
 	 * @param integer $nth insert at index, if not set, collection will be appended
 	 * @return integer
 	 */
-	public function addCollection(Collection $collection, $nth=null) {
+	public function addCollection(ICollection $collection, $nth=null) {
 		if ($nth === null) {
 			$nth = $this->count();
 		}
@@ -127,7 +128,7 @@ abstract class Collection implements ICollection {
 	 * @param Entity $entity
 	 * @return $this
 	 */
-	public function removeByEntity(Entity $entity) {
+	public function removeByEntity(IEntity $entity) {
 		if (in_array($entity, $this->objects)) {
 			for($i = 0; $i < $this->count(); $i++) {
 				//use of (==) instead of (===) is intended!
@@ -278,7 +279,7 @@ abstract class Collection implements ICollection {
 	 * @param Entity $object
 	 * @return boolean
 	 */
-	public function inCollection(Entity $object) {
+	public function inCollection(IEntity $object) {
 		return in_array($object, $this->objects);
 	}
 

@@ -35,6 +35,13 @@ abstract class Entity implements IEntity{
 
 
 	/**
+	 * @brief fields that are mandatory for a valid Entity
+	 * @var array
+	 */
+	protected $mandatory = array();
+
+
+	/**
 	 * Simple alternative constructor for building entities from a request
 	 * @param array $params the array which was obtained via $this->params('key')
 	 * in the controller
@@ -72,10 +79,10 @@ abstract class Entity implements IEntity{
 	/**
 	 * @brief overwrite current objects with properties 
 	 *        from $object that are not null
-	 * @param \OCA\Calendar\Db\Entity $object
+	 * @param IEntity $object
 	 * @return $this
 	 */
-	public function overwriteWith(Entity $object) {
+	public function overwriteWith(IEntity $object) {
 		$properties = get_object_vars($this);
 
 		unset($properties['id']);
@@ -137,6 +144,8 @@ abstract class Entity implements IEntity{
 			throw new \BadFunctionCallException($name . 
 				' is not a valid attribute');
 		}
+
+		return $this;
 	}
 
 
@@ -162,7 +171,6 @@ abstract class Entity implements IEntity{
 
 		if (strpos($methodName, 'set') === 0){
 			$this->setter($attr, $args);
-			return $this;
 		} elseif (strpos($methodName, 'get') === 0) {
 			return $this->getter($attr);
 		} else {
@@ -243,6 +251,10 @@ abstract class Entity implements IEntity{
 	}
 
 
+	protected function addMandatory($fieldName) {
+		$this->mandatory[] = $fieldName;
+	}
+
 	/**
 	 * Slugify the value of a given attribute
 	 * Warning: This doesn't result in a unique value
@@ -271,6 +283,14 @@ abstract class Entity implements IEntity{
 	 * @return bool
 	 */
 	public function isValid() {
+		$mandatoryFields = $this->mandatory;
+
+		foreach($mandatoryFields as $field) {
+			if($this->getter($field) === null) {
+				return false;
+			}
+		}
+
 		return true;
 	}
 

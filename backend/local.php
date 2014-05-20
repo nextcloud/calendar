@@ -25,23 +25,28 @@
  */
 namespace OCA\Calendar\Backend;
 
-use \OCP\AppFramework\IAppContainer;
+use OCP\AppFramework\IAppContainer;
 
-use \OCA\Calendar\Db\DoesNotExistException;
-use \OCA\Calendar\Db\MultipleObjectsReturnedException;
-use \OCA\Calendar\Db\CorruptDataException;
+use OCP\Calendar\ICalendar;
+use OCP\Calendar\ICalendarCollection;
+use OCP\Calendar\IObject;
+use OCP\Calendar\IObjectCollection;
 
-use \OCA\Calendar\Db\Calendar;
-use \OCA\Calendar\Db\CalendarCollection;
+use OCP\Calendar\ObjectType;
+use OCP\Calendar\Permissions;
 
-use \OCA\Calendar\Db\Object;
-use \OCA\Calendar\Db\ObjectCollection;
+use OCP\Calendar\BackendException;
+use OCP\Calendar\CacheOutDatedException;
+use OCP\Calendar\CorruptDataException;
+use OCP\Calendar\DoesNotExistException;
+use OCP\Calendar\MultipleObjectsReturnedException;
 
-use \OCA\Calendar\Db\Timezone;
-use \OCA\Calendar\Db\TimezoneCollection;
-
-use \OCA\Calendar\Db\ObjectType;
-use \OCA\Calendar\Db\Permissions;
+use OCA\Calendar\Db\Calendar;
+use OCA\Calendar\Db\CalendarCollection;
+use OCA\Calendar\Db\Object;
+use OCA\Calendar\Db\ObjectCollection;
+use OCA\Calendar\Db\Timezone;
+use OCA\Calendar\Db\TimezoneCollection;
 
 use \OCA\Calendar\Utility\ObjectUtility;
 
@@ -95,8 +100,6 @@ class Local extends Backend {
 									$parameters['objTableName'] : 
 									'*PREFIX*clndr_objects');
 
-		$this->timezoneMapper = $app->query('TimezoneMapper');
-
 		$columns  = '`uri`, `calendarData`';
 		$this->columnsToQuery = $columns;
 
@@ -123,7 +126,7 @@ class Local extends Backend {
 		return array(
 			array(
 				'name' => 'this ownCloud',
-				'l10n' => 'this ownCloud', //TODO - translate
+				'l10n' => \OC::$server->getL10N('calendar')->t('this ownCloud'),
 				'prefix' => '',
 			),
 		);
@@ -139,9 +142,9 @@ class Local extends Backend {
 	 * @return Calendar
 	 */
 	public function findCalendar($calendarURI, $userId) {
-		$caltbl = $this->calTableName;
+		$table = $this->getCalendarTableName();
 
-		$sql  = 'SELECT * FROM `' . $caltbl . '` WHERE `uri` = ? AND `userid` = ?';
+		$sql  = 'SELECT * FROM `' . $table . '` WHERE `uri` = ? AND `userid` = ?';
 		$result = \OCP\DB::prepare($sql)->execute(array(
 			$calendarURI,
 			$userId
@@ -174,9 +177,9 @@ class Local extends Backend {
 	 * @return CalendarCollection
 	 */
 	public function findCalendars($userId, $limit, $offset) {
-		$caltbl = $this->calTableName;
+		$table = $this->getCalendarTableName();
 
-		$sql  = 'SELECT * FROM `' . $caltbl . '` ';
+		$sql  = 'SELECT * FROM `' . $table . '` ';
 		$sql .= 'WHERE `userid` = ? ORDER BY `calendarorder`';
 		$result = \OCP\DB::prepare($sql, $limit, $offset)->execute(array(
 			$userId
@@ -206,7 +209,7 @@ class Local extends Backend {
 	 * @return integer
 	 */
 	public function countCalendars($userId) {
-		$caltbl = $this->calTableName;
+		$caltbl = $this->getCalendarTableName();
 
 		$sql  = 'SELECT COUNT(*) FROM `' . $caltbl . '` WHERE `userid` = ?';
 		$result	= \OCP\DB::prepare($sql)->execute(array(
@@ -307,10 +310,10 @@ class Local extends Backend {
 
 	/**
 	 * Create a calendar
-	 * @param Calendar $calendar
+	 * @param ICalendar $calendar
 	 * @throws CacheOutDatedException if calendar already exists
 	 */
-	public function createCalendar(Calendar &$calendar) {
+	public function createCalendar(ICalendar &$calendar) {
 		$calendarURI = $calendar->getUri();
 		$userId = $calendar->getUserId();
 
@@ -436,7 +439,7 @@ class Local extends Backend {
 		$objtbl = $this->objTableName;
 
 		$sql1 = 'UPDATE `' . $objtbl . '` SET `calendarid` = ? WHERE `calendarId` = ?';
-		$result = \OCP\DB::prepare($sql)->execute(array(
+		$result = \OCP\DB::prepare($sql1)->execute(array(
 			$newCalendarId,
 			$oldCalendarId
 		));
@@ -499,7 +502,7 @@ class Local extends Backend {
 	 * @throws MultipleObjectsReturnedException if more than one result found
 	 * @return Object
 	 */
-	public function findObject(Calendar &$calendar, $objectURI) {
+	public function findObject(ICalendar &$calendar, $objectURI) {
 		$calendarURI = $calendar->getUri();
 		$userId = $calendar->getUserId();
 
@@ -545,7 +548,7 @@ class Local extends Backend {
 	 * @throws CacheOutDatedException
 	 * @return ObjectCollection
 	 */
-	public function findObjects(Calendar &$calendar, $limit, $offset) {
+	public function findObjects(ICalendar &$calendar, $limit, $offset) {
 		$calendarURI = $calendar->getUri();
 		$userId = $calendar->getUserId();
 
@@ -590,7 +593,7 @@ class Local extends Backend {
 	 * @throws CacheOutDatedException
 	 * @return ObjectCollection
 	 */
-	public function findObjectsInPeriod(Calendar $calendar, DateTime $start, DateTime $end, $limit, $offset){
+	public function findObjectsInPeriod(ICalendar $calendar, DateTime $start, DateTime $end, $limit, $offset){
 		$calendarURI = $calendar->getUri();
 		$userId = $calendar->getUserId();
 
@@ -744,7 +747,7 @@ class Local extends Backend {
 	 * @param Calendar $calendar
 	 * @return integer
 	 */
-	public function countObjects(Calendar $calendar) {
+	public function countObjects(ICalendar $calendar) {
 		$calendarURI = $calendar->getUri();
 		$userId = $calendar->getUserId();
 
@@ -775,7 +778,7 @@ class Local extends Backend {
 	 * @param string $objectURI
 	 * @return boolean
 	 */
-	public function doesObjectExist(Calendar $calendar, $objectURI) {
+	public function doesObjectExist(ICalendar $calendar, $objectURI) {
 		$calendarURI = $calendar->getUri();
 		$userId = $calendar->getUserId();
 
@@ -813,7 +816,7 @@ class Local extends Backend {
 	 * @param string $objectURI
 	 * @return boolean
 	 */
-	public function doesObjectAllow($cruds, Calendar $calendar, $objectURI) {
+	public function doesObjectAllow(ICalendar $calendar, $objectURI, $cruds) {
 		return ($cruds & Permissions::ALL);
 	}
 
@@ -824,7 +827,7 @@ class Local extends Backend {
 	 * @param string $objectURI
 	 * @return integer
 	 */
-	public function getObjectsETag(Calendar $calendar, $objectURI) {
+	public function getObjectsETag(ICalendar $calendar, $objectURI) {
 		$object = $this->findObject($calendar, $objectURI);
 		return $object->generateEtag()->getEtag();
 	}
@@ -925,7 +928,7 @@ class Local extends Backend {
 	 * @throws CacheOutDatedException if calendar does not exist
 	 * @return Calendar
 	 */
-	public function moveObject(Object &$object, Calendar $oldCalendar) {
+	public function moveObject(Object &$object, ICalendar $oldCalendar) {
 		$newCalendarURI = $object->getCalendar()->getUri();
 		$oldCalendarURI = $oldCalendar->getUri();
 
@@ -958,7 +961,7 @@ class Local extends Backend {
 	 * @throws CacheOutDatedException if calendar does not exist
 	 * @return Calendar
 	 */
-	public function transferObject(Object &$object, Calendar $oldCalendar) {
+	public function transferObject(IObject &$object, ICalendar $oldCalendar) {
 		$newCalendarURI = $object->getCalendar()->getUri();
 		$oldCalendarURI = $oldCalendar->getUri();
 
@@ -973,7 +976,7 @@ class Local extends Backend {
 	 * @param Calendar $oldCalendar
 	 * @throws CacheOutDatedException if calendar does not exist
 	 */
-	public function deleteObject(Object $object){
+	public function deleteObject(IObject $object){
 		$calendarURI = $object->getCalendar()->getUri();
 		$objectURI = $object->getObjectURI();
 		$userId = $object->getCalendar()->getUserId();
@@ -1003,7 +1006,7 @@ class Local extends Backend {
 	 * @param integer $offset
 	 * @return ObjectCollection
 	 */
-	public function searchByProperties(Calendar $calendar, array $properties=array(), $limit, $offset) {
+	public function searchByProperties(ICalendar $calendar, array $properties=array(), $limit, $offset) {
 		if (!$this->doesCalendarExist($calendarURI, $userId)) {
 			$msg  = 'Backend\Local::createObject(): Internal Error: ';
 			$msg .= 'Calendar not fouund!';
@@ -1198,5 +1201,23 @@ class Local extends Backend {
 	 */
 	public function canStoreOrder() {
 		return true;
+	}
+
+
+	/**
+	 * @brief get table name for calendars
+	 * @return string
+	 */
+	private function getCalendarTableName() {
+		return $this->calTableName;
+	}
+
+
+	/**
+	 * @brief get table name for objects
+	 * @return string
+	 */
+	private function getObjectTableName() {
+		return $this->objTableName;
 	}
 }

@@ -7,14 +7,4 @@
  */
 namespace OCA\Calendar\Db;
 
-class Permissions {
-	const CREATE	= 4;
-	const READ		= 1;
-	const UPDATE	= 2;
-	const DELETE	= 8;
-	const SHARE		= 16;
-	const ALL		= 31;
-
-	const ALL_CALENDAR = 31;
-	const ALL_OBJECT = 27;
-}
+class Permissions extends \OCP\Calendar\Permissions {}

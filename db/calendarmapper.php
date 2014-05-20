@@ -64,6 +64,27 @@ class CalendarMapper extends Mapper {
 
 
 	/**
+	 * find calendar's ctag
+	 * @param string $backend
+	 * @param string $uri
+	 * @param string $userId
+	 * @throws DoesNotExistException: if the item does not exist
+	 * @throws MultipleObjectsReturnedException: if more than one item found
+	 * @return calendar object
+	 */
+	public function findCTag($backend, $uri, $userId) {
+		$sql  = 'SELECT `ctag` FROM `' . $this->getTableName() . '` ';
+		$sql .= 'WHERE `backend` = ? AND `uri` = ? AND `user_id` = ?';
+
+		$row = $this->findOneQuery($sql, array(
+			$backend, $uri, $userId
+		));
+
+		return intval($row['ctag']);
+	}
+
+
+	/**
 	 * find all calendars of a user
 	 * @param string $userId
 	 * @param integer $limit

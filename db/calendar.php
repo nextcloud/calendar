@@ -7,28 +7,93 @@
  */
 namespace OCA\Calendar\Db;
 
-use \OCA\Calendar\Sabre\VObject\Component\VCalendar;
+use OCA\Calendar\Sabre\VObject\Component\VCalendar;
 
-use \OCA\Calendar\Utility\CalendarUtility;
-use \OCA\Calendar\Utility\RegexUtility;
-use \OCA\Calendar\Utility\Utility;
 use OCP\Calendar\ICalendar;
+use OCP\Calendar\ITimezone;
+
+use OCA\Calendar\Utility\CalendarUtility;
+use OCA\Calendar\Utility\RegexUtility;
 
 class Calendar extends Entity implements ICalendar {
 
-	public $id;
+	/**
+	 * @var string
+	 */
 	public $userId;
+
+
+	/**
+	 * @var string
+	 */
 	public $ownerId;
+
+
+	/**
+	 * @var string
+	 */
 	public $backend;
+
+
+	/**
+	 * @var string
+	 */
 	public $uri;
+
+
+	/**
+	 * @var string
+	 */
 	public $displayname;
+
+
+	/**
+	 * @var integer
+	 */
 	public $components;
+
+
+	/**
+	 * @var integer
+	 */
 	public $ctag;
+
+
+	/**
+	 * @var ITimezone
+	 */
 	public $timezone;
+
+
+	/**
+	 * @var string
+	 */
 	public $color;
+
+
+	/**
+	 * @var integer
+	 */
 	public $order;
+
+
+	/**
+	 * @var bool
+	 */
 	public $enabled;
+
+
+	/**
+	 * @var integer
+	 */
 	public $cruds;
+
+
+	/**
+	 * @var string
+	 */
+	public $description;
+
 
 	/**
 	 * @brief init Calendar object with data from db row
@@ -47,12 +112,13 @@ class Calendar extends Entity implements ICalendar {
 		$this->addType('enabled', 'boolean');
 		$this->addType('cruds', 'integer');
 
-		//fill-up default values
-		$this->setCtag(0);
-		$this->setTimezone(new Timezone('UTC'));
-		$this->setColor('#FFFFFF');
-		$this->setOrder(0);
-		$this->setEnabled(true);
+		$this->addMandatory('userId');
+		$this->addMandatory('ownerId');
+		$this->addMandatory('backend');
+		$this->addMandatory('uri');
+		$this->addMandatory('ctag');
+		$this->addMandatory('cruds');
+		$this->addMandatory('enabled');
 
 		//create from array
 		if (is_array($createFrom)){
@@ -67,23 +133,298 @@ class Calendar extends Entity implements ICalendar {
 
 
 	/**
-	 * @brief create calendar object from VCalendar
-	 * @param VCalendar $vCalendar
+	 * @param string $backend
 	 * @return $this
 	 */
-	public function fromVObject(VCalendar $vCalendar) {
-		if (isset($vCalendar->{'X-WR-CALNAME'})) {
-			$this->setDisplayname($vCalendar->{'X-WR-CALNAME'});
+	public function setBackend($backend) {
+		return $this->setter('backend', $backend);
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getBackend() {
+		return $this->getter('backend');
+	}
+
+
+	/**
+	 * @param string $calendarId
+	 * @return $this
+	 */
+	public function setCalendarId($calendarId) {
+		list($backend, $uri) = CalendarUtility::splitURI($calendarId);
+
+		if ($backend !== false && $uri !== false) {
+			$this->setter('backend', $backend);
+			return $this->setter('uri', $uri);
+		} else {
+			return $this;
+		}
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getCalendarId(){
+		return CalendarUtility::getURI(
+			$this->getBackend(),
+			$this->getUri()
+		);
+	}
+
+
+	/**
+	 * @param string $color
+	 * @return $this
+	 */
+	public function setColor($color) {
+		if (preg_match(RegexUtility::RGBA, $this->color)) {
+			return $this->setter('color', $color);
+		} else {
+			return $this;
+		}
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getColor() {
+		return $this->getter('color');
+	}
+
+
+	/**
+	 * @param int $cruds
+	 * @return $this
+	 */
+	public function setCruds($cruds) {
+		if ($cruds >= 0 && $cruds <= Permissions::ALL) {
+			return $this->setter('cruds', $cruds);
+		} else {
+			return $this;
+		}
+	}
+
+
+	/**
+	 * @return int
+	 */
+	public function getCruds() {
+		return $this->getter('cruds');
+	}
+
+
+	/**
+	 * @param int $components
+	 * @return $this
+	 */
+	public function setComponents($components) {
+		if ($components >= 0 && $components <= ObjectType::ALL) {
+			return $this->setter('components', $components);
+		} else {
+			return $this;
+		}
+	}
+
+
+	/**
+	 * @return int
+	 */
+	public function getComponents() {
+		return $this->getter('components');
+	}
+
+
+	/**
+	 * @param int $ctag
+	 * @return $this
+	 */
+	public function setCtag($ctag) {
+		return $this->setter('ctag', $ctag);
+	}
+
+
+	/**
+	 * @return int
+	 */
+	public function getCtag() {
+		return $this->getter('ctag');
+	}
+
+
+	/**
+	 * @param string $description
+	 * @return $this
+	 */
+	public function setDescription($description) {
+		return $this->setter('description', $description);
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getDescription() {
+		return $this->getter('description');
+	}
+
+
+	/**
+	 * @param string $displayname
+	 * @return $this
+	 */
+	public function setDisplayname($displayname) {
+		return $this->setter('displayname', $displayname);
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getDisplayname() {
+		return $this->getter('displayname');
+	}
+
+
+	/**
+	 * @param boolean $enabled
+	 */
+	public function setEnabled($enabled) {
+		$this->setter('enabled', $enabled);
+	}
+
+
+	/**
+	 * @return boolean
+	 */
+	public function getEnabled() {
+		return $this->getter('enabled');
+	}
+
+
+	/**
+	 * @param int $order
+	 * @return $this
+	 */
+	public function setOrder($order) {
+		$this->setter('order', $order);
+	}
+
+
+	/**
+	 * @return int
+	 */
+	public function getOrder() {
+		return $this->getter('order');
+	}
+
+
+	/**
+	 * @param string $ownerId
+	 * @return $this
+	 */
+	public function setOwnerId($ownerId) {
+		return $this->setter('ownerId', $ownerId);
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getOwnerId() {
+		return $this->getter('ownerId');
+	}
+
+
+	/**
+	 * @param ITimezone $timezone
+	 * @return $this
+	 */
+	public function setTimezone(ITimezone $timezone) {
+		if ($timezone->isValid()) {
+			return $this->setter('timezone', $timezone);
+		} else {
+			return $this;
+		}
+	}
+
+
+	/**
+	 * @return ITimezone
+	 */
+	public function getTimezone() {
+		return $this->getter('timezone');
+	}
+
+
+	/**
+	 * @param string $uri
+	 * @return $this
+	 */
+	public function setUri($uri) {
+		$slugify = CalendarUtility::slugify($uri);
+		return $this->setter('uri', $slugify);
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getUri() {
+		return $this->getter('uri');
+	}
+
+
+	/**
+	 * @param string $userId
+	 * @return $this
+	 */
+	public function setUserId($userId) {
+		return $this->setter('userId', $userId);
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getUserId() {
+		return $this->getter('userId');
+	}
+
+
+	/**
+	 * @brief create calendar object from VCalendar
+	 * @param VCalendar $vcalendar
+	 * @return $this
+	 */
+	public function fromVObject(VCalendar $vcalendar) {
+		foreach($vcalendar->select('X-WR-CALNAME') as $displayname) {
+			$this->setDisplayname($displayname);
+			break;
 		}
 
-		/*if (isset($vCalendar->{'X-WR-TIMEZONE'})) {
-			try {
-				$this->setTimezone(new Timezone($vCalendar->{'X-WR-TIMEZONE'}));
-			} catch(\Exception $ex) {}
-		}*/
+		foreach($vcalendar->select('X-WR-CALDESC') as $description) {
+			$this->setDescription($description);
+			break;
+		}
 
-		if (isset($vCalendar->{'X-APPLE-CALENDAR-COLOR'})) {
-			$this->setColor($vCalendar->{'X-APPLE-CALENDAR-COLOR'});
+		foreach($vcalendar->select('X-WR-TIMEZONE') as $timezone) {
+			foreach($vcalendar->select('VTIMEZONE') as $vtimezone) {
+				if($vtimezone->TZID === $timezone) {
+					$this->setTimezone(new Timezone($vtimezone));
+					break;
+				}
+			}
+			break;
+		}
+
+		foreach($vcalendar->select('X-APPLE-CALENDAR-COLOR') as $color) {
+			$this->setColor($color);
+			break;
 		}
 
 		return $this;
@@ -95,15 +436,36 @@ class Calendar extends Entity implements ICalendar {
 	 * @return VCalendar object
 	 */
 	public function getVObject() {
-		$properties = array(
-			'X-WR-CALNAME' => $this->getDisplayname(),
-			'X-WR-TIMEZONE' => $this->getTimezone(),
-			'X-APPLE-CALENDAR-COLOR' => $this->getColor(),
-		);
-		$vCalendar = new VCalendar($properties);
-		//$vCalendar->addComponent($this->timezone->getVObject());
+		$properties = array();
+		$add = array();
 
-		return $vCalendar;
+		$displayname = $this->getDisplayname();
+		if ($displayname !== null) {
+			$properties['X-WR-CALNAME'] = $displayname;
+		}
+
+		$description = $this->getDescription();
+		if ($description !== null) {
+			$properties['X-WR-CALDESC'] = $description;
+		}
+
+		$timezone = $this->getTImezone();
+		if ($timezone instanceof ITimezone) {
+			$properties['X-WR-TIMEZONE'] = (string) $timezone;
+			$add[] = $timezone->getVObject();
+		}
+
+		$color = $this->getColor();
+		if ($color !== null) {
+			$properties['X-APPLE-CALENDAR-COLOR'] = $color;
+		}
+
+		$vcalendar = new VCalendar($properties);
+		foreach($add as $element) {
+			$vcalendar->add($element);
+		}
+
+		return $vcalendar;
 	}
 
 
@@ -134,126 +496,6 @@ class Calendar extends Entity implements ICalendar {
 	public function touch() {
 		$this->ctag++;
 		return $this;
-	}
-
-
-	/**
-	 * @brief set uri property
-	 */
-	public function setUri($uri) {
-		$slugified = CalendarUtility::slugify($uri);
-		return parent::setUri($slugified);
-	}
-
-
-	/**
-	 * @brief set timezone
-	 * @param \OCA\Calendar\Db\Timezone $timezone
-	 */
-	public function setTimezone(Timezone $timezone) {
-		return parent::setTimezone($timezone);
-	}
-
-
-	/**
-	 * @brief get calendarId of object
-	 * @return string
-	 */
-	public function getCalendarId(){
-		$backend = $this->backend;
-		$calendarURI = $this->uri;
-
-		$calendarId = CalendarUtility::getURI($backend, $calendarURI);
-		
-		return $calendarId;
-	}
-
-
-	/**
-	 * @brief update backend and uri by calendarId
-	 * @param string $calendarId
-	 * @return mixed
-	 *         $this if calendarId was set
-	 *         false if calendarId could not be set
-	 */
-	public function setCalendarId($calendarId) {
-		list($backend, $calendarURI) = CalendarUtility::splitURI($calendarId);
-
-		if ($backend !== false && $calendarURI !== false) {
-			$this->backend = $backend;
-			$this->uri = $calendarURI;
-
-			return $this;
-		}
-
-		return false;
-	}
-
-
-	/**
-	 * @brief check if object is valid
-	 * @return boolean
-	 */
-	public function isValid() {
-		$strings = array(
-			$this->userId, $this->ownerId, $this->backend,
-			$this->uri, $this->displayname, $this->color
-		);
-
-		foreach($strings as $string) {
-			if (!is_string($string)) {
-				return false;
-			}
-			if (trim($string) === '') {
-				return false;
-			}
-		}
-
-		$uInts = array(
-			$this->components, $this->ctag,
-			$this->order, $this->cruds
-		);
-
-		foreach($uInts as $integer) {
-			if (!is_int($integer)) {
-				return false;
-			}
-			if ($integer < 0) {
-				return false;
-			}
-		}
-
-		$booleans = array(
-			$this->enabled
-		);
-
-		foreach($booleans as $boolean) {
-			if (!is_bool($boolean)) {
-				return false;
-			}
-		}
-
-		if (preg_match(RegexUtility::URI, $this->uri) !== 1) {
-			return false;
-		}
-
-		if (preg_match(RegexUtility::RGBA, $this->color) !== 1) {
-			return false;
-		}
-
-		if ($this->components > ObjectType::ALL) {
-			return false;
-		}
-
-		if ($this->cruds > Permissions::ALL) {
-			return false;
-		}
- 
-		if (($this->timezone instanceof Timezone) && !$this->timezone->isValid()) {
-			return false;
-		}
-
-		return true;
 	}
 
 

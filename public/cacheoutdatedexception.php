@@ -19,10 +19,6 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCA\Calendar\Backend;
+namespace OCP\Calendar;
 
-class BackendException extends \Exception {
-	const OTHER = -1;
-	const CACHEOUTDATED = 1;
-	const DOESNOTIMPLEMENT = 2;
-}
+class CacheOutDatedException extends \Exception{}

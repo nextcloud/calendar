@@ -21,28 +21,16 @@
  */
 namespace OCA\Calendar\Backend;
 
-use \OCP\AppFramework\IAppContainer;
+use OCP\AppFramework\IAppContainer;
 
-use \OCA\Calendar\Db\Calendar;
+use OCP\Calendar\ICalendar;
+use OCP\Calendar\ICalendarCollection;
+use OCP\Calendar\IObject;
+use OCP\Calendar\IObjectCollection;
 
-use \OCA\Calendar\Db\ObjectType;
-use \OCA\Calendar\Db\Permissions;
+use OCA\Calendar\Db\DoesNotExistException;
+use OCA\Calendar\Db\MultipleObjectsReturnedException;
 
-//constants
-define('OCA\Calendar\Backend\NOT_IMPLEMENTED',  	 	-501);
-define('OCA\Calendar\Backend\CREATE_CALENDAR', 			   1);
-define('OCA\Calendar\Backend\UPDATE_CALENDAR',			   2);
-define('OCA\Calendar\Backend\DELETE_CALENDAR',			   4);
-define('OCA\Calendar\Backend\MERGE_CALENDAR',			   8);
-define('OCA\Calendar\Backend\MOVE_CALENDAR',			  16);
-define('OCA\Calendar\Backend\CREATE_OBJECT',			  32);
-define('OCA\Calendar\Backend\UPDATE_OBJECT',			  64);
-define('OCA\Calendar\Backend\DELETE_OBJECT',			 128);
-define('OCA\Calendar\Backend\FIND_IN_PERIOD',			 256);
-define('OCA\Calendar\Backend\FIND_OBJECTS_BY_TYPE',		 512);
-define('OCA\Calendar\Backend\FIND_IN_PERIOD_BY_TYPE',	1024);
-define('OCA\Calendar\Backend\SEARCH_BY_PROPERTIES',		2048);
-define('OCA\Calendar\Backend\PROVIDES_CRON_SCRIPT',		4096);
 
 abstract class Backend implements IBackend {
 
@@ -61,29 +49,48 @@ abstract class Backend implements IBackend {
 
 
 	/**
+	 * constants for actions
+	 */
+	const NOT_IMPLEMENTED = -501;
+	const CREATE_CALENDAR =  1;
+	const UPDATE_CALENDAR = 2;
+	const DELETE_CALENDAR = 4;
+	const MERGE_CALENDAR = 8;
+	const MOVE_CALENDAR = 16;
+	const CREATE_OBJECT = 32;
+	const UPDATE_OBJECT = 64;
+	const DELETE_OBJECT = 128;
+	const FIND_IN_PERIOD = 256;
+	const FIND_OBJECTS_BY_TYPE = 512;
+	const FIND_IN_PERIOD_BY_TYPE = 1024;
+	const SEARCH_BY_PROPERTIES = 2048;
+	const PROVIDES_CRON_SCRIPT = 4096;
+
+
+	/**
 	 * maps action-constants to method names
-	 * @var arrray
+	 * @var array
 	 */
 	protected $possibleActions = array(
-		CREATE_CALENDAR 		=> 'createCalendar',
-		UPDATE_CALENDAR			=> 'updateCalendar',
-		DELETE_CALENDAR 		=> 'deleteCalendar',
-		MERGE_CALENDAR 			=> 'mergeCalendar',
-		MOVE_CALENDAR			=> 'moveCalendar',
-		CREATE_OBJECT 			=> 'createObject',
-		UPDATE_OBJECT 			=> 'updateObject',
-		DELETE_OBJECT 			=> 'deleteObject',
-		FIND_IN_PERIOD 			=> 'findObjectsInPeriod',
-		FIND_OBJECTS_BY_TYPE	=> 'findObjectsByType',
-		FIND_IN_PERIOD_BY_TYPE	=> 'findObjectsByTypeInPeriod',
-		SEARCH_BY_PROPERTIES	=> 'searchByProperties',
+		self::CREATE_CALENDAR => 'createCalendar',
+		self::UPDATE_CALENDAR => 'updateCalendar',
+		self::DELETE_CALENDAR => 'deleteCalendar',
+		self::MERGE_CALENDAR => 'mergeCalendar',
+		self::MOVE_CALENDAR => 'moveCalendar',
+		self::CREATE_OBJECT => 'createObject',
+		self::UPDATE_OBJECT => 'updateObject',
+		self::DELETE_OBJECT => 'deleteObject',
+		self::FIND_IN_PERIOD => 'findObjectsInPeriod',
+		self::FIND_OBJECTS_BY_TYPE => 'findObjectsByType',
+		self::FIND_IN_PERIOD_BY_TYPE => 'findObjectsByTypeInPeriod',
+		self::SEARCH_BY_PROPERTIES => 'searchByProperties',
 	);
 
 
 	/**
 	 * Constructor
-	 * @param \OCP\AppFramework\IAppContainer $api
-	 * @param string $backendName
+	 * @param IAppContainer $app
+	 * @param string $backend
 	 */
 	public function __construct(IAppContainer $app, $backend=null){
 		$this->app = $app;
@@ -141,6 +148,7 @@ abstract class Backend implements IBackend {
 		return true;
 	}
 
+
 	/**
 	 * @brief returns list of available uri prefixes
 	 * @returns array
@@ -151,11 +159,21 @@ abstract class Backend implements IBackend {
 
 
 	/**
+	 * @brief returns list of subscription types supported by backend
+	 * @returns array
+	 */
+	public function getAvailableSubscriptionTypes() {
+		return array();
+	}
+
+
+	/**
 	 * @brief returns information about calendar $calendarURI of the user $userId
 	 * @param string $calendarURI
 	 * @param string $userId
-	 * @returns \OCA\Calendar\Db\Calendar object
+	 * @returns ICalendar
 	 * @throws DoesNotExistException if uri does not exist
+	 * @throws MultipleObjectsReturnedException
 	 */
 	abstract public function findCalendar($calendarURI, $userId);
 
@@ -163,33 +181,55 @@ abstract class Backend implements IBackend {
 	/**
 	 * @brief returns all calendars of the user $userId
 	 * @param string $userId
-	 * @returns \OCA\Calendar\Db\CalendarCollection
+	 * @param integer $limit
+	 * @param integer $offset
+	 * @returns ICalendarCollection
 	 * @throws DoesNotExistException if uri does not exist
 	 */
 	abstract public function findCalendars($userId, $limit, $offset);
 
 
 	/**
+	 * @param string $userId
+	 * @param integer $limit
+	 * @param integer $offset
+	 * @return array
+	 */
+	public function getCalendarIdentifiers($userId, $limit, $offset) {
+		$calendars = $this->findCalendars($userId, $limit, $offset);
+		$identifiers = array();
+
+		$calendars->iterate(function(ICalendar &$calendar) use (&$identifiers) {
+			$identifiers[] = $calendar->getUri();
+		});
+
+		return $identifiers;
+	}
+
+
+	/**
 	 * @brief returns number of calendar
-	 * @param string $userid
+	 * @param string $userId
 	 * @returns integer
 	 */
 	public function countCalendars($userId) {
-		return $this->findCalendars($userId)->count();
+		return $this->findCalendars($userId, null, null)->count();
 	}
 
 
 	/**
 	 * @brief returns whether or not a calendar exists
 	 * @param string $calendarURI
-	 * @param string $userid
+	 * @param string $userId
 	 * @returns boolean
 	 */
 	public function doesCalendarExist($calendarURI, $userId) {
 		try {
 			$this->findCalendar($calendarURI, $userId);
 			return true;
-		} catch (Exception $ex) {
+		} catch (DoesNotExistException $ex) {
+			return false;
+		} catch (MultipleObjectsReturnedException $ex) {
 			return false;
 		}
 	}
@@ -198,61 +238,82 @@ abstract class Backend implements IBackend {
 	/**
 	 * @brief returns ctag of a calendar
 	 * @param string $calendarURI
-	 * @param string $userid
+	 * @param string $userId
 	 * @returns integer
 	 * @throws DoesNotExistException if calendar does not exist
+	 * @throws MultipleObjectsReturnedException
 	 */
 	public function getCalendarsCTag($calendarURI, $userId) {
-		$calendar = $this->findCalendar($calendarURI, $userId)->getCTag();
+		return $this->findCalendar($calendarURI, $userId)->getCTag();
 	}
 
 
 	/**
-	 * @brief returns information about the object (event/journal/todo) with the uid $objectURI in the calendar $calendarURI of the user $userId 
-	 * @param string $calendarURI
+	 * @brief find object
+	 * @param ICalendar $calendar
 	 * @param string $objectURI
-	 * @param string $userid
-	 * @returns \OCA\Calendar\Db\Object object
+	 * @returns IObject
 	 * @throws DoesNotExistException if calendar does not exist
 	 * @throws DoesNotExistException if object does not exist
+	 * @throws MultipleObjectsReturnedException
 	 */
-	abstract public function findObject(Calendar &$calendar, $objectURI);
+	abstract public function findObject(ICalendar &$calendar, $objectURI);
 
 
 	/**
 	 * @brief returns all objects in the calendar $calendarURI of the user $userId
-	 * @param string $calendarURI
-	 * @param string $userId
-	 * @returns \OCA\Calendar\Db\ObjectCollection
+	 * @param ICalendar $calendar
+	 * @param integer $limit
+	 * @param integer $offset
+	 * @returns IObjectCollection
 	 * @throws DoesNotExistException if calendar does not exist
 	 */
-	abstract public function findObjects(Calendar &$calendar, $limit, $offset);
+	abstract public function findObjects(ICalendar &$calendar, $limit, $offset);
+
+
+	/**
+	 * @brief get list of objectURIs
+	 * @param ICalendar $calendar
+	 * @param integer $limit
+	 * @param integer $offset
+	 * @return array
+	 */
+	public function getObjectIdentifiers(ICalendar &$calendar, $limit, $offset) {
+		$objects = $this->findObjects($calendar, $limit, $offset);
+		$identifiers = array();
+
+		$objects->iterate(function(IObject &$object) use (&$identifiers) {
+			$identifiers[] = $object->getObjectURI();
+		});
+
+		return $identifiers;
+	}
 
 
 	/**
 	 * @brief returns number of objects in calendar
-	 * @param string $calendarURI
-	 * @param string $userid
+	 * @param ICalendar $calendar
 	 * @returns integer
 	 * @throws DoesNotExistException if calendar does not exist
 	 */
-	public function countObjects(Calendar $calendar) {
-		return $this->findObjects($calendarURI, $userId)->count();
+	public function countObjects(ICalendar $calendar) {
+		return $this->findObjects($calendar, null, null)->count();
 	}
 
 
 	/**
 	 * @brief returns whether or not an object exists
-	 * @param string $calendarURI
+	 * @param ICalendar $calendar
 	 * @param string $objectURI
-	 * @param string $userid
 	 * @returns boolean
 	 */
-	public function doesObjectExist(Calendar $calendar, $objectURI) {
+	public function doesObjectExist(ICalendar $calendar, $objectURI) {
 		try {
 			$this->findObject($calendar, $objectURI);
 			return true;
-		} catch (Exception $ex) {
+		} catch (DoesNotExistException $ex) {
+			return false;
+		} catch (MultipleObjectsReturnedException $ex) {
 			return false;
 		}
 	}
@@ -260,27 +321,26 @@ abstract class Backend implements IBackend {
 
 	/**
 	 * check if object allows a certain action
-	 * @param integer $cruds
-	 * @param Calendar $calendar
+	 * @param ICalendar $calendar
 	 * @param string $objectURI
+	 * @param integer $cruds
 	 * @return boolean
 	 */
-	public function doesObjectAllow($cruds, Calendar $calendar, $objectURI) {
+	public function doesObjectAllow(ICalendar $calendar, $objectURI, $cruds) {
 		return ($cruds & $this->findObject($calendar, $objectURI)->getRuds());
 	}
 
 
 	/**
-	 * @brief returns etag of an object
-	 * @param string $calendarURI
+	 * @brief returns eTag of an object
+	 * @param ICalendar $calendar
 	 * @param string $objectURI
-	 * @param string $userid
 	 * @returns string
 	 * @throws DoesNotExistException if calendar does not exist
 	 * @throws DoesNotExistException if object does not exist
 	 */
-	public function getObjectsETag(Calendar $calendar, $objectURI) {
-		return $this->find($calendar, $objectURI)->getEtag();
+	public function getObjectsETag(ICalendar $calendar, $objectURI) {
+		return $this->findObject($calendar, $objectURI)->getEtag();
 	}
 
 
@@ -298,6 +358,15 @@ abstract class Backend implements IBackend {
 	 * @returns boolean
 	 */
 	public function canStoreComponents() {
+		return false;
+	}
+
+
+	/**
+	 * @brief returns whether or not a backend can store a calendar's description
+	 * @return boolean
+	 */
+	public function canStoreDescription() {
 		return false;
 	}
 

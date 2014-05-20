@@ -19,6 +19,13 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCA\Calendar\Backend;
+namespace OCP\Calendar;
 
-class CacheOutDatedException extends \Exception{}
+class ObjectType {
+
+	const EVENT		= 1;
+	const JOURNAL	= 2;
+	const TODO		= 4;
+	const ALL		= 7;
+
+}

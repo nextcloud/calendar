@@ -44,6 +44,15 @@ class SubscriptionBusinessLayer extends BusinessLayer {
 
 	/**
 	 * @param string $userId
+	 * @return integer
+	 */
+	public function count($userId) {
+		return $this->mapper->count($userId);
+	}
+
+
+	/**
+	 * @param string $userId
 	 * @param string $type
 	 * @param integer $limit
 	 * @param integer $offset
@@ -52,6 +61,17 @@ class SubscriptionBusinessLayer extends BusinessLayer {
 	public function findAllByType($userId, $type, $limit, $offset) {
 		return $this->mapper->findAllByType($userId, $type, $limit, $offset);
 	}
+
+
+	/**
+	 * @param string $userId
+	 * @param string $type
+	 * @return integer
+	 */
+	public function countByType($userId, $type) {
+		return $this->mapper->countByType($userId, $type);
+	}
+
 
 	/**
 	 * @param string $name
@@ -77,6 +97,17 @@ class SubscriptionBusinessLayer extends BusinessLayer {
 	 */
 	public function doesExist($name, $userId) {
 		return $this->mapper->doesExist($name, $userId);
+	}
+
+
+	/**
+	 * @param string $name
+	 * @param string $type
+	 * @param string $userId
+	 * @return mixed
+	 */
+	public function doesExistOfType($name, $type, $userId) {
+		return $this->mapper->doesExistOfType($name, $type, $userId);
 	}
 
 

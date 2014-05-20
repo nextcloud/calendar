@@ -7,19 +7,42 @@
  */
 namespace OCA\Calendar\Db;
 
-use \OCA\Calendar\Backend\IBackend;
+use OCA\Calendar\Backend\IBackend as IBackendAPI;
 
-class Backend extends Entity {
+class Backend extends Entity implements \OCP\Calendar\IBackend {
 
+	/**
+	 * @var integer
+	 */
 	public $id;
+
+
+	/**
+	 * @var string
+	 */
 	public $backend;
+
+
+	/**
+	 * @var string
+	 */
 	public $classname;
+
+
+	/**
+	 * @var array
+	 */
 	public $arguments;
+
+
+	/**
+	 * @var bool
+	 */
 	public $enabled;
 
 
 	/**
-	 * @var IBackend
+	 * @var IBackendAPI
 	 */
 	public $api;
 
@@ -40,13 +63,11 @@ class Backend extends Entity {
 
 
 	/**
-	 * registers an API for a backend
-	 * @param IBackend $api
-	 * @return Backend
+	 * @param boolean $enabled
+	 * @return $this
 	 */
-	public function registerAPI(IBackend $api){
-		$this->api = $api;
-		return $this;
+	public function setEnabled($enabled) {
+		return $this->setter('enabled', $enabled);
 	}
 
 
@@ -65,6 +86,77 @@ class Backend extends Entity {
 	 */
 	public function enable() {
 		return $this->setEnabled(true);
+	}
+
+
+	/**
+	 * @return boolean
+	 */
+	public function getEnabled() {
+		return $this->getter('enabled');
+	}
+
+
+	/**
+	 * @param string $classname
+	 * @return $this
+	 */
+	public function setClassname($classname) {
+		return $this->setter('classname', $classname);
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getClassname() {
+		return $this->getter('classname');
+	}
+
+
+	/**
+	 * @param string $backend
+	 * @return $this
+	 */
+	public function setBackend($backend) {
+		return $this->setter('backend', $backend);
+	}
+
+
+
+	/**
+	 * @return string
+	 */
+	public function getBackend() {
+		return $this->backend;
+	}
+
+
+	/**
+	 * @param array $arguments
+	 * @return $this
+	 */
+	public function setArguments($arguments) {
+		return $this->setter('arguments', $arguments);
+	}
+
+
+	/**
+	 * @return array
+	 */
+	public function getArguments() {
+		return $this->arguments;
+	}
+
+
+	/**
+	 * registers an API for a backend
+	 * @param IBackendAPI $api
+	 * @return Backend
+	 */
+	public function registerAPI(IBackendAPI $api){
+		$this->api = $api;
+		return $this;
 	}
 
 
@@ -95,7 +187,7 @@ class Backend extends Entity {
 			return false;
 		}
 
-		if (!is_null($this->api) && !($this->api instanceof IBackend)) {
+		if (!is_null($this->api) && !($this->api instanceof IBackendAPI)) {
 			return false;
 		}
 

@@ -21,6 +21,7 @@
  */
 namespace OCA\Calendar\Db;
 
+use OCP\Calendar\IBackendCollection;
 use OCP\Calendar\ICalendarCollection;
 
 class CalendarCollection extends Collection implements ICalendarCollection {
@@ -94,7 +95,7 @@ class CalendarCollection extends Collection implements ICalendarCollection {
 	 * @param BackendCollection $backends
 	 * @return CalendarCollection of calendars on backends in BackendCollection
 	 */
-	public function filterByBackends(BackendCollection $backends) {
+	public function filterByBackends(IBackendCollection $backends) {
 		$newCollection = new CalendarCollection();
 		$backendObjects = $backends->getObjects();
 

@@ -23,11 +23,16 @@
  */
 namespace OCA\Calendar\Backend;
 
-use \OCP\AppFramework\IAppContainer;
+use OCP\AppFramework\IAppContainer;
 
-use \OCA\Calendar\Db\DoesNotExistException;
-use \OCA\Calendar\Db\MultipleObjectsReturnedException;
-use \OCA\Calendar\Db\CorruptDataException;
+use OCP\Calendar\ICalendar;
+use OCP\Calendar\ICalendarCollection;
+use OCP\Calendar\IObject;
+use OCP\Calendar\IObjectCollection;
+
+use OCA\Calendar\Db\DoesNotExistException;
+use OCA\Calendar\Db\MultipleObjectsReturnedException;
+use OCA\Calendar\Db\CorruptDataException;
 
 use \OCA\Calendar\Db\Calendar;
 use \OCA\Calendar\Db\CalendarCollection;
@@ -79,7 +84,7 @@ class Contact extends Backend {
 	 * @param string $userId
 	 * @returns boolean
 	 */
-	public function cacheObjects($uri, $userId) {
+	public function cacheObjects($calendarURI, $userId) {
 		return false;
 	}
 
@@ -172,7 +177,7 @@ class Contact extends Backend {
 	 * @throws DoesNotExistException if calendar does not exist
 	 * @throws DoesNotExistException if object does not exist
 	 */
-	public function findObject(Calendar &$calendar, $objectURI) {
+	public function findObject(ICalendar &$calendar, $objectURI) {
 		//TODO implement
 		throw new DoesNotExistException();
 	}
@@ -185,7 +190,7 @@ class Contact extends Backend {
 	 * @returns \OCA\Calendar\Db\ObjectCollection
 	 * @throws DoesNotExistException if calendar does not exist
 	 */
-	public function findObjects(Calendar &$calendar, $limit, $offset) {
+	public function findObjects(ICalendar &$calendar, $limit, $offset) {
 		//TODO implement
 		return new ObjectCollection();
 	}

@@ -147,3 +147,27 @@
 \OC::$CLASSPATH['OCA\Calendar\Utility\RegexUtility'] = 'calendar/utility/regex.php';
 \OC::$CLASSPATH['OCA\Calendar\Utility\SabreUtility'] = 'calendar/utility/sabre.php';
 \OC::$CLASSPATH['OCA\Calendar\Utility\UpdateUtility'] = 'calendar/utility/update.php';
+
+
+/* public classes */
+\OC::$CLASSPATH['OCP\Calendar\APIException'] = 'calendar/public/.php';
+\OC::$CLASSPATH['OCP\Calendar\BackendException'] = 'calendar/public/.php';
+\OC::$CLASSPATH['OCP\Calendar\CacheOutDatedException'] = 'calendar/public/.php';
+\OC::$CLASSPATH['OCP\Calendar\Calendar'] = 'calendar/public/calendar.php';
+\OC::$CLASSPATH['OCP\Calendar\CorruptDataException'] = 'calendar/public/corruptdataexception.php';
+\OC::$CLASSPATH['OCP\Calendar\DoesNotExistException'] = 'calendar/public/doesnotexistexception.php';
+\OC::$CLASSPATH['OCP\Calendar\IBackend'] = 'calendar/public/ibackend.php';
+\OC::$CLASSPATH['OCP\Calendar\IBackendCollection'] = 'calendar/public/ibackendcollection.php';
+\OC::$CLASSPATH['OCP\Calendar\ICalendar'] = 'calendar/public/icalendar.php';
+\OC::$CLASSPATH['OCP\Calendar\ICalendarCollection'] = 'calendar/public/icalendarcollection.php';
+\OC::$CLASSPATH['OCP\Calendar\ICollection'] = 'calendar/public/icollection.php';
+\OC::$CLASSPATH['OCP\Calendar\IEntity'] = 'calendar/public/ientity.php';
+\OC::$CLASSPATH['OCP\Calendar\IObject'] = 'calendar/public/iobject.php';
+\OC::$CLASSPATH['OCP\Calendar\IObjectCollection'] = 'calendar/public/iobjectcollection.php';
+\OC::$CLASSPATH['OCP\Calendar\ISubscription'] = 'calendar/public/isubscription.php';
+\OC::$CLASSPATH['OCP\Calendar\ISubscriptionCollection'] = 'calendar/public/isubscriptioncollection.php';
+\OC::$CLASSPATH['OCP\Calendar\ITimezone'] = 'calendar/public/itimezone.php';
+\OC::$CLASSPATH['OCP\Calendar\ITimezoneCollection'] = 'calendar/public/itimezonecollection.php';
+\OC::$CLASSPATH['OCP\Calendar\MultipleObjectsReturnedException'] = 'calendar/public/multipleobjectsreturnedexception.php';
+\OC::$CLASSPATH['OCP\Calendar\ObjectType'] = 'calendar/public/objecttype.php';
+\OC::$CLASSPATH['OCP\Calendar\Permissions'] = 'calendar/public/permissions.php';

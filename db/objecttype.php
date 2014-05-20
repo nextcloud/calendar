@@ -7,13 +7,7 @@
  */
 namespace OCA\Calendar\Db;
 
-class ObjectType {
-
-	const EVENT		= 1;
-	const JOURNAL	= 2;
-	const TODO		= 4;
-	const ALL		= 7;
-
+class ObjectType extends \OCP\Calendar\ObjectType {
 
 	/**
 	 * @brief get type as string
@@ -112,15 +106,17 @@ class ObjectType {
 
 
 	/**
-	 * @brief get type by sabre classname
-	 * @param mixed (string|object) $string
+	 * get type by sabre classname
+	 * @param mixed (string|object) $class
 	 * @return integer
 	 */
 	public static function getTypeBySabreClass($class) {
 		$type = 0;
 
 		if (!is_string($class)) {
-			$class = get_class($class);
+			$string = get_class($class);
+		} else {
+			$string = $class;
 		}
 
 		switch($string) {
