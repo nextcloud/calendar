@@ -26,9 +26,47 @@ config(['$provide', '$routeProvider', 'RestangularProvider', '$httpProvider', '$
 
 		$httpProvider.defaults.headers.common.requesttoken = oc_requesttoken;
 
+		$routeProvider.when('/:uri', {
+			templateUrl : 'calendar.html',
+			controller : 'CalController',
+			resolve : {
+				calendar: ['$route', '$q', 'is', 'Restangular',
+				function ($route, $q, is, Restangular) {
+					var deferred = $q.defer();
+					var uri = $route.current.params.uri;
+					is.loading = true;
+					Restangular.one('v1/calendars', uri).get().then(function (calendar) {
+						is.loading = false;
+						deferred.resolve(calendar);
+					}, function () {
+						is.loading = false;
+						deferred.reject();
+					});
+
+					return deferred.promise;
+				}]
+			}
+		}).otherwise({
+			redirectTo: '/'
+		});
+
 		var $window = $windowProvider.$get();
 		var url = $window.location.href;
 		var baseUrl = url.split('index.php')[0] + 'index.php/apps/calendar';
 		RestangularProvider.setBaseUrl(baseUrl);
 	}
-]);
+]).run(['$rootScope', '$location', 'CalendarModel',
+	function ($rootScope, $location, CalendarModel) {
+
+	$rootScope.$on('$routeChangeError', function () {
+		var calendars = CalendarModel.getAll();
+
+		if (calendars.length > 0) {
+
+			var calendar = calendars[calendars.length-1];
+			$location.path('/' + calendar.uri);
+		} else {
+			$location.path('/');
+		}
+	});
+}]);

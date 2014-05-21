@@ -51,6 +51,10 @@
 
 <div ng-app="Calendar" ng-controller="AppController">
 
+	<script type="text/ng-template" id="calendar.html">
+		<?php print_unescaped($this->inc('part.fullcalendar')); ?>
+	</script>
+
 	<!-- The Left Calendar Navigation -->
 	<div id="app-navigation" ng-controller="NavController">
 
@@ -68,7 +72,5 @@
 	</div>
 
 	<!-- The Calendar on the right -->
-	<div id="app-content" ng-controller="CalController">
-		<?php print_unescaped($this->inc('part.fullcalendar')); ?>
-	</div>
+	<div id="app-content" ng-view ng-class="{loading: is.loading}"></div>
 </div>

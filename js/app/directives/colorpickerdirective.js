@@ -21,42 +21,9 @@
  *
  */
 
-app.factory('CalendarModel', function() {
-	var CalendarModel = function () {
-		this.calendars = [];
-		this.calendarId = {};
-	};
-
-	CalendarModel.prototype = {
-		add : function (calendar) {
-			this.calendars.push(calendar);
-		},
-		addAll : function (calendars) {
-			for(var i=0; i<calendars.length; i++) {
-				this.add(calendars[i]);
-			}
-		},
-		getAll : function () {
-			return this.calendars;
-		},
-		get : function (uri) {
-			for (var i = 0; i<this.calendars.length;i++) {
-				var calendar = this.calendars[i];
-				if (calendar.uri === uri) {
-					this.calendarId = this.calendars[i];
-					break;
-				}
-			}
-			return this.calendarId;
-		},
-		updateIfExists : function () {
-
-		},
-		remove : function (calendar) {
-			// Todo: Splice of the Calendar Input here instead the calendar.
-			delete this.calendar;
-		},
-	};
-
-	return new CalendarModel();
-});
+ app.directive('colorpickerDirective', function () {
+ 	return {
+ 		restrict : 'EA',
+ 		replace : true 
+ 	};
+ });
