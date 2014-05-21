@@ -21,20 +21,26 @@
  *
  */
 
-app.controller('CalController', ['$scope',
-	function ($scope) {
+app.controller('CalController', ['$scope', '$timeout', '$routeParams', 'Restangular', 'CalendarModel',
+	function ($scope,$timeout,$routeParams, Restangular, CalendarModel) {
+
+		var uri = $routeParams;
+
+		$scope.calendars = CalendarModel.getAll();
+
+		/* All Date Objects */
 		var date = new Date();
 		var d = date.getDate();
 		var m = date.getMonth();
 		var y = date.getFullYear();
 
-		$scope.changeTo = 'Hungarian';
+		var calendarResource = Restangular.one('v1/calendars' + uri + '/events');
 
 		/* event source that pulls from google.com */	
 		$scope.eventSource = {
-			url: "http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic",
-			className: 'gcal-event',           // an option!
-			currentTimezone: 'America/Chicago' // an option!
+			url: "",
+			className: '',           // an option!
+			currentTimezone: '' // an option!
 		};
 	
 		/* event source that contains custom events on the scope */
@@ -43,8 +49,7 @@ app.controller('CalController', ['$scope',
 			{title: 'Long Event',start: new Date(y, m, d - 5),end: new Date(y, m, d - 2)},
 			{id: 999,title: 'Repeating Event',start: new Date(y, m, d - 3, 16, 0),allDay: false},
 			{id: 999,title: 'Repeating Event',start: new Date(y, m, d + 4, 16, 0),allDay: false},
-			{title: 'Birthday Party',start: new Date(y, m, d + 1, 19, 0),end: new Date(y, m, d + 1, 22, 30),allDay: false},
-			{title: 'Click for Google',start: new Date(y, m, 28),end: new Date(y, m, 29),url: 'http://google.com/'}
+			{title: 'Birthday Party',start: new Date(y, m, d + 1, 19, 0),end: new Date(y, m, d + 1, 22, 30),allDay: false}
 		];
 
 		/* event source that calls a function on every view switch */
@@ -121,7 +126,7 @@ app.controller('CalController', ['$scope',
 		/* config object */
 		$scope.uiConfig = {
 			calendar:{
-				height: 640,
+				height: 620,
 				editable: true,
 				header:{
 					left: '',
@@ -131,18 +136,6 @@ app.controller('CalController', ['$scope',
 				eventClick: $scope.alertOnEventClick,
 				eventDrop: $scope.alertOnDrop,
 				eventResize: $scope.alertOnResize
-			}
-		};
-
-		$scope.changeLang = function() {
-			if ($scope.changeTo === 'Hungarian'){
-				$scope.uiConfig.calendar.dayNames = ["Vasárnap", "Hétfő", "Kedd", "Szerda", "Csütörtök", "Péntek", "Szombat"];
-				$scope.uiConfig.calendar.dayNamesShort = ["Vas", "Hét", "Kedd", "Sze", "Csüt", "Pén", "Szo"];
-				$scope.changeTo= 'English';
-			} else {
-				$scope.uiConfig.calendar.dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-				$scope.uiConfig.calendar.dayNamesShort = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-				$scope.changeTo = 'Hungarian';
 			}
 		};
 
