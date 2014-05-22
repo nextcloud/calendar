@@ -137,7 +137,7 @@ class Calendar extends Entity implements ICalendar {
 	 * @return $this
 	 */
 	public function setBackend($backend) {
-		return $this->setter('backend', $backend);
+		return $this->setter('backend', array($backend));
 	}
 
 
@@ -158,7 +158,7 @@ class Calendar extends Entity implements ICalendar {
 
 		if ($backend !== false && $uri !== false) {
 			$this->setter('backend', $backend);
-			return $this->setter('uri', $uri);
+			return $this->setter('uri', array($uri));
 		} else {
 			return $this;
 		}
@@ -182,7 +182,7 @@ class Calendar extends Entity implements ICalendar {
 	 */
 	public function setColor($color) {
 		if (preg_match(RegexUtility::RGBA, $this->color)) {
-			return $this->setter('color', $color);
+			return $this->setter('color', array($color));
 		} else {
 			return $this;
 		}
@@ -203,7 +203,7 @@ class Calendar extends Entity implements ICalendar {
 	 */
 	public function setCruds($cruds) {
 		if ($cruds >= 0 && $cruds <= Permissions::ALL) {
-			return $this->setter('cruds', $cruds);
+			return $this->setter('cruds', array($cruds));
 		} else {
 			return $this;
 		}
@@ -224,7 +224,7 @@ class Calendar extends Entity implements ICalendar {
 	 */
 	public function setComponents($components) {
 		if ($components >= 0 && $components <= ObjectType::ALL) {
-			return $this->setter('components', $components);
+			return $this->setter('components', array($components));
 		} else {
 			return $this;
 		}
@@ -244,7 +244,7 @@ class Calendar extends Entity implements ICalendar {
 	 * @return $this
 	 */
 	public function setCtag($ctag) {
-		return $this->setter('ctag', $ctag);
+		return $this->setter('ctag', array($ctag));
 	}
 
 
@@ -261,7 +261,7 @@ class Calendar extends Entity implements ICalendar {
 	 * @return $this
 	 */
 	public function setDescription($description) {
-		return $this->setter('description', $description);
+		return $this->setter('description', array($description));
 	}
 
 
@@ -278,7 +278,7 @@ class Calendar extends Entity implements ICalendar {
 	 * @return $this
 	 */
 	public function setDisplayname($displayname) {
-		return $this->setter('displayname', $displayname);
+		return $this->setter('displayname', array($displayname));
 	}
 
 
@@ -294,7 +294,7 @@ class Calendar extends Entity implements ICalendar {
 	 * @param boolean $enabled
 	 */
 	public function setEnabled($enabled) {
-		$this->setter('enabled', $enabled);
+		$this->setter('enabled', array($enabled));
 	}
 
 
@@ -311,7 +311,7 @@ class Calendar extends Entity implements ICalendar {
 	 * @return $this
 	 */
 	public function setOrder($order) {
-		$this->setter('order', $order);
+		$this->setter('order', array($order));
 	}
 
 
@@ -328,7 +328,7 @@ class Calendar extends Entity implements ICalendar {
 	 * @return $this
 	 */
 	public function setOwnerId($ownerId) {
-		return $this->setter('ownerId', $ownerId);
+		return $this->setter('ownerId', array($ownerId));
 	}
 
 
@@ -346,7 +346,7 @@ class Calendar extends Entity implements ICalendar {
 	 */
 	public function setTimezone(ITimezone $timezone) {
 		if ($timezone->isValid()) {
-			return $this->setter('timezone', $timezone);
+			return $this->setter('timezone', array($timezone));
 		} else {
 			return $this;
 		}
@@ -367,7 +367,7 @@ class Calendar extends Entity implements ICalendar {
 	 */
 	public function setUri($uri) {
 		$slugify = CalendarUtility::slugify($uri);
-		return $this->setter('uri', $slugify);
+		return $this->setter('uri', array($slugify));
 	}
 
 
@@ -384,7 +384,7 @@ class Calendar extends Entity implements ICalendar {
 	 * @return $this
 	 */
 	public function setUserId($userId) {
-		return $this->setter('userId', $userId);
+		return $this->setter('userId', array($userId));
 	}
 
 
@@ -506,4 +506,5 @@ class Calendar extends Entity implements ICalendar {
 	public function __toString() {
 		return $this->userId . '::' . $this->getCalendarId();
 	}
+
 }
