@@ -99,7 +99,7 @@ class Timezone extends Entity implements ITimezone {
 			throw new MultipleObjectsReturnedException('multiple vtimezones found');
 		}
 
-		return $this->setter('vobject', $vcalendar);
+		return $this->setter('vobject', array($vcalendar));
 	}
 
 

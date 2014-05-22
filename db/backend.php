@@ -73,7 +73,7 @@ class Backend extends Entity implements \OCP\Calendar\IBackend {
 	 * @return $this
 	 */
 	public function setEnabled($enabled) {
-		return $this->setter('enabled', $enabled);
+		return $this->setter('enabled', array($enabled));
 	}
 
 
@@ -108,7 +108,7 @@ class Backend extends Entity implements \OCP\Calendar\IBackend {
 	 * @return $this
 	 */
 	public function setClassname($classname) {
-		return $this->setter('classname', $classname);
+		return $this->setter('classname', array($classname));
 	}
 
 
@@ -125,7 +125,7 @@ class Backend extends Entity implements \OCP\Calendar\IBackend {
 	 * @return $this
 	 */
 	public function setBackend($backend) {
-		return $this->setter('backend', $backend);
+		return $this->setter('backend', array($backend));
 	}
 
 
@@ -143,7 +143,7 @@ class Backend extends Entity implements \OCP\Calendar\IBackend {
 	 * @return $this
 	 */
 	public function setArguments($arguments) {
-		return $this->setter('arguments', $arguments);
+		return $this->setter('arguments', array($arguments));
 	}
 
 

@@ -122,7 +122,7 @@ class Object extends Entity implements IObject {
 	 * @return $this
 	 */
 	public function setCalendar(ICalendar $calendar) {
-		return $this->setter('calendar', $calendar);
+		return $this->setter('calendar', array($calendar));
 	}
 
 
@@ -139,7 +139,7 @@ class Object extends Entity implements IObject {
 	 * @return $this
 	 */
 	public function setUri($uri) {
-		return $this->setter('uri', $uri);
+		return $this->setter('uri', array($uri));
 	}
 
 
@@ -156,7 +156,7 @@ class Object extends Entity implements IObject {
 	 * @return $this
 	 */
 	public function setEtag($etag) {
-		return $this->setter('etag', $etag);
+		return $this->setter('etag', array($etag));
 	}
 
 
@@ -187,7 +187,7 @@ class Object extends Entity implements IObject {
 			$ruds -= Permissions::CREATE;
 		}
 
-		$this->setter('ruds', $ruds);
+		$this->setter('ruds', array($ruds));
 	}
 
 
@@ -234,8 +234,8 @@ class Object extends Entity implements IObject {
 			throw new CorruptDataException($msg);
 		}
 
-		$this->setter('vobject', $vobject);
-		return $this->setter('objectName', $objectName);
+		$this->setter('vobject', array($vobject));
+		return $this->setter('objectName', array($objectName));
 	}
 
 
@@ -353,7 +353,7 @@ class Object extends Entity implements IObject {
 		$etag  = $this->getUri();
 		$etag .= $this->getCalendarData();
 
-		return $this->setter('etag', md5($etag));
+		return $this->setter('etag', array(md5($etag)));
 	}
 
 

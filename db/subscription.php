@@ -56,7 +56,7 @@ class Subscription extends Entity implements ISubscription {
 	 * @return $this
 	 */
 	public function setName($name) {
-		return $this->setter('name', $name);
+		return $this->setter('name', array($name));
 	}
 
 
@@ -73,7 +73,7 @@ class Subscription extends Entity implements ISubscription {
 	 * @return $this
 	 */
 	public function setType($type) {
-		return $this->setter('type', $type);
+		return $this->setter('type', array($type));
 	}
 
 
@@ -90,7 +90,7 @@ class Subscription extends Entity implements ISubscription {
 	 * @return $this
 	 */
 	public function setUrl($url) {
-		return $this->setter('url', $url);
+		return $this->setter('url', array($url));
 	}
 
 
@@ -107,7 +107,7 @@ class Subscription extends Entity implements ISubscription {
 	 * @return $this
 	 */
 	public function setUserId($userId) {
-		return $this->setter('userId', $userId);
+		return $this->setter('userId', array($userId));
 	}
 
 

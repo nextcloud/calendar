@@ -157,7 +157,7 @@ class Calendar extends Entity implements ICalendar {
 		list($backend, $uri) = CalendarUtility::splitURI($calendarId);
 
 		if ($backend !== false && $uri !== false) {
-			$this->setter('backend', $backend);
+			$this->setter('backend', array($backend));
 			return $this->setter('uri', array($uri));
 		} else {
 			return $this;

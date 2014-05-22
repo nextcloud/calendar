@@ -81,7 +81,7 @@ abstract class Entity implements IEntity{
 	 * @return $this
 	 */
 	public function setId($id) {
-		return $this->setter('id', $id);
+		return $this->setter('id', array($id));
 	}
 
 
