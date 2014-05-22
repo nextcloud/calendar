@@ -683,22 +683,6 @@ class CalendarBusinessLayer extends BusinessLayer {
 
 
 	/**
-	 * @param ICalendar $calendar
-	 * @return bool
-	 * @throws BusinessLayerException
-	 */
-	private function checkCalendarIsValid(ICalendar $calendar) {
-		if (!$calendar->isValid()) {
-			$msg  = 'CalendarBusinessLayer::create(): User Error: ';
-			$msg .= 'Given calendar data is not valid!';
-			throw new BusinessLayerException($msg, Http::STATUS_UNPROCESSABLE_ENTITY);
-		}
-
-		return true;
-	}
-
-
-	/**
 	 * @param string $backend
 	 * @param string $calendarURI
 	 * @param string $userId
@@ -761,9 +745,8 @@ class CalendarBusinessLayer extends BusinessLayer {
 		$remoteCalendars = $this->backends->find($backend)->api->findCalendars($userId, null, null);
 		$calendars->addCollection($remoteCalendars)->noDuplicates();
 
-		$calendars->subset($limit, $offset)->iterate(function(&$calendar) use ($userId) {
+		$calendars->subset($limit, $offset)->iterate(function(&$calendar) use ($backend, $userId) {
 			try{
-				$backend = $calendar->getBackend();
 				$calendarURI = $calendar->getUri();
 
 				$this->updateCacheForCalendarFromRemote(array($backend, $calendarURI), $userId);
@@ -791,9 +774,6 @@ class CalendarBusinessLayer extends BusinessLayer {
 				$this->splitCalendarURI($calendarId);
 
 			$api = $this->backends->find($backend)->api;
-			if ((!$api instanceof IBackend)) {
-				return;
-			}
 
 			$doesExistCached = $this->doesExist(array($backend, $calendarURI), $userId, false);
 			$doesExistRemote = $api->doesCalendarExist($calendarURI, $userId);

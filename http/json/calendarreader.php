@@ -172,6 +172,10 @@ class JSONCalendarReader extends JSONReader{
 	 */
 	private function parseTimezone($timezoneId) {
 		try {
+			if (trim($timezoneId) === '') {
+				return null;
+			}
+
 			$timezoneMapper = $this->app->query('TimezoneMapper');
 			return $timezoneMapper->find($timezoneId);
 		} catch(DoesNotExistException $ex) {

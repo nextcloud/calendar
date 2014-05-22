@@ -89,6 +89,19 @@ interface ICalendar extends IEntity {
 
 
 	/**
+	 * @param string $description
+	 * @return $this
+	 */
+	public function setDescription($description);
+
+
+	/**
+	 * @return string
+	 */
+	public function getDescription();
+
+
+	/**
 	 * @param string $displayname
 	 * @return $this
 	 */

@@ -34,6 +34,9 @@ use \OCA\Calendar\Db\Mapper;
 use \OCA\Calendar\Utility\BackendUtility;
 use \OCA\Calendar\Utility\CalendarUtility;
 
+use OCP\Calendar\ICalendar;
+use OCP\Calendar\IObject;
+
 abstract class BusinessLayer {
 
 	/**
@@ -80,7 +83,7 @@ abstract class BusinessLayer {
 	 * initialize calendar backend system
 	 * @param BackendMapper $mapper
 	 */
-	public function initBackendSystem(BackendMapper $mapper) {
+	protected function initBackendSystem(BackendMapper $mapper) {
 		$this->backends = BackendUtility::setup($this->app, $mapper);
 	}
 
@@ -92,7 +95,7 @@ abstract class BusinessLayer {
 	 * @throws BusinessLayerException if uri is empty
 	 * @throws BusinessLayerException if uri is not valid
 	 */
-	public function splitCalendarURI($calendarId) {
+	protected function splitCalendarURI($calendarId) {
 		$split = CalendarUtility::splitURI($calendarId);
 
 		if (!$split[0] || !$split[1]) {
@@ -110,7 +113,7 @@ abstract class BusinessLayer {
 	 * @param integer $action
 	 * @return boolean
 	 */
-	public function doesBackendSupport($backend, $action) {
+	protected function doesBackendSupport($backend, $action) {
 		if (!($this->backends instanceof BackendCollection)) {
 			return false;
 		} else {
@@ -129,7 +132,7 @@ abstract class BusinessLayer {
 	 * @throws BusinessLayerException
 	 * @return boolean
 	 */
-	public function checkBackendEnabled($backend) {
+	protected function checkBackendEnabled($backend) {
 		if (!($this->backends instanceof IBackendCollection)) {
 			$msg = 'No backends set-up!';
 			throw new BusinessLayerException($msg, Http::STATUS_INTERNAL_SERVER_ERROR);
@@ -151,10 +154,41 @@ abstract class BusinessLayer {
 	 * @return bool
 	 * @throws BusinessLayerException
 	 */
-	public function checkBackendSupports($backend, $action) {
+	protected function checkBackendSupports($backend, $action) {
 		if (!$this->doesBackendSupport($backend, $action)) {
 			$msg = 'Backend does not support wanted action!';
 			throw new BusinessLayerException($msg, HTTP::STATUS_BAD_REQUEST);
+		}
+
+		return true;
+	}
+
+
+	/**
+	 * @param ICalendar $calendar
+	 * @return bool
+	 * @throws BusinessLayerException
+	 */
+	protected function checkCalendarIsValid(ICalendar $calendar) {
+		if (!$calendar->isValid()) {
+			$msg = 'Given calendar data is not valid!';
+			throw new BusinessLayerException($msg, Http::STATUS_UNPROCESSABLE_ENTITY);
+		}
+
+		return true;
+	}
+
+
+	/**
+	 * @brief throw exception if object is not valid
+	 * @param IObject $object
+	 * @return bool
+	 * @throws BusinessLayerException
+	 */
+	protected function checkObjectIsValid(IObject $object) {
+		if (!$object->isValid()) {
+			$msg = 'User Error: Given object data is not valid!';
+			throw new BusinessLayerException($msg, Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
 
 		return true;

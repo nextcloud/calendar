@@ -21,20 +21,28 @@
  */
 namespace OCA\Calendar\BusinessLayer;
 
-use OCA\Calendar\Db\DoesNotExistException;
-use OCA\Calendar\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Http;
 
-use OCA\Calendar\Db\Timezone;
-use OCA\Calendar\Db\TimezoneCollection;
+use OCP\Calendar\ITimezone;
+use OCP\Calendar\ITimezoneCollection;
+use OCP\Calendar\DoesNotExistException;
+use OCP\Calendar\MultipleObjectsReturnedException;
+
+use OCA\Calendar\Db\TimezoneMapper;
 
 class TimezoneBusinessLayer extends BusinessLayer {
+
+	/**
+	 * @var TimezoneMapper
+	 */
+	protected $mapper;
+
 
 	/**
 	 * @param string $userId
 	 * @param integer $limit
 	 * @param integer $offset
-	 * @return TimezoneCollection
+	 * @return ITimezoneCollection
 	 */
 	public function findAll($userId, $limit, $offset) {
 		return $this->mapper->findAll($userId, $limit, $offset);
@@ -56,7 +64,7 @@ class TimezoneBusinessLayer extends BusinessLayer {
 	 * @param string $tzId
 	 * @param string $userId
 	 * @throws BusinessLayerException
-	 * @return Timezone
+	 * @return ITimezone
 	 */
 	public function find($tzId, $userId) {
 		try {
@@ -80,54 +88,57 @@ class TimezoneBusinessLayer extends BusinessLayer {
 
 
 	/**
-	 * @param Timezone $timezone
+	 * @param ITimezone $timezone
 	 * @throws BusinessLayerException
-	 * @return Timezone
+	 * @return ITimezone
 	 */
-	public function create(Timezone $timezone) {
+	public function create(ITimezone $timezone) {
+		unset($timezone);
 		throw new BusinessLayerException('Creating timezones not yet supported', Http::STATUS_NOT_IMPLEMENTED);
 	}
 
 
 	/**
-	 * @param Timezone $timezone
+	 * @param ITimezone $timezone
 	 * @throws BusinessLayerException
-	 * @return Timezone
+	 * @return ITimezone
 	 */
-	public function createFromRequest(Timezone $timezone) {
+	public function createFromRequest(ITimezone $timezone) {
 		return $this->create($timezone);
 	}
 
 
 	/**
-	 * @param Timezone $timezone
+	 * @param ITimezone $timezone
 	 * @param string $tzId
 	 * @param string $userId
 	 * @throws BusinessLayerException
-	 * @return Timezone
+	 * @return ITimezone
 	 */
-	public function update(Timezone $timezone, $tzId, $userId) {
+	public function update(ITimezone $timezone, $tzId, $userId) {
+		unset($timezone); unset($tzId); unset($userId);
 		throw new BusinessLayerException('Updating timezones not yet supported', Http::STATUS_NOT_IMPLEMENTED);
 	}
 
 
 	/**
-	 * @param Timezone $timezone
+	 * @param ITimezone $timezone
 	 * @param string $tzId
 	 * @param string $userId
 	 * @throws BusinessLayerException
-	 * @return Timezone
+	 * @return ITimezone
 	 */
-	public function updateFromRequest(Timezone $timezone, $tzId, $userId){
+	public function updateFromRequest(ITimezone $timezone, $tzId, $userId){
 		return $this->update($timezone, $tzId, $userId);
 	}
 
 
 	/**
-	 * @param Timezone $timezone
+	 * @param ITimezone $timezone
 	 * @throws BusinessLayerException
 	 */
-	public function delete(Timezone $timezone) {
+	public function delete(ITimezone $timezone) {
+		unset($timezone);
 		throw new BusinessLayerException('Deleting timezones not yet supported', Http::STATUS_NOT_IMPLEMENTED);
 	}
 }

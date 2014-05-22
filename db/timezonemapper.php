@@ -21,6 +21,8 @@
  */
 namespace OCA\Calendar\Db;
 
+use OCP\Calendar\DoesNotExistException;
+
 use OCP\AppFramework\IAppContainer;
 use OCP\Util;
 

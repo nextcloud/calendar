@@ -23,12 +23,12 @@ namespace OCA\Calendar\BusinessLayer;
 
 use OCP\AppFramework\Http;
 
-use OCA\Calendar\Db\Subscription;
-use OCA\Calendar\Db\SubscriptionCollection;
-use OCA\Calendar\Db\SubscriptionMapper;
+use OCP\Calendar\ISubscription;
+use OCP\Calendar\ISubscriptionCollection;
+use OCP\Calendar\DoesNotExistException;
+use OCP\Calendar\MultipleObjectsReturnedException;
 
-use OCA\Calendar\Db\DoesNotExistException;
-use OCA\Calendar\Db\MultipleObjectsReturnedException;
+use OCA\Calendar\Db\SubscriptionMapper;
 
 class SubscriptionBusinessLayer extends BusinessLayer {
 
@@ -42,7 +42,7 @@ class SubscriptionBusinessLayer extends BusinessLayer {
 	 * @param string $userId
 	 * @param integer $limit
 	 * @param integer $offset
-	 * @return SubscriptionCollection
+	 * @return ISubscriptionCollection
 	 */
 	public function findAll($userId, $limit, $offset) {
 		return $this->mapper->findAll($userId, $limit, $offset);
@@ -63,7 +63,7 @@ class SubscriptionBusinessLayer extends BusinessLayer {
 	 * @param string $type
 	 * @param integer $limit
 	 * @param integer $offset
-	 * @return SubscriptionCollection
+	 * @return ISubscriptionCollection
 	 */
 	public function findAllByType($userId, $type, $limit, $offset) {
 		return $this->mapper->findAllByType($userId, $type, $limit, $offset);
@@ -84,7 +84,7 @@ class SubscriptionBusinessLayer extends BusinessLayer {
 	 * @param string $name
 	 * @param string $userId
 	 * @throws BusinessLayerException
-	 * @return Subscription
+	 * @return ISubscription
 	 */
 	public function find($name, $userId) {
 		try {
@@ -119,11 +119,11 @@ class SubscriptionBusinessLayer extends BusinessLayer {
 
 
 	/**
-	 * @param Subscription $subscription
+	 * @param ISubscription $subscription
 	 * @throws BusinessLayerException
-	 * @return Subscription
+	 * @return ISubscription
 	 */
-	public function create(Subscription $subscription) {
+	public function create(ISubscription $subscription) {
 		$name = $subscription->getName();
 		$userId = $subscription->getUserId();
 
@@ -140,13 +140,13 @@ class SubscriptionBusinessLayer extends BusinessLayer {
 
 
 	/**
-	 * @param Subscription $subscription
+	 * @param ISubscription $subscription
 	 * @param string $name
 	 * @param string $userId
 	 * @throws BusinessLayerException
-	 * @return Subscription
+	 * @return ISubscription
 	 */
-	public function update(Subscription $subscription, $name, $userId) {
+	public function update(ISubscription $subscription, $name, $userId) {
 		if (!$subscription->isValid()) {
 			throw new BusinessLayerException('Subscription is not valid', Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
@@ -161,9 +161,9 @@ class SubscriptionBusinessLayer extends BusinessLayer {
 
 
 	/**
-	 * @param Subscription $subscription
+	 * @param ISubscription $subscription
 	 */
-	public function delete(Subscription $subscription) {
+	public function delete(ISubscription $subscription) {
 		$this->mapper->delete($subscription);
 	}
 }

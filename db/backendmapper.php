@@ -17,7 +17,7 @@ class BackendMapper extends Mapper {
 
 	/**
 	 * IAppContainer object
-	 * @var \OCP\AppFramework\IAppContainer
+	 * @var IAppContainer
 	 */
 	protected $app;
 
@@ -38,7 +38,7 @@ class BackendMapper extends Mapper {
 
 	/**
 	 * whether or not object changed
-	 * @var boolean
+	 * @var bool
 	 */
 	private $didChange=false;
 

@@ -120,6 +120,29 @@ class CalendarMapper extends Mapper {
 
 
 	/**
+	 * @param string $backend
+	 * @param string $userId
+	 * @return array
+	 */
+	public function findAllIdentifiersOnBackend($backend, $userId) {
+		$sql  = 'SELECT `uri` FROM `'. $this->getTableName() . '` ';
+		$sql .= 'WHERE `backend` = ? AND `user_id` = ?';
+
+		$identifiers = array();
+
+		$uris =  $this->findEntities($sql, array(
+			$backend, $userId
+		));
+
+		foreach($uris as $uri) {
+			$identifiers[] = $uri['uri'];
+		}
+
+		return $identifiers;
+	}
+
+
+	/**
 	 * number of calendars by user
 	 * @param string $userId
 	 * @throws DoesNotExistException: if the item does not exist

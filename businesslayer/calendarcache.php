@@ -21,17 +21,40 @@
  */
 namespace OCA\Calendar\BusinessLayer;
 
-use OCA\Calendar\Db\DoesNotExistException;
-use OCA\Calendar\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\IAppContainer;
+use OCP\AppFramework\Http;
+
+use OCP\Calendar\ICalendar;
+use OCP\Calendar\ICalendarCollection;
+use OCP\Calendar\BackendException;
+use OCP\Calendar\CacheOutDatedException;
+use OCP\Calendar\DoesNotExistException;
+use OCP\Calendar\MultipleObjectsReturnedException;
+
+use OCA\Calendar\Backend\IBackend;
+
 use OCA\Calendar\Db\BackendMapper;
 use OCA\Calendar\Db\CalendarMapper;
 
+
 class CalendarCacheBusinessLayer extends BusinessLayer {
 
-	const NOT_IN_CACHE = 1;
-	const NOT_REMOTE = 2;
-	const OUTDATED = 3;
+	/**
+	 * @var CalendarMapper
+	 */
+	protected $mapper;
+
+
+	/**
+	 * @var array
+	 */
+	private $cachedIdentifiers=array();
+
+
+	/**
+	 * @var array
+	 */
+	private $remoteIdentifiers=array();
 
 
 	/**
@@ -48,49 +71,7 @@ class CalendarCacheBusinessLayer extends BusinessLayer {
 
 
 	/**
-	 * @brief check if a calendar is outdated
-	 * @param string $calendarId
-	 * @param string $userId
-	 * @return mixed (boolean|integer)
-	 */
-	public function isOutDated($calendarId, $userId) {
-		list($backend, $calendarURI) = (is_array($calendarId)) ? $calendarId :
-										$this->splitCalendarURI($calendarId);
-
-		try {
-			$cachedCTag = $this->mapper->findCTag($backend, $calendarURI, $userId);
-		} catch(DoesNotExistException $ex) {
-			return self::NOT_IN_CACHE;
-		} catch(MultipleObjectsReturnedException $ex) {
-			throw new BusinessLayerException($ex->getMessage(), $ex->getCode(), $ex);
-		}
-
-		$api = &$this->backends->find($backend)->api;
-		try {
-			$remoteCTag = $api->getCalendarsCTag($calendarURI, $userId);
-		} catch(DoesNotExistException $ex) {
-			return self::NOT_REMOTE;
-		} catch(MultipleObjectsReturnedException $ex) {
-			throw new BusinessLayerException($ex->getMessage(), $ex->getCode(), $ex);
-		}
-
-		if ($cachedCTag === $remoteCTag) {
-			return false;
-		}
-		if ($cachedCTag < $remoteCTag) {
-			return true;
-		}
-		if ($remoteCTag > $cachedCTag) {
-			//TODO - how to handle this case appropriately?
-			//could lead to endless updates if backend is sending broken ctag
-			//setting cached ctag to remote ctag will break client sync
-			return false;
-		}
-	}
-
-
-	/**
-	 * @brief create a calendar in cache
+	 * create a calendar in cache
 	 * @param mixed (string|array) $calendarId
 	 * @param string $userId
 	 */
@@ -98,12 +79,19 @@ class CalendarCacheBusinessLayer extends BusinessLayer {
 		list($backend, $calendarURI) = (is_array($calendarId)) ? $calendarId :
 										$this->splitCalendarURI($calendarId);
 
+		$calendar = $this->findCachedCalendar($calendarId, $userId);
+		if (!$calendar) {
+			return;
+		}
+		$this->resetValueNotSupportedByBackend($calendar, $backend);
 
+		$this->checkCalendarIsValid($calendar);
+		$this->mapper->insert($calendar);
 	}
 
 
 	/**
-	 * @brief update a cached calendar from remote
+	 * update a cached calendar from remote
 	 * @param mixed (string|array) $calendarId
 	 * @param string $userId
 	 */
@@ -116,7 +104,7 @@ class CalendarCacheBusinessLayer extends BusinessLayer {
 
 
 	/**
-	 * @brief delete a calendar in cache
+	 * delete a calendar in cache
 	 * @param mixed (string|array) $calendarId
 	 * @param string $userId
 	 */
@@ -124,7 +112,12 @@ class CalendarCacheBusinessLayer extends BusinessLayer {
 		list($backend, $calendarURI) = (is_array($calendarId)) ? $calendarId :
 										$this->splitCalendarURI($calendarId);
 
+		$calendar = $this->findCachedCalendar($calendarId, $userId);
+		if ($calendar === null) {
+			return;
+		}
 
+		$this->mapper->delete($calendar);
 	}
 
 
@@ -136,132 +129,156 @@ class CalendarCacheBusinessLayer extends BusinessLayer {
 	}
 
 
-
-
-
-
-
 	/**
-	* update all calendars of a user on a backend
-	* @param string $backend
-	* @param string $userId
-	* @param integer $limit
-	* @param integer $offset
-	*/
-	public function updateCacheForBackendFromRemote($backend, $userId, $limit, $offset) {
-	$calendars = $this->findAllOnBackend($backend, $userId);
-	$remoteCalendars = $this->backends->find($backend)->api->findCalendars($userId, null, null);
-	$calendars->addCollection($remoteCalendars)->noDuplicates();
+	 * @param string $backend
+	 * @param string $userId
+	 */
+	private function scanIdentifiers($backend, $userId) {
+		$api = &$this->backends->find($backend)->api;
 
-	$calendars->subset($limit, $offset)->iterate(function(&$calendar) use ($userId) {
-	try{
-	$backend = $calendar->getBackend();
-	$calendarURI = $calendar->getUri();
+		$cachedIdentifiers = $this->mapper->findAllIdentifiersOnBackend($backend, $userId);
+		$remoteIdentifiers = $api->getCalendarIdentifiers($userId, null, null);
 
-	$this->updateCacheForCalendarFromRemote(array($backend, $calendarURI), $userId);
-	} catch(BusinessLayerException $ex) {
-	$this->app->log($ex->getMessage(), 'error');
-	return;
-	} catch(DoesNotExistException $ex) {
-	//should not occur, but catch it nevertheless
-	$this->app->log($ex->getMessage(), 'fatal');
-	return;
-	}
-	});
+		if ($cachedIdentifiers) {
+			$this->cachedIdentifiers[$userId][$backend] = $cachedIdentifiers;
+		}
+		if ($remoteIdentifiers) {
+			$this->remoteIdentifiers[$userId][$backend] = $remoteIdentifiers;
+		}
 	}
 
 
 	/**
-	* @param mixed (string/array) $calendarId
-	* @param string $userId
-	* @throws BusinessLayerException
-	* @throws \OCA\Calendar\Db\DoesNotExistException
-	*/
-	public function updateCacheForCalendarFromRemote($calendarId, $userId) {
-	try{
-	list($backend, $calendarURI) = (is_array($calendarId)) ? $calendarId :
-	$this->splitCalendarURI($calendarId);
-
-	$api = &$this->backends->find($backend)->api;
-
-	$doesExistCached = $this->doesExist(array($backend, $calendarURI), $userId, false);
-	$doesExistRemote = $api->doesCalendarExist($calendarURI, $userId);
-
-	if (!$doesExistCached && !$doesExistRemote) {
-	$msg  = 'CalendarBusinessLayer::updateCacheForCalendarFromRemote(): ';
-	$msg .= '"b:' . $backend . ';u:' . $calendarURI . '" doesn\'t exist';
-	$msg .= 'Neither cached nor remote!';
-	throw new DoesNotExistException($msg);
-	}
-
-	$cachedCalendar = $doesExistCached ? $this->find(array($backend, $calendarURI), $userId) : null;
-	$remoteCalendar = $doesExistRemote ? $api->findCalendar($calendarURI, $userId) : null;
-
-	if (!$doesExistRemote) {
-	$this->obl->deleteAll($cachedCalendar, null, null);
-	$this->mapper->delete($cachedCalendar);
-	return;
-	}
-	if (!$doesExistCached) {
-	if ($remoteCalendar->isValid() !== true) {
-	$msg  = 'CalendarBusinessLayer::updateCacheForCalendarFromRemote(): Backend Error: ';
-	$msg .= 'Given calendar data is not valid! (b:"' . $backend . '";c:"' . $calendarURI . '")';
-	throw new BusinessLayerException($msg);
-	}
-
-	$this->mapper->insert($remoteCalendar);
-	$this->obl->updateCacheForCalendarFromRemote(array($backend, $calendarURI), $userId);
-	return;
-	}
-
-	if ($cachedCalendar == $remoteCalendar) {
-	return;
-	}
-
-	if ($api->cacheObjects($calendarURI, $userId) && $cachedCalendar->getCtag() < $remoteCalendar->getCtag()) {
-	//$this->obl->updateCacheForCalendarFromRemote(array($backend, $calendarURI), $userId);
-	}
-
-	$this->resetValuesNotSupportedByAPI($remoteCalendar, $api);
-
-	if ($cachedCalendar == $remoteCalendar) {
-	return;
-	}
-
-	$cachedCalendar->overwriteWith($remoteCalendar);
-
-	if ($cachedCalendar->isValid() !== true) {
-	$msg  = 'CalendarBusinessLayer::updateCacheForCalendarFromRemote(): Backend Error: ';
-	$msg .= 'Given calendar data is not valid! (b:"' . $backend . '";c:"' . $calendarURI . '")';
-	throw new BusinessLayerException($msg);
-	}
-
-	$this->mapper->update($cachedCalendar);
-	} catch(BackendException $ex) {
-	throw new BusinessLayerException($ex->getMessage());
-	}
+	 * @param string $backend
+	 * @param string $userId
+	 * @return array
+	 */
+	private function scanForNew($backend, $userId) {
+		return array_diff($this->cachedIdentifiers, $this->remoteIdentifiers);
 	}
 
 
 	/**
-	* reset values of a calendar that are not supported by backend
-	* @param \OCA\Calendar\Db\Calendar $calendar
-	* @param \OCA\Calendar\Backend\IBackend $api
-	*/
-	private function resetValuesNotSupportedByAPI(Calendar &$calendar, IBackend &$api) {
-	if ($api->canStoreColor() === false) {
-	$calendar->setColor(null);
+	 * @param string $backend
+	 * @param string $userId
+	 * @return array
+	 */
+	private function scanForOutDated($backend, $userId) {
+		return array_intersect($this->cachedIdentifiers, $this->remoteIdentifiers);
 	}
-	if ($api->canStoreComponents() === false) {
-	$calendar->setComponents(null);
+
+
+	/**
+	 * @param $backend
+	 * @param $userId
+	 * @return array
+	 */
+	private function scanForDeleted($backend, $userId) {
+		return array_diff($this->remoteIdentifiers, $this->cachedIdentifiers);
 	}
-	if ($api->canStoreDisplayname() === false) {
-	$calendar->setDisplayname(null);
+
+
+	/**
+	 * @param mixed (string|array) $calendarId
+	 * @param string $userId
+	 * @return bool
+	 */
+	private function doesExistCached($calendarId, $userId) {
+		list($backend, $calendarURI) = (is_array($calendarId)) ? $calendarId :
+										$this->splitCalendarURI($calendarId);
+
+		return $this->mapper->doesExist($backend, $calendarURI, $userId);
 	}
-	if ($api->canStoreEnabled() === false) {
-	$calendar->setEnabled(null);
+
+
+	/**
+	 * @param mixed (string|array) $calendarId
+	 * @param string $userId
+	 * @return boolean
+	 */
+	private function doesExistRemote($calendarId, $userId) {
+		list($backend, $calendarURI) = (is_array($calendarId)) ? $calendarId :
+										$this->splitCalendarURI($calendarId);
+
+		$api = &$this->backends->find($backend)->api;
+		return $api->doesCalendarExist($calendarURI, $userId);
 	}
-	if ($api->canStoreOrder() === false) {
-	$calendar->setOrder(null);
+
+
+	/**
+	 * @param mixed (string|array) $calendarId
+	 * @param string $userId
+	 * @return null|ICalendar
+	 */
+	private function findCachedCalendar($calendarId, $userId) {
+		list($backend, $calendarURI) = (is_array($calendarId)) ? $calendarId :
+										$this->splitCalendarURI($calendarId);
+
+		try {
+			return $this->mapper->find($backend, $calendarURI, $userId);
+		} catch (DoesNotExistException $ex) {
+			return null;
+		} catch (MultipleObjectsReturnedException $ex) {
+			return null;
+		}
+	}
+
+
+	/**
+	 * @param mixed (string|array) $calendarId
+	 * @param string $userId
+	 * @return null|ICalendar
+	 */
+	private function findRemoteCalendar($calendarId, $userId) {
+		list($backend, $calendarURI) = (is_array($calendarId)) ? $calendarId :
+										$this->splitCalendarURI($calendarId);
+
+		$api = &$this->backends->find($backend)->api;
+		try {
+			return $api->findCalendar($calendarURI, $userId);
+		} catch(DoesNotExistException $ex) {
+			return null;
+		} catch(MultipleObjectsReturnedException $ex) {
+			return null;
+		} catch(BackendException $ex) {
+			return null;
+		}
+	}
+
+
+	/**
+	 * @param ICalendar $calendar
+	 * @param string $backend
+	 */
+	private function resetValueNotSupportedByBackend(ICalendar &$calendar, $backend) {
+		$api = $this->backends->find($backend)->api;
+		$this->resetValuesNotSupportedByAPI($calendar, $api);
+	}
+
+
+	/**
+	 * reset values of a calendar that are not supported by backend
+	 * @param ICalendar &$calendar
+	 * @param IBackend &$api
+	 */
+	private function resetValuesNotSupportedByAPI(ICalendar &$calendar, IBackend &$api) {
+		if (!$api->canStoreColor()) {
+			$calendar->setColor(null);
+		}
+		if (!$api->canStoreComponents()) {
+			$calendar->setComponents(null);
+		}
+		if (!$api->canStoreDescription()) {
+			$calendar->setDescription(null);
+		}
+		if (!$api->canStoreDisplayname()) {
+			$calendar->setDisplayname(null);
+		}
+		if (!$api->canStoreEnabled()) {
+			$calendar->setEnabled(null);
+		}
+		if (!$api->canStoreOrder()) {
+			$calendar->setOrder(null);
+		}
 	}
 }

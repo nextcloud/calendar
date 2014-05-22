@@ -743,21 +743,6 @@ class ObjectBusinessLayer extends BusinessLayer {
 	}
 
 
-	/**
-	 * @brief throw exception if object is not valid
-	 * @param Object $object
-	 * @return bool
-	 * @throws BusinessLayerException
-	 */
-	private function checkObjectIsValid(Object $object) {
-		if (!$object->isValid()) {
-			$msg = 'User Error: Given object data is not valid!';
-			throw new BusinessLayerException($msg, Http::STATUS_UNPROCESSABLE_ENTITY);
-		}
-
-		return true;
-	}
-
 
 	/**
 	 * @brief throw exception if eTags are not equal

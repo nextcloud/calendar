@@ -181,7 +181,8 @@ class Calendar extends Entity implements ICalendar {
 	 * @return $this
 	 */
 	public function setColor($color) {
-		if (preg_match(RegexUtility::RGBA, $this->color)) {
+		//TODO - fix regex
+		if (preg_match(RegexUtility::RGBA, $this->color) === 1) {
 			return $this->setter('color', array($color));
 		} else {
 			return $this;

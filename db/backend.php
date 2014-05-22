@@ -176,7 +176,7 @@ class Backend extends Entity implements \OCP\Calendar\IBackend {
 			return false;
 		}
 
-		if (!class_exists($this->classname)) {
+		if (!class_exists($this->getClassname())) {
 			return false;
 		}
 
@@ -189,6 +189,6 @@ class Backend extends Entity implements \OCP\Calendar\IBackend {
 	 * @return string
 	 */
 	public function __toString() {
-		return $this->backend;
+		return $this->getBackend();
 	}
 }

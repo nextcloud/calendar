@@ -63,6 +63,7 @@ class JSONCalendar extends JSON {
 	private function setProperty($key, $value) {
 		switch($key) {
 			case 'color':
+			case 'description':
 			case 'displayname':
 			case 'timezone':
 			case 'backend':
