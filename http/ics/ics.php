@@ -7,12 +7,10 @@
  */
 namespace OCA\Calendar\Http\ICS;
 
-use \OCP\AppFramework\IAppContainer;
-
-use \OCA\Calendar\Db\Entity;
-
-use \OCA\Calendar\Http\Serializer;
-use \OCA\Calendar\Http\ISerializer;
+use OCP\AppFramework\IAppContainer;
+use OCA\Calendar\Db\Entity;
+use OCA\Calendar\Http\ISerializer;
+use OCP\Calendar\IEntity;
 
 abstract class ICS implements ISerializer {
 
@@ -58,9 +56,10 @@ abstract class ICS implements ISerializer {
 
 	/**
 	 * @brief set object
-	 * @param Entity $object
+	 * @param IEntity $object
+	 * @return mixed ($this|null)
 	 */
-	public function setObject($object) {
+	public function setObject(IEntity $object) {
 		if ($object instanceof Entity) {
 			$this->object = $object;
 			return $this;

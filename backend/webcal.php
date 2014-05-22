@@ -38,8 +38,8 @@ use OCA\Calendar\Sabre\VObject\Reader;
 use OCA\Calendar\Sabre\VObject\ParseException;
 
 use OCA\Calendar\Db\DoesNotExistException;
-use OCA\Calendar\Db\MultipleObjectsReturnedException;
-use OCA\Calendar\Db\CorruptDataException;
+/*use OCA\Calendar\Db\MultipleObjectsReturnedException;
+use OCA\Calendar\Db\CorruptDataException;*/
 
 
 use OCA\Calendar\Db\Subscription;
@@ -47,12 +47,10 @@ use OCA\Calendar\Db\Subscription;
 use OCA\Calendar\BusinessLayer\SubscriptionBusinessLayer;
 
 use OCA\Calendar\Db\ObjectType;
-use OCA\Calendar\Db\Permissions;
+/*use OCA\Calendar\Db\Permissions;
 
-use OCA\Calendar\Utility\ObjectUtility;
+use OCA\Calendar\Utility\ObjectUtility;*/
 use OCA\Calendar\Utility\RegexUtility;
-
-use DateTime;
 
 class WebCal extends Backend {
 
@@ -164,7 +162,7 @@ class WebCal extends Backend {
 
 	/**
 	 * @brief returns information about the object (event/journal/todos) with the uid $objectURI in the calendar $calendarURI of the user $userId
-	 * @param Calendar $calendar
+	 * @param ICalendar $calendar
 	 * @param string $objectURI
 	 * @returns IObject
 	 * @throws DoesNotExistException if calendar does not exist
@@ -179,7 +177,7 @@ class WebCal extends Backend {
 
 	/**
 	 * @brief returns all objects in the calendar $calendarURI of the user $userId
-	 * @param Calendar $calendar
+	 * @param ICalendar $calendar
 	 * @param integer $limit
 	 * @param integer $offset
 	 * @returns IObjectCollection
@@ -277,7 +275,7 @@ class WebCal extends Backend {
 		}
 
 		$curl = self::prepareRequest($url);
-		$data = curl_exec($curl);
+		curl_exec($curl);
 		$responseCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 		$contentType = curl_getinfo($curl, CURLINFO_CONTENT_TYPE);
 

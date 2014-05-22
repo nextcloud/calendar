@@ -77,6 +77,23 @@ abstract class Entity implements IEntity{
 
 
 	/**
+	 * @param $id
+	 * @return $this
+	 */
+	public function setId($id) {
+		return $this->setter('id', $id);
+	}
+
+
+	/**
+	 * @return int
+	 */
+	public function getId() {
+		return $this->getter('id');
+	}
+
+
+	/**
 	 * @brief overwrite current objects with properties 
 	 *        from $object that are not null
 	 * @param IEntity $object
@@ -122,6 +139,7 @@ abstract class Entity implements IEntity{
 		return false;
 	}
 
+
 	/**
 	 * Marks the entity as clean needed for setting the id after the insertion
 	 */
@@ -129,6 +147,13 @@ abstract class Entity implements IEntity{
 		$this->updatedFields = array();
 	}
 
+
+	/**
+	 * @param string $name
+	 * @param mixed $args
+	 * @return $this
+	 * @throws \BadFunctionCallException
+	 */
 	protected function setter($name, $args) {
 		// setters should only work for existing attributes
 		if (property_exists($this, $name)){
@@ -136,7 +161,7 @@ abstract class Entity implements IEntity{
 
 			// if type definition exists, cast to correct type
 			if ($args[0] !== null && array_key_exists($name, $this->fieldTypes)) {
-				settype($args[0], $this->fieldTypes[$name]);
+				//settype($args[0], $this->fieldTypes[$name]);
 			}
 			$this->$name = $args[0];
 
@@ -149,6 +174,11 @@ abstract class Entity implements IEntity{
 	}
 
 
+	/**
+	 * @param string $name
+	 * @return mixed
+	 * @throws \BadFunctionCallException
+	 */
 	protected function getter($name) {
 		// getters should only work for existing attributes
 		if (property_exists($this, $name)){
@@ -157,27 +187,6 @@ abstract class Entity implements IEntity{
 			throw new \BadFunctionCallException($name . 
 				' is not a valid attribute');
 		}
-	}
-
-
-	/**
-	 * Each time a setter is called, push the part after set
-	 * into an array: for instance setId will save Id in the 
-	 * updated fields array so it can be easily used to create the
-	 * getter method
-	 */
-	public function __call($methodName, $args){
-		$attr = lcfirst( substr($methodName, 3) );
-
-		if (strpos($methodName, 'set') === 0){
-			$this->setter($attr, $args);
-		} elseif (strpos($methodName, 'get') === 0) {
-			return $this->getter($attr);
-		} else {
-			throw new \BadFunctionCallException($methodName . 
-					' does not exist');
-		}
-
 	}
 
 
@@ -256,6 +265,27 @@ abstract class Entity implements IEntity{
 	}
 
 	/**
+	 * Each time a setter is called, push the part after set
+	 * into an array: for instance setId will save Id in the
+	 * updated fields array so it can be easily used to create the
+	 * getter method
+	 */
+	public function __call($methodName, $args){
+		$attr = lcfirst( substr($methodName, 3) );
+
+		if (strpos($methodName, 'set') === 0){
+			$this->setter($attr, $args);
+			return $this;
+		} elseif (strpos($methodName, 'get') === 0) {
+			return $this->getter($attr);
+		} else {
+			throw new \BadFunctionCallException($methodName .
+				' does not exist');
+		}
+
+	}
+
+	/**
 	 * Slugify the value of a given attribute
 	 * Warning: This doesn't result in a unique value
 	 * @param string $attributeName the name of the attribute, which value should be slugified
@@ -289,6 +319,7 @@ abstract class Entity implements IEntity{
 			if($this->getter($field) === null) {
 				return false;
 			}
+			//TODO - check type of mandatory field
 		}
 
 		return true;

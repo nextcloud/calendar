@@ -22,6 +22,9 @@
 namespace OCA\Calendar\BusinessLayer;
 
 use OCP\AppFramework\Http;
+
+use OCP\Calendar\IBackendCollection;
+
 use \OCP\AppFramework\IAppContainer;
 use \OCA\Calendar\Backend\IBackend;
 use \OCA\Calendar\Db\Backend;
@@ -127,7 +130,7 @@ abstract class BusinessLayer {
 	 * @return boolean
 	 */
 	public function checkBackendEnabled($backend) {
-		if (!($this->backends instanceof BackendCollection)) {
+		if (!($this->backends instanceof IBackendCollection)) {
 			$msg = 'No backends set-up!';
 			throw new BusinessLayerException($msg, Http::STATUS_INTERNAL_SERVER_ERROR);
 		}

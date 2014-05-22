@@ -7,19 +7,17 @@
  */
 namespace OCA\Calendar\Db;
 
-use \OCP\AppFramework\IAppContainer;
-
-use \OCA\Calendar\Db\Subscription;
+use OCP\AppFramework\IAppContainer;
 
 class SubscriptionMapper extends Mapper {
 
 	/**
 	 * @brief Constructor
 	 * @param IAppContainer $app
-	 * @param string $tablename
+	 * @param string $tableName
 	 */
-	public function __construct($app, $tablename='clndr_sbscrptns'){
-		parent::__construct($app, $tablename);
+	public function __construct($app, $tableName='clndr_sbscrptns'){
+		parent::__construct($app, $tableName);
 	}
 
 
@@ -67,6 +65,7 @@ class SubscriptionMapper extends Mapper {
 	/**
 	 * does a subscription of a certain type exist
 	 * @param string $name
+	 * @param string $type
 	 * @param string $userId
 	 * @return boolean
 	 */
@@ -82,6 +81,40 @@ class SubscriptionMapper extends Mapper {
 
 		$count = intval($row['count']);
 		return ($count !== 0);
+	}
+
+
+	/**
+	 * @param string $userId
+	 * @return integer
+	 */
+	public function count($userId) {
+		$sql  = 'SELECT COUNT(*) AS `count` FROM `' . $this->tableName . '`';
+		$sql .= ' WHERE `user_id` = ?';
+
+		$row = $this->findOneQuery($sql, array(
+			$userId
+		));
+
+		return intval($row['count']);
+	}
+
+
+	/**
+	 * @param string $type
+	 * @param string $userId
+	 * @return integer
+	 */
+	public function countByType($type, $userId) {
+		$sql  = 'SELECT COUNT(*) AS `count` FROM `' . $this->tableName . '`';
+		$sql .= ' WHERE `type` = ? AND `user_id` = ?';
+
+		$row = $this->findOneQuery($sql, array(
+			$type,
+			$userId
+		));
+
+		return intval($row['count']);
 	}
 
 

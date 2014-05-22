@@ -11,7 +11,6 @@ use \OCP\AppFramework\IAppContainer;
 
 use \OCA\Calendar\Db\Entity;
 
-use \OCA\Calendar\Http\Serializer;
 use \OCA\Calendar\Http\ISerializer;
 
 abstract class JSON implements ISerializer {

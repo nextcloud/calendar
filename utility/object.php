@@ -7,6 +7,8 @@
  */
 namespace OCA\Calendar\Utility;
 
+use DateTime;
+
 class ObjectUtility extends Utility{
 
 	/**
@@ -29,7 +31,7 @@ class ObjectUtility extends Utility{
 	 * @return string
 	 */
 	public static function getUTCforMDB($datetime){
-		if($datetime instanceof \Datetime) {
+		if($datetime instanceof Datetime) {
 			return date('Y-m-d H:i:s', $datetime->format('U'));
 		} else {
 			return '1970-01-01 00:00:00';

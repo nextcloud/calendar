@@ -7,6 +7,8 @@
  */
 namespace OCA\Calendar\Http\JSON;
 
+use OCA\Calendar\Backend\Backend;
+
 class JSONBackend extends JSON {
 
 	/**
@@ -89,24 +91,24 @@ class JSONBackend extends JSON {
 	private function setSupportedActions() {
 		$calActions = array(
 			'create' => 
-				$this->object->api->implementsActions(\OCA\Calendar\Backend\CREATE_CALENDAR),
+				$this->object->api->implementsActions(Backend::CREATE_CALENDAR),
 			'update' => 
-				$this->object->api->implementsActions(\OCA\Calendar\Backend\UPDATE_CALENDAR),
+				$this->object->api->implementsActions(Backend::UPDATE_CALENDAR),
 			'delete' => 
-				$this->object->api->implementsActions(\OCA\Calendar\Backend\DELETE_CALENDAR),
+				$this->object->api->implementsActions(Backend::DELETE_CALENDAR),
 			'merge' => 
-				$this->object->api->implementsActions(\OCA\Calendar\Backend\MERGE_CALENDAR),
+				$this->object->api->implementsActions(Backend::MERGE_CALENDAR),
 			'move' => 
-				$this->object->api->implementsActions(\OCA\Calendar\Backend\MOVE_CALENDAR),
+				$this->object->api->implementsActions(Backend::MOVE_CALENDAR),
 		);
 
 		$objActions = array(
 			'create' => 
-				$this->object->api->implementsActions(\OCA\Calendar\Backend\CREATE_OBJECT),
+				$this->object->api->implementsActions(Backend::CREATE_OBJECT),
 			'update' => 
-				$this->object->api->implementsActions(\OCA\Calendar\Backend\UPDATE_OBJECT),
+				$this->object->api->implementsActions(Backend::UPDATE_OBJECT),
 			'delete' => 
-				$this->object->api->implementsActions(\OCA\Calendar\Backend\DELETE_OBJECT),
+				$this->object->api->implementsActions(Backend::DELETE_OBJECT),
 		);
 
 		$actions = array(

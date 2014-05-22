@@ -7,7 +7,9 @@
  */
 namespace OCA\Calendar\Http;
 
-use \OCP\AppFramework\IAppContainer;
+use OCP\AppFramework\IAppContainer;
+
+use BadFunctionCallException;
 
 class Reader extends Manager {
 
@@ -29,6 +31,7 @@ class Reader extends Manager {
 	 * @param integer $type
 	 * @param resource $handle
 	 * @param string $requestedMimeType
+	 * @throws ReaderException
 	 */
 	public function __construct(IAppContainer $app, $type, $handle, $requestedMimeType) {
 		$class = self::get($type, $requestedMimeType);
@@ -41,14 +44,16 @@ class Reader extends Manager {
 
 
 	/**
-	 * @brief hand over function calls to reader instance
+	 * @param string $method
+	 * @param array $params
 	 * @return mixed
+	 * @throws BadFunctionCallException
 	 */
 	public function __call($method, $params) {
 		if(is_callable(array($this->reader, $method))) {
 			return call_user_func_array(array($this->reader, $method), $params);
 		}
-		throw new \BadFunctionCallException('Call to undefined method ' . $method);
+		throw new BadFunctionCallException('Call to undefined method ' . $method);
 	}
 }
 

@@ -7,14 +7,14 @@
  */
 namespace OCA\Calendar\Http\ICS;
 
-use \OCA\Calendar\Db\Collection;
-use \OCA\Calendar\Http\IResponse;
+use OCA\Calendar\Db\Collection;
 
 abstract class ICSCollection extends ICS {
 
 	/**
 	 * @brief set object
 	 * @param Collection $object
+	 * @return mixed (null|$this)
 	 */
 	public function setObject($object) {
 		if ($object instanceof Collection) {

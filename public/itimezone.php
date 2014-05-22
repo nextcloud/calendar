@@ -21,7 +21,25 @@
  */
 namespace OCP\Calendar;
 
+use OCA\Calendar\Sabre\VObject\Component\VCalendar;
+
 interface ITimezone extends IEntity {
+
+	/**
+	 * @param VCalendar $vcalendar
+	 * @return $this
+	 * @throws MultipleObjectsReturnedException
+	 * @throws DoesNotExistException
+	 */
+	public function setVobject(VCalendar $vcalendar);
+
+
+	/**
+	 * @brief get VObject from Calendar Object
+	 * @return VCalendar object
+	 */
+	public function getVObject();
+
 
 	/**
 	 * @brief get timezone id

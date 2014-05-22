@@ -1,15 +1,33 @@
 <?php
 /**
- * Copyright (c) 2014 Bernhard Posselt <dev@bernhard-posselt.com>
- * Copyright (c) 2014 Morris Jobke <morris.jobke@gmail.com>
- * Copyright (c) 2014 Georg Ehrke <oc.list@georgehrke.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * ownCloud - Calendar App
+ *
+ * @author Bernhard Posselt
+ * @copyright 2014 Bernhard Posselt <dev@bernhard-posselt.com>
+ * @author Morris Jobke
+ * @copyright 2014 Morris Jobke <morris.jobke@gmail.com>
+ * @author Georg Ehrke
+ * @copyright 2014 Georg Ehrke <oc.list@georgehrke.com>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 namespace OCA\Calendar\Db;
 
-use \OCP\AppFramework\IAppContainer;
+use OCP\AppFramework\IAppContainer;
+use OCP\Calendar\ICollection;
+use OCP\DB;
 
 /**
  * Simple parent class for inheriting your data access layer from. This class
@@ -91,7 +109,7 @@ abstract class Mapper {
 		
 		$this->execute($sql, $params);
 
-		$entity->setId((int) \OCP\DB::insertid($this->tableName));
+		$entity->setId((int) DB::insertid($this->tableName));
 		return $entity;
 	}
 
@@ -185,7 +203,7 @@ abstract class Mapper {
 	 * @return \PDOStatement the database query result
 	 */
 	protected function execute($sql, array $params=array(), $limit=null, $offset=null){
-		$query = \OCP\DB::prepare($sql, $limit, $offset);
+		$query = DB::prepare($sql, $limit, $offset);
 		return $query->execute($params);
 	}
 
@@ -210,7 +228,7 @@ abstract class Mapper {
 	 * @param array $params the params which should replace the ? in the sql query
 	 * @param int $limit the maximum number of rows
 	 * @param int $offset from which row we want to start
-	 * @return array all fetched entities
+	 * @return mixed (boolean|ICollection)
 	 */
 	protected function findEntities($sql, array $params=array(), $limit=null, $offset=null) {
 		$result = $this->execute($sql, $params, $limit, $offset);
@@ -219,6 +237,10 @@ abstract class Mapper {
 		$collectionName = str_replace('Mapper', 'Collection', $class);
 
 		$collection = new $collectionName();
+		if (!($collection instanceof ICollection)) {
+			return false;
+		}
+
 		while($row = $result->fetchRow()){
 			$entity = $this->mapRowToEntity($row);
 			$collection->add($entity);

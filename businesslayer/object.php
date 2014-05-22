@@ -355,7 +355,7 @@ class ObjectBusinessLayer extends BusinessLayer {
 	public function create(Object &$object) {
 		try {
 			$calendar = $object->getCalendar();
-			$objectURI = $object->getObjectURI();
+			$objectURI = $object->getUri();
 
 			$backend = $calendar->getBackend();
 			$calendarURI = $calendar->getUri();
@@ -387,7 +387,7 @@ class ObjectBusinessLayer extends BusinessLayer {
 	 */
 	public function createFromRequest(Object &$object) {
 		/* Create random URI if no URI is given */
-		if($object->getObjectURI() === null) {
+		if($object->getUri() === null) {
 			$randomURI = ObjectUtility::randomURI();
 			$object->setObjectURI($randomURI);
 		}
@@ -453,7 +453,7 @@ class ObjectBusinessLayer extends BusinessLayer {
 	public function update(Object &$object, Calendar &$oldCalendar, $oldObjectURI) {
 		try {
 			$newCalendar = $object->getCalendar();
-			$newObjectURI = $object->getObjectURI();
+			$newObjectURI = $object->getUri();
 			$newBackend = $newCalendar->getBackend();
 			$newCalendarURI = $newCalendar->getUri();
 			$newUserId = $newCalendar->getUserId();
@@ -578,7 +578,7 @@ class ObjectBusinessLayer extends BusinessLayer {
 			$cacheObjectsInNewBackend = $newBackendsAPI->cacheObjects($calendarURI, $userId);
 			if ($cacheObjectsInNewBackend === true) {
 				//dafuq
-				$this->mapper->create($object, $object->getCalendarUri(), $object->getObjectUri(), $userId);
+				$this->mapper->create($object, $object->getCalendarUri(), $object->getUri(), $userId);
 			}
 
 			$this->calendarBusinessLayer->touch($calendarId, $userId);
@@ -643,7 +643,7 @@ class ObjectBusinessLayer extends BusinessLayer {
 	public function delete(Object &$object) {
 		try {
 			$calendar = $object->getCalendar();
-			$objectURI = $object->getObjectURI();
+			$objectURI = $object->getUri();
 
 			$backend = $calendar->getBackend();
 			$calendarURI = $calendar->getUri();

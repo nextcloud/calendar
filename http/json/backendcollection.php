@@ -7,6 +7,10 @@
  */
 namespace OCA\Calendar\Http\JSON;
 
+use OCP\Calendar\IBackend;
+
+use OCA\Calendar\Http\SerializerException;
+
 class JSONBackendCollection extends JSONCollection {
 
 	/**
@@ -30,11 +34,11 @@ class JSONBackendCollection extends JSONCollection {
 	public function serialize() {
 		$jsonArray = array();
 
-		$this->object->iterate(function(&$object) use (&$jsonArray) {
+		$this->object->iterate(function(IBackend &$object) use (&$jsonArray) {
 			try {
-				$jsonBackend = new JSONBackend($this->app);
-				$jsonArray[] = $jsonBackend->setObject($object)->serialize();
-			} catch (JSONException $ex) {
+				$jsonBackend = new JSONBackend($this->app, $object);
+				$jsonArray[] = $jsonBackend->serialize();
+			} catch (SerializerException $ex) {
 				//TODO - log error msg
 				return;
 			}

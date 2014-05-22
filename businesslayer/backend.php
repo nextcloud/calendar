@@ -26,9 +26,8 @@ use OCA\Calendar\Backend\Backend;
 class BackendBusinessLayer extends BusinessLayer {
 
 	/**
-	 * @param string $userId
-	 * @param limit $limit
-	 * @param limit $offset
+	 * @param integer $limit
+	 * @param integer $offset
 	 */
 	public function findAll($limit, $offset) {
 

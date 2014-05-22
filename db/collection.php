@@ -1,18 +1,33 @@
 <?php
 /**
- * Copyright (c) 2014 Georg Ehrke <oc.list@georgehrke.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * ownCloud - Calendar App
+ *
+ * @author Georg Ehrke
+ * @copyright 2014 Georg Ehrke <oc.list@georgehrke.com>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 namespace OCA\Calendar\Db;
 
-use \OCA\Calendar\Sabre\VObject\Component\VCalendar;
-use \OCA\Calendar\Sabre\VObject\Component\VEvent;
-use \OCA\Calendar\Sabre\VObject\Component\VJournal;
-use \OCA\Calendar\Sabre\VObject\Component\VTodo;
 use OCP\Calendar\ICollection;
 use OCP\Calendar\IEntity;
+
+use OCA\Calendar\Sabre\VObject\Component\VCalendar;
+use OCA\Calendar\Sabre\VObject\Component\VEvent;
+use OCA\Calendar\Sabre\VObject\Component\VJournal;
+use OCA\Calendar\Sabre\VObject\Component\VTodo;
 
 abstract class Collection implements ICollection {
 
@@ -24,7 +39,7 @@ abstract class Collection implements ICollection {
 
 
 	/**
-	 * @brief constructur
+	 * @brief constructor
 	 * @param mixed (array|Entity|Collection) $objects
 	 */
 	public function __construct($objects=null) {
@@ -44,7 +59,7 @@ abstract class Collection implements ICollection {
 
 	/**
 	 * @brief add entity to collection
-	 * @param Entity $object entity to be added
+	 * @param IEntity $object entity to be added
 	 * @param integer $nth insert at index, if not set, entity will be appended
 	 * @return $this
 	 */
@@ -65,7 +80,7 @@ abstract class Collection implements ICollection {
 
 	/**
 	 * @brief add entities to collection
-	 * @param Collection $collection collection of entities to be added
+	 * @param ICollection $collection collection of entities to be added
 	 * @param integer $nth insert at index, if not set, collection will be appended
 	 * @return integer
 	 */
@@ -125,7 +140,7 @@ abstract class Collection implements ICollection {
 
 	/**
 	 * @brief remove entity by it's information
-	 * @param Entity $entity
+	 * @param IEntity $entity
 	 * @return $this
 	 */
 	public function removeByEntity(IEntity $entity) {
@@ -276,7 +291,7 @@ abstract class Collection implements ICollection {
 
 	/**
 	 * @brief check if entity is in collection
-	 * @param Entity $object
+	 * @param IEntity $object
 	 * @return boolean
 	 */
 	public function inCollection(IEntity $object) {
@@ -292,6 +307,10 @@ abstract class Collection implements ICollection {
 		$vCalendar = new VCalendar();
 
 		foreach($this->objects as &$object) {
+			if (!($object instanceof IEntity)) {
+				continue;
+			}
+
 			$vObject = $object->getVObject();
 			foreach($vObject->children() as $child) {
 				if ($child instanceof VEvent || 
@@ -315,6 +334,10 @@ abstract class Collection implements ICollection {
 		$vObjects = array();
 
 		foreach($this->objects as &$object) {
+			if (!($object instanceof IEntity)) {
+				continue;
+			}
+
 			$vObjects[] = $object->getVObject();
 		}
 
@@ -326,11 +349,15 @@ abstract class Collection implements ICollection {
 	 * @brief get a collection of entities that meet criteria
 	 * @param string $key property that's supposed to be searched
 	 * @param mixed $value expected value, can be a regular expression when 3rd param is set to true
-	 * @return collection
+	 * @return mixed (boolean|ICollection)
 	 */
 	public function search($key, $value) {
 		$class = get_class($this);
 		$matchingObjects = new $class();
+
+		if (!($matchingObjects instanceof ICollection)) {
+			return false;
+		}
 
 		$getter = 'get' . ucfirst($key);
 
@@ -349,11 +376,15 @@ abstract class Collection implements ICollection {
 	 * @brief get a collection of entities that meet criteria; search calendar data
 	 * @param string $key name of property that stores data
 	 * @param string $regex regular expression
-	 * @return ObjectCollection
+	 * @return mixed (boolean|ICollection)
 	 */
 	public function searchData($key, $regex) {
 		$class = get_class($this);
 		$matchingObjects = new $class();
+
+		if (!($matchingObjects instanceof ICollection)) {
+			return false;
+		}
 
 		$getter = 'get' . ucfirst($key);
 
@@ -372,7 +403,7 @@ abstract class Collection implements ICollection {
 	 * @brief set a property for all calendars
 	 * @param string $key key for property
 	 * @param mixed $value value to be set
-	 * @return this
+	 * @return $this
 	 */
 	public function setProperty($key, $value) {
 		$setter = 'set' . ucfirst($key);
@@ -394,6 +425,9 @@ abstract class Collection implements ICollection {
 	 */
 	public function isValid() {
 		foreach($this->objects as &$object) {
+			if (!($object instanceof IEntity)) {
+				return false;
+			}
 			if (!$object->isValid()) {
 				return false;
 			}
@@ -405,9 +439,7 @@ abstract class Collection implements ICollection {
 
 	/**
 	 * @brief iterate over each entity of collection
-	 * @param anonymous function
-	 * iterate gives you a pointer to the current object. be careful!
-	 * @param array of parameters
+	 * @param callable $function
 	 * @return $this
 	 */
 	public function iterate($function) {

@@ -7,7 +7,7 @@
  */
 namespace OCA\Calendar\Http\JSON;
 
-use \OCA\Calendar\Db\Calendar;
+use OCA\Calendar\Http\SerializerException;
 
 class JSONCalendarCollection extends JSONCollection {
 
@@ -29,14 +29,14 @@ class JSONCalendarCollection extends JSONCollection {
 	 * @brief get json-encoded string containing all information
 	 * @return array
 	 */
-	public function serialize($convenience=true) {
+	public function serialize() {
 		$jsonArray = array();
 
-		$this->object->iterate(function(&$object) use (&$jsonArray, $convenience) {
+		$this->object->iterate(function(&$object) use (&$jsonArray) {
 			try {
 				$jsonCalendar = new JSONCalendar($this->app, $object);
-				$jsonArray[] = $jsonCalendar->serialize($convenience);
-			} catch (JSONException $ex) {
+				$jsonArray[] = $jsonCalendar->serialize();
+			} catch (SerializerException $ex) {
 				//TODO - log error msg
 				return;
 			}

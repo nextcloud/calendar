@@ -7,20 +7,24 @@
  */
 namespace OCA\Calendar\Http\JSON;
 
-use \OCA\Calendar\Db\Calendar;
-use \OCA\Calendar\Db\ObjectType;
-use \OCA\Calendar\Db\Permissions;
-use \OCA\Calendar\Db\DoesNotExistException;
+use OCP\Calendar\ICalendar;
+use OCP\Calendar\ICalendarCollection;
+use OCP\Calendar\ITimezone;
 
-use \OCA\Calendar\Http\ReaderException;
+use OCA\Calendar\Db\Calendar;
+use OCA\Calendar\Db\CalendarCollection;
+use OCA\Calendar\Db\DoesNotExistException;
 
-use \OCA\Calendar\Utility\CalendarUtility;
-use \OCA\Calendar\Utility\JSONUtility;
+use OCA\Calendar\Http\SerializerException;
+use OCA\Calendar\Http\ReaderException;
+
+use OCA\Calendar\Utility\JSONUtility;
 
 class JSONCalendarReader extends JSONReader{
 
 	/**
-	 * @brief parse jsoncalendar
+	 * @return $this
+	 * @throws ReaderException
 	 */
 	public function parse() {
 		$data = stream_get_contents($this->handle);
@@ -43,7 +47,7 @@ class JSONCalendarReader extends JSONReader{
 
 
 	/**
-	 * @brief overwrite values that should not be set by user with null
+	 * overwrite values that should not be set by user with null
 	 */
 	public function sanitize() {
 		if ($this->object === null) {
@@ -62,10 +66,11 @@ class JSONCalendarReader extends JSONReader{
 
 
 	/**
-	 * @brief check if $this->data is a collection
+	 * check if $this->data is a collection
+	 * @param array $json
 	 * @return boolean
 	 */
-	private function isUserDataACollection($json) {
+	private function isUserDataACollection(array $json) {
 		if (array_key_exists(0, $json) && is_array($json[0])) {
 			return true;
 		}
@@ -75,17 +80,18 @@ class JSONCalendarReader extends JSONReader{
 
 
 	/**
-	 * @brief parse a json calendar collection
-	 * @return \OCA\Calendar\Db\CalendarCollection
+	 * parse a json calendar collection
+	 * @param array $data
+	 * @return ICalendarCollection
 	 */
-	private function parseCollection($data) {
+	private function parseCollection(array $data) {
 		$collection = new CalendarCollection();
 
 		foreach($data as $singleEntity) {
 			try {
 				$calendar = $this->parseSingleEntity($singleEntity);
 				$collection->add($calendar);
-			} catch(JSONReaderException $ex) {
+			} catch(SerializerException $ex) {
 				//TODO - log error message
 				continue;
 			}
@@ -96,10 +102,11 @@ class JSONCalendarReader extends JSONReader{
 
 
 	/**
-	 * @brief parse a json calendar
-	 * @return \OCA\Calendar\Db\Calendar
+	 * parse a json calendar
+	 * @param array $data
+	 * @return ICalendar
 	 */
-	private function parseSingleEntity($data) {
+	private function parseSingleEntity(array $data) {
 		$calendar = new Calendar();
 
 		foreach($data as $key => $value) {
@@ -159,8 +166,9 @@ class JSONCalendarReader extends JSONReader{
 
 
 	/**
-	 * @brief get timezone Object from timezoneId
-	 * @return \OCA\Calendar\Db\Timezone
+	 * get timezone Object from timezoneId
+	 * @param string $timezoneId
+	 * @return ITimezone
 	 */
 	private function parseTimezone($timezoneId) {
 		try {

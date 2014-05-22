@@ -283,7 +283,7 @@ abstract class Backend implements IBackend {
 		$identifiers = array();
 
 		$objects->iterate(function(IObject &$object) use (&$identifiers) {
-			$identifiers[] = $object->getObjectURI();
+			$identifiers[] = $object->getUri();
 		});
 
 		return $identifiers;

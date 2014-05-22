@@ -32,6 +32,13 @@ interface IBackend extends IEntity {
 
 
 	/**
+	 * @param boolean $enabled
+	 * @return $this
+	 */
+	public function setEnabled($enabled);
+
+
+	/**
 	 * disables a backend
 	 * @return $this
 	 */
@@ -43,4 +50,50 @@ interface IBackend extends IEntity {
 	 * @return $this
 	 */
 	public function enable();
+
+
+	/**
+	 * @return boolean
+	 */
+	public function getEnabled();
+
+
+	/**
+	 * @param string $classname
+	 * @return $this
+	 */
+	public function setClassname($classname);
+
+
+	/**
+	 * @return string
+	 */
+	public function getClassname();
+
+
+	/**
+	 * @param string $backend
+	 * @return $this
+	 */
+	public function setBackend($backend);
+
+
+
+	/**
+	 * @return string
+	 */
+	public function getBackend();
+
+
+	/**
+	 * @param array $arguments
+	 * @return $this
+	 */
+	public function setArguments($arguments);
+
+
+	/**
+	 * @return array
+	 */
+	public function getArguments();
 }

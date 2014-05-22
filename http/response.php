@@ -7,9 +7,8 @@
  */
 namespace OCA\Calendar\Http;
 
-use \OCP\AppFramework\Http\Response as CoreResponse;
-use \OCP\AppFramework\Http;
-use \OCA\Calendar\Http\ISerializer;
+use OCP\AppFramework\Http\Response as CoreResponse;
+use OCP\AppFramework\Http;
 
 class Response extends CoreResponse {
 
@@ -38,6 +37,10 @@ class Response extends CoreResponse {
 		}
 
 		if ($data instanceof ISerializer || $data instanceof Serializer) {
+			/**
+			 * @var ISerializer $data
+			 * Serializer hands over calls to ISerializer instance
+			 */
 			$this->addHeaders($data->getHeaders());
 		}
 	}
@@ -50,7 +53,11 @@ class Response extends CoreResponse {
 	public function render(){
 		$data = $this->data;
 
-		if ($data instanceof ISeriliazier || $data instanceof Serializer) {
+		if ($data instanceof ISerializer || $data instanceof Serializer) {
+			/**
+			 * @var ISerializer $data
+			 * Serializer hands over calls to ISerializer instance
+			 */
 			$data = $data->serialize();
 		}
 
@@ -60,9 +67,7 @@ class Response extends CoreResponse {
 		if (is_array($data)) {
 			return json_encode($data);
 		}
-		if (is_null($data)) {
-			return '';
-		}
+		return '';
 	}
 
 

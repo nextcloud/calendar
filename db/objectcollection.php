@@ -21,6 +21,8 @@
  */
 namespace OCA\Calendar\Db;
 
+use OCP\Calendar\IObject;
+
 use \DateTime;
 use OCP\Calendar\IObjectCollection;
 
@@ -35,8 +37,8 @@ class ObjectCollection extends Collection implements IObjectCollection {
 	public function inPeriod(DateTime $start, DateTime $end) {
 		$objectsInPeriod = new ObjectCollection();
 
-		$this->iterate(function($object) use (&$objectsInPeriod, $start, $end) {
-			if ($object->isRepeating() === true) {
+		$this->iterate(function(IObject $object) use (&$objectsInPeriod, $start, $end) {
+			if ($object->getRepeating() === true) {
 				$objectsInPeriod->add($object);
 			} else {
 				if ($object->isInTimeRange($start, $end)) {
@@ -58,9 +60,11 @@ class ObjectCollection extends Collection implements IObjectCollection {
 	public function expand(DateTime $start, DateTime $end) {
 		$expandedObjects = new ObjectCollection();
 
-		$this->iterate(function($object) use (&$expandedObjects, $start, $end) {
-			if ($object->isRepeating() === true) {
-				$object->vobject->expand($start, $end);
+		$this->iterate(function(IObject $object) use (&$expandedObjects, $start, $end) {
+			if ($object->getRepeating() === true) {
+				$vobject = $object->getVObject();
+				$vobject->expand($start, $end);
+				$object->setVObject($vobject);
 				$expandedObjects->add($object);
 			}
 		});
@@ -71,15 +75,15 @@ class ObjectCollection extends Collection implements IObjectCollection {
 
 	/**
 	 * @brief get a collection of all calendars owned by a certian user
-	 * @param string userId of owner
+	 * @param string $userId of owner
 	 * @return ObjectCollection
 	 */
 	public function ownedBy($userId) {
 		$objectsOwnedBy = new ObjectCollection();
 
-		$this->iterate(function($object) use (&$objectsOwnedBy, $userId) {
-			if ($object->calendar instanceof Calendar &&
-				$object->calendar->getOwner() === $userId) {
+		$this->iterate(function(IObject $object) use (&$objectsOwnedBy, $userId) {
+			if ($object->getCalendar() instanceof Calendar &&
+				$object->getCalendar()->getOwnerId() === $userId) {
 				$objectsOwnedBy->add($object);
 			}
 		});
@@ -96,7 +100,7 @@ class ObjectCollection extends Collection implements IObjectCollection {
 	public function ofType($type) {
 		$objectsOfType = new ObjectCollection();
 
-		$this->iterate(function($object) use (&$objectsOfType, $type) {
+		$this->iterate(function(IObject $object) use (&$objectsOfType, $type) {
 			if ($object->getType() & $type) {
 				$objectsOfType->add($object);
 			}

@@ -24,6 +24,9 @@ namespace OCA\Calendar\Db;
 use OCP\Calendar\IBackendCollection;
 use OCP\Calendar\ICalendarCollection;
 
+use OCP\Calendar\IBackend;
+use OCP\Calendar\ICalendar;
+
 class CalendarCollection extends Collection implements ICalendarCollection {
 
 	/**
@@ -46,8 +49,8 @@ class CalendarCollection extends Collection implements ICalendarCollection {
 
 	/**
 	 * @brief get a collection of all calendars owned by a certian user
-	 * @param string userId of owner
-	 * @return CalendarCollection of all calendars owned by user
+	 * @param string $userId of owner
+	 * @return ICalendarCollection of all calendars owned by user
 	 */
 	public function ownedBy($userId) {
 		return $this->search('ownerId', $userId);
@@ -55,14 +58,14 @@ class CalendarCollection extends Collection implements ICalendarCollection {
 
 
 	/**
-	 * @brief get a collection of calendars that supports certian components
+	 * @brief get a collection of calendars that supports certain components
 	 * @param int $component use \OCA\Calendar\Db\ObjectType to get wanted component code
-	 * @return CalendarCollection of calendars that supports certian components
+	 * @return ICalendarCollection of calendars that supports certain components
 	 */
 	public function components($component) {
 		$newCollection = new CalendarCollection();
 
-		$this->iterate(function($object) use (&$newCollection, $component) {
+		$this->iterate(function(ICalendar $object) use (&$newCollection, $component) {
 			if ($object->getComponents() & $component) {
 				$newCollection->add(clone $object);
 			}
@@ -75,14 +78,14 @@ class CalendarCollection extends Collection implements ICalendarCollection {
 	/**
 	 * @brief get a collection of calendars with a certain permission
 	 * @param int $cruds use \OCA\Calendar\Db\Permissions to get wanted permission code
-	 * @return CalendarCollection of calendars with a certian permission
+	 * @return ICalendarCollection of calendars with a certain permission
 	 */
 	public function permissions($cruds) {
 		$newCollection = new CalendarCollection();
 
-		$this->iterate(function($object) use (&$newCollection, $cruds) {
-			if ($object->getCruds() & $cruds) {
-				$newCollection->add(clone $object);
+		$this->iterate(function(ICalendar &$calendar) use (&$newCollection, $cruds) {
+			if ($calendar->getCruds() & $cruds) {
+				$newCollection->add(clone $calendar);
 			}
 		});
 
@@ -92,17 +95,17 @@ class CalendarCollection extends Collection implements ICalendarCollection {
 
 	/**
 	 * @brief filter calendars by BackendCollection
-	 * @param BackendCollection $backends
-	 * @return CalendarCollection of calendars on backends in BackendCollection
+	 * @param IBackendCollection $backends
+	 * @return ICalendarCollection
 	 */
 	public function filterByBackends(IBackendCollection $backends) {
 		$newCollection = new CalendarCollection();
 		$backendObjects = $backends->getObjects();
 
-		$this->iterate(function($object) use (&$newCollection, $backendObjects) {
+		$this->iterate(function(ICalendar $calendar) use (&$newCollection, $backendObjects) {
 			foreach($backendObjects as $backendObject) {
-				if ($object->getBackend() === $backendObject->getBackend()) {
-					$newCollection->add(clone $object);
+				if ($backendObject instanceof IBackend && $calendar->getBackend() === $backendObject->getBackend()) {
+					$newCollection->add(clone $calendar);
 				}
 			}
 		});

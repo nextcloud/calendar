@@ -7,7 +7,9 @@
  */
 namespace OCA\Calendar\Http\ICS;
 
-use \OCA\Calendar\Utility\SabreUtility;
+use OCA\Calendar\Sabre\VObject\Component\VCalendar;
+
+use OCA\Calendar\Utility\SabreUtility;
 
 class ICSObject extends ICS {
 
@@ -29,7 +31,7 @@ class ICSObject extends ICS {
 	 * @brief get json-encoded string containing all information
 	 * @return array
 	 */
-	public function serialize($convenience=true) {
+	public function serialize() {
 		$vcalendar = $this->object->getVObject();
 		$timezoneMapper = $this->app->query('TimezoneMapper');
 
@@ -38,6 +40,7 @@ class ICSObject extends ICS {
 			$timezoneMapper
 		);
 
+		/* @var VCalendar $vcalendar */
 		return $vcalendar->serialize();
 	}
 }

@@ -7,16 +7,12 @@
  */
 namespace OCA\Calendar\Http\ICS;
 
-use \OCA\Calendar\Sabre\VObject\Reader;
-use \OCA\Calendar\Sabre\VObject\ParseException;
-use \OCA\Calendar\Sabre\VObject\EofException;
+use OCA\Calendar\Sabre\VObject\Splitter\ICalendar;
 
-use \OCA\Calendar\Db\Object;
-use \OCA\Calendar\Db\ObjectCollection;
-
-use \OCA\Calendar\Utility\SabreUtility;
-
-use \OCA\Calendar\Sabre\VObject\Splitter\ICalendar;
+use OCA\Calendar\Db\Object;
+use OCA\Calendar\Db\ObjectCollection;
+use OCA\Calendar\Http\ReaderException;
+use OCA\Calendar\Utility\SabreUtility;
 
 class ICSObjectReader extends ICSReader {
 
@@ -42,8 +38,8 @@ class ICSObjectReader extends ICSReader {
 			}
 
 			return $this->setObject($object);
-		} catch(Exception $e /* What exception is being thrown??? */) {
-			throw new JSONObjectReaderException($ex->getMessage());
+		} catch(\Exception $ex /* What exception is being thrown??? */) {
+			throw new ReaderException($ex->getMessage());
 		}
 	}
 

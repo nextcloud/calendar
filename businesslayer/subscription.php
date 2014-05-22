@@ -25,11 +25,18 @@ use OCP\AppFramework\Http;
 
 use OCA\Calendar\Db\Subscription;
 use OCA\Calendar\Db\SubscriptionCollection;
+use OCA\Calendar\Db\SubscriptionMapper;
 
 use OCA\Calendar\Db\DoesNotExistException;
 use OCA\Calendar\Db\MultipleObjectsReturnedException;
 
 class SubscriptionBusinessLayer extends BusinessLayer {
+
+	/**
+	 * @var SubscriptionMapper
+	 */
+	protected $mapper;
+
 
 	/**
 	 * @param string $userId
@@ -157,6 +164,6 @@ class SubscriptionBusinessLayer extends BusinessLayer {
 	 * @param Subscription $subscription
 	 */
 	public function delete(Subscription $subscription) {
-		return $this->mapper->delete($subscription);
+		$this->mapper->delete($subscription);
 	}
 }

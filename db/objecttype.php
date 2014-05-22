@@ -102,6 +102,8 @@ class ObjectType extends \OCP\Calendar\ObjectType {
 		if (substr_count($string, 'VTODO')) {
 			$types += self::TODO;
 		}
+
+		return $types;
 	}
 
 

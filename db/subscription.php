@@ -11,9 +11,27 @@ use OCP\Calendar\ISubscription;
 
 class Subscription extends Entity implements ISubscription {
 
+	/**
+	 * @var string
+	 */
 	public $name;
+
+
+	/**
+	 * @var string
+	 */
 	public $type;
+
+
+	/**
+	 * @var string
+	 */
 	public $url;
+
+
+	/**
+	 * @var string
+	 */
 	public $userId;
 
 
@@ -34,27 +52,84 @@ class Subscription extends Entity implements ISubscription {
 
 
 	/**
+	 * @param string $name
+	 * @return $this
+	 */
+	public function setName($name) {
+		return $this->setter('name', $name);
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getName() {
+		return $this->getter('name');
+	}
+
+
+	/**
+	 * @param string $type
+	 * @return $this
+	 */
+	public function setType($type) {
+		return $this->setter('type', $type);
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getType() {
+		return $this->getter('type');
+	}
+
+
+	/**
+	 * @param string $url
+	 * @return $this
+	 */
+	public function setUrl($url) {
+		return $this->setter('url', $url);
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getUrl() {
+		return $this->getter('url');
+	}
+
+
+	/**
+	 * @param string $userId
+	 * @return $this
+	 */
+	public function setUserId($userId) {
+		return $this->setter('userId', $userId);
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getUserId() {
+		return $this->getter('userId');
+	}
+
+
+	/**
 	 * @brief check if object is valid
 	 * @return boolean
 	 */
 	public function isValid() {
-		$strings = array(
-			$this->name,
-			$this->type,
-			$this->url,
-			$this->userId
-		);
-
-		foreach($strings as $string) {
-			if (!is_string($string)) {
-				return false;
-			}
-			if (trim($string) === '') {
-				return false;
-			}
+		$isValid = parent::isValid();
+		if (!$isValid) {
+			return false;
 		}
 
-		$parsedURL = parse_url($this->url);
+		$parsedURL = parse_url($this->getUrl());
 		if (!$parsedURL) {
 			return false;
 		}

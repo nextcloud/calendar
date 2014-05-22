@@ -7,10 +7,11 @@
  */
 namespace OCA\Calendar\Db;
 
-use \OCP\AppFramework\IAppContainer;
+use OCP\AppFramework\IAppContainer;
+use OCP\Config;
 
-use \OCA\Calendar\Db\Backend;
-use \OCA\Calendar\Db\BackendCollection;
+use OCP\Calendar\IBackend;
+use OCP\Calendar\IBackendCollection;
 
 class BackendMapper extends Mapper {
 
@@ -50,15 +51,15 @@ class BackendMapper extends Mapper {
 		$this->app = $app;
 		$this->configName = $configName;
 
-		$backends = \OCP\Config::getSystemValue($configName);
+		$backends = Config::getSystemValue($configName);
 		if ($backends === null) {
 			$backends = $app->query('fallbackBackendConfig');
 		}
 
 		$backendCollection = new BackendCollection();
 
-		foreach($backends as $id => $backend) {
-			$backend = new Backend($backend);
+		foreach($backends as $id => $backendData) {
+			$backend = new Backend($backendData);
 			$backend->setId($id);
 
 			$backendCollection->add($backend);
@@ -74,7 +75,7 @@ class BackendMapper extends Mapper {
 	public function __destruct() {
 		if ($this->didChange) {
 			$newConfig = $this->backendCollection->getObjects();
-			//\OCP\Config::setSystemValue($this->configName, $newConfig);
+			Config::setSystemValue($this->configName, $newConfig);
 		}
 	}
 
@@ -83,7 +84,7 @@ class BackendMapper extends Mapper {
 	 * @brief Finds an item by it's name
 	 * @param string $backend name of backend
 	 * @throws DoesNotExistException: if the item does not exist
-	 * @return the backend item
+	 * @return IBackend
 	 */
 	public function find($backend){
 		return $this->backendCollection->find($backend);
@@ -92,7 +93,7 @@ class BackendMapper extends Mapper {
 
 	/**
 	 * Finds all Items
-	 * @return array containing all items
+	 * @return IBackendCollection
 	 */
 	public function findAll(){
 		return $this->backendCollection;
@@ -110,7 +111,7 @@ class BackendMapper extends Mapper {
 
 	/**
 	 * @param Entity $item
-	 * @return $this|the
+	 * @return $this
 	 */
 	public function insert(Entity $item){
 		$this->backendCollection->add($item);
@@ -122,7 +123,7 @@ class BackendMapper extends Mapper {
 
 	/**
 	 * @param Entity $item
-	 * @return $this|void
+	 * @return $this
 	 */
 	public function update(Entity $item){
 		$this->backendCollection->removeByProperty('id', $item->getId());

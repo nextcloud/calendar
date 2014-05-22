@@ -21,4 +21,56 @@
  */
 namespace OCP\Calendar;
 
-interface ISubscription extends IEntity{};
+interface ISubscription extends IEntity {
+
+	/**
+	 * @param string $name
+	 * @return $this
+	 */
+	public function setName($name);
+
+
+	/**
+	 * @return string
+	 */
+	public function getName();
+
+
+	/**
+	 * @param string $type
+	 * @return $this
+	 */
+	public function setType($type);
+
+
+	/**
+	 * @return string
+	 */
+	public function getType();
+
+
+	/**
+	 * @param string $url
+	 * @return $this
+	 */
+	public function setUrl($url);
+
+
+	/**
+	 * @return string
+	 */
+	public function getUrl();
+
+
+	/**
+	 * @param string $userId
+	 * @return $this
+	 */
+	public function setUserId($userId);
+
+
+	/**
+	 * @return string
+	 */
+	public function getUserId();
+};

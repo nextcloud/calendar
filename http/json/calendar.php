@@ -7,13 +7,8 @@
  */
 namespace OCA\Calendar\Http\JSON;
 
-use \OCA\Calendar\Db\Calendar;
-
-use \OCA\Calendar\Db\ObjectType;
-use \OCA\Calendar\Db\Permissions;
-
-use \OCA\Calendar\Utility\CalendarUtility;
-use \OCA\Calendar\Utility\JSONUtility;
+use OCA\Calendar\Utility\CalendarUtility;
+use OCA\Calendar\Utility\JSONUtility;
 
 class JSONCalendar extends JSON {
 

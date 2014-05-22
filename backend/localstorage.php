@@ -21,27 +21,30 @@
  */
 namespace OCA\Calendar\Backend;
 
-use \OCP\AppFramework\IAppContainer;
+use OCP\AppFramework\IAppContainer;
 
-use \OCA\Calendar\Db\DoesNotExistException;
-use \OCA\Calendar\Db\MultipleObjectsReturnedException;
-use \OCA\Calendar\Db\CorruptDataException;
+use OCP\Calendar\ICalendar;
+use OCP\Calendar\ICalendarCollection;
+use OCP\Calendar\IObject;
+/*use OCP\Calendar\IObjectCollection;*/
 
-use \OCA\Calendar\Db\Calendar;
-use \OCA\Calendar\Db\CalendarCollection;
+use OCA\Calendar\Db\DoesNotExistException;
+/*use OCA\Calendar\Db\MultipleObjectsReturnedException;
+use OCA\Calendar\Db\CorruptDataException;*/
 
-use \OCA\Calendar\Db\Object;
-use \OCA\Calendar\Db\ObjectCollection;
+use OCA\Calendar\Db\Calendar;
+use OCA\Calendar\Db\CalendarCollection;
+/*use OCA\Calendar\Db\Object;*/
+use OCA\Calendar\Db\ObjectCollection;
+/*use OCA\Calendar\Db\Timezone;
+use OCA\Calendar\Db\TimezoneCollection;
 
-use \OCA\Calendar\Db\Timezone;
-use \OCA\Calendar\Db\TimezoneCollection;
+use OCA\Calendar\Db\ObjectType;
+use OCA\Calendar\Db\Permissions;
 
-use \OCA\Calendar\Db\ObjectType;
-use \OCA\Calendar\Db\Permissions;
+use OCA\Calendar\Utility\ObjectUtility;
 
-use \OCA\Calendar\Utility\ObjectUtility;
-
-use \DateTime;
+use DateTime;*/
 
 class LocalStorage extends Backend {
 
@@ -59,7 +62,7 @@ class LocalStorage extends Backend {
 	 * @brief returns information about calendar $calendarURI of the user $userId
 	 * @param string $calendarURI
 	 * @param string $userId
-	 * @returns array with \OCA\Calendar\Db\Calendar object
+	 * @returns ICalendar
 	 * @throws DoesNotExistException if uri does not exist
 	 */
 	public function findCalendar($calendarURI, $userId) {
@@ -70,7 +73,9 @@ class LocalStorage extends Backend {
 	/**
 	 * @brief returns all calendars of the user $userId
 	 * @param string $userId
-	 * @returns \OCA\Calendar\Db\CalendarCollection
+	 * @param integer $limit
+	 * @param integer $offset
+	 * @returns ICalendarCollection
 	 * @throws DoesNotExistException if uri does not exist
 	 */
 	public function findCalendars($userId, $limit=null, $offset=null) {
@@ -80,7 +85,7 @@ class LocalStorage extends Backend {
 
 	/**
 	 * @brief returns number of calendar
-	 * @param string $userid
+	 * @param string $userId
 	 * @returns integer
 	 */
 	public function countCalendars($userId) {
@@ -91,7 +96,7 @@ class LocalStorage extends Backend {
 	/**
 	 * @brief returns whether or not a calendar exists
 	 * @param string $calendarURI
-	 * @param string $userid
+	 * @param string $userId
 	 * @returns boolean
 	 */
 	public function doesCalendarExist($calendarURI, $userId) {
@@ -101,26 +106,26 @@ class LocalStorage extends Backend {
 
 	/**
 	 * @brief returns information about the object (event/journal/todo) with the uid $objectURI in the calendar $calendarURI of the user $userId 
-	 * @param string $calendarURI
+	 * @param ICalendar $calendar
 	 * @param string $objectURI
-	 * @param string $userid
-	 * @returns \OCA\Calendar\Db\Object object
+	 * @returns IObject
 	 * @throws DoesNotExistException if calendar does not exist
 	 * @throws DoesNotExistException if object does not exist
 	 */
-	public function findObject(Calendar &$calendar, $objectURI) {
+	public function findObject(ICalendar &$calendar, $objectURI) {
 		throw new DoesNotExistException();
 	}
 
 
 	/**
 	 * @brief returns all objects in the calendar $calendarURI of the user $userId
-	 * @param string $calendarURI
-	 * @param string $userId
+	 * @param ICalendar $calendar
+	 * @param integer $limit
+	 * @param integer $offset
 	 * @returns \OCA\Calendar\Db\ObjectCollection
 	 * @throws DoesNotExistException if calendar does not exist
 	 */
-	public function findObjects(Calendar &$calendar, $limit, $offset) {
+	public function findObjects(ICalendar &$calendar, $limit, $offset) {
 		return new ObjectCollection();
 	}
 }

@@ -21,6 +21,9 @@
  */
 namespace OCP\Calendar;
 
+use OCA\Calendar\Sabre\VObject\Component\VCalendar;
+use DateTime;
+
 interface IObject extends IEntity {
 
 	/**
@@ -37,6 +40,59 @@ interface IObject extends IEntity {
 	 */
 	public function doesAllow($cruds);
 
+	/**
+	 * @param ICalendar $calendar
+	 * @return $this
+	 */
+	public function setCalendar(ICalendar $calendar);
+
+
+	/**
+	 * @return ICalendar
+	 */
+	public function getCalendar();
+
+
+	/**
+	 * @param string $uri
+	 * @return $this
+	 */
+	public function setUri($uri);
+
+
+	/**
+	 * @return string
+	 */
+	public function getUri();
+
+
+	/**
+	 * @param string $etag
+	 * @return $this
+	 */
+	public function setEtag($etag);
+
+
+	/**
+	 * @param bool $force generate etag if none stored
+	 * @return mixed (string|null)
+	 */
+	public function getEtag($force=false);
+
+
+	/**
+	 * @param integer $ruds
+	 * @return $this
+	 */
+	public function setRuds($ruds);
+
+
+	/**
+	 * @param boolean $force return value all the time
+	 * @return mixed (integer|null)
+	 */
+	public function getRuds($force=false);
+
 
 	/**
 	 * @brief get text/calendar representation of stored object
@@ -52,14 +108,6 @@ interface IObject extends IEntity {
 
 
 	/**
-	 * @brief get etag
-	 * @param bool $force
-	 * @return string
-	 */
-	public function getEtag($force=false);
-
-
-	/**
 	 * @brief update Etag
 	 * @return $this
 	 */
@@ -67,17 +115,17 @@ interface IObject extends IEntity {
 
 
 	/**
-	 * @brief get ruds
-	 * @param boolean $force return value all the time
-	 * @return mixed (integer|null)
+	 * @param VCalendar $vobject
+	 * @throws CorruptDataException
+	 * @return $this
 	 */
-	public function getRuds($force=false);
+	public function setVobject(VCalendar $vobject);
 
 
 	/**
-	 * @brief set ruds value
+	 * @return VCalendar
 	 */
-	public function setRuds($ruds);
+	public function getVobject();
 
 
 	/**
@@ -120,4 +168,12 @@ interface IObject extends IEntity {
 	 * @return mixed (\DateTime|null)
 	 */
 	public function getLastModified();
+
+
+	/**
+	 * @param DateTime $start
+	 * @param DateTime $end
+	 * @return boolean
+	 */
+	public function isInTimeRange(DateTime $start, DateTime $end);
 }

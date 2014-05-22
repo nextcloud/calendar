@@ -7,13 +7,14 @@
  */
 namespace OCA\Calendar\Http\ICS;
 
-use \OCP\AppFramework\IAppContainer;
+use OCP\AppFramework\IAppContainer;
 
-use \OCA\Calendar\Db\Entity;
-use \OCA\Calendar\Db\Collection;
+use OCP\Calendar\ICollection;
+use OCP\Calendar\IEntity;
 
-use \OCA\Calendar\Http\IReader;
-use \OCA\Calendar\Http\ReaderException;
+use OCA\Calendar\Http\IReader;
+use OCA\Calendar\Http\ReaderException;
+
 
 abstract class ICSReader implements IReader {
 
@@ -26,7 +27,7 @@ abstract class ICSReader implements IReader {
 
 	/**
 	 * reader object
-	 * @var \OCA\Calendar\Http\IReader
+	 * @var mixed (IEntity|ICollection)
 	 */
 	protected $object;
 
@@ -72,7 +73,7 @@ abstract class ICSReader implements IReader {
 	 * @brief set object
 	 */
 	protected function setObject($object) {
-		if ($object instanceof Entity || $object instanceof Collection) {
+		if ($object instanceof IEntity || $object instanceof ICollection) {
 			$this->object = $object;
 			return $this;
 		}
@@ -84,12 +85,11 @@ abstract class ICSReader implements IReader {
 
 
 	/**
-	 * @brief null properties
-	 * @param array of strings
-	 * 		  string should represent key
+	 * @param array $properties
+	 * @return $this
 	 */
 	protected function nullProperties($properties) {
-		$isCollection = $this->isCollection();
+		$isCollection = ($this->object instanceof ICollection);
 
 		foreach($properties as $property) {
 			if ($isCollection) {

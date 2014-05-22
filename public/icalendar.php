@@ -140,6 +140,32 @@ interface ICalendar extends IEntity {
 
 
 	/**
+	 * @param ITimezone $timezone
+	 * @return $this
+	 */
+	public function setTimezone(ITimezone $timezone);
+
+
+	/**
+	 * @return ITimezone
+	 */
+	public function getTimezone();
+
+
+	/**
+	 * @param string $uri
+	 * @return $this
+	 */
+	public function setUri($uri);
+
+
+	/**
+	 * @return string
+	 */
+	public function getUri();
+
+
+	/**
 	 * @param string $userId
 	 * @return $this
 	 */

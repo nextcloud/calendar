@@ -7,7 +7,9 @@
  */
 namespace OCA\Calendar\Http;
 
-use \OCP\AppFramework\IAppContainer;
+use OCP\AppFramework\IAppContainer;
+
+use BadFunctionCallException;
 
 class Serializer extends Manager {
 
@@ -36,6 +38,7 @@ class Serializer extends Manager {
 	 * @param integer $type
 	 * @param resource $data
 	 * @param string $requestedMimeType
+	 * @throws SerializerException
 	 */
 	public function __construct(IAppContainer $app, $type, $data, $requestedMimeType) {
 		$class = self::get($type, $requestedMimeType);
@@ -51,14 +54,16 @@ class Serializer extends Manager {
 
 
 	/**
-	 * @brief hand over function calls to reader instance
+	 * @param string $method
+	 * @param array $params
+	 * @throws BadFunctionCallException
 	 * @return mixed
 	 */
 	public function __call($method, $params) {
 		if(is_callable(array($this->serializer, $method))) {
 			return call_user_func_array(array($this->serializer, $method), $params);
 		}
-		throw new \BadFunctionCallException('Call to undefined method ' . $method);
+		throw new BadFunctionCallException('Call to undefined method ' . $method);
 	}
 }
 

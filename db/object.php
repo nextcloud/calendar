@@ -438,6 +438,17 @@ class Object extends Entity implements IObject {
 
 
 	/**
+	 * @param DateTime $start
+	 * @param DateTime $end
+	 * @return boolean
+	 */
+	public function isInTimeRange(DateTime $start, DateTime $end) {
+		$objectName = $this->getObjectName();
+		return $this->vobject->{$objectName}->isInTimeRange($start, $end);
+	}
+
+
+	/**
 	 * @brief get name of property inside $this->vobject
 	 * @return string
 	 */
