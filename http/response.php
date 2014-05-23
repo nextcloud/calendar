@@ -63,11 +63,12 @@ class Response extends CoreResponse {
 
 		if (is_string($data)) {
 			return $data;
-		}
-		if (is_array($data)) {
+		} else if (is_array($data)) {
 			return json_encode($data);
+		} else {
+			$this->setStatus(Http::STATUS_NO_CONTENT);
+			return '';
 		}
-		return '';
 	}
 
 
