@@ -1,16 +1,31 @@
 <?php
 /**
- * Copyright (c) 2014 Georg Ehrke <oc.list@georgehrke.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * ownCloud - Calendar App
+ *
+ * @author Georg Ehrke
+ * @copyright 2014 Georg Ehrke <oc.list@georgehrke.com>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 namespace OCA\Calendar\Utility;
 
-use \OCA\Calendar\Db\ObjectType;
-use \OCA\Calendar\Db\Permissions;
+use OCP\User;
+use OCP\Util;
 
-use \OCA\Calendar\Db\Timezone;
+use OCP\Calendar\ObjectType;
+use OCP\Calendar\Permissions;
 
 class JSONUtility extends Utility{
 
@@ -21,12 +36,12 @@ class JSONUtility extends Utility{
 	 */
 	public static function getUserInformation($userId) {
 		if ($userId === null) {
-			$userId = \OCP\User::getUser();
+			$userId = User::getUser();
 		}
 
 		return array(
 			'userid' => $userId,
-			'displayname' => \OCP\User::getDisplayName($userId),
+			'displayname' => User::getDisplayName($userId),
 		);
 	}
 
@@ -111,8 +126,8 @@ class JSONUtility extends Utility{
 		$cruds = 0;
 
 		//use code if given
-		if (array_key_exists('code', $value) && (int) $value['code'] >= 0 && (int) $value['code'] <= 31) {
-			$cruds = (int) $value['code'];
+		if (array_key_exists('code', $value) && intval($value['code']) >= 0 && intval($value['code']) <= 31) {
+			$cruds = intval($value['code']);
 		} else {
 			if (array_key_exists('create', $value) && $value['create'] === true) {
 				$cruds += Permissions::CREATE;
@@ -131,28 +146,7 @@ class JSONUtility extends Utility{
 			}
 		}
 
-		return $code;
-	}
-
-
-	/**
-	 * @brief get json-encoded timezone-information
-	 * @param Timezone
-	 * @return array
-	 */
-	public static function getTimeZone(Timezone $timezone) {
-		$jsonTimezone = new JSONTimezone($timezone);
-		return $jsonTimezone->serialize();
-	}
-
-
-	/**
-	 * @brief parse json-encoded timezone-information
-	 * @param array
-	 * @return null
-	 */
-	public static function parseTimeZone($value) {
-		return null;
+		return $cruds;
 	}
 
 
@@ -166,8 +160,8 @@ class JSONUtility extends Utility{
 			'calendarId' => $calendarURI,
 		);
 
-		$url = \OCP\Util::linkToRoute('calendar.calendar.show', $properties);
-		return \OCP\Util::linkToAbsolute('', substr($url, 1));
+		$url = Util::linkToRoute('calendar.calendar.show', $properties);
+		return Util::linkToAbsolute('', substr($url, 1));
 	}
 
 
@@ -178,7 +172,7 @@ class JSONUtility extends Utility{
 	 * @return array
 	 */
 	public static function getCalDAV($calendarURI, $userId) {
-		$url  = \OCP\Util::linkToRemote('caldav');
+		$url  = Util::linkToRemote('caldav');
 		$url .= urlencode($userId) . '/';
 		$url .= $calendarURI . '/';
 

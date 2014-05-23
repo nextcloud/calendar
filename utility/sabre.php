@@ -1,34 +1,45 @@
 <?php
 /**
- * Copyright (c) 2014 Georg Ehrke <oc.list@georgehrke.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * ownCloud - Calendar App
+ *
+ * @author Georg Ehrke
+ * @copyright 2014 Georg Ehrke <oc.list@georgehrke.com>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 namespace OCA\Calendar\Utility;
 
-use \DateTimeZone;
+use OCP\Calendar\DoesNotExistException;
 
-use \OCA\Calendar\Sabre\VObject\Component;
-use \OCA\Calendar\Sabre\VObject\Component\VCalendar;
-use \OCA\Calendar\Sabre\VObject\Component\VEvent;
-use \OCA\Calendar\Sabre\VObject\Component\VJournal;
-use \OCA\Calendar\Sabre\VObject\Component\VTodo;
-use \OCA\Calendar\Sabre\VObject\Component\VFreeBusy;
+use OCA\Calendar\Sabre\VObject\Component;
+use OCA\Calendar\Sabre\VObject\Component\VCalendar;
+use OCA\Calendar\Sabre\VObject\Component\VEvent;
+use OCA\Calendar\Sabre\VObject\Component\VJournal;
+use OCA\Calendar\Sabre\VObject\Component\VTodo;
+use OCA\Calendar\Sabre\VObject\Component\VFreeBusy;
+use OCA\Calendar\Sabre\VObject\Parameter;
+use OCA\Calendar\Sabre\VObject\Property\ICalendar\DateTime;
 
-use \OCA\Calendar\Sabre\VObject\Property\ICalendar\DateTime as DateTimeProperty;
-
-use \OCA\Calendar\Db\Timezone;
-use \OCA\Calendar\Db\TimezoneMapper;
-
-use \OCA\Calendar\Db\DoesNotExistException;
+use OCA\Calendar\Db\TimezoneMapper;
 
 class SabreUtility extends Utility {
 
 	/**
 	 * @brief get property name of first object
 	 * @param \OCA\Calendar\Sabre\VObject\Component\VCalendar $vcalendar
-	 * @return string property name
+	 * @return mixed (string|bool)
 	 */
 	public static function getObjectName($vcalendar) {
 		foreach($vcalendar->children() as $child) {
@@ -39,6 +50,8 @@ class SabreUtility extends Utility {
 				return $child->name;
 			}
 		}
+
+		return false;
 	}
 
 
@@ -98,7 +111,7 @@ class SabreUtility extends Utility {
 
 	/**
 	 * @brief count number of unique UIDs inside a calendar
-	 * @param \OCA\Calendar\Sabre\VObject\Component\VCalendar $vcalendar
+	 * @param VCalendar $vcalendar
 	 * @return integer
 	 */
 	public static function countUniqueUIDs(VCalendar $vcalendar) {
@@ -121,9 +134,9 @@ class SabreUtility extends Utility {
 
 
 	/**
-	 * @brief get dtstart property of object
-	 * @param \OCA\Calendar\Sabre\VObject\Component $vobject
-	 * @return \OCA\Calendar\Sabre\VObject\Property\DateTime $dstart
+	 * @brief get DTSTART property of object
+	 * @param Component $vobject
+	 * @return DateTime $dstart
 	 */
 	public static function getDTStart(Component $vobject) {
 		if (!isset($vobject->{'DTSTART'})) {
@@ -142,9 +155,9 @@ class SabreUtility extends Utility {
 
 
 	/**
-	 * @brief get dtend property of object
-	 * @param \OCA\Calendar\Sabre\VObject\Component $vobject
-	 * @return \OCA\Calendar\Sabre\VObject\Property\DateTime $dtend
+	 * @brief get DTEND property of object
+	 * @param Component $vobject
+	 * @return DateTime $dtend
 	 */
 	public static function getDTEnd(Component $vobject) {
 		if (isset($vobject->{'DTEND'})) {
@@ -171,8 +184,8 @@ class SabreUtility extends Utility {
 
 	/**
 	 * @brief add missing timezones to an object
-	 * @param \OCA\Calendar\Sabre\VObject\Component\VCalendar $vcalendar
-	 * @param \OCA\Calendar\Db\TimezoneMapper $tzMapper
+	 * @param VCalendar &$vcalendar
+	 * @param TimezoneMapper &$tzMapper
 	 */
 	public static function addMissingVTimezones(VCalendar &$vcalendar, TimezoneMapper &$tzMapper) {
 		$tzIds = self::parseComponentForTzIds($vcalendar);
@@ -188,7 +201,7 @@ class SabreUtility extends Utility {
 
 		foreach($missingTzIds as $tzId) {
 			try {
-				$timezonesVCalendar = $tzMapper->find($tzId)->vobject;
+				$timezonesVCalendar = $tzMapper->find($tzId, null)->vobject;
 				$vcalendar->add($timezonesVCalendar->{'VTIMEZONE'});
 			} catch(DoesNotExistException $ex) {
 				continue;
@@ -199,7 +212,7 @@ class SabreUtility extends Utility {
 
 	/**
 	 * @brief parse a component for tzIds
-	 * @param \OCA\Calendar\Sabre\VObject\Component\VCalendar $vcalendar
+	 * @param Component &$component
 	 * @return array
 	 */
 	public static function parseComponentForTzIds(Component &$component) {
@@ -211,10 +224,12 @@ class SabreUtility extends Utility {
 					$tzIds,
 					self::parseComponentForTzIds($child)
 				);
-			} elseif($child instanceof DateTimeProperty) {
-				$parameters = $child->parameters;
+			} elseif($child instanceof DateTime) {
+				$parameters = $child->parameters();
 				if(array_key_exists('TZID', $parameters)) {
-					$tzIds[] = $parameters['TZID']->getValue();
+					/** @var Parameter $tzParameter */
+					$tzParameter = $parameters['TZID'];
+					$tzIds[] = $tzParameter->getValue();
 				}
 			}
 		}
@@ -224,8 +239,9 @@ class SabreUtility extends Utility {
 
 
 	/**
-	 * @brief parse a component for X-OC-* properties and removes them
-	 * @param \OCA\Calendar\Sabre\VObject\Component\VCalendar $vcalendar
+	 * parse a component for X-OC-* properties and removes them
+	 * @param Component &$component
+	 * @return void
 	 */
 	public static function removeXOCAttrFromComponent(Component &$component) {
 		foreach($component->children() as $child) {
