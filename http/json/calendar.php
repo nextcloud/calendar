@@ -62,9 +62,6 @@ class JSONCalendar extends JSON {
 			$this->setProperty(strtolower($key), $value);
 		}
 
-		$this->setCalendarURL();
-		$this->setCalDAVURL();
-
 		return $this->jsonArray;
 	}
 
@@ -86,6 +83,7 @@ class JSONCalendar extends JSON {
 				break;
 
 			case 'ctag':
+			case 'id':
 			case 'order':
 				$this->jsonArray[$key] = intval($value);
 				break;
@@ -113,34 +111,5 @@ class JSONCalendar extends JSON {
 				break;
 			
 		}
-	}
-
-
-	/**
-	 * @brief set api url to calendar
-	 * @return $this
-	 */
-	private function setCalendarURL() {
-		$calendarURL = JSONUtility::getURL(
-			$this->jsonArray['id']
-		);
-		$this->jsonArray['url'] = $calendarURL;
-
-		return $this;
-	}
-
-
-	/**
-	 * @brief set api url to calendar
-	 * @return $this;
-	 */
-	private function setCalDAVURL() {
-		$calDAVURL = JSONUtility::getCalDAV(
-			$this->jsonArray['id'],
-			$this->object->getUserId()
-		);
-		$this->jsonArray['caldav'] = $calDAVURL;
-
-		return $this;
 	}
 }
