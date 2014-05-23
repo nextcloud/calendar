@@ -64,7 +64,7 @@ config(['$provide', '$routeProvider', 'RestangularProvider', '$httpProvider', '$
 		if (calendars.length > 0) {
 
 			var calendar = calendars[calendars.length-1];
-			$location.path('/' + calendar.uri);
+			$location.path('/' + calendar.backend + '::'+ calendar.uri);
 		} else {
 			$location.path('/');
 		}

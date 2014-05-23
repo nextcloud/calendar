@@ -43,7 +43,7 @@ config(['$provide', '$routeProvider', 'RestangularProvider', '$httpProvider', '$
 		if (calendars.length > 0) {
 
 			var calendar = calendars[calendars.length-1];
-			$location.path('/' + calendar.uri);
+			$location.path('/' + calendar.backend + '::'+ calendar.uri);
 		} else {
 			$location.path('/');
 		}
@@ -183,6 +183,7 @@ app.controller('CalendarListController', ['$scope','Restangular','CalendarModel'
 
  		$scope.calendars = CalendarModel.getAll();
  		var calendarResource = Restangular.all('v1/calendars');
+ 		var forceUpdate = Restangular.all('v1/calendars-forceUpdate');
 
  		// Gets All Calendars.
  		calendarResource.getList().then(function (calendars) {
@@ -193,7 +194,7 @@ app.controller('CalendarListController', ['$scope','Restangular','CalendarModel'
  		$scope.create = function () {
  			calendarResource.post().then(function (calendar) {
  				CalendarModel.add(calendar);
- 				$scope.path('/' + calendar.uri);
+ 				$scope.path('/' + calendar.backend + '::'+ calendar.uri);
  			});
  		};
 

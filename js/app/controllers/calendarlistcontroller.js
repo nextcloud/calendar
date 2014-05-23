@@ -26,6 +26,7 @@
 
  		$scope.calendars = CalendarModel.getAll();
  		var calendarResource = Restangular.all('v1/calendars');
+ 		var forceUpdate = Restangular.all('v1/calendars-forceUpdate');
 
  		// Gets All Calendars.
  		calendarResource.getList().then(function (calendars) {
@@ -36,7 +37,7 @@
  		$scope.create = function () {
  			calendarResource.post().then(function (calendar) {
  				CalendarModel.add(calendar);
- 				$scope.path('/' + calendar.uri);
+ 				$scope.path('/' + calendar.backend + '::'+ calendar.uri);
  			});
  		};
 
