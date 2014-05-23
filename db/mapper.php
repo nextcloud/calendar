@@ -29,6 +29,9 @@ use OCP\AppFramework\IAppContainer;
 use OCP\Calendar\ICollection;
 use OCP\DB;
 
+use OCP\Calendar\DoesNotExistException;
+use OCP\Calendar\MultipleObjectsReturnedException;
+
 /**
  * Simple parent class for inheriting your data access layer from. This class
  * may be subject to change in the future

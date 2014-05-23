@@ -21,7 +21,9 @@
  */
 namespace OCA\Calendar\Db;
 
-use \OCP\AppFramework\IAppContainer;
+use OCP\AppFramework\IAppContainer;
+use OCP\Calendar\DoesNotExistException;
+use OCP\Calendar\MultipleObjectsReturnedException;
 
 class CalendarMapper extends Mapper {
 
@@ -57,6 +59,26 @@ class CalendarMapper extends Mapper {
 
 		$row = $this->findOneQuery($sql, array(
 			$backend, $uri, $userId
+		));
+
+		return new Calendar($row);
+	}
+
+
+	/**
+	 * find calendar by id and userId
+	 * @param int $id
+	 * @param string $userId
+	 * @throws DoesNotExistException: if the item does not exist
+	 * @throws MultipleObjectsReturnedException: if more than one item found
+	 * @return calendar object
+	 */
+	public function findById($id, $userId) {
+		$sql  = 'SELECT * FROM `' . $this->getTableName() . '` ';
+		$sql .= 'WHERE `id` = ? AND `user_id` = ?';
+
+		$row = $this->findOneQuery($sql, array(
+			$id, $userId
 		));
 
 		return new Calendar($row);

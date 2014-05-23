@@ -13,6 +13,9 @@ use OCP\Calendar\IObjectCollection;
 
 use OCA\Calendar\Utility\ObjectUtility;
 
+use OCP\Calendar\DoesNotExistException;
+use OCP\Calendar\MultipleObjectsReturnedException;
+
 use DateTime;
 
 class ObjectMapper extends Mapper {
@@ -42,6 +45,7 @@ class ObjectMapper extends Mapper {
 	 * @param string $uid
 	 * @param integer $calendarId
 	 * @throws DoesNotExistException: if the item does not exist
+	 * @throws MultipleObjectsReturnedException
 	 * @return IObject
 	 */
 	public function find($uid, $calendarId){
