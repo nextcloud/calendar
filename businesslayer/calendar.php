@@ -543,7 +543,9 @@ class CalendarBusinessLayer extends BusinessLayer {
 			$this->updateCacheForCalendarFromRemote(array($oldBackend, $oldCalendarURI), $oldUserId);
 
 			return $calendar;
-		} catch(Exception $ex){}
+		} catch(\Exception $ex){
+			throw new BusinessLayerException('abc');
+		}
 	}
 
 
@@ -597,7 +599,9 @@ class CalendarBusinessLayer extends BusinessLayer {
 
 			$this->updateCacheForCalendarFromRemote(array($newBackend, $newCalendarURI), $newUserId);		
 			return $calendar;
-		} catch(Exception $ex) {}
+		} catch(\Exception $ex){
+			throw new BusinessLayerException('abc');
+		}
 	}
 
 
@@ -623,7 +627,9 @@ class CalendarBusinessLayer extends BusinessLayer {
 
 			//TODO implement
 			return $calendar;
-		} catch(Exception $ex) {}
+		} catch(\Exception $ex){
+			throw new BusinessLayerException('abc');
+		}
 	}
 
 
