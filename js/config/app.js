@@ -26,16 +26,16 @@ config(['$provide', '$routeProvider', 'RestangularProvider', '$httpProvider', '$
 
 		$httpProvider.defaults.headers.common.requesttoken = oc_requesttoken;
 
-		$routeProvider.when('/:uri', {
+		$routeProvider.when('/:id', {
 			templateUrl : 'calendar.html',
 			controller : 'CalController',
 			resolve : {
 				calendar: ['$route', '$q', 'is', 'Restangular',
 				function ($route, $q, is, Restangular) {
 					var deferred = $q.defer();
-					var uri = $route.current.params.uri;
+					var id = $route.current.params.id;
 					is.loading = true;
-					Restangular.one('v1/calendars', uri).get().then(function (calendar) {
+					Restangular.one('v1/calendars', id).get().then(function (calendar) {
 						is.loading = false;
 						deferred.resolve(calendar);
 					}, function () {
@@ -64,7 +64,7 @@ config(['$provide', '$routeProvider', 'RestangularProvider', '$httpProvider', '$
 		if (calendars.length > 0) {
 
 			var calendar = calendars[calendars.length-1];
-			$location.path('/' + calendar.backend + '::'+ calendar.uri);
+			$location.path('/' + calendar.id);
 		} else {
 			$location.path('/');
 		}

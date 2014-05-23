@@ -53,7 +53,7 @@
 <li ng-repeat="calendar in calendars|orderBy:'reverse'"
 	ng-class="{ active: calendar.uri == route.uri }">
 	<span class="calendarCheckbox" style="background-color:{{calendar.color}}"></span>
-	<a href="#/{{ calendar.backend }}::{{ calendar.uri }}">
+	<a href="#/{{ calendar.id }}">
 		{{ calendar.displayname }}
 	</a>
 	<span class="utils">

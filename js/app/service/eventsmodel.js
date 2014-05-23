@@ -21,32 +21,32 @@
  *
  */
 
-app.controller('CalendarListController', ['$scope','Restangular','CalendarModel',
-	function ($scope,Restangular,CalendarModel) {
 
-		$scope.calendars = CalendarModel.getAll();
-		var calendarResource = Restangular.all('v1/calendars');
+app.factory('EventsModel', function () {
+	var EventsModel = function () {
+		this.events = [];
+		this.eventsUid = {};
+	};
 
-		// Gets All Calendars.
-		calendarResource.getList().then(function (calendars) {
-			CalendarModel.addAll(calendars);
-		});
+	EventsModel.prototype = {
+		add : function (id) {
+			this.events.push(id);
+		},
+		addAll : function (events) {
+			for (var i=0; i<events.length; i++) {
+				this.add(events[i]);
+			}
+		},
+		getAll : function () {
+			return this.events;
+		},
+		get : function (id) {
 
-		// Create a New Calendar
-		$scope.create = function () {
-			calendarResource.post().then(function (calendar) {
-				CalendarModel.add(calendar);
-				$scope.path('/' + calendar.id);
-			});
-		};
+		},
+		remove : function (id) {
+			delete this.id;
+		}
+	};
 
-		// To Delete a Calendar
-		$scope.delete = function (uri,backend) {
-			var calendar = CalendarModel.get(uri);
-			var delcalendarResource = Restangular.one('v1/calendars',id);
-			delcalendarResource.remove().then( function () {
-				CalendarModel.remove(calendar);
-			});
-		};
-	}
-]);
+	return new EventsModel();
+});

@@ -5,16 +5,16 @@ config(['$provide', '$routeProvider', 'RestangularProvider', '$httpProvider', '$
 
 		$httpProvider.defaults.headers.common.requesttoken = oc_requesttoken;
 
-		$routeProvider.when('/:uri', {
+		$routeProvider.when('/:id', {
 			templateUrl : 'calendar.html',
 			controller : 'CalController',
 			resolve : {
 				calendar: ['$route', '$q', 'is', 'Restangular',
 				function ($route, $q, is, Restangular) {
 					var deferred = $q.defer();
-					var uri = $route.current.params.uri;
+					var id = $route.current.params.id;
 					is.loading = true;
-					Restangular.one('v1/calendars', uri).get().then(function (calendar) {
+					Restangular.one('v1/calendars', id).get().then(function (calendar) {
 						is.loading = false;
 						deferred.resolve(calendar);
 					}, function () {
@@ -43,7 +43,7 @@ config(['$provide', '$routeProvider', 'RestangularProvider', '$httpProvider', '$
 		if (calendars.length > 0) {
 
 			var calendar = calendars[calendars.length-1];
-			$location.path('/' + calendar.backend + '::'+ calendar.uri);
+			$location.path('/' + calendar.id);
 		} else {
 			$location.path('/');
 		}
@@ -179,34 +179,33 @@ app.controller('CalController', ['$scope', '$timeout', '$routeParams', 'Restangu
 	}
 ]);
 app.controller('CalendarListController', ['$scope','Restangular','CalendarModel',
- 	function ($scope,Restangular,CalendarModel) {
+	function ($scope,Restangular,CalendarModel) {
 
- 		$scope.calendars = CalendarModel.getAll();
- 		var calendarResource = Restangular.all('v1/calendars');
- 		var forceUpdate = Restangular.all('v1/calendars-forceUpdate');
+		$scope.calendars = CalendarModel.getAll();
+		var calendarResource = Restangular.all('v1/calendars');
 
- 		// Gets All Calendars.
- 		calendarResource.getList().then(function (calendars) {
- 			CalendarModel.addAll(calendars);
- 		});
+		// Gets All Calendars.
+		calendarResource.getList().then(function (calendars) {
+			CalendarModel.addAll(calendars);
+		});
 
- 		// Create a New Calendar
- 		$scope.create = function () {
- 			calendarResource.post().then(function (calendar) {
- 				CalendarModel.add(calendar);
- 				$scope.path('/' + calendar.backend + '::'+ calendar.uri);
- 			});
- 		};
+		// Create a New Calendar
+		$scope.create = function () {
+			calendarResource.post().then(function (calendar) {
+				CalendarModel.add(calendar);
+				$scope.path('/' + calendar.id);
+			});
+		};
 
- 		// To Delete a Calendar
- 		$scope.delete = function (uri,backend) {
- 			var calendar = CalendarModel.get(uri);
- 			var delcalendarResource = Restangular.one('v1/calendars',backend + '::' + uri);
- 			delcalendarResource.remove().then( function () {
- 				CalendarModel.remove(calendar);
- 			});
- 		};
- 	}
+		// To Delete a Calendar
+		$scope.delete = function (uri,backend) {
+			var calendar = CalendarModel.get(uri);
+			var delcalendarResource = Restangular.one('v1/calendars',id);
+			delcalendarResource.remove().then( function () {
+				CalendarModel.remove(calendar);
+			});
+		};
+	}
 ]);
 
 app.controller('DatePickerController', ['$scope',
@@ -299,6 +298,34 @@ app.factory('CalendarModel', function() {
 	return new CalendarModel();
 });
 
+app.factory('EventsModel', function () {
+	var EventsModel = function () {
+		this.events = [];
+		this.eventsUid = {};
+	};
+
+	EventsModel.prototype = {
+		add : function (id) {
+			this.events.push(id);
+		},
+		addAll : function (events) {
+			for (var i=0; i<events.length; i++) {
+				this.add(events[i]);
+			}
+		},
+		getAll : function () {
+			return this.events;
+		},
+		get : function (id) {
+
+		},
+		remove : function (id) {
+			delete this.id;
+		}
+	};
+
+	return new EventsModel();
+});
 app.factory('is', function () {
 	return {
 		loading: false
