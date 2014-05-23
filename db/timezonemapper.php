@@ -65,7 +65,7 @@ class TimezoneMapper extends Mapper {
 	 * @return Timezone
 	 */
 	public function find($tzId, $userId) {
-		$path = $this->getFileNameForTimezone($tzId);
+		$path = $this->getFileNameForTimezone($tzId, $userId);
 		if (!$this->isValidFileName($tzId)) {
 			throw new DoesNotExistException('Timezone not found');
 		}
@@ -85,7 +85,7 @@ class TimezoneMapper extends Mapper {
 			return false;
 		}
 
-		return file_exists($this->getFileNameForTimezone($tzId));
+		return file_exists($this->getFileNameForTimezone($tzId, $userId));
 	}
 
 	/**
@@ -181,10 +181,9 @@ class TimezoneMapper extends Mapper {
 
 
 	/**
-	 * @param $userId
 	 * @return array
 	 */
-	private function getAllAvailableTimezones($userId) {
+	private function getAllAvailableTimezones() {
 		$tzFiles = scandir($this->folderName);
 		$timezones = array_values(
 			array_diff(
