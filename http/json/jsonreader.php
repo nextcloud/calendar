@@ -1,19 +1,32 @@
 <?php
 /**
- * Copyright (c) 2014 Georg Ehrke <oc.list@georgehrke.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * ownCloud - Calendar App
+ *
+ * @author Georg Ehrke
+ * @copyright 2014 Georg Ehrke <oc.list@georgehrke.com>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 namespace OCA\Calendar\Http\JSON;
 
-use \OCP\AppFramework\IAppContainer;
+use OCP\AppFramework\IAppContainer;
+use OCP\Calendar\IEntity;
+use OCP\Calendar\ICollection;
 
-use \OCA\Calendar\Db\Entity;
-use \OCA\Calendar\Db\Collection;
-
-use \OCA\Calendar\Http\IReader;
-use \OCA\Calendar\Http\ReaderException;
+use OCA\Calendar\Http\IReader;
+use OCA\Calendar\Http\ReaderException;
 
 abstract class JSONReader implements IReader {
 
@@ -33,6 +46,9 @@ abstract class JSONReader implements IReader {
 
 	/**
 	 * @brief Constructor
+	 * @param IAppContainer $app
+	 * @param resource $handle
+	 * @throws ReaderException
 	 */
 	public function __construct(IAppContainer $app, $handle) {
 		if(!is_resource($handle)) {
@@ -72,7 +88,7 @@ abstract class JSONReader implements IReader {
 	 * @brief set object
 	 */
 	protected function setObject($object) {
-		if ($object instanceof Entity || $object instanceof Collection) {
+		if ($object instanceof IEntity || $object instanceof ICollection) {
 			$this->object = $object;
 			return $this;
 		}
@@ -84,15 +100,13 @@ abstract class JSONReader implements IReader {
 
 
 	/**
-	 * @brief null properties
-	 * @param array of strings
-	 * 		  string should represent key
+	 * replaces values of props in list with null
+	 * @param array
+	 * @return $this
 	 */
 	protected function nullProperties($properties) {
-		$isCollection = ($this->object instanceof Collection);
-
 		foreach($properties as $property) {
-			if ($isCollection) {
+			if ($this->object instanceof ICollection) {
 				$this->object->setProperty($property, null);
 			} else {
 				$setter = 'set' . ucfirst($property);

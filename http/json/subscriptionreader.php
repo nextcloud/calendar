@@ -21,10 +21,9 @@
  */
 namespace OCA\Calendar\Http\JSON;
 
-use OCA\Calendar\Http\ReaderException;
-
 use OCA\Calendar\Db\Subscription;
 use OCA\Calendar\Db\SubscriptionCollection;
+use OCA\Calendar\Http\ReaderException;
 
 class JSONSubscriptionReader extends JSONReader{
 
@@ -93,7 +92,7 @@ class JSONSubscriptionReader extends JSONReader{
 			try {
 				$calendar = $this->parseSingleEntity($singleEntity);
 				$collection->add($calendar);
-			} catch(JSONReaderException $ex) {
+			} catch(ReaderException $ex) {
 				//TODO - log error message
 				continue;
 			}
