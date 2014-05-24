@@ -530,7 +530,7 @@ class Calendar extends Entity implements ICalendar {
 	 * @return string
 	 */
 	public function __toString() {
-		return $this->userId . '::' . $this->getPublicUri();
+		return $this->userId . '::' . $this->getBackend() . '::' . $this->getPrivateUri();
 	}
 
 }
