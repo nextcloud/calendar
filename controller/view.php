@@ -7,8 +7,9 @@
  */
 namespace OCA\Calendar\Controller;
 
-use \OCP\AppFramework\Http\TemplateResponse;
-use \OCA\Calendar\Http\Response;
+use OCP\AppFramework\Http\TemplateResponse;
+
+use OCA\Calendar\Http\Response;
 
 class ViewController extends Controller {
 
@@ -45,6 +46,6 @@ class ViewController extends Controller {
 			$contacts[] = array('label' => $address);
 		}
 
-		return new Reponse($contacts);
+		return new Response($contacts);
 	}
 }
