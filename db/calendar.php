@@ -353,7 +353,7 @@ class Calendar extends Entity implements ICalendar {
 	 * @return $this
 	 */
 	public function setTimezone(ITimezone $timezone) {
-		if ($timezone->isValid()) {
+		if ($timezone instanceof ITimezone && $timezone->isValid()) {
 			return $this->setter('timezone', array($timezone));
 		} else {
 			return $this;

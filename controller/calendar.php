@@ -222,7 +222,7 @@ class CalendarController extends Controller {
 			$calendar = $reader->sanitize()->getObject();
 
 			if ($calendar instanceof Calendar) {
-				$calendar = $this->businesslayer->updateById(
+				$calendar = $this->businesslayer->updateFromRequestById(
 					$calendar,
 					$calendarId,
 					$userId

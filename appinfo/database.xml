@@ -106,6 +106,13 @@
 				<default>31</default>
 				<notnull>true</notnull>
 			</field>
+            <field>
+                <name>description</name>
+                <type>text</type>
+                <default></default>
+                <notnull>false</notnull>
+                <length>255</length>
+            </field>
 		</declaration>
 	</table>
 	<!-- table for cached objects -->

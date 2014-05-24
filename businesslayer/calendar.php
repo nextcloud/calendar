@@ -425,6 +425,7 @@ class CalendarBusinessLayer extends BusinessLayer {
 	public function updateFromRequest(ICalendar $newCalendar, $oldPublicUri, $oldUserId) {
 		$oldCalendar = $this->find($oldPublicUri, $oldUserId);
 		$newCalendar->getId($oldCalendar->getId());
+		$newCalendar->setPrivateUri($oldCalendar->getPrivateUri());
 
 		$this->resetReadOnlyProperties($newCalendar, $oldCalendar);
 
@@ -445,6 +446,7 @@ class CalendarBusinessLayer extends BusinessLayer {
 	public function updateFromRequestById(ICalendar $newCalendar, $oldCalendarId, $oldUserId) {
 		$oldCalendar = $this->findById($oldCalendarId, $oldUserId);
 		$newCalendar->setId($oldCalendar->getId());
+		$newCalendar->setPrivateUri($oldCalendar->getPrivateUri());
 
 		$this->resetReadOnlyProperties($newCalendar, $oldCalendar);
 
@@ -465,6 +467,7 @@ class CalendarBusinessLayer extends BusinessLayer {
 	public function patchFromRequest(ICalendar $newCalendar, $oldPublicUri, $oldUserId) {
 		$oldCalendar = $this->find($oldPublicUri, $oldUserId);
 		$newCalendar->getId($oldCalendar->getId());
+		$newCalendar->setPrivateUri($oldCalendar->getPrivateUri());
 
 		$this->resetReadOnlyProperties($newCalendar, $oldCalendar);
 
@@ -489,6 +492,7 @@ class CalendarBusinessLayer extends BusinessLayer {
 	public function patchFromRequestById(ICalendar $newCalendar, $oldCalendarId, $oldUserId) {
 		$oldCalendar = $this->findById($oldCalendarId, $oldUserId);
 		$newCalendar->setId($oldCalendar->getId());
+		$newCalendar->setPrivateUri($oldCalendar->getPrivateUri());
 
 		$this->resetReadOnlyProperties($newCalendar, $oldCalendar);
 
