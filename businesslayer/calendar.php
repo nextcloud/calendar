@@ -312,11 +312,21 @@ class CalendarBusinessLayer extends BusinessLayer {
 
 			$calendar->setPublicUri($suggestedURI);
 		}
+		/* set a provisional private uri, backends have to change it if uri is already taken!!!111oneoneeleven */
+		if ($calendar->getPublicUri() !== null) {
+			$calendar->setPrivateUri($calendar->getPublicUri());
+		}
 		if ($calendar->getCruds() === null) {
 			$calendar->setCruds(Permissions::ALL);
 		}
 		if ($calendar->getCtag() === null) {
 			$calendar->setCtag(0);
+		}
+		if ($calendar->getEnabled() === null) {
+			$calendar->setEnabled(true);
+		}
+		if ($calendar->getOrder() === null) {
+			$calendar->setOrder(0);
 		}
 
 		return $this->create($calendar);

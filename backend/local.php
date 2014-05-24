@@ -332,6 +332,9 @@ class Local extends Backend {
 	 * @throws CacheOutDatedException if calendar already exists
 	 */
 	public function createCalendar(ICalendar &$calendar) {
+		// TODO -- IMPORTANT
+		// TODO check if provisional privateuri is already taken
+		// TODO -- IMPORTANT
 		$calendarURI = $calendar->getPublicUri();
 		$userId = $calendar->getUserId();
 
@@ -356,7 +359,7 @@ class Local extends Backend {
 			$calendar->getOrder(),
 			$calendar->getColor(),
 			$calendar->getTimezone(),
-			$this->getTypes($calendar->getComponents()),
+			$this->getTypes($calendar->getComponents(), 'string'),
 		));
 
 		if (DB::isError($result)) {
@@ -397,7 +400,7 @@ class Local extends Backend {
 			$calendar->getOrder(),
 			$calendar->getColor(),
 			$calendar->getTimezone(),
-			$this->getTypes($calendar->getComponents()),
+			$this->getTypes($calendar->getComponents(), 'string'),
 			$calendarId
 		));
 
@@ -728,7 +731,7 @@ class Local extends Backend {
 		$sql = 'SELECT * FROM `' . $table . '` WHERE `calendarid` = ? AND `objecttype` = ?';
 		$result = DB::prepare($sql, $limit, $offset)->execute(array(
 			$calendarId,
-			$this->getType($type)
+			$this->getType($type, 'string')
 		));
 
 		if (DB::isError($result)) {
@@ -791,7 +794,7 @@ class Local extends Backend {
 			$utcStart,
 			$utcEnd,
 			$utcEnd,
-			$this->getType($type)
+			$this->getType($type, 'string')
 		));
 
 		if (DB::isError($result)) {
@@ -936,7 +939,7 @@ class Local extends Backend {
 		$sql .= 'VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)';
 		$result = DB::prepare($sql)->execute(array(
 			$calendarId,
-			$this->getType($object->getType()),
+			$this->getType($object->getType(), 'string'),
 			$this->getUTCforMDB($object->getStartDate()),
 			$this->getUTCforMDB($object->getEndDate()),
 			$object->getRepeating(),
@@ -983,7 +986,7 @@ class Local extends Backend {
 		$sql .= '`enddate` = ?, `repeating` = ?, `summary` = ?, `calendardata` = ?, ';
 		$sql .= '`lastmodified` = ? WHERE `uri` = ? and `calendarid` = ?';
 		$result = DB::prepare($sql)->execute(array(
-			$this->getType($object->getType()),
+			$this->getType($object->getType(), 'string'),
 			$this->getUTCforMDB($object->getStartDate()),
 			$this->getUTCforMDB($object->getEndDate()),
 			$object->getRepeating(),
@@ -1181,7 +1184,7 @@ class Local extends Backend {
 		$calendar->setBackend(strval($this->backend));
 		$calendar->setPrivateUri(strval($row['uri']));
 		$calendar->setDisplayname(strval($row['displayname']));
-		$calendar->setComponents($this->getTypes($row['components']));
+		$calendar->setComponents($this->getTypes($row['components'], 'int'));
 		$calendar->setCtag(intval($row['ctag']));
 		$calendar->setTimezone($this->createTimezoneFromRow($row));
 		$calendar->setColor(strval($row['calendarcolor']));
@@ -1238,28 +1241,30 @@ class Local extends Backend {
 
 	/**
 	 * @brief get a single objectType
-	 * @param mixed (integer|string) $type
+	 * @param mixed (integer|string) $component
+	 * @param string $type
 	 * @return mixed (integer|string)
 	 */
-	public function getType($type) {
-		if (is_int($type)) {
-			return ObjectType::getAsString($type);
+	public function getType($component, $type) {
+		if ($type === 'string') {
+			return ObjectType::getAsString($component);
 		} else {
-			return ObjectType::getTypeByString(strval($type));
+			return ObjectType::getTypeByString(strval($component));
 		}
 	}
 
 
 	/**
 	 * @brief get multiple objectTypes
-	 * @param mixed (integer|string) $type
+	 * @param mixed (integer|string) $components
+	 * @param string $type
 	 * @return mixed (integer|string)
 	 */
-	public function getTypes($type) {
-		if (is_int($type)) {
-			return ObjectType::getAsString($type);
+	public function getTypes($components, $type) {
+		if ($type === 'string') {
+			return ObjectType::getAsString($components);
 		} else {
-			return ObjectType::getTypesByString(strval($type));
+			return ObjectType::getTypesByString(strval($components));
 		}
 	}
 

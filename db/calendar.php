@@ -126,6 +126,7 @@ class Calendar extends Entity implements ICalendar {
 		$this->addMandatory('ctag');
 		$this->addMandatory('cruds');
 		$this->addMandatory('enabled');
+		$this->addMandatory('order');
 
 		//create from array
 		if (is_array($createFrom)){
