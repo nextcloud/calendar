@@ -221,7 +221,7 @@ class WebCal extends Backend {
 		$calendar->setUserId($subscription->getUserId());
 		$calendar->setOwnerId($subscription->getUserId());
 		$calendar->setBackend($this->backend);
-		$calendar->setUri($subscription->getName());
+		$calendar->setPublicUri($subscription->getName());
 		$calendar->setComponents(ObjectType::EVENT);
 		//TODO - use something better
 		$calendar->setCtag(time());

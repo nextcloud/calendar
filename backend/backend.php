@@ -60,6 +60,7 @@ abstract class Backend implements IBackend {
 	const CREATE_OBJECT = 32;
 	const UPDATE_OBJECT = 64;
 	const DELETE_OBJECT = 128;
+	const DELETE_ALL_OBJECTS = 8192;
 	const FIND_IN_PERIOD = 256;
 	const FIND_OBJECTS_BY_TYPE = 512;
 	const FIND_IN_PERIOD_BY_TYPE = 1024;
@@ -80,6 +81,7 @@ abstract class Backend implements IBackend {
 		self::CREATE_OBJECT => 'createObject',
 		self::UPDATE_OBJECT => 'updateObject',
 		self::DELETE_OBJECT => 'deleteObject',
+		self::DELETE_ALL_OBJECTS => 'deleteAll',
 		self::FIND_IN_PERIOD => 'findObjectsInPeriod',
 		self::FIND_OBJECTS_BY_TYPE => 'findObjectsByType',
 		self::FIND_IN_PERIOD_BY_TYPE => 'findObjectsByTypeInPeriod',
@@ -200,7 +202,7 @@ abstract class Backend implements IBackend {
 		$identifiers = array();
 
 		$calendars->iterate(function(ICalendar &$calendar) use (&$identifiers) {
-			$identifiers[] = $calendar->getUri();
+			$identifiers[] = $calendar->getPublicUri();
 		});
 
 		return $identifiers;

@@ -193,4 +193,20 @@ abstract class BusinessLayer {
 
 		return true;
 	}
+
+
+	/**
+	 * @param string $user1
+	 * @param string $user2
+	 * @return bool
+	 * @throws BusinessLayerException
+	 */
+	protected function checkUsersEqual($user1, $user2) {
+		if ($user1 !== $user2) {
+			$msg = 'Transferring a calendar to another user is not supported yet.';
+			throw new BusinessLayerException($msg, Http::STATUS_UNPROCESSABLE_ENTITY);
+		}
+
+		return true;
+	}
 }

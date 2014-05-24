@@ -8,6 +8,7 @@
 namespace OCA\Calendar\Db;
 
 use OCP\AppFramework\IAppContainer;
+use OCP\Calendar\IEntity;
 use OCP\Config;
 
 use OCP\Calendar\IBackend;
@@ -113,7 +114,7 @@ class BackendMapper extends Mapper {
 	 * @param Entity $item
 	 * @return $this
 	 */
-	public function insert(Entity $item){
+	public function insert(IEntity $item){
 		$this->backendCollection->add($item);
 
 		$this->didChange = true;
@@ -125,7 +126,7 @@ class BackendMapper extends Mapper {
 	 * @param Entity $item
 	 * @return $this
 	 */
-	public function update(Entity $item){
+	public function update(IEntity $item){
 		$this->backendCollection->removeByProperty('id', $item->getId());
 		$this->backendCollection->add($item);
 
@@ -138,7 +139,7 @@ class BackendMapper extends Mapper {
 	 * @param Entity $item
 	 * @return $this|void
 	 */
-	public function delete(Entity $item){
+	public function delete(IEntity $item){
 		$this->backendCollection->removeByEntity($item);
 
 		$this->didChange = true;

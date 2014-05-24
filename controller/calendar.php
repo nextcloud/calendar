@@ -27,10 +27,10 @@ use OCA\Calendar\Http\SerializerException;
 class CalendarController extends Controller {
 
 	/**
-	 * object business layer
-	 * @var ObjectBusinessLayer
+	 * business-layer
+	 * @var CalendarBusinessLayer
 	 */
-	protected $objectbusinesslayer;
+	protected $businesslayer;
 
 
 	/**
@@ -103,7 +103,7 @@ class CalendarController extends Controller {
 			$userId = $this->api->getUserId();
 			$calendarId = $this->request->getParam('calendarId');
 
-			$calendar = $this->businesslayer->find(
+			$calendar = $this->businesslayer->findById(
 				$calendarId,
 				$userId
 			);
@@ -210,7 +210,6 @@ class CalendarController extends Controller {
 		try {
 			$userId = $this->api->getUserId();
 			$calendarId = $this->params('calendarId');
-			$ctag = $this->header('if-match');
 			$data = fopen('php://input', 'rb');
 
 			$reader = new Reader(
@@ -223,11 +222,10 @@ class CalendarController extends Controller {
 			$calendar = $reader->sanitize()->getObject();
 
 			if ($calendar instanceof Calendar) {
-				$calendar = $this->businesslayer->updateFromRequest(
+				$calendar = $this->businesslayer->updateById(
 					$calendar,
 					$calendarId,
-					$userId,
-					$ctag
+					$userId
 				);
 
 				$serializer = new Serializer(
@@ -238,8 +236,7 @@ class CalendarController extends Controller {
 				);
 			} elseif ($calendar instanceof CalendarCollection) {
 				throw new ReaderException(
-					'Updates can only be applied to a single resource.',
-					Http::STATUS_BAD_REQUEST
+					'Updates can only be applied to a single resource.'
 				);
 			} else {
 				throw new ReaderException(
@@ -274,7 +271,7 @@ class CalendarController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	public function patch() {
-		
+
 	}
 
 
@@ -287,7 +284,7 @@ class CalendarController extends Controller {
 			$userId	= $this->api->getUserId();
 			$calendarId	= $this->params('calendarId');
 
-			$calendar = $this->businesslayer->find(
+			$calendar = $this->businesslayer->findById(
 				$calendarId, 
 				$userId
 			);

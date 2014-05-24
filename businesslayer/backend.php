@@ -21,91 +21,104 @@
  */
 namespace OCA\Calendar\BusinessLayer;
 
-use OCA\Calendar\Backend\Backend;
+use OCP\AppFramework\IAppContainer;
+
+use OCP\Calendar\DoesNotExistException;
+use OCP\Calendar\IBackend;
+use OCP\Calendar\IBackendCollection;
+
+use OCA\Calendar\Db\BackendMapper;
+use OCP\Calendar\MultipleObjectsReturnedException;
 
 class BackendBusinessLayer extends BusinessLayer {
 
 	/**
+	 * Mapper
+	 * @var BackendMapper
+	 */
+	protected $mapper;
+
+
+	/**
+	 * @param IAppContainer $app
+	 * @param BackendMapper $backendMapper
+	 */
+	public function __construct(IAppContainer $app,
+								BackendMapper $backendMapper){
+		parent::__construct($app, $backendMapper);
+		parent::initBackendSystem($backendMapper);
+	}
+
+
+	/**
 	 * @param integer $limit
 	 * @param integer $offset
+	 * @return IBackendCollection
 	 */
 	public function findAll($limit, $offset) {
-
+		return $this->backends->subset($limit, $offset);
 	}
 
 
 	/**
 	 * @param integer $limit
 	 * @param integer $offset
+	 * @return IBackendCollection;=
 	 */
 	public function findAllEnabled($limit, $offset) {
-
+		return $this->backends->search('enabled', true)->subset($limit, $offset);
 	}
 
 
 	/**
 	 * @param integer $limit
 	 * @param integer $offset
+	 * @return IBackendCollection
 	 */
 	public function findAllDisabled($limit, $offset) {
-
+		return $this->backends->search('enabled', false)->subset($limit, $offset);
 	}
 
 
 	/**
 	 * @param string $backend
+	 * @return IBackend
+	 * @throws BusinessLayerException
 	 */
 	public function find($backend) {
-
+		try {
+			return $this->backends->find($backend);
+		} catch(DoesNotExistException $ex) {
+			throw new BusinessLayerException($ex->getMessage(), $ex->getCode(), $ex);
+		} catch(MultipleObjectsReturnedException $ex) {
+			throw new BusinessLayerException($ex->getMessage(), $ex->getCode(), $ex);
+		}
 	}
 
 
 	/**
 	 * @param string $backend
+	 * @return bool
 	 */
 	public function doesExist($backend) {
-
-	}
-
-
-	/**
-	 * @param Backend $backend
-	 */
-	public function create(Backend $backend) {
-
-	}
-
-
-	/**
-	 * @param Backend $backend
-	 * @param $name
-	 */
-	public function update(Backend $backend, $name) {
-
-	}
-
-
-	/**
-	 * @param Backend $backend
-	 */
-	public function delete(Backend $backend) {
-
+		return ($this->backends->search('backend', $backend)->count() === 1);
 	}
 
 
 	/**
 	 * @brief get default backend
-	 * @return Backend
+	 * @return IBackend
 	 */
 	public function getDefault() {
-
+		return $this->mapper->getDefault();
 	}
 
 
 	/**
-	 * @param Backend $backend
+	 * @param IBackend $backend
+	 * @throws BusinessLayerException
 	 */
-	public function setDefault(Backend $backend) {
-
+	public function setDefault(IBackend $backend) {
+		throw new BusinessLayerException('Setting default backend not supported yet');
 	}
 }

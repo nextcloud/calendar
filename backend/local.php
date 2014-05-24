@@ -332,7 +332,7 @@ class Local extends Backend {
 	 * @throws CacheOutDatedException if calendar already exists
 	 */
 	public function createCalendar(ICalendar &$calendar) {
-		$calendarURI = $calendar->getUri();
+		$calendarURI = $calendar->getPublicUri();
 		$userId = $calendar->getUserId();
 
 		if ($this->doesCalendarExist($calendarURI, $userId)) {
@@ -350,7 +350,7 @@ class Local extends Backend {
 		$result = DB::prepare($sql)->execute(array(
 			$calendar->getUserId(),
 			$calendar->getDisplayname(),
-			$calendar->getUri(),
+			$calendar->getPublicUri(),
 			$calendar->getEnabled(),
 			$calendar->getCtag(),
 			$calendar->getOrder(),
@@ -372,7 +372,7 @@ class Local extends Backend {
 	 * @return ICalendar
 	 */
 	public function updateCalendar(ICalendar &$calendar) {
-		$calendarURI = $calendar->getUri();
+		$calendarURI = $calendar->getPublicUri();
 		$userId = $calendar->getUserId();
 
 		$calendarId = $this->getCalendarId($calendarURI, $userId);
@@ -391,7 +391,7 @@ class Local extends Backend {
 		$result = DB::prepare($sql)->execute(array(
 			$calendar->getUserId(),
 			$calendar->getDisplayname(),
-			$calendar->getUri(),
+			$calendar->getPublicUri(),
 			$calendar->getEnabled(),
 			$calendar->getCtag(),
 			$calendar->getOrder(),
@@ -452,7 +452,7 @@ class Local extends Backend {
 	 * @throws CacheOutDatedException
 	 */
 	public function mergeCalendar(ICalendar &$calendar, $oldCalendarURI, $oldUserId) {
-		$newCalendarURI = $calendar->getUri();
+		$newCalendarURI = $calendar->getPublicUri();
 		$newUserId = $calendar->getUserId();
 
 		$newCalendarId = $this->getCalendarId($newCalendarURI, $newUserId);
@@ -511,7 +511,7 @@ class Local extends Backend {
 	 * @throws CacheOutDatedException
 	 */
 	public function moveCalendar(ICalendar &$calendar, $oldCalendarURI, $oldUserId) {
-		$newCalendarURI = $calendar->getUri();
+		$newCalendarURI = $calendar->getPublicUri();
 		//$newUserId = $calendar->getUserId();
 
 		$calendarId = $this->getCalendarId($oldCalendarURI, $oldUserId);
@@ -554,7 +554,7 @@ class Local extends Backend {
 	 * @return IObject
 	 */
 	public function findObject(ICalendar &$calendar, $objectURI) {
-		$calendarURI = $calendar->getUri();
+		$calendarURI = $calendar->getPublicUri();
 		$userId = $calendar->getUserId();
 
 		$calendarId = $this->getCalendarId($calendarURI, $userId);
@@ -605,7 +605,7 @@ class Local extends Backend {
 	 * @return IObjectCollection
 	 */
 	public function findObjects(ICalendar &$calendar, $limit, $offset) {
-		$calendarURI = $calendar->getUri();
+		$calendarURI = $calendar->getPublicUri();
 		$userId = $calendar->getUserId();
 
 		$calendarId = $this->getCalendarId($calendarURI, $userId);
@@ -654,7 +654,7 @@ class Local extends Backend {
 	 * @return IObjectCollection
 	 */
 	public function findObjectsInPeriod(ICalendar $calendar, DateTime $start, DateTime $end, $limit, $offset){
-		$calendarURI = $calendar->getUri();
+		$calendarURI = $calendar->getPublicUri();
 		$userId = $calendar->getUserId();
 
 		$calendarId = $this->getCalendarId($calendarURI, $userId);
@@ -713,7 +713,7 @@ class Local extends Backend {
 	 * @return IObjectCollection
 	 */
 	public function findObjectsByType(ICalendar $calendar, $type, $limit, $offset) {
-		$calendarURI = $calendar->getUri();
+		$calendarURI = $calendar->getPublicUri();
 		$userId = $calendar->getUserId();
 
 		$calendarId = $this->getCalendarId($calendarURI, $userId);
@@ -763,7 +763,7 @@ class Local extends Backend {
 	 * @return IObjectCollection
 	 */
 	public function findObjectsByTypeInPeriod(ICalendar $calendar, $type, DateTime $start, DateTime $end, $limit, $offset) {
-		$calendarURI = $calendar->getUri();
+		$calendarURI = $calendar->getPublicUri();
 		$userId = $calendar->getUserId();
 
 		$calendarId = $this->getCalendarId($calendarURI, $userId);
@@ -820,7 +820,7 @@ class Local extends Backend {
 	 * @return integer
 	 */
 	public function countObjects(ICalendar $calendar) {
-		$calendarURI = $calendar->getUri();
+		$calendarURI = $calendar->getPublicUri();
 		$userId = $calendar->getUserId();
 
 		$objectTable = $this->getObjectTableName();
@@ -851,7 +851,7 @@ class Local extends Backend {
 	 * @return boolean
 	 */
 	public function doesObjectExist(ICalendar $calendar, $objectURI) {
-		$calendarURI = $calendar->getUri();
+		$calendarURI = $calendar->getPublicUri();
 		$userId = $calendar->getUserId();
 
 		$objectTable = $this->getObjectTableName();
@@ -913,7 +913,7 @@ class Local extends Backend {
 	 * @return IObject
 	 */
 	public function createObject(IObject &$object) {
-		$calendarURI = $object->getCalendar()->getUri();
+		$calendarURI = $object->getCalendar()->getPublicUri();
 		$userId = $object->getCalendar()->getUserId();
 
 		$calendarId = $this->getCalendarId($calendarURI, $userId);
@@ -962,7 +962,7 @@ class Local extends Backend {
 	 */
 
 	public function updateObject(IObject &$object) {
-		$calendarURI = $object->getCalendar()->getUri();
+		$calendarURI = $object->getCalendar()->getPublicUri();
 		$userId = $object->getCalendar()->getUserId();
 
 		$calendarId = $this->getCalendarId($calendarURI, $userId);
@@ -1008,9 +1008,9 @@ class Local extends Backend {
 	 * @return ICalendar
 	 */
 	public function moveObject(IObject &$object, ICalendar $oldCalendar) {
-		$newCalendarURI = $object->getCalendar()->getUri();
+		$newCalendarURI = $object->getCalendar()->getPublicUri();
 		$newUserId = $object->getCalendar()->getUserId();
-		$oldCalendarURI = $oldCalendar->getUri();
+		$oldCalendarURI = $oldCalendar->getPublicUri();
 		$oldUserId = $oldCalendar->getUserId();
 
 		$newCalendarId = $this->getCalendarId($newCalendarURI, $newUserId);
@@ -1063,7 +1063,7 @@ class Local extends Backend {
 	 * @throws CacheOutDatedException if calendar does not exist
 	 */
 	public function deleteObject(IObject $object){
-		$calendarURI = $object->getCalendar()->getUri();
+		$calendarURI = $object->getCalendar()->getPublicUri();
 		$objectURI = $object->getUri();
 		$userId = $object->getCalendar()->getUserId();
 
@@ -1098,7 +1098,7 @@ class Local extends Backend {
 	 * @throws CacheOutDatedException
 	 */
 	public function searchByProperties(ICalendar $calendar, array $properties=array(), $limit, $offset) {
-		$calendarURI = $calendar->getUri();
+		$calendarURI = $calendar->getPublicUri();
 		$userId = $calendar->getUserId();
 
 		if (!$this->doesCalendarExist($calendarURI, $userId)) {
@@ -1111,7 +1111,7 @@ class Local extends Backend {
 			return $this->findObjects($calendar, $limit, $offset);
 		}
 
-		$calendarURI = $calendar->getUri();
+		$calendarURI = $calendar->getPublicUri();
 		$userId = $calendar->getUserId();
 
 		$calendarTable = $this->getCalendarTableName();
@@ -1179,7 +1179,7 @@ class Local extends Backend {
 		$calendar->setUserId(strval($row['userid']));
 		$calendar->setOwnerId(strval($row['userid']));
 		$calendar->setBackend(strval($this->backend));
-		$calendar->setUri(strval($row['uri']));
+		$calendar->setPrivateUri(strval($row['uri']));
 		$calendar->setDisplayname(strval($row['displayname']));
 		$calendar->setComponents($this->getTypes($row['components']));
 		$calendar->setCtag(intval($row['ctag']));

@@ -84,7 +84,7 @@ abstract class ObjectTypeController extends ObjectController {
 
 			$type = $this->objectType;
 
-			$calendar = $this->calendarbusinesslayer->find(
+			$calendar = $this->calendarbusinesslayer->findById(
 				$calendarId,
 				$userId
 			);
@@ -145,7 +145,7 @@ abstract class ObjectTypeController extends ObjectController {
 
 			$type = $this->objectType;
 
-			$calendar = $this->calendarbusinesslayer->find(
+			$calendar = $this->calendarbusinesslayer->findById(
 				$calendarId,
 				$userId
 			);
@@ -198,7 +198,7 @@ abstract class ObjectTypeController extends ObjectController {
 
 			$type = $this->objectType;
 
-			$calendar = $this->calendarbusinesslayer->find(
+			$calendar = $this->calendarbusinesslayer->findById(
 				$calendarId,
 				$userId
 			);

@@ -31,6 +31,13 @@ class ObjectController extends Controller {
 
 	/**
 	 * object business layer
+	 * @var ObjectBusinessLayer
+	 */
+	protected $businesslayer;
+
+
+	/**
+	 * object business layer
 	 * @var CalendarBusinessLayer
 	 */
 	protected $calendarbusinesslayer;
@@ -60,15 +67,15 @@ class ObjectController extends Controller {
 			$userId = $this->api->getUserId();
 			$calendarId = $this->params('calendarId');
 
-			$nolimit = $this->params('nolimit', false);
-			if ($nolimit) {
+			$noLimit = $this->params('nolimit', false);
+			if ($noLimit) {
 				$limit = $offset = null;
 			} else {
 				$limit = $this->params('limit', 25);
 				$offset = $this->params('offset', 0);
 			}
 
-			$calendar = $this->calendarbusinesslayer->find(
+			$calendar = $this->calendarbusinesslayer->findById(
 				$calendarId,
 				$userId
 			);
@@ -115,8 +122,8 @@ class ObjectController extends Controller {
 			$userId = $this->api->getUserId();
 			$calendarId = $this->params('calendarId');
 
-			$nolimit = $this->params('nolimit', false);
-			if ($nolimit) {
+			$noLimit = $this->params('nolimit', false);
+			if ($noLimit) {
 				$limit = $offset = null;
 			} else {
 				$limit = $this->params('limit', 25);
@@ -126,7 +133,7 @@ class ObjectController extends Controller {
 			$start = $this->params('start', new DateTime(date('Y-m-01')));
 			$end = $this->params('end', new DateTime(date('Y-m-t')));
 
-			$calendar = $this->calendarbusinesslayer->find(
+			$calendar = $this->calendarbusinesslayer->findById(
 				$calendarId,
 				$userId
 			);
@@ -176,7 +183,7 @@ class ObjectController extends Controller {
 			$calendarId = $this->params('calendarId');
 			$objectURI = $this->params('objectId');
 
-			$calendar = $this->calendarbusinesslayer->find(
+			$calendar = $this->calendarbusinesslayer->findById(
 				$calendarId,
 				$userId
 			);
@@ -223,7 +230,7 @@ class ObjectController extends Controller {
 			$calendarId = $this->params('calendarId');
 			$data = fopen('php://input', 'rb');
 
-			$calendar = $this->calendarbusinesslayer->find(
+			$calendar = $this->calendarbusinesslayer->findById(
 				$calendarId,
 				$userId
 			);
@@ -308,7 +315,7 @@ class ObjectController extends Controller {
 			$etag = $this->header('if-match');
 			$data = fopen('php://input', 'rb');
 
-			$calendar = $this->calendarbusinesslayer->find($calendarId, $userId);
+			$calendar = $this->calendarbusinesslayer->findById($calendarId, $userId);
 			if (!$calendar->doesAllow(Permissions::UPDATE)) {
 				return new Response(null, HTTP::STATUS_FORBIDDEN);
 			}
@@ -383,7 +390,7 @@ class ObjectController extends Controller {
 			$calendarId = $this->params('calendarId');
 			$objectURI = $this->getObjectId();
 
-			$calendar = $this->calendarbusinesslayer->find(
+			$calendar = $this->calendarbusinesslayer->findById(
 				$calendarId,
 				$userId
 			);
@@ -409,6 +416,55 @@ class ObjectController extends Controller {
 		}
 	}
 
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 */
+	public function export() {
+		try {
+			$userId = $this->api->getUserId();
+			$calendarId = $this->params('calendarId');
+
+			$calendar = $this->calendarbusinesslayer->findById($calendarId, $userId);
+			if (!$calendar->doesAllow(Permissions::READ)) {
+				return new Response(null, HTTP::STATUS_FORBIDDEN);
+			}
+
+			$objectCollection = $this->businesslayer->findAll($calendar);
+
+			$serializer = new Serializer(
+				$this->app,
+				Serializer::ObjectCollection,
+				$objectCollection,
+				$this->accept()
+			);
+
+			//new Download response
+			return new Response($serializer);
+		} catch (BusinessLayerException $ex) {
+			$this->app->log($ex->getMessage(), 'debug');
+			return new Response(
+				array('message' => $ex->getMessage()),
+				$ex->getCode()
+			);
+		} catch (SerializerException $ex) {
+			$this->app->log($ex->getMessage(), 'debug');
+			return new Response(
+				array('message' => $ex->getMessage()),
+				Http::STATUS_INTERNAL_SERVER_ERROR
+			);
+		}
+	}
+
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 */
+	public function import() {
+
+	}
 
 
 	/**

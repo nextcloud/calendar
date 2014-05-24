@@ -32,13 +32,19 @@ class Calendar extends Entity implements ICalendar {
 	/**
 	 * @var string
 	 */
+	public $publicuri;
+
+
+	/**
+	 * @var string
+	 */
 	public $backend;
 
 
 	/**
 	 * @var string
 	 */
-	public $uri;
+	public $privateuri;
 
 
 	/**
@@ -171,7 +177,7 @@ class Calendar extends Entity implements ICalendar {
 	public function getCalendarId(){
 		return CalendarUtility::getURI(
 			$this->getBackend(),
-			$this->getUri()
+			$this->getPublicUri()
 		);
 	}
 
@@ -366,17 +372,35 @@ class Calendar extends Entity implements ICalendar {
 	 * @param string $uri
 	 * @return $this
 	 */
-	public function setUri($uri) {
+	public function setPublicUri($uri) {
 		$slugify = CalendarUtility::slugify($uri);
-		return $this->setter('uri', array($slugify));
+		return $this->setter('publicuri', array($slugify));
 	}
 
 
 	/**
 	 * @return string
 	 */
-	public function getUri() {
-		return $this->getter('uri');
+	public function getPublicUri() {
+		return $this->getter('publicuri');
+	}
+
+
+	/**
+	 * @param string $uri
+	 * @return $this
+	 */
+	public function setPrivateUri($uri) {
+		$slugify = CalendarUtility::slugify($uri);
+		return $this->setter('privateuri', array($slugify));
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getPrivateUri() {
+		return $this->getter('privateuri');
 	}
 
 
@@ -505,7 +529,7 @@ class Calendar extends Entity implements ICalendar {
 	 * @return string
 	 */
 	public function __toString() {
-		return $this->userId . '::' . $this->getCalendarId();
+		return $this->userId . '::' . $this->getPublicUri();
 	}
 
 }

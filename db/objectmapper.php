@@ -8,6 +8,7 @@
 namespace OCA\Calendar\Db;
 
 use OCP\AppFramework\IAppContainer;
+use OCP\Calendar\ICalendar;
 use OCP\Calendar\IObject;
 use OCP\Calendar\IObjectCollection;
 
@@ -42,18 +43,18 @@ class ObjectMapper extends Mapper {
 
 	/**
 	 * Finds an item from user by it's uri
-	 * @param string $uid
-	 * @param integer $calendarId
+	 * @param ICalendar $calendar
+	 * @param string $uri
 	 * @throws DoesNotExistException: if the item does not exist
 	 * @throws MultipleObjectsReturnedException
 	 * @return IObject
 	 */
-	public function find($uid, $calendarId){
+	public function find(ICalendar $calendar, $uri){
 		$sql  = 'SELECT ' . $this->columnsToQuery . ' FROM ';
-		$sql .= '`'. $this->tableName . '` WHERE `uid` = ? AND `calendarid` = ?';
+		$sql .= '`'. $this->tableName . '` WHERE `uri` = ? AND `calendarid` = ?';
 		$row = $this->findOneQuery($sql, array(
-			$uid,
-			$calendarId
+			$uri,
+			$calendar->getId()
 		));
 
 		return new Object($row);
@@ -62,33 +63,33 @@ class ObjectMapper extends Mapper {
 
 	/**
 	 * Finds all Items of calendar $calendarId
-	 * @param integer $calendarId
+	 * @param ICalendar $calendar
 	 * @param integer $limit
 	 * @param integer $offset
 	 * @return IObjectCollection
 	 */
-	public function findAll($calendarId, $limit, $offset){
+	public function findAll(ICalendar $calendar, $limit, $offset){
 		$sql  = 'SELECT ' . $this->columnsToQuery . ' FROM ';
 		$sql .= '`'. $this->tableName . '` WHERE `calendarid` = ?';
 		return $this->findEntities($sql, array(
-			$calendarId
+			$calendar->getId()
 		), $limit, $offset);
 	}
 
 
 	/**
 	 * Finds all Items of calendar $calendarId of type $type
-	 * @param integer $calendarId
+	 * @param ICalendar $calendar
 	 * @param integer $type
 	 * @param integer $limit
 	 * @param integer $offset
 	 * @return ObjectCollection
 	 */
-	public function findAllByType($calendarId, $type, $limit, $offset) {
+	public function findAllByType(ICalendar $calendar, $type, $limit, $offset) {
 		$sql  = 'SELECT ' . $this->columnsToQuery . ' FROM ';
 		$sql .= '`'. $this->tableName . '` WHERE `calendarid` = ? AND `type` = ?';
 		return $this->findEntities($sql, array(
-			$calendarId,
+			$calendar->getId(),
 			$type
 		), $limit, $offset);
 	}
@@ -96,14 +97,14 @@ class ObjectMapper extends Mapper {
 
 	/**
 	 * Finds all Items of calendar $calendarId from $start to $end
-	 * @param integer $calendarId
+	 * @param ICalendar $calendar
 	 * @param DateTime $start
 	 * @param DateTime $end
 	 * @param integer $limit
 	 * @param integer $offset
 	 * @return IObjectCollection
 	 */
-	public function findAllInPeriod($calendarId, $start, $end, $limit, $offset) {
+	public function findAllInPeriod(ICalendar $calendar, $start, $end, $limit, $offset) {
 		$sql  = 'SELECT ' . $this->columnsToQuery . ' FROM `'. $this->tableName . '` ';
 		$sql .= 'WHERE `calendarid` = ? ';
 		$sql .= 'AND ((`startdate` >= ? AND `startdate` <= ?) ';
@@ -116,7 +117,7 @@ class ObjectMapper extends Mapper {
 		$utcEnd = $this->getUTC($end);
 
 		return $this->findEntities($sql, array(
-			$calendarId,
+			$calendar->getId(),
 			$utcStart,
 			$utcEnd,
 			$utcStart,
@@ -131,15 +132,15 @@ class ObjectMapper extends Mapper {
 
 	/**
 	 * Finds all Items of calendar $calendarId of type $type in period from $start to $end
-	 * @param integer $calendarId
+	 * @param ICalendar $calendar
+	 * @param integer $type
 	 * @param DateTime $start
 	 * @param DateTime $end
-	 * @param integer $type
 	 * @param integer $limit
 	 * @param integer $offset
 	 * @return ObjectCollection
 	 */
-	public function findAllByTypeInPeriod($calendarId, $start, $end, $type, $limit, $offset) {
+	public function findAllByTypeInPeriod(ICalendar $calendar, $type, $start, $end, $limit, $offset) {
 		$sql  = 'SELECT ' . $this->columnsToQuery . ' FROM `'. $this->tableName . '` ';
 		$sql .= 'WHERE `calendarid` = ? AND `type` = ? ';
 		$sql .= 'AND ((`startdate` >= ? AND `startdate` <= ?) ';
@@ -152,7 +153,7 @@ class ObjectMapper extends Mapper {
 		$utcEnd = $this->getUTC($end);
 
 		return $this->findEntities($sql, array(
-			$calendarId,
+			$calendar->getId(),
 			$type,
 			$utcStart,
 			$utcEnd,
@@ -167,14 +168,53 @@ class ObjectMapper extends Mapper {
 
 
 	/**
-	 * Deletes all objects of calendar $calendarId
-	 * @param integer $calendarId
+	 * number of objects in a calendar
+	 * @param ICalendar $calendar
+	 * @throws DoesNotExistException: if the item does not exist
+	 * @return integer
 	 */
-	public function deleteAll($calendarId) {
+	public function count(ICalendar $calendar){
+		$sql  = 'SELECT COUNT(*) AS `count` FROM ';
+		$sql .= '`' . $this->getTableName() . '` WHERE `calendarid` = ?';
+
+		$row = $this->findOneQuery($sql, array(
+			$calendar->getId()
+		));
+
+		return intval($row['count']);
+	}
+
+
+	/**
+	 * @param ICalendar $calendar
+	 * @param string $uri
+	 * @return bool
+	 */
+	public function doesExist(ICalendar $calendar, $uri) {
+
+	}
+
+
+	/**
+	 * @param ICalendar $calendar
+	 * @param string $uri
+	 * @param int $cruds
+	 * @return bool
+	 */
+	public function doesAllow(ICalendar $calendar, $uri, $cruds) {
+
+	}
+
+
+	/**
+	 * Deletes all objects of calendar $calendarId
+	 * @param ICalendar $calendar
+	 */
+	public function deleteAll(ICalendar $calendar) {
 		$sql = 'DELETE FROM `' . $this->getTableName() . '` WHERE `calendarid` = ?';
 
 		$this->execute($sql, array(
-			$calendarId
+			$calendar->getId()
 		));
 	}
 

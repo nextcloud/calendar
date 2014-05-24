@@ -26,6 +26,7 @@
 namespace OCA\Calendar\Db;
 
 use OCP\AppFramework\IAppContainer;
+use OCP\Calendar\IEntity;
 use OCP\Calendar\ICollection;
 use OCP\DB;
 
@@ -68,7 +69,7 @@ abstract class Mapper {
 	 * Deletes an entity from the table
 	 * @param Entity $entity the entity that should be deleted
 	 */
-	public function delete(Entity $entity){
+	public function delete(IEntity $entity){
 		$sql = 'DELETE FROM `' . $this->tableName . '` WHERE `id` = ?';
 		$this->execute($sql, array($entity->getId()));
 	}
@@ -79,7 +80,7 @@ abstract class Mapper {
 	 * @param Entity $entity the entity that should be created
 	 * @return Entity the saved entity with the set id
 	 */
-	public function insert(Entity $entity){
+	public function insert(IEntity $entity){
 		// get updated fields to save, fields have to be set using a setter to
 		// be saved
 		$properties = $entity->getUpdatedFields();
@@ -122,7 +123,7 @@ abstract class Mapper {
 	 * @throws \InvalidArgumentException if entity has no id
 	 * @param Entity $entity the entity that should be created
 	 */
-	public function update(Entity $entity){
+	public function update(IEntity $entity){
 		// entity needs an id
 		$id = $entity->getId();
 		if ($id === null){

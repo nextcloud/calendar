@@ -46,19 +46,18 @@ class CalendarMapper extends Mapper {
 
 	/**
 	 * find calendar by backend, uri and userId
-	 * @param string $backend
-	 * @param string $uri
+	 * @param string $publicuri
 	 * @param string $userId
 	 * @throws DoesNotExistException: if the item does not exist
 	 * @throws MultipleObjectsReturnedException: if more than one item found
 	 * @return calendar object
 	 */
-	public function find($backend, $uri, $userId){
+	public function find($publicuri, $userId){
 		$sql  = 'SELECT * FROM `' . $this->getTableName() . '` ';
-		$sql .= 'WHERE `backend` = ? AND `uri` = ? AND `user_id` = ?';
+		$sql .= 'WHERE `publicuri` = ? AND `user_id` = ?';
 
 		$row = $this->findOneQuery($sql, array(
-			$backend, $uri, $userId
+			$publicuri, $userId
 		));
 
 		return new Calendar($row);
@@ -79,6 +78,27 @@ class CalendarMapper extends Mapper {
 
 		$row = $this->findOneQuery($sql, array(
 			$id, $userId
+		));
+
+		return new Calendar($row);
+	}
+
+
+	/**
+	 * find calendar by id and userId
+	 * @param string $backend
+	 * @param string $privateuri
+	 * @param string $userId
+	 * @throws DoesNotExistException: if the item does not exist
+	 * @throws MultipleObjectsReturnedException: if more than one item found
+	 * @return calendar object
+	 */
+	public function findByPrivateUri($backend, $privateuri, $userId) {
+		$sql  = 'SELECT * FROM `' . $this->getTableName() . '` ';
+		$sql .= 'WHERE `backend` = ? AND `privateuri` = ? AND `user_id` = ?';
+
+		$row = $this->findOneQuery($sql, array(
+			$backend, $privateuri, $userId
 		));
 
 		return new Calendar($row);
@@ -147,7 +167,7 @@ class CalendarMapper extends Mapper {
 	 * @return array
 	 */
 	public function findAllIdentifiersOnBackend($backend, $userId) {
-		$sql  = 'SELECT `uri` FROM `'. $this->getTableName() . '` ';
+		$sql  = 'SELECT `privateuri` FROM `'. $this->getTableName() . '` ';
 		$sql .= 'WHERE `backend` = ? AND `user_id` = ?';
 
 		$identifiers = array();
@@ -204,19 +224,17 @@ class CalendarMapper extends Mapper {
 
 	/**
 	 * does a calendar exist
-	 * @param string $backend
-	 * @param string $calendarURI
+	 * @param string $publicuri
 	 * @param string $userId
 	 * @throws DoesNotExistException: if the item does not exist
 	 * @return boolean
 	 */
-	public function doesExist($backend, $calendarURI, $userId) {
+	public function doesExist($publicuri, $userId) {
 		$sql  = 'SELECT COUNT(*) AS `count` FROM `' . $this->tableName . '`';
-		$sql .= ' WHERE `backend` = ? AND `uri` = ? AND `user_id` = ?';
+		$sql .= ' WHERE `publicuri` = ? AND `user_id` = ?';
 
 		$row = $this->findOneQuery($sql, array(
-			$backend,
-			$calendarURI,
+			$publicuri,
 			$userId
 		));
 
@@ -227,21 +245,19 @@ class CalendarMapper extends Mapper {
 
 	/**
 	 * checks if a calendar allows a certain action
-	 * @param string $backend
-	 * @param string $calendarURI
+	 * @param string $publicuri
 	 * @param string $userId
 	 * @param integer $cruds
 	 * @throws DoesNotExistException: if the item does not exist
 	 * @return boolean
 	 */
-	public function doesAllow($backend, $calendarURI, $userId, $cruds) {
+	public function doesAllow($publicuri, $userId, $cruds) {
 		$sql  = 'SELECT COUNT(*) AS `count` FROM `' . $this->tableName . '`';
-		$sql .= ' WHERE `cruds` & ? AND `backend` = ? AND `uri` = ? AND `user_id` = ?';
+		$sql .= ' WHERE `cruds` & ? AND `publicuri` = ? AND `user_id` = ?';
 
 		$row = $this->findOneQuery($sql, array(
 			$cruds,
-			$backend,
-			$calendarURI,
+			$publicuri,
 			$userId
 		));
 
@@ -251,22 +267,20 @@ class CalendarMapper extends Mapper {
 
 
 	/**
-	 * checks if a calendar supports a certian component
-	 * @param string $backend
-	 * @param string $calendarURI
+	 * checks if a calendar supports a certain component
+	 * @param string $publicuri
 	 * @param string $userId
 	 * @param integer $component
 	 * @throws DoesNotExistException: if the item does not exist
 	 * @return boolean
 	 */
-	public function doesSupport($backend, $calendarURI, $userId, $component) {
+	public function doesSupport($publicuri, $userId, $component) {
 		$sql  = 'SELECT COUNT(*) AS `count` FROM `' . $this->tableName . '`';
-		$sql .= ' WHERE `components` & ? AND `backend` = ? AND `uri` = ? AND `user_id` = ?';
+		$sql .= ' WHERE `components` & ? AND `publicuri` = ? AND `user_id` = ?';
 
 		$row = $this->findOneQuery($sql, array(
 			$component,
-			$backend,
-			$calendarURI,
+			$publicuri,
 			$userId
 		));
 

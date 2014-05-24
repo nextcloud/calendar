@@ -158,11 +158,19 @@ class Backend extends Entity implements \OCP\Calendar\IBackend {
 	/**
 	 * registers an API for a backend
 	 * @param IBackend $api
-	 * @return Backend
+	 * @return $this
 	 */
 	public function registerAPI(IBackend $api){
 		$this->api = $api;
 		return $this;
+	}
+
+
+	/**
+	 * @return IBackend
+	 */
+	public function getAPI() {
+		return $this->getter('api');
 	}
 
 
