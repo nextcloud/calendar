@@ -41,6 +41,18 @@ interface IEntity {
 	 */
 	public function fromRow(array $row);
 
+	/**
+	 * @param $id
+	 * @return $this
+	 */
+	public function setId($id);
+
+
+	/**
+	 * @return int
+	 */
+	public function getId();
+
 
 	/**
 	 * @brief overwrite current objects with properties

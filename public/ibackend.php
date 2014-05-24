@@ -32,6 +32,12 @@ interface IBackend extends IEntity {
 
 
 	/**
+	 * @return IBackend
+	 */
+	public function getAPI();
+
+
+	/**
 	 * @param boolean $enabled
 	 * @return $this
 	 */
@@ -76,7 +82,6 @@ interface IBackend extends IEntity {
 	 * @return $this
 	 */
 	public function setBackend($backend);
-
 
 
 	/**

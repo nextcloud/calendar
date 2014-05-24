@@ -169,13 +169,26 @@ interface ICalendar extends IEntity {
 	 * @param string $uri
 	 * @return $this
 	 */
-	public function setUri($uri);
+	public function setPublicUri($uri);
 
 
 	/**
 	 * @return string
 	 */
-	public function getUri();
+	public function getPublicUri();
+
+
+	/**
+	 * @param string $uri
+	 * @return $this
+	 */
+	public function setPrivateUri($uri);
+
+
+	/**
+	 * @return string
+	 */
+	public function getPrivateUri();
 
 
 	/**
