@@ -129,8 +129,11 @@ class JSONCalendarReader extends JSONReader{
 				case 'description':
 				case 'displayname':
 				case 'backend':
-				case 'uri':
 					$calendar->$setter(strval($value));
+					break;
+
+				case 'uri':
+					$calendar->setPublicUri(strval($value));
 					break;
 
 				case 'ctag':

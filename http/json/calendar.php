@@ -21,7 +21,6 @@
  */
 namespace OCA\Calendar\Http\JSON;
 
-use OCA\Calendar\Utility\CalendarUtility;
 use OCA\Calendar\Utility\JSONUtility;
 
 class JSONCalendar extends JSON {
@@ -78,8 +77,11 @@ class JSONCalendar extends JSON {
 			case 'displayname':
 			case 'timezone':
 			case 'backend':
-			case 'uri':
 				$this->jsonArray[$key] = strval($value);
+				break;
+
+			case 'publicuri':
+				$this->jsonArray['uri'] = strval($value);
 				break;
 
 			case 'ctag':
@@ -104,6 +106,9 @@ class JSONCalendar extends JSON {
 			case 'userId':
 				$key = substr($key, 0, -2);
 				$this->jsonArray[$key] = JSONUtility::getUserInformation($value);
+				break;
+
+			case 'privateuri':
 				break;
 
 			default:
