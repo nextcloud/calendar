@@ -36,10 +36,11 @@
 	</a>
 	<fieldset class="personalblock" ng-show="newCalendarInput">
 		<form>
-			<input id="newCalendarInputVal" type="text"
+			<input type="text" ng-model="newCalendarInputVal"
 				ng-blur="newCalendarToggler = !newCalendarToggler;
 					newCalendarInput = !newCalendarInput;" 
 			autofocus />
+			<button colorpicker type="button" colorpicker-position="top" ng-model="newcolor"><?php p($l->t('Color')); ?></button>
 			<button
 				ng-click="create()"
 				id="submitnewCalendar"
@@ -51,7 +52,7 @@
 </li>
 
 <li ng-repeat="calendar in calendars|orderBy:'reverse'"
-	ng-class="{ active: calendar.uri == route.uri }">
+	ng-class="{ active: calendar.id == route.id }">
 	<span class="calendarCheckbox" style="background-color:{{calendar.color}}"></span>
 	<a href="#/{{ calendar.id }}">
 		{{ calendar.displayname }}

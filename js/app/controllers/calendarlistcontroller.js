@@ -32,17 +32,25 @@ app.controller('CalendarListController', ['$scope','Restangular','CalendarModel'
 			CalendarModel.addAll(calendars);
 		});
 
+		$scope.newcolor = '';
+		$scope.newCalendarInputVal = '';
+
 		// Create a New Calendar
 		$scope.create = function () {
 			calendarResource.post().then(function (calendar) {
 				CalendarModel.add(calendar);
-				$scope.path('/' + calendar.id);
 			});
 		};
 
+		$scope.updatecalenderform = function () {
+			//calendarResource.post().then(function (calendar) {
+			//	CalendarModel.updateIfExists(calendar);
+			//});
+		};
+
 		// To Delete a Calendar
-		$scope.delete = function (uri,backend) {
-			var calendar = CalendarModel.get(uri);
+		$scope.delete = function (id) {
+			var calendar = CalendarModel.get(id);
 			var delcalendarResource = Restangular.one('v1/calendars',id);
 			delcalendarResource.remove().then( function () {
 				CalendarModel.remove(calendar);

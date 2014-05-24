@@ -35,6 +35,7 @@
 
 	\OCP\Util::addScript('calendar', '../3rdparty/js/angular-ui/angular-ui');
 	\OCP\Util::addScript('calendar', '../3rdparty/js/angular-ui/angular-ui-calendar');
+	\OCP\Util::addScript('calendar', '../3rdparty/js/colorpicker/colorpicker');
 
 	\OCP\Util::addScript('calendar', '../3rdparty/js/appframework/app');
 
@@ -46,6 +47,7 @@
 	\OCP\Util::addStyle('calendar', 'part.settings');
 
 	\OCP\Util::addStyle('calendar', '../3rdparty/css/fullcalendar/fullcalendar');
+	\OCP\Util::addStyle('calendar', '../3rdparty/css/colorpicker/colorpicker');
 
 ?>
 

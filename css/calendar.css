@@ -39,8 +39,8 @@ body {
 }
 
 .personalblock form input {
-	width:75%;
-	margin-left:23px;
+	margin-left: 10px;
+	width: 60%;
 }
 
 .personalblock form #submitnewCalendar {

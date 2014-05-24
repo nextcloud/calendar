@@ -29,7 +29,7 @@ app.factory('CalendarModel', function() {
 
 	CalendarModel.prototype = {
 		add : function (calendar) {
-			this.calendars.push(calendar);
+			this.updateIfExists(calendar);
 		},
 		addAll : function (calendars) {
 			for(var i=0; i<calendars.length; i++) {
@@ -39,22 +39,28 @@ app.factory('CalendarModel', function() {
 		getAll : function () {
 			return this.calendars;
 		},
-		get : function (uri) {
-			for (var i = 0; i<this.calendars.length;i++) {
+		get : function (id) {
+			return this.calendarId[id];
+		},
+		updateIfExists : function (updated) {
+			var calendar = this.calendarId[updated.id];
+			if (angular.isDefined(calendar)) {
+				calendar.displayname = updated.displayname;
+				calendar.color = updated.color;
+			} else {
+				this.calendars.push(updated);
+				this.calendarId[updated.id] = updated;
+			}
+		},
+		remove : function (id) {
+			for(var i=0; i<this.calendars.length; i++) {
 				var calendar = this.calendars[i];
-				if (calendar.uri === uri) {
-					this.calendarId = this.calendars[i];
+				if (calendar.id === id) {
+					this.calendars.splice(i, 1);
+					delete this.calendarId[id];
 					break;
 				}
 			}
-			return this.calendarId;
-		},
-		updateIfExists : function () {
-
-		},
-		remove : function (calendar) {
-			// Todo: Splice of the Calendar Input here instead the calendar.
-			delete this.calendar;
 		},
 	};
 

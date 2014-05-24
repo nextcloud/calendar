@@ -1,6 +1,13 @@
 
-var app = angular.module('Calendar', ['OC', 'ngAnimate', 'restangular', 'ngRoute', 'ui.bootstrap', 'ui.calendar']).
-config(['$provide', '$routeProvider', 'RestangularProvider', '$httpProvider', '$windowProvider',
+var app = angular.module('Calendar', [
+	'OC',
+	'ngAnimate',
+	'restangular',
+	'ngRoute',
+	'ui.bootstrap',
+	'ui.calendar',
+	'colorpicker.module'
+]).config(['$provide', '$routeProvider', 'RestangularProvider', '$httpProvider', '$windowProvider',
 	function ($provide,$routeProvider,RestangularProvider,$httpProvider,$windowProvider) {
 
 		$httpProvider.defaults.headers.common.requesttoken = oc_requesttoken;
@@ -189,17 +196,25 @@ app.controller('CalendarListController', ['$scope','Restangular','CalendarModel'
 			CalendarModel.addAll(calendars);
 		});
 
+		$scope.newcolor = '';
+		$scope.newCalendarInputVal = '';
+
 		// Create a New Calendar
 		$scope.create = function () {
 			calendarResource.post().then(function (calendar) {
 				CalendarModel.add(calendar);
-				$scope.path('/' + calendar.id);
 			});
 		};
 
+		$scope.updatecalenderform = function () {
+			//calendarResource.post().then(function (calendar) {
+			//	CalendarModel.updateIfExists(calendar);
+			//});
+		};
+
 		// To Delete a Calendar
-		$scope.delete = function (uri,backend) {
-			var calendar = CalendarModel.get(uri);
+		$scope.delete = function (id) {
+			var calendar = CalendarModel.get(id);
 			var delcalendarResource = Restangular.one('v1/calendars',id);
 			delcalendarResource.remove().then( function () {
 				CalendarModel.remove(calendar);
@@ -252,12 +267,6 @@ app.controller('SettingsController', ['$scope','Restangular','$routeParams','Tim
 	}
 ]);
 
-app.directive('colorpickerDirective', function () {
- 	return {
- 		restrict : 'EA',
- 		replace : true 
- 	};
- });
 app.factory('CalendarModel', function() {
 	var CalendarModel = function () {
 		this.calendars = [];
@@ -266,7 +275,7 @@ app.factory('CalendarModel', function() {
 
 	CalendarModel.prototype = {
 		add : function (calendar) {
-			this.calendars.push(calendar);
+			this.updateIfExists(calendar);
 		},
 		addAll : function (calendars) {
 			for(var i=0; i<calendars.length; i++) {
@@ -276,22 +285,28 @@ app.factory('CalendarModel', function() {
 		getAll : function () {
 			return this.calendars;
 		},
-		get : function (uri) {
-			for (var i = 0; i<this.calendars.length;i++) {
+		get : function (id) {
+			return this.calendarId[id];
+		},
+		updateIfExists : function (updated) {
+			var calendar = this.calendarId[updated.id];
+			if (angular.isDefined(calendar)) {
+				calendar.displayname = updated.displayname;
+				calendar.color = updated.color;
+			} else {
+				this.calendars.push(updated);
+				this.calendarId[updated.id] = updated;
+			}
+		},
+		remove : function (id) {
+			for(var i=0; i<this.calendars.length; i++) {
 				var calendar = this.calendars[i];
-				if (calendar.uri === uri) {
-					this.calendarId = this.calendars[i];
+				if (calendar.id === id) {
+					this.calendars.splice(i, 1);
+					delete this.calendarId[id];
 					break;
 				}
 			}
-			return this.calendarId;
-		},
-		updateIfExists : function () {
-
-		},
-		remove : function (calendar) {
-			// Todo: Splice of the Calendar Input here instead the calendar.
-			delete this.calendar;
 		},
 	};
 
