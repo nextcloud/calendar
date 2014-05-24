@@ -119,6 +119,7 @@ class BackendBusinessLayer extends BusinessLayer {
 	 * @throws BusinessLayerException
 	 */
 	public function setDefault(IBackend $backend) {
+		$this->app->log($backend->getBackend(), 'debug');
 		throw new BusinessLayerException('Setting default backend not supported yet');
 	}
 }
