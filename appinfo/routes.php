@@ -23,7 +23,7 @@
  */
 use \OCA\Calendar;
 
-$this->create('calendar.view.index', '/')->action(function($params){
+$this->create('calendar.view.index', '/')->get()->action(function($params){
 	$app = new \OCA\Calendar\App($params);
 	$app->dispatch('ViewController', 'index');
 });
@@ -33,64 +33,77 @@ $this->create('calendar.settings.getView', '/getView')->get()->action(function($
 	$app = new \OCA\Calendar\App($params);
 	$app->dispatch('SettingsController', 'getView');
 });
-
 $this->create('calendar.settings.setView', '/setView/{view}')->get()->action(function($params){
 	$app = new \OCA\Calendar\App($params);
 	$app->dispatch('SettingsController', 'setView');
 });
 
 
-$this->create('calendar.backends.all', '/v1/backends')->action(function($params){
+$this->create('calendar.backends.all', '/v1/backends')->get()->action(function($params){
 	$app = new \OCA\Calendar\App($params);
 	$app->dispatch('BackendController', 'index');
 });
-$this->create('calendar.backends.disabled', '/v1/backends-disabled')->action(function($params){
+$this->create('calendar.backends.disabled', '/v1/backends-disabled')->get()->action(function($params){
 	$app = new \OCA\Calendar\App($params);
 	$app->dispatch('BackendController', 'disabled');
 });
-$this->create('calendar.backends.enabled', '/v1/backends-enabled')->action(function($params){
+$this->create('calendar.backends.enabled', '/v1/backends-enabled')->get()->action(function($params){
 	$app = new \OCA\Calendar\App($params);
 	$app->dispatch('BackendController', 'enabled');
 });
-$this->create('calendar.backends.default', '/v1/backends-default')->action(function($params){
+$this->create('calendar.backends.default', '/v1/backends-default')->get()->action(function($params){
 	$app = new \OCA\Calendar\App($params);
 	$app->dispatch('BackendController', 'defaultBackend');
 });
 
 
-$this->create('calendar.calendars.forceUpdate', '/v1/calendars-forceUpdate')->action(function($params){
+$this->create('calendar.calendars.forceUpdate', '/v1/calendars-forceUpdate')->get()->action(function($params){
 	$app = new \OCA\Calendar\App($params);
 	$app->dispatch('CalendarController', 'forceUpdate');
 });
 
 
-$this->create('calendar.timezone.getList', '/v1/timezones-list')->action(function($params){
+/* some additional calendar calls */
+$this->create('calendar.calendar.export', '/v1/calendars/{calendarId}/export')->get()->action(function($params){
 	$app = new \OCA\Calendar\App($params);
-	$app->dispatch('TimezoneController', 'getList');
+	$app->dispatch('ObjectController', 'export');
+});
+$this->create('calendar.calendar.export', '/v1/calendars/{calendarId}/import')->post()->action(function($params){
+	$app = new \OCA\Calendar\App($params);
+	$app->dispatch('ObjectController', 'import');
 });
 
 
-$this->create('calendar.subscription.getTypes', '/v1/subscriptions-type')->action(function($params){
+/* some additional object calls */
+$this->create('calendar.object.inPeriod', '/v1/calendars/{calendarId}/objects/inPeriod/{start}/{end}')->get()->action(function($params){
+	$app = new \OCA\Calendar\App($params);
+	$app->dispatch('ObjectController', 'inPeriod');
+});
+$this->create('calendar.event.inPeriod', '/v1/calendars/{calendarId}/events/inPeriod/{start}/{end}')->get()->action(function($params){
+	$app = new \OCA\Calendar\App($params);
+	$app->dispatch('EventController', 'inPeriod');
+});
+$this->create('calendar.journal.inPeriod', '/v1/calendars/{calendarId}/journals/inPeriod/{start}/{end}')->get()->action(function($params){
+	$app = new \OCA\Calendar\App($params);
+	$app->dispatch('JournalController', 'inPeriod');
+});
+$this->create('calendar.todo.inPeriod', '/v1/calendars/{calendarId}/objects/todos/{start}/{end}')->get()->action(function($params){
+	$app = new \OCA\Calendar\App($params);
+	$app->dispatch('TodoController', 'inPeriod');
+});
+
+
+/* some additional subscription calls */
+$this->create('calendar.subscription.getTypes', '/v1/subscriptions-type')->get()->action(function($params){
 	$app = new \OCA\Calendar\App($params);
 	$app->dispatch('SubscriptionController', 'getTypes');
 });
 
 
-$this->create('calendar.object.indexInPeriod', '/v1/calendars/{calendarId}/objects/inPeriod/{start}/{end}')->action(function($params){
+/* some additional timezone calls */
+$this->create('calendar.timezone.getList', '/v1/timezones-list')->get()->action(function($params){
 	$app = new \OCA\Calendar\App($params);
-	$app->dispatch('ObjectController', 'indexInPeriod');
-});
-$this->create('calendar.event.indexInPeriod', '/v1/calendars/{calendarId}/events/inPeriod/{start}/{end}')->action(function($params){
-	$app = new \OCA\Calendar\App($params);
-	$app->dispatch('EventController', 'indexInPeriod');
-});
-$this->create('calendar.journal.indexInPeriod', '/v1/calendars/{calendarId}/journals/inPeriod/{start}/{end}')->action(function($params){
-	$app = new \OCA\Calendar\App($params);
-	$app->dispatch('JournalController', 'indexInPeriod');
-});
-$this->create('calendar.todo.indexInPeriod', '/v1/calendars/{calendarId}/objects/todos/{start}/{end}')->action(function($params){
-	$app = new \OCA\Calendar\App($params);
-	$app->dispatch('TodoController', 'indexInPeriod');
+	$app->dispatch('TimezoneController', 'getList');
 });
 
 //set up resources
@@ -105,6 +118,7 @@ $routes = array(
 		'subscription' => array('url' => '/v1/subscriptions'),
 	)
 );
+
 
 $a = new \OCA\Calendar\App();
 $a->registerRoutes($this, $routes);
