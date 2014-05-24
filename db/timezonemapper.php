@@ -22,6 +22,7 @@
 namespace OCA\Calendar\Db;
 
 use OCP\Calendar\DoesNotExistException;
+use OCP\Calendar\IEntity;
 
 use OCP\AppFramework\IAppContainer;
 use OCP\Util;
@@ -70,6 +71,9 @@ class TimezoneMapper extends Mapper {
 			throw new DoesNotExistException('Timezone not found');
 		}
 
+		if (!file_exists($path)) {
+			throw new DoesNotExistException('Timezone not found!');
+		}
 		$data = file_get_contents($path);
 		return new Timezone($data);
 	}
@@ -115,6 +119,10 @@ class TimezoneMapper extends Mapper {
 		foreach($timezones as $timezone) {
 			$fileName = $this->getFileNameForTimezone($timezone);
 
+			if (!file_exists($fileName)) {
+				continue;
+			}
+
 			$data = file_get_contents($fileName);
 			$timezone = new Timezone($data);
 			$timezoneCollection->add($timezone);
@@ -127,7 +135,7 @@ class TimezoneMapper extends Mapper {
 	/**
 	 * @brief deleting timezones is not supported
 	 */
-	public function delete(Entity $entity){
+	public function delete(IEntity $entity){
 		return null;
 	}
 
@@ -135,7 +143,7 @@ class TimezoneMapper extends Mapper {
 	/**
 	 * @brief create timezones is not supported
 	 */
-	public function insert(Entity $entity){
+	public function insert(IEntity $entity){
 		return null;
 	}
 
@@ -143,7 +151,7 @@ class TimezoneMapper extends Mapper {
 	/**
 	 * @brief updating timezones is not supported
 	 */
-	public function update(Entity $entity){
+	public function update(IEntity $entity){
 		return null;
 	}
 
