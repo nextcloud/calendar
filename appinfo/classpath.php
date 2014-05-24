@@ -25,6 +25,7 @@
 
 /* backend classes */
 \OC::$CLASSPATH['OCA\Calendar\Backend\IBackend'] = 'calendar/backend/ibackend.php';
+\OC::$CLASSPATH['OCA\Calendar\Backend\IFullyQualifiedBackend'] = 'calendar/backend/ifullyqualifiedbackend.php';
 \OC::$CLASSPATH['OCA\Calendar\Backend\Backend'] = 'calendar/backend/backend.php';
 \OC::$CLASSPATH['OCA\Calendar\Backend\CalDAV'] = 'calendar/backend/caldav.php';
 \OC::$CLASSPATH['OCA\Calendar\Backend\Contact'] = 'calendar/backend/contact.php';
