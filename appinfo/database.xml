@@ -62,7 +62,7 @@
 			<field>
 				<name>components</name>
 				<type>text</type>
-				<default>VEVENT</default>
+				<default></default>
 				<notnull>false</notnull>
 				<length>100</length>
 			</field>
