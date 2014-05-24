@@ -227,13 +227,13 @@ class App extends \OCP\AppFramework\App {
 				'classname' => '\\OCA\\Calendar\\Backend\\Contact',
 				'arguments' => array(),
 				'enabled' => true,
-			),
+			),/*
 			array (
 				'backend' => 'webcal',
 				'classname' => '\\OCA\\Calendar\\Backend\\WebCal',
 				'arguments' => array(),
 				'enabled' => true,
-			)
+			)*/
 		);
 
 		$this->getContainer()->registerParameter('defaultBackend', $defaultBackend);

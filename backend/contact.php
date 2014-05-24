@@ -105,7 +105,7 @@ class Contact extends Backend {
 		$calendar->setUserId($userId);
 		$calendar->setOwnerId($userId);
 		$calendar->setBackend($this->backend);
-		$calendar->setPublicUri($calendarURI);
+		$calendar->setPrivateUri($calendarURI);
 		$calendar->setComponents(ObjectType::EVENT);
 		$calendar->setCtag(1); //sum of all addressbook ctags
 		$calendar->setTimezone(new TimeZone('UTC'));

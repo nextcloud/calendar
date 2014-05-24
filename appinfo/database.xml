@@ -31,6 +31,13 @@
 				<notnull>true</notnull>
 				<length>255</length>
 			</field>
+            <field>
+                <name>publicuri</name>
+                <type>text</type>
+                <default></default>
+                <notnull>true</notnull>
+                <length>255</length>
+            </field>
 			<field>
 				<name>backend</name>
 				<type>text</type>
@@ -39,7 +46,7 @@
 				<length>255</length>
 			</field>
 			<field>
-				<name>uri</name>
+				<name>privateuri</name>
 				<type>text</type>
 				<default></default>
 				<notnull>true</notnull>

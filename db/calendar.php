@@ -108,8 +108,9 @@ class Calendar extends Entity implements ICalendar {
 	public function __construct($createFrom=null){
 		$this->addType('userId', 'string');
 		$this->addType('ownerId', 'string');
+		$this->addType('publicuri', 'string');
 		$this->addType('backend', 'string');
-		$this->addType('uri', 'string');
+		$this->addType('privateuri', 'string');
 		$this->addType('displayname', 'string');
 		$this->addType('components', 'integer');
 		$this->addType('ctag', 'integer');
@@ -121,7 +122,7 @@ class Calendar extends Entity implements ICalendar {
 		$this->addMandatory('userId');
 		$this->addMandatory('ownerId');
 		$this->addMandatory('backend');
-		$this->addMandatory('uri');
+		$this->addMandatory('privateuri');
 		$this->addMandatory('ctag');
 		$this->addMandatory('cruds');
 		$this->addMandatory('enabled');
