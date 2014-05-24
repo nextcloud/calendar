@@ -26,6 +26,7 @@ use OCP\Calendar\ICalendarCollection;
 use OCP\Calendar\ITimezone;
 use OCP\Calendar\DoesNotExistException;
 
+use OCA\Calendar\BusinessLayer\BusinessLayerException;
 use OCA\Calendar\Db\Calendar;
 use OCA\Calendar\Db\CalendarCollection;
 use OCA\Calendar\Http\SerializerException;
@@ -182,19 +183,14 @@ class JSONCalendarReader extends JSONReader{
 
 
 	/**
-	 * get timezone Object from timezoneId
-	 * @param string $timezoneId
-	 * @return ITimezone
+	 * @param string $tzId
+	 * @return ITimezone|null
 	 */
-	private function parseTimezone($timezoneId) {
+	private function parseTimezone($tzId) {
+		$timezoneBusinessLayer = $this->app->query('TimezoneBusinessLayer');
 		try {
-			if (trim($timezoneId) === '') {
-				return null;
-			}
-
-			$timezoneMapper = $this->app->query('TimezoneMapper');
-			return $timezoneMapper->find($timezoneId);
-		} catch(DoesNotExistException $ex) {
+			return $timezoneBusinessLayer->find($tzId, $this->app->getCoreApi()->getUserId());
+		} catch(BusinessLayerException $ex) {
 			return null;
 		}
 	}

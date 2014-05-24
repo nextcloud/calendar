@@ -76,8 +76,8 @@
 			</field>
 			<field>
 				<name>timezone</name>
-				<type>text</type>
-				<notnull>false</notnull>
+                <type>clob</type>
+                <notnull>false</notnull>
 			</field>
 			<field>
 				<name>color</name>

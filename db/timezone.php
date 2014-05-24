@@ -70,8 +70,9 @@ class Timezone extends Entity implements ITimezone {
 	 * @throws MultipleObjectsReturnedException
 	 */
 	public function fromData($data) {
-		if (substr($data, 0, 15) === 'BEGIN:VCALENDAR') {
-			$newData  = "\n";
+		if (substr($data, 0, 15) !== 'BEGIN:VCALENDAR') {
+			$newData  = 'BEGIN:VCALENDAR';
+			$newData .= "\n";
 			$newData .= $data;
 			$newData .= "\n";
 			$newData .= 'END:VCALENDAR';
@@ -120,7 +121,7 @@ class Timezone extends Entity implements ITimezone {
 		$vcalendar = $this->getter('vobject');
 
 		if ($vcalendar instanceof VCalendar && isset($vcalendar->{'VTIMEZONE'})) {
-			return $vcalendar->{'VTIMEZONE'}->{'TZID'};
+			return $vcalendar->{'VTIMEZONE'}->{'TZID'}->getValue();
 		} else {
 			return null;
 		}

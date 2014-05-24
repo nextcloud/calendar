@@ -21,6 +21,7 @@
  */
 namespace OCA\Calendar\Http\JSON;
 
+use OCP\Calendar\ITimezone;
 use OCA\Calendar\Utility\JSONUtility;
 
 class JSONCalendar extends JSON {
@@ -75,9 +76,12 @@ class JSONCalendar extends JSON {
 			case 'color':
 			case 'description':
 			case 'displayname':
-			case 'timezone':
 			case 'backend':
 				$this->jsonArray[$key] = strval($value);
+				break;
+
+			case 'timezone':
+				$this->jsonArray[$key] = ($value instanceof ITimezone) ? $value->getTzId() : null;
 				break;
 
 			case 'publicuri':
