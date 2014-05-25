@@ -297,7 +297,7 @@ class CalendarBusinessLayer extends BusinessLayer {
 		if ($calendar->getBackend() === null) {
 			$calendar->setBackend($defaultBackend);
 		}
-		if ($calendar->getPublicUri() === null && $calendar->getDisplayname() !== '') {
+		if ($calendar->getPublicUri() === null && $calendar->getDisplayname() !== null && $calendar->getDisplayname() !== '') {
 			$suggestedURI = mb_strtolower($calendar->getDisplayname());
 			$suggestedURI = CalendarUtility::slugify($suggestedURI);
 
