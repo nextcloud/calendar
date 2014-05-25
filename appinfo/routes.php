@@ -5,7 +5,7 @@
  * @author Georg Ehrke
  * @copyright 2014 Georg Ehrke <oc.list@georgehrke.com>
  * @author Thomas Müller
- * @copyright 2014 Thomas Müller <>
+ * @copyright 2014 Thomas Müller <thomas.mueller@tmit.eu>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -105,6 +105,18 @@ $this->create('calendar.timezone.getList', '/v1/timezones-list')->get()->action(
 	$app = new \OCA\Calendar\App($params);
 	$app->dispatch('TimezoneController', 'getList');
 });
+
+
+/* make resources patchable */
+$this->create('calendar.calendar.patch', '/v1/calendars/{calendarId}')->patch()->action(function($params){
+	$app = new \OCA\Calendar\App($params);
+	$app->dispatch('CalendarController', 'patch');
+});
+$this->create('calendar.subscription.patch', '/v1/subscriptions/{subscriptionId}')->patch()->action(function($params){
+	$app = new \OCA\Calendar\App($params);
+	$app->dispatch('SubscriptionController', 'patch');
+});
+
 
 //set up resources
 $routes = array(

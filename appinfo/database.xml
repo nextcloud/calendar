@@ -61,10 +61,10 @@
 			</field>
 			<field>
 				<name>components</name>
-				<type>text</type>
+				<type>integer</type>
 				<default></default>
 				<notnull>false</notnull>
-				<length>100</length>
+				<length>2</length>
 			</field>
 			<field>
 				<name>ctag</name>

@@ -271,7 +271,62 @@ class CalendarController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	public function patch() {
+		try {
+			$userId = $this->api->getUserId();
+			$calendarId = $this->params('calendarId');
+			$data = fopen('php://input', 'rb');
 
+			$reader = new Reader(
+				$this->app,
+				Reader::Calendar,
+				$data,
+				$this->contentType()
+			);
+
+			$calendar = $reader->sanitize()->getObject();
+
+			if ($calendar instanceof Calendar) {
+				$calendar = $this->businesslayer->patchFromRequestById(
+					$calendar,
+					$calendarId,
+					$userId
+				);
+
+				$serializer = new Serializer(
+					$this->app,
+					Serializer::Calendar,
+					$calendar,
+					$this->accept()
+				);
+			} elseif ($calendar instanceof CalendarCollection) {
+				throw new ReaderException(
+					'Patches can only be applied to a single resource.'
+				);
+			} else {
+				throw new ReaderException(
+					'Reader returned unrecognised format.'
+				);
+			}
+
+			return new Response($serializer);
+		} catch(BusinessLayerException $ex) {
+			$this->app->log($ex->getMessage(), 'debug');
+			return new Response(
+				array('message' => $ex->getMessage()),
+				$ex->getCode()
+			);
+		} catch(ReaderException $ex) {
+			return new Response(
+				array('message' => $ex->getMessage()),
+				Http::STATUS_UNPROCESSABLE_ENTITY
+			);
+		} catch (SerializerException $ex) {
+			$this->app->log($ex->getMessage(), 'debug');
+			return new Response(
+				array('message' => $ex->getMessage()),
+				Http::STATUS_INTERNAL_SERVER_ERROR
+			);
+		}
 	}
 
 
