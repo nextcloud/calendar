@@ -28,9 +28,9 @@ use OCP\Calendar\ICalendarCollection;
 use OCP\Calendar\IObject;
 /*use OCP\Calendar\IObjectCollection;*/
 
-use OCA\Calendar\Db\DoesNotExistException;
-/*use OCA\Calendar\Db\MultipleObjectsReturnedException;
-use OCA\Calendar\Db\CorruptDataException;*/
+use OCP\Calendar\DoesNotExistException;
+/*use OCP\Calendar\MultipleObjectsReturnedException;
+use OCP\Calendar\CorruptDataException;*/
 
 use OCA\Calendar\Db\Calendar;
 use OCA\Calendar\Db\CalendarCollection;

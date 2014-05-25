@@ -28,8 +28,8 @@ use OCP\Calendar\ICalendarCollection;
 use OCP\Calendar\IObject;
 use OCP\Calendar\IObjectCollection;
 
-use OCA\Calendar\Db\DoesNotExistException;
-use OCA\Calendar\Db\MultipleObjectsReturnedException;
+use OCP\Calendar\DoesNotExistException;
+use OCP\Calendar\MultipleObjectsReturnedException;
 
 
 abstract class Backend implements IBackend {

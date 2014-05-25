@@ -37,9 +37,9 @@ use OCA\Calendar\Db\ObjectCollection;
 use OCA\Calendar\Sabre\VObject\Reader;
 use OCA\Calendar\Sabre\VObject\ParseException;
 
-use OCA\Calendar\Db\DoesNotExistException;
-/*use OCA\Calendar\Db\MultipleObjectsReturnedException;
-use OCA\Calendar\Db\CorruptDataException;*/
+use OCP\Calendar\DoesNotExistException;
+/*use OCP\Calendar\MultipleObjectsReturnedException;
+use OCP\Calendar\CorruptDataException;*/
 
 
 use OCA\Calendar\Db\Subscription;
