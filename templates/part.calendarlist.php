@@ -40,7 +40,7 @@
 				ng-blur="newCalendarToggler = !newCalendarToggler;
 					newCalendarInput = !newCalendarInput;" 
 			autofocus />
-			<button colorpicker type="button" colorpicker-position="top" ng-model="newcolor"><?php p($l->t('Color')); ?></button>
+			<button colorpicker colorpicker-position="top" ng-model="newcolor" id="newcolorpicker" style="background: {{ newcolor }};"></button>
 			<button
 				ng-click="create()"
 				id="submitnewCalendar"
@@ -76,7 +76,7 @@
 				data-id="{{ calendar.uri }}"
 				title="Delete"
 				class="icon-delete"
-				ng-click="delete(calendar.uri,calendar.backend)">
+				ng-click="delete(calendar.id)">
 			</a>
 		</span>
 	</span>

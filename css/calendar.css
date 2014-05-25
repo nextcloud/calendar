@@ -25,69 +25,6 @@ body {
 	overflow: hidden;
 }
 
-#newCalendar:before {
-	position: absolute;
-	content: '+';
-	font-weight: bold;
-	font-size: 150%;
-	top:-2px;
-	left:8px;
-}
-
-#app-navigation li > a {
-	padding: 0 25px !important;
-}
-
-.personalblock form input {
-	margin-left: 10px;
-	width: 60%;
-}
-
-.personalblock form #submitnewCalendar {
-	margin-bottom: 6px;
-	border-top-left-radius: 0;
-	border-bottom-left-radius: 0;
-	margin-left:-20px
-}
-
-.activeCalendar {
-	display: none;
-}
-
-.calendarCheckbox {
-	margin-left: 6px;
-	margin-top: 15px;
-	margin-bottom: -1px;
-	display: inline-block;
-	width: 11px;
-	height: 11px;
-	border-width: 1px;
-	border-style: solid;
-	border-color: black;
-	cursor: pointer;
-	position: absolute;
-}
-
-.calendarCheckbox.unchecked {
-	background: rgba(0, 0, 0, 0) !important;
-	border-color: #aaa;
-}
-
-.calendarLabel {
-	display: block;
-	height: 44px;
-}
-
-#app-navigation {
-	padding-bottom:0 !important;
-}
-
-#app-navigation .utils {
-	display: inline-block;
-	height: 44px;
-	padding: 0 5px 0 0;
-}
-
 
 /* BEGIN overrule apps.css */
 #shareWithList {

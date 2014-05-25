@@ -44,6 +44,7 @@
 
 	\OCP\Util::addStyle('calendar', 'calendar');
 	\OCP\Util::addStyle('calendar', 'part.datepicker');
+	\OCP\Util::addStyle('calendar', 'part.calendarlist');
 	\OCP\Util::addStyle('calendar', 'part.settings');
 
 	\OCP\Util::addStyle('calendar', '../3rdparty/css/fullcalendar/fullcalendar');
