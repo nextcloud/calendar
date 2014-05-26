@@ -391,6 +391,9 @@ class ObjectBusinessLayer extends BusinessLayer {
 			$randomURI = ObjectUtility::randomURI();
 			$object->setUri($randomURI);
 		}
+		//generate provisional etag
+		//backends can set their own
+		$object->getEtag(true);
 
 		return $this->create($object);
 	}
