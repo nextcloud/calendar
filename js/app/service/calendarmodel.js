@@ -47,6 +47,11 @@ app.factory('CalendarModel', function() {
 			if (angular.isDefined(calendar)) {
 				calendar.displayname = updated.displayname;
 				calendar.color = updated.color;
+				calendar.components = {
+					"vevent" : true,
+					"vjournal" : true,
+					"vtodo" : true
+				};
 			} else {
 				this.calendars.push(updated);
 				this.calendarId[updated.id] = updated;

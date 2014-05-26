@@ -62,10 +62,13 @@ app.controller('AppController', ['$scope',
 
 	}
 ]);
-app.controller('CalController', ['$scope', '$timeout', '$routeParams', 'Restangular', 'CalendarModel',
-	function ($scope,$timeout,$routeParams, Restangular, CalendarModel) {
+app.controller('CalController', ['$scope', '$timeout', '$routeParams', 'Restangular', 'CalendarModel', 'EventsModel',
+	function ($scope,$timeout,$routeParams,Restangular,CalendarModel,EventsModel) {
 
-		var uri = $routeParams;
+		$scope.route = $routeParams;
+
+		var id = $scope.route.id; 
+
 
 		$scope.calendars = CalendarModel.getAll();
 
@@ -75,7 +78,11 @@ app.controller('CalController', ['$scope', '$timeout', '$routeParams', 'Restangu
 		var m = date.getMonth();
 		var y = date.getFullYear();
 
-		var calendarResource = Restangular.one('v1/calendars' + uri + '/events');
+		var calendarResource = Restangular.one('v1/calendars/' + id + '/events');
+
+		calendarResource.getList().then(function() {
+			EventsModel.addAll(id);
+		});
 
 		/* event source that pulls from google.com */	
 		$scope.eventSource = {
@@ -287,6 +294,11 @@ app.factory('CalendarModel', function() {
 			if (angular.isDefined(calendar)) {
 				calendar.displayname = updated.displayname;
 				calendar.color = updated.color;
+				calendar.components = {
+					"vevent" : true,
+					"vjournal" : true,
+					"vtodo" : true
+				};
 			} else {
 				this.calendars.push(updated);
 				this.calendarId[updated.id] = updated;
