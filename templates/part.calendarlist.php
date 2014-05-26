@@ -53,19 +53,19 @@
 
 <li ng-repeat="calendar in calendars|orderBy:'reverse'"
 	ng-class="{ active: calendar.id == route.id }">
-	<span class="calendarCheckbox" style="background-color:{{calendar.color}}"></span>
+	<span class="calendarCheckbox" style="background-color:{{ calendar.color }}"></span>
 	<a href="#/{{ calendar.id }}">
 		{{ calendar.displayname }}
 	</a>
 	<span class="utils">
 		<span class="action">
-			<a href="#" class="share icon-share permanent" data-item-type="calendar" data-item="" data-possible-permissions="" title="Share Calendar"></a>
+			<a href="#" id="chooseCalendar-share" class="share icon-share permanent" data-item-type="calendar" data-item="" data-possible-permissions="" title="Share Calendar"></a>
 		</span>
 		<span class="action">
 			<a href="#" id="chooseCalendar-showCalDAVURL" data-user="{{ calendar.ownwerid }}" data-caldav="" title="CalDav Link" class="icon-public permanent"></a>
 		</span>
 		<span class="action">
-			<a href="#" title="Download" class="icon-download"></a>
+			<a href="#" id="chooseCalendar-download" title="Download" class="icon-download"></a>
 		</span>
 		<span class="action">
 			<a href="#" id="chooseCalendar-edit" data-id="{{ calendar.uri }}" title="Edit" class="icon-rename"></a>

@@ -21,8 +21,8 @@
  *
  */
 
-app.controller('CalendarListController', ['$scope','Restangular','CalendarModel',
-	function ($scope,Restangular,CalendarModel) {
+app.controller('CalendarListController', ['$scope','Restangular','CalendarModel','$routeParams',
+	function ($scope,Restangular,CalendarModel,$routeParams) {
 
 		$scope.calendars = CalendarModel.getAll();
 		var calendarResource = Restangular.all('v1/calendars');
@@ -32,6 +32,7 @@ app.controller('CalendarListController', ['$scope','Restangular','CalendarModel'
 			CalendarModel.addAll(calendars);
 		});
 
+		$scope.route = $routeParams;
 		$scope.newcolor = '';
 		$scope.newCalendarInputVal = '';
 

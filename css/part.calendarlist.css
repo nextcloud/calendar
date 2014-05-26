@@ -27,13 +27,37 @@
 }
 
 #app-navigation .utils {
-	display: inline-block;
+	display: none;
 	height: 44px;
 	padding: 0 5px 0 0;
 }
 
+#app-navigation .active .utils {
+	display: inline-block;
+}
+
 #app-navigation li > a {
 	padding: 0 25px !important;
+}
+
+#app-navigation .active {
+	background: #ccc;
+}
+
+#chooseCalendar-share,
+#chooseCalendar-showCalDAVURL,
+#chooseCalendar-download,
+#chooseCalendar-edit,
+#chooseCalendar-delete {
+	background-color: #ddd !important;
+}
+
+#app-navigation .active:hover #chooseCalendar-share,
+#app-navigation .active:hover #chooseCalendar-showCalDAVURL,
+#app-navigation .active:hover #chooseCalendar-download,
+#app-navigation .active:hover #chooseCalendar-edit,
+#app-navigation .active:hover #chooseCalendar-delete {
+	background-color: #ccc !important;
 }
 
 #newCalendar:before {

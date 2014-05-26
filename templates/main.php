@@ -61,9 +61,9 @@
 	<!-- The Left Calendar Navigation -->
 	<div id="app-navigation" ng-controller="NavController">
 
-		<ul ng-controller="DatePickerController">
+		<div ng-controller="DatePickerController">
 			<?php print_unescaped($this->inc('part.datepicker')); ?>
-		</ul>
+		</div>
 		<ul ng-controller="CalendarListController">
 			<?php print_unescaped($this->inc('part.addnew')); ?>
 			<?php print_unescaped($this->inc('part.calendarlist')); ?>
