@@ -241,13 +241,6 @@ app.controller('SettingsController', ['$scope','Restangular','$routeParams','Tim
 		$scope.timezones = TimezoneModel.getAll();
 		var calendarResource = Restangular.all('v1/timezones');
 
-		// Gets All Calendar Timezones.
-		// TODO: Georg, explain me the structure of the JSON of the Timezones, it's weird.
-		// this will change accordingly.
-		// calendarResource.getList().then(function (timezones) {
-		//	TimezoneModel.addAll(timezones);
-		//});
-
 		// Time Format Dropdown
 		$scope.timeformatSelect = [
 			{ time : t('calendar', '24h'), val : '24' },

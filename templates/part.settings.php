@@ -39,22 +39,6 @@
 	<fieldset class="personalblock">
 		<ul>
 			<li>
-				<label for="timezone" class="bold"><?php p($l->t('Timezone')); ?></label>
-				<select id="timezone" name="timezone">
-					<option ng-repeat="timezone in timezones">{{ timezone }}</option>
-				</select>
-			</li>
-			<li>
-				<input
-					type="checkbox"
-					name="timezonedetection"
-					id="timezonedetection"
-					ng-model="timezonedetection"
-					ng-toggle="changetimezone"
-				/>
-				<label for="timezonedetection"><?php p($l->t('Update timezone automatically')); ?></label>
-			</li>
-			<li>
 				<label for="timeformat" class="bold"><?php p($l->t('Time format')); ?></label>
 				<select id="timeformat" title="<?php p("timeformat"); ?>" name="timeformat">
 					<option
@@ -76,16 +60,6 @@
 								{{ firstday.day }}
 					</option>
 				</select>
-			</li>
-			<li>
-				<label class="bold"><?php p($l->t('Cache')); ?></label>
-				<input
-					id="cleancalendarcache"
-					type="button"
-					class="button"
-					value="<?php p($l->t('Clear cache for repeating events')); ?>"
-					ng-click="cleancalendarcache()"
-				/>
 			</li>
 			<li>
 				<label class="bold"><?php p($l->t('Primary CalDAV address')); ?></label>
