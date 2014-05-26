@@ -235,7 +235,8 @@ class Object extends Entity implements IObject {
 		}
 
 		$this->setter('vobject', array($vobject));
-		return $this->setter('objectName', array($objectName));
+		$this->objectName = $objectName;
+		return $this;
 	}
 
 
