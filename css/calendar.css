@@ -25,74 +25,8 @@ body {
 	overflow: hidden;
 }
 
-
-/* BEGIN overrule apps.css */
-#shareWithList {
-	display: initial !important;
-	padding: 0;
-}
-
-#shareWithList ul:hover {
-	background: 0 !important;
-}
-
-#shareWithList a {
-	width: auto !important;
-	display: initial !important;
-	padding: 0 !important;
-	margin: 0;
-	float: none;
-	line-height: 22px !important;
-}
-
-#shareWithList label, #dropdown #expiration label {
-	vertical-align: baseline !important;
-}
-/* END overrule apps.css */
-
-#app-navigation .utils .action a {
-	display: inline-block;
-	line-height: 44px;
-	height: 16px;
-	width: 16px;
-	padding: 14px  2px 14px 2px ;
-}
-
-.utils #dropdown {
-	margin-right: 0px;
-	width: 224px;
-	top: 44px;
-}
-
-#navigation-list #caldav_url_entry {
-	min-height: 0;
-}
-
-.activeDay{
-	background-color:#D9EDF7;
-}
-
-.timeline {
-	position: absolute;
-	margin: 0;
-	padding: 0;
-	border: none;
-	border-top: 1px solid red;
-	width: 100%;
-
-	z-index: 999;
-}
-
-.fc-event-draggable { cursor: default; }
-
-.fc-agenda .fc-agenda-axis{
-	padding:0;
-	padding-right:4px;
-}
-
-button.ui-multiselect{
-	padding:2px 0 2px 4px;
-	line-height:22px;
-	height:26px;
-	 text-align:left;
+#app-content.loading {
+	background-image: url('../img/loading.gif');
+	background-position: center;
+	background-repeat: no-repeat;
 }
