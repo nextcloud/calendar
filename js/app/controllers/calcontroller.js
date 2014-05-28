@@ -25,7 +25,7 @@ app.controller('CalController', ['$scope', '$timeout', '$routeParams', 'Restangu
 	function ($scope,$timeout,$routeParams,Restangular,CalendarModel,EventsModel) {
 
 		$scope.route = $routeParams;
-		var calendarid = $scope.route.id; 
+		var calendarid = $scope.route.calendarId; 
 		$scope.calendars = CalendarModel.getAll();
 
 		/* All Date Objects */

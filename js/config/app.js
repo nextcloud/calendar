@@ -33,16 +33,16 @@ var app = angular.module('Calendar', [
 
 		$httpProvider.defaults.headers.common.requesttoken = oc_requesttoken;
 
-		$routeProvider.when('/:id', {
+		$routeProvider.when('/:calendarId', {
 			templateUrl : 'calendar.html',
 			controller : 'CalController',
 			resolve : {
 				calendar: ['$route', '$q', 'is', 'Restangular',
 				function ($route, $q, is, Restangular) {
 					var deferred = $q.defer();
-					var id = $route.current.params.id;
+					var calendarId = $route.current.params.calendarId;
 					is.loading = true;
-					Restangular.one('calendars', id).get().then(function (calendar) {
+					Restangular.one('calendars', calendarId).get().then(function (calendar) {
 						is.loading = false;
 						deferred.resolve(calendar);
 					}, function () {
@@ -64,12 +64,10 @@ var app = angular.module('Calendar', [
 	}
 ]).run(['$rootScope', '$location', 'CalendarModel',
 	function ($rootScope, $location, CalendarModel) {
-
 	$rootScope.$on('$routeChangeError', function () {
 		var calendars = CalendarModel.getAll();
-
+		console.log(calendars);
 		if (calendars.length > 0) {
-
 			var calendar = calendars[calendars.length-1];
 			$location.path('/' + calendar.id);
 		} else {

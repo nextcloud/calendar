@@ -42,7 +42,7 @@
 			autofocus />
 			<button colorpicker colorpicker-position="top" ng-model="newcolor" id="newcolorpicker" style="background: {{ newcolor }};"></button>
 			<button
-				ng-click="create()"
+				ng-click="create(newCalendarInputVal,newcolor)"
 				id="submitnewCalendar"
 				class="primary">
 				<?php p($l->t('Add')); ?>
@@ -52,7 +52,7 @@
 </li>
 
 <li ng-repeat="calendar in calendars|orderBy:'reverse'"
-	ng-class="{ active: calendar.id == route.id }">
+	ng-class="{ active: calendar.calendarid == route.id }">
 	<span class="calendarCheckbox" style="background-color:{{ calendar.color }}"></span>
 	<a href="#/{{ calendar.id }}">
 		{{ calendar.displayname }}

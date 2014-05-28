@@ -28,6 +28,9 @@ app.factory('CalendarModel', function() {
 	};
 
 	CalendarModel.prototype = {
+		create : function (newcalendar) {
+			this.calendars.push(newcalendar);
+		},
 		add : function (calendar) {
 			this.updateIfExists(calendar);
 		},
@@ -43,24 +46,19 @@ app.factory('CalendarModel', function() {
 			return this.calendarId[id];
 		},
 		updateIfExists : function (updated) {
-			var calendar = this.calendarId[updated.id];
-			if (angular.isDefined(calendar)) {
+			var calendar = this.calendarId[updated.calendarId];
+			if(angular.isDefined(calendar)) {
 				calendar.displayname = updated.displayname;
 				calendar.color = updated.color;
-				calendar.components = {
-					"vevent" : true,
-					"vjournal" : true,
-					"vtodo" : true
-				};
 			} else {
 				this.calendars.push(updated);
-				this.calendarId[updated.id] = updated;
+				this.calendarId[updated.calendarId] = updated;
 			}
 		},
 		remove : function (id) {
 			for(var i=0; i<this.calendars.length; i++) {
 				var calendar = this.calendars[i];
-				if (calendar.id === id) {
+				if (calendar.calendarId === id) {
 					this.calendars.splice(i, 1);
 					delete this.calendarId[id];
 					break;

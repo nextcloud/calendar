@@ -12,16 +12,16 @@ var app = angular.module('Calendar', [
 
 		$httpProvider.defaults.headers.common.requesttoken = oc_requesttoken;
 
-		$routeProvider.when('/:id', {
+		$routeProvider.when('/:calendarId', {
 			templateUrl : 'calendar.html',
 			controller : 'CalController',
 			resolve : {
 				calendar: ['$route', '$q', 'is', 'Restangular',
 				function ($route, $q, is, Restangular) {
 					var deferred = $q.defer();
-					var id = $route.current.params.id;
+					var calendarId = $route.current.params.calendarId;
 					is.loading = true;
-					Restangular.one('calendars', id).get().then(function (calendar) {
+					Restangular.one('calendars', calendarId).get().then(function (calendar) {
 						is.loading = false;
 						deferred.resolve(calendar);
 					}, function () {
@@ -43,12 +43,10 @@ var app = angular.module('Calendar', [
 	}
 ]).run(['$rootScope', '$location', 'CalendarModel',
 	function ($rootScope, $location, CalendarModel) {
-
 	$rootScope.$on('$routeChangeError', function () {
 		var calendars = CalendarModel.getAll();
-
+		console.log(calendars);
 		if (calendars.length > 0) {
-
 			var calendar = calendars[calendars.length-1];
 			$location.path('/' + calendar.id);
 		} else {
@@ -66,7 +64,7 @@ app.controller('CalController', ['$scope', '$timeout', '$routeParams', 'Restangu
 	function ($scope,$timeout,$routeParams,Restangular,CalendarModel,EventsModel) {
 
 		$scope.route = $routeParams;
-		var calendarid = $scope.route.id; 
+		var calendarid = $scope.route.calendarId; 
 		$scope.calendars = CalendarModel.getAll();
 
 		/* All Date Objects */
@@ -167,9 +165,18 @@ app.controller('CalendarListController', ['$scope','Restangular','CalendarModel'
 		$scope.newCalendarInputVal = '';
 
 		// Create a New Calendar
-		$scope.create = function () {
-			calendarResource.post().then(function (calendar) {
-				CalendarModel.add(calendar);
+		$scope.create = function (newCalendarInputVal, newcolor) {
+			var newCalendar = {
+				"displayname" : $scope.newCalendarInputVal,
+				"color" : $scope.newcolor,
+				"components" : {
+					"vevent" : true,
+					"vjournal" : true,
+					"vtodo" : true
+				}
+			};
+			calendarResource.post(newCalendar).then(function (newCalendar) {
+				CalendarModel.create(newCalendar);
 			});
 		};
 
@@ -234,6 +241,9 @@ app.factory('CalendarModel', function() {
 	};
 
 	CalendarModel.prototype = {
+		create : function (newcalendar) {
+			this.calendars.push(newcalendar);
+		},
 		add : function (calendar) {
 			this.updateIfExists(calendar);
 		},
@@ -249,24 +259,19 @@ app.factory('CalendarModel', function() {
 			return this.calendarId[id];
 		},
 		updateIfExists : function (updated) {
-			var calendar = this.calendarId[updated.id];
-			if (angular.isDefined(calendar)) {
+			var calendar = this.calendarId[updated.calendarId];
+			if(angular.isDefined(calendar)) {
 				calendar.displayname = updated.displayname;
 				calendar.color = updated.color;
-				calendar.components = {
-					"vevent" : true,
-					"vjournal" : true,
-					"vtodo" : true
-				};
 			} else {
 				this.calendars.push(updated);
-				this.calendarId[updated.id] = updated;
+				this.calendarId[updated.calendarId] = updated;
 			}
 		},
 		remove : function (id) {
 			for(var i=0; i<this.calendars.length; i++) {
 				var calendar = this.calendars[i];
-				if (calendar.id === id) {
+				if (calendar.calendarId === id) {
 					this.calendars.splice(i, 1);
 					delete this.calendarId[id];
 					break;

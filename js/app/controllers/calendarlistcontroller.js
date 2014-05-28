@@ -37,9 +37,18 @@ app.controller('CalendarListController', ['$scope','Restangular','CalendarModel'
 		$scope.newCalendarInputVal = '';
 
 		// Create a New Calendar
-		$scope.create = function () {
-			calendarResource.post().then(function (calendar) {
-				CalendarModel.add(calendar);
+		$scope.create = function (newCalendarInputVal, newcolor) {
+			var newCalendar = {
+				"displayname" : $scope.newCalendarInputVal,
+				"color" : $scope.newcolor,
+				"components" : {
+					"vevent" : true,
+					"vjournal" : true,
+					"vtodo" : true
+				}
+			};
+			calendarResource.post(newCalendar).then(function (newCalendar) {
+				CalendarModel.create(newCalendar);
 			});
 		};
 
