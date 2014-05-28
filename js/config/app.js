@@ -42,7 +42,7 @@ var app = angular.module('Calendar', [
 					var deferred = $q.defer();
 					var id = $route.current.params.id;
 					is.loading = true;
-					Restangular.one('v1/calendars', id).get().then(function (calendar) {
+					Restangular.one('calendars', id).get().then(function (calendar) {
 						is.loading = false;
 						deferred.resolve(calendar);
 					}, function () {
@@ -59,7 +59,7 @@ var app = angular.module('Calendar', [
 
 		var $window = $windowProvider.$get();
 		var url = $window.location.href;
-		var baseUrl = url.split('index.php')[0] + 'index.php/apps/calendar';
+		var baseUrl = url.split('index.php')[0] + 'index.php/apps/calendar/v1';
 		RestangularProvider.setBaseUrl(baseUrl);
 	}
 ]).run(['$rootScope', '$location', 'CalendarModel',

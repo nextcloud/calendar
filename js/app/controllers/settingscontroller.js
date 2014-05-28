@@ -27,7 +27,7 @@ app.controller('SettingsController', ['$scope','Restangular','$routeParams','Tim
 		// In case, routes are need.
 		$scope.route = $routeParams;
 		$scope.timezones = TimezoneModel.getAll();
-		var calendarResource = Restangular.all('v1/timezones');
+		var calendarResource = Restangular.all('timezones');
 
 		// Time Format Dropdown
 		$scope.timeformatSelect = [

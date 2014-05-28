@@ -25,7 +25,7 @@ app.controller('CalendarListController', ['$scope','Restangular','CalendarModel'
 	function ($scope,Restangular,CalendarModel,$routeParams) {
 
 		$scope.calendars = CalendarModel.getAll();
-		var calendarResource = Restangular.all('v1/calendars');
+		var calendarResource = Restangular.all('calendars');
 
 		// Gets All Calendars.
 		calendarResource.getList().then(function (calendars) {
@@ -52,7 +52,7 @@ app.controller('CalendarListController', ['$scope','Restangular','CalendarModel'
 		// To Delete a Calendar
 		$scope.delete = function (id) {
 			var calendar = CalendarModel.get(id);
-			var delcalendarResource = Restangular.one('v1/calendars',id);
+			var delcalendarResource = Restangular.one('calendars',id);
 			delcalendarResource.remove().then( function () {
 				CalendarModel.remove(calendar);
 			});

@@ -21,7 +21,7 @@ var app = angular.module('Calendar', [
 					var deferred = $q.defer();
 					var id = $route.current.params.id;
 					is.loading = true;
-					Restangular.one('v1/calendars', id).get().then(function (calendar) {
+					Restangular.one('calendars', id).get().then(function (calendar) {
 						is.loading = false;
 						deferred.resolve(calendar);
 					}, function () {
@@ -38,7 +38,7 @@ var app = angular.module('Calendar', [
 
 		var $window = $windowProvider.$get();
 		var url = $window.location.href;
-		var baseUrl = url.split('index.php')[0] + 'index.php/apps/calendar';
+		var baseUrl = url.split('index.php')[0] + 'index.php/apps/calendar/v1';
 		RestangularProvider.setBaseUrl(baseUrl);
 	}
 ]).run(['$rootScope', '$location', 'CalendarModel',
@@ -75,7 +75,7 @@ app.controller('CalController', ['$scope', '$timeout', '$routeParams', 'Restangu
 		var currentmonth = date.getMonth();
 		var currentyear = date.getFullYear();
 
-		var calendarResource = Restangular.one('v1/calendars/' + calendarid + '/events');
+		var calendarResource = Restangular.one('calendars/' + calendarid + '/events');
 
 		calendarResource.getList().then(function(calendarid) {
 			EventsModel.addAll(calendarid);
@@ -155,7 +155,7 @@ app.controller('CalendarListController', ['$scope','Restangular','CalendarModel'
 	function ($scope,Restangular,CalendarModel,$routeParams) {
 
 		$scope.calendars = CalendarModel.getAll();
-		var calendarResource = Restangular.all('v1/calendars');
+		var calendarResource = Restangular.all('calendars');
 
 		// Gets All Calendars.
 		calendarResource.getList().then(function (calendars) {
@@ -182,7 +182,7 @@ app.controller('CalendarListController', ['$scope','Restangular','CalendarModel'
 		// To Delete a Calendar
 		$scope.delete = function (id) {
 			var calendar = CalendarModel.get(id);
-			var delcalendarResource = Restangular.one('v1/calendars',id);
+			var delcalendarResource = Restangular.one('calendars',id);
 			delcalendarResource.remove().then( function () {
 				CalendarModel.remove(calendar);
 			});
@@ -206,7 +206,7 @@ app.controller('SettingsController', ['$scope','Restangular','$routeParams','Tim
 		// In case, routes are need.
 		$scope.route = $routeParams;
 		$scope.timezones = TimezoneModel.getAll();
-		var calendarResource = Restangular.all('v1/timezones');
+		var calendarResource = Restangular.all('timezones');
 
 		// Time Format Dropdown
 		$scope.timeformatSelect = [

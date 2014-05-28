@@ -34,7 +34,7 @@ app.controller('CalController', ['$scope', '$timeout', '$routeParams', 'Restangu
 		var currentmonth = date.getMonth();
 		var currentyear = date.getFullYear();
 
-		var calendarResource = Restangular.one('v1/calendars/' + calendarid + '/events');
+		var calendarResource = Restangular.one('calendars/' + calendarid + '/events');
 
 		calendarResource.getList().then(function(calendarid) {
 			EventsModel.addAll(calendarid);
