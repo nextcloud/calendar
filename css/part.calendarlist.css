@@ -32,12 +32,13 @@
 	padding: 0 5px 0 0;
 }
 
-#app-navigation .utils .action a {
+#app-navigation .utils .action span {
 	display: inline-block;
 	line-height: 44px;
 	height: 16px;
 	width: 16px;
 	padding: 14px  2px 14px 2px ;
+	cursor: pointer;
 }
 
 #app-navigation .active .utils {

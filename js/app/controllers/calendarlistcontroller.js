@@ -33,6 +33,7 @@ app.controller('CalendarListController', ['$scope','Restangular','CalendarModel'
 		});
 
 		$scope.route = $routeParams;
+		var id = $scope.route.id; 
 		$scope.newcolor = '';
 		$scope.newCalendarInputVal = '';
 

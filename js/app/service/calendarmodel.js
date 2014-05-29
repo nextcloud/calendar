@@ -46,19 +46,19 @@ app.factory('CalendarModel', function() {
 			return this.calendarId[id];
 		},
 		updateIfExists : function (updated) {
-			var calendar = this.calendarId[updated.calendarId];
+			var calendar = this.calendarId[updated.id];
 			if(angular.isDefined(calendar)) {
 				calendar.displayname = updated.displayname;
 				calendar.color = updated.color;
 			} else {
 				this.calendars.push(updated);
-				this.calendarId[updated.calendarId] = updated;
+				this.calendarId[updated.id] = updated;
 			}
 		},
 		remove : function (id) {
 			for(var i=0; i<this.calendars.length; i++) {
 				var calendar = this.calendars[i];
-				if (calendar.calendarId === id) {
+				if (calendar.id === id) {
 					this.calendars.splice(i, 1);
 					delete this.calendarId[id];
 					break;

@@ -25,7 +25,7 @@ app.controller('CalController', ['$scope', '$timeout', '$routeParams', 'Restangu
 	function ($scope,$timeout,$routeParams,Restangular,CalendarModel,EventsModel) {
 
 		$scope.route = $routeParams;
-		var calendarid = $scope.route.calendarId; 
+		var id = $scope.route.id; 
 		$scope.calendars = CalendarModel.getAll();
 
 		/* All Date Objects */
@@ -34,10 +34,10 @@ app.controller('CalController', ['$scope', '$timeout', '$routeParams', 'Restangu
 		var currentmonth = date.getMonth();
 		var currentyear = date.getFullYear();
 
-		var calendarResource = Restangular.one('calendars/' + calendarid + '/events');
+		var calendarResource = Restangular.one('calendars/' + id + '/events');
 
-		calendarResource.getList().then(function(calendarid) {
-			EventsModel.addAll(calendarid);
+		calendarResource.getList().then(function(id) {
+			EventsModel.addAll(id);
 		});
 	
 		/* event source that contains custom events on the scope */

@@ -58,7 +58,7 @@
 </li>
 
 <li ng-repeat="calendar in calendars|orderBy:'reverse'"
-	ng-class="{ active: calendar.calendarId == route.id }">
+	ng-class="{ active: calendar.id == route.id }">
 	<span class="calendarCheckbox" style="background-color:{{ calendar.color }}"></span>
 	<a href="#/{{ calendar.id }}">
 		{{ calendar.displayname }}
@@ -66,14 +66,6 @@
 	<span class="utils">
 		<span class="action">
 			<span
-				oc-click-slide-toggle="{
-					selector: '.share-dropdown',
-					hideOnFocusLost: true,
-					cssClass: 'opened'
-				}"
-				oc-click-focus="{
-					selector: '.share-dropdown input[ng-model=shareInputVal]'
-				}"
 				id="chooseCalendar-share" 
 				class="share icon-share permanent"
 				data-item-type="calendar"
@@ -102,7 +94,7 @@
 		</span>
 	</span>
 	<!-- form for sharing input -->
-	<fieldset class="personalblock share-dropdown">
+	<!--<fieldset class="personalblock share-dropdown">
 		<form>
 			<input type="text" ng-model="shareInputVal" autofocus />
 			<button
@@ -116,5 +108,5 @@
 				<?php p($l->t('Share')); ?>
 			</button>
 		</form>
-	</fieldset>
+	</fieldset>-->
 </li>

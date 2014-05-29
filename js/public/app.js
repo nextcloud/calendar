@@ -12,16 +12,16 @@ var app = angular.module('Calendar', [
 
 		$httpProvider.defaults.headers.common.requesttoken = oc_requesttoken;
 
-		$routeProvider.when('/:calendarId', {
+		$routeProvider.when('/:id', {
 			templateUrl : 'calendar.html',
 			controller : 'CalController',
 			resolve : {
 				calendar: ['$route', '$q', 'is', 'Restangular',
 				function ($route, $q, is, Restangular) {
 					var deferred = $q.defer();
-					var calendarId = $route.current.params.calendarId;
+					var id = $route.current.params.id;
 					is.loading = true;
-					Restangular.one('calendars', calendarId).get().then(function (calendar) {
+					Restangular.one('calendars', id).get().then(function (calendar) {
 						is.loading = false;
 						deferred.resolve(calendar);
 					}, function () {
@@ -64,7 +64,7 @@ app.controller('CalController', ['$scope', '$timeout', '$routeParams', 'Restangu
 	function ($scope,$timeout,$routeParams,Restangular,CalendarModel,EventsModel) {
 
 		$scope.route = $routeParams;
-		var calendarid = $scope.route.calendarId; 
+		var id = $scope.route.id; 
 		$scope.calendars = CalendarModel.getAll();
 
 		/* All Date Objects */
@@ -73,10 +73,10 @@ app.controller('CalController', ['$scope', '$timeout', '$routeParams', 'Restangu
 		var currentmonth = date.getMonth();
 		var currentyear = date.getFullYear();
 
-		var calendarResource = Restangular.one('calendars/' + calendarid + '/events');
+		var calendarResource = Restangular.one('calendars/' + id + '/events');
 
-		calendarResource.getList().then(function(calendarid) {
-			EventsModel.addAll(calendarid);
+		calendarResource.getList().then(function(id) {
+			EventsModel.addAll(id);
 		});
 	
 		/* event source that contains custom events on the scope */
@@ -161,6 +161,7 @@ app.controller('CalendarListController', ['$scope','Restangular','CalendarModel'
 		});
 
 		$scope.route = $routeParams;
+		var id = $scope.route.id; 
 		$scope.newcolor = '';
 		$scope.newCalendarInputVal = '';
 
@@ -178,6 +179,11 @@ app.controller('CalendarListController', ['$scope','Restangular','CalendarModel'
 			calendarResource.post(newCalendar).then(function (newCalendar) {
 				CalendarModel.create(newCalendar);
 			});
+		};
+
+		// Sharing Logic Comes Here.
+		$scope.share = function (sharewith) {
+
 		};
 
 		$scope.updatecalenderform = function () {
@@ -259,19 +265,19 @@ app.factory('CalendarModel', function() {
 			return this.calendarId[id];
 		},
 		updateIfExists : function (updated) {
-			var calendar = this.calendarId[updated.calendarId];
+			var calendar = this.calendarId[updated.id];
 			if(angular.isDefined(calendar)) {
 				calendar.displayname = updated.displayname;
 				calendar.color = updated.color;
 			} else {
 				this.calendars.push(updated);
-				this.calendarId[updated.calendarId] = updated;
+				this.calendarId[updated.id] = updated;
 			}
 		},
 		remove : function (id) {
 			for(var i=0; i<this.calendars.length; i++) {
 				var calendar = this.calendars[i];
-				if (calendar.calendarId === id) {
+				if (calendar.id === id) {
 					this.calendars.splice(i, 1);
 					delete this.calendarId[id];
 					break;
