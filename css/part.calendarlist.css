@@ -68,7 +68,26 @@
 	background-color: #ccc !important;
 }
 
-#newCalendar:before {
+#newCalendar {
+	background-color:#eee;
+	display: block;
+	width: 100%;
+	line-height: 44px;
+	padding: 0 25px;
+	overflow: hidden;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	color: #333;
+	cursor: pointer;
+}
+
+.add-new {
+	background-color:#eee;
+}
+
+#newCalendar span:before {
 	position: absolute;
 	content: '+';
 	font-weight: bold;
@@ -84,10 +103,8 @@
 	border:none;
 	border-radius:0px;
 	outline:none;
-	padding:0;
+	padding:4px;
 	margin:0;
-	position: absolute;
-	top:8px;
 }
 
 .personalblock form input {
@@ -97,7 +114,6 @@
 
 .personalblock form #submitnewCalendar {
 	margin-bottom: 6px;
-	margin-left:30px;
 }
 
 .calendarCheckbox {

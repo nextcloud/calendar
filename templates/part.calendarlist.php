@@ -25,26 +25,32 @@
 
 <!-- TODO : Add a ng animate form for create calendars over here itself -->
 
-<li ng-init="newCalendarInput = false; newCalendarToggler = true;">
-	<a href="#"
-		ng-show="newCalendarToggler"
-		ng-click="
-			newCalendarToggler = !newCalendarToggler;
-			newCalendarInput = !newCalendarInput;"
-		>
-		<span id="newCalendar"><?php p($l->t('New Calendar')); ?></span>
-	</a>
-	<fieldset class="personalblock" ng-show="newCalendarInput">
+<li>
+	<div
+		id="newCalendar"	
+		oc-click-slide-toggle="{
+			selector: '.add-new',
+			hideOnFocusLost: true,
+			cssClass: 'opened'
+		}"
+		oc-click-focus="{
+			selector: '.add-new input[ng-model=newCalendarInputVal]'
+		}">
+		<span><?php p($l->t('New Calendar')); ?></span>
+	</div>
+	<fieldset class="personalblock add-new">
 		<form>
-			<input type="text" ng-model="newCalendarInputVal"
-				ng-blur="newCalendarToggler = !newCalendarToggler;
-					newCalendarInput = !newCalendarInput;" 
-			autofocus />
+			<input type="text" ng-model="newCalendarInputVal" autofocus />
 			<button colorpicker colorpicker-position="top" ng-model="newcolor" id="newcolorpicker" style="background: {{ newcolor }};"></button>
 			<button
 				ng-click="create(newCalendarInputVal,newcolor)"
 				id="submitnewCalendar"
-				class="primary">
+				class="primary"
+				oc-click-slide-toggle="{
+					selector: '.add-new',
+					hideOnFocusLost: false,
+					cssClass: 'closed'
+				}">
 				<?php p($l->t('Add')); ?>
 			</button>
 		</form>
@@ -52,14 +58,29 @@
 </li>
 
 <li ng-repeat="calendar in calendars|orderBy:'reverse'"
-	ng-class="{ active: calendar.calendarid == route.id }">
+	ng-class="{ active: calendar.calendarId == route.id }">
 	<span class="calendarCheckbox" style="background-color:{{ calendar.color }}"></span>
 	<a href="#/{{ calendar.id }}">
 		{{ calendar.displayname }}
 	</a>
 	<span class="utils">
 		<span class="action">
-			<a href="#" id="chooseCalendar-share" class="share icon-share permanent" data-item-type="calendar" data-item="" data-possible-permissions="" title="Share Calendar"></a>
+			<a href="#"
+				oc-click-slide-toggle="{
+					selector: '.share-dropdown',
+					hideOnFocusLost: true,
+					cssClass: 'opened'
+				}"
+				oc-click-focus="{
+					selector: '.share-dropdown input[ng-model=shareInputVal]'
+				}"
+				id="chooseCalendar-share" 
+				class="share icon-share permanent"
+				data-item-type="calendar"
+				data-item=""
+				data-possible-permissions=""
+				title="Share Calendar">
+			</a>
 		</span>
 		<span class="action">
 			<a href="#" id="chooseCalendar-showCalDAVURL" data-user="{{ calendar.ownwerid }}" data-caldav="" title="CalDav Link" class="icon-public permanent"></a>
@@ -80,4 +101,20 @@
 			</a>
 		</span>
 	</span>
+	<!-- form for sharing input -->
+	<fieldset class="personalblock share-dropdown">
+		<form>
+			<input type="text" ng-model="shareInputVal" autofocus />
+			<button
+				ng-click="share(shareInputVal,calendar.id )"
+				class="primary"
+				oc-click-slide-toggle="{
+					selector: '.share-dropdown',
+					hideOnFocusLost: false,
+					cssClass: 'closed'
+				}">
+				<?php p($l->t('Share')); ?>
+			</button>
+		</form>
+	</fieldset>
 </li>

@@ -52,6 +52,11 @@ app.controller('CalendarListController', ['$scope','Restangular','CalendarModel'
 			});
 		};
 
+		// Sharing Logic Comes Here.
+		$scope.share = function (sharewith) {
+
+		}
+
 		$scope.updatecalenderform = function () {
 			//calendarResource.post().then(function (calendar) {
 			//	CalendarModel.updateIfExists(calendar);
