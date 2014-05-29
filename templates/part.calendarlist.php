@@ -65,7 +65,7 @@
 	</a>
 	<span class="utils">
 		<span class="action">
-			<a href="#"
+			<span
 				oc-click-slide-toggle="{
 					selector: '.share-dropdown',
 					hideOnFocusLost: true,
@@ -80,25 +80,25 @@
 				data-item=""
 				data-possible-permissions=""
 				title="Share Calendar">
-			</a>
+			</span>
 		</span>
 		<span class="action">
-			<a href="#" id="chooseCalendar-showCalDAVURL" data-user="{{ calendar.ownwerid }}" data-caldav="" title="CalDav Link" class="icon-public permanent"></a>
+			<span href="#" id="chooseCalendar-showCalDAVURL" data-user="{{ calendar.ownwerid }}" data-caldav="" title="CalDav Link" class="icon-public permanent"></span>
 		</span>
 		<span class="action">
-			<a href="#" id="chooseCalendar-download" title="Download" class="icon-download"></a>
+			<span href="#" id="chooseCalendar-download" title="Download" class="icon-download"></span>
 		</span>
 		<span class="action">
-			<a href="#" id="chooseCalendar-edit" data-id="{{ calendar.uri }}" title="Edit" class="icon-rename"></a>
+			<span href="#" id="chooseCalendar-edit" data-id="{{ calendar.uri }}" title="Edit" class="icon-rename"></span>
 		</span>
 		<span class="action">
-			<a href="#"
+			<span href="#"
 				id="chooseCalendar-delete"
 				data-id="{{ calendar.uri }}"
 				title="Delete"
 				class="icon-delete"
 				ng-click="delete(calendar.id)">
-			</a>
+			</span>
 		</span>
 	</span>
 	<!-- form for sharing input -->
