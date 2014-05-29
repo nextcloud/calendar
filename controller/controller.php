@@ -133,7 +133,7 @@ abstract class Controller extends \OCP\AppFramework\Controller {
 	 * @return string
 	 */
 	protected function contentType() {
-		$contentType = $this->header('content-type');
+		$contentType = $this->request->getHeader('CONTENT_TYPE');
 
 		if (substr_count($contentType, ';')) {
 			list($contentType) = explode(';', $contentType);
