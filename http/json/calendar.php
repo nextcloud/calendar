@@ -112,6 +112,8 @@ class JSONCalendar extends JSON {
 				$this->jsonArray[$key] = JSONUtility::getUserInformation($value);
 				break;
 
+			case 'lastpropertiesupdate':
+			case 'lastobjectupdate':
 			case 'privateuri':
 				break;
 

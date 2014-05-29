@@ -85,4 +85,24 @@ class CalendarUtility extends Utility{
 			$calendarURI,
 		));
 	}
+
+
+	/**
+	 * @param string $color
+	 * @return bool
+	 */
+	public static function isValidColor($color) {
+		if (!is_string($color)) {
+			return false;
+		}
+
+		//Allowed are:
+		// - #FFFFFF
+		// - rgb(255,255,255);
+		// - rgba(255,255,255);
+
+		//TODO
+
+		return false;
+	}
 }

@@ -13,7 +13,6 @@ use OCP\Calendar\ICalendar;
 use OCP\Calendar\ITimezone;
 
 use OCA\Calendar\Utility\CalendarUtility;
-use OCA\Calendar\Utility\RegexUtility;
 
 class Calendar extends Entity implements ICalendar {
 
@@ -102,6 +101,18 @@ class Calendar extends Entity implements ICalendar {
 
 
 	/**
+	 * @var integer
+	 */
+	public $lastPropertiesUpdate;
+
+
+	/**
+	 * @var integer
+	 */
+	public $lastObjectUpdate;
+
+
+	/**
 	 * @brief init Calendar object with data from db row
 	 * @param mixed (array / VCalendar) $createFrom
 	 */
@@ -118,6 +129,8 @@ class Calendar extends Entity implements ICalendar {
 		$this->addType('order', 'integer');
 		$this->addType('enabled', 'boolean');
 		$this->addType('cruds', 'integer');
+		$this->addType('lastPropertiesUpdate', 'integer');
+		$this->addType('lastObjectUpdate', 'integer');
 
 		$this->addMandatory('userId');
 		$this->addMandatory('ownerId');
@@ -189,8 +202,7 @@ class Calendar extends Entity implements ICalendar {
 	 * @return $this
 	 */
 	public function setColor($color) {
-		//TODO - fix regex
-		if (preg_match(RegexUtility::RGBA, $this->color) === 1) {
+		if (CalendarUtility::isValidColor($color)) {
 			return $this->setter('color', array($color));
 		} else {
 			return $this;
@@ -301,9 +313,10 @@ class Calendar extends Entity implements ICalendar {
 
 	/**
 	 * @param boolean $enabled
+	 * @return $this
 	 */
 	public function setEnabled($enabled) {
-		$this->setter('enabled', array($enabled));
+		return $this->setter('enabled', array($enabled));
 	}
 
 
@@ -316,11 +329,45 @@ class Calendar extends Entity implements ICalendar {
 
 
 	/**
+	 * @param int $lastPropertiesUpdate - unix time of last update
+	 * @return $this
+	 */
+	public function setLastPropertiesUpdate($lastPropertiesUpdate) {
+		return $this->setter('lastPropertiesUpdate', array($lastPropertiesUpdate));
+	}
+
+
+	/**
+	 * @return boolean
+	 */
+	public function getLastPropertiesUpdate() {
+		return $this->getter('lastPropertiesUpdate');
+	}
+
+
+	/**
+	 * @param int $lastObjectUpdate - unix time of last update
+	 * @return $this
+	 */
+	public function setLastObjectUpdate($lastObjectUpdate) {
+		return $this->setter('lastObjectUpdate', array($lastObjectUpdate));
+	}
+
+
+	/**
+	 * @return boolean
+	 */
+	public function getLastObjectUpdate() {
+		return $this->getter('lastObjectUpdate');
+	}
+
+
+	/**
 	 * @param int $order
 	 * @return $this
 	 */
 	public function setOrder($order) {
-		$this->setter('order', array($order));
+		return $this->setter('order', array($order));
 	}
 
 
@@ -476,7 +523,7 @@ class Calendar extends Entity implements ICalendar {
 			$properties['X-WR-CALDESC'] = $description;
 		}
 
-		$timezone = $this->getTImezone();
+		$timezone = $this->getTimezone();
 		if ($timezone instanceof ITimezone) {
 			$properties['X-WR-TIMEZONE'] = (string) $timezone;
 			$add[] = $timezone->getVObject();
@@ -531,7 +578,13 @@ class Calendar extends Entity implements ICalendar {
 	 * @return string
 	 */
 	public function __toString() {
-		return $this->userId . '::' . $this->getBackend() . '::' . $this->getPrivateUri();
+		return implode(
+			'::',
+			array(
+				$this->getUserId(),
+				$this->getBackend(),
+				$this->getPrivateUri()
+			)
+		);
 	}
-
 }

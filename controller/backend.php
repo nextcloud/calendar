@@ -54,7 +54,7 @@ class BackendController extends Controller {
 				$this->accept()
 			);
 
-			return new Response($serializer);
+			return new Response((string) $serializer);
 		} catch (BusinessLayerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
 			return new Response(
@@ -94,7 +94,7 @@ class BackendController extends Controller {
 				$this->accept()
 			);
 
-			return new Response($serializer);
+			return new Response((string) $serializer);
 		} catch (BusinessLayerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
 			return new Response(
@@ -134,7 +134,7 @@ class BackendController extends Controller {
 				$this->accept()
 			);
 
-			return new Response($serializer);
+			return new Response((string) $serializer);
 		} catch (BusinessLayerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
 			return new Response(
@@ -166,7 +166,7 @@ class BackendController extends Controller {
 				$this->accept()
 			);
 
-			return new Response($serializer);
+			return new Response((string) $serializer);
 		} catch (BusinessLayerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
 			return new Response(

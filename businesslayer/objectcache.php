@@ -31,7 +31,7 @@ class ObjectCacheBusinessLayer extends BusinessLayer {
 	 */
 	public function updateObjectList(ICalendar $calendar) {
 		//$cached = $this->mapper->getUriETagList($calendar);
-		$remote = $this->backends->find($backend)->api->findCalendars(null, null, null);
+		$remote = $this->backends->find($calendar->getBackend())->api->findCalendars(null, null, null);
 
 		$updatedOnRemote = $this->analyzeForOutDatedObjects($cached, $remote);
 		$deletedOnRemote = $this->analyzeForDeletedObjects($cached, $remote);

@@ -36,6 +36,8 @@ use OCA\Calendar\Backend\IBackend;
 use OCA\Calendar\Db\BackendMapper;
 use OCA\Calendar\Db\CalendarMapper;
 
+use OCA\Calendar\Utility\CalendarUtility;
+
 
 class CalendarCacheBusinessLayer extends BusinessLayer {
 
@@ -71,61 +73,97 @@ class CalendarCacheBusinessLayer extends BusinessLayer {
 
 
 	/**
-	 * create a calendar in cache
-	 * @param mixed (string|array) $calendarId
 	 * @param string $userId
+	 * @return ICalendar
 	 */
-	public function create($calendarId, $userId) {
-		list($backend, $calendarURI) = (is_array($calendarId)) ? $calendarId :
-										$this->splitCalendarURI($calendarId);
-
-		$calendar = $this->findCachedCalendar($calendarId, $userId);
-		if (!$calendar) {
-			return;
+	public function getNextCalendar($userId=null) {
+		if ($userId === null) {
+			return $this->mapper->getMostOutDatedProperties();
+		} else {
+			return $this->mapper->getMostOutDatedPropertiesByUser($userId);
 		}
-		$this->resetValueNotSupportedByBackend($calendar, $backend);
+	}
 
+
+	/**
+	 * create a calendar in cache
+	 * @param string $backend
+	 * @param string $privateUri
+	 * @param string $userId
+	 * @return bool
+	 */
+	public function create($backend, $privateUri, $userId) {
+		try {
+			$this->mapper->findByPrivateUri($backend, $privateUri, $userId);
+			return false;
+		} catch(DoesNotExistException $ex) {
+			//If the calendar doesn't exist in cache everything is right
+		} catch(MultipleObjectsReturnedException $ex) {
+			return false;
+		}
+
+		$api = &$this->backends->find($backend)->getAPI();
+		$calendar = $api->findCalendar($privateUri, $userId);
+
+		$this->generateUniquePublicUri($calendar);
 		$this->checkCalendarIsValid($calendar);
+
+		$calendar->setLastPropertiesUpdate(time());
+		$calendar->setLastObjectUpdate(0);
+
 		$this->mapper->insert($calendar);
+		return true;
 	}
 
 
 	/**
 	 * update a cached calendar from remote
-	 * @param mixed (string|array) $calendarId
+	 * @param string $backend
+	 * @param string $privateUri
 	 * @param string $userId
+	 * @return bool
 	 */
-	public function update($calendarId, $userId) {
-		list($backend, $calendarURI) = (is_array($calendarId)) ? $calendarId :
-										$this->splitCalendarURI($calendarId);
+	public function update($backend, $privateUri, $userId) {
+		try {
+			$oldCalendar = $this->mapper->findByPrivateUri($backend, $privateUri, $userId);
+		} catch(DoesNotExistException $ex) {
+			return false;
+		} catch(MultipleObjectsReturnedException $ex) {
+			return false;
+		}
 
+		$api = &$this->backends->find($backend)->getAPI();
+		$calendar = $api->findCalendar($privateUri, $userId);
 
+		$this->resetValuesNotSupportedByAPI($api, $calendar);
+		$calendar = $oldCalendar->overwriteWith($calendar);
+		$this->checkCalendarIsValid($calendar);
+
+		$calendar->setLastPropertiesUpdate(time());
+
+		$this->mapper->insert($calendar);
+		return true;
 	}
 
 
 	/**
 	 * delete a calendar in cache
-	 * @param mixed (string|array) $calendarId
+	 * @param string $backend
+	 * @param string $privateUri
 	 * @param string $userId
+	 * @return bool
 	 */
-	public function delete($calendarId, $userId) {
-		list($backend, $calendarURI) = (is_array($calendarId)) ? $calendarId :
-										$this->splitCalendarURI($calendarId);
-
-		$calendar = $this->findCachedCalendar($calendarId, $userId);
-		if ($calendar === null) {
-			return;
+	public function delete($backend, $privateUri, $userId) {
+		try {
+			$calendar = $this->mapper->findByPrivateUri($backend, $privateUri, $userId);
+		} catch(DoesNotExistException $ex) {
+			return false;
+		} catch(MultipleObjectsReturnedException $ex) {
+			return false;
 		}
 
 		$this->mapper->delete($calendar);
-	}
-
-
-	/**
-	 *
-	 */
-	public function getNextCalendar() {
-
+		return true;
 	}
 
 
@@ -243,6 +281,25 @@ class CalendarCacheBusinessLayer extends BusinessLayer {
 		} catch(BackendException $ex) {
 			return null;
 		}
+	}
+
+
+	/**
+	 * @param ICalendar $calendar
+	 */
+	private function generateUniquePublicUri(ICalendar &$calendar) {
+		$suggestedURI = $calendar->getPrivateUri();
+
+		while($this->mapper->doesExist($suggestedURI, $calendar->getUserId())) {
+			$newSuggestedURI = CalendarUtility::suggestURI($suggestedURI);
+
+			if ($newSuggestedURI === $suggestedURI) {
+				break;
+			}
+			$suggestedURI = $newSuggestedURI;
+		}
+
+		$calendar->setPublicUri($suggestedURI);
 	}
 
 

@@ -24,6 +24,8 @@ namespace OCA\Calendar\Db;
 use OCP\AppFramework\IAppContainer;
 use OCP\Calendar\DoesNotExistException;
 use OCP\Calendar\MultipleObjectsReturnedException;
+use OCP\Calendar\ICalendar;
+use OCP\Calendar\ICalendarCollection;
 
 class CalendarMapper extends Mapper {
 
@@ -50,7 +52,7 @@ class CalendarMapper extends Mapper {
 	 * @param string $userId
 	 * @throws DoesNotExistException: if the item does not exist
 	 * @throws MultipleObjectsReturnedException: if more than one item found
-	 * @return calendar object
+	 * @return ICalendar
 	 */
 	public function find($publicuri, $userId){
 		$sql  = 'SELECT * FROM `' . $this->getTableName() . '` ';
@@ -70,7 +72,7 @@ class CalendarMapper extends Mapper {
 	 * @param string $userId
 	 * @throws DoesNotExistException: if the item does not exist
 	 * @throws MultipleObjectsReturnedException: if more than one item found
-	 * @return calendar object
+	 * @return ICalendar
 	 */
 	public function findById($id, $userId) {
 		$sql  = 'SELECT * FROM `' . $this->getTableName() . '` ';
@@ -91,7 +93,7 @@ class CalendarMapper extends Mapper {
 	 * @param string $userId
 	 * @throws DoesNotExistException: if the item does not exist
 	 * @throws MultipleObjectsReturnedException: if more than one item found
-	 * @return calendar object
+	 * @return ICalendar
 	 */
 	public function findByPrivateUri($backend, $privateuri, $userId) {
 		$sql  = 'SELECT * FROM `' . $this->getTableName() . '` ';
@@ -112,7 +114,7 @@ class CalendarMapper extends Mapper {
 	 * @param string $userId
 	 * @throws DoesNotExistException: if the item does not exist
 	 * @throws MultipleObjectsReturnedException: if more than one item found
-	 * @return calendar object
+	 * @return integer
 	 */
 	public function findCTag($backend, $uri, $userId) {
 		$sql  = 'SELECT `ctag` FROM `' . $this->getTableName() . '` ';
@@ -131,7 +133,7 @@ class CalendarMapper extends Mapper {
 	 * @param string $userId
 	 * @param integer $limit
 	 * @param integer $offset
-	 * @return CalendarCollection
+	 * @return ICalendarCollection
 	 */
 	public function findAll($userId, $limit, $offset){
 		$sql  = 'SELECT * FROM `'. $this->getTableName() . '` ';
@@ -149,7 +151,7 @@ class CalendarMapper extends Mapper {
 	 * @param string $userId
 	 * @param integer $limit
 	 * @param integer $offset
-	 * @return CalendarCollection
+	 * @return ICalendarCollection
 	 */
 	public function findAllOnBackend($backend, $userId, $limit, $offset) {
 		$sql  = 'SELECT * FROM `'. $this->getTableName() . '` ';
@@ -286,5 +288,63 @@ class CalendarMapper extends Mapper {
 
 		$count = intval($row['count']);
 		return ($count !== 0);
+	}
+
+
+	/**
+	 * @return ICalendar
+	 */
+	public function getMostOutDatedProperties() {
+		$sql  = 'SELECT * FROM `' . $this->getTableName() . '` ';
+		$sql .= 'ORDER BY `last_properties_update` LIMIT 1';
+
+		$row = $this->findOneQuery($sql, array());
+
+		return new Calendar($row);
+	}
+
+
+	/**
+	 * @param string $userId
+	 * @return ICalendar
+	 */
+	public function getMostOutDatedPropertiesByUser($userId) {
+		$sql  = 'SELECT * FROM `' . $this->getTableName() . '` ';
+		$sql .= 'WHERE `user_id` = ? ORDER BY `last_properties_update` LIMIT 1';
+
+		$row = $this->findOneQuery($sql, array(
+			$userId
+		));
+
+		return new Calendar($row);
+	}
+
+
+	/**
+	 * @return ICalendar
+	 */
+	public function getMostOutDatedObjects() {
+		$sql  = 'SELECT * FROM `' . $this->getTableName() . '` ';
+		$sql .= 'ORDER BY `last_object_update` LIMIT 1';
+
+		$row = $this->findOneQuery($sql, array());
+
+		return new Calendar($row);
+	}
+
+
+	/**
+	 * @param string $userId
+	 * @return ICalendar
+	 */
+	public function getMostOutDatedObjectsByUser($userId) {
+		$sql  = 'SELECT * FROM `' . $this->getTableName() . '` ';
+		$sql .= 'WHERE `user_id` = ? ORDER BY `last_object_update` LIMIT 1';
+
+		$row = $this->findOneQuery($sql, array(
+			$userId
+		));
+
+		return new Calendar($row);
 	}
 }

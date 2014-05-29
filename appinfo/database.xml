@@ -113,6 +113,20 @@
                 <notnull>false</notnull>
                 <length>255</length>
             </field>
+            <field>
+                <name>last_properties_update</name>
+                <type>integer</type>
+                <default></default>
+                <notnull>false</notnull>
+                <length>4</length>
+            </field>
+            <field>
+                <name>last_object_update</name>
+                <type>integer</type>
+                <default></default>
+                <notnull>false</notnull>
+                <length>4</length>
+            </field>
 		</declaration>
 	</table>
 	<!-- table for cached objects -->
