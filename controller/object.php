@@ -1,12 +1,25 @@
 <?php
 /**
- * Copyright (c) 2014 Georg Ehrke <oc.list@georgehrke.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * ownCloud - Calendar App
+ *
+ * @author Georg Ehrke
+ * @copyright 2014 Georg Ehrke <oc.list@georgehrke.com>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 namespace OCA\Calendar\Controller;
-
 use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\Http;
 use OCP\IRequest;
@@ -20,6 +33,7 @@ use OCA\Calendar\Db\ObjectCollection;
 use OCA\Calendar\Db\Permissions;
 
 use OCA\Calendar\Http\Response;
+use OCA\Calendar\Http\TextDownloadResponse;
 use OCA\Calendar\Http\Reader;
 use OCA\Calendar\Http\ReaderException;
 use OCA\Calendar\Http\Serializer;
@@ -234,6 +248,7 @@ class ObjectController extends Controller {
 				$calendarId,
 				$userId
 			);
+
 			if (!$calendar->doesAllow(Permissions::CREATE)) {
 				return new Response(null, HTTP::STATUS_FORBIDDEN);
 			}
@@ -431,17 +446,22 @@ class ObjectController extends Controller {
 				return new Response(null, HTTP::STATUS_FORBIDDEN);
 			}
 
+			//TODO - evaluate if there is a need for jcal export
+
+			$mimeType = 'text/calendar';
+			$filename  = $calendar->getPublicUri();
+			$filename .= '.ics';
+
 			$objectCollection = $this->businesslayer->findAll($calendar);
 
 			$serializer = new Serializer(
 				$this->app,
 				Serializer::ObjectCollection,
 				$objectCollection,
-				$this->accept()
+				$mimeType
 			);
 
-			//new Download response
-			return new Response($serializer);
+			return new TextDownloadResponse($serializer->serialize(), $filename, $mimeType);
 		} catch (BusinessLayerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
 			return new Response(
@@ -463,7 +483,82 @@ class ObjectController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	public function import() {
+		try {
+			$userId = $this->api->getUserId();
+			$calendarId = $this->params('calendarId');
+			$data = fopen('php://input', 'rb');
 
+			$calendar = $this->calendarbusinesslayer->findById(
+				$calendarId,
+				$userId
+			);
+
+			if (!$calendar->doesAllow(Permissions::CREATE)) {
+				return new Response(null, HTTP::STATUS_FORBIDDEN);
+			}
+
+			$reader = new Reader(
+				$this->app,
+				Reader::Object,
+				$data,
+				$this->contentType()
+			);
+
+			$object = $reader->sanitize()->getObject()/*->setCalendar($calendar)*/;
+
+			if ($object instanceof Object) {
+				$object->setCalendar($calendar);
+				$object = $this->businesslayer->createFromRequest(
+					$object
+				);
+
+				$serializer = new Serializer(
+					$this->app,
+					Serializer::Object,
+					$object,
+					$this->accept()
+				);
+			} elseif ($object instanceof ObjectCollection) {
+				$object->setProperty('calendar', $calendar);
+				$object = $this->businesslayer->createCollectionFromRequest(
+					$object
+				);
+
+				$serializer = new Serializer(
+					$this->app,
+					Serializer::ObjectCollection,
+					$object,
+					$this->accept()
+				);
+			} else {
+				throw new ReaderException(
+					'Reader returned unrecognised format.'
+				);
+			}
+
+			if (!$calendar->doesAllow(Permissions::READ)) {
+				return new Response(null, HTTP::STATUS_NO_CONTENT);
+			}
+
+			return new Response($serializer, Http::STATUS_CREATED);
+		} catch (BusinessLayerException $ex) {
+			$this->app->log($ex->getMessage(), 'debug');
+			return new Response(
+				array('message' => $ex->getMessage()),
+				$ex->getCode()
+			);
+		} catch(ReaderException $ex) {
+			return new Response(
+				array('message' => $ex->getMessage()),
+				Http::STATUS_UNPROCESSABLE_ENTITY
+			);
+		} catch (SerializerException $ex) {
+			$this->app->log($ex->getMessage(), 'debug');
+			return new Response(
+				array('message' => $ex->getMessage()),
+				Http::STATUS_INTERNAL_SERVER_ERROR
+			);
+		}
 	}
 
 

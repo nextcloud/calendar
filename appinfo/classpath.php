@@ -97,6 +97,7 @@
 \OC::$CLASSPATH['OCA\Calendar\Http\Manager'] = 'calendar/http/manager.php';
 \OC::$CLASSPATH['OCA\Calendar\Http\Reader'] = 'calendar/http/reader.php';
 \OC::$CLASSPATH['OCA\Calendar\Http\Serializer'] = 'calendar/http/serializer.php';
+\OC::$CLASSPATH['OCA\Calendar\Http\TextDownloadResponse'] = 'calendar/http/textdownloadresponse.php';
 \OC::$CLASSPATH['OCA\Calendar\Http\Response'] = 'calendar/http/response.php';
 
 /* ICS reader and serializer*/

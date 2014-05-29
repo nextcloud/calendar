@@ -7,20 +7,18 @@
  */
 namespace OCA\Calendar\Http\ICS;
 
-use OCA\Calendar\Db\Collection;
+use OCP\AppFramework\IAppContainer;
+use OCP\Calendar\ICollection;
 
 abstract class ICSCollection extends ICS {
 
 	/**
-	 * @brief set object
-	 * @param Collection $object
-	 * @return mixed (null|$this)
+	 * @brief constructor
+	 * @param IAppContainer $app
+	 * @param ICollection $object
 	 */
-	public function setObject($object) {
-		if ($object instanceof Collection) {
-			$this->object = $object;
-			return $this;
-		}
-		return null;
+	public function __construct(IAppContainer $app, ICollection $object) {
+		$this->app = $app;
+		$this->object = $object;
 	}
 }

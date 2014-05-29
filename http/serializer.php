@@ -65,6 +65,14 @@ class Serializer extends Manager {
 		}
 		throw new BadFunctionCallException('Call to undefined method ' . $method);
 	}
+
+
+	/**
+	 * @return string
+	 */
+	public function __toString() {
+		return json_encode($this->serializer->serialize());
+	}
 }
 
 Serializer::set(Serializer::Backend, 'OCA\\Calendar\\Http\\JSON\\JSONBackend', 'application/json');

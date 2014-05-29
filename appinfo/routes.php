@@ -68,7 +68,7 @@ $this->create('calendar.calendar.export', '/v1/calendars/{calendarId}/export')->
 	$app = new \OCA\Calendar\App($params);
 	$app->dispatch('ObjectController', 'export');
 });
-$this->create('calendar.calendar.export', '/v1/calendars/{calendarId}/import')->post()->action(function($params){
+$this->create('calendar.calendar.import', '/v1/calendars/{calendarId}/import')->post()->action(function($params){
 	$app = new \OCA\Calendar\App($params);
 	$app->dispatch('ObjectController', 'import');
 });
