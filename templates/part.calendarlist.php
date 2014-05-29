@@ -75,13 +75,18 @@
 			</span>
 		</span>
 		<span class="action">
-			<span href="#" id="chooseCalendar-showCalDAVURL" data-user="{{ calendar.ownwerid }}" data-caldav="" title="CalDav Link" class="icon-public permanent"></span>
+			<span id="chooseCalendar-showCalDAVURL" data-user="{{ calendar.ownwerid }}" data-caldav="" title="CalDav Link" class="icon-public permanent"></span>
 		</span>
 		<span class="action">
-			<span href="#" id="chooseCalendar-download" title="Download" class="icon-download"></span>
+			<span
+				id="chooseCalendar-download"
+				title="Download"
+				class="icon-download"
+				ng-click="download(calendar.id)">
+			</span>
 		</span>
 		<span class="action">
-			<span href="#" id="chooseCalendar-edit" data-id="{{ calendar.uri }}" title="Edit" class="icon-rename"></span>
+			<span id="chooseCalendar-edit" data-id="{{ calendar.uri }}" title="Edit" class="icon-rename"></span>
 		</span>
 		<span class="action">
 			<span href="#"

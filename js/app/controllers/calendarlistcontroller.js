@@ -53,6 +53,12 @@ app.controller('CalendarListController', ['$scope','Restangular','CalendarModel'
 			});
 		};
 
+		$scope.download = function (id) {
+			var deletecalendarResource = Restangular.one('calendars/', id, '/export');
+			//deletecalendarResource.get(id).then( function (id) {
+			//});
+		};
+
 		// Sharing Logic Comes Here.
 		$scope.share = function (sharewith) {
 
