@@ -101,7 +101,7 @@ abstract class Controller extends \OCP\AppFramework\Controller {
 		} else {
 			$value = $this->request->server[$key];
 			if (strtolower($type) === 'datetime') {
-				$value = \DateTime::createFromFormat(\DateTime::ISO8601);
+				$value = \DateTime::createFromFormat(\DateTime::ISO8601, $value);
 			} else {
 				settype($value, $type);
 			}

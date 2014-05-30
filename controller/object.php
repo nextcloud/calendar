@@ -20,8 +20,11 @@
  *
  */
 namespace OCA\Calendar\Controller;
+
 use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\Http;
+use OCP\Calendar\IObject;
+use OCP\Calendar\IObjectCollection;
 use OCP\IRequest;
 
 use OCA\Calendar\BusinessLayer\BusinessLayerException;
@@ -260,7 +263,7 @@ class ObjectController extends Controller {
 				$this->contentType()
 			);
 
-			$object = $reader->sanitize()->getObject()/*->setCalendar($calendar)*/;
+			$object = $reader->sanitize()->getObject();
 
 			if ($object instanceof Object) {
 				$object->setCalendar($calendar);
@@ -506,9 +509,9 @@ class ObjectController extends Controller {
 
 			$object = $reader->sanitize()->getObject()/*->setCalendar($calendar)*/;
 
-			if ($object instanceof Object) {
+			if ($object instanceof IObject) {
 				$object->setCalendar($calendar);
-				$object = $this->businesslayer->createFromRequest(
+				$object = $this->businesslayer->createFromImport(
 					$object
 				);
 
@@ -518,9 +521,9 @@ class ObjectController extends Controller {
 					$object,
 					$this->accept()
 				);
-			} elseif ($object instanceof ObjectCollection) {
+			} elseif ($object instanceof IObjectCollection) {
 				$object->setProperty('calendar', $calendar);
-				$object = $this->businesslayer->createCollectionFromRequest(
+				$object = $this->businesslayer->createCollectionFromImport(
 					$object
 				);
 
@@ -563,12 +566,11 @@ class ObjectController extends Controller {
 
 
 	/**
-	 * @brief get objectId of request
-	 * TODO - find a better solution
-	 * @return $string objectId
+	 * Get objectId of request
+	 * @return string
 	 */
 	protected function getObjectId() {
-		list($app, $controller, $method) = explode('.', $this->params('_route'));
+		list(, $controller,) = explode('.', $this->params('_route'));
 		return $this->params($controller . 'Id');
 	}
 }

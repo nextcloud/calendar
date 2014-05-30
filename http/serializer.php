@@ -36,7 +36,7 @@ class Serializer extends Manager {
 	 * @brief Constructor
 	 * @param IAppContainer $app
 	 * @param integer $type
-	 * @param resource $data
+	 * @param IEntity/ICollection $data
 	 * @param string $requestedMimeType
 	 * @throws SerializerException
 	 */

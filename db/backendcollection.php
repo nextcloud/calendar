@@ -26,7 +26,7 @@ use OCP\Calendar\IBackendCollection;
 class BackendCollection extends Collection implements IBackendCollection {
 
 	/**
-	 * @brief get a collection of all enabled backends within collection
+	 * Get a collection of all enabled backends within collection
 	 * @return BackendCollection of all enabled backends
 	 */
 	public function enabled() {
@@ -35,7 +35,7 @@ class BackendCollection extends Collection implements IBackendCollection {
 
 
 	/**
-	 * @brief get a collection of all disabled backends within collection
+	 * Get a collection of all disabled backends within collection
 	 * @return BackendCollection of all disabled backends
 	 */
 	public function disabled() {
@@ -44,6 +44,7 @@ class BackendCollection extends Collection implements IBackendCollection {
 
 
 	/**
+	 * Search for a backend by it's name
 	 * @param $backendName
 	 * @return Backend
 	 */
@@ -53,7 +54,7 @@ class BackendCollection extends Collection implements IBackendCollection {
 
 
 	/**
-	 * @brief check if backend is enabled
+	 * Check if backend is enabled
 	 * @param string $backendName
 	 * @return bool
 	 */

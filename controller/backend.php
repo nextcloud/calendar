@@ -23,6 +23,7 @@ namespace OCA\Calendar\Controller;
 
 use OCP\AppFramework\Http;
 
+use OCA\Calendar\BusinessLayer\BackendBusinessLayer;
 use OCA\Calendar\BusinessLayer\BusinessLayerException;
 
 use OCA\Calendar\Http\Response;
@@ -30,6 +31,11 @@ use OCA\Calendar\Http\Serializer;
 use OCA\Calendar\Http\SerializerException;
 
 class BackendController extends Controller {
+
+	/**
+	 * @var BackendBusinessLayer
+	 */
+	protected $businesslayer;
 
 	/**
 	 * @NoAdminRequired

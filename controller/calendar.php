@@ -152,7 +152,6 @@ class CalendarController extends Controller {
 	 */
 	public function create() {
 		try {
-			$userId = $this->api->getUserId();
 			$data = fopen('php://input', 'rb');
 
 			$reader = new Reader(

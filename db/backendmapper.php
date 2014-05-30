@@ -84,7 +84,6 @@ class BackendMapper extends Mapper {
 	/**
 	 * @brief Finds an item by it's name
 	 * @param string $backend name of backend
-	 * @throws DoesNotExistException: if the item does not exist
 	 * @return IBackend
 	 */
 	public function find($backend){
@@ -111,7 +110,7 @@ class BackendMapper extends Mapper {
 
 
 	/**
-	 * @param Entity $item
+	 * @param IEntity $item
 	 * @return $this
 	 */
 	public function insert(IEntity $item){
@@ -123,7 +122,7 @@ class BackendMapper extends Mapper {
 
 
 	/**
-	 * @param Entity $item
+	 * @param IEntity $item
 	 * @return $this
 	 */
 	public function update(IEntity $item){
@@ -136,7 +135,7 @@ class BackendMapper extends Mapper {
 
 
 	/**
-	 * @param Entity $item
+	 * @param IEntity $item
 	 * @return $this|void
 	 */
 	public function delete(IEntity $item){
