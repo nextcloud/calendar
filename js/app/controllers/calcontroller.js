@@ -98,13 +98,14 @@ app.controller('CalController', ['$scope', '$timeout', '$routeParams', 'Restangu
 		};
 
 		/* Change View */
-		$scope.changeView = function(view) {
-			$scope.uiConfig.calendar.fullCalendar('changeView',view);
+		$scope.changeView = function(view,calendar) {
+			calendar.fullCalendar('changeView',view);
 		};
 
-		/* Change View */
 		$scope.renderCalender = function(calendar) {
-			$scope.uiConfig.calendar.fullCalendar('render');
+			if (calendar) {
+				calendar.fullCalendar('render');
+			}
 		};
 
 

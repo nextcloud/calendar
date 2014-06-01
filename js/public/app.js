@@ -137,13 +137,14 @@ app.controller('CalController', ['$scope', '$timeout', '$routeParams', 'Restangu
 		};
 
 		/* Change View */
-		$scope.changeView = function(view) {
-			$scope.uiConfig.calendar.fullCalendar('changeView',view);
+		$scope.changeView = function(view,calendar) {
+			calendar.fullCalendar('changeView',view);
 		};
 
-		/* Change View */
 		$scope.renderCalender = function(calendar) {
-			$scope.uiConfig.calendar.fullCalendar('render');
+			if (calendar) {
+				calendar.fullCalendar('render');
+			}
 		};
 
 
@@ -326,12 +327,10 @@ app.factory('EventsModel', function () {
 			}]
 		*/ 
 		addalldisplayfigures : function (id) {
+			//  Geoge console.log(id) to check the data structure. Accordingly you can iterate.
 			var fields = [];
 			for (var i=0; i < id[2].length; i++) {
 				//console.log(id[2][i]);
-				for (var j=0; j < id[2][i].length; j++) {
-					console.log(id[2][i][j]);
-				}
 			}
 			return fields;
 		},
