@@ -76,8 +76,23 @@ app.controller('CalController', ['$scope', '$timeout', '$routeParams', 'Restangu
 		var calendarResource = Restangular.one('calendars/' + id + '/events');
 
 		calendarResource.getList().then(function(id) {
-			EventsModel.addAll(id);
+			$scope.events = EventsModel.addalldisplayfigures(id);
+			console.log($scope.events);
 		});
+
+		/* config object */
+		$scope.uiConfig = {
+			calendar:{
+				height: 620,
+				editable: true,
+				header:{
+					left: '',
+					center: '',
+					right: ''
+				},
+				eventClick: $scope.alertOnEventClick
+			}
+		};
 	
 		/* event source that contains custom events on the scope */
 		$scope.events = [{
@@ -118,32 +133,19 @@ app.controller('CalController', ['$scope', '$timeout', '$routeParams', 'Restangu
 
 		/* remove event */
 		$scope.remove = function(index) {
-			å$scope.events.splice(index,1);
+			$scope.events.splice(index,1);
 		};
 
 		/* Change View */
-		$scope.changeView = function(view,calendar) {
-			calendar.fullCalendar('changeView',view);
+		$scope.changeView = function(view) {
+			$scope.uiConfig.calendar.fullCalendar('changeView',view);
 		};
 
 		/* Change View */
 		$scope.renderCalender = function(calendar) {
-			calendar.fullCalendar('render');
+			$scope.uiConfig.calendar.fullCalendar('render');
 		};
 
-		/* config object */
-		$scope.uiConfig = {
-			calendar:{
-				height: 620,
-				editable: true,
-				header:{
-					left: '',
-					center: '',
-					right: ''
-				},
-				eventClick: $scope.alertOnEventClick
-			}
-		};
 
 		/* event sources array*/
 		$scope.eventSources = [$scope.events];
@@ -304,6 +306,34 @@ app.factory('EventsModel', function () {
 	EventsModel.prototype = {
 		add : function (id) {
 			this.events.push(id);
+		},
+		/* This has to return an object with
+		creation date, end date, summary, and last modified.
+		field = [
+			{
+				uid: "1"
+				summary : "asd"
+				createdon: "ads"
+				endson: "sdad"
+				lastedited : "asdsa"
+			},
+			{
+				uid: "2"
+				summary : "asdasd"
+				createdon: "aasdds"
+				endson: "sdasd"
+				lastedited : "asdasdsa"
+			}]
+		*/ 
+		addalldisplayfigures : function (id) {
+			var fields = [];
+			for (var i=0; i < id[2].length; i++) {
+				//console.log(id[2][i]);
+				for (var j=0; j < id[2][i].length; j++) {
+					console.log(id[2][i][j]);
+				}
+			}
+			return fields;
 		},
 		addAll : function (events) {
 			for (var i=0; i<events.length; i++) {

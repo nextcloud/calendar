@@ -37,8 +37,23 @@ app.controller('CalController', ['$scope', '$timeout', '$routeParams', 'Restangu
 		var calendarResource = Restangular.one('calendars/' + id + '/events');
 
 		calendarResource.getList().then(function(id) {
-			EventsModel.addAll(id);
+			$scope.events = EventsModel.addalldisplayfigures(id);
+			console.log($scope.events);
 		});
+
+		/* config object */
+		$scope.uiConfig = {
+			calendar:{
+				height: 620,
+				editable: true,
+				header:{
+					left: '',
+					center: '',
+					right: ''
+				},
+				eventClick: $scope.alertOnEventClick
+			}
+		};
 	
 		/* event source that contains custom events on the scope */
 		$scope.events = [{
@@ -79,32 +94,19 @@ app.controller('CalController', ['$scope', '$timeout', '$routeParams', 'Restangu
 
 		/* remove event */
 		$scope.remove = function(index) {
-			å$scope.events.splice(index,1);
+			$scope.events.splice(index,1);
 		};
 
 		/* Change View */
-		$scope.changeView = function(view,calendar) {
-			calendar.fullCalendar('changeView',view);
+		$scope.changeView = function(view) {
+			$scope.uiConfig.calendar.fullCalendar('changeView',view);
 		};
 
 		/* Change View */
 		$scope.renderCalender = function(calendar) {
-			calendar.fullCalendar('render');
+			$scope.uiConfig.calendar.fullCalendar('render');
 		};
 
-		/* config object */
-		$scope.uiConfig = {
-			calendar:{
-				height: 620,
-				editable: true,
-				header:{
-					left: '',
-					center: '',
-					right: ''
-				},
-				eventClick: $scope.alertOnEventClick
-			}
-		};
 
 		/* event sources array*/
 		$scope.eventSources = [$scope.events];

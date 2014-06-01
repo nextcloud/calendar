@@ -32,6 +32,32 @@ app.factory('EventsModel', function () {
 		add : function (id) {
 			this.events.push(id);
 		},
+		/* This has to return an object with
+		creation date, end date, summary, and last modified.
+		field = [
+			{
+				uid: "1"
+				summary : "asd"
+				createdon: "ads"
+				endson: "sdad"
+				lastedited : "asdsa"
+			},
+			{
+				uid: "2"
+				summary : "asdasd"
+				createdon: "aasdds"
+				endson: "sdasd"
+				lastedited : "asdasdsa"
+			}]
+		*/ 
+		addalldisplayfigures : function (id) {
+			//  Geoge console.log(id) to check the data structure. Accordingly you can iterate.
+			var fields = [];
+			for (var i=0; i < id[2].length; i++) {
+				//console.log(id[2][i]);
+			}
+			return fields;
+		},
 		addAll : function (events) {
 			for (var i=0; i<events.length; i++) {
 				this.add(events[i]);

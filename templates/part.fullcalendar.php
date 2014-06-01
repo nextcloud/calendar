@@ -23,5 +23,10 @@
  */
 ?>
 <div ng-controller="CalController">
-  <div ui-calendar="uiConfig.calendar" class="calendar" ng-model="eventSources"></div>
+	<div class="btn-group">
+		<button class="btn btn-success" ng-click="changeView(agendaDay)">AgendaDay</button>
+		<button class="btn btn-success" ng-click="changeView(agendaWeek)">AgendaWeek</button>
+		<button class="btn btn-success" ng-click="changeView(month)">Month</button>
+	</div>
+	<div ui-calendar="uiConfig.calendar" class="calendar" ng-model="eventSources"></div>
 </div>
