@@ -214,6 +214,9 @@ app.controller('CalendarListController', ['$scope','Restangular','CalendarModel'
 
 app.controller('DatePickerController', ['$scope',
   function ($scope) {
+  	$scope.changeDatePickerDisplay = function () {
+  		console.log('yoyoyoyoy');
+  	};
   }
 ]);
 

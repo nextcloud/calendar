@@ -23,10 +23,10 @@
 
 #datepicker .datepicker_current {
 	float: left;
-	width: 220px;
+	width: 180px;
 	height: 26px;
-	margin-top: 6px;
-	margin-left: 6px;
+	margin-top: 0px;
+	margin-left: 3px;
 	padding-top: 6px;
 	background-color: white;
 	border: 1px solid rgba(190, 190, 190, 0.9);
@@ -42,7 +42,7 @@
 
 #datepicker .datepicker_toggle {
 	height: 34px;
-	margin-top: 6px;
+	margin-top: 0px;
 	margin-left: 0px;
 	margin-right: 0px;
 	margin-bottom: 0px;
@@ -73,6 +73,7 @@
 
 #datepicker .dates {
 	padding:1px;
+	width: 35px;
 }
 
 #datepicker .date {
@@ -93,4 +94,19 @@
 	background: #f8f8f8;
 	font-weight: bold;
 	color: #1d2d44;
+}
+
+.firstrow {
+	float:left !important;
+	margin-top:3px;
+	margin-bottom:3px;
+}
+
+.pickerbody-show {
+	float:left;
+}
+
+.pickerbody-hide {
+	display:none;
+	float:left;
 }

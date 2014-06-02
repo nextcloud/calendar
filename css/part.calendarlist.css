@@ -26,6 +26,10 @@
 	padding-bottom:0 !important;
 }
 
+#app-navigation table {
+	margin-left: 15px;
+}
+
 #app-navigation .utils {
 	display: none;
 	height: 44px;

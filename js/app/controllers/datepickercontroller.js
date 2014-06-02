@@ -23,5 +23,8 @@
 
 app.controller('DatePickerController', ['$scope',
   function ($scope) {
+  	$scope.changeDatePickerDisplay = function () {
+  		console.log('yoyoyoyoy');
+  	};
   }
 ]);

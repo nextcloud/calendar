@@ -1116,6 +1116,16 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.dateparser', 'ui.bootst
 
     $scope.datepickerMode = self.modes[ self.modes.indexOf( $scope.datepickerMode ) + direction ];
   };
+  
+  // Toggles Displaying the datepicker body - custom method.
+  $scope.pickerbody = "pickerbody-hide";
+  $scope.changeDatePickerDisplay = function () {
+    if ($scope.pickerbody === "pickerbody-hide") {
+      $scope.pickerbody = "pickerbody-show";
+    } else {
+      $scope.pickerbody = "pickerbody-hide";
+    }
+  };
 
   // Key event mapper
   $scope.keys = { 13:'enter', 32:'space', 33:'pageup', 34:'pagedown', 35:'end', 36:'home', 37:'left', 38:'up', 39:'right', 40:'down' };
@@ -3868,17 +3878,17 @@ angular.module("template/datepicker/day.html", []).run(["$templateCache", functi
   $templateCache.put("template/datepicker/day.html",
     "<table role=\"grid\" aria-labelledby=\"{{uniqueId}}-title\" aria-activedescendant=\"{{activeDateId}}\">\n" +
     "  <thead>\n" +
-    "    <tr>\n" +
-    "      <th colspan=\"{{5 + showWeeks}}\"><div id=\"{{uniqueId}}-title\" role=\"heading\" aria-live=\"assertive\" aria-atomic=\"true\" class=\"datepicker_current\" ng-click=\"toggleMode()\" tabindex=\"-1\">{{title}}</div></th>\n" +
+    "    <tr class=\"firstrow\">\n" +
+    "      <th colspan=\"{{7 + showWeeks}}\"><div id=\"{{uniqueId}}-title\" role=\"heading\" aria-live=\"assertive\" aria-atomic=\"true\" class=\"datepicker_current\" ng-click=\"changeDatePickerDisplay();\" tabindex=\"-1\">{{title}}</div></th>\n" +
     "      <th><button type=\"button\" class=\"datepicker_toggle datepicker_left\" ng-click=\"move(-1)\" tabindex=\"-1\">&nbsp;<&nbsp;</button></th>\n" +    
     "      <th><button type=\"button\" class=\"datepicker_toggle datepicker_right\" ng-click=\"move(1)\" tabindex=\"-1\">&nbsp;>&nbsp;</button></th>\n" +
     "    </tr>\n" +
-    "    <tr>\n" +
+    "    <tr ng-class=\"pickerbody\">\n" +
     "      <th ng-show=\"showWeeks\"></th>\n" +
     "      <th ng-repeat=\"label in labels track by $index\" class=\"days\"><span class=\"day\" aria-label=\"{{label.full}}\">{{label.abbr}}</span></th>\n" +
     "    </tr>\n" +
     "  </thead>\n" +
-    "  <tbody>\n" +
+    "  <tbody ng-class=\"pickerbody\">\n" +
     "    <tr ng-repeat=\"row in rows track by $index\">\n" +
     "      <td ng-show=\"showWeeks\" class=\"text-center h6\"><em>{{ weekNumbers[$index] }}</em></td>\n" +
     "      <td ng-repeat=\"dt in row track by dt.date\" class=\"dates\" role=\"gridcell\" id=\"{{dt.uid}}\" aria-disabled=\"{{!!dt.disabled}}\">\n" +
@@ -3894,13 +3904,13 @@ angular.module("template/datepicker/month.html", []).run(["$templateCache", func
   $templateCache.put("template/datepicker/month.html",
     "<table role=\"grid\" aria-labelledby=\"{{uniqueId}}-title\" aria-activedescendant=\"{{activeDateId}}\">\n" +
     "  <thead>\n" +
-    "    <tr>\n" +
-    "      <th><div id=\"{{uniqueId}}-title\" role=\"heading\" aria-live=\"assertive\" aria-atomic=\"true\" type=\"button\" class=\"datepicker_current\" ng-click=\"toggleMode()\" tabindex=\"-1\">{{title}}</div></th>\n" +
+    "    <tr ng-class=\"firstrow\">\n" +
+    "      <th colspan=\"4\"><div id=\"{{uniqueId}}-title\" role=\"heading\" aria-live=\"assertive\" aria-atomic=\"true\" type=\"button\" class=\"datepicker_current\" ng-click=\"toggleMode()\" tabindex=\"-1\">{{title}}</div></th>\n" +
     "      <th><button type=\"button\" class=\"datepicker_toggle datepicker_left\" ng-click=\"move(-1)\" tabindex=\"-1\">&nbsp;<&nbsp;</button></th>\n" +
     "      <th><button type=\"button\" class=\"datepicker_toggle datepicker_right\" ng-click=\"move(1)\" tabindex=\"-1\">&nbsp;>&nbsp;</button></th>\n" +
     "    </tr>\n" +
     "  </thead>\n" +
-    "  <tbody>\n" +
+    "  <tbody ng-class=\"pickerbody\">\n" +
     "    <tr ng-repeat=\"row in rows track by $index\">\n" +
     "      <td ng-repeat=\"dt in row track by dt.date\" class=\"text-center\" role=\"gridcell\" id=\"{{dt.uid}}\" aria-disabled=\"{{!!dt.disabled}}\">\n" +
     "        <button type=\"button\" style=\"width:100%;\" class=\"btn btn-default\" ng-class=\"{'btn-info': dt.selected, active: isActive(dt)}\" ng-click=\"select(dt.date)\" ng-disabled=\"dt.disabled\" tabindex=\"-1\"><span ng-class=\"{'text-info': dt.current}\">{{dt.label}}</span></button>\n" +
@@ -3930,13 +3940,13 @@ angular.module("template/datepicker/year.html", []).run(["$templateCache", funct
   $templateCache.put("template/datepicker/year.html",
     "<table role=\"grid\" aria-labelledby=\"{{uniqueId}}-title\" aria-activedescendant=\"{{activeDateId}}\">\n" +
     "  <thead>\n" +
-    "    <tr>\n" +
-    "      <th colspan=\"3\"><div id=\"{{uniqueId}}-title\" role=\"heading\" aria-live=\"assertive\" aria-atomic=\"true\" type=\"button\" class=\"datepicker_current\" ng-click=\"toggleMode()\" tabindex=\"-1\">{{title}}</div></th>\n" +
+    "    <tr ng-class=\"firstrow\">\n" +
+    "      <th colspan=\"5\"><div id=\"{{uniqueId}}-title\" role=\"heading\" aria-live=\"assertive\" aria-atomic=\"true\" type=\"button\" class=\"datepicker_current\" ng-click=\"toggleMode()\" tabindex=\"-1\">{{title}}</div></th>\n" +
     "      <th><button type=\"button\" class=\"datepicker_toggle datepicker_left\" ng-click=\"move(-1)\" tabindex=\"-1\">&nbsp;<&nbsp;</button></th>\n" +
     "      <th><button type=\"button\" class=\"datepicker_toggle datepicker_right\" ng-click=\"move(1)\" tabindex=\"-1\">&nbsp;>&nbsp;</button></th>\n" +
     "    </tr>\n" +
     "  </thead>\n" +
-    "  <tbody>\n" +
+    "  <tbody ng-class=\"pickerbody\">\n" +
     "    <tr ng-repeat=\"row in rows track by $index\">\n" +
     "      <td ng-repeat=\"dt in row track by dt.date\" class=\"text-center\" role=\"gridcell\" id=\"{{dt.uid}}\" aria-disabled=\"{{!!dt.disabled}}\">\n" +
     "        <button type=\"button\" style=\"width:100%;\" class=\"btn btn-default\" ng-class=\"{'btn-info': dt.selected, active: isActive(dt)}\" ng-click=\"select(dt.date)\" ng-disabled=\"dt.disabled\" tabindex=\"-1\"><span ng-class=\"{'text-info': dt.current}\">{{dt.label}}</span></button>\n" +
