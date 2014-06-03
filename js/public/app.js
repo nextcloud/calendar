@@ -77,7 +77,6 @@ app.controller('CalController', ['$scope', '$timeout', '$routeParams', 'Restangu
 
 		calendarResource.getList().then(function(id) {
 			$scope.events = EventsModel.addalldisplayfigures(id);
-			console.log($scope.events);
 		});
 
 		/* config object */
@@ -329,12 +328,19 @@ app.factory('EventsModel', function () {
 				lastedited : "asdasdsa"
 			}]
 		*/ 
-		addalldisplayfigures : function (id) {
-			//  Geoge console.log(id) to check the data structure. Accordingly you can iterate.
+		addalldisplayfigures : function (jcalData) {
+			var comp = new ICAL.Component(jcalData);
+			var vevents = comp.getAllSubcomponents("vevent");
 			var fields = [];
-			for (var i=0; i < id[2].length; i++) {
-				//console.log(id[2][i]);
-			}
+			var title = [];
+			angular.forEach(vevents, function (value,key) {
+				fields[key] = {
+					"title" : value.jCal[1][4][3],
+					"start" : value.jCal[1][5][3],
+					"end" : value.jCal[1][6][3],
+					"allDay": false
+				};
+			}, fields);
 			return fields;
 		},
 		addAll : function (events) {
