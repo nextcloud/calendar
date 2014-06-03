@@ -48,7 +48,7 @@ class JSONObjectCollection extends JSONCollection {
 		 * If the collection is empty, return 204
 		 */
 		if ($this->object->count() === 0) {
-			return null;
+			return array();
 		} else {
 			$vcalendar = $this->object->getVObject();
 			$timezoneMapper = $this->app->query('TimezoneMapper');
