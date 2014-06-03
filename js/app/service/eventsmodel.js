@@ -32,35 +32,24 @@ app.factory('EventsModel', function () {
 		add : function (id) {
 			this.events.push(id);
 		},
-		/* This has to return an object with
-		creation date, end date, summary, and last modified.
-		field = [
-			{
-				uid: "1"
-				summary : "asd"
-				createdon: "ads"
-				endson: "sdad"
-				lastedited : "asdsa"
-			},
-			{
-				uid: "2"
-				summary : "asdasd"
-				createdon: "aasdds"
-				endson: "sdasd"
-				lastedited : "asdasdsa"
-			}]
-		*/ 
 		addalldisplayfigures : function (jcalData) {
-			var comp = new ICAL.Component(jcalData);
-			var vevents = comp.getAllSubcomponents("vevent");
+			var rawdata = new ICAL.Component(jcalData);
+			var vevents = rawdata.getAllSubcomponents("vevent");
 			var fields = [];
-			var title = [];
+			var isAllDay;
 			angular.forEach(vevents, function (value,key) {
+				var start = value.getFirstPropertyValue('dtstart');
+				var end = value.getFirstPropertyValue('dtend');
+				if (start.icaltype == 'date' && end.icaltype == 'date') {
+					isAllDay = true;
+				} else {
+					isAllDay = false;
+				}
 				fields[key] = {
-					"title" : value.jCal[1][4][3],
-					"start" : value.jCal[1][5][3],
-					"end" : value.jCal[1][6][3],
-					"allDay": false
+					"title" : value.getFirstPropertyValue('summary'),
+					"start" : start.toJSDate(),
+					"end" : end.toJSDate(),
+					"allDay": isAllDay
 				};
 			}, fields);
 			return fields;

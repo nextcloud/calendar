@@ -38,6 +38,7 @@ app.controller('CalController', ['$scope', '$timeout', '$routeParams', 'Restangu
 
 		calendarResource.getList().then(function(id) {
 			$scope.events = EventsModel.addalldisplayfigures(id);
+			console.log($scope.events);
 		});
 
 		/* config object */
