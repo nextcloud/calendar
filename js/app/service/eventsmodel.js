@@ -54,6 +54,17 @@ app.factory('EventsModel', function () {
 			}, fields);
 			return fields;
 		},
+		alertMessage : function (title,start,end,allday) {
+			return 0;
+		},
+		addEvent : function (title,start,end,allDay) {
+			this.events.push({
+				"title" : title,
+				"start" : start,
+				"end" : end,
+				"allDay" : allDay
+			});
+		},
 		addAll : function (events) {
 			for (var i=0; i<events.length; i++) {
 				this.add(events[i]);
