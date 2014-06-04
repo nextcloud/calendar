@@ -29,9 +29,6 @@ app.factory('EventsModel', function () {
 	};
 
 	EventsModel.prototype = {
-		add : function (id) {
-			this.events.push(id);
-		},
 		addalldisplayfigures : function (jcalData) {
 			var rawdata = new ICAL.Component(jcalData);
 			var vevents = rawdata.getAllSubcomponents("vevent");
@@ -64,11 +61,6 @@ app.factory('EventsModel', function () {
 				"end" : end,
 				"allDay" : allDay
 			});
-		},
-		addAll : function (events) {
-			for (var i=0; i<events.length; i++) {
-				this.add(events[i]);
-			}
 		},
 		getAll : function () {
 			return this.events;

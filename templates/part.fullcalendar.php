@@ -23,7 +23,7 @@
  */
 ?>
 <div ng-controller="CalController">
-	<div class="btn-group">
+	<div class="btn-group" id="togglebuttons">
 		<button class="button" id="onedayview_radio" ng-click="changeView('agendaDay', calendar)"><?php p($l->t('Day')); ?></button>
 		<button class="button" id="oneweekview_radio" ng-click="changeView('agendaWeek', calendar)"><?php p($l->t('Week')); ?></button>
 		<button class="button" id="onemonthview_radio" ng-click="changeView('month', calendar)"><?php p($l->t('Month')); ?></button>

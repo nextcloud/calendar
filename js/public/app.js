@@ -65,55 +65,56 @@ app.controller('CalController', ['$scope', '$timeout', '$routeParams', 'Restangu
 
 		$scope.route = $routeParams;
 		var id = $scope.route.id; 
-
+		$scope.calendars = CalendarModel.getAll();
 		var calendarResource = Restangular.one('calendars/' + id + '/events');
 
 		calendarResource.getList().then(function(id) {
 			$scope.events = EventsModel.addalldisplayfigures(id);
-			console.log($scope.events);
+			$scope.config();
 		});
-		/* config object */
-		$scope.uiConfig = {
-			calendar:{
-				height: 620,
-				editable: true,
-				header:{
-					left: '',
-					center: '',
-					right: ''
-				},
-				eventClick: $scope.alertOnEventClick
-			}
-		};
 
+		$scope.config = function () {
+			/* config object */
+			$scope.uiConfig = {
+				calendar:{
+					height: 620,
+					editable: true,
+					header:{
+						left: '',
+						center: '',
+						right: 'prev next'
+					},
+					eventClick: $scope.alertOnEventClick,
+					eventSources : [$scope.events]
+				}
+			};
 
-		/* TODO : This shoudl trigger the dialouge box for adding the event. */
-		$scope.alertOnEventClick = function(event,allDay,jsEvent,view ){
-			$scope.alertMessage = EventsModel.alertMessage(event.title,event.start,event.end,event.allDay);
-		};
+			/* TODO : This shoudl trigger the dialouge box for adding the event. */
+			$scope.alertOnEventClick = function(event,allDay,jsEvent,view ){
+				$scope.alertMessage = EventsModel.alertMessage(event.title,event.start,event.end,event.allDay);
+			};
 
-		/* add custom event*/
-		$scope.addEvent = function(newtitle,newstart,newend,newallday) {
-			EventsModel.addEvent(newtitle,newstart,newend,newallday);
-		};
+			/* add custom event*/
+			$scope.addEvent = function(newtitle,newstart,newend,newallday) {
+				EventsModel.addEvent(newtitle,newstart,newend,newallday);
+			};
 
-		/* remove event */
-		$scope.remove = function(index) {
-			EventsModel.remove(index);
-		};
+			/* remove event */
+			$scope.remove = function(index) {
+				EventsModel.remove(index);
+			};
 
-		/* Change View */
-		$scope.changeView = function(view,calendar) {
-			calendar.fullCalendar('changeView',view);
-		};
+			/* Change View */
+			$scope.changeView = function(view,calendar) {
+				calendar.fullCalendar('changeView',view);
+			};
 
-		$scope.renderCalender = function(calendar) {
-			if (calendar) {
-				calendar.fullCalendar('render');
-			}
+			$scope.renderCalender = function(calendar) {
+				if (calendar) {
+					calendar.fullCalendar('render');
+				}
+			};
 		};
-		/* event sources array*/
-		$scope.eventSources = [$scope.events];
 	}
 ]);
 app.controller('CalendarListController', ['$scope','Restangular','CalendarModel','$routeParams',
@@ -272,9 +273,6 @@ app.factory('EventsModel', function () {
 	};
 
 	EventsModel.prototype = {
-		add : function (id) {
-			this.events.push(id);
-		},
 		addalldisplayfigures : function (jcalData) {
 			var rawdata = new ICAL.Component(jcalData);
 			var vevents = rawdata.getAllSubcomponents("vevent");
@@ -307,11 +305,6 @@ app.factory('EventsModel', function () {
 				"end" : end,
 				"allDay" : allDay
 			});
-		},
-		addAll : function (events) {
-			for (var i=0; i<events.length; i++) {
-				this.add(events[i]);
-			}
 		},
 		getAll : function () {
 			return this.events;

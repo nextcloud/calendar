@@ -746,7 +746,7 @@ function Header(calendar, options) {
 		tm = options.theme ? 'ui' : 'fc';
 		var sections = options.header;
 		if (sections) {
-			element = $("<table class='fc-header' style='width:100%'/>")
+			element = $("<table class='fc-header' />")
 				.append(
 					$("<tr/>")
 						.append(renderSection('left'))
@@ -794,7 +794,7 @@ function Header(calendar, options) {
 							var icon = options.theme ? smartProperty(options.buttonIcons, buttonName) : null; // why are we using smartProperty here?
 							var text = smartProperty(options.buttonText, buttonName); // why are we using smartProperty here?
 							var button = $(
-								"<span class='fc-button fc-button-" + buttonName + " " + tm + "-state-default'>" +
+								"<span class='fc-button fc-button-" + buttonName + " " + tm + "' id='calendarbutton'>" +
 									(icon ?
 										"<span class='fc-icon-wrap'>" +
 											"<span class='ui-icon ui-icon-" + icon + "'/>" +
@@ -808,28 +808,6 @@ function Header(calendar, options) {
 										buttonClick();
 									}
 								})
-								.mousedown(function() {
-									button
-										.not('.' + tm + '-state-active')
-										.not('.' + tm + '-state-disabled')
-										.addClass(tm + '-state-down');
-								})
-								.mouseup(function() {
-									button.removeClass(tm + '-state-down');
-								})
-								.hover(
-									function() {
-										button
-											.not('.' + tm + '-state-active')
-											.not('.' + tm + '-state-disabled')
-											.addClass(tm + '-state-hover');
-									},
-									function() {
-										button
-											.removeClass(tm + '-state-hover')
-											.removeClass(tm + '-state-down');
-									}
-								)
 								.appendTo(e);
 							disableTextSelection(button);
 							if (!prevButton) {
