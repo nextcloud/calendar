@@ -26,13 +26,6 @@ app.controller('CalController', ['$scope', '$timeout', '$routeParams', 'Restangu
 
 		$scope.route = $routeParams;
 		var id = $scope.route.id; 
-		$scope.calendars = CalendarModel.getAll();
-
-		/* All Date Objects */
-		var date = new Date();
-		var currentdate = date.getDate();
-		var currentmonth = date.getMonth();
-		var currentyear = date.getFullYear();
 
 		var calendarResource = Restangular.one('calendars/' + id + '/events');
 
@@ -59,7 +52,7 @@ app.controller('CalController', ['$scope', '$timeout', '$routeParams', 'Restangu
 		$scope.alertOnEventClick = function(event,allDay,jsEvent,view ){
 			$scope.alertMessage = EventsModel.alertMessage(event.title,event.start,event.end,event.allDay);
 		};
-		
+
 		/* add custom event*/
 		$scope.addEvent = function(newtitle,newstart,newend,newallday) {
 			EventsModel.addEvent(newtitle,newstart,newend,newallday);
