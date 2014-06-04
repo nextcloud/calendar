@@ -69,8 +69,13 @@ app.controller('CalController', ['$scope', '$timeout', '$routeParams', 'Restangu
 		var calendarResource = Restangular.one('calendars/' + id + '/events');
 
 		calendarResource.getList().then(function(id) {
-			$scope.events = EventsModel.addalldisplayfigures(id);
-			$scope.config();
+			if (id.route === undefined) {
+				console.log('damn');
+			} else {
+				console.log('yoyoyoyoy');
+				$scope.events = EventsModel.addalldisplayfigures(id);
+				$scope.config();
+			}
 		});
 
 		$scope.config = function () {
