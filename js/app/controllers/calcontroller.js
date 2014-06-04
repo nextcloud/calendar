@@ -30,13 +30,13 @@ app.controller('CalController', ['$scope', '$timeout', '$routeParams', 'Restangu
 		var calendarResource = Restangular.one('calendars/' + id + '/events');
 
 		calendarResource.getList().then(function(id) {
-			if (id.route === undefined) {
-				console.log('damn');
-			} else {
-				console.log('yoyoyoyoy');
-				$scope.events = EventsModel.addalldisplayfigures(id);
+			$scope.events = EventsModel.addalldisplayfigures(id);
+			if ($scope.events.length > 0) {
 				$scope.config();
+			} else {
+				$scope.unconfigured();
 			}
+			$scope.views();
 		});
 
 		$scope.config = function () {
@@ -54,7 +54,38 @@ app.controller('CalController', ['$scope', '$timeout', '$routeParams', 'Restangu
 					eventSources : [$scope.events]
 				}
 			};
+		};
 
+		$scope.unconfigured = function () {
+			/* config object */
+			$scope.uiConfig = {
+				calendar:{
+					height: 620,
+					editable: true,
+					header:{
+						left: '',
+						center: '',
+						right: 'prev next'
+					},
+				},
+				eventClick: $scope.alertOnEventClick
+			};
+		};
+
+		$scope.views = function () {
+			/* Change View */
+			$scope.changeView = function(view,calendar) {
+				calendar.fullCalendar('changeView',view);
+			};
+
+			$scope.renderCalender = function(calendar) {
+				if (calendar) {
+					calendar.fullCalendar('render');
+				}
+			};
+		};
+
+		$scope.eventalerts = function () {
 			/* TODO : This shoudl trigger the dialouge box for adding the event. */
 			$scope.alertOnEventClick = function(event,allDay,jsEvent,view ){
 				$scope.alertMessage = EventsModel.alertMessage(event.title,event.start,event.end,event.allDay);
@@ -68,17 +99,6 @@ app.controller('CalController', ['$scope', '$timeout', '$routeParams', 'Restangu
 			/* remove event */
 			$scope.remove = function(index) {
 				EventsModel.remove(index);
-			};
-
-			/* Change View */
-			$scope.changeView = function(view,calendar) {
-				calendar.fullCalendar('changeView',view);
-			};
-
-			$scope.renderCalender = function(calendar) {
-				if (calendar) {
-					calendar.fullCalendar('render');
-				}
 			};
 		};
 	}

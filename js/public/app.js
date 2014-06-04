@@ -69,13 +69,13 @@ app.controller('CalController', ['$scope', '$timeout', '$routeParams', 'Restangu
 		var calendarResource = Restangular.one('calendars/' + id + '/events');
 
 		calendarResource.getList().then(function(id) {
-			if (id.route === undefined) {
-				console.log('damn');
-			} else {
-				console.log('yoyoyoyoy');
-				$scope.events = EventsModel.addalldisplayfigures(id);
+			$scope.events = EventsModel.addalldisplayfigures(id);
+			if ($scope.events.length > 0) {
 				$scope.config();
+			} else {
+				$scope.unconfigured();
 			}
+			$scope.views();
 		});
 
 		$scope.config = function () {
@@ -93,7 +93,38 @@ app.controller('CalController', ['$scope', '$timeout', '$routeParams', 'Restangu
 					eventSources : [$scope.events]
 				}
 			};
+		};
 
+		$scope.unconfigured = function () {
+			/* config object */
+			$scope.uiConfig = {
+				calendar:{
+					height: 620,
+					editable: true,
+					header:{
+						left: '',
+						center: '',
+						right: 'prev next'
+					},
+				},
+				eventClick: $scope.alertOnEventClick
+			};
+		};
+
+		$scope.views = function () {
+			/* Change View */
+			$scope.changeView = function(view,calendar) {
+				calendar.fullCalendar('changeView',view);
+			};
+
+			$scope.renderCalender = function(calendar) {
+				if (calendar) {
+					calendar.fullCalendar('render');
+				}
+			};
+		};
+
+		$scope.eventalerts = function () {
 			/* TODO : This shoudl trigger the dialouge box for adding the event. */
 			$scope.alertOnEventClick = function(event,allDay,jsEvent,view ){
 				$scope.alertMessage = EventsModel.alertMessage(event.title,event.start,event.end,event.allDay);
@@ -107,17 +138,6 @@ app.controller('CalController', ['$scope', '$timeout', '$routeParams', 'Restangu
 			/* remove event */
 			$scope.remove = function(index) {
 				EventsModel.remove(index);
-			};
-
-			/* Change View */
-			$scope.changeView = function(view,calendar) {
-				calendar.fullCalendar('changeView',view);
-			};
-
-			$scope.renderCalender = function(calendar) {
-				if (calendar) {
-					calendar.fullCalendar('render');
-				}
 			};
 		};
 	}
@@ -280,25 +300,29 @@ app.factory('EventsModel', function () {
 	EventsModel.prototype = {
 		addalldisplayfigures : function (jcalData) {
 			var rawdata = new ICAL.Component(jcalData);
-			var vevents = rawdata.getAllSubcomponents("vevent");
-			var fields = [];
-			var isAllDay;
-			angular.forEach(vevents, function (value,key) {
-				var start = value.getFirstPropertyValue('dtstart');
-				var end = value.getFirstPropertyValue('dtend');
-				if (start.icaltype == 'date' && end.icaltype == 'date') {
-					isAllDay = true;
-				} else {
-					isAllDay = false;
-				}
-				fields[key] = {
-					"title" : value.getFirstPropertyValue('summary'),
-					"start" : start.toJSDate(),
-					"end" : end.toJSDate(),
-					"allDay": isAllDay
-				};
-			}, fields);
-			return fields;
+			if (rawdata.jCal.length !== 0) {
+				var vevents = rawdata.getAllSubcomponents("vevent");
+				var fields = [];
+				var isAllDay;
+				angular.forEach(vevents, function (value,key) {
+					var start = value.getFirstPropertyValue('dtstart');
+					var end = value.getFirstPropertyValue('dtend');
+					if (start.icaltype == 'date' && end.icaltype == 'date') {
+						isAllDay = true;
+					} else {
+						isAllDay = false;
+					}
+					fields[key] = {
+						"title" : value.getFirstPropertyValue('summary'),
+						"start" : start.toJSDate(),
+						"end" : end.toJSDate(),
+						"allDay": isAllDay
+					};
+				}, fields);
+				return fields;
+			} else {
+				return [];
+			}
 		},
 		alertMessage : function (title,start,end,allday) {
 			return 0;

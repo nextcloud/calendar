@@ -31,25 +31,29 @@ app.factory('EventsModel', function () {
 	EventsModel.prototype = {
 		addalldisplayfigures : function (jcalData) {
 			var rawdata = new ICAL.Component(jcalData);
-			var vevents = rawdata.getAllSubcomponents("vevent");
-			var fields = [];
-			var isAllDay;
-			angular.forEach(vevents, function (value,key) {
-				var start = value.getFirstPropertyValue('dtstart');
-				var end = value.getFirstPropertyValue('dtend');
-				if (start.icaltype == 'date' && end.icaltype == 'date') {
-					isAllDay = true;
-				} else {
-					isAllDay = false;
-				}
-				fields[key] = {
-					"title" : value.getFirstPropertyValue('summary'),
-					"start" : start.toJSDate(),
-					"end" : end.toJSDate(),
-					"allDay": isAllDay
-				};
-			}, fields);
-			return fields;
+			if (rawdata.jCal.length !== 0) {
+				var vevents = rawdata.getAllSubcomponents("vevent");
+				var fields = [];
+				var isAllDay;
+				angular.forEach(vevents, function (value,key) {
+					var start = value.getFirstPropertyValue('dtstart');
+					var end = value.getFirstPropertyValue('dtend');
+					if (start.icaltype == 'date' && end.icaltype == 'date') {
+						isAllDay = true;
+					} else {
+						isAllDay = false;
+					}
+					fields[key] = {
+						"title" : value.getFirstPropertyValue('summary'),
+						"start" : start.toJSDate(),
+						"end" : end.toJSDate(),
+						"allDay": isAllDay
+					};
+				}, fields);
+				return fields;
+			} else {
+				return [];
+			}
 		},
 		alertMessage : function (title,start,end,allday) {
 			return 0;
