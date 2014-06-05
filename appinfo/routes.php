@@ -77,19 +77,19 @@ $this->create('calendar.calendar.import', '/v1/calendars/{calendarId}/import')->
 /* some additional object calls */
 $this->create('calendar.object.inPeriod', '/v1/calendars/{calendarId}/objects/inPeriod/{start}/{end}')->get()->action(function($params){
 	$app = new \OCA\Calendar\App($params);
-	$app->dispatch('ObjectController', 'inPeriod');
+	$app->dispatch('ObjectController', 'indexInPeriod');
 });
 $this->create('calendar.event.inPeriod', '/v1/calendars/{calendarId}/events/inPeriod/{start}/{end}')->get()->action(function($params){
 	$app = new \OCA\Calendar\App($params);
-	$app->dispatch('EventController', 'inPeriod');
+	$app->dispatch('EventController', 'indexInPeriod');
 });
 $this->create('calendar.journal.inPeriod', '/v1/calendars/{calendarId}/journals/inPeriod/{start}/{end}')->get()->action(function($params){
 	$app = new \OCA\Calendar\App($params);
-	$app->dispatch('JournalController', 'inPeriod');
+	$app->dispatch('JournalController', 'indexInPeriod');
 });
 $this->create('calendar.todo.inPeriod', '/v1/calendars/{calendarId}/objects/todos/{start}/{end}')->get()->action(function($params){
 	$app = new \OCA\Calendar\App($params);
-	$app->dispatch('TodoController', 'inPeriod');
+	$app->dispatch('TodoController', 'indexInPeriod');
 });
 
 
