@@ -49,7 +49,7 @@ var app = angular.module('Calendar', [
 						is.loading = false;
 						deferred.reject();
 					});
-
+					
 					return deferred.promise;
 				}]
 			}

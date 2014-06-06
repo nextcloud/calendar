@@ -25,81 +25,53 @@ app.controller('CalController', ['$scope', '$timeout', '$routeParams', 'Restangu
 	function ($scope,$timeout,$routeParams,Restangular,CalendarModel,EventsModel) {
 
 		$scope.route = $routeParams;
-		var id = $scope.route.id; 
+		$scope.eventSources = EventsModel.getAll();
+		var id = $scope.route.id;
 		$scope.calendars = CalendarModel.getAll();
-		var calendarResource = Restangular.one('calendars/' + id + '/events');
+		var eventResource = Restangular.one('calendars/' + id + '/events');
 
-		calendarResource.getList().then(function(id) {
-			$scope.events = EventsModel.addalldisplayfigures(id);
-			if ($scope.events.length > 0) {
-				$scope.config();
-			} else {
-				$scope.unconfigured();
-			}
-			$scope.views();
+		eventResource.getList().then(function(id) {
+			EventsModel.addalldisplayfigures(id);
 		});
 
-		$scope.config = function () {
-			/* config object */
-			$scope.uiConfig = {
-				calendar:{
-					height: 620,
-					editable: true,
-					header:{
-						left: '',
-						center: '',
-						right: 'prev next'
-					},
-					eventClick: $scope.alertOnEventClick,
-					eventSources : [$scope.events]
-				}
-			};
-		};
-
-		$scope.unconfigured = function () {
-			/* config object */
-			$scope.uiConfig = {
-				calendar:{
-					height: 620,
-					editable: true,
-					header:{
-						left: '',
-						center: '',
-						right: 'prev next'
-					},
+		/* config object */
+		$scope.uiConfig = {
+			calendar:{
+				height: 620,
+				editable: true,
+				header:{
+					left: '',
+					center: '',
+					right: 'prev next'
 				},
-				eventClick: $scope.alertOnEventClick
-			};
+				eventSources : [$scope.eventSources]
+			},
+		};
+		console.log($scope.uiConfig);
+
+		$scope.changeView = function(view,calendar) {
+			calendar.fullCalendar('changeView',view);
 		};
 
-		$scope.views = function () {
-			/* Change View */
-			$scope.changeView = function(view,calendar) {
-				calendar.fullCalendar('changeView',view);
-			};
-
-			$scope.renderCalender = function(calendar) {
-				if (calendar) {
-					calendar.fullCalendar('render');
-				}
-			};
+		$scope.renderCalender = function(calendar) {
+			if (calendar) {
+				calendar.fullCalendar('render');
+			}
 		};
 
-		$scope.eventalerts = function () {
-			/* TODO : This shoudl trigger the dialouge box for adding the event. */
-			$scope.alertOnEventClick = function(event,allDay,jsEvent,view ){
-				$scope.alertMessage = EventsModel.alertMessage(event.title,event.start,event.end,event.allDay);
-			};
+		/* TODO : This shoudl trigger the dialouge box for adding the event. */
+		$scope.alertOnEventClick = function(event,allDay,jsEvent,view ){
+			$scope.alertMessage = EventsModel.alertMessage(event.title,event.start,event.end,event.allDay);
+		};
 
-			/* add custom event*/
-			$scope.addEvent = function(newtitle,newstart,newend,newallday) {
-				EventsModel.addEvent(newtitle,newstart,newend,newallday);
-			};
+		/* add custom event*/
+		$scope.addEvent = function(newtitle,newstart,newend,newallday) {
+			EventsModel.addEvent(newtitle,newstart,newend,newallday);
+		};
 
-			/* remove event */
-			$scope.remove = function(index) {
-				EventsModel.remove(index);
-			};
+		/* remove event */
+		$scope.remove = function(index) {
+			EventsModel.remove(index);
 		};
 	}
 ]);
