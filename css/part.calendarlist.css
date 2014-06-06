@@ -26,10 +26,6 @@
 	padding-bottom:0 !important;
 }
 
-#app-navigation table {
-	margin-left: 15px;
-}
-
 #app-navigation .utils {
 	display: none;
 	height: 44px;
@@ -97,7 +93,7 @@
 	content: '+';
 	font-weight: bold;
 	font-size: 150%;
-	top:-2px;
+	top:0px;
 	left:8px;
 }
 
@@ -113,7 +109,7 @@
 }
 
 .personalblock form input {
-	margin-left: 10px;
+	margin-left: 3px;
 	width: 60%;
 }
 
