@@ -22,11 +22,9 @@
  *
  */
 ?>
-<div ng-controller="CalController">
-	<div class="btn-group" id="togglebuttons">
-		<button class="button" id="onedayview_radio" ng-click="changeView('agendaDay', calendar)"><?php p($l->t('Day')); ?></button>
-		<button class="button" id="oneweekview_radio" ng-click="changeView('agendaWeek', calendar)"><?php p($l->t('Week')); ?></button>
-		<button class="button" id="onemonthview_radio" ng-click="changeView('month', calendar)"><?php p($l->t('Month')); ?></button>
-	</div>
-	<div ui-calendar="uiConfig.calendar" class="calendar" ng-model="eventSources" calendar="calendar"></div>
+<div class="btn-group" id="togglebuttons">
+	<button class="button" id="onedayview_radio" ng-click="changeView('agendaDay', calendar)"><?php p($l->t('Day')); ?></button>
+	<button class="button" id="oneweekview_radio" ng-click="changeView('agendaWeek', calendar)"><?php p($l->t('Week')); ?></button>
+	<button class="button" id="onemonthview_radio" ng-click="changeView('month', calendar)"><?php p($l->t('Month')); ?></button>
 </div>
+<div ui-calendar="uiConfig.calendar" class="calendar" ng-model="eventSources" calendar="calendar"></div>
