@@ -37,19 +37,15 @@ var app = angular.module('Calendar', [
 			templateUrl : 'calendar.html',
 			controller : 'CalController',
 			resolve : {
-				calendar: ['$route', '$q', 'is', 'Restangular',
-				function ($route, $q, is, Restangular) {
+				calendar: ['$route', '$q', 'Restangular',
+				function ($route, $q, Restangular) {
 					var deferred = $q.defer();
 					var id = $route.current.params.id;
-					is.loading = true;
 					Restangular.one('calendars', id).get().then(function (calendar) {
-						is.loading = false;
 						deferred.resolve(calendar);
 					}, function () {
-						is.loading = false;
 						deferred.reject();
 					});
-					
 					return deferred.promise;
 				}],
 			}

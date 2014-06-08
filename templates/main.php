@@ -75,5 +75,5 @@
 	</div>
 
 	<!-- The Calendar on the right -->
-	<div id="app-content" ng-view ng-class="{loading: is.loading}"></div>
+	<div id="app-content" ng-view></div>
 </div>

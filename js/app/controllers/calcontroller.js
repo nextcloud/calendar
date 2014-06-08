@@ -34,7 +34,7 @@ app.controller('CalController', ['$scope','$timeout', '$routeParams', 'Restangul
 			EventsModel.addalldisplayfigures(id);
 			$scope.uiConfig = {
 				calendar:{
-					height: 620,
+					height: $(window).height() - $('#controls').height() - $('#header').height(),
 					editable: true,
 					header:{
 						left: '',
@@ -56,6 +56,16 @@ app.controller('CalController', ['$scope','$timeout', '$routeParams', 'Restangul
 				}
 			};
 
+			/* Removes Event Sources */
+			$scope.addEventSource = function(sources,source) {
+				EventsModel.addEventSource(sources,source);
+			};
+
+			/* Adds Event Sources */
+			$scope.removeEventSource = function(sources,source) {
+				EventsModel.removeEventSource(sources,source);
+    		};
+
 			/* TODO : This shoudl trigger the dialouge box for adding the event. */
 			$scope.alertOnEventClick = function(event,allDay,jsEvent,view ){
 				$scope.alertMessage = EventsModel.alertMessage(event.title,event.start,event.end,event.allDay);
@@ -70,6 +80,7 @@ app.controller('CalController', ['$scope','$timeout', '$routeParams', 'Restangul
 			$scope.remove = function(index) {
 				EventsModel.remove(index);
 			};
+			
 		});
 	}
 ]);

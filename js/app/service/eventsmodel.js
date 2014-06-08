@@ -55,6 +55,12 @@ app.factory('EventsModel', function () {
 				});
 			}
 		},
+		addEventSource : function (sources,source) {
+			return 0;
+		},
+		removeEventSource : function (sources,source) {
+			return 0;
+		},
 		alertMessage : function (title,start,end,allday) {
 			return 0;
 		},

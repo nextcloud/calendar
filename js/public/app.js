@@ -16,19 +16,15 @@ var app = angular.module('Calendar', [
 			templateUrl : 'calendar.html',
 			controller : 'CalController',
 			resolve : {
-				calendar: ['$route', '$q', 'is', 'Restangular',
-				function ($route, $q, is, Restangular) {
+				calendar: ['$route', '$q', 'Restangular',
+				function ($route, $q, Restangular) {
 					var deferred = $q.defer();
 					var id = $route.current.params.id;
-					is.loading = true;
 					Restangular.one('calendars', id).get().then(function (calendar) {
-						is.loading = false;
 						deferred.resolve(calendar);
 					}, function () {
-						is.loading = false;
 						deferred.reject();
 					});
-					
 					return deferred.promise;
 				}],
 			}
@@ -74,7 +70,7 @@ app.controller('CalController', ['$scope','$timeout', '$routeParams', 'Restangul
 			EventsModel.addalldisplayfigures(id);
 			$scope.uiConfig = {
 				calendar:{
-					height: 620,
+					height: $(window).height() - $('#controls').height() - $('#header').height(),
 					editable: true,
 					header:{
 						left: '',
@@ -96,6 +92,16 @@ app.controller('CalController', ['$scope','$timeout', '$routeParams', 'Restangul
 				}
 			};
 
+			/* Removes Event Sources */
+			$scope.addEventSource = function(sources,source) {
+				EventsModel.addEventSource(sources,source);
+			};
+
+			/* Adds Event Sources */
+			$scope.removeEventSource = function(sources,source) {
+				EventsModel.removeEventSource(sources,source);
+    		};
+
 			/* TODO : This shoudl trigger the dialouge box for adding the event. */
 			$scope.alertOnEventClick = function(event,allDay,jsEvent,view ){
 				$scope.alertMessage = EventsModel.alertMessage(event.title,event.start,event.end,event.allDay);
@@ -110,6 +116,7 @@ app.controller('CalController', ['$scope','$timeout', '$routeParams', 'Restangul
 			$scope.remove = function(index) {
 				EventsModel.remove(index);
 			};
+			
 		});
 	}
 ]);
@@ -213,6 +220,25 @@ app.controller('SettingsController', ['$scope','Restangular','$routeParams','Tim
 	}
 ]);
 
+app.directive('loading',
+	[ function() {
+		return {
+			restrict: 'E',
+			replace: true,
+			template:"<div id='loading' class='icon-loading'></div>",
+	    	link: function($scope, element, attr) {
+				$scope.$watch('loading', function(val) {
+					if (val) {
+						$(element).show();
+					}
+					else {
+						$(element).hide();
+					}
+				});
+			}		
+		};
+	}]
+);
 app.factory('CalendarModel', function() {
 	var CalendarModel = function () {
 		this.calendars = [];
@@ -295,6 +321,12 @@ app.factory('EventsModel', function () {
 				});
 			}
 		},
+		addEventSource : function (sources,source) {
+			return 0;
+		},
+		removeEventSource : function (sources,source) {
+			return 0;
+		},
 		alertMessage : function (title,start,end,allday) {
 			return 0;
 		},
@@ -319,12 +351,6 @@ app.factory('EventsModel', function () {
 
 	return new EventsModel();
 });
-app.factory('is', function () {
-	return {
-		loading: false
-	};
-});
-
 app.factory('TimezoneModel', function () {
 	var TimezoneModel = function () {
 		this.timezones = [];

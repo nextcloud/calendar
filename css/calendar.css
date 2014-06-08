@@ -57,6 +57,16 @@ body {
 	padding:8px;
 }
 
+#loading {
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 10;
+	background-color: rgba(255,255,255,0.3);
+}
+
 .fc-header {
 	display: block;
 	float:right;

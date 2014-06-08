@@ -1,10 +1,8 @@
 /**
  * ownCloud - Calendar App
-
- * @author Bernhrd Posselt
+ *
  * @author Raghu Nayyar
  * @author Georg Ehrke
- * @copyright 2014 Bernhard Posselt <dev@bernhard-posselt.com>
  * @copyright 2014 Raghu Nayyar <beingminimal@gmail.com>
  * @copyright 2014 Georg Ehrke <oc.list@georgehrke.com>
  *
@@ -23,8 +21,22 @@
  *
  */
 
-app.factory('is', function () {
-	return {
-		loading: false
-	};
-});
+app.directive('loading',
+	[ function() {
+		return {
+			restrict: 'E',
+			replace: true,
+			template:"<div id='loading' class='icon-loading'></div>",
+	    	link: function($scope, element, attr) {
+				$scope.$watch('loading', function(val) {
+					if (val) {
+						$(element).show();
+					}
+					else {
+						$(element).hide();
+					}
+				});
+			}		
+		};
+	}]
+);
