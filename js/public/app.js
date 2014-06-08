@@ -30,7 +30,7 @@ var app = angular.module('Calendar', [
 					});
 					
 					return deferred.promise;
-				}]
+				}],
 			}
 		}).otherwise({
 			redirectTo: '/'
@@ -41,11 +41,12 @@ var app = angular.module('Calendar', [
 		var baseUrl = url.split('index.php')[0] + 'index.php/apps/calendar/v1';
 		RestangularProvider.setBaseUrl(baseUrl);
 	}
-]).run(['$rootScope', '$location', 'CalendarModel',
-	function ($rootScope, $location, CalendarModel) {
+]).run(['$rootScope', '$location', 'CalendarModel', 'EventsModel',
+	function ($rootScope, $location, CalendarModel, EventsModel) {
 	$rootScope.$on('$routeChangeError', function () {
 		var calendars = CalendarModel.getAll();
-		console.log(calendars);
+		var events = EventsModel.getAll();
+		console.log(events);
 		if (calendars.length > 0) {
 			var calendar = calendars[calendars.length-1];
 			$location.path('/' + calendar.id);
@@ -60,8 +61,8 @@ app.controller('AppController', ['$scope',
 
 	}
 ]);
-app.controller('CalController', ['$scope', '$timeout', '$routeParams', 'Restangular', 'CalendarModel', 'EventsModel',
-	function ($scope,$timeout,$routeParams,Restangular,CalendarModel,EventsModel) {
+app.controller('CalController', ['$scope','$timeout', '$routeParams', 'Restangular', 'calendar', 'CalendarModel', 'EventsModel',
+	function ($scope,$timeout,$routeParams,Restangular,calendar,CalendarModel,EventsModel) {
 
 		$scope.route = $routeParams;
 		$scope.eventSources = EventsModel.getAll();
@@ -71,47 +72,45 @@ app.controller('CalController', ['$scope', '$timeout', '$routeParams', 'Restangu
 
 		eventResource.getList().then(function(id) {
 			EventsModel.addalldisplayfigures(id);
-		});
-
-		/* config object */
-		$scope.uiConfig = {
-			calendar:{
-				height: 620,
-				editable: true,
-				header:{
-					left: '',
-					center: '',
-					right: 'prev next'
+			$scope.uiConfig = {
+				calendar:{
+					height: 620,
+					editable: true,
+					header:{
+						left: '',
+						center: '',
+						right: 'prev next'
+					},
+					eventSources : [$scope.eventSources]
 				},
-				eventSources : [$scope.eventSources]
-			},
-		};
-		console.log($scope.uiConfig);
+			};
+			console.log($scope.uiConfig);
 
-		$scope.changeView = function(view,calendar) {
-			calendar.fullCalendar('changeView',view);
-		};
+			$scope.changeView = function(view,calendar) {
+				calendar.fullCalendar('changeView',view);
+			};
 
-		$scope.renderCalender = function(calendar) {
-			if (calendar) {
-				calendar.fullCalendar('render');
-			}
-		};
+			$scope.renderCalender = function(calendar) {
+				if (calendar) {
+					calendar.fullCalendar('render');
+				}
+			};
 
-		/* TODO : This shoudl trigger the dialouge box for adding the event. */
-		$scope.alertOnEventClick = function(event,allDay,jsEvent,view ){
-			$scope.alertMessage = EventsModel.alertMessage(event.title,event.start,event.end,event.allDay);
-		};
+			/* TODO : This shoudl trigger the dialouge box for adding the event. */
+			$scope.alertOnEventClick = function(event,allDay,jsEvent,view ){
+				$scope.alertMessage = EventsModel.alertMessage(event.title,event.start,event.end,event.allDay);
+			};
 
-		/* add custom event*/
-		$scope.addEvent = function(newtitle,newstart,newend,newallday) {
-			EventsModel.addEvent(newtitle,newstart,newend,newallday);
-		};
+			/* add custom event*/
+			$scope.addEvent = function(newtitle,newstart,newend,newallday) {
+				EventsModel.addEvent(newtitle,newstart,newend,newallday);
+			};
 
-		/* remove event */
-		$scope.remove = function(index) {
-			EventsModel.remove(index);
-		};
+			/* remove event */
+			$scope.remove = function(index) {
+				EventsModel.remove(index);
+			};
+		});
 	}
 ]);
 app.controller('CalendarListController', ['$scope','Restangular','CalendarModel','$routeParams',
@@ -267,34 +266,36 @@ app.factory('EventsModel', function () {
 	var EventsModel = function () {
 		this.events = [];
 		this.eventsUid = {};
+		this.calendars = [];
+		this.calendarId = {};
 	};
 
 	EventsModel.prototype = {
 		addalldisplayfigures : function (jcalData) {
 			var rawdata = new ICAL.Component(jcalData);
-
-				 if (rawdata.jCal.length !== 0) {
-                var vevents = rawdata.getAllSubcomponents("vevent");
-                var fields = [];
-                var isAllDay;
-                var self = this;
-                angular.forEach(vevents, function (value,key) {
-                    var start = value.getFirstPropertyValue('dtstart');
-                    var end = value.getFirstPropertyValue('dtend');
-                    if (start.icaltype == 'date' && end.icaltype == 'date') {
-                        isAllDay = true;
-                    } else {
-                        isAllDay = false;
-                    }
-                    self.addEvent(value.getFirstPropertyValue('summary'),
-                        start.toJSDate(),
-                        end.toJSDate(),
-                        isAllDay);
-                });
+			var fields = [];
+			var self = this;
+			var isAllDay;
+			if (rawdata.jCal.length !== 0) {
+				var vevents = rawdata.getAllSubcomponents("vevent");
+				angular.forEach(vevents, function (value,key) {
+					var start = value.getFirstPropertyValue('dtstart');
+					var end = value.getFirstPropertyValue('dtend');
+					if (start.icaltype == 'date' && end.icaltype == 'date') {
+						isAllDay = true;
+					} else {
+						isAllDay = false;
+					}
+					self.events.push({
+						"title" : value.getFirstPropertyValue('summary'),
+						"start" : start.toJSDate(),
+						"end" : end.toJSDate(),
+						"allDay" : isAllDay
+					});
+				});
 			}
 		},
 		alertMessage : function (title,start,end,allday) {
-			console.log('yolo');
 			return 0;
 		},
 		addEvent : function (title,start,end,allDay) {

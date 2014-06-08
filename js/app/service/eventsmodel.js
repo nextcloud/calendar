@@ -26,34 +26,36 @@ app.factory('EventsModel', function () {
 	var EventsModel = function () {
 		this.events = [];
 		this.eventsUid = {};
+		this.calendars = [];
+		this.calendarId = {};
 	};
 
 	EventsModel.prototype = {
 		addalldisplayfigures : function (jcalData) {
 			var rawdata = new ICAL.Component(jcalData);
-
-				 if (rawdata.jCal.length !== 0) {
-                var vevents = rawdata.getAllSubcomponents("vevent");
-                var fields = [];
-                var isAllDay;
-                var self = this;
-                angular.forEach(vevents, function (value,key) {
-                    var start = value.getFirstPropertyValue('dtstart');
-                    var end = value.getFirstPropertyValue('dtend');
-                    if (start.icaltype == 'date' && end.icaltype == 'date') {
-                        isAllDay = true;
-                    } else {
-                        isAllDay = false;
-                    }
-                    self.addEvent(value.getFirstPropertyValue('summary'),
-                        start.toJSDate(),
-                        end.toJSDate(),
-                        isAllDay);
-                });
+			var fields = [];
+			var self = this;
+			var isAllDay;
+			if (rawdata.jCal.length !== 0) {
+				var vevents = rawdata.getAllSubcomponents("vevent");
+				angular.forEach(vevents, function (value,key) {
+					var start = value.getFirstPropertyValue('dtstart');
+					var end = value.getFirstPropertyValue('dtend');
+					if (start.icaltype == 'date' && end.icaltype == 'date') {
+						isAllDay = true;
+					} else {
+						isAllDay = false;
+					}
+					self.events.push({
+						"title" : value.getFirstPropertyValue('summary'),
+						"start" : start.toJSDate(),
+						"end" : end.toJSDate(),
+						"allDay" : isAllDay
+					});
+				});
 			}
 		},
 		alertMessage : function (title,start,end,allday) {
-			console.log('yolo');
 			return 0;
 		},
 		addEvent : function (title,start,end,allDay) {

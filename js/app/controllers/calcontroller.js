@@ -21,8 +21,8 @@
  *
  */
 
-app.controller('CalController', ['$scope', '$timeout', '$routeParams', 'Restangular', 'CalendarModel', 'EventsModel',
-	function ($scope,$timeout,$routeParams,Restangular,CalendarModel,EventsModel) {
+app.controller('CalController', ['$scope','$timeout', '$routeParams', 'Restangular', 'calendar', 'CalendarModel', 'EventsModel',
+	function ($scope,$timeout,$routeParams,Restangular,calendar,CalendarModel,EventsModel) {
 
 		$scope.route = $routeParams;
 		$scope.eventSources = EventsModel.getAll();
@@ -32,46 +32,44 @@ app.controller('CalController', ['$scope', '$timeout', '$routeParams', 'Restangu
 
 		eventResource.getList().then(function(id) {
 			EventsModel.addalldisplayfigures(id);
-		});
-
-		/* config object */
-		$scope.uiConfig = {
-			calendar:{
-				height: 620,
-				editable: true,
-				header:{
-					left: '',
-					center: '',
-					right: 'prev next'
+			$scope.uiConfig = {
+				calendar:{
+					height: 620,
+					editable: true,
+					header:{
+						left: '',
+						center: '',
+						right: 'prev next'
+					},
+					eventSources : [$scope.eventSources]
 				},
-				eventSources : [$scope.eventSources]
-			},
-		};
-		console.log($scope.uiConfig);
+			};
+			console.log($scope.uiConfig);
 
-		$scope.changeView = function(view,calendar) {
-			calendar.fullCalendar('changeView',view);
-		};
+			$scope.changeView = function(view,calendar) {
+				calendar.fullCalendar('changeView',view);
+			};
 
-		$scope.renderCalender = function(calendar) {
-			if (calendar) {
-				calendar.fullCalendar('render');
-			}
-		};
+			$scope.renderCalender = function(calendar) {
+				if (calendar) {
+					calendar.fullCalendar('render');
+				}
+			};
 
-		/* TODO : This shoudl trigger the dialouge box for adding the event. */
-		$scope.alertOnEventClick = function(event,allDay,jsEvent,view ){
-			$scope.alertMessage = EventsModel.alertMessage(event.title,event.start,event.end,event.allDay);
-		};
+			/* TODO : This shoudl trigger the dialouge box for adding the event. */
+			$scope.alertOnEventClick = function(event,allDay,jsEvent,view ){
+				$scope.alertMessage = EventsModel.alertMessage(event.title,event.start,event.end,event.allDay);
+			};
 
-		/* add custom event*/
-		$scope.addEvent = function(newtitle,newstart,newend,newallday) {
-			EventsModel.addEvent(newtitle,newstart,newend,newallday);
-		};
+			/* add custom event*/
+			$scope.addEvent = function(newtitle,newstart,newend,newallday) {
+				EventsModel.addEvent(newtitle,newstart,newend,newallday);
+			};
 
-		/* remove event */
-		$scope.remove = function(index) {
-			EventsModel.remove(index);
-		};
+			/* remove event */
+			$scope.remove = function(index) {
+				EventsModel.remove(index);
+			};
+		});
 	}
 ]);
