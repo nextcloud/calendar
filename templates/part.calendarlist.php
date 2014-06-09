@@ -45,13 +45,12 @@
 			<button
 				ng-click="create(newCalendarInputVal,newcolor)"
 				id="submitnewCalendar"
-				class="primary"
+				class="primary icon-checkmark-white"
 				oc-click-slide-toggle="{
 					selector: '.add-new',
 					hideOnFocusLost: false,
 					cssClass: 'closed'
 				}">
-				<?php p($l->t('Add')); ?>
 			</button>
 		</form>
 	</fieldset>

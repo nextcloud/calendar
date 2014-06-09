@@ -114,7 +114,9 @@
 }
 
 .personalblock form #submitnewCalendar {
+	width: 25px;
 	margin-bottom: 6px;
+	height:25px;
 }
 
 .calendarCheckbox {
