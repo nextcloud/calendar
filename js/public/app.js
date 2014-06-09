@@ -57,23 +57,25 @@ app.controller('AppController', ['$scope',
 
 	}
 ]);
-app.controller('CalController', ['$scope','$timeout', '$routeParams', 'Restangular', 'calendar', 'CalendarModel', 'EventsModel',
-	function ($scope,$timeout,$routeParams,Restangular,calendar,CalendarModel,EventsModel) {
-
+app.controller('CalController', ['$scope','$timeout', '$modal', '$routeParams', 'Restangular', 'calendar', 'CalendarModel', 'EventsModel',
+	function ($scope,$timeout,$modal,$routeParams,Restangular,calendar,CalendarModel,EventsModel) {
 		$scope.route = $routeParams;
 		$scope.eventSources = EventsModel.getAll();
 		var id = $scope.route.id;
-		$scope.calendars = CalendarModel.getAll();
+		$scope.currentcalendar = CalendarModel.get(id);
+		console.log($scope.calendar);
 		var eventResource = Restangular.one('calendars/' + id + '/events');
-
-		eventResource.getList().then(function(id) {
-			EventsModel.addalldisplayfigures(id);
+		eventResource.getList().then(function(jcalData) {
+			EventsModel.addalldisplayfigures(jcalData);
 			$scope.uiConfig = {
-				calendar:{
+				calendar : {
 					height: $(window).height() - $('#controls').height() - $('#header').height(),
 					editable: true,
 					selectable: true,
 					selectHelper: true,
+					select: $scope.newEvent,
+					eventClick: $scope.editEvent,
+					eventColor: $scope.currentcalendar.color,
 					header:{
 						left: '',
 						center: '',
@@ -112,11 +114,6 @@ app.controller('CalController', ['$scope','$timeout', '$routeParams', 'Restangul
 			/* Adds Event Sources */
 			$scope.removeEventSource = function(sources,source) {
 				EventsModel.removeEventSource(sources,source);
-    		};
-
-			/* TODO : This shoudl trigger the dialouge box for adding the event. */
-			$scope.alertOnEventClick = function(event,allDay,jsEvent,view ){
-				$scope.alertMessage = EventsModel.alertMessage(event.title,event.start,event.end,event.allDay);
 			};
 
 			/* add custom event*/
@@ -128,8 +125,24 @@ app.controller('CalController', ['$scope','$timeout', '$routeParams', 'Restangul
 			$scope.remove = function(index) {
 				EventsModel.remove(index);
 			};
-			
 		});
+
+		$scope.newEvent = function () {
+			$modal.open({
+				templateUrl: 'event.dialog.html',
+				controller: 'EventsModalController',
+			});
+			EventsModel.newEvent();
+		};
+
+		/* TODO : This and new event can be merged */
+		$scope.editEvent = function () {
+			$modal.open({
+				templateUrl: 'event.dialog.html',
+				controller: 'EventsModalController'
+			});
+			EventsModel.editEvent();
+		};
 	}
 ]);
 app.controller('CalendarListController', ['$scope','Restangular','CalendarModel','$routeParams',
@@ -199,6 +212,11 @@ app.controller('DatePickerController', ['$scope',
   }
 ]);
 
+app.controller('EventsModalController', ['$scope',
+	function ($scope) {
+
+	}
+]);
 app.controller('NavController', ['$scope',
 	function ($scope) {
 
@@ -349,12 +367,7 @@ app.factory('EventsModel', function () {
 				"allDay" : allDay
 			});
 		},
-		newEvent: function(start,end,allday) {
-			start = Math.round(start.getTime()/1000);
-			if(end) {
-				end = Math.round(end.getTime()/1000);
-			}
-			// Iniitate the Events Dialog Here.
+		newEvent: function() {
 		},
 		getAll : function () {
 			return this.events;

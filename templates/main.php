@@ -49,6 +49,7 @@
 
 	\OCP\Util::addStyle('calendar', '../3rdparty/css/fullcalendar/fullcalendar');
 	\OCP\Util::addStyle('calendar', '../3rdparty/css/colorpicker/colorpicker');
+	\OCP\Util::addStyle('calendar', '../3rdparty/css/bootstrap/bootstrap');	
 
 ?>
 
@@ -56,6 +57,9 @@
 
 	<script type="text/ng-template" id="calendar.html">
 		<?php print_unescaped($this->inc('part.fullcalendar')); ?>
+	</script>
+	<script type="text/ng-template" id="event.dialog.html">
+		<?php print_unescaped($this->inc('part.event.dialog')); ?>
 	</script>
 
 	<!-- The Left Calendar Navigation -->
