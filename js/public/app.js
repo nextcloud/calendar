@@ -72,10 +72,22 @@ app.controller('CalController', ['$scope','$timeout', '$routeParams', 'Restangul
 				calendar:{
 					height: $(window).height() - $('#controls').height() - $('#header').height(),
 					editable: true,
+					selectable: true,
+					selectHelper: true,
 					header:{
 						left: '',
 						center: '',
 						right: 'prev next'
+					},
+					columnFormat: {
+						month: t('calendar', 'ddd'),
+						week: t('calendar', 'ddd M/d'),
+						day: t('calendar', 'dddd M/d')
+					},
+					titleFormat: {
+						month: t('calendar', 'MMMM yyyy'),
+						week: t('calendar', "MMM d[ yyyy]{ '–'[ MMM] d yyyy}"),
+						day: t('calendar', 'dddd, MMM d, yyyy'),
 					},
 					eventSources : [$scope.eventSources]
 				},
@@ -125,12 +137,11 @@ app.controller('CalendarListController', ['$scope','Restangular','CalendarModel'
 
 		$scope.calendars = CalendarModel.getAll();
 		var calendarResource = Restangular.all('calendars');
-
 		// Gets All Calendars.
 		calendarResource.getList().then(function (calendars) {
 			CalendarModel.addAll(calendars);
 		});
-
+		
 		$scope.route = $routeParams;
 		var id = $scope.route.id; 
 		$scope.newcolor = '';
@@ -337,6 +348,13 @@ app.factory('EventsModel', function () {
 				"end" : end,
 				"allDay" : allDay
 			});
+		},
+		newEvent: function(start,end,allday) {
+			start = Math.round(start.getTime()/1000);
+			if(end) {
+				end = Math.round(end.getTime()/1000);
+			}
+			// Iniitate the Events Dialog Here.
 		},
 		getAll : function () {
 			return this.events;

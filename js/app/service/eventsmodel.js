@@ -72,6 +72,13 @@ app.factory('EventsModel', function () {
 				"allDay" : allDay
 			});
 		},
+		newEvent: function(start,end,allday) {
+			start = Math.round(start.getTime()/1000);
+			if(end) {
+				end = Math.round(end.getTime()/1000);
+			}
+			// Iniitate the Events Dialog Here.
+		},
 		getAll : function () {
 			return this.events;
 		},

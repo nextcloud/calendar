@@ -36,10 +36,22 @@ app.controller('CalController', ['$scope','$timeout', '$routeParams', 'Restangul
 				calendar:{
 					height: $(window).height() - $('#controls').height() - $('#header').height(),
 					editable: true,
+					selectable: true,
+					selectHelper: true,
 					header:{
 						left: '',
 						center: '',
 						right: 'prev next'
+					},
+					columnFormat: {
+						month: t('calendar', 'ddd'),
+						week: t('calendar', 'ddd M/d'),
+						day: t('calendar', 'dddd M/d')
+					},
+					titleFormat: {
+						month: t('calendar', 'MMMM yyyy'),
+						week: t('calendar', "MMM d[ yyyy]{ '–'[ MMM] d yyyy}"),
+						day: t('calendar', 'dddd, MMM d, yyyy'),
 					},
 					eventSources : [$scope.eventSources]
 				},

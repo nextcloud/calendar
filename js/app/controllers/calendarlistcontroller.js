@@ -26,12 +26,11 @@ app.controller('CalendarListController', ['$scope','Restangular','CalendarModel'
 
 		$scope.calendars = CalendarModel.getAll();
 		var calendarResource = Restangular.all('calendars');
-
 		// Gets All Calendars.
 		calendarResource.getList().then(function (calendars) {
 			CalendarModel.addAll(calendars);
 		});
-
+		
 		$scope.route = $routeParams;
 		var id = $scope.route.id; 
 		$scope.newcolor = '';
