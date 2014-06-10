@@ -130,6 +130,8 @@
 \OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONTimezoneReader'] = 'calendar/http/json/timezonereader.php';
 
 
+// some custom sabre classes
+\OC::$CLASSPATH['OCA\Calendar\Sabre\Splitter\JCalendar'] = 'calendar/sabre/splitter/jcalsplitter.php';
 /* CalDAV implementation */
 //caldav implementation
 /*\OC::$CLASSPATH['OCA\Calendar\Sabre'] = '';
