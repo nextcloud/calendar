@@ -31,13 +31,6 @@ class RegexUtility {
 
 
 	/**
-	 * regex for rgb(a)
-	 * @var string
-	 */
-	const RGBA = '/#((?:[0-9a-fA-F]{2}){3}|(?:[0-9a-fA-F]{1}){3}|(?:[0-9a-fA-F]{1}){4}|(?:[0-9a-fA-F]{2}){4})$/';
-
-
-	/**
 	 * regex for VEvent
 	 * @var string
 	 */

@@ -1270,15 +1270,6 @@ class Local extends Backend {
 
 
 	/**
-	 * @brief returns whether or not a backend can store a calendar's color
-	 * @returns boolean
-	 */
-	public function canStoreColor() {
-		return true;
-	}
-
-
-	/**
 	 * @brief returns whether or not a backend can store a calendar's supported components
 	 * @returns boolean
 	 */

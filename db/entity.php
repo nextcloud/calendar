@@ -103,6 +103,9 @@ abstract class Entity implements IEntity{
 		$properties = get_object_vars($this);
 
 		unset($properties['id']);
+		unset($properties['updatedFields']);
+		unset($properties['fieldTypes']);
+		unset($properties['mandatory']);
 
 		foreach($properties as $key => $value) {
 			$getter = 'get' . ucfirst($key);

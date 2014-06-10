@@ -84,7 +84,7 @@
 				<type>text</type>
 				<default>#000000</default>
 				<notnull>false</notnull>
-				<length>10</length>
+				<length>25</length>
 			</field>
 			<field>
 				<name>order</name>

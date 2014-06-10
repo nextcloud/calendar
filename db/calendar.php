@@ -13,6 +13,7 @@ use OCP\Calendar\ICalendar;
 use OCP\Calendar\ITimezone;
 
 use OCA\Calendar\Utility\CalendarUtility;
+use OCA\Calendar\Utility\ColorUtility;
 
 class Calendar extends Entity implements ICalendar {
 
@@ -202,8 +203,9 @@ class Calendar extends Entity implements ICalendar {
 	 * @return $this
 	 */
 	public function setColor($color) {
-		if (CalendarUtility::isValidColor($color)) {
-			return $this->setter('color', array($color));
+		if (ColorUtility::isValid($color)) {
+			$rgba = ColorUtility::getRGBA($color);
+			return $this->setter('color', array($rgba));
 		} else {
 			return $this;
 		}

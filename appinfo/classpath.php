@@ -144,6 +144,7 @@
 \OC::$CLASSPATH['OCA\Calendar\Utility\Utility'] = 'calendar/utility/utility.php';
 \OC::$CLASSPATH['OCA\Calendar\Utility\BackendUtility'] = 'calendar/utility/backend.php';
 \OC::$CLASSPATH['OCA\Calendar\Utility\CalendarUtility'] = 'calendar/utility/calendar.php';
+\OC::$CLASSPATH['OCA\Calendar\Utility\ColorUtility'] = 'calendar/utility/color.php';
 \OC::$CLASSPATH['OCA\Calendar\Utility\JSONUtility'] = 'calendar/utility/json.php';
 \OC::$CLASSPATH['OCA\Calendar\Utility\ObjectUtility'] = 'calendar/utility/object.php';
 \OC::$CLASSPATH['OCA\Calendar\Utility\RegexUtility'] = 'calendar/utility/regex.php';
