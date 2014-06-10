@@ -20,8 +20,37 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-app.controller('EventsModalController', ['$scope',
-	function ($scope) {
+app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular', 'CalendarModel', 'TimezoneModel', 'EventsModel', 'Model',
+	function ($scope,$routeParams,Restangular,CalendarModel,TimezoneModel,EventsModel,Model) {
 
+		$scope.route = $routeParams;
+		var id = $scope.route.id;
+		$scope.calendars = CalendarModel.getAll();
+		var eventResource = Restangular.one('calendars', id).one('events');
+
+		// Initiates all models required to create a new calendar event
+		$scope.summary = '';
+		$scope.dtstart = '';
+		$scope.dtend = '';
+		$scope.locaton = '';
+		$scope.categories = '';
+		$scope.description = '';
+
+		$scope.create = function() {
+			var newevent = {
+				"uid" : Model.uidgen,
+				"summary" : $scope.summary,
+				"dtstart" : $scope.dtstart,
+				"dtend" : $scope.dtend,
+				"description" : $scope.description,
+				"location" : $scope.location,
+				"categories" : $scope.categories
+				//"last-modified" : $scope.lastmodified
+				//"vtimezone" : TimezoneModel.getAll()
+			};
+			eventResource.post().then(function (newevent) {
+				EventsModel.create(newevent);
+			});
+		};
 	}
 ]);

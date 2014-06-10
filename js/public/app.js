@@ -63,7 +63,6 @@ app.controller('CalController', ['$scope','$timeout', '$modal', '$routeParams', 
 		$scope.eventSources = EventsModel.getAll();
 		var id = $scope.route.id;
 		$scope.currentcalendar = CalendarModel.get(id);
-		console.log($scope.calendar);
 		var eventResource = Restangular.one('calendars/' + id + '/events');
 		eventResource.getList().then(function(jcalData) {
 			EventsModel.addalldisplayfigures(jcalData);
@@ -212,9 +211,38 @@ app.controller('DatePickerController', ['$scope',
   }
 ]);
 
-app.controller('EventsModalController', ['$scope',
-	function ($scope) {
+app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular', 'CalendarModel', 'TimezoneModel', 'EventsModel', 'Model',
+	function ($scope,$routeParams,Restangular,CalendarModel,TimezoneModel,EventsModel,Model) {
 
+		$scope.route = $routeParams;
+		var id = $scope.route.id;
+		$scope.calendars = CalendarModel.getAll();
+		var eventResource = Restangular.one('calendars', id).one('events');
+
+		// Initiates all models required to create a new calendar event
+		$scope.summary = '';
+		$scope.dtstart = '';
+		$scope.dtend = '';
+		$scope.locaton = '';
+		$scope.categories = '';
+		$scope.description = '';
+
+		$scope.create = function() {
+			var newevent = {
+				"uid" : Model.uidgen,
+				"summary" : $scope.summary,
+				"dtstart" : $scope.dtstart,
+				"dtend" : $scope.dtend,
+				"description" : $scope.description,
+				"location" : $scope.location,
+				"categories" : $scope.categories
+				//"last-modified" : $scope.lastmodified
+				//"vtimezone" : TimezoneModel.getAll()
+			};
+			eventResource.post().then(function (newevent) {
+				EventsModel.create(newevent);
+			});
+		};
 	}
 ]);
 app.controller('NavController', ['$scope',
@@ -268,6 +296,27 @@ app.directive('loading',
 		};
 	}]
 );
+app.factory('Model', function () {
+	var Model = function () {
+		this.events = [];
+		this.eventsUid = {};
+		this.calendars = [];
+		this.calendarId = {};
+	};
+
+	Model.prototype = {
+		uidgen : function () {
+			var text = "";
+			var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+			for(var i=0; i < 5; i++) {
+				text += possible.charAt(Math.floor(Math.random() * possible.length));
+			}
+			return text;
+		}
+	};
+
+	return new Model();
+});
 app.factory('CalendarModel', function() {
 	var CalendarModel = function () {
 		this.calendars = [];
@@ -326,6 +375,10 @@ app.factory('EventsModel', function () {
 	};
 
 	EventsModel.prototype = {
+		create : function (newevent) {
+			//this.events.push(newevent);
+			return console.log(newevent);
+		},
 		addalldisplayfigures : function (jcalData) {
 			var rawdata = new ICAL.Component(jcalData);
 			var fields = [];
@@ -358,14 +411,6 @@ app.factory('EventsModel', function () {
 		},
 		alertMessage : function (title,start,end,allday) {
 			return 0;
-		},
-		addEvent : function (title,start,end,allDay) {
-			this.events.push({
-				"title" : title,
-				"start" : start,
-				"end" : end,
-				"allDay" : allDay
-			});
 		},
 		newEvent: function() {
 		},

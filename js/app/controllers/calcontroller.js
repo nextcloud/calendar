@@ -27,7 +27,6 @@ app.controller('CalController', ['$scope','$timeout', '$modal', '$routeParams', 
 		$scope.eventSources = EventsModel.getAll();
 		var id = $scope.route.id;
 		$scope.currentcalendar = CalendarModel.get(id);
-		console.log($scope.calendar);
 		var eventResource = Restangular.one('calendars/' + id + '/events');
 		eventResource.getList().then(function(jcalData) {
 			EventsModel.addalldisplayfigures(jcalData);

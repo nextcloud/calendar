@@ -31,6 +31,10 @@ app.factory('EventsModel', function () {
 	};
 
 	EventsModel.prototype = {
+		create : function (newevent) {
+			//this.events.push(newevent);
+			return console.log(newevent);
+		},
 		addalldisplayfigures : function (jcalData) {
 			var rawdata = new ICAL.Component(jcalData);
 			var fields = [];
@@ -63,14 +67,6 @@ app.factory('EventsModel', function () {
 		},
 		alertMessage : function (title,start,end,allday) {
 			return 0;
-		},
-		addEvent : function (title,start,end,allDay) {
-			this.events.push({
-				"title" : title,
-				"start" : start,
-				"end" : end,
-				"allDay" : allDay
-			});
 		},
 		newEvent: function() {
 		},

@@ -28,20 +28,26 @@
 			<li><a href="#tabs-1"><?php p($l->t('Eventinfo')); ?></a></li>
 			<li><a href="#tabs-2"><?php p($l->t('Repeating')); ?></a></li>
 		</ul>
-		<input type="text" id="newevent" ng-model="neweventModel" class="input" />
+		<input type="text" id="newevent" ng-model="summary" class="input" />
 		<label><?php p($l->t('Calendar')); ?></label>
 		<!-- Fetch list of calendars here -->
-		<select></select>
+		<select>
+			<option ng-repeat="calendar in calendars">
+				{{ calendar.displayname }}
+			</option>
+		</select>
 		<input type="checkbox" ng-model="alldaycheck" />
 		<label><?php p($l->t('from')); ?></label>
+		<input ng-model="dtstart" type="text" />
 		<!-- datepicker with input here -->
 		<label><?php p($l->t('to')); ?></label>
+		<input ng-model="dtend" type="text" />
 		<!-- datepicker with input here -->
 		<label><?php p($l->t('All day event')); ?></label>
-		<button class="primary" value="Advanced Options" ng-toggle="advanced"><?php p($l->t('Advanced Options')); ?></button>
+		<button class="primary" value="Advanced Options" ng-click="advanced = !advanced"><?php p($l->t('Advanced Options')); ?></button>
 
 		<!-- Initially hidden div -->
-		<div>
+		<div ng-show="advanced">
 			<input type="text" ng-model="location" placeholder="<?php p($l->t('Location')); ?>" />
 			<input type="text" ng-model="categories" placeholder="<?php p($l->t('Categories')); ?>" />
 			<textarea placeholder="<?php p($l->t('Description')); ?>" ng-model="description"></textarea>
