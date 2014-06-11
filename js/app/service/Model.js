@@ -23,20 +23,18 @@
 
 app.factory('Model', function () {
 	var Model = function () {
-		this.events = [];
-		this.eventsUid = {};
-		this.calendars = [];
-		this.calendarId = {};
+		this.text = '';
+		this.possible = '';
 	};
 
 	Model.prototype = {
 		uidgen : function () {
-			var text = "";
-			var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+			this.possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 			for(var i=0; i < 5; i++) {
-				text += possible.charAt(Math.floor(Math.random() * possible.length));
+				this.text += possible.charAt(Math.floor(Math.random() * possible.length));
 			}
-			return text;
+			console.log(this.text);
+			return this.text;
 		}
 	};
 

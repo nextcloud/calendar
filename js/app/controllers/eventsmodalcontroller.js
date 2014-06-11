@@ -32,7 +32,7 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 		$scope.summary = '';
 		$scope.dtstart = '';
 		$scope.dtend = '';
-		$scope.locaton = '';
+		$scope.location = '';
 		$scope.categories = '';
 		$scope.description = '';
 
@@ -48,7 +48,8 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 				//"last-modified" : $scope.lastmodified
 				//"vtimezone" : TimezoneModel.getAll()
 			};
-			eventResource.post().then(function (newevent) {
+			eventResource.post().then(function () {
+				console.log(newevent);
 				EventsModel.create(newevent);
 			});
 		};

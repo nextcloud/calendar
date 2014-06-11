@@ -26,14 +26,21 @@ app.factory('EventsModel', function () {
 	var EventsModel = function () {
 		this.events = [];
 		this.eventsUid = {};
-		this.calendars = [];
-		this.calendarId = {};
 	};
 
 	EventsModel.prototype = {
 		create : function (newevent) {
-			//this.events.push(newevent);
-			return console.log(newevent);
+			var rawdata = new ICAL.Event();
+			rawdata.component.addPropertyWithValue('uid', newevent.uid);
+			rawdata.component.addPropertyWithValue('startdate', newevent.dtstart);
+			rawdata.component.addPropertyWithValue('endDate', newevent.dtend);
+			//rawdata.component.addPropertyWithValue('duration', newevent.summary);
+			rawdata.component.addPropertyWithValue('summary', newevent.summary);
+			rawdata.component.addPropertyWithValue('location', newevent.location);
+			var timezone = ICAL.Timezone.utcTimezone;
+			console.log(timezone);
+			console.log(rawdata);
+			this.events.push(rawdata);
 		},
 		addalldisplayfigures : function (jcalData) {
 			var rawdata = new ICAL.Component(jcalData);

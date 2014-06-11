@@ -223,7 +223,7 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 		$scope.summary = '';
 		$scope.dtstart = '';
 		$scope.dtend = '';
-		$scope.locaton = '';
+		$scope.location = '';
 		$scope.categories = '';
 		$scope.description = '';
 
@@ -239,7 +239,8 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 				//"last-modified" : $scope.lastmodified
 				//"vtimezone" : TimezoneModel.getAll()
 			};
-			eventResource.post().then(function (newevent) {
+			eventResource.post().then(function () {
+				console.log(newevent);
 				EventsModel.create(newevent);
 			});
 		};
@@ -298,20 +299,18 @@ app.directive('loading',
 );
 app.factory('Model', function () {
 	var Model = function () {
-		this.events = [];
-		this.eventsUid = {};
-		this.calendars = [];
-		this.calendarId = {};
+		this.text = '';
+		this.possible = '';
 	};
 
 	Model.prototype = {
 		uidgen : function () {
-			var text = "";
-			var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+			this.possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 			for(var i=0; i < 5; i++) {
-				text += possible.charAt(Math.floor(Math.random() * possible.length));
+				this.text += possible.charAt(Math.floor(Math.random() * possible.length));
 			}
-			return text;
+			console.log(this.text);
+			return this.text;
 		}
 	};
 
@@ -370,14 +369,21 @@ app.factory('EventsModel', function () {
 	var EventsModel = function () {
 		this.events = [];
 		this.eventsUid = {};
-		this.calendars = [];
-		this.calendarId = {};
 	};
 
 	EventsModel.prototype = {
 		create : function (newevent) {
-			//this.events.push(newevent);
-			return console.log(newevent);
+			var rawdata = new ICAL.Event();
+			rawdata.component.addPropertyWithValue('uid', newevent.uid);
+			rawdata.component.addPropertyWithValue('startdate', newevent.dtstart);
+			rawdata.component.addPropertyWithValue('endDate', newevent.dtend);
+			//rawdata.component.addPropertyWithValue('duration', newevent.summary);
+			rawdata.component.addPropertyWithValue('summary', newevent.summary);
+			rawdata.component.addPropertyWithValue('location', newevent.location);
+			var timezone = ICAL.Timezone.utcTimezone;
+			console.log(timezone);
+			console.log(rawdata);
+			this.events.push(rawdata);
 		},
 		addalldisplayfigures : function (jcalData) {
 			var rawdata = new ICAL.Component(jcalData);
