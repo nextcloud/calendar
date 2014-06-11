@@ -26,7 +26,11 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 		$scope.route = $routeParams;
 		var id = $scope.route.id;
 		$scope.calendars = CalendarModel.getAll();
+		$scope.timezones = TimezoneModel.getAll();
 		var eventResource = Restangular.one('calendars', id).one('events');
+		var timezoneResource = Restangular.one('timezones-list');
+		//var onetimezoneResource = Restangular.one('timezones', timezoneid);
+		//var timezone = onetimezoneResource.get(timezoneid);
 
 		// Initiates all models required to create a new calendar event
 		$scope.summary = '';
@@ -36,6 +40,22 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 		$scope.categories = '';
 		$scope.description = '';
 
+		$scope.repeatevents = [
+			{title : t('calendar', 'Daily'), id : 1 },
+			{title : t('calendar', 'Weekly'), id : 2 },
+			{title : t('calendar', 'Every Weekday'), id : 3 },
+			{title : t('calendar', 'Bi-weekly'), id : 4 },
+			{title : t('calendar', 'Monthly'), id : 5 },
+			{title : t('calendar', 'Yearly'), id : 6 }
+		];
+
+		$scope.endintervals = [
+			{title : t('calendar', 'Never'), id : 1 },
+			{title : t('calendar', 'by occurances'), id : 2 },
+			{title : t('calendar', 'by date'), id : 3 },
+		];
+
+
 		$scope.create = function() {
 			var newevent = {
 				"uid" : Model.uidgen,
@@ -44,7 +64,8 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 				"dtend" : $scope.dtend,
 				"description" : $scope.description,
 				"location" : $scope.location,
-				"categories" : $scope.categories
+				"categories" : $scope.categories,
+				"allday" : $scope.allday
 				//"last-modified" : $scope.lastmodified
 				//"vtimezone" : TimezoneModel.getAll()
 			};
@@ -53,5 +74,9 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 				EventsModel.create(newevent);
 			});
 		};
+
+		timezoneResource.getList().then(function (timezones) {
+			TimezoneModel.addAll(timezones);
+		});
 	}
 ]);
