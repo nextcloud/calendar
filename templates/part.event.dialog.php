@@ -32,16 +32,16 @@
 					<label><?php p($l->t('from')); ?></label>
 					<input ng-model="dtstart" type="text" />
 					<input type="time" value="00:15" name="fromtime" id="fromtime" class="hasTimepicker" ng-disabled="alldaycheck">
-					<select ng-disabled="alldaycheck">
-						<option ng-repeat="timezone in timezones">{{ timezone }}</option>
+					<select ng-disabled="alldaycheck" ng-init="currenttz=timezone">
+						<option ng-repeat="timezone in timezones" value="{{ timezone }}">{{ timezone }}</option>
 					</select>
 				</div>
 				<div id="event-time-to">
 					<label><?php p($l->t('to')); ?></label>
 					<input ng-model="dtend" type="text" />
 					<input type="time" value="00:15" name="totime" id="totime" class="hasTimepicker" ng-model="totime" ng-disabled="alldaycheck">
-					<select ng-disabled="alldaycheck">
-						<option ng-repeat="timezone in timezones">{{ timezone }}</option>
+					<select ng-disabled="alldaycheck" ng-init="currenttz=timezone">
+						<option ng-repeat="timezone in timezones" value="{{ timezone }}">{{ timezone }}</option>
 					</select>
 				</div>
 			</div>

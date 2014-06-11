@@ -55,9 +55,12 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 			{title : t('calendar', 'by date'), id : 3 },
 		];
 
+		$scope.currenttz = TimezoneModel.currenttimezone().toUpperCase();
+		console.log($scope.currenttz);
 
 		$scope.create = function() {
 			var newevent = {
+				"currenttimezone" : $scope.currenttz,
 				"uid" : Model.uidgen,
 				"summary" : $scope.summary,
 				"dtstart" : $scope.dtstart,

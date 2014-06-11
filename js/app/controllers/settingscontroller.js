@@ -23,7 +23,6 @@
 
 app.controller('SettingsController', ['$scope','Restangular','$routeParams','TimezoneModel',
 	function ($scope,Restangular,$routeParams,TimezoneModel) {
-
 		// In case, routes are need.
 		$scope.route = $routeParams;
 		$scope.timezones = TimezoneModel.getAll();

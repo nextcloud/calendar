@@ -37,7 +37,9 @@ app.factory('EventsModel', function () {
 			//rawdata.component.addPropertyWithValue('duration', newevent.summary);
 			rawdata.component.addPropertyWithValue('summary', newevent.summary);
 			rawdata.component.addPropertyWithValue('location', newevent.location);
-			//var timezone = ICAL.Timezone.utcTimezone;
+			var utctimezone = ICAL.Timezone.utcTimezone;
+			var localtimezone = ICAL.Timezone.localTimezone;
+			console.log(utctimezone);
 			//console.log(timezone);
 			console.log(rawdata);
 			this.events.push(rawdata);

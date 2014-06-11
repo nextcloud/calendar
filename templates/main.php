@@ -25,10 +25,11 @@
 
 <?php
 
+	\OCP\Util::addScript('calendar', '../3rdparty/js/timezones/jstz');
 	\OCP\Util::addScript('calendar', '../3rdparty/js/jquery-ui/jquery-ui');
 	\OCP\Util::addScript('calendar', '../3rdparty/js/fullcalendar/fullcalendar');
 	\OCP\Util::addScript('calendar', '../3rdparty/js/icaljs/ical');
-	
+
 	\OCP\Util::addScript('calendar', '../3rdparty/js/angular/angular');
 	\OCP\Util::addScript('calendar', '../3rdparty/js/angular/angular-animate');
 	\OCP\Util::addScript('calendar', '../3rdparty/js/restangular/restangular');

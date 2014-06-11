@@ -246,9 +246,12 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 			{title : t('calendar', 'by date'), id : 3 },
 		];
 
+		$scope.currenttz = TimezoneModel.currenttimezone().toUpperCase();
+		console.log($scope.currenttz);
 
 		$scope.create = function() {
 			var newevent = {
+				"currenttimezone" : $scope.currenttz,
 				"uid" : Model.uidgen,
 				"summary" : $scope.summary,
 				"dtstart" : $scope.dtstart,
@@ -278,7 +281,6 @@ app.controller('NavController', ['$scope',
 ]);
 app.controller('SettingsController', ['$scope','Restangular','$routeParams','TimezoneModel',
 	function ($scope,Restangular,$routeParams,TimezoneModel) {
-
 		// In case, routes are need.
 		$scope.route = $routeParams;
 		$scope.timezones = TimezoneModel.getAll();
@@ -405,7 +407,9 @@ app.factory('EventsModel', function () {
 			//rawdata.component.addPropertyWithValue('duration', newevent.summary);
 			rawdata.component.addPropertyWithValue('summary', newevent.summary);
 			rawdata.component.addPropertyWithValue('location', newevent.location);
-			//var timezone = ICAL.Timezone.utcTimezone;
+			var utctimezone = ICAL.Timezone.utcTimezone;
+			var localtimezone = ICAL.Timezone.localTimezone;
+			console.log(utctimezone);
 			//console.log(timezone);
 			console.log(rawdata);
 			this.events.push(rawdata);
@@ -482,6 +486,10 @@ app.factory('TimezoneModel', function () {
 		},
 		delete: function (id) {
 			return 0;
+		},
+		currenttimezone: function() {
+			var timezone = jstz.determine();
+			return timezone.name();
 		}
 	};
 

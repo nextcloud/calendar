@@ -45,6 +45,10 @@ app.factory('TimezoneModel', function () {
 		},
 		delete: function (id) {
 			return 0;
+		},
+		currenttimezone: function() {
+			var timezone = jstz.determine();
+			return timezone.name();
 		}
 	};
 
