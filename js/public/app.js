@@ -57,74 +57,84 @@ app.controller('AppController', ['$scope',
 
 	}
 ]);
-app.controller('CalController', ['$scope','$timeout', '$modal', '$routeParams', 'Restangular', 'calendar', 'CalendarModel', 'EventsModel',
+app.controller('CalController', ['$scope', '$timeout', '$modal', '$routeParams', 'Restangular', 'calendar', 'CalendarModel', 'EventsModel',
 	function ($scope,$timeout,$modal,$routeParams,Restangular,calendar,CalendarModel,EventsModel) {
 		$scope.route = $routeParams;
 		$scope.eventSources = EventsModel.getAll();
+
+		$scope.currentview = CalendarModel;
+
 		var id = $scope.route.id;
 		$scope.currentcalendar = CalendarModel.get(id);
 		var eventResource = Restangular.one('calendars/' + id + '/events');
+
 		eventResource.getList().then(function(jcalData) {
 			EventsModel.addalldisplayfigures(jcalData);
-			$scope.uiConfig = {
-				calendar : {
-					height: $(window).height() - $('#controls').height() - $('#header').height(),
-					editable: true,
-					selectable: true,
-					selectHelper: true,
-					select: $scope.newEvent,
-					eventClick: $scope.editEvent,
-					eventColor: $scope.currentcalendar.color,
-					header:{
-						left: '',
-						center: '',
-						right: 'prev next'
-					},
-					columnFormat: {
-						month: t('calendar', 'ddd'),
-						week: t('calendar', 'ddd M/d'),
-						day: t('calendar', 'dddd M/d')
-					},
-					titleFormat: {
-						month: t('calendar', 'MMMM yyyy'),
-						week: t('calendar', "MMM d[ yyyy]{ '–'[ MMM] d yyyy}"),
-						day: t('calendar', 'dddd, MMM d, yyyy'),
-					},
-					eventSources : [$scope.eventSources]
+		});
+
+		$scope.uiConfig = {
+			calendar : {
+				height: $(window).height() - $('#controls').height() - $('#header').height(),
+				editable: true,
+				selectable: true,
+				selectHelper: true,
+				select: $scope.newEvent,
+				eventClick: $scope.editEvent,
+				eventColor: $scope.currentcalendar.color,
+				header:{
+					left: '',
+					center: '',
+					right: 'prev next'
 				},
-			};
-			console.log($scope.uiConfig);
+				columnFormat: {
+					month: t('calendar', 'ddd'),
+					week: t('calendar', 'ddd M/d'),
+					day: t('calendar', 'dddd M/d')
+				},
+				titleFormat: {
+					month: t('calendar', 'MMMM yyyy'),
+					week: t('calendar', "MMM d[ yyyy]{ '–'[ MMM] d yyyy}"),
+					day: t('calendar', 'dddd, MMM d, yyyy'),
+				},
+				eventSources : [$scope.eventSources]
+			},
+		};
 
-			$scope.changeView = function(view,calendar) {
-				calendar.fullCalendar('changeView',view);
-			};
+		console.log($scope.uiConfig);
 
-			$scope.renderCalender = function(calendar) {
-				if (calendar) {
-					calendar.fullCalendar('render');
-				}
-			};
-
-			/* Removes Event Sources */
-			$scope.addEventSource = function(sources,source) {
-				EventsModel.addEventSource(sources,source);
-			};
-
-			/* Adds Event Sources */
-			$scope.removeEventSource = function(sources,source) {
-				EventsModel.removeEventSource(sources,source);
-			};
-
-			/* add custom event*/
-			$scope.addEvent = function(newtitle,newstart,newend,newallday) {
-				EventsModel.addEvent(newtitle,newstart,newend,newallday);
-			};
-
-			/* remove event */
-			$scope.remove = function(index) {
-				EventsModel.remove(index);
+		$scope.$watch('currentview.modelview', function (newview, oldview) {
+			//console.log(newview) works here with ease.
+			$scope.changeView = function(newview,calendar) {
+				//console.log(newview) doesn't work.
+				calendar.fullCalendar('changeView', newview);
 			};
 		});
+
+		$scope.renderCalender = function(calendar) {
+			if (calendar) {
+				calendar.fullCalendar('render');
+			}
+		};
+
+		/* Removes Event Sources */
+		$scope.addEventSource = function(sources,source) {
+			EventsModel.addEventSource(sources,source);
+		};
+
+		/* Adds Event Sources */
+		$scope.removeEventSource = function(sources,source) {
+			EventsModel.removeEventSource(sources,source);
+		};
+
+		/* add custom event*/
+		$scope.addEvent = function(newtitle,newstart,newend,newallday) {
+			EventsModel.addEvent(newtitle,newstart,newend,newallday);
+		};
+
+		/* remove event */
+		$scope.remove = function(index) {
+			EventsModel.remove(index);
+		};
 
 		$scope.newEvent = function () {
 			$modal.open({
@@ -199,6 +209,10 @@ app.controller('CalendarListController', ['$scope','Restangular','CalendarModel'
 			delcalendarResource.remove().then( function () {
 				CalendarModel.remove(calendar);
 			});
+		};
+
+		$scope.changeview = function (view) {
+			CalendarModel.pushtoggleview(view);
 		};
 	}
 ]);
@@ -347,6 +361,7 @@ app.factory('CalendarModel', function() {
 	var CalendarModel = function () {
 		this.calendars = [];
 		this.calendarId = {};
+		this.modelview = '';
 	};
 
 	CalendarModel.prototype = {
@@ -387,6 +402,12 @@ app.factory('CalendarModel', function() {
 				}
 			}
 		},
+		pushtoggleview : function (view) {
+			this.modelview = view;
+		},
+		gettoggleview : function () {
+			return this.modelview;
+		}
 	};
 
 	return new CalendarModel();

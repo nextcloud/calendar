@@ -25,6 +25,7 @@ app.factory('CalendarModel', function() {
 	var CalendarModel = function () {
 		this.calendars = [];
 		this.calendarId = {};
+		this.modelview = '';
 	};
 
 	CalendarModel.prototype = {
@@ -65,6 +66,12 @@ app.factory('CalendarModel', function() {
 				}
 			}
 		},
+		pushtoggleview : function (view) {
+			this.modelview = view;
+		},
+		gettoggleview : function () {
+			return this.modelview;
+		}
 	};
 
 	return new CalendarModel();

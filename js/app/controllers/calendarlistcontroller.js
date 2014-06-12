@@ -77,5 +77,9 @@ app.controller('CalendarListController', ['$scope','Restangular','CalendarModel'
 				CalendarModel.remove(calendar);
 			});
 		};
+
+		$scope.changeview = function (view) {
+			CalendarModel.pushtoggleview(view);
+		};
 	}
 ]);

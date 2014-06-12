@@ -23,8 +23,11 @@
  */
 ?>
 
-<!-- TODO : Add a ng animate form for create calendars over here itself -->
-
+<li class="btn-group" id="togglebuttons">
+	<button class="button" id="onedayview_radio" ng-click="changeview('agendaDay')"><?php p($l->t('Day')); ?></button>
+	<button class="button" id="oneweekview_radio" ng-click="changeview('agendaWeek')"><?php p($l->t('Week')); ?></button>
+	<button class="button" id="onemonthview_radio" ng-click="changeview('month')"><?php p($l->t('Month')); ?></button>
+</li>
 <li>
 	<div
 		id="newCalendar"	

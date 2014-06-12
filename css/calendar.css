@@ -31,10 +31,6 @@ body {
 	background-repeat: no-repeat;
 }
 
-#togglebuttons {
-	float:left;
-}
-
 #onedayview_radio {
 	margin-left: 6px;
 	border-top-right-radius: 0;
