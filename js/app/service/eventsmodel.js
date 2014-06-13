@@ -32,17 +32,6 @@ app.factory('EventsModel', function () {
 	EventsModel.prototype = {
 		create : function (newevent) {
 			var rawdata = new ICAL.Event();
-			rawdata.component.addPropertyWithValue('uid', newevent.uid);
-			rawdata.component.addPropertyWithValue('startdate', newevent.dtstart);
-			rawdata.component.addPropertyWithValue('endDate', newevent.dtend);
-			//rawdata.component.addPropertyWithValue('duration', newevent.summary);
-			rawdata.component.addPropertyWithValue('summary', newevent.summary);
-			rawdata.component.addPropertyWithValue('location', newevent.location);
-			var utctimezone = ICAL.Timezone.utcTimezone;
-			var localtimezone = ICAL.Timezone.localTimezone;
-			console.log(utctimezone);
-			//console.log(timezone);
-			console.log(rawdata);
 			this.events.push(rawdata);
 		},
 		addalldisplayfigures : function (jcalData) {
@@ -69,11 +58,25 @@ app.factory('EventsModel', function () {
 				});
 			}
 		},
-		addEventSource : function (sources,source) {
-			return 0;
+		toggleeventSource : function (sources,source) {
+			var canAdd = 0;
+			angular.forEach(sources,function(value, key){
+				if(sources[key] === source){
+					sources.splice(key,1);
+					canAdd = 1;
+				}
+			});
+			if(canAdd === 0) {
+				sources.push(source);
+			}
 		},
-		removeEventSource : function (sources,source) {
-			return 0;
+		addeventSource : function (sources,source) {
+			sources.push(source);
+		},
+		removeeventSource : function (sources, source) {
+			angular.forEach(sources,function (value,key) {
+				sources.splice(key,1);
+			});
 		},
 		alertMessage : function (title,start,end,allday) {
 			return 0;

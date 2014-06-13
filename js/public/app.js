@@ -93,6 +93,7 @@ app.controller('CalController', ['$scope', '$timeout', '$modal', '$routeParams',
 			};
 
 			$scope.$watch('currentview.modelview', function (newview, oldview) {
+				$scope.newview = newview;
 				//console.log(newview) works here with ease.
 				$scope.changeView = function(newview,calendar) {
 					//console.log(newview) doesn't work.
@@ -104,16 +105,6 @@ app.controller('CalController', ['$scope', '$timeout', '$modal', '$routeParams',
 				if (calendar) {
 					calendar.fullCalendar('render');
 				}
-			};
-
-			/* Removes Event Sources */
-			$scope.addEventSource = function(sources,source) {
-				EventsModel.addEventSource(sources,source);
-			};
-
-			/* Adds Event Sources */
-			$scope.removeEventSource = function(sources,source) {
-				EventsModel.removeEventSource(sources,source);
 			};
 
 			/* add custom event*/
@@ -155,8 +146,7 @@ app.controller('CalendarListController', ['$scope','Restangular','CalendarModel'
 			CalendarModel.addAll(calendars);
 		});
 		
-		$scope.route = $routeParams;
-		var id = $scope.route.id; 
+		$scope.active = false;
 		$scope.newcolor = '';
 		$scope.newCalendarInputVal = '';
 
@@ -209,6 +199,19 @@ app.controller('CalendarListController', ['$scope','Restangular','CalendarModel'
 		$scope.addthisevent = function (id) {
 			EventsModel.addEvent(id);
 		};
+		$scope.eventSource = EventsModel.getAll();
+		/* Removes Event Sources */
+		$scope.addRemoveEventSource = function(newid) {
+			var eventSources = [];
+			var eventResource = Restangular.one('calendars/' + newid + '/events');
+			eventResource.getList().then(function(jcalData) {
+				EventsModel.addalldisplayfigures(jcalData);
+			});
+			eventSources = $scope.eventSource;
+			console.log(eventSources);
+			EventsModel.toggleeventSource(eventSources,$scope.eventSource,newid);
+		};
+
 	}
 ]);
 
@@ -418,17 +421,6 @@ app.factory('EventsModel', function () {
 	EventsModel.prototype = {
 		create : function (newevent) {
 			var rawdata = new ICAL.Event();
-			rawdata.component.addPropertyWithValue('uid', newevent.uid);
-			rawdata.component.addPropertyWithValue('startdate', newevent.dtstart);
-			rawdata.component.addPropertyWithValue('endDate', newevent.dtend);
-			//rawdata.component.addPropertyWithValue('duration', newevent.summary);
-			rawdata.component.addPropertyWithValue('summary', newevent.summary);
-			rawdata.component.addPropertyWithValue('location', newevent.location);
-			var utctimezone = ICAL.Timezone.utcTimezone;
-			var localtimezone = ICAL.Timezone.localTimezone;
-			console.log(utctimezone);
-			//console.log(timezone);
-			console.log(rawdata);
 			this.events.push(rawdata);
 		},
 		addalldisplayfigures : function (jcalData) {
@@ -455,11 +447,25 @@ app.factory('EventsModel', function () {
 				});
 			}
 		},
-		addEventSource : function (sources,source) {
-			return 0;
+		toggleeventSource : function (sources,source) {
+			var canAdd = 0;
+			angular.forEach(sources,function(value, key){
+				if(sources[key] === source){
+					sources.splice(key,1);
+					canAdd = 1;
+				}
+			});
+			if(canAdd === 0) {
+				sources.push(source);
+			}
 		},
-		removeEventSource : function (sources,source) {
-			return 0;
+		addeventSource : function (sources,source) {
+			sources.push(source);
+		},
+		removeeventSource : function (sources, source) {
+			angular.forEach(sources,function (value,key) {
+				sources.splice(key,1);
+			});
 		},
 		alertMessage : function (title,start,end,allday) {
 			return 0;

@@ -65,6 +65,7 @@ app.controller('CalController', ['$scope', '$timeout', '$modal', '$routeParams',
 			};
 
 			$scope.$watch('currentview.modelview', function (newview, oldview) {
+				$scope.newview = newview;
 				//console.log(newview) works here with ease.
 				$scope.changeView = function(newview,calendar) {
 					//console.log(newview) doesn't work.
@@ -76,16 +77,6 @@ app.controller('CalController', ['$scope', '$timeout', '$modal', '$routeParams',
 				if (calendar) {
 					calendar.fullCalendar('render');
 				}
-			};
-
-			/* Removes Event Sources */
-			$scope.addEventSource = function(sources,source) {
-				EventsModel.addEventSource(sources,source);
-			};
-
-			/* Adds Event Sources */
-			$scope.removeEventSource = function(sources,source) {
-				EventsModel.removeEventSource(sources,source);
 			};
 
 			/* add custom event*/
