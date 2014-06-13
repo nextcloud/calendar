@@ -12,10 +12,11 @@ var app = angular.module('Calendar', [
 
 		$httpProvider.defaults.headers.common.requesttoken = oc_requesttoken;
 
-		$routeProvider.when('/:id', {
+		$routeProvider.when('/', {
 			templateUrl : 'calendar.html',
 			controller : 'CalController',
 			resolve : {
+				// TODO : this can leave, as we are not really using routes right now.
 				calendar: ['$route', '$q', 'Restangular',
 				function ($route, $q, Restangular) {
 					var deferred = $q.defer();
@@ -28,8 +29,6 @@ var app = angular.module('Calendar', [
 					return deferred.promise;
 				}],
 			}
-		}).otherwise({
-			redirectTo: '/'
 		});
 
 		var $window = $windowProvider.$get();
@@ -42,13 +41,6 @@ var app = angular.module('Calendar', [
 	$rootScope.$on('$routeChangeError', function () {
 		var calendars = CalendarModel.getAll();
 		var events = EventsModel.getAll();
-		console.log(events);
-		if (calendars.length > 0) {
-			var calendar = calendars[calendars.length-1];
-			$location.path('/' + calendar.id);
-		} else {
-			$location.path('/');
-		}
 	});
 }]);
 
@@ -63,99 +55,98 @@ app.controller('CalController', ['$scope', '$timeout', '$modal', '$routeParams',
 		$scope.eventSources = EventsModel.getAll();
 
 		$scope.currentview = CalendarModel;
+		$scope.currentid = EventsModel;
 
-		var id = $scope.route.id;
-		$scope.currentcalendar = CalendarModel.get(id);
-		var eventResource = Restangular.one('calendars/' + id + '/events');
-
-		eventResource.getList().then(function(jcalData) {
-			EventsModel.addalldisplayfigures(jcalData);
-		});
-
-		$scope.uiConfig = {
-			calendar : {
-				height: $(window).height() - $('#controls').height() - $('#header').height(),
-				editable: true,
-				selectable: true,
-				selectHelper: true,
-				select: $scope.newEvent,
-				eventClick: $scope.editEvent,
-				eventColor: $scope.currentcalendar.color,
-				header:{
-					left: '',
-					center: '',
-					right: 'prev next'
+		$scope.$watch('currentid.id', function (newid, oldid) {
+			if (newid !== undefined && newid !== '') {
+				var eventResource = Restangular.one('calendars/' + newid + '/events');
+				eventResource.getList().then(function(jcalData) {
+					EventsModel.addalldisplayfigures(jcalData);
+				});
+			}
+			$scope.uiConfig = {
+				calendar : {
+					height: $(window).height() - $('#controls').height() - $('#header').height(),
+					editable: true,
+					selectable: true,
+					selectHelper: true,
+					select: $scope.newEvent,
+					eventClick: $scope.editEvent,
+					//eventColor: $scope.currentcalendar.color,
+					header:{
+						left: '',
+						center: '',
+						right: 'prev next'
+					},
+					columnFormat: {
+						month: t('calendar', 'ddd'),
+						week: t('calendar', 'ddd M/d'),
+						day: t('calendar', 'dddd M/d')
+					},
+					titleFormat: {
+						month: t('calendar', 'MMMM yyyy'),
+						week: t('calendar', "MMM d[ yyyy]{ '–'[ MMM] d yyyy}"),
+						day: t('calendar', 'dddd, MMM d, yyyy'),
+					},
+					eventSources : [$scope.eventSources]
 				},
-				columnFormat: {
-					month: t('calendar', 'ddd'),
-					week: t('calendar', 'ddd M/d'),
-					day: t('calendar', 'dddd M/d')
-				},
-				titleFormat: {
-					month: t('calendar', 'MMMM yyyy'),
-					week: t('calendar', "MMM d[ yyyy]{ '–'[ MMM] d yyyy}"),
-					day: t('calendar', 'dddd, MMM d, yyyy'),
-				},
-				eventSources : [$scope.eventSources]
-			},
-		};
+			};
 
-		console.log($scope.uiConfig);
+			$scope.$watch('currentview.modelview', function (newview, oldview) {
+				//console.log(newview) works here with ease.
+				$scope.changeView = function(newview,calendar) {
+					//console.log(newview) doesn't work.
+					calendar.fullCalendar('changeView', newview);
+				};
+			});
 
-		$scope.$watch('currentview.modelview', function (newview, oldview) {
-			//console.log(newview) works here with ease.
-			$scope.changeView = function(newview,calendar) {
-				//console.log(newview) doesn't work.
-				calendar.fullCalendar('changeView', newview);
+			$scope.renderCalender = function(calendar) {
+				if (calendar) {
+					calendar.fullCalendar('render');
+				}
+			};
+
+			/* Removes Event Sources */
+			$scope.addEventSource = function(sources,source) {
+				EventsModel.addEventSource(sources,source);
+			};
+
+			/* Adds Event Sources */
+			$scope.removeEventSource = function(sources,source) {
+				EventsModel.removeEventSource(sources,source);
+			};
+
+			/* add custom event*/
+			$scope.addEvent = function(newtitle,newstart,newend,newallday) {
+				EventsModel.addEvent(newtitle,newstart,newend,newallday);
+			};
+
+			/* remove event */
+			$scope.remove = function(index) {
+				EventsModel.remove(index);
+			};
+
+			$scope.newEvent = function () {
+				$modal.open({
+					templateUrl: 'event.dialog.html',
+					controller: 'EventsModalController',
+				});
+				EventsModel.newEvent();
+			};
+
+			/* TODO : This and new event can be merged */
+			$scope.editEvent = function () {
+				$modal.open({
+					templateUrl: 'event.dialog.html',
+					controller: 'EventsModalController'
+				});
+				EventsModel.editEvent();
 			};
 		});
-
-		$scope.renderCalender = function(calendar) {
-			if (calendar) {
-				calendar.fullCalendar('render');
-			}
-		};
-
-		/* Removes Event Sources */
-		$scope.addEventSource = function(sources,source) {
-			EventsModel.addEventSource(sources,source);
-		};
-
-		/* Adds Event Sources */
-		$scope.removeEventSource = function(sources,source) {
-			EventsModel.removeEventSource(sources,source);
-		};
-
-		/* add custom event*/
-		$scope.addEvent = function(newtitle,newstart,newend,newallday) {
-			EventsModel.addEvent(newtitle,newstart,newend,newallday);
-		};
-
-		/* remove event */
-		$scope.remove = function(index) {
-			EventsModel.remove(index);
-		};
-
-		$scope.newEvent = function () {
-			$modal.open({
-				templateUrl: 'event.dialog.html',
-				controller: 'EventsModalController',
-			});
-			EventsModel.newEvent();
-		};
-
-		/* TODO : This and new event can be merged */
-		$scope.editEvent = function () {
-			$modal.open({
-				templateUrl: 'event.dialog.html',
-				controller: 'EventsModalController'
-			});
-			EventsModel.editEvent();
-		};
 	}
 ]);
-app.controller('CalendarListController', ['$scope','Restangular','CalendarModel','$routeParams',
-	function ($scope,Restangular,CalendarModel,$routeParams) {
+app.controller('CalendarListController', ['$scope','Restangular','CalendarModel','EventsModel','$routeParams',
+	function ($scope,Restangular,CalendarModel,EventsModel,$routeParams) {
 
 		$scope.calendars = CalendarModel.getAll();
 		var calendarResource = Restangular.all('calendars');
@@ -213,6 +204,10 @@ app.controller('CalendarListController', ['$scope','Restangular','CalendarModel'
 
 		$scope.changeview = function (view) {
 			CalendarModel.pushtoggleview(view);
+		};
+
+		$scope.addthisevent = function (id) {
+			EventsModel.addEvent(id);
 		};
 	}
 ]);
@@ -417,6 +412,7 @@ app.factory('EventsModel', function () {
 	var EventsModel = function () {
 		this.events = [];
 		this.eventsUid = {};
+		this.id = '';
 	};
 
 	EventsModel.prototype = {
@@ -468,7 +464,11 @@ app.factory('EventsModel', function () {
 		alertMessage : function (title,start,end,allday) {
 			return 0;
 		},
-		newEvent: function() {
+		addEvent: function(id) {
+			this.id= id;
+		},
+		getEvent: function() {
+			return this.id;
 		},
 		getAll : function () {
 			return this.events;

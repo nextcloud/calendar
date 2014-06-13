@@ -21,8 +21,8 @@
  *
  */
 
-app.controller('CalendarListController', ['$scope','Restangular','CalendarModel','$routeParams',
-	function ($scope,Restangular,CalendarModel,$routeParams) {
+app.controller('CalendarListController', ['$scope','Restangular','CalendarModel','EventsModel','$routeParams',
+	function ($scope,Restangular,CalendarModel,EventsModel,$routeParams) {
 
 		$scope.calendars = CalendarModel.getAll();
 		var calendarResource = Restangular.all('calendars');
@@ -80,6 +80,10 @@ app.controller('CalendarListController', ['$scope','Restangular','CalendarModel'
 
 		$scope.changeview = function (view) {
 			CalendarModel.pushtoggleview(view);
+		};
+
+		$scope.addthisevent = function (id) {
+			EventsModel.addEvent(id);
 		};
 	}
 ]);

@@ -33,10 +33,11 @@ var app = angular.module('Calendar', [
 
 		$httpProvider.defaults.headers.common.requesttoken = oc_requesttoken;
 
-		$routeProvider.when('/:id', {
+		$routeProvider.when('/', {
 			templateUrl : 'calendar.html',
 			controller : 'CalController',
 			resolve : {
+				// TODO : this can leave, as we are not really using routes right now.
 				calendar: ['$route', '$q', 'Restangular',
 				function ($route, $q, Restangular) {
 					var deferred = $q.defer();
@@ -49,8 +50,6 @@ var app = angular.module('Calendar', [
 					return deferred.promise;
 				}],
 			}
-		}).otherwise({
-			redirectTo: '/'
 		});
 
 		var $window = $windowProvider.$get();
@@ -63,12 +62,5 @@ var app = angular.module('Calendar', [
 	$rootScope.$on('$routeChangeError', function () {
 		var calendars = CalendarModel.getAll();
 		var events = EventsModel.getAll();
-		console.log(events);
-		if (calendars.length > 0) {
-			var calendar = calendars[calendars.length-1];
-			$location.path('/' + calendar.id);
-		} else {
-			$location.path('/');
-		}
 	});
 }]);

@@ -26,6 +26,7 @@ app.factory('EventsModel', function () {
 	var EventsModel = function () {
 		this.events = [];
 		this.eventsUid = {};
+		this.id = '';
 	};
 
 	EventsModel.prototype = {
@@ -77,7 +78,11 @@ app.factory('EventsModel', function () {
 		alertMessage : function (title,start,end,allday) {
 			return 0;
 		},
-		newEvent: function() {
+		addEvent: function(id) {
+			this.id= id;
+		},
+		getEvent: function() {
+			return this.id;
 		},
 		getAll : function () {
 			return this.events;

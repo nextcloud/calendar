@@ -62,7 +62,7 @@
 <li ng-repeat="calendar in calendars|orderBy:'reverse'"
 	ng-class="{ active: calendar.id == route.id }">
 	<span class="calendarCheckbox" style="background-color:{{ calendar.color }}"></span>
-	<a href="#/{{ calendar.id }}">
+	<a href="#/" ng-click="addthisevent(calendar.id)">
 		{{ calendar.displayname }}
 	</a>
 	<span class="utils">
