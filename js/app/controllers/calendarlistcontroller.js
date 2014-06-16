@@ -84,17 +84,16 @@ app.controller('CalendarListController', ['$scope','Restangular','CalendarModel'
 		$scope.addthisevent = function (id) {
 			EventsModel.addEvent(id);
 		};
-		$scope.eventSource = EventsModel.getAll();
 		/* Removes Event Sources */
 		$scope.addRemoveEventSource = function(newid) {
 			var eventSources = [];
 			var eventResource = Restangular.one('calendars/' + newid + '/events');
-			eventResource.getList().then(function(jcalData) {
-				EventsModel.addalldisplayfigures(jcalData);
+			eventResource.get().then(function(jcalData) {
+				eventSource = EventsModel.addalldisplayfigures(jcalData);
+				$scope.eventSource = eventSource;
 			});
-			eventSources = $scope.eventSource;
-			console.log(eventSources);
-			EventsModel.toggleeventSource(eventSources,$scope.eventSource,newid);
+			console.log($scope.eventSource);
+			EventsModel.toggleeventSource(eventSources,$scope.eventSource);
 		};
 
 	}

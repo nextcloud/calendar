@@ -25,17 +25,10 @@ app.controller('CalController', ['$scope', '$timeout', '$modal', '$routeParams',
 	function ($scope,$timeout,$modal,$routeParams,Restangular,calendar,CalendarModel,EventsModel) {
 		$scope.route = $routeParams;
 		$scope.eventSources = EventsModel.getAll();
-
 		$scope.currentview = CalendarModel;
 		$scope.currentid = EventsModel;
 
 		$scope.$watch('currentid.id', function (newid, oldid) {
-			if (newid !== undefined && newid !== '') {
-				var eventResource = Restangular.one('calendars/' + newid + '/events');
-				eventResource.getList().then(function(jcalData) {
-					EventsModel.addalldisplayfigures(jcalData);
-				});
-			}
 			$scope.uiConfig = {
 				calendar : {
 					height: $(window).height() - $('#controls').height() - $('#header').height(),

@@ -35,6 +35,7 @@ app.factory('EventsModel', function () {
 			this.events.push(rawdata);
 		},
 		addalldisplayfigures : function (jcalData) {
+			var events = [];
 			var rawdata = new ICAL.Component(jcalData);
 			var fields = [];
 			var self = this;
@@ -49,14 +50,15 @@ app.factory('EventsModel', function () {
 					} else {
 						isAllDay = false;
 					}
-					self.events.push({
+					events[key] = {
 						"title" : value.getFirstPropertyValue('summary'),
 						"start" : start.toJSDate(),
 						"end" : end.toJSDate(),
 						"allDay" : isAllDay
-					});
+					};
 				});
 			}
+			return events;
 		},
 		toggleeventSource : function (sources,source) {
 			var canAdd = 0;

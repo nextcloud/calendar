@@ -53,17 +53,10 @@ app.controller('CalController', ['$scope', '$timeout', '$modal', '$routeParams',
 	function ($scope,$timeout,$modal,$routeParams,Restangular,calendar,CalendarModel,EventsModel) {
 		$scope.route = $routeParams;
 		$scope.eventSources = EventsModel.getAll();
-
 		$scope.currentview = CalendarModel;
 		$scope.currentid = EventsModel;
 
 		$scope.$watch('currentid.id', function (newid, oldid) {
-			if (newid !== undefined && newid !== '') {
-				var eventResource = Restangular.one('calendars/' + newid + '/events');
-				eventResource.getList().then(function(jcalData) {
-					EventsModel.addalldisplayfigures(jcalData);
-				});
-			}
 			$scope.uiConfig = {
 				calendar : {
 					height: $(window).height() - $('#controls').height() - $('#header').height(),
@@ -199,17 +192,16 @@ app.controller('CalendarListController', ['$scope','Restangular','CalendarModel'
 		$scope.addthisevent = function (id) {
 			EventsModel.addEvent(id);
 		};
-		$scope.eventSource = EventsModel.getAll();
 		/* Removes Event Sources */
 		$scope.addRemoveEventSource = function(newid) {
 			var eventSources = [];
 			var eventResource = Restangular.one('calendars/' + newid + '/events');
-			eventResource.getList().then(function(jcalData) {
-				EventsModel.addalldisplayfigures(jcalData);
+			eventResource.get().then(function(jcalData) {
+				eventSource = EventsModel.addalldisplayfigures(jcalData);
+				$scope.eventSource = eventSource;
 			});
-			eventSources = $scope.eventSource;
-			console.log(eventSources);
-			EventsModel.toggleeventSource(eventSources,$scope.eventSource,newid);
+			console.log($scope.eventSource);
+			EventsModel.toggleeventSource(eventSources,$scope.eventSource);
 		};
 
 	}
@@ -424,6 +416,7 @@ app.factory('EventsModel', function () {
 			this.events.push(rawdata);
 		},
 		addalldisplayfigures : function (jcalData) {
+			var events = [];
 			var rawdata = new ICAL.Component(jcalData);
 			var fields = [];
 			var self = this;
@@ -438,14 +431,15 @@ app.factory('EventsModel', function () {
 					} else {
 						isAllDay = false;
 					}
-					self.events.push({
+					events[key] = {
 						"title" : value.getFirstPropertyValue('summary'),
 						"start" : start.toJSDate(),
 						"end" : end.toJSDate(),
 						"allDay" : isAllDay
-					});
+					};
 				});
 			}
+			return events;
 		},
 		toggleeventSource : function (sources,source) {
 			var canAdd = 0;
