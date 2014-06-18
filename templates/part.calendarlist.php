@@ -22,11 +22,13 @@
  *
  */
 ?>
-
-<li class="btn-group" id="togglebuttons">
-	<button class="button" id="onedayview_radio" ng-click="changeview('agendaDay')"><?php p($l->t('Day')); ?></button>
-	<button class="button" id="oneweekview_radio" ng-click="changeview('agendaWeek')"><?php p($l->t('Week')); ?></button>
-	<button class="button" id="onemonthview_radio" ng-click="changeview('month')"><?php p($l->t('Month')); ?></button>
+<li id="buttonarea">
+	<div class="btn-group" id="togglebuttons">
+		<button class="button" id="onedayview_radio" ng-click="changeview('agendaDay')"><?php p($l->t('Day')); ?></button>
+		<button class="button" id="oneweekview_radio" ng-click="changeview('agendaWeek')"><?php p($l->t('Week')); ?></button>
+		<button class="button" id="onemonthview_radio" ng-click="changeview('month')"><?php p($l->t('Month')); ?></button>
+	</div>
+	<button class="button" id="todaybutton" ng-click="todayview('today')"><?php p($l->t('Today')); ?></button>
 </li>
 <li>
 	<div

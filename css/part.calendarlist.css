@@ -26,6 +26,10 @@
 	padding-bottom:0 !important;
 }
 
+#app-navigation #buttonarea {
+	height:44px;
+}
+
 #app-navigation .utils {
 	display: none;
 	height: 44px;

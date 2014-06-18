@@ -86,13 +86,19 @@ app.controller('CalController', ['$scope', '$timeout', '$modal', '$routeParams',
 			};
 
 			$scope.$watch('currentview.modelview', function (newview, oldview) {
-				$scope.newview = newview;
-				//console.log(newview) works here with ease.
 				$scope.changeView = function(newview,calendar) {
-					//console.log(newview) doesn't work.
 					calendar.fullCalendar('changeView', newview);
 				};
-				$scope.changeView(newview,$scope.calendar);
+				$scope.today = function (calendar) {
+					calendar.fullCalendar('today');
+				};
+				if (newview) {
+					if (newview != 'today') {
+						$scope.changeView(newview,$scope.calendar);
+					} else {
+						$scope.today($scope.calendar);
+					}
+				}
 			});
 
 			/* add custom event*/
@@ -181,6 +187,10 @@ app.controller('CalendarListController', ['$scope','Restangular','CalendarModel'
 		};
 
 		$scope.changeview = function (view) {
+			CalendarModel.pushtoggleview(view);
+		};
+
+		$scope.todayview = function (view) {
 			CalendarModel.pushtoggleview(view);
 		};
 

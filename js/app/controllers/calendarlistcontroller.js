@@ -81,6 +81,10 @@ app.controller('CalendarListController', ['$scope','Restangular','CalendarModel'
 			CalendarModel.pushtoggleview(view);
 		};
 
+		$scope.todayview = function (view) {
+			CalendarModel.pushtoggleview(view);
+		};
+
 		$scope.addthisevent = function (id) {
 			EventsModel.addEvent(id);
 		};
