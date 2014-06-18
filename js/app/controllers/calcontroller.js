@@ -64,13 +64,8 @@ app.controller('CalController', ['$scope', '$timeout', '$modal', '$routeParams',
 					//console.log(newview) doesn't work.
 					calendar.fullCalendar('changeView', newview);
 				};
+				$scope.changeView(newview,$scope.calendar);
 			});
-
-			$scope.renderCalender = function(calendar) {
-				if (calendar) {
-					calendar.fullCalendar('render');
-				}
-			};
 
 			/* add custom event*/
 			$scope.addEvent = function(newtitle,newstart,newend,newallday) {
