@@ -92,7 +92,7 @@ app.controller('CalController', ['$scope', '$timeout', '$modal', '$routeParams',
 				$scope.today = function (calendar) {
 					calendar.fullCalendar('today');
 				};
-				if (newview) {
+				if (newview && $scope.calendar) {
 					if (newview != 'today') {
 						$scope.changeView(newview,$scope.calendar);
 					} else {
@@ -105,10 +105,21 @@ app.controller('CalController', ['$scope', '$timeout', '$modal', '$routeParams',
 				$scope.changeview = function(newview,calendar) {
 					calendar.fullCalendar(newview.view);
 				};
-				if (newview.view !== '') {
+				if (newview.view !== '' && $scope.calendar !== undefined) {
 					$scope.changeview(newview,$scope.calendar);
 				}
 			}, true);
+
+			$scope.$watch('currentview.date', function (newview, oldview) {
+				console.log(newview);
+				$scope.gotodate = function(newview,calendar) {
+					console.log(calendar);
+					calendar.fullCalendar('gotoDate', newview.getFullYear(), newview.getMonth(), newview.getDate());
+				};
+				if (newview !== '' && $scope.calendar !== undefined) {
+					$scope.gotodate(newview,$scope.calendar);
+				}
+			});
 
 			/* add custom event*/
 			$scope.addEvent = function(newtitle,newstart,newend,newallday) {
@@ -223,10 +234,6 @@ app.controller('CalendarListController', ['$scope','Restangular','CalendarModel'
 
 app.controller('DatePickerController', ['$scope', 'CalendarModel',
 	function ($scope,CalendarModel) {
-		$scope.switchcalendarview = function (toggle) {
-			console.log(toggle);
-			CalendarModel.pushtogglebutton(toggle);
-		};
 	}
 ]);
 
@@ -371,6 +378,7 @@ app.factory('CalendarModel', function() {
 			id: '',
 			view : ''
 		};
+		this.date = new Date();
 	};
 
 	CalendarModel.prototype = {
@@ -423,6 +431,12 @@ app.factory('CalendarModel', function() {
 		},
 		gettoggleview : function () {
 			return this.modelview;
+		},
+		pushdate : function (date) {
+			this.date = date;
+		},
+		getdate : function () {
+			return this.date;
 		}
 	};
 

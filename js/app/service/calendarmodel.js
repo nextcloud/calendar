@@ -30,6 +30,7 @@ app.factory('CalendarModel', function() {
 			id: '',
 			view : ''
 		};
+		this.date = new Date();
 	};
 
 	CalendarModel.prototype = {
@@ -82,6 +83,12 @@ app.factory('CalendarModel', function() {
 		},
 		gettoggleview : function () {
 			return this.modelview;
+		},
+		pushdate : function (date) {
+			this.date = date;
+		},
+		getdate : function () {
+			return this.date;
 		}
 	};
 

@@ -1098,6 +1098,7 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.dateparser', 'ui.bootst
       self.activeDate = date;
       $scope.datepickerMode = self.modes[ self.modes.indexOf( $scope.datepickerMode ) - 1 ];
     }
+    CalendarModel.pushdate(date);
   };
 
   $scope.move = function( direction ) {

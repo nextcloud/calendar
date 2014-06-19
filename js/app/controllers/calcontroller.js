@@ -64,7 +64,7 @@ app.controller('CalController', ['$scope', '$timeout', '$modal', '$routeParams',
 				$scope.today = function (calendar) {
 					calendar.fullCalendar('today');
 				};
-				if (newview) {
+				if (newview && $scope.calendar) {
 					if (newview != 'today') {
 						$scope.changeView(newview,$scope.calendar);
 					} else {
@@ -77,10 +77,21 @@ app.controller('CalController', ['$scope', '$timeout', '$modal', '$routeParams',
 				$scope.changeview = function(newview,calendar) {
 					calendar.fullCalendar(newview.view);
 				};
-				if (newview.view !== '') {
+				if (newview.view !== '' && $scope.calendar !== undefined) {
 					$scope.changeview(newview,$scope.calendar);
 				}
 			}, true);
+
+			$scope.$watch('currentview.date', function (newview, oldview) {
+				console.log(newview);
+				$scope.gotodate = function(newview,calendar) {
+					console.log(calendar);
+					calendar.fullCalendar('gotoDate', newview.getFullYear(), newview.getMonth(), newview.getDate());
+				};
+				if (newview !== '' && $scope.calendar !== undefined) {
+					$scope.gotodate(newview,$scope.calendar);
+				}
+			});
 
 			/* add custom event*/
 			$scope.addEvent = function(newtitle,newstart,newend,newallday) {

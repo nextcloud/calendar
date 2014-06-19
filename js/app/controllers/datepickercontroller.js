@@ -23,9 +23,5 @@
 
 app.controller('DatePickerController', ['$scope', 'CalendarModel',
 	function ($scope,CalendarModel) {
-		$scope.switchcalendarview = function (toggle) {
-			console.log(toggle);
-			CalendarModel.pushtogglebutton(toggle);
-		};
 	}
 ]);
