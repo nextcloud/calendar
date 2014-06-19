@@ -41,7 +41,7 @@ app.controller('CalController', ['$scope', '$timeout', '$modal', '$routeParams',
 					header:{
 						left: '',
 						center: '',
-						right: 'prev next'
+						right: ''
 					},
 					columnFormat: {
 						month: t('calendar', 'ddd'),
@@ -72,6 +72,15 @@ app.controller('CalController', ['$scope', '$timeout', '$modal', '$routeParams',
 					}
 				}
 			});
+
+			$scope.$watch('currentview.datepickerview', function (newview, oldview) {
+				$scope.changeview = function(newview,calendar) {
+					calendar.fullCalendar(newview.view);
+				};
+				if (newview.view !== '') {
+					$scope.changeview(newview,$scope.calendar);
+				}
+			}, true);
 
 			/* add custom event*/
 			$scope.addEvent = function(newtitle,newstart,newend,newallday) {

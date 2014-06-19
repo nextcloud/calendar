@@ -21,10 +21,11 @@
  *
  */
 
-app.controller('DatePickerController', ['$scope',
-  function ($scope) {
-  	$scope.changeDatePickerDisplay = function () {
-  		console.log('yoyoyoyoy');
-  	};
-  }
+app.controller('DatePickerController', ['$scope', 'CalendarModel',
+	function ($scope,CalendarModel) {
+		$scope.switchcalendarview = function (toggle) {
+			console.log(toggle);
+			CalendarModel.pushtogglebutton(toggle);
+		};
+	}
 ]);

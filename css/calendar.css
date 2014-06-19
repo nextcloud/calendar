@@ -73,31 +73,3 @@ body {
 	z-index: 10;
 	background-color: rgba(255,255,255,0.3);
 }
-
-.fc-header {
-	display: block;
-	float:right;
-	width:300px !important;
-}
-
-.fc-header tbody tr:hover {
-	background:transparent !important;
-}
-
-#calendarbutton {
-	width: auto;
-	background-color: rgba(240,240,240,.9);
-	font-weight: bold;
-	color: #555;
-	border: 1px solid rgba(190,190,190,.9);
-	cursor: pointer;
-	margin: 3px 3px 3px 0;
-	padding: 7px 6px 5px;
-	font-size: 13px;
-	outline: none;
-	border-radius: 3px;
-}
-
-.fc-text-arrow {
-	cursor : pointer;
-}

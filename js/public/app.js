@@ -69,7 +69,7 @@ app.controller('CalController', ['$scope', '$timeout', '$modal', '$routeParams',
 					header:{
 						left: '',
 						center: '',
-						right: 'prev next'
+						right: ''
 					},
 					columnFormat: {
 						month: t('calendar', 'ddd'),
@@ -100,6 +100,15 @@ app.controller('CalController', ['$scope', '$timeout', '$modal', '$routeParams',
 					}
 				}
 			});
+
+			$scope.$watch('currentview.datepickerview', function (newview, oldview) {
+				$scope.changeview = function(newview,calendar) {
+					calendar.fullCalendar(newview.view);
+				};
+				if (newview.view !== '') {
+					$scope.changeview(newview,$scope.calendar);
+				}
+			}, true);
 
 			/* add custom event*/
 			$scope.addEvent = function(newtitle,newstart,newend,newallday) {
@@ -212,12 +221,13 @@ app.controller('CalendarListController', ['$scope','Restangular','CalendarModel'
 	}
 ]);
 
-app.controller('DatePickerController', ['$scope',
-  function ($scope) {
-  	$scope.changeDatePickerDisplay = function () {
-  		console.log('yoyoyoyoy');
-  	};
-  }
+app.controller('DatePickerController', ['$scope', 'CalendarModel',
+	function ($scope,CalendarModel) {
+		$scope.switchcalendarview = function (toggle) {
+			console.log(toggle);
+			CalendarModel.pushtogglebutton(toggle);
+		};
+	}
 ]);
 
 app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular', 'CalendarModel', 'TimezoneModel', 'EventsModel', 'Model',
@@ -357,6 +367,10 @@ app.factory('CalendarModel', function() {
 		this.calendars = [];
 		this.calendarId = {};
 		this.modelview = '';
+		this.datepickerview = {
+			id: '',
+			view : ''
+		};
 	};
 
 	CalendarModel.prototype = {
@@ -396,6 +410,13 @@ app.factory('CalendarModel', function() {
 					break;
 				}
 			}
+		},
+		pushdatepickerview : function (view,date) {
+			this.datepickerview.id = Math.random(1000);
+			this.datepickerview.view = view;
+		},
+		getdatepickerview : function (view) {
+			return this.datepickerview;
 		},
 		pushtoggleview : function (view) {
 			this.modelview = view;

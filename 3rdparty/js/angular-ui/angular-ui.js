@@ -995,7 +995,7 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.dateparser', 'ui.bootst
   maxDate: null
 })
 
-.controller('DatepickerController', ['$scope', '$attrs', '$parse', '$interpolate', '$timeout', '$log', 'dateFilter', 'datepickerConfig', function($scope, $attrs, $parse, $interpolate, $timeout, $log, dateFilter, datepickerConfig) {
+.controller('DatepickerController', ['$scope', '$attrs', '$parse', '$interpolate', '$timeout', '$log', 'dateFilter', 'datepickerConfig', 'CalendarModel', function($scope, $attrs, $parse, $interpolate, $timeout, $log, dateFilter, datepickerConfig, CalendarModel) {
   var self = this,
       ngModelCtrl = { $setViewValue: angular.noop }; // nullModelCtrl;
 
@@ -1126,6 +1126,12 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.dateparser', 'ui.bootst
       $scope.pickerbody = "pickerbody-hide";
     }
   };
+
+  // Causes FullCalendar to change the time.
+
+  $scope.switchcalendarview = function (val) {
+    CalendarModel.pushdatepickerview(val);
+  }
 
   // Key event mapper
   $scope.keys = { 13:'enter', 32:'space', 33:'pageup', 34:'pagedown', 35:'end', 36:'home', 37:'left', 38:'up', 39:'right', 40:'down' };
@@ -3880,8 +3886,8 @@ angular.module("template/datepicker/day.html", []).run(["$templateCache", functi
     "  <thead>\n" +
     "    <tr class=\"firstrow\">\n" +
     "      <th colspan=\"{{7 + showWeeks}}\"><div id=\"{{uniqueId}}-title\" role=\"heading\" aria-live=\"assertive\" aria-atomic=\"true\" class=\"datepicker_current\" ng-click=\"changeDatePickerDisplay();\" tabindex=\"-1\">{{title}}</div></th>\n" +
-    "      <th><button type=\"button\" class=\"datepicker_toggle datepicker_left\" ng-click=\"move(-1)\" tabindex=\"-1\">&nbsp;<&nbsp;</button></th>\n" +    
-    "      <th><button type=\"button\" class=\"datepicker_toggle datepicker_right\" ng-click=\"move(1)\" tabindex=\"-1\">&nbsp;>&nbsp;</button></th>\n" +
+    "      <th><button type=\"button\" class=\"datepicker_toggle datepicker_left\" ng-click=\"move(-1); switchcalendarview('prev')\" tabindex=\"-1\">&nbsp;<&nbsp;</button></th>\n" +    
+    "      <th><button type=\"button\" class=\"datepicker_toggle datepicker_right\" ng-click=\"move(1); switchcalendarview('next')\" tabindex=\"-1\">&nbsp;>&nbsp;</button></th>\n" +
     "    </tr>\n" +
     "    <tr ng-class=\"pickerbody\">\n" +
     "      <th ng-show=\"showWeeks\"></th>\n" +
@@ -3906,8 +3912,8 @@ angular.module("template/datepicker/month.html", []).run(["$templateCache", func
     "  <thead>\n" +
     "    <tr ng-class=\"firstrow\">\n" +
     "      <th colspan=\"4\"><div id=\"{{uniqueId}}-title\" role=\"heading\" aria-live=\"assertive\" aria-atomic=\"true\" type=\"button\" class=\"datepicker_current\" ng-click=\"toggleMode()\" tabindex=\"-1\">{{title}}</div></th>\n" +
-    "      <th><button type=\"button\" class=\"datepicker_toggle datepicker_left\" ng-click=\"move(-1)\" tabindex=\"-1\">&nbsp;<&nbsp;</button></th>\n" +
-    "      <th><button type=\"button\" class=\"datepicker_toggle datepicker_right\" ng-click=\"move(1)\" tabindex=\"-1\">&nbsp;>&nbsp;</button></th>\n" +
+    "      <th><button type=\"button\" class=\"datepicker_toggle datepicker_left\" ng-click=\"move(-1); switchcalendarview('prev')\" tabindex=\"-1\">&nbsp;<&nbsp;</button></th>\n" +
+    "      <th><button type=\"button\" class=\"datepicker_toggle datepicker_right\" ng-click=\"move(1); switchcalendarview('next')\" tabindex=\"-1\">&nbsp;>&nbsp;</button></th>\n" +
     "    </tr>\n" +
     "  </thead>\n" +
     "  <tbody ng-class=\"pickerbody\">\n" +
@@ -3942,8 +3948,8 @@ angular.module("template/datepicker/year.html", []).run(["$templateCache", funct
     "  <thead>\n" +
     "    <tr ng-class=\"firstrow\">\n" +
     "      <th colspan=\"5\"><div id=\"{{uniqueId}}-title\" role=\"heading\" aria-live=\"assertive\" aria-atomic=\"true\" type=\"button\" class=\"datepicker_current\" ng-click=\"toggleMode()\" tabindex=\"-1\">{{title}}</div></th>\n" +
-    "      <th><button type=\"button\" class=\"datepicker_toggle datepicker_left\" ng-click=\"move(-1)\" tabindex=\"-1\">&nbsp;<&nbsp;</button></th>\n" +
-    "      <th><button type=\"button\" class=\"datepicker_toggle datepicker_right\" ng-click=\"move(1)\" tabindex=\"-1\">&nbsp;>&nbsp;</button></th>\n" +
+    "      <th><button type=\"button\" class=\"datepicker_toggle datepicker_left\" ng-click=\"move(-1); switchcalendarview('prev')\" tabindex=\"-1\">&nbsp;<&nbsp;</button></th>\n" +
+    "      <th><button type=\"button\" class=\"datepicker_toggle datepicker_right\" ng-click=\"move(1); switchcalendarview('next')\" tabindex=\"-1\">&nbsp;>&nbsp;</button></th>\n" +
     "    </tr>\n" +
     "  </thead>\n" +
     "  <tbody ng-class=\"pickerbody\">\n" +
