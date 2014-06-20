@@ -25,9 +25,12 @@ app.factory('CalendarModel', function() {
 	var CalendarModel = function () {
 		this.calendars = [];
 		this.calendarId = {};
-		this.modelview = '';
+		this.modelview = {
+			id : '',
+			view : ''
+		};
 		this.datepickerview = {
-			id: '',
+			id : '',
 			view : ''
 		};
 		this.date = new Date();
@@ -79,7 +82,8 @@ app.factory('CalendarModel', function() {
 			return this.datepickerview;
 		},
 		pushtoggleview : function (view) {
-			this.modelview = view;
+			this.modelview.id = Math.random(1000);
+			this.modelview.view = view;
 		},
 		gettoggleview : function () {
 			return this.modelview;

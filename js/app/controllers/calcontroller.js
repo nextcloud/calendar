@@ -64,14 +64,14 @@ app.controller('CalController', ['$scope', '$timeout', '$modal', '$routeParams',
 				$scope.today = function (calendar) {
 					calendar.fullCalendar('today');
 				};
-				if (newview && $scope.calendar) {
-					if (newview != 'today') {
-						$scope.changeView(newview,$scope.calendar);
+				if (newview.view && $scope.calendar) {
+					if (newview.view != 'today') {
+						$scope.changeView(newview.view,$scope.calendar);
 					} else {
 						$scope.today($scope.calendar);
 					}
 				}
-			});
+			}, true);
 
 			$scope.$watch('currentview.datepickerview', function (newview, oldview) {
 				$scope.changeview = function(newview,calendar) {
@@ -83,7 +83,6 @@ app.controller('CalController', ['$scope', '$timeout', '$modal', '$routeParams',
 			}, true);
 
 			$scope.$watch('currentview.date', function (newview, oldview) {
-				console.log(newview);
 				$scope.gotodate = function(newview,calendar) {
 					console.log(calendar);
 					calendar.fullCalendar('gotoDate', newview);

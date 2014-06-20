@@ -92,14 +92,14 @@ app.controller('CalController', ['$scope', '$timeout', '$modal', '$routeParams',
 				$scope.today = function (calendar) {
 					calendar.fullCalendar('today');
 				};
-				if (newview && $scope.calendar) {
-					if (newview != 'today') {
-						$scope.changeView(newview,$scope.calendar);
+				if (newview.view && $scope.calendar) {
+					if (newview.view != 'today') {
+						$scope.changeView(newview.view,$scope.calendar);
 					} else {
 						$scope.today($scope.calendar);
 					}
 				}
-			});
+			}, true);
 
 			$scope.$watch('currentview.datepickerview', function (newview, oldview) {
 				$scope.changeview = function(newview,calendar) {
@@ -111,10 +111,9 @@ app.controller('CalController', ['$scope', '$timeout', '$modal', '$routeParams',
 			}, true);
 
 			$scope.$watch('currentview.date', function (newview, oldview) {
-				console.log(newview);
 				$scope.gotodate = function(newview,calendar) {
 					console.log(calendar);
-					calendar.fullCalendar('gotoDate', newview.getFullYear(), newview.getMonth(), newview.getDate());
+					calendar.fullCalendar('gotoDate', newview);
 				};
 				if (newview !== '' && $scope.calendar !== undefined) {
 					$scope.gotodate(newview,$scope.calendar);
@@ -150,6 +149,7 @@ app.controller('CalController', ['$scope', '$timeout', '$modal', '$routeParams',
 		});
 	}
 ]);
+
 app.controller('CalendarListController', ['$scope','Restangular','CalendarModel','EventsModel','$routeParams',
 	function ($scope,Restangular,CalendarModel,EventsModel,$routeParams) {
 
@@ -373,9 +373,12 @@ app.factory('CalendarModel', function() {
 	var CalendarModel = function () {
 		this.calendars = [];
 		this.calendarId = {};
-		this.modelview = '';
+		this.modelview = {
+			id : '',
+			view : ''
+		};
 		this.datepickerview = {
-			id: '',
+			id : '',
 			view : ''
 		};
 		this.date = new Date();
@@ -427,7 +430,8 @@ app.factory('CalendarModel', function() {
 			return this.datepickerview;
 		},
 		pushtoggleview : function (view) {
-			this.modelview = view;
+			this.modelview.id = Math.random(1000);
+			this.modelview.view = view;
 		},
 		gettoggleview : function () {
 			return this.modelview;
