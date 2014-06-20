@@ -86,7 +86,7 @@ app.controller('CalController', ['$scope', '$timeout', '$modal', '$routeParams',
 				console.log(newview);
 				$scope.gotodate = function(newview,calendar) {
 					console.log(calendar);
-					calendar.fullCalendar('gotoDate', newview.getFullYear(), newview.getMonth(), newview.getDate());
+					calendar.fullCalendar('gotoDate', newview);
 				};
 				if (newview !== '' && $scope.calendar !== undefined) {
 					$scope.gotodate(newview,$scope.calendar);
