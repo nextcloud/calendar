@@ -31,13 +31,13 @@
 				<notnull>true</notnull>
 				<length>255</length>
 			</field>
-            <field>
-                <name>publicuri</name>
-                <type>text</type>
-                <default></default>
-                <notnull>true</notnull>
-                <length>255</length>
-            </field>
+			<field>
+				<name>publicuri</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>255</length>
+			</field>
 			<field>
 				<name>backend</name>
 				<type>text</type>
@@ -76,8 +76,8 @@
 			</field>
 			<field>
 				<name>timezone</name>
-                <type>clob</type>
-                <notnull>false</notnull>
+				<type>clob</type>
+				<notnull>false</notnull>
 			</field>
 			<field>
 				<name>color</name>
@@ -106,27 +106,27 @@
 				<default>31</default>
 				<notnull>true</notnull>
 			</field>
-            <field>
-                <name>description</name>
-                <type>text</type>
-                <default></default>
-                <notnull>false</notnull>
-                <length>255</length>
-            </field>
-            <field>
-                <name>last_properties_update</name>
-                <type>integer</type>
-                <default></default>
-                <notnull>false</notnull>
-                <length>4</length>
-            </field>
-            <field>
-                <name>last_object_update</name>
-                <type>integer</type>
-                <default></default>
-                <notnull>false</notnull>
-                <length>4</length>
-            </field>
+			<field>
+				<name>description</name>
+				<type>text</type>
+				<default></default>
+				<notnull>false</notnull>
+				<length>255</length>
+			</field>
+			<field>
+				<name>last_properties_update</name>
+				<type>integer</type>
+				<default></default>
+				<notnull>false</notnull>
+				<length>4</length>
+			</field>
+			<field>
+				<name>last_object_update</name>
+				<type>integer</type>
+				<default></default>
+				<notnull>false</notnull>
+				<length>4</length>
+			</field>
 		</declaration>
 	</table>
 	<!-- table for cached objects -->
@@ -151,17 +151,55 @@
 				<length>4</length>
 			</field>
 			<field>
-				<name>uid</name>
+				<name>objecturi</name>
 				<type>text</type>
 				<default></default>
 				<notnull>true</notnull>
 				<length>255</length>
 			</field>
 			<field>
-				<name>type</name>
-				<type>text</type>
+				<name>cache_status</name>
+				<type>integer</type>
 				<default></default>
 				<notnull>true</notnull>
+				<unsigned>true</unsigned>
+				<length>4</length>
+			</field>
+		</declaration>
+	</table>
+	<!-- table for cached objects -->
+	<table>
+		<name>*dbprefix*clndr_objcachedata</name>
+		<declaration>
+			<field>
+				<name>id</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<autoincrement>1</autoincrement>
+				<unsigned>true</unsigned>
+				<length>4</length>
+			</field>
+			<field>
+				<name>cacheid</name>
+				<type>integer</type>
+				<default></default>
+				<notnull>true</notnull>
+				<unsigned>true</unsigned>
+				<length>4</length>
+			</field>
+			<field>
+				<name>type</name>
+				<type>integer</type>
+				<default></default>
+				<notnull>false</notnull>
+				<length>2</length>
+			</field>
+			<field>
+				<name>etag</name>
+				<type>text</type>
+				<default></default>
+				<notnull>false</notnull>
 				<length>40</length>
 			</field>
 			<field>
@@ -174,11 +212,6 @@
 				<name>enddate</name>
 				<type>timestamp</type>
 				<default>1970-01-01 00:00:00</default>
-				<notnull>false</notnull>
-			</field>
-			<field>
-				<name>timezone</name>
-				<type>text</type>
 				<notnull>false</notnull>
 			</field>
 			<field>
@@ -211,12 +244,41 @@
 				<notnull>false</notnull>
 				<length>4</length>
 			</field>
+		</declaration>
+	</table>
+		<!-- table for cached objects -->
+	<table>
+		<name>*dbprefix*clndr_objcacheschdl</name>
+		<declaration>
 			<field>
-				<name>etag</name>
-				<type>text</type>
+				<name>id</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<autoincrement>1</autoincrement>
+				<unsigned>true</unsigned>
+				<length>4</length>
+			</field>
+			<field>
+				<name>cacheid</name>
+				<type>integer</type>
+				<default></default>
+				<notnull>true</notnull>
+				<unsigned>true</unsigned>
+				<length>4</length>
+			</field>
+			<field>
+				<name>type</name>
+				<type>integer</type>
 				<default></default>
 				<notnull>false</notnull>
-				<length>40</length>
+				<length>2</length>
+			</field>
+			<field>
+				<name>due_by</name>
+				<type>timestamp</type>
+				<default>1970-01-01 00:00:00</default>
+				<notnull>false</notnull>
 			</field>
 		</declaration>
 	</table>
