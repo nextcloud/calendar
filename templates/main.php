@@ -26,6 +26,7 @@
 <?php
 
 	\OCP\Util::addScript('calendar', '../3rdparty/js/timezones/jstz');
+	\OCP\Util::addScript('calendar', '../3rdparty/js/momentjs/moment.min');
 	\OCP\Util::addScript('calendar', '../3rdparty/js/jquery-ui/jquery-ui');
 	\OCP\Util::addScript('calendar', '../3rdparty/js/fullcalendar/fullcalendar');
 	\OCP\Util::addScript('calendar', '../3rdparty/js/icaljs/ical');
