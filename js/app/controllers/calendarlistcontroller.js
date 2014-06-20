@@ -85,6 +85,10 @@ app.controller('CalendarListController', ['$scope','Restangular','CalendarModel'
 			CalendarModel.pushtoggleview(view);
 		};
 
+		$scope.settodaytodatepicker = function () {
+			CalendarModel.pushtodaydatepicker();
+		};
+
 		$scope.addthisevent = function (id) {
 			EventsModel.addEvent(id);
 		};

@@ -33,6 +33,10 @@ app.factory('CalendarModel', function() {
 			id : '',
 			view : ''
 		};
+		this.today = {
+			id : '',
+			date : new Date()
+		};
 		this.date = new Date();
 	};
 
@@ -87,6 +91,12 @@ app.factory('CalendarModel', function() {
 		},
 		gettoggleview : function () {
 			return this.modelview;
+		},
+		pushtodaydatepicker : function () {
+			this.today.id = Math.random(1000);
+		},
+		gettodaydatepicker : function () {
+			return this.today;
 		},
 		pushdate : function (date) {
 			this.date = date;
