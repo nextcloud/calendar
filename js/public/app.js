@@ -53,10 +53,11 @@ app.controller('CalController', ['$scope', '$timeout', '$modal', '$routeParams',
 	function ($scope,$timeout,$modal,$routeParams,Restangular,calendar,CalendarModel,EventsModel) {
 		$scope.route = $routeParams;
 		$scope.eventSources = EventsModel.getAll();
-		$scope.currentview = CalendarModel;
-		$scope.currentid = EventsModel;
+		$scope.calendarmodel = CalendarModel;
+		$scope.eventsmodel = EventsModel;
+		$scope.defaultView = 'month';
 
-		$scope.$watch('currentid.id', function (newid, oldid) {
+		$scope.$watch('eventsmodel.id', function (newid, oldid) {
 			$scope.uiConfig = {
 				calendar : {
 					height: $(window).height() - $('#controls').height() - $('#header').height(),
@@ -65,6 +66,7 @@ app.controller('CalController', ['$scope', '$timeout', '$modal', '$routeParams',
 					selectHelper: true,
 					select: $scope.newEvent,
 					eventClick: $scope.editEvent,
+					defaultView: $scope.defaultView,
 					//eventColor: $scope.currentcalendar.color,
 					header:{
 						left: '',
@@ -81,11 +83,32 @@ app.controller('CalController', ['$scope', '$timeout', '$modal', '$routeParams',
 						week: t('calendar', "MMM d[ yyyy]{ '–'[ MMM] d yyyy}"),
 						day: t('calendar', 'dddd, MMM d, yyyy'),
 					},
-					eventSources : [$scope.eventSources]
+					eventSources : [$scope.eventSources],
+					viewRender : function(view) {
+						$('#datecontrol_current').html($('<p>').html(view.title).text());
+						$( "#datecontrol_date" ).datepicker("setDate", $scope.calendar.fullCalendar('getDate'));
+						/*
+						if (view.name != 'month') {
+							$.post(OC.filePath('calendar', 'ajax', 'changeview.php'), {v:view.name});
+							defaultView = view.name;
+						}*/
+						
+						if(view.name === 'agendaDay') {
+							$('td.fc-state-highlight').css('background-color', '#ffffff');
+						} else {
+							$('td.fc-state-highlight').css('background-color', '#ffc');
+						}		
+						//Calendar.UI.setViewActive(view.name);
+						if (view.name == 'agendaWeek') {
+							$scope.calendar.fullCalendar('option', 'aspectRatio', 0.1);
+						} else {
+							$scope.calendar.fullCalendar('option', 'aspectRatio', 1.35);
+						}
+					},
 				},
 			};
 
-			$scope.$watch('currentview.modelview', function (newview, oldview) {
+			$scope.$watch('calendarmodel.modelview', function (newview, oldview) {
 				$scope.changeView = function(newview,calendar) {
 					calendar.fullCalendar('changeView', newview);
 				};
@@ -101,7 +124,7 @@ app.controller('CalController', ['$scope', '$timeout', '$modal', '$routeParams',
 				}
 			}, true);
 
-			$scope.$watch('currentview.datepickerview', function (newview, oldview) {
+			$scope.$watch('calendarmodel.datepickerview', function (newview, oldview) {
 				$scope.changeview = function(newview,calendar) {
 					calendar.fullCalendar(newview.view);
 				};
@@ -110,7 +133,7 @@ app.controller('CalController', ['$scope', '$timeout', '$modal', '$routeParams',
 				}
 			}, true);
 
-			$scope.$watch('currentview.date', function (newview, oldview) {
+			$scope.$watch('calendarmodel.date', function (newview, oldview) {
 				$scope.gotodate = function(newview,calendar) {
 					console.log(calendar);
 					calendar.fullCalendar('gotoDate', newview);
