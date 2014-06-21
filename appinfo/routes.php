@@ -37,7 +37,22 @@ $this->create('calendar.settings.setView', '/setView/{view}')->get()->action(fun
 	$app = new \OCA\Calendar\App($params);
 	$app->dispatch('SettingsController', 'setView');
 });
-
+$this->create('calendar.settings.getFirstDayOfWeek', '/getFirstDay')->get()->action(function($params){
+	$app = new \OCA\Calendar\App($params);
+	$app->dispatch('SettingsController', 'getFirstDayOfWeek');
+});
+$this->create('calendar.settings.setFirstDayOfWeek', '/setFirstDay/{firstday}')->get()->action(function($params){
+	$app = new \OCA\Calendar\App($params);
+	$app->dispatch('SettingsController', 'setFirstDayOfWeek');
+});
+$this->create('calendar.settings.getTimeFormat', '/getTimeFormat')->get()->action(function($params){
+	$app = new \OCA\Calendar\App($params);
+	$app->dispatch('SettingsController', 'getTimeFormat');
+});
+$this->create('calendar.settings.setTimeFormat', '/setTimeFormat/{timeformat}')->get()->action(function($params){
+	$app = new \OCA\Calendar\App($params);
+	$app->dispatch('SettingsController', 'setTimeFormat');
+});
 
 $this->create('calendar.backends.all', '/v1/backends')->get()->action(function($params){
 	$app = new \OCA\Calendar\App($params);
