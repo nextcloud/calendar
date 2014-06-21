@@ -23,6 +23,16 @@ use \OCA\Calendar\Db\ObjectType;
 
 $installedVersion=OCP\Config::getAppValue('calendar', 'installed_version');
 
+if(version_compare($installedVersion, '0.10.17', '<=')) {
+	$stmt = OCP\DB::prepare('UPDATE `*PREFIX*clndr_calcache` SET `backend`="local" WHERE `backend`="org.ownCloud.local"');
+	$stmt->execute();
+	unset($stmt);
+
+	$stmt = OCP\DB::prepare('UPDATE `*PREFIX*clndr_calcache` SET `backend`="contact" WHERE `backend`="org.ownCloud.contact"');
+	$stmt->execute();
+	unset($stmt);
+}
+
 if(version_compare($installedVersion, '0.9.8', '<=')) {
     //add backends:
     $backends = array(
