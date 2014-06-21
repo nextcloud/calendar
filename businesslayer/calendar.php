@@ -835,7 +835,7 @@ class CalendarBusinessLayer extends BusinessLayer {
 	 */
 	public function updateCacheForCalendarFromRemote($publicuri, $backend, $privateuri, $userId) {
 		try{
-			$api = $this->backends->find($backend)->api;
+			$api = $this->backends->find($backend)->getAPI();
 
 			if ($publicuri === null) {
 				$doesExistCached = false;

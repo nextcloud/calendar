@@ -7,7 +7,7 @@
  */
 namespace OCA\Calendar\Db;
 
-use OCA\Calendar\Backend\IBackend;
+use OCP\Calendar\IBackendAPI;
 
 class Backend extends Entity implements \OCP\Calendar\IBackend {
 
@@ -157,10 +157,10 @@ class Backend extends Entity implements \OCP\Calendar\IBackend {
 
 	/**
 	 * registers an API for a backend
-	 * @param IBackend $api
+	 * @param IBackendAPI $api
 	 * @return $this
 	 */
-	public function registerAPI(IBackend $api){
+	public function registerAPI(IBackendAPI $api){
 		$this->api = $api;
 		return $this;
 	}

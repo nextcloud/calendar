@@ -29,6 +29,8 @@ use OCA\Calendar\BusinessLayer\BusinessLayerException;
 use OCA\Calendar\Http\Response;
 use OCA\Calendar\Http\Serializer;
 use OCA\Calendar\Http\SerializerException;
+use OCP\Calendar\IBackend;
+use OCP\Calendar\IBackendCollection;
 
 class BackendController extends Controller {
 
@@ -52,6 +54,7 @@ class BackendController extends Controller {
 			}
 
 			$allBackends = $this->businesslayer->findAll($limit, $offset);
+			$this->makeDefaultBackendArraysFirstElement($allBackends);
 
 			$serializer = new Serializer(
 				$this->app,
@@ -92,6 +95,7 @@ class BackendController extends Controller {
 			}
 
 			$allEnabled = $this->businesslayer->findAllEnabled($limit, $offset);
+			$this->makeDefaultBackendArraysFirstElement($allEnabled);
 
 			$serializer = new Serializer(
 				$this->app,
@@ -132,6 +136,7 @@ class BackendController extends Controller {
 			}
 
 			$allDisabled = $this->businesslayer->findAllDisabled($limit, $offset);
+			$this->makeDefaultBackendArraysFirstElement($allDisabled);
 
 			$serializer = new Serializer(
 				$this->app,
@@ -163,7 +168,8 @@ class BackendController extends Controller {
 	 */
 	public function defaultBackend() {
 		try {
-			$backend = $this->businesslayer->getDefault();
+			$backendId = $this->businesslayer->getDefault();
+			$backend = $this->businesslayer->find($backendId);
 
 			$serializer = new Serializer(
 				$this->app,
@@ -185,6 +191,21 @@ class BackendController extends Controller {
 				array('message' => $ex->getMessage()),
 				Http::STATUS_INTERNAL_SERVER_ERROR
 			);
+		}
+	}
+
+
+	/**
+	 * if the default backend is part of the collection
+	 * it'll be moved to index 0
+	 * @param IBackendCollection &$backends
+	 */
+	private function makeDefaultBackendArraysFirstElement(IBackendCollection &$backends) {
+		$defaultBackendId = $this->businesslayer->getDefault();
+		$defaultBackend = $backends->find($defaultBackendId);
+		if ($defaultBackend instanceof IBackend) {
+			$backends->removeByEntity($defaultBackend);
+			$backends->add($defaultBackend, 0);
 		}
 	}
 }

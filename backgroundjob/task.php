@@ -31,8 +31,6 @@ class Task {
 		//TODO
 		//- [ ] update calendar cache from remote
 		//- [ ] make updater use limit and offset
-		//- [ ] cache repeating objects
-		//- [ ] make repeating objects cacher use limits and offset
 
 		//$app->dispatch('Updater', 'update');
 	}

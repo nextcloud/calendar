@@ -67,9 +67,9 @@ abstract class Collection implements ICollection {
 		if ($nth === null) {
 			$this->objects[$this->count()] = $object;
 		} else {
-			$objects  = array_slice($this->objects, 0, $nth, true);
-			$objects += array($object);
-			$objects += array_slice($this->objects, $nth, $this->count() - 1, true);
+			$objects = array_slice($this->objects, 0, $nth, true);
+			$objects = array_merge($objects, array($object));
+			$objects = array_merge($objects, array_slice($this->objects, $nth, $this->count(), true));
 
 			$this->objects = $objects;
 		}

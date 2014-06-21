@@ -25,6 +25,7 @@ namespace OCA\Calendar\Backend;
 
 use OCP\AppFramework\IAppContainer;
 
+use OCP\Calendar\Backend;
 use OCP\Calendar\ICalendar;
 use OCP\Calendar\ICalendarCollection;
 use OCP\Calendar\IObject;
@@ -58,7 +59,7 @@ class Contact extends Backend {
 	 * @param array $parameters
 	 */
 	public function __construct(IAppContainer $app, array $parameters){
-		parent::__construct($app, 'Contact');
+		parent::__construct($app, 'org.ownCloud.contact');
 
 		$this->calendarURIs = array(
 			'anniversary',
@@ -104,7 +105,7 @@ class Contact extends Backend {
 		$calendar = new Calendar();
 		$calendar->setUserId($userId);
 		$calendar->setOwnerId($userId);
-		$calendar->setBackend($this->backend);
+		$calendar->setBackend($this->getBackendIdentifier());
 		$calendar->setPrivateUri($calendarURI);
 		$calendar->setComponents(ObjectType::EVENT);
 		$calendar->setCtag(1); //sum of all addressbook ctags

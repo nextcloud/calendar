@@ -21,7 +21,7 @@
  */
 namespace OCA\Calendar\Http\JSON;
 
-use OCA\Calendar\Backend\Backend;
+use OCP\Calendar\Backend;
 
 class JSONBackend extends JSON {
 
@@ -63,6 +63,7 @@ class JSONBackend extends JSON {
 
 		$this->setSupportedActions();
 		$this->setPrefixInformation();
+		$this->setSubscriptionTypes();
 
 		return $this->jsonArray;
 	}
@@ -140,6 +141,16 @@ class JSONBackend extends JSON {
 	 */
 	private function setPrefixInformation() {
 		$this->jsonArray['prefixes'] = $this->object->api->getAvailablePrefixes();
+		return $this;
+	}
+
+
+	/**
+	 * @brief set api url to calendar
+	 * @return $this
+	 */
+	private function setSubscriptionTypes() {
+		$this->jsonArray['subscriptions'] = $this->object->api->getSubscriptionTypes();
 		return $this;
 	}
 }

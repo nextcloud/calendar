@@ -23,74 +23,77 @@ namespace OCA\Calendar\Backend;
 
 use OCP\AppFramework\IAppContainer;
 
+use OCP\Calendar\Backend;
 use OCP\Calendar\ICalendar;
 use OCP\Calendar\ICalendarCollection;
 use OCP\Calendar\IObject;
 use OCP\Calendar\IObjectCollection;
 use OCP\Calendar\ISubscription;
+use OCP\Calendar\ObjectType;
+use OCP\Calendar\Permissions;
+
+use OCP\Calendar\DoesNotExistException;
+use OCP\Calendar\MultipleObjectsReturnedException;
+use OCP\Calendar\CorruptDataException;
 
 use OCA\Calendar\Db\Calendar;
 use OCA\Calendar\Db\CalendarCollection;
 use OCA\Calendar\Db\Object;
 use OCA\Calendar\Db\ObjectCollection;
+use OCA\Calendar\Db\Subscription;
+
+use OCA\Calendar\Utility\RegexUtility;
 
 use OCA\Calendar\Sabre\VObject\Reader;
 use OCA\Calendar\Sabre\VObject\ParseException;
 
-use OCP\Calendar\DoesNotExistException;
-/*use OCP\Calendar\MultipleObjectsReturnedException;
-use OCP\Calendar\CorruptDataException;*/
-
-
-use OCA\Calendar\Db\Subscription;
-
-use OCA\Calendar\BusinessLayer\SubscriptionBusinessLayer;
-
-use OCA\Calendar\Db\ObjectType;
-/*use OCA\Calendar\Db\Permissions;
-
-use OCA\Calendar\Utility\ObjectUtility;*/
-use OCA\Calendar\Utility\RegexUtility;
 
 class WebCal extends Backend {
 
 	/**
-	 * subscription-businesslayer
-	 * @var SubscriptionBusinessLayer
+	 * instance of subscription businesslayer
+	 * @var \OCA\Calendar\BusinessLayer\SubscriptionBusinessLayer
 	 */
-	protected $subscriptions;
+	private $subscriptions;
 
 
 	/**
-	 * @type string
-	 */
-	const TYPE = 'webcal';
-
-
-	/**
-	 * @brief constructor
+	 * Constructor
 	 * @param IAppContainer $app
 	 * @param array $parameters
 	 */
 	public function __construct(IAppContainer $app, array $parameters){
-		parent::__construct($app, 'WebCal');
+		parent::__construct($app, 'org.ownCloud.webcal');
 
 		$this->subscriptions = $app->query('SubscriptionBusinessLayer');
 	}
 
 
 	/**
-	 * @brief returns information about calendar $calendarURI of the user $userId
+	 * get information about supported subscription-types
+	 * @return array
+	 */
+	public function getSubscriptionTypes() {
+		return array(
+			array(
+				'name' => 'WebCal',
+				'l10n' => strval(\OC::$server->getL10N('calendar')->t('WebCal')),
+				'type' => $this->getBackendIdentifier(),
+			),
+		);
+	}
+
+
+	/**
+	 * returns information about a certain calendar
 	 * @param string $calendarURI
 	 * @param string $userId
-	 * @returns ICalendar
+	 * @return ICalendar
 	 * @throws DoesNotExistException if uri does not exist
 	 */
 	public function findCalendar($calendarURI, $userId) {
 		$subscription = $this->subscriptions->find($calendarURI, $userId);
-		if (!$this->isSubscriptionValid($subscription)) {
-			throw new DoesNotExistException('Subscription exists, but is not valid!');
-		}
+		$this->checkSubscriptionsValidity($subscription);
 
 		$calendar = $this->createCalendarFromSubscription($subscription);
 		if ($calendar === false) {
@@ -102,15 +105,20 @@ class WebCal extends Backend {
 
 
 	/**
-	 * @brief returns all calendars of the user $userId
+	 * returns all calendars of the user $userId
 	 * @param string $userId
 	 * @param integer $limit
 	 * @param integer $offset
-	 * @returns ICalendarCollection
+	 * @return ICalendarCollection
 	 * @throws DoesNotExistException if uri does not exist
 	 */
 	public function findCalendars($userId, $limit, $offset) {
-		$subscriptions = $this->subscriptions->findAllByType($userId, self::TYPE, $limit, $offset);
+		$subscriptions = $this->subscriptions->findAllByType(
+			$userId,
+			$this->getBackendIdentifier(),
+			$limit,
+			$offset
+		);
 
 		$calendars = new CalendarCollection();
 		$subscriptions->iterate(function(ISubscription $subscription) use (&$calendars, $userId) {
@@ -135,36 +143,36 @@ class WebCal extends Backend {
 	 * @return array
 	 */
 	public function getCalendarIdentifiers($userId, $limit, $offset) {
-		return $this->subscriptions->findAllByType($userId, self::TYPE, $limit, $offset);
+		return $this->subscriptions->findAllByType($userId, $this->getBackendIdentifier(), $limit, $offset);
 	}
 
 
 	/**
-	 * @brief returns number of calendar
+	 * returns number of calendar
 	 * @param string $userId
-	 * @returns integer
+	 * @return integer
 	 */
 	public function countCalendars($userId) {
-		return $this->subscriptions->countByType($userId, self::TYPE);
+		return $this->subscriptions->countByType($userId, $this->getBackendIdentifier());
 	}
 
 
 	/**
-	 * @brief returns whether or not a calendar exists
+	 * returns whether or not a calendar exists
 	 * @param string $calendarURI
 	 * @param string $userId
-	 * @returns boolean
+	 * @return boolean
 	 */
 	public function doesCalendarExist($calendarURI, $userId) {
-		return $this->subscriptions->doesExistOfType($calendarURI, self::TYPE, $userId);
+		return $this->subscriptions->doesExistOfType($calendarURI, $this->getBackendIdentifier(), $userId);
 	}
 
 
 	/**
-	 * @brief returns information about the object (event/journal/todos) with the uid $objectURI in the calendar $calendarURI of the user $userId
+	 * returns information about the object (event/journal/todos) with the uid $objectURI in the calendar $calendarURI of the user $userId
 	 * @param ICalendar $calendar
 	 * @param string $objectURI
-	 * @returns IObject
+	 * @return IObject
 	 * @throws DoesNotExistException if calendar does not exist
 	 * @throws DoesNotExistException if object does not exist
 	 */
@@ -176,11 +184,11 @@ class WebCal extends Backend {
 
 
 	/**
-	 * @brief returns all objects in the calendar $calendarURI of the user $userId
+	 * returns all objects in the calendar $calendarURI of the user $userId
 	 * @param ICalendar $calendar
 	 * @param integer $limit
 	 * @param integer $offset
-	 * @returns IObjectCollection
+	 * @return IObjectCollection
 	 * @throws DoesNotExistException if calendar does not exist
 	 */
 	public function findObjects(ICalendar &$calendar, $limit, $offset) {
@@ -189,10 +197,10 @@ class WebCal extends Backend {
 
 
 	/**
-	 * @param Subscription $subscription
+	 * @param ISubscription $subscription
 	 * @return mixed (bool|Calendar)
 	 */
-	private function createCalendarFromSubscription(Subscription $subscription) {
+	private function createCalendarFromSubscription(ISubscription $subscription) {
 		$curl = $this->prepareRequest($subscription->getUrl());
 		$data = curl_exec($curl);
 		if (!$this->wasRequestSuccessful($curl)) {
@@ -220,7 +228,7 @@ class WebCal extends Backend {
 
 		$calendar->setUserId($subscription->getUserId());
 		$calendar->setOwnerId($subscription->getUserId());
-		$calendar->setBackend($this->backend);
+		$calendar->setBackend($this->backendIdentifier);
 		$calendar->setPrivateUri($subscription->getName());
 		$calendar->setComponents(ObjectType::EVENT);
 		//TODO - use something better
@@ -231,7 +239,7 @@ class WebCal extends Backend {
 
 
 	private function isSubscriptionValid(ISubscription $subscription) {
-		if ($subscription->getType() !== self::TYPE) {
+		if ($subscription->getType() !== $this->getBackendIdentifier()) {
 			return false;
 		}
 
@@ -257,7 +265,7 @@ class WebCal extends Backend {
 
 
 	/**
-	 * @brief validate a url
+	 * validate a url
 	 * @param string $url
 	 * @return boolean
 	 */
@@ -297,7 +305,7 @@ class WebCal extends Backend {
 
 
 	/**
-	 * @brief prepare curl request
+	 * prepare curl request
 	 * @param string $url
 	 * @return resource $ch
 	 */
@@ -314,7 +322,7 @@ class WebCal extends Backend {
 
 
 	/**
-	 * @brief check if a request was successful
+	 * check if a request was successful
 	 * @param resource $ch
 	 * @return boolean
 	 */
@@ -333,5 +341,14 @@ class WebCal extends Backend {
 	}
 
 
-
+	/**
+	 * @param ISubscription $subscription
+	 * @throws \OCP\Calendar\DoesNotExistException
+	 */
+	private function checkSubscriptionsValidity(ISubscription $subscription) {
+		if (!$this->isSubscriptionValid($subscription)) {
+			$msg = 'Subscription exists, but is not valid!';
+			throw new DoesNotExistException($msg);
+		}
+	}
 }

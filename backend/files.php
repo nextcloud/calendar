@@ -46,7 +46,7 @@ use OCA\Calendar\Utility\ObjectUtility;
 
 use DateTime;*/
 
-class LocalStorage extends Backend {
+class Files extends Backend {
 
 	/**
 	 * @brief constructor
@@ -54,7 +54,7 @@ class LocalStorage extends Backend {
 	 * @param array $parameters
 	 */
 	public function __construct(IAppContainer $app, array $parameters){
-		parent::__construct($app, 'LocalStorage');
+		parent::__construct($app, 'org.ownCloud.files');
 	}
 
 

@@ -214,26 +214,44 @@ class App extends \OCP\AppFramework\App {
 
 
 		/* some default config values */
-		$defaultBackend = 'local';
+		$defaultBackend = 'org.ownCloud.local';
 		$defaultConfig = array(
+			/*array (
+				'backend' => 'org.ownCloud.caldav',
+				'classname' => '\\OCA\\Calendar\\Backend\\CalDAV',
+				'arguments' => array(),
+				'enabled' => true,
+			),*/
 			array (
-				'backend' => 'local',
+				'backend' => 'org.ownCloud.contact',
+				'classname' => '\\OCA\\Calendar\\Backend\\Contact',
+				'arguments' => array(),
+				'enabled' => true,
+			),
+			/*array (
+				'backend' => 'org.ownCloud.files',
+				'classname' => '\\OCA\\Calendar\\Backend\\Files',
+				'arguments' => array(),
+				'enabled' => true,
+			),*/
+			array (
+				'backend' => 'org.ownCloud.local',
 				'classname' => '\\OCA\\Calendar\\Backend\\Local',
 				'arguments' => array(),
 				'enabled' => true,
 			),
-			array (
-				'backend' => 'contact',
-				'classname' => '\\OCA\\Calendar\\Backend\\Contact',
+			/*array (
+				'backend' => 'org.ownCloud.sharing',
+				'classname' => '\\OCA\\Calendar\\Backend\\Sharing',
 				'arguments' => array(),
 				'enabled' => true,
-			),/*
+			),*/
 			array (
-				'backend' => 'webcal',
+				'backend' => 'org.ownCloud.webcal',
 				'classname' => '\\OCA\\Calendar\\Backend\\WebCal',
 				'arguments' => array(),
 				'enabled' => true,
-			)*/
+			),
 		);
 
 		$this->getContainer()->registerParameter('defaultBackend', $defaultBackend);

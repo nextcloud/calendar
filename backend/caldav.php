@@ -21,4 +21,10 @@
  */
 namespace OCA\Calendar\Backend;
 
-/*class CalDAV extends Backend {}*/
+/*
+use OCP\Calendar\Backend;
+
+class CalDAV extends Backend {
+
+}
+*/

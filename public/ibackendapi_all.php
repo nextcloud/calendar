@@ -19,17 +19,11 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCA\Calendar\Backend;
-
-use OCP\Calendar\ICalendar;
-use OCP\Calendar\IObject;
-use OCP\Calendar\IObjectCollection;
-use OCP\Calendar\BackendException;
-use OCP\Calendar\CacheOutDatedException;
+namespace OCP\Calendar;
 
 use DateTime;
 
-interface IFullyQualifiedBackend extends IBackend {
+interface IFullyQualifiedBackend extends IBackendAPI {
 
 	/**
 	 * Create a calendar

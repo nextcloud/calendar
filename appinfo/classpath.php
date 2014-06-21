@@ -24,13 +24,10 @@
 \OC::$CLASSPATH['OCA\Calendar\App'] = 'calendar/lib/app.php';
 
 /* backend classes */
-\OC::$CLASSPATH['OCA\Calendar\Backend\IBackend'] = 'calendar/backend/ibackend.php';
-\OC::$CLASSPATH['OCA\Calendar\Backend\IFullyQualifiedBackend'] = 'calendar/backend/ifullyqualifiedbackend.php';
-\OC::$CLASSPATH['OCA\Calendar\Backend\Backend'] = 'calendar/backend/backend.php';
 \OC::$CLASSPATH['OCA\Calendar\Backend\CalDAV'] = 'calendar/backend/caldav.php';
 \OC::$CLASSPATH['OCA\Calendar\Backend\Contact'] = 'calendar/backend/contact.php';
 \OC::$CLASSPATH['OCA\Calendar\Backend\Local'] = 'calendar/backend/local.php';
-\OC::$CLASSPATH['OCA\Calendar\Backend\LocalStorage'] = 'calendar/backend/localstorage.php';
+\OC::$CLASSPATH['OCA\Calendar\Backend\LocalStorage'] = 'calendar/backend/files.php';
 \OC::$CLASSPATH['OCA\Calendar\Backend\Sharing'] = 'calendar/backend/sharing.php';
 \OC::$CLASSPATH['OCA\Calendar\Backend\WebCal'] = 'calendar/backend/webcal.php';
 
@@ -156,6 +153,9 @@
 
 /* public classes */
 \OC::$CLASSPATH['OCP\Calendar\APIException'] = 'calendar/public/.php';
+\OC::$CLASSPATH['OCP\Calendar\Backend'] = 'calendar/public/backend.php';
+\OC::$CLASSPATH['OCP\Calendar\IFullyQualifiedBackendAPI'] = 'calendar/public/ibackendapi_all.php';
+\OC::$CLASSPATH['OCP\Calendar\IBackendAPI'] = 'calendar/public/ibackendapi.php';
 \OC::$CLASSPATH['OCP\Calendar\BackendException'] = 'calendar/public/.php';
 \OC::$CLASSPATH['OCP\Calendar\CacheOutDatedException'] = 'calendar/public/.php';
 \OC::$CLASSPATH['OCP\Calendar\Calendar'] = 'calendar/public/calendar.php';

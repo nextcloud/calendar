@@ -25,10 +25,10 @@ interface IBackend extends IEntity {
 
 	/**
 	 * registers an API for a backend
-	 * @param \OCA\Calendar\Backend\IBackend $api
+	 * @param \OCP\Calendar\IBackendAPI $api
 	 * @return $this
 	 */
-	public function registerAPI(\OCA\Calendar\Backend\IBackend $api);
+	public function registerAPI(IBackendAPI $api);
 
 
 	/**

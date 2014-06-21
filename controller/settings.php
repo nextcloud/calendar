@@ -16,11 +16,12 @@
  * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
  *
  * You should have received a copy of the GNU Affero General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ * License along with this library.  If not, see <http://www.gnu.org/g/>.
  *
  */
 namespace OCA\Calendar\Controller;
 
+use OCP\AppFramework\Http;
 use \OCP\Config;
 use \OCA\Calendar\Http\Response;
 
@@ -37,13 +38,24 @@ class SettingsController extends Controller {
 	public function setView() {
 		$userId = $this->api->getUserId();
 		$app = $this->app->getAppName();
-		$view = $this->params('view');
+		$view = trim($this->params('view'));
 
-		if(trim($view) !== '') {
+		$availableViews = array(
+			'agendaDay',
+			'agendaWeek',
+			'month',
+		);
+
+		if (in_array($view, $availableViews)) {
 			Config::setUserValue($userId, $app, self::$viewKey, $view);
+			return new Response(array(
+				'view' => $view,
+			));
+		} else {
+			return new Response(array(
+				'message' => 'view not supported',
+			), HTTP::STATUS_UNPROCESSABLE_ENTITY);
 		}
-
-		return new Response();
 	}
 
 
@@ -74,17 +86,21 @@ class SettingsController extends Controller {
 		$app = $this->app->getAppName();
 		$value = $this->params('timeformat');
 
-		switch($value) {
-			case 'ampm':
-			case '24':
-				Config::setUserValue($userId, $app, self::$timeKey, $value);
-				break;
+		$availableTimeFormats = array(
+			'ampm',
+			'24',
+		);
 
-			default:
-				break;
+		if (in_array($value, $availableTimeFormats)) {
+			Config::setUserValue($userId, $app, self::$timeKey, $value);
+			return new Response(array(
+				'timeformat' => $value
+			));
+		} else {
+			return new Response(array(
+				'message' => 'time-format not supported',
+			), HTTP::STATUS_UNPROCESSABLE_ENTITY);
 		}
-
-		return new Response();
 	}
 
 
@@ -115,18 +131,22 @@ class SettingsController extends Controller {
 		$app = $this->app->getAppName();
 		$value = $this->params('firstday');
 
-		switch($value) {
-			case 'sa':
-			case 'su':
-			case 'mo':
-				Config::setUserValue($userId, $app, self::$firstDayKey, $value);
-				break;
+		$availableFirstDays = array(
+			'sa',
+			'su',
+			'mo',
+		);
 
-			default:
-				break;
+		if (in_array($value, $availableFirstDays)) {
+			Config::setUserValue($userId, $app, self::$firstDayKey, $value);
+			return new Response(array(
+				'firstday' => $value
+			));
+		} else {
+			return new Response(array(
+				'message' => 'firstday not supported',
+			), HTTP::STATUS_UNPROCESSABLE_ENTITY);
 		}
-
-		return new Response();
 	}
 
 

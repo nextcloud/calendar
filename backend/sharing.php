@@ -61,7 +61,7 @@ class Sharing extends Backend {
 	 * @param array $parameters
 	 */
 	public function __construct(IAppContainer $app, array $parameters){
-		parent::__construct($app, 'Sharing');
+		parent::__construct($app, 'org.ownCloud.sharing');
 	}
 
 

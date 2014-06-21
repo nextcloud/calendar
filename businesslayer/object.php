@@ -24,6 +24,8 @@ namespace OCA\Calendar\BusinessLayer;
 use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\Http;
 
+use OCP\Calendar\Backend;
+use OCP\Calendar\IFullyQualifiedBackend;
 use OCP\Calendar\BackendException;
 use OCP\Calendar\CacheOutDatedException;
 use OCP\Calendar\DoesNotExistException;
@@ -32,8 +34,6 @@ use OCP\Calendar\ICalendar;
 use OCP\Calendar\IObject;
 use OCP\Calendar\IObjectCollection;
 
-use OCA\Calendar\Backend\Backend;
-use OCA\Calendar\Backend\IFullyQualifiedBackend;
 use OCA\Calendar\Db\BackendMapper;
 use OCA\Calendar\Db\ObjectMapper;
 use OCA\Calendar\Utility\ObjectUtility;

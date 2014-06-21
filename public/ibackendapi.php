@@ -19,21 +19,14 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCA\Calendar\Backend;
+namespace OCP\Calendar;
 
-use OCP\Calendar\ICalendar;
-use OCP\Calendar\ICalendarCollection;
-use OCP\Calendar\IObject;
-use OCP\Calendar\IObjectCollection;
-use OCP\Calendar\DoesNotExistException;
-use OCP\Calendar\MultipleObjectsReturnedException;
-
-interface IBackend {
+interface IBackendAPI {
 
 	/**
-	 * @brief get integer that represents supported actions 
+	 * @brief get integer that represents supported actions
 	 * @returns integer
-	 * 
+	 *
 	 * This method returns an integer.
 	 * This method is mandatory!
 	 */
@@ -44,7 +37,7 @@ interface IBackend {
 	 * @brief Check if backend implements actions
 	 * @param integer $actions
 	 * @returns integer
-	 * 
+	 *
 	 * This method returns an integer.
 	 * If the action is supported, it returns an integer that can be compared with \OC\Calendar\Backend\CREATE_CALENDAR, etc...
 	 * If the action is not supported, it returns -501
@@ -56,7 +49,7 @@ interface IBackend {
 	/**
 	 * @brief returns whether or not a backend can be enabled
 	 * @returns boolean
-	 * 
+	 *
 	 * This method returns a boolean.
 	 * This method is mandatory!
 	 */
@@ -68,7 +61,7 @@ interface IBackend {
 	 * @param string $calendarURI
 	 * @param string $userId
 	 * @returns bool
-	 * 
+	 *
 	 * This method returns a bool.
 	 * This method is mandatory!
 	 */
@@ -86,7 +79,7 @@ interface IBackend {
 	 * @brief returns list of subscription types supported by backend
 	 * @returns array
 	 */
-	public function getAvailableSubscriptionTypes();
+	public function getSubscriptionTypes();
 
 
 	/**
@@ -96,7 +89,7 @@ interface IBackend {
 	 * @returns ICalendar
 	 * @throws DoesNotExistException if uri does not exist
 	 * @throws MultipleObjectsReturnedException
-	 * 
+	 *
 	 * This method returns an ICalendar
 	 * This method is mandatory!
 	 */
@@ -110,7 +103,7 @@ interface IBackend {
 	 * @param integer $offset
 	 * @returns ICalendarCollection
 	 * @throws DoesNotExistException if uri does not exist
-	 * 
+	 *
 	 * This method returns an ICalendarCollection
 	 * This method is mandatory!
 	 */
@@ -130,7 +123,7 @@ interface IBackend {
 	 * @brief returns number of calendar
 	 * @param string $userId
 	 * @returns integer
-	 * 
+	 *
 	 * This method returns an integer
 	 * This method is mandatory!
 	 */
@@ -142,7 +135,7 @@ interface IBackend {
 	 * @param string $calendarURI
 	 * @param string $userId
 	 * @returns boolean
-	 * 
+	 *
 	 * This method returns a boolean
 	 * This method is mandatory!
 	 */
@@ -155,7 +148,7 @@ interface IBackend {
 	 * @param string $userId
 	 * @returns integer
 	 * @throws DoesNotExistException if calendar does not exist
-	 * 
+	 *
 	 * This method returns a integer
 	 * This method is mandatory!
 	 */
@@ -184,7 +177,7 @@ interface IBackend {
 	 * @param integer $offset
 	 * @returns IObjectCollection
 	 * @throws DoesNotExistException if calendar does not exist
-	 * 
+	 *
 	 * This method returns an \OCA\Calendar\Db\ObjectCollection object.
 	 * This method is mandatory!
 	 */
@@ -206,7 +199,7 @@ interface IBackend {
 	 * @param ICalendar $calendar
 	 * @returns integer
 	 * @throws DoesNotExistException if calendar does not exist
-	 * 
+	 *
 	 * This method returns an integer
 	 * This method is mandatory!
 	 */
@@ -218,7 +211,7 @@ interface IBackend {
 	 * @param ICalendar $calendar
 	 * @param string $objectURI
 	 * @returns boolean
-	 * 
+	 *
 	 * This method returns a boolean
 	 * This method is mandatory!
 	 */
@@ -242,7 +235,7 @@ interface IBackend {
 	 * @returns string
 	 * @throws DoesNotExistException if calendar does not exist
 	 * @throws DoesNotExistException if object does not exist
-	 * 
+	 *
 	 * This method returns a string
 	 * This method is mandatory!
 	 */
@@ -252,7 +245,7 @@ interface IBackend {
 	/**
 	 * @brief returns whether or not a backend can store a calendar's color
 	 * @returns boolean
-	 * 
+	 *
 	 * This method returns a boolean
 	 * This method is mandatory!
 	 */
@@ -262,7 +255,7 @@ interface IBackend {
 	/**
 	 * @brief returns whether or not a backend can store a calendar's supported components
 	 * @returns boolean
-	 * 
+	 *
 	 * This method returns a boolean
 	 * This method is mandatory!
 	 */
@@ -279,7 +272,7 @@ interface IBackend {
 	/**
 	 * @brief returns whether or not a backend can store a calendar's displayname
 	 * @returns boolean
-	 * 
+	 *
 	 * This method returns a boolean
 	 * This method is mandatory!
 	 */
@@ -289,7 +282,7 @@ interface IBackend {
 	/**
 	 * @brief returns whether or not a backend can store if a calendar is enabled
 	 * @returns boolean
-	 * 
+	 *
 	 * This method returns a boolean
 	 * This method is mandatory!
 	 */
@@ -299,7 +292,7 @@ interface IBackend {
 	/**
 	 * @brief returns whether or not a backend can store a calendar's order
 	 * @returns boolean
-	 * 
+	 *
 	 * This method returns a boolean
 	 * This method is mandatory!
 	 */

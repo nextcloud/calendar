@@ -28,6 +28,7 @@ namespace OCA\Calendar\Backend;
 use OCP\AppFramework\IAppContainer;
 use OCP\DB;
 
+use OCP\Calendar\Backend;
 use OCP\Calendar\ICalendar;
 use OCP\Calendar\ICalendarCollection;
 use OCP\Calendar\IObject;
@@ -81,6 +82,7 @@ class Local extends Backend {
 	 * @param array $parameters
 	 */
 	public function __construct(IAppContainer $app, array $parameters){
+		parent::__construct($app, 'org.ownCloud.local');
 
 		$this->calTableName = (array_key_exists('calTableName', $parameters) ? 
 									$parameters['calTableName'] : 
@@ -91,8 +93,6 @@ class Local extends Backend {
 
 		$columns  = '`uri`, `calendarData`';
 		$this->columnsToQuery = $columns;
-
-		parent::__construct($app, 'local');
 	}
 
 
@@ -109,13 +109,13 @@ class Local extends Backend {
 
 	/**
 	 * get translated string for createOn dialog
-	 * @return string
+	 * @return array
 	 */
 	public function getAvailablePrefixes() {
 		return array(
 			array(
 				'name' => 'this ownCloud',
-				'l10n' => \OC::$server->getL10N('calendar')->t('this ownCloud'),
+				'l10n' => strval(\OC::$server->getL10N('calendar')->t('this ownCloud')),
 				'prefix' => '',
 			),
 		);
@@ -1181,7 +1181,7 @@ class Local extends Backend {
 
 		$calendar->setUserId(strval($row['userid']));
 		$calendar->setOwnerId(strval($row['userid']));
-		$calendar->setBackend(strval($this->backend));
+		$calendar->setBackend(strval($this->getBackendIdentifier()));
 		$calendar->setPrivateUri(strval($row['uri']));
 		$calendar->setDisplayname(strval($row['displayname']));
 		$calendar->setComponents($this->getTypes($row['components'], 'int'));
@@ -1240,7 +1240,7 @@ class Local extends Backend {
 
 
 	/**
-	 * @brief get a single objectType
+	 * get a single objectType
 	 * @param mixed (integer|string) $component
 	 * @param string $type
 	 * @return mixed (integer|string)
@@ -1255,7 +1255,7 @@ class Local extends Backend {
 
 
 	/**
-	 * @brief get multiple objectTypes
+	 * get multiple objectTypes
 	 * @param mixed (integer|string) $components
 	 * @param string $type
 	 * @return mixed (integer|string)
@@ -1270,8 +1270,8 @@ class Local extends Backend {
 
 
 	/**
-	 * @brief returns whether or not a backend can store a calendar's supported components
-	 * @returns boolean
+	 * returns whether or not a backend can store a calendar's supported components
+	 * @return boolean
 	 */
 	public function canStoreComponents() {
 		return true;
@@ -1279,8 +1279,8 @@ class Local extends Backend {
 
 
 	/**
-	 * @brief returns whether or not a backend can store a calendar's displayname
-	 * @returns boolean
+	 * returns whether or not a backend can store a calendar's displayname
+	 * @return boolean
 	 */
 	public function canStoreDisplayname() {
 		return true;
@@ -1288,8 +1288,8 @@ class Local extends Backend {
 
 
 	/**
-	 * @brief returns whether or not a backend can store if a calendar is enabled
-	 * @returns boolean
+	 * returns whether or not a backend can store if a calendar is enabled
+	 * @return boolean
 	 */
 	public function canStoreEnabled() {
 		return true;
@@ -1297,8 +1297,8 @@ class Local extends Backend {
 
 
 	/**
-	 * @brief returns whether or not a backend can store a calendar's order
-	 * @returns boolean
+	 * returns whether or not a backend can store a calendar's order
+	 * @return boolean
 	 */
 	public function canStoreOrder() {
 		return true;
@@ -1306,7 +1306,7 @@ class Local extends Backend {
 
 
 	/**
-	 * @brief get table name for calendars
+	 * get table name for calendars
 	 * @return string
 	 */
 	private function getCalendarTableName() {
@@ -1315,7 +1315,7 @@ class Local extends Backend {
 
 
 	/**
-	 * @brief get table name for objects
+	 * get table name for objects
 	 * @return string
 	 */
 	private function getObjectTableName() {
@@ -1323,6 +1323,10 @@ class Local extends Backend {
 	}
 
 
+	/**
+	 * throw db error msg
+	 * @throws \OCP\Calendar\BackendException
+	 */
 	private function throwDBError() {
 		throw new BackendException('An database error occurred!');
 	}
