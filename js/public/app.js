@@ -49,13 +49,19 @@ app.controller('AppController', ['$scope',
 
 	}
 ]);
-app.controller('CalController', ['$scope', '$timeout', '$modal', '$routeParams', 'Restangular', 'calendar', 'CalendarModel', 'EventsModel',
-	function ($scope,$timeout,$modal,$routeParams,Restangular,calendar,CalendarModel,EventsModel) {
+app.controller('CalController', ['$scope', '$timeout', '$modal', '$routeParams', 'Restangular', 'calendar', 'CalendarModel', 'EventsModel', 'ViewModel',
+	function ($scope,$timeout,$modal,$routeParams,Restangular,calendar,CalendarModel,EventsModel,ViewModel) {
 		$scope.route = $routeParams;
 		$scope.eventSources = EventsModel.getAll();
+		$scope.defaultView = ViewModel.getAll();
 		$scope.calendarmodel = CalendarModel;
 		$scope.eventsmodel = EventsModel;
-		$scope.defaultView = 'month';
+		var viewResource = Restangular.one('view');
+
+		viewResource.get().then( function (views) {
+			ViewModel.add(views);
+		});
+		//$scope.defaultView = viewResource.get();
 
 		$scope.$watch('eventsmodel.id', function (newid, oldid) {
 			$scope.uiConfig = {
@@ -87,19 +93,20 @@ app.controller('CalController', ['$scope', '$timeout', '$modal', '$routeParams',
 					viewRender : function(view) {
 						$('#datecontrol_current').html($('<p>').html(view.title).text());
 						$( "#datecontrol_date" ).datepicker("setDate", $scope.calendar.fullCalendar('getDate'));
-						/*
-						if (view.name != 'month') {
-							$.post(OC.filePath('calendar', 'ajax', 'changeview.php'), {v:view.name});
-							defaultView = view.name;
-						}*/
-						
-						if(view.name === 'agendaDay') {
+						var newview = view.name;
+						if (newview != 'month') {
+							viewResource.get().then(function(newview) {
+								ViewModel.add(newview);
+							});
+							$scope.defaultView = newview;
+						}
+						if(newview === 'agendaDay') {
 							$('td.fc-state-highlight').css('background-color', '#ffffff');
 						} else {
 							$('td.fc-state-highlight').css('background-color', '#ffc');
 						}		
 						//Calendar.UI.setViewActive(view.name);
-						if (view.name == 'agendaWeek') {
+						if (newview == 'agendaWeek') {
 							$scope.calendar.fullCalendar('option', 'aspectRatio', 0.1);
 						} else {
 							$scope.calendar.fullCalendar('option', 'aspectRatio', 1.35);
@@ -135,7 +142,6 @@ app.controller('CalController', ['$scope', '$timeout', '$modal', '$routeParams',
 
 			$scope.$watch('calendarmodel.date', function (newview, oldview) {
 				$scope.gotodate = function(newview,calendar) {
-					console.log(calendar);
 					calendar.fullCalendar('gotoDate', newview);
 				};
 				if (newview !== '' && $scope.calendar !== undefined) {
@@ -598,3 +604,28 @@ app.factory('TimezoneModel', function () {
 	return new TimezoneModel();
 });
 
+app.factory('ViewModel', function () {
+	var ViewModel = function () {
+		this.view = [];
+		this.viewId = {};
+	};
+
+	ViewModel.prototype = {
+		add: function (views) {
+			this.view.push(views);
+		},
+		addAll: function (views) {
+			for(var i=0; i<views.length; i++) {
+				this.add(views[i]);
+			}
+		},
+		getAll: function () {
+			return this.timezones;
+		},
+		get: function (id) {
+			return this.viewId[id];
+		}
+	};
+
+	return new ViewModel();
+});
