@@ -29,27 +29,27 @@ $this->create('calendar.view.index', '/')->get()->action(function($params){
 });
 
 
-$this->create('calendar.settings.getView', '/getView')->get()->action(function($params){
+$this->create('calendar.settings.getView', '/v1/getView')->get()->action(function($params){
 	$app = new \OCA\Calendar\App($params);
 	$app->dispatch('SettingsController', 'getView');
 });
-$this->create('calendar.settings.setView', '/setView/{view}')->get()->action(function($params){
+$this->create('calendar.settings.setView', '/v1/setView/{view}')->get()->action(function($params){
 	$app = new \OCA\Calendar\App($params);
 	$app->dispatch('SettingsController', 'setView');
 });
-$this->create('calendar.settings.getFirstDayOfWeek', '/getFirstDay')->get()->action(function($params){
+$this->create('calendar.settings.getFirstDayOfWeek', '/v1/getFirstDay')->get()->action(function($params){
 	$app = new \OCA\Calendar\App($params);
 	$app->dispatch('SettingsController', 'getFirstDayOfWeek');
 });
-$this->create('calendar.settings.setFirstDayOfWeek', '/setFirstDay/{firstday}')->get()->action(function($params){
+$this->create('calendar.settings.setFirstDayOfWeek', '/v1/setFirstDay/{firstday}')->get()->action(function($params){
 	$app = new \OCA\Calendar\App($params);
 	$app->dispatch('SettingsController', 'setFirstDayOfWeek');
 });
-$this->create('calendar.settings.getTimeFormat', '/getTimeFormat')->get()->action(function($params){
+$this->create('calendar.settings.getTimeFormat', '/v1/getTimeFormat')->get()->action(function($params){
 	$app = new \OCA\Calendar\App($params);
 	$app->dispatch('SettingsController', 'getTimeFormat');
 });
-$this->create('calendar.settings.setTimeFormat', '/setTimeFormat/{timeformat}')->get()->action(function($params){
+$this->create('calendar.settings.setTimeFormat', '/v1/setTimeFormat/{timeformat}')->get()->action(function($params){
 	$app = new \OCA\Calendar\App($params);
 	$app->dispatch('SettingsController', 'setTimeFormat');
 });
