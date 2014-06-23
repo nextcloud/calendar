@@ -70,15 +70,14 @@ class JSONSubscription extends JSON {
 	 */
 	private function setProperty($key, $value) {
 		switch($key) {
-			case 'name':
 			case 'type':
 			case 'url':
 			case 'userid':
 				$this->jsonArray[$key] = strval($value);
 				break;
 
-			//blacklist
 			case 'id':
+				$this->jsonArray[$key] = intval($value);
 				break;
 
 			default:

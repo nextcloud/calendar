@@ -114,7 +114,6 @@ class JSONSubscriptionReader extends JSONReader{
 			$setter = 'set' . ucfirst($key);
 
 			switch($key) {
-				case 'name':
 				case 'type':
 				case 'url':
 				case 'userid':

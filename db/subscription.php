@@ -14,12 +14,6 @@ class Subscription extends Entity implements ISubscription {
 	/**
 	 * @var string
 	 */
-	public $name;
-
-
-	/**
-	 * @var string
-	 */
 	public $type;
 
 
@@ -40,7 +34,6 @@ class Subscription extends Entity implements ISubscription {
 	 * @param array $fromRow
 	 */
 	public function __construct($fromRow=null){
-		$this->addType('name', 'string');
 		$this->addType('type', 'string');
 		$this->addType('url', 'string');
 		$this->addType('userId', 'string');
@@ -48,23 +41,6 @@ class Subscription extends Entity implements ISubscription {
 		if (is_array($fromRow)){
 			$this->fromRow($fromRow);
 		}
-	}
-
-
-	/**
-	 * @param string $name
-	 * @return $this
-	 */
-	public function setName($name) {
-		return $this->setter('name', array($name));
-	}
-
-
-	/**
-	 * @return string
-	 */
-	public function getName() {
-		return $this->getter('name');
 	}
 
 

@@ -457,13 +457,6 @@
 				<length>255</length>
 			</field>
 			<field>
-				<name>name</name>
-				<type>text</type>
-				<default></default>
-				<notnull>true</notnull>
-				<length>255</length>
-			</field>
-			<field>
 				<name>type</name>
 				<type>text</type>
 				<default></default>

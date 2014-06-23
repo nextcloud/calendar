@@ -24,19 +24,6 @@ namespace OCP\Calendar;
 interface ISubscription extends IEntity {
 
 	/**
-	 * @param string $name
-	 * @return $this
-	 */
-	public function setName($name);
-
-
-	/**
-	 * @return string
-	 */
-	public function getName();
-
-
-	/**
 	 * @param string $type
 	 * @return $this
 	 */
