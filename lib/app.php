@@ -50,9 +50,7 @@ use OCA\Calendar\Db\CalendarMapper;
 use OCA\Calendar\Db\SubscriptionMapper;
 use OCA\Calendar\Db\ObjectMapper;
 use OCA\Calendar\Db\TimezoneMapper;
-
 use OCA\Calendar\Utility\BackendUtility;
-use OCA\Calendar\Utility\Updater;
 
 class App extends \OCP\AppFramework\App {
 
@@ -64,7 +62,7 @@ class App extends \OCP\AppFramework\App {
 		 * because Request automatically reads php://input and
 		 * you can't rewind php://input ...
 		 */
-		$this->getContainer()['ServerContainer']->registerService('Request', function($c) {
+		$this->getContainer('ServerContainer')->registerService('Request', function($c) {
 			if (isset($c['urlParams'])) {
 				$urlParams = $c['urlParams'];
 			} else {

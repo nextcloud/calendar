@@ -66,7 +66,7 @@ $this->create('calendar.scan.calendar.byPublicUri', '/v1/scan/calendars/byPublic
 	$app = new \OCA\Calendar\App($params);
 	$app->dispatch('ScanController', 'updateCalendarByPublicUri');
 });
-$this->create('calendar.scan.calendar.byCalendarId', '/v1/scan/calendars/byCalendarId/{calendarid}')->get()->action(function($params){
+$this->create('calendar.scan.calendar.byCalendarId', '/v1/scan/calendars/byCalendarId/{calendarId}')->get()->action(function($params){
 	$app = new \OCA\Calendar\App($params);
 	$app->dispatch('ScanController', 'updateCalendarById');
 });
