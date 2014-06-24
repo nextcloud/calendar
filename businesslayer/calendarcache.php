@@ -25,6 +25,7 @@ use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\Http;
 
 use OCP\Calendar\IBackend;
+use OCP\Calendar\IBackendCollection;
 use OCP\Calendar\ICalendar;
 use OCP\Calendar\CacheOutDatedException;
 use OCP\Calendar\DoesNotExistException;
@@ -70,14 +71,14 @@ class CalendarCacheBusinessLayer extends BusinessLayer {
 
 	/**
 	 * @param IAppContainer $app
-	 * @param BackendMapper $backendMapper
+	 * @param IBackendCollection $backends
 	 * @param CalendarMapper $calendarMapper
 	 */
 	public function __construct(IAppContainer $app,
-								BackendMapper $backendMapper,
+								IBackendCollection $backends,
 								CalendarMapper $calendarMapper) {
 		parent::__construct($app, $calendarMapper);
-		parent::initBackendSystem($backendMapper);
+		$this->backends = $backends;
 		$this->resetHistory();
 	}
 
@@ -149,9 +150,7 @@ class CalendarCacheBusinessLayer extends BusinessLayer {
 		try {
 			$cached = $this->mapper->findById($id, $userId);
 		} catch(DoesNotExistException $ex) {
-			$msg  = 'CalendarCacheBusinessLayer::updateById(): ';
-			$msg .= 'No calendar with public uri found!';
-			throw new BusinessLayerException($msg, Http::STATUS_INTERNAL_SERVER_ERROR, $ex);
+			throw new BusinessLayerException('Calendar does not exist', Http::STATUS_NOT_FOUND, $ex);
 		} catch(MultipleObjectsReturnedException $ex) {
 			$msg  = 'CalendarCacheBusinessLayer::updateById(): ';
 			$msg .= 'Multiple calendars with publicuri found!';
@@ -179,9 +178,7 @@ class CalendarCacheBusinessLayer extends BusinessLayer {
 		try {
 			$cached = $this->mapper->find($publicuri, $userId);
 		} catch(DoesNotExistException $ex) {
-			$msg  = 'CalendarCacheBusinessLayer::updateByPublicUri(): ';
-			$msg .= 'No calendar with public uri found!';
-			throw new BusinessLayerException($msg, Http::STATUS_INTERNAL_SERVER_ERROR, $ex);
+			throw new BusinessLayerException('Calendar does not exist', Http::STATUS_NOT_FOUND, $ex);
 		} catch(MultipleObjectsReturnedException $ex) {
 			$msg  = 'CalendarCacheBusinessLayer::updateByPublicUri(): ';
 			$msg .= 'Multiple calendars with publicuri found!';
@@ -297,9 +294,7 @@ class CalendarCacheBusinessLayer extends BusinessLayer {
 	 */
 	private function updateByCacheAndRemote(ICalendar $cache, ICalendar $remote) {
 		if ($cache === null && $remote === null) {
-			$msg = 'CalendarCacheBusinessLayer::updateByCacheAndRemote(): ';
-			$msg .= 'Calendar does not exist!';
-			throw new BusinessLayerException($msg, Http::STATUS_NOT_FOUND);
+			throw new BusinessLayerException('Calendar does not exist', Http::STATUS_NOT_FOUND);
 		} elseif ($cache === null) {
 			$this->createCache($remote);
 		} elseif ($remote === null) {

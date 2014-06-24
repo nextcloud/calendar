@@ -24,6 +24,9 @@ namespace OCA\Calendar\BusinessLayer;
 use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\Http;
 
+use OCP\Calendar\Backend;
+use OCP\Calendar\IBackendCollection;
+use OCP\Calendar\IFullyQualifiedBackend;
 use OCP\Calendar\ICalendar;
 use OCP\Calendar\ICalendarCollection;
 use OCP\Calendar\BackendException;
@@ -31,10 +34,6 @@ use OCP\Calendar\CacheOutDatedException;
 use OCP\Calendar\DoesNotExistException;
 use OCP\Calendar\MultipleObjectsReturnedException;
 
-use OCA\Calendar\Backend\Backend;
-use OCA\Calendar\Backend\IBackend;
-use OCA\Calendar\Backend\IFullyQualifiedBackend;
-use OCA\Calendar\Db\BackendMapper;
 use OCA\Calendar\Db\CalendarMapper;
 use OCA\Calendar\Db\Permissions;
 use OCA\Calendar\Utility\CalendarUtility;
@@ -49,14 +48,14 @@ class CalendarBusinessLayer extends BusinessLayer {
 
 	/**
 	 * @param IAppContainer $app
-	 * @param BackendMapper $backendMapper
+	 * @param IBackendCollection $backends
 	 * @param CalendarMapper $calendarMapper
 	 */
 	public function __construct(IAppContainer $app,
-								BackendMapper $backendMapper,
+								IBackendCollection $backends,
 								CalendarMapper $calendarMapper){
 		parent::__construct($app, $calendarMapper);
-		parent::initBackendSystem($backendMapper);
+		$this->backends = $backends;
 	}
 
 
@@ -698,30 +697,6 @@ class CalendarBusinessLayer extends BusinessLayer {
 
 
 	/**
-	 * reset values of a calendar that are not supported by backend
-	 * @param ICalendar $calendar
-	 * @param IBackend $api
-	 */
-	private function resetValuesNotSupportedByAPI(ICalendar &$calendar, IBackend &$api) {
-		if ($api->canStoreColor() === false) {
-			$calendar->setColor(null);
-		}
-		if ($api->canStoreComponents() === false) {
-			$calendar->setComponents(null);
-		}
-		if ($api->canStoreDisplayname() === false) {
-			$calendar->setDisplayname(null);
-		}
-		if ($api->canStoreEnabled() === false) {
-			$calendar->setEnabled(null);
-		}
-		if ($api->canStoreOrder() === false) {
-			$calendar->setOrder(null);
-		}
-	}
-
-
-	/**
 	 * Get whether or not a calendar needs a transfer
 	 * @param ICalendar $newCalendar
 	 * @param ICalendar $oldCalendar
@@ -773,153 +748,5 @@ class CalendarBusinessLayer extends BusinessLayer {
 		if ($newCalendar->getCtag() === null) {
 			$newCalendar->setCtag($oldCalendar->getCruds());
 		}
-	}
-
-
-	/**
-	 * update all calendars of a user
-	 * @param string $userId
-	 * @return boolean
-	 */
-	public function updateCacheForAllFromRemote($userId) {
-		$this->backends->iterate(function($backend) use ($userId) {
-			try{
-				$backendName = $backend->getBackend();
-				$this->updateCacheForBackendFromRemote($backendName, $userId, null, null);
-			} catch(BusinessLayerException $ex) {
-				//TODO - log error msg
-				return;
-			}
-		});
-	}
-
-
-	/**
-	 * update all calendars of a user on a backend
-	 * @param string $backend
-	 * @param string $userId
-	 * @param integer $limit
-	 * @param integer $offset
-	 */
-	public function updateCacheForBackendFromRemote($backend, $userId, $limit, $offset) {
-		$calendars = $this->findAllOnBackend($backend, $userId);
-		$remoteCalendars = $this->backends->find($backend)->getAPI()->findCalendars($userId, null, null);
-		$calendars->addCollection($remoteCalendars)->noDuplicates();
-
-		$calendars->subset($limit, $offset)->iterate(function(ICalendar &$calendar) use ($backend, $userId) {
-			try{
-				$publicuri = $calendar->getPublicUri();
-				$backend = $calendar->getBackend();
-				$privateuri = $calendar->getPrivateUri();
-
-				$this->updateCacheForCalendarFromRemote($publicuri, $backend, $privateuri, $userId);
-			} catch(BusinessLayerException $ex) {
-				$this->app->log($ex->getMessage(), 'error');
-				return;
-			} catch(DoesNotExistException $ex) {
-				//should not occur, but catch it nevertheless
-				$this->app->log($ex->getMessage(), 'fatal');
-				return;
-			}
-		});
-	}
-
-
-	/**
-	 * @param $publicuri
-	 * @param $backend
-	 * @param $privateuri
-	 * @param $userId
-	 * @throws \OCP\Calendar\DoesNotExistException
-	 * @throws BusinessLayerException
-	 */
-	public function updateCacheForCalendarFromRemote($publicuri, $backend, $privateuri, $userId) {
-		try{
-			$api = $this->backends->find($backend)->getAPI();
-
-			if ($publicuri === null) {
-				$doesExistCached = false;
-			} else {
-				$doesExistCached = $this->doesExist($publicuri, $userId);
-			}
-			$doesExistRemote = $api->doesCalendarExist($privateuri, $userId);
-
-			if (!$doesExistCached && !$doesExistRemote) {
-				$msg  = 'CalendarBusinessLayer::updateCacheForCalendarFromRemote(): ';
-				$msg .= '"b:' . $backend . ';u:' . $privateuri . '" doesn\'t exist';
-				$msg .= 'Neither cached nor remote!';
-				throw new DoesNotExistException($msg);
-			}
-
-			$cachedCalendar = $doesExistCached ? $this->find($publicuri, $userId) : null;
-			$remoteCalendar = $doesExistRemote ? $api->findCalendar($privateuri, $userId) : null;
-
-			if (!$doesExistRemote) {
-				//$this->obl->deleteAll($cachedCalendar, null, null);
-				$this->mapper->delete($cachedCalendar);
-				return;
-			}
-			if (!$doesExistCached) {
-				if ($remoteCalendar->isValid() !== true) {
-					$msg  = 'CalendarBusinessLayer::updateCacheForCalendarFromRemote(): Backend Error: ';
-					$msg .= 'Given calendar data is not valid! (b:"' . $backend . '";c:"' . $privateuri . '")';
-					throw new BusinessLayerException($msg);
-				}
-
-				$this->generatePublicUri($remoteCalendar);
-				$this->mapper->insert($remoteCalendar);
-				//$this->obl->updateCacheForCalendarFromRemote(array($backend, $calendarURI), $userId);
-				return;
-			}
-
-			if ($cachedCalendar == $remoteCalendar) {
-				return;
-			}
-
-			if ($api->cacheObjects($privateuri, $userId) && $cachedCalendar->getCtag() < $remoteCalendar->getCtag()) {
-				//$this->obl->updateCacheForCalendarFromRemote(array($backend, $calendarURI), $userId);
-			}
-
-			$this->resetValuesNotSupportedByAPI($remoteCalendar, $api);
-
-			if ($cachedCalendar == $remoteCalendar) {
-				return;
-			}
-
-			$cachedCalendar->overwriteWith($remoteCalendar);
-
-			if ($cachedCalendar->getPublicUri() === null) {
-				$this->generatePublicUri($cachedCalendar);
-			}
-
-			if ($cachedCalendar->isValid() !== true) {
-				$msg  = 'CalendarBusinessLayer::updateCacheForCalendarFromRemote(): Backend Error: ';
-				$msg .= 'Given calendar data is not valid! (b:"' . $backend . '";c:"' . $privateuri . '")';
-				throw new BusinessLayerException($msg);
-			}
-
-			$this->mapper->update($cachedCalendar);
-		} catch(BackendException $ex) {
-			throw new BusinessLayerException($ex->getMessage());
-		}
-	}
-
-
-	/**
-	 * @param ICalendar $calendar
-	 */
-	private function generatePublicUri(ICalendar &$calendar) {
-		$suggestedURI = $calendar->getPrivateUri();
-
-		while($this->doesExist($suggestedURI, $calendar->getUserId())) {
-			$newSuggestedURI = CalendarUtility::suggestURI($suggestedURI);
-
-			if ($newSuggestedURI === $suggestedURI) {
-				break;
-			}
-			$suggestedURI = $newSuggestedURI;
-		}
-
-		$calendar->setPublicUri($suggestedURI);
 	}
 }

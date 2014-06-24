@@ -51,6 +51,7 @@ use OCA\Calendar\Db\SubscriptionMapper;
 use OCA\Calendar\Db\ObjectMapper;
 use OCA\Calendar\Db\TimezoneMapper;
 
+use OCA\Calendar\Utility\BackendUtility;
 use OCA\Calendar\Utility\Updater;
 
 class App extends \OCP\AppFramework\App {
@@ -181,29 +182,29 @@ class App extends \OCP\AppFramework\App {
 			return new BackendBusinessLayer($c, $bmp);
 		});
 		$this->getContainer()->registerService('CalendarBusinessLayer', function(IAppContainer $c) {
-			$bmp = $c->query('BackendMapper');
+			$ibs = $c->query('backends');
 			$cmp = $c->query('CalendarMapper');
 			$obl = $c->query('ObjectBusinessLayer');
 
-			return new CalendarBusinessLayer($c, $bmp, $cmp, $obl);
+			return new CalendarBusinessLayer($c, $ibs, $cmp, $obl);
 		});
 		$this->getContainer()->registerService('CalendarCacheBusinessLayer', function(IAppContainer $c) {
-			$bmp = $c->query('BackendMapper');
+			$ibs = $c->query('backends');
 			$cmp = $c->query('CalendarMapper');
 
-			return new CalendarCacheBusinessLayer($c, $bmp, $cmp);
+			return new CalendarCacheBusinessLayer($c, $ibs, $cmp);
 		});
 		$this->getContainer()->registerService('ObjectBusinessLayer', function(IAppContainer $c) {
-			$bmp = $c->query('BackendMapper');
+			$ibs = $c->query('backends');
 			$omp = $c->query('ObjectMapper');
 
-			return new ObjectBusinessLayer($c, $bmp, $omp);
+			return new ObjectBusinessLayer($c, $ibs, $omp);
 		});
 		$this->getContainer()->registerService('ObjectCacheBusinessLayer', function(IAppContainer $c) {
-			$bmp = $c->query('BackendMapper');
+			$ibs = $c->query('backends');
 			$omp = $c->query('ObjectMapper');
 
-			return new ObjectCacheBusinessLayer($c, $bmp, $omp);
+			return new ObjectCacheBusinessLayer($c, $ibs, $omp);
 		});
 		$this->getContainer()->registerService('SubscriptionBusinessLayer', function(IAppContainer $c) {
 			$smp = $c->query('SubscriptionMapper');
@@ -278,6 +279,9 @@ class App extends \OCP\AppFramework\App {
 
 		$this->getContainer()->registerParameter('defaultBackend', $defaultBackend);
 		$this->getContainer()->registerParameter('fallbackBackendConfig', $defaultConfig);
+
+		$backends = BackendUtility::setup($this->getContainer(), $this->getContainer()->query('BackendMapper'));
+		$this->getContainer()->registerParameter('backends', $backends);
 	}
 
 	public function registerNavigation() {

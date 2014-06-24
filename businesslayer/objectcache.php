@@ -24,31 +24,25 @@ namespace OCA\Calendar\BusinessLayer;
 use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\Http;
 
-use OCP\Calendar\IBackend;
-use OCP\Calendar\ICalendar;
-use OCP\Calendar\DoesNotExistException;
-use OCP\Calendar\MultipleObjectsReturnedException;
-use OCP\Calendar\IBackendAPI;
-use OCP\Calendar\IFullyQualifiedBackend;
+use OCP\Calendar\IBackendCollection;
 
 use OCA\Calendar\Db\BackendMapper;
 use OCA\Calendar\Db\CalendarMapper;
-use OCA\Calendar\Utility\CalendarUtility;
 
 class ObjectCacheBusinessLayer extends BusinessLayer {
 
 
 	/**
 	 * @param IAppContainer $app
-	 * @param BackendMapper $backendMapper
+	 * @param IBackendCollection $backends
 	 * @param CalendarMapper $calendarMapper
 	 */
 	public function __construct(IAppContainer $app,
-								BackendMapper $backendMapper,
+								IBackendCollection $backends,
 								CalendarMapper $calendarMapper)
 	{
 		parent::__construct($app, $calendarMapper);
-		parent::initBackendSystem($backendMapper);
+		$this->backends = $backends;
 		//$this->resetHistory();
 	}
 }

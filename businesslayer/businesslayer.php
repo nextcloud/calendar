@@ -26,7 +26,7 @@ use OCP\AppFramework\Http;
 use OCP\Calendar\IBackendCollection;
 
 use \OCP\AppFramework\IAppContainer;
-use \OCA\Calendar\Backend\IBackend;
+use \OCP\Calendar\IBackendAPI;
 use \OCA\Calendar\Db\Backend;
 use \OCA\Calendar\Db\BackendCollection;
 use \OCA\Calendar\Db\BackendMapper;
@@ -54,8 +54,7 @@ abstract class BusinessLayer {
 
 
 	/**
-	 * initialized backends
-	 * @var \OCA\Calendar\Db\BackendCollection
+	 * @var IBackendCollection
 	 */
 	protected $backends;
 
@@ -118,7 +117,7 @@ abstract class BusinessLayer {
 			return false;
 		} else {
 			$backend = $this->backends->search('backend', $backend)->current();
-			if (!($backend instanceof Backend) || !($backend->api instanceof IBackend)) {
+			if (!($backend instanceof Backend) || !($backend->api instanceof IBackendAPI)) {
 				return false;
 			}
 			return $backend->api->implementsActions($action);

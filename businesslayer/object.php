@@ -25,6 +25,7 @@ use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\Http;
 
 use OCP\Calendar\Backend;
+use OCP\Calendar\IBackendCollection;
 use OCP\Calendar\IFullyQualifiedBackend;
 use OCP\Calendar\BackendException;
 use OCP\Calendar\CacheOutDatedException;
@@ -34,7 +35,6 @@ use OCP\Calendar\ICalendar;
 use OCP\Calendar\IObject;
 use OCP\Calendar\IObjectCollection;
 
-use OCA\Calendar\Db\BackendMapper;
 use OCA\Calendar\Db\ObjectMapper;
 use OCA\Calendar\Utility\ObjectUtility;
 
@@ -51,14 +51,14 @@ class ObjectBusinessLayer extends BusinessLayer {
 
     /**
      * @param IAppContainer $app
-     * @param BackendMapper $backendMapper
+     * @param IBackendCollection $backends
      * @param ObjectMapper $objectMapper
      */
     public function __construct(IAppContainer $app,
-								BackendMapper $backendMapper,
+								IBackendCollection $backends,
 								ObjectMapper $objectMapper) {
 		parent::__construct($app, $objectMapper);
-		parent::initBackendSystem($backendMapper);
+		$this->backends = $backends;
 	}
 
 
