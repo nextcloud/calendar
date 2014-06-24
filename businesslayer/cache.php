@@ -21,25 +21,36 @@
  */
 namespace OCA\Calendar\BusinessLayer;
 
-use OCP\AppFramework\IAppContainer;
-use OCP\AppFramework\Http;
-use OCP\Calendar\IBackendCollection;
+abstract class CacheBusinessLayer extends BusinessLayer {
 
-use OCA\Calendar\Db\CalendarMapper;
-
-class ObjectCacheBusinessLayer extends CacheBusinessLayer {
+	/**
+	 * @var array
+	 */
+	protected $history=array();
 
 
 	/**
-	 * @param IAppContainer $app
-	 * @param IBackendCollection $backends
-	 * @param CalendarMapper $calendarMapper
+	 * returns history array
+	 * @return array
 	 */
-	public function __construct(IAppContainer $app,
-								IBackendCollection $backends,
-								CalendarMapper $calendarMapper) {
-		parent::__construct($app, $calendarMapper);
-		$this->backends = $backends;
-		//$this->resetHistory();
+	public function getHistory() {
+		return $this->history;
+	}
+
+
+	/**
+	 * resets history array
+	 */
+	protected function resetHistory() {
+		$this->history = array();
+	}
+
+
+	/**
+	 * @param array $data
+	 */
+	protected function appendToHistory(array $data) {
+		$this->history[] = $data;
 	}
 }
+

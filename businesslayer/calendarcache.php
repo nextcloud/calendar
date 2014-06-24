@@ -33,11 +33,10 @@ use OCP\Calendar\MultipleObjectsReturnedException;
 use OCP\Calendar\IBackendAPI;
 use OCP\Calendar\IFullyQualifiedBackend;
 
-use OCA\Calendar\Db\BackendMapper;
 use OCA\Calendar\Db\CalendarMapper;
 use OCA\Calendar\Utility\CalendarUtility;
 
-class CalendarCacheBusinessLayer extends BusinessLayer {
+class CalendarCacheBusinessLayer extends CacheBusinessLayer {
 
 	/**
 	 * @var int
@@ -64,12 +63,6 @@ class CalendarCacheBusinessLayer extends BusinessLayer {
 
 
 	/**
-	 * @var array
-	 */
-	protected $history=array();
-
-
-	/**
 	 * @param IAppContainer $app
 	 * @param IBackendCollection $backends
 	 * @param CalendarMapper $calendarMapper
@@ -80,31 +73,6 @@ class CalendarCacheBusinessLayer extends BusinessLayer {
 		parent::__construct($app, $calendarMapper);
 		$this->backends = $backends;
 		$this->resetHistory();
-	}
-
-
-	/**
-	 * returns history array
-	 * @return array
-	 */
-	public function getHistory() {
-		return $this->history;
-	}
-
-
-	/**
-	 * resets history array
-	 */
-	private function resetHistory() {
-		$this->history = array();
-	}
-
-
-	/**
-	 * @param array $data
-	 */
-	private function appendToHistory(array $data) {
-		$this->history[] = $data;
 	}
 
 
