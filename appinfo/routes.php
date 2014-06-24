@@ -103,13 +103,6 @@ $this->create('calendar.settings.setTimeFormat', '/setTimeFormat/{timeformat}')-
 });
 
 
-//TODO - REMOVE FORCE-UPDATE ONCE THE SCAN API IS FULLY IMPLEMENTED
-$this->create('calendar.calendars.forceUpdate', '/v1/calendars-forceUpdate')->get()->action(function($params){
-	$app = new \OCA\Calendar\App($params);
-	$app->dispatch('CalendarController', 'forceUpdate');
-});
-
-
 /* some additional calendar calls */
 $this->create('calendar.calendar.export', '/v1/calendars/{calendarId}/export')->get()->action(function($params){
 	$app = new \OCA\Calendar\App($params);

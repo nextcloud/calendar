@@ -369,29 +369,4 @@ class CalendarController extends Controller {
 			);
 		}
 	}
-
-
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 */
-	public function forceUpdate() {
-		try {
-			$userId	= $this->api->getUserId();
-
-			$this->businesslayer->updateCacheForAllFromRemote(
-				$userId,
-				null,
-				null
-			);
-
-			return new Response();
-		} catch (BusinessLayerException $ex) {
-			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(
-				array('message' => $ex->getMessage()),
-				$ex->getCode()
-			);
-		}
-	}
 }
