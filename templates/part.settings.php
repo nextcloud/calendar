@@ -40,25 +40,24 @@
 		<ul>
 			<li>
 				<label for="timeformat" class="bold"><?php p($l->t('Time format')); ?></label>
-				<select id="timeformat" title="<?php p("timeformat"); ?>" name="timeformat">
-					<option
-						ng-repeat="timeformat in timeformatSelect"
-						id="{{ timeformat.val }}"
-						value="{{ timeformat.val }}">
-							{{ timeformat.time }}
-					</option>
+				<select
+					id="timeformat" name="timeformat"
+					title="<?php p("timeformat"); ?>"
+					ng-model="selectedtime"
+					ng-selected="selectedtime"
+					ng-change="changetimeformat(selectedtime)"
+					ng-options="timeformat.time for timeformat in timeformatSelect">
 				</select>
 			</li>
 			<li>
 				<label for="firstday" class="bold"><?php p($l->t('Start week on')); ?></label>
-				<select id="firstday" title="<?php p("First day"); ?>" name="firstday">
-					<option
-							ng-repeat="firstday in firstdaySelect"
-							id="{{ firstday.val }}"
-							value="{{ firstday.val }}"
-							ng-change="changefirstday()" ng-model="firstdaymodel">
-								{{ firstday.day }}
-					</option>
+				<select
+					id="firstday" name="firstday"
+					title="<?php p("First day"); ?>"
+					ng-model="selectedday"
+					ng-selected="selectedday"
+					ng-change="changefirstday(selectedday)"
+					ng-options="firstday.day for firstday in firstdaySelect">
 				</select>
 			</li>
 			<li>

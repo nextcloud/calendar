@@ -21,12 +21,18 @@
  *
  */
 
-app.controller('SettingsController', ['$scope','Restangular','$routeParams','TimezoneModel',
-	function ($scope,Restangular,$routeParams,TimezoneModel) {
-		// In case, routes are need.
-		$scope.route = $routeParams;
-		$scope.timezones = TimezoneModel.getAll();
-		var calendarResource = Restangular.all('timezones');
+app.controller('SettingsController', ['$scope','Restangular',
+	function ($scope,Restangular) {
+
+		var firstdayResource = Restangular.one('firstDay');
+		firstdayResource.get().then(function (firstdayobject) {
+			$scope.selectedday = firstdayobject.firstday;
+		});
+
+		var timeformatResource = Restangular.one('timeFormat');
+		timeformatResource.get().then(function (timeFormatobject) {
+			$scope.selectedtime = timeFormatobject.timeformat;
+		});
 
 		// Time Format Dropdown
 		$scope.timeformatSelect = [
@@ -43,6 +49,20 @@ app.controller('SettingsController', ['$scope','Restangular','$routeParams','Tim
 
 		// Changing the first day
 		$scope.changefirstday = function (firstday) {
+			firstdayResource.post(firstday.val).then(function () {
+				// TODO : Add a OC notification if the request is successful.
+			}, function () {
+				// TODO : Add a OC notification if the request is not successful.
+			});
+		};
+
+		// Changing the time format
+		$scope.changetimeformat = function (timeformat) {
+			timeformatResource.post(timeformat.val).then(function () {
+				// TODO : Add a OC notification if the request is successful.
+			}, function () {
+				// TODO : Add a OC notification if the request is not successful.
+			});
 		};
 	}
 ]);
