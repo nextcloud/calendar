@@ -479,18 +479,19 @@ class Calendar extends Entity implements ICalendar {
 	 */
 	public function fromVObject(VCalendar $vcalendar) {
 		foreach($vcalendar->select('X-WR-CALNAME') as $displayname) {
-			$this->setDisplayname($displayname);
+			$this->setDisplayname($displayname->getValue());
 			break;
 		}
 
 		foreach($vcalendar->select('X-WR-CALDESC') as $description) {
-			$this->setDescription($description);
+			$this->setDescription($description->getValue());
 			break;
 		}
 
 		foreach($vcalendar->select('X-WR-TIMEZONE') as $timezone) {
+			$timezoneId = $timezone->getValue();
 			foreach($vcalendar->select('VTIMEZONE') as $vtimezone) {
-				if($vtimezone->TZID === $timezone) {
+				if($vtimezone->TZID === $timezoneId) {
 					$this->setTimezone(new Timezone($vtimezone));
 					break;
 				}
@@ -499,7 +500,7 @@ class Calendar extends Entity implements ICalendar {
 		}
 
 		foreach($vcalendar->select('X-APPLE-CALENDAR-COLOR') as $color) {
-			$this->setColor($color);
+			$this->setColor($color->getValue());
 			break;
 		}
 

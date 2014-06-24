@@ -22,19 +22,19 @@ class SubscriptionMapper extends Mapper {
 
 
 	/**
-	 * find subscription by type, name, userId
-	 * @param string $name
+	 * find subscription by id, userId
+	 * @param int $id
 	 * @param string $userId
-	 * @throws DoesNotExistException: if the item does not exist
-	 * @throws MultipleObjectsReturnedException: if more than one item found
+	 * @throws \OCP\Calendar\DoesNotExistException: if the item does not exist
+	 * @throws \OCP\Calendar\MultipleObjectsReturnedException: if more than one item found
 	 * @return Subscription object
 	 */
-	public function find($name, $userId){
+	public function find($id, $userId){
 		$sql  = 'SELECT * FROM `' . $this->getTableName() . '` ';
-		$sql .= 'WHERE `name` = ? AND `user_id` = ?';
+		$sql .= 'WHERE `id` = ? AND `user_id` = ?';
 
 		$row = $this->findOneQuery($sql, array(
-			$name,
+			$id,
 			$userId
 		));
 
@@ -44,16 +44,16 @@ class SubscriptionMapper extends Mapper {
 
 	/**
 	 * does a subscription exist
-	 * @param string $name
+	 * @param int $id
 	 * @param string $userId
 	 * @return boolean
 	 */
-	public function doesExist($name, $userId) {
+	public function doesExist($id, $userId) {
 		$sql  = 'SELECT COUNT(*) AS `count` FROM `' . $this->tableName . '`';
-		$sql .= ' WHERE `name` = ? AND `user_id` = ?';
+		$sql .= ' WHERE `id` = ? AND `user_id` = ?';
 
 		$row = $this->findOneQuery($sql, array(
-			$name,
+			$id,
 			$userId
 		));
 
@@ -64,17 +64,17 @@ class SubscriptionMapper extends Mapper {
 
 	/**
 	 * does a subscription of a certain type exist
-	 * @param string $name
+	 * @param int $id
 	 * @param string $type
 	 * @param string $userId
 	 * @return boolean
 	 */
-	public function doesExistOfType($name, $type, $userId) {
+	public function doesExistOfType($id, $type, $userId) {
 		$sql  = 'SELECT COUNT(*) AS `count` FROM `' . $this->tableName . '`';
-		$sql .= ' WHERE `name` = ? AND `type` = ? AND `user_id` = ?';
+		$sql .= ' WHERE `id` = ? AND `type` = ? AND `user_id` = ?';
 
 		$row = $this->findOneQuery($sql, array(
-			$name,
+			$id,
 			$type,
 			$userId
 		));

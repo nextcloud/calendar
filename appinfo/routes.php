@@ -23,37 +23,14 @@
  */
 use \OCA\Calendar;
 
+/* Main view */
 $this->create('calendar.view.index', '/')->get()->action(function($params){
 	$app = new \OCA\Calendar\App($params);
 	$app->dispatch('ViewController', 'index');
 });
 
 
-$this->create('calendar.settings.getView', '/v1/view')->get()->action(function($params){
-	$app = new \OCA\Calendar\App($params);
-	$app->dispatch('SettingsController', 'getView');
-});
-$this->create('calendar.settings.setView', '/v1/view/{view}')->post()->action(function($params){
-	$app = new \OCA\Calendar\App($params);
-	$app->dispatch('SettingsController', 'setView');
-});
-$this->create('calendar.settings.getFirstDayOfWeek', '/v1/firstDay')->get()->action(function($params){
-	$app = new \OCA\Calendar\App($params);
-	$app->dispatch('SettingsController', 'getFirstDayOfWeek');
-});
-$this->create('calendar.settings.setFirstDayOfWeek', '/v1/firstDay/{firstday}')->post()->action(function($params){
-	$app = new \OCA\Calendar\App($params);
-	$app->dispatch('SettingsController', 'setFirstDayOfWeek');
-});
-$this->create('calendar.settings.getTimeFormat', '/v1/timeFormat')->get()->action(function($params){
-	$app = new \OCA\Calendar\App($params);
-	$app->dispatch('SettingsController', 'getTimeFormat');
-});
-$this->create('calendar.settings.setTimeFormat', '/v1/timeFormat/{timeformat}')->post()->action(function($params){
-	$app = new \OCA\Calendar\App($params);
-	$app->dispatch('SettingsController', 'setTimeFormat');
-});
-
+/* Backend API */
 $this->create('calendar.backends.all', '/v1/backends')->get()->action(function($params){
 	$app = new \OCA\Calendar\App($params);
 	$app->dispatch('BackendController', 'index');
@@ -72,6 +49,61 @@ $this->create('calendar.backends.default', '/v1/backends-default')->get()->actio
 });
 
 
+/* Scan API */
+$this->create('calendar.scan.calendar.all', '/v1/scan/calendars')->get()->action(function($params){
+	$app = new \OCA\Calendar\App($params);
+	$app->dispatch('ScanController', 'updateAllCalendars');
+});
+$this->create('calendar.scan.calendar.byBackend', '/v1/scan/calendars/byBackend')->get()->action(function($params){
+	$app = new \OCA\Calendar\App($params);
+	$app->dispatch('ScanController', 'updateCalendarsByBackend');
+});
+$this->create('calendar.scan.calendar.byPrivateUri', '/v1/scan/calendars/byPrivateUri/{backend}/{privateuri}')->get()->action(function($params){
+	$app = new \OCA\Calendar\App($params);
+	$app->dispatch('ScanController', 'updateCalendarByPrivateUri');
+});
+$this->create('calendar.scan.calendar.byPublicUri', '/v1/scan/calendars/byPublicUri/{publicuri}')->get()->action(function($params){
+	$app = new \OCA\Calendar\App($params);
+	$app->dispatch('ScanController', 'updateCalendarByPublicUri');
+});
+$this->create('calendar.scan.calendar.byCalendarId', '/v1/scan/calendars/byCalendarId/{calendarid}')->get()->action(function($params){
+	$app = new \OCA\Calendar\App($params);
+	$app->dispatch('ScanController', 'updateCalendarById');
+});
+$this->create('calendar.scan.calendar.mostOutDated', '/v1/scan/calendars/mostOutdated')->get()->action(function($params){
+	$app = new \OCA\Calendar\App($params);
+	$app->dispatch('ScanController', 'updateMostOutdatedCalendars');
+});
+
+
+/* Settings API */
+$this->create('calendar.settings.getView', '/getView')->get()->action(function($params){
+	$app = new \OCA\Calendar\App($params);
+	$app->dispatch('SettingsController', 'getView');
+});
+$this->create('calendar.settings.setView', '/setView/{view}')->get()->action(function($params){
+	$app = new \OCA\Calendar\App($params);
+	$app->dispatch('SettingsController', 'setView');
+});
+$this->create('calendar.settings.getFirstDayOfWeek', '/getFirstDay')->get()->action(function($params){
+	$app = new \OCA\Calendar\App($params);
+	$app->dispatch('SettingsController', 'getFirstDayOfWeek');
+});
+$this->create('calendar.settings.setFirstDayOfWeek', '/setFirstDay/{firstday}')->get()->action(function($params){
+	$app = new \OCA\Calendar\App($params);
+	$app->dispatch('SettingsController', 'setFirstDayOfWeek');
+});
+$this->create('calendar.settings.getTimeFormat', '/getTimeFormat')->get()->action(function($params){
+	$app = new \OCA\Calendar\App($params);
+	$app->dispatch('SettingsController', 'getTimeFormat');
+});
+$this->create('calendar.settings.setTimeFormat', '/setTimeFormat/{timeformat}')->get()->action(function($params){
+	$app = new \OCA\Calendar\App($params);
+	$app->dispatch('SettingsController', 'setTimeFormat');
+});
+
+
+//TODO - REMOVE FORCE-UPDATE ONCE THE SCAN API IS FULLY IMPLEMENTED
 $this->create('calendar.calendars.forceUpdate', '/v1/calendars-forceUpdate')->get()->action(function($params){
 	$app = new \OCA\Calendar\App($params);
 	$app->dispatch('CalendarController', 'forceUpdate');
@@ -105,13 +137,6 @@ $this->create('calendar.journal.inPeriod', '/v1/calendars/{calendarId}/journals/
 $this->create('calendar.todo.inPeriod', '/v1/calendars/{calendarId}/objects/todos/{start}/{end}')->get()->action(function($params){
 	$app = new \OCA\Calendar\App($params);
 	$app->dispatch('TodoController', 'indexInPeriod');
-});
-
-
-/* some additional subscription calls */
-$this->create('calendar.subscription.getTypes', '/v1/subscriptions-type')->get()->action(function($params){
-	$app = new \OCA\Calendar\App($params);
-	$app->dispatch('SubscriptionController', 'getTypes');
 });
 
 

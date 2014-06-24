@@ -24,22 +24,37 @@ namespace OCA\Calendar\BusinessLayer;
 use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\Http;
 
+use OCP\Calendar\IBackend;
 use OCP\Calendar\ICalendar;
-use OCP\Calendar\ICalendarCollection;
-use OCP\Calendar\BackendException;
 use OCP\Calendar\CacheOutDatedException;
 use OCP\Calendar\DoesNotExistException;
 use OCP\Calendar\MultipleObjectsReturnedException;
-
-use OCA\Calendar\Backend\IBackend;
+use OCP\Calendar\IBackendAPI;
+use OCP\Calendar\IFullyQualifiedBackend;
 
 use OCA\Calendar\Db\BackendMapper;
 use OCA\Calendar\Db\CalendarMapper;
-
 use OCA\Calendar\Utility\CalendarUtility;
 
-
 class CalendarCacheBusinessLayer extends BusinessLayer {
+
+	/**
+	 * @var int
+	 */
+	const CREATED = 1;
+
+
+	/**
+	 * @var int
+	 */
+	const UPDATED = 2;
+
+
+	/**
+	 * @var int
+	 */
+	const REMOVED = 4;
+
 
 	/**
 	 * @var CalendarMapper
@@ -50,13 +65,7 @@ class CalendarCacheBusinessLayer extends BusinessLayer {
 	/**
 	 * @var array
 	 */
-	private $cachedIdentifiers=array();
-
-
-	/**
-	 * @var array
-	 */
-	private $remoteIdentifiers=array();
+	protected $history=array();
 
 
 	/**
@@ -69,237 +78,377 @@ class CalendarCacheBusinessLayer extends BusinessLayer {
 								CalendarMapper $calendarMapper) {
 		parent::__construct($app, $calendarMapper);
 		parent::initBackendSystem($backendMapper);
+		$this->resetHistory();
 	}
 
 
 	/**
+	 * returns history array
+	 * @return array
+	 */
+	public function getHistory() {
+		return $this->history;
+	}
+
+
+	/**
+	 * resets history array
+	 */
+	private function resetHistory() {
+		$this->history = array();
+	}
+
+
+	/**
+	 * @param array $data
+	 */
+	private function appendToHistory(array $data) {
+		$this->history[] = $data;
+	}
+
+
+	/**
+	 * @param string $userId
+	 * @param int $limit
+	 * @param int $offset
+	 */
+	public function updateMostOutdated($userId=null, $limit=null, $offset=null) {
+		if ($userId === null) {
+			$calendars = $this->mapper->getMostOutDatedProperties($limit, $offset);
+		} else {
+			$calendars = $this->mapper->getMostOutDatedPropertiesByUser($userId, $limit, $offset);
+		}
+
+		$calendars->iterate(function(ICalendar &$calendar) {
+			$this->updateByCache($calendar);
+		});
+	}
+
+
+	/**
+	 * @param ICalendar $cached
+	 */
+	public function updateByCache(ICalendar $cached) {
+		$backend = $cached->getBackend();
+		$privateuri = $cached->getPrivateUri();
+		$userId = $cached->getUserId();
+
+		$remote = $this->getRemote($backend, $privateuri, $userId);
+
+		$this->updateByCacheAndRemote($cached, $remote);
+	}
+
+
+	/**
+	 * @param int $id
+	 * @param string $userId
+	 * @throws BusinessLayerException
+	 */
+	public function updateById($id, $userId) {
+		//try to get cached calendar
+		try {
+			$cached = $this->mapper->findById($id, $userId);
+		} catch(DoesNotExistException $ex) {
+			$msg  = 'CalendarCacheBusinessLayer::updateById(): ';
+			$msg .= 'No calendar with public uri found!';
+			throw new BusinessLayerException($msg, Http::STATUS_INTERNAL_SERVER_ERROR, $ex);
+		} catch(MultipleObjectsReturnedException $ex) {
+			$msg  = 'CalendarCacheBusinessLayer::updateById(): ';
+			$msg .= 'Multiple calendars with publicuri found!';
+			throw new BusinessLayerException($msg, Http::STATUS_INTERNAL_SERVER_ERROR, $ex);
+		}
+
+		$backend = $cached->getBackend();
+		$privateuri = $cached->getPrivateUri();
+		$userId = $cached->getUserId();
+
+		$remote = $this->getRemote($backend, $privateuri, $userId);
+
+		$this->updateByCacheAndRemote($cached, $remote);
+	}
+
+
+	/**
+	 * @param string $publicuri
+	 * @param string $userId
+	 * @return int
+	 * @throws BusinessLayerException
+	 */
+	public function updateByPublicUri($publicuri, $userId) {
+		//try to get cached calendar
+		try {
+			$cached = $this->mapper->find($publicuri, $userId);
+		} catch(DoesNotExistException $ex) {
+			$msg  = 'CalendarCacheBusinessLayer::updateByPublicUri(): ';
+			$msg .= 'No calendar with public uri found!';
+			throw new BusinessLayerException($msg, Http::STATUS_INTERNAL_SERVER_ERROR, $ex);
+		} catch(MultipleObjectsReturnedException $ex) {
+			$msg  = 'CalendarCacheBusinessLayer::updateByPublicUri(): ';
+			$msg .= 'Multiple calendars with publicuri found!';
+			throw new BusinessLayerException($msg, Http::STATUS_INTERNAL_SERVER_ERROR, $ex);
+		}
+
+		$backend = $cached->getBackend();
+		$privateuri = $cached->getPrivateUri();
+		$userId = $cached->getUserId();
+
+		$remote = $this->getRemote($backend, $privateuri, $userId);
+
+		$this->updateByCacheAndRemote($cached, $remote);
+	}
+
+
+	/**
+	 * @param string $backend
+	 * @param string $privateuri
+	 * @param string $userId
+	 * @throws BusinessLayerException
+	 */
+	public function updateByPrivateUri($backend, $privateuri, $userId) {
+		try {
+			$cached = $this->mapper->findByPrivateUri($backend, $privateuri, $userId);
+		} catch (DoesNotExistException $ex) {
+			$cached = null;
+		} catch (MultipleObjectsReturnedException $ex) {
+			$msg = 'CalendarCacheBusinessLayer::updateByPrivateUri(): ';
+			$msg .= 'Multiple calendars with privateuri found in cache!';
+			throw new BusinessLayerException($msg, Http::STATUS_INTERNAL_SERVER_ERROR, $ex);
+		}
+
+		$remote = $this->getRemote($backend, $privateuri, $userId);
+
+		$this->updateByCacheAndRemote($cached, $remote);
+	}
+
+
+	/**
+	 * @param string $backend
+	 * @param string $userId
+	 * @param int $limit
+	 * @param int $offset
+	 */
+	public function updateByBackend($backend, $userId, $limit, $offset) {
+		/** @var IFullyQualifiedBackend $backendApi */
+		$backendApi = $this->backends->find($backend)->getAPI();
+
+		$calendarIds = $backendApi->getCalendarIdentifiers($userId, $limit, $offset);
+		foreach($calendarIds as $calendarId) {
+			$this->updateByPrivateUri($backend, $calendarId, $userId);
+		}
+	}
+
+
+	/**
+	 * @param string $userId
+	 * @param int $limit
+	 * @param int $offset
+	 */
+	public function updateAll($userId, $limit, $offset) {
+		$list = array();
+
+		$this->backends->iterate(function(IBackend $backend) use ($userId, &$limit, &$offset, &$list) {
+			if ($limit !== null && $limit < 1) {
+				return;
+			}
+
+			/** @var IFullyQualifiedBackend $backendApi */
+			$backendApi = $backend->getAPI();
+			$backendId = $backend->getBackend();
+
+			$numberOfCalendars = $backendApi->countCalendars($userId);
+
+			if ($offset !== null && $numberOfCalendars < $offset) {
+				$offset -= $numberOfCalendars;
+				return;
+			} else {
+				$calendarIds = $backendApi->getCalendarIdentifiers($userId, $limit, $offset);
+				foreach($calendarIds as $calendarId) {
+					$list[] = array(
+						'userId' => $userId,
+						'backend' => $backendId,
+						'privateuri' => $calendarId,
+					);
+				}
+
+				$numberOfCalendarIds = count($calendarIds);
+				if ($limit !== null) {
+					$limit -= $numberOfCalendarIds;
+				}
+				if ($offset !== null) {
+					$offset -= $numberOfCalendarIds;
+				}
+			}
+		});
+
+		foreach($list as $item) {
+			$backend = $item['backend'];
+			$privateuri = $item['privateuri'];
+			$userId = $item['userId'];
+
+			$this->updateByPrivateUri($backend, $privateuri, $userId);
+		}
+	}
+
+
+	/**
+	 * @param ICalendar $cache
+	 * @param ICalendar $remote
+	 * @throws BusinessLayerException
+	 */
+	private function updateByCacheAndRemote(ICalendar $cache, ICalendar $remote) {
+		if ($cache === null && $remote === null) {
+			$msg = 'CalendarCacheBusinessLayer::updateByCacheAndRemote(): ';
+			$msg .= 'Calendar does not exist!';
+			throw new BusinessLayerException($msg, Http::STATUS_NOT_FOUND);
+		} elseif ($cache === null) {
+			$this->createCache($remote);
+		} elseif ($remote === null) {
+			$this->removeCache($cache);
+		} else {
+			$this->updateCache($cache, $remote);
+		}
+	}
+
+
+	/**
+	 * @param string $backend
+	 * @param string $privateuri
 	 * @param string $userId
 	 * @return ICalendar
+	 * @throws BusinessLayerException
 	 */
-	public function getNextCalendar($userId=null) {
-		if ($userId === null) {
-			return $this->mapper->getMostOutDatedProperties();
-		} else {
-			return $this->mapper->getMostOutDatedPropertiesByUser($userId);
-		}
-	}
-
-
-	/**
-	 * create a calendar in cache
-	 * @param string $backend
-	 * @param string $privateUri
-	 * @param string $userId
-	 * @return bool
-	 */
-	public function create($backend, $privateUri, $userId) {
+	private function getRemote($backend, $privateuri, $userId) {
+		/** @var IFullyQualifiedBackend $backendApi */
+		$backendApi = $this->backends->find($backend)->getAPI();
 		try {
-			$this->mapper->findByPrivateUri($backend, $privateUri, $userId);
-			return false;
-		} catch(DoesNotExistException $ex) {
-			//If the calendar doesn't exist in cache everything is right
-		} catch(MultipleObjectsReturnedException $ex) {
-			return false;
-		}
-
-		$api = &$this->backends->find($backend)->getAPI();
-		$calendar = $api->findCalendar($privateUri, $userId);
-
-		$this->generateUniquePublicUri($calendar);
-		$this->checkCalendarIsValid($calendar);
-
-		$calendar->setLastPropertiesUpdate(time());
-		$calendar->setLastObjectUpdate(0);
-
-		$this->mapper->insert($calendar);
-		return true;
-	}
-
-
-	/**
-	 * update a cached calendar from remote
-	 * @param string $backend
-	 * @param string $privateUri
-	 * @param string $userId
-	 * @return bool
-	 */
-	public function update($backend, $privateUri, $userId) {
-		try {
-			$oldCalendar = $this->mapper->findByPrivateUri($backend, $privateUri, $userId);
-		} catch(DoesNotExistException $ex) {
-			return false;
-		} catch(MultipleObjectsReturnedException $ex) {
-			return false;
-		}
-
-		$api = &$this->backends->find($backend)->getAPI();
-		$calendar = $api->findCalendar($privateUri, $userId);
-
-		$this->resetValuesNotSupportedByAPI($api, $calendar);
-		$calendar = $oldCalendar->overwriteWith($calendar);
-		$this->checkCalendarIsValid($calendar);
-
-		$calendar->setLastPropertiesUpdate(time());
-
-		$this->mapper->insert($calendar);
-		return true;
-	}
-
-
-	/**
-	 * delete a calendar in cache
-	 * @param string $backend
-	 * @param string $privateUri
-	 * @param string $userId
-	 * @return bool
-	 */
-	public function delete($backend, $privateUri, $userId) {
-		try {
-			$calendar = $this->mapper->findByPrivateUri($backend, $privateUri, $userId);
-		} catch(DoesNotExistException $ex) {
-			return false;
-		} catch(MultipleObjectsReturnedException $ex) {
-			return false;
-		}
-
-		$this->mapper->delete($calendar);
-		return true;
-	}
-
-
-	/**
-	 * @param string $backend
-	 * @param string $userId
-	 */
-	private function scanIdentifiers($backend, $userId) {
-		$api = &$this->backends->find($backend)->api;
-
-		$cachedIdentifiers = $this->mapper->findAllIdentifiersOnBackend($backend, $userId);
-		$remoteIdentifiers = $api->getCalendarIdentifiers($userId, null, null);
-
-		if ($cachedIdentifiers) {
-			$this->cachedIdentifiers[$userId][$backend] = $cachedIdentifiers;
-		}
-		if ($remoteIdentifiers) {
-			$this->remoteIdentifiers[$userId][$backend] = $remoteIdentifiers;
-		}
-	}
-
-
-	/**
-	 * @param string $backend
-	 * @param string $userId
-	 * @return array
-	 */
-	private function scanForNew($backend, $userId) {
-		return array_diff($this->cachedIdentifiers, $this->remoteIdentifiers);
-	}
-
-
-	/**
-	 * @param string $backend
-	 * @param string $userId
-	 * @return array
-	 */
-	private function scanForOutDated($backend, $userId) {
-		return array_intersect($this->cachedIdentifiers, $this->remoteIdentifiers);
-	}
-
-
-	/**
-	 * @param $backend
-	 * @param $userId
-	 * @return array
-	 */
-	private function scanForDeleted($backend, $userId) {
-		return array_diff($this->remoteIdentifiers, $this->cachedIdentifiers);
-	}
-
-
-	/**
-	 * @param mixed (string|array) $calendarId
-	 * @param string $userId
-	 * @return bool
-	 */
-	private function doesExistCached($calendarId, $userId) {
-		list($backend, $calendarURI) = (is_array($calendarId)) ? $calendarId :
-										$this->splitCalendarURI($calendarId);
-
-		return $this->mapper->doesExist($backend, $calendarURI, $userId);
-	}
-
-
-	/**
-	 * @param mixed (string|array) $calendarId
-	 * @param string $userId
-	 * @return boolean
-	 */
-	private function doesExistRemote($calendarId, $userId) {
-		list($backend, $calendarURI) = (is_array($calendarId)) ? $calendarId :
-										$this->splitCalendarURI($calendarId);
-
-		$api = &$this->backends->find($backend)->api;
-		return $api->doesCalendarExist($calendarURI, $userId);
-	}
-
-
-	/**
-	 * @param mixed (string|array) $calendarId
-	 * @param string $userId
-	 * @return null|ICalendar
-	 */
-	private function findCachedCalendar($calendarId, $userId) {
-		list($backend, $calendarURI) = (is_array($calendarId)) ? $calendarId :
-										$this->splitCalendarURI($calendarId);
-
-		try {
-			return $this->mapper->find($backend, $calendarURI, $userId);
+			$remoteCalendar = $backendApi->findCalendar($privateuri, $userId);
 		} catch (DoesNotExistException $ex) {
-			return null;
+			$remoteCalendar = null;
+		} catch (CacheOutDatedException $ex) {
+			$remoteCalendar = null;
 		} catch (MultipleObjectsReturnedException $ex) {
-			return null;
+			$msg = 'CalendarCacheBusinessLayer::updateByPrivateUri(): ';
+			$msg .= 'Multiple calendars with privateuri found in backend!';
+			throw new BusinessLayerException($msg, Http::STATUS_INTERNAL_SERVER_ERROR, $ex);
 		}
+
+		return $remoteCalendar;
 	}
 
 
 	/**
-	 * @param mixed (string|array) $calendarId
-	 * @param string $userId
-	 * @return null|ICalendar
+	 * @param ICalendar $remote
+	 * @throws BusinessLayerException
 	 */
-	private function findRemoteCalendar($calendarId, $userId) {
-		list($backend, $calendarURI) = (is_array($calendarId)) ? $calendarId :
-										$this->splitCalendarURI($calendarId);
-
-		$api = &$this->backends->find($backend)->api;
-		try {
-			return $api->findCalendar($calendarURI, $userId);
-		} catch(DoesNotExistException $ex) {
-			return null;
-		} catch(MultipleObjectsReturnedException $ex) {
-			return null;
-		} catch(BackendException $ex) {
-			return null;
+	private function createCache(ICalendar &$remote) {
+		if ($remote === null) {
+			$msg  = 'CalendarCacheBusinessLayer::createCache(): ';
+			$msg .= 'Given calendar-object is null!';
+			throw new BusinessLayerException($msg, HTTP::STATUS_INTERNAL_SERVER_ERROR);
 		}
+
+		$this->generatePublicUri($remote);
+
+		$this->checkCalendarIsValid($remote);
+
+		$remote->setLastPropertiesUpdate(time());
+		$remote->setLastObjectUpdate(0);
+
+		$this->mapper->insert($remote);
+
+		$this->appendToHistory(array(
+			'publicuri' => $remote->getPublicUri(),
+			'task' => self::CREATED,
+		));
+	}
+
+
+	/**
+	 * @param ICalendar $cached
+	 * @throws BusinessLayerException
+	 */
+	private function removeCache(ICalendar $cached) {
+		if ($cached === null) {
+			$msg  = 'CalendarCacheBusinessLayer::removeCache(): ';
+			$msg .= 'Given calendar-object is null!';
+			throw new BusinessLayerException($msg, HTTP::STATUS_INTERNAL_SERVER_ERROR);
+		}
+
+		$this->mapper->delete($cached);
+
+		$this->appendToHistory(array(
+			'publicuri' => $cached->getPublicUri(),
+			'task' => self::REMOVED,
+		));
+	}
+
+
+	/**
+	 * @param ICalendar $cached
+	 * @param ICalendar $remote
+	 * @throws BusinessLayerException
+	 */
+	private function updateCache(ICalendar $cached, ICalendar $remote) {
+		if ($cached === null) {
+			$msg  = 'CalendarCacheBusinessLayer::updateCache(): ';
+			$msg .= 'Given calendar-object (cached) is null!';
+			throw new BusinessLayerException($msg, HTTP::STATUS_INTERNAL_SERVER_ERROR);
+		}
+		if ($remote === null) {
+			$msg  = 'CalendarCacheBusinessLayer::updateCache(): ';
+			$msg .= 'Given calendar-object (remote) is null!';
+			throw new BusinessLayerException($msg, HTTP::STATUS_INTERNAL_SERVER_ERROR);
+		}
+
+		$this->prepareRemoteForUpdate($remote);
+		$cached->overwriteWith($remote);
+		$this->checkCalendarIsValid($cached);
+
+		$cached->setLastPropertiesUpdate(time());
+
+		$this->mapper->update($cached);
+
+		$this->appendToHistory(array(
+			'publicuri' => $cached->getPublicUri(),
+			'task' => self::UPDATED,
+		));
 	}
 
 
 	/**
 	 * @param ICalendar $calendar
 	 */
-	private function generateUniquePublicUri(ICalendar &$calendar) {
-		$suggestedURI = $calendar->getPrivateUri();
+	private function prepareRemoteForUpdate(ICalendar &$calendar) {
+		$backend = $calendar->getBackend();
+		$this->resetValueNotSupportedByBackend($calendar, $backend);
+	}
 
-		while($this->mapper->doesExist($suggestedURI, $calendar->getUserId())) {
-			$newSuggestedURI = CalendarUtility::suggestURI($suggestedURI);
 
-			if ($newSuggestedURI === $suggestedURI) {
-				break;
-			}
-			$suggestedURI = $newSuggestedURI;
+	/**
+	 * generates a public uri that's based on either displayname or privateuri
+	 * @param ICalendar $calendar
+	 */
+	private function generatePublicUri(ICalendar &$calendar) {
+		$displayname = $calendar->getDisplayname();
+		$privateuri = $calendar->getPrivateUri();
+		$userId = $calendar->getUserId();
+
+		if ($displayname !== null && trim($displayname) !== '') {
+			$suggestedUri = $displayname;
+		} else {
+			$suggestedUri = $privateuri;
 		}
 
-		$calendar->setPublicUri($suggestedURI);
+		while($this->mapper->doesExist($suggestedUri, $userId)) {
+			$newSuggestedURI = CalendarUtility::suggestURI($suggestedUri);
+
+			if ($newSuggestedURI === $suggestedUri) {
+				break;
+			}
+			$suggestedUri = $newSuggestedURI;
+		}
+
+		$calendar->setPublicUri($suggestedUri);
 	}
 
 
@@ -308,17 +457,18 @@ class CalendarCacheBusinessLayer extends BusinessLayer {
 	 * @param string $backend
 	 */
 	private function resetValueNotSupportedByBackend(ICalendar &$calendar, $backend) {
-		$api = $this->backends->find($backend)->api;
-		$this->resetValuesNotSupportedByAPI($calendar, $api);
+		/** @var IFullyQualifiedBackend $backendApi */
+		$backendApi = $this->backends->find($backend)->getAPI();
+		$this->resetValuesNotSupportedByAPI($calendar, $backendApi);
 	}
 
 
 	/**
 	 * reset values of a calendar that are not supported by backend
 	 * @param ICalendar &$calendar
-	 * @param IBackend &$api
+	 * @param IBackendAPI &$api
 	 */
-	private function resetValuesNotSupportedByAPI(ICalendar &$calendar, IBackend &$api) {
+	private function resetValuesNotSupportedByAPI(ICalendar &$calendar, IBackendAPI &$api) {
 		if (!$api->canStoreColor()) {
 			$calendar->setColor(null);
 		}

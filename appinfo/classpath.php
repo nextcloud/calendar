@@ -40,7 +40,9 @@
 \OC::$CLASSPATH['OCA\Calendar\BusinessLayer\BusinessLayer'] = 'calendar/businesslayer/businesslayer.php';
 \OC::$CLASSPATH['OCA\Calendar\BusinessLayer\BackendBusinessLayer'] = 'calendar/businesslayer/backend.php';
 \OC::$CLASSPATH['OCA\Calendar\BusinessLayer\CalendarBusinessLayer'] = 'calendar/businesslayer/calendar.php';
+\OC::$CLASSPATH['OCA\Calendar\BusinessLayer\CalendarCacheBusinessLayer'] = 'calendar/businesslayer/calendarcache.php';
 \OC::$CLASSPATH['OCA\Calendar\BusinessLayer\ObjectBusinessLayer'] = 'calendar/businesslayer/object.php';
+\OC::$CLASSPATH['OCA\Calendar\BusinessLayer\ObjectCacheBusinessLayer'] = 'calendar/businesslayer/objectcache.php';
 \OC::$CLASSPATH['OCA\Calendar\BusinessLayer\SubscriptionBusinessLayer'] = 'calendar/businesslayer/subscription.php';
 \OC::$CLASSPATH['OCA\Calendar\BusinessLayer\TimezoneBusinessLayer'] = 'calendar/businesslayer/timezone.php';
 
@@ -53,6 +55,7 @@
 \OC::$CLASSPATH['OCA\Calendar\Controller\EventController'] = 'calendar/controller/event.php';
 \OC::$CLASSPATH['OCA\Calendar\Controller\JournalController'] = 'calendar/controller/journal.php';
 \OC::$CLASSPATH['OCA\Calendar\Controller\TodoController'] = 'calendar/controller/todo.php';
+\OC::$CLASSPATH['OCA\Calendar\Controller\ScanController'] = 'calendar/controller/scan.php';
 \OC::$CLASSPATH['OCA\Calendar\Controller\SettingsController'] = 'calendar/controller/settings.php';
 \OC::$CLASSPATH['OCA\Calendar\Controller\SubscriptionController'] = 'calendar/controller/subscription.php';
 \OC::$CLASSPATH['OCA\Calendar\Controller\TimezoneController'] = 'calendar/controller/timezone.php';
@@ -157,7 +160,7 @@
 \OC::$CLASSPATH['OCP\Calendar\IFullyQualifiedBackendAPI'] = 'calendar/public/ibackendapi_all.php';
 \OC::$CLASSPATH['OCP\Calendar\IBackendAPI'] = 'calendar/public/ibackendapi.php';
 \OC::$CLASSPATH['OCP\Calendar\BackendException'] = 'calendar/public/.php';
-\OC::$CLASSPATH['OCP\Calendar\CacheOutDatedException'] = 'calendar/public/.php';
+\OC::$CLASSPATH['OCP\Calendar\CacheOutDatedException'] = 'calendar/public/cacheoutdatedexception.php';
 \OC::$CLASSPATH['OCP\Calendar\Calendar'] = 'calendar/public/calendar.php';
 \OC::$CLASSPATH['OCP\Calendar\CorruptDataException'] = 'calendar/public/corruptdataexception.php';
 \OC::$CLASSPATH['OCP\Calendar\DoesNotExistException'] = 'calendar/public/doesnotexistexception.php';

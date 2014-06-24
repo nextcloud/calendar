@@ -292,59 +292,59 @@ class CalendarMapper extends Mapper {
 
 
 	/**
-	 * @return ICalendar
+	 * @param int $limit
+	 * @param int $offset
+	 * @return ICalendarCollection
 	 */
-	public function getMostOutDatedProperties() {
+	public function getMostOutDatedProperties($limit, $offset) {
 		$sql  = 'SELECT * FROM `' . $this->getTableName() . '` ';
-		$sql .= 'ORDER BY `last_properties_update` LIMIT 1';
+		$sql .= 'ORDER BY `last_properties_update`';
 
-		$row = $this->findOneQuery($sql, array());
-
-		return new Calendar($row);
+		return $this->findEntities($sql, array(), $limit, $offset);
 	}
 
 
 	/**
 	 * @param string $userId
-	 * @return ICalendar
+	 * @param int $limit
+	 * @param int $offset
+	 * @return ICalendarCollection
 	 */
-	public function getMostOutDatedPropertiesByUser($userId) {
+	public function getMostOutDatedPropertiesByUser($userId, $limit, $offset) {
 		$sql  = 'SELECT * FROM `' . $this->getTableName() . '` ';
-		$sql .= 'WHERE `user_id` = ? ORDER BY `last_properties_update` LIMIT 1';
+		$sql .= 'WHERE `user_id` = ? ORDER BY `last_properties_update`';
 
-		$row = $this->findOneQuery($sql, array(
+		return $this->findEntities($sql, array(
 			$userId
-		));
-
-		return new Calendar($row);
+		), $limit, $offset);
 	}
 
 
 	/**
-	 * @return ICalendar
+	 * @param int $limit
+	 * @param int $offset
+	 * @return ICalendarCollection
 	 */
-	public function getMostOutDatedObjects() {
+	public function getMostOutDatedObjects($limit, $offset) {
 		$sql  = 'SELECT * FROM `' . $this->getTableName() . '` ';
-		$sql .= 'ORDER BY `last_object_update` LIMIT 1';
+		$sql .= 'ORDER BY `last_object_update`';
 
-		$row = $this->findOneQuery($sql, array());
-
-		return new Calendar($row);
+		return $this->findEntities($sql, array(), $limit, $offset);
 	}
 
 
 	/**
 	 * @param string $userId
-	 * @return ICalendar
+	 * @param int $limit
+	 * @param int $offset
+	 * @return ICalendarCollection
 	 */
-	public function getMostOutDatedObjectsByUser($userId) {
+	public function getMostOutDatedObjectsByUser($userId, $limit, $offset) {
 		$sql  = 'SELECT * FROM `' . $this->getTableName() . '` ';
-		$sql .= 'WHERE `user_id` = ? ORDER BY `last_object_update` LIMIT 1';
+		$sql .= 'WHERE `user_id` = ? ORDER BY `last_object_update`';
 
-		$row = $this->findOneQuery($sql, array(
+		return $this->findEntities($sql, array(
 			$userId
-		));
-
-		return new Calendar($row);
+		), $limit, $offset);
 	}
 }

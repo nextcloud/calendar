@@ -21,218 +21,34 @@
  */
 namespace OCA\Calendar\BusinessLayer;
 
+use OCP\AppFramework\IAppContainer;
+use OCP\AppFramework\Http;
+
+use OCP\Calendar\IBackend;
 use OCP\Calendar\ICalendar;
+use OCP\Calendar\DoesNotExistException;
+use OCP\Calendar\MultipleObjectsReturnedException;
+use OCP\Calendar\IBackendAPI;
+use OCP\Calendar\IFullyQualifiedBackend;
+
+use OCA\Calendar\Db\BackendMapper;
+use OCA\Calendar\Db\CalendarMapper;
+use OCA\Calendar\Utility\CalendarUtility;
 
 class ObjectCacheBusinessLayer extends BusinessLayer {
 
-	/**
-	 * @brief update list of outdated objects for a calendar
-	 * @param ICalendar $calendar
-	 */
-	public function updateObjectList(ICalendar $calendar) {
-		//$cached = $this->mapper->getUriETagList($calendar);
-		$remote = $this->backends->find($calendar->getBackend())->api->findCalendars(null, null, null);
-
-		$updatedOnRemote = $this->analyzeForOutDatedObjects($cached, $remote);
-		$deletedOnRemote = $this->analyzeForDeletedObjects($cached, $remote);
-		$createdOnRemote = $this->analyzeForCreatedObjects($cached, $remote);
-	}
-
 
 	/**
-	 * @brief get list of outdated objects in a calendar
-	 * @param ICalendar $calendar
-	 * @param integer $limit
-	 * @param integer $offset
-	 * @brief array
+	 * @param IAppContainer $app
+	 * @param BackendMapper $backendMapper
+	 * @param CalendarMapper $calendarMapper
 	 */
-	public function getOutDatedObjectsInCalendar(ICalendar $calendar, $limit, $offset) {
-
+	public function __construct(IAppContainer $app,
+								BackendMapper $backendMapper,
+								CalendarMapper $calendarMapper)
+	{
+		parent::__construct($app, $calendarMapper);
+		parent::initBackendSystem($backendMapper);
+		//$this->resetHistory();
 	}
-
-
-	/**
-	 * @brief get list of objects not cached
-	 * @param ICalendar $calendar
-	 * @param $limit
-	 * @param $offset
-	 * @brief array
-	 */
-	public function getObjectsNotCached(ICalendar $calendar, $limit, $offset) {
-
-	}
-
-
-	/**
-	 * @brief find all objects created on remote
-	 * @param array $cached
-	 * @param array $remote
-	 * @return array
-	 */
-	private function analyzeForCreatedObjects(array $cached, array $remote) {
-		return array_diff_key($cached, $remote);
-	}
-
-
-	/**
-	 * @brief find all objects deleted on remote
-	 * @param array $cached
-	 * @param array $remote
-	 * @return array
-	 */
-	private function analyzeForDeletedObjects(array $cached, array $remote) {
-		return array_diff_key($remote, $cached);
-	}
-
-
-	/**
-	 * @brief find all objects updated on remote
-	 * @param array $cached
-	 * @param array $remote
-	 * @return array
-	 */
-	private function analyzeForOutDatedObjects(array $cached, array $remote) {
-		return array_intersect($cached, $remote, array_diff_assoc($cached, $remote));
-	}
-}
-
-?>
-
-
-
-
-/**
-* updates cache manager for a certian calendar
-* @param Calendar $calendar
-* @return boolean
-*/
-public function updateCacheManagerFromRemote(Calendar $calendar/*, $limit, $offset*/) {
-$backend = $calendar->getBackend();
-$calendarURI = $calendar->getUri();
-$userId = $calendar->getUserId();
-
-$api = &$this->backends->find($backend)->api;
-if (!$api->cacheObjects($calendarURI, $userId)) {
-return true;
-}
-
-$cachedEtags = $this->mapper->getUriToEtagMap($calendar, $limit, $offset);
-$remoteEtags = $api->getUriToEtagMap($calendar, $limit, $offset);
-
-$deletedObjects = array_diff_key($remoteEtags, $cachedEtags);
-$createdObjects = array_diff_key($cachedEtags, $remoteEtags);
-
-$this->ocm->setDeleted($calendar, $deletedObjects);
-$this->ocm->setCreated($calendar, $createdObjects);
-
-$otherCachedObjects = array_intersect_assoc(
-$cachedEtags,
-array_merge($deletedObjects, $createdObjects)
-);
-
-$otherRemoteObjects = array_intersect_assoc(
-$remoteEtags,
-array_merge($deletedObjects, $createdObjects)
-);
-
-$updatedObjects = array_diff_assoc($otherCachedObjects, $otherRemoteObjects);
-
-$this->ocm->setOutDated($calendar, $updatedObjects);
-
-return true;
-}
-
-
-/**
-* create objects marked as created in cache manager
-* @param Calendar $calendar
-* @param integer $limit
-* @param integer $offset
-* @return boolean
-*/
-public function updateCacheFromCacheManagerCreate(Calendar $calendar, $limit, $offset) {
-$backend = $calendar->getBackend();
-$calendarURI = $calendar->getUri();
-$userId = $calendar->getUserId();
-
-$api = &$this->backends->find($backend)->api;
-$createdObjects = $this->ocm->getCreated($calendar, $limit, $offset);
-
-foreach($createdObjects as $objectURI) {
-try {
-if($this->doesObjectExist($calendar, $objectURI)) {
-$object = $api->findObject($calendar, $objectURI);
-if($object->isValid()) {
-$this->mapper->insert($object);
-}
-}
-} catch(/* some */Exception $ex) {}
-$this->ocm->deleteCreated($calendar, $objectURI);
-}
-
-return true;
-}
-
-
-/**
-* delete objects marked as deleted in cache manager
-* @param Calendar $calendar
-* @param integer $limit
-* @param integer $offset
-* @return boolean
-*/
-public function updateCacheFromCacheManagerDelete(Calendar $calendar, $limit, $offset) {
-$backend = $calendar->getBackend();
-$calendarURI = $calendar->getUri();
-$userId = $calendar->getUserId();
-
-$api = &$this->backends->find($backend)->api;
-$deletedObjects = $this->ocm->getDeleted($calendar, $limit, $offset);
-
-foreach($deletedObjects as $objectURI) {
-try {
-if($api->doesObjectExist($calendar, $objectURI)) {
-$this->ocm->setOneCreated($calendar, $objectURI);
-} else {
-$object = $this->findObject($calendar, $objectURI);
-$this->mapper->delete($object);
-}
-} catch(/* some */Exception $ex) {}
-$this->ocm->deleteDeleted($calendar, $objectURI);
-}
-
-return true;
-}
-
-
-/**
-* updates objects marked as outdated in cache manager
-* @param Calendar $calendar
-* @param integer $limit
-* @param integer $offset
-* @return boolean
-*/
-public function updateCacheFromCacheManagerUpdate(Calendar $calendar, $limit, $offset) {
-$backend = $calendar->getBackend();
-$calendarURI = $calendar->getUri();
-$userId = $calendar->getUserId();
-
-$api = &$this->backends->find($backend)->api;
-$updatedObjects = $this->ocm->getOutDated($calendar, $limit, $offset);
-
-foreach($updatedObjects as $objectURI) {
-try {
-if($api->doesObjectExist($calendar, $objectURI)) {
-$object = $api->findObject($calendar, $objectURI);
-if($object->isValid()) {
-$this->mapper->update($object);
-}
-} else {
-$this->ocm->setOneDeleted($calendar, $objectURI);
-}
-} catch(/* some */Exception $ex) {}
-$this->ocm->deleteUpdated($calendar, $objectURI);
-}
-
-return true;
 }

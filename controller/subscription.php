@@ -11,8 +11,8 @@ use \OCP\AppFramework\IAppContainer;
 use \OCP\IRequest;
 use \OCP\AppFramework\Http;
 
-use \OCA\Calendar\Db\DoesNotExistException;
-use \OCA\Calendar\Db\MultipleObjectsReturnedException;
+use \OCP\Calendar\DoesNotExistException;
+use \OCP\Calendar\MultipleObjectsReturnedException;
 use \OCA\Calendar\BusinessLayer\BusinessLayerException;
 
 use \OCA\Calendar\Db\Subscription;
@@ -259,15 +259,5 @@ class SubscriptionController extends Controller {
 				$ex->getCode()
 			);
 		}
-	}
-
-
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 */
-	public function getTypes() {
-		$types = $this->businesslayer->getTypes();
-		return new Reponse($types);
 	}
 }

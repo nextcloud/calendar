@@ -127,6 +127,31 @@ interface ICalendar extends IEntity {
 
 
 	/**
+	 * @param int $lastPropertiesUpdate - unix time of last update
+	 * @return $this
+	 */
+	public function setLastPropertiesUpdate($lastPropertiesUpdate);
+
+
+	/**
+	 * @return boolean
+	 */
+	public function getLastPropertiesUpdate();
+
+
+	/**
+	 * @param int $lastObjectUpdate - unix time of last update
+	 * @return $this
+	 */
+	public function setLastObjectUpdate($lastObjectUpdate);
+
+	/**
+	 * @return boolean
+	 */
+	public function getLastObjectUpdate();
+
+
+	/**
 	 * @param int $order
 	 * @return $this
 	 */

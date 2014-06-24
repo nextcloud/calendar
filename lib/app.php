@@ -27,7 +27,9 @@ use OCA\Calendar\BusinessLayer\BackendBusinessLayer;
 use OCP\AppFramework\IAppContainer;
 
 use OCA\Calendar\BusinessLayer\CalendarBusinessLayer;
+use OCA\Calendar\BusinessLayer\CalendarCacheBusinessLayer;
 use OCA\Calendar\BusinessLayer\ObjectBusinessLayer;
+use OCA\Calendar\BusinessLayer\ObjectCacheBusinessLayer;
 use OCA\Calendar\BusinessLayer\SubscriptionBusinessLayer;
 use OCA\Calendar\BusinessLayer\TimezoneBusinessLayer;
 
@@ -39,6 +41,7 @@ use OCA\Calendar\Controller\EventController;
 use OCA\Calendar\Controller\JournalController;
 use OCA\Calendar\Controller\TodoController;
 use OCA\Calendar\Controller\TimezoneController;
+use OCA\Calendar\Controller\ScanController;
 use OCA\Calendar\Controller\SettingsController;
 use OCA\Calendar\Controller\ViewController;
 
@@ -140,6 +143,13 @@ class App extends \OCP\AppFramework\App {
 
 			return new TodoController($c, $req, $obl, $cbl);
 		});
+		$this->getContainer()->registerService('ScanController', function(IAppContainer $c) {
+			$req = $c->query('Request');
+			$cbl = $c->query('CalendarCacheBusinessLayer');
+			$obl = $c->query('ObjectCacheBusinessLayer');
+
+			return new ScanController($c, $req, $cbl, $obl);
+		});
 		$this->getContainer()->registerService('SettingsController', function(IAppContainer $c) {
 			$req = $c->query('Request');
 
@@ -177,11 +187,23 @@ class App extends \OCP\AppFramework\App {
 
 			return new CalendarBusinessLayer($c, $bmp, $cmp, $obl);
 		});
+		$this->getContainer()->registerService('CalendarCacheBusinessLayer', function(IAppContainer $c) {
+			$bmp = $c->query('BackendMapper');
+			$cmp = $c->query('CalendarMapper');
+
+			return new CalendarCacheBusinessLayer($c, $bmp, $cmp);
+		});
 		$this->getContainer()->registerService('ObjectBusinessLayer', function(IAppContainer $c) {
 			$bmp = $c->query('BackendMapper');
 			$omp = $c->query('ObjectMapper');
 
 			return new ObjectBusinessLayer($c, $bmp, $omp);
+		});
+		$this->getContainer()->registerService('ObjectCacheBusinessLayer', function(IAppContainer $c) {
+			$bmp = $c->query('BackendMapper');
+			$omp = $c->query('ObjectMapper');
+
+			return new ObjectCacheBusinessLayer($c, $bmp, $omp);
 		});
 		$this->getContainer()->registerService('SubscriptionBusinessLayer', function(IAppContainer $c) {
 			$smp = $c->query('SubscriptionMapper');

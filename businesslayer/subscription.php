@@ -81,14 +81,14 @@ class SubscriptionBusinessLayer extends BusinessLayer {
 
 
 	/**
-	 * @param string $name
+	 * @param int $id
 	 * @param string $userId
 	 * @throws BusinessLayerException
 	 * @return ISubscription
 	 */
-	public function find($name, $userId) {
+	public function find($id, $userId) {
 		try {
-			return $this->mapper->find($name, $userId);
+			return $this->mapper->find($id, $userId);
 		} catch(DoesNotExistException $ex) {
 			throw new BusinessLayerException($ex->getMessage(), Http::STATUS_NOT_FOUND, $ex);
 		} catch(MultipleObjectsReturnedException $ex) {
@@ -98,23 +98,23 @@ class SubscriptionBusinessLayer extends BusinessLayer {
 
 
 	/**
-	 * @param string $name
+	 * @param int $id
 	 * @param string $userId
 	 * @return bool
 	 */
-	public function doesExist($name, $userId) {
-		return $this->mapper->doesExist($name, $userId);
+	public function doesExist($id, $userId) {
+		return $this->mapper->doesExist($id, $userId);
 	}
 
 
 	/**
-	 * @param string $name
+	 * @param int $id
 	 * @param string $type
 	 * @param string $userId
 	 * @return mixed
 	 */
-	public function doesExistOfType($name, $type, $userId) {
-		return $this->mapper->doesExistOfType($name, $type, $userId);
+	public function doesExistOfType($id, $type, $userId) {
+		return $this->mapper->doesExistOfType($id, $type, $userId);
 	}
 
 
@@ -124,15 +124,8 @@ class SubscriptionBusinessLayer extends BusinessLayer {
 	 * @return ISubscription
 	 */
 	public function create(ISubscription $subscription) {
-		$name = $subscription->getName();
-		$userId = $subscription->getUserId();
-
 		if (!$subscription->isValid()) {
 			throw new BusinessLayerException('Subscription is not valid', Http::STATUS_UNPROCESSABLE_ENTITY);
-		}
-
-		if ($this->doesExist($name, $userId)) {
-			throw new BusinessLayerException('Subscription with name already exists!', Http::STATUS_CONFLICT);
 		}
 
 		return $this->mapper->insert($subscription);
@@ -141,17 +134,17 @@ class SubscriptionBusinessLayer extends BusinessLayer {
 
 	/**
 	 * @param ISubscription $subscription
-	 * @param string $name
+	 * @param int $id
 	 * @param string $userId
 	 * @throws BusinessLayerException
 	 * @return ISubscription
 	 */
-	public function update(ISubscription $subscription, $name, $userId) {
+	public function update(ISubscription $subscription, $id, $userId) {
 		if (!$subscription->isValid()) {
 			throw new BusinessLayerException('Subscription is not valid', Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
 
-		$oldSubscription = $this->find($name, $userId);
+		$oldSubscription = $this->find($id, $userId);
 		$subscription = $oldSubscription->overwriteWith($subscription);
 
 		$this->mapper->update($subscription);

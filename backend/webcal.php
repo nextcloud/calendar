@@ -143,7 +143,14 @@ class WebCal extends Backend {
 	 * @return array
 	 */
 	public function getCalendarIdentifiers($userId, $limit, $offset) {
-		return $this->subscriptions->findAllByType($userId, $this->getBackendIdentifier(), $limit, $offset);
+		$identifiers = array();
+
+		$subscriptions = $this->subscriptions->findAllByType($userId, $this->getBackendIdentifier(), $limit, $offset);
+		$subscriptions->iterate(function(ISubscription $subscription) use (&$identifiers) {
+			$identifiers[] = strval($subscription->getId());
+		});
+
+		return $identifiers;
 	}
 
 
@@ -229,8 +236,11 @@ class WebCal extends Backend {
 		$calendar->setUserId($subscription->getUserId());
 		$calendar->setOwnerId($subscription->getUserId());
 		$calendar->setBackend($this->backendIdentifier);
-		$calendar->setPrivateUri($subscription->getName());
+		$calendar->setPrivateUri($subscription->getId());
 		$calendar->setComponents(ObjectType::EVENT);
+		$calendar->setEnabled(true);
+		$calendar->setCruds(Permissions::READ);
+		$calendar->setOrder(0);
 		//TODO - use something better
 		$calendar->setCtag(time());
 
