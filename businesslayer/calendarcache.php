@@ -349,10 +349,11 @@ class CalendarCacheBusinessLayer extends BusinessLayer {
 		$remote->setLastPropertiesUpdate(time());
 		$remote->setLastObjectUpdate(0);
 
-		$this->mapper->insert($remote);
+		$remote = $this->mapper->insert($remote);
 
 		$this->appendToHistory(array(
 			'publicuri' => $remote->getPublicUri(),
+			'id' => $remote->getId(),
 			'task' => self::CREATED,
 		));
 	}
@@ -373,6 +374,7 @@ class CalendarCacheBusinessLayer extends BusinessLayer {
 
 		$this->appendToHistory(array(
 			'publicuri' => $cached->getPublicUri(),
+			'id' => $cached->getId(),
 			'task' => self::REMOVED,
 		));
 	}
@@ -405,6 +407,7 @@ class CalendarCacheBusinessLayer extends BusinessLayer {
 
 		$this->appendToHistory(array(
 			'publicuri' => $cached->getPublicUri(),
+			'id' => $cached->getId(),
 			'task' => self::UPDATED,
 		));
 	}
