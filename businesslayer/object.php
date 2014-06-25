@@ -330,7 +330,7 @@ class ObjectBusinessLayer extends BusinessLayer {
 			$calendarURI = $calendar->getPublicUri();
 			$userId = $calendar->getUserId();
 
-			$api = &$this->backends->find($backend)->api;
+			$api = &$this->backends->find($backend)->getAPI();
 			if ($api->cacheObjects($calendarURI, $userId)) {
 				$doesAllow = $this->mapper->doesAllow($calendar, $uri, $cruds);
 			} else {

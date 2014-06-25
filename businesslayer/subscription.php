@@ -134,18 +134,13 @@ class SubscriptionBusinessLayer extends BusinessLayer {
 
 	/**
 	 * @param ISubscription $subscription
-	 * @param int $id
-	 * @param string $userId
 	 * @throws BusinessLayerException
 	 * @return ISubscription
 	 */
-	public function update(ISubscription $subscription, $id, $userId) {
+	public function update(ISubscription $subscription) {
 		if (!$subscription->isValid()) {
 			throw new BusinessLayerException('Subscription is not valid', Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
-
-		$oldSubscription = $this->find($id, $userId);
-		$subscription = $oldSubscription->overwriteWith($subscription);
 
 		$this->mapper->update($subscription);
 
