@@ -32,7 +32,7 @@ interface IBackend extends IEntity {
 
 
 	/**
-	 * @return IBackend
+	 * @return IFullyQualifiedBackend $api
 	 */
 	public function getAPI();
 

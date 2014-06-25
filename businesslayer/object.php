@@ -85,9 +85,9 @@ class ObjectBusinessLayer extends BusinessLayer {
 
 			return $objects;
 		} catch (DoesNotExistException $ex) {
-			throw new BusinessLayerException($ex->getMessage());
+			throw new BusinessLayerException($ex->getMessage(), $ex->getCode(), $ex);
 		} catch (BackendException $ex) {
-			throw new BusinessLayerException($ex->getMessage());
+			throw new BusinessLayerException($ex->getMessage(), $ex->getCode(), $ex);
 		}
 	}
 
@@ -113,7 +113,9 @@ class ObjectBusinessLayer extends BusinessLayer {
 
 			return $number;
 		} catch (DoesNotExistException $ex) {
-			throw new BusinessLayerException($ex->getMessage());
+			throw new BusinessLayerException($ex->getMessage(), $ex->getCode(), $ex);
+		} catch (BackendException $ex) {
+			throw new BusinessLayerException($ex->getMessage(), $ex->getCode(), $ex);
 		}
 	}
 
@@ -189,7 +191,6 @@ class ObjectBusinessLayer extends BusinessLayer {
 				$objects = $this->mapper->findAllByType($calendar, $type, $limit, $offset);
 			} else {
 				if ($this->doesBackendSupport($backend, Backend::FIND_OBJECTS_BY_TYPE)) {
-					/** @var IFullyQualifiedBackend $api */
 					$objects = $api->findObjectsByType($calendar, $type, $limit, $offset);
 				} else {
 					$objects = $api->findObjects($calendar, null, null);
@@ -228,7 +229,6 @@ class ObjectBusinessLayer extends BusinessLayer {
 				$objects = $this->mapper->findAllInPeriod($calendar, $start, $end, $limit, $offset);
 			} else {
 				if ($this->doesBackendSupport($backend, Backend::FIND_IN_PERIOD)) {
-					/** @var IFullyQualifiedBackend $api */
 					$objects = $api->findObjectsInPeriod($calendar, $start, $end, $limit, $offset);
 				} else {
 					$objects = $api->findObjects($calendar, null, null);
@@ -268,7 +268,6 @@ class ObjectBusinessLayer extends BusinessLayer {
 				$objects = $this->mapper->findAllByTypeInPeriod($calendar, $type, $start, $end, $limit, $offset);
 			} else {
 				if ($this->doesBackendSupport($backend, Backend::FIND_IN_PERIOD_BY_TYPE)) {
-					/** @var IFullyQualifiedBackend $api */
 					$objects = $api->findObjectsByTypeInPeriod($calendar, $type, $start, $end, $limit, $offset);
 				} else {
 					$objects = $api->findObjects($calendar, null, null);
@@ -300,7 +299,7 @@ class ObjectBusinessLayer extends BusinessLayer {
 			$privateuri = $calendar->getPrivateUri();
 			$userId = $calendar->getUserId();
 
-			$api = &$this->backends->find($backend)->api;
+			$api = &$this->backends->find($backend)->getAPI();
 			if ($api->cacheObjects($privateuri, $userId)) {
 				$doesExist = $this->mapper->doesExist($calendar, $uri);
 			} else {
@@ -365,8 +364,7 @@ class ObjectBusinessLayer extends BusinessLayer {
 			$this->checkBackendSupports($backend, Backend::CREATE_CALENDAR);
 			$this->checkObjectIsValid($object);
 
-			/** @var IFullyQualifiedBackend $api */
-			$api = &$this->backends->find($backend)->api;
+			$api = &$this->backends->find($backend)->getAPI();
 			$api->createObject($object);
 			if ($api->cacheObjects($privateUri, $userId)) {
 				$this->mapper->insert($object);
@@ -564,7 +562,7 @@ class ObjectBusinessLayer extends BusinessLayer {
 		$this->checkCalendarSupports($calendar, Permissions::UPDATE);
 
 		/** @var IFullyQualifiedBackend $api */
-		$api = &$this->backends->find($backend)->api;
+		$api = &$this->backends->find($backend)->getAPI();
 		$api->updateObject($object);
 
 		if ($api->cacheObjects($privateuri, $userId)) {
@@ -713,8 +711,7 @@ class ObjectBusinessLayer extends BusinessLayer {
 			$this->checkBackendEnabled($backend);
 			$this->checkBackendSupports($backend, Backend::DELETE_OBJECT);
 
-			/** @var IFullyQualifiedBackend $api */
-			$api = &$this->backends->find($backend)->api;
+			$api = &$this->backends->find($backend)->getAPI();
 			$api->deleteObject($calendarURI, $uri, $userId);
 			if ($api->cacheObjects($calendarURI, $userId)) {
 				$this->mapper->delete($calendar);
@@ -741,8 +738,7 @@ class ObjectBusinessLayer extends BusinessLayer {
 
 			$this->checkBackendEnabled($backend);
 
-			/** @var IFullyQualifiedBackend $api */
-			$api = &$this->backends->find($backend)->api;
+			$api = &$this->backends->find($backend)->getAPI();
 
 			if ($this->doesBackendSupport($backend, Backend::DELETE_ALL_OBJECTS)) {
 				$api->deleteAll($calendar, $limit, $offset);
