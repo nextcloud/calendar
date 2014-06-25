@@ -21,32 +21,34 @@
  */
 namespace OCA\Calendar\Backend;
 
+use OC\Files\FileInfo;
+
 use OCP\AppFramework\IAppContainer;
 
+use OCP\Calendar\Backend;
+use OCP\Calendar\BackendException;
 use OCP\Calendar\ICalendar;
 use OCP\Calendar\ICalendarCollection;
 use OCP\Calendar\IObject;
-/*use OCP\Calendar\IObjectCollection;*/
-
+use OCP\Calendar\IObjectCollection;
+use OCP\Calendar\ObjectType;
+use OCP\Calendar\Permissions;
 use OCP\Calendar\DoesNotExistException;
-/*use OCP\Calendar\MultipleObjectsReturnedException;
-use OCP\Calendar\CorruptDataException;*/
+use OCP\Calendar\CorruptDataException;
 
+use OCA\Calendar\Share\Types;
 use OCA\Calendar\Db\Calendar;
 use OCA\Calendar\Db\CalendarCollection;
-/*use OCA\Calendar\Db\Object;*/
+use OCA\Calendar\Db\Object;
 use OCA\Calendar\Db\ObjectCollection;
-/*use OCA\Calendar\Db\Timezone;
-use OCA\Calendar\Db\TimezoneCollection;
-
-use OCA\Calendar\Db\ObjectType;
-use OCA\Calendar\Db\Permissions;
-
-use OCA\Calendar\Utility\ObjectUtility;
-
-use DateTime;*/
 
 class Files extends Backend {
+
+	/**
+	 * @var
+	 */
+	private $fileview;
+
 
 	/**
 	 * @brief constructor
@@ -55,6 +57,7 @@ class Files extends Backend {
 	 */
 	public function __construct(IAppContainer $app, array $parameters){
 		parent::__construct($app, 'org.ownCloud.files');
+		$this->fileview = $app->getServer()->getUserFolder();
 	}
 
 
@@ -79,7 +82,8 @@ class Files extends Backend {
 	 * @throws DoesNotExistException if uri does not exist
 	 */
 	public function findCalendars($userId, $limit=null, $offset=null) {
-		return new CalendarCollection();
+		$files = $this->fileview->searchByMime('text/calendar');
+		$files = array_slice($files, $offset, $limit);
 	}
 
 
@@ -89,7 +93,8 @@ class Files extends Backend {
 	 * @returns integer
 	 */
 	public function countCalendars($userId) {
-		return 0;
+		$files = $this->fileview->searchByMime('text/calendar');
+		return count($files);
 	}
 
 
@@ -100,6 +105,7 @@ class Files extends Backend {
 	 * @returns boolean
 	 */
 	public function doesCalendarExist($calendarURI, $userId) {
+		//TODO: search file with calendarUri is fileId and check if mimetype is text/calendar
 		return false;
 	}
 
@@ -127,5 +133,13 @@ class Files extends Backend {
 	 */
 	public function findObjects(ICalendar &$calendar, $limit, $offset) {
 		return new ObjectCollection();
+	}
+
+
+	/**
+	 * @param FileInfo $fileInfo
+	 */
+	private function createCalendarFromFileInfo(FileInfo $fileInfo) {
+
 	}
 }

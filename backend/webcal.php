@@ -21,9 +21,11 @@
  */
 namespace OCA\Calendar\Backend;
 
+use OC\AppFramework\Http;
 use OCP\AppFramework\IAppContainer;
 
 use OCP\Calendar\Backend;
+use OCP\Calendar\BackendException;
 use OCP\Calendar\ICalendar;
 use OCP\Calendar\ICalendarCollection;
 use OCP\Calendar\IObject;
@@ -31,22 +33,17 @@ use OCP\Calendar\IObjectCollection;
 use OCP\Calendar\ISubscription;
 use OCP\Calendar\ObjectType;
 use OCP\Calendar\Permissions;
-
 use OCP\Calendar\DoesNotExistException;
-use OCP\Calendar\MultipleObjectsReturnedException;
 use OCP\Calendar\CorruptDataException;
 
 use OCA\Calendar\Db\Calendar;
 use OCA\Calendar\Db\CalendarCollection;
 use OCA\Calendar\Db\Object;
 use OCA\Calendar\Db\ObjectCollection;
-use OCA\Calendar\Db\Subscription;
-
 use OCA\Calendar\Utility\RegexUtility;
-
 use OCA\Calendar\Sabre\VObject\Reader;
 use OCA\Calendar\Sabre\VObject\ParseException;
-
+use OCA\Calendar\Sabre\VObject\Component\VCalendar;
 
 class WebCal extends Backend {
 
@@ -66,6 +63,16 @@ class WebCal extends Backend {
 		parent::__construct($app, 'org.ownCloud.webcal');
 
 		$this->subscriptions = $app->query('SubscriptionBusinessLayer');
+	}
+
+
+	/**
+	 * @brief returns whether or not a backend can be enabled
+	 * @returns boolean
+	 */
+	public function canBeEnabled() {
+		//The webcal backend requires curl
+		return is_callable('curl_init');
 	}
 
 
@@ -93,14 +100,8 @@ class WebCal extends Backend {
 	 */
 	public function findCalendar($calendarURI, $userId) {
 		$subscription = $this->subscriptions->find($calendarURI, $userId);
-		$this->checkSubscriptionsValidity($subscription);
 
-		$calendar = $this->createCalendarFromSubscription($subscription);
-		if ($calendar === false) {
-			throw new DoesNotExistException('Calendar is corrupt!');
-		} else {
-			return $calendar;
-		}
+		return $this->generateCalendar($subscription);
 	}
 
 
@@ -122,13 +123,13 @@ class WebCal extends Backend {
 
 		$calendars = new CalendarCollection();
 		$subscriptions->iterate(function(ISubscription $subscription) use (&$calendars, $userId) {
-			if (!$this->isSubscriptionValid($subscription)) {
-				return;
-			}
-
-			$calendar = $this->createCalendarFromSubscription($subscription);
-			if ($calendar !== false) {
+			try {
+				$calendar = $this->generateCalendar($subscription);
 				$calendars->add($calendar);
+			} catch (CorruptDataException $ex) {
+				return;
+			} catch (BackendException $ex) {
+				return;
 			}
 		});
 
@@ -205,32 +206,33 @@ class WebCal extends Backend {
 
 	/**
 	 * @param ISubscription $subscription
-	 * @return mixed (bool|Calendar)
+	 * @return ICalendar
+	 * @throws CorruptDataException
 	 */
-	private function createCalendarFromSubscription(ISubscription $subscription) {
-		$curl = $this->prepareRequest($subscription->getUrl());
-		$data = curl_exec($curl);
-		if (!$this->wasRequestSuccessful($curl)) {
-			return false;
-		}
+	private function generateCalendar(ISubscription $subscription) {
+		$this->checkUrlScheme($subscription);
 
-		$headerLength = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
-		$data = substr($data, $headerLength);
+		$curl = curl_init();
+		$url = $subscription->getUrl();
+		$data = null;
 
-		//we just need things like X-WR-Calname, no need to parse all objects
-		$data = preg_replace(RegexUtility::VEVENT, '', $data);
-		$data = preg_replace(RegexUtility::VJOURNAL, '', $data);
-		$data = preg_replace(RegexUtility::VTODO, '', $data);
-		$data = preg_replace(RegexUtility::VFREEBUSY, '', $data);
-		//$data = preg_replace(RegexUtility::VTIMEZONE, '', $data);
+		$this->prepareRequest($curl, $url);
+		$this->getRequestData($curl, $data);
+		$this->validateRequest($curl);
+		$this->stripOfObjectData($data);
 
 		try {
+			/** @var \OCA\Calendar\Sabre\VObject\Component\VCalendar $vobject */
 			$vobject = Reader::read($data);
+
+			if (!($vobject instanceof VCalendar)) {
+				throw new ParseException('Not a calendar');
+			}
+
 			$calendar = new Calendar();
 			$calendar->fromVObject($vobject);
 		} catch(ParseException $ex) {
-			//TODO - implement
-			return false;
+			throw new CorruptDataException('Calendar-data is not valid!');
 		}
 
 		$calendar->setUserId($subscription->getUserId());
@@ -241,125 +243,167 @@ class WebCal extends Backend {
 		$calendar->setEnabled(true);
 		$calendar->setCruds(Permissions::READ);
 		$calendar->setOrder(0);
-		//TODO - use something better
+		//TODO - use something better for ctag
 		$calendar->setCtag(time());
 
 		return $calendar;
 	}
 
 
-	private function isSubscriptionValid(ISubscription $subscription) {
-		if ($subscription->getType() !== $this->getBackendIdentifier()) {
-			return false;
-		}
-
+	/**
+	 * validate protocol of subscription url
+	 *  - if none is set, it'll use http and update the subscription
+	 *  - if webcal is set, it'll use https and update the subscription
+	 *
+	 * @param ISubscription $subscription
+	 * @throws \OCP\Calendar\CorruptDataException if protocol is not supported
+	 */
+	private function checkUrlScheme(ISubscription &$subscription) {
 		$url = $subscription->getUrl();
 		$parsed = parse_url($url);
+
 		if (!$parsed) {
-			return false;
+			$this->subscriptions->delete($subscription);
+			$subscription = null;
+
+			throw new CorruptDataException('URL not processable', Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
-		if (!array_key_exists('host', $parsed)) {
-			return false;
-		}
-		if ($parsed['scheme'] === 'webcal') {
-			//haha lol, this will do nothing
+
+		if (!isset($parsed['scheme'])) {
+			//TODO - try to use https first
+			$newUrl  = 'http://';
+			$newUrl .= $url;
+
+			$subscription->setUrl($newUrl);
+			$subscription = $this->subscriptions->update($subscription);
 			$parsed['scheme'] = 'http';
 		}
+
+		if ($parsed['scheme'] === 'webcal') {
+			$newUrl = preg_replace("/^webcal:/i", "http:", $url);
+
+			$subscription->setUrl($newUrl);
+			$subscription = $this->subscriptions->update($subscription);
+			$parsed['scheme'] = 'http';
+		}
+
 		if ($parsed['scheme'] !== 'http' && $parsed['scheme'] !== 'https') {
-			return false;
+			$this->subscriptions->delete($subscription);
+			$subscription = null;
+
+			throw new CorruptDataException('Protocol not supported', Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
-
-		//TODO - are more checks necessary?
-
-		return true;
 	}
-
-
-	/**
-	 * validate a url
-	 * @param string $url
-	 * @return boolean
-	 */
-	public function validateUrl($url) {
-		$components = parse_url($url);
-
-		if (!$components) {
-			return false;
-		}
-		if (!array_key_exists('scheme', $components)) {
-			return false;
-		}
-		if ($components['scheme'] !== 'http' && $components['scheme'] !== 'https') {
-			return false;
-		}
-
-		$curl = self::prepareRequest($url);
-		curl_exec($curl);
-		$responseCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-		$contentType = curl_getinfo($curl, CURLINFO_CONTENT_TYPE);
-
-		if ($responseCode < 200 || $responseCode >= 300) {
-			return false;
-		}
-		if ($contentType !== 'text/calendar') {
-			return false;
-		}
-
-		$curl = self::prepareRequest($url);
-		curl_setopt($curl, CURLOPT_NOBODY, true);
-
-		curl_exec($curl);
-
-		return self::wasRequestSuccessful($curl);
-	}
-
 
 
 	/**
 	 * prepare curl request
+	 * @param resource $curl
 	 * @param string $url
 	 * @return resource $ch
 	 */
-	private function prepareRequest($url) {
-		$ch = curl_init();
-
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_URL, $url);
-		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-		curl_setopt($ch, CURLOPT_HEADER, true);
-
-		return $ch;
+	private function prepareRequest(&$curl, $url) {
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($curl, CURLOPT_URL, $url);
+		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+		curl_setopt($curl, CURLOPT_HEADER, true);
 	}
 
 
 	/**
-	 * check if a request was successful
-	 * @param resource $ch
-	 * @return boolean
+	 * @param resource $curl
+	 * @throws BackendException
+	 * @throws CorruptDataException
 	 */
-	private function wasRequestSuccessful($ch) {
-		$responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-		$contentType = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
+	private function validateRequest($curl) {
+		$responseCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+		$contentType = curl_getinfo($curl, CURLINFO_CONTENT_TYPE);
 
-		if ($responseCode < 200 || $responseCode >= 300) {
-			return false;
-		}
-		if (substr($contentType, 0, 13) !== 'text/calendar') {
-			return false;
+		if (!$this->isSuccess($responseCode)) {
+			if ($this->needsMove($responseCode)) {
+				//TODO - update subscription with new url
+			}
+
+			if ($this->isClientSideError($responseCode)) {
+				throw new CorruptDataException('Client side error occurred', $responseCode);
+			}
+
+			if ($this->isServerSideError($responseCode)) {
+				//file is temporarily not available
+				throw new BackendException('Url temporarily not available');
+			}
 		}
 
-		return true;
+		if (!$this->isContentTypeValid($contentType)) {
+			throw new CorruptDataException('URL doesn\'t contain valid calendar data', Http::STATUS_UNPROCESSABLE_ENTITY);
+		}
 	}
 
 
 	/**
-	 * @param ISubscription $subscription
-	 * @throws \OCP\Calendar\CorruptDataException
+	 * @param resource $curl
+	 * @param string &$data
 	 */
-	private function checkSubscriptionsValidity(ISubscription $subscription) {
-		if (!$this->isSubscriptionValid($subscription)) {
-			$msg = 'Subscription exists, but is not valid!';
-			throw new CorruptDataException($msg);
-		}
+	private function getRequestData($curl, &$data) {
+		$allData = curl_exec($curl);
+
+		$headerLength = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
+		$data = substr($allData, $headerLength);
+	}
+
+
+	/**
+	 * @param string &$data
+	 */
+	private function stripOfObjectData(&$data) {
+		$data = preg_replace(RegexUtility::VEVENT, '', $data);
+		$data = preg_replace(RegexUtility::VJOURNAL, '', $data);
+		$data = preg_replace(RegexUtility::VTODO, '', $data);
+		$data = preg_replace(RegexUtility::VFREEBUSY, '', $data);
+	}
+
+
+	/**
+	 * @param string $contentType
+	 * @return bool
+	 */
+	private function isContentTypeValid($contentType) {
+		return (substr($contentType, 0, 13) === 'text/calendar');
+	}
+
+
+	/**
+	 * @param int $responseCode
+	 * @return bool
+	 */
+	private function isSuccess($responseCode) {
+		return ($responseCode >= 200 && $responseCode <= 299);
+	}
+
+
+	/**
+	 * @param int $responseCode
+	 * @return bool
+	 */
+	private function needsMove($responseCode) {
+		return ($responseCode === 301);
+	}
+
+
+	/**
+	 * @param int $responseCode
+	 * @return bool
+	 */
+	private function isClientSideError($responseCode) {
+		return ($responseCode >= 400 && $responseCode <= 499);
+	}
+
+
+	/**
+	 * @param int $responseCode
+	 * @return bool
+	 */
+	private function isServerSideError($responseCode) {
+		return ($responseCode >= 500 && $responseCode <= 599);
 	}
 }

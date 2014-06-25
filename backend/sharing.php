@@ -22,26 +22,24 @@
 namespace OCA\Calendar\Backend;
 
 use OCP\AppFramework\IAppContainer;
+use OCP\Share;
 
+use OCP\Calendar\Backend;
+use OCP\Calendar\BackendException;
+use OCP\Calendar\ICalendar;
+use OCP\Calendar\ICalendarCollection;
+use OCP\Calendar\IObject;
+use OCP\Calendar\IObjectCollection;
+use OCP\Calendar\ObjectType;
+use OCP\Calendar\Permissions;
 use OCP\Calendar\DoesNotExistException;
-use OCP\Calendar\MultipleObjectsReturnedException;
 use OCP\Calendar\CorruptDataException;
 
-use \OCA\Calendar\Db\Calendar;
-use \OCA\Calendar\Db\CalendarCollection;
-
-use \OCA\Calendar\Db\Object;
-use \OCA\Calendar\Db\ObjectCollection;
-
-use \OCA\Calendar\Db\Timezone;
-use \OCA\Calendar\Db\TimezoneCollection;
-
-use \OCA\Calendar\Db\ObjectType;
-use \OCA\Calendar\Db\Permissions;
-
-use \OCA\Calendar\Utility\ObjectUtility;
-
-use \DateTime;
+use OCA\Calendar\Share\Types;
+use OCA\Calendar\Db\Calendar;
+use OCA\Calendar\Db\CalendarCollection;
+use OCA\Calendar\Db\Object;
+use OCA\Calendar\Db\ObjectCollection;
 
 class Sharing extends Backend {
 
@@ -65,83 +63,100 @@ class Sharing extends Backend {
 	}
 
 
+	/**
+	 * @brief returns whether or not a backend can be enabled
+	 * @returns boolean
+	 */
+	public function canBeEnabled() {
+		return Share::isEnabled();
+	}
+
+
+	/**
+	 * @brief returns whether or not calendar objects should be cached
+	 * @param string $calendarURI
+	 * @param string $userId
+	 * @returns boolean
+	 */
 	public function cacheObjects($calendarURI, $userId) {
 		return false;
 	}
 
 
-	public function canBeEnabled() {
-		return \OCP\Share::isEnabled();
-	}
-
-
+	/**
+	 * @brief returns information about calendar $calendarURI of the user $userId
+	 * @param string $calendarURI
+	 * @param string $userId
+	 * @returns ICalendar
+	 * @throws DoesNotExistException if uri does not exist
+	 */
 	public function findCalendar($calendarURI, $userId) {
-		
-	}
-
-
-	public function findCalendars($userId, $limit, $offset) {
-		$sharedCalendars = \OCP\Share::getItemsSharedWith('calendar', OC_Share_Backend_Calendar::FORMAT_CALENDAR);
-		$singleSharedEvents = \OCP\Share::getItemsSharedWith('calendar', OC_Share_Backend_Calendar::FORMAT_EVENT);
-	}
-
-
-	public function updateCalendar(Calendar $calendar, $calendarId, $userId) {
 
 	}
 
 
-	public function deleteCalendar(Calendar $calendar) {
+	/**
+	 * @brief returns all calendars of the user $userId
+	 * @param string $userId
+	 * @param integer $limit
+	 * @param integer $offset
+	 * @returns ICalendarCollection
+	 * @throws DoesNotExistException if uri does not exist
+	 */
+	public function findCalendars($userId, $limit=null, $offset=null) {
+		$calendars = Share::getItemsSharedWith('calendar', Types::CALENDAR);
+		$calendarCollection = new CalendarCollection();
 
-	}
-	
+		foreach ($calendars as $calendar) {
 
-	public function mergeCalendar(Calendar $calendar, $calendarId=null, $userId=null) {
-
-	}
-
-
-	public function findObject($calendarURI, $objectURI, $userId) {
-
-	}
-
-
-	public function findObjects($calendarId, $userId, $limit, $offset) {
-
+		}
 	}
 
 
-	public function findObjectsInPeriod($calendarId, $start, $end, $userId, $limit, $offset){
-
+	/**
+	 * @brief returns number of calendar
+	 * @param string $userId
+	 * @returns integer
+	 */
+	public function countCalendars($userId) {
+		$calendars = Share::getItemsSharedWith('calendar', Types::CALENDAR);
+		return count($calendars);
 	}
 
 
-	public function findObjectsByType($calendarId, $type, $userId, $limit, $offset) {
-
-	}
-
-
-	public function findObjectsByTypeInPeriod($calendarId, $type, $start, $end, $userId, $limit, $offset) {
-
-	}
-
-
-	public function createObject(Object $object, $userId) {
-
-	}
-
-
-	public function updateObject(Object $object, $calendarId, $uri, $userId) {
+	/**
+	 * @brief returns whether or not a calendar exists
+	 * @param string $calendarURI
+	 * @param string $userId
+	 * @returns boolean
+	 */
+	public function doesCalendarExist($calendarURI, $userId) {
 
 	}
 
 
-	public function deleteObject(Object $object){
+	/**
+	 * @brief returns information about the object (event/journal/todo) with the uid $objectURI in the calendar $calendarURI of the user $userId
+	 * @param ICalendar $calendar
+	 * @param string $objectURI
+	 * @returns IObject
+	 * @throws DoesNotExistException if calendar does not exist
+	 * @throws DoesNotExistException if object does not exist
+	 */
+	public function findObject(ICalendar &$calendar, $objectURI) {
 
 	}
 
 
-	public function searchByProperties($properties=array(), $calendarId=null, $userId=null) {
-		
+	/**
+	 * @brief returns all objects in the calendar $calendarURI of the user $userId
+	 * @param ICalendar $calendar
+	 * @param integer $limit
+	 * @param integer $offset
+	 * @returns IObjectCollection
+	 * @throws DoesNotExistException if calendar does not exist
+	 */
+	public function findObjects(ICalendar &$calendar, $limit, $offset) {
+
 	}
 }

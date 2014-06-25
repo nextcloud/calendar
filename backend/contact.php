@@ -24,30 +24,19 @@
 namespace OCA\Calendar\Backend;
 
 use OCP\AppFramework\IAppContainer;
-
 use OCP\Calendar\Backend;
 use OCP\Calendar\ICalendar;
 use OCP\Calendar\ICalendarCollection;
 use OCP\Calendar\IObject;
 use OCP\Calendar\IObjectCollection;
-
 use OCP\Calendar\DoesNotExistException;
-/*use OCP\Calendar\MultipleObjectsReturnedException;
-use OCP\Calendar\CorruptDataException;*/
 
 use OCA\Calendar\Db\Calendar;
 use OCA\Calendar\Db\CalendarCollection;
-/*use OCA\Calendar\Db\Object;*/
 use OCA\Calendar\Db\ObjectCollection;
 use OCA\Calendar\Db\Timezone;
-/*use OCA\Calendar\Db\TimezoneCollection;*/
-
 use OCA\Calendar\Db\ObjectType;
 use OCA\Calendar\Db\Permissions;
-
-/*use OCA\Calendar\Utility\ObjectUtility;
-
-use DateTime;*/
 
 class Contact extends Backend {
 
