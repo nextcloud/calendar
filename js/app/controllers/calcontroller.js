@@ -21,21 +21,24 @@
  *
  */
 
-app.controller('CalController', ['$scope', '$timeout', '$modal', '$routeParams', 'Restangular', 'calendar', 'CalendarModel', 'EventsModel', 'ViewModel',
-	function ($scope,$timeout,$modal,$routeParams,Restangular,calendar,CalendarModel,EventsModel,ViewModel) {
-		$scope.route = $routeParams;
+app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 'CalendarModel', 'EventsModel', 'ViewModel',
+	function ($scope,$modal,Restangular,calendar,CalendarModel,EventsModel,ViewModel) {
 		$scope.eventSources = EventsModel.getAll();
 		$scope.defaultView = ViewModel.getAll();
 		$scope.calendarmodel = CalendarModel;
 		$scope.eventsmodel = EventsModel;
+		$scope.i = 0;
+		var switcher = [];
 		var viewResource = Restangular.one('view');
 
+		// Responds to change in View from calendarlistcontroller.
 		viewResource.get().then( function (views) {
 			ViewModel.add(views);
 		});
 		//$scope.defaultView = viewResource.get();
 
 		$scope.$watch('eventsmodel.id', function (newid, oldid) {
+
 			$scope.uiConfig = {
 				calendar : {
 					height: $(window).height() - $('#controls').height() - $('#header').height(),
@@ -61,7 +64,6 @@ app.controller('CalController', ['$scope', '$timeout', '$modal', '$routeParams',
 						week: t('calendar', "MMM d[ yyyy]{ '–'[ MMM] d yyyy}"),
 						day: t('calendar', 'dddd, MMM d, yyyy'),
 					},
-					eventSources : [$scope.eventSources],
 					viewRender : function(view) {
 						$('#datecontrol_current').html($('<p>').html(view.title).text());
 						$( "#datecontrol_date" ).datepicker("setDate", $scope.calendar.fullCalendar('getDate'));
@@ -76,8 +78,7 @@ app.controller('CalController', ['$scope', '$timeout', '$modal', '$routeParams',
 							$('td.fc-state-highlight').css('background-color', '#ffffff');
 						} else {
 							$('td.fc-state-highlight').css('background-color', '#ffc');
-						}		
-						//Calendar.UI.setViewActive(view.name);
+						}
 						if (newview == 'agendaWeek') {
 							$scope.calendar.fullCalendar('option', 'aspectRatio', 0.1);
 						} else {
@@ -86,6 +87,34 @@ app.controller('CalController', ['$scope', '$timeout', '$modal', '$routeParams',
 					},
 				},
 			};
+
+			$scope.addRemoveEventSources = function (newid,calendar) {
+				Restangular.one('calendars',newid).getList('events').then(function (eventsobject) {
+					$scope.eventSource = EventsModel.addalldisplayfigures(eventsobject);
+
+					$scope.i += 1;
+					
+					if (switcher.indexOf(newid) > -1) {
+						calendar.fullCalendar('removeEventSource', $scope.eventSource);
+					} else {
+						switcher[$scope.i] = newid;
+						console.log(switcher);
+						calendar.fullCalendar('addEventSource', $scope.eventSource);
+					}
+				}, function () {
+						// Error for a not so successfull request.
+				});
+				//if ($scope.blah) {
+				//	calendar.fullCalendar('addEventSource', $scope.eventSource);
+				//} else {
+				//	calendar.fullCalendar('removeEventSource', $scope.eventSource);
+				//}
+
+			};
+
+			if (newid !== '') {
+				$scope.addRemoveEventSources(newid,$scope.calendar);
+			}
 
 			$scope.$watch('calendarmodel.modelview', function (newview, oldview) {
 				$scope.changeView = function(newview,calendar) {
@@ -120,33 +149,6 @@ app.controller('CalController', ['$scope', '$timeout', '$modal', '$routeParams',
 					$scope.gotodate(newview,$scope.calendar);
 				}
 			});
-
-			/* add custom event*/
-			$scope.addEvent = function(newtitle,newstart,newend,newallday) {
-				EventsModel.addEvent(newtitle,newstart,newend,newallday);
-			};
-
-			/* remove event */
-			$scope.remove = function(index) {
-				EventsModel.remove(index);
-			};
-
-			$scope.newEvent = function () {
-				$modal.open({
-					templateUrl: 'event.dialog.html',
-					controller: 'EventsModalController',
-				});
-				EventsModel.newEvent();
-			};
-
-			/* TODO : This and new event can be merged */
-			$scope.editEvent = function () {
-				$modal.open({
-					templateUrl: 'event.dialog.html',
-					controller: 'EventsModalController'
-				});
-				EventsModel.editEvent();
-			};
 		});
 	}
 ]);

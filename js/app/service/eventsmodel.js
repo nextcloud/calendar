@@ -26,7 +26,7 @@ app.factory('EventsModel', function () {
 	var EventsModel = function () {
 		this.events = [];
 		this.eventsUid = {};
-		this.id = '';
+		this.id = ''; // required for switching the calendars on the fullcalendar
 	};
 
 	EventsModel.prototype = {
@@ -59,26 +59,6 @@ app.factory('EventsModel', function () {
 				});
 			}
 			return events;
-		},
-		toggleeventSource : function (sources,source) {
-			var canAdd = 0;
-			angular.forEach(sources,function(value, key){
-				if(sources[key] === source){
-					sources.splice(key,1);
-					canAdd = 1;
-				}
-			});
-			if(canAdd === 0) {
-				sources.push(source);
-			}
-		},
-		addeventSource : function (sources,source) {
-			sources.push(source);
-		},
-		removeeventSource : function (sources, source) {
-			angular.forEach(sources,function (value,key) {
-				sources.splice(key,1);
-			});
 		},
 		alertMessage : function (title,start,end,allday) {
 			return 0;

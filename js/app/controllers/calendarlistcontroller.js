@@ -77,31 +77,29 @@ app.controller('CalendarListController', ['$scope','Restangular','CalendarModel'
 			});
 		};
 
+		// Changes the view for the month, week or daywise.
 		$scope.changeview = function (view) {
 			CalendarModel.pushtoggleview(view);
 		};
 
+		// Changes the view to Today's view.
 		$scope.todayview = function (view) {
 			CalendarModel.pushtoggleview(view);
 		};
 
+		// Changes the date to today on the datepicker.
 		$scope.settodaytodatepicker = function () {
 			CalendarModel.pushtodaydatepicker();
 		};
 
-		$scope.addthisevent = function (id) {
-			EventsModel.addEvent(id);
+		// Initialises full calendar by sending the calendarid
+		$scope.addEvent = function (newid) {
+			EventsModel.addEvent(newid);
 		};
-		/* Removes Event Sources */
+
+		// Responsible for displaying or hiding events on the fullcalendar.
 		$scope.addRemoveEventSource = function(newid) {
-			var eventSources = [];
-			var eventResource = Restangular.one('calendars/' + newid + '/events');
-			eventResource.get().then(function(jcalData) {
-				eventSource = EventsModel.addalldisplayfigures(jcalData);
-				$scope.eventSource = eventSource;
-			});
-			console.log($scope.eventSource);
-			EventsModel.toggleeventSource(eventSources,$scope.eventSource);
+			$scope.addEvent(newid); // Switches watch in CalController
 		};
 
 	}
