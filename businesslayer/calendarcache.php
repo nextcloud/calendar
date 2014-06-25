@@ -131,8 +131,7 @@ class CalendarCacheBusinessLayer extends CacheBusinessLayer {
 		$userId = $cached->getUserId();
 
 		$remote = $this->getRemote($backend, $privateuri, $userId);
-
-		$this->updateByCacheAndRemote($cached, $remote);
+		$this->updateByCacheAndRemote($cached, $remote, $backend, $privateuri, $userId);
 	}
 
 
@@ -159,8 +158,7 @@ class CalendarCacheBusinessLayer extends CacheBusinessLayer {
 		$userId = $cached->getUserId();
 
 		$remote = $this->getRemote($backend, $privateuri, $userId);
-
-		$this->updateByCacheAndRemote($cached, $remote);
+		$this->updateByCacheAndRemote($cached, $remote, $backend, $privateuri, $userId);
 	}
 
 
@@ -184,8 +182,7 @@ class CalendarCacheBusinessLayer extends CacheBusinessLayer {
 		}
 
 		$remote = $this->getRemote($backend, $privateuri, $userId);
-
-		$this->updateByCacheAndRemote($cached, $remote);
+		$this->updateByCacheAndRemote($cached, $remote, $backend, $privateuri, $userId);
 	}
 
 
@@ -261,11 +258,19 @@ class CalendarCacheBusinessLayer extends CacheBusinessLayer {
 	/**
 	 * @param ICalendar $cache
 	 * @param ICalendar $remote
+	 * @param string $backend
+	 * @param string $privateuri
+	 * @param string $userId
 	 * @throws BusinessLayerException
 	 */
-	private function updateByCacheAndRemote(ICalendar $cache, ICalendar $remote) {
+	private function updateByCacheAndRemote(ICalendar $cache, ICalendar $remote, $backend, $privateuri, $userId) {
 		if ($cache === null && $remote === null) {
-			//remote calendar is most certainly corrupt
+			$this->appendToHistory(array(
+				'error' => true,
+				'backend' => $backend,
+				'privateuri' => $privateuri,
+				'userId' => $userId
+			));
 			return;
 		} elseif ($cache === null) {
 			$this->createCache($remote);
@@ -325,6 +330,7 @@ class CalendarCacheBusinessLayer extends CacheBusinessLayer {
 
 		$this->appendToHistory(array(
 			'publicuri' => $remote->getPublicUri(),
+			'userId' => $remote->getUserId(),
 			'id' => $remote->getId(),
 			'task' => self::CREATED,
 		));
@@ -346,6 +352,7 @@ class CalendarCacheBusinessLayer extends CacheBusinessLayer {
 
 		$this->appendToHistory(array(
 			'publicuri' => $cached->getPublicUri(),
+			'userId' => $cached->getUserId(),
 			'id' => $cached->getId(),
 			'task' => self::REMOVED,
 		));
@@ -379,6 +386,7 @@ class CalendarCacheBusinessLayer extends CacheBusinessLayer {
 
 		$this->appendToHistory(array(
 			'publicuri' => $cached->getPublicUri(),
+			'userId' => $cached->getUserId(),
 			'id' => $cached->getId(),
 			'task' => self::UPDATED,
 		));
