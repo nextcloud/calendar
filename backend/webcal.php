@@ -262,6 +262,7 @@ class WebCal extends Backend {
 			return false;
 		}
 		if ($parsed['scheme'] === 'webcal') {
+			//haha lol, this will do nothing
 			$parsed['scheme'] = 'http';
 		}
 		if ($parsed['scheme'] !== 'http' && $parsed['scheme'] !== 'https') {
@@ -353,12 +354,12 @@ class WebCal extends Backend {
 
 	/**
 	 * @param ISubscription $subscription
-	 * @throws \OCP\Calendar\DoesNotExistException
+	 * @throws \OCP\Calendar\CorruptDataException
 	 */
 	private function checkSubscriptionsValidity(ISubscription $subscription) {
 		if (!$this->isSubscriptionValid($subscription)) {
 			$msg = 'Subscription exists, but is not valid!';
-			throw new DoesNotExistException($msg);
+			throw new CorruptDataException($msg);
 		}
 	}
 }

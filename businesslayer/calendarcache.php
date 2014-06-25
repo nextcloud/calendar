@@ -28,6 +28,7 @@ use OCP\Calendar\IBackend;
 use OCP\Calendar\IBackendCollection;
 use OCP\Calendar\ICalendar;
 use OCP\Calendar\CacheOutDatedException;
+use OCP\Calendar\CorruptDataException;
 use OCP\Calendar\DoesNotExistException;
 use OCP\Calendar\MultipleObjectsReturnedException;
 use OCP\Calendar\IBackendAPI;
@@ -174,6 +175,8 @@ class CalendarCacheBusinessLayer extends CacheBusinessLayer {
 			$cached = $this->mapper->findByPrivateUri($backend, $privateuri, $userId);
 		} catch (DoesNotExistException $ex) {
 			$cached = null;
+		} catch (CorruptDataException $ex) {
+			$cached = null;
 		} catch (MultipleObjectsReturnedException $ex) {
 			$msg = 'CalendarCacheBusinessLayer::updateByPrivateUri(): ';
 			$msg .= 'Multiple calendars with privateuri found in cache!';
@@ -262,7 +265,8 @@ class CalendarCacheBusinessLayer extends CacheBusinessLayer {
 	 */
 	private function updateByCacheAndRemote(ICalendar $cache, ICalendar $remote) {
 		if ($cache === null && $remote === null) {
-			throw new BusinessLayerException('Calendar does not exist', Http::STATUS_NOT_FOUND);
+			//remote calendar is most certainly corrupt
+			return;
 		} elseif ($cache === null) {
 			$this->createCache($remote);
 		} elseif ($remote === null) {
