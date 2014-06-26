@@ -23,8 +23,6 @@ namespace OCA\Calendar\BusinessLayer;
 
 use OCP\AppFramework\Http;
 
-use OCP\Calendar\IBackendCollection;
-
 use \OCP\AppFramework\IAppContainer;
 use \OCP\Calendar\IBackendAPI;
 use \OCA\Calendar\Db\Backend;

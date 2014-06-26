@@ -26,7 +26,6 @@ use OCP\AppFramework\Http;
 
 use OCP\Calendar\Backend;
 use OCP\Calendar\IBackendCollection;
-use OCP\Calendar\IFullyQualifiedBackend;
 use OCP\Calendar\BackendException;
 use OCP\Calendar\CacheOutDatedException;
 use OCP\Calendar\DoesNotExistException;
@@ -41,25 +40,12 @@ use OCA\Calendar\Utility\ObjectUtility;
 use DateTime;
 use OCP\Calendar\Permissions;
 
-class ObjectBusinessLayer extends BusinessLayer {
+class ObjectBusinessLayer extends BackendCollectionBusinessLayer {
 
 	/**
 	 * @var ObjectMapper
 	 */
 	protected $mapper;
-
-
-    /**
-     * @param IAppContainer $app
-     * @param IBackendCollection $backends
-     * @param ObjectMapper $objectMapper
-     */
-    public function __construct(IAppContainer $app,
-								IBackendCollection $backends,
-								ObjectMapper $objectMapper) {
-		parent::__construct($app, $objectMapper);
-		$this->backends = $backends;
-	}
 
 
 	/**
@@ -142,11 +128,11 @@ class ObjectBusinessLayer extends BusinessLayer {
 
 			return $object;
 		} catch (DoesNotExistException $ex) {
-			throw new BusinessLayerException($ex->getMessage());
+			throw new BusinessLayerException($ex->getMessage(), $ex->getCode(), $ex);
 		} catch (MultipleObjectsReturnedException $ex) {
-			throw new BusinessLayerException($ex->getMessage());
+			throw new BusinessLayerException($ex->getMessage(), $ex->getCode(), $ex);
 		} catch (BackendException $ex) {
-			throw new BusinessLayerException($ex->getMessage());
+			throw new BusinessLayerException($ex->getMessage(), $ex->getCode(), $ex);
 		}
 	}
 
@@ -201,9 +187,9 @@ class ObjectBusinessLayer extends BusinessLayer {
 
 			return $objects;
 		} catch (DoesNotExistException $ex) {
-			throw new BusinessLayerException($ex->getMessage());
+			throw new BusinessLayerException($ex->getMessage(), $ex->getCode(), $ex);
 		} catch (BackendException $ex) {
-			throw new BusinessLayerException($ex->getMessage());
+			throw new BusinessLayerException($ex->getMessage(), $ex->getCode(), $ex);
 		}
 	}
 
@@ -239,9 +225,9 @@ class ObjectBusinessLayer extends BusinessLayer {
 
 			return $objects;
 		} catch (DoesNotExistException $ex) {
-			throw new BusinessLayerException($ex->getMessage());
+			throw new BusinessLayerException($ex->getMessage(), $ex->getCode(), $ex);
 		} catch (BackendException $ex) {
-			throw new BusinessLayerException($ex->getMessage());
+			throw new BusinessLayerException($ex->getMessage(), $ex->getCode(), $ex);
 		}
 	}
 
@@ -279,9 +265,9 @@ class ObjectBusinessLayer extends BusinessLayer {
 
 			return $objects;
 		} catch (DoesNotExistException $ex) {
-			throw new BusinessLayerException($ex->getMessage());
+			throw new BusinessLayerException($ex->getMessage(), $ex->getCode(), $ex);
 		} catch (BackendException $ex) {
-			throw new BusinessLayerException($ex->getMessage());
+			throw new BusinessLayerException($ex->getMessage(), $ex->getCode(), $ex);
 		}
 	}
 
@@ -308,9 +294,9 @@ class ObjectBusinessLayer extends BusinessLayer {
 
 			return $doesExist;
 		} catch(BackendException $ex) {
-			throw new BusinessLayerException($ex->getMessage());
+			throw new BusinessLayerException($ex->getMessage(), $ex->getCode(), $ex);
 		} catch(DoesNotExistException $ex) {
-			throw new BusinessLayerException($ex->getMessage());
+			throw new BusinessLayerException($ex->getMessage(), $ex->getCode(), $ex);
 		}
 	}
 
@@ -338,9 +324,9 @@ class ObjectBusinessLayer extends BusinessLayer {
 
 			return $doesAllow;
 		} catch(BackendException $ex) {
-			throw new BusinessLayerException($ex->getMessage());
+			throw new BusinessLayerException($ex->getMessage(), $ex->getCode(), $ex);
 		} catch(DoesNotExistException $ex) {
-			throw new BusinessLayerException($ex->getMessage());
+			throw new BusinessLayerException($ex->getMessage(), $ex->getCode(), $ex);
 		}
 	}
 
@@ -366,13 +352,14 @@ class ObjectBusinessLayer extends BusinessLayer {
 
 			$api = &$this->backends->find($backend)->getAPI();
 			$api->createObject($object);
+
 			if ($api->cacheObjects($privateUri, $userId)) {
 				$this->mapper->insert($object);
 			}
 
 			return $object;
 		} catch(BackendException $ex) {
-			throw new BusinessLayerException($ex->getMessage());
+			throw new BusinessLayerException($ex->getMessage(), $ex->getCode(), $ex);
 		}
 	}
 
@@ -521,7 +508,7 @@ class ObjectBusinessLayer extends BusinessLayer {
 				return $this->updateProperties($newObject);
 			}
 		} catch(BackendException $ex) {
-			throw new BusinessLayerException($ex->getMessage());
+			throw new BusinessLayerException($ex->getMessage(), $ex->getCode(), $ex);
 		}
 	}
 
@@ -561,7 +548,6 @@ class ObjectBusinessLayer extends BusinessLayer {
 		$this->checkBackendSupports($backend, Backend::UPDATE_OBJECT);
 		$this->checkCalendarSupports($calendar, Permissions::UPDATE);
 
-		/** @var IFullyQualifiedBackend $api */
 		$api = &$this->backends->find($backend)->getAPI();
 		$api->updateObject($object);
 
@@ -601,10 +587,7 @@ class ObjectBusinessLayer extends BusinessLayer {
 			$object = (clone $oldObjectFromRemote);
 			$object->setCalendar($newCalendar);
 
-			/** @var IFullyQualifiedBackend $newBackendsAPI */
 			$newBackendsAPI->createObject($object);
-
-			/** @var IFullyQualifiedBackend $oldBackendsAPI */
 			$oldBackendsAPI->deleteObject($oldObjectFromRemote);
 
 			return $object;
@@ -648,10 +631,7 @@ class ObjectBusinessLayer extends BusinessLayer {
 				$object = (clone $oldObjectFromRemote);
 				$object->setCalendar($newCalendar);
 
-				/** @var IFullyQualifiedBackend $newBackendsAPI */
 				$newBackendsAPI->createObject($object);
-
-				/** @var IFullyQualifiedBackend $oldBackendsAPI */
 				$oldBackendsAPI->deleteObject($oldObjectFromRemote);
 			});
 
@@ -717,7 +697,7 @@ class ObjectBusinessLayer extends BusinessLayer {
 				$this->mapper->delete($calendar);
 			}
 		} catch(BackendException $ex) {
-			throw new BusinessLayerException($ex->getMessage());
+			throw new BusinessLayerException($ex->getMessage(), $ex->getCode(), $ex);
 		}
 	}
 
@@ -762,7 +742,7 @@ class ObjectBusinessLayer extends BusinessLayer {
 			}
 			return true;
 		} catch(BackendException $ex) {
-			throw new BusinessLayerException($ex->getMessage());
+			throw new BusinessLayerException($ex->getMessage(), $ex->getCode(), $ex);
 		}
 	}
 

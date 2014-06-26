@@ -21,11 +21,9 @@
  */
 namespace OCA\Calendar\BusinessLayer;
 
-use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\Http;
 
 use OCP\Calendar\Backend;
-use OCP\Calendar\IBackendCollection;
 use OCP\Calendar\IFullyQualifiedBackend;
 use OCP\Calendar\ICalendar;
 use OCP\Calendar\ICalendarCollection;
@@ -38,25 +36,12 @@ use OCA\Calendar\Db\CalendarMapper;
 use OCA\Calendar\Db\Permissions;
 use OCA\Calendar\Utility\CalendarUtility;
 
-class CalendarBusinessLayer extends BusinessLayer {
+class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 
 	/**
 	 * @var CalendarMapper
 	 */
 	protected $mapper;
-
-
-	/**
-	 * @param IAppContainer $app
-	 * @param IBackendCollection $backends
-	 * @param CalendarMapper $calendarMapper
-	 */
-	public function __construct(IAppContainer $app,
-								IBackendCollection $backends,
-								CalendarMapper $calendarMapper){
-		parent::__construct($app, $calendarMapper);
-		$this->backends = $backends;
-	}
 
 
 	/**
