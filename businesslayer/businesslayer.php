@@ -52,12 +52,6 @@ abstract class BusinessLayer {
 
 
 	/**
-	 * @var IBackendCollection
-	 */
-	protected $backends;
-
-
-	/**
 	 * Mapper
 	 * @var \OCA\Calendar\Db\Mapper
 	 */
@@ -77,15 +71,6 @@ abstract class BusinessLayer {
 
 
 	/**
-	 * initialize calendar backend system
-	 * @param BackendMapper $mapper
-	 */
-	protected function initBackendSystem(BackendMapper $mapper) {
-		$this->backends = BackendUtility::setup($this->app, $mapper);
-	}
-
-
-	/**
 	 * @brief split up calendarURI
 	 * @param string $calendarId e.g. local::personal
 	 * @return array [$backend, $calendarURI]
@@ -101,63 +86,6 @@ abstract class BusinessLayer {
 		}
 
 		return $split;
-	}
-
-
-	/**
-	 * @brief check if a backend does support a certian action
-	 * @param string $backend
-	 * @param integer $action
-	 * @return boolean
-	 */
-	protected function doesBackendSupport($backend, $action) {
-		if (!($this->backends instanceof BackendCollection)) {
-			return false;
-		} else {
-			$backend = $this->backends->search('backend', $backend)->current();
-			if (!($backend instanceof Backend) || !($backend->api instanceof IBackendAPI)) {
-				return false;
-			}
-			return $backend->api->implementsActions($action);
-		}
-	}
-
-
-	/**
-	 * @brief throw exception if backend is not enabled
-	 * @param string $backend
-	 * @throws BusinessLayerException
-	 * @return boolean
-	 */
-	protected function checkBackendEnabled($backend) {
-		if (!($this->backends instanceof IBackendCollection)) {
-			$msg = 'No backends set-up!';
-			throw new BusinessLayerException($msg, Http::STATUS_INTERNAL_SERVER_ERROR);
-		}
-
-		if (!$this->backends->isEnabled($backend)) {
-			$msg = 'Backend found but not enabled!';
-			throw new BusinessLayerException($msg, Http::STATUS_BAD_REQUEST);
-		}
-
-		return true;
-	}
-
-
-	/**
-	 * @brief throw exception if backend does not support action
-	 * @param string $backend
-	 * @param integer $action
-	 * @return bool
-	 * @throws BusinessLayerException
-	 */
-	protected function checkBackendSupports($backend, $action) {
-		if (!$this->doesBackendSupport($backend, $action)) {
-			$msg = 'Backend does not support wanted action!';
-			throw new BusinessLayerException($msg, HTTP::STATUS_BAD_REQUEST);
-		}
-
-		return true;
 	}
 
 

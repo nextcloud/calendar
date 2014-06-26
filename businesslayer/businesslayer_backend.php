@@ -22,6 +22,9 @@
 namespace OCA\Calendar\BusinessLayer;
 
 use OCP\AppFramework\IAppContainer;
+use OCP\AppFramework\Http;
+use OCP\Calendar\IBackend;
+use OCP\Calendar\IBackendAPI;
 use OCP\Calendar\IBackendCollection;
 
 use OCA\Calendar\Db\Mapper;
@@ -44,6 +47,62 @@ abstract class BackendCollectionBusinessLayer extends BusinessLayer {
 								Mapper $mapper) {
 		parent::__construct($app, $mapper);
 		$this->backends = $backends;
+	}
+
+	/**
+	 * @brief check if a backend does support a certian action
+	 * @param string $backend
+	 * @param integer $action
+	 * @return boolean
+	 */
+	protected function doesBackendSupport($backend, $action) {
+		if (!($this->backends instanceof IBackendCollection)) {
+			return false;
+		} else {
+			$backend = $this->backends->search('backend', $backend)->current();
+			if (!($backend instanceof IBackend) || !($backend->getApi() instanceof IBackendAPI)) {
+				return false;
+			}
+			return $backend->getAPI()->implementsActions($action);
+		}
+	}
+
+
+	/**
+	 * @brief throw exception if backend is not enabled
+	 * @param string $backend
+	 * @throws BusinessLayerException
+	 * @return boolean
+	 */
+	protected function checkBackendEnabled($backend) {
+		if (!($this->backends instanceof IBackendCollection)) {
+			$msg = 'No backends set-up!';
+			throw new BusinessLayerException($msg, Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+
+		if (!$this->backends->isEnabled($backend)) {
+			$msg = 'Backend found but not enabled!';
+			throw new BusinessLayerException($msg, Http::STATUS_BAD_REQUEST);
+		}
+
+		return true;
+	}
+
+
+	/**
+	 * @brief throw exception if backend does not support action
+	 * @param string $backend
+	 * @param integer $action
+	 * @return bool
+	 * @throws BusinessLayerException
+	 */
+	protected function checkBackendSupports($backend, $action) {
+		if (!$this->doesBackendSupport($backend, $action)) {
+			$msg = 'Backend does not support wanted action!';
+			throw new BusinessLayerException($msg, HTTP::STATUS_BAD_REQUEST);
+		}
+
+		return true;
 	}
 }
 
