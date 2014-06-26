@@ -22,18 +22,12 @@
 namespace OCA\Calendar\BusinessLayer;
 
 use OCP\AppFramework\Http;
-
-use \OCP\AppFramework\IAppContainer;
-use \OCP\Calendar\IBackendAPI;
-use \OCA\Calendar\Db\Backend;
-use \OCA\Calendar\Db\BackendCollection;
-use \OCA\Calendar\Db\BackendMapper;
-use \OCA\Calendar\Db\Mapper;
-use \OCA\Calendar\Utility\BackendUtility;
-use \OCA\Calendar\Utility\CalendarUtility;
-
+use OCP\AppFramework\IAppContainer;
 use OCP\Calendar\ICalendar;
 use OCP\Calendar\IObject;
+
+use OCA\Calendar\Db\Mapper;
+use OCA\Calendar\Utility\CalendarUtility;
 
 abstract class BusinessLayer {
 
@@ -71,7 +65,7 @@ abstract class BusinessLayer {
 
 
 	/**
-	 * @brief split up calendarURI
+	 * split up calendarURI
 	 * @param string $calendarId e.g. local::personal
 	 * @return array [$backend, $calendarURI]
 	 * @throws BusinessLayerException if uri is empty
@@ -90,6 +84,7 @@ abstract class BusinessLayer {
 
 
 	/**
+	 * throw exception if calendar is not valid
 	 * @param ICalendar $calendar
 	 * @return bool
 	 * @throws BusinessLayerException
@@ -105,7 +100,7 @@ abstract class BusinessLayer {
 
 
 	/**
-	 * @brief throw exception if object is not valid
+	 * throw exception if object is not valid
 	 * @param IObject $object
 	 * @return bool
 	 * @throws BusinessLayerException
@@ -121,6 +116,7 @@ abstract class BusinessLayer {
 
 
 	/**
+	 * compare two userIds and throw exception if not equal
 	 * @param string $user1
 	 * @param string $user2
 	 * @return bool
