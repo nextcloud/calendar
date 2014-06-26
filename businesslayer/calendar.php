@@ -24,6 +24,7 @@ namespace OCA\Calendar\BusinessLayer;
 use OCP\AppFramework\Http;
 
 use OCP\Calendar\Backend;
+use OCP\Calendar\IBackend;
 use OCP\Calendar\IFullyQualifiedBackend;
 use OCP\Calendar\ICalendar;
 use OCP\Calendar\ICalendarCollection;
@@ -270,7 +271,9 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 	 */
 	public function createFromRequest(ICalendar $calendar) {
 		$userId = $this->api->getUserId();
-		$defaultBackend = $this->app->query('defaultBackend');
+		/** @var IBackend $firstBackend */
+		$firstBackend = $this->backends->reset();
+		$defaultBackend = $firstBackend->getBackend();
 
 		if ($calendar->getUserId() === null) {
 			$calendar->setUserId($userId);
