@@ -38,6 +38,10 @@ class Subscription extends Entity implements ISubscription {
 		$this->addType('url', 'string');
 		$this->addType('userId', 'string');
 
+		$this->addMandatory('type');
+		$this->addMandatory('url');
+		$this->addMandatory('userId');
+
 		if (is_array($fromRow)){
 			$this->fromRow($fromRow);
 		}
