@@ -22,7 +22,6 @@
 namespace OCA\Calendar\BusinessLayer;
 
 use OCP\AppFramework\Http;
-
 use OCP\Calendar\ITimezone;
 use OCP\Calendar\ITimezoneCollection;
 use OCP\Calendar\DoesNotExistException;
@@ -93,7 +92,9 @@ class TimezoneBusinessLayer extends BusinessLayer {
 	 * @return ITimezone
 	 */
 	public function create(ITimezone $timezone) {
-		unset($timezone);
+		$this->checkTimezoneIsValid($timezone);
+		$this->mapper->insert($timezone);
+
 		throw new BusinessLayerException('Creating timezones not yet supported', Http::STATUS_NOT_IMPLEMENTED);
 	}
 
@@ -103,33 +104,11 @@ class TimezoneBusinessLayer extends BusinessLayer {
 	 * @throws BusinessLayerException
 	 * @return ITimezone
 	 */
-	public function createFromRequest(ITimezone $timezone) {
-		return $this->create($timezone);
-	}
+	public function update(ITimezone $timezone) {
+		$this->checkTimezoneIsValid($timezone);
+		$this->mapper->update($timezone);
 
-
-	/**
-	 * @param ITimezone $timezone
-	 * @param string $tzId
-	 * @param string $userId
-	 * @throws BusinessLayerException
-	 * @return ITimezone
-	 */
-	public function update(ITimezone $timezone, $tzId, $userId) {
-		unset($timezone); unset($tzId); unset($userId);
 		throw new BusinessLayerException('Updating timezones not yet supported', Http::STATUS_NOT_IMPLEMENTED);
-	}
-
-
-	/**
-	 * @param ITimezone $timezone
-	 * @param string $tzId
-	 * @param string $userId
-	 * @throws BusinessLayerException
-	 * @return ITimezone
-	 */
-	public function updateFromRequest(ITimezone $timezone, $tzId, $userId){
-		return $this->update($timezone, $tzId, $userId);
 	}
 
 
@@ -138,7 +117,20 @@ class TimezoneBusinessLayer extends BusinessLayer {
 	 * @throws BusinessLayerException
 	 */
 	public function delete(ITimezone $timezone) {
-		unset($timezone);
+		$this->mapper->delete($timezone);
+
 		throw new BusinessLayerException('Deleting timezones not yet supported', Http::STATUS_NOT_IMPLEMENTED);
+	}
+
+
+	/**
+	 * make sure a subscription is valid
+	 * @param ITimezone $timezone
+	 * @throws BusinessLayerException
+	 */
+	private function checkTimezoneIsValid(ITimezone $timezone) {
+		if (!$timezone->isValid()) {
+			throw new BusinessLayerException('Timezone is not valid', Http::STATUS_UNPROCESSABLE_ENTITY);
+		}
 	}
 }
