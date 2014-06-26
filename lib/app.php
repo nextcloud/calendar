@@ -23,7 +23,6 @@ namespace OCA\Calendar;
 
 use OC\AppFramework\Http\Request;
 
-use OCA\Calendar\BusinessLayer\BackendBusinessLayer;
 use OCP\AppFramework\IAppContainer;
 
 use OCA\Calendar\BusinessLayer\CalendarBusinessLayer;
@@ -32,7 +31,6 @@ use OCA\Calendar\BusinessLayer\ObjectBusinessLayer;
 use OCA\Calendar\BusinessLayer\ObjectCacheBusinessLayer;
 use OCA\Calendar\BusinessLayer\SubscriptionBusinessLayer;
 use OCA\Calendar\BusinessLayer\TimezoneBusinessLayer;
-
 use OCA\Calendar\Controller\BackendController;
 use OCA\Calendar\Controller\CalendarController;
 use OCA\Calendar\Controller\SubscriptionController;
@@ -44,13 +42,11 @@ use OCA\Calendar\Controller\TimezoneController;
 use OCA\Calendar\Controller\ScanController;
 use OCA\Calendar\Controller\SettingsController;
 use OCA\Calendar\Controller\ViewController;
-
 use OCA\Calendar\Db\BackendMapper;
 use OCA\Calendar\Db\CalendarMapper;
 use OCA\Calendar\Db\SubscriptionMapper;
 use OCA\Calendar\Db\ObjectMapper;
 use OCA\Calendar\Db\TimezoneMapper;
-use OCA\Calendar\Utility\BackendUtility;
 
 class App extends \OCP\AppFramework\App {
 
@@ -103,9 +99,9 @@ class App extends \OCP\AppFramework\App {
 		/* Controller */
 		$this->getContainer()->registerService('BackendController', function(IAppContainer $c) {
 			$req = $c->query('Request');
-			$bbl = $c->query('BackendBusinessLayer');
+			$bds = $c->query('backends');
 
-			return new BackendController($c, $req, $bbl);
+			return new BackendController($c, $req, $bds);
 		});
 		$this->getContainer()->registerService('CalendarController', function(IAppContainer $c) {
 			$req = $c->query('Request');
@@ -174,35 +170,30 @@ class App extends \OCP\AppFramework\App {
 
 
 		/* BusinessLayer */
-		$this->getContainer()->registerService('BackendBusinessLayer', function(IAppContainer $c) {
-			$bmp = $c->query('BackendMapper');
-
-			return new BackendBusinessLayer($c, $bmp);
-		});
 		$this->getContainer()->registerService('CalendarBusinessLayer', function(IAppContainer $c) {
-			$ibs = $c->query('backends');
+			$bds = $c->query('backends');
 			$cmp = $c->query('CalendarMapper');
 			$obl = $c->query('ObjectBusinessLayer');
 
-			return new CalendarBusinessLayer($c, $ibs, $cmp, $obl);
+			return new CalendarBusinessLayer($c, $bds, $cmp, $obl);
 		});
 		$this->getContainer()->registerService('CalendarCacheBusinessLayer', function(IAppContainer $c) {
-			$ibs = $c->query('backends');
+			$bds = $c->query('backends');
 			$cmp = $c->query('CalendarMapper');
 
-			return new CalendarCacheBusinessLayer($c, $ibs, $cmp);
+			return new CalendarCacheBusinessLayer($c, $bds, $cmp);
 		});
 		$this->getContainer()->registerService('ObjectBusinessLayer', function(IAppContainer $c) {
-			$ibs = $c->query('backends');
+			$bds = $c->query('backends');
 			$omp = $c->query('ObjectMapper');
 
-			return new ObjectBusinessLayer($c, $ibs, $omp);
+			return new ObjectBusinessLayer($c, $bds, $omp);
 		});
 		$this->getContainer()->registerService('ObjectCacheBusinessLayer', function(IAppContainer $c) {
-			$ibs = $c->query('backends');
+			$bds = $c->query('backends');
 			$omp = $c->query('ObjectMapper');
 
-			return new ObjectCacheBusinessLayer($c, $ibs, $omp);
+			return new ObjectCacheBusinessLayer($c, $bds, $omp);
 		});
 		$this->getContainer()->registerService('SubscriptionBusinessLayer', function(IAppContainer $c) {
 			$smp = $c->query('SubscriptionMapper');
@@ -234,9 +225,14 @@ class App extends \OCP\AppFramework\App {
 		});
 
 
-		/* some default config values */
-		$defaultBackend = 'org.ownCloud.local';
-		$defaultConfig = array(
+		/* Default backend config and backend initialization */
+		$this->getContainer()->registerParameter('fallbackBackendConfig', array(
+			array (
+				'backend' => 'org.ownCloud.local',
+				'classname' => '\\OCA\\Calendar\\Backend\\Local',
+				'arguments' => array(),
+				'enabled' => true,
+			),
 			/*array (
 				'backend' => 'org.ownCloud.caldav',
 				'classname' => '\\OCA\\Calendar\\Backend\\CalDAV',
@@ -254,14 +250,8 @@ class App extends \OCP\AppFramework\App {
 				'classname' => '\\OCA\\Calendar\\Backend\\Files',
 				'arguments' => array(),
 				'enabled' => true,
-			),*/
-			array (
-				'backend' => 'org.ownCloud.local',
-				'classname' => '\\OCA\\Calendar\\Backend\\Local',
-				'arguments' => array(),
-				'enabled' => true,
 			),
-			/*array (
+			array (
 				'backend' => 'org.ownCloud.sharing',
 				'classname' => '\\OCA\\Calendar\\Backend\\Sharing',
 				'arguments' => array(),
@@ -273,12 +263,10 @@ class App extends \OCP\AppFramework\App {
 				'arguments' => array(),
 				'enabled' => true,
 			),
-		);
+		));
 
-		$this->getContainer()->registerParameter('defaultBackend', $defaultBackend);
-		$this->getContainer()->registerParameter('fallbackBackendConfig', $defaultConfig);
-
-		$backends = BackendUtility::setup($this->getContainer(), $this->getContainer()->query('BackendMapper'));
+		$backendMapper = $this->getContainer()->query('BackendMapper');
+		$backends = $backendMapper->findAllWithApi();
 		$this->getContainer()->registerParameter('backends', $backends);
 	}
 

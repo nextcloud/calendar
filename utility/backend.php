@@ -27,21 +27,19 @@ use OCP\Calendar\IBackend;
 use OCP\Calendar\IBackendCollection;
 
 use OCA\Calendar\Db\BackendCollection;
-use OCA\Calendar\Db\BackendMapper;
 
 class BackendUtility extends Utility{
 
 
 	/**
 	 * @param IAppContainer $app
-	 * @param BackendMapper $mapper
+	 * @param IBackendCollection $allBackends
 	 * @return IBackendCollection
 	 */
-	public static function setup(IAppContainer $app, BackendMapper $mapper) {
+	public static function setup(IAppContainer $app, IBackendCollection $allBackends) {
 		$backendCollection = new BackendCollection();
 
-		$enabledBackends = $mapper->findAll()->enabled();
-		$enabledBackends->iterate(function(IBackend $backend) use (&$backendCollection, &$app, &$mapper) {
+		$allBackends->iterate(function(IBackend $backend) use (&$backendCollection, &$app, &$mapper) {
 			$className = $backend->getClassname();
 			$args = is_array($backend->getArguments()) ? $backend->getArguments() : array();
 
@@ -49,7 +47,6 @@ class BackendUtility extends Utility{
 				$msg  = 'BackendBusinessLayer::setupBackends(): ';
 				$msg .= '"' . $className . '" not found';
 				Util::writeLog('calendar', $msg, Util::DEBUG);
-				$mapper->update($backend->disable());
 				return false;
 			}
 
@@ -65,7 +62,7 @@ class BackendUtility extends Utility{
 			$api = $reflectionObj->newInstanceArgs(array($app, $args));
 			$backend->registerAPI($api);
 			//check if a backend can enabled
-			if ($backend->api->canBeEnabled()) {
+			if ($backend->getAPI()->canBeEnabled()) {
 				$backendCollection->add($backend);
 			}
 

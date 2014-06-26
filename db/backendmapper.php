@@ -7,6 +7,7 @@
  */
 namespace OCA\Calendar\Db;
 
+use OCA\Calendar\Utility\BackendUtility;
 use OCP\AppFramework\IAppContainer;
 use OCP\Calendar\IEntity;
 use OCP\Config;
@@ -101,6 +102,34 @@ class BackendMapper extends Mapper {
 
 
 	/**
+	 * Finds all Items
+	 * @return IBackendCollection
+	 */
+	public function findAllWithApi() {
+		$enabled = $this->findAll();
+		return BackendUtility::setup($this->app, $enabled);
+	}
+
+
+	/**
+	 * Finds all Items
+	 * @return IBackendCollection
+	 */
+	public function findAllEnabled(){
+		return $this->findWhereEnabledIs(true);
+	}
+
+
+	/**
+	 * Finds all Items
+	 * @return IBackendCollection
+	 */
+	public function findAllDisabled(){
+		return $this->findWhereEnabledIs(false);
+	}
+
+
+	/**
 	 * @param $isEnabled
 	 * @return BackendCollection
 	 */
@@ -143,14 +172,5 @@ class BackendMapper extends Mapper {
 
 		$this->didChange = true;
 		return $this;
-	}
-
-
-	/**
-	 * get backend object of default backend
-	 * @return Backend object
-	 */
-	public function getDefault() {
-		return $this->app->query('defaultBackend');
 	}
 }
