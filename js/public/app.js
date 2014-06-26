@@ -123,60 +123,54 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 					$scope.i += 1;
 					
 					if (switcher.indexOf(newid) > -1) {
+						switcher.splice(switcher.indexOf(newid),1);
 						calendar.fullCalendar('removeEventSource', $scope.eventSource);
+						console.log(switcher);
 					} else {
 						switcher[$scope.i] = newid;
 						console.log(switcher);
 						calendar.fullCalendar('addEventSource', $scope.eventSource);
 					}
-				}, function () {
-						// Error for a not so successfull request.
 				});
-				//if ($scope.blah) {
-				//	calendar.fullCalendar('addEventSource', $scope.eventSource);
-				//} else {
-				//	calendar.fullCalendar('removeEventSource', $scope.eventSource);
-				//}
-
 			};
 
 			if (newid !== '') {
 				$scope.addRemoveEventSources(newid,$scope.calendar);
 			}
+		});
 
-			$scope.$watch('calendarmodel.modelview', function (newview, oldview) {
-				$scope.changeView = function(newview,calendar) {
-					calendar.fullCalendar('changeView', newview);
-				};
-				$scope.today = function (calendar) {
-					calendar.fullCalendar('today');
-				};
-				if (newview.view && $scope.calendar) {
-					if (newview.view != 'today') {
-						$scope.changeView(newview.view,$scope.calendar);
-					} else {
-						$scope.today($scope.calendar);
-					}
+		$scope.$watch('calendarmodel.modelview', function (newview, oldview) {
+			$scope.changeView = function(newview,calendar) {
+				calendar.fullCalendar('changeView', newview);
+			};
+			$scope.today = function (calendar) {
+				calendar.fullCalendar('today');
+			};
+			if (newview.view && $scope.calendar) {
+				if (newview.view != 'today') {
+					$scope.changeView(newview.view,$scope.calendar);
+				} else {
+					$scope.today($scope.calendar);
 				}
-			}, true);
+			}
+		}, true);
 
-			$scope.$watch('calendarmodel.datepickerview', function (newview, oldview) {
-				$scope.changeview = function(newview,calendar) {
-					calendar.fullCalendar(newview.view);
-				};
-				if (newview.view !== '' && $scope.calendar !== undefined) {
-					$scope.changeview(newview,$scope.calendar);
-				}
-			}, true);
+		$scope.$watch('calendarmodel.datepickerview', function (newview, oldview) {
+			$scope.changeview = function(newview,calendar) {
+				calendar.fullCalendar(newview.view);
+			};
+			if (newview.view !== '' && $scope.calendar !== undefined) {
+				$scope.changeview(newview,$scope.calendar);
+			}
+		}, true);
 
-			$scope.$watch('calendarmodel.date', function (newview, oldview) {
-				$scope.gotodate = function(newview,calendar) {
-					calendar.fullCalendar('gotoDate', newview);
-				};
-				if (newview !== '' && $scope.calendar !== undefined) {
-					$scope.gotodate(newview,$scope.calendar);
-				}
-			});
+		$scope.$watch('calendarmodel.date', function (newview, oldview) {
+			$scope.gotodate = function(newview,calendar) {
+				calendar.fullCalendar('gotoDate', newview);
+			};
+			if (newview !== '' && $scope.calendar !== undefined) {
+				$scope.gotodate(newview,$scope.calendar);
+			}
 		});
 	}
 ]);
