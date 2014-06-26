@@ -40,6 +40,5 @@ class ObjectCacheBusinessLayer extends CacheBusinessLayer {
 								CalendarMapper $calendarMapper) {
 		parent::__construct($app, $calendarMapper);
 		$this->backends = $backends;
-		//$this->resetHistory();
 	}
 }
