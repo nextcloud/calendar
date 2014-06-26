@@ -35,30 +35,26 @@ abstract class Collection implements ICollection {
 	 * array containing all entities
 	 * @var array
 	 */
-	protected $objects;
+	protected $objects=array();
 
 
 	/**
-	 * @brief constructor
+	 * constructor
 	 * @param mixed (array|Entity|Collection) $objects
 	 */
 	public function __construct($objects=null) {
-		$this->objects = array();
-
-		if ($objects !== null) {
-			if (is_array($objects)) {
-				$this->addObjects($objects);
-			} elseif ($objects instanceof Entity) {
-				$this->add($objects);
-			} elseif ($objects instanceof Collection) {
-				$this->addCollection($objects);
-			}
+		if ($objects instanceof IEntity) {
+			$this->add($objects);
+		} elseif ($objects instanceof ICollection) {
+			$this->addCollection($objects);
+		} elseif (is_array($objects)) {
+			$this->addObjects($objects);
 		}
 	}
 
 
 	/**
-	 * @brief add entity to collection
+	 * add entity to collection
 	 * @param IEntity $object entity to be added
 	 * @param integer $nth insert at index, if not set, entity will be appended
 	 * @return $this
@@ -79,7 +75,7 @@ abstract class Collection implements ICollection {
 
 
 	/**
-	 * @brief add entities to collection
+	 * add entities to collection
 	 * @param ICollection $collection collection of entities to be added
 	 * @param integer $nth insert at index, if not set, collection will be appended
 	 * @return integer
@@ -99,7 +95,7 @@ abstract class Collection implements ICollection {
 
 
 	/**
-	 * @brief add objects to collection
+	 * add objects to collection
 	 * @param array $array
 	 * @param integer $nth insert at index, if not set, objects will be appended
 	 * @return integer
@@ -120,7 +116,24 @@ abstract class Collection implements ICollection {
 
 
 	/**
-	 * @brief remove entity from collection
+	 * updates an entity in collection
+	 * @param IEntity $entity
+	 */
+	public function update(IEntity $entity) {
+		$entityId = strval($entity);
+
+		for ($i = 0; $i < $this->count(); $i++) {
+			$objectId = strval($this->objects[$i]);
+
+			if ($entityId === $objectId) {
+				$this->objects[$i] = $entity;
+			}
+		}
+	}
+
+
+	/**
+	 * remove entity from collection
 	 * @param integer $nth remove nth element, if not set, current element will be removed
 	 * @return $this
 	 */
@@ -139,7 +152,7 @@ abstract class Collection implements ICollection {
 
 
 	/**
-	 * @brief remove entity by it's information
+	 * remove entity by it's information
 	 * @param IEntity $entity
 	 * @return $this
 	 */
@@ -159,7 +172,7 @@ abstract class Collection implements ICollection {
 
 
 	/**
-	 * @brief remove entities by a single property
+	 * remove entities by a single property
 	 * @param string $key key for property
 	 * @param mixed $value value to be set
 	 * @return $this;
@@ -179,7 +192,7 @@ abstract class Collection implements ICollection {
 
 
 	/**
-	 * @brief get number of elements within collection
+	 * get number of elements within collection
 	 * @return integer 
 	 */
 	public function count() {
@@ -188,7 +201,7 @@ abstract class Collection implements ICollection {
 
 
 	/**
-	 * @brief get current entity 
+	 * get current entity 
 	 * @return Entity
 	 */
 	public function current() {
@@ -197,7 +210,7 @@ abstract class Collection implements ICollection {
 
 
 	/**
-	 * @brief get num index of current entity
+	 * get num index of current entity
 	 * @return integer 
 	 */
 	public function key() {
@@ -206,7 +219,7 @@ abstract class Collection implements ICollection {
 
 
 	/**
-	 * @brief goto next entity and get it
+	 * goto next entity and get it
 	 * @return Entity
 	 */
 	public function next() {
@@ -215,7 +228,7 @@ abstract class Collection implements ICollection {
 
 
 	/**
-	 * @brief goto previous entity and get it
+	 * goto previous entity and get it
 	 * @return Entity
 	 */
 	public function prev() {
@@ -224,7 +237,7 @@ abstract class Collection implements ICollection {
 
 
 	/**
-	 * @brief goto first entity and get it
+	 * goto first entity and get it
 	 * @return Entity
 	 */
 	public function reset() {
@@ -233,7 +246,7 @@ abstract class Collection implements ICollection {
 
 
 	/**
-	 * @brief goto last entity and get it
+	 * goto last entity and get it
 	 * @return Entity
 	 */
 	public function end() {
@@ -242,7 +255,7 @@ abstract class Collection implements ICollection {
 
 
 	/**
-	 * @brief get nth entity of collection
+	 * get nth entity of collection
 	 * @param integer $nth
 	 * @return mixed (Entity/null)
 	 */
@@ -256,7 +269,7 @@ abstract class Collection implements ICollection {
 
 
 	/**
-	 * @brief get array of all entities
+	 * get array of all entities
 	 * @return array of Entities
 	 */
 	public function getObjects() {
@@ -265,7 +278,7 @@ abstract class Collection implements ICollection {
 
 
 	/**
-	 * @brief get a subset of current collection
+	 * get a subset of current collection
 	 * @param int $limit
 	 * @param int @offset
 	 * @return array of Entities
@@ -290,7 +303,7 @@ abstract class Collection implements ICollection {
 
 
 	/**
-	 * @brief check if entity is in collection
+	 * check if entity is in collection
 	 * @param IEntity $object
 	 * @return boolean
 	 */
@@ -300,7 +313,7 @@ abstract class Collection implements ICollection {
 
 
 	/**
-	 * @brief get one VCalendar object containing all information
+	 * get one VCalendar object containing all information
 	 * @return VCalendar object
 	 */
 	public function getVObject() {
@@ -327,7 +340,7 @@ abstract class Collection implements ICollection {
 
 
 	/**
-	 * @brief get an array of VCalendar objects
+	 * get an array of VCalendar objects
 	 * @return array of VCalendar object
 	 */
 	public function getVObjects() {
@@ -346,7 +359,7 @@ abstract class Collection implements ICollection {
 
 
 	/**
-	 * @brief get a collection of entities that meet criteria
+	 * get a collection of entities that meet criteria
 	 * @param string $key property that's supposed to be searched
 	 * @param mixed $value expected value, can be a regular expression when 3rd param is set to true
 	 * @return mixed (boolean|ICollection)
@@ -373,7 +386,7 @@ abstract class Collection implements ICollection {
 
 
 	/**
-	 * @brief get a collection of entities that meet criteria; search calendar data
+	 * get a collection of entities that meet criteria; search calendar data
 	 * @param string $key name of property that stores data
 	 * @param string $regex regular expression
 	 * @return mixed (boolean|ICollection)
@@ -400,7 +413,7 @@ abstract class Collection implements ICollection {
 
 
 	/**
-	 * @brief set a property for all calendars
+	 * set a property for all calendars
 	 * @param string $key key for property
 	 * @param mixed $value value to be set
 	 * @return $this
@@ -419,7 +432,7 @@ abstract class Collection implements ICollection {
 
 
 	/**
-	 * @brief checks if all entities are valid
+	 * checks if all entities are valid
 	 * Stops when it finds the first invalid one
 	 * @return bool
 	 */
@@ -438,7 +451,7 @@ abstract class Collection implements ICollection {
 
 
 	/**
-	 * @brief iterate over each entity of collection
+	 * iterate over each entity of collection
 	 * @param callable $function
 	 * @return $this
 	 */
@@ -452,7 +465,7 @@ abstract class Collection implements ICollection {
 
 
 	/**
-	 * @brief remove duplicates from collection
+	 * remove duplicates from collection
 	 * @return $this
 	 */
 	public function noDuplicates() {

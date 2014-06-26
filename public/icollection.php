@@ -42,6 +42,13 @@ interface ICollection {
 
 
 	/**
+	 * updates an entity in collection
+	 * @param IEntity $entity
+	 */
+	public function update(IEntity $entity);
+
+
+	/**
 	 * @brief remove entity from collection
 	 * @param integer $nth remove nth element, if not set, current element will be removed
 	 * @return $this
