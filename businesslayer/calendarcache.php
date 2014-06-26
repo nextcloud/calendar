@@ -104,7 +104,7 @@ class CalendarCacheBusinessLayer extends CacheBusinessLayer {
 
 		$remote = $this->getRemote($backend, $privateuri, $userId);
 
-		$this->updateByCacheAndRemote($cached, $remote);
+		$this->updateByCacheAndRemote($cached, $remote, $backend, $privateuri, $userId);
 	}
 
 
@@ -325,6 +325,7 @@ class CalendarCacheBusinessLayer extends CacheBusinessLayer {
 		$remote->setLastPropertiesUpdate(time());
 		$remote->setLastObjectUpdate(0);
 
+		/** @var ICalendar $remote */
 		$remote = $this->mapper->insert($remote);
 
 		$this->appendToHistory(array(

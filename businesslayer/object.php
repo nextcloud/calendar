@@ -21,11 +21,9 @@
  */
 namespace OCA\Calendar\BusinessLayer;
 
-use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\Http;
 
 use OCP\Calendar\Backend;
-use OCP\Calendar\IBackendCollection;
 use OCP\Calendar\BackendException;
 use OCP\Calendar\CacheOutDatedException;
 use OCP\Calendar\DoesNotExistException;
