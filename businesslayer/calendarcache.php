@@ -24,6 +24,7 @@ namespace OCA\Calendar\BusinessLayer;
 use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\Http;
 
+use OCP\Calendar\BackendException;
 use OCP\Calendar\IBackend;
 use OCP\Calendar\IBackendCollection;
 use OCP\Calendar\ICalendar;
@@ -296,6 +297,10 @@ class CalendarCacheBusinessLayer extends CacheBusinessLayer {
 		} catch (DoesNotExistException $ex) {
 			$remoteCalendar = null;
 		} catch (CacheOutDatedException $ex) {
+			$remoteCalendar = null;
+		} catch (CorruptDataException $ex) {
+			$remoteCalendar = null;
+		} catch (BackendException $ex) {
 			$remoteCalendar = null;
 		} catch (MultipleObjectsReturnedException $ex) {
 			$msg = 'CalendarCacheBusinessLayer::updateByPrivateUri(): ';
