@@ -265,9 +265,10 @@ class App extends \OCP\AppFramework\App {
 			),
 		));
 
-		$backendMapper = $this->getContainer()->query('BackendMapper');
-		$backends = $backendMapper->findAllWithApi();
-		$this->getContainer()->registerParameter('backends', $backends);
+		$this->getContainer()->registerService('backends', function(IAppContainer $c) {
+			$backendMapper = $c->query('BackendMapper');
+			return $backendMapper->findAllWithApi();
+		});
 	}
 
 	public function registerNavigation() {
