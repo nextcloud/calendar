@@ -1,32 +1,48 @@
 <?php
 /**
- * Copyright (c) 2014 Georg Ehrke <oc.list@georgehrke.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * ownCloud - Calendar App
+ *
+ * @author Georg Ehrke
+ * @copyright 2014 Georg Ehrke <oc.list@georgehrke.com>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 namespace OCA\Calendar\Controller;
 
-use \OCP\AppFramework\IAppContainer;
-use \OCP\IRequest;
-use \OCP\AppFramework\Http;
+use OCP\AppFramework\Http;
+use OCP\Calendar\DoesNotExistException;
+use OCP\Calendar\MultipleObjectsReturnedException;
 
-use \OCP\Calendar\DoesNotExistException;
-use \OCP\Calendar\MultipleObjectsReturnedException;
-use \OCA\Calendar\BusinessLayer\BusinessLayerException;
-
-use \OCA\Calendar\Db\Subscription;
-use \OCA\Calendar\Db\SubscriptionCollection;
-use \OCA\Calendar\Db\SubscriptionMapper;
-
-use \OCA\Calendar\Http\Response;
-
-use \OCA\Calendar\Http\Reader;
-use \OCA\Calendar\Http\Serializer;
-use \OCA\Calendar\Http\ReaderException;
-use \OCA\Calendar\Http\SerializerException;
+use OCA\Calendar\BusinessLayer\BusinessLayerException;
+use OCA\Calendar\BusinessLayer\SubscriptionBusinessLayer;
+use OCA\Calendar\Db\Subscription;
+use OCA\Calendar\Db\SubscriptionCollection;
+use OCA\Calendar\Http\Response;
+use OCA\Calendar\Http\Reader;
+use OCA\Calendar\Http\Serializer;
+use OCA\Calendar\Http\ReaderException;
+use OCA\Calendar\Http\SerializerException;
 
 class SubscriptionController extends Controller {
+
+	/**
+	 * business-layer
+	 * @var SubscriptionBusinessLayer
+	 */
+	protected $businesslayer;
+
 
 	/**
 	 * @NoAdminRequired
@@ -75,10 +91,10 @@ class SubscriptionController extends Controller {
 	 public function show() {
 		try {
 			$userId = $this->api->getUserId();
-			$name = $this->request->getParam('subscriptionId');
+			$id = $this->request->getParam('subscriptionId');
 
 			$subscription = $this->businesslayer->find(
-				$name,
+				$id,
 				$userId
 			);
 
