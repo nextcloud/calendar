@@ -21,4 +21,4 @@
  */
 namespace OCA\Calendar\Http\JSON;
 
-class JSONTimezone extends JSONObject {}
+class JSONTimezoneResponse extends JSONObjectResponse {}

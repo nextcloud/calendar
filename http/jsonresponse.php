@@ -19,45 +19,39 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCA\Calendar\Http\JSON;
 
-use OCP\Calendar\IBackend;
+/**
+ * Public interface of ownCloud for apps to use.
+ * AppFramework\HTTP\JSONResponse class
+ */
 
-use OCA\Calendar\Http\SerializerException;
+namespace OCA\Calendar\Http;
 
-class JSONBackendCollection extends JSONCollection {
+/**
+ * A renderer for JSON calls
+ */
+class JSONResponse extends Response {
 
 	/**
-	 * @brief get headers for response
-	 * @return array
+	 * Returns the rendered json
+	 * @return string the rendered json
 	 */
-	public function getHeaders() {
-		return array_merge(
-			parent::getHeaders(),
-			array(
-				'Content-type' => 'application/json; charset=utf-8',
-			)
-		);
+	public function render(){
+		return json_encode($this->data);
 	}
 
 
-	/**
-	 * @brief get json-encoded string containing all information
-	 * @return array
-	 */
-	public function serialize() {
-		$jsonArray = array();
+	public function preSerialize() {
+		$this->addHeader('Content-type', 'application/json; charset=utf-8');
+	}
 
-		$this->object->iterate(function(IBackend &$object) use (&$jsonArray) {
-			try {
-				$jsonBackend = new JSONBackend($this->app, $object);
-				$jsonArray[] = $jsonBackend->serialize();
-			} catch (SerializerException $ex) {
-				//TODO - log error msg
-				return;
-			}
-		});
 
-		return $jsonArray;
+	public function serializeData() {
+		$this->data = $this->input;
+	}
+
+
+	public function postSerialize() {
+
 	}
 }

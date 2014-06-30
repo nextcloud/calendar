@@ -1,27 +1,45 @@
 <?php
 /**
- * Copyright (c) 2014 Georg Ehrke <oc.list@georgehrke.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * ownCloud - Calendar App
+ *
+ * @author Georg Ehrke
+ * @copyright 2014 Georg Ehrke <oc.list@georgehrke.com>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 namespace OCA\Calendar\Controller;
 
+use OCA\Calendar\BusinessLayer\BusinessLayerException;
 use \OCP\AppFramework\IAppContainer;
 use \OCP\AppFramework\Http;
+use OCP\AppFramework\Http\JSONResponse;
 use \OCP\IRequest;
 
-use \OCA\Calendar\Db\DoesNotExistException;
-
 use OCA\Calendar\BusinessLayer\TimezoneBusinessLayer;
+use OCA\Calendar\Http\JSON\JSONTimezoneResponse;
 
 use \OCA\Calendar\Http\Response;
-use \OCA\Calendar\Http\Reader;
-use \OCA\Calendar\Http\ReaderException;
-use \OCA\Calendar\Http\Serializer;
 use \OCA\Calendar\Http\SerializerException;
 
 class TimezoneController extends Controller {
+
+	/**
+	 * @var \OCA\Calendar\BusinessLayer\TimezoneBusinessLayer
+	 */
+	protected $timezones;
+
 
 	/**
 	 * constructor
@@ -31,43 +49,35 @@ class TimezoneController extends Controller {
 	 */
 	public function __construct(IAppContainer $app, IRequest $request,
 								TimezoneBusinessLayer $timezoneBusinessLayer){
-		parent::__construct($app, $request, $timezoneBusinessLayer);
+		parent::__construct($app, $request);
+		$this->timezones = $timezoneBusinessLayer;
+
+		$this->registerResponder('json', function($value) use ($app) {
+			return new JSONTimezoneResponse($app, $value);
+		});
 	}
 
 
 	/**
+	 * @param $limit
+	 * @param $offset
+	 * @return Response
+	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function index() {
+	public function index($limit=null, $offset=null) {
 		try {
 			$userId	= $this->api->getUserId();
 
-			$noLimit = $this->params('nolimit', false);
-			if ($noLimit) {
-				$limit = $offset = null;
-			} else {
-				$limit = $this->params('limit', 25);
-				$offset = $this->params('offset', 0);
-			}
-
-			$timezoneCollection = $this->businesslayer->findAll(
+			return $this->timezones->findAll(
 				$userId,
 				$limit,
 				$offset
 			);
-
-			$serializer = new Serializer(
-				$this->app,
-				Serializer::TimezoneCollection,
-				$timezoneCollection,
-				$this->accept()
-			);
-
-			return new Response($serializer);
 		} catch (SerializerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(
+			return new JSONResponse(
 				array('message' => $ex->getMessage()),
 				Http::STATUS_INTERNAL_SERVER_ERROR
 			);
@@ -76,35 +86,29 @@ class TimezoneController extends Controller {
 
 
 	/**
+	 * @param string $timezoneId
+	 * @return Response
+	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	 public function show() {
+	 public function show($timezoneId) {
 		try {
-			$tzId = str_replace('-', '/', $this->params('timezoneId'));
+			$tzId = str_replace('-', '/', $timezoneId);
 			$userId	= $this->api->getUserId();
 
-			$timezone = $this->businesslayer->find(
-				$userId,
-				$tzId
+			return $this->timezones->find(
+				$tzId,
+				$userId
 			);
-
-			$serializer = new Serializer(
-				$this->app,
-				Serializer::Timezone,
-				$timezone, 
-				$this->accept()
-			);
-
-			return new Response($serializer);
-		} catch (DoesNotExistException $ex) {
-			return new Response(
-				null,
-				Http::STATUS_NOT_FOUND
+		} catch (BusinessLayerException $ex) {
+			return new JSONResponse(
+				$ex->getMessage(),
+				$ex->getCode()
 			);
 		} catch (SerializerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(
+			return new JSONResponse(
 				array('message' => $ex->getMessage()),
 				Http::STATUS_INTERNAL_SERVER_ERROR
 			);
@@ -113,47 +117,50 @@ class TimezoneController extends Controller {
 
 
 	/**
+	 * @param int $limit
+	 * @param int $offset
+	 * @return Response
+	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	 public function getList() {
-		$timezones = $this->businesslayer->listAll();
-		return new Response($timezones);
+	public function getList($limit=null, $offset=null) {
+		$userId	= $this->api->getUserId();
+
+		$timezones = $this->timezones->listAll($userId, $limit, $offset);
+
+		return new JSONResponse($timezones);
 	}
 
 
 	/**
 	 * @NoAdminRequired
-	 * @NoCSRFRequired
 	 */
 	public function create() {
-		return new Response(null, Http::STATUS_NOT_IMPLEMENTED);
+		return new JSONResponse(null, Http::STATUS_NOT_IMPLEMENTED);
 	}
 
 
 	/**
 	 * @NoAdminRequired
-	 * @NoCSRFRequired
 	 */
 	public function update() {
-		return new Response(null, Http::STATUS_NOT_IMPLEMENTED);
+		return new JSONResponse(null, Http::STATUS_NOT_IMPLEMENTED);
 	}
 
 
 	/**
 	 * @NoAdminRequired
-	 * @NoCSRFRequired
 	 */
 	public function patch() {
-		return new Response(null, Http::STATUS_NOT_IMPLEMENTED);
+		return new JSONResponse(null, Http::STATUS_NOT_IMPLEMENTED);
 	}
 
 
 	/**
 	 * @NoAdminRequired
-	 * @NoCSRFRequired
 	 */
 	public function destroy() {
-		return new Response(null, Http::STATUS_NOT_IMPLEMENTED);
+		return new JSONResponse(null, Http::STATUS_NOT_IMPLEMENTED);
 	}
 }

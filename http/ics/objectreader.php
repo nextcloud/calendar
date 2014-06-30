@@ -8,16 +8,31 @@
 namespace OCA\Calendar\Http\ICS;
 
 use OCA\Calendar\Sabre\VObject\Splitter\ICalendar;
-
 use OCA\Calendar\Db\Object;
 use OCA\Calendar\Db\ObjectCollection;
+use OCA\Calendar\Http\Reader;
 use OCA\Calendar\Http\ReaderException;
+use OCA\Calendar\Sabre\VObject\Component\VCalendar;
 use OCA\Calendar\Utility\SabreUtility;
 
-class ICSObjectReader extends ICSReader {
+class ICSObjectReader extends Reader {
+
+
+	public function preParse() {/*
+		$data = $this->getData();
+
+		//fix malformed timestamp in some google calendar events
+		//originally contributed by github.com/nezzi
+		$data = str_replace('CREATED:00001231T000000Z', 'CREATED:19700101T000000Z', $data);
+
+		//add some more fixes over time
+
+		$this->setData($data);*/
+	}
+
 
 	/**
-	 * @brief parse data
+	 * parse data
 	 */
 	public function parse() {
 		try{
@@ -25,6 +40,10 @@ class ICSObjectReader extends ICSReader {
 
 			$splitter = new ICalendar($this->handle);
 			while($vobject = $splitter->getNext()) {
+				if (!($vobject instanceof VCalendar)) {
+					continue;
+				}
+
 				SabreUtility::removeXOCAttrFromComponent($vobject);
 				$object = new Object();
 				$object->fromVObject($vobject);
@@ -37,21 +56,9 @@ class ICSObjectReader extends ICSReader {
 				$object = $objectCollection;
 			}
 
-			return $this->setObject($object);
+			$this->setObject($object);
 		} catch(\Exception $ex /* What exception is being thrown??? */) {
 			throw new ReaderException($ex->getMessage());
 		}
-	}
-
-	protected function fixData() {/*
-		$data = $this->getData();
-
-		//fix malformed timestamp in some google calendar events
-		//originally contributed by nezzi@github
-		$data = str_replace('CREATED:00001231T000000Z', 'CREATED:19700101T000000Z', $data);
-
-		//add some more fixes over time
-
-		$this->setData($data);*/
 	}
 }

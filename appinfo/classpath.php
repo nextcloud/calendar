@@ -91,7 +91,6 @@
 \OC::$CLASSPATH['OCA\Calendar\Db\ObjectType'] = 'calendar/db/objecttype.php';
 \OC::$CLASSPATH['OCA\Calendar\Db\Permissions'] = 'calendar/db/permissions.php';
 
-
 /* reader and serializer */
 \OC::$CLASSPATH['OCA\Calendar\Http\IReader'] = 'calendar/http/ireader.php';
 \OC::$CLASSPATH['OCA\Calendar\Http\ISerializer'] = 'calendar/http/iserializer.php';
@@ -102,33 +101,19 @@
 \OC::$CLASSPATH['OCA\Calendar\Http\Response'] = 'calendar/http/response.php';
 
 /* ICS reader and serializer*/
-\OC::$CLASSPATH['OCA\Calendar\Http\ICS\ICS'] = 'calendar/http/ics/ics.php';
-\OC::$CLASSPATH['OCA\Calendar\Http\ICS\ICSCollection'] = 'calendar/http/ics/icscollection.php';
-\OC::$CLASSPATH['OCA\Calendar\Http\ICS\ICSReader'] = 'calendar/http/ics/icsreader.php';
-\OC::$CLASSPATH['OCA\Calendar\Http\ICS\ICSObject'] = 'calendar/http/ics/object.php';
-\OC::$CLASSPATH['OCA\Calendar\Http\ICS\ICSObjectCollection'] = 'calendar/http/ics/objectcollection.php';
+\OC::$CLASSPATH['OCA\Calendar\Http\ICS\ICSObjectResponse'] = 'calendar/http/ics/object.php';
 \OC::$CLASSPATH['OCA\Calendar\Http\ICS\ICSObjectReader'] = 'calendar/http/ics/objectreader.php';
-\OC::$CLASSPATH['OCA\Calendar\Http\ICS\ICSTimezone'] = 'calendar/http/ics/timezone.php';
-\OC::$CLASSPATH['OCA\Calendar\Http\ICS\ICSTimezoneCollection'] = 'calendar/http/ics/timzonecollection.php';
+\OC::$CLASSPATH['OCA\Calendar\Http\ICS\ICSTimezoneResponse'] = 'calendar/http/ics/timezone.php';
 
 /* JSON reader and serializer */
-\OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSON'] = 'calendar/http/json/json.php';
-\OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONCollection'] = 'calendar/http/json/jsoncollection.php';
-\OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONReader'] = 'calendar/http/json/jsonreader.php';
-\OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONBackend'] = 'calendar/http/json/backend.php';
-\OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONBackendCollection'] = 'calendar/http/json/backendcollection.php';
-\OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONCalendar'] = 'calendar/http/json/calendar.php';
-\OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONCalendarCollection'] = 'calendar/http/json/calendarcollection.php';
+\OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONBackendResponse'] = 'calendar/http/json/backend.php';
+\OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONCalendarResponse'] = 'calendar/http/json/calendar.php';
 \OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONCalendarReader'] = 'calendar/http/json/calendarreader.php';
-\OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONObject'] = 'calendar/http/json/object.php';
-\OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONObjectCollection'] = 'calendar/http/json/objectcollection.php';
+\OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONObjectResponse'] = 'calendar/http/json/object.php';
 \OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONObjectReader'] = 'calendar/http/json/objectreader.php';
-\OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONSubscription'] = 'calendar/http/json/subscription.php';
-\OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONSubscriptionCollection'] = 'calendar/http/json/subscriptioncollection.php';
+\OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONSubscriptionResponse'] = 'calendar/http/json/subscription.php';
 \OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONSubscriptionReader'] = 'calendar/http/json/subscriptionreader.php';
-\OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONTimezone'] = 'calendar/http/json/timezone.php';
-\OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONTimezoneCollection'] = 'calendar/http/json/timezonecollection.php';
-\OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONTimezoneReader'] = 'calendar/http/json/timezonereader.php';
+\OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONTimezoneResponse'] = 'calendar/http/json/timezone.php';
 
 
 // some custom sabre classes

@@ -23,84 +23,76 @@ namespace OCA\Calendar\Controller;
 
 use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
+use OCP\Calendar\ICalendar;
+use OCP\Calendar\ICalendarCollection;
 
 use OCA\Calendar\BusinessLayer\BusinessLayerException;
 use OCA\Calendar\BusinessLayer\CalendarBusinessLayer;
-use OCA\Calendar\BusinessLayer\ObjectBusinessLayer;
-
-use OCA\Calendar\Db\Calendar;
-use OCA\Calendar\Db\CalendarCollection;
-
 use OCA\Calendar\Http\Response;
-use OCA\Calendar\Http\Reader;
 use OCA\Calendar\Http\ReaderException;
-use OCA\Calendar\Http\Serializer;
 use OCA\Calendar\Http\SerializerException;
+use OCA\Calendar\Http\JSON\JSONCalendarReader;
+use OCA\Calendar\Http\JSON\JSONCalendarResponse;
 
 class CalendarController extends Controller {
 
 	/**
-	 * business-layer
+	 * Calendar businesslayer object
 	 * @var CalendarBusinessLayer
 	 */
-	protected $businesslayer;
+	protected $calendars;
 
 
 	/**
 	 * constructor
 	 * @param IAppContainer $app interface to the app
 	 * @param IRequest $request an instance of the request
-	 * @param CalendarBusinessLayer $calendarBusinessLayer
-	 * @param ObjectBusinessLayer $objectBusinessLayer
+	 * @param CalendarBusinessLayer $calendars
 	 */
 	public function __construct(IAppContainer $app, IRequest $request,
-								CalendarBusinessLayer $calendarBusinessLayer,
-								ObjectBusinessLayer $objectBusinessLayer) {
-		parent::__construct($app, $request, $calendarBusinessLayer);
-		$this->objectbusinesslayer = $objectBusinessLayer;
+								CalendarBusinessLayer $calendars) {
+		parent::__construct($app, $request);
+		$this->calendars = $calendars;
+
+		$this->registerReader('json', function($handle) use ($app) {
+			$reader = new JSONCalendarReader($app, $handle);
+			return $reader->getObject();
+		});
+
+		$this->registerResponder('json', function($value) use ($app) {
+			return new JSONCalendarResponse($app, $value);
+		});
 	}
 
 
 	/**
+	 * @param $limit
+	 * @param $offset
+	 * @return Response
+	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function index() {
+	public function index($limit=null, $offset=null) {
 		try {
 			$userId = $this->api->getUserId();
 
-			$noLimit = $this->params('nolimit', false);
-			if ($noLimit) {
-				$limit = $offset = null;
-			} else {
-				$limit = $this->params('limit', 25);
-				$offset = $this->params('offset', 0);
-			}
-
-			$calendarCollection = $this->businesslayer->findAll(
+			return $this->calendars->findAll(
 				$userId,
 				$limit,
 				$offset
 			);
-
-			$serializer = new Serializer(
-				$this->app,
-				Serializer::CalendarCollection,
-				$calendarCollection,
-				$this->accept()
-			);
-
-			return new Response($serializer);
 		} catch (BusinessLayerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(
+			return new JSONResponse(
 				array('message' => $ex->getMessage()),
 				$ex->getCode()
 			);
 		} catch (SerializerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(
+			return new JSONResponse(
 				array('message' => $ex->getMessage()),
 				Http::STATUS_INTERNAL_SERVER_ERROR
 			);
@@ -109,36 +101,29 @@ class CalendarController extends Controller {
 
 
 	/**
+	 * @param int $calendarId
+	 * @return Response
+	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	 public function show() {
+	 public function show($calendarId) {
 		try {
 			$userId = $this->api->getUserId();
-			$calendarId = $this->request->getParam('calendarId');
 
-			$calendar = $this->businesslayer->findById(
+			return $this->calendars->findById(
 				$calendarId,
 				$userId
 			);
-
-			$serializer = new Serializer(
-				$this->app,
-				Serializer::Calendar,
-				$calendar,
-				$this->accept()
-			);
-
-			return new Response($serializer);
 		} catch (BusinessLayerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(
+			return new JSONResponse(
 				array('message' => $ex->getMessage()),
 				$ex->getCode()
 			);
 		} catch (SerializerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(
+			return new JSONResponse(
 				array('message' => $ex->getMessage()),
 				Http::STATUS_INTERNAL_SERVER_ERROR
 			);
@@ -152,62 +137,35 @@ class CalendarController extends Controller {
 	 */
 	public function create() {
 		try {
-			$data = fopen('php://input', 'rb');
+			$calendar = $this->readInput();
 
-			$reader = new Reader(
-				$this->app,
-				Reader::Calendar,
-				$data,
-				$this->contentType()
-			);
-
-			$calendar = $reader->sanitize()->getObject();
-
-			if ($calendar instanceof Calendar) {
-				$calendar = $this->businesslayer->createFromRequest(
+			if ($calendar instanceof ICalendar) {
+				return $this->calendars->createFromRequest(
 					$calendar
 				);
-
-				$serializer = new Serializer(
-					$this->app,
-					Serializer::Calendar,
-					$calendar,
-					$this->accept()
+			} elseif ($calendar instanceof ICalendarCollection) {
+				throw new ReaderException(
+					'Creating calendar-collections not supported'
 				);
-
-			} elseif ($calendar instanceof CalendarCollection) {
-				$calendar = $this->businesslayer->createCollectionFromRequest(
-					$calendar
-				);
-
-				$serializer = new Serializer(
-					$this->app,
-					Serializer::CalendarCollection,
-					$calendar,
-					$this->accept()
-				);
-
 			} else {
 				throw new ReaderException(
-					'Reader returned unrecognised format.'
+					'Reader returned unrecognised format'
 				);
 			}
-
-			return new Response($serializer, Http::STATUS_CREATED);
 		} catch (BusinessLayerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(
+			return new JSONResponse(
 				array('message' => $ex->getMessage()),
 				$ex->getCode()
 			);
 		} catch(ReaderException $ex) {
-			return new Response(
+			return new JSONResponse(
 				array('message' => $ex->getMessage()),
 				Http::STATUS_UNPROCESSABLE_ENTITY
 			);
 		} catch (SerializerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(
+			return new JSONResponse(
 				array('message' => $ex->getMessage()),
 				Http::STATUS_INTERNAL_SERVER_ERROR
 			);
@@ -216,62 +174,46 @@ class CalendarController extends Controller {
 
 
 	/**
+	 * @param int $calendarId
+	 * @return Response
+	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function update() {
+	public function update($calendarId) {
 		try {
+			$calendar = $this->readInput();
 			$userId = $this->api->getUserId();
-			$calendarId = $this->params('calendarId');
-			$data = fopen('php://input', 'rb');
 
-			$reader = new Reader(
-				$this->app,
-				Reader::Calendar,
-				$data,
-				$this->contentType()
-			);
-
-			$calendar = $reader->sanitize()->getObject();
-
-			if ($calendar instanceof Calendar) {
-				$calendar = $this->businesslayer->updateFromRequestById(
+			if ($calendar instanceof ICalendar) {
+				return $this->calendars->updateFromRequestById(
 					$calendar,
 					$calendarId,
 					$userId
 				);
-
-				$serializer = new Serializer(
-					$this->app,
-					Serializer::Calendar,
-					$calendar,
-					$this->accept()
-				);
-			} elseif ($calendar instanceof CalendarCollection) {
+			} elseif ($calendar instanceof ICalendarCollection) {
 				throw new ReaderException(
-					'Updates can only be applied to a single resource.'
+					'Updates can only be applied to a single resource'
 				);
 			} else {
 				throw new ReaderException(
-					'Reader returned unrecognised format.'
+					'Reader returned unrecognised format'
 				);
 			}
-
-			return new Response($serializer);
 		} catch(BusinessLayerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(
+			return new JSONResponse(
 				array('message' => $ex->getMessage()),
 				$ex->getCode()
 			);
 		} catch(ReaderException $ex) {
-			return new Response(
+			return new JSONResponse(
 				array('message' => $ex->getMessage()),
 				Http::STATUS_UNPROCESSABLE_ENTITY
 			);
 		} catch (SerializerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(
+			return new JSONResponse(
 				array('message' => $ex->getMessage()),
 				Http::STATUS_INTERNAL_SERVER_ERROR
 			);
@@ -280,62 +222,46 @@ class CalendarController extends Controller {
 
 
 	/**
+	 * @param int $calendarId
+	 * @return Response
+	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function patch() {
+	public function patch($calendarId) {
 		try {
+			$calendar = $this->readInput();
 			$userId = $this->api->getUserId();
-			$calendarId = $this->params('calendarId');
-			$data = fopen('php://input', 'rb');
 
-			$reader = new Reader(
-				$this->app,
-				Reader::Calendar,
-				$data,
-				$this->contentType()
-			);
-
-			$calendar = $reader->sanitize()->getObject();
-
-			if ($calendar instanceof Calendar) {
-				$calendar = $this->businesslayer->patchFromRequestById(
+			if ($calendar instanceof ICalendar) {
+				return $this->calendars->patchFromRequestById(
 					$calendar,
 					$calendarId,
 					$userId
 				);
-
-				$serializer = new Serializer(
-					$this->app,
-					Serializer::Calendar,
-					$calendar,
-					$this->accept()
-				);
-			} elseif ($calendar instanceof CalendarCollection) {
+			} elseif ($calendar instanceof ICalendarCollection) {
 				throw new ReaderException(
-					'Patches can only be applied to a single resource.'
+					'Patches can only be applied to a single resource'
 				);
 			} else {
 				throw new ReaderException(
-					'Reader returned unrecognised format.'
+					'Reader returned unrecognised format'
 				);
 			}
-
-			return new Response($serializer);
 		} catch(BusinessLayerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(
+			return new JSONResponse(
 				array('message' => $ex->getMessage()),
 				$ex->getCode()
 			);
 		} catch(ReaderException $ex) {
-			return new Response(
+			return new JSONResponse(
 				array('message' => $ex->getMessage()),
 				Http::STATUS_UNPROCESSABLE_ENTITY
 			);
 		} catch (SerializerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(
+			return new JSONResponse(
 				array('message' => $ex->getMessage()),
 				Http::STATUS_INTERNAL_SERVER_ERROR
 			);
@@ -344,26 +270,31 @@ class CalendarController extends Controller {
 
 
 	/**
+	 * @param int $calendarId
+	 * @return Response
+	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function destroy() {
+	public function destroy($calendarId) {
 		try {
 			$userId	= $this->api->getUserId();
-			$calendarId	= $this->params('calendarId');
 
-			$calendar = $this->businesslayer->findById(
+			$calendar = $this->calendars->findById(
 				$calendarId, 
 				$userId
 			);
-			$this->businesslayer->delete(
+
+			$this->calendars->delete(
 				$calendar
 			);
 
-			return new Response();
+			return new JSONResponse(array(
+				'message' => 'Calendar was deleted successfully',
+			));
 		} catch (BusinessLayerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(
+			return new JSONResponse(
 				array('message' => $ex->getMessage()),
 				$ex->getCode()
 			);

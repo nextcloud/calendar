@@ -21,95 +21,103 @@
  */
 namespace OCA\Calendar\Http\JSON;
 
+use OCP\Calendar\ICalendar;
+use OCP\Calendar\ICalendarCollection;
 use OCP\Calendar\ITimezone;
+
+use OCA\Calendar\Http\JSONResponse;
+use OCA\Calendar\Http\SerializerException;
 use OCA\Calendar\Utility\JSONUtility;
 
-class JSONCalendar extends JSON {
+class JSONCalendarResponse extends JSONResponse {
 
 	/**
-	 * json-encoded data
-	 * @var array
+	 * serialize output data from input
 	 */
-	private $jsonArray;
-
-
-	/**
-	 * @brief get headers for response
-	 * @return array
-	 */
-	public function getHeaders() {
-		return array_merge(
-			parent::getHeaders(),
-			array(
-				'Content-type' => 'application/json; charset=utf-8',
-			)
-		);
+	public function serializeData() {
+		if ($this->input instanceof ICalendar) {
+			$this->data = $this->generate($this->input);
+		} elseif ($this->input instanceof ICalendarCollection) {
+			$data = array();
+			$this->input->iterate(function (ICalendar $calendar) use (&$data) {
+				try {
+					$data[] = $this->generate($calendar);
+				} catch (SerializerException $ex) {
+					return;
+				}
+			});
+			$this->data = $data;
+		} else {
+			$this->data = array();
+		}
 	}
 
 
 	/**
-	 * @brief get json-encoded string containing all information
+	 * generate output for one backend
+	 * @param ICalendar $calendar
 	 * @return array
 	 */
-	public function serialize() {
-		$this->jsonArray = array();
+	public function generate(ICalendar $calendar) {
+		$data = array();
 
-		$properties = get_object_vars($this->object);
-		foreach($properties as $key => $value) {
+		$properties = get_object_vars($calendar);
+		foreach ($properties as $key => $value) {
 			$getter = 'get' . ucfirst($key);
-			$value = $this->object->{$getter}();
+			$value = $calendar->{$getter}();
 
-			$this->setProperty(strtolower($key), $value);
+			$this->setProperty($data, strtolower($key), $value);
 		}
 
-		return $this->jsonArray;
+		return $data;
 	}
 
 
 	/**
-	 * @brief set property 
+	 * set property
+	 * @param array &$data
 	 * @param string $key
 	 * @param mixed $value
 	 */
-	private function setProperty($key, $value) {
+	private function setProperty(array &$data, $key, $value) {
 		switch($key) {
 			case 'color':
 			case 'description':
 			case 'displayname':
 			case 'backend':
-				$this->jsonArray[$key] = strval($value);
+				$data[$key] = strval($value);
 				break;
 
 			case 'timezone':
-				$this->jsonArray[$key] = ($value instanceof ITimezone) ? $value->getTzId() : null;
+				$data[$key] = ($value instanceof ITimezone) ? $value->getTzId() : null;
 				break;
 
 			case 'publicuri':
-				$this->jsonArray['uri'] = strval($value);
+				$data['uri'] = strval($value);
 				break;
 
 			case 'ctag':
 			case 'id':
 			case 'order':
-				$this->jsonArray[$key] = intval($value);
+				$data[$key] = intval($value);
 				break;
 
 			case 'enabled':
-				$this->jsonArray[$key] = (bool) $value; //boolval is PHP >= 5.5 only
+				$data[$key] = (bool) $value; //boolval is PHP >= 5.5 only
 				break;
 
 			case 'components':
-				$this->jsonArray[$key] = JSONUtility::getComponents($value);
+				$data[$key] = JSONUtility::getComponents($value);
 				break;
 
 			case 'cruds':
-				$this->jsonArray[$key] = JSONUtility::getCruds($value);
+				$data[$key] = JSONUtility::getCruds($value);
 				break;
 
 			case 'ownerId':
 			case 'userId':
 				$key = substr($key, 0, -2);
-				$this->jsonArray[$key] = JSONUtility::getUserInformation($value);
+				$data[$key] = JSONUtility::getUserInformation($value);
 				break;
 
 			case 'lastpropertiesupdate':
@@ -118,7 +126,7 @@ class JSONCalendar extends JSON {
 				break;
 
 			default:
-				$this->jsonArray[$key] = $value;
+				$data[$key] = $value;
 				break;
 			
 		}

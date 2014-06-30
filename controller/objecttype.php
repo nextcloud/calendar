@@ -1,42 +1,45 @@
 <?php
 /**
- * Copyright (c) 2014 Georg Ehrke <oc.list@georgehrke.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * ownCloud - Calendar App
+ *
+ * @author Georg Ehrke
+ * @copyright 2014 Georg Ehrke <oc.list@georgehrke.com>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 namespace OCA\Calendar\Controller;
 
-use \OCP\AppFramework\IAppContainer;
-use \OCP\IRequest;
+use OCP\AppFramework\IAppContainer;
+use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\JSONResponse;
+use OCP\IRequest;
 
-use \OCP\AppFramework\Http\Http;
+use OCA\Calendar\BusinessLayer\BusinessLayerException;
+use OCA\Calendar\Db\Permissions;
+use OCA\Calendar\BusinessLayer\CalendarBusinessLayer;
+use OCA\Calendar\BusinessLayer\ObjectBusinessLayer;
+use OCA\Calendar\Http\Response;
+use OCA\Calendar\Http\SerializerException;
 
-use \OCA\Calendar\Db\DoesNotExistException;
-use \OCA\Calendar\BusinessLayer\BusinessLayerException;
-
-use \OCA\Calendar\Db\Object;
-use \OCA\Calendar\Db\ObjectCollection;
-use \OCA\Calendar\Db\ObjectType;
-
-use \OCA\Calendar\Db\Permissions;
-
-use \OCA\Calendar\BusinessLayer\CalendarBusinessLayer;
-use \OCA\Calendar\BusinessLayer\ObjectBusinessLayer;
-
-use \OCA\Calendar\Http\Response;
-use \OCA\Calendar\Http\Reader;
-use \OCA\Calendar\Http\ReaderException;
-use \OCA\Calendar\Http\Serializer;
-use \OCA\Calendar\Http\SerializerException;
-
-use \DateTime;
+use DateTime;
 
 abstract class ObjectTypeController extends ObjectController {
 
 	/**
 	 * type of object this controller is handling
-	 * @var \OCA\Calendar\Db\ObjectType::...
+	 * @var int
 	 */
 	protected $objectType;
 
@@ -63,59 +66,45 @@ abstract class ObjectTypeController extends ObjectController {
 
 
 	/**
+	 * @param int $calendarId
+	 * @param int $limit
+	 * @param int $offset
+	 * @return Response
+	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function index() {
+	public function index($calendarId, $limit=null, $offset=null) {
 		try {
 			$userId = $this->api->getUserId();
-			$calendarId = $this->params('calendarId');
-
-			$nolimit = $this->params('nolimit', false);
-			if ($nolimit) {
-				$limit = $offset = null;
-			} else {
-				$limit = $this->params('limit', 25);
-				$offset = $this->params('offset', 0);
-			}
-
-			$start = $this->params('start');
-			$end = $this->params('end');
-
 			$type = $this->objectType;
 
-			$calendar = $this->calendarbusinesslayer->findById(
+			$calendar = $this->calendars->findById(
 				$calendarId,
 				$userId
 			);
+
 			if (!$calendar->doesAllow(Permissions::READ)) {
-				return new Reponse(null, Http::STATUS_FORBIDDEN);
+				return new JSONResponse(array(
+					'message' => 'Not allowed to read calendar',
+				), HTTP::STATUS_FORBIDDEN);
 			}
 
-			$objectCollection = $this->businesslayer->findAllByType(
+			return $this->objects->findAllByType(
 				$calendar,
 				$type,
 				$limit,
 				$offset
 			);
-
-			$serializer = new Serializer(
-				$this->app,
-				Serializer::ObjectCollection,
-				$objectCollection,
-				$this->accept()
-			);
-
-			return new Response($serializer);
 		} catch (BusinessLayerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(
+			return new JSONResponse(
 				array('message' => $ex->getMessage()),
 				$ex->getCode()
 			);
 		} catch (SerializerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(
+			return new JSONResponse(
 				array('message' => $ex->getMessage()),
 				Http::STATUS_INTERNAL_SERVER_ERROR
 			);
@@ -124,36 +113,38 @@ abstract class ObjectTypeController extends ObjectController {
 
 
 	/**
+	 * @param int $calendarId
+	 * @param int $limit
+	 * @param int $offset
+	 * @param string $start
+	 * @param string $end
+	 * @return Response
+	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function indexInPeriod() {
+	public function indexInPeriod($calendarId, $limit=null,
+								  $offset=null, $start, $end) {
 		try {
 			$userId = $this->api->getUserId();
-			$calendarId = $this->params('calendarId');
-
-			$nolimit = $this->params('nolimit', false);
-			if ($nolimit) {
-				$limit = $offset = null;
-			} else {
-				$limit = $this->params('limit', 25);
-				$offset = $this->params('offset', 0);
-			}
-
-			$start = $this->params('start', new DateTime(date('Y-m-01')));
-			$end = $this->params('end', new DateTime(date('Y-m-t')));
-
+			/**	@var \DateTime $start */
+			$this->parseDateTime($start, new DateTime(date('Y-m-01')));
+			/** @var \DateTime $end */
+			$this->parseDateTime($end, new DateTime(date('Y-m-t')));
 			$type = $this->objectType;
 
-			$calendar = $this->calendarbusinesslayer->findById(
+			$calendar = $this->calendars->findById(
 				$calendarId,
 				$userId
 			);
+
 			if (!$calendar->doesAllow(Permissions::READ)) {
-				return new Response(null, HTTP::STATUS_FORBIDDEN);
+				return new JSONResponse(array(
+					'message' => 'Not allowed to read calendar',
+				), HTTP::STATUS_FORBIDDEN);
 			}
 
-			$objectCollection = $this->businesslayer->findAllByTypeInPeriod(
+			return $this->objects->findAllByTypeInPeriod(
 				$calendar,
 				$type,
 				$start,
@@ -161,24 +152,15 @@ abstract class ObjectTypeController extends ObjectController {
 				$limit,
 				$offset
 			);
-
-			$serializer = new Serializer(
-				$this->app,
-				Serializer::ObjectCollection,
-				$objectCollection,
-				$this->accept()
-			);
-
-			return new Response($serializer);
 		} catch (BusinessLayerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(
+			return new JSONResponse(
 				array('message' => $ex->getMessage()),
 				$ex->getCode()
 			);
 		} catch (SerializerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(
+			return new JSONResponse(
 				array('message' => $ex->getMessage()),
 				Http::STATUS_INTERNAL_SERVER_ERROR
 			);
@@ -187,48 +169,43 @@ abstract class ObjectTypeController extends ObjectController {
 
 
 	/**
+	 * @param int $calendarId
+	 * @return Response
+	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function show() {
+	public function show($calendarId) {
 		try {
 			$userId = $this->api->getUserId();
-			$calendarId = $this->params('calendarId');
 			$objectURI = $this->getObjectId();
-
 			$type = $this->objectType;
 
-			$calendar = $this->calendarbusinesslayer->findById(
+			$calendar = $this->calendars->findById(
 				$calendarId,
 				$userId
 			);
+
 			if (!$calendar->doesAllow(Permissions::READ)) {
-				return new Response(null, HTTP::STATUS_FORBIDDEN);
+				return new JSONResponse(array(
+					'message' => 'Not allowed to read calendar',
+				), HTTP::STATUS_FORBIDDEN);
 			}
 
-			$object = $this->businesslayer->findByType(
+			return $this->objects->findByType(
 				$calendar,
 				$objectURI,
 				$type
 			);
-
-			$serializer = new Serializer(
-				$this->app,
-				Serializer::Object,
-				$object,
-				$this->accept()
-			);
-
-			return new Response($serializer);
 		} catch (BusinessLayerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(
+			return new JSONResponse(
 				array('message' => $ex->getMessage()),
 				$ex->getCode()
 			);
 		} catch (SerializerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(
+			return new JSONResponse(
 				array('message' => $ex->getMessage()),
 				Http::STATUS_INTERNAL_SERVER_ERROR
 			);

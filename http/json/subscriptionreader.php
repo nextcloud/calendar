@@ -23,9 +23,10 @@ namespace OCA\Calendar\Http\JSON;
 
 use OCA\Calendar\Db\Subscription;
 use OCA\Calendar\Db\SubscriptionCollection;
+use OCA\Calendar\Http\Reader;
 use OCA\Calendar\Http\ReaderException;
 
-class JSONSubscriptionReader extends JSONReader{
+class JSONSubscriptionReader extends Reader {
 
 	/**
 	 * @brief parse jsoncalendar
@@ -46,23 +47,7 @@ class JSONSubscriptionReader extends JSONReader{
 			$object = $this->parseSingleEntity($json);
 		}
 
-		return $this->setObject($object);
-	}
-
-
-	/**
-	 * @brief overwrite values that should not be set by user with null
-	 */
-	public function sanitize() {
-		if ($this->object === null) {
-			$this->parse();
-		}
-
-		$sanitize = array(
-			'userId',
-		);
-
-		return parent::nullProperties($sanitize);
+		$this->setObject($object);
 	}
 
 
@@ -116,8 +101,12 @@ class JSONSubscriptionReader extends JSONReader{
 			switch($key) {
 				case 'type':
 				case 'url':
-				case 'userid':
 					$calendar->$setter(strval($value));
+					break;
+
+				//blacklist
+				case 'userid':
+				case 'id':
 					break;
 
 				default:

@@ -21,10 +21,10 @@
  */
 namespace OCA\Calendar\Http\JSON;
 
+use OCA\Calendar\Http\Reader;
 use OCP\Calendar\ICalendar;
 use OCP\Calendar\ICalendarCollection;
 use OCP\Calendar\ITimezone;
-use OCP\Calendar\DoesNotExistException;
 
 use OCA\Calendar\BusinessLayer\BusinessLayerException;
 use OCA\Calendar\Db\Calendar;
@@ -33,7 +33,19 @@ use OCA\Calendar\Http\SerializerException;
 use OCA\Calendar\Http\ReaderException;
 use OCA\Calendar\Utility\JSONUtility;
 
-class JSONCalendarReader extends JSONReader{
+class JSONCalendarReader extends Reader {
+
+
+	/**
+	 * @var \OCA\Calendar\BusinessLayer\TimezoneBusinessLayer
+	 */
+	protected $timezones;
+
+
+	public function preParse() {
+		$this->timezones = $this->app->query('TimezoneBusinessLayer');
+	}
+
 
 	/**
 	 * @return $this
@@ -55,26 +67,7 @@ class JSONCalendarReader extends JSONReader{
 			$object = $this->parseSingleEntity($json);
 		}
 
-		return $this->setObject($object);
-	}
-
-
-	/**
-	 * overwrite values that should not be set by user with null
-	 */
-	public function sanitize() {
-		if ($this->object === null) {
-			$this->parse();
-		}
-
-		$sanitize = array(
-			'userId',
-			'ownerId',
-			'cruds',
-			'ctag',
-		);
-
-		return parent::nullProperties($sanitize);
+		$this->setObject($object);
 	}
 
 
@@ -137,7 +130,6 @@ class JSONCalendarReader extends JSONReader{
 					$calendar->setPublicUri(strval($value));
 					break;
 
-				case 'ctag':
 				case 'order':
 					$calendar->$setter(intval($value));
 					break;
@@ -151,18 +143,6 @@ class JSONCalendarReader extends JSONReader{
 					$calendar->$setter($value);
 					break;
 
-				case 'cruds':
-					$value = JSONUtility::parseCruds($value);
-					$calendar->$setter($value);
-					break;
-
-				case 'owner':
-				case 'user':
-					$setter .= 'Id';
-					$value = JSONUtility::parseUserInformation($value);
-					$calendar->$setter($value);
-					break;
-
 				case 'timezone':
 					$timezoneObject = $this->parseTimezone($value);
 					$calendar->$setter($timezoneObject);
@@ -171,6 +151,10 @@ class JSONCalendarReader extends JSONReader{
 				//blacklist:
 				case 'url':
 				case 'caldav':
+				case 'cruds':
+				case 'ctag':
+				case 'user':
+				case 'owner':
 					break;
 
 				default:
@@ -187,9 +171,8 @@ class JSONCalendarReader extends JSONReader{
 	 * @return ITimezone|null
 	 */
 	private function parseTimezone($tzId) {
-		$timezoneBusinessLayer = $this->app->query('TimezoneBusinessLayer');
 		try {
-			return $timezoneBusinessLayer->find($tzId, $this->app->getCoreApi()->getUserId());
+			return $this->timezones->find($tzId, $this->app->getCoreApi()->getUserId());
 		} catch(BusinessLayerException $ex) {
 			return null;
 		}

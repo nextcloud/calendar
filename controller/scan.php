@@ -23,24 +23,24 @@ namespace OCA\Calendar\Controller;
 
 use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
 
 use OCA\Calendar\BusinessLayer\BusinessLayerException;
 use OCA\Calendar\BusinessLayer\CalendarCacheBusinessLayer;
 use OCA\Calendar\BusinessLayer\ObjectCacheBusinessLayer;
-use OCA\Calendar\Http\Response;
 
 class ScanController extends Controller {
 
 	/**
-	 * business-layer
+	 * calendar business-layer
 	 * @var CalendarCacheBusinessLayer
 	 */
 	protected $calendars;
 
 
 	/**
-	 * business-layer
+	 * object business-layer
 	 * @var ObjectCacheBusinessLayer
 	 */
 	protected $objects;
@@ -63,22 +63,28 @@ class ScanController extends Controller {
 
 
 	/**
+	 * @param int $limit
+	 * @param int $offset
+	 * @return JSONResponse
+	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function updateMostOutdatedCalendars() {
+	public function updateMostOutdatedCalendars($limit=null, $offset=null) {
 		try {
 			$userId = $this->api->getUserId();
-			$limit = $this->params('limit', null);
-			$offset = $this->params('offset', null);
 
-			$this->calendars->updateMostOutdated($userId, $limit, $offset);
+			$this->calendars->updateMostOutdated(
+				$userId,
+				$limit,
+				$offset
+			);
 			$history = $this->calendars->getHistory();
 
-			return new Response($history);
+			return new JSONResponse($history);
 		} catch (BusinessLayerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(
+			return new JSONResponse(
 				array('message' => $ex->getMessage()),
 				$ex->getCode()
 			);
@@ -87,21 +93,26 @@ class ScanController extends Controller {
 
 
 	/**
+	 * @param int $calendarId
+	 * @return JSONResponse
+	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function updateCalendarById() {
+	public function updateCalendarById($calendarId) {
 		try {
 			$userId = $this->api->getUserId();
-			$calendarId = $this->request->getParam('calendarId');
 
-			$this->calendars->updateById($calendarId, $userId);
+			$this->calendars->updateById(
+				$calendarId,
+				$userId
+			);
 			$history = reset($this->calendars->getHistory());
 
-			return new Response($history);
+			return new JSONResponse($history);
 		} catch (BusinessLayerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(
+			return new JSONResponse(
 				array('message' => $ex->getMessage()),
 				$ex->getCode()
 			);
@@ -110,21 +121,26 @@ class ScanController extends Controller {
 
 
 	/**
+	 * @param string $publicuri
+	 * @return JSONResponse
+	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function updateCalendarByPublicUri() {
+	public function updateCalendarByPublicUri($publicuri) {
 		try {
 			$userId = $this->api->getUserId();
-			$publicuri = $this->request->getParam('publicuri');
 
-			$this->calendars->updateByPublicUri($publicuri, $userId);
+			$this->calendars->updateByPublicUri(
+				$publicuri,
+				$userId
+			);
 			$history = reset($this->calendars->getHistory());
 
-			return new Response($history);
+			return new JSONResponse($history);
 		} catch (BusinessLayerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(
+			return new JSONResponse(
 				array('message' => $ex->getMessage()),
 				$ex->getCode()
 			);
@@ -133,22 +149,60 @@ class ScanController extends Controller {
 
 
 	/**
+	 * @param string $backend
+	 * @param string $privateuri
+	 * @return JSONResponse
+	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function updateCalendarByPrivateUri() {
+	public function updateCalendarByPrivateUri($backend, $privateuri) {
+		try {
+			$userId = $this->api->getUserId();
+
+			$this->calendars->updateByPrivateUri(
+				$backend,
+				$privateuri,
+				$userId
+			);
+			$history = reset($this->calendars->getHistory());
+
+			return new JSONResponse($history);
+		} catch (BusinessLayerException $ex) {
+			$this->app->log($ex->getMessage(), 'debug');
+			return new JSONResponse(
+				array('message' => $ex->getMessage()),
+				$ex->getCode()
+			);
+		}
+	}
+
+
+	/**
+	 * @param int $limit
+	 * @param int $offset
+	 * @return JSONResponse
+	 *
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 */
+	public function updateCalendarsByBackend($limit, $offset) {
 		try {
 			$userId = $this->api->getUserId();
 			$backend = $this->request->getParam('backend');
-			$privateuri = $this->request->getParam('privateuri');
 
-			$this->calendars->updateByPrivateUri($backend, $privateuri, $userId);
-			$history = reset($this->calendars->getHistory());
+			$this->calendars->updateByBackend(
+				$backend,
+				$userId,
+				$limit,
+				$offset
+			);
+			$history = $this->calendars->getHistory();
 
-			return new Response($history);
+			return new JSONResponse($history);
 		} catch (BusinessLayerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(
+			return new JSONResponse(
 				array('message' => $ex->getMessage()),
 				$ex->getCode()
 			);
@@ -157,47 +211,28 @@ class ScanController extends Controller {
 
 
 	/**
+	 * @param int $limit
+	 * @param int $offset
+	 * @return JSONResponse
+	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function updateCalendarsByBackend() {
+	public function updateAllCalendars($limit, $offset) {
 		try {
 			$userId = $this->api->getUserId();
-			$backend = $this->request->getParam('backend');
-			$limit = $this->params('limit', null);
-			$offset = $this->params('offset', null);
 
-			$this->calendars->updateByBackend($backend, $userId, $limit, $offset);
-			$history = $this->calendars->getHistory();
-
-			return new Response($history);
-		} catch (BusinessLayerException $ex) {
-			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(
-				array('message' => $ex->getMessage()),
-				$ex->getCode()
+			$this->calendars->updateAll(
+				$userId,
+				$limit,
+				$offset
 			);
-		}
-	}
-
-
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 */
-	public function updateAllCalendars() {
-		try {
-			$userId = $this->api->getUserId();
-			$limit = $this->params('limit', null);
-			$offset = $this->params('offset', null);
-
-			$this->calendars->updateAll($userId, $limit, $offset);
 			$history = $this->calendars->getHistory();
 
-			return new Response($history);
+			return new JSONResponse($history);
 		} catch (BusinessLayerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(
+			return new JSONResponse(
 				array('message' => $ex->getMessage()),
 				$ex->getCode()
 			);

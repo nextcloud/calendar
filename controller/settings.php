@@ -22,8 +22,8 @@
 namespace OCA\Calendar\Controller;
 
 use OCP\AppFramework\Http;
-use \OCP\Config;
-use \OCA\Calendar\Http\Response;
+use OCP\AppFramework\Http\JSONResponse;
+use OCP\Config;
 
 class SettingsController extends Controller {
 
@@ -32,13 +32,16 @@ class SettingsController extends Controller {
 	private static $firstDayKey = 'firstday';
 
 	/**
+	 * @param string $view
+	 * @return JSONResponse
+	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function setView() {
+	public function setView($view) {
 		$userId = $this->api->getUserId();
 		$app = $this->app->getAppName();
-		$view = trim($this->params('view'));
+		$view = trim($view);
 
 		$availableViews = array(
 			'agendaDay',
@@ -47,12 +50,17 @@ class SettingsController extends Controller {
 		);
 
 		if (in_array($view, $availableViews)) {
-			Config::setUserValue($userId, $app, self::$viewKey, $view);
-			return new Response(array(
+			Config::setUserValue(
+				$userId,
+				$app,
+				self::$viewKey,
+				$view
+			);
+			return new JSONResponse(array(
 				'view' => $view,
 			));
 		} else {
-			return new Response(array(
+			return new JSONResponse(array(
 				'message' => 'view not supported',
 			), HTTP::STATUS_UNPROCESSABLE_ENTITY);
 		}
@@ -60,6 +68,8 @@ class SettingsController extends Controller {
 
 
 	/**
+	 * @return JSONResponse
+	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
@@ -68,36 +78,48 @@ class SettingsController extends Controller {
 		$app = $this->app->getAppName();
 		$default = 'month';
 
-		$value = Config::getUserValue($userId, $app, self::$viewKey, $default);
+		$value = Config::getUserValue(
+			$userId,
+			$app,
+			self::$viewKey,
+			$default
+		);
 		$response = array(
 			'view' => $value
 		);
 
-		return new Response($response);
+		return new JSONResponse($response);
 	}
 
 
 	/**
+	 * @param string $timeformat
+	 * @return JSONResponse
+	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function setTimeFormat() {
+	public function setTimeFormat($timeformat) {
 		$userId = $this->api->getUserId();
 		$app = $this->app->getAppName();
-		$value = $this->params('timeformat');
 
 		$availableTimeFormats = array(
 			'ampm',
 			'24',
 		);
 
-		if (in_array($value, $availableTimeFormats)) {
-			Config::setUserValue($userId, $app, self::$timeKey, $value);
-			return new Response(array(
-				'timeformat' => $value
+		if (in_array($timeformat, $availableTimeFormats)) {
+			Config::setUserValue(
+				$userId,
+				$app,
+				self::$timeKey,
+				$timeformat
+			);
+			return new JSONResponse(array(
+				'timeformat' => $timeformat
 			));
 		} else {
-			return new Response(array(
+			return new JSONResponse(array(
 				'message' => 'time-format not supported',
 			), HTTP::STATUS_UNPROCESSABLE_ENTITY);
 		}
@@ -105,6 +127,8 @@ class SettingsController extends Controller {
 
 
 	/**
+	 * @return JSONResponse
+	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
@@ -113,23 +137,30 @@ class SettingsController extends Controller {
 		$app = $this->app->getAppName();
 		$default = '24';
 
-		$value = Config::getUserValue($userId, $app, self::$timeKey, $default);
+		$value = Config::getUserValue(
+			$userId,
+			$app,
+			self::$timeKey,
+			$default
+		);
 		$response = array(
 			'timeformat' => $value
 		);
 
-		return new Response($response);
+		return new JSONResponse($response);
 	}
 
 
 	/**
+	 * @param string $firstday
+	 * @return JSONResponse
+	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function setFirstDayOfWeek() {
+	public function setFirstDayOfWeek($firstday) {
 		$userId = $this->api->getUserId();
 		$app = $this->app->getAppName();
-		$value = $this->params('firstday');
 
 		$availableFirstDays = array(
 			'sa',
@@ -137,13 +168,18 @@ class SettingsController extends Controller {
 			'mo',
 		);
 
-		if (in_array($value, $availableFirstDays)) {
-			Config::setUserValue($userId, $app, self::$firstDayKey, $value);
-			return new Response(array(
-				'firstday' => $value
+		if (in_array($firstday, $availableFirstDays)) {
+			Config::setUserValue(
+				$userId,
+				$app,
+				self::$firstDayKey,
+				$firstday
+			);
+			return new JSONResponse(array(
+				'firstday' => $firstday
 			));
 		} else {
-			return new Response(array(
+			return new JSONResponse(array(
 				'message' => 'firstday not supported',
 			), HTTP::STATUS_UNPROCESSABLE_ENTITY);
 		}
@@ -151,6 +187,8 @@ class SettingsController extends Controller {
 
 
 	/**
+	 * @return JSONResponse
+	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
@@ -159,11 +197,16 @@ class SettingsController extends Controller {
 		$app = $this->app->getAppName();
 		$default = 'mo';
 
-		$value = Config::getUserValue($userId, $app, self::$firstDayKey, $default);
+		$value = Config::getUserValue(
+			$userId,
+			$app,
+			self::$firstDayKey,
+			$default
+		);
 		$response = array(
 			'firstday' => $value
 		);
 
-		return new Response($response);
+		return new JSONResponse($response);
 	}
 }

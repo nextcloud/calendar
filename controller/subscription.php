@@ -21,62 +21,78 @@
  */
 namespace OCA\Calendar\Controller;
 
+use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\Http;
-use OCP\Calendar\DoesNotExistException;
-use OCP\Calendar\MultipleObjectsReturnedException;
+use OCP\AppFramework\Http\JSONResponse;
+use OCP\IRequest;
+use OCP\Calendar\ISubscription;
+use OCP\Calendar\ISubscriptionCollection;
 
+use OCA\Calendar\Http\JSON\JSONSubscriptionReader;
+use OCA\Calendar\Http\JSON\JSONSubscriptionResponse;
 use OCA\Calendar\BusinessLayer\BusinessLayerException;
 use OCA\Calendar\BusinessLayer\SubscriptionBusinessLayer;
-use OCA\Calendar\Db\Subscription;
-use OCA\Calendar\Db\SubscriptionCollection;
 use OCA\Calendar\Http\Response;
-use OCA\Calendar\Http\Reader;
-use OCA\Calendar\Http\Serializer;
 use OCA\Calendar\Http\ReaderException;
 use OCA\Calendar\Http\SerializerException;
 
 class SubscriptionController extends Controller {
 
 	/**
-	 * business-layer
+	 * subscription businesslayer
 	 * @var SubscriptionBusinessLayer
 	 */
-	protected $businesslayer;
+	protected $subscriptions;
 
 
 	/**
+	 * constructor
+	 * @param IAppContainer $app interface to the app
+	 * @param IRequest $request an instance of the request
+	 * @param SubscriptionBusinessLayer $subscriptions
+	 */
+	public function __construct(IAppContainer $app, IRequest $request,
+								SubscriptionBusinessLayer $subscriptions) {
+		parent::__construct($app, $request);
+		$this->subscriptions = $subscriptions;
+
+		$this->registerReader('json', function($handle) use ($app) {
+			$reader = new JSONSubscriptionReader($app, $handle);
+			return $reader->getObject();
+		});
+
+		$this->registerResponder('json', function($value) use ($app) {
+			return new JSONSubscriptionResponse($app, $value);
+		});
+	}
+
+
+	/**
+	 * @param int $limit
+	 * @param int $offset
+	 * @return Response
+	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function index() {
+	public function index($limit=null, $offset=null) {
 		try {
 			$userId = $this->api->getUserId();
 
-			$nolimit = $this->params('nolimit', false);
-			if ($nolimit) {
-				$limit = $offset = null;
-			} else {
-				$limit = $this->params('limit', 25);
-				$offset = $this->params('offset', 0);
-			}
-
-			$allSubscriptions = $this->businesslayer->findAll(
+			return $this->subscriptions->findAll(
 				$userId,
 				$limit,
 				$offset
 			);
-
-			$serializer = new Serializer(
-				$this->app,
-				Serializer::SubscriptionCollection,
-				$allSubscriptions,
-				$this->accept()
+		} catch (BusinessLayerException $ex) {
+			$this->app->log($ex->getMessage(), 'debug');
+			return new JSONResponse(
+				array('message' => $ex->getMessage()),
+				$ex->getCode()
 			);
-
-			return new Response($serializer);
 		} catch (SerializerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(
+			return new JSONResponse(
 				array('message' => $ex->getMessage()),
 				Http::STATUS_INTERNAL_SERVER_ERROR
 			);
@@ -85,36 +101,29 @@ class SubscriptionController extends Controller {
 
 
 	/**
+	 * @param int $subscriptionId
+	 * @return Response
+	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	 public function show() {
+	 public function show($subscriptionId) {
 		try {
 			$userId = $this->api->getUserId();
-			$id = $this->request->getParam('subscriptionId');
 
-			$subscription = $this->businesslayer->find(
-				$id,
+			return $this->subscriptions->find(
+				$subscriptionId,
 				$userId
 			);
-
-			$serializer = new Serializer(
-				$this->app,
-				Serializer::Subscription,
-				$subscription,
-				$this->accept()
-			);
-
-			return new Response($serializer);
 		} catch (BusinessLayerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(
+			return new JSONResponse(
 				array('message' => $ex->getMessage()),
 				$ex->getCode()
 			);
 		} catch (SerializerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(
+			return new JSONResponse(
 				array('message' => $ex->getMessage()),
 				Http::STATUS_INTERNAL_SERVER_ERROR
 			);
@@ -128,52 +137,39 @@ class SubscriptionController extends Controller {
 	 */
 	public function create() {
 		try {
+			$subscription = $this->readInput();
 			$userId = $this->api->getUserId();
-			$data = fopen('php://input', 'rb');
 
-			$reader = new Reader(
-				$this->app,
-				Reader::Subscription,
-				$data, 
-				$this->contentType()
-			);
-
-			$subscription = $reader->sanitize()->getObject();
-
-			if ($subscription instanceof Subscription) {
+			if ($subscription instanceof ISubscription) {
 				$subscription->setUserId($userId);
 
-				$subscription = $this->businesslayer->create($subscription);
-
-				$serializer = new Serializer(
-					$this->app,
-					Serializer::Subscription,
-					$subscription,
-					$this->accept()
+				return $this->subscriptions->create(
+					$subscription
 				);
-			} elseif ($subscription instanceof SubscriptionCollection) {
-				//TODO implement
+			} elseif ($subscription instanceof ISubscriptionCollection) {
+				throw new ReaderException(
+					'Creating subscription-collections not supported'
+				);
 			} else {
 				throw new ReaderException(
-					'Reader returned unrecognised format.'
+					'Reader returned unrecognised format'
 				);
 			}
 
-			return new Response($serializer, Http::STATUS_CREATED);
 		} catch (BusinessLayerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(
+			return new JSONResponse(
 				array('message' => $ex->getMessage()),
 				$ex->getCode()
 			);
 		} catch(ReaderException $ex) {
-			return new Response(
+			return new JSONResponse(
 				array('message' => $ex->getMessage()),
 				Http::STATUS_UNPROCESSABLE_ENTITY
 			);
 		} catch (SerializerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(
+			return new JSONResponse(
 				array('message' => $ex->getMessage()),
 				Http::STATUS_INTERNAL_SERVER_ERROR
 			);
@@ -182,61 +178,48 @@ class SubscriptionController extends Controller {
 
 
 	/**
+	 * @param int $subscriptionId
+	 * @return Response
+	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function update() {
+	public function update($subscriptionId) {
 		try {
+			$subscription = $this->readInput();
 			$userId = $this->api->getUserId();
-			$name = $this->request->getParam('subscriptionId');
-			$data = fopen('php://input', 'rb');
 
-			$reader = new Reader(
-				$this->app,
-				Reader::Subscription,
-				$data,
-				$this->contentType()
-			);
-
-			$subscription = $reader->sanitize()->getObject();
-
-			if ($subscription instanceof Subscription) {
+			if ($subscription instanceof ISubscription) {
 				$subscription->setUserId($userId);
+				$subscription->setId($subscriptionId);
 
-				$subscription = $this->businesslayer->update($subscription, $name, $userId);
-
-				$serializer = new Serializer(
-					$this->app,
-					Serializer::Subscription,
-					$subscription,
-					$this->accept()
+				return $this->subscriptions->update(
+					$subscription
 				);
-			} elseif ($subscription instanceof SubscriptionCollection) {
+			} elseif ($subscription instanceof ISubscriptionCollection) {
 				throw new ReaderException(
-					'Updates can only be applied to a single resource.',
+					'Updates can only be applied to a single resource',
 					Http::STATUS_BAD_REQUEST
 				);
 			} else {
 				throw new ReaderException(
-					'Reader returned unrecognised format.'
+					'Reader returned unrecognised format'
 				);
 			}
-
-			return new Response($serializer);
 		} catch(BusinessLayerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(
+			return new JSONResponse(
 				array('message' => $ex->getMessage()),
 				$ex->getCode()
 			);
 		} catch(ReaderException $ex) {
-			return new Response(
+			return new JSONResponse(
 				array('message' => $ex->getMessage()),
 				Http::STATUS_UNPROCESSABLE_ENTITY
 			);
 		} catch (SerializerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(
+			return new JSONResponse(
 				array('message' => $ex->getMessage()),
 				Http::STATUS_INTERNAL_SERVER_ERROR
 			);
@@ -245,32 +228,29 @@ class SubscriptionController extends Controller {
 
 
 	/**
+	 * @param int $subscriptionId
+	 * @return Response
+	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function destroy() {
+	public function destroy($subscriptionId) {
 		try {
 			$userId	= $this->api->getUserId();
-			$name = $this->request->getParam('subscriptionId');
 
-			try {
-				$subscription = $this->businesslayer->find(
-					$name,
-					$userId
-				);
+			$subscription = $this->subscriptions->find(
+				$subscriptionId,
+				$userId
+			);
 
-			} catch(DoesNotExistException $ex) {
-				return new Response(null, Http::STATUS_NOT_FOUND);
-			} catch(MultipleObjectsReturnedException $ex) {
-				return new Response(null, Http::STATUS_INTERNAL_SERVER_ERROR);
-			}
+			$this->subscriptions->delete($subscription);
 
-			$this->businesslayer->delete($subscription);
-
-			return new Response();
+			return new JSONResponse(array(
+				'message' => 'Subscription was deleted successfully',
+			));
 		} catch (BusinessLayerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(
+			return new JSONResponse(
 				array('message' => $ex->getMessage()),
 				$ex->getCode()
 			);

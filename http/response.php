@@ -7,10 +7,25 @@
  */
 namespace OCA\Calendar\Http;
 
+use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\Http\Response as CoreResponse;
 use OCP\AppFramework\Http;
+use OCP\Calendar\IEntity;
+use OCP\Calendar\ICollection;
 
-class Response extends CoreResponse {
+abstract class Response extends CoreResponse {
+
+	/**
+	 * @var \OCP\AppFramework\IAppContainer
+	 */
+	protected $app;
+
+
+	/**
+	 * @var ICollection|IEntity
+	 */
+	protected $input;
+
 
 	/**
 	 * data for output
@@ -20,64 +35,25 @@ class Response extends CoreResponse {
 
 
 	/**
-	 * @param mixed $data
-	 * @param int $statusCode
+	 * constructor of JSONResponse
+	 * @param IAppContainer $app
+	 * @param IEntity|ICollection $data
 	 */
-	public function __construct($data=null, $statusCode=null) {
-		$this->data = $data;
+	public function __construct(IAppContainer $app, $data) {
+		$this->app = $app;
+		$this->input = $data;
 
-		if (is_null($statusCode)) {
-			if (is_null($data)) {
-				$this->setStatus(Http::STATUS_NO_CONTENT);
-			} else {
-				$this->setStatus(Http::STATUS_OK);
-			}
-		} else {
-			$this->setStatus($statusCode);
-		}
-
-		if ($data instanceof ISerializer || $data instanceof Serializer) {
-			/**
-			 * @var ISerializer $data
-			 * Serializer hands over calls to ISerializer instance
-			 */
-			$this->addHeaders($data->getHeaders());
-		}
+		$this->preSerialize();
+		$this->serializeData();
+		$this->postSerialize();
 	}
 
 
-	/**
-	 * Returns the rendered data
-	 * @return string the rendered data
-	 */
-	public function render(){
-		$data = $this->data;
-
-		if ($data instanceof ISerializer || $data instanceof Serializer) {
-			/**
-			 * @var ISerializer $data
-			 * Serializer hands over calls to ISerializer instance
-			 */
-			$data = $data->serialize();
-		}
-
-		if (is_string($data)) {
-			return $data;
-		} else if (is_array($data)) {
-			return json_encode($data);
-		} else {
-			$this->setStatus(Http::STATUS_NO_CONTENT);
-			return '';
-		}
-	}
+	abstract public function preSerialize();
 
 
-	/**
-	 * @brief add array of headers
-	 */
-	private function addHeaders(array $headers) {
-		foreach($headers as $key => $value) {
-			$this->addHeader($key, $value);
-		}
-	}
+	abstract public function serializeData();
+
+
+	abstract public function postSerialize();
 }

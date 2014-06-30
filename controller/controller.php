@@ -21,10 +21,11 @@
  */
 namespace OCA\Calendar\Controller;
 
+use OCA\Calendar\Http\ReaderException;
 use OCP\AppFramework\IAppContainer;
 use OCP\IRequest;
-
-use OCA\Calendar\BusinessLayer\BusinessLayer;
+use OCP\Calendar\IEntity;
+use OCP\Calendar\ICollection;
 
 use DateTime;
 
@@ -36,6 +37,7 @@ abstract class Controller extends \OCP\AppFramework\Controller {
 	 */
 	protected $app;
 
+
 	/**
 	 * core api
 	 * @var \OCP\AppFramework\IApi
@@ -44,100 +46,122 @@ abstract class Controller extends \OCP\AppFramework\Controller {
 
 
 	/**
-	 * business-layer
-	 * @var \OCA\Calendar\BusinessLayer\BusinessLayer
+	 * @var array
 	 */
-	protected $businesslayer;
+	private $readers;
 
 
 	/**
 	 * constructor
 	 * @param IAppContainer $app interface to the app
 	 * @param IRequest $request an instance of the request
-	 * @param BusinessLayer $businessLayer
 	 */
-	public function __construct(IAppContainer $app, IRequest $request, $businessLayer=null) {
+	public function __construct(IAppContainer $app, IRequest $request) {
 		parent::__construct($app, $request);
 		$this->app = $app;
 		$this->api = $app->getCoreApi();
-		if ($businessLayer instanceof BusinessLayer) {
-			$this->businesslayer = $businessLayer;
+	}
+
+
+	/**
+	 * Parses an HTTP accept header and returns the supported responder type
+	 * @return string the responder type
+	 */
+	protected function getReaderByHTTPHeader() {
+		$contentType = $this->contentType();
+
+		$reader = str_replace('application/', '', $contentType);
+		if (array_key_exists($reader, $this->readers)) {
+			return $reader;
+		}
+
+		return null;
+	}
+
+
+	/**
+	 * Registers a reader for a type
+	 * @param string $format
+	 * @param \Closure $reader
+	 */
+	protected function registerReader($format, \Closure $reader) {
+		$this->readers[$format] = $reader;
+	}
+
+
+	/**
+	 * Reads the input
+	 * @param resource $handle
+	 * @param string $format the format for which a formatter has been registered
+	 * @throws ReaderException if format does not match a registered formatter
+	 * @return IEntity|ICollection
+	 */
+	protected function buildReader($handle, $format) {
+		if(array_key_exists($format, $this->readers)) {
+
+			$reader = $this->readers[$format];
+
+			return $reader($handle);
+
+		} else {
+			throw new ReaderException('No reader registered for format ' .
+				$format . '!');
 		}
 	}
 
 
 	/**
-	 * get a param
-	 * @param string $key
-	 * @param mixed $default
-	 * @return mixed $value
+	 * reads input
+	 * @return IEntity|ICollection
 	 */
-	public function params($key, $default=null){
-		$value = parent::params($key, $default);
-		if ($default !== null) {
-			if ($default instanceof DateTime) {
-				$value = DateTime::createFromFormat(DateTime::ISO8601, $value);
-			} else {
-				settype($value, gettype($default));
-			}
-		}
-		return $value;
+	protected function readInput() {
+		$reader = $this->getReaderByHTTPHeader();
+		$handle = fopen('php://input', 'rb');
+
+		return $this->buildReader($handle, $reader);
 	}
 
 
-	/*
-	 * Lets you access http request header
-	 * @param string $key the key which you want to access in the http request header
-	 * @param mixed $default If the key is not found, this value will be returned
-	 * @return mixed content of header field
+	/**
+	 * @param string &$string
+	 * @param \DateTime $default
 	 */
-	protected function header($key, $type='string', $default=null){
-		$key = 'HTTP_' . strtoupper($key);
+	protected function parseDateTime(&$string, \DateTime $default) {
+		$datetime = \DateTime::createFromFormat(\DateTime::ISO8601, $string);
 
-		$key = str_replace('-', '_', $key);
-
-		if (isset($this->request->server[$key]) === false) {
-			return $default;
+		if ($string === null || $datetime === false) {
+			$string = $default;
 		} else {
-			$value = $this->request->server[$key];
-			if (strtolower($type) === 'datetime') {
-				$value = \DateTime::createFromFormat(\DateTime::ISO8601, $value);
-			} else {
-				settype($value, $type);
-			}
-			return $value;
+			$string = $datetime;
 		}
 	}
 
 
-	/*
+	/**
 	 * get accept header
-	 * @return string
+	 * @return array
 	 */
 	protected function accept() {
-		$accept = $this->header('accept');
+		$accept = $this->request->getHeader('ACCEPT');
 
-		if (substr_count($accept, ',')) {
-			list($accept) = explode(',', $accept);
-		}
-		if (substr_count($accept, ';')) {
-			list($accept) = explode(';', $accept);
-		}
+		$accepts = explode(',', $accept);
+		$accepts = array_map(function($value) {
+			list($preSemicolon) = explode(';', $value);
+			return $preSemicolon;
+		}, $accepts);
 
-		return $accept;
+		return $accepts;
 	}
 
 
-	/*
+	/**
 	 * get content type header
 	 * @return string
 	 */
 	protected function contentType() {
 		$contentType = $this->request->getHeader('CONTENT_TYPE');
 
-		if (substr_count($contentType, ';')) {
-			list($contentType) = explode(';', $contentType);
-		}
+		list($contentType) = explode(';', $contentType);
 
 		return $contentType;
 	}

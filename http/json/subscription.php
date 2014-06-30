@@ -21,67 +21,76 @@
  */
 namespace OCA\Calendar\Http\JSON;
 
-class JSONSubscription extends JSON {
+use OCP\Calendar\ISubscription;
+use OCP\Calendar\ISubscriptionCollection;
+
+use OCA\Calendar\Http\JSONResponse;
+use OCA\Calendar\Http\SerializerException;
+
+class JSONSubscriptionResponse extends JSONResponse {
 
 	/**
-	 * json-encoded data
-	 * @var array
+	 * serialize output data from input
 	 */
-	private $jsonArray;
-
-
-	/**
-	 * @brief get headers for response
-	 * @return array
-	 */
-	public function getHeaders() {
-		return array_merge(
-			parent::getHeaders(),
-			array(
-				'Content-type' => 'application/json; charset=utf-8',
-			)
-		);
+	public function serializeData() {
+		if ($this->input instanceof ISubscription) {
+			$this->data = $this->generate($this->input);
+		} elseif ($this->input instanceof ISubscriptionCollection) {
+			$data = array();
+			$this->input->iterate(function(ISubscription $subscription) use (&$data) {
+				try {
+					$data[] = $this->generate($subscription);
+				} catch(SerializerException $ex) {
+					return;
+				}
+			});
+			$this->data = $data;
+		} else {
+			$this->data = array();
+		}
 	}
 
 
 	/**
-	 * @brief get json-encoded string containing all information
+	 * generate output for one backend
+	 * @param ISubscription $subscription
 	 * @return array
 	 */
-	public function serialize() {
-		$this->jsonArray = array();
+	public function generate(ISubscription $subscription) {
+		$data = array();
 
-		$properties = get_object_vars($this->object);
+		$properties = get_object_vars($subscription);
 		foreach($properties as $key => $value) {
 			$getter = 'get' . ucfirst($key);
-			$value = $this->object->{$getter}();
+			$value = $subscription->{$getter}();
 
-			$this->setProperty(strtolower($key), $value);
+			$this->setProperty($data, strtolower($key), $value);
 		}
 
-		return $this->jsonArray;
+		return $data;
 	}
 
 
 	/**
-	 * @brief set property 
+	 * set property
+	 * @param array $data
 	 * @param string $key
 	 * @param mixed $value
 	 */
-	private function setProperty($key, $value) {
+	private function setProperty(&$data, $key, $value) {
 		switch($key) {
 			case 'type':
 			case 'url':
 			case 'userid':
-				$this->jsonArray[$key] = strval($value);
+				$data[$key] = strval($value);
 				break;
 
 			case 'id':
-				$this->jsonArray[$key] = intval($value);
+				$data[$key] = intval($value);
 				break;
 
 			default:
-				$this->jsonArray[$key] = $value;
+				$data[$key] = $value;
 				break;
 			
 		}

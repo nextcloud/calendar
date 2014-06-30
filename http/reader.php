@@ -1,65 +1,96 @@
 <?php
 /**
- * Copyright (c) 2014 Georg Ehrke <oc.list@georgehrke.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * ownCloud - Calendar App
+ *
+ * @author Georg Ehrke
+ * @copyright 2014 Georg Ehrke <oc.list@georgehrke.com>
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or any later version.
+ *
+ * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 namespace OCA\Calendar\Http;
 
 use OCP\AppFramework\IAppContainer;
+use OCP\Calendar\IEntity;
+use OCP\Calendar\ICollection;
 
-use BadFunctionCallException;
-
-class Reader extends Manager {
-
-	const Calendar = 101;
-	const Object = 102;
-	const Subscription = 103;
-
+abstract class Reader {
 
 	/**
-	 * reader object
-	 * @var \OCA\Calendar\Http\IReader
+	 * @var \OCP\AppFramework\IAppContainer
 	 */
-	private $reader;
+	protected $app;
 
 
 	/**
-	 * @brief Constructor
+	 * @var resource
+	 */
+	protected $handle;
+
+
+	/**
+	 * @var ICollection|IEntity
+	 */
+	protected $object;
+
+
+	/**
 	 * @param IAppContainer $app
-	 * @param integer $type
 	 * @param resource $handle
-	 * @param string $requestedMimeType
-	 * @throws ReaderException
 	 */
-	public function __construct(IAppContainer $app, $type, $handle, $requestedMimeType) {
-		$class = self::get($type, $requestedMimeType);
-		if (!$class) {
-			throw new ReaderException('No reader for mimeType found.');
+	public function __construct(IAppContainer $app, $handle) {
+		$this->app = $app;
+
+		if (!is_resource($handle)) {
+			$this->handle = fopen('data://text/plain;base64,', 'rb');
+		} else {
+			$this->handle = $handle;
 		}
 
-		$this->reader = new $class($app, $handle);
+		$this->preParse();
+		$this->parse();
+		$this->postParse();
 	}
 
 
 	/**
-	 * @param string $method
-	 * @param array $params
-	 * @return mixed
-	 * @throws BadFunctionCallException
+	 * @return ICollection|IEntity
 	 */
-	public function __call($method, $params) {
-		if(is_callable(array($this->reader, $method))) {
-			return call_user_func_array(array($this->reader, $method), $params);
+	public function getObject() {
+		return $this->object;
+	}
+
+
+	/**
+	 * @param $object
+	 */
+	protected function setObject($object) {
+		if ($object instanceof IEntity || $object instanceof ICollection) {
+			$this->object = $object;
 		}
-		throw new BadFunctionCallException('Call to undefined method ' . $method);
+	}
+
+
+	public function preParse() {
+
+	}
+
+
+	abstract public function parse();
+
+
+	public function postParse() {
+
 	}
 }
-
-Reader::set(Reader::Calendar, 'OCA\\Calendar\\Http\\JSON\\JSONCalendarReader', 'application/json');
-Reader::set(Reader::Object, 'OCA\\Calendar\\Http\\JSON\\JSONObjectReader', 'application/json');
-Reader::set(Reader::Object, 'OCA\\Calendar\\Http\\JSON\\JSONObjectReader', 'application/calendar+json');
-Reader::set(Reader::Subscription, 'OCA\\Calendar\\Http\\JSON\\JSONSubscriptionReader', 'application/json');
-
-Reader::set(Reader::Object, 'OCA\\Calendar\\Http\\ICS\\ICSObjectReader', 'text/calendar');

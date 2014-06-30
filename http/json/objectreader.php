@@ -21,14 +21,16 @@
  */
 namespace OCA\Calendar\Http\JSON;
 
+use OCA\Calendar\Http\Reader;
 use OCA\Calendar\Sabre\VObject\ParseException;
 use OCA\Calendar\Db\Object;
 use OCA\Calendar\Db\ObjectCollection;
 use OCA\Calendar\Http\ReaderException;
 use OCA\Calendar\Utility\SabreUtility;
+use OCA\Calendar\Sabre\VObject\Component\VCalendar;
 use OCA\Calendar\Sabre\Splitter\JCalendar;
 
-class JSONObjectReader extends JSONReader {
+class JSONObjectReader extends Reader {
 
 	/**
 	 * parse json object
@@ -42,6 +44,10 @@ class JSONObjectReader extends JSONReader {
 
 			$splitter = new JCalendar($data);
 			while($vobject = $splitter->getNext()) {
+				if (!($vobject instanceof VCalendar)) {
+					continue;
+				}
+
 				SabreUtility::removeXOCAttrFromComponent($vobject);
 				$object = new Object();
 				$object->fromVObject($vobject);
@@ -54,7 +60,7 @@ class JSONObjectReader extends JSONReader {
 				$object = $objectCollection;
 			}
 
-			return $this->setObject($object);
+			$this->setObject($object);
 		} catch(ParseException $ex) {
 			throw new ReaderException($ex->getMessage(), $ex->getCode(), $ex);
 		}

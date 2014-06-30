@@ -50,7 +50,7 @@ abstract class BackendCollectionBusinessLayer extends BusinessLayer {
 	}
 
 	/**
-	 * @brief check if a backend does support a certian action
+	 * @brief check if a backend does support a certain action
 	 * @param string $backend
 	 * @param integer $action
 	 * @return boolean

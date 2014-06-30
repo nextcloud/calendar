@@ -21,37 +21,36 @@
  */
 namespace OCA\Calendar\Http\JSON;
 
+use OCP\Calendar\IEntity;
+use OCP\Calendar\ICollection;
+
+use OCA\Calendar\Http\JSONResponse;
 use OCA\Calendar\Utility\SabreUtility;
 
-class JSONObject extends JSON {
+class JSONObjectResponse extends JSONResponse {
 
-	/**
-	 * @brief get headers for response
-	 * @return array
-	 */
-	public function getHeaders() {
-		return array_merge(
-			parent::getHeaders(),
-			array(
-				'Content-type' => 'application/calendar+json; charset=utf-8',
-			)
-		);
+	public function preSerialize() {
+		$this->addHeader('Content-type', 'application/calendar+json; charset=utf-8');
 	}
 
 
 	/**
 	 * get json-encoded string containing all information
-	 * @return array
 	 */
-	public function serialize() {
-		$vcalendar = $this->object->getVObject();
-		$timezoneMapper = $this->app->query('TimezoneMapper');
+	public function serializeData() {
+		if ($this->input instanceof IEntity || $this->input instanceof ICollection) {
+			/* @var \OCA\Calendar\Sabre\VObject\Component\VCalendar $vcalendar */
+			$vcalendar = $this->input->getVObject();
+			$timezoneMapper = $this->app->query('TimezoneMapper');
 
-		SabreUtility::addMissingVTimezones(
-			$vcalendar,
-			$timezoneMapper
-		);
+			SabreUtility::addMissingVTimezones(
+				$vcalendar,
+				$timezoneMapper
+			);
 
-		return $vcalendar->jsonSerialize();
+			$this->data = $vcalendar->jsonSerialize();
+		} else {
+			$this->data = array();
+		}
 	}
 }

@@ -21,37 +21,43 @@
  */
 namespace OCA\Calendar\Http\ICS;
 
-use OCA\Calendar\Sabre\VObject\Component\VCalendar;
+use OCP\AppFramework\IAppContainer;
+use OCP\Calendar\IEntity;
+use OCP\Calendar\ICollection;
+
+use OCA\Calendar\Http\TextDownloadResponse;
 use OCA\Calendar\Utility\SabreUtility;
 
-class ICSObjectCollection extends ICSCollection {
+class ICSObjectDownloadResponse extends TextDownloadResponse {
 
 	/**
-	 * @brief get headers for response
-	 * @return array
+	 * @var string
 	 */
-	public function getHeaders() {
-		return array_merge(
-			parent::getHeaders(),
-			array(
-				'Content-type' => 'test/calendar; charset=utf-8',
-			)
-		);
+	private $data;
+
+
+	/**
+	 * constructor of JSONResponse
+	 * @param IAppContainer $app
+	 * @param IEntity|ICollection $data
+	 * @param string $mimeType
+	 * @param string $filename
+	 */
+	public function __construct(IAppContainer $app, $data,
+								$mimeType, $filename) {
+		$this->app = $app;
+		$this->input = $data;
+
+		$this->serializeData();
+
+		parent::__construct($this->data, $filename, $mimeType);
 	}
 
 
-	/**
-	 * @brief get json-encoded string containing all information
-	 * @return mixed (null|array)
-	 */
-	public function serialize() {
-		/**
-		 * If the collection is empty, return 204
-		 */
-		if ($this->object->count() === 0) {
-			return null;
-		} else {
-			$vcalendar = $this->object->getVObject();
+	public function serializeData() {
+		if ($this->input instanceof IEntity || $this->input instanceof ICollection) {
+			/* @var \OCA\Calendar\Sabre\VObject\Component\VCalendar $vcalendar */
+			$vcalendar = $this->input->getVObject();
 			$timezoneMapper = $this->app->query('TimezoneMapper');
 
 			SabreUtility::addMissingVTimezones(
@@ -59,8 +65,9 @@ class ICSObjectCollection extends ICSCollection {
 				$timezoneMapper
 			);
 
-			/* @var VCalendar $vcalendar */
-			return $vcalendar->serialize();
+			$this->data = $vcalendar->serialize();
+		} else {
+			$this->data = '';
 		}
 	}
 }

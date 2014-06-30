@@ -21,13 +21,14 @@
  */
 namespace OCA\Calendar\Controller;
 
-use OCP\AppFramework\Http;
 use OCP\AppFramework\IAppContainer;
+use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
 use OCP\Calendar\IBackendCollection;
 
 use OCA\Calendar\Http\Response;
-use OCA\Calendar\Http\Serializer;
+use OCA\Calendar\Http\JSON\JSONBackendResponse;
 use OCA\Calendar\Http\SerializerException;
 
 class BackendController extends Controller {
@@ -44,38 +45,30 @@ class BackendController extends Controller {
 	 * @param IRequest $request an instance of the request
 	 * @param IBackendCollection $backends
 	 */
-	public function __construct(IAppContainer $app, IRequest $request, IBackendCollection $backends) {
+	public function __construct(IAppContainer $app, IRequest $request,
+								IBackendCollection $backends) {
 		parent::__construct($app, $request);
 		$this->backends = $backends;
+
+		$this->registerResponder('json', function($value) use ($app) {
+			return new JSONBackendResponse($app, $value);
+		});
 	}
 
 	/**
+	 * @param int $limit
+	 * @param int $offset
+	 * @return Response
+	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function index() {
+	public function index($limit=null, $offset=null) {
 		try {
-			$noLimit = $this->params('nolimit', false);
-			if ($noLimit) {
-				$limit = $offset = null;
-			} else {
-				$limit = $this->params('limit', 25);
-				$offset = $this->params('offset', 0);
-			}
-
-			$allBackends = $this->backends->subset($limit, $offset);
-
-			$serializer = new Serializer(
-				$this->app,
-				Serializer::BackendCollection,
-				$allBackends,
-				$this->accept()
-			);
-
-			return new Response((string) $serializer);
+			return $this->backends->subset($limit, $offset);
 		} catch (SerializerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(
+			return new JSONResponse(
 				array('message' => $ex->getMessage()),
 				Http::STATUS_INTERNAL_SERVER_ERROR
 			);
@@ -84,32 +77,19 @@ class BackendController extends Controller {
 
 
 	/**
+	 * @param int $limit
+	 * @param int $offset
+	 * @return Response
+	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function enabled() {
+	public function enabled($limit, $offset) {
 		try {
-			$noLimit = $this->params('nolimit', false);
-			if ($noLimit) {
-				$limit = $offset = null;
-			} else {
-				$limit = $this->params('limit', 25);
-				$offset = $this->params('offset', 0);
-			}
-
-			$allEnabled = $this->backends->enabled()->subset($limit, $offset);
-
-			$serializer = new Serializer(
-				$this->app,
-				Serializer::BackendCollection,
-				$allEnabled,
-				$this->accept()
-			);
-
-			return new Response((string) $serializer);
+			return $this->backends->enabled()->subset($limit, $offset);
 		} catch (SerializerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(
+			return new JSONResponse(
 				array('message' => $ex->getMessage()),
 				Http::STATUS_INTERNAL_SERVER_ERROR
 			);
@@ -118,32 +98,19 @@ class BackendController extends Controller {
 
 
 	/**
+	 * @param int $limit
+	 * @param int $offset
+	 * @return Response
+	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function disabled() {
+	public function disabled($limit, $offset) {
 		try {
-			$noLimit = $this->params('nolimit', false);
-			if ($noLimit) {
-				$limit = $offset = null;
-			} else {
-				$limit = $this->params('limit', 25);
-				$offset = $this->params('offset', 0);
-			}
-
-			$allDisabled = $this->backends->disabled()->subset($limit, $offset);
-
-			$serializer = new Serializer(
-				$this->app,
-				Serializer::BackendCollection,
-				$allDisabled,
-				$this->accept()
-			);
-
-			return new Response((string) $serializer);
+			return $this->backends->disabled()->subset($limit, $offset);
 		} catch (SerializerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			return new Response(
+			return new JSONResponse(
 				array('message' => $ex->getMessage()),
 				Http::STATUS_INTERNAL_SERVER_ERROR
 			);

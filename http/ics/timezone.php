@@ -21,4 +21,4 @@
  */
 namespace OCA\Calendar\Http\ICS;
 
-class ICSTimezone extends ICSObject {}
+class ICSTimezoneResponse extends ICSObjectResponse {}

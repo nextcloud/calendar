@@ -19,20 +19,39 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCA\Calendar\Http\JSON;
 
-use OCP\AppFramework\IAppContainer;
-use OCP\Calendar\ICollection;
+/**
+ * Public interface of ownCloud for apps to use.
+ * AppFramework\HTTP\JSONResponse class
+ */
 
-abstract class JSONCollection extends JSON {
+namespace OCA\Calendar\Http;
+
+/**
+ * A renderer for text calls
+ */
+class TextResponse extends Response {
 
 	/**
-	 * @brief constructor
-	 * @param IAppContainer $app
-	 * @param ICollection $object
+	 * Returns the rendered json
+	 * @return string the rendered json
 	 */
-	public function __construct(IAppContainer $app, ICollection $object) {
-		$this->app = $app;
-		$this->object = $object;
+	public function render(){
+		return strval($this->data);
+	}
+
+
+	public function preSerialize() {
+		$this->addHeader('Content-type', 'text/plain; charset=utf-8');
+	}
+
+
+	public function serializeData() {
+		$this->data = $this->input;
+	}
+
+
+	public function postSerialize() {
+
 	}
 }

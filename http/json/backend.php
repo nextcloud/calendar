@@ -21,67 +21,74 @@
  */
 namespace OCA\Calendar\Http\JSON;
 
+use OCA\Calendar\Http\JSONResponse;
+use OCA\Calendar\Http\SerializerException;
 use OCP\Calendar\Backend;
+use OCP\Calendar\IBackend;
+use OCP\Calendar\IBackendCollection;
 
-class JSONBackend extends JSON {
-
-	/**
-	 * json-encoded data
-	 * @var array
-	 */
-	private $jsonArray;
-
+class JSONBackendResponse extends JSONResponse {
 
 	/**
-	 * @brief get headers for response
-	 * @return array
+	 * serialize output data from input
 	 */
-	public function getHeaders() {
-		return array_merge(
-			parent::getHeaders(),
-			array(
-				'Content-type' => 'application/json; charset=utf-8',
-			)
-		);
+	public function serializeData() {
+		if ($this->input instanceof IBackend) {
+			$this->data = $this->generate($this->input);
+		} elseif ($this->input instanceof IBackendCollection) {
+			$data = array();
+			$this->input->iterate(function(IBackend $backend) use (&$data) {
+				try {
+					$data[] = $this->generate($backend);
+				} catch(SerializerException $ex) {
+					return;
+				}
+			});
+			$this->data = $data;
+		} else {
+			$this->data = array();
+		}
 	}
 
 
 	/**
-	 * @brief get json-encoded string containing all information
+	 * generate output for one backend
+	 * @param IBackend $backend
 	 * @return array
 	 */
-	public function serialize() {
-		$this->jsonArray = array();
+	public function generate(IBackend $backend) {
+		$data = array();
 
-		$properties = get_object_vars($this->object);
+		$properties = get_object_vars($backend);
 		foreach($properties as $key => $value) {
 			$getter = 'get' . ucfirst($key);
-			$value = $this->object->{$getter}();
+			$value = $backend->{$getter}();
 
-			$this->setProperty(strtolower($key), $value);
+			$this->setProperty($data, strtolower($key), $value);
 		}
 
-		$this->setSupportedActions();
-		$this->setPrefixInformation();
-		$this->setSubscriptionTypes();
+		$this->setSupportedActions($data, $backend);
+		$this->setPrefixInformation($data, $backend);
+		$this->setSubscriptionTypes($data, $backend);
 
-		return $this->jsonArray;
+		return $data;
 	}
 
 
 	/**
-	 * @brief set property 
+	 * set property
+	 * @param array $data
 	 * @param string $key
 	 * @param mixed $value
 	 */
-	private function setProperty($key, $value) {
+	private function setProperty(array &$data, $key, $value) {
 		switch($key) {
 			case 'backend':
-				$this->jsonArray[$key] = strval($value);
+				$data[$key] = strval($value);
 				break;
 
 			case 'enabled':
-				$this->jsonArray[$key] = (bool) $value; //boolval is PHP >= 5.5 only
+				$data[$key] = (bool) $value; //boolval is PHP >= 5.5 only
 				break;
 
 			//blacklist
@@ -92,38 +99,40 @@ class JSONBackend extends JSON {
 				break;
 
 			default:
-				$this->jsonArray[$key] = $value;
+				$data[$key] = $value;
 				break;
-			
+
 		}
 	}
 
 
 	/**
-	 * @brief set api url to calendar
+	 * set api url to calendar
+	 * @param array $data
+	 * @param IBackend $backend
 	 * @return $this
 	 */
-	private function setSupportedActions() {
+	private function setSupportedActions(array &$data, IBackend $backend) {
 		$calActions = array(
-			'create' => 
-				$this->object->api->implementsActions(Backend::CREATE_CALENDAR),
-			'update' => 
-				$this->object->api->implementsActions(Backend::UPDATE_CALENDAR),
-			'delete' => 
-				$this->object->api->implementsActions(Backend::DELETE_CALENDAR),
-			'merge' => 
-				$this->object->api->implementsActions(Backend::MERGE_CALENDAR),
-			'move' => 
-				$this->object->api->implementsActions(Backend::MOVE_CALENDAR),
+			'create' =>
+				$backend->getAPI()->implementsActions(Backend::CREATE_CALENDAR),
+			'update' =>
+				$backend->getAPI()->implementsActions(Backend::UPDATE_CALENDAR),
+			'delete' =>
+				$backend->getAPI()->implementsActions(Backend::DELETE_CALENDAR),
+			'merge' =>
+				$backend->getAPI()->implementsActions(Backend::MERGE_CALENDAR),
+			'move' =>
+				$backend->getAPI()->implementsActions(Backend::MOVE_CALENDAR),
 		);
 
 		$objActions = array(
-			'create' => 
-				$this->object->api->implementsActions(Backend::CREATE_OBJECT),
-			'update' => 
-				$this->object->api->implementsActions(Backend::UPDATE_OBJECT),
-			'delete' => 
-				$this->object->api->implementsActions(Backend::DELETE_OBJECT),
+			'create' =>
+				$backend->getAPI()->implementsActions(Backend::CREATE_OBJECT),
+			'update' =>
+				$backend->getAPI()->implementsActions(Backend::UPDATE_OBJECT),
+			'delete' =>
+				$backend->getAPI()->implementsActions(Backend::DELETE_OBJECT),
 		);
 
 		$actions = array(
@@ -131,26 +140,28 @@ class JSONBackend extends JSON {
 			'object' => $objActions,
 		);
 
-		$this->jsonArray['actions'] = $actions;
+		$data['actions'] = $actions;
 	}
 
 
 	/**
-	 * @brief set api url to calendar
+	 * set api url to calendar
+	 * @param array $data
+	 * @param IBackend $backend
 	 * @return $this
 	 */
-	private function setPrefixInformation() {
-		$this->jsonArray['prefixes'] = $this->object->api->getAvailablePrefixes();
-		return $this;
+	private function setPrefixInformation(array &$data, IBackend $backend) {
+		$data['prefixes'] = $backend->getAPI()->getAvailablePrefixes();
 	}
 
 
 	/**
-	 * @brief set api url to calendar
+	 * set api url to calendar
+	 * @param array $data
+	 * @param IBackend $backend
 	 * @return $this
 	 */
-	private function setSubscriptionTypes() {
-		$this->jsonArray['subscriptions'] = $this->object->api->getSubscriptionTypes();
-		return $this;
+	private function setSubscriptionTypes(array &$data, IBackend $backend) {
+		$data['subscriptions'] = $backend->getAPI()->getSubscriptionTypes();
 	}
 }

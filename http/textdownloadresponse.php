@@ -42,6 +42,4 @@ class TextDownloadResponse extends DownloadResponse {
 	public function render(){
 		return $this->content;
 	}
-
-
 }
