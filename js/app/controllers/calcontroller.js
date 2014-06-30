@@ -94,6 +94,8 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 						events: function(start, end, timezone, callback) {
 							callback(EventsModel.addalldisplayfigures(eventsobject));
 						},
+						color: $scope.calendarmodel.get(newid).color,
+						editable: $scope.calendarmodel.get(newid).cruds.update
 					};
 					$scope.i += 1;
 					
