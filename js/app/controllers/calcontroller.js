@@ -90,8 +90,11 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 
 			$scope.addRemoveEventSources = function (newid,calendar) {
 				Restangular.one('calendars',newid).getList('events').then(function (eventsobject) {
-					$scope.eventSource = EventsModel.addalldisplayfigures(eventsobject);
-
+					$scope.eventSource = {
+						events: function(start, end, timezone, callback) {
+							callback(EventsModel.addalldisplayfigures(eventsobject));
+						},
+					};
 					$scope.i += 1;
 					
 					if (switcher.indexOf(newid) > -1) {
