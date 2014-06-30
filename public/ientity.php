@@ -55,7 +55,7 @@ interface IEntity {
 
 
 	/**
-	 * @brief overwrite current objects with properties
+	 * overwrite current objects with properties
 	 *        from $object that are not null
 	 * @param \OCA\Calendar\Db\Entity $object
 	 * @return $this
@@ -64,7 +64,7 @@ interface IEntity {
 
 
 	/**
-	 * @brief checks if current object contains null values
+	 * checks if current object contains null values
 	 * @return boolean
 	 */
 	public function doesContainNullValues();
@@ -109,14 +109,14 @@ interface IEntity {
 
 
 	/**
-	 * @brief check if entity's content is valid
+	 * check if entity's content is valid
 	 * @return bool
 	 */
 	public function isValid();
 
 
 	/**
-	 * @brief take data from VObject and put into this Calendar object
+	 * take data from VObject and put into this Calendar object
 	 * @param VCalendar $vcalendar
 	 * @throws \BadFunctionCallException
 	 * @return VCalendar Object
@@ -125,7 +125,7 @@ interface IEntity {
 
 
 	/**
-	 * @brief get VObject from Calendar Object
+	 * get VObject from Calendar Object
 	 * @throws \BadFunctionCallException
 	 * @return VCalendar Object
 	 */

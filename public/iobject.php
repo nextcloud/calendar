@@ -27,14 +27,14 @@ use DateTime;
 interface IObject extends IEntity {
 
 	/**
-	 * @brief set lastModified to now and update ETag
+	 * set lastModified to now and update ETag
 	 * @return $this
 	 */
 	public function touch();
 
 
 	/**
-	 * @brief does an object allow
+	 * does an object allow
 	 * @param integer $cruds
 	 * @return boolean
 	 */
@@ -95,7 +95,7 @@ interface IObject extends IEntity {
 
 
 	/**
-	 * @brief get text/calendar representation of stored object
+	 * get text/calendar representation of stored object
 	 * @return integer
 	 */
 	public function getCalendarData();
@@ -108,7 +108,7 @@ interface IObject extends IEntity {
 
 
 	/**
-	 * @brief update Etag
+	 * update Etag
 	 * @return $this
 	 */
 	public function generateEtag();
@@ -129,42 +129,42 @@ interface IObject extends IEntity {
 
 
 	/**
-	 * @brief get type of stored object
+	 * get type of stored object
 	 * @return integer
 	 */
 	public function getType();
 
 
 	/**
-	 * @brief get startDate
+	 * get startDate
 	 * @return \DateTime
 	 */
 	public function getStartDate();
 
 
 	/**
-	 * @brief get endDate
+	 * get endDate
 	 * @return \DateTime
 	 */
 	public function getEndDate();
 
 
 	/**
-	 * @brief get whether or not object is repeating
+	 * get whether or not object is repeating
 	 * @return boolean
 	 */
 	public function getRepeating();
 
 
 	/**
-	 * @brief get summary of object
+	 * get summary of object
 	 * @return mixed (string|null)
 	 */
 	public function getSummary();
 
 
 	/**
-	 * @brief get last modified of object
+	 * get last modified of object
 	 * @return mixed (\DateTime|null)
 	 */
 	public function getLastModified();

@@ -746,7 +746,7 @@ class ObjectBusinessLayer extends BackendCollectionBusinessLayer {
 
 
 	/**
-	 * @brief throw exception if object exists
+	 * throw exception if object exists
 	 * @param ICalendar $calendar
 	 * @param string $uri
 	 * @return bool
@@ -763,7 +763,7 @@ class ObjectBusinessLayer extends BackendCollectionBusinessLayer {
 
 
 	/**
-	 * @brief throw exception if eTags are not equal
+	 * throw exception if eTags are not equal
 	 * @param string $firstETag
 	 * @param string $secondETag
 	 * @return bool

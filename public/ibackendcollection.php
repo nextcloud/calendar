@@ -24,14 +24,14 @@ namespace OCP\Calendar;
 interface IBackendCollection extends ICollection {
 
 	/**
-	 * @brief get a collection of all enabled backends within collection
+	 * get a collection of all enabled backends within collection
 	 * @return IBackendCollection of all enabled backends
 	 */
 	public function enabled();
 
 
 	/**
-	 * @brief get a collection of all disabled backends within collection
+	 * get a collection of all disabled backends within collection
 	 * @return IBackendCollection of all disabled backends
 	 */
 	public function disabled();

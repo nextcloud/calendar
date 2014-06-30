@@ -27,12 +27,10 @@ use OCP\Calendar\ISubscriptionCollection;
 use OCP\Calendar\DoesNotExistException;
 use OCP\Calendar\MultipleObjectsReturnedException;
 
-use OCA\Calendar\Db\SubscriptionMapper;
-
 class SubscriptionBusinessLayer extends BusinessLayer {
 
 	/**
-	 * @var SubscriptionMapper
+	 * @var \OCA\Calendar\Db\SubscriptionMapper
 	 */
 	protected $mapper;
 

@@ -29,7 +29,7 @@ use OCP\Calendar\IObjectCollection;
 class ObjectCollection extends Collection implements IObjectCollection {
 
 	/**
-	 * @brief get a collection of entities within period
+	 * get a collection of entities within period
 	 * @param DateTime $start
 	 * @param DateTime $end
 	 * @return ObjectCollection
@@ -52,7 +52,7 @@ class ObjectCollection extends Collection implements IObjectCollection {
 
 
 	/**
-	 * @brief expand all entities of collection
+	 * expand all entities of collection
 	 * @param DateTime $start
 	 * @param DateTime $end
 	 * @return ObjectCollection
@@ -74,7 +74,7 @@ class ObjectCollection extends Collection implements IObjectCollection {
 
 
 	/**
-	 * @brief get a collection of all calendars owned by a certian user
+	 * get a collection of all calendars owned by a certian user
 	 * @param string $userId of owner
 	 * @return ObjectCollection
 	 */
@@ -93,7 +93,7 @@ class ObjectCollection extends Collection implements IObjectCollection {
 
 
 	/**
-	 * @brief get a collection of all enabled calendars within collection
+	 * get a collection of all enabled calendars within collection
 	 * @param integer $type
 	 * @return ObjectCollection
 	 */

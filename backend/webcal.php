@@ -67,7 +67,7 @@ class WebCal extends Backend {
 
 
 	/**
-	 * @brief returns whether or not a backend can be enabled
+	 * returns whether or not a backend can be enabled
 	 * @returns boolean
 	 */
 	public function canBeEnabled() {

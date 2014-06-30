@@ -1,7 +1,7 @@
 <?php
 class OC_Calendar_Calendar{
 	/**
-	 * @brief Returns the list of calendars for a specific user.
+	 * Returns the list of calendars for a specific user.
 	 * @param string $uid User ID
 	 * @param boolean $active Only return calendars with this $active state, default(=false) is don't care
 	 * @return array
@@ -11,7 +11,7 @@ class OC_Calendar_Calendar{
 	}
 
 	/**
-	 * @brief Gets the data of one calendar
+	 * Gets the data of one calendar
 	 * @param integer $id
 	 * @return associative array
 	 */
@@ -20,7 +20,7 @@ class OC_Calendar_Calendar{
 	}
 
 	/**
-	 * @brief Creates a new calendar
+	 * Creates a new calendar
 	 * @param string $userid
 	 * @param string $name
 	 * @param string $components Default: "VEVENT,VTODO,VJOURNAL"
@@ -34,7 +34,7 @@ class OC_Calendar_Calendar{
 	}
 
 	/**
-	 * @brief Creates default calendars
+	 * Creates default calendars
 	 * @param string $userid
 	 * @return boolean
 	 */
@@ -43,7 +43,7 @@ class OC_Calendar_Calendar{
 	}
 
 	/**
-	 * @brief Edits a calendar
+	 * Edits a calendar
 	 * @param integer $id
 	 * @param string $name Default: null
 	 * @param string $components Default: null
@@ -59,7 +59,7 @@ class OC_Calendar_Calendar{
 	}
 
 	/**
-	 * @brief Sets a calendar (in)active
+	 * Sets a calendar (in)active
 	 * @param integer $id
 	 * @param boolean $active
 	 * @return boolean
@@ -69,7 +69,7 @@ class OC_Calendar_Calendar{
 	}
 
 	/**
-	 * @brief Updates ctag for calendar
+	 * Updates ctag for calendar
 	 * @param integer $id
 	 * @return boolean
 	 */
@@ -78,7 +78,7 @@ class OC_Calendar_Calendar{
 	}
 
 	/**
-	 * @brief removes a calendar
+	 * removes a calendar
 	 * @param integer $id
 	 * @return boolean
 	 */
@@ -87,7 +87,7 @@ class OC_Calendar_Calendar{
 	}
 
 	/**
-	 * @brief Creates a URI for Calendar
+	 * Creates a URI for Calendar
 	 * @param string $name name of the calendar
 	 * @param array  $existing existing calendar URIs
 	 * @return string uri
@@ -97,7 +97,7 @@ class OC_Calendar_Calendar{
 	}
 
 	/**
-	 * @brief gets the userid from a principal path
+	 * gets the userid from a principal path
 	 * @return string
 	 */
 	public static function extractUserID($principaluri) {
@@ -105,7 +105,7 @@ class OC_Calendar_Calendar{
 	}
 
 	/**
-	 * @brief generates the Event Source Info for our JS
+	 * generates the Event Source Info for our JS
 	 * @param array $calendar calendar data
 	 * @return array
 	 */
@@ -114,7 +114,7 @@ class OC_Calendar_Calendar{
 	}
 
 	/*
-	 * @brief checks if a calendar name is available for a user
+	 * checks if a calendar name is available for a user
 	 * @param string $calendarname
 	 * @param string $userid
 	 * @return boolean

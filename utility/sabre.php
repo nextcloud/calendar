@@ -37,7 +37,7 @@ use OCA\Calendar\Db\TimezoneMapper;
 class SabreUtility extends Utility {
 
 	/**
-	 * @brief get property name of first object
+	 * get property name of first object
 	 * @param \OCA\Calendar\Sabre\VObject\Component\VCalendar $vcalendar
 	 * @return mixed (string|bool)
 	 */
@@ -56,7 +56,7 @@ class SabreUtility extends Utility {
 
 
 	/**
-	 * @brief count number of events, journals, todos
+	 * count number of events, journals, todos
 	 * @param \OCA\Calendar\Sabre\VObject\Component\VCalendar $vcalendar
 	 * @return integer
 	 */
@@ -66,7 +66,7 @@ class SabreUtility extends Utility {
 
 
 	/**
-	 * @brief count number of freebusys
+	 * count number of freebusys
 	 * @param \OCA\Calendar\Sabre\VObject\Component\VCalendar $vcalendar
 	 * @return integer
 	 */
@@ -76,7 +76,7 @@ class SabreUtility extends Utility {
 
 
 	/**
-	 * @brief count number of timezones
+	 * count number of timezones
 	 * @param \OCA\Calendar\Sabre\VObject\Component\VCalendar $vcalendar
 	 * @return integer
 	 */
@@ -86,7 +86,7 @@ class SabreUtility extends Utility {
 
 
 	/**
-	 * @brief count number of components by identifier definied in $properties
+	 * count number of components by identifier definied in $properties
 	 * @param \OCA\Calendar\Sabre\VObject\Component\VCalendar $vcalendar
 	 * @param array $properties
 	 * @return integer
@@ -110,7 +110,7 @@ class SabreUtility extends Utility {
 
 
 	/**
-	 * @brief count number of unique UIDs inside a calendar
+	 * count number of unique UIDs inside a calendar
 	 * @param VCalendar $vcalendar
 	 * @return integer
 	 */
@@ -134,7 +134,7 @@ class SabreUtility extends Utility {
 
 
 	/**
-	 * @brief get DTSTART property of object
+	 * get DTSTART property of object
 	 * @param Component $vobject
 	 * @return DateTime $dstart
 	 */
@@ -155,7 +155,7 @@ class SabreUtility extends Utility {
 
 
 	/**
-	 * @brief get DTEND property of object
+	 * get DTEND property of object
 	 * @param Component $vobject
 	 * @return DateTime $dtend
 	 */
@@ -183,7 +183,7 @@ class SabreUtility extends Utility {
 
 
 	/**
-	 * @brief add missing timezones to an object
+	 * add missing timezones to an object
 	 * @param VCalendar &$vcalendar
 	 * @param TimezoneMapper &$tzMapper
 	 */
@@ -211,7 +211,7 @@ class SabreUtility extends Utility {
 
 
 	/**
-	 * @brief parse a component for tzIds
+	 * parse a component for tzIds
 	 * @param Component &$component
 	 * @return array
 	 */

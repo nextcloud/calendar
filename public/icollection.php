@@ -24,7 +24,7 @@ namespace OCP\Calendar;
 interface ICollection {
 
 	/**
-	 * @brief add entity to collection
+	 * add entity to collection
 	 * @param IEntity $object entity to be added
 	 * @param integer $nth insert at index, if not set, entity will be appended
 	 * @return $this
@@ -33,7 +33,7 @@ interface ICollection {
 
 
 	/**
-	 * @brief add entities to collection
+	 * add entities to collection
 	 * @param ICollection $collection collection of entities to be added
 	 * @param integer $nth insert at index, if not set, collection will be appended
 	 * @return integer
@@ -49,7 +49,7 @@ interface ICollection {
 
 
 	/**
-	 * @brief remove entity from collection
+	 * remove entity from collection
 	 * @param integer $nth remove nth element, if not set, current element will be removed
 	 * @return $this
 	 */
@@ -57,7 +57,7 @@ interface ICollection {
 
 
 	/**
-	 * @brief remove entity by it's information
+	 * remove entity by it's information
 	 * @param IEntity $entity
 	 * @return $this
 	 */
@@ -65,7 +65,7 @@ interface ICollection {
 
 
 	/**
-	 * @brief remove entities by a single property
+	 * remove entities by a single property
 	 * @param string $key key for property
 	 * @param mixed $value value to be set
 	 * @return $this;
@@ -74,56 +74,56 @@ interface ICollection {
 
 
 	/**
-	 * @brief get number of elements within collection
+	 * get number of elements within collection
 	 * @return integer
 	 */
 	public function count();
 
 
 	/**
-	 * @brief get current entity
+	 * get current entity
 	 * @return IEntity
 	 */
 	public function current();
 
 
 	/**
-	 * @brief get num index of current entity
+	 * get num index of current entity
 	 * @return integer
 	 */
 	public function key();
 
 
 	/**
-	 * @brief goto next entity and get it
+	 * goto next entity and get it
 	 * @return IEntity
 	 */
 	public function next();
 
 
 	/**
-	 * @brief goto previous entity and get it
+	 * goto previous entity and get it
 	 * @return IEntity
 	 */
 	public function prev();
 
 
 	/**
-	 * @brief goto first entity and get it
+	 * goto first entity and get it
 	 * @return IEntity
 	 */
 	public function reset();
 
 
 	/**
-	 * @brief goto last entity and get it
+	 * goto last entity and get it
 	 * @return IEntity
 	 */
 	public function end();
 
 
 	/**
-	 * @brief get nth entity of collection
+	 * get nth entity of collection
 	 * @param integer $nth
 	 * @return mixed (IEntity/null)
 	 */
@@ -131,14 +131,14 @@ interface ICollection {
 
 
 	/**
-	 * @brief get array of all entities
+	 * get array of all entities
 	 * @return array of IEntities
 	 */
 	public function getObjects();
 
 
 	/**
-	 * @brief get a subset of current collection
+	 * get a subset of current collection
 	 * @param int $limit
 	 * @param int @offset
 	 * @return array of Entities
@@ -147,7 +147,7 @@ interface ICollection {
 
 
 	/**
-	 * @brief check if entity is in collection
+	 * check if entity is in collection
 	 * @param IEntity $object
 	 * @return boolean
 	 */
@@ -155,21 +155,21 @@ interface ICollection {
 
 
 	/**
-	 * @brief get one VCalendar object containing all information
+	 * get one VCalendar object containing all information
 	 * @return VCalendar object
 	 */
 	public function getVObject();
 
 
 	/**
-	 * @brief get an array of VCalendar objects
+	 * get an array of VCalendar objects
 	 * @return array of VCalendar object
 	 */
 	public function getVObjects();
 
 
 	/**
-	 * @brief get a collection of entities that meet criteria
+	 * get a collection of entities that meet criteria
 	 * @param string $key property that's supposed to be searched
 	 * @param mixed $value expected value, can be a regular expression when 3rd param is set to true
 	 * @return ICollection
@@ -178,7 +178,7 @@ interface ICollection {
 
 
 	/**
-	 * @brief get a collection of entities that meet criteria; search calendar data
+	 * get a collection of entities that meet criteria; search calendar data
 	 * @param string $key name of property that stores data
 	 * @param string $regex regular expression
 	 * @return ICollection
@@ -187,7 +187,7 @@ interface ICollection {
 
 
 	/**
-	 * @brief set a property for all calendars
+	 * set a property for all calendars
 	 * @param string $key key for property
 	 * @param mixed $value value to be set
 	 * @return $this
@@ -196,7 +196,7 @@ interface ICollection {
 
 
 	/**
-	 * @brief checks if all entities are valid
+	 * checks if all entities are valid
 	 * Stops when it finds the first invalid one
 	 * @return bool
 	 */
@@ -204,7 +204,7 @@ interface ICollection {
 
 
 	/**
-	 * @brief iterate over each entity of collection
+	 * iterate over each entity of collection
 	 * @param callable $function
 	 * @return $this
 	 */
@@ -212,7 +212,7 @@ interface ICollection {
 
 
 	/**
-	 * @brief remove duplicates from collection
+	 * remove duplicates from collection
 	 * @return $this
 	 */
 	public function noDuplicates();

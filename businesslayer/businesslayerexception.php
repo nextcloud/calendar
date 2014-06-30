@@ -26,7 +26,7 @@ use \OCP\AppFramework\Http;
 class BusinessLayerException extends \Exception {
 
 	/**
-	 * @brief Constructor
+	 * Constructor
 	 * @param string $message
 	 * @param integer $code
 	 * @param \Exception $previous

@@ -30,7 +30,7 @@ class Subscription extends Entity implements ISubscription {
 
 
 	/**
-	 * @brief init Backend object with data from db row
+	 * init Backend object with data from db row
 	 * @param array $fromRow
 	 */
 	public function __construct($fromRow=null){
@@ -100,7 +100,7 @@ class Subscription extends Entity implements ISubscription {
 
 
 	/**
-	 * @brief check if object is valid
+	 * check if object is valid
 	 * @return boolean
 	 */
 	public function isValid() {
@@ -122,7 +122,7 @@ class Subscription extends Entity implements ISubscription {
 
 
 	/**
-	 * @brief create string representation of object
+	 * create string representation of object
 	 * @return string
 	 */
 	public function __toString() {

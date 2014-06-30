@@ -230,7 +230,7 @@ interface ICalendar extends IEntity {
 
 
 	/**
-	 * @brief does a calendar allow
+	 * does a calendar allow
 	 * @param integer $cruds
 	 * @return boolean
 	 */
@@ -238,7 +238,7 @@ interface ICalendar extends IEntity {
 
 
 	/**
-	 * @brief does a calendar allow a certain component
+	 * does a calendar allow a certain component
 	 * @param integer $components
 	 * @return boolean
 	 */
@@ -246,7 +246,7 @@ interface ICalendar extends IEntity {
 
 
 	/**
-	 * @brief increment ctag
+	 * increment ctag
 	 * @return $this
 	 */
 	public function touch();

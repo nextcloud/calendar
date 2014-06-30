@@ -7,11 +7,10 @@
  */
 namespace OCA\Calendar\Db;
 
-use OCA\Calendar\Sabre\VObject\Component\VCalendar;
-
 use OCP\Calendar\ICalendar;
 use OCP\Calendar\ITimezone;
 
+use OCA\Calendar\Sabre\VObject\Component\VCalendar;
 use OCA\Calendar\Utility\CalendarUtility;
 use OCA\Calendar\Utility\ColorUtility;
 
@@ -114,7 +113,7 @@ class Calendar extends Entity implements ICalendar {
 
 
 	/**
-	 * @brief init Calendar object with data from db row
+	 * init Calendar object with data from db row
 	 * @param mixed (array / VCalendar) $createFrom
 	 */
 	public function __construct($createFrom=null){
@@ -473,22 +472,25 @@ class Calendar extends Entity implements ICalendar {
 
 
 	/**
-	 * @brief create calendar object from VCalendar
+	 * create calendar object from VCalendar
 	 * @param VCalendar $vcalendar
 	 * @return $this
 	 */
 	public function fromVObject(VCalendar $vcalendar) {
 		foreach($vcalendar->select('X-WR-CALNAME') as $displayname) {
+			/**	@var \OCA\Calendar\Sabre\VObject\Property $displayname */
 			$this->setDisplayname($displayname->getValue());
 			break;
 		}
 
 		foreach($vcalendar->select('X-WR-CALDESC') as $description) {
+			/**	@var \OCA\Calendar\Sabre\VObject\Property $description */
 			$this->setDescription($description->getValue());
 			break;
 		}
 
 		foreach($vcalendar->select('X-WR-TIMEZONE') as $timezone) {
+			/**	@var \OCA\Calendar\Sabre\VObject\Property $timezone */
 			$timezoneId = $timezone->getValue();
 			foreach($vcalendar->select('VTIMEZONE') as $vtimezone) {
 				if($vtimezone->TZID === $timezoneId) {
@@ -500,6 +502,7 @@ class Calendar extends Entity implements ICalendar {
 		}
 
 		foreach($vcalendar->select('X-APPLE-CALENDAR-COLOR') as $color) {
+			/**	@var \OCA\Calendar\Sabre\VObject\Property $color */
 			$this->setColor($color->getValue());
 			break;
 		}
@@ -509,7 +512,7 @@ class Calendar extends Entity implements ICalendar {
 
 
 	/**
-	 * @brief get VObject from Calendar Object
+	 * get VObject from Calendar Object
 	 * @return VCalendar object
 	 */
 	public function getVObject() {
@@ -547,7 +550,7 @@ class Calendar extends Entity implements ICalendar {
 
 
 	/**
-	 * @brief does a calendar allow
+	 * does a calendar allow
 	 * @param integer $cruds
 	 * @return boolean
 	 */
@@ -557,7 +560,7 @@ class Calendar extends Entity implements ICalendar {
 
 
 	/**
-	 * @brief does a calendar allow a certain component
+	 * does a calendar allow a certain component
 	 * @param integer $components
 	 * @return boolean
 	 */
@@ -567,7 +570,7 @@ class Calendar extends Entity implements ICalendar {
 
 
 	/**
-	 * @brief increment ctag
+	 * increment ctag
 	 * @return $this
 	 */
 	public function touch() {
@@ -577,7 +580,7 @@ class Calendar extends Entity implements ICalendar {
 
 
 	/**
-	 * @brief create string representation of object
+	 * create string representation of object
 	 * @return string
 	 */
 	public function __toString() {

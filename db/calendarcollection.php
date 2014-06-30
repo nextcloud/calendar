@@ -30,7 +30,7 @@ use OCP\Calendar\ICalendar;
 class CalendarCollection extends Collection implements ICalendarCollection {
 
 	/**
-	 * @brief get a collection of all enabled calendars within collection
+	 * get a collection of all enabled calendars within collection
 	 * @return CalendarCollection of all enabled calendars
 	 */
 	public function enabled() {
@@ -39,7 +39,7 @@ class CalendarCollection extends Collection implements ICalendarCollection {
 
 
 	/**
-	 * @brief get a collection of all disabled calendars within collection
+	 * get a collection of all disabled calendars within collection
 	 * @return CalendarCollection of all disabled calendars
 	 */
 	public function disabled() {
@@ -48,7 +48,7 @@ class CalendarCollection extends Collection implements ICalendarCollection {
 
 
 	/**
-	 * @brief get a collection of all calendars owned by a certian user
+	 * get a collection of all calendars owned by a certian user
 	 * @param string $userId of owner
 	 * @return ICalendarCollection of all calendars owned by user
 	 */
@@ -58,7 +58,7 @@ class CalendarCollection extends Collection implements ICalendarCollection {
 
 
 	/**
-	 * @brief get a collection of calendars that supports certain components
+	 * get a collection of calendars that supports certain components
 	 * @param int $component use \OCA\Calendar\Db\ObjectType to get wanted component code
 	 * @return ICalendarCollection of calendars that supports certain components
 	 */
@@ -76,7 +76,7 @@ class CalendarCollection extends Collection implements ICalendarCollection {
 
 
 	/**
-	 * @brief get a collection of calendars with a certain permission
+	 * get a collection of calendars with a certain permission
 	 * @param int $cruds use \OCA\Calendar\Db\Permissions to get wanted permission code
 	 * @return ICalendarCollection of calendars with a certain permission
 	 */
@@ -94,7 +94,7 @@ class CalendarCollection extends Collection implements ICalendarCollection {
 
 
 	/**
-	 * @brief filter calendars by BackendCollection
+	 * filter calendars by BackendCollection
 	 * @param IBackendCollection $backends
 	 * @return ICalendarCollection
 	 */

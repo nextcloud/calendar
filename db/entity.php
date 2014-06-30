@@ -14,28 +14,28 @@ use OCP\Calendar\IEntity;
 abstract class Entity implements IEntity{
 
 	/**
-	 * @brief database id
+	 * database id
 	 * @var int
 	 */
 	public $id;
 
 
 	/**
-	 * @brief updated fields
+	 * updated fields
 	 * @var array
 	 */
 	protected $updatedFields = array();
 
 
 	/**
-	 * @brief map property-name to type
+	 * map property-name to type
 	 * @var array
 	 */
 	protected $fieldTypes = array('id' => 'int');
 
 
 	/**
-	 * @brief fields that are mandatory for a valid Entity
+	 * fields that are mandatory for a valid Entity
 	 * @var array
 	 */
 	protected $mandatory = array();
@@ -94,7 +94,7 @@ abstract class Entity implements IEntity{
 
 
 	/**
-	 * @brief overwrite current objects with properties 
+	 * overwrite current objects with properties
 	 *        from $object that are not null
 	 * @param IEntity $object
 	 * @return $this
@@ -122,7 +122,7 @@ abstract class Entity implements IEntity{
 
 
 	/**
-	 * @brief checks if current object contains null values
+	 * checks if current object contains null values
 	 * @return boolean
 	 */
 	public function doesContainNullValues() {
@@ -312,7 +312,7 @@ abstract class Entity implements IEntity{
 
 
 	/**
-	 * @brief check if entity's content is valid
+	 * check if entity's content is valid
 	 * @return bool
 	 */
 	public function isValid() {
@@ -330,7 +330,7 @@ abstract class Entity implements IEntity{
 
 
 	/**
-	 * @brief take data from VObject and put into this Calendar object
+	 * take data from VObject and put into this Calendar object
 	 * @param VCalendar $vcalendar
 	 * @throws \BadFunctionCallException
 	 * @return VCalendar Object
@@ -342,7 +342,7 @@ abstract class Entity implements IEntity{
 
 
 	/**
-	 * @brief get VObject from Calendar Object
+	 * get VObject from Calendar Object
 	 * @throws \BadFunctionCallException
 	 * @return VCalendar Object
 	 */

@@ -35,14 +35,14 @@ interface ITimezone extends IEntity {
 
 
 	/**
-	 * @brief get VObject from Calendar Object
+	 * get VObject from Calendar Object
 	 * @return VCalendar object
 	 */
 	public function getVObject();
 
 
 	/**
-	 * @brief get timezone id
+	 * get timezone id
 	 * @return string
 	 */
 	public function getTzId();

@@ -39,7 +39,7 @@ class Timezone extends Entity implements ITimezone {
 
 
 	/**
-	 * @brief init Timezone object with timezone name
+	 * init Timezone object with timezone name
 	 * @param string $from
 	 */
 	public function __construct($from) {
@@ -67,7 +67,7 @@ class Timezone extends Entity implements ITimezone {
 
 
 	/**
-	 * @brief set timezone data
+	 * set timezone data
 	 * @param string $data
 	 * @throws DoesNotExistException
 	 * @throws MultipleObjectsReturnedException
@@ -108,7 +108,7 @@ class Timezone extends Entity implements ITimezone {
 
 
 	/**
-	 * @brief get VObject from Calendar Object
+	 * get VObject from Calendar Object
 	 * @return \Sabre\VObject\Component\VCalendar object
 	 */
 	public function getVObject() {
@@ -117,7 +117,7 @@ class Timezone extends Entity implements ITimezone {
 
 
 	/**
-	 * @brief get timezone id
+	 * get timezone id
 	 * @return string
 	 */
 	public function getTzId() {
@@ -132,7 +132,7 @@ class Timezone extends Entity implements ITimezone {
 
 
 	/**
-	 * @brief create string representation of object
+	 * create string representation of object
 	 * @return string
 	 */
 	public function __toString() {

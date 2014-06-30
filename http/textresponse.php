@@ -30,7 +30,7 @@ namespace OCA\Calendar\Http;
 /**
  * A renderer for text calls
  */
-class TextResponse extends Response {
+abstract class TextResponse extends Response {
 
 	/**
 	 * Returns the rendered json

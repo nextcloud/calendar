@@ -29,7 +29,7 @@ use OCA\Calendar\Http\ReaderException;
 class JSONSubscriptionReader extends Reader {
 
 	/**
-	 * @brief parse jsoncalendar
+	 * parse jsoncalendar
 	 */
 	public function parse() {
 		$data = stream_get_contents($this->handle);
@@ -52,7 +52,7 @@ class JSONSubscriptionReader extends Reader {
 
 
 	/**
-	 * @brief check if $this->data is a collection
+	 * check if $this->data is a collection
 	 * @param array $json
 	 * @return boolean
 	 */
@@ -66,7 +66,7 @@ class JSONSubscriptionReader extends Reader {
 
 
 	/**
-	 * @brief parse a json calendar collection
+	 * parse a json calendar collection
 	 * @param array $data
 	 * @return \OCA\Calendar\Db\CalendarCollection
 	 */
@@ -88,7 +88,7 @@ class JSONSubscriptionReader extends Reader {
 
 
 	/**
-	 * @brief parse a json calendar
+	 * parse a json calendar
 	 * @param array $data
 	 * @return \OCA\Calendar\Db\Subscription
 	 */

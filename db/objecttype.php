@@ -10,7 +10,7 @@ namespace OCA\Calendar\Db;
 class ObjectType extends \OCP\Calendar\ObjectType {
 
 	/**
-	 * @brief get type as string
+	 * get type as string
 	 * @param integer $type
 	 * @return string
 	 */
@@ -33,7 +33,7 @@ class ObjectType extends \OCP\Calendar\ObjectType {
 
 
 	/**
-	 * @brief get types as string
+	 * get types as string
 	 * @param integer $type
 	 * @return string
 	 */
@@ -56,7 +56,7 @@ class ObjectType extends \OCP\Calendar\ObjectType {
 
 
 	/**
-	 * @brief get type by string
+	 * get type by string
 	 * @param string $string
 	 * @return integer
 	 */
@@ -85,7 +85,7 @@ class ObjectType extends \OCP\Calendar\ObjectType {
 
 
 	/**
-	 * @brief get types by string
+	 * get types by string
 	 * @param string $string
 	 * @return integer
 	 */

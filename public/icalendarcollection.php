@@ -24,21 +24,21 @@ namespace OCP\Calendar;
 interface ICalendarCollection extends ICollection{
 
 	/**
-	 * @brief get a collection of all enabled calendars within collection
+	 * get a collection of all enabled calendars within collection
 	 * @return ICalendarCollection of all enabled calendars
 	 */
 	public function enabled();
 
 
 	/**
-	 * @brief get a collection of all disabled calendars within collection
+	 * get a collection of all disabled calendars within collection
 	 * @return ICalendarCollection of all disabled calendars
 	 */
 	public function disabled();
 
 
 	/**
-	 * @brief get a collection of all calendars owned by a certian user
+	 * get a collection of all calendars owned by a certian user
 	 * @param string $userId of owner
 	 * @return ICalendarCollection of all calendars owned by user
 	 */
@@ -46,7 +46,7 @@ interface ICalendarCollection extends ICollection{
 
 
 	/**
-	 * @brief get a collection of calendars that supports certian components
+	 * get a collection of calendars that supports certian components
 	 * @param int $component use \OCA\Calendar\Db\ObjectType to get wanted component code
 	 * @return ICalendarCollection of calendars that supports certian components
 	 */
@@ -54,7 +54,7 @@ interface ICalendarCollection extends ICollection{
 
 
 	/**
-	 * @brief get a collection of calendars with a certain permission
+	 * get a collection of calendars with a certain permission
 	 * @param int $cruds use \OCA\Calendar\Db\Permissions to get wanted permission code
 	 * @return ICalendarCollection of calendars with a certian permission
 	 */
@@ -62,7 +62,7 @@ interface ICalendarCollection extends ICollection{
 
 
 	/**
-	 * @brief filter calendars by BackendCollection
+	 * filter calendars by BackendCollection
 	 * @param IBackendCollection $backends
 	 * @return ICalendarCollection of calendars on backends in BackendCollection
 	 */

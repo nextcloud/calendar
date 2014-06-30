@@ -24,7 +24,7 @@ namespace OCP\Calendar;
 interface IBackendAPI {
 
 	/**
-	 * @brief get integer that represents supported actions
+	 * get integer that represents supported actions
 	 * @returns integer
 	 *
 	 * This method returns an integer.
@@ -34,7 +34,7 @@ interface IBackendAPI {
 
 
 	/**
-	 * @brief Check if backend implements actions
+	 * Check if backend implements actions
 	 * @param integer $actions
 	 * @returns integer
 	 *
@@ -47,7 +47,7 @@ interface IBackendAPI {
 
 
 	/**
-	 * @brief returns whether or not a backend can be enabled
+	 * returns whether or not a backend can be enabled
 	 * @returns boolean
 	 *
 	 * This method returns a boolean.
@@ -57,7 +57,7 @@ interface IBackendAPI {
 
 
 	/**
-	 * @brief returns whether or not calendar objects should be cached
+	 * returns whether or not calendar objects should be cached
 	 * @param string $calendarURI
 	 * @param string $userId
 	 * @returns bool
@@ -69,21 +69,21 @@ interface IBackendAPI {
 
 
 	/**
-	 * @brief returns list of available uri prefixes
+	 * returns list of available uri prefixes
 	 * @returns array
 	 */
 	public function getAvailablePrefixes();
 
 
 	/**
-	 * @brief returns list of subscription types supported by backend
+	 * returns list of subscription types supported by backend
 	 * @returns array
 	 */
 	public function getSubscriptionTypes();
 
 
 	/**
-	 * @brief returns information about calendar $calendarURI of the user $userId
+	 * returns information about calendar $calendarURI of the user $userId
 	 * @param string $calendarURI
 	 * @param string $userId
 	 * @returns ICalendar
@@ -97,7 +97,7 @@ interface IBackendAPI {
 
 
 	/**
-	 * @brief returns all calendars of the user $userId
+	 * returns all calendars of the user $userId
 	 * @param string $userId
 	 * @param integer $limit
 	 * @param integer $offset
@@ -120,7 +120,7 @@ interface IBackendAPI {
 
 
 	/**
-	 * @brief returns number of calendar
+	 * returns number of calendar
 	 * @param string $userId
 	 * @returns integer
 	 *
@@ -131,7 +131,7 @@ interface IBackendAPI {
 
 
 	/**
-	 * @brief returns whether or not a calendar exists
+	 * returns whether or not a calendar exists
 	 * @param string $calendarURI
 	 * @param string $userId
 	 * @returns boolean
@@ -143,7 +143,7 @@ interface IBackendAPI {
 
 
 	/**
-	 * @brief returns ctag of a calendar
+	 * returns ctag of a calendar
 	 * @param string $calendarURI
 	 * @param string $userId
 	 * @returns integer
@@ -156,7 +156,7 @@ interface IBackendAPI {
 
 
 	/**
-	 * @brief find object
+	 * find object
 	 * @param ICalendar $calendar
 	 * @param string $objectURI
 	 * @returns IObject
@@ -171,7 +171,7 @@ interface IBackendAPI {
 
 
 	/**
-	 * @brief returns all objects in the calendar $calendarURI of the user $userId
+	 * returns all objects in the calendar $calendarURI of the user $userId
 	 * @param ICalendar &$calendar
 	 * @param integer $limit
 	 * @param integer $offset
@@ -185,7 +185,7 @@ interface IBackendAPI {
 
 
 	/**
-	 * @brief get list of objectURIs
+	 * get list of objectURIs
 	 * @param ICalendar $calendar
 	 * @param integer $limit
 	 * @param integer $offset
@@ -195,7 +195,7 @@ interface IBackendAPI {
 
 
 	/**
-	 * @brief returns number of objects in calendar
+	 * returns number of objects in calendar
 	 * @param ICalendar $calendar
 	 * @returns integer
 	 * @throws DoesNotExistException if calendar does not exist
@@ -207,7 +207,7 @@ interface IBackendAPI {
 
 
 	/**
-	 * @brief returns whether or not an object exists
+	 * returns whether or not an object exists
 	 * @param ICalendar $calendar
 	 * @param string $objectURI
 	 * @returns boolean
@@ -229,7 +229,7 @@ interface IBackendAPI {
 
 
 	/**
-	 * @brief returns etag of an object
+	 * returns etag of an object
 	 * @param ICalendar $calendar
 	 * @param string $objectURI
 	 * @returns string
@@ -243,7 +243,7 @@ interface IBackendAPI {
 
 
 	/**
-	 * @brief returns whether or not a backend can store a calendar's color
+	 * returns whether or not a backend can store a calendar's color
 	 * @returns boolean
 	 *
 	 * This method returns a boolean
@@ -253,7 +253,7 @@ interface IBackendAPI {
 
 
 	/**
-	 * @brief returns whether or not a backend can store a calendar's supported components
+	 * returns whether or not a backend can store a calendar's supported components
 	 * @returns boolean
 	 *
 	 * This method returns a boolean
@@ -263,14 +263,14 @@ interface IBackendAPI {
 
 
 	/**
-	 * @brief returns whether or not a backend can store a calendar's description
+	 * returns whether or not a backend can store a calendar's description
 	 * @return boolean
 	 */
 	public function canStoreDescription();
 
 
 	/**
-	 * @brief returns whether or not a backend can store a calendar's displayname
+	 * returns whether or not a backend can store a calendar's displayname
 	 * @returns boolean
 	 *
 	 * This method returns a boolean
@@ -280,7 +280,7 @@ interface IBackendAPI {
 
 
 	/**
-	 * @brief returns whether or not a backend can store if a calendar is enabled
+	 * returns whether or not a backend can store if a calendar is enabled
 	 * @returns boolean
 	 *
 	 * This method returns a boolean
@@ -290,7 +290,7 @@ interface IBackendAPI {
 
 
 	/**
-	 * @brief returns whether or not a backend can store a calendar's order
+	 * returns whether or not a backend can store a calendar's order
 	 * @returns boolean
 	 *
 	 * This method returns a boolean

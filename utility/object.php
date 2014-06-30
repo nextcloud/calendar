@@ -26,7 +26,7 @@ use DateTime;
 class ObjectUtility extends Utility{
 
 	/**
-	 * @brief generate a random uri
+	 * generate a random uri
 	 * @return string random uri
 	 */
 	public static function randomURI() {

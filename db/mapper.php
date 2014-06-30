@@ -29,7 +29,6 @@ use OCP\AppFramework\IAppContainer;
 use OCP\Calendar\IEntity;
 use OCP\Calendar\ICollection;
 use OCP\DB;
-
 use OCP\Calendar\DoesNotExistException;
 use OCP\Calendar\MultipleObjectsReturnedException;
 
@@ -67,7 +66,7 @@ abstract class Mapper {
 
 	/**
 	 * Deletes an entity from the table
-	 * @param Entity $entity the entity that should be deleted
+	 * @param IEntity $entity the entity that should be deleted
 	 */
 	public function delete(IEntity $entity){
 		$sql = 'DELETE FROM `' . $this->tableName . '` WHERE `id` = ?';
@@ -77,8 +76,8 @@ abstract class Mapper {
 
 	/**
 	 * Creates a new entry in the db from an entity
-	 * @param Entity $entity the entity that should be created
-	 * @return Entity the saved entity with the set id
+	 * @param IEntity $entity the entity that should be created
+	 * @return IEntity the saved entity with the set id
 	 */
 	public function insert(IEntity $entity){
 		// get updated fields to save, fields have to be set using a setter to
@@ -121,7 +120,7 @@ abstract class Mapper {
 	/**
 	 * Updates an entry in the db from an entity
 	 * @throws \InvalidArgumentException if entity has no id
-	 * @param Entity $entity the entity that should be created
+	 * @param IEntity $entity the entity that should be created
 	 */
 	public function update(IEntity $entity){
 		// entity needs an id

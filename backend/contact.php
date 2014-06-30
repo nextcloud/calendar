@@ -43,7 +43,7 @@ class Contact extends Backend {
 	public $calendarURIs;
 
 	/**
-	 * @brief constructor
+	 * constructor
 	 * @param IAppContainer $app
 	 * @param array $parameters
 	 */
@@ -58,7 +58,7 @@ class Contact extends Backend {
 
 
 	/**
-	 * @brief returns whether or not a backend can be enabled
+	 * returns whether or not a backend can be enabled
 	 * @returns boolean
 	 */
 	public function canBeEnabled() {
@@ -67,7 +67,7 @@ class Contact extends Backend {
 
 
 	/**
-	 * @brief returns whether or not calendar objects should be cached
+	 * returns whether or not calendar objects should be cached
 	 * @param string $calendarURI
 	 * @param string $userId
 	 * @returns boolean
@@ -78,7 +78,7 @@ class Contact extends Backend {
 
 
 	/**
-	 * @brief returns information about calendar $calendarURI of the user $userId
+	 * returns information about calendar $calendarURI of the user $userId
 	 * @param string $calendarURI
 	 * @param string $userId
 	 * @returns ICalendar
@@ -115,7 +115,7 @@ class Contact extends Backend {
 
 
 	/**
-	 * @brief returns all calendars of the user $userId
+	 * returns all calendars of the user $userId
 	 * @param string $userId
 	 * @param integer $limit
 	 * @param integer $offset
@@ -134,7 +134,7 @@ class Contact extends Backend {
 
 
 	/**
-	 * @brief returns number of calendar
+	 * returns number of calendar
 	 * @param string $userId
 	 * @returns integer
 	 */
@@ -144,7 +144,7 @@ class Contact extends Backend {
 
 
 	/**
-	 * @brief returns whether or not a calendar exists
+	 * returns whether or not a calendar exists
 	 * @param string $calendarURI
 	 * @param string $userId
 	 * @returns boolean
@@ -159,7 +159,7 @@ class Contact extends Backend {
 
 
 	/**
-	 * @brief returns information about the object (event/journal/todo) with the uid $objectURI in the calendar $calendarURI of the user $userId 
+	 * returns information about the object (event/journal/todo) with the uid $objectURI in the calendar $calendarURI of the user $userId
 	 * @param ICalendar $calendar
 	 * @param string $objectURI
 	 * @returns IObject
@@ -173,7 +173,7 @@ class Contact extends Backend {
 
 
 	/**
-	 * @brief returns all objects in the calendar $calendarURI of the user $userId
+	 * returns all objects in the calendar $calendarURI of the user $userId
 	 * @param ICalendar $calendar
 	 * @param integer $limit
 	 * @param integer $offset

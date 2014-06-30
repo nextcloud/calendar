@@ -59,7 +59,7 @@ class TimezoneMapper extends Mapper {
 
 
 	/**
-	 * @brief find a timezone
+	 * find a timezone
 	 * @param string $tzId
 	 * @param string $userId
 	 * @throws DoesNotExistException
@@ -93,7 +93,7 @@ class TimezoneMapper extends Mapper {
 	}
 
 	/**
-	 * @brief get all timezones as a list
+	 * get all timezones as a list
 	 * @param string $userId
 	 * @param integer $limit
 	 * @param integer $offset
@@ -106,7 +106,7 @@ class TimezoneMapper extends Mapper {
 
 
 	/**
-	 * @brief find all timezones
+	 * find all timezones
 	 * @param string $userId
 	 * @param integer $limit
 	 * @param integer $offset
@@ -133,7 +133,7 @@ class TimezoneMapper extends Mapper {
 
 
 	/**
-	 * @brief deleting timezones is not supported
+	 * deleting timezones is not supported
 	 */
 	public function delete(IEntity $entity){
 		return null;
@@ -141,7 +141,7 @@ class TimezoneMapper extends Mapper {
 
 
 	/**
-	 * @brief create timezones is not supported
+	 * create timezones is not supported
 	 */
 	public function insert(IEntity $entity){
 		return null;
@@ -149,7 +149,7 @@ class TimezoneMapper extends Mapper {
 
 
 	/**
-	 * @brief updating timezones is not supported
+	 * updating timezones is not supported
 	 */
 	public function update(IEntity $entity){
 		return null;

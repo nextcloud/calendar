@@ -50,7 +50,7 @@ abstract class BackendCollectionBusinessLayer extends BusinessLayer {
 	}
 
 	/**
-	 * @brief check if a backend does support a certain action
+	 * check if a backend does support a certain action
 	 * @param string $backend
 	 * @param integer $action
 	 * @return boolean
@@ -69,7 +69,7 @@ abstract class BackendCollectionBusinessLayer extends BusinessLayer {
 
 
 	/**
-	 * @brief throw exception if backend is not enabled
+	 * throw exception if backend is not enabled
 	 * @param string $backend
 	 * @throws BusinessLayerException
 	 * @return boolean
@@ -90,7 +90,7 @@ abstract class BackendCollectionBusinessLayer extends BusinessLayer {
 
 
 	/**
-	 * @brief throw exception if backend does not support action
+	 * throw exception if backend does not support action
 	 * @param string $backend
 	 * @param integer $action
 	 * @return bool

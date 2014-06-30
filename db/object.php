@@ -82,7 +82,7 @@ class Object extends Entity implements IObject {
 
 
 	/**
-	 * @brief constructor
+	 * constructor
 	 * @param mixed (array|null) $from
 	 */
 	public function __construct($from=null) {
@@ -107,7 +107,7 @@ class Object extends Entity implements IObject {
 
 
 	/**
-	 * @brief take data from vobject and put into this Object object
+	 * take data from vobject and put into this Object object
 	 * @param VCalendar $vcalendar
 	 * @throws CorruptDataException
 	 * @return $this
@@ -296,7 +296,7 @@ class Object extends Entity implements IObject {
 
 
 	/**
-	 * @brief set lastModified to now and update ETag
+	 * set lastModified to now and update ETag
 	 * @return $this
 	 */
 	public function touch() {
@@ -308,7 +308,7 @@ class Object extends Entity implements IObject {
 
 
 	/**
-	 * @brief does an object allow
+	 * does an object allow
 	 * @param integer $cruds
 	 * @return boolean
 	 */
@@ -318,7 +318,7 @@ class Object extends Entity implements IObject {
 
 
 	/**
-	 * @brief get text/calendar representation of stored object
+	 * get text/calendar representation of stored object
 	 * @return integer
 	 */
 	public function getCalendarData() {
@@ -347,7 +347,7 @@ class Object extends Entity implements IObject {
 
 
 	/**
-	 * @brief update Etag
+	 * update Etag
 	 * @return $this
 	 */
 	public function generateEtag() {
@@ -361,7 +361,7 @@ class Object extends Entity implements IObject {
 
 
 	/**
-	 * @brief get type of stored object
+	 * get type of stored object
 	 * @return integer
 	 */
 	public function getType() {
@@ -372,7 +372,7 @@ class Object extends Entity implements IObject {
 
 
 	/**
-	 * @brief get startDate
+	 * get startDate
 	 * @return DateTime
 	 */
 	public function getStartDate() {
@@ -383,7 +383,7 @@ class Object extends Entity implements IObject {
 
 
 	/**
-	 * @brief get endDate
+	 * get endDate
 	 * @return DateTime
 	 */
 	public function getEndDate() {
@@ -394,7 +394,7 @@ class Object extends Entity implements IObject {
 
 
 	/**
-	 * @brief get whether or not object is repeating
+	 * get whether or not object is repeating
 	 * @return boolean
 	 */
 	public function getRepeating() {
@@ -409,7 +409,7 @@ class Object extends Entity implements IObject {
 
 
 	/**
-	 * @brief get summary of object
+	 * get summary of object
 	 * @return mixed (string|null)
 	 */
 	public function getSummary() {
@@ -424,7 +424,7 @@ class Object extends Entity implements IObject {
 
 
 	/**
-	 * @brief get last modified of object
+	 * get last modified of object
 	 * @return mixed (DateTime|null)
 	 */
 	public function getLastModified() {
@@ -450,7 +450,7 @@ class Object extends Entity implements IObject {
 
 
 	/**
-	 * @brief get name of property inside $this->vobject
+	 * get name of property inside $this->vobject
 	 * @return string
 	 */
 	private function getObjectName() {

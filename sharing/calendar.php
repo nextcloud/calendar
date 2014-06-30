@@ -29,7 +29,7 @@ use OCP\Share_Backend_Collection;
 class Calendar implements Share_Backend_Collection {
 
 	/**
-	 * @brief Get the source of the item to be stored in the database
+	 * Get the source of the item to be stored in the database
 	 * @param string $itemSource
 	 * @param string $uidOwner of the item
 	 * @return mixed|array|false Source
@@ -48,7 +48,7 @@ class Calendar implements Share_Backend_Collection {
 	}
 
 	/**
-	 * @brief Get a unique name of the item for the specified user
+	 * Get a unique name of the item for the specified user
 	 * @param string Item
 	 * @param string|false User the item is being shared with
 	 * @param array|null List of similar item names already existing as shared items
@@ -73,7 +73,7 @@ class Calendar implements Share_Backend_Collection {
 	}
 
 	/**
-	 * @brief Converts the shared item sources back into the item in the specified format
+	 * Converts the shared item sources back into the item in the specified format
 	 * @param array Shared items
 	 * @param int Format
 	 * @return ?

@@ -30,7 +30,7 @@ use OCP\Calendar\Permissions;
 class JSONUtility extends Utility{
 
 	/**
-	 * @brief get json-encoded user-information
+	 * get json-encoded user-information
 	 * @param string $userId
 	 * @return array
 	 */
@@ -47,7 +47,7 @@ class JSONUtility extends Utility{
 
 
 	/**
-	 * @brief parse json-encoded user-information
+	 * parse json-encoded user-information
 	 * @param array $value
 	 * @return string $userId
 	 */
@@ -65,7 +65,7 @@ class JSONUtility extends Utility{
 
 
 	/**
-	 * @brief get json-encoded component-information
+	 * get json-encoded component-information
 	 * @param integer $components
 	 * @return array
 	 */
@@ -79,7 +79,7 @@ class JSONUtility extends Utility{
 
 
 	/**
-	 * @brief parse json-encoded component-information
+	 * parse json-encoded component-information
 	 * @param array $value
 	 * @return integer $userId
 	 */
@@ -101,7 +101,7 @@ class JSONUtility extends Utility{
 
 
 	/**
-	 * @brief get json-encoded cruds-information
+	 * get json-encoded cruds-information
 	 * @param integer $cruds
 	 * @return array
 	 */
@@ -118,7 +118,7 @@ class JSONUtility extends Utility{
 
 
 	/**
-	 * @brief parse json-encoded cruds-information
+	 * parse json-encoded cruds-information
 	 * @param array $value
 	 * @return integer $userId
 	 */
@@ -151,7 +151,7 @@ class JSONUtility extends Utility{
 
 
 	/**
-	 * @brief get url for calendar
+	 * get url for calendar
 	 * @param string $calendarURI
 	 * @return string
 	 */
@@ -166,7 +166,7 @@ class JSONUtility extends Utility{
 
 
 	/**
-	 * @brief get caldav url for calendar
+	 * get caldav url for calendar
 	 * @param string $calendarURI
 	 * @param string $userId
 	 * @return array

@@ -390,7 +390,7 @@ class Caldav extends Sabre_CalDAV_Backend_Abstract {
 	}
 
 	/**
-	 * @brief Creates a etag
+	 * Creates a etag
 	 * @param array $row Database result
 	 * @returns associative array
 	 *

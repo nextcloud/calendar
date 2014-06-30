@@ -12,7 +12,7 @@ use OCP\AppFramework\IAppContainer;
 class SubscriptionMapper extends Mapper {
 
 	/**
-	 * @brief Constructor
+	 * Constructor
 	 * @param IAppContainer $app
 	 * @param string $tableName
 	 */
