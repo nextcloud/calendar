@@ -102,6 +102,7 @@
 
 /* ICS reader and serializer*/
 \OC::$CLASSPATH['OCA\Calendar\Http\ICS\ICSObjectResponse'] = 'calendar/http/ics/object.php';
+\OC::$CLASSPATH['OCA\Calendar\Http\ICS\ICSObjectDownloadResponse'] = 'calendar/http/ics/objectdownload.php';
 \OC::$CLASSPATH['OCA\Calendar\Http\ICS\ICSObjectReader'] = 'calendar/http/ics/objectreader.php';
 \OC::$CLASSPATH['OCA\Calendar\Http\ICS\ICSTimezoneResponse'] = 'calendar/http/ics/timezone.php';
 

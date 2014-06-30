@@ -444,14 +444,10 @@ class ObjectController extends Controller {
 			$filename  = $calendar->getPublicUri();
 			$filename .= '.ics';
 
-			$app = $this->app;
-			$this->registerResponder('text/calendar', function($value)
-									  use ($app, $mimeType, $filename) {
-				return new ICSObjectDownloadResponse($app, $value, $mimeType,
-													 $filename);
-			});
+			$objects = $this->objects->findAll($calendar);
 
-			return $this->objects->findAll($calendar);
+			return new ICSObjectDownloadResponse($this->app, $objects,
+												 $mimeType, $filename);
 		} catch (BusinessLayerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
 			return new JSONResponse(
