@@ -389,6 +389,34 @@ app.controller('SettingsController', ['$scope','Restangular',
 	}
 ]);
 
+app.controller('SubscriptionController', ['$scope', 'SubscriptionModel', 'Restangular',
+	function ($scope,SubscriptionModel,Restangular) {
+		
+		$scope.subscriptions = SubscriptionModel.getAll();
+		
+		var subscriptionResource = Restangular.all('subscriptions');
+		subscriptionResource.getList().then(function (subscriptions) {
+			SubscriptionModel.addAll(subscriptions);
+		});
+		
+		var backendResource = Restangular.all('backends-enabled');
+		backendResource.getList().then(function (backendsobject) {
+			$scope.subscriptiontypeSelect = backendsobject;
+		});
+
+		$scope.newSubscriptionUrl = '';
+
+		$scope.create = function(newSubscriptionInputVal) {
+			var newSubscription = {
+				"type": $scope.selectedsubscriptionbackend,
+				"url": $scope.newSubscriptionUrl,
+			};
+			subscriptionResource.post(newSubscription).then(function (newSubscription) {
+				SubscriptionModel.create(newSubscription);
+			});
+		};
+	}
+]);
 app.directive('loading',
 	[ function() {
 		return {
@@ -574,6 +602,53 @@ app.factory('EventsModel', function () {
 	};
 
 	return new EventsModel();
+});
+app.factory('SubscriptionModel', function() {
+	var SubscriptionModel = function () {
+		this.subscriptions = [];
+		this.subscriptionId = {};
+	};
+
+	SubscriptionModel.prototype = {
+		create : function (newsubscription) {
+			this.subscriptions.push(newsubscription);
+		},
+		add : function (subscription) {
+			this.updateIfExists(subscription);
+		},
+		addAll : function (subscriptions) {
+			for(var i=0; i<subscriptions.length; i++) {
+				this.add(subscriptions[i]);
+			}
+		},
+		getAll : function () {
+			return this.subscriptions;
+		},
+		get : function (id) {
+			return this.subscriptionId[id];
+		},
+		updateIfExists : function (updated) {
+			var subscription = this.subscriptionId[updated.id];
+			if(angular.isDefined(subscription)) {
+
+			} else {
+				this.subscriptions.push(updated);
+				this.subscriptionId[updated.id] = updated;
+			}
+		},
+		remove : function (id) {
+			for(var i=0; i<this.subscriptions.length; i++) {
+				var subscription = this.subscriptions[i];
+				if (subscription.id === id) {
+					this.subscriptions.splice(i, 1);
+					delete this.subscriptionId[id];
+					break;
+				}
+			}
+		},
+	};
+
+	return new SubscriptionModel();
 });
 app.factory('TimezoneModel', function () {
 	var TimezoneModel = function () {

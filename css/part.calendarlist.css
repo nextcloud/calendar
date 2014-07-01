@@ -73,7 +73,7 @@
 	background-color: #ccc !important;
 }
 
-#newCalendar {
+#newCalendar, #newSubscription {
 	background-color:#eee;
 	display: block;
 	width: 100%;
@@ -88,11 +88,11 @@
 	cursor: pointer;
 }
 
-.add-new {
+.add-new, .add-new-subscription {
 	background-color:#eee;
 }
 
-#newCalendar span:before {
+#newCalendar span:before, #newSubscription span:before {
 	position: absolute;
 	content: '+';
 	font-weight: bold;
@@ -117,10 +117,28 @@
 	width: 60%;
 }
 
-.personalblock form #submitnewCalendar {
+.personalblock form #submitnewCalendar, .personalblock form #submitnewSubscription {
 	width: 25px;
 	margin-bottom: 6px;
 	height:25px;
+}
+
+.personalblock form #submitnewSubscription {
+	float: right;
+}
+
+.add-new-subscription form fieldset {
+	margin-left:10px;
+	margin-right:10px;
+}
+
+.add-new-subscription form fieldset input {
+	float:right;
+}
+
+.add-new-subscription form fieldset select {
+	width:160px;
+	float:right;
 }
 
 .calendarCheckbox {

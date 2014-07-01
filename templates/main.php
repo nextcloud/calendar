@@ -72,8 +72,10 @@
 			<?php print_unescaped($this->inc('part.datepicker')); ?>
 		</div>
 		<ul ng-controller="CalendarListController">
-			<?php print_unescaped($this->inc('part.addnew')); ?>
 			<?php print_unescaped($this->inc('part.calendarlist')); ?>
+		</ul>
+		<ul ng-controller="SubscriptionController">
+			<?php print_unescaped($this->inc('part.subscriptionlist')); ?>
 		</ul>
 
 		<div id="app-settings" ng-controller="SettingsController">
