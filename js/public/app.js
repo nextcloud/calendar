@@ -136,12 +136,10 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 			$scope.addRemoveEventSources = function (newid,calendar) {
 				$scope.i++;
 				if (switcher.indexOf(newid) > -1) {
-					console.log('boo');
 					switcher.splice(switcher.indexOf(newid),1);
 					calendar.fullCalendar('removeEventSource', $scope.eventSource[newid]);
 				} else {
 					switcher[$scope.i] = newid;
-					console.log(switcher);
 					calendar.fullCalendar('addEventSource', $scope.eventSource[newid]);
 				}
 			};
