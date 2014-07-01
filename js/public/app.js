@@ -116,29 +116,34 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 				},
 			};
 
-			$scope.addRemoveEventSources = function (newid,calendar) {
-				Restangular.one('calendars',newid).getList('events').then(function (eventsobject) {
-					$scope.eventSource = {
+			$scope.eventSource = [];
+			$scope.calendars = $scope.calendarmodel.getAll();
+			if (newid !== '') {
+				angular.forEach($scope.calendars, function (value,key) {
+					$scope.eventSource[newid] = {
 						events: function(start, end, timezone, callback) {
-							callback(EventsModel.addalldisplayfigures(eventsobject));
+							Restangular.one('calendars',newid).getList('events').then(function (eventsobject) {
+								callback(EventsModel.addalldisplayfigures(eventsobject));
+							});
 						},
 						color: $scope.calendarmodel.get(newid).color,
 						editable: $scope.calendarmodel.get(newid).cruds.update
 					};
-					$scope.i += 1;
-					
-					if (switcher.indexOf(newid) > -1) {
-						switcher.splice(switcher.indexOf(newid),1);
-						calendar.fullCalendar('removeEventSource', $scope.eventSource);
-						console.log(switcher);
-					} else {
-						switcher[$scope.i] = newid;
-						console.log(switcher);
-						calendar.fullCalendar('addEventSource', $scope.eventSource);
-					}
 				});
-			};
+			}
 
+			$scope.addRemoveEventSources = function (newid,calendar) {
+				$scope.i++;
+				if (switcher.indexOf(newid) > -1) {
+					console.log('boo');
+					switcher.splice(switcher.indexOf(newid),1);
+					calendar.fullCalendar('removeEventSource', $scope.eventSource[newid]);
+				} else {
+					switcher[$scope.i] = newid;
+					console.log(switcher);
+					calendar.fullCalendar('addEventSource', $scope.eventSource[newid]);
+				}
+			};
 			if (newid !== '') {
 				$scope.addRemoveEventSources(newid,$scope.calendar);
 			}
