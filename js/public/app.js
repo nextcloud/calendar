@@ -65,6 +65,23 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 		});
 		//$scope.defaultView = viewResource.get();
 
+        $scope.eventSource = {};
+        $scope.calendars = $scope.calendarmodel.getAll();
+        angular.forEach($scope.calendars, function (value,key) {
+            if ($scope.eventSource[value.id] === undefined) {
+                $scope.eventSource[value.id] = {
+                    events: function (start, end, timezone, callback) {
+                        Restangular.one('calendars', value.id).getList('events').then(function (eventsobject) {
+                            callback(EventsModel.addalldisplayfigures(eventsobject));
+                        });
+                    },
+                    color: value.color,
+                    editable: value.cruds.update,
+                    id: value.id
+                };
+            }
+        });
+
 		$scope.$watch('eventsmodel.id', function (newid, oldid) {
 
 			$scope.uiConfig = {
@@ -115,22 +132,6 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 					},
 				},
 			};
-
-			$scope.eventSource = [];
-			$scope.calendars = $scope.calendarmodel.getAll();
-			if (newid !== '') {
-				angular.forEach($scope.calendars, function (value,key) {
-					$scope.eventSource[newid] = {
-						events: function(start, end, timezone, callback) {
-							Restangular.one('calendars',newid).getList('events').then(function (eventsobject) {
-								callback(EventsModel.addalldisplayfigures(eventsobject));
-							});
-						},
-						color: $scope.calendarmodel.get(newid).color,
-						editable: $scope.calendarmodel.get(newid).cruds.update
-					};
-				});
-			}
 
 			$scope.addRemoveEventSources = function (newid,calendar) {
 				$scope.i++;
