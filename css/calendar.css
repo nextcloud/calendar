@@ -26,9 +26,7 @@ body {
 }
 
 #app-content {
-	position: absolute;
-	left:250px;
-	width:80%;
+	margin-left:250px;
 }
 
 #app-content.loading {
