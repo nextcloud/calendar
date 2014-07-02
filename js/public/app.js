@@ -272,7 +272,7 @@ app.controller('CalendarListController', ['$scope','Restangular','CalendarModel'
 					item.cruds.create === false &&
 					item.cruds.update === false &&
 					item.cruds.delete === false
-					);
+				);
 			};
 		};
 
@@ -413,14 +413,21 @@ app.controller('SettingsController', ['$scope','Restangular',
 	}
 ]);
 
-app.controller('SubscriptionController', ['$scope', 'SubscriptionModel', 'Restangular',
-	function ($scope,SubscriptionModel,Restangular) {
+app.controller('SubscriptionController', ['$scope', 'SubscriptionModel', 'CalendarModel', 'Restangular',
+	function ($scope,SubscriptionModel,CalendarModel,Restangular) {
 		
 		$scope.subscriptions = SubscriptionModel.getAll();
+		$scope.calendars = CalendarModel.getAll();
 		
 		var subscriptionResource = Restangular.all('subscriptions');
 		subscriptionResource.getList().then(function (subscriptions) {
 			SubscriptionModel.addAll(subscriptions);
+		});
+
+		var calendarResource = Restangular.all('calendars');
+		// Gets All Calendars.
+		calendarResource.getList().then(function (calendars) {
+			CalendarModel.addAll(calendars);
 		});
 		
 		var backendResource = Restangular.all('backends-enabled');
@@ -439,6 +446,27 @@ app.controller('SubscriptionController', ['$scope', 'SubscriptionModel', 'Restan
 			subscriptionResource.post(newSubscription).then(function (newSubscription) {
 				SubscriptionModel.create(newSubscription);
 			});
+		};
+
+		$scope.calendarFilter = function() {
+			return function(item) {
+				return (
+					item.cruds.create === true ||
+					item.cruds.update === true ||
+					item.cruds.delete === true
+				);
+			};
+		};
+
+		// Take the filters to the filters directory, else duplication will happen.
+		$scope.subscriptionFilter = function() {
+			return function(item) {
+				return (
+					item.cruds.create === false &&
+					item.cruds.update === false &&
+					item.cruds.delete === false
+				);
+			};
 		};
 	}
 ]);

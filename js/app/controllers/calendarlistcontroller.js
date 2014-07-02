@@ -109,7 +109,7 @@ app.controller('CalendarListController', ['$scope','Restangular','CalendarModel'
 					item.cruds.create === false &&
 					item.cruds.update === false &&
 					item.cruds.delete === false
-					);
+				);
 			};
 		};
 
