@@ -24,6 +24,11 @@
 
 #app-navigation {
 	padding-bottom:0 !important;
+	position: absolute;
+}
+
+#app-navigation > ul {
+	height:auto;
 }
 
 #app-navigation #buttonarea {

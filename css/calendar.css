@@ -25,6 +25,12 @@ body {
 	overflow: hidden;
 }
 
+#app-content {
+	position: absolute;
+	left:250px;
+	width:80%;
+}
+
 #app-content.loading {
 	background-image: url('../img/loading.gif');
 	background-position: center;
