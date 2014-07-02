@@ -265,11 +265,31 @@ app.controller('CalendarListController', ['$scope','Restangular','CalendarModel'
 			$scope.addEvent(newid); // Switches watch in CalController
 		};
 
-        $scope.eventFilter = function() {
-            return function(item) {
-                return item.components.vevent === true;
-            };
-        };
+		$scope.eventFilter = function() {
+			return function(item) {
+				return item.components.vevent === true;
+			};
+		};
+
+		$scope.calendarFilter = function() {
+			return function(item) {
+				return (
+					item.cruds.create === true ||
+					item.cruds.update === true ||
+					item.cruds.delete === true
+				);
+			};
+		};
+
+		$scope.subscriptionFilter = function() {
+			return function(item) {
+				return (
+					item.cruds.create === false &&
+					item.cruds.update === false &&
+					item.cruds.delete === false
+					);
+			};
+		};
 
 	}
 ]);
