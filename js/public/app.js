@@ -425,14 +425,15 @@ app.controller('SubscriptionController', ['$scope', 'SubscriptionModel', 'Restan
 		
 		var backendResource = Restangular.all('backends-enabled');
 		backendResource.getList().then(function (backendsobject) {
-			$scope.subscriptiontypeSelect = backendsobject;
+			$scope.subscriptiontypeSelect = SubscriptionModel.getsubscriptionnames(backendsobject);
+			$scope.selectedsubscriptionbackendmodel = $scope.subscriptiontypeSelect[0]; // to remove the empty model.
 		});
 
 		$scope.newSubscriptionUrl = '';
 
 		$scope.create = function(newSubscriptionInputVal) {
 			var newSubscription = {
-				"type": $scope.selectedsubscriptionbackend,
+				"type": $scope.selectedsubscriptionbackendmodel,
 				"url": $scope.newSubscriptionUrl,
 			};
 			subscriptionResource.post(newSubscription).then(function (newSubscription) {
@@ -635,6 +636,7 @@ app.factory('SubscriptionModel', function() {
 	var SubscriptionModel = function () {
 		this.subscriptions = [];
 		this.subscriptionId = {};
+		this.subscriptionname = [];
 	};
 
 	SubscriptionModel.prototype = {
@@ -674,6 +676,14 @@ app.factory('SubscriptionModel', function() {
 				}
 			}
 		},
+		getsubscriptionnames : function (backendobject) {
+			for (var i = 0; i<backendobject.length; i++) {
+				for (var j = 0; j<backendobject[i].subscriptions.length; j++) {
+					this.subscriptionname[j] = backendobject[i].subscriptions[j].name;
+				}
+			}
+			return this.subscriptionname;
+		} 
 	};
 
 	return new SubscriptionModel();

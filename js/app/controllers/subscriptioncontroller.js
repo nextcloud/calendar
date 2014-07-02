@@ -33,14 +33,15 @@
 		
 		var backendResource = Restangular.all('backends-enabled');
 		backendResource.getList().then(function (backendsobject) {
-			$scope.subscriptiontypeSelect = backendsobject;
+			$scope.subscriptiontypeSelect = SubscriptionModel.getsubscriptionnames(backendsobject);
+			$scope.selectedsubscriptionbackendmodel = $scope.subscriptiontypeSelect[0]; // to remove the empty model.
 		});
 
 		$scope.newSubscriptionUrl = '';
 
 		$scope.create = function(newSubscriptionInputVal) {
 			var newSubscription = {
-				"type": $scope.selectedsubscriptionbackend,
+				"type": $scope.selectedsubscriptionbackendmodel,
 				"url": $scope.newSubscriptionUrl,
 			};
 			subscriptionResource.post(newSubscription).then(function (newSubscription) {
