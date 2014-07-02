@@ -70,13 +70,16 @@
 
 		<div ng-controller="DatePickerController">
 			<?php print_unescaped($this->inc('part.datepicker')); ?>
+			<?php print_unescaped($this->inc('part.buttonarea')); ?>
 		</div>
-		<ul ng-controller="CalendarListController">
+		<div ng-controller="CalendarListController">
+			<?php print_unescaped($this->inc('part.createcalendar')); ?>
 			<?php print_unescaped($this->inc('part.calendarlist')); ?>
-		</ul>
-		<ul ng-controller="SubscriptionController">
+		</div>
+		<div ng-controller="SubscriptionController">
+			<?php print_unescaped($this->inc('part.createsubscription')); ?>
 			<?php print_unescaped($this->inc('part.subscriptionlist')); ?>
-		</ul>
+		</div>
 
 		<div id="app-settings" ng-controller="SettingsController">
 			<?php print_unescaped($this->inc('part.settings')); ?>

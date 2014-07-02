@@ -23,5 +23,20 @@
 
 app.controller('DatePickerController', ['$scope', 'CalendarModel',
 	function ($scope,CalendarModel) {
+
+		// Changes the view for the month, week or daywise.
+		$scope.changeview = function (view) {
+			CalendarModel.pushtoggleview(view);
+		};
+
+		// Changes the view to Today's view.
+		$scope.todayview = function (view) {
+			CalendarModel.pushtoggleview(view);
+		};
+
+		// Changes the date to today on the datepicker.
+		$scope.settodaytodatepicker = function () {
+			CalendarModel.pushtodaydatepicker();
+		};
 	}
 ]);

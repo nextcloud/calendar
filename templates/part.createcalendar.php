@@ -1,3 +1,4 @@
+
 <?php
 /**
  * ownCloud - Calendar App
@@ -22,6 +23,33 @@
  *
  */
 ?>
-
-<ul id="subscriptionlist">
-</ul>
+<div>
+	<div
+		id="newCalendar"
+		oc-click-slide-toggle="{
+			selector: '.add-new',
+			hideOnFocusLost: true,
+			cssClass: 'opened'
+		}"
+		oc-click-focus="{
+			selector: '.add-new input[ng-model=newCalendarInputVal]'
+		}">
+		<span><?php p($l->t('New Calendar')); ?></span>
+	</div>
+	<fieldset class="personalblock add-new">
+		<form>
+			<input type="text" ng-model="newCalendarInputVal" autofocus />
+			<button colorpicker colorpicker-position="top" ng-model="newcolor" id="newcolorpicker" style="background: {{ newcolor }};"></button>
+			<button
+				ng-click="create(newCalendarInputVal,newcolor)"
+				id="submitnewCalendar"
+				class="primary icon-checkmark-white"
+				oc-click-slide-toggle="{
+					selector: '.add-new',
+					hideOnFocusLost: false,
+					cssClass: 'closed'
+				}">
+			</button>
+		</form>
+	</fieldset>
+</div>

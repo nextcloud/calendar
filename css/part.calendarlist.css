@@ -54,6 +54,11 @@
 	display: inline-block;
 }
 
+#calendarlist, #subscriptionlist {
+	height:205px;
+	overflow-y: scroll; 
+}
+
 #app-navigation li > a {
 	padding: 0 25px !important;
 }
@@ -102,7 +107,6 @@
 	content: '+';
 	font-weight: bold;
 	font-size: 150%;
-	top:0px;
 	left:8px;
 }
 
