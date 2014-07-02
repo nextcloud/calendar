@@ -265,6 +265,12 @@ app.controller('CalendarListController', ['$scope','Restangular','CalendarModel'
 			$scope.addEvent(newid); // Switches watch in CalController
 		};
 
+        $scope.eventFilter = function() {
+            return function(item) {
+                return item.components.vevent === true;
+            };
+        };
+
 	}
 ]);
 

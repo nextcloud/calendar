@@ -61,7 +61,7 @@
 	</fieldset>
 </li>
 <loading></loading>
-<li ng-repeat="calendar in calendars|orderBy:'reverse'"
+<li ng-repeat="calendar in calendars|orderBy:'reverse'|filter: eventFilter()"
 	ng-class="{ active: calendar.id == route.id }">
 	<span class="calendarCheckbox" style="background-color:{{ calendar.color }}"></span>
 	<a href="#/" ng-click="addRemoveEventSource(calendar.id)">
