@@ -54,8 +54,8 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
             }
         });
 
-		$scope.$watch('eventsmodel.id', function (newid, oldid) {
-
+		$scope.$watch('eventsmodel.calid', function (newid, oldid) {
+			newid = newid.id;
 			$scope.uiConfig = {
 				calendar : {
 					height: $(window).height() - $('#controls').height() - $('#header').height(),
@@ -118,7 +118,7 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 			if (newid !== '') {
 				$scope.addRemoveEventSources(newid,$scope.calendar);
 			}
-		});
+		}, true);
 
 		$scope.$watch('calendarmodel.modelview', function (newview, oldview) {
 			$scope.changeView = function(newview,calendar) {

@@ -82,8 +82,8 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
             }
         });
 
-		$scope.$watch('eventsmodel.id', function (newid, oldid) {
-
+		$scope.$watch('eventsmodel.calid', function (newid, oldid) {
+			newid = newid.id;
 			$scope.uiConfig = {
 				calendar : {
 					height: $(window).height() - $('#controls').height() - $('#header').height(),
@@ -146,7 +146,7 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 			if (newid !== '') {
 				$scope.addRemoveEventSources(newid,$scope.calendar);
 			}
-		});
+		}, true);
 
 		$scope.$watch('calendarmodel.modelview', function (newview, oldview) {
 			$scope.changeView = function(newview,calendar) {
@@ -571,7 +571,10 @@ app.factory('EventsModel', function () {
 	var EventsModel = function () {
 		this.events = [];
 		this.eventsUid = {};
-		this.id = ''; // required for switching the calendars on the fullcalendar
+		this.calid = {
+			id: '',
+			changer: ''
+		}; // required for switching the calendars on the fullcalendar
 	};
 
 	EventsModel.prototype = {
@@ -609,10 +612,11 @@ app.factory('EventsModel', function () {
 			return 0;
 		},
 		addEvent: function(id) {
-			this.id= id;
+			this.calid.changer = Math.random(1000); 
+			this.calid.id = id;
 		},
 		getEvent: function() {
-			return this.id;
+			return this.calid;
 		},
 		getAll : function () {
 			return this.events;

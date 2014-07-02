@@ -26,7 +26,10 @@ app.factory('EventsModel', function () {
 	var EventsModel = function () {
 		this.events = [];
 		this.eventsUid = {};
-		this.id = ''; // required for switching the calendars on the fullcalendar
+		this.calid = {
+			id: '',
+			changer: ''
+		}; // required for switching the calendars on the fullcalendar
 	};
 
 	EventsModel.prototype = {
@@ -64,10 +67,11 @@ app.factory('EventsModel', function () {
 			return 0;
 		},
 		addEvent: function(id) {
-			this.id= id;
+			this.calid.changer = Math.random(1000); 
+			this.calid.id = id;
 		},
 		getEvent: function() {
-			return this.id;
+			return this.calid;
 		},
 		getAll : function () {
 			return this.events;
