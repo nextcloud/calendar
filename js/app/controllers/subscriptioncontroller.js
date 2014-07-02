@@ -41,7 +41,7 @@
 
 		$scope.create = function(newSubscriptionInputVal) {
 			var newSubscription = {
-				"type": $scope.selectedsubscriptionbackendmodel,
+				"type": $scope.selectedsubscriptionbackendmodel.type,
 				"url": $scope.newSubscriptionUrl,
 			};
 			subscriptionResource.post(newSubscription).then(function (newSubscription) {

@@ -44,11 +44,11 @@
 			</fieldset>
 			<fieldset>
 				<label><?php p($l->t('Backend')); ?></label>
-				<select id="backendoptions"
-					name="backendoptions"
+				<select id="subscription"
+					name="subscription"
 					ng-model="selectedsubscriptionbackendmodel"
-					ng-options="subscription for subscription in subscriptiontypeSelect"
-					ng-selected="selectedsubscriptionbackend">
+					ng-options="subscription.name for subscription in subscriptiontypeSelect"
+					ng-selected="selectedsubscriptionbackend.type">
 				</select>
 			</fieldset>
 			<button

@@ -25,7 +25,7 @@
 	var SubscriptionModel = function () {
 		this.subscriptions = [];
 		this.subscriptionId = {};
-		this.subscriptionname = [];
+		this.subscriptiondetails = [];
 	};
 
 	SubscriptionModel.prototype = {
@@ -68,10 +68,13 @@
 		getsubscriptionnames : function (backendobject) {
 			for (var i = 0; i<backendobject.length; i++) {
 				for (var j = 0; j<backendobject[i].subscriptions.length; j++) {
-					this.subscriptionname[j] = backendobject[i].subscriptions[j].name;
+					this.subscriptiondetails = [{
+						"name": backendobject[i].subscriptions[j].name,
+						"type" : backendobject[i].subscriptions[j].type
+					}];
 				}
 			}
-			return this.subscriptionname;
+			return this.subscriptiondetails;
 		} 
 	};
 
