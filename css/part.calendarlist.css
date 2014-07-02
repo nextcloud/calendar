@@ -31,6 +31,15 @@
 	height:auto;
 }
 
+#datepickercontainer {
+	height:85px;
+}
+
+#scrollable {
+	height:77%;
+	overflow-y: scroll;
+}
+
 #app-navigation #buttonarea {
 	height:44px;
 }
@@ -52,11 +61,6 @@
 
 #app-navigation .active .utils {
 	display: inline-block;
-}
-
-#calendarlist, #subscriptionlist {
-	height:205px;
-	overflow-y: scroll; 
 }
 
 #app-navigation li > a {
@@ -103,7 +107,8 @@
 }
 
 #newCalendar span:before, #newSubscription span:before {
-	position: absolute;
+	margin-left: -18px;
+	margin-right: 5px;
 	content: '+';
 	font-weight: bold;
 	font-size: 150%;
