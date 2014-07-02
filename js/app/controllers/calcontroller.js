@@ -37,22 +37,22 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 		});
 		//$scope.defaultView = viewResource.get();
 
-        $scope.eventSource = {};
-        $scope.calendars = $scope.calendarmodel.getAll();
-        angular.forEach($scope.calendars, function (value,key) {
-            if ($scope.eventSource[value.id] === undefined) {
-                $scope.eventSource[value.id] = {
-                    events: function (start, end, timezone, callback) {
-                        Restangular.one('calendars', value.id).getList('events').then(function (eventsobject) {
-                            callback(EventsModel.addalldisplayfigures(eventsobject));
-                        });
-                    },
-                    color: value.color,
-                    editable: value.cruds.update,
-                    id: value.id
-                };
-            }
-        });
+		$scope.eventSource = {};
+		$scope.calendars = $scope.calendarmodel.getAll();
+		angular.forEach($scope.calendars, function (value,key) {
+			if ($scope.eventSource[value.id] === undefined) {
+				$scope.eventSource[value.id] = {
+					events: function (start, end, timezone, callback) {
+						Restangular.one('calendars', value.id).getList('events').then(function (eventsobject) {
+							callback(EventsModel.addalldisplayfigures(eventsobject));
+						});
+					},
+					color: value.color,
+					editable: value.cruds.update,
+					id: value.id
+				};
+			}
+		});
 
 		$scope.$watch('eventsmodel.calid', function (newid, oldid) {
 			newid = newid.id;
