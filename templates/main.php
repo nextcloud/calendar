@@ -77,6 +77,7 @@
 				<?php print_unescaped($this->inc('part.createcalendar')); ?>
 				<?php print_unescaped($this->inc('part.calendarlist')); ?>
 			</div>
+			<div id="spacer"></div><!-- Creates space between Subscriptionlist and Calendarlist.-->
 			<div ng-controller="SubscriptionController">
 				<?php print_unescaped($this->inc('part.createsubscription')); ?>
 				<?php print_unescaped($this->inc('part.subscriptionlist')); ?>

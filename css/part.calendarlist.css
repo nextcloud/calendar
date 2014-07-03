@@ -173,3 +173,7 @@
 	background: rgba(0, 0, 0, 0) !important;
 	border-color: #aaa;
 }
+
+#spacer {
+	height:44px;
+}
