@@ -94,6 +94,7 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 				};
 				if (value.enabled === true) {
 					initEventSources.push($scope.eventSource[value.id]);
+					switcher.push(value.id);
 				}
 			}
 		});
