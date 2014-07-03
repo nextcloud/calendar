@@ -29,11 +29,6 @@ app.controller('CalendarListController', ['$scope','Restangular','CalendarModel'
 		// Gets All Calendars.
 		calendarResource.getList().then(function (calendars) {
 			CalendarModel.addAll(calendars);
-			angular.forEach($scope.calendars, function (value,key) {
-				Restangular.one('calendars', value.id).getList('events').then(function (eventsobject) {
-					console.log(eventsobject);
-				});
-			});
 		});
 		
 		$scope.newcolor = '';

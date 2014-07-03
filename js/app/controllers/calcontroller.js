@@ -39,6 +39,68 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 
 		$scope.eventSource = {};
 		$scope.calendars = $scope.calendarmodel.getAll();
+
+		$scope.addRemoveEventSources = function (newid,calendar) {
+			$scope.i++;
+			if (switcher.indexOf(newid) > -1) {
+				switcher.splice(switcher.indexOf(newid),1);
+				calendar.fullCalendar('removeEventSource', $scope.eventSource[newid]);
+			} else {
+				switcher[$scope.i] = newid;
+				calendar.fullCalendar('addEventSource', $scope.eventSource[newid]);
+			}
+		};
+
+		$scope.uiConfig = {
+			calendar : {
+				height: $(window).height() - $('#controls').height() - $('#header').height(),
+				editable: true,
+				selectable: true,
+				selectHelper: true,
+				select: $scope.newEvent,
+				eventClick: $scope.editEvent,
+				defaultView: $scope.defaultView,
+				//eventColor: $scope.currentcalendar.color,
+				header:{
+					left: '',
+					center: '',
+					right: ''
+				},
+				columnFormat: {
+					month: t('calendar', 'ddd'),
+					week: t('calendar', 'ddd M/d'),
+					day: t('calendar', 'dddd M/d')
+				},
+				titleFormat: {
+					month: t('calendar', 'MMMM yyyy'),
+					week: t('calendar', "MMM d[ yyyy]{ '–'[ MMM] d yyyy}"),
+					day: t('calendar', 'dddd, MMM d, yyyy'),
+				},
+				viewRender : function(view) {
+					$('#datecontrol_current').html($('<p>').html(view.title).text());
+					$( "#datecontrol_date" ).datepicker("setDate", $scope.calendar.fullCalendar('getDate'));
+					var newview = view.name;
+					if (newview != 'month') {
+						viewResource.get().then(function(newview) {
+							ViewModel.add(newview);
+						});
+						$scope.defaultView = newview;
+					}
+					if(newview === 'agendaDay') {
+						$('td.fc-state-highlight').css('background-color', '#ffffff');
+					} else {
+						$('td.fc-state-highlight').css('background-color', '#ffc');
+					}
+					if (newview == 'agendaWeek') {
+						$scope.calendar.fullCalendar('option', 'aspectRatio', 0.1);
+					} else {
+						$scope.calendar.fullCalendar('option', 'aspectRatio', 1.35);
+					}
+				},
+			},
+		};
+
+		
 		angular.forEach($scope.calendars, function (value,key) {
 			if ($scope.eventSource[value.id] === undefined) {
 				$scope.eventSource[value.id] = {
@@ -56,65 +118,6 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 
 		$scope.$watch('eventsmodel.calid', function (newid, oldid) {
 			newid = newid.id;
-			$scope.uiConfig = {
-				calendar : {
-					height: $(window).height() - $('#controls').height() - $('#header').height(),
-					editable: true,
-					selectable: true,
-					selectHelper: true,
-					select: $scope.newEvent,
-					eventClick: $scope.editEvent,
-					defaultView: $scope.defaultView,
-					//eventColor: $scope.currentcalendar.color,
-					header:{
-						left: '',
-						center: '',
-						right: ''
-					},
-					columnFormat: {
-						month: t('calendar', 'ddd'),
-						week: t('calendar', 'ddd M/d'),
-						day: t('calendar', 'dddd M/d')
-					},
-					titleFormat: {
-						month: t('calendar', 'MMMM yyyy'),
-						week: t('calendar', "MMM d[ yyyy]{ '–'[ MMM] d yyyy}"),
-						day: t('calendar', 'dddd, MMM d, yyyy'),
-					},
-					viewRender : function(view) {
-						$('#datecontrol_current').html($('<p>').html(view.title).text());
-						$( "#datecontrol_date" ).datepicker("setDate", $scope.calendar.fullCalendar('getDate'));
-						var newview = view.name;
-						if (newview != 'month') {
-							viewResource.get().then(function(newview) {
-								ViewModel.add(newview);
-							});
-							$scope.defaultView = newview;
-						}
-						if(newview === 'agendaDay') {
-							$('td.fc-state-highlight').css('background-color', '#ffffff');
-						} else {
-							$('td.fc-state-highlight').css('background-color', '#ffc');
-						}
-						if (newview == 'agendaWeek') {
-							$scope.calendar.fullCalendar('option', 'aspectRatio', 0.1);
-						} else {
-							$scope.calendar.fullCalendar('option', 'aspectRatio', 1.35);
-						}
-					},
-				},
-			};
-
-			$scope.addRemoveEventSources = function (newid,calendar) {
-				$scope.i++;
-				if (switcher.indexOf(newid) > -1) {
-					switcher.splice(switcher.indexOf(newid),1);
-					calendar.fullCalendar('removeEventSource', $scope.eventSource[newid]);
-				} else {
-					switcher[$scope.i] = newid;
-					calendar.fullCalendar('addEventSource', $scope.eventSource[newid]);
-				}
-			};
 			if (newid !== '') {
 				$scope.addRemoveEventSources(newid,$scope.calendar);
 			}
