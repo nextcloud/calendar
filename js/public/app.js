@@ -79,6 +79,25 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 			}
 		};
 
+		var initEventSources = [];
+		angular.forEach($scope.calendars, function (value,key) {
+			if ($scope.eventSource[value.id] === undefined) {
+				$scope.eventSource[value.id] = {
+					events: function (start, end, timezone, callback) {
+						Restangular.one('calendars', value.id).getList('events').then(function (eventsobject) {
+							callback(EventsModel.addalldisplayfigures(eventsobject));
+						});
+					},
+					color: value.color,
+					editable: value.cruds.update,
+					id: value.id
+				};
+				if (value.enabled === true) {
+					initEventSources.push($scope.eventSource[value.id]);
+				}
+			}
+		});
+
 		$scope.uiConfig = {
 			calendar : {
 				height: $(window).height() - $('#controls').height() - $('#header').height(),
@@ -86,6 +105,7 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 				selectable: true,
 				selectHelper: true,
 				select: $scope.newEvent,
+				eventSources: initEventSources,
 				eventClick: $scope.editEvent,
 				defaultView: $scope.defaultView,
 				//eventColor: $scope.currentcalendar.color,
@@ -124,25 +144,9 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 					} else {
 						$scope.calendar.fullCalendar('option', 'aspectRatio', 1.35);
 					}
-				},
-			},
-		};
-
-		angular.forEach($scope.calendars, function (value,key) {
-			if ($scope.eventSource[value.id] === undefined) {
-				$scope.eventSource[value.id] = {
-					events: function (start, end, timezone, callback) {
-						Restangular.one('calendars', value.id).getList('events').then(function (eventsobject) {
-							callback(EventsModel.addalldisplayfigures(eventsobject));
-						});
-					},
-					color: value.color,
-					editable: value.cruds.update,
-					id: value.id
-				};
-				$scope.addRemoveEventSources(value.id, $scope.calendar); // This is buggy. $scope.calendar is undefined.
+				}
 			}
-		});
+		};
 
 		$scope.$watch('eventsmodel.calid', function (newid, oldid) {
 			newid = newid.id;
