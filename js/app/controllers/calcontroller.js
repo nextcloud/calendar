@@ -100,7 +100,6 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 			},
 		};
 
-		
 		angular.forEach($scope.calendars, function (value,key) {
 			if ($scope.eventSource[value.id] === undefined) {
 				$scope.eventSource[value.id] = {
@@ -113,6 +112,7 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 					editable: value.cruds.update,
 					id: value.id
 				};
+				$scope.addRemoveEventSources(value.id, $scope.calendar); // This is buggy. $scope.calendar is undefined.
 			}
 		});
 
