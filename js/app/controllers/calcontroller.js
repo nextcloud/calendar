@@ -46,7 +46,7 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 				switcher.splice(switcher.indexOf(newid),1);
 				calendar.fullCalendar('removeEventSource', $scope.eventSource[newid]);
 			} else {
-				switcher[$scope.i] = newid;
+				switcher.push(newid);
 				calendar.fullCalendar('addEventSource', $scope.eventSource[newid]);
 			}
 		};
