@@ -197,8 +197,8 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 	}
 ]);
 
-app.controller('CalendarListController', ['$scope','Restangular','CalendarModel','EventsModel','$routeParams',
-	function ($scope,Restangular,CalendarModel,EventsModel,$routeParams) {
+app.controller('CalendarListController', ['$scope','$window','$location','Restangular','CalendarModel','EventsModel','$routeParams',
+	function ($scope,$window,$location,Restangular,CalendarModel,EventsModel,$routeParams) {
 
 		$scope.calendars = CalendarModel.getAll();
 		var calendarResource = Restangular.all('calendars');
@@ -227,9 +227,7 @@ app.controller('CalendarListController', ['$scope','Restangular','CalendarModel'
 		};
 
 		$scope.download = function (id) {
-			var deletecalendarResource = Restangular.one('calendars/', id, '/export');
-			//deletecalendarResource.get(id).then( function (id) {
-			//});
+			$window.open('v1/calendars/' + id + '/export');
 		};
 
 		// Sharing Logic Comes Here.
