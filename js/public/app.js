@@ -260,32 +260,6 @@ app.controller('CalendarListController', ['$scope','Restangular','CalendarModel'
 			$scope.addEvent(newid); // Switches watch in CalController
 		};
 
-		$scope.eventFilter = function() {
-			return function(item) {
-				return item.components.vevent === true;
-			};
-		};
-
-		$scope.calendarFilter = function() {
-			return function(item) {
-				return (
-					item.cruds.create === true ||
-					item.cruds.update === true ||
-					item.cruds.delete === true
-				);
-			};
-		};
-
-		$scope.subscriptionFilter = function() {
-			return function(item) {
-				return (
-					item.cruds.create === false &&
-					item.cruds.update === false &&
-					item.cruds.delete === false
-				);
-			};
-		};
-
 	}
 ]);
 
@@ -457,27 +431,6 @@ app.controller('SubscriptionController', ['$scope', 'SubscriptionModel', 'Calend
 				SubscriptionModel.create(newSubscription);
 			});
 		};
-
-		$scope.calendarFilter = function() {
-			return function(item) {
-				return (
-					item.cruds.create === true ||
-					item.cruds.update === true ||
-					item.cruds.delete === true
-				);
-			};
-		};
-
-		// Take the filters to the filters directory, else duplication will happen.
-		$scope.subscriptionFilter = function() {
-			return function(item) {
-				return (
-					item.cruds.create === false &&
-					item.cruds.update === false &&
-					item.cruds.delete === false
-				);
-			};
-		};
 	}
 ]);
 app.directive('loading',
@@ -499,6 +452,54 @@ app.directive('loading',
 		};
 	}]
 );
+app.filter('calendarFilter',
+	[ function() {
+		var calendarfilter = function(item) {
+			var filter = [];
+			if (item.length > 0) {
+				for (var i=0; i<item.length; i++) {
+					if (item[i].cruds.create === true || item[i].cruds.update === true || item[i].cruds.delete === true) {
+						filter.push(item[i]);
+					}
+				}
+			}
+			return filter;
+		};
+		return calendarfilter;
+	}
+]);
+app.filter('eventFilter',
+	[ function() {
+		var eventfilter = function(item) {
+			var filter =[];
+			if (item.length > 0) {
+				for (var i=0; i<item.length; i++) {
+					if (item[i].components.vevent === true) {
+						filter.push(item[i]);
+					}
+				}
+			}
+			return filter;
+		};
+		return eventfilter;
+	}
+]);
+app.filter('subscriptionFilter',
+	[ function() {
+		var subscriptionfilter = function(item) {
+			var filter = [];
+			if (item.length > 0) {
+				for (var i=0; i<item.length; i++) {
+					if (item[i].cruds.create === false && item[i].cruds.update === false && item[i].cruds.delete === false) {
+						filter.push(item[i]);
+					}
+				}
+			}
+			return filter;
+		};
+		return subscriptionfilter;
+	}
+]);
 app.factory('Model', function () {
 	var Model = function () {
 		this.text = '';

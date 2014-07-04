@@ -1,4 +1,3 @@
-<?php
 /**
  * ownCloud - Calendar App
  *
@@ -21,14 +20,20 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-?>
 
-<ul id="subscriptionlist">
-	<li ng-repeat="calendar in calendars|orderBy:'reverse'| eventFilter | subscriptionFilter"
-		ng-class="{ active : false }">
-		<span class="calendarCheckbox" style="background-color:{{ calendar.color }}"></span>
-		<a href="#/" ng-click="addRemoveEventSource(calendar.id)">
-			{{ calendar.displayname }}
-		</a>
-	</li>
-</ul>
+app.filter('eventFilter',
+	[ function() {
+		var eventfilter = function(item) {
+			var filter =[];
+			if (item.length > 0) {
+				for (var i=0; i<item.length; i++) {
+					if (item[i].components.vevent === true) {
+						filter.push(item[i]);
+					}
+				}
+			}
+			return filter;
+		};
+		return eventfilter;
+	}
+]);

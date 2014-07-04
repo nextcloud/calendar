@@ -55,26 +55,5 @@
 				SubscriptionModel.create(newSubscription);
 			});
 		};
-
-		$scope.calendarFilter = function() {
-			return function(item) {
-				return (
-					item.cruds.create === true ||
-					item.cruds.update === true ||
-					item.cruds.delete === true
-				);
-			};
-		};
-
-		// Take the filters to the filters directory, else duplication will happen.
-		$scope.subscriptionFilter = function() {
-			return function(item) {
-				return (
-					item.cruds.create === false &&
-					item.cruds.update === false &&
-					item.cruds.delete === false
-				);
-			};
-		};
 	}
 ]);
