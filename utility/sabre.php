@@ -201,7 +201,7 @@ class SabreUtility extends Utility {
 
 		foreach($missingTzIds as $tzId) {
 			try {
-				$timezonesVCalendar = $tzMapper->find($tzId, null)->vobject;
+				$timezonesVCalendar = $tzMapper->find($tzId, null)->getVObject();
 				$vcalendar->add($timezonesVCalendar->{'VTIMEZONE'});
 			} catch(DoesNotExistException $ex) {
 				continue;
