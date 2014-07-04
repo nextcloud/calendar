@@ -23,7 +23,7 @@
  */
 ?>
 <ul id="calendarlist">
-	<li ng-repeat="calendar in calendars|orderBy:'reverse'| eventFilter | calendarFilter"
+	<li ng-repeat="calendar in calendars| orderBy:['order'] | eventFilter | calendarFilter"
 		ng-class="">
 		<span class="calendarCheckbox" style="background-color:{{ calendar.color }}"></span>
 		<a href="#/" ng-click="addRemoveEventSource(calendar.id)" data-id="{{ calendar.id }}">

@@ -24,7 +24,7 @@
 ?>
 
 <ul id="subscriptionlist">
-	<li ng-repeat="calendar in calendars|orderBy:'reverse'| eventFilter | subscriptionFilter"
+	<li ng-repeat="calendar in calendars | orderBy:['order'] | eventFilter | subscriptionFilter"
 		ng-class="{ active : false }">
 		<span class="calendarCheckbox" style="background-color:{{ calendar.color }}"></span>
 		<a href="#/" ng-click="addRemoveEventSource(calendar.id)">
