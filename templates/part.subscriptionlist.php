@@ -28,7 +28,7 @@
 		ng-class="{ active : false }">
 		<span class="calendarCheckbox" style="background-color:{{ calendar.color }}"></span>
 		<a href="#/" ng-click="addRemoveEventSource(calendar.id)">
-			{{ calendar.displayname }}
+			<span>{{ calendar.displayname }}</span>
 		</a>
 	</li>
 </ul>

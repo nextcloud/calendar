@@ -50,6 +50,15 @@
 	padding: 0 5px 0 0;
 }
 
+#app-navigation ul li:hover {
+	background:#ccc;
+}
+
+#app-navigation ul li:hover a {
+	width: 135px;
+	text-overflow: ellipsis;
+}
+
 #app-navigation ul li:hover .utils {
 	display:inline-block;
 }
