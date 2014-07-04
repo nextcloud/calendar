@@ -131,8 +131,8 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 					day: t('calendar', 'dddd, MMM d, yyyy'),
 				},
 				viewRender : function(view) {
-					$('#datecontrol_current').html($('<p>').html(view.title).text());
-					$( "#datecontrol_date" ).datepicker("setDate", $scope.calendar.fullCalendar('getDate'));
+					angular.element('#datecontrol_current').html($('<p>').html(view.title).text());
+					angular.element("#datecontrol_date").datepicker("setDate", $scope.calendar.fullCalendar('getDate'));
 					var newview = view.name;
 					if (newview != 'month') {
 						viewResource.get().then(function(newview) {
@@ -141,9 +141,9 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 						$scope.defaultView = newview;
 					}
 					if(newview === 'agendaDay') {
-						$('td.fc-state-highlight').css('background-color', '#ffffff');
+						angular.element('td.fc-state-highlight').css('background-color', '#ffffff');
 					} else {
-						$('td.fc-state-highlight').css('background-color', '#ffc');
+						angular.element('td.fc-state-highlight').css('background-color', '#ffc');
 					}
 					if (newview == 'agendaWeek') {
 						$scope.calendar.fullCalendar('option', 'aspectRatio', 0.1);
