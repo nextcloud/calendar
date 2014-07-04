@@ -50,7 +50,11 @@
 	padding: 0 5px 0 0;
 }
 
-#app-navigation .utils .action span {
+#app-navigation ul li:hover .utils {
+	display:inline-block;
+}
+
+#app-navigation ul li:hover .utils .action span {
 	display: inline-block;
 	line-height: 44px;
 	height: 16px;
@@ -59,7 +63,7 @@
 	cursor: pointer;
 }
 
-#app-navigation .active .utils {
+#app-navigation li.active:hover .utils {
 	display: inline-block;
 }
 
@@ -69,14 +73,6 @@
 
 #app-navigation .active {
 	background: #ccc;
-}
-
-#chooseCalendar-share,
-#chooseCalendar-showCalDAVURL,
-#chooseCalendar-download,
-#chooseCalendar-edit,
-#chooseCalendar-delete {
-	background-color: #ddd !important;
 }
 
 #app-navigation .active:hover #chooseCalendar-share,
