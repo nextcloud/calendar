@@ -44,10 +44,12 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 			$scope.i++;
 			if (switcher.indexOf(newid) > -1) {
 				switcher.splice(switcher.indexOf(newid),1);
+				Restangular.one('calendars', newid).patch({'enabled' : false});
 				calendar.fullCalendar('removeEventSource', $scope.eventSource[newid]);
 				angular.element('#calendarlist li a[data-id=' + newid + ']').parent().removeClass('active');
 			} else {
 				switcher.push(newid);
+				Restangular.one('calendars', newid).patch({'enabled' : true});
 				calendar.fullCalendar('addEventSource', $scope.eventSource[newid]);
 				angular.element('#calendarlist li a[data-id=' + newid + ']').parent().addClass('active');
 			}
