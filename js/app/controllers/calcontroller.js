@@ -45,9 +45,11 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 			if (switcher.indexOf(newid) > -1) {
 				switcher.splice(switcher.indexOf(newid),1);
 				calendar.fullCalendar('removeEventSource', $scope.eventSource[newid]);
+				angular.element('#calendarlist li a[data-id=' + newid + ']').parent().removeClass('active');
 			} else {
 				switcher.push(newid);
 				calendar.fullCalendar('addEventSource', $scope.eventSource[newid]);
+				angular.element('#calendarlist li a[data-id=' + newid + ']').parent().addClass('active');
 			}
 		};
 
@@ -67,6 +69,7 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 				if (value.enabled === true) {
 					initEventSources.push($scope.eventSource[value.id]);
 					switcher.push(value.id);
+					angular.element('#calendarlist li a[data-id=' + value.id + ']').parent().addClass('active');
 				}
 			}
 		});
