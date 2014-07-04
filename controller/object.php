@@ -439,7 +439,7 @@ class ObjectController extends Controller {
 				), HTTP::STATUS_FORBIDDEN);
 			}
 
-			$mimeType = 'text/calendar';
+			$mimeType = 'application/octet-stream';
 
 			$filename  = $calendar->getPublicUri();
 			$filename .= '.ics';
