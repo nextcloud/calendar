@@ -357,15 +357,7 @@ class WebCal extends Backend {
 		$this->prepareRequest($curl, $url);
 		$this->getRequestData($curl, $data);
 		$this->validateRequest($curl);
-		$this->getVObjectFromData($data);
-	}
 
-
-	/**
-	 * @param $data
-	 * @throws \OCP\Calendar\BackendException
-	 */
-	private function getVObjectFromData($data) {
 		try {
 			$vobject = Reader::read($data);
 
@@ -373,9 +365,6 @@ class WebCal extends Backend {
 			if (!($vobject instanceof VCalendar)) {
 				throw new ParseException();
 			}
-
-			$calendar = new Calendar();
-			$calendar->fromVObject($vobject);
 		} catch(ParseException $ex) {
 			throw new BackendException('Calendar-data is not valid!');
 		}
