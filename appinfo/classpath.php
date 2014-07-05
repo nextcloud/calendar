@@ -146,7 +146,7 @@
 \OC::$CLASSPATH['OCP\Calendar\Backend'] = 'calendar/public/backend.php';
 \OC::$CLASSPATH['OCP\Calendar\IFullyQualifiedBackendAPI'] = 'calendar/public/ibackendapi_all.php';
 \OC::$CLASSPATH['OCP\Calendar\IBackendAPI'] = 'calendar/public/ibackendapi.php';
-\OC::$CLASSPATH['OCP\Calendar\BackendException'] = 'calendar/public/.php';
+\OC::$CLASSPATH['OCP\Calendar\BackendException'] = 'calendar/public/backendexception.php';
 \OC::$CLASSPATH['OCP\Calendar\CacheOutDatedException'] = 'calendar/public/cacheoutdatedexception.php';
 \OC::$CLASSPATH['OCP\Calendar\Calendar'] = 'calendar/public/calendar.php';
 \OC::$CLASSPATH['OCP\Calendar\CorruptDataException'] = 'calendar/public/corruptdataexception.php';
