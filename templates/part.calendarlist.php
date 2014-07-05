@@ -23,11 +23,10 @@
  */
 ?>
 <ul id="calendarlist">
-	<li ng-repeat="calendar in calendars| orderBy:['order'] | eventFilter | calendarFilter"
-		ng-class="">
+	<li ng-repeat="calendar in calendars| orderBy:['order'] | eventFilter | calendarFilter">
 		<span class="calendarCheckbox" style="background-color:{{ calendar.color }}"></span>
 		<a href="#/" ng-click="addRemoveEventSource(calendar.id)" data-id="{{ calendar.id }}">
-		<span>{{ calendar.displayname }}</span>
+			<span>{{ calendar.displayname }}</span>
 		</a>
 		<span class="utils">
 			<span class="action">
@@ -41,7 +40,7 @@
 				</span>
 			</span>
 			<span class="action">
-				<span id="chooseCalendar-showCalDAVURL" data-user="{{ calendar.ownwerid }}" data-caldav="" title="CalDav Link" class="icon-public permanent"></span>
+				<span id="chooseCalendar-showCalDAVURL" data-user="{{ calendar.ownwerid }}" data-caldav="" title="CalDav Link" class="icon-public permanent" ng-click="toggleCalDAV($index)"></span>
 			</span>
 			<span class="action">
 				<span
@@ -64,21 +63,9 @@
 				</span>
 			</span>
 		</span>
-		<!-- form for sharing input -->
-		<!--<fieldset class="personalblock share-dropdown">
-			<form>
-				<input type="text" ng-model="shareInputVal" autofocus />
-				<button
-					ng-click="share(shareInputVal,calendar.id )"
-					class="primary"
-					oc-click-slide-toggle="{
-						selector: '.share-dropdown',
-						hideOnFocusLost: false,
-						cssClass: 'closed'
-					}">
-					<?php p($l->t('Share')); ?>
-				</button>
-			</form>
-		</fieldset>-->
+		<fieldset ng-show="calDAVfieldset[$index]" class="caldavURL">
+			<input type="text"  ng-model="calDAVmodel" ng-focus="calDAVmodelfocus" />
+			<button id="chooseCalendar-close" class="primary" ng-click="hidecalDAVfieldset($index)">&lt;</button>
+		</fieldset>
 	</li>
 </ul>

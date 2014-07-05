@@ -210,6 +210,10 @@ app.controller('CalendarListController', ['$scope','$window','$location','Restan
 		$scope.newcolor = '';
 		$scope.newCalendarInputVal = '';
 
+		$scope.calDAVfieldset = [];
+		$scope.calDAVmodel = 'blah';
+		$scope.i = []; // Needed for only one CalDAV Input opening.
+
 		// Create a New Calendar
 		$scope.create = function (newCalendarInputVal, newcolor) {
 			var newCalendar = {
@@ -239,6 +243,21 @@ app.controller('CalendarListController', ['$scope','$window','$location','Restan
 			//calendarResource.post().then(function (calendar) {
 			//	CalendarModel.updateIfExists(calendar);
 			//});
+		};
+
+		// CalDAV display - hide logic goes here.
+		$scope.toggleCalDAV = function ($index) {
+			$scope.i.push($index);
+
+			for (var i=0; i<$scope.i.length - 1; i++) {
+				$scope.calDAVfieldset[i] = false;
+			}
+
+			$scope.calDAVfieldset[$index] = true;
+
+			$scope.hidecalDAVfieldset = function ($index) {
+				$scope.calDAVfieldset[$index] = false;
+			};
 		};
 
 		// To Delete a Calendar

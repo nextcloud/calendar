@@ -179,6 +179,10 @@
 	border-color: #aaa;
 }
 
+.caldavURL input {
+	width:80%;
+}
+
 #spacer {
 	height:44px;
 }
