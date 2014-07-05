@@ -452,12 +452,15 @@ abstract class Collection implements ICollection {
 
 	/**
 	 * iterate over each entity of collection
-	 * @param callable $function
+	 * @param callable $function breaks when callable returns false
 	 * @return $this
 	 */
 	public function iterate($function) {
 		foreach($this->objects as &$object) {
-			$function($object);
+			$return = $function($object);
+			if ($return === false) {
+				break;
+			}
 		}
 
 		return $this;
