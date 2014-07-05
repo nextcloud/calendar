@@ -38,6 +38,14 @@ interface IBackendCollection extends ICollection {
 
 
 	/**
+	 * get a backend by a subscription type it supports
+	 * @param string $type
+	 * @return IBackend
+	 */
+	public function bySubscriptionType($type);
+
+
+	/**
 	 * @param $backendName
 	 * @return IBackend
 	 */

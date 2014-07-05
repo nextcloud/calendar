@@ -92,6 +92,23 @@ class WebCal extends Backend {
 
 
 	/**
+	 * @param ISubscription $subscription
+	 * @throws BackendException
+	 * @return bool
+	 */
+	public function validateSubscription(ISubscription &$subscription) {
+		if ($subscription->getType() !== $this->getBackendIdentifier()) {
+			throw new BackendException('Subscription-type not supported');
+		}
+
+		$this->validateSubscriptionUrl($subscription);
+		$this->sendTestRequest($subscription);
+
+		return true;
+	}
+
+
+	/**
 	 * returns information about a certain calendar
 	 * @param string $calendarURI
 	 * @param string $userId
@@ -210,8 +227,6 @@ class WebCal extends Backend {
 	 * @throws CorruptDataException
 	 */
 	private function generateCalendar(ISubscription $subscription) {
-		$this->checkUrlScheme($subscription);
-
 		$curl = curl_init();
 		$url = $subscription->getUrl();
 		$data = null;
@@ -222,11 +237,11 @@ class WebCal extends Backend {
 		$this->stripOfObjectData($data);
 
 		try {
-			/** @var \OCA\Calendar\Sabre\VObject\Component\VCalendar $vobject */
 			$vobject = Reader::read($data);
 
+			//Is it an address-book instead of a calendar?
 			if (!($vobject instanceof VCalendar)) {
-				throw new ParseException('Not a calendar');
+				throw new ParseException();
 			}
 
 			$calendar = new Calendar();
@@ -247,52 +262,6 @@ class WebCal extends Backend {
 		$calendar->setCtag(time());
 
 		return $calendar;
-	}
-
-
-	/**
-	 * validate protocol of subscription url
-	 *  - if none is set, it'll use http and update the subscription
-	 *  - if webcal is set, it'll use https and update the subscription
-	 *
-	 * @param ISubscription $subscription
-	 * @throws \OCP\Calendar\CorruptDataException if protocol is not supported
-	 */
-	private function checkUrlScheme(ISubscription &$subscription) {
-		$url = $subscription->getUrl();
-		$parsed = parse_url($url);
-
-		if (!$parsed) {
-			$this->subscriptions->delete($subscription);
-			$subscription = null;
-
-			throw new CorruptDataException('URL not processable', Http::STATUS_UNPROCESSABLE_ENTITY);
-		}
-
-		if (!isset($parsed['scheme'])) {
-			//TODO - try to use https first
-			$newUrl  = 'http://';
-			$newUrl .= $url;
-
-			$subscription->setUrl($newUrl);
-			$subscription = $this->subscriptions->update($subscription);
-			$parsed['scheme'] = 'http';
-		}
-
-		if ($parsed['scheme'] === 'webcal') {
-			$newUrl = preg_replace("/^webcal:/i", "http:", $url);
-
-			$subscription->setUrl($newUrl);
-			$subscription = $this->subscriptions->update($subscription);
-			$parsed['scheme'] = 'http';
-		}
-
-		if ($parsed['scheme'] !== 'http' && $parsed['scheme'] !== 'https') {
-			$this->subscriptions->delete($subscription);
-			$subscription = null;
-
-			throw new CorruptDataException('Protocol not supported', Http::STATUS_UNPROCESSABLE_ENTITY);
-		}
 	}
 
 
@@ -325,7 +294,7 @@ class WebCal extends Backend {
 			}
 
 			if ($this->isClientSideError($responseCode)) {
-				throw new CorruptDataException('Client side error occurred', $responseCode);
+				throw new BackendException('Client side error occurred', $responseCode);
 			}
 
 			if ($this->isServerSideError($responseCode)) {
@@ -335,7 +304,80 @@ class WebCal extends Backend {
 		}
 
 		if (!$this->isContentTypeValid($contentType)) {
-			throw new CorruptDataException('URL doesn\'t contain valid calendar data', Http::STATUS_UNPROCESSABLE_ENTITY);
+			throw new BackendException('URL doesn\'t contain valid calendar data', Http::STATUS_UNPROCESSABLE_ENTITY);
+		}
+	}
+
+
+	/**
+	 * validates a subscription's url
+	 * @param ISubscription $subscription
+	 * @throws \OCP\Calendar\BackendException
+	 */
+	private function validateSubscriptionUrl(ISubscription &$subscription) {
+		$url = $subscription->getUrl();
+		$parsed = parse_url($url);
+
+		if (!$parsed) {
+			throw new BackendException('URL not processable');
+		}
+
+		if (!isset($parsed['scheme'])) {
+			//TODO - try to use https first
+			$newUrl  = 'http://';
+			$newUrl .= $url;
+
+			$subscription->setUrl($newUrl);
+			$parsed['scheme'] = 'http';
+		}
+
+		if ($parsed['scheme'] === 'webcal') {
+			$newUrl = preg_replace("/^webcal:/i", "http:", $url);
+
+			$subscription->setUrl($newUrl);
+			$parsed['scheme'] = 'http';
+		}
+
+		if ($parsed['scheme'] !== 'http' && $parsed['scheme'] !== 'https') {
+			throw new BackendException('Protocol not supported');
+		}
+	}
+
+
+	/**
+	 *
+	 * @param ISubscription $subscription
+	 * @throws \OCP\Calendar\BackendException
+	 */
+	private function sendTestRequest(ISubscription &$subscription) {
+		$curl = curl_init();
+		$url = $subscription->getUrl();
+		$data = null;
+
+		$this->prepareRequest($curl, $url);
+		$this->getRequestData($curl, $data);
+		$this->validateRequest($curl);
+		$this->getVObjectFromData($data);
+	}
+
+
+	/**
+	 * @param $data
+	 * @throws \OCP\Calendar\BackendException
+	 */
+	private function getVObjectFromData($data) {
+		try {
+			$vobject = Reader::read($data);
+
+			//Is it an address-book instead of a calendar?
+			if (!($vobject instanceof VCalendar)) {
+				throw new ParseException();
+			}
+
+			$calendar = new Calendar();
+			$calendar->fromVObject($vobject);
+		} catch(ParseException $ex) {
+			throw new BackendException('Calendar-data is not valid!');
 		}
 	}
 

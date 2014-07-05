@@ -153,8 +153,9 @@ class App extends \OCP\AppFramework\App {
 		$this->getContainer()->registerService('SubscriptionController', function(IAppContainer $c) {
 			$req = $c->query('Request');
 			$sbl = $c->query('SubscriptionBusinessLayer');
+			$bds = $c->query('backends');
 
-			return new SubscriptionController($c, $req, $sbl);
+			return new SubscriptionController($c, $req, $sbl, $bds);
 		});
 		$this->getContainer()->registerService('TimezoneController', function(IAppContainer $c) {
 			$req = $c->query('Request');

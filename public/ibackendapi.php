@@ -83,6 +83,14 @@ interface IBackendAPI {
 
 
 	/**
+	 * @param ISubscription $subscription
+	 * @throws BackendException
+	 * @return bool
+	 */
+	public function validateSubscription(ISubscription &$subscription);
+
+
+	/**
 	 * returns information about calendar $calendarURI of the user $userId
 	 * @param string $calendarURI
 	 * @param string $userId

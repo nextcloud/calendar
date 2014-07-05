@@ -166,6 +166,16 @@ abstract class Backend implements IBackendAPI {
 
 
 	/**
+	 * @param ISubscription $subscription
+	 * @throws BackendException
+	 * @return bool
+	 */
+	public function validateSubscription(ISubscription &$subscription) {
+		throw new BackendException('Subscription is not supported');
+	}
+
+
+	/**
 	 * get a certain calendar
 	 * @param string $privateuri
 	 * @param string $userId

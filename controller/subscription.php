@@ -24,6 +24,8 @@ namespace OCA\Calendar\Controller;
 use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\Calendar\BackendException;
+use OCP\Calendar\IBackendCollection;
 use OCP\IRequest;
 use OCP\Calendar\ISubscription;
 use OCP\Calendar\ISubscriptionCollection;
@@ -39,6 +41,13 @@ use OCA\Calendar\Http\SerializerException;
 class SubscriptionController extends Controller {
 
 	/**
+	 * backends
+	 * @var IBackendCollection
+	 */
+	protected $backends;
+
+
+	/**
 	 * subscription businesslayer
 	 * @var SubscriptionBusinessLayer
 	 */
@@ -50,11 +59,14 @@ class SubscriptionController extends Controller {
 	 * @param IAppContainer $app interface to the app
 	 * @param IRequest $request an instance of the request
 	 * @param SubscriptionBusinessLayer $subscriptions
+	 * @param IBackendCollection $backends
 	 */
 	public function __construct(IAppContainer $app, IRequest $request,
-								SubscriptionBusinessLayer $subscriptions) {
+								SubscriptionBusinessLayer $subscriptions,
+								IBackendCollection $backends) {
 		parent::__construct($app, $request);
 		$this->subscriptions = $subscriptions;
+		$this->backends = $backends;
 
 		$this->registerReader('json', function($handle) use ($app) {
 			$reader = new JSONSubscriptionReader($app, $handle);
@@ -143,6 +155,22 @@ class SubscriptionController extends Controller {
 			if ($subscription instanceof ISubscription) {
 				$subscription->setUserId($userId);
 
+				$backend = $this->backends->bySubscriptionType(
+					$subscription->getType()
+				);
+
+				if ($backend === null) {
+					throw new ReaderException(
+						'Subscription-type not supported'
+					);
+				}
+
+				try {
+					$backend->getAPI()->validateSubscription($subscription);
+				} catch(BackendException $ex) {
+					throw new ReaderException($ex->getMessage());
+				}
+
 				return $this->subscriptions->create(
 					$subscription
 				);
@@ -192,6 +220,22 @@ class SubscriptionController extends Controller {
 			if ($subscription instanceof ISubscription) {
 				$subscription->setUserId($userId);
 				$subscription->setId($subscriptionId);
+
+				$backend = $this->backends->bySubscriptionType(
+					$subscription->getType()
+				);
+
+				if ($backend === null) {
+					throw new ReaderException(
+						'Subscription-type not supported'
+					);
+				}
+
+				try {
+					$backend->getAPI()->validateSubscription($subscription);
+				} catch(BackendException $ex) {
+					throw new ReaderException($ex->getMessage());
+				}
 
 				return $this->subscriptions->update(
 					$subscription

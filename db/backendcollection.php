@@ -21,6 +21,8 @@
  */
 namespace OCA\Calendar\Db;
 
+use OCP\Calendar\IBackend;
+use OCP\Calendar\IBackendAPI;
 use OCP\Calendar\IBackendCollection;
 
 class BackendCollection extends Collection implements IBackendCollection {
@@ -40,6 +42,36 @@ class BackendCollection extends Collection implements IBackendCollection {
 	 */
 	public function disabled() {
 		return $this->search('enabled', false);
+	}
+
+
+	/**
+	 * get a backend by a subscription type it supports
+	 * @param string $type
+	 * @return IBackend
+	 */
+	public function bySubscriptionType($type) {
+		$b = null;
+
+		$this->iterate(function(IBackend $backend) use ($type, &$b) {
+			if (!($backend->getAPI() instanceof IBackendAPI)) {
+				return true;
+			}
+
+			$api = $backend->getAPI();
+			$subscriptions = $api->getSubscriptionTypes();
+			foreach($subscriptions as $subscription) {
+				if (isset($subscription['type']) &&
+					$subscription['type'] === $type) {
+					$b = $backend;
+					return false;
+				}
+			}
+
+			return true;
+		});
+
+		return $b;
 	}
 
 
