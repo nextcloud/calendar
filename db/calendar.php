@@ -27,6 +27,7 @@ use OCP\Calendar\ITimezone;
 use OCA\Calendar\Sabre\VObject\Component\VCalendar;
 use OCA\Calendar\Utility\CalendarUtility;
 use OCA\Calendar\Utility\ColorUtility;
+use OCA\Calendar\Utility\SabreUtility;
 
 class Calendar extends Entity implements ICalendar {
 
@@ -124,6 +125,16 @@ class Calendar extends Entity implements ICalendar {
 	 * @var integer
 	 */
 	public $lastObjectUpdate;
+
+
+	/**
+	 * @var array
+	 */
+	private $icsMapper = array(
+		'displayname' => 'X-WR-CALNAME',
+		'description' => 'X-WR-CALDESC',
+		'color' => 'X-APPLE-CALENDAR-COLOR',
+	);
 
 
 	/**
@@ -491,34 +502,18 @@ class Calendar extends Entity implements ICalendar {
 	 * @return $this
 	 */
 	public function fromVObject(VCalendar $vcalendar) {
-		foreach($vcalendar->select('X-WR-CALNAME') as $displayname) {
-			/**	@var \OCA\Calendar\Sabre\VObject\Property $displayname */
-			$this->setDisplayname($displayname->getValue());
-			break;
-		}
-
-		foreach($vcalendar->select('X-WR-CALDESC') as $description) {
-			/**	@var \OCA\Calendar\Sabre\VObject\Property $description */
-			$this->setDescription($description->getValue());
-			break;
-		}
-
-		foreach($vcalendar->select('X-WR-TIMEZONE') as $timezone) {
-			/**	@var \OCA\Calendar\Sabre\VObject\Property $timezone */
-			$timezoneId = $timezone->getValue();
-			foreach($vcalendar->select('VTIMEZONE') as $vtimezone) {
-				if($vtimezone->TZID === $timezoneId) {
-					$this->setTimezone(new Timezone($vtimezone));
-					break;
-				}
+		foreach ($this->icsMapper as $classvar => $icsproperty) {
+			$setter = 'set' . ucfirst($classvar);
+			$value = $vcalendar->select($icsproperty);
+			if (!empty($value)) {
+				$this->$setter(reset($value));
 			}
-			break;
 		}
 
-		foreach($vcalendar->select('X-APPLE-CALENDAR-COLOR') as $color) {
-			/**	@var \OCA\Calendar\Sabre\VObject\Property $color */
-			$this->setColor($color->getValue());
-			break;
+		$tzId = $vcalendar->select('X-WR-TIMEZONE');
+		$tz = SabreUtility::getTimezoneFromVObject($vcalendar, $tzId);
+		if ($tz) {
+			$this->setTimezone($tz);
 		}
 
 		return $this;
@@ -530,33 +525,17 @@ class Calendar extends Entity implements ICalendar {
 	 * @return VCalendar object
 	 */
 	public function getVObject() {
-		$properties = array();
-		$add = array();
+		$vcalendar = new VCalendar();
 
-		$displayname = $this->getDisplayname();
-		if ($displayname !== null) {
-			$properties['X-WR-CALNAME'] = $displayname;
+		foreach ($this->icsMapper as $classvar => $icsproperty) {
+			if ($this->$classvar !== null) {
+				$vcalendar->$icsproperty = $this->$classvar;
+			}
 		}
 
-		$description = $this->getDescription();
-		if ($description !== null) {
-			$properties['X-WR-CALDESC'] = $description;
-		}
-
-		$timezone = $this->getTimezone();
-		if ($timezone instanceof ITimezone) {
-			$properties['X-WR-TIMEZONE'] = (string) $timezone;
-			$add[] = $timezone->getVObject();
-		}
-
-		$color = $this->getColor();
-		if ($color !== null) {
-			$properties['X-APPLE-CALENDAR-COLOR'] = $color;
-		}
-
-		$vcalendar = new VCalendar($properties);
-		foreach($add as $element) {
-			$vcalendar->add($element);
+		if ($this->timezone instanceof ITimezone) {
+			$vcalendar->{'X-WR-TIMEZONE'} = strval($this->timezone);
+			$vcalendar->add($this->timezone->getVObject());
 		}
 
 		return $vcalendar;

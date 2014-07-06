@@ -22,6 +22,7 @@
 namespace OCA\Calendar\Utility;
 
 use OCP\Calendar\DoesNotExistException;
+use OCP\Calendar\ITimezone;
 
 use OCA\Calendar\Sabre\VObject\Component;
 use OCA\Calendar\Sabre\VObject\Component\VCalendar;
@@ -32,6 +33,7 @@ use OCA\Calendar\Sabre\VObject\Component\VFreeBusy;
 use OCA\Calendar\Sabre\VObject\Parameter;
 use OCA\Calendar\Sabre\VObject\Property\ICalendar\DateTime;
 
+use OCA\Calendar\Db\Timezone;
 use OCA\Calendar\Db\TimezoneMapper;
 
 class SabreUtility extends Utility {
@@ -251,5 +253,21 @@ class SabreUtility extends Utility {
 				unset($component->{$child->name});
 			}
 		}
+	}
+
+
+	/**
+	 * @param VCalendar $vcalendar
+	 * @param string $timezoneId
+	 * @return ITimezone|null
+	 */
+	public static function getTimezoneFromVObject($vcalendar, $timezoneId) {
+		foreach($vcalendar->select('VTIMEZONE') as $vtimezone) {
+			if($vtimezone->TZID === $timezoneId) {
+				return new Timezone($vtimezone);
+			}
+		}
+
+		return null;
 	}
 }
