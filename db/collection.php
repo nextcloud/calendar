@@ -280,7 +280,7 @@ abstract class Collection implements ICollection {
 	/**
 	 * get a subset of current collection
 	 * @param int $limit
-	 * @param int @offset
+	 * @param int $offset
 	 * @return array of Entities
 	 */
 	public function subset($limit=null, $offset=null) {
