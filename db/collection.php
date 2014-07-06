@@ -365,24 +365,15 @@ abstract class Collection implements ICollection {
 	 * @return mixed (boolean|ICollection)
 	 */
 	public function search($key, $value) {
-		$class = get_class($this);
-		/** @var ICollection $res */
-		$res = new $class();
-
 		$getter = 'get' . ucfirst($key);
-		$this->iterate(function(IEntity &$object) use ($value, $getter, &$res) {
-			if (!is_callable(array($object, $getter))) {
+
+		return $this->searchByFunction(function(IEntity $entity) use ($value, $getter) {
+			if ($entity->$getter() === $value) {
 				return true;
+			} else {
+				return false;
 			}
-
-			if ($object->$getter() === $value) {
-				$res->add($object);
-			}
-
-			return true;
 		});
-
-		return $res;
 	}
 
 
@@ -393,24 +384,15 @@ abstract class Collection implements ICollection {
 	 * @return mixed (boolean|ICollection)
 	 */
 	public function searchData($key, $regex) {
-		$class = get_class($this);
-		/** @var ICollection $res */
-		$res = new $class();
-
 		$getter = 'get' . ucfirst($key);
-		$this->iterate(function(IEntity &$object) use ($regex, $getter, &$res) {
-			if (!is_callable(array($object, $getter))) {
+
+		return $this->searchByFunction(function(IEntity $entity) use ($regex, $getter) {
+			if (preg_match($regex, $entity->$getter()) === 1) {
 				return true;
+			} else {
+				return false;
 			}
-
-			if (preg_match($regex, $object->$getter()) === 1) {
-				$res->add($object);
-			}
-
-			return true;
 		});
-
-		return $res;
 	}
 
 
@@ -476,5 +458,27 @@ abstract class Collection implements ICollection {
 	public function noDuplicates() {
 		$this->objects = array_unique($this->objects);
 		return $this;
+	}
+
+
+	/**
+	 * search in data
+	 * @param callable $function
+	 * @return ICollection
+	 */
+	private function searchByFunction(\closure $function) {
+		$class = get_class($this);
+		/** @var ICollection $res */
+		$res = new $class();
+
+		$this->iterate(function(IEntity &$object) use ($function, &$res) {
+			if ($function($object)) {
+				$res->add($object);
+			}
+
+			return true;
+		});
+
+		return $res;
 	}
 }
