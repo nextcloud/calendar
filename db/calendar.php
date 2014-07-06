@@ -510,7 +510,8 @@ class Calendar extends Entity implements ICalendar {
 			}
 		}
 
-		$tzId = reset($vcalendar->select('X-WR-TIMEZONE'));
+		$tzIds = $vcalendar->select('X-WR-TIMEZONE');
+		$tzId = reset($tzIds);
 		$tz = SabreUtility::getTimezoneFromVObject($vcalendar, $tzId);
 		if ($tz) {
 			$this->setTimezone($tz);
