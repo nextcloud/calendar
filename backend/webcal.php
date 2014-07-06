@@ -83,8 +83,7 @@ class WebCal extends Backend {
 	public function getSubscriptionTypes() {
 		return array(
 			array(
-				'name' => 'WebCal',
-				'l10n' => strval(\OC::$server->getL10N('calendar')->t('WebCal')),
+				'name' => strval(\OC::$server->getL10N('calendar')->t('WebCal')),
 				'type' => $this->getBackendIdentifier(),
 			),
 		);
