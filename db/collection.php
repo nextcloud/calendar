@@ -366,22 +366,23 @@ abstract class Collection implements ICollection {
 	 */
 	public function search($key, $value) {
 		$class = get_class($this);
-		$matchingObjects = new $class();
-
-		if (!($matchingObjects instanceof ICollection)) {
-			return false;
-		}
+		/** @var ICollection $res */
+		$res = new $class();
 
 		$getter = 'get' . ucfirst($key);
-
-		foreach($this->objects as &$object) {
-			if (is_callable(array($object, $getter)) &&
-				$object->{$getter}() === $value) {
-				$matchingObjects->add($object);
+		$this->iterate(function(IEntity &$object) use ($value, $getter, &$res) {
+			if (!is_callable(array($object, $getter))) {
+				return true;
 			}
-		}
 
-		return $matchingObjects;
+			if ($object->$getter() === $value) {
+				$res->add($object);
+			}
+
+			return true;
+		});
+
+		return $res;
 	}
 
 
@@ -393,22 +394,23 @@ abstract class Collection implements ICollection {
 	 */
 	public function searchData($key, $regex) {
 		$class = get_class($this);
-		$matchingObjects = new $class();
-
-		if (!($matchingObjects instanceof ICollection)) {
-			return false;
-		}
+		/** @var ICollection $res */
+		$res = new $class();
 
 		$getter = 'get' . ucfirst($key);
-
-		foreach($this->objects as &$object) {
-			if (is_callable(array($object, $getter)) &&
-				preg_match($regex, $object->{$getter}()) === 1) {
-				$matchingObjects->add($object);
+		$this->iterate(function(IEntity &$object) use ($regex, $getter, &$res) {
+			if (!is_callable(array($object, $getter))) {
+				return true;
 			}
-		}
 
-		return $matchingObjects;
+			if (preg_match($regex, $object->$getter()) === 1) {
+				$res->add($object);
+			}
+
+			return true;
+		});
+
+		return $res;
 	}
 
 
