@@ -148,7 +148,7 @@ class SubscriptionBusinessLayer extends BusinessLayer {
 	 * @return ISubscription
 	 */
 	public function create(ISubscription $subscription) {
-		$this->checkSubscriptionIsValid($subscription);
+		$this->checkIsValid($subscription);
 		return $this->mapper->insert($subscription);
 	}
 
@@ -160,7 +160,7 @@ class SubscriptionBusinessLayer extends BusinessLayer {
 	 * @return ISubscription
 	 */
 	public function update(ISubscription $subscription) {
-		$this->checkSubscriptionIsValid($subscription);
+		$this->checkIsValid($subscription);
 		$this->mapper->update($subscription);
 		return $subscription;
 	}
@@ -172,17 +172,5 @@ class SubscriptionBusinessLayer extends BusinessLayer {
 	 */
 	public function delete(ISubscription $subscription) {
 		$this->mapper->delete($subscription);
-	}
-
-
-	/**
-	 * make sure a subscription is valid
-	 * @param ISubscription $subscription
-	 * @throws BusinessLayerException
-	 */
-	private function checkSubscriptionIsValid(ISubscription $subscription) {
-		if (!$subscription->isValid()) {
-			throw new BusinessLayerException('Subscription is not valid', Http::STATUS_UNPROCESSABLE_ENTITY);
-		}
 	}
 }

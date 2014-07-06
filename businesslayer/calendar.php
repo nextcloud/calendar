@@ -226,7 +226,7 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 			$publicUri = $calendar->getPublicUri();
 			$userId = $calendar->getUserId();
 
-			$this->checkCalendarIsValid($calendar);
+			$this->checkIsValid($calendar);
 			$this->checkBackendEnabled($backend);
 			$this->checkCalendarDoesNotExist($publicUri, $userId);
 			$this->checkBackendSupports($backend, Backend::CREATE_CALENDAR);
@@ -369,7 +369,7 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 			$this->checkUsersEqual($newCalendar->getUserId(), $oldCalendar->getUserId());
 			$this->checkBackendEnabled($newCalendar->getBackend());
 			$this->checkBackendEnabled($oldCalendar->getBackend());
-			$this->checkCalendarIsValid($newCalendar);
+			$this->checkIsValid($newCalendar);
 
 			if ($this->doesNeedTransfer($newCalendar, $oldCalendar)) {
 				return $this->transfer($newCalendar, $oldCalendar);

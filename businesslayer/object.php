@@ -65,6 +65,8 @@ class ObjectBusinessLayer extends BackendCollectionBusinessLayer {
 				$objects = $this->mapper->findAll($calendar, $limit, $offset);
 			} else {
 				$objects = $api->findObjects($calendar, $limit, $offset);
+				//$ids = $this->mapper->getGlobalIds($calendar->getId());
+				//$objects->mergeWithGlobalId($ids);
 			}
 
 			return $objects;
@@ -346,7 +348,7 @@ class ObjectBusinessLayer extends BackendCollectionBusinessLayer {
 
 			$this->checkObjectDoesNotExist($calendar, $uri);
 			$this->checkBackendSupports($backend, Backend::CREATE_CALENDAR);
-			$this->checkObjectIsValid($object);
+			$this->checkIsValid($object);
 
 			$api = &$this->backends->find($backend)->getAPI();
 			$api->createObject($object);
@@ -496,7 +498,7 @@ class ObjectBusinessLayer extends BackendCollectionBusinessLayer {
 			$this->checkUsersEqual($newObject->getCalendar()->getUserId(), $oldObject->getCalendar()->getUserId());
 			$this->checkBackendEnabled($newObject->getCalendar()->getBackend());
 			$this->checkBackendEnabled($oldObject->getCalendar()->getBackend());
-			$this->checkObjectIsValid($newObject);
+			$this->checkIsValid($newObject);
 
 			if ($this->doesNeedTransfer($newObject, $oldObject)) {
 				return $this->transfer($newObject, $oldObject);

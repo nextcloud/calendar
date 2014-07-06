@@ -24,6 +24,7 @@ namespace OCA\Calendar\BusinessLayer;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\IAppContainer;
 use OCP\Calendar\ICalendar;
+use OCP\Calendar\IEntity;
 use OCP\Calendar\IObject;
 
 use OCA\Calendar\Db\Mapper;
@@ -84,30 +85,17 @@ abstract class BusinessLayer {
 
 
 	/**
-	 * throw exception if calendar is not valid
-	 * @param ICalendar $calendar
+	 * throw exception if entity is not valid
+	 * @param IEntity $entity
 	 * @return bool
 	 * @throws BusinessLayerException
 	 */
-	protected function checkCalendarIsValid(ICalendar $calendar) {
-		if (!$calendar->isValid()) {
-			$msg = 'Given calendar data is not valid!';
-			throw new BusinessLayerException($msg, Http::STATUS_UNPROCESSABLE_ENTITY);
-		}
+	protected function checkIsValid(IEntity $entity) {
+		if (!$entity->isValid()) {
+			$class = get_class($entity);
+			$name = substr($class, strrpos( $class, '\\' ) + 1);
+			$msg = $name . ' instance is not valid';
 
-		return true;
-	}
-
-
-	/**
-	 * throw exception if object is not valid
-	 * @param IObject $object
-	 * @return bool
-	 * @throws BusinessLayerException
-	 */
-	protected function checkObjectIsValid(IObject $object) {
-		if (!$object->isValid()) {
-			$msg = 'User Error: Given object data is not valid!';
 			throw new BusinessLayerException($msg, Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
 

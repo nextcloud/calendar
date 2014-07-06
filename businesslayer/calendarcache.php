@@ -325,7 +325,7 @@ class CalendarCacheBusinessLayer extends CacheBusinessLayer {
 
 		$this->generatePublicUri($remote);
 
-		$this->checkCalendarIsValid($remote);
+		$this->checkIsValid($remote);
 
 		$remote->setLastPropertiesUpdate(time());
 		$remote->setLastObjectUpdate(0);
@@ -383,7 +383,7 @@ class CalendarCacheBusinessLayer extends CacheBusinessLayer {
 
 		$this->prepareRemoteForUpdate($remote);
 		$cached->overwriteWith($remote);
-		$this->checkCalendarIsValid($cached);
+		$this->checkIsValid($cached);
 
 		$cached->setLastPropertiesUpdate(time());
 
