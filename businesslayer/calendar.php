@@ -181,13 +181,7 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
      * @throws BusinessLayerException
      */
     public function doesExist($publicUri, $userId) {
-		try {
-			return $this->mapper->doesExist($publicUri, $userId);
-		} catch(BackendException $ex) {
-			throw new BusinessLayerException($ex->getMessage());
-		} catch(DoesNotExistException $ex) {
-			throw new BusinessLayerException($ex->getMessage());
-		}
+		return $this->mapper->doesExist($publicUri, $userId);
 	}
 
 
@@ -200,13 +194,7 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 	 * @throws BusinessLayerException
 	 */
 	public function doesAllow($cruds, $publicUri, $userId) {
-		try {
-			return $this->mapper->doesAllow($cruds, $publicUri, $userId);
-		} catch(BackendException $ex) {
-			throw new BusinessLayerException($ex->getMessage());
-		} catch(DoesNotExistException $ex) {
-			throw new BusinessLayerException($ex->getMessage());
-		}
+		return $this->mapper->doesAllow($cruds, $publicUri, $userId);
 	}
 
 
@@ -219,13 +207,7 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 	 * @throws BusinessLayerException
 	 */
 	public function doesSupport($component, $publicUri, $userId) {
-		try {
-			return $this->mapper->doesSupport($component, $publicUri, $userId);
-		} catch(BackendException $ex) {
-			throw new BusinessLayerException($ex->getMessage());
-		} catch(DoesNotExistException $ex) {
-			throw new BusinessLayerException($ex->getMessage());
-		}
+		return $this->mapper->doesSupport($component, $publicUri, $userId);
 	}
 
 
