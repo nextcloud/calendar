@@ -21,8 +21,8 @@
  *
  */
 
-app.controller('CalendarListController', ['$scope','$window','$location','Restangular','CalendarModel','EventsModel','$routeParams',
-	function ($scope,$window,$location,Restangular,CalendarModel,EventsModel,$routeParams) {
+app.controller('CalendarListController', ['$scope','$window','$location','$routeParams','Restangular','CalendarModel','EventsModel',
+	function ($scope,$window,$location,$routeParams,Restangular,CalendarModel,EventsModel) {
 
 		$scope.calendars = CalendarModel.getAll();
 		var calendarResource = Restangular.all('calendars');
@@ -35,7 +35,7 @@ app.controller('CalendarListController', ['$scope','$window','$location','Restan
 		$scope.newCalendarInputVal = '';
 
 		$scope.calDAVfieldset = [];
-		$scope.calDAVmodel = 'blah';
+		$scope.calDAVmodel = '';
 		$scope.i = []; // Needed for only one CalDAV Input opening.
 
 		// Create a New Calendar
@@ -63,16 +63,10 @@ app.controller('CalendarListController', ['$scope','$window','$location','Restan
 
 		};
 
-		$scope.updatecalenderform = function () {
-			//calendarResource.post().then(function (calendar) {
-			//	CalendarModel.updateIfExists(calendar);
-			//});
-		};
-
 		// CalDAV display - hide logic goes here.
-		$scope.toggleCalDAV = function ($index) {
+		$scope.toggleCalDAV = function ($index,uri) {
 			$scope.i.push($index);
-
+			$scope.calDAVmodel = OC.linkToRemote('caldav') + '/' + escapeHTML(encodeURIComponent(oc_current_user)) + '/' + escapeHTML(encodeURIComponent(uri));
 			for (var i=0; i<$scope.i.length - 1; i++) {
 				$scope.calDAVfieldset[i] = false;
 			}

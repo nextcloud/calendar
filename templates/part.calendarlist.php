@@ -40,7 +40,14 @@
 				</span>
 			</span>
 			<span class="action">
-				<span id="chooseCalendar-showCalDAVURL" data-user="{{ calendar.ownwerid }}" data-caldav="" title="CalDav Link" class="icon-public permanent" ng-click="toggleCalDAV($index)"></span>
+				<span 
+					id="chooseCalendar-showCalDAVURL"
+					data-user="{{ calendar.ownwerid }}"
+					data-caldav=""
+					title="CalDav Link"
+					class="icon-public permanent"
+					ng-click="toggleCalDAV($index,calendar.uri)">
+				</span>
 			</span>
 			<span class="action">
 				<span
