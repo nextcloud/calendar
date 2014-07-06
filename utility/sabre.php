@@ -88,7 +88,7 @@ class SabreUtility extends Utility {
 
 
 	/**
-	 * count number of components by identifier definied in $properties
+	 * count number of components by identifier defined in $properties
 	 * @param \OCA\Calendar\Sabre\VObject\Component\VCalendar $vcalendar
 	 * @param array $properties
 	 * @return integer
@@ -98,10 +98,10 @@ class SabreUtility extends Utility {
 
 		foreach($properties as $property) {
 			if (isset($vcalendar->$property)) {
-				if (is_array($vcalendar->$object)) {
-					$count += count($vcalendar->$object);
+				if (is_array($vcalendar->$property)) {
+					$count += count($vcalendar->$property);
 				}
-				if ($vcalendar->$object instanceof Component) {
+				if ($vcalendar->$property instanceof Component) {
 					$count++;
 				}
 			}
