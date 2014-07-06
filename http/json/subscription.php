@@ -21,55 +21,9 @@
  */
 namespace OCA\Calendar\Http\JSON;
 
-use OCP\Calendar\ISubscription;
-use OCP\Calendar\ISubscriptionCollection;
-
 use OCA\Calendar\Http\JSONResponse;
-use OCA\Calendar\Http\SerializerException;
 
 class JSONSubscriptionResponse extends JSONResponse {
-
-	/**
-	 * serialize output data from input
-	 */
-	public function serializeData() {
-		if ($this->input instanceof ISubscription) {
-			$this->data = $this->generate($this->input);
-		} elseif ($this->input instanceof ISubscriptionCollection) {
-			$data = array();
-			$this->input->iterate(function(ISubscription $subscription) use (&$data) {
-				try {
-					$data[] = $this->generate($subscription);
-				} catch(SerializerException $ex) {
-					return;
-				}
-			});
-			$this->data = $data;
-		} else {
-			$this->data = array();
-		}
-	}
-
-
-	/**
-	 * generate output for one backend
-	 * @param ISubscription $subscription
-	 * @return array
-	 */
-	public function generate(ISubscription $subscription) {
-		$data = array();
-
-		$properties = get_object_vars($subscription);
-		foreach($properties as $key => $value) {
-			$getter = 'get' . ucfirst($key);
-			$value = $subscription->{$getter}();
-
-			$this->setProperty($data, strtolower($key), $value);
-		}
-
-		return $data;
-	}
-
 
 	/**
 	 * set property
@@ -77,7 +31,7 @@ class JSONSubscriptionResponse extends JSONResponse {
 	 * @param string $key
 	 * @param mixed $value
 	 */
-	private function setProperty(&$data, $key, $value) {
+	public function setProperty(&$data, $key, $value) {
 		switch($key) {
 			case 'type':
 			case 'url':

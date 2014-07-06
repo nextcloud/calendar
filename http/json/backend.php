@@ -22,34 +22,10 @@
 namespace OCA\Calendar\Http\JSON;
 
 use OCA\Calendar\Http\JSONResponse;
-use OCA\Calendar\Http\SerializerException;
 use OCP\Calendar\Backend;
 use OCP\Calendar\IBackend;
-use OCP\Calendar\IBackendCollection;
 
 class JSONBackendResponse extends JSONResponse {
-
-	/**
-	 * serialize output data from input
-	 */
-	public function serializeData() {
-		if ($this->input instanceof IBackend) {
-			$this->data = $this->generate($this->input);
-		} elseif ($this->input instanceof IBackendCollection) {
-			$data = array();
-			$this->input->iterate(function(IBackend $backend) use (&$data) {
-				try {
-					$data[] = $this->generate($backend);
-				} catch(SerializerException $ex) {
-					return;
-				}
-			});
-			$this->data = $data;
-		} else {
-			$this->data = array();
-		}
-	}
-
 
 	/**
 	 * generate output for one backend
@@ -57,15 +33,7 @@ class JSONBackendResponse extends JSONResponse {
 	 * @return array
 	 */
 	public function generate(IBackend $backend) {
-		$data = array();
-
-		$properties = get_object_vars($backend);
-		foreach($properties as $key => $value) {
-			$getter = 'get' . ucfirst($key);
-			$value = $backend->{$getter}();
-
-			$this->setProperty($data, strtolower($key), $value);
-		}
+		parent::generate($backend);
 
 		$this->setSupportedActions($data, $backend);
 		$this->setPrefixInformation($data, $backend);
@@ -81,7 +49,7 @@ class JSONBackendResponse extends JSONResponse {
 	 * @param string $key
 	 * @param mixed $value
 	 */
-	private function setProperty(array &$data, $key, $value) {
+	public function setProperty(array &$data, $key, $value) {
 		switch($key) {
 			case 'backend':
 				$data[$key] = strval($value);

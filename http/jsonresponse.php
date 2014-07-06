@@ -27,6 +27,9 @@
 
 namespace OCA\Calendar\Http;
 
+use OCP\Calendar\ICollection;
+use OCP\Calendar\IEntity;
+
 /**
  * A renderer for JSON calls
  */
@@ -41,13 +44,58 @@ abstract class JSONResponse extends Response {
 	}
 
 
+	/**
+	 * does stuff like setting content-type
+	 */
 	public function preSerialize() {
 		$this->addHeader('Content-type', 'application/json; charset=utf-8');
 	}
 
 
+	/**
+	 * serialize output data from input
+	 */
 	public function serializeData() {
-		$this->data = $this->input;
+		if ($this->input instanceof IEntity) {
+			$this->data = $this->generate($this->input);
+		} elseif ($this->input instanceof ICollection) {
+			$data = array();
+			$this->input->iterate(function(IEntity $subscription) use (&$data) {
+				try {
+					$data[] = $this->generate($subscription);
+				} catch(SerializerException $ex) {
+					return;
+				}
+			});
+			$this->data = $data;
+		} else {
+			$this->data = array();
+		}
+	}
+
+
+	/**
+	 * generate output for one backend
+	 * @param IEntity $subscription
+	 * @return array
+	 */
+	public function generate(IEntity $subscription) {
+		$data = array();
+
+		$properties = get_object_vars($subscription);
+		foreach($properties as $key => $value) {
+			$getter = 'get' . ucfirst($key);
+			$value = $subscription->{$getter}();
+
+			$this->setProperty($data, strtolower($key), $value);
+		}
+
+		return $data;
+	}
+
+
+	function setProperty(array &$data, $key, $value) {
+
 	}
 
 

@@ -22,56 +22,12 @@
 namespace OCA\Calendar\Http\JSON;
 
 use OCP\Calendar\ICalendar;
-use OCP\Calendar\ICalendarCollection;
 use OCP\Calendar\ITimezone;
 
 use OCA\Calendar\Http\JSONResponse;
-use OCA\Calendar\Http\SerializerException;
 use OCA\Calendar\Utility\JSONUtility;
 
 class JSONCalendarResponse extends JSONResponse {
-
-	/**
-	 * serialize output data from input
-	 */
-	public function serializeData() {
-		if ($this->input instanceof ICalendar) {
-			$this->data = $this->generate($this->input);
-		} elseif ($this->input instanceof ICalendarCollection) {
-			$data = array();
-			$this->input->iterate(function (ICalendar $calendar) use (&$data) {
-				try {
-					$data[] = $this->generate($calendar);
-				} catch (SerializerException $ex) {
-					return;
-				}
-			});
-			$this->data = $data;
-		} else {
-			$this->data = array();
-		}
-	}
-
-
-	/**
-	 * generate output for one backend
-	 * @param ICalendar $calendar
-	 * @return array
-	 */
-	public function generate(ICalendar $calendar) {
-		$data = array();
-
-		$properties = get_object_vars($calendar);
-		foreach ($properties as $key => $value) {
-			$getter = 'get' . ucfirst($key);
-			$value = $calendar->{$getter}();
-
-			$this->setProperty($data, strtolower($key), $value);
-		}
-
-		return $data;
-	}
-
 
 	/**
 	 * set property
@@ -79,7 +35,7 @@ class JSONCalendarResponse extends JSONResponse {
 	 * @param string $key
 	 * @param mixed $value
 	 */
-	private function setProperty(array &$data, $key, $value) {
+	public function setProperty(array &$data, $key, $value) {
 		switch($key) {
 			case 'color':
 			case 'description':
