@@ -59,6 +59,13 @@
 					ng-click="download(calendar.id)">
 				</span>
 			</span>
+			<span class="action">
+				<span id="chooseCalendar-edit"
+					data-id="{{ calendar.uri }}"
+					title="Edit"
+					class="icon-rename">
+				</span>
+			</span>
 		</span>
 		<fieldset ng-show="calDAVfieldset[$index]" class="caldavURL">
 			<input type="text" ng-model="calDAVmodel" data-id="{{ calendar.id }}" disabled />

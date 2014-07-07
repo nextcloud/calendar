@@ -58,7 +58,11 @@
 				</span>
 			</span>
 			<span class="action">
-				<span id="chooseCalendar-edit" data-id="{{ calendar.uri }}" title="Edit" class="icon-rename"></span>
+				<span id="chooseCalendar-edit"
+					data-id="{{ calendar.uri }}"
+					title="Edit"
+					class="icon-rename">
+				</span>
 			</span>
 			<span class="action">
 				<span href="#"

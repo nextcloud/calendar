@@ -248,6 +248,7 @@ app.controller('CalendarListController', ['$scope','$window','$location','$route
 			}
 
 			$scope.calDAVfieldset[$index] = true;
+			angular.element('fieldset.caldavURL input[data-id='+ id +']').select();
 			$scope.hidecalDAVfieldset = function ($index) {
 				$scope.calDAVfieldset[$index] = false;
 			};
