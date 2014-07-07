@@ -409,11 +409,15 @@ app.controller('SettingsController', ['$scope','Restangular',
 	}
 ]);
 
-app.controller('SubscriptionController', ['$scope', 'SubscriptionModel', 'CalendarModel', 'Restangular',
-	function ($scope,SubscriptionModel,CalendarModel,Restangular) {
+app.controller('SubscriptionController', ['$scope', '$window','SubscriptionModel', 'CalendarModel', 'EventsModel', 'Restangular',
+	function ($scope,$window,SubscriptionModel,CalendarModel,EventsModel,Restangular) {
 		
 		$scope.subscriptions = SubscriptionModel.getAll();
 		$scope.calendars = CalendarModel.getAll();
+
+		$scope.calDAVfieldset = [];
+		$scope.calDAVmodel = '';
+		$scope.i = []; // Needed for only one CalDAV Input opening.
 		
 		var subscriptionResource = Restangular.all('subscriptions');
 		subscriptionResource.getList().then(function (subscriptions) {
@@ -443,6 +447,35 @@ app.controller('SubscriptionController', ['$scope', 'SubscriptionModel', 'Calend
 				SubscriptionModel.create(newSubscription);
 			});
 		};
+
+		// CalDAV display - hide logic goes here.
+		$scope.toggleCalDAV = function ($index,uri,id) {
+			$scope.i.push($index);
+			$scope.calDAVmodel = OC.linkToRemote('caldav') + '/' + escapeHTML(encodeURIComponent(oc_current_user)) + '/' + escapeHTML(encodeURIComponent(uri));
+			for (var i=0; i<$scope.i.length - 1; i++) {
+				$scope.calDAVfieldset[i] = false;
+			}
+
+			$scope.calDAVfieldset[$index] = true;
+			$scope.hidecalDAVfieldset = function ($index) {
+				$scope.calDAVfieldset[$index] = false;
+			};
+		};
+
+		$scope.download = function (id) {
+			$window.open('v1/calendars/' + id + '/export');
+		};
+
+		// Initialises full calendar by sending the calendarid
+		$scope.addEvent = function (newid) {
+			EventsModel.addEvent(newid);
+		};
+
+		// Responsible for displaying or hiding events on the fullcalendar.
+		$scope.addRemoveEventSource = function(newid) {
+			$scope.addEvent(newid); // Switches watch in CalController
+		};
+
 	}
 ]);
 app.directive('loading',

@@ -30,5 +30,39 @@
 		<a href="#/" ng-click="addRemoveEventSource(calendar.id)">
 			<span>{{ calendar.displayname }}</span>
 		</a>
+		<span class="utils">
+			<span class="action">
+				<span
+					id="chooseCalendar-share" 
+					class="share icon-share permanent"
+					data-item-type="subscription"
+					data-item=""
+					data-possible-permissions=""
+					title="Share Calendar">
+				</span>
+			</span>
+			<span class="action">
+				<span 
+					id="chooseCalendar-showCalDAVURL"
+					data-user="{{ calendar.ownwerid }}"
+					data-caldav=""
+					title="CalDav Link"
+					class="icon-public permanent"
+					ng-click="toggleCalDAV($index,calendar.uri,calendar.id)">
+				</span>
+			</span>
+			<span class="action">
+				<span
+					id="chooseCalendar-download"
+					title="Download"
+					class="icon-download"
+					ng-click="download(calendar.id)">
+				</span>
+			</span>
+		</span>
+		<fieldset ng-show="calDAVfieldset[$index]" class="caldavURL">
+			<input type="text" ng-model="calDAVmodel" data-id="{{ calendar.id }}" disabled />
+			<button id="chooseCalendar-close" class="primary" ng-click="hidecalDAVfieldset($index)">&lt;</button>
+		</fieldset>
 	</li>
 </ul>
