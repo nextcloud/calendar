@@ -240,7 +240,7 @@ app.controller('CalendarListController', ['$scope','$window','$location','$route
 		};
 
 		// CalDAV display - hide logic goes here.
-		$scope.toggleCalDAV = function ($index,uri) {
+		$scope.toggleCalDAV = function ($index,uri,id) {
 			$scope.i.push($index);
 			$scope.calDAVmodel = OC.linkToRemote('caldav') + '/' + escapeHTML(encodeURIComponent(oc_current_user)) + '/' + escapeHTML(encodeURIComponent(uri));
 			for (var i=0; i<$scope.i.length - 1; i++) {
@@ -248,7 +248,6 @@ app.controller('CalendarListController', ['$scope','$window','$location','$route
 			}
 
 			$scope.calDAVfieldset[$index] = true;
-
 			$scope.hidecalDAVfieldset = function ($index) {
 				$scope.calDAVfieldset[$index] = false;
 			};

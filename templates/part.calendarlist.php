@@ -46,7 +46,7 @@
 					data-caldav=""
 					title="CalDav Link"
 					class="icon-public permanent"
-					ng-click="toggleCalDAV($index,calendar.uri)">
+					ng-click="toggleCalDAV($index,calendar.uri,calendar.id)">
 				</span>
 			</span>
 			<span class="action">
@@ -71,7 +71,7 @@
 			</span>
 		</span>
 		<fieldset ng-show="calDAVfieldset[$index]" class="caldavURL">
-			<input type="text"  ng-model="calDAVmodel" ng-focus="calDAVmodelfocus" />
+			<input type="text" ng-model="calDAVmodel" data-id="{{ calendar.id }}" disabled />
 			<button id="chooseCalendar-close" class="primary" ng-click="hidecalDAVfieldset($index)">&lt;</button>
 		</fieldset>
 	</li>
