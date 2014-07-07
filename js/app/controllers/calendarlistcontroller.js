@@ -92,15 +92,13 @@ app.controller('CalendarListController', ['$scope','$window','$location','$route
 			$scope.editmodel = displayname;
 			$scope.editcolor = color;
 			$scope.j.push($index);
-			for (var j=0; i<$scope.j.length - 1; j++) {
+			
+			for (var j=0; j<$scope.j.length - 1; j++) {
 				$scope.editfieldset[j] = false;
 			}
-
+			
 			$scope.editfieldset[$index] = true;
-			$scope.hideeditfieldset = function ($index) {
-				$scope.editfieldset[$index] = false;
-			};
-
+			
 			$scope.update = function(id,updatedname,updatedcolor, vevent, vjournal, vtodo) {
 				var updated = {
 					"id" : id,
@@ -112,7 +110,10 @@ app.controller('CalendarListController', ['$scope','$window','$location','$route
 						"vtodo" : vtodo
 					}
 				};
-				console.log(updated);
+			};
+			
+			$scope.hideeditfieldset = function ($index) {
+				$scope.editfieldset[$index] = false;
 			};
 		};
 
