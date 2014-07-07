@@ -110,6 +110,7 @@ app.controller('CalendarListController', ['$scope','$window','$location','$route
 						"vtodo" : vtodo
 					}
 				};
+				Restangular.one('calendars', id).patch(updated);
 			};
 			
 			$scope.hideeditfieldset = function ($index) {
