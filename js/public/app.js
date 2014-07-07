@@ -237,6 +237,8 @@ app.controller('CalendarListController', ['$scope','$window','$location','$route
 			};
 			calendarResource.post(newCalendar).then(function (newCalendar) {
 				CalendarModel.create(newCalendar);
+			}, function (response) {
+				OC.Notification.show(t('calendar',response.data.message));
 			});
 		};
 
@@ -486,6 +488,8 @@ app.controller('SubscriptionController', ['$scope', '$window','SubscriptionModel
 			};
 			subscriptionResource.post(newSubscription).then(function (newSubscription) {
 				SubscriptionModel.create(newSubscription);
+			}, function (response) {
+				OC.Notification.show(t('calendar',response.data.message));
 			});
 		};
 

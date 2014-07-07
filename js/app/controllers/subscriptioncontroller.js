@@ -57,6 +57,8 @@
 			};
 			subscriptionResource.post(newSubscription).then(function (newSubscription) {
 				SubscriptionModel.create(newSubscription);
+			}, function (response) {
+				OC.Notification.show(t('calendar',response.data.message));
 			});
 		};
 
