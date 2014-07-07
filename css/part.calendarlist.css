@@ -128,7 +128,7 @@
 	left:8px;
 }
 
-#newcolorpicker {
+#newcolorpicker, #editcolorpicker {
 	width:20px;
 	height:20px;
 	background:#ff0000;
@@ -144,7 +144,7 @@
 	width: 60%;
 }
 
-.personalblock form #submitnewCalendar, .personalblock form #submitnewSubscription {
+.personalblock form #submitnewCalendar, .personalblock form #submitnewSubscription, fieldset #updateCalendar {
 	width: 25px;
 	margin-bottom: 6px;
 	height:25px;
@@ -180,6 +180,12 @@
 	border-color: black;
 	cursor: pointer;
 	position: absolute;
+}
+
+.calendartype, .buttongroups {
+	float:left;
+	display:block;
+	margin:10px;
 }
 
 .calendarCheckbox.unchecked {

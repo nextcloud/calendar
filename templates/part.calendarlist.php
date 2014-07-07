@@ -61,7 +61,8 @@
 				<span id="chooseCalendar-edit"
 					data-id="{{ calendar.uri }}"
 					title="Edit"
-					class="icon-rename">
+					class="icon-rename"
+					ng-click="updatecalendarform($index,calendar.id,calendar.displayname,calendar.color)">
 				</span>
 			</span>
 			<span class="action">
@@ -77,6 +78,28 @@
 		<fieldset ng-show="calDAVfieldset[$index]" class="caldavURL">
 			<input type="text" ng-model="calDAVmodel" data-id="{{ calendar.id }}" disabled />
 			<button id="chooseCalendar-close" class="primary" ng-click="hidecalDAVfieldset($index)">&lt;</button>
+		</fieldset>
+		<fieldset ng-show="editfieldset[$index]" class="editfieldset">
+			<input type="text" ng-model="editmodel" data-id="{{ calendar.id }}" />
+			<button 
+				colorpicker colorpicker-position="top" 
+				ng-model="editcolor"
+				id="editcolorpicker"
+				style="background:{{ calendar.color }}">
+			</button>
+			<div class="calendartype">
+				<label><?php p($l->t('Event')); ?></label><input type="checkbox" ng-model="vevent" />
+				<label><?php p($l->t('Journal')); ?></label><input type="checkbox" ng-model="vjournal" />
+				<label><?php p($l->t('Todo')); ?></label><input type="checkbox" ng-model="vtodo" />
+			</div>
+			<div class="buttongroups">
+				<button
+					ng-click="update(calendar.id,editmodel,editcolor, vevent, vjournal, vtodo)"
+					id="updateCalendar"
+					class="primary icon-checkmark-white">
+				</button>
+				<button id="chooseCalendar-close" class="primary" ng-click="hideeditfieldset($index)">&lt;</button>
+			</div>
 		</fieldset>
 	</li>
 </ul>
