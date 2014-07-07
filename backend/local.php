@@ -594,20 +594,10 @@ class Local extends Backend {
 		$table = $this->getObjectTableName();
 
 		$sql  = 'INSERT INTO `' . $table . '` ';
-		$sql .= '(`calendarid`,`objecttype`,`startdate`,`enddate`,';
-		$sql .= '`repeating`,`summary`,`calendardata`,`uri`,`lastmodified`) ';
+		$sql .= '(`objecttype`,`startdate`,`enddate`,`repeating`,';
+		$sql .= '`summary`,`calendardata`,`lastmodified`,`uri`, `calendarid`) ';
 		$sql .= 'VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)';
-		$this->query($sql, array(
-			$calendarId,
-			$this->getType($object->getType(), 'string'),
-			$this->getUTCforMDB($object->getStartDate()),
-			$this->getUTCforMDB($object->getEndDate()),
-			$object->getRepeating(),
-			$object->getSummary(),
-			$object->getCalendarData(),
-			$object->getUri(),
-			$this->getUTCforMDB($object->getLastModified()),
-		));
+		$this->query($sql, $this->getObjectSqlParams($object, $calendarId));
 
 		return $object;
 	}
@@ -631,7 +621,17 @@ class Local extends Backend {
 		$sql  = 'UPDATE `' . $table . '`  SET `objecttype` = ?, `startdate` = ?, ';
 		$sql .= '`enddate` = ?, `repeating` = ?, `summary` = ?, `calendardata` = ?, ';
 		$sql .= '`lastmodified` = ? WHERE `uri` = ? and `calendarid` = ?';
-		$this->query($sql, array(
+		$this->query($sql, $this->getObjectSqlParams($object, $calendarId));
+	}
+
+
+	/**
+	 * @param IObject $object
+	 * @param $calendarId
+	 * @return array
+	 */
+	private function getObjectSqlParams(IObject $object, $calendarId) {
+		return array(
 			$this->getType($object->getType(), 'string'),
 			$this->getUTCforMDB($object->getStartDate()),
 			$this->getUTCforMDB($object->getEndDate()),
@@ -640,8 +640,8 @@ class Local extends Backend {
 			$object->getCalendarData(),
 			$this->getUTCforMDB($object->getLastModified()),
 			$object->getUri(),
-			$calendarId,
-		));
+			$calendarId
+		);
 	}
 
 
