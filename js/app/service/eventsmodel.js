@@ -37,7 +37,7 @@ app.factory('EventsModel', function () {
 			var rawdata = new ICAL.Event();
 			this.events.push(rawdata);
 		},
-		addalldisplayfigures : function (jcalData) {
+		addalldisplayfigures : function (calendarid,jcalData) {
 			var events = [];
 			var rawdata = new ICAL.Component(jcalData);
 			var fields = [];
@@ -54,6 +54,7 @@ app.factory('EventsModel', function () {
 						isAllDay = false;
 					}
 					events[key] = {
+						"calid" : calendarid,
 						"title" : value.getFirstPropertyValue('summary'),
 						"start" : start.toJSDate(),
 						"end" : end.toJSDate(),

@@ -61,7 +61,7 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 				$scope.eventSource[value.id] = {
 					events: function (start, end, timezone, callback) {
 						Restangular.one('calendars', value.id).getList('events').then(function (eventsobject) {
-							callback(EventsModel.addalldisplayfigures(eventsobject));
+							callback(EventsModel.addalldisplayfigures(value.id,eventsobject));
 						});
 					},
 					color: value.color,
