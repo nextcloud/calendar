@@ -238,17 +238,7 @@ class Local extends Backend {
 		$sql .= '(`userid`, `displayname`, `uri`, `active`, `ctag`, `calendarorder`, ';
 		$sql .= '`calendarcolor`, `timezone`, `components`) ';
 		$sql .= 'VALUES(?,?,?,?,?,?,?,?,?)';
-		$this->query($sql, array(
-			$calendar->getUserId(),
-			$calendar->getDisplayname(),
-			$calendar->getPrivateUri(),
-			$calendar->getEnabled(),
-			$calendar->getCtag(),
-			$calendar->getOrder(),
-			$calendar->getColor(),
-			$calendar->getTimezone(),
-			$this->getTypes($calendar->getComponents(), 'string'),
-		));
+		$this->query($sql, $this->getCalendarSqlParams($calendar));
 	}
 
 
@@ -262,12 +252,24 @@ class Local extends Backend {
 		$calendarId = $this->getCaledarIdByCalendarObject($calendar);
 
 		$table = $this->getCalendarTableName();
-
 		$sql  = 'UPDATE `' . $table . '` SET ';
 		$sql .= '`userid` = ?, `displayname` = ?, `uri` = ?, `active` = ?, ';
 		$sql .= '`ctag` = ?, `calendarorder` = ?, `calendarcolor` = ?, ';
 		$sql .= '`timezone` = ?, `components` = ? WHERE `id` = ?';
-		$this->query($sql, array(
+
+		$params = $this->getCalendarSqlParams($calendar);
+		$params[] = $calendarId;
+
+		$this->query($sql, $params);
+	}
+
+
+	/**
+	 * @param ICalendar $calendar
+	 * @return array
+	 */
+	private function getCalendarSqlParams(ICalendar $calendar) {
+		return array(
 			$calendar->getUserId(),
 			$calendar->getDisplayname(),
 			$calendar->getPrivateUri(),
@@ -276,9 +278,8 @@ class Local extends Backend {
 			$calendar->getOrder(),
 			$calendar->getColor(),
 			$calendar->getTimezone(),
-			$this->getTypes($calendar->getComponents(), 'string'),
-			$calendarId
-		));
+			$this->getTypes($calendar->getComponents(), 'string')
+		);
 	}
 
 
