@@ -46,7 +46,7 @@
 					data-caldav=""
 					title="CalDav Link"
 					class="icon-public permanent"
-					ng-click="toggleCalDAV($index,calendar.uri,calendar.id)">
+					ng-click="caldavfieldset = !caldavfieldset; toggleCalDAV($index,calendar.uri,calendar.id)">
 				</span>
 			</span>
 			<span class="action">
@@ -62,7 +62,7 @@
 					data-id="{{ calendar.uri }}"
 					title="Edit"
 					class="icon-rename"
-					ng-click="updatecalendarform($index,calendar.id,calendar.displayname,calendar.color)">
+					ng-click="editfieldset = !editfieldset; updatecalendarform($index,calendar.id,calendar.displayname,calendar.color);">
 				</span>
 			</span>
 			<span class="action">
@@ -75,14 +75,14 @@
 				</span>
 			</span>
 		</span>
-		<fieldset ng-show="calDAVfieldset[$index]" class="caldavURL">
+		<fieldset ng-show="caldavfieldset" class="caldavURL">
 			<input type="text" ng-model="calDAVmodel" data-id="{{ calendar.id }}" disabled />
-			<button id="chooseCalendar-close" class="primary" ng-click="hidecalDAVfieldset($index)">&lt;</button>
+			<button id="chooseCalendar-close" class="primary" ng-click="caldavfieldset = !caldavfieldset;">&lt;</button>
 		</fieldset>
-		<fieldset ng-show="editfieldset[$index]" class="editfieldset">
+		<fieldset ng-show="editfieldset" class="editfieldset">
 			<input type="text" ng-model="editmodel" data-id="{{ calendar.id }}" />
 			<button 
-				colorpicker colorpicker-position="top" 
+				colorpicker="rgb" colorpicker-position="top" 
 				ng-model="editcolor"
 				id="editcolorpicker"
 				style="background:{{ calendar.color }}">
@@ -97,11 +97,11 @@
 			</div>
 			<div class="buttongroups">
 				<button
-					ng-click="update(calendar.id,editmodel,editcolor, vevent, vjournal, vtodo)"
+					ng-click="update(calendar.id,editmodel,editcolor, vevent, vjournal, vtodo); editfieldset = false;"
 					id="updateCalendar"
 					class="primary icon-checkmark-white">
 				</button>
-				<button id="chooseCalendar-close" class="primary" ng-click="hideeditfieldset($index)">&lt;</button>
+				<button id="chooseCalendar-close" class="primary" ng-click="editfieldset = false">&lt;</button>
 			</div>
 		</fieldset>
 	</li>

@@ -35,14 +35,12 @@ app.controller('CalendarListController', ['$scope','$window','$location','$route
 		$scope.newCalendarInputVal = '';
 
 		// Needed for CalDAV Input opening.
-		$scope.calDAVfieldset = [];
 		$scope.calDAVmodel = '';
 		$scope.i = [];
 		
 		// Needed for editing calendars.
-		$scope.j = [];
 		$scope.editmodel = '';
-		$scope.editfieldset = [];
+		$scope.editfieldset = false;
 		$scope.editcolor = '';
 		$scope.vevent = true;
 		$scope.vjournal = false;
@@ -78,28 +76,12 @@ app.controller('CalendarListController', ['$scope','$window','$location','$route
 		// CalDAV display - hide logic goes here.
 		$scope.toggleCalDAV = function ($index,uri,id) {
 			$scope.i.push($index);
-			angular.element('fieldset.caldavURL input[data-id='+ id +']').select();
 			$scope.calDAVmodel = OC.linkToRemote('caldav') + '/' + escapeHTML(encodeURIComponent(oc_current_user)) + '/' + escapeHTML(encodeURIComponent(uri));
-			for (var i=0; i<$scope.i.length - 1; i++) {
-				$scope.calDAVfieldset[i] = false;
-			}
-
-			$scope.calDAVfieldset[$index] = true;
-			$scope.hidecalDAVfieldset = function ($index) {
-				$scope.calDAVfieldset[$index] = false;
-			};
 		};
 
 		$scope.updatecalendarform = function ($index,id,displayname,color) {
 			$scope.editmodel = displayname;
 			$scope.editcolor = color;
-			$scope.j.push($index);
-			
-			for (var j=0; j<$scope.j.length - 1; j++) {
-				$scope.editfieldset[j] = false;
-			}
-			
-			$scope.editfieldset[$index] = true;
 			
 			$scope.update = function(id,updatedname,updatedcolor, vevent, vjournal, vtodo) {
 				var updated = {
@@ -113,10 +95,6 @@ app.controller('CalendarListController', ['$scope','$window','$location','$route
 					}
 				};
 				Restangular.one('calendars', id).patch(updated);
-			};
-			
-			$scope.hideeditfieldset = function ($index) {
-				$scope.editfieldset[$index] = false;
 			};
 		};
 
