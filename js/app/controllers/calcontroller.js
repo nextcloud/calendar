@@ -60,7 +60,7 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 			if ($scope.eventSource[value.id] === undefined) {
 				$scope.eventSource[value.id] = {
 					events: function (start, end, timezone, callback) {
-						Restangular.one('calendars', value.id).getList('events').then(function (eventsobject) {
+						Restangular.one('calendars', value.id).one('events').one('inPeriod').getList(start + '/' + end).then(function (eventsobject) {
 							callback(EventsModel.addalldisplayfigures(value.id,eventsobject));
 						});
 					},
