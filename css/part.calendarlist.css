@@ -144,7 +144,7 @@
 	width: 60%;
 }
 
-.personalblock form #submitnewCalendar, .personalblock form #submitnewSubscription, fieldset #updateCalendar {
+.personalblock form #submitnewCalendar, .personalblock form #submitnewSubscription, fieldset #updateCalendar, fieldset #chooseCalendar-close {
 	width: 25px;
 	margin-bottom: 6px;
 	height:25px;
@@ -182,11 +182,30 @@
 	position: absolute;
 }
 
+.editfieldset input[type="text"] {
+	width:80%;
+}
+
 .calendartype, .buttongroups {
 	float:left;
 	display:block;
 	margin:10px;
 }
+
+.buttongroups {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+}
+.calendartype input[type="checkbox"] {
+	width: 20%;
+}
+
+.calendartype label {
+	float:right;
+	width:75%;
+}
+
 
 .calendarCheckbox.unchecked {
 	background: rgba(0, 0, 0, 0) !important;

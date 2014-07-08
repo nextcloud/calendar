@@ -88,9 +88,12 @@
 				style="background:{{ calendar.color }}">
 			</button>
 			<div class="calendartype">
-				<label><?php p($l->t('Event')); ?></label><input type="checkbox" ng-model="vevent" />
-				<label><?php p($l->t('Journal')); ?></label><input type="checkbox" ng-model="vjournal" />
-				<label><?php p($l->t('Todo')); ?></label><input type="checkbox" ng-model="vtodo" />
+				<input type="checkbox" ng-model="vevent" />
+				<label><?php p($l->t('Event')); ?></label>
+				<input type="checkbox" ng-model="vjournal" />
+				<label><?php p($l->t('Journal')); ?></label>
+				<input type="checkbox" ng-model="vtodo" />
+				<label><?php p($l->t('Todo')); ?></label>
 			</div>
 			<div class="buttongroups">
 				<button
