@@ -108,4 +108,19 @@ class ObjectCollection extends Collection implements IObjectCollection {
 
 		return $objectsOfType;
 	}
+
+
+	/**
+	 * @param array $idTable
+	 */
+	public function addGlobalIds(array $idTable) {
+		$this->iterate(function(IObject &$object) use ($idTable) {
+			$uri = $object->getUri();
+			if (isset($idTable[$uri])) {
+				$object->setId($idTable[$uri]);
+			} else {
+				//TODO how to handle this case
+			}
+		});
+	}
 }

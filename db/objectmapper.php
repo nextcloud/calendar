@@ -35,23 +35,66 @@ use DateTime;
 
 class ObjectMapper extends Mapper {
 
+
 	/**
-	 * columns that should be queried from database
 	 * @var string
 	 */
-	private $columnsToQuery;
+	private $indexTableName;
 
 
 	/**
 	 * Constructor
 	 * @param IAppContainer $app
-	 * @param string $tableName
+	 * @param string $indexTableName
+	 * @param string $dataTableName
 	 */
-	public function __construct(IAppContainer $app, $tableName = 'clndr_objcachedata'){
-		parent::__construct($app, $tableName);
+	public function __construct(IAppContainer $app,
+								$indexTableName = 'clndr_objcache',
+								$dataTableName = 'clndr_objcachedata'){
+		parent::__construct($app, $dataTableName);
+		$this->indexTableName = '*PREFIX*' . $indexTableName;
 
-		$columns  = '`objectURI`, `etag`, `ruds`, `calendarData`';
-		$this->columnsToQuery = $columns;
+	}
+
+
+	/**
+	 * get array (objecturi => globalid) for a calendar
+	 * @param int $calendarId
+	 * @return array
+	 */
+	public function getGlobalIdTable($calendarId) {
+		$table = $this->getIndexTableName();
+		$idTable = array();
+
+		$sql  = 'SELECT `id`, `objecturi` FROM ' . $table . ' ';
+		$sql .= 'WHERE `calendarid` = ?';
+		$result = $this->execute($sql, array($calendarId));
+
+		while($row = $result->fetchRow()) {
+			$idTable[$row['objecturi']] = $row['id'];
+		}
+
+		return $idTable;
+	}
+
+
+	/**
+	 * @param $calendarId
+	 * @param $objectUri
+	 * @return int
+	 */
+	public function getGlobalId($calendarId, $objectUri) {
+		$table = $this->getIndexTableName();
+
+		$sql  = 'SELECT `id` FROM ' . $table . ' ';
+		$sql .= 'WHERE `calendarid` = ? AND `objecturi` = ?';
+
+		$row = $this->findOneQuery($sql, array(
+			$calendarId,
+			$objectUri
+		));
+
+		return intval($row['id']);
 	}
 
 
@@ -68,7 +111,7 @@ class ObjectMapper extends Mapper {
 		$sql .= '`'. $this->tableName . '` WHERE `uri` = ? AND `calendarid` = ?';
 		$row = $this->findOneQuery($sql, array(
 			$uri,
-			$calendar->getId()
+			$calendar->getId(),
 		));
 
 		return new Object($row);
@@ -240,5 +283,13 @@ class ObjectMapper extends Mapper {
 	 */
 	private function getUTC($datetime){
 		return ObjectUtility::getUTCforMDB($datetime);
+	}
+
+
+	/**
+	 * @return string
+	 */
+	private function getIndexTableName() {
+		return $this->indexTableName;
 	}
 }

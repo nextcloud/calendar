@@ -55,4 +55,10 @@ interface IObjectCollection extends ICollection {
 	 * @return IObjectCollection
 	 */
 	public function ofType($type);
+
+
+	/**
+	 * @param array $idTable
+	 */
+	public function addGlobalIds(array $idTable);
 }

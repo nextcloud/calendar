@@ -21,4 +21,4 @@
  */
 namespace OCP\Calendar;
 
-class CacheOutDatedException extends \Exception{}
+class CacheOutDatedException extends BackendException{}
