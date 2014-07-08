@@ -138,26 +138,6 @@ class Calendar extends Entity implements ICalendar {
 
 
 	/**
-	 * init Calendar object with data from db row
-	 * @param mixed (array / VCalendar) $createFrom
-	 */
-	public function __construct($createFrom=null){
-		$this->registerTypes();
-		$this->registerMandatory();
-
-		//create from array
-		if (is_array($createFrom)){
-			$this->fromRow($createFrom);
-		}
-
-		//create from VCalendar
-		if ($createFrom instanceof VCalendar) {
-			$this->fromVObject($createFrom);
-		}
-	}
-
-
-	/**
 	 * @param string $backend
 	 * @return $this
 	 */
@@ -571,7 +551,7 @@ class Calendar extends Entity implements ICalendar {
 	/**
 	 * register field types
 	 */
-	private function registerTypes() {
+	protected function registerTypes() {
 		$this->addType('userId', 'string');
 		$this->addType('ownerId', 'string');
 		$this->addType('publicuri', 'string');
@@ -592,7 +572,7 @@ class Calendar extends Entity implements ICalendar {
 	/**
 	 * register mandatory fields
 	 */
-	private function registerMandatory() {
+	protected function registerMandatory() {
 		$this->addMandatory('userId');
 		$this->addMandatory('ownerId');
 		$this->addMandatory('backend');

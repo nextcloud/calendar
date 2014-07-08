@@ -79,23 +79,6 @@ class Object extends Entity implements IObject {
 
 
 	/**
-	 * constructor
-	 * @param mixed (array|null) $from
-	 */
-	public function __construct($from=null) {
-		$this->registerTypes();
-		$this->registerMandatory();
-
-		if (is_array($from)) {
-			$this->fromRow($from);
-		}
-		if ($from instanceof VCalendar) {
-			$this->fromvobject($from);
-		}
-	}
-
-
-	/**
 	 * take data from vobject and put into this Object object
 	 * @param VCalendar $vcalendar
 	 * @throws CorruptDataException
@@ -444,7 +427,7 @@ class Object extends Entity implements IObject {
 	/**
 	 * register field types
 	 */
-	private function registerTypes() {
+	protected function registerTypes() {
 		$this->addType('calendar', 'OCP\\Calendar\\ICalendar');
 		$this->addType('uri', 'string');
 		$this->addType('etag', 'string');
@@ -456,7 +439,7 @@ class Object extends Entity implements IObject {
 	/**
 	 * register mandatory fields
 	 */
-	private function registerMandatory() {
+	protected function registerMandatory() {
 		$this->addMandatory('calendar');
 		$this->addMandatory('uri');
 		$this->addMandatory('etag');

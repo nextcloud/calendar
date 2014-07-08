@@ -44,25 +44,6 @@ class Subscription extends Entity implements ISubscription {
 
 
 	/**
-	 * init Backend object with data from db row
-	 * @param array $fromRow
-	 */
-	public function __construct($fromRow=null){
-		$this->addType('type', 'string');
-		$this->addType('url', 'string');
-		$this->addType('userId', 'string');
-
-		$this->addMandatory('type');
-		$this->addMandatory('url');
-		$this->addMandatory('userId');
-
-		if (is_array($fromRow)){
-			$this->fromRow($fromRow);
-		}
-	}
-
-
-	/**
 	 * @param string $type
 	 * @return $this
 	 */
@@ -132,6 +113,26 @@ class Subscription extends Entity implements ISubscription {
 		}
 
 		return true;
+	}
+
+
+	/**
+	 * register field types
+	 */
+	protected function registerTypes() {
+		$this->addType('type', 'string');
+		$this->addType('url', 'string');
+		$this->addType('userId', 'string');
+	}
+
+
+	/**
+	 * register mandatory fields
+	 */
+	protected function registerMandatory() {
+		$this->addMandatory('type');
+		$this->addMandatory('url');
+		$this->addMandatory('userId');
 	}
 
 

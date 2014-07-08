@@ -41,6 +41,24 @@ abstract class Entity implements IEntity{
 	protected $mandatory = array();
 
 
+	public function __construct($createFrom=null) {
+		if (is_callable(array($this, 'registerTypes'))) {
+			$this->registerTypes();
+		}
+		if (is_callable(array($this, 'registerMandatory'))) {
+			$this->registerMandatory();
+		}
+
+		if (is_array($createFrom) && is_callable(array($this, 'fromRow'))) {
+			$this->fromRow($createFrom);
+		} elseif ($createFrom instanceof VCalendar) {
+			$this->fromVObject($createFrom);
+		} elseif (is_string($createFrom) && is_callable(array($this, 'fromData'))) {
+			$this->fromData($createFrom);
+		}
+	}
+
+
 	/**
 	 * Simple alternative constructor for building entities from a request
 	 * @param array $params the array which was obtained via $this->params('key')

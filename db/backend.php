@@ -63,27 +63,6 @@ class Backend extends Entity implements IBackend {
 
 
 	/**
-	 * init Backend object with data from db row
-	 * @param array $from
-	 */
-	public function __construct($from=null){
-		$this->addType('backend', 'string');
-		$this->addType('classname', 'string');
-		$this->addType('arguments', 'array');
-		$this->addType('enabled', 'boolean');
-		$this->addType('api', 'OCA\\Calendar\\Backend\\IBackend');
-
-		$this->addMandatory('backend');
-		$this->addMandatory('classname');
-		$this->addMandatory('enabled');
-
-		if (is_array($from)){
-			$this->fromRow($from);
-		}
-	}
-
-
-	/**
 	 * @param boolean $enabled
 	 * @return $this
 	 */
@@ -213,5 +192,27 @@ class Backend extends Entity implements IBackend {
 	 */
 	public function __toString() {
 		return $this->getBackend();
+	}
+
+
+	/**
+	 * register field types
+	 */
+	protected function registerTypes() {
+		$this->addType('backend', 'string');
+		$this->addType('classname', 'string');
+		$this->addType('arguments', 'array');
+		$this->addType('enabled', 'boolean');
+		$this->addType('api', 'OCA\\Calendar\\Backend\\IBackend');
+	}
+
+
+	/**
+	 * register mandatory fields
+	 */
+	protected function registerMandatory() {
+		$this->addMandatory('backend');
+		$this->addMandatory('classname');
+		$this->addMandatory('enabled');
 	}
 }

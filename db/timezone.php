@@ -39,23 +39,6 @@ class Timezone extends Entity implements ITimezone {
 
 
 	/**
-	 * init Timezone object with timezone name
-	 * @param string $from
-	 */
-	public function __construct($from) {
-		$this->addType('vobject', 'OCA\\Calendar\\Sabre\\vobject\\Component\\VCalendar');
-
-		$this->addMandatory('vobject');
-
-		if ($from instanceof VCalendar) {
-			$this->fromVObject($from);
-		} elseif (is_string($from)) {
-			$this->fromData($from);
-		}
-	}
-
-
-	/**
 	 * @param VCalendar $vcalendar
 	 * @return $this
 	 * @throws MultipleObjectsReturnedException
@@ -128,6 +111,22 @@ class Timezone extends Entity implements ITimezone {
 		} else {
 			return null;
 		}
+	}
+
+
+	/**
+	 * register field types
+	 */
+	protected function registerTypes() {
+		$this->addType('vobject', 'OCA\\Calendar\\Sabre\\vobject\\Component\\VCalendar');
+	}
+
+
+	/**
+	 * register mandatory fields
+	 */
+	protected function registerMandatory() {
+		$this->addMandatory('vobject');
 	}
 
 
