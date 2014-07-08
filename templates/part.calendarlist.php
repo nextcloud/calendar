@@ -82,7 +82,7 @@
 		<fieldset ng-show="editfieldset" class="editfieldset">
 			<input type="text" ng-model="editmodel" data-id="{{ calendar.id }}" />
 			<button 
-				colorpicker="rgb" colorpicker-position="top" 
+				colorpicker="rgba" colorpicker-position="top" 
 				ng-model="editcolor"
 				id="editcolorpicker"
 				style="background:{{ calendar.color }}">

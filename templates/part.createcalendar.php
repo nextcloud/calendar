@@ -39,7 +39,7 @@
 	<fieldset class="personalblock add-new">
 		<form>
 			<input type="text" ng-model="newCalendarInputVal" autofocus />
-			<button colorpicker="rgb" colorpicker-position="top" ng-model="newcolor" id="newcolorpicker" style="background: {{ newcolor }};"></button>
+			<button colorpicker="rgba" colorpicker-position="top" ng-model="newcolor" id="newcolorpicker" style="background: {{ newcolor }};"></button>
 			<button
 				ng-click="create(newCalendarInputVal,newcolor)"
 				id="submitnewCalendar"
