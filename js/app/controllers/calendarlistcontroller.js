@@ -55,7 +55,8 @@ app.controller('CalendarListController', ['$scope','$window','$location','$route
 					"vevent" : true,
 					"vjournal" : true,
 					"vtodo" : true
-				}
+				},
+				"enabled": true
 			};
 			calendarResource.post(newCalendar).then(function (newCalendar) {
 				CalendarModel.create(newCalendar);
@@ -86,7 +87,6 @@ app.controller('CalendarListController', ['$scope','$window','$location','$route
 			
 			$scope.update = function(id,updatedname,updatedcolor, vevent, vjournal, vtodo) {
 				var updated = {
-					"id" : id,
 					"displayname" : updatedname,
 					"color" : updatedcolor,
 					"components" : {
