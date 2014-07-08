@@ -41,6 +41,9 @@ abstract class Entity implements IEntity{
 	protected $mandatory = array();
 
 
+	/**
+	 * @param $createFrom
+	 */
 	public function __construct($createFrom=null) {
 		if (is_callable(array($this, 'registerTypes'))) {
 			$this->registerTypes();
@@ -49,14 +52,24 @@ abstract class Entity implements IEntity{
 			$this->registerMandatory();
 		}
 
-		if (is_array($createFrom) && is_callable(array($this, 'fromRow'))) {
+		if (is_array($createFrom)) {
 			$this->fromRow($createFrom);
 		} elseif ($createFrom instanceof VCalendar) {
 			$this->fromVObject($createFrom);
-		} elseif (is_string($createFrom) && is_callable(array($this, 'fromData'))) {
-			$this->fromData($createFrom);
 		}
 	}
+
+
+	/**
+	 * wrapper function for registering all types of an entity
+	 */
+	abstract protected function registerTypes();
+
+
+	/**
+	 * wrapper function for registering all mandatory fields
+	 */
+	abstract protected function registerMandatory();
 
 
 	/**
@@ -281,30 +294,15 @@ abstract class Entity implements IEntity{
 	}
 
 
+	/**
+	 * Adds information that a certain field is mandatory
+	 * isValid will fail if a mandatory field is not set
+	 * @param $fieldName
+	 */
 	protected function addMandatory($fieldName) {
 		$this->mandatory[] = $fieldName;
 	}
 
-	/**
-	 * Each time a setter is called, push the part after set
-	 * into an array: for instance setId will save Id in the
-	 * updated fields array so it can be easily used to create the
-	 * getter method
-	 */
-	public function __call($methodName, $args){
-		$attr = lcfirst( substr($methodName, 3) );
-
-		if (strpos($methodName, 'set') === 0){
-			$this->setter($attr, $args);
-			return $this;
-		} elseif (strpos($methodName, 'get') === 0) {
-			return $this->getter($attr);
-		} else {
-			throw new \BadFunctionCallException($methodName .
-				' does not exist');
-		}
-
-	}
 
 	/**
 	 * Slugify the value of a given attribute

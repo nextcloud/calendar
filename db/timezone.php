@@ -39,6 +39,18 @@ class Timezone extends Entity implements ITimezone {
 
 
 	/**
+	 * @param $createFrom
+	 */
+	public function __construct($createFrom) {
+		parent::__construct($createFrom);
+
+		if (is_string($createFrom)) {
+			$this->fromData($createFrom);
+		}
+	}
+
+
+	/**
 	 * @param VCalendar $vcalendar
 	 * @return $this
 	 * @throws MultipleObjectsReturnedException
