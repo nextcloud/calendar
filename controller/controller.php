@@ -127,7 +127,7 @@ abstract class Controller extends \OCP\AppFramework\Controller {
 	 * @param \DateTime $default
 	 */
 	protected function parseDateTime(&$string, \DateTime $default) {
-		$datetime = \DateTime::createFromFormat(\DateTime::ISO8601, $string);
+		$datetime = \DateTime::createFromFormat('U', $string);
 
 		if ($string === null || $datetime === false) {
 			$string = $default;
