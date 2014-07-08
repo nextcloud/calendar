@@ -29,7 +29,6 @@ use OCP\Calendar\IFullyQualifiedBackend;
 use OCP\Calendar\ICalendar;
 use OCP\Calendar\ICalendarCollection;
 use OCP\Calendar\BackendException;
-use OCP\Calendar\CacheOutDatedException;
 use OCP\Calendar\DoesNotExistException;
 use OCP\Calendar\MultipleObjectsReturnedException;
 
@@ -239,9 +238,6 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 			return $calendar;
 		} catch (BackendException $ex) {
 			throw new BusinessLayerException($ex->getMessage());
-		} catch (CacheOutDatedException $ex) {
-			//TODO - update cache
-			throw new BusinessLayerException($ex->getMessage());
 		}
 	}
 
@@ -257,98 +253,29 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 		$firstBackend = $this->backends->reset();
 		$defaultBackend = $firstBackend->getBackend();
 
-		if ($calendar->getUserId() === null) {
-			$calendar->setUserId($userId);
-		}
-		if ($calendar->getOwnerId() === null) {
-			$calendar->setOwnerId($userId);
-		}
-		if ($calendar->getBackend() === null) {
-			$calendar->setBackend($defaultBackend);
-		}
-		if ($calendar->getPublicUri() === null && $calendar->getDisplayname() !== null && $calendar->getDisplayname() !== '') {
-			$suggestedURI = mb_strtolower($calendar->getDisplayname());
-			$suggestedURI = CalendarUtility::slugify($suggestedURI);
+		$setIfNull = array(
+			'userId' => $userId,
+			'ownerId' => $userId,
+			'backend' => $defaultBackend,
+			'cruds' => Permissions::ALL,
+			'ctag' => 0,
+			'enabled' => true,
+			'order' => 0
+		);
 
-			while($this->doesExist($suggestedURI, $calendar->getUserId())) {
-				$newSuggestedURI = CalendarUtility::suggestURI($suggestedURI);
+		foreach($setIfNull as $property => $default) {
+			$getter = 'get' . ucfirst($property);
+			$setter = 'set' . ucfirst($property);
 
-				if ($newSuggestedURI === $suggestedURI) {
-					break;
-				}
-				$suggestedURI = $newSuggestedURI;
+			if ($calendar->$getter() === null) {
+				$calendar->$setter($default);
 			}
+		}
 
-			$calendar->setPublicUri($suggestedURI);
-		}
-		/* set a provisional private uri, backends have to change it if uri is already taken!!!111oneoneeleven */
-		if ($calendar->getPublicUri() !== null) {
-			$calendar->setPrivateUri($calendar->getPublicUri());
-		}
-		if ($calendar->getCruds() === null) {
-			$calendar->setCruds(Permissions::ALL);
-		}
-		if ($calendar->getCtag() === null) {
-			$calendar->setCtag(0);
-		}
-		if ($calendar->getEnabled() === null) {
-			$calendar->setEnabled(true);
-		}
-		if ($calendar->getOrder() === null) {
-			$calendar->setOrder(0);
-		}
+		$this->checkUriOrDisplaynameExists($calendar);
+		$this->generatePublicUri($calendar);
 
 		return $this->create($calendar);
-	}
-
-
-	/**
-	 * Create all calendars in calendar-collection
-	 * @param ICalendarCollection $calendarCollection
-	 * @return ICalendarCollection
-	 */
-	public function createCollection(ICalendarCollection $calendarCollection) {
-		$className = get_class($calendarCollection);
-
-		/** @var ICalendarCollection $createdCalendars */
-		$createdCalendars = new $className();
-
-		$calendarCollection->iterate(function(ICalendar $calendar) use ($createdCalendars) {
-			try {
-				$calendar = $this->create($calendar);
-				$createdCalendars->add($calendar);
-			} catch(BusinessLayerException $ex) {
-				$this->app->log($ex->getMessage(), 'debug');
-				return;
-			}
-		});
-
-		return $createdCalendars;
-	}
-
-
-	/**
-	 * Create all calendars in a calendar-collection from request
-	 * @param ICalendarCollection $calendarCollection
-	 * @return ICalendarCollection
-	 */
-	public function createCollectionFromRequest(ICalendarCollection $calendarCollection) {
-		$className = get_class($calendarCollection);
-
-		/** @var ICalendarCollection $createdCalendars */
-		$createdCalendars = new $className();
-
-		$calendarCollection->iterate(function(ICalendar $calendar) use ($createdCalendars) {
-			try {
-				$calendar = $this->createFromRequest($calendar);
-				$createdCalendars->add($calendar);
-			} catch(BusinessLayerException $ex) {
-				$this->app->log($ex->getMessage(), 'debug');
-				return;
-			}
-		});
-
-		return $createdCalendars;
 	}
 
 
@@ -382,10 +309,6 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 			}
 		} catch(BackendException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
-			throw new BusinessLayerException($ex->getMessage());
-		} catch (CacheOutDatedException $ex) {
-			$this->app->log($ex->getMessage(), 'debug');
-			//TODO - trigger cache update from remote
 			throw new BusinessLayerException($ex->getMessage());
 		}
 	}
@@ -445,7 +368,7 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 	 */
 	public function patchFromRequest(ICalendar $newCalendar, $oldPublicUri, $oldUserId) {
 		$oldCalendar = $this->find($oldPublicUri, $oldUserId);
-		$newCalendar->getId($oldCalendar->getId());
+		$newCalendar->setId($oldCalendar->getId());
 		$newCalendar->setPrivateUri($oldCalendar->getPrivateUri());
 
 		$this->resetReadOnlyProperties($newCalendar, $oldCalendar);
@@ -718,5 +641,46 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 		if ($newCalendar->getCtag() === null) {
 			$newCalendar->setCtag($oldCalendar->getCruds());
 		}
+	}
+
+
+	/**
+	 * @param ICalendar $calendar
+	 * @throws BusinessLayerException
+	 */
+	private function checkUriOrDisplaynameExists(ICalendar $calendar) {
+		if (($calendar->getDisplayname() === null ||
+			trim($calendar->getDisplayname()) === '') &&
+			$calendar->getPublicUri() === null) {
+			throw new BusinessLayerException(
+				'Please enter a calendar-name',
+				Http::STATUS_UNPROCESSABLE_ENTITY
+			);
+		}
+	}
+
+
+	/**
+	 * @param ICalendar $calendar
+	 */
+	private function generatePublicUri(ICalendar &$calendar) {
+		if ($calendar->getPublicUri() === null) {
+			$suggestedURI = mb_strtolower($calendar->getDisplayname());
+		} else {
+			$suggestedURI = $calendar->getPublicUri();
+		}
+		$suggestedURI = CalendarUtility::slugify($suggestedURI);
+
+		while($this->doesExist($suggestedURI, $calendar->getUserId())) {
+			$newSuggestedURI = CalendarUtility::suggestURI($suggestedURI);
+
+			if ($newSuggestedURI === $suggestedURI) {
+				break;
+			}
+			$suggestedURI = $newSuggestedURI;
+		}
+
+		$calendar->setPublicUri($suggestedURI);
+		$calendar->setPrivateUri($suggestedURI);
 	}
 }
