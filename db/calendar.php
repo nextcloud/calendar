@@ -142,29 +142,8 @@ class Calendar extends Entity implements ICalendar {
 	 * @param mixed (array / VCalendar) $createFrom
 	 */
 	public function __construct($createFrom=null){
-		$this->addType('userId', 'string');
-		$this->addType('ownerId', 'string');
-		$this->addType('publicuri', 'string');
-		$this->addType('backend', 'string');
-		$this->addType('privateuri', 'string');
-		$this->addType('displayname', 'string');
-		$this->addType('components', 'integer');
-		$this->addType('ctag', 'integer');
-		$this->addType('color', 'string');
-		$this->addType('order', 'integer');
-		$this->addType('enabled', 'boolean');
-		$this->addType('cruds', 'integer');
-		$this->addType('lastPropertiesUpdate', 'integer');
-		$this->addType('lastObjectUpdate', 'integer');
-
-		$this->addMandatory('userId');
-		$this->addMandatory('ownerId');
-		$this->addMandatory('backend');
-		$this->addMandatory('privateuri');
-		$this->addMandatory('ctag');
-		$this->addMandatory('cruds');
-		$this->addMandatory('enabled');
-		$this->addMandatory('order');
+		$this->registerTypes();
+		$this->registerMandatory();
 
 		//create from array
 		if (is_array($createFrom)){
@@ -586,5 +565,41 @@ class Calendar extends Entity implements ICalendar {
 				$this->getPrivateUri()
 			)
 		);
+	}
+
+
+	/**
+	 * register field types
+	 */
+	private function registerTypes() {
+		$this->addType('userId', 'string');
+		$this->addType('ownerId', 'string');
+		$this->addType('publicuri', 'string');
+		$this->addType('backend', 'string');
+		$this->addType('privateuri', 'string');
+		$this->addType('displayname', 'string');
+		$this->addType('components', 'integer');
+		$this->addType('ctag', 'integer');
+		$this->addType('color', 'string');
+		$this->addType('order', 'integer');
+		$this->addType('enabled', 'boolean');
+		$this->addType('cruds', 'integer');
+		$this->addType('lastPropertiesUpdate', 'integer');
+		$this->addType('lastObjectUpdate', 'integer');
+	}
+
+
+	/**
+	 * register mandatory fields
+	 */
+	private function registerMandatory() {
+		$this->addMandatory('userId');
+		$this->addMandatory('ownerId');
+		$this->addMandatory('backend');
+		$this->addMandatory('privateuri');
+		$this->addMandatory('ctag');
+		$this->addMandatory('cruds');
+		$this->addMandatory('enabled');
+		$this->addMandatory('order');
 	}
 }
