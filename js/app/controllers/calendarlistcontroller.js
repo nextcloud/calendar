@@ -40,7 +40,7 @@ app.controller('CalendarListController', ['$scope','$window','$location','$route
 		
 		// Needed for editing calendars.
 		$scope.editmodel = '';
-		$scope.editfieldset = false;
+		$scope.editfieldset = null;
 		$scope.editcolor = '';
 		$scope.vevent = true;
 		$scope.vjournal = false;
@@ -80,6 +80,7 @@ app.controller('CalendarListController', ['$scope','$window','$location','$route
 		};
 
 		$scope.updatecalendarform = function ($index,id,displayname,color) {
+			$scope.editfieldset = id;
 			$scope.editmodel = displayname;
 			$scope.editcolor = color;
 			
