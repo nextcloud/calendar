@@ -96,7 +96,7 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 					editable: value.cruds.update,
 					id: value.id
 				};
-				if (value.enabled === true) {
+				if (value.enabled === true && value.components.vevent === true) {
 					initEventSources.push($scope.eventSource[value.id]);
 					switcher.push(value.id);
 					angular.element('#calendarlist li a[data-id=' + value.id + ']').parent().addClass('active');
