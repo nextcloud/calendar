@@ -92,11 +92,26 @@ abstract class BusinessLayer {
 	 */
 	protected function checkIsValid(IEntity $entity) {
 		if (!$entity->isValid()) {
-			$class = get_class($entity);
-			$name = substr($class, strrpos( $class, '\\' ) + 1);
-			$msg = $name . ' instance is not valid';
-
+			$msg = $this->getClassName($entity) . ' instance is not valid';
 			throw new BusinessLayerException($msg, Http::STATUS_UNPROCESSABLE_ENTITY);
+		}
+
+		return true;
+	}
+
+
+	/**
+	 * @param $p1
+	 * @param $p2
+	 * @return bool
+	 * @throws BusinessLayerException
+	 */
+	protected function checkDoesNotExist($p1, $p2) {
+		if (method_exists($this, 'doesExist')) {
+			if ($this->doesExist($p1, $p2)) {
+				$msg = 'Already exists!';
+				throw new BusinessLayerException($msg, Http::STATUS_CONFLICT);
+			}
 		}
 
 		return true;
@@ -117,5 +132,15 @@ abstract class BusinessLayer {
 		}
 
 		return true;
+	}
+
+
+	/**
+	 * @param IEntity $entity
+	 * @return string
+	 */
+	private function getClassName(IEntity $entity) {
+		$class = get_class($entity);
+		return substr($class, strrpos( $class, '\\' ) + 1);
 	}
 }

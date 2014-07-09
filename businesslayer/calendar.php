@@ -228,7 +228,7 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 
 			$this->checkIsValid($calendar);
 			$this->checkBackendEnabled($backend);
-			$this->checkCalendarDoesNotExist($publicUri, $userId);
+			$this->checkDoesNotExist($publicUri, $userId);
 			$this->checkBackendSupports($backend, Backend::CREATE_CALENDAR);
 
 			/** @var IFullyQualifiedBackend $api */
@@ -514,22 +514,6 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 		} catch(BackendException $ex) {
 			throw new BusinessLayerException($ex->getMessage());
 		}
-	}
-
-
-	/**
-	 * @param string $publicUri
-	 * @param string $userId
-	 * @return bool
-	 * @throws BusinessLayerException
-	 */
-	private function checkCalendarDoesNotExist($publicUri, $userId) {
-		if ($this->doesExist($publicUri, $userId)) {
-			$msg = 'Calendar already exists!';
-			throw new BusinessLayerException($msg, Http::STATUS_CONFLICT);
-		}
-
-		return true;
 	}
 
 

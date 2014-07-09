@@ -362,7 +362,7 @@ class ObjectBusinessLayer extends BackendCollectionBusinessLayer {
 
 			list ($backend, $calUri, $userId) = $this->getBasicProps($calendar);
 
-			$this->checkObjectDoesNotExist($calendar, $uri);
+			$this->checkDoesNotExist($calendar, $uri);
 			$this->checkBackendSupports($backend, Backend::CREATE_CALENDAR);
 			$this->checkIsValid($object);
 
@@ -703,23 +703,6 @@ class ObjectBusinessLayer extends BackendCollectionBusinessLayer {
 		} catch(BackendException $ex) {
 			return $this->throwBusinessLayerException($ex);
 		}
-	}
-
-
-	/**
-	 * throw exception if object exists
-	 * @param ICalendar $calendar
-	 * @param string $uri
-	 * @return bool
-	 * @throws BusinessLayerException
-	 */
-	private function checkObjectDoesNotExist(ICalendar $calendar, $uri) {
-		if ($this->doesExist($calendar, $uri)) {
-			$msg = 'User Error: Object already exists!';
-			throw new BusinessLayerException($msg, Http::STATUS_CONFLICT);
-		}
-
-		return true;
 	}
 
 
