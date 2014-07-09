@@ -23,190 +23,136 @@ namespace OCA\Calendar\Controller;
 
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\IAppContainer;
 use OCP\Config;
+use OCP\IRequest;
 
 class SettingsController extends Controller {
 
-	private static $viewKey = 'currentView';
-	private static $timeKey = 'timeformat';
-	private static $firstDayKey = 'firstday';
+	/**
+	 * @var array
+	 */
+	private $settings;
+
 
 	/**
-	 * @param string $view
+	 * @param IAppContainer $app
+	 * @param IRequest $request
+	 */
+	public function __construct(IAppContainer $app, IRequest $request) {
+		parent::__construct($app, $request);
+
+		$this->settings = array(
+			'view' => array(
+				'configKey' => 'currentView',
+				'options' => array(
+					'agendaDay',
+					'agendaWeek',
+					'month',
+				),
+				'default' => 'month'
+			),
+			'timeFormat' => array(
+				'configKey' => 'timeformat',
+				'options' => array(
+
+				),
+				'default' => '24'
+			),
+			'firstDayOfWeek' => array(
+				'configKey' => 'firstday',
+				'options' => array(
+
+				),
+				'default' => 'mo'
+			),
+		);
+	}
+
+
+	/**
+	 * set a config value
+	 *
+	 * @param string $value
 	 * @return JSONResponse
 	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function setView($view) {
+	public function setValue($value) {
 		$userId = $this->api->getUserId();
 		$app = $this->app->getAppName();
-		$view = trim($view);
 
-		$availableViews = array(
-			'agendaDay',
-			'agendaWeek',
-			'month',
+		$info = $this->getInfoFromRoute();
+
+		if (isset($info['options']) && !in_array($value, $info['options'])) {
+			return new JSONResponse(array(
+				'message' => 'Value not supported',
+			), HTTP::STATUS_UNPROCESSABLE_ENTITY);
+		}
+
+		Config::setUserValue(
+			$userId,
+			$app,
+			$info['configKey'],
+			$value
 		);
 
-		if (in_array($view, $availableViews)) {
-			Config::setUserValue(
-				$userId,
-				$app,
-				self::$viewKey,
-				$view
-			);
-			return new JSONResponse(array(
-				'view' => $view,
-			));
+		return new JSONResponse(array(
+			'message' => 'Value stored successfully',
+		), HTTP::STATUS_OK);
+	}
+
+
+	/**
+	 * get a config value
+	 *
+	 * @return JSONResponse
+	 *
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 */
+	public function getValue() {
+		$userId = $this->api->getUserId();
+		$app = $this->app->getAppName();
+
+		$info = $this->getInfoFromRoute();
+
+		$value = Config::getUserValue(
+			$userId,
+			$app,
+			$info['configKey'],
+			(isset($info['default'])) ? $info['default'] : null
+		);
+
+		return new JSONResponse(array(
+			'value' => $value,
+		), HTTP::STATUS_OK);
+	}
+
+
+	/**
+	 * @return null|array
+	 */
+	private function getInfoFromRoute() {
+		$route = $this->request->getParam('_route');
+		list(, , $name) = explode('.', $route);
+		$key = lcfirst(substr($name, 3));
+
+		if (isset($this->settings[$key])) {
+			return $this->settings[$key];
 		} else {
-			return new JSONResponse(array(
-				'message' => 'view not supported',
-			), HTTP::STATUS_UNPROCESSABLE_ENTITY);
+			return $this->throwSettingNotAvailable();
 		}
 	}
 
 
 	/**
 	 * @return JSONResponse
-	 *
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
 	 */
-	public function getView() {
-		$userId = $this->api->getUserId();
-		$app = $this->app->getAppName();
-		$default = 'month';
-
-		$value = Config::getUserValue(
-			$userId,
-			$app,
-			self::$viewKey,
-			$default
-		);
-		$response = array(
-			'view' => $value
-		);
-
-		return new JSONResponse($response);
-	}
-
-
-	/**
-	 * @param string $timeformat
-	 * @return JSONResponse
-	 *
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 */
-	public function setTimeFormat($timeformat) {
-		$userId = $this->api->getUserId();
-		$app = $this->app->getAppName();
-
-		$availableTimeFormats = array(
-			'ampm',
-			'24',
-		);
-
-		if (in_array($timeformat, $availableTimeFormats)) {
-			Config::setUserValue(
-				$userId,
-				$app,
-				self::$timeKey,
-				$timeformat
-			);
-			return new JSONResponse(array(
-				'timeformat' => $timeformat
-			));
-		} else {
-			return new JSONResponse(array(
-				'message' => 'time-format not supported',
-			), HTTP::STATUS_UNPROCESSABLE_ENTITY);
-		}
-	}
-
-
-	/**
-	 * @return JSONResponse
-	 *
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 */
-	public function getTimeFormat() {
-		$userId = $this->api->getUserId();
-		$app = $this->app->getAppName();
-		$default = '24';
-
-		$value = Config::getUserValue(
-			$userId,
-			$app,
-			self::$timeKey,
-			$default
-		);
-		$response = array(
-			'timeformat' => $value
-		);
-
-		return new JSONResponse($response);
-	}
-
-
-	/**
-	 * @param string $firstday
-	 * @return JSONResponse
-	 *
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 */
-	public function setFirstDayOfWeek($firstday) {
-		$userId = $this->api->getUserId();
-		$app = $this->app->getAppName();
-
-		$availableFirstDays = array(
-			'sa',
-			'su',
-			'mo',
-		);
-
-		if (in_array($firstday, $availableFirstDays)) {
-			Config::setUserValue(
-				$userId,
-				$app,
-				self::$firstDayKey,
-				$firstday
-			);
-			return new JSONResponse(array(
-				'firstday' => $firstday
-			));
-		} else {
-			return new JSONResponse(array(
-				'message' => 'firstday not supported',
-			), HTTP::STATUS_UNPROCESSABLE_ENTITY);
-		}
-	}
-
-
-	/**
-	 * @return JSONResponse
-	 *
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 */
-	public function getFirstDayOfWeek() {
-		$userId = $this->api->getUserId();
-		$app = $this->app->getAppName();
-		$default = 'mo';
-
-		$value = Config::getUserValue(
-			$userId,
-			$app,
-			self::$firstDayKey,
-			$default
-		);
-		$response = array(
-			'firstday' => $value
-		);
-
-		return new JSONResponse($response);
+	private function throwSettingNotAvailable() {
+		return new JSONResponse(array(
+			'message' => 'Setting not available',
+		), HTTP::STATUS_NOT_FOUND);
 	}
 }

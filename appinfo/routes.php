@@ -77,29 +77,29 @@ $this->create('calendar.scan.calendar.mostOutDated', '/v1/scan/calendars/mostOut
 
 
 /* Settings API */
-$this->create('calendar.settings.getView', '/getView')->get()->action(function($params){
+$this->create('calendar.settings.getView', '/v1/getView')->get()->action(function($params){
 	$app = new \OCA\Calendar\App($params);
-	$app->dispatch('SettingsController', 'getView');
+	$app->dispatch('SettingsController', 'getValue');
 });
-$this->create('calendar.settings.setView', '/setView/{view}')->get()->action(function($params){
+$this->create('calendar.settings.setView', '/v1/setView/{value}')->post()->action(function($params){
 	$app = new \OCA\Calendar\App($params);
-	$app->dispatch('SettingsController', 'setView');
+	$app->dispatch('SettingsController', 'setValue');
 });
-$this->create('calendar.settings.getFirstDayOfWeek', '/getFirstDay')->get()->action(function($params){
+$this->create('calendar.settings.getFirstDayOfWeek', '/v1/getFirstDay')->get()->action(function($params){
 	$app = new \OCA\Calendar\App($params);
-	$app->dispatch('SettingsController', 'getFirstDayOfWeek');
+	$app->dispatch('SettingsController', 'getValue');
 });
-$this->create('calendar.settings.setFirstDayOfWeek', '/setFirstDay/{firstday}')->get()->action(function($params){
+$this->create('calendar.settings.setFirstDayOfWeek', '/v1/setFirstDay/{value}')->post()->action(function($params){
 	$app = new \OCA\Calendar\App($params);
-	$app->dispatch('SettingsController', 'setFirstDayOfWeek');
+	$app->dispatch('SettingsController', 'setValue');
 });
-$this->create('calendar.settings.getTimeFormat', '/getTimeFormat')->get()->action(function($params){
+$this->create('calendar.settings.getTimeFormat', '/v1/getTimeFormat')->get()->action(function($params){
 	$app = new \OCA\Calendar\App($params);
-	$app->dispatch('SettingsController', 'getTimeFormat');
+	$app->dispatch('SettingsController', 'getValue');
 });
-$this->create('calendar.settings.setTimeFormat', '/setTimeFormat/{timeformat}')->get()->action(function($params){
+$this->create('calendar.settings.setTimeFormat', '/v1/setTimeFormat/{value}')->post()->action(function($params){
 	$app = new \OCA\Calendar\App($params);
-	$app->dispatch('SettingsController', 'setTimeFormat');
+	$app->dispatch('SettingsController', 'setValue');
 });
 
 
