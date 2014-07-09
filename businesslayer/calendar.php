@@ -59,6 +59,7 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 
 			if ($activeBackendsOnly) {
 				$activeBackends = $this->backends->enabled();
+				/** @var ICalendarCollection $calendars */
 				$calendars = $calendars->filterByBackends($activeBackends);
 			}
 
