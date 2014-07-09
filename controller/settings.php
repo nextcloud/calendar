@@ -38,35 +38,11 @@ class SettingsController extends Controller {
 	/**
 	 * @param IAppContainer $app
 	 * @param IRequest $request
+	 * @param array $settings
 	 */
-	public function __construct(IAppContainer $app, IRequest $request) {
+	public function __construct(IAppContainer $app, IRequest $request, array $settings) {
 		parent::__construct($app, $request);
-
-		$this->settings = array(
-			'view' => array(
-				'configKey' => 'currentView',
-				'options' => array(
-					'agendaDay',
-					'agendaWeek',
-					'month',
-				),
-				'default' => 'month'
-			),
-			'timeFormat' => array(
-				'configKey' => 'timeformat',
-				'options' => array(
-
-				),
-				'default' => '24'
-			),
-			'firstDayOfWeek' => array(
-				'configKey' => 'firstday',
-				'options' => array(
-
-				),
-				'default' => 'mo'
-			),
-		);
+		$this->settings = $settings;
 	}
 
 

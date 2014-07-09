@@ -147,8 +147,9 @@ class App extends \OCP\AppFramework\App {
 		});
 		$this->getContainer()->registerService('SettingsController', function(IAppContainer $c) {
 			$req = $c->query('Request');
+			$set = $c->query('settings');
 
-			return new SettingsController($c, $req);
+			return new SettingsController($c, $req, $set);
 		});
 		$this->getContainer()->registerService('SubscriptionController', function(IAppContainer $c) {
 			$req = $c->query('Request');
@@ -263,6 +264,35 @@ class App extends \OCP\AppFramework\App {
 				'classname' => '\\OCA\\Calendar\\Backend\\WebCal',
 				'arguments' => array(),
 				'enabled' => true,
+			),
+		));
+
+		$this->getContainer()->registerParameter('settings', array(
+			'view' => array(
+				'configKey' => 'currentView',
+				'options' => array(
+					'agendaDay',
+					'agendaWeek',
+					'month',
+				),
+				'default' => 'month'
+			),
+			'timeFormat' => array(
+				'configKey' => 'timeformat',
+				'options' => array(
+					'ampm',
+					'24'
+				),
+				'default' => '24'
+			),
+			'firstDayOfWeek' => array(
+				'configKey' => 'firstday',
+				'options' => array(
+					'sa',
+					'so',
+					'mo'
+				),
+				'default' => 'mo'
 			),
 		));
 
