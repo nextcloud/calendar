@@ -118,39 +118,6 @@ class JSONUtility extends Utility{
 
 
 	/**
-	 * parse json-encoded cruds-information
-	 * @param array $value
-	 * @return integer $userId
-	 */
-	public static function parseCruds($value) {
-		$cruds = 0;
-
-		//use code if given
-		if (array_key_exists('code', $value) && intval($value['code']) >= 0 && intval($value['code']) <= 31) {
-			$cruds = intval($value['code']);
-		} else {
-			if (array_key_exists('create', $value) && $value['create'] === true) {
-				$cruds += Permissions::CREATE;
-			}
-			if (array_key_exists('update', $value) && $value['update'] === true) {
-				$cruds += Permissions::UPDATE;
-			}
-			if (array_key_exists('delete', $value) && $value['delete'] === true) {
-				$cruds += Permissions::DELETE;
-			}
-			if (array_key_exists('read', $value) && $value['read'] === true) {
-				$cruds += Permissions::READ;
-			}
-			if (array_key_exists('share', $value) && $value['share'] === true) {
-				$cruds += Permissions::SHARE;
-			}
-		}
-
-		return $cruds;
-	}
-
-
-	/**
 	 * get url for calendar
 	 * @param string $calendarURI
 	 * @return string
