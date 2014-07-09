@@ -298,14 +298,12 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 			$this->checkBackendEnabled($oldCalendar->getBackend());
 			$this->checkIsValid($newCalendar);
 
-			if ($this->doesNeedTransfer($newCalendar, $oldCalendar)) {
-				return $this->transfer($newCalendar, $oldCalendar);
-			} elseif ($this->doesNeedMove($newCalendar, $oldCalendar)) {
-				return $this->move($newCalendar, $oldCalendar);
-			} elseif ($this->doesNeedMerge($newCalendar, $oldCalendar)) {
-				return $this->merge($newCalendar, $oldCalendar);
-			} else {
+			if (!$this->doesNeedTransfer($newCalendar, $oldCalendar) &&
+				!$this->doesNeedMove($newCalendar, $oldCalendar) &&
+				!$this->doesNeedMerge($newCalendar, $oldCalendar)) {
 				return $this->updateProperties($newCalendar);
+			} else {
+				throw new BusinessLayerException('Action not supported yet');
 			}
 		} catch(BackendException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
@@ -444,7 +442,7 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 	 * @param ICalendar $oldCalendar
 	 * @return ICalendar
 	 * @throws BusinessLayerException
-	 */
+	 *
 	private function merge(ICalendar $newCalendar, ICalendar $oldCalendar) {
 		throw new BusinessLayerException('Merging calendars not supported yet!');
 	}
@@ -456,7 +454,7 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 	 * @param ICalendar $oldCalendar
 	 * @return ICalendar
 	 * @throws BusinessLayerException
-	 */
+	 *
 	private function move(ICalendar $newCalendar, ICalendar $oldCalendar) {
 		throw new BusinessLayerException('Moving calendars not supported yet');
 	}
@@ -468,10 +466,10 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 	 * @param ICalendar $oldCalendar
 	 * @return ICalendar
 	 * @throws BusinessLayerException
-	 */
+	 *
 	private function transfer(ICalendar $newCalendar, ICalendar $oldCalendar) {
 		throw new BusinessLayerException('Transferring calendars not supported yet');
-	}
+	}*/
 
 
 	/**
@@ -574,18 +572,10 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 	 * @param ICalendar &$oldCalendar
 	 */
 	private function resetReadOnlyProperties(ICalendar &$newCalendar, ICalendar &$oldCalendar) {
-		if ($newCalendar->getUserId() === null) {
-			$newCalendar->setUserId($oldCalendar->getUserId());
-		}
-		if ($newCalendar->getOwnerId() === null) {
-			$newCalendar->setOwnerId($oldCalendar->getOwnerId());
-		}
-		if ($newCalendar->getCruds() === null) {
-			$newCalendar->setCruds($oldCalendar->getCruds());
-		}
-		if ($newCalendar->getCtag() === null) {
-			$newCalendar->setCtag($oldCalendar->getCruds());
-		}
+		$newCalendar->setUserId($oldCalendar->getUserId());
+		$newCalendar->setOwnerId($oldCalendar->getOwnerId());
+		$newCalendar->setCruds($oldCalendar->getCruds());
+		$newCalendar->setCtag($oldCalendar->getCruds());
 	}
 
 
