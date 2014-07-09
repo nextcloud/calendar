@@ -84,7 +84,6 @@ app.factory('EventsModel', function () {
 					};
 				});
 			}
-			console.log(events);
 			return events;
 		},
 		alertMessage : function (title,start,end,allday) {

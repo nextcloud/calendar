@@ -49,8 +49,8 @@ app.controller('AppController', ['$scope',
 
 	}
 ]);
-app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 'CalendarModel', 'EventsModel', 'ViewModel',
-	function ($scope,$modal,Restangular,calendar,CalendarModel,EventsModel,ViewModel) {
+app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 'CalendarModel', 'EventsModel', 'ViewModel', 'TimezoneModel',
+	function ($scope,$modal,Restangular,calendar,CalendarModel,EventsModel,ViewModel,TimezoneModel) {
 		$scope.eventSources = EventsModel.getAll();
 		$scope.defaultView = ViewModel.getAll();
 		$scope.calendarmodel = CalendarModel;
@@ -116,6 +116,7 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 				select: $scope.newEvent,
 				eventSources: initEventSources,
 				eventClick: $scope.editEvent,
+				timezone: TimezoneModel.currenttimezone(),
 				defaultView: $scope.defaultView,
 				//eventColor: $scope.currentcalendar.color,
 				header:{
@@ -156,6 +157,8 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 				}
 			}
 		};
+
+		console.log($scope.uiConfig);
 
 		$scope.$watch('eventsmodel.calid', function (newid, oldid) {
 			newid = newid.id;
@@ -745,7 +748,6 @@ app.factory('EventsModel', function () {
 					};
 				});
 			}
-			console.log(events);
 			return events;
 		},
 		alertMessage : function (title,start,end,allday) {
