@@ -54,10 +54,18 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 		$scope.eventSources = EventsModel.getAll();
 		$scope.defaultView = ViewModel.getAll();
 		$scope.calendarmodel = CalendarModel;
+		$scope.defaulttimezone = TimezoneModel.currenttimezone();
 		$scope.eventsmodel = EventsModel;
 		$scope.i = 0;
 		var switcher = [];
 		var viewResource = Restangular.one('view');
+
+		if ($scope.defaulttimezone.length > 0) {
+			$scope.requestedtimezone = $scope.defaulttimezone.replace('/','-');
+			Restangular.one('timezones',$scope.requestedtimezone).get().then(function (timezonedata) {
+				TimezoneModel.addtimezone(timezonedata);
+			});
+		}
 
 		// Responds to change in View from calendarlistcontroller.
 		viewResource.get().then( function (views) {
@@ -116,7 +124,7 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 				select: $scope.newEvent,
 				eventSources: initEventSources,
 				eventClick: $scope.editEvent,
-				timezone: TimezoneModel.currenttimezone(),
+				timezone: $scope.defaulttimezone,
 				defaultView: $scope.defaultView,
 				//eventColor: $scope.currentcalendar.color,
 				header:{
@@ -157,8 +165,6 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 				}
 			}
 		};
-
-		console.log($scope.uiConfig);
 
 		$scope.$watch('eventsmodel.calid', function (newid, oldid) {
 			newid = newid.id;
@@ -860,6 +866,17 @@ app.factory('TimezoneModel', function () {
 		currenttimezone: function() {
 			var timezone = jstz.determine();
 			return timezone.name();
+		},
+		addtimezone: function (timezonedata) {
+			var rawdata = new ICAL.Component(timezonedata);
+			var vtimezones = rawdata.getAllSubcomponents("vtimezone");
+			var timezone = [];
+			ICAL.TimezoneService.reset();
+			angular.forEach(vtimezones, function (value,key) {
+				timezone = new ICAL.Timezone(value);
+				ICAL.TimezoneService.register(timezone.tzid, timezone);
+			});
+			return timezone;
 		}
 	};
 

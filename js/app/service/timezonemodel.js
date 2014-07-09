@@ -49,6 +49,17 @@ app.factory('TimezoneModel', function () {
 		currenttimezone: function() {
 			var timezone = jstz.determine();
 			return timezone.name();
+		},
+		addtimezone: function (timezonedata) {
+			var rawdata = new ICAL.Component(timezonedata);
+			var vtimezones = rawdata.getAllSubcomponents("vtimezone");
+			var timezone = [];
+			ICAL.TimezoneService.reset();
+			angular.forEach(vtimezones, function (value,key) {
+				timezone = new ICAL.Timezone(value);
+				ICAL.TimezoneService.register(timezone.tzid, timezone);
+			});
+			return timezone;
 		}
 	};
 
