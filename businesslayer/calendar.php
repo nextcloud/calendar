@@ -326,12 +326,7 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 	 */
 	public function updateFromRequest(ICalendar $newCalendar, $oldPublicUri, $oldUserId) {
 		$oldCalendar = $this->find($oldPublicUri, $oldUserId);
-		$newCalendar->getId($oldCalendar->getId());
-		$newCalendar->setPrivateUri($oldCalendar->getPrivateUri());
-
-		$this->resetReadOnlyProperties($newCalendar, $oldCalendar);
-
-		return $this->update($newCalendar, $oldPublicUri, $oldUserId);
+		return $this->updateFromRequestByCalendar($oldCalendar, $newCalendar);
 	}
 
 
@@ -347,12 +342,22 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 	 */
 	public function updateFromRequestById(ICalendar $newCalendar, $oldCalendarId, $oldUserId) {
 		$oldCalendar = $this->findById($oldCalendarId, $oldUserId);
+		return $this->updateFromRequestByCalendar($oldCalendar, $newCalendar);
+	}
+
+
+	/**
+	 * @param ICalendar $newCalendar
+	 * @param ICalendar $oldCalendar
+	 * @return ICalendar
+	 */
+	public function updateFromRequestByCalendar(ICalendar $newCalendar, ICalendar $oldCalendar) {
 		$newCalendar->setId($oldCalendar->getId());
 		$newCalendar->setPrivateUri($oldCalendar->getPrivateUri());
 
 		$this->resetReadOnlyProperties($newCalendar, $oldCalendar);
 
-		return $this->update($newCalendar, $oldCalendar->getPublicUri(), $oldUserId);
+		return $this->update($newCalendar, $oldCalendar->getPublicUri(), $oldCalendar->getUserId());
 	}
 
 
@@ -368,16 +373,7 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 	 */
 	public function patchFromRequest(ICalendar $newCalendar, $oldPublicUri, $oldUserId) {
 		$oldCalendar = $this->find($oldPublicUri, $oldUserId);
-		$newCalendar->setId($oldCalendar->getId());
-		$newCalendar->setPrivateUri($oldCalendar->getPrivateUri());
-
-		$this->resetReadOnlyProperties($newCalendar, $oldCalendar);
-
-		if ($newCalendar->doesContainNullValues()) {
-			$newCalendar = $oldCalendar->overwriteWith($newCalendar);
-		}
-
-		return $this->update($newCalendar, $oldPublicUri, $oldUserId);
+		return $this->patchFromRequestByCalendar($newCalendar, $oldCalendar);
 	}
 
 
@@ -388,11 +384,22 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 	 * @param string $oldUserId
 	 * @throws BusinessLayerException if backend does not exist
 	 * @throws BusinessLayerException if backend is disabled
-	 * @throws BusinessLayerException if backend does not implement updating a calendar
+	 * @throws BusinessLayerException if3 backend does not implement updating a calendar
 	 * @return ICalendar
 	 */
 	public function patchFromRequestById(ICalendar $newCalendar, $oldCalendarId, $oldUserId) {
 		$oldCalendar = $this->findById($oldCalendarId, $oldUserId);
+		return $this->patchFromRequestByCalendar($newCalendar, $oldCalendar);
+	}
+
+
+	/**
+	 * Patch a calendar from an old calendar object
+	 * @param ICalendar $newCalendar
+	 * @param ICalendar $oldCalendar
+	 * @return ICalendar
+	 */
+	private function patchFromRequestByCalendar(ICalendar $newCalendar, ICalendar $oldCalendar) {
 		$newCalendar->setId($oldCalendar->getId());
 		$newCalendar->setPrivateUri($oldCalendar->getPrivateUri());
 
@@ -402,7 +409,8 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 			$newCalendar = $oldCalendar->overwriteWith($newCalendar);
 		}
 
-		return $this->update($newCalendar, $oldCalendar->getPublicUri(), $oldUserId);
+		/** @var ICalendar $newCalendar */
+		return $this->update($newCalendar, $oldCalendar->getPublicUri(), $oldCalendar->getUserId());
 	}
 
 
@@ -438,28 +446,7 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 	 * @throws BusinessLayerException
 	 */
 	private function merge(ICalendar $newCalendar, ICalendar $oldCalendar) {
-		try {
-			$this->app->log(
-				'Couldn\'t merge ' . strval($oldCalendar) . ' into ' . strval($newCalendar),
-				'debug'
-			);
-
-			throw new BusinessLayerException('Merging calendars not supported yet!');
-
-			/*$newBackend = $newCalendar->getBackend();
-			$newPublicUri = $newCalendar->getPublicUri();
-			$newPrivateUri = $newCalendar->getPrivateUri();
-
-			$oldBackend = $oldCalendar->getBackend();
-			$oldPublicUri = $oldCalendar->getPublicUri();
-			$oldPrivateUri = $oldCalendar->getPrivateUri();
-
-			//TODO - schedule background task for merging
-
-			return $newCalendar;*/
-		} catch(BackendException $ex){
-			throw new BusinessLayerException($ex->getMessage(), $ex->getCode(), $ex);
-		}
+		throw new BusinessLayerException('Merging calendars not supported yet!');
 	}
 
 
@@ -471,28 +458,7 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 	 * @throws BusinessLayerException
 	 */
 	private function move(ICalendar $newCalendar, ICalendar $oldCalendar) {
-		try {
-			$this->app->log(
-				'Couldn\'t move ' . strval($oldCalendar) . ' to ' . strval($newCalendar),
-				'debug'
-			);
-
-			throw new BusinessLayerException('Moving calendars not supported yet');
-
-			/*$newBackend = $newCalendar->getBackend();
-			$newPublicUri = $newCalendar->getPublicUri();
-			$newPrivateUri = $newCalendar->getPrivateUri();
-
-			$oldBackend = $oldCalendar->getBackend();
-			$oldPublicUri = $oldCalendar->getPublicUri();
-			$oldPrivateUri = $oldCalendar->getPrivateUri();
-
-			//TODO - schedule background task for moving
-
-			return $newCalendar;*/
-		} catch(BackendException $ex){
-			throw new BusinessLayerException($ex->getMessage(), $ex->getCode(), $ex);
-		}
+		throw new BusinessLayerException('Moving calendars not supported yet');
 	}
 
 
@@ -504,28 +470,7 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 	 * @throws BusinessLayerException
 	 */
 	private function transfer(ICalendar $newCalendar, ICalendar $oldCalendar) {
-		try {
-			$this->app->log(
-				'Couldn\'t transfer ' . strval($oldCalendar) . ' to ' . strval($newCalendar),
-				'debug'
-			);
-
-			throw new BusinessLayerException('Transferring calendars not supported yet');
-
-			/*$newBackend = $newCalendar->getBackend();
-			$newPublicUri = $newCalendar->getPublicUri();
-			$newPrivateUri = $newCalendar->getPrivateUri();
-
-			$oldBackend = $oldCalendar->getBackend();
-			$oldPublicUri = $oldCalendar->getPublicUri();
-			$oldPrivateUri = $oldCalendar->getPrivateUri();
-
-			//TODO - schedule background task for merging
-
-			return $newCalendar;*/
-		} catch(BackendException $ex){
-			throw new BusinessLayerException($ex->getMessage(), $ex->getCode(), $ex);
-		}
+		throw new BusinessLayerException('Transferring calendars not supported yet');
 	}
 
 
