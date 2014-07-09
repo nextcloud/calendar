@@ -700,6 +700,8 @@ app.factory('EventsModel', function () {
 		},
 		addalldisplayfigures : function (calendarid,jcalData) {
 			var events = [];
+			var start = '';
+			var end = '';
 			var rawdata = new ICAL.Component(jcalData);
 			var fields = [];
 			var self = this;
@@ -707,12 +709,32 @@ app.factory('EventsModel', function () {
 			if (rawdata.jCal.length !== 0) {
 				var vevents = rawdata.getAllSubcomponents("vevent");
 				angular.forEach(vevents, function (value,key) {
-					var start = value.getFirstPropertyValue('dtstart');
-					var end = value.getFirstPropertyValue('dtend');
-					if (start.icaltype == 'date' && end.icaltype == 'date') {
-						isAllDay = true;
-					} else {
-						isAllDay = false;
+					// Todo : Repeating Calendar.
+					if (value.hasProperty('dtstart')) {
+						if (value.hasProperty('recurrenceId')) {
+							start = value.getFirstPropertyValue('recurrenceId');
+						} else {
+							start = value.getFirstPropertyValue('dtstart');
+						}
+						if (value.hasProperty('dtend') === true){
+							end = value.getFirstPropertyValue('dtend');
+						} else if (value.hasProperty('duration')) {
+							end = start.clone();
+							end.addDuration(value.getFirstPropertyValue('dtstart'));
+						} else {
+							end = start.clone();	
+						}
+						if (start.icaltype != 'date' && start.zone != ICAL.Timezone.utcTimezone && start.zone !=  ICAL.Timezone.localTimezone) {
+							start = start.convertToZone(ICAL.Timezone.utcTimezone);
+						}
+						if (end.icaltype != 'date' && end.zone != ICAL.Timezone.utcTimezone && end.zone !=  ICAL.Timezone.localTimezone) {
+							end = end.convertToZone(ICAL.Timezone.utcTimezone);
+						}
+						if (start.icaltype == 'date' && end.icaltype == 'date') {
+							isAllDay = true;
+						} else {
+							isAllDay = false;
+						}
 					}
 					events[key] = {
 						"calid" : calendarid,
@@ -723,6 +745,7 @@ app.factory('EventsModel', function () {
 					};
 				});
 			}
+			console.log(events);
 			return events;
 		},
 		alertMessage : function (title,start,end,allday) {
