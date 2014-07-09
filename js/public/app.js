@@ -260,7 +260,11 @@ app.controller('CalendarListController', ['$scope','$window','$location','$route
 		};
 
 		$scope.updatecalendarform = function ($index,id,displayname,color) {
-			$scope.editfieldset = id;
+			if ($scope.editfieldset === id) {
+				$scope.editfieldset = null;
+			} else {
+				$scope.editfieldset = id;
+			}
 			$scope.editmodel = displayname;
 			$scope.editcolor = color;
 			
