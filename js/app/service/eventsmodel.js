@@ -41,6 +41,7 @@ app.factory('EventsModel', function () {
 			var events = [];
 			var start = '';
 			var end = '';
+			var eventsid = '';
 			var rawdata = new ICAL.Component(jcalData);
 			var fields = [];
 			var self = this;
@@ -52,8 +53,10 @@ app.factory('EventsModel', function () {
 					if (value.hasProperty('dtstart')) {
 						if (value.hasProperty('recurrenceId')) {
 							start = value.getFirstPropertyValue('recurrenceId');
+							eventsid = value.getFirstPropertyValue('x-oc-uri') + '//' + start;
 						} else {
 							start = value.getFirstPropertyValue('dtstart');
+							eventsid = value.getFirstPropertyValue('x-oc-uri');
 						}
 						if (value.hasProperty('dtend')){
 							end = value.getFirstPropertyValue('dtend');
@@ -76,6 +79,7 @@ app.factory('EventsModel', function () {
 						}
 					}
 					events[key] = {
+						"eventId" : eventsid,
 						"calid" : calendarid,
 						"title" : value.getFirstPropertyValue('summary'),
 						"start" : start.toJSDate(),
