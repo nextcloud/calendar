@@ -53,7 +53,7 @@ app.factory('EventsModel', function () {
 					if (value.hasProperty('dtstart')) {
 						if (value.hasProperty('recurrenceId')) {
 							start = value.getFirstPropertyValue('recurrenceId');
-							eventsid = value.getFirstPropertyValue('x-oc-uri') + '//' + start;
+							eventsid = value.getFirstPropertyValue('x-oc-uri') + '//' + start.toICALString();
 						} else {
 							start = value.getFirstPropertyValue('dtstart');
 							eventsid = value.getFirstPropertyValue('x-oc-uri');
@@ -72,14 +72,10 @@ app.factory('EventsModel', function () {
 						if (end.icaltype != 'date' && end.zone != ICAL.Timezone.utcTimezone && end.zone !=  ICAL.Timezone.localTimezone) {
 							end = end.convertToZone(timezone);
 						}
-						if (start.icaltype == 'date' && end.icaltype == 'date') {
-							isAllDay = true;
-						} else {
-							isAllDay = false;
-						}
+						isAllDay = (start.icaltype == 'date' && end.icaltype == 'date');
 					}
 					events[key] = {
-						"eventId" : eventsid,
+						"id" : eventsid,
 						"calid" : calendarid,
 						"title" : value.getFirstPropertyValue('summary'),
 						"start" : start.toJSDate(),
