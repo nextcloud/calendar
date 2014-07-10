@@ -61,7 +61,6 @@ class ObjectBusinessLayer extends BackendCollectionBusinessLayer {
 				$objects = $this->mapper->findAll($calendar, $limit, $offset);
 			} else {
 				$objects = $api->findObjects($calendar, $limit, $offset);
-				$this->addGlobalIds($objects, $calendar->getId());
 			}
 
 			return $objects;
@@ -115,7 +114,6 @@ class ObjectBusinessLayer extends BackendCollectionBusinessLayer {
 				$object = $this->mapper->find($calendar, $uri);
 			} else {
 				$object = $api->findObject($calendar, $uri);
-				$this->addGlobalId($object);
 			}
 
 			return $object;
@@ -183,7 +181,6 @@ class ObjectBusinessLayer extends BackendCollectionBusinessLayer {
 					$objects->ofType($type);
 					$objects->subset($limit, $offset);
 				}
-				$this->addGlobalIds($objects, $calendar->getId());
 			}
 
 			return $objects;
@@ -230,7 +227,6 @@ class ObjectBusinessLayer extends BackendCollectionBusinessLayer {
 					$objects->inPeriod($start, $end);
 					$objects->subset($limit, $offset);
 				}
-				$this->addGlobalIds($objects, $calendar->getId());
 			}
 
 			return $objects;
@@ -282,7 +278,6 @@ class ObjectBusinessLayer extends BackendCollectionBusinessLayer {
 					$objects->inPeriod($start, $end);
 					$objects->subset($limit, $offset);
 				}
-				$this->addGlobalIds($objects, $calendar->getId());
 			}
 
 			return $objects;

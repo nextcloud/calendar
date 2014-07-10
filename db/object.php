@@ -212,7 +212,7 @@ class Object extends Entity implements IObject {
 		$objectName = $this->getObjectName();
 
 		$props = array(
-			new IntegerProperty($vobject, 'X-OC-ID', $this->getId()),
+			new TextProperty($vobject, 'X-OC-URI', $this->getUri()),
 			new TextProperty($vobject, 'X-OC-ETAG', $this->getEtag(true)),
 			new IntegerProperty($vobject, 'X-OC-RUDS', $this->getRuds())
 		);
