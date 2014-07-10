@@ -29,7 +29,7 @@
 			<span>{{ calendar.displayname }}</span>
 		</a>
 		<span class="utils">
-			<span class="action">
+			<span class="action" ng-class="{ disabled: !calendar.cruds.share }">
 				<span
 					id="chooseCalendar-share" 
 					class="share icon-share permanent"
@@ -65,7 +65,7 @@
 					ng-click="updatecalendarform($index,calendar.id,calendar.displayname,calendar.color);">
 				</span>
 			</span>
-			<span class="action">
+			<span class="action" ng-class="{ disabled: !calendar.cruds.delete }">
 				<span href="#"
 					id="chooseCalendar-delete"
 					data-id="{{ calendar.uri }}"

@@ -31,7 +31,7 @@
 			<span>{{ calendar.displayname }}</span>
 		</a>
 		<span class="utils">
-			<span class="action">
+			<span class="action" ng-class="{ disabled: !calendar.cruds.share }">
 				<span
 					id="chooseCalendar-share" 
 					class="share icon-share permanent"
