@@ -134,8 +134,8 @@
 
 #newcolorpicker, #editcolorpicker {
 	width:20px;
-	height:20px;
-	background:#ff0000;
+	height:25px;
+	background:#252e5f;
 	border:none;
 	border-radius:0px;
 	outline:none;
