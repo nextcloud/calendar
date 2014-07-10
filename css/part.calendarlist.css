@@ -115,6 +115,10 @@
 	cursor: pointer;
 }
 
+.personalblock.add-new , .personalblock.add-new-subscription {
+	display: none;
+}
+
 .add-new, .add-new-subscription {
 	background-color:#eee;
 }
