@@ -24,3 +24,7 @@
 #primarycaldav, #ioscaldav {
 	width:90%;
 }
+
+#app-settings-content .personalblock ul li:hover {
+	background: transparent;
+}
