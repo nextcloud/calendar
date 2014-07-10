@@ -63,7 +63,7 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 		if ($scope.defaulttimezone.length > 0) {
 			$scope.requestedtimezone = $scope.defaulttimezone.replace('/','-');
 			Restangular.one('timezones',$scope.requestedtimezone).get().then(function (timezonedata) {
-				TimezoneModel.addtimezone(timezonedata);
+				$scope.timezone = TimezoneModel.addtimezone(timezonedata);
 			});
 		}
 
@@ -96,11 +96,10 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 			if ($scope.eventSource[value.id] === undefined) {
 				$scope.eventSource[value.id] = {
 					events: function (start, end, timezone, callback) {
-						//TODO - actually handle timezone param ;)
 						start = start.format('X');
 						end = end.format('X');
 						Restangular.one('calendars', value.id).one('events').one('inPeriod').getList(start + '/' + end).then(function (eventsobject) {
-							callback(EventsModel.addalldisplayfigures(value.id,eventsobject));
+							callback(EventsModel.addalldisplayfigures(value.id,eventsobject,$scope.timezone));
 						});
 					},
 					color: value.color,
@@ -707,7 +706,7 @@ app.factory('EventsModel', function () {
 			var rawdata = new ICAL.Event();
 			this.events.push(rawdata);
 		},
-		addalldisplayfigures : function (calendarid,jcalData) {
+		addalldisplayfigures : function (calendarid,jcalData,timezone) {
 			var events = [];
 			var start = '';
 			var end = '';
@@ -725,7 +724,7 @@ app.factory('EventsModel', function () {
 						} else {
 							start = value.getFirstPropertyValue('dtstart');
 						}
-						if (value.hasProperty('dtend') === true){
+						if (value.hasProperty('dtend')){
 							end = value.getFirstPropertyValue('dtend');
 						} else if (value.hasProperty('duration')) {
 							end = start.clone();
@@ -734,10 +733,10 @@ app.factory('EventsModel', function () {
 							end = start.clone();	
 						}
 						if (start.icaltype != 'date' && start.zone != ICAL.Timezone.utcTimezone && start.zone !=  ICAL.Timezone.localTimezone) {
-							start = start.convertToZone(ICAL.Timezone.utcTimezone);
+							start = start.convertToZone(timezone);
 						}
 						if (end.icaltype != 'date' && end.zone != ICAL.Timezone.utcTimezone && end.zone !=  ICAL.Timezone.localTimezone) {
-							end = end.convertToZone(ICAL.Timezone.utcTimezone);
+							end = end.convertToZone(timezone);
 						}
 						if (start.icaltype == 'date' && end.icaltype == 'date') {
 							isAllDay = true;

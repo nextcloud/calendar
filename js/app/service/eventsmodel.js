@@ -37,7 +37,7 @@ app.factory('EventsModel', function () {
 			var rawdata = new ICAL.Event();
 			this.events.push(rawdata);
 		},
-		addalldisplayfigures : function (calendarid,jcalData) {
+		addalldisplayfigures : function (calendarid,jcalData,timezone) {
 			var events = [];
 			var start = '';
 			var end = '';
@@ -55,7 +55,7 @@ app.factory('EventsModel', function () {
 						} else {
 							start = value.getFirstPropertyValue('dtstart');
 						}
-						if (value.hasProperty('dtend') === true){
+						if (value.hasProperty('dtend')){
 							end = value.getFirstPropertyValue('dtend');
 						} else if (value.hasProperty('duration')) {
 							end = start.clone();
@@ -64,10 +64,10 @@ app.factory('EventsModel', function () {
 							end = start.clone();	
 						}
 						if (start.icaltype != 'date' && start.zone != ICAL.Timezone.utcTimezone && start.zone !=  ICAL.Timezone.localTimezone) {
-							start = start.convertToZone(ICAL.Timezone.utcTimezone);
+							start = start.convertToZone(timezone);
 						}
 						if (end.icaltype != 'date' && end.zone != ICAL.Timezone.utcTimezone && end.zone !=  ICAL.Timezone.localTimezone) {
-							end = end.convertToZone(ICAL.Timezone.utcTimezone);
+							end = end.convertToZone(timezone);
 						}
 						if (start.icaltype == 'date' && end.icaltype == 'date') {
 							isAllDay = true;
