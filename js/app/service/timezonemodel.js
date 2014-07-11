@@ -33,7 +33,7 @@ app.factory('TimezoneModel', function () {
 			this.timezones.push(timezone);
 		},
 		addAll: function (timezones) {
-			for(var i=0; i<timezones.length; i++) {
+			for (var i = 0; i < timezones.length; i++) {
 				this.add(timezones[i]);
 			}
 		},
@@ -46,7 +46,7 @@ app.factory('TimezoneModel', function () {
 		delete: function (id) {
 			return 0;
 		},
-		currenttimezone: function() {
+		currenttimezone: function () {
 			var timezone = jstz.determine();
 			return timezone.name();
 		},
@@ -55,7 +55,7 @@ app.factory('TimezoneModel', function () {
 			var vtimezones = rawdata.getAllSubcomponents("vtimezone");
 			var timezone = [];
 			ICAL.TimezoneService.reset();
-			angular.forEach(vtimezones, function (value,key) {
+			angular.forEach(vtimezones, function (value, key) {
 				timezone = new ICAL.Timezone(value);
 				ICAL.TimezoneService.register(timezone.tzid, timezone);
 			});

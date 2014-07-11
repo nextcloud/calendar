@@ -21,8 +21,8 @@
  *
  */
 
-app.controller('SettingsController', ['$scope','Restangular',
-	function ($scope,Restangular) {
+app.controller('SettingsController', ['$scope', 'Restangular',
+	function ($scope, Restangular) {
 
 		var firstdayResource = Restangular.one('firstDay');
 		firstdayResource.get().then(function (firstdayobject) {
@@ -36,15 +36,15 @@ app.controller('SettingsController', ['$scope','Restangular',
 
 		// Time Format Dropdown
 		$scope.timeformatSelect = [
-			{ time : t('calendar', '24h'), val : '24' },
-			{ time : t('calendar' , '12h'), val : 'ampm' }
+			{ time: t('calendar', '24h'), val: '24' },
+			{ time: t('calendar', '12h'), val: 'ampm' }
 		];
 
 		// First Day Dropdown
 		$scope.firstdaySelect = [
-			{ day : t('calendar', 'Monday'), val : 'mo' },
-			{ day : t('calendar', 'Sunday'), val : 'su' },
-			{ day : t('calendar', 'Saturday'), val : 'sa' }
+			{ day: t('calendar', 'Monday'), val: 'mo' },
+			{ day: t('calendar', 'Sunday'), val: 'su' },
+			{ day: t('calendar', 'Saturday'), val: 'sa' }
 		];
 
 		// Changing the first day

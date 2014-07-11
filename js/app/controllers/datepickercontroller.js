@@ -22,7 +22,7 @@
  */
 
 app.controller('DatePickerController', ['$scope', 'CalendarModel',
-	function ($scope,CalendarModel) {
+	function ($scope, CalendarModel) {
 
 		// Changes the view for the month, week or daywise.
 		$scope.changeview = function (view) {

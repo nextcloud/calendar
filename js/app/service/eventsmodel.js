@@ -52,11 +52,11 @@ app.factory('EventsModel', function () {
 	}
 
 	EventsModel.prototype = {
-		create : function (newevent) {
+		create: function (newevent) {
 			var rawdata = new ICAL.Event();
 			this.events.push(rawdata);
 		},
-		addalldisplayfigures : function (calendarid,jcalData,timezone) {
+		addalldisplayfigures: function (calendarid, jcalData, timezone) {
 			var events = [];
 			var start = '';
 			var end = '';
@@ -69,13 +69,13 @@ app.factory('EventsModel', function () {
 
 			if (rawdata.jCal.length !== 0) {
 				var vtimezones = rawdata.getAllSubcomponents("vtimezone");
-				angular.forEach(vtimezones, function (value,key) {
+				angular.forEach(vtimezones, function (value, key) {
 					var timezone = new ICAL.Timezone(value);
 					ICAL.TimezoneService.register(timezone.tzid, timezone);
 				});
 
 				var vevents = rawdata.getAllSubcomponents("vevent");
-				angular.forEach(vevents, function (value,key) {
+				angular.forEach(vevents, function (value, key) {
 					// Todo : Repeating Calendar.
 					if (value.hasProperty('dtstart')) {
 						eventsId = value.getFirstPropertyValue('x-oc-uri');
@@ -89,39 +89,39 @@ app.factory('EventsModel', function () {
 							recurrenceId = value.getFirstPropertyValue('recurrenceId').toICALString();
 						}
 
-						if (value.hasProperty('dtend')){
+						if (value.hasProperty('dtend')) {
 							end = value.getFirstPropertyValue('dtend');
 						} else if (value.hasProperty('duration')) {
 							end = start.clone();
 							end.addDuration(value.getFirstPropertyValue('dtstart'));
 						} else {
-							end = start.clone();	
+							end = start.clone();
 						}
 
-						if (start.icaltype != 'date' && start.zone != ICAL.Timezone.utcTimezone && start.zone !=  ICAL.Timezone.localTimezone) {
+						if (start.icaltype != 'date' && start.zone != ICAL.Timezone.utcTimezone && start.zone != ICAL.Timezone.localTimezone) {
 							start = start.convertToZone(timezone);
 						}
 
-						if (end.icaltype != 'date' && end.zone != ICAL.Timezone.utcTimezone && end.zone !=  ICAL.Timezone.localTimezone) {
+						if (end.icaltype != 'date' && end.zone != ICAL.Timezone.utcTimezone && end.zone != ICAL.Timezone.localTimezone) {
 							end = end.convertToZone(timezone);
 						}
 
 						isAllDay = (start.icaltype == 'date' && end.icaltype == 'date');
 					}
 					events[key] = {
-						"id" : eventsId,
-						"calid" : calendarid,
-						"recurrenceId" : recurrenceId,
-						"title" : value.getFirstPropertyValue('summary'),
-						"start" : start.toJSDate(),
-						"end" : end.toJSDate(),
-						"allDay" : isAllDay
+						"id": eventsId,
+						"calid": calendarid,
+						"recurrenceId": recurrenceId,
+						"title": value.getFirstPropertyValue('summary'),
+						"start": start.toJSDate(),
+						"end": end.toJSDate(),
+						"allDay": isAllDay
 					};
 				});
 			}
 			return events;
 		},
-		eventResizer: function (event,delta,jcalData) {
+		eventResizer: function (event, delta, jcalData) {
 			var rawdata = new ICAL.Component(jcalData);
 			var vevents = rawdata.getAllSubcomponents("vevent");
 			var didFindEvent = false;
@@ -135,7 +135,7 @@ app.factory('EventsModel', function () {
 						return false;
 					}
 					deltaAsSeconds = delta.asSeconds();
-					duration =  new ICAL.Duration.fromSeconds(deltaAsSeconds);
+					duration = new ICAL.Duration.fromSeconds(deltaAsSeconds);
 
 					if (value.hasProperty('duration')) {
 						propertyToUpdate = value.getFirstPropertyValue('duration');
@@ -158,11 +158,11 @@ app.factory('EventsModel', function () {
 
 			return didFindEvent;
 		},
-		addEvent: function(id) {
-			this.calid.changer = Math.random(1000); 
+		addEvent: function (id) {
+			this.calid.changer = Math.random(1000);
 			this.calid.id = id;
 		},
-		getEvent: function() {
+		getEvent: function () {
 			return this.calid;
 		},
 		getAll: function () {

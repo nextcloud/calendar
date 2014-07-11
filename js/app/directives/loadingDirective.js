@@ -22,13 +22,13 @@
  */
 
 app.directive('loading',
-	[ function() {
+	[ function () {
 		return {
 			restrict: 'E',
 			replace: true,
-			template:"<div id='loading' class='icon-loading'></div>",
-	    	link: function($scope, element, attr) {
-				$scope.$watch('loading', function(val) {
+			template: "<div id='loading' class='icon-loading'></div>",
+			link: function ($scope, element, attr) {
+				$scope.$watch('loading', function (val) {
 					if (val) {
 						$(element).show();
 					}
@@ -36,7 +36,7 @@ app.directive('loading',
 						$(element).hide();
 					}
 				});
-			}		
+			}
 		};
 	}]
 );

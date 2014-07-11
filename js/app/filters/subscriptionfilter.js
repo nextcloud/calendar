@@ -22,11 +22,11 @@
  */
 
 app.filter('subscriptionFilter',
-	[ function() {
-		var subscriptionfilter = function(item) {
+	[ function () {
+		var subscriptionfilter = function (item) {
 			var filter = [];
 			if (item.length > 0) {
-				for (var i=0; i<item.length; i++) {
+				for (var i = 0; i < item.length; i++) {
 					if (item[i].cruds.create === false && item[i].cruds.update === false && item[i].cruds.delete === false) {
 						filter.push(item[i]);
 					}
@@ -36,4 +36,4 @@ app.filter('subscriptionFilter',
 		};
 		return subscriptionfilter;
 	}
-]);
+	]);

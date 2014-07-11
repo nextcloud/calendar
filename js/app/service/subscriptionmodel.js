@@ -21,7 +21,7 @@
  *
  */
 
- app.factory('SubscriptionModel', function() {
+app.factory('SubscriptionModel', function () {
 	var SubscriptionModel = function () {
 		this.subscriptions = [];
 		this.subscriptionId = {};
@@ -29,34 +29,34 @@
 	};
 
 	SubscriptionModel.prototype = {
-		create : function (newsubscription) {
+		create: function (newsubscription) {
 			this.subscriptions.push(newsubscription);
 		},
-		add : function (subscription) {
+		add: function (subscription) {
 			this.updateIfExists(subscription);
 		},
-		addAll : function (subscriptions) {
-			for(var i=0; i<subscriptions.length; i++) {
+		addAll: function (subscriptions) {
+			for (var i = 0; i < subscriptions.length; i++) {
 				this.add(subscriptions[i]);
 			}
 		},
-		getAll : function () {
+		getAll: function () {
 			return this.subscriptions;
 		},
-		get : function (id) {
+		get: function (id) {
 			return this.subscriptionId[id];
 		},
-		updateIfExists : function (updated) {
+		updateIfExists: function (updated) {
 			var subscription = this.subscriptionId[updated.id];
-			if(angular.isDefined(subscription)) {
+			if (angular.isDefined(subscription)) {
 
 			} else {
 				this.subscriptions.push(updated);
 				this.subscriptionId[updated.id] = updated;
 			}
 		},
-		remove : function (id) {
-			for(var i=0; i<this.subscriptions.length; i++) {
+		remove: function (id) {
+			for (var i = 0; i < this.subscriptions.length; i++) {
 				var subscription = this.subscriptions[i];
 				if (subscription.id === id) {
 					this.subscriptions.splice(i, 1);
@@ -65,17 +65,19 @@
 				}
 			}
 		},
-		getsubscriptionnames : function (backendobject) {
-			for (var i = 0; i<backendobject.length; i++) {
-				for (var j = 0; j<backendobject[i].subscriptions.length; j++) {
-					this.subscriptiondetails = [{
-						"name": backendobject[i].subscriptions[j].name,
-						"type" : backendobject[i].subscriptions[j].type
-					}];
+		getsubscriptionnames: function (backendobject) {
+			for (var i = 0; i < backendobject.length; i++) {
+				for (var j = 0; j < backendobject[i].subscriptions.length; j++) {
+					this.subscriptiondetails = [
+						{
+							"name": backendobject[i].subscriptions[j].name,
+							"type": backendobject[i].subscriptions[j].type
+						}
+					];
 				}
 			}
 			return this.subscriptiondetails;
-		} 
+		}
 	};
 
 	return new SubscriptionModel();

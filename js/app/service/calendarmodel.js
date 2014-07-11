@@ -21,46 +21,46 @@
  *
  */
 
-app.factory('CalendarModel', function() {
+app.factory('CalendarModel', function () {
 	var CalendarModel = function () {
 		this.calendars = [];
 		this.calendarId = {};
 		this.modelview = {
-			id : '',
-			view : ''
+			id: '',
+			view: ''
 		};
 		this.datepickerview = {
-			id : '',
-			view : ''
+			id: '',
+			view: ''
 		};
 		this.today = {
-			id : '',
-			date : new Date()
+			id: '',
+			date: new Date()
 		};
 		this.date = new Date();
 	};
 
 	CalendarModel.prototype = {
-		create : function (newcalendar) {
+		create: function (newcalendar) {
 			this.calendars.push(newcalendar);
 		},
-		add : function (calendar) {
+		add: function (calendar) {
 			this.updateIfExists(calendar);
 		},
-		addAll : function (calendars) {
-			for(var i=0; i<calendars.length; i++) {
+		addAll: function (calendars) {
+			for (var i = 0; i < calendars.length; i++) {
 				this.add(calendars[i]);
 			}
 		},
-		getAll : function () {
+		getAll: function () {
 			return this.calendars;
 		},
-		get : function (id) {
+		get: function (id) {
 			return this.calendarId[id];
 		},
-		updateIfExists : function (updated) {
+		updateIfExists: function (updated) {
 			var calendar = this.calendarId[updated.id];
-			if(angular.isDefined(calendar)) {
+			if (angular.isDefined(calendar)) {
 				calendar.displayname = updated.displayname;
 				calendar.color = updated.color;
 			} else {
@@ -68,8 +68,8 @@ app.factory('CalendarModel', function() {
 				this.calendarId[updated.id] = updated;
 			}
 		},
-		remove : function (id) {
-			for(var i=0; i<this.calendars.length; i++) {
+		remove: function (id) {
+			for (var i = 0; i < this.calendars.length; i++) {
 				var calendar = this.calendars[i];
 				if (calendar.id === id) {
 					this.calendars.splice(i, 1);
@@ -78,30 +78,30 @@ app.factory('CalendarModel', function() {
 				}
 			}
 		},
-		pushdatepickerview : function (view,date) {
+		pushdatepickerview: function (view, date) {
 			this.datepickerview.id = Math.random(1000);
 			this.datepickerview.view = view;
 		},
-		getdatepickerview : function (view) {
+		getdatepickerview: function (view) {
 			return this.datepickerview;
 		},
-		pushtoggleview : function (view) {
+		pushtoggleview: function (view) {
 			this.modelview.id = Math.random(1000);
 			this.modelview.view = view;
 		},
-		gettoggleview : function () {
+		gettoggleview: function () {
 			return this.modelview;
 		},
-		pushtodaydatepicker : function () {
+		pushtodaydatepicker: function () {
 			this.today.id = Math.random(1000);
 		},
-		gettodaydatepicker : function () {
+		gettodaydatepicker: function () {
 			return this.today;
 		},
-		pushdate : function (date) {
+		pushdate: function (date) {
 			this.date = date;
 		},
-		getdate : function () {
+		getdate: function () {
 			return this.date;
 		}
 	};

@@ -21,11 +21,11 @@
  *
  */
 app.filter('calendarFilter',
-	[ function() {
-		var calendarfilter = function(item) {
+	[ function () {
+		var calendarfilter = function (item) {
 			var filter = [];
 			if (item.length > 0) {
-				for (var i=0; i<item.length; i++) {
+				for (var i = 0; i < item.length; i++) {
 					if (item[i].cruds.create === true || item[i].cruds.update === true || item[i].cruds.delete === true) {
 						filter.push(item[i]);
 					}
@@ -35,4 +35,4 @@ app.filter('calendarFilter',
 		};
 		return calendarfilter;
 	}
-]);
+	]);

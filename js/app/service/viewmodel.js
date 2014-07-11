@@ -32,7 +32,7 @@ app.factory('ViewModel', function () {
 			this.view.push(views);
 		},
 		addAll: function (views) {
-			for(var i=0; i<views.length; i++) {
+			for (var i = 0; i < views.length; i++) {
 				this.add(views[i]);
 			}
 		},

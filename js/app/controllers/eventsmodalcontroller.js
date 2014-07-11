@@ -21,7 +21,7 @@
  *
  */
 app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular', 'CalendarModel', 'TimezoneModel', 'EventsModel', 'Model',
-	function ($scope,$routeParams,Restangular,CalendarModel,TimezoneModel,EventsModel,Model) {
+	function ($scope, $routeParams, Restangular, CalendarModel, TimezoneModel, EventsModel, Model) {
 
 		$scope.route = $routeParams;
 		var id = $scope.route.id;
@@ -41,34 +41,34 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 		$scope.description = '';
 
 		$scope.repeatevents = [
-			{title : t('calendar', 'Daily'), id : 1 },
-			{title : t('calendar', 'Weekly'), id : 2 },
-			{title : t('calendar', 'Every Weekday'), id : 3 },
-			{title : t('calendar', 'Bi-weekly'), id : 4 },
-			{title : t('calendar', 'Monthly'), id : 5 },
-			{title : t('calendar', 'Yearly'), id : 6 }
+			{title: t('calendar', 'Daily'), id: 1 },
+			{title: t('calendar', 'Weekly'), id: 2 },
+			{title: t('calendar', 'Every Weekday'), id: 3 },
+			{title: t('calendar', 'Bi-weekly'), id: 4 },
+			{title: t('calendar', 'Monthly'), id: 5 },
+			{title: t('calendar', 'Yearly'), id: 6 }
 		];
 
 		$scope.endintervals = [
-			{title : t('calendar', 'Never'), id : 1 },
-			{title : t('calendar', 'by occurances'), id : 2 },
-			{title : t('calendar', 'by date'), id : 3 },
+			{title: t('calendar', 'Never'), id: 1 },
+			{title: t('calendar', 'by occurances'), id: 2 },
+			{title: t('calendar', 'by date'), id: 3 },
 		];
 
 		$scope.currenttz = TimezoneModel.currenttimezone().toUpperCase();
 		console.log($scope.currenttz);
 
-		$scope.create = function() {
+		$scope.create = function () {
 			var newevent = {
-				"currenttimezone" : $scope.currenttz,
-				"uid" : Model.uidgen,
-				"summary" : $scope.summary,
-				"dtstart" : $scope.dtstart,
-				"dtend" : $scope.dtend,
-				"description" : $scope.description,
-				"location" : $scope.location,
-				"categories" : $scope.categories,
-				"allday" : $scope.allday
+				"currenttimezone": $scope.currenttz,
+				"uid": Model.uidgen,
+				"summary": $scope.summary,
+				"dtstart": $scope.dtstart,
+				"dtend": $scope.dtend,
+				"description": $scope.description,
+				"location": $scope.location,
+				"categories": $scope.categories,
+				"allday": $scope.allday
 				//"last-modified" : $scope.lastmodified
 				//"vtimezone" : TimezoneModel.getAll()
 			};

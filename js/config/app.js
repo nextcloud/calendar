@@ -29,26 +29,26 @@ var app = angular.module('Calendar', [
 	'ui.calendar',
 	'colorpicker.module'
 ]).config(['$provide', '$routeProvider', 'RestangularProvider', '$httpProvider', '$windowProvider',
-	function ($provide,$routeProvider,RestangularProvider,$httpProvider,$windowProvider) {
+	function ($provide, $routeProvider, RestangularProvider, $httpProvider, $windowProvider) {
 
 		$httpProvider.defaults.headers.common.requesttoken = oc_requesttoken;
 
 		$routeProvider.when('/', {
-			templateUrl : 'calendar.html',
-			controller : 'CalController',
-			resolve : {
+			templateUrl: 'calendar.html',
+			controller: 'CalController',
+			resolve: {
 				// TODO : this can leave, as we are not really using routes right now.
 				calendar: ['$route', '$q', 'Restangular',
-				function ($route, $q, Restangular) {
-					var deferred = $q.defer();
-					var id = $route.current.params.id;
-					Restangular.one('calendars', id).get().then(function (calendar) {
-						deferred.resolve(calendar);
-					}, function () {
-						deferred.reject();
-					});
-					return deferred.promise;
-				}],
+					function ($route, $q, Restangular) {
+						var deferred = $q.defer();
+						var id = $route.current.params.id;
+						Restangular.one('calendars', id).get().then(function (calendar) {
+							deferred.resolve(calendar);
+						}, function () {
+							deferred.reject();
+						});
+						return deferred.promise;
+					}],
 			}
 		});
 
@@ -59,8 +59,8 @@ var app = angular.module('Calendar', [
 	}
 ]).run(['$rootScope', '$location', 'CalendarModel', 'EventsModel',
 	function ($rootScope, $location, CalendarModel, EventsModel) {
-	$rootScope.$on('$routeChangeError', function () {
-		var calendars = CalendarModel.getAll();
-		var events = EventsModel.getAll();
-	});
-}]);
+		$rootScope.$on('$routeChangeError', function () {
+			var calendars = CalendarModel.getAll();
+			var events = EventsModel.getAll();
+		});
+	}]);

@@ -21,8 +21,8 @@
  *
  */
 
-app.controller('CalendarListController', ['$scope','$window','$location','$routeParams','Restangular','CalendarModel','EventsModel',
-	function ($scope,$window,$location,$routeParams,Restangular,CalendarModel,EventsModel) {
+app.controller('CalendarListController', ['$scope', '$window', '$location', '$routeParams', 'Restangular', 'CalendarModel', 'EventsModel',
+	function ($scope, $window, $location, $routeParams, Restangular, CalendarModel, EventsModel) {
 
 		$scope.calendars = CalendarModel.getAll();
 		var calendarResource = Restangular.all('calendars');
@@ -30,14 +30,14 @@ app.controller('CalendarListController', ['$scope','$window','$location','$route
 		calendarResource.getList().then(function (calendars) {
 			CalendarModel.addAll(calendars);
 		});
-		
+
 		$scope.newcolor = '';
 		$scope.newCalendarInputVal = '';
 
 		// Needed for CalDAV Input opening.
 		$scope.calDAVmodel = '';
 		$scope.i = [];
-		
+
 		// Needed for editing calendars.
 		$scope.editmodel = '';
 		$scope.editfieldset = null;
@@ -49,19 +49,19 @@ app.controller('CalendarListController', ['$scope','$window','$location','$route
 		// Create a New Calendar
 		$scope.create = function (newCalendarInputVal, newcolor) {
 			var newCalendar = {
-				"displayname" : $scope.newCalendarInputVal,
-				"color" : $scope.newcolor,
-				"components" : {
-					"vevent" : true,
-					"vjournal" : true,
-					"vtodo" : true
+				"displayname": $scope.newCalendarInputVal,
+				"color": $scope.newcolor,
+				"components": {
+					"vevent": true,
+					"vjournal": true,
+					"vtodo": true
 				},
 				"enabled": true
 			};
 			calendarResource.post(newCalendar).then(function (newCalendar) {
 				CalendarModel.create(newCalendar);
 			}, function (response) {
-				OC.Notification.show(t('calendar',response.data.message));
+				OC.Notification.show(t('calendar', response.data.message));
 			});
 		};
 
@@ -75,12 +75,12 @@ app.controller('CalendarListController', ['$scope','$window','$location','$route
 		};
 
 		// CalDAV display - hide logic goes here.
-		$scope.toggleCalDAV = function ($index,uri,id) {
+		$scope.toggleCalDAV = function ($index, uri, id) {
 			$scope.i.push($index);
 			$scope.calDAVmodel = OC.linkToRemote('caldav') + '/' + escapeHTML(encodeURIComponent(oc_current_user)) + '/' + escapeHTML(encodeURIComponent(uri));
 		};
 
-		$scope.updatecalendarform = function ($index,id,displayname,color) {
+		$scope.updatecalendarform = function ($index, id, displayname, color) {
 			if ($scope.editfieldset === id) {
 				$scope.editfieldset = null;
 			} else {
@@ -88,15 +88,15 @@ app.controller('CalendarListController', ['$scope','$window','$location','$route
 			}
 			$scope.editmodel = displayname;
 			$scope.editcolor = color;
-			
-			$scope.update = function(id,updatedname,updatedcolor, vevent, vjournal, vtodo) {
+
+			$scope.update = function (id, updatedname, updatedcolor, vevent, vjournal, vtodo) {
 				var updated = {
-					"displayname" : updatedname,
-					"color" : updatedcolor,
-					"components" : {
-						"vevent" : vevent,
-						"vjournal" : vjournal,
-						"vtodo" : vtodo
+					"displayname": updatedname,
+					"color": updatedcolor,
+					"components": {
+						"vevent": vevent,
+						"vjournal": vjournal,
+						"vtodo": vtodo
 					}
 				};
 				Restangular.one('calendars', id).patch(updated);
@@ -106,8 +106,8 @@ app.controller('CalendarListController', ['$scope','$window','$location','$route
 		// To Delete a Calendar
 		$scope.delete = function (id) {
 			var calendar = CalendarModel.get(id);
-			var delcalendarResource = Restangular.one('calendars',id);
-			delcalendarResource.remove().then( function () {
+			var delcalendarResource = Restangular.one('calendars', id);
+			delcalendarResource.remove().then(function () {
 				CalendarModel.remove(calendar);
 			});
 		};
@@ -118,7 +118,7 @@ app.controller('CalendarListController', ['$scope','$window','$location','$route
 		};
 
 		// Responsible for displaying or hiding events on the fullcalendar.
-		$scope.addRemoveEventSource = function(newid) {
+		$scope.addRemoveEventSource = function (newid) {
 			$scope.addEvent(newid); // Switches watch in CalController
 		};
 

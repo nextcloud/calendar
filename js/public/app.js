@@ -8,26 +8,26 @@ var app = angular.module('Calendar', [
 	'ui.calendar',
 	'colorpicker.module'
 ]).config(['$provide', '$routeProvider', 'RestangularProvider', '$httpProvider', '$windowProvider',
-	function ($provide,$routeProvider,RestangularProvider,$httpProvider,$windowProvider) {
+	function ($provide, $routeProvider, RestangularProvider, $httpProvider, $windowProvider) {
 
 		$httpProvider.defaults.headers.common.requesttoken = oc_requesttoken;
 
 		$routeProvider.when('/', {
-			templateUrl : 'calendar.html',
-			controller : 'CalController',
-			resolve : {
+			templateUrl: 'calendar.html',
+			controller: 'CalController',
+			resolve: {
 				// TODO : this can leave, as we are not really using routes right now.
 				calendar: ['$route', '$q', 'Restangular',
-				function ($route, $q, Restangular) {
-					var deferred = $q.defer();
-					var id = $route.current.params.id;
-					Restangular.one('calendars', id).get().then(function (calendar) {
-						deferred.resolve(calendar);
-					}, function () {
-						deferred.reject();
-					});
-					return deferred.promise;
-				}],
+					function ($route, $q, Restangular) {
+						var deferred = $q.defer();
+						var id = $route.current.params.id;
+						Restangular.one('calendars', id).get().then(function (calendar) {
+							deferred.resolve(calendar);
+						}, function () {
+							deferred.reject();
+						});
+						return deferred.promise;
+					}],
 			}
 		});
 
@@ -38,11 +38,11 @@ var app = angular.module('Calendar', [
 	}
 ]).run(['$rootScope', '$location', 'CalendarModel', 'EventsModel',
 	function ($rootScope, $location, CalendarModel, EventsModel) {
-	$rootScope.$on('$routeChangeError', function () {
-		var calendars = CalendarModel.getAll();
-		var events = EventsModel.getAll();
-	});
-}]);
+		$rootScope.$on('$routeChangeError', function () {
+			var calendars = CalendarModel.getAll();
+			var events = EventsModel.getAll();
+		});
+	}]);
 
 app.controller('AppController', ['$scope',
 	function ($scope) {
@@ -50,7 +50,7 @@ app.controller('AppController', ['$scope',
 	}
 ]);
 app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 'CalendarModel', 'EventsModel', 'ViewModel', 'TimezoneModel',
-	function ($scope,$modal,Restangular,calendar,CalendarModel,EventsModel,ViewModel,TimezoneModel) {
+	function ($scope, $modal, Restangular, calendar, CalendarModel, EventsModel, ViewModel, TimezoneModel) {
 		$scope.eventSources = EventsModel.getAll();
 		$scope.defaultView = ViewModel.getAll();
 		$scope.calendarmodel = CalendarModel;
@@ -61,14 +61,14 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 		var viewResource = Restangular.one('view');
 
 		if ($scope.defaulttimezone.length > 0) {
-			$scope.requestedtimezone = $scope.defaulttimezone.replace('/','-');
-			Restangular.one('timezones',$scope.requestedtimezone).get().then(function (timezonedata) {
+			$scope.requestedtimezone = $scope.defaulttimezone.replace('/', '-');
+			Restangular.one('timezones', $scope.requestedtimezone).get().then(function (timezonedata) {
 				$scope.timezone = TimezoneModel.addtimezone(timezonedata);
 			});
 		}
 
 		// Responds to change in View from calendarlistcontroller.
-		viewResource.get().then( function (views) {
+		viewResource.get().then(function (views) {
 			ViewModel.add(views);
 		});
 		//$scope.defaultView = viewResource.get();
@@ -76,30 +76,30 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 		$scope.eventSource = {};
 		$scope.calendars = $scope.calendarmodel.getAll();
 
-		$scope.addRemoveEventSources = function (newid,calendar) {
+		$scope.addRemoveEventSources = function (newid, calendar) {
 			$scope.i++;
 			if (switcher.indexOf(newid) > -1) {
-				switcher.splice(switcher.indexOf(newid),1);
-				Restangular.one('calendars', newid).patch({'enabled' : false});
+				switcher.splice(switcher.indexOf(newid), 1);
+				Restangular.one('calendars', newid).patch({'enabled': false});
 				calendar.fullCalendar('removeEventSource', $scope.eventSource[newid]);
 				angular.element('#calendarlist li a[data-id=' + newid + ']').parent().removeClass('active');
 			} else {
 				switcher.push(newid);
-				Restangular.one('calendars', newid).patch({'enabled' : true});
+				Restangular.one('calendars', newid).patch({'enabled': true});
 				calendar.fullCalendar('addEventSource', $scope.eventSource[newid]);
 				angular.element('#calendarlist li a[data-id=' + newid + ']').parent().addClass('active');
 			}
 		};
 
 		var initEventSources = [];
-		angular.forEach($scope.calendars, function (value,key) {
+		angular.forEach($scope.calendars, function (value, key) {
 			if ($scope.eventSource[value.id] === undefined) {
 				$scope.eventSource[value.id] = {
 					events: function (start, end, timezone, callback) {
 						start = start.format('X');
 						end = end.format('X');
 						Restangular.one('calendars', value.id).one('events').one('inPeriod').getList(start + '/' + end).then(function (eventsobject) {
-							callback(EventsModel.addalldisplayfigures(value.id,eventsobject,$scope.timezone));
+							callback(EventsModel.addalldisplayfigures(value.id, eventsobject, $scope.timezone));
 						});
 					},
 					color: value.color,
@@ -115,7 +115,7 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 		});
 
 		$scope.uiConfig = {
-			calendar : {
+			calendar: {
 				height: $(window).height() - $('#controls').height() - $('#header').height(),
 				editable: true,
 				selectable: true,
@@ -126,7 +126,7 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 				timezone: $scope.defaulttimezone,
 				defaultView: $scope.defaultView,
 				//eventColor: $scope.currentcalendar.color,
-				header:{
+				header: {
 					left: '',
 					center: '',
 					right: ''
@@ -141,24 +141,24 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 					week: t('calendar', "MMM d[ yyyy]{ '–'[ MMM] d yyyy}"),
 					day: t('calendar', 'dddd, MMM d, yyyy'),
 				},
-				eventResize: function(event, delta, revertFunc) {
+				eventResize: function (event, delta, revertFunc) {
 					Restangular.one('calendars', event.calid).getList('events').then(function (eventsobject) {
-						if(!EventsModel.eventResizer(event,delta,eventsobject)) {
+						if (!EventsModel.eventResizer(event, delta, eventsobject)) {
 							revertFunc();
 						}
 					});
 				},
-				viewRender : function(view) {
+				viewRender: function (view) {
 					angular.element('#datecontrol_current').html($('<p>').html(view.title).text());
 					angular.element("#datecontrol_date").datepicker("setDate", $scope.calendar.fullCalendar('getDate'));
 					var newview = view.name;
 					if (newview != 'month') {
-						viewResource.get().then(function(newview) {
+						viewResource.get().then(function (newview) {
 							ViewModel.add(newview);
 						});
 						$scope.defaultView = newview;
 					}
-					if(newview === 'agendaDay') {
+					if (newview === 'agendaDay') {
 						angular.element('td.fc-state-highlight').css('background-color', '#ffffff');
 					} else {
 						angular.element('td.fc-state-highlight').css('background-color', '#ffc');
@@ -175,12 +175,12 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 		$scope.$watch('eventsmodel.calid', function (newid, oldid) {
 			newid = newid.id;
 			if (newid !== '') {
-				$scope.addRemoveEventSources(newid,$scope.calendar);
+				$scope.addRemoveEventSources(newid, $scope.calendar);
 			}
 		}, true);
 
 		$scope.$watch('calendarmodel.modelview', function (newview, oldview) {
-			$scope.changeView = function(newview,calendar) {
+			$scope.changeView = function (newview, calendar) {
 				calendar.fullCalendar('changeView', newview);
 			};
 			$scope.today = function (calendar) {
@@ -188,7 +188,7 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 			};
 			if (newview.view && $scope.calendar) {
 				if (newview.view != 'today') {
-					$scope.changeView(newview.view,$scope.calendar);
+					$scope.changeView(newview.view, $scope.calendar);
 				} else {
 					$scope.today($scope.calendar);
 				}
@@ -196,27 +196,27 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 		}, true);
 
 		$scope.$watch('calendarmodel.datepickerview', function (newview, oldview) {
-			$scope.changeview = function(newview,calendar) {
+			$scope.changeview = function (newview, calendar) {
 				calendar.fullCalendar(newview.view);
 			};
 			if (newview.view !== '' && $scope.calendar !== undefined) {
-				$scope.changeview(newview,$scope.calendar);
+				$scope.changeview(newview, $scope.calendar);
 			}
 		}, true);
 
 		$scope.$watch('calendarmodel.date', function (newview, oldview) {
-			$scope.gotodate = function(newview,calendar) {
+			$scope.gotodate = function (newview, calendar) {
 				calendar.fullCalendar('gotoDate', newview);
 			};
 			if (newview !== '' && $scope.calendar !== undefined) {
-				$scope.gotodate(newview,$scope.calendar);
+				$scope.gotodate(newview, $scope.calendar);
 			}
 		});
 	}
 ]);
 
-app.controller('CalendarListController', ['$scope','$window','$location','$routeParams','Restangular','CalendarModel','EventsModel',
-	function ($scope,$window,$location,$routeParams,Restangular,CalendarModel,EventsModel) {
+app.controller('CalendarListController', ['$scope', '$window', '$location', '$routeParams', 'Restangular', 'CalendarModel', 'EventsModel',
+	function ($scope, $window, $location, $routeParams, Restangular, CalendarModel, EventsModel) {
 
 		$scope.calendars = CalendarModel.getAll();
 		var calendarResource = Restangular.all('calendars');
@@ -224,14 +224,14 @@ app.controller('CalendarListController', ['$scope','$window','$location','$route
 		calendarResource.getList().then(function (calendars) {
 			CalendarModel.addAll(calendars);
 		});
-		
+
 		$scope.newcolor = '';
 		$scope.newCalendarInputVal = '';
 
 		// Needed for CalDAV Input opening.
 		$scope.calDAVmodel = '';
 		$scope.i = [];
-		
+
 		// Needed for editing calendars.
 		$scope.editmodel = '';
 		$scope.editfieldset = null;
@@ -243,19 +243,19 @@ app.controller('CalendarListController', ['$scope','$window','$location','$route
 		// Create a New Calendar
 		$scope.create = function (newCalendarInputVal, newcolor) {
 			var newCalendar = {
-				"displayname" : $scope.newCalendarInputVal,
-				"color" : $scope.newcolor,
-				"components" : {
-					"vevent" : true,
-					"vjournal" : true,
-					"vtodo" : true
+				"displayname": $scope.newCalendarInputVal,
+				"color": $scope.newcolor,
+				"components": {
+					"vevent": true,
+					"vjournal": true,
+					"vtodo": true
 				},
 				"enabled": true
 			};
 			calendarResource.post(newCalendar).then(function (newCalendar) {
 				CalendarModel.create(newCalendar);
 			}, function (response) {
-				OC.Notification.show(t('calendar',response.data.message));
+				OC.Notification.show(t('calendar', response.data.message));
 			});
 		};
 
@@ -269,12 +269,12 @@ app.controller('CalendarListController', ['$scope','$window','$location','$route
 		};
 
 		// CalDAV display - hide logic goes here.
-		$scope.toggleCalDAV = function ($index,uri,id) {
+		$scope.toggleCalDAV = function ($index, uri, id) {
 			$scope.i.push($index);
 			$scope.calDAVmodel = OC.linkToRemote('caldav') + '/' + escapeHTML(encodeURIComponent(oc_current_user)) + '/' + escapeHTML(encodeURIComponent(uri));
 		};
 
-		$scope.updatecalendarform = function ($index,id,displayname,color) {
+		$scope.updatecalendarform = function ($index, id, displayname, color) {
 			if ($scope.editfieldset === id) {
 				$scope.editfieldset = null;
 			} else {
@@ -282,15 +282,15 @@ app.controller('CalendarListController', ['$scope','$window','$location','$route
 			}
 			$scope.editmodel = displayname;
 			$scope.editcolor = color;
-			
-			$scope.update = function(id,updatedname,updatedcolor, vevent, vjournal, vtodo) {
+
+			$scope.update = function (id, updatedname, updatedcolor, vevent, vjournal, vtodo) {
 				var updated = {
-					"displayname" : updatedname,
-					"color" : updatedcolor,
-					"components" : {
-						"vevent" : vevent,
-						"vjournal" : vjournal,
-						"vtodo" : vtodo
+					"displayname": updatedname,
+					"color": updatedcolor,
+					"components": {
+						"vevent": vevent,
+						"vjournal": vjournal,
+						"vtodo": vtodo
 					}
 				};
 				Restangular.one('calendars', id).patch(updated);
@@ -300,8 +300,8 @@ app.controller('CalendarListController', ['$scope','$window','$location','$route
 		// To Delete a Calendar
 		$scope.delete = function (id) {
 			var calendar = CalendarModel.get(id);
-			var delcalendarResource = Restangular.one('calendars',id);
-			delcalendarResource.remove().then( function () {
+			var delcalendarResource = Restangular.one('calendars', id);
+			delcalendarResource.remove().then(function () {
 				CalendarModel.remove(calendar);
 			});
 		};
@@ -312,7 +312,7 @@ app.controller('CalendarListController', ['$scope','$window','$location','$route
 		};
 
 		// Responsible for displaying or hiding events on the fullcalendar.
-		$scope.addRemoveEventSource = function(newid) {
+		$scope.addRemoveEventSource = function (newid) {
 			$scope.addEvent(newid); // Switches watch in CalController
 		};
 
@@ -320,7 +320,7 @@ app.controller('CalendarListController', ['$scope','$window','$location','$route
 ]);
 
 app.controller('DatePickerController', ['$scope', 'CalendarModel',
-	function ($scope,CalendarModel) {
+	function ($scope, CalendarModel) {
 
 		// Changes the view for the month, week or daywise.
 		$scope.changeview = function (view) {
@@ -340,7 +340,7 @@ app.controller('DatePickerController', ['$scope', 'CalendarModel',
 ]);
 
 app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular', 'CalendarModel', 'TimezoneModel', 'EventsModel', 'Model',
-	function ($scope,$routeParams,Restangular,CalendarModel,TimezoneModel,EventsModel,Model) {
+	function ($scope, $routeParams, Restangular, CalendarModel, TimezoneModel, EventsModel, Model) {
 
 		$scope.route = $routeParams;
 		var id = $scope.route.id;
@@ -360,34 +360,34 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 		$scope.description = '';
 
 		$scope.repeatevents = [
-			{title : t('calendar', 'Daily'), id : 1 },
-			{title : t('calendar', 'Weekly'), id : 2 },
-			{title : t('calendar', 'Every Weekday'), id : 3 },
-			{title : t('calendar', 'Bi-weekly'), id : 4 },
-			{title : t('calendar', 'Monthly'), id : 5 },
-			{title : t('calendar', 'Yearly'), id : 6 }
+			{title: t('calendar', 'Daily'), id: 1 },
+			{title: t('calendar', 'Weekly'), id: 2 },
+			{title: t('calendar', 'Every Weekday'), id: 3 },
+			{title: t('calendar', 'Bi-weekly'), id: 4 },
+			{title: t('calendar', 'Monthly'), id: 5 },
+			{title: t('calendar', 'Yearly'), id: 6 }
 		];
 
 		$scope.endintervals = [
-			{title : t('calendar', 'Never'), id : 1 },
-			{title : t('calendar', 'by occurances'), id : 2 },
-			{title : t('calendar', 'by date'), id : 3 },
+			{title: t('calendar', 'Never'), id: 1 },
+			{title: t('calendar', 'by occurances'), id: 2 },
+			{title: t('calendar', 'by date'), id: 3 },
 		];
 
 		$scope.currenttz = TimezoneModel.currenttimezone().toUpperCase();
 		console.log($scope.currenttz);
 
-		$scope.create = function() {
+		$scope.create = function () {
 			var newevent = {
-				"currenttimezone" : $scope.currenttz,
-				"uid" : Model.uidgen,
-				"summary" : $scope.summary,
-				"dtstart" : $scope.dtstart,
-				"dtend" : $scope.dtend,
-				"description" : $scope.description,
-				"location" : $scope.location,
-				"categories" : $scope.categories,
-				"allday" : $scope.allday
+				"currenttimezone": $scope.currenttz,
+				"uid": Model.uidgen,
+				"summary": $scope.summary,
+				"dtstart": $scope.dtstart,
+				"dtend": $scope.dtend,
+				"description": $scope.description,
+				"location": $scope.location,
+				"categories": $scope.categories,
+				"allday": $scope.allday
 				//"last-modified" : $scope.lastmodified
 				//"vtimezone" : TimezoneModel.getAll()
 			};
@@ -407,8 +407,8 @@ app.controller('NavController', ['$scope',
 
 	}
 ]);
-app.controller('SettingsController', ['$scope','Restangular',
-	function ($scope,Restangular) {
+app.controller('SettingsController', ['$scope', 'Restangular',
+	function ($scope, Restangular) {
 
 		var firstdayResource = Restangular.one('firstDay');
 		firstdayResource.get().then(function (firstdayobject) {
@@ -422,15 +422,15 @@ app.controller('SettingsController', ['$scope','Restangular',
 
 		// Time Format Dropdown
 		$scope.timeformatSelect = [
-			{ time : t('calendar', '24h'), val : '24' },
-			{ time : t('calendar' , '12h'), val : 'ampm' }
+			{ time: t('calendar', '24h'), val: '24' },
+			{ time: t('calendar', '12h'), val: 'ampm' }
 		];
 
 		// First Day Dropdown
 		$scope.firstdaySelect = [
-			{ day : t('calendar', 'Monday'), val : 'mo' },
-			{ day : t('calendar', 'Sunday'), val : 'su' },
-			{ day : t('calendar', 'Saturday'), val : 'sa' }
+			{ day: t('calendar', 'Monday'), val: 'mo' },
+			{ day: t('calendar', 'Sunday'), val: 'su' },
+			{ day: t('calendar', 'Saturday'), val: 'sa' }
 		];
 
 		// Changing the first day
@@ -453,16 +453,16 @@ app.controller('SettingsController', ['$scope','Restangular',
 	}
 ]);
 
-app.controller('SubscriptionController', ['$scope', '$window','SubscriptionModel', 'CalendarModel', 'EventsModel', 'Restangular',
-	function ($scope,$window,SubscriptionModel,CalendarModel,EventsModel,Restangular) {
-		
+app.controller('SubscriptionController', ['$scope', '$window', 'SubscriptionModel', 'CalendarModel', 'EventsModel', 'Restangular',
+	function ($scope, $window, SubscriptionModel, CalendarModel, EventsModel, Restangular) {
+
 		$scope.subscriptions = SubscriptionModel.getAll();
 		$scope.calendars = CalendarModel.getAll();
 
 		$scope.calDAVfieldset = [];
 		$scope.calDAVmodel = '';
 		$scope.i = []; // Needed for only one CalDAV Input opening.
-		
+
 		var subscriptionResource = Restangular.all('subscriptions');
 		subscriptionResource.getList().then(function (subscriptions) {
 			SubscriptionModel.addAll(subscriptions);
@@ -473,7 +473,7 @@ app.controller('SubscriptionController', ['$scope', '$window','SubscriptionModel
 		calendarResource.getList().then(function (calendars) {
 			CalendarModel.addAll(calendars);
 		});
-		
+
 		var backendResource = Restangular.all('backends-enabled');
 		backendResource.getList().then(function (backendsobject) {
 			$scope.subscriptiontypeSelect = SubscriptionModel.getsubscriptionnames(backendsobject);
@@ -482,7 +482,7 @@ app.controller('SubscriptionController', ['$scope', '$window','SubscriptionModel
 
 		$scope.newSubscriptionUrl = '';
 
-		$scope.create = function(newSubscriptionInputVal) {
+		$scope.create = function (newSubscriptionInputVal) {
 			var newSubscription = {
 				"type": $scope.selectedsubscriptionbackendmodel.type,
 				"url": $scope.newSubscriptionUrl,
@@ -490,15 +490,15 @@ app.controller('SubscriptionController', ['$scope', '$window','SubscriptionModel
 			subscriptionResource.post(newSubscription).then(function (newSubscription) {
 				SubscriptionModel.create(newSubscription);
 			}, function (response) {
-				OC.Notification.show(t('calendar',response.data.message));
+				OC.Notification.show(t('calendar', response.data.message));
 			});
 		};
 
 		// CalDAV display - hide logic goes here.
-		$scope.toggleCalDAV = function ($index,uri,id) {
+		$scope.toggleCalDAV = function ($index, uri, id) {
 			$scope.i.push($index);
 			$scope.calDAVmodel = OC.linkToRemote('caldav') + '/' + escapeHTML(encodeURIComponent(oc_current_user)) + '/' + escapeHTML(encodeURIComponent(uri));
-			for (var i=0; i<$scope.i.length - 1; i++) {
+			for (var i = 0; i < $scope.i.length - 1; i++) {
 				$scope.calDAVfieldset[i] = false;
 			}
 
@@ -518,20 +518,20 @@ app.controller('SubscriptionController', ['$scope', '$window','SubscriptionModel
 		};
 
 		// Responsible for displaying or hiding events on the fullcalendar.
-		$scope.addRemoveEventSource = function(newid) {
+		$scope.addRemoveEventSource = function (newid) {
 			$scope.addEvent(newid); // Switches watch in CalController
 		};
 
 	}
 ]);
 app.directive('loading',
-	[ function() {
+	[ function () {
 		return {
 			restrict: 'E',
 			replace: true,
-			template:"<div id='loading' class='icon-loading'></div>",
-	    	link: function($scope, element, attr) {
-				$scope.$watch('loading', function(val) {
+			template: "<div id='loading' class='icon-loading'></div>",
+			link: function ($scope, element, attr) {
+				$scope.$watch('loading', function (val) {
 					if (val) {
 						$(element).show();
 					}
@@ -539,16 +539,16 @@ app.directive('loading',
 						$(element).hide();
 					}
 				});
-			}		
+			}
 		};
 	}]
 );
 app.filter('calendarFilter',
-	[ function() {
-		var calendarfilter = function(item) {
+	[ function () {
+		var calendarfilter = function (item) {
 			var filter = [];
 			if (item.length > 0) {
-				for (var i=0; i<item.length; i++) {
+				for (var i = 0; i < item.length; i++) {
 					if (item[i].cruds.create === true || item[i].cruds.update === true || item[i].cruds.delete === true) {
 						filter.push(item[i]);
 					}
@@ -558,13 +558,13 @@ app.filter('calendarFilter',
 		};
 		return calendarfilter;
 	}
-]);
+	]);
 app.filter('eventFilter',
-	[ function() {
-		var eventfilter = function(item) {
-			var filter =[];
+	[ function () {
+		var eventfilter = function (item) {
+			var filter = [];
 			if (item.length > 0) {
-				for (var i=0; i<item.length; i++) {
+				for (var i = 0; i < item.length; i++) {
 					if (item[i].components.vevent === true) {
 						filter.push(item[i]);
 					}
@@ -574,13 +574,13 @@ app.filter('eventFilter',
 		};
 		return eventfilter;
 	}
-]);
+	]);
 app.filter('subscriptionFilter',
-	[ function() {
-		var subscriptionfilter = function(item) {
+	[ function () {
+		var subscriptionfilter = function (item) {
 			var filter = [];
 			if (item.length > 0) {
-				for (var i=0; i<item.length; i++) {
+				for (var i = 0; i < item.length; i++) {
 					if (item[i].cruds.create === false && item[i].cruds.update === false && item[i].cruds.delete === false) {
 						filter.push(item[i]);
 					}
@@ -590,7 +590,7 @@ app.filter('subscriptionFilter',
 		};
 		return subscriptionfilter;
 	}
-]);
+	]);
 app.factory('Model', function () {
 	var Model = function () {
 		this.text = '';
@@ -598,9 +598,9 @@ app.factory('Model', function () {
 	};
 
 	Model.prototype = {
-		uidgen : function () {
+		uidgen: function () {
 			this.possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-			for(var i=0; i < 5; i++) {
+			for (var i = 0; i < 5; i++) {
 				this.text += possible.charAt(Math.floor(Math.random() * possible.length));
 			}
 			console.log(this.text);
@@ -610,46 +610,46 @@ app.factory('Model', function () {
 
 	return new Model();
 });
-app.factory('CalendarModel', function() {
+app.factory('CalendarModel', function () {
 	var CalendarModel = function () {
 		this.calendars = [];
 		this.calendarId = {};
 		this.modelview = {
-			id : '',
-			view : ''
+			id: '',
+			view: ''
 		};
 		this.datepickerview = {
-			id : '',
-			view : ''
+			id: '',
+			view: ''
 		};
 		this.today = {
-			id : '',
-			date : new Date()
+			id: '',
+			date: new Date()
 		};
 		this.date = new Date();
 	};
 
 	CalendarModel.prototype = {
-		create : function (newcalendar) {
+		create: function (newcalendar) {
 			this.calendars.push(newcalendar);
 		},
-		add : function (calendar) {
+		add: function (calendar) {
 			this.updateIfExists(calendar);
 		},
-		addAll : function (calendars) {
-			for(var i=0; i<calendars.length; i++) {
+		addAll: function (calendars) {
+			for (var i = 0; i < calendars.length; i++) {
 				this.add(calendars[i]);
 			}
 		},
-		getAll : function () {
+		getAll: function () {
 			return this.calendars;
 		},
-		get : function (id) {
+		get: function (id) {
 			return this.calendarId[id];
 		},
-		updateIfExists : function (updated) {
+		updateIfExists: function (updated) {
 			var calendar = this.calendarId[updated.id];
-			if(angular.isDefined(calendar)) {
+			if (angular.isDefined(calendar)) {
 				calendar.displayname = updated.displayname;
 				calendar.color = updated.color;
 			} else {
@@ -657,8 +657,8 @@ app.factory('CalendarModel', function() {
 				this.calendarId[updated.id] = updated;
 			}
 		},
-		remove : function (id) {
-			for(var i=0; i<this.calendars.length; i++) {
+		remove: function (id) {
+			for (var i = 0; i < this.calendars.length; i++) {
 				var calendar = this.calendars[i];
 				if (calendar.id === id) {
 					this.calendars.splice(i, 1);
@@ -667,30 +667,30 @@ app.factory('CalendarModel', function() {
 				}
 			}
 		},
-		pushdatepickerview : function (view,date) {
+		pushdatepickerview: function (view, date) {
 			this.datepickerview.id = Math.random(1000);
 			this.datepickerview.view = view;
 		},
-		getdatepickerview : function (view) {
+		getdatepickerview: function (view) {
 			return this.datepickerview;
 		},
-		pushtoggleview : function (view) {
+		pushtoggleview: function (view) {
 			this.modelview.id = Math.random(1000);
 			this.modelview.view = view;
 		},
-		gettoggleview : function () {
+		gettoggleview: function () {
 			return this.modelview;
 		},
-		pushtodaydatepicker : function () {
+		pushtodaydatepicker: function () {
 			this.today.id = Math.random(1000);
 		},
-		gettodaydatepicker : function () {
+		gettodaydatepicker: function () {
 			return this.today;
 		},
-		pushdate : function (date) {
+		pushdate: function (date) {
 			this.date = date;
 		},
-		getdate : function () {
+		getdate: function () {
 			return this.date;
 		}
 	};
@@ -728,11 +728,11 @@ app.factory('EventsModel', function () {
 	}
 
 	EventsModel.prototype = {
-		create : function (newevent) {
+		create: function (newevent) {
 			var rawdata = new ICAL.Event();
 			this.events.push(rawdata);
 		},
-		addalldisplayfigures : function (calendarid,jcalData,timezone) {
+		addalldisplayfigures: function (calendarid, jcalData, timezone) {
 			var events = [];
 			var start = '';
 			var end = '';
@@ -745,13 +745,13 @@ app.factory('EventsModel', function () {
 
 			if (rawdata.jCal.length !== 0) {
 				var vtimezones = rawdata.getAllSubcomponents("vtimezone");
-				angular.forEach(vtimezones, function (value,key) {
+				angular.forEach(vtimezones, function (value, key) {
 					var timezone = new ICAL.Timezone(value);
 					ICAL.TimezoneService.register(timezone.tzid, timezone);
 				});
 
 				var vevents = rawdata.getAllSubcomponents("vevent");
-				angular.forEach(vevents, function (value,key) {
+				angular.forEach(vevents, function (value, key) {
 					// Todo : Repeating Calendar.
 					if (value.hasProperty('dtstart')) {
 						eventsId = value.getFirstPropertyValue('x-oc-uri');
@@ -765,39 +765,39 @@ app.factory('EventsModel', function () {
 							recurrenceId = value.getFirstPropertyValue('recurrenceId').toICALString();
 						}
 
-						if (value.hasProperty('dtend')){
+						if (value.hasProperty('dtend')) {
 							end = value.getFirstPropertyValue('dtend');
 						} else if (value.hasProperty('duration')) {
 							end = start.clone();
 							end.addDuration(value.getFirstPropertyValue('dtstart'));
 						} else {
-							end = start.clone();	
+							end = start.clone();
 						}
 
-						if (start.icaltype != 'date' && start.zone != ICAL.Timezone.utcTimezone && start.zone !=  ICAL.Timezone.localTimezone) {
+						if (start.icaltype != 'date' && start.zone != ICAL.Timezone.utcTimezone && start.zone != ICAL.Timezone.localTimezone) {
 							start = start.convertToZone(timezone);
 						}
 
-						if (end.icaltype != 'date' && end.zone != ICAL.Timezone.utcTimezone && end.zone !=  ICAL.Timezone.localTimezone) {
+						if (end.icaltype != 'date' && end.zone != ICAL.Timezone.utcTimezone && end.zone != ICAL.Timezone.localTimezone) {
 							end = end.convertToZone(timezone);
 						}
 
 						isAllDay = (start.icaltype == 'date' && end.icaltype == 'date');
 					}
 					events[key] = {
-						"id" : eventsId,
-						"calid" : calendarid,
-						"recurrenceId" : recurrenceId,
-						"title" : value.getFirstPropertyValue('summary'),
-						"start" : start.toJSDate(),
-						"end" : end.toJSDate(),
-						"allDay" : isAllDay
+						"id": eventsId,
+						"calid": calendarid,
+						"recurrenceId": recurrenceId,
+						"title": value.getFirstPropertyValue('summary'),
+						"start": start.toJSDate(),
+						"end": end.toJSDate(),
+						"allDay": isAllDay
 					};
 				});
 			}
 			return events;
 		},
-		eventResizer: function (event,delta,jcalData) {
+		eventResizer: function (event, delta, jcalData) {
 			var rawdata = new ICAL.Component(jcalData);
 			var vevents = rawdata.getAllSubcomponents("vevent");
 			var didFindEvent = false;
@@ -811,7 +811,7 @@ app.factory('EventsModel', function () {
 						return false;
 					}
 					deltaAsSeconds = delta.asSeconds();
-					duration =  new ICAL.Duration.fromSeconds(deltaAsSeconds);
+					duration = new ICAL.Duration.fromSeconds(deltaAsSeconds);
 
 					if (value.hasProperty('duration')) {
 						propertyToUpdate = value.getFirstPropertyValue('duration');
@@ -834,11 +834,11 @@ app.factory('EventsModel', function () {
 
 			return didFindEvent;
 		},
-		addEvent: function(id) {
-			this.calid.changer = Math.random(1000); 
+		addEvent: function (id) {
+			this.calid.changer = Math.random(1000);
 			this.calid.id = id;
 		},
-		getEvent: function() {
+		getEvent: function () {
 			return this.calid;
 		},
 		getAll: function () {
@@ -851,7 +851,7 @@ app.factory('EventsModel', function () {
 
 	return new EventsModel();
 });
-app.factory('SubscriptionModel', function() {
+app.factory('SubscriptionModel', function () {
 	var SubscriptionModel = function () {
 		this.subscriptions = [];
 		this.subscriptionId = {};
@@ -859,34 +859,34 @@ app.factory('SubscriptionModel', function() {
 	};
 
 	SubscriptionModel.prototype = {
-		create : function (newsubscription) {
+		create: function (newsubscription) {
 			this.subscriptions.push(newsubscription);
 		},
-		add : function (subscription) {
+		add: function (subscription) {
 			this.updateIfExists(subscription);
 		},
-		addAll : function (subscriptions) {
-			for(var i=0; i<subscriptions.length; i++) {
+		addAll: function (subscriptions) {
+			for (var i = 0; i < subscriptions.length; i++) {
 				this.add(subscriptions[i]);
 			}
 		},
-		getAll : function () {
+		getAll: function () {
 			return this.subscriptions;
 		},
-		get : function (id) {
+		get: function (id) {
 			return this.subscriptionId[id];
 		},
-		updateIfExists : function (updated) {
+		updateIfExists: function (updated) {
 			var subscription = this.subscriptionId[updated.id];
-			if(angular.isDefined(subscription)) {
+			if (angular.isDefined(subscription)) {
 
 			} else {
 				this.subscriptions.push(updated);
 				this.subscriptionId[updated.id] = updated;
 			}
 		},
-		remove : function (id) {
-			for(var i=0; i<this.subscriptions.length; i++) {
+		remove: function (id) {
+			for (var i = 0; i < this.subscriptions.length; i++) {
 				var subscription = this.subscriptions[i];
 				if (subscription.id === id) {
 					this.subscriptions.splice(i, 1);
@@ -895,17 +895,19 @@ app.factory('SubscriptionModel', function() {
 				}
 			}
 		},
-		getsubscriptionnames : function (backendobject) {
-			for (var i = 0; i<backendobject.length; i++) {
-				for (var j = 0; j<backendobject[i].subscriptions.length; j++) {
-					this.subscriptiondetails = [{
-						"name": backendobject[i].subscriptions[j].name,
-						"type" : backendobject[i].subscriptions[j].type
-					}];
+		getsubscriptionnames: function (backendobject) {
+			for (var i = 0; i < backendobject.length; i++) {
+				for (var j = 0; j < backendobject[i].subscriptions.length; j++) {
+					this.subscriptiondetails = [
+						{
+							"name": backendobject[i].subscriptions[j].name,
+							"type": backendobject[i].subscriptions[j].type
+						}
+					];
 				}
 			}
 			return this.subscriptiondetails;
-		} 
+		}
 	};
 
 	return new SubscriptionModel();
@@ -922,7 +924,7 @@ app.factory('TimezoneModel', function () {
 			this.timezones.push(timezone);
 		},
 		addAll: function (timezones) {
-			for(var i=0; i<timezones.length; i++) {
+			for (var i = 0; i < timezones.length; i++) {
 				this.add(timezones[i]);
 			}
 		},
@@ -935,7 +937,7 @@ app.factory('TimezoneModel', function () {
 		delete: function (id) {
 			return 0;
 		},
-		currenttimezone: function() {
+		currenttimezone: function () {
 			var timezone = jstz.determine();
 			return timezone.name();
 		},
@@ -944,7 +946,7 @@ app.factory('TimezoneModel', function () {
 			var vtimezones = rawdata.getAllSubcomponents("vtimezone");
 			var timezone = [];
 			ICAL.TimezoneService.reset();
-			angular.forEach(vtimezones, function (value,key) {
+			angular.forEach(vtimezones, function (value, key) {
 				timezone = new ICAL.Timezone(value);
 				ICAL.TimezoneService.register(timezone.tzid, timezone);
 			});
@@ -966,7 +968,7 @@ app.factory('ViewModel', function () {
 			this.view.push(views);
 		},
 		addAll: function (views) {
-			for(var i=0; i<views.length; i++) {
+			for (var i = 0; i < views.length; i++) {
 				this.add(views[i]);
 			}
 		},

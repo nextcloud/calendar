@@ -22,11 +22,11 @@
  */
 
 app.filter('eventFilter',
-	[ function() {
-		var eventfilter = function(item) {
-			var filter =[];
+	[ function () {
+		var eventfilter = function (item) {
+			var filter = [];
 			if (item.length > 0) {
-				for (var i=0; i<item.length; i++) {
+				for (var i = 0; i < item.length; i++) {
 					if (item[i].components.vevent === true) {
 						filter.push(item[i]);
 					}
@@ -36,4 +36,4 @@ app.filter('eventFilter',
 		};
 		return eventfilter;
 	}
-]);
+	]);

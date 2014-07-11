@@ -22,7 +22,7 @@
  */
 
 app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 'CalendarModel', 'EventsModel', 'ViewModel', 'TimezoneModel',
-	function ($scope,$modal,Restangular,calendar,CalendarModel,EventsModel,ViewModel,TimezoneModel) {
+	function ($scope, $modal, Restangular, calendar, CalendarModel, EventsModel, ViewModel, TimezoneModel) {
 		$scope.eventSources = EventsModel.getAll();
 		$scope.defaultView = ViewModel.getAll();
 		$scope.calendarmodel = CalendarModel;
@@ -33,14 +33,14 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 		var viewResource = Restangular.one('view');
 
 		if ($scope.defaulttimezone.length > 0) {
-			$scope.requestedtimezone = $scope.defaulttimezone.replace('/','-');
-			Restangular.one('timezones',$scope.requestedtimezone).get().then(function (timezonedata) {
+			$scope.requestedtimezone = $scope.defaulttimezone.replace('/', '-');
+			Restangular.one('timezones', $scope.requestedtimezone).get().then(function (timezonedata) {
 				$scope.timezone = TimezoneModel.addtimezone(timezonedata);
 			});
 		}
 
 		// Responds to change in View from calendarlistcontroller.
-		viewResource.get().then( function (views) {
+		viewResource.get().then(function (views) {
 			ViewModel.add(views);
 		});
 		//$scope.defaultView = viewResource.get();
@@ -48,30 +48,30 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 		$scope.eventSource = {};
 		$scope.calendars = $scope.calendarmodel.getAll();
 
-		$scope.addRemoveEventSources = function (newid,calendar) {
+		$scope.addRemoveEventSources = function (newid, calendar) {
 			$scope.i++;
 			if (switcher.indexOf(newid) > -1) {
-				switcher.splice(switcher.indexOf(newid),1);
-				Restangular.one('calendars', newid).patch({'enabled' : false});
+				switcher.splice(switcher.indexOf(newid), 1);
+				Restangular.one('calendars', newid).patch({'enabled': false});
 				calendar.fullCalendar('removeEventSource', $scope.eventSource[newid]);
 				angular.element('#calendarlist li a[data-id=' + newid + ']').parent().removeClass('active');
 			} else {
 				switcher.push(newid);
-				Restangular.one('calendars', newid).patch({'enabled' : true});
+				Restangular.one('calendars', newid).patch({'enabled': true});
 				calendar.fullCalendar('addEventSource', $scope.eventSource[newid]);
 				angular.element('#calendarlist li a[data-id=' + newid + ']').parent().addClass('active');
 			}
 		};
 
 		var initEventSources = [];
-		angular.forEach($scope.calendars, function (value,key) {
+		angular.forEach($scope.calendars, function (value, key) {
 			if ($scope.eventSource[value.id] === undefined) {
 				$scope.eventSource[value.id] = {
 					events: function (start, end, timezone, callback) {
 						start = start.format('X');
 						end = end.format('X');
 						Restangular.one('calendars', value.id).one('events').one('inPeriod').getList(start + '/' + end).then(function (eventsobject) {
-							callback(EventsModel.addalldisplayfigures(value.id,eventsobject,$scope.timezone));
+							callback(EventsModel.addalldisplayfigures(value.id, eventsobject, $scope.timezone));
 						});
 					},
 					color: value.color,
@@ -87,7 +87,7 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 		});
 
 		$scope.uiConfig = {
-			calendar : {
+			calendar: {
 				height: $(window).height() - $('#controls').height() - $('#header').height(),
 				editable: true,
 				selectable: true,
@@ -98,7 +98,7 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 				timezone: $scope.defaulttimezone,
 				defaultView: $scope.defaultView,
 				//eventColor: $scope.currentcalendar.color,
-				header:{
+				header: {
 					left: '',
 					center: '',
 					right: ''
@@ -113,24 +113,24 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 					week: t('calendar', "MMM d[ yyyy]{ '–'[ MMM] d yyyy}"),
 					day: t('calendar', 'dddd, MMM d, yyyy'),
 				},
-				eventResize: function(event, delta, revertFunc) {
+				eventResize: function (event, delta, revertFunc) {
 					Restangular.one('calendars', event.calid).getList('events').then(function (eventsobject) {
-						if(!EventsModel.eventResizer(event,delta,eventsobject)) {
+						if (!EventsModel.eventResizer(event, delta, eventsobject)) {
 							revertFunc();
 						}
 					});
 				},
-				viewRender : function(view) {
+				viewRender: function (view) {
 					angular.element('#datecontrol_current').html($('<p>').html(view.title).text());
 					angular.element("#datecontrol_date").datepicker("setDate", $scope.calendar.fullCalendar('getDate'));
 					var newview = view.name;
 					if (newview != 'month') {
-						viewResource.get().then(function(newview) {
+						viewResource.get().then(function (newview) {
 							ViewModel.add(newview);
 						});
 						$scope.defaultView = newview;
 					}
-					if(newview === 'agendaDay') {
+					if (newview === 'agendaDay') {
 						angular.element('td.fc-state-highlight').css('background-color', '#ffffff');
 					} else {
 						angular.element('td.fc-state-highlight').css('background-color', '#ffc');
@@ -147,12 +147,12 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 		$scope.$watch('eventsmodel.calid', function (newid, oldid) {
 			newid = newid.id;
 			if (newid !== '') {
-				$scope.addRemoveEventSources(newid,$scope.calendar);
+				$scope.addRemoveEventSources(newid, $scope.calendar);
 			}
 		}, true);
 
 		$scope.$watch('calendarmodel.modelview', function (newview, oldview) {
-			$scope.changeView = function(newview,calendar) {
+			$scope.changeView = function (newview, calendar) {
 				calendar.fullCalendar('changeView', newview);
 			};
 			$scope.today = function (calendar) {
@@ -160,7 +160,7 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 			};
 			if (newview.view && $scope.calendar) {
 				if (newview.view != 'today') {
-					$scope.changeView(newview.view,$scope.calendar);
+					$scope.changeView(newview.view, $scope.calendar);
 				} else {
 					$scope.today($scope.calendar);
 				}
@@ -168,20 +168,20 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 		}, true);
 
 		$scope.$watch('calendarmodel.datepickerview', function (newview, oldview) {
-			$scope.changeview = function(newview,calendar) {
+			$scope.changeview = function (newview, calendar) {
 				calendar.fullCalendar(newview.view);
 			};
 			if (newview.view !== '' && $scope.calendar !== undefined) {
-				$scope.changeview(newview,$scope.calendar);
+				$scope.changeview(newview, $scope.calendar);
 			}
 		}, true);
 
 		$scope.$watch('calendarmodel.date', function (newview, oldview) {
-			$scope.gotodate = function(newview,calendar) {
+			$scope.gotodate = function (newview, calendar) {
 				calendar.fullCalendar('gotoDate', newview);
 			};
 			if (newview !== '' && $scope.calendar !== undefined) {
-				$scope.gotodate(newview,$scope.calendar);
+				$scope.gotodate(newview, $scope.calendar);
 			}
 		});
 	}
