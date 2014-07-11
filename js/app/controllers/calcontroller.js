@@ -113,9 +113,11 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 					week: t('calendar', "MMM d[ yyyy]{ '–'[ MMM] d yyyy}"),
 					day: t('calendar', 'dddd, MMM d, yyyy'),
 				},
-				eventResize: function(event, delta, callback, jsEvent, ui, view) {
+				eventResize: function(event, delta, revertFunc) {
 					Restangular.one('calendars', event.calid).getList('events').then(function (eventsobject) {
-						callback(EventsModel.eventresizer(event,delta,eventsobject));
+						if(!EventsModel.eventResizer(event,delta,eventsobject)) {
+							revertFunc();
+						}
 					});
 				},
 				viewRender : function(view) {

@@ -141,9 +141,11 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 					week: t('calendar', "MMM d[ yyyy]{ '–'[ MMM] d yyyy}"),
 					day: t('calendar', 'dddd, MMM d, yyyy'),
 				},
-				eventResize: function(event, delta, callback, jsEvent, ui, view) {
+				eventResize: function(event, delta, revertFunc) {
 					Restangular.one('calendars', event.calid).getList('events').then(function (eventsobject) {
-						callback(EventsModel.eventresizer(event,delta,eventsobject));
+						if(!EventsModel.eventResizer(event,delta,eventsobject)) {
+							revertFunc();
+						}
 					});
 				},
 				viewRender : function(view) {
@@ -706,6 +708,25 @@ app.factory('EventsModel', function () {
 		}; // required for switching the calendars on the fullcalendar
 	};
 
+	function isCorrectEvent(event, vevent) {
+		if (event.id !== vevent.getFirstPropertyValue('x-oc-uri')) {
+			return false;
+		}
+
+		if (event.recurrenceId === null) {
+			if (!vevent.hasProperty('recurrenceId')) {
+				return true;
+			}
+		} else {
+			if (event.recurrenceId ===
+				getFirstPropertyValue('recurrenceId').toICALString()) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	EventsModel.prototype = {
 		create : function (newevent) {
 			var rawdata = new ICAL.Event();
@@ -715,12 +736,13 @@ app.factory('EventsModel', function () {
 			var events = [];
 			var start = '';
 			var end = '';
-			var eventsid = '';
-			var recurrenceId = '';
+			var eventsId = '';
+			var recurrenceId = null;
 			var rawdata = new ICAL.Component(jcalData);
 			var fields = [];
 			var self = this;
 			var isAllDay;
+
 			if (rawdata.jCal.length !== 0) {
 				var vtimezones = rawdata.getAllSubcomponents("vtimezone");
 				angular.forEach(vtimezones, function (value,key) {
@@ -732,10 +754,17 @@ app.factory('EventsModel', function () {
 				angular.forEach(vevents, function (value,key) {
 					// Todo : Repeating Calendar.
 					if (value.hasProperty('dtstart')) {
-						eventsid = value.getFirstPropertyValue('x-oc-uri');
-						if (value.hasProperty('recurrenceId')) {
-							recurrenceId = value.getFirstPropertyValue('recurrenceId');
+						eventsId = value.getFirstPropertyValue('x-oc-uri');
+
+						if (!value.hasProperty('dtstart')) {
+							return;
 						}
+						start = value.getFirstPropertyValue('dtstart');
+
+						if (value.hasProperty('recurrenceId')) {
+							recurrenceId = value.getFirstPropertyValue('recurrenceId').toICALString();
+						}
+
 						if (value.hasProperty('dtend')){
 							end = value.getFirstPropertyValue('dtend');
 						} else if (value.hasProperty('duration')) {
@@ -744,16 +773,19 @@ app.factory('EventsModel', function () {
 						} else {
 							end = start.clone();	
 						}
+
 						if (start.icaltype != 'date' && start.zone != ICAL.Timezone.utcTimezone && start.zone !=  ICAL.Timezone.localTimezone) {
 							start = start.convertToZone(timezone);
 						}
+
 						if (end.icaltype != 'date' && end.zone != ICAL.Timezone.utcTimezone && end.zone !=  ICAL.Timezone.localTimezone) {
 							end = end.convertToZone(timezone);
 						}
+
 						isAllDay = (start.icaltype == 'date' && end.icaltype == 'date');
 					}
 					events[key] = {
-						"id" : eventsid,
+						"id" : eventsId,
 						"calid" : calendarid,
 						"recurrenceId" : recurrenceId,
 						"title" : value.getFirstPropertyValue('summary'),
@@ -765,21 +797,42 @@ app.factory('EventsModel', function () {
 			}
 			return events;
 		},
-		eventresizer: function (event,delta,jcalData) {
+		eventResizer: function (event,delta,jcalData) {
 			var rawdata = new ICAL.Component(jcalData);
 			var vevents = rawdata.getAllSubcomponents("vevent");
-			angular.forEach(vevents, function (value,key) {
-				if (event.id === value.getFirstPropertyValue('x-oc-uri')) {
-					if (value.hasProperty('duration')) {
-						console.log(value.getFirstPropertyValue('duration'));
-						console.log(delta);
-					} else if (value.hasProperty('dtend')) {
-						value.getFirstPropertyValue('dtend').addDuration(delta);
-					} else {
-						ICAL.Duration.fromSeconds(delta.asSeconds());
+			var didFindEvent = false;
+			var deltaAsSeconds = 0;
+			var duration = null;
+			var propertyToUpdate = null;
+
+			if (rawdata.jCal.length !== 0) {
+				angular.forEach(vevents, function (value, key) {
+					if (!isCorrectEvent(event, value)) {
+						return false;
 					}
-				}
-			});
+					deltaAsSeconds = delta.asSeconds();
+					duration =  new ICAL.Duration.fromSeconds(deltaAsSeconds);
+
+					if (value.hasProperty('duration')) {
+						propertyToUpdate = value.getFirstPropertyValue('duration');
+						//TODO - how to add duration to a duration?
+					} else if (value.hasProperty('dtend')) {
+						propertyToUpdate = value.getFirstPropertyValue('dtend');
+						propertyToUpdate.addDuration(duration);
+						value.dtend = propertyToUpdate;
+					} else if (value.hasProperty('dtstart')) {
+						propertyToUpdate = value.getFirstPropertyValue('dtstart').clone();
+						propertyToUpdate.addDuration(duration);
+						value.dtend = propertyToUpdate;
+					} else {
+						return false;
+					}
+
+					didFindEvent = true;
+				});
+			}
+
+			return didFindEvent;
 		},
 		addEvent: function(id) {
 			this.calid.changer = Math.random(1000); 
