@@ -717,8 +717,6 @@ app.factory('EventsModel', function () {
 			var isAllDay;
 			if (rawdata.jCal.length !== 0) {
 				var vtimezones = rawdata.getAllSubcomponents("vtimezone");
-				ICAL.TimezoneService.reset();
-
 				angular.forEach(vtimezones, function (value,key) {
 					var timezone = new ICAL.Timezone(value);
 					ICAL.TimezoneService.register(timezone.tzid, timezone);
