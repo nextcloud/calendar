@@ -30,6 +30,8 @@ use OCA\Calendar\Sabre\VObject\Reader;
 use OCA\Calendar\Sabre\VObject\ParseException;
 use OCA\Calendar\Sabre\VObject\Property\Text as TextProperty;
 use OCA\Calendar\Sabre\VObject\Property\Integer as IntegerProperty;
+use OCA\Calendar\Sabre\VObject\Property\ICalendar\DateTime as SDateTime;
+use OCA\Calendar\Sabre\VObject\Property\ICalendar\Date as SDate;
 use OCA\Calendar\Utility\SabreUtility;
 
 use DateTime;
@@ -345,7 +347,12 @@ class Object extends Entity implements IObject {
 	public function getStartDate() {
 		/** @var \OCA\Calendar\Sabre\VObject\Component $object */
 		$object = $this->vobject->{$this->getObjectName()};
-		return SabreUtility::getDTStart($object);
+		$realStart = SabreUtility::getDTStart($object);
+		if ($realStart instanceof SDateTime || $realStart instanceof SDate) {
+			return $realStart->getDateTime();
+		} else {
+			return null;
+		}
 	}
 
 
@@ -356,7 +363,12 @@ class Object extends Entity implements IObject {
 	public function getEndDate() {
 		/** @var \OCA\Calendar\Sabre\VObject\Component $object */
 		$object = $this->vobject->{$this->getObjectName()};
-		return SabreUtility::getDTEnd($object);
+		$realEnd = SabreUtility::getDTEnd($object);
+		if ($realEnd instanceof SDateTime || $realEnd instanceof SDate) {
+			return $realEnd->getDateTime();
+		} else {
+			return null;
+		}
 	}
 
 

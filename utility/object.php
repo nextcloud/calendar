@@ -48,7 +48,7 @@ class ObjectUtility extends Utility{
 		if($datetime instanceof Datetime) {
 			return date('Y-m-d H:i:s', $datetime->format('U'));
 		} else {
-			return '1970-01-01 00:00:00';
+			return null;
 		}
 	}
 }

@@ -547,9 +547,11 @@ class Local extends Backend {
 
 		$table = $this->getObjectTableName();
 
-		$sql  = 'SELECT COUNT(*) FROM `' . $table . '` WHERE `calendarid` = ?';
+		$sql  = 'SELECT COUNT(*) FROM `' . $table . '` WHERE `calendarid` = ? ';
+		$sql .= 'AND `uri` = ?';
 		return ($this->queryNumber($sql, array(
 			$calendarId,
+			$objectURI
 		)) !== 0);
 	}
 

@@ -353,19 +353,18 @@ class ObjectBusinessLayer extends BackendCollectionBusinessLayer {
 	public function create(IObject &$object) {
 		try {
 			$calendar = $object->getCalendar();
-			$uri = $object->getUri();
-
 			list ($backend, $calUri, $userId) = $this->getBasicProps($calendar);
 
-			$this->checkDoesNotExist($calendar, $uri);
 			$this->checkBackendSupports($backend, Backend::CREATE_CALENDAR);
 			$this->checkIsValid($object);
 
 			$api = $this->backends->find($backend)->getAPI();
 			$api->createObject($object);
 
-			$this->mapper->insert($object,
-								  $api->cacheObjects($calUri, $userId));
+			if ($api->cacheObjects($calUri, $userId)) {
+				$this->mapper->insert($object,
+					$api->cacheObjects($calUri, $userId));
+			}
 
 			return $object;
 		} catch(BackendException $ex) {
@@ -432,9 +431,10 @@ class ObjectBusinessLayer extends BackendCollectionBusinessLayer {
 				$object = $this->createFromImport($object);
 			} catch(BusinessLayerException $ex) {
 				$this->app->log($ex->getMessage(), 'debug');
-				return;
+				return true;
 			}
 			$createdObjects->add($object);
+			return true;
 		});
 
 		return $createdObjects;
