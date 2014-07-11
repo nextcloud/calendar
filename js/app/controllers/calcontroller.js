@@ -113,6 +113,11 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 					week: t('calendar', "MMM d[ yyyy]{ '–'[ MMM] d yyyy}"),
 					day: t('calendar', 'dddd, MMM d, yyyy'),
 				},
+				eventResize: function(event, delta, callback, jsEvent, ui, view) {
+					Restangular.one('calendars', event.calid).getList('events').then(function (eventsobject) {
+						callback(EventsModel.eventresizer(event,delta,eventsobject));
+					});
+				},
 				viewRender : function(view) {
 					angular.element('#datecontrol_current').html($('<p>').html(view.title).text());
 					angular.element("#datecontrol_date").datepicker("setDate", $scope.calendar.fullCalendar('getDate'));

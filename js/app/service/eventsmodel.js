@@ -42,6 +42,7 @@ app.factory('EventsModel', function () {
 			var start = '';
 			var end = '';
 			var eventsid = '';
+			var recurrenceId = '';
 			var rawdata = new ICAL.Component(jcalData);
 			var fields = [];
 			var self = this;
@@ -57,12 +58,9 @@ app.factory('EventsModel', function () {
 				angular.forEach(vevents, function (value,key) {
 					// Todo : Repeating Calendar.
 					if (value.hasProperty('dtstart')) {
+						eventsid = value.getFirstPropertyValue('x-oc-uri');
 						if (value.hasProperty('recurrenceId')) {
-							start = value.getFirstPropertyValue('recurrenceId');
-							eventsid = value.getFirstPropertyValue('x-oc-uri') + '//' + start.toICALString();
-						} else {
-							start = value.getFirstPropertyValue('dtstart');
-							eventsid = value.getFirstPropertyValue('x-oc-uri');
+							recurrenceId = value.getFirstPropertyValue('recurrenceId');
 						}
 						if (value.hasProperty('dtend')){
 							end = value.getFirstPropertyValue('dtend');
@@ -83,6 +81,7 @@ app.factory('EventsModel', function () {
 					events[key] = {
 						"id" : eventsid,
 						"calid" : calendarid,
+						"recurrenceId" : recurrenceId,
 						"title" : value.getFirstPropertyValue('summary'),
 						"start" : start.toJSDate(),
 						"end" : end.toJSDate(),
@@ -92,8 +91,21 @@ app.factory('EventsModel', function () {
 			}
 			return events;
 		},
-		alertMessage : function (title,start,end,allday) {
-			return 0;
+		eventresizer: function (event,delta,jcalData) {
+			var rawdata = new ICAL.Component(jcalData);
+			var vevents = rawdata.getAllSubcomponents("vevent");
+			angular.forEach(vevents, function (value,key) {
+				if (event.id === value.getFirstPropertyValue('x-oc-uri')) {
+					if (value.hasProperty('duration')) {
+						console.log(value.getFirstPropertyValue('duration'));
+						console.log(delta);
+					} else if (value.hasProperty('dtend')) {
+						value.getFirstPropertyValue('dtend').addDuration(delta);
+					} else {
+						ICAL.Duration.fromSeconds(delta.asSeconds());
+					}
+				}
+			});
 		},
 		addEvent: function(id) {
 			this.calid.changer = Math.random(1000); 
@@ -102,13 +114,10 @@ app.factory('EventsModel', function () {
 		getEvent: function() {
 			return this.calid;
 		},
-		getAll : function () {
+		getAll: function () {
 			return this.events;
 		},
-		get : function (id) {
-
-		},
-		remove : function (id) {
+		remove: function (id) {
 			delete this.id;
 		}
 	};
