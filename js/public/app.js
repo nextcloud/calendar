@@ -716,6 +716,14 @@ app.factory('EventsModel', function () {
 			var self = this;
 			var isAllDay;
 			if (rawdata.jCal.length !== 0) {
+				var vtimezones = rawdata.getAllSubcomponents("vtimezone");
+				ICAL.TimezoneService.reset();
+
+				angular.forEach(vtimezones, function (value,key) {
+					var timezone = new ICAL.Timezone(value);
+					ICAL.TimezoneService.register(timezone.tzid, timezone);
+				});
+
 				var vevents = rawdata.getAllSubcomponents("vevent");
 				angular.forEach(vevents, function (value,key) {
 					// Todo : Repeating Calendar.
