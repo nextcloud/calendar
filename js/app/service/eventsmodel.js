@@ -122,41 +122,46 @@ app.factory('EventsModel', function () {
 			return events;
 		},
 		eventResizer: function (event, delta, jcalData) {
-			var rawdata = new ICAL.Component(jcalData);
-			var vevents = rawdata.getAllSubcomponents("vevent");
+			var components = new ICAL.Component(jcalData);
+			var vevents = components.getAllSubcomponents('vevent');
 			var didFindEvent = false;
 			var deltaAsSeconds = 0;
 			var duration = null;
 			var propertyToUpdate = null;
 
-			if (rawdata.jCal.length !== 0) {
-				angular.forEach(vevents, function (value, key) {
-					if (!isCorrectEvent(event, value)) {
+			components.removeAllSubcomponents('vevent');
+
+			if (components.jCal.length !== 0) {
+				for (var i = 0; i < vevents.length; i++) {
+					if (!isCorrectEvent(event, vevents[i])) {
+						components.addSubcomponent(vevents[i]);
 						return false;
 					}
-					deltaAsSeconds = delta.asSeconds();
-					duration = new ICAL.Duration.fromSeconds(deltaAsSeconds);
 
-					if (value.hasProperty('duration')) {
-						propertyToUpdate = value.getFirstPropertyValue('duration');
+					deltaAsSeconds = delta.asSeconds();
+					duration = new ICAL.Duration().fromSeconds(deltaAsSeconds);
+
+					if (vevents[i].hasProperty('duration')) {
+						propertyToUpdate = vevents[i].getFirstPropertyValue('duration');
 						//TODO - how to add duration to a duration?
-					} else if (value.hasProperty('dtend')) {
-						propertyToUpdate = value.getFirstPropertyValue('dtend');
+					} else if (vevents[i].hasProperty('dtend')) {
+						propertyToUpdate = vevents[i].getFirstPropertyValue('dtend');
 						propertyToUpdate.addDuration(duration);
-						value.dtend = propertyToUpdate;
-					} else if (value.hasProperty('dtstart')) {
-						propertyToUpdate = value.getFirstPropertyValue('dtstart').clone();
+						vevents[i].updatePropertyWithValue('dtend', propertyToUpdate);
+					} else if (vevents[i].hasProperty('dtstart')) {
+						propertyToUpdate = vevents[i].getFirstPropertyValue('dtstart').clone();
 						propertyToUpdate.addDuration(duration);
-						value.dtend = propertyToUpdate;
+						vevents[i].addPropertyWithValue('dtend', propertyToUpdate);
 					} else {
 						return false;
 					}
 
+					components.addSubcomponent(vevents[i]);
 					didFindEvent = true;
-				});
+				}
 			}
 
-			return didFindEvent;
+			return (didFindEvent) ? components.toJSON() : null;
 		},
 		addEvent: function (id) {
 			this.calid.changer = Math.random(1000);

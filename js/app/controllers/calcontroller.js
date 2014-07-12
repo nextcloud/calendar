@@ -114,7 +114,7 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 					day: t('calendar', 'dddd, MMM d, yyyy'),
 				},
 				eventResize: function (event, delta, revertFunc) {
-					Restangular.one('calendars', event.calid).getList('events').then(function (eventsobject) {
+					Restangular.one('calendars', event.calid).one('events', event.id).get().then(function (eventsobject) {
 						if (!EventsModel.eventResizer(event, delta, eventsobject)) {
 							revertFunc();
 						}
