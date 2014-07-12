@@ -143,7 +143,8 @@ app.factory('EventsModel', function () {
 
 					if (vevents[i].hasProperty('duration')) {
 						propertyToUpdate = vevents[i].getFirstPropertyValue('duration');
-						//TODO - how to add duration to a duration?
+						duration.fromSeconds((duration.toSeconds() + propertyToUpdate.toSeconds()));
+						vevents[i].updatePropertyWithValue('duration', duration);
 					} else if (vevents[i].hasProperty('dtend')) {
 						propertyToUpdate = vevents[i].getFirstPropertyValue('dtend');
 						propertyToUpdate.addDuration(duration);
