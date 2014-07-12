@@ -133,8 +133,8 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 				},
 				columnFormat: {
 					month: t('calendar', 'ddd'),
-					week: t('calendar', 'ddd M/d'),
-					day: t('calendar', 'dddd M/d')
+					week: t('calendar', 'ddd M/D'),
+					day: t('calendar', 'dddd M/D')
 				},
 				titleFormat: {
 					month: t('calendar', 'MMMM yyyy'),
