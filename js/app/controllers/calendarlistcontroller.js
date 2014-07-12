@@ -31,7 +31,7 @@ app.controller('CalendarListController', ['$scope', '$window', '$location', '$ro
 			CalendarModel.addAll(calendars);
 		});
 
-		$scope.newcolor = '';
+		$scope.newcolor = 'rgba(37,46,95,1.0)';
 		$scope.newCalendarInputVal = '';
 
 		// Needed for CalDAV Input opening.
