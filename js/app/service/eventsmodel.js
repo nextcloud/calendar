@@ -164,6 +164,46 @@ app.factory('EventsModel', function () {
 
 			return (didFindEvent) ? components.toJSON() : null;
 		},
+		eventDropper: function (event, delta, jcalData) {
+			var components = new ICAL.Component(jcalData);
+			var vevents = components.getAllSubcomponents('vevent');
+			var didFindEvent = false;
+			var deltaAsSeconds = 0;
+			var duration = null;
+			var propertyToUpdate = null;
+
+			components.removeAllSubcomponents('vevent');
+
+			if (components.jCal.length !== 0) {
+				for (var i = 0; i < vevents.length; i++) {
+					if (!isCorrectEvent(event, vevents[i])) {
+						components.addSubcomponent(vevents[i]);
+						return false;
+					}
+
+					deltaAsSeconds = delta.asSeconds();
+					duration = new ICAL.Duration().fromSeconds(deltaAsSeconds);
+
+					if (vevents[i].hasProperty('dtstart')) {
+						propertyToUpdate = vevents[i].getFirstPropertyValue('dtstart');
+						propertyToUpdate.addDuration(duration);
+						vevents[i].updatePropertyWithValue('dtstart', propertyToUpdate);
+
+					}
+
+					if (vevents[i].hasProperty('dtend')) {
+						propertyToUpdate = vevents[i].getFirstPropertyValue('dtend');
+						propertyToUpdate.addDuration(duration);
+						vevents[i].updatePropertyWithValue('dtend', propertyToUpdate);
+					}
+
+					components.addSubcomponent(vevents[i]);
+					didFindEvent = true;
+				}
+			}
+
+			return (didFindEvent) ? components.toJSON() : null;
+		},
 		addEvent: function (id) {
 			this.calid.changer = Math.random(1000);
 			this.calid.id = id;

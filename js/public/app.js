@@ -148,6 +148,13 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 						}
 					});
 				},
+				eventDrop: function (event, delta, revertFunc) {
+					Restangular.one('calendars', event.calid).one('events', event.id).get().then(function (eventsobject) {
+						if (!EventsModel.eventDropper(event, delta, eventsobject)) {
+							revertFunc();
+						}
+					});
+				},
 				viewRender: function (view) {
 					angular.element('#datecontrol_current').html($('<p>').html(view.title).text());
 					angular.element("#datecontrol_date").datepicker("setDate", $scope.calendar.fullCalendar('getDate'));
@@ -831,6 +838,46 @@ app.factory('EventsModel', function () {
 						vevents[i].addPropertyWithValue('dtend', propertyToUpdate);
 					} else {
 						return false;
+					}
+
+					components.addSubcomponent(vevents[i]);
+					didFindEvent = true;
+				}
+			}
+
+			return (didFindEvent) ? components.toJSON() : null;
+		},
+		eventDropper: function (event, delta, jcalData) {
+			var components = new ICAL.Component(jcalData);
+			var vevents = components.getAllSubcomponents('vevent');
+			var didFindEvent = false;
+			var deltaAsSeconds = 0;
+			var duration = null;
+			var propertyToUpdate = null;
+
+			components.removeAllSubcomponents('vevent');
+
+			if (components.jCal.length !== 0) {
+				for (var i = 0; i < vevents.length; i++) {
+					if (!isCorrectEvent(event, vevents[i])) {
+						components.addSubcomponent(vevents[i]);
+						return false;
+					}
+
+					deltaAsSeconds = delta.asSeconds();
+					duration = new ICAL.Duration().fromSeconds(deltaAsSeconds);
+
+					if (vevents[i].hasProperty('dtstart')) {
+						propertyToUpdate = vevents[i].getFirstPropertyValue('dtstart');
+						propertyToUpdate.addDuration(duration);
+						vevents[i].updatePropertyWithValue('dtstart', propertyToUpdate);
+
+					}
+
+					if (vevents[i].hasProperty('dtend')) {
+						propertyToUpdate = vevents[i].getFirstPropertyValue('dtend');
+						propertyToUpdate.addDuration(duration);
+						vevents[i].updatePropertyWithValue('dtend', propertyToUpdate);
 					}
 
 					components.addSubcomponent(vevents[i]);

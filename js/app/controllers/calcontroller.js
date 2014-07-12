@@ -120,6 +120,13 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 						}
 					});
 				},
+				eventDrop: function (event, delta, revertFunc) {
+					Restangular.one('calendars', event.calid).one('events', event.id).get().then(function (eventsobject) {
+						if (!EventsModel.eventDropper(event, delta, eventsobject)) {
+							revertFunc();
+						}
+					});
+				},
 				viewRender: function (view) {
 					angular.element('#datecontrol_current').html($('<p>').html(view.title).text());
 					angular.element("#datecontrol_date").datepicker("setDate", $scope.calendar.fullCalendar('getDate'));
