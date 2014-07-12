@@ -76,7 +76,7 @@
 			</span>
 		</span>
 		<fieldset ng-show="caldavfieldset" class="caldavURL">
-			<input type="text" ng-model="calDAVmodel" data-id="{{ calendar.id }}" disabled />
+			<input type="text" ng-model="calDAVmodel" data-id="{{ calendar.id }}" readonly />
 			<button id="chooseCalendar-close" class="primary" ng-click="caldavfieldset = !caldavfieldset;">&lt;</button>
 		</fieldset>
 		<fieldset ng-show="editfieldset == calendar.id" class="editfieldset">
