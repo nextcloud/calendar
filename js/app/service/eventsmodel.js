@@ -32,18 +32,24 @@ app.factory('EventsModel', function () {
 		}; // required for switching the calendars on the fullcalendar
 	};
 
+
+	/**
+	 * check if vevent is the one described in event
+	 * @param {Object} event
+	 * @param {Object} vevent
+	 * @returns {boolean}
+	 */
 	function isCorrectEvent(event, vevent) {
-		if (event.id !== vevent.getFirstPropertyValue('x-oc-uri')) {
+		if (event.objectUri !== vevent.getFirstPropertyValue('x-oc-uri')) {
 			return false;
 		}
 
 		if (event.recurrenceId === null) {
-			if (!vevent.hasProperty('recurrenceId')) {
+			if (!vevent.hasProperty('recurrence-id')) {
 				return true;
 			}
 		} else {
-			if (event.recurrenceId ===
-				getFirstPropertyValue('recurrenceId').toICALString()) {
+			if (event.recurrenceId === vevent.getFirstPropertyValue('recurrence-id').toICALString()) {
 				return true;
 			}
 		}
@@ -51,74 +57,80 @@ app.factory('EventsModel', function () {
 		return false;
 	}
 
+
 	EventsModel.prototype = {
 		create: function (newevent) {
 			var rawdata = new ICAL.Event();
 			this.events.push(rawdata);
 		},
-		addalldisplayfigures: function (calendarid, jcalData, timezone) {
+		addAllDisplayFigures: function (calendarId, jcalData, start, end, timezone) {
+			var components = new ICAL.Component(jcalData);
 			var events = [];
-			var start = '';
-			var end = '';
-			var eventsId = '';
-			var recurrenceId = null;
-			var rawdata = new ICAL.Component(jcalData);
-			var fields = [];
-			var self = this;
-			var isAllDay;
 
-			if (rawdata.jCal.length !== 0) {
-				var vtimezones = rawdata.getAllSubcomponents("vtimezone");
-				angular.forEach(vtimezones, function (value, key) {
-					var timezone = new ICAL.Timezone(value);
+			var dtstart = '';
+			var dtend = '';
+			var eventsId = '';
+			var uri = '';
+			var recurrenceId = null;
+			var isAllDay = false;
+
+			if (components.jCal.length !== 0) {
+				var vtimezones = components.getAllSubcomponents("vtimezone");
+				angular.forEach(vtimezones, function (vtimezone) {
+					var timezone = new ICAL.Timezone(vtimezone);
 					ICAL.TimezoneService.register(timezone.tzid, timezone);
 				});
 
-				var vevents = rawdata.getAllSubcomponents("vevent");
-				angular.forEach(vevents, function (value, key) {
+				var vevents = components.getAllSubcomponents("vevent");
+				angular.forEach(vevents, function (vevent) {
 					// Todo : Repeating Calendar.
-					if (value.hasProperty('dtstart')) {
-						eventsId = value.getFirstPropertyValue('x-oc-uri');
+					if (vevent.hasProperty('dtstart')) {
+						uri = vevent.getFirstPropertyValue('x-oc-uri');
 
-						if (!value.hasProperty('dtstart')) {
+						if (!vevent.hasProperty('dtstart')) {
 							return;
 						}
-						start = value.getFirstPropertyValue('dtstart');
+						dtstart = vevent.getFirstPropertyValue('dtstart');
 
-						if (value.hasProperty('recurrenceId')) {
-							recurrenceId = value.getFirstPropertyValue('recurrenceId').toICALString();
+						if (vevent.hasProperty('recurrence-id')) {
+							recurrenceId = vevent.getFirstPropertyValue('recurrence-id').toICALString();
 						}
 
-						if (value.hasProperty('dtend')) {
-							end = value.getFirstPropertyValue('dtend');
-						} else if (value.hasProperty('duration')) {
-							end = start.clone();
-							end.addDuration(value.getFirstPropertyValue('dtstart'));
+						if (vevent.hasProperty('dtend')) {
+							dtend = vevent.getFirstPropertyValue('dtend');
+						} else if (vevent.hasProperty('duration')) {
+							dtend = dtstart.clone();
+							dtend.addDuration(vevent.getFirstPropertyValue('dtstart'));
 						} else {
-							end = start.clone();
+							dtend = dtstart.clone();
 						}
 
-						if (start.icaltype != 'date' && start.zone != ICAL.Timezone.utcTimezone && start.zone != ICAL.Timezone.localTimezone) {
-							start = start.convertToZone(timezone);
+						if (dtstart.icaltype != 'date' && dtstart.zone != ICAL.Timezone.utcTimezone && dtstart.zone != ICAL.Timezone.localTimezone) {
+							dtstart = dtstart.convertToZone(timezone);
 						}
 
-						if (end.icaltype != 'date' && end.zone != ICAL.Timezone.utcTimezone && end.zone != ICAL.Timezone.localTimezone) {
-							end = end.convertToZone(timezone);
+						if (dtend.icaltype != 'date' && dtend.zone != ICAL.Timezone.utcTimezone && dtend.zone != ICAL.Timezone.localTimezone) {
+							dtend = dtend.convertToZone(timezone);
 						}
 
-						isAllDay = (start.icaltype == 'date' && end.icaltype == 'date');
+						isAllDay = (dtstart.icaltype == 'date' && dtend.icaltype == 'date');
+
+						eventsId = uri + (recurrenceId) ? recurrenceId : "";
+
+						events.push({
+							"id": eventsId,
+							"calendarId": calendarId,
+							"objectUri": uri,
+							"recurrenceId": recurrenceId,
+							"title": vevent.getFirstPropertyValue('summary'),
+							"start": dtstart.toJSDate(),
+							"end": dtend.toJSDate(),
+							"allDay": isAllDay
+						});
 					}
-					events[key] = {
-						"id": eventsId,
-						"calid": calendarid,
-						"recurrenceId": recurrenceId,
-						"title": value.getFirstPropertyValue('summary'),
-						"start": start.toJSDate(),
-						"end": end.toJSDate(),
-						"allDay": isAllDay
-					};
 				});
 			}
+
 			return events;
 		},
 		eventResizer: function (event, delta, jcalData) {
@@ -135,7 +147,7 @@ app.factory('EventsModel', function () {
 				for (var i = 0; i < vevents.length; i++) {
 					if (!isCorrectEvent(event, vevents[i])) {
 						components.addSubcomponent(vevents[i]);
-						return false;
+						continue;
 					}
 
 					deltaAsSeconds = delta.asSeconds();
@@ -154,7 +166,7 @@ app.factory('EventsModel', function () {
 						propertyToUpdate.addDuration(duration);
 						vevents[i].addPropertyWithValue('dtend', propertyToUpdate);
 					} else {
-						return false;
+						continue;
 					}
 
 					components.addSubcomponent(vevents[i]);
@@ -178,7 +190,7 @@ app.factory('EventsModel', function () {
 				for (var i = 0; i < vevents.length; i++) {
 					if (!isCorrectEvent(event, vevents[i])) {
 						components.addSubcomponent(vevents[i]);
-						return false;
+						continue;
 					}
 
 					deltaAsSeconds = delta.asSeconds();

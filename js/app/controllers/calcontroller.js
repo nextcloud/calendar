@@ -71,7 +71,7 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 						start = start.format('X');
 						end = end.format('X');
 						Restangular.one('calendars', value.id).one('events').one('inPeriod').getList(start + '/' + end).then(function (eventsobject) {
-							callback(EventsModel.addalldisplayfigures(value.id, eventsobject, $scope.timezone));
+							callback(EventsModel.addAllDisplayFigures(value.id, eventsobject, start, end, $scope.timezone));
 						});
 					},
 					color: value.color,
@@ -111,18 +111,21 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 				titleFormat: {
 					month: t('calendar', 'MMMM yyyy'),
 					week: t('calendar', "MMM d[ yyyy]{ '–'[ MMM] d yyyy}"),
-					day: t('calendar', 'dddd, MMM d, yyyy'),
+					day: t('calendar', 'dddd, MMM d, yyyy')
 				},
 				eventResize: function (event, delta, revertFunc) {
-					Restangular.one('calendars', event.calid).one('events', event.id).get().then(function (eventsobject) {
-						if (!EventsModel.eventResizer(event, delta, eventsobject)) {
+					Restangular.one('calendars', event.calendarId).one('events', event.objectUri).get().then(function (eventsobject) {
+						var data = EventsModel.eventResizer(event, delta, eventsobject);
+						console.log(data);
+						if (data === null) {
 							revertFunc();
 						}
 					});
 				},
 				eventDrop: function (event, delta, revertFunc) {
-					Restangular.one('calendars', event.calid).one('events', event.id).get().then(function (eventsobject) {
-						if (!EventsModel.eventDropper(event, delta, eventsobject)) {
+					Restangular.one('calendars', event.calendarId).one('events', event.objectUri).get().then(function (eventsobject) {
+						var data = EventsModel.eventDropper(event, delta, eventsobject);
+						if (data === null) {
 							revertFunc();
 						}
 					});
