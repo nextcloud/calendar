@@ -77,27 +77,27 @@ $this->create('calendar.scan.calendar.mostOutDated', '/v1/scan/calendars/mostOut
 
 
 /* Settings API */
-$this->create('calendar.settings.getView', '/v1/getView')->get()->action(function($params){
+$this->create('calendar.settings.getView', '/v1/view')->get()->action(function($params){
 	$app = new \OCA\Calendar\App($params);
 	$app->dispatch('SettingsController', 'getValue');
 });
-$this->create('calendar.settings.setView', '/v1/setView/{value}')->post()->action(function($params){
+$this->create('calendar.settings.setView', '/v1/view/{value}')->post()->action(function($params){
 	$app = new \OCA\Calendar\App($params);
 	$app->dispatch('SettingsController', 'setValue');
 });
-$this->create('calendar.settings.getFirstDayOfWeek', '/v1/getFirstDay')->get()->action(function($params){
+$this->create('calendar.settings.getFirstDayOfWeek', '/v1/firstDay')->get()->action(function($params){
 	$app = new \OCA\Calendar\App($params);
 	$app->dispatch('SettingsController', 'getValue');
 });
-$this->create('calendar.settings.setFirstDayOfWeek', '/v1/setFirstDay/{value}')->post()->action(function($params){
+$this->create('calendar.settings.setFirstDayOfWeek', '/v1/firstDay/{value}')->post()->action(function($params){
 	$app = new \OCA\Calendar\App($params);
 	$app->dispatch('SettingsController', 'setValue');
 });
-$this->create('calendar.settings.getTimeFormat', '/v1/getTimeFormat')->get()->action(function($params){
+$this->create('calendar.settings.getTimeFormat', '/v1/timeFormat')->get()->action(function($params){
 	$app = new \OCA\Calendar\App($params);
 	$app->dispatch('SettingsController', 'getValue');
 });
-$this->create('calendar.settings.setTimeFormat', '/v1/setTimeFormat/{value}')->post()->action(function($params){
+$this->create('calendar.settings.setTimeFormat', '/v1/timeFormat/{value}')->post()->action(function($params){
 	$app = new \OCA\Calendar\App($params);
 	$app->dispatch('SettingsController', 'setValue');
 });
