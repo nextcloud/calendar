@@ -289,7 +289,7 @@ class App extends \OCP\AppFramework\App {
 				'configKey' => 'firstday',
 				'options' => array(
 					'sa',
-					'so',
+					'su',
 					'mo'
 				),
 				'default' => 'mo'
