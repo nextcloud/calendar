@@ -46,7 +46,8 @@
 					ng-model="selectedtime"
 					ng-selected="selectedtime"
 					ng-change="changetimeformat(selectedtime)"
-					ng-options="timeformat.time for timeformat in timeformatSelect">
+					ng-options="timeformat.time for timeformat in timeformatSelect"
+					data-timeFormat="<?php p(OCP\Config::getUserValue(OCP\User::getUser(), 'calendar', 'timeformat', '24')); ?>">
 				</select>
 			</li>
 			<li>
@@ -57,7 +58,8 @@
 					ng-model="selectedday"
 					ng-selected="selectedday"
 					ng-change="changefirstday(selectedday)"
-					ng-options="firstday.day for firstday in firstdaySelect">
+					ng-options="firstday.day for firstday in firstdaySelect"
+					data-firstDay="<?php p(OCP\Config::getUserValue(OCP\User::getUser(), 'calendar', 'firstday', 'mo')); ?>">
 				</select>
 			</li>
 			<li>
