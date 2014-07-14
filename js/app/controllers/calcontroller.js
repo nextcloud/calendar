@@ -72,6 +72,8 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 						end = end.format('X');
 						Restangular.one('calendars', value.id).one('events').one('inPeriod').getList(start + '/' + end).then(function (eventsobject) {
 							callback(EventsModel.addAllDisplayFigures(value.id, eventsobject, start, end, $scope.timezone));
+						}, function (response) {
+							OC.Notification.show(t('calendar', response.data.message));
 						});
 					},
 					color: value.color,
@@ -134,7 +136,7 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 					angular.element('#datecontrol_current').html($('<p>').html(view.title).text());
 					angular.element("#datecontrol_date").datepicker("setDate", $scope.calendar.fullCalendar('getDate'));
 					var newview = view.name;
-					if (newview != 'month') {
+					if (newview != $scope.defaultView) {
 						viewResource.get().then(function (newview) {
 							ViewModel.add(newview);
 						});

@@ -26,12 +26,16 @@ app.controller('SettingsController', ['$scope', 'Restangular',
 
 		var firstdayResource = Restangular.one('firstDay');
 		firstdayResource.get().then(function (firstdayobject) {
-			$scope.selectedday = firstdayobject.firstday;
+			$scope.selectedday = firstdayobject.value;
+		}, function(response) {
+			OC.Notification.show(t('calendar', response.data.message));
 		});
 
 		var timeformatResource = Restangular.one('timeFormat');
 		timeformatResource.get().then(function (timeFormatobject) {
-			$scope.selectedtime = timeFormatobject.timeformat;
+			$scope.selectedtime = timeFormatobject.value;
+		}, function (response) {
+			OC.Notification.show(t('calendar', response.data.message));
 		});
 
 		// Time Format Dropdown
@@ -49,19 +53,19 @@ app.controller('SettingsController', ['$scope', 'Restangular',
 
 		// Changing the first day
 		$scope.changefirstday = function (firstday) {
-			firstdayResource.post(firstday.val).then(function () {
-				// TODO : Add a OC notification if the request is successful.
-			}, function () {
-				// TODO : Add a OC notification if the request is not successful.
+			firstdayResource.post(firstday.val).then(function (response) {
+				OC.Notification.show(t('calendar', response.message));
+			}, function (response) {
+				OC.Notification.show(t('calendar', response.data.message));
 			});
 		};
 
 		// Changing the time format
 		$scope.changetimeformat = function (timeformat) {
-			timeformatResource.post(timeformat.val).then(function () {
-				// TODO : Add a OC notification if the request is successful.
-			}, function () {
-				// TODO : Add a OC notification if the request is not successful.
+			timeformatResource.post(timeformat.val).then(function (response) {
+				OC.Notification.show(t('calendar', response.message));
+			}, function (response) {
+				OC.Notification.show(t('calendar', response.data.message));
 			});
 		};
 	}

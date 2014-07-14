@@ -32,20 +32,29 @@ app.controller('SubscriptionController', ['$scope', '$window', 'SubscriptionMode
 		$scope.i = []; // Needed for only one CalDAV Input opening.
 
 		var subscriptionResource = Restangular.all('subscriptions');
+
 		subscriptionResource.getList().then(function (subscriptions) {
 			SubscriptionModel.addAll(subscriptions);
+		}, function (response) {
+			OC.Notification.show(t('calendar', response.data.message));
 		});
 
 		var calendarResource = Restangular.all('calendars');
+
 		// Gets All Calendars.
 		calendarResource.getList().then(function (calendars) {
 			CalendarModel.addAll(calendars);
+		}, function (response) {
+			OC.Notification.show(t('calendar', response.data.message));
 		});
 
 		var backendResource = Restangular.all('backends-enabled');
+
 		backendResource.getList().then(function (backendsobject) {
 			$scope.subscriptiontypeSelect = SubscriptionModel.getsubscriptionnames(backendsobject);
 			$scope.selectedsubscriptionbackendmodel = $scope.subscriptiontypeSelect[0]; // to remove the empty model.
+		}, function (response) {
+			OC.Notification.show(t('calendar', response.data.message));
 		});
 
 		$scope.newSubscriptionUrl = '';

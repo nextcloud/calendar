@@ -51,8 +51,7 @@
 	\OCP\Util::addStyle('calendar', 'part.events.dialog');
 
 	\OCP\Util::addStyle('calendar', '../3rdparty/css/fullcalendar/fullcalendar');
-	\OCP\Util::addStyle('calendar', '../3rdparty/css/colorpicker/colorpicker');
-	//\OCP\Util::addStyle('calendar', '../3rdparty/css/bootstrap/bootstrap');	
+	\OCP\Util::addStyle('calendar', '../3rdparty/css/colorpicker/colorpicker');	
 
 ?>
 
@@ -66,7 +65,7 @@
 	</script>
 
 	<!-- The Left Calendar Navigation -->
-	<div id="app-navigation" ng-controller="NavController">
+	<div id="app-navigation">
 
 		<div ng-controller="DatePickerController" id="datepickercontainer">
 			<?php print_unescaped($this->inc('part.datepicker')); ?>

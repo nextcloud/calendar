@@ -100,6 +100,8 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 						end = end.format('X');
 						Restangular.one('calendars', value.id).one('events').one('inPeriod').getList(start + '/' + end).then(function (eventsobject) {
 							callback(EventsModel.addAllDisplayFigures(value.id, eventsobject, start, end, $scope.timezone));
+						}, function (response) {
+							OC.Notification.show(t('calendar', response.data.message));
 						});
 					},
 					color: value.color,
@@ -162,7 +164,7 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 					angular.element('#datecontrol_current').html($('<p>').html(view.title).text());
 					angular.element("#datecontrol_date").datepicker("setDate", $scope.calendar.fullCalendar('getDate'));
 					var newview = view.name;
-					if (newview != 'month') {
+					if (newview != $scope.defaultView) {
 						viewResource.get().then(function (newview) {
 							ViewModel.add(newview);
 						});
@@ -412,22 +414,21 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 		});
 	}
 ]);
-app.controller('NavController', ['$scope',
-	function ($scope) {
-
-	}
-]);
 app.controller('SettingsController', ['$scope', 'Restangular',
 	function ($scope, Restangular) {
 
 		var firstdayResource = Restangular.one('firstDay');
 		firstdayResource.get().then(function (firstdayobject) {
-			$scope.selectedday = firstdayobject.firstday;
+			$scope.selectedday = firstdayobject.value;
+		}, function(response) {
+			OC.Notification.show(t('calendar', response.data.message));
 		});
 
 		var timeformatResource = Restangular.one('timeFormat');
 		timeformatResource.get().then(function (timeFormatobject) {
-			$scope.selectedtime = timeFormatobject.timeformat;
+			$scope.selectedtime = timeFormatobject.value;
+		}, function (response) {
+			OC.Notification.show(t('calendar', response.data.message));
 		});
 
 		// Time Format Dropdown
@@ -445,19 +446,19 @@ app.controller('SettingsController', ['$scope', 'Restangular',
 
 		// Changing the first day
 		$scope.changefirstday = function (firstday) {
-			firstdayResource.post(firstday.val).then(function () {
-				// TODO : Add a OC notification if the request is successful.
-			}, function () {
-				// TODO : Add a OC notification if the request is not successful.
+			firstdayResource.post(firstday.val).then(function (response) {
+				OC.Notification.show(t('calendar', response.message));
+			}, function (response) {
+				OC.Notification.show(t('calendar', response.data.message));
 			});
 		};
 
 		// Changing the time format
 		$scope.changetimeformat = function (timeformat) {
-			timeformatResource.post(timeformat.val).then(function () {
-				// TODO : Add a OC notification if the request is successful.
-			}, function () {
-				// TODO : Add a OC notification if the request is not successful.
+			timeformatResource.post(timeformat.val).then(function (response) {
+				OC.Notification.show(t('calendar', response.message));
+			}, function (response) {
+				OC.Notification.show(t('calendar', response.data.message));
 			});
 		};
 	}
@@ -474,20 +475,29 @@ app.controller('SubscriptionController', ['$scope', '$window', 'SubscriptionMode
 		$scope.i = []; // Needed for only one CalDAV Input opening.
 
 		var subscriptionResource = Restangular.all('subscriptions');
+
 		subscriptionResource.getList().then(function (subscriptions) {
 			SubscriptionModel.addAll(subscriptions);
+		}, function (response) {
+			OC.Notification.show(t('calendar', response.data.message));
 		});
 
 		var calendarResource = Restangular.all('calendars');
+
 		// Gets All Calendars.
 		calendarResource.getList().then(function (calendars) {
 			CalendarModel.addAll(calendars);
+		}, function (response) {
+			OC.Notification.show(t('calendar', response.data.message));
 		});
 
 		var backendResource = Restangular.all('backends-enabled');
+
 		backendResource.getList().then(function (backendsobject) {
 			$scope.subscriptiontypeSelect = SubscriptionModel.getsubscriptionnames(backendsobject);
 			$scope.selectedsubscriptionbackendmodel = $scope.subscriptiontypeSelect[0]; // to remove the empty model.
+		}, function (response) {
+			OC.Notification.show(t('calendar', response.data.message));
 		});
 
 		$scope.newSubscriptionUrl = '';
