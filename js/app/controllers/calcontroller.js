@@ -36,6 +36,8 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 			$scope.requestedtimezone = $scope.defaulttimezone.replace('/', '-');
 			Restangular.one('timezones', $scope.requestedtimezone).get().then(function (timezonedata) {
 				$scope.timezone = TimezoneModel.addtimezone(timezonedata);
+			}, function (response) {
+				OC.Notification.show(t('calendar', response.data.message));
 			});
 		}
 
@@ -122,6 +124,8 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 						if (data === null) {
 							revertFunc();
 						}
+					}, function (response) {
+						OC.Notification.show(t('calendar', response.data.message));
 					});
 				},
 				eventDrop: function (event, delta, revertFunc) {
@@ -130,6 +134,8 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 						if (data === null) {
 							revertFunc();
 						}
+					}, function (response) {
+						OC.Notification.show(t('calendar', response.data.message));
 					});
 				},
 				viewRender: function (view) {
@@ -139,6 +145,8 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 					if (newview != $scope.defaultView) {
 						viewResource.get().then(function (newview) {
 							ViewModel.add(newview);
+						}, function (response) {
+							OC.Notification.show(t('calendar', response.data.message));
 						});
 						$scope.defaultView = newview;
 					}
@@ -194,6 +202,15 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 			};
 			if (newview !== '' && $scope.calendar !== undefined) {
 				$scope.gotodate(newview, $scope.calendar);
+			}
+		});
+
+		$scope.$watch('calendarmodel.firstday', function (newview, oldview) {
+			$scope.firstdayview = function (newview,calendar) {
+				calendar.fullCalendar('firstDay', newview);
+			};
+			if (newview !== '' && $scope.calendar !== undefined) {
+				$scope.firstdayview(newview, $scope.calendar);
 			}
 		});
 	}

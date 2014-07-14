@@ -64,6 +64,8 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 			$scope.requestedtimezone = $scope.defaulttimezone.replace('/', '-');
 			Restangular.one('timezones', $scope.requestedtimezone).get().then(function (timezonedata) {
 				$scope.timezone = TimezoneModel.addtimezone(timezonedata);
+			}, function (response) {
+				OC.Notification.show(t('calendar', response.data.message));
 			});
 		}
 
@@ -150,6 +152,8 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 						if (data === null) {
 							revertFunc();
 						}
+					}, function (response) {
+						OC.Notification.show(t('calendar', response.data.message));
 					});
 				},
 				eventDrop: function (event, delta, revertFunc) {
@@ -158,6 +162,8 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 						if (data === null) {
 							revertFunc();
 						}
+					}, function (response) {
+						OC.Notification.show(t('calendar', response.data.message));
 					});
 				},
 				viewRender: function (view) {
@@ -167,6 +173,8 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 					if (newview != $scope.defaultView) {
 						viewResource.get().then(function (newview) {
 							ViewModel.add(newview);
+						}, function (response) {
+							OC.Notification.show(t('calendar', response.data.message));
 						});
 						$scope.defaultView = newview;
 					}
@@ -222,6 +230,15 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 			};
 			if (newview !== '' && $scope.calendar !== undefined) {
 				$scope.gotodate(newview, $scope.calendar);
+			}
+		});
+
+		$scope.$watch('calendarmodel.firstday', function (newview, oldview) {
+			$scope.firstdayview = function (newview,calendar) {
+				calendar.fullCalendar('firstDay', newview);
+			};
+			if (newview !== '' && $scope.calendar !== undefined) {
+				$scope.firstdayview(newview, $scope.calendar);
 			}
 		});
 	}
@@ -315,6 +332,8 @@ app.controller('CalendarListController', ['$scope', '$window', '$location', '$ro
 			var delcalendarResource = Restangular.one('calendars', id);
 			delcalendarResource.remove().then(function () {
 				CalendarModel.remove(calendar);
+			}, function (response) {
+				OC.Notification.show(t('calendar', response.data.message));
 			});
 		};
 
@@ -414,8 +433,8 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 		});
 	}
 ]);
-app.controller('SettingsController', ['$scope', 'Restangular',
-	function ($scope, Restangular) {
+app.controller('SettingsController', ['$scope', 'Restangular', 'CalendarModel',
+	function ($scope, Restangular, CalendarModel) {
 
 		var firstdayResource = Restangular.one('firstDay');
 		firstdayResource.get().then(function (firstdayobject) {
@@ -429,6 +448,7 @@ app.controller('SettingsController', ['$scope', 'Restangular',
 			$scope.selectedtime = timeFormatobject.value;
 		}, function (response) {
 			OC.Notification.show(t('calendar', response.data.message));
+
 		});
 
 		// Time Format Dropdown
@@ -451,6 +471,7 @@ app.controller('SettingsController', ['$scope', 'Restangular',
 			}, function (response) {
 				OC.Notification.show(t('calendar', response.data.message));
 			});
+			CalendarModel.pushfirstday(firstday.val);
 		};
 
 		// Changing the time format
@@ -634,6 +655,7 @@ app.factory('CalendarModel', function () {
 	var CalendarModel = function () {
 		this.calendars = [];
 		this.calendarId = {};
+		this.firstday = {};
 		this.modelview = {
 			id: '',
 			view: ''
@@ -712,6 +734,12 @@ app.factory('CalendarModel', function () {
 		},
 		getdate: function () {
 			return this.date;
+		},
+		pushfirstday: function (val) {
+			this.firstday = moment().day(val).day();
+		},
+		getfirstday: function () {
+			return this.firstday;
 		}
 	};
 

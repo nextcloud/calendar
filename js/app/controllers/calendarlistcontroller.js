@@ -109,6 +109,8 @@ app.controller('CalendarListController', ['$scope', '$window', '$location', '$ro
 			var delcalendarResource = Restangular.one('calendars', id);
 			delcalendarResource.remove().then(function () {
 				CalendarModel.remove(calendar);
+			}, function (response) {
+				OC.Notification.show(t('calendar', response.data.message));
 			});
 		};
 

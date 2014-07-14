@@ -25,6 +25,7 @@ app.factory('CalendarModel', function () {
 	var CalendarModel = function () {
 		this.calendars = [];
 		this.calendarId = {};
+		this.firstday = {};
 		this.modelview = {
 			id: '',
 			view: ''
@@ -103,6 +104,12 @@ app.factory('CalendarModel', function () {
 		},
 		getdate: function () {
 			return this.date;
+		},
+		pushfirstday: function (val) {
+			this.firstday = moment().day(val).day();
+		},
+		getfirstday: function () {
+			return this.firstday;
 		}
 	};
 

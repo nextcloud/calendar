@@ -21,8 +21,8 @@
  *
  */
 
-app.controller('SettingsController', ['$scope', 'Restangular',
-	function ($scope, Restangular) {
+app.controller('SettingsController', ['$scope', 'Restangular', 'CalendarModel',
+	function ($scope, Restangular, CalendarModel) {
 
 		var firstdayResource = Restangular.one('firstDay');
 		firstdayResource.get().then(function (firstdayobject) {
@@ -36,6 +36,7 @@ app.controller('SettingsController', ['$scope', 'Restangular',
 			$scope.selectedtime = timeFormatobject.value;
 		}, function (response) {
 			OC.Notification.show(t('calendar', response.data.message));
+
 		});
 
 		// Time Format Dropdown
@@ -58,6 +59,7 @@ app.controller('SettingsController', ['$scope', 'Restangular',
 			}, function (response) {
 				OC.Notification.show(t('calendar', response.data.message));
 			});
+			CalendarModel.pushfirstday(firstday.val);
 		};
 
 		// Changing the time format
