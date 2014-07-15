@@ -27,7 +27,6 @@
 
 	\OCP\Util::addScript('calendar', '../3rdparty/js/timezones/jstz');
 	\OCP\Util::addScript('calendar', '../3rdparty/js/momentjs/moment.min');
-	\OCP\Util::addScript('calendar', '../3rdparty/js/jquery-ui/jquery-ui');
 	\OCP\Util::addScript('calendar', '../3rdparty/js/fullcalendar/fullcalendar');
 	\OCP\Util::addScript('calendar', '../3rdparty/js/icaljs/ical');
 
@@ -55,7 +54,7 @@
 
 ?>
 
-<div ng-app="Calendar" ng-controller="AppController">
+<div ng-app="Calendar">
 
 	<script type="text/ng-template" id="calendar.html">
 		<?php print_unescaped($this->inc('part.fullcalendar')); ?>

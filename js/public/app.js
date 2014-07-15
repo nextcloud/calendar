@@ -44,11 +44,6 @@ var app = angular.module('Calendar', [
 		});
 	}]);
 
-app.controller('AppController', ['$scope',
-	function ($scope) {
-
-	}
-]);
 app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 'CalendarModel', 'EventsModel', 'ViewModel', 'TimezoneModel',
 	function ($scope, $modal, Restangular, calendar, CalendarModel, EventsModel, ViewModel, TimezoneModel) {
 		$scope.eventSources = EventsModel.getAll();
