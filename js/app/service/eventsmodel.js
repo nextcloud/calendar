@@ -30,6 +30,7 @@ app.factory('EventsModel', function () {
 			id: '',
 			changer: ''
 		}; // required for switching the calendars on the fullcalendar
+		this.eventsmodalproperties = {};
 	};
 
 
@@ -133,7 +134,7 @@ app.factory('EventsModel', function () {
 					}
 				});
 			}
-
+			console.log(events);
 			return events;
 		},
 		eventResizer: function (event, delta, jcalData) {
@@ -219,9 +220,15 @@ app.factory('EventsModel', function () {
 
 			return (didFindEvent) ? components.toJSON() : null;
 		},
-		addEvent: function (id) {
-			this.calid.changer = Math.random(1000);
-			this.calid.id = id;
+		putmodalproperties: function (event,jsEvent,view) {
+			this.eventsmodalproperties = {
+				"event": event,
+				"jsEvent": jsEvent,
+				"view": view
+			};
+		},
+		getmodalproperties: function () {
+			return this.eventsmodalproperties;
 		},
 		getEvent: function () {
 			return this.calid;
