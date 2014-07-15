@@ -115,7 +115,10 @@ app.factory('EventsModel', function () {
 
 						isAllDay = (dtstart.icaltype == 'date' && dtend.icaltype == 'date');
 
-						eventsId = uri + (recurrenceId) ? recurrenceId : "";
+						eventsId = uri;
+						if (recurrenceId !== null) {
+							eventsId = eventsId + recurrenceId;
+						}
 
 						events.push({
 							"id": eventsId,
