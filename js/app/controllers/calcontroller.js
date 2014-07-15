@@ -120,7 +120,6 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 				eventResize: function (event, delta, revertFunc) {
 					Restangular.one('calendars', event.calendarId).one('events', event.objectUri).get().then(function (eventsobject) {
 						var data = EventsModel.eventResizer(event, delta, eventsobject);
-						console.log(data);
 						if (data === null) {
 							revertFunc();
 						}

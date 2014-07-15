@@ -66,9 +66,18 @@
 					class="icon-rename">
 				</span>
 			</span>
+			<span class="action">
+				<span href="#"
+					id="chooseCalendar-delete"
+					data-id="{{ calendar.uri }}"
+					title="Delete"
+					class="icon-delete"
+					ng-click="delete(calendar.id)">
+				</span>
+			</span>
 		</span>
 		<fieldset ng-show="calDAVfieldset[$index]" class="caldavURL">
-			<input type="text" ng-model="calDAVmodel" data-id="{{ calendar.id }}" disabled />
+			<input type="text" ng-model="calDAVmodel" data-id="{{ calendar.id }}" readonly />
 			<button id="chooseCalendar-close" class="primary" ng-click="hidecalDAVfieldset($index)">&lt;</button>
 		</fieldset>
 	</li>

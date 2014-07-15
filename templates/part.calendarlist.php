@@ -65,7 +65,7 @@
 					ng-click="updatecalendarform($index,calendar.id,calendar.displayname,calendar.color);">
 				</span>
 			</span>
-			<span class="action" ng-class="{ disabled: !calendar.cruds.delete }">
+			<span class="action">
 				<span href="#"
 					id="chooseCalendar-delete"
 					data-id="{{ calendar.uri }}"

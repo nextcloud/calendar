@@ -99,5 +99,16 @@ app.controller('SubscriptionController', ['$scope', '$window', 'SubscriptionMode
 			$scope.addEvent(newid); // Switches watch in CalController
 		};
 
+		// To Delete a Calendar
+		$scope.delete = function (id) {
+			var calendar = CalendarModel.get(id);
+			var delcalendarResource = Restangular.one('calendars', id);
+			delcalendarResource.remove().then(function () {
+				CalendarModel.remove(calendar);
+			}, function (response) {
+				OC.Notification.show(t('calendar', response.data.message));
+			});
+		};
+
 	}
 ]);
