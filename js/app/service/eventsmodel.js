@@ -134,7 +134,6 @@ app.factory('EventsModel', function () {
 					}
 				});
 			}
-			console.log(events);
 			return events;
 		},
 		eventResizer: function (event, delta, jcalData) {
