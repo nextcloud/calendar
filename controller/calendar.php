@@ -101,18 +101,18 @@ class CalendarController extends Controller {
 
 
 	/**
-	 * @param int $calendarId
+	 * @param int $id
 	 * @return Response
 	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	 public function show($calendarId) {
+	 public function show($id) {
 		try {
 			$userId = $this->api->getUserId();
 
 			return $this->calendars->findById(
-				$calendarId,
+				$id,
 				$userId
 			);
 		} catch (BusinessLayerException $ex) {
@@ -174,13 +174,13 @@ class CalendarController extends Controller {
 
 
 	/**
-	 * @param int $calendarId
+	 * @param int $id
 	 * @return Response
 	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function update($calendarId) {
+	public function update($id) {
 		try {
 			$calendar = $this->readInput();
 			$userId = $this->api->getUserId();
@@ -188,7 +188,7 @@ class CalendarController extends Controller {
 			if ($calendar instanceof ICalendar) {
 				return $this->calendars->updateFromRequestById(
 					$calendar,
-					$calendarId,
+					$id,
 					$userId
 				);
 			} elseif ($calendar instanceof ICalendarCollection) {
@@ -222,13 +222,13 @@ class CalendarController extends Controller {
 
 
 	/**
-	 * @param int $calendarId
+	 * @param int $id
 	 * @return Response
 	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function patch($calendarId) {
+	public function patch($id) {
 		try {
 			$calendar = $this->readInput();
 			$userId = $this->api->getUserId();
@@ -236,7 +236,7 @@ class CalendarController extends Controller {
 			if ($calendar instanceof ICalendar) {
 				return $this->calendars->patchFromRequestById(
 					$calendar,
-					$calendarId,
+					$id,
 					$userId
 				);
 			} elseif ($calendar instanceof ICalendarCollection) {
@@ -270,18 +270,18 @@ class CalendarController extends Controller {
 
 
 	/**
-	 * @param int $calendarId
+	 * @param int $id
 	 * @return Response
 	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function destroy($calendarId) {
+	public function destroy($id) {
 		try {
 			$userId	= $this->api->getUserId();
 
 			$calendar = $this->calendars->findById(
-				$calendarId, 
+				$id,
 				$userId
 			);
 

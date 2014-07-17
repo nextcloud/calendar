@@ -200,13 +200,13 @@ class ObjectController extends Controller {
 
 	/**
 	 * @param int $calendarId
-	 * @param int $objectId
+	 * @param int $id
 	 * @return Response
 	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function show($calendarId, $objectId) {
+	public function show($calendarId, $id) {
 		try {
 			$userId = $this->api->getUserId();
 
@@ -223,7 +223,7 @@ class ObjectController extends Controller {
 
 			return $this->objects->find(
 				$calendar,
-				$objectId
+				$id
 			);
 		} catch (BusinessLayerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
@@ -307,17 +307,17 @@ class ObjectController extends Controller {
 
 	/**
 	 * @param int $calendarId
+	 * @param int $id
 	 * @return Response
 	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function update($calendarId) {
+	public function update($calendarId, $id) {
 		try {
 			$object = $this->readInput();
 
 			$userId = $this->api->getUserId();
-			$objectURI = $this->getObjectId();
 			$etag = $this->request->getHeader('IF-MATCH');
 
 			$calendar = $this->calendars->findById($calendarId, $userId);
@@ -331,8 +331,8 @@ class ObjectController extends Controller {
 			if ($object instanceof IObject) {
 				$object = $this->objects->updateFromRequest(
 					$object,
-					$calendar, 
-					$objectURI,
+					$calendar,
+					$id,
 					$etag
 				);
 			} elseif ($object instanceof IObjectCollection) {
@@ -374,15 +374,15 @@ class ObjectController extends Controller {
 
 	/**
 	 * @param int $calendarId
+	 * @param int $id
 	 * @return Response
 	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function destroy($calendarId) {
+	public function destroy($calendarId, $id) {
 		try {
 			$userId = $this->api->getUserId();
-			$objectURI = $this->getObjectId();
 
 			$calendar = $this->calendars->findById(
 				$calendarId,
@@ -397,7 +397,7 @@ class ObjectController extends Controller {
 
 			$object = $this->objects->find(
 				$calendar,
-				$objectURI
+				$id
 			);
 
 			$this->objects->delete(

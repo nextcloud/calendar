@@ -86,15 +86,15 @@ class TimezoneController extends Controller {
 
 
 	/**
-	 * @param string $timezoneId
+	 * @param string $id
 	 * @return Response
 	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	 public function show($timezoneId) {
+	 public function show($id) {
 		try {
-			$tzId = str_replace('-', '/', $timezoneId);
+			$tzId = str_replace('-', '/', $id);
 			$userId	= $this->api->getUserId();
 
 			return $this->timezones->find(

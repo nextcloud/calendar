@@ -113,18 +113,18 @@ class SubscriptionController extends Controller {
 
 
 	/**
-	 * @param int $subscriptionId
+	 * @param int $id
 	 * @return Response
 	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	 public function show($subscriptionId) {
+	 public function show($id) {
 		try {
 			$userId = $this->api->getUserId();
 
 			return $this->subscriptions->find(
-				$subscriptionId,
+				$id,
 				$userId
 			);
 		} catch (BusinessLayerException $ex) {
@@ -206,20 +206,20 @@ class SubscriptionController extends Controller {
 
 
 	/**
-	 * @param int $subscriptionId
+	 * @param int $id
 	 * @return Response
 	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function update($subscriptionId) {
+	public function update($id) {
 		try {
 			$subscription = $this->readInput();
 			$userId = $this->api->getUserId();
 
 			if ($subscription instanceof ISubscription) {
 				$subscription->setUserId($userId);
-				$subscription->setId($subscriptionId);
+				$subscription->setId($id);
 
 				$backend = $this->backends->bySubscriptionType(
 					$subscription->getType()
@@ -272,18 +272,18 @@ class SubscriptionController extends Controller {
 
 
 	/**
-	 * @param int $subscriptionId
+	 * @param int $id
 	 * @return Response
 	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function destroy($subscriptionId) {
+	public function destroy($id) {
 		try {
 			$userId	= $this->api->getUserId();
 
 			$subscription = $this->subscriptions->find(
-				$subscriptionId,
+				$id,
 				$userId
 			);
 
