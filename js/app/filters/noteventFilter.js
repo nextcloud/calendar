@@ -21,20 +21,21 @@
  *
  */
 
-app.filter('eventFilter',
+// TODO: Remove this as this is not the best of the solutions.
+app.filter('noteventFilter',
 	[ function () {
-		var eventfilter = function (item) {
+		var noteventfilter = function (item) {
 			var filter = [];
 			if (item.length > 0) {
 				for (var i = 0; i < item.length; i++) {
-					if (item[i].components.vevent === true) {
+					if (item[i].components.vevent === false) {
 						filter.push(item[i]);
 					}
 				}
 			}
 			return filter;
 		};
-		return eventfilter;
+		return noteventfilter;
 	}
 	]
 );

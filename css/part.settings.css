@@ -25,6 +25,10 @@
 	width:90%;
 }
 
+#hiddencalendar {
+	width:40%;
+}
+
 #app-settings-content .personalblock ul li:hover {
 	background: transparent;
 }

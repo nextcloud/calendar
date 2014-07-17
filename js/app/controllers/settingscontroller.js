@@ -24,6 +24,15 @@
 app.controller('SettingsController', ['$scope', 'Restangular', 'CalendarModel',
 	function ($scope, Restangular, CalendarModel) {
 
+		$scope.hiddencalendars = CalendarModel.getAll();
+		var calendarResource = Restangular.all('calendars');
+
+		calendarResource.getList().then(function (calendars) {
+			CalendarModel.addAll(calendars);
+		}, function (response) {
+			OC.Notification.show(t('calendar', response.data.message));
+		});
+
 		var firstdayResource = Restangular.one('firstDay');
 		firstdayResource.get().then(function (firstdayobject) {
 			$scope.selectedday = firstdayobject.value;
@@ -51,6 +60,11 @@ app.controller('SettingsController', ['$scope', 'Restangular', 'CalendarModel',
 			{ day: t('calendar', 'Sunday'), val: 'su' },
 			{ day: t('calendar', 'Saturday'), val: 'sa' }
 		];
+
+		//to send a patch to add a hidden event again
+		$scope.enableCalendar = function (id) {
+			Restangular.one('calendars', id).patch({ 'components' : {'vevent' : true }});
+		};
 
 		// Changing the first day
 		$scope.changefirstday = function (firstday) {

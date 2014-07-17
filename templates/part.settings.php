@@ -63,6 +63,14 @@
 				</select>
 			</li>
 			<li>
+				<label class="bold"><?php p($l->t('Show in Calendar')); ?></label>
+				<select id="hiddencalendar" name="hiddencalendar"
+					ng-model="hiddencalendar"
+					ng-change="enableCalendar(hiddencalendar.id)"
+					ng-options="hiddencalendar.displayname for hiddencalendar in hiddencalendars | noteventFilter">
+				</select>
+			</li>
+			<li>
 				<label class="bold"><?php p($l->t('Primary CalDAV address')); ?></label>
 				<input
 					id="primarycaldav"
