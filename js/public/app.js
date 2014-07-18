@@ -950,6 +950,10 @@ app.factory('EventsModel', function () {
 		getmodalproperties: function () {
 			return this.eventsmodalproperties;
 		},
+		addEvent: function (id) {
+			this.calid.changer = Math.random(1000);
+			this.calid.id = id;
+		},
 		getEvent: function () {
 			return this.calid;
 		},
