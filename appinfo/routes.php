@@ -141,11 +141,11 @@ $this->create('calendar.timezone.getList', '/v1/timezones-list')->get()->action(
 
 
 /* make resources patchable */
-$this->create('calendar.calendar.patch', '/v1/calendars/{calendarId}')->patch()->action(function($params){
+$this->create('calendar.calendar.patch', '/v1/calendars/{id}')->patch()->action(function($params){
 	$app = new \OCA\Calendar\App($params);
 	$app->dispatch('CalendarController', 'patch');
 });
-$this->create('calendar.subscription.patch', '/v1/subscriptions/{subscriptionId}')->patch()->action(function($params){
+$this->create('calendar.subscription.patch', '/v1/subscriptions/{id}')->patch()->action(function($params){
 	$app = new \OCA\Calendar\App($params);
 	$app->dispatch('SubscriptionController', 'patch');
 });
