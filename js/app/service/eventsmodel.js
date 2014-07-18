@@ -70,6 +70,7 @@ app.factory('EventsModel', function () {
 
 			var dtstart = '';
 			var dtend = '';
+			var etag = '';
 			var eventsId = '';
 			var uri = '';
 			var recurrenceId = null;
@@ -87,6 +88,7 @@ app.factory('EventsModel', function () {
 					// Todo : Repeating Calendar.
 					if (vevent.hasProperty('dtstart')) {
 						uri = vevent.getFirstPropertyValue('x-oc-uri');
+						etag = vevent.getFirstPropertyValue('x-oc-etag');
 
 						if (!vevent.hasProperty('dtstart')) {
 							return;
@@ -125,6 +127,7 @@ app.factory('EventsModel', function () {
 							"id": eventsId,
 							"calendarId": calendarId,
 							"objectUri": uri,
+							"etag": etag,
 							"recurrenceId": recurrenceId,
 							"title": vevent.getFirstPropertyValue('summary'),
 							"start": dtstart.toJSDate(),
