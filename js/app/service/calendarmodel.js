@@ -38,6 +38,10 @@ app.factory('CalendarModel', function () {
 			id: '',
 			date: new Date()
 		};
+		this.activator = {
+			id: '',
+			bool: ''
+		};
 		this.date = new Date();
 	};
 
@@ -110,6 +114,10 @@ app.factory('CalendarModel', function () {
 		},
 		getfirstday: function () {
 			return this.firstday;
+		},
+		toggleactive: function (id,bool) {
+			this.activator.id = id;
+			this.activator.bool = bool;
 		}
 	};
 

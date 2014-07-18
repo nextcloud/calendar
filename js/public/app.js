@@ -77,14 +77,16 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 			$scope.i++;
 			if (switcher.indexOf(newid) > -1) {
 				switcher.splice(switcher.indexOf(newid), 1);
-				Restangular.one('calendars', newid).patch({'enabled': false});
+				Restangular.one('calendars', newid).patch({'enabled': false}).then(function (blah) {
+					CalendarModel.toggleactive(newid,blah.enabled);
+				});
 				calendar.fullCalendar('removeEventSource', $scope.eventSource[newid]);
-				angular.element('#calendarlist li a[data-id=' + newid + ']').parent().removeClass('active');
 			} else {
 				switcher.push(newid);
-				Restangular.one('calendars', newid).patch({'enabled': true});
+				Restangular.one('calendars', newid).patch({'enabled': true}).then(function (blah) {
+					CalendarModel.toggleactive(newid,blah.enabled);
+				});
 				calendar.fullCalendar('addEventSource', $scope.eventSource[newid]);
-				angular.element('#calendarlist li a[data-id=' + newid + ']').parent().addClass('active');
 			}
 		};
 
@@ -192,6 +194,16 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 			newid = newid.id;
 			if (newid !== '') {
 				$scope.addRemoveEventSources(newid, $scope.calendar);
+			}
+		}, true);
+
+		$scope.$watch('calendarmodel.activator', function (newobj, oldobj) {
+			if (newobj.id !== '') {
+				if (newobj.bool === true) {
+					angular.element('#calendarlist li a[data-id=' + newobj.id + ']').parent().addClass('active');
+				} else {
+					angular.element('#calendarlist li a[data-id=' + newobj.id + ']').parent().removeClass('active');
+				}
 			}
 		}, true);
 
@@ -662,6 +674,10 @@ app.factory('CalendarModel', function () {
 			id: '',
 			date: new Date()
 		};
+		this.activator = {
+			id: '',
+			bool: ''
+		};
 		this.date = new Date();
 	};
 
@@ -734,6 +750,10 @@ app.factory('CalendarModel', function () {
 		},
 		getfirstday: function () {
 			return this.firstday;
+		},
+		toggleactive: function (id,bool) {
+			this.activator.id = id;
+			this.activator.bool = bool;
 		}
 	};
 
