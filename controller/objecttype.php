@@ -170,15 +170,15 @@ abstract class ObjectTypeController extends ObjectController {
 
 	/**
 	 * @param int $calendarId
+	 * @param string $id
 	 * @return Response
 	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function show($calendarId) {
+	public function show($calendarId, $id) {
 		try {
 			$userId = $this->api->getUserId();
-			$objectURI = $this->getObjectId();
 			$type = $this->objectType;
 
 			$calendar = $this->calendars->findById(
@@ -194,7 +194,7 @@ abstract class ObjectTypeController extends ObjectController {
 
 			return $this->objects->findByType(
 				$calendar,
-				$objectURI,
+				$id,
 				$type
 			);
 		} catch (BusinessLayerException $ex) {
