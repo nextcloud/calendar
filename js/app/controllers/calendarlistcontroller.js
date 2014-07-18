@@ -24,6 +24,7 @@
 app.controller('CalendarListController', ['$scope', '$window', '$location', '$routeParams', 'Restangular', 'CalendarModel', 'EventsModel',
 	function ($scope, $window, $location, $routeParams, Restangular, CalendarModel, EventsModel) {
 
+		$scope.calendarmodel = CalendarModel;
 		$scope.calendars = CalendarModel.getAll();
 		var calendarResource = Restangular.all('calendars');
 		// Gets All Calendars.
@@ -99,7 +100,11 @@ app.controller('CalendarListController', ['$scope', '$window', '$location', '$ro
 						"vtodo": vtodo
 					}
 				};
-				Restangular.one('calendars', id).patch(updated);
+				Restangular.one('calendars', id).patch(updated).then(function (updated) {
+					CalendarModel.updatecalendar(updated);
+				}, function (response) {
+					OC.Notification.show(t('calendar', response.data.message));
+				});
 			};
 		};
 
@@ -124,6 +129,17 @@ app.controller('CalendarListController', ['$scope', '$window', '$location', '$ro
 		$scope.addRemoveEventSource = function (newid) {
 			$scope.addEvent(newid); // Switches watch in CalController
 		};
+
+		$scope.$watch('calendarmodel.updated', function (newobj, oldobj) {
+			if (Object.keys(newobj).length > 0) {
+				angular.element('#calendarlist li a[data-id=' + newobj.id + ']').siblings('.calendarCheckbox').css('background-color', newobj.color);
+				angular.element('#calendarlist li a[data-id=' + newobj.id + '] span').text(newobj.displayname);
+				$scope.editmodel = newobj.displayname;
+				$scope.vevent = newobj.components.vevent;
+				$scope.vjournal = newobj.components.vjournal;
+				$scope.vtodo = newobj.components.vtodo;
+			}
+		}, true);
 
 	}
 ]);

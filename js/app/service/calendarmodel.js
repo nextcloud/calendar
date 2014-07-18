@@ -30,6 +30,7 @@ app.factory('CalendarModel', function () {
 			id: '',
 			view: ''
 		};
+		this.updated = {};
 		this.datepickerview = {
 			id: '',
 			view: ''
@@ -118,6 +119,9 @@ app.factory('CalendarModel', function () {
 		toggleactive: function (id,bool) {
 			this.activator.id = id;
 			this.activator.bool = bool;
+		},
+		updatecalendar: function (updated) {
+			this.updated = updated;
 		}
 	};
 

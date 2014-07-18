@@ -77,14 +77,14 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 			$scope.i++;
 			if (switcher.indexOf(newid) > -1) {
 				switcher.splice(switcher.indexOf(newid), 1);
-				Restangular.one('calendars', newid).patch({'enabled': false}).then(function (blah) {
-					CalendarModel.toggleactive(newid,blah.enabled);
+				Restangular.one('calendars', newid).patch({'enabled': false}).then(function (calendar) {
+					CalendarModel.toggleactive(newid,calendar.enabled);
 				});
 				calendar.fullCalendar('removeEventSource', $scope.eventSource[newid]);
 			} else {
 				switcher.push(newid);
-				Restangular.one('calendars', newid).patch({'enabled': true}).then(function (blah) {
-					CalendarModel.toggleactive(newid,blah.enabled);
+				Restangular.one('calendars', newid).patch({'enabled': true}).then(function (calendar) {
+					CalendarModel.toggleactive(newid,calendar.enabled);
 				});
 				calendar.fullCalendar('addEventSource', $scope.eventSource[newid]);
 			}
@@ -199,6 +199,7 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 
 		$scope.$watch('calendarmodel.activator', function (newobj, oldobj) {
 			if (newobj.id !== '') {
+				//TODO : Try incorporating ng-class here.
 				if (newobj.bool === true) {
 					angular.element('#calendarlist li a[data-id=' + newobj.id + ']').parent().addClass('active');
 				} else {
@@ -255,6 +256,7 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 app.controller('CalendarListController', ['$scope', '$window', '$location', '$routeParams', 'Restangular', 'CalendarModel', 'EventsModel',
 	function ($scope, $window, $location, $routeParams, Restangular, CalendarModel, EventsModel) {
 
+		$scope.calendarmodel = CalendarModel;
 		$scope.calendars = CalendarModel.getAll();
 		var calendarResource = Restangular.all('calendars');
 		// Gets All Calendars.
@@ -330,7 +332,11 @@ app.controller('CalendarListController', ['$scope', '$window', '$location', '$ro
 						"vtodo": vtodo
 					}
 				};
-				Restangular.one('calendars', id).patch(updated);
+				Restangular.one('calendars', id).patch(updated).then(function (updated) {
+					CalendarModel.updatecalendar(updated);
+				}, function (response) {
+					OC.Notification.show(t('calendar', response.data.message));
+				});
 			};
 		};
 
@@ -355,6 +361,17 @@ app.controller('CalendarListController', ['$scope', '$window', '$location', '$ro
 		$scope.addRemoveEventSource = function (newid) {
 			$scope.addEvent(newid); // Switches watch in CalController
 		};
+
+		$scope.$watch('calendarmodel.updated', function (newobj, oldobj) {
+			if (Object.keys(newobj).length > 0) {
+				angular.element('#calendarlist li a[data-id=' + newobj.id + ']').siblings('.calendarCheckbox').css('background-color', newobj.color);
+				angular.element('#calendarlist li a[data-id=' + newobj.id + '] span').text(newobj.displayname);
+				$scope.editmodel = newobj.displayname;
+				$scope.vevent = newobj.components.vevent;
+				$scope.vjournal = newobj.components.vjournal;
+				$scope.vtodo = newobj.components.vtodo;
+			}
+		}, true);
 
 	}
 ]);
@@ -666,6 +683,7 @@ app.factory('CalendarModel', function () {
 			id: '',
 			view: ''
 		};
+		this.updated = {};
 		this.datepickerview = {
 			id: '',
 			view: ''
@@ -754,6 +772,9 @@ app.factory('CalendarModel', function () {
 		toggleactive: function (id,bool) {
 			this.activator.id = id;
 			this.activator.bool = bool;
+		},
+		updatecalendar: function (updated) {
+			this.updated = updated;
 		}
 	};
 
