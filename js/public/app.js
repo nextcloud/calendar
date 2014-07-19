@@ -77,16 +77,15 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 			$scope.i++;
 			if (switcher.indexOf(newid) > -1) {
 				switcher.splice(switcher.indexOf(newid), 1);
-				Restangular.one('calendars', newid).patch({'enabled': false}).then(function (calendar) {
-					CalendarModel.toggleactive(newid,calendar.enabled);
+				Restangular.one('calendars', newid).patch({'enabled': false}).then(function (calendarobj) {
+					CalendarModel.toggleactive(newid,calendarobj.enabled);
+					
 				});
-				calendar.fullCalendar('removeEventSource', $scope.eventSource[newid]);
 			} else {
 				switcher.push(newid);
-				Restangular.one('calendars', newid).patch({'enabled': true}).then(function (calendar) {
-					CalendarModel.toggleactive(newid,calendar.enabled);
+				Restangular.one('calendars', newid).patch({'enabled': true}).then(function (calendarobj) {
+					CalendarModel.toggleactive(newid,calendarobj.enabled);
 				});
-				calendar.fullCalendar('addEventSource', $scope.eventSource[newid]);
 			}
 		};
 
@@ -202,8 +201,10 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 				//TODO : Try incorporating ng-class here.
 				if (newobj.bool === true) {
 					angular.element('#calendarlist li a[data-id=' + newobj.id + ']').parent().addClass('active');
+					$scope.calendar.fullCalendar('addEventSource', $scope.eventSource[newobj.id]);
 				} else {
 					angular.element('#calendarlist li a[data-id=' + newobj.id + ']').parent().removeClass('active');
+					$scope.calendar.fullCalendar('removeEventSource', $scope.eventSource[newobj.id]);
 				}
 			}
 		}, true);
