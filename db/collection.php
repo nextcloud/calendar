@@ -481,4 +481,45 @@ abstract class Collection implements ICollection {
 
 		return $res;
 	}
+
+
+	/**
+	 * @param mixed $offset
+	 * @return bool
+	 */
+	public function offsetExists($offset) {
+		return isset($this->objects[$offset]);
+	}
+
+
+	/**
+	 * @param mixed $offset
+	 * @return IEntity|void
+	 */
+	public function offsetGet($offset){
+		return $this->offsetExists($offset) ? $this->objects[$offset] : null;
+	}
+
+
+	/**
+	 * @param mixed $offset
+	 * @param mixed $value
+	 */
+	public function offsetSet($offset, $value){
+		if ($value instanceof IEntity) {
+			if ($offset === null) {
+				$this->objects[] = $value;
+			} else {
+				$this->objects[$offset] = $value;
+			}
+		}
+	}
+
+
+	/**
+	 * @param mixed $offset
+	 */
+	public function offsetUnset($offset) {
+		unset($this->objects[$offset]);
+	}
 }

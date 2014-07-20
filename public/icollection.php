@@ -21,7 +21,7 @@
  */
 namespace OCP\Calendar;
 
-interface ICollection {
+interface ICollection extends \Countable, \ArrayAccess {
 
 	/**
 	 * add entity to collection
@@ -71,13 +71,6 @@ interface ICollection {
 	 * @return $this;
 	 */
 	public function removeByProperty($key, $value);
-
-
-	/**
-	 * get number of elements within collection
-	 * @return integer
-	 */
-	public function count();
 
 
 	/**
