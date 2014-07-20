@@ -110,6 +110,11 @@ class Calendar extends Entity implements ICalendar {
 
 
 	/**
+	 * @var integer
+	 */
+	public $fileId;
+
+	/**
 	 * @var string
 	 */
 	public $description;
@@ -452,6 +457,23 @@ class Calendar extends Entity implements ICalendar {
 	 */
 	public function getUserId() {
 		return $this->getter('userId');
+	}
+
+
+	/**
+	 * @param int $fileId
+	 * @return $this
+	 */
+	public function setFileId($fileId) {
+		return $this->setter('fileId', array($fileId));
+	}
+
+
+	/**
+	 * @return int
+	 */
+	public function getFileId() {
+		return $this->getter('fileId');
 	}
 
 

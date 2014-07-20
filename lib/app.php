@@ -24,6 +24,7 @@ namespace OCA\Calendar;
 use OC\AppFramework\Http\Request;
 
 use OCP\AppFramework\IAppContainer;
+use OCP\Share;
 
 use OCA\Calendar\BusinessLayer\CalendarBusinessLayer;
 use OCA\Calendar\BusinessLayer\CalendarCacheBusinessLayer;
@@ -302,17 +303,22 @@ class App extends \OCP\AppFramework\App {
 		});
 	}
 
+
 	public function registerNavigation() {
 		$appName = $this->getContainer()->getAppName();
 		$server = $this->getContainer()->getServer();
+
 		$server->getNavigationManager()->add(array(
 			'id' => $appName,
 			'order' => 10,
-			'href' => \OC::$server->getURLGenerator()->linkToRoute('calendar.view.index'),
-			'icon' => \OC::$server->getURLGenerator()->imagePath($appName, 'calendar.svg'),
-			'name' => \OC::$server->getL10N($appName)->t('Calendar'),
+			'href' => $server->getURLGenerator()
+					->linkToRoute('calendar.view.index'),
+			'icon' => $server->getURLGenerator()
+					->imagePath($appName, 'calendar.svg'),
+			'name' => $server->getL10N($appName)->t('Calendar'),
 		));
 	}
+
 
 	public function registerCron() {
 		/*
@@ -320,6 +326,8 @@ class App extends \OCP\AppFramework\App {
 		//$c->addRegularTask('OCA\Calendar\Backgroundjob\Task', 'run');
 		*/
 	}
+
+
 	public function registerHooks() {
 		/*
 		$c = $this->getContainer();
@@ -330,11 +338,10 @@ class App extends \OCP\AppFramework\App {
 		*/
 	}
 
+
 	public function registerProviders() {
-		/*
-		//\OC_Search::registerProvider('\OCA\Calendar\SearchProvider');
-		//\OCP\Share::registerBackend('calendar', '\OCA\Calendar\Share\Calendar');
-		//\OCP\Share::registerBackend('event', '\OCA\Calendar\Share\Event');
-		*/
+		/* \OC_Search::registerProvider('\OCA\Calendar\SearchProvider'); */
+		Share::registerBackend('calendar', '\OCA\Calendar\Share\Calendar');
+		Share::registerBackend('event', '\OCA\Calendar\Share\Event');
 	}
 }

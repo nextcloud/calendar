@@ -230,6 +230,19 @@ interface ICalendar extends IEntity {
 
 
 	/**
+	 * @param int $fileId
+	 * @return $this
+	 */
+	public function setFileId($fileId);
+
+
+	/**
+	 * @return int
+	 */
+	public function getFileId();
+
+
+	/**
 	 * does a calendar allow
 	 * @param integer $cruds
 	 * @return boolean

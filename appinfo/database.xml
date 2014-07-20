@@ -127,6 +127,13 @@
 				<notnull>false</notnull>
 				<length>4</length>
 			</field>
+			<field>
+				<name>file_id</name>
+				<type>integer</type>
+				<default></default>
+				<unsigned>true</unsigned>
+				<length>4</length>
+			</field>
 		</declaration>
 	</table>
 	<!-- table for cached objects -->

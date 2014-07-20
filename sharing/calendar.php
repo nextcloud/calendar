@@ -24,9 +24,52 @@
  */
 namespace OCA\Calendar\Share;
 
+use OCP\Calendar\IObject;
 use OCP\Share_Backend_Collection;
+use OCP\Share_Backend_File_Dependent;
 
-class Calendar implements Share_Backend_Collection {
+use OCA\Calendar\App;
+use OCA\Calendar\BusinessLayer\BusinessLayerException;
+use OCA\Calendar\Db\CalendarCollection;
+
+class Calendar implements Share_Backend_Collection, Share_Backend_File_Dependent {
+
+	/**
+	 * @var \OCA\Calendar\App;
+	 */
+	private $app;
+
+
+	/**
+	 * @var \OCA\Calendar\BusinessLayer\CalendarBusinessLayer
+	 */
+	private $calendars;
+
+
+	/**
+	 * @var \OCA\Calendar\BusinessLayer\ObjectBusinessLayer
+	 */
+	private $objects;
+
+
+	/**
+	 * @var int
+	 */
+	const CALENDAR = 1;
+
+
+	/**
+	 * Constructor
+	 */
+	public function construct() {
+		$app = new App();
+		$container = $app->getContainer();
+
+		$this->app = $app;
+		$this->calendars = $container->query('CalendarBusinessLayer');
+		$this->objects = $container->query('ObjectBusinessLayer');
+	}
+
 
 	/**
 	 * Get the source of the item to be stored in the database
@@ -40,81 +83,142 @@ class Calendar implements Share_Backend_Collection {
 	 * The formatItems() function will translate the source returned back into the item
 	 */
 	public function isValidSource($itemSource, $uidOwner) {
-		$calendar = OC_Calendar_App::getCalendar( $itemSource );
-		if ($calendar === false || $calendar['userid'] != $uidOwner) {
+		try {
+			$calendar = $this->calendars->findById($itemSource);
+
+			if ($calendar->getUserId() === $uidOwner) {
+				$fileId = $calendar->getFileId();
+				if ($fileId === null) {
+					return true;
+				} else {
+					//TODO - fix me
+					return array(
+						'item' => null,
+						'file' => null,
+					);
+				}
+			} else {
+				return false;
+			}
+
+		} catch(BusinessLayerException $ex) {
 			return false;
 		}
-		return true;
 	}
+
 
 	/**
 	 * Get a unique name of the item for the specified user
-	 * @param string Item
-	 * @param string|false User the item is being shared with
-	 * @param array|null List of similar item names already existing as shared items
+	 * @param string $itemSource
+	 * @param string|false $shareWith User the item is being shared with
+	 * @param array|null $exclude List of similar item names already
+	 * existing as shared items
 	 * @return string Target name
 	 *
-	 * This function needs to verify that the user does not already have an item with this name.
+	 * This function needs to verify that the user does not already have
+	 * an item with this name.
 	 * If it does generate a new name e.g. name_#
 	 */
 	public function generateTarget($itemSource, $shareWith, $exclude = null) {
-		$calendar = OC_Calendar_App::getCalendar( $itemSource );
-		$user_calendars = array();
-		foreach(OC_Calendar_Calendar::allCalendars($shareWith) as $user_calendar) {
-			$user_calendars[] = $user_calendar['displayname'];
+		try {
+			$this->calendars->findById($itemSource)->getDisplayname();
+		} catch (BusinessLayerException $ex) {
+			return null;
 		}
-		$name = $calendar['userid']."'s ".$calendar['displayname'];
-		$suffix = '';
-		while (in_array($name.$suffix, $user_calendars)) {
-			$suffix++;
-		}
-
-		return $name.$suffix;
 	}
 
 	/**
 	 * Converts the shared item sources back into the item in the specified format
-	 * @param array Shared items
-	 * @param int Format
-	 * @return ?
+	 * @param array $items Shared items
+	 * @param int $format Format
+	 * @param array $parameters
+	 * @return \OCP\Calendar\ICalendarCollection
 	 *
-	 * The items array is a 3-dimensional array with the item_source as the first key and the share id as the second key to an array with the share info.
-	 * The key/value pairs included in the share info depend on the function originally called:
-	 * If called by getItem(s)Shared: id, item_type, item, item_source, share_type, share_with, permissions, stime, file_source
-	 * If called by getItem(s)SharedWith: id, item_type, item, item_source, item_target, share_type, share_with, permissions, stime, file_source, file_target
-	 * This function allows the backend to control the output of shared items with custom formats.
-	 * It is only called through calls to the public getItem(s)Shared(With) functions.
+	 * The items array is a 3-dimensional array with the item_source as the
+	 * first key and the share id as the second key to an array with
+	 * the share info.
+	 * The key/value pairs included in the share info depend on the function
+	 * originally called:
+	 * If called by getItem(s)Shared: id, item_type, item, item_source,
+	 * share_type, share_with, permissions, stime, file_source
+	 * If called by getItem(s)SharedWith: id, item_type, item, item_source,
+	 * item_target, share_type, share_with, permissions, stime, file_source,
+	 * file_target
+	 * This function allows the backend to control the output of shared items
+	 * with custom formats.
+	 * It is only called through calls to the
+	 * public getItem(s)Shared(With) functions.
 	 */
 	public function formatItems($items, $format, $parameters = null) {
-		$calendars = array();
-		if ($format == self::FORMAT_CALENDAR) {
-			foreach ($items as $item) {
-				$calendar = OC_Calendar_App::getCalendar($item['item_source'], false);
-				if(!$calendar) {
-					continue;
-				}
-				// TODO: really check $parameters['permissions'] == 'rw'/'r'
-				if ($parameters['permissions'] == 'rw') {
-					continue; // TODO
-				}
-				$calendar['displaynamename'] = $item['item_target'];
-				$calendar['permissions'] = $item['permissions'];
-				$calendar['calendarid'] = $calendar['id'];
-				$calendar['owner'] = $calendar['userid'];
-				$calendars[] = $calendar;
+		$calendars = new CalendarCollection();
+
+		if ($format === self::CALENDAR) {
+			foreach($items as $item) {
+				//$calendar = $this->calendars->findById($item['item_source']);
+				var_dump($item);
+				exit;
 			}
 		}
+
 		return $calendars;
 	}
 
+
+	/**
+	 * Get the sources of the children of the item
+	 * @param string $itemSource
+	 * @return array Returns an array of children each inside an array with
+	 * the keys: source, target, and file_path if applicable
+	 */
 	public function getChildren($itemSource) {
-		$query = OCP\DB::prepare('SELECT `id`, `summary` FROM `*PREFIX*clndr_objects` WHERE `calendarid` = ?');
-		$result = $query->execute(array($itemSource));
-		$children = array();
-		while ($object = $result->fetchRow()) {
-			$children[] = array('source' => $object['id'], 'target' => $object['summary']);
+		try {
+			$calendar = $this->calendars->findById($itemSource);
+			$objects = $this->objects->findAll($calendar);
+
+			$children = array();
+			$objects->iterate(function(IObject $object) use (&$children) {
+				$children[] = array(
+					'source' => '',//TODO generate unique source
+					'target' => $object->getSummary(),
+					'file_path' => null
+				);
+			});
+
+			return $children;
+		} catch(BusinessLayerException $ex) {
+			return null;
 		}
-		return $children;
 	}
 
+
+	/**
+	 * Get the file path of the item
+	 * @param string $itemSource
+	 * @param string $uidOwner User that is the owner of shared item
+	 * @return string|false
+	 */
+	public function getFilePath($itemSource, $uidOwner) {
+		try {
+			$calendar = $this->calendars->findById($itemSource);
+
+			if ($calendar->getUserId() !== $uidOwner) {
+				return false;
+			}
+
+			$fileId = $calendar->getFileId();
+			if ($fileId === null) {
+				return false;
+			}
+
+			$file = $this->app->getContainer()->getServer()
+				->getUserFolder();
+
+			//if ($file->)
+			//TODO fix me
+			$path = (string)$file;
+			return $path;
+		} catch (BusinessLayerException $ex) {
+			return false;
+		}
+	}
 }
