@@ -37,7 +37,7 @@
 
 #scrollable {
 	height:80%;
-	overflow-y: scroll;
+	overflow-y: auto;
 }
 
 #app-navigation #buttonarea {
