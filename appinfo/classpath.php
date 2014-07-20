@@ -116,6 +116,7 @@
 \OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONSubscriptionReader'] = 'calendar/http/json/subscriptionreader.php';
 \OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONTimezoneResponse'] = 'calendar/http/json/timezone.php';
 
+\OC::$CLASSPATH['OCA\Calendar\Share\Calendar'] = 'calendar/sharing/calendar.php';
 
 // some custom sabre classes
 \OC::$CLASSPATH['OCA\Calendar\Sabre\Splitter\JCalendar'] = 'calendar/sabre/splitter/jcalsplitter.php';
@@ -134,6 +135,7 @@
 \OC::$CLASSPATH['OCA\Calendar\Utility\BackendUtility'] = 'calendar/utility/backend.php';
 \OC::$CLASSPATH['OCA\Calendar\Utility\CalendarUtility'] = 'calendar/utility/calendar.php';
 \OC::$CLASSPATH['OCA\Calendar\Utility\ColorUtility'] = 'calendar/utility/color.php';
+\OC::$CLASSPATH['OCA\Calendar\Utility\HookUtility'] = 'calendar/utility/hook.php';
 \OC::$CLASSPATH['OCA\Calendar\Utility\JSONUtility'] = 'calendar/utility/json.php';
 \OC::$CLASSPATH['OCA\Calendar\Utility\ObjectUtility'] = 'calendar/utility/object.php';
 \OC::$CLASSPATH['OCA\Calendar\Utility\RegexUtility'] = 'calendar/utility/regex.php';

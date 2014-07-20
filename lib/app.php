@@ -48,6 +48,7 @@ use OCA\Calendar\Db\CalendarMapper;
 use OCA\Calendar\Db\SubscriptionMapper;
 use OCA\Calendar\Db\ObjectMapper;
 use OCA\Calendar\Db\TimezoneMapper;
+use OCP\Util;
 
 class App extends \OCP\AppFramework\App {
 
@@ -253,13 +254,13 @@ class App extends \OCP\AppFramework\App {
 				'classname' => '\\OCA\\Calendar\\Backend\\Files',
 				'arguments' => array(),
 				'enabled' => true,
-			),
+			),*/
 			array (
 				'backend' => 'org.ownCloud.sharing',
 				'classname' => '\\OCA\\Calendar\\Backend\\Sharing',
 				'arguments' => array(),
 				'enabled' => true,
-			),*/
+			),
 			array (
 				'backend' => 'org.ownCloud.webcal',
 				'classname' => '\\OCA\\Calendar\\Backend\\WebCal',
@@ -329,13 +330,13 @@ class App extends \OCP\AppFramework\App {
 
 
 	public function registerHooks() {
-		/*
-		$c = $this->getContainer();
-		//$c->connectHook('OC_User', 'post_createUser', '\OC\Calendar\Util\UserHooks', 'create');
-		//$c->connectHook('OC_User', 'post_deleteUser', '\OC\Calendar\Util\UserHooks', 'delete');
-		//$c->connectHook();
-		//$c->connectHook();
-		*/
+		//Sharing hooks
+		Util::connectHook('OCP\Share', 'post_shared', '\OCA\Calendar\Util\HookUtility', 'share');
+		Util::connectHook('OCP\Share', 'post_unshare', '\OCA\Calendar\Util\HookUtility', 'unshare');
+
+		//User hooks
+		Util::connectHook('OC_User', 'post_createUser', '\OCA\Calendar\Util\HookUtility', 'createUser');
+		Util::connectHook('OC_User', 'post_createUser', '\OCA\Calendar\Util\HookUtility', 'deleteUser');
 	}
 
 
