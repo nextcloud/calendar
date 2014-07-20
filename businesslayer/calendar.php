@@ -22,24 +22,20 @@
 namespace OCA\Calendar\BusinessLayer;
 
 use OCP\AppFramework\Http;
-
 use OCP\Calendar\Backend;
 use OCP\Calendar\IBackend;
-use OCP\Calendar\IFullyQualifiedBackend;
 use OCP\Calendar\ICalendar;
-use OCP\Calendar\ICalendarCollection;
 use OCP\Calendar\BackendException;
 use OCP\Calendar\DoesNotExistException;
 use OCP\Calendar\MultipleObjectsReturnedException;
 
-use OCA\Calendar\Db\CalendarMapper;
 use OCA\Calendar\Db\Permissions;
 use OCA\Calendar\Utility\CalendarUtility;
 
 class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 
 	/**
-	 * @var CalendarMapper
+	 * @var \OCA\Calendar\Db\CalendarMapper
 	 */
 	protected $mapper;
 
@@ -50,16 +46,17 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 	 * @param integer $limit
 	 * @param integer $offset
 	 * @param boolean $activeBackendsOnly
-	 * @throws BusinessLayerException
-	 * @return ICalendarCollection
+	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
+	 * @return \OCP\Calendar\ICalendarCollection
 	 */
-	public function findAll($userId, $limit=null, $offset=null, $activeBackendsOnly=true) {
+	public function findAll($userId, $limit=null, $offset=null,
+							$activeBackendsOnly=true) {
 		try {
 			$calendars = $this->mapper->findAll($userId, $limit, $offset);
 
 			if ($activeBackendsOnly) {
 				$activeBackends = $this->backends->enabled();
-				/** @var ICalendarCollection $calendars */
+				/** @var \OCP\Calendar\ICalendarCollection $calendars */
 				$calendars = $calendars->filterByBackends($activeBackends);
 			}
 
@@ -74,7 +71,7 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 	 * Get number of calendars
 	 * @param string $userId
 	 * @param boolean $activeBackendsOnly
-	 * @throws BusinessLayerException
+	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
 	 * @return integer
 	 */
 	public function numberOfCalendars($userId, $activeBackendsOnly=true) {
@@ -96,12 +93,14 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 	 * @param string $userId
 	 * @param integer $limit
 	 * @param integer $offset
-	 * @throws BusinessLayerException
-	 * @return ICalendarCollection
+	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
+	 * @return \OCP\Calendar\ICalendarCollection
 	 */
-	public function findAllOnBackend($backend, $userId, $limit=null, $offset=null) {
+	public function findAllOnBackend($backend, $userId,
+									 $limit=null, $offset=null) {
 		try {
-			return $this->mapper->findAllOnBackend($backend, $userId, $limit, $offset);
+			return $this->mapper->findAllOnBackend($backend, $userId,
+				$limit, $offset);
 		} catch (DoesNotExistException $ex) {
 			throw new BusinessLayerException($ex->getMessage());
 		} catch (BackendException $ex) {
@@ -114,7 +113,7 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 	 * Get number of calendars on a certain backend
 	 * @param string $backend
 	 * @param string $userId
-	 * @throws BusinessLayerException
+	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
 	 * @return integer
 	 */
 	public function numberOfCalendarsOnBackend($backend, $userId) {
@@ -130,9 +129,11 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 	 * Find calendar
 	 * @param string $publicUri
 	 * @param string $userId
-	 * @throws BusinessLayerException if backend does not exist
-	 * @throws BusinessLayerException if backend is disabled
-	 * @return ICalendar
+	 * @return \OCP\Calendar\ICalendar
+	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
+	 * if backend does not exist
+	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
+	 * if backend is disabled
 	 */
 	public function find($publicUri, $userId) {
 		try {
@@ -141,34 +142,32 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 
 			return $calendar;
 		} catch (DoesNotExistException $ex) {
-			$msg  = 'CalendarBusinessLayer::find(): User Error: ';
-			$msg .= 'No matching calendar entry found!';
-			throw new BusinessLayerException($msg, Http::STATUS_NOT_FOUND, $ex);
+			return $this->throwDoesNotExist($ex);
 		} catch (MultipleObjectsReturnedException $ex) {
-			$msg  = 'CalendarBusinessLayer::find(): Internal Error: ';
-			$msg .= 'Multiple matching calendar entries found!';
-			throw new BusinessLayerException($msg, Http::STATUS_INTERNAL_SERVER_ERROR, $ex);
+			return $this->throwMultipleExist($ex);
 		}
 	}
 
 
 	/**
-	 * Find calendar $calendarId of user $userId
+	 * Find calendar by it's id
 	 * @param int $id
-	 * @param string $userId
-	 * @throws BusinessLayerException if backend does not exist
-	 * @throws BusinessLayerException if backend is disabled
-	 * @return ICalendar
+	 * @return \OCP\Calendar\ICalendar
+	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
+	 * if backend does not exist
+	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
+	 * if backend is disabled
 	 */
-	public function findById($id, $userId) {
+	public function findById($id) {
 		try {
-			return $this->mapper->findById($id, $userId);
+			$calendar = $this->mapper->findById($id);
+			$this->checkBackendEnabled($calendar->getBackend());
+
+			return $calendar;
 		} catch (DoesNotExistException $ex) {
-			$msg = 'No matching calendar entry found!';
-			throw new BusinessLayerException($msg, Http::STATUS_NOT_FOUND, $ex);
+			return $this->throwDoesNotExist($ex);
 		} catch (MultipleObjectsReturnedException $ex) {
-			$msg = 'Multiple matching calendar entries found!';
-			throw new BusinessLayerException($msg, Http::STATUS_INTERNAL_SERVER_ERROR, $ex);
+			return $this->throwMultipleExist($ex);
 		}
 	}
 
@@ -178,7 +177,6 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
      * @param string $publicUri
      * @param string $userId
      * @return bool
-     * @throws BusinessLayerException
      */
     public function doesExist($publicUri, $userId) {
 		return $this->mapper->doesExist($publicUri, $userId);
@@ -187,38 +185,38 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 
 	/**
 	 * Get whether or not a calendar allows a certain action
-	 * @param integer $cruds
 	 * @param string $publicUri
 	 * @param string $userId
+	 * @param integer $cruds
 	 * @return bool
-	 * @throws BusinessLayerException
 	 */
-	public function doesAllow($cruds, $publicUri, $userId) {
-		return $this->mapper->doesAllow($cruds, $publicUri, $userId);
+	public function doesAllow($publicUri, $userId, $cruds) {
+		return $this->mapper->doesAllow($publicUri, $userId, $cruds);
 	}
 
 
 	/**
 	 * Get whether or not a calendar can store a certain component
-	 * @param integer $component
 	 * @param string $publicUri
 	 * @param string $userId
+	 * @param integer $component
 	 * @return bool
-	 * @throws BusinessLayerException
 	 */
-	public function doesSupport($component, $publicUri, $userId) {
-		return $this->mapper->doesSupport($component, $publicUri, $userId);
+	public function doesSupport($publicUri, $userId, $component) {
+		return $this->mapper->doesSupport($publicUri, $userId, $component);
 	}
 
 
 	/**
 	 * Create a new calendar
-	 * @param ICalendar $calendar
-	 * @throws BusinessLayerException if name exists already
-	 * @throws BusinessLayerException if backend does not exist
-	 * @throws BusinessLayerException if backend is disabled
-	 * @return ICalendar
-	 * @throws BusinessLayerException
+	 * @param \OCP\Calendar\ICalendar $calendar
+	 * @return \OCP\Calendar\ICalendar
+	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
+	 * if name exists already
+	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
+	 * if backend does not exist
+	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
+	 * if backend is disabled
 	 */
 	public function create(ICalendar $calendar) {
 		try {
@@ -231,7 +229,7 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 			$this->checkDoesNotExist($publicUri, $userId);
 			$this->checkBackendSupports($backend, Backend::CREATE_CALENDAR);
 
-			/** @var IFullyQualifiedBackend $api */
+			/** @var \OCP\Calendar\IFullyQualifiedBackend $api */
 			$api = $this->backends->find($backend)->getAPI();
 			$api->createCalendar($calendar);
 			$this->mapper->insert($calendar);
@@ -245,8 +243,14 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 
 	/**
 	 * Creates a new calendar from request
-	 * @param ICalendar $calendar
-	 * @return ICalendar
+	 * @param \OCP\Calendar\ICalendar $calendar
+	 * @return \OCP\Calendar\ICalendar
+	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
+	 * if name exists already
+	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
+	 * if backend does not exist
+	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
+	 * if backend is disabled
 	 */
 	public function createFromRequest(ICalendar $calendar) {
 		$userId = $this->api->getUserId();
@@ -282,19 +286,21 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 
 	/**
 	 * Update a calendar
-	 * @param ICalendar $newCalendar
-	 * @param string $oldPublicUri
-	 * @param string $oldUserId
-	 * @throws BusinessLayerException if backend does not exist
-	 * @throws BusinessLayerException if backend is disabled
-	 * @throws BusinessLayerException if backend does not implement updating a calendar
-	 * @return ICalendar
+	 * @param \OCP\Calendar\ICalendar $newCalendar
+	 * @return \OCP\Calendar\ICalendar
+	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
+	 * if backend does not exist
+	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
+	 * if backend is disabled
+	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
+	 * if backend does not implement updating a calendar
 	 */
-	public function update(ICalendar $newCalendar, $oldPublicUri, $oldUserId) {
+	public function update(ICalendar $newCalendar) {
 		try {
-			$oldCalendar = $this->find($oldPublicUri, $oldUserId);
+			$oldCalendar = $this->findById($newCalendar->getId());
 
-			$this->checkUsersEqual($newCalendar->getUserId(), $oldCalendar->getUserId());
+			$this->checkUsersEqual($newCalendar->getUserId(),
+				$oldCalendar->getUserId());
 			$this->checkBackendEnabled($newCalendar->getBackend());
 			$this->checkBackendEnabled($oldCalendar->getBackend());
 			$this->checkIsValid($newCalendar);
@@ -304,7 +310,7 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 				!$this->doesNeedMerge($newCalendar, $oldCalendar)) {
 				return $this->updateProperties($newCalendar);
 			} else {
-				throw new BusinessLayerException('Action not supported yet');
+				throw new BusinessLayerException('Action not supported yet!');
 			}
 		} catch(BackendException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
@@ -314,91 +320,30 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 
 
 	/**
-	 * Update a new calendar from request
-	 * @param ICalendar $newCalendar
-	 * @param string $oldPublicUri
-	 * @param string $oldUserId
-	 * @throws BusinessLayerException if backend does not exist
-	 * @throws BusinessLayerException if backend is disabled
-	 * @throws BusinessLayerException if backend does not implement updating a calendar
-	 * @return ICalendar
+	 * Update a calendar from request
+	 * @param \OCP\Calendar\ICalendar $newCalendar
+	 * @param \OCP\Calendar\ICalendar $oldCalendar
+	 * @return \OCP\Calendar\ICalendar
 	 */
-	public function updateFromRequest(ICalendar $newCalendar, $oldPublicUri, $oldUserId) {
-		$oldCalendar = $this->find($oldPublicUri, $oldUserId);
-		return $this->updateFromRequestByCalendar($oldCalendar, $newCalendar);
-	}
-
-
-	/**
-	 * Update a calendar from request by it's id
-	 * @param ICalendar $newCalendar
-	 * @param int $oldCalendarId
-	 * @param string $oldUserId
-	 * @throws BusinessLayerException if backend does not exist
-	 * @throws BusinessLayerException if backend is disabled
-	 * @throws BusinessLayerException if backend does not implement updating a calendar
-	 * @return ICalendar
-	 */
-	public function updateFromRequestById(ICalendar $newCalendar, $oldCalendarId, $oldUserId) {
-		$oldCalendar = $this->findById($oldCalendarId, $oldUserId);
-		return $this->updateFromRequestByCalendar($oldCalendar, $newCalendar);
-	}
-
-
-	/**
-	 * @param ICalendar $newCalendar
-	 * @param ICalendar $oldCalendar
-	 * @return ICalendar
-	 */
-	public function updateFromRequestByCalendar(ICalendar $newCalendar, ICalendar $oldCalendar) {
+	public function updateFromRequest(ICalendar $newCalendar,
+									  ICalendar $oldCalendar) {
 		$newCalendar->setId($oldCalendar->getId());
 		$newCalendar->setPrivateUri($oldCalendar->getPrivateUri());
 
 		$this->resetReadOnlyProperties($newCalendar, $oldCalendar);
 
-		return $this->update($newCalendar, $oldCalendar->getPublicUri(), $oldCalendar->getUserId());
+		return $this->update($newCalendar);
 	}
 
 
 	/**
 	 * Patch a calendar from request
-	 * @param ICalendar $newCalendar
-	 * @param string $oldPublicUri
-	 * @param string $oldUserId
-	 * @throws BusinessLayerException if backend does not exist
-	 * @throws BusinessLayerException if backend is disabled
-	 * @throws BusinessLayerException if backend does not implement updating a calendar
-	 * @return ICalendar
+	 * @param \OCP\Calendar\ICalendar $newCalendar
+	 * @param \OCP\Calendar\ICalendar $oldCalendar
+	 * @return \OCP\Calendar\ICalendar
 	 */
-	public function patchFromRequest(ICalendar $newCalendar, $oldPublicUri, $oldUserId) {
-		$oldCalendar = $this->find($oldPublicUri, $oldUserId);
-		return $this->patchFromRequestByCalendar($newCalendar, $oldCalendar);
-	}
-
-
-	/**
-	 * Patch a calendar from request by it's id
-	 * @param ICalendar $newCalendar
-	 * @param int $oldCalendarId
-	 * @param string $oldUserId
-	 * @throws BusinessLayerException if backend does not exist
-	 * @throws BusinessLayerException if backend is disabled
-	 * @throws BusinessLayerException if3 backend does not implement updating a calendar
-	 * @return ICalendar
-	 */
-	public function patchFromRequestById(ICalendar $newCalendar, $oldCalendarId, $oldUserId) {
-		$oldCalendar = $this->findById($oldCalendarId, $oldUserId);
-		return $this->patchFromRequestByCalendar($newCalendar, $oldCalendar);
-	}
-
-
-	/**
-	 * Patch a calendar from an old calendar object
-	 * @param ICalendar $newCalendar
-	 * @param ICalendar $oldCalendar
-	 * @return ICalendar
-	 */
-	private function patchFromRequestByCalendar(ICalendar $newCalendar, ICalendar $oldCalendar) {
+	public function patchFromRequest(ICalendar $newCalendar,
+									 ICalendar $oldCalendar) {
 		$newCalendar->setId($oldCalendar->getId());
 		$newCalendar->setPrivateUri($oldCalendar->getPrivateUri());
 
@@ -408,68 +353,67 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 			$newCalendar = $oldCalendar->overwriteWith($newCalendar);
 		}
 
-		/** @var ICalendar $newCalendar */
-		return $this->update($newCalendar, $oldCalendar->getPublicUri(), $oldCalendar->getUserId());
+		/** @var \OCP\Calendar\ICalendar $newCalendar */
+		return $this->update($newCalendar);
 	}
 
 
 	/**
 	 * Update a calendar's properties
-	 * @param ICalendar $calendar
-	 * @return ICalendar
-	 * @throws BusinessLayerException
+	 * @param \OCP\Calendar\ICalendar $calendar
+	 * @return \OCP\Calendar\ICalendar
+	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
 	 */
 	private function updateProperties(ICalendar $calendar) {
 		try {
 			$backend = $calendar->getBackend();
 
 			if ($this->doesBackendSupport($backend, Backend::UPDATE_CALENDAR)) {
-				/** @var IFullyQualifiedBackend $api */
+				/** @var \OCP\Calendar\IFullyQualifiedBackend $api */
 				$api = $this->backends->find($backend)->getAPI();
 				$api->updateCalendar($calendar);
 			}
 
 			$this->mapper->update($calendar);
+
 			return $calendar;
 		} catch(BackendException $ex) {
-			throw new BusinessLayerException($ex->getMessage(), $ex->getCode(), $ex);
+			throw new BusinessLayerException($ex->getMessage(), $ex->getCode(),
+				$ex);
 		}
 	}
 
 
 	/**
 	 * Merge a calendar with another one
-	 * @param ICalendar $newCalendar
-	 * @param ICalendar $oldCalendar
-	 * @return ICalendar
-	 * @throws BusinessLayerException
+	 * @param \OCP\Calendar\ICalendar $newCalendar
+	 * @param \OCP\Calendar\ICalendar $oldCalendar
+	 * @return \OCP\Calendar\ICalendar
+	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
 	 *
 	private function merge(ICalendar $newCalendar, ICalendar $oldCalendar) {
-		throw new BusinessLayerException('Merging calendars not supported yet!');
 	}
 
 
 	/**
 	 * Move a calendar to another backend
-	 * @param ICalendar $newCalendar
-	 * @param ICalendar $oldCalendar
-	 * @return ICalendar
-	 * @throws BusinessLayerException
+	 * @param \OCP\Calendar\ICalendar $newCalendar
+	 * @param \OCP\Calendar\ICalendar $oldCalendar
+	 * @return \OCP\Calendar\ICalendar
+	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
 	 *
 	private function move(ICalendar $newCalendar, ICalendar $oldCalendar) {
-		throw new BusinessLayerException('Moving calendars not supported yet');
 	}
 
 
 	/**
 	 * Transfer a calendar to another user
-	 * @param ICalendar $newCalendar
-	 * @param ICalendar $oldCalendar
-	 * @return ICalendar
-	 * @throws BusinessLayerException
+	 * @param \OCP\Calendar\ICalendar $newCalendar
+	 * @param \OCP\Calendar\ICalendar $oldCalendar
+	 * @return \OCP\Calendar\ICalendar
+	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
 	 *
 	private function transfer(ICalendar $newCalendar, ICalendar $oldCalendar) {
-		throw new BusinessLayerException('Transferring calendars not supported yet');
 	}*/
 
 
@@ -477,14 +421,14 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 	 * Touch a calendar
 	 * @param string $publicUri
 	 * @param string $userId
-	 * @throws BusinessLayerException
-	 * @return ICalendar
+	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
+	 * @return \OCP\Calendar\ICalendar
 	 */
 	public function touch($publicUri, $userId) {
 		try {
 			$calendar = $this->find($publicUri, $userId);
 			$calendar->touch();
-			$calendar = $this->update($calendar, $publicUri, $userId);
+			$calendar = $this->update($calendar);
 
 			return $calendar;
 		} catch(BackendException $ex) {
@@ -494,9 +438,9 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 
 
 	/**
-	 * delete a calendar
-	 * @param ICalendar $calendar
-	 * @throws BusinessLayerException
+	 * Delete a calendar
+	 * @param \OCP\Calendar\ICalendar $calendar
+	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
 	 */
 	public function delete(ICalendar $calendar) {
 		try {
@@ -507,7 +451,7 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 			$this->checkBackendEnabled($backend);
 			$this->checkBackendSupports($backend, Backend::DELETE_CALENDAR);
 
-			/** @var IFullyQualifiedBackend $api */
+			/** @var \OCP\Calendar\IFullyQualifiedBackend $api */
 			$api = $this->backends->find($backend)->getAPI();
 			$api->deleteCalendar($privateUri, $userId);
 			$this->mapper->delete($calendar);
@@ -519,44 +463,51 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 
 	/**
 	 * Get whether or not a calendar needs a transfer
-	 * @param ICalendar $newCalendar
-	 * @param ICalendar $oldCalendar
+	 * @param \OCP\Calendar\ICalendar $newCalendar
+	 * @param \OCP\Calendar\ICalendar $oldCalendar
 	 * @return bool
 	 */
-	private function doesNeedTransfer(ICalendar $newCalendar, ICalendar $oldCalendar) {
+	private function doesNeedTransfer(ICalendar $newCalendar,
+									  ICalendar $oldCalendar) {
 		return ($newCalendar->getUserId() !== $oldCalendar->getUserId());
 	}
 
 
 	/**
 	 * Get whether or not a calendar needs a move
-	 * @param ICalendar $newCalendar
-	 * @param ICalendar $oldCalendar
+	 * @param \OCP\Calendar\ICalendar $newCalendar
+	 * @param \OCP\Calendar\ICalendar $oldCalendar
 	 * @return bool
 	 */
-	private function doesNeedMove(ICalendar $newCalendar, ICalendar $oldCalendar) {
+	private function doesNeedMove(ICalendar $newCalendar,
+								  ICalendar $oldCalendar) {
 		return (($newCalendar->getBackend() !== $oldCalendar->getBackend()) &&
-			!$this->doesExist($newCalendar->getPublicUri(), $newCalendar->getUserId()));
+			!$this->doesExist($newCalendar->getPublicUri(),
+							  $newCalendar->getUserId()));
 	}
 
 
 	/**
 	 * Get whether or not a calendar needs a merge
-	 * @param ICalendar $newCalendar
-	 * @param ICalendar $oldCalendar
+	 * @param \OCP\Calendar\ICalendar $newCalendar
+	 * @param \OCP\Calendar\ICalendar $oldCalendar
 	 * @return bool
 	 */
-	private function doesNeedMerge(ICalendar $newCalendar, ICalendar $oldCalendar) {
+	private function doesNeedMerge(ICalendar $newCalendar,
+								   ICalendar $oldCalendar) {
 		return (($newCalendar->getBackend() !== $oldCalendar->getBackend()) &&
-			$this->doesExist($newCalendar->getPublicUri(), $newCalendar->getUserId()));
+			$this->doesExist($newCalendar->getPublicUri(),
+							 $newCalendar->getUserId()));
 	}
 
 
 	/**
-	 * @param ICalendar &$newCalendar
-	 * @param ICalendar &$oldCalendar
+	 * Reset values that shall not be updated by the user directly
+	 * @param \OCP\Calendar\ICalendar &$newCalendar
+	 * @param \OCP\Calendar\ICalendar &$oldCalendar
 	 */
-	private function resetReadOnlyProperties(ICalendar &$newCalendar, ICalendar &$oldCalendar) {
+	private function resetReadOnlyProperties(ICalendar &$newCalendar,
+											 ICalendar &$oldCalendar) {
 		$newCalendar->setUserId($oldCalendar->getUserId());
 		$newCalendar->setOwnerId($oldCalendar->getOwnerId());
 		$newCalendar->setCruds($oldCalendar->getCruds());
@@ -565,8 +516,9 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 
 
 	/**
-	 * @param ICalendar $calendar
-	 * @throws BusinessLayerException
+	 * Make sure either a publicUri or a displayname are set
+	 * @param \OCP\Calendar\ICalendar $calendar
+	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
 	 */
 	private function checkUriOrDisplaynameExists(ICalendar $calendar) {
 		if (($calendar->getDisplayname() === null ||
@@ -581,7 +533,8 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 
 
 	/**
-	 * @param ICalendar $calendar
+	 * Generate a unique public uri
+	 * @param \OCP\Calendar\ICalendar $calendar
 	 */
 	private function generatePublicUri(ICalendar &$calendar) {
 		if ($calendar->getPublicUri() === null) {
@@ -602,5 +555,34 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 
 		$calendar->setPublicUri($suggestedURI);
 		$calendar->setPrivateUri($suggestedURI);
+	}
+
+
+	/**
+	 * Throw a BusinessLayerException based upon a DoesNotExistException
+	 * @param DoesNotExistException $ex
+	 * @return null
+	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
+	 */
+	private function throwDoesNotExist(DoesNotExistException $ex) {
+		throw new BusinessLayerException(
+			'No matching calendar entry found!',
+			Http::STATUS_NOT_FOUND, $ex
+		);
+	}
+
+
+	/**
+	 * Throw a BusinessLayerException based upon
+	 * a MultipleObjectsReturnedException
+	 * @param MultipleObjectsReturnedException $ex
+	 * @return null
+	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
+	 */
+	private function throwMultipleExist(MultipleObjectsReturnedException $ex) {
+		throw new BusinessLayerException(
+			'Multiple matching calendar entries found!',
+			Http::STATUS_INTERNAL_SERVER_ERROR, $ex
+		);
 	}
 }

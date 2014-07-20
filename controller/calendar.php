@@ -39,8 +39,8 @@ use OCA\Calendar\Http\JSON\JSONCalendarResponse;
 class CalendarController extends Controller {
 
 	/**
-	 * Calendar businesslayer object
-	 * @var CalendarBusinessLayer
+	 * Calendar-Businesslayer object
+	 * @var \OCA\Calendar\BusinessLayer\CalendarBusinessLayer
 	 */
 	protected $calendars;
 
@@ -111,10 +111,7 @@ class CalendarController extends Controller {
 		try {
 			$userId = $this->api->getUserId();
 
-			return $this->calendars->findById(
-				$id,
-				$userId
-			);
+			return $this->findByIdAndUserId($id, $userId);
 		} catch (BusinessLayerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
 			return new JSONResponse(
@@ -186,10 +183,11 @@ class CalendarController extends Controller {
 			$userId = $this->api->getUserId();
 
 			if ($calendar instanceof ICalendar) {
-				return $this->calendars->updateFromRequestById(
+				$oldCalendar = $this->findByIdAndUserId($id, $userId);
+
+				return $this->calendars->updateFromRequest(
 					$calendar,
-					$id,
-					$userId
+					$oldCalendar
 				);
 			} elseif ($calendar instanceof ICalendarCollection) {
 				throw new ReaderException(
@@ -234,10 +232,11 @@ class CalendarController extends Controller {
 			$userId = $this->api->getUserId();
 
 			if ($calendar instanceof ICalendar) {
-				return $this->calendars->patchFromRequestById(
+				$oldCalendar = $this->findByIdAndUserId($id, $userId);
+
+				return $this->calendars->patchFromRequest(
 					$calendar,
-					$id,
-					$userId
+					$oldCalendar
 				);
 			} elseif ($calendar instanceof ICalendarCollection) {
 				throw new ReaderException(
@@ -280,10 +279,7 @@ class CalendarController extends Controller {
 		try {
 			$userId	= $this->api->getUserId();
 
-			$calendar = $this->calendars->findById(
-				$id,
-				$userId
-			);
+			$calendar = $this->findByIdAndUserId($id, $userId);
 
 			$this->calendars->delete(
 				$calendar
@@ -299,5 +295,27 @@ class CalendarController extends Controller {
 				$ex->getCode()
 			);
 		}
+	}
+
+
+	/**
+	 * @param $id
+	 * @param $userId
+	 * @return \OCP\Calendar\ICalendar
+	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
+	 */
+	private function findByIdAndUserId($id, $userId) {
+		$calendar = $this->calendars->findById(
+			$id
+		);
+
+		if ($calendar->getUserId() !== $userId) {
+			throw new BusinessLayerException(
+				'Forbidden: Not allowed to access calendar!',
+				HTTP::STATUS_FORBIDDEN
+			);
+		}
+
+		return $calendar;
 	}
 }

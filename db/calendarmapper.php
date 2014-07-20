@@ -69,17 +69,15 @@ class CalendarMapper extends Mapper {
 	/**
 	 * find calendar by id and userId
 	 * @param int $id
-	 * @param string $userId
 	 * @throws DoesNotExistException: if the item does not exist
 	 * @throws MultipleObjectsReturnedException: if more than one item found
 	 * @return ICalendar
 	 */
-	public function findById($id, $userId) {
-		$sql  = 'SELECT * FROM `' . $this->getTableName() . '` ';
-		$sql .= 'WHERE `id` = ? AND `user_id` = ?';
+	public function findById($id) {
+		$sql = 'SELECT * FROM `' . $this->getTableName() . '` WHERE `id` = ?';
 
 		$row = $this->findOneQuery($sql, array(
-			$id, $userId
+			$id
 		));
 
 		return new Calendar($row);
