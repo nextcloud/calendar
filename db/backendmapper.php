@@ -20,8 +20,6 @@
  *
  */
 namespace OCA\Calendar\Db;
-
-use OCA\Calendar\Utility\BackendUtility;
 use OCP\AppFramework\IAppContainer;
 use OCP\Calendar\IEntity;
 use OCP\Config;
@@ -112,16 +110,6 @@ class BackendMapper extends Mapper {
 	 */
 	public function findAll(){
 		return $this->backendCollection;
-	}
-
-
-	/**
-	 * Finds all Items
-	 * @return IBackendCollection
-	 */
-	public function findAllWithApi() {
-		$enabled = $this->findAll();
-		return BackendUtility::setup($this->app, $enabled);
 	}
 
 

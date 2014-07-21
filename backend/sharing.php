@@ -35,7 +35,7 @@ use OCP\Calendar\Permissions;
 use OCP\Calendar\DoesNotExistException;
 use OCP\Calendar\CorruptDataException;
 
-use OCA\Calendar\Share\Types;
+use OCA\Calendar\Share\Calendar as CalendarShare;
 use OCA\Calendar\Db\Calendar;
 use OCA\Calendar\Db\CalendarCollection;
 use OCA\Calendar\Db\Object;
@@ -43,15 +43,10 @@ use OCA\Calendar\Db\ObjectCollection;
 
 class Sharing extends Backend {
 
-	private static $crudsMapper = array(
-		\OCP\PERMISSION_CREATE	=> Permissions::CREATE,
-		\OCP\PERMISSION_READ	=> Permissions::READ,
-		\OCP\PERMISSION_UPDATE	=> Permissions::UPDATE,
-		\OCP\PERMISSION_DELETE	=> Permissions::DELETE,
-		\OCP\PERMISSION_SHARE	=> Permissions::SHARE,
-		\OCP\PERMISSION_ALL		=> Permissions::ALL,
-	);
-
+	/**
+	 * @var \OCA\Calendar\BusinessLayer\ObjectBusinessLayer
+	 */
+	private $objects;
 
 	/**
 	 * constructor
@@ -60,6 +55,8 @@ class Sharing extends Backend {
 	 */
 	public function __construct(IAppContainer $app, array $parameters){
 		parent::__construct($app, 'org.ownCloud.sharing');
+
+		$this->objects = $app->query('ObjectBusinessLayerWithoutSharing');
 	}
 
 
@@ -91,7 +88,18 @@ class Sharing extends Backend {
 	 * @throws DoesNotExistException if uri does not exist
 	 */
 	public function findCalendar($calendarURI, $userId) {
+		//TODO improve, if necessary, send pr for sharing api in core
+		/** @var ICalendarCollection $calendars */
+		$calendars = Share::getItemsSharedWithUser('calendar', $userId, CalendarShare::CALENDAR);
 
+		foreach ($calendars as $calendar) {
+			/**	@var ICalendar $calendar */
+			if ($calendar->getPrivateUri() === $calendarURI) {
+				return $calendar;
+			}
+		}
+
+		throw new DoesNotExistException();
 	}
 
 
@@ -104,34 +112,7 @@ class Sharing extends Backend {
 	 * @throws DoesNotExistException if uri does not exist
 	 */
 	public function findCalendars($userId, $limit=null, $offset=null) {
-		$calendars = Share::getItemsSharedWith('calendar', Types::CALENDAR);
-		$calendarCollection = new CalendarCollection();
-
-		foreach ($calendars as $calendar) {
-
-		}
-	}
-
-
-	/**
-	 * returns number of calendar
-	 * @param string $userId
-	 * @returns integer
-	 */
-	public function countCalendars($userId) {
-		$calendars = Share::getItemsSharedWith('calendar', Types::CALENDAR);
-		return count($calendars);
-	}
-
-
-	/**
-	 * returns whether or not a calendar exists
-	 * @param string $calendarURI
-	 * @param string $userId
-	 * @returns boolean
-	 */
-	public function doesCalendarExist($calendarURI, $userId) {
-
+		return Share::getItemsSharedWithUser('calendar', $userId, CalendarShare::CALENDAR);
 	}
 
 

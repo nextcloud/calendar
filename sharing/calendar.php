@@ -61,7 +61,7 @@ class Calendar implements Share_Backend_Collection, Share_Backend_File_Dependent
 	/**
 	 * Constructor
 	 */
-	public function construct() {
+	public function __construct() {
 		$app = new App();
 		$container = $app->getContainer();
 
@@ -153,10 +153,23 @@ class Calendar implements Share_Backend_Collection, Share_Backend_File_Dependent
 		$calendars = new CalendarCollection();
 
 		if ($format === self::CALENDAR) {
-			foreach($items as $item) {
-				//$calendar = $this->calendars->findById($item['item_source']);
-				var_dump($item);
-				exit;
+			foreach ($items as $item) {
+				try {
+					$calendar = $this->calendars->findById($item['item_source']);
+
+					$calendar->setId(null);
+					$calendar->setBackend('org.ownCloud.sharing');
+					$calendar->setCruds($item['permissions']);
+					$calendar->setPrivateUri($item['item_source']);
+					$calendar->setUserId($item['share_with']);
+					$calendar->setLastObjectUpdate(0);
+					$calendar->setLastPropertiesUpdate(0);
+
+					$calendars->add($calendar);
+				} catch (BusinessLayerException $ex) {
+					var_dump($item);
+					exit;
+				}
 			}
 		}
 

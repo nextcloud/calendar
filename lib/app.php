@@ -25,6 +25,7 @@ use OC\AppFramework\Http\Request;
 
 use OCP\AppFramework\IAppContainer;
 use OCP\Share;
+use OCP\Util;
 
 use OCA\Calendar\BusinessLayer\CalendarBusinessLayer;
 use OCA\Calendar\BusinessLayer\CalendarCacheBusinessLayer;
@@ -48,7 +49,7 @@ use OCA\Calendar\Db\CalendarMapper;
 use OCA\Calendar\Db\SubscriptionMapper;
 use OCA\Calendar\Db\ObjectMapper;
 use OCA\Calendar\Db\TimezoneMapper;
-use OCP\Util;
+use OCA\Calendar\Utility\BackendUtility;
 
 class App extends \OCP\AppFramework\App {
 
@@ -193,6 +194,12 @@ class App extends \OCP\AppFramework\App {
 
 			return new ObjectBusinessLayer($c, $bds, $omp);
 		});
+		$this->getContainer()->registerService('ObjectBusinessLayerWithoutSharing', function(IAppContainer $c) {
+			$bds = $c->query('backendsWithoutSharing');
+			$omp = $c->query('ObjectMapper');
+
+			return new ObjectBusinessLayer($c, $bds, $omp);
+		});
 		$this->getContainer()->registerService('ObjectCacheBusinessLayer', function(IAppContainer $c) {
 			$bds = $c->query('backends');
 			$omp = $c->query('ObjectMapper');
@@ -298,9 +305,22 @@ class App extends \OCP\AppFramework\App {
 			),
 		));
 
+
 		$this->getContainer()->registerService('backends', function(IAppContainer $c) {
-			$backendMapper = $c->query('BackendMapper');
-			return $backendMapper->findAllWithApi();
+			/** @var BackendMapper $mapper */
+			$mapper = $c->query('BackendMapper');
+			$backends = $mapper->findAll();
+			return BackendUtility::setup($c, $backends);
+		});
+
+
+		$this->getContainer()->registerService('backendsWithoutSharing', function(IAppContainer $c) {
+			/** @var BackendMapper $mapper */
+			$mapper = $c->query('BackendMapper');
+			$backends = $mapper->findAll();
+			$backends->removeByProperty('backend', 'org.ownCloud.sharing');
+			return BackendUtility::setup($c, $backends);
+
 		});
 	}
 
