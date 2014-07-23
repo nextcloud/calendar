@@ -79,12 +79,17 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 				switcher.splice(switcher.indexOf(newid), 1);
 				Restangular.one('calendars', newid).patch({'enabled': false}).then(function (calendarobj) {
 					CalendarModel.toggleactive(newid,calendarobj.enabled);
-					
+					Restangular.one('calendars',newid).patch(calendarobj);
+				}, function (response) {
+					OC.Notification.show(t('calendar', response.data.message));
 				});
 			} else {
 				switcher.push(newid);
 				Restangular.one('calendars', newid).patch({'enabled': true}).then(function (calendarobj) {
 					CalendarModel.toggleactive(newid,calendarobj.enabled);
+					Restangular.one('calendars',newid).patch(calendarobj);
+				}, function (response) {
+					OC.Notification.show(t('calendar', response.data.message));
 				});
 			}
 		};
