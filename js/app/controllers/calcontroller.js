@@ -23,6 +23,7 @@
 
 app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 'CalendarModel', 'EventsModel', 'ViewModel', 'TimezoneModel',
 	function ($scope, $modal, Restangular, calendar, CalendarModel, EventsModel, ViewModel, TimezoneModel) {
+
 		$scope.eventSources = EventsModel.getAll();
 		$scope.defaultView = ViewModel.getAll();
 		$scope.calendarmodel = CalendarModel;
@@ -131,6 +132,7 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 						if (data === null) {
 							revertFunc();
 						}
+						Restangular.one('calendars', event.calendarId).one('events', event.objectUri).put(data);
 					}, function (response) {
 						OC.Notification.show(t('calendar', response.data.message));
 					});
@@ -141,6 +143,7 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 						if (data === null) {
 							revertFunc();
 						}
+						Restangular.one('calendars', event.calendarId).one('events', event.objectUri).put(data);
 					}, function (response) {
 						OC.Notification.show(t('calendar', response.data.message));
 					});
