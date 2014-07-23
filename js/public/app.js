@@ -843,33 +843,18 @@ app.factory('CalendarModel', function () {
 			this.datepickerview.id = Math.random(1000);
 			this.datepickerview.view = view;
 		},
-		getdatepickerview: function (view) {
-			return this.datepickerview;
-		},
 		pushtoggleview: function (view) {
 			this.modelview.id = Math.random(1000);
 			this.modelview.view = view;
 		},
-		gettoggleview: function () {
-			return this.modelview;
-		},
 		pushtodaydatepicker: function () {
 			this.today.id = Math.random(1000);
-		},
-		gettodaydatepicker: function () {
-			return this.today;
 		},
 		pushdate: function (date) {
 			this.date = date;
 		},
-		getdate: function () {
-			return this.date;
-		},
 		pushfirstday: function (val) {
 			this.firstday = moment().day(val).day();
-		},
-		getfirstday: function () {
-			return this.firstday;
 		},
 		toggleactive: function (id,bool) {
 			this.activator.id = id;
