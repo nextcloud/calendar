@@ -20,6 +20,10 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
+.hide {
+	display: none;
+}
  
 #primarycaldav, #ioscaldav {
 	width:90%;
@@ -35,11 +39,54 @@
 
 #uploadarea {
 	width:95%;
-	height:100px;
+	height:55px;
 }
 
 #app-settings-content .personalblock ul li ul li span {
 	float:left;
+}
+
+#uploadarea label {
+	position: absolute;
+	top: 18px;
+}
+
+#uploadarea input[type="file"] {
+	position: absolute;
+	right: 71px;
+	top: 6px;
+	width: 44px;
+	height: 44px;
+	padding: 0;
+	font-size: 16px;
+	margin-left: 0px;
+	opacity: 0;
+	overflow: hidden;
+	z-index: 20;
+}
+
+#uploadarea li, #uploadicon {
+	float:left;
+}
+
+#uploadicon {
+	position: absolute;
+	top:10px;
+	right:110px;
+	display: block;
+	width: 44px !important;
+	height: 44px;
+	width: 44px;
+	cursor: pointer;
+	z-index: 10;
+	margin: -5px -40px;
+	padding: 0 !important;
+	border: 1px solid rgba(190,190,190,.9);
+	border-radius: 3px;
+}
+
+#uploadicon:hover {
+	border:1px solid rgba(190,190,190,1);
 }
 
 #app-settings-content .personalblock ul li ul li select {

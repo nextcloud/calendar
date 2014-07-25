@@ -72,19 +72,9 @@
 			</li>
 			<li id="uploadarea">
 				<label class="bold"><?php p($l->t('Upload Calendar')); ?></label>
-				<input type="file" name="file" data-url="home/upload" multiple upload />
-				<span ng-show="!files.length"><?php p($l->t('No Calendars selected for import')); ?></span>
-				<ul ng-show="files.length">
-					<li ng-repeat="file in files">
-						<span>{{ file }}</span>
-						<select id="importcalendarist" name="importcalendarlist"
-							ng-model="importcalendarlist"
-							ng-change="importchange(hiddencalendar.id)"
-							ng-options="calendar.displayname for calendar in calendars | orderBy:['order'] | eventFilter | calendarFilter">
-					</select>
-					</li>
-				</ul>
-				<button type="submit" class="btn" ng-click="upload()"><?php p($l->t('Upload')); ?></button>
+				<input type="file" name="file" accept="text/calendar" multiple upload />
+				<span href="#" class="svg icon-upload" id="uploadicon"></span>
+				<span ng-show="!files.length" class="hide"><?php p($l->t('No Calendars selected for import')); ?></span>
 			</li>
 			<li>
 				<label class="bold"><?php p($l->t('Primary CalDAV address')); ?></label>
