@@ -88,10 +88,6 @@ module.exports = function(grunt) {
 					'../js/config/*.js'
 				],
 				tasks: ['build']
-			},
-			phpunit: {
-				files: '../**/*.php',
-				tasks: ['phpunit']
 			}
 		},
 
