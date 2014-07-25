@@ -21,10 +21,12 @@
  *
  */
 
-app.controller('CalendarListController', ['$scope', '$window', '$location', '$routeParams', 'Restangular', 'CalendarModel', 'EventsModel',
-	function ($scope, $window, $location, $routeParams, Restangular, CalendarModel, EventsModel) {
+app.controller('CalendarListController', ['$scope', '$window', '$location',
+	'$routeParams', 'Restangular', 'CalendarModel', 'EventsModel',
+	function ($scope, $window, $location, $routeParams, Restangular,
+			  CalendarModel, EventsModel) {
 
-		$scope.calendarmodel = CalendarModel;
+		$scope.calendarModel = CalendarModel;
 		$scope.calendars = CalendarModel.getAll();
 		var calendarResource = Restangular.all('calendars');
 		// Gets All Calendars.
@@ -32,6 +34,7 @@ app.controller('CalendarListController', ['$scope', '$window', '$location', '$ro
 			CalendarModel.addAll(calendars);
 		});
 
+		// Default values for new calendars
 		$scope.newcolor = 'rgba(37,46,95,1.0)';
 		$scope.newCalendarInputVal = '';
 
@@ -48,75 +51,80 @@ app.controller('CalendarListController', ['$scope', '$window', '$location', '$ro
 		$scope.vtodo = false;
 
 		// Create a New Calendar
-		$scope.create = function (newCalendarInputVal, newcolor) {
+		$scope.create = function () {
 			var newCalendar = {
-				"displayname": $scope.newCalendarInputVal,
-				"color": $scope.newcolor,
-				"components": {
-					"vevent": true,
-					"vjournal": true,
-					"vtodo": true
+				displayname: $scope.newCalendarInputVal,
+				color: $scope.newcolor,
+				components: {
+					vevent: true,
+					vjournal: true,
+					vtodo: true
 				},
-				"enabled": true
+				enabled: true
 			};
-			calendarResource.post(newCalendar).then(function (newCalendar) {
-				CalendarModel.create(newCalendar);
-			}, function (response) {
-				OC.Notification.show(t('calendar', response.data.message));
+
+			calendarResource.post(newCalendar).then(function (newCalendarObj) {
+				CalendarModel.create(newCalendarObj);
+				$scope.calendars = CalendarModel.getAll();
 			});
 		};
 
+		// Download button
 		$scope.download = function (id) {
 			$window.open('v1/calendars/' + id + '/export');
 		};
 
 		// Sharing Logic Comes Here.
-		$scope.share = function (sharewith) {
+		$scope.share = function (shareWith) {
 
 		};
 
 		// CalDAV display - hide logic goes here.
-		$scope.toggleCalDAV = function ($index, uri, id) {
+		$scope.toggleCalDAV = function ($index, uri) {
 			$scope.i.push($index);
-			$scope.calDAVmodel = OC.linkToRemote('caldav') + '/' + escapeHTML(encodeURIComponent(oc_current_user)) + '/' + escapeHTML(encodeURIComponent(uri));
+			$scope.calDAVmodel = OC.linkToRemote('caldav') + '/' +
+				escapeHTML(encodeURIComponent(oc_current_user)) + '/' +
+				escapeHTML(encodeURIComponent(uri));
 		};
 
+		// Update calendar button
 		$scope.updatecalendarform = function ($index, id, displayname, color) {
 			if ($scope.editfieldset === id) {
 				$scope.editfieldset = null;
 			} else {
 				$scope.editfieldset = id;
 			}
+
 			$scope.editmodel = displayname;
 			$scope.editcolor = color;
 
-			$scope.update = function (id, updatedname, updatedcolor, vevent, vjournal, vtodo) {
+			$scope.update = function (id, updatedName, updatedColor, vevent,
+									  vjournal, vtodo) {
 				var updated = {
-					"displayname": updatedname,
-					"color": updatedcolor,
-					"components": {
-						"vevent": vevent,
-						"vjournal": vjournal,
-						"vtodo": vtodo
+					displayname: updatedName,
+					color: updatedColor,
+					components: {
+						vevent: vevent,
+						vjournal: vjournal,
+						vtodo: vtodo
 					}
 				};
-				Restangular.one('calendars', id).patch(updated).then(function (updated) {
-					CalendarModel.updatecalendar(updated);
-				}, function (response) {
-					OC.Notification.show(t('calendar', response.data.message));
+
+				Restangular.one('calendars', id).patch(updated).then(
+					function (updated) {
+					CalendarModel.update(updated);
+					$scope.calendars = CalendarModel.getAll();
+					$scope.editfieldset = null;
 				});
 			};
 		};
 
-		// To Delete a Calendar
-		$scope.delete = function (id) {
+		// Delete a Calendar
+		$scope.remove = function (id) {
 			var calendar = CalendarModel.get(id);
-			var delcalendarResource = Restangular.one('calendars', id);
-			delcalendarResource.remove().then(function () {
-				CalendarModel.remove(calendar);
-				angular.element('#calendarlist li a[data-id=' + id + ']').parent().remove();
-			}, function (response) {
-				OC.Notification.show(t('calendar', response.data.message));
+			calendar.remove().then(function () {
+				CalendarModel.remove(id);
+				$scope.calendars = CalendarModel.getAll();
 			});
 		};
 
@@ -130,16 +138,15 @@ app.controller('CalendarListController', ['$scope', '$window', '$location', '$ro
 			$scope.addEvent(newid); // Switches watch in CalController
 		};
 
-		$scope.$watch('calendarmodel.updated', function (newobj, oldobj) {
-			if (Object.keys(newobj).length > 0) {
-				angular.element('#calendarlist li a[data-id=' + newobj.id + ']').siblings('.calendarCheckbox').css('background-color', newobj.color);
-				angular.element('#calendarlist li a[data-id=' + newobj.id + '] span').text(newobj.displayname);
-				$scope.editmodel = newobj.displayname;
-				$scope.vevent = newobj.components.vevent;
-				$scope.vjournal = newobj.components.vjournal;
-				$scope.vtodo = newobj.components.vtodo;
-			}
-		}, true);
+		$scope.triggerCalendarEnable = function(id) {
+			var calendar = CalendarModel.get(id);
+			var newEnabled = !calendar.enabled;
 
+			calendar.patch({'enabled': newEnabled}).then(
+				function (calendarObj) {
+				CalendarModel.update(calendarObj);
+				$scope.calendars = CalendarModel.getAll();
+			});
+		};
 	}
 ]);

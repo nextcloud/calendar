@@ -30,7 +30,7 @@ app.factory('CalendarModel', function () {
 			id: '',
 			view: ''
 		};
-		this.updated = {};
+		this.updated = null;
 		this.datepickerview = {
 			id: '',
 			view: ''
@@ -43,12 +43,16 @@ app.factory('CalendarModel', function () {
 			id: '',
 			bool: ''
 		};
+		this.created = null;
+		this.deleted = null;
 		this.date = new Date();
 	};
 
 	CalendarModel.prototype = {
-		create: function (newcalendar) {
-			this.calendars.push(newcalendar);
+		create: function (newCalendar) {
+			this.calendars.push(newCalendar);
+			this.calendarId[newCalendar.id] = newCalendar;
+			this.created = newCalendar;
 		},
 		add: function (calendar) {
 			this.updateIfExists(calendar);
@@ -74,12 +78,25 @@ app.factory('CalendarModel', function () {
 				this.calendarId[updated.id] = updated;
 			}
 		},
+		update: function(calendar) {
+			for (var i = 0; i < this.calendars.length; i++) {
+				if (this.calendars[i].id == calendar.id) {
+					this.calendars[i] = calendar;
+					break;
+				}
+			}
+
+			this.calendarId[calendar.id] = calendar;
+			this.updated = calendar;
+		},
 		remove: function (id) {
 			for (var i = 0; i < this.calendars.length; i++) {
-				var calendar = this.calendars[i];
-				if (calendar.id === id) {
+				if (this.calendars[i].id === id) {
 					this.calendars.splice(i, 1);
 					delete this.calendarId[id];
+					this.deleted = {
+						id: id
+					};
 					break;
 				}
 			}

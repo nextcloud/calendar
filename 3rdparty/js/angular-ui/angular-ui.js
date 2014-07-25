@@ -1129,13 +1129,13 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.dateparser', 'ui.bootst
   };
 
   // Causes FullCalendar to change the time.
-  $scope.calendarmodel = CalendarModel;
+  $scope.calendarModel = CalendarModel;
   $scope.switchcalendarview = function (val) {
     CalendarModel.pushdatepickerview(val);
   };
 
   // Sets date to today on datepicker if user clicks today button.
-  $scope.$watch('calendarmodel.today', function (newview, oldview) { 
+  $scope.$watch('calendarModel.today', function (newview, oldview) {
     $scope.select(new Date());
   },true);
 

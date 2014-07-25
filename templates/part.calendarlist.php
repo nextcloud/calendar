@@ -23,9 +23,9 @@
  */
 ?>
 <ul id="calendarlist">
-	<li ng-repeat="calendar in calendars| orderBy:['order'] | eventFilter | calendarFilter">
+	<li ng-repeat="calendar in calendars| orderBy:['order'] | eventFilter | calendarFilter" ng-class="{active: calendar.enabled}">
 		<span class="calendarCheckbox" style="background-color:{{ calendar.color }}"></span>
-		<a href="#/" ng-click="addRemoveEventSource(calendar.id)" data-id="{{ calendar.id }}">
+		<a href="#/" ng-click="triggerCalendarEnable(calendar.id)" data-id="{{ calendar.id }}">
 			<span>{{ calendar.displayname }}</span>
 		</a>
 		<span class="utils">
@@ -71,7 +71,7 @@
 					data-id="{{ calendar.uri }}"
 					title="Delete"
 					class="icon-delete"
-					ng-click="delete(calendar.id)">
+					ng-click="remove(calendar.id)">
 				</span>
 			</span>
 		</span>
