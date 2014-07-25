@@ -21,10 +21,34 @@
  *
  */
 
-app.controller('SettingsController', ['$scope', 'Restangular', 'CalendarModel',
-	function ($scope, Restangular, CalendarModel) {
+app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'CalendarModel','UploadModel',
+	function ($scope, $rootScope, Restangular, CalendarModel, UploadModel) {
 
-		$scope.hiddencalendars = CalendarModel.getAll();
+		$scope.files = [];
+		var reader = new FileReader();
+
+		$scope.upload = function () {
+			UploadModel.upload();
+			$scope.files = [];
+		};
+
+		$rootScope.$on('fileAdded', function (e, call) {
+			$scope.files.push(call);
+			$scope.$apply();
+		});
+
+		$scope.importchange = function (id) {
+			Restangular.one('calendar', id).withHttpConfig({transformRequest: angular.identity}).customPOST(
+				$scope.files, // Replace this by the string to be posted.
+				'import',
+				undefined,
+				{
+					'Content-Type': 'text/calendar'
+				}
+			);
+		};
+
+		$scope.calendars = CalendarModel.getAll();
 		var calendarResource = Restangular.all('calendars');
 
 		calendarResource.getList().then(function (calendars) {

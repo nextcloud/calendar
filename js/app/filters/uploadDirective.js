@@ -20,29 +20,24 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
- 
-#primarycaldav, #ioscaldav {
-	width:90%;
-}
 
-#hiddencalendar {
-	width:40%;
-}
-
-#app-settings-content .personalblock ul li:hover {
-	background: transparent;
-}
-
-#uploadarea {
-	width:95%;
-	height:100px;
-}
-
-#app-settings-content .personalblock ul li ul li span {
-	float:left;
-}
-
-#app-settings-content .personalblock ul li ul li select {
-	float:right;
-	width:60%;
-}
+ app.directive('upload', ['UploadModel', function factory(UploadModel) {
+	return {
+		restrict: 'A',
+		link: function (scope, element, attrs) {
+			$(element).fileupload({
+				dataType: 'text',
+				add: function (e, data) {
+					UploadModel.add(data);
+				},
+				progressall: function (e, data) {
+					var progress = parseInt(data.loaded / data.total * 100, 10);
+					UploadModel.setProgress(progress);
+				},
+				done: function (e, data) {
+					UploadModel.setProgress(0);
+				}
+			});
+		}
+	};
+}]);

@@ -421,10 +421,34 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 		});
 	}
 ]);
-app.controller('SettingsController', ['$scope', 'Restangular', 'CalendarModel',
-	function ($scope, Restangular, CalendarModel) {
+app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'CalendarModel','UploadModel',
+	function ($scope, $rootScope, Restangular, CalendarModel, UploadModel) {
 
-		$scope.hiddencalendars = CalendarModel.getAll();
+		$scope.files = [];
+		var reader = new FileReader();
+
+		$scope.upload = function () {
+			UploadModel.upload();
+			$scope.files = [];
+		};
+
+		$rootScope.$on('fileAdded', function (e, call) {
+			$scope.files.push(call);
+			$scope.$apply();
+		});
+
+		$scope.importchange = function (id) {
+			Restangular.one('calendar', id).withHttpConfig({transformRequest: angular.identity}).customPOST(
+				$scope.files, // Replace this by the string to be posted.
+				'import',
+				undefined,
+				{
+					'Content-Type': 'text/calendar'
+				}
+			);
+		};
+
+		$scope.calendars = CalendarModel.getAll();
 		var calendarResource = Restangular.all('calendars');
 
 		calendarResource.getList().then(function (calendars) {
@@ -760,6 +784,27 @@ app.filter('subscriptionFilter',
 		return subscriptionfilter;
 	}
 	]);
+app.directive('upload', ['UploadModel', function factory(UploadModel) {
+	return {
+		restrict: 'A',
+		link: function (scope, element, attrs) {
+			$(element).fileupload({
+				dataType: 'text',
+				add: function (e, data) {
+					UploadModel.add(data);
+				},
+				progressall: function (e, data) {
+					var progress = parseInt(data.loaded / data.total * 100, 10);
+					UploadModel.setProgress(progress);
+				},
+				done: function (e, data) {
+					UploadModel.setProgress(0);
+				}
+			});
+		}
+	};
+}]);
+
 app.factory('Model', function () {
 	var Model = function () {
 		this.text = '';
@@ -1204,6 +1249,34 @@ app.factory('TimezoneModel', function () {
 	return new TimezoneModel();
 });
 
+app.factory('UploadModel', function ($rootScope) {
+	var _files = [];
+	return {
+		add: function (file) {
+			_files.push(file);
+			$rootScope.$broadcast('fileAdded', file.files[0].name);
+		},
+		clear: function () {
+			_files = [];
+		},
+		files: function () {
+			var fileNames = [];
+			$.each(_files, function (index, file) {
+				fileNames.push(file.files[0].name);
+			});
+			return fileNames;
+		},
+		upload: function () {
+			$.each(_files, function (index, file) {
+				file.submit();
+			});
+			this.clear();
+		},
+		setProgress: function (percentage) {
+			$rootScope.$broadcast('uploadProgress', percentage);
+		}
+	};
+});
 app.factory('ViewModel', function () {
 	var ViewModel = function () {
 		this.view = [];
