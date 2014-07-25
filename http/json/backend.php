@@ -33,7 +33,7 @@ class JSONBackendResponse extends JSONResponse {
 	 * @return array
 	 */
 	public function generate(IBackend $backend) {
-		parent::generate($backend);
+		$data = parent::generate($backend);
 
 		$this->setSupportedActions($data, $backend);
 		$this->setPrefixInformation($data, $backend);
