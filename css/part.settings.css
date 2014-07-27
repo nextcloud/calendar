@@ -93,3 +93,8 @@
 	float:right;
 	width:60%;
 }
+
+#importdialog .importbutton {
+	float:right;
+	margin:5px;
+}

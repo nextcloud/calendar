@@ -25,6 +25,9 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'Ca
 	function ($scope, $rootScope, Restangular, CalendarModel, UploadModel, DialogModel) {
 
 		$scope.files = [];
+
+		// have to use the native HTML call for filereader to work efficiently
+		var importinput = document.getElementById('import');
 		var reader = new FileReader();
 
 		$scope.upload = function () {
@@ -36,21 +39,30 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'Ca
 			$scope.files.push(call);
 			$scope.$apply();
 			if ($scope.files.length > 0) {
+				var file = importinput.files[0];
+				reader.onload = function(e) {
+					$scope.filescontent = reader.result;
+				};
+				reader.readAsText(file);
 				DialogModel.initsmall('#importdialog');
 				DialogModel.open('#importdialog');
 			}
 			$scope.$digest(); // Shouldn't digest reset scope for it to be implemented again and again?
 		});
 
-		$scope.importchange = function (id) {
+		$scope.import = function (id) {
 			Restangular.one('calendar', id).withHttpConfig({transformRequest: angular.identity}).customPOST(
-				$scope.files, // Replace this by the string to be posted.
+				$scope.filescontent, // Replace this by the string to be posted.
 				'import',
 				undefined,
 				{
 					'Content-Type': 'text/calendar'
 				}
-			);
+			).then( function () {
+
+			}, function (response) {
+				OC.Notification.show(t('calendar', response.data.message));
+			});
 		};
 
 		$scope.calendars = CalendarModel.getAll();
