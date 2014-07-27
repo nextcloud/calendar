@@ -21,8 +21,8 @@
  *
  */
 
-app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'CalendarModel','UploadModel',
-	function ($scope, $rootScope, Restangular, CalendarModel, UploadModel) {
+app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'CalendarModel','UploadModel', 'DialogModel',
+	function ($scope, $rootScope, Restangular, CalendarModel, UploadModel, DialogModel) {
 
 		$scope.files = [];
 		var reader = new FileReader();
@@ -35,6 +35,11 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'Ca
 		$rootScope.$on('fileAdded', function (e, call) {
 			$scope.files.push(call);
 			$scope.$apply();
+			if ($scope.files.length > 0) {
+				DialogModel.initsmall('#importdialog');
+				DialogModel.open('#importdialog');
+			}
+			$scope.$digest(); // Shouldn't digest reset scope for it to be implemented again and again?
 		});
 
 		$scope.importchange = function (id) {

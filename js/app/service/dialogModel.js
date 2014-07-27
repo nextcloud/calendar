@@ -21,14 +21,22 @@
  *
  */
 
-app.directive('openDialog', function(){
-	return {
-		restrict: 'A',
-		link: function(scope, elem, attr, ctrl) {
-			var dialogId = '#' + attr.openDialog;
-			elem.bind('click', function(e) {
-				$(dialogId).dialog('open');
+app.factory('DialogModel', function() {
+    return {
+		initsmall: function(elementId) {
+			$(elementId).dialog({
+				width : 300,
+				height: 300,
+				resizable: false,
+				draggable: false,
+				close : function(event, ui) {
+					$(this).dialog('destroy').remove();
+				}
 			});
-		}
-	};
+    	},
+        open: function (elementId) {
+        	console.log(elementId);
+            $(elementId).dialog('open');
+        }
+    };
 });
