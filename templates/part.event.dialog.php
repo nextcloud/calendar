@@ -23,7 +23,7 @@
  */
 ?>
 
-<div modal id="event" title="<?php p($l->t("View an event"));?>"             
+<div id="events" title="<?php p($l->t("View an event"));?>"             
 	open="{{dialogOpen}}" 
 	ok-button="OK"
 	ok-callback="handleOk"

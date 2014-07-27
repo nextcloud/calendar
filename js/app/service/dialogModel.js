@@ -22,7 +22,7 @@
  */
 
 app.factory('DialogModel', function() {
-    return {
+	return {
 		initsmall: function(elementId) {
 			$(elementId).dialog({
 				width : 300,
@@ -33,10 +33,20 @@ app.factory('DialogModel', function() {
 					$(this).dialog('destroy').remove();
 				}
 			});
-    	},
-        open: function (elementId) {
-        	console.log(elementId);
-            $(elementId).dialog('open');
-        }
-    };
+		},
+		initbig: function (elementId) {
+			$(elementId).dialog({
+				width : 500,
+				height: 400,
+				resizable: false,
+				draggable: false,
+				close : function(event, ui) {
+					$(this).dialog('destroy').remove();
+				}
+			});
+		},
+		open: function (elementId) {
+			$(elementId).dialog('open');
+		}
+	};
 });

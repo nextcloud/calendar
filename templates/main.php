@@ -59,9 +59,6 @@
 	<script type="text/ng-template" id="calendar.html">
 		<?php print_unescaped($this->inc('part.fullcalendar')); ?>
 	</script>
-	<script type="text/ng-template" id="event.dialog.html">
-		<?php print_unescaped($this->inc('part.event.dialog')); ?>
-	</script>
 
 	<!-- The Left Calendar Navigation -->
 	<div id="app-navigation">
@@ -89,4 +86,9 @@
 
 	<!-- The Calendar on the right -->
 	<div id="app-content" ng-view></div>
+
+	<!-- The Event Editor -->
+	<div ng-controller="EventsModalController">
+		<?php print_unescaped($this->inc('part.event.dialog')); ?>
+	</div>
 </div>

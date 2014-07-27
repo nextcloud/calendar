@@ -4896,6 +4896,7 @@ function AgendaEventRenderer() {
 
 		html +=
 			" class='" + classes.join(' ') + "'" +
+			" modal=" + "#event" +
 			" style=" +
 				"'" +
 				"position:absolute;" +
@@ -6272,6 +6273,7 @@ function DayEventRenderer() {
 		}
 		html +=
 			" class='" + classNames.join(' ') + "'" +
+			" modal=" + "#event" +
 			" style=" +
 				"'" +
 				"position:absolute;" +

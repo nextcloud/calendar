@@ -20,19 +20,9 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular', 'CalendarModel', 'TimezoneModel', 'EventsModel', 'Model',
-	function ($scope, $routeParams, Restangular, CalendarModel, TimezoneModel, EventsModel, Model) {
+app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular', 'CalendarModel', 'TimezoneModel', 'EventsModel', 'DialogModel', 'Model',
+	function ($scope, $routeParams, Restangular, CalendarModel, TimezoneModel, EventsModel, DialogModel, Model) {
 		
 		$scope.eventsmodel = EventsModel;
-
-		$scope.initDialog = angular.element('#event').dialog({
-			width : 500,
-			height: 600,
-			resizable: false,
-			draggable: false,
-			close: function(event, ui) {
-				$(this).dialog('destroy').remove();
-			}
-		});
 	}
 ]);

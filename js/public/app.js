@@ -44,8 +44,8 @@ var app = angular.module('Calendar', [
 		});
 	}]);
 
-app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 'CalendarModel', 'EventsModel', 'ViewModel', 'TimezoneModel',
-	function ($scope, $modal, Restangular, calendar, CalendarModel, EventsModel, ViewModel, TimezoneModel) {
+app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 'CalendarModel', 'EventsModel', 'ViewModel', 'TimezoneModel', 'DialogModel',
+	function ($scope, $modal, Restangular, calendar, CalendarModel, EventsModel, ViewModel, TimezoneModel, DialogModel) {
 
 		$scope.eventSources = EventsModel.getAll();
 		$scope.defaultView = ViewModel.getAll();
@@ -124,6 +124,8 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 					day: t('calendar', 'dddd, MMM d, yyyy')
 				},
 				eventClick: function( event, jsEvent, view ) {
+					DialogModel.initbig('#events');
+					DialogModel.open('#events');
 					EventsModel.putmodalproperties(event,jsEvent,view);
 				},
 				eventResize: function (event, delta, revertFunc) {
@@ -459,20 +461,10 @@ app.controller('DatePickerController', ['$scope', 'CalendarModel',
 	}
 ]);
 
-app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular', 'CalendarModel', 'TimezoneModel', 'EventsModel', 'Model',
-	function ($scope, $routeParams, Restangular, CalendarModel, TimezoneModel, EventsModel, Model) {
+app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular', 'CalendarModel', 'TimezoneModel', 'EventsModel', 'DialogModel', 'Model',
+	function ($scope, $routeParams, Restangular, CalendarModel, TimezoneModel, EventsModel, DialogModel, Model) {
 		
 		$scope.eventsmodel = EventsModel;
-
-		$scope.initDialog = angular.element('#event').dialog({
-			width : 500,
-			height: 600,
-			resizable: false,
-			draggable: false,
-			close: function(event, ui) {
-				$(this).dialog('destroy').remove();
-			}
-		});
 	}
 ]);
 app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'CalendarModel','UploadModel', 'DialogModel',
@@ -908,7 +900,7 @@ app.factory('CalendarModel', function () {
 });
 
 app.factory('DialogModel', function() {
-    return {
+	return {
 		initsmall: function(elementId) {
 			$(elementId).dialog({
 				width : 300,
@@ -919,12 +911,22 @@ app.factory('DialogModel', function() {
 					$(this).dialog('destroy').remove();
 				}
 			});
-    	},
-        open: function (elementId) {
-        	console.log(elementId);
-            $(elementId).dialog('open');
-        }
-    };
+		},
+		initbig: function (elementId) {
+			$(elementId).dialog({
+				width : 500,
+				height: 400,
+				resizable: false,
+				draggable: false,
+				close : function(event, ui) {
+					$(this).dialog('destroy').remove();
+				}
+			});
+		},
+		open: function (elementId) {
+			$(elementId).dialog('open');
+		}
+	};
 });
 app.factory('EventsModel', function () {
 	var EventsModel = function () {

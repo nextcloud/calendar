@@ -21,8 +21,8 @@
  *
  */
 
-app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 'CalendarModel', 'EventsModel', 'ViewModel', 'TimezoneModel',
-	function ($scope, $modal, Restangular, calendar, CalendarModel, EventsModel, ViewModel, TimezoneModel) {
+app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 'CalendarModel', 'EventsModel', 'ViewModel', 'TimezoneModel', 'DialogModel',
+	function ($scope, $modal, Restangular, calendar, CalendarModel, EventsModel, ViewModel, TimezoneModel, DialogModel) {
 
 		$scope.eventSources = EventsModel.getAll();
 		$scope.defaultView = ViewModel.getAll();
@@ -101,6 +101,8 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 					day: t('calendar', 'dddd, MMM d, yyyy')
 				},
 				eventClick: function( event, jsEvent, view ) {
+					DialogModel.initbig('#events');
+					DialogModel.open('#events');
 					EventsModel.putmodalproperties(event,jsEvent,view);
 				},
 				eventResize: function (event, delta, revertFunc) {
