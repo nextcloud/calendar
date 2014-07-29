@@ -469,8 +469,15 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 		$scope.$watch('eventsmodel.eventsmodalproperties', function (newval, oldval) {
 			if (newval.event !== '') {
 				$scope.eventstitle = newval.event.title;
+				$scope.eventslocation = newval.event.location;
+				$scope.eventscategories = newval.event.categories;
+				$scope.eventsdescription = newval.event.description;
 			}
 		});
+
+		$scope.update = function () {
+
+		};
 	}
 ]);
 app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'CalendarModel','UploadModel', 'DialogModel',

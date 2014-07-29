@@ -30,11 +30,34 @@
 	cancel-button="Cancel"
 	cancel-callback="handleCancel"
 	ng-init="advancedoptions = true;">
-	<input ng-model="eventstitle" ng-maxlength="100" placeholder="" type="text" size="100" id="event-title"
-		placeholder="<?php p($l->t('Title of the Event'));?>" name="title" autofocus="autofocus" />
-	<button id="advanced_options_button" ng-click="advancedoptions = !advancedoptions">
-		<?php p($l->t('Advanced options')); ?>
-	</button>
+	<fieldset>
+		<label class="bold"><?php p($l->t('Title')); ?></label>
+		<input ng-model="eventstitle" ng-maxlength="100" type="text" id="event-title"
+			placeholder="<?php p($l->t('Title of the Event'));?>" name="title" autofocus="autofocus" />
+	</fieldset>
+	<fieldset>
+		<label class="bold"><?php p($l->t('Location')); ?></label>
+		<input ng-model="eventslocation" placeholder="" type="text" id="event-location"
+			placeholder="<?php p($l->t('Events Location'));?>" name="location" />
+	</fieldset>
+	<fieldset>
+		<label class="bold"><?php p($l->t('Categories')); ?></label>
+		<input ng-model="eventscategories" placeholder="" type="text" id="event-categories"
+			placeholder="<?php p($l->t('Separate Categories with comma'));?>" name="categories" />
+	</fieldset>
+	<fieldset>
+		<label class="bold"><?php p($l->t('Description')); ?></label>
+		<input ng-model="eventsdescription" placeholder="" type="text" id="event-description"
+			placeholder="<?php p($l->t('Description'));?>" name="description" />
+	</fieldset>
+	<fieldset>
+		<button id="eventupdatebutton" ng-click="update()" class="btn primary">
+			<?php p($l->t('Update')); ?>
+		</button>
+		<button id="advanced_options_button" ng-click="advancedoptions = !advancedoptions">
+			<?php p($l->t('Advanced options')); ?>
+		</button>
+	</fieldset>
 	<div ng-hide="advancedoptions" id="advancedoptions">
 		<p>yoyo</p>
 	</div>

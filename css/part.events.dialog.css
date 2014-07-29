@@ -25,9 +25,18 @@
 	display:none;
 }
 
-#event-title, #event-location, #category, #description {
+#events label {
+	margin: 10px;
+	float:left;
+}
+
+#events input, #advanced_options_button, #eventupdatebutton {
+	float:right;
+}
+
+#event-title, #event-location, #event-categories, #event-description {
 	box-sizing: border-box;
-	width: 100%;
+	width: 75%;
 	margin: 3px 0;
 }
 
