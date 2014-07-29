@@ -99,11 +99,10 @@
 			<li ng-repeat="file in files">
 				<span>{{ file }}</span>
 				<select id="importcalendarist" name="importcalendarlist"
-					ng-model="importcalendarlist"
-					ng-change="importchange(calendar.id)"
+					ng-model="importcalendar"
+					ng-change="import(importcalendar.id)"
 					ng-options="calendar.displayname for calendar in calendars | orderBy:['order'] | eventFilter | calendarFilter">
 				</select>
-				<button class="btn btn-primary" ng-click="import(calendar.id)" class="importbutton"><?php p($l->t('Import'))?></button>
 			</li>
 		</ul>
 	</div>
