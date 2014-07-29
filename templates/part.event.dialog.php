@@ -51,6 +51,24 @@
 			placeholder="<?php p($l->t('Description'));?>" name="description" />
 	</fieldset>
 	<fieldset>
+		<label class="bold"><?php p($l->t('Description')); ?></label>
+		<input ng-model="eventsdescription" placeholder="" type="text" id="event-description"
+			placeholder="<?php p($l->t('Description'));?>" name="description" />
+	</fieldset>
+	<fieldset>
+		<label class="bold"><?php p($l->t('Repeating')); ?></label>
+		<select
+			id="recurrence" name="recurrence"
+			title="<?php p("Recurrence"); ?>"
+			ng-model="recurrence"
+			ng-change="changerecurrence(recurrence.id)"
+			ng-options="recurrence.val for recurrence in recurrenceSelect">
+		</select>
+	</fieldset>
+	<fieldset>
+		<textarea id="repeatdialog"></textarea>
+	</fieldset>
+	<fieldset>
 		<button id="eventupdatebutton" ng-click="update()" class="btn primary">
 			<?php p($l->t('Update')); ?>
 		</button>

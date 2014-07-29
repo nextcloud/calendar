@@ -233,6 +233,9 @@ app.factory('EventsModel', function () {
 				"view": view
 			};
 		},
+		getrecurrencedialog: function (elementId) {
+			$(elementId).recurrenceinput();
+		},
 		addEvent: function (id) {
 			this.calid.changer = Math.random(1000);
 			this.calid.id = id;

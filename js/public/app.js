@@ -475,8 +475,22 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 			}
 		});
 
-		$scope.update = function () {
+		// First Day Dropdown
+		$scope.recurrenceSelect = [
+			{ val: t('calendar', 'Daily'), id: '0' },
+			{ val: t('calendar', 'Weekly'), id: '1' },
+			{ val: t('calendar', 'Monthly'), id: '2' },
+			{ val: t('calendar', 'Yearly'), id: '3' },
+			{ val: t('calendar', 'Other'), id: '4' }
+		];
 
+		$scope.changerecurrence = function (id) {
+			if (id==='4') {
+				EventsModel.getrecurrencedialog('#repeatdialog');
+			}
+		};
+
+		$scope.update = function () {
 		};
 	}
 ]);
@@ -1163,6 +1177,9 @@ app.factory('EventsModel', function () {
 				"jsEvent": jsEvent,
 				"view": view
 			};
+		},
+		getrecurrencedialog: function (elementId) {
+			$(elementId).recurrenceinput();
 		},
 		addEvent: function (id) {
 			this.calid.changer = Math.random(1000);

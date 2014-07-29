@@ -25,6 +25,7 @@
 
 <?php
 	\OCP\Util::addScript('calendar', '../3rdparty/js/fileupload/jquery.fileupload');
+	\OCP\Util::addScript('calendar', '../3rdparty/js/recurrencejs/jquery.recurrenceinput');
 	\OCP\Util::addScript('calendar', '../3rdparty/js/timezones/jstz');
 	\OCP\Util::addScript('calendar', '../3rdparty/js/momentjs/moment.min');
 	\OCP\Util::addScript('calendar', '../3rdparty/js/fullcalendar/fullcalendar');
