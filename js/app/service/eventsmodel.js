@@ -30,7 +30,11 @@ app.factory('EventsModel', function () {
 			id: '',
 			changer: ''
 		}; // required for switching the calendars on the fullcalendar
-		this.eventsmodalproperties = {};
+		this.eventsmodalproperties = {
+			"event": '',
+			"jsEvent": '',
+			"view": ''
+		};
 	};
 
 
@@ -229,15 +233,9 @@ app.factory('EventsModel', function () {
 				"view": view
 			};
 		},
-		getmodalproperties: function () {
-			return this.eventsmodalproperties;
-		},
 		addEvent: function (id) {
 			this.calid.changer = Math.random(1000);
 			this.calid.id = id;
-		},
-		getEvent: function () {
-			return this.calid;
 		},
 		getAll: function () {
 			return this.events;

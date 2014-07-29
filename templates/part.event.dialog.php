@@ -30,7 +30,7 @@
 	cancel-button="Cancel"
 	cancel-callback="handleCancel"
 	ng-init="advancedoptions = true;">
-	<input ng-maxlength="100" placeholder="" type="text" size="100" id="event-title"
+	<input ng-model="eventstitle" ng-maxlength="100" placeholder="" type="text" size="100" id="event-title"
 		placeholder="<?php p($l->t('Title of the Event'));?>" name="title" autofocus="autofocus" />
 	<button id="advanced_options_button" ng-click="advancedoptions = !advancedoptions">
 		<?php p($l->t('Advanced options')); ?>

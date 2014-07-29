@@ -24,5 +24,11 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 	function ($scope, $routeParams, Restangular, CalendarModel, TimezoneModel, EventsModel, DialogModel, Model) {
 		
 		$scope.eventsmodel = EventsModel;
+
+		$scope.$watch('eventsmodel.eventsmodalproperties', function (newval, oldval) {
+			if (newval.event !== '') {
+				$scope.eventstitle = newval.event.title;
+			}
+		});
 	}
 ]);

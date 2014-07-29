@@ -465,6 +465,12 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 	function ($scope, $routeParams, Restangular, CalendarModel, TimezoneModel, EventsModel, DialogModel, Model) {
 		
 		$scope.eventsmodel = EventsModel;
+
+		$scope.$watch('eventsmodel.eventsmodalproperties', function (newval, oldval) {
+			if (newval.event !== '') {
+				$scope.eventstitle = newval.event.title;
+			}
+		});
 	}
 ]);
 app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'CalendarModel','UploadModel', 'DialogModel',
@@ -948,7 +954,11 @@ app.factory('EventsModel', function () {
 			id: '',
 			changer: ''
 		}; // required for switching the calendars on the fullcalendar
-		this.eventsmodalproperties = {};
+		this.eventsmodalproperties = {
+			"event": '',
+			"jsEvent": '',
+			"view": ''
+		};
 	};
 
 
@@ -1147,15 +1157,9 @@ app.factory('EventsModel', function () {
 				"view": view
 			};
 		},
-		getmodalproperties: function () {
-			return this.eventsmodalproperties;
-		},
 		addEvent: function (id) {
 			this.calid.changer = Math.random(1000);
 			this.calid.id = id;
-		},
-		getEvent: function () {
-			return this.calid;
 		},
 		getAll: function () {
 			return this.events;
