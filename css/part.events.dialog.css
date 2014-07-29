@@ -21,6 +21,10 @@
  *
  */
 
+#dialoghider {
+	display:none;
+}
+
 #event-title, #event-location, #category, #description {
 	box-sizing: border-box;
 	width: 100%;

@@ -88,7 +88,7 @@
 	<div id="app-content" ng-view></div>
 
 	<!-- The Event Editor -->
-	<div ng-controller="EventsModalController">
+	<div ng-controller="EventsModalController" id="dialoghider">
 		<?php print_unescaped($this->inc('part.event.dialog')); ?>
 	</div>
 </div>
