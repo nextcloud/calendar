@@ -30,27 +30,3 @@
 #event-title {
 	font-size: 20px;
 }
-
-#event-time {
-	display: block;
-	margin: 5px 0;
-}
-
-#event-time-from {
-	float:left;
-}
-
-#event-time-to {
-	float:right;
-}
-
-#event-allday {
-	display: inline-block;
-	margin: 7px 0;
-	width: 100%;
-}
-
-#createventbutton {
-	float: right;
-}
-
