@@ -454,7 +454,6 @@ class Object extends Entity implements IObject {
 	protected function registerMandatory() {
 		$this->addMandatory('calendar');
 		$this->addMandatory('uri');
-		$this->addMandatory('etag');
 		$this->addMandatory('vobject');
 	}
 }

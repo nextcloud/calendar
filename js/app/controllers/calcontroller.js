@@ -110,8 +110,14 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 						var data = EventsModel.eventResizer(event, delta, eventsobject);
 						if (data === null) {
 							revertFunc();
+							return;
 						}
-						Restangular.one('calendars', event.calendarId).one('events', event.objectUri).put(data);
+						Restangular.one('calendars', event.calendarId).one('events', event.objectUri).customPUT(
+							data,
+							'',
+							{},
+							{'Content-Type':'text/calendar'}
+						);
 					}, function (response) {
 						OC.Notification.show(t('calendar', response.data.message));
 					});
@@ -121,8 +127,14 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 						var data = EventsModel.eventDropper(event, delta, eventsobject);
 						if (data === null) {
 							revertFunc();
+							return;
 						}
-						Restangular.one('calendars', event.calendarId).one('events', event.objectUri).put(data);
+						Restangular.one('calendars', event.calendarId).one('events', event.objectUri).customPUT(
+							data,
+							'',
+							{},
+							{'Content-Type':'text/calendar'}
+						);
 					}, function (response) {
 						OC.Notification.show(t('calendar', response.data.message));
 					});

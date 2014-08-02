@@ -184,7 +184,7 @@ app.factory('EventsModel', function () {
 				}
 			}
 
-			return (didFindEvent) ? components.toJSON() : null;
+			return (didFindEvent) ? components.toString() : null;
 		},
 		eventDropper: function (event, delta, jcalData) {
 			var components = new ICAL.Component(jcalData);
@@ -224,7 +224,7 @@ app.factory('EventsModel', function () {
 				}
 			}
 
-			return (didFindEvent) ? components.toJSON() : null;
+			return (didFindEvent) ? components.toString() : null;
 		},
 		putmodalproperties: function (event,jsEvent,view) {
 			this.eventsmodalproperties = {

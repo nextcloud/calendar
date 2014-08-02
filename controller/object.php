@@ -307,7 +307,7 @@ class ObjectController extends Controller {
 
 	/**
 	 * @param int $calendarId
-	 * @param int $id
+	 * @param string $id
 	 * @return Response
 	 *
 	 * @NoAdminRequired
@@ -374,7 +374,7 @@ class ObjectController extends Controller {
 
 	/**
 	 * @param int $calendarId
-	 * @param int $id
+	 * @param string $id
 	 * @return Response
 	 *
 	 * @NoAdminRequired
