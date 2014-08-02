@@ -103,7 +103,10 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 				eventClick: function( event, jsEvent, view ) {
 					DialogModel.initbig('#events');
 					DialogModel.open('#events');
-					EventsModel.putmodalproperties(event,jsEvent,view);
+					Restangular.one('calendars', event.calendarId).one('events', event.objectUri).get().then(function (eventsobject) {
+						EventsModel.modalpropertyholder(event, jsEvent, view, eventsobject);
+					});
+					//EventsModel.putmodalproperties(event,jsEvent,view);
 				},
 				eventResize: function (event, delta, revertFunc) {
 					Restangular.one('calendars', event.calendarId).one('events', event.objectUri).get().then(function (eventsobject) {

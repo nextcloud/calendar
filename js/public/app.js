@@ -126,7 +126,10 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 				eventClick: function( event, jsEvent, view ) {
 					DialogModel.initbig('#events');
 					DialogModel.open('#events');
-					EventsModel.putmodalproperties(event,jsEvent,view);
+					Restangular.one('calendars', event.calendarId).one('events', event.objectUri).get().then(function (eventsobject) {
+						EventsModel.modalpropertyholder(event, jsEvent, view, eventsobject);
+					});
+					//EventsModel.putmodalproperties(event,jsEvent,view);
 				},
 				eventResize: function (event, delta, revertFunc) {
 					Restangular.one('calendars', event.calendarId).one('events', event.objectUri).get().then(function (eventsobject) {
@@ -478,12 +481,12 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 		
 		$scope.eventsmodel = EventsModel;
 
-		$scope.$watch('eventsmodel.eventsmodalproperties', function (newval, oldval) {
+		$scope.$watch('eventsmodel.eventobject', function (newval, oldval) {
 			if (newval.event !== '') {
-				$scope.eventstitle = newval.event.title;
-				$scope.eventslocation = newval.event.location;
-				$scope.eventscategories = newval.event.categories;
-				$scope.eventsdescription = newval.event.description;
+				$scope.eventstitle = newval.title;
+				$scope.eventslocation = newval.location;
+				$scope.eventscategories = newval.categories;
+				$scope.eventsdescription = newval.description;
 			}
 		});
 
@@ -500,15 +503,6 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 			if (id==='4') {
 				EventsModel.getrecurrencedialog('#repeatdialog');
 			}
-		};
-
-		$scope.updateattendee = function () {
-			var properties = EventsModel.modalproperties().event;
-			Restangular.one('calendars', properties.calendarId).one('events').getList(properties.eventsId).then( function (eventobject) {
-				EventsModel.addattendee(properties,eventobject,$scope.eventattendees);
-			}, function (response) {
-				OC.Notification.show(t('calendar', response.data.message));
-			});
 		};
 	}
 ]);
@@ -989,6 +983,7 @@ app.factory('EventsModel', function () {
 	var EventsModel = function () {
 		this.events = [];
 		this.eventsUid = {};
+		this.eventobject = {};
 		this.calid = {
 			id: '',
 			changer: ''
@@ -1189,15 +1184,23 @@ app.factory('EventsModel', function () {
 
 			return (didFindEvent) ? components.toString() : null;
 		},
-		putmodalproperties: function (event,jsEvent,view) {
-			this.eventsmodalproperties = {
-				"event": event,
-				"jsEvent": jsEvent,
-				"view": view
-			};
-		},
-		modalproperties: function () {
-			return this.eventsmodalproperties;
+		modalpropertyholder: function (event, jsEvent, view, jcalData) {
+			var components = new ICAL.Component(jcalData);
+			var vevents = components.getAllSubcomponents('vevent');
+			if (components.jCal.length !== 0) {
+				for (var i = 0; i < vevents.length; i++) {
+					if (!isCorrectEvent(event, vevents[i])) {
+						components.addSubcomponent(vevents[i]);
+						continue;
+					}
+					this.eventobject = {
+						"title" : vevents[i].getFirstPropertyValue('summary'),
+						"location" : vevents[i].getFirstPropertyValue('location'),
+						"categoties" : vevents[i].getFirstPropertyValue('category'),
+						"description" : vevents[i].getFirstPropertyValue('description')
+					};
+				}
+			}
 		},
 		addattendee: function (event,jcalData,attendee) {
 			var components = new ICAL.Component(jcalData);

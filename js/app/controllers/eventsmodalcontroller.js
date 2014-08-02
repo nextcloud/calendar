@@ -25,12 +25,12 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 		
 		$scope.eventsmodel = EventsModel;
 
-		$scope.$watch('eventsmodel.eventsmodalproperties', function (newval, oldval) {
+		$scope.$watch('eventsmodel.eventobject', function (newval, oldval) {
 			if (newval.event !== '') {
-				$scope.eventstitle = newval.event.title;
-				$scope.eventslocation = newval.event.location;
-				$scope.eventscategories = newval.event.categories;
-				$scope.eventsdescription = newval.event.description;
+				$scope.eventstitle = newval.title;
+				$scope.eventslocation = newval.location;
+				$scope.eventscategories = newval.categories;
+				$scope.eventsdescription = newval.description;
 			}
 		});
 
@@ -47,15 +47,6 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 			if (id==='4') {
 				EventsModel.getrecurrencedialog('#repeatdialog');
 			}
-		};
-
-		$scope.updateattendee = function () {
-			var properties = EventsModel.modalproperties().event;
-			Restangular.one('calendars', properties.calendarId).one('events').getList(properties.eventsId).then( function (eventobject) {
-				EventsModel.addattendee(properties,eventobject,$scope.eventattendees);
-			}, function (response) {
-				OC.Notification.show(t('calendar', response.data.message));
-			});
 		};
 	}
 ]);

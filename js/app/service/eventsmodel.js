@@ -26,6 +26,7 @@ app.factory('EventsModel', function () {
 	var EventsModel = function () {
 		this.events = [];
 		this.eventsUid = {};
+		this.eventobject = {};
 		this.calid = {
 			id: '',
 			changer: ''
@@ -226,15 +227,23 @@ app.factory('EventsModel', function () {
 
 			return (didFindEvent) ? components.toString() : null;
 		},
-		putmodalproperties: function (event,jsEvent,view) {
-			this.eventsmodalproperties = {
-				"event": event,
-				"jsEvent": jsEvent,
-				"view": view
-			};
-		},
-		modalproperties: function () {
-			return this.eventsmodalproperties;
+		modalpropertyholder: function (event, jsEvent, view, jcalData) {
+			var components = new ICAL.Component(jcalData);
+			var vevents = components.getAllSubcomponents('vevent');
+			if (components.jCal.length !== 0) {
+				for (var i = 0; i < vevents.length; i++) {
+					if (!isCorrectEvent(event, vevents[i])) {
+						components.addSubcomponent(vevents[i]);
+						continue;
+					}
+					this.eventobject = {
+						"title" : vevents[i].getFirstPropertyValue('summary'),
+						"location" : vevents[i].getFirstPropertyValue('location'),
+						"categoties" : vevents[i].getFirstPropertyValue('category'),
+						"description" : vevents[i].getFirstPropertyValue('description')
+					};
+				}
+			}
 		},
 		addattendee: function (event,jcalData,attendee) {
 			var components = new ICAL.Component(jcalData);
