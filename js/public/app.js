@@ -490,7 +490,13 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 			}
 		};
 
-		$scope.update = function () {
+		$scope.updateattendee = function () {
+			var properties = EventsModel.modalproperties().event;
+			Restangular.one('calendars', properties.calendarId).one('events').getList(properties.eventsId).then( function (eventobject) {
+				EventsModel.addattendee(properties,eventobject,$scope.eventattendees);
+			}, function (response) {
+				OC.Notification.show(t('calendar', response.data.message));
+			});
 		};
 	}
 ]);
@@ -1178,8 +1184,29 @@ app.factory('EventsModel', function () {
 				"view": view
 			};
 		},
-		getrecurrencedialog: function (elementId) {
-			$(elementId).recurrenceinput();
+		modalproperties: function () {
+			return this.eventsmodalproperties;
+		},
+		addattendee: function (event,jcalData,attendee) {
+			var components = new ICAL.Component(jcalData);
+			var vevents = components.getAllSubcomponents("vevent");
+
+			components.removeAllSubcomponents('vevent');
+
+			if (components.jCal.length !== 0) {
+				for (var i = 0; i < vevents.length; i++) {
+					if (!isCorrectEvent(event, vevents[i])) {
+						components.addSubcomponent(vevents[i]);
+						continue;
+					}
+					if (!vevents[i].hasProperty('attendee')) {
+						var property = new ICAL.Property('attendee');
+						property.setParameter('role', 'NON-PARTICIPANT');
+						property.setValue('NON-PARTICIPANT');
+						console.log(property.toICALString());
+					}
+				}
+			}
 		},
 		addEvent: function (id) {
 			this.calid.changer = Math.random(1000);

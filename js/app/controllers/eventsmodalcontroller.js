@@ -49,7 +49,13 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 			}
 		};
 
-		$scope.update = function () {
+		$scope.updateattendee = function () {
+			var properties = EventsModel.modalproperties().event;
+			Restangular.one('calendars', properties.calendarId).one('events').getList(properties.eventsId).then( function (eventobject) {
+				EventsModel.addattendee(properties,eventobject,$scope.eventattendees);
+			}, function (response) {
+				OC.Notification.show(t('calendar', response.data.message));
+			});
 		};
 	}
 ]);

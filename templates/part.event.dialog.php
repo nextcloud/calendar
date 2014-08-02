@@ -37,37 +37,28 @@
 	</fieldset>
 	<fieldset>
 		<label class="bold"><?php p($l->t('Location')); ?></label>
-		<input ng-model="eventslocation" placeholder="" type="text" id="event-location"
+		<input ng-model="eventslocation" type="text" id="event-location"
 			placeholder="<?php p($l->t('Events Location'));?>" name="location" />
 	</fieldset>
 	<fieldset>
 		<label class="bold"><?php p($l->t('Categories')); ?></label>
-		<input ng-model="eventscategories" placeholder="" type="text" id="event-categories"
+		<input ng-model="eventscategories" type="text" id="event-categories"
 			placeholder="<?php p($l->t('Separate Categories with comma'));?>" name="categories" />
 	</fieldset>
 	<fieldset>
 		<label class="bold"><?php p($l->t('Description')); ?></label>
-		<input ng-model="eventsdescription" placeholder="" type="text" id="event-description"
+		<input ng-model="eventsdescription" type="text" id="event-description"
 			placeholder="<?php p($l->t('Description'));?>" name="description" />
 	</fieldset>
 	<fieldset>
-		<label class="bold"><?php p($l->t('Description')); ?></label>
-		<input ng-model="eventsdescription" placeholder="" type="text" id="event-description"
-			placeholder="<?php p($l->t('Description'));?>" name="description" />
+		<label><?php p($l->t('Attendees'))?></label>
+		<input ng-model="eventattendees" type="text" id="event-attendees"
+			placeholder="<?php p($l->t('Attendee / Email'));?>" name="attendees" />
+		<button id="attendeeupdatebutton" ng-click="updateattendee()" class="btn primary">
+			<?php p($l->t('Add')); ?>
+		</button>
 	</fieldset>
-	<fieldset>
-		<label class="bold"><?php p($l->t('Repeating')); ?></label>
-		<select
-			id="recurrence" name="recurrence"
-			title="<?php p("Recurrence"); ?>"
-			ng-model="recurrence"
-			ng-change="changerecurrence(recurrence.id)"
-			ng-options="recurrence.val for recurrence in recurrenceSelect">
-		</select>
-	</fieldset>
-	<fieldset>
-		<textarea id="repeatdialog"></textarea>
-	</fieldset>
+
 	<fieldset>
 		<button id="eventupdatebutton" ng-click="update()" class="btn primary">
 			<?php p($l->t('Update')); ?>
