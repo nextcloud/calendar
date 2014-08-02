@@ -124,9 +124,9 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 					day: t('calendar', 'dddd, MMM d, yyyy')
 				},
 				eventClick: function( event, jsEvent, view ) {
-					DialogModel.initbig('#events');
-					DialogModel.open('#events');
 					Restangular.one('calendars', event.calendarId).one('events', event.objectUri).get().then(function (eventsobject) {
+						DialogModel.initbig('#events');
+					DialogModel.open('#events');
 						EventsModel.modalpropertyholder(event, jsEvent, view, eventsobject);
 					});
 					//EventsModel.putmodalproperties(event,jsEvent,view);
