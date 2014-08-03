@@ -33,10 +33,6 @@ use OCP\Calendar\ICalendar;
 use OCP\Calendar\ICalendarCollection;
 use OCP\Calendar\IObject;
 use OCP\Calendar\IObjectCollection;
-
-use OCA\Calendar\Db\ObjectType;
-use OCA\Calendar\Db\Permissions;
-
 use OCP\Calendar\BackendException;
 use OCP\Calendar\CacheOutDatedException;
 use OCP\Calendar\CorruptDataException;
@@ -48,7 +44,8 @@ use OCA\Calendar\Db\CalendarCollection;
 use OCA\Calendar\Db\Object;
 use OCA\Calendar\Db\ObjectCollection;
 use OCA\Calendar\Db\Timezone;
-
+use OCA\Calendar\Db\ObjectType;
+use OCA\Calendar\Db\Permissions;
 use OCA\Calendar\Utility\CalendarUtility;
 use OCA\Calendar\Utility\ObjectUtility;
 
@@ -132,9 +129,9 @@ class Local extends Backend {
 	 * @return ICalendar
 	 */
 	public function findCalendar($calendarURI, $userId) {
-		$table = $this->getCalendarTableName();
+		$sql  = 'SELECT * FROM `' . $this->getCalendarTableName() . '` ';
+		$sql .= 'WHERE `uri` = ? AND `userid` = ?';
 
-		$sql  = 'SELECT * FROM `' . $table . '` WHERE `uri` = ? AND `userid` = ?';
 		$row = $this->queryOne($sql, array(
 			$calendarURI,
 			$userId
@@ -152,10 +149,9 @@ class Local extends Backend {
 	 * @return ICalendarCollection
 	 */
 	public function findCalendars($userId, $limit, $offset) {
-		$table = $this->getCalendarTableName();
-
-		$sql  = 'SELECT * FROM `' . $table . '` ';
+		$sql  = 'SELECT * FROM `' . $this->getCalendarTableName() . '`';
 		$sql .= 'WHERE `userid` = ? ORDER BY `calendarorder`';
+
 		$result = $this->query($sql, array(
 			$userId
 		), $limit, $offset);
@@ -180,9 +176,9 @@ class Local extends Backend {
 	 * @return integer
 	 */
 	public function countCalendars($userId) {
-		$table = $this->getCalendarTableName();
+		$sql  = 'SELECT COUNT(*) FROM `' . $this->getCalendarTableName() . '`';
+		$sql .= '` WHERE `userid` = ?';
 
-		$sql  = 'SELECT COUNT(*) FROM `' . $table . '` WHERE `userid` = ?';
 		return $this->queryNumber($sql, array(
 			$userId
 		));
@@ -196,10 +192,9 @@ class Local extends Backend {
 	 * @return boolean
 	 */
 	public function doesCalendarExist($calendarURI, $userId) {
-		$table = $this->getCalendarTableName();
+		$sql  = 'SELECT COUNT(*) FROM `' . $this->getCalendarTableName() . '`';
+		$sql .= ' WHERE `uri` = ? AND `userid` = ?';
 
-		$sql  = 'SELECT COUNT(*) FROM `' . $table . '` ';
-		$sql .= 'WHERE `uri` = ? AND `userid` = ?';
 		return ($this->queryNumber($sql, array(
 			$calendarURI,
 			$userId
@@ -214,9 +209,7 @@ class Local extends Backend {
 	 * @return integer
 	 */
 	public function getCalendarsCTag($calendarURI, $userId) {
-		$table = $this->getCalendarTableName();
-
-		$sql  = 'SELECT `ctag` FROM `' . $table . '` ';
+		$sql  = 'SELECT `ctag` FROM `' . $this->getCalendarTableName() . '`';
 		$sql .= 'WHERE `uri` = ? AND `userid` = ?';
 
 		return $this->queryNumber($sql, array(
@@ -234,10 +227,9 @@ class Local extends Backend {
 	public function createCalendar(ICalendar &$calendar) {
 		$this->generatePrivateUri($calendar);
 
-		$table = $this->getCalendarTableName();
-		$sql  = 'INSERT INTO `' . $table . '` ';
-		$sql .= '(`userid`, `displayname`, `uri`, `active`, `ctag`, `calendarorder`, ';
-		$sql .= '`calendarcolor`, `timezone`, `components`) ';
+		$sql  = 'INSERT INTO `' . $this->getCalendarTableName() . '` ';
+		$sql .= '(`userid`, `displayname`, `uri`, `active`, `ctag`, ';
+		$sql .= '`calendarorder`, `calendarcolor`, `timezone`, `components`) ';
 		$sql .= 'VALUES(?,?,?,?,?,?,?,?,?)';
 		$this->query($sql, $this->getCalendarSqlParams($calendar));
 	}
@@ -252,8 +244,7 @@ class Local extends Backend {
 	public function updateCalendar(ICalendar &$calendar) {
 		$calendarId = $this->getCaledarIdByCalendarObject($calendar);
 
-		$table = $this->getCalendarTableName();
-		$sql  = 'UPDATE `' . $table . '` SET ';
+		$sql  = 'UPDATE `' . $this->getCalendarTableName() . '` SET ';
 		$sql .= '`userid` = ?, `displayname` = ?, `uri` = ?, `active` = ?, ';
 		$sql .= '`ctag` = ?, `calendarorder` = ?, `calendarcolor` = ?, ';
 		$sql .= '`timezone` = ?, `components` = ? WHERE `id` = ?';
@@ -293,15 +284,14 @@ class Local extends Backend {
 	public function deleteCalendar($calendarURI, $userId) {
 		$calendarId = $this->getCalendarId($calendarURI, $userId);
 
-		$calendarTable = $this->getCalendarTableName();
-		$objectTable = $this->getObjectTableName();
-
-		$sql1 = 'DELETE FROM `' . $objectTable . '` WHERE `calendarid` = ?';
+		$sql1  = 'DELETE FROM `' . $this->getObjectTableName() . '` ';
+		$sql1 .= 'WHERE `calendarid` = ?';
 		$this->query($sql1, array(
 			$calendarId
 		));
 
-		$sql2  = 'DELETE FROM `' . $calendarTable . '` WHERE `id` = ?';
+		$sql2  = 'DELETE FROM `' . $this->getCalendarTableName() . '` ';
+		$sql2 .= 'WHERE `id` = ?';
 		$this->query($sql2, array(
 			$calendarId
 		));
@@ -315,25 +305,26 @@ class Local extends Backend {
 	 * @param string $oldUserId
 	 * @throws CacheOutDatedException
 	 */
-	public function mergeCalendar(ICalendar &$calendar, $oldCalendarURI, $oldUserId) {
+	public function mergeCalendar(ICalendar &$calendar, $oldCalendarURI,
+								  $oldUserId) {
 		$newCalendarId = $this->getCaledarIdByCalendarObject($calendar);
 		$oldCalendarId = $this->getCalendarId($oldCalendarURI, $oldUserId);
 
-		$calendarTable = $this->getCalendarTableName();
-		$objectTable = $this->getObjectTableName();
-
-		$sql1 = 'UPDATE `' . $objectTable . '` SET `calendarid` = ? WHERE `calendarId` = ?';
+		$sql1  = 'UPDATE `' . $this->getObjectTableName() . '` ';
+		$sql1 .= 'SET `calendarid` = ? WHERE `calendarId` = ?';
 		$this->query($sql1, array(
 			$newCalendarId,
 			$oldCalendarId,
 		));
 
-		$sql2  = 'DELETE FROM `' . $calendarTable . '` WHERE `id` = ?';
+		$sql2  = 'DELETE FROM `' . $this->getCalendarTableName() . '` ';
+		$sql2 .= 'WHERE `id` = ?';
 		$this->query($sql2, array(
 			$oldCalendarId,
 		));
 
-		$sql3 = 'UPDATE `' . $calendarTable . '` set `ctag` = `ctag` + 1 WHERE `id` = ?';
+		$sql3  = 'UPDATE `' . $this->getCalendarTableName() . '` ';
+		$sql3 .= 'SET `ctag` = `ctag` + 1 WHERE `id` = ?';
 		$this->query($sql3, array(
 			$newCalendarId,
 		));
@@ -347,16 +338,14 @@ class Local extends Backend {
 	 * @param string $oldUserId
 	 * @throws CacheOutDatedException
 	 */
-	public function moveCalendar(ICalendar &$calendar, $oldCalendarURI, $oldUserId) {
-		$newCalendarURI = $calendar->getPrivateUri();
-
+	public function moveCalendar(ICalendar &$calendar, $oldCalendarURI,
+								 $oldUserId) {
 		$calendarId = $this->getCalendarId($oldCalendarURI, $oldUserId);
 
-		$table = $this->getCalendarTableName();
-
-		$sql  = 'UPDATE `' . $table . '` SET `uri` = ? WHERE `id` = ?';
+		$sql  = 'UPDATE `' . $this->getCalendarTableName() . '` ';
+		$sql .= 'SET `uri` = ? WHERE `id` = ?';
 		$this->query($sql, array(
-			$newCalendarURI,
+			$calendar->getPrivateUri(),
 			$calendarId,
 		));
 	}
@@ -368,7 +357,8 @@ class Local extends Backend {
 	 * @param string $oldCalendarURI
 	 * @param string $oldUserId
 	 */
-	public function transferCalendar(ICalendar &$calendar, $oldCalendarURI, $oldUserId) {
+	public function transferCalendar(ICalendar &$calendar, $oldCalendarURI,
+									 $oldUserId) {
 		$this->moveCalendar($calendar, $oldCalendarURI, $oldUserId);
 	}
 
@@ -568,14 +558,14 @@ class Local extends Backend {
 	 * @return IObject
 	 */
 	public function createObject(IObject &$object) {
-		$calendarId = $this->getCaledarIdByCalendarObject($object->getCalendar());
-		if ($this->doesObjectExist($object->getCalendar(), $object->getUri())) {
+		$calendar = $object->getCalendar();
+
+		$calendarId = $this->getCaledarIdByCalendarObject($calendar);
+		if ($this->doesObjectExist($calendar, $object->getUri())) {
 			throw new BackendException('Object already exists');
 		}
 
-		$table = $this->getObjectTableName();
-
-		$sql  = 'INSERT INTO `' . $table . '` ';
+		$sql  = 'INSERT INTO `' . $this->getObjectTableName() . '` ';
 		$sql .= '(`objecttype`,`startdate`,`enddate`,`repeating`,';
 		$sql .= '`summary`,`calendardata`,`lastmodified`,`uri`, `calendarid`) ';
 		$sql .= 'VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)';
@@ -593,15 +583,16 @@ class Local extends Backend {
 	 */
 
 	public function updateObject(IObject &$object) {
-		$calendarId = $this->getCaledarIdByCalendarObject($object->getCalendar());
-		if (!$this->doesObjectExist($object->getCalendar(), $object->getUri())) {
+		$calendar = $object->getCalendar();
+
+		$calendarId = $this->getCaledarIdByCalendarObject($calendar);
+		if (!$this->doesObjectExist($calendar, $object->getUri())) {
 			throw new BackendException('Object does not exists');
 		}
 
-		$table = $this->getObjectTableName();
-
-		$sql  = 'UPDATE `' . $table . '`  SET `objecttype` = ?, `startdate` = ?, ';
-		$sql .= '`enddate` = ?, `repeating` = ?, `summary` = ?, `calendardata` = ?, ';
+		$sql  = 'UPDATE `' . $this->getObjectTableName() . '` SET ';
+		$sql .= '`objecttype` = ?, `startdate` = ?, `enddate` = ?, ';
+		$sql .= '`repeating` = ?, `summary` = ?, `calendardata` = ?, ';
 		$sql .= '`lastmodified` = ? WHERE `uri` = ? and `calendarid` = ?';
 		$this->query($sql, $this->getObjectSqlParams($object, $calendarId));
 	}
@@ -635,15 +626,12 @@ class Local extends Backend {
 	 * @return ICalendar
 	 */
 	public function moveObject(IObject &$object, ICalendar $oldCalendar) {
-		$newCalendarId = $this->getCaledarIdByCalendarObject($object->getCalendar());
-		$oldCalendarId = $this->getCaledarIdByCalendarObject($oldCalendar);
+		$sql  = 'UPDATE `' . $this->getObjectTableName();
+		$sql .= 'SET `calendarid` = ? WHERE `calendarid` = ?';
 
-		$table = $this->getObjectTableName();
-
-		$sql  = 'UPDATE `' . $table . '` SET `calendarid` = ? WHERE `calendarid` = ?';
 		$this->query($sql, array(
-			$newCalendarId,
-			$oldCalendarId
+			$this->getCaledarIdByCalendarObject($object->getCalendar()),
+			$this->getCaledarIdByCalendarObject($oldCalendar)
 		));
 	}
 
@@ -666,15 +654,12 @@ class Local extends Backend {
 	 * @throws CacheOutDatedException if calendar does not exist
 	 */
 	public function deleteObject(IObject $object){
-		$calendarId = $this->getCaledarIdByCalendarObject($object->getCalendar());
-		$objectURI = $object->getUri();
+		$sql  = 'DELETE FROM `' . $this->getObjectTableName();
+		$sql .= '` WHERE `uri` = ? AND `calendarid` = ?';
 
-		$table = $this->getObjectTableName();
-
-		$sql  = 'DELETE FROM `' . $table . '` WHERE `uri` = ? AND `calendarid` = ?';
 		$this->query($sql, array(
-			$objectURI,
-			$calendarId
+			$object->getUri(),
+			$this->getCaledarIdByCalendarObject($object->getCalendar()),
 		));
 	}
 
@@ -753,7 +738,8 @@ class Local extends Backend {
 		$calendar->setTimezone($this->createTimezoneFromRow($row));
 		$calendar->setColor(strval($row['calendarcolor']));
 		$calendar->setOrder(intval($row['calendarorder']));
-		$calendar->setEnabled((bool) $row['active']); //boolval is PHP >= 5.5.0 only
+		//boolval is PHP >= 5.5.0 only
+		$calendar->setEnabled((bool) $row['active']);
 		$calendar->setCruds(Permissions::ALL);
 
 		return $calendar;
@@ -834,7 +820,8 @@ class Local extends Backend {
 
 
 	/**
-	 * returns whether or not a backend can store a calendar's supported components
+	 * returns whether or not a backend can store a
+	 * calendar's supported components
 	 * @return boolean
 	 */
 	public function canStoreComponents() {
@@ -1039,7 +1026,8 @@ class Local extends Backend {
 	 * @param ICalendar $calendar
 	 * @return IObjectCollection
 	 */
-	private function createObjectCollectionFromResult(\OC_DB_StatementWrapper $result, $calendar) {
+	private function createObjectCollectionFromResult(
+		\OC_DB_StatementWrapper $result, $calendar) {
 		$objectCollection = new ObjectCollection();
 		while($row = $result->fetchRow()){
 			try{
