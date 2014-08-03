@@ -68,7 +68,7 @@ class JSONSubscriptionReader extends Reader {
 	/**
 	 * parse a json calendar collection
 	 * @param array $data
-	 * @return \OCA\Calendar\Db\CalendarCollection
+	 * @return SubscriptionCollection
 	 */
 	private function parseCollection($data) {
 		$collection = new SubscriptionCollection();

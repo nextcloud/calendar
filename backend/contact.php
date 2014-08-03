@@ -30,11 +30,9 @@ use OCP\Calendar\ICalendarCollection;
 use OCP\Calendar\IObject;
 use OCP\Calendar\IObjectCollection;
 use OCP\Calendar\DoesNotExistException;
-
 use OCA\Calendar\Db\Calendar;
 use OCA\Calendar\Db\CalendarCollection;
 use OCA\Calendar\Db\ObjectCollection;
-use OCA\Calendar\Db\Timezone;
 use OCA\Calendar\Db\ObjectType;
 use OCA\Calendar\Db\Permissions;
 

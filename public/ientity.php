@@ -72,6 +72,7 @@ interface IEntity {
 
 	/**
 	 * Marks the entity as clean needed for setting the id after the insertion
+	 * @return void
 	 */
 	public function resetUpdatedFields();
 

@@ -23,7 +23,6 @@ namespace OCA\Calendar\Db;
 
 use OCP\Calendar\IBackendCollection;
 use OCP\Calendar\ICalendarCollection;
-
 use OCP\Calendar\IBackend;
 use OCP\Calendar\ICalendar;
 

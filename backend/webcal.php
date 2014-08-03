@@ -23,7 +23,6 @@ namespace OCA\Calendar\Backend;
 
 use OC\AppFramework\Http;
 use OCP\AppFramework\IAppContainer;
-
 use OCP\Calendar\Backend;
 use OCP\Calendar\BackendException;
 use OCP\Calendar\ICalendar;
@@ -35,7 +34,6 @@ use OCP\Calendar\ObjectType;
 use OCP\Calendar\Permissions;
 use OCP\Calendar\DoesNotExistException;
 use OCP\Calendar\CorruptDataException;
-
 use OCA\Calendar\Db\Calendar;
 use OCA\Calendar\Db\CalendarCollection;
 use OCA\Calendar\Db\Object;
@@ -222,7 +220,7 @@ class WebCal extends Backend {
 
 	/**
 	 * @param ISubscription $subscription
-	 * @return ICalendar
+	 * @return \OCP\Calendar\IEntity
 	 * @throws CorruptDataException
 	 */
 	private function generateCalendar(ISubscription $subscription) {

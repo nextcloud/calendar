@@ -21,9 +21,7 @@
  */
 namespace OCA\Calendar\Http\JSON;
 
-use OCP\Calendar\ICalendar;
 use OCP\Calendar\ITimezone;
-
 use OCA\Calendar\Http\JSONResponse;
 use OCA\Calendar\Utility\JSONUtility;
 

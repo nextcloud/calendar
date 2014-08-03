@@ -23,7 +23,6 @@ namespace OCA\Calendar\Http\ICS;
 
 use OCP\Calendar\IEntity;
 use OCP\Calendar\ICollection;
-
 use OCA\Calendar\Http\TextResponse;
 use OCA\Calendar\Utility\SabreUtility;
 

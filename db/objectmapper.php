@@ -25,12 +25,9 @@ use OCP\AppFramework\IAppContainer;
 use OCP\Calendar\ICalendar;
 use OCP\Calendar\IObject;
 use OCP\Calendar\IObjectCollection;
-
 use OCA\Calendar\Utility\ObjectUtility;
-
 use OCP\Calendar\DoesNotExistException;
 use OCP\Calendar\MultipleObjectsReturnedException;
-
 use DateTime;
 
 class ObjectMapper extends Mapper {
@@ -79,8 +76,8 @@ class ObjectMapper extends Mapper {
 
 
 	/**
-	 * @param $calendarId
-	 * @param $objectUri
+	 * @param integer $calendarId
+	 * @param string $objectUri
 	 * @return int
 	 */
 	public function getGlobalId($calendarId, $objectUri) {
@@ -245,7 +242,7 @@ class ObjectMapper extends Mapper {
 	/**
 	 * @param ICalendar $calendar
 	 * @param string $uri
-	 * @return bool
+	 * @return boolean|null
 	 */
 	public function doesExist(ICalendar $calendar, $uri) {
 
@@ -256,7 +253,7 @@ class ObjectMapper extends Mapper {
 	 * @param ICalendar $calendar
 	 * @param string $uri
 	 * @param int $cruds
-	 * @return bool
+	 * @return boolean|null
 	 */
 	public function doesAllow(ICalendar $calendar, $uri, $cruds) {
 

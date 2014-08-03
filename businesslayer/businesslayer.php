@@ -23,10 +23,7 @@ namespace OCA\Calendar\BusinessLayer;
 
 use OCP\AppFramework\Http;
 use OCP\AppFramework\IAppContainer;
-use OCP\Calendar\ICalendar;
 use OCP\Calendar\IEntity;
-use OCP\Calendar\IObject;
-
 use OCA\Calendar\Db\Mapper;
 use OCA\Calendar\Utility\CalendarUtility;
 
@@ -101,8 +98,8 @@ abstract class BusinessLayer {
 
 
 	/**
-	 * @param $p1
-	 * @param $p2
+	 * @param string $p1
+	 * @param string $p2
 	 * @return bool
 	 * @throws BusinessLayerException
 	 */

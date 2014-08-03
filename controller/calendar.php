@@ -27,7 +27,6 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
 use OCP\Calendar\ICalendar;
 use OCP\Calendar\ICalendarCollection;
-
 use OCA\Calendar\BusinessLayer\BusinessLayerException;
 use OCA\Calendar\BusinessLayer\CalendarBusinessLayer;
 use OCA\Calendar\Http\Response;
@@ -299,7 +298,7 @@ class CalendarController extends Controller {
 
 
 	/**
-	 * @param $id
+	 * @param integer $id
 	 * @param $userId
 	 * @return \OCP\Calendar\ICalendar
 	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException

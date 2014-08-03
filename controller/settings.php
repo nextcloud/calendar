@@ -21,7 +21,6 @@
  */
 namespace OCA\Calendar\Controller;
 
-use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\IAppContainer;
 use OCP\Config;

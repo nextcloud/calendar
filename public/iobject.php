@@ -75,7 +75,7 @@ interface IObject extends IEntity {
 
 	/**
 	 * @param bool $force generate etag if none stored
-	 * @return mixed (string|null)
+	 * @return string (string|null)
 	 */
 	public function getEtag($force=false);
 
@@ -103,6 +103,7 @@ interface IObject extends IEntity {
 	/**
 	 * set the calendarData
 	 * @param string $data CalendarData
+	 * @return \OCA\Calendar\Db\Object
 	 */
 	public function setCalendarData($data);
 
@@ -165,7 +166,7 @@ interface IObject extends IEntity {
 
 	/**
 	 * get last modified of object
-	 * @return mixed (\DateTime|null)
+	 * @return DateTime (\DateTime|null)
 	 */
 	public function getLastModified();
 

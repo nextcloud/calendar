@@ -24,7 +24,6 @@ namespace OCA\Calendar\Db;
 use OCP\Calendar\CorruptDataException;
 use OCP\Calendar\ICalendar;
 use OCP\Calendar\IObject;
-
 use OCA\Calendar\Sabre\VObject\Component\VCalendar;
 use OCA\Calendar\Sabre\VObject\Reader;
 use OCA\Calendar\Sabre\VObject\ParseException;
@@ -33,7 +32,6 @@ use OCA\Calendar\Sabre\VObject\Property\Integer as IntegerProperty;
 use OCA\Calendar\Sabre\VObject\Property\ICalendar\DateTime as SDateTime;
 use OCA\Calendar\Sabre\VObject\Property\ICalendar\Date as SDate;
 use OCA\Calendar\Utility\SabreUtility;
-
 use DateTime;
 
 class Object extends Entity implements IObject {
@@ -279,7 +277,7 @@ class Object extends Entity implements IObject {
 	/**
 	 * does an object allow
 	 * @param integer $cruds
-	 * @return boolean
+	 * @return integer
 	 */
 	public function doesAllow($cruds) {
 		return ($this->ruds & $cruds);

@@ -134,7 +134,7 @@ class SubscriptionBusinessLayer extends BusinessLayer {
 	 * @param int $id
 	 * @param string $type
 	 * @param string $userId
-	 * @return mixed
+	 * @return boolean
 	 */
 	public function doesExistOfType($id, $type, $userId=null) {
 		return $this->mapper->doesExistOfType($id, $type, $userId);

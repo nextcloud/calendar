@@ -27,7 +27,6 @@ namespace OCA\Calendar\Backend;
 
 use OCP\AppFramework\IAppContainer;
 use OCP\DB;
-
 use OCP\Calendar\Backend;
 use OCP\Calendar\ICalendar;
 use OCP\Calendar\ICalendarCollection;
@@ -38,7 +37,6 @@ use OCP\Calendar\CacheOutDatedException;
 use OCP\Calendar\CorruptDataException;
 use OCP\Calendar\DoesNotExistException;
 use OCP\Calendar\MultipleObjectsReturnedException;
-
 use OCA\Calendar\Db\Calendar;
 use OCA\Calendar\Db\CalendarCollection;
 use OCA\Calendar\Db\Object;
@@ -555,7 +553,7 @@ class Local extends Backend {
 
 	/**
 	 * @param IObject $object
-	 * @param $calendarId
+	 * @param integer $calendarId
 	 * @return array
 	 */
 	private function getObjectSqlParams(IObject $object, $calendarId) {
@@ -719,7 +717,7 @@ class Local extends Backend {
 	 * create an object object from row
 	 * @param array $row
 	 * @param ICalendar $calendar
-	 * @return IObject
+	 * @return \OCP\Calendar\IEntity
 	 */
 	private function createObjectFromRow(&$row, ICalendar &$calendar) {
 		$object = new Object();
@@ -736,6 +734,7 @@ class Local extends Backend {
 	 * get a single objectType
 	 * @param mixed (integer|string) $component
 	 * @param string $type
+	 * @param integer $component
 	 * @return mixed (integer|string)
 	 */
 	public function getType($component, $type) {
@@ -751,7 +750,7 @@ class Local extends Backend {
 	 * get multiple objectTypes
 	 * @param mixed (integer|string) $components
 	 * @param string $type
-	 * @return mixed (integer|string)
+	 * @return integer (integer|string)
 	 */
 	public function getTypes($components, $type) {
 		if ($type === 'string') {
@@ -828,7 +827,7 @@ class Local extends Backend {
 
 	/**
 	 * @param ICalendar $calendar
-	 * @return mixed
+	 * @return integer
 	 */
 	private function getCaledarIdByCalendarObject(ICalendar $calendar) {
 		$privateuri = $calendar->getPrivateUri();
@@ -843,7 +842,7 @@ class Local extends Backend {
 	 * @param string $calendarURI
 	 * @param string $userId
 	 * @param bool $throw
-	 * @return mixed (boolean|integer)
+	 * @return integer (boolean|integer)
 	 * @throws CacheOutDatedException
 	 */
 	private function getCalendarId($calendarURI, $userId, $throw=true) {
@@ -897,9 +896,9 @@ class Local extends Backend {
 
 
 	/**
-	 * @param $sql
+	 * @param string $sql
 	 * @param $params
-	 * @return int|string
+	 * @return integer
 	 */
 	private function queryNumber($sql, $params) {
 		$result	= DB::prepare($sql)->execute($params);
@@ -919,10 +918,10 @@ class Local extends Backend {
 
 
 	/**
-	 * @param $sql
+	 * @param string $sql
 	 * @param $params
-	 * @param $limit
-	 * @param $offset
+	 * @param integer $limit
+	 * @param integer $offset
 	 * @return int|\OC_DB_StatementWrapper
 	 */
 	private function query($sql, $params, $limit=null, $offset=null) {

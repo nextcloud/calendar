@@ -24,7 +24,6 @@ namespace OCA\Calendar\Http\ICS;
 use OCP\AppFramework\IAppContainer;
 use OCP\Calendar\IEntity;
 use OCP\Calendar\ICollection;
-
 use OCA\Calendar\Http\TextDownloadResponse;
 use OCA\Calendar\Utility\SabreUtility;
 
@@ -39,7 +38,7 @@ class ICSObjectDownloadResponse extends TextDownloadResponse {
 	/**
 	 * constructor of JSONResponse
 	 * @param IAppContainer $app
-	 * @param IEntity|ICollection $data
+	 * @param \OCP\Calendar\IObjectCollection $data
 	 * @param string $mimeType
 	 * @param string $filename
 	 */

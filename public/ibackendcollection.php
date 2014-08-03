@@ -46,7 +46,7 @@ interface IBackendCollection extends ICollection {
 
 
 	/**
-	 * @param $backendName
+	 * @param string $backendName
 	 * @return IBackend
 	 */
 	public function find($backendName);

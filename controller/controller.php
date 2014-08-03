@@ -26,7 +26,6 @@ use OCP\AppFramework\IAppContainer;
 use OCP\IRequest;
 use OCP\Calendar\IEntity;
 use OCP\Calendar\ICollection;
-
 use DateTime;
 
 abstract class Controller extends \OCP\AppFramework\Controller {
@@ -123,7 +122,7 @@ abstract class Controller extends \OCP\AppFramework\Controller {
 
 
 	/**
-	 * @param string &$string
+	 * @param string DateTime
 	 * @param \DateTime $default
 	 */
 	protected function parseDateTime(&$string, \DateTime $default) {

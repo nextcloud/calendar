@@ -27,7 +27,6 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\Calendar\IObject;
 use OCP\Calendar\IObjectCollection;
 use OCP\IRequest;
-
 use OCA\Calendar\BusinessLayer\BusinessLayerException;
 use OCA\Calendar\BusinessLayer\CalendarBusinessLayer;
 use OCA\Calendar\BusinessLayer\ObjectBusinessLayer;
@@ -41,7 +40,6 @@ use OCA\Calendar\Http\ICS\ICSObjectResponse;
 use OCA\Calendar\Http\ICS\ICSObjectDownloadResponse;
 use OCA\Calendar\Http\JSON\JSONObjectReader;
 use OCA\Calendar\Http\JSON\JSONObjectResponse;
-
 use DateTime;
 
 class ObjectController extends Controller {

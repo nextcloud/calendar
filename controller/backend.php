@@ -26,7 +26,6 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
 use OCP\Calendar\IBackendCollection;
-
 use OCA\Calendar\Http\Response;
 use OCA\Calendar\Http\JSON\JSONBackendResponse;
 use OCA\Calendar\Http\SerializerException;

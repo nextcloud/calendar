@@ -23,7 +23,6 @@ namespace OCA\Calendar\Db;
 use OCP\AppFramework\IAppContainer;
 use OCP\Calendar\IEntity;
 use OCP\Config;
-
 use OCP\Calendar\IBackend;
 use OCP\Calendar\IBackendCollection;
 
@@ -132,7 +131,7 @@ class BackendMapper extends Mapper {
 
 
 	/**
-	 * @param $isEnabled
+	 * @param boolean $isEnabled
 	 * @return BackendCollection
 	 */
 	public function findWhereEnabledIs($isEnabled){
@@ -167,7 +166,7 @@ class BackendMapper extends Mapper {
 
 	/**
 	 * @param IEntity $item
-	 * @return $this|void
+	 * @return BackendMapper
 	 */
 	public function delete(IEntity $item){
 		$this->backendCollection->removeByEntity($item);

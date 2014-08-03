@@ -23,7 +23,6 @@ namespace OCA\Calendar\Controller;
 
 use OCP\AppFramework\IAppContainer;
 use OCP\IRequest;
-
 use OCA\Calendar\BusinessLayer\CalendarBusinessLayer;
 use OCA\Calendar\BusinessLayer\ObjectBusinessLayer;
 use OCA\Calendar\Db\ObjectType;

@@ -23,7 +23,6 @@ namespace OCA\Calendar\Http\JSON;
 
 use OCP\Calendar\IEntity;
 use OCP\Calendar\ICollection;
-
 use OCA\Calendar\Http\JSONResponse;
 use OCA\Calendar\Utility\SabreUtility;
 

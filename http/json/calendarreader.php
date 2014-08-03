@@ -24,8 +24,6 @@ namespace OCA\Calendar\Http\JSON;
 use OCA\Calendar\Http\Reader;
 use OCP\Calendar\ICalendar;
 use OCP\Calendar\ICalendarCollection;
-use OCP\Calendar\ITimezone;
-
 use OCA\Calendar\BusinessLayer\BusinessLayerException;
 use OCA\Calendar\Db\Calendar;
 use OCA\Calendar\Db\CalendarCollection;
@@ -168,7 +166,7 @@ class JSONCalendarReader extends Reader {
 
 	/**
 	 * @param string $tzId
-	 * @return ITimezone|null
+	 * @return \OCA\Calendar\Db\Timezone|null
 	 */
 	private function parseTimezone($tzId) {
 		try {

@@ -44,6 +44,7 @@ interface ICollection extends \Countable, \ArrayAccess {
 	/**
 	 * updates an entity in collection
 	 * @param IEntity $entity
+	 * @return void
 	 */
 	public function update(IEntity $entity);
 
@@ -68,7 +69,7 @@ interface ICollection extends \Countable, \ArrayAccess {
 	 * remove entities by a single property
 	 * @param string $key key for property
 	 * @param mixed $value value to be set
-	 * @return $this;
+	 * @return \OCA\Calendar\Db\Collection
 	 */
 	public function removeByProperty($key, $value);
 
@@ -134,6 +135,7 @@ interface ICollection extends \Countable, \ArrayAccess {
 	 * get a subset of current collection
 	 * @param int $limit
 	 * @param int @offset
+	 * @param integer $offset
 	 * @return array of Entities
 	 */
 	public function subset($limit=null, $offset=null);
@@ -164,7 +166,7 @@ interface ICollection extends \Countable, \ArrayAccess {
 	/**
 	 * get a collection of entities that meet criteria
 	 * @param string $key property that's supposed to be searched
-	 * @param mixed $value expected value, can be a regular expression when 3rd param is set to true
+	 * @param string $value expected value, can be a regular expression when 3rd param is set to true
 	 * @return ICollection
 	 */
 	public function search($key, $value);
@@ -182,7 +184,7 @@ interface ICollection extends \Countable, \ArrayAccess {
 	/**
 	 * set a property for all calendars
 	 * @param string $key key for property
-	 * @param mixed $value value to be set
+	 * @param \OCA\Calendar\Db\Calendar $value value to be set
 	 * @return $this
 	 */
 	public function setProperty($key, $value);

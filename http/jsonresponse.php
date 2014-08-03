@@ -94,6 +94,9 @@ abstract class JSONResponse extends Response {
 	}
 
 
+	/**
+	 * @param string $key
+	 */
 	function setProperty(array &$data, $key, $value) {
 
 	}

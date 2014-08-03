@@ -22,11 +22,9 @@
 namespace OCA\Calendar;
 
 use OC\AppFramework\Http\Request;
-
 use OCP\AppFramework\IAppContainer;
 use OCP\Share;
 use OCP\Util;
-
 use OCA\Calendar\BusinessLayer\CalendarBusinessLayer;
 use OCA\Calendar\BusinessLayer\CalendarCacheBusinessLayer;
 use OCA\Calendar\BusinessLayer\ObjectBusinessLayer;

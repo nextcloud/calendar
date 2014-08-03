@@ -259,7 +259,7 @@ abstract class Mapper {
 	 * @param array $params the parameters of the sql query
 	 * @throws DoesNotExistException if the item does not exist
 	 * @throws MultipleObjectsReturnedException if more than one item exist
-	 * @return array the result as row
+	 * @return Entity the result as row
 	 */
 	protected function findEntity($sql, $params){
 		$result = $this->execute($sql, $params);

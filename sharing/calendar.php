@@ -27,7 +27,6 @@ namespace OCA\Calendar\Share;
 use OCP\Calendar\IObject;
 use OCP\Share_Backend_Collection;
 use OCP\Share_Backend_File_Dependent;
-
 use OCA\Calendar\App;
 use OCA\Calendar\BusinessLayer\BusinessLayerException;
 use OCA\Calendar\Db\CalendarCollection;
@@ -132,7 +131,7 @@ class Calendar implements Share_Backend_Collection, Share_Backend_File_Dependent
 	 * @param array $items Shared items
 	 * @param int $format Format
 	 * @param array $parameters
-	 * @return \OCP\Calendar\ICalendarCollection
+	 * @return null|CalendarCollection
 	 *
 	 * The items array is a 3-dimensional array with the item_source as the
 	 * first key and the share id as the second key to an array with

@@ -116,6 +116,7 @@ interface ICalendar extends IEntity {
 
 	/**
 	 * @param boolean $enabled
+	 * @return \OCA\Calendar\Db\Calendar
 	 */
 	public function setEnabled($enabled);
 

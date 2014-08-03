@@ -22,9 +22,7 @@
 namespace OCA\Calendar\BusinessLayer;
 
 use OCP\AppFramework\IAppContainer;
-use OCP\AppFramework\Http;
 use OCP\Calendar\IBackendCollection;
-
 use OCA\Calendar\Db\CalendarMapper;
 
 class ObjectCacheBusinessLayer extends CacheBusinessLayer {

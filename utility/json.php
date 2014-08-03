@@ -23,7 +23,6 @@ namespace OCA\Calendar\Utility;
 
 use OCP\User;
 use OCP\Util;
-
 use OCP\Calendar\ObjectType;
 use OCP\Calendar\Permissions;
 
@@ -136,7 +135,7 @@ class JSONUtility extends Utility{
 	 * get caldav url for calendar
 	 * @param string $calendarURI
 	 * @param string $userId
-	 * @return array
+	 * @return string
 	 */
 	public static function getCalDAV($calendarURI, $userId) {
 		$url  = Util::linkToRemote('caldav');

@@ -22,24 +22,13 @@
 namespace OCA\Calendar\Backend;
 
 use OC\Files\FileInfo;
-
 use OCP\AppFramework\IAppContainer;
-
 use OCP\Calendar\Backend;
-use OCP\Calendar\BackendException;
 use OCP\Calendar\ICalendar;
 use OCP\Calendar\ICalendarCollection;
 use OCP\Calendar\IObject;
-use OCP\Calendar\IObjectCollection;
-use OCP\Calendar\ObjectType;
-use OCP\Calendar\Permissions;
 use OCP\Calendar\DoesNotExistException;
-use OCP\Calendar\CorruptDataException;
-
-use OCA\Calendar\Share\Types;
 use OCA\Calendar\Db\Calendar;
-use OCA\Calendar\Db\CalendarCollection;
-use OCA\Calendar\Db\Object;
 use OCA\Calendar\Db\ObjectCollection;
 
 class Files extends Backend {

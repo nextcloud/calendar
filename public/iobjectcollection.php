@@ -59,6 +59,7 @@ interface IObjectCollection extends ICollection {
 
 	/**
 	 * @param array $idTable
+	 * @return void
 	 */
 	public function addGlobalIds(array $idTable);
 }

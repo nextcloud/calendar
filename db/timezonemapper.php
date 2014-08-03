@@ -23,7 +23,6 @@ namespace OCA\Calendar\Db;
 
 use OCP\Calendar\DoesNotExistException;
 use OCP\Calendar\IEntity;
-
 use OCP\AppFramework\IAppContainer;
 use OCP\Util;
 
@@ -173,7 +172,7 @@ class TimezoneMapper extends Mapper {
 
 
 	/**
-	 * @param $tzId
+	 * @param string $tzId
 	 * @return bool
 	 */
 	private function isValidFileName($tzId) {

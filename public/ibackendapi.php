@@ -29,6 +29,7 @@ interface IBackendAPI {
 	 *
 	 * This method returns an integer.
 	 * This method is mandatory!
+	 * @return integer
 	 */
 	public function getSupportedActions();
 
@@ -42,6 +43,7 @@ interface IBackendAPI {
 	 * If the action is supported, it returns an integer that can be compared with \OC\Calendar\Backend\CREATE_CALENDAR, etc...
 	 * If the action is not supported, it returns -501
 	 * This method is mandatory!
+	 * @return boolean
 	 */
 	public function implementsActions($actions);
 
@@ -64,6 +66,7 @@ interface IBackendAPI {
 	 *
 	 * This method returns a bool.
 	 * This method is mandatory!
+	 * @return boolean
 	 */
 	public function cacheObjects($calendarURI, $userId);
 
@@ -100,6 +103,7 @@ interface IBackendAPI {
 	 *
 	 * This method returns an ICalendar
 	 * This method is mandatory!
+	 * @return ICalendar
 	 */
 	public function findCalendar($calendarURI, $userId);
 
@@ -134,6 +138,7 @@ interface IBackendAPI {
 	 *
 	 * This method returns an integer
 	 * This method is mandatory!
+	 * @return integer
 	 */
 	public function countCalendars($userId);
 
@@ -146,6 +151,7 @@ interface IBackendAPI {
 	 *
 	 * This method returns a boolean
 	 * This method is mandatory!
+	 * @return boolean
 	 */
 	public function doesCalendarExist($calendarURI, $userId);
 
@@ -159,6 +165,7 @@ interface IBackendAPI {
 	 *
 	 * This method returns a integer
 	 * This method is mandatory!
+	 * @return integer
 	 */
 	public function getCalendarsCTag($calendarURI, $userId);
 
@@ -174,6 +181,7 @@ interface IBackendAPI {
 	 *
 	 * This method returns an \OCA\Calendar\Db\Object object.
 	 * This method is mandatory!
+	 * @return IObject
 	 */
 	public function findObject(ICalendar &$calendar, $objectURI);
 
@@ -210,6 +218,7 @@ interface IBackendAPI {
 	 *
 	 * This method returns an integer
 	 * This method is mandatory!
+	 * @return integer
 	 */
 	public function countObjects(ICalendar $calendar);
 
@@ -222,6 +231,7 @@ interface IBackendAPI {
 	 *
 	 * This method returns a boolean
 	 * This method is mandatory!
+	 * @return boolean
 	 */
 	public function doesObjectExist(ICalendar $calendar, $objectURI);
 
@@ -256,6 +266,7 @@ interface IBackendAPI {
 	 *
 	 * This method returns a boolean
 	 * This method is mandatory!
+	 * @return boolean
 	 */
 	public function canStoreColor();
 
@@ -266,6 +277,7 @@ interface IBackendAPI {
 	 *
 	 * This method returns a boolean
 	 * This method is mandatory!
+	 * @return boolean
 	 */
 	public function canStoreComponents();
 
@@ -283,6 +295,7 @@ interface IBackendAPI {
 	 *
 	 * This method returns a boolean
 	 * This method is mandatory!
+	 * @return boolean
 	 */
 	public function canStoreDisplayname();
 
@@ -293,6 +306,7 @@ interface IBackendAPI {
 	 *
 	 * This method returns a boolean
 	 * This method is mandatory!
+	 * @return boolean
 	 */
 	public function canStoreEnabled();
 
@@ -303,6 +317,7 @@ interface IBackendAPI {
 	 *
 	 * This method returns a boolean
 	 * This method is mandatory!
+	 * @return boolean
 	 */
 	public function canStoreOrder();
 }

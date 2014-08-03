@@ -20,7 +20,7 @@ class CalDAV_UserCalendars extends Sabre_CalDAV_UserCalendars {
 	/**
 	* Returns a list of calendars
 	*
-	* @return array
+	* @return Sabre_CalDAV_Schedule_Outbox[]
 	*/
 	public function getChildren() {
 

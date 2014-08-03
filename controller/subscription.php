@@ -29,7 +29,6 @@ use OCP\Calendar\IBackendCollection;
 use OCP\IRequest;
 use OCP\Calendar\ISubscription;
 use OCP\Calendar\ISubscriptionCollection;
-
 use OCA\Calendar\Http\JSON\JSONSubscriptionReader;
 use OCA\Calendar\Http\JSON\JSONSubscriptionResponse;
 use OCA\Calendar\BusinessLayer\BusinessLayerException;

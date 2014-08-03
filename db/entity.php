@@ -297,7 +297,7 @@ abstract class Entity implements IEntity{
 	/**
 	 * Adds information that a certain field is mandatory
 	 * isValid will fail if a mandatory field is not set
-	 * @param $fieldName
+	 * @param string $fieldName
 	 */
 	protected function addMandatory($fieldName) {
 		$this->mandatory[] = $fieldName;

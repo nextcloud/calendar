@@ -22,10 +22,8 @@
 namespace OCA\Calendar\Controller;
 
 use OCP\AppFramework\IAppContainer;
-use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
-
 use OCA\Calendar\BusinessLayer\BusinessLayerException;
 use OCA\Calendar\BusinessLayer\CalendarCacheBusinessLayer;
 use OCA\Calendar\BusinessLayer\ObjectCacheBusinessLayer;

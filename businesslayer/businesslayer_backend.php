@@ -26,7 +26,6 @@ use OCP\AppFramework\Http;
 use OCP\Calendar\IBackend;
 use OCP\Calendar\IBackendAPI;
 use OCP\Calendar\IBackendCollection;
-
 use OCA\Calendar\Db\Mapper;
 
 abstract class BackendCollectionBusinessLayer extends BusinessLayer {

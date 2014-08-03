@@ -28,7 +28,6 @@ use OCP\Calendar\ICalendar;
 use OCP\Calendar\BackendException;
 use OCP\Calendar\DoesNotExistException;
 use OCP\Calendar\MultipleObjectsReturnedException;
-
 use OCA\Calendar\Db\Permissions;
 use OCA\Calendar\Utility\CalendarUtility;
 

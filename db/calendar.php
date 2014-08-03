@@ -23,7 +23,6 @@ namespace OCA\Calendar\Db;
 
 use OCP\Calendar\ICalendar;
 use OCP\Calendar\ITimezone;
-
 use OCA\Calendar\Sabre\VObject\Component\VCalendar;
 use OCA\Calendar\Utility\CalendarUtility;
 use OCA\Calendar\Utility\ColorUtility;
@@ -527,7 +526,7 @@ class Calendar extends Entity implements ICalendar {
 	/**
 	 * does a calendar allow
 	 * @param integer $cruds
-	 * @return boolean
+	 * @return integer
 	 */
 	public function doesAllow($cruds) {
 		return ($this->cruds & $cruds);
@@ -537,7 +536,7 @@ class Calendar extends Entity implements ICalendar {
 	/**
 	 * does a calendar allow a certain component
 	 * @param integer $components
-	 * @return boolean
+	 * @return integer
 	 */
 	public function doesSupport($components) {
 		return ($this->components & $components);

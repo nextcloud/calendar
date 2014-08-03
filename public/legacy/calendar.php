@@ -36,7 +36,7 @@ class OC_Calendar_Calendar{
 	/**
 	 * Creates default calendars
 	 * @param string $userid
-	 * @return boolean
+	 * @return boolean|null
 	 */
 	public static function addDefaultCalendars($userid = null) {
 
@@ -50,7 +50,7 @@ class OC_Calendar_Calendar{
 	 * @param string $timezone Default: null
 	 * @param integer $order Default: null
 	 * @param string $color Default: null, format: '#RRGGBB(AA)'
-	 * @return boolean
+	 * @return boolean|null
 	 *
 	 * Values not null will be set
 	 */
@@ -62,7 +62,7 @@ class OC_Calendar_Calendar{
 	 * Sets a calendar (in)active
 	 * @param integer $id
 	 * @param boolean $active
-	 * @return boolean
+	 * @return boolean|null
 	 */
 	public static function setCalendarActive($id,$active) {
 
@@ -71,7 +71,7 @@ class OC_Calendar_Calendar{
 	/**
 	 * Updates ctag for calendar
 	 * @param integer $id
-	 * @return boolean
+	 * @return boolean|null
 	 */
 	public static function touchCalendar($id) {
 
@@ -80,7 +80,7 @@ class OC_Calendar_Calendar{
 	/**
 	 * removes a calendar
 	 * @param integer $id
-	 * @return boolean
+	 * @return boolean|null
 	 */
 	public static function deleteCalendar($id) {
 

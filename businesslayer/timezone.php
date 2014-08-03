@@ -26,7 +26,6 @@ use OCP\Calendar\ITimezone;
 use OCP\Calendar\ITimezoneCollection;
 use OCP\Calendar\DoesNotExistException;
 use OCP\Calendar\MultipleObjectsReturnedException;
-
 use OCA\Calendar\Db\TimezoneMapper;
 
 class TimezoneBusinessLayer extends BusinessLayer {
