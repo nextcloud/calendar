@@ -626,7 +626,7 @@ class Local extends Backend {
 	 * @return ICalendar
 	 */
 	public function moveObject(IObject &$object, ICalendar $oldCalendar) {
-		$sql  = 'UPDATE `' . $this->getObjectTableName();
+		$sql  = 'UPDATE `' . $this->getObjectTableName() . '`';
 		$sql .= 'SET `calendarid` = ? WHERE `calendarid` = ?';
 
 		$this->query($sql, array(
@@ -654,7 +654,7 @@ class Local extends Backend {
 	 * @throws CacheOutDatedException if calendar does not exist
 	 */
 	public function deleteObject(IObject $object){
-		$sql  = 'DELETE FROM `' . $this->getObjectTableName();
+		$sql  = 'DELETE FROM `' . $this->getObjectTableName() . '`';
 		$sql .= '` WHERE `uri` = ? AND `calendarid` = ?';
 
 		$this->query($sql, array(
