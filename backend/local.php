@@ -50,7 +50,7 @@ use OCA\Calendar\Db\ObjectCollection;
 use OCA\Calendar\Db\Timezone;
 
 use OCA\Calendar\Utility\CalendarUtility;
-use \OCA\Calendar\Utility\ObjectUtility;
+use OCA\Calendar\Utility\ObjectUtility;
 
 use \DateTime;
 
@@ -115,7 +115,8 @@ class Local extends Backend {
 	public function getAvailablePrefixes() {
 		return array(
 			array(
-				'name' => strval(\OC::$server->getL10N('calendar')->t('this ownCloud')),
+				'name' => strval(\OC::$server->getL10N('calendar')
+					->t('this ownCloud')),
 				'prefix' => '',
 			),
 		);
@@ -324,17 +325,17 @@ class Local extends Backend {
 		$sql1 = 'UPDATE `' . $objectTable . '` SET `calendarid` = ? WHERE `calendarId` = ?';
 		$this->query($sql1, array(
 			$newCalendarId,
-			$oldCalendarId
+			$oldCalendarId,
 		));
 
 		$sql2  = 'DELETE FROM `' . $calendarTable . '` WHERE `id` = ?';
 		$this->query($sql2, array(
-			$oldCalendarId
+			$oldCalendarId,
 		));
 
 		$sql3 = 'UPDATE `' . $calendarTable . '` set `ctag` = `ctag` + 1 WHERE `id` = ?';
 		$this->query($sql3, array(
-			$newCalendarId
+			$newCalendarId,
 		));
 	}
 
@@ -356,7 +357,7 @@ class Local extends Backend {
 		$sql  = 'UPDATE `' . $table . '` SET `uri` = ? WHERE `id` = ?';
 		$this->query($sql, array(
 			$newCalendarURI,
-			$calendarId
+			$calendarId,
 		));
 	}
 
@@ -382,17 +383,15 @@ class Local extends Backend {
 	 * @return IObject
 	 */
 	public function findObject(ICalendar &$calendar, $objectURI) {
-		$calendarId = $this->getCaledarIdByCalendarObject($calendar);
-
-		$table = $this->getObjectTableName();
-
-		$sql = 'SELECT * FROM `' . $table . '` WHERE `calendarid` = ? AND `uri` =? ';
-		$row = $this->queryOne($sql, array(
-			$calendarId,
-			$objectURI
-		));
-
-		return $this->createObjectFromRow($row, $calendar);
+		return $this->queryObjects(
+			'WHERE `calendarid` = ? AND `uri` =?',
+			array(
+				$this->getCaledarIdByCalendarObject($calendar),
+				$objectURI,
+			),
+			$calendar,
+			true
+		);
 	}
 
 
@@ -405,16 +404,16 @@ class Local extends Backend {
 	 * @return IObjectCollection
 	 */
 	public function findObjects(ICalendar &$calendar, $limit, $offset) {
-		$calendarId = $this->getCaledarIdByCalendarObject($calendar);
-
-		$table = $this->getObjectTableName();
-
-		$sql = 'SELECT * FROM `' . $table . '` WHERE `calendarid` = ?';
-		$result = $this->query($sql, array(
-			$calendarId
-		), $limit, $offset);
-
-		return $this->createObjectCollectionFromResult($result);
+		return $this->queryObjects(
+			'WHERE `calendarid` = ?',
+			array(
+				$this->getCaledarIdByCalendarObject($calendar),
+			),
+			$calendar,
+			false,
+			$limit,
+			$offset
+		);
 	}
 
 
@@ -428,29 +427,27 @@ class Local extends Backend {
 	 * @throws CacheOutDatedException
 	 * @return IObjectCollection
 	 */
-	public function findObjectsInPeriod(ICalendar $calendar, DateTime $start, DateTime $end, $limit, $offset){
-		$calendarId = $this->getCaledarIdByCalendarObject($calendar);
-
-		$table = $this->objTableName;
-
-		$sql  = 'SELECT * FROM `' . $table . '` WHERE `calendarid` = ? AND ';
-        $sql .= '((`startdate` >= ? AND `enddate` <= ? AND `repeating` = 0)';
-        $sql .= ' OR (`enddate` >= ? AND `startdate` <= ? AND `repeating` = 0)';
-        $sql .= ' OR (`startdate` <= ? AND `repeating` = 1)) ORDER BY `repeating`';
-
+	public function findObjectsInPeriod(ICalendar $calendar, \DateTime $start,
+										\DateTime $end, $limit, $offset){
 		$utcStart = $this->getUTCforMDB($start);
 		$utcEnd = $this->getUTCforMDB($end);
 
-		$result = $this->query($sql, array(
-			$calendarId,
-			$utcStart,
-			$utcEnd,
-			$utcStart,
-			$utcEnd,
-			$utcEnd
-		), $limit, $offset);
-
-		return $this->createObjectCollectionFromResult($result);
+		return $this->queryObjects(
+			'WHERE `calendarid` = ? AND ' . $this->inPeriodQuery() .
+			' ORDER BY `repeating`',
+			array(
+				$this->getCaledarIdByCalendarObject($calendar),
+				$utcStart,
+				$utcEnd,
+				$utcStart,
+				$utcEnd,
+				$utcEnd,
+			),
+			$calendar,
+			false,
+			$limit,
+			$offset
+		);
 	}
 
 
@@ -463,23 +460,24 @@ class Local extends Backend {
 	 * @throws CacheOutDatedException
 	 * @return IObjectCollection
 	 */
-	public function findObjectsByType(ICalendar $calendar, $type, $limit, $offset) {
-		$calendarId = $this->getCaledarIdByCalendarObject($calendar);
-
-		$table = $this->getObjectTableName();
-
-		$sql = 'SELECT * FROM `' . $table . '` WHERE `calendarid` = ? AND `objecttype` = ?';
-		$result = $this->query($sql, array(
-			$calendarId,
-			$this->getType($type, 'string')
-		), $limit, $offset);
-
-		return $this->createObjectCollectionFromResult($result);
+	public function findObjectsByType(ICalendar $calendar, $type, $limit,
+									  $offset) {
+		return $this->queryObjects(
+			'WHERE `calendarid` = ? AND `objecttype` = ?',
+			array(
+				$this->getCaledarIdByCalendarObject($calendar),
+				$this->getType($type, 'string'),
+			),
+			$calendar,
+			false,
+			$limit,
+			$offset
+		);
 	}
 
 
 	/**
-	 * Find objecs by type in period
+	 * Find objects by type in period
 	 * @param ICalendar $calendar
 	 * @param integer $type
 	 * @param DateTime $start
@@ -492,30 +490,26 @@ class Local extends Backend {
 	public function findObjectsByTypeInPeriod(ICalendar $calendar, $type,
 											  DateTime $start, DateTime $end,
 											  $limit, $offset) {
-		$calendarId = $this->getCaledarIdByCalendarObject($calendar);
-
-		$table = $this->getObjectTableName();
-
-		$sql  = 'SELECT * FROM `' . $table . '` WHERE `calendarid` = ? AND ';
-        $sql .= '((`startdate` >= ? AND `enddate` <= ? AND `repeating` = 0)';
-        $sql .= ' OR (`enddate` >= ? AND `startdate` <= ? AND `repeating` = 0)';
-        $sql .= ' OR (`startdate` <= ? AND `repeating` = 1)) AND `objecttype` = ? ';
-        $sql .= 'ORDER BY `repeating`';
-
 		$utcStart = $this->getUTCforMDB($start);
 		$utcEnd = $this->getUTCforMDB($end);
 
-		$result = $this->query($sql, array(
-			$calendarId,
-			$utcStart,
-			$utcEnd,
-			$utcStart,
-			$utcEnd,
-			$utcEnd,
-			$this->getType($type, 'string')
-		), $limit, $offset);
-
-		return $this->createObjectCollectionFromResult($result);
+		return $this->queryObjects(
+			'WHERE `calendarid` = ? AND ' . $this->inPeriodQuery() .
+			' AND `objecttype` = ? ORDER BY `repeating`',
+			array(
+				$this->getCaledarIdByCalendarObject($calendar),
+				$utcStart,
+				$utcEnd,
+				$utcStart,
+				$utcEnd,
+				$utcEnd,
+				$this->getType($type, 'string'),
+			),
+			$calendar,
+			false,
+			$limit,
+			$offset
+		);
 	}
 
 
@@ -741,7 +735,7 @@ class Local extends Backend {
 
 		$result = $this->query($sql, $parameters, $limit, $offset);
 
-		return $this->createObjectCollectionFromResult($result);
+		return $this->createObjectCollectionFromResult($result, $calendar);
 	}
 
 
@@ -1056,9 +1050,10 @@ class Local extends Backend {
 
 	/**
 	 * @param \OC_DB_StatementWrapper $result
-	 * @return ObjectCollection
+	 * @param ICalendar $calendar
+	 * @return IObjectCollection
 	 */
-	private function createObjectCollectionFromResult(\OC_DB_StatementWrapper $result) {
+	private function createObjectCollectionFromResult(\OC_DB_StatementWrapper $result, $calendar) {
 		$objectCollection = new ObjectCollection();
 		while($row = $result->fetchRow()){
 			try{
@@ -1070,5 +1065,39 @@ class Local extends Backend {
 		}
 
 		return $objectCollection;
+	}
+
+
+	/**
+	 * @param string $sql
+	 * @param string $params
+	 * @param ICalendar $calendar
+	 * @param bool $queryOne
+	 * @param int|null $limit
+	 * @param int|null $offset
+	 * @return IObjectCollection|IObject
+	 */
+	private function queryObjects($sql, $params, ICalendar $calendar,
+								  $queryOne=true, $limit=null, $offset=null) {
+		$table = $this->getObjectTableName();
+		$sqlQuery  = 'SELECT * FROM ' . $table . ' ';
+		$sqlQuery .= $sql;
+
+		if ($queryOne) {
+			$row = $this->queryOne($sqlQuery, $params);
+			return $this->createObjectFromRow($row, $calendar);
+		} else {
+			$result = $this->query($sqlQuery, $params, $limit, $offset);
+			return $this->createObjectCollectionFromResult($result, $calendar);
+		}
+	}
+
+
+	private function inPeriodQuery() {
+		$sql  = '((`startdate` >= ? AND `enddate` <= ? AND `repeating` = 0)';
+        $sql .= ' OR (`enddate` >= ? AND `startdate` <= ? AND `repeating` = 0)';
+        $sql .= ' OR (`startdate` <= ? AND `repeating` = 1))';
+
+		return $sql;
 	}
 }
