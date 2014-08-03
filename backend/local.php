@@ -429,19 +429,12 @@ class Local extends Backend {
 	 */
 	public function findObjectsInPeriod(ICalendar $calendar, \DateTime $start,
 										\DateTime $end, $limit, $offset){
-		$utcStart = $this->getUTCforMDB($start);
-		$utcEnd = $this->getUTCforMDB($end);
-
 		return $this->queryObjects(
 			'WHERE `calendarid` = ? AND ' . $this->inPeriodQuery() .
 			' ORDER BY `repeating`',
-			array(
-				$this->getCaledarIdByCalendarObject($calendar),
-				$utcStart,
-				$utcEnd,
-				$utcStart,
-				$utcEnd,
-				$utcEnd,
+			array_merge(
+				array($this->getCaledarIdByCalendarObject($calendar)),
+				$this->inPeriodParams($start, $end)
 			),
 			$calendar,
 			false,
@@ -490,20 +483,13 @@ class Local extends Backend {
 	public function findObjectsByTypeInPeriod(ICalendar $calendar, $type,
 											  DateTime $start, DateTime $end,
 											  $limit, $offset) {
-		$utcStart = $this->getUTCforMDB($start);
-		$utcEnd = $this->getUTCforMDB($end);
-
 		return $this->queryObjects(
 			'WHERE `calendarid` = ? AND ' . $this->inPeriodQuery() .
 			' AND `objecttype` = ? ORDER BY `repeating`',
-			array(
-				$this->getCaledarIdByCalendarObject($calendar),
-				$utcStart,
-				$utcEnd,
-				$utcStart,
-				$utcEnd,
-				$utcEnd,
-				$this->getType($type, 'string'),
+			array_merge(
+				array($this->getCaledarIdByCalendarObject($calendar)),
+				$this->inPeriodParams($start, $end),
+				array($this->getType($type, 'string'))
 			),
 			$calendar,
 			false,
@@ -1093,11 +1079,33 @@ class Local extends Backend {
 	}
 
 
+	/**
+	 * @return string
+	 */
 	private function inPeriodQuery() {
 		$sql  = '((`startdate` >= ? AND `enddate` <= ? AND `repeating` = 0)';
         $sql .= ' OR (`enddate` >= ? AND `startdate` <= ? AND `repeating` = 0)';
         $sql .= ' OR (`startdate` <= ? AND `repeating` = 1))';
 
 		return $sql;
+	}
+
+
+	/**
+	 * @param DateTime $start
+	 * @param DateTime $end
+	 * @return array
+	 */
+	private function inPeriodParams(\DateTime $start, \DateTime $end) {
+		$utcStart = $this->getUTCforMDB($start);
+		$utcEnd = $this->getUTCforMDB($end);
+
+		return array(
+			$utcStart,
+			$utcEnd,
+			$utcStart,
+			$utcEnd,
+			$utcEnd,
+		);
 	}
 }
