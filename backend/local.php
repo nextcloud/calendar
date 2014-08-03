@@ -299,39 +299,6 @@ class Local extends Backend {
 
 
 	/**
-	 * merge two calendars
-	 * @param ICalendar $calendar
-	 * @param string $oldCalendarURI
-	 * @param string $oldUserId
-	 * @throws CacheOutDatedException
-	 */
-	public function mergeCalendar(ICalendar &$calendar, $oldCalendarURI,
-								  $oldUserId) {
-		$newCalendarId = $this->getCaledarIdByCalendarObject($calendar);
-		$oldCalendarId = $this->getCalendarId($oldCalendarURI, $oldUserId);
-
-		$sql1  = 'UPDATE `' . $this->getObjectTableName() . '` ';
-		$sql1 .= 'SET `calendarid` = ? WHERE `calendarId` = ?';
-		$this->query($sql1, array(
-			$newCalendarId,
-			$oldCalendarId,
-		));
-
-		$sql2  = 'DELETE FROM `' . $this->getCalendarTableName() . '` ';
-		$sql2 .= 'WHERE `id` = ?';
-		$this->query($sql2, array(
-			$oldCalendarId,
-		));
-
-		$sql3  = 'UPDATE `' . $this->getCalendarTableName() . '` ';
-		$sql3 .= 'SET `ctag` = `ctag` + 1 WHERE `id` = ?';
-		$this->query($sql3, array(
-			$newCalendarId,
-		));
-	}
-
-
-	/**
 	 * move a calendar aka rename uri
 	 * @param ICalendar $calendar
 	 * @param string $oldCalendarURI
@@ -348,18 +315,6 @@ class Local extends Backend {
 			$calendar->getPrivateUri(),
 			$calendarId,
 		));
-	}
-
-
-	/**
-	 * transfer a calendar to another user
-	 * @param ICalendar $calendar
-	 * @param string $oldCalendarURI
-	 * @param string $oldUserId
-	 */
-	public function transferCalendar(ICalendar &$calendar, $oldCalendarURI,
-									 $oldUserId) {
-		$this->moveCalendar($calendar, $oldCalendarURI, $oldUserId);
 	}
 
 
@@ -633,18 +588,6 @@ class Local extends Backend {
 			$this->getCaledarIdByCalendarObject($object->getCalendar()),
 			$this->getCaledarIdByCalendarObject($oldCalendar)
 		));
-	}
-
-
-	/**
-	 * move an object to another user
-	 * @param IObject $object
-	 * @param ICalendar $oldCalendar
-	 * @throws CacheOutDatedException if calendar does not exist
-	 * @return ICalendar
-	 */
-	public function transferObject(IObject &$object, ICalendar $oldCalendar) {
-		$this->moveObject($object, $oldCalendar);
 	}
 
 

@@ -34,7 +34,7 @@ interface IFullyQualifiedBackend extends IBackendAPI {
 
 
 	/**
-	 * update a calendar
+	 * Update a calendar
 	 * @param ICalendar $calendar
 	 * @throws CacheOutDatedException if calendar does not exist
 	 * @return ICalendar
@@ -43,22 +43,12 @@ interface IFullyQualifiedBackend extends IBackendAPI {
 
 
 	/**
-	 * delete a calendar
+	 * Delete a calendar
 	 * @param string $calendarURI
 	 * @param string $userId
 	 * @throws CacheOutDatedException
 	 */
 	public function deleteCalendar($calendarURI, $userId);
-
-
-	/**
-	 * merge two calendars
-	 * @param ICalendar $calendar
-	 * @param string $oldCalendarURI
-	 * @param string $oldUserId
-	 * @throws CacheOutDatedException
-	 */
-	public function mergeCalendar(ICalendar &$calendar, $oldCalendarURI, $oldUserId);
 
 
 	/**
@@ -69,15 +59,6 @@ interface IFullyQualifiedBackend extends IBackendAPI {
 	 * @throws CacheOutDatedException
 	 */
 	public function moveCalendar(ICalendar &$calendar, $oldCalendarURI, $oldUserId);
-
-
-	/**
-	 * transfer a calendar to another user
-	 * @param ICalendar $calendar
-	 * @param string $oldCalendarURI
-	 * @param string $oldUserId
-	 */
-	public function transferCalendar(ICalendar &$calendar, $oldCalendarURI, $oldUserId);
 
 
 	/**
@@ -150,27 +131,11 @@ interface IFullyQualifiedBackend extends IBackendAPI {
 
 
 	/**
-	 * move an object to another user
-	 * @param IObject $object
-	 * @param ICalendar $oldCalendar
-	 * @throws CacheOutDatedException if calendar does not exist
-	 * @return ICalendar
-	 */
-	public function transferObject(IObject &$object, ICalendar $oldCalendar);
-
-
-	/**
 	 * delete an object
 	 * @param IObject $object
 	 * @throws CacheOutDatedException if calendar does not exist
 	 */
 	public function deleteObject(IObject $object);
-
-
-	/**
-	 * @param ICalendar $calendar
-	 */
-	public function deleteAll(ICalendar $calendar);
 
 
 	/**
