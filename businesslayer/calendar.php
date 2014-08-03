@@ -305,9 +305,7 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 			$this->checkBackendEnabled($oldCalendar->getBackend());
 			$this->checkIsValid($newCalendar);
 
-			if (!$this->doesNeedTransfer($newCalendar, $oldCalendar) &&
-				!$this->doesNeedMove($newCalendar, $oldCalendar) &&
-				!$this->doesNeedMerge($newCalendar, $oldCalendar)) {
+			if (!$this->doesNeedMove($newCalendar, $oldCalendar)) {
 				return $this->updateProperties($newCalendar);
 			} else {
 				throw new BusinessLayerException('Action not supported yet!');
@@ -385,17 +383,6 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 
 
 	/**
-	 * Merge a calendar with another one
-	 * @param \OCP\Calendar\ICalendar $newCalendar
-	 * @param \OCP\Calendar\ICalendar $oldCalendar
-	 * @return \OCP\Calendar\ICalendar
-	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
-	 *
-	private function merge(ICalendar $newCalendar, ICalendar $oldCalendar) {
-	}
-
-
-	/**
 	 * Move a calendar to another backend
 	 * @param \OCP\Calendar\ICalendar $newCalendar
 	 * @param \OCP\Calendar\ICalendar $oldCalendar
@@ -403,17 +390,6 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
 	 *
 	private function move(ICalendar $newCalendar, ICalendar $oldCalendar) {
-	}
-
-
-	/**
-	 * Transfer a calendar to another user
-	 * @param \OCP\Calendar\ICalendar $newCalendar
-	 * @param \OCP\Calendar\ICalendar $oldCalendar
-	 * @return \OCP\Calendar\ICalendar
-	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
-	 *
-	private function transfer(ICalendar $newCalendar, ICalendar $oldCalendar) {
 	}*/
 
 
@@ -462,18 +438,6 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 
 
 	/**
-	 * Get whether or not a calendar needs a transfer
-	 * @param \OCP\Calendar\ICalendar $newCalendar
-	 * @param \OCP\Calendar\ICalendar $oldCalendar
-	 * @return bool
-	 */
-	private function doesNeedTransfer(ICalendar $newCalendar,
-									  ICalendar $oldCalendar) {
-		return ($newCalendar->getUserId() !== $oldCalendar->getUserId());
-	}
-
-
-	/**
 	 * Get whether or not a calendar needs a move
 	 * @param \OCP\Calendar\ICalendar $newCalendar
 	 * @param \OCP\Calendar\ICalendar $oldCalendar
@@ -483,21 +447,8 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 								  ICalendar $oldCalendar) {
 		return (($newCalendar->getBackend() !== $oldCalendar->getBackend()) &&
 			!$this->doesExist($newCalendar->getPublicUri(),
-							  $newCalendar->getUserId()));
-	}
-
-
-	/**
-	 * Get whether or not a calendar needs a merge
-	 * @param \OCP\Calendar\ICalendar $newCalendar
-	 * @param \OCP\Calendar\ICalendar $oldCalendar
-	 * @return bool
-	 */
-	private function doesNeedMerge(ICalendar $newCalendar,
-								   ICalendar $oldCalendar) {
-		return (($newCalendar->getBackend() !== $oldCalendar->getBackend()) &&
-			$this->doesExist($newCalendar->getPublicUri(),
-							 $newCalendar->getUserId()));
+							  $newCalendar->getUserId()) ||
+			$newCalendar->getUserId() !== $oldCalendar->getUserId());
 	}
 
 
