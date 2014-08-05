@@ -24,6 +24,7 @@ namespace OCA\Calendar\BusinessLayer;
 use OCP\AppFramework\Http;
 use OCP\Calendar\Backend;
 use OCP\Calendar\IBackend;
+use OCP\Calendar\IBackendCollection;
 use OCP\Calendar\ICalendar;
 use OCP\Calendar\BackendException;
 use OCP\Calendar\DoesNotExistException;
@@ -44,19 +45,20 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 	 * @param string $userId
 	 * @param integer $limit
 	 * @param integer $offset
-	 * @param boolean $activeBackendsOnly
+	 * @param \OCP\Calendar\IBackendCollection|boolean $backends
 	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
 	 * @return \OCP\Calendar\ICalendarCollection
 	 */
 	public function findAll($userId, $limit=null, $offset=null,
-							$activeBackendsOnly=true) {
+							$backends=true) {
 		try {
 			$calendars = $this->mapper->findAll($userId, $limit, $offset);
 
-			if ($activeBackendsOnly) {
-				$activeBackends = $this->backends->enabled();
-				/** @var \OCP\Calendar\ICalendarCollection $calendars */
-				$calendars = $calendars->filterByBackends($activeBackends);
+			if ($backends === true) {
+				$backends = $this->backends->enabled();
+			}
+			if ($backends instanceof IBackendCollection) {
+				$calendars = $calendars->filterByBackends($backends);
 			}
 
 			return $calendars;
@@ -69,55 +71,17 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 	/**
 	 * Get number of calendars
 	 * @param string $userId
-	 * @param boolean $activeBackendsOnly
+	 * @param \OCP\Calendar\IBackendCollection|boolean $backends
 	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
 	 * @return integer
 	 */
-	public function numberOfCalendars($userId, $activeBackendsOnly=true) {
+	public function numberOfCalendars($userId, $backends=true) {
 		try {
-			if (!$activeBackendsOnly) {
+			if ($backends === false || $backends === null) {
 				return $this->mapper->count($userId);
 			} else {
-				return $this->findAll($userId, null, null, true)->count();
+				return $this->findAll($userId, null, null, $backends)->count();
 			}
-		} catch (DoesNotExistException $ex) {
-			throw new BusinessLayerException($ex->getMessage());
-		}
-	}
-
-
-	/**
-	 * Find all calendars of user stored on a certain backend
-	 * @param string $backend
-	 * @param string $userId
-	 * @param integer $limit
-	 * @param integer $offset
-	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
-	 * @return \OCP\Calendar\ICalendarCollection
-	 */
-	public function findAllOnBackend($backend, $userId,
-									 $limit=null, $offset=null) {
-		try {
-			return $this->mapper->findAllOnBackend($backend, $userId,
-				$limit, $offset);
-		} catch (DoesNotExistException $ex) {
-			throw new BusinessLayerException($ex->getMessage());
-		} catch (BackendException $ex) {
-			throw new BusinessLayerException($ex->getMessage());
-		}
-	}
-
-
-	/**
-	 * Get number of calendars on a certain backend
-	 * @param string $backend
-	 * @param string $userId
-	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
-	 * @return integer
-	 */
-	public function numberOfCalendarsOnBackend($backend, $userId) {
-		try {
-			return $this->mapper->countOnBackend($backend, $userId);
 		} catch (DoesNotExistException $ex) {
 			throw new BusinessLayerException($ex->getMessage());
 		}
@@ -149,6 +113,17 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 
 
 	/**
+	 * Get whether or not a calendar exist
+	 * @param string $publicUri
+	 * @param string $userId
+	 * @return bool
+	 */
+	public function doesExist($publicUri, $userId) {
+		return $this->mapper->doesExist($publicUri, $userId);
+	}
+
+
+	/**
 	 * Find calendar by it's id
 	 * @param int $id
 	 * @return \OCP\Calendar\ICalendar
@@ -168,41 +143,6 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 		} catch (MultipleObjectsReturnedException $ex) {
 			return $this->throwMultipleExist($ex);
 		}
-	}
-
-
-    /**
-	 * Get whether or not a calendar exist
-     * @param string $publicUri
-     * @param string $userId
-     * @return bool
-     */
-    public function doesExist($publicUri, $userId) {
-		return $this->mapper->doesExist($publicUri, $userId);
-	}
-
-
-	/**
-	 * Get whether or not a calendar allows a certain action
-	 * @param string $publicUri
-	 * @param string $userId
-	 * @param integer $cruds
-	 * @return bool
-	 */
-	public function doesAllow($publicUri, $userId, $cruds) {
-		return $this->mapper->doesAllow($publicUri, $userId, $cruds);
-	}
-
-
-	/**
-	 * Get whether or not a calendar can store a certain component
-	 * @param string $publicUri
-	 * @param string $userId
-	 * @param integer $component
-	 * @return bool
-	 */
-	public function doesSupport($publicUri, $userId, $component) {
-		return $this->mapper->doesSupport($publicUri, $userId, $component);
 	}
 
 
@@ -307,7 +247,7 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 			if (!$this->doesNeedMove($newCalendar, $oldCalendar)) {
 				return $this->updateProperties($newCalendar);
 			} else {
-				throw new BusinessLayerException('Action not supported yet!');
+				return $this->move($newCalendar);
 			}
 		} catch(BackendException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
@@ -356,6 +296,17 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 
 
 	/**
+	 * Move a calendar to another backend/user
+	 * @param \OCP\Calendar\ICalendar $newCalendar
+	 * @return \OCP\Calendar\ICalendar
+	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
+	 */
+	private function move(ICalendar $newCalendar) {
+		//TODO implement
+	}
+
+
+	/**
 	 * Update a calendar's properties
 	 * @param \OCP\Calendar\ICalendar $calendar
 	 * @return \OCP\Calendar\ICalendar
@@ -379,17 +330,6 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 				$ex);
 		}
 	}
-
-
-	/**
-	 * Move a calendar to another backend
-	 * @param \OCP\Calendar\ICalendar $newCalendar
-	 * @param \OCP\Calendar\ICalendar $oldCalendar
-	 * @return \OCP\Calendar\ICalendar
-	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
-	 *
-	private function move(ICalendar $newCalendar, ICalendar $oldCalendar) {
-	}*/
 
 
 	/**
