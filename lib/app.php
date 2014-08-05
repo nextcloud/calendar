@@ -27,6 +27,7 @@ use OCP\Share;
 use OCP\Util;
 use OCA\Calendar\BusinessLayer\CalendarBusinessLayer;
 use OCA\Calendar\BusinessLayer\CalendarCacheBusinessLayer;
+use OCA\Calendar\BusinessLayer\CalendarRequestBusinessLayer;
 use OCA\Calendar\BusinessLayer\ObjectBusinessLayer;
 use OCA\Calendar\BusinessLayer\ObjectCacheBusinessLayer;
 use OCA\Calendar\BusinessLayer\SubscriptionBusinessLayer;
@@ -106,7 +107,7 @@ class App extends \OCP\AppFramework\App {
 		});
 		$this->getContainer()->registerService('CalendarController', function(IAppContainer $c) {
 			$req = $c->query('Request');
-			$cbl = $c->query('CalendarBusinessLayer');
+			$cbl = $c->query('CalendarRequestBusinessLayer');
 			$obl = $c->query('ObjectBusinessLayer');
 
 			return new CalendarController($c, $req, $cbl, $obl);
@@ -185,6 +186,13 @@ class App extends \OCP\AppFramework\App {
 			$cmp = $c->query('CalendarMapper');
 
 			return new CalendarCacheBusinessLayer($c, $bds, $cmp);
+		});
+		$this->getContainer()->registerService('CalendarRequestBusinessLayer', function(IAppContainer $c) {
+			$bds = $c->query('backends');
+			$cmp = $c->query('CalendarMapper');
+			$obl = $c->query('ObjectBusinessLayer');
+
+			return new CalendarRequestBusinessLayer($c, $bds, $cmp, $obl);
 		});
 		$this->getContainer()->registerService('ObjectBusinessLayer', function(IAppContainer $c) {
 			$bds = $c->query('backends');

@@ -23,14 +23,11 @@ namespace OCA\Calendar\BusinessLayer;
 
 use OCP\AppFramework\Http;
 use OCP\Calendar\Backend;
-use OCP\Calendar\IBackend;
 use OCP\Calendar\IBackendCollection;
 use OCP\Calendar\ICalendar;
 use OCP\Calendar\BackendException;
 use OCP\Calendar\DoesNotExistException;
 use OCP\Calendar\MultipleObjectsReturnedException;
-use OCA\Calendar\Db\Permissions;
-use OCA\Calendar\Utility\CalendarUtility;
 
 class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 
@@ -181,49 +178,6 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 
 
 	/**
-	 * Creates a new calendar from request
-	 * @param \OCP\Calendar\ICalendar $calendar
-	 * @return \OCP\Calendar\ICalendar
-	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
-	 * if name exists already
-	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
-	 * if backend does not exist
-	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
-	 * if backend is disabled
-	 */
-	public function createFromRequest(ICalendar $calendar) {
-		$userId = $this->api->getUserId();
-		/** @var IBackend $firstBackend */
-		$firstBackend = $this->backends->reset();
-		$defaultBackend = $firstBackend->getBackend();
-
-		$setIfNull = array(
-			'userId' => $userId,
-			'ownerId' => $userId,
-			'backend' => $defaultBackend,
-			'cruds' => Permissions::ALL,
-			'ctag' => 0,
-			'enabled' => true,
-			'order' => 0
-		);
-
-		foreach($setIfNull as $property => $default) {
-			$getter = 'get' . ucfirst($property);
-			$setter = 'set' . ucfirst($property);
-
-			if ($calendar->$getter() === null) {
-				$calendar->$setter($default);
-			}
-		}
-
-		$this->checkUriOrDisplaynameExists($calendar);
-		$this->generatePublicUri($calendar);
-
-		return $this->create($calendar);
-	}
-
-
-	/**
 	 * Update a calendar
 	 * @param \OCP\Calendar\ICalendar $newCalendar
 	 * @return \OCP\Calendar\ICalendar
@@ -253,45 +207,6 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 			$this->app->log($ex->getMessage(), 'debug');
 			throw new BusinessLayerException($ex->getMessage());
 		}
-	}
-
-
-	/**
-	 * Update a calendar from request
-	 * @param \OCP\Calendar\ICalendar $newCalendar
-	 * @param \OCP\Calendar\ICalendar $oldCalendar
-	 * @return \OCP\Calendar\ICalendar
-	 */
-	public function updateFromRequest(ICalendar $newCalendar,
-									  ICalendar $oldCalendar) {
-		$newCalendar->setId($oldCalendar->getId());
-		$newCalendar->setPrivateUri($oldCalendar->getPrivateUri());
-
-		$this->resetReadOnlyProperties($newCalendar, $oldCalendar);
-
-		return $this->update($newCalendar);
-	}
-
-
-	/**
-	 * Patch a calendar from request
-	 * @param \OCP\Calendar\ICalendar $newCalendar
-	 * @param \OCP\Calendar\ICalendar $oldCalendar
-	 * @return \OCP\Calendar\ICalendar
-	 */
-	public function patchFromRequest(ICalendar $newCalendar,
-									 ICalendar $oldCalendar) {
-		$newCalendar->setId($oldCalendar->getId());
-		$newCalendar->setPrivateUri($oldCalendar->getPrivateUri());
-
-		$this->resetReadOnlyProperties($newCalendar, $oldCalendar);
-
-		if ($newCalendar->doesContainNullValues()) {
-			$newCalendar = $oldCalendar->overwriteWith($newCalendar);
-		}
-
-		/** @var \OCP\Calendar\ICalendar $newCalendar */
-		return $this->update($newCalendar);
 	}
 
 
@@ -388,63 +303,6 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 			!$this->doesExist($newCalendar->getPublicUri(),
 							  $newCalendar->getUserId()) ||
 			$newCalendar->getUserId() !== $oldCalendar->getUserId());
-	}
-
-
-	/**
-	 * Reset values that shall not be updated by the user directly
-	 * @param \OCP\Calendar\ICalendar &$newCalendar
-	 * @param \OCP\Calendar\ICalendar &$oldCalendar
-	 */
-	private function resetReadOnlyProperties(ICalendar &$newCalendar,
-											 ICalendar &$oldCalendar) {
-		$newCalendar->setUserId($oldCalendar->getUserId());
-		$newCalendar->setOwnerId($oldCalendar->getOwnerId());
-		$newCalendar->setCruds($oldCalendar->getCruds());
-		$newCalendar->setCtag($oldCalendar->getCruds());
-	}
-
-
-	/**
-	 * Make sure either a publicUri or a displayname are set
-	 * @param \OCP\Calendar\ICalendar $calendar
-	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
-	 */
-	private function checkUriOrDisplaynameExists(ICalendar $calendar) {
-		if (($calendar->getDisplayname() === null ||
-			trim($calendar->getDisplayname()) === '') &&
-			$calendar->getPublicUri() === null) {
-			throw new BusinessLayerException(
-				'Please enter a calendar-name',
-				Http::STATUS_UNPROCESSABLE_ENTITY
-			);
-		}
-	}
-
-
-	/**
-	 * Generate a unique public uri
-	 * @param \OCP\Calendar\ICalendar $calendar
-	 */
-	private function generatePublicUri(ICalendar &$calendar) {
-		if ($calendar->getPublicUri() === null) {
-			$suggestedURI = mb_strtolower($calendar->getDisplayname());
-		} else {
-			$suggestedURI = $calendar->getPublicUri();
-		}
-		$suggestedURI = CalendarUtility::slugify($suggestedURI);
-
-		while($this->doesExist($suggestedURI, $calendar->getUserId())) {
-			$newSuggestedURI = CalendarUtility::suggestURI($suggestedURI);
-
-			if ($newSuggestedURI === $suggestedURI) {
-				break;
-			}
-			$suggestedURI = $newSuggestedURI;
-		}
-
-		$calendar->setPublicUri($suggestedURI);
-		$calendar->setPrivateUri($suggestedURI);
 	}
 
 

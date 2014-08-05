@@ -39,7 +39,7 @@ class CalendarController extends Controller {
 
 	/**
 	 * Calendar-Businesslayer object
-	 * @var \OCA\Calendar\BusinessLayer\CalendarBusinessLayer
+	 * @var \OCA\Calendar\BusinessLayer\CalendarRequestBusinessLayer
 	 */
 	protected $calendars;
 
@@ -136,9 +136,7 @@ class CalendarController extends Controller {
 			$calendar = $this->readInput();
 
 			if ($calendar instanceof ICalendar) {
-				return $this->calendars->createFromRequest(
-					$calendar
-				);
+				return $this->calendars->create($calendar);
 			} elseif ($calendar instanceof ICalendarCollection) {
 				throw new ReaderException(
 					'Creating calendar-collections not supported'
@@ -184,10 +182,7 @@ class CalendarController extends Controller {
 			if ($calendar instanceof ICalendar) {
 				$oldCalendar = $this->findByIdAndUserId($id, $userId);
 
-				return $this->calendars->updateFromRequest(
-					$calendar,
-					$oldCalendar
-				);
+				return $this->calendars->update($calendar, $oldCalendar);
 			} elseif ($calendar instanceof ICalendarCollection) {
 				throw new ReaderException(
 					'Updates can only be applied to a single resource'
@@ -233,10 +228,7 @@ class CalendarController extends Controller {
 			if ($calendar instanceof ICalendar) {
 				$oldCalendar = $this->findByIdAndUserId($id, $userId);
 
-				return $this->calendars->patchFromRequest(
-					$calendar,
-					$oldCalendar
-				);
+				return $this->calendars->patch($calendar, $oldCalendar);
 			} elseif ($calendar instanceof ICalendarCollection) {
 				throw new ReaderException(
 					'Patches can only be applied to a single resource'
