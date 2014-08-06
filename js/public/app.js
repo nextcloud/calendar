@@ -1214,18 +1214,23 @@ app.factory('EventsModel', function () {
 			if (this.components.jCal.length !== 0) {
 				for (var i = 0; i < this.vevents.length; i++) {
 					console.log(this.vevents[i]);
-					if (!isCorrectEvent(event, this.vevents[i])) {
-						this.components.addSubcomponent(this.vevents[i]);
-						continue;
-					}
-					if (!this.vevents[i].hasProperty('attendee')) {
-						var property = new ICAL.Property('attendee');
-						property.setParameter('role', 'NON-PARTICIPANT');
-						property.setValue('NON-PARTICIPANT');
-						console.log(property.toICALString());
-					} else {
-						console.log('blah');
-					}
+					console.log(attendee);
+					//if (!isCorrectEvent(event, this.vevents[i])) {
+					//	this.components.addSubcomponent(this.vevents[i]);
+					//	continue;
+					//}
+
+					var property = new ICAL.Property('attendee');
+
+					property.setParameter('ROLE', 'REQ-PARTICIPANT');
+					property.setParameter('RVSP', true);
+					property.setParameter('PARTSTAT', 'NEEDS-ACTION');
+					property.setParameter('CUTYPE', 'INDIVIDUAL');
+					property.setParameter('X-OC-SENTMAIL', false);
+
+					property.setValue('email addr');
+
+					console.log(property.toJSON());
 				}
 			}
 		},
