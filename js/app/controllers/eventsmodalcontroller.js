@@ -48,5 +48,9 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 				EventsModel.getrecurrencedialog('#repeatdialog');
 			}
 		};
+
+		$scope.updateattendee = function () {
+			EventsModel.addattendee();
+		};
 	}
 ]);

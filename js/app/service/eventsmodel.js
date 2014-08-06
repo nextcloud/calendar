@@ -31,6 +31,8 @@ app.factory('EventsModel', function () {
 			id: '',
 			changer: ''
 		}; // required for switching the calendars on the fullcalendar
+		this.components = {};
+		this.vevents = {};
 		this.eventsmodalproperties = {
 			"event": '',
 			"jsEvent": '',
@@ -228,40 +230,40 @@ app.factory('EventsModel', function () {
 			return (didFindEvent) ? components.toString() : null;
 		},
 		modalpropertyholder: function (event, jsEvent, view, jcalData) {
-			var components = new ICAL.Component(jcalData);
-			var vevents = components.getAllSubcomponents('vevent');
-			if (components.jCal.length !== 0) {
-				for (var i = 0; i < vevents.length; i++) {
-					if (!isCorrectEvent(event, vevents[i])) {
-						components.addSubcomponent(vevents[i]);
+			this.components = new ICAL.Component(jcalData);
+			this.vevents = this.components.getAllSubcomponents('vevent');
+			if (this.components.jCal.length !== 0) {
+				for (var i = 0; i < this.vevents.length; i++) {
+					if (!isCorrectEvent(event, this.vevents[i])) {
+						this.components.addSubcomponent(vevents[i]);
 						continue;
 					}
 					this.eventobject = {
-						"title" : vevents[i].getFirstPropertyValue('summary'),
-						"location" : vevents[i].getFirstPropertyValue('location'),
-						"categoties" : vevents[i].getFirstPropertyValue('category'),
-						"description" : vevents[i].getFirstPropertyValue('description')
+						"title" : this.vevents[i].getFirstPropertyValue('summary'),
+						"location" : this.vevents[i].getFirstPropertyValue('location'),
+						"categoties" : this.vevents[i].getFirstPropertyValue('category'),
+						"description" : this.vevents[i].getFirstPropertyValue('description')
 					};
 				}
 			}
 		},
-		addattendee: function (event,jcalData,attendee) {
-			var components = new ICAL.Component(jcalData);
-			var vevents = components.getAllSubcomponents("vevent");
+		addattendee: function (attendee) {
+			this.components.removeAllSubcomponents('vevent');
 
-			components.removeAllSubcomponents('vevent');
-
-			if (components.jCal.length !== 0) {
-				for (var i = 0; i < vevents.length; i++) {
-					if (!isCorrectEvent(event, vevents[i])) {
-						components.addSubcomponent(vevents[i]);
+			if (this.components.jCal.length !== 0) {
+				for (var i = 0; i < this.vevents.length; i++) {
+					console.log(this.vevents[i]);
+					if (!isCorrectEvent(event, this.vevents[i])) {
+						this.components.addSubcomponent(this.vevents[i]);
 						continue;
 					}
-					if (!vevents[i].hasProperty('attendee')) {
+					if (!this.vevents[i].hasProperty('attendee')) {
 						var property = new ICAL.Property('attendee');
 						property.setParameter('role', 'NON-PARTICIPANT');
 						property.setValue('NON-PARTICIPANT');
 						console.log(property.toICALString());
+					} else {
+						console.log('blah');
 					}
 				}
 			}

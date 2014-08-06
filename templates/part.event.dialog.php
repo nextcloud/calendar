@@ -63,11 +63,5 @@
 		<button id="eventupdatebutton" ng-click="update()" class="btn primary">
 			<?php p($l->t('Update')); ?>
 		</button>
-		<button id="advanced_options_button" ng-click="advancedoptions = !advancedoptions">
-			<?php p($l->t('Advanced options')); ?>
-		</button>
 	</fieldset>
-	<div ng-hide="advancedoptions" id="advancedoptions">
-		<p>yoyo</p>
-	</div>
 </div>
