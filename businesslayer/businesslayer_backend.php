@@ -48,6 +48,7 @@ abstract class BackendCollectionBusinessLayer extends BusinessLayer {
 		$this->backends = $backends;
 	}
 
+
 	/**
 	 * check if a backend does support a certain action
 	 * @param string $backend

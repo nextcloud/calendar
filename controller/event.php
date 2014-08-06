@@ -25,7 +25,7 @@ use \OCP\AppFramework\IAppContainer;
 use \OCP\IRequest;
 
 use \OCA\Calendar\BusinessLayer\CalendarBusinessLayer;
-use \OCA\Calendar\BusinessLayer\ObjectBusinessLayer;
+use \OCA\Calendar\BusinessLayer\ObjectRequestBusinessLayer;
 
 use \OCA\Calendar\Db\ObjectType;
 
@@ -35,11 +35,11 @@ class EventController extends ObjectTypeController {
 	 * constructor
 	 * @param IAppContainer $app interface to the app
 	 * @param IRequest $request an instance of the request
-	 * @param ObjectBusinessLayer $objectBusinessLayer
+	 * @param ObjectRequestBusinessLayer $objectBusinessLayer
 	 * @param CalendarBusinessLayer $calendarBusinessLayer
 	 */
 	public function __construct(IAppContainer $app, IRequest $request,
-								ObjectBusinessLayer $objectBusinessLayer,
+								ObjectRequestBusinessLayer $objectBusinessLayer,
 								CalendarBusinessLayer $calendarBusinessLayer){
 		parent::__construct(
 			$app,

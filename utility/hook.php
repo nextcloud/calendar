@@ -26,6 +26,30 @@ class HookUtility extends Utility {
 	/**
 	 *
 	 */
+	public static function createObject() {
+
+	}
+
+
+	/**
+	 *
+	 */
+	public static function updateObject() {
+
+	}
+
+
+	/**
+	 *
+	 */
+	public static function deleteObject() {
+
+	}
+
+
+	/**
+	 *
+	 */
 	public static function share() {
 		//TODO update cache for sharing backend
 		//TODO depends on how much the share api provides

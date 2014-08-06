@@ -28,7 +28,7 @@ use OCP\IRequest;
 use OCA\Calendar\BusinessLayer\BusinessLayerException;
 use OCA\Calendar\Db\Permissions;
 use OCA\Calendar\BusinessLayer\CalendarBusinessLayer;
-use OCA\Calendar\BusinessLayer\ObjectBusinessLayer;
+use OCA\Calendar\BusinessLayer\ObjectRequestBusinessLayer;
 use OCA\Calendar\Http\Response;
 use OCA\Calendar\Http\SerializerException;
 use DateTime;
@@ -46,12 +46,12 @@ abstract class ObjectTypeController extends ObjectController {
 	 * constructor
 	 * @param IAppContainer $app interface to the app
 	 * @param IRequest $request an instance of the request
-	 * @param ObjectBusinessLayer $objectBusinessLayer
+	 * @param ObjectRequestBusinessLayer $objectBusinessLayer
 	 * @param CalendarBusinessLayer $calendarBusinessLayer
 	 * @param integer $type
 	 */
 	public function __construct(IAppContainer $app, IRequest $request,
-								ObjectBusinessLayer $objectBusinessLayer,
+								ObjectRequestBusinessLayer $objectBusinessLayer,
 								CalendarBusinessLayer $calendarBusinessLayer,
 								$type){
 

@@ -30,6 +30,7 @@ use OCA\Calendar\BusinessLayer\CalendarCacheBusinessLayer;
 use OCA\Calendar\BusinessLayer\CalendarRequestBusinessLayer;
 use OCA\Calendar\BusinessLayer\ObjectBusinessLayer;
 use OCA\Calendar\BusinessLayer\ObjectCacheBusinessLayer;
+use OCA\Calendar\BusinessLayer\ObjectRequestBusinessLayer;
 use OCA\Calendar\BusinessLayer\SubscriptionBusinessLayer;
 use OCA\Calendar\BusinessLayer\TimezoneBusinessLayer;
 use OCA\Calendar\Controller\BackendController;
@@ -114,28 +115,28 @@ class App extends \OCP\AppFramework\App {
 		});
 		$this->getContainer()->registerService('ObjectController', function(IAppContainer $c) {
 			$req = $c->query('Request');
-			$obl = $c->query('ObjectBusinessLayer');
+			$obl = $c->query('ObjectRequestBusinessLayer');
 			$cbl = $c->query('CalendarBusinessLayer');
 
 			return new ObjectController($c, $req, $obl, $cbl);
 		});
 		$this->getContainer()->registerService('EventController', function(IAppContainer $c) {
 			$req = $c->query('Request');
-			$obl = $c->query('ObjectBusinessLayer');
+			$obl = $c->query('ObjectRequestBusinessLayer');
 			$cbl = $c->query('CalendarBusinessLayer');
 
 			return new EventController($c, $req, $obl, $cbl);
 		});
 		$this->getContainer()->registerService('JournalController', function(IAppContainer $c) {
 			$req = $c->query('Request');
-			$obl = $c->query('ObjectBusinessLayer');
+			$obl = $c->query('ObjectRequestBusinessLayer');
 			$cbl = $c->query('CalendarBusinessLayer');
 
 			return new JournalController($c, $req, $obl, $cbl);
 		});
 		$this->getContainer()->registerService('TodoController', function(IAppContainer $c) {
 			$req = $c->query('Request');
-			$obl = $c->query('ObjectBusinessLayer');
+			$obl = $c->query('ObjectRequestBusinessLayer');
 			$cbl = $c->query('CalendarBusinessLayer');
 
 			return new TodoController($c, $req, $obl, $cbl);
@@ -199,6 +200,12 @@ class App extends \OCP\AppFramework\App {
 			$omp = $c->query('ObjectMapper');
 
 			return new ObjectBusinessLayer($c, $bds, $omp);
+		});
+		$this->getContainer()->registerService('ObjectRequestBusinessLayer', function(IAppContainer $c) {
+			$bds = $c->query('backends');
+			$omp = $c->query('ObjectMapper');
+
+			return new ObjectRequestBusinessLayer($c, $bds, $omp);
 		});
 		$this->getContainer()->registerService('ObjectBusinessLayerWithoutSharing', function(IAppContainer $c) {
 			$bds = $c->query('backendsWithoutSharing');
@@ -356,13 +363,25 @@ class App extends \OCP\AppFramework\App {
 
 
 	public function registerHooks() {
+		//Calendar-internal hooks
+		Util::connectHook('OCP\Calendar', 'postCreateObject',
+			'\OCA\Calendar\Util\HookUtility', 'createObject');
+		Util::connectHook('OCP\Calendar', 'postUpdateObject',
+			'\OCA\Calendar\Util\HookUtility', 'updateObject');
+		Util::connectHook('OCP\Calendar', 'postDeleteObject',
+			'\OCA\Calendar\Util\HookUtility', 'deleteObject');
+
 		//Sharing hooks
-		Util::connectHook('OCP\Share', 'post_shared', '\OCA\Calendar\Util\HookUtility', 'share');
-		Util::connectHook('OCP\Share', 'post_unshare', '\OCA\Calendar\Util\HookUtility', 'unshare');
+		Util::connectHook('OCP\Share', 'post_shared',
+			'\OCA\Calendar\Util\HookUtility', 'share');
+		Util::connectHook('OCP\Share', 'post_unshare',
+			'\OCA\Calendar\Util\HookUtility', 'unshare');
 
 		//User hooks
-		Util::connectHook('OC_User', 'post_createUser', '\OCA\Calendar\Util\HookUtility', 'createUser');
-		Util::connectHook('OC_User', 'post_createUser', '\OCA\Calendar\Util\HookUtility', 'deleteUser');
+		Util::connectHook('OC_User', 'post_createUser',
+			'\OCA\Calendar\Util\HookUtility', 'createUser');
+		Util::connectHook('OC_User', 'post_createUser',
+			'\OCA\Calendar\Util\HookUtility', 'deleteUser');
 	}
 
 

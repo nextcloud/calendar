@@ -29,7 +29,7 @@ use OCP\Calendar\IObjectCollection;
 use OCP\IRequest;
 use OCA\Calendar\BusinessLayer\BusinessLayerException;
 use OCA\Calendar\BusinessLayer\CalendarBusinessLayer;
-use OCA\Calendar\BusinessLayer\ObjectBusinessLayer;
+use OCA\Calendar\BusinessLayer\ObjectRequestBusinessLayer;
 use OCA\Calendar\Db\Permissions;
 use OCA\Calendar\Http\Response;
 use OCA\Calendar\Http\TextDownloadResponse;
@@ -53,7 +53,7 @@ class ObjectController extends Controller {
 
 	/**
 	 * object businesslayer
-	 * @var ObjectBusinessLayer
+	 * @var ObjectRequestBusinessLayer
 	 */
 	protected $objects;
 
@@ -62,11 +62,11 @@ class ObjectController extends Controller {
 	 * constructor
 	 * @param IAppContainer $app interface to the app
 	 * @param IRequest $request an instance of the request
-	 * @param ObjectBusinessLayer $objectBusinessLayer
+	 * @param ObjectRequestBusinessLayer $objectBusinessLayer
 	 * @param CalendarBusinessLayer $calendarBusinessLayer
 	 */
 	public function __construct(IAppContainer $app, IRequest $request,
-								ObjectBusinessLayer $objectBusinessLayer,
+								ObjectRequestBusinessLayer $objectBusinessLayer,
 								CalendarBusinessLayer $calendarBusinessLayer) {
 		parent::__construct($app, $request);
 		$this->objects = $objectBusinessLayer;
@@ -264,7 +264,7 @@ class ObjectController extends Controller {
 
 			if ($object instanceof IObject) {
 				$object->setCalendar($calendar);
-				$object = $this->objects->createFromRequest(
+				$object = $this->objects->create(
 					$object
 				);
 			} elseif ($object instanceof IObjectCollection) {
@@ -327,7 +327,7 @@ class ObjectController extends Controller {
 			}
 
 			if ($object instanceof IObject) {
-				$object = $this->objects->updateFromRequest(
+				$object = $this->objects->update(
 					$object,
 					$calendar,
 					$id,
@@ -487,12 +487,12 @@ class ObjectController extends Controller {
 
 			if ($object instanceof IObject) {
 				$object->setCalendar($calendar);
-				$object = $this->objects->createFromImport(
+				$object = $this->objects->create(
 					$object
 				);
 			} elseif ($object instanceof IObjectCollection) {
 				$object->setProperty('calendar', $calendar);
-				$object = $this->objects->createCollectionFromImport(
+				$object = $this->objects->createCollection(
 					$object
 				);
 			} else {

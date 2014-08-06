@@ -45,6 +45,7 @@
 \OC::$CLASSPATH['OCA\Calendar\BusinessLayer\CalendarRequestBusinessLayer'] = 'calendar/businesslayer/calendarrequest.php';
 \OC::$CLASSPATH['OCA\Calendar\BusinessLayer\ObjectBusinessLayer'] = 'calendar/businesslayer/object.php';
 \OC::$CLASSPATH['OCA\Calendar\BusinessLayer\ObjectCacheBusinessLayer'] = 'calendar/businesslayer/objectcache.php';
+\OC::$CLASSPATH['OCA\Calendar\BusinessLayer\ObjectRequestBusinessLayer'] = 'calendar/businesslayer/objectrequest.php';
 \OC::$CLASSPATH['OCA\Calendar\BusinessLayer\SubscriptionBusinessLayer'] = 'calendar/businesslayer/subscription.php';
 \OC::$CLASSPATH['OCA\Calendar\BusinessLayer\TimezoneBusinessLayer'] = 'calendar/businesslayer/timezone.php';
 
