@@ -35,12 +35,14 @@
 	font-size:20px;
 }
 
-#events input, #eventupdatebutton {
+#events input, #eventupdatebutton, #addmoreattendees {
 	float:right;
 }
 
-#addmoreattendees {
+#listofattendees {
 	float:left;
+	margin:10px;
+	width: 100%;
 }
 
 #events select {

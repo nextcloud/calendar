@@ -57,6 +57,11 @@
 			<input type="text" class="event-attendees-name" ng-model="nameofattendee"
 				placeholder="<?php p($l->t('Name/Email'))?>" name="nameofattendee" />
 		</div>
+		<ul id="listofattendees">
+			<li ng-repeat="attendee in properties.attendees">
+				{{ attendee.value }}
+			</li>
+		</ul>
 		<button id="addmoreattendees" ng-click="addmoreattendees()" class="btn">
 			<?php p($l->t('Add')); ?>
 		</button>
