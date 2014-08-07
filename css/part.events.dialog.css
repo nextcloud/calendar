@@ -35,29 +35,22 @@
 	font-size:20px;
 }
 
-#events input, #eventupdatebutton, #addmoreattendees {
+#events input, #eventupdatebutton {
 	float:right;
+}
+
+#addmoreattendees {
+	float:left;
 }
 
 #events select {
 	float:left;
 }
 
-#event-title, #event-location, #event-categories, #event-description,
-.event-attendees-role {
+#event-title, #event-location, #event-categories, #event-description, .event-attendees-name {
 	box-sizing: border-box;
 	width: 75% !important;
 	margin: 3px 0 !important;
-}
-
-.event-attendees-partstats, .event-attendees-cutstats {
-	width:15%;
-	margin:3px 0;
-}
-
-.event-attendees-rsvp {
-	float:left !important;
-	margin:15px 0 !important;
 }
 
 #event-title {

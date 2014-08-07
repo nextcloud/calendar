@@ -53,19 +53,9 @@
 	<fieldset>
 		<h3><?php p($l->t('Attendees')); ?></h3>
 		<div id="attendeearea">
-			<label class="bold"><?php p($l->t('Role')); ?></label>
-			<input type="text" class="event-attendees-role" ng-model="roleofattendee"
-				placeholder="<?php p($l->t('Attendee Role'))?>" name="roleofattendee" />
-			<label class="bold"><?php p($l->t('Status')); ?></label>
-			<select class="event-attendees-partstats">
-				<option ng-repeat="partstat in partstats"> {{ partstat.displayname }}</option>
-			</select>
-			<label class="bold"><?php p($l->t('Type of Calendar')); ?></label>
-			<select class="event-attendees-cutstats">
-				<option ng-repeat="cutstat in cutstats"> {{ cutstat.displayname }}</option>
-			</select>
-			<label class="bold"><?php p($l->t('RSVP')); ?></label>
-			<input type="checkbox" class="event-attendees-rsvp" />
+			<label class="bold"><?php p($l->t('Name/Email')); ?></label>
+			<input type="text" class="event-attendees-name" ng-model="nameofattendee"
+				placeholder="<?php p($l->t('Name/Email'))?>" name="nameofattendee" />
 		</div>
 		<button id="addmoreattendees" ng-click="addmoreattendees()" class="btn">
 			<?php p($l->t('Add')); ?>

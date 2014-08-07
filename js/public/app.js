@@ -524,12 +524,21 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 
 		// TODO : This should duplicate the div for adding more than one attendee.
 		$scope.addmoreattendees = function () {
+			$scope.properties.attendees.push({
+				value: $scope.nameofattendee,
+				props: {
+					'ROLE': 'REQ-PARTICIPANT',
+					'RSVP': true,
+					'PARTSTAT': 'NEEDS-ACTION',
+					'X-OC-MAILSENT': false,
+					'CUTTYPE': 'INDIVIDUAL'
+				}
+			});
+			$scope.nameofattendee = '';
+			console.log($scope.properties);
 		};
 
 		$scope.update = function () {
-			$scope.properties.attendees.push({
-				ROLE: $scope.roleofattendee
-			});
 			console.log($scope.properties);
 		};
 	}
