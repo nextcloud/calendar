@@ -27,10 +27,12 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 
 		$scope.$watch('eventsmodel.eventobject', function (newval, oldval) {
 			if (newval.event !== '') {
-				$scope.eventstitle = newval.title;
-				$scope.eventslocation = newval.location;
-				$scope.eventscategories = newval.categories;
-				$scope.eventsdescription = newval.description;
+				$scope.properties = {
+					title : newval.title,
+					location : newval.location,
+					categories : newval.categories,
+					description : newval.description
+				};
 			}
 		});
 
@@ -49,8 +51,8 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 			}
 		};
 
-		$scope.updateattendee = function () {
-			EventsModel.addattendee();
+		$scope.update = function () {
+			console.log($scope.properties);
 		};
 	}
 ]);

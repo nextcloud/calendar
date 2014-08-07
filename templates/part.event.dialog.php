@@ -32,22 +32,22 @@
 	ng-init="advancedoptions = true;">
 	<fieldset>
 		<label class="bold"><?php p($l->t('Title')); ?></label>
-		<input ng-model="eventstitle" ng-maxlength="100" type="text" id="event-title"
+		<input ng-model="properties.title" ng-maxlength="100" type="text" id="event-title"
 			placeholder="<?php p($l->t('Title of the Event'));?>" name="title" autofocus="autofocus" />
 	</fieldset>
 	<fieldset>
 		<label class="bold"><?php p($l->t('Location')); ?></label>
-		<input ng-model="eventslocation" type="text" id="event-location"
+		<input ng-model="properties.location" type="text" id="event-location"
 			placeholder="<?php p($l->t('Events Location'));?>" name="location" />
 	</fieldset>
 	<fieldset>
 		<label class="bold"><?php p($l->t('Categories')); ?></label>
-		<input ng-model="eventscategories" type="text" id="event-categories"
+		<input ng-model="properties.categories" type="text" id="event-categories"
 			placeholder="<?php p($l->t('Separate Categories with comma'));?>" name="categories" />
 	</fieldset>
 	<fieldset>
 		<label class="bold"><?php p($l->t('Description')); ?></label>
-		<input ng-model="eventsdescription" type="text" id="event-description"
+		<input ng-model="properties.description" type="text" id="event-description"
 			placeholder="<?php p($l->t('Description'));?>" name="description" />
 	</fieldset>
 	<fieldset>
