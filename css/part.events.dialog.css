@@ -30,14 +30,34 @@
 	float:left;
 }
 
-#events input, #advanced_options_button, #eventupdatebutton {
+#events h3 {
+	margin:10px;
+	font-size:20px;
+}
+
+#events input, #eventupdatebutton, #addmoreattendees {
 	float:right;
 }
 
-#event-title, #event-location, #event-categories, #event-description {
+#events select {
+	float:left;
+}
+
+#event-title, #event-location, #event-categories, #event-description,
+.event-attendees-role {
 	box-sizing: border-box;
-	width: 75%;
-	margin: 3px 0;
+	width: 75% !important;
+	margin: 3px 0 !important;
+}
+
+.event-attendees-partstats, .event-attendees-cutstats {
+	width:15%;
+	margin:3px 0;
+}
+
+.event-attendees-rsvp {
+	float:left !important;
+	margin:15px 0 !important;
 }
 
 #event-title {

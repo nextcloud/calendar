@@ -51,14 +51,26 @@
 			placeholder="<?php p($l->t('Description'));?>" name="description" />
 	</fieldset>
 	<fieldset>
-		<label><?php p($l->t('Attendees'))?></label>
-		<input ng-model="eventattendees" type="text" id="event-attendees"
-			placeholder="<?php p($l->t('Attendee / Email'));?>" name="attendees" />
-		<button id="attendeeupdatebutton" ng-click="updateattendee()" class="btn primary">
+		<h3><?php p($l->t('Attendees')); ?></h3>
+		<div id="attendeearea">
+			<label class="bold"><?php p($l->t('Role')); ?></label>
+			<input type="text" class="event-attendees-role" ng-model="roleofattendee"
+				placeholder="<?php p($l->t('Attendee Role'))?>" name="roleofattendee" />
+			<label class="bold"><?php p($l->t('Status')); ?></label>
+			<select class="event-attendees-partstats">
+				<option ng-repeat="partstat in partstats"> {{ partstat.displayname }}</option>
+			</select>
+			<label class="bold"><?php p($l->t('Type of Calendar')); ?></label>
+			<select class="event-attendees-cutstats">
+				<option ng-repeat="cutstat in cutstats"> {{ cutstat.displayname }}</option>
+			</select>
+			<label class="bold"><?php p($l->t('RSVP')); ?></label>
+			<input type="checkbox" class="event-attendees-rsvp" />
+		</div>
+		<button id="addmoreattendees" ng-click="addmoreattendees()" class="btn">
 			<?php p($l->t('Add')); ?>
 		</button>
 	</fieldset>
-
 	<fieldset>
 		<button id="eventupdatebutton" ng-click="update()" class="btn primary">
 			<?php p($l->t('Update')); ?>

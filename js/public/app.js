@@ -487,7 +487,8 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 					title : newval.title,
 					location : newval.location,
 					categories : newval.categories,
-					description : newval.description
+					description : newval.description,
+					attendees : []
 				};
 			}
 		});
@@ -501,13 +502,34 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 			{ val: t('calendar', 'Other'), id: '4' }
 		];
 
+		$scope.cutstats = [
+			{ displayname: t('Calendar', 'Individual'), val : 'INDIVIDUAL' },
+			{ displayname: t('Calendar', 'Group'), val : 'GROUP' },
+			{ displayname: t('Calendar', 'Resource'), val : 'RESOURCE' },
+			{ displayname: t('Calendar', 'Room'), val : 'ROOM' },
+			{ displayname: t('Calendar', 'Unknown'), val : 'UNKNOWN' }
+		];
+
+		$scope.partstats = [
+			{ displayname: t('Calendar', 'Required'), val : 'REQ-PARTICIPANT' },
+			{ displayname: t('Calendar', 'Optional'), val : 'OPT-PARTICIPANT' },
+			{ displayname: t('Calendar', 'Copied for Info'), val : 'NON-PARTICIPANT' }
+		];
+
 		$scope.changerecurrence = function (id) {
 			if (id==='4') {
 				EventsModel.getrecurrencedialog('#repeatdialog');
 			}
 		};
 
+		// TODO : This should duplicate the div for adding more than one attendee.
+		$scope.addmoreattendees = function () {
+		};
+
 		$scope.update = function () {
+			$scope.properties.attendees.push({
+				ROLE: $scope.roleofattendee
+			});
 			console.log($scope.properties);
 		};
 	}
