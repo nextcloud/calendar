@@ -273,6 +273,9 @@ app.factory('EventsModel', function () {
 				}
 			}
 		},
+		updateevent : function (updated) {
+			console.log(updated);
+		},
 		addEvent: function (id) {
 			this.calid.changer = Math.random(1000);
 			this.calid.id = id;

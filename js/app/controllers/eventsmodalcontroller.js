@@ -79,11 +79,10 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 				}
 			});
 			$scope.nameofattendee = '';
-			console.log($scope.properties);
 		};
 
 		$scope.update = function () {
-			console.log($scope.properties);
+			EventsModel.updateevent($scope.properties);
 		};
 	}
 ]);

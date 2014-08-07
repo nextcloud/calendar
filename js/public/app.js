@@ -535,11 +535,10 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 				}
 			});
 			$scope.nameofattendee = '';
-			console.log($scope.properties);
 		};
 
 		$scope.update = function () {
-			console.log($scope.properties);
+			EventsModel.updateevent($scope.properties);
 		};
 	}
 ]);
@@ -1266,6 +1265,9 @@ app.factory('EventsModel', function () {
 					console.log(property.toJSON());
 				}
 			}
+		},
+		updateevent : function (updated) {
+			console.log(updated);
 		},
 		addEvent: function (id) {
 			this.calid.changer = Math.random(1000);
