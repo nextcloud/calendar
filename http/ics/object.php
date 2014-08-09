@@ -21,10 +21,8 @@
  */
 namespace OCA\Calendar\Http\ICS;
 
-use OCP\Calendar\IEntity;
-use OCP\Calendar\ICollection;
 use OCA\Calendar\Http\TextResponse;
-use OCA\Calendar\Utility\SabreUtility;
+use OCA\Calendar\Utility\ObjectUtility;
 
 class ICSObjectResponse extends TextResponse {
 
@@ -34,19 +32,6 @@ class ICSObjectResponse extends TextResponse {
 
 
 	public function serializeData() {
-		if ($this->input instanceof IEntity || $this->input instanceof ICollection) {
-			/* @var \OCA\Calendar\Sabre\VObject\Component\VCalendar $vcalendar */
-			$vcalendar = $this->input->getVObject();
-			$timezoneMapper = $this->app->query('TimezoneMapper');
-
-			SabreUtility::addMissingVTimezones(
-				$vcalendar,
-				$timezoneMapper
-			);
-
-			$this->data = $vcalendar->serialize();
-		} else {
-			$this->data = '';
-		}
+		ObjectUtility::serializeDataWithTimezones($this->input, $this->app, $this->data, false);
 	}
 }

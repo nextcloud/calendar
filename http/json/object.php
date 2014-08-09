@@ -21,11 +21,9 @@
  */
 namespace OCA\Calendar\Http\JSON;
 
-use OCP\Calendar\IEntity;
+use OCA\Calendar\Utility\ObjectUtility;
 use OCP\Calendar\IObject;
-use OCP\Calendar\ICollection;
 use OCA\Calendar\Http\JSONResponse;
-use OCA\Calendar\Utility\SabreUtility;
 
 class JSONObjectResponse extends JSONResponse {
 
@@ -42,19 +40,6 @@ class JSONObjectResponse extends JSONResponse {
 	 * get json-encoded string containing all information
 	 */
 	public function serializeData() {
-		if ($this->input instanceof IEntity || $this->input instanceof ICollection) {
-			/* @var \OCA\Calendar\Sabre\VObject\Component\VCalendar $vcalendar */
-			$vcalendar = $this->input->getVObject();
-			$timezoneMapper = $this->app->query('TimezoneMapper');
-
-			SabreUtility::addMissingVTimezones(
-				$vcalendar,
-				$timezoneMapper
-			);
-
-			$this->data = $vcalendar->jsonSerialize();
-		} else {
-			$this->data = array();
-		}
+		ObjectUtility::serializeDataWithTimezones($this->input, $this->app, $this->data, true);
 	}
 }

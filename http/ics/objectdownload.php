@@ -22,10 +22,9 @@
 namespace OCA\Calendar\Http\ICS;
 
 use OCP\AppFramework\IAppContainer;
-use OCP\Calendar\IEntity;
-use OCP\Calendar\ICollection;
+use OCA\Calendar\Utility\ObjectUtility;
+
 use OCA\Calendar\Http\TextDownloadResponse;
-use OCA\Calendar\Utility\SabreUtility;
 
 class ICSObjectDownloadResponse extends TextDownloadResponse {
 
@@ -54,19 +53,6 @@ class ICSObjectDownloadResponse extends TextDownloadResponse {
 
 
 	public function serializeData() {
-		if ($this->input instanceof IEntity || $this->input instanceof ICollection) {
-			/* @var \OCA\Calendar\Sabre\VObject\Component\VCalendar $vcalendar */
-			$vcalendar = $this->input->getVObject();
-			$timezoneMapper = $this->app->query('TimezoneMapper');
-
-			SabreUtility::addMissingVTimezones(
-				$vcalendar,
-				$timezoneMapper
-			);
-
-			$this->data = $vcalendar->serialize();
-		} else {
-			$this->data = '';
-		}
+		ObjectUtility::serializeDataWithTimezones($this->input, $this->app, $this->data, false);
 	}
 }
