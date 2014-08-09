@@ -22,6 +22,7 @@
 namespace OCA\Calendar\Http\JSON;
 
 use OCP\Calendar\IEntity;
+use OCP\Calendar\IObject;
 use OCP\Calendar\ICollection;
 use OCA\Calendar\Http\JSONResponse;
 use OCA\Calendar\Utility\SabreUtility;
@@ -30,6 +31,10 @@ class JSONObjectResponse extends JSONResponse {
 
 	public function preSerialize() {
 		$this->addHeader('Content-type', 'application/calendar+json; charset=utf-8');
+
+		if ($this->input instanceof IObject) {
+			$this->addHeader('ETag', $this->input->getEtag(true));
+		}
 	}
 
 
