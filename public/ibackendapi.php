@@ -174,6 +174,7 @@ interface IBackendAPI {
 	 * find object
 	 * @param ICalendar $calendar
 	 * @param string $objectURI
+	 * @param integer $type
 	 * @returns IObject
 	 * @throws DoesNotExistException if calendar does not exist
 	 * @throws DoesNotExistException if object does not exist
@@ -183,12 +184,13 @@ interface IBackendAPI {
 	 * This method is mandatory!
 	 * @return IObject
 	 */
-	public function findObject(ICalendar &$calendar, $objectURI);
+	public function findObject(ICalendar &$calendar, $objectURI, $type=ObjectType::ALL);
 
 
 	/**
 	 * returns all objects in the calendar $calendarURI of the user $userId
 	 * @param ICalendar &$calendar
+	 * @param integer $type
 	 * @param integer $limit
 	 * @param integer $offset
 	 * @returns IObjectCollection
@@ -197,7 +199,7 @@ interface IBackendAPI {
 	 * This method returns an \OCA\Calendar\Db\ObjectCollection object.
 	 * This method is mandatory!
 	 */
-	public function findObjects(ICalendar &$calendar, $limit, $offset);
+	public function findObjects(ICalendar &$calendar, $type=ObjectType::ALL, $limit, $offset);
 
 
 	/**

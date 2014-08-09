@@ -23,6 +23,7 @@ namespace OCA\Calendar;
 
 use OC\AppFramework\Http\Request;
 use OCP\AppFramework\IAppContainer;
+use OCP\Calendar\ObjectType;
 use OCP\Share;
 use OCP\Util;
 use OCA\Calendar\BusinessLayer\CalendarBusinessLayer;
@@ -37,9 +38,6 @@ use OCA\Calendar\Controller\BackendController;
 use OCA\Calendar\Controller\CalendarController;
 use OCA\Calendar\Controller\SubscriptionController;
 use OCA\Calendar\Controller\ObjectController;
-use OCA\Calendar\Controller\EventController;
-use OCA\Calendar\Controller\JournalController;
-use OCA\Calendar\Controller\TodoController;
 use OCA\Calendar\Controller\TimezoneController;
 use OCA\Calendar\Controller\ScanController;
 use OCA\Calendar\Controller\SettingsController;
@@ -118,28 +116,28 @@ class App extends \OCP\AppFramework\App {
 			$obl = $c->query('ObjectRequestBusinessLayer');
 			$cbl = $c->query('CalendarBusinessLayer');
 
-			return new ObjectController($c, $req, $obl, $cbl);
+			return new ObjectController($c, $req, $obl, $cbl, ObjectType::ALL);
 		});
 		$this->getContainer()->registerService('EventController', function(IAppContainer $c) {
 			$req = $c->query('Request');
 			$obl = $c->query('ObjectRequestBusinessLayer');
 			$cbl = $c->query('CalendarBusinessLayer');
 
-			return new EventController($c, $req, $obl, $cbl);
+			return new ObjectController($c, $req, $obl, $cbl, ObjectType::EVENT);
 		});
 		$this->getContainer()->registerService('JournalController', function(IAppContainer $c) {
 			$req = $c->query('Request');
 			$obl = $c->query('ObjectRequestBusinessLayer');
 			$cbl = $c->query('CalendarBusinessLayer');
 
-			return new JournalController($c, $req, $obl, $cbl);
+			return new ObjectController($c, $req, $obl, $cbl, ObjectType::JOURNAL);
 		});
 		$this->getContainer()->registerService('TodoController', function(IAppContainer $c) {
 			$req = $c->query('Request');
 			$obl = $c->query('ObjectRequestBusinessLayer');
 			$cbl = $c->query('CalendarBusinessLayer');
 
-			return new TodoController($c, $req, $obl, $cbl);
+			return new ObjectController($c, $req, $obl, $cbl, ObjectType::TODO);
 		});
 		$this->getContainer()->registerService('ScanController', function(IAppContainer $c) {
 			$req = $c->query('Request');

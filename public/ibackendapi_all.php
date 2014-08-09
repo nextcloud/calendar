@@ -58,7 +58,8 @@ interface IFullyQualifiedBackend extends IBackendAPI {
 	 * @param string $oldUserId
 	 * @throws CacheOutDatedException
 	 */
-	public function moveCalendar(ICalendar &$calendar, $oldCalendarURI, $oldUserId);
+	public function moveCalendar(ICalendar &$calendar, $oldCalendarURI,
+								 $oldUserId);
 
 
 	/**
@@ -66,38 +67,15 @@ interface IFullyQualifiedBackend extends IBackendAPI {
 	 * @param ICalendar $calendar
 	 * @param DateTime $start
 	 * @param DateTime $end
-	 * @param integer $limit
-	 * @param integer $offset
-	 * @throws CacheOutDatedException
-	 * @return IObjectCollection
-	 */
-	public function findObjectsInPeriod(ICalendar $calendar, DateTime $start, DateTime $end, $limit, $offset);
-
-
-	/**
-	 * Find objects by type
-	 * @param ICalendar $calendar
 	 * @param integer $type
 	 * @param integer $limit
 	 * @param integer $offset
 	 * @throws CacheOutDatedException
 	 * @return IObjectCollection
 	 */
-	public function findObjectsByType(ICalendar $calendar, $type, $limit, $offset);
-
-
-	/**
-	 * Find objects by type in period
-	 * @param ICalendar $calendar
-	 * @param integer $type
-	 * @param DateTime $start
-	 * @param DateTime $end
-	 * @param integer $limit
-	 * @param integer $offset
-	 * @throws CacheOutDatedException
-	 * @return IObjectCollection
-	 */
-	public function findObjectsByTypeInPeriod(ICalendar $calendar, $type, DateTime $start, DateTime $end, $limit, $offset);
+	public function findObjectsInPeriod(ICalendar $calendar, DateTime $start,
+										DateTime $end, $type=ObjectType::ALL,
+										$limit, $offset);
 
 
 	/**

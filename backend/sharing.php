@@ -22,6 +22,7 @@
 namespace OCA\Calendar\Backend;
 
 use OCP\AppFramework\IAppContainer;
+use OCP\Calendar\ObjectType;
 use OCP\Share;
 use OCP\Calendar\Backend;
 use OCP\Calendar\ICalendar;
@@ -30,7 +31,6 @@ use OCP\Calendar\IObject;
 use OCP\Calendar\IObjectCollection;
 use OCP\Calendar\DoesNotExistException;
 use OCA\Calendar\Share\Calendar as CalendarShare;
-use OCA\Calendar\Db\Calendar;
 
 class Sharing extends Backend {
 
@@ -111,11 +111,12 @@ class Sharing extends Backend {
 	 * returns information about the object (event/journal/todo) with the uid $objectURI in the calendar $calendarURI of the user $userId
 	 * @param ICalendar $calendar
 	 * @param string $objectURI
+	 * @param integer $type
 	 * @returns IObject
 	 * @throws DoesNotExistException if calendar does not exist
 	 * @throws DoesNotExistException if object does not exist
 	 */
-	public function findObject(ICalendar &$calendar, $objectURI) {
+	public function findObject(ICalendar &$calendar, $objectURI, $type=ObjectType::ALL) {
 
 	}
 
@@ -123,12 +124,13 @@ class Sharing extends Backend {
 	/**
 	 * returns all objects in the calendar $calendarURI of the user $userId
 	 * @param ICalendar $calendar
+	 * @param integer $type
 	 * @param integer $limit
 	 * @param integer $offset
 	 * @returns IObjectCollection
 	 * @throws DoesNotExistException if calendar does not exist
 	 */
-	public function findObjects(ICalendar &$calendar, $limit, $offset) {
+	public function findObjects(ICalendar &$calendar, $type=ObjectType::ALL, $limit, $offset) {
 
 	}
 }

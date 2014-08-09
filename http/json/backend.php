@@ -88,8 +88,6 @@ class JSONBackendResponse extends JSONResponse {
 				$backend->getAPI()->implementsActions(Backend::UPDATE_CALENDAR),
 			'delete' =>
 				$backend->getAPI()->implementsActions(Backend::DELETE_CALENDAR),
-			'merge' =>
-				$backend->getAPI()->implementsActions(Backend::MERGE_CALENDAR),
 			'move' =>
 				$backend->getAPI()->implementsActions(Backend::MOVE_CALENDAR),
 		);

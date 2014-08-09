@@ -194,11 +194,12 @@ class WebCal extends Backend {
 	 * returns information about the object (event/journal/todos) with the uid $objectURI in the calendar $calendarURI of the user $userId
 	 * @param ICalendar $calendar
 	 * @param string $objectURI
+	 * @param integer $type
 	 * @return IObject
 	 * @throws DoesNotExistException if calendar does not exist
 	 * @throws DoesNotExistException if object does not exist
 	 */
-	public function findObject(ICalendar &$calendar, $objectURI) {
+	public function findObject(ICalendar &$calendar, $objectURI, $type=ObjectType::ALL) {
 		$object = new Object();
 		((($object)));
 		throw new DoesNotExistException();
@@ -208,12 +209,13 @@ class WebCal extends Backend {
 	/**
 	 * returns all objects in the calendar $calendarURI of the user $userId
 	 * @param ICalendar $calendar
+	 * @param integer $type
 	 * @param integer $limit
 	 * @param integer $offset
 	 * @return IObjectCollection
 	 * @throws DoesNotExistException if calendar does not exist
 	 */
-	public function findObjects(ICalendar &$calendar, $limit, $offset) {
+	public function findObjects(ICalendar &$calendar, $type=ObjectType::ALL, $limit, $offset) {
 		return new ObjectCollection();
 	}
 

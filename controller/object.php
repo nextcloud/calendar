@@ -59,18 +59,29 @@ class ObjectController extends Controller {
 
 
 	/**
+	 * type of object this controller is handling
+	 * @var int
+	 */
+	protected $objectType;
+
+
+	/**
 	 * constructor
 	 * @param IAppContainer $app interface to the app
 	 * @param IRequest $request an instance of the request
 	 * @param ObjectRequestBusinessLayer $objectBusinessLayer
 	 * @param CalendarBusinessLayer $calendarBusinessLayer
+	 * @param integer $type
 	 */
 	public function __construct(IAppContainer $app, IRequest $request,
 								ObjectRequestBusinessLayer $objectBusinessLayer,
-								CalendarBusinessLayer $calendarBusinessLayer) {
+								CalendarBusinessLayer $calendarBusinessLayer,
+								$type){
+
 		parent::__construct($app, $request);
 		$this->objects = $objectBusinessLayer;
 		$this->calendars = $calendarBusinessLayer;
+		$this->objectType = $type;
 
 		$this->registerReader('json', function($handle) use ($app) {
 			$reader = new JSONObjectReader($app, $handle);
@@ -109,6 +120,7 @@ class ObjectController extends Controller {
 	public function index($calendarId, $limit=null, $offset=null) {
 		try {
 			$userId = $this->api->getUserId();
+			$type = $this->objectType;
 
 			$calendar = $this->calendars->findById(
 				$calendarId,
@@ -123,6 +135,7 @@ class ObjectController extends Controller {
 
 			return $this->objects->findAll(
 				$calendar,
+				$type,
 				$limit,
 				$offset
 			);
@@ -157,6 +170,7 @@ class ObjectController extends Controller {
 								  $offset=null, $start, $end) {
 		try {
 			$userId = $this->api->getUserId();
+			$type = $this->objectType;
 			/**	@var \DateTime $start */
 			$this->parseDateTime($start, new DateTime(date('Y-m-01')));
 			/** @var \DateTime $end */
@@ -177,6 +191,7 @@ class ObjectController extends Controller {
 				$calendar,
 				$start,
 				$end,
+				$type,
 				$limit,
 				$offset
 			);
@@ -207,6 +222,7 @@ class ObjectController extends Controller {
 	public function show($calendarId, $id) {
 		try {
 			$userId = $this->api->getUserId();
+			$type = $this->objectType;
 
 			$calendar = $this->calendars->findById(
 				$calendarId,
@@ -221,7 +237,8 @@ class ObjectController extends Controller {
 
 			return $this->objects->find(
 				$calendar,
-				$id
+				$id,
+				$type
 			);
 		} catch (BusinessLayerException $ex) {
 			$this->app->log($ex->getMessage(), 'debug');
@@ -529,16 +546,5 @@ class ObjectController extends Controller {
 				Http::STATUS_INTERNAL_SERVER_ERROR
 			);
 		}
-	}
-
-
-	/**
-	 * Get objectId of request
-	 * @return string
-	 */
-	protected function getObjectId() {
-		$route = $this->request->getParam('_route');
-		list(, $controller,) = explode('.', $route);
-		return $this->request->getParam($controller . 'Id');
 	}
 }

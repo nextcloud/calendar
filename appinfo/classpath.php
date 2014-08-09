@@ -54,10 +54,6 @@
 \OC::$CLASSPATH['OCA\Calendar\Controller\BackendController'] = 'calendar/controller/backend.php';
 \OC::$CLASSPATH['OCA\Calendar\Controller\CalendarController'] = 'calendar/controller/calendar.php';
 \OC::$CLASSPATH['OCA\Calendar\Controller\ObjectController'] = 'calendar/controller/object.php';
-\OC::$CLASSPATH['OCA\Calendar\Controller\ObjectTypeController'] = 'calendar/controller/objecttype.php';
-\OC::$CLASSPATH['OCA\Calendar\Controller\EventController'] = 'calendar/controller/event.php';
-\OC::$CLASSPATH['OCA\Calendar\Controller\JournalController'] = 'calendar/controller/journal.php';
-\OC::$CLASSPATH['OCA\Calendar\Controller\TodoController'] = 'calendar/controller/todo.php';
 \OC::$CLASSPATH['OCA\Calendar\Controller\ScanController'] = 'calendar/controller/scan.php';
 \OC::$CLASSPATH['OCA\Calendar\Controller\SettingsController'] = 'calendar/controller/settings.php';
 \OC::$CLASSPATH['OCA\Calendar\Controller\SubscriptionController'] = 'calendar/controller/subscription.php';

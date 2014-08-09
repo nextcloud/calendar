@@ -160,11 +160,12 @@ class Contact extends Backend {
 	 * returns information about the object (event/journal/todo) with the uid $objectURI in the calendar $calendarURI of the user $userId
 	 * @param ICalendar $calendar
 	 * @param string $objectURI
+	 * @param integer $type
 	 * @returns IObject
 	 * @throws DoesNotExistException if calendar does not exist
 	 * @throws DoesNotExistException if object does not exist
 	 */
-	public function findObject(ICalendar &$calendar, $objectURI) {
+	public function findObject(ICalendar &$calendar, $objectURI, $type=ObjectType::ALL) {
 		//TODO implement
 		throw new DoesNotExistException();
 	}
@@ -173,12 +174,13 @@ class Contact extends Backend {
 	/**
 	 * returns all objects in the calendar $calendarURI of the user $userId
 	 * @param ICalendar $calendar
+	 * @param integer $type
 	 * @param integer $limit
 	 * @param integer $offset
 	 * @returns IObjectCollection
 	 * @throws DoesNotExistException if calendar does not exist
 	 */
-	public function findObjects(ICalendar &$calendar, $limit, $offset) {
+	public function findObjects(ICalendar &$calendar, $type=ObjectType::ALL, $limit, $offset) {
 		//TODO implement
 		return new ObjectCollection();
 	}

@@ -21,6 +21,7 @@
  */
 namespace OCP\Calendar;
 
+use OCA\Calendar\Db\ObjectType;
 use OCP\AppFramework\IAppContainer;
 
 abstract class Backend implements IBackendAPI {
@@ -46,17 +47,13 @@ abstract class Backend implements IBackendAPI {
 	const CREATE_CALENDAR =  1;
 	const UPDATE_CALENDAR = 2;
 	const DELETE_CALENDAR = 4;
-	const MERGE_CALENDAR = 8;
-	const MOVE_CALENDAR = 16;
-	const CREATE_OBJECT = 32;
-	const UPDATE_OBJECT = 64;
-	const DELETE_OBJECT = 128;
-	const DELETE_ALL_OBJECTS = 8192;
-	const FIND_IN_PERIOD = 256;
-	const FIND_OBJECTS_BY_TYPE = 512;
-	const FIND_IN_PERIOD_BY_TYPE = 1024;
-	const SEARCH_BY_PROPERTIES = 2048;
-	const PROVIDES_CRON_SCRIPT = 4096;
+	const MOVE_CALENDAR = 8;
+	const CREATE_OBJECT = 16;
+	const UPDATE_OBJECT = 32;
+	const DELETE_OBJECT = 64;
+	const FIND_IN_PERIOD = 128;
+	const SEARCH_BY_PROPERTIES = 256;
+	const PROVIDES_CRON_SCRIPT = 512;
 
 
 	/**
@@ -67,15 +64,11 @@ abstract class Backend implements IBackendAPI {
 		self::CREATE_CALENDAR => 'createCalendar',
 		self::UPDATE_CALENDAR => 'updateCalendar',
 		self::DELETE_CALENDAR => 'deleteCalendar',
-		self::MERGE_CALENDAR => 'mergeCalendar',
 		self::MOVE_CALENDAR => 'moveCalendar',
 		self::CREATE_OBJECT => 'createObject',
 		self::UPDATE_OBJECT => 'updateObject',
 		self::DELETE_OBJECT => 'deleteObject',
-		self::DELETE_ALL_OBJECTS => 'deleteAll',
 		self::FIND_IN_PERIOD => 'findObjectsInPeriod',
-		self::FIND_OBJECTS_BY_TYPE => 'findObjectsByType',
-		self::FIND_IN_PERIOD_BY_TYPE => 'findObjectsByTypeInPeriod',
 		self::SEARCH_BY_PROPERTIES => 'searchByProperties',
 	);
 
@@ -260,23 +253,25 @@ abstract class Backend implements IBackendAPI {
 	 * get a certain object
 	 * @param ICalendar $calendar
 	 * @param string $objectUri
+	 * @param integer $type
 	 * @return IObject
 	 * @throws DoesNotExistException if calendar does not exist
 	 * @throws DoesNotExistException if object does not exist
 	 * @throws MultipleObjectsReturnedException if multiple objects exist with given $privateuri and $objectUri
 	 */
-	abstract public function findObject(ICalendar &$calendar, $objectUri);
+	abstract public function findObject(ICalendar &$calendar, $objectUri, $type=ObjectType::ALL);
 
 
 	/**
 	 * get all objects in a calendar
 	 * @param ICalendar $calendar
+	 * @param integer $type
 	 * @param integer $limit
 	 * @param integer $offset
 	 * @return IObjectCollection
 	 * @throws DoesNotExistException if calendar does not exist
 	 */
-	abstract public function findObjects(ICalendar &$calendar, $limit, $offset);
+	abstract public function findObjects(ICalendar &$calendar, $type=ObjectType::ALL, $limit, $offset);
 
 
 	/**

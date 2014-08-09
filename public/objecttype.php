@@ -23,6 +23,7 @@ namespace OCP\Calendar;
 
 class ObjectType {
 
+	const NONE		= 0;
 	const EVENT		= 1;
 	const JOURNAL	= 2;
 	const TODO		= 4;
