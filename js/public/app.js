@@ -595,26 +595,17 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'Ca
 			OC.Notification.show(t('calendar', response.data.message));
 		});
 
-		var firstdayResource = Restangular.one('firstDay');
-		firstdayResource.get().then(function (firstdayobject) {
-			$scope.selectedday = firstdayobject.value;
-		}, function(response) {
-			OC.Notification.show(t('calendar', response.data.message));
-		});
-
-		var timeformatResource = Restangular.one('timeFormat');
-		timeformatResource.get().then(function (timeFormatobject) {
-			$scope.selectedtime = timeFormatobject.value;
-		}, function (response) {
-			OC.Notification.show(t('calendar', response.data.message));
-
-		});
-
 		// Time Format Dropdown
 		$scope.timeformatSelect = [
 			{ time: t('calendar', '24h'), val: '24' },
 			{ time: t('calendar', '12h'), val: 'ampm' }
 		];
+
+		for (var i=0; i<$scope.timeformatSelect.length; i++) {
+			if (angular.element('#timeformat').attr('data-timeFormat') == $scope.timeformatSelect[i].val) {
+				$scope.selectedtime = $scope.timeformatSelect[i];
+			}
+		}
 
 		// First Day Dropdown
 		$scope.firstdaySelect = [
@@ -622,6 +613,12 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'Ca
 			{ day: t('calendar', 'Sunday'), val: 'su' },
 			{ day: t('calendar', 'Saturday'), val: 'sa' }
 		];
+
+		for (var j=0; j<$scope.firstdaySelect.length; j++) {
+			if (angular.element('#firstday').attr('data-firstDay') == $scope.firstdaySelect[j].val) {
+				$scope.selectedday = $scope.firstdaySelect[j];
+			}
+		}
 
 		//to send a patch to add a hidden event again
 		$scope.enableCalendar = function (id) {
