@@ -61,10 +61,16 @@
 			<li ng-repeat="attendee in properties.attendees">
 				<span></span><!-- Gives Color for attending or not attending -->
 				<div ng-click="attendeeoptions = !attendeeoptions">{{ attendee.value }}</div>
-				<ul ng-show="attendeeoptions">
+				<ul ng-show="attendeeoptions" class="attendeeoptions">
 					<li>
-						<span ng-click="typeoptions != typeoptions"><?php p($l->t('Type')); ?></span>
-						<select ng-show="typeoptions"></select>
+						<div>
+							<span><?php p($l->t('Type')); ?></span>
+							<select class="cutstatselect"
+								ng-model="selectedstat"
+								ng-selected="selectedstat"
+								ng-options="cutstat.displayname for cutstat in cutstats">
+							</select>
+						</div>
 					</li>
 					<li>
 						<span><?php p($l->t('Optional')); ?></span>

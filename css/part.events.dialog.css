@@ -58,3 +58,21 @@
 #event-title {
 	font-size: 20px;
 }
+
+.attendeeoptions {
+	margin:5px 20px;
+}
+
+.attendeeoptions li {
+	padding:7px;
+	border-radius: 3px;
+}
+
+.attendeeoptions li:hover {
+	background: #ddd;
+}
+
+.cutstatselect {
+	float:right !important;
+	margin:-6px;
+}
