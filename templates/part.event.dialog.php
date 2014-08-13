@@ -59,7 +59,24 @@
 		</div>
 		<ul id="listofattendees">
 			<li ng-repeat="attendee in properties.attendees">
-				{{ attendee.value }}
+				<span></span><!-- Gives Color for attending or not attending -->
+				<div ng-click="attendeeoptions = !attendeeoptions">{{ attendee.value }}</div>
+				<ul ng-show="attendeeoptions">
+					<li>
+						<span ng-click="typeoptions != typeoptions"><?php p($l->t('Type')); ?></span>
+						<select ng-show="typeoptions"></select>
+					</li>
+					<li>
+						<span><?php p($l->t('Optional')); ?></span>
+					</li>
+					<li>
+						<span><?php p($l->t('Does not attend'))?></span>
+					</li>
+					<!-- List of Emails a person has. -->
+					<li>
+						<span></span>
+					</li>
+				</ul>
 			</li>
 		</ul>
 		<button id="addmoreattendees" ng-click="addmoreattendees()" class="btn">
