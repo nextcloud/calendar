@@ -990,7 +990,7 @@ app.factory('DialogModel', function() {
 				width : 400,
 				height: 300,
 				resizable: false,
-				draggable: false,
+				draggable: true,
 				close : function(event, ui) {
 					$(this).dialog('destroy').remove();
 				}
@@ -1000,8 +1000,8 @@ app.factory('DialogModel', function() {
 			$(elementId).dialog({
 				width : 500,
 				height: 300,
-				resizable: false,
-				draggable: false,
+				resizable: true,
+				draggable: true,
 				close : function(event, ui) {
 					$(this).dialog('destroy').remove();
 				}
