@@ -73,10 +73,14 @@
 						</div>
 					</li>
 					<li>
-						<span><?php p($l->t('Optional')); ?></span>
+						<div>
+							<span><?php p($l->t('Optional')); ?></span>
+							<input type="checkbox" class="attendeecheckbox" value="<?php p($l->t('Optional')); ?>" ng-model="optionalcheckbox" />
+						</div>
 					</li>
 					<li>
 						<span><?php p($l->t('Does not attend'))?></span>
+						<input type="checkbox" class="attendeecheckbox" value="<?php p($l->t('Does not attend')); ?>" ng-model="notattendcheckbox" />
 					</li>
 					<!-- List of Emails a person has. -->
 					<li>

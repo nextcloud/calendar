@@ -72,7 +72,14 @@
 	background: #ddd;
 }
 
-.cutstatselect {
+.cutstatselect, .attendeecheckbox {
 	float:right !important;
+}
+
+.cutstatselect {
 	margin:-6px;
+}
+
+.attendeecheckbox {
+	margin:4px !important;
 }
