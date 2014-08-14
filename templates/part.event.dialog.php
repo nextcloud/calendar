@@ -58,7 +58,7 @@
 				placeholder="<?php p($l->t('Name/Email'))?>" name="nameofattendee" />
 		</div>
 		<ul id="listofattendees">
-			<li ng-repeat="attendee in properties.attendees">
+			<li ng-repeat="attendee in properties.attendees" data-attendee-number="{{ attendeecount }}">
 				<span></span><!-- Gives Color for attending or not attending -->
 				<div ng-click="attendeeoptions = !attendeeoptions">{{ attendee.value }}</div>
 				<ul ng-show="attendeeoptions" class="attendeeoptions">
@@ -68,6 +68,7 @@
 							<select class="cutstatselect"
 								ng-model="selectedstat"
 								ng-selected="selectedstat"
+								ng-change="changestat(selectedstat,attendee.value)"
 								ng-options="cutstat.displayname for cutstat in cutstats">
 							</select>
 						</div>

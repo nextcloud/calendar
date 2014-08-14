@@ -66,19 +66,29 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 			}
 		};
 
+		$scope.changestat = function (blah,attendeeval) {
+			for (var i = 0; i < $scope.properties.attendees.length; i++) {
+				if ($scope.properties.attendees[i].value === attendeeval) {
+					$scope.properties.attendees[i].props.CUTTYPE = blah.val;
+				}
+			}
+		};
+
 		// TODO : This should duplicate the div for adding more than one attendee.
 		$scope.addmoreattendees = function () {
-			$scope.properties.attendees.push({
-				value: $scope.nameofattendee,
-				props: {
-					'ROLE': 'REQ-PARTICIPANT',
-					'RSVP': true,
-					'PARTSTAT': 'NEEDS-ACTION',
-					'X-OC-MAILSENT': false,
-					'CUTTYPE': 'INDIVIDUAL'
-				}
-			});
-			$scope.nameofattendee = '';
+			if ($scope.nameofattendee !== '') {
+				$scope.properties.attendees.push({
+					value: $scope.nameofattendee,
+					props: {
+						'ROLE': 'REQ-PARTICIPANT',
+						'RSVP': true,
+						'PARTSTAT': 'NEEDS-ACTION',
+						'X-OC-MAILSENT': false,
+						'CUTTYPE': 'INDIVIDUAL'
+					}
+				});
+				$scope.nameofattendee = '';
+			}
 		};
 
 		$scope.update = function () {
