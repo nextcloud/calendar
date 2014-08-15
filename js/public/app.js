@@ -480,7 +480,7 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 	function ($scope, $routeParams, Restangular, CalendarModel, TimezoneModel, EventsModel, DialogModel, Model) {
 		
 		$scope.eventsmodel = EventsModel;
-		$scope.attendornot = 'optional';
+		$scope.attendornot = 'Required';
 
 		$scope.$watch('eventsmodel.eventobject', function (newval, oldval) {
 			if (newval.event !== '') {

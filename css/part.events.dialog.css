@@ -94,14 +94,25 @@
 	margin:4px !important;
 }
 
-#events .action {
+#events .action.presentcontainer {
 	background-color: #02d63e;
-	border: 1px solid #333;
+}
+
+#events .action.absentcontainer {
+	background-color: #db1818;
+}
+
+#events .action.notsurecontainer {
+	background-color:#555;
+}
+
+#events .action {
 	height: 14px;
 	display: inline-block;
 	width: 14px;
 	float: left;
 	margin: 2px 10px;
+	border: 1px solid #333;
 }
 
 #events .checkedicon {
@@ -110,6 +121,12 @@
 	cursor: pointer;
 	float: left;
 	margin: -1px;
+}
+
+#events .attendeenotsure {
+	margin: -2px 0 -1px 0;
+	text-align: center;
+	color: #efefef;
 }
 
 #events .attendeeopener {
