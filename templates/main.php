@@ -51,7 +51,7 @@
 	\OCP\Util::addStyle('calendar', 'part.events.dialog');
 
 	\OCP\Util::addStyle('calendar', '../3rdparty/css/fullcalendar/fullcalendar');
-	\OCP\Util::addStyle('calendar', '../3rdparty/css/colorpicker/colorpicker');	
+	\OCP\Util::addStyle('calendar', '../3rdparty/css/colorpicker/colorpicker');
 
 ?>
 

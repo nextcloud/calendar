@@ -59,8 +59,13 @@
 		</div>
 		<ul id="listofattendees">
 			<li ng-repeat="attendee in properties.attendees" data-attendee-number="{{ attendeecount }}">
-				<span></span><!-- Gives Color for attending or not attending -->
-				<div ng-click="attendeeoptions = !attendeeoptions">{{ attendee.value }}</div>
+			<span class="action">
+				<span class="icon-checkmark attendeepresent checkedicon"></span><!-- Gives Color for attending or not attending -->
+			</span>
+				<div ng-click="attendeeoptions = !attendeeoptions" class="attendeecontainer">
+					<span>{{ attendee.value }}</span>
+						<span class="icon-triangle-s attendeeopener"></span>
+				</div>
 				<ul ng-show="attendeeoptions" class="attendeeoptions">
 					<li>
 						<div>
