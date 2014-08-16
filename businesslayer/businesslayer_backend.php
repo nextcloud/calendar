@@ -21,7 +21,6 @@
  */
 namespace OCA\Calendar\BusinessLayer;
 
-use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\Http;
 use OCP\Calendar\IBackend;
 use OCP\Calendar\IBackendAPI;
@@ -37,14 +36,12 @@ abstract class BackendCollectionBusinessLayer extends BusinessLayer {
 
 
 	/**
-	 * @param IAppContainer $app
 	 * @param IBackendCollection $backends
 	 * @param Mapper $mapper
 	 */
-	public function __construct(IAppContainer $app,
-								IBackendCollection $backends,
+	public function __construct(IBackendCollection $backends,
 								Mapper $mapper) {
-		parent::__construct($app, $mapper);
+		parent::__construct($mapper);
 		$this->backends = $backends;
 	}
 

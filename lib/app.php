@@ -26,27 +26,7 @@ use OCP\AppFramework\IAppContainer;
 use OCP\Calendar\ObjectType;
 use OCP\Share;
 use OCP\Util;
-use OCA\Calendar\BusinessLayer\CalendarBusinessLayer;
-use OCA\Calendar\BusinessLayer\CalendarCacheBusinessLayer;
-use OCA\Calendar\BusinessLayer\CalendarRequestBusinessLayer;
-use OCA\Calendar\BusinessLayer\ObjectBusinessLayer;
-use OCA\Calendar\BusinessLayer\ObjectCacheBusinessLayer;
-use OCA\Calendar\BusinessLayer\ObjectRequestBusinessLayer;
-use OCA\Calendar\BusinessLayer\SubscriptionBusinessLayer;
-use OCA\Calendar\BusinessLayer\TimezoneBusinessLayer;
-use OCA\Calendar\Controller\BackendController;
-use OCA\Calendar\Controller\CalendarController;
-use OCA\Calendar\Controller\SubscriptionController;
-use OCA\Calendar\Controller\ObjectController;
-use OCA\Calendar\Controller\TimezoneController;
-use OCA\Calendar\Controller\ScanController;
-use OCA\Calendar\Controller\SettingsController;
-use OCA\Calendar\Controller\ViewController;
-use OCA\Calendar\Db\BackendMapper;
-use OCA\Calendar\Db\CalendarMapper;
-use OCA\Calendar\Db\SubscriptionMapper;
-use OCA\Calendar\Db\ObjectMapper;
-use OCA\Calendar\Db\TimezoneMapper;
+
 use OCA\Calendar\Utility\BackendUtility;
 
 class App extends \OCP\AppFramework\App {
@@ -99,76 +79,76 @@ class App extends \OCP\AppFramework\App {
 
 		/* Controller */
 		$this->getContainer()->registerService('BackendController', function(IAppContainer $c) {
-			$req = $c->query('Request');
+			$request = $c->query('Request');
 			$bds = $c->query('backends');
 
-			return new BackendController($c, $req, $bds);
+			return new Controller\BackendController($c, $request, $bds);
 		});
 		$this->getContainer()->registerService('CalendarController', function(IAppContainer $c) {
-			$req = $c->query('Request');
+			$request = $c->query('Request');
 			$cbl = $c->query('CalendarRequestBusinessLayer');
 			$obl = $c->query('ObjectBusinessLayer');
 
-			return new CalendarController($c, $req, $cbl, $obl);
+			return new Controller\CalendarController($c, $request, $cbl, $obl);
 		});
 		$this->getContainer()->registerService('ObjectController', function(IAppContainer $c) {
-			$req = $c->query('Request');
+			$request = $c->query('Request');
 			$obl = $c->query('ObjectRequestBusinessLayer');
 			$cbl = $c->query('CalendarBusinessLayer');
 
-			return new ObjectController($c, $req, $obl, $cbl, ObjectType::ALL);
+			return new Controller\ObjectController($c, $request, $obl, $cbl, ObjectType::ALL);
 		});
 		$this->getContainer()->registerService('EventController', function(IAppContainer $c) {
-			$req = $c->query('Request');
+			$request = $c->query('Request');
 			$obl = $c->query('ObjectRequestBusinessLayer');
 			$cbl = $c->query('CalendarBusinessLayer');
 
-			return new ObjectController($c, $req, $obl, $cbl, ObjectType::EVENT);
+			return new Controller\ObjectController($c, $request, $obl, $cbl, ObjectType::EVENT);
 		});
 		$this->getContainer()->registerService('JournalController', function(IAppContainer $c) {
-			$req = $c->query('Request');
+			$request = $c->query('Request');
 			$obl = $c->query('ObjectRequestBusinessLayer');
 			$cbl = $c->query('CalendarBusinessLayer');
 
-			return new ObjectController($c, $req, $obl, $cbl, ObjectType::JOURNAL);
+			return new Controller\ObjectController($c, $request, $obl, $cbl, ObjectType::JOURNAL);
 		});
 		$this->getContainer()->registerService('TodoController', function(IAppContainer $c) {
-			$req = $c->query('Request');
+			$request = $c->query('Request');
 			$obl = $c->query('ObjectRequestBusinessLayer');
 			$cbl = $c->query('CalendarBusinessLayer');
 
-			return new ObjectController($c, $req, $obl, $cbl, ObjectType::TODO);
+			return new Controller\ObjectController($c, $request, $obl, $cbl, ObjectType::TODO);
 		});
 		$this->getContainer()->registerService('ScanController', function(IAppContainer $c) {
-			$req = $c->query('Request');
+			$request = $c->query('Request');
 			$cbl = $c->query('CalendarCacheBusinessLayer');
 			$obl = $c->query('ObjectCacheBusinessLayer');
 
-			return new ScanController($c, $req, $cbl, $obl);
+			return new Controller\ScanController($c, $request, $cbl, $obl);
 		});
 		$this->getContainer()->registerService('SettingsController', function(IAppContainer $c) {
-			$req = $c->query('Request');
+			$request = $c->query('Request');
 			$set = $c->query('settings');
 
-			return new SettingsController($c, $req, $set);
+			return new Controller\SettingsController($c, $request, $set);
 		});
 		$this->getContainer()->registerService('SubscriptionController', function(IAppContainer $c) {
-			$req = $c->query('Request');
+			$request = $c->query('Request');
 			$sbl = $c->query('SubscriptionBusinessLayer');
 			$bds = $c->query('backends');
 
-			return new SubscriptionController($c, $req, $sbl, $bds);
+			return new Controller\SubscriptionController($c, $request, $sbl, $bds);
 		});
 		$this->getContainer()->registerService('TimezoneController', function(IAppContainer $c) {
-			$req = $c->query('Request');
+			$request = $c->query('Request');
 			$tbl = $c->query('TimezoneBusinessLayer');
 
-			return new TimezoneController($c, $req, $tbl);
+			return new Controller\TimezoneController($c, $request, $tbl);
 		});
 		$this->getContainer()->registerService('ViewController', function(IAppContainer $c) {
-			$req = $c->query('Request');
+			$request = $c->query('Request');
 
-			return new ViewController($c, $req);
+			return new Controller\ViewController($c, $request);
 		});
 
 
@@ -178,72 +158,72 @@ class App extends \OCP\AppFramework\App {
 			$cmp = $c->query('CalendarMapper');
 			$obl = $c->query('ObjectBusinessLayer');
 
-			return new CalendarBusinessLayer($c, $bds, $cmp, $obl);
+			return new BusinessLayer\CalendarBusinessLayer($bds, $cmp, $obl);
 		});
 		$this->getContainer()->registerService('CalendarCacheBusinessLayer', function(IAppContainer $c) {
 			$bds = $c->query('backends');
 			$cmp = $c->query('CalendarMapper');
 
-			return new CalendarCacheBusinessLayer($c, $bds, $cmp);
+			return new BusinessLayer\CalendarCacheBusinessLayer($bds, $cmp);
 		});
 		$this->getContainer()->registerService('CalendarRequestBusinessLayer', function(IAppContainer $c) {
 			$bds = $c->query('backends');
 			$cmp = $c->query('CalendarMapper');
 			$obl = $c->query('ObjectBusinessLayer');
 
-			return new CalendarRequestBusinessLayer($c, $bds, $cmp, $obl);
+			return new BusinessLayer\CalendarRequestBusinessLayer($bds, $cmp, $obl);
 		});
 		$this->getContainer()->registerService('ObjectBusinessLayer', function(IAppContainer $c) {
 			$bds = $c->query('backends');
 			$omp = $c->query('ObjectMapper');
 
-			return new ObjectBusinessLayer($c, $bds, $omp);
+			return new BusinessLayer\ObjectBusinessLayer($bds, $omp);
 		});
 		$this->getContainer()->registerService('ObjectRequestBusinessLayer', function(IAppContainer $c) {
 			$bds = $c->query('backends');
 			$omp = $c->query('ObjectMapper');
 
-			return new ObjectRequestBusinessLayer($c, $bds, $omp);
+			return new BusinessLayer\ObjectRequestBusinessLayer($bds, $omp);
 		});
 		$this->getContainer()->registerService('ObjectBusinessLayerWithoutSharing', function(IAppContainer $c) {
 			$bds = $c->query('backendsWithoutSharing');
 			$omp = $c->query('ObjectMapper');
 
-			return new ObjectBusinessLayer($c, $bds, $omp);
+			return new BusinessLayer\ObjectBusinessLayer($bds, $omp);
 		});
 		$this->getContainer()->registerService('ObjectCacheBusinessLayer', function(IAppContainer $c) {
 			$bds = $c->query('backends');
 			$omp = $c->query('ObjectMapper');
 
-			return new ObjectCacheBusinessLayer($c, $bds, $omp);
+			return new BusinessLayer\ObjectCacheBusinessLayer($bds, $omp);
 		});
 		$this->getContainer()->registerService('SubscriptionBusinessLayer', function(IAppContainer $c) {
-			$smp = $c->query('SubscriptionMapper');
+			$mapper = $c->query('SubscriptionMapper');
 
-			return new SubscriptionBusinessLayer($c, $smp);
+			return new BusinessLayer\SubscriptionBusinessLayer($mapper);
 		});
 		$this->getContainer()->registerService('TimezoneBusinessLayer', function(IAppContainer $c) {
-			$tmp = $c->query('TimezoneMapper');
+			$mapper = $c->query('TimezoneMapper');
 
-			return new TimezoneBusinessLayer($c, $tmp);
+			return new BusinessLayer\TimezoneBusinessLayer($mapper);
 		});
 
 
 		/* Mappers */
 		$this->getContainer()->registerService('BackendMapper', function(IAppContainer $c) {
-			return new BackendMapper($c);
+			return new Db\BackendMapper($c);
 		});
 		$this->getContainer()->registerService('CalendarMapper', function(IAppContainer $c) {
-			return new CalendarMapper($c);
+			return new Db\CalendarMapper($c);
 		});
 		$this->getContainer()->registerService('ObjectMapper', function(IAppContainer $c) {
-			return new ObjectMapper($c);
+			return new Db\ObjectMapper($c);
 		});
 		$this->getContainer()->registerService('TimezoneMapper', function(IAppContainer $c) {
-			return new TimezoneMapper($c);
+			return new Db\TimezoneMapper($c);
 		});
 		$this->getContainer()->registerService('SubscriptionMapper', function(IAppContainer $c) {
-			return new SubscriptionMapper($c);
+			return new Db\SubscriptionMapper($c);
 		});
 
 
@@ -318,7 +298,7 @@ class App extends \OCP\AppFramework\App {
 
 
 		$this->getContainer()->registerService('backends', function(IAppContainer $c) {
-			/** @var BackendMapper $mapper */
+			/** @var Db\BackendMapper $mapper */
 			$mapper = $c->query('BackendMapper');
 			$backends = $mapper->findAll();
 			return BackendUtility::setup($c, $backends);
@@ -326,7 +306,7 @@ class App extends \OCP\AppFramework\App {
 
 
 		$this->getContainer()->registerService('backendsWithoutSharing', function(IAppContainer $c) {
-			/** @var BackendMapper $mapper */
+			/** @var Db\BackendMapper $mapper */
 			$mapper = $c->query('BackendMapper');
 			$backends = $mapper->findAll();
 			$backends->removeByProperty('backend', 'org.ownCloud.sharing');

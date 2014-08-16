@@ -204,7 +204,7 @@ class CalendarBusinessLayer extends BackendCollectionBusinessLayer {
 				return $this->move($newCalendar);
 			}
 		} catch(BackendException $ex) {
-			$this->app->log($ex->getMessage(), 'debug');
+			\OC::$server->getLogger()->debug($ex->getMessage());
 			throw new BusinessLayerException($ex->getMessage());
 		}
 	}

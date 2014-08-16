@@ -21,7 +21,6 @@
  */
 namespace OCA\Calendar\BusinessLayer;
 
-use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\Http;
 
 use OCP\Calendar\BackendException;
@@ -65,14 +64,12 @@ class CalendarCacheBusinessLayer extends CacheBusinessLayer {
 
 
 	/**
-	 * @param IAppContainer $app
 	 * @param IBackendCollection $backends
 	 * @param CalendarMapper $calendarMapper
 	 */
-	public function __construct(IAppContainer $app,
-								IBackendCollection $backends,
+	public function __construct(IBackendCollection $backends,
 								CalendarMapper $calendarMapper) {
-		parent::__construct($app, $calendarMapper);
+		parent::__construct($calendarMapper);
 		$this->backends = $backends;
 	}
 

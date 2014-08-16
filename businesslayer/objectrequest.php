@@ -32,6 +32,7 @@ class ObjectRequestBusinessLayer extends ObjectBusinessLayer {
 
 	/**
 	 * create an object from import
+	 *
 	 * @param \OCP\Calendar\IObject $object
 	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
 	 * @return \OCP\Calendar\IObject
@@ -54,6 +55,7 @@ class ObjectRequestBusinessLayer extends ObjectBusinessLayer {
 
 	/**
 	 * Creates new objects from import
+	 *
 	 * @param \OCP\Calendar\IObjectCollection $collection
 	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
 	 * @return \OCP\Calendar\IObjectCollection
@@ -68,7 +70,7 @@ class ObjectRequestBusinessLayer extends ObjectBusinessLayer {
 			try {
 				$object = $this->create($object);
 			} catch(BusinessLayerException $ex) {
-				$this->app->log($ex->getMessage(), 'debug');
+				\OC::$server->getLogger()->debug($ex->getMessage());
 				return true;
 			}
 			$createdObjects->add($object);
@@ -81,6 +83,7 @@ class ObjectRequestBusinessLayer extends ObjectBusinessLayer {
 
 	/**
 	 * Updates an object from request
+	 *
 	 * @param \OCP\Calendar\IObject $object
 	 * @param \OCP\Calendar\ICalendar $calendar
 	 * @param string $uri UID of the object
@@ -102,6 +105,7 @@ class ObjectRequestBusinessLayer extends ObjectBusinessLayer {
 
 	/**
 	 * throw exception if eTags are not equal
+	 *
 	 * @param string $firstETag
 	 * @param string $secondETag
 	 * @return bool

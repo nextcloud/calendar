@@ -136,7 +136,7 @@ class CalendarController extends Controller {
 			$calendar = $this->readInput();
 
 			if ($calendar instanceof ICalendar) {
-				return $this->calendars->create($calendar);
+				return $this->calendars->create($calendar, $this->api->getUserId());
 			} elseif ($calendar instanceof ICalendarCollection) {
 				throw new ReaderException(
 					'Creating calendar-collections not supported'

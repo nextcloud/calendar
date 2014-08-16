@@ -32,6 +32,7 @@ class CalendarRequestBusinessLayer extends CalendarBusinessLayer {
 	/**
 	 * Creates a new calendar from request
 	 * @param \OCP\Calendar\ICalendar $calendar
+	 * @param string $userId
 	 * @return \OCP\Calendar\ICalendar
 	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
 	 * if name exists already
@@ -40,8 +41,7 @@ class CalendarRequestBusinessLayer extends CalendarBusinessLayer {
 	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
 	 * if backend is disabled
 	 */
-	public function create(ICalendar $calendar) {
-		$userId = $this->api->getUserId();
+	public function create(ICalendar $calendar, $userId) {
 		/** @var IBackend $firstBackend */
 		$firstBackend = $this->backends->reset();
 		$defaultBackend = $firstBackend->getBackend();

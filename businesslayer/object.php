@@ -362,7 +362,7 @@ class ObjectBusinessLayer extends BackendCollectionBusinessLayer {
 			$api = $this->backends->find($backend)->getAPI();
 			$api->deleteObject($calUri, $uri, $userId);
 			if ($api->cacheObjects($calUri, $userId)) {
-				$this->mapper->delete($calendar);
+				$this->mapper->delete($delete);
 			}
 
 			Util::emitHook('\OCP\Calendar', 'postDeleteObject',

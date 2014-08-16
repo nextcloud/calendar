@@ -21,7 +21,6 @@
  */
 namespace OCA\Calendar\BusinessLayer;
 
-use OCP\AppFramework\IAppContainer;
 use OCP\Calendar\IBackendCollection;
 use OCA\Calendar\Db\CalendarMapper;
 
@@ -29,14 +28,12 @@ class ObjectCacheBusinessLayer extends CacheBusinessLayer {
 
 
 	/**
-	 * @param IAppContainer $app
-	 * @param IBackendCollection $backends
-	 * @param CalendarMapper $calendarMapper
+	 * @param \OCP\Calendar\IBackendCollection $backends
+	 * @param \OCA\Calendar\Db\CalendarMapper $calendarMapper
 	 */
-	public function __construct(IAppContainer $app,
-								IBackendCollection $backends,
+	public function __construct(IBackendCollection $backends,
 								CalendarMapper $calendarMapper) {
-		parent::__construct($app, $calendarMapper);
+		parent::__construct($calendarMapper);
 		$this->backends = $backends;
 	}
 }

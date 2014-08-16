@@ -22,26 +22,11 @@
 namespace OCA\Calendar\BusinessLayer;
 
 use OCP\AppFramework\Http;
-use OCP\AppFramework\IAppContainer;
 use OCP\Calendar\IEntity;
+
 use OCA\Calendar\Db\Mapper;
-use OCA\Calendar\Utility\CalendarUtility;
 
 abstract class BusinessLayer {
-
-	/**
-	 * app container for dependency injection
-	 * @var \OCP\AppFramework\IAppContainer
-	 */
-	protected $app;
-
-
-	/**
-	 * ownCloud's core api
-	 * @var \OCP\AppFramework\IApi
-	 */
-	protected $api;
-
 
 	/**
 	 * Mapper
@@ -52,32 +37,10 @@ abstract class BusinessLayer {
 
 	/**
 	 * Constructor
-	 * @param IAppContainer $app interface to the app
      * @param Mapper $mapper
 	 */
-	public function __construct(IAppContainer $app, Mapper $mapper){
-		$this->app = $app;
-		$this->api = $app->getCoreApi();
+	public function __construct(Mapper $mapper){
 		$this->mapper = $mapper;
-	}
-
-
-	/**
-	 * split up calendarURI
-	 * @param string $calendarId e.g. local::personal
-	 * @return array [$backend, $calendarURI]
-	 * @throws BusinessLayerException if uri is empty
-	 * @throws BusinessLayerException if uri is not valid
-	 */
-	protected function splitCalendarURI($calendarId) {
-		$split = CalendarUtility::splitURI($calendarId);
-
-		if (!$split[0] || !$split[1]) {
-			$msg = '"' . $calendarId . '" is not a valid calendarId';
-			throw new BusinessLayerException($msg);
-		}
-
-		return $split;
 	}
 
 
