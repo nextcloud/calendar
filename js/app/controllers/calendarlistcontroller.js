@@ -21,6 +21,11 @@
  *
  */
 
+/**
+* Controller: CalendarListController
+* Description: Takes care of CalendarList in App Navigation.
+*/
+
 app.controller('CalendarListController', ['$scope', '$window', '$location',
 	'$routeParams', 'Restangular', 'CalendarModel', 'EventsModel',
 	function ($scope, $window, $location, $routeParams, Restangular,

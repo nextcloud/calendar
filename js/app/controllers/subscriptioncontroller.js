@@ -21,6 +21,11 @@
  *
  */
 
+/**
+* Controller: SubscriptionController
+* Description: Takes care of Subscription List in the App Navigation.
+*/
+
 app.controller('SubscriptionController', ['$scope', '$window', 'SubscriptionModel', 'CalendarModel', 'EventsModel', 'Restangular',
 	function ($scope, $window, SubscriptionModel, CalendarModel, EventsModel, Restangular) {
 

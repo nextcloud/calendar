@@ -22,6 +22,7 @@
  */
 
 // TODO: Remove this as this is not the best of the solutions.
+
 app.filter('noteventFilter',
 	[ function () {
 		var noteventfilter = function (item) {

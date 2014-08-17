@@ -21,6 +21,11 @@
  *
  */
 
+/**
+* Controller: Date Picker Controller
+* Description: Takes care for pushing dates from app navigation date picker and fullcalendar.
+*/ 
+
 app.controller('DatePickerController', ['$scope', 'CalendarModel',
 	function ($scope, CalendarModel) {
 

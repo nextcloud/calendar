@@ -21,6 +21,11 @@
  *
  */
 
+/**
+* Controller: CalController
+* Description: The fullcalendar controller.
+*/
+
 app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 'CalendarModel', 'EventsModel', 'ViewModel', 'TimezoneModel', 'DialogModel',
 	function ($scope, $modal, Restangular, calendar, CalendarModel, EventsModel, ViewModel, TimezoneModel, DialogModel) {
 
@@ -46,7 +51,6 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 		viewResource.get().then(function (views) {
 			ViewModel.add(views);
 		});
-		//$scope.defaultView = viewResource.get();
 
 		$scope.eventSource = {};
 		$scope.calendars = $scope.calendarModel.getAll();
@@ -74,6 +78,10 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 				}
 			}
 		});
+
+		/**
+		 * Calendar UI Configuration.
+		*/
 
 		$scope.uiConfig = {
 			calendar: {
@@ -248,6 +256,10 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 			delete $scope.eventSource[deletedObject];
 		}, true);
 
+		/**
+		 * Watches events being added on the fullcalendar. 
+		*/
+
 		$scope.$watch('calendarModel.activator', function (newobj, oldobj) {
 			if (newobj.id !== '') {
 				if (newobj.bool === true) {
@@ -257,6 +269,10 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 				}
 			}
 		}, true);
+
+		/**
+		 * Watches the Calendar view. 
+		*/
 
 		$scope.$watch('calendarModel.modelview', function (newview, oldview) {
 			$scope.changeView = function (newview, calendar) {
@@ -274,6 +290,10 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 			}
 		}, true);
 
+		/**
+		 * Watches the date picker. 
+		*/
+
 		$scope.$watch('calendarModel.datepickerview', function (newview, oldview) {
 			$scope.changeview = function (newview, calendar) {
 				calendar.fullCalendar(newview.view);
@@ -283,6 +303,10 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 			}
 		}, true);
 
+		/**
+		 * Watches the date change and its effect on fullcalendar.
+		*/
+
 		$scope.$watch('calendarModel.date', function (newview, oldview) {
 			$scope.gotodate = function (newview, calendar) {
 				calendar.fullCalendar('gotoDate', newview);
@@ -291,6 +315,10 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 				$scope.gotodate(newview, $scope.calendar);
 			}
 		});
+
+		/**
+		 * Watches click on first day and resets calendar.
+		*/
 
 		$scope.$watch('calendarModel.firstday', function (newview, oldview) {
 			$scope.firstdayview = function (newview,calendar) {

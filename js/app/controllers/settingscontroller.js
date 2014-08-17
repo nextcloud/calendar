@@ -21,6 +21,11 @@
  *
  */
 
+/**
+* Controller: SettingController
+* Description: Takes care of the Calendar Settings.
+*/
+
 app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'CalendarModel','UploadModel', 'DialogModel',
 	function ($scope, $rootScope, Restangular, CalendarModel, UploadModel, DialogModel) {
 
@@ -47,12 +52,12 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'Ca
 				DialogModel.initsmall('#importdialog');
 				DialogModel.open('#importdialog');
 			}
-			$scope.$digest(); // Shouldn't digest reset scope for it to be implemented again and again?
+			$scope.$digest(); // TODO : Shouldn't digest reset scope for it to be implemented again and again?
 		});
 
 		$scope.import = function (id) {
 			Restangular.one('calendars', id).withHttpConfig({transformRequest: angular.identity}).customPOST(
-				$scope.filescontent, // Replace this by the string to be posted.
+				$scope.filescontent,
 				'import',
 				undefined,
 				{

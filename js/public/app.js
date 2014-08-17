@@ -44,6 +44,11 @@ var app = angular.module('Calendar', [
 		});
 	}]);
 
+/**
+* Controller: CalController
+* Description: The fullcalendar controller.
+*/
+
 app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 'CalendarModel', 'EventsModel', 'ViewModel', 'TimezoneModel', 'DialogModel',
 	function ($scope, $modal, Restangular, calendar, CalendarModel, EventsModel, ViewModel, TimezoneModel, DialogModel) {
 
@@ -69,7 +74,6 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 		viewResource.get().then(function (views) {
 			ViewModel.add(views);
 		});
-		//$scope.defaultView = viewResource.get();
 
 		$scope.eventSource = {};
 		$scope.calendars = $scope.calendarModel.getAll();
@@ -97,6 +101,10 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 				}
 			}
 		});
+
+		/**
+		 * Calendar UI Configuration.
+		*/
 
 		$scope.uiConfig = {
 			calendar: {
@@ -271,6 +279,10 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 			delete $scope.eventSource[deletedObject];
 		}, true);
 
+		/**
+		 * Watches events being added on the fullcalendar. 
+		*/
+
 		$scope.$watch('calendarModel.activator', function (newobj, oldobj) {
 			if (newobj.id !== '') {
 				if (newobj.bool === true) {
@@ -280,6 +292,10 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 				}
 			}
 		}, true);
+
+		/**
+		 * Watches the Calendar view. 
+		*/
 
 		$scope.$watch('calendarModel.modelview', function (newview, oldview) {
 			$scope.changeView = function (newview, calendar) {
@@ -297,6 +313,10 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 			}
 		}, true);
 
+		/**
+		 * Watches the date picker. 
+		*/
+
 		$scope.$watch('calendarModel.datepickerview', function (newview, oldview) {
 			$scope.changeview = function (newview, calendar) {
 				calendar.fullCalendar(newview.view);
@@ -306,6 +326,10 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 			}
 		}, true);
 
+		/**
+		 * Watches the date change and its effect on fullcalendar.
+		*/
+
 		$scope.$watch('calendarModel.date', function (newview, oldview) {
 			$scope.gotodate = function (newview, calendar) {
 				calendar.fullCalendar('gotoDate', newview);
@@ -314,6 +338,10 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 				$scope.gotodate(newview, $scope.calendar);
 			}
 		});
+
+		/**
+		 * Watches click on first day and resets calendar.
+		*/
 
 		$scope.$watch('calendarModel.firstday', function (newview, oldview) {
 			$scope.firstdayview = function (newview,calendar) {
@@ -325,6 +353,11 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 		});
 	}
 ]);
+
+/**
+* Controller: CalendarListController
+* Description: Takes care of CalendarList in App Navigation.
+*/
 
 app.controller('CalendarListController', ['$scope', '$window', '$location',
 	'$routeParams', 'Restangular', 'CalendarModel', 'EventsModel',
@@ -456,6 +489,11 @@ app.controller('CalendarListController', ['$scope', '$window', '$location',
 	}
 ]);
 
+/**
+* Controller: Date Picker Controller
+* Description: Takes care for pushing dates from app navigation date picker and fullcalendar.
+*/ 
+
 app.controller('DatePickerController', ['$scope', 'CalendarModel',
 	function ($scope, CalendarModel) {
 
@@ -475,6 +513,11 @@ app.controller('DatePickerController', ['$scope', 'CalendarModel',
 		};
 	}
 ]);
+
+/**
+* Controller: Events Dialog Controller
+* Description: Takes care of anything inside the Events Modal.
+*/
 
 app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular', 'CalendarModel', 'TimezoneModel', 'EventsModel', 'DialogModel', 'Model',
 	function ($scope, $routeParams, Restangular, CalendarModel, TimezoneModel, EventsModel, DialogModel, Model) {
@@ -563,6 +606,11 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 		};
 	}
 ]);
+/**
+* Controller: SettingController
+* Description: Takes care of the Calendar Settings.
+*/
+
 app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'CalendarModel','UploadModel', 'DialogModel',
 	function ($scope, $rootScope, Restangular, CalendarModel, UploadModel, DialogModel) {
 
@@ -589,12 +637,12 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'Ca
 				DialogModel.initsmall('#importdialog');
 				DialogModel.open('#importdialog');
 			}
-			$scope.$digest(); // Shouldn't digest reset scope for it to be implemented again and again?
+			$scope.$digest(); // TODO : Shouldn't digest reset scope for it to be implemented again and again?
 		});
 
 		$scope.import = function (id) {
 			Restangular.one('calendars', id).withHttpConfig({transformRequest: angular.identity}).customPOST(
-				$scope.filescontent, // Replace this by the string to be posted.
+				$scope.filescontent,
 				'import',
 				undefined,
 				{
@@ -666,6 +714,11 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'Ca
 		};
 	}
 ]);
+
+/**
+* Controller: SubscriptionController
+* Description: Takes care of Subscription List in the App Navigation.
+*/
 
 app.controller('SubscriptionController', ['$scope', '$window', 'SubscriptionModel', 'CalendarModel', 'EventsModel', 'Restangular',
 	function ($scope, $window, SubscriptionModel, CalendarModel, EventsModel, Restangular) {
@@ -822,6 +875,7 @@ app.filter('eventFilter',
 	]
 );
 // TODO: Remove this as this is not the best of the solutions.
+
 app.filter('noteventFilter',
 	[ function () {
 		var noteventfilter = function (item) {
