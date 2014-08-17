@@ -75,7 +75,6 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 			}
 		};
 
-		// TODO : This should duplicate the div for adding more than one attendee.
 		$scope.addmoreattendees = function () {
 			if ($scope.nameofattendee !== '') {
 				$scope.properties.attendees.push({
@@ -91,6 +90,17 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 				$scope.nameofattendee = '';
 			}
 		};
+
+		$scope.reminderSelect = [
+			{ displayname: t('Calendar', 'None')},
+			{ displayname: t('Calendar', 'At time of event')},
+			{ displayname: t('Calendar', '5 minutes before')},
+			{ displayname: t('Calendar', '10 minutes before')},
+			{ displayname: t('Calendar', '15 minutes before')},
+			{ displayname: t('Calendar', '1 hour before')},
+			{ displayname: t('Calendar', '2 hours before')},
+			{ displayname: t('Calendar', 'Custom')}
+		];
 
 		$scope.update = function () {
 			EventsModel.updateevent($scope.properties);

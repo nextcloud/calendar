@@ -111,6 +111,19 @@
 		</button>
 	</fieldset>
 	<fieldset>
+		<h3><?php p($l->t('Reminders')); ?></h3>
+		<label class="bold"><?php p($l->t('Alarm')); ?></label>
+		<select class="reminderselect"
+			ng-model="selectedreminder"
+			ng-selected="selectedreminder"
+			ng-change="changereminder(selectedreminder)"
+			ng-options="reminder.displayname for reminder in reminderSelect">
+		</select>
+		<button id="addmorereminders" ng-click="addmorereminders()" class="btn">
+			<?php p($l->t('Add')); ?>
+		</button>
+	</fieldset>
+	<fieldset>
 		<button id="eventupdatebutton" ng-click="update()" class="btn primary">
 			<?php p($l->t('Update')); ?>
 		</button>
