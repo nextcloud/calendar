@@ -20,6 +20,11 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
+/**
+* Configuration / App Initialization File
+*/
+
 var app = angular.module('Calendar', [
 	'OC',
 	'ngAnimate',

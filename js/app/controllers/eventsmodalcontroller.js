@@ -39,7 +39,8 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 					location : newval.location,
 					categories : newval.categories,
 					description : newval.description,
-					attendees : []
+					attendees : [],
+					alarms : []
 				};
 			}
 		});
@@ -94,6 +95,22 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 					}
 				});
 				$scope.nameofattendee = '';
+			}
+		};
+
+		$scope.addmorereminders = function () {
+			if ($scope.selectedreminder !== '') {
+				$scope.properties.alarms.push({
+					'TRIGGER': {
+						value: $scope.selectedreminder,
+						props: {}
+					},
+					'ACTION': {
+						value: 'AUDIO',
+						props: {}
+					}
+				});
+				$scope.selectedreminder = '';
 			}
 		};
 

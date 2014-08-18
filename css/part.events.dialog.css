@@ -35,23 +35,27 @@
 	font-size:20px;
 }
 
-#events input, #eventupdatebutton, #addmoreattendees {
+#events input, #eventupdatebutton, #addmoreattendees, #addmorereminders {
 	float:right;
 }
 
-#listofattendees {
+#listofattendees, #listofreminders {
 	float:left;
 	margin:10px;
 	width: 100%;
 }
 
-#listofattendees li {
+#listofattendees li, #listofreminders li {
 	padding:5px 0;
 	margin-right:12px;
 }
 
-#listofattendees li:hover {
+#listofattendees li:hover, #listofreminders li:hover {
 	background:#ddd;
+}
+
+#listofreminders li span {
+	margin-left: 8px;
 }
 
 #events select {
@@ -135,6 +139,10 @@
 	height: 14px;
 	display: inline-block;
 	width: 14px;
+	float: right;
+}
+
+#events .reminderselect {
 	float: right;
 }
 

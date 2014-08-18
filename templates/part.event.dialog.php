@@ -58,7 +58,7 @@
 				placeholder="<?php p($l->t('Name/Email'))?>" name="nameofattendee" />
 		</div>
 		<ul id="listofattendees">
-			<li ng-repeat="attendee in properties.attendees" data-attendee-number="{{ attendeecount }}">
+			<li ng-repeat="attendee in properties.attendees">
 			<span class="action notsurecontainer">
 				<span class="checkedicon attendeenotsure"><?php p($l->t('?')); ?></span>
 			</span>
@@ -119,6 +119,11 @@
 			ng-change="changereminder(selectedreminder)"
 			ng-options="reminder.displayname for reminder in reminderSelect">
 		</select>
+		<ul id="listofreminders">
+			<li ng-repeat="alarm in properties.alarms">
+				<span>{{ alarm.TRIGGER.value.displayname }}</span>
+			</li>
+		</ul>
 		<button id="addmorereminders" ng-click="addmorereminders()" class="btn">
 			<?php p($l->t('Add')); ?>
 		</button>
