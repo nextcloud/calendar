@@ -21,6 +21,11 @@
  *
  */
 
+/**
+* Model: Calendar
+* Description: Required for Calendar Sharing.
+*/ 
+
 app.factory('CalendarModel', function () {
 	var CalendarModel = function () {
 		this.calendars = [];

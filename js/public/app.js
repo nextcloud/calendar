@@ -591,14 +591,14 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 		};
 
 		$scope.reminderSelect = [
-			{ displayname: t('Calendar', 'None')},
-			{ displayname: t('Calendar', 'At time of event')},
-			{ displayname: t('Calendar', '5 minutes before')},
-			{ displayname: t('Calendar', '10 minutes before')},
-			{ displayname: t('Calendar', '15 minutes before')},
-			{ displayname: t('Calendar', '1 hour before')},
-			{ displayname: t('Calendar', '2 hours before')},
-			{ displayname: t('Calendar', 'Custom')}
+			{ displayname: t('Calendar', 'None'), email: 'none'},
+			{ displayname: t('Calendar', 'At time of event'), email: 'none'},
+			{ displayname: t('Calendar', '5 minutes before'), email: 'none'},
+			{ displayname: t('Calendar', '10 minutes before'), email: 'none'},
+			{ displayname: t('Calendar', '15 minutes before'), email: 'none'},
+			{ displayname: t('Calendar', '1 hour before'), email: 'none'},
+			{ displayname: t('Calendar', '2 hours before'), email: 'none'},
+			{ displayname: t('Calendar', 'Custom'), email: 'blah'}
 		];
 
 		$scope.update = function () {
@@ -811,6 +811,11 @@ app.controller('SubscriptionController', ['$scope', '$window', 'SubscriptionMode
 
 	}
 ]);
+/**
+* Directive: Loading
+* Description: Can be used to incorperate loading behavior, anywhere.
+*/
+
 app.directive('loading',
 	[ function () {
 		return {
@@ -830,6 +835,11 @@ app.directive('loading',
 		};
 	}]
 );
+/**
+* Controller: Modal
+* Description: The jQuery Model ported to angularJS as a directive.
+*/ 
+
 app.directive('openDialog', function(){
 	return {
 		restrict: 'A',
@@ -930,6 +940,11 @@ app.directive('upload', ['UploadModel', function factory(UploadModel) {
 	};
 }]);
 
+/**
+* Model:
+* Description: Generates a random uid.
+*/
+
 app.factory('Model', function () {
 	var Model = function () {
 		this.text = '';
@@ -942,13 +957,17 @@ app.factory('Model', function () {
 			for (var i = 0; i < 5; i++) {
 				this.text += possible.charAt(Math.floor(Math.random() * possible.length));
 			}
-			console.log(this.text);
 			return this.text;
 		}
 	};
 
 	return new Model();
 });
+/**
+* Model: Calendar
+* Description: Required for Calendar Sharing.
+*/ 
+
 app.factory('CalendarModel', function () {
 	var CalendarModel = function () {
 		this.calendars = [];
@@ -1058,6 +1077,11 @@ app.factory('CalendarModel', function () {
 	return new CalendarModel();
 });
 
+/**
+* Model: Dialog
+* Description: For Dialog Properties.
+*/
+
 app.factory('DialogModel', function() {
 	return {
 		initsmall: function(elementId) {
@@ -1087,6 +1111,11 @@ app.factory('DialogModel', function() {
 		}
 	};
 });
+/**
+* Model: Events
+* Description: Required for Calendar Sharing.
+*/
+
 app.factory('EventsModel', function () {
 	var EventsModel = function () {
 		this.events = [];
@@ -1355,6 +1384,11 @@ app.factory('EventsModel', function () {
 
 	return new EventsModel();
 });
+/**
+* Model: Subscriptions
+* Description: Required for Subscription Sharing.
+*/ 
+
 app.factory('SubscriptionModel', function () {
 	var SubscriptionModel = function () {
 		this.subscriptions = [];
@@ -1416,6 +1450,11 @@ app.factory('SubscriptionModel', function () {
 
 	return new SubscriptionModel();
 });
+/**
+* Model: Timezone
+* Description: Required for Setting timezone.
+*/
+
 app.factory('TimezoneModel', function () {
 	var TimezoneModel = function () {
 		this.timezones = [];
@@ -1461,6 +1500,11 @@ app.factory('TimezoneModel', function () {
 	return new TimezoneModel();
 });
 
+/**
+* Model: Upload
+* Description: Required for Uploading / Importing Files.
+*/ 
+
 app.factory('UploadModel', function ($rootScope) {
 	var _files = [];
 	return {
@@ -1489,6 +1533,11 @@ app.factory('UploadModel', function ($rootScope) {
 		}
 	};
 });
+/**
+* Model: View
+* Description: Sets the full calendarview.
+*/
+
 app.factory('ViewModel', function () {
 	var ViewModel = function () {
 		this.view = [];

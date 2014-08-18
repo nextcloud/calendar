@@ -21,6 +21,10 @@
  *
  */
 
+/**
+* Model: Events
+* Description: Required for Calendar Sharing.
+*/
 
 app.factory('EventsModel', function () {
 	var EventsModel = function () {

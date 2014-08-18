@@ -21,6 +21,11 @@
  *
  */
 
+/**
+* Model: Timezone
+* Description: Required for Setting timezone.
+*/
+
 app.factory('TimezoneModel', function () {
 	var TimezoneModel = function () {
 		this.timezones = [];

@@ -21,6 +21,11 @@
  *
  */
 
+/**
+* Model: View
+* Description: Sets the full calendarview.
+*/
+
 app.factory('ViewModel', function () {
 	var ViewModel = function () {
 		this.view = [];

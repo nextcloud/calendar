@@ -98,14 +98,14 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 		};
 
 		$scope.reminderSelect = [
-			{ displayname: t('Calendar', 'None')},
-			{ displayname: t('Calendar', 'At time of event')},
-			{ displayname: t('Calendar', '5 minutes before')},
-			{ displayname: t('Calendar', '10 minutes before')},
-			{ displayname: t('Calendar', '15 minutes before')},
-			{ displayname: t('Calendar', '1 hour before')},
-			{ displayname: t('Calendar', '2 hours before')},
-			{ displayname: t('Calendar', 'Custom')}
+			{ displayname: t('Calendar', 'None'), email: 'none'},
+			{ displayname: t('Calendar', 'At time of event'), email: 'none'},
+			{ displayname: t('Calendar', '5 minutes before'), email: 'none'},
+			{ displayname: t('Calendar', '10 minutes before'), email: 'none'},
+			{ displayname: t('Calendar', '15 minutes before'), email: 'none'},
+			{ displayname: t('Calendar', '1 hour before'), email: 'none'},
+			{ displayname: t('Calendar', '2 hours before'), email: 'none'},
+			{ displayname: t('Calendar', 'Custom'), email: 'blah'}
 		];
 
 		$scope.update = function () {

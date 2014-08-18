@@ -21,6 +21,11 @@
  *
  */
 
+/**
+* Model:
+* Description: Generates a random uid.
+*/
+
 app.factory('Model', function () {
 	var Model = function () {
 		this.text = '';
@@ -33,7 +38,6 @@ app.factory('Model', function () {
 			for (var i = 0; i < 5; i++) {
 				this.text += possible.charAt(Math.floor(Math.random() * possible.length));
 			}
-			console.log(this.text);
 			return this.text;
 		}
 	};

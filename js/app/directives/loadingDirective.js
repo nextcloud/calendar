@@ -21,6 +21,11 @@
  *
  */
 
+/**
+* Directive: Loading
+* Description: Can be used to incorperate loading behavior, anywhere.
+*/
+
 app.directive('loading',
 	[ function () {
 		return {

@@ -21,6 +21,11 @@
  *
  */
 
+/**
+* Model: Dialog
+* Description: For Dialog Properties.
+*/
+
 app.factory('DialogModel', function() {
 	return {
 		initsmall: function(elementId) {
