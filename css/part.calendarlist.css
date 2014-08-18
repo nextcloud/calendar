@@ -154,6 +154,12 @@
 	height:25px;
 }
 
+#chooseCalendar-close span {
+	width: 20px;
+	height: 10px;
+	display: block;
+}
+
 .personalblock form #submitnewSubscription {
 	float: right;
 }
