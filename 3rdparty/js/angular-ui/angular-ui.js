@@ -3892,7 +3892,7 @@ angular.module("template/datepicker/day.html", []).run(["$templateCache", functi
   $templateCache.put("template/datepicker/day.html",
     "<table role=\"grid\" aria-labelledby=\"{{uniqueId}}-title\" aria-activedescendant=\"{{activeDateId}}\">\n" +
     "  <thead>\n" +
-    "    <tr class=\"firstrow\">\n" +
+    "    <tr class=\"firstrow\" id=\"firstrow\">\n" +
     "      <th colspan=\"{{7 + showWeeks}}\"><div id=\"{{uniqueId}}-title\" role=\"heading\" aria-live=\"assertive\" aria-atomic=\"true\" class=\"datepicker_current\" ng-click=\"changeDatePickerDisplay();\" tabindex=\"-1\">{{title}}</div></th>\n" +
     "      <th><button type=\"button\" class=\"datepicker_toggle datepicker_left\" ng-click=\"move(-1); switchcalendarview('prev')\" tabindex=\"-1\">&nbsp;<&nbsp;</button></th>\n" +    
     "      <th><button type=\"button\" class=\"datepicker_toggle datepicker_right\" ng-click=\"move(1); switchcalendarview('next')\" tabindex=\"-1\">&nbsp;>&nbsp;</button></th>\n" +
@@ -3918,7 +3918,7 @@ angular.module("template/datepicker/month.html", []).run(["$templateCache", func
   $templateCache.put("template/datepicker/month.html",
     "<table role=\"grid\" aria-labelledby=\"{{uniqueId}}-title\" aria-activedescendant=\"{{activeDateId}}\">\n" +
     "  <thead>\n" +
-    "    <tr ng-class=\"firstrow\">\n" +
+    "    <tr ng-class=\"firstrow\" id=\"firstrow\">\n" +
     "      <th colspan=\"4\"><div id=\"{{uniqueId}}-title\" role=\"heading\" aria-live=\"assertive\" aria-atomic=\"true\" type=\"button\" class=\"datepicker_current\" ng-click=\"toggleMode()\" tabindex=\"-1\">{{title}}</div></th>\n" +
     "      <th><button type=\"button\" class=\"datepicker_toggle datepicker_left\" ng-click=\"move(-1); switchcalendarview('prev')\" tabindex=\"-1\">&nbsp;<&nbsp;</button></th>\n" +
     "      <th><button type=\"button\" class=\"datepicker_toggle datepicker_right\" ng-click=\"move(1); switchcalendarview('next')\" tabindex=\"-1\">&nbsp;>&nbsp;</button></th>\n" +
@@ -3954,7 +3954,7 @@ angular.module("template/datepicker/year.html", []).run(["$templateCache", funct
   $templateCache.put("template/datepicker/year.html",
     "<table role=\"grid\" aria-labelledby=\"{{uniqueId}}-title\" aria-activedescendant=\"{{activeDateId}}\">\n" +
     "  <thead>\n" +
-    "    <tr ng-class=\"firstrow\">\n" +
+    "    <tr ng-class=\"firstrow\" id=\"firstrow\">\n" +
     "      <th colspan=\"5\"><div id=\"{{uniqueId}}-title\" role=\"heading\" aria-live=\"assertive\" aria-atomic=\"true\" type=\"button\" class=\"datepicker_current\" ng-click=\"toggleMode()\" tabindex=\"-1\">{{title}}</div></th>\n" +
     "      <th><button type=\"button\" class=\"datepicker_toggle datepicker_left\" ng-click=\"move(-1); switchcalendarview('prev')\" tabindex=\"-1\">&nbsp;<&nbsp;</button></th>\n" +
     "      <th><button type=\"button\" class=\"datepicker_toggle datepicker_right\" ng-click=\"move(1); switchcalendarview('next')\" tabindex=\"-1\">&nbsp;>&nbsp;</button></th>\n" +

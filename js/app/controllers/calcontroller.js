@@ -146,7 +146,8 @@ app.controller('CalController', ['$scope', 'Restangular', 'CalendarModel', 'Even
 					});
 				},
 				viewRender: function (view) {
-					angular.element('#datecontrol_current').html($('<p>').html(view.title).text());
+					console.log(view.title);
+					angular.element('#firstrow').find('.datepicker_current').html(view.title).text();
 					angular.element("#datecontrol_date").datepicker("setDate", $scope.calendar.fullCalendar('getDate'));
 					var newview = view.name;
 					if (newview != $scope.defaultView) {
