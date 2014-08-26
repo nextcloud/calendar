@@ -30,6 +30,8 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'Ca
 	function ($scope, $rootScope, Restangular, CalendarModel, UploadModel, DialogModel) {
 
 		$scope.files = [];
+		var firstdayResource = Restangular.one('firstDay');
+		var timeformatResource = Restangular.one('timeFormat');
 
 		// have to use the native HTML call for filereader to work efficiently
 		var importinput = document.getElementById('import');

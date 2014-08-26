@@ -119,16 +119,6 @@ app.controller('CalController', ['$scope', 'Restangular', 'CalendarModel', 'Even
 					center: '',
 					right: ''
 				},
-				columnFormat: {
-					month: t('calendar', 'ddd'),
-					week: t('calendar', 'ddd M/D'),
-					day: t('calendar', 'dddd M/D')
-				},
-				titleFormat: {
-					month: t('calendar', 'MMMM YYYY'),
-					week: t('calendar', "MMM D, YYYY"),
-					day: t('calendar', 'dddd, MMM D, YYYY')
-				},
 				eventClick: function( event, jsEvent, view ) {
 					Restangular.one('calendars', event.calendarId).one('events', event.objectUri).get().then(function (eventsobject) {
 						DialogModel.initbig('#events');
@@ -630,6 +620,8 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'Ca
 	function ($scope, $rootScope, Restangular, CalendarModel, UploadModel, DialogModel) {
 
 		$scope.files = [];
+		var firstdayResource = Restangular.one('firstDay');
+		var timeformatResource = Restangular.one('timeFormat');
 
 		// have to use the native HTML call for filereader to work efficiently
 		var importinput = document.getElementById('import');

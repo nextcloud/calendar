@@ -93,16 +93,6 @@ app.controller('CalController', ['$scope', 'Restangular', 'CalendarModel', 'Even
 					center: '',
 					right: ''
 				},
-				columnFormat: {
-					month: t('calendar', 'ddd'),
-					week: t('calendar', 'ddd M/D'),
-					day: t('calendar', 'dddd M/D')
-				},
-				titleFormat: {
-					month: t('calendar', 'MMMM YYYY'),
-					week: t('calendar', "MMM D, YYYY"),
-					day: t('calendar', 'dddd, MMM D, YYYY')
-				},
 				eventClick: function( event, jsEvent, view ) {
 					Restangular.one('calendars', event.calendarId).one('events', event.objectUri).get().then(function (eventsobject) {
 						DialogModel.initbig('#events');
