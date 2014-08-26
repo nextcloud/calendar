@@ -35,7 +35,7 @@ app.factory('DialogModel', function() {
 				resizable: false,
 				draggable: true,
 				close : function(event, ui) {
-					$(this).dialog('destroy').remove();
+					$(this).dialog('destroy');
 				}
 			});
 		},
@@ -46,7 +46,7 @@ app.factory('DialogModel', function() {
 				resizable: false,
 				draggable: false,
 				close : function(event, ui) {
-					$(this).dialog('destroy').remove();
+					$(this).dialog('destroy');
 				}
 			});
 		},
