@@ -71,7 +71,13 @@ app.factory('CalendarModel', function () {
 			return this.calendars;
 		},
 		get: function (id) {
-			return this.calendarId[id];
+			for (var i = 0; i <this.calendars.length; i++) {
+				if (id == this.calendars[i].id) {
+					this.calendarId = this.calendars[i];
+					break;
+				}
+			}
+			return this.calendarId;
 		},
 		updateIfExists: function (updated) {
 			var calendar = this.calendarId[updated.id];

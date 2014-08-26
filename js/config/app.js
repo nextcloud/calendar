@@ -42,13 +42,12 @@ var app = angular.module('Calendar', [
 			templateUrl: 'calendar.html',
 			controller: 'CalController',
 			resolve: {
-				// TODO : this can leave, as we are not really using routes right now.
-				calendar: ['$route', '$q', 'Restangular',
-					function ($route, $q, Restangular) {
+				calendar: ['$route', '$q', 'Restangular', 'CalendarModel',
+					function ($route, $q, Restangular, CalendarModel) {
 						var deferred = $q.defer();
-						var id = $route.current.params.id;
-						Restangular.one('calendars', id).get().then(function (calendar) {
-							deferred.resolve(calendar);
+						Restangular.all('calendars').getList().then(function (calendars) {
+							CalendarModel.addAll(calendars);
+							deferred.resolve(calendars);
 						}, function () {
 							deferred.reject();
 						});

@@ -44,15 +44,6 @@ app.controller('SubscriptionController', ['$scope', '$window', 'SubscriptionMode
 			OC.Notification.show(t('calendar', response.data.message));
 		});
 
-		var calendarResource = Restangular.all('calendars');
-
-		// Gets All Calendars.
-		calendarResource.getList().then(function (calendars) {
-			CalendarModel.addAll(calendars);
-		}, function (response) {
-			OC.Notification.show(t('calendar', response.data.message));
-		});
-
 		var backendResource = Restangular.all('backends-enabled');
 
 		backendResource.getList().then(function (backendsobject) {

@@ -34,10 +34,6 @@ app.controller('CalendarListController', ['$scope', '$window', '$location',
 		$scope.calendarModel = CalendarModel;
 		$scope.calendars = CalendarModel.getAll();
 		var calendarResource = Restangular.all('calendars');
-		// Gets All Calendars.
-		calendarResource.getList().then(function (calendars) {
-			CalendarModel.addAll(calendars);
-		});
 
 		// Default values for new calendars
 		$scope.newcolor = 'rgba(37,46,95,1.0)';

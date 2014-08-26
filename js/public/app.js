@@ -20,13 +20,12 @@ var app = angular.module('Calendar', [
 			templateUrl: 'calendar.html',
 			controller: 'CalController',
 			resolve: {
-				// TODO : this can leave, as we are not really using routes right now.
-				calendar: ['$route', '$q', 'Restangular',
-					function ($route, $q, Restangular) {
+				calendar: ['$route', '$q', 'Restangular', 'CalendarModel',
+					function ($route, $q, Restangular, CalendarModel) {
 						var deferred = $q.defer();
-						var id = $route.current.params.id;
-						Restangular.one('calendars', id).get().then(function (calendar) {
-							deferred.resolve(calendar);
+						Restangular.all('calendars').getList().then(function (calendars) {
+							CalendarModel.addAll(calendars);
+							deferred.resolve(calendars);
 						}, function () {
 							deferred.reject();
 						});
@@ -53,8 +52,8 @@ var app = angular.module('Calendar', [
 * Description: The fullcalendar controller.
 */
 
-app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 'CalendarModel', 'EventsModel', 'ViewModel', 'TimezoneModel', 'DialogModel',
-	function ($scope, $modal, Restangular, calendar, CalendarModel, EventsModel, ViewModel, TimezoneModel, DialogModel) {
+app.controller('CalController', ['$scope', 'Restangular', 'CalendarModel', 'EventsModel', 'ViewModel', 'TimezoneModel', 'DialogModel',
+	function ($scope, Restangular, CalendarModel, EventsModel, ViewModel, TimezoneModel, DialogModel) {
 
 		$scope.eventSources = EventsModel.getAll();
 		$scope.calendarModel = CalendarModel;
@@ -366,10 +365,6 @@ app.controller('CalendarListController', ['$scope', '$window', '$location',
 		$scope.calendarModel = CalendarModel;
 		$scope.calendars = CalendarModel.getAll();
 		var calendarResource = Restangular.all('calendars');
-		// Gets All Calendars.
-		calendarResource.getList().then(function (calendars) {
-			CalendarModel.addAll(calendars);
-		});
 
 		// Default values for new calendars
 		$scope.newcolor = 'rgba(37,46,95,1.0)';
@@ -676,13 +671,6 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'Ca
 		};
 
 		$scope.calendars = CalendarModel.getAll();
-		var calendarResource = Restangular.all('calendars');
-
-		calendarResource.getList().then(function (calendars) {
-			CalendarModel.addAll(calendars);
-		}, function (response) {
-			OC.Notification.show(t('calendar', response.data.message));
-		});
 
 		// Time Format Dropdown
 		$scope.timeformatSelect = [
@@ -754,15 +742,6 @@ app.controller('SubscriptionController', ['$scope', '$window', 'SubscriptionMode
 
 		subscriptionResource.getList().then(function (subscriptions) {
 			SubscriptionModel.addAll(subscriptions);
-		}, function (response) {
-			OC.Notification.show(t('calendar', response.data.message));
-		});
-
-		var calendarResource = Restangular.all('calendars');
-
-		// Gets All Calendars.
-		calendarResource.getList().then(function (calendars) {
-			CalendarModel.addAll(calendars);
 		}, function (response) {
 			OC.Notification.show(t('calendar', response.data.message));
 		});
@@ -1033,7 +1012,13 @@ app.factory('CalendarModel', function () {
 			return this.calendars;
 		},
 		get: function (id) {
-			return this.calendarId[id];
+			for (var i = 0; i <this.calendars.length; i++) {
+				if (id == this.calendars[i].id) {
+					this.calendarId = this.calendars[i];
+					break;
+				}
+			}
+			return this.calendarId;
 		},
 		updateIfExists: function (updated) {
 			var calendar = this.calendarId[updated.id];

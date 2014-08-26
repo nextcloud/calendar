@@ -71,13 +71,6 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'Ca
 		};
 
 		$scope.calendars = CalendarModel.getAll();
-		var calendarResource = Restangular.all('calendars');
-
-		calendarResource.getList().then(function (calendars) {
-			CalendarModel.addAll(calendars);
-		}, function (response) {
-			OC.Notification.show(t('calendar', response.data.message));
-		});
 
 		// Time Format Dropdown
 		$scope.timeformatSelect = [
