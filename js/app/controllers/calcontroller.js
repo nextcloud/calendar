@@ -30,7 +30,6 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 	function ($scope, $modal, Restangular, calendar, CalendarModel, EventsModel, ViewModel, TimezoneModel, DialogModel) {
 
 		$scope.eventSources = EventsModel.getAll();
-		$scope.defaultView = ViewModel.getAll();
 		$scope.calendarModel = CalendarModel;
 		$scope.defaulttimezone = TimezoneModel.currenttimezone();
 		$scope.eventsmodel = EventsModel;
@@ -47,14 +46,10 @@ app.controller('CalController', ['$scope', '$modal', 'Restangular', 'calendar', 
 			});
 		}
 
-		// Responds to change in View from calendarlistcontroller.
-		viewResource.get().then(function (views) {
-			ViewModel.add(views);
-		});
-
 		$scope.eventSource = {};
 		$scope.calendars = $scope.calendarModel.getAll();
 
+		$scope.defaultView = angular.element('#fullcalendar').attr('data-defaultView');
 		var initEventSources = [];
 		angular.forEach($scope.calendars, function (value, key) {
 			if ($scope.eventSource[value.id] === undefined) {
