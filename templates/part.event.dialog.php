@@ -119,6 +119,10 @@
 			ng-change="changereminder(selectedreminder)"
 			ng-options="reminder.displayname for reminder in reminderSelect">
 		</select>
+		<div class="remindercontainer" ng-show="booyah">
+			<input type="email" ng-model="reminderemail" placeholder="<?php p($l->t('Email id')); ?>" />
+		</div>
+		
 		<ul id="listofreminders">
 			<li ng-repeat="alarm in properties.alarms">
 				<span>{{ alarm.TRIGGER.value.displayname }}</span>

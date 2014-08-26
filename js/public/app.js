@@ -1,4 +1,5 @@
 
+
 /**
 * Configuration / App Initialization File
 */
@@ -595,8 +596,14 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 			}
 		};
 
+		$scope.changereminder = function (selectedreminder) {
+			if (selectedreminder.displayname == 'Custom') {
+				/*Add Code for displaying div*/
+			}
+		};
+
 		$scope.addmorereminders = function () {
-			if ($scope.selectedreminder !== '') {
+			if ($scope.selectedreminder !== '' && $scope.selectedreminder.displayname !== 'Custom') {
 				$scope.properties.alarms.push({
 					'TRIGGER': {
 						value: $scope.selectedreminder,
@@ -612,7 +619,6 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 		};
 
 		$scope.reminderSelect = [
-			{ displayname: t('Calendar', 'None'), email: 'none'},
 			{ displayname: t('Calendar', 'At time of event'), email: 'none'},
 			{ displayname: t('Calendar', '5 minutes before'), email: 'none'},
 			{ displayname: t('Calendar', '10 minutes before'), email: 'none'},
@@ -1584,3 +1590,4 @@ app.factory('ViewModel', function () {
 
 	return new ViewModel();
 });
+
