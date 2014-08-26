@@ -24,7 +24,7 @@
 ?>
 <ul id="calendarlist">
 	<li ng-repeat="calendar in calendars| orderBy:['order'] | eventFilter | calendarFilter" ng-class="{active: calendar.enabled}">
-		<span class="calendarCheckbox" style="background-color:{{ calendar.color }}"></span>
+		<span class="calendarCheckbox" ng-style="{ background : calendar.enabled == true ? '{{ calendar.color }}' : 'transparent' }"></span>
 		<a href="#/" ng-click="triggerCalendarEnable(calendar.id)" data-id="{{ calendar.id }}">
 			<span>{{ calendar.displayname }}</span>
 		</a>

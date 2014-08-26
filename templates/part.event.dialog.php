@@ -57,6 +57,9 @@
 			<input type="text" class="event-attendees-name" ng-model="nameofattendee"
 				placeholder="<?php p($l->t('Name/Email'))?>" name="nameofattendee" />
 		</div>
+		<button id="addmoreattendees" ng-click="addmoreattendees()" class="btn">
+			<?php p($l->t('Add')); ?>
+		</button>
 		<ul id="listofattendees">
 			<li ng-repeat="attendee in properties.attendees">
 			<span class="action notsurecontainer">
@@ -106,9 +109,6 @@
 				</ul>
 			</li>
 		</ul>
-		<button id="addmoreattendees" ng-click="addmoreattendees()" class="btn">
-			<?php p($l->t('Add')); ?>
-		</button>
 	</fieldset>
 	<fieldset>
 		<h3><?php p($l->t('Reminders')); ?></h3>

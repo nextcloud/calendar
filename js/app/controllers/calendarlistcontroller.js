@@ -146,7 +146,6 @@ app.controller('CalendarListController', ['$scope', '$window', '$location',
 		$scope.triggerCalendarEnable = function(id) {
 			var calendar = CalendarModel.get(id);
 			var newEnabled = !calendar.enabled;
-
 			calendar.patch({'enabled': newEnabled}).then(
 				function (calendarObj) {
 				CalendarModel.update(calendarObj);

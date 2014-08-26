@@ -28,6 +28,8 @@
 #events label {
 	margin: 10px;
 	float:left;
+	text-align: right;
+	width: 80px;
 }
 
 #events h3 {
@@ -35,8 +37,19 @@
 	font-size:20px;
 }
 
-#events input, #eventupdatebutton, #addmoreattendees, #addmorereminders {
+#events input, #eventupdatebutton, #addmorereminders {
 	float:right;
+}
+
+#addmoreattendees {
+	float:left;
+	margin-left:10px;
+}
+
+#attendeearea .event-attendees-name {
+	width:60% !important;
+	float:left;
+	margin-left: 16px;
 }
 
 #listofattendees, #listofreminders {
@@ -62,7 +75,7 @@
 	float:left;
 }
 
-#event-title, #event-location, #event-categories, #event-description, .event-attendees-name {
+#event-title, #event-location, #event-categories, #event-description {
 	box-sizing: border-box;
 	width: 75% !important;
 	margin: 3px 0 !important;
