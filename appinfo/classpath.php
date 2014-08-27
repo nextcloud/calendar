@@ -53,6 +53,7 @@
 \OC::$CLASSPATH['OCA\Calendar\Controller\Controller'] = 'calendar/controller/controller.php';
 \OC::$CLASSPATH['OCA\Calendar\Controller\BackendController'] = 'calendar/controller/backend.php';
 \OC::$CLASSPATH['OCA\Calendar\Controller\CalendarController'] = 'calendar/controller/calendar.php';
+\OC::$CLASSPATH['OCA\Calendar\Controller\ContactController'] = 'calendar/controller/contact.php';
 \OC::$CLASSPATH['OCA\Calendar\Controller\ObjectController'] = 'calendar/controller/object.php';
 \OC::$CLASSPATH['OCA\Calendar\Controller\ScanController'] = 'calendar/controller/scan.php';
 \OC::$CLASSPATH['OCA\Calendar\Controller\SettingsController'] = 'calendar/controller/settings.php';

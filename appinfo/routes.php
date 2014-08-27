@@ -152,12 +152,12 @@ $this->create('calendar.subscription.patch', '/v1/subscriptions/{id}')->patch()-
 
 $this->create('calendar.autocomplete.location', '/v1/autocompletion/location')->get()->action(function($params){
 	$app = new \OCA\Calendar\App($params);
-	$app->dispatch('ViewController', 'searchLocation');
+	$app->dispatch('ContactController', 'searchLocation');
 });
 
-$this->create('calendar.autocomplete.location', '/v1/autocompletion/attendee')->get()->action(function($params){
+$this->create('calendar.autocomplete.attendee', '/v1/autocompletion/attendee')->get()->action(function($params){
 	$app = new \OCA\Calendar\App($params);
-	$app->dispatch('ViewController', 'searchAttendee');
+	$app->dispatch('ContactController', 'searchAttendee');
 });
 
 

@@ -91,6 +91,12 @@ class App extends \OCP\AppFramework\App {
 
 			return new Controller\CalendarController($c, $request, $cbl, $obl);
 		});
+		$this->getContainer()->registerService('ContactController', function(IAppContainer $c) {
+			$request = $c->query('Request');
+			$contacts = $c->getServer()->getContactsManager();
+
+			return new Controller\ContactController($c, $request, $contacts);
+		});
 		$this->getContainer()->registerService('ObjectController', function(IAppContainer $c) {
 			$request = $c->query('Request');
 			$obl = $c->query('ObjectRequestBusinessLayer');
