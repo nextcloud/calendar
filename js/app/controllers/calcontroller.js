@@ -222,7 +222,14 @@ app.controller('CalController', ['$scope', 'Restangular', 'CalendarModel', 'Even
 				switcher.splice(index, 1);
 			}
 
-			$scope.eventSource[id].color = updatedCalendar.color;
+			if ($scope.eventSource[id].color != updatedCalendar.color) {
+				// Sadly fullcalendar doesn't support changing a calendar's
+				// color without removing and then adding it again as an eventSource
+				$scope.eventSource[id].color = updatedCalendar.color;
+				if (index != -1) {
+					//TODO find a solution
+				}
+			}
 			$scope.eventSource[id].editable = updatedCalendar.cruds.update;
 		}, true);
 
