@@ -4,6 +4,8 @@
  *
  * @author Georg Ehrke
  * @copyright 2014 Georg Ehrke <oc.list@georgehrke.com>
+ * @author Davide Saurino
+ * @copyright 2013 Davide Saurino <davide.saurino@alcacoop.it>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -55,10 +57,52 @@ class ViewController extends Controller {
 				continue;
 			}
 
-			$tmp = $r['ADR'][0];
-			$address = trim(implode(" ", $tmp));
+			$name = '';
+			if (isset($r['FN'])) {
+				$name = $r['FN'];
+			}
 
-			$contacts[] = array('label' => $address);
+			foreach ($r['ADR'] as $address) {
+				$address = trim(implode(" ", $address));
+				$contacts[] = array(
+					'label' => $address,
+					'name' => $name
+				);
+			}
+		}
+
+		return new JSONResponse($contacts);
+	}
+
+
+	/**
+	 * @param string $search
+	 * @return JSONResponse
+	 *
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 */
+	public function searchAttendee($search) {
+		$result = Contacts::search($search, array('FN', 'EMAIL'));
+
+		$contacts = array();
+
+		foreach ($result as $r) {
+			if (!isset($r['EMAIL'])) {
+				continue;
+			}
+
+			$name = '';
+			if (isset($r['FN'])) {
+				$name = $r['FN'];
+			}
+
+			foreach ($r['EMAIL'] as $email) {
+				$contacts[] = array(
+					'email' => $email,
+					'name' => $name
+				);
+			}
 		}
 
 		return new JSONResponse($contacts);

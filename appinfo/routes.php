@@ -155,6 +155,11 @@ $this->create('calendar.autocomplete.location', '/v1/autocompletion/location')->
 	$app->dispatch('ViewController', 'searchLocation');
 });
 
+$this->create('calendar.autocomplete.location', '/v1/autocompletion/attendee')->get()->action(function($params){
+	$app = new \OCA\Calendar\App($params);
+	$app->dispatch('ViewController', 'searchAttendee');
+});
+
 
 //set up resources
 $routes = array(
