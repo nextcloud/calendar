@@ -38,7 +38,7 @@ class ColorUtility extends Utility {
 	/**
 	 * @var string
 	 */
-	const RGBA = '/^rgba\((\d+),\s*(\d+),\s*(\d+)(,\s*\d+\.\d+)*\)$/';
+	const RGBA = '/^rgba\((\d+),\s*(\d+),\s*(\d+)(,(([1])|([1]\.[0]*)|(\s*[0]+\.\d+)))*\)$/';
 
 
 	/**
