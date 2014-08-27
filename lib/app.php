@@ -288,11 +288,11 @@ class App extends \OCP\AppFramework\App {
 			'firstDayOfWeek' => array(
 				'configKey' => 'firstday',
 				'options' => array(
-					'sa',
-					'su',
-					'mo'
+					'6',
+					'0',
+					'1'
 				),
-				'default' => 'mo'
+				'default' => '1'
 			),
 		));
 
