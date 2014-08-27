@@ -20,8 +20,8 @@ var app = angular.module('Calendar', [
 			templateUrl: 'calendar.html',
 			controller: 'CalController',
 			resolve: {
-				calendar: ['$route', '$q', 'Restangular', 'CalendarModel',
-					function ($route, $q, Restangular, CalendarModel) {
+				calendar: ['$q', 'Restangular', 'CalendarModel',
+					function ($q, Restangular, CalendarModel) {
 						var deferred = $q.defer();
 						Restangular.all('calendars').getList().then(function (calendars) {
 							CalendarModel.addAll(calendars);
@@ -348,9 +348,9 @@ app.controller('CalController', ['$scope', 'Restangular', 'CalendarModel', 'Even
 * Description: Takes care of CalendarList in App Navigation.
 */
 
-app.controller('CalendarListController', ['$scope', '$window', '$location',
+app.controller('CalendarListController', ['$scope', '$window',
 	'$routeParams', 'Restangular', 'CalendarModel', 'EventsModel',
-	function ($scope, $window, $location, $routeParams, Restangular,
+	function ($scope, $window, $routeParams, Restangular,
 			  CalendarModel, EventsModel) {
 
 		$scope.calendarModel = CalendarModel;
@@ -722,6 +722,10 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'Ca
 				OC.Notification.show(t('calendar', response.data.message));
 			});
 		};
+
+		if ($scope.hiddencalendar === undefined) {
+			angular.element('#hiddencalendar').parent().addClass('hide');
+		}
 	}
 ]);
 

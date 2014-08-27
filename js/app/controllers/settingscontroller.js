@@ -122,5 +122,9 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'Ca
 				OC.Notification.show(t('calendar', response.data.message));
 			});
 		};
+
+		if ($scope.hiddencalendar === undefined) {
+			angular.element('#hiddencalendar').parent().addClass('hide');
+		}
 	}
 ]);

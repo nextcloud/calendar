@@ -42,8 +42,8 @@ var app = angular.module('Calendar', [
 			templateUrl: 'calendar.html',
 			controller: 'CalController',
 			resolve: {
-				calendar: ['$route', '$q', 'Restangular', 'CalendarModel',
-					function ($route, $q, Restangular, CalendarModel) {
+				calendar: ['$q', 'Restangular', 'CalendarModel',
+					function ($q, Restangular, CalendarModel) {
 						var deferred = $q.defer();
 						Restangular.all('calendars').getList().then(function (calendars) {
 							CalendarModel.addAll(calendars);
