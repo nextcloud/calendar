@@ -93,6 +93,7 @@ app.controller('CalController', ['$scope', 'Restangular', 'CalendarModel', 'Even
 					center: '',
 					right: ''
 				},
+				firstDay: angular.element('#firstday').attr('data-firstday'),
 				eventClick: function( event, jsEvent, view ) {
 					Restangular.one('calendars', event.calendarId).one('events', event.objectUri).get().then(function (eventsobject) {
 						DialogModel.initbig('#events');

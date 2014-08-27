@@ -88,9 +88,9 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'Ca
 
 		// First Day Dropdown
 		$scope.firstdaySelect = [
-			{ day: t('calendar', 'Monday'), val: 'mo' },
-			{ day: t('calendar', 'Sunday'), val: 'su' },
-			{ day: t('calendar', 'Saturday'), val: 'sa' }
+			{ day: t('calendar', 'Monday'), val: '1' },
+			{ day: t('calendar', 'Sunday'), val: '0' },
+			{ day: t('calendar', 'Saturday'), val: '6' }
 		];
 
 		for (var j=0; j<$scope.firstdaySelect.length; j++) {

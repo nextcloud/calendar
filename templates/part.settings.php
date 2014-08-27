@@ -59,7 +59,7 @@
 					ng-selected="selectedday"
 					ng-change="changefirstday(selectedday)"
 					ng-options="firstday.day for firstday in firstdaySelect"
-					data-firstDay="<?php p(OCP\Config::getUserValue(OCP\User::getUser(), 'calendar', 'firstday', 'mo')); ?>">
+					data-firstDay="<?php p(OCP\Config::getUserValue(OCP\User::getUser(), 'calendar', 'firstday', '1')); ?>">
 				</select>
 			</li>
 			<li>
