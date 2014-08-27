@@ -23,14 +23,13 @@
 
 #datepicker .datepicker_current {
 	float: left;
-	width: 180px;
-	height: 26px;
+	width: 178px;
+	height: 27px;
 	margin-top: 0px;
 	margin-left: -1px;
 	padding-top: 6px;
 	background-color: white;
 	border: 1px solid rgba(190, 190, 190, 0.9);
-	border-radius: 3px;
 	border-top-right-radius: 0;
 	border-bottom-right-radius: 0;
 	color: rgb(85, 85, 85);
@@ -52,7 +51,7 @@
 #datepicker .datepicker_left {
 	width: 33px;
 	border-radius: 0;
-	border-left: 0;
+	border-right:0;
 }
 
 #datepicker .datepicker_right {
@@ -60,6 +59,8 @@
 	border-top-left-radius: 0;
 	border-bottom-left-radius: 0;
 	border-left: 0;
+	margin-left:-1px;
+	border-radius: 0;
 }
 
 #datepicker .days {
@@ -100,10 +101,12 @@
 	float:left !important;
 	margin-top:3px;
 	margin-bottom:3px;
+	margin-left: 2px;
 }
 
 .pickerbody-show {
 	float:left;
+	width:99%;
 }
 
 .pickerbody-hide {
