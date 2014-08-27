@@ -23,10 +23,10 @@
 
 #datepicker .datepicker_current {
 	float: left;
-	width: 175px;
+	width: 180px;
 	height: 26px;
 	margin-top: 0px;
-	margin-left: 3px;
+	margin-left: -1px;
 	padding-top: 6px;
 	background-color: white;
 	border: 1px solid rgba(190, 190, 190, 0.9);
