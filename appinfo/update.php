@@ -22,24 +22,6 @@
 $installedVersion=OCP\Config::getAppValue('calendar', 'installed_version');
 
 if(version_compare($installedVersion, '0.9.8', '<=')) {
-    //add backends:
-    $backends = array(
-					array (
-						'backend' => 'local',
-						'classname' => '\OCA\Calendar\Backend\Local',
-						'arguments' => '',
-						'enabled' => true,
-					),/*
-					array (
-						'backend' => 'WebCal',
-						'classname' => '\OCA\Calendar\Backend\WebCal',
-						'arguments' => '',
-						'enabled' => false
-					),*/
-					
-				);
-    \OCP\Config::setSystemValue('calendar_backends', $backends);
-
 	//fix calendars:
 	$users = \OCP\User::getUsers();
 	foreach($users as $userId) {

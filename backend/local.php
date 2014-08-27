@@ -165,7 +165,7 @@ class Local extends Backend {
 	 */
 	public function countCalendars($userId) {
 		$sql  = 'SELECT COUNT(*) FROM `' . $this->getCalendarTableName() . '`';
-		$sql .= '` WHERE `userid` = ?';
+		$sql .= ' WHERE `userid` = ?';
 
 		return $this->queryNumber($sql, array(
 			$userId
@@ -197,7 +197,7 @@ class Local extends Backend {
 	 * @return integer
 	 */
 	public function getCalendarsCTag($calendarURI, $userId) {
-		$sql  = 'SELECT `ctag` FROM `' . $this->getCalendarTableName() . '`';
+		$sql  = 'SELECT `ctag` FROM `' . $this->getCalendarTableName() . '` ';
 		$sql .= 'WHERE `uri` = ? AND `userid` = ?';
 
 		return $this->queryNumber($sql, array(
