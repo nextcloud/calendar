@@ -98,6 +98,18 @@ module.exports = function(grunt) {
 			options: {
 				colors: true
 			}
+		},
+
+		karma: {
+			unit: {
+				configFile: '../tests/js/config/karma.js'
+			},
+			continuous: {
+				configFile: '../tests/js/config/karma.js',
+				singleRun: true,
+				browsers: ['PhantomJS'],
+				reporters: ['progress']
+			}
 		}
 
 	});

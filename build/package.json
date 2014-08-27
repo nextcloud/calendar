@@ -17,7 +17,16 @@
 		"grunt-contrib-jshint": "*",
 		"grunt-contrib-watch": "*",
 		"grunt-wrap": "*",
-		"grunt-phpunit": "*"
+		"grunt-phpunit": "*",
+		"phantomjs": "*",
+		"bower": "*",
+		"karma": "*",
+		"grunt-karma": "*",
+		"karma-jasmine": "*",
+		"karma-phantomjs-launcher": "*",
+		"karma-chrome-launcher": "*",
+		"karma-firefox-launcher": "*"
+
 	},
 	"engine": "node >= 0.8"
 }
