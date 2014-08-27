@@ -23,4 +23,4 @@
  */
 ?>
 
-<datepicker ng-model="datemodel" id="datepicker" show-weeks="false"></datepicker>
+<datepicker ng-model="datemodel" id="datepicker" show-weeks="false" starting-day="<?php p(OCP\Config::getUserValue(OCP\User::getUser(), 'calendar', 'firstday', '1')); ?>"></datepicker>
