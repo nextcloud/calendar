@@ -19,19 +19,7 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-use \OCA\Calendar\Db\ObjectType;
-
 $installedVersion=OCP\Config::getAppValue('calendar', 'installed_version');
-
-if(version_compare($installedVersion, '0.10.17', '<=')) {
-	$stmt = OCP\DB::prepare('UPDATE `*PREFIX*clndr_calcache` SET `backend`="org.ownCloud.local" WHERE `backend`="local"');
-	$stmt->execute();
-	unset($stmt);
-
-	$stmt = OCP\DB::prepare('UPDATE `*PREFIX*clndr_calcache` SET `backend`="org.ownCloud.contact" WHERE `backend`="contact"');
-	$stmt->execute();
-	unset($stmt);
-}
 
 if(version_compare($installedVersion, '0.9.8', '<=')) {
     //add backends:
@@ -61,7 +49,4 @@ if(version_compare($installedVersion, '0.9.8', '<=')) {
 		//how to delete config values ???	
 	}
 
-	//there was no way set which calendar supports what kind of component, so we can set all calendars to support all components.
-	$stmtComponents = OCP\DB::prepare('UPDATE `*PREFIX*clndr_calendars` SET `components`=?');
-	$stmtComponents->execute(array((string) ObjectType::ALL));
 }
