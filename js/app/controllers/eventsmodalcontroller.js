@@ -31,17 +31,26 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 		
 		$scope.eventsmodel = EventsModel;
 		$scope.attendornot = 'Required';
+		$scope.calendarListSelect = CalendarModel.getAll();
 
 		$scope.$watch('eventsmodel.eventobject', function (newval, oldval) {
-			if (newval.event !== '') {
-				$scope.properties = {
-					title : newval.title,
-					location : newval.location,
-					categories : newval.categories,
-					description : newval.description,
-					attendees : [],
-					alarms : []
-				};
+			if(Object.getOwnPropertyNames(newval).length !== 0) {
+				if (newval.calendar !== '') {
+					$scope.properties = {
+						calcolor: newval.calendar.calendarcolor,
+						title : newval.title,
+						location : newval.location,
+						categories : newval.categories,
+						description : newval.description,
+						attendees : [],
+						alarms : []
+					};
+					for (var i=0; i< $scope.calendarListSelect.length; i++) {
+						if (newval.calendar.calendardisplayname === $scope.calendarListSelect[i].displayname) {
+							$scope.calendardropdown = $scope.calendarListSelect[i];
+						}
+					}
+				}
 			}
 		});
 

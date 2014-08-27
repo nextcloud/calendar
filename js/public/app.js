@@ -84,7 +84,7 @@ app.controller('CalController', ['$scope', 'Restangular', 'CalendarModel', 'Even
 						start = start.format('X');
 						end = end.format('X');
 						Restangular.one('calendars', value.id).one('events').one('inPeriod').getList(start + '/' + end).then(function (eventsobject) {
-							callback(EventsModel.addAllDisplayFigures(value.id, eventsobject, start, end, $scope.timezone));
+							callback(EventsModel.addAllDisplayFigures(value.id, value.displayname, value.color, eventsobject, start, end, $scope.timezone));
 						}, function (response) {
 							OC.Notification.show(t('calendar', response.data.message));
 						});
@@ -507,17 +507,26 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 		
 		$scope.eventsmodel = EventsModel;
 		$scope.attendornot = 'Required';
+		$scope.calendarListSelect = CalendarModel.getAll();
 
 		$scope.$watch('eventsmodel.eventobject', function (newval, oldval) {
-			if (newval.event !== '') {
-				$scope.properties = {
-					title : newval.title,
-					location : newval.location,
-					categories : newval.categories,
-					description : newval.description,
-					attendees : [],
-					alarms : []
-				};
+			if(Object.getOwnPropertyNames(newval).length !== 0) {
+				if (newval.calendar !== '') {
+					$scope.properties = {
+						calcolor: newval.calendar.calendarcolor,
+						title : newval.title,
+						location : newval.location,
+						categories : newval.categories,
+						description : newval.description,
+						attendees : [],
+						alarms : []
+					};
+					for (var i=0; i< $scope.calendarListSelect.length; i++) {
+						if (newval.calendar.calendardisplayname === $scope.calendarListSelect[i].displayname) {
+							$scope.calendardropdown = $scope.calendarListSelect[i];
+						}
+					}
+				}
 			}
 		});
 
@@ -842,6 +851,22 @@ app.directive('openDialog', function(){
 		}
 	};
 });
+app.filter('calendareventFilter',
+	[ function () {
+		var calendareventfilter = function (item) {
+			var filter = [];
+			if (item.length > 0) {
+				for (var i = 0; i < item.length; i++) {
+					if (item[i].cruds.create === true) {
+						filter.push(item[i]);
+					}
+				}
+			}
+			return filter;
+		};
+		return calendareventfilter;
+	}]
+);
 app.filter('calendarFilter',
 	[ function () {
 		var calendarfilter = function (item) {
@@ -1162,7 +1187,7 @@ app.factory('EventsModel', function () {
 			var rawdata = new ICAL.Event();
 			this.events.push(rawdata);
 		},
-		addAllDisplayFigures: function (calendarId, jcalData, start, end, timezone) {
+		addAllDisplayFigures: function (calendarId, calendardisplayname, calendarcolor, jcalData, start, end, timezone) {
 			var components = new ICAL.Component(jcalData);
 			var events = [];
 
@@ -1223,6 +1248,8 @@ app.factory('EventsModel', function () {
 
 						events.push({
 							"id": eventsId,
+							"calendardisplayname": calendardisplayname,
+							"calendarcolor":calendarcolor,
 							"calendarId": calendarId,
 							"objectUri": uri,
 							"etag": etag,
@@ -1330,6 +1357,7 @@ app.factory('EventsModel', function () {
 						continue;
 					}
 					this.eventobject = {
+						"calendar":event,
 						"title" : this.vevents[i].getFirstPropertyValue('summary'),
 						"location" : this.vevents[i].getFirstPropertyValue('location'),
 						"categoties" : this.vevents[i].getFirstPropertyValue('category'),

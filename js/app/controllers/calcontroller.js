@@ -58,7 +58,7 @@ app.controller('CalController', ['$scope', 'Restangular', 'CalendarModel', 'Even
 						start = start.format('X');
 						end = end.format('X');
 						Restangular.one('calendars', value.id).one('events').one('inPeriod').getList(start + '/' + end).then(function (eventsobject) {
-							callback(EventsModel.addAllDisplayFigures(value.id, eventsobject, start, end, $scope.timezone));
+							callback(EventsModel.addAllDisplayFigures(value.id, value.displayname, value.color, eventsobject, start, end, $scope.timezone));
 						}, function (response) {
 							OC.Notification.show(t('calendar', response.data.message));
 						});

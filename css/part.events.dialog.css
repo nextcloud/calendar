@@ -37,7 +37,7 @@
 	font-size:20px;
 }
 
-#events input, #eventupdatebutton, #addmorereminders {
+#eventupdatebutton, #addmorereminders {
 	float:right;
 }
 
@@ -71,14 +71,25 @@
 	margin-left: 8px;
 }
 
-#events select {
-	float:left;
+#events .calendarCheckbox {
+	margin-top:12px;
+}
+
+#events textarea {
+	max-width: 467px;
+	max-height:100px;
 }
 
 #event-title, #event-location, #event-categories, #event-description {
 	box-sizing: border-box;
-	width: 75% !important;
+	width: 100%;
 	margin: 3px 0 !important;
+}
+
+#calendardropdown {
+	float:right;
+	width:92%;
+	margin: 3px 0;
 }
 
 #event-title {

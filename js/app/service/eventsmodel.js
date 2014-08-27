@@ -75,7 +75,7 @@ app.factory('EventsModel', function () {
 			var rawdata = new ICAL.Event();
 			this.events.push(rawdata);
 		},
-		addAllDisplayFigures: function (calendarId, jcalData, start, end, timezone) {
+		addAllDisplayFigures: function (calendarId, calendardisplayname, calendarcolor, jcalData, start, end, timezone) {
 			var components = new ICAL.Component(jcalData);
 			var events = [];
 
@@ -136,6 +136,8 @@ app.factory('EventsModel', function () {
 
 						events.push({
 							"id": eventsId,
+							"calendardisplayname": calendardisplayname,
+							"calendarcolor":calendarcolor,
 							"calendarId": calendarId,
 							"objectUri": uri,
 							"etag": etag,
@@ -243,6 +245,7 @@ app.factory('EventsModel', function () {
 						continue;
 					}
 					this.eventobject = {
+						"calendar":event,
 						"title" : this.vevents[i].getFirstPropertyValue('summary'),
 						"location" : this.vevents[i].getFirstPropertyValue('location'),
 						"categoties" : this.vevents[i].getFirstPropertyValue('category'),
