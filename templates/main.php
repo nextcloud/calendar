@@ -38,6 +38,7 @@
 
 	\OCP\Util::addScript('calendar', '../3rdparty/js/angular-ui/angular-ui');
 	\OCP\Util::addScript('calendar', '../3rdparty/js/angular-ui/angular-ui-calendar');
+	\OCP\Util::addScript('calendar', '../3rdparty/js/angular-ui/angular-ui-sortable');
 	\OCP\Util::addScript('calendar', '../3rdparty/js/colorpicker/colorpicker');
 	\OCP\Util::addScript('calendar', '../3rdparty/js/appframework/app');
 
