@@ -54,6 +54,17 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 			}
 		});
 
+		$scope.getLocation = function(val) {
+			return Restangular.one('autocompletion').getList('location',
+					{ 'location': $scope.properties.location }).then(function(res) {
+					var locations = [];
+					angular.forEach(res, function(item) {
+						locations.push(item.label);
+					});
+				return locations;
+			});
+		};
+
 		// First Day Dropdown
 		$scope.recurrenceSelect = [
 			{ val: t('calendar', 'Daily'), id: '0' },

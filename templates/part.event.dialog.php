@@ -43,7 +43,9 @@
 	</fieldset>
 	<fieldset>
 		<input ng-model="properties.location" type="text" id="event-location"
-			placeholder="<?php p($l->t('Events Location'));?>" name="location" />
+			placeholder="<?php p($l->t('Events Location'));?>" name="location"
+			typeahead="location for location in getLocation($viewValue)"
+			autocomplete="off" />
 	</fieldset>
 	<fieldset>
 		<input ng-model="properties.categories" type="text" id="event-categories"
