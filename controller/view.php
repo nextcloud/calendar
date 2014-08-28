@@ -32,36 +32,58 @@ class ViewController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	public function index(){
-		$this->api->addScript('../3rdparty/jquery-file-upload/js/jquery.fileupload');
-		$this->api->addScript('../3rdparty/ical/ical');
-		//$this->api->addScript('../3rdparty/js/recurrencejs/jquery.recurrenceinput');
-		$this->api->addScript('../3rdparty/jstzdetect/jstz.min');
-		$this->api->addScript('../3rdparty/fullcalendar/dist/fullcalendar.min');
-		$this->api->addScript('../3rdparty/moment/min/moment.min');
-
-		$this->api->addScript('../3rdparty/angular/angular.min');
-		$this->api->addScript('../3rdparty/angular-animate/angular-animate.min');
-		$this->api->addScript('../3rdparty/restangular/dist/restangular.min');
-		$this->api->addScript('../3rdparty/angular-route/angular-route.min');
-
-		$this->api->addScript('../3rdparty/angular-ui/angular-ui');
-		$this->api->addScript('../3rdparty/angular-ui/angular-ui-calendar');
-		$this->api->addScript('../3rdparty/angular-ui/angular-ui-sortable');
-		$this->api->addScript('../3rdparty/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module');
-		$this->api->addScript('../3rdparty/appframework/app');
-
-		$this->api->addScript('public/app');
-
-
-		$this->api->addStyle('calendar');
-		$this->api->addStyle('part.datepicker');
-		$this->api->addStyle('part.calendarlist');
-		$this->api->addStyle('part.settings');
-		$this->api->addStyle('part.events.dialog');
-
-		$this->api->addStyle('../3rdparty/fullcalendar/dist/fullcalendar');
-		$this->api->addStyle('../3rdparty/angular-bootstrap-colorpicker/css/colorpicker');
+		$this->loadCSS();
+		$this->loadJS();
 
 		return new TemplateResponse('calendar', 'main');
+	}
+
+
+	/**
+	 * load css files
+	 */
+	private function loadCSS() {
+		$styles = [
+			'calendar',
+			'part.datepicker',
+			'part.calendarlist',
+			'part.settings',
+			'part.events.dialog',
+			'../3rdparty/fullcalendar/dist/fullcalendar',
+			'../3rdparty/angular-bootstrap-colorpicker/css/colorpicker',
+		];
+
+		foreach ($styles as $style) {
+			$this->api->addStyle($style);
+		}
+	}
+
+
+	/**
+	 * load js files
+	 */
+	private function loadJS() {
+		$scripts = [
+			'../3rdparty/jquery-file-upload/js/jquery.fileupload',
+			'../3rdparty/ical/ical',
+			//'../3rdparty/js/recurrencejs/jquery.recurrenceinput',
+			'../3rdparty/jstzdetect/jstz.min',
+			'../3rdparty/fullcalendar/dist/fullcalendar.min',
+			'../3rdparty/moment/min/moment.min',
+			'../3rdparty/angular/angular.min',
+			'../3rdparty/angular-animate/angular-animate.min',
+			'../3rdparty/restangular/dist/restangular.min',
+			'../3rdparty/angular-route/angular-route.min',
+			'../3rdparty/angular-ui/angular-ui',
+			'../3rdparty/angular-ui/angular-ui-calendar',
+			'../3rdparty/angular-ui/angular-ui-sortable',
+			'../3rdparty/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module',
+			'../3rdparty/appframework/app',
+			'public/app',
+		];
+
+		foreach ($scripts as $script) {
+			$this->api->addScript($script);
+		}
 	}
 }
