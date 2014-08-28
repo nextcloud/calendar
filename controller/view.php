@@ -49,6 +49,7 @@ class ViewController extends Controller {
 			'part.calendarlist',
 			'part.settings',
 			'part.events.dialog',
+			'../3rdparty/fontawesome/css/font-awesome',
 			'../3rdparty/fullcalendar/dist/fullcalendar',
 			'../3rdparty/angular-bootstrap-colorpicker/css/colorpicker',
 		];

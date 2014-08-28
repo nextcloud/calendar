@@ -80,6 +80,10 @@
 	max-height:100px;
 }
 
+#events table tr:hover {
+	background-color:transparent;
+}
+
 #event-title, #event-location, #event-categories, #event-description {
 	box-sizing: border-box;
 	width: 100%;
@@ -168,5 +172,9 @@
 
 #events .reminderselect {
 	float: right;
+}
+
+.alldaycontainer label {
+	float:none !important;
 }
 

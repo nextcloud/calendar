@@ -153,5 +153,9 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 		$scope.update = function () {
 			EventsModel.updateevent($scope.properties);
 		};
+
+		angular.element('#fromdaytimepicker').find('span.glyphicon').each( function () {
+			console.log($(this));
+		});
 	}
 ]);

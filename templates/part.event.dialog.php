@@ -48,6 +48,71 @@
 			autocomplete="off" />
 	</fieldset>
 	<fieldset>
+		<!--<table>
+			<thead></thead>
+			<tbody>
+				<tr>
+					<td>
+						<label class="bold" for="alldayeventcheckbox"><?php p($l->t('All day')); ?></label>
+					</td>
+					<td>
+						<input type="checkbox" ng-model="alldayeventcheckbox" name="alldayeventcheckbox" id="alldayeventcheckbox" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label class="bold"><?php p($l->t('from')); ?></label>
+					</td>
+					<td>
+						<timepicker id="fromdaytimepicker" style="width:100px;"
+							ng-model="fromdaymodel" 
+							ng-change="changedfromday()"
+							hour-step="1"
+							minute-step="15"
+							show-meridian="false">
+						</timepicker>
+						<input type="time" ng-model="fromtimemodel" />
+					</td>					
+				</tr>
+				<tr>
+					<td>
+						<label class="bold"><?php p($l->t('to')); ?></label>
+					</td>
+					<td>
+						<timepicker id="todaytimepicker" ng-model="todaymodel" 
+							ng-change="changedtoday()"
+							hour-step="1"
+							minute-step="15"
+							show-meridian="false">
+						</timepicker>
+						<input type="time" ng-mode="totimemodel" />
+					</td>					
+				</tr>
+			</tbody>
+		</table>-->
+		<div class="remindercontainer">
+			<label class="bold"><?php p($l->t('Reminder')); ?></label>
+			<select class="reminderselect"
+				ng-model="selectedreminder"
+				ng-selected="selectedreminder"
+				ng-change="changereminder(selectedreminder)"
+				ng-options="reminder.displayname for reminder in reminderSelect">
+		</select>
+		<div class="remindercontainer" ng-show="booyah">
+			<input type="email" ng-model="reminderemail" placeholder="<?php p($l->t('Email id')); ?>" />
+		</div>
+		
+		<ul id="listofreminders">
+			<li ng-repeat="alarm in properties.alarms">
+				<span>{{ alarm.TRIGGER.value.displayname }}</span>
+			</li>
+		</ul>
+		<button id="addmorereminders" ng-click="addmorereminders()" class="btn">
+			<?php p($l->t('Add')); ?>
+		</button>
+		</div>
+	</fieldset>
+	<fieldset>
 		<input ng-model="properties.categories" type="text" id="event-categories"
 			placeholder="<?php p($l->t('Separate Categories with comma'));?>" name="categories" />
 	</fieldset>
@@ -118,25 +183,7 @@
 	</fieldset>
 	<fieldset>
 		<h3><?php p($l->t('Reminders')); ?></h3>
-		<label class="bold"><?php p($l->t('Alarm')); ?></label>
-		<select class="reminderselect"
-			ng-model="selectedreminder"
-			ng-selected="selectedreminder"
-			ng-change="changereminder(selectedreminder)"
-			ng-options="reminder.displayname for reminder in reminderSelect">
-		</select>
-		<div class="remindercontainer" ng-show="booyah">
-			<input type="email" ng-model="reminderemail" placeholder="<?php p($l->t('Email id')); ?>" />
-		</div>
 		
-		<ul id="listofreminders">
-			<li ng-repeat="alarm in properties.alarms">
-				<span>{{ alarm.TRIGGER.value.displayname }}</span>
-			</li>
-		</ul>
-		<button id="addmorereminders" ng-click="addmorereminders()" class="btn">
-			<?php p($l->t('Add')); ?>
-		</button>
 	</fieldset>
 	<fieldset>
 		<button id="eventupdatebutton" ng-click="update()" class="btn primary">
