@@ -32,23 +32,23 @@ class ViewController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	public function index(){
-		$this->api->addScript('../3rdparty/js/fileupload/jquery.fileupload');
+		$this->api->addScript('../3rdparty/jquery-file-upload/js/jquery.fileupload');
+		$this->api->addScript('../3rdparty/ical/ical');
 		//$this->api->addScript('../3rdparty/js/recurrencejs/jquery.recurrenceinput');
-		$this->api->addScript('../3rdparty/js/timezones/jstz');
-		$this->api->addScript('../3rdparty/js/momentjs/moment.min');
-		$this->api->addScript('../3rdparty/js/fullcalendar/fullcalendar');
-		$this->api->addScript('../3rdparty/js/icaljs/ical');
+		$this->api->addScript('../3rdparty/jstzdetect/jstz.min');
+		$this->api->addScript('../3rdparty/fullcalendar/dist/fullcalendar.min');
+		$this->api->addScript('../3rdparty/moment/min/moment.min');
 
-		$this->api->addScript('../3rdparty/js/angular/angular');
-		$this->api->addScript('../3rdparty/js/angular/angular-animate');
-		$this->api->addScript('../3rdparty/js/restangular/restangular');
-		$this->api->addScript('../3rdparty/js/angular/angular-route');
+		$this->api->addScript('../3rdparty/angular/angular.min');
+		$this->api->addScript('../3rdparty/angular-animate/angular-animate.min');
+		$this->api->addScript('../3rdparty/restangular/dist/restangular.min');
+		$this->api->addScript('../3rdparty/angular-route/angular-route.min');
 
-		$this->api->addScript('../3rdparty/js/angular-ui/angular-ui');
-		$this->api->addScript('../3rdparty/js/angular-ui/angular-ui-calendar');
-		$this->api->addScript('../3rdparty/js/angular-ui/angular-ui-sortable');
-		$this->api->addScript('../3rdparty/js/colorpicker/colorpicker');
-		$this->api->addScript('../3rdparty/js/appframework/app');
+		$this->api->addScript('../3rdparty/angular-ui/angular-ui');
+		$this->api->addScript('../3rdparty/angular-ui/angular-ui-calendar');
+		$this->api->addScript('../3rdparty/angular-ui/angular-ui-sortable');
+		$this->api->addScript('../3rdparty/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module');
+		$this->api->addScript('../3rdparty/appframework/app');
 
 		$this->api->addScript('public/app');
 
@@ -59,8 +59,8 @@ class ViewController extends Controller {
 		$this->api->addStyle('part.settings');
 		$this->api->addStyle('part.events.dialog');
 
-		$this->api->addStyle('../3rdparty/css/fullcalendar/fullcalendar');
-		$this->api->addStyle('../3rdparty/css/colorpicker/colorpicker');
+		$this->api->addStyle('../3rdparty/fullcalendar/dist/fullcalendar');
+		$this->api->addStyle('../3rdparty/angular-bootstrap-colorpicker/css/colorpicker');
 
 		return new TemplateResponse('calendar', 'main');
 	}

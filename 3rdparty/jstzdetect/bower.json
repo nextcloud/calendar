@@ -1,0 +1,13 @@
+{
+  "name": "jstzdetect",
+  "version": "1.0.6",
+  "main": "jstz.min.js",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

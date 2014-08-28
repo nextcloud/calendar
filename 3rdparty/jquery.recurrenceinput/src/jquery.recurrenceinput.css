@@ -1,0 +1,200 @@
+div.riform {
+    padding: 1em;
+    background-color: white;
+    box-shadow: 0 0 3em 0.5em #666;
+    line-height: 2;
+    -moz-box-shadow: 0 0 3em 0.5em #666;
+    -webkit-box-shadow: 0 0 3em #666;
+}
+
+div.riform h1 {
+    color: #888888;
+    border-bottom: 1px solid #DDDDDD;
+    font-size: 20px;
+    line-height: 1;
+    margin: 0;
+    padding-bottom: 5px;
+    padding-left: 5px;
+}
+
+div.riform form {
+    margin-bottom: 0;
+}
+
+div.riform .rifield {
+    clear: both;
+}
+
+div.riform .rifield .field {
+    float:left;
+    clear: none;
+}
+
+div.riform .label {
+    display: block;
+    float: left;
+    font-weight: bold;
+    margin-right: 10px;
+    text-align: right;
+    width: 130px;
+}
+
+div.riform #rirtemplate {
+    margin-top: 6px;
+}
+
+div#riformfields {
+    min-height: 11em;
+    min-width: 25em;
+}
+
+div.riform #rirangeoptions input,
+div.riform #rimonthlyoptions input,
+div.riform #riyearlyoptions input {
+    margin: 0;
+}
+
+div.riform #riweeklyweekdays .riweeklyweekday input {
+    display:block;
+    margin: 8px auto 0;
+}
+div.riform #riweeklyweekdays .riweeklyweekday label {
+    display:block;
+}
+
+div.riform #riweeklyweekdays .riweeklyweekday {
+    margin-right: 15px;
+    float: left;
+}
+
+div.riform input.ricancelbutton {
+    background-image: url(pb_close.png);
+    background-color: transparent;
+    font-size: 0; /* For IE8 */
+    color: transparent;
+    border: none;
+    position: absolute;
+    left: -14px;
+    top: -14px;
+    cursor: pointer;
+    height: 30px;
+    width: 30px;
+}
+
+div.rioccurrencesactions .riaddoccurrence #adddate {
+    width: 75%;
+}
+
+div.rioccurrencesactions .rioccurancesheader {
+    border-bottom: 1px solid #DDDDDD;
+    line-height: 1.5;
+    clear: both;
+    margin-top: 30px;
+}
+
+div.rioccurrencesactions .rioccurancesheader h2 {
+    color: #888888;
+    display: inline;
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0px 0px 5px 5px;
+}
+
+
+div.rioccurrences div.batching {
+    font-size: 70%;
+    text-align: center;
+}
+
+div.rioccurrences span.current {
+    font-weight: bold;
+}
+
+div.riform span.action a {
+    height: 19px;
+    width: 19px;
+    overflow: hidden;
+    float: right;
+    text-indent: 9999px;
+}
+
+div.rioccurrences .occurrence {
+    border-top: 1px solid transparent;
+    border-bottom: 1px solid transparent;
+}
+
+div.rioccurrences .occurrence:hover {
+    border-top: 1px solid #DDDDDD;
+    border-bottom: 1px solid #DDDDDD;
+}
+
+div.rioccurrences .occurrence.start span.rlabel,
+div.rioccurrences .occurrence.rdate span.rlabel {
+    color: #9CBA9B;
+    margin: 0 5px;
+    font-size: 70%;
+    font-weight: bold;
+}
+
+div.rioccurrences .occurrence.exdate {
+    opacity:0.4;
+    filter:alpha(opacity=40);
+}
+
+div.ridisplay .occurrence.exdate {
+    display: none;
+}
+
+div.rioccurrences .occurrence.rdate {
+    background: #FFFFE0;
+}
+
+div.rioccurrences div.occurrence {
+    margin-left: 5px;
+}
+
+div.rioccurrences a.rrule,
+div.rioccurrences a.rdate,
+div.rioccurrences a.exdate {
+    color: transparent;
+    margin-top: 6px;
+    margin-right: 5px;
+}
+
+
+div.rioccurrences a.rrule {
+    background-image: url(delete.png);
+}
+
+div.rioccurrences a.rdate {
+    background-image: url(delete.png);
+}
+
+div.rioccurrences a.exdate {
+    background-image: url(undelete.png);
+}
+
+div.rioccurrencesactions a.rirefreshbutton {
+    background-image: url(refresh.png);
+    color: transparent;
+    margin-top: 4px;
+    margin-right: 5px;
+}
+
+div#messagearea,
+div.errorarea {
+    display: none;
+    background-color: red;
+    color: white;
+    font-weight: bold;
+    padding: 2px 10px;
+}
+
+div#calroot {
+    z-index:10000;
+}
+
+div.ributtons .risavebutton {
+    display: block;
+    margin: 30px auto 0;
+}

@@ -1,0 +1,20 @@
+{
+  "name": "jquery.recurrenceinput.js",
+  "main": [
+    "./src/jquery.recurrenceinput.js",
+    "./src/jquery.recurrenceinput.css"
+  ],
+  "dependencies": {
+    "jquery": ">=1.4.0 <1.9.0"
+  },
+  "homepage": "https://github.com/collective/jquery.recurrenceinput.js",
+  "_release": "486f67ad26",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "486f67ad26c7ca19d927ae1a3821d9a85598f469"
+  },
+  "_source": "git://github.com/collective/jquery.recurrenceinput.js.git",
+  "_target": "*",
+  "_originalSource": "jquery.recurrenceinput"
+}

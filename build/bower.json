@@ -9,9 +9,8 @@
     "angular-animate": "",
     "fullcalendar": "",
     "ical": "",
-    "moment": "",
     "jquery-file-upload": "",
-    "angular-spectrum-colorpicker": "",
+    "angular-bootstrap-colorpicker": "",
     "jquery.recurrenceinput": "",
     "jstzdetect": ""
   }
