@@ -1,6 +1,6 @@
 {
   "name": "fullcalendar",
-  "version": "2.1.0",
+  "version": "2.0.3",
   "description": "Full-sized drag & drop event calendar",
   "keywords": [
     "calendar",
@@ -18,8 +18,7 @@
     "jquery-mockjax": "~1.5.4",
     "jasmine-jquery": "~2.0.3",
     "jasmine-fixture": "~1.2.0",
-    "moment-timezone": "~0.2.1",
-    "bootstrap": "~3.2.0"
+    "moment-timezone": "~0.2.1"
   },
   "main": [
     "dist/fullcalendar.js",
@@ -34,13 +33,13 @@
     "!/license.*",
     "!/readme.*"
   ],
-  "_release": "2.1.0",
+  "_release": "2.0.3",
   "_resolution": {
     "type": "version",
-    "tag": "v2.1.0",
-    "commit": "2f8d547b72acb5ba984e89e5c746f9766baf50fe"
+    "tag": "v2.0.3",
+    "commit": "5be758d4a69b935f12b806fabf2b979db2e30ac3"
   },
   "_source": "git://github.com/arshaw/fullcalendar.git",
-  "_target": "*",
+  "_target": "v2.0.3",
   "_originalSource": "fullcalendar"
 }

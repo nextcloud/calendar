@@ -7,7 +7,7 @@
     "angular-mocks": "",
     "angular-route": "",
     "angular-animate": "",
-    "fullcalendar": "",
+    "fullcalendar": "v2.0.3",
     "ical": "",
     "jquery-file-upload": "",
     "angular-bootstrap-colorpicker": "",
