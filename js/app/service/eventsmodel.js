@@ -100,94 +100,103 @@ app.factory('EventsModel', function () {
 
 				var vevents = components.getAllSubcomponents("vevent");
 				angular.forEach(vevents, function (vevent) {
-					var iCalEvent = new ICAL.Event(vevent);
-					var event = {
-						"calendardisplayname": calendardisplayname,
-						"calendarcolor": calendarcolor,
-						"calendarId": calendarId
-					};
+					try {
+						var iCalEvent = new ICAL.Event(vevent);
+						var event = {
+							"calendardisplayname": calendardisplayname,
+							"calendarcolor": calendarcolor,
+							"calendarId": calendarId
+						};
 
-					event.uri = vevent.getFirstPropertyValue('x-oc-uri');
-					event.etag = vevent.getFirstPropertyValue('x-oc-etag');
-					event.title = vevent.getFirstPropertyValue('summary');
+						event.objectUri = vevent.getFirstPropertyValue('x-oc-uri');
+						event.etag = vevent.getFirstPropertyValue('x-oc-etag');
+						event.title = vevent.getFirstPropertyValue('summary');
 
-					if (iCalEvent.isRecurrenceException()) {
-						event.recurrenceId = vevent
-							.getFirstPropertyValue('recurrence-id')
-							.toICALString();
-					}
+						if (iCalEvent.isRecurrenceException()) {
+							event.recurrenceId = vevent
+								.getFirstPropertyValue('recurrence-id')
+								.toICALString();
+							event.id = event.objectUri + event.recurrenceId;
+						} else {
+							event.recurrenceId = null;
+							event.id = event.objectUri;
+						}
 
-					eventsId = uri;
-					if (recurrenceId !== null) {
-						eventsId = eventsId + recurrenceId;
-					}
-					event.id = eventsId;
+						if (!vevent.hasProperty('dtstart')) {
+							return;
+						}
+						dtstart = vevent.getFirstPropertyValue('dtstart');
 
-					if (!vevent.hasProperty('dtstart')) {
-						return;
-					}
-					dtstart = vevent.getFirstPropertyValue('dtstart');
+						if (vevent.hasProperty('dtend')) {
+							dtend = vevent.getFirstPropertyValue('dtend');
+						} else if (vevent.hasProperty('duration')) {
+							dtend = dtstart.clone();
+							dtend.addDuration(vevent.getFirstPropertyValue('dtstart'));
+						} else {
+							dtend = dtstart.clone();
+						}
 
-					if (vevent.hasProperty('dtend')) {
-						dtend = vevent.getFirstPropertyValue('dtend');
-					} else if (vevent.hasProperty('duration')) {
-						dtend = dtstart.clone();
-						dtend.addDuration(vevent.getFirstPropertyValue('dtstart'));
-					} else {
-						dtend = dtstart.clone();
-					}
+						if (iCalEvent.isRecurring()) {
+							var iterator = new ICAL.RecurExpansion({
+								component: vevent,
+								dtstart: dtstart
+							});
 
-					if (iCalEvent.isRecurring()) {
-						var iterator = new ICAL.RecurExpansion({
-							component: vevent,
-							dtstart: dtstart
-						});
+							var duration = dtend.subtractDate(dtstart);
 
-						var duration = dtend.subtractDate(dtstart);
+							var next;
+							while ((next = iterator.next())) {
+								if (next.compare(iCalTimeStart) === -1) {
+									continue;
+								}
+								if (next.compare(iCalTimeEnd) === 1) {
+									break;
+								}
 
-						var next;
-						while ((next = iterator.next())) {
-							if (next.compare(iCalTimeEnd) === 1) {
-								break;
+								dtstart = next.clone();
+								dtend = next.clone();
+								dtend.addDuration(duration);
+
+								if (dtstart.icaltype != 'date' && dtstart.zone != ICAL.Timezone.utcTimezone && dtstart.zone != ICAL.Timezone.localTimezone) {
+									dtstart.convertToZone(timezone);
+								}
+								if (dtend.icaltype != 'date' && dtend.zone != ICAL.Timezone.utcTimezone && dtend.zone != ICAL.Timezone.localTimezone) {
+									dtend.convertToZone(timezone);
+								}
+
+								isAllDay = (dtstart.icaltype == 'date' && dtend.icaltype == 'date');
+
+								var newEvent = JSON.parse(JSON.stringify(event));
+								newEvent.start = dtstart.toJSDate();
+								newEvent.end = dtend.toJSDate();
+								newEvent.allDay = isAllDay;
+
+								events.push(newEvent);
 							}
-
-							dtstart = next.clone();
-							dtend = next.clone();
-							dtend.addDuration(duration);
-
+						} else {
 							if (dtstart.icaltype != 'date' && dtstart.zone != ICAL.Timezone.utcTimezone && dtstart.zone != ICAL.Timezone.localTimezone) {
-								dtstart.convertToZone(timezone);
+								dtstart = dtstart.convertToZone(timezone);
 							}
 
 							if (dtend.icaltype != 'date' && dtend.zone != ICAL.Timezone.utcTimezone && dtend.zone != ICAL.Timezone.localTimezone) {
-								dtend.convertToZone(timezone);
+								dtend = dtend.convertToZone(timezone);
 							}
 
 							isAllDay = (dtstart.icaltype == 'date' && dtend.icaltype == 'date');
 
-							var newEvent = JSON.parse(JSON.stringify(event));
-							newEvent.start = dtstart.toJSDate();
-							newEvent.end = dtend.toJSDate();
-							newEvent.allDay= isAllDay;
+							event.start = dtstart.toJSDate();
+							event.end = dtend.toJSDate();
+							event.allDay = isAllDay;
 
-							events.push(newEvent);
+							events.push(event);
 						}
-					} else {
-						if (dtstart.icaltype != 'date' && dtstart.zone != ICAL.Timezone.utcTimezone && dtstart.zone != ICAL.Timezone.localTimezone) {
-							dtstart = dtstart.convertToZone(timezone);
-						}
-
-						if (dtend.icaltype != 'date' && dtend.zone != ICAL.Timezone.utcTimezone && dtend.zone != ICAL.Timezone.localTimezone) {
-							dtend = dtend.convertToZone(timezone);
-						}
-
-						isAllDay = (dtstart.icaltype == 'date' && dtend.icaltype == 'date');
-
-						event.start = dtstart.toJSDate();
-						event.end = dtend.toJSDate();
-						event.allDay= isAllDay;
-
-						events.push(event);
+					} catch(e) {
+						console.warn('');
+						console.warn('Error in calendar:');
+						console.warn(calendardisplayname);
+						console.warn(e.message);
+						console.warn('');
+						//console.log(e.stack);
 					}
 				});
 			}
