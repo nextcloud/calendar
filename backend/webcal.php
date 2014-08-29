@@ -42,6 +42,7 @@ use OCA\Calendar\Utility\RegexUtility;
 use OCA\Calendar\Sabre\VObject\Reader;
 use OCA\Calendar\Sabre\VObject\ParseException;
 use OCA\Calendar\Sabre\VObject\Component\VCalendar;
+use OCA\Calendar\Sabre\VObject\Splitter\ICalendar as ICalendarSplitter;
 
 class WebCal extends Backend {
 
@@ -214,9 +215,35 @@ class WebCal extends Backend {
 	 * @param integer $offset
 	 * @return IObjectCollection
 	 * @throws DoesNotExistException if calendar does not exist
+	 * @throws CorruptDataException if calendar data is corrupt
 	 */
 	public function findObjects(ICalendar &$calendar, $type=ObjectType::ALL, $limit, $offset) {
-		return new ObjectCollection();
+		try {
+			$subscription = $this->subscription->findByType($calendar->getPrivateUri(), $this->getBackendIdentifier(), $calendar->getUserId());
+		} catch(BusinessLayerException $ex) {
+			throw new DoesNotExistException($ex->getMessage());
+		}
+		$curl = curl_init();
+		$url = $subscription->getUrl();
+		$data = null;
+
+		$this->prepareRequest($curl, $url);
+		$this->getRequestData($curl, $data);
+		$this->validateRequest($curl);
+
+		$objectCollection = new ObjectCollection();
+		
+		try {
+			$splitter = new ICalendarSplitter($data);
+			while($vobject = $splitter->getNext()) {
+				$object = new Object();
+				$object->fromVObject($vobject);
+				$objectCollection->add($object);
+			}
+		} catch(ParseException $ex) {
+			throw new CorruptDataException('Calendar-data is not valid!');
+		}
+		return $objectCollection;
 	}
 
 
