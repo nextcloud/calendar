@@ -529,7 +529,7 @@ class Calendar extends Entity implements ICalendar {
 	 * @return integer
 	 */
 	public function doesAllow($cruds) {
-		return ($this->cruds & $cruds);
+		return (bool)($this->cruds & $cruds);
 	}
 
 
@@ -539,7 +539,7 @@ class Calendar extends Entity implements ICalendar {
 	 * @return integer
 	 */
 	public function doesSupport($components) {
-		return ($this->components & $components);
+		return (bool)($this->components & $components);
 	}
 
 
