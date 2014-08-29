@@ -71,7 +71,7 @@
 				</select>
 			</li>
 			<li id="uploadarea">
-				<label class="bold"><?php p($l->t('Upload Calendar')); ?></label>
+				<label class="bold"><?php p($l->t('Import Calendar')); ?></label>
 				<input type="file" name="file" accept="text/calendar" multiple upload modal="importdialog" id="import" />
 				<span href="#" class="svg icon-upload" id="uploadicon"></span>
 				<span ng-show="!files.length" class="hide"><?php p($l->t('No Calendars selected for import')); ?></span>
@@ -103,6 +103,7 @@
 					ng-change="import(importcalendar.id)"
 					ng-options="calendar.displayname for calendar in calendars | orderBy:['order'] | eventFilter | calendarFilter">
 				</select>
+				<button ng-click="pushcalendar(importcalendar.id)"><?php p($l->t('Import')); ?></button>
 			</li>
 		</ul>
 	</div>

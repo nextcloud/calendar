@@ -57,8 +57,12 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'Ca
 			$scope.$digest(); // TODO : Shouldn't digest reset scope for it to be implemented again and again?
 		});
 
-		$scope.import = function (id) {
-			Restangular.one('calendars', id).withHttpConfig({transformRequest: angular.identity}).customPOST(
+		$scope.importcalendar = function (id) {
+			$scope.calendarid = id;
+		};
+
+		$scope.pushcalendar = function (id) {
+			Restangular.one('calendars', $scope.calendarid).withHttpConfig({transformRequest: angular.identity}).customPOST(
 				$scope.filescontent,
 				'import',
 				undefined,
