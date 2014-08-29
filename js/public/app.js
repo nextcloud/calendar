@@ -1221,7 +1221,6 @@ app.factory('EventsModel', function () {
 		return false;
 	}
 
-
 	EventsModel.prototype = {
 		create: function (newevent) {
 			var rawdata = new ICAL.Event();
@@ -1239,6 +1238,11 @@ app.factory('EventsModel', function () {
 			var recurrenceId = null;
 			var isAllDay = false;
 
+			var iCalTimeStart = new ICAL.Time();
+			iCalTimeStart.fromUnixTime(start);
+			var iCalTimeEnd = new ICAL.Time();
+			iCalTimeEnd.fromUnixTime(end);
+
 			if (components.jCal.length !== 0) {
 				var vtimezones = components.getAllSubcomponents("vtimezone");
 				angular.forEach(vtimezones, function (vtimezone) {
@@ -1248,29 +1252,79 @@ app.factory('EventsModel', function () {
 
 				var vevents = components.getAllSubcomponents("vevent");
 				angular.forEach(vevents, function (vevent) {
-					// Todo : Repeating Calendar.
-					if (vevent.hasProperty('dtstart')) {
-						uri = vevent.getFirstPropertyValue('x-oc-uri');
-						etag = vevent.getFirstPropertyValue('x-oc-etag');
+					var iCalEvent = new ICAL.Event(vevent);
+					var event = {
+						"calendardisplayname": calendardisplayname,
+						"calendarcolor": calendarcolor,
+						"calendarId": calendarId
+					};
 
-						if (!vevent.hasProperty('dtstart')) {
-							return;
+					event.uri = vevent.getFirstPropertyValue('x-oc-uri');
+					event.etag = vevent.getFirstPropertyValue('x-oc-etag');
+					event.title = vevent.getFirstPropertyValue('summary');
+
+					if (iCalEvent.isRecurrenceException()) {
+						event.recurrenceId = vevent
+							.getFirstPropertyValue('recurrence-id')
+							.toICALString();
+					}
+
+					eventsId = uri;
+					if (recurrenceId !== null) {
+						eventsId = eventsId + recurrenceId;
+					}
+					event.id = eventsId;
+
+					if (!vevent.hasProperty('dtstart')) {
+						return;
+					}
+					dtstart = vevent.getFirstPropertyValue('dtstart');
+
+					if (vevent.hasProperty('dtend')) {
+						dtend = vevent.getFirstPropertyValue('dtend');
+					} else if (vevent.hasProperty('duration')) {
+						dtend = dtstart.clone();
+						dtend.addDuration(vevent.getFirstPropertyValue('dtstart'));
+					} else {
+						dtend = dtstart.clone();
+					}
+
+					if (iCalEvent.isRecurring()) {
+						var iterator = new ICAL.RecurExpansion({
+							component: vevent,
+							dtstart: dtstart
+						});
+
+						var duration = dtend.subtractDate(dtstart);
+
+						var next;
+						while ((next = iterator.next())) {
+							if (next.compare(iCalTimeEnd) === 1) {
+								break;
+							}
+
+							dtstart = next.clone();
+							dtend = next.clone();
+							dtend.addDuration(duration);
+
+							if (dtstart.icaltype != 'date' && dtstart.zone != ICAL.Timezone.utcTimezone && dtstart.zone != ICAL.Timezone.localTimezone) {
+								dtstart.convertToZone(timezone);
+							}
+
+							if (dtend.icaltype != 'date' && dtend.zone != ICAL.Timezone.utcTimezone && dtend.zone != ICAL.Timezone.localTimezone) {
+								dtend.convertToZone(timezone);
+							}
+
+							isAllDay = (dtstart.icaltype == 'date' && dtend.icaltype == 'date');
+
+							var newEvent = JSON.parse(JSON.stringify(event));
+							newEvent.start = dtstart.toJSDate();
+							newEvent.end = dtend.toJSDate();
+							newEvent.allDay= isAllDay;
+
+							events.push(newEvent);
 						}
-						dtstart = vevent.getFirstPropertyValue('dtstart');
-
-						if (vevent.hasProperty('recurrence-id')) {
-							recurrenceId = vevent.getFirstPropertyValue('recurrence-id').toICALString();
-						}
-
-						if (vevent.hasProperty('dtend')) {
-							dtend = vevent.getFirstPropertyValue('dtend');
-						} else if (vevent.hasProperty('duration')) {
-							dtend = dtstart.clone();
-							dtend.addDuration(vevent.getFirstPropertyValue('dtstart'));
-						} else {
-							dtend = dtstart.clone();
-						}
-
+					} else {
 						if (dtstart.icaltype != 'date' && dtstart.zone != ICAL.Timezone.utcTimezone && dtstart.zone != ICAL.Timezone.localTimezone) {
 							dtstart = dtstart.convertToZone(timezone);
 						}
@@ -1281,24 +1335,11 @@ app.factory('EventsModel', function () {
 
 						isAllDay = (dtstart.icaltype == 'date' && dtend.icaltype == 'date');
 
-						eventsId = uri;
-						if (recurrenceId !== null) {
-							eventsId = eventsId + recurrenceId;
-						}
+						event.start = dtstart.toJSDate();
+						event.end = dtend.toJSDate();
+						event.allDay= isAllDay;
 
-						events.push({
-							"id": eventsId,
-							"calendardisplayname": calendardisplayname,
-							"calendarcolor":calendarcolor,
-							"calendarId": calendarId,
-							"objectUri": uri,
-							"etag": etag,
-							"recurrenceId": recurrenceId,
-							"title": vevent.getFirstPropertyValue('summary'),
-							"start": dtstart.toJSDate(),
-							"end": dtend.toJSDate(),
-							"allDay": isAllDay
-						});
+						events.push(event);
 					}
 				});
 			}
