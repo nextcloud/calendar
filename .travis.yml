@@ -50,15 +50,12 @@ script:
   - phpunit --coverage-clover=coverage.clover tests/unit
   - wget https://scrutinizer-ci.com/ocular.phar
   - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
-  - cd js/
+  - cd build/
   # install javascript deps (putting it into install section fails often)
   - npm install --deps # npm install needs to run before sudo npm install because otherwise it fails because a tmp file exists in the home dir
   - sudo npm -g install grunt-cli protractor
   # js unit tests
-  - grunt ci-unit
-  # acceptance tests
-  - webdriver-manager update
-  - grunt ci-e2e --verbose
+  - grunt karma
   # debug section to check what went wrong
   - sudo apt-get install curl
   - curl http://admin:admin@localhost/owncloud/index.php
