@@ -121,8 +121,10 @@
 			placeholder="<?php p($l->t('Description'));?>" name="description">
 		</textarea>
 	</fieldset>
-	<fieldset>
+	<fieldset ng-click="toggleattendeearea = !toggleattendeearea" class="headingfieldset">
 		<h3><?php p($l->t('Attendees')); ?></h3>
+	</fieldset>
+	<fieldset ng-show="toggleattendeearea">
 		<div id="attendeearea">
 			<label class="bold"><?php p($l->t('Name/Email')); ?></label>
 			<input type="text" class="event-attendees-name" ng-model="nameofattendee"
@@ -134,7 +136,7 @@
 		<ul id="listofattendees">
 			<li ng-repeat="attendee in properties.attendees">
 			<span class="action notsurecontainer">
-				<span class="checkedicon attendeenotsure"><?php p($l->t('?')); ?></span>
+				<span class="checkedicon attendeenotsure"><i class="fa-question fa"></i></span>
 			</span>
 			<!--<span class="action presentcontainer">
 				<span class="icon-checkmark attendeepresent checkedicon"></span>Gives Color for attending or not attending
@@ -180,10 +182,6 @@
 				</ul>
 			</li>
 		</ul>
-	</fieldset>
-	<fieldset>
-		<h3><?php p($l->t('Reminders')); ?></h3>
-		
 	</fieldset>
 	<fieldset>
 		<button id="eventupdatebutton" ng-click="update()" class="btn primary">

@@ -178,3 +178,8 @@
 	float:none !important;
 }
 
+#events .headingfieldset {
+	background:#ddd;
+	border-radius:4px;
+}
+

@@ -27,10 +27,8 @@ describe('is', function() {
 
 	beforeEach(module('Calendar'));
 
-
 	it ('should be set loading to false', inject(function(is) {
 		expect(is.loading).toBe(false);
 	}));
-
 
 });
