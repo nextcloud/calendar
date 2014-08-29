@@ -31,10 +31,6 @@
 	height:auto;
 }
 
-#datepickercontainer {
-	height:85px;
-}
-
 #scrollable {
 	height:80%;
 	overflow-y: auto;
