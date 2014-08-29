@@ -42,14 +42,17 @@ var app = angular.module('Calendar', [
 			templateUrl: 'calendar.html',
 			controller: 'CalController',
 			resolve: {
-				calendar: ['$q', 'Restangular', 'CalendarModel',
-					function ($q, Restangular, CalendarModel) {
+				calendar: ['$q', 'Restangular', 'CalendarModel', 'is',
+					function ($q, Restangular, CalendarModel,is) {
 						var deferred = $q.defer();
+						is.loading = true;
 						Restangular.all('calendars').getList().then(function (calendars) {
 							CalendarModel.addAll(calendars);
 							deferred.resolve(calendars);
+							is.loading = false;
 						}, function () {
 							deferred.reject();
+							is.loading = false;
 						});
 						return deferred.promise;
 					}],

@@ -23,8 +23,15 @@
  */
 ?>
 <ul id="calendarlist">
-	<li ng-repeat="calendar in calendars| orderBy:['order'] | eventFilter | calendarFilter" ng-class="{active: calendar.enabled}">
-		<span class="calendarCheckbox" ng-style="{ background : calendar.enabled == true ? '{{ calendar.color }}' : 'transparent' }"></span>
+	<li ng-repeat="calendar in calendars| orderBy:['order'] | eventFilter | calendarFilter"
+		ng-class="{
+			active: calendar.enabled,
+			updating: currentload
+		}">
+		<span class="calendarCheckbox" ng-class="{ hide: is.loading }" ng-style="{ background : calendar.enabled == true ? '{{ calendar.color }}' : 'transparent' }"></span>
+		<span class="loadingicon" ng-class="{ hide: !is.loading }">
+			<i class="fa fa-spinner fa-spin"></i>
+		</span>
 		<a href="#/" ng-click="triggerCalendarEnable(calendar.id)" data-id="{{ calendar.id }}">
 			<span>{{ calendar.displayname }}</span>
 		</a>

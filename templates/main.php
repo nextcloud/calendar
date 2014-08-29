@@ -27,36 +27,37 @@
 	<script type="text/ng-template" id="calendar.html">
 		<?php print_unescaped($this->inc('part.fullcalendar')); ?>
 	</script>
+	<div ng-controller="AppController">
+		<!-- The Left Calendar Navigation -->
+		<div id="app-navigation">
 
-	<!-- The Left Calendar Navigation -->
-	<div id="app-navigation">
-
-		<div ng-controller="DatePickerController" id="datepickercontainer">
-			<?php print_unescaped($this->inc('part.datepicker')); ?>
-			<?php print_unescaped($this->inc('part.buttonarea')); ?>
-		</div>
-		<div id="scrollable">
-			<div ng-controller="CalendarListController">
-				<?php print_unescaped($this->inc('part.createcalendar')); ?>
-				<?php print_unescaped($this->inc('part.calendarlist')); ?>
+			<div ng-controller="DatePickerController" id="datepickercontainer">
+				<?php print_unescaped($this->inc('part.datepicker')); ?>
+				<?php print_unescaped($this->inc('part.buttonarea')); ?>
 			</div>
-			<div id="spacer"></div><!-- Creates space between Subscriptionlist and Calendarlist.-->
-			<div ng-controller="SubscriptionController">
-				<?php print_unescaped($this->inc('part.createsubscription')); ?>
-				<?php print_unescaped($this->inc('part.subscriptionlist')); ?>
+			<div id="scrollable">
+				<div ng-controller="CalendarListController">
+					<?php print_unescaped($this->inc('part.createcalendar')); ?>
+					<?php print_unescaped($this->inc('part.calendarlist')); ?>
+				</div>
+				<div id="spacer"></div><!-- Creates space between Subscriptionlist and Calendarlist.-->
+				<div ng-controller="SubscriptionController">
+					<?php print_unescaped($this->inc('part.createsubscription')); ?>
+					<?php print_unescaped($this->inc('part.subscriptionlist')); ?>
+				</div>
+			</div>
+
+			<div id="app-settings" ng-controller="SettingsController">
+				<?php print_unescaped($this->inc('part.settings')); ?>
 			</div>
 		</div>
 
-		<div id="app-settings" ng-controller="SettingsController">
-			<?php print_unescaped($this->inc('part.settings')); ?>
+		<!-- The Calendar on the right -->
+		<div id="app-content" ng-view ng-class="{ loading : is.loading }"></div>
+
+		<!-- The Event Editor -->
+		<div ng-controller="EventsModalController" id="dialoghider">
+			<?php print_unescaped($this->inc('part.event.dialog')); ?>
 		</div>
-	</div>
-
-	<!-- The Calendar on the right -->
-	<div id="app-content" ng-view></div>
-
-	<!-- The Event Editor -->
-	<div ng-controller="EventsModalController" id="dialoghider">
-		<?php print_unescaped($this->inc('part.event.dialog')); ?>
 	</div>
 </div>

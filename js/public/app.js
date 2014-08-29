@@ -20,14 +20,17 @@ var app = angular.module('Calendar', [
 			templateUrl: 'calendar.html',
 			controller: 'CalController',
 			resolve: {
-				calendar: ['$q', 'Restangular', 'CalendarModel',
-					function ($q, Restangular, CalendarModel) {
+				calendar: ['$q', 'Restangular', 'CalendarModel', 'is',
+					function ($q, Restangular, CalendarModel,is) {
 						var deferred = $q.defer();
+						is.loading = true;
 						Restangular.all('calendars').getList().then(function (calendars) {
 							CalendarModel.addAll(calendars);
 							deferred.resolve(calendars);
+							is.loading = false;
 						}, function () {
 							deferred.reject();
+							is.loading = false;
 						});
 						return deferred.promise;
 					}],
@@ -47,6 +50,11 @@ var app = angular.module('Calendar', [
 		});
 	}]);
 
+app.controller('AppController', ['$scope', 'is',
+	function ($scope, is) {
+		$scope.is = is;
+	}
+]);
 /**
 * Controller: CalController
 * Description: The fullcalendar controller.
@@ -356,13 +364,14 @@ app.controller('CalController', ['$scope', 'Restangular', 'CalendarModel', 'Even
 */
 
 app.controller('CalendarListController', ['$scope', '$window',
-	'$routeParams', 'Restangular', 'CalendarModel', 'EventsModel',
+	'$routeParams', 'Restangular', 'CalendarModel', 'EventsModel', 'is',
 	function ($scope, $window, $routeParams, Restangular,
-			  CalendarModel, EventsModel) {
+			  CalendarModel, EventsModel, is) {
 
 		$scope.calendarModel = CalendarModel;
 		$scope.calendars = CalendarModel.getAll();
 		var calendarResource = Restangular.all('calendars');
+		$scope.currentload = null;
 
 		// Default values for new calendars
 		$scope.newcolor = 'rgba(37,46,95,1.0)';
@@ -469,12 +478,16 @@ app.controller('CalendarListController', ['$scope', '$window',
 		};
 
 		$scope.triggerCalendarEnable = function(id) {
+			$scope.currentload = true;
+			is.loading = true;
 			var calendar = CalendarModel.get(id);
 			var newEnabled = !calendar.enabled;
 			calendar.patch({'enabled': newEnabled}).then(
 				function (calendarObj) {
 				CalendarModel.update(calendarObj);
 				$scope.calendars = CalendarModel.getAll();
+				is.loading = false;
+				$scope.currentload = false;
 			});
 		};
 	}
@@ -1435,6 +1448,13 @@ app.factory('EventsModel', function () {
 	};
 
 	return new EventsModel();
+});
+app.factory('is', function () {
+	return {
+		loading: false,
+		calendarloading: function (id) {
+		}
+	};
 });
 /**
 * Model: Subscriptions

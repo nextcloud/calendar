@@ -27,13 +27,14 @@
 */
 
 app.controller('CalendarListController', ['$scope', '$window',
-	'$routeParams', 'Restangular', 'CalendarModel', 'EventsModel',
+	'$routeParams', 'Restangular', 'CalendarModel', 'EventsModel', 'is',
 	function ($scope, $window, $routeParams, Restangular,
-			  CalendarModel, EventsModel) {
+			  CalendarModel, EventsModel, is) {
 
 		$scope.calendarModel = CalendarModel;
 		$scope.calendars = CalendarModel.getAll();
 		var calendarResource = Restangular.all('calendars');
+		$scope.currentload = null;
 
 		// Default values for new calendars
 		$scope.newcolor = 'rgba(37,46,95,1.0)';
@@ -140,12 +141,16 @@ app.controller('CalendarListController', ['$scope', '$window',
 		};
 
 		$scope.triggerCalendarEnable = function(id) {
+			$scope.currentload = true;
+			is.loading = true;
 			var calendar = CalendarModel.get(id);
 			var newEnabled = !calendar.enabled;
 			calendar.patch({'enabled': newEnabled}).then(
 				function (calendarObj) {
 				CalendarModel.update(calendarObj);
 				$scope.calendars = CalendarModel.getAll();
+				is.loading = false;
+				$scope.currentload = false;
 			});
 		};
 	}

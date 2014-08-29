@@ -21,49 +21,8 @@
  *
  */
 
-body {
-	overflow: hidden;
-}
-
-#app-content {
-	margin-left:250px;
-}
-
-#togglebuttons {
-	float:left;
-}
-
-#onedayview_radio {
-	margin-left: 6px;
-	border-top-right-radius: 0;
-	border-bottom-right-radius: 0;
-	border-right: 0;
-	padding:8px;
-}
-
-#oneweekview_radio {
-	border-radius: 0;
-	margin-left:-7px;
-	padding:8px;
-}
-
-#onemonthview_radio {
-	border-top-left-radius: 0;
-	border-bottom-left-radius: 0;
-	border-left: 0;
-	margin-left:-7px;
-	padding:8px;
-}
-
-#todaybutton {
-	float: right;
-	position: absolute;
-	right: 0;
-	padding: 8px;
-}
-
-#app-content.loading {
-	background-image: url('../img/loading.gif');
-	background-position: center;
-	background-repeat: no-repeat;
-}
+app.controller('AppController', ['$scope', 'is',
+	function ($scope, is) {
+		$scope.is = is;
+	}
+]);
