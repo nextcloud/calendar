@@ -21,7 +21,6 @@ spl_autoload_register(function ($className){
 	} elseif(strpos($className, 'OCA\\Calendar\\Utility') === 0) {
 		$path = strtolower(str_replace('Utility', '', str_replace('\\', '/', substr($className, 20))) . '.php');
 		$relPath = __DIR__ . '/../utility' . $path;
-		var_dump($relPath);
 
 		if (file_exists($relPath)) {
 			require_once $relPath;
@@ -37,7 +36,6 @@ spl_autoload_register(function ($className){
 	} else if(strpos($className, 'OCP\\Calendar') === 0) {
 		$path = strtolower(str_replace('\\', '/', substr($className, 12)) . '.php');
 		$relPath = __DIR__ . '/../public' . $path;
-		var_dump($relPath);
 
 		if(file_exists($relPath)){
 			require_once $relPath;

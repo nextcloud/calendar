@@ -47,7 +47,7 @@ class CalendarCollectionTest extends \PHPUnit_Framework_TestCase {
 	 * Initialize the calendar object we are going to test
 	 */
 	protected function setup() {
-		$this->backends[0] = new Backend(array(
+		/*$this->backends[0] = new Backend(array(
 			'backend' => 'database123',
 			'classname' => 'DatabaseClass',
 			'arguments' => array(),
@@ -93,7 +93,7 @@ class CalendarCollectionTest extends \PHPUnit_Framework_TestCase {
 
 		));
 
-		$this->calendarCollection = new CalendarCollection($this->calendars);
+		$this->calendarCollection = new CalendarCollection($this->calendars);*/
 	}
 
 

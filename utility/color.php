@@ -146,7 +146,7 @@ class ColorUtility extends Utility {
 	 * @param string $color
 	 * @return array
 	 */
-	private function extractColors($color) {
+	private static function extractColors($color) {
 		$defaultAlpha = 1.0;
 
 		if (preg_match(self::HEX, $color) === 1) {
