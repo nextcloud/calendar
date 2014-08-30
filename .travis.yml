@@ -55,7 +55,7 @@ script:
   - npm install --deps # npm install needs to run before sudo npm install because otherwise it fails because a tmp file exists in the home dir
   - sudo npm -g install grunt-cli protractor
   # js unit tests
-  - grunt karma
+  - grunt karma:continous
   # debug section to check what went wrong
   - sudo apt-get install curl
   - curl http://admin:admin@localhost/owncloud/index.php
