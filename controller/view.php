@@ -44,7 +44,6 @@ class ViewController extends Controller {
 	 */
 	private function loadCSS() {
 		$styles = [
-			'calendar',
 			'part.datepicker',
 			'part.calendarlist',
 			'part.settings',
@@ -52,6 +51,7 @@ class ViewController extends Controller {
 			'../3rdparty/fontawesome/css/font-awesome',
 			'../3rdparty/fullcalendar/dist/fullcalendar',
 			'../3rdparty/angular-bootstrap-colorpicker/css/colorpicker',
+			'calendar',
 		];
 
 		foreach ($styles as $style) {
