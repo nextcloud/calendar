@@ -51,6 +51,11 @@
     font-weight: bold;
     text-align: center;
     overflow: hidden;
+	cursor: pointer;
+}
+
+.datepicker_current:hover {
+	background-color: rgba(245, 245, 245, 0.9);
 }
 
 #datepicker .days {
