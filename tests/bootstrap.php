@@ -12,7 +12,7 @@
  */
 
 require_once __DIR__ . '/../3rdparty/VObject/includes.php';
-require_once __DIR__ . '/../../../tests/lib/appframework/db/MapperTestUtility.php';
+//require_once __DIR__ . '/../../../tests/lib/appframework/db/MapperTestUtility.php';
 
 // to execute without owncloud, we need to create our own classloader
 spl_autoload_register(function ($className){
