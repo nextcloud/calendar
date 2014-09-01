@@ -70,7 +70,6 @@ class ViewController extends Controller {
 			//'../3rdparty/js/recurrencejs/jquery.recurrenceinput',
 			'../3rdparty/jstzdetect/jstz.min',
 			'../3rdparty/fullcalendar/dist/fullcalendar.min',
-			'../3rdparty/moment/min/moment.min',
 			'../3rdparty/angular/angular.min',
 			'../3rdparty/angular-animate/angular-animate.min',
 			'../3rdparty/restangular/dist/restangular.min',
