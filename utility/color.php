@@ -32,13 +32,13 @@ class ColorUtility extends Utility {
 	/**
 	 * @var string
 	 */
-	const RGB = '/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/';
+	const RGB = '/^rgb\((([0-1]?[0-9]?[0-9])|([2][0-4][0-9])|(25[0-5])),\s*(([0-1]?[0-9]?[0-9])|([2][0-4][0-9])|(25[0-5])),\s*(([0-1]?[0-9]?[0-9])|([2][0-4][0-9])|(25[0-5]))\)$/';
 
 
 	/**
 	 * @var string
 	 */
-	const RGBA = '/^rgba\((\d+),\s*(\d+),\s*(\d+)(,(([1])|([1]\.[0]*)|(\s*[0]+\.\d+)))*\)$/';
+	const RGBA = '/^rgba\((([0-1]?[0-9]?[0-9])|([2][0-4][0-9])|(25[0-5])),\s*(([0-1]?[0-9]?[0-9])|([2][0-4][0-9])|(25[0-5])),\s*(([0-1]?[0-9]?[0-9])|([2][0-4][0-9])|(25[0-5]))(,(([1])|([0])|([1]\.[0]*)|(\s*[0]+\.\d+)))*\)$/';
 
 
 	/**
@@ -80,7 +80,7 @@ class ColorUtility extends Utility {
 
 		$colors = array_slice($colors, 0, 3);
 		$colors = array_map(function($c) {
-			return strval(dechex($c));
+			return strtoupper(strval(dechex($c)));
 		}, $colors);
 
 		$colorCode  = '#';
@@ -214,12 +214,14 @@ class ColorUtility extends Utility {
 
 				$colors[$i] = sprintf('%d', $c);
 			} else {
-				$c = floatval($colors[$i]);
-				if ($c < 0.0 || $c > 1.0) {
-					$c = 1.0;
-				}
+				if (isset($colors[$i])) {
+					$c = floatval($colors[$i]);
+					if ($c < 0.0 || $c > 1.0) {
+						$c = 1.0;
+					}
 
-				$colors[$i] = sprintf('%2.1f', $c);
+					$colors[$i] = sprintf('%2.1f', $c);
+				}
 			}
 		}
 
