@@ -26,9 +26,7 @@
 		frameworks: ['jasmine'],
 		basePath: '../../../',
 		files: [
-			'3rdparty/jquery/jquery.js',
 			//'3rdparty/jquery-file-upload/js/jquery.fileupload.js',
-			'3rdparty/moment/min/moment.min.js',
 			//'3rdparty/ical/ical.js',
 			'3rdparty/jstzdetect/jstz.min.js',
 			'3rdparty/fullcalendar/dist/fullcalendar.min.js',
