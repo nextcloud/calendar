@@ -41,7 +41,11 @@ class CalendarUtility extends Utility{
 				$lastPart++;
 				$calendarURI = $firstPart . '-' . $lastPart;
 			} else {
-				$calendarURI .= '-1';
+				if (substr($calendarURI, -1, 1) === '-') {
+					$calendarURI .= '1';
+				} else {
+					$calendarURI .= '-1';
+				}
 			}
 		}
 		return $calendarURI;

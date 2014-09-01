@@ -31,12 +31,21 @@ class CalendarTest extends \PHPUnit_Framework_TestCase {
 	}
 
 
-	public function testSuggestedURI() {
-
+	/**
+	 * @dataProvider suggestUriProvider
+	 */
+	public function testSuggestUri($input, $expected) {
+		$this->assertSame($expected, CalendarUtility::suggestURI($input));
 	}
 
 
-	public function testSplitURI() {
-
+	public function suggestUriProvider() {
+		return [
+			['test', 'test-1'],
+			['test-1', 'test-2'],
+			['test-', 'test-1'],
+			['test-99', 'test-100'],
+			['test-99abc', 'test-99abc-1'],
+		];
 	}
 }
