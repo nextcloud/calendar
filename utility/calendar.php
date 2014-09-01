@@ -24,13 +24,6 @@ namespace OCA\Calendar\Utility;
 class CalendarUtility extends Utility{
 
 	/**
-	 * separator for backend and uri
-	 * @var string
-	 */
-	const SEPARATOR = '::';
-
-
-	/**
 	 * suggest a new uri
 	 * @param string $calendarURI
 	 * @return string $calendarURI
@@ -52,57 +45,5 @@ class CalendarUtility extends Utility{
 			}
 		}
 		return $calendarURI;
-	}
-
-
-	/**
-	 * split $calendarURI
-	 * @param string $calendarURI
-	 * @return array (backend|uri)
-	 */
-	public static function splitURI($calendarURI) {
-		if ($calendarURI === false || $calendarURI === null || $calendarURI === '') {
-			return array(false, false);
-		}
-
-		if (substr_count($calendarURI, self::SEPARATOR) === 0){
-			return array(false, false);
-		}
-
-		return explode(self::SEPARATOR, $calendarURI, 2);
-	}
-
-
-	/**
-	 * get uri from backend and calendarURI
-	 * @param string $backend
-	 * @param string $calendarURI
-	 * @return string uri
-	 */
-	public static function getURI($backend, $calendarURI) {
-		return implode(self::SEPARATOR, array(
-			$backend,
-			$calendarURI,
-		));
-	}
-
-
-	/**
-	 * @param string $color
-	 * @return bool
-	 */
-	public static function isValidColor($color) {
-		if (!is_string($color)) {
-			return false;
-		}
-
-		//Allowed are:
-		// - #FFFFFF
-		// - rgb(255,255,255);
-		// - rgba(255,255,255);
-
-		//TODO
-
-		return false;
 	}
 }
