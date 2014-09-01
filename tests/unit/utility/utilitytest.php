@@ -23,15 +23,27 @@ namespace OCA\Calendar\Utility;
 
 class UtilityTest extends \PHPUnit_Framework_TestCase {
 
-	/**
-	 * Initialize the calendar object we are going to test
-	 */
-	protected function setup() {
 
+	/**
+	 * @dataProvider slugifyProvider
+	 */
+	public function testSlugify($input, $expected) {
+		$this->assertSame($expected, Utility::slugify($input));
 	}
 
 
-	public function testSlugify() {
+	public function slugifyProvider() {
+		return [
+			['test', 'test'],
+			['test ', 'test'],
+			['test 1', 'test-1'],
+			['te!@#$%^&*()_+st', 'te-st'],
+			['äöü', 'aou'],
+		];
+	}
 
+
+	public function testSlugifyEmptyInput() {
+		$this->assertNotEmpty(Utility::slugify(''));
 	}
 }
