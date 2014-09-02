@@ -30,7 +30,7 @@ class CalendarCollection extends Collection implements ICalendarCollection {
 
 	/**
 	 * get a collection of all enabled calendars within collection
-	 * @return CalendarCollection of all enabled calendars
+	 * @return ICalendarCollection of all enabled calendars
 	 */
 	public function enabled() {
 		return $this->search('enabled', true);
@@ -39,7 +39,7 @@ class CalendarCollection extends Collection implements ICalendarCollection {
 
 	/**
 	 * get a collection of all disabled calendars within collection
-	 * @return CalendarCollection of all disabled calendars
+	 * @return ICalendarCollection of all disabled calendars
 	 */
 	public function disabled() {
 		return $this->search('enabled', false);
@@ -47,7 +47,7 @@ class CalendarCollection extends Collection implements ICalendarCollection {
 
 
 	/**
-	 * get a collection of all calendars owned by a certian user
+	 * get a collection of all calendars owned by a certain user
 	 * @param string $userId of owner
 	 * @return ICalendarCollection of all calendars owned by user
 	 */
