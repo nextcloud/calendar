@@ -22,7 +22,11 @@
  */
 
 window.app = angular.module('Calendar', [
-	'ngRoute',
-	'ngAnimate',
-	'ngMock'
+	'ngMock',
+	'restangular',
+	'ngRoute'
+]).config(['RestangularProvider',
+	function (RestangularProvider) {
+		RestangularProvider.setBaseUrl('/v1/');
+	}
 ]);
