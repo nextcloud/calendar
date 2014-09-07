@@ -21,69 +21,31 @@
  *
  */
 
-describe('CalendarListController', function() {
+describe('SubscriptionController', function() {
 
 	var controller, scope, model, routeParams, http;
 
 	beforeEach(module('Calendar'));
 
 	beforeEach(inject(function ($controller, $rootScope, $httpBackend,
-		CalendarModel) {
+		SubscriptionModel) {
 			http = $httpBackend;
 			scope = $rootScope.$new();
-			model = CalendarModel;
+			model = SubscriptionModel;
 			controller = $controller;
 		}
 	));
 
-	it ('should load calendars and attach them to scope', function() {
+	it ('should delete the selected subscription', function () {
 		var calendars = [
-			{displayname: 'Sample Calendar', uri: 'sample-calendar'}
-		];
-		http.expectGET('/v1/calendars').respond(200, calendars);
-
-		controller = controller('CalendarListController', {
-			$scope: scope,
-			CalendarModel: model
-		});
-
-		http.flush(1);
-
-		expect(scope.calendars[0].displayname).toBe('Sample Calendar');
-		expect(scope.calendars[0].uri).toBe('sample-calendar');
-	});
-
-	it ('should create a calendar', function() {
-		http.expectGET('/v1/calendars').respond(200, [{}]);
-
-		controller = controller('CalendarListController', {
-			$scope: scope,
-			CalendarModel: model
-		});
-
-		http.flush(1);
-
-		var calendar = {
-			displayname : 'Sample Calendar',
-			id: 7
-		};
-		http.expectPOST('/v1/calendar').respond(calendar);
-		scope.create();
-		http.flush(1);
-
-		expect(model.get(7).displayname).toBe('Sample Calendar');
-	});
-
-	it ('should delete the selected calendar', function () {
-		var calendars = [
-			{id: 7, title: 'Sample Calendar'}
+			{id: 7, title: 'Sample Subscription'}
 		];
 
 		http.expectGET('/v1/calendars').respond(200, calendars);
 
 		controller = controller('CalendarListController', {
 			$scope: scope,
-			CalendarModel: model
+			SubscriptionModel: model
 		});
 
 		http.flush(1);
