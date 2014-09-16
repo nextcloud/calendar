@@ -183,3 +183,19 @@
 	border-radius:4px;
 }
 
+#events fieldset ul.dropdown-menu li {
+	background: #ddd;
+	padding: 2px 6px;
+	border-bottom: 1px solid #bbb;
+	border-left: 1px solid #bbb;
+	border-right: 1px solid #bbb;
+}
+
+#events fieldset ul.dropdown-menu li:hover {
+	background: #ccc;
+}
+
+#events fieldset ul.dropdown-menu li:first-child {
+	margin-top:-3px;
+}
+
