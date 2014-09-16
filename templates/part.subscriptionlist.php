@@ -25,9 +25,15 @@
 
 <ul id="subscriptionlist">
 	<li ng-repeat="calendar in calendars | orderBy:['order'] | eventFilter | subscriptionFilter"
-		ng-class="{ active : false }">
+		ng-class="{
+			active: calendar.enabled,
+			updating: currentload
+		}">
 		<span class="calendarCheckbox" style="background-color:{{ calendar.color }}"></span>
-		<a href="#/" ng-click="addRemoveEventSource(calendar.id)">
+		<span class="loadingicon" ng-class="{ hide: !is.loading }">
+			<i class="fa fa-spinner fa-spin"></i>
+		</span>
+		<a href="#/" ng-click="triggerCalendarEnable(calendar.id)" data-id="{{ calendar.id }}">
 			<span>{{ calendar.displayname }}</span>
 		</a>
 		<span class="utils">
@@ -76,9 +82,11 @@
 				</span>
 			</span>
 		</span>
-		<fieldset ng-show="calDAVfieldset[$index]" class="caldavURL">
+		<fieldset ng-show="caldavfieldset" class="caldavURL">
 			<input type="text" ng-model="calDAVmodel" data-id="{{ calendar.id }}" readonly />
-			<button id="chooseCalendar-close" class="primary" ng-click="hidecalDAVfieldset($index)">&lt;</button>
+			<button id="chooseCalendar-close" class="primary" ng-click="caldavfieldset = !caldavfieldset;">
+				<span class="icon-view-previous"></span>
+			</button>
 		</fieldset>
 	</li>
 </ul>

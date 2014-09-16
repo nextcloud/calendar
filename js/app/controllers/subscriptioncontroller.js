@@ -26,8 +26,8 @@
 * Description: Takes care of Subscription List in the App Navigation.
 */
 
-app.controller('SubscriptionController', ['$scope', '$window', 'SubscriptionModel', 'CalendarModel', 'EventsModel', 'Restangular',
-	function ($scope, $window, SubscriptionModel, CalendarModel, EventsModel, Restangular) {
+app.controller('SubscriptionController', ['$scope', '$window', 'SubscriptionModel', 'CalendarModel', 'EventsModel', 'Restangular', 'is',
+	function ($scope, $window, SubscriptionModel, CalendarModel, EventsModel, Restangular, is) {
 
 		$scope.subscriptions = SubscriptionModel.getAll();
 		$scope.calendars = CalendarModel.getAll();
@@ -85,7 +85,18 @@ app.controller('SubscriptionController', ['$scope', '$window', 'SubscriptionMode
 			$window.open('v1/calendars/' + id + '/export');
 		};
 
-		// Initialises full calendar by sending the calendarid
+		// To Delete a Calendar
+		$scope.delete = function (id) {
+			var calendar = CalendarModel.get(id);
+			var delcalendarResource = Restangular.one('calendars', id);
+			delcalendarResource.remove().then(function () {
+				CalendarModel.remove(calendar);
+			}, function (response) {
+				OC.Notification.show(t('calendar', response.data.message));
+			});
+		};
+
+				// Initialises full calendar by sending the calendarid
 		$scope.addEvent = function (newid) {
 			EventsModel.addEvent(newid);
 		};
@@ -95,14 +106,17 @@ app.controller('SubscriptionController', ['$scope', '$window', 'SubscriptionMode
 			$scope.addEvent(newid); // Switches watch in CalController
 		};
 
-		// To Delete a Calendar
-		$scope.delete = function (id) {
+		$scope.triggerCalendarEnable = function(id) {
+			$scope.currentload = true;
+			is.loading = true;
 			var calendar = CalendarModel.get(id);
-			var delcalendarResource = Restangular.one('calendars', id);
-			delcalendarResource.remove().then(function () {
-				CalendarModel.remove(calendar);
-			}, function (response) {
-				OC.Notification.show(t('calendar', response.data.message));
+			var newEnabled = !calendar.enabled;
+			calendar.patch({'enabled': newEnabled}).then(
+				function (calendarObj) {
+				CalendarModel.update(calendarObj);
+				$scope.calendars = CalendarModel.getAll();
+				is.loading = false;
+				$scope.currentload = false;
 			});
 		};
 
