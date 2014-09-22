@@ -36,38 +36,19 @@ describe('CalendarListController', function() {
 		}
 	));
 
-	it ('should load calendars and attach them to scope', function() {
-		var calendars = [
-			{displayname: 'Sample Calendar', uri: 'sample-calendar'}
-		];
-		http.expectGET('/v1/calendars').respond(200, calendars);
-
-		controller = controller('CalendarListController', {
-			$scope: scope,
-			CalendarModel: model
-		});
-
-		http.flush(1);
-
-		expect(scope.calendars[0].displayname).toBe('Sample Calendar');
-		expect(scope.calendars[0].uri).toBe('sample-calendar');
-	});
-
 	it ('should create a calendar', function() {
-		http.expectGET('/v1/calendars').respond(200, [{}]);
 
 		controller = controller('CalendarListController', {
 			$scope: scope,
 			CalendarModel: model
 		});
-
-		http.flush(1);
 
 		var calendar = {
 			displayname : 'Sample Calendar',
 			id: 7
 		};
-		http.expectPOST('/v1/calendar').respond(calendar);
+
+		http.expectPOST('/v1/calendars').respond(calendar);
 		scope.create();
 		http.flush(1);
 
@@ -79,14 +60,10 @@ describe('CalendarListController', function() {
 			{id: 7, title: 'Sample Calendar'}
 		];
 
-		http.expectGET('/v1/calendars').respond(200, calendars);
-
 		controller = controller('CalendarListController', {
 			$scope: scope,
 			CalendarModel: model
 		});
-
-		http.flush(1);
 
 		http.expectDELETE('/v1/calendars/7').respond(200, {});
 		scope.delete(7);

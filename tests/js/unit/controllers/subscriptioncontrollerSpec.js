@@ -36,19 +36,15 @@ describe('SubscriptionController', function() {
 		}
 	));
 
-	it ('should delete the selected subscription', function () {
+	it ('should delete the selected calendar', function () {
 		var calendars = [
-			{id: 7, title: 'Sample Subscription'}
+			{id: 7, title: 'Sample Calendar'}
 		];
-
-		http.expectGET('/v1/calendars').respond(200, calendars);
 
 		controller = controller('CalendarListController', {
 			$scope: scope,
-			SubscriptionModel: model
+			CalendarModel: model
 		});
-
-		http.flush(1);
 
 		http.expectDELETE('/v1/calendars/7').respond(200, {});
 		scope.delete(7);
