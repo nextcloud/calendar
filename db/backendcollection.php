@@ -28,20 +28,12 @@ use OCP\Calendar\IBackendCollection;
 class BackendCollection extends Collection implements IBackendCollection {
 
 	/**
-	 * Get a collection of all enabled backends within collection
-	 * @return BackendCollection of all enabled backends
+	 * Search for a backend by it's name
+	 * @param string $id
+	 * @return IBackend
 	 */
-	public function enabled() {
-		return $this->search('enabled', true);
-	}
-
-
-	/**
-	 * Get a collection of all disabled backends within collection
-	 * @return BackendCollection of all disabled backends
-	 */
-	public function disabled() {
-		return $this->search('enabled', false);
+	public function find($id) {
+		return $this->search('id', $id)[0];
 	}
 
 
@@ -51,46 +43,41 @@ class BackendCollection extends Collection implements IBackendCollection {
 	 * @return IBackend
 	 */
 	public function bySubscriptionType($type) {
-		$b = null;
-
-		$this->iterate(function(IBackend $backend) use ($type, &$b) {
-			if (!($backend->getAPI() instanceof IBackendAPI)) {
-				return true;
+		foreach($this->objects as $object) {
+			/** @var IBackend $object */
+			if (!($object->getBackendAPI() instanceof IBackendAPI)) {
+				continue;
 			}
 
-			$api = $backend->getAPI();
-			$subscriptions = $api->getSubscriptionTypes();
+			$subscriptions = $object->getBackendAPI()->getSubscriptionTypes();
 			foreach($subscriptions as $subscription) {
-				if (isset($subscription['type']) &&
-					$subscription['type'] === $type) {
-					$b = $backend;
-					return false;
+				if (isset($subscription['type']) && $subscription['type'] === $type) {
+					return $object;
 				}
 			}
+		}
 
-			return true;
-		});
-
-		return $b;
+		return null;
 	}
 
 
 	/**
-	 * Search for a backend by it's name
-	 * @param $backendName
-	 * @return Backend
+	 * @param string $userId
+	 * @return array
 	 */
-	public function find($backendName) {
-		return $this->search('backend', $backendName)->reset();
-	}
+	public function getPrivateUris($userId) {
+		$privateUris = [];
 
+		foreach($this->objects as $object) {
+			/** @var IBackend $object */
+			try {
+				$privateUris[$object->getId()] =
+					$object->getCalendarAPI()->listAll($userId);
+			} catch(\Exception $ex) {
+				\OC::$server->getLogger()->debug($ex->getMessage());
+			}
+		}
 
-	/**
-	 * Check if backend is enabled
-	 * @param string $backendName
-	 * @return bool
-	 */
-	public function isEnabled($backendName) {
-		return $this->find($backendName)->getEnabled();
+		return $privateUris;
 	}
 }

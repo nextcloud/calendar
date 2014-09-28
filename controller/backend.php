@@ -23,23 +23,20 @@ namespace OCA\Calendar\Controller;
 
 use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
 use OCP\Calendar\IBackendCollection;
 use OCA\Calendar\Http\Response;
 use OCA\Calendar\Http\JSON\JSONBackendResponse;
-use OCA\Calendar\Http\SerializerException;
 
 class BackendController extends Controller {
 
 	/**
 	 * @var \OCP\Calendar\IBackendCollection
 	 */
-	private $backends;
+	protected $backends;
 
 
 	/**
-	 * constructor
 	 * @param IAppContainer $app interface to the app
 	 * @param IRequest $request an instance of the request
 	 * @param IBackendCollection $backends
@@ -54,6 +51,7 @@ class BackendController extends Controller {
 		});
 	}
 
+
 	/**
 	 * @param int $limit
 	 * @param int $offset
@@ -65,54 +63,8 @@ class BackendController extends Controller {
 	public function index($limit=null, $offset=null) {
 		try {
 			return $this->backends->subset($limit, $offset);
-		} catch (SerializerException $ex) {
-			$this->app->log($ex->getMessage(), 'debug');
-			return new JSONResponse(
-				array('message' => $ex->getMessage()),
-				Http::STATUS_INTERNAL_SERVER_ERROR
-			);
-		}
-	}
-
-
-	/**
-	 * @param int $limit
-	 * @param int $offset
-	 * @return Response
-	 *
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 */
-	public function enabled($limit, $offset) {
-		try {
-			return $this->backends->enabled()->subset($limit, $offset);
-		} catch (SerializerException $ex) {
-			$this->app->log($ex->getMessage(), 'debug');
-			return new JSONResponse(
-				array('message' => $ex->getMessage()),
-				Http::STATUS_INTERNAL_SERVER_ERROR
-			);
-		}
-	}
-
-
-	/**
-	 * @param int $limit
-	 * @param int $offset
-	 * @return Response
-	 *
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 */
-	public function disabled($limit, $offset) {
-		try {
-			return $this->backends->disabled()->subset($limit, $offset);
-		} catch (SerializerException $ex) {
-			$this->app->log($ex->getMessage(), 'debug');
-			return new JSONResponse(
-				array('message' => $ex->getMessage()),
-				Http::STATUS_INTERNAL_SERVER_ERROR
-			);
+		} catch (\Exception $ex) {
+			return $this->handleException($ex);
 		}
 	}
 }

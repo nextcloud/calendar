@@ -64,11 +64,12 @@ class CalendarCollection extends Collection implements ICalendarCollection {
 	public function components($component) {
 		$newCollection = new CalendarCollection();
 
-		$this->iterate(function(ICalendar $object) use (&$newCollection, $component) {
+		foreach($this->objects as $object) {
+			/** @var ICalendar $object */
 			if ($object->getComponents() & $component) {
-				$newCollection->add(clone $object);
+				$newCollection[] = $object;
 			}
-		});
+		}
 
 		return $newCollection;
 	}
@@ -82,11 +83,12 @@ class CalendarCollection extends Collection implements ICalendarCollection {
 	public function permissions($cruds) {
 		$newCollection = new CalendarCollection();
 
-		$this->iterate(function(ICalendar &$calendar) use (&$newCollection, $cruds) {
-			if ($calendar->getCruds() & $cruds) {
-				$newCollection->add(clone $calendar);
+		foreach($this->objects as $object) {
+			/** @var ICalendar $object */
+			if ($object->getCruds() & $cruds) {
+				$newCollection[] = $object;
 			}
-		});
+		}
 
 		return $newCollection;
 	}
@@ -99,15 +101,16 @@ class CalendarCollection extends Collection implements ICalendarCollection {
 	 */
 	public function filterByBackends(IBackendCollection $backends) {
 		$newCollection = new CalendarCollection();
-		$backendObjects = $backends->getObjects();
 
-		$this->iterate(function(ICalendar $calendar) use (&$newCollection, $backendObjects) {
-			foreach($backendObjects as $backendObject) {
-				if ($backendObject instanceof IBackend && $calendar->getBackend() === $backendObject->getBackend()) {
-					$newCollection->add(clone $calendar);
+		foreach($this->objects as $object) {
+			/** @var ICalendar $object */
+			foreach($backends as $backend) {
+				if ($backend instanceof IBackend &&
+					$object->getBackend()->getId() === $backend->getId()) {
+					$newCollection[] = $object;
 				}
 			}
-		});
+		}
 
 		return $newCollection;
 	}

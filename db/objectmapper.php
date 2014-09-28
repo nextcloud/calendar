@@ -21,91 +21,99 @@
  */
 namespace OCA\Calendar\Db;
 
-use OCP\AppFramework\IAppContainer;
+use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\Calendar\ICalendar;
 use OCP\Calendar\IObject;
 use OCP\Calendar\IObjectCollection;
 use OCA\Calendar\Utility\ObjectUtility;
-use OCP\Calendar\DoesNotExistException;
-use OCP\Calendar\MultipleObjectsReturnedException;
 use OCP\Calendar\ObjectType;
+use OCP\IDb;
 
 use DateTime;
-use OCP\DB;
 
 class ObjectMapper extends Mapper {
 
+	/**
+	 * @var ICalendar
+	 */
+	protected $calendar;
+
 
 	/**
-	 * @var string
+	 * @param IDb $db
+	 * @param ICalendar $calendar
+	 * @param string $tableName
+	 * @throws \InvalidArgumentException
 	 */
-	private $indexTableName;
+	public function __construct(IDb $db, ICalendar $calendar,
+								$tableName='clndr_objcache'){
+		parent::__construct($db, $tableName);
+		$this->calendar = $calendar;
 
-
-	/**
-	 * Constructor
-	 * @param IAppContainer $app
-	 * @param string $indexTableName
-	 * @param string $dataTableName
-	 */
-	public function __construct(IAppContainer $app,
-								$indexTableName = 'clndr_objcache',
-								$dataTableName = 'clndr_objcachedata'){
-		parent::__construct($app, $dataTableName);
-		$this->indexTableName = '*PREFIX*' . $indexTableName;
-
+		if ($calendar->getId() === null) {
+			throw new \InvalidArgumentException(
+				'Given calendar parameter is missing Id property!'
+			);
+		}
 	}
 
 
 	/**
 	 * Finds an item from user by it's uri
-	 * @param ICalendar $calendar
 	 * @param string $uri
 	 * @param integer $type
 	 * @throws DoesNotExistException: if the item does not exist
 	 * @throws MultipleObjectsReturnedException
 	 * @return IObject
 	 */
-	public function find(ICalendar $calendar, $uri, $type){
-		$findOneSQL  = $this->getJoinStatement();
-		$findOneSQL .= 'WHERE `uri` = ? AND `calendarid` = ?';
-		$findOneParams = array(
-			$uri,
-			$calendar->getId(),
-		);
+	public function find($uri, $type=ObjectType::ALL){
+		$sql  = 'SELECT * FROM `' . $this->getTableName() . '` ';
+		$sql .= 'WHERE `uri` = ? AND `calendarid` = ?';
+		$params = [$uri, $this->calendar->getId()];
 
-		$this->addTypeQuery($type, $findOneSQL, $findOneParams);
+		$this->addTypeQuery($type, $sql, $params);
 
-		$row = $this->findOneQuery($findOneSQL, $findOneParams);
-		return new Object($row);
+		return $this->findEntity($sql, $params);
 	}
 
 
 	/**
 	 * Finds all Items of calendar $calendarId
-	 * @param ICalendar $calendar
 	 * @param integer $type
 	 * @param integer $limit
 	 * @param integer $offset
 	 * @return IObjectCollection
 	 */
-	public function findAll(ICalendar $calendar, $type, $limit, $offset){
-		$findAllSQL  = $this->getJoinStatement();
-		$findAllSQL .= 'WHERE `calendarid` = ?';
-		$findAllParams = array(
-			$calendar->getId(),
-		);
+	public function findAll($type=ObjectType::ALL, $limit=null, $offset=null){
+		$sql  = 'SELECT * FROM `' . $this->getTableName() . '` ';
+		$sql .= 'WHERE `calendarid` = ?';
+		$params = [$this->calendar->getId()];
 
-		$this->addTypeQuery($type, $findAllSQL, $findAllParams);
+		$this->addTypeQuery($type, $sql, $params);
 
-		return $this->findEntities($findAllSQL, $findAllParams,
-			$limit, $offset);
+		return $this->findEntities($sql, $params, $limit, $offset);
+	}
+
+
+	/**
+	 * Finds all Items of calendar $calendarId
+	 * @param integer $type
+	 * @return array
+	 */
+	public function listAll($type=ObjectType::ALL){
+		$sql  = 'SELECT `objecturi` FROM `' . $this->getTableName() . '` ';
+		$sql .= 'WHERE `calendarid` = ?';
+		$params = [$this->calendar->getId()];
+
+		$this->addTypeQuery($type, $sql, $params);
+
+		return $this->findEntities($sql, $params);
 	}
 
 
 	/**
 	 * Finds all Items of calendar $calendarId from $start to $end
-	 * @param ICalendar $calendar
 	 * @param DateTime $start
 	 * @param DateTime $end
 	 * @param integer $type
@@ -113,161 +121,74 @@ class ObjectMapper extends Mapper {
 	 * @param integer $offset
 	 * @return IObjectCollection
 	 */
-	public function findAllInPeriod(ICalendar $calendar, $start, $end, $type,
-									$limit, $offset) {
-		$findAllInPeriodSQL  = $this->getJoinStatement();
-		$findAllInPeriodSQL .= 'WHERE `calendarid` = ? ';
-		$findAllInPeriodParams = array(
-			$calendar->getId(),
-		);
+	public function findAllInPeriod(DateTime $start, DateTime $end,
+									$type=ObjectType::ALL,
+									$limit=null, $offset=null) {
+		$sql  = 'SELECT * FROM `' . $this->getTableName() . '` ';
+		$sql .= 'WHERE `calendarid` = ?';
+		$params = [$this->calendar->getId()];
 
-		$this->addTypeQuery($type, $findAllInPeriodSQL, $findAllInPeriodParams);
-		$this->addPeriodQuery($start, $end, $findAllInPeriodSQL, $findAllInPeriodParams);
+		$this->addTypeQuery($type, $sql, $params);
+		$this->addPeriodQuery($start, $end, $sql, $params);
 
-		return $this->findEntities($findAllInPeriodSQL, $findAllInPeriodParams,
-			$limit, $offset);
+		return $this->findEntities($sql, $params, $limit, $offset);
 	}
 
 
 	/**
 	 * number of objects in a calendar
-	 * @param ICalendar $calendar
 	 * @throws DoesNotExistException: if the item does not exist
 	 * @return integer
 	 */
-	public function count(ICalendar $calendar){
-		$countSQL  = $this->getJoinStatement('SELECT COUNT(*) AS `count`');
-		$countSQL .= 'WHERE `calendarid` = ?';
+	public function count(){
+		$sql  = 'SELECT COUNT(*) AS `count` ';
+		$sql .= 'FROM `' . $this->getTableName() . '` ';
+		$sql .= 'WHERE `calendarid` = ?';
+		$params = [$this->calendar->getId()];
 
-		$row = $this->findOneQuery($countSQL, array(
-			$calendar->getId(),
-		));
-
+		$row = $this->findOneQuery($sql, $params);
 		return intval($row['count']);
 	}
 
 
 	/**
-	 * @param ICalendar $calendar
-	 * @param string $uri
-	 * @return boolean|null
+	 * delete multiple objects based on their objectUris
+	 * @param array $objectUris
 	 */
-	public function doesExist(ICalendar $calendar, $uri) {
-		$countSQL  = $this->getJoinStatement('SELECT COUNT(*) AS `count`');
-		$countSQL .= 'WHERE `calendarid` = ? AND `uri` = ?';
-
-		$row = $this->findOneQuery($countSQL, array(
-			$calendar->getId(),
-			$uri,
-		));
-
-		return (intval($row['count']) === 1);
-	}
-
-
-
-	/**
-	 * Deletes an entity from the table
-	 * @param \OCP\Calendar\IObject $delete the entity that should be deleted
-	 */
-	public function delete(IObject $delete){
-		$sqlQueries = array();
-
-		//delete cached data
-		$sqlQueries[] =  'DELETE FROM `' . $this->getDataTableName() . '` WHERE `cacheid` = ?';
-		//delete index data
-		$sqlQueries[] =  'DELETE FROM `' . $this->getIndexTableName() . '` WHERE `id` = ?';
-
-		foreach ($sqlQueries as $sqlQuery) {
-			$this->execute($sqlQuery, array($delete->getId()));
-		}
-	}
-
-
-	/**
-	 * Creates a new entry in the db from an entity
-	 * @param \OCP\Calendar\IObject $object the entity that should be created
-	 * @param bool $indexOnly
-	 * @return \OCP\Calendar\IObject the saved entity with the set id
-	 */
-	public function insert(IObject $object, $indexOnly=false){
-		$indexSQL  = 'INSERT INTO `' . $this->getIndexTableName() . '` ';
-		$indexSQL .= '(`calendarid`, `objecturi`) VALUES(?,?)';
-
-		$this->execute($indexSQL, array(
-			$object->getCalendar()->getId(),
-			$object->getUri(),
-		));
-
-		$object->setId((int) DB::insertid($this->tableName));
-
-		if ($indexOnly === true) {
-			return $object;
+	public function deleteList(array $objectUris=[]) {
+		if (empty($objectUris) === true) {
+			return;
 		}
 
-		$dataSQL  = 'INSERT INTO `' . $this->getDataTableName() . '` ';
-		$dataSQL .= '(`cacheid`, `type`, `etag`, `startdate`, `enddate`, ';
-		$dataSQL .= '`repeating`, `summary`, `calendardata`, `lastmodified`) ';
-		$dataSQL .= 'VALUES(?,?,?,?,?,?,?,?,?)';
+		$sql  = 'DELETE FROM `' . $this->getTableName() . '` ';
+		$sql .= 'WHERE `calendarid` = ? AND (';
+		$params = [$this->calendar->getId()];
 
-		$this->execute($dataSQL, array(
-			$object->getId(), $object->getType(), $object->getEtag(true),
-			$object->getStartDate(), $object->getEndDate(),
-			$object->getRepeating(), $object->getSummary(),
-			$object->getCalendarData(), $object->getLastModified()
-		));
-
-		return $object;
-	}
-
-
-	/**
-	 * Updates an entry in the db from an entity
-	 * @throws \InvalidArgumentException if entity has no id
-	 * @param \OCP\Calendar\IObject $entity the entity that should be created
-	 */
-	public function update(IObject $entity) {
-		//update calendarid and objecturi if the calendar changed
-		if (array_key_exists('calendar', $entity->getUpdatedFields())) {
-			$updateIndexSQL  = 'UPDATE `' . $this->getIndexTableName() . '` ';
-			$updateIndexSQL .= 'SET `calendarid` = ?, `objecturi` = ?';
-			$updateIndexSQL .= 'WHERE `id` = ?';
-
-			$this->execute($updateIndexSQL, array(
-				$entity->getCalendar()->getId(),
-				$entity->getUri(),
-				$entity->getId(),
-			));
+		$sqlElements = [];
+		foreach($objectUris as $objectUri) {
+			$sqlElements[] = '`objecturi` = ?';
+			$params[] = $objectUri;
 		}
 
-		$sql  = 'UPDATE `' . $this->getDataTableName() . '` SET ';
-		$sql .= '`type` = ?, `etag` = ?, `startdate` = ?, `enddate` = ?, ';
-		$sql .= '`repeating` = ?, `summary` = ?, `calendardata` = ?, ';
-		$sql .= '`lastmodified` = ? WHERE `cacheid` = ?';
+		if (count($sqlElements) === 0) {
+			return;
+		}
 
-		$this->execute($sql, array(
-			$entity->getType(), $entity->getEtag(true),
-			$entity->getStartDate(), $entity->getEndDate(),
-			$entity->getRepeating(), $entity->getSummary(),
-			$entity->getCalendarData(), $entity->getLastModified(),
-			$entity->getId()
-		));
+		$sql .= implode(' OR ', $sqlElements);
+		$sql .= ')';
+
+		$this->execute($sql, $params);
 	}
 
 
 	/**
-	 * @return string
+	 * Creates an entity from a row. Automatically determines the entity class
+	 * from the current mapper name (MyEntityMapper -> MyEntity)
+	 * @param array $row the row which should be converted to an entity
+	 * @return Entity the entity
 	 */
-	private function getDataTableName() {
-		return $this->getTableName();
-	}
-
-
-	/**
-	 * @return string
-	 */
-	private function getIndexTableName() {
-		return $this->indexTableName;
+	protected function mapRowToEntity($row) {
+		return parent::mapRowToEntity($row);
 	}
 
 
@@ -276,21 +197,8 @@ class ObjectMapper extends Mapper {
 	 * @param DateTime $datetime
 	 * @return string
 	 */
-	private function getUTC($datetime){
+	private function getUTC(DateTime $datetime){
 		return ObjectUtility::getUTCforMDB($datetime);
-	}
-
-
-	/**
-	 * @param string $query
-	 * @return string
-	 */
-	private function getJoinStatement($query='SELECT *') {
-		$sql  = $query . ' FROM `' . $this->getIndexTableName() . '` index ';
-		$sql .= 'INNER JOIN `' . $this->getDataTableName() . '` data ';
-		$sql .= 'ON index.id = data.cacheid ';
-
-		return $sql;
 	}
 
 
@@ -332,7 +240,7 @@ class ObjectMapper extends Mapper {
 	 * @param string &$sql
 	 * @param array &$params
 	 */
-	private function addPeriodQuery(\DateTime $start, \DateTime $end, &$sql, &$params) {
+	private function addPeriodQuery(DateTime $start, DateTime $end, &$sql, &$params) {
 		$sql .= 'AND ((`startdate` >= ? AND `startdate` <= ?) ';
 		$sql .= 'OR (`enddate` >= ? AND `enddate` <= ?) ';
 		$sql .= 'OR (`startdate` <= ? AND `enddate` >= ?) ';

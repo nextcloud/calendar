@@ -48,7 +48,7 @@ class Subscription extends Entity implements ISubscription {
 	 * @return $this
 	 */
 	public function setType($type) {
-		return $this->setter('type', array($type));
+		return $this->setter('type', [$type]);
 	}
 
 
@@ -65,7 +65,7 @@ class Subscription extends Entity implements ISubscription {
 	 * @return $this
 	 */
 	public function setUrl($url) {
-		return $this->setter('url', array($url));
+		return $this->setter('url', [$url]);
 	}
 
 
@@ -82,7 +82,7 @@ class Subscription extends Entity implements ISubscription {
 	 * @return $this
 	 */
 	public function setUserId($userId) {
-		return $this->setter('userId', array($userId));
+		return $this->setter('userId', [$userId]);
 	}
 
 
@@ -95,7 +95,8 @@ class Subscription extends Entity implements ISubscription {
 
 
 	/**
-	 * check if object is valid
+	 * check if subscription is valid
+	 *
 	 * @return boolean
 	 */
 	public function isValid() {
@@ -117,7 +118,7 @@ class Subscription extends Entity implements ISubscription {
 
 
 	/**
-	 * register field types
+	 * @return void
 	 */
 	protected function registerTypes() {
 		$this->addType('type', 'string');
@@ -127,7 +128,7 @@ class Subscription extends Entity implements ISubscription {
 
 
 	/**
-	 * register mandatory fields
+	 * @return void
 	 */
 	protected function registerMandatory() {
 		$this->addMandatory('type');
@@ -137,10 +138,15 @@ class Subscription extends Entity implements ISubscription {
 
 
 	/**
-	 * create string representation of object
 	 * @return string
 	 */
 	public function __toString() {
-		return $this->userId . '::' . $this->type . '::' . $this->url;
+		$glue = '::';
+
+		return implode($glue, [
+			$this->userId,
+			$this->type,
+			$this->url,
+		]);
 	}
 }

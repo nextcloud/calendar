@@ -33,6 +33,12 @@ spl_autoload_register(function ($className){
 		if(file_exists($relPath)){
 			require_once $relPath;
 		}
+	} else if(strpos($className, 'OCP\\Calendar\\IBackendAPI') === 0) {
+		require_once __DIR__ . '/../backend/ibackendapi.php';
+	} else if(strpos($className, 'OCP\\Calendar\\ICalendarAPI') === 0) {
+		require_once __DIR__ . '/../backend/icalendarapi.php';
+	} else if(strpos($className, 'OCP\\Calendar\\IObjectAPI') === 0) {
+		require_once __DIR__ . '/../backend/iobjectapi.php';
 	} else if(strpos($className, 'OCP\\Calendar') === 0) {
 		$path = strtolower(str_replace('\\', '/', substr($className, 12)) . '.php');
 		$relPath = __DIR__ . '/../public' . $path;

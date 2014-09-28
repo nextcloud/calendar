@@ -68,8 +68,8 @@ class JSONCalendarResponse extends JSONResponse {
 				$data[$key] = JSONUtility::getCruds($value);
 				break;
 
-			case 'ownerId':
-			case 'userId':
+			case 'ownerid':
+			case 'userid':
 				$key = substr($key, 0, -2);
 				$data[$key] = JSONUtility::getUserInformation($value);
 				break;
@@ -77,6 +77,7 @@ class JSONCalendarResponse extends JSONResponse {
 			case 'lastpropertiesupdate':
 			case 'lastobjectupdate':
 			case 'privateuri':
+			case 'fileid':
 				break;
 
 			default:

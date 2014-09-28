@@ -29,7 +29,7 @@ class ObjectType extends \OCP\Calendar\ObjectType {
 	 * @return string
 	 */
 	public static function getAsString($type) {
-		$types = array();
+		$types = [];
 
 		if ($type & self::EVENT) {
 			$types[] = 'VEVENT';
@@ -41,8 +41,7 @@ class ObjectType extends \OCP\Calendar\ObjectType {
 			$types[] = 'VTODO';
 		}
 
-		$string = implode(',', $types);
-		return $string;
+		return implode(',', $types);
 	}
 
 
@@ -52,7 +51,7 @@ class ObjectType extends \OCP\Calendar\ObjectType {
 	 * @return string
 	 */
 	public static function getAsReadableString($type) {
-		$types = array();
+		$types = [];
 
 		if ($type & self::EVENT) {
 			$types[] = 'events';
@@ -64,8 +63,7 @@ class ObjectType extends \OCP\Calendar\ObjectType {
 			$types[] = 'todos';
 		}
 
-		$string = implode(', ', $types);
-		return $string; 
+		return implode(', ', $types);
 	}
 
 
@@ -136,15 +134,15 @@ class ObjectType extends \OCP\Calendar\ObjectType {
 		}
 
 		switch($string) {
-			case 'OCA\Calendar\Sabre\VObject\Component\VEvent':
+			case 'OCA\\Calendar\\Sabre\\VObject\\Component\\VEvent':
 				$type = self::EVENT;
 				break;
 
-			case 'OCA\Calendar\Sabre\VObject\Component\VJournal':
+			case 'OCA\\Calendar\\Sabre\\VObject\\Component\\VJournal':
 				$type = self::JOURNAL;
 				break;
 
-			case 'OCA\Calendar\Sabre\VObject\Component\VTodo':
+			case 'OCA\\Calendar\\Sabre\\VObject\\Component\\VTodo':
 				$type = self::TODO;
 				break;
 

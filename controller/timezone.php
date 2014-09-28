@@ -59,8 +59,8 @@ class TimezoneController extends Controller {
 
 
 	/**
-	 * @param $limit
-	 * @param $offset
+	 * @param int $limit
+	 * @param int $offset
 	 * @return Response
 	 *
 	 * @NoAdminRequired
@@ -75,12 +75,8 @@ class TimezoneController extends Controller {
 				$limit,
 				$offset
 			);
-		} catch (SerializerException $ex) {
-			$this->app->log($ex->getMessage(), 'debug');
-			return new JSONResponse(
-				array('message' => $ex->getMessage()),
-				Http::STATUS_INTERNAL_SERVER_ERROR
-			);
+		} catch (\Exception $ex) {
+			return $this->handleException($ex);
 		}
 	}
 

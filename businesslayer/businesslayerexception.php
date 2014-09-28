@@ -26,7 +26,6 @@ use \OCP\AppFramework\Http;
 class BusinessLayerException extends \Exception {
 
 	/**
-	 * Constructor
 	 * @param string $message
 	 * @param integer $code
 	 * @param \Exception $previous
@@ -37,5 +36,14 @@ class BusinessLayerException extends \Exception {
 		}
 
 		parent::__construct($message, $code, $previous);
+	}
+
+
+	public static function fromException(\Exception $ex) {
+		return new BusinessLayerException(
+			$ex->getMessage(),
+			$ex->getCode(),
+			$ex
+		);
 	}
 }

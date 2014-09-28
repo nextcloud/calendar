@@ -46,4 +46,17 @@ class Utility {
 
 		return $string;
 	}
+
+
+	/**
+	 * @param object $object
+	 * @return array
+	 */
+	public static function getPublicProperties($object) {
+		if (gettype($object) !== 'object') {
+			return [];
+		}
+
+		return get_object_vars($object);
+	}
 }

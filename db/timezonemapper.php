@@ -21,9 +21,8 @@
  */
 namespace OCA\Calendar\Db;
 
-use OCP\Calendar\DoesNotExistException;
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\Calendar\IEntity;
-use OCP\AppFramework\IAppContainer;
 use OCP\Util;
 
 class TimezoneMapper extends Mapper {
@@ -42,12 +41,7 @@ class TimezoneMapper extends Mapper {
 	private $fileBlacklist;
 
 
-	/**
-	 * @param IAppContainer $app
-	 */
-	public function __construct(IAppContainer $app){
-		$this->app = $app;
-
+	public function __construct(){
 		$this->folderName = __DIR__ . '/../timezones/';
 		$this->fileBlacklist = array(
 			'.',
@@ -74,7 +68,7 @@ class TimezoneMapper extends Mapper {
 			throw new DoesNotExistException('Timezone not found!');
 		}
 		$data = file_get_contents($path);
-		return new Timezone($data);
+		return Timezone::fromData($data);
 	}
 
 
@@ -94,13 +88,10 @@ class TimezoneMapper extends Mapper {
 	/**
 	 * get all timezones as a list
 	 * @param string $userId
-	 * @param integer $limit
-	 * @param integer $offset
 	 * @return array
 	 */
-	public function listAll($userId, $limit, $offset) {
-		$timezones = $this->getAllAvailableTimezones($userId);
-		return array_slice($timezones, $offset, $limit);
+	public function listAll($userId) {
+		return $this->getAllAvailableTimezones($userId);
 	}
 
 

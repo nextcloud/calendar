@@ -22,167 +22,152 @@
 namespace OCA\Calendar\Db;
 
 use OCP\Calendar\IBackend;
+use OCP\Calendar\ICalendar;
 use OCP\Calendar\IBackendAPI;
+use OCP\Calendar\ICalendarAPI;
+use OCP\Calendar\IObjectAPI;
 
 class Backend extends Entity implements IBackend {
 
 	/**
-	 * @var integer
+	 * @var string
 	 */
 	public $id;
 
 
 	/**
-	 * @var string
-	 */
-	public $backend;
-
-
-	/**
-	 * @var string
-	 */
-	public $classname;
-
-
-	/**
-	 * @var array
-	 */
-	public $arguments;
-
-
-	/**
-	 * @var bool
-	 */
-	public $enabled;
-
-
-	/**
 	 * @var IBackendAPI
 	 */
-	public $api;
+	public $backendAPI;
 
 
 	/**
-	 * @param boolean $enabled
+	 * @var ICalendarAPI
+	 */
+	public $calendarAPI;
+
+
+	/**
+	 * @var \closure
+	 */
+	protected $objectAPI;
+
+
+	/**
+	 * @var \closure
+	 */
+	protected $objectCache;
+
+
+	/**
+	 * @param string $id
 	 * @return $this
 	 */
-	public function setEnabled($enabled) {
-		return $this->setter('enabled', array($enabled));
-	}
-
-
-	/**
-	 * disables a backend
-	 * @return $this
-	 */
-	public function disable() {
-		return $this->setEnabled(false);
-	}
-
-
-	/**
-	 * enables a backend
-	 * @return $this
-	 */
-	public function enable() {
-		return $this->setEnabled(true);
-	}
-
-
-	/**
-	 * @return boolean
-	 */
-	public function getEnabled() {
-		return $this->getter('enabled');
-	}
-
-
-	/**
-	 * @param string $classname
-	 * @return $this
-	 */
-	public function setClassname($classname) {
-		return $this->setter('classname', array($classname));
+	public function setId($id) {
+		return $this->setter('id', [$id]);
 	}
 
 
 	/**
 	 * @return string
 	 */
-	public function getClassname() {
-		return $this->getter('classname');
+	public function getId() {
+		return $this->getter('id');
 	}
 
 
 	/**
-	 * @param string $backend
+	 * @param \closure $backendAPI
 	 * @return $this
 	 */
-	public function setBackend($backend) {
-		return $this->setter('backend', array($backend));
-	}
+	public function setBackendAPI(\closure $backendAPI) {
+		$api = call_user_func_array($backendAPI, [$this]);
+		if ($api instanceof IBackendAPI) {
+			$this->setter('backendAPI', [$api]);
+		}
 
-
-
-	/**
-	 * @return string
-	 */
-	public function getBackend() {
-		return $this->getter('backend');
-	}
-
-
-	/**
-	 * @param array $arguments
-	 * @return $this
-	 */
-	public function setArguments($arguments) {
-		return $this->setter('arguments', array($arguments));
-	}
-
-
-	/**
-	 * @return array
-	 */
-	public function getArguments() {
-		return $this->getter('arguments');
-	}
-
-
-	/**
-	 * registers an API for a backend
-	 * @param IBackendAPI $api
-	 * @return $this
-	 */
-	public function registerAPI(IBackendAPI $api){
-		$this->api = $api;
 		return $this;
 	}
 
 
 	/**
-	 * @return IBackendAPI
+	 * @return \closure
 	 */
-	public function getAPI() {
-		return $this->getter('api');
+	public function getBackendAPI() {
+		return $this->getter('backendAPI');
 	}
 
 
 	/**
-	 * check if object is valid
+	 * @param \closure $calendarAPI
+	 * @return $this
+	 */
+	public function setCalendarAPI(\closure $calendarAPI) {
+		$api = call_user_func_array($calendarAPI, [$this]);
+		if ($api instanceof ICalendarAPI) {
+			$this->setter('calendarAPI', [$api]);
+		}
+
+		return $this;
+	}
+
+
+	/**
+	 * @return \closure
+	 */
+	public function getCalendarAPI() {
+		return $this->getter('calendarAPI');
+	}
+
+
+	/**
+	 * @param string $action
 	 * @return boolean
 	 */
-	public function isValid() {
-		$isValid = parent::isValid();
-		if (!$isValid) {
+	public function doesCalendarSupport($action) {
+		if (!($this->calendarAPI instanceof ICalendarAPI)) {
 			return false;
 		}
 
-		if (!class_exists($this->getClassname())) {
-			return false;
-		}
+		return is_callable([$this->calendarAPI, $action]);
+	}
 
-		return true;
+
+	/**
+	 * @param \closure $objectAPI
+	 * @return $this
+	 */
+	public function setObjectAPI(\closure $objectAPI) {
+		return $this->setter('objectAPI', [$objectAPI]);
+	}
+
+
+	/**
+	 * @param ICalendar $calendar
+	 * @return IObjectAPI
+	 */
+	public function getObjectAPI(ICalendar $calendar) {
+		return call_user_func_array($this->getter('objectAPI'),
+			[$calendar]);
+	}
+
+
+	/**
+	 * @param \closure $objectAPI
+	 * @return $this
+	 */
+	public function setObjectCache(\closure $objectAPI) {
+		return $this->setter('objectCache', [$objectAPI]);
+	}
+
+
+	/**
+	 * @param ICalendar $calendar
+	 * @return IObjectAPI
+	 */
+	public function getObjectCache(ICalendar $calendar) {
+		return call_user_func_array($this->getter('objectCache'),
+			[$calendar]);
 	}
 
 
@@ -191,7 +176,7 @@ class Backend extends Entity implements IBackend {
 	 * @return string
 	 */
 	public function __toString() {
-		return $this->getBackend();
+		return $this->getId();
 	}
 
 
@@ -199,11 +184,7 @@ class Backend extends Entity implements IBackend {
 	 * register field types
 	 */
 	protected function registerTypes() {
-		$this->addType('backend', 'string');
-		$this->addType('classname', 'string');
-		$this->addType('arguments', 'array');
-		$this->addType('enabled', 'boolean');
-		$this->addType('api', 'OCA\\Calendar\\Backend\\IBackend');
+		$this->addType('id', 'string');
 	}
 
 
@@ -211,8 +192,6 @@ class Backend extends Entity implements IBackend {
 	 * register mandatory fields
 	 */
 	protected function registerMandatory() {
-		$this->addMandatory('backend');
-		$this->addMandatory('classname');
-		$this->addMandatory('enabled');
+		$this->addMandatory('id');
 	}
 }

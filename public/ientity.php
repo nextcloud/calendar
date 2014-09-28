@@ -21,8 +21,6 @@
  */
 namespace OCP\Calendar;
 
-use \OCA\Calendar\Sabre\VObject\Component\VCalendar;
-
 interface IEntity {
 
 	/**
@@ -39,7 +37,7 @@ interface IEntity {
 	 * @param array $row the row to map onto the entity
 	 * @return $this
 	 */
-	public function fromRow(array $row);
+	public static function fromRow(array $row);
 
 	/**
 	 * @param $id
@@ -57,7 +55,7 @@ interface IEntity {
 	/**
 	 * overwrite current objects with properties
 	 *        from $object that are not null
-	 * @param \OCA\Calendar\Db\Entity $object
+	 * @param IEntity $object
 	 * @return $this
 	 */
 	public function overwriteWith(IEntity $object);
@@ -114,21 +112,4 @@ interface IEntity {
 	 * @return bool
 	 */
 	public function isValid();
-
-
-	/**
-	 * take data from VObject and put into this Calendar object
-	 * @param VCalendar $vcalendar
-	 * @throws \BadFunctionCallException
-	 * @return VCalendar Object
-	 */
-	public function fromVObject(VCalendar $vcalendar);
-
-
-	/**
-	 * get VObject from Calendar Object
-	 * @throws \BadFunctionCallException
-	 * @return VCalendar Object
-	 */
-	public function getVObject();
 }

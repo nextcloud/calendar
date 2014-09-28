@@ -27,14 +27,14 @@ namespace OCA\Calendar\Share;
 use OCP\Calendar\IObject;
 use OCP\Share_Backend_Collection;
 use OCP\Share_Backend_File_Dependent;
-use OCA\Calendar\App;
+use OCA\Calendar\Application;
 use OCA\Calendar\BusinessLayer\BusinessLayerException;
 use OCA\Calendar\Db\CalendarCollection;
 
 class Calendar implements Share_Backend_Collection, Share_Backend_File_Dependent {
 
 	/**
-	 * @var \OCA\Calendar\App;
+	 * @var \OCA\Calendar\Application;
 	 */
 	private $app;
 
@@ -61,7 +61,7 @@ class Calendar implements Share_Backend_Collection, Share_Backend_File_Dependent
 	 * Constructor
 	 */
 	public function __construct() {
-		$app = new App();
+		$app = new Application();
 		$container = $app->getContainer();
 
 		$this->app = $app;

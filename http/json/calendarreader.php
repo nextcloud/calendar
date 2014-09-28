@@ -38,10 +38,12 @@ class JSONCalendarReader extends Reader {
 	 * @var \OCA\Calendar\BusinessLayer\TimezoneBusinessLayer
 	 */
 	protected $timezones;
+	protected $backends;
 
 
 	public function preParse() {
 		$this->timezones = $this->app->query('TimezoneBusinessLayer');
+		$this->backends = $this->app->query('Backends');
 	}
 
 
@@ -120,7 +122,6 @@ class JSONCalendarReader extends Reader {
 				case 'color':
 				case 'description':
 				case 'displayname':
-				case 'backend':
 					$calendar->$setter(strval($value));
 					break;
 
@@ -144,6 +145,11 @@ class JSONCalendarReader extends Reader {
 				case 'timezone':
 					$timezoneObject = $this->parseTimezone($value);
 					$calendar->$setter($timezoneObject);
+					break;
+
+				case 'backend':
+					$backendObject = $this->parseBackend($value);
+					$calendar->$setter($backendObject);
 					break;
 
 				//blacklist:
@@ -174,5 +180,21 @@ class JSONCalendarReader extends Reader {
 		} catch(BusinessLayerException $ex) {
 			return null;
 		}
+	}
+
+
+	/**
+	 * @param $backendId
+	 * @return \OCA\Calendar\Db\Backend|null
+	 */
+	private function parseBackend($backendId) {
+		foreach($this->backends as $backend) {
+			/** @var \OCP\Calendar\IBackend $backend */
+			if ($backend->getId() === $backendId) {
+				return $backend;
+			}
+		}
+
+		return null;
 	}
 }

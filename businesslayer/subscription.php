@@ -21,10 +21,10 @@
  */
 namespace OCA\Calendar\BusinessLayer;
 
+use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Http;
 use OCP\Calendar\ISubscription;
-use OCP\Calendar\DoesNotExistException;
-use OCP\Calendar\MultipleObjectsReturnedException;
 
 class SubscriptionBusinessLayer extends BusinessLayer {
 
@@ -62,25 +62,25 @@ class SubscriptionBusinessLayer extends BusinessLayer {
 
 
 	/**
-	 * count number of user's subscriptions
+	 * list all subscriptions of a user
 	 *
 	 * @param string $userId
-	 * @return integer
+	 * @return array
 	 */
-	public function count($userId=null) {
-		return $this->mapper->count($userId);
+	public function listAll($userId) {
+		return $this->mapper->listAll($userId);
 	}
 
 
 	/**
-	 * count number of user's subscriptions of a certain type
+	 * list all subscriptions of a certain type
 	 *
-	 * @param string $type
 	 * @param string $userId
+	 * @param string $type
 	 * @return integer
 	 */
-	public function countByType($type, $userId=null) {
-		return $this->mapper->countByType($type, $userId);
+	public function listAllByType($userId, $type) {
+		return $this->mapper->listAllByType($userId, $type);
 	}
 
 
@@ -92,21 +92,13 @@ class SubscriptionBusinessLayer extends BusinessLayer {
 	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
 	 * @return \OCP\Calendar\ISubscription
 	 */
-	public function find($id, $userId=null) {
+	public function find($id, $userId) {
 		try {
 			return $this->mapper->find($id, $userId);
 		} catch(DoesNotExistException $ex) {
-			throw new BusinessLayerException(
-				$ex->getMessage(),
-				Http::STATUS_NOT_FOUND,
-				$ex
-			);
+			throw BusinessLayerException::fromException($ex);
 		} catch(MultipleObjectsReturnedException $ex) {
-			throw new BusinessLayerException(
-				$ex->getMessage(),
-				HTTP::STATUS_INTERNAL_SERVER_ERROR,
-				$ex
-			);
+			throw BusinessLayerException::fromException($ex);
 		}
 	}
 
@@ -120,21 +112,13 @@ class SubscriptionBusinessLayer extends BusinessLayer {
 	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
 	 * @return \OCP\Calendar\ISubscription
 	 */
-	public function findByType($id, $type, $userId=null) {
+	public function findByType($id, $type, $userId) {
 		try {
 			return $this->mapper->findByType($id, $type, $userId);
 		} catch(DoesNotExistException $ex) {
-			throw new BusinessLayerException(
-				$ex->getMessage(),
-				Http::STATUS_NOT_FOUND,
-				$ex
-			);
+			throw BusinessLayerException::fromException($ex);
 		} catch(MultipleObjectsReturnedException $ex) {
-			throw new BusinessLayerException(
-				$ex->getMessage(),
-				HTTP::STATUS_INTERNAL_SERVER_ERROR,
-				$ex
-			);
+			throw BusinessLayerException::fromException($ex);
 		}
 	}
 
@@ -146,7 +130,7 @@ class SubscriptionBusinessLayer extends BusinessLayer {
 	 * @param string $userId
 	 * @return boolean
 	 */
-	public function doesExist($id, $userId=null) {
+	public function doesExist($id, $userId) {
 		return $this->mapper->doesExist($id, $userId);
 	}
 
@@ -159,7 +143,7 @@ class SubscriptionBusinessLayer extends BusinessLayer {
 	 * @param string $userId
 	 * @return boolean
 	 */
-	public function doesExistOfType($id, $type, $userId=null) {
+	public function doesExistOfType($id, $type, $userId) {
 		return $this->mapper->doesExistOfType($id, $type, $userId);
 	}
 

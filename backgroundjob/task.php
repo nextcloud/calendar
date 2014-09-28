@@ -21,11 +21,11 @@
  */
 namespace OCA\Calendar\Backgroundjob;
 
-use \OCA\Calendar\App;
+use \OCA\Calendar\Application;
 
 class Task {
 	static public function run() {
-		$app = new App();
+		$app = new Application();
 
 
 		//TODO

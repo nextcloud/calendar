@@ -24,14 +24,13 @@ namespace OCA\Calendar\Controller;
 use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\Calendar\IBackendCollection;
 use OCP\IRequest;
 use OCP\Calendar\ICalendar;
 use OCP\Calendar\ICalendarCollection;
-use OCA\Calendar\BusinessLayer\BusinessLayerException;
 use OCA\Calendar\BusinessLayer\CalendarBusinessLayer;
 use OCA\Calendar\Http\Response;
 use OCA\Calendar\Http\ReaderException;
-use OCA\Calendar\Http\SerializerException;
 use OCA\Calendar\Http\JSON\JSONCalendarReader;
 use OCA\Calendar\Http\JSON\JSONCalendarResponse;
 
@@ -45,15 +44,24 @@ class CalendarController extends Controller {
 
 
 	/**
+	 * @var \OCP\Calendar\IBackendCollection
+	 */
+	protected $backends;
+
+
+	/**
 	 * constructor
 	 * @param IAppContainer $app interface to the app
 	 * @param IRequest $request an instance of the request
 	 * @param CalendarBusinessLayer $calendars
+	 * @param IBackendCollection $backends
 	 */
 	public function __construct(IAppContainer $app, IRequest $request,
-								CalendarBusinessLayer $calendars) {
+								CalendarBusinessLayer $calendars,
+								IBackendCollection $backends) {
 		parent::__construct($app, $request);
 		$this->calendars = $calendars;
+		$this->backends = $backends;
 
 		$this->registerReader('json', function($handle) use ($app) {
 			$reader = new JSONCalendarReader($app, $handle);
@@ -83,18 +91,8 @@ class CalendarController extends Controller {
 				$limit,
 				$offset
 			);
-		} catch (BusinessLayerException $ex) {
-			$this->app->log($ex->getMessage(), 'debug');
-			return new JSONResponse(
-				array('message' => $ex->getMessage()),
-				$ex->getCode()
-			);
-		} catch (SerializerException $ex) {
-			$this->app->log($ex->getMessage(), 'debug');
-			return new JSONResponse(
-				array('message' => $ex->getMessage()),
-				Http::STATUS_INTERNAL_SERVER_ERROR
-			);
+		} catch (\Exception $ex) {
+			return $this->handleException($ex);
 		}
 	}
 
@@ -110,19 +108,9 @@ class CalendarController extends Controller {
 		try {
 			$userId = $this->api->getUserId();
 
-			return $this->findByIdAndUserId($id, $userId);
-		} catch (BusinessLayerException $ex) {
-			$this->app->log($ex->getMessage(), 'debug');
-			return new JSONResponse(
-				array('message' => $ex->getMessage()),
-				$ex->getCode()
-			);
-		} catch (SerializerException $ex) {
-			$this->app->log($ex->getMessage(), 'debug');
-			return new JSONResponse(
-				array('message' => $ex->getMessage()),
-				Http::STATUS_INTERNAL_SERVER_ERROR
-			);
+			return $this->calendars->find($id, $userId);
+		} catch (\Exception $ex) {
+			return $this->handleException($ex);
 		}
 	}
 
@@ -136,6 +124,10 @@ class CalendarController extends Controller {
 			$calendar = $this->readInput();
 
 			if ($calendar instanceof ICalendar) {
+				if ($calendar->getBackend() === null) {
+					$backend = $this->backends[0];
+					$calendar->setBackend($backend);
+				}
 				return $this->calendars->create($calendar, $this->api->getUserId());
 			} elseif ($calendar instanceof ICalendarCollection) {
 				throw new ReaderException(
@@ -146,23 +138,8 @@ class CalendarController extends Controller {
 					'Reader returned unrecognised format'
 				);
 			}
-		} catch (BusinessLayerException $ex) {
-			$this->app->log($ex->getMessage(), 'debug');
-			return new JSONResponse(
-				array('message' => $ex->getMessage()),
-				$ex->getCode()
-			);
-		} catch(ReaderException $ex) {
-			return new JSONResponse(
-				array('message' => $ex->getMessage()),
-				Http::STATUS_UNPROCESSABLE_ENTITY
-			);
-		} catch (SerializerException $ex) {
-			$this->app->log($ex->getMessage(), 'debug');
-			return new JSONResponse(
-				array('message' => $ex->getMessage()),
-				Http::STATUS_INTERNAL_SERVER_ERROR
-			);
+		} catch (\Exception $ex) {
+			return $this->handleException($ex);
 		}
 	}
 
@@ -180,7 +157,7 @@ class CalendarController extends Controller {
 			$userId = $this->api->getUserId();
 
 			if ($calendar instanceof ICalendar) {
-				$oldCalendar = $this->findByIdAndUserId($id, $userId);
+				$oldCalendar = $this->calendars->find($id, $userId);
 
 				return $this->calendars->update($calendar, $oldCalendar);
 			} elseif ($calendar instanceof ICalendarCollection) {
@@ -192,23 +169,8 @@ class CalendarController extends Controller {
 					'Reader returned unrecognised format'
 				);
 			}
-		} catch(BusinessLayerException $ex) {
-			$this->app->log($ex->getMessage(), 'debug');
-			return new JSONResponse(
-				array('message' => $ex->getMessage()),
-				$ex->getCode()
-			);
-		} catch(ReaderException $ex) {
-			return new JSONResponse(
-				array('message' => $ex->getMessage()),
-				Http::STATUS_UNPROCESSABLE_ENTITY
-			);
-		} catch (SerializerException $ex) {
-			$this->app->log($ex->getMessage(), 'debug');
-			return new JSONResponse(
-				array('message' => $ex->getMessage()),
-				Http::STATUS_INTERNAL_SERVER_ERROR
-			);
+		} catch (\Exception $ex) {
+			return $this->handleException($ex);
 		}
 	}
 
@@ -226,7 +188,7 @@ class CalendarController extends Controller {
 			$userId = $this->api->getUserId();
 
 			if ($calendar instanceof ICalendar) {
-				$oldCalendar = $this->findByIdAndUserId($id, $userId);
+				$oldCalendar = $this->calendars->find($id, $userId);
 
 				return $this->calendars->patch($calendar, $oldCalendar);
 			} elseif ($calendar instanceof ICalendarCollection) {
@@ -238,23 +200,8 @@ class CalendarController extends Controller {
 					'Reader returned unrecognised format'
 				);
 			}
-		} catch(BusinessLayerException $ex) {
-			$this->app->log($ex->getMessage(), 'debug');
-			return new JSONResponse(
-				array('message' => $ex->getMessage()),
-				$ex->getCode()
-			);
-		} catch(ReaderException $ex) {
-			return new JSONResponse(
-				array('message' => $ex->getMessage()),
-				Http::STATUS_UNPROCESSABLE_ENTITY
-			);
-		} catch (SerializerException $ex) {
-			$this->app->log($ex->getMessage(), 'debug');
-			return new JSONResponse(
-				array('message' => $ex->getMessage()),
-				Http::STATUS_INTERNAL_SERVER_ERROR
-			);
+		} catch (\Exception $ex) {
+			return $this->handleException($ex);
 		}
 	}
 
@@ -270,7 +217,7 @@ class CalendarController extends Controller {
 		try {
 			$userId	= $this->api->getUserId();
 
-			$calendar = $this->findByIdAndUserId($id, $userId);
+			$calendar = $this->calendars->find($id, $userId);
 
 			$this->calendars->delete(
 				$calendar
@@ -279,34 +226,8 @@ class CalendarController extends Controller {
 			return new JSONResponse(array(
 				'message' => 'Calendar was deleted successfully',
 			));
-		} catch (BusinessLayerException $ex) {
-			$this->app->log($ex->getMessage(), 'debug');
-			return new JSONResponse(
-				array('message' => $ex->getMessage()),
-				$ex->getCode()
-			);
+		} catch (\Exception $ex) {
+			return $this->handleException($ex);
 		}
-	}
-
-
-	/**
-	 * @param integer $id
-	 * @param $userId
-	 * @return \OCP\Calendar\ICalendar
-	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
-	 */
-	private function findByIdAndUserId($id, $userId) {
-		$calendar = $this->calendars->findById(
-			$id
-		);
-
-		if ($calendar->getUserId() !== $userId) {
-			throw new BusinessLayerException(
-				'Forbidden: Not allowed to access calendar!',
-				HTTP::STATUS_FORBIDDEN
-			);
-		}
-
-		return $calendar;
 	}
 }

@@ -812,7 +812,7 @@ app.controller('SubscriptionController', ['$scope', '$window', 'SubscriptionMode
 			OC.Notification.show(t('calendar', response.data.message));
 		});
 
-		var backendResource = Restangular.all('backends-enabled');
+		var backendResource = Restangular.all('backends');
 
 		backendResource.getList().then(function (backendsobject) {
 			$scope.subscriptiontypeSelect = SubscriptionModel.getsubscriptionnames(backendsobject);

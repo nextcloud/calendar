@@ -24,37 +24,64 @@ namespace OCA\Calendar\Db;
 use OCP\Calendar\ICollection;
 use OCP\Calendar\IEntity;
 
-use OCA\Calendar\Sabre\VObject\Component\VCalendar;
-use OCA\Calendar\Sabre\VObject\Component\VEvent;
-use OCA\Calendar\Sabre\VObject\Component\VJournal;
-use OCA\Calendar\Sabre\VObject\Component\VTodo;
-
 abstract class Collection implements ICollection {
 
 	/**
 	 * array containing all entities
+	 *
 	 * @var array
 	 */
-	protected $objects=array();
+	protected $objects=[];
 
 
 	/**
-	 * constructor
-	 * @param mixed (array|Entity|Collection) $objects
+	 * init collection with a single entity
+	 *
+	 * @param IEntity $entity
+	 * @return ICollection
 	 */
-	public function __construct($objects=null) {
-		if ($objects instanceof IEntity) {
-			$this->add($objects);
-		} elseif ($objects instanceof ICollection) {
-			$this->addCollection($objects);
-		} elseif (is_array($objects)) {
-			$this->addObjects($objects);
-		}
+	public static function fromEntity(IEntity $entity) {
+		/** @var ICollection $instance */
+		$instance = new static();
+		$instance->add($entity);
+
+		return $instance;
+	}
+
+
+	/**
+	 * init collection with another collection
+	 *
+	 * @param ICollection $collection
+	 * @return ICollection
+	 */
+	public static function fromCollection(ICollection $collection) {
+		/** @var ICollection $instance */
+		$instance = new static();
+		$instance->addCollection($collection);
+
+		return $instance;
+	}
+
+
+	/**
+	 * init collection with array of entities
+	 *
+	 * @param array $entities
+	 * @return ICollection
+	 */
+	public static function fromArray(array $entities) {
+		/** @var ICollection $instance */
+		$instance = new static();
+		$instance->addObjects($entities);
+
+		return $instance;
 	}
 
 
 	/**
 	 * add entity to collection
+	 *
 	 * @param IEntity $object entity to be added
 	 * @param integer $nth insert at index, if not set, entity will be appended
 	 * @return $this
@@ -75,7 +102,8 @@ abstract class Collection implements ICollection {
 
 
 	/**
-	 * add entities to collection
+	 * add collection to collection
+	 *
 	 * @param ICollection $collection collection of entities to be added
 	 * @param integer $nth insert at index, if not set, collection will be appended
 	 * @return integer
@@ -95,12 +123,13 @@ abstract class Collection implements ICollection {
 
 
 	/**
-	 * add objects to collection
+	 * add array of entities to collection
+	 *
 	 * @param array $array
 	 * @param integer $nth insert at index, if not set, objects will be appended
 	 * @return integer
 	 */
-	protected function addObjects(array $array, $nth=null) {
+	public function addObjects(array $array, $nth=null) {
 		if ($nth === null) {
 			$this->objects += $array;
 		} else {
@@ -114,162 +143,9 @@ abstract class Collection implements ICollection {
 		return $this;
 	}
 
-
-	/**
-	 * updates an entity in collection
-	 * @param IEntity $entity
-	 */
-	public function update(IEntity $entity) {
-		$entityId = strval($entity);
-
-		for ($i = 0; $i < $this->count(); $i++) {
-			$objectId = strval($this->objects[$i]);
-
-			if ($entityId === $objectId) {
-				$this->objects[$i] = $entity;
-			}
-		}
-	}
-
-
-	/**
-	 * remove entity from collection
-	 * @param integer $nth remove nth element, if not set, current element will be removed
-	 * @return $this
-	 */
-	public function remove($nth=null) {
-		if ($nth === null){
-			$nth = $this->key();
-		}
-
-		$objects = $this->objects;
-		unset($objects[$nth]);
-		$objects = array_values($objects);
-
-		$this->objects = $objects;
-		return $this;
-	}
-
-
-	/**
-	 * remove entity by it's information
-	 * @param IEntity $entity
-	 * @return $this
-	 */
-	public function removeByEntity(IEntity $entity) {
-		if (in_array($entity, $this->objects)) {
-			for($i = 0; $i < $this->count(); $i++) {
-				//use of (==) instead of (===) is intended!
-				//see http://php.net/manual/en/language.oop5.object-comparison.php
-				if ($this->objects[$i] == $entity) {
-					$this->remove($i--);
-				}
-			}
-		}
-
-		return $this;
-	}
-
-
-	/**
-	 * remove entities by a single property
-	 * @param string $key key for property
-	 * @param mixed $value value to be set
-	 * @return $this;
-	 */
-	public function removeByProperty($key, $value) {
-		$getter = 'get' . ucfirst($key);
-
-		for($i = 0; $i < $this->count(); $i++) {
-			if (is_callable(array($this->objects[$i], $getter)) &&
-				$this->objects[$i]->{$getter}() === $value) {
-				$this->remove($i--);
-			}
-		}
-
-		return $this;
-	}
-
-
-	/**
-	 * get number of elements within collection
-	 * @return integer 
-	 */
-	public function count() {
-		return count($this->objects);
-	}
-
-
-	/**
-	 * get current entity 
-	 * @return Entity
-	 */
-	public function current() {
-		return current($this->objects);
-	}
-
-
-	/**
-	 * get num index of current entity
-	 * @return integer 
-	 */
-	public function key() {
-		return key($this->objects);
-	}
-
-
-	/**
-	 * goto next entity and get it
-	 * @return Entity
-	 */
-	public function next() {
-		return next($this->objects);
-	}
-
-
-	/**
-	 * goto previous entity and get it
-	 * @return Entity
-	 */
-	public function prev() {
-		return prev($this->objects);
-	}
-
-
-	/**
-	 * goto first entity and get it
-	 * @return Entity
-	 */
-	public function reset() {
-		return reset($this->objects);
-	}
-
-
-	/**
-	 * goto last entity and get it
-	 * @return Entity
-	 */
-	public function end() {
-		return end($this->objects);
-	}
-
-
-	/**
-	 * get nth entity of collection
-	 * @param integer $nth
-	 * @return mixed (Entity/null)
-	 */
-	public function get($nth) {
-		if (array_key_exists($nth, $this->objects)) {
-			return $this->objects[$nth];
-		} else {
-			return null;
-		}
-	}
-
-
 	/**
 	 * get array of all entities
+	 *
 	 * @return array of Entities
 	 */
 	public function getObjects() {
@@ -278,32 +154,47 @@ abstract class Collection implements ICollection {
 
 
 	/**
+	 * set objects
+	 *
+	 * @param array $objects
+	 * @return $this
+	 */
+	public function setObjects(array $objects) {
+		$this->objects = $objects;
+		return $this;
+	}
+
+
+	/**
 	 * get a subset of current collection
-	 * @param int $limit
-	 * @param int $offset
+	 *
+	 * @param integer $limit
+	 * @param integer $offset
 	 * @return array of Entities
 	 */
 	public function subset($limit=null, $offset=null) {
+		/** @var ICollection $instance */
+		$instance = new static();
+
 		if ($limit === null && $offset === null) {
-			return $this;
+			$instance->addObjects($this->getObjects());
+			return $instance;
 		}
 
-		if ($limit === null) {
-			$limit = 0;
-		}
 		if ($offset === null) {
 			$offset = 0;
 		}
 
 		$objects = array_slice($this->objects, $offset, $limit);
+		$instance->addObjects($objects);
 
-		$class = get_class($this);
-		return new $class($objects);
+		return $instance;
 	}
 
 
 	/**
 	 * check if entity is in collection
+	 *
 	 * @param IEntity $object
 	 * @return boolean
 	 */
@@ -313,91 +204,30 @@ abstract class Collection implements ICollection {
 
 
 	/**
-	 * get one VCalendar object containing all information
-	 * @return VCalendar object
-	 */
-	public function getVObject() {
-		$vCalendar = new VCalendar();
-
-		foreach($this->objects as &$object) {
-			if (!($object instanceof IEntity)) {
-				continue;
-			}
-
-			$vObject = $object->getVObject();
-			foreach($vObject->children() as $child) {
-				if ($child instanceof VEvent || 
-					$child instanceof VJournal ||
-					$child instanceof VTodo ||
-					$child->name === 'VTIMEZONE') {
-					$vCalendar->add($child);
-				}
-			}
-		}
-
-		return $vCalendar;
-	}
-
-
-	/**
-	 * get an array of VCalendar objects
-	 * @return array of VCalendar object
-	 */
-	public function getVObjects() {
-		$vObjects = array();
-
-		foreach($this->objects as &$object) {
-			if (!($object instanceof IEntity)) {
-				continue;
-			}
-
-			$vObjects[] = $object->getVObject();
-		}
-
-		return $vObjects;
-	}
-
-
-	/**
 	 * get a collection of entities that meet criteria
+	 *
 	 * @param string $key property that's supposed to be searched
 	 * @param mixed $value expected value, can be a regular expression when 3rd param is set to true
 	 * @return mixed (boolean|ICollection)
 	 */
 	public function search($key, $value) {
+		/** @var ICollection $collection */
+		$collection = new static();
 		$getter = 'get' . ucfirst($key);
 
-		return $this->searchByFunction(function(IEntity $entity) use ($value, $getter) {
-			if ($entity->$getter() === $value) {
-				return true;
-			} else {
-				return false;
+		foreach($this->objects as $object) {
+			if ($object->$getter() === $value) {
+				$collection->add($object);
 			}
-		});
-	}
+		}
 
-
-	/**
-	 * get a collection of entities that meet criteria; search calendar data
-	 * @param string $key name of property that stores data
-	 * @param string $regex regular expression
-	 * @return mixed (boolean|ICollection)
-	 */
-	public function searchData($key, $regex) {
-		$getter = 'get' . ucfirst($key);
-
-		return $this->searchByFunction(function(IEntity $entity) use ($regex, $getter) {
-			if (preg_match($regex, $entity->$getter()) === 1) {
-				return true;
-			} else {
-				return false;
-			}
-		});
+		return $collection;
 	}
 
 
 	/**
 	 * set a property for all calendars
+	 *
 	 * @param string $key key for property
 	 * @param mixed $value value to be set
 	 * @return $this
@@ -418,10 +248,11 @@ abstract class Collection implements ICollection {
 	/**
 	 * checks if all entities are valid
 	 * Stops when it finds the first invalid one
-	 * @return bool
+	 *
+	 * @return boolean
 	 */
 	public function isValid() {
-		foreach($this->objects as &$object) {
+		foreach($this->objects as $object) {
 			if (!($object instanceof IEntity)) {
 				return false;
 			}
@@ -436,18 +267,16 @@ abstract class Collection implements ICollection {
 
 	/**
 	 * iterate over each entity of collection
+	 *
 	 * @param callable $function breaks when callable returns false
-	 * @return $this
 	 */
-	public function iterate($function) {
+	public function iterate(callable $function) {
 		foreach($this->objects as &$object) {
 			$return = $function($object);
 			if ($return === false) {
 				break;
 			}
 		}
-
-		return $this;
 	}
 
 
@@ -462,30 +291,11 @@ abstract class Collection implements ICollection {
 
 
 	/**
-	 * search in data
-	 * @param callable $function
-	 * @return ICollection
+	 * Array-Access-Interface methods
 	 */
-	private function searchByFunction(\closure $function) {
-		$class = get_class($this);
-		/** @var ICollection $res */
-		$res = new $class();
-
-		$this->iterate(function(IEntity &$object) use ($function, &$res) {
-			if ($function($object)) {
-				$res->add($object);
-			}
-
-			return true;
-		});
-
-		return $res;
-	}
-
-
 	/**
 	 * @param mixed $offset
-	 * @return bool
+	 * @return boolean
 	 */
 	public function offsetExists($offset) {
 		return isset($this->objects[$offset]);
@@ -521,5 +331,71 @@ abstract class Collection implements ICollection {
 	 */
 	public function offsetUnset($offset) {
 		unset($this->objects[$offset]);
+	}
+
+
+	/**
+	 * Countable-Interface methods:
+	 */
+	/**
+	 * get number of elements within collection
+	 *
+	 * @return integer
+	 */
+	public function count() {
+		return count($this->objects);
+	}
+
+
+	/**
+	 * Iterator-Interface methods:
+	 */
+	/**
+	 * get current entity
+	 *
+	 * @return Entity
+	 */
+	public function current() {
+		return current($this->objects);
+	}
+
+
+	/**
+	 * get num index of current entity
+	 *
+	 * @return integer
+	 */
+	public function key() {
+		return key($this->objects);
+	}
+
+
+	/**
+	 * go to next entity and get it
+	 *
+	 * @return Entity
+	 */
+	public function next() {
+		return next($this->objects);
+	}
+
+
+	/**
+	 * go to first entity and get it
+	 *
+	 * @return Entity
+	 */
+	public function rewind() {
+		return reset($this->objects);
+	}
+
+
+	/**
+	 * check if current position is valid
+	 *
+	 * @return boolean
+	 */
+	public function valid() {
+		return array_key_exists($this->key(), $this->objects);
 	}
 }

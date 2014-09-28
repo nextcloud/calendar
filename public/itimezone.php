@@ -31,7 +31,7 @@ interface ITimezone extends IEntity {
 	 * @throws MultipleObjectsReturnedException
 	 * @throws DoesNotExistException
 	 */
-	public function setVobject(VCalendar $vcalendar);
+	public function setVObject(VCalendar $vcalendar);
 
 
 	/**

@@ -21,6 +21,8 @@
  */
 namespace OCA\Calendar\Utility;
 
+use OCP\Calendar\ICalendar;
+
 class CalendarUtility extends Utility{
 
 	/**
@@ -49,5 +51,42 @@ class CalendarUtility extends Utility{
 			}
 		}
 		return $calendarURI;
+	}
+
+
+	/**
+	 * @param ICalendar &$calendar
+	 * @param callable $doesExist
+	 * @param boolean $isPublicUri
+	 */
+	public static function generateURI(ICalendar &$calendar,
+									   \closure $doesExist,
+									   $isPublicUri=true) {
+		if ($isPublicUri === true) {
+			$uri = $calendar->getPublicUri();
+		} else {
+			$uri = $calendar->getPrivateUri();
+		}
+
+		if ($uri === null) {
+			$uri = mb_strtolower($calendar->getDisplayname());
+		}
+
+		$uri = CalendarUtility::slugify($uri);
+
+		while($doesExist($uri, $calendar->getUserId())) {
+			$newUri = self::suggestUri($uri);
+
+			if ($newUri === $uri) {
+				break;
+			}
+			$uri = $newUri;
+		}
+
+		if ($isPublicUri) {
+			$calendar->setPublicUri($uri);
+		} else {
+			$calendar->setPrivateUri($uri);
+		}
 	}
 }

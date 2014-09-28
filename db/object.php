@@ -21,7 +21,7 @@
  */
 namespace OCA\Calendar\Db;
 
-use OCP\Calendar\CorruptDataException;
+use OCA\Calendar\CorruptDataException;
 use OCP\Calendar\ICalendar;
 use OCP\Calendar\IObject;
 use OCA\Calendar\Sabre\VObject\Component\VCalendar;
@@ -69,7 +69,7 @@ class Object extends Entity implements IObject {
 	/**
 	 * @var VCalendar
 	 */
-	public $vobject;
+	public $vObject;
 
 
 	/**
@@ -94,7 +94,7 @@ class Object extends Entity implements IObject {
 	 * @return $this
 	 */
 	public function setCalendar(ICalendar $calendar) {
-		return $this->setter('calendar', array($calendar));
+		return $this->setter('calendar', [$calendar]);
 	}
 
 
@@ -111,7 +111,7 @@ class Object extends Entity implements IObject {
 	 * @return $this
 	 */
 	public function setUri($uri) {
-		return $this->setter('uri', array($uri));
+		return $this->setter('uri', [$uri]);
 	}
 
 
@@ -128,7 +128,7 @@ class Object extends Entity implements IObject {
 	 * @return $this
 	 */
 	public function setEtag($etag) {
-		return $this->setter('etag', array($etag));
+		return $this->setter('etag', [$etag]);
 	}
 
 
@@ -154,7 +154,7 @@ class Object extends Entity implements IObject {
 			$ruds -= Permissions::CREATE;
 		}
 
-		$this->setter('ruds', array($ruds));
+		$this->setter('ruds', [$ruds]);
 	}
 
 
@@ -183,7 +183,7 @@ class Object extends Entity implements IObject {
 	 * @throws CorruptDataException
 	 * @return $this
 	 */
-	public function setVobject(VCalendar $vobject) {
+	public function setVObject(VCalendar $vobject) {
 		$uidCount = SabreUtility::countUniqueUIDs($vobject);
 		$objectName = SabreUtility::getObjectName($vobject);
 
@@ -198,7 +198,7 @@ class Object extends Entity implements IObject {
 			);
 		}
 
-		$this->setter('vobject', array($vobject));
+		$this->setter('vObject', [$vobject]);
 		$this->objectName = $objectName;
 		return $this;
 	}
@@ -207,16 +207,17 @@ class Object extends Entity implements IObject {
 	/**
 	 * @return VCalendar
 	 */
-	public function getVobject() {
-		$vobject =  $this->getter('vobject');
+	public function getVObject() {
+		$vobject =  $this->getter('vObject');
 		$objectName = $this->getObjectName();
 
-		$props = array(
+		$props = [
 			new TextProperty($vobject, 'X-OC-URI', $this->getUri()),
 			new TextProperty($vobject, 'X-OC-ETAG', $this->getEtag(true)),
 			new IntegerProperty($vobject, 'X-OC-RUDS', $this->getRuds())
-		);
+		];
 
+		/** @var \OCA\Calendar\Sabre\vobject\Component\VCalendar $vobject */
 		$_objects = $vobject->select($objectName);
 		$vobject->remove($objectName);
 		foreach($_objects as &$_object) {
@@ -243,11 +244,11 @@ class Object extends Entity implements IObject {
 	public function getUpdatedFields() {
 		$updatedFields = parent::getUpdatedFields();
 
-		$properties = array(
+		$properties = [
 			'uri', 'type', 'startDate',
 			'endDate', 'calendarId', 'repeating', 
 			'summary', 'calendarData', 'lastModified',
-		);
+		];
 
 		foreach($properties as $property) {
 			$updatedFields[$property] = true;
@@ -268,7 +269,7 @@ class Object extends Entity implements IObject {
 	public function touch() {
 		$now = new DateTime();
 		//TODO - fix for multiple objects
-		$this->vobject->{$this->getObjectName()}->{'LAST-MODIFIED'}->setDateTime($now);
+		$this->vObject->{$this->getObjectName()}->{'LAST-MODIFIED'}->setDateTime($now);
 		$this->generateEtag();
 		return $this;
 	}
@@ -289,7 +290,7 @@ class Object extends Entity implements IObject {
 	 * @return integer
 	 */
 	public function getCalendarData() {
-		return $this->vobject->serialize();
+		return $this->vObject->serialize();
 	}
 
 
@@ -321,7 +322,7 @@ class Object extends Entity implements IObject {
 		$etag  = $this->getUri();
 		$etag .= $this->getCalendarData();
 
-		return $this->setter('etag', array(md5($etag)));
+		return $this->setter('etag', [md5($etag)]);
 	}
 
 
@@ -344,7 +345,7 @@ class Object extends Entity implements IObject {
 	 */
 	public function getStartDate() {
 		/** @var \OCA\Calendar\Sabre\VObject\Component $object */
-		$object = $this->vobject->{$this->getObjectName()};
+		$object = $this->vObject->{$this->getObjectName()};
 		$realStart = SabreUtility::getDTStart($object);
 		if ($realStart instanceof SDateTime || $realStart instanceof SDate) {
 			return $realStart->getDateTime();
@@ -360,7 +361,7 @@ class Object extends Entity implements IObject {
 	 */
 	public function getEndDate() {
 		/** @var \OCA\Calendar\Sabre\VObject\Component $object */
-		$object = $this->vobject->{$this->getObjectName()};
+		$object = $this->vObject->{$this->getObjectName()};
 		$realEnd = SabreUtility::getDTEnd($object);
 		if ($realEnd instanceof SDateTime || $realEnd instanceof SDate) {
 			return $realEnd->getDateTime();
@@ -378,8 +379,8 @@ class Object extends Entity implements IObject {
 		$objectName = $this->getObjectName();
 
 		//TODO - fix for multiple objects
-		return (isset($this->vobject->{$objectName}->{'RRULE'}) ||
-				isset($this->vobject->{$objectName}->{'RDATE'}));
+		return (isset($this->vObject->{$objectName}->{'RRULE'}) ||
+				isset($this->vObject->{$objectName}->{'RDATE'}));
 	}
 
 
@@ -390,8 +391,8 @@ class Object extends Entity implements IObject {
 	public function getSummary() {
 		$objectName = $this->getObjectName();
 
-		if (isset($this->vobject->{$objectName}->{'SUMMARY'})) {
-			return $this->vobject->{$objectName}->{'SUMMARY'}->getValue();
+		if (isset($this->vObject->{$objectName}->{'SUMMARY'})) {
+			return $this->vObject->{$objectName}->{'SUMMARY'}->getValue();
 		}
 
 		return null;
@@ -406,8 +407,8 @@ class Object extends Entity implements IObject {
 		$objectName = $this->getObjectName();
 
 		//TODO - fix for multiple objects
-		if (isset($this->vobject->{$objectName}->{'LAST-MODIFIED'})) {
-			return $this->vobject->{$objectName}->{'LAST-MODIFIED'}->getDateTime();
+		if (isset($this->vObject->{$objectName}->{'LAST-MODIFIED'})) {
+			return $this->vObject->{$objectName}->{'LAST-MODIFIED'}->getDateTime();
 		}
 
 		return null;
@@ -421,7 +422,7 @@ class Object extends Entity implements IObject {
 	 */
 	public function isInTimeRange(DateTime $start, DateTime $end) {
 		$objectName = $this->getObjectName();
-		return $this->vobject->{$objectName}->isInTimeRange($start, $end);
+		return $this->vObject->{$objectName}->isInTimeRange($start, $end);
 	}
 
 
@@ -438,11 +439,14 @@ class Object extends Entity implements IObject {
 	 * register field types
 	 */
 	protected function registerTypes() {
-		$this->addType('calendar', 'OCP\\Calendar\\ICalendar');
 		$this->addType('uri', 'string');
 		$this->addType('etag', 'string');
 		$this->addType('ruds', 'integer');
-		$this->addType('vobject', 'OCA\\Calendar\\Sabre\\vobject\\Component\\VCalendar');
+
+		$this->addAdvancedFieldType('calendar',
+			'OCP\\Calendar\\ICalendar');
+		$this->addAdvancedFieldType('vObject',
+			'OCA\\Calendar\\Sabre\\vobject\\Component\\VCalendar');
 	}
 
 
@@ -452,6 +456,6 @@ class Object extends Entity implements IObject {
 	protected function registerMandatory() {
 		$this->addMandatory('calendar');
 		$this->addMandatory('uri');
-		$this->addMandatory('vobject');
+		$this->addMandatory('vObject');
 	}
 }

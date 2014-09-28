@@ -22,6 +22,9 @@
 namespace OCA\Calendar\Controller;
 
 use OCA\Calendar\Http\ReaderException;
+use OCA\Calendar\Http\SerializerException;
+use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\IAppContainer;
 use OCP\IRequest;
 use OCP\Calendar\IEntity;
@@ -31,24 +34,19 @@ use DateTime;
 abstract class Controller extends \OCP\AppFramework\Controller {
 
 	/**
-	 * app container
-	 * @var \OCP\AppFramework\IAppContainer
-	 */
-	protected $app;
-
-
-	/**
-	 * core api
-	 * @var \OCP\AppFramework\IApi
-	 */
-	protected $api;
-
-
-	/**
 	 * @var array
 	 */
 	private $readers;
 
+
+	/**
+	 * @var string
+	 */
+	protected $userId;
+
+
+	protected $app;
+	protected $api;
 
 	/**
 	 * constructor
@@ -97,11 +95,9 @@ abstract class Controller extends \OCP\AppFramework\Controller {
 	 */
 	protected function buildReader($handle, $format) {
 		if(array_key_exists($format, $this->readers)) {
-
 			$reader = $this->readers[$format];
 
 			return $reader($handle);
-
 		} else {
 			throw new ReaderException('No reader registered for format ' .
 				$format . '!');
@@ -122,7 +118,7 @@ abstract class Controller extends \OCP\AppFramework\Controller {
 
 
 	/**
-	 * @param string DateTime
+	 * @param string &$string DateTime
 	 * @param \DateTime $default
 	 */
 	protected function parseDateTime(&$string, \DateTime $default) {
@@ -163,5 +159,31 @@ abstract class Controller extends \OCP\AppFramework\Controller {
 		list($contentType) = explode(';', $contentType);
 
 		return $contentType;
+	}
+
+
+	/**
+	 * @param \Exception $ex
+	 * @return JSONResponse
+	 */
+	protected function handleException(\Exception $ex) {
+		\OC::$server->getLogger()->debug($ex->getMessage());
+
+		$code = $ex->getCode();
+		if ($code === null) {
+			if ($ex instanceof ReaderException) {
+				$code = Http::STATUS_UNPROCESSABLE_ENTITY;
+			} elseif ($ex instanceof SerializerException) {
+				$code = Http::STATUS_INTERNAL_SERVER_ERROR;
+			} else {
+				$code = HTTP::STATUS_INTERNAL_SERVER_ERROR;
+			}
+
+		}
+
+		return new JSONResponse(
+			array('message' => $ex->getMessage()),
+			$code
+		);
 	}
 }

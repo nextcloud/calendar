@@ -21,10 +21,15 @@
  */
 namespace OCA\Calendar\Db;
 
-use OCP\Calendar\IObject;
-
-use \DateTime;
+use OCA\Calendar\Sabre\VObject\Component\VCalendar;
+use OCA\Calendar\Sabre\VObject\Component\VEvent;
+use OCA\Calendar\Sabre\VObject\Component\VJournal;
+use OCA\Calendar\Sabre\VObject\Component\VTodo;
 use OCP\Calendar\IObjectCollection;
+use OCP\Calendar\IObject;
+use OCP\Calendar\ITimezone;
+
+use DateTime;
 
 class ObjectCollection extends Collection implements IObjectCollection {
 
@@ -122,5 +127,51 @@ class ObjectCollection extends Collection implements IObjectCollection {
 				//TODO how to handle this case
 			}
 		});
+	}
+
+
+	/**
+	 * get one VCalendar object containing all information
+	 * @return VCalendar object
+	 */
+	public function getVObject() {
+		$vCalendar = new VCalendar();
+
+		foreach($this->objects as &$object) {
+			if (!($object instanceof IObject) && !($object instanceof ITimezone)) {
+				continue;
+			}
+
+			$vObject = $object->getVObject();
+			foreach($vObject->children() as $child) {
+				if ($child instanceof VEvent ||
+					$child instanceof VJournal ||
+					$child instanceof VTodo ||
+					$child->name === 'VTIMEZONE') {
+					$vCalendar->add($child);
+				}
+			}
+		}
+
+		return $vCalendar;
+	}
+
+
+	/**
+	 * get an array of VCalendar objects
+	 * @return array of VCalendar object
+	 */
+	public function getVObjects() {
+		$vObjects = array();
+
+		foreach($this->objects as &$object) {
+			if (!($object instanceof IObject) && !($object instanceof ITimezone)) {
+				continue;
+			}
+
+			$vObjects[] = $object->getVObject();
+		}
+
+		return $vObjects;
 	}
 }

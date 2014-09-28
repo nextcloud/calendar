@@ -22,7 +22,6 @@
 namespace OCA\Calendar\Http\JSON;
 
 use OCA\Calendar\Http\JSONResponse;
-use OCP\Calendar\Backend;
 use OCP\Calendar\IBackend;
 
 class JSONBackendResponse extends JSONResponse {
@@ -35,7 +34,6 @@ class JSONBackendResponse extends JSONResponse {
 	public function generate(IBackend $backend) {
 		$data = parent::generate($backend);
 
-		$this->setSupportedActions($data, $backend);
 		$this->setPrefixInformation($data, $backend);
 		$this->setSubscriptionTypes($data, $backend);
 
@@ -50,20 +48,19 @@ class JSONBackendResponse extends JSONResponse {
 	 * @param mixed $value
 	 */
 	public function setProperty(array &$data, $key, $value) {
+		true;
 		switch($key) {
-			case 'backend':
+			case 'id':
 				$data[$key] = strval($value);
 				break;
 
-			case 'enabled':
-				$data[$key] = (bool) $value; //boolval is PHP >= 5.5 only
-				break;
-
 			//blacklist
-			case 'id':
-			case 'arguments':
-			case 'classname':
-			case 'api':
+			case 'backendapi':
+			case 'backends':
+			case 'calendarapi':
+			case 'calendars':
+			case 'objectapi':
+			case 'objectcache':
 				break;
 
 			default:
@@ -80,44 +77,8 @@ class JSONBackendResponse extends JSONResponse {
 	 * @param IBackend $backend
 	 * @return $this
 	 */
-	private function setSupportedActions(array &$data, IBackend $backend) {
-		$calActions = array(
-			'create' =>
-				$backend->getAPI()->implementsActions(Backend::CREATE_CALENDAR),
-			'update' =>
-				$backend->getAPI()->implementsActions(Backend::UPDATE_CALENDAR),
-			'delete' =>
-				$backend->getAPI()->implementsActions(Backend::DELETE_CALENDAR),
-			'move' =>
-				$backend->getAPI()->implementsActions(Backend::MOVE_CALENDAR),
-		);
-
-		$objActions = array(
-			'create' =>
-				$backend->getAPI()->implementsActions(Backend::CREATE_OBJECT),
-			'update' =>
-				$backend->getAPI()->implementsActions(Backend::UPDATE_OBJECT),
-			'delete' =>
-				$backend->getAPI()->implementsActions(Backend::DELETE_OBJECT),
-		);
-
-		$actions = array(
-			'calendar' => $calActions,
-			'object' => $objActions,
-		);
-
-		$data['actions'] = $actions;
-	}
-
-
-	/**
-	 * set api url to calendar
-	 * @param array $data
-	 * @param IBackend $backend
-	 * @return $this
-	 */
 	private function setPrefixInformation(array &$data, IBackend $backend) {
-		$data['prefixes'] = $backend->getAPI()->getAvailablePrefixes();
+		$data['prefixes'] = $backend->getBackendAPI()->getAvailablePrefixes();
 	}
 
 
@@ -128,6 +89,6 @@ class JSONBackendResponse extends JSONResponse {
 	 * @return $this
 	 */
 	private function setSubscriptionTypes(array &$data, IBackend $backend) {
-		$data['subscriptions'] = $backend->getAPI()->getSubscriptionTypes();
+		$data['subscriptions'] = $backend->getBackendAPI()->getSubscriptionTypes();
 	}
 }

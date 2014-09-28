@@ -32,7 +32,7 @@
 				<length>255</length>
 			</field>
 			<field>
-				<name>publicuri</name>
+				<name>public_uri</name>
 				<type>text</type>
 				<default></default>
 				<notnull>true</notnull>
@@ -46,7 +46,7 @@
 				<length>255</length>
 			</field>
 			<field>
-				<name>privateuri</name>
+				<name>private_uri</name>
 				<type>text</type>
 				<default></default>
 				<notnull>true</notnull>
@@ -165,37 +165,6 @@
 				<length>255</length>
 			</field>
 			<field>
-				<name>cache_status</name>
-				<type>integer</type>
-				<default></default>
-				<notnull>true</notnull>
-				<unsigned>true</unsigned>
-				<length>4</length>
-			</field>
-		</declaration>
-	</table>
-	<!-- table for cached objects -->
-	<table>
-		<name>*dbprefix*clndr_objcachedata</name>
-		<declaration>
-			<field>
-				<name>id</name>
-				<type>integer</type>
-				<default>0</default>
-				<notnull>true</notnull>
-				<autoincrement>1</autoincrement>
-				<unsigned>true</unsigned>
-				<length>4</length>
-			</field>
-			<field>
-				<name>cacheid</name>
-				<type>integer</type>
-				<default></default>
-				<notnull>true</notnull>
-				<unsigned>true</unsigned>
-				<length>4</length>
-			</field>
-			<field>
 				<name>type</name>
 				<type>integer</type>
 				<default></default>
@@ -253,9 +222,9 @@
 			</field>
 		</declaration>
 	</table>
-		<!-- table for cached objects -->
+	<!-- table for cached objects -->
 	<table>
-		<name>*dbprefix*clndr_objcacheschdl</name>
+		<name>*dbprefix*clndr_schdl</name>
 		<declaration>
 			<field>
 				<name>id</name>
@@ -267,12 +236,19 @@
 				<length>4</length>
 			</field>
 			<field>
-				<name>cacheid</name>
+				<name>calendarid</name>
 				<type>integer</type>
 				<default></default>
 				<notnull>true</notnull>
 				<unsigned>true</unsigned>
 				<length>4</length>
+			</field>
+			<field>
+				<name>objecturi</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>255</length>
 			</field>
 			<field>
 				<name>type</name>
@@ -459,21 +435,18 @@
 			<field>
 				<name>user_id</name>
 				<type>text</type>
-				<default></default>
 				<notnull>true</notnull>
 				<length>255</length>
 			</field>
 			<field>
 				<name>type</name>
 				<type>text</type>
-				<default></default>
 				<notnull>true</notnull>
 				<length>255</length>
 			</field>
 			<field>
 				<name>url</name>
 				<type>text</type>
-				<default></default>
 				<notnull>true</notnull>
 				<length>255</length>
 			</field>

@@ -24,7 +24,6 @@ namespace OCA\Calendar\Controller;
 use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
-use OCP\Calendar\BackendException;
 use OCP\Calendar\IBackendCollection;
 use OCP\IRequest;
 use OCP\Calendar\ISubscription;
@@ -165,8 +164,8 @@ class SubscriptionController extends Controller {
 				}
 
 				try {
-					$backend->getAPI()->validateSubscription($subscription);
-				} catch(BackendException $ex) {
+					$backend->getBackendAPI()->validateSubscription($subscription);
+				} catch(\OCA\Calendar\Backend\Exception $ex) {
 					throw new ReaderException($ex->getMessage());
 				}
 
@@ -231,8 +230,8 @@ class SubscriptionController extends Controller {
 				}
 
 				try {
-					$backend->getAPI()->validateSubscription($subscription);
-				} catch(BackendException $ex) {
+					$backend->getBackendAPI()->validateSubscription($subscription);
+				} catch(\OCA\Calendar\Backend\Exception $ex) {
 					throw new ReaderException($ex->getMessage());
 				}
 

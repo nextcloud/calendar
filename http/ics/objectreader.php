@@ -65,7 +65,7 @@ class ICSObjectReader extends Reader {
 			}
 
 			if ($objectCollection->count() === 1) {
-				$object = $objectCollection->reset();
+				$object = $objectCollection[0];
 			} else {
 				$object = $objectCollection;
 			}

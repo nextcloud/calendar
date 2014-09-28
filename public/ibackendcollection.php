@@ -24,20 +24,6 @@ namespace OCP\Calendar;
 interface IBackendCollection extends ICollection {
 
 	/**
-	 * get a collection of all enabled backends within collection
-	 * @return IBackendCollection of all enabled backends
-	 */
-	public function enabled();
-
-
-	/**
-	 * get a collection of all disabled backends within collection
-	 * @return IBackendCollection of all disabled backends
-	 */
-	public function disabled();
-
-
-	/**
 	 * get a backend by a subscription type it supports
 	 * @param string $type
 	 * @return IBackend
@@ -53,8 +39,8 @@ interface IBackendCollection extends ICollection {
 
 
 	/**
-	 * @param string $backendName
-	 * @return bool
+	 * @param string $userId
+	 * @return array
 	 */
-	public function isEnabled($backendName);
+	public function getPrivateUris($userId);
 }

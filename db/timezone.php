@@ -21,8 +21,6 @@
  */
 namespace OCA\Calendar\Db;
 
-use OCP\Calendar\DoesNotExistException;
-use OCP\Calendar\MultipleObjectsReturnedException;
 use OCP\Calendar\ITimezone;
 use OCA\Calendar\Sabre\VObject\Component\VCalendar;
 use OCA\Calendar\Sabre\VObject\Reader;
@@ -31,42 +29,137 @@ use OCA\Calendar\Sabre\VObject\ParseException;
 class Timezone extends Entity implements ITimezone {
 
 	/**
-	 * vobject containing VTIMEZONE
-	 * @var VCalendar
+	 * @var \OCA\Calendar\Sabre\VObject\Component\VCalendar
 	 */
-	public $vobject;
+	public $vObject;
 
 
 	/**
-	 * @param $createFrom
+	 * Init timezone with vObject
+	 *
+	 * @param VCalendar $vcalendar
+	 * @return ITimezone
 	 */
-	public function __construct($createFrom) {
-		parent::__construct($createFrom);
+	public static function fromVObject(VCalendar $vcalendar) {
+		/** @var ITimezone $instance */
+		$instance = new static();
+		$instance->setVObject($vcalendar);
 
-		if (is_string($createFrom)) {
-			$this->fromData($createFrom);
+		return $instance;
+	}
+
+
+	/**
+	 * Init timezone with calendar data
+	 * @param string $data
+	 * @return ITimezone
+	 */
+	public static function fromData($data) {
+		/** @var ITimezone $instance */
+		$instance = new static();
+
+		self::wrapInVCalendarIfNecessary($data);
+
+		try {
+			$vObject = Reader::read($data);
+			if (!($vObject instanceof VCalendar)) {
+				\OC::$server->getLogger()->error(
+					'Timezone::fromData: Not calendar data'
+				);
+				return null;
+			}
+
+			$instance->setVObject($vObject);
+			return $instance;
+		} catch(ParseException $ex) {
+			\OC::$server->getLogger()->error(
+				'Timezone::fromData: calendar data not valid'
+			);
+			return null;
 		}
 	}
 
 
 	/**
+	 * set vObject representation of timezone
+	 *
 	 * @param VCalendar $vcalendar
-	 * @return $this
-	 * @throws MultipleObjectsReturnedException
-	 * @throws DoesNotExistException
+	 * @return $this|boolean
 	 */
-	public function fromVObject(VCalendar $vcalendar) {
-		return $this->setVobject($vcalendar);
+	public function setVObject(VCalendar $vcalendar) {
+		if (!isset($vcalendar->{'VTIMEZONE'})) {
+			\OC::$server->getLogger()->error(
+				'Timezone::setVObject: No timezone found'
+			);
+			return false;
+		}
+		if (is_array($vcalendar->{'VTIMEZONE'})) {
+			\OC::$server->getLogger()->error(
+				'Timezone::setVObject: Multiple timezones found'
+			);
+			return false;
+		}
+
+		$this->vObject = $vcalendar;
+		return $this;
 	}
 
 
 	/**
-	 * set timezone data
-	 * @param string $data
-	 * @throws DoesNotExistException
-	 * @throws MultipleObjectsReturnedException
+	 * get vObject representation of timezone
+	 *
+	 * @return \Sabre\VObject\Component\VCalendar
 	 */
-	public function fromData($data) {
+	public function getVObject() {
+		return $this->vObject;
+	}
+
+
+	/**
+	 * get timezone id
+	 *
+	 * @return string|null
+	 */
+	public function getTzId() {
+		$vObject = $this->getVObject();
+
+		if ($vObject instanceof VCalendar && isset($vObject->{'VTIMEZONE'})) {
+			return $vObject->{'VTIMEZONE'}->{'TZID'}->getValue();
+		} else {
+			return null;
+		}
+	}
+
+
+	/**
+	 * @return void
+	 */
+	protected function registerTypes() {
+		$this->addAdvancedFieldType('vObject',
+			'OCA\\Calendar\\Sabre\\VObject\\Component\\VCalendar');
+	}
+
+
+	/**
+	 * @return void
+	 */
+	protected function registerMandatory() {
+		$this->addMandatory('vObject');
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function __toString() {
+		return $this->vObject->serialize();
+	}
+
+
+	/**
+	 * @param string $data
+	 */
+	private static function wrapInVCalendarIfNecessary(&$data) {
 		if (substr($data, 0, 15) !== 'BEGIN:VCALENDAR') {
 			$newData  = 'BEGIN:VCALENDAR';
 			$newData .= "\n";
@@ -76,76 +169,5 @@ class Timezone extends Entity implements ITimezone {
 
 			$data = $newData;
 		}
-
-		try {
-			$this->fromVObject(Reader::read($data));
-		} catch(ParseException $ex) {}
-	}
-
-
-	/**
-	 * @param VCalendar $vcalendar
-	 * @return $this
-	 * @throws MultipleObjectsReturnedException
-	 * @throws DoesNotExistException
-	 */
-	public function setVobject(VCalendar $vcalendar) {
-		if (!isset($vcalendar->{'VTIMEZONE'})) {
-			throw new DoesNotExistException('no vtimezones found');
-		}
-		if (is_array($vcalendar->{'VTIMEZONE'})) {
-			throw new MultipleObjectsReturnedException('multiple vtimezones found');
-		}
-
-		return $this->setter('vobject', array($vcalendar));
-	}
-
-
-	/**
-	 * get VObject from Calendar Object
-	 * @return \Sabre\VObject\Component\VCalendar object
-	 */
-	public function getVObject() {
-		return $this->vobject;
-	}
-
-
-	/**
-	 * get timezone id
-	 * @return string
-	 */
-	public function getTzId() {
-		$vcalendar = $this->getter('vobject');
-
-		if ($vcalendar instanceof VCalendar && isset($vcalendar->{'VTIMEZONE'})) {
-			return $vcalendar->{'VTIMEZONE'}->{'TZID'}->getValue();
-		} else {
-			return null;
-		}
-	}
-
-
-	/**
-	 * register field types
-	 */
-	protected function registerTypes() {
-		$this->addType('vobject', 'OCA\\Calendar\\Sabre\\vobject\\Component\\VCalendar');
-	}
-
-
-	/**
-	 * register mandatory fields
-	 */
-	protected function registerMandatory() {
-		$this->addMandatory('vobject');
-	}
-
-
-	/**
-	 * create string representation of object
-	 * @return string
-	 */
-	public function __toString() {
-		return $this->vobject->serialize();
 	}
 }

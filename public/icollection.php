@@ -21,7 +21,7 @@
  */
 namespace OCP\Calendar;
 
-interface ICollection extends \Countable, \ArrayAccess {
+interface ICollection extends \Countable, \ArrayAccess, \Iterator {
 
 	/**
 	 * add entity to collection
@@ -42,86 +42,12 @@ interface ICollection extends \Countable, \ArrayAccess {
 
 
 	/**
-	 * updates an entity in collection
-	 * @param IEntity $entity
-	 * @return void
-	 */
-	public function update(IEntity $entity);
-
-
-	/**
-	 * remove entity from collection
-	 * @param integer $nth remove nth element, if not set, current element will be removed
-	 * @return $this
-	 */
-	public function remove($nth=null);
-
-
-	/**
-	 * remove entity by it's information
-	 * @param IEntity $entity
-	 * @return $this
-	 */
-	public function removeByEntity(IEntity $entity);
-
-
-	/**
-	 * remove entities by a single property
-	 * @param string $key key for property
-	 * @param mixed $value value to be set
-	 * @return \OCA\Calendar\Db\Collection
-	 */
-	public function removeByProperty($key, $value);
-
-
-	/**
-	 * get current entity
-	 * @return IEntity
-	 */
-	public function current();
-
-
-	/**
-	 * get num index of current entity
+	 * add objects to collection
+	 * @param array $array
+	 * @param integer $nth insert at index, if not set, objects will be appended
 	 * @return integer
 	 */
-	public function key();
-
-
-	/**
-	 * goto next entity and get it
-	 * @return IEntity
-	 */
-	public function next();
-
-
-	/**
-	 * goto previous entity and get it
-	 * @return IEntity
-	 */
-	public function prev();
-
-
-	/**
-	 * goto first entity and get it
-	 * @return IEntity
-	 */
-	public function reset();
-
-
-	/**
-	 * goto last entity and get it
-	 * @return IEntity
-	 */
-	public function end();
-
-
-	/**
-	 * get nth entity of collection
-	 * @param integer $nth
-	 * @return mixed (IEntity/null)
-	 */
-	public function get($nth);
+	public function addObjects(array $array, $nth=null);
 
 
 	/**
@@ -129,6 +55,15 @@ interface ICollection extends \Countable, \ArrayAccess {
 	 * @return array of IEntities
 	 */
 	public function getObjects();
+
+
+	/**
+	 * set objects
+	 *
+	 * @param array $objects
+	 * @return $this
+	 */
+	public function setObjects(array $objects);
 
 
 	/**
@@ -150,35 +85,12 @@ interface ICollection extends \Countable, \ArrayAccess {
 
 
 	/**
-	 * get one VCalendar object containing all information
-	 * @return VCalendar object
-	 */
-	public function getVObject();
-
-
-	/**
-	 * get an array of VCalendar objects
-	 * @return array of VCalendar object
-	 */
-	public function getVObjects();
-
-
-	/**
 	 * get a collection of entities that meet criteria
 	 * @param string $key property that's supposed to be searched
 	 * @param string $value expected value, can be a regular expression when 3rd param is set to true
 	 * @return ICollection
 	 */
 	public function search($key, $value);
-
-
-	/**
-	 * get a collection of entities that meet criteria; search calendar data
-	 * @param string $key name of property that stores data
-	 * @param string $regex regular expression
-	 * @return ICollection
-	 */
-	public function searchData($key, $regex);
 
 
 	/**
@@ -201,9 +113,8 @@ interface ICollection extends \Countable, \ArrayAccess {
 	/**
 	 * iterate over each entity of collection
 	 * @param callable $function
-	 * @return $this
 	 */
-	public function iterate($function);
+	public function iterate(callable $function);
 
 
 	/**

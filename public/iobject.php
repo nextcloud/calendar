@@ -120,13 +120,13 @@ interface IObject extends IEntity {
 	 * @throws CorruptDataException
 	 * @return $this
 	 */
-	public function setVobject(VCalendar $vobject);
+	public function setVObject(VCalendar $vobject);
 
 
 	/**
 	 * @return VCalendar
 	 */
-	public function getVobject();
+	public function getVObject();
 
 
 	/**

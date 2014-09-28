@@ -24,14 +24,14 @@ namespace OCP\Calendar;
 interface ICalendar extends IEntity {
 
 	/**
-	 * @param string $backend
+	 * @param IBackend $backend
 	 * @return $this
 	 */
-	public function setBackend($backend);
+	public function setBackend(IBackend $backend);
 
 
 	/**
-	 * @return string
+	 * @return IBackend
 	 */
 	public function getBackend();
 
@@ -125,31 +125,6 @@ interface ICalendar extends IEntity {
 	 * @return boolean
 	 */
 	public function getEnabled();
-
-
-	/**
-	 * @param int $lastPropertiesUpdate - unix time of last update
-	 * @return $this
-	 */
-	public function setLastPropertiesUpdate($lastPropertiesUpdate);
-
-
-	/**
-	 * @return boolean
-	 */
-	public function getLastPropertiesUpdate();
-
-
-	/**
-	 * @param int $lastObjectUpdate - unix time of last update
-	 * @return $this
-	 */
-	public function setLastObjectUpdate($lastObjectUpdate);
-
-	/**
-	 * @return boolean
-	 */
-	public function getLastObjectUpdate();
 
 
 	/**

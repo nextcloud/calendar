@@ -23,8 +23,8 @@ namespace OCA\Calendar\BusinessLayer;
 
 use OCP\AppFramework\Http;
 use OCP\Calendar\ITimezone;
-use OCP\Calendar\DoesNotExistException;
-use OCP\Calendar\MultipleObjectsReturnedException;
+use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 
 class TimezoneBusinessLayer extends BusinessLayer {
 
@@ -51,12 +51,10 @@ class TimezoneBusinessLayer extends BusinessLayer {
 	 * list all timezones
 	 *
 	 * @param string $userId
-	 * @param integer $limit
-	 * @param integer $offset
 	 * @return array
 	 */
-	public function listAll($userId, $limit, $offset) {
-		return $this->mapper->listAll($userId, $limit, $offset);
+	public function listAll($userId) {
+		return $this->mapper->listAll($userId);
 	}
 
 
@@ -72,17 +70,9 @@ class TimezoneBusinessLayer extends BusinessLayer {
 		try {
 			return $this->mapper->find($tzId, $userId);
 		} catch(DoesNotExistException $ex) {
-			throw new BusinessLayerException(
-				$ex->getMessage(),
-				Http::STATUS_NOT_FOUND,
-				$ex
-			);
+			throw BusinessLayerException::fromException($ex);
 		} catch(MultipleObjectsReturnedException $ex) {
-			throw new BusinessLayerException(
-				$ex->getMessage(),
-				HTTP::STATUS_INTERNAL_SERVER_ERROR,
-				$ex
-			);
+			throw BusinessLayerException::fromException($ex);
 		}
 	}
 
@@ -109,7 +99,7 @@ class TimezoneBusinessLayer extends BusinessLayer {
 	 * @return \OCP\Calendar\ITimezone
 	 */
 	public function create(ITimezone $timezone) {
-		$this->checkTimezoneIsValid($timezone);
+		$this->checkIsValid($timezone);
 		$this->mapper->insert($timezone);
 
 		throw new BusinessLayerException(
@@ -129,7 +119,7 @@ class TimezoneBusinessLayer extends BusinessLayer {
 	 * @return \OCP\Calendar\ITimezone
 	 */
 	public function update(ITimezone $timezone) {
-		$this->checkTimezoneIsValid($timezone);
+		$this->checkIsValid($timezone);
 		$this->mapper->update($timezone);
 
 		throw new BusinessLayerException(
@@ -154,21 +144,5 @@ class TimezoneBusinessLayer extends BusinessLayer {
 			'Deleting timezones not yet supported',
 			Http::STATUS_NOT_IMPLEMENTED
 		);
-	}
-
-
-	/**
-	 * make sure a subscription is valid
-	 *
-	 * @param \OCP\Calendar\ITimezone $timezone
-	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
-	 */
-	private function checkTimezoneIsValid(ITimezone $timezone) {
-		if (!$timezone->isValid()) {
-			throw new BusinessLayerException(
-				'Timezone is not valid',
-				Http::STATUS_UNPROCESSABLE_ENTITY
-			);
-		}
 	}
 }

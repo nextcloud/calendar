@@ -24,81 +24,75 @@ namespace OCP\Calendar;
 interface IBackend extends IEntity {
 
 	/**
-	 * registers an API for a backend
-	 * @param \OCP\Calendar\IBackendAPI $api
+	 * @param integer $id
 	 * @return $this
 	 */
-	public function registerAPI(IBackendAPI $api);
+	public function setId($id);
 
 
 	/**
-	 * @return IFullyQualifiedBackend $api
+	 * @return integer
 	 */
-	public function getAPI();
+	public function getId();
 
 
 	/**
-	 * @param boolean $enabled
+	 * @param \closure $backendAPI
 	 * @return $this
 	 */
-	public function setEnabled($enabled);
+	public function setBackendAPI(\closure $backendAPI);
 
 
 	/**
-	 * disables a backend
+	 * @return IBackendAPI
+	 */
+	public function getBackendAPI();
+
+
+	/**
+	 * @param \closure $calendarAPI
 	 * @return $this
 	 */
-	public function disable();
+	public function setCalendarAPI(\closure $calendarAPI);
 
 
 	/**
-	 * enables a backend
-	 * @return $this
+	 * @return ICalendarAPI
 	 */
-	public function enable();
+	public function getCalendarAPI();
 
 
 	/**
+	 * @param string $action
 	 * @return boolean
 	 */
-	public function getEnabled();
+	public function doesCalendarSupport($action);
 
 
 	/**
-	 * @param string $classname
+	 * @param \closure $objectAPI
 	 * @return $this
 	 */
-	public function setClassname($classname);
+	public function setObjectAPI(\closure $objectAPI);
 
 
 	/**
-	 * @return string
+	 * @param ICalendar $calendar
+	 * @return \closure
 	 */
-	public function getClassname();
+	public function getObjectAPI(ICalendar $calendar);
 
 
 	/**
-	 * @param string $backend
+	 * @param \closure $objectAPI
 	 * @return $this
 	 */
-	public function setBackend($backend);
+	public function setObjectCache(\closure $objectAPI);
 
 
 	/**
-	 * @return string
+	 * @param ICalendar $calendar
+	 * @return ObjectMapper
 	 */
-	public function getBackend();
-
-
-	/**
-	 * @param array $arguments
-	 * @return $this
-	 */
-	public function setArguments($arguments);
-
-
-	/**
-	 * @return array
-	 */
-	public function getArguments();
+	public function getObjectCache(ICalendar $calendar);
 }

@@ -23,157 +23,108 @@
  */
 use \OCA\Calendar;
 
-/* Main view */
-$this->create('calendar.view.index', '/')->get()->action(function($params){
-	$app = new \OCA\Calendar\App($params);
-	$app->dispatch('ViewController', 'index');
-});
-
-
-/* Backend API */
-$this->create('calendar.backends.all', '/v1/backends')->get()->action(function($params){
-	$app = new \OCA\Calendar\App($params);
-	$app->dispatch('BackendController', 'index');
-});
-$this->create('calendar.backends.disabled', '/v1/backends-disabled')->get()->action(function($params){
-	$app = new \OCA\Calendar\App($params);
-	$app->dispatch('BackendController', 'disabled');
-});
-$this->create('calendar.backends.enabled', '/v1/backends-enabled')->get()->action(function($params){
-	$app = new \OCA\Calendar\App($params);
-	$app->dispatch('BackendController', 'enabled');
-});
-$this->create('calendar.backends.default', '/v1/backends-default')->get()->action(function($params){
-	$app = new \OCA\Calendar\App($params);
-	$app->dispatch('BackendController', 'defaultBackend');
-});
-
-
-/* Scan API */
-$this->create('calendar.scan.calendar.all', '/v1/scan/calendars')->get()->action(function($params){
-	$app = new \OCA\Calendar\App($params);
-	$app->dispatch('ScanController', 'updateAllCalendars');
-});
-$this->create('calendar.scan.calendar.byBackend', '/v1/scan/calendars/byBackend')->get()->action(function($params){
-	$app = new \OCA\Calendar\App($params);
-	$app->dispatch('ScanController', 'updateCalendarsByBackend');
-});
-$this->create('calendar.scan.calendar.byPrivateUri', '/v1/scan/calendars/byPrivateUri/{backend}/{privateuri}')->get()->action(function($params){
-	$app = new \OCA\Calendar\App($params);
-	$app->dispatch('ScanController', 'updateCalendarByPrivateUri');
-});
-$this->create('calendar.scan.calendar.byPublicUri', '/v1/scan/calendars/byPublicUri/{publicuri}')->get()->action(function($params){
-	$app = new \OCA\Calendar\App($params);
-	$app->dispatch('ScanController', 'updateCalendarByPublicUri');
-});
-$this->create('calendar.scan.calendar.byCalendarId', '/v1/scan/calendars/byCalendarId/{calendarId}')->get()->action(function($params){
-	$app = new \OCA\Calendar\App($params);
-	$app->dispatch('ScanController', 'updateCalendarById');
-});
-$this->create('calendar.scan.calendar.mostOutDated', '/v1/scan/calendars/mostOutdated')->get()->action(function($params){
-	$app = new \OCA\Calendar\App($params);
-	$app->dispatch('ScanController', 'updateMostOutdatedCalendars');
-});
-
-
-/* Settings API */
 $this->create('calendar.settings.getView', '/v1/view')->get()->action(function($params){
-	$app = new \OCA\Calendar\App($params);
+	$app = new \OCA\Calendar\Application($params);
 	$app->dispatch('SettingsController', 'getValue');
 });
 $this->create('calendar.settings.setView', '/v1/view/{value}')->post()->action(function($params){
-	$app = new \OCA\Calendar\App($params);
+	$app = new \OCA\Calendar\Application($params);
 	$app->dispatch('SettingsController', 'setValue');
 });
 $this->create('calendar.settings.getFirstDayOfWeek', '/v1/firstDay')->get()->action(function($params){
-	$app = new \OCA\Calendar\App($params);
+	$app = new \OCA\Calendar\Application($params);
 	$app->dispatch('SettingsController', 'getValue');
 });
 $this->create('calendar.settings.setFirstDayOfWeek', '/v1/firstDay/{value}')->post()->action(function($params){
-	$app = new \OCA\Calendar\App($params);
+	$app = new \OCA\Calendar\Application($params);
 	$app->dispatch('SettingsController', 'setValue');
 });
 $this->create('calendar.settings.getTimeFormat', '/v1/timeFormat')->get()->action(function($params){
-	$app = new \OCA\Calendar\App($params);
+	$app = new \OCA\Calendar\Application($params);
 	$app->dispatch('SettingsController', 'getValue');
 });
 $this->create('calendar.settings.setTimeFormat', '/v1/timeFormat/{value}')->post()->action(function($params){
-	$app = new \OCA\Calendar\App($params);
+	$app = new \OCA\Calendar\Application($params);
 	$app->dispatch('SettingsController', 'setValue');
 });
 
-
 /* some additional calendar calls */
 $this->create('calendar.calendar.export', '/v1/calendars/{calendarId}/export')->get()->action(function($params){
-	$app = new \OCA\Calendar\App($params);
+	$app = new \OCA\Calendar\Application($params);
 	$app->dispatch('ObjectController', 'export');
 });
 $this->create('calendar.calendar.import', '/v1/calendars/{calendarId}/import')->post()->action(function($params){
-	$app = new \OCA\Calendar\App($params);
+	$app = new \OCA\Calendar\Application($params);
 	$app->dispatch('ObjectController', 'import');
 });
 
 
 /* some additional object calls */
 $this->create('calendar.object.inPeriod', '/v1/calendars/{calendarId}/objects/inPeriod/{start}/{end}')->get()->action(function($params){
-	$app = new \OCA\Calendar\App($params);
+	$app = new \OCA\Calendar\Application($params);
 	$app->dispatch('ObjectController', 'indexInPeriod');
 });
 $this->create('calendar.event.inPeriod', '/v1/calendars/{calendarId}/events/inPeriod/{start}/{end}')->get()->action(function($params){
-	$app = new \OCA\Calendar\App($params);
+	$app = new \OCA\Calendar\Application($params);
 	$app->dispatch('EventController', 'indexInPeriod');
 });
 $this->create('calendar.journal.inPeriod', '/v1/calendars/{calendarId}/journals/inPeriod/{start}/{end}')->get()->action(function($params){
-	$app = new \OCA\Calendar\App($params);
+	$app = new \OCA\Calendar\Application($params);
 	$app->dispatch('JournalController', 'indexInPeriod');
 });
 $this->create('calendar.todo.inPeriod', '/v1/calendars/{calendarId}/objects/todos/{start}/{end}')->get()->action(function($params){
-	$app = new \OCA\Calendar\App($params);
+	$app = new \OCA\Calendar\Application($params);
 	$app->dispatch('TodoController', 'indexInPeriod');
 });
 
 
 /* some additional timezone calls */
 $this->create('calendar.timezone.getList', '/v1/timezones-list')->get()->action(function($params){
-	$app = new \OCA\Calendar\App($params);
+	$app = new \OCA\Calendar\Application($params);
 	$app->dispatch('TimezoneController', 'getList');
 });
 
 
 /* make resources patchable */
 $this->create('calendar.calendar.patch', '/v1/calendars/{id}')->patch()->action(function($params){
-	$app = new \OCA\Calendar\App($params);
+	$app = new \OCA\Calendar\Application($params);
 	$app->dispatch('CalendarController', 'patch');
 });
 $this->create('calendar.subscription.patch', '/v1/subscriptions/{id}')->patch()->action(function($params){
-	$app = new \OCA\Calendar\App($params);
+	$app = new \OCA\Calendar\Application($params);
 	$app->dispatch('SubscriptionController', 'patch');
 });
 
 $this->create('calendar.autocomplete.location', '/v1/autocompletion/location')->get()->action(function($params){
-	$app = new \OCA\Calendar\App($params);
+	$app = new \OCA\Calendar\Application($params);
 	$app->dispatch('ContactController', 'searchLocation');
 });
 
 $this->create('calendar.autocomplete.attendee', '/v1/autocompletion/attendee')->get()->action(function($params){
-	$app = new \OCA\Calendar\App($params);
+	$app = new \OCA\Calendar\Application($params);
 	$app->dispatch('ContactController', 'searchAttendee');
 });
 
 
-//set up resources
-$routes = array(
-	'resources' => array(
-		'calendar' => array('url' => '/v1/calendars'),
-		'object' => array('url' => '/v1/calendars/{calendarId}/objects'),
-		'event' => array('url' => '/v1/calendars/{calendarId}/events'),
-		'journal' => array('url' => '/v1/calendars/{calendarId}/journals'),
-		'todo' => array('url' => '/v1/calendars/{calendarId}/todos'),
-		'timezone' => array('url' => '/v1/timezones'),
-		'subscription' => array('url' => '/v1/subscriptions'),
-	)
-);
+$app = new \OCA\Calendar\Application();
+$app->registerRoutes($this, [
+	'routes' => [
+		//Main view
+		['name' => 'view#index', 'url' => '/', 'verb' => 'GET'],
 
+		//Backends
+		['name' => 'backend#index', 'url' => '/v1/backends', 'verb' => 'GET'],
 
-$a = new \OCA\Calendar\App();
-$a->registerRoutes($this, $routes);
+		//ScanController - TODO remove
+		['name' => 'scan#updateAllCalendars', '/v1/scan/calendars', 'verb' => 'GET'],
+	],
+	'resources' => [
+		'calendar' => ['url' => '/v1/calendars'],
+		'object' => ['url' => '/v1/calendars/{calendarId}/objects'],
+		'event' => ['url' => '/v1/calendars/{calendarId}/events'],
+		'journal' => ['url' => '/v1/calendars/{calendarId}/journals'],
+		'todo' => ['url' => '/v1/calendars/{calendarId}/todos'],
+		'timezone' => ['url' => '/v1/timezones'],
+		'subscription' => ['url' => '/v1/subscriptions'],
+	]
+]);

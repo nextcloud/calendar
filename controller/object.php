@@ -21,20 +21,18 @@
  */
 namespace OCA\Calendar\Controller;
 
+use OCA\Calendar\ObjectRequestManager;
 use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Calendar\IObject;
 use OCP\Calendar\IObjectCollection;
 use OCP\IRequest;
-use OCA\Calendar\BusinessLayer\BusinessLayerException;
 use OCA\Calendar\BusinessLayer\CalendarBusinessLayer;
-use OCA\Calendar\BusinessLayer\ObjectRequestBusinessLayer;
 use OCA\Calendar\Db\Permissions;
 use OCA\Calendar\Http\Response;
 use OCA\Calendar\Http\TextDownloadResponse;
 use OCA\Calendar\Http\ReaderException;
-use OCA\Calendar\Http\SerializerException;
 use OCA\Calendar\Http\ICS\ICSObjectReader;
 use OCA\Calendar\Http\ICS\ICSObjectResponse;
 use OCA\Calendar\Http\ICS\ICSObjectDownloadResponse;
@@ -52,13 +50,6 @@ class ObjectController extends Controller {
 
 
 	/**
-	 * object businesslayer
-	 * @var ObjectRequestBusinessLayer
-	 */
-	protected $objects;
-
-
-	/**
 	 * type of object this controller is handling
 	 * @var int
 	 */
@@ -69,17 +60,14 @@ class ObjectController extends Controller {
 	 * constructor
 	 * @param IAppContainer $app interface to the app
 	 * @param IRequest $request an instance of the request
-	 * @param ObjectRequestBusinessLayer $objectBusinessLayer
 	 * @param CalendarBusinessLayer $calendarBusinessLayer
 	 * @param integer $type
 	 */
 	public function __construct(IAppContainer $app, IRequest $request,
-								ObjectRequestBusinessLayer $objectBusinessLayer,
 								CalendarBusinessLayer $calendarBusinessLayer,
 								$type){
 
 		parent::__construct($app, $request);
-		$this->objects = $objectBusinessLayer;
 		$this->calendars = $calendarBusinessLayer;
 		$this->objectType = $type;
 
@@ -122,7 +110,7 @@ class ObjectController extends Controller {
 			$userId = $this->api->getUserId();
 			$type = $this->objectType;
 
-			$calendar = $this->calendars->findById(
+			$calendar = $this->calendars->find(
 				$calendarId,
 				$userId
 			);
@@ -133,24 +121,10 @@ class ObjectController extends Controller {
 				), HTTP::STATUS_FORBIDDEN);
 			}
 
-			return $this->objects->findAll(
-				$calendar,
-				$type,
-				$limit,
-				$offset
-			);
-		} catch (BusinessLayerException $ex) {
-			$this->app->log($ex->getMessage(), 'debug');
-			return new JSONResponse(
-				array('message' => $ex->getMessage()),
-				$ex->getCode()
-			);
-		} catch (SerializerException $ex) {
-			$this->app->log($ex->getMessage(), 'debug');
-			return new JSONResponse(
-				array('message' => $ex->getMessage()),
-				Http::STATUS_INTERNAL_SERVER_ERROR
-			);
+			$ObjectRequestManager = new ObjectRequestManager($calendar);
+			return $ObjectRequestManager->findAll($type, $limit, $offset);
+		} catch (\Exception $ex) {
+			return $this->handleException($ex);
 		}
 	}
 
@@ -176,7 +150,7 @@ class ObjectController extends Controller {
 			/** @var \DateTime $end */
 			$this->parseDateTime($end, new DateTime(date('Y-m-t')));
 
-			$calendar = $this->calendars->findById(
+			$calendar = $this->calendars->find(
 				$calendarId,
 				$userId
 			);
@@ -187,26 +161,10 @@ class ObjectController extends Controller {
 				), HTTP::STATUS_FORBIDDEN);
 			}
 
-			return $this->objects->findAllInPeriod(
-				$calendar,
-				$start,
-				$end,
-				$type,
-				$limit,
-				$offset
-			);
-		} catch (BusinessLayerException $ex) {
-			$this->app->log($ex->getMessage(), 'debug');
-			return new JSONResponse(
-				array('message' => $ex->getMessage()),
-				$ex->getCode()
-			);
-		} catch (SerializerException $ex) {
-			$this->app->log($ex->getMessage(), 'debug');
-			return new JSONResponse(
-				array('message' => $ex->getMessage()),
-				Http::STATUS_INTERNAL_SERVER_ERROR
-			);
+			return (new ObjectRequestManager($calendar))->findAllInPeriod(
+				$start, $end, $type, $limit, $offset);
+		} catch (\Exception $ex) {
+			return $this->handleException($ex);
 		}
 	}
 
@@ -224,7 +182,7 @@ class ObjectController extends Controller {
 			$userId = $this->api->getUserId();
 			$type = $this->objectType;
 
-			$calendar = $this->calendars->findById(
+			$calendar = $this->calendars->find(
 				$calendarId,
 				$userId
 			);
@@ -235,23 +193,12 @@ class ObjectController extends Controller {
 				), HTTP::STATUS_FORBIDDEN);
 			}
 
-			return $this->objects->find(
-				$calendar,
+			return (new ObjectRequestManager($calendar))->find(
 				$id,
 				$type
 			);
-		} catch (BusinessLayerException $ex) {
-			$this->app->log($ex->getMessage(), 'debug');
-			return new JSONResponse(
-				array('message' => $ex->getMessage()),
-				$ex->getCode()
-			);
-		} catch (SerializerException $ex) {
-			$this->app->log($ex->getMessage(), 'debug');
-			return new JSONResponse(
-				array('message' => $ex->getMessage()),
-				Http::STATUS_INTERNAL_SERVER_ERROR
-			);
+		} catch (\Exception $ex) {
+			return $this->handleException($ex);
 		}
 	}
 
@@ -268,7 +215,7 @@ class ObjectController extends Controller {
 			$object = $this->readInput();
 			$userId = $this->api->getUserId();
 
-			$calendar = $this->calendars->findById(
+			$calendar = $this->calendars->find(
 				$calendarId,
 				$userId
 			);
@@ -281,7 +228,7 @@ class ObjectController extends Controller {
 
 			if ($object instanceof IObject) {
 				$object->setCalendar($calendar);
-				$object = $this->objects->create(
+				$object = (new ObjectRequestManager($calendar))->create(
 					$object
 				);
 			} elseif ($object instanceof IObjectCollection) {
@@ -299,23 +246,8 @@ class ObjectController extends Controller {
 			}
 
 			return $object;
-		} catch (BusinessLayerException $ex) {
-			$this->app->log($ex->getMessage(), 'debug');
-			return new JSONResponse(
-				array('message' => $ex->getMessage()),
-				$ex->getCode()
-			);
-		} catch(ReaderException $ex) {
-			return new JSONResponse(
-				array('message' => $ex->getMessage()),
-				Http::STATUS_UNPROCESSABLE_ENTITY
-			);
-		} catch (SerializerException $ex) {
-			$this->app->log($ex->getMessage(), 'debug');
-			return new JSONResponse(
-				array('message' => $ex->getMessage()),
-				Http::STATUS_INTERNAL_SERVER_ERROR
-			);
+		} catch (\Exception $ex) {
+			return $this->handleException($ex);
 		}
 	}
 
@@ -335,7 +267,7 @@ class ObjectController extends Controller {
 			$userId = $this->api->getUserId();
 			$etag = $this->request->getHeader('IF-MATCH');
 
-			$calendar = $this->calendars->findById($calendarId, $userId);
+			$calendar = $this->calendars->find($calendarId, $userId);
 
 			if (!$calendar->doesAllow(Permissions::UPDATE)) {
 				return new JSONResponse(array(
@@ -344,10 +276,10 @@ class ObjectController extends Controller {
 			}
 
 			if ($object instanceof IObject) {
-				$object = $this->objects->update(
+				$object->setCalendar($calendar);
+				$object->setUri($id);
+				$object = (new ObjectRequestManager($calendar))->update(
 					$object,
-					$calendar,
-					$id,
 					$etag
 				);
 			} elseif ($object instanceof IObjectCollection) {
@@ -366,23 +298,8 @@ class ObjectController extends Controller {
 			}
 
 			return $object;
-		} catch (BusinessLayerException $ex) {
-			$this->app->log($ex->getMessage(), 'debug');
-			return new JSONResponse(
-				array('message' => $ex->getMessage()),
-				$ex->getCode()
-			);
-		} catch(ReaderException $ex) {
-			return new JSONResponse(
-				array('message' => $ex->getMessage()),
-				Http::STATUS_UNPROCESSABLE_ENTITY
-			);
-		} catch (SerializerException $ex) {
-			$this->app->log($ex->getMessage(), 'debug');
-			return new JSONResponse(
-				array('message' => $ex->getMessage()),
-				Http::STATUS_INTERNAL_SERVER_ERROR
-			);
+		} catch (\Exception $ex) {
+			return $this->handleException($ex);
 		}
 	}
 
@@ -399,7 +316,7 @@ class ObjectController extends Controller {
 		try {
 			$userId = $this->api->getUserId();
 
-			$calendar = $this->calendars->findById(
+			$calendar = $this->calendars->find(
 				$calendarId,
 				$userId
 			);
@@ -410,24 +327,20 @@ class ObjectController extends Controller {
 				), HTTP::STATUS_FORBIDDEN);
 			}
 
-			$object = $this->objects->find(
+			$object = (new ObjectRequestManager($calendar))->find(
 				$calendar,
 				$id
 			);
 
-			$this->objects->delete(
+			(new ObjectRequestManager($calendar))->delete(
 				$object
 			);
 
 			return new JSONResponse(array(
 				'message' => 'Object was deleted successfully',
 			));
-		} catch (BusinessLayerException $ex) {
-			$this->app->log($ex->getMessage(), 'debug');
-			return new JSONResponse(
-				array('message' => $ex->getMessage()),
-				$ex->getCode()
-			);
+		} catch (\Exception $ex) {
+			return $this->handleException($ex);
 		}
 	}
 
@@ -443,7 +356,7 @@ class ObjectController extends Controller {
 		try {
 			$userId = $this->api->getUserId();
 
-			$calendar = $this->calendars->findById(
+			$calendar = $this->calendars->find(
 				$calendarId,
 				$userId
 			);
@@ -459,22 +372,12 @@ class ObjectController extends Controller {
 			$filename  = $calendar->getPublicUri();
 			$filename .= '.ics';
 
-			$objects = $this->objects->findAll($calendar);
+			$objects = (new ObjectRequestManager($calendar))->findAll();
 
 			return new ICSObjectDownloadResponse($this->app, $objects,
 												 $mimeType, $filename);
-		} catch (BusinessLayerException $ex) {
-			$this->app->log($ex->getMessage(), 'debug');
-			return new JSONResponse(
-				array('message' => $ex->getMessage()),
-				$ex->getCode()
-			);
-		} catch (SerializerException $ex) {
-			$this->app->log($ex->getMessage(), 'debug');
-			return new JSONResponse(
-				array('message' => $ex->getMessage()),
-				Http::STATUS_INTERNAL_SERVER_ERROR
-			);
+		} catch (\Exception $ex) {
+			return $this->handleException($ex);
 		}
 	}
 
@@ -491,7 +394,7 @@ class ObjectController extends Controller {
 			$object = $this->readInput();
 			$userId = $this->api->getUserId();
 
-			$calendar = $this->calendars->findById(
+			$calendar = $this->calendars->find(
 				$calendarId,
 				$userId
 			);
@@ -504,12 +407,12 @@ class ObjectController extends Controller {
 
 			if ($object instanceof IObject) {
 				$object->setCalendar($calendar);
-				$object = $this->objects->create(
+				$object = (new ObjectRequestManager($calendar))->create(
 					$object
 				);
 			} elseif ($object instanceof IObjectCollection) {
 				$object->setProperty('calendar', $calendar);
-				$object = $this->objects->createCollection(
+				$object = (new ObjectRequestManager($calendar))->createCollection(
 					$object
 				);
 			} else {
@@ -518,7 +421,7 @@ class ObjectController extends Controller {
 				);
 			}
 
-			$calendar = $this->calendars->findById(
+			$calendar = $this->calendars->find(
 				$calendarId,
 				$userId
 			);
@@ -528,23 +431,8 @@ class ObjectController extends Controller {
 			}
 
 			return $object;
-		} catch (BusinessLayerException $ex) {
-			$this->app->log($ex->getMessage(), 'debug');
-			return new JSONResponse(
-				array('message' => $ex->getMessage()),
-				$ex->getCode()
-			);
-		} catch(ReaderException $ex) {
-			return new JSONResponse(
-				array('message' => $ex->getMessage()),
-				Http::STATUS_UNPROCESSABLE_ENTITY
-			);
-		} catch (SerializerException $ex) {
-			$this->app->log($ex->getMessage(), 'debug');
-			return new JSONResponse(
-				array('message' => $ex->getMessage()),
-				Http::STATUS_INTERNAL_SERVER_ERROR
-			);
+		} catch (\Exception $ex) {
+			return $this->handleException($ex);
 		}
 	}
 }

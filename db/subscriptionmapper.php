@@ -21,17 +21,15 @@
  */
 namespace OCA\Calendar\Db;
 
-use OCP\AppFramework\IAppContainer;
+use OCP\IDb;
 
 class SubscriptionMapper extends Mapper {
 
 	/**
-	 * Constructor
-	 * @param IAppContainer $app
-	 * @param string $tableName
+	 * @param IDb $db
 	 */
-	public function __construct($app, $tableName='clndr_sbscrptns'){
-		parent::__construct($app, $tableName);
+	public function __construct(IDb $db){
+		parent::__construct($db, 'clndr_sbscrptns');
 	}
 
 
@@ -46,9 +44,9 @@ class SubscriptionMapper extends Mapper {
 		$sql  = 'SELECT * FROM `'. $this->getTableName() . '` ';
 		$sql .= 'WHERE `user_id` = ?';
 
-		return $this->findEntities($sql, array(
+		return $this->findEntities($sql, [
 			$userId
-		), $limit, $offset);
+		], $limit, $offset);
 	}
 
 
@@ -64,47 +62,29 @@ class SubscriptionMapper extends Mapper {
 		$sql  = 'SELECT * FROM `'. $this->getTableName() . '` ';
 		$sql .= 'WHERE `user_id` = ? AND `type` = ?';
 
-		return $this->findEntities($sql, array(
+		return $this->findEntities($sql, [
 			$userId,
 			$type
-		), $limit, $offset);
+		], $limit, $offset);
 	}
 
 
 	/**
 	 * @param string $userId
-	 * @return integer
+	 * @return array
 	 */
-	public function count($userId) {
-		$sql = 'SELECT COUNT(*) AS `count` FROM `' . $this->tableName . '`';
-		$params = array();
-
-		if ($userId !== null) {
-			$sql .= ' WHERE `user_id` = ?';
-			$params[] = $userId;
-		}
-
-		$row = $this->findOneQuery($sql, $params);
-		return intval($row['count']);
+	public function listAll($userId) {
+		//TODO
 	}
 
 
 	/**
 	 * @param string $type
 	 * @param string $userId
-	 * @return integer
+	 * @return array
 	 */
-	public function countByType($type, $userId) {
-		$sql = 'SELECT COUNT(*) AS `count` FROM `' . $this->tableName . '` WHERE `type` = ?';
-		$params = array($type);
-
-		if ($userId !== null) {
-			$sql .= ' AND `user_id` = ?';
-			$params[] = $userId;
-		}
-
-		$row = $this->findOneQuery($sql, $params);
-		return intval($row['count']);
+	public function listAllByType($type, $userId) {
+		//TODO
 	}
 
 
@@ -112,21 +92,16 @@ class SubscriptionMapper extends Mapper {
 	 * find subscription by id, userId
 	 * @param int $id
 	 * @param string $userId
-	 * @throws \OCP\Calendar\DoesNotExistException: if the item does not exist
-	 * @throws \OCP\Calendar\MultipleObjectsReturnedException: if more than one item found
+	 * @throws \OCP\AppFramework\Db\DoesNotExistException: if the item does not exist
+	 * @throws \OCP\AppFramework\Db\MultipleObjectsReturnedException: if more than one item found
 	 * @return Subscription object
 	 */
-	public function find($id, $userId=null){
-		$sql = 'SELECT * FROM `' . $this->getTableName() . '` WHERE `id` = ?';
-		$params = array($id);
-
-		if ($userId !== null) {
-			$sql .= ' AND `user_id` = ?';
-			$params[] = $userId;
-		}
+	public function find($id, $userId){
+		$sql  = 'SELECT * FROM `' . $this->getTableName() . '` ';
+		$sql .= 'WHERE `id` = ? AND `user_id` = ?';
+		$params = [$id, $userId];
 
 		$row = $this->findOneQuery($sql, $params);
-
 		return new Subscription($row);
 	}
 
@@ -136,21 +111,16 @@ class SubscriptionMapper extends Mapper {
 	 * @param int $id
 	 * @param string $type
 	 * @param string $userId
-	 * @throws \OCP\Calendar\DoesNotExistException: if the item does not exist
-	 * @throws \OCP\Calendar\MultipleObjectsReturnedException: if more than one item found
+	 * @throws \OCP\AppFramework\Db\DoesNotExistException: if the item does not exist
+	 * @throws \OCP\AppFramework\Db\MultipleObjectsReturnedException: if more than one item found
 	 * @return Subscription object
 	 */
-	public function findByType($id, $type, $userId=null){
-		$sql = 'SELECT * FROM `' . $this->getTableName() . '` WHERE `id` = ? WHERE `type` = ?';
-		$params = array($id, $type);
-
-		if ($userId !== null) {
-			$sql .= ' AND `user_id` = ?';
-			$params[] = $userId;
-		}
+	public function findByType($id, $type, $userId){
+		$sql  = 'SELECT * FROM `' . $this->getTableName() . '` ';
+		$sql .= 'WHERE `id` = ? AND `type` = ? AND `user_id`= ?';
+		$params = [$id, $type, $userId];
 
 		$row = $this->findOneQuery($sql, $params);
-
 		return new Subscription($row);
 	}
 
@@ -161,17 +131,12 @@ class SubscriptionMapper extends Mapper {
 	 * @param string $userId
 	 * @return boolean
 	 */
-	public function doesExist($id, $userId=null) {
-		$sql = 'SELECT COUNT(*) AS `count` FROM `' . $this->tableName . '` WHERE `id` = ?';
-		$params = array($id);
-
-		if ($userId !== null) {
-			$sql .= ' AND `user_id` = ?';
-			$params = array($userId);
-		}
+	public function doesExist($id, $userId) {
+		$sql  = 'SELECT COUNT(*) AS `count` FROM `' . $this->tableName . '` ';
+		$sql .= 'WHERE `id` = ? AND `user_id` = ?';
+		$params = [$id, $userId];
 
 		$row = $this->findOneQuery($sql, $params);
-
 		$count = intval($row['count']);
 		return ($count !== 0);
 	}
@@ -184,18 +149,12 @@ class SubscriptionMapper extends Mapper {
 	 * @param string $userId
 	 * @return boolean
 	 */
-	public function doesExistOfType($id, $type, $userId=null) {
-		$sql  = 'SELECT COUNT(*) AS `count` FROM `' . $this->tableName . '`';
-		$sql .= ' WHERE `id` = ? AND `type` = ?';
-		$params = array($id, $type);
-
-		if ($userId !== null) {
-			$sql .= ' AND `user_id` = ?';
-			$params[] = $userId;
-		}
+	public function doesExistOfType($id, $type, $userId) {
+		$sql  = 'SELECT COUNT(*) AS `count` FROM `' . $this->tableName . '` ';
+		$sql .= 'WHERE `id` = ? AND `type` = ? AND `user_id` = ?';
+		$params = [$id, $type, $userId];
 
 		$row = $this->findOneQuery($sql, $params);
-
 		$count = intval($row['count']);
 		return ($count !== 0);
 	}

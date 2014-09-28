@@ -21,222 +21,203 @@
  */
 namespace OCA\Calendar\Db;
 
-use OCP\AppFramework\IAppContainer;
-use OCP\Calendar\DoesNotExistException;
-use OCP\Calendar\MultipleObjectsReturnedException;
-use OCP\Calendar\ICalendar;
-use OCP\Calendar\ICalendarCollection;
+use OCA\Calendar\Backend\TemporarilyNotAvailableException;
+use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\Calendar\IBackendCollection;
+use OCP\Calendar\IBackend;
+use OCP\IDb;
 
 class CalendarMapper extends Mapper {
 
 	/**
-	 * timezoneMapper object
+	 * @var \OCP\Calendar\IBackendCollection
+	 */
+	protected $backends;
+
+
+	/**
 	 * @var \OCA\Calendar\Db\TimezoneMapper
 	 */
-	private $timezoneMapper;
+	protected $timezones;
 
 
 	/**
-	 * @param iAppContainer $app: Instance of the API abstraction layer
-	 * @param string $tablename
+	 * Constructor
+	 * @param IDb $db
+	 * @param IBackendCollection $backends
+	 * @param TimezoneMapper $timezones
 	 */
-	public function __construct(IAppContainer $app, $tablename='clndr_calcache'){
-		parent::__construct($app, $tablename);
-		$this->timezoneMapper = $app->query('TimezoneMapper');
-	}
+	public function __construct(IDb $db, IBackendCollection $backends,
+								TimezoneMapper $timezones){
+		parent::__construct($db, 'clndr_calcache');
 
-
-	/**
-	 * find calendar by backend, uri and userId
-	 * @param string $publicuri
-	 * @param string $userId
-	 * @throws DoesNotExistException: if the item does not exist
-	 * @throws MultipleObjectsReturnedException: if more than one item found
-	 * @return ICalendar
-	 */
-	public function find($publicuri, $userId){
-		$sql  = 'SELECT * FROM `' . $this->getTableName() . '` ';
-		$sql .= 'WHERE `publicuri` = ? AND `user_id` = ?';
-
-		$row = $this->findOneQuery($sql, array(
-			$publicuri, $userId
-		));
-
-		return new Calendar($row);
-	}
-
-
-	/**
-	 * find calendar by id and userId
-	 * @param int $id
-	 * @throws DoesNotExistException: if the item does not exist
-	 * @throws MultipleObjectsReturnedException: if more than one item found
-	 * @return ICalendar
-	 */
-	public function findById($id) {
-		$sql = 'SELECT * FROM `' . $this->getTableName() . '` WHERE `id` = ?';
-
-		$row = $this->findOneQuery($sql, array(
-			$id
-		));
-
-		return new Calendar($row);
-	}
-
-
-	/**
-	 * find calendar by id and userId
-	 * @param string $backend
-	 * @param string $privateuri
-	 * @param string $userId
-	 * @throws DoesNotExistException: if the item does not exist
-	 * @throws MultipleObjectsReturnedException: if more than one item found
-	 * @return ICalendar
-	 */
-	public function findByPrivateUri($backend, $privateuri, $userId) {
-		$sql  = 'SELECT * FROM `' . $this->getTableName() . '` ';
-		$sql .= 'WHERE `backend` = ? AND `privateuri` = ? AND `user_id` = ?';
-
-		$row = $this->findOneQuery($sql, array(
-			$backend, $privateuri, $userId
-		));
-
-		return new Calendar($row);
-	}
-
-
-	/**
-	 * find calendar's ctag
-	 * @param string $backend
-	 * @param string $uri
-	 * @param string $userId
-	 * @throws DoesNotExistException: if the item does not exist
-	 * @throws MultipleObjectsReturnedException: if more than one item found
-	 * @return integer
-	 */
-	public function findCTag($backend, $uri, $userId) {
-		$sql  = 'SELECT `ctag` FROM `' . $this->getTableName() . '` ';
-		$sql .= 'WHERE `backend` = ? AND `uri` = ? AND `user_id` = ?';
-
-		$row = $this->findOneQuery($sql, array(
-			$backend, $uri, $userId
-		));
-
-		return intval($row['ctag']);
+		$this->backends = $backends;
+		$this->timezones = $timezones;
 	}
 
 
 	/**
 	 * find all calendars of a user
+	 *
 	 * @param string $userId
 	 * @param integer $limit
 	 * @param integer $offset
-	 * @return ICalendarCollection
+	 * @return \OCP\Calendar\ICalendarCollection
 	 */
 	public function findAll($userId, $limit, $offset){
-		$sql  = 'SELECT * FROM `'. $this->getTableName() . '` ';
-		$sql .= 'WHERE `user_id` = ? ORDER BY `order`';
+		$sql  = 'SELECT * FROM `' . $this->getTableName() . '` ';
+		$sql .= 'WHERE `user_id` = ?';
+		$params = [$userId];
 
-		return $this->findEntities($sql, array(
-			$userId
-		), $limit, $offset);
+		$this->addBackendQuery($sql, $params);
+		$sql .= 'ORDER BY `order`';
+
+		return $this->findEntities($sql, $params,
+			$limit, $offset);
 	}
 
 
 	/**
-	 * find all calendars of a user on a backend
-	 * @param string $backend
-	 * @param string $userId
-	 * @param integer $limit
-	 * @param integer $offset
-	 * @return ICalendarCollection
-	 */
-	public function findAllOnBackend($backend, $userId, $limit, $offset) {
-		$sql  = 'SELECT * FROM `'. $this->getTableName() . '` ';
-		$sql .= 'WHERE `backend` = ? AND `user_id` = ? ORDER BY `order`';
-
-		return $this->findEntities($sql, array(
-			$backend, $userId
-		), $limit, $offset);
-	}
-
-
-	/**
-	 * @param string $backend
+	 * list all calendars of a user
+	 *
 	 * @param string $userId
 	 * @return array
 	 */
-	public function findAllIdentifiersOnBackend($backend, $userId) {
-		$sql  = 'SELECT `privateuri` FROM `'. $this->getTableName() . '` ';
-		$sql .= 'WHERE `backend` = ? AND `user_id` = ?';
+	public function listAll($userId){
+		$sql  = 'SELECT * FROM `' . $this->getTableName() . '` ';
+		$sql .= 'WHERE `user_id` =  ?';
+		$params = [$userId];
 
-		$identifiers = array();
+		$this->addBackendQuery($sql, $params);
+		$sql .= 'ORDER BY `order`';
 
-		$uris =  $this->findEntities($sql, array(
-			$backend, $userId
-		));
-
-		foreach($uris as $uri) {
-			$identifiers[] = $uri['uri'];
-		}
-
-		return $identifiers;
+		return $this->listEntities($sql, $params);
 	}
 
 
 	/**
-	 * number of calendars by user
+	 * @param $userId
+	 * @return array
+	 */
+	public function getPrivateUris($userId) {
+		$sql  = 'SELECT `backend`, `private_uri` FROM ';
+		$sql .= '`' . $this->getTableName() . '` WHERE `user_id` =  ?';
+		$params = [$userId];
+
+		$result = $this->execute($sql, $params);
+
+		$privateUris = [];
+		while($row = $result->fetch()){
+			if (!is_array($privateUris[$row['backend']])) {
+				$privateUris[$row['backend']] = [
+					$row['privateuri']
+				];
+			} else {
+				$privateUris[$row['backend']][] = $row['privateuri'];
+			}
+		}
+
+		return $privateUris;
+	}
+
+
+	/**
+	 * number of calendars of a user
+	 *
 	 * @param string $userId
-	 * @throws DoesNotExistException: if the item does not exist
+	 * @throws \OCP\AppFramework\Db\DoesNotExistException: if the item does not exist
 	 * @return integer
 	 */
 	public function count($userId){
 		$sql  = 'SELECT COUNT(*) AS `count` FROM ';
 		$sql .= '`' . $this->getTableName() . '` WHERE `user_id` = ?';
+		$params = [$userId];
 
-		$row = $this->findOneQuery($sql, array(
-			$userId
-		));
+		$this->addBackendQuery($sql, $params);
 
+		$row = $this->findOneQuery($sql, $params);
 		return intval($row['count']);
 	}
 
 
 	/**
-	 * number of calendars by user on a backend
-	 * @param string $backend
+	 * find calendar by it's id
+	 *
+	 * @param integer $id
 	 * @param string $userId
-	 * @throws DoesNotExistException: if the item does not exist
-	 * @return integer
+	 * @throws \OCP\AppFramework\Db\DoesNotExistException: if the item does not exist
+	 * @throws \OCP\AppFramework\Db\MultipleObjectsReturnedException: if more than one item found
+	 * @throws TemporarilyNotAvailableException if backend is not available
+	 * @return \OCP\Calendar\ICalendar
 	 */
-	public function countOnBackend($backend, $userId) {
-		$sql  = 'SELECT COUNT(*) AS `count` FROM `' . $this->getTableName() . '` ';
-		$sql .= 'WHERE `backend` = ? AND `user_id` = ?';
+	public function find($id, $userId) {
+		$sql  = 'SELECT * FROM `' . $this->getTableName() . '` ';
+		$sql .= 'WHERE `id` = ? AND `user_id` = ?';
 
-		$row = $this->findOneQuery($sql, array(
-			$backend,
+		return $this->findEntity($sql, [
+			$id,
 			$userId
-		));
+		]);
+	}
 
-		return intval($row['count']);
+
+	/**
+	 * find calendar by it's public uri
+	 *
+	 * @param string $publicuri
+	 * @param string $userId
+	 * @throws \OCP\AppFramework\Db\DoesNotExistException: if the item does not exist
+	 * @throws \OCP\AppFramework\Db\MultipleObjectsReturnedException: if more than one item found
+	 * @throws TemporarilyNotAvailableException if backend is not available
+	 * @return \OCP\Calendar\ICalendar
+	 */
+	public function findByPublicUri($publicuri, $userId){
+		$sql  = 'SELECT * FROM `' . $this->getTableName() . '` ';
+		$sql .= 'WHERE `public_uri` = ? AND `user_id` = ?';
+
+		return $this->findEntity($sql, [
+			$publicuri, $userId
+		]);
+	}
+
+
+	/**
+	 * find calendar by it's backend's uri
+	 *
+	 * @param string $backend
+	 * @param string $privateuri
+	 * @param string $userId
+	 * @throws \OCP\AppFramework\Db\DoesNotExistException: if the item does not exist
+	 * @throws \OCP\AppFramework\Db\MultipleObjectsReturnedException: if more than one item found
+	 * @throws TemporarilyNotAvailableException if backend is not available
+	 * @return \OCP\Calendar\ICalendar
+	 */
+	public function findByPrivateUri($backend, $privateuri, $userId) {
+		$sql  = 'SELECT * FROM `' . $this->getTableName() . '` ';
+		$sql .= 'WHERE `backend` = ? AND `private_uri` = ? AND `user_id` = ?';
+
+		return $this->findEntity($sql, [
+			$backend, $privateuri, $userId
+		]);
 	}
 
 
 	/**
 	 * does a calendar exist
+	 *
 	 * @param string $publicuri
 	 * @param string $userId
-	 * @throws DoesNotExistException: if the item does not exist
+	 * @throws \OCP\AppFramework\Db\DoesNotExistException: if the item does not exist
 	 * @return boolean
 	 */
 	public function doesExist($publicuri, $userId) {
-		$sql  = 'SELECT COUNT(*) AS `count` FROM `' . $this->tableName . '`';
-		$sql .= ' WHERE `publicuri` = ? AND `user_id` = ?';
+		$sql  = 'SELECT COUNT(*) AS `count` FROM `' . $this->getTableName() . '` ';
+		$sql .= 'WHERE `public_uri` = ? AND `user_id` = ?';
 
-		$row = $this->findOneQuery($sql, array(
+		$row = $this->findOneQuery($sql, [
 			$publicuri,
 			$userId
-		));
+		]);
 
 		$count = intval($row['count']);
 		return ($count !== 0);
@@ -244,105 +225,106 @@ class CalendarMapper extends Mapper {
 
 
 	/**
-	 * checks if a calendar allows a certain action
-	 * @param string $publicuri
-	 * @param string $userId
-	 * @param integer $cruds
-	 * @throws DoesNotExistException: if the item does not exist
-	 * @return boolean
+	 * @param string $backend
+	 * @param array $privateUris
 	 */
-	public function doesAllow($publicuri, $userId, $cruds) {
-		$sql  = 'SELECT COUNT(*) AS `count` FROM `' . $this->tableName . '`';
-		$sql .= ' WHERE `cruds` & ? AND `publicuri` = ? AND `user_id` = ?';
+	public function deletePrivateUriList($backend, array $privateUris) {
+		if (empty($privateUris) === true) {
+			return;
+		}
 
-		$row = $this->findOneQuery($sql, array(
-			$cruds,
-			$publicuri,
-			$userId
-		));
+		$sql  = 'DELETE FROM `' . $this->getTableName() . '` ';
+		$sql .= 'WHERE `backend` = ? AND (';
+		$params = [$backend];
 
-		$count = intval($row['count']);
-		return ($count !== 0);
+		$sqlElements = [];
+		foreach($privateUris as $privateUri) {
+			$sqlElements[] = '`private_uri` = ?';
+			$params[] = $privateUri;
+		}
+
+		if (count($sqlElements) === 0) {
+			return;
+		}
+
+		$sql .= implode(' OR ', $sqlElements);
+		$sql .= ')';
+
+		$this->execute($sql, $params);
 	}
 
 
 	/**
-	 * checks if a calendar supports a certain component
-	 * @param string $publicuri
-	 * @param string $userId
-	 * @param integer $component
-	 * @throws DoesNotExistException: if the item does not exist
-	 * @return boolean
+	 * Creates an entity from a row. Automatically determines the entity class
+	 * from the current mapper name (MyEntityMapper -> MyEntity)
+	 * @param array $row the row which should be converted to an entity
+	 * @throws TemporarilyNotAvailableException
+	 * @return Entity the entity
 	 */
-	public function doesSupport($publicuri, $userId, $component) {
-		$sql  = 'SELECT COUNT(*) AS `count` FROM `' . $this->tableName . '`';
-		$sql .= ' WHERE `components` & ? AND `publicuri` = ? AND `user_id` = ?';
+	protected function mapRowToEntity($row) {
+		$backend = $this->backends->find($row['backend']);
 
-		$row = $this->findOneQuery($sql, array(
-			$component,
-			$publicuri,
-			$userId
-		));
+		if (!($backend instanceof IBackend)) {
+			throw new TemporarilyNotAvailableException(
+				'Unknown backend'
+			);
+		}
+		//replace backend with IBackend
+		$row['backend'] = $backend;
 
-		$count = intval($row['count']);
-		return ($count !== 0);
+		//replace timezone with ITimezone
+		try {
+			$timezone = $this->timezones->find($row['timezone'], $row['user_id']);
+			$row['timezone'] = $timezone;
+		} catch(DoesNotExistException $ex) {
+			unset($row['timezone']);
+		}
+
+		unset($row['last_properties_update']);
+		unset($row['last_object_update']);
+
+		return parent::mapRowToEntity($row);
 	}
 
 
 	/**
-	 * @param int $limit
-	 * @param int $offset
-	 * @return ICalendarCollection
+	 * @param string $sql
+	 * @param array $params
+	 * @return array
 	 */
-	public function getMostOutDatedProperties($limit, $offset) {
-		$sql  = 'SELECT * FROM `' . $this->getTableName() . '` ';
-		$sql .= 'ORDER BY `last_properties_update`';
+	private function listEntities($sql, $params) {
+		$result = $this->execute($sql, $params);
 
-		return $this->findEntities($sql, array(), $limit, $offset);
+		$calendars = [];
+		while($row = $result->fetch()){
+			$calendars[] = $row['public_uri'];
+		}
+
+		return $calendars;
 	}
 
 
 	/**
-	 * @param string $userId
-	 * @param int $limit
-	 * @param int $offset
-	 * @return ICalendarCollection
+	 * @param string $sql
+	 * @param array $params
 	 */
-	public function getMostOutDatedPropertiesByUser($userId, $limit, $offset) {
-		$sql  = 'SELECT * FROM `' . $this->getTableName() . '` ';
-		$sql .= 'WHERE `user_id` = ? ORDER BY `last_properties_update`';
+	private function addBackendQuery(&$sql, array &$params) {
+		$backendSql = [];
+		$backendParams = [];
 
-		return $this->findEntities($sql, array(
-			$userId
-		), $limit, $offset);
-	}
+		/** @var IBackend $backend */
+		foreach($this->backends as $backend) {
+			$backendSql[] =  ' `backend` = ? ';
+			$backendParams[] = $backend->getId();
+		}
 
+		$backendSqlString = implode('OR', $backendSql);
+		if (!empty($backendSql)) {
+			$sql .= ' AND (';
+			$sql .= $backendSqlString;
+			$sql .= ') ';
 
-	/**
-	 * @param int $limit
-	 * @param int $offset
-	 * @return ICalendarCollection
-	 */
-	public function getMostOutDatedObjects($limit, $offset) {
-		$sql  = 'SELECT * FROM `' . $this->getTableName() . '` ';
-		$sql .= 'ORDER BY `last_object_update`';
-
-		return $this->findEntities($sql, array(), $limit, $offset);
-	}
-
-
-	/**
-	 * @param string $userId
-	 * @param int $limit
-	 * @param int $offset
-	 * @return ICalendarCollection
-	 */
-	public function getMostOutDatedObjectsByUser($userId, $limit, $offset) {
-		$sql  = 'SELECT * FROM `' . $this->getTableName() . '` ';
-		$sql .= 'WHERE `user_id` = ? ORDER BY `last_object_update`';
-
-		return $this->findEntities($sql, array(
-			$userId
-		), $limit, $offset);
+			$params = array_merge($params, $backendParams);
+		}
 	}
 }
