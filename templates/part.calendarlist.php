@@ -43,7 +43,8 @@
 					data-item-type="calendar"
 					data-item=""
 					data-possible-permissions=""
-					title="Share Calendar">
+					title="Share Calendar"
+					ng-click="share($index,calendar.id)">
 				</span>
 			</span>
 			<span class="action">
@@ -82,6 +83,12 @@
 				</span>
 			</span>
 		</span>
+		<fieldset ng-show="sharefieldset == calendar.id" class="sharefieldset">
+			<input type="text" ng-model="sharemodel" />
+			<button id="chooseCalendar-close" class="primary" ng-click="sharefieldset = false">
+				<span class="icon-view-previous"></span>
+			</button>
+		</fieldset>
 		<fieldset ng-show="caldavfieldset" class="caldavURL">
 			<input type="text" ng-model="calDAVmodel" data-id="{{ calendar.id }}" readonly />
 			<button id="chooseCalendar-close" class="primary" ng-click="caldavfieldset = !caldavfieldset;">

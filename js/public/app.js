@@ -389,6 +389,10 @@ app.controller('CalendarListController', ['$scope', '$window',
 		$scope.vjournal = false;
 		$scope.vtodo = false;
 
+		// Needed for Sharing Calendars
+		$scope.sharemodel = '';
+		$scope.sharefieldset = null;
+
 		// Create a New Calendar
 		$scope.create = function () {
 			var newCalendar = {
@@ -414,8 +418,12 @@ app.controller('CalendarListController', ['$scope', '$window',
 		};
 
 		// Sharing Logic Comes Here.
-		$scope.share = function (shareWith) {
-
+		$scope.share = function ($index, id) {
+			if ($scope.sharefieldset === id) {
+				$scope.sharefieldset = null;
+			} else {
+				$scope.sharefieldset = id;
+			}
 		};
 
 		// CalDAV display - hide logic goes here.
