@@ -487,13 +487,11 @@ class Calendar extends Entity implements ICalendar {
 	 */
 	public function __toString() {
 		return implode(
-			'::',
-			[
-				$this->getUserId(),
-				$this->getBackend(),
-				$this->getPrivateUri()
-			]
-		);
+			'::', [
+			$this->getUserId(),
+			$this->getBackend(),
+			$this->getPrivateUri()
+		]);
 	}
 
 
