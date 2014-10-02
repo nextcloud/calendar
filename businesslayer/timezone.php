@@ -22,9 +22,9 @@
 namespace OCA\Calendar\BusinessLayer;
 
 use OCP\AppFramework\Http;
-use OCP\Calendar\ITimezone;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
+use OCP\Calendar\ITimezone;
 
 class TimezoneBusinessLayer extends BusinessLayer {
 
