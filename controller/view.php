@@ -32,58 +32,6 @@ class ViewController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	public function index(){
-		$this->loadCSS();
-		$this->loadJS();
-
 		return new TemplateResponse('calendar', 'main');
-	}
-
-
-	/**
-	 * load css files
-	 */
-	private function loadCSS() {
-		$styles = [
-			'part.datepicker',
-			'part.calendarlist',
-			'part.settings',
-			'part.events.dialog',
-			'../3rdparty/fontawesome/css/font-awesome',
-			'../3rdparty/fullcalendar/dist/fullcalendar',
-			'../3rdparty/angular-bootstrap-colorpicker/css/colorpicker',
-			'calendar',
-		];
-
-		foreach ($styles as $style) {
-			$this->api->addStyle($style);
-		}
-	}
-
-
-	/**
-	 * load js files
-	 */
-	private function loadJS() {
-		$scripts = [
-			'../3rdparty/jquery-file-upload/js/jquery.fileupload',
-			'../3rdparty/ical/ical',
-			//'../3rdparty/js/recurrencejs/jquery.recurrenceinput',
-			'../3rdparty/jstzdetect/jstz.min',
-			'../3rdparty/fullcalendar/dist/fullcalendar.min',
-			'../3rdparty/angular/angular.min',
-			'../3rdparty/angular-animate/angular-animate.min',
-			'../3rdparty/restangular/dist/restangular.min',
-			'../3rdparty/angular-route/angular-route.min',
-			'../3rdparty/angular-ui/angular-ui',
-			'../3rdparty/angular-ui/angular-ui-calendar',
-			'../3rdparty/angular-ui/angular-ui-sortable',
-			'../3rdparty/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module',
-			'../3rdparty/appframework/app',
-			'public/app',
-		];
-
-		foreach ($scripts as $script) {
-			$this->api->addScript($script);
-		}
 	}
 }

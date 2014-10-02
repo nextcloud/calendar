@@ -21,41 +21,42 @@
  */
 namespace OCA\Calendar\Controller;
 
-use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\Http;
-use OCP\IRequest;
 use OCP\Calendar\IBackendCollection;
-use OCA\Calendar\Http\Response;
+use OCP\IRequest;
+
 use OCA\Calendar\Http\JSON\JSONBackendResponse;
 
 class BackendController extends Controller {
 
 	/**
-	 * @var \OCP\Calendar\IBackendCollection
+	 * Collection of initialized backends
+	 * @var IBackendCollection
 	 */
 	protected $backends;
 
 
 	/**
-	 * @param IAppContainer $app interface to the app
+	 * @param string $appName
 	 * @param IRequest $request an instance of the request
+	 * @param string $userId
 	 * @param IBackendCollection $backends
 	 */
-	public function __construct(IAppContainer $app, IRequest $request,
+	public function __construct($appName, IRequest $request, $userId,
 								IBackendCollection $backends) {
-		parent::__construct($app, $request);
+		parent::__construct($appName, $request, $userId);
 		$this->backends = $backends;
 
-		$this->registerResponder('json', function($value) use ($app) {
-			return new JSONBackendResponse($app, $value);
+		$this->registerResponder('json', function($value) {
+			return new JSONBackendResponse($value);
 		});
 	}
 
 
 	/**
-	 * @param int $limit
-	 * @param int $offset
-	 * @return Response
+	 * @param integer $limit
+	 * @param integer $offset
+	 * @return \OCP\AppFramework\Http\Response
 	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired

@@ -23,25 +23,27 @@ namespace OCA\Calendar\Controller;
 
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http;
-use OCP\AppFramework\IAppContainer;
 use OCP\Config;
 use OCP\IRequest;
 
 class SettingsController extends Controller {
 
 	/**
+	 * array with available settings
 	 * @var array
 	 */
 	private $settings;
 
 
 	/**
-	 * @param IAppContainer $app
-	 * @param IRequest $request
+	 * @param string $appName
+	 * @param IRequest $request an instance of the request
+	 * @param string $userId
 	 * @param array $settings
 	 */
-	public function __construct(IAppContainer $app, IRequest $request, array $settings) {
-		parent::__construct($app, $request);
+	public function __construct($appName, IRequest $request, $userId,
+								array $settings) {
+		parent::__construct($appName, $request, $userId);
 		$this->settings = $settings;
 	}
 
@@ -56,15 +58,15 @@ class SettingsController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	public function setValue($value) {
-		$userId = $this->api->getUserId();
-		$app = $this->app->getAppName();
+		$userId = $this->userId;
+		$app = $this->appName;
 
 		$info = $this->getInfoFromRoute();
 
 		if (isset($info['options']) && !in_array($value, $info['options'])) {
-			return new JSONResponse(array(
+			return new JSONResponse([
 				'message' => 'Value not supported',
-			), HTTP::STATUS_UNPROCESSABLE_ENTITY);
+			], HTTP::STATUS_UNPROCESSABLE_ENTITY);
 		}
 
 		Config::setUserValue(
@@ -74,9 +76,9 @@ class SettingsController extends Controller {
 			$value
 		);
 
-		return new JSONResponse(array(
+		return new JSONResponse([
 			'message' => 'Value stored successfully',
-		), HTTP::STATUS_OK);
+		], HTTP::STATUS_OK);
 	}
 
 
@@ -89,8 +91,8 @@ class SettingsController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	public function getValue() {
-		$userId = $this->api->getUserId();
-		$app = $this->app->getAppName();
+		$userId = $this->userId;
+		$app = $this->appName;
 
 		$info = $this->getInfoFromRoute();
 
@@ -101,13 +103,14 @@ class SettingsController extends Controller {
 			(isset($info['default'])) ? $info['default'] : null
 		);
 
-		return new JSONResponse(array(
+		return new JSONResponse([
 			'value' => $value,
-		), HTTP::STATUS_OK);
+		], HTTP::STATUS_OK);
 	}
 
 
 	/**
+	 * extract info about config key from route
 	 * @return null|array
 	 */
 	private function getInfoFromRoute() {
@@ -124,11 +127,12 @@ class SettingsController extends Controller {
 
 
 	/**
+	 * return error msg if setting key is not supported
 	 * @return JSONResponse
 	 */
 	private function throwSettingNotAvailable() {
-		return new JSONResponse(array(
+		return new JSONResponse([
 			'message' => 'Setting not available',
-		), HTTP::STATUS_NOT_FOUND);
+		], HTTP::STATUS_NOT_FOUND);
 	}
 }

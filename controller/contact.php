@@ -24,26 +24,27 @@
 namespace OCA\Calendar\Controller;
 
 use OCP\AppFramework\Http\JSONResponse;
-use OCP\AppFramework\IAppContainer;
 use OCP\Contacts\IManager;
 use OCP\IRequest;
 
 class ContactController extends Controller {
 
 	/**
+	 * API for contacts api
 	 * @var IManager
 	 */
 	private $contacts;
 
 
 	/**
-	 * constructor
-	 * @param IAppContainer $app interface to the app
+	 * @param string $appName
 	 * @param IRequest $request an instance of the request
+	 * @param string $userId
 	 * @param IManager $contacts
 	 */
-	public function __construct(IAppContainer $app, IRequest $request, IManager $contacts) {
-		parent::__construct($app, $request);
+	public function __construct($appName, IRequest $request, $userId,
+								IManager $contacts) {
+		parent::__construct($appName, $request, $userId);
 		$this->contacts = $contacts;
 	}
 
@@ -59,7 +60,6 @@ class ContactController extends Controller {
 		$result = $this->contacts->search($location, ['FN', 'ADR']);
 
 		$contacts = [];
-
 		foreach ($result as $r) {
 			if (!isset($r['ADR'])) {
 				continue;
@@ -91,7 +91,6 @@ class ContactController extends Controller {
 		$result = $this->contacts->search($search, ['FN', 'EMAIL']);
 
 		$contacts = [];
-
 		foreach ($result as $r) {
 			if (!isset($r['EMAIL'])) {
 				continue;
@@ -112,6 +111,8 @@ class ContactController extends Controller {
 
 
 	/**
+	 * Extract name from an array containing a contact's information
+	 *
 	 * @param array $r
 	 * @return string
 	 */

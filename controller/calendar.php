@@ -21,73 +21,76 @@
  */
 namespace OCA\Calendar\Controller;
 
-use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Calendar\IBackendCollection;
-use OCP\IRequest;
 use OCP\Calendar\ICalendar;
-use OCP\Calendar\ICalendarCollection;
-use OCA\Calendar\BusinessLayer\CalendarBusinessLayer;
-use OCA\Calendar\Http\Response;
-use OCA\Calendar\Http\ReaderException;
+use OCP\IRequest;
+
+use OCA\Calendar\BusinessLayer\CalendarRequestBusinessLayer;
+use OCA\Calendar\Db\TimezoneMapper;
 use OCA\Calendar\Http\JSON\JSONCalendarReader;
 use OCA\Calendar\Http\JSON\JSONCalendarResponse;
+use OCA\Calendar\Http\ReaderException;
 
 class CalendarController extends Controller {
 
 	/**
-	 * Calendar-Businesslayer object
-	 * @var \OCA\Calendar\BusinessLayer\CalendarRequestBusinessLayer
-	 */
-	protected $calendars;
-
-
-	/**
-	 * @var \OCP\Calendar\IBackendCollection
+	 * Collection of initialized backends
+	 * @var IBackendCollection
 	 */
 	protected $backends;
 
 
 	/**
-	 * constructor
-	 * @param IAppContainer $app interface to the app
-	 * @param IRequest $request an instance of the request
-	 * @param CalendarBusinessLayer $calendars
-	 * @param IBackendCollection $backends
+	 * BusinessLayer for managing calendars
+	 * @var CalendarRequestBusinessLayer
 	 */
-	public function __construct(IAppContainer $app, IRequest $request,
-								CalendarBusinessLayer $calendars,
-								IBackendCollection $backends) {
-		parent::__construct($app, $request);
+	protected $calendars;
+
+
+	/**
+	 * @param string $appName
+	 * @param IRequest $request an instance of the request
+	 * @param string $userId
+	 * @param CalendarRequestBusinessLayer $calendars
+	 * @param IBackendCollection $backends
+	 * @param TimezoneMapper $timezones
+	 *
+	 * TODO - use TimezoneBusinessLayer instead of TimezoneMapper
+	 */
+	public function __construct($appName, IRequest $request, $userId,
+								CalendarRequestBusinessLayer $calendars,
+								IBackendCollection $backends,
+								TimezoneMapper $timezones) {
+		parent::__construct($appName, $request, $userId);
+
 		$this->calendars = $calendars;
 		$this->backends = $backends;
 
-		$this->registerReader('json', function($handle) use ($app) {
-			$reader = new JSONCalendarReader($app, $handle);
-			return $reader->getObject();
+		$this->registerReader('json', function($handle) use ($timezones) {
+			return (new JSONCalendarReader($handle,
+				$this->userId, $this->backends, $timezones))->getObject();
 		});
 
-		$this->registerResponder('json', function($value) use ($app) {
-			return new JSONCalendarResponse($app, $value);
+		$this->registerResponder('json', function($value) {
+			return new JSONCalendarResponse($value);
 		});
 	}
 
 
 	/**
-	 * @param $limit
-	 * @param $offset
-	 * @return Response
+	 * @param integer $limit
+	 * @param integer $offset
+	 * @return \OCP\AppFramework\Http\Response
 	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
 	public function index($limit=null, $offset=null) {
 		try {
-			$userId = $this->api->getUserId();
-
 			return $this->calendars->findAll(
-				$userId,
+				$this->userId,
 				$limit,
 				$offset
 			);
@@ -98,17 +101,15 @@ class CalendarController extends Controller {
 
 
 	/**
-	 * @param int $id
-	 * @return Response
+	 * @param integer $id
+	 * @return \OCP\AppFramework\Http\Response
 	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
 	 public function show($id) {
 		try {
-			$userId = $this->api->getUserId();
-
-			return $this->calendars->find($id, $userId);
+			return $this->calendars->find($id, $this->userId);
 		} catch (\Exception $ex) {
 			return $this->handleException($ex);
 		}
@@ -123,21 +124,17 @@ class CalendarController extends Controller {
 		try {
 			$calendar = $this->readInput();
 
-			if ($calendar instanceof ICalendar) {
-				if ($calendar->getBackend() === null) {
-					$backend = $this->backends[0];
-					$calendar->setBackend($backend);
-				}
-				return $this->calendars->create($calendar, $this->api->getUserId());
-			} elseif ($calendar instanceof ICalendarCollection) {
-				throw new ReaderException(
-					'Creating calendar-collections not supported'
-				);
-			} else {
+			if (!($calendar instanceof ICalendar)) {
 				throw new ReaderException(
 					'Reader returned unrecognised format'
 				);
 			}
+
+			if ($calendar->getBackend() === null) {
+				$backend = $this->backends[0];
+				$calendar->setBackend($backend);
+			}
+			return $this->calendars->create($calendar, $this->userId);
 		} catch (\Exception $ex) {
 			return $this->handleException($ex);
 		}
@@ -145,8 +142,8 @@ class CalendarController extends Controller {
 
 
 	/**
-	 * @param int $id
-	 * @return Response
+	 * @param integer $id
+	 * @return \OCP\AppFramework\Http\Response
 	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
@@ -154,21 +151,15 @@ class CalendarController extends Controller {
 	public function update($id) {
 		try {
 			$calendar = $this->readInput();
-			$userId = $this->api->getUserId();
 
-			if ($calendar instanceof ICalendar) {
-				$oldCalendar = $this->calendars->find($id, $userId);
-
-				return $this->calendars->update($calendar, $oldCalendar);
-			} elseif ($calendar instanceof ICalendarCollection) {
-				throw new ReaderException(
-					'Updates can only be applied to a single resource'
-				);
-			} else {
+			if (!($calendar instanceof ICalendar)) {
 				throw new ReaderException(
 					'Reader returned unrecognised format'
 				);
 			}
+
+			$oldCalendar = $this->calendars->find($id, $this->userId);
+			return $this->calendars->update($calendar, $oldCalendar);
 		} catch (\Exception $ex) {
 			return $this->handleException($ex);
 		}
@@ -176,8 +167,8 @@ class CalendarController extends Controller {
 
 
 	/**
-	 * @param int $id
-	 * @return Response
+	 * @param integer $id
+	 * @return \OCP\AppFramework\Http\Response
 	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
@@ -185,21 +176,15 @@ class CalendarController extends Controller {
 	public function patch($id) {
 		try {
 			$calendar = $this->readInput();
-			$userId = $this->api->getUserId();
 
-			if ($calendar instanceof ICalendar) {
-				$oldCalendar = $this->calendars->find($id, $userId);
-
-				return $this->calendars->patch($calendar, $oldCalendar);
-			} elseif ($calendar instanceof ICalendarCollection) {
-				throw new ReaderException(
-					'Patches can only be applied to a single resource'
-				);
-			} else {
+			if (!($calendar instanceof ICalendar)) {
 				throw new ReaderException(
 					'Reader returned unrecognised format'
 				);
 			}
+
+			$oldCalendar = $this->calendars->find($id, $this->userId);
+			return $this->calendars->patch($calendar, $oldCalendar);
 		} catch (\Exception $ex) {
 			return $this->handleException($ex);
 		}
@@ -207,25 +192,23 @@ class CalendarController extends Controller {
 
 
 	/**
-	 * @param int $id
-	 * @return Response
+	 * @param integer $id
+	 * @return \OCP\AppFramework\Http\Response
 	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
 	public function destroy($id) {
 		try {
-			$userId	= $this->api->getUserId();
-
-			$calendar = $this->calendars->find($id, $userId);
+			$calendar = $this->calendars->find($id, $this->userId);
 
 			$this->calendars->delete(
 				$calendar
 			);
 
-			return new JSONResponse(array(
+			return new JSONResponse([
 				'message' => 'Calendar was deleted successfully',
-			));
+			]);
 		} catch (\Exception $ex) {
 			return $this->handleException($ex);
 		}

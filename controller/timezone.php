@@ -21,57 +21,51 @@
  */
 namespace OCA\Calendar\Controller;
 
-use OCA\Calendar\BusinessLayer\BusinessLayerException;
-use \OCP\AppFramework\IAppContainer;
-use \OCP\AppFramework\Http;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
-use \OCP\IRequest;
+use OCP\IRequest;
 
 use OCA\Calendar\BusinessLayer\TimezoneBusinessLayer;
 use OCA\Calendar\Http\JSON\JSONTimezoneResponse;
 
-use \OCA\Calendar\Http\Response;
-use \OCA\Calendar\Http\SerializerException;
-
 class TimezoneController extends Controller {
 
 	/**
-	 * @var \OCA\Calendar\BusinessLayer\TimezoneBusinessLayer
+	 * BusinessLayer for managing timezones
+	 * @var TimezoneBusinessLayer
 	 */
 	protected $timezones;
 
 
 	/**
-	 * constructor
-	 * @param IAppContainer $app interface to the app
+	 * @param string $appName
 	 * @param IRequest $request an instance of the request
+	 * @param string $userId
 	 * @param TimezoneBusinessLayer $timezoneBusinessLayer
 	 */
-	public function __construct(IAppContainer $app, IRequest $request,
+	public function __construct($appName, IRequest $request, $userId,
 								TimezoneBusinessLayer $timezoneBusinessLayer){
-		parent::__construct($app, $request);
+		parent::__construct($appName, $request, $userId);
 		$this->timezones = $timezoneBusinessLayer;
 
-		$this->registerResponder('json', function($value) use ($app) {
-			return new JSONTimezoneResponse($app, $value);
+		$this->registerResponder('json', function($value) {
+			return new JSONTimezoneResponse($value, $this->timezones);
 		});
 	}
 
 
 	/**
-	 * @param int $limit
-	 * @param int $offset
-	 * @return Response
+	 * @param integer $limit
+	 * @param integer $offset
+	 * @return \OCP\AppFramework\Http\Response
 	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
 	public function index($limit=null, $offset=null) {
 		try {
-			$userId	= $this->api->getUserId();
-
 			return $this->timezones->findAll(
-				$userId,
+				$this->userId,
 				$limit,
 				$offset
 			);
@@ -83,7 +77,7 @@ class TimezoneController extends Controller {
 
 	/**
 	 * @param string $id
-	 * @return Response
+	 * @return \OCP\AppFramework\Http\Response
 	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
@@ -91,40 +85,27 @@ class TimezoneController extends Controller {
 	 public function show($id) {
 		try {
 			$tzId = str_replace('-', '/', $id);
-			$userId	= $this->api->getUserId();
 
 			return $this->timezones->find(
 				$tzId,
-				$userId
+				$this->userId
 			);
-		} catch (BusinessLayerException $ex) {
-			return new JSONResponse(
-				$ex->getMessage(),
-				$ex->getCode()
-			);
-		} catch (SerializerException $ex) {
-			$this->app->log($ex->getMessage(), 'debug');
-			return new JSONResponse(
-				array('message' => $ex->getMessage()),
-				Http::STATUS_INTERNAL_SERVER_ERROR
-			);
+		} catch (\Exception $ex) {
+			return $this->handleException($ex);
 		}
 	}
 
 
 	/**
-	 * @param int $limit
-	 * @param int $offset
-	 * @return Response
+	 * @param integer $limit
+	 * @param integer $offset
+	 * @return \OCP\AppFramework\Http\Response
 	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
 	public function getList($limit=null, $offset=null) {
-		$userId	= $this->api->getUserId();
-
-		$timezones = $this->timezones->listAll($userId, $limit, $offset);
-
+		$timezones = $this->timezones->listAll($this->userId, $limit, $offset);
 		return new JSONResponse($timezones);
 	}
 

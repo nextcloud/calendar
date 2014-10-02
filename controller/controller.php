@@ -21,42 +21,41 @@
  */
 namespace OCA\Calendar\Controller;
 
-use OCA\Calendar\Http\ReaderException;
-use OCA\Calendar\Http\SerializerException;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http;
-use OCP\AppFramework\IAppContainer;
-use OCP\IRequest;
 use OCP\Calendar\IEntity;
 use OCP\Calendar\ICollection;
+use OCP\IRequest;
+
+use OCA\Calendar\Http\ReaderException;
+use OCA\Calendar\Http\SerializerException;
+
 use DateTime;
 
 abstract class Controller extends \OCP\AppFramework\Controller {
 
 	/**
+	 * array of input parsers
 	 * @var array
 	 */
 	private $readers;
 
 
 	/**
+	 * id for current user
 	 * @var string
 	 */
 	protected $userId;
 
 
-	protected $app;
-	protected $api;
-
 	/**
-	 * constructor
-	 * @param IAppContainer $app interface to the app
+	 * @param string $appName
 	 * @param IRequest $request an instance of the request
+	 * @param string $userId
 	 */
-	public function __construct(IAppContainer $app, IRequest $request) {
-		parent::__construct($app, $request);
-		$this->app = $app;
-		$this->api = $app->getCoreApi();
+	public function __construct($appName, IRequest $request, $userId) {
+		parent::__construct($appName, $request);
+		$this->userId = $userId;
 	}
 
 
@@ -182,7 +181,7 @@ abstract class Controller extends \OCP\AppFramework\Controller {
 		}
 
 		return new JSONResponse(
-			array('message' => $ex->getMessage()),
+			['message' => $ex->getMessage()],
 			$code
 		);
 	}
