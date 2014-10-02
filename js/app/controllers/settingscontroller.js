@@ -62,7 +62,7 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'Ca
 		};
 
 		$scope.pushcalendar = function (id) {
-			Restangular.one('calendars', $scope.calendarid).withHttpConfig({transformRequest: angular.identity}).customPOST(
+			Restangular.one('calendars', id).withHttpConfig({transformRequest: angular.identity}).customPOST(
 				$scope.filescontent,
 				'import',
 				undefined,

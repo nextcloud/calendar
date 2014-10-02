@@ -426,6 +426,19 @@ app.controller('CalendarListController', ['$scope', '$window',
 			}
 		};
 
+		// Share AutoComplete Typeahead
+		$scope.getSharePeople = function(val) {
+			/*return Restangular.oneUrl(OC.filePath('core', 'ajax', 'share.php')).getList('sharepeople',
+				{'sharepeople': $scope.sharemodel}).then(function(res){
+					var people =[];
+					angular.forEach(res, function (item) {
+						people.push(item.label);
+					});
+				return people;
+			});
+			*/
+		};
+
 		// CalDAV display - hide logic goes here.
 		$scope.toggleCalDAV = function ($index, uri) {
 			$scope.i.push($index);
@@ -705,7 +718,7 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'Ca
 		};
 
 		$scope.pushcalendar = function (id) {
-			Restangular.one('calendars', $scope.calendarid).withHttpConfig({transformRequest: angular.identity}).customPOST(
+			Restangular.one('calendars', id).withHttpConfig({transformRequest: angular.identity}).customPOST(
 				$scope.filescontent,
 				'import',
 				undefined,

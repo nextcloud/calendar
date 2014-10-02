@@ -84,10 +84,20 @@
 			</span>
 		</span>
 		<fieldset ng-show="sharefieldset == calendar.id" class="sharefieldset">
-			<input type="text" ng-model="sharemodel" />
-			<button id="chooseCalendar-close" class="primary" ng-click="sharefieldset = false">
-				<span class="icon-view-previous"></span>
-			</button>
+			<input type="text"
+				ng-model="sharemodel" placeholder="<?php p($l->t('Share with user or group'))?>"
+				typeahead="shareperson for shareperson in getSharePeople($viewValue)"/>
+			<ul class="sharewithlist">
+				<li data-share-type="" data-share-with="" title="">
+					<!-- Find Better Alternative for Inline Styling Here.-->
+					<a href="#" class="unshare" style="padding: 0 !important;">
+						<img class="svg" alt="Unshare" title="Unshare" src="<?php p(OCP\Util::imagePath('core', 'actions/delete.svg')); ?>" />
+						<strong class="username">Admin</strong>
+					</a>
+					<div class="sharearea">
+					</div>
+				</li>
+			</ul>
 		</fieldset>
 		<fieldset ng-show="caldavfieldset" class="caldavURL">
 			<input type="text" ng-model="calDAVmodel" data-id="{{ calendar.id }}" readonly />
