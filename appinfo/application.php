@@ -84,45 +84,53 @@ class Application extends App {
 		$this->getContainer()->registerService('BackendController', function(IAppContainer $c) {
 			$request = $c->query('Request');
 			$bds = $c->query('Backends');
+			$userId = $c->getCoreApi()->getUserId();
 
-			return new Controller\BackendController($c, $request, $bds);
+			return new Controller\BackendController($c, $request, $userId, $bds);
 		});
 		$this->getContainer()->registerService('CalendarController', function(IAppContainer $c) {
 			$request = $c->query('Request');
 			$cbl = $c->query('CalendarRequestBusinessLayer');
 			$backends = $c->query('Backends');
+			$userId = $c->getCoreApi()->getUserId();
+			$timezones = $c->query('TimezoneMapper');
 
-			return new Controller\CalendarController($c, $request, $cbl, $backends);
+			return new Controller\CalendarController($c, $request, $userId, $cbl, $backends, $timezones);
 		});
 		$this->getContainer()->registerService('ContactController', function(IAppContainer $c) {
 			$request = $c->query('Request');
 			$contacts = $c->getServer()->getContactsManager();
+			$userId = $c->getCoreApi()->getUserId();
 
-			return new Controller\ContactController($c, $request, $contacts);
+			return new Controller\ContactController($c, $request, $userId, $contacts);
 		});
 		$this->getContainer()->registerService('ObjectController', function(IAppContainer $c) {
 			$request = $c->query('Request');
 			$cbl = $c->query('CalendarBusinessLayer');
+			$userId = $c->getCoreApi()->getUserId();
 
-			return new Controller\ObjectController($c, $request, $cbl, ObjectType::ALL);
+			return new Controller\ObjectController($c, $request, $userId, $cbl, ObjectType::ALL);
 		});
 		$this->getContainer()->registerService('EventController', function(IAppContainer $c) {
 			$request = $c->query('Request');
 			$cbl = $c->query('CalendarBusinessLayer');
+			$userId = $c->getCoreApi()->getUserId();
 
-			return new Controller\ObjectController($c, $request, $cbl, ObjectType::EVENT);
+			return new Controller\ObjectController($c, $request, $userId, $cbl, ObjectType::EVENT);
 		});
 		$this->getContainer()->registerService('JournalController', function(IAppContainer $c) {
 			$request = $c->query('Request');
 			$cbl = $c->query('CalendarBusinessLayer');
+			$userId = $c->getCoreApi()->getUserId();
 
-			return new Controller\ObjectController($c, $request, $cbl, ObjectType::JOURNAL);
+			return new Controller\ObjectController($c, $request, $userId, $cbl, ObjectType::JOURNAL);
 		});
 		$this->getContainer()->registerService('TodoController', function(IAppContainer $c) {
 			$request = $c->query('Request');
 			$cbl = $c->query('CalendarBusinessLayer');
+			$userId = $c->getCoreApi()->getUserId();
 
-			return new Controller\ObjectController($c, $request, $cbl, ObjectType::TODO);
+			return new Controller\ObjectController($c, $request, $userId, $cbl, ObjectType::TODO);
 		});
 		$this->getContainer()->registerService('ScanController', function(IAppContainer $c) {
 			$request = $c->query('Request');
@@ -134,26 +142,30 @@ class Application extends App {
 		$this->getContainer()->registerService('SettingsController', function(IAppContainer $c) {
 			$request = $c->query('Request');
 			$set = $c->query('settings');
+			$userId = $c->getCoreApi()->getUserId();
 
-			return new Controller\SettingsController($c, $request, $set);
+			return new Controller\SettingsController($c, $request, $userId, $set);
 		});
 		$this->getContainer()->registerService('SubscriptionController', function(IAppContainer $c) {
 			$request = $c->query('Request');
 			$sbl = $c->query('SubscriptionBusinessLayer');
 			$bds = $c->query('Backends');
+			$userId = $c->getCoreApi()->getUserId();
 
-			return new Controller\SubscriptionController($c, $request, $sbl, $bds);
+			return new Controller\SubscriptionController($c, $request, $userId, $sbl, $bds);
 		});
 		$this->getContainer()->registerService('TimezoneController', function(IAppContainer $c) {
 			$request = $c->query('Request');
 			$tbl = $c->query('TimezoneBusinessLayer');
+			$userId = $c->getCoreApi()->getUserId();
 
-			return new Controller\TimezoneController($c, $request, $tbl);
+			return new Controller\TimezoneController($c, $request, $userId, $tbl);
 		});
 		$this->getContainer()->registerService('ViewController', function(IAppContainer $c) {
 			$request = $c->query('Request');
+			$userId = $c->getCoreApi()->getUserId();
 
-			return new Controller\ViewController($c, $request);
+			return new Controller\ViewController($c, $request, $userId);
 		});
 
 
