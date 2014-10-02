@@ -10,17 +10,18 @@
  * @copyright Alessandro Cosentino 2012
  * @copyright Bernhard Posselt 2012, 2014
  */
-
 namespace OCA\Calendar\Http;
 
 use OCP\AppFramework\Http\DownloadResponse;
 
-/**
- * Prompts the user to download the a textfile
- */
 class TextDownloadResponse extends DownloadResponse {
 
-	private $content;
+	/**
+	 * response data
+	 * @var string
+	 */
+	protected $data;
+
 
 	/**
 	 * Creates a response that prompts the user to download a file which
@@ -29,9 +30,9 @@ class TextDownloadResponse extends DownloadResponse {
 	 * @param string $filename the name that the downloaded file should have
 	 * @param string $contentType the mimetype that the downloaded file should have
 	 */
-	public function __construct($content, $filename, $contentType){
+	public function __construct($content, $filename, $contentType) {
 		parent::__construct($filename, $contentType);
-		$this->content = $content;
+		$this->data = $content;
 	}
 
 
@@ -39,7 +40,7 @@ class TextDownloadResponse extends DownloadResponse {
 	 * Simply sets the headers and returns the file contents
 	 * @return string the file contents
 	 */
-	public function render(){
-		return $this->content;
+	public function render() {
+		return strval($this->data);
 	}
 }

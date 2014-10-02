@@ -21,38 +21,41 @@
  */
 namespace OCA\Calendar\Http\ICS;
 
-use OCP\AppFramework\IAppContainer;
-use OCA\Calendar\Utility\ObjectUtility;
-
+use OCA\Calendar\Db\TimezoneMapper;
 use OCA\Calendar\Http\TextDownloadResponse;
+use OCA\Calendar\Utility\ObjectUtility;
 
 class ICSObjectDownloadResponse extends TextDownloadResponse {
 
 	/**
-	 * @var string
+	 * @var TimezoneMapper
 	 */
-	private $data;
+	protected $timezones;
 
 
 	/**
-	 * constructor of JSONResponse
-	 * @param IAppContainer $app
 	 * @param \OCP\Calendar\IObjectCollection $data
+	 * @param TimezoneMapper $timezones
 	 * @param string $mimeType
 	 * @param string $filename
+	 *
+	 * TODO - replace TimezoneMapper with TimezoneBusinessLayer
 	 */
-	public function __construct(IAppContainer $app, $data,
+	public function __construct($data, TimezoneMapper $timezones,
 								$mimeType, $filename) {
-		$this->app = $app;
-		$this->input = $data;
-
-		$this->serializeData();
-
-		parent::__construct($this->data, $filename, $mimeType);
+		parent::__construct($data, $filename, $mimeType);
+		$this->timezones = $timezones;
 	}
 
 
-	public function serializeData() {
-		ObjectUtility::serializeDataWithTimezones($this->input, $this->app, $this->data, false);
+	/**
+	 * serialize Data and add missing timezones
+	 */
+	public function render() {
+		return ObjectUtility::serializeDataWithTimezones(
+			$this->data,
+			$this->timezones,
+			false
+		);
 	}
 }

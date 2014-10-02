@@ -19,90 +19,22 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-/**
- * Public interface of ownCloud for apps to use.
- * AppFramework\HTTP\JSONResponse class
- */
-
 namespace OCA\Calendar\Http;
 
+use OCP\AppFramework\Http\JSONResponse as ParentJSONResponse;
+use OCP\AppFramework\Http;
 use OCP\Calendar\ICollection;
 use OCP\Calendar\IEntity;
 
-/**
- * A renderer for JSON calls
- */
-abstract class JSONResponse extends Response {
-
-	/**
-	 * Returns the rendered json
-	 * @return string the rendered json
-	 */
-	public function render(){
-		return json_encode($this->data);
-	}
+abstract class JSONResponse extends ParentJSONResponse {
 
 
 	/**
-	 * does stuff like setting content-type
+	 * @param array|ICollection|IEntity $data
+	 * @param integer $statusCode
 	 */
-	public function preSerialize() {
+	public function __construct($data, $statusCode=Http::STATUS_OK) {
+		parent::__construct($data, $statusCode);
 		$this->addHeader('Content-type', 'application/json; charset=utf-8');
-	}
-
-
-	/**
-	 * serialize output data from input
-	 */
-	public function serializeData() {
-		if ($this->input instanceof IEntity) {
-			$this->data = $this->generate($this->input);
-		} elseif ($this->input instanceof ICollection) {
-			$data = array();
-			$this->input->iterate(function(IEntity $subscription) use (&$data) {
-				try {
-					$data[] = $this->generate($subscription);
-				} catch(SerializerException $ex) {
-					return;
-				}
-			});
-			$this->data = $data;
-		} else {
-			$this->data = array();
-		}
-	}
-
-
-	/**
-	 * generate output for one backend
-	 * @param IEntity $subscription
-	 * @return array
-	 */
-	public function generate(IEntity $subscription) {
-		$data = array();
-
-		$properties = get_object_vars($subscription);
-		foreach($properties as $key => $value) {
-			$getter = 'get' . ucfirst($key);
-			$value = $subscription->{$getter}();
-
-			$this->setProperty($data, strtolower($key), $value);
-		}
-
-		return $data;
-	}
-
-
-	/**
-	 * @param string $key
-	 */
-	function setProperty(array &$data, $key, $value) {
-
-	}
-
-
-	public function postSerialize() {
-
 	}
 }

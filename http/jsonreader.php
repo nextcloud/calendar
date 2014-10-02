@@ -21,65 +21,38 @@
  */
 namespace OCA\Calendar\Http;
 
-use OCP\Calendar\IEntity;
-use OCP\Calendar\ICollection;
-
-abstract class Reader {
+abstract class JSONReader extends Reader {
 
 	/**
-	 * input data stream
-	 * @var resource
+	 * array that represents the json input data
+	 * @var array
 	 */
-	protected $handle;
-
-
-	/**
-	 * result of input-parser
-	 * @var ICollection|IEntity
-	 */
-	protected $object;
+	protected $json;
 
 
 	/**
 	 * @param resource $handle
 	 */
 	public function __construct($handle) {
-		if (!is_resource($handle)) {
-			$this->handle = fopen('data://text/plain;base64,', 'rb');
-		} else {
-			$this->handle = $handle;
-		}
+		parent::__construct($handle);
 
-		$this->object = null;
+		$this->parseJson();
 	}
 
 
 	/**
-	 * get result from parser
-	 * @return ICollection|IEntity
+	 * parse json-string and put into $this->json
 	 */
-	public function getObject() {
-		if (is_null($this->object)) {
-			$this->parse();
+	private function parseJson() {
+		$data = stream_get_contents($this->handle);
+		$json = json_decode($data, true);
+
+		if ($json === null) {
+			throw new ReaderException(
+				'Could not decode json string.'
+			);
 		}
 
-		return $this->object;
+		$this->json = $json;
 	}
-
-
-	/**
-	 * sets the object, supposed to be called by parse()
-	 * @param IEntity|ICollection $object
-	 */
-	protected function setObject($object) {
-		if ($object instanceof IEntity || $object instanceof ICollection) {
-			$this->object = $object;
-		}
-	}
-
-
-	/**
-	 * parse the actual input
-	 */
-	abstract protected function parse();
 }

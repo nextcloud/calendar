@@ -21,9 +21,9 @@
  */
 namespace OCA\Calendar\Http\JSON;
 
-use OCA\Calendar\Http\JSONResponse;
+use OCA\Calendar\Http\SimpleJSONResponse;
 
-class JSONSubscriptionResponse extends JSONResponse {
+class JSONSubscriptionResponse extends SimpleJSONResponse {
 
 	/**
 	 * set property
@@ -31,7 +31,7 @@ class JSONSubscriptionResponse extends JSONResponse {
 	 * @param string $key
 	 * @param mixed $value
 	 */
-	public function setProperty(&$data, $key, $value) {
+	protected function setProperty(array &$data, $key, $value) {
 		switch($key) {
 			case 'type':
 			case 'url':

@@ -54,7 +54,7 @@ class JSONObjectReader extends Reader {
 				$objectCollection->add($object);
 			}
 
-			if ($objectCollection->count() === 1) {
+			if (count($objectCollection) === 1) {
 				$object = $objectCollection[0];
 			} else {
 				$object = $objectCollection;

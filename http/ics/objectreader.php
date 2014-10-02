@@ -20,19 +20,21 @@
  *
  */
 namespace OCA\Calendar\Http\ICS;
-
-use OCA\Calendar\Sabre\VObject\Splitter\ICalendar;
 use OCA\Calendar\Db\Object;
 use OCA\Calendar\Db\ObjectCollection;
 use OCA\Calendar\Http\Reader;
 use OCA\Calendar\Http\ReaderException;
 use OCA\Calendar\Sabre\VObject\Component\VCalendar;
+use OCA\Calendar\Sabre\VObject\Splitter\ICalendar;
 use OCA\Calendar\Utility\SabreUtility;
 
 class ICSObjectReader extends Reader {
 
-
-	public function preParse() {/*
+	/**
+	 * parse data
+	 */
+	public function parse() {
+		/*
 		$data = $this->getData();
 
 		//fix malformed timestamp in some google calendar events
@@ -42,13 +44,7 @@ class ICSObjectReader extends Reader {
 		//add some more fixes over time
 
 		$this->setData($data);*/
-	}
 
-
-	/**
-	 * parse data
-	 */
-	public function parse() {
 		try{
 			$objectCollection = new ObjectCollection();
 

@@ -21,99 +21,46 @@
  */
 namespace OCA\Calendar\Http\JSON;
 
-use OCA\Calendar\Db\Subscription;
-use OCA\Calendar\Db\SubscriptionCollection;
-use OCA\Calendar\Http\Reader;
-use OCA\Calendar\Http\ReaderException;
+use OCP\Calendar\IEntity;
+use OCP\Calendar\ISubscription;
 
-class JSONSubscriptionReader extends Reader {
+use OCA\Calendar\Http\SimpleJSONReader;
+
+class JSONSubscriptionReader extends SimpleJSONReader {
 
 	/**
-	 * parse jsoncalendar
+	 * @param resource $handle
 	 */
-	public function parse() {
-		$data = stream_get_contents($this->handle);
-		$json = json_decode($data, true);
-
-		if ($json === null) {
-			$msg  = 'JSONSubscriptionReader: User Error: ';
-			$msg .= 'Could not decode json string.';
-			throw new ReaderException($msg);
-		}
-
-		if ($this->isUserDataACollection($json)) {
-			$object = $this->parseCollection($json);
-		} else {
-			$object = $this->parseSingleEntity($json);
-		}
-
-		$this->setObject($object);
+	public function __construct($handle) {
+		parent::__construct($handle, '\\OCA\\Calendar\\Db\\Subscription');
 	}
 
 
 	/**
-	 * check if $this->data is a collection
-	 * @param array $json
-	 * @return boolean
+	 * parse a json subscription
+	 * @param IEntity &$entity
+	 * @param string $key
+	 * @param mixed $value
 	 */
-	private function isUserDataACollection($json) {
-		if (array_key_exists(0, $json) && is_array($json[0])) {
-			return true;
+	protected function setProperty(IEntity &$entity, $key, $value) {
+		if (!($entity instanceof ISubscription)) {
+			return;
 		}
 
-		return false;
-	}
+		$setter = 'set' . ucfirst($key);
+		switch($key) {
+			case 'type':
+			case 'url':
+			$entity->$setter(strval($value));
+				break;
 
+			//blacklist
+			case 'userid':
+			case 'id':
+				break;
 
-	/**
-	 * parse a json calendar collection
-	 * @param array $data
-	 * @return SubscriptionCollection
-	 */
-	private function parseCollection($data) {
-		$collection = new SubscriptionCollection();
-
-		foreach($data as $singleEntity) {
-			try {
-				$calendar = $this->parseSingleEntity($singleEntity);
-				$collection->add($calendar);
-			} catch(ReaderException $ex) {
-				//TODO - log error message
-				continue;
-			}
+			default:
+				break;
 		}
-
-		return $collection;
-	}
-
-
-	/**
-	 * parse a json calendar
-	 * @param array $data
-	 * @return \OCA\Calendar\Db\Subscription
-	 */
-	private function parseSingleEntity($data) {
-		$calendar = new Subscription();
-
-		foreach($data as $key => $value) {
-			$setter = 'set' . ucfirst($key);
-
-			switch($key) {
-				case 'type':
-				case 'url':
-					$calendar->$setter(strval($value));
-					break;
-
-				//blacklist
-				case 'userid':
-				case 'id':
-					break;
-
-				default:
-					break;
-			}
-		}
-
-		return $calendar;
 	}
 }

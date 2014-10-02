@@ -19,39 +19,36 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-/**
- * Public interface of ownCloud for apps to use.
- * AppFramework\HTTP\JSONResponse class
- */
-
 namespace OCA\Calendar\Http;
 
-/**
- * A renderer for text calls
- */
+use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Response;
+
 abstract class TextResponse extends Response {
+
+	/**
+	 * response data
+	 * @var string
+	 */
+	protected $data;
+
+
+	/**
+	 * @param array|object $data the object or array that should be transformed
+	 * @param int $statusCode the Http status code, defaults to 200
+	 */
+	public function __construct($data=array(), $statusCode=Http::STATUS_OK) {
+		$this->data = $data;
+		$this->setStatus($statusCode);
+		$this->addHeader('Content-type', 'text/plain; charset=utf-8');
+	}
+
 
 	/**
 	 * Returns the rendered json
 	 * @return string the rendered json
 	 */
-	public function render(){
+	public function render() {
 		return strval($this->data);
-	}
-
-
-	public function preSerialize() {
-		$this->addHeader('Content-type', 'text/plain; charset=utf-8');
-	}
-
-
-	public function serializeData() {
-		$this->data = $this->input;
-	}
-
-
-	public function postSerialize() {
-
 	}
 }

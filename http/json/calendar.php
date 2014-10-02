@@ -22,13 +22,12 @@
 namespace OCA\Calendar\Http\JSON;
 
 use OCP\Calendar\ITimezone;
-use OCA\Calendar\Http\JSONResponse;
+use OCA\Calendar\Http\SimpleJSONResponse;
 use OCA\Calendar\Utility\JSONUtility;
 
-class JSONCalendarResponse extends JSONResponse {
+class JSONCalendarResponse extends SimpleJSONResponse {
 
 	/**
-	 * set property
 	 * @param array &$data
 	 * @param string $key
 	 * @param mixed $value
@@ -83,7 +82,6 @@ class JSONCalendarResponse extends JSONResponse {
 			default:
 				$data[$key] = $value;
 				break;
-			
 		}
 	}
 }

@@ -21,17 +21,18 @@
  */
 namespace OCA\Calendar\Http\JSON;
 
-use OCA\Calendar\Http\JSONResponse;
 use OCP\Calendar\IBackend;
 
-class JSONBackendResponse extends JSONResponse {
+use OCA\Calendar\Http\SimpleJSONResponse;
+
+class JSONBackendResponse extends SimpleJSONResponse {
 
 	/**
 	 * generate output for one backend
 	 * @param IBackend $backend
 	 * @return array
 	 */
-	public function generate(IBackend $backend) {
+	protected function generate(IBackend $backend) {
 		$data = parent::generate($backend);
 
 		$this->setPrefixInformation($data, $backend);
@@ -42,13 +43,11 @@ class JSONBackendResponse extends JSONResponse {
 
 
 	/**
-	 * set property
 	 * @param array $data
 	 * @param string $key
 	 * @param mixed $value
 	 */
 	public function setProperty(array &$data, $key, $value) {
-		true;
 		switch($key) {
 			case 'id':
 				$data[$key] = strval($value);
@@ -56,9 +55,7 @@ class JSONBackendResponse extends JSONResponse {
 
 			//blacklist
 			case 'backendapi':
-			case 'backends':
 			case 'calendarapi':
-			case 'calendars':
 			case 'objectapi':
 			case 'objectcache':
 				break;
@@ -72,7 +69,7 @@ class JSONBackendResponse extends JSONResponse {
 
 
 	/**
-	 * set api url to calendar
+	 * add information about supported prefixes
 	 * @param array $data
 	 * @param IBackend $backend
 	 * @return $this
@@ -83,7 +80,7 @@ class JSONBackendResponse extends JSONResponse {
 
 
 	/**
-	 * set api url to calendar
+	 * add information about support subscription types
 	 * @param array $data
 	 * @param IBackend $backend
 	 * @return $this

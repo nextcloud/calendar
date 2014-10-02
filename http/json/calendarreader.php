@@ -21,152 +21,114 @@
  */
 namespace OCA\Calendar\Http\JSON;
 
-use OCA\Calendar\Http\Reader;
+use OCP\Calendar\IBackendCollection;
 use OCP\Calendar\ICalendar;
-use OCP\Calendar\ICalendarCollection;
+use OCP\Calendar\IEntity;
+
 use OCA\Calendar\BusinessLayer\BusinessLayerException;
-use OCA\Calendar\Db\Calendar;
-use OCA\Calendar\Db\CalendarCollection;
-use OCA\Calendar\Http\SerializerException;
-use OCA\Calendar\Http\ReaderException;
+use OCA\Calendar\Db\TimezoneMapper;
+use OCA\Calendar\Http\SimpleJSONReader;
 use OCA\Calendar\Utility\JSONUtility;
 
-class JSONCalendarReader extends Reader {
-
+class JSONCalendarReader extends SimpleJSONReader {
 
 	/**
-	 * @var \OCA\Calendar\BusinessLayer\TimezoneBusinessLayer
+	 * Collection of initialized backends
+	 * @var \OCP\Calendar\IBackendCollection
 	 */
-	protected $timezones;
 	protected $backends;
 
 
-	public function preParse() {
-		$this->timezones = $this->app->query('TimezoneBusinessLayer');
-		$this->backends = $this->app->query('Backends');
-	}
+	/**
+	 * BusinessLayer for managing timezones
+	 * @var \OCA\Calendar\BusinessLayer\TimezoneBusinessLayer
+	 */
+	protected $timezones;
 
 
 	/**
-	 * @return $this
-	 * @throws ReaderException
+	 * id of current user
+	 * @var string
 	 */
-	public function parse() {
-		$data = stream_get_contents($this->handle);
-		$json = json_decode($data, true);
-
-		if ($json === null) {
-			$msg  = 'JSONCalendarReader: User Error: ';
-			$msg .= 'Could not decode json string.';
-			throw new ReaderException($msg);
-		}
-
-		if ($this->isUserDataACollection($json)) {
-			$object = $this->parseCollection($json);
-		} else {
-			$object = $this->parseSingleEntity($json);
-		}
-
-		$this->setObject($object);
-	}
+	protected $userId;
 
 
 	/**
-	 * check if $this->data is a collection
-	 * @param array $json
-	 * @return boolean
+	 * @param resource $handle
+	 * @param string $userId
+	 * @param IBackendCollection $backends
+	 * @param TimezoneMapper $timezones
+	 *
+	 * TODO - use TimezoneBusinessLayer instead of TimezoneMapper
 	 */
-	private function isUserDataACollection(array $json) {
-		if (array_key_exists(0, $json) && is_array($json[0])) {
-			return true;
-		}
+	public function __construct($handle, $userId, IBackendCollection $backends,
+								TimezoneMapper $timezones) {
+		parent::__construct($handle, '\\OCA\\Calendar\\Db\\Calendar');
 
-		return false;
-	}
-
-
-	/**
-	 * parse a json calendar collection
-	 * @param array $data
-	 * @return ICalendarCollection
-	 */
-	private function parseCollection(array $data) {
-		$collection = new CalendarCollection();
-
-		foreach($data as $singleEntity) {
-			try {
-				$calendar = $this->parseSingleEntity($singleEntity);
-				$collection->add($calendar);
-			} catch(SerializerException $ex) {
-				//TODO - log error message
-				continue;
-			}
-		}
-
-		return $collection;
+		$this->userId = $userId;
+		$this->backends = $backends;
+		$this->timezones = $timezones;
 	}
 
 
 	/**
 	 * parse a json calendar
-	 * @param array $data
-	 * @return ICalendar
+	 * @param IEntity &$entity
+	 * @param string $key
+	 * @param mixed $value
 	 */
-	private function parseSingleEntity(array $data) {
-		$calendar = new Calendar();
-
-		foreach($data as $key => $value) {
-			$setter = 'set' . ucfirst($key);
-
-			switch($key) {
-				case 'color':
-				case 'description':
-				case 'displayname':
-					$calendar->$setter(strval($value));
-					break;
-
-				case 'uri':
-					$calendar->setPublicUri(strval($value));
-					break;
-
-				case 'order':
-					$calendar->$setter(intval($value));
-					break;
-
-				case 'enabled':
-					$calendar->$setter((bool) $value); //boolval is PHP >= 5.5 only
-					break;
-
-				case 'components':
-					$value = JSONUtility::parseComponents($value);
-					$calendar->$setter($value);
-					break;
-
-				case 'timezone':
-					$timezoneObject = $this->parseTimezone($value);
-					$calendar->$setter($timezoneObject);
-					break;
-
-				case 'backend':
-					$backendObject = $this->parseBackend($value);
-					$calendar->$setter($backendObject);
-					break;
-
-				//blacklist:
-				case 'url':
-				case 'caldav':
-				case 'cruds':
-				case 'ctag':
-				case 'user':
-				case 'owner':
-					break;
-
-				default:
-					break;
-			}
+	protected function setProperty(IEntity &$entity, $key, $value) {
+		if (!($entity instanceof ICalendar)) {
+			return;
 		}
 
-		return $calendar;
+		$setter = 'set' . ucfirst($key);
+		switch($key) {
+			case 'color':
+			case 'description':
+			case 'displayname':
+				$entity->$setter(strval($value));
+				break;
+
+			case 'uri':
+				$entity->setPublicUri(strval($value));
+				break;
+
+			case 'order':
+				$entity->$setter(intval($value));
+				break;
+
+			case 'enabled':
+				$entity->$setter((bool) $value); //boolval is PHP >= 5.5 only
+				break;
+
+			case 'components':
+				$value = JSONUtility::parseComponents($value);
+				$entity->$setter($value);
+				break;
+
+			case 'timezone':
+				$timezoneObject = $this->parseTimezone($value);
+				$entity->$setter($timezoneObject);
+				break;
+
+			case 'backend':
+				$backendObject = $this->parseBackend($value);
+				$entity->$setter($backendObject);
+				break;
+
+			//blacklist:
+			case 'url':
+			case 'caldav':
+			case 'cruds':
+			case 'ctag':
+			case 'user':
+			case 'owner':
+				break;
+
+			default:
+				break;
+		}
 	}
 
 
@@ -176,7 +138,7 @@ class JSONCalendarReader extends Reader {
 	 */
 	private function parseTimezone($tzId) {
 		try {
-			return $this->timezones->find($tzId, $this->app->getCoreApi()->getUserId());
+			return $this->timezones->find($tzId, $this->userId);
 		} catch(BusinessLayerException $ex) {
 			return null;
 		}

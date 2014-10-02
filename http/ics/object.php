@@ -21,17 +21,43 @@
  */
 namespace OCA\Calendar\Http\ICS;
 
+use OCA\Calendar\Db\TimezoneMapper;
 use OCA\Calendar\Http\TextResponse;
 use OCA\Calendar\Utility\ObjectUtility;
+use OCP\AppFramework\Http;
 
 class ICSObjectResponse extends TextResponse {
 
-	public function preSerialize() {
+	/**
+	 * @var TimezoneMapper
+	 */
+	protected $timezones;
+
+
+	/**
+	 * @param \OCP\Calendar\IObjectCollection|\OCP\Calendar\IObject $data
+	 * @param TimezoneMapper $timezones
+	 * @param integer $statusCode
+	 *
+	 * TODO - replace TimezoneMapper with TimezoneBusinessLayer
+	 */
+	public function __construct($data, TimezoneMapper $timezones,
+								$statusCode=Http::STATUS_OK) {
+		parent::__construct($data, $statusCode);
+
+		$this->timezones = $timezones;
 		$this->addHeader('Content-type', 'text/calendar; charset=utf-8');
 	}
 
 
-	public function serializeData() {
-		ObjectUtility::serializeDataWithTimezones($this->input, $this->app, $this->data, false);
+	/**
+	 * serialize Data and add missing timezones
+	 */
+	public function render() {
+		return ObjectUtility::serializeDataWithTimezones(
+			$this->data,
+			$this->timezones,
+			false
+		);
 	}
 }
