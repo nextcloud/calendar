@@ -23,7 +23,7 @@ namespace OCA\Calendar\Utility;
 
 use OCP\Calendar\ICalendar;
 
-class CalendarUtility extends Utility{
+class CalendarUtility extends Utility {
 
 	/**
 	 * suggest a new uri

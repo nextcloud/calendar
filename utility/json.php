@@ -21,12 +21,11 @@
  */
 namespace OCA\Calendar\Utility;
 
-use OCP\User;
-use OCP\Util;
 use OCP\Calendar\ObjectType;
 use OCP\Calendar\Permissions;
+use OCP\User;
 
-class JSONUtility extends Utility{
+class JSONUtility extends Utility {
 
 	/**
 	 * get json-encoded user-information
@@ -34,32 +33,10 @@ class JSONUtility extends Utility{
 	 * @return array
 	 */
 	public static function getUserInformation($userId) {
-		if ($userId === null) {
-			$userId = User::getUser();
-		}
-
-		return array(
+		return [
 			'userid' => $userId,
 			'displayname' => User::getDisplayName($userId),
-		);
-	}
-
-
-	/**
-	 * parse json-encoded user-information
-	 * @param array $value
-	 * @return string $userId
-	 */
-	public static function parseUserInformation($value) {
-		if (is_array($value) === false) {
-			return null;
-		}
-
-		if (array_key_exists('userid', $value) === false) {
-			return null;
-		} else {
-			return $value['userid'];
-		}
+		];
 	}
 
 
@@ -69,11 +46,27 @@ class JSONUtility extends Utility{
 	 * @return array
 	 */
 	public static function getComponents($components) {
-		return array(
+		return [
 			'vevent'	=> (bool) ($components & ObjectType::EVENT),
 			'vjournal'	=> (bool) ($components & ObjectType::JOURNAL),
 			'vtodo'		=> (bool) ($components & ObjectType::TODO),
-		);
+		];
+	}
+
+
+	/**
+	 * get json-encoded cruds-information
+	 * @param integer $cruds
+	 * @return array
+	 */
+	public static function getCruds($cruds) {
+		return [
+			'create' =>	(bool) ($cruds & Permissions::CREATE),
+			'read' => 	(bool) ($cruds & Permissions::READ),
+			'update' =>	(bool) ($cruds & Permissions::UPDATE),
+			'delete' =>	(bool) ($cruds & Permissions::DELETE),
+			'share' =>	(bool) ($cruds & Permissions::SHARE),
+		];
 	}
 
 
@@ -96,52 +89,5 @@ class JSONUtility extends Utility{
 		}
 
 		return $components;
-	}
-
-
-	/**
-	 * get json-encoded cruds-information
-	 * @param integer $cruds
-	 * @return array
-	 */
-	public static function getCruds($cruds) {
-		return array(
-			'code' => 	$cruds,
-			'create' =>	(bool) ($cruds & Permissions::CREATE),
-			'read' => 	(bool) ($cruds & Permissions::READ),
-			'update' =>	(bool) ($cruds & Permissions::UPDATE),
-			'delete' =>	(bool) ($cruds & Permissions::DELETE),
-			'share' =>	(bool) ($cruds & Permissions::SHARE),
-		);
-	}
-
-
-	/**
-	 * get url for calendar
-	 * @param string $calendarURI
-	 * @return string
-	 */
-	public static function getURL($calendarURI) {
-		$properties = array(
-			'calendarId' => $calendarURI,
-		);
-
-		$url = Util::linkToRoute('calendar.calendar.show', $properties);
-		return Util::linkToAbsolute('', substr($url, 1));
-	}
-
-
-	/**
-	 * get caldav url for calendar
-	 * @param string $calendarURI
-	 * @param string $userId
-	 * @return string
-	 */
-	public static function getCalDAV($calendarURI, $userId) {
-		$url  = Util::linkToRemote('caldav');
-		$url .= urlencode($userId) . '/';
-		$url .= $calendarURI . '/';
-
-		return $url;
 	}
 }

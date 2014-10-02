@@ -49,8 +49,9 @@ class Utility {
 
 
 	/**
+	 * get public properties of an object
 	 * @param object $object
-	 * @return array
+	 * @return array - public properties, empty array if parameter is no object
 	 */
 	public static function getPublicProperties($object) {
 		if (gettype($object) !== 'object') {

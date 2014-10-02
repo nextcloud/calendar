@@ -24,18 +24,21 @@ namespace OCA\Calendar\Utility;
 class ColorUtility extends Utility {
 
 	/**
+	 * regular expression that matches HEX RGB string
 	 * @var string
 	 */
 	const HEX = '/(^#([0-9a-fA-F]{2}){3}$)|(^#([0-9a-fA-F]{1}){3}$)/';
 
 
 	/**
+	 * regular expression that matches DEC RGB string
 	 * @var string
 	 */
 	const RGB = '/^rgb\((([0-1]?[0-9]?[0-9])|([2][0-4][0-9])|(25[0-5])),\s*(([0-1]?[0-9]?[0-9])|([2][0-4][0-9])|(25[0-5])),\s*(([0-1]?[0-9]?[0-9])|([2][0-4][0-9])|(25[0-5]))\)$/';
 
 
 	/**
+	 * regular expression that matches DEC RGBA string
 	 * @var string
 	 */
 	const RGBA = '/^rgba\((([0-1]?[0-9]?[0-9])|([2][0-4][0-9])|(25[0-5])),\s*(([0-1]?[0-9]?[0-9])|([2][0-4][0-9])|(25[0-5])),\s*(([0-1]?[0-9]?[0-9])|([2][0-4][0-9])|(25[0-5]))(,(([1])|([0])|([1]\.[0]*)|(\s*[0]+\.\d+)))*\)$/';
@@ -47,11 +50,11 @@ class ColorUtility extends Utility {
 	 * @return bool
 	 */
 	public static function isValid($color) {
-		$regexs = array(
+		$regexs = [
 			self::HEX,
 			self::RGB,
 			self::RGBA
-		);
+		];
 
 		foreach($regexs as $regex) {
 			if (preg_match($regex, $color) === 1) {
@@ -153,21 +156,21 @@ class ColorUtility extends Utility {
 			if (strlen($color) === 4) {
 				$color = substr($color, 1, 3);
 
-				return array(
+				return [
 					hexdec($color[0].$color[0]),
 					hexdec($color[1].$color[1]),
 					hexdec($color[2].$color[2]),
 					$defaultAlpha
-				);
+				];
 			} elseif (strlen($color) === 7) {
 				$color = substr($color, 1, 6);
 
-				return array(
+				return [
 					hexdec(substr($color, 0, 2)),
 					hexdec(substr($color, 2, 2)),
 					hexdec(substr($color, 4, 2)),
 					$defaultAlpha
-				);
+				];
 			}
 		} elseif (preg_match(self::RGB, $color) === 1) {
 			$color = str_replace('rgb(', '', $color);

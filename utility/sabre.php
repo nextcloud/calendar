@@ -21,31 +21,27 @@
  */
 namespace OCA\Calendar\Utility;
 
-use OCP\Calendar\DoesNotExistException;
-use OCA\Calendar\Sabre\VObject\Component;
-use OCA\Calendar\Sabre\VObject\Component\VCalendar;
-use OCA\Calendar\Sabre\VObject\Component\VEvent;
-use OCA\Calendar\Sabre\VObject\Component\VJournal;
-use OCA\Calendar\Sabre\VObject\Component\VTodo;
-use OCA\Calendar\Sabre\VObject\Component\VFreeBusy;
-use OCA\Calendar\Sabre\VObject\Parameter;
-use OCA\Calendar\Sabre\VObject\Property\ICalendar\DateTime;
+use OCP\AppFramework\Db\DoesNotExistException;
+
 use OCA\Calendar\Db\Timezone;
 use OCA\Calendar\Db\TimezoneMapper;
+use OCA\Calendar\Sabre\VObject\Component;
+use OCA\Calendar\Sabre\VObject\Parameter;
+use OCA\Calendar\Sabre\VObject\Property\ICalendar\DateTime;
 
 class SabreUtility extends Utility {
 
 	/**
 	 * get property name of first object
-	 * @param \OCA\Calendar\Sabre\VObject\Component\VCalendar $vcalendar
-	 * @return mixed (string|bool)
+	 * @param Component\VCalendar $vcalendar
+	 * @return string|bool
 	 */
-	public static function getObjectName($vcalendar) {
+	public static function getObjectName(Component\VCalendar $vcalendar) {
 		foreach($vcalendar->children() as $child) {
-			if ($child instanceof VEvent ||
-			   $child instanceof VJournal ||
-			   $child instanceof VTodo ||
-			   $child instanceof VFreeBusy) {
+			if ($child instanceof Component\VEvent ||
+				$child instanceof Component\VJournal ||
+				$child instanceof Component\VTodo ||
+				$child instanceof Component\VFreeBusy) {
 				return $child->name;
 			}
 		}
@@ -55,50 +51,50 @@ class SabreUtility extends Utility {
 
 
 	/**
-	 * count number of events, journals, todos
-	 * @param \OCA\Calendar\Sabre\VObject\Component\VCalendar $vcalendar
+	 * count number of VEvents, VJournals, VTodos
+	 * @param Component\VCalendar $vcalendar
 	 * @return integer
 	 */
-	public static function countObjects(VCalendar $vcalendar) {
-		return self::countSabreObjects($vcalendar, array('VEVENT', 'VJOURNAL', 'VTODO'));
+	public static function countObjects(Component\VCalendar $vcalendar) {
+		return self::countSabreObjects($vcalendar, ['VEVENT', 'VJOURNAL', 'VTODO']);
 	}
 
 
 	/**
-	 * count number of freebusys
-	 * @param \OCA\Calendar\Sabre\VObject\Component\VCalendar $vcalendar
+	 * count number of VFreeBusys
+	 * @param Component\VCalendar $vcalendar
 	 * @return integer
 	 */
-	public static function countFreeBusys(VCalendar $vcalendar) {
-		return self::countSabreObjects($vcalendar, array('VFREEBUSY'));
+	public static function countFreeBusys(Component\VCalendar $vcalendar) {
+		return self::countSabreObjects($vcalendar, ['VFREEBUSY']);
 	}
 
 
 	/**
-	 * count number of timezones
-	 * @param \OCA\Calendar\Sabre\VObject\Component\VCalendar $vcalendar
+	 * count number of VTimezones
+	 * @param Component\VCalendar $vcalendar
 	 * @return integer
 	 */
-	public static function countTimezones(VCalendar $vcalendar) {
-		return self::countSabreObjects($vcalendar, array('VTIMEZONE'));
+	public static function countTimezones(Component\VCalendar $vcalendar) {
+		return self::countSabreObjects($vcalendar, ['VTIMEZONE']);
 	}
 
 
 	/**
 	 * count number of components by identifier defined in $properties
 	 * @param \OCA\Calendar\Sabre\VObject\Component\VCalendar $vcalendar
-	 * @param string[] $properties
+	 * @param array $properties array of strings representing $properties
 	 * @return integer
 	 */
-	public function countSabreObjects(VCalendar $vcalendar, $properties) {
+	public function countSabreObjects(Component\VCalendar $vcalendar, $properties) {
 		$count = 0;
 
 		foreach($properties as $property) {
-			if (isset($vcalendar->$property)) {
-				if (is_array($vcalendar->$property)) {
-					$count += count($vcalendar->$property);
+			if (isset($vcalendar->{$property})) {
+				if (is_array($vcalendar->{$property})) {
+					$count += count($vcalendar->{$property});
 				}
-				if ($vcalendar->$property instanceof Component) {
+				if ($vcalendar->{$property} instanceof Component) {
 					$count++;
 				}
 			}
@@ -110,32 +106,29 @@ class SabreUtility extends Utility {
 
 	/**
 	 * count number of unique UIDs inside a calendar
-	 * @param VCalendar $vcalendar
+	 * @param Component\VCalendar $vcalendar
 	 * @return integer
 	 */
-	public static function countUniqueUIDs(VCalendar $vcalendar) {
-		$uids = array();
+	public static function countUniqueUIDs(Component\VCalendar $vcalendar) {
+		$uids = [];
 
 		foreach($vcalendar->children() as $child) {
-			if ($child instanceof VEvent ||
-			   $child instanceof VJournal ||
-			   $child instanceof VTodo ||
-			   $child instanceof VFreeBusy) {
-				$uids[] = (string) $child->{'UID'};
+			if ($child instanceof Component\VEvent ||
+			   $child instanceof Component\VJournal ||
+			   $child instanceof Component\VTodo ||
+			   $child instanceof Component\VFreeBusy) {
+				$uids[] = $child->{'UID'}->getValue();
 			}
 		}
 
-		$uniqueUIDs = array_unique($uids);
-		$numberOfUniqueUIDs = count($uniqueUIDs);
-
-		return $numberOfUniqueUIDs;
+		return count(array_unique($uids));
 	}
 
 
 	/**
 	 * get DTSTART property of object
 	 * @param Component $vobject
-	 * @return DateTime $dstart
+	 * @return DateTime
 	 */
 	public static function getDTStart(Component $vobject) {
 		if (!isset($vobject->{'DTSTART'})) {
@@ -156,7 +149,7 @@ class SabreUtility extends Utility {
 	/**
 	 * get DTEND property of object
 	 * @param Component $vobject
-	 * @return DateTime $dtend
+	 * @return DateTime
 	 */
 	public static function getDTEnd(Component $vobject) {
 		if (isset($vobject->{'DTEND'})) {
@@ -168,13 +161,11 @@ class SabreUtility extends Utility {
 		}
 
 		$dtend = self::getDTStart($vobject);
-
 		if (!isset($vobject->{'DURATION'})) {
 			return $dtend;
 		}
 
 		$interval = $vobject->{'DURATION'}->getDateInterval();
-
 		$dtend->getDateTime()->add($interval);
 
 		return $dtend;
@@ -182,22 +173,19 @@ class SabreUtility extends Utility {
 
 
 	/**
-	 * add missing timezones to an object
-	 * @param VCalendar &$vcalendar
-	 * @param TimezoneMapper &$tzMapper
+	 * add missing timezones from VCalendar
+	 * @param Component\VCalendar &$vcalendar
+	 * @param TimezoneMapper $tzMapper
 	 */
-	public static function addMissingVTimezones(VCalendar &$vcalendar, TimezoneMapper &$tzMapper) {
+	public static function addMissingVTimezones(Component\VCalendar &$vcalendar, TimezoneMapper $tzMapper) {
 		$tzIds = self::parseComponentForTzIds($vcalendar);
-		$tzIds = array_unique($tzIds);
 
-		$tzIdsInVCalendar = array();
-
+		$tzIdsInVCalendar = [];
 		foreach($vcalendar->select('VTIMEZONE') as $vtimezone) {
-			$tzIdsInVCalendar[] = (string)$vtimezone->TZID;
+			$tzIdsInVCalendar[] = $vtimezone->{'TZID'}->getValue();
 		}
 
 		$missingTzIds = array_diff($tzIds, $tzIdsInVCalendar);
-
 		foreach($missingTzIds as $tzId) {
 			try {
 				$timezonesVCalendar = $tzMapper->find($tzId, null)->getVObject();
@@ -215,7 +203,7 @@ class SabreUtility extends Utility {
 	 * @return array
 	 */
 	public static function parseComponentForTzIds(Component &$component) {
-		$tzIds = array();
+		$tzIds = [];
 
 		foreach($component->children() as $child) {
 			if($child instanceof Component) {
@@ -233,32 +221,40 @@ class SabreUtility extends Utility {
 			}
 		}
 
-		return $tzIds;
+		return array_unique($tzIds);
 	}
 
 
 	/**
-	 * parse a component for X-OC-* properties and removes them
+	 * remove certain X-OC-* properties from a Sabre Component
 	 * @param Component &$component
-	 * @return void
 	 */
 	public static function removeXOCAttrFromComponent(Component &$component) {
 		foreach($component->children() as $child) {
 			if($child instanceof Component) {
 				self::removeXOCAttrFromComponent($child);
 			} elseif(substr($child->name, 0, 5) === 'X-OC-') {
-				unset($component->{$child->name});
+				switch($child->name) {
+					case 'X-OC-ETAG':
+					case 'X-OC-URI':
+						unset($component->{$child->name});
+						break;
+
+					default:
+						break;
+				}
 			}
 		}
 	}
 
 
 	/**
-	 * @param VCalendar $vcalendar
+	 * extract timezone-data for a certain timezone from Component\VCalendar object
+	 * @param Component\VCalendar $vcalendar
 	 * @param string $timezoneId
 	 * @return Timezone|null
 	 */
-	public static function getTimezoneFromVObject($vcalendar, $timezoneId) {
+	public static function getTimezoneFromVObject(Component\VCalendar $vcalendar, $timezoneId) {
 		foreach($vcalendar->select('VTIMEZONE') as $vtimezone) {
 			if($vtimezone->TZID === $timezoneId) {
 				return new Timezone($vtimezone);
