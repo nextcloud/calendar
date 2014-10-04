@@ -24,14 +24,14 @@ namespace OCP\Calendar;
 interface IBackend extends IEntity {
 
 	/**
-	 * @param integer $id
+	 * @param string $id
 	 * @return $this
 	 */
 	public function setId($id);
 
 
 	/**
-	 * @return integer
+	 * @return string
 	 */
 	public function getId();
 

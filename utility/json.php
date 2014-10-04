@@ -61,6 +61,7 @@ class JSONUtility extends Utility {
 	 */
 	public static function getCruds($cruds) {
 		return [
+			'code' => $cruds,
 			'create' =>	(bool) ($cruds & Permissions::CREATE),
 			'read' => 	(bool) ($cruds & Permissions::READ),
 			'update' =>	(bool) ($cruds & Permissions::UPDATE),
