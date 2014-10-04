@@ -32,73 +32,46 @@ class BackendCollectionTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @var array
 	 */
-	private $backends = array();
+	private $backends = [];
 
 
 	/**
 	 * Initialize the calendar object we are going to test
 	 */
 	protected function setup() {
-		$this->backends[0] = new Backend(array(
-			'backend' => 'database123',
-			'classname' => 'DatabaseClass',
-			'arguments' => array(),
-			'enabled' => true,
-		));
+		$this->backends[0] = $this->getMock('\OCA\Calendar\Db\Backend');
+		$this->backends[0]->expects($this->any())->method('getId')->will($this->returnValue('database123'));
 
-		$this->backends[1] = new Backend(array(
-			'backend' => 'caldav456',
-			'classname' => 'CalDAVClass',
-			'arguments' => array(),
-			'enabled' => false,
-		));
+		$calendarAPIs[0] = $this->getMock('\OCP\Calendar\ICalendarAPI');
+		$calendarAPIs[0]->expects($this->any())->method('listAll')->will($this->returnValue(['abc', 'def']));
 
-		$this->backends[2] = new Backend(array(
-			'backend' => 'webcal789',
-			'classname' => 'WebCalClass',
-			'arguments' => array(),
-			'enabled' => true,
-		));
+		$this->backends[0]->expects($this->any())->method('getCalendarAPI')->will($this->returnValue($calendarAPIs[0]));
 
-		$this->backends[3] = new Backend(array(
-			'backend' => 'sharing012',
-			'classname' => 'SharingClass',
-			'arguments' => array(),
-			'enabled' => false,
-		));
+		$this->backends[1] = $this->getMock('OCA\Calendar\Db\Backend');
+		$this->backends[1]->expects($this->any())->method('getId')->will($this->returnValue('caldav456'));
 
-		$this->backendCollection = new BackendCollection($this->backends);
-	}
+		$calendarAPIs[1] = $this->getMock('\OCP\Calendar\ICalendarAPI');
+		$calendarAPIs[1]->expects($this->any())->method('listAll')->will($this->returnValue(['ghi', 'jkl']));
 
+		$this->backends[1]->expects($this->any())->method('getCalendarAPI')->will($this->returnValue($calendarAPIs[1]));
 
-	public function testEnabled() {
-		$enabledBackends = $this->backendCollection->enabled();
+		$this->backends[2] = $this->getMock('OCA\Calendar\Db\Backend');
+		$this->backends[2]->expects($this->any())->method('getId')->will($this->returnValue('webcal789'));
 
-		$actual = $enabledBackends->getObjects();
-		$expected = array(
-			$this->backends[0],
-			$this->backends[2]
-		);
+		$calendarAPIs[2] = $this->getMock('\OCP\Calendar\ICalendarAPI');
+		$calendarAPIs[2]->expects($this->any())->method('listAll')->will($this->returnValue(['mno', 'pqr']));
 
-		$this->assertSame($actual, $expected);
-	}
+		$this->backends[2]->expects($this->any())->method('getCalendarAPI')->will($this->returnValue($calendarAPIs[2]));
 
+		$this->backends[3] = $this->getMock('OCA\Calendar\Db\Backend');
+		$this->backends[3]->expects($this->any())->method('getId')->will($this->returnValue('sharing012'));
 
-	public function testDisabled() {
-		$disabledBackends = $this->backendCollection->disabled();
+		$calendarAPIs[3] = $this->getMock('\OCP\Calendar\ICalendarAPI');
+		$calendarAPIs[3]->expects($this->any())->method('listAll')->will($this->returnValue(['stu', 'vwx']));
 
-		$actual = $disabledBackends->getObjects();
-		$expected = array(
-			$this->backends[1],
-			$this->backends[3]
-		);
+		$this->backends[3]->expects($this->any())->method('getCalendarAPI')->will($this->returnValue($calendarAPIs[3]));
 
-		$this->assertSame($actual, $expected);
-	}
-
-
-	public function testBySubscriptionType() {
-
+		$this->backendCollection = BackendCollection::fromArray($this->backends);
 	}
 
 
@@ -110,11 +83,27 @@ class BackendCollectionTest extends \PHPUnit_Framework_TestCase {
 	}
 
 
-	public function testIsEnabled() {
-		$this->assertTrue($this->backendCollection->isEnabled('database123'));
-		$this->assertTrue($this->backendCollection->isEnabled('webcal789'));
+	public function testGetPrivateUris() {
+		$expected = [
+			'database123' => [
+				'abc', 'def'
+			],
+			'caldav456' => [
+				'ghi', 'jkl'
+			],
+			'webcal789' => [
+				'mno', 'pqr'
+			],
+			'sharing012' => [
+				'stu', 'vwx'
+			]
+		];
 
-		$this->assertFalse($this->backendCollection->isEnabled('caldav456'));
-		$this->assertFalse($this->backendCollection->isEnabled('sharing012'));
+		$this->assertSame($expected, $this->backendCollection->getPrivateUris('test'));
+	}
+
+
+	public function testBySubscriptionType() {
+
 	}
 }

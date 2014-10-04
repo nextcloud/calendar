@@ -62,6 +62,7 @@ class BackendCollection extends Collection implements IBackendCollection {
 
 
 	/**
+	 * get an array of backends with it's private uris
 	 * @param string $userId
 	 * @return array
 	 */

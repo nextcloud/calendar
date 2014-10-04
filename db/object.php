@@ -458,4 +458,19 @@ class Object extends Entity implements IObject {
 		$this->addMandatory('uri');
 		$this->addMandatory('vObject');
 	}
+
+
+	/**
+	 * check if object is valid
+	 * @return bool
+	 */
+	public function isValid() {
+		$typeChecker = parent::isValid();
+		if (!$typeChecker) {
+			return false;
+		}
+
+		$validate = $this->vObject->validate();
+		return empty($validate);
+	}
 }
