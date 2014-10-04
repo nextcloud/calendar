@@ -108,29 +108,33 @@ class Application extends App {
 			$request = $c->query('Request');
 			$cbl = $c->query('CalendarBusinessLayer');
 			$userId = $c->getCoreApi()->getUserId();
+			$timezones = $c->query('TimezoneMapper');
 
-			return new Controller\ObjectController($c, $request, $userId, $cbl, ObjectType::ALL);
+			return new Controller\ObjectController($c, $request, $userId, $cbl, $timezones, ObjectType::ALL);
 		});
 		$this->getContainer()->registerService('EventController', function(IAppContainer $c) {
 			$request = $c->query('Request');
 			$cbl = $c->query('CalendarBusinessLayer');
 			$userId = $c->getCoreApi()->getUserId();
+			$timezones = $c->query('TimezoneMapper');
 
-			return new Controller\ObjectController($c, $request, $userId, $cbl, ObjectType::EVENT);
+			return new Controller\ObjectController($c, $request, $userId, $cbl, $timezones, ObjectType::EVENT);
 		});
 		$this->getContainer()->registerService('JournalController', function(IAppContainer $c) {
 			$request = $c->query('Request');
 			$cbl = $c->query('CalendarBusinessLayer');
 			$userId = $c->getCoreApi()->getUserId();
+			$timezones = $c->query('TimezoneMapper');
 
-			return new Controller\ObjectController($c, $request, $userId, $cbl, ObjectType::JOURNAL);
+			return new Controller\ObjectController($c, $request, $userId, $cbl, $timezones, ObjectType::JOURNAL);
 		});
 		$this->getContainer()->registerService('TodoController', function(IAppContainer $c) {
 			$request = $c->query('Request');
 			$cbl = $c->query('CalendarBusinessLayer');
 			$userId = $c->getCoreApi()->getUserId();
+			$timezones = $c->query('TimezoneMapper');
 
-			return new Controller\ObjectController($c, $request, $userId, $cbl, ObjectType::TODO);
+			return new Controller\ObjectController($c, $request, $userId, $cbl, $timezones, ObjectType::TODO);
 		});
 		$this->getContainer()->registerService('ScanController', function(IAppContainer $c) {
 			$request = $c->query('Request');
