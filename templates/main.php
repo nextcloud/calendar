@@ -22,6 +22,7 @@
  *
  */
 $styles = [
+	'../../../../3rdparty/timepicker/css/jquery.ui.timepicker',
 	'part.datepicker',
 	'part.calendarlist',
 	'part.settings',
@@ -37,6 +38,7 @@ foreach ($styles as $style) {
 }
 
 $scripts = [
+	'../../../../3rdparty/timepicker/js/jquery.ui.timepicker',
 	'../3rdparty/jquery-file-upload/js/jquery.fileupload',
 	'../3rdparty/ical/ical',
 	//'../3rdparty/js/recurrencejs/jquery.recurrenceinput',

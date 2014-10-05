@@ -92,12 +92,12 @@
 		</table>-->
 		<div id="event-time">
 			<div id="event-time-from">
-				<input type="text" value="<?php p($_['startdate']);?>" name="from" id="from" placeholder="<?php p($l->t('from'));?>" />
-				<input type="time" value="<?php p($_['starttime']);?>" name="fromtime" id="fromtime" ng-disabled="alldayeventcheckbox" />
+				<input type="text" value="<?php p($_['startdate']);?>" name="from" id="from" ng-model="fromdatemodel" placeholder="<?php p($l->t('from'));?>" />
+				<input type="time" value="<?php p($_['starttime']);?>" name="fromtime" id="fromtime" ng-model="fromtimemodel" ng-disabled="alldayeventcheckbox" />
 			</div>
 			<div id="event-time-to">
-				<input type="text" value="<?php p($_['enddate']);?>" name="to" id="to" placeholder="<?php p($l->t('to'));?>" />
-				<input type="time" value="<?php p($_['endtime']);?>" name="totime" id="totime" ng-disabled="alldayeventcheckbox" />
+				<input type="text" value="<?php p($_['enddate']);?>" name="to" id="to" ng-model="todatemodel" placeholder="<?php p($l->t('to'));?>" />
+				<input type="time" value="<?php p($_['endtime']);?>" name="totime" id="totime" ng-model="totimemodel" ng-disabled="alldayeventcheckbox" />
 			</div>
 			<div id="action-icons">
 			<!-- TODO: Remove inline styles as soon as Reminders and Alarms are done -->
