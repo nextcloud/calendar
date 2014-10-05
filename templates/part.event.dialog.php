@@ -99,6 +99,11 @@
 				<input type="text" value="<?php p($_['enddate']);?>" name="to" id="to" placeholder="<?php p($l->t('to'));?>" />
 				<input type="time" value="<?php p($_['endtime']);?>" name="totime" id="totime" ng-disabled="alldayeventcheckbox" />
 			</div>
+			<div id="action-icons">
+			<!-- TODO: Remove inline styles as soon as Reminders and Alarms are done -->
+				<span class="fa fa-clock-o fa-2x" style="color:#aaa;"></span>
+				<span class="fa fa-refresh fa-2x" style="color:#aaa;"></span>
+			</div>
 			<div id="allday-event">
 				<input type="checkbox" ng-model="alldayeventcheckbox" name="alldayeventcheckbox" id="alldayeventcheckbox" />
 				<label for="alldayeventcheckbox"><?php p($l->t('All day'))?></label>

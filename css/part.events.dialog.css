@@ -199,8 +199,15 @@
 	margin-top:-3px;
 }
 
+#events-time {
+	height:100px;
+	position: relative;
+}
+
 #event-time-from, #event-time-to {
 	height:40px;
+	float:left;
+	width:100%;
 }
 
 #event-time-from input[type="text"], #event-time-to input[type="text"] {
@@ -212,6 +219,11 @@
 	margin-right: 50px;
 }
 
+#allday-event {
+	float:left;
+	width: 100%;
+}
+
 #allday-event label {
 	margin:5px 0;
 	float:none;
@@ -220,5 +232,16 @@
 #alldayeventcheckbox {
 	float: left;
 	margin:4px;
+}
+
+#action-icons {
+	width: 40px;
+	float: right;
+	position: absolute;
+	right: 10px;
+}
+
+#action-icons span {
+	margin:7px;
 }
 
