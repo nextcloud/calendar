@@ -36,17 +36,17 @@
 			<span>{{ calendar.displayname }}</span>
 		</a>
 		<span class="utils">
-			<span class="action" ng-class="{ disabled: !calendar.cruds.share }">
-				<span
-					id="chooseCalendar-share" 
-					class="share icon-share permanent"
-					data-item-type="calendar"
-					data-item=""
-					data-possible-permissions=""
-					title="Share Calendar"
-					ng-click="share($index,calendar.id)">
-				</span>
+			<span class="action">
+				<?php if ($_['calendar']['permissions'] & OCP\PERMISSION_SHARE) { ?>
+					<span 
+						id="chooseCalendar-share" class="share icon-share permanent"
+						data-item-type="calendar" data-item="<?php p($_['calendar']['id']); ?>"
+						data-possible-permissions="<?php p($_['calendar']['permissions']) ?>"
+						title="<?php p($l->t('Share Calendar')) ?>">
+					</span>
+				<?php } ?>
 			</span>
+
 			<span class="action">
 				<span 
 					id="chooseCalendar-showCalDAVURL"
@@ -83,35 +83,6 @@
 				</span>
 			</span>
 		</span>
-		<fieldset ng-show="sharefieldset == calendar.id" class="sharefieldset">
-			<input type="text"
-				ng-model="sharemodel" placeholder="<?php p($l->t('Share with user or group'))?>"
-				typeahead="shareperson for shareperson in getSharePeople($viewValue)"/>
-			<ul class="sharewithlist">
-				<li data-share-type="" data-share-with="" title="">
-					<!-- Find Better Alternative for Inline Styling Here.-->
-					<a href="#" class="unshare" style="padding: 0 !important;">
-						<img class="svg" alt="Unshare" title="Unshare" src="<?php p(OCP\Util::imagePath('core', 'actions/delete.svg')); ?>" />
-						<strong class="username">Admin</strong>
-					</a>
-					<div class="sharearea">
-						<input type="checkbox" model="shareablemodel" />
-						<label><?php P($l->t('can share')) ?></label>
-						<input type="checkbox" model="editablemodel" />
-						<label><?php P($l->t('can edit')) ?></label>
-						<i class="fa fa-caret-down sharetoggler" ng-click="sharearea2 = !sharearea2"></i>
-						<div class="sharearea-2" ng-show="sharearea2">
-							<input type="checkbox" model="createsharemodel" />
-							<label><?php P($l->t('can create')) ?></label>
-							<input type="checkbox" model="updatesharemodel" />
-							<label><?php P($l->t('can update')) ?></label>
-							<input type="checkbox" model="deletesharemodel" />
-							<label><?php P($l->t('can delete')) ?></label>					
-						</div>
-					</div>
-				</li>
-			</ul>
-		</fieldset>
 		<fieldset ng-show="caldavfieldset" class="caldavURL">
 			<input type="text" ng-model="calDAVmodel" data-id="{{ calendar.id }}" readonly />
 			<button id="chooseCalendar-close" class="primary" ng-click="caldavfieldset = !caldavfieldset;">

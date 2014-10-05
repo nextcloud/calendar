@@ -217,42 +217,6 @@
 	width:80%;
 }
 
-.sharefieldset input[type="text"] {
-	width:80%;
-	margin-left:15px;
-}
-
-.sharewithlist {
-	padding: 0px;
-	display: initial;
-}
-
-.sharewithlist li {
-	padding: 0 25px;
-}
-
-.sharewithlist li a.unshare strong {
-	width: 100%;
-}
-
-.sharewithlist li a {
-	float: left;
-}
-
-.sharewithlist li a img[alt="Unshare"] {
-	float: left;
-	margin: 15px;
-}
-
-.sharewithlist .sharetoggler {
-	cursor: pointer;
-}
-
-.sharewithlist .sharearea-2 {
-	margin-left: -22px;
-	margin-right: -25px;
-}
-
 .calendartype, .buttongroups {
 	float:left;
 	display:block;
