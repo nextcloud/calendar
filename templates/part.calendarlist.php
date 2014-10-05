@@ -37,14 +37,12 @@
 		</a>
 		<span class="utils">
 			<span class="action">
-				<?php if ($_['calendar']['permissions'] & OCP\PERMISSION_SHARE) { ?>
-					<span 
-						id="chooseCalendar-share" class="share icon-share permanent"
-						data-item-type="calendar" data-item="<?php p($_['calendar']['id']); ?>"
-						data-possible-permissions="<?php p($_['calendar']['permissions']) ?>"
-						title="<?php p($l->t('Share Calendar')) ?>">
-					</span>
-				<?php } ?>
+				<span
+					ng-if="calendar.cruds.share"
+					class="share icon-share permanent"
+					data-item-type="calendar" data-item="{{ calendar.id }}"
+					data-possible-permissions="{{ calendar.cruds.code }}"
+					title="<?php p($l->t('Share Calendar')) ?>"></span>
 			</span>
 
 			<span class="action">
