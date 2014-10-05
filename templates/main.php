@@ -22,7 +22,6 @@
  *
  */
 $styles = [
-	'../../../../3rdparty/timepicker/css/jquery.ui.timepicker',
 	'part.datepicker',
 	'part.calendarlist',
 	'part.settings',
@@ -36,9 +35,9 @@ $styles = [
 foreach ($styles as $style) {
 	style('calendar', $style);
 }
+\OCP\Util::addStyle('3rdparty/timepicker', 'jquery.ui.timepicker');
 
 $scripts = [
-	'../../../../3rdparty/timepicker/js/jquery.ui.timepicker',
 	'../3rdparty/jquery-file-upload/js/jquery.fileupload',
 	'../3rdparty/ical/ical',
 	//'../3rdparty/js/recurrencejs/jquery.recurrenceinput',
@@ -59,6 +58,7 @@ $scripts = [
 foreach ($scripts as $script) {
 	script('calendar', $script);
 }
+\OCP\Util::addScript('3rdparty/timepicker', 'jquery.ui.timepicker');
 ?>
 <div class="app" ng-app="Calendar" ng-controller="AppController">
 
