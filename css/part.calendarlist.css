@@ -248,6 +248,11 @@
 	cursor: pointer;
 }
 
+.sharewithlist .sharearea-2 {
+	margin-left: -22px;
+	margin-right: -25px;
+}
+
 .calendartype, .buttongroups {
 	float:left;
 	display:block;

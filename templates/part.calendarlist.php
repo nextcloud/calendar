@@ -100,9 +100,11 @@
 						<input type="checkbox" model="editablemodel" />
 						<label><?php P($l->t('can edit')) ?></label>
 						<i class="fa fa-caret-down sharetoggler" ng-click="sharearea2 = !sharearea2"></i>
-						<div class"sharearea-2" ng-show="sharearea2">
+						<div class="sharearea-2" ng-show="sharearea2">
 							<input type="checkbox" model="createsharemodel" />
 							<label><?php P($l->t('can create')) ?></label>
+							<input type="checkbox" model="updatesharemodel" />
+							<label><?php P($l->t('can update')) ?></label>
 							<input type="checkbox" model="deletesharemodel" />
 							<label><?php P($l->t('can delete')) ?></label>					
 						</div>
