@@ -29,7 +29,7 @@
 	ok-callback="handleOk"
 	cancel-button="Cancel"
 	cancel-callback="handleCancel"
-	ng-init="advancedoptions = true;">
+	ng-init="advancedoptions = true; alldayeventcheckbox=true;">
 	<fieldset>
 		<input ng-model="properties.title" ng-maxlength="100" type="text" id="event-title"
 			placeholder="<?php p($l->t('Title of the Event'));?>" name="title" autofocus="autofocus" />
@@ -90,6 +90,20 @@
 				</tr>
 			</tbody>
 		</table>-->
+		<div id="event-time">
+			<div id="event-time-from">
+				<input type="text" value="<?php p($_['startdate']);?>" name="from" id="from" placeholder="<?php p($l->t('from'));?>" />
+				<input type="time" value="<?php p($_['starttime']);?>" name="fromtime" id="fromtime" ng-disabled="alldayeventcheckbox" />
+			</div>
+			<div id="event-time-to">
+				<input type="text" value="<?php p($_['enddate']);?>" name="to" id="to" placeholder="<?php p($l->t('to'));?>" />
+				<input type="time" value="<?php p($_['endtime']);?>" name="totime" id="totime" ng-disabled="alldayeventcheckbox" />
+			</div>
+			<div id="allday-event">
+				<input type="checkbox" ng-model="alldayeventcheckbox" name="alldayeventcheckbox" id="alldayeventcheckbox" />
+				<label for="alldayeventcheckbox"><?php p($l->t('All day'))?></label>
+			</div>
+		</div>
 		<div class="remindercontainer">
 			<label class="bold"><?php p($l->t('Reminder')); ?></label>
 			<select class="reminderselect"

@@ -199,3 +199,26 @@
 	margin-top:-3px;
 }
 
+#event-time-from, #event-time-to {
+	height:40px;
+}
+
+#event-time-from input[type="text"], #event-time-to input[type="text"] {
+	margin-top:4px;
+}
+
+#event-time-from input[type="time"], #event-time-to input[type="time"] {
+	float:right;
+	margin-right: 50px;
+}
+
+#allday-event label {
+	margin:5px 0;
+	float:none;
+}
+
+#alldayeventcheckbox {
+	float: left;
+	margin:4px;
+}
+
