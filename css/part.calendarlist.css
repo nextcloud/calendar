@@ -59,7 +59,6 @@
 }
 
 #app-navigation ul li:hover a {
-	width: 135px;
 	text-overflow: ellipsis;
 }
 
@@ -243,6 +242,10 @@
 .sharewithlist li a img[alt="Unshare"] {
 	float: left;
 	margin: 15px;
+}
+
+.sharewithlist .sharetoggler {
+	cursor: pointer;
 }
 
 .calendartype, .buttongroups {

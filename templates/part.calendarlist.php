@@ -95,6 +95,17 @@
 						<strong class="username">Admin</strong>
 					</a>
 					<div class="sharearea">
+						<input type="checkbox" model="shareablemodel" />
+						<label><?php P($l->t('can share')) ?></label>
+						<input type="checkbox" model="editablemodel" />
+						<label><?php P($l->t('can edit')) ?></label>
+						<i class="fa fa-caret-down sharetoggler" ng-click="sharearea2 = !sharearea2"></i>
+						<div class"sharearea-2" ng-show="sharearea2">
+							<input type="checkbox" model="createsharemodel" />
+							<label><?php P($l->t('can create')) ?></label>
+							<input type="checkbox" model="deletesharemodel" />
+							<label><?php P($l->t('can delete')) ?></label>					
+						</div>
 					</div>
 				</li>
 			</ul>
