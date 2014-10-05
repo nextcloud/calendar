@@ -212,6 +212,7 @@
 
 #event-time-from input[type="text"], #event-time-to input[type="text"] {
 	margin-top:4px;
+	width:210px;
 }
 
 #event-time-from input[type="time"], #event-time-to input[type="time"] {
@@ -243,5 +244,9 @@
 
 #action-icons span {
 	margin:7px;
+}
+
+.ui-timepicker-hour-cell *, .ui-timepicker-minute-cell *{
+	text-overflow: clip !important;
 }
 
