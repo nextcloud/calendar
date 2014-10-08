@@ -48,11 +48,35 @@ class CalendarTest extends \PHPUnit_Framework_TestCase {
 	 * Initialize the calendar object we are going to test
 	 */
 	protected function setup() {
-		$europeBerlinF = __DIR__ . '/../data/EUROPE-BERLIN.ics';
-		$europeBerlin = file_get_contents($europeBerlinF);
+		$backendMocks = [];
+		$backendMocks[0] = $this->getMock('\OCP\Calendar\IBackend');
+		$backendMocks[0]->expects($this->any())
+			->method('getId')
+			->will($this->returnValue('database123'));
+		$backendMocks[1] = $this->getMock('\OCP\Calendar\IBackend');
+		$backendMocks[1]->expects($this->any())
+			->method('getId')
+			->will($this->returnValue('caldav456'));
+
+		$timezoneMocks = [];
+		$timezoneMocks[0] = $this->getMock('\OCP\Calendar\ITimezone');
+		$timezoneMocks[0]->expects($this->any())
+			->method('getTzId')
+			->will($this->returnValue('Europe/Berlin'));
+		$timezoneMocks[0]->expects($this->any())
+			->method('isValid')
+			->will($this->returnValue(true));
+
+		$timezoneMocks[1] = $this->getMock('\OCP\Calendar\ITimezone');
+		$timezoneMocks[1]->expects($this->any())
+			->method('getTzId')
+			->will($this->returnValue('Europe/London'));
+		$timezoneMocks[1]->expects($this->any())
+			->method('isValid')
+			->will($this->returnValue(true));
 
 		$this->initValues = array(
-			'backend' => 'local',
+			'backend' => $backendMocks[0],
 			'color' => 'rgba(255,255,255,1.0)',
 			'cruds' => Permissions::READ,
 			'components' => ObjectType::EVENT,
@@ -60,22 +84,17 @@ class CalendarTest extends \PHPUnit_Framework_TestCase {
 			'description' => 'Some random description text',
 			'displayname' => 'Random cal',
 			'enabled' => false,
-			'lastPropertiesUpdate' => 1234,
-			'lastObjectUpdate' => 5678,
 			'order' => 10,
 			'ownerId' => 'user123',
-			'timezone' => new Timezone($europeBerlin),
-			'publicuri' => 'test-calendar',
-			'privateuri' => 'another-test-calendar',
+			'timezone' => $timezoneMocks[0],
+			'publicUri' => 'test-calendar',
+			'privateUri' => 'another-test-calendar',
 			'userId' => 'user456',
 			'fileId' => 1,
 		);
 
-		$europeLondonF = __DIR__ . '/../data/EUROPE-BERLIN.ics';
-		$europeLondon = file_get_contents($europeLondonF);
-
 		$this->newValues = array(
-			'backend' => 'caldav',
+			'backend' => $backendMocks[1],
 			'color' => 'rgba(0,0,0,0.8)',
 			'cruds' => Permissions::READ + Permissions::DELETE,
 			'components' => ObjectType::EVENT + ObjectType::TODO,
@@ -83,18 +102,16 @@ class CalendarTest extends \PHPUnit_Framework_TestCase {
 			'description' => 'Another random description text',
 			'displayname' => 'Another cal',
 			'enabled' => true,
-			'lastPropertiesUpdate' => 12341234,
-			'lastObjectUpdate' => 56785678,
 			'order' => 15,
 			'ownerId' => 'user456',
-			'timezone' => new Timezone($europeLondon),
-			'publicuri' => 'test-calendar-2',
-			'privateuri' => 'another-test-calendar-2',
+			'timezone' => $timezoneMocks[1],
+			'publicUri' => 'test-calendar-2',
+			'privateUri' => 'another-test-calendar-2',
 			'userId' => 'user123',
 			'fileId' => 2,
 		);
 
-		$this->calendar = new Calendar($this->initValues);
+		$this->calendar = Calendar::fromParams($this->initValues);
 	}
 
 
@@ -175,22 +192,6 @@ class CalendarTest extends \PHPUnit_Framework_TestCase {
 	}
 
 
-	public function testGetLastPropertiesUpdate() {
-		$expected = $this->initValues['lastPropertiesUpdate'];
-		$actual = $this->calendar->getLastPropertiesUpdate();
-
-		$this->assertSame($expected, $actual);
-	}
-
-
-	public function testGetLastObjectUpdate() {
-		$expected = $this->initValues['lastObjectUpdate'];
-		$actual = $this->calendar->getLastObjectUpdate();
-
-		$this->assertSame($expected, $actual);
-	}
-
-
 	public function testGetOrder() {
 		$expected = $this->initValues['order'];
 		$actual = $this->calendar->getOrder();
@@ -208,7 +209,7 @@ class CalendarTest extends \PHPUnit_Framework_TestCase {
 
 
 	public function testGetPublicUri() {
-		$expected = $this->initValues['publicuri'];
+		$expected = $this->initValues['publicUri'];
 		$actual = $this->calendar->getPublicUri();
 
 		$this->assertSame($expected, $actual);
@@ -216,7 +217,7 @@ class CalendarTest extends \PHPUnit_Framework_TestCase {
 
 
 	public function testGetPrivateUri() {
-		$expected = $this->initValues['privateuri'];
+		$expected = $this->initValues['privateUri'];
 		$actual = $this->calendar->getPrivateUri();
 
 		$this->assertSame($expected, $actual);
@@ -227,7 +228,7 @@ class CalendarTest extends \PHPUnit_Framework_TestCase {
 		$expected = $this->initValues['timezone'];
 		$actual = $this->calendar->getTimezone();
 
-		$this->assertSame((string) $expected, (string) $actual);
+		$this->assertSame($expected->getTzId(), $actual->getTzId());
 	}
 
 
@@ -326,24 +327,6 @@ class CalendarTest extends \PHPUnit_Framework_TestCase {
 	}
 
 
-	public function testSetLastPropertiesUpdate() {
-		$expected = $this->newValues['lastPropertiesUpdate'];
-		$this->calendar->setLastPropertiesUpdate($expected);
-		$actual = $this->calendar->getLastPropertiesUpdate();
-
-		$this->assertSame($expected, $actual);
-	}
-
-
-	public function testSetLastObjectUpdate() {
-		$expected = $this->newValues['lastObjectUpdate'];
-		$this->calendar->setLastObjectUpdate($expected);
-		$actual = $this->calendar->getLastObjectUpdate();
-
-		$this->assertSame($expected, $actual);
-	}
-
-
 	public function testSetOrder() {
 		$expected = $this->newValues['order'];
 		$this->calendar->setOrder($expected);
@@ -372,7 +355,7 @@ class CalendarTest extends \PHPUnit_Framework_TestCase {
 
 
 	public function testSetPublicUri() {
-		$expected = $this->newValues['publicuri'];
+		$expected = $this->newValues['publicUri'];
 		$this->calendar->setPublicUri($expected);
 		$actual = $this->calendar->getPublicUri();
 
@@ -381,7 +364,7 @@ class CalendarTest extends \PHPUnit_Framework_TestCase {
 
 
 	public function testSetPrivateUri() {
-		$expected = $this->newValues['privateuri'];
+		$expected = $this->newValues['privateUri'];
 		$this->calendar->setPrivateUri($expected);
 		$actual = $this->calendar->getPrivateUri();
 
