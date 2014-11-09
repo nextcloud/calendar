@@ -1,0 +1,13 @@
+{
+  "name": "jquery-timepicker",
+  "homepage": "https://github.com/fgelinas/timepicker",
+  "_release": "883bb2cd94",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "883bb2cd94ce65bc2a0a707b0c5911baf6de4ad4"
+  },
+  "_source": "git://github.com/fgelinas/timepicker.git",
+  "_target": "*",
+  "_originalSource": "jquery-timepicker"
+}

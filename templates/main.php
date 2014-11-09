@@ -28,6 +28,7 @@ $styles = [
 	'part.events.dialog',
 	'../3rdparty/fontawesome/css/font-awesome',
 	'../3rdparty/fullcalendar/dist/fullcalendar',
+	'../3rdparty/jquery-timepicker/jquery.ui.timepicker',
 	'../3rdparty/angular-bootstrap-colorpicker/css/colorpicker',
 	'calendar',
 ];
@@ -35,10 +36,10 @@ $styles = [
 foreach ($styles as $style) {
 	style('calendar', $style);
 }
-\OCP\Util::addStyle('3rdparty/timepicker', 'jquery.ui.timepicker');
 
 $scripts = [
 	'../3rdparty/jquery-file-upload/js/jquery.fileupload',
+	'../3rdparty/jquery-timepicker/jquery.ui.timepicker',
 	'../3rdparty/ical/ical',
 	//'../3rdparty/js/recurrencejs/jquery.recurrenceinput',
 	'../3rdparty/jstzdetect/jstz.min',
@@ -58,7 +59,6 @@ $scripts = [
 foreach ($scripts as $script) {
 	script('calendar', $script);
 }
-\OCP\Util::addScript('3rdparty/timepicker', 'jquery.ui.timepicker');
 ?>
 <div class="app" ng-app="Calendar" ng-controller="AppController">
 
