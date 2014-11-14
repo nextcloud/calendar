@@ -1505,15 +1505,18 @@ app.factory('EventsModel', function () {
 						this.components.addSubcomponent(vevents[i]);
 						continue;
 					}
-					this.eventobject = {
-						"calendar":event,
-						"title" : this.vevents[i].getFirstPropertyValue('summary'),
-						"location" : this.vevents[i].getFirstPropertyValue('location'),
-						"categoties" : this.vevents[i].getFirstPropertyValue('category'),
-						"description" : this.vevents[i].getFirstPropertyValue('description')
-					};
+					this.addeventobjectcontent(event,this.vevents[i]);
 				}
 			}
+		},
+		addeventobjectcontent: function (event,vevent) {
+			this.eventobject.push({
+				"calendar":event,
+				"title" : vevent.getFirstPropertyValue('summary'),
+				"location" : vevent.getFirstPropertyValue('location'),
+				"categoties" : vevent.getFirstPropertyValue('category'),
+				"description" : vevent.getFirstPropertyValue('description')
+			});
 		},
 		addattendee: function (attendee) {
 			this.components.removeAllSubcomponents('vevent');
