@@ -44,6 +44,6 @@
     "commit": "6be58f3f1c1083ef52b4e61a985709b489758f35"
   },
   "_source": "git://github.com/blueimp/JavaScript-Templates.git",
-  "_target": ">=2.5.3",
+  "_target": ">=2.5.4",
   "_originalSource": "blueimp-tmpl"
 }
