@@ -109,6 +109,16 @@ app.controller('CalController', ['$scope', 'Restangular', 'CalendarModel', 'Even
 		});
 
 		/**
+		 * Creates a New Calendar Events Dialog
+		 * - only contains the start date and the end date.
+		 */
+
+		$scope.newEvent = function () {
+			DialogModel.initbig('#events');
+			DialogModel.open('#events');
+		};
+
+		/**
 		 * Calendar UI Configuration.
 		*/
 
@@ -118,7 +128,6 @@ app.controller('CalController', ['$scope', 'Restangular', 'CalendarModel', 'Even
 				editable: true,
 				selectable: true,
 				selectHelper: true,
-				select: $scope.newEvent,
 				eventSources: initEventSources,
 				timezone: $scope.defaulttimezone,
 				defaultView: $scope.defaultView,
@@ -128,6 +137,7 @@ app.controller('CalController', ['$scope', 'Restangular', 'CalendarModel', 'Even
 					right: ''
 				},
 				firstDay: angular.element('#firstday').attr('data-firstday'),
+				select: $scope.newEvent,
 				eventClick: function( event, jsEvent, view ) {
 					Restangular.one('calendars', event.calendarId).one('events', event.objectUri).get().then(function (eventsobject) {
 						DialogModel.initbig('#events');
