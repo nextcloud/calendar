@@ -113,7 +113,21 @@ app.controller('CalController', ['$scope', 'Restangular', 'CalendarModel', 'Even
 		 * - only contains the start date and the end date.
 		 */
 
-		$scope.newEvent = function () {
+		$scope.newEvent = function (start, end, jsEvent, view) {
+			console.log(start, end, jsEvent, view);
+			var init = {
+				dtstart: {
+					type: start.hasTime() ? 'datetime' : 'date',
+					date: start.toISOString(),
+					timezone: $scope.defaulttimezone
+				},
+				dtend: {
+					type: end.hasTime() ? 'datetime' : 'date',
+					date: end.toISOString(),
+					timezone: $scope.defaulttimezone
+				}
+			};
+
 			DialogModel.initbig('#events');
 			DialogModel.open('#events');
 		};
