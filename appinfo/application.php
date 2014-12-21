@@ -46,11 +46,12 @@ class Application extends App {
 			if (isset($c['urlParams'])) {
 				$urlParams = $c['urlParams'];
 			} else {
-				$urlParams = array();
+				$urlParams = [];
 			}
 
-			if (\OC::$session->exists('requesttoken')) {
-				$requesttoken = \OC::$session->get('requesttoken');
+			$session = $this->getContainer()->getServer()->getSession();
+			if ($session->exists('requesttoken')) {
+				$requesttoken = $session->get('requesttoken');
 			} else {
 				$requesttoken = false;
 			}
@@ -63,7 +64,7 @@ class Application extends App {
 			}
 
 			return new Request(
-				array(
+				[
 					'get' => $_GET,
 					'post' => $_POST,
 					'files' => $_FILES,
@@ -75,7 +76,7 @@ class Application extends App {
 						: null,
 					'urlParams' => $urlParams,
 					'requesttoken' => $requesttoken,
-				), $stream
+				], $stream
 			);
 		});
 
@@ -84,7 +85,7 @@ class Application extends App {
 		$this->getContainer()->registerService('BackendController', function(IAppContainer $c) {
 			$request = $c->query('Request');
 			$bds = $c->query('Backends');
-			$userId = $c->getCoreApi()->getUserId();
+			$userId = $c->getServer()->getUserSession()->getUser()->getUID();
 
 			return new Controller\BackendController($c, $request, $userId, $bds);
 		});
@@ -92,7 +93,7 @@ class Application extends App {
 			$request = $c->query('Request');
 			$cbl = $c->query('CalendarRequestBusinessLayer');
 			$backends = $c->query('Backends');
-			$userId = $c->getCoreApi()->getUserId();
+			$userId = $c->getServer()->getUserSession()->getUser()->getUID();
 			$timezones = $c->query('TimezoneMapper');
 
 			return new Controller\CalendarController($c, $request, $userId, $cbl, $backends, $timezones);
@@ -100,14 +101,14 @@ class Application extends App {
 		$this->getContainer()->registerService('ContactController', function(IAppContainer $c) {
 			$request = $c->query('Request');
 			$contacts = $c->getServer()->getContactsManager();
-			$userId = $c->getCoreApi()->getUserId();
+			$userId = $c->getServer()->getUserSession()->getUser()->getUID();
 
 			return new Controller\ContactController($c, $request, $userId, $contacts);
 		});
 		$this->getContainer()->registerService('ObjectController', function(IAppContainer $c) {
 			$request = $c->query('Request');
 			$cbl = $c->query('CalendarBusinessLayer');
-			$userId = $c->getCoreApi()->getUserId();
+			$userId = $c->getServer()->getUserSession()->getUser()->getUID();
 			$timezones = $c->query('TimezoneMapper');
 
 			return new Controller\ObjectController($c, $request, $userId, $cbl, $timezones, ObjectType::ALL);
@@ -115,7 +116,7 @@ class Application extends App {
 		$this->getContainer()->registerService('EventController', function(IAppContainer $c) {
 			$request = $c->query('Request');
 			$cbl = $c->query('CalendarBusinessLayer');
-			$userId = $c->getCoreApi()->getUserId();
+			$userId = $c->getServer()->getUserSession()->getUser()->getUID();
 			$timezones = $c->query('TimezoneMapper');
 
 			return new Controller\ObjectController($c, $request, $userId, $cbl, $timezones, ObjectType::EVENT);
@@ -123,7 +124,7 @@ class Application extends App {
 		$this->getContainer()->registerService('JournalController', function(IAppContainer $c) {
 			$request = $c->query('Request');
 			$cbl = $c->query('CalendarBusinessLayer');
-			$userId = $c->getCoreApi()->getUserId();
+			$userId = $c->getServer()->getUserSession()->getUser()->getUID();
 			$timezones = $c->query('TimezoneMapper');
 
 			return new Controller\ObjectController($c, $request, $userId, $cbl, $timezones, ObjectType::JOURNAL);
@@ -131,7 +132,7 @@ class Application extends App {
 		$this->getContainer()->registerService('TodoController', function(IAppContainer $c) {
 			$request = $c->query('Request');
 			$cbl = $c->query('CalendarBusinessLayer');
-			$userId = $c->getCoreApi()->getUserId();
+			$userId = $c->getServer()->getUserSession()->getUser()->getUID();
 			$timezones = $c->query('TimezoneMapper');
 
 			return new Controller\ObjectController($c, $request, $userId, $cbl, $timezones, ObjectType::TODO);
@@ -146,7 +147,7 @@ class Application extends App {
 		$this->getContainer()->registerService('SettingsController', function(IAppContainer $c) {
 			$request = $c->query('Request');
 			$set = $c->query('settings');
-			$userId = $c->getCoreApi()->getUserId();
+			$userId = $c->getServer()->getUserSession()->getUser()->getUID();
 
 			return new Controller\SettingsController($c, $request, $userId, $set);
 		});
@@ -154,20 +155,20 @@ class Application extends App {
 			$request = $c->query('Request');
 			$sbl = $c->query('SubscriptionBusinessLayer');
 			$bds = $c->query('Backends');
-			$userId = $c->getCoreApi()->getUserId();
+			$userId = $c->getServer()->getUserSession()->getUser()->getUID();
 
 			return new Controller\SubscriptionController($c, $request, $userId, $sbl, $bds);
 		});
 		$this->getContainer()->registerService('TimezoneController', function(IAppContainer $c) {
 			$request = $c->query('Request');
 			$tbl = $c->query('TimezoneBusinessLayer');
-			$userId = $c->getCoreApi()->getUserId();
+			$userId = $c->getServer()->getUserSession()->getUser()->getUID();
 
 			return new Controller\TimezoneController($c, $request, $userId, $tbl);
 		});
 		$this->getContainer()->registerService('ViewController', function(IAppContainer $c) {
 			$request = $c->query('Request');
-			$userId = $c->getCoreApi()->getUserId();
+			$userId = $c->getServer()->getUserSession()->getUser()->getUID();
 
 			return new Controller\ViewController($c, $request, $userId);
 		});
@@ -274,15 +275,15 @@ class Application extends App {
 		Backend\Manager::register(Db\Backend::fromParams([
 			'id' => 'org.ownCloud.contact',
 			'backendAPI' => function() {
-				$contacts = $this->getContainer()->getServer()->getContactsManager();
+				$contacts = new \OCA\Contacts\App();
 				return new Backend\Contact\Backend($contacts);
 			},
 			'calendarAPI' => function(IBackend $backend) {
-				$contacts = $this->getContainer()->getServer()->getContactsManager();
+				$contacts = new \OCA\Contacts\App();
 				return new Backend\Contact\Calendar($contacts, $backend);
 			},
 			'objectAPI' => function(ICalendar $calendar) {
-				$contacts = $this->getContainer()->getServer()->getContactsManager();
+				$contacts = new \OCA\Contacts\App();
 				return new Backend\Contact\Object($contacts, $calendar);
 			}
 		]));
