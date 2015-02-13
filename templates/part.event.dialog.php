@@ -47,68 +47,33 @@
 			typeahead="location for location in getLocation($viewValue)"
 			autocomplete="off" />
 	</fieldset>
-	<fieldset>
-		<!--<table>
-			<thead></thead>
-			<tbody>
-				<tr>
-					<td>
-						<label class="bold" for="alldayeventcheckbox"><?php p($l->t('All day')); ?></label>
-					</td>
-					<td>
-						<input type="checkbox" ng-model="alldayeventcheckbox" name="alldayeventcheckbox" id="alldayeventcheckbox" />
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<label class="bold"><?php p($l->t('from')); ?></label>
-					</td>
-					<td>
-						<timepicker id="fromdaytimepicker" style="width:100px;"
-							ng-model="fromdaymodel" 
-							ng-change="changedfromday()"
-							hour-step="1"
-							minute-step="15"
-							show-meridian="false">
-						</timepicker>
-						<input type="time" ng-model="fromtimemodel" />
-					</td>					
-				</tr>
-				<tr>
-					<td>
-						<label class="bold"><?php p($l->t('to')); ?></label>
-					</td>
-					<td>
-						<timepicker id="todaytimepicker" ng-model="todaymodel" 
-							ng-change="changedtoday()"
-							hour-step="1"
-							minute-step="15"
-							show-meridian="false">
-						</timepicker>
-						<input type="time" ng-mode="totimemodel" />
-					</td>					
-				</tr>
-			</tbody>
-		</table>-->
-		<div id="event-time">
-			<div id="event-time-from">
-				<input type="text" value="<?php p($_['startdate']);?>" name="from" id="from" ng-model="fromdatemodel" placeholder="<?php p($l->t('from'));?>" />
-				<input type="time" value="<?php p($_['starttime']);?>" name="fromtime" id="fromtime" ng-model="fromtimemodel" ng-disabled="alldayeventcheckbox;" />
-			</div>
-			<div id="event-time-to">
-				<input type="text" value="<?php p($_['enddate']);?>" name="to" id="to" ng-model="todatemodel" placeholder="<?php p($l->t('to'));?>" />
-				<input type="time" value="<?php p($_['endtime']);?>" name="totime" id="totime" ng-model="totimemodel" ng-disabled="alldayeventcheckbox;" />
-			</div>
-			<div id="action-icons">
-			<!-- TODO: Remove inline styles as soon as Reminders and Alarms are done -->
-				<span class="fa fa-clock-o fa-2x" style="color:#aaa;"></span>
-				<span class="fa fa-refresh fa-2x" style="color:#aaa;"></span>
-			</div>
-			<div id="allday-event">
-				<input type="checkbox" ng-model="alldayeventcheckbox" name="alldayeventcheckbox" id="alldayeventcheckbox" />
-				<label for="alldayeventcheckbox"><?php p($l->t('All day'))?></label>
-			</div>
+	<div id="event-time">
+		<div id="event-time-from">
+			<input type="text" value="<?php p($_['startdate']);?>" name="from" id="from" ng-model="fromdatemodel" placeholder="<?php p($l->t('from'));?>" />
+			<input type="time" value="<?php p($_['starttime']);?>" name="fromtime" id="fromtime" ng-model="fromtimemodel" ng-disabled="alldayeventcheckbox;" />
 		</div>
+		<div id="event-time-to">
+			<input type="text" value="<?php p($_['enddate']);?>" name="to" id="to" ng-model="todatemodel" placeholder="<?php p($l->t('to'));?>" />
+			<input type="time" value="<?php p($_['endtime']);?>" name="totime" id="totime" ng-model="totimemodel" ng-disabled="alldayeventcheckbox;" />
+		</div>
+		<div id="action-icons">
+		<!-- TODO: Remove inline styles as soon as Reminders and Alarms are done -->
+			<span class="fa fa-clock-o fa-2x" style="color:#aaa;"></span>
+			<span class="fa fa-refresh fa-2x" style="color:#aaa;"></span>
+		</div>
+		<div id="allday-event">
+			<input type="checkbox" ng-model="alldayeventcheckbox" name="alldayeventcheckbox" id="alldayeventcheckbox" />
+			<label for="alldayeventcheckbox"><?php p($l->t('All day'))?></label>
+		</div>
+	</div>
+
+
+	<fieldset ng-click="togglereminderarea = !togglereminderarea" class="headingfieldset">
+		<h3><?php p($l->t('Reminders')); ?></h3>
+	</fieldset>
+	
+	
+	<fieldset ng-show="togglereminderarea">
 		<div class="remindercontainer">
 			<label class="bold"><?php p($l->t('Reminder')); ?></label>
 			<select class="reminderselect"
@@ -116,33 +81,28 @@
 				ng-selected="selectedreminder"
 				ng-change="changereminder(selectedreminder)"
 				ng-options="reminder.displayname for reminder in reminderSelect">
-		</select>
-		<div class="remindercontainer" ng-show="booyah">
-			<input type="email" ng-model="reminderemail" placeholder="<?php p($l->t('Email id')); ?>" />
-		</div>
+			</select>
+			<div class="remindercontainer" ng-show="booyah">
+				<input type="email" ng-model="reminderemail" placeholder="<?php p($l->t('Email id')); ?>" />
+			</div>
 		
-		<ul id="listofreminders">
-			<li ng-repeat="alarm in properties.alarms">
-				<span>{{ alarm.TRIGGER.value.displayname }}</span>
-			</li>
-		</ul>
-		<button id="addmorereminders" ng-click="addmorereminders()" class="btn">
-			<?php p($l->t('Add')); ?>
-		</button>
+			<ul id="listofreminders">
+				<li ng-repeat="alarm in properties.alarms">
+					<span>{{ alarm.TRIGGER.value.displayname }}</span>
+				</li>
+			</ul>
+			<button id="addmorereminders" ng-click="addmorereminders()" class="btn">
+				<?php p($l->t('Add')); ?>
+			</button>
 		</div>
 	</fieldset>
-	<fieldset>
-		<input ng-model="properties.categories" type="text" id="event-categories"
-			placeholder="<?php p($l->t('Separate Categories with comma'));?>" name="categories" />
-	</fieldset>
-	<fieldset>
-		<textarea ng-model="properties.description" type="text" id="event-description"
-			placeholder="<?php p($l->t('Description'));?>" name="description">
-		</textarea>
-	</fieldset>
+
+
 	<fieldset ng-click="toggleattendeearea = !toggleattendeearea" class="headingfieldset">
 		<h3><?php p($l->t('Attendees')); ?></h3>
 	</fieldset>
+
+
 	<fieldset ng-show="toggleattendeearea">
 		<div id="attendeearea">
 			<label class="bold"><?php p($l->t('Name/Email')); ?></label>
@@ -202,6 +162,22 @@
 			</li>
 		</ul>
 	</fieldset>
+
+
+	<fieldset ng-click="toggleotherarea = !toggleotherarea" class="headingfieldset">
+		<h3><?php p($l->t('Others')); ?></h3>
+	</fieldset>
+
+
+	<fieldset ng-show="toggleotherarea">
+		<input ng-model="properties.categories" type="text" id="event-categories"
+			placeholder="<?php p($l->t('Separate Categories with comma'));?>" name="categories" />
+		<textarea ng-model="properties.description" type="text" id="event-description"
+			placeholder="<?php p($l->t('Description'));?>" name="description">
+		</textarea>
+	</fieldset>
+
+	
 	<fieldset>
 		<button id="eventupdatebutton" ng-click="update()" class="btn primary">
 			<?php p($l->t('Update')); ?>

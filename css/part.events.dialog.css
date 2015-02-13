@@ -181,6 +181,19 @@
 #events .headingfieldset {
 	background:#ddd;
 	border-radius:4px;
+	margin-bottom: 2px;
+	-webkit-transition: 0.1s ease 0.1s;
+	-moz-transition: 0.1s ease 0.1s;
+	transition: 0.1s ease 0.1s;
+}
+
+#events .headingfieldset:hover {
+	background:#ccc;
+	border-radius:4px;
+	margin: 2px 0;
+	-webkit-transition: 0.1s ease 0.1s;
+	-moz-transition: 0.1s ease 0.1s;
+	transition: 0.1s ease 0.1s;
 }
 
 #events fieldset ul.dropdown-menu li {
