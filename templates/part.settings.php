@@ -39,30 +39,6 @@
 	<fieldset class="personalblock">
 		<ul>
 			<li>
-				<label for="timeformat" class="bold"><?php p($l->t('Time format')); ?></label>
-				<select
-					id="timeformat" name="timeformat"
-					title="<?php p("timeformat"); ?>"
-					ng-model="selectedtime"
-					ng-selected="selectedtime"
-					ng-change="changetimeformat(selectedtime)"
-					ng-options="timeformat.time for timeformat in timeformatSelect"
-					data-timeFormat="<?php p(OCP\Config::getUserValue(OCP\User::getUser(), 'calendar', 'timeformat', '24')); ?>">
-				</select>
-			</li>
-			<li>
-				<label for="firstday" class="bold"><?php p($l->t('Start week on')); ?></label>
-				<select
-					id="firstday" name="firstday"
-					title="<?php p("First day"); ?>"
-					ng-model="selectedday"
-					ng-selected="selectedday"
-					ng-change="changefirstday(selectedday)"
-					ng-options="firstday.day for firstday in firstdaySelect"
-					data-firstDay="<?php p(OCP\Config::getUserValue(OCP\User::getUser(), 'calendar', 'firstday', '1')); ?>">
-				</select>
-			</li>
-			<li>
 				<label class="bold"><?php p($l->t('Show in Calendar')); ?></label>
 				<select id="hiddencalendar" name="hiddencalendar"
 					ng-model="hiddencalendar"

@@ -720,8 +720,6 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'Ca
 	function ($scope, $rootScope, Restangular, CalendarModel, UploadModel, DialogModel) {
 
 		$scope.files = [];
-		var firstdayResource = Restangular.one('firstDay');
-		var timeformatResource = Restangular.one('timeFormat');
 
 		// have to use the native HTML call for filereader to work efficiently
 		var importinput = document.getElementById('import');
@@ -768,54 +766,11 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'Ca
 
 		$scope.calendars = CalendarModel.getAll();
 
-		// Time Format Dropdown
-		$scope.timeformatSelect = [
-			{ time: t('calendar', '24h'), val: '24' },
-			{ time: t('calendar', '12h'), val: 'ampm' }
-		];
-
-		for (var i=0; i<$scope.timeformatSelect.length; i++) {
-			if (angular.element('#timeformat').attr('data-timeFormat') == $scope.timeformatSelect[i].val) {
-				$scope.selectedtime = $scope.timeformatSelect[i];
-			}
-		}
-
-		// First Day Dropdown
-		$scope.firstdaySelect = [
-			{ day: t('calendar', 'Monday'), val: '1' },
-			{ day: t('calendar', 'Sunday'), val: '0' },
-			{ day: t('calendar', 'Saturday'), val: '6' }
-		];
-
-		for (var j=0; j<$scope.firstdaySelect.length; j++) {
-			if (angular.element('#firstday').attr('data-firstDay') == $scope.firstdaySelect[j].val) {
-				$scope.selectedday = $scope.firstdaySelect[j];
-			}
-		}
-
 		//to send a patch to add a hidden event again
 		$scope.enableCalendar = function (id) {
 			Restangular.one('calendars', id).patch({ 'components' : {'vevent' : true }});
 		};
 
-		// Changing the first day
-		$scope.changefirstday = function (firstday) {
-			firstdayResource.post(firstday.val).then(function (response) {
-				OC.Notification.show(t('calendar', response.message));
-			}, function (response) {
-				OC.Notification.show(t('calendar', response.data.message));
-			});
-			CalendarModel.pushfirstday(firstday.val);
-		};
-
-		// Changing the time format
-		$scope.changetimeformat = function (timeformat) {
-			timeformatResource.post(timeformat.val).then(function (response) {
-				OC.Notification.show(t('calendar', response.message));
-			}, function (response) {
-				OC.Notification.show(t('calendar', response.data.message));
-			});
-		};
 
 		if ($scope.hiddencalendar === undefined) {
 			angular.element('#hiddencalendar').parent().addClass('hide');
