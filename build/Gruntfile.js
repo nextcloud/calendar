@@ -26,6 +26,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-wrap');
+	grunt.loadNpmTasks('grunt-contrib-sass');
 	grunt.loadNpmTasks('grunt-karma');
 	grunt.loadNpmTasks('grunt-phpunit');
 
@@ -34,7 +35,10 @@ module.exports = function(grunt) {
 		meta: {
 			pkg: grunt.file.readJSON('package.json'),
 			version: '<%= meta.pkg.version %>',
-			production: '../js/public/'
+			buildJS: '../js/app/',
+			productionJS: '../js/public/',
+			buildCSS: '../sass/',
+			productionCSS: '../css/'
 		},
 
 		concat: {
@@ -44,15 +48,15 @@ module.exports = function(grunt) {
 			dist: {
 				src: [
 					'../js/config/app.js',
-					'../js/app/**/*.js'
+					'<%= meta.buildJS %>/**/*.js'
 				],
-				dest: '<%= meta.production %>app.js'
+				dest: '<%= meta.productionJS %>app.js'
 			}
 		},
 
 		wrap: {
 			app: {
-				src: ['<%= meta.production %>app.js'],
+				src: ['<%= meta.productionJS %>app.js'],
 				dest: '',
 				wrapper: [
 					'(function(angular, $, oc_requesttoken, undefined){\n\n\'use strict\';\n\n',
@@ -64,13 +68,13 @@ module.exports = function(grunt) {
 		jshint: {
 			files: [
 				'Gruntfile.js',
-				'../js/app/**/*.js',
+				'<%= meta.buildJS %>**/*.js',
 				'../js/config/*.js',
 				'../tests/js/unit/**/*.js',
-				'../js/public/app.js'
+				'<%= meta.productionJS %>app.js'
 			],
 			exclude: [
-				'../js/public/app.js'
+				'<%= meta.productionJS %>app.js'
 			],
 			options: {
 				// options here to override JSHint defaults
@@ -81,14 +85,26 @@ module.exports = function(grunt) {
 			}
 		},
 
-		watch: {
+		sass: {
+			dist: {
+				files: {
+					'<%= meta.productionCSS %>main.css': '<%= meta.buildCSS %>base.scss'
+				},
+				options: {
+					style: 'nested',
+					sourcemap: 'none'
+				}
+			},
+		},
 
+		watch: {
 			concat: {
 				files: [
-					'../js/app/**/*.js',
-					'../js/config/*.js'
+					'<%= meta.buildJS %>**/*.js',
+					'../js/config/*.js',
+					'<%= meta.buildCSS %>**/*.scss'
 				],
-				tasks: ['build']
+				tasks: ['build', 'sass']
 			}
 		},
 

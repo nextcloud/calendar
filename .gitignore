@@ -57,6 +57,8 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+### Sass ###
+build/.sass-cache/
 
 ### Composer ###
 composer.phar

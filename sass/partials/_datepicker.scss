@@ -1,0 +1,85 @@
+#datepicker {
+  .datepicker_left, .datepicker_right {
+    height: 34px;
+    width: 34px;
+    margin: 6px 0px 0px;
+    margin: 6px 0px 0px;
+    font-weight: normal;
+  }
+  .datepicker_left {
+    border-radius: 3px 0px 0px 3px;
+  }
+  .datepicker_right {
+    border-radius: 0px 3px 3px 0px;
+  }
+}
+
+.datepicker_current {
+  float: left;
+  width: 170px;
+  height: 26px;
+  margin-top: 6px;
+  padding-top: 6px;
+  background-color: #FFF;
+  border: 1px solid rgba(190, 190, 190, 0.9);
+  border-left: 0;
+  border-right: 0;
+  color: #555;
+  font-weight: bold;
+  text-align: center;
+  overflow: hidden;
+  cursor: pointer;
+  &:hover {
+    background-color: rgba(245, 245, 245, 0.9);
+  }
+}
+
+#datepicker {
+  .days {
+    color: rgb(85, 85, 85);
+    text-align: center;
+    font-weight: normal;
+    border: 0;
+    width: 36px;
+  }
+  .dates {
+    padding: 1px;
+    width: 35px;
+  }
+  .date {
+    border: 1px solid #ddd;
+    font-weight: normal;
+    font-size: 100%;
+    color: #555;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    padding: .2em;
+    text-decoration: none;
+    text-align: center;
+    width: 25px;
+    &.active {
+      border: 1px solid #1d2d44;
+      background: #f8f8f8;
+      font-weight: bold;
+      color: #1d2d44;
+    }
+  }
+  table {
+    display: inline-block;
+    margin-left: 6px;
+    thead {
+      float: left;
+    }
+  }
+}
+
+.pickerbody-show {
+  float: left;
+  width: 238px;
+  padding: 6px 6px 0px 0px;
+}
+
+.pickerbody-hide {
+  display: none;
+}

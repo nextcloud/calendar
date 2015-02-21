@@ -1,0 +1,73 @@
+#primarycaldav, #ioscaldav {
+  width: 90%;
+}
+
+#hiddencalendar {
+  width: 40%;
+}
+
+#app-settings-content .personalblock ul li:hover {
+  background: transparent;
+}
+
+#uploadarea {
+  width: 95%;
+  height: 55px;
+}
+
+#app-settings-content .personalblock ul li ul li span {
+  float: left;
+}
+
+#uploadarea {
+  label {
+    position: absolute;
+    top: 18px;
+  }
+  input[type="file"] {
+    position: absolute;
+    right: 71px;
+    top: 6px;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    font-size: 16px;
+    margin-left: 0px;
+    opacity: 0;
+    overflow: hidden;
+    z-index: 20;
+  }
+  li {
+    float: left;
+  }
+}
+
+#uploadicon {
+  float: left;
+  position: absolute;
+  top: 10px;
+  right: 110px;
+  display: block;
+  width: 44px !important;
+  height: 44px;
+  width: 44px;
+  cursor: pointer;
+  z-index: 10;
+  margin: -5px -40px;
+  padding: 0 !important;
+  border: 1px solid rgba(190, 190, 190, 0.9);
+  border-radius: 3px;
+  &:hover {
+    border: 1px solid rgba(190, 190, 190, 1);
+  }
+}
+
+#app-settings-content .personalblock ul li ul li select {
+  float: right;
+  width: 60%;
+}
+
+#importdialog .importbutton {
+  float: right;
+  margin: 5px;
+}

@@ -16,6 +16,7 @@
 		"grunt-contrib-concat": "*",
 		"grunt-contrib-jshint": "*",
 		"grunt-contrib-watch": "*",
+		"grunt-contrib-sass": "*",
 		"grunt-wrap": "*",
 		"grunt-phpunit": "*",
 		"phantomjs": "*",
