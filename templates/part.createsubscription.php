@@ -23,9 +23,11 @@
  */
 ?>
 
-<div>
+<div class="new-entity-container">
+
+
 	<div
-		id="newSubscription"	
+		class="new-entity"	
 		oc-click-slide-toggle="{
 			selector: '.add-new-subscription',
 			hideOnFocusLost: true,
@@ -34,16 +36,21 @@
 		oc-click-focus="{
 			selector: '.add-new-subscription input[ng-model=newSubscriptionUrl]'
 		}">
-		<span><?php p($l->t('New Subscription')); ?></span>
+		<span class="new-entity-title"><?php p($l->t('New Subscription')); ?></span>
 	</div>
-	<fieldset class="personalblock add-new-subscription">
+
+
+
+	<fieldset class="calendarlist-fieldset add-new-subscription hide">
 		<form>
-			<fieldset>
+			<fieldset class="calendarlist-fieldset">
 				<label><?php p($l->t('Url')); ?></label>
-				<input type="text" ng-model="newSubscriptionUrl" autofocus />
+				<input class="calendarlist-input" type="text" ng-model="newSubscriptionUrl" autofocus />
 			</fieldset>
-			<fieldset>
-				<label><?php p($l->t('Backend')); ?></label>
+
+
+			<fieldset class="calendarlist-fieldset">
+				<label class="calendar-label"><?php p($l->t('Backend')); ?></label>
 				<select id="subscription"
 					name="subscription"
 					ng-model="selectedsubscriptionbackendmodel"
@@ -51,6 +58,8 @@
 					ng-selected="selectedsubscriptionbackend.type">
 				</select>
 			</fieldset>
+
+
 			<button
 				ng-click="create(newSubscriptionUrl)"
 				id="submitnewSubscription"

@@ -22,8 +22,9 @@
  *
  */
 ?>
-<ul id="calendarlist">
+<ul class="app-navigation-list calendar-list">
 	<li ng-repeat="calendar in calendars| orderBy:['order'] | eventFilter | calendarFilter"
+		class="app-navigation-list-item"
 		ng-class="{
 			active: calendar.enabled,
 			updating: currentload
@@ -35,36 +36,36 @@
 		<a href="#/" ng-click="triggerCalendarEnable(calendar.id)" data-id="{{ calendar.id }}">
 			<span>{{ calendar.displayname }}</span>
 		</a>
-		<span class="utils">
+		<span class="utils hide">
 			<span class="action">
 				<span
 					ng-if="calendar.cruds.share"
-					class="share icon-share permanent"
+					class="calendarlist-icon share icon-share permanent"
 					data-item-type="calendar" data-item="{{ calendar.id }}"
 					data-possible-permissions="{{ calendar.cruds.code }}"
-					title="<?php p($l->t('Share Calendar')) ?>"></span>
+					title="<?php p($l->t('Share Calendar')) ?>">
+				</span>
 			</span>
 
 			<span class="action">
 				<span 
-					id="chooseCalendar-showCalDAVURL"
+					class="calendarlist-icon caldav permanent icon-public"
 					data-user="{{ calendar.ownwerid }}"
 					data-caldav=""
 					title="CalDav Link"
-					class="icon-public permanent"
 					ng-click="caldavfieldset = !caldavfieldset; toggleCalDAV($index,calendar.uri,calendar.id)">
 				</span>
 			</span>
 			<span class="action">
 				<span
-					id="chooseCalendar-download"
+					id="calendarlist-icon download"
 					title="Download"
 					class="icon-download"
 					ng-click="download(calendar.id)">
 				</span>
 			</span>
 			<span class="action">
-				<span id="chooseCalendar-edit"
+				<span id="calendarlist-icon edit"
 					data-id="{{ calendar.uri }}"
 					title="Edit"
 					class="icon-rename"
@@ -73,7 +74,7 @@
 			</span>
 			<span class="action">
 				<span href="#"
-					id="chooseCalendar-delete"
+					id="calendarlist-icon delete"
 					data-id="{{ calendar.uri }}"
 					title="Delete"
 					class="icon-delete"
@@ -82,13 +83,13 @@
 			</span>
 		</span>
 		<fieldset ng-show="caldavfieldset" class="caldavURL">
-			<input type="text" ng-model="calDAVmodel" data-id="{{ calendar.id }}" readonly />
+			<input class="app-navigation-input" type="text" ng-model="calDAVmodel" data-id="{{ calendar.id }}" readonly />
 			<button id="chooseCalendar-close" class="primary" ng-click="caldavfieldset = !caldavfieldset;">
 				<span class="icon-view-previous"></span>
 			</button>
 		</fieldset>
 		<fieldset ng-show="editfieldset == calendar.id" class="editfieldset">
-			<input type="text" ng-model="editmodel" data-id="{{ calendar.id }}" />
+			<input class="app-navigation-input" type="text" ng-model="editmodel" data-id="{{ calendar.id }}" />
 			<button 
 				colorpicker="rgba" colorpicker-position="top" 
 				ng-model="editcolor"
@@ -96,12 +97,12 @@
 				style="background:{{ calendar.color }}">
 			</button>
 			<div class="calendartype">
-				<input type="checkbox" ng-model="vevent" />
-				<label><?php p($l->t('Event')); ?></label>
-				<input type="checkbox" ng-model="vjournal" />
-				<label><?php p($l->t('Journal')); ?></label>
-				<input type="checkbox" ng-model="vtodo" />
-				<label><?php p($l->t('Todo')); ?></label>
+				<input class="app-navigation-checkbox" type="checkbox" ng-model="vevent" />
+				<label class="label"><?php p($l->t('Event')); ?></label>
+				<input class="app-navigation-checkbox" type="checkbox" ng-model="vjournal" />
+				<label class="label"><?php p($l->t('Journal')); ?></label>
+				<input class="app-navigation-checkbox" type="checkbox" ng-model="vtodo" />
+				<label class="label"><?php p($l->t('Todo')); ?></label>
 			</div>
 			<div class="buttongroups">
 				<button

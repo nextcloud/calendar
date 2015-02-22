@@ -23,7 +23,7 @@
  */
 ?>
 
-<ul id="subscriptionlist">
+<ul class="app-navigation-list subscription-list">
 	<li ng-repeat="calendar in calendars | orderBy:['order'] | eventFilter | subscriptionFilter"
 		ng-class="{
 			active: calendar.enabled,
@@ -49,7 +49,7 @@
 			</span>
 			<span class="action">
 				<span 
-					id="chooseCalendar-showCalDAVURL"
+					class="chooseCalendar-showCalDAVURL"
 					data-user="{{ calendar.ownwerid }}"
 					data-caldav=""
 					title="CalDav Link"
@@ -59,14 +59,14 @@
 			</span>
 			<span class="action">
 				<span
-					id="chooseCalendar-download"
+					class="calendarlist-icon download"
 					title="Download"
 					class="icon-download"
 					ng-click="download(calendar.id)">
 				</span>
 			</span>
 			<span class="action">
-				<span id="chooseCalendar-edit"
+				<span class="calendarlist-icon edit"
 					data-id="{{ calendar.uri }}"
 					title="Edit"
 					class="icon-rename">
@@ -74,7 +74,7 @@
 			</span>
 			<span class="action">
 				<span href="#"
-					id="chooseCalendar-delete"
+					class="calendarlist-icon delete"
 					data-id="{{ calendar.uri }}"
 					title="Delete"
 					class="icon-delete"
@@ -83,7 +83,7 @@
 			</span>
 		</span>
 		<fieldset ng-show="caldavfieldset" class="caldavURL">
-			<input type="text" ng-model="calDAVmodel" data-id="{{ calendar.id }}" readonly />
+			<input class="app-navigation-input" type="text" ng-model="calDAVmodel" data-id="{{ calendar.id }}" readonly />
 			<button id="chooseCalendar-close" class="primary" ng-click="caldavfieldset = !caldavfieldset;">
 				<span class="icon-view-previous"></span>
 			</button>

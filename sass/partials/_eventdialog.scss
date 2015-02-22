@@ -1,237 +1,133 @@
 #dialoghider {
-  display: none;
+  @extend .hide;
 }
 
 #events {
-  label {
-    margin: 10px;
-    float: left;
-    text-align: right;
-    width: 80px;
-  }
-  h3 {
-    margin: 10px;
-    font-size: 20px;
-  }
-}
 
-#eventupdatebutton, #addmorereminders {
-  float: right;
-}
+	.event-input {
+		box-sizing: border-box;
+		width: 100%;
+		margin: $fives 0 !important;
 
-#addmoreattendees {
-  float: left;
-  margin-left: 10px;
-}
+		&.event-textarea {
+			max-width: 467px; /*Custom*/
+			max-height: $hundreds;
+		}
+	}
 
-#attendeearea .event-attendees-name {
-  width: 60% !important;
-  float: left;
-  margin-left: 16px;
-}
+	.calendarCheckbox {
+		margin-top: 2*$fives;
+	}
 
-#listofattendees, #listofreminders {
-  float: left;
-  margin: 10px;
-  width: 100%;
-}
+	.event-label {
+		margin: 2*$fives;
+		width: 0.8*$hundreds;
+		@extend .pull-left;
+	}
 
-#listofattendees li, #listofreminders li {
-  padding: 5px 0;
-  margin-right: 12px;
-}
+	.event-select {
+		width: auto;
+		margin: 3px 0;
+		@extend .pull-right;
+	}
 
-#listofattendees li:hover {
-  background: #ddd;
-}
+	.event-fieldset {
+		position: relative;
 
-#listofreminders li {
-  &:hover {
-    background: #ddd;
-  }
-  span {
-    margin-left: 8px;
-  }
-}
+		.event-fieldset-interior {
+			display: block;
+			width: 100%;
+			@extend .pull-left;
+		}
 
-#events {
-  .calendarCheckbox {
-    margin-top: 12px;
-  }
-  textarea {
-    max-width: 467px;
-    max-height: 100px;
-  }
-  table tr:hover {
-    background-color: transparent;
-  }
-}
+		.event-button {
+			@extend .pull-right;
+		}
 
-#event-title, #event-location, #event-categories, #event-description {
-  box-sizing: border-box;
-  width: 100%;
-  margin: 3px 0 !important;
-}
+		.event-select-calendardropdown {
+			width:92%;
+		}
 
-#calendardropdown {
-  float: right;
-  width: 92%;
-  margin: 3px 0;
-}
+		&.event-time {
+			height: $hundreds;
+		}
 
-#event-title {
-  font-size: 20px;
-}
+		&.event-fieldset-reminder {
 
-.attendeeoptions {
-  margin: 5px 20px;
-  li {
-    padding: 7px !important;
-    border-radius: 3px;
-    margin-right: 0 !important;
-    &:hover {
-      background: #ddd;
-    }
-  }
-}
+			.event-select-reminder {
+				@extend .pull-right;
+			}
 
-.cutstatselect, .attendeecheckbox {
-  float: right !important;
-}
+			.event-fieldset-interior-remainders {
 
-.cutstatselect {
-  margin: -6px;
-}
+			}
+		}
 
-.attendeecheckbox {
-  margin: 4px !important;
-}
+		&.event-fieldset-attendee {
+			.event-input {
+				width:78%;
+			}
+		}
 
-#events {
-  .action {
-    &.presentcontainer {
-      background-color: #02d63e;
-    }
-    &.absentcontainer {
-      background-color: #db1818;
-    }
-    &.notsurecontainer {
-      background-color: #555;
-    }
-    height: 14px;
-    display: inline-block;
-    width: 14px;
-    float: left;
-    margin: 2px 10px;
-    border: 1px solid #333;
-  }
-  .checkedicon {
-    height: 16px;
-    width: 16px;
-    cursor: pointer;
-    float: left;
-    margin: -1px;
-  }
-  .attendeenotsure {
-    margin: -2px 0 -1px 0;
-    text-align: center;
-    color: #efefef;
-  }
-  .attendeeopener {
-    float: right;
-    margin: 4px;
-    height: 14px;
-    display: inline-block;
-    width: 14px;
-    float: right;
-  }
-  .reminderselect {
-    float: right;
-  }
-}
+		&.event-fieldset-update {
+			.event-button {
+				@extend .pull-right;
+			}
+		}
 
-.alldaycontainer label {
-  float: none !important;
-}
+		.event-time-interior {
+			height: 8*$fives;
+			width: 100%;
+			@extend .pull-left;
 
-#events {
-  .headingfieldset {
-    background: #ddd;
-    border-radius: 4px;
-    margin-bottom: 2px;
-    -webkit-transition: 0.1s ease 0.1s;
-    -moz-transition: 0.1s ease 0.1s;
-    transition: 0.1s ease 0.1s;
-    &:hover {
-      background: #ccc;
-      border-radius: 4px;
-      margin: 2px 0;
-      -webkit-transition: 0.1s ease 0.1s;
-      -moz-transition: 0.1s ease 0.1s;
-      transition: 0.1s ease 0.1s;
-    }
-  }
-  fieldset ul.dropdown-menu li {
-    background: #ddd;
-    padding: 2px 6px;
-    border-bottom: 1px solid #bbb;
-    border-left: 1px solid #bbb;
-    border-right: 1px solid #bbb;
-    &:hover {
-      background: #ccc;
-    }
-    &:first-child {
-      margin-top: -3px;
-    }
-  }
-}
+			.event-input {
+				margin-top: $fives;
+				width: 2.1*$hundreds;
+			}
 
-#events-time {
-  height: 100px;
-  position: relative;
-}
+			.event-button {
+				margin: 6px;
+			}
 
-#event-time-from, #event-time-to {
-  height: 40px;
-  float: left;
-  width: 100%;
-}
+			&.event-time-interior-buttonarea {
+				width: 8*$fives;
+				position: absolute;
+				right: 2*$fives;
+				@extend .pull-right;
+			}
+			
+			&.event-time-interior-allday {
+				width: 100%;
+				@extend .pull-left;
 
-#event-time-from input[type="text"], #event-time-to input[type="text"] {
-  margin-top: 4px;
-  width: 210px;
-}
+				label {
+					margin: $fives 0;
+					float: none;
+				}
+				
+				.event-checkbox {
+					margin: $fives;
+					@extend .pull-left;
+				}
+			}		
+		}
 
-#event-time-from input[type="time"], #event-time-to input[type="time"] {
-  float: right;
-  margin-right: 50px;
-}
+		&.event-fieldset-heading {
+			background: darken($white, 10%);
+			margin-bottom: 2px;
+			cursor: pointer;
+			@include border-radius($fives);
+			@include transition(0.05s,0.05s);
 
-#allday-event {
-  float: left;
-  width: 100%;
-  label {
-    margin: 5px 0;
-    float: none;
-  }
-}
+			h3 {
+				margin: 2*$fives;
+				font-size: 4*$fives;
+			}
 
-#alldayeventcheckbox {
-  float: left;
-  margin: 4px;
+			&:hover {
+				background: darken($white, 20%);
+				@include transition(0.05s,0.05s);
+			}
+		}
+	}
 }
-
-#action-icons {
-  width: 40px;
-  float: right;
-  position: absolute;
-  right: 10px;
-  span {
-    margin: 7px;
-  }
-}
-
-.ui-timepicker-hour-cell *, .ui-timepicker-minute-cell * {
-  text-overflow: clip !important;
-}
-

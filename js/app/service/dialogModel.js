@@ -42,7 +42,7 @@ app.factory('DialogModel', function() {
 		initbig: function (elementId) {
 			$(elementId).dialog({
 				width : 500,
-				height: 450,
+				height: 435,
 				resizable: false,
 				draggable: false,
 				close : function(event, ui) {

@@ -36,40 +36,56 @@
 </div>
 
 <div id="app-settings-content">
-	<fieldset class="personalblock">
-		<ul>
-			<li>
-				<label class="bold"><?php p($l->t('Show in Calendar')); ?></label>
+	<fieldset class="settings-fieldset">
+		<ul class="settings-fieldset-interior">
+
+
+
+			<li class="settings-fieldset-interior-item">
+				<label class="settins-label bold"><?php p($l->t('Show in Calendar')); ?></label>
 				<select id="hiddencalendar" name="hiddencalendar"
+					class="settings-select"
 					ng-model="hiddencalendar"
 					ng-change="enableCalendar(hiddencalendar.id)"
 					ng-options="hiddencalendar.displayname for hiddencalendar in calendars | noteventFilter">
 				</select>
 			</li>
-			<li id="uploadarea">
-				<label class="bold"><?php p($l->t('Import Calendar')); ?></label>
+
+
+
+			<li class="settings-fieldset-interior-item settings-fieldset-interior-upload">
+				<label class="settings-label bold"><?php p($l->t('Import Calendar')); ?></label>
 				<input type="file" name="file" accept="text/calendar" multiple upload modal="importdialog" id="import" />
-				<span href="#" class="svg icon-upload" id="uploadicon"></span>
+				<span href="#" class="svg icon-upload settings-upload"></span>
 				<span ng-show="!files.length" class="hide"><?php p($l->t('No Calendars selected for import')); ?></span>
 			</li>
-			<li>
-				<label class="bold"><?php p($l->t('Primary CalDAV address')); ?></label>
+
+
+
+			<li class="settings-fieldset-interior-item">
+				<label class="settings-input bold"><?php p($l->t('Primary CalDAV address')); ?></label>
 				<input
-					id="primarycaldav"
+					class="input settings-input"
 					type="text"
 					value="<?php print_unescaped(OCP\Util::linkToRemote('caldav')); ?>"
 				/>
 			</li>
-			<li>
-				<label class="bold"><?php p($l->t('iOS/OS X CalDAV address')); ?></label>
+
+
+
+			<li class="settings-fieldset-interior-item">
+				<label class="settings-label bold"><?php p($l->t('iOS/OS X CalDAV address')); ?></label>
 				<input
-					id="ioscaldav"
+					class="input settings-input"
 					type="text"
 					value="<?php print_unescaped(OCP\Util::linkToRemote('caldav')); ?>principals/<?php p(urlencode(OCP\USER::getUser())); ?>/"
 					/>
 			</li>
 		</ul>
 	</fieldset>
+
+
+
 	<div id="importdialog" title="<?php p($l->t("Import Calendars"));?>">
 		<ul>
 			<li ng-repeat="file in files">

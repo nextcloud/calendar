@@ -23,9 +23,11 @@
  *
  */
 ?>
-<div>
+<div class="new-entity-container">
+
+
 	<div
-		id="newCalendar"
+		class="new-entity"
 		oc-click-slide-toggle="{
 			selector: '.add-new',
 			hideOnFocusLost: true,
@@ -34,11 +36,14 @@
 		oc-click-focus="{
 			selector: '.add-new input[ng-model=newCalendarInputVal]'
 		}">
-		<span><?php p($l->t('New Calendar')); ?></span>
+		<span class="new-entity-title"><?php p($l->t('New Calendar')); ?></span>
 	</div>
-	<fieldset class="personalblock add-new">
+
+
+
+	<fieldset class="calendarlist-fieldset add-new hide">
 		<form>
-			<input type="text" ng-model="newCalendarInputVal" autofocus />
+			<input class="app-navigation-input" type="text" ng-model="newCalendarInputVal" autofocus />
 			<button colorpicker="rgba" colorpicker-position="top" ng-model="newcolor" id="newcolorpicker" style="background: {{ newcolor }};"></button>
 			<button
 				ng-click="create(newCalendarInputVal,newcolor)"

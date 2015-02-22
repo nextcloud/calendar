@@ -1,256 +1,181 @@
 #app-navigation {
-  padding-bottom: 0 !important;
-  position: absolute;
-  > ul {
-    height: auto;
-  }
+
+	.app-navigation-input {
+		margin-left: $fives;
+		width: 60%;
+	}
+
+	.calendarlist-fieldset {
+		padding: 0 $fives;
+	}
+
+	.loading {
+		background:transparent;
+		background-image: none;
+	}
+
+	.new-entity {
+		display: block;
+		width: 100%;
+		line-height: $standard-height;
+		padding: 0 5*$fives;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		color: lighten($black, 30%);
+		cursor: pointer;
+		@include border-box;
+
+		.new-entity-title {
+			cursor: pointer;
+
+			&:before {
+				margin-left: -3*$fives;
+				margin-right: $fives;
+				left: $fives;
+				content: '+';
+				font-weight: bold;
+				font-size: 150%;
+			}
+
+			&.new-entity-subscription {
+
+				.calendarlist-input {
+					@extend .pull-right;
+				}
+
+				.calendarlist-select {
+					width: 1.6*$hundreds;
+					@extend .pull-right;
+				}
+			}
+		}
+	}
+
+	.app-navigation-list-item {
+
+		.calendarCheckbox {
+			border: 1px solid $black;
+			cursor: pointer;
+			margin-left: $fives;
+			margin-top: 3*$fives;
+			width: 2*$fives;
+			position: absolute;
+			height: 2*$fives;
+			top: 2px;
+			left: $fives;
+
+			.loadingicon {
+				margin-bottom: -1px;
+				display: inline-block;
+				width: 11px;
+				height: 11px;
+				position: absolute;
+			}
+			
+			&.unchecked {
+				background: rgba(0, 0, 0, 0) !important;
+				border-color: #aaa;
+			}
+		}
+
+		.utils {
+			height: $standard-height;
+			padding: 0 $fives 0 0;
+
+			.action {
+				span {
+					opacity:0.6;
+				}
+			}
+		}
+
+		.active {
+			background: transparent !important; /* Core Override */
+
+			a {
+				background-color:transparent !important; /* Core Override */
+			}
+
+			&:hover {
+				.calendarlist-icon {
+					background-color: transparent !important; /* Core Override */
+				}
+			}
+		}
+
+		> a {
+			padding: 0 25px !important;
+		}
+
+		&:hover {
+			background-color: darken($white, 25%);
+			
+			.utils {
+				display: inline-block;
+				.action {
+					span {
+						display: inline-block;
+						line-height: $standard-height;
+						height: 16px;
+						width: 16px;
+						padding: 14px 2px 14px 2px;
+						cursor: pointer;
+					}
+				}
+				&.active {
+					display: inline-block;
+				}
+
+				> a {
+					background-color:transparent !important;
+				}
+			}
+
+			a {
+				text-overflow: ellipsis;
+			}
+		}
+	}
+
+
+	> ul {
+		height: auto;
+	}
 }
 
-#scrollable {
-  height: 80%;
-  overflow-y: auto;
-}
-
-#app-navigation {
-  #buttonarea {
-    height: 44px;
-  }
-  .utils {
-    display: none;
-    height: 44px;
-    padding: 0 5px 0 0;
-    .action {
-      span {
-        opacity: 0.6;
-      }
-      &:hover span {
-        opacity: 1;
-      }
-    }
-  }
-  ul li:hover {
-    background: #ccc;
-    a {
-      text-overflow: ellipsis;
-    }
-    .utils {
-      display: inline-block;
-      .action span {
-        display: inline-block;
-        line-height: 44px;
-        height: 16px;
-        width: 16px;
-        padding: 14px 2px 14px 2px;
-        cursor: pointer;
-      }
-    }
-  }
-  li {
-    &.active:hover .utils {
-      display: inline-block;
-    }
-    > a {
-      padding: 0 25px !important;
-    }
-  }
-  .active {
-    background-color: transparent !important;
-    a {
-      background-color: transparent !important;
-    }
-  }
-  ul li:hover {
-    background: transparent;
-    > a {
-      background: transparent;
-    }
-  }
-  .loading {
-    background: transparent;
-    background-image: none;
-  }
-  .active:hover {
-    #chooseCalendar-share, #chooseCalendar-showCalDAVURL, #chooseCalendar-download, #chooseCalendar-edit, #chooseCalendar-delete {
-      background-color: transparent !important;
-    }
-  }
-}
-
-/* overrides the App-navigation from core. */
-
-#newCalendar, #newSubscription {
-  display: block;
-  width: 100%;
-  line-height: 44px;
-  padding: 0 25px;
-  overflow: hidden;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  color: #333;
-  cursor: pointer;
-}
-
-#newCalendar span, #newSubscription span {
-  cursor: pointer;
-}
-
-.personalblock {
-  &.add-new, &.add-new-subscription {
-    display: none;
-  }
-}
-
-#newCalendar span:before, #newSubscription span:before {
-  margin-left: -18px;
-  margin-right: 5px;
-  content: '+';
-  font-weight: bold;
-  font-size: 150%;
-  left: 8px;
-}
-
-#newcolorpicker, #editcolorpicker {
-  width: 20px;
-  height: 25px;
-  background: #252e5f;
-  border: none;
-  border-radius: 0px;
-  outline: none;
-  padding: 4px;
-  margin: 0;
-}
-
-.personalblock form {
-  input {
-    margin-left: 3px;
-    width: 60%;
-  }
-  #submitnewCalendar, #submitnewSubscription {
-    width: 25px;
-    margin-bottom: 6px;
-    height: 25px;
-  }
-}
-
-fieldset {
-  #updateCalendar, #chooseCalendar-close {
-    width: 25px;
-    margin-bottom: 6px;
-    height: 25px;
-  }
-}
-
-#chooseCalendar-close span {
-  width: 20px;
-  height: 10px;
-  display: block;
-}
-
-.personalblock form #submitnewSubscription {
-  float: right;
-}
-
-.add-new-subscription form fieldset {
-  margin-left: 10px;
-  margin-right: 10px;
-  input {
-    float: right;
-  }
-  select {
-    width: 160px;
-    float: right;
-  }
-}
-
-.calendarCheckbox {
-  margin-bottom: -1px;
-  display: inline-block;
-  width: 11px;
-  height: 11px;
-  position: absolute;
-}
-
-.loadingicon {
-  margin-bottom: -1px;
-  display: inline-block;
-  width: 11px;
-  height: 11px;
-  position: absolute;
-  margin-top: 11px;
-  margin-left: 7px;
-}
-
-.calendarCheckbox {
-  border-width: 1px;
-  border-style: solid;
-  border-color: black;
-  cursor: pointer;
-  margin-left: 6px;
-  margin-top: 15px;
-}
-
-.editfieldset input[type="text"] {
-  width: 80%;
-}
-
-.calendartype {
-  float: left;
-  display: block;
-  margin: 10px;
-}
-
-.buttongroups {
-  float: left;
-  display: block;
-  margin: 10px;
-  position: absolute;
-  right: 0;
-  bottom: 0;
-}
-
-.calendartype {
-  input[type="checkbox"] {
-    width: 20%;
-  }
-  label {
-    float: right;
-    width: 75%;
-  }
-}
-
-.calendarCheckbox.unchecked {
-  background: rgba(0, 0, 0, 0) !important;
-  border-color: #aaa;
-}
-
-.caldavURL input {
-  width: 80%;
-}
-
-#spacer {
-  height: 44px;
-}
 
 /* ColorPicker overrides. */
 
 .close-colorpicker {
-  padding: 0;
-  position: absolute;
-  right: -15px;
-  top: -11px;
-  background: none;
-  border: 0;
-  margin: 0;
-  &:hover {
-    background: none;
-    color: #222;
-  }
+	padding: 0;
+	position: absolute;
+	right: -15px;
+	top: -11px;
+	background: none;
+	border: 0;
+	margin: 0;
+
+	&:hover {
+		background: none;
+		color: #222;
+	}
 }
 
 .colorpicker {
-  border: 1px solid #ddd;
-  background: #efefef;
-  border-radius: 2px;
+	border: 1px solid #ddd;
+	background: #efefef;
+	border-radius: 2px;
+}
+
+/*scroll issues */
+
+#scrollable {
+	height:80%;
+}
+
+/* Spacing */
+
+#spacer {
+	height: $standard-height;
 }

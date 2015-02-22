@@ -22,12 +22,11 @@
  *
  */
 $styles = [
-	'main',
 	'../3rdparty/fontawesome/css/font-awesome',
 	'../3rdparty/fullcalendar/dist/fullcalendar',
 	'../3rdparty/jquery-timepicker/jquery.ui.timepicker',
 	'../3rdparty/angular-bootstrap-colorpicker/css/colorpicker',
-	'calendar',
+	'main'
 ];
 
 foreach ($styles as $style) {
@@ -92,7 +91,7 @@ foreach ($scripts as $script) {
 	</div>
 
 	<!-- The Event Editor -->
-	<div ng-controller="EventsModalController" id="dialoghider">
+	<div ng-controller="EventsModalController" class="hide">
 		<?php print_unescaped($this->inc('part.event.dialog')); ?>
 	</div>
 </div>

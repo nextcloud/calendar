@@ -1,73 +1,65 @@
-#primarycaldav, #ioscaldav {
-  width: 90%;
-}
+#app-settings {
+	.settings-fieldset {
+		.settings-fieldset-interior {
 
-#hiddencalendar {
-  width: 40%;
-}
+			.settings-input {
+				width: 90%;
+			}
 
-#app-settings-content .personalblock ul li:hover {
-  background: transparent;
-}
+			.settings-select {
+				width: 40%;
+			}
 
-#uploadarea {
-  width: 95%;
-  height: 55px;
-}
+			.settings-fieldset-interior-item {
 
-#app-settings-content .personalblock ul li ul li span {
-  float: left;
-}
+				.settings-upload {
+					position: absolute;
+					top: -2*$fives;
+					right: 0.9*$hundreds;
+					display: block;
+					width: $standard-height !important;
+					height: $standard-height;
+					width: $standard-height;
+					cursor: pointer;
+					z-index: 10;
+					margin: -$fives -8*$fives;
+					padding: 0 !important;
+					border: 1px solid darken($white, 10%);
+					@include border-radius(3px);
+					@extend .pull-right;
 
-#uploadarea {
-  label {
-    position: absolute;
-    top: 18px;
-  }
-  input[type="file"] {
-    position: absolute;
-    right: 71px;
-    top: 6px;
-    width: 44px;
-    height: 44px;
-    padding: 0;
-    font-size: 16px;
-    margin-left: 0px;
-    opacity: 0;
-    overflow: hidden;
-    z-index: 20;
-  }
-  li {
-    float: left;
-  }
-}
+					&:hover {
+						border: 1px solid darken($white, 15%);
+					}
+				}
 
-#uploadicon {
-  float: left;
-  position: absolute;
-  top: 10px;
-  right: 110px;
-  display: block;
-  width: 44px !important;
-  height: 44px;
-  width: 44px;
-  cursor: pointer;
-  z-index: 10;
-  margin: -5px -40px;
-  padding: 0 !important;
-  border: 1px solid rgba(190, 190, 190, 0.9);
-  border-radius: 3px;
-  &:hover {
-    border: 1px solid rgba(190, 190, 190, 1);
-  }
-}
+				&:hover {
+					background: transparent;
+				}
 
-#app-settings-content .personalblock ul li ul li select {
-  float: right;
-  width: 60%;
-}
+				&.settings-fieldset-interior-upload {
+					width: 95%;
+  					height: 11*$fives;
 
-#importdialog .importbutton {
-  float: right;
-  margin: 5px;
+  					.settings-input {
+						position: absolute;
+						top: 18px;
+  					}
+					input[type="file"] {
+						position: absolute;
+						right: 0.5*$hundreds;
+						top: -2*$fives;
+						width: $standard-height;
+						height: $standard-height;
+						padding: 0;
+						font-size: 16px;
+						margin-left: 0px;
+						overflow: hidden;
+						z-index: 20;
+						opacity: 0;
+					}
+				}
+			}
+		}
+	}
 }
