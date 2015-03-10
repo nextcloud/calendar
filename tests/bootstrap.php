@@ -16,9 +16,9 @@ require_once __DIR__ . '/../3rdparty/VObject/includes.php';
 
 // to execute without owncloud, we need to create our own classloader
 spl_autoload_register(function ($className){
-	if(strpos($className, 'OCA\\Calendar\\Utility\\Utility') === 0) {
+	if(strpos($className, 'OCA\\CalendarManager\\Utility\\Utility') === 0) {
 		require_once __DIR__ . '/../utility/utility.php';
-	} elseif(strpos($className, 'OCA\\Calendar\\Utility') === 0) {
+	} elseif(strpos($className, 'OCA\\CalendarManager\\Utility') === 0) {
 		$path = strtolower(str_replace('Utility', '', str_replace('\\', '/', substr($className, 20))) . '.php');
 		$relPath = __DIR__ . '/../utility' . $path;
 
@@ -33,13 +33,13 @@ spl_autoload_register(function ($className){
 		if(file_exists($relPath)){
 			require_once $relPath;
 		}
-	} else if(strpos($className, 'OCP\\Calendar\\IBackendAPI') === 0) {
+	} else if(strpos($className, 'OCP\\CalendarManager\\IBackendAPI') === 0) {
 		require_once __DIR__ . '/../backend/ibackendapi.php';
-	} else if(strpos($className, 'OCP\\Calendar\\ICalendarAPI') === 0) {
+	} else if(strpos($className, 'OCP\\CalendarManager\\ICalendarAPI') === 0) {
 		require_once __DIR__ . '/../backend/icalendarapi.php';
-	} else if(strpos($className, 'OCP\\Calendar\\IObjectAPI') === 0) {
+	} else if(strpos($className, 'OCP\\CalendarManager\\IObjectAPI') === 0) {
 		require_once __DIR__ . '/../backend/iobjectapi.php';
-	} else if(strpos($className, 'OCP\\Calendar') === 0) {
+	} else if(strpos($className, 'OCP\\CalendarManager') === 0) {
 		$path = strtolower(str_replace('\\', '/', substr($className, 12)) . '.php');
 		$relPath = __DIR__ . '/../public' . $path;
 

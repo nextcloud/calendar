@@ -26,6 +26,7 @@ namespace OCA\Calendar\Controller;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Contacts\IManager;
 use OCP\IRequest;
+use OCP\IUserSession;
 
 class ContactController extends Controller {
 
@@ -39,12 +40,12 @@ class ContactController extends Controller {
 	/**
 	 * @param string $appName
 	 * @param IRequest $request an instance of the request
-	 * @param string $userId
+	 * @param IUserSession $userSession
 	 * @param IManager $contacts
 	 */
-	public function __construct($appName, IRequest $request, $userId,
+	public function __construct($appName, IRequest $request, IUserSession $userSession,
 								IManager $contacts) {
-		parent::__construct($appName, $request, $userId);
+		parent::__construct($appName, $request, $userSession);
 		$this->contacts = $contacts;
 	}
 
@@ -57,6 +58,19 @@ class ContactController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	public function searchLocation($location) {
+		$books = $this->contacts->getAddressBooks();
+		foreach($books as $book) {
+		}
+
+
+
+
+
+
+
+
+
+		return;
 		$result = $this->contacts->search($location, ['FN', 'ADR']);
 
 		$contacts = [];

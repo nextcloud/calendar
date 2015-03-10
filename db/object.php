@@ -22,8 +22,8 @@
 namespace OCA\Calendar\Db;
 
 use OCA\Calendar\CorruptDataException;
-use OCP\Calendar\ICalendar;
-use OCP\Calendar\IObject;
+use OCA\Calendar\ICalendar;
+use OCA\Calendar\IObject;
 use OCA\Calendar\Sabre\VObject\Component\VCalendar;
 use OCA\Calendar\Sabre\VObject\Reader;
 use OCA\Calendar\Sabre\VObject\ParseException;
@@ -83,9 +83,13 @@ class Object extends Entity implements IObject {
 	 * @param VCalendar $vcalendar
 	 * @throws CorruptDataException
 	 * @return $this
+	 *
+	 * TODO - make static
 	 */
-	public function fromVObject(VCalendar $vcalendar) {
-		return $this->setVobject($vcalendar);
+	public static function fromVObject(VCalendar $vcalendar) {
+		/** @var Object $instance */
+		$instance = new static();
+		return $instance->setVObject($vcalendar);
 	}
 
 
@@ -307,7 +311,7 @@ class Object extends Entity implements IObject {
 				$msg = 'CalendarData is not actual calendar-data!';
 				throw new CorruptDataException($msg);
 			}
-			return $this->fromVobject($vobject);
+			return $this->setVObject($vobject);
 		} catch(ParseException $ex) {
 			throw new CorruptDataException($ex->getMessage(), $ex->getCode(), $ex);
 		}
@@ -444,7 +448,7 @@ class Object extends Entity implements IObject {
 		$this->addType('ruds', 'integer');
 
 		$this->addAdvancedFieldType('calendar',
-			'OCP\\Calendar\\ICalendar');
+			'OCA\\Calendar\\ICalendar');
 		$this->addAdvancedFieldType('vObject',
 			'OCA\\Calendar\\Sabre\\vobject\\Component\\VCalendar');
 	}

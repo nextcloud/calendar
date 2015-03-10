@@ -23,15 +23,16 @@ namespace OCA\Calendar\Backend\Sharing;
 
 use OCP\AppFramework\Db\DoesNotExistException;
 
-use OCP\Calendar\IBackend;
-use OCP\Calendar\ICalendar;
-use OCP\Calendar\ICalendarAPI;
-use OCP\Calendar\ICalendarCollection;
+use OCA\Calendar\IBackend;
+use OCA\Calendar\ICalendar;
+use OCA\Calendar\ICalendarAPI;
+use OCA\Calendar\ICalendarAPIDelete;
+use OCA\Calendar\ICalendarCollection;
 use OCP\Share;
 
 use OCA\Calendar\Share\Calendar as CalendarShare;
 
-class Calendar extends Sharing implements ICalendarAPI {
+class Calendar extends Sharing implements ICalendarAPI, ICalendarAPIDelete {
 
 	/**
 	 * @var IBackend
@@ -80,5 +81,15 @@ class Calendar extends Sharing implements ICalendarAPI {
 	 */
 	public function listAll($userId) {
 		//return Share::getItemsSharedWithUser('calendar', $userId, CalendarShare::CALENDARLIST);
+	}
+
+
+	/**
+	 * @param string $privateUri
+	 * @param string $userId
+	 * @return boolean
+	 */
+	public function delete($privateUri, $userId) {
+
 	}
 }

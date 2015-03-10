@@ -23,14 +23,19 @@
  */
 namespace OCA\Calendar\Backend\WebCal;
 
-use OCP\Calendar\IObject;
-use OCP\Calendar\IObjectAPI;
-use OCP\Calendar\IObjectCollection;
-use OCP\Calendar\CacheOutDatedException;
+use OCA\Calendar\BusinessLayer\BusinessLayerException;
+use OCA\Calendar\CorruptDataException;
+use OCA\Calendar\Db\ObjectCollection;
+use OCA\Calendar\Sabre\VObject\ParseException;
+use OCA\Calendar\IObject;
+use OCA\Calendar\IObjectAPI;
+use OCA\Calendar\IObjectCollection;
+use OCA\Calendar\CacheOutDatedException;
 
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
-use OCP\Calendar\ObjectType;
+use OCA\Calendar\ObjectType;
+use OCA\Calendar\Sabre\VObject\Splitter\ICalendar as ICalendarSplitter;
 
 class Object extends WebCal implements IObjectAPI {
 
@@ -112,7 +117,7 @@ class Object extends WebCal implements IObjectAPI {
 				$objectCollection->add($object);
 			}
 		} catch(ParseException $ex) {
-			throw new CorruptDataException('Calendar-data is not valid!');
+			throw new CorruptDataException('CalendarManager-data is not valid!');
 		}
 		return $objectCollection;
 	}

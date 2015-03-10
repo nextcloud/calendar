@@ -24,8 +24,8 @@
 namespace OCA\Calendar\Backend\Contact;
 
 use OCA\Calendar\Backend\SubscriptionInvalidException;
-use OCP\Calendar\IBackendAPI;
-use OCP\Calendar\ISubscription;
+use OCA\Calendar\IBackendAPI;
+use OCA\Calendar\ISubscription;
 
 class Backend extends Contact implements IBackendAPI {
 
@@ -34,7 +34,8 @@ class Backend extends Contact implements IBackendAPI {
 	 * @return boolean
 	 */
 	public function canBeEnabled() {
-		return $this->contacts->isEnabled();
+		$addressBooks = $this->contacts->getAddressBooksForUser();
+		return !empty($addressBooks);
 	}
 
 

@@ -1,7 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Timezone changed" => "အချိန်ဇုံပြောင်းလဲသည်",
 "Invalid request" => "တောင်းဆိုချက်မမှန်ကန်ပါ",
-"Calendar" => "ပြက္ခဒိန်",
+"CalendarManager" => "ပြက္ခဒိန်",
 "January" => "ဇန်နဝါရီ",
 "February" => "ဖေဖော်ဝါရီ",
 "March" => "မတ်",
@@ -23,7 +23,7 @@
 "Today" => "ယနေ့",
 "Download" => "ဒေါင်းလုတ်",
 "Edit calendar" => "ပြက္ခဒိန်ကိုပြင်မည်",
-"Calendar color" => "ပြက္ခဒိန်အရောင်",
+"CalendarManager color" => "ပြက္ခဒိန်အရောင်",
 "Submit" => "ထည့်သွင်းမည်",
 "Cancel" => "ပယ်ဖျက်မည်",
 "Edit an event" => "ပွဲကိုပြင်ဆင်မည်",

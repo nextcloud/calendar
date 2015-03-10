@@ -25,6 +25,7 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http;
 use OCP\Config;
 use OCP\IRequest;
+use OCP\IUserSession;
 
 class SettingsController extends Controller {
 
@@ -38,12 +39,12 @@ class SettingsController extends Controller {
 	/**
 	 * @param string $appName
 	 * @param IRequest $request an instance of the request
-	 * @param string $userId
+	 * @param IUserSession $userSession
 	 * @param array $settings
 	 */
-	public function __construct($appName, IRequest $request, $userId,
+	public function __construct($appName, IRequest $request, IUserSession $userSession,
 								array $settings) {
-		parent::__construct($appName, $request, $userId);
+		parent::__construct($appName, $request, $userSession);
 		$this->settings = $settings;
 	}
 

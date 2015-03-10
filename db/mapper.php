@@ -21,7 +21,7 @@
  */
 namespace OCA\Calendar\Db;
 
-use OCP\IDb;
+use OCP\IDBConnection;
 
 /**
  * Simple parent class for inheriting your data access layer from. This class
@@ -29,28 +29,31 @@ use OCP\IDb;
  */
 abstract class Mapper extends \OCP\AppFramework\Db\Mapper {
 
+
 	/**
-	 * @var string
+	 * @var EntityFactory
 	 */
-	protected $collectionClass;
+	protected $entityFactory;
 
 
 	/**
-	 * @param IDb $db Instance of the Db abstraction layer
+	 * @var CollectionFactory
+	 */
+	protected $collectionFactory;
+
+
+	/**
+	 * @param IDBConnection $db
 	 * @param string $tableName the name of the table. set this to allow entity
-	 * @param string $entityClass the name of the entity that the sql should be
-	 * @param string $collectionClass the name of the collection
+	 * @param EntityFactory $entityFactory
+	 * @param CollectionFactory $collectionFactory
 	 * mapped to queries without using sql
 	 */
-	public function __construct(IDb $db, $tableName, $entityClass=null,
-								$collectionClass=null){
-		parent::__construct($db, $tableName, $entityClass);
-
-		if($collectionClass === null) {
-			$this->collectionClass = ($this->entityClass . 'Collection');
-		} else {
-			$this->collectionClass = $collectionClass;
-		}
+	public function __construct(IDBConnection $db, $tableName, EntityFactory $entityFactory,
+								CollectionFactory $collectionFactory){
+		parent::__construct($db, $tableName);
+		$this->entityFactory = $entityFactory;
+		$this->collectionFactory = $collectionFactory;
 	}
 
 
@@ -62,9 +65,25 @@ abstract class Mapper extends \OCP\AppFramework\Db\Mapper {
 	 * @param int $offset from which row we want to start
 	 * @return array all fetched entities
 	 */
-	protected function findEntities($sql, array $params=array(), $limit=null,
-									$offset=null) {
-		$entities = parent::findEntities($sql, $params, $limit, $offset);
-		return call_user_func($this->collectionClass . '::fromArray', $entities);
+	protected function findEntities($sql, array $params=[], $limit=null, $offset=null) {
+		$result = $this->execute($sql, $params, $limit, $offset);
+		$rows = [];
+
+		while($row = $result->fetch()){
+			$rows[] = $row;
+		}
+
+		return $this->collectionFactory->createFromData($rows, EntityFactory::FORMAT_ROW);
+	}
+
+
+	/**
+	 * Creates an entity from a row. Automatically determines the entity class
+	 * from the current mapper name (MyEntityMapper -> MyEntity)
+	 * @param array $row the row which should be converted to an entity
+	 * @return Entity the entity
+	 */
+	protected function mapRowToEntity($row) {
+		return $this->entityFactory->createEntity($row, EntityFactory::FORMAT_ROW);
 	}
 }

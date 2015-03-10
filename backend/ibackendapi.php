@@ -19,22 +19,19 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCP\Calendar;
+namespace OCA\Calendar;
 
 interface IBackendAPI {
 
 	/**
 	 * returns whether or not a backend can be enabled
-	 *
-	 * This method returns a boolean.
-	 * This method is mandatory!
+	 * @return boolean
 	 */
 	public function canBeEnabled();
 
 
 	/**
 	 * returns list of available uri prefixes
-	 *
 	 * @return array
 	 */
 	public function getAvailablePrefixes();
@@ -42,7 +39,6 @@ interface IBackendAPI {
 
 	/**
 	 * returns list of subscription types supported by backend
-	 *
 	 * @return array
 	 */
 	public function getSubscriptionTypes();
@@ -58,9 +54,6 @@ interface IBackendAPI {
 
 	/**
 	 * returns whether or not a backend can store a calendar's color
-	 *
-	 * This method returns a boolean
-	 * This method is mandatory!
 	 * @return boolean
 	 */
 	public function canStoreColor();
@@ -68,9 +61,6 @@ interface IBackendAPI {
 
 	/**
 	 * returns whether or not a backend can store a calendar's supported components
-	 *
-	 * This method returns a boolean
-	 * This method is mandatory!
 	 * @return boolean
 	 */
 	public function canStoreComponents();
@@ -78,7 +68,6 @@ interface IBackendAPI {
 
 	/**
 	 * returns whether or not a backend can store a calendar's description
-	 *
 	 * @return boolean
 	 */
 	public function canStoreDescription();
@@ -86,9 +75,6 @@ interface IBackendAPI {
 
 	/**
 	 * returns whether or not a backend can store a calendar's displayname
-	 *
-	 * This method returns a boolean
-	 * This method is mandatory!
 	 * @return boolean
 	 */
 	public function canStoreDisplayname();
@@ -96,9 +82,6 @@ interface IBackendAPI {
 
 	/**
 	 * returns whether or not a backend can store if a calendar is enabled
-	 *
-	 * This method returns a boolean
-	 * This method is mandatory!
 	 * @return boolean
 	 */
 	public function canStoreEnabled();
@@ -106,9 +89,6 @@ interface IBackendAPI {
 
 	/**
 	 * returns whether or not a backend can store a calendar's order
-	 *
-	 * This method returns a boolean
-	 * This method is mandatory!
 	 * @return boolean
 	 */
 	public function canStoreOrder();

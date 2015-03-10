@@ -21,6 +21,8 @@
  */
 namespace OCA\Calendar\Utility;
 
+use OCA\Calendar\IEntity;
+
 class Utility {
 
 	/**
@@ -59,5 +61,15 @@ class Utility {
 		}
 
 		return get_object_vars($object);
+	}
+
+
+	/**
+	 * @param IEntity $entity
+	 * @return string
+	 */
+	public static function getClassName(IEntity $entity) {
+		$class = get_class($entity);
+		return substr($class, strrpos( $class, '\\' ) + 1);
 	}
 }

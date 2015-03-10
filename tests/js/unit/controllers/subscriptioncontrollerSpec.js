@@ -25,7 +25,7 @@ describe('SubscriptionController', function() {
 
 	var controller, scope, model, routeParams, http;
 
-	beforeEach(module('Calendar'));
+	beforeEach(module('CalendarManager'));
 
 	beforeEach(inject(function ($controller, $rootScope, $httpBackend,
 		SubscriptionModel) {
@@ -38,7 +38,7 @@ describe('SubscriptionController', function() {
 
 	it ('should delete the selected calendar', function () {
 		var calendars = [
-			{id: 7, title: 'Sample Calendar'}
+			{id: 7, title: 'Sample CalendarManager'}
 		];
 
 		controller = controller('CalendarListController', {

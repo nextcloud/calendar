@@ -1,6 +1,6 @@
 ../appinfo/app.php
 ../lib/object.php
-../templates/calendar.php
+../templates/calendarmanager.php
 ../templates/part.choosecalendar.php
 ../templates/part.choosecalendar.rowfields.php
 ../templates/part.editcalendar.php

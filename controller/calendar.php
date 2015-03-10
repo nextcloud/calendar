@@ -21,17 +21,18 @@
  */
 namespace OCA\Calendar\Controller;
 
+use OCA\Calendar\BusinessLayer\CalendarRequestManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
-use OCP\Calendar\IBackendCollection;
-use OCP\Calendar\ICalendar;
+use OCA\Calendar\IBackendCollection;
+use OCA\Calendar\ICalendar;
 use OCP\IRequest;
 
-use OCA\Calendar\BusinessLayer\CalendarRequestBusinessLayer;
 use OCA\Calendar\Db\TimezoneMapper;
 use OCA\Calendar\Http\JSON\JSONCalendarReader;
 use OCA\Calendar\Http\JSON\JSONCalendarResponse;
 use OCA\Calendar\Http\ReaderException;
+use OCP\IUserSession;
 
 class CalendarController extends Controller {
 
@@ -44,7 +45,7 @@ class CalendarController extends Controller {
 
 	/**
 	 * BusinessLayer for managing calendars
-	 * @var CalendarRequestBusinessLayer
+	 * @var CalendarRequestManager
 	 */
 	protected $calendars;
 
@@ -52,20 +53,16 @@ class CalendarController extends Controller {
 	/**
 	 * @param string $appName
 	 * @param IRequest $request an instance of the request
-	 * @param string $userId
-	 * @param CalendarRequestBusinessLayer $calendars
+	 * @param IUserSession $userSession
 	 * @param IBackendCollection $backends
 	 * @param TimezoneMapper $timezones
-	 *
-	 * TODO - use TimezoneBusinessLayer instead of TimezoneMapper
 	 */
-	public function __construct($appName, IRequest $request, $userId,
-								CalendarRequestBusinessLayer $calendars,
+	public function __construct($appName, IRequest $request, IUserSession $userSession,
 								IBackendCollection $backends,
 								TimezoneMapper $timezones) {
-		parent::__construct($appName, $request, $userId);
+		parent::__construct($appName, $request, $userSession);
 
-		$this->calendars = $calendars;
+		$this->calendars = new CalendarRequestManager($backends, $this->userId);
 		$this->backends = $backends;
 
 		$this->registerReader('json', function($handle) use ($timezones) {
@@ -207,7 +204,7 @@ class CalendarController extends Controller {
 			);
 
 			return new JSONResponse([
-				'message' => 'Calendar was deleted successfully',
+				'message' => 'CalendarManager was deleted successfully',
 			]);
 		} catch (\Exception $ex) {
 			return $this->handleException($ex);

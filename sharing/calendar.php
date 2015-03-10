@@ -24,7 +24,7 @@
  */
 namespace OCA\Calendar\Share;
 
-use OCP\Calendar\IObject;
+use OCA\Calendar\IObject;
 use OCP\Share_Backend_Collection;
 use OCP\Share_Backend_File_Dependent;
 use OCA\Calendar\Application;

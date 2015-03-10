@@ -21,15 +21,18 @@
  */
 namespace OCA\Calendar\Db;
 
-use OCP\IDb;
+use OCP\IDBConnection;
 
 class SubscriptionMapper extends Mapper {
 
 	/**
-	 * @param IDb $db
+	 * @param IDBConnection $db
+	 * @param SubscriptionFactory $entityFactory
+	 * @param SubscriptionCollectionFactory $collectionFactory
 	 */
-	public function __construct(IDb $db){
-		parent::__construct($db, 'clndr_sbscrptns');
+	public function __construct(IDBConnection $db, SubscriptionFactory $entityFactory,
+								SubscriptionCollectionFactory $collectionFactory){
+		parent::__construct($db, 'clndr_sbscrptns', $entityFactory, $collectionFactory);
 	}
 
 

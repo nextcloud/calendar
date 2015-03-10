@@ -23,8 +23,8 @@ namespace OCA\Calendar\Utility;
 
 use DateTime;
 use OCA\Calendar\Db\TimezoneMapper;
-use OCP\Calendar\ICollection;
-use OCP\Calendar\IEntity;
+use OCA\Calendar\ICollection;
+use OCA\Calendar\IEntity;
 
 class ObjectUtility extends Utility{
 
@@ -57,7 +57,7 @@ class ObjectUtility extends Utility{
 
 
 	/**
-	 * @param \OCP\Calendar\IEntity|\OCP\Calendar\ICollection $input
+	 * @param \OCA\Calendar\IEntity|\OCA\Calendar\ICollection $input
 	 * @param TimezoneMapper $timezones
 	 * @param bool $json
 	 * @return mixed (array|string)

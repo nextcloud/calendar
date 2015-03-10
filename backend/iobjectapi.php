@@ -19,31 +19,13 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCP\Calendar;
+namespace OCA\Calendar;
 
-/**
- * Interface IBackendAPI
- *
- * @method IObject create() create(IObject $object) create an object
- * @method IObject update() update(IObject $object) update an object
- * @method boolean delete() delete(IObject $object) delete an object
- * @method IObjectCollection findAllInPeriod() findAllInPeriod(\DateTime $start, \DateTime $end, $type=ObjectType::ALL, $limit, $offset) find objects in period
- * @method IObjectCollection searchByProperties() searchByProperties(array $properties=array(), $limit, $offset) search objects
- */
 interface IObjectAPI {
-
-	const CREATE = 'create';
-	const UPDATE = 'update';
-	const DELETE = 'delete';
-	const FIND_IN_PERIOD = 'findAllInPeriod';
-	const SEARCH_BY_PROPERTIES = 'searchByProperties';
 
 	/**
 	 * returns whether or not calendar objects should be cached
 	 * @return boolean
-	 *
-	 * This method returns a bool.
-	 * This method is mandatory!
 	 */
 	public function cache();
 
@@ -56,9 +38,6 @@ interface IObjectAPI {
 	 * @throws \OCP\AppFramework\Db\DoesNotExistException if calendar does not exist
 	 * @throws \OCP\AppFramework\Db\DoesNotExistException if object does not exist
 	 * @throws \OCP\AppFramework\Db\MultipleObjectsReturnedException
-	 *
-	 * This method returns an \OCA\Calendar\Db\Object object.
-	 * This method is mandatory!
 	 */
 	public function find($objectUri, $type=ObjectType::ALL);
 
@@ -70,9 +49,6 @@ interface IObjectAPI {
 	 * @param integer $offset
 	 * @returns IObjectCollection
 	 * @throws \OCP\AppFramework\Db\DoesNotExistException if calendar does not exist
-	 *
-	 * This method returns an \OCA\Calendar\Db\ObjectCollection object.
-	 * This method is mandatory!
 	 */
 	public function findAll($type=ObjectType::ALL, $limit=null, $offset=null);
 
@@ -83,4 +59,84 @@ interface IObjectAPI {
 	 * @return array
 	 */
 	public function listAll($type=ObjectType::ALL);
+
+
+	/**
+	 * check if $object has updated on backend
+	 * @param IObject $object
+	 * @return boolean
+	 */
+	public function hasUpdated(IObject $object);
+}
+
+interface IObjectAPICreate extends IObjectAPI {
+
+	/**
+	 * create an object
+	 * @param IObject $object
+	 * @return IObject
+	 */
+	public function create(IObject $object);
+}
+
+interface IObjectAPIUpdate extends IObjectAPI {
+
+	/**
+	 * update an object
+	 * @param IObject $update
+	 * @return IObject
+	 */
+	public function update(IObject $update);
+}
+
+interface IObjectAPIDelete extends IObjectAPI {
+
+	/**
+	 * delete an object
+	 * @param IObject $object
+	 * @return boolean
+	 */
+	public function delete(IObject $object);
+}
+
+interface IObjectAPIFindInPeriod extends IObjectAPI {
+
+	/**
+	 * find objects in a certain period
+	 * @param \DateTime $start
+	 * @param \DateTime $end
+	 * @param integer $type
+	 * @param integer $limit
+	 * @param integer $offset
+	 * @return IObjectCollection
+	 */
+	public function findAllInPeriod(\DateTime $start, \DateTime $end, $type=ObjectType::ALL, $limit, $offset);
+}
+
+interface IObjectAPISearch extends IObjectAPI {
+
+	/**
+	 * search objects
+	 * @param array $properties
+	 * @param integer $type
+	 * @param integer $limit
+	 * @param integer $offset
+	 * @return IObjectCollection
+	 */
+	public function searchByProperties(array $properties=[], $type=ObjectType::ALL, $limit, $offset);
+}
+
+interface IObjectAPISearchInPeriod extends IObjectAPI {
+
+	/**
+	 * search objects in a certain period
+	 * @param array $properties
+	 * @param \DateTime $start
+	 * @param \DateTime $end
+	 * @param integer $type
+	 * @param integer $limit
+	 * @param integer $offset
+	 * @return IObjectCollection
+	 */
+	public function searchByPropertiesInPeriod(array $properties=[], \DateTime $start, \DateTime $end, $type=ObjectType::ALL, $limit, $offset);
 }

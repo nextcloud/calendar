@@ -28,12 +28,12 @@ namespace OCA\Calendar\Backend\Local;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\DB;
-use OCP\IDb;
+use OCP\IDBConnection;
 
 abstract class Local {
 
 	/**
-	 * @var \OCP\IDb
+	 * @var \OCP\IDbConnection
 	 */
 	protected $db;
 
@@ -51,11 +51,11 @@ abstract class Local {
 
 
 	/**
-	 * @param IDb $db
+	 * @param IDBConnection $db
 	 * @param string $calendarTableName
 	 * @param string $objectTableName
 	 */
-	public function __construct(IDb $db, $calendarTableName='clndr_calendars',
+	public function __construct(IDBConnection $db, $calendarTableName='clndr_calendars',
 								$objectTableName='clndr_objects') {
 		$this->db = $db;
 		$this->calendarTableName = $this->prependPrefix($calendarTableName);
@@ -94,7 +94,6 @@ abstract class Local {
 			$userId
 		));
 
-
 		return $id;
 	}
 
@@ -113,28 +112,33 @@ abstract class Local {
 	 * @param $params
 	 * @param integer $limit
 	 * @param integer $offset
-	 * @return \OC_DB_StatementWrapper
+	 * @return \PDOStatement
 	 */
 	protected function query($sql, $params, $limit=null, $offset=null) {
-		$result = $this->db->prepareQuery($sql, $limit, $offset)->execute($params);
+		$query = $this->db->prepare($sql, $limit, $offset);
+		$query->execute($params);
 
-		if (DB::isError($result)) {
+		if (DB::isError($query)) {
 			$this->throwDBError();
 		}
 
-		return $result;
+		return $query;
 	}
 
 
 	/**
 	 * @param string $sql
 	 * @param $params
-	 * @return integer
+	 * @return integer|bool
 	 */
 	protected function queryNumber($sql, $params) {
 		$result = $this->query($sql, $params);
 
-		$count = $result->fetchOne();
+		$count = $result->fetchColumn();
+		if (gettype($count) === 'bool') {
+			return $count;
+		}
+
 		if (gettype($count) !== 'integer') {
 			$count = intval($count);
 		}
@@ -153,14 +157,14 @@ abstract class Local {
 	protected function queryOne($sql, $params) {
 		$result = $this->query($sql, $params);
 
-		$row = $result->fetchRow();
+		$row = $result->fetch();
 
 		if ($row === false || $row === null){
 			$msg = 'No matching entry found';
 			throw new DoesNotExistException($msg);
 		}
 
-		$row2 = $result->fetchRow();
+		$row2 = $result->fetch();
 		if (($row2 === false || $row2 === null ) === false) {
 			$msg = 'More than one result';
 			throw new MultipleObjectsReturnedException($msg);

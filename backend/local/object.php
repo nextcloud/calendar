@@ -26,24 +26,32 @@
 namespace OCA\Calendar\Backend\Local;
 
 use OCA\Calendar\Db\ObjectCollection;
+use OCA\Calendar\Db\Permissions;
 use OCA\Calendar\Utility\ObjectUtility;
 use OCA\Calendar\Backend\Exception as BackendException;
 use OCA\Calendar\CorruptDataException;
-use OCP\Calendar\ICalendar;
-use OCP\Calendar\IObject;
-use OCP\Calendar\IObjectAPI;
-use OCP\Calendar\IObjectCollection;
-use OCP\Calendar\CacheOutDatedException;
+use OCA\Calendar\ICalendar;
+use OCA\Calendar\IObject;
+use OCA\Calendar\IObjectAPI;
+use OCA\Calendar\IObjectAPICreate;
+use OCA\Calendar\IObjectAPIDelete;
+use OCA\Calendar\IObjectAPIFindInPeriod;
+use OCA\Calendar\IObjectAPISearch;
+use OCA\Calendar\IObjectAPIUpdate;
+use OCA\Calendar\IObjectCollection;
+use OCA\Calendar\CacheOutDatedException;
 
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCA\Calendar\Db\ObjectType;
-use OCP\IDb;
+use OCP\IDBConnection;
 
-class Object extends Local implements IObjectAPI {
+class Object extends Local implements IObjectAPI, IObjectAPICreate,
+	IObjectAPIUpdate, IObjectAPIDelete, IObjectAPIFindInPeriod,
+	IObjectAPISearch {
 
 	/**
-	 * @var \OCP\Calendar\ICalendar
+	 * @var \OCA\Calendar\ICalendar
 	 */
 	private $calendar;
 
@@ -55,12 +63,12 @@ class Object extends Local implements IObjectAPI {
 
 
 	/**
-	 * @param IDb $db
+	 * @param IDBConnection $db
 	 * @param ICalendar $calendar
 	 * @param string $calendarTableName
 	 * @param string $objectTableName
 	 */
-	public function __construct(IDb $db, ICalendar &$calendar,
+	public function __construct(IDBConnection $db, ICalendar &$calendar,
 								$calendarTableName='clndr_calendars',
 								$objectTableName='clndr_objects') {
 		parent::__construct($db, $calendarTableName, $objectTableName);
@@ -145,7 +153,7 @@ class Object extends Local implements IObjectAPI {
 		$result = $this->query($sql, $params);
 
 		$uriList = [];
-		while($row = $result->fetchRow()) {
+		while($row = $result->fetchColumn()) {
 			$uriList[] = $row['uri'];
 		}
 
@@ -270,12 +278,13 @@ class Object extends Local implements IObjectAPI {
 	/**
 	 * search objects by property
 	 * @param array $properties
+	 * @param integer $type
 	 * @param integer $limit
 	 * @param integer $offset
 	 * @return IObjectCollection
 	 * @throws CacheOutDatedException
 	 */
-	public function searchByProperties(array $properties=[], $limit, $offset) {
+	public function searchByProperties(array $properties=[], $type=ObjectType::ALL, $limit, $offset) {
 		if (empty($properties)) {
 			return $this->findAll($limit, $offset);
 		}
@@ -321,26 +330,30 @@ class Object extends Local implements IObjectAPI {
 	/**
 	 * create an object object from row
 	 * @param array $row
-	 * @return \OCP\Calendar\IEntity
+	 * @return \OCA\Calendar\IEntity
 	 */
 	private function rowToEntity(&$row) {
 		$object = new \OCA\Calendar\Db\Object();
 
+		$object->setCalendar($this->calendar);
 		$object->setUri(strval($row['uri']));
 		$object->setCalendarData(strval($row['calendardata']));
+		$object->setRuds(Permissions::ALL_OBJECT);
+
+		$object->generateEtag();
 
 		return $object;
 	}
 
 
 	/**
-	 * @param \OC_DB_StatementWrapper $result
-	 * @return \OCP\Calendar\IObjectCollection
+	 * @param \PDOStatement $result
+	 * @return \OCA\Calendar\IObjectCollection
 	 */
-	private function resultToCollection(\OC_DB_StatementWrapper $result) {
+	private function resultToCollection(\PDOStatement $result) {
 		$objects = new ObjectCollection();
 
-		while($row = $result->fetchRow()) {
+		while($row = $result->fetch()) {
 			try {
 				$object = $this->rowToEntity($row);
 				$objects[] = $object;
@@ -365,6 +378,15 @@ class Object extends Local implements IObjectAPI {
 		} else {
 			return ObjectType::getTypeByString(strval($component));
 		}
+	}
+
+
+	/**
+	 * @param IObject $object
+	 * @return bool
+	 */
+	public function hasUpdated(IObject $object) {
+		return true;
 	}
 
 

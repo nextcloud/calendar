@@ -31,29 +31,33 @@ use OCA\Calendar\Backend\MultipleObjectsReturnedException;
 use OCA\Calendar\Db\CalendarCollection;
 use OCA\Calendar\Utility\CalendarUtility;
 use OCA\Calendar\CorruptDataException;
-use OCP\Calendar\IBackend;
-use OCP\Calendar\ICalendar;
-use OCP\Calendar\ICalendarAPI;
-use OCP\Calendar\ICalendarCollection;
+use OCA\Calendar\IBackend;
+use OCA\Calendar\ICalendar;
+use OCA\Calendar\ICalendarAPI;
+use OCA\Calendar\ICalendarAPICreate;
+use OCA\Calendar\ICalendarAPIDelete;
+use OCA\Calendar\ICalendarAPIUpdate;
+use OCA\Calendar\ICalendarCollection;
 use OCA\Calendar\Db\ObjectType;
-use OCP\Calendar\Permissions;
-use OCP\IDb;
+use OCA\Calendar\Permissions;
+use OCP\IDBConnection;
 
-class Calendar extends Local implements ICalendarAPI {
+class Calendar extends Local implements ICalendarAPI,
+	ICalendarAPICreate, ICalendarAPIUpdate, ICalendarAPIDelete {
 
 	/**
-	 * @var \OCP\Calendar\IBackend
+	 * @var \OCA\Calendar\IBackend
 	 */
 	protected $backend;
 
 
 	/**
-	 * @param IDb $db
+	 * @param IDBConnection $db
 	 * @param IBackend $backend
 	 * @param string $calendarTableName
 	 * @param string $objectTableName
 	 */
-	public function __construct(IDb $db, IBackend $backend,
+	public function __construct(IDBConnection $db, IBackend $backend,
 								$calendarTableName='clndr_calendars',
 								$objectTableName='clndr_objects') {
 		parent::__construct($db, $calendarTableName, $objectTableName);
@@ -120,6 +124,23 @@ class Calendar extends Local implements ICalendarAPI {
 		}
 
 		return $list;
+	}
+
+
+	/**
+	 * @param ICalendar $calendar
+	 * @return boolean
+	 */
+	public function hasUpdated(ICalendar $calendar) {
+		$sql  = 'SELECT `ctag` FROM `' . $this->getCalendarTableName() . '` ';
+		$sql .= 'WHERE `uri` = ? AND `userid` = ?';
+
+		$row = $this->queryOne($sql, [
+			$calendar->getPrivateUri(),
+			$calendar->getUserId(),
+		]);
+
+		return ($row['ctag'] !== $calendar->getCtag());
 	}
 
 
@@ -256,7 +277,7 @@ class Calendar extends Local implements ICalendarAPI {
 
 	/**
 	 * @param \OC_DB_StatementWrapper $result
-	 * @return \OCP\Calendar\ICalendarCollection
+	 * @return \OCA\Calendar\ICalendarCollection
 	 */
 	private function resultToCollection(\OC_DB_StatementWrapper $result) {
 		$calendars = new CalendarCollection();

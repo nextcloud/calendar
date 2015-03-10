@@ -21,8 +21,8 @@
  */
 namespace OCA\Calendar\Http\JSON;
 
-use OCP\Calendar\IEntity;
-use OCP\Calendar\ISubscription;
+use OCA\Calendar\IEntity;
+use OCA\Calendar\ISubscription;
 
 use OCA\Calendar\Http\SimpleJSONReader;
 
@@ -32,7 +32,7 @@ class JSONSubscriptionReader extends SimpleJSONReader {
 	 * @param resource $handle
 	 */
 	public function __construct($handle) {
-		parent::__construct($handle, '\\OCA\\Calendar\\Db\\Subscription');
+		parent::__construct($handle, '\\OCA\\CalendarManager\\Db\\Subscription');
 	}
 
 

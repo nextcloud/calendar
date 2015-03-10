@@ -23,14 +23,15 @@ namespace OCA\Calendar\Controller;
 
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http;
-use OCP\Calendar\IEntity;
-use OCP\Calendar\ICollection;
+use OCA\Calendar\IEntity;
+use OCA\Calendar\ICollection;
 use OCP\IRequest;
 
 use OCA\Calendar\Http\ReaderException;
 use OCA\Calendar\Http\SerializerException;
 
 use DateTime;
+use OCP\IUserSession;
 
 abstract class Controller extends \OCP\AppFramework\Controller {
 
@@ -51,11 +52,19 @@ abstract class Controller extends \OCP\AppFramework\Controller {
 	/**
 	 * @param string $appName
 	 * @param IRequest $request an instance of the request
-	 * @param string $userId
+	 * @param IUserSession $userSession
 	 */
-	public function __construct($appName, IRequest $request, $userId) {
+	public function __construct($appName, IRequest $request, IUserSession $userSession) {
 		parent::__construct($appName, $request);
-		$this->userId = $userId;
+
+		if ($userSession->isLoggedIn()) {
+			$user = $userSession->getUser();
+			if ($user) {
+				$this->userId = $user->getUID();
+			} else {
+				//TODO - throw exception
+			}
+		}
 	}
 
 

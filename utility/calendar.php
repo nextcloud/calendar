@@ -21,7 +21,7 @@
  */
 namespace OCA\Calendar\Utility;
 
-use OCP\Calendar\ICalendar;
+use OCA\Calendar\ICalendar;
 
 class CalendarUtility extends Utility {
 
@@ -74,7 +74,7 @@ class CalendarUtility extends Utility {
 
 		$uri = CalendarUtility::slugify($uri);
 
-		while($doesExist($uri, $calendar->getUserId())) {
+		while($doesExist($uri)) {
 			$newUri = self::suggestUri($uri);
 
 			if ($newUri === $uri) {

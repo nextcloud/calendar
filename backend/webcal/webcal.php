@@ -28,7 +28,7 @@ use OCA\Calendar\Utility\RegexUtility;
 use OCP\AppFramework\Http;
 use OCA\Calendar\Backend\Exception as BackendException;
 use OCA\Calendar\CorruptDataException;
-use OCP\Calendar\ISubscription;
+use OCA\Calendar\ISubscription;
 
 class WebCal {
 

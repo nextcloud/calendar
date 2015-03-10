@@ -21,12 +21,13 @@
  */
 namespace OCA\Calendar\BusinessLayer;
 
+use OCA\Calendar\Db\TimezoneMapper;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
-use OCP\Calendar\ITimezone;
+use OCA\Calendar\ITimezone;
 
-class TimezoneBusinessLayer extends BusinessLayer {
+class Timezone extends BusinessLayer {
 
 	/**
 	 * @var \OCA\Calendar\Db\TimezoneMapper
@@ -35,12 +36,20 @@ class TimezoneBusinessLayer extends BusinessLayer {
 
 
 	/**
+	 * @param TimezoneMapper $mapper
+	 */
+	public function __construct(TimezoneMapper $mapper) {
+		$this->mapper = $mapper;
+	}
+
+
+	/**
 	 * find all timezones
 	 *
 	 * @param string $userId
 	 * @param integer $limit
 	 * @param integer $offset
-	 * @return \OCP\Calendar\ITimezoneCollection
+	 * @return \OCA\Calendar\ITimezoneCollection
 	 */
 	public function findAll($userId, $limit, $offset) {
 		return $this->mapper->findAll($userId, $limit, $offset);
@@ -63,16 +72,16 @@ class TimezoneBusinessLayer extends BusinessLayer {
 	 *
 	 * @param string $tzId
 	 * @param string $userId
-	 * @throws BusinessLayerException
-	 * @return \OCP\Calendar\ITimezone
+	 * @throws Exception
+	 * @return \OCA\Calendar\ITimezone
 	 */
 	public function find($tzId, $userId) {
 		try {
 			return $this->mapper->find($tzId, $userId);
 		} catch(DoesNotExistException $ex) {
-			throw BusinessLayerException::fromException($ex);
+			throw Exception::fromException($ex);
 		} catch(MultipleObjectsReturnedException $ex) {
-			throw BusinessLayerException::fromException($ex);
+			throw Exception::fromException($ex);
 		}
 	}
 
@@ -94,15 +103,15 @@ class TimezoneBusinessLayer extends BusinessLayer {
 	 *
 	 * @ignore
 	 *
-	 * @param \OCP\Calendar\ITimezone $timezone
-	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
-	 * @return \OCP\Calendar\ITimezone
+	 * @param \OCA\Calendar\ITimezone $timezone
+	 * @throws \OCA\Calendar\BusinessLayer\Exception
+	 * @return \OCA\Calendar\ITimezone
 	 */
 	public function create(ITimezone $timezone) {
 		$this->checkIsValid($timezone);
 		$this->mapper->insert($timezone);
 
-		throw new BusinessLayerException(
+		throw new Exception(
 			'Creating timezones not yet supported',
 			Http::STATUS_NOT_IMPLEMENTED
 		);
@@ -114,15 +123,15 @@ class TimezoneBusinessLayer extends BusinessLayer {
 	 *
 	 * @ignore
 	 *
-	 * @param \OCP\Calendar\ITimezone $timezone
-	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
-	 * @return \OCP\Calendar\ITimezone
+	 * @param \OCA\Calendar\ITimezone $timezone
+	 * @throws \OCA\Calendar\BusinessLayer\Exception
+	 * @return \OCA\Calendar\ITimezone
 	 */
 	public function update(ITimezone $timezone) {
 		$this->checkIsValid($timezone);
 		$this->mapper->update($timezone);
 
-		throw new BusinessLayerException(
+		throw new Exception(
 			'Updating timezones not yet supported',
 			Http::STATUS_NOT_IMPLEMENTED
 		);
@@ -134,13 +143,13 @@ class TimezoneBusinessLayer extends BusinessLayer {
 	 *
 	 * @ignore
 	 *
-	 * @param \OCP\Calendar\ITimezone $timezone
-	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
+	 * @param \OCA\Calendar\ITimezone $timezone
+	 * @throws \OCA\Calendar\BusinessLayer\Exception
 	 */
 	public function delete(ITimezone $timezone) {
 		$this->mapper->delete($timezone);
 
-		throw new BusinessLayerException(
+		throw new Exception(
 			'Deleting timezones not yet supported',
 			Http::STATUS_NOT_IMPLEMENTED
 		);

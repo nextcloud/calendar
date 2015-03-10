@@ -23,10 +23,9 @@
 /* app class */
 \OC::$CLASSPATH['OCA\Calendar\Application'] = 'calendar/appinfo/application.php';
 
-
-\OC::$CLASSPATH['OCP\Calendar\IBackendAPI'] = 'calendar/backend/ibackendapi.php';
-\OC::$CLASSPATH['OCP\Calendar\ICalendarAPI'] = 'calendar/backend/icalendarapi.php';
-\OC::$CLASSPATH['OCP\Calendar\IObjectAPI'] = 'calendar/backend/iobjectapi.php';
+\OC::$CLASSPATH['OCA\Calendar\IBackendAPI'] = 'calendar/backend/ibackendapi.php';
+\OC::$CLASSPATH['OCA\Calendar\ICalendarAPI'] = 'calendar/backend/icalendarapi.php';
+\OC::$CLASSPATH['OCA\Calendar\IObjectAPI'] = 'calendar/backend/iobjectapi.php';
 
 /* background job class */
 \OC::$CLASSPATH['OCA\Calendar\Backgroundjob\Task'] = 'calendar/backgroundjob/task.php';
@@ -36,11 +35,8 @@
 \OC::$CLASSPATH['OCA\Calendar\BusinessLayer\BusinessLayer'] = 'calendar/businesslayer/businesslayer.php';
 \OC::$CLASSPATH['OCA\Calendar\BusinessLayer\BackendCollectionBusinessLayer'] = 'calendar/businesslayer/businesslayer_backend.php';
 \OC::$CLASSPATH['OCA\Calendar\BusinessLayer\CacheBusinessLayer'] = 'calendar/businesslayer/businesslayer_cache.php';
-\OC::$CLASSPATH['OCA\Calendar\BusinessLayer\CalendarBusinessLayer'] = 'calendar/businesslayer/calendar.php';
-\OC::$CLASSPATH['OCA\Calendar\BusinessLayer\CalendarCacheBusinessLayer'] = 'calendar/businesslayer/calendarcache.php';
 \OC::$CLASSPATH['OCA\Calendar\BusinessLayer\CalendarRequestBusinessLayer'] = 'calendar/businesslayer/calendarrequest.php';
 \OC::$CLASSPATH['OCA\Calendar\BusinessLayer\ObjectBusinessLayer'] = 'calendar/businesslayer/object.php';
-\OC::$CLASSPATH['OCA\Calendar\BusinessLayer\ObjectCacheBusinessLayer'] = 'calendar/businesslayer/objectcache.php';
 \OC::$CLASSPATH['OCA\Calendar\BusinessLayer\ObjectRequestBusinessLayer'] = 'calendar/businesslayer/objectrequest.php';
 \OC::$CLASSPATH['OCA\Calendar\BusinessLayer\SubscriptionBusinessLayer'] = 'calendar/businesslayer/subscription.php';
 \OC::$CLASSPATH['OCA\Calendar\BusinessLayer\TimezoneBusinessLayer'] = 'calendar/businesslayer/timezone.php';
@@ -111,10 +107,10 @@
 \OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONSubscriptionReader'] = 'calendar/http/json/subscriptionreader.php';
 \OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONTimezoneResponse'] = 'calendar/http/json/timezone.php';
 
-\OC::$CLASSPATH['OCA\Calendar\Share\Calendar'] = 'calendar/sharing/calendar.php';
+\OC::$CLASSPATH['OCA\Calendar\Share\Calendar'] = 'calendar/sharing/calendarmanager.php';
 
 // some custom sabre classes
-\OC::$CLASSPATH['OCA\Calendar\Sabre\Splitter\JCalendar'] = 'calendar/sabre/splitter/jcalsplitter.php';
+\OC::$CLASSPATH['OCA\CalendarManager\Sabre\Splitter\JCalendarManager'] = 'calendar/sabre/splitter/jcalsplitter.php';
 /* CalDAV implementation */
 //caldav implementation
 /*\OC::$CLASSPATH['OCA\Calendar\Sabre'] = '';
@@ -136,28 +132,3 @@
 \OC::$CLASSPATH['OCA\Calendar\Utility\RegexUtility'] = 'calendar/utility/regex.php';
 \OC::$CLASSPATH['OCA\Calendar\Utility\SabreUtility'] = 'calendar/utility/sabre.php';
 \OC::$CLASSPATH['OCA\Calendar\Utility\UpdateUtility'] = 'calendar/utility/update.php';
-
-
-/* public classes */
-\OC::$CLASSPATH['OCP\Calendar\APIException'] = 'calendar/public/.php';
-\OC::$CLASSPATH['OCP\Calendar\Backend'] = 'calendar/public/backend.php';
-\OC::$CLASSPATH['OCP\Calendar\BackendException'] = 'calendar/public/backendexception.php';
-\OC::$CLASSPATH['OCP\Calendar\CacheOutDatedException'] = 'calendar/public/cacheoutdatedexception.php';
-\OC::$CLASSPATH['OCP\Calendar\Calendar'] = 'calendar/public/calendar.php';
-\OC::$CLASSPATH['OCP\Calendar\CorruptDataException'] = 'calendar/public/corruptdataexception.php';
-\OC::$CLASSPATH['OCP\Calendar\DoesNotExistException'] = 'calendar/public/doesnotexistexception.php';
-\OC::$CLASSPATH['OCP\Calendar\IBackend'] = 'calendar/public/ibackend.php';
-\OC::$CLASSPATH['OCP\Calendar\IBackendCollection'] = 'calendar/public/ibackendcollection.php';
-\OC::$CLASSPATH['OCP\Calendar\ICalendar'] = 'calendar/public/icalendar.php';
-\OC::$CLASSPATH['OCP\Calendar\ICalendarCollection'] = 'calendar/public/icalendarcollection.php';
-\OC::$CLASSPATH['OCP\Calendar\ICollection'] = 'calendar/public/icollection.php';
-\OC::$CLASSPATH['OCP\Calendar\IEntity'] = 'calendar/public/ientity.php';
-\OC::$CLASSPATH['OCP\Calendar\IObject'] = 'calendar/public/iobject.php';
-\OC::$CLASSPATH['OCP\Calendar\IObjectCollection'] = 'calendar/public/iobjectcollection.php';
-\OC::$CLASSPATH['OCP\Calendar\ISubscription'] = 'calendar/public/isubscription.php';
-\OC::$CLASSPATH['OCP\Calendar\ISubscriptionCollection'] = 'calendar/public/isubscriptioncollection.php';
-\OC::$CLASSPATH['OCP\Calendar\ITimezone'] = 'calendar/public/itimezone.php';
-\OC::$CLASSPATH['OCP\Calendar\ITimezoneCollection'] = 'calendar/public/itimezonecollection.php';
-\OC::$CLASSPATH['OCP\Calendar\MultipleObjectsReturnedException'] = 'calendar/public/multipleobjectsreturnedexception.php';
-\OC::$CLASSPATH['OCP\Calendar\ObjectType'] = 'calendar/public/objecttype.php';
-\OC::$CLASSPATH['OCP\Calendar\Permissions'] = 'calendar/public/permissions.php';

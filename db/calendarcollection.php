@@ -21,10 +21,10 @@
  */
 namespace OCA\Calendar\Db;
 
-use OCP\Calendar\IBackendCollection;
-use OCP\Calendar\ICalendarCollection;
-use OCP\Calendar\IBackend;
-use OCP\Calendar\ICalendar;
+use OCA\Calendar\IBackendCollection;
+use OCA\Calendar\ICalendarCollection;
+use OCA\Calendar\IBackend;
+use OCA\Calendar\ICalendar;
 
 class CalendarCollection extends Collection implements ICalendarCollection {
 

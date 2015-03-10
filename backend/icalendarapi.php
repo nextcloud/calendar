@@ -19,20 +19,9 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCP\Calendar;
+namespace OCA\Calendar;
 
-/**
- * Interface ICalendarAPI
- *
- * @method ICalendar create() create(ICalendar $calendar) create a calendar
- * @method ICalendar update() update(ICalendar $calendar) update a calendar
- * @method boolean delete() delete($privateUri, $userId) delete a calendar
- */
 interface ICalendarAPI {
-
-	const CREATE =  'create';
-	const UPDATE = 'update';
-	const DELETE = 'delete';
 
 	/**
 	 * returns information about calendar $privateUri of the user $userId
@@ -61,4 +50,43 @@ interface ICalendarAPI {
 	 * @return array
 	 */
 	public function listAll($userId);
+
+
+	/**
+	 * check if $calendar has updated on backend
+	 * @param ICalendar $calendar
+	 * @return boolean
+	 */
+	public function hasUpdated(ICalendar $calendar);
+}
+
+interface ICalendarAPICreate extends ICalendarAPI {
+
+	/**
+	 * create a calendar
+	 * @param ICalendar $calendar
+	 * @return ICalendar
+	 */
+	public function create(ICalendar $calendar);
+}
+
+interface ICalendarAPIUpdate extends ICalendarAPI {
+
+	/**
+	 * update a calendar
+	 * @param ICalendar $calendar
+	 * @return ICalendar
+	 */
+	public function update(ICalendar $calendar);
+}
+
+interface ICalendarAPIDelete extends ICalendarAPI {
+
+	/**
+	 * delete a calendar
+	 * @param string $privateUri
+	 * @param string $userId
+	 * @return boolean
+	 */
+	public function delete($privateUri, $userId);
 }

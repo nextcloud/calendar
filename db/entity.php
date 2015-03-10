@@ -9,7 +9,7 @@
 namespace OCA\Calendar\Db;
 
 use OCA\Calendar\Utility\Utility;
-use OCP\Calendar\IEntity;
+use OCA\Calendar\IEntity;
 
 abstract class Entity extends \OCP\AppFramework\Db\Entity implements IEntity {
 

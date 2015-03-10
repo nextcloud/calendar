@@ -21,7 +21,7 @@
  */
 namespace OCA\Calendar\Db;
 
-use OCP\Calendar\ISubscription;
+use OCA\Calendar\ISubscription;
 
 class Subscription extends Entity implements ISubscription {
 

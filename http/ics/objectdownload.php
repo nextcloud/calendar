@@ -34,7 +34,7 @@ class ICSObjectDownloadResponse extends TextDownloadResponse {
 
 
 	/**
-	 * @param \OCP\Calendar\IObjectCollection $data
+	 * @param \OCA\Calendar\IObjectCollection $data
 	 * @param TimezoneMapper $timezones
 	 * @param string $mimeType
 	 * @param string $filename

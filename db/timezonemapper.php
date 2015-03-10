@@ -22,7 +22,8 @@
 namespace OCA\Calendar\Db;
 
 use OCP\AppFramework\Db\DoesNotExistException;
-use OCP\Calendar\IEntity;
+use OCA\Calendar\IEntity;
+use OCP\AppFramework\Db\Entity;
 use OCP\Util;
 
 class TimezoneMapper extends Mapper {
@@ -125,7 +126,7 @@ class TimezoneMapper extends Mapper {
 	/**
 	 * deleting timezones is not supported
 	 */
-	public function delete(IEntity $entity){
+	public function delete(Entity $entity){
 		return null;
 	}
 
@@ -133,7 +134,7 @@ class TimezoneMapper extends Mapper {
 	/**
 	 * create timezones is not supported
 	 */
-	public function insert(IEntity $entity){
+	public function insert(Entity $entity){
 		return null;
 	}
 
@@ -141,7 +142,7 @@ class TimezoneMapper extends Mapper {
 	/**
 	 * updating timezones is not supported
 	 */
-	public function update(IEntity $entity){
+	public function update(Entity $entity){
 		return null;
 	}
 

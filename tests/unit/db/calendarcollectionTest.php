@@ -21,7 +21,7 @@
  */
 namespace OCA\Calendar\Db;
 
-use OCP\Calendar\ObjectType;
+use OCA\Calendar\ObjectType;
 
 class CalendarCollectionTest extends \PHPUnit_Framework_TestCase {
 
@@ -47,53 +47,71 @@ class CalendarCollectionTest extends \PHPUnit_Framework_TestCase {
 	 * Initialize the calendar object we are going to test
 	 */
 	protected function setup() {
-		/*$this->backends[0] = new Backend(array(
-			'backend' => 'database123',
-			'classname' => 'DatabaseClass',
-			'arguments' => array(),
-			'enabled' => true,
-		));
+		$backendMocks = [];
+		$backendMocks[0] = $this->getMock('\OCA\Calendar\IBackend');
+		$backendMocks[0]->expects($this->any())
+			->method('getId')
+			->will($this->returnValue('database123'));
+		$backendMocks[1] = $this->getMock('\OCA\Calendar\IBackend');
+		$backendMocks[1]->expects($this->any())
+			->method('getId')
+			->will($this->returnValue('caldav456'));
 
-		$this->backends[1] = new Backend(array(
-			'backend' => 'caldav456',
-			'classname' => 'CalDAVClass',
-			'arguments' => array(),
-			'enabled' => false,
-		));
+		$timezoneMocks = [];
+		$timezoneMocks[0] = $this->getMock('\OCA\Calendar\ITimezone');
+		$timezoneMocks[0]->expects($this->any())
+			->method('getTzId')
+			->will($this->returnValue('Europe/Berlin'));
+		$timezoneMocks[0]->expects($this->any())
+			->method('isValid')
+			->will($this->returnValue(true));
 
+		$timezoneMocks[1] = $this->getMock('\OCA\Calendar\ITimezone');
+		$timezoneMocks[1]->expects($this->any())
+			->method('getTzId')
+			->will($this->returnValue('Europe/London'));
+		$timezoneMocks[1]->expects($this->any())
+			->method('isValid')
+			->will($this->returnValue(true));
 
-		$this->calendars[0] = new Calendar(array(
-			'userId' => 'jack',
-			'ownerId' => 'johnnie',
-			'publicuri' => 'calendar1',
-			'backend' => $this->backends[0],
+		$this->calendars = [];
+		$this->calendars[] = [
+			'backend' => $backendMocks[0],
 			'color' => 'rgba(255,255,255,1.0)',
-			'cruds' => Permissions::ALL,
-			'components' => ObjectType::EVENT+ObjectType::TODO,
+			'cruds' => Permissions::READ,
+			'components' => ObjectType::EVENT,
 			'ctag' => 1,
 			'description' => 'Some random description text',
 			'displayname' => 'Random cal',
 			'enabled' => false,
-			'lastPropertiesUpdate' => 1234,
-			'lastObjectUpdate' => 5678,
 			'order' => 10,
-			'timezone' => new Timezone($europeBerlin),
-			'privateuri' => 'another-test-calendar',
-		));
+			'ownerId' => 'user123',
+			'timezone' => $timezoneMocks[0],
+			'publicUri' => 'test-calendar',
+			'privateUri' => 'another-test-calendar',
+			'userId' => 'user456',
+			'fileId' => 1,
+		];
 
-		$this->calendars[1] = new Calendar(array(
+		$this->calendars[] = [
+			'backend' => $backendMocks[1],
+			'color' => 'rgba(0,0,0,0.8)',
+			'cruds' => Permissions::READ + Permissions::DELETE,
+			'components' => ObjectType::EVENT + ObjectType::TODO,
+			'ctag' => 2,
+			'description' => 'Another random description text',
+			'displayname' => 'Another cal',
+			'enabled' => true,
+			'order' => 15,
+			'ownerId' => 'user456',
+			'timezone' => $timezoneMocks[1],
+			'publicUri' => 'test-calendar-2',
+			'privateUri' => 'another-test-calendar-2',
+			'userId' => 'user123',
+			'fileId' => 2,
+		];
 
-		));
-
-		$this->calendars[2] = new Calendar(array(
-
-		));
-
-		$this->calendars[3] = new Calendar(array(
-
-		));
-
-		$this->calendarCollection = new CalendarCollection($this->calendars);*/
+		$this->calendarCollection = CalendarCollection::fromArray($this->calendars);
 	}
 
 

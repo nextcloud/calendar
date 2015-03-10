@@ -21,58 +21,74 @@
  */
 namespace OCA\Calendar\Backend;
 
-use OCP\Calendar\IBackend;
+use OCA\Calendar\Db\BackendCollection;
+use OCA\Calendar\IBackend;
+use OCA\Calendar\IBackendCollection;
 
 class Manager {
+	/**
+	 * @var IBackendCollection
+	 */
+	protected $backends;
+
 
 	/**
-	 * @var array
+	 * Constructor
 	 */
-	private static $backends=[];
+	public function __construct() {
+		$this->clear();
+	}
 
 
 	/**
 	 * get all registered backends
 	 *
-	 * @return array
+	 * @return IBackendCollection
 	 */
-	public static function getAll() {
-		return self::$backends;
+	public function getAll() {
+		return $this->backends;
 	}
 
 
 	/**
-	 * register backend
+	 * add backend to manager
 	 *
-	 * @param $backend
-	 * @return void
+	 * @param IBackend $backend
 	 */
-	public static function register($backend) {
-		if (!($backend instanceof IBackend)) {
-			return;
-		}
-
-		foreach(self::$backends as $registeredBackend) {
-			/** @var \OCP\Calendar\IBackend $registeredBackend */
+	public function addBackend(IBackend $backend) {
+		foreach($this->backends as $registeredBackend) {
+			/** @var \OCA\Calendar\IBackend $registeredBackend */
 			if ($backend->getId() === $registeredBackend->getId()) {
 				\OC::$server->getLogger()->error(
 					'{backend} was already registered!',
-					array(
+					[
 						'backend' => $backend->getId()
-					)
+					]
 				);
 				return;
 			}
 		}
 
-		self::$backends[] = $backend;
+		$this->backends[] = $backend;
+	}
+
+
+	/**
+	 * remove backend from manager
+	 *
+	 * @param IBackend $backend
+	 */
+	public function removeBackend(IBackend $backend) {
+		if(($key = array_search($backend, $this->backends)) !== false) {
+			unset($this->backends[$key]);
+		}
 	}
 
 
 	/**
 	 * reset already registered backends
 	 */
-	public static function reset() {
-		self::$backends = [];
+	public function clear() {
+		$this->backends = new BackendCollection();
 	}
 }

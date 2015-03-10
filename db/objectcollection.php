@@ -25,9 +25,9 @@ use OCA\Calendar\Sabre\VObject\Component\VCalendar;
 use OCA\Calendar\Sabre\VObject\Component\VEvent;
 use OCA\Calendar\Sabre\VObject\Component\VJournal;
 use OCA\Calendar\Sabre\VObject\Component\VTodo;
-use OCP\Calendar\IObjectCollection;
-use OCP\Calendar\IObject;
-use OCP\Calendar\ITimezone;
+use OCA\Calendar\IObjectCollection;
+use OCA\Calendar\IObject;
+use OCA\Calendar\ITimezone;
 
 use DateTime;
 

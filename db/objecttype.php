@@ -21,7 +21,13 @@
  */
 namespace OCA\Calendar\Db;
 
-class ObjectType extends \OCP\Calendar\ObjectType {
+class ObjectType {
+
+	const NONE		= 0;
+	const EVENT		= 1;
+	const JOURNAL	= 2;
+	const TODO		= 4;
+	const ALL		= 7;
 
 	/**
 	 * get type as string
@@ -134,15 +140,15 @@ class ObjectType extends \OCP\Calendar\ObjectType {
 		}
 
 		switch($string) {
-			case 'OCA\\Calendar\\Sabre\\VObject\\Component\\VEvent':
+			case 'OCA\\CalendarManager\\Sabre\\VObject\\Component\\VEvent':
 				$type = self::EVENT;
 				break;
 
-			case 'OCA\\Calendar\\Sabre\\VObject\\Component\\VJournal':
+			case 'OCA\\CalendarManager\\Sabre\\VObject\\Component\\VJournal':
 				$type = self::JOURNAL;
 				break;
 
-			case 'OCA\\Calendar\\Sabre\\VObject\\Component\\VTodo':
+			case 'OCA\\CalendarManager\\Sabre\\VObject\\Component\\VTodo':
 				$type = self::TODO;
 				break;
 

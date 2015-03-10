@@ -29,7 +29,6 @@ require_once(__DIR__ . '/classpath.php');
 $app = new Application();
 $app->registerNavigation();
 
-$app->registerBackends();
 $app->registerCron();
 $app->registerHooks();
 $app->registerProviders();

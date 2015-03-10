@@ -1,5 +1,5 @@
 <?php $TRANSLATIONS = array(
-"Calendar" => "日曆",
+"CalendarManager" => "日曆",
 "Sunday" => "星期日",
 "Monday" => "星期一",
 "Tuesday" => "星期二",

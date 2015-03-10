@@ -21,8 +21,8 @@
  */
 namespace OCA\Calendar\Utility;
 
-use OCP\Calendar\ObjectType;
-use OCP\Calendar\Permissions;
+use OCA\Calendar\Db\ObjectType;
+use OCA\Calendar\Db\Permissions;
 use OCP\User;
 
 class JSONUtility extends Utility {

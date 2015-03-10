@@ -21,7 +21,7 @@
  */
 namespace OCA\Calendar\Db;
 
-use OCP\Calendar\ITimezone;
+use OCA\Calendar\ITimezone;
 use OCA\Calendar\Sabre\VObject\Component\VCalendar;
 use OCA\Calendar\Sabre\VObject\Reader;
 use OCA\Calendar\Sabre\VObject\ParseException;
@@ -136,7 +136,7 @@ class Timezone extends Entity implements ITimezone {
 	 */
 	protected function registerTypes() {
 		$this->addAdvancedFieldType('vObject',
-			'OCA\\Calendar\\Sabre\\VObject\\Component\\VCalendar');
+			'OCA\\CalendarManager\\Sabre\\VObject\\Component\\VCalendarManager');
 	}
 
 

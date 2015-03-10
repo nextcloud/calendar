@@ -21,6 +21,8 @@
  */
 namespace OCA\Calendar\Db;
 
+use OCA\Calendar\IBackend;
+
 class BackendTest extends \PHPUnit_Framework_TestCase {
 
 	/**
@@ -42,146 +44,102 @@ class BackendTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * Initialize the calendar object we are going to test
+	 * Initialize the backend object we are going to test
 	 */
 	protected function setup() {
-		$api = $this->getMock('OCP\Calendar\IBackendAPI');
+		$this->initValues = [
+			'id' => 'backend123',
+			'backendAPI' => function() {
+				return $this->getMock('\OCA\Calendar\IBackendAPI');
+			},
+			'calendarAPI' => function() {
+				return $this->getMock('OCA\Calendar\ICalendarAPI');
+			},
+			'objectAPI' => function() {
+				return $this->getMock('OCA\Calendar\IObjectAPI');
+			},
+			'objectCache' => function() {
+				return $this->getMock('OCA\Calendar\Db\ObjectMapper');
+			}
+		];
 
-		$this->initValues = array(
-			'backend' => 'database123',
-			'classname' => 'DatabaseClass',
-			'arguments' => array(
-				'testArgument' => 'testValue',
-			),
-			'enabled' => true,
-			'api' => null,
-		);
+		$this->newValues = [
+			'id' => 'backend456',
+		];
 
-		$this->newValues = array(
-			'backend' => 'caldav456',
-			'classname' => 'CalDAVClass',
-			'arguments' => array(
-				'testArgumentForCalDAV' => 'testValueForCalDAV',
-			),
-			'enabled' => false,
-			'api' => $api,
-		);
-
-		$this->backend = new Backend($this->initValues);
+		$this->backend = Backend::fromParams($this->initValues);
 	}
 
 
-	/**
-	 * Getters
-	 */
-	public function testGetBackend() {
-		$expected = $this->initValues['backend'];
-		$actual = $this->backend->getBackend();
+	public function testGetId() {
+		$expected = $this->initValues['id'];
+		$actual = $this->backend->getId();
 
 		$this->assertSame($expected, $actual);
 	}
 
 
-	public function testGetClassname() {
-		$expected = $this->initValues['classname'];
-		$actual = $this->backend->getClassname();
+	public function testGetBackendAPI() {
+		$expected = $this->initValues['backendAPI'];
+		$actual = $this->backend->getBackendAPI();
 
 		$this->assertSame($expected, $actual);
 	}
 
 
-	public function testGetArguments() {
-		$expected = $this->initValues['arguments'];
-		$actual = $this->backend->getArguments();
+	public function testGetCalendarAPI() {
+		$expected = $this->initValues['calendarAPI'];
+		$actual = $this->backend->getCalendarAPI();
 
 		$this->assertSame($expected, $actual);
 	}
 
 
-	public function testGetEnabled() {
-		$expected = $this->initValues['enabled'];
-		$actual = $this->backend->getEnabled();
-
-		$this->assertSame($expected, $actual);
-
-	}
-
-
-	public function testGetAPI() {
-		$expected = $this->initValues['api'];
-		$actual = $this->backend->getAPI();
+	public function testGetObjectAPI() {
+		$expected = $this->initValues['objectAPI']();
+		//TODO - how to test that a method passes an argument to the constructor of the object that's returned?
+		$actual = $this->backend->getObjectAPI($this->getMock('\OCA\CalendarManager\ICalendarManager'));
 
 		$this->assertSame($expected, $actual);
 	}
 
 
-	/**
-	 * Setters
-	 */
-	public function testSetBackend() {
-		$expected = $this->newValues['backend'];
-		$this->backend->setBackend($expected);
-		$actual = $this->backend->getBackend();
+	public function testGetObjectCache() {
+		$expected = $this->initValues['objectCache']();
+		$actual = $this->backend->getObjectCache($this->getMock('\OCA\CalendarManager\ICalendarManager'));
 
 		$this->assertSame($expected, $actual);
 	}
 
 
-	public function testSetClassname() {
-		$expected = $this->newValues['classname'];
-		$this->backend->setClassname($expected);
-		$actual = $this->backend->getClassname();
+	public function testSetId() {
 
-		$this->assertSame($expected, $actual);
 	}
 
 
-	public function testSetArguments() {
-		$expected = $this->newValues['arguments'];
-		$this->backend->setArguments($expected);
-		$actual = $this->backend->getArguments();
+	public function testSetBackendAPI() {
 
-		$this->assertSame($expected, $actual);
 	}
 
 
-	public function testSetEnabled() {
-		$expected = $this->newValues['enabled'];
-		$this->backend->setEnabled($expected);
-		$actual = $this->backend->getEnabled();
+	public function testSetCalendarAPI() {
 
-		$this->assertSame($expected, $actual);
 	}
 
 
-	public function testDisable() {
-		$this->backend->setEnabled(true);
-		$this->backend->disable();
+	public function testSetObjectAPI() {
 
-		$this->assertFalse($this->backend->getEnabled());
 	}
 
 
-	public function testEnable() {
-		$this->backend->setEnabled(false);
-		$this->backend->enable();
+	public function testSetObjectCache() {
 
-		$this->assertTrue($this->backend->getEnabled());
-	}
-
-
-	public function testRegisterAPI() {
-		$expected = $this->newValues['api'];
-		$this->backend->registerAPI($expected);
-		$actual = $this->backend->getAPI();
-
-		$this->assertSame($expected, $actual);
 	}
 
 
 	public function testToString() {
-		$expected = $this->initValues['backend'];
-		$this->backend->setBackend($expected);
+		$expected = $this->initValues['id'];
+		$this->backend->setId($expected);
 
 		$this->assertSame($expected, (string) $this->backend);
 	}

@@ -21,8 +21,8 @@
  */
 namespace OCA\Calendar\Db;
 
-use OCP\Calendar\ICollection;
-use OCP\Calendar\IEntity;
+use OCA\Calendar\ICollection;
+use OCA\Calendar\IEntity;
 
 abstract class Collection implements ICollection {
 
@@ -212,7 +212,9 @@ abstract class Collection implements ICollection {
 	 */
 	public function search($key, $value) {
 		/** @var ICollection $collection */
-		$collection = new static();
+		$collection = clone $this;
+		$collection->reset();
+
 		$getter = 'get' . ucfirst($key);
 
 		foreach($this->objects as $object) {
@@ -397,5 +399,9 @@ abstract class Collection implements ICollection {
 	 */
 	public function valid() {
 		return array_key_exists($this->key(), $this->objects);
+	}
+
+	public function reset() {
+		$this->objects = [];
 	}
 }

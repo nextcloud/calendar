@@ -40,33 +40,49 @@ class BackendCollectionTest extends \PHPUnit_Framework_TestCase {
 	 */
 	protected function setup() {
 		$this->backends[0] = $this->getMock('\OCA\Calendar\Db\Backend');
-		$this->backends[0]->expects($this->any())->method('getId')->will($this->returnValue('database123'));
+		$this->backends[0]->expects($this->any())
+			->method('getId')
+			->will($this->returnValue('database123'));
 
-		$calendarAPIs[0] = $this->getMock('\OCP\Calendar\ICalendarAPI');
-		$calendarAPIs[0]->expects($this->any())->method('listAll')->will($this->returnValue(['abc', 'def']));
+		$calendarAPIs[0] = $this->getMock('\OCA\Calendar\ICalendarAPI');
+		$calendarAPIs[0]->expects($this->any())
+			->method('listAll')
+			->will($this->returnValue(['abc', 'def']));
 
-		$this->backends[0]->expects($this->any())->method('getCalendarAPI')->will($this->returnValue($calendarAPIs[0]));
+		$this->backends[0]->expects($this->any())
+			->method('getCalendarAPI')
+			->will($this->returnValue($calendarAPIs[0]));
 
 		$this->backends[1] = $this->getMock('OCA\Calendar\Db\Backend');
-		$this->backends[1]->expects($this->any())->method('getId')->will($this->returnValue('caldav456'));
+		$this->backends[1]->expects($this->any())
+			->method('getId')
+			->will($this->returnValue('caldav456'));
 
-		$calendarAPIs[1] = $this->getMock('\OCP\Calendar\ICalendarAPI');
-		$calendarAPIs[1]->expects($this->any())->method('listAll')->will($this->returnValue(['ghi', 'jkl']));
+		$calendarAPIs[1] = $this->getMock('\OCA\Calendar\ICalendarAPI');
+		$calendarAPIs[1]->expects($this->any())
+			->method('listAll')
+			->will($this->returnValue(['ghi', 'jkl']));
 
-		$this->backends[1]->expects($this->any())->method('getCalendarAPI')->will($this->returnValue($calendarAPIs[1]));
+		$this->backends[1]->expects($this->any())
+			->method('getCalendarAPI')
+			->will($this->returnValue($calendarAPIs[1]));
 
 		$this->backends[2] = $this->getMock('OCA\Calendar\Db\Backend');
-		$this->backends[2]->expects($this->any())->method('getId')->will($this->returnValue('webcal789'));
+		$this->backends[2]->expects($this->any())
+			->method('getId')
+			->will($this->returnValue('webcal789'));
 
-		$calendarAPIs[2] = $this->getMock('\OCP\Calendar\ICalendarAPI');
-		$calendarAPIs[2]->expects($this->any())->method('listAll')->will($this->returnValue(['mno', 'pqr']));
+		$calendarAPIs[2] = $this->getMock('\OCA\Calendar\ICalendarAPI');
+		$calendarAPIs[2]->expects($this->any())
+			->method('listAll')
+			->will($this->returnValue(['mno', 'pqr']));
 
 		$this->backends[2]->expects($this->any())->method('getCalendarAPI')->will($this->returnValue($calendarAPIs[2]));
 
 		$this->backends[3] = $this->getMock('OCA\Calendar\Db\Backend');
 		$this->backends[3]->expects($this->any())->method('getId')->will($this->returnValue('sharing012'));
 
-		$calendarAPIs[3] = $this->getMock('\OCP\Calendar\ICalendarAPI');
+		$calendarAPIs[3] = $this->getMock('\OCA\Calendar\ICalendarAPI');
 		$calendarAPIs[3]->expects($this->any())->method('listAll')->will($this->returnValue(['stu', 'vwx']));
 
 		$this->backends[3]->expects($this->any())->method('getCalendarAPI')->will($this->returnValue($calendarAPIs[3]));

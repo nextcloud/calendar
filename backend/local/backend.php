@@ -26,8 +26,8 @@
 namespace OCA\Calendar\Backend\Local;
 
 use OCA\Calendar\Backend\SubscriptionInvalidException;
-use OCP\Calendar\IBackendAPI;
-use OCP\Calendar\ISubscription;
+use OCA\Calendar\IBackendAPI;
+use OCA\Calendar\ISubscription;
 
 class Backend implements IBackendAPI {
 

@@ -22,8 +22,9 @@
 namespace OCA\Calendar\Controller;
 
 use OCP\AppFramework\Http;
-use OCP\Calendar\IBackendCollection;
+use OCA\Calendar\IBackendCollection;
 use OCP\IRequest;
+use OCP\IUserSession;
 
 use OCA\Calendar\Http\JSON\JSONBackendResponse;
 
@@ -39,12 +40,12 @@ class BackendController extends Controller {
 	/**
 	 * @param string $appName
 	 * @param IRequest $request an instance of the request
-	 * @param string $userId
+	 * @param IUserSession $userSession
 	 * @param IBackendCollection $backends
 	 */
-	public function __construct($appName, IRequest $request, $userId,
+	public function __construct($appName, IRequest $request, IUserSession $userSession,
 								IBackendCollection $backends) {
-		parent::__construct($appName, $request, $userId);
+		parent::__construct($appName, $request, $userSession);
 		$this->backends = $backends;
 
 		$this->registerResponder('json', function($value) {

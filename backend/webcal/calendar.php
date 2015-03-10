@@ -23,23 +23,27 @@
  */
 namespace OCA\Calendar\Backend\WebCal;
 
+use OCA\Calendar\Backend\Exception;
+use OCA\Calendar\BusinessLayer\BusinessLayerException;
 use OCA\Calendar\BusinessLayer\SubscriptionBusinessLayer;
 use OCA\Calendar\Db\CalendarCollection;
 use OCA\Calendar\Sabre\VObject\Component\VCalendar;
 use OCA\Calendar\Sabre\VObject\ParseException;
 use OCA\Calendar\Sabre\VObject\Reader;
+use OCA\Calendar\Backend\Exception as BackendException;
 use OCP\AppFramework\Db\DoesNotExistException;
 
 use OCA\Calendar\CorruptDataException;
-use OCP\Calendar\IBackend;
-use OCP\Calendar\ICalendar;
-use OCP\Calendar\ICalendarAPI;
-use OCP\Calendar\ICalendarCollection;
-use OCP\Calendar\ISubscription;
-use OCP\Calendar\ObjectType;
-use OCP\Calendar\Permissions;
+use OCA\Calendar\IBackend;
+use OCA\Calendar\ICalendar;
+use OCA\Calendar\ICalendarAPI;
+use OCA\Calendar\ICalendarAPIDelete;
+use OCA\Calendar\ICalendarCollection;
+use OCA\Calendar\ISubscription;
+use OCA\Calendar\ObjectType;
+use OCA\Calendar\Permissions;
 
-class Calendar extends WebCal implements ICalendarAPI {
+class Calendar extends WebCal implements ICalendarAPI, ICalendarAPIDelete {
 
 	/**
 	 * @var IBackend
@@ -122,7 +126,7 @@ class Calendar extends WebCal implements ICalendarAPI {
 
 	/**
 	 * @param ISubscription $subscription
-	 * @return \OCP\Calendar\IEntity
+	 * @return \OCA\Calendar\IEntity
 	 * @throws CorruptDataException
 	 */
 	private function generateCalendar(ISubscription $subscription) {
@@ -146,7 +150,7 @@ class Calendar extends WebCal implements ICalendarAPI {
 			$calendar = new \OCA\Calendar\Db\Calendar();
 			$calendar->fromVObject($vobject);
 		} catch(ParseException $ex) {
-			throw new CorruptDataException('Calendar-data is not valid!');
+			throw new CorruptDataException('CalendarManager-data is not valid!');
 		}
 
 		$calendar->setUserId($subscription->getUserId());
@@ -161,5 +165,21 @@ class Calendar extends WebCal implements ICalendarAPI {
 		$calendar->setCtag(time());
 
 		return $calendar;
+	}
+
+
+	/**
+	 * @param string $privateUri
+	 * @param string $userId
+	 * @throws Exception
+	 * @return boolean
+	 */
+	public function delete($privateUri, $userId) {
+		try {
+			$subscription = $this->subscriptions->find($privateUri, $userId);
+			return $this->subscriptions->delete($subscription);
+		} catch(BusinessLayerException $ex) {
+			throw new Exception($ex);
+		}
 	}
 }

@@ -28,8 +28,8 @@ use OCA\Calendar\Backend\SubscriptionInvalidException;
 use OCA\Calendar\Sabre\VObject\Component\VCalendar;
 use OCA\Calendar\Sabre\VObject\ParseException;
 use OCA\Calendar\Sabre\VObject\Reader;
-use OCP\Calendar\IBackendAPI;
-use OCP\Calendar\ISubscription;
+use OCA\Calendar\IBackendAPI;
+use OCA\Calendar\ISubscription;
 
 class Backend extends WebCal implements IBackendAPI {
 
@@ -159,7 +159,7 @@ class Backend extends WebCal implements IBackendAPI {
 				throw new ParseException();
 			}
 		} catch(ParseException $ex) {
-			throw new SubscriptionInvalidException('Calendar-data is not valid!');
+			throw new SubscriptionInvalidException('CalendarManager-data is not valid!');
 		}
 	}
 }

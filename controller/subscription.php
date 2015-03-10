@@ -23,8 +23,8 @@ namespace OCA\Calendar\Controller;
 
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
-use OCP\Calendar\IBackendCollection;
-use OCP\Calendar\ISubscription;
+use OCA\Calendar\IBackendCollection;
+use OCA\Calendar\ISubscription;
 use OCP\IRequest;
 
 use OCA\Calendar\Backend\Exception as BackendException;
@@ -32,6 +32,7 @@ use OCA\Calendar\BusinessLayer\SubscriptionBusinessLayer;
 use OCA\Calendar\Http\JSON\JSONSubscriptionReader;
 use OCA\Calendar\Http\JSON\JSONSubscriptionResponse;
 use OCA\Calendar\Http\ReaderException;
+use OCP\IUserSession;
 
 class SubscriptionController extends Controller {
 
@@ -52,14 +53,14 @@ class SubscriptionController extends Controller {
 	/**
 	 * @param string $appName
 	 * @param IRequest $request an instance of the request
-	 * @param string $userId
+	 * @param IUserSession $userSession
 	 * @param SubscriptionBusinessLayer $subscriptions
 	 * @param IBackendCollection $backends
 	 */
-	public function __construct($appName, IRequest $request, $userId,
+	public function __construct($appName, IRequest $request, IUserSession $userSession,
 								SubscriptionBusinessLayer $subscriptions,
 								IBackendCollection $backends) {
-		parent::__construct($appName, $request, $userId);
+		parent::__construct($appName, $request, $userSession);
 		$this->subscriptions = $subscriptions;
 		$this->backends = $backends;
 

@@ -48,8 +48,8 @@ class TimezoneTest extends \PHPUnit_Framework_TestCase {
 
 
 	public function testSetVobject() {
-		$berlin = new Timezone($this->berlinData);
-		$london = new Timezone($this->londonData);
+		$berlin = Timezone::fromData($this->berlinData);
+		$london = Timezone::fromData($this->londonData);
 
 		$londonVobject = $london->getVObject();
 
@@ -62,20 +62,20 @@ class TimezoneTest extends \PHPUnit_Framework_TestCase {
 
 
 	public function testGetVobject() {
-		$berlin = new Timezone($this->berlinData);
+		$berlin = Timezone::fromData($this->berlinData);
 		$vobject = $berlin->getVObject();
 
 		//TODO - remove OCA\Calendar prefix once we have latest vobject in 3rdparty
-		$this->assertInstanceOf('\OCA\Calendar\Sabre\VObject\Component\VCalendar', $vobject);
+		$this->assertInstanceOf('\OCA\CalendarManager\Sabre\VObject\Component\VCalendarManager', $vobject);
 		$this->assertSame('Europe/Berlin', $vobject->{'VTIMEZONE'}->{'TZID'}->getValue());
 	}
 
 
 	public function testGetTzId() {
-		$berlin = new Timezone($this->berlinData);
+		$berlin = Timezone::fromData($this->berlinData);
 		$this->assertSame('Europe/Berlin', $berlin->getTzId());
 
-		$london = new Timezone($this->londonData);
+		$london = Timezone::fromData($this->londonData);
 		$this->assertSame('Europe/London', $london->getTzId());
 	}
 }

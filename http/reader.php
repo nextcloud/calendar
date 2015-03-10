@@ -21,8 +21,8 @@
  */
 namespace OCA\Calendar\Http;
 
-use OCP\Calendar\IEntity;
-use OCP\Calendar\ICollection;
+use OCA\Calendar\IEntity;
+use OCA\Calendar\ICollection;
 
 abstract class Reader {
 

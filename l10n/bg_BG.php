@@ -1,6 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Invalid request" => "Невалидна заявка",
-"Calendar" => "Календар",
+"CalendarManager" => "Календар",
 "Title" => "Заглавие",
 "Other" => "Други",
 "Personal" => "Лични",

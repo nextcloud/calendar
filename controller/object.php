@@ -21,15 +21,17 @@
  */
 namespace OCA\Calendar\Controller;
 
+use OCA\Calendar\BusinessLayer\CalendarRequestManager;
+use OCA\Calendar\BusinessLayer\ObjectRequestManager;
+use OCA\Calendar\IBackendCollection;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
-use OCP\Calendar\ICalendar;
-use OCP\Calendar\IObject;
-use OCP\Calendar\IObjectCollection;
+use OCA\Calendar\ICalendar;
+use OCA\Calendar\IObject;
+use OCA\Calendar\IObjectCollection;
 use OCP\IRequest;
 
-use OCA\Calendar\BusinessLayer\BusinessLayerException;
-use OCA\Calendar\BusinessLayer\CalendarBusinessLayer;
+use OCA\Calendar\BusinessLayer\Exception as BusinessLayerException;
 use OCA\Calendar\Db\Permissions;
 use OCA\Calendar\Db\TimezoneMapper;
 use OCA\Calendar\Http\ICS\ICSObjectReader;
@@ -39,15 +41,15 @@ use OCA\Calendar\Http\JSON\JSONObjectReader;
 use OCA\Calendar\Http\JSON\JSONObjectResponse;
 use OCA\Calendar\Http\ReaderException;
 use OCA\Calendar\Http\TextDownloadResponse;
-use OCA\Calendar\ObjectRequestManager;
 
 use DateTime;
+use OCP\IUserSession;
 
 class ObjectController extends Controller {
 
 	/**
 	 * BusinessLayer for managing calendars
-	 * @var \OCA\Calendar\BusinessLayer\CalendarBusinessLayer
+	 * @var \OCA\Calendar\BusinessLayer\CalendarRequestManager
 	 */
 	protected $calendars;
 
@@ -71,18 +73,20 @@ class ObjectController extends Controller {
 	/**
 	 * @param string $appName
 	 * @param IRequest $request an instance of the request
-	 * @param string $userId
-	 * @param CalendarBusinessLayer $calendars
+	 * @param IUserSession $userSession
+	 * @param IBackendCollection $backends
 	 * @param TimezoneMapper $timezones
 	 * @param integer $type
 	 */
-	public function __construct($appName, IRequest $request, $userId,
-								CalendarBusinessLayer $calendars,
+	public function __construct($appName, IRequest $request, IUserSession $userSession,
+								IBackendCollection $backends,
 								TimezoneMapper $timezones,
 								$type){
 
-		parent::__construct($appName, $request, $userId);
-		$this->calendars = $calendars;
+		parent::__construct($appName, $request, $userSession);
+		$this->calendars = new CalendarRequestManager($backends, $this->userId);
+		$this->backends = $backends;
+
 		$this->objectType = $type;
 		$this->timezones = $timezones;
 
@@ -382,7 +386,7 @@ class ObjectController extends Controller {
 	/**
 	 * get calendar entity based on it's id
 	 * @param integer $calendarId
-	 * @return \OCP\Calendar\ICalendar
+	 * @return \OCA\Calendar\ICalendar
 	 */
 	private function findCalendar($calendarId) {
 		return $this->calendars->find(

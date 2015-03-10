@@ -35,7 +35,7 @@ class ICSObjectResponse extends TextResponse {
 
 
 	/**
-	 * @param \OCP\Calendar\IObjectCollection|\OCP\Calendar\IObject $data
+	 * @param \OCA\Calendar\IObjectCollection|\OCA\Calendar\IObject $data
 	 * @param TimezoneMapper $timezones
 	 * @param integer $statusCode
 	 *

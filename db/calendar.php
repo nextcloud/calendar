@@ -21,9 +21,9 @@
  */
 namespace OCA\Calendar\Db;
 
-use OCP\Calendar\IBackend;
-use OCP\Calendar\ICalendar;
-use OCP\Calendar\ITimezone;
+use OCA\Calendar\IBackend;
+use OCA\Calendar\ICalendar;
+use OCA\Calendar\ITimezone;
 use OCA\Calendar\Sabre\VObject\Component\VCalendar;
 use OCA\Calendar\Utility\CalendarUtility;
 use OCA\Calendar\Utility\ColorUtility;
@@ -511,8 +511,8 @@ class Calendar extends Entity implements ICalendar {
 		$this->addType('enabled', 'boolean');
 		$this->addType('cruds', 'integer');
 
-		$this->addAdvancedFieldType('backend', 'OCP\\Calendar\\IBackend');
-		$this->addAdvancedFieldType('timezone', 'OCP\\Calendar\\ITimezone');
+		$this->addAdvancedFieldType('backend', 'OCA\\Calendar\\IBackend');
+		$this->addAdvancedFieldType('timezone', 'OCA\\Calendar\\ITimezone');
 	}
 
 

@@ -21,6 +21,6 @@
  */
 namespace OCA\Calendar\Db;
 
-use OCP\Calendar\ISubscriptionCollection;
+use OCA\Calendar\ISubscriptionCollection;
 
 class SubscriptionCollection extends Collection implements ISubscriptionCollection {}

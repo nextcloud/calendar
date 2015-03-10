@@ -21,8 +21,8 @@
  */
 namespace OCA\Calendar\Db;
 
-use OCP\Calendar\ObjectType;
-use OCP\Calendar\Permissions;
+use OCA\Calendar\ObjectType;
+use OCA\Calendar\Permissions;
 
 class CalendarTest extends \PHPUnit_Framework_TestCase {
 
@@ -49,17 +49,17 @@ class CalendarTest extends \PHPUnit_Framework_TestCase {
 	 */
 	protected function setup() {
 		$backendMocks = [];
-		$backendMocks[0] = $this->getMock('\OCP\Calendar\IBackend');
+		$backendMocks[0] = $this->getMock('\OCA\Calendar\IBackend');
 		$backendMocks[0]->expects($this->any())
 			->method('getId')
 			->will($this->returnValue('database123'));
-		$backendMocks[1] = $this->getMock('\OCP\Calendar\IBackend');
+		$backendMocks[1] = $this->getMock('\OCA\Calendar\IBackend');
 		$backendMocks[1]->expects($this->any())
 			->method('getId')
 			->will($this->returnValue('caldav456'));
 
 		$timezoneMocks = [];
-		$timezoneMocks[0] = $this->getMock('\OCP\Calendar\ITimezone');
+		$timezoneMocks[0] = $this->getMock('\OCA\Calendar\ITimezone');
 		$timezoneMocks[0]->expects($this->any())
 			->method('getTzId')
 			->will($this->returnValue('Europe/Berlin'));
@@ -67,7 +67,7 @@ class CalendarTest extends \PHPUnit_Framework_TestCase {
 			->method('isValid')
 			->will($this->returnValue(true));
 
-		$timezoneMocks[1] = $this->getMock('\OCP\Calendar\ITimezone');
+		$timezoneMocks[1] = $this->getMock('\OCA\Calendar\ITimezone');
 		$timezoneMocks[1]->expects($this->any())
 			->method('getTzId')
 			->will($this->returnValue('Europe/London'));

@@ -26,27 +26,28 @@ namespace OCA\Calendar\Backend\Contact;
 use OCP\AppFramework\Db\DoesNotExistException;
 
 use OCA\Calendar\Db\CalendarCollection;
-use OCP\Calendar\IBackend;
-use OCP\Calendar\ICalendar;
-use OCP\Calendar\ICalendarAPI;
-use OCP\Calendar\ICalendarCollection;
+use OCA\Calendar\IBackend;
+use OCA\Calendar\ICalendar;
+use OCA\Calendar\ICalendarAPI;
+use OCA\Calendar\ICalendarCollection;
 use OCA\Calendar\Db\ObjectType;
-use OCP\Calendar\Permissions;
-use OCP\Contacts\IManager;
+use OCA\Calendar\Permissions;
+
+use OCA\Contacts\App as ContactsApp;
 
 class Calendar extends Contact implements ICalendarAPI {
 
 	/**
-	 * @var \OCP\Calendar\IBackend
+	 * @var \OCA\Calendar\IBackend
 	 */
 	private $backend;
 
 
 	/**
-	 * @param IManager $contacts
+	 * @param ContactsApp $contacts
 	 * @param IBackend $backend
 	 */
-	public function __construct(IManager $contacts, IBackend $backend) {
+	public function __construct(ContactsApp $contacts, IBackend $backend) {
 		parent::__construct($contacts);
 
 		$this->backend = $backend;
@@ -136,12 +137,12 @@ class Calendar extends Contact implements ICalendarAPI {
 	private function generateCTag() {
 		$ctag = 0;
 
-		$addressBooks = $this->contacts->getAddressBooks();
+		$addressBooks = $this->contacts->getAddressBooksForUser();
 		foreach ($addressBooks as $addressBook) {
-			/** @var \OCP\IAddressBook $addressBook */
-			// TODO: find solution for problem:
-			// right now we create the sum of all address-books' cTags
-			// problem: ctag decreases when one addressBook is deleted
+			$tmp = $addressBook->lastModified();
+			if(!is_null($tmp)) {
+				$ctag = max($ctag, $tmp);
+			}
 		}
 
 		return $ctag;

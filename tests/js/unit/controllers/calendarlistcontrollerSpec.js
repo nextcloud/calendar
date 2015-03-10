@@ -25,7 +25,7 @@ describe('CalendarListController', function() {
 
 	var controller, scope, model, routeParams, http;
 
-	beforeEach(module('Calendar'));
+	beforeEach(module('CalendarManager'));
 
 	beforeEach(inject(function ($controller, $rootScope, $httpBackend,
 		CalendarModel) {
@@ -44,7 +44,7 @@ describe('CalendarListController', function() {
 		});
 
 		var calendar = {
-			displayname : 'Sample Calendar',
+			displayname : 'Sample CalendarManager',
 			id: 7
 		};
 
@@ -52,12 +52,12 @@ describe('CalendarListController', function() {
 		scope.create();
 		http.flush(1);
 
-		expect(model.get(7).displayname).toBe('Sample Calendar');
+		expect(model.get(7).displayname).toBe('Sample CalendarManager');
 	});
 
 	it ('should delete the selected calendar', function () {
 		var calendars = [
-			{id: 7, title: 'Sample Calendar'}
+			{id: 7, title: 'Sample CalendarManager'}
 		];
 
 		controller = controller('CalendarListController', {

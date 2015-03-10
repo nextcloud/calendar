@@ -21,9 +21,9 @@
  */
 namespace OCA\Calendar\Http\JSON;
 
-use OCP\Calendar\IBackendCollection;
-use OCP\Calendar\ICalendar;
-use OCP\Calendar\IEntity;
+use OCA\Calendar\IBackendCollection;
+use OCA\Calendar\ICalendar;
+use OCA\Calendar\IEntity;
 
 use OCA\Calendar\BusinessLayer\BusinessLayerException;
 use OCA\Calendar\Db\TimezoneMapper;
@@ -34,7 +34,7 @@ class JSONCalendarReader extends SimpleJSONReader {
 
 	/**
 	 * Collection of initialized backends
-	 * @var \OCP\Calendar\IBackendCollection
+	 * @var \OCA\Calendar\IBackendCollection
 	 */
 	protected $backends;
 
@@ -63,7 +63,7 @@ class JSONCalendarReader extends SimpleJSONReader {
 	 */
 	public function __construct($handle, $userId, IBackendCollection $backends,
 								TimezoneMapper $timezones) {
-		parent::__construct($handle, '\\OCA\\Calendar\\Db\\Calendar');
+		parent::__construct($handle, '\\OCA\\CalendarManager\\Db\\CalendarManager');
 
 		$this->userId = $userId;
 		$this->backends = $backends;
@@ -151,7 +151,7 @@ class JSONCalendarReader extends SimpleJSONReader {
 	 */
 	private function parseBackend($backendId) {
 		foreach($this->backends as $backend) {
-			/** @var \OCP\Calendar\IBackend $backend */
+			/** @var \OCA\Calendar\IBackend $backend */
 			if ($backend->getId() === $backendId) {
 				return $backend;
 			}

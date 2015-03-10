@@ -27,6 +27,7 @@ use OCP\IRequest;
 
 use OCA\Calendar\BusinessLayer\TimezoneBusinessLayer;
 use OCA\Calendar\Http\JSON\JSONTimezoneResponse;
+use OCP\IUserSession;
 
 class TimezoneController extends Controller {
 
@@ -40,12 +41,12 @@ class TimezoneController extends Controller {
 	/**
 	 * @param string $appName
 	 * @param IRequest $request an instance of the request
-	 * @param string $userId
+	 * @param IUserSession $userSession
 	 * @param TimezoneBusinessLayer $timezoneBusinessLayer
 	 */
-	public function __construct($appName, IRequest $request, $userId,
+	public function __construct($appName, IRequest $request, IUserSession $userSession,
 								TimezoneBusinessLayer $timezoneBusinessLayer){
-		parent::__construct($appName, $request, $userId);
+		parent::__construct($appName, $request, $userSession);
 		$this->timezones = $timezoneBusinessLayer;
 
 		$this->registerResponder('json', function($value) {

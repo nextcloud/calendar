@@ -21,17 +21,25 @@
  */
 namespace OCA\Calendar\Backend\Sharing;
 
-use OCP\Calendar\ICalendar;
-use OCP\Calendar\IObject;
-use OCP\Calendar\IObjectAPI;
-use OCP\Calendar\IObjectCollection;
-use OCP\Calendar\CacheOutDatedException;
+use OCA\Calendar\ICalendar;
+use OCA\Calendar\IObject;
+use OCA\Calendar\IObjectAPI;
+use OCA\Calendar\IObjectAPICreate;
+use OCA\Calendar\IObjectAPIDelete;
+use OCA\Calendar\IObjectAPIFindInPeriod;
+use OCA\Calendar\IObjectAPISearch;
+use OCA\Calendar\IObjectAPISearchInPeriod;
+use OCA\Calendar\IObjectAPIUpdate;
+use OCA\Calendar\IObjectCollection;
+use OCA\Calendar\CacheOutDatedException;
 
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
-use OCP\Calendar\ObjectType;
+use OCA\Calendar\ObjectType;
 
-class Object extends Sharing implements IObjectAPI {
+class Object extends Sharing implements IObjectAPI, IObjectAPICreate,
+	IObjectAPIUpdate, IObjectAPIDelete, IObjectAPIFindInPeriod,
+	IObjectAPISearch, IObjectAPISearchInPeriod {
 
 	/**
 	 * @var string

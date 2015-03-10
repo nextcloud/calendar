@@ -24,7 +24,7 @@ namespace OCA\Calendar\Http\JSON;
 use OCP\AppFramework\Http;
 use OCA\Calendar\Db\TimezoneMapper;
 use OCA\Calendar\Utility\ObjectUtility;
-use OCP\Calendar\IObject;
+use OCA\Calendar\IObject;
 use OCA\Calendar\Http\JSONResponse;
 
 class JSONObjectResponse extends JSONResponse {
@@ -36,7 +36,7 @@ class JSONObjectResponse extends JSONResponse {
 
 
 	/**
-	 * @param \OCP\Calendar\IObjectCollection|\OCP\Calendar\IObject $data
+	 * @param \OCA\Calendar\IObjectCollection|\OCA\Calendar\IObject $data
 	 * @param TimezoneMapper $timezones
 	 * @param integer $statusCode
 	 *

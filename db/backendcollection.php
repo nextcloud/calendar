@@ -21,11 +21,54 @@
  */
 namespace OCA\Calendar\Db;
 
-use OCP\Calendar\IBackend;
-use OCP\Calendar\IBackendAPI;
-use OCP\Calendar\IBackendCollection;
+use OCA\Calendar\Cache\Calendar\Cache;
+use OCA\Calendar\Cache\Calendar\Scanner;
+use OCA\Calendar\Cache\Calendar\Updater;
+use OCA\Calendar\Cache\Calendar\Watcher;
+use OCA\Calendar\IBackend;
+use OCA\Calendar\IBackendAPI;
+use OCA\Calendar\IBackendCollection;
 
 class BackendCollection extends Collection implements IBackendCollection {
+
+	/**
+	 * @var Cache
+	 */
+	protected $cache;
+
+
+	/**
+	 * @var Scanner
+	 */
+	protected $scanner;
+
+
+	/**
+	 * @var Updater
+	 */
+	protected $updater;
+
+
+	/**
+	 * @var Watcher
+	 */
+	protected $watcher;
+
+
+	/**
+	 * @param callable $cache
+	 * @param callable $scanner
+	 * @param callable $updater
+	 * @param callable $watcher
+	 */
+	public function __construct(\closure $cache, \closure $scanner,
+								\closure $updater, \closure $watcher) {
+		$this->cache = call_user_func($cache, $this);
+		$this->scanner = call_user_func($scanner, $this);
+		$this->updater = call_user_func($updater, $this);
+		$this->watcher = call_user_func($watcher, $this);
+	}
+
 
 	/**
 	 * Search for a backend by it's name
@@ -80,5 +123,37 @@ class BackendCollection extends Collection implements IBackendCollection {
 		}
 
 		return $privateUris;
+	}
+
+
+	/**
+	 * @return \OCA\Calendar\Cache\Calendar\Cache
+	 */
+	public function getCache() {
+		return $this->cache;
+	}
+
+
+	/**
+	 * @return \OCA\Calendar\Cache\Calendar\Scanner
+	 */
+	public function getScanner() {
+		return $this->scanner;
+	}
+
+
+	/**
+	 * @return \OCA\Calendar\Cache\Calendar\Updater
+	 */
+	public function getUpdater() {
+		return $this->updater;
+	}
+
+
+	/**
+	 * @return \OCA\Calendar\Cache\Calendar\Watcher
+	 */
+	public function getWatcher() {
+		return $this->watcher;
 	}
 }

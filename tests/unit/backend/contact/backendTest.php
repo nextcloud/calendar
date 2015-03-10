@@ -65,7 +65,7 @@ class BackendTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedException \OCA\Calendar\Backend\SubscriptionInvalidException
 	 */
 	public function testValidateSubscription() {
-		$subscription = $this->getMock('\OCP\Calendar\ISubscription');
+		$subscription = $this->getMock('\OCA\Calendar\ISubscription');
 		$this->backend->validateSubscription($subscription);
 	}
 

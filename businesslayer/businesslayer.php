@@ -21,46 +21,22 @@
  */
 namespace OCA\Calendar\BusinessLayer;
 
+use OCA\Calendar\IEntity;
 use OCP\AppFramework\Http;
-use OCP\Calendar\IEntity;
 
-use OCA\Calendar\Db\Mapper;
+use OCA\Calendar\Utility\Utility;
 
 abstract class BusinessLayer {
 
 	/**
-	 * @var \OCA\Calendar\Db\Mapper
-	 */
-	protected $mapper;
-
-
-	/**
-     * @param Mapper $mapper
-	 */
-	public function __construct(Mapper $mapper){
-		$this->mapper = $mapper;
-	}
-
-
-	/**
 	 * throw exception if entity is not valid
 	 * @param IEntity $entity
-	 * @throws BusinessLayerException
+	 * @throws Exception
 	 */
 	protected function checkIsValid(IEntity $entity) {
 		if (!$entity->isValid()) {
-			$msg = $this->getClassName($entity) . ' is not valid';
-			throw new BusinessLayerException($msg, Http::STATUS_UNPROCESSABLE_ENTITY);
+			$msg = Utility::getClassName($entity) . ' is not valid';
+			throw new Exception($msg, Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
-	}
-
-
-	/**
-	 * @param IEntity $entity
-	 * @return string
-	 */
-	private function getClassName(IEntity $entity) {
-		$class = get_class($entity);
-		return substr($class, strrpos( $class, '\\' ) + 1);
 	}
 }

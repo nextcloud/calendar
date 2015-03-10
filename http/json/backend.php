@@ -21,7 +21,7 @@
  */
 namespace OCA\Calendar\Http\JSON;
 
-use OCP\Calendar\IBackend;
+use OCA\Calendar\IBackend;
 
 use OCA\Calendar\Http\SimpleJSONResponse;
 

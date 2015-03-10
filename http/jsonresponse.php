@@ -23,8 +23,8 @@ namespace OCA\Calendar\Http;
 
 use OCP\AppFramework\Http\JSONResponse as ParentJSONResponse;
 use OCP\AppFramework\Http;
-use OCP\Calendar\ICollection;
-use OCP\Calendar\IEntity;
+use OCA\Calendar\ICollection;
+use OCA\Calendar\IEntity;
 
 abstract class JSONResponse extends ParentJSONResponse {
 

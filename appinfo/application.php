@@ -22,18 +22,30 @@
 namespace OCA\Calendar;
 
 use OC\AppFramework\Http\Request;
+use OCA\Calendar\Db\BackendCollection;
 use OCP\AppFramework\App;
 use OCP\AppFramework\IAppContainer;
-use OCP\Calendar\IBackend;
-use OCP\Calendar\ICalendar;
-use OCP\Calendar\ObjectType;
 use OCP\Share;
 use OCP\Util;
-
-use OCA\Calendar\Db\BackendCollection;
+use OCA\Calendar\Db\ObjectType;
 
 class Application extends App {
 
+	/**
+	 * @var IBackendCollection
+	 */
+	protected $backends;
+
+
+	/**
+	 * @var Db\BackendFactory
+	 */
+	protected $backendFactory;
+
+
+	/**
+	 * @param array $params
+	 */
 	public function __construct($params = array()) {
 		parent::__construct('calendar', $params);
 
@@ -42,29 +54,22 @@ class Application extends App {
 		 * because Request automatically reads php://input and
 		 * you can't rewind php://input ...
 		 */
-		$this->getContainer('ServerContainer')->registerService('Request', function($c) {
+		$this->getContainer('ServerContainer')->registerService('Request', function(IAppContainer $c) {
 			if (isset($c['urlParams'])) {
 				$urlParams = $c['urlParams'];
 			} else {
 				$urlParams = [];
 			}
 
-			$session = $this->getContainer()->getServer()->getSession();
+			$session = $c->getServer()->getSession();
 			if ($session->exists('requesttoken')) {
 				$requesttoken = $session->get('requesttoken');
 			} else {
 				$requesttoken = false;
 			}
 
-			if (defined('PHPUNIT_RUN') && PHPUNIT_RUN
-			&& in_array('fakeinput', stream_get_wrappers())) {
-				$stream = 'fakeinput://data';
-			} else {
-				$stream = 'data://text/plain;base64,';
-			}
-
-			return new Request(
-				[
+			$stream = 'fakeinput://data';
+			return new Request([
 					'get' => $_GET,
 					'post' => $_POST,
 					'files' => $_FILES,
@@ -76,154 +81,126 @@ class Application extends App {
 						: null,
 					'urlParams' => $urlParams,
 					'requesttoken' => $requesttoken,
-				], $stream
+				],
+				$c->getServer()->getSecureRandom(),
+				$c->getServer()->getConfig(),
+				$stream
 			);
 		});
-
+		
+		$container = $this->getContainer();
 
 		/* Controller */
-		$this->getContainer()->registerService('BackendController', function(IAppContainer $c) {
+		$container->registerService('BackendController', function(IAppContainer $c) {
 			$request = $c->query('Request');
-			$bds = $c->query('Backends');
-			$userId = $c->getServer()->getUserSession()->getUser()->getUID();
+			$userSession = $c->getServer()->getUserSession();
 
-			return new Controller\BackendController($c, $request, $userId, $bds);
+			return new Controller\BackendController($c->getAppName(), $request, $userSession, $this->backends);
 		});
-		$this->getContainer()->registerService('CalendarController', function(IAppContainer $c) {
+		$container->registerService('CalendarController', function(IAppContainer $c) {
 			$request = $c->query('Request');
-			$cbl = $c->query('CalendarRequestBusinessLayer');
-			$backends = $c->query('Backends');
-			$userId = $c->getServer()->getUserSession()->getUser()->getUID();
+			$userSession = $c->getServer()->getUserSession();
 			$timezones = $c->query('TimezoneMapper');
 
-			return new Controller\CalendarController($c, $request, $userId, $cbl, $backends, $timezones);
+			return new Controller\CalendarController($c->getAppName(), $request, $userSession, $this->backends, $timezones);
 		});
-		$this->getContainer()->registerService('ContactController', function(IAppContainer $c) {
+		$container->registerService('ContactController', function(IAppContainer $c) {
 			$request = $c->query('Request');
 			$contacts = $c->getServer()->getContactsManager();
-			$userId = $c->getServer()->getUserSession()->getUser()->getUID();
+			$userSession = $c->getServer()->getUserSession();
 
-			return new Controller\ContactController($c, $request, $userId, $contacts);
+			return new Controller\ContactController($c->getAppName(), $request, $userSession, $contacts);
 		});
-		$this->getContainer()->registerService('ObjectController', function(IAppContainer $c) {
+		$container->registerService('ObjectController', function(IAppContainer $c) {
 			$request = $c->query('Request');
-			$cbl = $c->query('CalendarBusinessLayer');
-			$userId = $c->getServer()->getUserSession()->getUser()->getUID();
+			$userSession = $c->getServer()->getUserSession();
 			$timezones = $c->query('TimezoneMapper');
 
-			return new Controller\ObjectController($c, $request, $userId, $cbl, $timezones, ObjectType::ALL);
+			return new Controller\ObjectController($c->getAppName(), $request, $userSession, $this->backends, $timezones, ObjectType::ALL);
 		});
-		$this->getContainer()->registerService('EventController', function(IAppContainer $c) {
+		$container->registerService('OCA\\Calendar\\Controller\\EventController', function(IAppContainer $c) {
 			$request = $c->query('Request');
-			$cbl = $c->query('CalendarBusinessLayer');
-			$userId = $c->getServer()->getUserSession()->getUser()->getUID();
+			$userSession = $c->getServer()->getUserSession();
 			$timezones = $c->query('TimezoneMapper');
 
-			return new Controller\ObjectController($c, $request, $userId, $cbl, $timezones, ObjectType::EVENT);
+			return new Controller\ObjectController($c->getAppName(), $request, $userSession, $this->backends, $timezones, ObjectType::EVENT);
 		});
-		$this->getContainer()->registerService('JournalController', function(IAppContainer $c) {
+		$container->registerService('OCA\\Calendar\\Controller\\JournalController', function(IAppContainer $c) {
 			$request = $c->query('Request');
-			$cbl = $c->query('CalendarBusinessLayer');
-			$userId = $c->getServer()->getUserSession()->getUser()->getUID();
+			$userSession = $c->getServer()->getUserSession();
 			$timezones = $c->query('TimezoneMapper');
 
-			return new Controller\ObjectController($c, $request, $userId, $cbl, $timezones, ObjectType::JOURNAL);
+			return new Controller\ObjectController($c->getAppName(), $request, $userSession, $this->backends, $timezones, ObjectType::JOURNAL);
 		});
-		$this->getContainer()->registerService('TodoController', function(IAppContainer $c) {
+		$container->registerService('OCA\\Calendar\\Controller\\TodoController', function(IAppContainer $c) {
 			$request = $c->query('Request');
-			$cbl = $c->query('CalendarBusinessLayer');
-			$userId = $c->getServer()->getUserSession()->getUser()->getUID();
+			$userSession = $c->getServer()->getUserSession();
 			$timezones = $c->query('TimezoneMapper');
 
-			return new Controller\ObjectController($c, $request, $userId, $cbl, $timezones, ObjectType::TODO);
+			return new Controller\ObjectController($c->getAppName(), $request, $userSession, $this->backends, $timezones, ObjectType::TODO);
 		});
-		$this->getContainer()->registerService('ScanController', function(IAppContainer $c) {
-			$request = $c->query('Request');
-			$cbl = $c->query('CalendarCacheBusinessLayer');
-			$obl = $c->query('ObjectCacheBusinessLayer');
-
-			return new Controller\ScanController($c, $request, $cbl, $obl);
-		});
-		$this->getContainer()->registerService('SettingsController', function(IAppContainer $c) {
+		$container->registerService('SettingsController', function(IAppContainer $c) {
 			$request = $c->query('Request');
 			$set = $c->query('settings');
-			$userId = $c->getServer()->getUserSession()->getUser()->getUID();
+			$userSession = $c->getServer()->getUserSession();
 
-			return new Controller\SettingsController($c, $request, $userId, $set);
+			return new Controller\SettingsController($c->getAppName(), $request, $userSession, $set);
 		});
-		$this->getContainer()->registerService('SubscriptionController', function(IAppContainer $c) {
+		$container->registerService('SubscriptionController', function(IAppContainer $c) {
 			$request = $c->query('Request');
 			$sbl = $c->query('SubscriptionBusinessLayer');
-			$bds = $c->query('Backends');
-			$userId = $c->getServer()->getUserSession()->getUser()->getUID();
+			$userSession = $c->getServer()->getUserSession();
 
-			return new Controller\SubscriptionController($c, $request, $userId, $sbl, $bds);
+			return new Controller\SubscriptionController($c->getAppName(), $request, $userSession, $sbl, $this->backends);
 		});
-		$this->getContainer()->registerService('TimezoneController', function(IAppContainer $c) {
+		$container->registerService('TimezoneController', function(IAppContainer $c) {
 			$request = $c->query('Request');
 			$tbl = $c->query('TimezoneBusinessLayer');
-			$userId = $c->getServer()->getUserSession()->getUser()->getUID();
+			$userSession = $c->getServer()->getUserSession();
 
-			return new Controller\TimezoneController($c, $request, $userId, $tbl);
+			return new Controller\TimezoneController($c->getAppName(), $request, $userSession, $tbl);
 		});
-		$this->getContainer()->registerService('ViewController', function(IAppContainer $c) {
+		$container->registerService('ViewController', function(IAppContainer $c) {
 			$request = $c->query('Request');
-			$userId = $c->getServer()->getUserSession()->getUser()->getUID();
+			$userSession = $c->getServer()->getUserSession();
 
-			return new Controller\ViewController($c, $request, $userId);
+			return new Controller\ViewController($c->getAppName(), $request, $userSession);
 		});
 
 
 		/* BusinessLayer */
-		$this->getContainer()->registerService('CalendarBusinessLayer', function(IAppContainer $c) {
-			$mapper = $c->query('CalendarMapper');
-
-			return new BusinessLayer\CalendarBusinessLayer($mapper);
-		});
-		$this->getContainer()->registerService('CalendarRequestBusinessLayer', function(IAppContainer $c) {
-			$mapper = $c->query('CalendarMapper');
-
-			return new BusinessLayer\CalendarRequestBusinessLayer($mapper);
-		});
-		$this->getContainer()->registerService('SubscriptionBusinessLayer', function(IAppContainer $c) {
+		$container->registerService('SubscriptionBusinessLayer', function(IAppContainer $c) {
 			$mapper = $c->query('SubscriptionMapper');
 
-			return new BusinessLayer\SubscriptionBusinessLayer($mapper);
+			return new BusinessLayer\Subscription($mapper);
 		});
-		$this->getContainer()->registerService('TimezoneBusinessLayer', function(IAppContainer $c) {
+		$container->registerService('TimezoneBusinessLayer', function(IAppContainer $c) {
 			$mapper = $c->query('TimezoneMapper');
 
-			return new BusinessLayer\TimezoneBusinessLayer($mapper);
+			return new BusinessLayer\Timezone($mapper);
 		});
 
 
 		/* Mappers */
-		$this->getContainer()->registerService('CalendarMapper', function(IAppContainer $c) {
-			$backends = $c->query('Backends');
-			$timezones = $c->query('TimezoneMapper');
+		$container->registerService('TimezoneMapper', function() {
+			return new Db\TimezoneMapper();
+		});
+		$container->registerService('SubscriptionMapper', function(IAppContainer $c) {
+			$entityFactory = new Db\SubscriptionFactory();
+			$collectionFactory = new Db\SubscriptionCollectionFactory($entityFactory, $c->getServer()->getLogger());
 
-			return new Db\CalendarMapper($c->getServer()->getDb(), $backends, $timezones);
-		});
-		$this->getContainer()->registerService('TimezoneMapper', function(IAppContainer $c) {
-			return new Db\TimezoneMapper($c->getServer()->getDb());
-		});
-		$this->getContainer()->registerService('SubscriptionMapper', function(IAppContainer $c) {
-			return new Db\SubscriptionMapper($c->getServer()->getDb());
-		});
-
-		$this->getContainer()->registerService('Backends', function() {
-			return BackendCollection::fromArray(Backend\Manager::getAll());
+			return new Db\SubscriptionMapper($c->getServer()->getDatabaseConnection(), $entityFactory, $collectionFactory);
 		});
 
 
-		$this->getContainer()->registerService('BackendsWithoutSharing', function(IAppContainer $c) {
+		$container->registerService('BackendsWithoutSharing', function(IAppContainer $c) {
 			$backends = $c->query('Backends');
 			$backends->removeByProperty('backend', 'org.ownCloud.sharing');
 
 			return $backends;
 		});
 
-		$this->getContainer()->registerParameter('settings', array(
+		$container->registerParameter('settings', array(
 			'view' => array(
 				'configKey' => 'currentView',
 				'options' => array(
@@ -251,77 +228,134 @@ class Application extends App {
 				'default' => '1'
 			),
 		));
+
+		$this->initBackendSystem();
+		$this->registerBackends();
 	}
 
+	protected function initBackendSystem() {
+		$this->backends = new BackendCollection(
+			function (IBackendCollection $backends) {
+				$db = $this->getContainer()->getServer()->getDatabaseConnection();
+				$logger = $this->getContainer()->getServer()->getLogger();
+				$timezones = $this->getContainer()->query('TimezoneMapper');
+
+				$entityFactory = new Db\CalendarFactory($backends, $timezones);
+				$collectionFactory = new Db\CalendarCollectionFactory($entityFactory, $logger);
+
+				return new Cache\Calendar\Cache($backends, $db, $entityFactory, $collectionFactory);
+			},
+			function (IBackendCollection $backends) {
+				$logger = $this->getContainer()->getServer()->getLogger();
+
+				return new Cache\Calendar\Scanner($backends, $logger);
+			},
+			function (IBackendCollection $backends) {
+				return new Cache\Calendar\Updater($backends);
+			},
+			function (IBackendCollection $backends) {
+				return new Cache\Calendar\Watcher($backends);
+			}
+		);
+
+
+		$this->backendFactory = new Db\BackendFactory(
+			function(ICalendar $calendar) {
+				$db = $this->getContainer()->getServer()->getDatabaseConnection();
+
+				$entityFactory = new Db\ObjectFactory();
+				$collectionFactory = new Db\ObjectCollectionFactory();
+
+				return new Cache\Object\Cache($db, $calendar, $entityFactory, $collectionFactory);
+			},
+			function(ICalendar $calendar) {
+				return new Cache\Object\Scanner($calendar);
+			},
+			function(ICalendar $calendar) {
+				return new Cache\Object\Updater($calendar);
+			},
+			function(ICalendar $calendar) {
+				return new Cache\Object\Watcher($calendar);
+			}
+		);
+	}
 
 	public function registerBackends() {
 		// Local backend: Default database backend
-		Backend\Manager::register(Db\Backend::fromParams([
-			'id' => 'org.ownCloud.local',
-			'backendAPI' => function() {
-				return new Backend\Local\Backend();
-			},
-			'calendarAPI' => function(IBackend $backend) {
-				$db = $this->getContainer()->getServer()->getDb();
-				return new Backend\Local\Calendar($db, $backend);
-			},
-			'objectAPI' => function($calendar) {
-				$db = $this->getContainer()->getServer()->getDb();
-				return new Backend\Local\Object($db, $calendar);
-			}
-		]));
+		$this->backends->add(
+			$this->backendFactory->createBackend(
+				'org.ownCloud.local',
+				function() {
+					return new Backend\Local\Backend();
+				},
+				function(IBackend $backend) {
+					$db = $this->getContainer()->getServer()->getDatabaseConnection();
+					return new Backend\Local\Calendar($db, $backend);
+				},
+				function(ICalendar $calendar) {
+					$db = $this->getContainer()->getServer()->getDatabaseConnection();
+					return new Backend\Local\Object($db, $calendar);
+				}
+			)
+		);
 
 		// Contacts backend: show contact's birthdays and anniversaries
-		Backend\Manager::register(Db\Backend::fromParams([
-			'id' => 'org.ownCloud.contact',
-			'backendAPI' => function() {
-				$contacts = new \OCA\Contacts\App();
-				return new Backend\Contact\Backend($contacts);
-			},
-			'calendarAPI' => function(IBackend $backend) {
-				$contacts = new \OCA\Contacts\App();
-				return new Backend\Contact\Calendar($contacts, $backend);
-			},
-			'objectAPI' => function(ICalendar $calendar) {
-				$contacts = new \OCA\Contacts\App();
-				return new Backend\Contact\Object($contacts, $calendar);
-			}
-		]));
+		if (class_exists('\\OCA\\Contacts\\App')) {
+			$contacts = new \OCA\Contacts\App();
+			$this->backends->add(
+				$this->backendFactory->createBackend(
+					'org.ownCloud.contact',
+					function() use ($contacts) {
+						return new Backend\Contact\Backend($contacts);
+					},
+					function(IBackend $backend) use ($contacts) {
+						return new Backend\Contact\Calendar($contacts, $backend);
+					},
+					function(ICalendar $calendar) use ($contacts) {
+						return new Backend\Contact\Object($contacts, $calendar);
+					}
+				)
+			);
+		}
 
 		// Sharing backend: Enabling users to share calendars
-		Backend\Manager::register(Db\Backend::fromParams([
-			'id' => 'org.ownCloud.sharing',
-			'backendAPI' => function() {
-				return new Backend\Sharing\Backend();
-			},
-			'calendarAPI' => function(IBackend $backend) {
-				return new Backend\Sharing\Calendar($backend);
-			},
-			'objectAPI' => function(ICalendar $calendar) {
-				return new Backend\Sharing\Object($calendar);
-			}
-		]));
+		if (\OCP\Share::isEnabled() && false) {
+			$this->backends->add(
+				$this->backendFactory->createBackend(
+					'org.ownCloud.sharing',
+					function () {
+						return new Backend\Sharing\Backend();
+					},
+					function (IBackend $backend) {
+						return new Backend\Sharing\Calendar($backend);
+					},
+					function (ICalendar $calendar) {
+						return new Backend\Sharing\Object($calendar);
+					}
+				)
+			);
+		}
 
 		// Webcal Backend: Show ICS files on the net
-		Backend\Manager::register(Db\Backend::fromParams([
-			'id' => 'org.ownCloud.webcal',
-			'backendAPI' => function() {
-				$subscriptions = $this->getContainer()->query('SubscriptionController');
-				return new Backend\WebCal\Backend($subscriptions);
-			},
-			'calendarAPI' => function(IBackend $backend) {
-				$subscriptions = $this->getContainer()->query('SubscriptionController');
-				return new Backend\WebCal\Calendar($subscriptions, $backend);
-			},
-			'objectAPI' => function(ICalendar $calendar) {
-				$subscriptions = $this->getContainer()->query('SubscriptionController');
-				return new Backend\WebCal\Object($subscriptions, $calendar);
-			},
-			'objectCache' => function(ICalendar $calendar) {
-				$db = $this->getContainer()->getServer()->getDb();
-				return new Db\ObjectMapper($db, $calendar);
-			}
-		]));
+		if (function_exists('curl_init') && false) {
+			$this->backends->add(
+				$this->backendFactory->createBackend(
+					'org.ownCloud.webcal',
+					function () {
+						$subscriptions = $this->getContainer()->query('SubscriptionController');
+						return new Backend\WebCal\Backend($subscriptions);
+					},
+					function (IBackend $backend) {
+						$subscriptions = $this->getContainer()->query('SubscriptionController');
+						return new Backend\WebCal\Calendar($subscriptions, $backend);
+					},
+					function (ICalendar $calendar) {
+						$subscriptions = $this->getContainer()->query('SubscriptionController');
+						return new Backend\WebCal\Object($subscriptions, $calendar);
+					}
+				)
+			);
+		}
 	}
 
 
@@ -349,7 +383,7 @@ class Application extends App {
 	 */
 	public function registerCron() {
 		/*
-		$c = $this->getContainer();
+		$c = $container;
 		//$c->addRegularTask('OCA\Calendar\Backgroundjob\Task', 'run');
 		*/
 	}
@@ -360,11 +394,11 @@ class Application extends App {
 	 */
 	public function registerHooks() {
 		//Calendar-internal hooks
-		Util::connectHook('OCP\Calendar', 'postCreateObject',
+		Util::connectHook('OCA\Calendar', 'postCreateObject',
 			'\OCA\Calendar\Util\HookUtility', 'createObject');
-		Util::connectHook('OCP\Calendar', 'postUpdateObject',
+		Util::connectHook('OCA\Calendar', 'postUpdateObject',
 			'\OCA\Calendar\Util\HookUtility', 'updateObject');
-		Util::connectHook('OCP\Calendar', 'postDeleteObject',
+		Util::connectHook('OCA\Calendar', 'postDeleteObject',
 			'\OCA\Calendar\Util\HookUtility', 'deleteObject');
 
 		//Sharing hooks

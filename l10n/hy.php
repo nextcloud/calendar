@@ -1,5 +1,5 @@
 <?php $TRANSLATIONS = array(
-"Calendar" => "Օրացույց",
+"CalendarManager" => "Օրացույց",
 "Sunday" => "Կիրակի",
 "Monday" => "Երկուշաբթի",
 "Tuesday" => "Երեքշաբթի",

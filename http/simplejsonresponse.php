@@ -23,8 +23,8 @@ namespace OCA\Calendar\Http;
 
 use OCA\Calendar\Utility\Utility;
 use OCP\AppFramework\Http;
-use OCP\Calendar\ICollection;
-use OCP\Calendar\IEntity;
+use OCA\Calendar\ICollection;
+use OCA\Calendar\IEntity;
 
 abstract class SimpleJSONResponse extends JSONResponse {
 
