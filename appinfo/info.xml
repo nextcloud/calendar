@@ -1,12 +1,12 @@
 <?xml version="1.0"?> 
 <info>
 	<id>calendar</id>
-	<name>CalendarManager</name>
+	<name>Calendar</name>
 	<licence>AGPL</licence>
 	<author>Georg Ehrke, Bart Visscher, Jakob Sack</author>
 	<require>6.90</require>
 	<shipped>true</shipped>
-	<description>CalendarManager with CalDAV support</description>
+	<description>Calendar with CalDAV support</description>
 	<default_enable/>
 	<remote>
 		<calendar>sabre/main.php</calendar>
