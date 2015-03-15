@@ -26,7 +26,7 @@
 * Description: Required for Calendar Sharing.
 */
 
-app.factory('EventsModel', function () {
+app.factory('EventsModel', ['objectConverter', function (objectConverter) {
 	var EventsModel = function () {
 		this.events = [];
 		this.eventsUid = {};
@@ -294,6 +294,8 @@ app.factory('EventsModel', function () {
 						this.components.addSubcomponent(vevents[i]);
 						continue;
 					}
+					var data = objectConverter.parse(this.vevents[i]);
+					console.log(data);
 					this.addeventobjectcontent(event,this.vevents[i]);
 				}
 			}
@@ -349,4 +351,4 @@ app.factory('EventsModel', function () {
 	};
 
 	return new EventsModel();
-});
+}]);
