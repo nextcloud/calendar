@@ -165,6 +165,9 @@
 			<ul class="event-fieldset-list event-fieldset-interior-remainderslist">
 				<li ng-repeat="alarm in properties.alarms">
 					<span>{{ alarm.TRIGGER.value.displayname }}</span>
+					<button class="event-button event-delete-button" ng-click="deletereminderbutton()">
+						<i class="fa fa-1x fa-times"></i>
+					</button>
 				</li>
 			</ul>
 		</div>

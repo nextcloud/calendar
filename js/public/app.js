@@ -713,8 +713,6 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 			{ displayname: t('Calendar', 'Custom'), email: 'none'}
 		];
 
-
-
 		$scope.remindertypeSelect = [
 			{ displayname: t('Calendar', 'Audio'), type: 'audio'},
 			{ displayname: t('Calendar', 'E Mail'), type: 'email'},

@@ -292,8 +292,15 @@
     #events .event-fieldset .event-fieldset-interior .event-fieldset-list li {
       padding: 5px 10px;
       margin-bottom: 2px; }
-      #events .event-fieldset .event-fieldset-interior .event-fieldset-list li:hover {
-        background: #ddd; }
+      #events .event-fieldset .event-fieldset-interior .event-fieldset-list li .event-delete-button {
+        margin: -3px;
+        background-color: transparent;
+        border: 0;
+        display: none; }
+    #events .event-fieldset .event-fieldset-interior .event-fieldset-list:hover {
+      background: #ddd; }
+      #events .event-fieldset .event-fieldset-interior .event-fieldset-list:hover .event-delete-button {
+        display: block; }
   #events .event-fieldset .event-select-calendardropdown {
     width: 92%; }
   #events .event-fieldset.event-time {

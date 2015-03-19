@@ -43,9 +43,20 @@
 				li {
 					padding: $fives 2*$fives;
 					margin-bottom: 2px;
+
+					.event-delete-button {
+						margin: -3px;
+						background-color: transparent;
+						border: 0;
+						display: none;
+					}
+				}
 					
-					&:hover {
-						background: #ddd;
+				&:hover {
+					background: #ddd;
+
+					.event-delete-button {
+						display: block;
 					}
 				}
 			}
