@@ -50,13 +50,13 @@
 						border: 0;
 						display: none;
 					}
-				}
 					
-				&:hover {
-					background: #ddd;
+					&:hover {
+						background: #ddd;
 
-					.event-delete-button {
-						display: block;
+						.event-delete-button {
+							display: block;
+						}
 					}
 				}
 			}

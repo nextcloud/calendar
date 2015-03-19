@@ -747,6 +747,10 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 			EventsModel.updateevent($scope.properties);
 		};
 
+		$scope.deletereminderbutton = function () {
+			// TODO : Implement logic on deleting reminders once we have structure ready.
+		};
+
 		// TODO: If this can be taken to Model better do that.
 		angular.element('#from').datepicker({
 			dateFormat : 'dd-mm-yy'
