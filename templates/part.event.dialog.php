@@ -29,7 +29,7 @@
 	ok-callback="handleOk"
 	cancel-button="Cancel"
 	cancel-callback="handleCancel"
-	ng-init="advancedoptions = true; alldayeventcheckbox=true;">
+	ng-init="advancedoptions = true; alldayeventcheckbox=true; customreminderarea=false;">
 
 
 
@@ -108,13 +108,63 @@
 				ng-change="changereminder(selectedreminder)"
 				ng-options="reminder.displayname for reminder in reminderSelect">
 			</select>
+			<select class="event-select event-select-reminder"
+				ng-model="selectedtypereminder"
+				ng-selected="selectedtypereminder"
+				ng-change="changereminder(selectedtypereminder)"
+				ng-options="reminder.displayname for reminder in remindertypeSelect">
+			</select>			
 		</div>
 		<div class="event-fieldset-interior">
 			<div class="event-fieldset-interior-remainders" ng-show="booyah">
 				<input type="email" ng-model="reminderemail" placeholder="<?php p($l->t('Email id')); ?>" />
 			</div>
 		</div>
-
+		<div class="event-fieldset-interior" ng-show="customreminderarea">
+			<div class="event-fieldset-custom-interior">
+				<div class="relative-container custom-container">
+					<input type="radio" name="relativeorabsolute"
+						id="relativereminderradio" class="event-radio"
+						value="relative" value="relative" ng-model="relativeorabsolute" ng-value="relative"
+						ng-change="changerelativeorabsolute(relativeorabsolute)" />
+					<label for="relativereminderradio"><?php p($l->t('Relative')); ?></label>
+					<select class="event-select event-select-reminder"
+						ng-model="timeunitreminder"
+						ng-selected="timeunitreminder"
+						ng-change="chageunittimereminder(timeunitreminder)"
+						ng-options="reminder.displayname for reminder in timeunitreminderSelect">
+					</select>
+					<select class="event-select event-select-reminder"
+						ng-model="timepositionreminder"
+						ng-selected="timepositionreminder"
+						ng-change="changeunittimepositionreminder(timepositionreminder)"
+						ng-options="reminder.displayname for reminder in timepositionreminderSelect">
+					</select>
+					<select class="event-select event-select-reminder"
+						ng-model="startendrelativereminder"
+						ng-selected="startendrelativereminder"
+						ng-change="changestartendrelativereminder(startendrelativereminder)"
+						ng-options="reminder.displayname for reminder in startendreminderSelect">
+					</select>
+				</div>
+				<div class="absolute-container custom-container">
+					<input type="radio" name="relativeorabsolute"
+						id="absolutereminderradio" class="event-radio"
+						value="absolute" ng-value="absolute" ng-model="relativeorabsolute"
+						ng-change="changerelativeorabsolute(relativeorabsolute)" />
+					<label for="absolutereminderradio"><?php p($l->t('Absolute')); ?></label>
+					<input type="time" class="event-input"
+						value="<?php p($_['Time']);?>" name="absolutremindertime"
+						id="absolutremindertime" ng-disabled="absolutereminderdatetoggle"
+						ng-model="absolutremindertime" />
+					<input type="text"
+						class="event-input" value="<?php p($_['Date']);?>"
+						name="absolutreminderdate" id="absolutreminderdate"
+						ng-model="absolutreminderdate" ng-disabled="absolutereminderdatetoggle"
+						placeholder="<?php p($l->t('Date'));?>" />
+				</div>
+			</div>
+		</div>		
 		<div class="event-fieldset-interior">
 			<ul class="event-fieldset-list event-fieldset-interior-remainderslist">
 				<li ng-repeat="alarm in properties.alarms">

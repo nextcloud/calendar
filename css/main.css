@@ -25,7 +25,7 @@
 .pull-left, #datepicker .datepicker_current, #datepicker table thead, #datepicker .pickerbody-show, #app-navigation .togglebuttons, #app-navigation .togglebuttons .btn-group, #events .event-label, #events .event-fieldset .event-fieldset-interior, #events .event-fieldset .event-time-interior, #events .event-fieldset .event-time-interior.event-time-interior-allday, #events .event-fieldset .event-time-interior.event-time-interior-allday .event-checkbox {
   float: left; }
 
-.pull-right, #app-navigation .new-entity .new-entity-title.new-entity-subscription .calendarlist-input, #app-navigation .new-entity .new-entity-title.new-entity-subscription .calendarlist-select, #app-navigation .togglebuttons .button.today, #app-settings .settings-fieldset .settings-fieldset-interior .settings-fieldset-interior-item .settings-upload, #events .event-select, #events .event-fieldset .event-button, #events .event-fieldset.event-fieldset-reminder .event-select-reminder, #events .event-fieldset.event-fieldset-update .event-button, #events .event-fieldset .event-time-interior.event-time-interior-buttonarea {
+.pull-right, #app-navigation .new-entity .new-entity-title.new-entity-subscription .calendarlist-input, #app-navigation .new-entity .new-entity-title.new-entity-subscription .calendarlist-select, #app-navigation .togglebuttons .button.today, #app-settings .settings-fieldset .settings-fieldset-interior .settings-fieldset-interior-item .settings-upload, #events .event-select, #events .event-fieldset .event-button, #events .event-fieldset.event-fieldset-reminder .event-select-reminder, #events .event-fieldset.event-fieldset-reminder .custom-container .event-input, #events .event-fieldset.event-fieldset-update .event-button, #events .event-fieldset .event-time-interior.event-time-interior-buttonarea {
   float: right; }
 
 .hide, #datepicker .pickerbody-hide, #dialoghider {
@@ -271,7 +271,7 @@
 #events .event-input {
   box-sizing: border-box;
   width: 100%;
-  margin: 5px 0 !important; }
+  margin: 5px 0; }
   #events .event-input.event-textarea {
     max-width: 467px;
     /*Custom*/
@@ -283,16 +283,27 @@
   width: 80px; }
 #events .event-select {
   width: auto;
-  margin: 3px 0; }
+  margin: 3px 0 3px 10px; }
 #events .event-fieldset {
   position: relative; }
   #events .event-fieldset .event-fieldset-interior {
     display: block;
     width: 100%; }
+    #events .event-fieldset .event-fieldset-interior .event-fieldset-list li {
+      padding: 5px 10px;
+      margin-bottom: 2px; }
+      #events .event-fieldset .event-fieldset-interior .event-fieldset-list li:hover {
+        background: #ddd; }
   #events .event-fieldset .event-select-calendardropdown {
     width: 92%; }
   #events .event-fieldset.event-time {
     height: 100px; }
+  #events .event-fieldset.event-fieldset-reminder .custom-container {
+    height: 40px; }
+    #events .event-fieldset.event-fieldset-reminder .custom-container .event-radio {
+      margin: 10px; }
+    #events .event-fieldset.event-fieldset-reminder .custom-container .event-input {
+      width: 30%; }
   #events .event-fieldset.event-fieldset-attendee .event-input {
     width: 78%; }
   #events .event-fieldset .event-time-interior {

@@ -7,7 +7,7 @@
 	.event-input {
 		box-sizing: border-box;
 		width: 100%;
-		margin: $fives 0 !important;
+		margin: $fives 0;
 
 		&.event-textarea {
 			max-width: 467px; /*Custom*/
@@ -27,7 +27,7 @@
 
 	.event-select {
 		width: auto;
-		margin: 3px 0;
+		margin: 3px 0 3px 10px;
 		@extend .pull-right;
 	}
 
@@ -38,6 +38,17 @@
 			display: block;
 			width: 100%;
 			@extend .pull-left;
+			
+			.event-fieldset-list {
+				li {
+					padding: $fives 2*$fives;
+					margin-bottom: 2px;
+					
+					&:hover {
+						background: #ddd;
+					}
+				}
+			}
 		}
 
 		.event-button {
@@ -58,7 +69,21 @@
 				@extend .pull-right;
 			}
 
-			.event-fieldset-interior-remainders {
+			.event-fieldset-interior-reminders {
+
+			}
+
+			.custom-container {
+				height: 8*$fives;
+
+				.event-radio {
+					margin: 2*$fives;
+				}
+
+				.event-input {
+					@extend .pull-right;
+					width: 30%;
+				}
 
 			}
 		}

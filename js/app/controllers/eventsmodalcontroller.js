@@ -32,6 +32,17 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 		$scope.eventsmodel = EventsModel;
 		$scope.attendornot = 'Required';
 		$scope.calendarListSelect = CalendarModel.getAll();
+		$scope.relative = true;
+
+		$scope.properties = {
+			calcolor: '',
+			title : '',
+			location : '',
+			categories : '',
+			description : '',
+			attendees : [],
+			alarms : []
+		};
 
 		$scope.$watch('eventsmodel.eventobject', function (newval, oldval) {
 			if(Object.getOwnPropertyNames(newval).length !== 0) {
@@ -120,7 +131,7 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 
 		$scope.changereminder = function (selectedreminder) {
 			if (selectedreminder.displayname == 'Custom') {
-				/*Add Code for displaying div*/
+				$scope.customreminderarea = true;
 			}
 		};
 
@@ -137,6 +148,14 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 					}
 				});
 				$scope.selectedreminder = '';
+				$scope.customreminderarea = false;
+			}
+		};
+
+		$scope.changerelativeorabsolute = function (val) {
+			console.log(val);
+			if (val == 'relative') {
+				$scope.absolutereminderdatetoggle = true;
 			}
 		};
 
@@ -147,8 +166,30 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 			{ displayname: t('Calendar', '15 minutes before'), email: 'none'},
 			{ displayname: t('Calendar', '1 hour before'), email: 'none'},
 			{ displayname: t('Calendar', '2 hours before'), email: 'none'},
-			{ displayname: t('Calendar', 'Custom'), email: 'blah'}
+			{ displayname: t('Calendar', 'Custom'), email: 'none'}
 		];
+
+		$scope.remindertypeSelect = [
+			{ displayname: t('Calendar', 'Audio'), type: 'audio'},
+			{ displayname: t('Calendar', 'E Mail'), type: 'email'},
+			{ displayname: t('Calendar', 'Pop up'), type: 'popup'}
+		];
+
+		$scope.timeunitreminderSelect = [
+			{ displayname: t('Calendar', 'min'), type: 'min'},
+			{ displayname: t('Calendar', 'sec'), type: 'sec'},
+			{ displayname: t('Calendar', 'week'), type: 'week'}
+		];
+
+		$scope.timepositionreminderSelect = [
+			{ displayname: t('Calendar', 'Before'), type: 'before'},
+			{ displayname: t('Calendar', 'After'), type: 'after'}	
+		];
+
+		$scope.startendreminderSelect = [
+			{ displayname: t('Calendar', 'Start'), type: 'start'},
+			{ displayname: t('Calendar', 'End'), type: 'end'}	
+		];		
 
 		$scope.update = function () {
 			EventsModel.updateevent($scope.properties);
@@ -158,13 +199,21 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 		angular.element('#from').datepicker({
 			dateFormat : 'dd-mm-yy'
 		});
+
 		angular.element('#to').datepicker({
+			dateFormat : 'dd-mm-yy'
+		});
+
+		angular.element('#absolutreminderdate').datepicker({
 			dateFormat : 'dd-mm-yy'
 		});
 		angular.element('#fromtime').timepicker({
 			showPeriodLabels: false
 		});
 		angular.element('#totime').timepicker({
+			showPeriodLabels: false
+		});
+		angular.element('#absolutremindertime').timepicker({
 			showPeriodLabels: false
 		});
 	}
