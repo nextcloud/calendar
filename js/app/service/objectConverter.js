@@ -172,8 +172,17 @@ app.factory('objectConverter', function () {
 				simpleParser.date(alarmData, alarm, false, 'duration', 'duration');
 				specificParser.attendee(alarmData, alarm);
 
+				if (alarm.hasProperty('trigger')) {
+					var trigger = alarm.getFirstProperty('trigger');
+					var related = trigger.getParameter('related');
+					if (related) {
+						alarmData.trigger.related = related;
+					} else {
+						alarmData.trigger.related = 'start';
+					}
+				}
+
 				data.alarms.push(alarmData);
-				id++;
 			}
 		},
 		attendee: function(data, vevent) {
@@ -195,7 +204,6 @@ app.factory('objectConverter', function () {
 						sentmail: attendee.getParameter('x-oc-sentmail')
 					}
 				});
-				i++;
 			}
 		},
 		categories: function(data, vevent) {
