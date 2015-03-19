@@ -147,15 +147,17 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 						props: {}
 					}
 				});
-				$scope.selectedreminder = '';
+				$scope.selectedreminder = $scope.reminderSelect[3];
 				$scope.customreminderarea = false;
 			}
 		};
 
 		$scope.changerelativeorabsolute = function (val) {
-			console.log(val);
 			if (val == 'relative') {
 				$scope.absolutereminderdatetoggle = true;
+			} else {
+				console.log(val);
+				$scope.absolutereminderdatetoggle = false;
 			}
 		};
 
@@ -168,6 +170,8 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 			{ displayname: t('Calendar', '2 hours before'), email: 'none'},
 			{ displayname: t('Calendar', 'Custom'), email: 'none'}
 		];
+
+
 
 		$scope.remindertypeSelect = [
 			{ displayname: t('Calendar', 'Audio'), type: 'audio'},
@@ -186,11 +190,19 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 			{ displayname: t('Calendar', 'After'), type: 'after'}	
 		];
 
+		
+
 		$scope.startendreminderSelect = [
 			{ displayname: t('Calendar', 'Start'), type: 'start'},
 			{ displayname: t('Calendar', 'End'), type: 'end'}	
-		];		
+		];
 
+		$scope.selectedreminder = $scope.reminderSelect[3];
+		$scope.selectedtypereminder = $scope.remindertypeSelect[0];
+		$scope.timeunitreminder = $scope.timeunitreminderSelect[0];
+		$scope.timepositionreminder = $scope.timepositionreminderSelect[0];
+		$scope.startendrelativereminder = $scope.startendreminderSelect[0];
+		
 		$scope.update = function () {
 			EventsModel.updateevent($scope.properties);
 		};

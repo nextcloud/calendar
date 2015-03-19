@@ -115,17 +115,13 @@
 				ng-options="reminder.displayname for reminder in remindertypeSelect">
 			</select>			
 		</div>
-		<div class="event-fieldset-interior">
-			<div class="event-fieldset-interior-remainders" ng-show="booyah">
-				<input type="email" ng-model="reminderemail" placeholder="<?php p($l->t('Email id')); ?>" />
-			</div>
-		</div>
+
 		<div class="event-fieldset-interior" ng-show="customreminderarea">
 			<div class="event-fieldset-custom-interior">
 				<div class="relative-container custom-container">
 					<input type="radio" name="relativeorabsolute"
 						id="relativereminderradio" class="event-radio"
-						value="relative" value="relative" ng-model="relativeorabsolute" ng-value="relative"
+						value="relative" ng-model="relativeorabsolute" checked
 						ng-change="changerelativeorabsolute(relativeorabsolute)" />
 					<label for="relativereminderradio"><?php p($l->t('Relative')); ?></label>
 					<select class="event-select event-select-reminder"
@@ -150,7 +146,7 @@
 				<div class="absolute-container custom-container">
 					<input type="radio" name="relativeorabsolute"
 						id="absolutereminderradio" class="event-radio"
-						value="absolute" ng-value="absolute" ng-model="relativeorabsolute"
+						value="absolute" ng-model="relativeorabsolute"
 						ng-change="changerelativeorabsolute(relativeorabsolute)" />
 					<label for="absolutereminderradio"><?php p($l->t('Absolute')); ?></label>
 					<input type="time" class="event-input"
