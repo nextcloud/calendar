@@ -725,6 +725,14 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 			{ displayname: t('Calendar', 'week'), type: 'week'}
 		];
 
+		$scope.alltimeunitsSelect = [
+			{ displayname: t('Calendar', 'min'), type: 'min'},
+			{ displayname: t('Calendar', 'sec'), type: 'sec'},
+			{ displayname: t('Calendar', 'hours'), type: 'hours'},
+			{ displayname: t('Calendar', 'days'), type: 'days'},
+			{ displayname: t('Calendar', 'weeks'), type: 'weeks'}
+		];		
+
 		$scope.timepositionreminderSelect = [
 			{ displayname: t('Calendar', 'Before'), type: 'before'},
 			{ displayname: t('Calendar', 'After'), type: 'after'}	
@@ -740,6 +748,7 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 		$scope.selectedreminder = $scope.reminderSelect[3];
 		$scope.selectedtypereminder = $scope.remindertypeSelect[0];
 		$scope.timeunitreminder = $scope.timeunitreminderSelect[0];
+		$scope.timeunitreminder = $scope.alltimeunitsSelect[0];
 		$scope.timepositionreminder = $scope.timepositionreminderSelect[0];
 		$scope.startendrelativereminder = $scope.startendreminderSelect[0];
 		

@@ -96,6 +96,25 @@
 					width: 30%;
 				}
 
+				&.repeat-container {
+
+					display: inline-block;
+
+					.event-checkbox {
+						margin-left: 10px;
+					}
+					
+					.event-input {
+						float: none;
+						width: 20%;
+					}
+
+					.event-select {
+						float: none;
+						width: 24%;
+					}
+				}
+
 			}
 		}
 

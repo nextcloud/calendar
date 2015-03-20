@@ -311,6 +311,16 @@
       margin: 10px; }
     #events .event-fieldset.event-fieldset-reminder .custom-container .event-input {
       width: 30%; }
+    #events .event-fieldset.event-fieldset-reminder .custom-container.repeat-container {
+      display: inline-block; }
+      #events .event-fieldset.event-fieldset-reminder .custom-container.repeat-container .event-checkbox {
+        margin-left: 10px; }
+      #events .event-fieldset.event-fieldset-reminder .custom-container.repeat-container .event-input {
+        float: none;
+        width: 20%; }
+      #events .event-fieldset.event-fieldset-reminder .custom-container.repeat-container .event-select {
+        float: none;
+        width: 24%; }
   #events .event-fieldset.event-fieldset-attendee .event-input {
     width: 78%; }
   #events .event-fieldset .event-time-interior {

@@ -125,10 +125,10 @@
 						ng-change="changerelativeorabsolute(relativeorabsolute)" />
 					<label for="relativereminderradio"><?php p($l->t('Relative')); ?></label>
 					<select class="event-select event-select-reminder"
-						ng-model="timeunitreminder"
-						ng-selected="timeunitreminder"
-						ng-change="chageunittimereminder(timeunitreminder)"
-						ng-options="reminder.displayname for reminder in timeunitreminderSelect">
+						ng-model="startendrelativereminder"
+						ng-selected="startendrelativereminder"
+						ng-change="changestartendrelativereminder(startendrelativereminder)"
+						ng-options="reminder.displayname for reminder in startendreminderSelect">
 					</select>
 					<select class="event-select event-select-reminder"
 						ng-model="timepositionreminder"
@@ -137,11 +137,11 @@
 						ng-options="reminder.displayname for reminder in timepositionreminderSelect">
 					</select>
 					<select class="event-select event-select-reminder"
-						ng-model="startendrelativereminder"
-						ng-selected="startendrelativereminder"
-						ng-change="changestartendrelativereminder(startendrelativereminder)"
-						ng-options="reminder.displayname for reminder in startendreminderSelect">
-					</select>
+						ng-model="customtimeunitreminder"
+						ng-selected="customtimeunitreminder"
+						ng-change="chageunittimereminder(customtimeunitreminder)"
+						ng-options="reminder.displayname for reminder in timeunitreminderSelect">
+					</select>					
 				</div>
 				<div class="absolute-container custom-container">
 					<input type="radio" name="relativeorabsolute"
@@ -158,6 +158,19 @@
 						name="absolutreminderdate" id="absolutreminderdate"
 						ng-model="absolutreminderdate" ng-disabled="absolutereminderdatetoggle"
 						placeholder="<?php p($l->t('Date'));?>" />
+				</div>
+				<div class="custom-container repeat-container">
+					<input type="checkbox" ng-model="repeatabsolutereminder" id="repeatabsolutereminder" class="event-checkbox" />
+					<label for="repeatabsolutereminder"><?php p($l->t('Repeat')); ?></label>
+					<input class="event-input" type="number" ng-model="timesofrepetition" />
+					<span><?php p($l->t('times every')); ?></span>
+					<input class="event-input" type="number" ng-model="durationofrepetion" />
+					<select class="event-select event-select-reminder"
+						ng-model="timeunitreminder"
+						ng-selected="timeunitreminder"
+						ng-change="changeunittimereminder(timeunitreminder)"
+						ng-options="reminder.displayname for reminder in alltimeunitsSelect">
+					</select>
 				</div>
 			</div>
 		</div>		
