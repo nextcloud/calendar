@@ -674,6 +674,8 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 		$scope.changereminder = function (selectedreminder) {
 			if (selectedreminder.displayname == 'Custom') {
 				$scope.customreminderarea = true;
+			} else {
+				$scope.customreminderarea = false;
 			}
 		};
 
