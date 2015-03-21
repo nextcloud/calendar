@@ -47,15 +47,7 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 		$scope.$watch('eventsmodel.eventobject', function (newval, oldval) {
 			if(Object.getOwnPropertyNames(newval).length !== 0) {
 				if (newval.calendar !== '') {
-					$scope.properties = {
-						calcolor: newval.calendar.calendarcolor,
-						title : newval.title,
-						location : newval.location,
-						categories : newval.categories,
-						description : newval.description,
-						attendees : [],
-						alarms : []
-					};
+					$scope.properties = newval;
 					for (var i=0; i< $scope.calendarListSelect.length; i++) {
 						if (newval.calendar.calendardisplayname === $scope.calendarListSelect[i].displayname) {
 							$scope.calendardropdown = $scope.calendarListSelect[i];

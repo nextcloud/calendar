@@ -36,7 +36,7 @@
 	<fieldset class="event-fieldset">
 		<input
 			class="event-input"
-			ng-model="properties.title" ng-maxlength="100" 
+			ng-model="properties.summary.value"
 			placeholder="<?php p($l->t('Title of the Event'));?>"
 			name="title" type="text"
 			autofocus="autofocus"
@@ -57,7 +57,7 @@
 
 
 	<fieldset class="event-fieldset">
-		<input ng-model="properties.location" type="text" class="event-input"
+		<input ng-model="properties.location.value" type="text" class="event-input"
 			placeholder="<?php p($l->t('Events Location'));?>" name="location"
 			typeahead="location for location in getLocation($viewValue)"
 			autocomplete="off" />
@@ -67,12 +67,12 @@
 
 	<fieldset class="event-time event-fieldset">
 		<div class="event-time-interior">
-			<input type="text" class="event-input" value="<?php p($_['startdate']);?>" name="from" id="from" ng-model="fromdatemodel" placeholder="<?php p($l->t('from'));?>" />
-			<input type="time" class="event-input" value="<?php p($_['starttime']);?>" name="fromtime" id="fromtime" ng-model="fromtimemodel" ng-disabled="alldayeventcheckbox;" />
+			<input type="text" class="event-input" name="from" id="from" ng-model="fromdatemodel" placeholder="<?php p($l->t('from'));?>" />
+			<input type="time" class="event-input" name="fromtime" id="fromtime" ng-model="fromtimemodel" ng-disabled="alldayeventcheckbox;" />
 		</div>
 		<div class="event-time-interior">
-			<input type="text" class="event-input" value="<?php p($_['enddate']);?>" name="to" id="to" ng-model="todatemodel" placeholder="<?php p($l->t('to'));?>" />
-			<input type="time" class="event-input" value="<?php p($_['endtime']);?>" name="totime" id="totime" ng-model="totimemodel" ng-disabled="alldayeventcheckbox;" />
+			<input type="text" class="event-input" name="to" id="to" ng-model="todatemodel" placeholder="<?php p($l->t('to'));?>" />
+			<input type="time" class="event-input" name="totime" id="totime" ng-model="totimemodel" ng-disabled="alldayeventcheckbox;" />
 		</div>
 		<div class="event-time-interior event-time-interior-buttonarea">
 		<!-- TODO: Remove inline styles as soon as Reminders and Alarms are done -->
@@ -85,7 +85,7 @@
 		</div>
 		<div class="event-time-interior event-time-interior-allday">
 			<input type="checkbox" name="alldayeventcheckbox"
-				ng-model="alldayeventcheckbox"
+				ng-model="properties.allDay"
 				id="alldayeventcheckbox" class="event-checkbox" />
 			<label for="alldayeventcheckbox"><?php p($l->t('All day'))?></label>
 		</div>

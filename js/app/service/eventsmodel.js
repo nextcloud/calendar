@@ -296,18 +296,12 @@ app.factory('EventsModel', ['objectConverter', function (objectConverter) {
 					}
 					var data = objectConverter.parse(this.vevents[i]);
 					console.log(data);
-					this.addeventobjectcontent(event,this.vevents[i]);
+					this.addeventobjectcontent(data);
 				}
 			}
 		},
-		addeventobjectcontent: function (event,vevent) {
-			this.eventobject.push({
-				"calendar":event,
-				"title" : vevent.getFirstPropertyValue('summary'),
-				"location" : vevent.getFirstPropertyValue('location'),
-				"categoties" : vevent.getFirstPropertyValue('category'),
-				"description" : vevent.getFirstPropertyValue('description')
-			});
+		addeventobjectcontent: function (data) {
+			this.eventobject = data;
 		},
 		addattendee: function (attendee) {
 			this.components.removeAllSubcomponents('vevent');
