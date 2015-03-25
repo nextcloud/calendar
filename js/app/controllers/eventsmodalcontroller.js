@@ -30,29 +30,82 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 	function ($scope, $routeParams, Restangular, CalendarModel, TimezoneModel, EventsModel, DialogModel, Model) {
 		
 		$scope.eventsmodel = EventsModel;
-		$scope.attendornot = 'Required';
 		$scope.calendarListSelect = CalendarModel.getAll();
-		$scope.relative = true;
 
-		$scope.properties = {
-			calcolor: '',
-			title : '',
-			location : '',
-			categories : '',
-			description : '',
-			attendees : [],
-			alarms : []
+		$scope.properties = {};
+
+		window.showProps = function() {
+			return $scope.properties;
 		};
 
-		$scope.$watch('eventsmodel.eventobject', function (newval, oldval) {
-			if(Object.getOwnPropertyNames(newval).length !== 0) {
-				if (newval.calendar !== '') {
-					$scope.properties = newval;
-					for (var i=0; i< $scope.calendarListSelect.length; i++) {
-						if (newval.calendar.calendardisplayname === $scope.calendarListSelect[i].displayname) {
-							$scope.calendardropdown = $scope.calendarListSelect[i];
+		$scope.$watch('eventsmodel.eventobject', function (simpleData) {
+			if(Object.getOwnPropertyNames(simpleData).length !== 0) {
+				if (simpleData.calendar !== '') {
+					$scope.properties = simpleData;
+					//for (var i=0; i< $scope.calendarListSelect.length; i++) {
+					//	if (newval.calendar.calendardisplayname === $scope.calendarListSelect[i].displayname) {
+					//		$scope.calendardropdown = $scope.calendarListSelect[i];
+					//	}
+					//}
+
+					//prepare alarms
+					angular.forEach($scope.properties.alarms, function(value, key) {
+						var alarm = $scope.properties.alarms[key];
+						var factors = [60,60,24,7];
+
+						alarm.editor = {};
+						alarm.editor.reminderSelectValue = ([0, -1 * 5 * 60, -1 * 10 * 60, -1 * 15 * 60, -1 * 60 * 60, -1 * 2 * 60 * 60].indexOf(alarm.trigger.value) != -1) ? alarm.trigger.value : 'custom';
+
+						alarm.editor.triggerType = (alarm.trigger.type === 'duration') ? 'relative' : 'absolute';
+						if (alarm.editor.triggerType == 'relative') {
+							var triggerValue = Math.abs(alarm.trigger.value);
+
+							alarm.editor.triggerBeforeAfter = (alarm.trigger.value < 0) ? -1 : 1;
+							alarm.editor.triggerTimeUnit = 1;
+
+							for (var i = 0; i < factors.length && triggerValue !== 0; i++) {
+								var mod = triggerValue % factors[i];
+								if (mod != 0) {
+									break;
+								}
+
+								alarm.editor.triggerTimeUnit *= factors[i];
+								triggerValue /= factors[i];
+							}
+
+							alarm.editor.triggerValue = triggerValue;
+						} else {
+							alarm.editor.triggerValue = 15;
+							alarm.editor.triggerBeforeAfter = -1;
+							alarm.editor.triggerTimeUnit = 60;
 						}
-					}
+
+						if (alarm.editor.triggerType == 'absolute') {
+							alarm.editor.absDate = alarm.trigger.value.format('L');
+							alarm.editor.absTime = alarm.trigger.value.format('LT');
+						} else {
+							alarm.editor.absDate = null;
+							alarm.editor.absTime = null;
+						}
+
+						alarm.editor.repeat = !(!alarm.repeat.value || alarm.repeat.value === 0);
+						alarm.editor.repeatNTimes = (alarm.editor.repeat) ? alarm.repeat.value : 0;
+						alarm.editor.repeatTimeUnit = 1;
+
+						var repeatValue = (alarm.duration && alarm.duration.value) ? alarm.duration.value : 0;
+
+						for (var i = 0; i < factors.length && repeatValue !== 0; i++) {
+							var mod = repeatValue % factors[i];
+							if (mod != 0) {
+								break;
+							}
+
+							alarm.editor.repeatTimeUnit *= factors[i];
+							repeatValue /= factors[i];
+						}
+
+						alarm.editor.repeatNValue = repeatValue;
+					});
 				}
 			}
 		});
@@ -121,95 +174,142 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 			}
 		};
 
-		$scope.changereminder = function (selectedreminder) {
-			if (selectedreminder.displayname == 'Custom') {
-				$scope.customreminderarea = true;
-			} else {
-				$scope.customreminderarea = false;
-			}
-		};
-
-		$scope.addmorereminders = function () {
-			if ($scope.selectedreminder !== '' && $scope.selectedreminder.displayname !== 'Custom') {
-				$scope.properties.alarms.push({
-					'TRIGGER': {
-						value: $scope.selectedreminder,
-						props: {}
-					},
-					'ACTION': {
-						value: 'AUDIO',
-						props: {}
-					}
-				});
-				$scope.selectedreminder = $scope.reminderSelect[3];
-				$scope.customreminderarea = false;
-			}
-		};
-
-		$scope.changerelativeorabsolute = function (val) {
-			if (val == 'relative') {
-				$scope.absolutereminderdatetoggle = true;
-			} else {
-				console.log(val);
-				$scope.absolutereminderdatetoggle = false;
-			}
-		};
+		/**
+		 * Everything reminders
+		 * - ui related scope variables
+		 * - content of select blocks
+		 * - related functions
+		 */
+		$scope.selectedReminderId = null;
+		$scope.newReminderId = -1;
 
 		$scope.reminderSelect = [
-			{ displayname: t('Calendar', 'At time of event'), email: 'none'},
-			{ displayname: t('Calendar', '5 minutes before'), email: 'none'},
-			{ displayname: t('Calendar', '10 minutes before'), email: 'none'},
-			{ displayname: t('Calendar', '15 minutes before'), email: 'none'},
-			{ displayname: t('Calendar', '1 hour before'), email: 'none'},
-			{ displayname: t('Calendar', '2 hours before'), email: 'none'},
-			{ displayname: t('Calendar', 'Custom'), email: 'none'}
+			{ displayname: t('Calendar', 'At time of event'), trigger: 0},
+			{ displayname: t('Calendar', '5 minutes before'), trigger: -1 * 5 * 60},
+			{ displayname: t('Calendar', '10 minutes before'), trigger: -1 * 10 * 60},
+			{ displayname: t('Calendar', '15 minutes before'), trigger: -1 * 15 * 60},
+			{ displayname: t('Calendar', '1 hour before'), trigger: -1 * 60 * 60},
+			{ displayname: t('Calendar', '2 hours before'), trigger: -1 * 2 * 60 * 60},
+			{ displayname: t('Calendar', 'Custom'), trigger: 'custom'}
 		];
 
-		$scope.remindertypeSelect = [
-			{ displayname: t('Calendar', 'Audio'), type: 'audio'},
-			{ displayname: t('Calendar', 'E Mail'), type: 'email'},
-			{ displayname: t('Calendar', 'Pop up'), type: 'popup'}
+		$scope.reminderTypeSelect = [
+			{ displayname: t('Calendar', 'Audio'), type: 'AUDIO'},
+			{ displayname: t('Calendar', 'E Mail'), type: 'EMAIL'},
+			{ displayname: t('Calendar', 'Pop up'), type: 'DISPLAY'}
 		];
 
-		$scope.timeunitreminderSelect = [
-			{ displayname: t('Calendar', 'min'), type: 'min'},
-			{ displayname: t('Calendar', 'sec'), type: 'sec'},
-			{ displayname: t('Calendar', 'week'), type: 'week'}
+		$scope.timeUnitReminderSelect = [
+			{ displayname: t('Calendar', 'sec'), factor: 1},
+			{ displayname: t('Calendar', 'min'), factor: 60},
+			{ displayname: t('Calendar', 'hours'), factor: 60 * 60},
+			{ displayname: t('Calendar', 'days'), factor: 60 * 60 * 24},
+			{ displayname: t('Calendar', 'week'), factor: 60 * 60 * 24 * 7}
 		];
-
-		$scope.alltimeunitsSelect = [
-			{ displayname: t('Calendar', 'min'), type: 'min'},
-			{ displayname: t('Calendar', 'sec'), type: 'sec'},
-			{ displayname: t('Calendar', 'hours'), type: 'hours'},
-			{ displayname: t('Calendar', 'days'), type: 'days'},
-			{ displayname: t('Calendar', 'weeks'), type: 'weeks'}
-		];		
 
 		$scope.timepositionreminderSelect = [
-			{ displayname: t('Calendar', 'Before'), type: 'before'},
-			{ displayname: t('Calendar', 'After'), type: 'after'}	
+			{ displayname: t('Calendar', 'Before'), factor: -1},
+			{ displayname: t('Calendar', 'After'), factor: 1}
 		];
-
-		
 
 		$scope.startendreminderSelect = [
 			{ displayname: t('Calendar', 'Start'), type: 'start'},
 			{ displayname: t('Calendar', 'End'), type: 'end'}	
 		];
 
-		$scope.selectedreminder = $scope.reminderSelect[3];
-		$scope.selectedtypereminder = $scope.remindertypeSelect[0];
-		$scope.timeunitreminder = $scope.timeunitreminderSelect[0];
-		$scope.timeunitreminder = $scope.alltimeunitsSelect[0];
-		$scope.timepositionreminder = $scope.timepositionreminderSelect[0];
-		$scope.startendrelativereminder = $scope.startendreminderSelect[0];
-		
-		$scope.update = function () {
-			EventsModel.updateevent($scope.properties);
+		$scope.addReminder = function() {
+			//TODO - if a reminder with 15 mins before already exists, create one with 30 minutes before
+			$scope.properties.alarms.push({
+					id: $scope.newReminderId,
+					action: {
+						type: "text",
+						value: "AUDIO"
+					},
+					trigger: {
+						type: "duration",
+						value: -900,
+						related: "start"
+					},
+					repeat: {},
+					duration: {},
+					attendees: [],
+					editor: {
+						reminderSelectValue: -900,
+						triggerType: "relative",
+						triggerBeforeAfter: -1,
+						triggerTimeUnit: 60,
+						triggerValue: 15,
+						absDate: null,
+						absTime: null,
+						repeat: false,
+						repeatNTimes: 0,
+						repeatTimeUnit: 1,
+						repeatNValue: 0
+					}
+			});
+			$scope.newReminderId--;
 		};
 
-		$scope.deletereminderbutton = function () {
-			// TODO : Implement logic on deleting reminders once we have structure ready.
+		$scope.deleteReminder = function (id) {
+			for (var key in $scope.properties.alarms) {
+				console.warn();
+				if ($scope.properties.alarms[key].id === id) {
+					$scope.properties.alarms.splice(key, 1);
+					break;
+				}
+			}
+			console.log('deleted alarm with id:' + id);
+		};
+
+		$scope.editReminder = function(id) {
+			if ($scope.isEditingReminderSupported(id)) {
+				$scope.selectedReminderId = id;
+			}
+		};
+
+		$scope.isEditingReminderSupported = function(id) {
+			for (var key in $scope.properties.alarms) {
+				if ($scope.properties.alarms[key].id === id) {
+					var action = $scope.properties.alarms[key].action.value;
+					//WE DON'T AIM TO SUPPORT PROCEDURE
+					return (['AUDIO', 'DISPLAY', 'EMAIL'].indexOf(action) != -1);
+				}
+			}
+			return false;
+		};
+
+		$scope.updateReminderSelectValue = function(alarm) {
+			var factor = alarm.editor.reminderSelectValue;
+			if (factor !== 'custom') {
+				alarm.duration = {};
+				alarm.repeat = {};
+				alarm.trigger.related = 'start';
+				alarm.trigger.type = 'duration';
+				alarm.trigger.value = parseInt(factor);
+			}
+		};
+
+		$scope.updateReminderRelative = function(alarm) {
+			alarm.trigger.value = parseInt(alarm.editor.triggerBeforeAfter) * parseInt(alarm.editor.triggerTimeUnit) * parseInt(alarm.editor.triggerValue);
+			alarm.trigger.type = 'duration';
+		};
+
+		$scope.updateReminderAbsolute = function(alarm) {
+			if (alarm.editor.absDate.length > 0 && alarm.editor.absTime.length > 0) {
+				alarm.trigger.value = moment(alarm.editor.absDate).add(moment.duration(alarm.editor.absTime));
+				alarm.trigger.type = 'date-time'
+			} else {
+				//show some error message
+			}
+		};
+
+		$scope.updateReminderRepeat = function(alarm) {
+			alarm.duration.value = parseInt(alarm.editor.repeatNValue) * parseInt(alarm.editor.repeatTimeUnit);
+		};
+
+
+		$scope.update = function () {
+			EventsModel.updateevent($scope.properties);
 		};
 
 		// TODO: If this can be taken to Model better do that.
