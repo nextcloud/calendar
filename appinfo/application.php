@@ -300,7 +300,7 @@ class Application extends App {
 		);
 
 		// Contacts backend: show contact's birthdays and anniversaries
-		if (class_exists('\\OCA\\Contacts\\App')) {
+		if (class_exists('\\OCA\\Contacts\\App') && false) {
 			$contacts = new \OCA\Contacts\App();
 			$this->backends->add(
 				$this->backendFactory->createBackend(
