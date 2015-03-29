@@ -95,6 +95,12 @@
 
 	<fieldset ng-click="togglereminderarea = !togglereminderarea; selectedReminderId = null;" class="event-fieldset event-fieldset-heading">
 		<h3><?php p($l->t('Reminders')); ?></h3>
+		<ul class="event-fieldset-list event-fieldset-interior-remainderslist" ng-show="!togglereminderarea">
+			<li ng-repeat="alarm in properties.alarms|limitTo:3">
+				<span>{{alarm | simpleReminderDescription}}</span>
+			</li>
+			<li ng-show="properties.alarms.length > 3">...</li>
+		</ul>
 	</fieldset>
 
 	<fieldset class="event-fieldset event-fieldset-reminder" ng-show="togglereminderarea">
