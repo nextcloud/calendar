@@ -53,35 +53,6 @@
 \OC::$CLASSPATH['OCA\Calendar\Controller\TimezoneController'] = 'calendar/controller/timezone.php';
 \OC::$CLASSPATH['OCA\Calendar\Controller\ViewController'] = 'calendar/controller/view.php';
 
-
-/* entities */
-\OC::$CLASSPATH['OCA\Calendar\Db\Entity'] = 'calendar/db/entity.php';
-\OC::$CLASSPATH['OCA\Calendar\Db\Backend'] = 'calendar/db/backend.php';
-\OC::$CLASSPATH['OCA\Calendar\Db\Calendar'] = 'calendar/db/calendar.php';
-\OC::$CLASSPATH['OCA\Calendar\Db\Object'] = 'calendar/db/object.php';
-\OC::$CLASSPATH['OCA\Calendar\Db\Subscription'] = 'calendar/db/subscription.php';
-\OC::$CLASSPATH['OCA\Calendar\Db\Timezone'] = 'calendar/db/timezone.php';
-
-/* collections */
-\OC::$CLASSPATH['OCA\Calendar\Db\Collection'] = 'calendar/db/collection.php';
-\OC::$CLASSPATH['OCA\Calendar\Db\BackendCollection'] = 'calendar/db/backendcollection.php';
-\OC::$CLASSPATH['OCA\Calendar\Db\CalendarCollection'] = 'calendar/db/calendarcollection.php';
-\OC::$CLASSPATH['OCA\Calendar\Db\ObjectCollection'] = 'calendar/db/objectcollection.php';
-\OC::$CLASSPATH['OCA\Calendar\Db\SubscriptionCollection'] = 'calendar/db/subscriptioncollection.php';
-\OC::$CLASSPATH['OCA\Calendar\Db\TimezoneCollection'] = 'calendar/db/timezonecollection.php';
-
-/* mapper */
-\OC::$CLASSPATH['OCA\Calendar\Db\Mapper'] = 'calendar/db/mapper.php';
-\OC::$CLASSPATH['OCA\Calendar\Db\BackendMapper'] = 'calendar/db/backendmapper.php';
-\OC::$CLASSPATH['OCA\Calendar\Db\CalendarMapper'] = 'calendar/db/calendarmapper.php';
-\OC::$CLASSPATH['OCA\Calendar\Db\ObjectMapper'] = 'calendar/db/objectmapper.php';
-\OC::$CLASSPATH['OCA\Calendar\Db\SubscriptionMapper'] = 'calendar/db/subscriptionmapper.php';
-\OC::$CLASSPATH['OCA\Calendar\Db\TimezoneMapper'] = 'calendar/db/timezonemapper.php';
-
-/* constants */
-\OC::$CLASSPATH['OCA\Calendar\Db\ObjectType'] = 'calendar/db/objecttype.php';
-\OC::$CLASSPATH['OCA\Calendar\Db\Permissions'] = 'calendar/db/permissions.php';
-
 /* reader and serializer */
 \OC::$CLASSPATH['OCA\Calendar\Http\IReader'] = 'calendar/http/ireader.php';
 \OC::$CLASSPATH['OCA\Calendar\Http\ISerializer'] = 'calendar/http/iserializer.php';

@@ -25,6 +25,19 @@ use OCA\Calendar\CorruptDataException;
 
 class ObjectFactory extends EntityFactory {
 
+
+	/**
+	 * use if data is in ical format
+	 */
+	const FORMAT_ICAL = 3;
+
+
+	/**
+	 * use if data is in jcal format
+	 */
+	const FORMAT_JCAL = 4;
+
+
 	/**
 	 * @param array $data
 	 * @param int $format

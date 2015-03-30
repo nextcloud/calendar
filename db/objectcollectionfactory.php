@@ -26,6 +26,19 @@ use OCP\ILogger;
 
 class ObjectCollectionFactory extends CollectionFactory {
 
+
+	/**
+	 * use if data is in ical format
+	 */
+	const FORMAT_ICAL = 3;
+
+
+	/**
+	 * use if data is in jcal format
+	 */
+	const FORMAT_JCAL = 4;
+
+
 	/**
 	 * @var ObjectFactory
 	 */
@@ -78,3 +91,36 @@ class ObjectCollectionFactory extends CollectionFactory {
 		return $collection;
 	}
 }
+
+/**
+ * 			$objectCollection = new ObjectCollection();
+
+$splitter = new JCalendar($this->request->getParams());
+while($vobject = $splitter->getNext()) {
+if (!($vobject instanceof VCalendar)) {
+continue;
+}
+
+SabreUtility::removeXOCAttrFromComponent($vobject);
+$object = new Object();
+$object->fromVObject($vobject);
+$objectCollection->add($object);
+}
+
+if (count($objectCollection) === 1) {
+$object = $objectCollection[0];
+} else {
+$object = $objectCollection;
+}
+ */
+
+/*
+$data = $this->getData();
+
+//fix malformed timestamp in some google calendar events
+//originally contributed by github.com/nezzi
+$data = str_replace('CREATED:00001231T000000Z', 'CREATED:19700101T000000Z', $data);
+
+//add some more fixes over time
+
+$this->setData($data);*/
