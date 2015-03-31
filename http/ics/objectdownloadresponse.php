@@ -21,27 +21,21 @@
  */
 namespace OCA\Calendar\Http\ICS;
 
-use OCA\Calendar\Db\TimezoneMapper;
-use OCA\Calendar\Utility\ObjectUtility;
-
 use OCP\AppFramework\Http\DataDownloadResponse;
 
-class ICSObjectDownloadResponse extends DataDownloadResponse {
+class ObjectDownloadResponse extends DataDownloadResponse {
 
 	/**
-	 * @param \OCA\Calendar\IObjectCollection $data
-	 * @param TimezoneMapper $timezones
+	 * @param \OCA\Calendar\IObject|\OCA\Calendar\IObjectCollection $data
 	 * @param string $contentType
 	 * @param string $filename
 	 */
-	public function __construct($data, TimezoneMapper $timezones,
-								$contentType, $filename) {
-		$dataWithTimezones = ObjectUtility::serializeDataWithTimezones(
-			$data,
-			$timezones,
-			false
-		);
+	public function __construct($data, $contentType, $filename) {
+		$vobject = $data->getVObject();
+		if ($vobject) {
+			$serialized = $vobject->serialize();
 
-		parent::__construct($dataWithTimezones, $filename, $contentType);
+			parent::__construct($serialized, $filename, $contentType);
+		}
 	}
 }

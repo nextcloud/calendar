@@ -55,18 +55,10 @@ class CalendarManager extends BusinessLayer {
 
 
 	/**
-	 * @var string
-	 */
-	protected $userId;
-
-
-	/**
 	 * @param IBackendCollection $backends
-	 * @param string $userId
 	 */
-	public function __construct(IBackendCollection $backends, $userId) {
+	public function __construct(IBackendCollection $backends) {
 		$this->backends = $backends;
-		$this->userId = $userId;
 		$this->cache = $backends->getCache();
 		$this->updater = $backends->getUpdater();
 		$this->watcher = $backends->getWatcher();

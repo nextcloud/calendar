@@ -192,4 +192,29 @@ class Subscription extends BusinessLayer {
 	public function delete(ISubscription $subscription) {
 		$this->mapper->delete($subscription);
 	}
+
+
+	/**
+	 * validate a subscription
+	 *
+	 * @param ISubscription $subscription
+	 * @throws \OCA\Calendar\Http\ReaderException
+	 */
+	private function validateSubscription(ISubscription $subscription) {
+		$backend = $this->backends->bySubscriptionType(
+			$subscription->getType()
+		);
+
+		if ($backend === null) {
+			throw new ReaderException(
+				'Subscription-type not supported'
+			);
+		}
+
+		try {
+			$backend->getBackendAPI()->validateSubscription($subscription);
+		} catch(BackendException $ex) {
+			throw new ReaderException($ex->getMessage());
+		}
+	}
 }

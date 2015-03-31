@@ -44,9 +44,9 @@ abstract class Controller extends \OCP\AppFramework\Controller {
 
 	/**
 	 * id for current user
-	 * @var string
+	 * @var \OCP\IUser
 	 */
-	protected $userId;
+	protected $user;
 
 
 	/**
@@ -60,7 +60,7 @@ abstract class Controller extends \OCP\AppFramework\Controller {
 		if ($userSession->isLoggedIn()) {
 			$user = $userSession->getUser();
 			if ($user) {
-				$this->userId = $user->getUID();
+				$this->user = $user;
 			} else {
 				//TODO - throw exception
 			}
@@ -96,16 +96,15 @@ abstract class Controller extends \OCP\AppFramework\Controller {
 
 	/**
 	 * Reads the input
-	 * @param resource $handle
 	 * @param string $format the format for which a formatter has been registered
 	 * @throws ReaderException if format does not match a registered formatter
 	 * @return IEntity|ICollection
 	 */
-	protected function buildReader($handle, $format) {
+	protected function buildReader($format) {
 		if(array_key_exists($format, $this->readers)) {
 			$reader = $this->readers[$format];
 
-			return $reader($handle);
+			return $reader($this->request);
 		} else {
 			throw new ReaderException('No reader registered for format ' .
 				$format . '!');
@@ -119,9 +118,7 @@ abstract class Controller extends \OCP\AppFramework\Controller {
 	 */
 	protected function readInput() {
 		$reader = $this->getReaderByHTTPHeader();
-		$handle = fopen('php://input', 'rb');
-
-		return $this->buildReader($handle, $reader);
+		return $this->buildReader($reader);
 	}
 
 
@@ -175,8 +172,6 @@ abstract class Controller extends \OCP\AppFramework\Controller {
 	 * @return JSONResponse
 	 */
 	protected function handleException(\Exception $ex) {
-		\OC::$server->getLogger()->debug($ex->getMessage());
-
 		$code = $ex->getCode();
 		if ($code === null) {
 			if ($ex instanceof ReaderException) {
@@ -193,5 +188,33 @@ abstract class Controller extends \OCP\AppFramework\Controller {
 			['message' => $ex->getMessage()],
 			$code
 		);
+	}
+
+
+	/**
+	 * get the successful status code based on the request method
+	 * @return int
+	 */
+	protected function getSuccessfulStatusCode() {
+		$method = $this->request->getMethod();
+
+		switch ($method) {
+			case 'DELETE':
+			case 'GET':
+			case 'PATCH':
+			case 'PUT':
+				$statusCode = 200;
+				break;
+
+			case 'POST':
+				$statusCode = 201;
+				break;
+
+			default:
+				$statusCode = 200;
+				break;
+		}
+
+		return $statusCode;
 	}
 }

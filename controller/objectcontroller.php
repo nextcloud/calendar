@@ -21,29 +21,23 @@
  */
 namespace OCA\Calendar\Controller;
 
+use OCA\Calendar\BusinessLayer;
 use OCA\Calendar\BusinessLayer\CalendarRequestManager;
 use OCA\Calendar\BusinessLayer\ObjectRequestManager;
-use OCA\Calendar\IBackendCollection;
-use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\JSONResponse;
+use OCA\Calendar\Db\ObjectCollectionFactory;
+use OCA\Calendar\Db\Permissions;
+use OCA\Calendar\Http\ICS;
+use OCA\Calendar\Http\JSON;
 use OCA\Calendar\ICalendar;
 use OCA\Calendar\IObject;
 use OCA\Calendar\IObjectCollection;
-use OCP\IRequest;
 
-use OCA\Calendar\BusinessLayer\Exception as BusinessLayerException;
-use OCA\Calendar\Db\Permissions;
-use OCA\Calendar\Db\TimezoneMapper;
-use OCA\Calendar\Http\ICS\ICSObjectReader;
-use OCA\Calendar\Http\ICS\ICSObjectResponse;
-use OCA\Calendar\Http\ICS\ICSObjectDownloadResponse;
-use OCA\Calendar\Http\JSON\JSONObjectReader;
-use OCA\Calendar\Http\JSON\JSONObjectResponse;
-use OCA\Calendar\Http\ReaderException;
-use OCA\Calendar\Http\TextDownloadResponse;
+use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\JSONResponse;
+use OCP\IRequest;
+use OCP\IUserSession;
 
 use DateTime;
-use OCP\IUserSession;
 
 class ObjectController extends Controller {
 
@@ -55,6 +49,13 @@ class ObjectController extends Controller {
 
 
 	/**
+	 * closure for initializing ObjectRequestManager
+	 * @var \closure
+	 */
+	protected $objects;
+
+
+	/**
 	 * type of object this instance of the controller is handling
 	 * @var integer
 	 */
@@ -62,55 +63,44 @@ class ObjectController extends Controller {
 
 
 	/**
-	 * BusinessLayer for managing timezones
-	 * @var \OCA\Calendar\Db\TimezoneMapper
-	 *
-	 * TODO - use TimezoneBusinessLayer instead of TimezoneMapper
-	 */
-	protected $timezones;
-
-
-	/**
 	 * @param string $appName
 	 * @param IRequest $request an instance of the request
 	 * @param IUserSession $userSession
-	 * @param IBackendCollection $backends
-	 * @param TimezoneMapper $timezones
+	 * @param CalendarRequestManager $calendars
+	 * @param \closure $objects
+	 * @param ObjectCollectionFactory $objectFactory
 	 * @param integer $type
 	 */
 	public function __construct($appName, IRequest $request, IUserSession $userSession,
-								IBackendCollection $backends,
-								TimezoneMapper $timezones,
-								$type){
-
+								CalendarRequestManager $calendars, \closure $objects,
+								ObjectCollectionFactory $objectFactory, $type){
 		parent::__construct($appName, $request, $userSession);
-		$this->calendars = new CalendarRequestManager($backends, $this->userId);
-		$this->backends = $backends;
 
+		$this->calendars = $calendars;
+		$this->objects = $objects;
 		$this->objectType = $type;
-		$this->timezones = $timezones;
 
-		$this->registerReader('json', function($handle) {
-			$reader = new JSONObjectReader($handle);
+		$this->registerReader('json', function(IRequest $request) use ($objectFactory) {
+			$reader = new JSON\ObjectReader($request, $objectFactory);
 			return $reader->getObject();
 		});
-		$this->registerReader('json+calendar', function($handle) {
-			$reader = new JSONObjectReader($handle);
+		$this->registerReader('json+calendar', function(IRequest $request) use ($objectFactory) {
+			$reader = new JSON\ObjectReader($request, $objectFactory);
 			return $reader->getObject();
 		});
-		$this->registerReader('text/calendar', function($handle) {
-			$reader = new ICSObjectReader($handle);
+		$this->registerReader('text/calendar', function(IRequest $request) use ($objectFactory) {
+			$reader = new ICS\ObjectReader($request, $objectFactory);
 			return $reader->getObject();
 		});
 
 		$this->registerResponder('json', function($value) {
-			return new JSONObjectResponse($value, $this->timezones);
+			return new JSON\ObjectResponse($value, $this->getSuccessfulStatusCode());
 		});
 		$this->registerResponder('json+calendar', function($value) {
-			return new JSONObjectResponse($value, $this->timezones);
+			return new JSON\ObjectResponse($value, $this->getSuccessfulStatusCode());
 		});
 		$this->registerResponder('text/calendar', function($value) {
-			return new ICSObjectResponse($value, $this->timezones);
+			return new ICS\ObjectResponse($value, $this->getSuccessfulStatusCode());
 		});
 	}
 
@@ -203,16 +193,16 @@ class ObjectController extends Controller {
 
 			$calendar = $this->findCalendar($calendarId);
 			if (!$calendar->doesAllow(Permissions::CREATE)) {
-				throw new BusinessLayerException(
+				throw new BusinessLayer\Exception(
 					'Not allowed to create objects in calendar',
 					HTTP::STATUS_FORBIDDEN
 				);
 			}
 
 			if (!($object instanceof IObject)) {
-				throw new ReaderException(
-					'Reader returned unrecognised format'
-				);
+				return new JSONResponse([
+					'message' => 'Reader returned unrecognised format',
+				], HTTP::STATUS_UNPROCESSABLE_ENTITY);
 			}
 
 			$object->setCalendar($calendar);
@@ -252,9 +242,9 @@ class ObjectController extends Controller {
 			}
 
 			if (!($object instanceof IObject)) {
-				throw new ReaderException(
-					'Reader returned unrecognised format'
-				);
+				return new JSONResponse([
+					'message' => 'Reader returned unrecognised format',
+				], HTTP::STATUS_UNPROCESSABLE_ENTITY);
 			}
 
 			$object->setCalendar($calendar);
@@ -313,7 +303,7 @@ class ObjectController extends Controller {
 
 	/**
 	 * @param integer $calendarId
-	 * @return TextDownloadResponse
+	 * @return ICS\ObjectDownloadResponse
 	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
@@ -330,8 +320,7 @@ class ObjectController extends Controller {
 
 			$objects = (new ObjectRequestManager($calendar))->findAll();
 
-			return new ICSObjectDownloadResponse($objects, $this->timezones,
-				$mimeType, $filename);
+			return new ICS\ObjectDownloadResponse($objects, $mimeType, $filename);
 		} catch (\Exception $ex) {
 			return $this->handleException($ex);
 		}
@@ -367,9 +356,9 @@ class ObjectController extends Controller {
 					$object
 				);
 			} else {
-				throw new ReaderException(
-					'Reader returned unrecognised format'
-				);
+				return new JSONResponse([
+					'message' => 'Reader returned unrecognised format',
+				], HTTP::STATUS_UNPROCESSABLE_ENTITY);
 			}
 
 			if (!$calendar->doesAllow(Permissions::READ)) {
@@ -391,7 +380,7 @@ class ObjectController extends Controller {
 	private function findCalendar($calendarId) {
 		return $this->calendars->find(
 			$calendarId,
-			$this->userId
+			$this->user->getUID()
 		);
 	}
 
@@ -399,11 +388,11 @@ class ObjectController extends Controller {
 	/**
 	 * check if the user is allowed to actually read the calendar
 	 * @param ICalendar $calendar
-	 * @throws BusinessLayerException
+	 * @throws BusinessLayer\Exception
 	 */
 	private function checkAllowedToRead(ICalendar $calendar) {
 		if (!$calendar->doesAllow(Permissions::READ)) {
-			throw new BusinessLayerException(
+			throw new BusinessLayer\Exception(
 				'Not allowed to read calendar',
 				HTTP::STATUS_FORBIDDEN
 			);

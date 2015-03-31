@@ -21,26 +21,30 @@
  */
 namespace OCA\Calendar\Http\JSON;
 
+use OCA\Calendar\IObject;
+
 use OCP\AppFramework\Http;
-use OCA\Calendar\Db\TimezoneMapper;
-use OCA\Calendar\Utility\ObjectUtility;
 
 class ObjectResponse extends Http\DataResponse {
 
 	/**
-	 * @param $data
-	 * @param TimezoneMapper $timezones
+	 * @param \OCA\Calendar\IObject|\OCA\Calendar\IObjectCollection $data
 	 * @param int $statusCode
 	 */
-	public function __construct($data, TimezoneMapper $timezones, $statusCode=Http::STATUS_OK) {
-		$dataWithTimezones = ObjectUtility::serializeDataWithTimezones(
-			$data,
-			$timezones,
-			true
-		);
+	public function __construct($data, $statusCode=Http::STATUS_OK) {
+		$vobject = $data->getVObject();
+		if ($vobject) {
+			$serialized = $vobject->jsonSerialize();
 
-		parent::__construct($dataWithTimezones, $statusCode, [
-			'Content-type' => 'text/calendar; charset=utf-8',
-		]);
+			parent::__construct($serialized, $statusCode, [
+				'Content-type' => 'application/calendar+json; charset=utf-8',
+			]);
+
+			if ($data instanceof IObject) {
+				$this->setETag($this->data->getEtag(true));
+			}
+		} else {
+			parent::__construct(null, HTTP::STATUS_NO_CONTENT);
+		}
 	}
 }

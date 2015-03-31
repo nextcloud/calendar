@@ -21,27 +21,18 @@
  */
 namespace OCA\Calendar\Controller;
 
+use OCA\Calendar\BusinessLayer\CalendarManager;
 use OCA\Calendar\BusinessLayer\CalendarRequestManager;
+use OCA\Calendar\Db\CalendarFactory;
+use OCA\Calendar\Http\JSON;
+use OCA\Calendar\ICalendar;
+
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
-use OCA\Calendar\IBackendCollection;
-use OCA\Calendar\ICalendar;
 use OCP\IRequest;
-
-use OCA\Calendar\Db\TimezoneMapper;
-use OCA\Calendar\Http\JSON\JSONCalendarReader;
-use OCA\Calendar\Http\JSON\JSONCalendarResponse;
-use OCA\Calendar\Http\ReaderException;
 use OCP\IUserSession;
 
 class CalendarController extends Controller {
-
-	/**
-	 * Collection of initialized backends
-	 * @var IBackendCollection
-	 */
-	protected $backends;
-
 
 	/**
 	 * BusinessLayer for managing calendars
@@ -54,24 +45,19 @@ class CalendarController extends Controller {
 	 * @param string $appName
 	 * @param IRequest $request an instance of the request
 	 * @param IUserSession $userSession
-	 * @param IBackendCollection $backends
-	 * @param TimezoneMapper $timezones
+	 * @param CalendarManager $calendars
+	 * @param CalendarFactory $calendarFactory
 	 */
 	public function __construct($appName, IRequest $request, IUserSession $userSession,
-								IBackendCollection $backends,
-								TimezoneMapper $timezones) {
+								CalendarManager $calendars, CalendarFactory $calendarFactory) {
 		parent::__construct($appName, $request, $userSession);
+		$this->calendars = $calendars;
 
-		$this->calendars = new CalendarRequestManager($backends, $this->userId);
-		$this->backends = $backends;
-
-		$this->registerReader('json', function($handle) use ($timezones) {
-			return (new JSONCalendarReader($handle,
-				$this->userId, $this->backends, $timezones))->getObject();
+		$this->registerReader('json', function(IRequest $request) use ($calendarFactory) {
+			return new JSON\CalendarReader($request, $calendarFactory);
 		});
-
 		$this->registerResponder('json', function($value) {
-			return new JSONCalendarResponse($value);
+			return new JSON\CalendarResponse($value, $this->getSuccessfulStatusCode());
 		});
 	}
 
@@ -87,7 +73,7 @@ class CalendarController extends Controller {
 	public function index($limit=null, $offset=null) {
 		try {
 			return $this->calendars->findAll(
-				$this->userId,
+				$this->user->getUID(),
 				$limit,
 				$offset
 			);
@@ -106,7 +92,7 @@ class CalendarController extends Controller {
 	 */
 	 public function show($id) {
 		try {
-			return $this->calendars->find($id, $this->userId);
+			return $this->calendars->find($id, $this->user->getUID());
 		} catch (\Exception $ex) {
 			return $this->handleException($ex);
 		}
@@ -120,18 +106,13 @@ class CalendarController extends Controller {
 	public function create() {
 		try {
 			$calendar = $this->readInput();
-
 			if (!($calendar instanceof ICalendar)) {
-				throw new ReaderException(
-					'Reader returned unrecognised format'
-				);
+				return new JSONResponse([
+					'message' => 'Reader returned unrecognised format',
+				], HTTP::STATUS_UNPROCESSABLE_ENTITY);
 			}
 
-			if ($calendar->getBackend() === null) {
-				$backend = $this->backends[0];
-				$calendar->setBackend($backend);
-			}
-			return $this->calendars->create($calendar, $this->userId);
+			return $this->calendars->create($calendar, $this->user->getUID());
 		} catch (\Exception $ex) {
 			return $this->handleException($ex);
 		}
@@ -148,14 +129,13 @@ class CalendarController extends Controller {
 	public function update($id) {
 		try {
 			$calendar = $this->readInput();
-
 			if (!($calendar instanceof ICalendar)) {
-				throw new ReaderException(
-					'Reader returned unrecognised format'
-				);
+				return new JSONResponse([
+					'message' => 'Reader returned unrecognised format',
+				], HTTP::STATUS_UNPROCESSABLE_ENTITY);
 			}
 
-			$oldCalendar = $this->calendars->find($id, $this->userId);
+			$oldCalendar = $this->calendars->find($id, $this->user->getUID());
 			return $this->calendars->update($calendar, $oldCalendar);
 		} catch (\Exception $ex) {
 			return $this->handleException($ex);
@@ -173,14 +153,13 @@ class CalendarController extends Controller {
 	public function patch($id) {
 		try {
 			$calendar = $this->readInput();
-
 			if (!($calendar instanceof ICalendar)) {
-				throw new ReaderException(
-					'Reader returned unrecognised format'
-				);
+				return new JSONResponse([
+					'message' => 'Reader returned unrecognised format',
+				], HTTP::STATUS_UNPROCESSABLE_ENTITY);
 			}
 
-			$oldCalendar = $this->calendars->find($id, $this->userId);
+			$oldCalendar = $this->calendars->find($id, $this->user->getUID());
 			return $this->calendars->patch($calendar, $oldCalendar);
 		} catch (\Exception $ex) {
 			return $this->handleException($ex);
@@ -197,14 +176,14 @@ class CalendarController extends Controller {
 	 */
 	public function destroy($id) {
 		try {
-			$calendar = $this->calendars->find($id, $this->userId);
+			$calendar = $this->calendars->find($id, $this->user->getUID());
 
 			$this->calendars->delete(
 				$calendar
 			);
 
 			return new JSONResponse([
-				'message' => 'CalendarManager was deleted successfully',
+				'message' => 'Calendar was deleted successfully',
 			]);
 		} catch (\Exception $ex) {
 			return $this->handleException($ex);

@@ -23,11 +23,17 @@ namespace OCA\Calendar\Controller;
 
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http;
-use OCP\Config;
+use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IUserSession;
 
 class SettingsController extends Controller {
+
+	/**
+	 * @var IConfig
+	 */
+	private $config;
+
 
 	/**
 	 * array with available settings
@@ -40,11 +46,13 @@ class SettingsController extends Controller {
 	 * @param string $appName
 	 * @param IRequest $request an instance of the request
 	 * @param IUserSession $userSession
+	 * @param IConfig $config
 	 * @param array $settings
 	 */
 	public function __construct($appName, IRequest $request, IUserSession $userSession,
-								array $settings) {
+								IConfig $config, array $settings) {
 		parent::__construct($appName, $request, $userSession);
+		$this->config = $config;
 		$this->settings = $settings;
 	}
 
@@ -59,7 +67,7 @@ class SettingsController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	public function setValue($value) {
-		$userId = $this->userId;
+		$userId = $this->user->getUID();
 		$app = $this->appName;
 
 		$info = $this->getInfoFromRoute();
@@ -70,7 +78,7 @@ class SettingsController extends Controller {
 			], HTTP::STATUS_UNPROCESSABLE_ENTITY);
 		}
 
-		Config::setUserValue(
+		$this->config->setUserValue(
 			$userId,
 			$app,
 			$info['configKey'],
@@ -92,12 +100,12 @@ class SettingsController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	public function getValue() {
-		$userId = $this->userId;
+		$userId = $this->user->getUID();
 		$app = $this->appName;
 
 		$info = $this->getInfoFromRoute();
 
-		$value = Config::getUserValue(
+		$value = $this->config->getUserValue(
 			$userId,
 			$app,
 			$info['configKey'],

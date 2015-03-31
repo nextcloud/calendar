@@ -96,7 +96,7 @@ interface ICollection extends \Countable, \ArrayAccess, \Iterator {
 	/**
 	 * set a property for all calendars
 	 * @param string $key key for property
-	 * @param \OCA\Calendar\Db\Calendar $value value to be set
+	 * @param mixed $value value to be set
 	 * @return $this
 	 */
 	public function setProperty($key, $value);

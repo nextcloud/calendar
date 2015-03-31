@@ -211,12 +211,9 @@ abstract class Collection implements ICollection {
 	 * @return mixed (boolean|ICollection)
 	 */
 	public function search($key, $value) {
-		/** @var ICollection $collection */
-		$collection = clone $this;
-		$collection->reset();
+		$collection = new static();
 
 		$getter = 'get' . ucfirst($key);
-
 		foreach($this->objects as $object) {
 			if ($object->$getter() === $value) {
 				$collection->add($object);

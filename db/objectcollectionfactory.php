@@ -52,12 +52,28 @@ class ObjectCollectionFactory extends CollectionFactory {
 
 
 	/**
+	 * @var \closure
+	 */
+	protected $iCal;
+
+
+	/**
+	 * @var \closure
+	 */
+	protected $jCal;
+
+
+	/**
 	 * @param ObjectFactory $entityFactory
 	 * @param ILogger $logger
+	 * @param \closure $iCal
+	 * @param \closure $jCal
 	 */
-	public function __construct(ObjectFactory $entityFactory, ILogger $logger) {
+	public function __construct(ObjectFactory $entityFactory, ILogger $logger, \closure $iCal, \closure $jCal) {
 		$this->entityFactory = $entityFactory;
 		$this->logger = $logger;
+		$this->iCal = $iCal;
+		$this->jCal = $jCal;
 	}
 
 

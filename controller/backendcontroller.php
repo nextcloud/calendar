@@ -21,12 +21,13 @@
  */
 namespace OCA\Calendar\Controller;
 
-use OCP\AppFramework\Http;
+use OCA\Calendar\Http\JSON;
 use OCA\Calendar\IBackendCollection;
+
+use OCP\AppFramework\Http;
 use OCP\IRequest;
 use OCP\IUserSession;
 
-use OCA\Calendar\Http\JSON\JSONBackendResponse;
 
 class BackendController extends Controller {
 
@@ -49,7 +50,7 @@ class BackendController extends Controller {
 		$this->backends = $backends;
 
 		$this->registerResponder('json', function($value) {
-			return new JSONBackendResponse($value);
+			return new JSON\BackendResponse($value, $this->getSuccessfulStatusCode());
 		});
 	}
 

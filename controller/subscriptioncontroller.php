@@ -21,56 +21,47 @@
  */
 namespace OCA\Calendar\Controller;
 
-use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\JSONResponse;
+use OCA\Calendar\Backend\Exception as BackendException;
+use OCA\Calendar\BusinessLayer\Subscription;
+use OCA\Calendar\Db\SubscriptionFactory;
+use OCA\Calendar\Http\JSON;
+use OCA\Calendar\Http\ReaderException;
 use OCA\Calendar\IBackendCollection;
 use OCA\Calendar\ISubscription;
-use OCP\IRequest;
 
-use OCA\Calendar\Backend\Exception as BackendException;
-use OCA\Calendar\BusinessLayer\SubscriptionBusinessLayer;
-use OCA\Calendar\Http\JSON\JSONSubscriptionReader;
-use OCA\Calendar\Http\JSON\JSONSubscriptionResponse;
-use OCA\Calendar\Http\ReaderException;
+use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\JSONResponse;
+use OCP\IRequest;
 use OCP\IUserSession;
 
 class SubscriptionController extends Controller {
 
 	/**
 	 * BusinessLayer for managing backends
-	 * @var SubscriptionBusinessLayer
+	 * @var Subscription
 	 */
 	protected $subscriptions;
-
-
-	/**
-	 * Collection of initialized backends
-	 * @var IBackendCollection
-	 */
-	protected $backends;
 
 
 	/**
 	 * @param string $appName
 	 * @param IRequest $request an instance of the request
 	 * @param IUserSession $userSession
-	 * @param SubscriptionBusinessLayer $subscriptions
-	 * @param IBackendCollection $backends
+	 * @param Subscription $subscriptions
+	 * @param SubscriptionFactory $subscriptionFactory
 	 */
 	public function __construct($appName, IRequest $request, IUserSession $userSession,
-								SubscriptionBusinessLayer $subscriptions,
-								IBackendCollection $backends) {
+								Subscription $subscriptions, SubscriptionFactory $subscriptionFactory) {
 		parent::__construct($appName, $request, $userSession);
 		$this->subscriptions = $subscriptions;
-		$this->backends = $backends;
 
-		$this->registerReader('json', function($handle) {
-			$reader = new JSONSubscriptionReader($handle);
+		$this->registerReader('json', function(IRequest $request) use ($subscriptionFactory) {
+			$reader = new JSON\SubscriptionReader($request, $subscriptionFactory);
 			return $reader->getObject();
 		});
 
 		$this->registerResponder('json', function($value) {
-			return new JSONSubscriptionResponse($value);
+			return new JSON\SubscriptionResponse($value, $this->getSuccessfulStatusCode());
 		});
 	}
 
@@ -86,7 +77,7 @@ class SubscriptionController extends Controller {
 	public function index($limit=null, $offset=null) {
 		try {
 			return $this->subscriptions->findAll(
-				$this->userId,
+				$this->user->getUID(),
 				$limit,
 				$offset
 			);
@@ -107,7 +98,7 @@ class SubscriptionController extends Controller {
 		try {
 			return $this->subscriptions->find(
 				$id,
-				$this->userId
+				$this->user->getUID()
 			);
 		} catch (\Exception $ex) {
 			return $this->handleException($ex);
@@ -129,8 +120,7 @@ class SubscriptionController extends Controller {
 				);
 			}
 
-			$subscription->setUserId($this->userId);
-			$this->validateSubscription($subscription);
+			$subscription->setUserId($this->user->getUID());
 
 			return $this->subscriptions->create(
 				$subscription
@@ -158,9 +148,8 @@ class SubscriptionController extends Controller {
 				);
 			}
 
-			$subscription->setUserId($this->userId);
+			$subscription->setUserId($this->user->getUID());
 			$subscription->setId($id);
-			$this->validateSubscription($subscription);
 
 			return $this->subscriptions->update(
 				$subscription
@@ -182,7 +171,7 @@ class SubscriptionController extends Controller {
 		try {
 			$subscription = $this->subscriptions->find(
 				$id,
-				$this->userId
+				$this->user->getUID()
 			);
 
 			$this->subscriptions->delete($subscription);
@@ -192,31 +181,6 @@ class SubscriptionController extends Controller {
 			]);
 		} catch (\Exception $ex) {
 			return $this->handleException($ex);
-		}
-	}
-
-
-	/**
-	 * validate a subscription
-	 *
-	 * @param ISubscription $subscription
-	 * @throws \OCA\Calendar\Http\ReaderException
-	 */
-	private function validateSubscription(ISubscription $subscription) {
-		$backend = $this->backends->bySubscriptionType(
-			$subscription->getType()
-		);
-
-		if ($backend === null) {
-			throw new ReaderException(
-				'Subscription-type not supported'
-			);
-		}
-
-		try {
-			$backend->getBackendAPI()->validateSubscription($subscription);
-		} catch(BackendException $ex) {
-			throw new ReaderException($ex->getMessage());
 		}
 	}
 }

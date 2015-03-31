@@ -58,19 +58,6 @@ class ContactController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	public function searchLocation($location) {
-		$books = $this->contacts->getAddressBooks();
-		foreach($books as $book) {
-		}
-
-
-
-
-
-
-
-
-
-		return;
 		$result = $this->contacts->search($location, ['FN', 'ADR']);
 
 		$contacts = [];

@@ -21,19 +21,19 @@
  */
 namespace OCA\Calendar\Controller;
 
+use OCA\Calendar\BusinessLayer\Timezone;
+use OCA\Calendar\Http\JSON;
+
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
-
-use OCA\Calendar\BusinessLayer\TimezoneBusinessLayer;
-use OCA\Calendar\Http\JSON\JSONTimezoneResponse;
 use OCP\IUserSession;
 
 class TimezoneController extends Controller {
 
 	/**
 	 * BusinessLayer for managing timezones
-	 * @var TimezoneBusinessLayer
+	 * @var Timezone
 	 */
 	protected $timezones;
 
@@ -42,15 +42,15 @@ class TimezoneController extends Controller {
 	 * @param string $appName
 	 * @param IRequest $request an instance of the request
 	 * @param IUserSession $userSession
-	 * @param TimezoneBusinessLayer $timezoneBusinessLayer
+	 * @param Timezone $timezoneBusinessLayer
 	 */
 	public function __construct($appName, IRequest $request, IUserSession $userSession,
-								TimezoneBusinessLayer $timezoneBusinessLayer){
+								Timezone $timezoneBusinessLayer){
 		parent::__construct($appName, $request, $userSession);
 		$this->timezones = $timezoneBusinessLayer;
 
 		$this->registerResponder('json', function($value) {
-			return new JSONTimezoneResponse($value, $this->timezones);
+			return new JSON\TimezoneResponse($value, $this->getSuccessfulStatusCode());
 		});
 	}
 
@@ -66,7 +66,7 @@ class TimezoneController extends Controller {
 	public function index($limit=null, $offset=null) {
 		try {
 			return $this->timezones->findAll(
-				$this->userId,
+				$this->user->getUID(),
 				$limit,
 				$offset
 			);
@@ -89,7 +89,7 @@ class TimezoneController extends Controller {
 
 			return $this->timezones->find(
 				$tzId,
-				$this->userId
+				$this->user->getUID()
 			);
 		} catch (\Exception $ex) {
 			return $this->handleException($ex);
@@ -98,15 +98,13 @@ class TimezoneController extends Controller {
 
 
 	/**
-	 * @param integer $limit
-	 * @param integer $offset
 	 * @return \OCP\AppFramework\Http\Response
 	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function getList($limit=null, $offset=null) {
-		$timezones = $this->timezones->listAll($this->userId, $limit, $offset);
+	public function getList() {
+		$timezones = $this->timezones->listAll($this->user->getUID());
 		return new JSONResponse($timezones);
 	}
 
