@@ -21,16 +21,29 @@
  */
 namespace OCA\Calendar\Http\JSON;
 
+use OCA\Calendar\Db\ObjectCollectionFactory;
 use OCA\Calendar\Http\Reader;
-use OCA\Calendar\Sabre\VObject\ParseException;
-use OCA\Calendar\Db\Object;
-use OCA\Calendar\Db\ObjectCollection;
 use OCA\Calendar\Http\ReaderException;
-use OCA\Calendar\Utility\SabreUtility;
-use OCA\Calendar\Sabre\VObject\Component\VCalendar;
-use OCA\Calendar\Sabre\Splitter\JCalendar;
 
-class JSONObjectReader extends Reader {
+use OCP\IRequest;
+
+class ObjectReader extends Reader {
+
+	/**
+	 * @var ObjectCollectionFactory
+	 */
+	protected $factory;
+
+
+	/**
+	 * @param IRequest $request
+	 * @param ObjectCollectionFactory $factory
+	 */
+	public function __construct(IRequest $request, ObjectCollectionFactory $factory) {
+		parent::__construct($request);
+		$this->factory = $factory;
+	}
+
 
 	/**
 	 * parse json object
@@ -39,30 +52,11 @@ class JSONObjectReader extends Reader {
 	 */
 	public function parse() {
 		try {
-			$data = $this->handle;
-			$objectCollection = new ObjectCollection();
-
-			$splitter = new JCalendar($data);
-			while($vobject = $splitter->getNext()) {
-				if (!($vobject instanceof VCalendar)) {
-					continue;
-				}
-
-				SabreUtility::removeXOCAttrFromComponent($vobject);
-				$object = new Object();
-				$object->fromVObject($vobject);
-				$objectCollection->add($object);
-			}
-
-			if (count($objectCollection) === 1) {
-				$object = $objectCollection[0];
-			} else {
-				$object = $objectCollection;
-			}
-
-			$this->setObject($object);
-		} catch(ParseException $ex) {
+			$object = $this->factory->createFromData($this->request->getParams(), ObjectCollectionFactory::FORMAT_JCAL);
+		} catch(/* TODO */\Exception $ex) {
 			throw new ReaderException($ex->getMessage(), $ex->getCode(), $ex);
 		}
+
+		$this->setObject($object);
 	}
 }

@@ -24,45 +24,23 @@ namespace OCA\Calendar\Http\JSON;
 use OCP\AppFramework\Http;
 use OCA\Calendar\Db\TimezoneMapper;
 use OCA\Calendar\Utility\ObjectUtility;
-use OCA\Calendar\IObject;
-use OCA\Calendar\Http\JSONResponse;
 
-class JSONObjectResponse extends JSONResponse {
+class ObjectResponse extends Http\DataResponse {
 
 	/**
-	 * @var TimezoneMapper
-	 */
-	protected $timezones;
-
-
-	/**
-	 * @param \OCA\Calendar\IObjectCollection|\OCA\Calendar\IObject $data
+	 * @param $data
 	 * @param TimezoneMapper $timezones
-	 * @param integer $statusCode
-	 *
-	 * TODO - use TimezoneBusinessLayer instead of TimezoneMapper
+	 * @param int $statusCode
 	 */
-	public function __construct($data, TimezoneMapper $timezones,
-								$statusCode=Http::STATUS_OK) {
-		parent::__construct($data, $statusCode);
-
-		$this->timezones = $timezones;
-		$this->addHeader('Content-type', 'application/calendar+json; charset=utf-8');
-
-		if ($this->data instanceof IObject) {
-			$this->setETag($this->data->getEtag(true));
-		}
-	}
-
-
-	/**
-	 * serialize Data and add missing timezones
-	 */
-	public function render() {
-		return json_encode(ObjectUtility::serializeDataWithTimezones(
-			$this->data,
-			$this->timezones,
+	public function __construct($data, TimezoneMapper $timezones, $statusCode=Http::STATUS_OK) {
+		$dataWithTimezones = ObjectUtility::serializeDataWithTimezones(
+			$data,
+			$timezones,
 			true
-		));
+		);
+
+		parent::__construct($dataWithTimezones, $statusCode, [
+			'Content-type' => 'text/calendar; charset=utf-8',
+		]);
 	}
 }

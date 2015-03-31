@@ -19,22 +19,6 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCA\Calendar\Http;
+namespace OCA\Calendar\Http\JSON;
 
-use OCP\AppFramework\Http\JSONResponse as ParentJSONResponse;
-use OCP\AppFramework\Http;
-use OCA\Calendar\ICollection;
-use OCA\Calendar\IEntity;
-
-abstract class JSONResponse extends ParentJSONResponse {
-
-
-	/**
-	 * @param array|ICollection|IEntity $data
-	 * @param integer $statusCode
-	 */
-	public function __construct($data, $statusCode=Http::STATUS_OK) {
-		parent::__construct($data, $statusCode);
-		$this->addHeader('Content-type', 'application/json; charset=utf-8');
-	}
-}
+class TimezoneResponse extends ObjectResponse {}

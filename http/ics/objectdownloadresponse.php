@@ -19,34 +19,29 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCA\Calendar\Http\JSON;
+namespace OCA\Calendar\Http\ICS;
 
-use OCA\Calendar\Http\SimpleJSONResponse;
+use OCA\Calendar\Db\TimezoneMapper;
+use OCA\Calendar\Utility\ObjectUtility;
 
-class JSONSubscriptionResponse extends SimpleJSONResponse {
+use OCP\AppFramework\Http\DataDownloadResponse;
+
+class ICSObjectDownloadResponse extends DataDownloadResponse {
 
 	/**
-	 * set property
-	 * @param array $data
-	 * @param string $key
-	 * @param mixed $value
+	 * @param \OCA\Calendar\IObjectCollection $data
+	 * @param TimezoneMapper $timezones
+	 * @param string $contentType
+	 * @param string $filename
 	 */
-	protected function setProperty(array &$data, $key, $value) {
-		switch($key) {
-			case 'type':
-			case 'url':
-			case 'userid':
-				$data[$key] = strval($value);
-				break;
+	public function __construct($data, TimezoneMapper $timezones,
+								$contentType, $filename) {
+		$dataWithTimezones = ObjectUtility::serializeDataWithTimezones(
+			$data,
+			$timezones,
+			false
+		);
 
-			case 'id':
-				$data[$key] = intval($value);
-				break;
-
-			default:
-				$data[$key] = $value;
-				break;
-			
-		}
+		parent::__construct($dataWithTimezones, $filename, $contentType);
 	}
 }

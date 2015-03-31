@@ -21,37 +21,19 @@
  */
 namespace OCA\Calendar\Http\JSON;
 
-use OCA\Calendar\IEntity;
-use OCA\Calendar\ISubscription;
-
-use OCA\Calendar\Http\SimpleJSONReader;
-
-class JSONSubscriptionReader extends SimpleJSONReader {
-
-	/**
-	 * @param resource $handle
-	 */
-	public function __construct($handle) {
-		parent::__construct($handle, '\\OCA\\CalendarManager\\Db\\Subscription');
-	}
-
+class SubscriptionReader extends SimpleReader {
 
 	/**
 	 * parse a json subscription
-	 * @param IEntity &$entity
+	 * @param array $data
 	 * @param string $key
 	 * @param mixed $value
 	 */
-	protected function setProperty(IEntity &$entity, $key, $value) {
-		if (!($entity instanceof ISubscription)) {
-			return;
-		}
-
-		$setter = 'set' . ucfirst($key);
+	protected function setProperty(&$data, $key, $value) {
 		switch($key) {
 			case 'type':
 			case 'url':
-			$entity->$setter(strval($value));
+				$data[$key] = strval($value);
 				break;
 
 			//blacklist

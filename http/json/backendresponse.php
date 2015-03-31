@@ -23,9 +23,7 @@ namespace OCA\Calendar\Http\JSON;
 
 use OCA\Calendar\IBackend;
 
-use OCA\Calendar\Http\SimpleJSONResponse;
-
-class JSONBackendResponse extends SimpleJSONResponse {
+class BackendResponse extends SimpleResponse {
 
 	/**
 	 * generate output for one backend
@@ -61,7 +59,6 @@ class JSONBackendResponse extends SimpleJSONResponse {
 				break;
 
 			default:
-				$data[$key] = $value;
 				break;
 
 		}

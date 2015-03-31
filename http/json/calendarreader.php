@@ -21,105 +21,43 @@
  */
 namespace OCA\Calendar\Http\JSON;
 
-use OCA\Calendar\IBackendCollection;
-use OCA\Calendar\ICalendar;
-use OCA\Calendar\IEntity;
-
-use OCA\Calendar\BusinessLayer\BusinessLayerException;
-use OCA\Calendar\Db\TimezoneMapper;
-use OCA\Calendar\Http\SimpleJSONReader;
 use OCA\Calendar\Utility\JSONUtility;
 
-class JSONCalendarReader extends SimpleJSONReader {
-
-	/**
-	 * Collection of initialized backends
-	 * @var \OCA\Calendar\IBackendCollection
-	 */
-	protected $backends;
-
-
-	/**
-	 * BusinessLayer for managing timezones
-	 * @var \OCA\Calendar\BusinessLayer\TimezoneBusinessLayer
-	 */
-	protected $timezones;
-
-
-	/**
-	 * id of current user
-	 * @var string
-	 */
-	protected $userId;
-
-
-	/**
-	 * @param resource $handle
-	 * @param string $userId
-	 * @param IBackendCollection $backends
-	 * @param TimezoneMapper $timezones
-	 *
-	 * TODO - use TimezoneBusinessLayer instead of TimezoneMapper
-	 */
-	public function __construct($handle, $userId, IBackendCollection $backends,
-								TimezoneMapper $timezones) {
-		parent::__construct($handle, '\\OCA\\CalendarManager\\Db\\CalendarManager');
-
-		$this->userId = $userId;
-		$this->backends = $backends;
-		$this->timezones = $timezones;
-	}
-
+class CalendarReader extends SimpleReader {
 
 	/**
 	 * parse a json calendar
-	 * @param IEntity &$entity
+	 * @param array &$data
 	 * @param string $key
 	 * @param mixed $value
 	 */
-	protected function setProperty(IEntity &$entity, $key, $value) {
-		if (!($entity instanceof ICalendar)) {
-			return;
-		}
-
-		$setter = 'set' . ucfirst($key);
+	protected function setProperty(&$data, $key, $value) {
 		switch($key) {
+			case 'backend':
 			case 'color':
 			case 'description':
 			case 'displayname':
-				$entity->$setter(strval($value));
+			case 'timezone':
+				$data[$key] = strval($value);
 				break;
 
 			case 'uri':
-				$entity->setPublicUri(strval($value));
+				$data['publicUri'] = strval($value);
 				break;
 
 			case 'order':
-				$entity->$setter(intval($value));
+				$data[$key] = intval($value);
 				break;
 
 			case 'enabled':
-				$entity->$setter((bool) $value); //boolval is PHP >= 5.5 only
+				$data[$key] = (bool) $value; //boolval is PHP >= 5.5 only
 				break;
 
 			case 'components':
-				$value = JSONUtility::parseComponents($value);
-				$entity->$setter($value);
-				break;
-
-			case 'timezone':
-				$timezoneObject = $this->parseTimezone($value);
-				$entity->$setter($timezoneObject);
-				break;
-
-			case 'backend':
-				$backendObject = $this->parseBackend($value);
-				$entity->$setter($backendObject);
+				$data[$key] = JSONUtility::parseComponents($value);
 				break;
 
 			//blacklist:
-			case 'url':
-			case 'caldav':
 			case 'cruds':
 			case 'ctag':
 			case 'user':
@@ -129,34 +67,5 @@ class JSONCalendarReader extends SimpleJSONReader {
 			default:
 				break;
 		}
-	}
-
-
-	/**
-	 * @param string $tzId
-	 * @return \OCA\Calendar\Db\Timezone|null
-	 */
-	private function parseTimezone($tzId) {
-		try {
-			return $this->timezones->find($tzId, $this->userId);
-		} catch(BusinessLayerException $ex) {
-			return null;
-		}
-	}
-
-
-	/**
-	 * @param $backendId
-	 * @return \OCA\Calendar\Db\Backend|null
-	 */
-	private function parseBackend($backendId) {
-		foreach($this->backends as $backend) {
-			/** @var \OCA\Calendar\IBackend $backend */
-			if ($backend->getId() === $backendId) {
-				return $backend;
-			}
-		}
-
-		return null;
 	}
 }

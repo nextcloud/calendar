@@ -22,10 +22,9 @@
 namespace OCA\Calendar\Http\JSON;
 
 use OCA\Calendar\ITimezone;
-use OCA\Calendar\Http\SimpleJSONResponse;
 use OCA\Calendar\Utility\JSONUtility;
 
-class JSONCalendarResponse extends SimpleJSONResponse {
+class CalendarResponse extends SimpleResponse {
 
 	/**
 	 * @param array &$data
@@ -34,10 +33,10 @@ class JSONCalendarResponse extends SimpleJSONResponse {
 	 */
 	public function setProperty(array &$data, $key, $value) {
 		switch($key) {
+			case 'backend':
 			case 'color':
 			case 'description':
 			case 'displayname':
-			case 'backend':
 				$data[$key] = strval($value);
 				break;
 

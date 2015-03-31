@@ -44,7 +44,7 @@ class JCalendar implements SplitterInterface {
      *
      * The splitter should receive an readable file stream as it's input.
      *
-     * @param resource $input
+     * @param string|resource|array $input
      * @param int $options Parser options, see the OPTIONS constants.
      */
     public function __construct($input, $options = 0) {

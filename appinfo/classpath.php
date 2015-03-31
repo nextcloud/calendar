@@ -53,33 +53,6 @@
 \OC::$CLASSPATH['OCA\Calendar\Controller\TimezoneController'] = 'calendar/controller/timezone.php';
 \OC::$CLASSPATH['OCA\Calendar\Controller\ViewController'] = 'calendar/controller/view.php';
 
-/* reader and serializer */
-\OC::$CLASSPATH['OCA\Calendar\Http\IReader'] = 'calendar/http/ireader.php';
-\OC::$CLASSPATH['OCA\Calendar\Http\ISerializer'] = 'calendar/http/iserializer.php';
-\OC::$CLASSPATH['OCA\Calendar\Http\Manager'] = 'calendar/http/manager.php';
-\OC::$CLASSPATH['OCA\Calendar\Http\Reader'] = 'calendar/http/reader.php';
-\OC::$CLASSPATH['OCA\Calendar\Http\Serializer'] = 'calendar/http/serializer.php';
-\OC::$CLASSPATH['OCA\Calendar\Http\TextDownloadResponse'] = 'calendar/http/textdownloadresponse.php';
-\OC::$CLASSPATH['OCA\Calendar\Http\Response'] = 'calendar/http/response.php';
-
-/* ICS reader and serializer*/
-\OC::$CLASSPATH['OCA\Calendar\Http\ICS\ICSObjectResponse'] = 'calendar/http/ics/object.php';
-\OC::$CLASSPATH['OCA\Calendar\Http\ICS\ICSObjectDownloadResponse'] = 'calendar/http/ics/objectdownload.php';
-\OC::$CLASSPATH['OCA\Calendar\Http\ICS\ICSObjectReader'] = 'calendar/http/ics/objectreader.php';
-\OC::$CLASSPATH['OCA\Calendar\Http\ICS\ICSTimezoneResponse'] = 'calendar/http/ics/timezone.php';
-
-/* JSON reader and serializer */
-\OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONBackendResponse'] = 'calendar/http/json/backend.php';
-\OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONCalendarResponse'] = 'calendar/http/json/calendar.php';
-\OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONCalendarReader'] = 'calendar/http/json/calendarreader.php';
-\OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONObjectResponse'] = 'calendar/http/json/object.php';
-\OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONObjectReader'] = 'calendar/http/json/objectreader.php';
-\OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONSubscriptionResponse'] = 'calendar/http/json/subscription.php';
-\OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONSubscriptionReader'] = 'calendar/http/json/subscriptionreader.php';
-\OC::$CLASSPATH['OCA\Calendar\Http\JSON\JSONTimezoneResponse'] = 'calendar/http/json/timezone.php';
-
-\OC::$CLASSPATH['OCA\Calendar\Share\Calendar'] = 'calendar/sharing/calendarmanager.php';
-
 // some custom sabre classes
 \OC::$CLASSPATH['OCA\CalendarManager\Sabre\Splitter\JCalendarManager'] = 'calendar/sabre/splitter/jcalsplitter.php';
 /* CalDAV implementation */

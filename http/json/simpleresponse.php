@@ -19,14 +19,15 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCA\Calendar\Http;
+namespace OCA\Calendar\Http\JSON;
 
+use OCA\Calendar\Http\SerializerException;
 use OCA\Calendar\Utility\Utility;
 use OCP\AppFramework\Http;
 use OCA\Calendar\ICollection;
 use OCA\Calendar\IEntity;
 
-abstract class SimpleJSONResponse extends JSONResponse {
+abstract class SimpleResponse extends Response {
 
 	/**
 	 * Returns the rendered json
@@ -39,7 +40,6 @@ abstract class SimpleJSONResponse extends JSONResponse {
 		if ($this->data instanceof IEntity) {
 			$data = $this->generate($this->data);
 		} elseif ($this->data instanceof ICollection) {
-			$data = [];
 			foreach ($this->data as $entity) {
 				try {
 					$data[] = $this->generate($entity);

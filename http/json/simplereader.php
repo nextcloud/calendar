@@ -19,61 +19,59 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCA\Calendar\Http;
+namespace OCA\Calendar\Http\JSON;
 
-use OCA\Calendar\IEntity;
-use OCA\Calendar\ICollection;
+use OCA\Calendar\Db\EntityFactory;
+use OCA\Calendar\Http\Reader;
+
 use OCP\IRequest;
 
-abstract class Reader {
+abstract class SimpleReader extends Reader {
 
 	/**
-	 * @var IRequest
+	 * @var EntityFactory
 	 */
-	protected $request;
+	protected $factory;
 
 
 	/**
-	 * result of input-parser
-	 * @var ICollection|IEntity
+	 * @var array
 	 */
-	protected $object=null;
+	protected $json;
 
 
 	/**
 	 * @param IRequest $request
+	 * @param EntityFactory $factory
 	 */
-	public function __construct(IRequest $request) {
-		$this->request = $request;
+	public function __construct(IRequest $request, EntityFactory $factory) {
+		parent::__construct($request);
+		$this->factory = $factory;
+		$this->json = $request->getParams();
 	}
 
 
 	/**
-	 * get result from parser
-	 * @return ICollection|IEntity
+	 * parse input data
+	 * @return $this
 	 */
-	public function getObject() {
-		if (is_null($this->object)) {
-			$this->parse();
+	public function parse() {
+		$data = [];
+
+		foreach($this->json as $key => $value) {
+			$this->setProperty($data, $key, $value);
 		}
 
-		return $this->object;
+		$entity = $this->factory->createEntity($data, EntityFactory::FORMAT_PARAM);
+		$this->setObject($entity);
 	}
 
 
 	/**
-	 * sets the object, supposed to be called by parse()
-	 * @param IEntity|ICollection $object
+	 * set property in entity based on key-value pair from input data
+	 * @param array $data
+	 * @param string $key
+	 * @param mixed $value
 	 */
-	protected function setObject($object) {
-		if ($object instanceof IEntity || $object instanceof ICollection) {
-			$this->object = $object;
-		}
-	}
-
-
-	/**
-	 * parse the actual input
-	 */
-	abstract protected function parse();
+	abstract protected function setProperty(&$data, $key, $value);
 }

@@ -19,36 +19,21 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCA\Calendar\Http;
+namespace OCA\Calendar\Http\JSON;
 
 use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\Response;
+use OCA\Calendar\ICollection;
+use OCA\Calendar\IEntity;
 
-abstract class TextResponse extends Response {
-
-	/**
-	 * response data
-	 * @var string
-	 */
-	protected $data;
+abstract class Response extends Http\JSONResponse {
 
 
 	/**
-	 * @param array|object $data the object or array that should be transformed
-	 * @param int $statusCode the Http status code, defaults to 200
+	 * @param array|ICollection|IEntity $data
+	 * @param integer $statusCode
 	 */
-	public function __construct($data=array(), $statusCode=Http::STATUS_OK) {
-		$this->data = $data;
-		$this->setStatus($statusCode);
-		$this->addHeader('Content-type', 'text/plain; charset=utf-8');
-	}
-
-
-	/**
-	 * Returns the rendered json
-	 * @return string the rendered json
-	 */
-	public function render() {
-		return strval($this->data);
+	public function __construct($data, $statusCode=Http::STATUS_OK) {
+		parent::__construct($data, $statusCode);
+		$this->addHeader('Content-type', 'application/json; charset=utf-8');
 	}
 }

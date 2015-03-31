@@ -22,42 +22,26 @@
 namespace OCA\Calendar\Http\ICS;
 
 use OCA\Calendar\Db\TimezoneMapper;
-use OCA\Calendar\Http\TextResponse;
 use OCA\Calendar\Utility\ObjectUtility;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\DataResponse;
 
-class ICSObjectResponse extends TextResponse {
-
-	/**
-	 * @var TimezoneMapper
-	 */
-	protected $timezones;
-
+class ObjectResponse extends DataResponse {
 
 	/**
-	 * @param \OCA\Calendar\IObjectCollection|\OCA\Calendar\IObject $data
+	 * @param $data
 	 * @param TimezoneMapper $timezones
-	 * @param integer $statusCode
-	 *
-	 * TODO - replace TimezoneMapper with TimezoneBusinessLayer
+	 * @param int $statusCode
 	 */
-	public function __construct($data, TimezoneMapper $timezones,
-								$statusCode=Http::STATUS_OK) {
-		parent::__construct($data, $statusCode);
-
-		$this->timezones = $timezones;
-		$this->addHeader('Content-type', 'text/calendar; charset=utf-8');
-	}
-
-
-	/**
-	 * serialize Data and add missing timezones
-	 */
-	public function render() {
-		return ObjectUtility::serializeDataWithTimezones(
-			$this->data,
-			$this->timezones,
+	public function __construct($data, TimezoneMapper $timezones, $statusCode=Http::STATUS_OK) {
+		$dataWithTimezones = ObjectUtility::serializeDataWithTimezones(
+			$data,
+			$timezones,
 			false
 		);
+
+		parent::__construct($dataWithTimezones, $statusCode, [
+			'Content-type' => 'text/calendar; charset=utf-8',
+		]);
 	}
 }

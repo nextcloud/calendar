@@ -19,6 +19,31 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCA\Calendar\Http\ICS;
+namespace OCA\Calendar\Http\JSON;
 
-class ICSTimezoneResponse extends ICSObjectResponse {}
+class SubscriptionResponse extends SimpleResponse {
+
+	/**
+	 * set property
+	 * @param array $data
+	 * @param string $key
+	 * @param mixed $value
+	 */
+	protected function setProperty(array &$data, $key, $value) {
+		switch($key) {
+			case 'type':
+			case 'url':
+			case 'userid':
+				$data[$key] = strval($value);
+				break;
+
+			case 'id':
+				$data[$key] = intval($value);
+				break;
+
+			default:
+				break;
+			
+		}
+	}
+}
