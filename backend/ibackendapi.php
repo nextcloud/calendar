@@ -19,7 +19,9 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCA\Calendar;
+namespace OCA\Calendar\Backend;
+
+use OCA\Calendar\ISubscription;
 
 interface IBackendAPI {
 

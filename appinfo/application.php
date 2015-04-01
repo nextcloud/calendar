@@ -350,10 +350,21 @@ class Application extends App {
 						return new Backend\Contact\Backend($contacts);
 					},
 					function(IBackend $backend) use ($contacts) {
-						return new Backend\Contact\Calendar($contacts, $backend);
+						$c = $this->getContainer();
+						$l10n = $c->getServer()->getL10N('calendar');
+						$calendarFactory = $c->query('CalendarFactory');
+						$calendarCollectionFactory = $c->query('CalendarCollectionFactory');
+
+						return new Backend\Contact\Calendar($contacts, $backend, $l10n, $calendarFactory, $calendarCollectionFactory);
 					},
 					function(ICalendar $calendar) use ($contacts) {
-						return new Backend\Contact\Object($contacts, $calendar);
+						$c = $this->getContainer();
+						$l10n = $c->getServer()->getL10N('calendar');
+						$objectFactory = $c->query('ObjectFactory');
+						$objectCollectionFactory = $c->query('ObjectCollectionFactory');
+
+
+						return new Backend\Contact\Object($contacts, $calendar, $l10n, $objectFactory, $objectCollectionFactory);
 					}
 				)
 			);

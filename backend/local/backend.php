@@ -25,11 +25,10 @@
  */
 namespace OCA\Calendar\Backend\Local;
 
-use OCA\Calendar\Backend\SubscriptionInvalidException;
-use OCA\Calendar\IBackendAPI;
+use OCA\Calendar\Backend as BackendUtils;
 use OCA\Calendar\ISubscription;
 
-class Backend implements IBackendAPI {
+class Backend implements BackendUtils\IBackendAPI {
 
 	/**
 	 * returns whether or not a backend can be enabled
@@ -52,11 +51,11 @@ class Backend implements IBackendAPI {
 	/**
 	 * validate a subscriptions validity
 	 * @param ISubscription $subscription
-	 * @throws SubscriptionInvalidException
+	 * @throws BackendUtils\SubscriptionInvalidException
 	 * @return boolean
 	 */
 	public function validateSubscription(ISubscription &$subscription) {
-		throw new SubscriptionInvalidException('Subscription is not supported');
+		throw new BackendUtils\SubscriptionInvalidException('Subscription is not supported');
 	}
 
 

@@ -25,6 +25,7 @@
  */
 namespace OCA\Calendar\Backend\Local;
 
+use OCA\Calendar\Backend as BackendUtils;
 use OCA\Calendar\Db\ObjectCollection;
 use OCA\Calendar\Db\Permissions;
 use OCA\Calendar\Utility\ObjectUtility;
@@ -32,23 +33,17 @@ use OCA\Calendar\Backend\Exception as BackendException;
 use OCA\Calendar\CorruptDataException;
 use OCA\Calendar\ICalendar;
 use OCA\Calendar\IObject;
-use OCA\Calendar\IObjectAPI;
-use OCA\Calendar\IObjectAPICreate;
-use OCA\Calendar\IObjectAPIDelete;
-use OCA\Calendar\IObjectAPIFindInPeriod;
-use OCA\Calendar\IObjectAPISearch;
-use OCA\Calendar\IObjectAPIUpdate;
 use OCA\Calendar\IObjectCollection;
 use OCA\Calendar\CacheOutDatedException;
 
-use OCP\AppFramework\Db\DoesNotExistException;
-use OCP\AppFramework\Db\MultipleObjectsReturnedException;
+use OCA\Calendar\Backend\DoesNotExistException;
+use OCA\Calendar\Backend\MultipleObjectsReturnedException;
 use OCA\Calendar\Db\ObjectType;
 use OCP\IDBConnection;
 
-class Object extends Local implements IObjectAPI, IObjectAPICreate,
-	IObjectAPIUpdate, IObjectAPIDelete, IObjectAPIFindInPeriod,
-	IObjectAPISearch {
+class Object extends Local implements BackendUtils\IObjectAPI, BackendUtils\IObjectAPICreate,
+	BackendUtils\IObjectAPIUpdate, BackendUtils\IObjectAPIDelete, BackendUtils\IObjectAPIFindInPeriod,
+	BackendUtils\IObjectAPISearch {
 
 	/**
 	 * @var \OCA\Calendar\ICalendar

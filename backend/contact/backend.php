@@ -23,15 +23,13 @@
  */
 namespace OCA\Calendar\Backend\Contact;
 
-use OCA\Calendar\Backend\SubscriptionInvalidException;
-use OCA\Calendar\IBackendAPI;
+use OCA\Calendar\Backend as BackendUtils;
 use OCA\Calendar\ISubscription;
 
-class Backend extends Contact implements IBackendAPI {
+class Backend extends Contact implements BackendUtils\IBackendAPI {
 
 	/**
-	 * returns whether or not a backend can be enabled
-	 * @return boolean
+	 * {@inheritDoc}
 	 */
 	public function canBeEnabled() {
 		$addressBooks = $this->contacts->getAddressBooksForUser();
@@ -40,8 +38,7 @@ class Backend extends Contact implements IBackendAPI {
 
 
 	/**
-	 * get information about supported subscription-types
-	 * @return array
+	 * {@inheritDoc}
 	 */
 	public function getSubscriptionTypes() {
 		return [];
@@ -49,19 +46,15 @@ class Backend extends Contact implements IBackendAPI {
 
 
 	/**
-	 * validate a subscriptions validity
-	 * @param ISubscription $subscription
-	 * @throws SubscriptionInvalidException
-	 * @return boolean
+	 * {@inheritDoc}
 	 */
 	public function validateSubscription(ISubscription &$subscription) {
-		throw new SubscriptionInvalidException('Subscriptions not supported');
+		throw new BackendUtils\SubscriptionInvalidException('Subscriptions not supported');
 	}
 
 
 	/**
-	 * get translated string for createOn dialog
-	 * @return array
+	 * {@inheritDoc}
 	 */
 	public function getAvailablePrefixes() {
 		return [];
@@ -69,8 +62,7 @@ class Backend extends Contact implements IBackendAPI {
 
 
 	/**
-	 * Can a backend store a calendar's color?
-	 * @return boolean
+	 * {@inheritDoc}
 	 */
 	public function canStoreColor() {
 		return false;
@@ -78,9 +70,7 @@ class Backend extends Contact implements IBackendAPI {
 
 
 	/**
-	 * returns whether or not a backend can store a
-	 * calendar's supported components
-	 * @return boolean
+	 * {@inheritDoc}
 	 */
 	public function canStoreComponents() {
 		return false;
@@ -88,8 +78,7 @@ class Backend extends Contact implements IBackendAPI {
 
 
 	/**
-	 * Can a backend store a calendar's description?
-	 * @return boolean
+	 * {@inheritDoc}
 	 */
 	public function canStoreDescription() {
 		return false;
@@ -97,8 +86,7 @@ class Backend extends Contact implements IBackendAPI {
 
 
 	/**
-	 * returns whether or not a backend can store a calendar's displayname
-	 * @return boolean
+	 * {@inheritDoc}
 	 */
 	public function canStoreDisplayname() {
 		return false;
@@ -106,8 +94,7 @@ class Backend extends Contact implements IBackendAPI {
 
 
 	/**
-	 * returns whether or not a backend can store if a calendar is enabled
-	 * @return boolean
+	 * {@inheritDoc}
 	 */
 	public function canStoreEnabled() {
 		return false;
@@ -115,8 +102,7 @@ class Backend extends Contact implements IBackendAPI {
 
 
 	/**
-	 * returns whether or not a backend can store a calendar's order
-	 * @return boolean
+	 * {@inheritDoc}
 	 */
 	public function canStoreOrder() {
 		return false;

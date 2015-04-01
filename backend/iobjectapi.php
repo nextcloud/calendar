@@ -19,7 +19,11 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCA\Calendar;
+namespace OCA\Calendar\Backend;
+
+use OCA\Calendar\Db\ObjectType;
+use OCA\Calendar\IObject;
+use OCA\Calendar\IObjectCollection;
 
 interface IObjectAPI {
 

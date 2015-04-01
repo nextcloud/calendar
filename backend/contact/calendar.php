@@ -23,19 +23,20 @@
  */
 namespace OCA\Calendar\Backend\Contact;
 
-use OCP\AppFramework\Db\DoesNotExistException;
-
-use OCA\Calendar\Db\CalendarCollection;
+use OCA\Calendar\Backend as BackendUtils;
+use OCA\Calendar\Db\CalendarCollectionFactory;
+use OCA\Calendar\Db\CalendarFactory;
+use OCA\Calendar\Db\ObjectType;
+use OCA\Calendar\Db\Permissions;
 use OCA\Calendar\IBackend;
 use OCA\Calendar\ICalendar;
-use OCA\Calendar\ICalendarAPI;
-use OCA\Calendar\ICalendarCollection;
-use OCA\Calendar\Db\ObjectType;
-use OCA\Calendar\Permissions;
 
 use OCA\Contacts\App as ContactsApp;
 
-class Calendar extends Contact implements ICalendarAPI {
+use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\IL10N;
+
+class Calendar extends Contact implements BackendUtils\ICalendarAPI {
 
 	/**
 	 * @var \OCA\Calendar\IBackend
@@ -44,22 +45,43 @@ class Calendar extends Contact implements ICalendarAPI {
 
 
 	/**
+	 * @var IL10N
+	 */
+	private $l10n;
+
+
+	/**
+	 * @var CalendarFactory
+	 */
+	private $factory;
+
+
+	/**
+	 * @var CalendarCollectionFactory
+	 */
+	private $collectionFactory;
+
+
+	/**
 	 * @param ContactsApp $contacts
 	 * @param IBackend $backend
+	 * @param IL10N $l10n
+	 * @param CalendarFactory $calendarFactory
+	 * @param CalendarCollectionFactory $calendarCollectionFactory
 	 */
-	public function __construct(ContactsApp $contacts, IBackend $backend) {
+	public function __construct(ContactsApp $contacts, IBackend $backend, IL10N $l10n, CalendarFactory $calendarFactory,
+								CalendarCollectionFactory $calendarCollectionFactory) {
 		parent::__construct($contacts);
 
 		$this->backend = $backend;
+		$this->l10n = $l10n;
+		$this->factory = $calendarFactory;
+		$this->collectionFactory = $calendarCollectionFactory;
 	}
 
 
 	/**
-	 * returns information about calendar $privateUri of the user $userId
-	 * @param string $privateUri
-	 * @param string $userId
-	 * @returns ICalendar
-	 * @throws DoesNotExistException if uri does not exist
+	 * {@inheritDoc}
 	 */
 	public function find($privateUri, $userId) {
 		if (!array_key_exists($privateUri, $this->uris)) {
@@ -68,66 +90,54 @@ class Calendar extends Contact implements ICalendarAPI {
 			);
 		}
 
-		$calendar = new \OCA\Calendar\Db\Calendar();
-		$calendar->setUserId($userId);
-		$calendar->setOwnerId($userId);
-		$calendar->setBackend($this->backend);
-		$calendar->setPrivateUri($privateUri);
-		$calendar->setComponents(ObjectType::EVENT);
-		$calendar->setCruds(Permissions::READ + Permissions::SHARE);
-		$calendar->setColor('rgba(77,87,100,0.75)');
-		$calendar->setOrder(0);
-		$calendar->setEnabled(true);
-
-		$displayname = '';
-		switch($privateUri) {
-			case 'anniversary':
-				$displayname = \OC::$server->getL10N('calendar')
-					->t('Anniversary');
-				break;
-
-			case 'birthday':
-				$displayname = \OC::$server->getL10N('calendar')
-					->t('Birthday');
-				break;
-
-			default:
-				break;
-		}
-		$calendar->setDisplayname($displayname);
-
-		$ctag = $this->generateCTag();
-		$calendar->setCtag($ctag);
-
-		return $calendar;
+		return $this->factory->createEntity([
+			'userId' => $userId,
+			'ownerId' => $userId,
+			'backend'=> $this->backend,
+			'privateUri' => $privateUri,
+			'components' => ObjectType::EVENT,
+			'cruds' => Permissions::READ + Permissions::SHARE,
+			'color' => 'rgba(77,87,100,0.75)',
+			'order' => 0,
+			'enabled' => true,
+			'displayname' => $this->generateDisplayname($privateUri),
+			'ctag' => $this->generateCTag(),
+		], CalendarFactory::FORMAT_PARAM);
 	}
 
 
 	/**
-	 * returns all calendars of the user $userId
-	 * @param string $userId
-	 * @param integer $limit
-	 * @param integer $offset
-	 * @returns ICalendarCollection
-	 * @throws DoesNotExistException if uri does not exist
+	 * {@inheritDoc}
 	 */
 	public function findAll($userId, $limit=null, $offset=null) {
-		$calendars = new CalendarCollection();
+		$calendars = [];
 
 		foreach($this->uris as $uri => $property) {
 			$calendars[] = $this->find($uri, $userId);
 		}
 
-		return $calendars->subset($limit, $offset);
+		return $this->collectionFactory
+			->createFromEntities($calendars)
+			->subset($limit, $offset);
 	}
 
 
 	/**
-	 * @param string $userId
-	 * @return array
+	 * {@inheritDoc}
 	 */
 	public function listAll($userId) {
 		return array_keys($this->uris);
+	}
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function hasUpdated(ICalendar $calendar) {
+		$oldCTag = $calendar->getCtag();
+		$currentCTag = $this->generateCTag();
+
+		return ($oldCTag !== $currentCTag);
 	}
 
 
@@ -146,5 +156,28 @@ class Calendar extends Contact implements ICalendarAPI {
 		}
 
 		return $ctag;
+	}
+
+
+	/**
+	 * @param $privateUri
+	 * @return string
+	 */
+	private function generateDisplayname($privateUri) {
+		$displayname = '';
+		switch($privateUri) {
+			case 'anniversary':
+				$displayname = $this->l10n->t('Anniversary');
+				break;
+
+			case 'birthday':
+				$displayname = $this->l10n->t('Birthday');
+				break;
+
+			default:
+				break;
+		}
+
+		return strval($displayname);
 	}
 }

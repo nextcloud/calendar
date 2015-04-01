@@ -28,22 +28,20 @@ namespace OCA\Calendar\Backend\Local;
 use OCA\Calendar\Backend\DoesNotExistException;
 use OCA\Calendar\Backend\MultipleObjectsReturnedException;
 
+use OCA\Calendar\Backend as BackendUtils;
+
 use OCA\Calendar\Db\CalendarCollection;
 use OCA\Calendar\Utility\CalendarUtility;
 use OCA\Calendar\CorruptDataException;
 use OCA\Calendar\IBackend;
 use OCA\Calendar\ICalendar;
-use OCA\Calendar\ICalendarAPI;
-use OCA\Calendar\ICalendarAPICreate;
-use OCA\Calendar\ICalendarAPIDelete;
-use OCA\Calendar\ICalendarAPIUpdate;
 use OCA\Calendar\ICalendarCollection;
 use OCA\Calendar\Db\ObjectType;
-use OCA\Calendar\Permissions;
+use OCA\Calendar\Db\Permissions;
 use OCP\IDBConnection;
 
-class Calendar extends Local implements ICalendarAPI,
-	ICalendarAPICreate, ICalendarAPIUpdate, ICalendarAPIDelete {
+class Calendar extends Local implements BackendUtils\ICalendarAPI,
+	BackendUtils\ICalendarAPICreate, BackendUtils\ICalendarAPIUpdate, BackendUtils\ICalendarAPIDelete {
 
 	/**
 	 * @var \OCA\Calendar\IBackend
