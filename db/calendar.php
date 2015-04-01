@@ -22,12 +22,14 @@
 namespace OCA\Calendar\Db;
 
 use OCA\Calendar\IBackend;
+use OCA\Calendar\IBackendCollection;
 use OCA\Calendar\ICalendar;
 use OCA\Calendar\ITimezone;
 use OCA\Calendar\Sabre\VObject\Component\VCalendar;
 use OCA\Calendar\Utility\CalendarUtility;
 use OCA\Calendar\Utility\ColorUtility;
 use OCA\Calendar\Utility\SabreUtility;
+use OCA\Calendar\Cache;
 
 class Calendar extends Entity implements ICalendar {
 
@@ -478,6 +480,80 @@ class Calendar extends Entity implements ICalendar {
 	public function touch() {
 		$this->ctag++;
 		return $this;
+	}
+
+
+	/**
+	 * checks the watcher for updates on the backend
+	 * @return boolean
+	 */
+	public function checkUpdate() {
+		$watcher = $this->getWatcher();
+		if (!$watcher) {
+			return false;
+		}
+
+		$backendId = $this->backend->getId();
+		$privateUri = $this->getPrivateUri();
+		$userId = $this->getUserId();
+
+		return $watcher->checkUpdate($backendId, $privateUri, $userId);
+	}
+
+
+	/**
+	 * propagate changes
+	 */
+	public function propagate() {
+		$updater = $this->getUpdater();
+		if (!$updater) {
+			return;
+		}
+
+		$updater->propagate(
+			$this->backend->getId(),
+			$this->getPrivateUri(),
+			$this->getUserId()
+		);
+	}
+
+	public function getCache() {
+		$backends = $this->getBackendCollection();
+		return $backends ? $backends->getCache() : null;
+	}
+
+	public function getUpdater() {
+		$backends = $this->getBackendCollection();
+		return $backends ? $backends->getUpdater() : null;
+	}
+
+	public function getScanner() {
+		$backends = $this->getBackendCollection();
+		return $backends ? $backends->getScanner() : null;
+	}
+
+	public function getWatcher() {
+		$backends = $this->getBackendCollection();
+		return $backends ? $backends->getWatcher() : null;
+	}
+
+
+	/**
+	 * @return null|IBackendCollection
+	 */
+	private function getBackendCollection() {
+		$backend = $this->getBackend();
+
+		if (!($backend instanceof IBackend)) {
+			return null;
+		}
+
+		$backends = $backend->getBackendCollection();
+		if (!($backends instanceof IBackendCollection)) {
+			return null;
+		}
+
+		return $backends;
 	}
 
 

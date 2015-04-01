@@ -21,17 +21,16 @@
  */
 namespace OCA\Calendar\BusinessLayer;
 
+use OCA\Calendar;
+use OCA\Calendar\Backend;
 use OCA\Calendar\CorruptDataException;
+use OCA\Calendar\Db\TimezoneMapper;
 use OCA\Calendar\IBackend;
 use OCA\Calendar\ICalendar;
 use OCA\Calendar\IObject;
 use OCA\Calendar\Db\ObjectType;
 use OCA\Calendar\IObjectAPI;
 use OCA\Calendar\Db\Permissions;
-use OCA\Calendar\IObjectAPICreate;
-use OCA\Calendar\IObjectAPIDelete;
-use OCA\Calendar\IObjectAPIFindInPeriod;
-use OCA\Calendar\IObjectAPIUpdate;
 use OCP\Util;
 
 use DateTime;
@@ -39,7 +38,7 @@ use DateTime;
 class ObjectManager {
 
 	/**
-	 * @var ICalendar
+	 * @var \OCA\Calendar\Db\Calendar
 	 */
 	protected $calendar;
 
@@ -53,28 +52,51 @@ class ObjectManager {
 	/**
 	 * @var IObjectAPI
 	 */
-	protected $objectAPI;
+	protected $api;
 
 
 	/**
 	 * @var \OCA\Calendar\Cache\Object\Cache
 	 */
-	protected $objectCache;
+	protected $cache;
+
+
+	/**
+	 * @var \OCA\Calendar\Cache\Object\Updater
+	 */
+	protected $updater;
+
+
+	/**
+	 * @var \OCA\Calendar\Cache\Object\Watcher
+	 */
+	protected $watcher;
+
+
+	/**
+	 * @var TimezoneMapper
+	 */
+	protected $timezones;
 
 
 	/**
 	 * @param ICalendar $calendar
+	 * @param TimezoneMapper $timezones
 	 */
-	public function __construct(ICalendar $calendar) {
+	public function __construct(ICalendar $calendar, TimezoneMapper $timezones) {
 		$this->calendar = $calendar;
+		$this->timezones = $timezones;
 
 		if ($calendar->getBackend() instanceof IBackend) {
-			$this->objectAPI = $calendar->getBackend()
+			$this->api = $calendar->getBackend()
 				->getObjectAPI($calendar);
-			$this->objectCache = $calendar->getBackend()
-				->getObjectCache($calendar);
 
-			$this->isCachingEnabled = $this->objectAPI->cache();
+			$this->cache = $calendar->getBackend()
+				->getObjectCache($calendar);
+			$this->updater = $calendar->getBackend()
+				->getObjectUpdater($calendar);
+
+			$this->isCachingEnabled = $this->api->cache();
 		}
 	}
 
@@ -90,9 +112,13 @@ class ObjectManager {
 	 */
 	public function findAll($type=ObjectType::ALL, $limit=null, $offset=null) {
 		if ($this->isCachingEnabled) {
-			return $this->objectCache->findAll($this->calendar, $type, $limit, $offset);
+			if ($this->calendar->checkUpdate()) {
+				$this->calendar->propagate();
+			}
+
+			return $this->cache->findAll($type, $limit, $offset);
 		} else {
-			return $this->objectAPI->findAll($type, $limit, $offset);
+			return $this->api->findAll($type, $limit, $offset);
 		}
 	}
 
@@ -105,10 +131,13 @@ class ObjectManager {
 	 */
 	public function listAll() {
 		if ($this->isCachingEnabled) {
-			//return $this->objectCache->
-			return [];
+			if ($this->calendar->checkUpdate()) {
+				$this->calendar->propagate();
+			}
+
+			return $this->cache->listAll();
 		} else {
-			return $this->objectAPI->listAll();
+			return $this->api->listAll();
 		  }
 	}
 
@@ -128,14 +157,18 @@ class ObjectManager {
 									$type=ObjectType::ALL,
 									$limit=null, $offset=null) {
 		if ($this->isCachingEnabled) {
-			return $this->objectCache->findAllInPeriod($this->calendar,
-				$start, $end, $type, $limit, $offset);
+			if ($this->calendar->checkUpdate()) {
+				$this->calendar->propagate();
+			}
+
+			return $this->cache->findAllInPeriod($start, $end,
+				$type, $limit, $offset);
 		} else {
-			if ($this->objectAPI instanceof IObjectAPIFindInPeriod) {
-				return $this->objectAPI->findAllInPeriod($start, $end, $type,
+			if ($this->api instanceof Calendar\IObjectAPIFindInPeriod) {
+				return $this->api->findAllInPeriod($start, $end, $type,
 					$limit, $offset);
 			} else {
-				$objects = $this->objectAPI->findAll($type);
+				$objects = $this->api->findAll($type);
 				$objects->inPeriod($start, $end);
 				$objects->subset($limit, $offset);
 
@@ -156,9 +189,13 @@ class ObjectManager {
 	public function find($uri, $type=ObjectType::ALL) {
 		try {
 			if ($this->isCachingEnabled) {
-				return $this->objectCache->find($this->calendar, $uri, $type);
+				if ($this->watcher->checkUpdate($uri)) {
+					$this->updater->propagate($uri);
+				}
+
+				return $this->cache->find($uri, $type);
 			} else {
-				return $this->objectAPI->find($uri, $type);
+				return $this->api->find($uri, $type);
 			}
 		} catch (Backend\Exception $ex) {
 			throw Exception::fromException($ex);
@@ -178,17 +215,17 @@ class ObjectManager {
 			$object->setCalendar($this->calendar);
 
 			$this->checkCalendarSupports(Permissions::CREATE);
-			if (!($this->objectAPI instanceof IObjectAPICreate)) {
-				return; //TODO
+			if (!($this->api instanceof Calendar\IObjectAPICreate)) {
+				throw new Exception('Backend does not support creating objects');
 			}
 			$this->checkObjectIsValid($object);
 
 			Util::emitHook('\OCA\Calendar', 'preCreateObject',
-				array(&$object));
+				array($object));
 
-			$object = $this->objectAPI->create($object);
+			$object = $this->api->create($object);
 			if ($this->isCachingEnabled) {
-				$this->objectCache->insert($object);
+				$this->updater->propagate($object->getUri());
 			}
 
 			Util::emitHook('\OCA\Calendar', 'postCreateObject',
@@ -215,17 +252,17 @@ class ObjectManager {
 			}
 
 			$this->checkCalendarSupports(Permissions::UPDATE);
-			if (!($this->objectAPI instanceof IObjectAPIUpdate)) {
-				return; //TODO
+			if (!($this->api instanceof Calendar\IObjectAPIUpdate)) {
+				throw new Exception('Backend does not support updating objects');
 			}
 			$this->checkObjectIsValid($object);
 
 			Util::emitHook('\OCA\Calendar', 'preUpdateObject',
-				array(&$object));
+				array($object));
 
-			$object = $this->objectAPI->update($object);
+			$object = $this->api->update($object);
 			if ($this->isCachingEnabled) {
-				$this->objectCache->update($object);
+				$this->updater->propagate($object->getUri());
 			}
 
 			Util::emitHook('\OCA\Calendar', 'postUpdateObject',
@@ -247,16 +284,16 @@ class ObjectManager {
 	public function delete(IObject $object) {
 		try {
 			$this->checkCalendarSupports(Permissions::DELETE);
-			if (!($this->objectAPI instanceof IObjectAPIDelete)) {
-				return; //TODO
+			if (!($this->api instanceof Calendar\IObjectAPIDelete)) {
+				throw new Exception('Backend does not support deleting objects');
 			}
 
 			Util::emitHook('\OCA\Calendar', 'preDeleteObject',
-				array(&$object));
+				array($object));
 
-			$this->objectAPI->delete($object);
+			$this->api->delete($object);
 			if ($this->isCachingEnabled) {
-				$this->objectCache->delete($object);
+				$this->updater->propagate($object->getUri());
 			}
 
 			Util::emitHook('\OCA\Calendar', 'postDeleteObject',
@@ -269,41 +306,28 @@ class ObjectManager {
 
 
 	/**
-	 * @param string $method
-	 * @return boolean
-	 */
-	private function backendSupports($method) {
-		return is_callable([$this->objectAPI, $method]);
-	}
-
-
-	/**
-	 * @param string $method
-	 * @throws \Exception
-	 */
-	private function checkBackendSupports($method) {
-		if (!$this->backendSupports($method)) {
-			throw new \Exception('Backend does not support action');
-		}
-	}
-
-
-	/**
 	 * @param integer $action
-	 * @return boolean
-	 */
-	private function calendarSupports($action) {
-		return $this->calendar->doesAllow($action);
-	}
-
-
-	/**
-	 * @param integer $action
-	 * @throws \Exception
+	 * @throws Exception
 	 */
 	private function checkCalendarSupports($action) {
-		if (!$this->calendarSupports($action)) {
-			throw new \Exception('CalendarManager does not support action');
+		if (!$this->calendar->doesAllow($action)) {
+			switch($action) {
+				case Permissions::CREATE:
+					throw new Exception('Calendar does not allow creating objects');
+					break;
+
+				case Permissions::UPDATE:
+					throw new Exception('Calendar does not allow updating objects');
+					break;
+
+				case Permissions::DELETE:
+					throw new Exception('Calendar does not allow deleting objects');
+					break;
+
+				default:
+					throw new Exception('Calendar does not support wanted action');
+					break;
+			}
 		}
 	}
 

@@ -98,10 +98,45 @@ interface IBackend extends IEntity {
 
 
 	/**
+	 * @param \closure $objectScanner
+	 * @return $this
+	 */
+	public function setObjectScanner(\closure $objectScanner);
+
+
+	/**
 	 * @param ICalendar $calendar
 	 * @return \OCA\Calendar\Cache\Object\Scanner
 	 */
 	public function getObjectScanner(ICalendar $calendar);
+
+
+	/**
+	 * @param \closure $objectUpdater
+	 * @return $this
+	 */
+	public function setObjectUpdater(\closure $objectUpdater);
+
+
+	/**
+	 * @param ICalendar $calendar
+	 * @return \OCA\Calendar\Cache\Object\Updater
+	 */
+	public function getObjectUpdater(ICalendar $calendar);
+
+
+	/**
+	 * @param \closure $objectWatcher
+	 * @return $this
+	 */
+	public function setObjectWatcher(\closure $objectWatcher);
+
+
+	/**
+	 * @param ICalendar $calendar
+	 * @return \OCA\Calendar\Cache\Object\Watcher
+	 */
+	public function getObjectWatcher(ICalendar $calendar);
 
 
 	/**

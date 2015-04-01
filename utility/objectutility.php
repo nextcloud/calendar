@@ -25,6 +25,8 @@ use DateTime;
 use OCA\Calendar\Db\TimezoneMapper;
 use OCA\Calendar\ICollection;
 use OCA\Calendar\IEntity;
+use OCA\Calendar\IObject;
+use OCA\Calendar\IObjectCollection;
 
 class ObjectUtility extends Utility{
 
@@ -57,13 +59,11 @@ class ObjectUtility extends Utility{
 
 
 	/**
-	 * @param \OCA\Calendar\IEntity|\OCA\Calendar\ICollection $input
-	 * @param TimezoneMapper $timezones
-	 * @param bool $json
-	 * @return mixed (array|string)
+	 * @param \OCA\Calendar\IObject|\OCA\Calendar\IObjectCollection $input
+	 * @return \OCA\Calendar\IObject|\OCA\Calendar\IObjectCollection
 	 */
-	public static function serializeDataWithTimezones($input, TimezoneMapper $timezones, $json=true) {
-		if ($input instanceof IEntity || $input instanceof ICollection) {
+	public static function serializeDataWithTimezones($input, TimezoneMapper $timezones) {
+		if ($input instanceof IObject || $input instanceof IObjectCollection) {
 			/* @var \OCA\Calendar\Sabre\VObject\Component\VCalendar $vcalendar */
 			$vcalendar = $input->getVObject();
 
@@ -71,10 +71,8 @@ class ObjectUtility extends Utility{
 				$vcalendar,
 				$timezones
 			);
-
-			return ($json ? $vcalendar->jsonSerialize() : $vcalendar->serialize());
-		} else {
-			return ($json ? [] : '');
 		}
+
+		return $input;
 	}
 }

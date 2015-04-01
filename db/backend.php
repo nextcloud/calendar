@@ -218,6 +218,25 @@ class Backend extends Entity implements IBackend {
 
 
 	/**
+	 * @param \closure $objectUpdater
+	 * @return $this
+	 */
+	public function setObjectUpdater(\closure $objectUpdater) {
+		return $this->setter('objectUpdater', [$objectUpdater]);
+	}
+
+
+	/**
+	 * @param ICalendar $calendar
+	 * @return \OCA\Calendar\Cache\Object\Updater
+	 */
+	public function getObjectUpdater(ICalendar $calendar) {
+		return call_user_func_array($this->getter('objectUpdater'),
+			[$calendar]);
+	}
+
+
+	/**
 	 * @param \closure $objectWatcher
 	 * @return $this
 	 */
