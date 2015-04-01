@@ -714,6 +714,7 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 				});
 				$scope.nameofattendee = '';
 			}
+			$scope.attendeeoptions = false;
 		};
 
 		/**

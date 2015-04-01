@@ -122,6 +122,49 @@
 			.event-input {
 				width:78%;
 			}
+
+			.event-fieldset-interior-attendeelist {
+
+				.attendeenotsure {
+					border: 1px solid #333;
+					float: left;
+					width: 15px;
+					height: 15px;
+
+					i {
+						position: absolute;
+						margin: 2px 3px;
+					}
+				}
+
+				.event-label-type {
+					width: 40px;
+				}
+
+				.event-label-no-attend {
+					width: 120px;
+				}
+
+				.event-select-attendee {
+					@extend .pull-left;
+
+				}
+
+				.event-checkbox {
+					margin-top: 15px;
+					margin-left: -15px;
+					@extend .pull-left;
+				}
+
+				.attendeename {
+					margin-left: 10px;
+				}
+
+				.attendeeopener {
+					margin:2px;
+					@extend .pull-right;
+				}
+			}
 		}
 
 		&.event-fieldset-update {

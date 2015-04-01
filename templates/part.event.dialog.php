@@ -225,43 +225,39 @@
 		<div class="event-fieldset-interior">
 			<ul id="listofattendees">
 				<li ng-repeat="attendee in properties.attendees">
-					<span class="action notsurecontainer">
-						<span class="checkedicon attendeenotsure"><i class="fa-question fa"></i></span>
-					</span>
-					<div ng-click="attendeeoptions = !attendeeoptions" class="attendeecontainer">
-						<span>{{ attendee.value }}</span>
-						<span class="icon-triangle-s attendeeopener"></span>
-					</div>
-					<ul ng-show="attendeeoptions" class="attendeeoptions">
-						<li>
-							<div>
-								<span><?php p($l->t('Type')); ?></span>
-								<select class="cutstatselect"
-									ng-model="selectedstat"
-									ng-selected="selectedstat"
-									ng-change="changestat(selectedstat,attendee.value)"
-									ng-options="cutstat.displayname for cutstat in cutstats">
-								</select>
+					<ul ng-click="attendeeoptions = !attendeeoptions" class="event-fieldset-list event-fieldset-interior-attendeelist">
+						<li class="action notsurecontainer">
+							<div class="checkedicon attendeenotsure">
+								<i class="fa-question fa"></i>
 							</div>
+							<span class="attendeename">{{ attendee.value }}</span>
+							<span class="icon-triangle-s attendeeopener"></span>
 						</li>
-					<li>
-						<div>
-							<span><?php p($l->t('Optional')); ?></span>
+						<div ng-show="attendeeoptions" class="attendeeoptions">
+							<label class="event-label bold event-label-type"><?php p($l->t('Type')); ?></label>
+							<select class="cutstatselect event-select event-select-attendee"
+								ng-model="selectedstat"
+								ng-selected="selectedstat"
+								ng-change="changestat(selectedstat,attendee.value)"
+								ng-options="cutstat.displayname for cutstat in cutstats">
+							</select>
+							<label class="event-label bold"><?php p($l->t('Optional')); ?></label>
 							<input 
-								type="checkbox" class="attendeecheckbox"
+								type="checkbox" class="attendeecheckbox event-checkbox"
 								value="<?php p($l->t('Optional')); ?>" 
 								ng-checked="attendornot=='optional'" ng-click="attendornot='optional'" />
+
+							<label class="event-label bold event-label-no-attend"><?php p($l->t('Does not attend'))?></label>
+							<input type="checkbox" class="attendeecheckbox event-checkbox" 
+								value="<?php p($l->t('Does not attend')); ?>" 
+								ng-checked="attendornot=='no'" ng-click="attendornot='no'" />
 						</div>
-					</li>
-					<li>
-						<span><?php p($l->t('Does not attend'))?></span>
-						<input type="checkbox" class="attendeecheckbox" 
-						value="<?php p($l->t('Does not attend')); ?>" 
-						ng-checked="attendornot=='no'" ng-click="attendornot='no'" />
-					</li>
-					<!-- List of Emails a person has. -->
-					<li>
-						<span></span>
+						<ul>
+							<!-- List of Emails a person has. -->
+							<li>
+								<span></span>
+							</li>
+						</ul>
 					</li>
 				</ul>
 			</li>
