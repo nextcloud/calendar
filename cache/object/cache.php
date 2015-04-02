@@ -21,9 +21,7 @@
  */
 namespace OCA\Calendar\Cache\Object;
 
-use OCA\Calendar\Db\EntityFactory;
 use OCA\Calendar\Db\Mapper;
-use OCA\Calendar\Db\ObjectCollectionFactory;
 use OCA\Calendar\Db\ObjectFactory;
 use OCA\Calendar\Db\ObjectType;
 use OCA\Calendar\ICalendar;
@@ -33,7 +31,6 @@ use OCA\Calendar\IObjectCollection;
 
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
-use OCP\AppFramework\Db\Entity;
 use OCP\IDBConnection;
 
 class Cache extends Mapper {
@@ -55,13 +52,11 @@ class Cache extends Mapper {
 	 * @param IDBConnection $db
 	 * @param ICalendar $calendar
 	 * @param ObjectFactory $objectFactory
-	 * @param ObjectCollectionFactory $objectCollectionFactory
 	 * @throws \InvalidArgumentException
 	 */
 	public function __construct(IDBConnection $db, ICalendar $calendar,
-								ObjectFactory $objectFactory,
-								ObjectCollectionFactory $objectCollectionFactory){
-		parent::__construct($db, 'clndr_objcache', $objectFactory, $objectCollectionFactory);
+								ObjectFactory $objectFactory){
+		parent::__construct($db, 'clndr_objcache', $objectFactory);
 		$this->calendar = $calendar;
 
 		if ($calendar->getId() === null) {

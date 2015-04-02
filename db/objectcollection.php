@@ -21,10 +21,10 @@
  */
 namespace OCA\Calendar\Db;
 
-use OCA\Calendar\Sabre\VObject\Component\VCalendar;
-use OCA\Calendar\Sabre\VObject\Component\VEvent;
-use OCA\Calendar\Sabre\VObject\Component\VJournal;
-use OCA\Calendar\Sabre\VObject\Component\VTodo;
+use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\Component\VEvent;
+use Sabre\VObject\Component\VJournal;
+use Sabre\VObject\Component\VTodo;
 use OCA\Calendar\IObjectCollection;
 use OCA\Calendar\IObject;
 use OCA\Calendar\ITimezone;

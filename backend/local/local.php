@@ -25,8 +25,8 @@
  */
 namespace OCA\Calendar\Backend\Local;
 
-use OCP\AppFramework\Db\MultipleObjectsReturnedException;
-use OCP\AppFramework\Db\DoesNotExistException;
+use OCA\Calendar\Backend as BackendUtils;
+
 use OCP\DB;
 use OCP\IDBConnection;
 
@@ -151,8 +151,8 @@ abstract class Local {
 	 * @param string $sql
 	 * @param array $params
 	 * @return mixed
-	 * @throws \OCP\AppFramework\Db\MultipleObjectsReturnedException
-	 * @throws \OCP\AppFramework\Db\DoesNotExistException
+	 * @throws BackendUtils\MultipleObjectsReturnedException
+	 * @throws BackendUtils\DoesNotExistException
 	 */
 	protected function queryOne($sql, $params) {
 		$result = $this->query($sql, $params);
@@ -161,13 +161,13 @@ abstract class Local {
 
 		if ($row === false || $row === null){
 			$msg = 'No matching entry found';
-			throw new DoesNotExistException($msg);
+			throw new BackendUtils\DoesNotExistException($msg);
 		}
 
 		$row2 = $result->fetch();
 		if (($row2 === false || $row2 === null ) === false) {
 			$msg = 'More than one result';
-			throw new MultipleObjectsReturnedException($msg);
+			throw new BackendUtils\MultipleObjectsReturnedException($msg);
 		}
 
 		return $row;
@@ -179,6 +179,6 @@ abstract class Local {
 	 * @throws \OCA\Calendar\Backend\Exception
 	 */
 	private function throwDBError() {
-		throw new \OCA\Calendar\Backend\Exception('An database error occurred!');
+		throw new BackendUtils\Exception('An database error occurred!');
 	}
 }

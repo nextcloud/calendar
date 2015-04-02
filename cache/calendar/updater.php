@@ -22,6 +22,7 @@
 namespace OCA\Calendar\Cache\Calendar;
 
 use OCA\Calendar\IBackendCollection;
+use OCA\Calendar\ICalendar;
 
 class Updater{
 
@@ -50,9 +51,10 @@ class Updater{
 	 * @param string $backendId
 	 * @param string $privateUri
 	 * @param string $userId
+	 * @param ICalendar $newCalendar
 	 */
-	public function propagate($backendId, $privateUri, $userId) {
-		$this->propagator->addChange($backendId, $privateUri, $userId);
+	public function propagate($backendId, $privateUri, $userId, ICalendar $newCalendar=null) {
+		$this->propagator->addChange($backendId, $privateUri, $userId, $newCalendar);
 		$this->propagator->propagateChanges();
 	}
 

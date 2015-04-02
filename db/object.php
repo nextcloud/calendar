@@ -24,13 +24,13 @@ namespace OCA\Calendar\Db;
 use OCA\Calendar\CorruptDataException;
 use OCA\Calendar\ICalendar;
 use OCA\Calendar\IObject;
-use OCA\Calendar\Sabre\VObject\Component\VCalendar;
-use OCA\Calendar\Sabre\VObject\Reader;
-use OCA\Calendar\Sabre\VObject\ParseException;
-use OCA\Calendar\Sabre\VObject\Property\Text as TextProperty;
-use OCA\Calendar\Sabre\VObject\Property\Integer as IntegerProperty;
-use OCA\Calendar\Sabre\VObject\Property\ICalendar\DateTime as SDateTime;
-use OCA\Calendar\Sabre\VObject\Property\ICalendar\Date as SDate;
+use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\Reader;
+use Sabre\VObject\ParseException;
+use Sabre\VObject\Property\Text as TextProperty;
+use Sabre\VObject\Property\Integer as IntegerProperty;
+use Sabre\VObject\Property\ICalendar\DateTime as SDateTime;
+use Sabre\VObject\Property\ICalendar\Date as SDate;
 use OCA\Calendar\Utility\SabreUtility;
 use DateTime;
 
@@ -221,13 +221,13 @@ class Object extends Entity implements IObject {
 			new IntegerProperty($vobject, 'X-OC-RUDS', $this->getRuds())
 		];
 
-		/** @var \OCA\Calendar\Sabre\vobject\Component\VCalendar $vobject */
+		/** @var \Sabre\vobject\Component\VCalendar $vobject */
 		$_objects = $vobject->select($objectName);
 		$vobject->remove($objectName);
 		foreach($_objects as &$_object) {
-			/** @var \OCA\Calendar\Sabre\VObject\Component $_object */
+			/** @var \Sabre\VObject\Component $_object */
 			foreach ($props as $prop) {
-				/** @var \OCA\Calendar\Sabre\VObject\Property $prop */
+				/** @var \Sabre\VObject\Property $prop */
 				if ($prop->getValue() === null) {
 					continue;
 				} else {
@@ -348,7 +348,7 @@ class Object extends Entity implements IObject {
 	 * @return DateTime
 	 */
 	public function getStartDate() {
-		/** @var \OCA\Calendar\Sabre\VObject\Component $object */
+		/** @var \Sabre\VObject\Component $object */
 		$object = $this->vObject->{$this->getObjectName()};
 		$realStart = SabreUtility::getDTStart($object);
 		if ($realStart instanceof SDateTime || $realStart instanceof SDate) {
@@ -364,7 +364,7 @@ class Object extends Entity implements IObject {
 	 * @return DateTime
 	 */
 	public function getEndDate() {
-		/** @var \OCA\Calendar\Sabre\VObject\Component $object */
+		/** @var \Sabre\VObject\Component $object */
 		$object = $this->vObject->{$this->getObjectName()};
 		$realEnd = SabreUtility::getDTEnd($object);
 		if ($realEnd instanceof SDateTime || $realEnd instanceof SDate) {

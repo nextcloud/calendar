@@ -48,7 +48,7 @@ class Backend extends Contact implements BackendUtils\IBackendAPI {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function validateSubscription(ISubscription &$subscription) {
+	public function validateSubscription(ISubscription $subscription) {
 		throw new BackendUtils\SubscriptionInvalidException('Subscriptions not supported');
 	}
 

@@ -25,51 +25,49 @@
  */
 namespace OCA\Calendar\Backend\Local;
 
-use OCA\Calendar\Backend\DoesNotExistException;
-use OCA\Calendar\Backend\MultipleObjectsReturnedException;
-
 use OCA\Calendar\Backend as BackendUtils;
-
-use OCA\Calendar\Db\CalendarCollection;
-use OCA\Calendar\Utility\CalendarUtility;
 use OCA\Calendar\CorruptDataException;
-use OCA\Calendar\IBackend;
-use OCA\Calendar\ICalendar;
-use OCA\Calendar\ICalendarCollection;
+use OCA\Calendar\Db\CalendarFactory;
 use OCA\Calendar\Db\ObjectType;
 use OCA\Calendar\Db\Permissions;
+use OCA\Calendar\IBackend;
+use OCA\Calendar\ICalendar;
+use OCA\Calendar\Utility\CalendarUtility;
+
 use OCP\IDBConnection;
 
 class Calendar extends Local implements BackendUtils\ICalendarAPI,
 	BackendUtils\ICalendarAPICreate, BackendUtils\ICalendarAPIUpdate, BackendUtils\ICalendarAPIDelete {
 
 	/**
-	 * @var \OCA\Calendar\IBackend
+	 * @var IBackend
 	 */
 	protected $backend;
 
 
 	/**
+	 * @var CalendarFactory
+	 */
+	protected $factory;
+
+
+	/**
 	 * @param IDBConnection $db
 	 * @param IBackend $backend
+	 * @param CalendarFactory $calendarFactory
 	 * @param string $calendarTableName
 	 * @param string $objectTableName
 	 */
-	public function __construct(IDBConnection $db, IBackend $backend,
-								$calendarTableName='clndr_calendars',
-								$objectTableName='clndr_objects') {
+	public function __construct(IDBConnection $db, IBackend $backend, CalendarFactory $calendarFactory,
+								$calendarTableName='clndr_calendars', $objectTableName='clndr_objects') {
 		parent::__construct($db, $calendarTableName, $objectTableName);
 		$this->backend = $backend;
+		$this->factory = $calendarFactory;
 	}
 
 
 	/**
-	 * Find a calendar
-	 * @param string $calendarURI
-	 * @param string $userId
-	 * @throws DoesNotExistException if calendar does not exist
-	 * @throws MultipleObjectsReturnedException if more than one result found
-	 * @return ICalendar
+	 * {@inheritDoc}
 	 */
 	public function find($calendarURI, $userId) {
 		$sql  = 'SELECT * FROM `' . $this->getCalendarTableName() . '` ';
@@ -85,11 +83,7 @@ class Calendar extends Local implements BackendUtils\ICalendarAPI,
 
 
 	/**
-	 * Find all calendars
-	 * @param string $userId
-	 * @param integer $limit
-	 * @param integer $offset
-	 * @return ICalendarCollection
+	 * {@inheritDoc}
 	 */
 	public function findAll($userId, $limit, $offset) {
 		$sql  = 'SELECT * FROM `' . $this->getCalendarTableName() . '` ';
@@ -104,9 +98,7 @@ class Calendar extends Local implements BackendUtils\ICalendarAPI,
 
 
 	/**
-	 * List all calendars
-	 * @param string $userId
-	 * @return array
+	 * {@inheritDoc}
 	 */
 	public function listAll($userId) {
 		$sql  = 'SELECT `uri` FROM `' . $this->getCalendarTableName() . '` ';
@@ -117,7 +109,7 @@ class Calendar extends Local implements BackendUtils\ICalendarAPI,
 		]);
 
 		$list = [];
-		while($row = $result->fetchRow()) {
+		while($row = $result->fetch()) {
 			$list[] = $row['uri'];
 		}
 
@@ -126,8 +118,7 @@ class Calendar extends Local implements BackendUtils\ICalendarAPI,
 
 
 	/**
-	 * @param ICalendar $calendar
-	 * @return boolean
+	 * {@inheritDoc}
 	 */
 	public function hasUpdated(ICalendar $calendar) {
 		$sql  = 'SELECT `ctag` FROM `' . $this->getCalendarTableName() . '` ';
@@ -143,9 +134,7 @@ class Calendar extends Local implements BackendUtils\ICalendarAPI,
 
 
 	/**
-	 * Create a calendar
-	 * @param ICalendar $calendar
-	 * @return ICalendar
+	 * {@inheritDoc}
 	 */
 	public function create(ICalendar $calendar) {
 		$this->generatePrivateUri($calendar);
@@ -162,10 +151,7 @@ class Calendar extends Local implements BackendUtils\ICalendarAPI,
 
 
 	/**
-	 * update a calendar
-	 * @param ICalendar $calendar
-	 * @throws DoesNotExistException if calendar does not exist
-	 * @return ICalendar
+	 * {@inheritDoc}
 	 */
 	public function update(ICalendar $calendar) {
 		$calendarId = $this->getCalendarId($calendar->getPrivateUri(),
@@ -204,11 +190,7 @@ class Calendar extends Local implements BackendUtils\ICalendarAPI,
 
 
 	/**
-	 * delete a calendar
-	 * @param string $privateUri
-	 * @param string $userId
-	 * @return boolean
-	 * @throws DoesNotExistException
+	 * {@inheritDoc}
 	 */
 	public function delete($privateUri, $userId) {
 		$calendarId = $this->getCalendarId($privateUri, $userId);
@@ -252,44 +234,38 @@ class Calendar extends Local implements BackendUtils\ICalendarAPI,
 	 * @return ICalendar
 	 */
 	private function rowToEntity(array $row) {
-		$calendar = new \OCA\Calendar\Db\Calendar();
-
-		$calendar->setUserId(strval($row['userid']));
-		$calendar->setOwnerId(strval($row['userid']));
-
-		$calendar->setBackend($this->backend);
-		$calendar->setPrivateUri(strval($row['uri']));
-
-		$calendar->setDisplayname(strval($row['displayname']));
-		$calendar->setComponents($this->getTypes($row['components'], 'int'));
-		$calendar->setCtag(intval($row['ctag']));
-		$calendar->setColor(strval($row['calendarcolor']));
-		$calendar->setOrder(intval($row['calendarorder']));
-		//boolval is PHP >= 5.5.0 only
-		$calendar->setEnabled((bool) $row['active']);
-		$calendar->setCruds(Permissions::ALL);
-
-		return $calendar;
+		return $this->factory->createEntity([
+			'userId' => strval($row['userid']),
+			'ownerId' => strval($row['userid']),
+			'backend' => $this->backend,
+			'privateUri' => strval($row['uri']),
+			'displayname' => strval($row['displayname']),
+			'components' => $this->getTypes($row['components'], 'int'),
+			'ctag' => intval($row['ctag']),
+			'color' => strval($row['calendarcolor']),
+			'order' => intval($row['calendarorder']),
+			'enabled' => (bool) $row['active'],
+			'cruds' => Permissions::ALL,
+		]);
 	}
 
 
 	/**
-	 * @param \OC_DB_StatementWrapper $result
+	 * @param \PDOStatement $result
 	 * @return \OCA\Calendar\ICalendarCollection
 	 */
-	private function resultToCollection(\OC_DB_StatementWrapper $result) {
-		$calendars = new CalendarCollection();
+	private function resultToCollection(\PDOStatement $result) {
+		$entities = [];
 
-		while($row = $result->fetchRow()) {
+		while($row = $result->fetch()) {
 			try {
-				$calendar = $this->rowToEntity($row);
-				$calendars[] = $calendar;
+				$entities[] = $this->rowToEntity($row);
 			} catch (CorruptDataException $ex) {
 				continue;
 			}
 		}
 
-		return $calendars;
+		return $this->factory->createCollectionFromEntities($entities);
 	}
 
 

@@ -75,8 +75,8 @@ class Application extends App {
 			]
 		]);
 
-		$this->initBackendSystem();
-		$this->registerBackends();
+		$this->initBackendSystem($container);
+		$this->registerBackends($container);
 	}
 
 	private function registerControllers(IAppContainer $container) {
@@ -206,30 +206,20 @@ class Application extends App {
 			return new Db\TimezoneMapper();
 		});
 		$container->registerService('SubscriptionMapper', function(IAppContainer $c) {
-			$entityFactory = new Db\SubscriptionFactory();
-			$collectionFactory = new Db\SubscriptionCollectionFactory($entityFactory, $c->getServer()->getLogger());
+			$factory = $c->query('SubscriptionFactory');
 
-			return new Db\SubscriptionMapper($c->getServer()->getDatabaseConnection(), $entityFactory, $collectionFactory);
+			return new Db\SubscriptionMapper($c->getServer()->getDatabaseConnection(), $factory);
 		});
 	}
 
 	private function registerFactories(IAppContainer $container) {
 		$container->registerService('CalendarFactory', function(IAppContainer $c) {
+			$logger = $c->getServer()->getLogger();
 			$timezoneMapper = $c->query('TimezoneMapper');
 
-			return new Db\CalendarFactory($this->backends, $timezoneMapper);
+			return new Db\CalendarFactory($this->backends, $timezoneMapper, $logger);
 		});
-		$container->registerService('CalendarCollectionFactory', function(IAppContainer $c) {
-			$factory = $c->query('CalendarFactory');
-			$logger = $c->getServer()->getLogger();
-
-			return new Db\CalendarCollectionFactory($factory, $logger);
-		});
-		$container->registerService('ObjectFactory', function() {
-			return new Db\ObjectFactory();
-		});
-		$container->registerService('ObjectCollectionFactory', function(IAppContainer $c) {
-			$factory = $c->query('ObjectFactory');
+		$container->registerService('ObjectFactory', function(IAppContainer $c) {
 			$logger = $c->getServer()->getLogger();
 			$iCal = function($data) {
 				return new ICalendarSplitter($data);
@@ -238,16 +228,12 @@ class Application extends App {
 				return new JCalendarSplitter($data);
 			};
 
-			return new Db\ObjectCollectionFactory($factory, $logger, $iCal, $jCal);
+			return new Db\ObjectFactory($logger, $iCal, $jCal);
 		});
-		$container->registerService('SubscriptionFactory', function() {
-			return new Db\SubscriptionFactory();
-		});
-		$container->registerService('SubscriptionCollectionFactory', function(IAppContainer $c) {
-			$factory = $c->query('SubscriptionFactory');
+		$container->registerService('SubscriptionFactory', function(IAppContainer $c) {
 			$logger = $c->getServer()->getLogger();
 
-			return new Db\SubscriptionCollectionFactory($factory, $logger);
+			return new Db\SubscriptionFactory($logger);
 		});
 	}
 
@@ -275,17 +261,17 @@ class Application extends App {
 		});
 	}
 
-	protected function initBackendSystem() {
+	/**
+	 * initialize backend system
+	 * @param IAppContainer $c
+	 */
+	protected function initBackendSystem(IAppContainer $c) {
 		$this->backends = new Db\BackendCollection(
-			function (IBackendCollection $backends) {
+			function (IBackendCollection $backends) use ($c) {
 				$db = $this->getContainer()->getServer()->getDatabaseConnection();
-				$logger = $this->getContainer()->getServer()->getLogger();
-				$timezones = $this->getContainer()->query('TimezoneMapper');
+				$factory = $c->query('CalendarFactory');
 
-				$entityFactory = new Db\CalendarFactory($backends, $timezones);
-				$collectionFactory = new Db\CalendarCollectionFactory($entityFactory, $logger);
-
-				return new Cache\Calendar\Cache($backends, $db, $entityFactory, $collectionFactory);
+				return new Cache\Calendar\Cache($backends, $db, $factory);
 			},
 			function (IBackendCollection $backends) {
 				$logger = $this->getContainer()->getServer()->getLogger();
@@ -301,13 +287,11 @@ class Application extends App {
 		);
 
 		$this->backendFactory = new Db\BackendFactory(
-			function(ICalendar $calendar) {
+			function(ICalendar $calendar) use ($c) {
 				$db = $this->getContainer()->getServer()->getDatabaseConnection();
+				$factory = $c->query('ObjectFactory');
 
-				$entityFactory = new Db\ObjectFactory();
-				$collectionFactory = $this->getContainer()->query('ObjectCollectionFactory');
-
-				return new Cache\Object\Cache($db, $calendar, $entityFactory, $collectionFactory);
+				return new Cache\Object\Cache($db, $calendar, $factory);
 			},
 			function(ICalendar $calendar) {
 				return new Cache\Object\Scanner($calendar);
@@ -321,27 +305,37 @@ class Application extends App {
 		);
 	}
 
-	public function registerBackends() {
+
+	/**
+	 * @param IAppContainer $c
+	 */
+	public function registerBackends(IAppContainer $c) {
+		$l10n = $c->getServer()->getL10N($c->getAppName());
+
 		// Local backend: Default database backend
 		$this->backends->add(
 			$this->backendFactory->createBackend(
 				'org.ownCloud.local',
-				function() {
-					return new Backend\Local\Backend();
+				function() use ($l10n) {
+					return new Backend\Local\Backend($l10n);
 				},
-				function(IBackend $backend) {
-					$db = $this->getContainer()->getServer()->getDatabaseConnection();
-					return new Backend\Local\Calendar($db, $backend);
+				function(IBackend $backend) use ($c) {
+					$db = $c->getServer()->getDatabaseConnection();
+					$factory = $c->query('CalendarFactory');
+
+					return new Backend\Local\Calendar($db, $backend, $factory);
 				},
-				function(ICalendar $calendar) {
-					$db = $this->getContainer()->getServer()->getDatabaseConnection();
-					return new Backend\Local\Object($db, $calendar);
+				function(ICalendar $calendar) use ($c) {
+					$db = $c->getServer()->getDatabaseConnection();
+					$factory = $c->query('ObjectFactory');
+
+					return new Backend\Local\Object($db, $calendar, $factory);
 				}
 			)
 		);
 
 		// Contacts backend: show contact's birthdays and anniversaries
-		if (class_exists('\\OCA\\Contacts\\App') && false) {
+		if (class_exists('\\OCA\\Contacts\\App')) {
 			$contacts = new \OCA\Contacts\App();
 			$this->backends->add(
 				$this->backendFactory->createBackend(
@@ -389,21 +383,29 @@ class Application extends App {
 		}
 
 		// Webcal Backend: Show ICS files on the net
-		if (function_exists('curl_init') && false) {
+		if (function_exists('curl_init')) {
 			$this->backends->add(
 				$this->backendFactory->createBackend(
 					'org.ownCloud.webcal',
-					function () {
-						$subscriptions = $this->getContainer()->query('SubscriptionController');
-						return new Backend\WebCal\Backend($subscriptions);
+					function () use ($c, $l10n) {
+						$subscriptions = $c->query('SubscriptionController');
+						$cacheFactory = $c->getServer()->getMemCacheFactory();
+
+						return new Backend\WebCal\Backend($subscriptions, $l10n, $cacheFactory);
 					},
-					function (IBackend $backend) {
-						$subscriptions = $this->getContainer()->query('SubscriptionController');
-						return new Backend\WebCal\Calendar($subscriptions, $backend);
+					function (IBackend $backend) use ($c, $l10n) {
+						$subscriptions = $c->query('SubscriptionController');
+						$cacheFactory = $c->getServer()->getMemCacheFactory();
+						$calendarFactory = $c->query('CalendarFactory');
+
+						return new Backend\WebCal\Calendar($subscriptions, $l10n, $cacheFactory, $backend, $calendarFactory);
 					},
-					function (ICalendar $calendar) {
-						$subscriptions = $this->getContainer()->query('SubscriptionController');
-						return new Backend\WebCal\Object($subscriptions, $calendar);
+					function (ICalendar $calendar) use ($c, $l10n) {
+						$subscriptions = $c->query('SubscriptionController');
+						$cacheFactory = $c->getServer()->getMemCacheFactory();
+						$objectFactory = $c->query('ObjectFactory');
+
+						return new Backend\WebCal\Object($subscriptions, $l10n, $cacheFactory, $calendar, $objectFactory);
 					}
 				)
 			);

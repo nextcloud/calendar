@@ -51,7 +51,7 @@ interface IBackendAPI {
 	 * @throws \OCA\Calendar\Backend\Exception
 	 * @return bool
 	 */
-	public function validateSubscription(ISubscription &$subscription);
+	public function validateSubscription(ISubscription $subscription);
 
 
 	/**

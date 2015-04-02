@@ -21,7 +21,7 @@
  */
 namespace OCA\Calendar\Db;
 
-class BackendFactory {
+class BackendFactory { //TODO extend entity Factory
 
 	/**
 	 * @var callable

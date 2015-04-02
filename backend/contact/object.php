@@ -25,13 +25,12 @@ namespace OCA\Calendar\Backend\Contact;
 
 use OCA\Calendar\Backend as BackendUtils;
 use OCA\Calendar\Db\ObjectCollection;
-use OCA\Calendar\Db\ObjectCollectionFactory;
 use OCA\Calendar\Db\ObjectFactory;
 use OCA\Calendar\ICalendar;
 use OCA\Calendar\Db\ObjectType;
 
 use OCA\Calendar\IObject;
-use OCA\Calendar\Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\Component\VCalendar;
 use OCA\Contacts\App as ContactsApp;
 use OCA\Contacts\Addressbook as AddressBookEntity;
 use OCA\Contacts\Contact as ContactEntity;
@@ -68,14 +67,14 @@ class Object extends Contact implements BackendUtils\IObjectAPI {
 	 * @param ICalendar $calendar
 	 * @param IL10N $l10n
 	 * @param ObjectFactory $objectFactory
-	 * @param ObjectCollectionFactory $objectCollectionFactory
 	 */
 	public function __construct(ContactsApp $contacts, ICalendar $calendar, IL10N $l10n,
-								ObjectFactory $objectFactory, ObjectCollectionFactory $objectCollectionFactory) {
+								ObjectFactory $objectFactory) {
 		parent::__construct($contacts);
 
 		$this->calendar = $calendar;
 		$this->l10n = $l10n;
+		$this->factory = $objectFactory;
 
 		$this->uri = $calendar->getPrivateUri();
 		$this->userId = $calendar->getUserId();
@@ -213,7 +212,7 @@ class Object extends Contact implements BackendUtils\IObjectAPI {
 			'rrule' => 'FREQ=YEARLY'
 		]);
 
-		$object = \OCA\Calendar\Db\Object::fromVObject($vobject);
+		$object = $this->factory->createEntity($vobject, ObjectFactory::FORMAT_VObject);
 		$object->setCalendar($this->calendar);
 		$object->setUri($this->getUriFromContact($addressBook, $contact));
 		$object->setEtag($contact->getETag());

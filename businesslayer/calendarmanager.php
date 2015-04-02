@@ -21,18 +21,14 @@
  */
 namespace OCA\Calendar\BusinessLayer;
 
-use OCA\Calendar\Cache\Calendar\Updater;
+use OCA\Calendar\Backend as BackendUtils;
+use OCA\Calendar\Cache\Calendar as CalendarCache;
 use OCA\Calendar\IBackendCollection;
 use OCA\Calendar\ICalendar;
-use OCA\Calendar\ICalendarAPICreate;
-use OCA\Calendar\ICalendarAPIUpdate;
-use OCA\Calendar\ICalendarAPIDelete;
+
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Http;
-use OCA\Calendar\Cache\Calendar\Cache;
-
-use OCA\Calendar\Backend\Exception as BackendException;
 
 class CalendarManager extends BusinessLayer {
 
@@ -43,13 +39,13 @@ class CalendarManager extends BusinessLayer {
 
 
 	/**
-	 * @var Cache
+	 * @var CalendarCache\Cache
 	 */
 	protected $cache;
 
 
 	/**
-	 * @var Updater
+	 * @var CalendarCache\Updater
 	 */
 	protected $updater;
 
@@ -59,6 +55,7 @@ class CalendarManager extends BusinessLayer {
 	 */
 	public function __construct(IBackendCollection $backends) {
 		$this->backends = $backends;
+
 		$this->cache = $backends->getCache();
 		$this->updater = $backends->getUpdater();
 		$this->watcher = $backends->getWatcher();
@@ -153,17 +150,18 @@ class CalendarManager extends BusinessLayer {
 		}
 
 		$api = $calendar->getBackend()->getCalendarAPI();
-		if (!($api instanceof ICalendarAPICreate)) {
+		if (!($api instanceof BackendUtils\ICalendarAPICreate)) {
 			throw new Exception('Backend doesn\'t support creating calendars!');
 		}
 
 		try {
 			$calendar = $api->create($calendar);
-		} catch (BackendException $ex) {
+		} catch (BackendUtils\Exception $ex) {
 			\OC::$server->getLogger()->debug($ex->getMessage());
 			throw Exception::fromException($ex);
 		}
 
+		//TODO - modify this so we can store unsupported props in cache
 		$this->updater->propagate($backendId, $privateUri, $userId);
 		return $calendar;
 	}
@@ -192,17 +190,18 @@ class CalendarManager extends BusinessLayer {
 		$this->checkIsValid($newCalendar);
 
 		$api = $newCalendar->getBackend()->getCalendarAPI();
-		if (!($api instanceof ICalendarAPIUpdate)) {
+		if (!($api instanceof BackendUtils\ICalendarAPIUpdate)) {
 			throw new Exception('Backend doesn\'t support updating calendars!');
 		}
 
 		try {
 			$newCalendar = $api->update($newCalendar);
-		} catch(BackendException $ex) {
+		} catch(BackendUtils\Exception $ex) {
 			\OC::$server->getLogger()->debug($ex->getMessage());
 			throw Exception::fromException($ex);
 		}
 
+		//TODO - modify this so we can store unsupported props in cache
 		$this->updater->propagate($backendId, $privateUri, $userId);
 		return $newCalendar;
 	}
@@ -231,18 +230,19 @@ class CalendarManager extends BusinessLayer {
 	public function delete(ICalendar $calendar) {
 		try {
 			$api = $calendar->getBackend()->getCalendarAPI();
-			if (!($api instanceof ICalendarAPIDelete)) {
+			if (!($api instanceof BackendUtils\ICalendarAPIDelete)) {
 				throw new Exception(
 					'Backend does not support deleting calendars!'
 				);
 			}
 
+			$backendId = $calendar->getBackend()->getId();
 			$privateUri = $calendar->getPrivateUri();
 			$userId = $calendar->getUserId();
 			$api->delete($privateUri, $userId);
 
-			$this->cache->delete($calendar);
-		} catch(BackendException $ex) {
+			$this->updater->remove($backendId, $privateUri, $userId);
+		} catch(BackendUtils\Exception $ex) {
 			\OC::$server->getLogger()->debug($ex->getMessage());
 			throw Exception::fromException($ex);
 		}

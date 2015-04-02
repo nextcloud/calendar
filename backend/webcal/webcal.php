@@ -23,12 +23,15 @@
  */
 namespace OCA\Calendar\Backend\WebCal;
 
-use OCA\Calendar\BusinessLayer\SubscriptionBusinessLayer;
+use OCA\Calendar\Backend as BackendUtils;
+use OCA\Calendar\BusinessLayer\Subscription;
 use OCA\Calendar\Utility\RegexUtility;
 use OCP\AppFramework\Http;
-use OCA\Calendar\Backend\Exception as BackendException;
 use OCA\Calendar\CorruptDataException;
 use OCA\Calendar\ISubscription;
+
+use OCP\ICacheFactory;
+use OCP\IL10N;
 
 class WebCal {
 
@@ -39,17 +42,68 @@ class WebCal {
 
 
 	/**
+	 * @var string
+	 */
+	const MEMCACHEID = 'Calendar::Backend::WebCal';
+
+
+	/**
+	 * @var IL10N
+	 */
+	protected $l10n;
+
+
+	/**
 	 * instance of subscription businesslayer
-	 * @var \OCA\Calendar\BusinessLayer\SubscriptionBusinessLayer
+	 * @var \OCA\Calendar\BusinessLayer\Subscription
 	 */
 	protected $subscriptions;
 
 
 	/**
-	 * @param SubscriptionBusinessLayer $subscriptions
+	 * @var \OCP\ICache
 	 */
-	public function __construct(SubscriptionBusinessLayer $subscriptions) {
+	protected $cache;
+
+
+	/**
+	 * @param Subscription $subscriptions
+	 * @param IL10N $l10n
+	 * @param ICacheFactory $cacheFactory
+	 */
+	public function __construct(Subscription $subscriptions, IL10N $l10n, ICacheFactory $cacheFactory) {
 		$this->subscriptions = $subscriptions;
+		$this->l10n = $l10n;
+		$this->cache = $cacheFactory->create(self::MEMCACHEID);
+	}
+
+
+	/**
+	 * @param ISubscription $subscription
+	 * @return string
+	 */
+	protected function getData(ISubscription $subscription) {
+		$id = $subscription->getId();
+		$url = $subscription->getUrl();
+		$cacheId = implode('::', [
+			$id,
+			$url
+		]);
+
+		if ($this->cache->hasKey($cacheId)) {
+			return $this->cache->get($cacheId);
+		} else {
+			$curl = curl_init();
+			$data = null;
+
+			$this->prepareRequest($curl, $url);
+			$this->getRequestData($curl, $data);
+			$this->validateRequest($curl);
+
+			$this->cache->set($cacheId, $data, 60 * 60 * 2);
+
+			return $data;
+		}
 	}
 
 
@@ -69,7 +123,7 @@ class WebCal {
 
 	/**
 	 * @param resource $curl
-	 * @throws BackendException
+	 * @throws BackendUtils\Exception
 	 * @throws CorruptDataException
 	 */
 	protected function validateRequest($curl) {
@@ -82,17 +136,17 @@ class WebCal {
 			}
 
 			if ($this->isClientSideError($responseCode)) {
-				throw new BackendException('Client side error occurred', $responseCode);
+				throw new BackendUtils\Exception('Client side error occurred', $responseCode);
 			}
 
 			if ($this->isServerSideError($responseCode)) {
 				//file is temporarily not available
-				throw new BackendException('Url temporarily not available');
+				throw new BackendUtils\Exception('Url temporarily not available');
 			}
 		}
 
 		if (!$this->isContentTypeValid($contentType)) {
-			throw new BackendException('URL doesn\'t contain valid calendar data', Http::STATUS_UNPROCESSABLE_ENTITY);
+			throw new BackendUtils\Exception('URL doesn\'t contain valid calendar data', Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
 	}
 
@@ -130,7 +184,7 @@ class WebCal {
 		$parsed = parse_url($url);
 
 		if (!$parsed) {
-			throw new BackendException('URL not processable');
+			throw new BackendUtils\Exception('URL not processable');
 		}
 
 		if (!isset($parsed['scheme'])) {
@@ -150,7 +204,7 @@ class WebCal {
 		}
 
 		if ($parsed['scheme'] !== 'http' && $parsed['scheme'] !== 'https') {
-			throw new BackendException('Protocol not supported');
+			throw new BackendUtils\Exception('Protocol not supported');
 		}
 	}
 
@@ -198,5 +252,4 @@ class WebCal {
 	private function isServerSideError($responseCode) {
 		return ($responseCode >= 500 && $responseCode <= 599);
 	}
-
 }

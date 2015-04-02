@@ -21,10 +21,10 @@
  */
 namespace OCA\Calendar\Db;
 
+use OCA\Calendar\ICollection;
 use OCA\Calendar\IEntity;
 
 abstract class EntityFactory {
-
 
 	/**
 	 * use if data is in param format
@@ -39,9 +39,24 @@ abstract class EntityFactory {
 
 
 	/**
-	 * @param array $data
+	 * @param mixed $data
 	 * @param integer $format
 	 * @return IEntity
 	 */
-	abstract public function createEntity(array $data, $format);
+	abstract public function createEntity($data, $format);
+
+
+	/**
+	 * @param IEntity[] $entities
+	 * @return ICollection
+	 */
+	abstract public function createCollectionFromEntities(array $entities);
+
+
+	/**
+	 * @param array $data
+	 * @param integer $format
+	 * @return ICollection
+	 */
+	abstract public function createCollectionFromData(array $data, $format);
 }

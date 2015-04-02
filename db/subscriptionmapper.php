@@ -28,11 +28,9 @@ class SubscriptionMapper extends Mapper {
 	/**
 	 * @param IDBConnection $db
 	 * @param SubscriptionFactory $entityFactory
-	 * @param SubscriptionCollectionFactory $collectionFactory
 	 */
-	public function __construct(IDBConnection $db, SubscriptionFactory $entityFactory,
-								SubscriptionCollectionFactory $collectionFactory){
-		parent::__construct($db, 'clndr_sbscrptns', $entityFactory, $collectionFactory);
+	public function __construct(IDBConnection $db, SubscriptionFactory $entityFactory){
+		parent::__construct($db, 'clndr_sbscrptns', $entityFactory);
 	}
 
 

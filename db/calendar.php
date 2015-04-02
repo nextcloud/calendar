@@ -25,7 +25,7 @@ use OCA\Calendar\IBackend;
 use OCA\Calendar\IBackendCollection;
 use OCA\Calendar\ICalendar;
 use OCA\Calendar\ITimezone;
-use OCA\Calendar\Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\Component\VCalendar;
 use OCA\Calendar\Utility\CalendarUtility;
 use OCA\Calendar\Utility\ColorUtility;
 use OCA\Calendar\Utility\SabreUtility;

@@ -25,9 +25,9 @@ use OCP\AppFramework\Db\DoesNotExistException;
 
 use OCA\Calendar\Db\Timezone;
 use OCA\Calendar\Db\TimezoneMapper;
-use OCA\Calendar\Sabre\VObject\Component;
-use OCA\Calendar\Sabre\VObject\Parameter;
-use OCA\Calendar\Sabre\VObject\Property\ICalendar\DateTime;
+use Sabre\VObject\Component;
+use Sabre\VObject\Parameter;
+use Sabre\VObject\Property\ICalendar\DateTime;
 
 class SabreUtility extends Utility {
 
@@ -82,7 +82,7 @@ class SabreUtility extends Utility {
 
 	/**
 	 * count number of components by identifier defined in $properties
-	 * @param \OCA\Calendar\Sabre\VObject\Component\VCalendar $vcalendar
+	 * @param \Sabre\VObject\Component\VCalendar $vcalendar
 	 * @param array $properties array of strings representing $properties
 	 * @return integer
 	 */

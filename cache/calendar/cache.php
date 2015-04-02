@@ -22,7 +22,6 @@
 namespace OCA\Calendar\Cache\Calendar;
 
 use OCA\Calendar\Db\CalendarFactory;
-use OCA\Calendar\Db\CalendarCollectionFactory;
 use OCA\Calendar\Db\Mapper;
 use OCA\Calendar\IBackendCollection;
 use OCA\Calendar\ICalendar;
@@ -58,12 +57,10 @@ class Cache extends Mapper {
 	 * @param IBackendCollection $backends
 	 * @param IDBConnection $db
 	 * @param CalendarFactory $entityFactory
-	 * @param CalendarCollectionFactory $collectionFactory
 	 */
 	public function __construct(IBackendCollection $backends, IDBConnection $db,
-								CalendarFactory $entityFactory,
-								CalendarCollectionFactory $collectionFactory) {
-		parent::__construct($db, 'clndr_calcache', $entityFactory, $collectionFactory);
+								CalendarFactory $entityFactory) {
+		parent::__construct($db, 'clndr_calcache', $entityFactory);
 		$this->backends = $backends;
 
 		$this->prepareBackendQuery();

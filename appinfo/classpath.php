@@ -23,26 +23,8 @@
 /* app class */
 \OC::$CLASSPATH['OCA\Calendar\Application'] = 'calendar/appinfo/application.php';
 
-\OC::$CLASSPATH['OCA\Calendar\IBackendAPI'] = 'calendar/backend/ibackendapi.php';
-\OC::$CLASSPATH['OCA\Calendar\ICalendarAPI'] = 'calendar/backend/icalendarapi.php';
-\OC::$CLASSPATH['OCA\Calendar\IObjectAPI'] = 'calendar/backend/iobjectapi.php';
-
-/* background job class */
-\OC::$CLASSPATH['OCA\Calendar\Backgroundjob\Task'] = 'calendar/backgroundjob/task.php';
-
-
-/* businesslayer */
-\OC::$CLASSPATH['OCA\Calendar\BusinessLayer\BusinessLayer'] = 'calendar/businesslayer/businesslayer.php';
-\OC::$CLASSPATH['OCA\Calendar\BusinessLayer\BackendCollectionBusinessLayer'] = 'calendar/businesslayer/businesslayer_backend.php';
-\OC::$CLASSPATH['OCA\Calendar\BusinessLayer\CacheBusinessLayer'] = 'calendar/businesslayer/businesslayer_cache.php';
-\OC::$CLASSPATH['OCA\Calendar\BusinessLayer\CalendarRequestBusinessLayer'] = 'calendar/businesslayer/calendarrequest.php';
-\OC::$CLASSPATH['OCA\Calendar\BusinessLayer\ObjectBusinessLayer'] = 'calendar/businesslayer/object.php';
-\OC::$CLASSPATH['OCA\Calendar\BusinessLayer\ObjectRequestBusinessLayer'] = 'calendar/businesslayer/objectrequest.php';
-\OC::$CLASSPATH['OCA\Calendar\BusinessLayer\SubscriptionBusinessLayer'] = 'calendar/businesslayer/subscription.php';
-\OC::$CLASSPATH['OCA\Calendar\BusinessLayer\TimezoneBusinessLayer'] = 'calendar/businesslayer/timezone.php';
-
 // some custom sabre classes
-\OC::$CLASSPATH['OCA\CalendarManager\Sabre\Splitter\JCalendarManager'] = 'calendar/sabre/splitter/jcalsplitter.php';
+\OC::$CLASSPATH['OCA\Calendar\Sabre\Splitter\JCalendar'] = 'calendar/sabre/splitter/jcalsplitter.php';
 /* CalDAV implementation */
 //caldav implementation
 /*\OC::$CLASSPATH['OCA\Calendar\Sabre'] = '';

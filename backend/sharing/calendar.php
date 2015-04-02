@@ -21,18 +21,15 @@
  */
 namespace OCA\Calendar\Backend\Sharing;
 
-use OCP\AppFramework\Db\DoesNotExistException;
-
+use OCA\Calendar\Backend as BackendUtils;
 use OCA\Calendar\IBackend;
 use OCA\Calendar\ICalendar;
-use OCA\Calendar\ICalendarAPI;
-use OCA\Calendar\ICalendarAPIDelete;
-use OCA\Calendar\ICalendarCollection;
-use OCP\Share;
-
 use OCA\Calendar\Share\Calendar as CalendarShare;
 
-class Calendar extends Sharing implements ICalendarAPI, ICalendarAPIDelete {
+use OCP\Share;
+
+
+class Calendar extends Sharing implements BackendUtils\ICalendarAPI, BackendUtils\ICalendarAPIDelete {
 
 	/**
 	 * @var IBackend
@@ -49,11 +46,7 @@ class Calendar extends Sharing implements ICalendarAPI, ICalendarAPIDelete {
 
 
 	/**
-	 * returns information about calendar $privateUri of the user $userId
-	 * @param string $privateUri
-	 * @param string $userId
-	 * @returns ICalendar
-	 * @throws DoesNotExistException if uri does not exist
+	 * {@inheritDoc}
 	 */
 	public function find($privateUri, $userId) {
 		//TODO
@@ -61,12 +54,7 @@ class Calendar extends Sharing implements ICalendarAPI, ICalendarAPIDelete {
 
 
 	/**
-	 * returns all calendars of the user $userId
-	 * @param string $userId
-	 * @param integer $limit
-	 * @param integer $offset
-	 * @returns ICalendarCollection
-	 * @throws DoesNotExistException if uri does not exist
+	 * {@inheritDoc}
 	 */
 	public function findAll($userId, $limit=null, $offset=null) {
 		$calendars = Share::getItemsSharedWithUser('calendar', $userId, CalendarShare::CALENDAR);
@@ -76,8 +64,7 @@ class Calendar extends Sharing implements ICalendarAPI, ICalendarAPIDelete {
 
 
 	/**
-	 * @param string $userId
-	 * @return array
+	 * {@inheritDoc}
 	 */
 	public function listAll($userId) {
 		//return Share::getItemsSharedWithUser('calendar', $userId, CalendarShare::CALENDARLIST);
@@ -85,9 +72,15 @@ class Calendar extends Sharing implements ICalendarAPI, ICalendarAPIDelete {
 
 
 	/**
-	 * @param string $privateUri
-	 * @param string $userId
-	 * @return boolean
+	 * {@inheritDoc}
+	 */
+	public function hasUpdated(ICalendar $calendar) {
+
+	}
+
+
+	/**
+	 * {@inheritDoc}
 	 */
 	public function delete($privateUri, $userId) {
 

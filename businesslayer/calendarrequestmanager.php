@@ -34,11 +34,11 @@ class CalendarRequestManager extends CalendarManager {
 	 * @param \OCA\Calendar\ICalendar $calendar
 	 * @param string $userId
 	 * @return \OCA\Calendar\ICalendar
-	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
+	 * @throws \OCA\Calendar\BusinessLayer\Exception
 	 * if name exists already
-	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
+	 * @throws \OCA\Calendar\BusinessLayer\Exception
 	 * if backend does not exist
-	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
+	 * @throws \OCA\Calendar\BusinessLayer\Exception
 	 * if backend is disabled
 	 */
 	public function create(ICalendar $calendar, $userId) {
@@ -123,13 +123,13 @@ class CalendarRequestManager extends CalendarManager {
 	/**
 	 * Make sure either a publicUri or a displayname are set
 	 * @param \OCA\Calendar\ICalendar $calendar
-	 * @throws \OCA\Calendar\BusinessLayer\BusinessLayerException
+	 * @throws \OCA\Calendar\BusinessLayer\Exception
 	 */
 	private function checkUriOrDisplaynameExists(ICalendar $calendar) {
 		$displayname = $calendar->getDisplayname();
 		if (($displayname === null || trim($displayname) === '') &&
 			$calendar->getPublicUri() === null) {
-			throw new BusinessLayerException(
+			throw new Exception(
 				'Please enter a calendar-name',
 				Http::STATUS_UNPROCESSABLE_ENTITY
 			);

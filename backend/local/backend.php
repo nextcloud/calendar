@@ -27,12 +27,26 @@ namespace OCA\Calendar\Backend\Local;
 
 use OCA\Calendar\Backend as BackendUtils;
 use OCA\Calendar\ISubscription;
+use OCP\IL10N;
 
 class Backend implements BackendUtils\IBackendAPI {
 
 	/**
-	 * returns whether or not a backend can be enabled
-	 * @return boolean
+	 * @var IL10N
+	 */
+	protected $l10n;
+
+
+	/**
+	 * @param IL10N $l10n
+	 */
+	public function __construct(IL10N $l10n) {
+		$this->l10n = $l10n;
+	}
+
+
+	/**
+	 * {@inheritDoc}
 	 */
 	public function canBeEnabled() {
 		return true;
@@ -40,8 +54,7 @@ class Backend implements BackendUtils\IBackendAPI {
 
 
 	/**
-	 * get information about supported subscription-types
-	 * @return array
+	 * {@inheritDoc}
 	 */
 	public function getSubscriptionTypes() {
 		return [];
@@ -49,25 +62,20 @@ class Backend implements BackendUtils\IBackendAPI {
 
 
 	/**
-	 * validate a subscriptions validity
-	 * @param ISubscription $subscription
-	 * @throws BackendUtils\SubscriptionInvalidException
-	 * @return boolean
+	 * {@inheritDoc}
 	 */
-	public function validateSubscription(ISubscription &$subscription) {
+	public function validateSubscription(ISubscription $subscription) {
 		throw new BackendUtils\SubscriptionInvalidException('Subscription is not supported');
 	}
 
 
 	/**
-	 * get translated string for createOn dialog
-	 * @return array
+	 * {@inheritDoc}
 	 */
 	public function getAvailablePrefixes() {
 		return [
 			[
-				'name' => strval(\OC::$server->getL10N('calendar')
-					->t('this ownCloud')),
+				'name' => strval($this->l10n->t('this ownCloud')),
 				'prefix' => '',
 			],
 		];
@@ -75,8 +83,7 @@ class Backend implements BackendUtils\IBackendAPI {
 
 
 	/**
-	 * Can a backend store a calendar's color?
-	 * @return boolean
+	 * {@inheritDoc}
 	 */
 	public function canStoreColor() {
 		return false;
@@ -84,9 +91,7 @@ class Backend implements BackendUtils\IBackendAPI {
 
 
 	/**
-	 * returns whether or not a backend can store a
-	 * calendar's supported components
-	 * @return boolean
+	 * {@inheritDoc}
 	 */
 	public function canStoreComponents() {
 		return true;
@@ -94,8 +99,7 @@ class Backend implements BackendUtils\IBackendAPI {
 
 
 	/**
-	 * Can a backend store a calendar's description?
-	 * @return boolean
+	 * {@inheritDoc}
 	 */
 	public function canStoreDescription() {
 		return false;
@@ -103,8 +107,7 @@ class Backend implements BackendUtils\IBackendAPI {
 
 
 	/**
-	 * returns whether or not a backend can store a calendar's displayname
-	 * @return boolean
+	 * {@inheritDoc}
 	 */
 	public function canStoreDisplayname() {
 		return true;
@@ -112,8 +115,7 @@ class Backend implements BackendUtils\IBackendAPI {
 
 
 	/**
-	 * returns whether or not a backend can store if a calendar is enabled
-	 * @return boolean
+	 * {@inheritDoc}
 	 */
 	public function canStoreEnabled() {
 		return true;
@@ -121,8 +123,7 @@ class Backend implements BackendUtils\IBackendAPI {
 
 
 	/**
-	 * returns whether or not a backend can store a calendar's order
-	 * @return boolean
+	 * {@inheritDoc}
 	 */
 	public function canStoreOrder() {
 		return true;

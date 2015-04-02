@@ -21,7 +21,7 @@
  */
 namespace OCA\Calendar;
 
-use OCA\Calendar\Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\Component\VCalendar;
 
 interface ITimezone extends IEntity {
 

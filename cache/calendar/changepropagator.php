@@ -22,6 +22,7 @@
 namespace OCA\Calendar\Cache\Calendar;
 
 use OCA\Calendar\IBackendCollection;
+use OCA\Calendar\ICalendar;
 
 class ChangePropagator {
 
@@ -49,12 +50,14 @@ class ChangePropagator {
 	 * @param string $backendId
 	 * @param string $privateUri
 	 * @param string $userId
+	 * @param ICalendar $newCalendar
 	 */
-	public function addChange($backendId, $privateUri, $userId) {
+	public function addChange($backendId, $privateUri, $userId, ICalendar $newCalendar=null) {
 		$this->changedCalendars[] = [
 			'backendId' => $backendId,
 			'privateUri' => $privateUri,
 			'userId' => $userId,
+			'newCalendar' => $newCalendar,
 		];
 	}
 
@@ -86,7 +89,8 @@ class ChangePropagator {
 			$scanner = $this->backends->getScanner();
 
 			$scanner->scanCalendar($c['backendId'],
-				$c['privateUri'], $c['userId']);
+				$c['privateUri'], $c['userId'],
+				$c['newCalendar']);
 		}
 	}
 }

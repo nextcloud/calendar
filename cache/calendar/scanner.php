@@ -61,8 +61,7 @@ class Scanner {
 	 */
 	public function __construct(IBackendCollection $backends, ILogger $logger) {
 		$this->backends = $backends;
-		//TODO: extend IBackendCollection
-		//$this->cache = $backends->getCache();
+		$this->cache = $backends->getCache();
 		$this->logger = $logger;
 	}
 
@@ -71,9 +70,10 @@ class Scanner {
 	 * @param string $backendId
 	 * @param string $privateUri
 	 * @param string $userId
+	 * @param ICalendar $newCalendar
 	 * @return mixed
 	 */
-	public function scanCalendar($backendId, $privateUri, $userId) {
+	public function scanCalendar($backendId, $privateUri, $userId, ICalendar $newCalendar=null) {
 		$backend = $this->backends->find($backendId);
 
 		if (!($backend instanceof IBackend)) {
@@ -88,7 +88,11 @@ class Scanner {
 
 		$cachedCalendar = $this->getCached($backendId, $privateUri, $userId);
 		if ($cachedCalendar) {
-			$calendar = $this->resetUnsupportedProperties($backend, $calendar, $cachedCalendar);
+			if ($newCalendar) {
+				$calendar = $this->resetUnsupportedProperties($backend, $calendar, $newCalendar);
+			} else {
+				$calendar = $this->resetUnsupportedProperties($backend, $calendar, $cachedCalendar);
+			}
 
 			$cachedCalendar->overwriteWith($calendar);
 

@@ -26,34 +26,28 @@ use OCP\IDBConnection;
 /**
  * Simple parent class for inheriting your data access layer from. This class
  * may be subject to change in the future
+ *
+ * @method \OCA\Calendar\IEntity insert() insert(\OCA\Calendar\IEntity $entity)
+ * @method \OCA\Calendar\IEntity update() update(\OCA\Calendar\IEntity $entity)
+ * @method \OCA\Calendar\IEntity delete() delete(\OCA\Calendar\IEntity $entity)
  */
 abstract class Mapper extends \OCP\AppFramework\Db\Mapper {
-
 
 	/**
 	 * @var EntityFactory
 	 */
-	protected $entityFactory;
-
-
-	/**
-	 * @var CollectionFactory
-	 */
-	protected $collectionFactory;
+	protected $factory;
 
 
 	/**
 	 * @param IDBConnection $db
 	 * @param string $tableName the name of the table. set this to allow entity
 	 * @param EntityFactory $entityFactory
-	 * @param CollectionFactory $collectionFactory
 	 * mapped to queries without using sql
 	 */
-	public function __construct(IDBConnection $db, $tableName, EntityFactory $entityFactory,
-								CollectionFactory $collectionFactory){
+	public function __construct(IDBConnection $db, $tableName, EntityFactory $entityFactory){
 		parent::__construct($db, $tableName);
-		$this->entityFactory = $entityFactory;
-		$this->collectionFactory = $collectionFactory;
+		$this->factory = $entityFactory;
 	}
 
 
@@ -73,7 +67,7 @@ abstract class Mapper extends \OCP\AppFramework\Db\Mapper {
 			$rows[] = $row;
 		}
 
-		return $this->collectionFactory->createFromData($rows, EntityFactory::FORMAT_ROW);
+		return $this->factory->createCollectionFromData($rows, EntityFactory::FORMAT_ROW);
 	}
 
 
@@ -84,6 +78,6 @@ abstract class Mapper extends \OCP\AppFramework\Db\Mapper {
 	 * @return Entity the entity
 	 */
 	protected function mapRowToEntity($row) {
-		return $this->entityFactory->createEntity($row, EntityFactory::FORMAT_ROW);
+		return $this->factory->createEntity($row, EntityFactory::FORMAT_ROW);
 	}
 }

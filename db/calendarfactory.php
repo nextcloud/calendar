@@ -26,6 +26,10 @@ use OCA\Calendar\Backend\TemporarilyNotAvailableException;
 use OCA\Calendar\CorruptDataException;
 use OCA\Calendar\IBackend;
 use OCA\Calendar\IBackendCollection;
+use OCA\Calendar\ICalendar;
+use OCA\Calendar\ICalendarCollection;
+
+use OCP\ILogger;
 
 class CalendarFactory extends EntityFactory {
 
@@ -42,41 +46,56 @@ class CalendarFactory extends EntityFactory {
 
 
 	/**
+	 * @var ILogger
+	 */
+	protected $logger;
+
+
+	/**
 	 * @param IBackendCollection $backends
 	 * @param TimezoneMapper $timezones
+	 * @param ILogger $logger
 	 */
-	function __construct(IBackendCollection $backends, TimezoneMapper $timezones) {
+	function __construct(IBackendCollection $backends, TimezoneMapper $timezones, ILogger $logger) {
 		$this->backends = $backends;
 		$this->timezones = $timezones;
+		$this->logger = $logger;
 	}
 
 
 	/**
-	 * @param array $data
+	 * @param mixed $data
 	 * @param int $format
-	 * @return \OCP\AppFramework\Db\Entity|static
+	 * @return \OCA\Calendar\Db\Calendar
 	 * @throws CorruptDataException
 	 * @throws TemporarilyNotAvailableException
-	 * @throws \OCP\AppFramework\Db\DoesNotExistException
+	 * @throws \InvalidArgumentException
 	 */
-	public function createEntity(array $data, $format=self::FORMAT_PARAM) {
+	public function createEntity($data, $format=self::FORMAT_PARAM) {
 		if (!is_array($data) || empty($data)) {
-			//TODO - add ex msg
-			throw new CorruptDataException('CalendarManager-data is empty');
+			throw new CorruptDataException('CalendarFactory::createEntity() - Calendardata is empty');
 		}
 
-		$backend = $this->backends->find($data['backend']);
-		if (!($backend instanceof IBackend)) {
-			throw new TemporarilyNotAvailableException(
-				'Unknown backend'
-			);
+		if (isset($data['backend'])) {
+			if ($data['backend'] instanceof IBackend) {
+				if (!$this->backends->inCollection($data['backend'])) {
+					unset($data['backend']);
+				}
+			} else {
+				$backend = $this->backends->find($data['backend']);
+				if (!($backend instanceof IBackend)) {
+					throw new TemporarilyNotAvailableException(
+						'CalendarFactory::createEntity() - Calendardata references unknown backend'
+					);
+				}
+
+				//replace backend-identifier with IBackend instance
+				$data['backend'] = $backend;
+			}
 		}
 
-		//replace backend with IBackend
-		$data['backend'] = $backend;
-
-		if ($data['timezone']) {
-			//replace timezone with ITimezone
+		//replace timezone-identifier with ITimezone instance
+		if (isset($data['timezone']) && isset($data['user_id'])) {
 			try {
 				$timezone = $this->timezones->find($data['timezone'], $data['user_id']);
 				$row['timezone'] = $timezone;
@@ -85,18 +104,53 @@ class CalendarFactory extends EntityFactory {
 			}
 		}
 
+		//TODO - fix me
 		unset($data['last_properties_update']);
 		unset($data['last_object_update']);
 
+		switch ($format) {
+			case self::FORMAT_PARAM:
+				return Calendar::fromParams($data);
+				break;
 
+			case self::FORMAT_ROW:
+				return Calendar::fromRow($data);
+				break;
 
-		if ($format === self::FORMAT_PARAM) {
-			return Calendar::fromParams($data);
-		} elseif ($format === self::FORMAT_ROW) {
-			return Calendar::fromRow($data);
-		} else {
-			//TODO - add ex msg
-			throw new CorruptDataException();
+			default:
+				throw new \InvalidArgumentException('CalendarFactory::createEntity() - Unknown format given');
+				break;
 		}
+	}
+
+
+	/**
+	 * @param ICalendar[] $entities
+	 * @return ICalendarCollection
+	 */
+	public function createCollectionFromEntities(array $entities) {
+		return CalendarCollection::fromArray($entities);
+	}
+
+
+	/**
+	 * @param array $data
+	 * @param integer $format
+	 * @return ICalendarCollection
+	 */
+	public function createCollectionFromData(array $data, $format) {
+		$collection = new CalendarCollection();
+
+		foreach($data as $item) {
+			try {
+				$entity = $this->createEntity($item, $format);
+				$collection->add($entity);
+			} catch(CorruptDataException $ex) {
+				$this->logger->info($ex->getMessage());
+				continue;
+			}
+		}
+
+		return $collection;
 	}
 }

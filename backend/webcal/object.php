@@ -23,46 +23,50 @@
  */
 namespace OCA\Calendar\Backend\WebCal;
 
-use OCA\Calendar\BusinessLayer\BusinessLayerException;
+use OCA\Calendar\Backend as BackendUtils;
+use OCA\Calendar\BusinessLayer;
 use OCA\Calendar\CorruptDataException;
 use OCA\Calendar\Db\ObjectCollection;
-use OCA\Calendar\Sabre\VObject\ParseException;
+use OCA\Calendar\Db\ObjectFactory;
+use OCA\Calendar\ICalendar;
 use OCA\Calendar\IObject;
-use OCA\Calendar\IObjectAPI;
-use OCA\Calendar\IObjectCollection;
-use OCA\Calendar\CacheOutDatedException;
+use OCP\ICacheFactory;
+use OCP\IL10N;
+use Sabre\VObject\ParseException;
 
-use OCP\AppFramework\Db\DoesNotExistException;
-use OCP\AppFramework\Db\MultipleObjectsReturnedException;
-use OCA\Calendar\ObjectType;
-use OCA\Calendar\Sabre\VObject\Splitter\ICalendar as ICalendarSplitter;
+use OCA\Calendar\Db\ObjectType;
 
-class Object extends WebCal implements IObjectAPI {
+class Object extends WebCal implements BackendUtils\IObjectAPI {
 
 	/**
-	 * @var string
+	 * @var ICalendar
 	 */
-	private $uri;
+	private $calendar;
 
 
 	/**
-	 * @var string
+	 * @var ObjectFactory
 	 */
-	private $userId;
+	private $factory;
 
 
 	/**
-	 * @param string $privateUri
-	 * @param string $userId
+	 * @param BusinessLayer\Subscription $subscriptions
+	 * @param IL10N $l10n
+	 * @param ICacheFactory $cacheFactory
+	 * @param ICalendar $calendar
+	 * @param ObjectFactory $factory
 	 */
-	public function __construct($privateUri, $userId) {
-		$this->uri = $privateUri;
-		$this->userId = $userId;
+	public function __construct(BusinessLayer\Subscription $subscriptions, IL10N $l10n, ICacheFactory $cacheFactory,
+								ICalendar $calendar, ObjectFactory $factory) {
+		parent::__construct($subscriptions, $l10n, $cacheFactory);
+		$this->calendar = $calendar;
+		$this->factory = $factory;
 	}
 
 
 	/**
-	 * @return boolean
+	 * {@inheritDoc}
 	 */
 	public function cache() {
 		return true;
@@ -70,13 +74,7 @@ class Object extends WebCal implements IObjectAPI {
 
 
 	/**
-	 * find object
-	 * @param string $objectURI
-	 * @param integer $type
-	 * @throws CacheOutDatedException if calendar does not exist
-	 * @throws DoesNotExistException
-	 * @throws MultipleObjectsReturnedException if more than one result found
-	 * @return IObject
+	 * {@inheritDoc}
 	 */
 	public function find($objectURI, $type=ObjectType::ALL) {
 
@@ -84,21 +82,17 @@ class Object extends WebCal implements IObjectAPI {
 
 
 	/**
-	 * Find objects
-	 * @param integer $type
-	 * @param integer $limit
-	 * @param integer $offset
-	 * @throws CacheOutDatedException
-	 * @throws CorruptDataException
-	 * @throws DoesNotExistException
-	 * @return IObjectCollection
+	 * {@inheritDoc}
 	 */
 	public function findAll($type=ObjectType::ALL, $limit=null, $offset=null) {
 		try {
-			$subscription = $this->subscriptions->findByType($calendar->getPrivateUri(), $this->getBackendIdentifier(), $calendar->getUserId());
-		} catch(BusinessLayerException $ex) {
-			throw new DoesNotExistException($ex->getMessage());
+			$calendar = $this->calendar;
+			$subscription = $this->subscriptions->findByType(
+				$calendar->getPrivateUri(), self::IDENTIFIER, $calendar->getUserId());
+		} catch(BusinessLayer\Exception $ex) {
+			throw new BackendUtils\DoesNotExistException($ex->getMessage());
 		}
+
 		$curl = curl_init();
 		$url = $subscription->getUrl();
 		$data = null;
@@ -110,12 +104,13 @@ class Object extends WebCal implements IObjectAPI {
 		$objectCollection = new ObjectCollection();
 
 		try {
-			$splitter = new ICalendarSplitter($data);
+			//TODO - use Factory
+			/*$splitter = new ICalendarSplitter($data);
 			while($vobject = $splitter->getNext()) {
 				$object = new Object();
 				$object->fromVObject($vobject);
 				$objectCollection->add($object);
-			}
+			}*/
 		} catch(ParseException $ex) {
 			throw new CorruptDataException('CalendarManager-data is not valid!');
 		}
@@ -124,10 +119,17 @@ class Object extends WebCal implements IObjectAPI {
 
 
 	/**
-	 * @param integer $type
-	 * @return array
+	 * {@inheritDoc}
 	 */
 	public function listAll($type=ObjectType::ALL) {
+
+	}
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function hasUpdated(IObject $object) {
 
 	}
 }

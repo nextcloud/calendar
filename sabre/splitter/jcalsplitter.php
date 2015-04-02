@@ -1,13 +1,13 @@
 <?php
 namespace OCA\Calendar\Sabre\Splitter;
 
-use \OCA\Calendar\Sabre\VObject;
-use \OCA\Calendar\Sabre\VObject\Component;
-use \OCA\Calendar\Sabre\VObject\Component\VCalendar;
-use \OCA\Calendar\Sabre\VObject\Reader;
-use \OCA\Calendar\Sabre\VObject\Version;
+use \Sabre\VObject;
+use \Sabre\VObject\Component;
+use \Sabre\VObject\Component\VCalendar;
+use \Sabre\VObject\Reader;
+use \Sabre\VObject\Version;
 
-use \OCA\Calendar\Sabre\VObject\Splitter\SplitterInterface;
+use \Sabre\VObject\Splitter\SplitterInterface;
 
 /**
  * Splitter
@@ -86,7 +86,7 @@ class JCalendar implements SplitterInterface {
      *
      * When the end is reached, null will be returned.
      *
-     * @return Sabre\VObject\Component|null
+     * @return \Sabre\VObject\Component|null
      */
     public function getNext() {
 

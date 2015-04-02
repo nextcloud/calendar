@@ -23,27 +23,24 @@
  */
 namespace OCA\Calendar\Backend\WebCal;
 
-use OCA\Calendar\Backend\Exception;
-use OCA\Calendar\BusinessLayer\BusinessLayerException;
-use OCA\Calendar\BusinessLayer\SubscriptionBusinessLayer;
+use OCA\Calendar\Backend as BackendUtils;
+use OCA\Calendar\BusinessLayer;
 use OCA\Calendar\Db\CalendarCollection;
-use OCA\Calendar\Sabre\VObject\Component\VCalendar;
-use OCA\Calendar\Sabre\VObject\ParseException;
-use OCA\Calendar\Sabre\VObject\Reader;
-use OCA\Calendar\Backend\Exception as BackendException;
-use OCP\AppFramework\Db\DoesNotExistException;
+use OCA\Calendar\Db\CalendarFactory;
+use OCA\Calendar\ICalendar;
+use OCP\ICacheFactory;
+use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\ParseException;
+use Sabre\VObject\Reader;
 
 use OCA\Calendar\CorruptDataException;
 use OCA\Calendar\IBackend;
-use OCA\Calendar\ICalendar;
-use OCA\Calendar\ICalendarAPI;
-use OCA\Calendar\ICalendarAPIDelete;
-use OCA\Calendar\ICalendarCollection;
 use OCA\Calendar\ISubscription;
-use OCA\Calendar\ObjectType;
-use OCA\Calendar\Permissions;
+use OCA\Calendar\Db\ObjectType;
+use OCA\Calendar\Db\Permissions;
+use OCP\IL10N;
 
-class Calendar extends WebCal implements ICalendarAPI, ICalendarAPIDelete {
+class Calendar extends WebCal implements BackendUtils\ICalendarAPI, BackendUtils\ICalendarAPIDelete {
 
 	/**
 	 * @var IBackend
@@ -52,22 +49,28 @@ class Calendar extends WebCal implements ICalendarAPI, ICalendarAPIDelete {
 
 
 	/**
-	 * @param SubscriptionBusinessLayer $subscriptions
-	 * @param IBackend $backend
+	 * @var CalendarFactory
 	 */
-	public function __construct(SubscriptionBusinessLayer $subscriptions,
-								IBackend $backend) {
-		parent::__construct($subscriptions);
+	private $factory;
+
+
+	/**
+	 * @param BusinessLayer\Subscription $subscriptions
+	 * @param IL10N $l10n
+	 * @param ICacheFactory $cacheFactory
+	 * @param IBackend $backend
+	 * @param CalendarFactory $calendarFactory
+	 */
+	public function __construct(BusinessLayer\Subscription $subscriptions, IL10N $l10n, ICacheFactory $cacheFactory,
+								IBackend $backend, CalendarFactory $calendarFactory) {
+		parent::__construct(BusinessLayer\$subscriptions, $l10n, $cacheFactory);
 		$this->backend = $backend;
+		$this->factory = $calendarFactory;
 	}
 
 
 	/**
-	 * returns information about calendar $privateUri of the user $userId
-	 * @param string $privateUri
-	 * @param string $userId
-	 * @returns ICalendar
-	 * @throws DoesNotExistException if uri does not exist
+	 * {@inheritDoc}
 	 */
 	public function find($privateUri, $userId) {
 		$subscription = $this->subscriptions->find($privateUri, $userId);
@@ -77,12 +80,7 @@ class Calendar extends WebCal implements ICalendarAPI, ICalendarAPIDelete {
 
 
 	/**
-	 * returns all calendars of the user $userId
-	 * @param string $userId
-	 * @param integer $limit
-	 * @param integer $offset
-	 * @returns ICalendarCollection
-	 * @throws DoesNotExistException if uri does not exist
+	 * {@inheritDoc}
 	 */
 	public function findAll($userId, $limit=null, $offset=null) {
 		$subscriptions = $this->subscriptions->findAllByType(
@@ -99,7 +97,7 @@ class Calendar extends WebCal implements ICalendarAPI, ICalendarAPIDelete {
 				$calendars->add($calendar);
 			} catch (CorruptDataException $ex) {
 				return;
-			} catch (BackendException $ex) {
+			} catch (BackendUtils\Exception $ex) {
 				return;
 			}
 		});
@@ -109,8 +107,7 @@ class Calendar extends WebCal implements ICalendarAPI, ICalendarAPIDelete {
 
 
 	/**
-	 * @param string $userId
-	 * @return array
+	 * {@inheritDoc}
 	 */
 	public function listAll($userId) {
 		$uriList = array();
@@ -121,6 +118,15 @@ class Calendar extends WebCal implements ICalendarAPI, ICalendarAPIDelete {
 		});
 
 		return $uriList;
+	}
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function hasUpdated(ICalendar $calendar) {
+		//TODO - what do we want to use for ctag anyway
+		return false;
 	}
 
 
@@ -150,7 +156,7 @@ class Calendar extends WebCal implements ICalendarAPI, ICalendarAPIDelete {
 			$calendar = new \OCA\Calendar\Db\Calendar();
 			$calendar->fromVObject($vobject);
 		} catch(ParseException $ex) {
-			throw new CorruptDataException('CalendarManager-data is not valid!');
+			throw new CorruptDataException('Calendar-data is not valid!');
 		}
 
 		$calendar->setUserId($subscription->getUserId());
@@ -169,17 +175,14 @@ class Calendar extends WebCal implements ICalendarAPI, ICalendarAPIDelete {
 
 
 	/**
-	 * @param string $privateUri
-	 * @param string $userId
-	 * @throws Exception
-	 * @return boolean
+	 * {@inheritDoc}
 	 */
 	public function delete($privateUri, $userId) {
 		try {
 			$subscription = $this->subscriptions->find($privateUri, $userId);
 			return $this->subscriptions->delete($subscription);
-		} catch(BusinessLayerException $ex) {
-			throw new Exception($ex);
+		} catch(BusinessLayer\Exception $ex) {
+			throw new BackendUtils\Exception($ex);
 		}
 	}
 }

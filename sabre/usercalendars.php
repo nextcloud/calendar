@@ -13,7 +13,7 @@ use Sabre_CalDAV_Schedule_Outbox;
 
 /**
  * This class overrides Sabre_CalDAV_UserCalendars::getChildren()
- * to instantiate OCA\Calendar\Sabre\CalDAV_Calendars.
+ * to instantiate Sabre\CalDAV_Calendars.
 */
 class CalDAV_UserCalendars extends Sabre_CalDAV_UserCalendars {
 

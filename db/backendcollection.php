@@ -76,6 +76,7 @@ class BackendCollection extends Collection implements IBackendCollection {
 	 * @return IBackend
 	 */
 	public function find($id) {
+		//TODO - make this better
 		return $this->search('id', $id)[0];
 	}
 

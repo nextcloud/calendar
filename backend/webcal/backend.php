@@ -23,19 +23,17 @@
  */
 namespace OCA\Calendar\Backend\WebCal;
 
-use Aws\Common\Exception\InvalidArgumentException;
-use OCA\Calendar\Backend\SubscriptionInvalidException;
-use OCA\Calendar\Sabre\VObject\Component\VCalendar;
-use OCA\Calendar\Sabre\VObject\ParseException;
-use OCA\Calendar\Sabre\VObject\Reader;
-use OCA\Calendar\IBackendAPI;
+use OCA\Calendar\Backend as BackendUtils;
 use OCA\Calendar\ISubscription;
 
-class Backend extends WebCal implements IBackendAPI {
+use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\ParseException;
+use Sabre\VObject\Reader;
+
+class Backend extends WebCal implements BackendUtils\IBackendAPI {
 
 	/**
-	 * returns whether or not a backend can be enabled
-	 * @return boolean
+	 * {@inheritDoc}
 	 */
 	public function canBeEnabled() {
 		return true;//function_exists('curl_init');
@@ -43,13 +41,12 @@ class Backend extends WebCal implements IBackendAPI {
 
 
 	/**
-	 * get information about supported subscription-types
-	 * @return array
+	 * {@inheritDoc}
 	 */
 	public function getSubscriptionTypes() {
 		return [
 			[
-				'name' => strval(\OC::$server->getL10N('calendar')->t('WebCal')),
+				'name' => strval($this->l10n->t('WebCal')),
 				'type' => self::IDENTIFIER,
 			],
 		];
@@ -57,13 +54,11 @@ class Backend extends WebCal implements IBackendAPI {
 
 
 	/**
-	 * @param ISubscription $subscription
-	 * @throws InvalidArgumentException
-	 * @return bool
+	 * {@inheritDoc}
 	 */
-	public function validateSubscription(ISubscription &$subscription) {
+	public function validateSubscription(ISubscription $subscription) {
 		if ($subscription->getType() !== self::IDENTIFIER) {
-			throw new InvalidArgumentException('Subscription-type not supported');
+			throw new BackendUtils\SubscriptionInvalidException('Subscription-type not supported');
 		}
 
 		$this->validateSubscriptionUrl($subscription);
@@ -74,8 +69,7 @@ class Backend extends WebCal implements IBackendAPI {
 
 
 	/**
-	 * get translated string for createOn dialog
-	 * @return array
+	 * {@inheritDoc}
 	 */
 	public function getAvailablePrefixes() {
 		return [];
@@ -83,8 +77,7 @@ class Backend extends WebCal implements IBackendAPI {
 
 
 	/**
-	 * Can a backend store a calendar's color?
-	 * @return boolean
+	 * {@inheritDoc}
 	 */
 	public function canStoreColor() {
 		return false;
@@ -92,9 +85,7 @@ class Backend extends WebCal implements IBackendAPI {
 
 
 	/**
-	 * returns whether or not a backend can store a
-	 * calendar's supported components
-	 * @return boolean
+	 * {@inheritDoc}
 	 */
 	public function canStoreComponents() {
 		return false;
@@ -102,8 +93,7 @@ class Backend extends WebCal implements IBackendAPI {
 
 
 	/**
-	 * Can a backend store a calendar's description?
-	 * @return boolean
+	 * {@inheritDoc}
 	 */
 	public function canStoreDescription() {
 		return false;
@@ -111,8 +101,7 @@ class Backend extends WebCal implements IBackendAPI {
 
 
 	/**
-	 * returns whether or not a backend can store a calendar's displayname
-	 * @return boolean
+	 * {@inheritDoc}
 	 */
 	public function canStoreDisplayname() {
 		return false;
@@ -120,8 +109,7 @@ class Backend extends WebCal implements IBackendAPI {
 
 
 	/**
-	 * returns whether or not a backend can store if a calendar is enabled
-	 * @return boolean
+	 * {@inheritDoc}
 	 */
 	public function canStoreEnabled() {
 		return false;
@@ -129,8 +117,7 @@ class Backend extends WebCal implements IBackendAPI {
 
 
 	/**
-	 * returns whether or not a backend can store a calendar's order
-	 * @return boolean
+	 * {@inheritDoc}
 	 */
 	public function canStoreOrder() {
 		return false;
@@ -138,9 +125,8 @@ class Backend extends WebCal implements IBackendAPI {
 
 
 	/**
-	 *
 	 * @param ISubscription $subscription
-	 * @throws SubscriptionInvalidException
+	 * @throws BackendUtils\SubscriptionInvalidException
 	 */
 	private function sendTestRequest(ISubscription &$subscription) {
 		$curl = curl_init();
@@ -156,10 +142,10 @@ class Backend extends WebCal implements IBackendAPI {
 
 			//Is it an address-book instead of a calendar?
 			if (!($vobject instanceof VCalendar)) {
-				throw new ParseException();
+				throw new BackendUtils\SubscriptionInvalidException('Calendar-data is not valid!');
 			}
 		} catch(ParseException $ex) {
-			throw new SubscriptionInvalidException('CalendarManager-data is not valid!');
+			throw new BackendUtils\SubscriptionInvalidException('Calendar-data is not valid!');
 		}
 	}
 }

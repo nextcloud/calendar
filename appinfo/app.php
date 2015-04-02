@@ -21,8 +21,6 @@
  */
 namespace OCA\Calendar;
 
-//TODO - is there a better way to include VObject?
-require_once(__DIR__ . '/../3rdparty/VObject/includes.php');
 require_once(__DIR__ . '/application.php');
 require_once(__DIR__ . '/classpath.php');
 

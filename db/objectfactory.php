@@ -22,6 +22,7 @@
 namespace OCA\Calendar\Db;
 
 use OCA\Calendar\CorruptDataException;
+use OCP\ILogger;
 
 class ObjectFactory extends EntityFactory {
 
@@ -39,19 +40,140 @@ class ObjectFactory extends EntityFactory {
 
 
 	/**
-	 * @param array $data
+	 * use if data is an vobject
+	 */
+	const FORMAT_VObject = 5;
+
+
+	/**
+	 * @var ILogger
+	 */
+	protected $logger;
+
+
+	/**
+	 * @var \closure
+	 */
+	protected $iCal;
+
+
+	/**
+	 * @var \closure
+	 */
+	protected $jCal;
+
+
+	/**
+	 * @param ILogger $logger
+	 * @param \closure $iCal
+	 * @param \closure $jCal
+	 */
+	public function __construct(ILogger $logger, \closure $iCal, \closure $jCal) {
+		$this->logger = $logger;
+		$this->iCal = $iCal;
+		$this->jCal = $jCal;
+	}
+
+
+	/**
+	 * @param mixed $data
 	 * @param int $format
-	 * @return Object
+	 * @return \OCA\Calendar\Db\Object
 	 * @throws CorruptDataException
 	 */
-	public function createEntity(array $data, $format=self::FORMAT_PARAM) {
-		if ($format === self::FORMAT_PARAM) {
-			return Object::fromParams($data);
-		} elseif ($format === self::FORMAT_ROW) {
-			return Object::fromRow($data);
-		} else {
-			//TODO - add ex msg
-			throw new CorruptDataException();
+	public function createEntity($data, $format=self::FORMAT_PARAM) {
+		switch ($format) {
+			case self::FORMAT_PARAM:
+				return Object::fromParams($data);
+				break;
+
+			case self::FORMAT_ROW:
+				return Object::fromRow($data);
+				break;
+
+			case self::FORMAT_ICAL:
+			case self::FORMAT_JCAL:
+				return $this->parseRawCal($data, $format, true);
+				break;
+
+			case self::FORMAT_VObject:
+				return Object::fromVObject($data);
+				break;
+
+			default:
+				throw new \InvalidArgumentException('ObjectFactory::createEntity() - Unknown format given');
+				break;
+
 		}
+	}
+
+	/**
+	 * @param \OCA\Calendar\Db\Object[] $entities
+	 * @return ObjectCollection
+	 */
+	public function createCollectionFromEntities(array $entities) {
+		return ObjectCollection::fromArray($entities);
+	}
+
+
+	/**
+	 * @param array $data
+	 * @param integer $format
+	 * @return ObjectCollection
+	 */
+	public function createCollectionFromData(array $data, $format) {
+		$collection = new ObjectCollection();
+
+		foreach($data as $item) {
+			try {
+				$entity = $this->createEntity($item, $format);
+				$collection->add($entity);
+			} catch(CorruptDataException $ex) {
+				$this->logger->info($ex->getMessage());
+				continue;
+			}
+		}
+
+		return $collection;
+	}
+
+
+	/**
+	 * @param $data
+	 * @param $format
+	 * @param boolean $isEntity whether to return entity or collection
+	 * @return \OCA\Calendar\Db\Object
+	 */
+	private function parseRawCal($data, $format, $isEntity) {
+		//TODO - catch parseException
+		if ($format === self::FORMAT_ICAL) {
+			//fix malformed timestamp in some google calendar events
+			//originally contributed by github.com/nezzi
+			$data = str_replace('CREATED:00001231T000000Z', 'CREATED:19700101T000000Z', $data);
+
+			$splitter = call_user_func_array($this->iCal, [$data]);
+		} else {
+			$splitter = call_user_func_array($this->jCal, [$data]);
+		}
+
+		/** @var \Sabre\VObject\Splitter\SplitterInterface $splitter */
+		$firstEntity = $splitter->getNext();
+		if (!$firstEntity) {
+			throw new \InvalidArgumentException('ObjectFactory::parseRawCal() - Data doesn\'t contain any object');
+		}
+
+		if ($isEntity) {
+			return $this->createEntity($firstEntity, self::FORMAT_VObject);
+		}
+
+		$entities = [
+			$firstEntity,
+		];
+
+		while($next = $splitter->getNext()) {
+			$entities[] = $next;
+		}
+
+		return $this->createCollectionFromData($entities, self::FORMAT_VObject);
 	}
 }

@@ -21,25 +21,14 @@
  */
 namespace OCA\Calendar\Backend\Sharing;
 
+use OCA\Calendar\Backend as BackendUtils;
+use OCA\Calendar\Db\ObjectType;
 use OCA\Calendar\ICalendar;
 use OCA\Calendar\IObject;
-use OCA\Calendar\IObjectAPI;
-use OCA\Calendar\IObjectAPICreate;
-use OCA\Calendar\IObjectAPIDelete;
-use OCA\Calendar\IObjectAPIFindInPeriod;
-use OCA\Calendar\IObjectAPISearch;
-use OCA\Calendar\IObjectAPISearchInPeriod;
-use OCA\Calendar\IObjectAPIUpdate;
-use OCA\Calendar\IObjectCollection;
-use OCA\Calendar\CacheOutDatedException;
 
-use OCP\AppFramework\Db\DoesNotExistException;
-use OCP\AppFramework\Db\MultipleObjectsReturnedException;
-use OCA\Calendar\ObjectType;
-
-class Object extends Sharing implements IObjectAPI, IObjectAPICreate,
-	IObjectAPIUpdate, IObjectAPIDelete, IObjectAPIFindInPeriod,
-	IObjectAPISearch, IObjectAPISearchInPeriod {
+class Object extends Sharing implements BackendUtils\IObjectAPI, BackendUtils\IObjectAPICreate,
+	BackendUtils\IObjectAPIUpdate, BackendUtils\IObjectAPIDelete, BackendUtils\IObjectAPIFindInPeriod,
+	BackendUtils\IObjectAPISearch, BackendUtils\IObjectAPISearchInPeriod {
 
 	/**
 	 * @var string
@@ -63,7 +52,7 @@ class Object extends Sharing implements IObjectAPI, IObjectAPICreate,
 
 
 	/**
-	 * @return boolean
+	 * {@inheritDoc}
 	 */
 	public function cache() {
 		return false;
@@ -71,13 +60,7 @@ class Object extends Sharing implements IObjectAPI, IObjectAPICreate,
 
 
 	/**
-	 * find object
-	 * @param string $objectURI
-	 * @param integer $type
-	 * @throws CacheOutDatedException if calendar does not exist
-	 * @throws DoesNotExistException
-	 * @throws MultipleObjectsReturnedException if more than one result found
-	 * @return IObject
+	 * {@inheritDoc}
 	 */
 	public function find($objectURI, $type=ObjectType::ALL) {
 
@@ -85,12 +68,7 @@ class Object extends Sharing implements IObjectAPI, IObjectAPICreate,
 
 
 	/**
-	 * Find objects
-	 * @param integer $type
-	 * @param integer $limit
-	 * @param integer $offset
-	 * @throws CacheOutDatedException
-	 * @return IObjectCollection
+	 * {@inheritDoc}
 	 */
 	public function findAll($type=ObjectType::ALL, $limit=null, $offset=null) {
 
@@ -98,8 +76,7 @@ class Object extends Sharing implements IObjectAPI, IObjectAPICreate,
 
 
 	/**
-	 * @param integer $type
-	 * @return array
+	 * {@inheritDoc}
 	 */
 	public function listAll($type=ObjectType::ALL) {
 
@@ -107,14 +84,7 @@ class Object extends Sharing implements IObjectAPI, IObjectAPICreate,
 
 
 	/**
-	 * Find objects in period
-	 * @param \DateTime $start
-	 * @param \DateTime $end
-	 * @param integer $type
-	 * @param integer $limit
-	 * @param integer $offset
-	 * @throws CacheOutDatedException
-	 * @return IObjectCollection
+	 * {@inheritDoc}
 	 */
 	public function findAllInPeriod(\DateTime $start, \DateTime $end,
 									$type=ObjectType::ALL,
@@ -124,14 +94,49 @@ class Object extends Sharing implements IObjectAPI, IObjectAPICreate,
 
 
 	/**
-	 * search objects by property
-	 * @param array $properties
-	 * @param integer $limit
-	 * @param integer $offset
-	 * @return IObjectCollection
-	 * @throws CacheOutDatedException
+	 * {@inheritDoc}
 	 */
-	public function searchByProperties(array $properties=[], $limit, $offset) {
+	public function hasUpdated(IObject $object) {
+
+	}
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function create(IObject $object) {
+
+	}
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function update(IObject $object) {
+
+	}
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function delete(IObject $object) {
+
+	}
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function searchByProperties(array $properties=[], $type=ObjectType::ALL, $limit, $offset) {
+
+	}
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function searchByPropertiesInPeriod(array $properties=[], \DateTime $start, \DateTime $end, $type=ObjectType::ALL, $limit, $offset) {
 
 	}
 

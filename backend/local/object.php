@@ -26,19 +26,15 @@
 namespace OCA\Calendar\Backend\Local;
 
 use OCA\Calendar\Backend as BackendUtils;
-use OCA\Calendar\Db\ObjectCollection;
+use OCA\Calendar\Db\ObjectFactory;
 use OCA\Calendar\Db\Permissions;
 use OCA\Calendar\Utility\ObjectUtility;
 use OCA\Calendar\Backend\Exception as BackendException;
 use OCA\Calendar\CorruptDataException;
 use OCA\Calendar\ICalendar;
 use OCA\Calendar\IObject;
-use OCA\Calendar\IObjectCollection;
-use OCA\Calendar\CacheOutDatedException;
-
-use OCA\Calendar\Backend\DoesNotExistException;
-use OCA\Calendar\Backend\MultipleObjectsReturnedException;
 use OCA\Calendar\Db\ObjectType;
+
 use OCP\IDBConnection;
 
 class Object extends Local implements BackendUtils\IObjectAPI, BackendUtils\IObjectAPICreate,
@@ -58,12 +54,20 @@ class Object extends Local implements BackendUtils\IObjectAPI, BackendUtils\IObj
 
 
 	/**
+	 * @var ObjectFactory
+	 */
+	private $factory;
+
+
+	/**
 	 * @param IDBConnection $db
 	 * @param ICalendar $calendar
+	 * @param ObjectFactory $factory
 	 * @param string $calendarTableName
 	 * @param string $objectTableName
 	 */
-	public function __construct(IDBConnection $db, ICalendar &$calendar,
+	public function __construct(IDBConnection $db, ICalendar $calendar,
+								ObjectFactory $factory,
 								$calendarTableName='clndr_calendars',
 								$objectTableName='clndr_objects') {
 		parent::__construct($db, $calendarTableName, $objectTableName);
@@ -73,11 +77,12 @@ class Object extends Local implements BackendUtils\IObjectAPI, BackendUtils\IObj
 			$calendar->getPrivateUri(),
 			$calendar->getUserId()
 		);
+		$this->factory = $factory;
 	}
 
 
 	/**
-	 * @return boolean
+	 * {@inheritDoc}
 	 */
 	public function cache() {
 		return false;
@@ -85,13 +90,7 @@ class Object extends Local implements BackendUtils\IObjectAPI, BackendUtils\IObj
 
 
 	/**
-	 * find object
-	 * @param string $objectURI
-	 * @param integer $type
-	 * @throws CacheOutDatedException if calendar does not exist
-	 * @throws DoesNotExistException
-	 * @throws MultipleObjectsReturnedException if more than one result found
-	 * @return IObject
+	 * {@inheritDoc}
 	 */
 	public function find($objectURI, $type=ObjectType::ALL) {
 		$sql  = 'SELECT * FROM `' . $this->getObjectTableName() . '` ';
@@ -109,12 +108,7 @@ class Object extends Local implements BackendUtils\IObjectAPI, BackendUtils\IObj
 
 
 	/**
-	 * Find objects
-	 * @param integer $type
-	 * @param integer $limit
-	 * @param integer $offset
-	 * @throws CacheOutDatedException
-	 * @return IObjectCollection
+	 * {@inheritDoc}
 	 */
 	public function findAll($type=ObjectType::ALL, $limit=null, $offset=null) {
 		$sql  = 'SELECT * FROM `' . $this->getObjectTableName() . '` ';
@@ -131,10 +125,7 @@ class Object extends Local implements BackendUtils\IObjectAPI, BackendUtils\IObj
 
 
 	/**
-	 * List all objects
-	 * @param integer $type
-	 * @throws CacheOutDatedException
-	 * @return IObjectCollection
+	 * {@inheritDoc}
 	 */
 	public function listAll($type=ObjectType::ALL) {
 		$sql  = 'SELECT * FROM `' . $this->getObjectTableName() . '` ';
@@ -157,14 +148,7 @@ class Object extends Local implements BackendUtils\IObjectAPI, BackendUtils\IObj
 
 
 	/**
-	 * Find objects in period
-	 * @param \DateTime $start
-	 * @param \DateTime $end
-	 * @param integer $type
-	 * @param integer $limit
-	 * @param integer $offset
-	 * @throws CacheOutDatedException
-	 * @return IObjectCollection
+	 * {@inheritDoc}
 	 */
 	public function findAllInPeriod(\DateTime $start, \DateTime $end,
 									$type=ObjectType::ALL,
@@ -186,11 +170,7 @@ class Object extends Local implements BackendUtils\IObjectAPI, BackendUtils\IObj
 
 
 	/**
-	 * Create an object
-	 * @param IObject $object
-	 * @throws CacheOutDatedException if calendar already exists
-	 * @throws BackendException if object already exists
-	 * @return IObject
+	 * {@inheritDoc}
 	 */
 	public function create(IObject $object) {
 		$calendarId = $this->getCalendarId();
@@ -209,11 +189,7 @@ class Object extends Local implements BackendUtils\IObjectAPI, BackendUtils\IObj
 
 
 	/**
-	 * update an object
-	 * @param IObject $object
-	 * @throws CacheOutDatedException if calendar does not exist
-	 * @throws BackendException
-	 * @return IObject
+	 * {@inheritDoc}
 	 */
 	public function update(IObject $object) {
 		$calendarId = $this->getCalendarId();
@@ -252,10 +228,7 @@ class Object extends Local implements BackendUtils\IObjectAPI, BackendUtils\IObj
 
 
 	/**
-	 * delete an object
-	 * @param IObject $object
-	 * @throws CacheOutDatedException if calendar does not exist
-	 * @return boolean
+	 * {@inheritDoc}
 	 */
 	public function delete(IObject $object){
 		$sql  = 'DELETE FROM `' . $this->getObjectTableName() . '` ';
@@ -271,13 +244,7 @@ class Object extends Local implements BackendUtils\IObjectAPI, BackendUtils\IObj
 
 
 	/**
-	 * search objects by property
-	 * @param array $properties
-	 * @param integer $type
-	 * @param integer $limit
-	 * @param integer $offset
-	 * @return IObjectCollection
-	 * @throws CacheOutDatedException
+	 * {@inheritDoc}
 	 */
 	public function searchByProperties(array $properties=[], $type=ObjectType::ALL, $limit, $offset) {
 		if (empty($properties)) {
@@ -327,13 +294,13 @@ class Object extends Local implements BackendUtils\IObjectAPI, BackendUtils\IObj
 	 * @param array $row
 	 * @return \OCA\Calendar\IEntity
 	 */
-	private function rowToEntity(&$row) {
-		$object = new \OCA\Calendar\Db\Object();
-
-		$object->setCalendar($this->calendar);
-		$object->setUri(strval($row['uri']));
-		$object->setCalendarData(strval($row['calendardata']));
-		$object->setRuds(Permissions::ALL_OBJECT);
+	private function rowToEntity($row) {
+		$object = $this->factory->createEntity([
+			'calendar' => $this->calendar,
+			'uri' => strval($row['uri']),
+			'calendarData' => strval($row['calendardata']),
+			'ruds' => Permissions::ALL_OBJECT,
+		]);
 
 		$object->generateEtag();
 
@@ -346,18 +313,17 @@ class Object extends Local implements BackendUtils\IObjectAPI, BackendUtils\IObj
 	 * @return \OCA\Calendar\IObjectCollection
 	 */
 	private function resultToCollection(\PDOStatement $result) {
-		$objects = new ObjectCollection();
+		$entities = [];
 
 		while($row = $result->fetch()) {
 			try {
-				$object = $this->rowToEntity($row);
-				$objects[] = $object;
+				$entities[] = $this->rowToEntity($row);
 			} catch (CorruptDataException $ex) {
 				continue;
 			}
 		}
 
-		return $objects;
+		return $this->factory->createCollectionFromEntities($entities);
 	}
 
 
@@ -367,7 +333,7 @@ class Object extends Local implements BackendUtils\IObjectAPI, BackendUtils\IObj
 	 * @param string $type
 	 * @return integer|string
 	 */
-	public function getType($component, $type) {
+	private function getType($component, $type) {
 		if ($type === 'string') {
 			return ObjectType::getAsString($component);
 		} else {
@@ -377,8 +343,7 @@ class Object extends Local implements BackendUtils\IObjectAPI, BackendUtils\IObj
 
 
 	/**
-	 * @param IObject $object
-	 * @return bool
+	 * {@inheritDoc}
 	 */
 	public function hasUpdated(IObject $object) {
 		return true;
@@ -452,7 +417,7 @@ class Object extends Local implements BackendUtils\IObjectAPI, BackendUtils\IObj
 		try {
 			$this->find($objectUri);
 			return true;
-		} catch(DoesNotExistException $ex) {
+		} catch(BackendUtils\DoesNotExistException $ex) {
 			return false;
 		} catch(CorruptDataException $ex) {
 			return false;

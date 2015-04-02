@@ -24,7 +24,6 @@
 namespace OCA\Calendar\Backend\Contact;
 
 use OCA\Calendar\Backend as BackendUtils;
-use OCA\Calendar\Db\CalendarCollectionFactory;
 use OCA\Calendar\Db\CalendarFactory;
 use OCA\Calendar\Db\ObjectType;
 use OCA\Calendar\Db\Permissions;
@@ -33,7 +32,6 @@ use OCA\Calendar\ICalendar;
 
 use OCA\Contacts\App as ContactsApp;
 
-use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\IL10N;
 
 class Calendar extends Contact implements BackendUtils\ICalendarAPI {
@@ -57,26 +55,17 @@ class Calendar extends Contact implements BackendUtils\ICalendarAPI {
 
 
 	/**
-	 * @var CalendarCollectionFactory
-	 */
-	private $collectionFactory;
-
-
-	/**
 	 * @param ContactsApp $contacts
 	 * @param IBackend $backend
 	 * @param IL10N $l10n
-	 * @param CalendarFactory $calendarFactory
-	 * @param CalendarCollectionFactory $calendarCollectionFactory
+	 * @param CalendarFactory $factory
 	 */
-	public function __construct(ContactsApp $contacts, IBackend $backend, IL10N $l10n, CalendarFactory $calendarFactory,
-								CalendarCollectionFactory $calendarCollectionFactory) {
+	public function __construct(ContactsApp $contacts, IBackend $backend, IL10N $l10n, CalendarFactory $factory) {
 		parent::__construct($contacts);
 
 		$this->backend = $backend;
 		$this->l10n = $l10n;
-		$this->factory = $calendarFactory;
-		$this->collectionFactory = $calendarCollectionFactory;
+		$this->factory = $factory;
 	}
 
 
@@ -85,7 +74,7 @@ class Calendar extends Contact implements BackendUtils\ICalendarAPI {
 	 */
 	public function find($privateUri, $userId) {
 		if (!array_key_exists($privateUri, $this->uris)) {
-			throw new DoesNotExistException(
+			throw new BackendUtils\DoesNotExistException(
 				$privateUri . 'does not exist!'
 			);
 		}
@@ -116,8 +105,8 @@ class Calendar extends Contact implements BackendUtils\ICalendarAPI {
 			$calendars[] = $this->find($uri, $userId);
 		}
 
-		return $this->collectionFactory
-			->createFromEntities($calendars)
+		return $this->factory
+			->createCollectionFromEntities($calendars)
 			->subset($limit, $offset);
 	}
 
