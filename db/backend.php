@@ -21,12 +21,10 @@
  */
 namespace OCA\Calendar\Db;
 
+use OCA\Calendar\Backend as BackendUtils;
 use OCA\Calendar\IBackend;
 use OCA\Calendar\IBackendCollection;
 use OCA\Calendar\ICalendar;
-use OCA\Calendar\IBackendAPI;
-use OCA\Calendar\ICalendarAPI;
-use OCA\Calendar\IObjectAPI;
 
 
 /**
@@ -45,13 +43,13 @@ class Backend extends Entity implements IBackend {
 
 
 	/**
-	 * @var IBackendAPI
+	 * @var BackendUtils\IBackendAPI
 	 */
 	public $backendAPI;
 
 
 	/**
-	 * @var ICalendarAPI
+	 * @var BackendUtils\ICalendarAPI
 	 */
 	public $calendarAPI;
 
@@ -109,7 +107,7 @@ class Backend extends Entity implements IBackend {
 	 */
 	public function setBackendAPI(\closure $backendAPI) {
 		$api = call_user_func_array($backendAPI, [$this]);
-		if ($api instanceof IBackendAPI) {
+		if ($api instanceof BackendUtils\IBackendAPI) {
 			$this->setter('backendAPI', [$api]);
 		}
 
@@ -131,7 +129,7 @@ class Backend extends Entity implements IBackend {
 	 */
 	public function setCalendarAPI(\closure $calendarAPI) {
 		$api = call_user_func_array($calendarAPI, [$this]);
-		if ($api instanceof ICalendarAPI) {
+		if ($api instanceof BackendUtils\ICalendarAPI) {
 			$this->setter('calendarAPI', [$api]);
 		}
 
@@ -152,7 +150,7 @@ class Backend extends Entity implements IBackend {
 	 * @return boolean
 	 */
 	public function doesCalendarSupport($action) {
-		if (!($this->calendarAPI instanceof ICalendarAPI)) {
+		if (!($this->calendarAPI instanceof BackendUtils\ICalendarAPI)) {
 			return false;
 		}
 
@@ -171,7 +169,7 @@ class Backend extends Entity implements IBackend {
 
 	/**
 	 * @param ICalendar $calendar
-	 * @return IObjectAPI
+	 * @return BackendUtils\IObjectAPI
 	 */
 	public function getObjectAPI(ICalendar $calendar) {
 		return call_user_func_array($this->getter('objectAPI'),

@@ -21,16 +21,16 @@
  */
 namespace OCA\Calendar\BusinessLayer;
 
-use OCA\Calendar;
-use OCA\Calendar\Backend;
+use OCA\Calendar\Backend as BackendUtils;
 use OCA\Calendar\CorruptDataException;
-use OCA\Calendar\Db\TimezoneMapper;
 use OCA\Calendar\IBackend;
 use OCA\Calendar\ICalendar;
 use OCA\Calendar\IObject;
 use OCA\Calendar\Db\ObjectType;
-use OCA\Calendar\IObjectAPI;
 use OCA\Calendar\Db\Permissions;
+use OCa\Calendar\Utility\ObjectUtility;
+
+use OCP\ILogger;
 use OCP\Util;
 
 use DateTime;
@@ -50,7 +50,7 @@ class ObjectManager {
 
 
 	/**
-	 * @var IObjectAPI
+	 * @var BackendUtils\IObjectAPI
 	 */
 	protected $api;
 
@@ -74,18 +74,18 @@ class ObjectManager {
 
 
 	/**
-	 * @var TimezoneMapper
+	 * @var ILogger
 	 */
-	protected $timezones;
+	protected $logger;
 
 
 	/**
 	 * @param ICalendar $calendar
-	 * @param TimezoneMapper $timezones
+	 * @param ILogger $logger
 	 */
-	public function __construct(ICalendar $calendar, TimezoneMapper $timezones) {
+	public function __construct(ICalendar $calendar, ILogger $logger) {
 		$this->calendar = $calendar;
-		$this->timezones = $timezones;
+		$this->logger = $logger;
 
 		if ($calendar->getBackend() instanceof IBackend) {
 			$this->api = $calendar->getBackend()
@@ -164,7 +164,7 @@ class ObjectManager {
 			return $this->cache->findAllInPeriod($start, $end,
 				$type, $limit, $offset);
 		} else {
-			if ($this->api instanceof Calendar\IObjectAPIFindInPeriod) {
+			if ($this->api instanceof BackendUtils\IObjectAPIFindInPeriod) {
 				return $this->api->findAllInPeriod($start, $end, $type,
 					$limit, $offset);
 			} else {
@@ -197,7 +197,7 @@ class ObjectManager {
 			} else {
 				return $this->api->find($uri, $type);
 			}
-		} catch (Backend\Exception $ex) {
+		} catch (BackendUtils\Exception $ex) {
 			throw Exception::fromException($ex);
 		}
 	}
@@ -212,10 +212,16 @@ class ObjectManager {
 	 */
 	public function create(IObject $object) {
 		try {
+			if(is_null($object->getUri())) {
+				$object->setUri(ObjectUtility::randomURI());
+			}
+
 			$object->setCalendar($this->calendar);
+			// generate an provisional etag, backends can overwrite it if necessary
+			$object->getEtag(true);
 
 			$this->checkCalendarSupports(Permissions::CREATE);
-			if (!($this->api instanceof Calendar\IObjectAPICreate)) {
+			if (!($this->api instanceof BackendUtils\IObjectAPICreate)) {
 				throw new Exception('Backend does not support creating objects');
 			}
 			$this->checkObjectIsValid($object);
@@ -232,7 +238,7 @@ class ObjectManager {
 				array($object));
 
 			return $object;
-		} catch (Backend\Exception $ex) {
+		} catch (BackendUtils\Exception $ex) {
 			throw Exception::fromException($ex);
 		}
 	}
@@ -252,7 +258,7 @@ class ObjectManager {
 			}
 
 			$this->checkCalendarSupports(Permissions::UPDATE);
-			if (!($this->api instanceof Calendar\IObjectAPIUpdate)) {
+			if (!($this->api instanceof BackendUtils\IObjectAPIUpdate)) {
 				throw new Exception('Backend does not support updating objects');
 			}
 			$this->checkObjectIsValid($object);
@@ -269,7 +275,7 @@ class ObjectManager {
 				array($object));
 
 			return $object;
-		} catch (Backend\Exception $ex) {
+		} catch (BackendUtils\Exception $ex) {
 			throw Exception::fromException($ex);
 		}
 	}
@@ -284,7 +290,7 @@ class ObjectManager {
 	public function delete(IObject $object) {
 		try {
 			$this->checkCalendarSupports(Permissions::DELETE);
-			if (!($this->api instanceof Calendar\IObjectAPIDelete)) {
+			if (!($this->api instanceof BackendUtils\IObjectAPIDelete)) {
 				throw new Exception('Backend does not support deleting objects');
 			}
 
@@ -299,7 +305,7 @@ class ObjectManager {
 			Util::emitHook('\OCA\Calendar', 'postDeleteObject',
 				array($object));
 
-		} catch (Backend\Exception $ex) {
+		} catch (BackendUtils\Exception $ex) {
 			throw Exception::fromException($ex);
 		}
 	}
@@ -309,7 +315,7 @@ class ObjectManager {
 	 * @param integer $action
 	 * @throws Exception
 	 */
-	private function checkCalendarSupports($action) {
+	protected function checkCalendarSupports($action) {
 		if (!$this->calendar->doesAllow($action)) {
 			switch($action) {
 				case Permissions::CREATE:
@@ -336,7 +342,7 @@ class ObjectManager {
 	 * @param IObject $object
 	 * @throws CorruptDataException
 	 */
-	private function checkObjectIsValid(IObject $object) {
+	protected function checkObjectIsValid(IObject $object) {
 		if (!$object->isValid()) {
 			throw new CorruptDataException();
 		}

@@ -44,7 +44,7 @@ interface IBackend extends IEntity {
 
 
 	/**
-	 * @return IBackendAPI
+	 * @return Backend\IBackendAPI
 	 */
 	public function getBackendAPI();
 
@@ -57,7 +57,7 @@ interface IBackend extends IEntity {
 
 
 	/**
-	 * @return ICalendarAPI
+	 * @return Backend\ICalendarAPI
 	 */
 	public function getCalendarAPI();
 
@@ -78,7 +78,7 @@ interface IBackend extends IEntity {
 
 	/**
 	 * @param ICalendar $calendar
-	 * @return IObjectAPI
+	 * @return Backend\IObjectAPI
 	 */
 	public function getObjectAPI(ICalendar $calendar);
 

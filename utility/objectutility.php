@@ -22,9 +22,6 @@
 namespace OCA\Calendar\Utility;
 
 use DateTime;
-use OCA\Calendar\Db\TimezoneMapper;
-use OCA\Calendar\IObject;
-use OCA\Calendar\IObjectCollection;
 
 class ObjectUtility extends Utility{
 
@@ -53,24 +50,5 @@ class ObjectUtility extends Utility{
 		} else {
 			return null;
 		}
-	}
-
-
-	/**
-	 * @param \OCA\Calendar\IObject|\OCA\Calendar\IObjectCollection $input
-	 * @return \OCA\Calendar\IObject|\OCA\Calendar\IObjectCollection
-	 */
-	public static function serializeDataWithTimezones($input, TimezoneMapper $timezones) {
-		if ($input instanceof IObject || $input instanceof IObjectCollection) {
-			/* @var \Sabre\VObject\Component\VCalendar $vcalendar */
-			$vcalendar = $input->getVObject();
-
-			SabreUtility::addMissingVTimezones(
-				$vcalendar,
-				$timezones
-			);
-		}
-
-		return $input;
 	}
 }

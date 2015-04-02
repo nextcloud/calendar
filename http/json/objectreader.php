@@ -21,7 +21,7 @@
  */
 namespace OCA\Calendar\Http\JSON;
 
-use OCA\Calendar\Db\ObjectCollectionFactory;
+use OCA\Calendar\Db\ObjectFactory;
 use OCA\Calendar\Http\Reader;
 use OCA\Calendar\Http\ReaderException;
 
@@ -30,16 +30,16 @@ use OCP\IRequest;
 class ObjectReader extends Reader {
 
 	/**
-	 * @var ObjectCollectionFactory
+	 * @var ObjectFactory
 	 */
 	protected $factory;
 
 
 	/**
 	 * @param IRequest $request
-	 * @param ObjectCollectionFactory $factory
+	 * @param ObjectFactory $factory
 	 */
-	public function __construct(IRequest $request, ObjectCollectionFactory $factory) {
+	public function __construct(IRequest $request, ObjectFactory $factory) {
 		parent::__construct($request);
 		$this->factory = $factory;
 	}
@@ -52,7 +52,7 @@ class ObjectReader extends Reader {
 	 */
 	public function parse() {
 		try {
-			$object = $this->factory->createFromData($this->request->getParams(), ObjectCollectionFactory::FORMAT_JCAL);
+			$object = $this->factory->createCollectionFromData($this->request->getParams(), ObjectFactory::FORMAT_JCAL);
 		} catch(/* TODO */\Exception $ex) {
 			throw new ReaderException($ex->getMessage(), $ex->getCode(), $ex);
 		}

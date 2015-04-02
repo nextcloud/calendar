@@ -70,10 +70,10 @@ class Scanner {
 	 * @param string $backendId
 	 * @param string $privateUri
 	 * @param string $userId
-	 * @param ICalendar $newCalendar
+	 * @param ICalendar $usersCalendar
 	 * @return mixed
 	 */
-	public function scanCalendar($backendId, $privateUri, $userId, ICalendar $newCalendar=null) {
+	public function scanCalendar($backendId, $privateUri, $userId, ICalendar $usersCalendar=null) {
 		$backend = $this->backends->find($backendId);
 
 		if (!($backend instanceof IBackend)) {
@@ -88,8 +88,8 @@ class Scanner {
 
 		$cachedCalendar = $this->getCached($backendId, $privateUri, $userId);
 		if ($cachedCalendar) {
-			if ($newCalendar) {
-				$calendar = $this->resetUnsupportedProperties($backend, $calendar, $newCalendar);
+			if ($usersCalendar) {
+				$calendar = $this->resetUnsupportedProperties($backend, $calendar, $usersCalendar);
 			} else {
 				$calendar = $this->resetUnsupportedProperties($backend, $calendar, $cachedCalendar);
 			}

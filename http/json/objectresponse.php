@@ -21,19 +21,26 @@
  */
 namespace OCA\Calendar\Http\JSON;
 
+use OCA\Calendar\Db\TimezoneMapper;
 use OCA\Calendar\IObject;
 
+use OCA\Calendar\Utility\SabreUtility;
 use OCP\AppFramework\Http;
 
 class ObjectResponse extends Http\DataResponse {
 
 	/**
 	 * @param \OCA\Calendar\IObject|\OCA\Calendar\IObjectCollection $data
+	 * @param TimezoneMapper $timezones
 	 * @param int $statusCode
 	 */
-	public function __construct($data, $statusCode=Http::STATUS_OK) {
+	public function __construct($data, TimezoneMapper $timezones=null, $statusCode=Http::STATUS_OK) {
 		$vobject = $data->getVObject();
 		if ($vobject) {
+			if ($timezones) {
+				SabreUtility::addMissingVTimezones($vobject, $timezones);
+			}
+
 			$serialized = $vobject->jsonSerialize();
 
 			parent::__construct($serialized, $statusCode, [

@@ -23,9 +23,9 @@ namespace OCA\Calendar\Controller;
 
 use OCA\Calendar\BusinessLayer;
 use OCA\Calendar\BusinessLayer\CalendarRequestManager;
-use OCA\Calendar\BusinessLayer\ObjectRequestManager;
-use OCA\Calendar\Db\ObjectCollectionFactory;
+use OCA\Calendar\Db\ObjectFactory;
 use OCA\Calendar\Db\Permissions;
+use OCA\Calendar\Db\TimezoneMapper;
 use OCA\Calendar\Http\ICS;
 use OCA\Calendar\Http\JSON;
 use OCA\Calendar\ICalendar;
@@ -63,22 +63,32 @@ class ObjectController extends Controller {
 
 
 	/**
+	 * Timezone mapper needed for ics download response in export method
+	 * @var TimezoneMapper
+	 */
+	protected $timezones;
+
+
+	/**
 	 * @param string $appName
 	 * @param IRequest $request an instance of the request
 	 * @param IUserSession $userSession
 	 * @param CalendarRequestManager $calendars
 	 * @param \closure $objects
-	 * @param ObjectCollectionFactory $objectFactory
+	 * @param ObjectFactory $objectFactory
+	 * @param TimezoneMapper $timezones
 	 * @param integer $type
 	 */
 	public function __construct($appName, IRequest $request, IUserSession $userSession,
 								CalendarRequestManager $calendars, \closure $objects,
-								ObjectCollectionFactory $objectFactory, $type){
+								ObjectFactory $objectFactory, TimezoneMapper $timezones, $type){
 		parent::__construct($appName, $request, $userSession);
 
 		$this->calendars = $calendars;
 		$this->objects = $objects;
 		$this->objectType = $type;
+
+		$this->timezones = $timezones;
 
 		$this->registerReader('json', function(IRequest $request) use ($objectFactory) {
 			$reader = new JSON\ObjectReader($request, $objectFactory);
@@ -93,13 +103,13 @@ class ObjectController extends Controller {
 			return $reader->getObject();
 		});
 
-		$this->registerResponder('json', function($value) {
+		$this->registerResponder('json', function($value) use ($timezones) {
+			return new JSON\ObjectResponse($value, $timezones, $this->getSuccessfulStatusCode());
+		});
+		$this->registerResponder('json+calendar', function($value) use ($timezones) {
 			return new JSON\ObjectResponse($value, $this->getSuccessfulStatusCode());
 		});
-		$this->registerResponder('json+calendar', function($value) {
-			return new JSON\ObjectResponse($value, $this->getSuccessfulStatusCode());
-		});
-		$this->registerResponder('text/calendar', function($value) {
+		$this->registerResponder('text/calendar', function($value) use ($timezones) {
 			return new ICS\ObjectResponse($value, $this->getSuccessfulStatusCode());
 		});
 	}
@@ -116,11 +126,8 @@ class ObjectController extends Controller {
 	 */
 	public function index($calendarId, $limit=null, $offset=null) {
 		try {
-			$calendar = $this->findCalendar($calendarId);
-			$this->checkAllowedToRead($calendar);
-
-			return (new ObjectRequestManager($calendar))
-				->findAll($this->objectType, $limit, $offset);
+			$objectManager = $this->getObjectManagerById($calendarId);
+			return $objectManager->findAll($this->objectType, $limit, $offset);
 		} catch (\Exception $ex) {
 			return $this->handleException($ex);
 		}
@@ -146,10 +153,8 @@ class ObjectController extends Controller {
 			/** @var \DateTime $end */
 			$this->parseDateTime($end, new DateTime(date('Y-m-t')));
 
-			$calendar = $this->findCalendar($calendarId);
-			$this->checkAllowedToRead($calendar);
-
-			return (new ObjectRequestManager($calendar))->findAllInPeriod(
+			$objectManager = $this->getObjectManagerById($calendarId);
+			return $objectManager->findAllInPeriod(
 				$start, $end, $this->objectType, $limit, $offset);
 		} catch (\Exception $ex) {
 			return $this->handleException($ex);
@@ -167,16 +172,27 @@ class ObjectController extends Controller {
 	 */
 	public function show($calendarId, $id) {
 		try {
-			$calendar = $this->findCalendar($calendarId);
-			$this->checkAllowedToRead($calendar);
-
-			return (new ObjectRequestManager($calendar))->find(
+			$objectManager = $this->getObjectManagerById($calendarId);
+			return $objectManager->find(
 				$id,
 				$this->objectType
 			);
 		} catch (\Exception $ex) {
 			return $this->handleException($ex);
 		}
+	}
+
+
+	/**
+	 * @param $calendarId
+	 * @return mixed
+	 * @throws BusinessLayer\Exception
+	 */
+	private function getObjectManagerById($calendarId) {
+		$calendar = $this->findCalendar($calendarId);
+		$this->checkAllowedToRead($calendar);
+
+		return call_user_func_array($this->objects, [$calendar]);
 	}
 
 
@@ -199,6 +215,8 @@ class ObjectController extends Controller {
 				);
 			}
 
+
+
 			if (!($object instanceof IObject)) {
 				return new JSONResponse([
 					'message' => 'Reader returned unrecognised format',
@@ -206,7 +224,8 @@ class ObjectController extends Controller {
 			}
 
 			$object->setCalendar($calendar);
-			$object = (new ObjectRequestManager($calendar))->create(
+			$objectManager = call_user_func_array($this->objects, [$calendar]);
+			$object = $objectManager->create(
 				$object
 			);
 
@@ -249,7 +268,9 @@ class ObjectController extends Controller {
 
 			$object->setCalendar($calendar);
 			$object->setUri($id);
-			$object = (new ObjectRequestManager($calendar))->update(
+
+			$objectManager = call_user_func_array($this->objects, [$calendar]);
+			$object = $objectManager->update(
 				$object,
 				$etag
 			);
@@ -283,7 +304,7 @@ class ObjectController extends Controller {
 				], HTTP::STATUS_FORBIDDEN);
 			}
 
-			$objectManager = new ObjectRequestManager($calendar);
+			$objectManager = call_user_func_array($this->objects, [$calendar]);
 			$object = $objectManager->find(
 				$calendar,
 				$id
@@ -313,14 +334,10 @@ class ObjectController extends Controller {
 			$calendar = $this->findCalendar($calendarId);
 			$this->checkAllowedToRead($calendar);
 
-			$mimeType = 'application/octet-stream';
+			$objectManager = call_user_func_array($this->objects, [$calendar]);
+			$objects = $objectManager->findAll();
 
-			$filename  = $calendar->getPublicUri();
-			$filename .= '.ics';
-
-			$objects = (new ObjectRequestManager($calendar))->findAll();
-
-			return new ICS\ObjectDownloadResponse($objects, $mimeType, $filename);
+			return new ICS\ObjectDownloadResponse($calendar, $objects, $this->timezones);
 		} catch (\Exception $ex) {
 			return $this->handleException($ex);
 		}
@@ -345,14 +362,15 @@ class ObjectController extends Controller {
 				], HTTP::STATUS_FORBIDDEN);
 			}
 
+			$objectManager = call_user_func_array($this->objects, [$calendar]);
 			if ($object instanceof IObject) {
 				$object->setCalendar($calendar);
-				$object = (new ObjectRequestManager($calendar))->create(
+				$object = $objectManager->create(
 					$object
 				);
 			} elseif ($object instanceof IObjectCollection) {
 				$object->setProperty('calendar', $calendar);
-				$object = (new ObjectRequestManager($calendar))->createCollection(
+				$object = $objectManager->createCollection(
 					$object
 				);
 			} else {

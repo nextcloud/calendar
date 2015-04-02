@@ -107,8 +107,9 @@ class Application extends App {
 			$calendars = $c->query('CalendarRequestManager');
 			$objects = $c->query('ObjectRequestManager');
 			$objectFactory = $c->query('ObjectFactory');
+			$timezones = $c->query('TimezoneMapper');
 
-			return new Controller\ObjectController($c->getAppName(), $request, $userSession, $calendars, $objects, $objectFactory, Db\ObjectType::ALL);
+			return new Controller\ObjectController($c->getAppName(), $request, $userSession, $calendars, $objects, $objectFactory, $timezones, Db\ObjectType::ALL);
 		});
 		$container->registerService('OCA\\Calendar\\Controller\\EventController', function(IAppContainer $c) {
 			$request = $c->query('Request');
@@ -116,8 +117,9 @@ class Application extends App {
 			$calendars = $c->query('CalendarRequestManager');
 			$objects = $c->query('ObjectRequestManager');
 			$objectFactory = $c->query('ObjectFactory');
+			$timezones = $c->query('TimezoneMapper');
 
-			return new Controller\ObjectController($c->getAppName(), $request, $userSession, $calendars, $objects, $objectFactory, Db\ObjectType::EVENT);
+			return new Controller\ObjectController($c->getAppName(), $request, $userSession, $calendars, $objects, $objectFactory, $timezones, Db\ObjectType::EVENT);
 		});
 		$container->registerService('OCA\\Calendar\\Controller\\JournalController', function(IAppContainer $c) {
 			$request = $c->query('Request');
@@ -125,8 +127,9 @@ class Application extends App {
 			$calendars = $c->query('CalendarRequestManager');
 			$objects = $c->query('ObjectRequestManager');
 			$objectFactory = $c->query('ObjectFactory');
+			$timezones = $c->query('TimezoneMapper');
 
-			return new Controller\ObjectController($c->getAppName(), $request, $userSession, $calendars, $objects, $objectFactory, Db\ObjectType::JOURNAL);
+			return new Controller\ObjectController($c->getAppName(), $request, $userSession, $calendars, $objects, $objectFactory, $timezones, Db\ObjectType::JOURNAL);
 		});
 		$container->registerService('OCA\\Calendar\\Controller\\TodoController', function(IAppContainer $c) {
 			$request = $c->query('Request');
@@ -134,8 +137,9 @@ class Application extends App {
 			$calendars = $c->query('CalendarRequestManager');
 			$objects = $c->query('ObjectRequestManager');
 			$objectFactory = $c->query('ObjectFactory');
+			$timezones = $c->query('TimezoneMapper');
 
-			return new Controller\ObjectController($c->getAppName(), $request, $userSession, $calendars, $objects, $objectFactory, Db\ObjectType::TODO);
+			return new Controller\ObjectController($c->getAppName(), $request, $userSession, $calendars, $objects, $objectFactory, $timezones, Db\ObjectType::TODO);
 		});
 		$container->registerService('SettingsController', function(IAppContainer $c) {
 			$request = $c->query('Request');

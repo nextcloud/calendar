@@ -21,4 +21,15 @@
  */
 namespace OCA\Calendar\Http\ICS;
 
-class TimezoneResponse extends ObjectResponse {}
+use OCP\AppFramework\Http;
+
+class TimezoneResponse extends ObjectResponse {
+
+	/**
+	 * @param \OCA\Calendar\IObject|\OCA\Calendar\IObjectCollection $data
+	 * @param int $statusCode
+	 */
+	public function __construct($data, $statusCode=Http::STATUS_OK) {
+		parent::__construct($data, null, $statusCode);
+	}
+}

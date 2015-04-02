@@ -21,37 +21,17 @@
  */
 namespace OCA\Calendar\BusinessLayer;
 
+use OCA\Calendar\Backend as BackendUtils;
 use OCA\Calendar\CorruptDataException;
-use OCP\AppFramework\Http;
+use OCA\Calendar\Db\Permissions;
 use OCA\Calendar\IObject;
 use OCA\Calendar\IObjectCollection;
-
 use OCA\Calendar\Utility\ObjectUtility;
 
+use OCP\AppFramework\Http;
+use OCP\Util;
+
 class ObjectRequestManager extends ObjectManager {
-
-	/**
-	 * create an object from import
-	 *
-	 * @param \OCA\Calendar\IObject $object
-	 * @throws \OCA\Calendar\BusinessLayer\Exception
-	 * @return \OCA\Calendar\IObject
-	 */
-	public function create(IObject &$object) {
-		if($object->getUri() === null) {
-			$randomURI = ObjectUtility::randomURI();
-			$object->setUri($randomURI);
-		}
-
-		/*
-		 * generate an provisional etag
-		 * backends can overwrite it if necessary
-		 */
-		$object->getEtag(true);
-
-		return parent::create($object);
-	}
-
 
 	/**
 	 * Creates new objects from import
@@ -62,19 +42,45 @@ class ObjectRequestManager extends ObjectManager {
 	 */
 	public function createCollection(IObjectCollection $collection) {
 		$className = get_class($collection);
-
 		/** @var IObjectCollection $createdObjects */
 		$createdObjects = new $className();
 
+		$this->checkCalendarSupports(Permissions::CREATE);
+		if (!($this->api instanceof BackendUtils\IObjectAPICreate)) {
+			throw new Exception('Backend does not support creating objects');
+		}
+
 		foreach($collection as $object) {
 			try {
-				$object = $this->create($object);
+				if($object->getUri() === null) {
+					$randomURI = ObjectUtility::randomURI();
+					$object->setUri($randomURI);
+				}
+				$object->getEtag(true);
+
+				$object->setCalendar($this->calendar);
+				$this->checkObjectIsValid($object);
+
+				Util::emitHook('\OCA\Calendar', 'preCreateObject',
+					array($object));
+
+				$object = $this->api->create($object);
+
+				Util::emitHook('\OCA\Calendar', 'postCreateObject',
+					array($object));
+
+				$createdObjects[] = $object;
+			} catch (BackendUtils\Exception $ex) {
+				$this->logger->debug($ex->getMessage());
 			} catch(Exception $ex) {
-				\OC::$server->getLogger()->debug($ex->getMessage());
+				$this->logger->debug($ex->getMessage());
 			} catch(CorruptDataException $ex) {
-				\OC::$server->getLogger()->debug($ex->getMessage());
+				$this->logger->debug($ex->getMessage());
 			}
-			$createdObjects[] = $object;
+		}
+
+		if ($this->isCachingEnabled) {
+			$this->calendar->checkUpdate();
 		}
 
 		return $createdObjects;
@@ -85,14 +91,14 @@ class ObjectRequestManager extends ObjectManager {
 	 * Updates an object from request
 	 *
 	 * @param \OCA\Calendar\IObject $object
-	 * @param string $eTag
+	 * @param string $etag
 	 * @throws \OCA\Calendar\BusinessLayer\Exception
 	 * @return \OCA\Calendar\IObject
 	 */
-	public function update(IObject $object, $eTag) {
+	public function update(IObject $object, $etag) {
 		$oldObject = $this->find($object->getUri());
 
-		$this->checkETagsEqual($oldObject->getEtag(), $eTag);
+		$this->checkETagsEqual($oldObject->getEtag(), $etag);
 
 		$oldObject->overwriteWith($object);
 		$object = $oldObject;
@@ -104,13 +110,13 @@ class ObjectRequestManager extends ObjectManager {
 	/**
 	 * throw exception if eTags are not equal
 	 *
-	 * @param string $firstETag
-	 * @param string $secondETag
+	 * @param string $firstEtag
+	 * @param string $secondEtag
 	 * @return bool
 	 * @throws \OCA\Calendar\BusinessLayer\Exception
 	 */
-	private function checkETagsEqual($firstETag, $secondETag) {
-		if ($firstETag !== $secondETag) {
+	private function checkETagsEqual($firstEtag, $secondEtag) {
+		if ($firstEtag !== $secondEtag) {
 			$msg = 'If-Match failed; eTags are not equal!';
 			throw new Exception($msg, Http::STATUS_PRECONDITION_FAILED);
 		}

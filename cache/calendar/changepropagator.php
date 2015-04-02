@@ -50,14 +50,14 @@ class ChangePropagator {
 	 * @param string $backendId
 	 * @param string $privateUri
 	 * @param string $userId
-	 * @param ICalendar $newCalendar
+	 * @param ICalendar $usersCalendar
 	 */
-	public function addChange($backendId, $privateUri, $userId, ICalendar $newCalendar=null) {
+	public function addChange($backendId, $privateUri, $userId, ICalendar $usersCalendar=null) {
 		$this->changedCalendars[] = [
 			'backendId' => $backendId,
 			'privateUri' => $privateUri,
 			'userId' => $userId,
-			'newCalendar' => $newCalendar,
+			'usersCalendar' => $usersCalendar,
 		];
 	}
 
@@ -90,7 +90,7 @@ class ChangePropagator {
 
 			$scanner->scanCalendar($c['backendId'],
 				$c['privateUri'], $c['userId'],
-				$c['newCalendar']);
+				$c['usersCalendar']);
 		}
 	}
 }

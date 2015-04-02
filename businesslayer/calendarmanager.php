@@ -161,8 +161,7 @@ class CalendarManager extends BusinessLayer {
 			throw Exception::fromException($ex);
 		}
 
-		//TODO - modify this so we can store unsupported props in cache
-		$this->updater->propagate($backendId, $privateUri, $userId);
+		$this->updater->propagate($backendId, $privateUri, $userId, $calendar);
 		return $calendar;
 	}
 
@@ -201,8 +200,7 @@ class CalendarManager extends BusinessLayer {
 			throw Exception::fromException($ex);
 		}
 
-		//TODO - modify this so we can store unsupported props in cache
-		$this->updater->propagate($backendId, $privateUri, $userId);
+		$this->updater->propagate($backendId, $privateUri, $userId, $newCalendar);
 		return $newCalendar;
 	}
 

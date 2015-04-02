@@ -21,12 +21,12 @@
  */
 namespace OCA\Calendar\Db;
 
+use OCA\Calendar\Backend as BackendUtils;
 use OCA\Calendar\Cache\Calendar\Cache;
 use OCA\Calendar\Cache\Calendar\Scanner;
 use OCA\Calendar\Cache\Calendar\Updater;
 use OCA\Calendar\Cache\Calendar\Watcher;
 use OCA\Calendar\IBackend;
-use OCA\Calendar\IBackendAPI;
 use OCA\Calendar\IBackendCollection;
 
 class BackendCollection extends Collection implements IBackendCollection {
@@ -89,7 +89,7 @@ class BackendCollection extends Collection implements IBackendCollection {
 	public function bySubscriptionType($type) {
 		foreach($this->objects as $object) {
 			/** @var IBackend $object */
-			if (!($object->getBackendAPI() instanceof IBackendAPI)) {
+			if (!($object->getBackendAPI() instanceof BackendUtils\IBackendAPI)) {
 				continue;
 			}
 

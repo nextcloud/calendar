@@ -21,19 +21,31 @@
  */
 namespace OCA\Calendar\Http\ICS;
 
+use OCA\Calendar\Db\TimezoneMapper;
+use OCA\Calendar\ICalendar;
+use OCA\Calendar\Utility\SabreUtility;
+
 use OCP\AppFramework\Http\DataDownloadResponse;
 
 class ObjectDownloadResponse extends DataDownloadResponse {
 
 	/**
+	 * @param ICalendar $calendar
 	 * @param \OCA\Calendar\IObject|\OCA\Calendar\IObjectCollection $data
-	 * @param string $contentType
-	 * @param string $filename
+	 * @param TimezoneMapper $timezones
 	 */
-	public function __construct($data, $contentType, $filename) {
+	public function __construct(ICalendar $calendar, $data, TimezoneMapper $timezones) {
 		$vobject = $data->getVObject();
 		if ($vobject) {
+			if ($timezones) {
+				SabreUtility::addMissingVTimezones($vobject, $timezones);
+			}
+
 			$serialized = $vobject->serialize();
+
+			$contentType = 'application/octet-stream';
+			$filename  = $calendar->getPublicUri();
+			$filename .= '.ics';
 
 			parent::__construct($serialized, $filename, $contentType);
 		}

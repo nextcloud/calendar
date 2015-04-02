@@ -28,8 +28,8 @@ interface ITimezone extends IEntity {
 	/**
 	 * @param VCalendar $vcalendar
 	 * @return $this
-	 * @throws MultipleObjectsReturnedException
-	 * @throws DoesNotExistException
+	 * @throws Backend\MultipleObjectsReturnedException
+	 * @throws Backend\DoesNotExistException
 	 */
 	public function setVObject(VCalendar $vcalendar);
 
