@@ -77,7 +77,6 @@ class Application extends App {
 			]
 		]);
 
-		$container->register
 		$this->initBackendSystem($container);
 		$this->registerBackends($container);
 	}
