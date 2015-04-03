@@ -19,10 +19,7 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCA\Calendar;
-
-require_once(__DIR__ . '/application.php');
-require_once(__DIR__ . '/classpath.php');
+namespace OCA\Calendar\AppInfo;
 
 $app = new Application();
 $app->registerNavigation();

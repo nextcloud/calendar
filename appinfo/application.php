@@ -19,7 +19,9 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCA\Calendar;
+namespace OCA\Calendar\AppInfo;
+
+use OCA\Calendar;
 
 use OCP\AppFramework\App;
 use OCP\AppFramework\IAppContainer;
@@ -32,13 +34,13 @@ use OCA\Calendar\Sabre\Splitter\JCalendar as JCalendarSplitter;
 class Application extends App {
 
 	/**
-	 * @var IBackendCollection
+	 * @var Calendar\IBackendCollection
 	 */
 	protected $backends;
 
 
 	/**
-	 * @var Db\BackendFactory
+	 * @var Calendar\Db\BackendFactory
 	 */
 	protected $backendFactory;
 
@@ -75,6 +77,7 @@ class Application extends App {
 			]
 		]);
 
+		$container->register
 		$this->initBackendSystem($container);
 		$this->registerBackends($container);
 	}
@@ -84,7 +87,7 @@ class Application extends App {
 			$request = $c->query('Request');
 			$userSession = $c->getServer()->getUserSession();
 
-			return new Controller\BackendController($c->getAppName(), $request, $userSession, $this->backends);
+			return new Calendar\Controller\BackendController($c->getAppName(), $request, $userSession, $this->backends);
 		});
 		$container->registerService('CalendarController', function(IAppContainer $c) {
 			$request = $c->query('Request');
@@ -92,14 +95,14 @@ class Application extends App {
 			$calendarManager = $c->query('CalendarRequestManager');
 			$calendarFactory = $c->query('CalendarFactory');
 
-			return new Controller\CalendarController($c->getAppName(), $request, $userSession, $calendarManager, $calendarFactory);
+			return new Calendar\Controller\CalendarController($c->getAppName(), $request, $userSession, $calendarManager, $calendarFactory);
 		});
 		$container->registerService('ContactController', function(IAppContainer $c) {
 			$request = $c->query('Request');
 			$contacts = $c->getServer()->getContactsManager();
 			$userSession = $c->getServer()->getUserSession();
 
-			return new Controller\ContactController($c->getAppName(), $request, $userSession, $contacts);
+			return new Calendar\Controller\ContactController($c->getAppName(), $request, $userSession, $contacts);
 		});
 		$container->registerService('ObjectController', function(IAppContainer $c) {
 			$request = $c->query('Request');
@@ -109,7 +112,7 @@ class Application extends App {
 			$objectFactory = $c->query('ObjectFactory');
 			$timezones = $c->query('TimezoneMapper');
 
-			return new Controller\ObjectController($c->getAppName(), $request, $userSession, $calendars, $objects, $objectFactory, $timezones, Db\ObjectType::ALL);
+			return new Calendar\Controller\ObjectController($c->getAppName(), $request, $userSession, $calendars, $objects, $objectFactory, $timezones, Calendar\Db\ObjectType::ALL);
 		});
 		$container->registerService('OCA\\Calendar\\Controller\\EventController', function(IAppContainer $c) {
 			$request = $c->query('Request');
@@ -119,7 +122,7 @@ class Application extends App {
 			$objectFactory = $c->query('ObjectFactory');
 			$timezones = $c->query('TimezoneMapper');
 
-			return new Controller\ObjectController($c->getAppName(), $request, $userSession, $calendars, $objects, $objectFactory, $timezones, Db\ObjectType::EVENT);
+			return new Calendar\Controller\ObjectController($c->getAppName(), $request, $userSession, $calendars, $objects, $objectFactory, $timezones, Calendar\Db\ObjectType::EVENT);
 		});
 		$container->registerService('OCA\\Calendar\\Controller\\JournalController', function(IAppContainer $c) {
 			$request = $c->query('Request');
@@ -129,7 +132,7 @@ class Application extends App {
 			$objectFactory = $c->query('ObjectFactory');
 			$timezones = $c->query('TimezoneMapper');
 
-			return new Controller\ObjectController($c->getAppName(), $request, $userSession, $calendars, $objects, $objectFactory, $timezones, Db\ObjectType::JOURNAL);
+			return new Calendar\Controller\ObjectController($c->getAppName(), $request, $userSession, $calendars, $objects, $objectFactory, $timezones, Calendar\Db\ObjectType::JOURNAL);
 		});
 		$container->registerService('OCA\\Calendar\\Controller\\TodoController', function(IAppContainer $c) {
 			$request = $c->query('Request');
@@ -139,7 +142,7 @@ class Application extends App {
 			$objectFactory = $c->query('ObjectFactory');
 			$timezones = $c->query('TimezoneMapper');
 
-			return new Controller\ObjectController($c->getAppName(), $request, $userSession, $calendars, $objects, $objectFactory, $timezones, Db\ObjectType::TODO);
+			return new Calendar\Controller\ObjectController($c->getAppName(), $request, $userSession, $calendars, $objects, $objectFactory, $timezones, Calendar\Db\ObjectType::TODO);
 		});
 		$container->registerService('SettingsController', function(IAppContainer $c) {
 			$request = $c->query('Request');
@@ -147,7 +150,7 @@ class Application extends App {
 			$config = $c->getServer()->getConfig();
 			$userSession = $c->getServer()->getUserSession();
 
-			return new Controller\SettingsController($c->getAppName(), $request, $userSession, $config, $settings);
+			return new Calendar\Controller\SettingsController($c->getAppName(), $request, $userSession, $config, $settings);
 		});
 		$container->registerService('SubscriptionController', function(IAppContainer $c) {
 			$request = $c->query('Request');
@@ -155,64 +158,64 @@ class Application extends App {
 			$userSession = $c->getServer()->getUserSession();
 			$subscriptionFactory = $c->query('SubscriptionFactory');
 
-			return new Controller\SubscriptionController($c->getAppName(), $request, $userSession, $subscriptions, $subscriptionFactory);
+			return new Calendar\Controller\SubscriptionController($c->getAppName(), $request, $userSession, $subscriptions, $subscriptionFactory);
 		});
 		$container->registerService('TimezoneController', function(IAppContainer $c) {
 			$request = $c->query('Request');
 			$timezones = $c->query('TimezoneBusinessLayer');
 			$userSession = $c->getServer()->getUserSession();
 
-			return new Controller\TimezoneController($c->getAppName(), $request, $userSession, $timezones);
+			return new Calendar\Controller\TimezoneController($c->getAppName(), $request, $userSession, $timezones);
 		});
 		$container->registerService('ViewController', function(IAppContainer $c) {
 			$request = $c->query('Request');
 			$userSession = $c->getServer()->getUserSession();
 
-			return new Controller\ViewController($c->getAppName(), $request, $userSession);
+			return new Calendar\Controller\ViewController($c->getAppName(), $request, $userSession);
 		});
 	}
 
 	private function registerBusinessLayers(IAppContainer $container) {
 		$container->registerService('CalendarManager', function() {
-			return new BusinessLayer\CalendarManager($this->backends);
+			return new Calendar\BusinessLayer\CalendarManager($this->backends);
 		});
 		$container->registerService('CalendarRequestManager', function() {
-			return new BusinessLayer\CalendarRequestManager($this->backends);
+			return new Calendar\BusinessLayer\CalendarRequestManager($this->backends);
 		});
 		$container->registerService('ObjectManager', function(IAppContainer $c) {
 			$timezones = $c->query('TimezoneMapper');
 
-			return function(ICalendar $calendar) use ($timezones) {
-				return new BusinessLayer\ObjectManager($calendar, $timezones);
+			return function(Calendar\ICalendar $calendar) use ($timezones) {
+				return new Calendar\BusinessLayer\ObjectManager($calendar, $timezones);
 			};
 		});
 		$container->registerService('ObjectRequestManager', function(IAppContainer $c) {
 			$timezones = $c->query('TimezoneMapper');
 
-			return function(ICalendar $calendar) use ($timezones) {
-				return new BusinessLayer\ObjectRequestManager($calendar, $timezones);
+			return function(Calendar\ICalendar $calendar) use ($timezones) {
+				return new Calendar\BusinessLayer\ObjectRequestManager($calendar, $timezones);
 			};
 		});
 		$container->registerService('SubscriptionBusinessLayer', function(IAppContainer $c) {
 			$mapper = $c->query('SubscriptionMapper');
 
-			return new BusinessLayer\Subscription($mapper);
+			return new Calendar\BusinessLayer\Subscription($mapper);
 		});
 		$container->registerService('TimezoneBusinessLayer', function(IAppContainer $c) {
 			$mapper = $c->query('TimezoneMapper');
 
-			return new BusinessLayer\Timezone($mapper);
+			return new Calendar\BusinessLayer\Timezone($mapper);
 		});
 	}
 
 	private function registerMappers(IAppContainer $container) {
 		$container->registerService('TimezoneMapper', function() {
-			return new Db\TimezoneMapper();
+			return new Calendar\Db\TimezoneMapper();
 		});
 		$container->registerService('SubscriptionMapper', function(IAppContainer $c) {
 			$factory = $c->query('SubscriptionFactory');
 
-			return new Db\SubscriptionMapper($c->getServer()->getDatabaseConnection(), $factory);
+			return new Calendar\Db\SubscriptionMapper($c->getServer()->getDatabaseConnection(), $factory);
 		});
 	}
 
@@ -221,7 +224,7 @@ class Application extends App {
 			$logger = $c->getServer()->getLogger();
 			$timezoneMapper = $c->query('TimezoneMapper');
 
-			return new Db\CalendarFactory($this->backends, $timezoneMapper, $logger);
+			return new Calendar\Db\CalendarFactory($this->backends, $timezoneMapper, $logger);
 		});
 		$container->registerService('ObjectFactory', function(IAppContainer $c) {
 			$logger = $c->getServer()->getLogger();
@@ -232,12 +235,12 @@ class Application extends App {
 				return new JCalendarSplitter($data);
 			};
 
-			return new Db\ObjectFactory($logger, $iCal, $jCal);
+			return new Calendar\Db\ObjectFactory($logger, $iCal, $jCal);
 		});
 		$container->registerService('SubscriptionFactory', function(IAppContainer $c) {
 			$logger = $c->getServer()->getLogger();
 
-			return new Db\SubscriptionFactory($logger);
+			return new Calendar\Db\SubscriptionFactory($logger);
 		});
 	}
 
@@ -250,7 +253,7 @@ class Application extends App {
 			return function($request) use ($c) {
 				$calendarFactory = $c->query('CalendarFactory');
 
-				$reader = new Http\JSON\CalendarReader($request, $calendarFactory);
+				$reader = new Calendar\Http\JSON\CalendarReader($request, $calendarFactory);
 				$reader->getObject();
 			};
 		});
@@ -259,7 +262,7 @@ class Application extends App {
 			return function($request) use ($c) {
 				$subscriptionFactory = $c->query('SubscriptionFactory');
 
-				$reader = new Http\JSON\SubscriptionReader($request, $subscriptionFactory);
+				$reader = new Calendar\Http\JSON\SubscriptionReader($request, $subscriptionFactory);
 				$reader->getObject();
 			};
 		});
@@ -269,45 +272,45 @@ class Application extends App {
 	 * initialize backend system
 	 * @param IAppContainer $c
 	 */
-	protected function initBackendSystem(IAppContainer $c) {
-		$this->backends = new Db\BackendCollection(
-			function (IBackendCollection $backends) use ($c) {
+	public function initBackendSystem(IAppContainer $c) {
+		$this->backends = new Calendar\Db\BackendCollection(
+			function (Calendar\IBackendCollection $backends) use ($c) {
 				$db = $this->getContainer()->getServer()->getDatabaseConnection();
 
 				$timezones = $c->query('TimezoneMapper');
 				$logger = $c->getServer()->getLogger();
-				$factory = new Db\CalendarFactory($backends, $timezones, $logger);
+				$factory = new Calendar\Db\CalendarFactory($backends, $timezones, $logger);
 
-				return new Cache\Calendar\Cache($backends, $db, $factory);
+				return new Calendar\Cache\Calendar\Cache($backends, $db, $factory);
 			},
-			function (IBackendCollection $backends) {
+			function (Calendar\IBackendCollection $backends) {
 				$logger = $this->getContainer()->getServer()->getLogger();
 
-				return new Cache\Calendar\Scanner($backends, $logger);
+				return new Calendar\Cache\Calendar\Scanner($backends, $logger);
 			},
-			function (IBackendCollection $backends) {
-				return new Cache\Calendar\Updater($backends);
+			function (Calendar\IBackendCollection $backends) {
+				return new Calendar\Cache\Calendar\Updater($backends);
 			},
-			function (IBackendCollection $backends) {
-				return new Cache\Calendar\Watcher($backends);
+			function (Calendar\IBackendCollection $backends) {
+				return new Calendar\Cache\Calendar\Watcher($backends);
 			}
 		);
 
-		$this->backendFactory = new Db\BackendFactory(
-			function(ICalendar $calendar) use ($c) {
+		$this->backendFactory = new Calendar\Db\BackendFactory(
+			function(Calendar\ICalendar $calendar) use ($c) {
 				$db = $c->getServer()->getDatabaseConnection();
 				$factory = $c->query('ObjectFactory');
 
-				return new Cache\Object\Cache($db, $calendar, $factory);
+				return new Calendar\Cache\Object\Cache($db, $calendar, $factory);
 			},
-			function(ICalendar $calendar) {
-				return new Cache\Object\Scanner($calendar);
+			function(Calendar\ICalendar $calendar) {
+				return new Calendar\Cache\Object\Scanner($calendar);
 			},
-			function(ICalendar $calendar) {
-				return new Cache\Object\Updater($calendar);
+			function(Calendar\ICalendar $calendar) {
+				return new Calendar\Cache\Object\Updater($calendar);
 			},
-			function(ICalendar $calendar) {
-				return new Cache\Object\Watcher($calendar);
+			function(Calendar\ICalendar $calendar) {
+				return new Calendar\Cache\Object\Watcher($calendar);
 			}
 		);
 	}
@@ -324,19 +327,19 @@ class Application extends App {
 			$this->backendFactory->createBackend(
 				'org.ownCloud.local',
 				function() use ($l10n) {
-					return new Backend\Local\Backend($l10n);
+					return new Calendar\Backend\Local\Backend($l10n);
 				},
-				function(IBackend $backend) use ($c) {
+				function(Calendar\IBackend $backend) use ($c) {
 					$db = $c->getServer()->getDatabaseConnection();
 					$factory = $c->query('CalendarFactory');
 
-					return new Backend\Local\Calendar($db, $backend, $factory);
+					return new Calendar\Backend\Local\Calendar($db, $backend, $factory);
 				},
-				function(ICalendar $calendar) use ($c) {
+				function(Calendar\ICalendar $calendar) use ($c) {
 					$db = $c->getServer()->getDatabaseConnection();
 					$factory = $c->query('ObjectFactory');
 
-					return new Backend\Local\Object($db, $calendar, $factory);
+					return new Calendar\Backend\Local\Object($db, $calendar, $factory);
 				}
 			)
 		);
@@ -350,21 +353,21 @@ class Application extends App {
 						$contacts = new \OCA\Contacts\App();
 						$appManager = $c->getServer()->getAppManager();
 
-						return new Backend\Contact\Backend($contacts, $appManager);
+						return new Calendar\Backend\Contact\Backend($contacts, $appManager);
 					},
-					function(IBackend $backend) use($c) {
+					function(Calendar\IBackend $backend) use($c) {
 						$contacts = new \OCA\Contacts\App();
 						$l10n = $c->getServer()->getL10N('calendar');
 						$calendarFactory = $c->query('CalendarFactory');
 
-						return new Backend\Contact\Calendar($contacts, $backend, $l10n, $calendarFactory);
+						return new Calendar\Backend\Contact\Calendar($contacts, $backend, $l10n, $calendarFactory);
 					},
-					function(ICalendar $calendar) use($c) {
+					function(Calendar\ICalendar $calendar) use($c) {
 						$contacts = new \OCA\Contacts\App();
 						$l10n = $c->getServer()->getL10N('calendar');
 						$objectFactory = $c->query('ObjectFactory');
 
-						return new Backend\Contact\Object($contacts, $calendar, $l10n, $objectFactory);
+						return new Calendar\Backend\Contact\Object($contacts, $calendar, $l10n, $objectFactory);
 					}
 				)
 			);
@@ -376,13 +379,13 @@ class Application extends App {
 				$this->backendFactory->createBackend(
 					'org.ownCloud.sharing',
 					function () {
-						return new Backend\Sharing\Backend();
+						return new Calendar\Backend\Sharing\Backend();
 					},
-					function (IBackend $backend) {
-						return new Backend\Sharing\Calendar($backend);
+					function (Calendar\IBackend $backend) {
+						return new Calendar\Backend\Sharing\Calendar($backend);
 					},
-					function (ICalendar $calendar) {
-						return new Backend\Sharing\Object($calendar);
+					function (Calendar\ICalendar $calendar) {
+						return new Calendar\Backend\Sharing\Object($calendar);
 					}
 				)
 			);
@@ -397,21 +400,21 @@ class Application extends App {
 						$subscriptions = $c->query('SubscriptionBusinessLayer');
 						$cacheFactory = $c->getServer()->getMemCacheFactory();
 
-						return new Backend\WebCal\Backend($subscriptions, $l10n, $cacheFactory);
+						return new Calendar\Backend\WebCal\Backend($subscriptions, $l10n, $cacheFactory);
 					},
-					function (IBackend $backend) use ($c, $l10n) {
+					function (Calendar\IBackend $backend) use ($c, $l10n) {
 						$subscriptions = $c->query('SubscriptionBusinessLayer');
 						$cacheFactory = $c->getServer()->getMemCacheFactory();
 						$calendarFactory = $c->query('CalendarFactory');
 
-						return new Backend\WebCal\Calendar($subscriptions, $l10n, $cacheFactory, $backend, $calendarFactory);
+						return new Calendar\Backend\WebCal\Calendar($subscriptions, $l10n, $cacheFactory, $backend, $calendarFactory);
 					},
-					function (ICalendar $calendar) use ($c, $l10n) {
+					function (Calendar\ICalendar $calendar) use ($c, $l10n) {
 						$subscriptions = $c->query('SubscriptionBusinessLayer');
 						$cacheFactory = $c->getServer()->getMemCacheFactory();
 						$objectFactory = $c->query('ObjectFactory');
 
-						return new Backend\WebCal\Object($subscriptions, $l10n, $cacheFactory, $calendar, $objectFactory);
+						return new Calendar\Backend\WebCal\Object($subscriptions, $l10n, $cacheFactory, $calendar, $objectFactory);
 					}
 				)
 			);
