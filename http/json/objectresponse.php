@@ -47,7 +47,7 @@ class ObjectResponse extends Http\JSONResponse {
 			$this->addHeader('Content-type', 'application/calendar+json; charset=utf-8');
 
 			if ($data instanceof IObject) {
-				$this->setETag($this->data->getEtag(true));
+				$this->setETag($data->getEtag(true));
 			}
 		} else {
 			parent::__construct(null, HTTP::STATUS_NO_CONTENT);

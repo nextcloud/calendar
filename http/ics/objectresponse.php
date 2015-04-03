@@ -48,7 +48,7 @@ class ObjectResponse extends Http\DataResponse {
 			]);
 
 			if ($data instanceof IObject) {
-				$this->setETag($this->data->getEtag(true));
+				$this->setETag($data->getEtag(true));
 			}
 		} else {
 			parent::__construct(null, HTTP::STATUS_NO_CONTENT);
