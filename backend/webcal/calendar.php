@@ -63,7 +63,7 @@ class Calendar extends WebCal implements BackendUtils\ICalendarAPI, BackendUtils
 	 */
 	public function __construct(BusinessLayer\Subscription $subscriptions, IL10N $l10n, ICacheFactory $cacheFactory,
 								IBackend $backend, CalendarFactory $calendarFactory) {
-		parent::__construct(BusinessLayer\$subscriptions, $l10n, $cacheFactory);
+		parent::__construct($subscriptions, $l10n, $cacheFactory);
 		$this->backend = $backend;
 		$this->factory = $calendarFactory;
 	}

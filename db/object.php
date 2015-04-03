@@ -450,7 +450,7 @@ class Object extends Entity implements IObject {
 		$this->addAdvancedFieldType('calendar',
 			'OCA\\Calendar\\ICalendar');
 		$this->addAdvancedFieldType('vObject',
-			'OCA\\Calendar\\Sabre\\vobject\\Component\\VCalendar');
+			'Sabre\\vobject\\Component\\VCalendar');
 	}
 
 

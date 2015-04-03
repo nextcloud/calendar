@@ -26,9 +26,8 @@ use OCA\Calendar\IObject;
 use OCA\Calendar\Utility\SabreUtility;
 
 use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\DataResponse;
 
-class ObjectResponse extends DataResponse {
+class ObjectResponse extends Http\DataResponse {
 
 	/**
 	 * @param \OCA\Calendar\IObject|\OCA\Calendar\IObjectCollection $data

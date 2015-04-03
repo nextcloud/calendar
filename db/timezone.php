@@ -136,7 +136,7 @@ class Timezone extends Entity implements ITimezone {
 	 */
 	protected function registerTypes() {
 		$this->addAdvancedFieldType('vObject',
-			'OCA\\CalendarManager\\Sabre\\VObject\\Component\\VCalendarManager');
+			'Sabre\\VObject\\Component\\VCalendar');
 	}
 
 

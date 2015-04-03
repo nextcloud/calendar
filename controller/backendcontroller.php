@@ -65,6 +65,7 @@ class BackendController extends Controller {
 	 */
 	public function index($limit=null, $offset=null) {
 		try {
+			$this->backends->getScanner()->scan($this->user->getUID());
 			return $this->backends->subset($limit, $offset);
 		} catch (\Exception $ex) {
 			return $this->handleException($ex);

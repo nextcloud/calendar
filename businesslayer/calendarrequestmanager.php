@@ -116,7 +116,7 @@ class CalendarRequestManager extends CalendarManager {
 		$new->setUserId($old->getUserId());
 		$new->setOwnerId($old->getOwnerId());
 		$new->setCruds($old->getCruds());
-		$new->setCtag($old->getCruds());
+		$new->setCtag($old->getCtag());
 	}
 
 

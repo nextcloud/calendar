@@ -98,7 +98,7 @@ abstract class Controller extends \OCP\AppFramework\Controller {
 	 * Reads the input
 	 * @param string $format the format for which a formatter has been registered
 	 * @throws ReaderException if format does not match a registered formatter
-	 * @return IEntity|ICollection
+	 * @return \OCA\Calendar\Http\Reader
 	 */
 	protected function buildReader($format) {
 		if(array_key_exists($format, $this->readers)) {
@@ -118,7 +118,7 @@ abstract class Controller extends \OCP\AppFramework\Controller {
 	 */
 	protected function readInput() {
 		$reader = $this->getReaderByHTTPHeader();
-		return $this->buildReader($reader);
+		return $this->buildReader($reader)->getObject();
 	}
 
 

@@ -196,13 +196,18 @@ class Scanner {
 	 * @param string $userId
 	 */
 	public function scan($userId) {
+		$backends = $this->backends->getObjects();
 		/* @var IBackend $backend */
-		foreach ($this->backends as $backend) {
-			$backendId = $backend->getId();
-			$calendars = $backend->getCalendarAPI()->listAll($userId);
+		foreach ($backends as $backend) {
+			try {
+				$backendId = $backend->getId();
+				$calendars = $backend->getCalendarAPI()->listAll($userId);
 
-			foreach($calendars as $privateUri) {
-				$this->scanCalendar($backendId, $privateUri, $userId);
+				foreach ($calendars as $privateUri) {
+					$this->scanCalendar($backendId, $privateUri, $userId);
+				}
+			} catch(\Exception $ex) {
+				$this->logger->debug($ex->getMessage());
 			}
 		}
 	}
@@ -232,22 +237,22 @@ class Scanner {
 											   ICalendar $cachedCalendar) {
 		$backendAPI = $backend->getBackendAPI();
 
-		if ($backendAPI->canStoreColor()) {
+		if (!$backendAPI->canStoreColor()) {
 			$calendar->setColor($cachedCalendar->getColor());
 		}
-		if ($backendAPI->canStoreComponents()) {
+		if (!$backendAPI->canStoreComponents()) {
 			$calendar->setComponents($cachedCalendar->getComponents());
 		}
-		if ($backendAPI->canStoreDescription()) {
+		if (!$backendAPI->canStoreDescription()) {
 			$calendar->setDescription($cachedCalendar->getDescription());
 		}
-		if ($backendAPI->canStoreDisplayname()) {
+		if (!$backendAPI->canStoreDisplayname()) {
 			$calendar->setDisplayname($cachedCalendar->getDisplayname());
 		}
-		if ($backendAPI->canStoreEnabled()) {
+		if (!$backendAPI->canStoreEnabled()) {
 			$calendar->setEnabled($cachedCalendar->getEnabled());
 		}
-		if ($backendAPI->canStoreOrder()) {
+		if (!$backendAPI->canStoreOrder()) {
 			$calendar->setOrder($cachedCalendar->getOrder());
 		}
 

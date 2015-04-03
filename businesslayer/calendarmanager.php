@@ -189,15 +189,17 @@ class CalendarManager extends BusinessLayer {
 		$this->checkIsValid($newCalendar);
 
 		$api = $newCalendar->getBackend()->getCalendarAPI();
-		if (!($api instanceof BackendUtils\ICalendarAPIUpdate)) {
-			throw new Exception('Backend doesn\'t support updating calendars!');
-		}
-
-		try {
-			$newCalendar = $api->update($newCalendar);
-		} catch(BackendUtils\Exception $ex) {
-			\OC::$server->getLogger()->debug($ex->getMessage());
-			throw Exception::fromException($ex);
+		if ($api instanceof BackendUtils\ICalendarAPIUpdate) {
+			try {
+				$newCalendar = $api->update($newCalendar);
+			} catch (BackendUtils\Exception $ex) {
+				\OC::$server->getLogger()->debug($ex->getMessage());
+				throw Exception::fromException($ex);
+			}
+		} else {
+			if (!$this->areMinorChanges($newCalendar)) {
+				throw new Exception('Backend doesn\'t support updating calendars!');
+			}
 		}
 
 		$this->updater->propagate($backendId, $privateUri, $userId, $newCalendar);
@@ -266,5 +268,26 @@ class CalendarManager extends BusinessLayer {
 				throw new Exception('New URI is already assigned to another calendar!');
 			}
 		}
+	}
+
+
+	/**
+	 * @param ICalendar $calendar
+	 * @return boolean
+	 */
+	private function areMinorChanges(ICalendar $calendar) {
+		$allowed = [
+			'color',
+			'components',
+			'description',
+			'displayname',
+			'enabled',
+			'order',
+		];
+
+		$updatedFields = array_keys($calendar->getUpdatedFields());
+		$majorChanges = array_diff($updatedFields, $allowed);
+
+		return empty($majorChanges);
 	}
 }

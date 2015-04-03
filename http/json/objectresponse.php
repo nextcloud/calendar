@@ -27,7 +27,7 @@ use OCA\Calendar\IObject;
 use OCA\Calendar\Utility\SabreUtility;
 use OCP\AppFramework\Http;
 
-class ObjectResponse extends Http\DataResponse {
+class ObjectResponse extends Http\JSONResponse {
 
 	/**
 	 * @param \OCA\Calendar\IObject|\OCA\Calendar\IObjectCollection $data
@@ -43,9 +43,8 @@ class ObjectResponse extends Http\DataResponse {
 
 			$serialized = $vobject->jsonSerialize();
 
-			parent::__construct($serialized, $statusCode, [
-				'Content-type' => 'application/calendar+json; charset=utf-8',
-			]);
+			parent::__construct($serialized, $statusCode);
+			$this->addHeader('Content-type', 'application/calendar+json; charset=utf-8');
 
 			if ($data instanceof IObject) {
 				$this->setETag($this->data->getEtag(true));

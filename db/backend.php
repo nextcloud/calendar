@@ -75,6 +75,12 @@ class Backend extends Entity implements IBackend {
 	/**
 	 * @var \closure
 	 */
+	protected $objectUpdater;
+
+
+	/**
+	 * @var \closure
+	 */
 	protected $objectWatcher;
 
 

@@ -273,7 +273,10 @@ class Application extends App {
 		$this->backends = new Db\BackendCollection(
 			function (IBackendCollection $backends) use ($c) {
 				$db = $this->getContainer()->getServer()->getDatabaseConnection();
-				$factory = $c->query('CalendarFactory');
+
+				$timezones = $c->query('TimezoneMapper');
+				$logger = $c->getServer()->getLogger();
+				$factory = new Db\CalendarFactory($backends, $timezones, $logger);
 
 				return new Cache\Calendar\Cache($backends, $db, $factory);
 			},
@@ -292,7 +295,7 @@ class Application extends App {
 
 		$this->backendFactory = new Db\BackendFactory(
 			function(ICalendar $calendar) use ($c) {
-				$db = $this->getContainer()->getServer()->getDatabaseConnection();
+				$db = $c->getServer()->getDatabaseConnection();
 				$factory = $c->query('ObjectFactory');
 
 				return new Cache\Object\Cache($db, $calendar, $factory);
@@ -340,29 +343,28 @@ class Application extends App {
 
 		// Contacts backend: show contact's birthdays and anniversaries
 		if (class_exists('\\OCA\\Contacts\\App')) {
-			$contacts = new \OCA\Contacts\App();
 			$this->backends->add(
 				$this->backendFactory->createBackend(
 					'org.ownCloud.contact',
-					function() use ($contacts) {
-						return new Backend\Contact\Backend($contacts);
+					function() use($c) {
+						$contacts = new \OCA\Contacts\App();
+						$appManager = $c->getServer()->getAppManager();
+
+						return new Backend\Contact\Backend($contacts, $appManager);
 					},
-					function(IBackend $backend) use ($contacts) {
-						$c = $this->getContainer();
+					function(IBackend $backend) use($c) {
+						$contacts = new \OCA\Contacts\App();
 						$l10n = $c->getServer()->getL10N('calendar');
 						$calendarFactory = $c->query('CalendarFactory');
-						$calendarCollectionFactory = $c->query('CalendarCollectionFactory');
 
-						return new Backend\Contact\Calendar($contacts, $backend, $l10n, $calendarFactory, $calendarCollectionFactory);
+						return new Backend\Contact\Calendar($contacts, $backend, $l10n, $calendarFactory);
 					},
-					function(ICalendar $calendar) use ($contacts) {
-						$c = $this->getContainer();
+					function(ICalendar $calendar) use($c) {
+						$contacts = new \OCA\Contacts\App();
 						$l10n = $c->getServer()->getL10N('calendar');
 						$objectFactory = $c->query('ObjectFactory');
-						$objectCollectionFactory = $c->query('ObjectCollectionFactory');
 
-
-						return new Backend\Contact\Object($contacts, $calendar, $l10n, $objectFactory, $objectCollectionFactory);
+						return new Backend\Contact\Object($contacts, $calendar, $l10n, $objectFactory);
 					}
 				)
 			);
@@ -392,20 +394,20 @@ class Application extends App {
 				$this->backendFactory->createBackend(
 					'org.ownCloud.webcal',
 					function () use ($c, $l10n) {
-						$subscriptions = $c->query('SubscriptionController');
+						$subscriptions = $c->query('SubscriptionBusinessLayer');
 						$cacheFactory = $c->getServer()->getMemCacheFactory();
 
 						return new Backend\WebCal\Backend($subscriptions, $l10n, $cacheFactory);
 					},
 					function (IBackend $backend) use ($c, $l10n) {
-						$subscriptions = $c->query('SubscriptionController');
+						$subscriptions = $c->query('SubscriptionBusinessLayer');
 						$cacheFactory = $c->getServer()->getMemCacheFactory();
 						$calendarFactory = $c->query('CalendarFactory');
 
 						return new Backend\WebCal\Calendar($subscriptions, $l10n, $cacheFactory, $backend, $calendarFactory);
 					},
 					function (ICalendar $calendar) use ($c, $l10n) {
-						$subscriptions = $c->query('SubscriptionController');
+						$subscriptions = $c->query('SubscriptionBusinessLayer');
 						$cacheFactory = $c->getServer()->getMemCacheFactory();
 						$objectFactory = $c->query('ObjectFactory');
 
