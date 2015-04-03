@@ -21,99 +21,32 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCA\Calendar;
-
-$this->create('calendar.settings.getView', '/v1/view')->get()->action(function($params){
-	$app = new Application($params);
-	$app->dispatch('SettingsController', 'getValue');
-});
-$this->create('calendar.settings.setView', '/v1/view/{value}')->post()->action(function($params){
-	$app = new Application($params);
-	$app->dispatch('SettingsController', 'setValue');
-});
-$this->create('calendar.settings.getFirstDayOfWeek', '/v1/firstDay')->get()->action(function($params){
-	$app = new Application($params);
-	$app->dispatch('SettingsController', 'getValue');
-});
-$this->create('calendar.settings.setFirstDayOfWeek', '/v1/firstDay/{value}')->post()->action(function($params){
-	$app = new Application($params);
-	$app->dispatch('SettingsController', 'setValue');
-});
-$this->create('calendar.settings.getTimeFormat', '/v1/timeFormat')->get()->action(function($params){
-	$app = new Application($params);
-	$app->dispatch('SettingsController', 'getValue');
-});
-$this->create('calendar.settings.setTimeFormat', '/v1/timeFormat/{value}')->post()->action(function($params){
-	$app = new Application($params);
-	$app->dispatch('SettingsController', 'setValue');
-});
-
-/* some additional calendar calls */
-$this->create('calendar.calendar.export', '/v1/calendars/{calendarId}/export')->get()->action(function($params){
-	$app = new Application($params);
-	$app->dispatch('ObjectController', 'export');
-});
-$this->create('calendar.calendar.import', '/v1/calendars/{calendarId}/import')->post()->action(function($params){
-	$app = new Application($params);
-	$app->dispatch('ObjectController', 'import');
-});
-
-
-/* some additional object calls */
-$this->create('calendar.object.inPeriod', '/v1/calendars/{calendarId}/objects/inPeriod/{start}/{end}')->get()->action(function($params){
-	$app = new Application($params);
-	$app->dispatch('ObjectController', 'indexInPeriod');
-});
-$this->create('calendar.event.inPeriod', '/v1/calendars/{calendarId}/events/inPeriod/{start}/{end}')->get()->action(function($params){
-	$app = new Application($params);
-	$app->dispatch('EventController', 'indexInPeriod');
-});
-$this->create('calendar.journal.inPeriod', '/v1/calendars/{calendarId}/journals/inPeriod/{start}/{end}')->get()->action(function($params){
-	$app = new Application($params);
-	$app->dispatch('JournalController', 'indexInPeriod');
-});
-$this->create('calendar.todo.inPeriod', '/v1/calendars/{calendarId}/objects/todos/{start}/{end}')->get()->action(function($params){
-	$app = new Application($params);
-	$app->dispatch('TodoController', 'indexInPeriod');
-});
-
-
-/* some additional timezone calls */
-$this->create('calendar.timezone.getList', '/v1/timezones-list')->get()->action(function($params){
-	$app = new Application($params);
-	$app->dispatch('TimezoneController', 'getList');
-});
-
-
-/* make resources patchable */
-$this->create('calendar.calendar.patch', '/v1/calendars/{id}')->patch()->action(function($params){
-	$app = new Application($params);
-	$app->dispatch('CalendarController', 'patch');
-});
-$this->create('calendar.subscription.patch', '/v1/subscriptions/{id}')->patch()->action(function($params){
-	$app = new Application($params);
-	$app->dispatch('SubscriptionController', 'patch');
-});
-
-$this->create('calendar.autocomplete.location', '/v1/autocompletion/location')->get()->action(function($params){
-	$app = new Application($params);
-	$app->dispatch('ContactController', 'searchLocation');
-});
-
-$this->create('calendar.autocomplete.attendee', '/v1/autocompletion/attendee')->get()->action(function($params){
-	$app = new Application($params);
-	$app->dispatch('ContactController', 'searchAttendee');
-});
-
-
-$app = new Application();
-$app->registerRoutes($this, [
+return [
 	'routes' => [
 		//Main view
 		['name' => 'view#index', 'url' => '/', 'verb' => 'GET'],
-
 		//Backends
 		['name' => 'backend#index', 'url' => '/v1/backends', 'verb' => 'GET'],
+		//Calendar
+		['name' => 'object#export', 'url' => '/v1/calendars/{calendarId}/export', 'verb' => 'GET'],
+		['name' => 'object#import', 'url' => '/v1/calendars/{calendarId}/import', 'verb' => 'POST'],
+		['name' => 'calendar#patch', 'url' => '/v1/calendars/{id}', 'verb' => 'PATCH'],
+		//Objects
+		['name' => 'object#indexInPeriod', 'url' => '/v1/calendars/{calendarId}/objects/inPeriod/{start}/{end}', 'verb' => 'GET'],
+		['name' => 'event#indexInPeriod', 'url' => '/v1/calendars/{calendarId}/events/inPeriod/{start}/{end}', 'verb' => 'GET'],
+		['name' => 'journal#indexInPeriod', 'url' => '/v1/calendars/{calendarId}/journals/inPeriod/{start}/{end}', 'verb' => 'GET'],
+		['name' => 'todo#indexInPeriod', 'url' => '/v1/calendars/{calendarId}/todos/inPeriod/{start}/{end}', 'verb' => 'GET'],
+		//Subscriptions
+		['name' => 'subscription#patch', 'url' => '/v1/subscription/{id}', 'verb' => 'PATCH'],
+		//Timezones
+		['name' => 'timezone#show', 'url' => '/v1/timezones/{id}', 'verb' => 'GET'],
+		['name' => 'timezone#getList', 'url' => '/v1/timezones-list', 'verb' => 'GET'],
+		//Settings
+		['name' => 'settings#getValue', 'url' => '/v1/view', 'verb' => 'GET'],
+		['name' => 'settings#setValue', 'url' => '/v1/view/{value}', 'verb' => 'POST'],
+		//Autocompletion
+		['name' => 'contact#searchAttendee', 'url' => '/v1/autocompletion/attendee', 'verb' => 'GET'],
+		['name' => 'contact#searchLocation', 'url' => '/v1/autocompletion/location', 'verb' => 'GET'],
 	],
 	'resources' => [
 		'calendar' => ['url' => '/v1/calendars'],
@@ -121,7 +54,6 @@ $app->registerRoutes($this, [
 		'event' => ['url' => '/v1/calendars/{calendarId}/events'],
 		'journal' => ['url' => '/v1/calendars/{calendarId}/journals'],
 		'todo' => ['url' => '/v1/calendars/{calendarId}/todos'],
-		'timezone' => ['url' => '/v1/timezones'],
 		'subscription' => ['url' => '/v1/subscriptions'],
 	]
-]);
+];
