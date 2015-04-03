@@ -114,26 +114,49 @@
 				<length>255</length>
 			</field>
 			<field>
-				<name>last_properties_update</name>
-				<type>integer</type>
-				<default></default>
-				<notnull>false</notnull>
-				<length>4</length>
-			</field>
-			<field>
-				<name>last_object_update</name>
-				<type>integer</type>
-				<default></default>
-				<notnull>false</notnull>
-				<length>4</length>
-			</field>
-			<field>
 				<name>file_id</name>
 				<type>integer</type>
 				<default></default>
 				<unsigned>true</unsigned>
 				<length>4</length>
 			</field>
+			<index>
+				<name>clndr_calcache_id_index</name>
+				<primary>true</primary>
+				<unique>true</unique>
+				<field>
+					<name>id</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+			<index>
+				<name>clndr_calcache_userid_public</name>
+				<unique>true</unique>
+				<field>
+					<name>user_id</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>public_uri</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+			<index>
+				<name>clndr_calcache_userid_backend_private</name>
+				<unique>true</unique>
+				<field>
+					<name>user_id</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>backend</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>private_uri</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
 		</declaration>
 	</table>
 	<!-- table for cached objects -->
@@ -220,6 +243,49 @@
 				<notnull>false</notnull>
 				<length>4</length>
 			</field>
+			<index>
+				<name>clndr_objcache_id_index</name>
+				<primary>true</primary>
+				<unique>true</unique>
+				<field>
+					<name>id</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+			<index>
+				<name>clndr_objcache_calid_uri</name>
+				<unique>true</unique>
+				<field>
+					<name>calendarid</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>objecturi</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+			<index>
+				<name>clndr_objcache_calid</name>
+				<field>
+					<name>calendarid</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+			<index>
+				<name>clndr_objcache_calid_timeframe</name>
+				<field>
+					<name>calendarid</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>startdate</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>enddate</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
 		</declaration>
 	</table>
 	<!-- table for cached objects -->
@@ -342,6 +408,27 @@
 				<notnull>false</notnull>
 				<length>100</length>
 			</field>
+			<index>
+				<name>clndr_calendars_id_index</name>
+				<primary>true</primary>
+				<unique>true</unique>
+				<field>
+					<name>id</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+			<index>
+				<name>clndr_calendars_userid_uri</name>
+				<unique>true</unique>
+				<field>
+					<name>userid</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>uri</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
 		</declaration>
 	</table>
 	<!-- table for objects in the database backend -->
@@ -418,6 +505,49 @@
 				<notnull>false</notnull>
 				<length>4</length>
 			</field>
+			<index>
+				<name>clndr_objects_id_index</name>
+				<primary>true</primary>
+				<unique>true</unique>
+				<field>
+					<name>id</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+			<index>
+				<name>clndr_objects_calid_uri</name>
+				<unique>true</unique>
+				<field>
+					<name>calendarid</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>uri</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+			<index>
+				<name>clndr_objects_calid</name>
+				<field>
+					<name>calendarid</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+			<index>
+				<name>clndr_objects_calid_timeframe</name>
+				<field>
+					<name>calendarid</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>startdate</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>enddate</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
 		</declaration>
 	</table>
 	<table>
@@ -450,6 +580,31 @@
 				<notnull>true</notnull>
 				<length>255</length>
 			</field>
+			<index>
+				<name>clndr_sbscrptns_id_index</name>
+				<primary>true</primary>
+				<unique>true</unique>
+				<field>
+					<name>id</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+			<index>
+				<name>clndr_sbscrptns_userid_type_url</name>
+				<unique>true</unique>
+				<field>
+					<name>user_id</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>type</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>url</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
 		</declaration>
 	</table>
 </database>
