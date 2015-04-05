@@ -32,7 +32,15 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 		$scope.eventsmodel = EventsModel;
 		$scope.calendarListSelect = CalendarModel.getAll();
 
-		$scope.properties = {};
+		$scope.properties = {
+			calcolor: '',
+			title : '',
+			location : '',
+			categories : '',
+			description : '',
+			attendees : [],
+			alarms : []
+		};
 
 		window.showProps = function() {
 			return $scope.properties;
@@ -65,7 +73,7 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 
 							for (var i = 0; i < factors.length && triggerValue !== 0; i++) {
 								var mod = triggerValue % factors[i];
-								if (mod != 0) {
+								if (mod !== 0) {
 									break;
 								}
 
@@ -94,14 +102,14 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 
 						var repeatValue = (alarm.duration && alarm.duration.value) ? alarm.duration.value : 0;
 
-						for (var i = 0; i < factors.length && repeatValue !== 0; i++) {
-							var mod = repeatValue % factors[i];
-							if (mod != 0) {
+						for (var i2 = 0; i2 < factors.length && repeatValue !== 0; i2++) {
+							var mod2 = repeatValue % factors[i2];
+							if (mod2 !== 0) {
 								break;
 							}
 
-							alarm.editor.repeatTimeUnit *= factors[i];
-							repeatValue /= factors[i];
+							alarm.editor.repeatTimeUnit *= factors[i2];
+							repeatValue /= factors[i2];
 						}
 
 						alarm.editor.repeatNValue = repeatValue;
@@ -298,7 +306,7 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 		$scope.updateReminderAbsolute = function(alarm) {
 			if (alarm.editor.absDate.length > 0 && alarm.editor.absTime.length > 0) {
 				alarm.trigger.value = moment(alarm.editor.absDate).add(moment.duration(alarm.editor.absTime));
-				alarm.trigger.type = 'date-time'
+				alarm.trigger.type = 'date-time';
 			} else {
 				//show some error message
 			}
