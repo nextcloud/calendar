@@ -99,26 +99,6 @@ class BackendCollectionTest extends \PHPUnit_Framework_TestCase {
 	}
 
 
-	public function testGetPrivateUris() {
-		$expected = [
-			'database123' => [
-				'abc', 'def'
-			],
-			'caldav456' => [
-				'ghi', 'jkl'
-			],
-			'webcal789' => [
-				'mno', 'pqr'
-			],
-			'sharing012' => [
-				'stu', 'vwx'
-			]
-		];
-
-		$this->assertSame($expected, $this->backendCollection->getPrivateUris('test'));
-	}
-
-
 	public function testBySubscriptionType() {
 
 	}

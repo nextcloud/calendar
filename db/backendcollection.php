@@ -22,62 +22,60 @@
 namespace OCA\Calendar\Db;
 
 use OCA\Calendar\Backend as BackendUtils;
-use OCA\Calendar\Cache\Calendar\Cache;
-use OCA\Calendar\Cache\Calendar\Scanner;
-use OCA\Calendar\Cache\Calendar\Updater;
-use OCA\Calendar\Cache\Calendar\Watcher;
 use OCA\Calendar\IBackend;
 use OCA\Calendar\IBackendCollection;
 
 class BackendCollection extends Collection implements IBackendCollection {
 
 	/**
-	 * @var Cache
+	 * @var []\closure
 	 */
-	protected $cache;
+	protected $closures=[];
 
 
 	/**
-	 * @var Scanner
+	 * @var []
 	 */
-	protected $scanner;
+	protected $initializedCache=[];
 
 
 	/**
-	 * @var Updater
+	 * @var []\closure
 	 */
-	protected $updater;
+	protected $queue=[];
 
 
 	/**
-	 * @var Watcher
-	 */
-	protected $watcher;
-
-
-	/**
-	 * @param callable $cache
-	 * @param callable $scanner
-	 * @param callable $updater
-	 * @param callable $watcher
+	 * @param \closure $cache
+	 * @param \closure $scanner
+	 * @param \closure $updater
+	 * @param \closure $watcher
 	 */
 	public function __construct(\closure $cache, \closure $scanner,
 								\closure $updater, \closure $watcher) {
-		$this->cache = call_user_func($cache, $this);
-		$this->scanner = call_user_func($scanner, $this);
-		$this->updater = call_user_func($updater, $this);
-		$this->watcher = call_user_func($watcher, $this);
+		$this->closures = [
+			'cache' => $cache,
+			'scanner' => $scanner,
+			'updater' => $updater,
+			'watcher' => $watcher,
+		];
 	}
 
 
 	/**
 	 * Search for a backend by it's name
 	 * @param string $id
-	 * @return IBackend
+	 * @return IBackend|null
 	 */
 	public function find($id) {
-		//TODO - make this better
-		return $this->search('id', $id)[0];
+		/** @var IBackend $object */
+		foreach ($this->getObjects() as $object) {
+			if ($object->getId() === $id) {
+				return $object;
+			}
+		}
+
+		return null;
 	}
 
 
@@ -87,7 +85,7 @@ class BackendCollection extends Collection implements IBackendCollection {
 	 * @return IBackend
 	 */
 	public function bySubscriptionType($type) {
-		foreach($this->objects as $object) {
+		foreach($this->getObjects() as $object) {
 			/** @var IBackend $object */
 			if (!($object->getBackendAPI() instanceof BackendUtils\IBackendAPI)) {
 				continue;
@@ -104,26 +102,26 @@ class BackendCollection extends Collection implements IBackendCollection {
 		return null;
 	}
 
-
 	/**
-	 * get an array of backends with it's private uris
-	 * @param string $userId
-	 * @return array
+	 * get array of all entities
+	 *
+	 * @return array of Entities
 	 */
-	public function getPrivateUris($userId) {
-		$privateUris = [];
-
-		foreach($this->objects as $object) {
-			/** @var IBackend $object */
-			try {
-				$privateUris[$object->getId()] =
-					$object->getCalendarAPI()->listAll($userId);
-			} catch(\Exception $ex) {
-				\OC::$server->getLogger()->debug($ex->getMessage());
+	public function getObjects() {
+		if (!empty($this->queue)) {
+			foreach ($this->queue as $backend) {
+				$this->objects[] = call_user_func_array($backend, []);
 			}
+			$this->queue = [];
 		}
 
-		return $privateUris;
+		return $this->objects;
+	}
+
+
+
+	public function queue(\closure $backend) {
+		$this->queue[] = $backend;
 	}
 
 
@@ -131,7 +129,7 @@ class BackendCollection extends Collection implements IBackendCollection {
 	 * @return \OCA\Calendar\Cache\Calendar\Cache
 	 */
 	public function getCache() {
-		return $this->cache;
+		return $this->getInitializedCache('cache');
 	}
 
 
@@ -139,7 +137,7 @@ class BackendCollection extends Collection implements IBackendCollection {
 	 * @return \OCA\Calendar\Cache\Calendar\Scanner
 	 */
 	public function getScanner() {
-		return $this->scanner;
+		return $this->getInitializedCache('scanner');
 	}
 
 
@@ -147,7 +145,7 @@ class BackendCollection extends Collection implements IBackendCollection {
 	 * @return \OCA\Calendar\Cache\Calendar\Updater
 	 */
 	public function getUpdater() {
-		return $this->updater;
+		return $this->getInitializedCache('updater');
 	}
 
 
@@ -155,6 +153,19 @@ class BackendCollection extends Collection implements IBackendCollection {
 	 * @return \OCA\Calendar\Cache\Calendar\Watcher
 	 */
 	public function getWatcher() {
-		return $this->watcher;
+		return $this->getInitializedCache('watcher');
+	}
+
+	/**
+	 * @param string $item
+	 * @return mixed
+	 */
+	protected function getInitializedCache($item) {
+		if (!isset($this->initializedCache[$item])) {
+			$this->initializedCache[$item] =
+				call_user_func_array($this->closures[$item], [$this]);
+		}
+
+		return $this->initializedCache[$item];
 	}
 }

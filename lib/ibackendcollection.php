@@ -32,17 +32,18 @@ interface IBackendCollection extends ICollection {
 
 
 	/**
+	 * add a backend to initialization-queue
+	 * @param \closure $backend
+	 * @return mixed
+	 */
+	public function queue(\closure $backend);
+
+
+	/**
 	 * @param string $backendName
 	 * @return IBackend
 	 */
 	public function find($backendName);
-
-
-	/**
-	 * @param string $userId
-	 * @return array
-	 */
-	public function getPrivateUris($userId);
 
 
 	/**

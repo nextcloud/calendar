@@ -88,7 +88,7 @@ abstract class Collection implements ICollection {
 	 */
 	public function add(IEntity $object, $nth=null) {
 		if ($nth === null) {
-			$this->objects[$this->count()] = $object;
+			$this->objects[] = $object;
 		} else {
 			$objects = array_slice($this->objects, 0, $nth, true);
 			$objects = array_merge($objects, array($object));
@@ -214,7 +214,7 @@ abstract class Collection implements ICollection {
 		$collection = new static();
 
 		$getter = 'get' . ucfirst($key);
-		foreach($this->objects as $object) {
+		foreach($this->getObjects() as $object) {
 			if ($object->$getter() === $value) {
 				$collection->add($object);
 			}
@@ -234,7 +234,7 @@ abstract class Collection implements ICollection {
 	public function setProperty($key, $value) {
 		$setter = 'set' . ucfirst($key);
 
-		foreach($this->objects as &$object) {
+		foreach($this->getObjects() as &$object) {
 			if (is_callable(array($object, $setter))) {
 				$object->{$setter}($value);
 			}
@@ -251,7 +251,7 @@ abstract class Collection implements ICollection {
 	 * @return boolean
 	 */
 	public function isValid() {
-		foreach($this->objects as $object) {
+		foreach($this->getObjects() as $object) {
 			if (!($object instanceof IEntity)) {
 				return false;
 			}
@@ -270,7 +270,7 @@ abstract class Collection implements ICollection {
 	 * @param callable $function breaks when callable returns false
 	 */
 	public function iterate(callable $function) {
-		foreach($this->objects as &$object) {
+		foreach($this->getObjects() as &$object) {
 			$return = $function($object);
 			if ($return === false) {
 				break;

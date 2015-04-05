@@ -322,100 +322,108 @@ class Application extends App {
 		$l10n = $c->getServer()->getL10N($c->getAppName());
 
 		// Local backend: Default database backend
-		$this->backends->add(
-			$this->backendFactory->createBackend(
-				'org.ownCloud.local',
-				function() use ($l10n) {
-					return new Calendar\Backend\Local\Backend($l10n);
-				},
-				function(Calendar\IBackend $backend) use ($c) {
-					$db = $c->getServer()->getDatabaseConnection();
-					$factory = $c->query('CalendarFactory');
+		$this->backends->queue(
+			function() use ($c, $l10n) {
+				return $this->backendFactory->createBackend(
+					'org.ownCloud.local',
+					function() use ($l10n) {
+						return new Calendar\Backend\Local\Backend($l10n);
+					},
+					function(Calendar\IBackend $backend) use ($c) {
+						$db = $c->getServer()->getDatabaseConnection();
+						$factory = $c->query('CalendarFactory');
 
-					return new Calendar\Backend\Local\Calendar($db, $backend, $factory);
-				},
-				function(Calendar\ICalendar $calendar) use ($c) {
-					$db = $c->getServer()->getDatabaseConnection();
-					$factory = $c->query('ObjectFactory');
+						return new Calendar\Backend\Local\Calendar($db, $backend, $factory);
+					},
+					function(Calendar\ICalendar $calendar) use ($c) {
+						$db = $c->getServer()->getDatabaseConnection();
+						$factory = $c->query('ObjectFactory');
 
-					return new Calendar\Backend\Local\Object($db, $calendar, $factory);
-				}
-			)
+						return new Calendar\Backend\Local\Object($db, $calendar, $factory);
+					}
+				);
+			}
 		);
 
 		// Contacts backend: show contact's birthdays and anniversaries
 		if (class_exists('\\OCA\\Contacts\\App')) {
-			$this->backends->add(
-				$this->backendFactory->createBackend(
-					'org.ownCloud.contact',
-					function() use($c) {
-						$contacts = new \OCA\Contacts\App();
-						$appManager = $c->getServer()->getAppManager();
+			$this->backends->queue(
+				function() use ($c, $l10n) {
+					return $this->backendFactory->createBackend(
+						'org.ownCloud.contact',
+						function() use($c) {
+							$contacts = new \OCA\Contacts\App();
+							$appManager = $c->getServer()->getAppManager();
 
-						return new Calendar\Backend\Contact\Backend($contacts, $appManager);
-					},
-					function(Calendar\IBackend $backend) use($c) {
-						$contacts = new \OCA\Contacts\App();
-						$l10n = $c->getServer()->getL10N('calendar');
-						$calendarFactory = $c->query('CalendarFactory');
+							return new Calendar\Backend\Contact\Backend($contacts, $appManager);
+						},
+						function(Calendar\IBackend $backend) use($c) {
+							$contacts = new \OCA\Contacts\App();
+							$l10n = $c->getServer()->getL10N('calendar');
+							$calendarFactory = $c->query('CalendarFactory');
 
-						return new Calendar\Backend\Contact\Calendar($contacts, $backend, $l10n, $calendarFactory);
-					},
-					function(Calendar\ICalendar $calendar) use($c) {
-						$contacts = new \OCA\Contacts\App();
-						$l10n = $c->getServer()->getL10N('calendar');
-						$objectFactory = $c->query('ObjectFactory');
+							return new Calendar\Backend\Contact\Calendar($contacts, $backend, $l10n, $calendarFactory);
+						},
+						function(Calendar\ICalendar $calendar) use($c) {
+							$contacts = new \OCA\Contacts\App();
+							$l10n = $c->getServer()->getL10N('calendar');
+							$objectFactory = $c->query('ObjectFactory');
 
-						return new Calendar\Backend\Contact\Object($contacts, $calendar, $l10n, $objectFactory);
-					}
-				)
+							return new Calendar\Backend\Contact\Object($contacts, $calendar, $l10n, $objectFactory);
+						}
+					);
+				}
 			);
 		}
 
 		// Sharing backend: Enabling users to share calendars
 		if (Share::isEnabled() && false) {
-			$this->backends->add(
-				$this->backendFactory->createBackend(
-					'org.ownCloud.sharing',
-					function () {
-						return new Calendar\Backend\Sharing\Backend();
-					},
-					function (Calendar\IBackend $backend) {
-						return new Calendar\Backend\Sharing\Calendar($backend);
-					},
-					function (Calendar\ICalendar $calendar) {
-						return new Calendar\Backend\Sharing\Object($calendar);
-					}
-				)
+			$this->backends->queue(
+				function() use ($c, $l10n) {
+					return $this->backendFactory->createBackend(
+						'org.ownCloud.sharing',
+						function () {
+							return new Calendar\Backend\Sharing\Backend();
+						},
+						function (Calendar\IBackend $backend) {
+							return new Calendar\Backend\Sharing\Calendar($backend);
+						},
+						function (Calendar\ICalendar $calendar) {
+							return new Calendar\Backend\Sharing\Object($calendar);
+						}
+					);
+				}
 			);
 		}
 
 		// Webcal Backend: Show ICS files on the net
 		if (function_exists('curl_init')) {
-			$this->backends->add(
-				$this->backendFactory->createBackend(
-					'org.ownCloud.webcal',
-					function () use ($c, $l10n) {
-						$subscriptions = $c->query('SubscriptionBusinessLayer');
-						$cacheFactory = $c->getServer()->getMemCacheFactory();
+			$this->backends->queue(
+				function() use ($c, $l10n) {
+					return $this->backendFactory->createBackend(
+						'org.ownCloud.webcal',
+						function () use ($c, $l10n) {
+							$subscriptions = $c->query('SubscriptionBusinessLayer');
+							$cacheFactory = $c->getServer()->getMemCacheFactory();
 
-						return new Calendar\Backend\WebCal\Backend($subscriptions, $l10n, $cacheFactory);
-					},
-					function (Calendar\IBackend $backend) use ($c, $l10n) {
-						$subscriptions = $c->query('SubscriptionBusinessLayer');
-						$cacheFactory = $c->getServer()->getMemCacheFactory();
-						$calendarFactory = $c->query('CalendarFactory');
+							return new Calendar\Backend\WebCal\Backend($subscriptions, $l10n, $cacheFactory);
+						},
+						function (Calendar\IBackend $backend) use ($c, $l10n) {
+							$subscriptions = $c->query('SubscriptionBusinessLayer');
+							$cacheFactory = $c->getServer()->getMemCacheFactory();
+							$calendarFactory = $c->query('CalendarFactory');
 
-						return new Calendar\Backend\WebCal\Calendar($subscriptions, $l10n, $cacheFactory, $backend, $calendarFactory);
-					},
-					function (Calendar\ICalendar $calendar) use ($c, $l10n) {
-						$subscriptions = $c->query('SubscriptionBusinessLayer');
-						$cacheFactory = $c->getServer()->getMemCacheFactory();
-						$objectFactory = $c->query('ObjectFactory');
+							return new Calendar\Backend\WebCal\Calendar($subscriptions, $l10n, $cacheFactory, $backend, $calendarFactory);
+						},
+						function (Calendar\ICalendar $calendar) use ($c, $l10n) {
+							$subscriptions = $c->query('SubscriptionBusinessLayer');
+							$cacheFactory = $c->getServer()->getMemCacheFactory();
+							$objectFactory = $c->query('ObjectFactory');
 
-						return new Calendar\Backend\WebCal\Object($subscriptions, $l10n, $cacheFactory, $calendar, $objectFactory);
-					}
-				)
+							return new Calendar\Backend\WebCal\Object($subscriptions, $l10n, $cacheFactory, $calendar, $objectFactory);
+						}
+					);
+				}
 			);
 		}
 	}
