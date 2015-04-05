@@ -234,7 +234,8 @@ abstract class Collection implements ICollection {
 	public function setProperty($key, $value) {
 		$setter = 'set' . ucfirst($key);
 
-		foreach($this->getObjects() as &$object) {
+		$objects = $this->getObjects();
+		foreach($objects as &$object) {
 			if (is_callable(array($object, $setter))) {
 				$object->{$setter}($value);
 			}
@@ -270,7 +271,8 @@ abstract class Collection implements ICollection {
 	 * @param callable $function breaks when callable returns false
 	 */
 	public function iterate(callable $function) {
-		foreach($this->getObjects() as &$object) {
+		$objects = $this->getObjects();
+		foreach($objects as &$object) {
 			$return = $function($object);
 			if ($return === false) {
 				break;

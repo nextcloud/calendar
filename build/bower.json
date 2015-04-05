@@ -17,8 +17,5 @@
   },
   "devDependencies": {
 	"angular-mocks": ""
-  },
-  "scripts": {
-	"postinstall": "rm -rf 3rdparty/jquery 3rdparty/moment"
   }
 }

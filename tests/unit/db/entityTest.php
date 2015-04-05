@@ -20,7 +20,3 @@
  *
  */
 namespace OCA\Calendar\Db;
-
-class EntityTest extends \OCP\AppFramework\Db\EntityTest {
-
-}

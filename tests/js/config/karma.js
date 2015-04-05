@@ -28,8 +28,8 @@
 		files: [
 			//'3rdparty/jquery-file-upload/js/jquery.fileupload.js',
 			//'3rdparty/ical/ical.js',
-			'../../core/js/jquery-1.10.0.js',
-			'../../core/js/moment.js',
+			'../../core/vendor/jquery/jquery.js',
+			'../../core/vendor/moment/min/moment-with-locales.js',
 			'3rdparty/lodash/dist/lodash.underscore.js',
 			'3rdparty/jstzdetect/jstz.min.js',
 			'3rdparty/fullcalendar/dist/fullcalendar.min.js',

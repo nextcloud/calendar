@@ -98,7 +98,7 @@ class BackendTest extends \PHPUnit_Framework_TestCase {
 	public function testGetObjectAPI() {
 		$expected = $this->initValues['objectAPI']();
 		//TODO - how to test that a method passes an argument to the constructor of the object that's returned?
-		$actual = $this->backend->getObjectAPI($this->getMock('\OCA\CalendarManager\ICalendarManager'));
+		$actual = $this->backend->getObjectAPI($this->getMock('\OCA\Calendar\ICalendar'));
 
 		$this->assertSame($expected, $actual);
 	}
@@ -106,7 +106,7 @@ class BackendTest extends \PHPUnit_Framework_TestCase {
 
 	public function testGetObjectCache() {
 		$expected = $this->initValues['objectCache']();
-		$actual = $this->backend->getObjectCache($this->getMock('\OCA\CalendarManager\ICalendarManager'));
+		$actual = $this->backend->getObjectCache($this->getMock('\OCA\Calendar\ICalendar'));
 
 		$this->assertSame($expected, $actual);
 	}

@@ -66,7 +66,7 @@ class TimezoneTest extends \PHPUnit_Framework_TestCase {
 		$vobject = $berlin->getVObject();
 
 		//TODO - remove OCA\Calendar prefix once we have latest vobject in 3rdparty
-		$this->assertInstanceOf('\OCA\CalendarManager\Sabre\VObject\Component\VCalendarManager', $vobject);
+		$this->assertInstanceOf('Sabre\VObject\Component\VCalendar', $vobject);
 		$this->assertSame('Europe/Berlin', $vobject->{'VTIMEZONE'}->{'TZID'}->getValue());
 	}
 
