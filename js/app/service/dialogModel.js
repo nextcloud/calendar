@@ -44,7 +44,7 @@ app.factory('DialogModel', function() {
 				width : 500,
 				height: 435,
 				resizable: false,
-				draggable: false,
+				draggable: true,
 				close : function(event, ui) {
 					$(this).dialog('destroy');
 				}

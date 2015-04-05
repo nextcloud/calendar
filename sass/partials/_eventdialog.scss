@@ -2,6 +2,14 @@
   @extend .hide;
 }
 
+.ui-dialog {
+	z-index: 999999;
+
+	.ui-dialog-titlebar, .ui-dialog-title {
+		cursor: move;
+	}
+}
+
 #events {
 
 	.event-input {
