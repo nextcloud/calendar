@@ -24,12 +24,12 @@ namespace OCA\Calendar\Backend\Sharing;
 use OCA\Calendar\Backend as BackendUtils;
 use OCA\Calendar\IBackend;
 use OCA\Calendar\ICalendar;
-use OCA\Calendar\Share\Calendar as CalendarShare;
+use OCA\Calendar\Share\Types as ShareTypes;
 
 use OCP\Share;
 
-
-class Calendar extends Sharing implements BackendUtils\ICalendarAPI, BackendUtils\ICalendarAPIDelete {
+class Calendar extends Sharing implements BackendUtils\ICalendarAPI,
+	BackendUtils\ICalendarAPIDelete {
 
 	/**
 	 * @var IBackend
@@ -49,7 +49,23 @@ class Calendar extends Sharing implements BackendUtils\ICalendarAPI, BackendUtil
 	 * {@inheritDoc}
 	 */
 	public function find($privateUri, $userId) {
-		//TODO
+		// different formats for privateUri
+		// calendar::$privateUri
+		// object::$userId
+		list($itemType, $itemTarget) = explode('::', $privateUri, 1);
+
+		if ($itemType === 'calendar') {
+			return Share::getItemSharedWith($itemType, $itemTarget, ShareTypes::ENTITY);
+		} elseif ($itemType === 'object') {
+			$calendars = Share::getItemsShared($itemType, ShareTypes::GROUPED);
+			if (!isset($calendars[$itemTarget])) {
+				throw new BackendUtils\DoesNotExistException();
+			}
+
+			return $calendars[$itemTarget]['calendar'];
+		} else {
+			throw new BackendUtils\DoesNotExistException();
+		}
 	}
 
 
@@ -57,8 +73,14 @@ class Calendar extends Sharing implements BackendUtils\ICalendarAPI, BackendUtil
 	 * {@inheritDoc}
 	 */
 	public function findAll($userId, $limit=null, $offset=null) {
-		$calendars = Share::getItemsSharedWithUser('calendar', $userId, CalendarShare::CALENDAR);
-		$calendars->setProperty('backend', $this->backend);
+		/** @var \OCA\Calendar\ICalendarCollection $calendars */
+		$calendars = Share::getItemsSharedWithUser('calendar', $userId, ShareTypes::ENTITY);
+		$objectCalendars = Share::getItemsShared('object', ShareTypes::ENTITY);
+
+		foreach ($objectCalendars as $objectCalendar) {
+			$calendars->add($objectCalendar['calendar']);
+		}
+
 		return $calendars;
 	}
 
@@ -67,7 +89,10 @@ class Calendar extends Sharing implements BackendUtils\ICalendarAPI, BackendUtil
 	 * {@inheritDoc}
 	 */
 	public function listAll($userId) {
-		//return Share::getItemsSharedWithUser('calendar', $userId, CalendarShare::CALENDARLIST);
+		return array_merge(
+			Share::getItemsSharedWithUser('calendar', $userId, ShareTypes::ENTITYLIST),
+			Share::getItemsShared('object', ShareTypes::GROUPEDLIST)
+		);
 	}
 
 
@@ -75,7 +100,11 @@ class Calendar extends Sharing implements BackendUtils\ICalendarAPI, BackendUtil
 	 * {@inheritDoc}
 	 */
 	public function hasUpdated(ICalendar $calendar) {
+		$privateUri = $calendar->getPrivateUri();
+		$userId = $calendar->getUserId();
 
+		$oldCalendar = $this->find($privateUri, $userId);
+		return ($calendar->getCtag() !== $oldCalendar->getCtag());
 	}
 
 
@@ -83,6 +112,25 @@ class Calendar extends Sharing implements BackendUtils\ICalendarAPI, BackendUtil
 	 * {@inheritDoc}
 	 */
 	public function delete($privateUri, $userId) {
+		list($itemType, $itemTarget) = explode('::', $privateUri, 1);
 
+		if ($itemType === 'calendar') {
+			return Share::unshareFromSelf('calendar', $itemTarget);
+		} elseif ($itemType === 'object') {
+			$calendars = Share::getItemsShared($itemType, ShareTypes::GROUPED);
+			/** @var ICalendar $calendar */
+			foreach($calendars as $calendar) {
+				if ($calendar->getPrivateUri() !== $privateUri) {
+					continue;
+				}
+				$objects = $calendar['objects'];
+				foreach($objects as $object) {
+					Share::unshareFromSelf('object', $object['shareItem']['item_source']);
+				}
+			}
+			return true;
+		} else {
+			throw new BackendUtils\DoesNotExistException();
+		}
 	}
 }

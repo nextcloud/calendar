@@ -22,15 +22,8 @@
 namespace OCA\Calendar\Share;
 
 class Types {
-
-	/**
-	 * @var int
-	 */
-	const CALENDAR = 1;
-
-
-	/**
-	 * @var int
-	 */
-	const OBJECT = 0;
+	const ENTITY = 0;
+	const ENTITYLIST = 1;
+	const GROUPED = 2;
+	const GROUPEDLIST = 3;
 }
