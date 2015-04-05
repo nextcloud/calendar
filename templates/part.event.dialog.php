@@ -213,9 +213,9 @@
 
 	<fieldset class="event-fieldset event-fieldset-attendee" ng-show="toggleattendeearea">
 		<div class="event-fieldset-interior">
-			<label class="event-label bold"><?php p($l->t('Name/Email')); ?></label>
+			<label class="event-label bold"><?php p($l->t('Name')); ?></label>
 			<input type="text" class="event-input event-attendees-name" ng-model="nameofattendee"
-				placeholder="<?php p($l->t('Name/Email'))?>" name="nameofattendee" />
+				placeholder="<?php p($l->t('Name'))?>" name="nameofattendee" autocomplete="off" />
 		</div>
 		<div class="event-fieldset-interior">
 			<button id="addmoreattendees" ng-click="addmoreattendees()" class="btn event-button button">

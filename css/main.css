@@ -22,7 +22,7 @@
  */
 /* heights */
 /*colors*/
-.pull-left, #datepicker .datepicker_current, #datepicker table thead, #datepicker .pickerbody-show, #app-navigation .togglebuttons, #app-navigation .togglebuttons .btn-group, #events .event-label, #events .event-fieldset .event-fieldset-interior, #events .event-fieldset.event-fieldset-attendee .event-fieldset-interior-attendeelist .event-select-attendee, #events .event-fieldset.event-fieldset-attendee .event-fieldset-interior-attendeelist .event-checkbox, #events .event-fieldset .event-time-interior, #events .event-fieldset .event-time-interior.event-time-interior-allday, #events .event-fieldset .event-time-interior.event-time-interior-allday .event-checkbox {
+.pull-left, #datepicker .datepicker_current, #datepicker table thead, #datepicker .pickerbody-show, #app-navigation .togglebuttons, #app-navigation .togglebuttons .btn-group, #events .calendarCheckbox, #events .event-label, #events .event-fieldset .event-fieldset-interior, #events .event-fieldset.event-fieldset-attendee .event-fieldset-interior-attendeelist .event-select-attendee, #events .event-fieldset.event-fieldset-attendee .event-fieldset-interior-attendeelist .event-checkbox, #events .event-fieldset .event-time-interior, #events .event-fieldset .event-time-interior.event-time-interior-allday, #events .event-fieldset .event-time-interior.event-time-interior-allday .event-checkbox {
   float: left; }
 
 .pull-right, #app-navigation .new-entity .new-entity-title.new-entity-subscription .calendarlist-input, #app-navigation .new-entity .new-entity-title.new-entity-subscription .calendarlist-select, #app-navigation .togglebuttons .button.today, #app-settings .settings-fieldset .settings-fieldset-interior .settings-fieldset-interior-item .settings-upload, #events .event-select, #events .event-fieldset .event-button, #events .event-fieldset.event-fieldset-reminder .event-select-reminder, #events .event-fieldset.event-fieldset-reminder .custom-container .event-input, #events .event-fieldset.event-fieldset-attendee .event-fieldset-interior-attendeelist .attendeeopener, #events .event-fieldset.event-fieldset-update .event-button, #events .event-fieldset .event-time-interior.event-time-interior-buttonarea {
@@ -282,7 +282,11 @@
     /*Custom*/
     max-height: 100px; }
 #events .calendarCheckbox {
-  margin-top: 10px; }
+  margin-top: 10px;
+  height: 20px;
+  width: 20px;
+  display: block;
+  border: 1px solid #333; }
 #events .event-label {
   margin: 10px;
   width: 80px; }

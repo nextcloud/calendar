@@ -25,6 +25,11 @@
 
 	.calendarCheckbox {
 		margin-top: 2*$fives;
+		height: 4*$fives;
+		width: 4*$fives;
+		display: block;
+		@extend .pull-left;
+		border: 1px solid #333;
 	}
 
 	.event-label {
