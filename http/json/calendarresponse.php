@@ -21,10 +21,25 @@
  */
 namespace OCA\Calendar\Http\JSON;
 
+use OCA\Calendar\ICalendar;
 use OCA\Calendar\ITimezone;
+use OCA\Calendar\Utility\ColorUtility;
 use OCA\Calendar\Utility\JSONUtility;
 
 class CalendarResponse extends SimpleResponse {
+
+	/**
+	 * generate output for one calendar
+	 * @param ICalendar $calendar
+	 * @return array
+	 */
+	protected function generate(ICalendar $calendar) {
+		$data = parent::generate($calendar);
+
+		$this->generateTextColor($data);
+
+		return $data;
+	}
 
 	/**
 	 * @param array &$data
@@ -82,5 +97,32 @@ class CalendarResponse extends SimpleResponse {
 				$data[$key] = $value;
 				break;
 		}
+	}
+
+
+	/**
+	 * @param array $data
+	 */
+	protected function generateTextColor(array &$data) {
+		$dark = '#000000';
+		$bright = '#FAFAFA';
+
+		if (!isset($data['color'])) {
+			$data['textColor'] = $dark;
+			return;
+		}
+
+		$color = ColorUtility::getHEX($data['color']);
+		if (!$color) {
+			return;
+		}
+
+		$color = substr($color, 1);
+		$red = hexdec(substr($color,0,2));
+		$green = hexdec(substr($color,2,2));
+		$blue = hexdec(substr($color,4,2));
+
+		$brightness = ((($red * 299) + ($green * 587) + ($blue * 114)) / 1000);
+		$data['textColor'] = ($brightness > 130) ? $dark : $bright;
 	}
 }

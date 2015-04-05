@@ -98,6 +98,7 @@ app.controller('CalController', ['$scope', 'Restangular', 'CalendarModel', 'Even
 						});
 					},
 					color: value.color,
+					textColor: value.textColor,
 					editable: value.cruds.update,
 					id: value.id
 				};
