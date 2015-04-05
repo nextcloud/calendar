@@ -42,7 +42,7 @@ class ObjectCollection extends Collection implements IObjectCollection {
 	public function inPeriod(DateTime $start, DateTime $end) {
 		$objectsInPeriod = new ObjectCollection();
 
-		$this->iterate(function(IObject $object) use (&$objectsInPeriod, $start, $end) {
+		foreach ($this->objects as $object) {
 			if ($object->getRepeating() === true) {
 				$objectsInPeriod->add($object);
 			} else {
@@ -50,7 +50,7 @@ class ObjectCollection extends Collection implements IObjectCollection {
 					$objectsInPeriod->add($object);
 				}
 			}
-		});
+		}
 
 		return $objectsInPeriod;
 	}
@@ -65,14 +65,14 @@ class ObjectCollection extends Collection implements IObjectCollection {
 	public function expand(DateTime $start, DateTime $end) {
 		$expandedObjects = new ObjectCollection();
 
-		$this->iterate(function(IObject $object) use (&$expandedObjects, $start, $end) {
+		foreach ($this->objects as $object) {
 			if ($object->getRepeating() === true) {
 				$vobject = $object->getVObject();
 				$vobject->expand($start, $end);
 				$object->setVObject($vobject);
 				$expandedObjects->add($object);
 			}
-		});
+		}
 
 		return $expandedObjects;
 	}
@@ -86,12 +86,12 @@ class ObjectCollection extends Collection implements IObjectCollection {
 	public function ownedBy($userId) {
 		$objectsOwnedBy = new ObjectCollection();
 
-		$this->iterate(function(IObject $object) use (&$objectsOwnedBy, $userId) {
+		foreach ($this->objects as $object) {
 			if ($object->getCalendar() instanceof Calendar &&
 				$object->getCalendar()->getOwnerId() === $userId) {
 				$objectsOwnedBy->add($object);
 			}
-		});
+		}
 
 		return $objectsOwnedBy;
 	}
@@ -105,11 +105,11 @@ class ObjectCollection extends Collection implements IObjectCollection {
 	public function ofType($type) {
 		$objectsOfType = new ObjectCollection();
 
-		$this->iterate(function(IObject $object) use (&$objectsOfType, $type) {
+		foreach ($this->objects as $object) {
 			if ($object->getType() & $type) {
 				$objectsOfType->add($object);
 			}
-		});
+		}
 
 		return $objectsOfType;
 	}
@@ -119,14 +119,14 @@ class ObjectCollection extends Collection implements IObjectCollection {
 	 * @param array $idTable
 	 */
 	public function addGlobalIds(array $idTable) {
-		$this->iterate(function(IObject &$object) use ($idTable) {
+		foreach ($this->objects as $object) {
 			$uri = $object->getUri();
 			if (isset($idTable[$uri])) {
 				$object->setId($idTable[$uri]);
 			} else {
 				//TODO how to handle this case
 			}
-		});
+		}
 	}
 
 

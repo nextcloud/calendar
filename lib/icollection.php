@@ -111,13 +111,6 @@ interface ICollection extends \Countable, \ArrayAccess, \Iterator {
 
 
 	/**
-	 * iterate over each entity of collection
-	 * @param callable $function
-	 */
-	public function iterate(callable $function);
-
-
-	/**
 	 * remove duplicates from collection
 	 * @return $this
 	 */

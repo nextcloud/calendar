@@ -52,7 +52,8 @@ class ObjectReader extends Reader {
 	 */
 	public function parse() {
 		try {
-			$object = $this->factory->createCollectionFromData($this->request->getParams(), ObjectFactory::FORMAT_ICAL);
+			$inputStream = fopen('php://input', 'rb');
+			$object = $this->factory->createCollectionFromData($inputStream, ObjectFactory::FORMAT_ICAL);
 		} catch(/* TODO */\Exception $ex) {
 			throw new ReaderException($ex->getMessage(), $ex->getCode(), $ex);
 		}

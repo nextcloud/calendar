@@ -91,16 +91,16 @@ class Calendar extends WebCal implements BackendUtils\ICalendarAPI, BackendUtils
 		);
 
 		$calendars = new CalendarCollection();
-		$subscriptions->iterate(function(ISubscription $subscription) use (&$calendars, $userId) {
+		foreach ($subscriptions as $subscription) {
 			try {
 				$calendar = $this->generateCalendar($subscription);
 				$calendars->add($calendar);
 			} catch (CorruptDataException $ex) {
-				return;
+				continue;
 			} catch (BackendUtils\Exception $ex) {
-				return;
+				continue;
 			}
-		});
+		}
 
 		return $calendars;
 	}
@@ -113,9 +113,9 @@ class Calendar extends WebCal implements BackendUtils\ICalendarAPI, BackendUtils
 		$uriList = array();
 
 		$subscriptions = $this->subscriptions->findAllByType($userId, self::IDENTIFIER, null, null);
-		$subscriptions->iterate(function(ISubscription $subscription) use (&$uriList) {
+		foreach ($subscriptions as $subscription) {
 			$uriList[] = strval($subscription->getId());
-		});
+		}
 
 		return $uriList;
 	}

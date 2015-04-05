@@ -266,22 +266,6 @@ abstract class Collection implements ICollection {
 
 
 	/**
-	 * iterate over each entity of collection
-	 *
-	 * @param callable $function breaks when callable returns false
-	 */
-	public function iterate(callable $function) {
-		$objects = $this->getObjects();
-		foreach($objects as &$object) {
-			$return = $function($object);
-			if ($return === false) {
-				break;
-			}
-		}
-	}
-
-
-	/**
 	 * remove duplicates from collection
 	 * @return $this
 	 */
@@ -373,21 +357,17 @@ abstract class Collection implements ICollection {
 
 	/**
 	 * go to next entity and get it
-	 *
-	 * @return Entity
 	 */
 	public function next() {
-		return next($this->objects);
+		next($this->objects);
 	}
 
 
 	/**
 	 * go to first entity and get it
-	 *
-	 * @return Entity
 	 */
 	public function rewind() {
-		return reset($this->objects);
+		reset($this->objects);
 	}
 
 
@@ -400,6 +380,10 @@ abstract class Collection implements ICollection {
 		return array_key_exists($this->key(), $this->objects);
 	}
 
+
+	/**
+	 * resets the collection
+	 */
 	public function reset() {
 		$this->objects = [];
 	}

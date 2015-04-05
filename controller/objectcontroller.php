@@ -91,16 +91,13 @@ class ObjectController extends Controller {
 		$this->timezones = $timezones;
 
 		$this->registerReader('json', function(IRequest $request) use ($objectFactory) {
-			$reader = new JSON\ObjectReader($request, $objectFactory);
-			return $reader->getObject();
+			return new JSON\ObjectReader($request, $objectFactory);
 		});
 		$this->registerReader('json+calendar', function(IRequest $request) use ($objectFactory) {
-			$reader = new JSON\ObjectReader($request, $objectFactory);
-			return $reader->getObject();
+			return new JSON\ObjectReader($request, $objectFactory);
 		});
 		$this->registerReader('text/calendar', function(IRequest $request) use ($objectFactory) {
-			$reader = new ICS\ObjectReader($request, $objectFactory);
-			return $reader->getObject();
+			return new ICS\ObjectReader($request, $objectFactory);
 		});
 
 		$this->registerResponder('json', function($value) use ($timezones) {
