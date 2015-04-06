@@ -117,12 +117,16 @@ class ObjectFactory extends EntityFactory {
 
 
 	/**
-	 * @param array $data
+	 * @param mixed $data
 	 * @param integer $format
 	 * @return ObjectCollection
 	 */
-	public function createCollectionFromData(array $data, $format) {
+	public function createCollectionFromData($data, $format) {
 		$collection = new ObjectCollection();
+
+		if ($format === self::FORMAT_ICAL || $format === self::FORMAT_JCAL) {
+			return $this->parseRawCal($data, $format, false);
+		}
 
 		foreach($data as $item) {
 			try {
@@ -149,7 +153,7 @@ class ObjectFactory extends EntityFactory {
 		if ($format === self::FORMAT_ICAL) {
 			//fix malformed timestamp in some google calendar events
 			//originally contributed by github.com/nezzi
-			$data = str_replace('CREATED:00001231T000000Z', 'CREATED:19700101T000000Z', $data);
+			//$data = str_replace('CREATED:00001231T000000Z', 'CREATED:19700101T000000Z', $data);
 
 			$splitter = call_user_func_array($this->iCal, [$data]);
 		} else {

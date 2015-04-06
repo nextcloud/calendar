@@ -37,6 +37,7 @@ class CalendarResponse extends SimpleResponse {
 		$data = parent::generate($calendar);
 
 		$this->generateTextColor($data);
+		$data['loading'] = $data['enabled'];
 
 		return $data;
 	}

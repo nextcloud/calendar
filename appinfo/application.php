@@ -182,17 +182,17 @@ class Application extends App {
 			return new Calendar\BusinessLayer\CalendarRequestManager($this->backends);
 		});
 		$container->registerService('ObjectManager', function(IAppContainer $c) {
-			$timezones = $c->query('TimezoneMapper');
+			$logger = $c->getServer()->getLogger();
 
-			return function(Calendar\ICalendar $calendar) use ($timezones) {
-				return new Calendar\BusinessLayer\ObjectManager($calendar, $timezones);
+			return function(Calendar\ICalendar $calendar) use ($logger) {
+				return new Calendar\BusinessLayer\ObjectManager($calendar, $logger);
 			};
 		});
 		$container->registerService('ObjectRequestManager', function(IAppContainer $c) {
-			$timezones = $c->query('TimezoneMapper');
+			$logger = $c->getServer()->getLogger();
 
-			return function(Calendar\ICalendar $calendar) use ($timezones) {
-				return new Calendar\BusinessLayer\ObjectRequestManager($calendar, $timezones);
+			return function(Calendar\ICalendar $calendar) use ($logger) {
+				return new Calendar\BusinessLayer\ObjectRequestManager($calendar, $logger);
 			};
 		});
 		$container->registerService('SubscriptionBusinessLayer', function(IAppContainer $c) {

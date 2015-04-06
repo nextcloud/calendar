@@ -54,9 +54,9 @@ abstract class EntityFactory {
 
 
 	/**
-	 * @param array $data
+	 * @param mixed $data
 	 * @param integer $format
 	 * @return ICollection
 	 */
-	abstract public function createCollectionFromData(array $data, $format);
+	abstract public function createCollectionFromData($data, $format);
 }

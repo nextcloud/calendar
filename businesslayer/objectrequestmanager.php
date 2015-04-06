@@ -56,9 +56,10 @@ class ObjectRequestManager extends ObjectManager {
 					$randomURI = ObjectUtility::randomURI();
 					$object->setUri($randomURI);
 				}
-				$object->getEtag(true);
 
 				$object->setCalendar($this->calendar);
+				$object->getEtag(true);
+
 				$this->checkObjectIsValid($object);
 
 				Util::emitHook('\OCA\Calendar', 'preCreateObject',

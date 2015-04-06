@@ -138,7 +138,7 @@ class CalendarFactory extends EntityFactory {
 	 * @param integer $format
 	 * @return ICalendarCollection
 	 */
-	public function createCollectionFromData(array $data, $format) {
+	public function createCollectionFromData($data, $format) {
 		$collection = new CalendarCollection();
 
 		foreach($data as $item) {

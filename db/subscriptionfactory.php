@@ -76,7 +76,7 @@ class SubscriptionFactory extends EntityFactory {
 	 * @param integer $format
 	 * @return SubscriptionCollection
 	 */
-	public function createCollectionFromData(array $data, $format) {
+	public function createCollectionFromData($data, $format) {
 		$collection = new SubscriptionCollection();
 
 		foreach($data as $item) {

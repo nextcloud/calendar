@@ -83,8 +83,6 @@ class Object extends Entity implements IObject {
 	 * @param VCalendar $vcalendar
 	 * @throws CorruptDataException
 	 * @return $this
-	 *
-	 * TODO - make static
 	 */
 	public static function fromVObject(VCalendar $vcalendar) {
 		/** @var Object $instance */
@@ -450,7 +448,7 @@ class Object extends Entity implements IObject {
 		$this->addAdvancedFieldType('calendar',
 			'OCA\\Calendar\\ICalendar');
 		$this->addAdvancedFieldType('vObject',
-			'Sabre\\vobject\\Component\\VCalendar');
+			'Sabre\\VObject\\Component\\VCalendar');
 	}
 
 
@@ -475,6 +473,12 @@ class Object extends Entity implements IObject {
 		}
 
 		$validate = $this->vObject->validate();
-		return empty($validate);
+		foreach ($validate as $item) {
+			if (isset($item['level']) && intval($item['level']) === 3) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 }
