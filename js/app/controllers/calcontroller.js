@@ -260,6 +260,10 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 					$scope.eventSource[id]);
 				switcher.push(id);
 			}
+			//Events are already visible -> loading finished
+			if (updatedCalendar.enabled === true && index != -1) {
+				$rootScope.$broadcast('finishedLoadingEvents', updatedCalendar.id);
+			}
 
 			if (updatedCalendar.enabled === false && index != -1) {
 				$scope.calendar.fullCalendar('removeEventSource',

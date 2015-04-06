@@ -294,6 +294,10 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 					$scope.eventSource[id]);
 				switcher.push(id);
 			}
+			//Events are already visible -> loading finished
+			if (updatedCalendar.enabled === true && index != -1) {
+				$rootScope.$broadcast('finishedLoadingEvents', updatedCalendar.id);
+			}
 
 			if (updatedCalendar.enabled === false && index != -1) {
 				$scope.calendar.fullCalendar('removeEventSource',
@@ -1185,25 +1189,29 @@ app.factory('CalendarModel', function () {
 		this.date = new Date();
 	};
 
+	var addListProperty = function(calendar) {
+		calendar.list = {
+			showCalDav: false,
+			calDavLink: OC.linkToRemote('caldav') + '/' + escapeHTML(encodeURIComponent(oc_current_user)) + '/' + escapeHTML(encodeURIComponent(calendar.uri)),
+			edit: false,
+			locked: false
+		};
+	};
+
 	CalendarModel.prototype = {
 		create: function (newCalendar) {
+			addListProperty(newCalendar);
+
 			this.calendars.push(newCalendar);
 			this.calendarId[newCalendar.id] = newCalendar;
 			this.created = newCalendar;
 		},
-		add: function (calendar) {
-			this.updateIfExists(calendar);
-		},
 		addAll: function (calendars) {
 			this.reset();
 			for (var i = 0; i < calendars.length; i++) {
-				calendars[i].list = {
-					showCalDav: false,
-					calDavLink: OC.linkToRemote('caldav') + '/' + escapeHTML(encodeURIComponent(oc_current_user)) + '/' + escapeHTML(encodeURIComponent(calendars[i].uri)),
-					edit: false,
-					locked: false
-				};
-				this.add(calendars[i]);
+				addListProperty(calendars[i]);
+				this.calendars.push(calendars[i]);
+				this.calendarId[calendars[i].id] = calendars[i];
 			}
 		},
 		getAll: function () {
@@ -1218,17 +1226,9 @@ app.factory('CalendarModel', function () {
 			}
 			return this.calendarId;
 		},
-		updateIfExists: function (updated) {
-			var calendar = this.calendarId[updated.id];
-			if (angular.isDefined(calendar)) {
-				calendar.displayname = updated.displayname;
-				calendar.color = updated.color;
-			} else {
-				this.calendars.push(updated);
-				this.calendarId[updated.id] = updated;
-			}
-		},
 		update: function(calendar) {
+			addListProperty(calendar);
+
 			for (var i = 0; i < this.calendars.length; i++) {
 				if (this.calendars[i].id == calendar.id) {
 					this.calendars[i] = calendar;
