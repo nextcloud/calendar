@@ -107,21 +107,21 @@
 		<ul class="event-fieldset-list event-fieldset-interior-remainderslist">
 			<li ng-repeat="alarm in properties.alarms">
 				<!-- simple overview -->
-				<div ng-show="alarm.id != selectedReminderId" ng-click="editReminder(alarm.id)">
-					<span>{{alarm | simpleReminderDescription}}</span>
+				<div ng-show="alarm.id != selectedReminderId" ng-click="editReminder(alarm.id)" class="event-fieldset-interior-reminderlist-single">
+					<h4>{{alarm | simpleReminderDescription}}</h4>
 					<span ng-show="!isEditingReminderSupported(alarm.id)">(<?php p($l->t('not editable')); ?>)</span>
-					<button class="event-button event-delete-button" ng-click="deleteReminder(alarm.id)">
+					<span class="event-button event-delete-button" ng-click="deleteReminder(alarm.id)">
 						<i class="fa fa-1x fa-times"></i>
-					</button>
+					</span>
 				</div>
 				<!-- edit reminder -->
 				<div ng-show="alarm.id == selectedReminderId" class="event-fieldset-reminder-editor">
 					<!-- simple reminder settings - should fit >95% if all cases -->
 					<div class="event-fieldset-interior event-fieldset-interior-reminder">
 						<label class="event-label bold"><?php p($l->t('Reminder')); ?></label>
-						<button class="event-button event-delete-button" ng-click="selectedReminderId = null">
-							<i class="fa fa-1x fa-angle-up"></i>
-						</button>
+						<span class="event-button event-delete-button" ng-click="selectedReminderId = null">
+							<i class="fa fa-1x fa-sort-up"></i>
+						</span>
 						<select class="event-select event-select-reminder"
 							ng-model="alarm.editor.reminderSelectValue"
 							ng-change="updateReminderSelectValue(alarm)">

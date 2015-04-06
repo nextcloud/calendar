@@ -22,7 +22,7 @@
  */
 /* heights */
 /*colors*/
-.pull-left, #datepicker .datepicker_current, #datepicker table thead, #datepicker .pickerbody-show, #app-navigation .togglebuttons, #app-navigation .togglebuttons .btn-group, #events .calendarCheckbox, #events .event-label, #events .event-fieldset .event-fieldset-interior, #events .event-fieldset.event-fieldset-attendee .event-fieldset-interior-attendeelist .event-select-attendee, #events .event-fieldset.event-fieldset-attendee .event-fieldset-interior-attendeelist .event-checkbox, #events .event-fieldset .event-time-interior, #events .event-fieldset .event-time-interior.event-time-interior-allday, #events .event-fieldset .event-time-interior.event-time-interior-allday .event-checkbox {
+.pull-left, #datepicker .datepicker_current, #datepicker table thead, #datepicker .pickerbody-show, #app-navigation .togglebuttons, #app-navigation .togglebuttons .btn-group, #events .calendarCheckbox, #events .event-label, #events .event-fieldset .event-fieldset-interior, #events .event-fieldset.event-fieldset-reminder .event-fieldset-interior-reminderlist-single, #events .event-fieldset.event-fieldset-reminder .event-fieldset-interior-reminderlist-single h4, #events .event-fieldset.event-fieldset-attendee .event-fieldset-interior-attendeelist .event-select-attendee, #events .event-fieldset.event-fieldset-attendee .event-fieldset-interior-attendeelist .event-checkbox, #events .event-fieldset .event-time-interior, #events .event-fieldset .event-time-interior.event-time-interior-allday, #events .event-fieldset .event-time-interior.event-time-interior-allday .event-checkbox {
   float: left; }
 
 .pull-right, #app-navigation .new-entity .new-entity-title.new-entity-subscription .calendarlist-input, #app-navigation .new-entity .new-entity-title.new-entity-subscription .calendarlist-select, #app-navigation .togglebuttons .button.today, #app-settings .settings-fieldset .settings-fieldset-interior .settings-fieldset-interior-item .settings-upload, #events .event-select, #events .event-fieldset .event-button, #events .event-fieldset.event-fieldset-reminder .event-select-reminder, #events .event-fieldset.event-fieldset-reminder .custom-container .event-input, #events .event-fieldset.event-fieldset-attendee .event-fieldset-interior-attendeelist .attendeeopener, #events .event-fieldset.event-fieldset-update .event-button, #events .event-fieldset .event-time-interior.event-time-interior-buttonarea {
@@ -314,6 +314,26 @@
     width: 92%; }
   #events .event-fieldset.event-time {
     height: 100px; }
+  #events .event-fieldset.event-fieldset-reminder .event-delete-button {
+    padding: 5px;
+    margin-right: 5px;
+    margin-top: 5px;
+    cursor: pointer; }
+  #events .event-fieldset.event-fieldset-reminder .event-fieldset-interior-reminderlist-single {
+    width: 100%;
+    cursor: pointer; }
+    #events .event-fieldset.event-fieldset-reminder .event-fieldset-interior-reminderlist-single h4 {
+      cursor: pointer;
+      margin: 5px; }
+    #events .event-fieldset.event-fieldset-reminder .event-fieldset-interior-reminderlist-single .event-delete-button {
+      display: none; }
+    #events .event-fieldset.event-fieldset-reminder .event-fieldset-interior-reminderlist-single:hover {
+      background: #ddd; }
+      #events .event-fieldset.event-fieldset-reminder .event-fieldset-interior-reminderlist-single:hover .event-delete-button {
+        display: block;
+        opacity: 0.5; }
+        #events .event-fieldset.event-fieldset-reminder .event-fieldset-interior-reminderlist-single:hover .event-delete-button:hover {
+          opacity: 0.7; }
   #events .event-fieldset.event-fieldset-reminder .custom-container {
     height: 40px; }
     #events .event-fieldset.event-fieldset-reminder .custom-container .event-radio {
