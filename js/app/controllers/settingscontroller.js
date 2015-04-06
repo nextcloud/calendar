@@ -31,6 +31,9 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'Ca
 
 		$scope.files = [];
 
+		$scope.settingsCalDavLink = OC.linkToRemote('caldav') + '/';
+		$scope.settingsCalDavPrincipalLink = OC.linkToRemote('caldav') + '/principals/' + escapeHTML(encodeURIComponent(oc_current_user)) + '/';
+
 		// have to use the native HTML call for filereader to work efficiently
 		var importinput = document.getElementById('import');
 		var reader = new FileReader();
@@ -80,10 +83,5 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'Ca
 		$scope.enableCalendar = function (id) {
 			Restangular.one('calendars', id).patch({ 'components' : {'vevent' : true }});
 		};
-
-
-		if ($scope.hiddencalendar === undefined) {
-			angular.element('#hiddencalendar').parent().addClass('hide');
-		}
 	}
 ]);

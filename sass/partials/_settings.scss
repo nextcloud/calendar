@@ -14,19 +14,21 @@
 
 				.settings-upload {
 					position: absolute;
-					top: -2*$fives;
-					right: 0.9*$hundreds;
+				  	font-weight: bold;
+				  	width: 100%;
 					display: block;
-					width: $standard-height !important;
-					height: $standard-height;
-					width: $standard-height;
+					height: $standard-height/1.7;
+				  	font-size: $standard-height/3;
 					cursor: pointer;
 					z-index: 10;
-					margin: -$fives -8*$fives;
-					padding: 0 !important;
+				  	top: 2.5*$fives;
+				  	padding: $standard-height/6 0 0 0 !important;
+				  	text-align: center;
 					border: 1px solid darken($white, 10%);
 					@include border-radius(3px);
 					@extend .pull-right;
+				  	@extend .icon-upload !optional;
+				  	background-position: 5%;
 
 					&:hover {
 						border: 1px solid darken($white, 15%);
@@ -46,11 +48,10 @@
 						top: 18px;
   					}
 					input[type="file"] {
+					  	top: 2.5*$fives;
 						position: absolute;
-						right: 0.5*$hundreds;
-						top: -2*$fives;
-						width: $standard-height;
-						height: $standard-height;
+					  	width: 100%;
+						height: $standard-height/1.7 + $standard-height/6;
 						padding: 0;
 						font-size: 16px;
 						margin-left: 0px;

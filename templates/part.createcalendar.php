@@ -44,9 +44,9 @@
 	<fieldset class="calendarlist-fieldset add-new hide">
 		<form>
 			<input class="app-navigation-input" type="text" ng-model="newCalendarInputVal" autofocus />
-			<button colorpicker="rgba" colorpicker-position="top" ng-model="newcolor" id="newcolorpicker" style="background: {{ newcolor }};"></button>
+			<button colorpicker="rgba" colorpicker-position="top" ng-model="newCalendarColorVal" id="newcolorpicker" style="background: {{ newCalendarColorVal }};"></button>
 			<button
-				ng-click="create(newCalendarInputVal,newcolor)"
+				ng-click="create(newCalendarInputVal,newCalendarColorVal)"
 				id="submitnewCalendar"
 				class="primary icon-checkmark-white"
 				oc-click-slide-toggle="{

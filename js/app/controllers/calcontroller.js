@@ -26,8 +26,8 @@
 * Description: The fullcalendar controller.
 */
 
-app.controller('CalController', ['$scope', 'Restangular', 'CalendarModel', 'EventsModel', 'ViewModel', 'TimezoneModel', 'DialogModel',
-	function ($scope, Restangular, CalendarModel, EventsModel, ViewModel, TimezoneModel, DialogModel) {
+app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'CalendarModel', 'EventsModel', 'ViewModel', 'TimezoneModel', 'DialogModel',
+	function ($scope, $rootScope, Restangular, CalendarModel, EventsModel, ViewModel, TimezoneModel, DialogModel) {
 
 		$scope.eventSources = EventsModel.getAll();
 		$scope.calendarModel = CalendarModel;
@@ -55,12 +55,16 @@ app.controller('CalController', ['$scope', 'Restangular', 'CalendarModel', 'Even
 			if ($scope.eventSource[value.id] === undefined) {
 				$scope.eventSource[value.id] = {
 					events: function (start, end, timezone, callback) {
+						value.loading = true;
 						start = start.format('X');
 						end = end.format('X');
 						Restangular.one('calendars', value.id).one('events').one('inPeriod').getList(start + '/' + end).then(function (eventsobject) {
+							//TODO - STRONGLY CONSIDER USING renderEvent and storing events locally in browser, it would speed up rendering a lot
 							callback(EventsModel.addAllDisplayFigures(value.id, value.displayname, value.color, eventsobject, start, end, $scope.timezone));
+							$rootScope.$broadcast('finishedLoadingEvents', value.id);
 						}, function (response) {
 							OC.Notification.show(t('calendar', response.data.message));
+							$rootScope.$broadcast('finishedLoadingEvents', value.id);
 						});
 					},
 					color: value.color,
@@ -102,6 +106,24 @@ app.controller('CalController', ['$scope', 'Restangular', 'CalendarModel', 'Even
 		/**
 		 * Calendar UI Configuration.
 		*/
+		var i;
+
+		var monthNames = [];
+		var monthNamesShort = [];
+		for (i = 0; i < 12; i++) {
+			monthNames.push(moment.localeData().months(moment([0, i]), ""));
+			monthNamesShort.push(moment.localeData().monthsShort(moment([0, i]), ""));
+		}
+
+		var dayNames = [];
+		var dayNamesShort = [];
+		var momentWeekHelper = moment().startOf('week');
+		momentWeekHelper.subtract(momentWeekHelper.format('d'));
+		for (i = 0; i < 7; i++) {
+			dayNames.push(moment.localeData().weekdays(momentWeekHelper));
+			dayNamesShort.push(moment.localeData().weekdaysShort(momentWeekHelper));
+			momentWeekHelper.add(1, 'days');
+		}
 
 		$scope.uiConfig = {
 			calendar: {
@@ -109,6 +131,10 @@ app.controller('CalController', ['$scope', 'Restangular', 'CalendarModel', 'Even
 				editable: true,
 				selectable: true,
 				selectHelper: true,
+				monthNames: monthNames,
+				monthNamesShort: monthNamesShort,
+				dayNames: dayNames,
+				dayNamesShort: dayNamesShort,
 				eventSources: initEventSources,
 				timezone: $scope.defaulttimezone,
 				defaultView: $scope.defaultView,
@@ -117,7 +143,7 @@ app.controller('CalController', ['$scope', 'Restangular', 'CalendarModel', 'Even
 					center: '',
 					right: ''
 				},
-				firstDay: angular.element('#firstday').attr('data-firstday'),
+				firstDay: moment().startOf('week').format('d'),
 				select: $scope.newEvent,
 				eventClick: function( event, jsEvent, view ) {
 					Restangular.one('calendars', event.calendarId).one('events', event.objectUri).get().then(function (eventsobject) {
@@ -192,11 +218,7 @@ app.controller('CalController', ['$scope', 'Restangular', 'CalendarModel', 'Even
 		 * - create a new event source object
 		 * - add event source to fullcalendar when enabled is true
 		 */
-		$scope.$watch('calendarModel.created', function (createdCalendar) {
-			if (createdCalendar === null) {
-				return;
-			}
-
+		$rootScope.$on('createdCalendar', function (event, createdCalendar) {
 			var id = createdCalendar.id;
 			$scope.eventSource[id] = {
 				events: function (start, end, timezone, callback) {
@@ -204,8 +226,10 @@ app.controller('CalController', ['$scope', 'Restangular', 'CalendarModel', 'Even
 					end = end.format('X');
 					Restangular.one('calendars', id).one('events').one('inPeriod').getList(start + '/' + end).then(function (eventsobject) {
 						callback(EventsModel.addAllDisplayFigures(id, eventsobject, start, end, $scope.timezone));
+						$rootScope.$broadcast('finishedLoadingEvents', id);
 					}, function (response) {
 						OC.Notification.show(t('calendar', response.data.message));
+						$rootScope.$broadcast('finishedLoadingEvents', id);
 					});
 				},
 				color: createdCalendar.color,
@@ -219,7 +243,7 @@ app.controller('CalController', ['$scope', 'Restangular', 'CalendarModel', 'Even
 					$scope.eventSource[id]);
 				switcher.push(id);
 			}
-		}, true);
+		});
 
 		/**
 		 * After a calendar was updated:
@@ -227,11 +251,7 @@ app.controller('CalController', ['$scope', 'Restangular', 'CalendarModel', 'Even
 		 * - update calendar
 		 * - update permissions
 		 */
-		$scope.$watch('calendarModel.updated', function(updatedCalendar) {
-			if (updatedCalendar === null) {
-				return;
-			}
-
+		$rootScope.$on('updatedCalendar', function (event, updatedCalendar) {
 			var id = updatedCalendar.id;
 			var index = switcher.indexOf(id);
 
@@ -256,37 +276,28 @@ app.controller('CalController', ['$scope', 'Restangular', 'CalendarModel', 'Even
 				}
 			}
 			$scope.eventSource[id].editable = updatedCalendar.cruds.update;
-		}, true);
+		});
 
 		/**
 		 * After a calendar was deleted:
 		 * - remove event source from fullcalendar
 		 * - delete event source object
 		 */
-		$scope.$watch('calendarModel.deleted', function(deletedObject) {
-			if (deletedObject === null) {
-				return;
-			}
-
+		$rootScope.$on('removedCalendar', function (event, calendar) {
+			var deletedObject = calendar.id;
 			$scope.calendar.fullCalendar('removeEventSource',
 				$scope.eventSource[deletedObject]);
 
 			delete $scope.eventSource[deletedObject];
-		}, true);
+		});
 
-		/**
-		 * Watches events being added on the fullcalendar. 
-		*/
-
-		$scope.$watch('calendarModel.activator', function (newobj, oldobj) {
-			if (newobj.id !== '') {
-				if (newobj.bool === true) {
-					$scope.calendar.fullCalendar('addEventSource', $scope.eventSource[newobj.id]);
-				} else {
-					$scope.calendar.fullCalendar('removeEventSource', $scope.eventSource[newobj.id]);
-				}
+		$rootScope.$on('updatedCalendarsVisibility', function (event, calendar) {
+			if (calendar.enabled) {
+				$scope.calendar.fullCalendar('addEventSource', $scope.eventSource[calendar.id]);
+			} else {
+				$scope.calendar.fullCalendar('removeEventSource', $scope.eventSource[calendar.id]);
 			}
-		}, true);
+		});
 
 		/**
 		 * Watches the Calendar view. 
@@ -331,19 +342,6 @@ app.controller('CalController', ['$scope', 'Restangular', 'CalendarModel', 'Even
 			};
 			if (newview !== '' && $scope.calendar !== undefined) {
 				$scope.gotodate(newview, $scope.calendar);
-			}
-		});
-
-		/**
-		 * Watches click on first day and resets calendar.
-		*/
-
-		$scope.$watch('calendarModel.firstday', function (newview, oldview) {
-			$scope.firstdayview = function (newview,calendar) {
-				calendar.fullCalendar('firstDay', newview);
-			};
-			if (newview !== '' && $scope.calendar !== undefined) {
-				$scope.firstdayview(newview, $scope.calendar);
 			}
 		});
 	}

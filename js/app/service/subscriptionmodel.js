@@ -30,7 +30,7 @@ app.factory('SubscriptionModel', function () {
 	var SubscriptionModel = function () {
 		this.subscriptions = [];
 		this.subscriptionId = {};
-		this.subscriptiondetails = [];
+		this.subscriptionDetails = [];
 	};
 
 	SubscriptionModel.prototype = {
@@ -70,18 +70,19 @@ app.factory('SubscriptionModel', function () {
 				}
 			}
 		},
-		getsubscriptionnames: function (backendobject) {
-			for (var i = 0; i < backendobject.length; i++) {
-				for (var j = 0; j < backendobject[i].subscriptions.length; j++) {
-					this.subscriptiondetails = [
-						{
-							"name": backendobject[i].subscriptions[j].name,
-							"type": backendobject[i].subscriptions[j].type
-						}
-					];
-				}
-			}
-			return this.subscriptiondetails;
+		getSubscriptionNames: function (backends) {
+			var _this = this;
+
+			angular.forEach(backends, function(backend) {
+				angular.forEach(backend.subscriptions, function(subscription) {
+					_this.subscriptionDetails.push({
+						name: subscription.name,
+						type: subscription.type
+					});
+				});
+			});
+
+			return this.subscriptionDetails;
 		}
 	};
 

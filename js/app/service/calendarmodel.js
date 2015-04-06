@@ -63,7 +63,14 @@ app.factory('CalendarModel', function () {
 			this.updateIfExists(calendar);
 		},
 		addAll: function (calendars) {
+			this.reset();
 			for (var i = 0; i < calendars.length; i++) {
+				calendars[i].list = {
+					showCalDav: false,
+					calDavLink: OC.linkToRemote('caldav') + '/' + escapeHTML(encodeURIComponent(oc_current_user)) + '/' + escapeHTML(encodeURIComponent(calendars[i].uri)),
+					edit: false,
+					locked: false
+				};
 				this.add(calendars[i]);
 			}
 		},
@@ -135,6 +142,10 @@ app.factory('CalendarModel', function () {
 		},
 		updatecalendar: function (updated) {
 			this.updated = updated;
+		},
+		reset: function() {
+			this.calendars = [];
+			this.calendarId = {};
 		}
 	};
 

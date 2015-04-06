@@ -38,48 +38,29 @@
 <div id="app-settings-content">
 	<fieldset class="settings-fieldset">
 		<ul class="settings-fieldset-interior">
-
-
-
-			<li class="settings-fieldset-interior-item">
+			<li class="settings-fieldset-interior-item" ng-show="{{ (calendars | noteventFilter).length }} == 0">
+				<?php p($l->t('You don\'t have any hidden calendars. Once you have, they\'ll show up here.')); ?>
+			</li>
+			<li class="settings-fieldset-interior-item" ng-show="{{ (calendars | noteventFilter).length }} != 0">
 				<label class="settins-label bold"><?php p($l->t('Show in Calendar')); ?></label>
-				<select id="hiddencalendar" name="hiddencalendar"
-					class="settings-select"
-					ng-model="hiddencalendar"
-					ng-change="enableCalendar(hiddencalendar.id)"
-					ng-options="hiddencalendar.displayname for hiddencalendar in calendars | noteventFilter">
+				<select class="settings-select">
+					<option ng-repeat="calendar in calendars | noteventFilter" ng-selected="{{reminder.type == alarm.action.value}}" value="{{reminder.type}}">{{reminder.displayname}}</option>
 				</select>
 			</li>
 
-
-
 			<li class="settings-fieldset-interior-item settings-fieldset-interior-upload">
-				<label class="settings-label bold"><?php p($l->t('Import Calendar')); ?></label>
 				<input type="file" name="file" accept="text/calendar" multiple upload modal="importdialog" id="import" />
-				<span href="#" class="svg icon-upload settings-upload"></span>
+				<span href="#" class="settings-upload svg icon-upload"><?php p($l->t('Import calendar')); ?></span>
 				<span ng-show="!files.length" class="hide"><?php p($l->t('No Calendars selected for import')); ?></span>
 			</li>
 
-
-
 			<li class="settings-fieldset-interior-item">
 				<label class="settings-input bold"><?php p($l->t('Primary CalDAV address')); ?></label>
-				<input
-					class="input settings-input"
-					type="text"
-					value="<?php print_unescaped(OCP\Util::linkToRemote('caldav')); ?>"
-				/>
+				<input class="input settings-input" type="text" ng-model="settingsCalDavLink" readonly />
 			</li>
-
-
-
 			<li class="settings-fieldset-interior-item">
 				<label class="settings-label bold"><?php p($l->t('iOS/OS X CalDAV address')); ?></label>
-				<input
-					class="input settings-input"
-					type="text"
-					value="<?php print_unescaped(OCP\Util::linkToRemote('caldav')); ?>principals/<?php p(urlencode(OCP\USER::getUser())); ?>/"
-					/>
+				<input class="input settings-input" type="text" ng-model="settingsCalDavPrincipalLink" readonly />
 			</li>
 		</ul>
 	</fieldset>

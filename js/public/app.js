@@ -60,8 +60,8 @@ app.controller('AppController', ['$scope', 'is',
 * Description: The fullcalendar controller.
 */
 
-app.controller('CalController', ['$scope', 'Restangular', 'CalendarModel', 'EventsModel', 'ViewModel', 'TimezoneModel', 'DialogModel',
-	function ($scope, Restangular, CalendarModel, EventsModel, ViewModel, TimezoneModel, DialogModel) {
+app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'CalendarModel', 'EventsModel', 'ViewModel', 'TimezoneModel', 'DialogModel',
+	function ($scope, $rootScope, Restangular, CalendarModel, EventsModel, ViewModel, TimezoneModel, DialogModel) {
 
 		$scope.eventSources = EventsModel.getAll();
 		$scope.calendarModel = CalendarModel;
@@ -89,12 +89,16 @@ app.controller('CalController', ['$scope', 'Restangular', 'CalendarModel', 'Even
 			if ($scope.eventSource[value.id] === undefined) {
 				$scope.eventSource[value.id] = {
 					events: function (start, end, timezone, callback) {
+						value.loading = true;
 						start = start.format('X');
 						end = end.format('X');
 						Restangular.one('calendars', value.id).one('events').one('inPeriod').getList(start + '/' + end).then(function (eventsobject) {
+							//TODO - STRONGLY CONSIDER USING renderEvent and storing events locally in browser, it would speed up rendering a lot
 							callback(EventsModel.addAllDisplayFigures(value.id, value.displayname, value.color, eventsobject, start, end, $scope.timezone));
+							$rootScope.$broadcast('finishedLoadingEvents', value.id);
 						}, function (response) {
 							OC.Notification.show(t('calendar', response.data.message));
+							$rootScope.$broadcast('finishedLoadingEvents', value.id);
 						});
 					},
 					color: value.color,
@@ -136,6 +140,24 @@ app.controller('CalController', ['$scope', 'Restangular', 'CalendarModel', 'Even
 		/**
 		 * Calendar UI Configuration.
 		*/
+		var i;
+
+		var monthNames = [];
+		var monthNamesShort = [];
+		for (i = 0; i < 12; i++) {
+			monthNames.push(moment.localeData().months(moment([0, i]), ""));
+			monthNamesShort.push(moment.localeData().monthsShort(moment([0, i]), ""));
+		}
+
+		var dayNames = [];
+		var dayNamesShort = [];
+		var momentWeekHelper = moment().startOf('week');
+		momentWeekHelper.subtract(momentWeekHelper.format('d'));
+		for (i = 0; i < 7; i++) {
+			dayNames.push(moment.localeData().weekdays(momentWeekHelper));
+			dayNamesShort.push(moment.localeData().weekdaysShort(momentWeekHelper));
+			momentWeekHelper.add(1, 'days');
+		}
 
 		$scope.uiConfig = {
 			calendar: {
@@ -143,6 +165,10 @@ app.controller('CalController', ['$scope', 'Restangular', 'CalendarModel', 'Even
 				editable: true,
 				selectable: true,
 				selectHelper: true,
+				monthNames: monthNames,
+				monthNamesShort: monthNamesShort,
+				dayNames: dayNames,
+				dayNamesShort: dayNamesShort,
 				eventSources: initEventSources,
 				timezone: $scope.defaulttimezone,
 				defaultView: $scope.defaultView,
@@ -151,7 +177,7 @@ app.controller('CalController', ['$scope', 'Restangular', 'CalendarModel', 'Even
 					center: '',
 					right: ''
 				},
-				firstDay: angular.element('#firstday').attr('data-firstday'),
+				firstDay: moment().startOf('week').format('d'),
 				select: $scope.newEvent,
 				eventClick: function( event, jsEvent, view ) {
 					Restangular.one('calendars', event.calendarId).one('events', event.objectUri).get().then(function (eventsobject) {
@@ -226,11 +252,7 @@ app.controller('CalController', ['$scope', 'Restangular', 'CalendarModel', 'Even
 		 * - create a new event source object
 		 * - add event source to fullcalendar when enabled is true
 		 */
-		$scope.$watch('calendarModel.created', function (createdCalendar) {
-			if (createdCalendar === null) {
-				return;
-			}
-
+		$rootScope.$on('createdCalendar', function (event, createdCalendar) {
 			var id = createdCalendar.id;
 			$scope.eventSource[id] = {
 				events: function (start, end, timezone, callback) {
@@ -238,8 +260,10 @@ app.controller('CalController', ['$scope', 'Restangular', 'CalendarModel', 'Even
 					end = end.format('X');
 					Restangular.one('calendars', id).one('events').one('inPeriod').getList(start + '/' + end).then(function (eventsobject) {
 						callback(EventsModel.addAllDisplayFigures(id, eventsobject, start, end, $scope.timezone));
+						$rootScope.$broadcast('finishedLoadingEvents', id);
 					}, function (response) {
 						OC.Notification.show(t('calendar', response.data.message));
+						$rootScope.$broadcast('finishedLoadingEvents', id);
 					});
 				},
 				color: createdCalendar.color,
@@ -253,7 +277,7 @@ app.controller('CalController', ['$scope', 'Restangular', 'CalendarModel', 'Even
 					$scope.eventSource[id]);
 				switcher.push(id);
 			}
-		}, true);
+		});
 
 		/**
 		 * After a calendar was updated:
@@ -261,11 +285,7 @@ app.controller('CalController', ['$scope', 'Restangular', 'CalendarModel', 'Even
 		 * - update calendar
 		 * - update permissions
 		 */
-		$scope.$watch('calendarModel.updated', function(updatedCalendar) {
-			if (updatedCalendar === null) {
-				return;
-			}
-
+		$rootScope.$on('updatedCalendar', function (event, updatedCalendar) {
 			var id = updatedCalendar.id;
 			var index = switcher.indexOf(id);
 
@@ -290,37 +310,28 @@ app.controller('CalController', ['$scope', 'Restangular', 'CalendarModel', 'Even
 				}
 			}
 			$scope.eventSource[id].editable = updatedCalendar.cruds.update;
-		}, true);
+		});
 
 		/**
 		 * After a calendar was deleted:
 		 * - remove event source from fullcalendar
 		 * - delete event source object
 		 */
-		$scope.$watch('calendarModel.deleted', function(deletedObject) {
-			if (deletedObject === null) {
-				return;
-			}
-
+		$rootScope.$on('removedCalendar', function (event, calendar) {
+			var deletedObject = calendar.id;
 			$scope.calendar.fullCalendar('removeEventSource',
 				$scope.eventSource[deletedObject]);
 
 			delete $scope.eventSource[deletedObject];
-		}, true);
+		});
 
-		/**
-		 * Watches events being added on the fullcalendar. 
-		*/
-
-		$scope.$watch('calendarModel.activator', function (newobj, oldobj) {
-			if (newobj.id !== '') {
-				if (newobj.bool === true) {
-					$scope.calendar.fullCalendar('addEventSource', $scope.eventSource[newobj.id]);
-				} else {
-					$scope.calendar.fullCalendar('removeEventSource', $scope.eventSource[newobj.id]);
-				}
+		$rootScope.$on('updatedCalendarsVisibility', function (event, calendar) {
+			if (calendar.enabled) {
+				$scope.calendar.fullCalendar('addEventSource', $scope.eventSource[calendar.id]);
+			} else {
+				$scope.calendar.fullCalendar('removeEventSource', $scope.eventSource[calendar.id]);
 			}
-		}, true);
+		});
 
 		/**
 		 * Watches the Calendar view. 
@@ -367,19 +378,6 @@ app.controller('CalController', ['$scope', 'Restangular', 'CalendarModel', 'Even
 				$scope.gotodate(newview, $scope.calendar);
 			}
 		});
-
-		/**
-		 * Watches click on first day and resets calendar.
-		*/
-
-		$scope.$watch('calendarModel.firstday', function (newview, oldview) {
-			$scope.firstdayview = function (newview,calendar) {
-				calendar.fullCalendar('firstDay', newview);
-			};
-			if (newview !== '' && $scope.calendar !== undefined) {
-				$scope.firstdayview(newview, $scope.calendar);
-			}
-		});
 	}
 ]);
 
@@ -388,154 +386,107 @@ app.controller('CalController', ['$scope', 'Restangular', 'CalendarModel', 'Even
 * Description: Takes care of CalendarList in App Navigation.
 */
 
-app.controller('CalendarListController', ['$scope', '$window',
-	'$routeParams', 'Restangular', 'CalendarModel', 'EventsModel', 'is',
-	function ($scope, $window, $routeParams, Restangular,
-			  CalendarModel, EventsModel, is) {
+app.controller('CalendarListController', ['$scope', '$rootScope', '$window',
+	'$routeParams', 'Restangular', 'CalendarModel',
+	function ($scope, $rootScope, $window, $routeParams, Restangular, CalendarModel) {
 
 		$scope.calendarModel = CalendarModel;
 		$scope.calendars = CalendarModel.getAll();
+		$scope.backups = {};
+
 		var calendarResource = Restangular.all('calendars');
-		$scope.currentload = null;
 
-		// Default values for new calendars
-		$scope.newcolor = 'rgba(37,46,95,1.0)';
 		$scope.newCalendarInputVal = '';
+		$scope.newCalendarColorVal = '';
 
-		// Needed for CalDAV Input opening.
-		$scope.calDAVmodel = '';
-		$scope.i = [];
-
-		// Needed for editing calendars.
-		$scope.editmodel = '';
-		$scope.editfieldset = null;
-		$scope.editcolor = '';
-		$scope.vevent = true;
-		$scope.vjournal = false;
-		$scope.vtodo = false;
-
-		// Needed for Sharing Calendars
-		$scope.sharemodel = '';
-		$scope.sharefieldset = null;
-
-		// Create a New Calendar
-		$scope.create = function () {
-			var newCalendar = {
-				displayname: $scope.newCalendarInputVal,
-				color: $scope.newcolor,
+		$scope.create = function (name, color) {
+			calendarResource.post({
+				displayname: name,
+				color: color,
 				components: {
 					vevent: true,
 					vjournal: true,
 					vtodo: true
 				},
 				enabled: true
-			};
-
-			calendarResource.post(newCalendar).then(function (newCalendarObj) {
-				CalendarModel.create(newCalendarObj);
+			}).then(function (calendar) {
+				CalendarModel.create(calendar);
 				$scope.calendars = CalendarModel.getAll();
+				$rootScope.$broadcast('createdCalendar', calendar);
+			});
+
+			$scope.newCalendarInputVal = '';
+			$scope.newCalendarColorVal = '';
+		};
+
+		$scope.download = function (calendar) {
+			$window.open('v1/calendars/' + calendar.id + '/export');
+		};
+
+		$scope.prepareUpdate = function (calendar) {
+			$scope.backups[calendar.id] = angular.copy(calendar);
+			calendar.list.edit = true;
+		};
+
+		$scope.cancelUpdate = function (calendar) {
+			angular.forEach($scope.calendars, function(value, key) {
+				if (value.id === calendar.id) {
+					$scope.calendars[key] = angular.copy($scope.backups[calendar.id]);
+					$scope.calendars[key].list.edit = false;
+				}
 			});
 		};
 
-		// Download button
-		$scope.download = function (id) {
-			$window.open('v1/calendars/' + id + '/export');
-		};
-
-		// Sharing Logic Comes Here.
-		$scope.share = function ($index, id) {
-			if ($scope.sharefieldset === id) {
-				$scope.sharefieldset = null;
-			} else {
-				$scope.sharefieldset = id;
-			}
-		};
-
-		// Share AutoComplete Typeahead
-		$scope.getSharePeople = function(val) {
-			/*return Restangular.oneUrl(OC.filePath('core', 'ajax', 'share.php')).getList('sharepeople',
-				{'sharepeople': $scope.sharemodel}).then(function(res){
-					var people =[];
-					angular.forEach(res, function (item) {
-						people.push(item.label);
-					});
-				return people;
-			});
-			*/
-		};
-
-		// CalDAV display - hide logic goes here.
-		$scope.toggleCalDAV = function ($index, uri) {
-			$scope.i.push($index);
-			$scope.calDAVmodel = OC.linkToRemote('caldav') + '/' +
-				escapeHTML(encodeURIComponent(oc_current_user)) + '/' +
-				escapeHTML(encodeURIComponent(uri));
-		};
-
-		// Update calendar button
-		$scope.updatecalendarform = function ($index, id, displayname, color) {
-			if ($scope.editfieldset === id) {
-				$scope.editfieldset = null;
-			} else {
-				$scope.editfieldset = id;
-			}
-
-			$scope.editmodel = displayname;
-			$scope.editcolor = color;
-
-			$scope.update = function (id, updatedName, updatedColor, vevent,
-									  vjournal, vtodo) {
-				var updated = {
-					displayname: updatedName,
-					color: updatedColor,
-					components: {
-						vevent: vevent,
-						vjournal: vjournal,
-						vtodo: vtodo
-					}
-				};
-
-				Restangular.one('calendars', id).patch(updated).then(
-					function (updated) {
-					CalendarModel.update(updated);
-					$scope.calendars = CalendarModel.getAll();
-					$scope.editfieldset = null;
-				});
-			};
-		};
-
-		// Delete a Calendar
-		$scope.remove = function (id) {
-			var calendar = CalendarModel.get(id);
-			calendar.remove().then(function () {
-				CalendarModel.remove(id);
+		$scope.performUpdate = function (calendar) {
+			Restangular.one('calendars', calendar.id).patch({
+				displayname: calendar.displayname,
+				color: calendar.color,
+				components: angular.copy(calendar.components)
+			}).then(function (updated) {
+				CalendarModel.update(updated);
 				$scope.calendars = CalendarModel.getAll();
+				$rootScope.$broadcast('updatedCalendar', updated);
 			});
 		};
 
-		// Initialises full calendar by sending the calendarid
-		$scope.addEvent = function (newid) {
-			EventsModel.addEvent(newid);
-		};
-
-		// Responsible for displaying or hiding events on the fullcalendar.
-		$scope.addRemoveEventSource = function (newid) {
-			$scope.addEvent(newid); // Switches watch in CalController
-		};
-
-		$scope.triggerCalendarEnable = function(id) {
-			$scope.currentload = true;
-			is.loading = true;
-			var calendar = CalendarModel.get(id);
+		$scope.triggerEnable = function(c) {
+			c.loading = true;
+			var calendar = CalendarModel.get(c.id);
 			var newEnabled = !calendar.enabled;
-			calendar.patch({'enabled': newEnabled}).then(
-				function (calendarObj) {
+			calendar.patch({
+				'enabled': newEnabled
+			}).then(function (calendarObj) {
 				CalendarModel.update(calendarObj);
 				$scope.calendars = CalendarModel.getAll();
-				is.loading = false;
-				$scope.currentload = false;
+				$rootScope.$broadcast('updatedCalendarsVisibility', calendarObj);
 			});
 		};
+
+		$scope.remove = function (c) {
+			c.loading = true;
+			var calendar = CalendarModel.get(c.id);
+			calendar.remove().then(function () {
+				CalendarModel.remove(c.id);
+				$scope.calendars = CalendarModel.getAll();
+				$rootScope.$broadcast('removedCalendar', c);
+			});
+		};
+
+		//We need to reload the refresh the calendar-list,
+		//if the user added a subscription
+		$rootScope.$on('createdSubscription', function() {
+			Restangular.all('calendars').getList().then(function (calendars) {
+				CalendarModel.addAll(calendars);
+			});
+		});
+
+
+		$rootScope.$on('finishedLoadingEvents', function(event, calendarId) {
+			var calendar = CalendarModel.get(calendarId);
+			calendar.loading = false;
+			CalendarModel.update(calendar);
+			$scope.calendars = CalendarModel.getAll();
+		});
 	}
 ]);
 
@@ -897,6 +848,9 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'Ca
 
 		$scope.files = [];
 
+		$scope.settingsCalDavLink = OC.linkToRemote('caldav') + '/';
+		$scope.settingsCalDavPrincipalLink = OC.linkToRemote('caldav') + '/principals/' + escapeHTML(encodeURIComponent(oc_current_user)) + '/';
+
 		// have to use the native HTML call for filereader to work efficiently
 		var importinput = document.getElementById('import');
 		var reader = new FileReader();
@@ -946,11 +900,6 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'Ca
 		$scope.enableCalendar = function (id) {
 			Restangular.one('calendars', id).patch({ 'components' : {'vevent' : true }});
 		};
-
-
-		if ($scope.hiddencalendar === undefined) {
-			angular.element('#hiddencalendar').parent().addClass('hide');
-		}
 	}
 ]);
 
@@ -959,28 +908,15 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'Ca
 * Description: Takes care of Subscription List in the App Navigation.
 */
 
-app.controller('SubscriptionController', ['$scope', '$window', 'SubscriptionModel', 'CalendarModel', 'EventsModel', 'Restangular', 'is',
-	function ($scope, $window, SubscriptionModel, CalendarModel, EventsModel, Restangular, is) {
+app.controller('SubscriptionController', ['$scope', '$rootScope', '$window', 'SubscriptionModel', 'CalendarModel', 'EventsModel', 'Restangular',
+	function ($scope, $rootScope, $window, SubscriptionModel, CalendarModel, EventsModel, Restangular) {
 
 		$scope.subscriptions = SubscriptionModel.getAll();
-		$scope.calendars = CalendarModel.getAll();
-
-		$scope.calDAVfieldset = [];
-		$scope.calDAVmodel = '';
-		$scope.i = []; // Needed for only one CalDAV Input opening.
-
 		var subscriptionResource = Restangular.all('subscriptions');
 
-		subscriptionResource.getList().then(function (subscriptions) {
-			SubscriptionModel.addAll(subscriptions);
-		}, function (response) {
-			OC.Notification.show(t('calendar', response.data.message));
-		});
-
 		var backendResource = Restangular.all('backends');
-
-		backendResource.getList().then(function (backendsobject) {
-			$scope.subscriptiontypeSelect = SubscriptionModel.getsubscriptionnames(backendsobject);
+		backendResource.getList().then(function (backendObject) {
+			$scope.subscriptiontypeSelect = SubscriptionModel.getSubscriptionNames(backendObject);
 			$scope.selectedsubscriptionbackendmodel = $scope.subscriptiontypeSelect[0]; // to remove the empty model.
 		}, function (response) {
 			OC.Notification.show(t('calendar', response.data.message));
@@ -988,71 +924,21 @@ app.controller('SubscriptionController', ['$scope', '$window', 'SubscriptionMode
 
 		$scope.newSubscriptionUrl = '';
 
-		$scope.create = function (newSubscriptionInputVal) {
-			var newSubscription = {
-				"type": $scope.selectedsubscriptionbackendmodel.type,
-				"url": $scope.newSubscriptionUrl,
-			};
-			subscriptionResource.post(newSubscription).then(function (newSubscription) {
+		$scope.create = function () {
+			subscriptionResource.post({
+				type: $scope.selectedsubscriptionbackendmodel.type,
+				url: $scope.newSubscriptionUrl
+			}).then(function (newSubscription) {
 				SubscriptionModel.create(newSubscription);
+				$rootScope.$broadcast('createdSubscription', {
+					subscription: newSubscription
+				});
 			}, function (response) {
 				OC.Notification.show(t('calendar', response.data.message));
 			});
+
+			$scope.newSubscriptionUrl = '';
 		};
-
-		// CalDAV display - hide logic goes here.
-		$scope.toggleCalDAV = function ($index, uri, id) {
-			$scope.i.push($index);
-			$scope.calDAVmodel = OC.linkToRemote('caldav') + '/' + escapeHTML(encodeURIComponent(oc_current_user)) + '/' + escapeHTML(encodeURIComponent(uri));
-			for (var i = 0; i < $scope.i.length - 1; i++) {
-				$scope.calDAVfieldset[i] = false;
-			}
-
-			$scope.calDAVfieldset[$index] = true;
-			$scope.hidecalDAVfieldset = function ($index) {
-				$scope.calDAVfieldset[$index] = false;
-			};
-		};
-
-		$scope.download = function (id) {
-			$window.open('v1/calendars/' + id + '/export');
-		};
-
-		// To Delete a Calendar
-		$scope.delete = function (id) {
-			var calendar = CalendarModel.get(id);
-			var delcalendarResource = Restangular.one('calendars', id);
-			delcalendarResource.remove().then(function () {
-				CalendarModel.remove(calendar);
-			}, function (response) {
-				OC.Notification.show(t('calendar', response.data.message));
-			});
-		};
-
-				// Initialises full calendar by sending the calendarid
-		$scope.addEvent = function (newid) {
-			EventsModel.addEvent(newid);
-		};
-
-		// Responsible for displaying or hiding events on the fullcalendar.
-		$scope.addRemoveEventSource = function (newid) {
-			$scope.addEvent(newid); // Switches watch in CalController
-		};
-
-		$scope.triggerCalendarEnable = function(id) {
-			$scope.currentload = true;
-			is.loading = true;
-			var calendar = CalendarModel.get(id);
-			var newEnabled = !calendar.enabled;
-			calendar.patch({'enabled': newEnabled}).then(
-				function (calendarObj) {
-				CalendarModel.update(calendarObj);
-				$scope.calendars = CalendarModel.getAll();
-				is.loading = false;
-				$scope.currentload = false;
-			});
-		};
-
 	}
 ]);
 /**
@@ -1144,8 +1030,6 @@ app.filter('eventFilter',
 	}
 	]
 );
-// TODO: Remove this as this is not the best of the solutions.
-
 app.filter('noteventFilter',
 	[ function () {
 		var noteventfilter = function (item) {
@@ -1311,7 +1195,14 @@ app.factory('CalendarModel', function () {
 			this.updateIfExists(calendar);
 		},
 		addAll: function (calendars) {
+			this.reset();
 			for (var i = 0; i < calendars.length; i++) {
+				calendars[i].list = {
+					showCalDav: false,
+					calDavLink: OC.linkToRemote('caldav') + '/' + escapeHTML(encodeURIComponent(oc_current_user)) + '/' + escapeHTML(encodeURIComponent(calendars[i].uri)),
+					edit: false,
+					locked: false
+				};
 				this.add(calendars[i]);
 			}
 		},
@@ -1383,6 +1274,10 @@ app.factory('CalendarModel', function () {
 		},
 		updatecalendar: function (updated) {
 			this.updated = updated;
+		},
+		reset: function() {
+			this.calendars = [];
+			this.calendarId = {};
 		}
 	};
 
@@ -2072,7 +1967,7 @@ app.factory('SubscriptionModel', function () {
 	var SubscriptionModel = function () {
 		this.subscriptions = [];
 		this.subscriptionId = {};
-		this.subscriptiondetails = [];
+		this.subscriptionDetails = [];
 	};
 
 	SubscriptionModel.prototype = {
@@ -2112,18 +2007,19 @@ app.factory('SubscriptionModel', function () {
 				}
 			}
 		},
-		getsubscriptionnames: function (backendobject) {
-			for (var i = 0; i < backendobject.length; i++) {
-				for (var j = 0; j < backendobject[i].subscriptions.length; j++) {
-					this.subscriptiondetails = [
-						{
-							"name": backendobject[i].subscriptions[j].name,
-							"type": backendobject[i].subscriptions[j].type
-						}
-					];
-				}
-			}
-			return this.subscriptiondetails;
+		getSubscriptionNames: function (backends) {
+			var _this = this;
+
+			angular.forEach(backends, function(backend) {
+				angular.forEach(backend.subscriptions, function(subscription) {
+					_this.subscriptionDetails.push({
+						name: subscription.name,
+						type: subscription.type
+					});
+				});
+			});
+
+			return this.subscriptionDetails;
 		}
 	};
 

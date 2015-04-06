@@ -26,28 +26,15 @@
 * Description: Takes care of Subscription List in the App Navigation.
 */
 
-app.controller('SubscriptionController', ['$scope', '$window', 'SubscriptionModel', 'CalendarModel', 'EventsModel', 'Restangular', 'is',
-	function ($scope, $window, SubscriptionModel, CalendarModel, EventsModel, Restangular, is) {
+app.controller('SubscriptionController', ['$scope', '$rootScope', '$window', 'SubscriptionModel', 'CalendarModel', 'EventsModel', 'Restangular',
+	function ($scope, $rootScope, $window, SubscriptionModel, CalendarModel, EventsModel, Restangular) {
 
 		$scope.subscriptions = SubscriptionModel.getAll();
-		$scope.calendars = CalendarModel.getAll();
-
-		$scope.calDAVfieldset = [];
-		$scope.calDAVmodel = '';
-		$scope.i = []; // Needed for only one CalDAV Input opening.
-
 		var subscriptionResource = Restangular.all('subscriptions');
 
-		subscriptionResource.getList().then(function (subscriptions) {
-			SubscriptionModel.addAll(subscriptions);
-		}, function (response) {
-			OC.Notification.show(t('calendar', response.data.message));
-		});
-
 		var backendResource = Restangular.all('backends');
-
-		backendResource.getList().then(function (backendsobject) {
-			$scope.subscriptiontypeSelect = SubscriptionModel.getsubscriptionnames(backendsobject);
+		backendResource.getList().then(function (backendObject) {
+			$scope.subscriptiontypeSelect = SubscriptionModel.getSubscriptionNames(backendObject);
 			$scope.selectedsubscriptionbackendmodel = $scope.subscriptiontypeSelect[0]; // to remove the empty model.
 		}, function (response) {
 			OC.Notification.show(t('calendar', response.data.message));
@@ -55,70 +42,20 @@ app.controller('SubscriptionController', ['$scope', '$window', 'SubscriptionMode
 
 		$scope.newSubscriptionUrl = '';
 
-		$scope.create = function (newSubscriptionInputVal) {
-			var newSubscription = {
-				"type": $scope.selectedsubscriptionbackendmodel.type,
-				"url": $scope.newSubscriptionUrl,
-			};
-			subscriptionResource.post(newSubscription).then(function (newSubscription) {
+		$scope.create = function () {
+			subscriptionResource.post({
+				type: $scope.selectedsubscriptionbackendmodel.type,
+				url: $scope.newSubscriptionUrl
+			}).then(function (newSubscription) {
 				SubscriptionModel.create(newSubscription);
+				$rootScope.$broadcast('createdSubscription', {
+					subscription: newSubscription
+				});
 			}, function (response) {
 				OC.Notification.show(t('calendar', response.data.message));
 			});
+
+			$scope.newSubscriptionUrl = '';
 		};
-
-		// CalDAV display - hide logic goes here.
-		$scope.toggleCalDAV = function ($index, uri, id) {
-			$scope.i.push($index);
-			$scope.calDAVmodel = OC.linkToRemote('caldav') + '/' + escapeHTML(encodeURIComponent(oc_current_user)) + '/' + escapeHTML(encodeURIComponent(uri));
-			for (var i = 0; i < $scope.i.length - 1; i++) {
-				$scope.calDAVfieldset[i] = false;
-			}
-
-			$scope.calDAVfieldset[$index] = true;
-			$scope.hidecalDAVfieldset = function ($index) {
-				$scope.calDAVfieldset[$index] = false;
-			};
-		};
-
-		$scope.download = function (id) {
-			$window.open('v1/calendars/' + id + '/export');
-		};
-
-		// To Delete a Calendar
-		$scope.delete = function (id) {
-			var calendar = CalendarModel.get(id);
-			var delcalendarResource = Restangular.one('calendars', id);
-			delcalendarResource.remove().then(function () {
-				CalendarModel.remove(calendar);
-			}, function (response) {
-				OC.Notification.show(t('calendar', response.data.message));
-			});
-		};
-
-				// Initialises full calendar by sending the calendarid
-		$scope.addEvent = function (newid) {
-			EventsModel.addEvent(newid);
-		};
-
-		// Responsible for displaying or hiding events on the fullcalendar.
-		$scope.addRemoveEventSource = function (newid) {
-			$scope.addEvent(newid); // Switches watch in CalController
-		};
-
-		$scope.triggerCalendarEnable = function(id) {
-			$scope.currentload = true;
-			is.loading = true;
-			var calendar = CalendarModel.get(id);
-			var newEnabled = !calendar.enabled;
-			calendar.patch({'enabled': newEnabled}).then(
-				function (calendarObj) {
-				CalendarModel.update(calendarObj);
-				$scope.calendars = CalendarModel.getAll();
-				is.loading = false;
-				$scope.currentload = false;
-			});
-		};
-
 	}
 ]);

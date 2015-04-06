@@ -68,20 +68,20 @@ foreach ($scripts as $script) {
 			<?php print_unescaped($this->inc('part.datepicker')); ?>
 			<?php print_unescaped($this->inc('part.buttonarea')); ?>
 		</div>
-		<div id="scrollable">
-			<div ng-controller="CalendarListController">
+		<div ng-controller="CalendarListController">
+			<div id="scrollable">
 				<?php print_unescaped($this->inc('part.createcalendar')); ?>
 				<?php print_unescaped($this->inc('part.calendarlist')); ?>
-			</div>
-			<div id="spacer"></div><!-- Creates space between Subscriptionlist and Calendarlist.-->
-			<div ng-controller="SubscriptionController">
-				<?php print_unescaped($this->inc('part.createsubscription')); ?>
+				<div id="spacer"></div><!-- Creates space between Subscriptionlist and Calendarlist.-->
+				<div ng-controller="SubscriptionController">
+					<?php print_unescaped($this->inc('part.createsubscription')); ?>
+				</div>
 				<?php print_unescaped($this->inc('part.subscriptionlist')); ?>
 			</div>
-		</div>
 
-		<div id="app-settings" ng-controller="SettingsController">
-			<?php print_unescaped($this->inc('part.settings')); ?>
+			<div id="app-settings" ng-controller="SettingsController">
+				<?php print_unescaped($this->inc('part.settings')); ?>
+			</div>
 		</div>
 	</div>
 
