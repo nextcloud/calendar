@@ -42,10 +42,11 @@ class CalendarRequestManager extends CalendarManager {
 	 * if backend is disabled
 	 */
 	public function create(ICalendar $calendar, $userId) {
+		$backends = $this->backends->getObjects();
 		$setIfNull = array(
 			'userId' => $userId,
 			'ownerId' => $userId,
-			'backend' => $this->backends[0],
+			'backend' => $backends[0],
 			'cruds' => Permissions::ALL,
 			'ctag' => 0,
 			'enabled' => true,
@@ -142,13 +143,8 @@ class CalendarRequestManager extends CalendarManager {
 	 * @param \OCA\Calendar\ICalendar $calendar
 	 */
 	private function generatePublicUri(ICalendar &$calendar) {
-		CalendarUtility::generateURI($calendar, function($suggestedUri, $userId) {
-			try {
-				$this->findByUri($suggestedUri, $userId);
-				return true;
-			} catch(\Exception $ex) {
-				return false;
-			}
+		CalendarUtility::generateURI($calendar, function($suggestedUri) use ($calendar) {
+			return $this->cache->doesExist($suggestedUri, $calendar->getUserId());
 		}, true);
 
 		$calendar->setPrivateUri($calendar->getPublicUri());
