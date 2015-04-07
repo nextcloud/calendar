@@ -25,17 +25,18 @@
 		color: lighten($black, 30%);
 		cursor: pointer;
 		@include border-box;
+		@include transition(0.05s, 0.05s);
 
 		.new-entity-title {
 			cursor: pointer;
 
 			&:before {
-				margin-left: -3*$fives;
-				margin-right: $fives;
-				left: $fives;
-				content: '+';
+				left: 2*$fives;
+				width: 2*$fives;
+				position: absolute;
 				font-weight: bold;
 				font-size: 150%;
+				content: '+';
 			}
 
 			&.new-entity-subscription {
@@ -49,6 +50,11 @@
 					@extend .pull-right;
 				}
 			}
+		}
+
+		&:hover {
+			background: #eeeeee;
+			@include transition(0.05s, 0.05s);
 		}
 	}
 
@@ -66,11 +72,15 @@
 			left: $fives;
 
 			.loadingicon {
-				margin-bottom: -1px;
-				display: inline-block;
-				width: 11px;
-				height: 11px;
+				display: block !important;
+				margin-left: $fives;
+				margin-top: 2*$fives;
+				width: 2*$fives;
 				position: absolute;
+				height: 2*$fives;
+				top: 2px;
+				left: $fives;
+				@extend .pull-left;
 			}
 			
 			&.unchecked {

@@ -22,7 +22,7 @@
  */
 /* heights */
 /*colors*/
-.pull-left, #datepicker .datepicker_current, #datepicker table thead, #datepicker .pickerbody-show, #app-navigation .togglebuttons, #app-navigation .togglebuttons .btn-group, #events .calendarCheckbox, #events .event-label, #events .event-fieldset .event-fieldset-interior, #events .event-fieldset.event-fieldset-reminder .event-fieldset-interior-reminderlist-single, #events .event-fieldset.event-fieldset-reminder .event-fieldset-interior-reminderlist-single h4, #events .event-fieldset.event-fieldset-attendee .event-fieldset-interior-attendeelist .event-select-attendee, #events .event-fieldset.event-fieldset-attendee .event-fieldset-interior-attendeelist .event-checkbox, #events .event-fieldset .event-time-interior, #events .event-fieldset .event-time-interior.event-time-interior-allday, #events .event-fieldset .event-time-interior.event-time-interior-allday .event-checkbox {
+.pull-left, #app-navigation .app-navigation-list-item .calendarCheckbox .loadingicon, #datepicker .datepicker_current, #datepicker table thead, #datepicker .pickerbody-show, #app-navigation .togglebuttons, #app-navigation .togglebuttons .btn-group, #events .calendarCheckbox, #events .event-label, #events .event-fieldset .event-fieldset-interior, #events .event-fieldset.event-fieldset-reminder .event-fieldset-interior-reminderlist-single, #events .event-fieldset.event-fieldset-reminder .event-fieldset-interior-reminderlist-single h4, #events .event-fieldset.event-fieldset-attendee .event-fieldset-interior-attendeelist .event-select-attendee, #events .event-fieldset.event-fieldset-attendee .event-fieldset-interior-attendeelist .event-checkbox, #events .event-fieldset .event-time-interior, #events .event-fieldset .event-time-interior.event-time-interior-allday, #events .event-fieldset .event-time-interior.event-time-interior-allday .event-checkbox {
   float: left; }
 
 .pull-right, #app-navigation .new-entity .new-entity-title.new-entity-subscription .calendarlist-input, #app-navigation .new-entity .new-entity-title.new-entity-subscription .calendarlist-select, #app-navigation .togglebuttons .button.today, #app-settings .settings-fieldset .settings-fieldset-interior .settings-fieldset-interior-item .settings-upload, #events .event-select, #events .event-fieldset .event-button, #events .event-fieldset.event-fieldset-reminder .event-select-reminder, #events .event-fieldset.event-fieldset-reminder .custom-container .event-input, #events .event-fieldset.event-fieldset-attendee .event-fieldset-interior-attendeelist .attendeeopener, #events .event-fieldset.event-fieldset-update .event-button, #events .event-fieldset .event-time-interior.event-time-interior-buttonarea {
@@ -58,18 +58,28 @@
   cursor: pointer;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
-  box-sizing: border-box; }
+  box-sizing: border-box;
+  -webkit-transition: 0.05s ease-out 0.05s;
+  -moz-transition: 0.05s ease-out 0.05s;
+  -ms-transition: 0.05s ease-out 0.05s;
+  transition: 0.05s ease-out 0.05s; }
   #app-navigation .new-entity .new-entity-title {
     cursor: pointer; }
     #app-navigation .new-entity .new-entity-title:before {
-      margin-left: -15px;
-      margin-right: 5px;
-      left: 5px;
-      content: '+';
+      left: 10px;
+      width: 10px;
+      position: absolute;
       font-weight: bold;
-      font-size: 150%; }
+      font-size: 150%;
+      content: '+'; }
     #app-navigation .new-entity .new-entity-title.new-entity-subscription .calendarlist-select {
       width: 160px; }
+  #app-navigation .new-entity:hover {
+    background: #eeeeee;
+    -webkit-transition: 0.05s ease-out 0.05s;
+    -moz-transition: 0.05s ease-out 0.05s;
+    -ms-transition: 0.05s ease-out 0.05s;
+    transition: 0.05s ease-out 0.05s; }
 #app-navigation .app-navigation-list-item .calendarCheckbox {
   border: 1px solid #000000;
   cursor: pointer;
@@ -81,11 +91,14 @@
   top: 2px;
   left: 5px; }
   #app-navigation .app-navigation-list-item .calendarCheckbox .loadingicon {
-    margin-bottom: -1px;
-    display: inline-block;
-    width: 11px;
-    height: 11px;
-    position: absolute; }
+    display: block !important;
+    margin-left: 5px;
+    margin-top: 10px;
+    width: 10px;
+    position: absolute;
+    height: 10px;
+    top: 2px;
+    left: 5px; }
   #app-navigation .app-navigation-list-item .calendarCheckbox.unchecked {
     background: transparent !important;
     border-color: #aaa; }

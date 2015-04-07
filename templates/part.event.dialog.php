@@ -29,7 +29,7 @@
 	ok-callback="handleOk"
 	cancel-button="Cancel"
 	cancel-callback="handleCancel"
-	ng-init="advancedoptions = true; alldayeventcheckbox=true; customreminderarea=false;">
+	ng-init="advancedoptions = true; properties.allDay=true; customreminderarea=false;">
 
 
 
@@ -68,11 +68,11 @@
 	<fieldset class="event-time event-fieldset">
 		<div class="event-time-interior">
 			<input type="text" class="event-input" name="from" id="from" ng-model="fromdatemodel" placeholder="<?php p($l->t('from'));?>" />
-			<input type="time" class="event-input" name="fromtime" id="fromtime" ng-model="fromtimemodel" ng-disabled="alldayeventcheckbox;" />
+			<input type="time" class="event-input" name="fromtime" id="fromtime" ng-model="fromtimemodel" ng-disabled="properties.allDay" />
 		</div>
 		<div class="event-time-interior">
 			<input type="text" class="event-input" name="to" id="to" ng-model="todatemodel" placeholder="<?php p($l->t('to'));?>" />
-			<input type="time" class="event-input" name="totime" id="totime" ng-model="totimemodel" ng-disabled="alldayeventcheckbox;" />
+			<input type="time" class="event-input" name="totime" id="totime" ng-model="totimemodel" ng-disabled="properties.allDay" />
 		</div>
 		<div class="event-time-interior event-time-interior-buttonarea">
 		<!-- TODO: Remove inline styles as soon as Reminders and Alarms are done -->
