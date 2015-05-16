@@ -9,6 +9,21 @@
 		padding: 0 $fives;
 	}
 
+	.color-button {
+		height: 5*$fives;
+		border: 0;
+	}
+
+	.close-button {
+		height: 5*$fives;
+		padding: 0;
+		position: relative;
+	}
+
+	.accept-button {
+		padding: 12px;
+	}
+
 	.loading {
 		background:transparent;
 		background-image: none;
@@ -58,6 +73,19 @@
 		}
 	}
 
+	.add-new {
+		.new-accept-button {
+			position: relative;
+			top: -$fives;
+		}
+
+		.color-button {
+			height: 5*$fives;
+			border: 0;
+			background: lighten($black,10%);
+		}
+	}
+
 	.app-navigation-list-item {
 
 		.calendarCheckbox {
@@ -70,23 +98,22 @@
 			height: 2*$fives;
 			top: 2px;
 			left: $fives;
-
-			.loadingicon {
-				display: block !important;
-				margin-left: $fives;
-				margin-top: 2*$fives;
-				width: 2*$fives;
-				position: absolute;
-				height: 2*$fives;
-				top: 2px;
-				left: $fives;
-				@extend .pull-left;
-			}
 			
 			&.unchecked {
 				background: rgba(0, 0, 0, 0) !important;
 				border-color: #aaa;
-			}
+			}			
+		}
+
+		.loadingicon {
+			margin-left: $fives;
+			margin-top: 2*$fives;
+			width: 2*$fives;
+			position: absolute;
+			height: 2*$fives;
+			top: 2px;
+			left: $fives;
+			@extend .pull-left;
 		}
 
 		.utils {
@@ -116,6 +143,23 @@
 
 		> a {
 			padding: 0 25px !important;
+		}
+
+		.editfieldset {
+			.calendartype {
+				width: 12*$fives;
+				margin-left: 4*$fives;
+				margin-right: 4*$fives;
+				@extend .pull-left;
+			}
+			.buttongroups {
+				margin: 4*$fives;
+				@extend .pull-left;
+			}
+
+			.close-button {
+				top: $fives;
+			}
 		}
 
 		&:hover {

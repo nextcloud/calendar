@@ -75,13 +75,18 @@
 		</span>
 <fieldset ng-show="calendar.list.showCalDav" class="caldavURL">
 	<input class="app-navigation-input" type="text" ng-model="calendar.list.calDavLink" data-id="{{ calendar.id }}" readonly />
-	<button id="chooseCalendar-close" class="primary" ng-click="calendar.list.showCalDav = !calendar.list.showCalDav">
-		<span class="icon-view-previous"></span>
+	<button id="chooseCalendar-close" class="btn close-button" ng-click="calendar.list.showCalDav = !calendar.list.showCalDav">
+		<i class="fa fa-times fa-1x"></i>
 	</button>
 </fieldset>
 <fieldset ng-show="calendar.list.edit" class="editfieldset">
 	<input class="app-navigation-input" type="text" ng-model="calendar.displayname" data-id="{{ calendar.id }}" />
-	<button colorpicker="rgba" colorpicker-position="top" ng-model="calendar.color" style="background:{{ calendar.color }}"></button>
+	<button
+		colorpicker="rgba"
+		colorpicker-position="top"
+		ng-model="calendar.color"
+		class="color-button"
+		style="background:{{ calendar.color }}"></button>
 	<div class="calendartype">
 		<input class="app-navigation-checkbox" type="checkbox" ng-model="calendar.components.vevent" />
 		<label class="label"><?php p($l->t('Event')); ?></label>
@@ -91,9 +96,9 @@
 		<label class="label"><?php p($l->t('Todo')); ?></label>
 	</div>
 	<div class="buttongroups">
-		<button ng-click="performUpdate(calendar)" id="updateCalendar" class="primary icon-checkmark-white"></button>
-		<button id="chooseCalendar-close" class="primary" ng-click="cancelUpdate(calendar)">
-			<span class="icon-view-previous"></span>
+		<button ng-click="performUpdate(calendar)" id="updateCalendar" class="primary icon-checkmark-white accept-button"></button>
+		<button id="chooseCalendar-close" class="btn close-button" ng-click="cancelUpdate(calendar)">
+			<i class="fa fa-times fa-1x"></i>
 		</button>
 	</div>
 </fieldset>

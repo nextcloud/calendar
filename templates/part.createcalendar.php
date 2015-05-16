@@ -44,11 +44,17 @@
 	<fieldset class="calendarlist-fieldset add-new hide">
 		<form>
 			<input class="app-navigation-input" type="text" ng-model="newCalendarInputVal" autofocus />
-			<button colorpicker="rgba" colorpicker-position="top" ng-model="newCalendarColorVal" id="newcolorpicker" style="background: {{ newCalendarColorVal }};"></button>
+			<button
+				colorpicker="rgba"
+				colorpicker-position="top"
+				ng-model="newCalendarColorVal"
+				id="newcolorpicker" class="color-button"
+				style="background: {{ newCalendarColorVal }};">
+			</button>
 			<button
 				ng-click="create(newCalendarInputVal,newCalendarColorVal)"
 				id="submitnewCalendar"
-				class="primary icon-checkmark-white"
+				class="primary icon-checkmark-white accept-button new-accept-button"
 				oc-click-slide-toggle="{
 					selector: '.add-new',
 					hideOnFocusLost: false,
