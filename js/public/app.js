@@ -883,7 +883,7 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'Ca
 			$scope.calendarid = id;
 		};
 
-		$scope.pushcalendar = function (id) {
+		$scope.pushcalendar = function (id, index) {
 			Restangular.one('calendars', id).withHttpConfig({transformRequest: angular.identity}).customPOST(
 				$scope.filescontent,
 				'import',
@@ -892,13 +892,18 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'Ca
 					'Content-Type': 'text/calendar'
 				}
 			).then( function () {
-
+				$scope.files.splice(index,1);
 			}, function (response) {
 				OC.Notification.show(t('calendar', response.data.message));
 			});
 		};
 
+		$scope.removecalendar = function (index) {
+			$scope.files.splice(index,1);
+		};
+
 		$scope.calendars = CalendarModel.getAll();
+		console.log($scope.calendars);
 
 		//to send a patch to add a hidden event again
 		$scope.enableCalendar = function (id) {

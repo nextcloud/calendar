@@ -64,3 +64,23 @@
 		}
 	}
 }
+
+.dialog {
+	.table {
+		width: 100%;
+		@include transition(0.05s,0.05s);
+
+		.name {
+			padding-left: 4*$fives;
+		}
+
+		.dialog-select {
+			width: 100%;
+		}
+
+		&:hover {
+			background: #ddd;
+			@include transition(0.05s,0.05s);
+		}
+	}
+}

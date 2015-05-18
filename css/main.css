@@ -304,6 +304,23 @@
     z-index: 20;
     opacity: 0; }
 
+.dialog .table {
+  width: 100%;
+  -webkit-transition: 0.05s ease-out 0.05s;
+  -moz-transition: 0.05s ease-out 0.05s;
+  -ms-transition: 0.05s ease-out 0.05s;
+  transition: 0.05s ease-out 0.05s; }
+  .dialog .table .name {
+    padding-left: 20px; }
+  .dialog .table .dialog-select {
+    width: 100%; }
+  .dialog .table:hover {
+    background: #ddd;
+    -webkit-transition: 0.05s ease-out 0.05s;
+    -moz-transition: 0.05s ease-out 0.05s;
+    -ms-transition: 0.05s ease-out 0.05s;
+    transition: 0.05s ease-out 0.05s; }
+
 .ui-dialog {
   z-index: 999999; }
   .ui-dialog .ui-dialog-titlebar, .ui-dialog .ui-dialog-title {

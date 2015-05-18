@@ -67,17 +67,37 @@
 
 
 
-	<div id="importdialog" title="<?php p($l->t("Import Calendars"));?>">
-		<ul>
-			<li ng-repeat="file in files">
-				<span>{{ file }}</span>
-				<select id="importcalendarist" name="importcalendarlist"
-					ng-model="importcalendar"
-					ng-change="import(importcalendar.id)"
-					ng-options="calendar.displayname for calendar in calendars | orderBy:['order'] | eventFilter | calendarFilter">
-				</select>
-				<button ng-click="pushcalendar(importcalendar.id)"><?php p($l->t('Import')); ?></button>
-			</li>
-		</ul>
+	<div id="importdialog" title="<?php p($l->t("Import Calendars"));?>" class="dialog">
+		<table class="table">
+			<tbody>
+				<tr ng-repeat="file in files">
+					<td class="name">
+						<span>{{ file }}</span>
+					</td>
+					<td class="calendartype">
+						<select
+							class="dialog-select"
+							id="importcalendarist" name="importcalendarlist"
+							ng-model="importcalendar" ng-change="import(importcalendar.id)"
+							ng-options="calendar.displayname for calendar in calendars | orderBy:['order'] | eventFilter | calendarFilter">
+						</select>
+					</td>
+					<td class="buttongroup">
+						<div class="pull-right">
+							<button
+								class="primary btn"
+								ng-click="pushcalendar(importcalendar.id, $index)">
+								<i class="fa fa-check fa-1x"></i>
+							</button>
+							<button
+								class="btn"
+								ng-click="removecalendar($index)">
+								<i class="fa fa-remove fa-1x"></i>
+							</button>
+						</div>				
+					</td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 </div>
