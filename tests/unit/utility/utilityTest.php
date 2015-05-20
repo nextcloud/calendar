@@ -38,7 +38,7 @@ class UtilityTest extends \PHPUnit_Framework_TestCase {
 			['test ', 'test'],
 			['test 1', 'test-1'],
 			['te!@#$%^&*()_+st', 'te-st'],
-			['äöü', 'aou'],
+			['äöü', 'aeoeue'],
 		];
 	}
 

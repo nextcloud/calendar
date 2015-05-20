@@ -30,8 +30,8 @@ use OCA\Calendar\Db\Permissions;
 use OCA\Calendar\IBackend;
 use OCA\Calendar\ICalendar;
 
-use OCA\Contacts\App as ContactsApp;
-
+use OCP\Contacts\IManager;
+use OCP\IAddressBook;
 use OCP\IL10N;
 
 class Calendar extends Contact implements BackendUtils\ICalendarAPI {
@@ -55,13 +55,13 @@ class Calendar extends Contact implements BackendUtils\ICalendarAPI {
 
 
 	/**
-	 * @param ContactsApp $contacts
+	 * @param IManager $contactsManager
 	 * @param IBackend $backend
 	 * @param IL10N $l10n
 	 * @param CalendarFactory $factory
 	 */
-	public function __construct(ContactsApp $contacts, IBackend $backend, IL10N $l10n, CalendarFactory $factory) {
-		parent::__construct($contacts);
+	public function __construct(IManager $contactsManager, IBackend $backend, IL10N $l10n, CalendarFactory $factory) {
+		parent::__construct($contactsManager);
 
 		$this->backend = $backend;
 		$this->l10n = $l10n;
@@ -136,8 +136,9 @@ class Calendar extends Contact implements BackendUtils\ICalendarAPI {
 	private function generateCTag() {
 		$ctag = 0;
 
-		$addressBooks = $this->contacts->getAddressBooksForUser();
+		$addressBooks = $this->contactsManager->getAddressBooks();
 		foreach ($addressBooks as $addressBook) {
+			/** @var IAddressBook $tmp */
 			$tmp = $addressBook->lastModified();
 			if(!is_null($tmp)) {
 				$ctag = max($ctag, $tmp);

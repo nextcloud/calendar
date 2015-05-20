@@ -23,15 +23,14 @@
  */
 namespace OCA\Calendar\Backend\Contact;
 
-use OCA\Contacts\App as ContactsApp;
+use OCP\Contacts\IManager;
 
 abstract class Contact {
 
 	/**
-	 * @var \OCA\Contacts\App
+	 * @var IManager
 	 */
-	protected $contacts;
-
+	protected $contactsManager;
 
 	/**
 	 * @var array
@@ -40,10 +39,10 @@ abstract class Contact {
 
 
 	/**
-	 * @param ContactsApp $contacts
+	 * @param IManager $contacts
 	 */
-	public function __construct(ContactsApp $contacts) {
-		$this->contacts = $contacts;
+	public function __construct(IManager $contactsManager) {
+		$this->contactsManager = $contactsManager;
 		$this->uris = [
 			'anniversary' => 'ANNIVERSARY',
 			'birthday' => 'BDAY'

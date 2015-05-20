@@ -25,7 +25,7 @@ spl_autoload_register(function ($className){
 		if(file_exists($relPath)){
 			require $relPath;
 		} else {
-			list(,$app, $rest) = explode('/', $path, 2);
+			list(,$app, $rest) = explode('/', $path);
 			$relPath = __DIR__ . '/../../' . $app . '/lib/' . $rest;
 			if (file_exists($relPath)) {
 				require $relPath;

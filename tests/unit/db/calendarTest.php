@@ -21,9 +21,6 @@
  */
 namespace OCA\Calendar\Db;
 
-use OCA\Calendar\ObjectType;
-use OCA\Calendar\Permissions;
-
 class CalendarTest extends \PHPUnit_Framework_TestCase {
 
 	/**
@@ -75,7 +72,7 @@ class CalendarTest extends \PHPUnit_Framework_TestCase {
 			->method('isValid')
 			->will($this->returnValue(true));
 
-		$this->initValues = array(
+		$this->initValues = [
 			'backend' => $backendMocks[0],
 			'color' => 'rgba(255,255,255,1.0)',
 			'cruds' => Permissions::READ,
@@ -91,7 +88,7 @@ class CalendarTest extends \PHPUnit_Framework_TestCase {
 			'privateUri' => 'another-test-calendar',
 			'userId' => 'user456',
 			'fileId' => 1,
-		);
+		];
 
 		$this->newValues = array(
 			'backend' => $backendMocks[1],

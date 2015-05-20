@@ -26,31 +26,22 @@ namespace OCA\Calendar\Backend\Contact;
 use OCA\Calendar\Backend as BackendUtils;
 use OCA\Calendar\ISubscription;
 
-use OCA\Contacts\App as ContactsApp;
-use OCP\App\IAppManager;
+use OCP\Contacts\IManager;
 
 class Backend extends Contact implements BackendUtils\IBackendAPI {
 
 	/**
-	 * @var IAppManager
+	 * @param IManager $appManager
 	 */
-	protected $appManager;
-
-
-	/**
-	 * @param ContactsApp $contacts
-	 * @param IAppManager $appManager
-	 */
-	public function __construct(ContactsApp $contacts, IAppManager $appManager) {
-		parent::__construct($contacts);
-		$this->appManager = $appManager;
+	public function __construct(IManager $contactsManager) {
+		parent::__construct($contactsManager);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public function canBeEnabled() {
-		return $this->appManager->isEnabledForUser('contacts');
+		return $this->contactsManager->isEnabled();
 	}
 
 

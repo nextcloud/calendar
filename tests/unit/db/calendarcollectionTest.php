@@ -21,8 +21,6 @@
  */
 namespace OCA\Calendar\Db;
 
-use OCA\Calendar\ObjectType;
-
 class CalendarCollectionTest extends \PHPUnit_Framework_TestCase {
 
 	/**
