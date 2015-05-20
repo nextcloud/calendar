@@ -81,8 +81,6 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'Ca
 			$scope.files.splice(index,1);
 		};
 
-		$scope.calendars = CalendarModel.getAll();
-
 		//to send a patch to add a hidden event again
 		$scope.enableCalendar = function (id) {
 			Restangular.one('calendars', id).patch({ 'components' : {'vevent' : true }});
