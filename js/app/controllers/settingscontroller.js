@@ -63,7 +63,7 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'Ca
 		};
 
 		$scope.pushcalendar = function (id, index) {
-			Restangular.one('calendars', id).withHttpConfig({transformRequest: angular.identity}).customPOST(
+			Restangular.one('calendars', $scope.calendarid).withHttpConfig({transformRequest: angular.identity}).customPOST(
 				$scope.filescontent,
 				'import',
 				undefined,
@@ -72,6 +72,7 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'Ca
 				}
 			).then( function () {
 				$scope.files.splice(index,1);
+				DialogModel.close('#importdialog');
 			}, function (response) {
 				OC.Notification.show(t('calendar', response.data.message));
 			});

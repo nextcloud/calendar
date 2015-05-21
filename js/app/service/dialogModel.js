@@ -52,6 +52,9 @@ app.factory('DialogModel', function() {
 		},
 		open: function (elementId) {
 			$(elementId).dialog('open');
+		},
+		close: function (elementId) {
+			$(elementId).dialog('close');
 		}
 	};
 });

@@ -75,8 +75,11 @@
 						<span>{{ file }}</span>
 					</td>
 					<td class="calendartype">
-						<select class="settings-select">
-							<option ng-repeat="calendar in calendars | eventFilter | calendarFilter | orderBy:['order']" value="{{calendar.id}}">{{calendar.displayname}}</option>
+						<select
+							class="settings-select"
+							ng-model="importedcalendar"
+							ng-change="importcalendar(importedcalendar.id)"
+							ng-options="calendar.displayname for calendar in calendars | eventFilter | calendarFilter | orderBy:['order']">
 						</select>
 					</td>
 					<td class="buttongroup">
