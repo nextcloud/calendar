@@ -1,17 +1,15 @@
-// moment.js locale configuration
-// locale : french (fr)
-// author : John Fischer : https://github.com/jfroffice
+//! moment.js locale configuration
+//! locale : french (fr)
+//! author : John Fischer : https://github.com/jfroffice
 
-(function (factory) {
-    if (typeof define === 'function' && define.amd) {
-        define(['moment'], factory); // AMD
-    } else if (typeof exports === 'object') {
-        module.exports = factory(require('../moment')); // Node
-    } else {
-        factory(window.moment); // Browser global
-    }
-}(function (moment) {
-    return moment.defineLocale('fr', {
+(function (global, factory) {
+   typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('../moment')) :
+   typeof define === 'function' && define.amd ? define(['moment'], factory) :
+   factory(global.moment)
+}(this, function (moment) { 'use strict';
+
+
+    var fr = moment.defineLocale('fr', {
         months : 'janvier_février_mars_avril_mai_juin_juillet_août_septembre_octobre_novembre_décembre'.split('_'),
         monthsShort : 'janv._févr._mars_avr._mai_juin_juil._août_sept._oct._nov._déc.'.split('_'),
         weekdays : 'dimanche_lundi_mardi_mercredi_jeudi_vendredi_samedi'.split('_'),
@@ -19,6 +17,7 @@
         weekdaysMin : 'Di_Lu_Ma_Me_Je_Ve_Sa'.split('_'),
         longDateFormat : {
             LT : 'HH:mm',
+            LTS : 'LT:ss',
             L : 'DD/MM/YYYY',
             LL : 'D MMMM YYYY',
             LLL : 'D MMMM YYYY LT',
@@ -47,6 +46,7 @@
             y : 'un an',
             yy : '%d ans'
         },
+        ordinalParse: /\d{1,2}(er|)/,
         ordinal : function (number) {
             return number + (number === 1 ? 'er' : '');
         },
@@ -55,4 +55,7 @@
             doy : 4  // The week that contains Jan 4th is the first week of the year.
         }
     });
+
+    return fr;
+
 }));

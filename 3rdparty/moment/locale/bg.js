@@ -1,17 +1,15 @@
-// moment.js locale configuration
-// locale : bulgarian (bg)
-// author : Krasen Borisov : https://github.com/kraz
+//! moment.js locale configuration
+//! locale : bulgarian (bg)
+//! author : Krasen Borisov : https://github.com/kraz
 
-(function (factory) {
-    if (typeof define === 'function' && define.amd) {
-        define(['moment'], factory); // AMD
-    } else if (typeof exports === 'object') {
-        module.exports = factory(require('../moment')); // Node
-    } else {
-        factory(window.moment); // Browser global
-    }
-}(function (moment) {
-    return moment.defineLocale('bg', {
+(function (global, factory) {
+   typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('../moment')) :
+   typeof define === 'function' && define.amd ? define(['moment'], factory) :
+   factory(global.moment)
+}(this, function (moment) { 'use strict';
+
+
+    var bg = moment.defineLocale('bg', {
         months : 'януари_февруари_март_април_май_юни_юли_август_септември_октомври_ноември_декември'.split('_'),
         monthsShort : 'янр_фев_мар_апр_май_юни_юли_авг_сеп_окт_ное_дек'.split('_'),
         weekdays : 'неделя_понеделник_вторник_сряда_четвъртък_петък_събота'.split('_'),
@@ -19,6 +17,7 @@
         weekdaysMin : 'нд_пн_вт_ср_чт_пт_сб'.split('_'),
         longDateFormat : {
             LT : 'H:mm',
+            LTS : 'LT:ss',
             L : 'D.MM.YYYY',
             LL : 'D MMMM YYYY',
             LLL : 'D MMMM YYYY LT',
@@ -59,6 +58,7 @@
             y : 'година',
             yy : '%d години'
         },
+        ordinalParse: /\d{1,2}-(ев|ен|ти|ви|ри|ми)/,
         ordinal : function (number) {
             var lastDigit = number % 10,
                 last2Digits = number % 100;
@@ -83,4 +83,7 @@
             doy : 7  // The week that contains Jan 1st is the first week of the year.
         }
     });
+
+    return bg;
+
 }));

@@ -1,10 +1,12 @@
+[![devDependency Status](https://david-dm.org/buberdds/angular-bootstrap-colorpicker/dev-status.svg?branch=master)](https://david-dm.org/buberdds/angular-bootstrap-colorpicker#info=devDependencies)
+
 angular-bootstrap-colorpicker
 =============================
 
 This version contains a native AngularJS directive based on bootstrap-colorpicker jQuery library.<br />
 No dependency on jQuery or jQuery plugin is required.<br />
 
-<a href="http://cdpn.io/tyKGL" target="_blank">Demo page (Bootstrap v3.x.x)</a>
+<a href="http://codepen.io/buberdds/full/fBAsr/" target="_blank">Demo page (Bootstrap v3.x.x)</a>
 
 Previous releases:
   - <a href="https://github.com/buberdds/angular-bootstrap-colorpicker/tree/2.0">branch 2.0</a> (Bootstrap v2.x.x)
@@ -68,3 +70,43 @@ The color picker in UI Bootstrap modal (the parent element position property mus
 ```html
 <input colorpicker colorpicker-parent="true" type="text" ng-model="your_model" />
 ```
+
+Binding the visibility of the color picker to a variable in the scope
+```html
+<input colorpicker colorpicker-is-open="isOpen" type="text" ng-model="your_model" />
+```
+
+Auto hiding the color picker when a color has been selected
+```html
+<input colorpicker colorpicker-close-on-select type="text" ng-model="your_model" />
+```
+
+Events:
+===============================
+
+Each color picker will emit the following events passing a data object in the following format:
+```javascript
+{
+	name: '',
+	value: ''
+}
+```
+Name is the string representation of ng-model and value is the current color.
+
+#### colorpicker-selected
+A global selected event, will be fired when a color is selected from the saturation, hue or alpha slider.
+
+#### colorpicker-selected-saturation
+Will be fired when a color is selected from the saturation slider.
+
+#### colorpicker-selected-hue
+Will be fired when a color is selected from the hue slider.
+
+#### colorpicker-selected-alpha
+Will be fired when a color is selected from the alpha slider.
+
+#### colorpicker-shown
+Will be fired when a color picker is opened.
+
+#### colorpicker-closed
+Will be fired when a color picker is closed.

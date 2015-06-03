@@ -21,7 +21,7 @@ div.overlay-iframe {
 /* default close button positioned on upper-left corner */
 div.overlaybg div.close,
 div.overlay div.close {
-    background-image: url(++resource++plone.app.jquerytools.pb_close.png);
+    background-image: url(pb_close.png);
     position: absolute;
     left: -14px;
     top: -14px;

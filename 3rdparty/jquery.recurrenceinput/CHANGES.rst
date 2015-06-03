@@ -1,8 +1,51 @@
 Changelog
 =========
 
-1.0dev (unreleased)
--------------------
+1.5.1 (2015-06-03)
+------------------
+
+- Set calroot width to auto. The calendar overlay was too narrow in some cases.
+  [thet]
+
+1.5 (2015-05-28)
+----------------
+
+- Depend on jQuery > 1.7. We have jQuery 1.7+ compatibility since update of
+  jquerytools from our fork: https://github.com/collective/jquerytools/tree/dev
+  [thet]
+
+
+1.4 (2015-05-27)
+----------------
+
+- Include optimized base64 encoded image data in CSS files to avoid to have to
+  provide image resources.
+  [thet]
+
+
+1.3 (2015-02-13)
+----------------
+
+- fix image resources in css
+  [bloodbare]
+
+
+1.2 (2015-02-2015)
+------------------
+
+- do not push version numbers in filenames
+  [vangheem]
+
+
+1.1 (2015-02-2015)
+------------------
+
+- Upgrade jquery tools
+  [vangheem]
+
+
+1.0 (2015-02-2015)
+------------------
 
 - Fix a condition, where the ``startdate`` string literal was checked, if it's
   an instance of ``String``, which returned False. This led to the case, where

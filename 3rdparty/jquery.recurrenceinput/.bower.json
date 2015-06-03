@@ -5,14 +5,15 @@
     "./src/jquery.recurrenceinput.css"
   ],
   "dependencies": {
-    "jquery": ">=1.4.0 <1.9.0"
+    "jquery": ">=1.7.0"
   },
   "homepage": "https://github.com/collective/jquery.recurrenceinput.js",
-  "_release": "486f67ad26",
+  "version": "1.5.1",
+  "_release": "1.5.1",
   "_resolution": {
-    "type": "branch",
-    "branch": "master",
-    "commit": "486f67ad26c7ca19d927ae1a3821d9a85598f469"
+    "type": "version",
+    "tag": "v1.5.1",
+    "commit": "679bddf8ca69c21b7735b152f63dcfbe650c7f05"
   },
   "_source": "git://github.com/collective/jquery.recurrenceinput.js.git",
   "_target": "*",

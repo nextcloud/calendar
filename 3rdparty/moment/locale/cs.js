@@ -1,23 +1,19 @@
-// moment.js locale configuration
-// locale : czech (cs)
-// author : petrbela : https://github.com/petrbela
+//! moment.js locale configuration
+//! locale : czech (cs)
+//! author : petrbela : https://github.com/petrbela
 
-(function (factory) {
-    if (typeof define === 'function' && define.amd) {
-        define(['moment'], factory); // AMD
-    } else if (typeof exports === 'object') {
-        module.exports = factory(require('../moment')); // Node
-    } else {
-        factory(window.moment); // Browser global
-    }
-}(function (moment) {
+(function (global, factory) {
+   typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('../moment')) :
+   typeof define === 'function' && define.amd ? define(['moment'], factory) :
+   factory(global.moment)
+}(this, function (moment) { 'use strict';
+
+
     var months = 'leden_únor_březen_duben_květen_červen_červenec_srpen_září_říjen_listopad_prosinec'.split('_'),
         monthsShort = 'led_úno_bře_dub_kvě_čvn_čvc_srp_zář_říj_lis_pro'.split('_');
-
     function plural(n) {
         return (n > 1) && (n < 5) && (~~(n / 10) !== 1);
     }
-
     function translate(number, withoutSuffix, key, isFuture) {
         var result = number + ' ';
         switch (key) {
@@ -71,7 +67,7 @@
         }
     }
 
-    return moment.defineLocale('cs', {
+    var cs = moment.defineLocale('cs', {
         months : months,
         monthsShort : monthsShort,
         monthsParse : (function (months, monthsShort) {
@@ -87,7 +83,8 @@
         weekdaysMin : 'ne_po_út_st_čt_pá_so'.split('_'),
         longDateFormat : {
             LT: 'H:mm',
-            L : 'DD. MM. YYYY',
+            LTS : 'LT:ss',
+            L : 'DD.MM.YYYY',
             LL : 'D. MMMM YYYY',
             LLL : 'D. MMMM YYYY LT',
             LLLL : 'dddd D. MMMM YYYY LT'
@@ -146,10 +143,14 @@
             y : translate,
             yy : translate
         },
+        ordinalParse : /\d{1,2}\./,
         ordinal : '%d.',
         week : {
             dow : 1, // Monday is the first day of the week.
             doy : 4  // The week that contains Jan 4th is the first week of the year.
         }
     });
+
+    return cs;
+
 }));
