@@ -67,7 +67,7 @@
 
 
 
-	<div id="importdialog" title="<?php p($l->t("Import Calendars"));?>" class="dialog">
+	<div id="importdialog" class="dialog">
 		<table class="table">
 			<tbody>
 				<tr ng-repeat="file in files">

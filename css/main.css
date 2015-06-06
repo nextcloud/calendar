@@ -339,7 +339,11 @@
 .ui-dialog {
   z-index: 999999; }
   .ui-dialog .ui-dialog-titlebar, .ui-dialog .ui-dialog-title {
-    cursor: move; }
+    cursor: move;
+    background: transparent;
+    border: 0; }
+    .ui-dialog .ui-dialog-titlebar .ui-button, .ui-dialog .ui-dialog-title .ui-button {
+      cursor: pointer; }
 
 #events .event-input {
   box-sizing: border-box;

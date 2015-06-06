@@ -23,7 +23,7 @@
  */
 ?>
 
-<div id="events" title="<?php p($l->t("View an event"));?>"          
+<div id="events"       
 	open="{{dialogOpen}}"
 	ok-button="OK"
 	ok-callback="handleOk"
@@ -283,7 +283,7 @@
 	
 	<fieldset class="event-fieldset event-fieldset-update">
 		<button ng-click="update()" class="event-button button btn primary">
-			<?php p($l->t('Update')); ?>
+			<?php p($l->t('Add Calendar')); ?>
 		</button>
 	</fieldset>
 </div>

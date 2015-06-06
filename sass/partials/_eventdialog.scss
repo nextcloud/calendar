@@ -7,6 +7,12 @@
 
 	.ui-dialog-titlebar, .ui-dialog-title {
 		cursor: move;
+		background: transparent;
+		border: 0;
+
+		.ui-button {
+			cursor: pointer;
+		}
 	}
 }
 
