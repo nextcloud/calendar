@@ -1,3 +1,7 @@
+#datepickercontainer {
+	height: 85px;
+}
+
 #datepicker {
 
 	.datepicker_left, .datepicker_right {
@@ -5,7 +9,14 @@
 		width: 7*$fives;
 		margin: $fives 0 0;
 		font-weight: normal;
-		@include border-radius(0);
+	}
+
+	.datepicker_right {
+		@include border-radius(0 3px 3px 0);
+	}
+
+	.datepicker_left {
+		@include border-radius(3px 0 0 3px);
 	}
 
 	.datepicker_current {
@@ -87,18 +98,21 @@
 		.button {
 			font-weight: normal;
 			padding: 8px;
-			@include border-radius(0px);
+			
 
 			&.first {
 			  margin-left: $fives;
+			  @include border-radius(3px 0 0 3px);
 			}
 
 			&.middle {
 			  margin-left: -7px;
+			  @include border-radius(0px);
 			}
 
 			&.last {
 			  margin-left: -8px;
+			  @include border-radius(0 3px 3px 0);
 			}
 
 			&.today {

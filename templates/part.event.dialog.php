@@ -35,7 +35,7 @@
 
 	<fieldset class="event-fieldset">
 		<input
-			class="event-input"
+			class="event-input h2"
 			ng-model="properties.summary.value"
 			placeholder="<?php p($l->t('Title of the Event'));?>"
 			name="title" type="text"
@@ -50,7 +50,7 @@
 		<select class="event-select event-select-calendardropdown" name="calendardropdown"
 			ng-model="calendardropdown"
 			ng-change="addtocalendar(calendardropdown.id)"
-			ng-options="calendar.displayname for calendar in calendarListSelect | calendareventFilter">
+			ng-options="calendar.displayname for calendar in calendars | calendareventFilter">
 		</select>
 	</fieldset>
 

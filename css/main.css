@@ -25,7 +25,7 @@
 .pull-left, #app-navigation .app-navigation-list-item .loadingicon, #app-navigation .app-navigation-list-item .editfieldset .calendartype, #app-navigation .app-navigation-list-item .editfieldset .buttongroups, #datepicker .datepicker_current, #datepicker table thead, #datepicker .pickerbody-show, #app-navigation .togglebuttons, #app-navigation .togglebuttons .btn-group, #events .calendarCheckbox, #events .event-label, #events .event-fieldset .event-fieldset-interior, #events .event-fieldset.event-fieldset-reminder .event-fieldset-interior-reminderlist-single, #events .event-fieldset.event-fieldset-reminder .event-fieldset-interior-reminderlist-single h4, #events .event-fieldset.event-fieldset-attendee .event-fieldset-interior-attendeelist .event-select-attendee, #events .event-fieldset.event-fieldset-attendee .event-fieldset-interior-attendeelist .event-checkbox, #events .event-fieldset .event-time-interior, #events .event-fieldset .event-time-interior.event-time-interior-allday, #events .event-fieldset .event-time-interior.event-time-interior-allday .event-checkbox {
   float: left; }
 
-.pull-right, #app-navigation .new-entity .new-entity-title.new-entity-subscription .calendarlist-input, #app-navigation .new-entity .new-entity-title.new-entity-subscription .calendarlist-select, #app-navigation .togglebuttons .button.today, #app-settings .settings-fieldset .settings-fieldset-interior .settings-fieldset-interior-item .settings-upload, #events .event-select, #events .event-fieldset .event-button, #events .event-fieldset.event-fieldset-reminder .event-select-reminder, #events .event-fieldset.event-fieldset-reminder .custom-container .event-input, #events .event-fieldset.event-fieldset-attendee .event-fieldset-interior-attendeelist .attendeeopener, #events .event-fieldset.event-fieldset-update .event-button, #events .event-fieldset .event-time-interior.event-time-interior-buttonarea {
+.pull-right, #app-navigation .togglebuttons .button.today, #app-settings .settings-fieldset .settings-fieldset-interior .settings-fieldset-interior-item .settings-upload, #events .event-select, #events .event-fieldset .event-button, #events .event-fieldset.event-fieldset-reminder .event-select-reminder, #events .event-fieldset.event-fieldset-reminder .custom-container .event-input, #events .event-fieldset.event-fieldset-attendee .event-fieldset-interior-attendeelist .attendeeopener, #events .event-fieldset.event-fieldset-update .event-button, #events .event-fieldset .event-time-interior.event-time-interior-buttonarea {
   float: right; }
 
 .hide, #datepicker .pickerbody-hide, #dialoghider {
@@ -81,8 +81,6 @@
       font-weight: bold;
       font-size: 150%;
       content: '+'; }
-    #app-navigation .new-entity .new-entity-title.new-entity-subscription .calendarlist-select {
-      width: 160px; }
   #app-navigation .new-entity:hover {
     background: #eeeeee;
     -webkit-transition: 0.05s ease-out 0.05s;
@@ -96,6 +94,8 @@
   height: 25px;
   border: 0;
   background: #1a1a1a; }
+#app-navigation .add-new-subscription .calendarlist-fieldset .calendarlist-input {
+  width: 80px; }
 #app-navigation .app-navigation-list-item .calendarCheckbox {
   border: 1px solid #000000;
   cursor: pointer;
@@ -187,15 +187,24 @@
 #spacer {
   height: 44px; }
 
+#datepickercontainer {
+  height: 85px; }
+
 #datepicker .datepicker_left, #datepicker .datepicker_right {
   height: 34px;
   width: 35px;
   margin: 5px 0 0;
-  font-weight: normal;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  -ms-border-radius: 0;
-  border-radius: 0; }
+  font-weight: normal; }
+#datepicker .datepicker_right {
+  -webkit-border-radius: 0 3px 3px 0;
+  -moz-border-radius: 0 3px 3px 0;
+  -ms-border-radius: 0 3px 3px 0;
+  border-radius: 0 3px 3px 0; }
+#datepicker .datepicker_left {
+  -webkit-border-radius: 3px 0 0 3px;
+  -moz-border-radius: 3px 0 0 3px;
+  -ms-border-radius: 3px 0 0 3px;
+  border-radius: 3px 0 0 3px; }
 #datepicker .datepicker_current {
   width: 170px;
   padding: 6px 0px;
@@ -244,17 +253,25 @@
     height: 44px; }
     #app-navigation .togglebuttons .button {
       font-weight: normal;
-      padding: 8px;
-      -webkit-border-radius: 0px;
-      -moz-border-radius: 0px;
-      -ms-border-radius: 0px;
-      border-radius: 0px; }
+      padding: 8px; }
       #app-navigation .togglebuttons .button.first {
-        margin-left: 5px; }
+        margin-left: 5px;
+        -webkit-border-radius: 3px 0 0 3px;
+        -moz-border-radius: 3px 0 0 3px;
+        -ms-border-radius: 3px 0 0 3px;
+        border-radius: 3px 0 0 3px; }
       #app-navigation .togglebuttons .button.middle {
-        margin-left: -7px; }
+        margin-left: -7px;
+        -webkit-border-radius: 0px;
+        -moz-border-radius: 0px;
+        -ms-border-radius: 0px;
+        border-radius: 0px; }
       #app-navigation .togglebuttons .button.last {
-        margin-left: -8px; }
+        margin-left: -8px;
+        -webkit-border-radius: 0 3px 3px 0;
+        -moz-border-radius: 0 3px 3px 0;
+        -ms-border-radius: 0 3px 3px 0;
+        border-radius: 0 3px 3px 0; }
       #app-navigation .togglebuttons .button.today {
         position: absolute;
         right: 0;
@@ -266,24 +283,22 @@
   width: 40%; }
 #app-settings .settings-fieldset .settings-fieldset-interior .settings-fieldset-interior-item .settings-upload {
   position: absolute;
-  font-weight: bold;
+  top: 12.5px;
   width: 100%;
   display: block;
   height: 25.88235px;
-  font-size: 14.66667px;
+  font-weight: 300;
+  font-size: 14px;
   cursor: pointer;
   z-index: 10;
-  top: 12.5px;
   padding: 7.33333px 0 0 0 !important;
   text-align: center;
-  border: 1px solid #e6e6e6;
+  border: 1px solid rgba(190, 190, 190, 0.9);
+  background-position: 5%;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   -ms-border-radius: 3px;
-  border-radius: 3px;
-  background-position: 5%; }
-  #app-settings .settings-fieldset .settings-fieldset-interior .settings-fieldset-interior-item .settings-upload:hover {
-    border: 1px solid #d9d9d9; }
+  border-radius: 3px; }
 #app-settings .settings-fieldset .settings-fieldset-interior .settings-fieldset-interior-item:hover {
   background: transparent; }
 #app-settings .settings-fieldset .settings-fieldset-interior .settings-fieldset-interior-item.settings-fieldset-interior-upload {
@@ -330,6 +345,8 @@
   box-sizing: border-box;
   width: 100%;
   margin: 5px 0; }
+  #events .event-input.h2 {
+    font-size: 18px; }
   #events .event-input.event-textarea {
     max-width: 467px;
     /*Custom*/
@@ -457,7 +474,7 @@
     transition: 0.05s ease-out 0.05s; }
     #events .event-fieldset.event-fieldset-heading h3 {
       margin: 10px;
-      font-size: 20px; }
+      font-size: 16px; }
     #events .event-fieldset.event-fieldset-heading:hover {
       background: #cccccc;
       -webkit-transition: 0.05s ease-out 0.05s;

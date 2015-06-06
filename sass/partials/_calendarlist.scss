@@ -53,18 +53,6 @@
 				font-size: 150%;
 				content: '+';
 			}
-
-			&.new-entity-subscription {
-
-				.calendarlist-input {
-					@extend .pull-right;
-				}
-
-				.calendarlist-select {
-					width: 1.6*$hundreds;
-					@extend .pull-right;
-				}
-			}
 		}
 
 		&:hover {
@@ -83,6 +71,16 @@
 			height: 5*$fives;
 			border: 0;
 			background: lighten($black,10%);
+		}
+	}
+
+	.add-new-subscription {
+
+		.calendarlist-fieldset {
+
+			.calendarlist-input {
+				width: 80px;
+			}
 		}
 	}
 

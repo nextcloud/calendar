@@ -17,11 +17,17 @@
 		width: 100%;
 		margin: $fives 0;
 
+		&.h2 {
+			font-size: 18px;
+		}
+
 		&.event-textarea {
 			max-width: 467px; /*Custom*/
 			max-height: $hundreds;
 		}
 	}
+
+	
 
 	.calendarCheckbox {
 		margin-top: 2*$fives;
@@ -267,7 +273,7 @@
 
 			h3 {
 				margin: 2*$fives;
-				font-size: 4*$fives;
+				font-size: 16px;
 			}
 
 			&:hover {

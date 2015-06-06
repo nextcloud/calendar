@@ -44,32 +44,29 @@
 	<fieldset class="calendarlist-fieldset add-new-subscription hide">
 		<form>
 			<fieldset class="calendarlist-fieldset">
-				<label><?php p($l->t('Url')); ?></label>
-				<input class="calendarlist-input" type="text" ng-model="newSubscriptionUrl" autofocus />
-			</fieldset>
-
-
-			<fieldset class="calendarlist-fieldset">
-				<label class="calendar-label"><?php p($l->t('Backend')); ?></label>
+				<input
+					class="calendarlist-input"
+					type="text"
+					ng-model="newSubscriptionUrl"\
+					placeholder="<?php p($l->t('Url')); ?>"
+					autofocus />
 				<select id="subscription"
 					name="subscription"
 					ng-model="selectedsubscriptionbackendmodel"
 					ng-options="subscription.name for subscription in subscriptiontypeSelect"
 					ng-selected="selectedsubscriptionbackend.type">
 				</select>
+				<button
+					ng-click="create(newSubscriptionUrl)"
+					id="submitnewSubscription"
+					class="primary icon-checkmark-white accept-button"
+					oc-click-slide-toggle="{
+						selector: '.add-new-subscription',
+						hideOnFocusLost: false,
+						cssClass: 'closed'
+					}">
+				</button>
 			</fieldset>
-
-
-			<button
-				ng-click="create(newSubscriptionUrl)"
-				id="submitnewSubscription"
-				class="primary icon-checkmark-white"
-				oc-click-slide-toggle="{
-					selector: '.add-new-subscription',
-					hideOnFocusLost: false,
-					cssClass: 'closed'
-				}">
-			</button>
 		</form>
 	</fieldset>
 </div>
