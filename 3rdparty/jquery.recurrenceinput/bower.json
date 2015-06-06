@@ -1,7 +1,0 @@
-{
-  "name": "jquery.recurrenceinput.js",
-  "main": ["./src/jquery.recurrenceinput.js", "./src/jquery.recurrenceinput.css"],
-  "dependencies": {
-    "jquery": ">=1.7.0"
-  }
-}

@@ -6,12 +6,10 @@
     "restangular": "",
     "angular-mocks": "",
     "angular-route": "",
-    "angular-animate": "",
     "fullcalendar": "v2.0.3",
     "jquery-timepicker": "",
     "jquery-file-upload": "",
     "angular-bootstrap-colorpicker": "",
-    "jquery.recurrenceinput": "",
     "jstzdetect": "",
     "fontawesome": ""
   },

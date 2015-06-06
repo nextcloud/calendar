@@ -5,7 +5,6 @@
 
 var app = angular.module('Calendar', [
 	'OC',
-	'ngAnimate',
 	'restangular',
 	'ngRoute',
 	'ui.bootstrap',
