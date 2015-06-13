@@ -21,11 +21,13 @@
 
 
 module.exports = function(grunt) {
+	'use strict';
 
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-wrap');
+	grunt.loadNpmTasks('grunt-ng-annotate');
 	grunt.loadNpmTasks('grunt-contrib-sass');
 	grunt.loadNpmTasks('grunt-karma');
 	grunt.loadNpmTasks('grunt-phpunit');
@@ -35,6 +37,7 @@ module.exports = function(grunt) {
 		meta: {
 			pkg: grunt.file.readJSON('package.json'),
 			version: '<%= meta.pkg.version %>',
+			configJS: '../js/config/',
 			buildJS: '../js/app/',
 			productionJS: '../js/public/',
 			testsJS: '../tests/js/',
@@ -58,25 +61,24 @@ module.exports = function(grunt) {
 		wrap: {
 			app: {
 				src: ['<%= meta.productionJS %>app.js'],
-				dest: '',
-				wrapper: [
-					'(function(angular, $, oc_requesttoken, undefined){\n\n\'use strict\';\n\n',
-					'\n})(angular, jQuery, oc_requesttoken);'
-				]
+				dest: '<%= meta.productionJS %>app.js',
+				option: {
+					wrapper: [
+						'(function(angular, $, oc_requesttoken, undefined){\n\n\'use strict\';\n\n',
+						'\n})(angular, jQuery, oc_requesttoken);'
+					]
+				}
 			}
 		},
 
 		jshint: {
-			app: {
-				src: [
-					'Gruntfile.js',
-					'<%= meta.buildJS %>**/*.js',
-					'../js/config/*.js',
-					'../tests/js/unit/**/*.js',
-					'<%= meta.productionJS %>app.js',
-					'<%= meta.testsJS %>**/*.js'
-				]
-			},
+			files: [
+				'Gruntfile.js',
+				'<%= meta.buildJS %>**/*.js',
+				'<%= meta.configJS %>*.js',
+				'<%= meta.productionJS %>app.js',
+				'<%= meta.testsJS %>**/*.js'
+			],
 			options: {
 				jshintrc: true
 			}
@@ -98,12 +100,15 @@ module.exports = function(grunt) {
 			concat: {
 				files: [
 					'<%= meta.buildJS %>**/*.js',
-					'../js/config/*.js',
+					'<%= meta.configJS %>*.js',
 					'<%= meta.buildCSS %>**/*.scss'
 				],
+				options: {
+					livereload: true
+				},
 				tasks: ['build', 'sass']
 			}
-		},
+		},		
 
 		phpunit: {
 			classes: {
@@ -116,20 +121,27 @@ module.exports = function(grunt) {
 
 		karma: {
 			unit: {
-				configFile: '<%= meta.testsJS %>config/karma.js',
-				autoWatch: true
+				configFile: '<%= meta.testsJS %>config/karma.js'
 			},
 			continuous: {
 				configFile: '<%= meta.testsJS %>config/karma.js',
 				browsers: ['Firefox'],
 				singleRun: true,
+				reporters: ['progress']
+			}
+		},
+
+		ngAnnotate: {
+			app: {
+				src: ['<%= meta.productionJS %>app.js'],
+				dest: '<%= meta.productionJS %>app.js'
 			}
 		}
 
 	});
 
 	// make tasks available under simpler commands
-	grunt.registerTask('build', ['jshint', 'concat', 'wrap']);
+	grunt.registerTask('build', ['jshint', 'concat', 'wrap', 'ngAnnotate']);
 	grunt.registerTask('js-unit', ['karma:continuous']);
 
 };

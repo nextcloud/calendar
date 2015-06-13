@@ -1,33 +1,34 @@
 {
-	"name": "calendar",
-	"description": "Calendar Application for ownCloud",
-	"version": "0.10.7",
-	"private": true,
-	"homepage": "https://github.com/owncloud/calendar",
-	"repository": {
-		"type": "git",
-		"url": "git@github.com:owncloud/calendar.git"
-	},
-	"bugs": "https://github.com/owncloud/calendar/issues",
-	"dependencies": {},
-	"devDependencies": {
-		"grunt": "*",
-		"grunt-cli": "*",
-		"grunt-contrib-concat": "*",
-		"grunt-contrib-jshint": "*",
-		"grunt-contrib-watch": "*",
-		"grunt-contrib-sass": "*",
-		"grunt-wrap": "*",
-		"grunt-phpunit": "*",
-		"phantomjs": "*",
-		"bower": "*",
-		"karma": "*",
-		"grunt-karma": "*",
-		"karma-jasmine": "*",
-		"karma-phantomjs-launcher": "*",
-		"karma-chrome-launcher": "*",
-		"karma-firefox-launcher": "*",
-		"karma-coverage": "*"
-	},
-	"engine": "node >= 0.8"
+  "name": "calendar",
+  "description": "Calendar Application for ownCloud",
+  "version": "0.10.7",
+  "private": true,
+  "homepage": "https://github.com/owncloud/calendar",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:owncloud/calendar.git"
+  },
+  "bugs": "https://github.com/owncloud/calendar/issues",
+  "dependencies": {},
+  "devDependencies": {
+    "bower": "*",
+    "grunt": "*",
+    "grunt-cli": "*",
+    "grunt-contrib-concat": "*",
+    "grunt-contrib-jshint": "*",
+    "grunt-contrib-sass": "*",
+    "grunt-contrib-watch": "*",
+    "grunt-karma": "*",
+    "grunt-ng-annotate": "^1.0.1",
+    "grunt-phpunit": "*",
+    "grunt-wrap": "*",
+    "karma": "*",
+    "karma-chrome-launcher": "*",
+    "karma-coverage": "*",
+    "karma-firefox-launcher": "*",
+    "karma-jasmine": "*",
+    "karma-phantomjs-launcher": "*",
+    "phantomjs": "*"
+  },
+  "engine": "node >= 0.8"
 }

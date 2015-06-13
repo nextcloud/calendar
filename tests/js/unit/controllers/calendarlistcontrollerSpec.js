@@ -67,7 +67,7 @@ describe('CalendarListController', function() {
 			CalendarModel: model
 		});
 
-		http.expectDELETE('/v1/calendar/7').respond(200, {});
+		http.expectDELETE('/v1/calendars/7').respond(200, {});
 		scope.delete(7);
 		http.flush(1);
 

@@ -1,10 +1,20 @@
 {
+    "strict": true,
+    "jquery": true,
     "globals": {
-        "console": true,
-        "jQuery": true,
-        "$": true,
         "angular": true,
+        "app": true,
         "OC": true,
-        "app": true
+        "inject": true,
+        "module": true,
+        "browser": true,
+        "By": true,
+        "it": true,
+        "afterEach": true,
+        "jasmine": true,
+        "describe": true,
+        "beforeEach": true,
+        "expect": true,
+        "marked": true
     }
 }
