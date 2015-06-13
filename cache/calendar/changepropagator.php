@@ -52,7 +52,7 @@ class ChangePropagator {
 	 * @param string $userId
 	 * @param ICalendar $usersCalendar
 	 */
-	public function addChange($backendId, $privateUri, $userId, ICalendar $usersCalendar=null) {
+	public function addChange($backendId, $privateUri, $userId, ICalendar &$usersCalendar=null) {
 		$this->changedCalendars[] = [
 			'backendId' => $backendId,
 			'privateUri' => $privateUri,

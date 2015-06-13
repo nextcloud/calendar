@@ -53,7 +53,7 @@ class Updater{
 	 * @param string $userId
 	 * @param ICalendar $usersCalendar
 	 */
-	public function propagate($backendId, $privateUri, $userId, ICalendar $usersCalendar=null) {
+	public function propagate($backendId, $privateUri, $userId, ICalendar &$usersCalendar=null) {
 		$this->propagator->addChange($backendId, $privateUri, $userId, $usersCalendar);
 		$this->propagator->propagateChanges();
 	}

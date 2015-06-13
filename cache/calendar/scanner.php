@@ -73,7 +73,7 @@ class Scanner {
 	 * @param ICalendar $usersCalendar
 	 * @return mixed
 	 */
-	public function scanCalendar($backendId, $privateUri, $userId, ICalendar $usersCalendar=null) {
+	public function scanCalendar($backendId, $privateUri, $userId, ICalendar &$usersCalendar=null) {
 		$backend = $this->backends->find($backendId);
 
 		if (!($backend instanceof IBackend)) {
@@ -101,7 +101,8 @@ class Scanner {
 			CalendarUtility::generateURI($calendar, function($newUri) use ($calendar) {
 				return $this->cache->doesExist($newUri, $calendar->getUserId());
 			}, true);
-			$this->addToCache($calendar);
+			$calendar = $this->addToCache($calendar);
+			$usersCalendar->setId($calendar->getId());
 		}
 	}
 
@@ -167,9 +168,11 @@ class Scanner {
 
 	/**
 	 * @param ICalendar $calendar
+	 * @return ICalendar
 	 */
 	protected function addToCache(ICalendar $calendar) {
-		$this->cache->insert($calendar);
+		$calendar = $this->cache->insert($calendar);
+		return $calendar;
 	}
 
 
