@@ -61,6 +61,16 @@ describe('CalendarModel', function() {
 		expect(CalendarModel.get(6).displayname).toBe('Sample Calendar');
 	}));
 
+	it('should add all the calendars', inject(function (CalendarModel) {
+		var calendars = [
+			{id: 7, displayname: 'Sample Calendar 7'},
+			{id: 8, displayname: 'Sample Calendar 8'}
+		];
+		CalendarModel.addAll(calendars);
+
+		expect(CalendarModel.getAll().length).toBe(2);
+	}))
+
 	it('should update the calendar', inject(function (CalendarModel) {
 		CalendarModel.create({id: 6, displayname: 'Sample Calendar 6'});
 		CalendarModel.update({id: 6, displayname: 'Sample Calendar 8'});
@@ -74,6 +84,20 @@ describe('CalendarModel', function() {
         CalendarModel.remove(6);
 
         expect(CalendarModel.getAll().length).toBe(0);
+	}));
+
+	it('should reset the calendars', inject(function (CalendarModel) {
+		var calendars = [
+			{id: 7, displayname: 'Sample Calendar 7'},
+			{id: 8, displayname: 'Sample Calendar 8'}
+		]
+		var calendarId = {id: 8, displayname: 'Sample Calendar 8'};
+
+		CalendarModel.reset();
+
+		expect(CalendarModel.getAll().length).toBe(0);
+		expect(CalendarModel.get(8)).not.toBeDefined();
+
 	}));
 
 	afterEach(function () {
