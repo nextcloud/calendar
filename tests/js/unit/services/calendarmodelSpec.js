@@ -22,4 +22,38 @@
  */
 
 describe('CalendarModel', function() {
+	'use strict';
+
+	var controller, scope, model, routeParams, http;
+
+	beforeEach(module('Calendar'));
+
+	beforeEach(inject(function ($controller, $rootScope, $httpBackend, 
+		CalendarModel) {
+			http = $httpBackend;
+			scope = $rootScope.$new();
+		}
+	));
+
+	it ('should be empty', inject(function (CalendarModel) {
+		expect(CalendarModel.getAll().length).toBe(0);
+	}));
+
+	it('should create a calendar', inject(function (CalendarModel) {
+		CalendarModel.create({id: 6, displayname: 'Sample Calendar'});
+		expect(CalendarModel.getAll().length).toBe(1);
+		expect(CalendarModel.getAll()[0].displayname).toBe('Sample Calendar');
+		expect(CalendarModel.get(6).displayname).toBe('Sample Calendar');
+	}));
+
+	it('should delete a calendar', inject(function (CalendarModel) {
+		CalendarModel.create({id: 6, displayname: 'Sample Calendar 6'});
+        CalendarModel.remove(6);
+        expect(CalendarModel.getAll().length).toBe(0);
+	}));
+
+	afterEach(function () {
+		http.verifyNoOutstandingExpectation();
+		http.verifyNoOutstandingRequest();
+	});
 });
