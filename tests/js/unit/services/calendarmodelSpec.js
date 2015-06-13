@@ -39,16 +39,40 @@ describe('CalendarModel', function() {
 		expect(CalendarModel.getAll().length).toBe(0);
 	}));
 
+	it('should get the specific calendar', inject(function (CalendarModel) {
+		CalendarModel.create({id: 6, displayname: 'Sample Calendar 6'});
+		CalendarModel.create({id: 7, displayname: 'Sample Calendar 7'});
+
+		expect(CalendarModel.get(6).displayname).toBe('Sample Calendar 6');
+	}));
+
+	it('should get all the calendars', inject(function (CalendarModel) {
+		CalendarModel.create({id: 6, displayname: 'Sample Calendar 6'});
+		CalendarModel.create({id: 7, displayname: 'Sample Calendar 7'});
+
+		expect(CalendarModel.getAll().length).toBe(2);
+	}));
+
 	it('should create a calendar', inject(function (CalendarModel) {
 		CalendarModel.create({id: 6, displayname: 'Sample Calendar'});
+
 		expect(CalendarModel.getAll().length).toBe(1);
 		expect(CalendarModel.getAll()[0].displayname).toBe('Sample Calendar');
 		expect(CalendarModel.get(6).displayname).toBe('Sample Calendar');
 	}));
 
+	it('should update the calendar', inject(function (CalendarModel) {
+		CalendarModel.create({id: 6, displayname: 'Sample Calendar 6'});
+		CalendarModel.update({id: 6, displayname: 'Sample Calendar 8'});
+
+		expect(CalendarModel.get(6).displayname).toBe('Sample Calendar 8');
+		expect(CalendarModel.getAll().length).toBe(1);
+	}));
+
 	it('should delete a calendar', inject(function (CalendarModel) {
 		CalendarModel.create({id: 6, displayname: 'Sample Calendar 6'});
         CalendarModel.remove(6);
+
         expect(CalendarModel.getAll().length).toBe(0);
 	}));
 
