@@ -56,7 +56,7 @@ app.factory('CalendarModel', function () {
 	var addListProperty = function(calendar) {
 		calendar.list = {
 			showCalDav: false,
-			//calDavLink: OC.linkToRemote('caldav') + '/' + escapeHTML(encodeURIComponent(oc_current_user)) + '/' + escapeHTML(encodeURIComponent(calendar.uri)),
+			calDavLink: OC.linkToRemote('caldav') + '/' + escapeHTML(encodeURIComponent(oc_current_user)) + '/' + escapeHTML(encodeURIComponent(calendar.uri)),
 			edit: false,
 			locked: false
 		};
@@ -84,11 +84,11 @@ app.factory('CalendarModel', function () {
 		get: function (id) {
 			for (var i = 0; i <this.calendars.length; i++) {
 				if (id == this.calendars[i].id) {
-					this.calendarId = this.calendars[i];
+					this.calendarId[id] = this.calendars[i];
 					break;
 				}
 			}
-			return this.calendarId;
+			return this.calendarId[id];
 		},
 		update: function(calendar) {
 			addListProperty(calendar);
