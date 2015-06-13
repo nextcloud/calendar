@@ -1,0 +1,10 @@
+{
+    "globals": {
+        "console": true,
+        "jQuery": true,
+        "$": true,
+        "angular": true,
+        "OC": true,
+        "app": true
+    }
+}

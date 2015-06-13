@@ -56,7 +56,7 @@ app.factory('CalendarModel', function () {
 	var addListProperty = function(calendar) {
 		calendar.list = {
 			showCalDav: false,
-			calDavLink: OC.linkToRemote('caldav') + '/' + escapeHTML(encodeURIComponent(oc_current_user)) + '/' + escapeHTML(encodeURIComponent(calendar.uri)),
+			//calDavLink: OC.linkToRemote('caldav') + '/' + escapeHTML(encodeURIComponent(oc_current_user)) + '/' + escapeHTML(encodeURIComponent(calendar.uri)),
 			edit: false,
 			locked: false
 		};

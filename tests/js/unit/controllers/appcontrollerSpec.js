@@ -26,7 +26,7 @@
 describe('AppController', function() {
 
 	var controller, scope;
-	beforeEach(module('CalendarManager'));
+	beforeEach(module('Calendar'));
 
 	beforeEach(inject(function ($controller, $rootScope) {
 		scope = $rootScope.$new();

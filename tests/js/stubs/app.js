@@ -21,7 +21,7 @@
  *
  */
 
-window.app = angular.module('CalendarManager', [
+window.app = angular.module('Calendar', [
 	'ngMock',
 	'restangular',
 	'ngRoute'

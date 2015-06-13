@@ -23,14 +23,16 @@
 
  module.exports = function(config) {
 	config.set({
+
 		frameworks: ['jasmine'],
+
 		basePath: '../../../',
+
 		files: [
-			//'3rdparty/jquery-file-upload/js/jquery.fileupload.js',
-			//'3rdparty/ical/ical.js',
 			'../../core/vendor/jquery/jquery.js',
+			//'3rdparty/ical/ical.js',
 			'../../core/vendor/moment/min/moment-with-locales.js',
-			'3rdparty/lodash/dist/lodash.underscore.js',
+			'3rdparty/lodash/lodash.min.js',
 			'3rdparty/jstzdetect/jstz.min.js',
 			'3rdparty/fullcalendar/dist/fullcalendar.min.js',
 			'3rdparty/angular/angular.js',
@@ -42,19 +44,25 @@
 			'3rdparty/angular-ui/angular-ui-sortable.js',
 			'3rdparty/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.js',
 			'3rdparty/appframework/app.js',
-			'tests/js/stubs/**/*.js',
+			'tests/js/stubs/app.js',
 			'js/app/**/*.js',
 			'tests/js/unit/**/*.js',
 		],
-		exclude: [],
-		reporters: ['progress'],
+
+		exclude: [
+
+		],
+
+		reporters: ['coverage','progress'],
+
 		port: 8080,
-		runnerPort: 9100,
+
 		colors: true,
-		logLevel: config.LOG_INFO,
-		autoWatch: true,
-		browsers: ['Chrome'],
-		captureTimeout: 5000,
+
+		autoWatch: false,
+
+		browsers: ['Firefox'],
+
 		singleRun: false
 	});
 };

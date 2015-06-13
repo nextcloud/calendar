@@ -37,6 +37,7 @@ module.exports = function(grunt) {
 			version: '<%= meta.pkg.version %>',
 			buildJS: '../js/app/',
 			productionJS: '../js/public/',
+			testsJS: '../tests/js/',
 			buildCSS: '../sass/',
 			productionCSS: '../css/'
 		},
@@ -66,22 +67,18 @@ module.exports = function(grunt) {
 		},
 
 		jshint: {
-			files: [
-				'Gruntfile.js',
-				'<%= meta.buildJS %>**/*.js',
-				'../js/config/*.js',
-				'../tests/js/unit/**/*.js',
-				'<%= meta.productionJS %>app.js'
-			],
-			exclude: [
-				'<%= meta.productionJS %>app.js'
-			],
+			app: {
+				src: [
+					'Gruntfile.js',
+					'<%= meta.buildJS %>**/*.js',
+					'../js/config/*.js',
+					'../tests/js/unit/**/*.js',
+					'<%= meta.productionJS %>app.js',
+					'<%= meta.testsJS %>**/*.js'
+				]
+			},
 			options: {
-				// options here to override JSHint defaults
-				globals: {
-					console: true,
-					sub: true
-				}
+				jshintrc: true
 			}
 		},
 
@@ -119,13 +116,13 @@ module.exports = function(grunt) {
 
 		karma: {
 			unit: {
-				configFile: '../tests/js/config/karma.js'
+				configFile: '<%= meta.testsJS %>config/karma.js',
+				autoWatch: true
 			},
 			continuous: {
-				configFile: '../tests/js/config/karma.js',
+				configFile: '<%= meta.testsJS %>config/karma.js',
+				browsers: ['Firefox'],
 				singleRun: true,
-				browsers: ['PhantomJS'],
-				reporters: ['progress']
 			}
 		}
 
@@ -133,5 +130,6 @@ module.exports = function(grunt) {
 
 	// make tasks available under simpler commands
 	grunt.registerTask('build', ['jshint', 'concat', 'wrap']);
+	grunt.registerTask('js-unit', ['karma:continuous']);
 
 };

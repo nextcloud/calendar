@@ -26,8 +26,8 @@
 		"karma-jasmine": "*",
 		"karma-phantomjs-launcher": "*",
 		"karma-chrome-launcher": "*",
-		"karma-firefox-launcher": "*"
-
+		"karma-firefox-launcher": "*",
+		"karma-coverage": "*"
 	},
 	"engine": "node >= 0.8"
 }
