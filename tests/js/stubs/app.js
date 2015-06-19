@@ -30,3 +30,19 @@ window.app = angular.module('Calendar', [
 		RestangularProvider.setBaseUrl('/v1/');
 	}
 ]);
+
+window.OC = {
+
+    linkToRemote: function (url) {
+        'use strict';
+
+        return '/base' + url;
+    }
+
+};
+
+escapeHTML = function (string) {
+	return;
+}
+
+oc_current_user = 'user';
