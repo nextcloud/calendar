@@ -21,59 +21,53 @@
  *
  */
 
-describe('CalendarListController', function() {
+describe('EventsModel', function() {
+	'use strict';
 
 	var controller, scope, model, routeParams, http;
 
 	beforeEach(module('Calendar'));
 
-	beforeEach(inject(function ($controller, $rootScope, $httpBackend,
-		CalendarModel) {
+	beforeEach(inject(function ($controller, $rootScope, $httpBackend, 
+		EventsModel) {
 			http = $httpBackend;
 			scope = $rootScope.$new();
-			model = CalendarModel;
-			controller = $controller;
 		}
 	));
 
-	it ('should create a calendar', function() {
+	it ('should be empty', inject(function (EventsModel) {
+		expect(EventsModel.getAll().length).toBe(0);
+	}));
 
-		controller = controller('CalendarListController', {
-			$scope: scope,
-			CalendarModel: model
-		});
+	it('should get all the events', inject(function (EventsModel) {
+	}));
 
-		var calendar = {
-			displayname : 'Sample Calendar',
-			id: 7
-		};
+	it('should create an event', inject(function (EventsModel) {
+	}));
 
-		http.expectPOST('/v1/calendars').respond(calendar);
-		scope.create();
-		http.flush(1);
+	it('should add all the events', inject(function (EventsModel) {
+	}));
 
-		expect(model.get(7).displayname).toBe('Sample Calendar');
-	});
+	it('should delete an event', inject(function (EventsModel) {
+	}));
 
-	it ('should delete the selected calendar', function () {
+	it('should add an attendee to the event', inject(function (EventsModel) {
 
-		var calendars = [
-			{id: 2, title: 'Sample Calendar'}
-		];
+	}));
 
-		controller = controller('CalendarListController', {
-			$scope: scope,
-			CalendarModel: model
-		});
+	it('should drag and drop the event from one position to another', inject(function (EventsModel) {
 
-		scope.remove(calendars);
-		http.expectDELETE('/v1/calendars/2').respond(200, {});
-		http.flush(1);
+	}));
 
-		expect(calendars).not.toBeDefined();
-	});
+	it('should resize the duration of the event', inject(function (EventsModel) {
 
-	afterEach(function() {
+	}));
+
+	it('should add all display figures', inject(function (EventsModel) {
+
+	}));
+
+	afterEach(function () {
 		http.verifyNoOutstandingExpectation();
 		http.verifyNoOutstandingRequest();
 	});
