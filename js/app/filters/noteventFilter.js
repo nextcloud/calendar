@@ -23,6 +23,7 @@
 
 app.filter('noteventFilter',
 	[ function () {
+		'use strict';
 		var noteventfilter = function (item) {
 			var filter = [];
 			if (item.length > 0) {

@@ -22,32 +22,31 @@
  */
 
  module.exports = function(config) {
-	config.set({
+   'use strict';
 
-		frameworks: ['jasmine'],
-
-		basePath: '../../../',
-
-		files: [
-			'../../core/vendor/jquery/jquery.js',
-			//'3rdparty/ical/ical.js',
-			'../../core/vendor/moment/min/moment-with-locales.js',
-			'3rdparty/lodash/lodash.min.js',
-			'3rdparty/jstzdetect/jstz.min.js',
-			'3rdparty/fullcalendar/dist/fullcalendar.min.js',
-			'3rdparty/angular/angular.js',
-			'3rdparty/restangular/dist/restangular.js',
-			'3rdparty/angular-route/angular-route.js',
-			'3rdparty/angular-mocks/angular-mocks.js',
-			'3rdparty/angular-ui/angular-ui.js',
-			'3rdparty/angular-ui/angular-ui-calendar.js',
-			'3rdparty/angular-ui/angular-ui-sortable.js',
-			'3rdparty/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.js',
-			'3rdparty/appframework/app.js',
-			'tests/js/stubs/app.js',
-			'js/app/**/*.js',
-			'tests/js/unit/**/*.js',
-		],
+   config.set({
+     frameworks: ['jasmine'],
+     basePath: '../../../',
+     files: [
+  			'../../core/vendor/jquery/jquery.js',
+  			//'3rdparty/ical/ical.js',
+  			'../../core/vendor/moment/min/moment-with-locales.js',
+  			'3rdparty/lodash/lodash.min.js',
+  			'3rdparty/jstzdetect/jstz.min.js',
+  			'3rdparty/fullcalendar/dist/fullcalendar.min.js',
+  			'3rdparty/angular/angular.js',
+  			'3rdparty/restangular/dist/restangular.js',
+  			'3rdparty/angular-route/angular-route.js',
+  			'3rdparty/angular-mocks/angular-mocks.js',
+  			'3rdparty/angular-ui/angular-ui.js',
+  			'3rdparty/angular-ui/angular-ui-calendar.js',
+  			'3rdparty/angular-ui/angular-ui-sortable.js',
+  			'3rdparty/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.js',
+  			'3rdparty/appframework/app.js',
+  			'tests/js/stubs/app.js',
+  			'js/app/**/*.js',
+  			'tests/js/unit/**/*.js',
+  	],
 
 		exclude: [
 

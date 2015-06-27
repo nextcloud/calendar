@@ -23,6 +23,7 @@
 
 app.filter('eventFilter',
 	[ function () {
+		'use strict';
 		var eventfilter = function (item) {
 			var filter = [];
 			if (item.length > 0) {

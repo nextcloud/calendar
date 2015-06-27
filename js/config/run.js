@@ -3,10 +3,8 @@
  *
  * @author Raghu Nayyar
  * @author Georg Ehrke
- * @author Bernhard Posselt
  * @copyright 2014 Raghu Nayyar <beingminimal@gmail.com>
  * @copyright 2014 Georg Ehrke <oc.list@georgehrke.com>
- * @copyright 2014 Bernhard Posselt <dev@bernhard-posselt.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -23,13 +21,11 @@
  *
  */
 
-describe('is', function() {
-	'use strict';
-
-	beforeEach(module('Calendar'));
-
-	it ('should be set loading to false', inject(function(is) {
-		expect(is.loading).toBe(false);
-	}));
-
-});
+app.run(['$rootScope', '$location', 'CalendarModel', 'EventsModel',
+	function ($rootScope, $location, CalendarModel, EventsModel) {
+		'use strict';
+		$rootScope.$on('$routeChangeError', function () {
+			var calendars = CalendarModel.getAll();
+			var events = EventsModel.getAll();
+		});
+}]);

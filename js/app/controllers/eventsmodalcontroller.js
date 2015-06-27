@@ -28,7 +28,7 @@
 
 app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular', 'CalendarModel', 'TimezoneModel', 'EventsModel', 'DialogModel', 'Model',
 	function ($scope, $routeParams, Restangular, CalendarModel, TimezoneModel, EventsModel, DialogModel, Model) {
-		
+		'use strict';
 		$scope.eventsmodel = EventsModel;
 		$scope.calendarModel = CalendarModel;
 		$scope.calendars = CalendarModel.getAll();
@@ -65,10 +65,10 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 						var factors = [60,60,24,7];
 
 						alarm.editor = {};
-						alarm.editor.reminderSelectValue = ([0, -1 * 5 * 60, -1 * 10 * 60, -1 * 15 * 60, -1 * 60 * 60, -1 * 2 * 60 * 60].indexOf(alarm.trigger.value) != -1) ? alarm.trigger.value : 'custom';
+						alarm.editor.reminderSelectValue = ([0, -1 * 5 * 60, -1 * 10 * 60, -1 * 15 * 60, -1 * 60 * 60, -1 * 2 * 60 * 60].indexOf(alarm.trigger.value) !==-1) ? alarm.trigger.value : 'custom';
 
 						alarm.editor.triggerType = (alarm.trigger.type === 'duration') ? 'relative' : 'absolute';
-						if (alarm.editor.triggerType == 'relative') {
+						if (alarm.editor.triggerType === 'relative') {
 							var triggerValue = Math.abs(alarm.trigger.value);
 
 							alarm.editor.triggerBeforeAfter = (alarm.trigger.value < 0) ? -1 : 1;
@@ -91,7 +91,7 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 							alarm.editor.triggerTimeUnit = 60;
 						}
 
-						if (alarm.editor.triggerType == 'absolute') {
+						if (alarm.editor.triggerType === 'absolute') {
 							alarm.editor.absDate = alarm.trigger.value.format('L');
 							alarm.editor.absTime = alarm.trigger.value.format('LT');
 						} else {
@@ -226,7 +226,7 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 
 		$scope.startendreminderSelect = [
 			{ displayname: t('Calendar', 'Start'), type: 'start'},
-			{ displayname: t('Calendar', 'End'), type: 'end'}	
+			{ displayname: t('Calendar', 'End'), type: 'end'}
 		];
 
 		$scope.addReminder = function() {
@@ -234,20 +234,20 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 			$scope.properties.alarms.push({
 					id: $scope.newReminderId,
 					action: {
-						type: "text",
-						value: "AUDIO"
+						type: 'text',
+						value: 'AUDIO'
 					},
 					trigger: {
-						type: "duration",
+						type: 'duration',
 						value: -900,
-						related: "start"
+						related: 'start'
 					},
 					repeat: {},
 					duration: {},
 					attendees: [],
 					editor: {
 						reminderSelectValue: -900,
-						triggerType: "relative",
+						triggerType: 'relative',
 						triggerBeforeAfter: -1,
 						triggerTimeUnit: 60,
 						triggerValue: 15,
@@ -284,7 +284,7 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 				if ($scope.properties.alarms[key].id === id) {
 					var action = $scope.properties.alarms[key].action.value;
 					//WE DON'T AIM TO SUPPORT PROCEDURE
-					return (['AUDIO', 'DISPLAY', 'EMAIL'].indexOf(action) != -1);
+					return (['AUDIO', 'DISPLAY', 'EMAIL'].indexOf(action) !==-1);
 				}
 			}
 			return false;

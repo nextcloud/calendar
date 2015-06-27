@@ -22,6 +22,7 @@
  */
 
  app.directive('upload', ['UploadModel', function factory(UploadModel) {
+   'use strict';
 	return {
 		restrict: 'A',
 		link: function (scope, element, attrs) {

@@ -22,8 +22,9 @@
  */
 
 describe('CalendarListController', function() {
-
-	var controller, scope, model, routeParams, http;
+	'use strict';
+	
+	var controller, scope, model, http;
 
 	beforeEach(module('Calendar'));
 

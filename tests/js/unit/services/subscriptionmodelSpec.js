@@ -24,12 +24,11 @@
 describe('SubscriptionModel', function() {
 	'use strict';
 
-	var controller, scope, model, routeParams, http;
+	var scope, http;
 
 	beforeEach(module('Calendar'));
 
-	beforeEach(inject(function ($controller, $rootScope, $httpBackend, 
-		CalendarModel) {
+	beforeEach(inject(function ($controller, $rootScope, $httpBackend) {
 			http = $httpBackend;
 			scope = $rootScope.$new();
 		}
@@ -40,14 +39,14 @@ describe('SubscriptionModel', function() {
 	}));
 
 	it('should get all the subscriptions', inject(function (SubscriptionModel) {
-		SubscriptionModel.create({type: "org.ownCloud.webcal", url: "https://url.tld/file.ics"});
-		SubscriptionModel.create({type: "org.ownCloud.webcal", url: "https://url.tld/file2.ics"});
-		
+		SubscriptionModel.create({type: 'org.ownCloud.webcal', url: 'https://url.tld/file.ics'});
+		SubscriptionModel.create({type: 'org.ownCloud.webcal', url: 'https://url.tld/file2.ics'});
+
 		expect(SubscriptionModel.getAll().length).toBe(2);
-	}));	
+	}));
 
 	it('should create a subscription', inject(function (SubscriptionModel) {
-		SubscriptionModel.create({type: "org.ownCloud.webcal", url: "https://url.tld/file.ics"});
+		SubscriptionModel.create({type: 'org.ownCloud.webcal', url: 'https://url.tld/file.ics'});
 
 		expect(SubscriptionModel.getAll().length).toBe(1);
 		expect(SubscriptionModel.getAll()[0].url).toBe('https://url.tld/file.ics');
@@ -55,11 +54,11 @@ describe('SubscriptionModel', function() {
 
 	it('should get the Subscription Names', inject(function (SubscriptionModel) {
 		var samplebackend = [{
-			id : "org.ownCloud.local",
+			id : 'org.ownCloud.local',
 			subscriptions : [
 				{
-					name : "Sample Subscription",
-					type : "org.ownCloud.local"
+					name : 'Sample Subscription',
+					type : 'org.ownCloud.local'
 				}
 			]
 		}];

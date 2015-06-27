@@ -24,12 +24,12 @@
 describe('CalendarModel', function() {
 	'use strict';
 
-	var controller, scope, model, routeParams, http;
+	var scope, http;
 
 	beforeEach(module('Calendar'));
 
-	beforeEach(inject(function ($controller, $rootScope, $httpBackend, 
-		CalendarModel) {
+	beforeEach(inject(function ($controller, $rootScope,
+		$httpBackend) {
 			http = $httpBackend;
 			scope = $rootScope.$new();
 		}
@@ -69,7 +69,7 @@ describe('CalendarModel', function() {
 		CalendarModel.addAll(calendars);
 
 		expect(CalendarModel.getAll().length).toBe(2);
-	}))
+	}));
 
 	it('should update the calendar', inject(function (CalendarModel) {
 		CalendarModel.create({id: 6, displayname: 'Sample Calendar 6'});
@@ -90,8 +90,9 @@ describe('CalendarModel', function() {
 		var calendars = [
 			{id: 7, displayname: 'Sample Calendar 7'},
 			{id: 8, displayname: 'Sample Calendar 8'}
-		]
-		var calendarId = {id: 8, displayname: 'Sample Calendar 8'};
+		];
+		
+		CalendarModel.addAll(calendars);
 
 		CalendarModel.reset();
 

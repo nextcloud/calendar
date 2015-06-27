@@ -74,13 +74,12 @@ module.exports = function(grunt) {
 		jshint: {
 			files: [
 				'Gruntfile.js',
-				'<%= meta.buildJS %>**/*.js',
 				'<%= meta.configJS %>*.js',
-				'<%= meta.productionJS %>app.js',
+				'<%= meta.buildJS %>**/*.js',
 				'<%= meta.testsJS %>**/*.js'
 			],
 			options: {
-				jshintrc: true
+				jshintrc: '.jshintrc'
 			}
 		},
 
@@ -108,7 +107,7 @@ module.exports = function(grunt) {
 				},
 				tasks: ['build', 'sass']
 			}
-		},		
+		},
 
 		phpunit: {
 			classes: {

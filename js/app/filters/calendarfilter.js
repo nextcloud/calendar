@@ -22,6 +22,7 @@
  */
 app.filter('calendarFilter',
 	[ function () {
+		'use strict';
 		var calendarfilter = function (item) {
 			var filter = [];
 			if (item.length > 0) {

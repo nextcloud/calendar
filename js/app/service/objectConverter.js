@@ -21,6 +21,7 @@
  *
  */
 app.factory('objectConverter', function () {
+	'use strict';
 
 	/**
 	 * parsers of supported properties
@@ -256,7 +257,7 @@ app.factory('objectConverter', function () {
 				type: 'string',
 				value: dtend.zone
 			};
-			data.allDay = (dtstart.icaltype == 'date' && dtend.icaltype == 'date');
+			data.allDay = (dtstart.icaltype === 'date' && dtend.icaltype === 'date');
 		},
 		geo: function(data, vevent) {
 			/*

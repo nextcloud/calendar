@@ -27,6 +27,8 @@
 */
 
 app.factory('DialogModel', function() {
+	'use strict';
+	
 	return {
 		initsmall: function(elementId) {
 			$(elementId).dialog({

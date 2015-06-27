@@ -28,7 +28,7 @@
 
 app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'CalendarModel', 'EventsModel', 'ViewModel', 'TimezoneModel', 'DialogModel',
 	function ($scope, $rootScope, Restangular, CalendarModel, EventsModel, ViewModel, TimezoneModel, DialogModel) {
-
+		'use strict';
 		$scope.eventSources = EventsModel.getAll();
 		$scope.calendarModel = CalendarModel;
 		$scope.defaulttimezone = TimezoneModel.currenttimezone();
@@ -111,8 +111,8 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 		var monthNames = [];
 		var monthNamesShort = [];
 		for (i = 0; i < 12; i++) {
-			monthNames.push(moment.localeData().months(moment([0, i]), ""));
-			monthNamesShort.push(moment.localeData().monthsShort(moment([0, i]), ""));
+			monthNames.push(moment.localeData().months(moment([0, i]), ''));
+			monthNamesShort.push(moment.localeData().monthsShort(moment([0, i]), ''));
 		}
 
 		var dayNames = [];
@@ -189,9 +189,9 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 				},
 				viewRender: function (view) {
 					angular.element('#firstrow').find('.datepicker_current').html(view.title).text();
-					angular.element("#datecontrol_date").datepicker("setDate", $scope.calendar.fullCalendar('getDate'));
+					angular.element('#datecontrol_date').datepicker('setDate', $scope.calendar.fullCalendar('getDate'));
 					var newview = view.name;
-					if (newview != $scope.defaultView) {
+					if (newview !== $scope.defaultView) {
 						viewResource.get().then(function (newview) {
 							ViewModel.add(newview);
 						}, function (response) {
@@ -204,7 +204,7 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 					} else {
 						angular.element('td.fc-state-highlight').css('background-color', '#ffc');
 					}
-					if (newview == 'agendaWeek') {
+					if (newview ==='agendaWeek') {
 						$scope.calendar.fullCalendar('option', 'aspectRatio', 0.1);
 					} else {
 						$scope.calendar.fullCalendar('option', 'aspectRatio', 1.35);
@@ -255,27 +255,27 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 			var id = updatedCalendar.id;
 			var index = switcher.indexOf(id);
 
-			if (updatedCalendar.enabled === true && index == -1) {
+			if (updatedCalendar.enabled === true && index ===-1) {
 				$scope.calendar.fullCalendar('addEventSource',
 					$scope.eventSource[id]);
 				switcher.push(id);
 			}
 			//Events are already visible -> loading finished
-			if (updatedCalendar.enabled === true && index != -1) {
+			if (updatedCalendar.enabled === true && index !== -1) {
 				$rootScope.$broadcast('finishedLoadingEvents', updatedCalendar.id);
 			}
 
-			if (updatedCalendar.enabled === false && index != -1) {
+			if (updatedCalendar.enabled === false && index !== -1) {
 				$scope.calendar.fullCalendar('removeEventSource',
 					$scope.eventSource[id]);
 				switcher.splice(index, 1);
 			}
 
-			if ($scope.eventSource[id].color != updatedCalendar.color) {
+			if ($scope.eventSource[id].color !== updatedCalendar.color) {
 				// Sadly fullcalendar doesn't support changing a calendar's
 				// color without removing and then adding it again as an eventSource
 				$scope.eventSource[id].color = updatedCalendar.color;
-				if (index != -1) {
+				if (index !== -1) {
 					//TODO find a solution
 				}
 			}
@@ -304,7 +304,7 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 		});
 
 		/**
-		 * Watches the Calendar view. 
+		 * Watches the Calendar view.
 		*/
 
 		$scope.$watch('calendarModel.modelview', function (newview, oldview) {
@@ -315,7 +315,7 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 				calendar.fullCalendar('today');
 			};
 			if (newview.view && $scope.calendar) {
-				if (newview.view != 'today') {
+				if (newview.view !== 'today') {
 					$scope.changeView(newview.view, $scope.calendar);
 				} else {
 					$scope.today($scope.calendar);
@@ -324,7 +324,7 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 		}, true);
 
 		/**
-		 * Watches the date picker. 
+		 * Watches the date picker.
 		*/
 
 		$scope.$watch('calendarModel.datepickerview', function (newview, oldview) {

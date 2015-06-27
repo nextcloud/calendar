@@ -27,6 +27,7 @@ window.app = angular.module('Calendar', [
 	'ngRoute'
 ]).config(['RestangularProvider',
 	function (RestangularProvider) {
+		'use strict';
 		RestangularProvider.setBaseUrl('/v1/');
 	}
 ]);
@@ -41,8 +42,10 @@ window.OC = {
 
 };
 
-escapeHTML = function (string) {
+escapeHTML = function () {
+	'use strict';
+
 	return;
-}
+};
 
 oc_current_user = 'user';

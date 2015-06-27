@@ -24,9 +24,10 @@
  */
 
 app.factory('is', function () {
+	'use strict';
 	return {
 		loading: false,
-		calendarloading: function (id) {
+		calendarloading: function () {
 		}
 	};
 });

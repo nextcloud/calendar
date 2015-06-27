@@ -28,6 +28,7 @@
 
 app.directive('loading',
 	[ function () {
+		'use strict';
 		return {
 			restrict: 'E',
 			replace: true,

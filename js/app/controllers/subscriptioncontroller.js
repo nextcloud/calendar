@@ -28,7 +28,8 @@
 
 app.controller('SubscriptionController', ['$scope', '$rootScope', '$window', 'SubscriptionModel', 'CalendarModel', 'EventsModel', 'Restangular',
 	function ($scope, $rootScope, $window, SubscriptionModel, CalendarModel, EventsModel, Restangular) {
-
+		'use strict';
+		
 		$scope.subscriptions = SubscriptionModel.getAll();
 		var subscriptionResource = Restangular.all('subscriptions');
 

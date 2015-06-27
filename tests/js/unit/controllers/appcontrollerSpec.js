@@ -24,7 +24,8 @@
  */
 
 describe('AppController', function() {
-
+	'use strict';
+	
 	var controller, scope;
 	beforeEach(module('Calendar'));
 

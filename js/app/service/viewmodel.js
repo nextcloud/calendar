@@ -27,6 +27,7 @@
 */
 
 app.factory('ViewModel', function () {
+	'use strict';
 	var ViewModel = function () {
 		this.view = [];
 		this.viewId = {};

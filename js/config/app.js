@@ -32,41 +32,4 @@ var app = angular.module('Calendar', [
 	'ui.bootstrap',
 	'ui.calendar',
 	'colorpicker.module'
-]).config(['$provide', '$routeProvider', 'RestangularProvider', '$httpProvider', '$windowProvider',
-	function ($provide, $routeProvider, RestangularProvider, $httpProvider, $windowProvider) {
-
-		$httpProvider.defaults.headers.common.requesttoken = oc_requesttoken;
-
-		$routeProvider.when('/', {
-			templateUrl: 'calendar.html',
-			controller: 'CalController',
-			resolve: {
-				calendar: ['$q', 'Restangular', 'CalendarModel', 'is',
-					function ($q, Restangular, CalendarModel,is) {
-						var deferred = $q.defer();
-						is.loading = true;
-						Restangular.all('calendars').getList().then(function (calendars) {
-							CalendarModel.addAll(calendars);
-							deferred.resolve(calendars);
-							is.loading = false;
-						}, function () {
-							deferred.reject();
-							is.loading = false;
-						});
-						return deferred.promise;
-					}],
-			}
-		});
-
-		var $window = $windowProvider.$get();
-		var url = $window.location.href;
-		var baseUrl = url.split('index.php')[0] + 'index.php/apps/calendar/v1';
-		RestangularProvider.setBaseUrl(baseUrl);
-	}
-]).run(['$rootScope', '$location', 'CalendarModel', 'EventsModel',
-	function ($rootScope, $location, CalendarModel, EventsModel) {
-		$rootScope.$on('$routeChangeError', function () {
-			var calendars = CalendarModel.getAll();
-			var events = EventsModel.getAll();
-		});
-	}]);
+]);

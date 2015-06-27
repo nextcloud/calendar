@@ -24,12 +24,12 @@
 describe('EventsModel', function() {
 	'use strict';
 
-	var controller, scope, model, routeParams, http;
+	var scope, http;
 
 	beforeEach(module('Calendar'));
 
-	beforeEach(inject(function ($controller, $rootScope, $httpBackend, 
-		EventsModel) {
+	beforeEach(inject(function ($controller, $rootScope,
+		$httpBackend) {
 			http = $httpBackend;
 			scope = $rootScope.$new();
 		}
@@ -39,31 +39,31 @@ describe('EventsModel', function() {
 		expect(EventsModel.getAll().length).toBe(0);
 	}));
 
-	it('should get all the events', inject(function (EventsModel) {
+	it('should get all the events', inject(function () {
 	}));
 
-	it('should create an event', inject(function (EventsModel) {
+	it('should create an event', inject(function () {
 	}));
 
-	it('should add all the events', inject(function (EventsModel) {
+	it('should add all the events', inject(function () {
 	}));
 
-	it('should delete an event', inject(function (EventsModel) {
+	it('should delete an event', inject(function () {
 	}));
 
-	it('should add an attendee to the event', inject(function (EventsModel) {
-
-	}));
-
-	it('should drag and drop the event from one position to another', inject(function (EventsModel) {
+	it('should add an attendee to the event', inject(function () {
 
 	}));
 
-	it('should resize the duration of the event', inject(function (EventsModel) {
+	it('should drag and drop the event from one position to another', inject(function () {
 
 	}));
 
-	it('should add all display figures', inject(function (EventsModel) {
+	it('should resize the duration of the event', inject(function () {
+
+	}));
+
+	it('should add all display figures', inject(function () {
 
 	}));
 

@@ -24,9 +24,10 @@
 /**
 * Controller: Modal
 * Description: The jQuery Model ported to angularJS as a directive.
-*/ 
+*/
 
-app.directive('openDialog', function(){
+app.directive('openDialog', function() {
+	'use strict';
 	return {
 		restrict: 'A',
 		link: function(scope, elem, attr, ctrl) {

@@ -27,6 +27,7 @@
 */
 
 app.factory('Model', function () {
+	'use strict';
 	var Model = function () {
 		this.text = '';
 		this.possible = '';
@@ -34,7 +35,7 @@ app.factory('Model', function () {
 
 	Model.prototype = {
 		uidgen: function () {
-			this.possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+			this.possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 			for (var i = 0; i < 5; i++) {
 				this.text += possible.charAt(Math.floor(Math.random() * possible.length));
 			}

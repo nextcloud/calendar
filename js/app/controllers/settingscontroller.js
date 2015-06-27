@@ -28,7 +28,7 @@
 
 app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'CalendarModel','UploadModel', 'DialogModel',
 	function ($scope, $rootScope, Restangular, CalendarModel, UploadModel, DialogModel) {
-
+		'use strict';
 		$scope.files = [];
 
 		$scope.settingsCalDavLink = OC.linkToRemote('caldav') + '/';

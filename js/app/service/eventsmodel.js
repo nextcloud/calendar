@@ -27,6 +27,8 @@
 */
 
 app.factory('EventsModel', ['objectConverter', function (objectConverter) {
+	'use strict';
+
 	var EventsModel = function () {
 		this.events = [];
 		this.eventsUid = {};
@@ -38,9 +40,9 @@ app.factory('EventsModel', ['objectConverter', function (objectConverter) {
 		this.components = {};
 		this.vevents = {};
 		this.eventsmodalproperties = {
-			"event": '',
-			"jsEvent": '',
-			"view": ''
+			'event': '',
+			'jsEvent': '',
+			'view': ''
 		};
 	};
 
@@ -92,20 +94,20 @@ app.factory('EventsModel', ['objectConverter', function (objectConverter) {
 			iCalTimeEnd.fromUnixTime(end);
 
 			if (components.jCal.length !== 0) {
-				var vtimezones = components.getAllSubcomponents("vtimezone");
+				var vtimezones = components.getAllSubcomponents('vtimezone');
 				angular.forEach(vtimezones, function (vtimezone) {
 					var timezone = new ICAL.Timezone(vtimezone);
 					ICAL.TimezoneService.register(timezone.tzid, timezone);
 				});
 
-				var vevents = components.getAllSubcomponents("vevent");
+				var vevents = components.getAllSubcomponents('vevent');
 				angular.forEach(vevents, function (vevent) {
 					try {
 						var iCalEvent = new ICAL.Event(vevent);
 						var event = {
-							"calendardisplayname": calendardisplayname,
-							"calendarcolor": calendarcolor,
-							"calendarId": calendarId
+							'calendardisplayname': calendardisplayname,
+							'calendarcolor': calendarcolor,
+							'calendarId': calendarId
 						};
 
 						event.objectUri = vevent.getFirstPropertyValue('x-oc-uri');
@@ -157,14 +159,14 @@ app.factory('EventsModel', ['objectConverter', function (objectConverter) {
 								dtend = next.clone();
 								dtend.addDuration(duration);
 
-								if (dtstart.icaltype != 'date' && dtstart.zone != ICAL.Timezone.utcTimezone && dtstart.zone != ICAL.Timezone.localTimezone) {
+								if (dtstart.icaltype !== 'date' && dtstart.zone !== ICAL.Timezone.utcTimezone && dtstart.zone !== ICAL.Timezone.localTimezone) {
 									dtstart.convertToZone(timezone);
 								}
-								if (dtend.icaltype != 'date' && dtend.zone != ICAL.Timezone.utcTimezone && dtend.zone != ICAL.Timezone.localTimezone) {
+								if (dtend.icaltype !== 'date' && dtend.zone !== ICAL.Timezone.utcTimezone && dtend.zone !== ICAL.Timezone.localTimezone) {
 									dtend.convertToZone(timezone);
 								}
 
-								isAllDay = (dtstart.icaltype == 'date' && dtend.icaltype == 'date');
+								isAllDay = (dtstart.icaltype === 'date' && dtend.icaltype === 'date');
 
 								var newEvent = JSON.parse(JSON.stringify(event));
 								newEvent.start = dtstart.toJSDate();
@@ -174,15 +176,15 @@ app.factory('EventsModel', ['objectConverter', function (objectConverter) {
 								events.push(newEvent);
 							}
 						} else {
-							if (dtstart.icaltype != 'date' && dtstart.zone != ICAL.Timezone.utcTimezone && dtstart.zone != ICAL.Timezone.localTimezone) {
+							if (dtstart.icaltype !== 'date' && dtstart.zone !== ICAL.Timezone.utcTimezone && dtstart.zone !== ICAL.Timezone.localTimezone) {
 								dtstart = dtstart.convertToZone(timezone);
 							}
 
-							if (dtend.icaltype != 'date' && dtend.zone != ICAL.Timezone.utcTimezone && dtend.zone != ICAL.Timezone.localTimezone) {
+							if (dtend.icaltype !== 'date' && dtend.zone !== ICAL.Timezone.utcTimezone && dtend.zone !== ICAL.Timezone.localTimezone) {
 								dtend = dtend.convertToZone(timezone);
 							}
 
-							isAllDay = (dtstart.icaltype == 'date' && dtend.icaltype == 'date');
+							isAllDay = (dtstart.icaltype === 'date' && dtend.icaltype === 'date');
 
 							event.start = dtstart.toJSDate();
 							event.end = dtend.toJSDate();
@@ -291,7 +293,7 @@ app.factory('EventsModel', ['objectConverter', function (objectConverter) {
 			if (this.components.jCal.length !== 0) {
 				for (var i = 0; i < this.vevents.length; i++) {
 					if (!isCorrectEvent(event, this.vevents[i])) {
-						this.components.addSubcomponent(vevents[i]);
+						this.components.addSubcomponent(this.vevents[i]);
 						continue;
 					}
 					var data = objectConverter.parse(this.vevents[i]);

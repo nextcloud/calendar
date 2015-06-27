@@ -23,6 +23,7 @@
 
 app.controller('AppController', ['$scope', 'is',
 	function ($scope, is) {
+		'use strict';
 		$scope.is = is;
 	}
 ]);

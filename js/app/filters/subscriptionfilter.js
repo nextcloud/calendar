@@ -23,6 +23,8 @@
 
 app.filter('subscriptionFilter',
 	[ function () {
+		'use strict';
+		
 		var subscriptionfilter = function (item) {
 			var filter = [];
 			if (item.length > 0) {

@@ -27,6 +27,8 @@
 */
 
 app.factory('TimezoneModel', function () {
+	'use strict';
+
 	var TimezoneModel = function () {
 		this.timezones = [];
 		this.timezoneslist = [];
@@ -57,7 +59,7 @@ app.factory('TimezoneModel', function () {
 		},
 		addtimezone: function (timezonedata) {
 			var rawdata = new ICAL.Component(timezonedata);
-			var vtimezones = rawdata.getAllSubcomponents("vtimezone");
+			var vtimezones = rawdata.getAllSubcomponents('vtimezone');
 			var timezone = [];
 			ICAL.TimezoneService.reset();
 			angular.forEach(vtimezones, function (value, key) {

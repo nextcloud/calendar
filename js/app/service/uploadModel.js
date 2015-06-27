@@ -24,9 +24,11 @@
 /**
 * Model: Upload
 * Description: Required for Uploading / Importing Files.
-*/ 
+*/
 
 app.factory('UploadModel', function ($rootScope) {
+	'use strict';
+	
 	var _files = [];
 	return {
 		add: function (file) {

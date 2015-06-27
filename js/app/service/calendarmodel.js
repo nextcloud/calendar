@@ -24,9 +24,10 @@
 /**
 * Model: Calendar
 * Description: Required for Calendar Sharing.
-*/ 
+*/
 
 app.factory('CalendarModel', function () {
+	'use strict';
 	var CalendarModel = function () {
 		this.calendars = [];
 		this.calendarId = {};
@@ -83,7 +84,7 @@ app.factory('CalendarModel', function () {
 		},
 		get: function (id) {
 			for (var i = 0; i <this.calendars.length; i++) {
-				if (id == this.calendars[i].id) {
+				if (id === this.calendars[i].id) {
 					this.calendarId[id] = this.calendars[i];
 					break;
 				}
@@ -94,7 +95,7 @@ app.factory('CalendarModel', function () {
 			addListProperty(calendar);
 
 			for (var i = 0; i < this.calendars.length; i++) {
-				if (this.calendars[i].id == calendar.id) {
+				if (this.calendars[i].id === calendar.id) {
 					this.calendars[i] = calendar;
 					break;
 				}

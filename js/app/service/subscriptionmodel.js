@@ -24,9 +24,10 @@
 /**
 * Model: Subscriptions
 * Description: Required for Subscription Sharing.
-*/ 
+*/
 
 app.factory('SubscriptionModel', function () {
+	'use strict';
 	var SubscriptionModel = function () {
 		this.subscriptions = [];
 		this.subscriptionId = {};

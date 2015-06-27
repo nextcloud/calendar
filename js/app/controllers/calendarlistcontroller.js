@@ -29,6 +29,7 @@
 app.controller('CalendarListController', ['$scope', '$rootScope', '$window',
 	'$routeParams', 'Restangular', 'CalendarModel',
 	function ($scope, $rootScope, $window, $routeParams, Restangular, CalendarModel) {
+		'use strict';
 
 		$scope.calendarModel = CalendarModel;
 		$scope.calendars = CalendarModel.getAll();
