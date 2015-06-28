@@ -23,7 +23,7 @@
 
 describe('CalendarListController', function() {
 	'use strict';
-	
+
 	var controller, scope, model, http;
 
 	beforeEach(module('Calendar'));
@@ -59,7 +59,8 @@ describe('CalendarListController', function() {
 	it ('should delete the selected calendar', function () {
 
 		var calendars = [
-			{id: 2, title: 'Sample Calendar'}
+			{id: 2, title: 'Sample Calendar'},
+			{id: 3, title: 'Sample Calendar 2'}
 		];
 
 		controller = controller('CalendarListController', {
@@ -67,11 +68,14 @@ describe('CalendarListController', function() {
 			CalendarModel: model
 		});
 
-		scope.remove(calendars);
+		model.create(calendars);
+
+		scope.remove(2);
 		http.expectDELETE('/v1/calendars/2').respond(200, {});
+
 		http.flush(1);
 
-		expect(calendars).not.toBeDefined();
+		expect(model.getAll().length).toBe(1);
 	});
 
 	afterEach(function() {
