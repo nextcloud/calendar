@@ -21,22 +21,40 @@
  *
  */
 
-/**
-* Model: View
-* Description: Sets the full calendarview.
-*/
-
-app.factory('ViewModel', function () {
+describe('DialogModel', function() {
 	'use strict';
-	var ViewModel = function () {
-		this.view = [];
-	};
 
-	ViewModel.prototype = {
-		add: function (views) {
-			this.view.push(views);
+	var controller, scope, model, http;
+
+	beforeEach(module('Calendar'));
+
+	beforeEach(inject(function ($controller, $rootScope, $httpBackend,
+		DialogModel) {
+			http = $httpBackend;
+			scope = $rootScope.$new();
+			model = DialogModel;
+			controller = $controller;
 		}
-	};
+	));
 
-	return new ViewModel();
+  it ('should initiate a small model', function () {
+
+  });
+
+  it ('should initiate a big model', function () {
+
+  });
+
+  it ('should open a model', function () {
+
+  });
+
+  it ('should close a model', function () {
+
+  });
+
+	afterEach(function() {
+		http.verifyNoOutstandingExpectation();
+		http.verifyNoOutstandingRequest();
+	});
 });

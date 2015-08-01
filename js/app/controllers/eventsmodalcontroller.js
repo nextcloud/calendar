@@ -33,8 +33,6 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 		$scope.calendarModel = CalendarModel;
 		$scope.calendars = CalendarModel.getAll();
 
-		console.log($scope.calendars);
-
 		$scope.properties = {
 			calcolor: '',
 			title : '',

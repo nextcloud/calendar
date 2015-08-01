@@ -21,22 +21,36 @@
  *
  */
 
-/**
-* Model: View
-* Description: Sets the full calendarview.
-*/
-
-app.factory('ViewModel', function () {
+describe('UploadModel', function() {
 	'use strict';
-	var ViewModel = function () {
-		this.view = [];
-	};
 
-	ViewModel.prototype = {
-		add: function (views) {
-			this.view.push(views);
+	var controller, scope, model, http;
+
+	beforeEach(module('Calendar'));
+
+	beforeEach(inject(function ($controller, $rootScope, $httpBackend,
+		UploadModel) {
+			http = $httpBackend;
+			scope = $rootScope.$new();
+			model = UploadModel;
+			controller = $controller;
 		}
-	};
+	));
 
-	return new ViewModel();
+  it ('should upload the file', function () {
+
+  });
+
+  it ('should broadcast the percentage of upload', function () {
+
+  });
+
+  it ('should clear the files', function () {
+
+  });
+
+	afterEach(function() {
+		http.verifyNoOutstandingExpectation();
+		http.verifyNoOutstandingRequest();
+	});
 });

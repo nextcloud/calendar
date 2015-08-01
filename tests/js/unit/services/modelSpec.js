@@ -21,22 +21,28 @@
  *
  */
 
-/**
-* Model: View
-* Description: Sets the full calendarview.
-*/
-
-app.factory('ViewModel', function () {
+describe('Model', function() {
 	'use strict';
-	var ViewModel = function () {
-		this.view = [];
-	};
 
-	ViewModel.prototype = {
-		add: function (views) {
-			this.view.push(views);
+	var controller, scope, model, http;
+
+	beforeEach(module('Calendar'));
+
+	beforeEach(inject(function ($controller, $rootScope, $httpBackend,
+		Model) {
+			http = $httpBackend;
+			scope = $rootScope.$new();
+			model = Model;
+			controller = $controller;
 		}
-	};
+	));
 
-	return new ViewModel();
+  it ('should generate a unique id', function () {
+
+  });
+
+	afterEach(function() {
+		http.verifyNoOutstandingExpectation();
+		http.verifyNoOutstandingRequest();
+	});
 });

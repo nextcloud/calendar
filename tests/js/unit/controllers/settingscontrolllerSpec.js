@@ -21,22 +21,34 @@
  *
  */
 
-/**
-* Model: View
-* Description: Sets the full calendarview.
-*/
-
-app.factory('ViewModel', function () {
+describe('SettingsController', function() {
 	'use strict';
-	var ViewModel = function () {
-		this.view = [];
-	};
 
-	ViewModel.prototype = {
-		add: function (views) {
-			this.view.push(views);
+	var controller, scope, model, http;
+
+	beforeEach(module('Calendar'));
+
+	beforeEach(inject(function ($controller, $rootScope, $httpBackend) {
+			http = $httpBackend;
+			scope = $rootScope.$new();
+			controller = $controller;
 		}
-	};
+	));
 
-	return new ViewModel();
+  it ('should enable the calendar', function() {
+
+  });
+
+  it ('should remove the calendar', function () {
+
+  });
+
+  it ('should upload the calendar', function () {
+
+  });
+
+	afterEach(function() {
+		http.verifyNoOutstandingExpectation();
+		http.verifyNoOutstandingRequest();
+	});
 });
