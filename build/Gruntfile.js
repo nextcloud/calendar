@@ -51,7 +51,7 @@ module.exports = function(grunt) {
 			},
 			dist: {
 				src: [
-					'../js/config/app.js',
+					'<%= meta.configJS %>*.js',
 					'<%= meta.buildJS %>/**/*.js'
 				],
 				dest: '<%= meta.productionJS %>app.js'

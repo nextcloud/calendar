@@ -50,6 +50,7 @@ app.config(['$provide', '$routeProvider', 'RestangularProvider', '$httpProvider'
 		var $window = $windowProvider.$get();
 		var url = $window.location.href;
 		var baseUrl = url.split('index.php')[0] + 'index.php/apps/calendar/v1';
+		console.log(baseUrl);
 		RestangularProvider.setBaseUrl(baseUrl);
 	}
 ]);
