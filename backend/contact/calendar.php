@@ -134,15 +134,16 @@ class Calendar extends Contact implements BackendUtils\ICalendarAPI {
 	 * @return integer
 	 */
 	private function generateCTag() {
-		$ctag = 0;
+		$ctag = time();
 
 		$addressBooks = $this->contactsManager->getAddressBooks();
 		foreach ($addressBooks as $addressBook) {
 			/** @var IAddressBook $tmp */
-			$tmp = $addressBook->lastModified();
-			if(!is_null($tmp)) {
-				$ctag = max($ctag, $tmp);
-			}
+			//TOOO fix me
+			//$tmp = $addressBook->lastModified();
+			//if(!is_null($tmp)) {
+			//	$ctag = max($ctag, $tmp);
+			//}
 		}
 
 		return $ctag;

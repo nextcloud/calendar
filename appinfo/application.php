@@ -346,35 +346,31 @@ class Application extends App {
 		);
 
 		// Contacts backend: show contact's birthdays and anniversaries
-		if (class_exists('\\OCA\\Contacts\\App')) {
-			$this->backends->queue(
-				function() use ($c, $l10n) {
-					return $this->backendFactory->createBackend(
-						'org.ownCloud.contact',
-						function() use($c) {
-							$contacts = new \OCA\Contacts\App();
-							$appManager = $c->getServer()->getAppManager();
+		$contactsManager = $c->getServer()->getContactsManager();
+		$this->backends->queue(
+			function() use ($c, $l10n, $contactsManager) {
+				return $this->backendFactory->createBackend(
+					'org.ownCloud.contact',
+					function() use($c, $contactsManager) {
+						$appManager = $c->getServer()->getAppManager();
 
-							return new Calendar\Backend\Contact\Backend($contacts, $appManager);
-						},
-						function(Calendar\IBackend $backend) use($c) {
-							$contacts = new \OCA\Contacts\App();
-							$l10n = $c->getServer()->getL10N('calendar');
-							$calendarFactory = $c->query('CalendarFactory');
+						return new Calendar\Backend\Contact\Backend($contactsManager, $appManager);
+					},
+					function(Calendar\IBackend $backend) use($c, $contactsManager) {
+						$l10n = $c->getServer()->getL10N('calendar');
+						$calendarFactory = $c->query('CalendarFactory');
 
-							return new Calendar\Backend\Contact\Calendar($contacts, $backend, $l10n, $calendarFactory);
-						},
-						function(Calendar\ICalendar $calendar) use($c) {
-							$contacts = new \OCA\Contacts\App();
-							$l10n = $c->getServer()->getL10N('calendar');
-							$objectFactory = $c->query('ObjectFactory');
+						return new Calendar\Backend\Contact\Calendar($contactsManager, $backend, $l10n, $calendarFactory);
+					},
+					function(Calendar\ICalendar $calendar) use($c, $contactsManager) {
+						$l10n = $c->getServer()->getL10N('calendar');
+						$objectFactory = $c->query('ObjectFactory');
 
-							return new Calendar\Backend\Contact\Object($contacts, $calendar, $l10n, $objectFactory);
-						}
-					);
-				}
-			);
-		}
+						return new Calendar\Backend\Contact\Object($contactsManager, $calendar, $l10n, $objectFactory);
+					}
+				);
+			}
+		);
 
 		// Sharing backend: Enabling users to share calendars
 		if (Share::isEnabled() && false) {

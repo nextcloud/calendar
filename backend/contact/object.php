@@ -120,6 +120,10 @@ class Object extends Contact implements BackendUtils\IObjectAPI {
 		$addressBooks = $this->contactsManager->getAddressBooks();
 		/** @var IAddressBook $addressBook */
 		foreach($addressBooks as $addressBook) {
+			if (!($addressBook instanceof IAddressBook)) {
+				continue;
+			}
+
 			$contacts = $addressBook->search('', ['FN', 'ANNIVERSARY', 'BDAY'], []);
 			foreach($contacts as $contact) {
 				if (!is_null($offset) && $i < $offset) {
