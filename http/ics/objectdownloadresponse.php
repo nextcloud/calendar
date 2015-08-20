@@ -23,6 +23,7 @@ namespace OCA\Calendar\Http\ICS;
 
 use OCA\Calendar\Db\TimezoneMapper;
 use OCA\Calendar\ICalendar;
+use OCA\Calendar\IObject;
 use OCA\Calendar\Utility\SabreUtility;
 
 use OCP\AppFramework\Http\DataDownloadResponse;
@@ -44,7 +45,11 @@ class ObjectDownloadResponse extends DataDownloadResponse {
 			$serialized = $vobject->serialize();
 
 			$contentType = 'application/octet-stream';
+
 			$filename  = $calendar->getPublicUri();
+			if ($data instanceof IObject) {
+				$filename .= '-' . $data->getSummary();
+			}
 			$filename .= '.ics';
 
 			parent::__construct($serialized, $filename, $contentType);

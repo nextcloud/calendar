@@ -33,9 +33,13 @@ return [
 		['name' => 'calendar#patch', 'url' => '/v1/calendars/{id}', 'verb' => 'PATCH'],
 		//Objects
 		['name' => 'object#indexInPeriod', 'url' => '/v1/calendars/{calendarId}/objects/inPeriod/{start}/{end}', 'verb' => 'GET'],
+		['name' => 'object#exportOne', 'url' => '/v1/calendars/{calendarId}/objects/{objectUri}/export', 'verb' => 'GET'],
 		['name' => 'event#indexInPeriod', 'url' => '/v1/calendars/{calendarId}/events/inPeriod/{start}/{end}', 'verb' => 'GET'],
+		['name' => 'event#exportOne', 'url' => '/v1/calendars/{calendarId}/events/{objectUri}/export', 'verb' => 'GET'],
 		['name' => 'journal#indexInPeriod', 'url' => '/v1/calendars/{calendarId}/journals/inPeriod/{start}/{end}', 'verb' => 'GET'],
+		['name' => 'journal#exportOne', 'url' => '/v1/calendars/{calendarId}/journals/{objectUri}/export', 'verb' => 'GET'],
 		['name' => 'todo#indexInPeriod', 'url' => '/v1/calendars/{calendarId}/todos/inPeriod/{start}/{end}', 'verb' => 'GET'],
+		['name' => 'todo#exportOne', 'url' => '/v1/calendars/{calendarId}/todos/{objectUri}/export', 'verb' => 'GET'],
 		//Subscriptions
 		['name' => 'subscription#patch', 'url' => '/v1/subscription/{id}', 'verb' => 'PATCH'],
 		//Timezones

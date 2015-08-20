@@ -331,10 +331,35 @@ class ObjectController extends Controller {
 			$calendar = $this->findCalendar($calendarId);
 			$this->checkAllowedToRead($calendar);
 
+			/** @var BusinessLayer\ObjectManager $objectManager */
 			$objectManager = call_user_func_array($this->objects, [$calendar]);
 			$objects = $objectManager->findAll();
 
 			return new ICS\ObjectDownloadResponse($calendar, $objects, $this->timezones);
+		} catch (\Exception $ex) {
+			return $this->handleException($ex);
+		}
+	}
+
+
+	/**
+	 * @param integer $calendarId
+	 * @param string $objectUri
+	 * @return ICS\ObjectDownloadResponse
+	 *
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 */
+	public function exportOne($calendarId, $objectUri) {
+		try {
+			$calendar = $this->findCalendar($calendarId);
+			$this->checkAllowedToRead($calendar);
+
+			/** @var BusinessLayer\ObjectManager $objectManager */
+			$objectManager = call_user_func_array($this->objects, [$calendar]);
+			$object = $objectManager->find($objectUri, $this->objectType);
+
+			return new ICS\ObjectDownloadResponse($calendar, $object, $this->timezones);
 		} catch (\Exception $ex) {
 			return $this->handleException($ex);
 		}
