@@ -21,6 +21,7 @@
  */
 namespace OCA\Calendar\Controller;
 
+use OCA\Calendar\BusinessLayer\Exception;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http;
 use OCP\IConfig;
@@ -67,27 +68,29 @@ class SettingsController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	public function setValue($value) {
-		$userId = $this->user->getUID();
-		$app = $this->appName;
+		try {
+			$userId = $this->user->getUID();
+			$app = $this->appName;
 
-		$info = $this->getInfoFromRoute();
+			$info = $this->getInfoFromRoute();
 
-		if (isset($info['options']) && !in_array($value, $info['options'])) {
+			if (isset($info['options']) && !in_array($value, $info['options'])) {
+				throw new Exception('Value not supported', HTTP::STATUS_UNPROCESSABLE_ENTITY);
+			}
+
+			$this->config->setUserValue(
+				$userId,
+				$app,
+				$info['configKey'],
+				$value
+			);
+
 			return new JSONResponse([
-				'message' => 'Value not supported',
-			], HTTP::STATUS_UNPROCESSABLE_ENTITY);
+				'message' => 'Value stored successfully',
+			], HTTP::STATUS_OK);
+		} catch (\Exception $ex) {
+			return $this->handleException($ex);
 		}
-
-		$this->config->setUserValue(
-			$userId,
-			$app,
-			$info['configKey'],
-			$value
-		);
-
-		return new JSONResponse([
-			'message' => 'Value stored successfully',
-		], HTTP::STATUS_OK);
 	}
 
 
@@ -100,48 +103,46 @@ class SettingsController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	public function getValue() {
-		$userId = $this->user->getUID();
-		$app = $this->appName;
+		try {
+			$userId = $this->user->getUID();
+			$app = $this->appName;
 
-		$info = $this->getInfoFromRoute();
+			$info = $this->getInfoFromRoute();
 
-		$value = $this->config->getUserValue(
-			$userId,
-			$app,
-			$info['configKey'],
-			(isset($info['default'])) ? $info['default'] : null
-		);
+			$value = $this->config->getUserValue(
+				$userId,
+				$app,
+				$info['configKey'],
+				(isset($info['default'])) ? $info['default'] : null
+			);
 
-		return new JSONResponse([
-			'value' => $value,
-		], HTTP::STATUS_OK);
-	}
-
-
-	/**
-	 * extract info about config key from route
-	 * @return null|array
-	 */
-	private function getInfoFromRoute() {
-		$route = $this->request->getParam('_route');
-		list(, , $name) = explode('.', $route);
-		$key = lcfirst(substr($name, 3));
-
-		if (isset($this->settings[$key])) {
-			return $this->settings[$key];
-		} else {
-			return $this->throwSettingNotAvailable();
+			return new JSONResponse([
+				'value' => $value,
+			], HTTP::STATUS_OK);
+		} catch (\Exception $ex) {
+			return $this->handleException($ex);
 		}
 	}
 
 
 	/**
-	 * return error msg if setting key is not supported
-	 * @return JSONResponse
+	 * extract info about config key from route
+	 * @throws \Exception
+	 * @return null|array
 	 */
-	private function throwSettingNotAvailable() {
-		return new JSONResponse([
-			'message' => 'Setting not available',
-		], HTTP::STATUS_NOT_FOUND);
+	private function getInfoFromRoute() {
+		if (!isset($this->request->server['REQUEST_URI'])) {
+			throw new Exception('Setting not available', HTTP::STATUS_NOT_FOUND);
+		}
+
+		$request_uri = $this->request->server['REQUEST_URI'];
+		$request_uri_parts = explode('/', $request_uri);
+		$key = end($request_uri_parts);
+
+		if (isset($this->settings[$key])) {
+			return $this->settings[$key];
+		} else {
+			throw new Exception('Setting not available', HTTP::STATUS_NOT_FOUND);
+		}
 	}
 }
