@@ -316,9 +316,9 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 				// Sadly fullcalendar doesn't support changing a calendar's
 				// color without removing and then adding it again as an eventSource
 				$scope.eventSource[id].color = updatedCalendar.color;
-				if (index !== -1) {
+				//if (index !== -1) {
 					//TODO find a solution
-				}
+				//}
 			}
 			$scope.eventSource[id].editable = updatedCalendar.cruds.update;
 		});
@@ -815,9 +815,9 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 			if (alarm.editor.absDate.length > 0 && alarm.editor.absTime.length > 0) {
 				alarm.trigger.value = moment(alarm.editor.absDate).add(moment.duration(alarm.editor.absTime));
 				alarm.trigger.type = 'date-time';
-			} else {
+			} //else {
 				//show some error message
-			}
+			//}
 		};
 
 		$scope.updateReminderRepeat = function(alarm) {
@@ -2041,9 +2041,7 @@ app.factory('SubscriptionModel', function () {
 		},
 		updateIfExists: function (updated) {
 			var subscription = this.subscriptionId[updated.id];
-			if (angular.isDefined(subscription)) {
-
-			} else {
+			if (!angular.isDefined(subscription)) {
 				this.subscriptions.push(updated);
 				this.subscriptionId[updated.id] = updated;
 			}

@@ -96,11 +96,11 @@
 			height: 2*$fives;
 			top: 2px;
 			left: $fives;
-			
+
 			&.unchecked {
 				background: rgba(0, 0, 0, 0) !important;
 				border-color: #aaa;
-			}			
+			}
 		}
 
 		.loadingicon {
@@ -133,6 +133,7 @@
 			}
 
 			&:hover {
+
 				.calendarlist-icon {
 					background-color: transparent !important; /* Core Override */
 				}
@@ -161,8 +162,8 @@
 		}
 
 		&:hover {
-			background-color: darken($white, 25%);
-			
+			//background-color: darken($white, 25%);
+
 			.utils {
 				display: inline-block;
 				.action {
@@ -186,6 +187,8 @@
 
 			a {
 				text-overflow: ellipsis;
+				overflow: hidden;
+				width: 130px;
 			}
 		}
 	}

@@ -54,9 +54,7 @@ app.factory('SubscriptionModel', function () {
 		},
 		updateIfExists: function (updated) {
 			var subscription = this.subscriptionId[updated.id];
-			if (angular.isDefined(subscription)) {
-
-			} else {
+			if (!angular.isDefined(subscription)) {
 				this.subscriptions.push(updated);
 				this.subscriptionId[updated.id] = updated;
 			}

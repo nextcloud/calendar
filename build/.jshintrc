@@ -10,7 +10,6 @@
     "noempty": true,
     "nonew": true,
     "plusplus": false,
-    "quotmark": "single",
     "undef": true,
     "unused": false,
     "strict": true,

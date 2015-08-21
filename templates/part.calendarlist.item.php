@@ -27,7 +27,7 @@
 			<i class="fa fa-spinner fa-spin"></i>
 		</span>
 <a href="#/" ng-click="triggerEnable(calendar)" data-id="{{ calendar.id }}" ng-show="!calendar.list.edit">
-	<span>{{ calendar.displayname }}</span>
+	{{ calendar.displayname }}
 </a>
 <span class="utils hide" ng-if="!calendar.list.locked" ng-show="!calendar.list.edit">
 			<span class="action">

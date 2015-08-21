@@ -308,9 +308,9 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 			if (alarm.editor.absDate.length > 0 && alarm.editor.absTime.length > 0) {
 				alarm.trigger.value = moment(alarm.editor.absDate).add(moment.duration(alarm.editor.absTime));
 				alarm.trigger.type = 'date-time';
-			} else {
+			} //else {
 				//show some error message
-			}
+			//}
 		};
 
 		$scope.updateReminderRepeat = function(alarm) {

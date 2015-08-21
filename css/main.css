@@ -141,23 +141,23 @@
   margin: 20px; }
 #app-navigation .app-navigation-list-item .editfieldset .close-button {
   top: 5px; }
-#app-navigation .app-navigation-list-item:hover {
-  background-color: #bfbfbf; }
-  #app-navigation .app-navigation-list-item:hover .utils {
+#app-navigation .app-navigation-list-item:hover .utils {
+  display: inline-block; }
+  #app-navigation .app-navigation-list-item:hover .utils .action span {
+    display: inline-block;
+    line-height: 44px;
+    height: 16px;
+    width: 16px;
+    padding: 14px 2px 14px 2px;
+    cursor: pointer; }
+  #app-navigation .app-navigation-list-item:hover .utils.active {
     display: inline-block; }
-    #app-navigation .app-navigation-list-item:hover .utils .action span {
-      display: inline-block;
-      line-height: 44px;
-      height: 16px;
-      width: 16px;
-      padding: 14px 2px 14px 2px;
-      cursor: pointer; }
-    #app-navigation .app-navigation-list-item:hover .utils.active {
-      display: inline-block; }
-    #app-navigation .app-navigation-list-item:hover .utils > a {
-      background-color: transparent !important; }
-  #app-navigation .app-navigation-list-item:hover a {
-    text-overflow: ellipsis; }
+  #app-navigation .app-navigation-list-item:hover .utils > a {
+    background-color: transparent !important; }
+#app-navigation .app-navigation-list-item:hover a {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 130px; }
 #app-navigation > ul {
   height: auto; }
 
@@ -186,9 +186,6 @@
 /* Spacing */
 #spacer {
   height: 44px; }
-
-#datepickercontainer {
-  height: 85px; }
 
 #datepicker .datepicker_left, #datepicker .datepicker_right {
   height: 34px;
