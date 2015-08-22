@@ -38,9 +38,11 @@
     background-position: center;
     background-repeat: no-repeat; }
 
+#app-navigation .calendar-list {
+  max-height: 400px;
+  overflow-y: scroll; }
 #app-navigation .app-navigation-input {
-  margin-left: 5px;
-  width: 60%; }
+  width: 90%; }
 #app-navigation .calendarlist-fieldset {
   padding: 0 5px; }
 #app-navigation .color-button {
@@ -51,7 +53,7 @@
   padding: 0;
   position: relative; }
 #app-navigation .accept-button {
-  padding: 12px; }
+  padding: 14px; }
 #app-navigation .loading {
   background: transparent;
   background-image: none; }
@@ -89,7 +91,8 @@
     transition: 0.05s ease-out 0.05s; }
 #app-navigation .add-new .new-accept-button {
   position: relative;
-  top: -5px; }
+  top: -3px;
+  left: 20px; }
 #app-navigation .add-new .color-button {
   height: 25px;
   border: 0;
@@ -141,23 +144,25 @@
   margin: 20px; }
 #app-navigation .app-navigation-list-item .editfieldset .close-button {
   top: 5px; }
-#app-navigation .app-navigation-list-item:hover .utils {
-  display: inline-block; }
-  #app-navigation .app-navigation-list-item:hover .utils .action span {
-    display: inline-block;
-    line-height: 44px;
-    height: 16px;
-    width: 16px;
-    padding: 14px 2px 14px 2px;
-    cursor: pointer; }
-  #app-navigation .app-navigation-list-item:hover .utils.active {
+#app-navigation .app-navigation-list-item:hover {
+  background-color: #ddd; }
+  #app-navigation .app-navigation-list-item:hover .utils {
     display: inline-block; }
-  #app-navigation .app-navigation-list-item:hover .utils > a {
-    background-color: transparent !important; }
-#app-navigation .app-navigation-list-item:hover a {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  width: 130px; }
+    #app-navigation .app-navigation-list-item:hover .utils .action span {
+      display: inline-block;
+      line-height: 44px;
+      height: 16px;
+      width: 16px;
+      padding: 14px 2px 14px 2px;
+      cursor: pointer; }
+    #app-navigation .app-navigation-list-item:hover .utils.active {
+      display: inline-block; }
+    #app-navigation .app-navigation-list-item:hover .utils > a {
+      background-color: transparent !important; }
+  #app-navigation .app-navigation-list-item:hover a {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 130px; }
 #app-navigation > ul {
   height: auto; }
 
@@ -175,9 +180,21 @@
     color: #222; }
 
 .colorpicker {
-  border: 1px solid #ddd;
-  background: #efefef;
-  border-radius: 2px; }
+  display: block;
+  height: 30px;
+  width: 180px;
+  float: left; }
+  .colorpicker .colorpicker-list {
+    display: block;
+    float: left;
+    width: 100%;
+    height: 100%; }
+    .colorpicker .colorpicker-list li {
+      height: 100%;
+      width: 30px !important;
+      float: left; }
+      .colorpicker .colorpicker-list li.selected {
+        border: 1px solid #333; }
 
 /*scroll issues */
 #scrollable {

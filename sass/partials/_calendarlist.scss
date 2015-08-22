@@ -1,8 +1,12 @@
 #app-navigation {
 
+	.calendar-list {
+		max-height: 400px;
+		overflow-y: scroll;
+	}
+
 	.app-navigation-input {
-		margin-left: $fives;
-		width: 60%;
+		width: 90%;
 	}
 
 	.calendarlist-fieldset {
@@ -21,7 +25,7 @@
 	}
 
 	.accept-button {
-		padding: 12px;
+		padding: 14px;
 	}
 
 	.loading {
@@ -64,7 +68,8 @@
 	.add-new {
 		.new-accept-button {
 			position: relative;
-			top: -$fives;
+			top: -3px;
+			left: 20px;
 		}
 
 		.color-button {
@@ -162,7 +167,7 @@
 		}
 
 		&:hover {
-			//background-color: darken($white, 25%);
+			background-color: #ddd;
 
 			.utils {
 				display: inline-block;
@@ -218,9 +223,25 @@
 }
 
 .colorpicker {
-	border: 1px solid #ddd;
-	background: #efefef;
-	border-radius: 2px;
+	display: block;
+	height: 30px;
+	width: 180px;
+	float: left;
+
+	.colorpicker-list {
+		display: block;
+		float:left;
+		width: 100%;
+		height: 100%;
+		li {
+			height: 100%;
+			width: 30px !important;
+			float: left;
+			&.selected {
+				border: 1px solid #333;
+			}
+		}
+	}
 }
 
 /*scroll issues */

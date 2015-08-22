@@ -40,6 +40,16 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window',
 		$scope.newCalendarInputVal = '';
 		$scope.newCalendarColorVal = '';
 
+		$scope.colors = [
+        '#468966',
+        '#FFF0A5',
+        '#FFB03B',
+        '#B64926',
+        '#8E2800',
+        '#e1e1e1'
+    ];
+    $scope.selected = '#e1e1e1';
+
 		$scope.create = function (name, color) {
 			calendarResource.post({
 				displayname: name,
@@ -61,7 +71,7 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window',
 		};
 
 		$scope.download = function (calendar) {
-			$window.open('v1/calendars/' + calendar.id + '/export');
+			console.log($window.open('v1/calendars/' + calendar.id + '/export'));
 		};
 
 		$scope.prepareUpdate = function (calendar) {

@@ -22,13 +22,37 @@
  */
 
 /**
-* Configuration / App Initialization File
+* Directive: Colorpicker
+* Description: Colorpicker for the Calendar app.
 */
 
-var app = angular.module('Calendar', [
-	'OC',
-	'restangular',
-	'ngRoute',
-	'ui.bootstrap',
-	'ui.calendar'
-]);
+
+app.directive('colorpicker', function() {
+  'use strict';
+    var listofcolours =  [
+        '#21213D',
+        '#253151',
+        '#9C909D',
+        '#3A3B3D',
+        '#FF7A66',
+        '#009CFC'
+    ];
+    return {
+        scope: {
+            selected: '=',
+            customizedColors: '=colors'
+        },
+        restrict: 'AE',
+        templateUrl: OC.filePath('calendar','js/app/directives', 'colorpicker.html'),
+        link: function (scope, element, attr) {
+            scope.colors = scope.customizedColors || listofcolours;
+            scope.selected = scope.selected || scope.colors[0];
+
+            scope.pick = function (color) {
+                scope.selected = color;
+            };
+
+        }
+    };
+
+});

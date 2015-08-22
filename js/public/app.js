@@ -8,8 +8,7 @@ var app = angular.module('Calendar', [
 	'restangular',
 	'ngRoute',
 	'ui.bootstrap',
-	'ui.calendar',
-	'colorpicker.module'
+	'ui.calendar'
 ]);
 
 app.config(['$provide', '$routeProvider', 'RestangularProvider', '$httpProvider', '$windowProvider',
@@ -411,6 +410,16 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window',
 		$scope.newCalendarInputVal = '';
 		$scope.newCalendarColorVal = '';
 
+		$scope.colors = [
+        '#468966',
+        '#FFF0A5',
+        '#FFB03B',
+        '#B64926',
+        '#8E2800',
+        '#e1e1e1'
+    ];
+    $scope.selected = '#e1e1e1';
+
 		$scope.create = function (name, color) {
 			calendarResource.post({
 				displayname: name,
@@ -432,7 +441,7 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window',
 		};
 
 		$scope.download = function (calendar) {
-			$window.open('v1/calendars/' + calendar.id + '/export');
+			console.log($window.open('v1/calendars/' + calendar.id + '/export'));
 		};
 
 		$scope.prepareUpdate = function (calendar) {
@@ -960,6 +969,42 @@ app.controller('SubscriptionController', ['$scope', '$rootScope', '$window', 'Su
 		};
 	}
 ]);
+
+/**
+* Directive: Colorpicker
+* Description: Colorpicker for the Calendar app.
+*/
+
+
+app.directive('colorpicker', function() {
+  'use strict';
+    var listofcolours =  [
+        '#21213D',
+        '#253151',
+        '#9C909D',
+        '#3A3B3D',
+        '#FF7A66',
+        '#009CFC'
+    ];
+    return {
+        scope: {
+            selected: '=',
+            customizedColors: '=colors'
+        },
+        restrict: 'AE',
+        templateUrl: OC.filePath('calendar','js/app/directives', 'colorpicker.html'),
+        link: function (scope, element, attr) {
+            scope.colors = scope.customizedColors || listofcolours;
+            scope.selected = scope.selected || scope.colors[0];
+
+            scope.pick = function (color) {
+                scope.selected = color;
+            };
+
+        }
+    };
+
+});
 
 /**
 * Directive: Loading

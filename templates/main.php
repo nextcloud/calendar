@@ -25,7 +25,6 @@ $styles = [
 	'../3rdparty/fontawesome/css/font-awesome',
 	'../3rdparty/fullcalendar/dist/fullcalendar',
 	'../3rdparty/jquery-timepicker/jquery.ui.timepicker',
-	'../3rdparty/angular-bootstrap-colorpicker/css/colorpicker',
 	'main'
 ];
 
@@ -45,7 +44,6 @@ $scripts = [
 	'../3rdparty/angular-ui/angular-ui',
 	'../3rdparty/angular-ui/angular-ui-calendar',
 	'../3rdparty/angular-ui/angular-ui-sortable',
-	'../3rdparty/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module',
 	'../3rdparty/appframework/app',
 	'public/app',
 ];
