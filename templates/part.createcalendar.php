@@ -46,7 +46,7 @@
 			<input class="app-navigation-input" type="text" ng-model="newCalendarInputVal" autofocus />
 			<colorpicker class="colorpicker" selected="selected"></colorpicker>
 			<button
-				ng-click="create(newCalendarInputVal,newCalendarColorVal)"
+				ng-click="create(newCalendarInputVal,selected)"
 				id="submitnewCalendar"
 				class="primary icon-checkmark-white accept-button new-accept-button"
 				oc-click-slide-toggle="{

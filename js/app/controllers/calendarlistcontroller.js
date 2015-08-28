@@ -38,17 +38,7 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window',
 		var calendarResource = Restangular.all('calendars');
 
 		$scope.newCalendarInputVal = '';
-		$scope.newCalendarColorVal = '';
-
-		$scope.colors = [
-        '#468966',
-        '#FFF0A5',
-        '#FFB03B',
-        '#B64926',
-        '#8E2800',
-        '#e1e1e1'
-    ];
-    $scope.selected = '#e1e1e1';
+		$scope.selected = '';
 
 		$scope.create = function (name, color) {
 			calendarResource.post({
