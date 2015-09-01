@@ -111,9 +111,10 @@ module.exports = function(grunt) {
 
 		phpunit: {
 			classes: {
-				dir: '../tests/php/unit'
+				dir: '../tests/unit'
 			},
 			options: {
+				bootstrap: '../tests/bootstrap.php',
 				colors: true
 			}
 		},

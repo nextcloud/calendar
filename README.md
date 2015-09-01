@@ -20,10 +20,10 @@ To run the build tasks, we use gruntjs tasks which can be installed via npm as
 > npm install
 
 Building SASS and JS
-grunt build
+> grunt build
 
 Watching SASS and JS
-grunt watch
+> grunt watch
 
 Coming Soon: running JS tests.
 
