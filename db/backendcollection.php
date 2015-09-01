@@ -63,7 +63,7 @@ class BackendCollection extends Collection implements IBackendCollection {
 
 
 	/**
-	 * Search for a backend by it's name
+	 * Search for a backend by its name
 	 * @param string $id
 	 * @return IBackend|null
 	 */

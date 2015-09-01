@@ -28,7 +28,8 @@ class BackendTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public $backend;
 
-	public function setup() {
+	public function setUp() {
+		parent::setUp();
 		$contactManager = $this->getMock('\OCP\Contacts\IManager');
 		$this->backend = new Backend($contactManager);
 	}
