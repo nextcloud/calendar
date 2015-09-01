@@ -64,13 +64,9 @@ class MandatoryFieldValueGetterWithTypeEntity extends Entity
 	}
 	protected function registerTypes() {
 		$this->addAdvancedFieldType('test',
-			'OCA\Calendar\Db\TestEntity');
+			'OCA\Calendar\Db\EmptyEntity');
 	}
 }
-
-// just to be able to instantiate:
-class TestEntity extends Entity
-{}
 
 class TestNamedEntity extends Entity
 {
@@ -100,7 +96,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase {
 	public function testIsValidStringId() {
 
 		// mandatory field, but no getter not filled -> should be invalid
-		$stringIdEntity = new TestEntity();
+		$stringIdEntity = new EmptyEntity();
 		$stringIdEntity->id = "foo";
 		$this->assertFalse($stringIdEntity->isValid());
 	}
@@ -137,7 +133,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testGetSetId() {
-		$ent = new TestEntity();
+		$ent = new EmptyEntity();
 		$ent->setId(42);
 		$this->assertSame($ent->getId(), 42);
 	}
@@ -172,7 +168,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase {
 		$ent2->name = null;
 		$this->assertTrue($ent2->doesContainNullValues());
 
-		$ent3 = new TestEntity();
+		$ent3 = new EmptyEntity();
 		// id is not set, should also be null
 		$this->assertTrue($ent3->doesContainNullValues());
 	}
@@ -187,7 +183,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase {
 	}
 	public function testSetterRightType() {
 		$ent = new MandatoryFieldValueGetterWithTypeEntity();
-		$testClass = new TestEntity();
+		$testClass = new EmptyEntity();
 		$ent->setTest($testClass);
 		$this->assertSame($ent->test, $testClass);
 	}
