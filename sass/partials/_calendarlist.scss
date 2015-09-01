@@ -155,9 +155,10 @@
 		}
 
 		.editfieldset {
+			padding: 0 5px;
+
 			.calendartype {
 				width: 12*$fives;
-				margin-left: 4*$fives;
 				margin-right: 4*$fives;
 				@extend .pull-left;
 			}
@@ -209,23 +210,7 @@
 	}
 }
 
-
 /* ColorPicker overrides. */
-
-.close-colorpicker {
-	padding: 0;
-	position: absolute;
-	right: -15px;
-	top: -11px;
-	background: none;
-	border: 0;
-	margin: 0;
-
-	&:hover {
-		background: none;
-		color: #222;
-	}
-}
 
 .colorpicker {
 	display: block;

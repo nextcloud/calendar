@@ -138,14 +138,15 @@
     /* Core Override */ }
 #app-navigation .app-navigation-list-item > a {
   padding: 0 25px !important; }
-#app-navigation .app-navigation-list-item .editfieldset .calendartype {
-  width: 60px;
-  margin-left: 20px;
-  margin-right: 20px; }
-#app-navigation .app-navigation-list-item .editfieldset .buttongroups {
-  margin: 20px; }
-#app-navigation .app-navigation-list-item .editfieldset .close-button {
-  top: 5px; }
+#app-navigation .app-navigation-list-item .editfieldset {
+  padding: 0 5px; }
+  #app-navigation .app-navigation-list-item .editfieldset .calendartype {
+    width: 60px;
+    margin-right: 20px; }
+  #app-navigation .app-navigation-list-item .editfieldset .buttongroups {
+    margin: 20px; }
+  #app-navigation .app-navigation-list-item .editfieldset .close-button {
+    top: 5px; }
 #app-navigation .app-navigation-list-item:hover {
   background-color: #ddd; }
   #app-navigation .app-navigation-list-item:hover .utils {
@@ -169,18 +170,6 @@
   height: auto; }
 
 /* ColorPicker overrides. */
-.close-colorpicker {
-  padding: 0;
-  position: absolute;
-  right: -15px;
-  top: -11px;
-  background: none;
-  border: 0;
-  margin: 0; }
-  .close-colorpicker:hover {
-    background: none;
-    color: #222; }
-
 .colorpicker {
   display: block;
   height: 30px;
@@ -225,8 +214,8 @@
   width: 170px;
   padding: 6px 0px;
   margin-top: 5px;
-  border-top: 1px solid rgba(190, 190, 190, 0.9);
-  border-bottom: 1px solid rgba(190, 190, 190, 0.9);
+  border-top: 1px solid #f8f8f8;
+  border-bottom: 1px solid #f8f8f8;
   font-weight: bold;
   text-align: center;
   overflow: hidden;

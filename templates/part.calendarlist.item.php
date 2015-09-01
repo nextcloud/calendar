@@ -81,19 +81,20 @@
 </fieldset>
 <fieldset ng-show="calendar.list.edit" class="editfieldset">
 	<input class="app-navigation-input" type="text" ng-model="calendar.displayname" data-id="{{ calendar.id }}" />
-	<button
-		colorpicker="rgba"
-		colorpicker-position="top"
-		ng-model="calendar.color"
-		class="color-button"
-		style="background:{{ calendar.color }}"></button>
+	<colorpicker class="colorpicker" selected="selected"></colorpicker>
 	<div class="calendartype">
-		<input class="app-navigation-checkbox" type="checkbox" ng-model="calendar.components.vevent" />
-		<label class="label"><?php p($l->t('Event')); ?></label>
-		<input class="app-navigation-checkbox" type="checkbox" ng-model="calendar.components.vjournal" />
-		<label class="label"><?php p($l->t('Journal')); ?></label>
-		<input class="app-navigation-checkbox" type="checkbox" ng-model="calendar.components.vtodo" />
-		<label class="label"><?php p($l->t('Todo')); ?></label>
+		<p>
+			<input class="app-navigation-checkbox" type="checkbox" ng-model="calendar.components.vevent" />
+			<label class="label"><?php p($l->t('Event')); ?></label>
+		</p>
+		<p>
+			<input class="app-navigation-checkbox" type="checkbox" ng-model="calendar.components.vjournal" />
+			<label class="label"><?php p($l->t('Journal')); ?></label>
+		</p>
+		<p>
+			<input class="app-navigation-checkbox" type="checkbox" ng-model="calendar.components.vtodo" />
+			<label class="label"><?php p($l->t('Todo')); ?></label>
+		</p>
 	</div>
 	<div class="buttongroups">
 		<button ng-click="performUpdate(calendar)" id="updateCalendar" class="primary icon-checkmark-white accept-button"></button>
