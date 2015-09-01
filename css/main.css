@@ -57,6 +57,8 @@
 #app-navigation .loading {
   background: transparent;
   background-image: none; }
+#app-navigation .new-entity-container {
+  margin-top: 45px; }
 #app-navigation .new-entity {
   display: block;
   width: 100%;
