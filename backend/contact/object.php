@@ -31,7 +31,6 @@ use OCA\Calendar\Db\ObjectType;
 
 use OCA\Calendar\IObject;
 use OCP\Contacts\IManager;
-use OCP\IAddressBook;
 use Sabre\VObject\Component\VCalendar;
 use OCP\IL10N;
 
@@ -96,7 +95,8 @@ class Object extends Contact implements BackendUtils\IObjectAPI {
 			throw new BackendUtils\DoesNotExistException();
 		}
 
-		$object = $this->getObjectFromUri($objectURI);
+		$contact = $this->getContactFromUri($objectURI);
+		$object = $this->getObjectFromContact($contact);
 		if (is_null($object)) {
 			throw new BackendUtils\DoesNotExistException();
 		}
@@ -117,29 +117,25 @@ class Object extends Contact implements BackendUtils\IObjectAPI {
 		$offset = (!is_null($limit) && is_null($offset)) ? 0 : $offset;
 		$i = 0;
 
-		$addressBooks = $this->contactsManager->getAddressBooks();
-		/** @var IAddressBook $addressBook */
-		foreach($addressBooks as $addressBook) {
-			if (!($addressBook instanceof IAddressBook)) {
+		/*
+		 * If the pattern is empty, it'll return all contacts. That's why we search for '-'.
+		 * The days are formatted as YYYY-MM-DD, so there is always a dash in there.
+		 */
+		$contacts = $this->contactsManager->search('-', [$this->uris[$this->uri]], []);
+		foreach($contacts as $contact) {
+			if (!is_null($offset) && $i < $offset) {
+				$i++;
 				continue;
 			}
-
-			$contacts = $addressBook->search('', ['FN', 'ANNIVERSARY', 'BDAY'], []);
-			foreach($contacts as $contact) {
-				if (!is_null($offset) && $i < $offset) {
-					$i++;
-					continue;
-				}
-				if (!is_null($limit) && $i > ($offset + $limit)) {
-					break;
-				}
-
-				$object = $this->getObjectFromContact($addressBook, $contact);
-				if (!is_null($object)) {
-					$objects[] = $object;
-				}
-				$i++;
+			if (!is_null($limit) && $i > ($offset + $limit)) {
+				break;
 			}
+
+			$object = $this->getObjectFromContact($contact);
+			if (!is_null($object)) {
+				$objects[] = $object;
+			}
+			$i++;
 		}
 
 		return $objects;
@@ -155,14 +151,10 @@ class Object extends Contact implements BackendUtils\IObjectAPI {
 			return $list;
 		}
 
-		$addressBooks = $this->contactsManager->getAddressBooks();
-		/** @var IAddressBook $addressBook */
-		foreach($addressBooks as $addressBook) {
-			$contacts = $addressBook->search('*', [], []);
-			foreach($contacts as $contact) {
-				if ($this->isObjectInteresting($contact)) {
-					$list[] = $this->getUriFromContact($addressBook, $contact);
-				}
+		$contacts = $this->contactsManager->search('-', [$this->uris[$this->uri]], []);
+		foreach($contacts as $contact) {
+			if ($this->isObjectInteresting($contact)) {
+				$list[] = $this->getUriFromContact($contact);
 			}
 		}
 
@@ -184,11 +176,10 @@ class Object extends Contact implements BackendUtils\IObjectAPI {
 
 
 	/**
-	 * @param  IAddressBook $addressBook
 	 * @param array $contact
 	 * @return null|\OCA\Calendar\Db\Object
 	 */
-	private function getObjectFromContact(IAddressBook $addressBook, $contact) {
+	private function getObjectFromContact($contact) {
 		if (!$this->isObjectInteresting($contact)) {
 			return null;
 		}
@@ -215,37 +206,17 @@ class Object extends Contact implements BackendUtils\IObjectAPI {
 			'summary' => $title,
 			'dtstart' => $date,
 			'duration' => 'P1D',
-			'uid' => $contact['ID'],
+			'uid' => $contact['id'],
 			'rrule' => 'FREQ=YEARLY'
 		]);
+		$vObject->VEVENT->DTSTART['VALUE'] = 'date';
 
 		$object = $this->factory->createEntity($vObject, ObjectFactory::FORMAT_VObject);
 		$object->setCalendar($this->calendar);
-		$object->setUri($this->getUriFromContact($addressBook, $contact));
+		$object->setUri($this->getUriFromContact($contact));
 		$object->setEtag($contact['ETAG']);
 
 		return $object;
-	}
-
-
-	/**
-	 * get addressBook entity based on object's uri
-	 * @param $objectURI
-	 * @return null|IAddressBook
-	 */
-	private function getAddressBookFromUri($objectURI) {
-		$objectURI = substr($objectURI, 0, (strlen($objectURI) - 4));
-		list($backend, $addressBookId) = explode('::', $objectURI);
-
-		if (!$backend || !$addressBookId) {
-			return null;
-		}
-
-		$allBooks = $this->contactsManager->getAddressBooks();
-		return current(array_filter($allBooks, function($addressBook) use ($addressBookId) {
-			/** @var IAddressBook $addressBook */
-			return $addressBook->getKey() === $addressBookId;
-		}));
 	}
 
 
@@ -256,47 +227,31 @@ class Object extends Contact implements BackendUtils\IObjectAPI {
 	 */
 	private function getContactFromUri($objectURI) {
 		$objectURI = substr($objectURI, 0, (strlen($objectURI) - 4));
-		list($backend, $addressBookId, $contactId) = explode('::', $objectURI);
+		list($addressBookId, $contactId) = explode('::', $objectURI, 2);
 
-		if (!$backend || !$addressBookId || !$contactId) {
+		if (!$addressBookId || !$contactId) {
 			return null;
 		}
 
-		$allBooks = $this->contactsManager->getAddressBooks();
-		$theBook =  current(array_filter($allBooks, function($addressBook) use ($addressBookId) {
-			/** @var IAddressBook $addressBook */
-			return $addressBook->getKey() === $addressBookId;
-		}));
-		if (empty($theBook)) {
-			return null;
+		$contacts = $this->contactsManager->search('-', [$this->uris[$this->uri]], []);
+		foreach($contacts as $contact) {
+			if ($contact['addressbook-key'] === $addressBookId && $contact['id'] == $contactId) {
+				return $contact;
+			}
 		}
-		/** @var IAddressBook $theBook */
-		return $theBook->search($contactId, ['ID'], []);
+
+		return null;
 	}
 
 
 	/**
-	 * @param $objectURI
-	 * @return null|\OCA\Calendar\Db\Object
-	 */
-	private function getObjectFromUri($objectURI) {
-		return $this->getObjectFromContact(
-			$this->getAddressBookFromUri($objectURI),
-			$this->getContactFromUri($objectURI)
-		);
-	}
-
-
-	/**
-	 * @param IAddressBook $addressBook
 	 * @param array $contact
 	 * @return string
 	 */
-	private function getUriFromContact(IAddressBook $addressBook, $contact) {
+	private function getUriFromContact($contact) {
 		$uri = implode('::', [
-			$addressBook->getDisplayName(),
-			$addressBook->getKey(),
-			$contact['ID'],
+			$contact['addressbook-key'],
+			$contact['id'],
 		]);
 
 		$uri .= '.ics';
@@ -315,11 +270,13 @@ class Object extends Contact implements BackendUtils\IObjectAPI {
 
 		switch($this->uri) {
 			case 'anniversary':
-				$title = $this->l10n->t('%s\'s Anniversary (%s)', [$name, $year]);
+				$title  = '💍 ';
+				$title .= $this->l10n->t('%s (%s)', [$name, $year]);
 				break;
 
 			case 'birthday':
-				$title = $this->l10n->t('%s\'s Birthday (%s)', [$name, $year]);
+				$title  = '🎂 ';
+				$title .= $this->l10n->t('%s (%s)', [$name, $year]);
 				break;
 
 			default:

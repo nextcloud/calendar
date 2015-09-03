@@ -1508,7 +1508,7 @@ app.factory('EventsModel', ['objectConverter', function (objectConverter) {
 							dtend = vevent.getFirstPropertyValue('dtend');
 						} else if (vevent.hasProperty('duration')) {
 							dtend = dtstart.clone();
-							dtend.addDuration(vevent.getFirstPropertyValue('dtstart'));
+							//dtend = ICAL.Time.fromJSDate(dtstart.toJSDate());
 						} else {
 							dtend = dtstart.clone();
 						}
@@ -1523,13 +1523,19 @@ app.factory('EventsModel', ['objectConverter', function (objectConverter) {
 
 							var next;
 							while ((next = iterator.next())) {
-								if (next.compare(iCalTimeStart) === -1) {
+								console.log(next.year);
+								console.log(next.compare(iCalTimeStart));
+								if (next.compare(iCalTimeStart) < 0) {
 									continue;
 								}
-								if (next.compare(iCalTimeEnd) === 1) {
+								if (next.compare(iCalTimeEnd) > 0) {
 									break;
 								}
 
+								// clone is somewhat broken - IMPORTANT TODO report bug upstream
+								//var jsDate = next.toJSDate();
+								//dtstart = ICAL.Time.fromJSDate(jsDate);
+								//dtend = ICAL.Time.fromJSDate(jsDate);
 								dtstart = next.clone();
 								dtend = next.clone();
 								dtend.addDuration(duration);
