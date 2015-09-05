@@ -138,9 +138,9 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window',
 					}
 				}
 
-				for (var i = 0; i < toAdd.length; i++) {
-					CalendarModel.create(toAdd[i]);
-					$rootScope.$broadcast('createdCalendar', toAdd[i]);
+				for (var h = 0, toAddLength = toAdd.length; h < toAddLength; h++) {
+					CalendarModel.create(toAdd[h]);
+					$rootScope.$broadcast('createdCalendar', toAdd[h]);
 				}
 
 				$scope.calendars = CalendarModel.getAll();

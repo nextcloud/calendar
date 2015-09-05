@@ -81,8 +81,8 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 							start = start.format('X');
 							end = end.format('X');
 							Restangular.one('calendars', value.id).one('events').one('inPeriod').getList(start + '/' + end).then(function (eventsobject) {
-								//TODO - STRONGLY CONSIDER USING renderEvent and storing events locally in browser, it would speed up rendering a lot
-								callback(EventsModel.addAllDisplayFigures(value.id, value.displayname, value.color, eventsobject, start, end, $scope.timezone));
+								callback([]);
+								EventsModel.addAllDisplayFigures($scope.eventSource[value.id], eventsobject, start, end, $scope.timezone);
 								$rootScope.$broadcast('finishedLoadingEvents', value.id);
 							}, function (response) {
 								OC.Notification.show(t('calendar', response.data.message));
@@ -237,6 +237,16 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 			}
 		};
 
+
+		/**
+		 * After an event was rendered:
+		 * - add it to fullCalendar
+		 */
+		$rootScope.$on('renderedEvent', function (event, fcEvent) {
+			$scope.calendar.fullCalendar('renderEvent', fcEvent);
+		});
+
+
 		/**
 		 * After a calendar was created:
 		 * - create a new event source object
@@ -249,7 +259,8 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 					start = start.format('X');
 					end = end.format('X');
 					Restangular.one('calendars', id).one('events').one('inPeriod').getList(start + '/' + end).then(function (eventsobject) {
-						callback(EventsModel.addAllDisplayFigures(id, createdCalendar.displayname, createdCalendar.color, eventsobject, start, end, $scope.timezone));
+						callback([]);
+						EventsModel.addAllDisplayFigures($scope.eventSource[id], eventsobject, start, end, $scope.timezone);
 						$rootScope.$broadcast('finishedLoadingEvents', id);
 					}, function (response) {
 						OC.Notification.show(t('calendar', response.data.message));
@@ -492,9 +503,9 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window',
 					}
 				}
 
-				for (var i = 0; i < toAdd.length; i++) {
-					CalendarModel.create(toAdd[i]);
-					$rootScope.$broadcast('createdCalendar', toAdd[i]);
+				for (var h = 0, toAddLength = toAdd.length; h < toAddLength; h++) {
+					CalendarModel.create(toAdd[h]);
+					$rootScope.$broadcast('createdCalendar', toAdd[h]);
 				}
 
 				$scope.calendars = CalendarModel.getAll();
@@ -1411,7 +1422,7 @@ app.factory('DialogModel', function() {
 * Description: Required for Calendar Sharing.
 */
 
-app.factory('EventsModel', ['objectConverter', function (objectConverter) {
+app.factory('EventsModel', ['$rootScope', 'objectConverter', function ($rootScope, objectConverter) {
 	'use strict';
 
 	var EventsModel = function () {
@@ -1456,149 +1467,226 @@ app.factory('EventsModel', ['objectConverter', function (objectConverter) {
 		return false;
 	}
 
-	EventsModel.prototype = {
-		create: function (newevent) {
-			var rawdata = new ICAL.Event();
-			this.events.push(rawdata);
-		},
-		addAllDisplayFigures: function (calendarId, calendardisplayname, calendarcolor, jcalData, start, end, timezone) {
-			var components = new ICAL.Component(jcalData);
-			var events = [];
+	/**
+	 * get DTEND from vevent
+	 * @param {object} vevent
+	 * @returns {ICAL.Time}
+	 */
+	function calculateDTEnd(vevent) {
+		if (vevent.hasProperty('dtend')) {
+			return vevent.getFirstPropertyValue('dtend');
+		} else if (vevent.hasProperty('duration')) {
+			return vevent.getFirstPropertyValue('dtstart').clone();
+		} else {
+			return vevent.getFirstPropertyValue('dtstart').clone();
+		}
+	}
 
-			var dtstart = '';
-			var dtend = '';
-			var etag = '';
-			var eventsId = '';
-			var uri = '';
-			var recurrenceId = null;
-			var isAllDay = false;
 
-			var iCalTimeStart = new ICAL.Time();
-			iCalTimeStart.fromUnixTime(start);
-			var iCalTimeEnd = new ICAL.Time();
-			iCalTimeEnd.fromUnixTime(end);
+	/**
+	 * register timezones from ical response
+	 * @param components
+	 */
+	function registerTimezones(components) {
+		var vtimezones = components.getAllSubcomponents('vtimezone');
+		angular.forEach(vtimezones, function (vtimezone) {
+			var timezone = new ICAL.Timezone(vtimezone);
+			ICAL.TimezoneService.register(timezone.tzid, timezone);
+		});
+	}
 
-			if (components.jCal.length !== 0) {
-				var vtimezones = components.getAllSubcomponents('vtimezone');
-				angular.forEach(vtimezones, function (vtimezone) {
-					var timezone = new ICAL.Timezone(vtimezone);
-					ICAL.TimezoneService.register(timezone.tzid, timezone);
-				});
+	/**
+	 * adds data about the calendar to the fcData object
+	 * @param fcData
+	 * @param calendar
+	 * @returns {*}
+	 */
+	function addCalendarDataToFCData(fcData, calendar) {
+		fcData.calendarId = calendar.id;
+		fcData.color = calendar.color;
+		fcData.textColor = calendar.textColor;
+		fcData.editable = calendar.editable;
 
-				var vevents = components.getAllSubcomponents('vevent');
-				angular.forEach(vevents, function (vevent) {
-					try {
-						var iCalEvent = new ICAL.Event(vevent);
-						var event = {
-							'calendardisplayname': calendardisplayname,
-							'calendarcolor': calendarcolor,
-							'calendarId': calendarId
-						};
+		return fcData;
+	}
 
-						event.objectUri = vevent.getFirstPropertyValue('x-oc-uri');
-						event.etag = vevent.getFirstPropertyValue('x-oc-etag');
-						event.title = vevent.getFirstPropertyValue('summary');
+	/**
+	 * Adds data about the event to the fcData object
+	 * @param fcData
+	 * @param vevent
+	 * @param event
+	 * @returns {*}
+	 */
+	function addEventDataToFCData(fcData, vevent, event) {
+		fcData.objectUri = vevent.getFirstPropertyValue('x-oc-uri');
+		fcData.etag = vevent.getFirstPropertyValue('x-oc-etag');
+		fcData.title = vevent.getFirstPropertyValue('summary');
 
-						if (iCalEvent.isRecurrenceException()) {
-							event.recurrenceId = vevent
-								.getFirstPropertyValue('recurrence-id')
-								.toICALString();
-							event.id = event.objectUri + event.recurrenceId;
-						} else {
-							event.recurrenceId = null;
-							event.id = event.objectUri;
-						}
+		if (event.isRecurrenceException()) {
+			fcData.recurrenceId = vevent
+				.getFirstPropertyValue('recurrence-id')
+				.toICALString();
+			fcData.id = event.objectUri + event.recurrenceId;
+		} else {
+			fcData.recurrenceId = null;
+			fcData.id = fcData.objectUri;
+		}
 
-						if (!vevent.hasProperty('dtstart')) {
-							return;
-						}
-						dtstart = vevent.getFirstPropertyValue('dtstart');
+		return fcData;
+	}
 
-						if (vevent.hasProperty('dtend')) {
-							dtend = vevent.getFirstPropertyValue('dtend');
-						} else if (vevent.hasProperty('duration')) {
-							dtend = dtstart.clone();
-							//dtend = ICAL.Time.fromJSDate(dtstart.toJSDate());
-						} else {
-							dtend = dtstart.clone();
-						}
 
-						if (iCalEvent.isRecurring()) {
-							var iterator = new ICAL.RecurExpansion({
-								component: vevent,
-								dtstart: dtstart
-							});
+	/**
+	 * check if we need to convert the timezone of either dtstart or dtend
+	 * @param dt
+	 * @returns {boolean}
+	 */
+	function isTimezoneConversionNecessary(dt) {
+		return (dt.icaltype !== 'date' &&
+			dt.zone !== ICAL.Timezone.utcTimezone &&
+			dt.zone !== ICAL.Timezone.localTimezone);
+	}
 
-							var duration = dtend.subtractDate(dtstart);
+	/**
+	 * check if dtstart and dtend are both of type date
+	 * @param dtstart
+	 * @param dtend
+	 * @returns {boolean}
+	 */
+	function isEventAllDay(dtstart, dtend) {
+		return (dtstart.icaltype === 'date' && dtend.icaltype === 'date');
+	}
 
-							var next;
-							while ((next = iterator.next())) {
-								console.log(next.year);
-								console.log(next.compare(iCalTimeStart));
-								if (next.compare(iCalTimeStart) < 0) {
-									continue;
-								}
-								if (next.compare(iCalTimeEnd) > 0) {
-									break;
-								}
 
-								// clone is somewhat broken - IMPORTANT TODO report bug upstream
-								//var jsDate = next.toJSDate();
-								//dtstart = ICAL.Time.fromJSDate(jsDate);
-								//dtend = ICAL.Time.fromJSDate(jsDate);
-								dtstart = next.clone();
-								dtend = next.clone();
-								dtend.addDuration(duration);
+	/**
+	 * parse an recurring event
+	 * @param vevent
+	 * @param start
+	 * @param end
+	 * @param timezone
+	 * @return []
+	 */
+	function parseTimeForRecurringEvent(vevent, start, end, timezone) {
+		var dtstart = vevent.getFirstPropertyValue('dtstart');
+		var dtend = calculateDTEnd(vevent);
+		var duration = dtend.subtractDate(dtstart);
+		var fcDataContainer = [];
 
-								if (dtstart.icaltype !== 'date' && dtstart.zone !== ICAL.Timezone.utcTimezone && dtstart.zone !== ICAL.Timezone.localTimezone) {
-									dtstart.convertToZone(timezone);
-								}
-								if (dtend.icaltype !== 'date' && dtend.zone !== ICAL.Timezone.utcTimezone && dtend.zone !== ICAL.Timezone.localTimezone) {
-									dtend.convertToZone(timezone);
-								}
+		var iterator = new ICAL.RecurExpansion({
+			component: vevent,
+			dtstart: dtstart
+		});
 
-								isAllDay = (dtstart.icaltype === 'date' && dtend.icaltype === 'date');
-
-								var newEvent = JSON.parse(JSON.stringify(event));
-								newEvent.start = dtstart.toJSDate();
-								newEvent.end = dtend.toJSDate();
-								newEvent.allDay = isAllDay;
-
-								events.push(newEvent);
-							}
-						} else {
-							if (dtstart.icaltype !== 'date' && dtstart.zone !== ICAL.Timezone.utcTimezone && dtstart.zone !== ICAL.Timezone.localTimezone) {
-								dtstart = dtstart.convertToZone(timezone);
-							}
-
-							if (dtend.icaltype !== 'date' && dtend.zone !== ICAL.Timezone.utcTimezone && dtend.zone !== ICAL.Timezone.localTimezone) {
-								dtend = dtend.convertToZone(timezone);
-							}
-
-							isAllDay = (dtstart.icaltype === 'date' && dtend.icaltype === 'date');
-
-							event.start = dtstart.toJSDate();
-							event.end = dtend.toJSDate();
-							event.allDay = isAllDay;
-
-							events.push(event);
-						}
-					} catch(e) {
-						console.warn('');
-						console.warn('Error in calendar:');
-						console.warn(calendardisplayname);
-						console.warn(e.message);
-						console.warn('');
-						//console.log(e.stack);
-					}
-				});
+		var next;
+		while ((next = iterator.next())) {
+			if (next.compare(start) < 0) {
+				continue;
 			}
-			return events;
+			if (next.compare(end) > 0) {
+				break;
+			}
+
+			var dtstartOfRecurrence = next.clone();
+			var dtendOfRecurrence = next.clone();
+			dtendOfRecurrence.addDuration(duration);
+
+			if (isTimezoneConversionNecessary(dtstartOfRecurrence)) {
+				dtstartOfRecurrence = dtstartOfRecurrence.convertToZone(timezone);
+			}
+			if (isTimezoneConversionNecessary(dtendOfRecurrence)) {
+				dtendOfRecurrence = dtendOfRecurrence.convertToZone(timezone);
+			}
+
+			fcDataContainer.push({
+				allDay: isEventAllDay(dtstartOfRecurrence, dtendOfRecurrence),
+				start: dtstartOfRecurrence.toJSDate(),
+				end: dtendOfRecurrence.toJSDate(),
+				repeating: true
+			});
+		}
+
+		return fcDataContainer;
+	}
+
+
+	/**
+	 * parse a single event
+	 * @param vevent
+	 * @param timezone
+	 * @returns {object}
+	 */
+	function parseTimeForSingleEvent(vevent, timezone) {
+		var dtstart = vevent.getFirstPropertyValue('dtstart');
+		var dtend = calculateDTEnd(vevent);
+
+		if (isTimezoneConversionNecessary(dtstart)) {
+			dtstart = dtstart.convertToZone(timezone);
+		}
+		if (isTimezoneConversionNecessary(dtend)) {
+			dtend = dtend.convertToZone(timezone);
+		}
+
+		return {
+			allDay: isEventAllDay(dtstart, dtend),
+			start: dtstart.toJSDate(),
+			end: dtend.toJSDate(),
+			repeating: false
+		};
+	}
+
+	EventsModel.prototype = {
+		addAllDisplayFigures: function (calendar, jCalData, start, end, timezone) {
+			var components = new ICAL.Component(jCalData);
+
+			start = new ICAL.Time();
+			start.fromUnixTime(start);
+			end = new ICAL.Time();
+			end.fromUnixTime(end);
+
+			if (components.jCal.length === 0) {
+				return;
+			}
+
+			registerTimezones(components);
+
+			var vevents = components.getAllSubcomponents('vevent');
+
+			angular.forEach(vevents, function (vevent) {
+				var event = new ICAL.Event(vevent);
+				var fcData;
+
+				try {
+					if (!vevent.hasProperty('dtstart')) {
+						return;
+					}
+					if (event.isRecurring()) {
+						fcData = parseTimeForRecurringEvent(vevent, start, end, timezone);
+					} else {
+						fcData = [];
+						fcData.push(parseTimeForSingleEvent(vevent, timezone));
+					}
+				} catch(e) {
+					console.log(e);
+				}
+
+				if (typeof fcData === 'undefined') {
+					return;
+				}
+
+				for (var i = 0, length = fcData.length; i < length; i++) {
+					fcData[i] = addCalendarDataToFCData(fcData[i], calendar);
+					fcData[i] = addEventDataToFCData(fcData[i], vevent, event);
+
+					$rootScope.$broadcast('renderedEvent', fcData[i]);
+				}
+			});
+
+			return [];
 		},
 		eventResizer: function (event, delta, jcalData) {
 			var components = new ICAL.Component(jcalData);
 			var vevents = components.getAllSubcomponents('vevent');
-			var didFindEvent = false;
+			var foundEvent = false;
 			var deltaAsSeconds = 0;
 			var duration = null;
 			var propertyToUpdate = null;
@@ -1632,16 +1720,16 @@ app.factory('EventsModel', ['objectConverter', function (objectConverter) {
 					}
 
 					components.addSubcomponent(vevents[i]);
-					didFindEvent = true;
+					foundEvent = true;
 				}
 			}
 
-			return (didFindEvent) ? components.toString() : null;
+			return (foundEvent) ? components.toString() : null;
 		},
 		eventDropper: function (event, delta, jcalData) {
 			var components = new ICAL.Component(jcalData);
 			var vevents = components.getAllSubcomponents('vevent');
-			var didFindEvent = false;
+			var foundEvent = false;
 			var deltaAsSeconds = 0;
 			var duration = null;
 			var propertyToUpdate = null;
@@ -1672,11 +1760,11 @@ app.factory('EventsModel', ['objectConverter', function (objectConverter) {
 					}
 
 					components.addSubcomponent(vevents[i]);
-					didFindEvent = true;
+					foundEvent = true;
 				}
 			}
 
-			return (didFindEvent) ? components.toString() : null;
+			return (foundEvent) ? components.toString() : null;
 		},
 		modalpropertyholder: function (event, jsEvent, view, jcalData) {
 			this.components = new ICAL.Component(jcalData);
