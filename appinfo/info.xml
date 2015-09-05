@@ -1,0 +1,19 @@
+<?xml version="1.0"?> 
+<info>
+	<id>calendar</id>
+	<name>Calendar</name>
+	<licence>AGPL</licence>
+	<author>Georg Ehrke, Bart Visscher, Jakob Sack</author>
+	<require>6.90</require>
+	<shipped>true</shipped>
+	<description>Calendar with CalDAV support</description>
+	<default_enable/>
+	<remote>
+		<calendar>sabre/main.php</calendar>
+		<caldav>sabre/main.php</caldav>
+	</remote>
+	<public>
+		<calendar>sharing/public.php</calendar>
+		<caldav>sharing/public.php</caldav>
+	</public>
+</info>
