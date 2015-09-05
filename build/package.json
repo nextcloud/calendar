@@ -16,7 +16,6 @@
     "grunt-cli": "*",
     "grunt-contrib-concat": "*",
     "grunt-contrib-jshint": "*",
-    "grunt-contrib-sass": "*",
     "grunt-contrib-watch": "*",
     "grunt-karma": "*",
     "grunt-ng-annotate": "^1.0.1",

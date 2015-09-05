@@ -27,7 +27,7 @@
 
 
 	<div
-		class="new-entity"	
+		class="new-entity"
 		oc-click-slide-toggle="{
 			selector: '.add-new-subscription',
 			hideOnFocusLost: true,
@@ -45,12 +45,12 @@
 		<form>
 			<fieldset class="calendarlist-fieldset">
 				<input
-					class="calendarlist-input"
+					class="calendarlist-input pull-left"
 					type="text"
 					ng-model="newSubscriptionUrl"\
 					placeholder="<?php p($l->t('Url')); ?>"
 					autofocus />
-				<select id="subscription"
+				<select id="subscription pull-left"
 					name="subscription"
 					ng-model="selectedsubscriptionbackendmodel"
 					ng-options="subscription.name for subscription in subscriptiontypeSelect"
@@ -59,7 +59,7 @@
 				<button
 					ng-click="create(newSubscriptionUrl)"
 					id="submitnewSubscription"
-					class="primary icon-checkmark-white accept-button"
+					class="primary icon-checkmark-white accept-button pull-right"
 					oc-click-slide-toggle="{
 						selector: '.add-new-subscription',
 						hideOnFocusLost: false,

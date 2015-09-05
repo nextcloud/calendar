@@ -28,7 +28,6 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-wrap');
 	grunt.loadNpmTasks('grunt-ng-annotate');
-	grunt.loadNpmTasks('grunt-contrib-sass');
 	grunt.loadNpmTasks('grunt-karma');
 	grunt.loadNpmTasks('grunt-phpunit');
 
@@ -40,9 +39,7 @@ module.exports = function(grunt) {
 			configJS: '../js/config/',
 			buildJS: '../js/app/',
 			productionJS: '../js/public/',
-			testsJS: '../tests/js/',
-			buildCSS: '../sass/',
-			productionCSS: '../css/'
+			testsJS: '../tests/js/'
 		},
 
 		concat: {
@@ -83,29 +80,16 @@ module.exports = function(grunt) {
 			}
 		},
 
-		sass: {
-			dist: {
-				files: {
-					'<%= meta.productionCSS %>main.css': '<%= meta.buildCSS %>base.scss'
-				},
-				options: {
-					style: 'nested',
-					sourcemap: 'none'
-				}
-			},
-		},
-
 		watch: {
 			concat: {
 				files: [
 					'<%= meta.buildJS %>**/*.js',
 					'<%= meta.configJS %>*.js',
-					'<%= meta.buildCSS %>**/*.scss'
 				],
 				options: {
 					livereload: true
 				},
-				tasks: ['build', 'sass']
+				tasks: ['build']
 			}
 		},
 

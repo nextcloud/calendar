@@ -1,0 +1,241 @@
+/**
+ * ownCloud - Calendar App
+ *
+ * @author Raghu Nayyar
+ * @author Georg Ehrke
+ * @copyright 2014 Raghu Nayyar <beingminimal@gmail.com>
+ * @copyright 2014 Georg Ehrke <oc.list@georgehrke.com>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+#events .event-select,
+#events .event-fieldset .event-button,
+#events .event-fieldset.event-fieldset-reminder .event-select-reminder,
+#events .event-fieldset.event-fieldset-reminder .custom-container .event-input,
+#events .event-fieldset.event-fieldset-attendee .event-fieldset-interior-attendeelist .attendeeopener,
+#events .event-fieldset.event-fieldset-update .event-button,
+#events .event-fieldset .event-time-interior.event-time-interior-buttonarea {
+  float: right;
+}
+
+#events {
+  display: none;
+}
+
+#dialoghider {
+  display: none;
+}
+
+.ui-dialog {
+  z-index: 999999;
+}
+.ui-dialog .ui-dialog-titlebar,
+.ui-dialog .ui-dialog-title {
+  cursor: move;
+  background: transparent;
+  border: 0;
+}
+.ui-dialog .ui-dialog-titlebar .ui-button,
+.ui-dialog .ui-dialog-title .ui-button {
+  cursor: pointer;
+}
+
+#events .event-input {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 5px 0;
+}
+#events .event-input.h2 {
+  font-size: 18px;
+}
+#events .event-input.event-textarea {
+  max-width: 467px;
+  /*Custom*/
+  max-height: 100px;
+}
+#events .calendarCheckbox {
+  margin-top: 10px;
+  height: 20px;
+  width: 20px;
+  display: block;
+  border: 1px solid #333;
+}
+#events .event-label {
+  margin: 10px;
+  width: 80px;
+}
+#events .event-select {
+  width: auto;
+  margin: 3px 0 3px 10px;
+}
+#events .event-fieldset {
+  position: relative;
+}
+#events .event-fieldset .event-fieldset-interior {
+  display: block;
+  width: 100%;
+}
+#events .event-fieldset .event-fieldset-interior .event-fieldset-list li {
+  padding: 5px 10px;
+  margin-bottom: 2px;
+}
+#events .event-fieldset .event-fieldset-interior .event-fieldset-list li .event-delete-button {
+  margin: -3px;
+  background-color: transparent;
+  border: 0;
+  display: none;
+}
+#events .event-fieldset .event-fieldset-interior .event-fieldset-list li:hover {
+  background: #ddd;
+}
+#events .event-fieldset .event-fieldset-interior .event-fieldset-list li:hover .event-delete-button {
+  display: block;
+}
+#events .event-fieldset .event-select-calendardropdown {
+  width: 92%;
+}
+#events .event-fieldset.event-time {
+  height: 100px;
+}
+#events .event-fieldset.event-fieldset-reminder .event-delete-button {
+  padding: 5px;
+  margin-right: 5px;
+  margin-top: 5px;
+  cursor: pointer;
+}
+#events .event-fieldset.event-fieldset-reminder .event-fieldset-interior-reminderlist-single {
+  width: 100%;
+  cursor: pointer;
+}
+#events .event-fieldset.event-fieldset-reminder .event-fieldset-interior-reminderlist-single h4 {
+  cursor: pointer;
+  margin: 5px;
+}
+#events .event-fieldset.event-fieldset-reminder .event-fieldset-interior-reminderlist-single .event-delete-button {
+  display: none;
+}
+#events .event-fieldset.event-fieldset-reminder .event-fieldset-interior-reminderlist-single:hover {
+  background: #ddd;
+}
+#events .event-fieldset.event-fieldset-reminder .event-fieldset-interior-reminderlist-single:hover .event-delete-button {
+  display: block;
+  opacity: 0.5;
+}
+#events .event-fieldset.event-fieldset-reminder .event-fieldset-interior-reminderlist-single:hover .event-delete-button:hover {
+  opacity: 0.7;
+}
+#events .event-fieldset.event-fieldset-reminder .custom-container {
+  height: 40px;
+}
+#events .event-fieldset.event-fieldset-reminder .custom-container .event-radio {
+  margin: 10px;
+}
+#events .event-fieldset.event-fieldset-reminder .custom-container .event-input {
+  width: 30%;
+}
+#events .event-fieldset.event-fieldset-reminder .custom-container.repeat-container {
+  display: inline-block;
+}
+#events .event-fieldset.event-fieldset-reminder .custom-container.repeat-container .event-checkbox {
+  margin-left: 10px;
+}
+#events .event-fieldset.event-fieldset-reminder .custom-container.repeat-container .event-input {
+  float: none;
+  width: 20%;
+}
+#events .event-fieldset.event-fieldset-reminder .custom-container.repeat-container .event-select {
+  float: none;
+  width: 24%;
+}
+#events .event-fieldset.event-fieldset-attendee .event-input {
+  width: 78%;
+}
+#events .event-fieldset.event-fieldset-attendee .event-fieldset-interior-attendeelist .attendeenotsure {
+  border: 1px solid #333;
+  float: left;
+  width: 15px;
+  height: 15px;
+}
+#events .event-fieldset.event-fieldset-attendee .event-fieldset-interior-attendeelist .attendeenotsure i {
+  position: absolute;
+  margin: 2px 3px;
+}
+#events .event-fieldset.event-fieldset-attendee .event-fieldset-interior-attendeelist .event-label-type {
+  width: 40px;
+}
+#events .event-fieldset.event-fieldset-attendee .event-fieldset-interior-attendeelist .event-label-no-attend {
+  width: 120px;
+}
+#events .event-fieldset.event-fieldset-attendee .event-fieldset-interior-attendeelist .event-checkbox {
+  margin-top: 15px;
+  margin-left: -15px;
+}
+#events .event-fieldset.event-fieldset-attendee .event-fieldset-interior-attendeelist .attendeename {
+  margin-left: 10px;
+}
+#events .event-fieldset.event-fieldset-attendee .event-fieldset-interior-attendeelist .attendeeopener {
+  margin: 2px;
+}
+#events .event-fieldset .event-time-interior {
+  height: 40px;
+  width: 100%;
+}
+#events .event-fieldset .event-time-interior .event-input {
+  margin-top: 5px;
+  width: 210px;
+}
+#events .event-fieldset .event-time-interior .event-button {
+  margin: 6px;
+}
+#events .event-fieldset .event-time-interior.event-time-interior-buttonarea {
+  width: 40px;
+  position: absolute;
+  right: 10px;
+}
+#events .event-fieldset .event-time-interior.event-time-interior-allday {
+  width: 100%;
+}
+#events .event-fieldset .event-time-interior.event-time-interior-allday label {
+  margin: 5px 0;
+  float: none;
+}
+#events .event-fieldset .event-time-interior.event-time-interior-allday .event-checkbox {
+  margin: 5px;
+}
+#events .event-fieldset.event-fieldset-heading {
+  background: #e6e6e6;
+  margin-bottom: 2px;
+  cursor: pointer;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-transition: 0.05s ease-out 0.05s;
+  -moz-transition: 0.05s ease-out 0.05s;
+  -ms-transition: 0.05s ease-out 0.05s;
+  transition: 0.05s ease-out 0.05s;
+}
+#events .event-fieldset.event-fieldset-heading h3 {
+  margin: 10px;
+  font-size: 16px;
+}
+#events .event-fieldset.event-fieldset-heading:hover {
+  background: #cccccc;
+  -webkit-transition: 0.05s ease-out 0.05s;
+  -moz-transition: 0.05s ease-out 0.05s;
+  -ms-transition: 0.05s ease-out 0.05s;
+  transition: 0.05s ease-out 0.05s;
+}

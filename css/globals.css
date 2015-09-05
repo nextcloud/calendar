@@ -21,14 +21,15 @@
  *
  */
 
-@import
-	"globals/mixins",
-	"globals/variables",
-	"globals/globals",
-	
-	"partials/calendar",
-	"partials/calendarlist",
-	"partials/datepicker",
-	"partials/settings",
-	"partials/eventdialog"
-;
+
+.pull-left {
+  float: left;
+}
+
+.pull-right {
+  float: right;
+}
+
+.hide {
+  display: none;
+}

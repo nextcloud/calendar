@@ -23,7 +23,7 @@
  */
 ?>
 <span class="calendarCheckbox" ng-show="!calendar.loading && !calendar.list.edit" ng-style="{ background : calendar.enabled == true ? '{{ calendar.color }}' : 'transparent' }"></span>
-<span class="loadingicon" ng-show="calendar.loading && !calendar.list.edit">
+<span class="loadingicon pull-left" ng-show="calendar.loading && !calendar.list.edit">
 			<i class="fa fa-spinner fa-spin"></i>
 		</span>
 <a href="#/" ng-click="triggerEnable(calendar)" data-id="{{ calendar.id }}" ng-show="!calendar.list.edit">
@@ -82,7 +82,7 @@
 <fieldset ng-show="calendar.list.edit" class="editfieldset">
 	<input class="app-navigation-input" type="text" ng-model="calendar.displayname" data-id="{{ calendar.id }}" />
 	<colorpicker class="colorpicker" selected="selected"></colorpicker>
-	<div class="calendartype">
+	<div class="calendartype pull-left">
 		<p>
 			<input class="app-navigation-checkbox" type="checkbox" ng-model="calendar.components.vevent" />
 			<label class="label"><?php p($l->t('Event')); ?></label>
@@ -96,7 +96,7 @@
 			<label class="label"><?php p($l->t('Todo')); ?></label>
 		</p>
 	</div>
-	<div class="buttongroups">
+	<div class="buttongroups pull-left">
 		<button ng-click="performUpdate(calendar)" id="updateCalendar" class="primary icon-checkmark-white accept-button"></button>
 		<button id="chooseCalendar-close" class="btn close-button" ng-click="cancelUpdate(calendar)">
 			<i class="fa fa-times fa-1x"></i>
