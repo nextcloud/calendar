@@ -90,3 +90,5 @@ CVS/*
 RCS/*
 
 /.project
+
+coverage/
