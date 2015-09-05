@@ -21,6 +21,8 @@
  */
 namespace OCA\Calendar;
 
+use OCA\Calendar\Db\ObjectType;
+
 interface IObjectCollection extends ICollection {
 
 	/**
@@ -62,4 +64,11 @@ interface IObjectCollection extends ICollection {
 	 * @return void
 	 */
 	public function addGlobalIds(array $idTable);
+
+
+	/**
+	 * @param int $type
+	 * @return mixed
+	 */
+	public function listAll($type=ObjectType::ALL);
 }

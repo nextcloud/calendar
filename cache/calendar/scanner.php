@@ -102,7 +102,9 @@ class Scanner {
 				return $this->cache->doesExist($newUri, $calendar->getUserId());
 			}, true);
 			$calendar = $this->addToCache($calendar);
-			$usersCalendar->setId($calendar->getId());
+			if ($usersCalendar) {
+				$usersCalendar->setId($calendar->getId());
+			}
 		}
 	}
 
@@ -207,7 +209,12 @@ class Scanner {
 				$calendars = $backend->getCalendarAPI()->listAll($userId);
 
 				foreach ($calendars as $privateUri) {
-					$this->scanCalendar($backendId, $privateUri, $userId);
+					try {
+						$this->scanCalendar($backendId, $privateUri, $userId);
+					} catch (\Exception $ex) {
+						$this->logger->debug($ex->getMessage());
+						continue;
+					}
 				}
 			} catch(\Exception $ex) {
 				$this->logger->debug($ex->getMessage());

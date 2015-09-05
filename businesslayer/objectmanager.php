@@ -88,13 +88,19 @@ class ObjectManager {
 		$this->logger = $logger;
 
 		if ($calendar->getBackend() instanceof IBackend) {
-			$this->api = $calendar->getBackend()
-				->getObjectAPI($calendar);
+			try {
+				$this->api = $calendar->getBackend()
+					->getObjectAPI($calendar);
+			} catch(BackendUtils\Exception $ex) {
+				//TODO
+			}
 
 			$this->cache = $calendar->getBackend()
 				->getObjectCache($calendar);
 			$this->updater = $calendar->getBackend()
 				->getObjectUpdater($calendar);
+			$this->watcher = $calendar->getBackend()
+				->getObjectWatcher($calendar);
 
 			$this->isCachingEnabled = $this->api->cache();
 		}

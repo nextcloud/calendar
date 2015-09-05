@@ -103,7 +103,7 @@ class SubscriptionMapper extends Mapper {
 		$params = [$id, $userId];
 
 		$row = $this->findOneQuery($sql, $params);
-		return new Subscription($row);
+		return Subscription::fromRow($row);
 	}
 
 
@@ -122,7 +122,7 @@ class SubscriptionMapper extends Mapper {
 		$params = [$id, $type, $userId];
 
 		$row = $this->findOneQuery($sql, $params);
-		return new Subscription($row);
+		return Subscription::fromRow($row);
 	}
 
 

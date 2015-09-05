@@ -29,7 +29,8 @@ use OCA\Calendar\IBackend;
 use OCA\Calendar\ICalendar;
 use OCA\Calendar\IObject;
 
-use OCA\Calendar\IObjectAPI;
+use OCA\Calendar\Backend\IObjectAPI;
+use OCA\Calendar\Backend as BackendUtils;
 use OCP\ILogger;
 
 use OCP\AppFramework\Db\DoesNotExistException as DoesNotExistMapperException;
@@ -50,7 +51,7 @@ class Scanner {
 
 
 	/**
-	 * @var \OCA\Calendar\IObjectAPI
+	 * @var \OCA\Calendar\Backend\IObjectAPI
 	 */
 	protected $objectAPI;
 
@@ -78,7 +79,11 @@ class Scanner {
 			$this->logger->error('Backend of calendar \'' . $identifier . '\' not found');
 		} else {
 			$this->cache = $backend->getObjectCache($calendar);
-			$this->objectAPI = $backend->getObjectAPI($calendar);
+			try {
+				$this->objectAPI = $backend->getObjectAPI($calendar);
+		 	} catch (BackendUtils\Exception $ex) {
+				//TODO
+			}
 		}
 	}
 
@@ -96,7 +101,14 @@ class Scanner {
 			return;
 		}
 
-		$cached = $this->getCached($objectUri);
+		try {
+			$cached = $this->getCached($objectUri);
+		} catch (CorruptDataException $ex) {
+			//TODO log $ex->getMessage();
+
+			return;
+		}
+
 		if ($cached) {
 			$object->setId($cached->getId());
 			$this->updateCache($object);
@@ -147,6 +159,7 @@ class Scanner {
 			return null;
 		} catch(MultipleObjectsReturnedMapperException $ex) {
 			//$this->logger->warn($msg);
+
 			return null;
 		}
 	}
@@ -184,7 +197,15 @@ class Scanner {
 			return;
 		}
 
-		$list = $this->objectAPI->listAll();
+		$cachedList = $this->cache->listAll();
+		try {
+			$remoteList = $this->objectAPI->listAll();
+		} catch(BackendUtils\Exception $ex) {
+			return;
+		}
+
+		$list = array_merge($cachedList, $remoteList);
+
 		foreach($list as $l) {
 			$this->scanObject($l);
 		}
@@ -197,4 +218,6 @@ class Scanner {
 	private function isCalendarsBackendValid() {
 		return ($this->objectAPI instanceof IObjectAPI && $this->cache instanceof Cache);
 	}
+
+
 }

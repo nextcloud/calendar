@@ -22,10 +22,12 @@
 namespace OCA\Calendar\Cache\Object;
 
 use OCA\Calendar\ICalendar;
+use OCA\Calendar\Backend as BackendUtils;
 
 class Watcher {
-	const CHECK_ONCE = 0;
-	const CHECK_ALWAYS = 1;
+	const CHECK_NEVER = 0;
+	const CHECK_ONCE = 1;
+	const CHECK_ALWAYS = 2;
 
 	/**
 	 * @var integer
@@ -79,11 +81,17 @@ class Watcher {
 			$cachedObject = $this->cache->find($objectUri);
 			$this->setCheckedObject($objectUri);
 
-			$objectAPI = $this->calendar->getBackend()->getObjectAPI($this->calendar);
-			if ($objectAPI->hasUpdated($cachedObject)) {
-				$this->scanner->scanObject($objectUri);
-				return true;
+			try {
+				$objectAPI = $this->calendar->getBackend()->getObjectAPI($this->calendar);
+
+				if ($objectAPI->hasUpdated($cachedObject)) {
+					$this->scanner->scanObject($objectUri);
+					return true;
+				}
+			} catch(BackendUtils\Exception $ex) {
+				return false;
 			}
+
 			return false;
 		} else {
 			return false;
@@ -95,9 +103,13 @@ class Watcher {
 	 * remove deleted objects from cache
 	 */
 	public function clean() {
-		$objectAPI = $this->calendar->getBackend()->getObjectAPI($this->calendar);
+		try {
+			$objectAPI = $this->calendar->getBackend()->getObjectAPI($this->calendar);
 
-		$list = $objectAPI->listAll();
+			$list = $objectAPI->listAll();
+		} catch(BackendUtils\Exception $ex) {
+			return;
+		}
 		$cList = $this->cache->listAll();
 
 		$deletedOnRemote = array_diff($cList, $list);

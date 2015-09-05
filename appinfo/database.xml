@@ -181,7 +181,7 @@
 				<length>4</length>
 			</field>
 			<field>
-				<name>objecturi</name>
+				<name>uri</name>
 				<type>text</type>
 				<default></default>
 				<notnull>true</notnull>
@@ -220,12 +220,6 @@
 				<notnull>false</notnull>
 			</field>
 			<field>
-				<name>lastoccurence</name>
-				<type>timestamp</type>
-				<default>1970-01-01 00:00:00</default>
-				<notnull>false</notnull>
-			</field>
-			<field>
 				<name>summary</name>
 				<type>text</type>
 				<default></default>
@@ -260,7 +254,7 @@
 					<sorting>ascending</sorting>
 				</field>
 				<field>
-					<name>objecturi</name>
+					<name>uri</name>
 					<sorting>ascending</sorting>
 				</field>
 			</index>
@@ -310,7 +304,7 @@
 				<length>4</length>
 			</field>
 			<field>
-				<name>objecturi</name>
+				<name>uri</name>
 				<type>text</type>
 				<default></default>
 				<notnull>true</notnull>

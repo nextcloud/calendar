@@ -26,10 +26,11 @@ namespace OCA\Calendar\Backend\WebCal;
 use OCA\Calendar\Backend as BackendUtils;
 use OCA\Calendar\BusinessLayer;
 use OCA\Calendar\CorruptDataException;
-use OCA\Calendar\Db\ObjectCollection;
 use OCA\Calendar\Db\ObjectFactory;
 use OCA\Calendar\ICalendar;
 use OCA\Calendar\IObject;
+use OCA\Calendar\IObjectCollection;
+use OCA\Calendar\ISubscription;
 use OCP\ICacheFactory;
 use OCP\IL10N;
 use Sabre\VObject\ParseException;
@@ -45,9 +46,21 @@ class Object extends WebCal implements BackendUtils\IObjectAPI {
 
 
 	/**
+	 * @var ISubscription
+	 */
+	private $subscription;
+
+
+	/**
 	 * @var ObjectFactory
 	 */
 	private $factory;
+
+
+	/**
+	 * @var IObjectCollection
+	 */
+	private $objects;
 
 
 	/**
@@ -56,12 +69,21 @@ class Object extends WebCal implements BackendUtils\IObjectAPI {
 	 * @param ICacheFactory $cacheFactory
 	 * @param ICalendar $calendar
 	 * @param ObjectFactory $factory
+	 * @throws BackendUtils\DoesNotExistException if no corresponding subscription was found
 	 */
 	public function __construct(BusinessLayer\Subscription $subscriptions, IL10N $l10n, ICacheFactory $cacheFactory,
 								ICalendar $calendar, ObjectFactory $factory) {
 		parent::__construct($subscriptions, $l10n, $cacheFactory);
 		$this->calendar = $calendar;
 		$this->factory = $factory;
+
+		try {
+			$calendar = $this->calendar;
+			$this->subscription = $this->subscriptions->findByType(
+				$calendar->getPrivateUri(), self::IDENTIFIER, $calendar->getUserId());
+		} catch(BusinessLayer\Exception $ex) {
+			throw new BackendUtils\DoesNotExistException($ex->getMessage());
+		}
 	}
 
 
@@ -77,7 +99,26 @@ class Object extends WebCal implements BackendUtils\IObjectAPI {
 	 * {@inheritDoc}
 	 */
 	public function find($objectURI, $type=ObjectType::ALL) {
+		if (!($this->objects instanceof IObjectCollection)) {
+			$this->findAll();
 
+			if (!($this->objects instanceof IObjectCollection)) {
+				throw new BackendUtils\DoesNotExistException('Object not found');
+			}
+		}
+
+		foreach($this->objects as $object) {
+			/** @var IObject $object */
+			if ($object->getUri() === $objectURI) {
+				if ($object->getType() & $type) {
+					return $object;
+				} else {
+					throw new BackendUtils\DoesNotExistException('Object exists, but is of wrong type');
+				}
+			}
+		}
+
+		throw new BackendUtils\DoesNotExistException('Object not found');
 	}
 
 
@@ -85,36 +126,23 @@ class Object extends WebCal implements BackendUtils\IObjectAPI {
 	 * {@inheritDoc}
 	 */
 	public function findAll($type=ObjectType::ALL, $limit=null, $offset=null) {
-		try {
-			$calendar = $this->calendar;
-			$subscription = $this->subscriptions->findByType(
-				$calendar->getPrivateUri(), self::IDENTIFIER, $calendar->getUserId());
-		} catch(BusinessLayer\Exception $ex) {
-			throw new BackendUtils\DoesNotExistException($ex->getMessage());
+		if ($this->objects instanceof IObjectCollection) {
+			return $this->objects->ofType($type);
 		}
 
-		$curl = curl_init();
-		$url = $subscription->getUrl();
-		$data = null;
-
-		$this->prepareRequest($curl, $url);
-		$this->getRequestData($curl, $data);
-		$this->validateRequest($curl);
-
-		$objectCollection = new ObjectCollection();
-
+		$data = $this->getData($this->subscription);
 		try {
-			//TODO - use Factory
-			/*$splitter = new ICalendarSplitter($data);
-			while($vobject = $splitter->getNext()) {
-				$object = new Object();
-				$object->fromVObject($vobject);
-				$objectCollection->add($object);
-			}*/
+			$this->objects = $this->factory->createCollectionFromData($data, ObjectFactory::FORMAT_ICAL);
+
+			foreach ($this->objects as $object) {
+				/** @var IObject $object */
+				$object->setCalendar($this->calendar);
+			}
+
+			return $this->objects->ofType($type);
 		} catch(ParseException $ex) {
 			throw new CorruptDataException('CalendarManager-data is not valid!');
 		}
-		return $objectCollection;
 	}
 
 
@@ -122,7 +150,15 @@ class Object extends WebCal implements BackendUtils\IObjectAPI {
 	 * {@inheritDoc}
 	 */
 	public function listAll($type=ObjectType::ALL) {
+		if (!($this->objects instanceof IObjectCollection)) {
+			$this->findAll();
 
+			if (!($this->objects instanceof IObjectCollection)) {
+				return [];
+			}
+		}
+
+		return $this->objects->listAll($type);
 	}
 
 
@@ -130,6 +166,8 @@ class Object extends WebCal implements BackendUtils\IObjectAPI {
 	 * {@inheritDoc}
 	 */
 	public function hasUpdated(IObject $object) {
+		$newObject = $this->find($object->getUri());
 
+		return ($newObject->getEtag(true) !== $object->getEtag(true));
 	}
 }

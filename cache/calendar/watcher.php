@@ -25,8 +25,9 @@ use OCA\Calendar\IBackend;
 use OCA\Calendar\IBackendCollection;
 
 class Watcher {
-	const CHECK_ONCE = 0;
-	const CHECK_ALWAYS = 1;
+	const CHECK_NEVER = 0;
+	const CHECK_ONCE = 1;
+	const CHECK_ALWAYS = 2;
 
 	/**
 	 * @var integer
@@ -77,7 +78,7 @@ class Watcher {
 	 */
 	public function checkUpdate($backendId, $privateUri, $userId) {
 		if ($this->watchPolicy === self::CHECK_ALWAYS ||
-			($this->watchPolicy === self::CHECK_ONCE && $this->wasCalendarChecked($backendId, $privateUri, $userId))) {
+			($this->watchPolicy === self::CHECK_ONCE && !$this->wasCalendarChecked($backendId, $privateUri, $userId))) {
 			$backend = $this->backends->find($backendId);
 			if (!($backend instanceof IBackend)) {
 				return false;

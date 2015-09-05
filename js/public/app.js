@@ -265,7 +265,7 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 					start = start.format('X');
 					end = end.format('X');
 					Restangular.one('calendars', id).one('events').one('inPeriod').getList(start + '/' + end).then(function (eventsobject) {
-						callback(EventsModel.addAllDisplayFigures(id, eventsobject, start, end, $scope.timezone));
+						callback(EventsModel.addAllDisplayFigures(id, createdCalendar.displayname, createdCalendar.color, eventsobject, start, end, $scope.timezone));
 						$rootScope.$broadcast('finishedLoadingEvents', id);
 					}, function (response) {
 						OC.Notification.show(t('calendar', response.data.message));
@@ -487,7 +487,26 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window',
 		//if the user added a subscription
 		$rootScope.$on('createdSubscription', function() {
 			Restangular.all('calendars').getList().then(function (calendars) {
-				CalendarModel.addAll(calendars);
+				var toAdd = [];
+				for (var i = 0, length = calendars.length; i < length; i++) {
+					var didFind = false;
+					for (var j = 0, oldLength = $scope.calendars.length; j < oldLength; j++) {
+						if (calendars[i].id === $scope.calendars[j].id) {
+							didFind = true;
+							break;
+						}
+					}
+					if (!didFind) {
+						toAdd.push(calendars[i]);
+					}
+				}
+
+				for (var i = 0; i < toAdd.length; i++) {
+					CalendarModel.create(toAdd[i]);
+					$rootScope.$broadcast('createdCalendar', toAdd[i]);
+				}
+
+				$scope.calendars = CalendarModel.getAll();
 			});
 		});
 

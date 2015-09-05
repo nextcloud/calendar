@@ -87,7 +87,7 @@ class Object extends Entity implements IObject {
 	public static function fromVObject(VCalendar $vcalendar) {
 		/** @var Object $instance */
 		$instance = new static();
-		return $instance->setVObject($vcalendar);
+		return $instance->setVObject($vcalendar, true);
 	}
 
 
@@ -105,6 +105,10 @@ class Object extends Entity implements IObject {
 	 */
 	public function getCalendar() {
 		return $this->getter('calendar');
+	}
+
+	public function getCalendarid() {
+		return $this->getCalendar()->getId();
 	}
 
 
@@ -182,10 +186,11 @@ class Object extends Entity implements IObject {
 
 	/**
 	 * @param VCalendar $vobject
+	 * @param boolean $autoAssignUri
 	 * @throws CorruptDataException
 	 * @return $this
 	 */
-	public function setVObject(VCalendar $vobject) {
+	public function setVObject(VCalendar $vobject, $autoAssignUri=false) {
 		$uidCount = SabreUtility::countUniqueUIDs($vobject);
 		$objectName = SabreUtility::getObjectName($vobject);
 
@@ -202,6 +207,12 @@ class Object extends Entity implements IObject {
 
 		$this->setter('vObject', [$vobject]);
 		$this->objectName = $objectName;
+
+		if ($autoAssignUri) {
+			$uid = $this->vObject->{$this->getObjectName()}->{'UID'}->getValue();
+			$this->setUri($uid . '.ics');
+		}
+
 		return $this;
 	}
 
@@ -248,7 +259,7 @@ class Object extends Entity implements IObject {
 
 		$properties = [
 			'uri', 'type', 'startDate',
-			'endDate', 'calendarId', 'repeating', 
+			'endDate', 'calendarid', 'repeating',
 			'summary', 'calendarData', 'lastModified',
 		];
 
@@ -326,8 +337,6 @@ class Object extends Entity implements IObject {
 
 		return $this->setter('etag', [md5($etag)]);
 	}
-
-
 
 
 	/**

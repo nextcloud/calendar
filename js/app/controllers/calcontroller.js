@@ -225,7 +225,7 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 					start = start.format('X');
 					end = end.format('X');
 					Restangular.one('calendars', id).one('events').one('inPeriod').getList(start + '/' + end).then(function (eventsobject) {
-						callback(EventsModel.addAllDisplayFigures(id, eventsobject, start, end, $scope.timezone));
+						callback(EventsModel.addAllDisplayFigures(id, createdCalendar.displayname, createdCalendar.color, eventsobject, start, end, $scope.timezone));
 						$rootScope.$broadcast('finishedLoadingEvents', id);
 					}, function (response) {
 						OC.Notification.show(t('calendar', response.data.message));

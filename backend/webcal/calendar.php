@@ -126,7 +126,7 @@ class Calendar extends WebCal implements BackendUtils\ICalendarAPI, BackendUtils
 	 */
 	public function hasUpdated(ICalendar $calendar) {
 		//TODO - what do we want to use for ctag anyway
-		return false;
+		return true;
 	}
 
 
@@ -140,6 +140,7 @@ class Calendar extends WebCal implements BackendUtils\ICalendarAPI, BackendUtils
 		$url = $subscription->getUrl();
 		$data = null;
 
+		//TODO - replace webcal with https or http
 		$this->prepareRequest($curl, $url);
 		$this->getRequestData($curl, $data);
 		$this->validateRequest($curl);
@@ -163,7 +164,7 @@ class Calendar extends WebCal implements BackendUtils\ICalendarAPI, BackendUtils
 		$calendar->setOwnerId($subscription->getUserId());
 		$calendar->setBackend($this->backend);
 		$calendar->setPrivateUri($subscription->getId());
-		$calendar->setComponents(ObjectType::EVENT);
+		$calendar->setComponents(ObjectType::EVENT); // TODO hardcoding this to events only is bullshit
 		$calendar->setEnabled(true);
 		$calendar->setCruds(Permissions::READ);
 		$calendar->setOrder(0);
