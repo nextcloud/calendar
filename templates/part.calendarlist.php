@@ -23,6 +23,7 @@
  */
 ?>
 <ul class="app-navigation-list calendar-list">
+	<div ng-class="{loading: is.loading}"></div>
 	<li ng-repeat="calendar in calendars | orderBy:['order'] | eventFilter | calendarFilter" class="app-navigation-list-item" ng-class="{active: calendar.enabled}">
 		<?php print_unescaped($this->inc('part.calendarlist.item')); ?>
 	</li>

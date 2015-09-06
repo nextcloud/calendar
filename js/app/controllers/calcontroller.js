@@ -29,7 +29,8 @@
 app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'CalendarModel', 'EventsModel', 'ViewModel', 'TimezoneModel', 'DialogModel',
 	function ($scope, $rootScope, Restangular, CalendarModel, EventsModel, ViewModel, TimezoneModel, DialogModel) {
 		'use strict';
-		$scope.eventSources = EventsModel.getAll();
+		$scope.eventSources = [];
+		$scope.eventSource = {};
 		$scope.calendarModel = CalendarModel;
 		$scope.defaulttimezone = TimezoneModel.currenttimezone();
 		$scope.eventsmodel = EventsModel;
@@ -46,37 +47,37 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 			});
 		}
 
-		$scope.eventSource = {};
-		$scope.calendars = $scope.calendarModel.getAll();
+		$rootScope.$on('finishedLoadingCalendars', function() {
+			$scope.calendars = $scope.calendarModel.getAll();
 
-		$scope.defaultView = angular.element('#fullcalendar').attr('data-defaultView');
-		var initEventSources = [];
-		angular.forEach($scope.calendars, function (value, key) {
-			if ($scope.eventSource[value.id] === undefined) {
-				$scope.eventSource[value.id] = {
-					events: function (start, end, timezone, callback) {
-						value.loading = true;
-						start = start.format('X');
-						end = end.format('X');
-						Restangular.one('calendars', value.id).one('events').one('inPeriod').getList(start + '/' + end).then(function (eventsobject) {
-							//TODO - STRONGLY CONSIDER USING renderEvent and storing events locally in browser, it would speed up rendering a lot
-							callback(EventsModel.addAllDisplayFigures(value.id, value.displayname, value.color, eventsobject, start, end, $scope.timezone));
-							$rootScope.$broadcast('finishedLoadingEvents', value.id);
-						}, function (response) {
-							OC.Notification.show(t('calendar', response.data.message));
-							$rootScope.$broadcast('finishedLoadingEvents', value.id);
-						});
-					},
-					color: value.color,
-					textColor: value.textColor,
-					editable: value.cruds.update,
-					id: value.id
-				};
-				if (value.enabled === true && value.components.vevent === true) {
-					initEventSources.push($scope.eventSource[value.id]);
-					switcher.push(value.id);
+			angular.forEach($scope.calendars, function (value) {
+				if ($scope.eventSource[value.id] === undefined) {
+					$scope.eventSource[value.id] = {
+						events: function (start, end, timezone, callback) {
+							value.loading = true;
+							start = start.format('X');
+							end = end.format('X');
+							Restangular.one('calendars', value.id).one('events').one('inPeriod').getList(start + '/' + end).then(function (eventsobject) {
+								//TODO - STRONGLY CONSIDER USING renderEvent and storing events locally in browser, it would speed up rendering a lot
+								callback(EventsModel.addAllDisplayFigures(value.id, value.displayname, value.color, eventsobject, start, end, $scope.timezone));
+								$rootScope.$broadcast('finishedLoadingEvents', value.id);
+							}, function (response) {
+								OC.Notification.show(t('calendar', response.data.message));
+								$rootScope.$broadcast('finishedLoadingEvents', value.id);
+							});
+						},
+						color: value.color,
+						textColor: value.textColor,
+						editable: value.cruds.update,
+						id: value.id
+					};
+					if (value.enabled === true && value.components.vevent === true) {
+						$scope.calendar.fullCalendar('addEventSource',
+							$scope.eventSource[value.id]);
+						switcher.push(value.id);
+					}
 				}
-			}
+			});
 		});
 
 		/**
@@ -135,9 +136,9 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 				monthNamesShort: monthNamesShort,
 				dayNames: dayNames,
 				dayNamesShort: dayNamesShort,
-				eventSources: initEventSources,
+				eventSources: [],
 				timezone: $scope.defaulttimezone,
-				defaultView: $scope.defaultView,
+				defaultView: angular.element('#fullcalendar').attr('data-defaultView'),
 				header: {
 					left: '',
 					center: '',

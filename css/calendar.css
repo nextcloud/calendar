@@ -26,7 +26,5 @@
   margin-left: 250px;
 }
 #app-content.loading {
-  background-image: url("../img/loading.gif");
-  background-position: center;
-  background-repeat: no-repeat;
+  background-size: 25px;
 }

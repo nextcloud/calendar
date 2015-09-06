@@ -18,29 +18,12 @@ app.config(['$provide', '$routeProvider', 'RestangularProvider', '$httpProvider'
 
 		$routeProvider.when('/', {
 			templateUrl: 'calendar.html',
-			controller: 'CalController',
-			resolve: {
-				calendar: ['$q', 'Restangular', 'CalendarModel', 'is',
-					function ($q, Restangular, CalendarModel,is) {
-						var deferred = $q.defer();
-						is.loading = true;
-						Restangular.all('calendars').getList().then(function (calendars) {
-							CalendarModel.addAll(calendars);
-							deferred.resolve(calendars);
-							is.loading = false;
-						}, function () {
-							deferred.reject();
-							is.loading = false;
-						});
-						return deferred.promise;
-					}],
-			}
+			controller: 'CalController'
 		});
 
 		var $window = $windowProvider.$get();
 		var url = $window.location.href;
 		var baseUrl = url.split('index.php')[0] + 'index.php/apps/calendar/v1';
-		console.log(baseUrl);
 		RestangularProvider.setBaseUrl(baseUrl);
 	}
 ]);
@@ -69,7 +52,8 @@ app.controller('AppController', ['$scope', 'is',
 app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'CalendarModel', 'EventsModel', 'ViewModel', 'TimezoneModel', 'DialogModel',
 	function ($scope, $rootScope, Restangular, CalendarModel, EventsModel, ViewModel, TimezoneModel, DialogModel) {
 		'use strict';
-		$scope.eventSources = EventsModel.getAll();
+		$scope.eventSources = [];
+		$scope.eventSource = {};
 		$scope.calendarModel = CalendarModel;
 		$scope.defaulttimezone = TimezoneModel.currenttimezone();
 		$scope.eventsmodel = EventsModel;
@@ -86,37 +70,37 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 			});
 		}
 
-		$scope.eventSource = {};
-		$scope.calendars = $scope.calendarModel.getAll();
+		$rootScope.$on('finishedLoadingCalendars', function() {
+			$scope.calendars = $scope.calendarModel.getAll();
 
-		$scope.defaultView = angular.element('#fullcalendar').attr('data-defaultView');
-		var initEventSources = [];
-		angular.forEach($scope.calendars, function (value, key) {
-			if ($scope.eventSource[value.id] === undefined) {
-				$scope.eventSource[value.id] = {
-					events: function (start, end, timezone, callback) {
-						value.loading = true;
-						start = start.format('X');
-						end = end.format('X');
-						Restangular.one('calendars', value.id).one('events').one('inPeriod').getList(start + '/' + end).then(function (eventsobject) {
-							//TODO - STRONGLY CONSIDER USING renderEvent and storing events locally in browser, it would speed up rendering a lot
-							callback(EventsModel.addAllDisplayFigures(value.id, value.displayname, value.color, eventsobject, start, end, $scope.timezone));
-							$rootScope.$broadcast('finishedLoadingEvents', value.id);
-						}, function (response) {
-							OC.Notification.show(t('calendar', response.data.message));
-							$rootScope.$broadcast('finishedLoadingEvents', value.id);
-						});
-					},
-					color: value.color,
-					textColor: value.textColor,
-					editable: value.cruds.update,
-					id: value.id
-				};
-				if (value.enabled === true && value.components.vevent === true) {
-					initEventSources.push($scope.eventSource[value.id]);
-					switcher.push(value.id);
+			angular.forEach($scope.calendars, function (value) {
+				if ($scope.eventSource[value.id] === undefined) {
+					$scope.eventSource[value.id] = {
+						events: function (start, end, timezone, callback) {
+							value.loading = true;
+							start = start.format('X');
+							end = end.format('X');
+							Restangular.one('calendars', value.id).one('events').one('inPeriod').getList(start + '/' + end).then(function (eventsobject) {
+								//TODO - STRONGLY CONSIDER USING renderEvent and storing events locally in browser, it would speed up rendering a lot
+								callback(EventsModel.addAllDisplayFigures(value.id, value.displayname, value.color, eventsobject, start, end, $scope.timezone));
+								$rootScope.$broadcast('finishedLoadingEvents', value.id);
+							}, function (response) {
+								OC.Notification.show(t('calendar', response.data.message));
+								$rootScope.$broadcast('finishedLoadingEvents', value.id);
+							});
+						},
+						color: value.color,
+						textColor: value.textColor,
+						editable: value.cruds.update,
+						id: value.id
+					};
+					if (value.enabled === true && value.components.vevent === true) {
+						$scope.calendar.fullCalendar('addEventSource',
+							$scope.eventSource[value.id]);
+						switcher.push(value.id);
+					}
 				}
-			}
+			});
 		});
 
 		/**
@@ -175,9 +159,9 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 				monthNamesShort: monthNamesShort,
 				dayNames: dayNames,
 				dayNamesShort: dayNamesShort,
-				eventSources: initEventSources,
+				eventSources: [],
 				timezone: $scope.defaulttimezone,
-				defaultView: $scope.defaultView,
+				defaultView: angular.element('#fullcalendar').attr('data-defaultView'),
 				header: {
 					left: '',
 					center: '',
@@ -397,15 +381,22 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 */
 
 app.controller('CalendarListController', ['$scope', '$rootScope', '$window',
-	'$routeParams', 'Restangular', 'CalendarModel',
-	function ($scope, $rootScope, $window, $routeParams, Restangular, CalendarModel) {
+	'$routeParams', 'Restangular', 'CalendarModel', 'is',
+	function ($scope, $rootScope, $window, $routeParams, Restangular, CalendarModel, is) {
 		'use strict';
 
 		$scope.calendarModel = CalendarModel;
 		$scope.calendars = CalendarModel.getAll();
 		$scope.backups = {};
+		is.loading = true;
 
 		var calendarResource = Restangular.all('calendars');
+		calendarResource.getList().then( function (calendars) {
+			is.loading = false;
+			CalendarModel.addAll(calendars);
+			$scope.calendars = CalendarModel.getAll();
+			$rootScope.$broadcast('finishedLoadingCalendars', calendars);
+		});
 
 		$scope.newCalendarInputVal = '';
 		$scope.selected = '';
@@ -431,7 +422,7 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window',
 		};
 
 		$scope.download = function (calendar) {
-			console.log($window.open('v1/calendars/' + calendar.id + '/export'));
+			$window.open('v1/calendars/' + calendar.id + '/export');
 		};
 
 		$scope.prepareUpdate = function (calendar) {
@@ -1732,10 +1723,9 @@ app.factory('EventsModel', ['objectConverter', function (objectConverter) {
 
 app.factory('is', function () {
 	'use strict';
+
 	return {
-		loading: false,
-		calendarloading: function () {
-		}
+		loading: false
 	};
 });
 
