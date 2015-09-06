@@ -1,19 +1,23 @@
-<?xml version="1.0"?> 
+<?xml version="1.0"?>
 <info>
 	<id>calendar</id>
 	<name>Calendar</name>
 	<licence>AGPL</licence>
-	<author>Georg Ehrke, Bart Visscher, Jakob Sack</author>
-	<require>6.90</require>
-	<shipped>true</shipped>
+	<author>Georg Ehrke, Raghu Nayyar, Bernhard Fröhler</author>
+	<require>8</require>
+	<dependencies>
+		<owncloud min-version="8.1" max-version="8.2" />
+	</dependencies>
 	<description>Calendar with CalDAV support</description>
-	<default_enable/>
 	<remote>
-		<calendar>sabre/main.php</calendar>
-		<caldav>sabre/main.php</caldav>
+		<calendar>appinfo/remote.php</calendar>
+		<caldav>appinfo/remote.php</caldav>
 	</remote>
+	<documentation>
+		<user>http://doc.owncloud.org/server/8.1/user_manual/pim/calendar.html</user>
+	</documentation>
 	<public>
-		<calendar>sharing/public.php</calendar>
-		<caldav>sharing/public.php</caldav>
+		<calendar>share.php</calendar>
+		<caldav>share.php</caldav>
 	</public>
 </info>
