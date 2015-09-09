@@ -119,9 +119,10 @@ class ObjectFactory extends EntityFactory {
 	/**
 	 * @param mixed $data
 	 * @param integer $format
+	 * @param boolean $autoAssignUri
 	 * @return ObjectCollection
 	 */
-	public function createCollectionFromData($data, $format) {
+	public function createCollectionFromData($data, $format, $autoAssignUri=false) {
 		$collection = new ObjectCollection();
 
 		if ($format === self::FORMAT_ICAL || $format === self::FORMAT_JCAL) {

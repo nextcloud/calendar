@@ -22,10 +22,12 @@
 namespace OCA\Calendar\BusinessLayer;
 
 use OCA\Calendar\Db\SubscriptionMapper;
+use OCA\Calendar\IBackendCollection;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Http;
 use OCA\Calendar\ISubscription;
+use OCA\Calendar\Backend as BackendUtils;
 
 class Subscription extends BusinessLayer {
 
@@ -36,10 +38,18 @@ class Subscription extends BusinessLayer {
 
 
 	/**
-	 * @param SubscriptionMapper $mapper
+	 * @var IBackendCollection
 	 */
-	public function __construct(SubscriptionMapper $mapper) {
+	protected $backends;
+
+
+	/**
+	 * @param SubscriptionMapper $mapper
+	 * @param IBackendCollection $backends
+	 */
+	public function __construct(SubscriptionMapper $mapper, IBackendCollection $backends) {
 		$this->mapper = $mapper;
+		$this->backends = $backends;
 	}
 
 
@@ -166,6 +176,8 @@ class Subscription extends BusinessLayer {
 	 */
 	public function create(ISubscription $subscription) {
 		$this->checkIsValid($subscription);
+		$this->validateSubscription($subscription);
+
 		return $this->mapper->insert($subscription);
 	}
 
@@ -179,6 +191,8 @@ class Subscription extends BusinessLayer {
 	 */
 	public function update(ISubscription $subscription) {
 		$this->checkIsValid($subscription);
+		$this->validateSubscription($subscription);
+
 		$this->mapper->update($subscription);
 		return $subscription;
 	}
@@ -198,23 +212,23 @@ class Subscription extends BusinessLayer {
 	 * validate a subscription
 	 *
 	 * @param ISubscription $subscription
-	 * @throws \OCA\Calendar\Http\ReaderException
+	 * @throws Exception
 	 */
-	private function validateSubscription(ISubscription $subscription) {
+	private function validateSubscription(ISubscription &$subscription) {
 		$backend = $this->backends->bySubscriptionType(
 			$subscription->getType()
 		);
 
 		if ($backend === null) {
-			throw new ReaderException(
+			throw new Exception(
 				'Subscription-type not supported'
 			);
 		}
 
 		try {
 			$backend->getBackendAPI()->validateSubscription($subscription);
-		} catch(BackendException $ex) {
-			throw new ReaderException($ex->getMessage());
+		} catch(BackendUtils\Exception $ex) {
+			throw Exception::fromException($ex);
 		}
 	}
 }

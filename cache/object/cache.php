@@ -70,6 +70,60 @@ class Cache extends Mapper {
 
 
 	/**
+	 * @param IObject $object
+	 * @return IObject
+	 */
+	public function insert(IObject $object) {
+		$calendarId = $this->calendar->getId();
+
+		//TODO - (maybe) check if uri exists already
+
+		$sql  = 'INSERT INTO `' . $this->getTableName() . '` ';
+		$sql .= '(`calendarid`,`uri`,`type`,`etag`,';
+		$sql .= '`startdate`,`enddate`,`repeating`,`summary`, `calendardata`, `lastmodified`) ';
+		$sql .= 'VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+
+		$stmt = $this->execute($sql, [
+			$calendarId, $object->getUri(), $object->getType(),
+			$object->getEtag(true), $this->getUTC($object->getStartDate()), $this->getUTC($object->getEndDate()),
+			$object->getRepeating(), $object->getSummary(), $object->getCalendarData(),
+			$this->getUTC($object->getLastModified())
+		]);
+
+		$object->setId((int) $this->db->lastInsertId($this->getTableName()));
+
+		$stmt->closeCursor();
+
+		return $object;
+	}
+
+
+	/**
+	 * @param IObject $object
+	 * @return IObject
+	 */
+	public function update(IObject $object) {
+		$calendarId = $this->calendar->getId();
+
+		//TODO - (maybe) check uri exists already
+
+		$sql  = 'UPDATE `' . $this->getTableName() . '` SET ';
+		$sql .= '`type` = ?, `etag` = ?, `startdate` = ?, `enddate` = ?, ';
+		$sql .= '`repeating` = ?, `summary` = ?, `calendardata` = ?, ';
+		$sql .= '`lastmodified` = ? WHERE `uri` = ? and `calendarid` = ?';
+
+		$stmt = $this->execute($sql, [
+			$object->getType(), $object->getEtag(true), $this->getUTC($object->getStartDate()), $this->getUTC($object->getEndDate()),
+			$object->getRepeating(), $object->getSummary(), $object->getCalendarData(),
+			$this->getUTC($object->getLastModified()), $object->getUri(), $calendarId
+		]);
+		$stmt->closeCursor();
+
+		return $object;
+	}
+
+
+	/**
 	 * Finds an item from user by it's uri
 	 * @param string $uri
 	 * @param integer $type
@@ -78,6 +132,7 @@ class Cache extends Mapper {
 	 * @return IObject
 	 */
 	public function find($uri, $type=ObjectType::ALL){
+		//TODO - add $this->calendar to returned object
 		$sql  = 'SELECT ' . $this->attributes . ' FROM `' . $this->getTableName() . '` ';
 		$sql .= 'WHERE `uri` = ? AND `calendarid` = ?';
 		$params = [$uri, $this->calendar->getId()];
@@ -112,13 +167,19 @@ class Cache extends Mapper {
 	 * @return array
 	 */
 	public function listAll($type=ObjectType::ALL){
-		$sql  = 'SELECT `objecturi` FROM `' . $this->getTableName() . '` ';
+		$sql  = 'SELECT `uri` FROM `' . $this->getTableName() . '` ';
 		$sql .= 'WHERE `calendarid` = ?';
 		$params = [$this->calendar->getId()];
 
 		$this->addTypeQuery($type, $sql, $params);
+		$result = $this->execute($sql, $params);
 
-		return $this->findEntities($sql, $params);
+		$list = [];
+		while($row = $result->fetch()){
+			$list[] = $row['uri'];
+		}
+
+		return $list;
 	}
 
 
@@ -176,7 +237,7 @@ class Cache extends Mapper {
 
 		$sqlElements = [];
 		foreach($objectUris as $objectUri) {
-			$sqlElements[] = '`objecturi` = ?';
+			$sqlElements[] = '`uri` = ?';
 			$params[] = $objectUri;
 		}
 
@@ -255,7 +316,7 @@ class Cache extends Mapper {
 		$sql .= ' AND ((`startdate` >= ? AND `startdate` <= ?) ';
 		$sql .= 'OR (`enddate` >= ? AND `enddate` <= ?) ';
 		$sql .= 'OR (`startdate` <= ? AND `enddate` >= ?) ';
-		$sql .= 'OR (`lastoccurence` >= ? AND `startdate` <= ? AND `repeating` = 1)) ';
+		$sql .= 'OR (`startdate` <= ? AND `repeating` = 1)) ';
 		$sql .= 'ORDER BY `repeating` ';
 
 		$utcStart = $this->getUTC($start);
@@ -268,7 +329,6 @@ class Cache extends Mapper {
 			$utcEnd,
 			$utcStart,
 			$utcEnd,
-			$utcStart,
 			$utcEnd
 		));
 	}
@@ -280,8 +340,7 @@ class Cache extends Mapper {
 	private function generateAttributes() {
 		$this->attributes = implode(', ', [
 			'`id`',
-			'`calendarid`',
-			'`objecturi`',
+			'`uri`',
 			'`etag`',
 			'`calendardata`'
 		]);

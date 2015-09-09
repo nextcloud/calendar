@@ -117,7 +117,26 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window',
 		//if the user added a subscription
 		$rootScope.$on('createdSubscription', function() {
 			Restangular.all('calendars').getList().then(function (calendars) {
-				CalendarModel.addAll(calendars);
+				var toAdd = [];
+				for (var i = 0, length = calendars.length; i < length; i++) {
+					var didFind = false;
+					for (var j = 0, oldLength = $scope.calendars.length; j < oldLength; j++) {
+						if (calendars[i].id === $scope.calendars[j].id) {
+							didFind = true;
+							break;
+						}
+					}
+					if (!didFind) {
+						toAdd.push(calendars[i]);
+					}
+				}
+
+				for (var i = 0; i < toAdd.length; i++) {
+					CalendarModel.create(toAdd[i]);
+					$rootScope.$broadcast('createdCalendar', toAdd[i]);
+				}
+
+				$scope.calendars = CalendarModel.getAll();
 			});
 		});
 

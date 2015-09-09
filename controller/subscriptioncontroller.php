@@ -26,6 +26,7 @@ use OCA\Calendar\BusinessLayer\Subscription;
 use OCA\Calendar\Db\SubscriptionFactory;
 use OCA\Calendar\Http\JSON;
 use OCA\Calendar\Http\ReaderException;
+use OCA\Calendar\IBackend;
 use OCA\Calendar\IBackendCollection;
 use OCA\Calendar\ISubscription;
 
@@ -44,20 +45,29 @@ class SubscriptionController extends Controller {
 
 
 	/**
+	 * @var IBackendCollection
+	 */
+	protected $backends;
+
+
+	/**
 	 * @param string $appName
 	 * @param IRequest $request an instance of the request
 	 * @param IUserSession $userSession
 	 * @param Subscription $subscriptions
 	 * @param SubscriptionFactory $subscriptionFactory
+	 * @param IBackendCollection $backends
 	 */
 	public function __construct($appName, IRequest $request, IUserSession $userSession,
-								Subscription $subscriptions, SubscriptionFactory $subscriptionFactory) {
+								Subscription $subscriptions, SubscriptionFactory $subscriptionFactory,
+								IBackendCollection $backends) {
 		parent::__construct($appName, $request, $userSession);
 		$this->subscriptions = $subscriptions;
+		$this->backends = $backends;
 
 		$this->registerReader('json', function(IRequest $request) use ($subscriptionFactory) {
 			$reader = new JSON\SubscriptionReader($request, $subscriptionFactory);
-			return $reader->getObject();
+			return $reader;
 		});
 
 		$this->registerResponder('json', function($value) {
@@ -122,9 +132,20 @@ class SubscriptionController extends Controller {
 
 			$subscription->setUserId($this->user->getUID());
 
-			return $this->subscriptions->create(
+			// todo - move scanner call to businesslayer
+			$subscription = $this->subscriptions->create(
 				$subscription
 			);
+
+			$backend = $this->backends->bySubscriptionType(
+				$subscription->getType()
+			);
+
+			if ($backend instanceof IBackend) {
+				$backend->getBackendCollection()->getScanner()->scan($this->user->getUID());
+			}
+
+			return $subscription;
 		} catch (\Exception $ex) {
 			return $this->handleException($ex);
 		}

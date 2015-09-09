@@ -21,6 +21,8 @@
  */
 namespace OCA\Calendar\Db;
 
+use OCA\Calendar\IBackendCollection;
+
 class BackendFactory { //TODO extend entity Factory
 
 	/**
@@ -28,10 +30,18 @@ class BackendFactory { //TODO extend entity Factory
 	 */
 	private $defaultObjectCache;
 
+
 	/**
 	 * @var callable
 	 */
 	private $defaultObjectScanner;
+
+
+	/**
+	 * @var callable
+	 */
+	private $defaultObjectUpdater;
+
 
 	/**
 	 * @var callable
@@ -42,30 +52,34 @@ class BackendFactory { //TODO extend entity Factory
 	/**
 	 * @param callable $objectCache
 	 * @param callable $objectScanner
+	 * @param callable $objectUpdater
 	 * @param callable $objectWatcher
 	 */
 	public function __construct(callable $objectCache, callable $objectScanner,
-								callable $objectWatcher) {
+								callable $objectUpdater, callable $objectWatcher) {
 		$this->defaultObjectCache = $objectCache;
 		$this->defaultObjectScanner = $objectScanner;
+		$this->defaultObjectUpdater = $objectUpdater;
 		$this->defaultObjectWatcher = $objectWatcher;
 	}
 
 
 	/**
 	 * @param $id
+	 * @param IBackendCollection $backends
 	 * @param callable $backendAPI
 	 * @param callable $calendarAPI
 	 * @param callable $objectAPI
 	 * @param callable $objectCache
 	 * @param callable $objectScanner
+	 * @param callable $objectUpdater
 	 * @param callable $objectWatcher
 	 *
 	 * @return Backend
 	 */
-	public function createBackend($id, callable $backendAPI, callable $calendarAPI, callable $objectAPI,
-								  callable $objectCache = null, callable $objectScanner = null,
-								  callable $objectWatcher = null) {
+	public function createBackend($id, IBackendCollection $backends, callable $backendAPI, callable $calendarAPI,
+								  callable $objectAPI, callable $objectCache = null, callable $objectScanner = null,
+								  callable $objectUpdater = null, callable $objectWatcher = null) {
 		$backend = new Backend();
 		$backend->setId($id);
 		$backend->setBackendAPI($backendAPI);
@@ -74,7 +88,10 @@ class BackendFactory { //TODO extend entity Factory
 
 		$backend->setObjectcache(($objectCache) ? $objectCache : $this->defaultObjectCache);
 		$backend->setObjectScanner(($objectScanner) ? $objectScanner : $this->defaultObjectScanner);
+		$backend->setObjectUpdater(($objectUpdater) ? $objectUpdater : $this->defaultObjectUpdater);
 		$backend->setObjectWatcher(($objectWatcher) ? $objectWatcher : $this->defaultObjectWatcher);
+
+		$backend->setBackendCollection($backends);
 
 		return $backend;
 	}

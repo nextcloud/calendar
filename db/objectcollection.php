@@ -34,10 +34,7 @@ use DateTime;
 class ObjectCollection extends Collection implements IObjectCollection {
 
 	/**
-	 * get a collection of entities within period
-	 * @param DateTime $start
-	 * @param DateTime $end
-	 * @return ObjectCollection
+	 * {@inheritDoc}
 	 */
 	public function inPeriod(DateTime $start, DateTime $end) {
 		$objectsInPeriod = new ObjectCollection();
@@ -57,10 +54,7 @@ class ObjectCollection extends Collection implements IObjectCollection {
 
 
 	/**
-	 * expand all entities of collection
-	 * @param DateTime $start
-	 * @param DateTime $end
-	 * @return ObjectCollection
+	 * {@inheritDoc}
 	 */
 	public function expand(DateTime $start, DateTime $end) {
 		$expandedObjects = new ObjectCollection();
@@ -79,9 +73,7 @@ class ObjectCollection extends Collection implements IObjectCollection {
 
 
 	/**
-	 * get a collection of all calendars owned by a certian user
-	 * @param string $userId of owner
-	 * @return ObjectCollection
+	 * {@inheritDoc}
 	 */
 	public function ownedBy($userId) {
 		$objectsOwnedBy = new ObjectCollection();
@@ -98,9 +90,7 @@ class ObjectCollection extends Collection implements IObjectCollection {
 
 
 	/**
-	 * get a collection of all enabled calendars within collection
-	 * @param integer $type
-	 * @return ObjectCollection
+	 * {@inheritDoc}
 	 */
 	public function ofType($type) {
 		$objectsOfType = new ObjectCollection();
@@ -116,7 +106,7 @@ class ObjectCollection extends Collection implements IObjectCollection {
 
 
 	/**
-	 * @param array $idTable
+	 * {@inheritDoc}
 	 */
 	public function addGlobalIds(array $idTable) {
 		foreach ($this->objects as $object) {
@@ -131,8 +121,7 @@ class ObjectCollection extends Collection implements IObjectCollection {
 
 
 	/**
-	 * get one VCalendar object containing all information
-	 * @return VCalendar object
+	 * {@inheritDoc}
 	 */
 	public function getVObject() {
 		$vCalendar = new VCalendar();
@@ -158,8 +147,7 @@ class ObjectCollection extends Collection implements IObjectCollection {
 
 
 	/**
-	 * get an array of VCalendar objects
-	 * @return array of VCalendar object
+	 * {@inheritDoc}
 	 */
 	public function getVObjects() {
 		$vObjects = array();
@@ -173,5 +161,21 @@ class ObjectCollection extends Collection implements IObjectCollection {
 		}
 
 		return $vObjects;
+	}
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function listAll($type=ObjectType::ALL) {
+		$objects = $this->ofType($type);
+
+		$list = [];
+		foreach($objects as $object) {
+			/** @var IObject $object */
+			$list[] = $object->getUri();
+		}
+
+		return $list;
 	}
 }
