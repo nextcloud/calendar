@@ -84,20 +84,11 @@ abstract class Collection implements ICollection {
 	 *
 	 * @param IEntity $object entity to be added
 	 * @param integer $nth insert at index, if not set, entity will be appended
+	 *        if negative, it will be inserted at the position that many elements from the end
 	 * @return $this
 	 */
 	public function add(IEntity $object, $nth=null) {
-		if ($nth === null) {
-			$this->objects[] = $object;
-		} else {
-			$objects = array_slice($this->objects, 0, $nth, true);
-			$objects = array_merge($objects, array($object));
-			$objects = array_merge($objects, array_slice($this->objects, $nth, $this->count(), true));
-
-			$this->objects = $objects;
-		}
-
-		return $this;
+		return $this->addObjects(array($object), $nth);
 	}
 
 
@@ -106,19 +97,11 @@ abstract class Collection implements ICollection {
 	 *
 	 * @param ICollection $collection collection of entities to be added
 	 * @param integer $nth insert at index, if not set, collection will be appended
+	 *        if negative, it will be inserted at the position that many elements from the end
 	 * @return integer
 	 */
 	public function addCollection(ICollection $collection, $nth=null) {
-		if ($nth === null) {
-			$nth = $this->count();
-		}
-
-		$objects  = array_slice($this->objects, 0, $nth, true);
-		$objects += $collection->getObjects();
-		$objects += array_slice($this->objects, $nth, $this->count() - $collection->count(), true);
-
-		$this->objects = $objects;
-		return $this;
+		return $this->addObjects($collection->getObjects(), $nth);
 	}
 
 
@@ -127,19 +110,18 @@ abstract class Collection implements ICollection {
 	 *
 	 * @param array $array
 	 * @param integer $nth insert at index, if not set, objects will be appended
+	 *        if negative, it will be inserted at the position that many elements from the end
 	 * @return integer
 	 */
 	public function addObjects(array $array, $nth=null) {
 		if ($nth === null) {
-			$this->objects += $array;
-		} else {
-			$objects  = array_slice($this->objects, 0, $nth, true);
-			$objects += $array;
-			$objects += array_slice($this->objects, $nth, $this->count() - count($array), true);
-
-			$this->objects = $objects;
+			$nth = $this->count();
 		}
+		$objects = array_slice($this->objects, 0, $nth, true);
+		$objects = array_merge($objects, $array);
+		$objects = array_merge($objects, array_slice($this->objects, $nth, $this->count()-$nth, true));
 
+		$this->objects = $objects;
 		return $this;
 	}
 
@@ -176,13 +158,11 @@ abstract class Collection implements ICollection {
 		/** @var ICollection $instance */
 		$instance = new static();
 
-		if ($limit === null && $offset === null) {
-			$instance->addObjects($this->getObjects());
-			return $instance;
-		}
-
 		if ($offset === null) {
 			$offset = 0;
+		}
+		if ($limit === null ) {
+			$limit = $this->count() - $offset;
 		}
 
 		$objects = array_slice($this->objects, $offset, $limit);
@@ -302,6 +282,7 @@ abstract class Collection implements ICollection {
 	 */
 	public function offsetSet($offset, $value){
 		if ($value instanceof IEntity) {
+			// TODO: why this - shouldn't setObjects be used in that case?
 			if ($offset === null) {
 				$this->objects[] = $value;
 			} else {
