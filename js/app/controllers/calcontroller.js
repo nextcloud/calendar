@@ -58,8 +58,8 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 							start = start.format('X');
 							end = end.format('X');
 							Restangular.one('calendars', value.id).one('events').one('inPeriod').getList(start + '/' + end).then(function (eventsobject) {
-								//TODO - STRONGLY CONSIDER USING renderEvent and storing events locally in browser, it would speed up rendering a lot
-								callback(EventsModel.addAllDisplayFigures(value.id, value.displayname, value.color, eventsobject, start, end, $scope.timezone));
+								callback([]);
+								EventsModel.addAllDisplayFigures($scope.eventSource[value.id], eventsobject, start, end, $scope.timezone);
 								$rootScope.$broadcast('finishedLoadingEvents', value.id);
 							}, function (response) {
 								OC.Notification.show(t('calendar', response.data.message));
@@ -214,6 +214,16 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 			}
 		};
 
+
+		/**
+		 * After an event was rendered:
+		 * - add it to fullCalendar
+		 */
+		$rootScope.$on('renderedEvent', function (event, fcEvent) {
+			$scope.calendar.fullCalendar('renderEvent', fcEvent);
+		});
+
+
 		/**
 		 * After a calendar was created:
 		 * - create a new event source object
@@ -226,7 +236,8 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 					start = start.format('X');
 					end = end.format('X');
 					Restangular.one('calendars', id).one('events').one('inPeriod').getList(start + '/' + end).then(function (eventsobject) {
-						callback(EventsModel.addAllDisplayFigures(id, createdCalendar.displayname, createdCalendar.color, eventsobject, start, end, $scope.timezone));
+						callback([]);
+						EventsModel.addAllDisplayFigures($scope.eventSource[id], eventsobject, start, end, $scope.timezone);
 						$rootScope.$broadcast('finishedLoadingEvents', id);
 					}, function (response) {
 						OC.Notification.show(t('calendar', response.data.message));
