@@ -49,9 +49,10 @@ describe('CalendarListController', function() {
 			id: 7
 		};
 
+		http.expectGET('/v1/calendars').respond([]);
 		http.expectPOST('/v1/calendars').respond(calendar);
 		scope.create();
-		http.flush(1);
+		http.flush(2);
 
 		expect(model.get(7).displayname).toBe('Sample Calendar');
 	});
@@ -68,9 +69,10 @@ describe('CalendarListController', function() {
 			CalendarModel: model
 		});
 
-		model.create(calendars);
+		http.expectGET('/v1/calendars').respond(calendars);
+		http.flush(1);
 
-		scope.remove(2);
+		scope.remove({id: 2});
 		http.expectDELETE('/v1/calendars/2').respond(200, {});
 
 		http.flush(1);
