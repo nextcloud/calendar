@@ -46,8 +46,10 @@
   padding: 14px;
 }
 #app-navigation .loading {
-  background: transparent;
-  background-image: none;
+  margin-left: 5px;
+  height: 30px;
+  width: 92%;
+  background-size: 20px;
 }
 #app-navigation .new-entity-container {
   margin-top: 45px;

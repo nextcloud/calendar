@@ -27,15 +27,22 @@
 */
 
 app.controller('CalendarListController', ['$scope', '$rootScope', '$window',
-	'$routeParams', 'Restangular', 'CalendarModel',
-	function ($scope, $rootScope, $window, $routeParams, Restangular, CalendarModel) {
+	'$routeParams', 'Restangular', 'CalendarModel', 'is',
+	function ($scope, $rootScope, $window, $routeParams, Restangular, CalendarModel, is) {
 		'use strict';
 
 		$scope.calendarModel = CalendarModel;
 		$scope.calendars = CalendarModel.getAll();
 		$scope.backups = {};
+		is.loading = true;
 
 		var calendarResource = Restangular.all('calendars');
+		calendarResource.getList().then( function (calendars) {
+			is.loading = false;
+			CalendarModel.addAll(calendars);
+			$scope.calendars = CalendarModel.getAll();
+			$rootScope.$broadcast('finishedLoadingCalendars', calendars);
+		});
 
 		$scope.newCalendarInputVal = '';
 		$scope.selected = '';
@@ -61,7 +68,7 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window',
 		};
 
 		$scope.download = function (calendar) {
-			console.log($window.open('v1/calendars/' + calendar.id + '/export'));
+			$window.open('v1/calendars/' + calendar.id + '/export');
 		};
 
 		$scope.prepareUpdate = function (calendar) {

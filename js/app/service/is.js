@@ -25,9 +25,8 @@
 
 app.factory('is', function () {
 	'use strict';
+
 	return {
-		loading: false,
-		calendarloading: function () {
-		}
+		loading: false
 	};
 });

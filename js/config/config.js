@@ -28,29 +28,12 @@ app.config(['$provide', '$routeProvider', 'RestangularProvider', '$httpProvider'
 
 		$routeProvider.when('/', {
 			templateUrl: 'calendar.html',
-			controller: 'CalController',
-			resolve: {
-				calendar: ['$q', 'Restangular', 'CalendarModel', 'is',
-					function ($q, Restangular, CalendarModel,is) {
-						var deferred = $q.defer();
-						is.loading = true;
-						Restangular.all('calendars').getList().then(function (calendars) {
-							CalendarModel.addAll(calendars);
-							deferred.resolve(calendars);
-							is.loading = false;
-						}, function () {
-							deferred.reject();
-							is.loading = false;
-						});
-						return deferred.promise;
-					}],
-			}
+			controller: 'CalController'
 		});
 
 		var $window = $windowProvider.$get();
 		var url = $window.location.href;
 		var baseUrl = url.split('index.php')[0] + 'index.php/apps/calendar/v1';
-		console.log(baseUrl);
 		RestangularProvider.setBaseUrl(baseUrl);
 	}
 ]);

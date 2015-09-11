@@ -87,7 +87,7 @@ foreach ($scripts as $script) {
 	</div>
 
 	<!-- The Calendar on the right -->
-	<div id="app-content" ng-class="{ loading : is.loading }">
+	<div id="app-content">
 		<div id="app-content-container" ng-view></div>
 	</div>
 
