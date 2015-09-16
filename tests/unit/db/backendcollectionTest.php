@@ -39,6 +39,9 @@ class BackendCollectionTest extends \PHPUnit_Framework_TestCase {
 	 * Initialize the calendar object we are going to test
 	 */
 	protected function setup() {
+		$this->markTestSkipped('must be revisited.');
+		return;
+
 		$this->backends[0] = $this->getMock('\OCA\Calendar\Db\Backend');
 		$this->backends[0]->expects($this->any())
 			->method('getId')
@@ -91,7 +94,7 @@ class BackendCollectionTest extends \PHPUnit_Framework_TestCase {
 	}
 
 
-	public function xtestFind() {
+	public function testFind() {
 		$this->assertSame($this->backends[0], $this->backendCollection->find('database123'));
 		$this->assertSame($this->backends[1], $this->backendCollection->find('caldav456'));
 		$this->assertSame($this->backends[2], $this->backendCollection->find('webcal789'));
@@ -99,7 +102,7 @@ class BackendCollectionTest extends \PHPUnit_Framework_TestCase {
 	}
 
 
-	public function xtestBySubscriptionType() {
+	public function testBySubscriptionType() {
 
 	}
 }
