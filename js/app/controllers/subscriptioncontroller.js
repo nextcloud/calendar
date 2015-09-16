@@ -26,8 +26,8 @@
 * Description: Takes care of Subscription List in the App Navigation.
 */
 
-app.controller('SubscriptionController', ['$scope', '$rootScope', '$window', 'SubscriptionModel', 'CalendarModel', 'EventsModel', 'Restangular',
-	function ($scope, $rootScope, $window, SubscriptionModel, CalendarModel, EventsModel, Restangular) {
+app.controller('SubscriptionController', ['$scope', '$rootScope', '$window', 'SubscriptionModel', 'CalendarModel', 'Restangular',
+	function ($scope, $rootScope, $window, SubscriptionModel, CalendarModel, Restangular) {
 		'use strict';
 		
 		$scope.subscriptions = SubscriptionModel.getAll();

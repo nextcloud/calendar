@@ -3,8 +3,8 @@
  *
  * @author Raghu Nayyar
  * @author Georg Ehrke
- * @copyright 2014 Raghu Nayyar <beingminimal@gmail.com>
- * @copyright 2014 Georg Ehrke <oc.list@georgehrke.com>
+ * @copyright 2015 Raghu Nayyar <beingminimal@gmail.com>
+ * @copyright 2015 Georg Ehrke <oc.list@georgehrke.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -21,31 +21,8 @@
  *
  */
 
-/**
-* Model: Events
-* Description: Required for Calendar Sharing.
-*/
-
-app.factory('EventsModel', ['$rootScope', 'objectConverter', function ($rootScope, objectConverter) {
+ app.factory('fcHelper', function () {
 	'use strict';
-
-	var EventsModel = function () {
-		this.events = [];
-		this.eventsUid = {};
-		this.eventobject = {};
-		this.calid = {
-			id: '',
-			changer: ''
-		}; // required for switching the calendars on the fullcalendar
-		this.components = {};
-		this.vevents = {};
-		this.eventsmodalproperties = {
-			'event': '',
-			'jsEvent': '',
-			'view': ''
-		};
-	};
-
 
 	/**
 	 * check if vevent is the one described in event
@@ -85,7 +62,6 @@ app.factory('EventsModel', ['$rootScope', 'objectConverter', function ($rootScop
 			return vevent.getFirstPropertyValue('dtstart').clone();
 		}
 	}
-
 
 	/**
 	 * register timezones from ical response
@@ -140,7 +116,6 @@ app.factory('EventsModel', ['$rootScope', 'objectConverter', function ($rootScop
 		return fcData;
 	}
 
-
 	/**
 	 * check if we need to convert the timezone of either dtstart or dtend
 	 * @param dt
@@ -148,8 +123,8 @@ app.factory('EventsModel', ['$rootScope', 'objectConverter', function ($rootScop
 	 */
 	function isTimezoneConversionNecessary(dt) {
 		return (dt.icaltype !== 'date' &&
-			dt.zone !== ICAL.Timezone.utcTimezone &&
-			dt.zone !== ICAL.Timezone.localTimezone);
+		dt.zone !== ICAL.Timezone.utcTimezone &&
+		dt.zone !== ICAL.Timezone.localTimezone);
 	}
 
 	/**
@@ -161,7 +136,6 @@ app.factory('EventsModel', ['$rootScope', 'objectConverter', function ($rootScop
 	function isEventAllDay(dtstart, dtend) {
 		return (dtstart.icaltype === 'date' && dtend.icaltype === 'date');
 	}
-
 
 	/**
 	 * parse an recurring event
@@ -213,7 +187,6 @@ app.factory('EventsModel', ['$rootScope', 'objectConverter', function ($rootScop
 		return fcDataContainer;
 	}
 
-
 	/**
 	 * parse a single event
 	 * @param vevent
@@ -239,8 +212,18 @@ app.factory('EventsModel', ['$rootScope', 'objectConverter', function ($rootScop
 		};
 	}
 
-	EventsModel.prototype = {
-		addAllDisplayFigures: function (calendar, jCalData, start, end, timezone) {
+	return {
+		/**
+		 * render a jCal string
+		 * @param calendar
+		 * @param jCalData
+		 * @param start
+		 * @param end
+		 * @param timezone
+		 * @param renderCallback a callback that is called for each rendered event
+		 * @returns {Array}
+		 */
+		renderJCAL: function(calendar, jCalData, start, end, timezone, renderCallback) {
 			var components = new ICAL.Component(jCalData);
 
 			start = new ICAL.Time();
@@ -249,7 +232,7 @@ app.factory('EventsModel', ['$rootScope', 'objectConverter', function ($rootScop
 			end.fromUnixTime(end);
 
 			if (components.jCal.length === 0) {
-				return;
+				return null;
 			}
 
 			registerTimezones(components);
@@ -282,14 +265,22 @@ app.factory('EventsModel', ['$rootScope', 'objectConverter', function ($rootScop
 					fcData[i] = addCalendarDataToFCData(fcData[i], calendar);
 					fcData[i] = addEventDataToFCData(fcData[i], vevent, event);
 
-					$rootScope.$broadcast('renderedEvent', fcData[i]);
+					renderCallback(fcData[i]);
 				}
 			});
 
 			return [];
 		},
-		eventResizer: function (event, delta, jcalData) {
-			var components = new ICAL.Component(jcalData);
+
+		/**
+		 * resize an event
+		 * @param event
+		 * @param delta
+		 * @param jCalData
+		 * @returns {*}
+		 */
+		resizeEvent: function(event, delta, jCalData) {
+			var components = new ICAL.Component(jCalData);
 			var vevents = components.getAllSubcomponents('vevent');
 			var foundEvent = false;
 			var deltaAsSeconds = 0;
@@ -331,8 +322,16 @@ app.factory('EventsModel', ['$rootScope', 'objectConverter', function ($rootScop
 
 			return (foundEvent) ? components.toString() : null;
 		},
-		eventDropper: function (event, delta, jcalData) {
-			var components = new ICAL.Component(jcalData);
+
+		/**
+		 * drop an event
+		 * @param event
+		 * @param delta
+		 * @param jCalData
+		 * @returns {*}
+		 */
+		dropEvent: function(event, delta, jCalData) {
+			var components = new ICAL.Component(jCalData);
 			var vevents = components.getAllSubcomponents('vevent');
 			var foundEvent = false;
 			var deltaAsSeconds = 0;
@@ -371,64 +370,30 @@ app.factory('EventsModel', ['$rootScope', 'objectConverter', function ($rootScop
 
 			return (foundEvent) ? components.toString() : null;
 		},
-		modalpropertyholder: function (event, jsEvent, view, jcalData) {
-			this.components = new ICAL.Component(jcalData);
-			this.vevents = this.components.getAllSubcomponents('vevent');
-			if (this.components.jCal.length !== 0) {
-				for (var i = 0; i < this.vevents.length; i++) {
-					if (!isCorrectEvent(event, this.vevents[i])) {
-						this.components.addSubcomponent(this.vevents[i]);
+
+		/**
+		 *
+		 * @param event
+		 * @param jCalData
+		 */
+		getCorrectEvent: function(event, jCalData) {
+			var components = new ICAL.Component(jCalData);
+			var vevents = components.getAllSubcomponents('vevent');
+
+			components.removeAllSubcomponents('vevent');
+
+			if (components.jCal.length !== 0) {
+				for (var i = 0; i < vevents.length; i++) {
+					if (!isCorrectEvent(event, vevents[i])) {
+						components.addSubcomponent(vevents[i]);
 						continue;
 					}
-					var data = objectConverter.parse(this.vevents[i]);
-					console.log(data);
-					this.addeventobjectcontent(data);
+
+					return vevents[i];
 				}
 			}
-		},
-		addeventobjectcontent: function (data) {
-			this.eventobject = data;
-		},
-		addattendee: function (attendee) {
-			this.components.removeAllSubcomponents('vevent');
 
-			if (this.components.jCal.length !== 0) {
-				for (var i = 0; i < this.vevents.length; i++) {
-					console.log(this.vevents[i]);
-					console.log(attendee);
-					//if (!isCorrectEvent(event, this.vevents[i])) {
-					//	this.components.addSubcomponent(this.vevents[i]);
-					//	continue;
-					//}
-
-					var property = new ICAL.Property('attendee');
-
-					property.setParameter('ROLE', 'REQ-PARTICIPANT');
-					property.setParameter('RVSP', true);
-					property.setParameter('PARTSTAT', 'NEEDS-ACTION');
-					property.setParameter('CUTYPE', 'INDIVIDUAL');
-					property.setParameter('X-OC-SENTMAIL', false);
-
-					property.setValue('email addr');
-
-					console.log(property.toJSON());
-				}
-			}
-		},
-		updateevent : function (updated) {
-			console.log(updated);
-		},
-		addEvent: function (id) {
-			this.calid.changer = Math.random(1000);
-			this.calid.id = id;
-		},
-		getAll: function () {
-			return this.events;
-		},
-		remove: function (id) {
-			delete this.id;
+			return null;
 		}
-	};
-
-	return new EventsModel();
-}]);
+	 };
+ });

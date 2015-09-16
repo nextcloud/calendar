@@ -28,12 +28,11 @@ app.config(['$provide', '$routeProvider', 'RestangularProvider', '$httpProvider'
 	}
 ]);
 
-app.run(['$rootScope', '$location', 'CalendarModel', 'EventsModel',
-	function ($rootScope, $location, CalendarModel, EventsModel) {
+app.run(['$rootScope', '$location', 'CalendarModel',
+	function ($rootScope, $location, CalendarModel) {
 		'use strict';
 		$rootScope.$on('$routeChangeError', function () {
 			var calendars = CalendarModel.getAll();
-			var events = EventsModel.getAll();
 		});
 }]);
 
@@ -49,14 +48,14 @@ app.controller('AppController', ['$scope', 'is',
 * Description: The fullcalendar controller.
 */
 
-app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'CalendarModel', 'EventsModel', 'ViewModel', 'TimezoneModel', 'DialogModel',
-	function ($scope, $rootScope, Restangular, CalendarModel, EventsModel, ViewModel, TimezoneModel, DialogModel) {
+app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'CalendarModel', 'ViewModel', 'TimezoneModel', 'fcHelper', 'objectConverter',
+	function ($scope, $rootScope, Restangular, CalendarModel, ViewModel, TimezoneModel, fcHelper, objectConverter) {
 		'use strict';
+
 		$scope.eventSources = [];
 		$scope.eventSource = {};
 		$scope.calendarModel = CalendarModel;
 		$scope.defaulttimezone = TimezoneModel.currenttimezone();
-		$scope.eventsmodel = EventsModel;
 		$scope.i = 0;
 		var switcher = [];
 		var viewResource = Restangular.one('view');
@@ -82,7 +81,9 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 							end = end.format('X');
 							Restangular.one('calendars', value.id).one('events').one('inPeriod').getList(start + '/' + end).then(function (eventsobject) {
 								callback([]);
-								EventsModel.addAllDisplayFigures($scope.eventSource[value.id], eventsobject, start, end, $scope.timezone);
+								fcHelper.renderJCAL($scope.eventSource[value.id], eventsobject, start, end, $scope.timezone, function(renderedEvent) {
+									$scope.calendar.fullCalendar('renderEvent', renderedEvent);
+								});
 								$rootScope.$broadcast('finishedLoadingEvents', value.id);
 							}, function (response) {
 								OC.Notification.show(t('calendar', response.data.message));
@@ -122,9 +123,6 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 					timezone: $scope.defaulttimezone
 				}
 			};
-
-			DialogModel.initbig('#events');
-			DialogModel.open('#events');
 		};
 
 		/**
@@ -170,16 +168,21 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 				firstDay: moment().startOf('week').format('d'),
 				select: $scope.newEvent,
 				eventClick: function( event, jsEvent, view ) {
-					Restangular.one('calendars', event.calendarId).one('events', event.objectUri).get().then(function (eventsobject) {
-						DialogModel.initbig('#events');
-						DialogModel.open('#events');
-						EventsModel.modalpropertyholder(event, jsEvent, view, eventsobject);
+					Restangular.one('calendars', event.calendarId).one('events', event.objectUri).get().then(function (jCalData) {
+						var vevent = fcHelper.getCorrectEvent(event, jCalData);
+						var simpleData = objectConverter.parse(vevent);
+
+						$rootScope.$broadcast('initializeEventEditor', {
+							data: simpleData,
+							onSuccess: function(newData) {
+
+							}
+						});
 					});
-					//EventsModel.putmodalproperties(event,jsEvent,view);
 				},
 				eventResize: function (event, delta, revertFunc) {
 					Restangular.one('calendars', event.calendarId).one('events', event.objectUri).get().then(function (eventsobject) {
-						var data = EventsModel.eventResizer(event, delta, eventsobject);
+						var data = fcHelper.resizeEvent(event, delta, eventsobject);
 						if (data === null) {
 							revertFunc();
 							return;
@@ -196,7 +199,7 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 				},
 				eventDrop: function (event, delta, revertFunc) {
 					Restangular.one('calendars', event.calendarId).one('events', event.objectUri).get().then(function (eventsobject) {
-						var data = EventsModel.eventDropper(event, delta, eventsobject);
+						var data = fcHelper.dropEvent(event, delta, eventsobject);
 						if (data === null) {
 							revertFunc();
 							return;
@@ -239,15 +242,6 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 
 
 		/**
-		 * After an event was rendered:
-		 * - add it to fullCalendar
-		 */
-		$rootScope.$on('renderedEvent', function (event, fcEvent) {
-			$scope.calendar.fullCalendar('renderEvent', fcEvent);
-		});
-
-
-		/**
 		 * After a calendar was created:
 		 * - create a new event source object
 		 * - add event source to fullcalendar when enabled is true
@@ -260,7 +254,9 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 					end = end.format('X');
 					Restangular.one('calendars', id).one('events').one('inPeriod').getList(start + '/' + end).then(function (eventsobject) {
 						callback([]);
-						EventsModel.addAllDisplayFigures($scope.eventSource[id], eventsobject, start, end, $scope.timezone);
+						fcHelper.renderJCAL($scope.eventSource[id], eventsobject, start, end, $scope.timezone, function(renderedEvent) {
+							$scope.calendar.fullCalendar('renderEvent', renderedEvent);
+						});
 						$rootScope.$broadcast('finishedLoadingEvents', id);
 					}, function (response) {
 						OC.Notification.show(t('calendar', response.data.message));
@@ -550,109 +546,12 @@ app.controller('DatePickerController', ['$scope', 'CalendarModel',
 * Description: Takes care of anything inside the Events Modal.
 */
 
-app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular', 'CalendarModel', 'TimezoneModel', 'EventsModel', 'DialogModel', 'Model',
-	function ($scope, $routeParams, Restangular, CalendarModel, TimezoneModel, EventsModel, DialogModel, Model) {
+app.controller('EventsModalController', ['$scope', '$rootScope', '$routeParams', 'Restangular', 'CalendarModel', 'TimezoneModel', 'DialogModel', 'Model', 'eventEditorHelper',
+	function ($scope, $rootScope, $routeParams, Restangular, CalendarModel, TimezoneModel, DialogModel, Model, eventEditorHelper) {
 		'use strict';
-		$scope.eventsmodel = EventsModel;
 		$scope.calendarModel = CalendarModel;
 		$scope.calendars = CalendarModel.getAll();
-
-		$scope.properties = {
-			calcolor: '',
-			title : '',
-			location : '',
-			categories : '',
-			description : '',
-			attendees : [],
-			alarms : []
-		};
-
-		window.showProps = function() {
-			return $scope.properties;
-		};
-
-		$scope.$watch('eventsmodel.eventobject', function (simpleData) {
-			if(Object.getOwnPropertyNames(simpleData).length !== 0) {
-				if (simpleData.calendar !== '') {
-					$scope.properties = simpleData;
-					//for (var i=0; i< $scope.calendarListSelect.length; i++) {
-					//	if (newval.calendar.calendardisplayname === $scope.calendarListSelect[i].displayname) {
-					//		$scope.calendardropdown = $scope.calendarListSelect[i];
-					//	}
-					//}
-
-					//prepare alarms
-					angular.forEach($scope.properties.alarms, function(value, key) {
-						var alarm = $scope.properties.alarms[key];
-						var factors = [60,60,24,7];
-
-						alarm.editor = {};
-						alarm.editor.reminderSelectValue = ([0, -1 * 5 * 60, -1 * 10 * 60, -1 * 15 * 60, -1 * 60 * 60, -1 * 2 * 60 * 60].indexOf(alarm.trigger.value) !==-1) ? alarm.trigger.value : 'custom';
-
-						alarm.editor.triggerType = (alarm.trigger.type === 'duration') ? 'relative' : 'absolute';
-						if (alarm.editor.triggerType === 'relative') {
-							var triggerValue = Math.abs(alarm.trigger.value);
-
-							alarm.editor.triggerBeforeAfter = (alarm.trigger.value < 0) ? -1 : 1;
-							alarm.editor.triggerTimeUnit = 1;
-
-							for (var i = 0; i < factors.length && triggerValue !== 0; i++) {
-								var mod = triggerValue % factors[i];
-								if (mod !== 0) {
-									break;
-								}
-
-								alarm.editor.triggerTimeUnit *= factors[i];
-								triggerValue /= factors[i];
-							}
-
-							alarm.editor.triggerValue = triggerValue;
-						} else {
-							alarm.editor.triggerValue = 15;
-							alarm.editor.triggerBeforeAfter = -1;
-							alarm.editor.triggerTimeUnit = 60;
-						}
-
-						if (alarm.editor.triggerType === 'absolute') {
-							alarm.editor.absDate = alarm.trigger.value.format('L');
-							alarm.editor.absTime = alarm.trigger.value.format('LT');
-						} else {
-							alarm.editor.absDate = null;
-							alarm.editor.absTime = null;
-						}
-
-						alarm.editor.repeat = !(!alarm.repeat.value || alarm.repeat.value === 0);
-						alarm.editor.repeatNTimes = (alarm.editor.repeat) ? alarm.repeat.value : 0;
-						alarm.editor.repeatTimeUnit = 1;
-
-						var repeatValue = (alarm.duration && alarm.duration.value) ? alarm.duration.value : 0;
-
-						for (var i2 = 0; i2 < factors.length && repeatValue !== 0; i2++) {
-							var mod2 = repeatValue % factors[i2];
-							if (mod2 !== 0) {
-								break;
-							}
-
-							alarm.editor.repeatTimeUnit *= factors[i2];
-							repeatValue /= factors[i2];
-						}
-
-						alarm.editor.repeatNValue = repeatValue;
-					});
-				}
-			}
-		});
-
-		$scope.getLocation = function(val) {
-			return Restangular.one('autocompletion').getList('location',
-					{ 'location': $scope.properties.location }).then(function(res) {
-					var locations = [];
-					angular.forEach(res, function(item) {
-						locations.push(item.label);
-					});
-				return locations;
-			});
-		};
+		$scope.properties = {};
 
 		// First Day Dropdown
 		$scope.recurrenceSelect = [
@@ -677,11 +576,22 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 			{ displayname: t('Calendar', 'Copied for Info'), val : 'NON-PARTICIPANT' }
 		];
 
-		$scope.changerecurrence = function (id) {
-			if (id==='4') {
-				EventsModel.getrecurrencedialog('#repeatdialog');
-			}
+		$scope.getLocation = function() {
+			return Restangular.one('autocompletion').getList('location',
+				{ 'location': $scope.properties.location }).then(function(res) {
+					var locations = [];
+					angular.forEach(res, function(item) {
+						locations.push(item.label);
+					});
+					return locations;
+				});
 		};
+
+		//$scope.changerecurrence = function (id) {
+		//	if (id==='4') {
+		//		EventsModel.getrecurrencedialog('#repeatdialog');
+		//	}
+		//};
 
 		$scope.changestat = function (blah,attendeeval) {
 			for (var i = 0; i < $scope.properties.attendees.length; i++) {
@@ -842,9 +752,22 @@ app.controller('EventsModalController', ['$scope', '$routeParams', 'Restangular'
 		};
 
 
+
 		$scope.update = function () {
-			EventsModel.updateevent($scope.properties);
+			$scope.onSuccess($scope.properties);
 		};
+
+
+
+		$rootScope.$on('initializeEventEditor', function(event, obj) {
+			eventEditorHelper.prepareProperties(obj.data);
+
+			$scope.properties = obj.data;
+			$scope.onSuccess = obj.onSuccess;
+
+			DialogModel.initbig('#events');
+			DialogModel.open('#events');
+		});
 
 		// TODO: If this can be taken to Model better do that.
 		angular.element('#from').datepicker({
@@ -943,8 +866,8 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'Ca
 * Description: Takes care of Subscription List in the App Navigation.
 */
 
-app.controller('SubscriptionController', ['$scope', '$rootScope', '$window', 'SubscriptionModel', 'CalendarModel', 'EventsModel', 'Restangular',
-	function ($scope, $rootScope, $window, SubscriptionModel, CalendarModel, EventsModel, Restangular) {
+app.controller('SubscriptionController', ['$scope', '$rootScope', '$window', 'SubscriptionModel', 'CalendarModel', 'Restangular',
+	function ($scope, $rootScope, $window, SubscriptionModel, CalendarModel, Restangular) {
 		'use strict';
 		
 		$scope.subscriptions = SubscriptionModel.getAll();
@@ -1414,31 +1337,112 @@ app.factory('DialogModel', function() {
 	};
 });
 
-/**
-* Model: Events
-* Description: Required for Calendar Sharing.
-*/
-
-app.factory('EventsModel', ['$rootScope', 'objectConverter', function ($rootScope, objectConverter) {
+app.factory('eventEditorHelper', function () {
 	'use strict';
 
-	var EventsModel = function () {
-		this.events = [];
-		this.eventsUid = {};
-		this.eventobject = {};
-		this.calid = {
-			id: '',
-			changer: ''
-		}; // required for switching the calendars on the fullcalendar
-		this.components = {};
-		this.vevents = {};
-		this.eventsmodalproperties = {
-			'event': '',
-			'jsEvent': '',
-			'view': ''
-		};
-	};
+	var alarmFactors = [
+		60,
+		60,
+		24,
+		7
+	];
 
+	var alarmDropdownValues = [
+		0,
+		-1 * 5 * 60,
+		-1 * 10 * 60,
+		-1 * 15 * 60,
+		-1 * 60 * 60,
+		-1 * 2 * 60 * 60
+	];
+	
+	/**
+	 * prepare alarm
+	 */
+	function prepareAlarm(alarm) {
+		alarm.editor = {};
+		alarm.editor.reminderSelectValue = (alarmDropdownValues.indexOf(alarm.trigger.value) !== -1) ? alarm.trigger.value : 'custom';
+
+		alarm.editor.triggerType = (alarm.trigger.type === 'duration') ? 'relative' : 'absolute';
+		if (alarm.editor.triggerType === 'relative') {
+			var triggerValue = Math.abs(alarm.trigger.value);
+
+			alarm.editor.triggerBeforeAfter = (alarm.trigger.value < 0) ? -1 : 1;
+			alarm.editor.triggerTimeUnit = 1;
+
+			for (var i = 0; i < alarmFactors.length && triggerValue !== 0; i++) {
+				var mod = triggerValue % alarmFactors[i];
+				if (mod !== 0) {
+					break;
+				}
+
+				alarm.editor.triggerTimeUnit *= alarmFactors[i];
+				triggerValue /= alarmFactors[i];
+			}
+
+			alarm.editor.triggerValue = triggerValue;
+		} else {
+			alarm.editor.triggerValue = 15;
+			alarm.editor.triggerBeforeAfter = -1;
+			alarm.editor.triggerTimeUnit = 60;
+		}
+
+		if (alarm.editor.triggerType === 'absolute') {
+			alarm.editor.absDate = alarm.trigger.value.format('L');
+			alarm.editor.absTime = alarm.trigger.value.format('LT');
+		} else {
+			alarm.editor.absDate = null;
+			alarm.editor.absTime = null;
+		}
+
+		alarm.editor.repeat = !(!alarm.repeat.value || alarm.repeat.value === 0);
+		alarm.editor.repeatNTimes = (alarm.editor.repeat) ? alarm.repeat.value : 0;
+		alarm.editor.repeatTimeUnit = 1;
+
+		var repeatValue = (alarm.duration && alarm.duration.value) ? alarm.duration.value : 0;
+
+		for (var i2 = 0; i2 < alarmFactors.length && repeatValue !== 0; i2++) {
+			var mod2 = repeatValue % alarmFactors[i2];
+			if (mod2 !== 0) {
+				break;
+			}
+
+			alarm.editor.repeatTimeUnit *= alarmFactors[i2];
+			repeatValue /= alarmFactors[i2];
+		}
+
+		alarm.editor.repeatNValue = repeatValue;
+	}
+
+	/**
+	 * prepare attendee
+	 */
+	function prepareAttendee(attendee) {
+
+	}
+
+	return {
+		prepareProperties: function(simpleData) {
+			if(Object.getOwnPropertyNames(simpleData).length !== 0) {
+				if (simpleData.calendar !== '') {
+					//prepare alarms
+					angular.forEach(simpleData.alarms, function(value, key) {
+						var alarm = simpleData.alarms[key];
+						prepareAlarm(alarm);
+					});
+
+					//prepare attendees
+					angular.forEach(simpleData.attendees, function(value, key) {
+						var attendee = simpleData.attendees[key];
+						prepareAttendee(attendee);
+					});
+				}
+			}
+		}
+	};
+});
+app.factory('fcHelper', function () {
+	'use strict';
 
 	/**
 	 * check if vevent is the one described in event
@@ -1478,7 +1482,6 @@ app.factory('EventsModel', ['$rootScope', 'objectConverter', function ($rootScop
 			return vevent.getFirstPropertyValue('dtstart').clone();
 		}
 	}
-
 
 	/**
 	 * register timezones from ical response
@@ -1533,7 +1536,6 @@ app.factory('EventsModel', ['$rootScope', 'objectConverter', function ($rootScop
 		return fcData;
 	}
 
-
 	/**
 	 * check if we need to convert the timezone of either dtstart or dtend
 	 * @param dt
@@ -1541,8 +1543,8 @@ app.factory('EventsModel', ['$rootScope', 'objectConverter', function ($rootScop
 	 */
 	function isTimezoneConversionNecessary(dt) {
 		return (dt.icaltype !== 'date' &&
-			dt.zone !== ICAL.Timezone.utcTimezone &&
-			dt.zone !== ICAL.Timezone.localTimezone);
+		dt.zone !== ICAL.Timezone.utcTimezone &&
+		dt.zone !== ICAL.Timezone.localTimezone);
 	}
 
 	/**
@@ -1554,7 +1556,6 @@ app.factory('EventsModel', ['$rootScope', 'objectConverter', function ($rootScop
 	function isEventAllDay(dtstart, dtend) {
 		return (dtstart.icaltype === 'date' && dtend.icaltype === 'date');
 	}
-
 
 	/**
 	 * parse an recurring event
@@ -1606,7 +1607,6 @@ app.factory('EventsModel', ['$rootScope', 'objectConverter', function ($rootScop
 		return fcDataContainer;
 	}
 
-
 	/**
 	 * parse a single event
 	 * @param vevent
@@ -1632,8 +1632,18 @@ app.factory('EventsModel', ['$rootScope', 'objectConverter', function ($rootScop
 		};
 	}
 
-	EventsModel.prototype = {
-		addAllDisplayFigures: function (calendar, jCalData, start, end, timezone) {
+	return {
+		/**
+		 * render a jCal string
+		 * @param calendar
+		 * @param jCalData
+		 * @param start
+		 * @param end
+		 * @param timezone
+		 * @param renderCallback a callback that is called for each rendered event
+		 * @returns {Array}
+		 */
+		renderJCAL: function(calendar, jCalData, start, end, timezone, renderCallback) {
 			var components = new ICAL.Component(jCalData);
 
 			start = new ICAL.Time();
@@ -1642,7 +1652,7 @@ app.factory('EventsModel', ['$rootScope', 'objectConverter', function ($rootScop
 			end.fromUnixTime(end);
 
 			if (components.jCal.length === 0) {
-				return;
+				return null;
 			}
 
 			registerTimezones(components);
@@ -1675,14 +1685,22 @@ app.factory('EventsModel', ['$rootScope', 'objectConverter', function ($rootScop
 					fcData[i] = addCalendarDataToFCData(fcData[i], calendar);
 					fcData[i] = addEventDataToFCData(fcData[i], vevent, event);
 
-					$rootScope.$broadcast('renderedEvent', fcData[i]);
+					renderCallback(fcData[i]);
 				}
 			});
 
 			return [];
 		},
-		eventResizer: function (event, delta, jcalData) {
-			var components = new ICAL.Component(jcalData);
+
+		/**
+		 * resize an event
+		 * @param event
+		 * @param delta
+		 * @param jCalData
+		 * @returns {*}
+		 */
+		resizeEvent: function(event, delta, jCalData) {
+			var components = new ICAL.Component(jCalData);
 			var vevents = components.getAllSubcomponents('vevent');
 			var foundEvent = false;
 			var deltaAsSeconds = 0;
@@ -1724,8 +1742,16 @@ app.factory('EventsModel', ['$rootScope', 'objectConverter', function ($rootScop
 
 			return (foundEvent) ? components.toString() : null;
 		},
-		eventDropper: function (event, delta, jcalData) {
-			var components = new ICAL.Component(jcalData);
+
+		/**
+		 * drop an event
+		 * @param event
+		 * @param delta
+		 * @param jCalData
+		 * @returns {*}
+		 */
+		dropEvent: function(event, delta, jCalData) {
+			var components = new ICAL.Component(jCalData);
 			var vevents = components.getAllSubcomponents('vevent');
 			var foundEvent = false;
 			var deltaAsSeconds = 0;
@@ -1764,68 +1790,33 @@ app.factory('EventsModel', ['$rootScope', 'objectConverter', function ($rootScop
 
 			return (foundEvent) ? components.toString() : null;
 		},
-		modalpropertyholder: function (event, jsEvent, view, jcalData) {
-			this.components = new ICAL.Component(jcalData);
-			this.vevents = this.components.getAllSubcomponents('vevent');
-			if (this.components.jCal.length !== 0) {
-				for (var i = 0; i < this.vevents.length; i++) {
-					if (!isCorrectEvent(event, this.vevents[i])) {
-						this.components.addSubcomponent(this.vevents[i]);
+
+		/**
+		 *
+		 * @param event
+		 * @param jCalData
+		 */
+		getCorrectEvent: function(event, jCalData) {
+			var components = new ICAL.Component(jCalData);
+			var vevents = components.getAllSubcomponents('vevent');
+
+			components.removeAllSubcomponents('vevent');
+
+			if (components.jCal.length !== 0) {
+				for (var i = 0; i < vevents.length; i++) {
+					if (!isCorrectEvent(event, vevents[i])) {
+						components.addSubcomponent(vevents[i]);
 						continue;
 					}
-					var data = objectConverter.parse(this.vevents[i]);
-					console.log(data);
-					this.addeventobjectcontent(data);
+
+					return vevents[i];
 				}
 			}
-		},
-		addeventobjectcontent: function (data) {
-			this.eventobject = data;
-		},
-		addattendee: function (attendee) {
-			this.components.removeAllSubcomponents('vevent');
 
-			if (this.components.jCal.length !== 0) {
-				for (var i = 0; i < this.vevents.length; i++) {
-					console.log(this.vevents[i]);
-					console.log(attendee);
-					//if (!isCorrectEvent(event, this.vevents[i])) {
-					//	this.components.addSubcomponent(this.vevents[i]);
-					//	continue;
-					//}
-
-					var property = new ICAL.Property('attendee');
-
-					property.setParameter('ROLE', 'REQ-PARTICIPANT');
-					property.setParameter('RVSP', true);
-					property.setParameter('PARTSTAT', 'NEEDS-ACTION');
-					property.setParameter('CUTYPE', 'INDIVIDUAL');
-					property.setParameter('X-OC-SENTMAIL', false);
-
-					property.setValue('email addr');
-
-					console.log(property.toJSON());
-				}
-			}
-		},
-		updateevent : function (updated) {
-			console.log(updated);
-		},
-		addEvent: function (id) {
-			this.calid.changer = Math.random(1000);
-			this.calid.id = id;
-		},
-		getAll: function () {
-			return this.events;
-		},
-		remove: function (id) {
-			delete this.id;
+			return null;
 		}
-	};
-
-	return new EventsModel();
-}]);
-
+	 };
+ });
 app.factory('is', function () {
 	'use strict';
 
@@ -2027,7 +2018,7 @@ app.factory('objectConverter', function () {
 			var categories = vevent.getAllProperties('categories');
 			var id = 0;
 			var group = 0;
-			for (var category in categories) {
+/*			for (var category in categories) {
 				var values = category.getValues();
 				for (var value in values) {
 					data.attendees.push({
@@ -2040,7 +2031,7 @@ app.factory('objectConverter', function () {
 				}
 				id = 0;
 				group++;
-			}
+			}*/
 		},
 		date: function(data, vevent) {
 			var dtstart = vevent.getFirstPropertyValue('dtstart');
