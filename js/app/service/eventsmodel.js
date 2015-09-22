@@ -110,6 +110,7 @@ app.factory('EventsModel', ['$rootScope', 'objectConverter', function ($rootScop
 		fcData.color = calendar.color;
 		fcData.textColor = calendar.textColor;
 		fcData.editable = calendar.editable;
+		fcData.className = 'fcCalendar-id-' + calendar.id;
 
 		return fcData;
 	}
