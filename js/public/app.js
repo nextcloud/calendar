@@ -310,9 +310,7 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 				// Sadly fullcalendar doesn't support changing a calendar's
 				// color without removing and then adding it again as an eventSource
 				$scope.eventSource[id].color = updatedCalendar.color;
-				//if (index !== -1) {
-					//TODO find a solution
-				//}
+				angular.element('.fcCalendar-id-' + id).css('background-color', updatedCalendar.color);
 			}
 			$scope.eventSource[id].editable = updatedCalendar.cruds.update;
 		});
@@ -410,7 +408,6 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window',
 		});
 
 		$scope.newCalendarInputVal = '';
-		$scope.selected = '';
 
 		$scope.create = function (name, color) {
 			calendarResource.post({
@@ -1506,6 +1503,7 @@ app.factory('EventsModel', ['$rootScope', 'objectConverter', function ($rootScop
 		fcData.color = calendar.color;
 		fcData.textColor = calendar.textColor;
 		fcData.editable = calendar.editable;
+		fcData.className = 'fcCalendar-id-' + calendar.id;
 
 		return fcData;
 	}

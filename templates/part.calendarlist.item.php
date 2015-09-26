@@ -81,7 +81,7 @@
 </fieldset>
 <fieldset ng-show="calendar.list.edit" class="editfieldset">
 	<input class="app-navigation-input" type="text" ng-model="calendar.displayname" data-id="{{ calendar.id }}" />
-	<colorpicker class="colorpicker" selected="selected"></colorpicker>
+	<colorpicker class="colorpicker" selected="calendar.color"></colorpicker>
 	<div class="calendartype pull-left">
 		<p>
 			<input class="app-navigation-checkbox" type="checkbox" ng-model="calendar.components.vevent" />

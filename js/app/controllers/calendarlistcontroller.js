@@ -45,7 +45,6 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window',
 		});
 
 		$scope.newCalendarInputVal = '';
-		$scope.selected = '';
 
 		$scope.create = function (name, color) {
 			calendarResource.post({
