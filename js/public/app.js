@@ -1303,7 +1303,7 @@ app.factory('CalendarModel', function () {
 
 app.factory('DialogModel', function() {
 	'use strict';
-	
+
 	return {
 		initsmall: function(elementId) {
 			$(elementId).dialog({
@@ -1317,9 +1317,10 @@ app.factory('DialogModel', function() {
 			});
 		},
 		initbig: function (elementId) {
+			$(elementId).tabs({selected: 0});
 			$(elementId).dialog({
 				width : 500,
-				height: 435,
+				height: 400,
 				resizable: false,
 				draggable: true,
 				close : function(event, ui) {
@@ -1328,6 +1329,7 @@ app.factory('DialogModel', function() {
 			});
 		},
 		open: function (elementId) {
+			$(elementId).tabs({selected: 0});
 			$(elementId).dialog('open');
 		},
 		close: function (elementId) {
