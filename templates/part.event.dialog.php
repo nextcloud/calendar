@@ -29,56 +29,35 @@
 	ok-button="OK"
 	ok-callback="handleOk"
 	cancel-button="Cancel"
-	cancel-callback="handleCancel"
-	ng-init="advancedoptions = true; properties.allDay=true; customreminderarea=false;">
-	<form id="event_form">
+	cancel-callback="handleCancel">
+	<form id-"event_form">
 		<ul>
 			<li>
 				<a href="#tabs-1"><?php p($l->t('Eventinfo')); ?></a>
 			</li>
 			<li>
-				<a href="#tabs-2"><?php p($l->t('Repeating')); ?></a><
-				/li>
-			<li>
-				<a href="#tabs-3"><?php p($l->t('Alarm')); ?></a>
-			</li>
-			<li>
-				<a href="#tabs-4"><?php p($l->t('Attendees')); ?></a>
+				<a href="#tabs-2"><?php p($l->t('Repeating')); ?></a>
+				</li>
 			</li>
 		</ul>
 
 		<div id="#tabs-1" class="events-container">
-			<?php print_unescaped($this->inc('part.eventsinfo')); ?>
+			<?php print_unescaped($this->inc('part.eventsrepeat')); ?>
 		</div>
 
-		<div id="#tabs-2" class="events-container">
-			<?php print_unescaped($this->inc('part.eventsinfo')); ?>
+		<div class="events-container">
+			<fieldset class="event-fieldset pull-left">
+				<button ng-click="delete()" class="event-button button btn">
+					<?php p($l->t('Delete Event')); ?>
+				</button>
+			</fieldset>
+
+
+			<fieldset class="event-fieldset pull-right">
+				<button ng-click="update()" class="event-button button btn primary">
+					<?php p($l->t('Save Event')); ?>
+				</button>
+			</fieldset>
 		</div>
-
-		<div id="#tabs-3" class="events-container">
-			<?php print_unescaped($this->inc('part.eventsinfo')); ?>
-		</div>
-
-		<div id="#tabs-4" class="events-container">
-			<?php print_unescaped($this->inc('part.eventsinfo')); ?>
-		</div>
-
-
-
-	<div class="events-container">
-		<fieldset class="event-fieldset pull-left">
-		  <button ng-click="delete()" class="event-button button btn">
-		    <?php p($l->t('Delete Event')); ?>
-		  </button>
-		</fieldset>
-
-
-		<fieldset class="event-fieldset pull-right">
-		  <button ng-click="update()" class="event-button button btn primary">
-		    <?php p($l->t('Save Event')); ?>
-		  </button>
-		</fieldset>
-	</div>
-
-</form>
+	</form>
 </div>
