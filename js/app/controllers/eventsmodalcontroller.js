@@ -41,6 +41,50 @@ app.controller('EventsModalController', ['$scope', '$rootScope', '$routeParams',
       url: 'event.repeat.html'
     }];
 
+		$scope.repeater = [
+			{ val: 'doesnotrepeat' , displayname: t('Calendar', 'Does nor repeat')},
+			{ val: 'daily' , displayname: t('Calendar', 'Daily')},
+			{ val: 'weekly' , displayname: t('Calendar', 'Weekly')},
+			{ val: 'weekday' , displayname: t('Calendar', 'Every Weekday')},
+			{ val: 'biweekly' , displayname: t('Calendar', 'Bi-weekly')},
+			{ val: 'monthly' , displayname: t('Calendar', 'Monthly')},
+			{ val: 'yearly' , displayname: t('Calendar', 'Yearly')},
+		];
+		$scope.repeatmodel = $scope.repeater[0].val;
+
+		$scope.ender = [
+			{ value: 'never', displayname: t('Calendar','never')},
+			{ value: 'count', displayname: t('Calendar','by occurances')},
+			{ value: 'date', displayname: t('Calendar','by date')},
+		];
+
+		$scope.monthdays = [
+			{ value: 'monthday', displayname: t('Calendar','by monthday')},
+			{ value: 'weekday', displayname: t('Calendar','by weekday')}
+		];
+		$scope.monthdaymodel = $scope.monthdays[0].val;
+
+		$scope.years = [
+			{ value: 'bydate', displayname: t('Calendar','by events date')},
+			{ value: 'byyearday', displayname: t('Calendar','by yearday(s)')},
+			{ value: 'byweekno', displayname: t('Calendar','by week no(s)')},
+			{ value: 'bydaymonth', displayname: t('Calendar','by day and month')}
+		];
+
+		$scope.changerepeater = function (repeat) {
+			if (repeat.val === 'monthly') {
+				$scope.yearly = true;
+				$scope.monthday = false;
+			} else if (repeat.val === 'yearly') {
+				$scope.monthday = true;
+				$scope.yearly = false;
+			}
+		};
+
+		$scope.changemonthday = function (y) {
+			console.log(y);
+		};
+
 		$scope.currentTab = 'event.info.html';
 
     $scope.onClickTab = function (tab) {

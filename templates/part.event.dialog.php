@@ -29,7 +29,8 @@
 	ok-button="OK"
 	ok-callback="handleOk"
 	cancel-button="Cancel"
-	cancel-callback="handleCancel">
+	cancel-callback="handleCancel"
+	ng-init="monthday = true; yearly = true;">
 	<form id-"event_form">
 		<div class="tabs">
 			<ul>

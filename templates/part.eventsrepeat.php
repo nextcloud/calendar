@@ -23,25 +23,36 @@
  */
 ?>
 
-<table style="width:100%">
-			<tbody><tr>
-				<th width="75px">Repeat:</th>
-				<td>
-				<select id="repeat" name="repeat">
-					<option value="doesnotrepeat" selected="selected">Does not repeat</option>
-<option value="daily">Daily</option>
-<option value="weekly">Weekly</option>
-<option value="weekday">Every Weekday</option>
-<option value="biweekly">Bi-Weekly</option>
-<option value="monthly">Monthly</option>
-<option value="yearly">Yearly</option>
-				</select></td>
-				<td><input type="button" style="float:right;" class="submit" value="Advanced" id="advanced_options_button_repeat"></td>
-			</tr>
-		</tbody></table>
-		<div id="advanced_options_repeating" style="display: none;">
+<fieldset class="event-fieldset">
+	<label class="label"><?php p($l->t('Repeat'))?></label>
+	<select ng-model="repeatmodel" ng-options="repeat as repeat.displayname for repeat in repeater" ng-change="changerepeater(repeatmodel)">
+	</select>
+	<select ng-hide="monthday" ng-model="monthdaymodel" ng-options="day as day.displayname for day in monthdays" ng-change="changemonthday(monthdaymodel)">
+	</select>
+	<select ng-hide="yearly" ng-model="yearmodel" ng-options="year as year.displayname for year in years" ng-change="changeyear(yearmodel)">
+	</select>
+</fieldset>
+
+
+
+
+<fieldset class="event-fieldset">
+	<label class="label"><?php p($l->t('Interval'))?></label>
+	<input type="number" min="1" max="1000" value="1" name="interval" ng-model="intervalmodel">
+</fieldset>
+
+
+
+<fieldset class="event-fieldset">
+	<label class="label"><?php p($l->t('End'))?></label>
+	<select>
+		<option ng-repeat="end in ender" value="end.val" ng-model="end.val">{{ end.displayname }}</option>
+	</select>
+</fieldset>
+<!--
+		<div id="advanced_options_repeating">
 			<table style="width:100%">
-				<tbody><tr id="advanced_month" style="display:none;">
+				<tbody><tr id="advanced_month" >
 					<th width="75px"></th>
 					<td>
 						<select id="advanced_month_select" name="advanced_month_select">
@@ -52,7 +63,7 @@
 				</tr>
 			</tbody></table>
 			<table style="width:100%">
-				<tbody><tr id="advanced_year" style="display:none;">
+				<tbody><tr id="advanced_year" >
 					<th width="75px"></th>
 					<td>
 						<select id="advanced_year_select" name="advanced_year_select">
@@ -65,7 +76,7 @@
 				</tr>
 			</tbody></table>
 			<table style="width:100%">
-				<tbody><tr id="advanced_weekofmonth" style="display:none;">
+				<tbody><tr id="advanced_weekofmonth" >
 					<th width="75px"></th>
 					<td id="weekofmonthcheckbox">
 						<select id="weekofmonthoptions" name="weekofmonthoptions">
@@ -81,10 +92,10 @@
 				</tr>
 			</tbody></table>
 			<table style="width:100%">
-				<tbody><tr id="advanced_weekday" style="display:none;">
+				<tbody><tr id="advanced_weekday" >
 					<th width="75px"></th>
 					<td id="weeklycheckbox">
-						<select id="weeklyoptions" name="weeklyoptions[]" multiple="multiple" style="width: 150px; display: none;" title="Select weekdays">
+						<select id="weeklyoptions" name="weeklyoptions[]" multiple="multiple" title="Select weekdays">
 							<option value="Monday">Monday</option>
 <option value="Tuesday" selected="selected">Tuesday</option>
 <option value="Wednesday">Wednesday</option>
@@ -97,10 +108,10 @@
 				</tr>
 			</tbody></table>
 			<table style="width:100%">
-				<tbody><tr id="advanced_byyearday" style="display:none;">
+				<tbody><tr id="advanced_byyearday" >
 					<th width="75px"></th>
 					<td id="byyeardaycheckbox">
-						<select id="byyearday" name="byyearday[]" multiple="multiple" title="Select days" style="display: none;">
+						<select id="byyearday" name="byyearday[]" multiple="multiple" title="Select days">
 							<option value="1">1</option>
 <option value="2">2</option>
 <option value="3">3</option>
@@ -471,10 +482,10 @@
 				</tr>
 			</tbody></table>
 			<table style="width:100%">
-				<tbody><tr id="advanced_bymonthday" style="display:none;">
+				<tbody><tr id="advanced_bymonthday">
 					<th width="75px"></th>
 					<td id="bymonthdaycheckbox">
-						<select id="bymonthday" name="bymonthday[]" multiple="multiple" title="Select days" style="display: none;">
+						<select id="bymonthday" name="bymonthday[]" multiple="multiple" title="Select days">
 							<option value="1">1</option>
 <option value="2">2</option>
 <option value="3">3</option>
@@ -510,10 +521,10 @@
 				</tr>
 			</tbody></table>
 			<table style="width:100%">
-				<tbody><tr id="advanced_bymonth" style="display:none;">
+				<tbody><tr id="advanced_bymonth">
 					<th width="75px"></th>
 					<td id="bymonthcheckbox">
-						<select id="bymonth" name="bymonth[]" multiple="multiple" title="Select months" style="display: none;">
+						<select id="bymonth" name="bymonth[]" multiple="multiple" title="Select months">
 							<option value="January">January</option>
 <option value="February">February</option>
 <option value="March">March</option>
@@ -531,10 +542,10 @@
 				</tr>
 			</tbody></table>
 			<table style="width:100%">
-				<tbody><tr id="advanced_byweekno" style="display:none;">
+				<tbody><tr id="advanced_byweekno">
 					<th width="75px"></th>
 					<td id="bymonthcheckbox">
-						<select id="byweekno" name="byweekno[]" multiple="multiple" title="Select weeks" style="display: none;">
+						<select id="byweekno" name="byweekno[]" multiple="multiple" title="Select weeks">
 							<option value="1">1</option>
 <option value="2">2</option>
 <option value="3">3</option>
@@ -609,14 +620,16 @@
 				</tr>
 				<tr>
 					<th></th>
-					<td id="byoccurrences" style="display:none;">
+					<td id="byoccurrences">
 						<input type="number" min="1" max="99999" id="until_count" name="byoccurrences" value="10">occurrences					</td>
 				</tr>
 				<tr>
 					<th></th>
-					<td id="bydate" style="display:none;">
+					<td id="bydate">
 						<input type="text" name="bydate" value="" id="dp1445079800011" class="hasDatepicker">
 					</td>
 				</tr>
 			</tbody></table>
 		</div>
+
+	-->
