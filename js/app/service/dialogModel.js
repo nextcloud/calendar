@@ -42,7 +42,6 @@ app.factory('DialogModel', function() {
 			});
 		},
 		initbig: function (elementId) {
-			$(elementId).tabs({selected: 0});
 			$(elementId).dialog({
 				width : 500,
 				height: 400,
@@ -54,7 +53,6 @@ app.factory('DialogModel', function() {
 			});
 		},
 		open: function (elementId) {
-			$(elementId).tabs({selected: 0});
 			$(elementId).dialog('open');
 		},
 		close: function (elementId) {
