@@ -31,24 +31,25 @@
 	cancel-button="Cancel"
 	cancel-callback="handleCancel">
 	<form id-"event_form">
-		<div id="tabs">
+		<div class="tabs">
 			<ul>
-				<li ng-repeat="tab in tabs"
+				<li class="tab pull-left" ng-repeat="tab in tabs"
 					ng-class="{active:isActiveTab(tab.url)}"
 					ng-click="onClickTab(tab)">{{tab.title}}</li>
       </ul>
-			<div id="mainView">
-        <div ng-include="currentTab"></div>
-      </div>
     </div>
 
-		<script type="text/ng-template" id="event.info.html">
-			<?php print_unescaped($this->inc('part.eventsinfo')); ?>
-		</script>
+		<div class="events-container">
+			<div ng-include="currentTab"></div>
+		</div>
 
-		<script type="text/ng-template" id="event.repeat.html">
-			<?php print_unescaped($this->inc('part.eventsrepeat')); ?>
-		</script>
+			<script type="text/ng-template" id="event.info.html">
+				<?php print_unescaped($this->inc('part.eventsinfo')); ?>
+			</script>
+
+			<script type="text/ng-template" id="event.repeat.html">
+				<?php print_unescaped($this->inc('part.eventsrepeat')); ?>
+			</script>
 
 		<div class="events-container">
 			<fieldset class="event-fieldset pull-left">

@@ -27,7 +27,27 @@
 }
 
 .events-container {
-  padding: 10px;
+  /*padding: 10px;*/
+}
+
+.tabs {
+  display: inline-block;
+  width:100%;
+}
+
+.tab {
+  padding: 10px 5px;
+  background: #efefef;
+  margin-right: 10px;
+  margin-top: 5px;
+  margin-left: 1px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.tab.active {
+  background: #1d2d44;
+  color: #fff;
 }
 
 #events .event-input {
