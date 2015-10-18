@@ -6,7 +6,7 @@
 	<author>Georg Ehrke, Raghu Nayyar, Bernhard Fröhler</author>
 	<require>8</require>
 	<dependencies>
-		<owncloud min-version="8.1" max-version="8.2" />
+		<owncloud min-version="8.1" max-version="9.0" />
 	</dependencies>
 	<description>Calendar with CalDAV support</description>
 	<remote>
