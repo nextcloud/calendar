@@ -21,6 +21,7 @@
     "grunt-ng-annotate": "^1.0.1",
     "grunt-phpunit": "*",
     "grunt-wrap": "*",
+    "jasmine-core": "*",
     "karma": "*",
     "karma-chrome-launcher": "*",
     "karma-coverage": "*",
