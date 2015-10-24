@@ -26,14 +26,14 @@
 * Description: The fullcalendar controller.
 */
 
-app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'CalendarModel', 'EventsModel', 'ViewModel', 'TimezoneModel', 'DialogModel',
-	function ($scope, $rootScope, Restangular, CalendarModel, EventsModel, ViewModel, TimezoneModel, DialogModel) {
+app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'CalendarModel', 'ViewModel', 'TimezoneModel', 'fcHelper', 'objectConverter',
+	function ($scope, $rootScope, Restangular, CalendarModel, ViewModel, TimezoneModel, fcHelper, objectConverter) {
 		'use strict';
+
 		$scope.eventSources = [];
 		$scope.eventSource = {};
 		$scope.calendarModel = CalendarModel;
 		$scope.defaulttimezone = TimezoneModel.currenttimezone();
-		$scope.eventsmodel = EventsModel;
 		$scope.i = 0;
 		var switcher = [];
 		var viewResource = Restangular.one('view');
@@ -59,7 +59,9 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 							end = end.format('X');
 							Restangular.one('calendars', value.id).one('events').one('inPeriod').getList(start + '/' + end).then(function (eventsobject) {
 								callback([]);
-								EventsModel.addAllDisplayFigures($scope.eventSource[value.id], eventsobject, start, end, $scope.timezone);
+								fcHelper.renderJCAL($scope.eventSource[value.id], eventsobject, start, end, $scope.timezone, function(renderedEvent) {
+									$scope.calendar.fullCalendar('renderEvent', renderedEvent);
+								});
 								$rootScope.$broadcast('finishedLoadingEvents', value.id);
 							}, function (response) {
 								OC.Notification.show(t('calendar', response.data.message));
@@ -99,9 +101,6 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 					timezone: $scope.defaulttimezone
 				}
 			};
-
-			DialogModel.initbig('#events');
-			DialogModel.open('#events');
 		};
 
 		/**
@@ -147,16 +146,21 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 				firstDay: moment().startOf('week').format('d'),
 				select: $scope.newEvent,
 				eventClick: function( event, jsEvent, view ) {
-					Restangular.one('calendars', event.calendarId).one('events', event.objectUri).get().then(function (eventsobject) {
-						DialogModel.initbig('#events');
-						DialogModel.open('#events');
-						EventsModel.modalpropertyholder(event, jsEvent, view, eventsobject);
+					Restangular.one('calendars', event.calendarId).one('events', event.objectUri).get().then(function (jCalData) {
+						var vevent = fcHelper.getCorrectEvent(event, jCalData);
+						var simpleData = objectConverter.parse(vevent);
+
+						$rootScope.$broadcast('initializeEventEditor', {
+							data: simpleData,
+							onSuccess: function(newData) {
+
+							}
+						});
 					});
-					//EventsModel.putmodalproperties(event,jsEvent,view);
 				},
 				eventResize: function (event, delta, revertFunc) {
 					Restangular.one('calendars', event.calendarId).one('events', event.objectUri).get().then(function (eventsobject) {
-						var data = EventsModel.eventResizer(event, delta, eventsobject);
+						var data = fcHelper.resizeEvent(event, delta, eventsobject);
 						if (data === null) {
 							revertFunc();
 							return;
@@ -173,7 +177,7 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 				},
 				eventDrop: function (event, delta, revertFunc) {
 					Restangular.one('calendars', event.calendarId).one('events', event.objectUri).get().then(function (eventsobject) {
-						var data = EventsModel.eventDropper(event, delta, eventsobject);
+						var data = fcHelper.dropEvent(event, delta, eventsobject);
 						if (data === null) {
 							revertFunc();
 							return;
@@ -216,15 +220,6 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 
 
 		/**
-		 * After an event was rendered:
-		 * - add it to fullCalendar
-		 */
-		$rootScope.$on('renderedEvent', function (event, fcEvent) {
-			$scope.calendar.fullCalendar('renderEvent', fcEvent);
-		});
-
-
-		/**
 		 * After a calendar was created:
 		 * - create a new event source object
 		 * - add event source to fullcalendar when enabled is true
@@ -237,7 +232,9 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 					end = end.format('X');
 					Restangular.one('calendars', id).one('events').one('inPeriod').getList(start + '/' + end).then(function (eventsobject) {
 						callback([]);
-						EventsModel.addAllDisplayFigures($scope.eventSource[id], eventsobject, start, end, $scope.timezone);
+						fcHelper.renderJCAL($scope.eventSource[id], eventsobject, start, end, $scope.timezone, function(renderedEvent) {
+							$scope.calendar.fullCalendar('renderEvent', renderedEvent);
+						});
 						$rootScope.$broadcast('finishedLoadingEvents', id);
 					}, function (response) {
 						OC.Notification.show(t('calendar', response.data.message));

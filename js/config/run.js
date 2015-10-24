@@ -21,11 +21,10 @@
  *
  */
 
-app.run(['$rootScope', '$location', 'CalendarModel', 'EventsModel',
-	function ($rootScope, $location, CalendarModel, EventsModel) {
+app.run(['$rootScope', '$location', 'CalendarModel',
+	function ($rootScope, $location, CalendarModel) {
 		'use strict';
 		$rootScope.$on('$routeChangeError', function () {
 			var calendars = CalendarModel.getAll();
-			var events = EventsModel.getAll();
 		});
 }]);

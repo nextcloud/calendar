@@ -213,7 +213,7 @@ app.factory('objectConverter', function () {
 			var categories = vevent.getAllProperties('categories');
 			var id = 0;
 			var group = 0;
-			for (var category in categories) {
+/*			for (var category in categories) {
 				var values = category.getValues();
 				for (var value in values) {
 					data.attendees.push({
@@ -226,7 +226,7 @@ app.factory('objectConverter', function () {
 				}
 				id = 0;
 				group++;
-			}
+			}*/
 		},
 		date: function(data, vevent) {
 			var dtstart = vevent.getFirstPropertyValue('dtstart');
