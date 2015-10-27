@@ -156,8 +156,6 @@ app.controller('EventsModalController', ['$scope', '$templateCache','$rootScope'
 			{ displayname: t('Calendar', 'Unknown'), val : 'UNKNOWN' }
 		];
 
-		$scope.selectedstat = $scope.cutstats[0].val;
-
 		$scope.partstats = [
 			{ displayname: t('Calendar', 'Required'), val : 'REQ-PARTICIPANT' },
 			{ displayname: t('Calendar', 'Optional'), val : 'OPT-PARTICIPANT' },
@@ -182,9 +180,9 @@ app.controller('EventsModalController', ['$scope', '$templateCache','$rootScope'
 		//};
 
 		$scope.changestat = function (blah,attendeeval) {
-			for (var i = 0; i < $scope.properties.attendees.length; i++) {
-				if ($scope.properties.attendees[i].value === attendeeval) {
-					$scope.properties.attendees[i].props.CUTTYPE = blah.val;
+			for (var i = 0; i < $scope.properties.attendee.length; i++) {
+				if ($scope.properties.attendee[i].value === attendeeval) {
+					$scope.properties.attendee[i].parameters.CUTTYPE = blah.val;
 				}
 			}
 		};
@@ -192,14 +190,13 @@ app.controller('EventsModalController', ['$scope', '$templateCache','$rootScope'
 		$scope.addmoreattendees = function (val) {
 			var attendee = val;
 			if (attendee !== '') {
-				$scope.properties.attendees.push({
+				$scope.properties.attendee.push({
 					value: attendee,
-					props: {
-						'ROLE': 'REQ-PARTICIPANT',
-						'RSVP': true,
-						'PARTSTAT': 'NEEDS-ACTION',
-						'X-OC-MAILSENT': false,
-						'CUTTYPE': 'INDIVIDUAL'
+					parameters: {
+						'role': 'REQ-PARTICIPANT',
+						'rsvp': true,
+						'partstat': 'NEEDS-ACTION',
+						'cutype': 'INDIVIDUAL'
 					}
 				});
 			}
@@ -207,11 +204,10 @@ app.controller('EventsModalController', ['$scope', '$templateCache','$rootScope'
 		};
 
 		$scope.deleteAttendee = function (val) {
-			console.log(val);
-			for (var key in $scope.properties.attendees) {
+			for (var key in $scope.properties.attendee) {
 				console.warn();
-				if ($scope.properties.attendees[key].value === val) {
-					$scope.properties.attendees.splice(key, 1);
+				if ($scope.properties.attendee[key].value === val) {
+					$scope.properties.attendee.splice(key, 1);
 					break;
 				}
 			}
@@ -231,6 +227,7 @@ app.controller('EventsModalController', ['$scope', '$templateCache','$rootScope'
 			{ displayname: t('Calendar', '5 minutes before'), trigger: -1 * 5 * 60},
 			{ displayname: t('Calendar', '10 minutes before'), trigger: -1 * 10 * 60},
 			{ displayname: t('Calendar', '15 minutes before'), trigger: -1 * 15 * 60},
+			{ displayname: t('Calendar', '30 minutes before'), trigger: -1 * 30 * 60},
 			{ displayname: t('Calendar', '1 hour before'), trigger: -1 * 60 * 60},
 			{ displayname: t('Calendar', '2 hours before'), trigger: -1 * 2 * 60 * 60},
 			{ displayname: t('Calendar', 'Custom'), trigger: 'custom'}
@@ -262,46 +259,36 @@ app.controller('EventsModalController', ['$scope', '$templateCache','$rootScope'
 
 		$scope.addReminder = function() {
 			//TODO - if a reminder with 15 mins before already exists, create one with 30 minutes before
-			$scope.properties.alarms.push({
-					id: $scope.newReminderId,
-					action: {
-						type: 'text',
-						value: 'AUDIO'
-					},
-					trigger: {
-						type: 'duration',
-						value: -900,
-						related: 'start'
-					},
-					repeat: {},
-					duration: {},
-					attendees: [],
-					editor: {
-						reminderSelectValue: -900,
-						triggerType: 'relative',
-						triggerBeforeAfter: -1,
-						triggerTimeUnit: 60,
-						triggerValue: 15,
-						absDate: '',
-						absTime: '',
-						repeat: false,
-						repeatNTimes: 0,
-						repeatTimeUnit: 1,
-						repeatNValue: 0
-					}
-			});
+			var alarm = {
+				id: $scope.newReminderId,
+				action: {
+					type: 'text',
+					value: 'AUDIO'
+				},
+				trigger: {
+					type: 'duration',
+					value: -900,
+					related: 'start'
+				},
+				repeat: {},
+				duration: {},
+				attendees: []
+			};
+
+			eventEditorHelper.prepareAlarm(alarm);
+			$scope.properties.alarm.push(alarm);
 			$scope.newReminderId--;
 		};
 
-		$scope.deleteReminder = function (id) {
-			for (var key in $scope.properties.alarms) {
+		$scope.deleteReminder = function (group) {
+			for (var key in $scope.properties.alarm) {
 				console.warn();
-				if ($scope.properties.alarms[key].id === id) {
-					$scope.properties.alarms.splice(key, 1);
+				if ($scope.properties.alarm[key].group === group) {
+					$scope.properties.alarm.splice(key, 1);
 					break;
 				}
 			}
-			console.log('deleted alarm with id:' + id);
+			console.log('deleted alarm with groupId:' + group);
 		};
 
 		$scope.editReminder = function(id) {
@@ -310,10 +297,10 @@ app.controller('EventsModalController', ['$scope', '$templateCache','$rootScope'
 			}
 		};
 
-		$scope.isEditingReminderSupported = function(id) {
-			for (var key in $scope.properties.alarms) {
-				if ($scope.properties.alarms[key].id === id) {
-					var action = $scope.properties.alarms[key].action.value;
+		$scope.isEditingReminderSupported = function(group) {
+			for (var key in $scope.properties.alarm) {
+				if ($scope.properties.alarm[key].group === group) {
+					var action = $scope.properties.alarm[key].action.value;
 					//WE DON'T AIM TO SUPPORT PROCEDURE
 					return (['AUDIO', 'DISPLAY', 'EMAIL'].indexOf(action) !==-1);
 				}
@@ -329,7 +316,16 @@ app.controller('EventsModalController', ['$scope', '$templateCache','$rootScope'
 				alarm.trigger.related = 'start';
 				alarm.trigger.type = 'duration';
 				alarm.trigger.value = parseInt(factor);
+
+				eventEditorHelper.prepareAlarm(alarm);
 			}
+		};
+
+		$scope.updateReminderRepeat = function(alarm) {
+			alarm.repeat.type = 'string';
+			alarm.repeat.value = alarm.editor.repeatNTimes;
+			alarm.duration.type = 'duration';
+			alarm.duration.value = parseInt(alarm.editor.repeatNValue) * parseInt(alarm.editor.repeatTimeUnit);
 		};
 
 		$scope.updateReminderRelative = function(alarm) {
@@ -353,6 +349,32 @@ app.controller('EventsModalController', ['$scope', '$templateCache','$rootScope'
 
 
 		$scope.update = function () {
+			var moment_start = moment(angular.element('#from').datepicker('getDate'));
+			var moment_end = moment(angular.element('#to').datepicker('getDate'));
+
+			if ($scope.properties.allDay) {
+				$scope.properties.dtstart.type = 'date';
+				$scope.properties.dtend.type = 'date';
+
+				moment_end.add(1, 'days');
+
+				$scope.properties.dtstart.time = '00:00:00';
+				$scope.properties.dtend.time = '00:00:00';
+			} else {
+				$scope.properties.dtstart.type = 'date-time';
+				$scope.properties.dtend.type = 'date-time';
+
+				var moment_start_time = moment(angular.element('#fromtime').timepicker('getTimeAsDate'));
+				var moment_end_time = moment(angular.element('#totime').timepicker('getTimeAsDate'));
+
+				$scope.properties.dtstart.time = moment_start_time.format('HH:mm:ss');
+				$scope.properties.dtend.time = moment_end_time.format('HH:mm:ss');
+
+				//TODO - make sure the timezones are loaded!!!!1111OneOneEleven
+			}
+			$scope.properties.dtstart.date = moment_start.format('YYYY-MM-DD');
+			$scope.properties.dtend.date = moment_end.format('YYYY-MM-DD');
+
 			$scope.onSuccess($scope.properties);
 		};
 
@@ -364,34 +386,82 @@ app.controller('EventsModalController', ['$scope', '$templateCache','$rootScope'
 			$scope.properties = obj.data;
 			$scope.onSuccess = obj.onSuccess;
 
+			var moment_start = moment(obj.data.dtstart.date, 'YYYY-MM-DD');
+			var moment_end = moment(obj.data.dtend.date, 'YYYY-MM-DD');
+
+			var midnight = new Date('2000-01-01 00:00');
+			if (obj.data.dtstart.type === 'date') {
+				angular.element('#fromtime').timepicker('setTime', midnight);
+			} else {
+				var fromTime = new Date('2000-01-01 ' + obj.data.dtstart.time);
+				angular.element('#fromtime').timepicker('setTime', fromTime);
+			}
+
+			if (obj.data.dtend.type === 'date') {
+				moment_end.subtract(1, 'days');
+				angular.element('#totime').timepicker('setTime', midnight);
+			} else {
+				var toTime = new Date('2000-01-01 ' + obj.data.dtend.time);
+				angular.element('#totime').timepicker('setTime', toTime);
+			}
+
+			angular.element('#from').datepicker('setDate', moment_start.toDate());
+			angular.element('#to').datepicker('setDate', moment_end.toDate());
+
 			DialogModel.initbig('#events');
 			DialogModel.open('#events');
 		});
 
 		// TODO: If this can be taken to Model better do that.
+		var localeData = moment.localeData();
+
+		// TODO: revaluate current solution:
+		// moment.js and the datepicker use different formats to format a date.
+		// therefore we have to do some conversion-black-magic to make the moment.js
+		// local formats work with the datepicker.
+		// THIS HAS TO BE TESTED VERY CAREFULLY
+		// WE NEED A SHORT UNIT TEST IDEALLY FOR ALL LANGUAGES SUPPORTED
+		// maybe move setting the date format into a try catch block
 		angular.element('#from').datepicker({
-			dateFormat : 'dd-mm-yy'
+			dateFormat : localeData.longDateFormat('L').toLowerCase().replace('yy', 'y').replace('yyy', 'yy'),
+			monthNames: moment.months(),
+			monthNamesShort: moment.monthsShort(),
+			dayNames: moment.weekdays(),
+			dayNamesMin: moment.weekdaysMin(),
+			dayNamesShort: moment.weekdaysShort(),
+			firstDay: localeData.firstDayOfWeek(),
+			minDate: null
+		});
+		angular.element('#to').datepicker({
+			dateFormat : localeData.longDateFormat('L').toLowerCase().replace('yy', 'y').replace('yyy', 'yy'),
+			monthNames: moment.months(),
+			monthNamesShort: moment.monthsShort(),
+			dayNames: moment.weekdays(),
+			dayNamesMin: moment.weekdaysMin(),
+			dayNamesShort: moment.weekdaysShort(),
+			firstDay: localeData.firstDayOfWeek(),
+			minDate: null
 		});
 
-		angular.element('#to').datepicker({
-			dateFormat : 'dd-mm-yy'
+		angular.element('#fromtime').timepicker({
+			showPeriodLabels: false,
+			showLeadingZero: true,
+			showPeriod: (localeData.longDateFormat('LT').toLowerCase().indexOf('a') !== -1)
+		});
+		angular.element('#totime').timepicker({
+			showPeriodLabels: false,
+			showLeadingZero: true,
+			showPeriod: (localeData.longDateFormat('LT').toLowerCase().indexOf('a') !== -1)
 		});
 
 		angular.element('#absolutreminderdate').datepicker({
 			dateFormat : 'dd-mm-yy'
-		});
-		angular.element('#fromtime').timepicker({
-			showPeriodLabels: false
-		});
-		angular.element('#totime').timepicker({
-			showPeriodLabels: false
 		});
 		angular.element('#absolutremindertime').timepicker({
 			showPeriodLabels: false
 		});
 
 		$templateCache.put('event.info.html', function () {
-			console.log('yolo');
 			angular.element('#from').datepicker({
 				dateFormat : 'dd-mm-yy'
 			});

@@ -39,11 +39,11 @@
 <fieldset class="event-time event-fieldset">
   <div class="event-time-interior pull-left">
     <input type="text" name="from" id="from" ng-model="fromdatemodel" placeholder="<?php p($l->t('from'));?>" />
-    <input type="time" name="fromtime" id="fromtime" ng-model="fromtimemodel" ng-disabled="properties.allDay" />
+    <input type="text" name="fromtime" id="fromtime" ng-model="fromtimemodel" ng-disabled="properties.allDay" />
   </div>
   <div class="event-time-interior pull-right">
     <input type="text" name="to" id="to" ng-model="todatemodel" placeholder="<?php p($l->t('to'));?>" />
-    <input type="time" name="totime" id="totime" ng-model="totimemodel" ng-disabled="properties.allDay" />
+    <input type="text" name="totime" id="totime" ng-model="totimemodel" ng-disabled="properties.allDay" />
   </div>
   <div class="event-time-interior event-time-interior-allday pull-left">
     <input type="checkbox" name="alldayeventcheckbox"

@@ -35,5 +35,19 @@ app.config(['$provide', '$routeProvider', 'RestangularProvider', '$httpProvider'
 		var url = $window.location.href;
 		var baseUrl = url.split('index.php')[0] + 'index.php/apps/calendar/v1';
 		RestangularProvider.setBaseUrl(baseUrl);
+
+		ICAL.design.defaultSet.property['x-oc-calid'] = {
+			defaultType: "text"
+		};
+		ICAL.design.defaultSet.property['x-oc-cruds'] = {
+			defaultType: "text"
+		};
+		ICAL.design.defaultSet.property['x-oc-uri'] = {
+			defaultType: "text"
+		};
+
+		ICAL.design.defaultSet.param['x-oc-group-id'] = {
+			allowXName: true
+		};
 	}
 ]);

@@ -24,102 +24,278 @@ app.factory('objectConverter', function () {
 	'use strict';
 
 	/**
+	 * structure of simple data
+	 */
+	var defaults = {
+		'summary': null,
+		'x-oc-calid': null,
+		'location': null,
+		'created': null,
+		'last-modified': null,
+		'organizer': null,
+		'x-oc-cruds': null,
+		'class': null,
+		'description': null,
+		'url': null,
+		'status': null,
+		'resources': null,
+		'alarm': null,
+		'attendee': null,
+		'categories': null,
+		'dtstart': null,
+		'dtend': null,
+		'repeating': null,
+		'rdate': null,
+		'rrule': null,
+		'exdate': null
+	};
+
+	var attendeeParameters = [
+		'role',
+		'rvsp',
+		'partstat',
+		'cutype',
+		'cn',
+		'delegated-from',
+		'delegated-to'
+	];
+
+	/**
 	 * parsers of supported properties
 	 */
 	var simpleParser = {
-		date: function(data, vevent, multiple, key, propName) {
-			var prop;
-
-			if (multiple) {
-				simpleParser._createArray(data, key);
-
-				var properties = vevent.getAllProperties(propName);
-				var id = 0;
-				var group = 0;
-				for (prop in properties) {
-					prop = properties[prop];
-					if (!prop) {
+		date: function(data, vevent, key, parameters) {
+			parameters = (parameters || []).concat(['tzid']);
+			simpleParser._parseSingle(data, vevent, key, parameters, function(p) {
+				return (p.type === 'duration') ?
+						p.getFirstValue().toSeconds() :
+						p.getFirstValue().toJSDate();
+			});
+		},
+		dates: function(data, vevent, key, parameters) {
+			parameters = (parameters || []).concat(['tzid']);
+			simpleParser._parseMultiple(data, vevent, key, parameters, function(p) {
+				var values = p.getValues(),
+					usableValues = [];
+				for (var vKey in values) {
+					if (!values.hasOwnProperty(vKey)) {
 						continue;
 					}
 
-					var values = prop.getValues();
-					for (var value in values) {
-						value = values[value];
-						if (prop.type === 'duration') {
-							data[key].push({
-								'id': id,
-								'group': group,
-								'type': prop.type,
-								'value': value.toSeconds()
-							});
-						} else {
-							data[key].push({
-								'id': id,
-								'group': group,
-								'type': prop.type,
-								'value': value.toJSDate()
-							});
+					usableValues.push(
+						(p.type === 'duration') ?
+							values[vKey].toSeconds() :
+							values[vKey].toJSDate()
+					);
+				}
+
+				return usableValues;
+			});
+		},
+		string: function(data, vevent, key, parameters) {
+			simpleParser._parseSingle(data, vevent, key, parameters, function(p) {
+				return p.isMultiValue ? p.getValues() : p.getFirstValue();
+			});
+		},
+		strings: function(data, vevent, key, parameters) {
+			simpleParser._parseMultiple(data, vevent, key, parameters, function(p) {
+				return p.isMultiValue ? p.getValues() : p.getFirstValue();
+			});
+		},
+		_parseSingle: function(data, vevent, key, parameters, valueParser) {
+			var prop = vevent.getFirstProperty(key);
+			if (!prop) {
+				return;
+			}
+
+			data[key] = {
+				parameters: simpleParser._parseParameters(prop, parameters),
+				type: prop.type
+			};
+
+			if (prop.isMultiValue) {
+				angular.extend(data[key], {
+					values: valueParser(prop)
+				});
+			} else {
+				angular.extend(data[key], {
+					value: valueParser(prop)
+				});
+			}
+		},
+		_parseMultiple: function(data, vevent, key, parameters, valueParser) {
+			data[key] = data[key] || [];
+
+			var properties = vevent.getAllProperties(key),
+					group = 0;
+
+			for (var pKey in properties) {
+				if (!properties.hasOwnProperty(pKey)) {
+					continue;
+				}
+
+				var values = valueParser(properties[pKey]);
+				var currentElement = {
+					group: group,
+					parameters: simpleParser._parseParameters(properties[pKey], parameters),
+					type: properties[pKey].type,
+					values: values
+				};
+
+				if (properties[pKey].isMultiValue) {
+					angular.extend(currentElement, {
+						values: valueParser(properties[pKey])
+					});
+				} else {
+					angular.extend(currentElement, {
+						value: valueParser(properties[pKey])
+					});
+				}
+
+				data[key].push(currentElement);
+				properties[pKey].setParameter('x-oc-group-id', group.toString());
+				group++;
+			}
+		},
+		_parseParameters: function(prop, para) {
+			var parameters = {};
+
+			if (!para) {
+				return parameters;
+			}
+
+			for (var i=0,l=para.length; i < l; i++) {
+				parameters[para[i]] = prop.getParameter(para[i]);
+			}
+
+			return parameters;
+		}
+	};
+
+	var simpleReader = {
+		date: function(vevent, oldSimpleData, newSimpleData, key, parameters) {
+			parameters = (parameters || []).concat(['tzid']);
+			simpleReader._readSingle(vevent, oldSimpleData, newSimpleData, key, parameters, function(v, isMultiValue) {
+				if (v.type === 'duration') {
+					return ICAL.Duration.fromSeconds(v.value);
+				} else {
+					return ICAL.Time.fromJSDate(v.value);
+				}
+			});
+		},
+		dates: function(vevent, oldSimpleData, newSimpleData, key, parameters) {
+			parameters = (parameters || []).concat(['tzid']);
+			simpleReader._readMultiple(vevent, oldSimpleData, newSimpleData, key, parameters, function(v, isMultiValue) {
+				var values = [];
+
+				for (var i=0, length=v.values.length; i < length; i++) {
+					if (v.type === 'duration') {
+						values.push(ICAL.Duration.fromSeconds(v.values[i]));
+					} else {
+						values.push(ICAL.Time.fromJSDate(v.values[i]));
+					}
+				}
+
+				return values;
+			});
+		},
+		string: function(vevent, oldSimpleData, newSimpleData, key, parameters) {
+			simpleReader._readSingle(vevent, oldSimpleData, newSimpleData, key, parameters, function(v, isMultiValue) {
+				return isMultiValue ? v.values : v.value;
+			});
+		},
+		strings: function(vevent, oldSimpleData, newSimpleData, key, parameters) {
+			simpleReader._readMultiple(vevent, oldSimpleData, newSimpleData, key, parameters, function(v, isMultiValue) {
+				return isMultiValue ? v.values : v.value;
+			});
+		},
+		_readSingle: function(vevent, oldSimpleData, newSimpleData, key, parameters, valueReader) {
+			if (!newSimpleData[key]) {
+				return;
+			}
+			if (!newSimpleData[key].hasOwnProperty('value') && !newSimpleData[key].hasOwnProperty('values')) {
+				return;
+			}
+			var isMultiValue = newSimpleData[key].hasOwnProperty('values');
+
+			var prop = vevent.updatePropertyWithValue(key, valueReader(newSimpleData[key], isMultiValue));
+			simpleReader._readParameters(prop, newSimpleData[key], parameters);
+		},
+		_readMultiple: function(vevent, oldSimpleData, newSimpleData, key, parameters, valueReader) {
+			var oldGroups=[], properties=null, pKey=null, groupId;
+
+			oldSimpleData[key] = oldSimpleData[key] || [];
+			for (var i=0, oldLength=oldSimpleData[key].length; i < oldLength; i++) {
+				oldGroups.push(oldSimpleData[key][i].group);
+			}
+
+			newSimpleData[key] = newSimpleData[key] || [];
+			for (var j=0, newLength=newSimpleData[key].length; j < newLength; j++) {
+				var isMultiValue = newSimpleData[key][j].hasOwnProperty('values');
+				var value = valueReader(newSimpleData[key][j], isMultiValue);
+
+				if (oldGroups.indexOf(newSimpleData[key][j].group) === -1) {
+					var property = new ICAL.Property(key);
+					simpleReader._setProperty(property, value, isMultiValue);
+					simpleReader._readParameters(property, newSimpleData[key][j], parameters);
+					vevent.addProperty(property);
+				} else {
+					oldGroups.splice(oldGroups.indexOf(newSimpleData[key][j].group), 1);
+
+					properties = vevent.getAllProperties(key);
+					for (pKey in properties) {
+						if (!properties.hasOwnProperty(pKey)) {
+							continue;
+						}
+
+						groupId = properties[pKey].getParameter('x-oc-group-id');
+						if (groupId === null) {
+							continue;
+						}
+						if (groupId === newSimpleData[key][j].group) {
+							simpleReader._setProperty(properties[pKey], value, isMultiValue);
+							simpleReader._readParameters(properties[pKey], newSimpleData[key][j], parameters);
 						}
 					}
-					id = 0;
-					group++;
 				}
-			} else {
-				prop = vevent.getFirstProperty(propName);
+			}
 
-				if (prop) {
-					if (prop.type === 'duration') {
-						data[key] = {
-							type: prop.type,
-							value: prop.getFirstValue().toSeconds()
-						};
-					} else {
-						data[key] = {
-							type: prop.type,
-							value: prop.getFirstValue().toJSDate()
-						};
-					}
+			properties = vevent.getAllProperties(key);
+			for (pKey in properties) {
+				if (!properties.hasOwnProperty(pKey)) {
+					continue;
+				}
+
+				groupId = properties[pKey].getParameter('x-oc-group-id');
+				if (groupId === null) {
+					continue;
+				}
+				if (oldGroups.indexOf(groupId) !== -1) {
+					delete properties[pKey];
 				}
 			}
 		},
-		string: function(data, vevent, multiple, key, propName) {
-			var prop;
+		_readParameters: function(prop, simple, para) {
+			if (!para) {
+				return;
+			}
+			if (!simple.parameters) {
+				return;
+			}
 
-			if (multiple) {
-				simpleParser._createArray(data, key);
-
-				var properties = vevent.getAllProperties(propName);
-				var id = 0;
-				var group = 0;
-				for (prop in properties) {
-					prop = properties[prop];
-					var values = prop.getValues();
-					for (var value in values) {
-						value = values[value];
-						data[key].push({
-							id: id,
-							group: group,
-							type: prop.type,
-							value: value
-						});
-						id++;
-					}
-					id = 0;
-					group++;
-				}
-			} else {
-				prop = vevent.getFirstProperty(propName);
-				if (prop) {
-					data[key] = {
-						type: prop.type,
-						value: prop.getFirstValue()
-					};
+			for (var i=0,l=para.length; i < l; i++) {
+				if (simple.parameters[para[i]]) {
+					prop.setParameter(para[i], simple.parameters[para[i]]);
+				} else {
+					prop.removeParameter(simple.parameters[para[i]]);
 				}
 			}
 		},
-		_createArray: function(data, key) {
-			if (!Array.isArray(data[key])) {
-				data[key] = [];
+		_setProperty: function(prop, value, isMultiValue) {
+			if (isMultiValue) {
+				prop.setValues(value);
+			} else {
+				prop.setValue(value);
 			}
 		}
 	};
@@ -129,49 +305,74 @@ app.factory('objectConverter', function () {
 	 */
 	var simpleProperties = {
 		//General
-		summary: {jName: 'summary', multiple: false, parser: simpleParser.string},
-		calendarid: {jName: 'x-oc-calid', multiple: false, parser: simpleParser.string},
-		location: {jName: 'location', multiple: false, parser: simpleParser.string},
-		created: {jName: 'created', multiple: false, parser: simpleParser.date},
-		lastModified: {jName: 'last-modified', multiple: false, parser: simpleParser.date},
+		'summary': {parser: simpleParser.string, reader: simpleReader.string},
+		'x-oc-calid': {parser: simpleParser.string, reader: simpleReader.string},
+		'location': {parser: simpleParser.string, reader: simpleReader.string},
+		'created': {parser: simpleParser.date, reader: simpleReader.date},
+		'last-modified': {parser: simpleParser.date, reader: simpleReader.date},
+		'categories': {parser: simpleParser.strings, reader: simpleReader.strings},
 		//attendees
-		organizer: {jName: 'organizer', multiple: false, parser: simpleParser.string},
+		'attendee': {parser: simpleParser.strings, reader: simpleReader.strings, parameters: attendeeParameters},
+		'organizer': {parser: simpleParser.string, reader: simpleReader.string},
 		//sharing
-		permission: {jName: 'x-oc-cruds', multiple: false, parser: simpleParser.string},
-		privacyClass: {jName: 'class', multiple: false, parser: simpleParser.string},
+		'x-oc-cruds': {parser: simpleParser.string, reader: simpleReader.string},
+		'class': {parser: simpleParser.string, reader: simpleReader.string},
 		//other
-		description: {jName: 'description', multiple: false, parser: simpleParser.string},
-		url: {jName: 'url', multiple: false, parser: simpleParser.string},
-		status: {jName: 'status', multiple: false, parser: simpleParser.string},
-		resources: {jName: 'resources', multiple: true, parser: simpleParser.string}
+		'description': {parser: simpleParser.string, reader: simpleReader.string},
+		'url': {parser: simpleParser.string, reader: simpleReader.string},
+		'status': {parser: simpleParser.string, reader: simpleReader.string},
+		'resources': {parser: simpleParser.strings, reader: simpleReader.strings}
 	};
+
+	function addZero(t) {
+		if (t < 10) {
+			t = '0' + t;
+		}
+		return t;
+	}
+
+	function formatDate(d) {
+		return d.getFullYear() + '-' +
+			addZero(d.getMonth()) + '-' +
+			addZero(d.getDate());
+	}
+
+	function formatTime(d) {
+		return addZero(d.getHours()) + ':' +
+			addZero(d.getMinutes()) + ':' +
+			addZero(d.getSeconds());
+
+	}
 
 	/**
 	 * specific parsers that check only one property
 	 */
 	var specificParser = {
 		alarm: function(data, vevent) {
-			if (!Array.isArray(data.alarm)) {
-				data.alarms = [];
-			}
+			data.alarm = data.alarm || [];
 
-			var alarms = vevent.getAllSubcomponents('valarm');
-			var id;
-			for (id in alarms) {
-				var alarm = alarms[id];
+			var alarms = vevent.getAllSubcomponents('valarm'),
+				group = 0;
+			for (var key in alarms) {
+				if (!alarms.hasOwnProperty(key)) {
+					continue;
+				}
+
+				var alarm = alarms[key];
 				var alarmData = {
-					id: id,
+					group: group,
 					action: {},
 					trigger: {},
 					repeat: {},
 					duration: {},
+					attendee: []
 				};
 
-				simpleParser.string(alarmData, alarm, false, 'action', 'action');
-				simpleParser.date(alarmData, alarm, false, 'trigger', 'trigger');
-				simpleParser.string(alarmData, alarm, false, 'repeat', 'repeat');
-				simpleParser.date(alarmData, alarm, false, 'duration', 'duration');
-				specificParser.attendee(alarmData, alarm);
+				simpleParser.string(alarmData, alarm, 'action');
+				simpleParser.date(alarmData, alarm, 'trigger');
+				simpleParser.string(alarmData, alarm, 'repeat');
+				simpleParser.string(alarmData, alarm, 'duration');
+				simpleParser.strings(alarmData, alarm, 'attendee', attendeeParameters);
 
 				if (alarm.hasProperty('trigger')) {
 					var trigger = alarm.getFirstProperty('trigger');
@@ -183,50 +384,12 @@ app.factory('objectConverter', function () {
 					}
 				}
 
-				data.alarms.push(alarmData);
-			}
-		},
-		attendee: function(data, vevent) {
-			simpleParser._createArray(data, 'attendees');
+				data.alarm.push(alarmData);
 
-			var attendees = vevent.getAllProperties('attendee');
-			var id;
-			for (id in attendees) {
-				var attendee = attendees[id];
-				data.attendees.push({
-					id: id,
-					type: attendee.type,
-					value: attendee.getFirstValue(),
-					props: {
-						role: attendee.getParameter('role'),
-						rvsp: attendee.getParameter('rvsp'),
-						partstat: attendee.getParameter('partstat'),
-						cutype: attendee.getParameter('cutype'),
-						sentmail: attendee.getParameter('x-oc-sentmail')
-					}
-				});
-			}
-		},
-		categories: function(data, vevent) {
-			simpleParser._createArray(data, 'categories');
-
-			var categories = vevent.getAllProperties('categories');
-			var id = 0;
-			var group = 0;
-/*			for (var category in categories) {
-				var values = category.getValues();
-				for (var value in values) {
-					data.attendees.push({
-						id: id,
-						group: group,
-						type: category.type,
-						value: value
-					});
-					id++;
-				}
-				id = 0;
+				alarm.getFirstProperty('action')
+					.setParameter('x-oc-group-id', group.toString());
 				group++;
-			}*/
+			}
 		},
 		date: function(data, vevent) {
 			var dtstart = vevent.getFirstPropertyValue('dtstart');
@@ -241,91 +404,216 @@ app.factory('objectConverter', function () {
 				dtend = dtstart.clone();
 			}
 
-			data.start = {
+			data.dtstart = {
+				date: formatDate(dtstart.toJSDate()),
+				time: formatTime(dtstart.toJSDate()),
 				type: dtstart.icaltype,
-				value: dtstart.toJSDate
+				zone: dtstart.zone.toString()
 			};
-			data.startzone = {
-				type: 'string',
-				value: dtstart.zone
-			};
-			data.end = {
+			data.dtend = {
+				date: formatDate(dtend.toJSDate()),
+				time: formatTime(dtend.toJSDate()),
 				type: dtend.icaltype,
-				value: dtend.toJSDate
-			};
-			data.endzone = {
-				type: 'string',
-				value: dtend.zone
+				zone: dtend.zone.toString()
 			};
 			data.allDay = (dtstart.icaltype === 'date' && dtend.icaltype === 'date');
-		},
-		geo: function(data, vevent) {
-			/*
-			ICAL.js issue here - need to report bug or even better send a pr
-			var value = vevent.getFirstPropertyValue('geo');
-			var parts = value.split(';');
-
-			data.geo = {
-				lat: parts[0],
-				long: parts[1]
-			};*/
 		},
 		repeating: function(data, vevent) {
 			var iCalEvent = new ICAL.Event(vevent);
 
 			data.repeating = iCalEvent.isRecurring();
-			simpleParser.date(data, vevent, true, 'rdate', 'rdate');
-			simpleParser.string(data, vevent, true, 'rrule', 'rrule');
+			simpleParser.dates(data, vevent, 'rdate');
+			simpleParser.string(data, vevent, 'rrule');
 
-			simpleParser.date(data, vevent, true, 'exdate', 'exdate');
-			simpleParser.string(data, vevent, true, 'exrule', 'exrule');
+			simpleParser.dates(data, vevent, 'exdate');
 		}
 	};
 
-	//public functions
-	/**
-	 * parse and expand jCal data to simple structure
-	 * @param vevent object to be parsed
-	 * @returns {{}}
-	 */
-	var parse = function(vevent) {
-		var data = {};
+	var specificReader = {
+		alarm: function(vevent, oldSimpleData, newSimpleData) {
+			var oldGroups=[], components=null, cKey=null, groupId, key='alarm';
 
-		for (var parser in specificParser) {
-			if (!specificParser.hasOwnProperty(parser)) {
-				continue;
+			oldSimpleData[key] = oldSimpleData[key] || [];
+			for (var i=0, oldLength=oldSimpleData[key].length; i < oldLength; i++) {
+				oldGroups.push(oldSimpleData[key][i].group);
 			}
 
-			specificParser[parser](data, vevent);
+			newSimpleData[key] = newSimpleData[key] || [];
+			for (var j=0, newLength=newSimpleData[key].length; j < newLength; j++) {
+				var valarm;
+				if (oldGroups.indexOf(newSimpleData[key][j].group) === -1) {
+					valarm = new ICAL.Component('VALARM');
+					vevent.addSubcomponent(valarm);
+				} else {
+					oldGroups.splice(oldGroups.indexOf(newSimpleData[key][j].group), 1);
+
+
+					components = vevent.getAllSubcomponents('VALARM');
+					for (cKey in components) {
+						if (!components.hasOwnProperty(cKey)) {
+							continue;
+						}
+
+						groupId = components[cKey].getFirstProperty('action').getParameter('x-oc-group-id');
+						if (groupId === null) {
+							continue;
+						}
+						if (groupId === newSimpleData[key][j].group) {
+							valarm = components[cKey];
+						}
+					}
+				}
+
+				simpleReader.string(valarm, {}, newSimpleData[key][j], 'action', []);
+				simpleReader.date(valarm, {}, newSimpleData[key][j], 'trigger', []);
+				simpleReader.string(valarm, {}, newSimpleData[key][j], 'repeat', []);
+				simpleReader.string(valarm, {}, newSimpleData[key][j], 'duration', []);
+				simpleReader.strings(valarm, {}, newSimpleData[key][j], 'attendee', attendeeParameters);
+			}
+		},
+		date: function(vevent, oldSimpleData, newSimpleData) {
+			delete vevent.dstart;
+			delete vevent.dtend;
+			delete vevent.duration;
+
+			var parseIntWrapper = function(str) {
+				return parseInt(str);
+			};
+
+			if (!ICAL.TimezoneService.has(newSimpleData.dtstart.zone)) {
+				throw {
+					kind: 'timezone_missing',
+					missing_timezone: newSimpleData.dtstart.zone
+				};
+			}
+			if (!ICAL.TimezoneService.has(newSimpleData.dtend.zone)) {
+				throw {
+					kind: 'timezone_missing',
+					missing_timezone: newSimpleData.dtend.zone
+				};
+			}
+
+			var dtstartDateParts = newSimpleData.dtstart.date.split('-').map(parseIntWrapper);
+			var dtstartTimeParts = newSimpleData.dtstart.time.split(':').map(parseIntWrapper);
+			var dtstartTz = ICAL.TimezoneService.get(newSimpleData.dtstart.zone);
+			var start = new ICAL.Time({
+				year: dtstartDateParts[0],
+				month: dtstartDateParts[1],
+				day: dtstartDateParts[2],
+				hour: dtstartTimeParts[0],
+				minute: dtstartTimeParts[1],
+				second: dtstartTimeParts[2],
+				isDate: newSimpleData.allDay
+			}, dtstartTz);
+
+			var dtendDateParts = newSimpleData.dtend.date.split('-').map(parseIntWrapper);
+			var dtendTimeParts = newSimpleData.dtend.time.split(':').map(parseIntWrapper);
+			var dtendTz = ICAL.TimezoneService.get(newSimpleData.dtend.zone);
+			var end = new ICAL.Time({
+				year: dtendDateParts[0],
+				month: dtendDateParts[1],
+				day: dtendDateParts[2],
+				hour: dtendTimeParts[0],
+				minute: dtendTimeParts[1],
+				second: dtendTimeParts[2],
+				isDate: newSimpleData.allDay
+			}, dtendTz);
+
+			var dtstart = new ICAL.Property('dtstart', vevent);
+			dtstart.setValue(start);
+			dtstart.setParameter('tzid', dtstartTz.tzid);
+			var dtend = new ICAL.Property('dtend', vevent);
+			dtend.setValue(end);
+			dtend.setParameter('tzid', dtendTz.tzid);
+
+			vevent.addProperty(dtstart);
+			vevent.addProperty(dtend);
+		},
+		repeating: function(vevent, oldSimpleData, newSimpleData) {
+			// We won't support exrule, because it's deprecated and barely used in the wild
+			if (newSimpleData.repeating === false) {
+				delete vevent.rdate;
+				delete vevent.rrule;
+				delete vevent.exdate;
+
+				return;
+			}
+
+			simpleReader.dates(vevent, oldSimpleData, newSimpleData, 'rdate');
+			simpleReader.string(vevent, oldSimpleData, newSimpleData, 'rrule');
+			simpleReader.dates(vevent, oldSimpleData, newSimpleData, 'exdate');
 		}
-
-		for (var key in simpleProperties) {
-			if (!simpleProperties.hasOwnProperty(key)) {
-				continue;
-			}
-
-			var prop = simpleProperties[key];
-			if (vevent.hasProperty(prop.jName)) {
-				prop.parser(data, vevent, prop.multiple, key, prop.jName);
-			}
-		}
-
-		return data;
-	};
-
-
-	/**
-	 * patch vevent with data from event editor
-	 * @param vevent object to update
-	 * @param data patched data
-	 * @returns {*}
-	 */
-	var patch = function(vevent, data) {
-		//TO BE IMPLEMENTED
 	};
 
 	return {
-		parse: parse,
-		patch: patch
+		/**
+		 * parse and expand jCal data to simple structure
+		 * @param vevent object to be parsed
+		 * @returns {{}}
+		 */
+		parse: function(vevent) {
+			var data=angular.extend({}, defaults), parser, parameters;
+
+			for (parser in specificParser) {
+				if (!specificParser.hasOwnProperty(parser)) {
+					continue;
+				}
+
+				specificParser[parser](data, vevent);
+			}
+
+			for (var key in simpleProperties) {
+				if (!simpleProperties.hasOwnProperty(key)) {
+					continue;
+				}
+
+				parser = simpleProperties[key].parser;
+				parameters = simpleProperties[key].parameters;
+				if (vevent.hasProperty(key)) {
+					parser(data, vevent, key, parameters);
+				}
+			}
+
+			return data;
+		},
+
+		/**
+		 * patch vevent with data from event editor
+		 * @param vevent object to update
+		 * @param oldSimpleData
+		 * @param newSimpleData
+		 * @returns {*}
+		 */
+		patch: function(vevent, oldSimpleData, newSimpleData) {
+			var key, reader, parameters;
+
+			oldSimpleData = angular.extend({}, defaults, oldSimpleData);
+			newSimpleData = angular.extend({}, defaults, newSimpleData);
+
+			for (key in simpleProperties) {
+				if (!simpleProperties.hasOwnProperty(key)) {
+					continue;
+				}
+
+				reader = simpleProperties[key].reader;
+				parameters = simpleProperties[key].parameters;
+				if (oldSimpleData[key] !== newSimpleData[key]) {
+					if (newSimpleData === null) {
+						delete vevent[key];
+					} else {
+						reader(vevent, oldSimpleData, newSimpleData, key, parameters);
+					}
+				}
+			}
+
+			for (key in specificReader) {
+				if (!specificReader.hasOwnProperty(key)) {
+					continue;
+				}
+
+				reader = specificReader[key];
+				reader(vevent, oldSimpleData, newSimpleData);
+			}
+		}
 	};
 });

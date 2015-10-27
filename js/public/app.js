@@ -24,6 +24,20 @@ app.config(['$provide', '$routeProvider', 'RestangularProvider', '$httpProvider'
 		var url = $window.location.href;
 		var baseUrl = url.split('index.php')[0] + 'index.php/apps/calendar/v1';
 		RestangularProvider.setBaseUrl(baseUrl);
+
+		ICAL.design.defaultSet.property['x-oc-calid'] = {
+			defaultType: "text"
+		};
+		ICAL.design.defaultSet.property['x-oc-cruds'] = {
+			defaultType: "text"
+		};
+		ICAL.design.defaultSet.property['x-oc-uri'] = {
+			defaultType: "text"
+		};
+
+		ICAL.design.defaultSet.param['x-oc-group-id'] = {
+			allowXName: true
+		};
 	}
 ]);
 
@@ -110,18 +124,46 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 
 		$scope.newEvent = function (start, end, jsEvent, view) {
 			console.log(start, end, jsEvent, view);
-			var init = {
+			var initWithData = {
+				allDay: !start.hasTime() && !end.hasTime(),
 				dtstart: {
 					type: start.hasTime() ? 'datetime' : 'date',
-					date: start.toISOString(),
-					timezone: $scope.defaulttimezone
+					date: start.format('YYYY-MM-DD'),
+					time: start.format('HH:mm:ss'),
+					zone: $scope.defaulttimezone
 				},
 				dtend: {
 					type: end.hasTime() ? 'datetime' : 'date',
-					date: end.toISOString(),
-					timezone: $scope.defaulttimezone
-				}
+					date: end.format('YYYY-MM-DD'),
+					time: end.format('HH:mm:ss'),
+					zone: $scope.defaulttimezone
+				},
+				summary: {
+					type: 'text',
+					value: t('calendar', 'New event')
+				},
+				alarm: [],
+				attendee: []
 			};
+
+			$rootScope.$broadcast('initializeEventEditor', {
+				data: initWithData,
+				onSuccess: function(newData) {
+					var comp = new ICAL.Component(['vcalendar', [], []]);
+					//TODO - add a proper prodid with version number
+					comp.updatePropertyWithValue('prodid', '-//ownCloud calendar');
+					var vevent = new ICAL.Component('vevent');
+					comp.addSubcomponent(vevent);
+
+					objectConverter.patch(vevent, {}, newData);
+
+					vevent.updatePropertyWithValue('created', ICAL.Time.now());
+					vevent.updatePropertyWithValue('dtstamp', ICAL.Time.now());
+					vevent.updatePropertyWithValue('last-modified', ICAL.Time.now());
+					//TODO - add UID,
+					console.log(comp.toString());
+				}
+			});
 		};
 
 		/**
@@ -170,6 +212,8 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 					Restangular.one('calendars', event.calendarId).one('events', event.objectUri).get().then(function (jCalData) {
 						var vevent = fcHelper.getCorrectEvent(event, jCalData);
 						var simpleData = objectConverter.parse(vevent);
+
+						console.log(simpleData);
 
 						$rootScope.$broadcast('initializeEventEditor', {
 							data: simpleData,
@@ -675,8 +719,6 @@ app.controller('EventsModalController', ['$scope', '$templateCache','$rootScope'
 			{ displayname: t('Calendar', 'Unknown'), val : 'UNKNOWN' }
 		];
 
-		$scope.selectedstat = $scope.cutstats[0].val;
-
 		$scope.partstats = [
 			{ displayname: t('Calendar', 'Required'), val : 'REQ-PARTICIPANT' },
 			{ displayname: t('Calendar', 'Optional'), val : 'OPT-PARTICIPANT' },
@@ -701,9 +743,9 @@ app.controller('EventsModalController', ['$scope', '$templateCache','$rootScope'
 		//};
 
 		$scope.changestat = function (blah,attendeeval) {
-			for (var i = 0; i < $scope.properties.attendees.length; i++) {
-				if ($scope.properties.attendees[i].value === attendeeval) {
-					$scope.properties.attendees[i].props.CUTTYPE = blah.val;
+			for (var i = 0; i < $scope.properties.attendee.length; i++) {
+				if ($scope.properties.attendee[i].value === attendeeval) {
+					$scope.properties.attendee[i].parameters.CUTTYPE = blah.val;
 				}
 			}
 		};
@@ -711,14 +753,13 @@ app.controller('EventsModalController', ['$scope', '$templateCache','$rootScope'
 		$scope.addmoreattendees = function (val) {
 			var attendee = val;
 			if (attendee !== '') {
-				$scope.properties.attendees.push({
+				$scope.properties.attendee.push({
 					value: attendee,
-					props: {
-						'ROLE': 'REQ-PARTICIPANT',
-						'RSVP': true,
-						'PARTSTAT': 'NEEDS-ACTION',
-						'X-OC-MAILSENT': false,
-						'CUTTYPE': 'INDIVIDUAL'
+					parameters: {
+						'role': 'REQ-PARTICIPANT',
+						'rsvp': true,
+						'partstat': 'NEEDS-ACTION',
+						'cutype': 'INDIVIDUAL'
 					}
 				});
 			}
@@ -726,11 +767,10 @@ app.controller('EventsModalController', ['$scope', '$templateCache','$rootScope'
 		};
 
 		$scope.deleteAttendee = function (val) {
-			console.log(val);
-			for (var key in $scope.properties.attendees) {
+			for (var key in $scope.properties.attendee) {
 				console.warn();
-				if ($scope.properties.attendees[key].value === val) {
-					$scope.properties.attendees.splice(key, 1);
+				if ($scope.properties.attendee[key].value === val) {
+					$scope.properties.attendee.splice(key, 1);
 					break;
 				}
 			}
@@ -750,6 +790,7 @@ app.controller('EventsModalController', ['$scope', '$templateCache','$rootScope'
 			{ displayname: t('Calendar', '5 minutes before'), trigger: -1 * 5 * 60},
 			{ displayname: t('Calendar', '10 minutes before'), trigger: -1 * 10 * 60},
 			{ displayname: t('Calendar', '15 minutes before'), trigger: -1 * 15 * 60},
+			{ displayname: t('Calendar', '30 minutes before'), trigger: -1 * 30 * 60},
 			{ displayname: t('Calendar', '1 hour before'), trigger: -1 * 60 * 60},
 			{ displayname: t('Calendar', '2 hours before'), trigger: -1 * 2 * 60 * 60},
 			{ displayname: t('Calendar', 'Custom'), trigger: 'custom'}
@@ -781,46 +822,36 @@ app.controller('EventsModalController', ['$scope', '$templateCache','$rootScope'
 
 		$scope.addReminder = function() {
 			//TODO - if a reminder with 15 mins before already exists, create one with 30 minutes before
-			$scope.properties.alarms.push({
-					id: $scope.newReminderId,
-					action: {
-						type: 'text',
-						value: 'AUDIO'
-					},
-					trigger: {
-						type: 'duration',
-						value: -900,
-						related: 'start'
-					},
-					repeat: {},
-					duration: {},
-					attendees: [],
-					editor: {
-						reminderSelectValue: -900,
-						triggerType: 'relative',
-						triggerBeforeAfter: -1,
-						triggerTimeUnit: 60,
-						triggerValue: 15,
-						absDate: '',
-						absTime: '',
-						repeat: false,
-						repeatNTimes: 0,
-						repeatTimeUnit: 1,
-						repeatNValue: 0
-					}
-			});
+			var alarm = {
+				id: $scope.newReminderId,
+				action: {
+					type: 'text',
+					value: 'AUDIO'
+				},
+				trigger: {
+					type: 'duration',
+					value: -900,
+					related: 'start'
+				},
+				repeat: {},
+				duration: {},
+				attendees: []
+			};
+
+			eventEditorHelper.prepareAlarm(alarm);
+			$scope.properties.alarm.push(alarm);
 			$scope.newReminderId--;
 		};
 
-		$scope.deleteReminder = function (id) {
-			for (var key in $scope.properties.alarms) {
+		$scope.deleteReminder = function (group) {
+			for (var key in $scope.properties.alarm) {
 				console.warn();
-				if ($scope.properties.alarms[key].id === id) {
-					$scope.properties.alarms.splice(key, 1);
+				if ($scope.properties.alarm[key].group === group) {
+					$scope.properties.alarm.splice(key, 1);
 					break;
 				}
 			}
-			console.log('deleted alarm with id:' + id);
+			console.log('deleted alarm with groupId:' + group);
 		};
 
 		$scope.editReminder = function(id) {
@@ -829,10 +860,10 @@ app.controller('EventsModalController', ['$scope', '$templateCache','$rootScope'
 			}
 		};
 
-		$scope.isEditingReminderSupported = function(id) {
-			for (var key in $scope.properties.alarms) {
-				if ($scope.properties.alarms[key].id === id) {
-					var action = $scope.properties.alarms[key].action.value;
+		$scope.isEditingReminderSupported = function(group) {
+			for (var key in $scope.properties.alarm) {
+				if ($scope.properties.alarm[key].group === group) {
+					var action = $scope.properties.alarm[key].action.value;
 					//WE DON'T AIM TO SUPPORT PROCEDURE
 					return (['AUDIO', 'DISPLAY', 'EMAIL'].indexOf(action) !==-1);
 				}
@@ -848,7 +879,16 @@ app.controller('EventsModalController', ['$scope', '$templateCache','$rootScope'
 				alarm.trigger.related = 'start';
 				alarm.trigger.type = 'duration';
 				alarm.trigger.value = parseInt(factor);
+
+				eventEditorHelper.prepareAlarm(alarm);
 			}
+		};
+
+		$scope.updateReminderRepeat = function(alarm) {
+			alarm.repeat.type = 'string';
+			alarm.repeat.value = alarm.editor.repeatNTimes;
+			alarm.duration.type = 'duration';
+			alarm.duration.value = parseInt(alarm.editor.repeatNValue) * parseInt(alarm.editor.repeatTimeUnit);
 		};
 
 		$scope.updateReminderRelative = function(alarm) {
@@ -872,6 +912,32 @@ app.controller('EventsModalController', ['$scope', '$templateCache','$rootScope'
 
 
 		$scope.update = function () {
+			var moment_start = moment(angular.element('#from').datepicker('getDate'));
+			var moment_end = moment(angular.element('#to').datepicker('getDate'));
+
+			if ($scope.properties.allDay) {
+				$scope.properties.dtstart.type = 'date';
+				$scope.properties.dtend.type = 'date';
+
+				moment_end.add(1, 'days');
+
+				$scope.properties.dtstart.time = '00:00:00';
+				$scope.properties.dtend.time = '00:00:00';
+			} else {
+				$scope.properties.dtstart.type = 'date-time';
+				$scope.properties.dtend.type = 'date-time';
+
+				var moment_start_time = moment(angular.element('#fromtime').timepicker('getTimeAsDate'));
+				var moment_end_time = moment(angular.element('#totime').timepicker('getTimeAsDate'));
+
+				$scope.properties.dtstart.time = moment_start_time.format('HH:mm:ss');
+				$scope.properties.dtend.time = moment_end_time.format('HH:mm:ss');
+
+				//TODO - make sure the timezones are loaded!!!!1111OneOneEleven
+			}
+			$scope.properties.dtstart.date = moment_start.format('YYYY-MM-DD');
+			$scope.properties.dtend.date = moment_end.format('YYYY-MM-DD');
+
 			$scope.onSuccess($scope.properties);
 		};
 
@@ -883,34 +949,82 @@ app.controller('EventsModalController', ['$scope', '$templateCache','$rootScope'
 			$scope.properties = obj.data;
 			$scope.onSuccess = obj.onSuccess;
 
+			var moment_start = moment(obj.data.dtstart.date, 'YYYY-MM-DD');
+			var moment_end = moment(obj.data.dtend.date, 'YYYY-MM-DD');
+
+			var midnight = new Date('2000-01-01 00:00');
+			if (obj.data.dtstart.type === 'date') {
+				angular.element('#fromtime').timepicker('setTime', midnight);
+			} else {
+				var fromTime = new Date('2000-01-01 ' + obj.data.dtstart.time);
+				angular.element('#fromtime').timepicker('setTime', fromTime);
+			}
+
+			if (obj.data.dtend.type === 'date') {
+				moment_end.subtract(1, 'days');
+				angular.element('#totime').timepicker('setTime', midnight);
+			} else {
+				var toTime = new Date('2000-01-01 ' + obj.data.dtend.time);
+				angular.element('#totime').timepicker('setTime', toTime);
+			}
+
+			angular.element('#from').datepicker('setDate', moment_start.toDate());
+			angular.element('#to').datepicker('setDate', moment_end.toDate());
+
 			DialogModel.initbig('#events');
 			DialogModel.open('#events');
 		});
 
 		// TODO: If this can be taken to Model better do that.
+		var localeData = moment.localeData();
+
+		// TODO: revaluate current solution:
+		// moment.js and the datepicker use different formats to format a date.
+		// therefore we have to do some conversion-black-magic to make the moment.js
+		// local formats work with the datepicker.
+		// THIS HAS TO BE TESTED VERY CAREFULLY
+		// WE NEED A SHORT UNIT TEST IDEALLY FOR ALL LANGUAGES SUPPORTED
+		// maybe move setting the date format into a try catch block
 		angular.element('#from').datepicker({
-			dateFormat : 'dd-mm-yy'
+			dateFormat : localeData.longDateFormat('L').toLowerCase().replace('yy', 'y').replace('yyy', 'yy'),
+			monthNames: moment.months(),
+			monthNamesShort: moment.monthsShort(),
+			dayNames: moment.weekdays(),
+			dayNamesMin: moment.weekdaysMin(),
+			dayNamesShort: moment.weekdaysShort(),
+			firstDay: localeData.firstDayOfWeek(),
+			minDate: null
+		});
+		angular.element('#to').datepicker({
+			dateFormat : localeData.longDateFormat('L').toLowerCase().replace('yy', 'y').replace('yyy', 'yy'),
+			monthNames: moment.months(),
+			monthNamesShort: moment.monthsShort(),
+			dayNames: moment.weekdays(),
+			dayNamesMin: moment.weekdaysMin(),
+			dayNamesShort: moment.weekdaysShort(),
+			firstDay: localeData.firstDayOfWeek(),
+			minDate: null
 		});
 
-		angular.element('#to').datepicker({
-			dateFormat : 'dd-mm-yy'
+		angular.element('#fromtime').timepicker({
+			showPeriodLabels: false,
+			showLeadingZero: true,
+			showPeriod: (localeData.longDateFormat('LT').toLowerCase().indexOf('a') !== -1)
+		});
+		angular.element('#totime').timepicker({
+			showPeriodLabels: false,
+			showLeadingZero: true,
+			showPeriod: (localeData.longDateFormat('LT').toLowerCase().indexOf('a') !== -1)
 		});
 
 		angular.element('#absolutreminderdate').datepicker({
 			dateFormat : 'dd-mm-yy'
-		});
-		angular.element('#fromtime').timepicker({
-			showPeriodLabels: false
-		});
-		angular.element('#totime').timepicker({
-			showPeriodLabels: false
 		});
 		angular.element('#absolutremindertime').timepicker({
 			showPeriodLabels: false
 		});
 
 		$templateCache.put('event.info.html', function () {
-			console.log('yolo');
 			angular.element('#from').datepicker({
 				dateFormat : 'dd-mm-yy'
 			});
@@ -1493,6 +1607,7 @@ app.factory('eventEditorHelper', function () {
 		-1 * 5 * 60,
 		-1 * 10 * 60,
 		-1 * 15 * 60,
+		-1 * 30 * 60,
 		-1 * 60 * 60,
 		-1 * 2 * 60 * 60
 	];
@@ -1502,7 +1617,7 @@ app.factory('eventEditorHelper', function () {
 	 */
 	function prepareAlarm(alarm) {
 		alarm.editor = {};
-		alarm.editor.reminderSelectValue = (alarmDropdownValues.indexOf(alarm.trigger.value) !== -1) ? alarm.trigger.value : 'custom';
+		alarm.editor.reminderSelectValue = (alarmDropdownValues.indexOf(alarm.trigger.value) !== -1) ? alarm.trigger.value.toString() : 'custom';
 
 		alarm.editor.triggerType = (alarm.trigger.type === 'duration') ? 'relative' : 'absolute';
 		if (alarm.editor.triggerType === 'relative') {
@@ -1521,11 +1636,12 @@ app.factory('eventEditorHelper', function () {
 				triggerValue /= alarmFactors[i];
 			}
 
+			alarm.editor.triggerTimeUnit = alarm.editor.triggerTimeUnit.toString();
 			alarm.editor.triggerValue = triggerValue;
 		} else {
-			alarm.editor.triggerValue = 15;
+			alarm.editor.triggerValue = 0;
 			alarm.editor.triggerBeforeAfter = -1;
-			alarm.editor.triggerTimeUnit = 60;
+			alarm.editor.triggerTimeUnit = 1;
 		}
 
 		if (alarm.editor.triggerType === 'absolute') {
@@ -1563,18 +1679,19 @@ app.factory('eventEditorHelper', function () {
 	}
 
 	return {
+		prepareAlarm: prepareAlarm,
 		prepareProperties: function(simpleData) {
 			if(Object.getOwnPropertyNames(simpleData).length !== 0) {
 				if (simpleData.calendar !== '') {
 					//prepare alarms
-					angular.forEach(simpleData.alarms, function(value, key) {
-						var alarm = simpleData.alarms[key];
+					angular.forEach(simpleData.alarm, function(value, key) {
+						var alarm = simpleData.alarm[key];
 						prepareAlarm(alarm);
 					});
 
 					//prepare attendees
-					angular.forEach(simpleData.attendees, function(value, key) {
-						var attendee = simpleData.attendees[key];
+					angular.forEach(simpleData.attendee, function(value, key) {
+						var attendee = simpleData.attendee[key];
 						prepareAttendee(attendee);
 					});
 				}
@@ -1970,102 +2087,278 @@ app.factory('objectConverter', function () {
 	'use strict';
 
 	/**
+	 * structure of simple data
+	 */
+	var defaults = {
+		'summary': null,
+		'x-oc-calid': null,
+		'location': null,
+		'created': null,
+		'last-modified': null,
+		'organizer': null,
+		'x-oc-cruds': null,
+		'class': null,
+		'description': null,
+		'url': null,
+		'status': null,
+		'resources': null,
+		'alarm': null,
+		'attendee': null,
+		'categories': null,
+		'dtstart': null,
+		'dtend': null,
+		'repeating': null,
+		'rdate': null,
+		'rrule': null,
+		'exdate': null
+	};
+
+	var attendeeParameters = [
+		'role',
+		'rvsp',
+		'partstat',
+		'cutype',
+		'cn',
+		'delegated-from',
+		'delegated-to'
+	];
+
+	/**
 	 * parsers of supported properties
 	 */
 	var simpleParser = {
-		date: function(data, vevent, multiple, key, propName) {
-			var prop;
-
-			if (multiple) {
-				simpleParser._createArray(data, key);
-
-				var properties = vevent.getAllProperties(propName);
-				var id = 0;
-				var group = 0;
-				for (prop in properties) {
-					prop = properties[prop];
-					if (!prop) {
+		date: function(data, vevent, key, parameters) {
+			parameters = (parameters || []).concat(['tzid']);
+			simpleParser._parseSingle(data, vevent, key, parameters, function(p) {
+				return (p.type === 'duration') ?
+						p.getFirstValue().toSeconds() :
+						p.getFirstValue().toJSDate();
+			});
+		},
+		dates: function(data, vevent, key, parameters) {
+			parameters = (parameters || []).concat(['tzid']);
+			simpleParser._parseMultiple(data, vevent, key, parameters, function(p) {
+				var values = p.getValues(),
+					usableValues = [];
+				for (var vKey in values) {
+					if (!values.hasOwnProperty(vKey)) {
 						continue;
 					}
 
-					var values = prop.getValues();
-					for (var value in values) {
-						value = values[value];
-						if (prop.type === 'duration') {
-							data[key].push({
-								'id': id,
-								'group': group,
-								'type': prop.type,
-								'value': value.toSeconds()
-							});
-						} else {
-							data[key].push({
-								'id': id,
-								'group': group,
-								'type': prop.type,
-								'value': value.toJSDate()
-							});
+					usableValues.push(
+						(p.type === 'duration') ?
+							values[vKey].toSeconds() :
+							values[vKey].toJSDate()
+					);
+				}
+
+				return usableValues;
+			});
+		},
+		string: function(data, vevent, key, parameters) {
+			simpleParser._parseSingle(data, vevent, key, parameters, function(p) {
+				return p.isMultiValue ? p.getValues() : p.getFirstValue();
+			});
+		},
+		strings: function(data, vevent, key, parameters) {
+			simpleParser._parseMultiple(data, vevent, key, parameters, function(p) {
+				return p.isMultiValue ? p.getValues() : p.getFirstValue();
+			});
+		},
+		_parseSingle: function(data, vevent, key, parameters, valueParser) {
+			var prop = vevent.getFirstProperty(key);
+			if (!prop) {
+				return;
+			}
+
+			data[key] = {
+				parameters: simpleParser._parseParameters(prop, parameters),
+				type: prop.type
+			};
+
+			if (prop.isMultiValue) {
+				angular.extend(data[key], {
+					values: valueParser(prop)
+				});
+			} else {
+				angular.extend(data[key], {
+					value: valueParser(prop)
+				});
+			}
+		},
+		_parseMultiple: function(data, vevent, key, parameters, valueParser) {
+			data[key] = data[key] || [];
+
+			var properties = vevent.getAllProperties(key),
+					group = 0;
+
+			for (var pKey in properties) {
+				if (!properties.hasOwnProperty(pKey)) {
+					continue;
+				}
+
+				var values = valueParser(properties[pKey]);
+				var currentElement = {
+					group: group,
+					parameters: simpleParser._parseParameters(properties[pKey], parameters),
+					type: properties[pKey].type,
+					values: values
+				};
+
+				if (properties[pKey].isMultiValue) {
+					angular.extend(currentElement, {
+						values: valueParser(properties[pKey])
+					});
+				} else {
+					angular.extend(currentElement, {
+						value: valueParser(properties[pKey])
+					});
+				}
+
+				data[key].push(currentElement);
+				properties[pKey].setParameter('x-oc-group-id', group.toString());
+				group++;
+			}
+		},
+		_parseParameters: function(prop, para) {
+			var parameters = {};
+
+			if (!para) {
+				return parameters;
+			}
+
+			for (var i=0,l=para.length; i < l; i++) {
+				parameters[para[i]] = prop.getParameter(para[i]);
+			}
+
+			return parameters;
+		}
+	};
+
+	var simpleReader = {
+		date: function(vevent, oldSimpleData, newSimpleData, key, parameters) {
+			parameters = (parameters || []).concat(['tzid']);
+			simpleReader._readSingle(vevent, oldSimpleData, newSimpleData, key, parameters, function(v, isMultiValue) {
+				if (v.type === 'duration') {
+					return ICAL.Duration.fromSeconds(v.value);
+				} else {
+					return ICAL.Time.fromJSDate(v.value);
+				}
+			});
+		},
+		dates: function(vevent, oldSimpleData, newSimpleData, key, parameters) {
+			parameters = (parameters || []).concat(['tzid']);
+			simpleReader._readMultiple(vevent, oldSimpleData, newSimpleData, key, parameters, function(v, isMultiValue) {
+				var values = [];
+
+				for (var i=0, length=v.values.length; i < length; i++) {
+					if (v.type === 'duration') {
+						values.push(ICAL.Duration.fromSeconds(v.values[i]));
+					} else {
+						values.push(ICAL.Time.fromJSDate(v.values[i]));
+					}
+				}
+
+				return values;
+			});
+		},
+		string: function(vevent, oldSimpleData, newSimpleData, key, parameters) {
+			simpleReader._readSingle(vevent, oldSimpleData, newSimpleData, key, parameters, function(v, isMultiValue) {
+				return isMultiValue ? v.values : v.value;
+			});
+		},
+		strings: function(vevent, oldSimpleData, newSimpleData, key, parameters) {
+			simpleReader._readMultiple(vevent, oldSimpleData, newSimpleData, key, parameters, function(v, isMultiValue) {
+				return isMultiValue ? v.values : v.value;
+			});
+		},
+		_readSingle: function(vevent, oldSimpleData, newSimpleData, key, parameters, valueReader) {
+			if (!newSimpleData[key]) {
+				return;
+			}
+			if (!newSimpleData[key].hasOwnProperty('value') && !newSimpleData[key].hasOwnProperty('values')) {
+				return;
+			}
+			var isMultiValue = newSimpleData[key].hasOwnProperty('values');
+
+			var prop = vevent.updatePropertyWithValue(key, valueReader(newSimpleData[key], isMultiValue));
+			simpleReader._readParameters(prop, newSimpleData[key], parameters);
+		},
+		_readMultiple: function(vevent, oldSimpleData, newSimpleData, key, parameters, valueReader) {
+			var oldGroups=[], properties=null, pKey=null, groupId;
+
+			oldSimpleData[key] = oldSimpleData[key] || [];
+			for (var i=0, oldLength=oldSimpleData[key].length; i < oldLength; i++) {
+				oldGroups.push(oldSimpleData[key][i].group);
+			}
+
+			newSimpleData[key] = newSimpleData[key] || [];
+			for (var j=0, newLength=newSimpleData[key].length; j < newLength; j++) {
+				var isMultiValue = newSimpleData[key][j].hasOwnProperty('values');
+				var value = valueReader(newSimpleData[key][j], isMultiValue);
+
+				if (oldGroups.indexOf(newSimpleData[key][j].group) === -1) {
+					var property = new ICAL.Property(key);
+					simpleReader._setProperty(property, value, isMultiValue);
+					simpleReader._readParameters(property, newSimpleData[key][j], parameters);
+					vevent.addProperty(property);
+				} else {
+					oldGroups.splice(oldGroups.indexOf(newSimpleData[key][j].group), 1);
+
+					properties = vevent.getAllProperties(key);
+					for (pKey in properties) {
+						if (!properties.hasOwnProperty(pKey)) {
+							continue;
+						}
+
+						groupId = properties[pKey].getParameter('x-oc-group-id');
+						if (groupId === null) {
+							continue;
+						}
+						if (groupId === newSimpleData[key][j].group) {
+							simpleReader._setProperty(properties[pKey], value, isMultiValue);
+							simpleReader._readParameters(properties[pKey], newSimpleData[key][j], parameters);
 						}
 					}
-					id = 0;
-					group++;
 				}
-			} else {
-				prop = vevent.getFirstProperty(propName);
+			}
 
-				if (prop) {
-					if (prop.type === 'duration') {
-						data[key] = {
-							type: prop.type,
-							value: prop.getFirstValue().toSeconds()
-						};
-					} else {
-						data[key] = {
-							type: prop.type,
-							value: prop.getFirstValue().toJSDate()
-						};
-					}
+			properties = vevent.getAllProperties(key);
+			for (pKey in properties) {
+				if (!properties.hasOwnProperty(pKey)) {
+					continue;
+				}
+
+				groupId = properties[pKey].getParameter('x-oc-group-id');
+				if (groupId === null) {
+					continue;
+				}
+				if (oldGroups.indexOf(groupId) !== -1) {
+					delete properties[pKey];
 				}
 			}
 		},
-		string: function(data, vevent, multiple, key, propName) {
-			var prop;
+		_readParameters: function(prop, simple, para) {
+			if (!para) {
+				return;
+			}
+			if (!simple.parameters) {
+				return;
+			}
 
-			if (multiple) {
-				simpleParser._createArray(data, key);
-
-				var properties = vevent.getAllProperties(propName);
-				var id = 0;
-				var group = 0;
-				for (prop in properties) {
-					prop = properties[prop];
-					var values = prop.getValues();
-					for (var value in values) {
-						value = values[value];
-						data[key].push({
-							id: id,
-							group: group,
-							type: prop.type,
-							value: value
-						});
-						id++;
-					}
-					id = 0;
-					group++;
-				}
-			} else {
-				prop = vevent.getFirstProperty(propName);
-				if (prop) {
-					data[key] = {
-						type: prop.type,
-						value: prop.getFirstValue()
-					};
+			for (var i=0,l=para.length; i < l; i++) {
+				if (simple.parameters[para[i]]) {
+					prop.setParameter(para[i], simple.parameters[para[i]]);
+				} else {
+					prop.removeParameter(simple.parameters[para[i]]);
 				}
 			}
 		},
-		_createArray: function(data, key) {
-			if (!Array.isArray(data[key])) {
-				data[key] = [];
+		_setProperty: function(prop, value, isMultiValue) {
+			if (isMultiValue) {
+				prop.setValues(value);
+			} else {
+				prop.setValue(value);
 			}
 		}
 	};
@@ -2075,49 +2368,74 @@ app.factory('objectConverter', function () {
 	 */
 	var simpleProperties = {
 		//General
-		summary: {jName: 'summary', multiple: false, parser: simpleParser.string},
-		calendarid: {jName: 'x-oc-calid', multiple: false, parser: simpleParser.string},
-		location: {jName: 'location', multiple: false, parser: simpleParser.string},
-		created: {jName: 'created', multiple: false, parser: simpleParser.date},
-		lastModified: {jName: 'last-modified', multiple: false, parser: simpleParser.date},
+		'summary': {parser: simpleParser.string, reader: simpleReader.string},
+		'x-oc-calid': {parser: simpleParser.string, reader: simpleReader.string},
+		'location': {parser: simpleParser.string, reader: simpleReader.string},
+		'created': {parser: simpleParser.date, reader: simpleReader.date},
+		'last-modified': {parser: simpleParser.date, reader: simpleReader.date},
+		'categories': {parser: simpleParser.strings, reader: simpleReader.strings},
 		//attendees
-		organizer: {jName: 'organizer', multiple: false, parser: simpleParser.string},
+		'attendee': {parser: simpleParser.strings, reader: simpleReader.strings, parameters: attendeeParameters},
+		'organizer': {parser: simpleParser.string, reader: simpleReader.string},
 		//sharing
-		permission: {jName: 'x-oc-cruds', multiple: false, parser: simpleParser.string},
-		privacyClass: {jName: 'class', multiple: false, parser: simpleParser.string},
+		'x-oc-cruds': {parser: simpleParser.string, reader: simpleReader.string},
+		'class': {parser: simpleParser.string, reader: simpleReader.string},
 		//other
-		description: {jName: 'description', multiple: false, parser: simpleParser.string},
-		url: {jName: 'url', multiple: false, parser: simpleParser.string},
-		status: {jName: 'status', multiple: false, parser: simpleParser.string},
-		resources: {jName: 'resources', multiple: true, parser: simpleParser.string}
+		'description': {parser: simpleParser.string, reader: simpleReader.string},
+		'url': {parser: simpleParser.string, reader: simpleReader.string},
+		'status': {parser: simpleParser.string, reader: simpleReader.string},
+		'resources': {parser: simpleParser.strings, reader: simpleReader.strings}
 	};
+
+	function addZero(t) {
+		if (t < 10) {
+			t = '0' + t;
+		}
+		return t;
+	}
+
+	function formatDate(d) {
+		return d.getFullYear() + '-' +
+			addZero(d.getMonth()) + '-' +
+			addZero(d.getDate());
+	}
+
+	function formatTime(d) {
+		return addZero(d.getHours()) + ':' +
+			addZero(d.getMinutes()) + ':' +
+			addZero(d.getSeconds());
+
+	}
 
 	/**
 	 * specific parsers that check only one property
 	 */
 	var specificParser = {
 		alarm: function(data, vevent) {
-			if (!Array.isArray(data.alarm)) {
-				data.alarms = [];
-			}
+			data.alarm = data.alarm || [];
 
-			var alarms = vevent.getAllSubcomponents('valarm');
-			var id;
-			for (id in alarms) {
-				var alarm = alarms[id];
+			var alarms = vevent.getAllSubcomponents('valarm'),
+				group = 0;
+			for (var key in alarms) {
+				if (!alarms.hasOwnProperty(key)) {
+					continue;
+				}
+
+				var alarm = alarms[key];
 				var alarmData = {
-					id: id,
+					group: group,
 					action: {},
 					trigger: {},
 					repeat: {},
 					duration: {},
+					attendee: []
 				};
 
-				simpleParser.string(alarmData, alarm, false, 'action', 'action');
-				simpleParser.date(alarmData, alarm, false, 'trigger', 'trigger');
-				simpleParser.string(alarmData, alarm, false, 'repeat', 'repeat');
-				simpleParser.date(alarmData, alarm, false, 'duration', 'duration');
-				specificParser.attendee(alarmData, alarm);
+				simpleParser.string(alarmData, alarm, 'action');
+				simpleParser.date(alarmData, alarm, 'trigger');
+				simpleParser.string(alarmData, alarm, 'repeat');
+				simpleParser.string(alarmData, alarm, 'duration');
+				simpleParser.strings(alarmData, alarm, 'attendee', attendeeParameters);
 
 				if (alarm.hasProperty('trigger')) {
 					var trigger = alarm.getFirstProperty('trigger');
@@ -2129,50 +2447,12 @@ app.factory('objectConverter', function () {
 					}
 				}
 
-				data.alarms.push(alarmData);
-			}
-		},
-		attendee: function(data, vevent) {
-			simpleParser._createArray(data, 'attendees');
+				data.alarm.push(alarmData);
 
-			var attendees = vevent.getAllProperties('attendee');
-			var id;
-			for (id in attendees) {
-				var attendee = attendees[id];
-				data.attendees.push({
-					id: id,
-					type: attendee.type,
-					value: attendee.getFirstValue(),
-					props: {
-						role: attendee.getParameter('role'),
-						rvsp: attendee.getParameter('rvsp'),
-						partstat: attendee.getParameter('partstat'),
-						cutype: attendee.getParameter('cutype'),
-						sentmail: attendee.getParameter('x-oc-sentmail')
-					}
-				});
-			}
-		},
-		categories: function(data, vevent) {
-			simpleParser._createArray(data, 'categories');
-
-			var categories = vevent.getAllProperties('categories');
-			var id = 0;
-			var group = 0;
-/*			for (var category in categories) {
-				var values = category.getValues();
-				for (var value in values) {
-					data.attendees.push({
-						id: id,
-						group: group,
-						type: category.type,
-						value: value
-					});
-					id++;
-				}
-				id = 0;
+				alarm.getFirstProperty('action')
+					.setParameter('x-oc-group-id', group.toString());
 				group++;
-			}*/
+			}
 		},
 		date: function(data, vevent) {
 			var dtstart = vevent.getFirstPropertyValue('dtstart');
@@ -2187,92 +2467,217 @@ app.factory('objectConverter', function () {
 				dtend = dtstart.clone();
 			}
 
-			data.start = {
+			data.dtstart = {
+				date: formatDate(dtstart.toJSDate()),
+				time: formatTime(dtstart.toJSDate()),
 				type: dtstart.icaltype,
-				value: dtstart.toJSDate
+				zone: dtstart.zone.toString()
 			};
-			data.startzone = {
-				type: 'string',
-				value: dtstart.zone
-			};
-			data.end = {
+			data.dtend = {
+				date: formatDate(dtend.toJSDate()),
+				time: formatTime(dtend.toJSDate()),
 				type: dtend.icaltype,
-				value: dtend.toJSDate
-			};
-			data.endzone = {
-				type: 'string',
-				value: dtend.zone
+				zone: dtend.zone.toString()
 			};
 			data.allDay = (dtstart.icaltype === 'date' && dtend.icaltype === 'date');
-		},
-		geo: function(data, vevent) {
-			/*
-			ICAL.js issue here - need to report bug or even better send a pr
-			var value = vevent.getFirstPropertyValue('geo');
-			var parts = value.split(';');
-
-			data.geo = {
-				lat: parts[0],
-				long: parts[1]
-			};*/
 		},
 		repeating: function(data, vevent) {
 			var iCalEvent = new ICAL.Event(vevent);
 
 			data.repeating = iCalEvent.isRecurring();
-			simpleParser.date(data, vevent, true, 'rdate', 'rdate');
-			simpleParser.string(data, vevent, true, 'rrule', 'rrule');
+			simpleParser.dates(data, vevent, 'rdate');
+			simpleParser.string(data, vevent, 'rrule');
 
-			simpleParser.date(data, vevent, true, 'exdate', 'exdate');
-			simpleParser.string(data, vevent, true, 'exrule', 'exrule');
+			simpleParser.dates(data, vevent, 'exdate');
 		}
 	};
 
-	//public functions
-	/**
-	 * parse and expand jCal data to simple structure
-	 * @param vevent object to be parsed
-	 * @returns {{}}
-	 */
-	var parse = function(vevent) {
-		var data = {};
+	var specificReader = {
+		alarm: function(vevent, oldSimpleData, newSimpleData) {
+			var oldGroups=[], components=null, cKey=null, groupId, key='alarm';
 
-		for (var parser in specificParser) {
-			if (!specificParser.hasOwnProperty(parser)) {
-				continue;
+			oldSimpleData[key] = oldSimpleData[key] || [];
+			for (var i=0, oldLength=oldSimpleData[key].length; i < oldLength; i++) {
+				oldGroups.push(oldSimpleData[key][i].group);
 			}
 
-			specificParser[parser](data, vevent);
+			newSimpleData[key] = newSimpleData[key] || [];
+			for (var j=0, newLength=newSimpleData[key].length; j < newLength; j++) {
+				var valarm;
+				if (oldGroups.indexOf(newSimpleData[key][j].group) === -1) {
+					valarm = new ICAL.Component('VALARM');
+					vevent.addSubcomponent(valarm);
+				} else {
+					oldGroups.splice(oldGroups.indexOf(newSimpleData[key][j].group), 1);
+
+
+					components = vevent.getAllSubcomponents('VALARM');
+					for (cKey in components) {
+						if (!components.hasOwnProperty(cKey)) {
+							continue;
+						}
+
+						groupId = components[cKey].getFirstProperty('action').getParameter('x-oc-group-id');
+						if (groupId === null) {
+							continue;
+						}
+						if (groupId === newSimpleData[key][j].group) {
+							valarm = components[cKey];
+						}
+					}
+				}
+
+				simpleReader.string(valarm, {}, newSimpleData[key][j], 'action', []);
+				simpleReader.date(valarm, {}, newSimpleData[key][j], 'trigger', []);
+				simpleReader.string(valarm, {}, newSimpleData[key][j], 'repeat', []);
+				simpleReader.string(valarm, {}, newSimpleData[key][j], 'duration', []);
+				simpleReader.strings(valarm, {}, newSimpleData[key][j], 'attendee', attendeeParameters);
+			}
+		},
+		date: function(vevent, oldSimpleData, newSimpleData) {
+			delete vevent.dstart;
+			delete vevent.dtend;
+			delete vevent.duration;
+
+			var parseIntWrapper = function(str) {
+				return parseInt(str);
+			};
+
+			if (!ICAL.TimezoneService.has(newSimpleData.dtstart.zone)) {
+				throw {
+					kind: 'timezone_missing',
+					missing_timezone: newSimpleData.dtstart.zone
+				};
+			}
+			if (!ICAL.TimezoneService.has(newSimpleData.dtend.zone)) {
+				throw {
+					kind: 'timezone_missing',
+					missing_timezone: newSimpleData.dtend.zone
+				};
+			}
+
+			var dtstartDateParts = newSimpleData.dtstart.date.split('-').map(parseIntWrapper);
+			var dtstartTimeParts = newSimpleData.dtstart.time.split(':').map(parseIntWrapper);
+			var dtstartTz = ICAL.TimezoneService.get(newSimpleData.dtstart.zone);
+			var start = new ICAL.Time({
+				year: dtstartDateParts[0],
+				month: dtstartDateParts[1],
+				day: dtstartDateParts[2],
+				hour: dtstartTimeParts[0],
+				minute: dtstartTimeParts[1],
+				second: dtstartTimeParts[2],
+				isDate: newSimpleData.allDay
+			}, dtstartTz);
+
+			var dtendDateParts = newSimpleData.dtend.date.split('-').map(parseIntWrapper);
+			var dtendTimeParts = newSimpleData.dtend.time.split(':').map(parseIntWrapper);
+			var dtendTz = ICAL.TimezoneService.get(newSimpleData.dtend.zone);
+			var end = new ICAL.Time({
+				year: dtendDateParts[0],
+				month: dtendDateParts[1],
+				day: dtendDateParts[2],
+				hour: dtendTimeParts[0],
+				minute: dtendTimeParts[1],
+				second: dtendTimeParts[2],
+				isDate: newSimpleData.allDay
+			}, dtendTz);
+
+			var dtstart = new ICAL.Property('dtstart', vevent);
+			dtstart.setValue(start);
+			dtstart.setParameter('tzid', dtstartTz.tzid);
+			var dtend = new ICAL.Property('dtend', vevent);
+			dtend.setValue(end);
+			dtend.setParameter('tzid', dtendTz.tzid);
+
+			vevent.addProperty(dtstart);
+			vevent.addProperty(dtend);
+		},
+		repeating: function(vevent, oldSimpleData, newSimpleData) {
+			// We won't support exrule, because it's deprecated and barely used in the wild
+			if (newSimpleData.repeating === false) {
+				delete vevent.rdate;
+				delete vevent.rrule;
+				delete vevent.exdate;
+
+				return;
+			}
+
+			simpleReader.dates(vevent, oldSimpleData, newSimpleData, 'rdate');
+			simpleReader.string(vevent, oldSimpleData, newSimpleData, 'rrule');
+			simpleReader.dates(vevent, oldSimpleData, newSimpleData, 'exdate');
 		}
-
-		for (var key in simpleProperties) {
-			if (!simpleProperties.hasOwnProperty(key)) {
-				continue;
-			}
-
-			var prop = simpleProperties[key];
-			if (vevent.hasProperty(prop.jName)) {
-				prop.parser(data, vevent, prop.multiple, key, prop.jName);
-			}
-		}
-
-		return data;
-	};
-
-
-	/**
-	 * patch vevent with data from event editor
-	 * @param vevent object to update
-	 * @param data patched data
-	 * @returns {*}
-	 */
-	var patch = function(vevent, data) {
-		//TO BE IMPLEMENTED
 	};
 
 	return {
-		parse: parse,
-		patch: patch
+		/**
+		 * parse and expand jCal data to simple structure
+		 * @param vevent object to be parsed
+		 * @returns {{}}
+		 */
+		parse: function(vevent) {
+			var data=angular.extend({}, defaults), parser, parameters;
+
+			for (parser in specificParser) {
+				if (!specificParser.hasOwnProperty(parser)) {
+					continue;
+				}
+
+				specificParser[parser](data, vevent);
+			}
+
+			for (var key in simpleProperties) {
+				if (!simpleProperties.hasOwnProperty(key)) {
+					continue;
+				}
+
+				parser = simpleProperties[key].parser;
+				parameters = simpleProperties[key].parameters;
+				if (vevent.hasProperty(key)) {
+					parser(data, vevent, key, parameters);
+				}
+			}
+
+			return data;
+		},
+
+		/**
+		 * patch vevent with data from event editor
+		 * @param vevent object to update
+		 * @param oldSimpleData
+		 * @param newSimpleData
+		 * @returns {*}
+		 */
+		patch: function(vevent, oldSimpleData, newSimpleData) {
+			var key, reader, parameters;
+
+			oldSimpleData = angular.extend({}, defaults, oldSimpleData);
+			newSimpleData = angular.extend({}, defaults, newSimpleData);
+
+			for (key in simpleProperties) {
+				if (!simpleProperties.hasOwnProperty(key)) {
+					continue;
+				}
+
+				reader = simpleProperties[key].reader;
+				parameters = simpleProperties[key].parameters;
+				if (oldSimpleData[key] !== newSimpleData[key]) {
+					if (newSimpleData === null) {
+						delete vevent[key];
+					} else {
+						reader(vevent, oldSimpleData, newSimpleData, key, parameters);
+					}
+				}
+			}
+
+			for (key in specificReader) {
+				if (!specificReader.hasOwnProperty(key)) {
+					continue;
+				}
+
+				reader = specificReader[key];
+				reader(vevent, oldSimpleData, newSimpleData);
+			}
+		}
 	};
 });
 
