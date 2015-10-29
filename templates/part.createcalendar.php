@@ -28,14 +28,7 @@
 
 	<div
 		class="new-entity"
-		oc-click-slide-toggle="{
-			selector: '.add-new',
-			hideOnFocusLost: true,
-			cssClass: 'opened'
-		}"
-		oc-click-focus="{
-			selector: '.add-new input[ng-model=newCalendarInputVal]'
-		}">
+		data-apps-slide-toggle=".add-new">
 		<span class="new-entity-title"><?php p($l->t('New Calendar')); ?></span>
 	</div>
 
