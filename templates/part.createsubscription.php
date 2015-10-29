@@ -28,14 +28,7 @@
 
 	<div
 		class="new-entity"
-		oc-click-slide-toggle="{
-			selector: '.add-new-subscription',
-			hideOnFocusLost: true,
-			cssClass: 'opened'
-		}"
-		oc-click-focus="{
-			selector: '.add-new-subscription input[ng-model=newSubscriptionUrl]'
-		}">
+		data-apps-slide-toggle=".add-new-subscription">
 		<span class="new-entity-title"><?php p($l->t('New Subscription')); ?></span>
 	</div>
 

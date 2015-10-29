@@ -26,7 +26,6 @@
 */
 
 var app = angular.module('Calendar', [
-	'OC',
 	'restangular',
 	'ngRoute',
 	'ui.bootstrap',

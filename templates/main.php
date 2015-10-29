@@ -49,7 +49,6 @@ $scripts = [
 	'../3rdparty/angular-ui/angular-ui',
 	'../3rdparty/angular-ui/angular-ui-calendar',
 	'../3rdparty/angular-ui/angular-ui-sortable',
-	'../3rdparty/appframework/app',
 	'public/app',
 ];
 
