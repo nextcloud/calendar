@@ -27,11 +27,7 @@
 <div id="app-settings-header">
 	<button name="app settings"
 		class="settings-button"
-		oc-click-slide-toggle="{
-			selector : '#app-settings-content',
-			hideOnFocusLost: true,
-			cssClass: 'opened'
-		}">
+		data-apps-slide-toggle="#app-settings-content">
 	</button>
 </div>
 
