@@ -555,13 +555,13 @@ app.controller('EventsModalController', ['$scope', '$rootScope', '$routeParams',
 		$scope.tabs = [{
 			title: 'Events Info',
 			url: 'event.info.html'
-    }, {
-      title: 'Repeating',
-      url: 'event.repeat.html'
-    }];
+	    }, {
+	      title: 'Repeating',
+	      url: 'event.repeat.html'
+	    }];
 
 		$scope.repeater = [
-			{ val: 'doesnotrepeat' , displayname: t('Calendar', 'Does nor repeat')},
+			{ val: 'doesnotrepeat' , displayname: t('Calendar', 'Does not repeat')},
 			{ val: 'daily' , displayname: t('Calendar', 'Daily')},
 			{ val: 'weekly' , displayname: t('Calendar', 'Weekly')},
 			{ val: 'weekday' , displayname: t('Calendar', 'Every Weekday')},
@@ -572,47 +572,65 @@ app.controller('EventsModalController', ['$scope', '$rootScope', '$routeParams',
 		$scope.repeatmodel = $scope.repeater[0].val;
 
 		$scope.ender = [
-			{ value: 'never', displayname: t('Calendar','never')},
-			{ value: 'count', displayname: t('Calendar','by occurances')},
-			{ value: 'date', displayname: t('Calendar','by date')},
+			{ val: 'never', displayname: t('Calendar','never')},
+			{ val: 'count', displayname: t('Calendar','by occurances')},
+			{ val: 'date', displayname: t('Calendar','by date')},
 		];
 
 		$scope.monthdays = [
-			{ value: 'monthday', displayname: t('Calendar','by monthday')},
-			{ value: 'weekday', displayname: t('Calendar','by weekday')}
+			{ val: 'monthday', displayname: t('Calendar','by monthday')},
+			{ val: 'weekday', displayname: t('Calendar','by weekday')}
 		];
 		$scope.monthdaymodel = $scope.monthdays[0].val;
 
 		$scope.years = [
-			{ value: 'bydate', displayname: t('Calendar','by events date')},
-			{ value: 'byyearday', displayname: t('Calendar','by yearday(s)')},
-			{ value: 'byweekno', displayname: t('Calendar','by week no(s)')},
-			{ value: 'bydaymonth', displayname: t('Calendar','by day and month')}
+			{ val: 'bydate', displayname: t('Calendar','by events date')},
+			{ val: 'byyearday', displayname: t('Calendar','by yearday(s)')},
+			{ val: 'byweekno', displayname: t('Calendar','by week no(s)')},
+			{ val: 'bydaymonth', displayname: t('Calendar','by day and month')}
+		];
+
+		$scope.weeks = [
+			{ val: 'mon', displayname: t('Calendar','Monday')},
+			{ val: 'tue', displayname: t('Calendar','Tuesday')},
+			{ val: 'wed', displayname: t('Calendar','Wednesday')},
+			{ val: 'thu', displayname: t('Calendar','Thursday')},
+			{ val: 'fri', displayname: t('Calendar','Friday')},
+			{ val: 'sat', displayname: t('Calendar','Saturday')},
+			{ val: 'sun', displayname: t('Calendar','Sunday')}
 		];
 
 		$scope.changerepeater = function (repeat) {
 			if (repeat.val === 'monthly') {
-				$scope.yearly = true;
 				$scope.monthday = false;
+				$scope.yearly = true;
+				$scope.weekly = true;
 			} else if (repeat.val === 'yearly') {
-				$scope.monthday = true;
 				$scope.yearly = false;
+				$scope.monthday = true;
+				$scope.weekly = true;
+			} else if (repeat.val === 'weekly') {
+				$scope.weekly = false;
+				$scope.monthday = true;
+				$scope.yearly = true;
+			} else {
+				$scope.weekly = true;
+				$scope.monthday = true;
+				$scope.yearly = true;
 			}
 		};
 
-		$scope.changemonthday = function (y) {
-			console.log(y);
-		};
-
+		DialogModel.multiselect('#weeklyselect');
+		
 		$scope.currentTab = 'event.info.html';
 
-    $scope.onClickTab = function (tab) {
-        $scope.currentTab = tab.url;
-    };
+	    $scope.onClickTab = function (tab) {
+	        $scope.currentTab = tab.url;
+	    };
 
-    $scope.isActiveTab = function(tabUrl) {
-        return tabUrl === $scope.currentTab;
-    };
+	    $scope.isActiveTab = function(tabUrl) {
+	        return tabUrl === $scope.currentTab;
+	    };
 
 		window.showProps = function() {
 			return $scope.properties;
@@ -1481,6 +1499,20 @@ app.factory('DialogModel', function() {
 		},
 		close: function (elementId) {
 			$(elementId).dialog('close');
+		},
+		multiselect: function (elementId) {
+			this.checked = [];
+			$(elementId).multiSelect({
+				minWidth: 300,
+				createCallback: false,
+				createText: false,
+				singleSelect: false,
+				checked: this.checked,
+				labels:[]
+			});
+		},
+		checkedarraymultiselect : function () {
+			return this.checked;
 		}
 	};
 });

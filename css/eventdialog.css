@@ -85,3 +85,9 @@
 .ui-timepicker-minute-cell a {
   text-overflow: inherit !important;
 }
+
+#events .label {
+  width: 100px;
+  float: left;
+  margin: 10px;
+}

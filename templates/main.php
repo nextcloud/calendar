@@ -25,6 +25,7 @@ $styles = [
 	'../3rdparty/fontawesome/css/font-awesome',
 	'../3rdparty/fullcalendar/dist/fullcalendar',
 	'../3rdparty/jquery-timepicker/jquery.ui.timepicker',
+	'../../../core/css/multiselect',
 	'globals',
 	'calendar',
 	'calendarlist',
@@ -49,7 +50,8 @@ $scripts = [
 	'../3rdparty/angular-ui/angular-ui',
 	'../3rdparty/angular-ui/angular-ui-calendar',
 	'../3rdparty/angular-ui/angular-ui-sortable',
-	'public/app',
+	'../../../core/js/multiselect',
+	'public/app'
 ];
 
 foreach ($scripts as $script) {

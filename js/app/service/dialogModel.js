@@ -57,6 +57,20 @@ app.factory('DialogModel', function() {
 		},
 		close: function (elementId) {
 			$(elementId).dialog('close');
+		},
+		multiselect: function (elementId) {
+			this.checked = [];
+			$(elementId).multiSelect({
+				minWidth: 300,
+				createCallback: false,
+				createText: false,
+				singleSelect: false,
+				checked: this.checked,
+				labels:[]
+			});
+		},
+		checkedarraymultiselect : function () {
+			return this.checked;
 		}
 	};
 });
