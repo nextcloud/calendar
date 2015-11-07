@@ -52,6 +52,14 @@
 				<?php print_unescaped($this->inc('part.eventsrepeat')); ?>
 			</script>
 
+			<script type="text/ng-template" id="event.attendees.html">
+				<?php print_unescaped($this->inc('part.eventsattendees')); ?>
+			</script>
+
+			<script type="text/ng-template" id="event.alarms.html">
+				<?php print_unescaped($this->inc('part.eventsalarms')); ?>
+			</script>
+
 		<div class="events-container">
 			<fieldset class="event-fieldset pull-left">
 				<button ng-click="delete()" class="event-button button btn">

@@ -36,10 +36,16 @@ app.controller('EventsModalController', ['$scope', '$rootScope', '$routeParams',
 		$scope.tabs = [{
 			title: 'Events Info',
 			url: 'event.info.html'
-	    }, {
-	      title: 'Repeating',
-	      url: 'event.repeat.html'
-	    }];
+		}, {
+			title: 'Repeating',
+			url: 'event.repeat.html'
+		}, {
+			title: 'Attendees',
+			url: 'event.attendees.html'
+		}, {
+			title: 'Alarms',
+			url: 'event.alarms.html'
+		}];
 
 		$scope.repeater = [
 			{ val: 'doesnotrepeat' , displayname: t('Calendar', 'Does not repeat')},
