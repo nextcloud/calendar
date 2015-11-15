@@ -92,3 +92,50 @@
   margin-top: 15px;
   margin-left: 10px;
 }
+
+input[name="nameofattendee"] {
+    width: 60%;
+}
+
+#listofattendees li {
+    width: 100%;
+    padding: 10px 0 5px 0;
+    cursor: pointer;
+}
+
+#listofattendees li:first-child {
+  margin-top:10px;
+}
+
+#listofattendees li:last-child {
+  margin-bottom:10px;
+}
+
+#listofattendees li:hover {
+  background: #f4f4f4;
+}
+
+#listofattendees li span {
+  margin-left:10px;
+}
+
+.attendeeoptions {
+  padding: 10px;
+}
+
+.attendeeoptions select {
+  margin: 10px;
+}
+
+.attendeeopt {
+  margin-top: 15px;
+}
+
+.attendeeopt label {
+  float: none !important;
+  margin-left: 0 !important;
+}
+
+.optionallabel {
+  margin-right: 15px;
+}

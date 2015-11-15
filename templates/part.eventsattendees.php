@@ -22,3 +22,53 @@
  *
  */
 ?>
+
+<fieldset class="event-fieldset event-fieldset-attendee">
+	<div class="event-fieldset-interior">
+		<label class="label"><?php p($l->t('Name')); ?></label>
+		<input type="text" class="pull-left" ng-model="nameofattendee"
+			placeholder="<?php p($l->t('Name'))?>" name="nameofattendee" autocomplete="off" />
+		<button id="addmoreattendees" ng-click="addmoreattendees()" class="btn event-button button">
+			<?php p($l->t('Add')); ?>
+		</button>
+	</div>
+
+	<div class="event-fieldset-interior">
+		<ul id="listofattendees">
+			<li>
+				<span>Raghu</span>
+				<div class="attendeeoptions">
+					<label class="label"><?php p($l->t('Type')); ?></label>
+					<select class="event-select pull-left"
+						ng-model="selectedstat"
+						ng-selected="selectedstat"
+						ng-change="changestat(selectedstat,attendee.value)"
+						ng-options="cutstat.displayname for cutstat in cutstats">
+					</select>
+					<div class="attendeeopt pull-right">
+						<input 
+							type="checkbox" class="attendeecheckbox event-checkbox"
+							value="<?php p($l->t('Optional')); ?>" 
+							ng-checked="attendornot=='optional'" ng-click="attendornot='optional'" />
+						<label class="label optionallabel"><?php p($l->t('Optional')); ?></label>
+
+						<input type="checkbox" class="attendeecheckbox event-checkbox" 
+							value="<?php p($l->t('Does not attend')); ?>" 
+							ng-checked="attendornot=='no'" ng-click="attendornot='no'" />
+						<label class="label"><?php p($l->t('Does not attend'))?></label>
+					</div>
+				</div>
+				<ul>
+					<!-- List of Emails a person has. -->
+					<li>
+						<span></span>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<span>Georg</span>
+			</li>
+		</ul>
+	</div>
+
+</fieldset>
