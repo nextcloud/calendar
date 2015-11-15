@@ -111,7 +111,7 @@ input[name="nameofattendee"] {
   margin-bottom:10px;
 }
 
-#listofattendees li:hover {
+#listofattendees li:hover, #listofattendees li.active {
   background: #f4f4f4;
 }
 

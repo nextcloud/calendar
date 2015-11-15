@@ -35,7 +35,7 @@
 
 	<div class="event-fieldset-interior">
 		<ul id="listofattendees">
-			<li>
+			<li class="active">
 				<span>Raghu</span>
 				<div class="attendeeoptions">
 					<label class="label"><?php p($l->t('Type')); ?></label>
