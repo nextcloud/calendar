@@ -94,32 +94,38 @@
 }
 
 input[name="nameofattendee"] {
-    width: 60%;
+	width: 60%;
 }
 
-#listofattendees li {
-    width: 100%;
-    padding: 10px 0 5px 0;
-    cursor: pointer;
+#listofattendees li,
+#listofalarms > li {
+	width: 100%;
+	padding: 10px 0 5px 0;
+	cursor: pointer;
 }
 
-#listofattendees li:first-child {
+#listofattendees li:first-child,
+#listofalarms > li:first-child {
   margin-top:10px;
 }
 
-#listofattendees li:last-child {
+#listofattendees li:last-child,
+#listofalarms > li:last-child {
   margin-bottom:10px;
 }
 
-#listofattendees li:hover, #listofattendees li.active {
+#listofattendees li:hover, #listofattendees li.active,
+#listofalarms > li:hover, #listofalarms > li.active {
   background: #f4f4f4;
 }
 
-#listofattendees li span {
+#listofattendees li span,
+#listofalarms > li > span {
   margin-left:10px;
 }
 
-.attendeeoptions {
+.attendeeoptions,
+.alarmoptions {
   padding: 10px;
 }
 
@@ -138,4 +144,12 @@ input[name="nameofattendee"] {
 
 .optionallabel {
   margin-right: 15px;
+}
+
+.event-fieldset-alarm .event-input {
+	width: 20% !important;
+}
+
+.event-fieldset-alarm .custom-container {
+	padding:10px 0;
 }

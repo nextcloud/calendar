@@ -35,8 +35,8 @@
 
 	<div class="event-fieldset-interior">
 		<ul id="listofattendees">
-			<li class="active">
-				<span>Raghu</span>
+			<li class="active pull-left">
+				<span class="bold">Raghu</span>
 				<div class="attendeeoptions">
 					<label class="label"><?php p($l->t('Type')); ?></label>
 					<select class="event-select pull-left"
@@ -58,15 +58,9 @@
 						<label class="label"><?php p($l->t('Does not attend'))?></label>
 					</div>
 				</div>
-				<ul>
-					<!-- List of Emails a person has. -->
-					<li>
-						<span></span>
-					</li>
-				</ul>
 			</li>
-			<li>
-				<span>Georg</span>
+			<li class="pull-left">
+				<span class="bold">Georg</span>
 			</li>
 		</ul>
 	</div>
