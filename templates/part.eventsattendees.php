@@ -28,16 +28,19 @@
 		<label class="label"><?php p($l->t('Name')); ?></label>
 		<input type="text" class="pull-left" ng-model="nameofattendee"
 			placeholder="<?php p($l->t('Name'))?>" name="nameofattendee" autocomplete="off" />
-		<button id="addmoreattendees" ng-click="addmoreattendees()" class="btn event-button button">
+		<button id="addmoreattendees" ng-click="addmoreattendees(nameofattendee)" class="btn event-button button">
 			<?php p($l->t('Add')); ?>
 		</button>
 	</div>
 
 	<div class="event-fieldset-interior">
 		<ul id="listofattendees">
-			<li class="pull-left" ng-class="{ active: attendeeoptions }">
+			<li class="pull-left" ng-class="{ active: attendeeoptions }" ng-repeat="attendee in properties.attendees">
 				<div ng-model="attendeeoptions" ng-click="attendeeoptions=!attendeeoptions">
-					<span class="bold">Raghu</span>
+					<span class="bold">{{ attendee.value }}</span>
+					<button class="event-button event-delete-button pull-right" ng-click="deleteAttendee(attendee.value)">
+						<i class="fa fa-1x fa-times"></i>
+					</button>
 				</div>
 				<div class="attendeeoptions" ng-show="attendeeoptions">
 					<label class="label"><?php p($l->t('Type')); ?></label>
@@ -60,9 +63,6 @@
 						<label class="label"><?php p($l->t('Does not attend'))?></label>
 					</div>
 				</div>
-			</li>
-			<li class="pull-left">
-				<span class="bold">{{ nameofattendee }}</span>
 			</li>
 		</ul>
 	</div>

@@ -259,11 +259,11 @@ app.controller('EventsModalController', ['$scope', '$rootScope', '$routeParams',
 			}
 		};
 
-		$scope.addmoreattendees = function () {
-			console.log($scope.nameofattendee);
-			if ($scope.nameofattendee !== '') {
+		$scope.addmoreattendees = function (val) {
+			var attendee = val;
+			if (attendee !== '') {
 				$scope.properties.attendees.push({
-					value: $scope.nameofattendee,
+					value: attendee,
 					props: {
 						'ROLE': 'REQ-PARTICIPANT',
 						'RSVP': true,
@@ -272,9 +272,19 @@ app.controller('EventsModalController', ['$scope', '$rootScope', '$routeParams',
 						'CUTTYPE': 'INDIVIDUAL'
 					}
 				});
-				$scope.nameofattendee = '';
 			}
 			$scope.attendeeoptions = false;
+		};
+
+		$scope.deleteAttendee = function (val) {
+			console.log(val);
+			for (var key in $scope.properties.attendees) {
+				console.warn();
+				if ($scope.properties.attendees[key].value === val) {
+					$scope.properties.attendees.splice(key, 1);
+					break;
+				}
+			}
 		};
 
 		/**

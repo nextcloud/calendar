@@ -159,3 +159,9 @@ input[name="nameofattendee"] {
 .event-fieldset-alarm .custom-container {
 	padding:10px 0;
 }
+
+#listofalarms .event-delete-button,
+#listofattendees .event-delete-button {
+	margin: -5px 10px;
+	z-index: 1000;
+}
