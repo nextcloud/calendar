@@ -25,9 +25,11 @@
 
 <fieldset class="event-fieldset event-fieldset-alarm">
 	<ul id="listofalarms">
-		<li ng-repeat="alarm in properties.alarms|limitTo:3" class="active">
-			<span class="bold">{{alarm | simpleReminderDescription}}</span>
-			<div class="alarmoptions">
+		<li ng-repeat="alarm in properties.alarms|limitTo:3" ng-class="{ active : reminderoptions }">
+			<div ng-model="reminderoptions" ng-click="reminderoptions=!reminderoptions">
+				<span class="bold">{{alarm | simpleReminderDescription}}</span>
+			</div>
+			<div class="reminderoptions" ng-show="reminderoptions">
 				<ul>
 					<li ng-repeat="alarm in properties.alarms">
 						<div class="event-fieldset-alarm-editor">

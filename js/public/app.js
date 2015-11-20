@@ -779,6 +779,7 @@ app.controller('EventsModalController', ['$scope', '$rootScope', '$routeParams',
 		};
 
 		$scope.addmoreattendees = function () {
+			console.log($scope.nameofattendee);
 			if ($scope.nameofattendee !== '') {
 				$scope.properties.attendees.push({
 					value: $scope.nameofattendee,

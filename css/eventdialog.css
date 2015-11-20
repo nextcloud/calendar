@@ -22,75 +22,75 @@
  */
 
 #events {
-  background: #f8f8f8;
-  padding: 0;
+	background: #f8f8f8;
+	padding: 0;
 }
 
 .events-container {
-  /*padding: 10px;*/
+	/*padding: 10px;*/
 }
 
 .tabs {
-  display: inline-block;
-  width:100%;
+	display: inline-block;
+	width:100%;
 }
 
 .tab {
-  padding: 10px 5px;
-  background: #efefef;
-  margin-right: 10px;
-  margin-top: 5px;
-  margin-left: 1px;
-  cursor: pointer;
-  border-radius: 4px;
+	padding: 10px 5px;
+	background: #efefef;
+	margin-right: 10px;
+	margin-top: 5px;
+	margin-left: 1px;
+	cursor: pointer;
+	border-radius: 4px;
 }
 
 .tab.active {
-  background: #1d2d44;
-  color: #fff;
+	background: #1d2d44;
+	color: #fff;
 }
 
 #events .event-input {
-  box-sizing: border-box;
-  width: 100%;
-  max-width: 100%;
-  margin: 3px 0;
+	box-sizing: border-box;
+	width: 100%;
+	max-width: 100%;
+	margin: 3px 0;
 }
 
 #events .h2 {
-  font-size: 20px;
+	font-size: 20px;
 }
 
 #events .event-time-interior input[type='text'] {
-  width: 80px;
+	width: 80px;
 }
 
 #events .event-time-interior input[type='time'] {
-  width: 90px;
+	width: 90px;
 }
 
 .event-time-interior-allday {
-  display: block;
-  width: 100%;
-  margin: 7px 0;
+	display: block;
+	width: 100%;
+	margin: 7px 0;
 }
 
 .ui-tabs-nav {
-  background: none;
-  border: none;
-  border-radius: 0;
+	background: none;
+	border: none;
+	border-radius: 0;
 }
 
 .ui-timepicker-hour-cell a,
 .ui-timepicker-minute-cell a {
-  text-overflow: inherit !important;
+	text-overflow: inherit !important;
 }
 
 #events .label {
-  width: 100px;
-  float: left;
-  margin-top: 15px;
-  margin-left: 10px;
+	width: 100px;
+	float: left;
+	margin-top: 15px;
+	margin-left: 10px;
 }
 
 input[name="nameofattendee"] {
@@ -106,44 +106,50 @@ input[name="nameofattendee"] {
 
 #listofattendees li:first-child,
 #listofalarms > li:first-child {
-  margin-top:10px;
+	margin-top:10px;
 }
 
 #listofattendees li:last-child,
 #listofalarms > li:last-child {
-  margin-bottom:10px;
+	margin-bottom:10px;
 }
 
 #listofattendees li:hover, #listofattendees li.active,
 #listofalarms > li:hover, #listofalarms > li.active {
-  background: #f4f4f4;
+	background: #f4f4f4;
 }
 
 #listofattendees li span,
-#listofalarms > li > span {
-  margin-left:10px;
+#listofalarms > li > div > span {
+	margin-left:10px;
+	cursor: pointer;
+}
+
+#listofattendees > li > div,
+#listofalarms > li > div {
+	cursor: pointer;
 }
 
 .attendeeoptions,
 .alarmoptions {
-  padding: 10px;
+	padding: 10px;
 }
 
 .attendeeoptions select {
-  margin: 10px;
+	margin: 10px;
 }
 
 .attendeeopt {
-  margin-top: 15px;
+	margin-top: 15px;
 }
 
 .attendeeopt label {
-  float: none !important;
-  margin-left: 0 !important;
+	float: none !important;
+	margin-left: 0 !important;
 }
 
 .optionallabel {
-  margin-right: 15px;
+	margin-right: 15px;
 }
 
 .event-fieldset-alarm .event-input {

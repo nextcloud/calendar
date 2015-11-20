@@ -35,9 +35,11 @@
 
 	<div class="event-fieldset-interior">
 		<ul id="listofattendees">
-			<li class="active pull-left">
-				<span class="bold">Raghu</span>
-				<div class="attendeeoptions">
+			<li class="pull-left" ng-class="{ active: attendeeoptions }">
+				<div ng-model="attendeeoptions" ng-click="attendeeoptions=!attendeeoptions">
+					<span class="bold">Raghu</span>
+				</div>
+				<div class="attendeeoptions" ng-show="attendeeoptions">
 					<label class="label"><?php p($l->t('Type')); ?></label>
 					<select class="event-select pull-left"
 						ng-model="selectedstat"
@@ -46,21 +48,21 @@
 						ng-options="cutstat.displayname for cutstat in cutstats">
 					</select>
 					<div class="attendeeopt pull-right">
-						<input 
+						<input
 							type="checkbox" class="attendeecheckbox event-checkbox"
-							value="<?php p($l->t('Optional')); ?>" 
+							value="<?php p($l->t('Optional')); ?>"
 							ng-checked="attendornot=='optional'" ng-click="attendornot='optional'" />
 						<label class="label optionallabel"><?php p($l->t('Optional')); ?></label>
 
-						<input type="checkbox" class="attendeecheckbox event-checkbox" 
-							value="<?php p($l->t('Does not attend')); ?>" 
+						<input type="checkbox" class="attendeecheckbox event-checkbox"
+							value="<?php p($l->t('Does not attend')); ?>"
 							ng-checked="attendornot=='no'" ng-click="attendornot='no'" />
 						<label class="label"><?php p($l->t('Does not attend'))?></label>
 					</div>
 				</div>
 			</li>
 			<li class="pull-left">
-				<span class="bold">Georg</span>
+				<span class="bold">{{ nameofattendee }}</span>
 			</li>
 		</ul>
 	</div>
