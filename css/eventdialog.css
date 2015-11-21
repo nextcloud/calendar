@@ -165,3 +165,9 @@ input[name="nameofattendee"] {
 	margin: -5px 10px;
 	z-index: 1000;
 }
+
+#addreminders {
+	margin-right: 10px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}

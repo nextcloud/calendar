@@ -120,6 +120,7 @@
 										</select>
 									</div>
 								</div>
+							</div>
 						</div>
 					</li>
 				</ul>
@@ -127,4 +128,9 @@
 		</li>
 		<li ng-show="properties.alarms.length > 3">...</li>
 	</ul>
+	<div class="event-fieldset-interior">
+		<button id="addreminders" ng-click="addReminder()" class="btn event-button button pull-right">
+			<?php p($l->t('Add')); ?>
+		</button>
+	</div>
 </fieldset>
