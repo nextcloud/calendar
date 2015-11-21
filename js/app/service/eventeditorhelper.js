@@ -75,8 +75,8 @@ app.factory('eventEditorHelper', function () {
 			alarm.editor.absDate = alarm.trigger.value.format('L');
 			alarm.editor.absTime = alarm.trigger.value.format('LT');
 		} else {
-			alarm.editor.absDate = null;
-			alarm.editor.absTime = null;
+			alarm.editor.absDate = '';
+			alarm.editor.absTime = '';
 		}
 
 		alarm.editor.repeat = !(!alarm.repeat.value || alarm.repeat.value === 0);

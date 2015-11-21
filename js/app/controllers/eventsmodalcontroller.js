@@ -171,8 +171,8 @@ app.controller('EventsModalController', ['$scope', '$rootScope', '$routeParams',
 								alarm.editor.absDate = alarm.trigger.value.format('L');
 								alarm.editor.absTime = alarm.trigger.value.format('LT');
 							} else {
-								alarm.editor.absDate = null;
-								alarm.editor.absTime = null;
+								alarm.editor.absDate = '';
+								alarm.editor.absTime = '';
 							}
 
 							alarm.editor.repeat = !(!alarm.repeat.value || alarm.repeat.value === 0);
@@ -352,8 +352,8 @@ app.controller('EventsModalController', ['$scope', '$rootScope', '$routeParams',
 						triggerBeforeAfter: -1,
 						triggerTimeUnit: 60,
 						triggerValue: 15,
-						absDate: null,
-						absTime: null,
+						absDate: '',
+						absTime: '',
 						repeat: false,
 						repeatNTimes: 0,
 						repeatTimeUnit: 1,
