@@ -558,11 +558,9 @@ app.controller('EventsModalController', ['$scope', '$templateCache','$rootScope'
 		$scope.tabs = [{
 			title: t('Calendar', 'Events Info'), value: 1
 		}, {
-			title: t('Calendar', 'Repeating'), value: 2
+			title: t('Calendar', 'Attendees'), value: 2
 		}, {
-			title: t('Calendar', 'Attendees'), value: 3
-		}, {
-			title: t('Calendar', 'Alarms'), value: 4
+			title: t('Calendar', 'Alarms'), value: 3
 		}];
 
 		$scope.repeater = [
@@ -633,17 +631,12 @@ app.controller('EventsModalController', ['$scope', '$templateCache','$rootScope'
 				$scope.eventsrepeatview = false;
 				$scope.eventsattendeeview = false;
 				$scope.eventsalarmview = false;
-			} else if ( val === 2) {
-				$scope.eventsinfoview = false;
-				$scope.eventsrepeatview = true;
-				$scope.eventsattendeeview = false;
-				$scope.eventsalarmview = false;
-			} else if (val === 3) {
+			}  else if (val === 2) {
 				$scope.eventsinfoview = false;
 				$scope.eventsrepeatview = false;
 				$scope.eventsattendeeview = true;
 				$scope.eventsalarmview = false;
-			} else if (val === 4) {
+			} else if (val === 3) {
 				$scope.eventsinfoview = false;
 				$scope.eventsrepeatview = false;
 				$scope.eventsattendeeview = false;

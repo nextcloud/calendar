@@ -49,10 +49,6 @@
 			<?php print_unescaped($this->inc('part.eventsinfo')); ?>
 		</div>
 
-		<div ng-show="eventsrepeatview">
-			<?php print_unescaped($this->inc('part.eventsrepeat')); ?>
-		</div>
-
 		<div ng-show="eventsattendeeview">
 			<?php print_unescaped($this->inc('part.eventsattendees')); ?>
 		</div>
