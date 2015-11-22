@@ -26,12 +26,118 @@
 * Description: Takes care of anything inside the Events Modal.
 */
 
-app.controller('EventsModalController', ['$scope', '$rootScope', '$routeParams', 'Restangular', 'CalendarModel', 'TimezoneModel', 'DialogModel', 'Model', 'eventEditorHelper',
-	function ($scope, $rootScope, $routeParams, Restangular, CalendarModel, TimezoneModel, DialogModel, Model, eventEditorHelper) {
+app.controller('EventsModalController', ['$scope', '$templateCache','$rootScope', '$routeParams', 'Restangular', 'CalendarModel', 'TimezoneModel', 'DialogModel', 'Model', 'eventEditorHelper',
+	function ($scope, $templateCache, $rootScope, $routeParams, Restangular, CalendarModel, TimezoneModel, DialogModel, Model, eventEditorHelper) {
 		'use strict';
 		$scope.calendarModel = CalendarModel;
 		$scope.calendars = CalendarModel.getAll();
 		$scope.properties = {};
+		$scope.nameofattendee = '';
+		$scope.eventsinfoview = true;
+		$scope.selected = 1;
+
+		$scope.tabs = [{
+			title: t('Calendar', 'Events Info'), value: 1
+		}, {
+			title: t('Calendar', 'Attendees'), value: 2
+		}, {
+			title: t('Calendar', 'Alarms'), value: 3
+		}];
+
+		$scope.repeater = [
+			{ val: 'doesnotrepeat' , displayname: t('Calendar', 'Does not repeat')},
+			{ val: 'daily' , displayname: t('Calendar', 'Daily')},
+			{ val: 'weekly' , displayname: t('Calendar', 'Weekly')},
+			{ val: 'weekday' , displayname: t('Calendar', 'Every Weekday')},
+			{ val: 'biweekly' , displayname: t('Calendar', 'Bi-weekly')},
+			{ val: 'monthly' , displayname: t('Calendar', 'Monthly')},
+			{ val: 'yearly' , displayname: t('Calendar', 'Yearly')},
+		];
+		$scope.repeatmodel = $scope.repeater[0].val;
+
+		$scope.ender = [
+			{ val: 'never', displayname: t('Calendar','never')},
+			{ val: 'count', displayname: t('Calendar','by occurances')},
+			{ val: 'date', displayname: t('Calendar','by date')},
+		];
+
+		$scope.monthdays = [
+			{ val: 'monthday', displayname: t('Calendar','by monthday')},
+			{ val: 'weekday', displayname: t('Calendar','by weekday')}
+		];
+		$scope.monthdaymodel = $scope.monthdays[0].val;
+
+		$scope.years = [
+			{ val: 'bydate', displayname: t('Calendar','by events date')},
+			{ val: 'byyearday', displayname: t('Calendar','by yearday(s)')},
+			{ val: 'byweekno', displayname: t('Calendar','by week no(s)')},
+			{ val: 'bydaymonth', displayname: t('Calendar','by day and month')}
+		];
+
+		$scope.weeks = [
+			{ val: 'mon', displayname: t('Calendar','Monday')},
+			{ val: 'tue', displayname: t('Calendar','Tuesday')},
+			{ val: 'wed', displayname: t('Calendar','Wednesday')},
+			{ val: 'thu', displayname: t('Calendar','Thursday')},
+			{ val: 'fri', displayname: t('Calendar','Friday')},
+			{ val: 'sat', displayname: t('Calendar','Saturday')},
+			{ val: 'sun', displayname: t('Calendar','Sunday')}
+		];
+
+		$scope.changerepeater = function (repeat) {
+			if (repeat.val === 'monthly') {
+				$scope.monthday = false;
+				$scope.yearly = true;
+				$scope.weekly = true;
+			} else if (repeat.val === 'yearly') {
+				$scope.yearly = false;
+				$scope.monthday = true;
+				$scope.weekly = true;
+			} else if (repeat.val === 'weekly') {
+				$scope.weekly = false;
+				$scope.monthday = true;
+				$scope.yearly = true;
+			} else {
+				$scope.weekly = true;
+				$scope.monthday = true;
+				$scope.yearly = true;
+			}
+		};
+
+
+		$scope.tabopener = function (val) {
+			$scope.selected = val;
+			if (val === 1) {
+				$scope.eventsinfoview = true;
+				$scope.eventsrepeatview = false;
+				$scope.eventsattendeeview = false;
+				$scope.eventsalarmview = false;
+			}  else if (val === 2) {
+				$scope.eventsinfoview = false;
+				$scope.eventsrepeatview = false;
+				$scope.eventsattendeeview = true;
+				$scope.eventsalarmview = false;
+			} else if (val === 3) {
+				$scope.eventsinfoview = false;
+				$scope.eventsrepeatview = false;
+				$scope.eventsattendeeview = false;
+				$scope.eventsalarmview = true;
+			}
+
+		};
+
+		DialogModel.multiselect('#weeklyselect');
+
+		$scope.getLocation = function(val) {
+			return Restangular.one('autocompletion').getList('location',
+					{ 'location': $scope.properties.location }).then(function(res) {
+					var locations = [];
+					angular.forEach(res, function(item) {
+						locations.push(item.label);
+					});
+				return locations;
+			});
+		};
 
 		// First Day Dropdown
 		$scope.recurrenceSelect = [
@@ -49,6 +155,8 @@ app.controller('EventsModalController', ['$scope', '$rootScope', '$routeParams',
 			{ displayname: t('Calendar', 'Room'), val : 'ROOM' },
 			{ displayname: t('Calendar', 'Unknown'), val : 'UNKNOWN' }
 		];
+
+		$scope.selectedstat = $scope.cutstats[0].val;
 
 		$scope.partstats = [
 			{ displayname: t('Calendar', 'Required'), val : 'REQ-PARTICIPANT' },
@@ -81,10 +189,11 @@ app.controller('EventsModalController', ['$scope', '$rootScope', '$routeParams',
 			}
 		};
 
-		$scope.addmoreattendees = function () {
-			if ($scope.nameofattendee !== '') {
+		$scope.addmoreattendees = function (val) {
+			var attendee = val;
+			if (attendee !== '') {
 				$scope.properties.attendees.push({
-					value: $scope.nameofattendee,
+					value: attendee,
 					props: {
 						'ROLE': 'REQ-PARTICIPANT',
 						'RSVP': true,
@@ -93,9 +202,19 @@ app.controller('EventsModalController', ['$scope', '$rootScope', '$routeParams',
 						'CUTTYPE': 'INDIVIDUAL'
 					}
 				});
-				$scope.nameofattendee = '';
 			}
 			$scope.attendeeoptions = false;
+		};
+
+		$scope.deleteAttendee = function (val) {
+			console.log(val);
+			for (var key in $scope.properties.attendees) {
+				console.warn();
+				if ($scope.properties.attendees[key].value === val) {
+					$scope.properties.attendees.splice(key, 1);
+					break;
+				}
+			}
 		};
 
 		/**
@@ -163,8 +282,8 @@ app.controller('EventsModalController', ['$scope', '$rootScope', '$routeParams',
 						triggerBeforeAfter: -1,
 						triggerTimeUnit: 60,
 						triggerValue: 15,
-						absDate: null,
-						absTime: null,
+						absDate: '',
+						absTime: '',
 						repeat: false,
 						repeatNTimes: 0,
 						repeatTimeUnit: 1,
@@ -269,6 +388,13 @@ app.controller('EventsModalController', ['$scope', '$rootScope', '$routeParams',
 		});
 		angular.element('#absolutremindertime').timepicker({
 			showPeriodLabels: false
+		});
+
+		$templateCache.put('event.info.html', function () {
+			console.log('yolo');
+			angular.element('#from').datepicker({
+				dateFormat : 'dd-mm-yy'
+			});
 		});
 	}
 ]);

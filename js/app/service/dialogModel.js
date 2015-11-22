@@ -28,7 +28,7 @@
 
 app.factory('DialogModel', function() {
 	'use strict';
-	
+
 	return {
 		initsmall: function(elementId) {
 			$(elementId).dialog({
@@ -44,7 +44,7 @@ app.factory('DialogModel', function() {
 		initbig: function (elementId) {
 			$(elementId).dialog({
 				width : 500,
-				height: 435,
+				height: 400,
 				resizable: false,
 				draggable: true,
 				close : function(event, ui) {
@@ -57,6 +57,20 @@ app.factory('DialogModel', function() {
 		},
 		close: function (elementId) {
 			$(elementId).dialog('close');
+		},
+		multiselect: function (elementId) {
+			this.checked = [];
+			$(elementId).multiSelect({
+				minWidth: 300,
+				createCallback: false,
+				createText: false,
+				singleSelect: false,
+				checked: this.checked,
+				labels:[]
+			});
+		},
+		checkedarraymultiselect : function () {
+			return this.checked;
 		}
 	};
 });
