@@ -26,26 +26,24 @@
 * Description: Takes care of anything inside the Events Modal.
 */
 
-app.controller('EventsModalController', ['$scope', '$rootScope', '$routeParams', 'Restangular', 'CalendarModel', 'TimezoneModel', 'DialogModel', 'Model', 'eventEditorHelper',
-	function ($scope, $rootScope, $routeParams, Restangular, CalendarModel, TimezoneModel, DialogModel, Model, eventEditorHelper) {
+app.controller('EventsModalController', ['$scope', '$templateCache','$rootScope', '$routeParams', 'Restangular', 'CalendarModel', 'TimezoneModel', 'DialogModel', 'Model', 'eventEditorHelper',
+	function ($scope, $templateCache, $rootScope, $routeParams, Restangular, CalendarModel, TimezoneModel, DialogModel, Model, eventEditorHelper) {
 		'use strict';
 		$scope.calendarModel = CalendarModel;
 		$scope.calendars = CalendarModel.getAll();
 		$scope.properties = {};
 		$scope.nameofattendee = '';
+		$scope.eventsinfoview = true;
+		$scope.selected = 1;
 
 		$scope.tabs = [{
-			title: 'Events Info',
-			url: 'event.info.html'
+			title: t('Calendar', 'Events Info'), value: 1
 		}, {
-			title: 'Repeating',
-			url: 'event.repeat.html'
+			title: t('Calendar', 'Repeating'), value: 2
 		}, {
-			title: 'Attendees',
-			url: 'event.attendees.html'
+			title: t('Calendar', 'Attendees'), value: 3
 		}, {
-			title: 'Alarms',
-			url: 'event.alarms.html'
+			title: t('Calendar', 'Alarms'), value: 4
 		}];
 
 		$scope.repeater = [
@@ -108,17 +106,34 @@ app.controller('EventsModalController', ['$scope', '$rootScope', '$routeParams',
 			}
 		};
 
+
+		$scope.tabopener = function (val) {
+			$scope.selected = val;
+			if (val === 1) {
+				$scope.eventsinfoview = true;
+				$scope.eventsrepeatview = false;
+				$scope.eventsattendeeview = false;
+				$scope.eventsalarmview = false;
+			} else if ( val === 2) {
+				$scope.eventsinfoview = false;
+				$scope.eventsrepeatview = true;
+				$scope.eventsattendeeview = false;
+				$scope.eventsalarmview = false;
+			} else if (val === 3) {
+				$scope.eventsinfoview = false;
+				$scope.eventsrepeatview = false;
+				$scope.eventsattendeeview = true;
+				$scope.eventsalarmview = false;
+			} else if (val === 4) {
+				$scope.eventsinfoview = false;
+				$scope.eventsrepeatview = false;
+				$scope.eventsattendeeview = false;
+				$scope.eventsalarmview = true;
+			}
+
+		};
+
 		DialogModel.multiselect('#weeklyselect');
-		
-		$scope.currentTab = 'event.info.html';
-
-	    $scope.onClickTab = function (tab) {
-	        $scope.currentTab = tab.url;
-	    };
-
-	    $scope.isActiveTab = function(tabUrl) {
-	        return tabUrl === $scope.currentTab;
-	    };
 
 		window.showProps = function() {
 			return $scope.properties;
@@ -458,6 +473,13 @@ app.controller('EventsModalController', ['$scope', '$rootScope', '$routeParams',
 		});
 		angular.element('#absolutremindertime').timepicker({
 			showPeriodLabels: false
+		});
+
+		$templateCache.put('event.info.html', function () {
+			console.log('yolo');
+			angular.element('#from').datepicker({
+				dateFormat : 'dd-mm-yy'
+			});
 		});
 	}
 ]);
