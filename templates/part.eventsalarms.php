@@ -28,8 +28,7 @@
 		<li ng-repeat="alarm in properties.alarms" ng-class="{ active : reminderoptions }">
 			<div ng-model="reminderoptions" ng-click="reminderoptions=!reminderoptions">
 				<span class="bold">{{alarm | simpleReminderDescription}}</span>
-				<button class="event-button event-delete-button pull-right" ng-click="deleteReminder(alarm.id)">
-					<i class="fa fa-1x fa-times"></i>
+				<button class="event-button event-delete-button pull-right icon-close" ng-click="deleteReminder(alarm.id)">
 				</button>
 			</div>
 			<div class="reminderoptions" ng-show="reminderoptions">

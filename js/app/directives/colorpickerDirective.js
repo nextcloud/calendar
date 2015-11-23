@@ -35,7 +35,9 @@ app.directive('colorpicker', function() {
         '#9C909D',
         '#3A3B3D',
         '#FF7A66',
-        '#009CFC'
+        '#009CFC',
+        '#F1DB50',
+        '#CC317C'
     ];
     return {
         scope: {

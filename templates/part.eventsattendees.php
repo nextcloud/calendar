@@ -38,8 +38,7 @@
 			<li class="pull-left" ng-class="{ active: attendeeoptions }" ng-repeat="attendee in properties.attendees">
 				<div ng-model="attendeeoptions" ng-click="attendeeoptions=!attendeeoptions">
 					<span class="bold">{{ attendee.value }}</span>
-					<button class="event-button event-delete-button pull-right" ng-click="deleteAttendee(attendee.value)">
-						<i class="fa fa-1x fa-times"></i>
+					<button class="event-button event-delete-button pull-right icon-close" ng-click="deleteAttendee(attendee.value)">
 					</button>
 				</div>
 				<div class="attendeeoptions" ng-show="attendeeoptions">

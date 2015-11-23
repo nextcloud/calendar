@@ -23,174 +23,182 @@
 
 
 #app-navigation .calendar-list {
-  max-height: 400px;
-  overflow-y: scroll;
+	max-height: 400px;
+	overflow-y: scroll;
 }
 #app-navigation .app-navigation-input {
-  width: 92%;
+	width: 95%;
 }
 #app-navigation .calendarlist-fieldset {
-  padding: 0 5px;
+	padding: 0 5px;
 }
 #app-navigation .color-button {
-  height: 25px;
-  border: 0;
+	height: 25px;
+	border: 0;
 }
 #app-navigation .close-button {
-  height: 30px;
-  width: 30px;
-  padding: 0;
-  position: relative;
+	height: 30px;
+	width: 30px;
+	padding: 0;
+	position: relative;
 }
 #app-navigation .accept-button {
-  padding: 14px;
+	width: 100%;
+	padding: 8px;
 }
 #app-navigation .loading {
-  margin-left: 5px;
-  height: 30px;
-  width: 92%;
-  background-size: 20px;
+	margin-left: 5px;
+	height: 30px;
+	width: 92%;
+	background-size: 20px;
 }
 #app-navigation .new-entity-container {
-  margin-top: 45px;
+	margin-top: 45px;
 }
 #app-navigation .new-entity {
-  display: block;
-  width: 100%;
-  line-height: 44px;
-  padding: 0 25px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  color: #4d4d4d;
-  cursor: pointer;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  -webkit-transition: 0.05s ease-out 0.05s;
-  -moz-transition: 0.05s ease-out 0.05s;
-  -ms-transition: 0.05s ease-out 0.05s;
-  transition: 0.05s ease-out 0.05s;
+	display: block;
+	width: 100%;
+	line-height: 44px;
+	padding: 0 25px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	color: #4d4d4d;
+	cursor: pointer;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	-webkit-transition: 0.05s ease-out 0.05s;
+	-moz-transition: 0.05s ease-out 0.05s;
+	-ms-transition: 0.05s ease-out 0.05s;
+	transition: 0.05s ease-out 0.05s;
 }
 #app-navigation .new-entity .new-entity-title {
-  cursor: pointer;
+	cursor: pointer;
 }
 #app-navigation .new-entity .new-entity-title:before {
-  left: 10px;
-  width: 10px;
-  position: absolute;
-  font-weight: bold;
-  font-size: 150%;
-  content: '+';
+	left: 10px;
+	width: 10px;
+	position: absolute;
+	font-weight: bold;
+	font-size: 150%;
+	content: '+';
 }
 #app-navigation .new-entity:hover {
-  background: #eeeeee;
-  -webkit-transition: 0.05s ease-out 0.05s;
-  -moz-transition: 0.05s ease-out 0.05s;
-  -ms-transition: 0.05s ease-out 0.05s;
-  transition: 0.05s ease-out 0.05s;
+	background: #eeeeee;
+	-webkit-transition: 0.05s ease-out 0.05s;
+	-moz-transition: 0.05s ease-out 0.05s;
+	-ms-transition: 0.05s ease-out 0.05s;
+	transition: 0.05s ease-out 0.05s;
 }
 #app-navigation .add-new .new-accept-button {
-  position: relative;
-  top: -3px;
-  left: 20px;
+	position: relative;
 }
 #app-navigation .add-new .color-button {
-  height: 25px;
-  border: 0;
-  background: #1a1a1a;
+	height: 25px;
+	border: 0;
+	background: #1a1a1a;
 }
 
 .add-new-subscription .calendarlist-fieldset input {
-  width: 80px;
+	width: 130px;
+	margin-right: 2px;
+
+}
+
+.add-new-subscription .calendarlist-fieldset select {
+	width: 80px;
 }
 
 #app-navigation .app-navigation-list-item .calendarCheckbox {
-  border: 1px solid #000000;
-  cursor: pointer;
-  margin-left: 5px;
-  margin-top: 15px;
-  width: 10px;
-  position: absolute;
-  height: 10px;
-  top: 2px;
-  left: 5px;
+	border: 1px solid #000000;
+	cursor: pointer;
+	margin-left: 5px;
+	margin-top: 15px;
+	width: 10px;
+	position: absolute;
+	height: 10px;
+	top: 2px;
+	left: 5px;
 }
 #app-navigation .app-navigation-list-item .calendarCheckbox.unchecked {
-  background: transparent !important;
-  border-color: #aaa;
+	background: transparent !important;
+	border-color: #aaa;
 }
-#app-navigation .app-navigation-list-item .loadingicon {
-  margin-left: 5px;
-  margin-top: 10px;
-  width: 10px;
-  position: absolute;
-  height: 10px;
-  top: 2px;
-  left: 5px;
+#app-navigation .app-navigation-list-item .loading {
+	margin-left: 6px;
+	margin-top: 16px;
+	width: 10px;
+	position: absolute;
+	height: 10px;
+	top: 2px;
+	left: 5px;
+	background-size: 10px;
 }
 #app-navigation .app-navigation-list-item .utils {
-  height: 44px;
-  padding: 0 5px 0 0;
+	height: 44px;
+	padding: 0 5px 0 0;
 }
 #app-navigation .app-navigation-list-item .utils .action span {
-  opacity: 0.6;
+	opacity: 0.6;
 }
 #app-navigation .app-navigation-list-item .active {
-  background: transparent !important;
-  /* Core Override */
+	background: transparent !important;
+	/* Core Override */
 }
 #app-navigation .app-navigation-list-item .active a {
-  background-color: transparent !important;
-  /* Core Override */
+	background-color: transparent !important;
+	/* Core Override */
 }
 #app-navigation .app-navigation-list-item .active:hover .calendarlist-icon {
-  background-color: transparent !important;
-  /* Core Override */
+	background-color: transparent !important;
+	/* Core Override */
 }
 #app-navigation .app-navigation-list-item > a {
-  padding: 0 25px !important;
+	padding: 0 25px !important;
 }
 #app-navigation .app-navigation-list-item .editfieldset {
-  padding: 0 5px;
+	padding: 0 4px;
 }
 #app-navigation .app-navigation-list-item .editfieldset .calendartype {
-  width: 60px;
-  margin-right: 20px;
+	width: 100%;
 }
-#app-navigation .app-navigation-list-item .editfieldset .buttongroups {
-  margin: 20px;
+#app-navigation .buttongroups .accept-button {
+	width: 47%;
+	padding: 17px;
+	margin-right: 7px;
 }
-#app-navigation .app-navigation-list-item .editfieldset .close-button {
-  top: 5px;
+#app-navigation .editfieldset .close-button {
+	width: 47%;
+	padding: 17px;
 }
 #app-navigation .app-navigation-list-item .caldavURL input {
-  width: 75%;
+	width: 75%;
 }
 #app-navigation .app-navigation-list-item:hover {
-  background-color: #ddd;
+	background-color: #ddd;
 }
 #app-navigation .app-navigation-list-item:hover .utils {
-  display: inline-block;
+	display: inline-block;
 }
 #app-navigation .app-navigation-list-item:hover .utils .action span {
-  display: inline-block;
-  line-height: 44px;
-  height: 16px;
-  width: 16px;
-  padding: 14px 2px 14px 2px;
-  cursor: pointer;
+	display: inline-block;
+	line-height: 44px;
+	height: 16px;
+	width: 16px;
+	padding: 14px 2px 14px 2px;
+	cursor: pointer;
 }
 #app-navigation .app-navigation-list-item:hover .utils.active {
   display: inline-block;
 }
 #app-navigation .app-navigation-list-item:hover .utils > a {
-  background-color: transparent !important;
+	background-color: transparent !important;
 }
 #app-navigation .app-navigation-list-item:hover a {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  width: 130px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	width: 130px;
 }
 #app-navigation > ul {
   height: auto;
@@ -200,18 +208,15 @@
 .colorpicker {
   display: block;
   height: 30px;
-  width: 180px;
-  float: left;
 }
 .colorpicker .colorpicker-list {
   display: block;
-  float: left;
   width: 100%;
   height: 100%;
 }
 .colorpicker .colorpicker-list li {
   height: 100%;
-  width: 30px !important;
+  width: 29px !important;
   float: left;
 }
 .colorpicker .colorpicker-list li.selected {

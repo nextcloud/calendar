@@ -22,7 +22,6 @@
  *
  */
 $styles = [
-	'../3rdparty/fontawesome/css/font-awesome',
 	'../3rdparty/fullcalendar/dist/fullcalendar',
 	'../3rdparty/jquery-timepicker/jquery.ui.timepicker',
 	'../../../core/css/multiselect',
