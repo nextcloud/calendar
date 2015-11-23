@@ -22,8 +22,8 @@
  *
  */
 $styles = [
-	'../3rdparty/fullcalendar/dist/fullcalendar',
-	'../3rdparty/jquery-timepicker/jquery.ui.timepicker',
+	'../js/vendor/fullcalendar/dist/fullcalendar',
+	'../js/vendor/jquery-timepicker/jquery.ui.timepicker',
 	'../../../core/css/multiselect',
 	'globals',
 	'calendar',
@@ -38,17 +38,17 @@ foreach ($styles as $style) {
 }
 
 $scripts = [
-	'../3rdparty/jquery-file-upload/js/jquery.fileupload',
-	'../3rdparty/jquery-timepicker/jquery.ui.timepicker',
-	'../3rdparty/ical/ical',
-	'../3rdparty/jstzdetect/jstz.min',
-	'../3rdparty/fullcalendar/dist/fullcalendar.min',
-	'../3rdparty/angular/angular.min',
-	'../3rdparty/restangular/dist/restangular.min',
-	'../3rdparty/angular-route/angular-route.min',
-	'../3rdparty/angular-ui/angular-ui',
-	'../3rdparty/angular-ui/angular-ui-calendar',
-	'../3rdparty/angular-ui/angular-ui-sortable',
+	'../js/vendor/jquery-file-upload/js/jquery.fileupload',
+	'../js/vendor/jquery-timepicker/jquery.ui.timepicker',
+	'../js/vendor/ical/ical',
+	'../js/vendor/jstzdetect/jstz.min',
+	'../js/vendor/fullcalendar/dist/fullcalendar.min',
+	'../js/vendor/angular/angular.min',
+	'../js/vendor/restangular/dist/restangular.min',
+	'../js/vendor/angular-route/angular-route.min',
+	'../js/vendor/angular-ui/angular-ui',
+	'../js/vendor/angular-ui/angular-ui-calendar',
+	'../js/vendor/angular-ui/angular-ui-sortable',
 	'../../../core/js/multiselect',
 	'public/app'
 ];
