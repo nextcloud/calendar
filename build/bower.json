@@ -9,8 +9,7 @@
     "fullcalendar": "v2.0.3",
     "jquery-timepicker": "",
     "jquery-file-upload": "",
-    "jstzdetect": "",
-    "fontawesome": ""
+    "jstzdetect": ""
   },
   "devDependencies": {
 	"angular-mocks": ""

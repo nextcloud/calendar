@@ -52,12 +52,13 @@
 				<button
 					ng-click="create(newSubscriptionUrl)"
 					id="submitnewSubscription"
-					class="primary icon-checkmark-white accept-button pull-right"
+					class="primary accept-button"
 					oc-click-slide-toggle="{
 						selector: '.add-new-subscription',
 						hideOnFocusLost: false,
 						cssClass: 'closed'
 					}">
+					<?php p($l->t('Create')); ?>
 				</button>
 			</fieldset>
 		</form>

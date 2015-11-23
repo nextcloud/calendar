@@ -647,84 +647,6 @@ app.controller('EventsModalController', ['$scope', '$templateCache','$rootScope'
 
 		DialogModel.multiselect('#weeklyselect');
 
-		window.showProps = function() {
-			return $scope.properties;
-		};
-
-		$scope.$watch('eventsmodel.eventobject', function (simpleData) {
-			if (typeof simpleData !== 'undefined') {
-				if(Object.getOwnPropertyNames(simpleData).length !== 0) {
-					if (simpleData.calendar !== '') {
-						$scope.properties = simpleData;
-						//for (var i=0; i< $scope.calendarListSelect.length; i++) {
-						//	if (newval.calendar.calendardisplayname === $scope.calendarListSelect[i].displayname) {
-						//		$scope.calendardropdown = $scope.calendarListSelect[i];
-						//	}
-						//}
-
-						//prepare alarms
-						angular.forEach($scope.properties.alarms, function(value, key) {
-							var alarm = $scope.properties.alarms[key];
-							var factors = [60,60,24,7];
-
-							alarm.editor = {};
-							alarm.editor.reminderSelectValue = ([0, -1 * 5 * 60, -1 * 10 * 60, -1 * 15 * 60, -1 * 60 * 60, -1 * 2 * 60 * 60].indexOf(alarm.trigger.value) !==-1) ? alarm.trigger.value : 'custom';
-
-							alarm.editor.triggerType = (alarm.trigger.type === 'duration') ? 'relative' : 'absolute';
-							if (alarm.editor.triggerType === 'relative') {
-								var triggerValue = Math.abs(alarm.trigger.value);
-
-								alarm.editor.triggerBeforeAfter = (alarm.trigger.value < 0) ? -1 : 1;
-								alarm.editor.triggerTimeUnit = 1;
-
-								for (var i = 0; i < factors.length && triggerValue !== 0; i++) {
-									var mod = triggerValue % factors[i];
-									if (mod !== 0) {
-										break;
-									}
-
-									alarm.editor.triggerTimeUnit *= factors[i];
-									triggerValue /= factors[i];
-								}
-
-								alarm.editor.triggerValue = triggerValue;
-							} else {
-								alarm.editor.triggerValue = 15;
-								alarm.editor.triggerBeforeAfter = -1;
-								alarm.editor.triggerTimeUnit = 60;
-							}
-
-							if (alarm.editor.triggerType === 'absolute') {
-								alarm.editor.absDate = alarm.trigger.value.format('L');
-								alarm.editor.absTime = alarm.trigger.value.format('LT');
-							} else {
-								alarm.editor.absDate = '';
-								alarm.editor.absTime = '';
-							}
-
-							alarm.editor.repeat = !(!alarm.repeat.value || alarm.repeat.value === 0);
-							alarm.editor.repeatNTimes = (alarm.editor.repeat) ? alarm.repeat.value : 0;
-							alarm.editor.repeatTimeUnit = 1;
-
-							var repeatValue = (alarm.duration && alarm.duration.value) ? alarm.duration.value : 0;
-
-							for (var i2 = 0; i2 < factors.length && repeatValue !== 0; i2++) {
-								var mod2 = repeatValue % factors[i2];
-								if (mod2 !== 0) {
-									break;
-								}
-
-								alarm.editor.repeatTimeUnit *= factors[i2];
-								repeatValue /= factors[i2];
-							}
-
-							alarm.editor.repeatNValue = repeatValue;
-						});
-					}
-				}
-			}
-		});
-
 		$scope.getLocation = function(val) {
 			return Restangular.one('autocompletion').getList('location',
 					{ 'location': $scope.properties.location }).then(function(res) {
@@ -1118,7 +1040,9 @@ app.directive('colorpicker', function() {
         '#9C909D',
         '#3A3B3D',
         '#FF7A66',
-        '#009CFC'
+        '#009CFC',
+        '#F1DB50',
+        '#CC317C'
     ];
     return {
         scope: {
