@@ -1,4 +1,289 @@
 
+v2.4.0 (2015-08-16)
+-------------------
+
+- add new buttons to the header via `customButtons` ([225])
+- control stacking order of events via `eventOrder` ([364])
+- control frequency of slot text via `slotLabelInterval` ([946])
+- `displayEventTime` ([1904])
+- `on` and `off` methods ([1910])
+- renamed `axisFormat` to `slotLabelFormat`
+
+[225]: https://code.google.com/p/fullcalendar/issues/detail?id=225
+[364]: https://code.google.com/p/fullcalendar/issues/detail?id=364
+[946]: https://code.google.com/p/fullcalendar/issues/detail?id=946
+[1904]: https://code.google.com/p/fullcalendar/issues/detail?id=1904
+[1910]: https://code.google.com/p/fullcalendar/issues/detail?id=1910
+
+
+v2.3.2 (2015-06-14)
+-------------------
+
+- minor code adjustment in preparation for plugins
+
+
+v2.3.1 (2015-03-08)
+-------------------
+
+- Fix week view column title for en-gb ([PR220])
+- Publish to NPM ([2447])
+- Detangle bower from npm package ([PR179])
+
+[PR220]: https://github.com/arshaw/fullcalendar/pull/220
+[2447]: https://code.google.com/p/fullcalendar/issues/detail?id=2447
+[PR179]: https://github.com/arshaw/fullcalendar/pull/179
+
+
+v2.3.0 (2015-02-21)
+-------------------
+
+- internal refactoring in preparation for other views
+- businessHours now renders on whole-days in addition to timed areas
+- events in "more" popover not sorted by time ([2385])
+- avoid using moment's deprecated zone method ([2443])
+- destroying the calendar sometimes causes all window resize handlers to be unbound ([2432])
+- multiple calendars on one page, can't accept external elements after navigating ([2433])
+- accept external events from jqui sortable ([1698])
+- external jqui drop processed before reverting ([1661])
+- IE8 fix: month view renders incorrectly ([2428])
+- IE8 fix: eventLimit:true wouldn't activate "more" link ([2330])
+- IE8 fix: dragging an event with an href
+- IE8 fix: invisible element while dragging agenda view events
+- IE8 fix: erratic external element dragging
+
+[2385]: https://code.google.com/p/fullcalendar/issues/detail?id=2385
+[2443]: https://code.google.com/p/fullcalendar/issues/detail?id=2443
+[2432]: https://code.google.com/p/fullcalendar/issues/detail?id=2432
+[2433]: https://code.google.com/p/fullcalendar/issues/detail?id=2433
+[1698]: https://code.google.com/p/fullcalendar/issues/detail?id=1698
+[1661]: https://code.google.com/p/fullcalendar/issues/detail?id=1661
+[2428]: https://code.google.com/p/fullcalendar/issues/detail?id=2428
+[2330]: https://code.google.com/p/fullcalendar/issues/detail?id=2330
+
+
+v2.2.7 (2015-02-10)
+-------------------
+
+- view.title wasn't defined in viewRender callback ([2407])
+- FullCalendar versions >= 2.2.5 brokenness with Moment versions <= 2.8.3 ([2417])
+- Support Bokmal Norwegian language specifically ([2427])
+
+[2407]: https://code.google.com/p/fullcalendar/issues/detail?id=2407
+[2417]: https://code.google.com/p/fullcalendar/issues/detail?id=2417
+[2427]: https://code.google.com/p/fullcalendar/issues/detail?id=2427
+
+
+v2.2.6 (2015-01-11)
+-------------------
+
+- Compatibility with Moment v2.9. Was breaking GCal plugin ([2408])
+- View object's `title` property mistakenly omitted ([2407])
+- Single-day views with hiddens days could cause prev/next misbehavior ([2406])
+- Don't let the current date ever be a hidden day (solves [2395])
+- Hebrew locale ([2157])
+
+[2408]: https://code.google.com/p/fullcalendar/issues/detail?id=2408
+[2407]: https://code.google.com/p/fullcalendar/issues/detail?id=2407
+[2406]: https://code.google.com/p/fullcalendar/issues/detail?id=2406
+[2395]: https://code.google.com/p/fullcalendar/issues/detail?id=2395
+[2157]: https://code.google.com/p/fullcalendar/issues/detail?id=2157
+
+
+v2.2.5 (2014-12-30)
+-------------------
+
+- `buttonText` specified for custom views via the `views` option
+	- bugfix: wrong default value, couldn't override default
+	- feature: default value taken from locale
+
+
+v2.2.4 (2014-12-29)
+-------------------
+
+- Arbitrary durations for basic/agenda views with the `views` option ([692])
+- Specify view-specific options using the `views` option. fixes [2283]
+- Deprecate view-option-hashes
+- Formalize and expose View API ([1055])
+- updateEvent method, more intuitive behavior. fixes [2194]
+
+[692]: https://code.google.com/p/fullcalendar/issues/detail?id=692
+[2283]: https://code.google.com/p/fullcalendar/issues/detail?id=2283
+[1055]: https://code.google.com/p/fullcalendar/issues/detail?id=1055
+[2194]: https://code.google.com/p/fullcalendar/issues/detail?id=2194
+
+
+v2.2.3 (2014-11-26)
+-------------------
+
+- removeEventSource with Google Calendar object source, would not remove ([2368])
+- Events with invalid end dates are still accepted and rendered ([2350], [2237], [2296])
+- Bug when rendering business hours and navigating away from original view ([2365])
+- Links to Google Calendar events will use current timezone ([2122])
+- Google Calendar plugin works with timezone names that have spaces
+- Google Calendar plugin accepts person email addresses as calendar IDs
+- Internally use numeric sort instead of alphanumeric sort ([2370])
+
+[2368]: https://code.google.com/p/fullcalendar/issues/detail?id=2368
+[2350]: https://code.google.com/p/fullcalendar/issues/detail?id=2350
+[2237]: https://code.google.com/p/fullcalendar/issues/detail?id=2237
+[2296]: https://code.google.com/p/fullcalendar/issues/detail?id=2296
+[2365]: https://code.google.com/p/fullcalendar/issues/detail?id=2365
+[2122]: https://code.google.com/p/fullcalendar/issues/detail?id=2122
+[2370]: https://code.google.com/p/fullcalendar/issues/detail?id=2370
+
+
+v2.2.2 (2014-11-19)
+-------------------
+
+- Fixes to Google Calendar API V3 code
+	- wouldn't recognize a lone-string Google Calendar ID if periods before the @ symbol
+	- removeEventSource wouldn't work when given a Google Calendar ID
+
+
+v2.2.1 (2014-11-19)
+-------------------
+
+- Migrate Google Calendar plugin to use V3 of the API ([1526])
+
+[1526]: https://code.google.com/p/fullcalendar/issues/detail?id=1526
+
+
+v2.2.0 (2014-11-14)
+-------------------
+
+- Background events. Event object's `rendering` property ([144], [1286])
+- `businessHours` option ([144])
+- Controlling where events can be dragged/resized and selections can go ([396], [1286], [2253])
+	- `eventOverlap`, `selectOverlap`, and similar
+	- `eventConstraint`, `selectConstraint`, and similar
+- Improvements to dragging and dropping external events ([2004])
+	- Associating with real event data. used with `eventReceive`
+	- Associating a `duration`
+- Performance boost for moment creation
+	- Be aware, FullCalendar-specific methods now attached directly to global moment.fn
+	- Helps with [issue 2259][2259]
+- Reintroduced forgotten `dropAccept` option ([2312])
+
+[144]: https://code.google.com/p/fullcalendar/issues/detail?id=144
+[396]: https://code.google.com/p/fullcalendar/issues/detail?id=396
+[1286]: https://code.google.com/p/fullcalendar/issues/detail?id=1286
+[2004]: https://code.google.com/p/fullcalendar/issues/detail?id=2004
+[2253]: https://code.google.com/p/fullcalendar/issues/detail?id=2253
+[2259]: https://code.google.com/p/fullcalendar/issues/detail?id=2259
+[2312]: https://code.google.com/p/fullcalendar/issues/detail?id=2312
+
+
+v2.1.1 (2014-08-29)
+-------------------
+
+- removeEventSource not working with array ([2203])
+- mouseout not triggered after mouseover+updateEvent ([829])
+- agenda event's render with no <a> href, not clickable ([2263])
+
+[2203]: https://code.google.com/p/fullcalendar/issues/detail?id=2203
+[829]: https://code.google.com/p/fullcalendar/issues/detail?id=829
+[2263]: https://code.google.com/p/fullcalendar/issues/detail?id=2263
+
+
+v2.1.0 (2014-08-25)
+-------------------
+
+Large code refactor with better OOP, better code reuse, and more comments.
+**No more reliance on jQuery UI** for event dragging, resizing, or anything else.
+
+Significant changes to HTML/CSS skeleton:
+- Leverages tables for liquid rendering of days and events. No costly manual repositioning ([809])
+- **Backwards-incompatibilities**:
+	- **Many classNames have changed. Custom CSS will likely need to be adjusted.**
+	- IE7 definitely not supported anymore
+	- In `eventRender` callback, `element` will not be attached to DOM yet
+	- Events are styled to be one line by default ([1992]). Can be undone through custom CSS,
+	  but not recommended (might get gaps [like this][111] in certain situations).
+
+A "more..." link when there are too many events on a day ([304]). Works with month and basic views
+as well as the all-day section of the agenda views. New options:
+- `eventLimit`. a number or `true`
+- `eventLimitClick`. the `"popover`" value will reveal all events in a raised panel (the default)
+- `eventLimitText`
+- `dayPopoverFormat`
+
+Changes related to height and scrollbars:
+- `aspectRatio`/`height`/`contentHeight` values will be honored *no matter what*
+	- If too many events causing too much vertical space, scrollbars will be used ([728]).
+	  This is default behavior for month view (**backwards-incompatibility**)
+	- If too few slots in agenda view, view will stretch to be the correct height ([2196])
+- `'auto'` value for `height`/`contentHeight` options. If content is too tall, the view will
+  vertically stretch to accomodate and no scrollbars will be used ([521]).
+- Tall weeks in month view will borrow height from other weeks ([243])
+- Automatically scroll the view then dragging/resizing an event ([1025], [2078])
+- New `fixedWeekCount` option to determines the number of weeks in month view
+	- Supersedes `weekMode` (**deprecated**). Instead, use a combination of `fixedWeekCount` and
+	  one of the height options, possibly with an `'auto'` value
+
+Much nicer, glitch-free rendering of calendar *for printers* ([35]). Things you might not expect:
+- Buttons will become hidden
+- Agenda views display a flat list of events where the time slots would be
+
+Other issues resolved along the way:
+- Space on right side of agenda events configurable through CSS ([204])
+- Problem with window resize ([259])
+- Events sorting stays consistent across weeks ([510])
+- Agenda's columns misaligned on wide screens ([511])
+- Run `selectHelper` through `eventRender` callbacks ([629])
+- Keyboard access, tabbing ([637])
+- Run resizing events through `eventRender` ([714])
+- Resize an event to a different day in agenda views ([736])
+- Allow selection across days in agenda views ([778])
+- Mouseenter delegated event not working on event elements ([936])
+- Agenda event dragging, snapping to different columns is erratic ([1101])
+- Android browser cuts off Day view at 8 PM with no scroll bar ([1203])
+- Don't fire `eventMouseover`/`eventMouseout` while dragging/resizing ([1297])
+- Customize the resize handle text ("=") ([1326])
+- If agenda event is too short, don't overwrite `.fc-event-time` ([1700])
+- Zooming calendar causes events to misalign ([1996])
+- Event destroy callback on event removal ([2017])
+- Agenda views, when RTL, should have axis on right ([2132])
+- Make header buttons more accessibile ([2151])
+- daySelectionMousedown should interpret OSX ctrl+click as a right mouse click ([2169])
+- Best way to display time text on multi-day events *with times* ([2172])
+- Eliminate table use for header layout ([2186])
+- Event delegation used for event-related callbacks (like `eventClick`). Speedier.
+
+[35]: https://code.google.com/p/fullcalendar/issues/detail?id=35
+[204]: https://code.google.com/p/fullcalendar/issues/detail?id=204
+[243]: https://code.google.com/p/fullcalendar/issues/detail?id=243
+[259]: https://code.google.com/p/fullcalendar/issues/detail?id=259
+[304]: https://code.google.com/p/fullcalendar/issues/detail?id=304
+[510]: https://code.google.com/p/fullcalendar/issues/detail?id=510
+[511]: https://code.google.com/p/fullcalendar/issues/detail?id=511
+[521]: https://code.google.com/p/fullcalendar/issues/detail?id=521
+[629]: https://code.google.com/p/fullcalendar/issues/detail?id=629
+[637]: https://code.google.com/p/fullcalendar/issues/detail?id=637
+[714]: https://code.google.com/p/fullcalendar/issues/detail?id=714
+[728]: https://code.google.com/p/fullcalendar/issues/detail?id=728
+[736]: https://code.google.com/p/fullcalendar/issues/detail?id=736
+[778]: https://code.google.com/p/fullcalendar/issues/detail?id=778
+[809]: https://code.google.com/p/fullcalendar/issues/detail?id=809
+[936]: https://code.google.com/p/fullcalendar/issues/detail?id=936
+[1025]: https://code.google.com/p/fullcalendar/issues/detail?id=1025
+[1101]: https://code.google.com/p/fullcalendar/issues/detail?id=1101
+[1203]: https://code.google.com/p/fullcalendar/issues/detail?id=1203
+[1297]: https://code.google.com/p/fullcalendar/issues/detail?id=1297
+[1326]: https://code.google.com/p/fullcalendar/issues/detail?id=1326
+[1700]: https://code.google.com/p/fullcalendar/issues/detail?id=1700
+[1992]: https://code.google.com/p/fullcalendar/issues/detail?id=1992
+[1996]: https://code.google.com/p/fullcalendar/issues/detail?id=1996
+[2017]: https://code.google.com/p/fullcalendar/issues/detail?id=2017
+[2078]: https://code.google.com/p/fullcalendar/issues/detail?id=2078
+[2132]: https://code.google.com/p/fullcalendar/issues/detail?id=2132
+[2151]: https://code.google.com/p/fullcalendar/issues/detail?id=2151
+[2169]: https://code.google.com/p/fullcalendar/issues/detail?id=2169
+[2172]: https://code.google.com/p/fullcalendar/issues/detail?id=2172
+[2186]: https://code.google.com/p/fullcalendar/issues/detail?id=2186
+[2196]: https://code.google.com/p/fullcalendar/issues/detail?id=2196
+[111]: https://code.google.com/p/fullcalendar/issues/detail?id=111
+
+
 v2.0.3 (2014-08-15)
 -------------------
 
