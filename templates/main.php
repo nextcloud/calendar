@@ -38,17 +38,17 @@ foreach ($styles as $style) {
 }
 
 $scripts = [
-	'../js/vendor/jquery-file-upload/js/jquery.fileupload',
-	'../js/vendor/jquery-timepicker/jquery.ui.timepicker',
-	'../js/vendor/ical/ical',
-	'../js/vendor/jstzdetect/jstz.min',
-	'../js/vendor/fullcalendar/dist/fullcalendar.min',
-	'../js/vendor/angular/angular.min',
-	'../js/vendor/restangular/dist/restangular.min',
-	'../js/vendor/angular-route/angular-route.min',
-	'../js/vendor/angular-ui/angular-ui',
-	'../js/vendor/angular-ui/angular-ui-calendar',
-	'../js/vendor/angular-ui/angular-ui-sortable',
+	'vendor/jquery-file-upload/js/jquery.fileupload',
+	'vendor/jquery-timepicker/jquery.ui.timepicker',
+	'vendor/ical/ical',
+	'vendor/jstzdetect/jstz.min',
+	'vendor/fullcalendar/dist/fullcalendar.min',
+	'vendor/angular/angular.min',
+	'vendor/restangular/dist/restangular.min',
+	'vendor/angular-route/angular-route.min',
+	'vendor/angular-ui/angular-ui',
+	'vendor/angular-ui/angular-ui-calendar',
+	'vendor/angular-ui/angular-ui-sortable',
 	'../../../core/js/multiselect',
 	'public/app'
 ];
