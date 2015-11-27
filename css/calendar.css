@@ -28,3 +28,6 @@
 #app-content.loading {
   background-size: 25px;
 }
+.fc-toolbar{
+  display: none !important;
+}

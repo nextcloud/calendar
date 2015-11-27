@@ -4,8 +4,6 @@
   "dependencies": {
     "angular": "",
     "restangular": "",
-    "angular-mocks": "",
-    "angular-route": "",
     "fullcalendar": "v2.0.3",
     "jquery-timepicker": "",
     "jquery-file-upload": "",
