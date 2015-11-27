@@ -1,0 +1,92 @@
+<html>
+  <head>
+    <script type="text/javascript" src="../build/ical.js"></script>
+    <script type="text/javascript">
+      function stringError(e) {
+        return "Error: " + e +
+               ("fileName" in e ? "\nFilename: " + e.fileName : "") +
+               ("lineNumber" in e ? "\nLine: " + e.lineNumber : "") +
+               ("stack" in e ? "\nStack: " + e.stack : "");
+      }
+
+      function validate() {
+        var duration = document.getElementById("duration");
+
+        var data = document.getElementById("data");
+        var decorate = document.getElementById("decorate").checked;
+
+        var error = document.getElementById("error");
+        var results = document.getElementById("results");
+
+        var serialize_error = document.getElementById("serialize_error");
+        var reserialized = document.getElementById("reserialized");
+
+        var undecorate_error = document.getElementById("undecorate_error");
+        var undecorated = document.getElementById("undecorated");
+
+        var sourceResult, jsonResult, icalResult, component;
+
+        duration.textContent = '';
+        error.textContent = serialize_error.textContent = undecorate_error.textContent = "";
+        results.textContent = reserialized.textContent = undecorated.textContent =  "";
+
+        var beginTime = Date.now();
+
+        try {
+            // First load the source representation
+            sourceResult = ICAL.parse(data.value)
+
+            // Try to jsonify it
+            jsonResult = JSON.stringify(sourceResult, null, " ");
+            results.textContent = jsonResult;
+        } catch (e) {
+            error.textContent = stringError(e);
+        }
+
+        try {
+            // Try to reserialize it
+            icalResult = ICAL.stringify(JSON.parse(jsonResult));
+            reserialized.textContent = icalResult;
+        } catch (e) {
+            serialize_error.textContent = stringError(e);
+        }
+
+        if (decorate) {
+
+            component = new ICAL.Component(sourceResult[1]);
+
+            try {
+                // Try to jsonify it
+                jsonResult = JSON.stringify(component, null, " ");
+                undecorated.textContent = jsonResult;
+            } catch (e) {
+                undecorate_error.textContent = stringError(e);
+            }
+        }
+
+        var totalRuntime = Date.now() - beginTime;
+        duration.textContent = 'Total Runtime: ' + totalRuntime;
+
+        return false;
+      }
+
+    </script>
+  </head>
+  <body>
+    <form method="post" action="#" onsubmit="return validate()">
+      <textarea id="data" rows="20" cols="80"></textarea><br/>
+      <input type="checkbox" id="decorate">Decorate</input>
+      <input type="submit" value="Validate"/><br/>
+      <p id="duration"></p>
+      <hr>
+      <pre id="error"></pre>
+      <pre id="results"></pre>
+      <hr>
+      <pre id="serialize_error"></pre>
+      <pre id="reserialized"></pre>
+      <hr>
+      <pre id="undecorate_error"></pre>
+      <pre id="undecorated"></pre>
+    </form>
+  </body>
+</html>

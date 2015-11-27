@@ -7,9 +7,10 @@
     "fullcalendar": "v2.0.3",
     "jquery-timepicker": "",
     "jquery-file-upload": "",
-    "jstzdetect": ""
+    "jstzdetect": "",
+    "ical.js": "~1.1.2"
   },
   "devDependencies": {
-	"angular-mocks": ""
+    "angular-mocks": ""
   }
 }
