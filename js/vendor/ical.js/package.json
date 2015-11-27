@@ -1,0 +1,78 @@
+{
+  "name": "ical.js",
+  "version": "1.1.2",
+  "author": "Philipp Kewisch",
+  "contributors": [
+    "Github Contributors (https://github.com/mozilla-comm/ical.js/graphs/contributors)"
+  ],
+  "description": "Javascript parser for ics (rfc5545) and vcard (rfc6350) data",
+  "main": "build/ical.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mozilla-comm/ical.js.git"
+  },
+  "keywords": [
+    "calendar",
+    "iCalendar",
+    "jCal",
+    "vCard",
+    "jCard",
+    "parser"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "benchmark": "~1.0",
+    "biased-opener": "^0.2.5",
+    "chai": "~3.0",
+    "closure-linter-wrapper": "^1.0.1",
+    "coveralls": "^2.11.2",
+    "grunt": "^0.4.5",
+    "grunt-concurrent": "^2.0.0",
+    "grunt-contrib-concat": "^0.5.1",
+    "grunt-contrib-jshint": "^0.11.2",
+    "grunt-contrib-uglify": "^0.9.1",
+    "grunt-coveralls": "^1.0.0",
+    "grunt-gh-pages": "^0.10.0",
+    "grunt-gjslint": "^0.2.0",
+    "grunt-jsdoc": "^0.6.4",
+    "grunt-karma": "^0.11.0",
+    "grunt-mocha-cli": "^1.13.0",
+    "grunt-mocha-istanbul": "^2.4.0",
+    "grunt-node-inspector": "^0.2.0",
+    "grunt-release": "^0.13.0",
+    "istanbul": "^0.3.14",
+    "karma": "^0.12.36",
+    "karma-chai": "^0.1.0",
+    "karma-mocha": "^0.2.0",
+    "karma-sauce-launcher": "^0.2.11",
+    "karma-spec-reporter": "0.0.19",
+    "minami": "^1.1.0",
+    "mocha": "~2.2",
+    "node-static": "^0.7.6",
+    "open": "0.0.5",
+    "sync-exec": "^0.5.0",
+    "test-agent": "~0.28.2"
+  },
+  "license": "MPL-2.0",
+  "engine": {
+    "node": ">=0.4"
+  },
+  "scripts": {
+    "test": "grunt test-node"
+  },
+  "saucelabs": {
+    "SL_Chrome": {
+      "base": "SauceLabs",
+      "browserName": "chrome"
+    },
+    "SL_InternetExplorer9": {
+      "base": "SauceLabs",
+      "browserName": "internet explorer",
+      "version": 9
+    },
+    "SL_Firefox": {
+      "base": "SauceLabs",
+      "browserName": "firefox"
+    }
+  }
+}
