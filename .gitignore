@@ -92,3 +92,5 @@ RCS/*
 /.project
 
 coverage/
+
+!/js/vendor
