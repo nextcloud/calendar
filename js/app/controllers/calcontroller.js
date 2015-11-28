@@ -89,18 +89,46 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 
 		$scope.newEvent = function (start, end, jsEvent, view) {
 			console.log(start, end, jsEvent, view);
-			var init = {
+			var initWithData = {
+				allDay: !start.hasTime() && !end.hasTime(),
 				dtstart: {
 					type: start.hasTime() ? 'datetime' : 'date',
-					date: start.toISOString(),
-					timezone: $scope.defaulttimezone
+					date: start.format('YYYY-MM-DD'),
+					time: start.format('HH:mm:ss'),
+					zone: $scope.defaulttimezone
 				},
 				dtend: {
 					type: end.hasTime() ? 'datetime' : 'date',
-					date: end.toISOString(),
-					timezone: $scope.defaulttimezone
-				}
+					date: end.format('YYYY-MM-DD'),
+					time: end.format('HH:mm:ss'),
+					zone: $scope.defaulttimezone
+				},
+				summary: {
+					type: 'text',
+					value: t('calendar', 'New event')
+				},
+				alarm: [],
+				attendee: []
 			};
+
+			$rootScope.$broadcast('initializeEventEditor', {
+				data: initWithData,
+				onSuccess: function(newData) {
+					var comp = new ICAL.Component(['vcalendar', [], []]);
+					//TODO - add a proper prodid with version number
+					comp.updatePropertyWithValue('prodid', '-//ownCloud calendar');
+					var vevent = new ICAL.Component('vevent');
+					comp.addSubcomponent(vevent);
+
+					objectConverter.patch(vevent, {}, newData);
+
+					vevent.updatePropertyWithValue('created', ICAL.Time.now());
+					vevent.updatePropertyWithValue('dtstamp', ICAL.Time.now());
+					vevent.updatePropertyWithValue('last-modified', ICAL.Time.now());
+					//TODO - add UID,
+					console.log(comp.toString());
+				}
+			});
 		};
 
 		/**
@@ -149,6 +177,8 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 					Restangular.one('calendars', event.calendarId).one('events', event.objectUri).get().then(function (jCalData) {
 						var vevent = fcHelper.getCorrectEvent(event, jCalData);
 						var simpleData = objectConverter.parse(vevent);
+
+						console.log(simpleData);
 
 						$rootScope.$broadcast('initializeEventEditor', {
 							data: simpleData,

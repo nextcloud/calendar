@@ -25,10 +25,10 @@
 
 <fieldset class="event-fieldset event-fieldset-alarm">
 	<ul id="listofalarms">
-		<li ng-repeat="alarm in properties.alarms" ng-class="{ active : reminderoptions }">
+		<li ng-repeat="alarm in properties.alarm" ng-class="{ active : reminderoptions }">
 			<div ng-model="reminderoptions" ng-click="reminderoptions=!reminderoptions">
 				<span class="bold">{{alarm | simpleReminderDescription}}</span>
-				<button class="event-button event-delete-button pull-right icon-close" ng-click="deleteReminder(alarm.id)">
+				<button class="event-button event-delete-button pull-right icon-close" ng-click="deleteReminder(alarm.group)">
 				</button>
 			</div>
 			<div class="reminderoptions" ng-show="reminderoptions">
@@ -39,11 +39,15 @@
 						<select class="event-select event-select-reminder"
 								ng-model="alarm.editor.reminderSelectValue"
 								ng-change="updateReminderSelectValue(alarm)">
-							<option ng-repeat="reminder in reminderSelect" ng-selected="{{reminder.trigger == alarm.editor.reminderSelectValue}}" value="{{reminder.trigger}}">{{reminder.displayname}}</option>
+							<option ng-repeat="reminder in reminderSelect"
+									ng-selected="{{reminder.trigger == alarm.editor.reminderSelectValue}}"
+									value="{{reminder.trigger}}">{{reminder.displayname}}</option>
 						</select>
 						<select class="event-select event-select-reminder"
 								ng-model="alarm.action.value">
-							<option ng-repeat="reminder in reminderTypeSelect" ng-selected="{{reminder.type == alarm.action.value}}" value="{{reminder.type}}">{{reminder.displayname}}</option>
+							<option ng-repeat="reminder in reminderTypeSelect"
+									ng-selected="{{reminder.type == alarm.action.value}}"
+									value="{{reminder.type}}">{{reminder.displayname}}</option>
 						</select>
 					</div>
 					<div class="event-fieldset-interior" ng-show="alarm.editor.reminderSelectValue == 'custom'">
@@ -72,19 +76,25 @@
 										ng-disabled="alarm.editor.triggerType != 'relative'"
 										ng-model="alarm.editor.triggerTimeUnit"
 										ng-change="updateReminderRelative(alarm)">
-									<option ng-repeat="reminder in timeUnitReminderSelect" ng-selected="{{reminder.factor == alarm.editor.triggerTimeUnit}}" value="{{reminder.factor}}">{{reminder.displayname}}</option>
+									<option ng-repeat="reminder in timeUnitReminderSelect"
+											ng-selected="{{reminder.factor == alarm.editor.triggerTimeUnit}}"
+											value="{{reminder.factor}}">{{reminder.displayname}}</option>
 								</select>
 								<select class="event-select event-select-reminder"
 										ng-disabled="alarm.editor.triggerType != 'relative'"
 										ng-model="alarm.editor.triggerBeforeAfter"
 										ng-change="updateReminderRelative(alarm)">
-									<option ng-repeat="reminder in timepositionreminderSelect" ng-selected="{{reminder.factor == alarm.editor.triggerBeforeAfter}}" value="{{reminder.factor}}">{{reminder.displayname}}</option>
+									<option ng-repeat="reminder in timepositionreminderSelect"
+											ng-selected="{{reminder.factor == alarm.editor.triggerBeforeAfter}}"
+											value="{{reminder.factor}}">{{reminder.displayname}}</option>
 								</select>
 								<select class="event-select event-select-reminder"
 										ng-disabled="alarm.editor.triggerType != 'relative'"
 										ng-model="alarm.trigger.related"
 										ng-change="updateReminderRelative(alarm)">
-									<option ng-repeat="reminder in startendreminderSelect" ng-selected="{{reminder.type == alarm.trigger.related}}" value="{{reminder.type}}">{{reminder.displayname}}</option>
+									<option ng-repeat="reminder in startendreminderSelect"
+											ng-selected="{{reminder.type == alarm.trigger.related}}"
+											value="{{reminder.type}}">{{reminder.displayname}}</option>
 								</select>
 							</div>
 							<!-- absolute input -->
@@ -103,17 +113,29 @@
 							</div>
 							<!-- repeat settings -->
 							<div class="custom-container repeat-container">
-								<input type="checkbox" ng-model="alarm.editor.repeat" id="repeatabsolutereminder_{{$id}}" class="event-checkbox" />
+								<input type="checkbox" class="event-checkbox"
+									   id="repeatabsolutereminder_{{$id}}"
+									   ng-model="alarm.editor.repeat"
+									   ng-change="updateReminderRepeat(alarm)" />
 								<label for="repeatabsolutereminder_{{$id}}"><?php p($l->t('Repeat')); ?></label>
 							</div>
 							<div class="custom-container-options" ng-show="alarm.editor.repeat == true">
-								<input class="event-input" type="number" ng-model="alarm.editor.repeatNTimes" ng-disabled="alarm.editor.repeat == false" />
+								<input class="event-input" type="number"
+									   ng-model="alarm.editor.repeatNTimes"
+									   ng-disabled="alarm.editor.repeat == false"
+									   ng-change="updateReminderRepeat(alarm)" />
 								<span><?php p($l->t('times every')); ?></span>
-								<input class="event-input" type="number" ng-model="alarm.editor.repeatNValue" ng-disabled="alarm.editor.repeat == false" />
+								<input class="event-input" type="number"
+									   ng-model="alarm.editor.repeatNValue"
+									   ng-disabled="alarm.editor.repeat == false"
+									   ng-change="updateReminderRepeat(alarm)" />
 								<select class="event-select event-select-reminder"
 										ng-model="alarm.editor.repeatTimeUnit"
-										ng-disabled="alarm.editor.repeat == false">
-									<option ng-repeat="reminder in timeUnitReminderSelect" ng-selected="{{reminder.factor == alarm.editor.repeatTimeUnit}}" value="{{reminder.factor}}">{{reminder.displayname}}</option>
+										ng-disabled="alarm.editor.repeat == false"
+										ng-change="updateReminderRepeat(alarm)">
+									<option ng-repeat="reminder in timeUnitReminderSelect"
+											ng-selected="{{reminder.factor == alarm.editor.repeatTimeUnit}}"
+											value="{{reminder.factor}}">{{reminder.displayname}}</option>
 								</select>
 							</div>
 						</div>

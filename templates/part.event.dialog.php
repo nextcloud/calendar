@@ -31,7 +31,7 @@
 	cancel-button="Cancel"
 	cancel-callback="handleCancel"
 	ng-init="monthday = true; yearly = true;">
-	<form id-"event_form">
+	<form id="event_form">
 		<div class="tabs">
 			<ul>
 				<li class="tab pull-left" ng-repeat="tab in tabs"

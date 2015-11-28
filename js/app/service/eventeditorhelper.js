@@ -36,6 +36,7 @@ app.factory('eventEditorHelper', function () {
 		-1 * 5 * 60,
 		-1 * 10 * 60,
 		-1 * 15 * 60,
+		-1 * 30 * 60,
 		-1 * 60 * 60,
 		-1 * 2 * 60 * 60
 	];
@@ -45,7 +46,7 @@ app.factory('eventEditorHelper', function () {
 	 */
 	function prepareAlarm(alarm) {
 		alarm.editor = {};
-		alarm.editor.reminderSelectValue = (alarmDropdownValues.indexOf(alarm.trigger.value) !== -1) ? alarm.trigger.value : 'custom';
+		alarm.editor.reminderSelectValue = (alarmDropdownValues.indexOf(alarm.trigger.value) !== -1) ? alarm.trigger.value.toString() : 'custom';
 
 		alarm.editor.triggerType = (alarm.trigger.type === 'duration') ? 'relative' : 'absolute';
 		if (alarm.editor.triggerType === 'relative') {
@@ -64,11 +65,12 @@ app.factory('eventEditorHelper', function () {
 				triggerValue /= alarmFactors[i];
 			}
 
+			alarm.editor.triggerTimeUnit = alarm.editor.triggerTimeUnit.toString();
 			alarm.editor.triggerValue = triggerValue;
 		} else {
-			alarm.editor.triggerValue = 15;
+			alarm.editor.triggerValue = 0;
 			alarm.editor.triggerBeforeAfter = -1;
-			alarm.editor.triggerTimeUnit = 60;
+			alarm.editor.triggerTimeUnit = 1;
 		}
 
 		if (alarm.editor.triggerType === 'absolute') {
@@ -106,18 +108,19 @@ app.factory('eventEditorHelper', function () {
 	}
 
 	return {
+		prepareAlarm: prepareAlarm,
 		prepareProperties: function(simpleData) {
 			if(Object.getOwnPropertyNames(simpleData).length !== 0) {
 				if (simpleData.calendar !== '') {
 					//prepare alarms
-					angular.forEach(simpleData.alarms, function(value, key) {
-						var alarm = simpleData.alarms[key];
+					angular.forEach(simpleData.alarm, function(value, key) {
+						var alarm = simpleData.alarm[key];
 						prepareAlarm(alarm);
 					});
 
 					//prepare attendees
-					angular.forEach(simpleData.attendees, function(value, key) {
-						var attendee = simpleData.attendees[key];
+					angular.forEach(simpleData.attendee, function(value, key) {
+						var attendee = simpleData.attendee[key];
 						prepareAttendee(attendee);
 					});
 				}
