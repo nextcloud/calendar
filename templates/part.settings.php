@@ -67,35 +67,29 @@
 		<table class="table">
 			<tbody>
 			<tr ng-repeat="file in files" ng-show="!file.done">
-				<td>
-					<i class="fa fa-spinner fa-spin"
-					   ng-show="file.isImporting"></i>
-				</td>
 				<td class="name">
 					<span>{{ file.name }}</span>
 				</td>
 				<td class="calendartype">
 					<select
-							class="settings-select"
-							ng-init="file.importToCalendar = (calendars | eventFilter | calendarFilter)[0].id"
-							ng-model="file.importToCalendar"
-							ng-options="calendar.id as calendar.displayname for calendar in calendars | eventFilter | calendarFilter | orderBy:['order']"
-							ng-disabled="file.isImporting">
+						class="settings-select"
+						ng-init="file.importToCalendar = (calendars | eventFilter | calendarFilter)[0].id"
+						ng-model="file.importToCalendar"
+						ng-options="calendar.id as calendar.displayname for calendar in calendars | eventFilter | calendarFilter | orderBy:['order']"
+						ng-disabled="file.isImporting">
 					</select>
 				</td>
 				<td class="buttongroup">
 					<div class="pull-right">
 						<button
-								class="primary btn"
-								ng-click="import(file, $index)"
-								ng-disabled="file.isImporting">
-							<i class="fa fa-check fa-1x"></i>
+							class="primary btn icon-checkmark-white"
+							ng-click="import(file, $index)"
+							ng-disabled="file.isImporting" ng-class="{ loading: file.isImporting, disabled: file.isImporting }">
 						</button>
 						<button
-								class="btn"
-								ng-click="file.done = true"
-								ng-disabled="file.isImporting">
-							<i class="fa fa-remove fa-1x"></i>
+							class="btn icon-close"
+							ng-click="file.done = true"
+							ng-disabled="file.isImporting">
 						</button>
 					</div>
 				</td>
