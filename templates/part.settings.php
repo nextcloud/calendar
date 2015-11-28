@@ -45,7 +45,7 @@
 			</li>
 
 			<li class="settings-fieldset-interior-item settings-fieldset-interior-upload">
-				<input type="file" name="file" accept="text/calendar" multiple upload modal="importdialog" id="import" />
+				<input type="file" name="file" accept="text/calendar" multiple id="import" />
 				<span href="#" class="settings-upload svg icon-upload"><?php p($l->t('Import calendar')); ?></span>
 				<span ng-show="!files.length" class="hide"><?php p($l->t('No Calendars selected for import')); ?></span>
 			</li>
@@ -63,36 +63,37 @@
 
 
 
-	<div id="importdialog" class="dialog">
+	<div id="importdialog" class="dialog" title="<?php p($l->t("Import Calendars")); ?>">
 		<table class="table">
 			<tbody>
-				<tr ng-repeat="file in files">
-					<td class="name">
-						<span>{{ file }}</span>
-					</td>
-					<td class="calendartype">
-						<select
-							class="settings-select"
-							ng-model="importedcalendar"
-							ng-change="importcalendar(importedcalendar.id)"
-							ng-options="calendar.displayname for calendar in calendars | eventFilter | calendarFilter | orderBy:['order']">
-						</select>
-					</td>
-					<td class="buttongroup">
-						<div class="pull-right">
-							<button
-								class="primary btn"
-								ng-click="pushcalendar(importcalendar.id, $index)">
-								<i class="fa fa-check fa-1x"></i>
-							</button>
-							<button
-								class="btn"
-								ng-click="removecalendar($index)">
-								<i class="fa fa-remove fa-1x"></i>
-							</button>
-						</div>				
-					</td>
-				</tr>
+			<tr ng-repeat="file in files" ng-show="!file.done">
+				<td class="name">
+					<span>{{ file.name }}</span>
+				</td>
+				<td class="calendartype">
+					<select
+						class="settings-select"
+						ng-init="file.importToCalendar = (calendars | eventFilter | calendarFilter)[0].id"
+						ng-model="file.importToCalendar"
+						ng-options="calendar.id as calendar.displayname for calendar in calendars | eventFilter | calendarFilter | orderBy:['order']"
+						ng-disabled="file.isImporting">
+					</select>
+				</td>
+				<td class="buttongroup">
+					<div class="pull-right">
+						<button
+							class="primary btn icon-checkmark-white"
+							ng-click="import(file, $index)"
+							ng-disabled="file.isImporting" ng-class="{ loading: file.isImporting, disabled: file.isImporting }">
+						</button>
+						<button
+							class="btn icon-close"
+							ng-click="file.done = true"
+							ng-disabled="file.isImporting">
+						</button>
+					</div>
+				</td>
+			</tr>
 			</tbody>
 		</table>
 	</div>

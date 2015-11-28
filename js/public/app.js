@@ -1033,64 +1033,52 @@ app.controller('EventsModalController', ['$scope', '$templateCache','$rootScope'
 ]);
 
 /**
-* Controller: SettingController
-* Description: Takes care of the Calendar Settings.
-*/
+ * Controller: SettingController
+ * Description: Takes care of the Calendar Settings.
+ */
 
 app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'CalendarModel','UploadModel', 'DialogModel',
 	function ($scope, $rootScope, Restangular, CalendarModel, UploadModel, DialogModel) {
 		'use strict';
-		$scope.files = [];
 
 		$scope.settingsCalDavLink = OC.linkToRemote('caldav') + '/';
 		$scope.settingsCalDavPrincipalLink = OC.linkToRemote('caldav') + '/principals/' + escapeHTML(encodeURIComponent(oc_current_user)) + '/';
 
 		// have to use the native HTML call for filereader to work efficiently
-		var importinput = document.getElementById('import');
+
 		var reader = new FileReader();
 
-		$scope.upload = function () {
-			UploadModel.upload();
-			$scope.files = [];
-		};
-
-		$rootScope.$on('fileAdded', function (e, call) {
-			$scope.files.push(call);
-			$scope.$apply();
-			if ($scope.files.length > 0) {
-				var file = importinput.files[0];
-				reader.onload = function(e) {
-					$scope.filescontent = reader.result;
-				};
-				reader.readAsText(file);
-				DialogModel.initsmall('#importdialog');
-				DialogModel.open('#importdialog');
-			}
-			$scope.$digest(); // TODO : Shouldn't digest reset scope for it to be implemented again and again?
+		$('#import').on('change', function () {
+			$scope.calendarAdded(this);
 		});
 
-		$scope.importcalendar = function (id) {
-			$scope.calendarid = id;
+		$scope.calendarAdded = function (elem) {
+			$scope.files = elem.files;
+			$scope.$apply();
+			DialogModel.initsmall('#importdialog');
+			DialogModel.open('#importdialog');
 		};
 
-		$scope.pushcalendar = function (id, index) {
-			Restangular.one('calendars', $scope.calendarid).withHttpConfig({transformRequest: angular.identity}).customPOST(
-				$scope.filescontent,
-				'import',
-				undefined,
-				{
-					'Content-Type': 'text/calendar'
-				}
-			).then( function () {
-				$scope.files.splice(index,1);
-				DialogModel.close('#importdialog');
-			}, function (response) {
-				OC.Notification.show(t('calendar', response.data.message));
-			});
-		};
+		$scope.import = function (file) {
+			var reader = new FileReader();
+			file.isImporting = true;
 
-		$scope.removecalendar = function (index) {
-			$scope.files.splice(index,1);
+			reader.onload = function() {
+				Restangular.one('calendars', file.importToCalendar).withHttpConfig({transformRequest: angular.identity}).customPOST(
+						reader.result,
+						'import',
+						undefined,
+						{
+							'Content-Type': 'text/calendar'
+						}
+				).then( function () {
+					file.done = true;
+				}, function (response) {
+					OC.Notification.show(t('calendar', response.data.message));
+				});
+			};
+
+			reader.readAsText(file);
 		};
 
 		//to send a patch to add a hidden event again
@@ -1362,28 +1350,6 @@ app.filter('subscriptionFilter',
 		return subscriptionfilter;
 	}
 	]);
-
-app.directive('upload', ['UploadModel', function factory(UploadModel) {
-   'use strict';
-	return {
-		restrict: 'A',
-		link: function (scope, element, attrs) {
-			$(element).fileupload({
-				dataType: 'text',
-				add: function (e, data) {
-					UploadModel.add(data);
-				},
-				progressall: function (e, data) {
-					var progress = parseInt(data.loaded / data.total * 100, 10);
-					UploadModel.setProgress(progress);
-				},
-				done: function (e, data) {
-					UploadModel.setProgress(0);
-				}
-			});
-		}
-	};
-}]);
 
 /**
 * Model:
