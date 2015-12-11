@@ -22,9 +22,6 @@
  */
 
 
-#app-content {
-  margin-left: 250px;
-}
 #app-content.loading {
   background-size: 25px;
 }
