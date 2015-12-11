@@ -28,6 +28,7 @@
 	<button name="app settings"
 		class="settings-button"
 		data-apps-slide-toggle="#app-settings-content">
+		<?php p($l->t('Settings')); ?>
 	</button>
 </div>
 
@@ -51,11 +52,11 @@
 			</li>
 
 			<li class="settings-fieldset-interior-item">
-				<label class="settings-input bold"><?php p($l->t('Primary CalDAV address')); ?></label>
+				<label class="settings-input"><?php p($l->t('Primary CalDAV address')); ?></label>
 				<input class="input settings-input" type="text" ng-model="settingsCalDavLink" readonly />
 			</li>
 			<li class="settings-fieldset-interior-item">
-				<label class="settings-label bold"><?php p($l->t('iOS/OS X CalDAV address')); ?></label>
+				<label class="settings-label"><?php p($l->t('iOS/OS X CalDAV address')); ?></label>
 				<input class="input settings-input" type="text" ng-model="settingsCalDavPrincipalLink" readonly />
 			</li>
 		</ul>
