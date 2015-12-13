@@ -58,7 +58,7 @@
 <fieldset class="event-fieldset">
   <input ng-model="properties.location.value" type="text" class="event-input"
     placeholder="<?php p($l->t('Events Location'));?>" name="location"
-    typeahead="location for location in getLocation($viewValue)"
+    uib-typeahead="location for location in getLocation($viewValue)"
     autocomplete="off" />
 </fieldset>
 

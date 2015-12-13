@@ -223,6 +223,7 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 					});
 				},
 				viewRender: function (view, element) {
+					$scope.calendar = element;
 					angular.element('#firstrow').find('.datepicker_current').html(view.title).text();
 					angular.element('#datecontrol_date').datepicker('setDate', element.fullCalendar('getDate'));
 					var newview = view.name;

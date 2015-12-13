@@ -45,6 +45,7 @@ $scripts = [
 	'vendor/restangular/dist/restangular.min',
 	'vendor/angular-route/angular-route.min',
 	'vendor/angular-bootstrap/ui-bootstrap.min',
+	'vendor/angular-bootstrap/ui-bootstrap-tpls.min',
 	'vendor/angular-ui-calendar/src/calendar',
 	'vendor/fullcalendar/dist/fullcalendar.min',
 	'../../../core/js/multiselect',
