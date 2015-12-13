@@ -257,9 +257,9 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 						OC.Notification.show(t('calendar', response.data.message));
 					});
 				},
-				viewRender: function (view) {
+				viewRender: function (view, element) {
 					angular.element('#firstrow').find('.datepicker_current').html(view.title).text();
-					angular.element('#datecontrol_date').datepicker('setDate', $scope.calendar.fullCalendar('getDate'));
+					angular.element('#datecontrol_date').datepicker('setDate', element.fullCalendar('getDate'));
 					var newview = view.name;
 					if (newview !== $scope.defaultView) {
 						viewResource.get().then(function (newview) {
@@ -275,9 +275,9 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 						angular.element('td.fc-state-highlight').css('background-color', '#ffc');
 					}
 					if (newview ==='agendaWeek') {
-						$scope.calendar.fullCalendar('option', 'aspectRatio', 0.1);
+						element.fullCalendar('option', 'aspectRatio', 0.1);
 					} else {
-						$scope.calendar.fullCalendar('option', 'aspectRatio', 1.35);
+						element.fullCalendar('option', 'aspectRatio', 1.35);
 					}
 				}
 			}
