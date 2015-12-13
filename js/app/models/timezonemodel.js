@@ -21,22 +21,11 @@
  *
  */
 
-/**
-* Model: View
-* Description: Sets the full calendarview.
-*/
-
-app.factory('ViewModel', function () {
+app.factory('Timezone', ['$filter', function($filter) {
 	'use strict';
-	var ViewModel = function () {
-		this.view = [];
-	};
 
-	ViewModel.prototype = {
-		add: function (views) {
-			this.view.push(views);
-		}
+	return function Event(data) {
+		angular.extend(this, {
+		});
 	};
-
-	return new ViewModel();
-});
+}]);

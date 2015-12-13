@@ -21,10 +21,31 @@
  *
  */
 
-app.run(['$rootScope', '$location', 'CalendarModel',
-	function ($rootScope, $location, CalendarModel) {
-		'use strict';
-		$rootScope.$on('$routeChangeError', function () {
-			var calendars = CalendarModel.getAll();
-		});
+app.service('EventService', ['DavClient', 'Event', function(DavClient, Event) {
+	'use strict';
+
+	this.getAll = function(calendar) {
+
+	};
+
+	this.getAllInPeriod = function(calendar, start, end) {
+
+	};
+
+	this.get = function(calendar, uid) {
+
+	};
+
+	this.create = function(calendar) {
+
+	};
+
+	this.update = function(calendar) {
+
+	};
+
+	this.delete = function(calendar) {
+
+	};
+
 }]);

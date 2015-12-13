@@ -21,27 +21,19 @@
  *
  */
 
-/**
-* Model:
-* Description: Generates a random uid.
-*/
-
-app.factory('Model', function () {
+app.service('TimezoneService', ['Timezone', function(Timezone) {
 	'use strict';
-	var Model = function () {
-		this.text = '';
-		this.possible = '';
+
+	this.listAll = function() {
+
 	};
 
-	Model.prototype = {
-		uidgen: function () {
-			this.possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-			for (var i = 0; i < 5; i++) {
-				this.text += possible.charAt(Math.floor(Math.random() * possible.length));
-			}
-			return this.text;
-		}
+	this.get = function(tzid) {
+
 	};
 
-	return new Model();
-});
+	this.current = function() {
+
+	};
+
+}]);

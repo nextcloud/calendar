@@ -26,30 +26,20 @@
 * Description: The fullcalendar controller.
 */
 
-app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'CalendarModel', 'ViewModel', 'TimezoneModel', 'fcHelper', 'objectConverter',
-	function ($scope, $rootScope, Restangular, CalendarModel, ViewModel, TimezoneModel, fcHelper, objectConverter) {
+app.controller('CalController', ['$scope', '$rootScope', 'CalendarService', 'EventService', 'SettingsService', 'TimezoneService', 'fcHelper', 'objectConverter', 'Restangular', 'is',
+	function ($scope, $rootScope, CalendarService, EventService, SettingsService, TimezoneService, fcHelper, objectConverter, Restangular, is) {
 		'use strict';
 
 		$scope.eventSources = [];
 		$scope.eventSource = {};
-		$scope.calendarModel = CalendarModel;
-		$scope.defaulttimezone = TimezoneModel.currenttimezone();
+		console.log(TimezoneService);
+		$scope.defaulttimezone = TimezoneService.current();
 		$scope.i = 0;
 		var switcher = [];
-		var viewResource = Restangular.one('view');
 
-		if ($scope.defaulttimezone.length > 0) {
-			$scope.requestedtimezone = $scope.defaulttimezone.replace('/', '-');
-			Restangular.one('timezones', $scope.requestedtimezone).get().then(function (timezonedata) {
-				$scope.timezone = TimezoneModel.addtimezone(timezonedata);
-			}, function (response) {
-				OC.Notification.show(t('calendar', response.data.message));
-			});
-		}
+		$scope.is = is;
 
 		$rootScope.$on('finishedLoadingCalendars', function() {
-			$scope.calendars = $scope.calendarModel.getAll();
-
 			angular.forEach($scope.calendars, function (value) {
 				if ($scope.eventSource[value.id] === undefined) {
 					$scope.eventSource[value.id] = {
@@ -163,7 +153,6 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 				monthNamesShort: monthNamesShort,
 				dayNames: dayNames,
 				dayNamesShort: dayNamesShort,
-				eventSources: [],
 				timezone: $scope.defaulttimezone,
 				defaultView: angular.element('#fullcalendar').attr('data-defaultView'),
 				header: {
@@ -228,11 +217,7 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 					angular.element('#datecontrol_date').datepicker('setDate', element.fullCalendar('getDate'));
 					var newview = view.name;
 					if (newview !== $scope.defaultView) {
-						viewResource.get().then(function (newview) {
-							ViewModel.add(newview);
-						}, function (response) {
-							OC.Notification.show(t('calendar', response.data.message));
-						});
+						SettingsService.setView(newview);
 						$scope.defaultView = newview;
 					}
 					if (newview === 'agendaDay') {
@@ -341,50 +326,5 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 			}
 		});
 
-		/**
-		 * Watches the Calendar view.
-		*/
-
-		$scope.$watch('calendarModel.modelview', function (newview, oldview) {
-			$scope.changeView = function (newview, calendar) {
-				calendar.fullCalendar('changeView', newview);
-			};
-			$scope.today = function (calendar) {
-				calendar.fullCalendar('today');
-			};
-			if (newview.view && $scope.calendar) {
-				if (newview.view !== 'today') {
-					$scope.changeView(newview.view, $scope.calendar);
-				} else {
-					$scope.today($scope.calendar);
-				}
-			}
-		}, true);
-
-		/**
-		 * Watches the date picker.
-		*/
-
-		$scope.$watch('calendarModel.datepickerview', function (newview, oldview) {
-			$scope.changeview = function (newview, calendar) {
-				calendar.fullCalendar(newview.view);
-			};
-			if (newview.view !== '' && $scope.calendar !== undefined) {
-				$scope.changeview(newview, $scope.calendar);
-			}
-		}, true);
-
-		/**
-		 * Watches the date change and its effect on fullcalendar.
-		*/
-
-		$scope.$watch('calendarModel.date', function (newview, oldview) {
-			$scope.gotodate = function (newview, calendar) {
-				calendar.fullCalendar('gotoDate', newview);
-			};
-			if (newview !== '' && $scope.calendar !== undefined) {
-				$scope.gotodate(newview, $scope.calendar);
-			}
-		});
 	}
 ]);

@@ -41,14 +41,14 @@ $scripts = [
 	'vendor/jquery-timepicker/jquery.ui.timepicker',
 	'vendor/ical.js/build/ical',
 	'vendor/jstzdetect/jstz.min',
-	'vendor/angular/angular.min',
+	'vendor/angular/angular',
 	'vendor/restangular/dist/restangular.min',
-	'vendor/angular-route/angular-route.min',
+	'vendor/angular-route/angular-route',
 	'vendor/angular-bootstrap/ui-bootstrap.min',
 	'vendor/angular-bootstrap/ui-bootstrap-tpls.min',
 	'vendor/angular-ui-calendar/src/calendar',
 	'vendor/fullcalendar/dist/fullcalendar.min',
-	'vendor/davclient.js/lib/client.js',
+	'vendor/davclient.js/lib/client',
 	'../../../core/js/multiselect',
 	'public/app'
 ];
@@ -57,11 +57,8 @@ foreach ($scripts as $script) {
 	script('calendar', $script);
 }
 ?>
-<div class="app" ng-app="Calendar" ng-controller="AppController">
+<div class="app" ng-app="Calendar" ng-controller="CalController">
 
-	<script type="text/ng-template" id="calendar.html">
-		<?php print_unescaped($this->inc('part.fullcalendar')); ?>
-	</script>
 	<!-- The Left Calendar Navigation -->
 	<div id="app-navigation">
 
@@ -88,7 +85,7 @@ foreach ($scripts as $script) {
 
 	<!-- The Calendar on the right -->
 	<div id="app-content">
-		<div id="app-content-container" ng-view></div>
+		<?php print_unescaped($this->inc('part.fullcalendar')); ?>
 	</div>
 
 	<!-- The Event Editor -->

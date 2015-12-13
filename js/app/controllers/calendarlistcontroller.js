@@ -26,41 +26,26 @@
 * Description: Takes care of CalendarList in App Navigation.
 */
 
-app.controller('CalendarListController', ['$scope', '$rootScope', '$window',
-	'$routeParams', 'Restangular', 'CalendarModel', 'is',
-	function ($scope, $rootScope, $window, $routeParams, Restangular, CalendarModel, is) {
+app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'CalendarService', 'is',
+	function ($scope, $rootScope, $window, CalendarService, is) {
 		'use strict';
 
-		$scope.calendarModel = CalendarModel;
-		$scope.calendars = CalendarModel.getAll();
+		$scope.calendars = [];
 		$scope.backups = {};
 		is.loading = true;
 
-		var calendarResource = Restangular.all('calendars');
-		calendarResource.getList().then( function (calendars) {
+		$scope.newCalendarInputVal = '';
+		$scope.newCalendarColorVal = '';
+
+		CalendarService.getAll().then(function(calendars) {
+			$scope.calendars = calendars;
 			is.loading = false;
-			CalendarModel.addAll(calendars);
-			$scope.calendars = CalendarModel.getAll();
-			$rootScope.$broadcast('finishedLoadingCalendars', calendars);
+			// TODO - scope.apply should not be necessary here
+			$scope.$apply();
 		});
 
-		$scope.newCalendarInputVal = '';
 
 		$scope.create = function (name, color) {
-			calendarResource.post({
-				displayname: name,
-				color: color,
-				components: {
-					vevent: true,
-					vjournal: true,
-					vtodo: true
-				},
-				enabled: true
-			}).then(function (calendar) {
-				CalendarModel.create(calendar);
-				$scope.calendars = CalendarModel.getAll();
-				$rootScope.$broadcast('createdCalendar', calendar);
-			});
 
 			$scope.newCalendarInputVal = '';
 			$scope.newCalendarColorVal = '';
@@ -85,73 +70,33 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window',
 		};
 
 		$scope.performUpdate = function (calendar) {
-			Restangular.one('calendars', calendar.id).patch({
-				displayname: calendar.displayname,
-				color: calendar.color,
-				components: angular.copy(calendar.components)
-			}).then(function (updated) {
-				CalendarModel.update(updated);
-				$scope.calendars = CalendarModel.getAll();
-				$rootScope.$broadcast('updatedCalendar', updated);
-			});
+
 		};
 
-		$scope.triggerEnable = function(c) {
-			c.loading = true;
-			var calendar = CalendarModel.get(c.id);
+		$scope.triggerEnable = function(calendar) {
+			calendar.loading = true;
 			var newEnabled = !calendar.enabled;
-			calendar.patch({
-				'enabled': newEnabled
-			}).then(function (calendarObj) {
-				CalendarModel.update(calendarObj);
-				$scope.calendars = CalendarModel.getAll();
-				$rootScope.$broadcast('updatedCalendarsVisibility', calendarObj);
-			});
+
+			CalendarService.patch()
 		};
 
 		$scope.remove = function (c) {
 			c.loading = true;
-			var calendar = CalendarModel.get(c.id);
-			calendar.remove().then(function () {
-				CalendarModel.remove(c.id);
-				$scope.calendars = CalendarModel.getAll();
-				$rootScope.$broadcast('removedCalendar', c);
-			});
+			CalendarService.delete(c);
 		};
 
 		//We need to reload the refresh the calendar-list,
 		//if the user added a subscription
 		$rootScope.$on('createdSubscription', function() {
-			Restangular.all('calendars').getList().then(function (calendars) {
-				var toAdd = [];
-				for (var i = 0, length = calendars.length; i < length; i++) {
-					var didFind = false;
-					for (var j = 0, oldLength = $scope.calendars.length; j < oldLength; j++) {
-						if (calendars[i].id === $scope.calendars[j].id) {
-							didFind = true;
-							break;
-						}
-					}
-					if (!didFind) {
-						toAdd.push(calendars[i]);
-					}
-				}
-
-				for (var h = 0, toAddLength = toAdd.length; h < toAddLength; h++) {
-					CalendarModel.create(toAdd[h]);
-					$rootScope.$broadcast('createdCalendar', toAdd[h]);
-				}
-
-				$scope.calendars = CalendarModel.getAll();
-			});
+			// TO BE REIMPLEMENTED, BUT IN A DIFFERENT PR
 		});
 
 
 		$rootScope.$on('finishedLoadingEvents', function(event, calendarId) {
-			var calendar = CalendarModel.get(calendarId);
-			calendar.loading = false;
-			CalendarModel.update(calendar);
-			$scope.calendars = CalendarModel.getAll();
+			//var calendar = CalendarModel.get(calendarId);
+			//calendar.loading = false;
+			//CalendarModel.update(calendar);
+			//$scope.calendars = CalendarModel.getAll();
 		});
 	}
 ]);

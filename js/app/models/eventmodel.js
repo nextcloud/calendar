@@ -21,29 +21,11 @@
  *
  */
 
-app.config(['$provide', '$routeProvider', 'RestangularProvider', '$httpProvider', '$windowProvider',
-	function ($provide, $routeProvider, RestangularProvider, $httpProvider, $windowProvider) {
-		'use strict';
+app.factory('Event', ['$filter', function($filter) {
+	'use strict';
 
-		$httpProvider.defaults.headers.common.requesttoken = oc_requesttoken;
-
-		var $window = $windowProvider.$get();
-		var url = $window.location.href;
-		var baseUrl = url.split('index.php')[0] + 'index.php/apps/calendar/v1';
-		RestangularProvider.setBaseUrl(baseUrl);
-
-		ICAL.design.defaultSet.property['x-oc-calid'] = {
-			defaultType: "text"
-		};
-		ICAL.design.defaultSet.property['x-oc-cruds'] = {
-			defaultType: "text"
-		};
-		ICAL.design.defaultSet.property['x-oc-uri'] = {
-			defaultType: "text"
-		};
-
-		ICAL.design.defaultSet.param['x-oc-group-id'] = {
-			allowXName: true
-		};
-	}
-]);
+	return function Event(data) {
+		angular.extend(this, {
+		});
+	};
+}]);

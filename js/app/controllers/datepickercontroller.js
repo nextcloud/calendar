@@ -26,23 +26,20 @@
 * Description: Takes care for pushing dates from app navigation date picker and fullcalendar.
 */
 
-app.controller('DatePickerController', ['$scope', 'CalendarModel',
-	function ($scope, CalendarModel) {
+app.controller('DatePickerController', ['$scope',
+	function ($scope) {
 		'use strict';
 
 		// Changes the view for the month, week or daywise.
 		$scope.changeview = function (view) {
-			CalendarModel.pushtoggleview(view);
 		};
 
 		// Changes the view to Today's view.
 		$scope.todayview = function (view) {
-			CalendarModel.pushtoggleview(view);
 		};
 
 		// Changes the date to today on the datepicker.
 		$scope.settodaytodatepicker = function () {
-			CalendarModel.pushtodaydatepicker();
 		};
 	}
 ]);

@@ -25,7 +25,8 @@
 * Controller: SubscriptionController
 * Description: Takes care of Subscription List in the App Navigation.
 */
-
+app.controller('SubscriptionController', ['$scope', function($scope) {}]);
+/*
 app.controller('SubscriptionController', ['$scope', '$rootScope', '$window', 'SubscriptionModel', 'CalendarModel', 'Restangular',
 	function ($scope, $rootScope, $window, SubscriptionModel, CalendarModel, Restangular) {
 		'use strict';
@@ -60,3 +61,4 @@ app.controller('SubscriptionController', ['$scope', '$rootScope', '$window', 'Su
 		};
 	}
 ]);
+*/
