@@ -45,9 +45,8 @@ $scripts = [
 	'vendor/angular/angular.min',
 	'vendor/restangular/dist/restangular.min',
 	'vendor/angular-route/angular-route.min',
-	'vendor/angular-ui/angular-ui',
-	'vendor/angular-ui/angular-ui-calendar',
-	'vendor/angular-ui/angular-ui-sortable',
+	'vendor/angular-bootstrap/ui-bootstrap.min',
+	'vendor/angular-ui-calendar/src/calendar',
 	'../../../core/js/multiselect',
 	'public/app'
 ];

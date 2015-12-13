@@ -3,8 +3,10 @@
   "version": "0.10.7",
   "dependencies": {
     "angular": "",
+    "angular-route": "",
+    "angular-bootstrap": "",
     "restangular": "",
-    "fullcalendar": "v2.0.3",
+    "angular-ui-calendar": "",
     "jquery-timepicker": "",
     "jstzdetect": "",
     "ical.js": "~1.1.2"
