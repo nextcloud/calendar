@@ -46,43 +46,53 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 
 
 		$scope.create = function (name, color) {
+			CalendarService.create(name, color).then(function(calendar) {
+				$scope.calendars.push(calendar);
+				$scope.$apply();
+			});
 
 			$scope.newCalendarInputVal = '';
 			$scope.newCalendarColorVal = '';
 		};
 
 		$scope.download = function (calendar) {
-			$window.open('v1/calendars/' + calendar.id + '/export');
+			var url = calendar.url;
+			// cut off last slash to have a fancy name for the ics
+			if (url.slice(url.length - 1) === '/') {
+				url = url.slice(0, url.length - 1);
+			}
+			url += '?export';
+
+			$window.open(url);
 		};
 
 		$scope.prepareUpdate = function (calendar) {
-			$scope.backups[calendar.id] = angular.copy(calendar);
-			calendar.list.edit = true;
+			calendar.prepareUpdate();
 		};
 
 		$scope.cancelUpdate = function (calendar) {
-			angular.forEach($scope.calendars, function(value, key) {
-				if (value.id === calendar.id) {
-					$scope.calendars[key] = angular.copy($scope.backups[calendar.id]);
-					$scope.calendars[key].list.edit = false;
-				}
-			});
+			calendar.resetToPreviousState();
 		};
 
 		$scope.performUpdate = function (calendar) {
-
+			CalendarService.update(calendar);
 		};
 
 		$scope.triggerEnable = function(calendar) {
-			calendar.loading = true;
-			var newEnabled = !calendar.enabled;
+			calendar.list.loading = true;
+			calendar.enabled = !calendar.enabled;
 
-			CalendarService.patch()
+			CalendarService.update(calendar);
 		};
 
-		$scope.remove = function (c) {
-			c.loading = true;
-			CalendarService.delete(c);
+		$scope.remove = function (calendar) {
+			calendar.list.loading = true;
+			CalendarService.delete(calendar).then(function() {
+				$scope.calendars = $scope.calendars.filter(function (element) {
+					return element.url !== calendar.url;
+				});
+				$scope.$apply();
+			});
 		};
 
 		//We need to reload the refresh the calendar-list,
@@ -94,7 +104,7 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 
 		$rootScope.$on('finishedLoadingEvents', function(event, calendarId) {
 			//var calendar = CalendarModel.get(calendarId);
-			//calendar.loading = false;
+			//calendar.list.loading = false;
 			//CalendarModel.update(calendar);
 			//$scope.calendars = CalendarModel.getAll();
 		});

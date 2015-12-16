@@ -370,43 +370,53 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 
 
 		$scope.create = function (name, color) {
+			CalendarService.create(name, color).then(function(calendar) {
+				$scope.calendars.push(calendar);
+				$scope.$apply();
+			});
 
 			$scope.newCalendarInputVal = '';
 			$scope.newCalendarColorVal = '';
 		};
 
 		$scope.download = function (calendar) {
-			$window.open('v1/calendars/' + calendar.id + '/export');
+			var url = calendar.url;
+			// cut off last slash to have a fancy name for the ics
+			if (url.slice(url.length - 1) === '/') {
+				url = url.slice(0, url.length - 1);
+			}
+			url += '?export';
+
+			$window.open(url);
 		};
 
 		$scope.prepareUpdate = function (calendar) {
-			$scope.backups[calendar.id] = angular.copy(calendar);
-			calendar.list.edit = true;
+			calendar.prepareUpdate();
 		};
 
 		$scope.cancelUpdate = function (calendar) {
-			angular.forEach($scope.calendars, function(value, key) {
-				if (value.id === calendar.id) {
-					$scope.calendars[key] = angular.copy($scope.backups[calendar.id]);
-					$scope.calendars[key].list.edit = false;
-				}
-			});
+			calendar.resetToPreviousState();
 		};
 
 		$scope.performUpdate = function (calendar) {
-
+			CalendarService.update(calendar);
 		};
 
 		$scope.triggerEnable = function(calendar) {
-			calendar.loading = true;
-			var newEnabled = !calendar.enabled;
+			calendar.list.loading = true;
+			calendar.enabled = !calendar.enabled;
 
-			CalendarService.patch()
+			CalendarService.update(calendar);
 		};
 
-		$scope.remove = function (c) {
-			c.loading = true;
-			CalendarService.delete(c);
+		$scope.remove = function (calendar) {
+			calendar.list.loading = true;
+			CalendarService.delete(calendar).then(function() {
+				$scope.calendars = $scope.calendars.filter(function (element) {
+					return element.url !== calendar.url;
+				});
+				$scope.$apply();
+			});
 		};
 
 		//We need to reload the refresh the calendar-list,
@@ -418,7 +428,7 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 
 		$rootScope.$on('finishedLoadingEvents', function(event, calendarId) {
 			//var calendar = CalendarModel.get(calendarId);
-			//calendar.loading = false;
+			//calendar.list.loading = false;
 			//CalendarModel.update(calendar);
 			//$scope.calendars = CalendarModel.getAll();
 		});
@@ -1213,40 +1223,118 @@ app.filter('subscriptionFilter',
 app.factory('Calendar', ['$filter', function($filter) {
 	'use strict';
 
-	return function Calendar(url, props) {
+	function Calendar(url, props) {
 		angular.extend(this, {
-			url: url,
-			enabled: props['{http://owncloud.org/ns}calendar-enabled'] || true,
-			displayname: props['{DAV:}displayname'] || 'Unnamed',
-			color: props['{http://apple.com/ns/ical/}calendar-color'] || '#1d2d44',
-			order: parseInt(props['{http://apple.com/ns/ical/}calendar-order']) || 0,
-			components: {
-				vevent: false,
-				vjournal: false,
-				vtodo: false
+			_propertiesBackup: {},
+			_properties: {
+				url: url,
+				enabled: props['{http://owncloud.org/ns}calendar-enabled'] === '1',
+				displayname: props['{DAV:}displayname'] || 'Unnamed',
+				color: props['{http://apple.com/ns/ical/}calendar-color'] || '#1d2d44',
+				order: parseInt(props['{http://apple.com/ns/ical/}calendar-order']) || 0,
+				components: {
+					vevent: false,
+					vjournal: false,
+					vtodo: false
+				},
+				cruds: {
+					create: true,
+					read: true,
+					update: true,
+					delete: true,
+					share: true
+					//TODO - implement me
+				},
+				list: {
+					edit: false,
+					loading: true,
+					locked: false
+				}
 			},
-			cruds: {
-				create: true,
-				read: true,
-				update: true,
-				delete: true,
-				share: true
-				//TODO - implement me
-			},
-			list: {
-				edit: false,
-				locked: false
-			}
+			_updatedProperties: []
 		});
 
 		var components = props['{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set'];
 		for (var i=0; i < components.length; i++) {
 			var name = components[i].attributes.getNamedItem('name').textContent.toLowerCase();
-			if (this.components.hasOwnProperty(name)) {
-				this.components[name] = true;
+			if (this._properties.components.hasOwnProperty(name)) {
+				this._properties.components[name] = true;
 			}
 		}
+	}
+
+	Calendar.prototype = {
+		get url() {
+			return this._properties.url;
+		},
+		get enabled() {
+			return this._properties.enabled;
+		},
+		set enabled(enabled) {
+			this._properties.enabled = enabled;
+			this._setUpdated('enabled');
+		},
+		get displayname() {
+			return this._properties.displayname;
+		},
+		set displayname(displayname) {
+			this._properties.displayname = displayname;
+			this._setUpdated('displayname');
+		},
+		get color() {
+			return this._properties.color;
+		},
+		set color(color) {
+			this._properties.color = color;
+			this._setUpdated('color');
+		},
+		get order() {
+			return this._properties.order;
+		},
+		set order(order) {
+			this._properties.order = order;
+			this._setUpdated('order');
+		},
+		get components() {
+			return this._properties.components;
+		},
+		set components(components) {
+			this._properties.components = components;
+			this._setUpdated('components');
+		},
+		get cruds() {
+			return this._properties.cruds;
+		},
+		get list() {
+			return this._properties.list;
+		},
+		set list(list) {
+			this._properties.list = list;
+		},
+		_setUpdated: function(propName) {
+			if (this._updatedProperties.indexOf(propName) == -1) {
+				this._updatedProperties.push(propName);
+			}
+		},
+		get updatedProperties() {
+			return this._updatedProperties;
+		},
+		resetUpdatedProperties: function() {
+			this._updatedProperties = [];
+		},
+		prepareUpdate: function() {
+			this._properties.list.edit = true;
+			this._propertiesBackup = angular.copy(this._properties);
+			this._setUpdated('components');
+		},
+		resetToPreviousState: function() {
+			this._properties = angular.copy(this._propertiesBackup);
+			this._properties.list.edit = false;
+			this._propertiesBackup = {};
+		}
 	};
+
+	return Calendar;
 }]);
 app.factory('Event', ['$filter', function($filter) {
 	'use strict';
@@ -1271,13 +1359,16 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 
 	this._CALENDAR_HOME = null;
 
+	this._takenUrls = [];
+
 	this._PROPERTIES = [
 		'{' + DavClient.NS_DAV + '}displayname',
 		'{' + DavClient.NS_IETF + '}calendar-description',
 		'{' + DavClient.NS_IETF + '}calendar-timezone',
 		'{' + DavClient.NS_APPLE + '}calendar-order',
 		'{' + DavClient.NS_APPLE + '}calendar-color',
-		'{' + DavClient.NS_IETF + '}supported-calendar-component-set'
+		'{' + DavClient.NS_IETF + '}supported-calendar-component-set',
+		'{' + DavClient.NS_OWNCLOUD + '}calendar-enabled'
 	];
 
 	function discoverHome(callback) {
@@ -1333,6 +1424,8 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 					continue;
 				}
 
+				_this._takenUrls.push(body.href);
+
 				var responseCode = getResponseCodeFromHTTPResponse(body.propStat[0].status);
 				if (!DavClient.wasRequestSuccessful(responseCode)) {
 					continue;
@@ -1346,15 +1439,27 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 		});
 	};
 
-	this.get = function(uri) {
+	this.get = function(url) {
 		if (this._CALENDAR_HOME === null) {
 			return discoverHome(function() {
-				return _this.get(uri);
+				return _this.get(url);
 			});
 		}
 
-		DavClient.propFind(DavClient.buildUrl(this._CALENDAR_HOME + '/' + uri), this._PROPERTIES, 0).then(function(response) {
+		return DavClient.propFind(DavClient.buildUrl(url), this._PROPERTIES, 0).then(function(response) {
+			var body = response.body;
+			if (body.propStat.length < 1) {
+				//TODO - something went wrong
+				return;
+			}
 
+			var responseCode = getResponseCodeFromHTTPResponse(body.propStat[0].status);
+			if (!DavClient.wasRequestSuccessful(responseCode)) {
+				//TODO - something went wrong
+				return;
+			}
+
+			return new Calendar(body.href, body.propStat[0].properties);
 		});
 	};
 
@@ -1365,11 +1470,12 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 			});
 		}
 
-		var xmlDoc = document.implementation.createDocument('','',null);
+		var xmlDoc = document.implementation.createDocument('', '', null);
 		var cMkcalendar = xmlDoc.createElement('c:mkcalendar');
 		cMkcalendar.setAttribute('xmlns:c', 'urn:ietf:params:xml:ns:caldav');
 		cMkcalendar.setAttribute('xmlns:d', 'DAV:');
 		cMkcalendar.setAttribute('xmlns:a', 'http://apple.com/ns/ical/');
+		cMkcalendar.setAttribute('xmlns:o', 'http://owncloud.org/ns');
 		xmlDoc.appendChild(cMkcalendar);
 
 		var dSet = xmlDoc.createElement('d:set');
@@ -1378,30 +1484,153 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 		var dProp = xmlDoc.createElement('d:prop');
 		dSet.appendChild(dProp);
 
-		var dDisplayname = xmlDoc.createElement('d:displayname');
-		dDisplayname.textContent = name;
-		dProp.appendChild(dDisplayname);
-
-		var aColor = xmlDoc.createElement('a:calendar-color');
-		aColor.textContent = color;
-		dProp.appendChild(aColor);
-
-		var cComponents = xmlDoc.createElement('c:supported-calendar-component-set');
-		dProp.appendChild(cComponents);
-
-		var cComp = xmlDoc.createElement('c:comp');
-		cComp.setAttribute('name', 'VEVENT');
-		cComponents.appendChild(cComp);
+		dProp.appendChild(this._createXMLForProperty(xmlDoc, 'displayname', name));
+		dProp.appendChild(this._createXMLForProperty(xmlDoc, 'enabled', true));
+		dProp.appendChild(this._createXMLForProperty(xmlDoc, 'color', color));
+		dProp.appendChild(this._createXMLForProperty(xmlDoc, 'components', {vevent: true}));
 
 		var body = cMkcalendar.outerHTML;
+
+		var uri = this._suggestUri(name);
+		var url = this._CALENDAR_HOME + uri + '/';
+		var headers = {
+			'Content-Type' : 'application/xml; charset=utf-8'
+		};
+
+		return DavClient.request('MKCALENDAR', url, headers, body).then(function(response) {
+			if (response.status === 201) {
+				_this._takenUrls.push(url);
+				return _this.get(url);
+			} else {
+				// TODO - handle error case
+			}
+		});
 	};
 
-	this.patch = function(calendar, prop, value) {
+	this.update = function(calendar) {
+		var xmlDoc = document.implementation.createDocument('', '', null);
+		var dPropUpdate = xmlDoc.createElement('d:propertyupdate');
+		dPropUpdate.setAttribute('xmlns:c', 'urn:ietf:params:xml:ns:caldav');
+		dPropUpdate.setAttribute('xmlns:d', 'DAV:');
+		dPropUpdate.setAttribute('xmlns:a', 'http://apple.com/ns/ical/');
+		dPropUpdate.setAttribute('xmlns:o', 'http://owncloud.org/ns');
+		xmlDoc.appendChild(dPropUpdate);
 
+		var dSet = xmlDoc.createElement('d:set');
+		dPropUpdate.appendChild(dSet);
+
+		var dProp = xmlDoc.createElement('d:prop');
+		dSet.appendChild(dProp);
+
+		var updatedProperties = calendar.updatedProperties;
+		calendar.resetUpdatedProperties();
+		for (var i=0; i < updatedProperties.length; i++) {
+			dProp.appendChild(this._createXMLForProperty(
+				xmlDoc,
+				updatedProperties[i],
+				calendar[updatedProperties[i]]
+			));
+		}
+
+		var url = calendar.url;
+		var body = dPropUpdate.outerHTML;
+		var headers = {
+			'Content-Type' : 'application/xml; charset=utf-8'
+		};
+
+		return DavClient.request('PROPPATCH', url, headers, body).then(function(response) {
+			var responseBody = DavClient.parseMultiStatus(response.body);
+			console.log(responseBody);
+		});
 	};
 
 	this.delete = function(calendar) {
+		return DavClient.request('DELETE', calendar.url, {}, '').then(function(response) {
+			if (response.status === 204) {
+				return true;
+			} else {
+				// TODO - handle error case
+				return false;
+			}
+		});
+	};
 
+	this._createXMLForProperty = function(xmlDoc, propName, value) {
+		switch(propName) {
+			case 'enabled':
+				var oEnabled = xmlDoc.createElement('o:calendar-enabled');
+				oEnabled.textContent = value ? '1' : '0';
+				return oEnabled;
+
+			case 'displayname':
+				var dDisplayname = xmlDoc.createElement('d:displayname');
+				dDisplayname.textContent = value;
+				return dDisplayname;
+
+			case 'order':
+				var aOrder = xmlDoc.createElement('a:calendar-color');
+				aOrder.textContent = value;
+				return aOrder;
+
+			case 'color':
+				var aColor = xmlDoc.createElement('a:calendar-color');
+				aColor.textContent = value;
+				return aColor;
+
+			case 'components':
+				var cComponents = xmlDoc.createElement('c:supported-calendar-component-set');
+				for (var component in value) {
+					if (value.hasOwnProperty(component) && value[component]) {
+						var cComp = xmlDoc.createElement('c:comp');
+						cComp.setAttribute('name', component.toUpperCase());
+						cComponents.appendChild(cComp);
+					}
+				}
+				return cComponents;
+		}
+	};
+
+	this._isUriAlreadyTaken = function(uri) {
+		return (this._takenUrls.indexOf(this._CALENDAR_HOME + uri + '/') !== -1);
+	};
+
+	this._suggestUri = function(displayname) {
+		var uri = displayname.toString().toLowerCase()
+			.replace(/\s+/g, '-')           // Replace spaces with -
+			.replace(/[^\w\-]+/g, '')       // Remove all non-word chars
+			.replace(/\-\-+/g, '-')         // Replace multiple - with single -
+			.replace(/^-+/, '')             // Trim - from start of text
+			.replace(/-+$/, '');            // Trim - from end of text
+
+		if (!this._isUriAlreadyTaken(uri)) {
+			return uri;
+		}
+
+		if (uri.indexOf('-') === -1) {
+			uri = uri + '-1';
+			if (!this._isUriAlreadyTaken(uri)) {
+				return uri;
+			}
+		}
+
+		while (this._isUriAlreadyTaken(uri)) {
+			var positionLastDash = uri.lastIndexOf('-');
+			var firstPart = uri.substr(0, positionLastDash);
+			var lastPart = uri.substr(positionLastDash + 1);
+
+			if (lastPart.match(/^\d+$/)) {
+				lastPart = parseInt(lastPart);
+				lastPart++;
+
+				uri = firstPart + '-' + lastPart;
+			} else if (lastPart === '') {
+				uri = uri + '1';
+			} else {
+				uri = uri = '-1';
+			}
+		}
+
+		return uri;
 	};
 
 }]);
