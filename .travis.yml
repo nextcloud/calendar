@@ -1,12 +1,15 @@
 language: php
 php:
+  - 5.4
   - 5.5
   - 5.6
+  - 7
 
 env:
-  - DB=sqlite
-  - DB=postgresql
-  - DB=mysql
+  global:
+    - CORE_BRANCH=master
+  matrix:
+    - DB=sqlite
 
 before_install:
   # get a newer node.js version
@@ -25,7 +28,7 @@ install:
   - sudo easy_install3 requests
   - sudo easy_install3 ocdev
   # clone core
-  - ocdev setup core --dir owncloud --branch master --no-history
+  - ocdev setup core --dir owncloud --branch $CORE_BRANCH --no-history
   - mv calendar-rework calendar
   - mv calendar owncloud/apps/
 
@@ -67,3 +70,12 @@ script:
 
 addons:
   postgresql: "9.3"
+
+matrix:
+  include:
+    - php: 5.4
+      env: DB=postgresql
+    - php: 5.4
+      env: DB=mysql
+#    - php: 5.4
+#      env: "DB=mysql CORE_BRANCH=stable9"
