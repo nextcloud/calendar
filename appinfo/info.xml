@@ -4,20 +4,12 @@
 	<name>Calendar</name>
 	<licence>AGPL</licence>
 	<author>Georg Ehrke, Raghu Nayyar, Bernhard Fröhler</author>
-	<require>8</require>
+	<require>9</require>
 	<dependencies>
-		<owncloud min-version="8.1" max-version="9.0" />
+		<owncloud min-version="9.0" max-version="9.0" />
 	</dependencies>
 	<description>Calendar with CalDAV support</description>
-	<remote>
-		<calendar>appinfo/remote.php</calendar>
-		<caldav>appinfo/remote.php</caldav>
-	</remote>
 	<documentation>
 		<user>http://doc.owncloud.org/server/8.1/user_manual/pim/calendar.html</user>
 	</documentation>
-	<public>
-		<calendar>share.php</calendar>
-		<caldav>share.php</caldav>
-	</public>
 </info>
