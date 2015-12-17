@@ -11,12 +11,11 @@ app.factory('Calendar', ['$filter', function($filter) {
 				color: props['{http://apple.com/ns/ical/}calendar-color'] || '#1d2d44',
 				order: parseInt(props['{http://apple.com/ns/ical/}calendar-order']) || 0,
 				cruds: {
-					create: true,
+					create: props['canWrite'],
 					read: true,
-					update: true,
-					delete: true,
-					share: true
-					//TODO - implement me
+					update: props['canWrite'],
+					delete: props['canWrite'],
+					share: props['canWrite']
 				},
 				list: {
 					edit: false,
@@ -70,7 +69,7 @@ app.factory('Calendar', ['$filter', function($filter) {
 			this._properties.list = list;
 		},
 		_setUpdated: function(propName) {
-			if (this._updatedProperties.indexOf(propName) == -1) {
+			if (this._updatedProperties.indexOf(propName) === -1) {
 				this._updatedProperties.push(propName);
 			}
 		},

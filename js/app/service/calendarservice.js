@@ -28,6 +28,8 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 
 	this._CALENDAR_HOME = null;
 
+	this._currentUserPrincipal = null;
+
 	this._takenUrls = [];
 
 	this._PROPERTIES = [
@@ -37,7 +39,9 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 		'{' + DavClient.NS_APPLE + '}calendar-order',
 		'{' + DavClient.NS_APPLE + '}calendar-color',
 		'{' + DavClient.NS_IETF + '}supported-calendar-component-set',
-		'{' + DavClient.NS_OWNCLOUD + '}calendar-enabled'
+		'{' + DavClient.NS_OWNCLOUD + '}calendar-enabled',
+		'{' + DavClient.NS_DAV + '}acl',
+		'{' + DavClient.NS_DAV + '}owner'
 	];
 
 	function discoverHome(callback) {
@@ -50,9 +54,9 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 				return;
 			}
 			var props = response.body.propStat[0].properties;
-			var currentUserPrincipal = props['{' + DavClient.NS_DAV + '}current-user-principal'][0].textContent;
+			_this._currentUserPrincipal = props['{' + DavClient.NS_DAV + '}current-user-principal'][0].textContent;
 
-			return DavClient.propFind(DavClient.buildUrl(currentUserPrincipal), ['{' + DavClient.NS_IETF + '}calendar-home-set'], 0).then(function (response) {
+			return DavClient.propFind(DavClient.buildUrl(_this._currentUserPrincipal), ['{' + DavClient.NS_IETF + '}calendar-home-set'], 0).then(function (response) {
 				if (!DavClient.wasRequestSuccessful(response.status)) {
 					throw "CalDAV client could not be initialized - Querying calendar-home-set failed";
 				}
@@ -101,16 +105,38 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 
 				var doesSupportVEvent = false;
 				var components = body.propStat[0].properties['{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set'];
-				for (var j=0; j < components.length; j++) {
-					var name = components[j].attributes.getNamedItem('name').textContent.toLowerCase();
-					if (name === 'vevent') {
-						doesSupportVEvent = true;
+				if (components) {
+					for (var j=0; j < components.length; j++) {
+						var name = components[j].attributes.getNamedItem('name').textContent.toLowerCase();
+						if (name === 'vevent') {
+							doesSupportVEvent = true;
+						}
 					}
 				}
 
 				if (!doesSupportVEvent) {
 					continue;
 				}
+
+				var canWrite = false;
+				var acl = body.propStat[0].properties['{' + DavClient.NS_DAV + '}acl'];
+				if (acl) {
+					for (var k=0; k < acl.length; k++) {
+						var href = acl[k].getElementsByTagNameNS('DAV:', 'href');
+						if (href.length === 0) {
+							continue;
+						}
+						href = href[0].textContent;
+						if (href !== _this._currentUserPrincipal) {
+							continue;
+						}
+						var writeNode = acl[k].getElementsByTagNameNS('DAV:', 'write');
+						if (writeNode.length > 0) {
+							canWrite = true;
+						}
+					}
+				}
+				body.propStat[0].properties['canWrite'] = canWrite;
 
 				var calendar = new Calendar(body.href, body.propStat[0].properties);
 				calendars.push(calendar);
@@ -182,8 +208,6 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 			if (response.status === 201) {
 				_this._takenUrls.push(url);
 				return _this.get(url);
-			} else {
-				// TODO - handle error case
 			}
 		});
 	};
