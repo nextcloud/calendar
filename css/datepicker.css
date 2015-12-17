@@ -24,121 +24,108 @@
 
 
 #datepicker .datepicker_current,
-#datepicker table thead,
-#datepicker .pickerbody-show,
 #app-navigation .togglebuttons,
 #app-navigation .togglebuttons .btn-group {
-  float: left;
+	float: left;
 }
 
 #app-navigation .togglebuttons .button.today {
-  float: right;
+	float: right;
 }
 
 #datepicker .pickerbody-hide {
-  display: none;
+	display: none;
 }
 
 #datepicker .datepicker_left, #datepicker .datepicker_right {
-  height: 34px;
-  width: 35px;
-  margin: 5px 0 0;
-  font-weight: normal;
+	height: 34px;
+	width: 35px;
+	margin: 5px 0 0;
+	font-weight: normal;
 }
-#datepicker .datepicker_right {
-  -webkit-border-radius: 0 3px 3px 0;
-  -moz-border-radius: 0 3px 3px 0;
-  -ms-border-radius: 0 3px 3px 0;
-  border-radius: 0 3px 3px 0;
-}
-#datepicker .datepicker_left {
-  -webkit-border-radius: 3px 0 0 3px;
-  -moz-border-radius: 3px 0 0 3px;
-  -ms-border-radius: 3px 0 0 3px;
-  border-radius: 3px 0 0 3px;
-}
-#datepicker .datepicker_current {
-  width: 170px;
-  padding: 6px 0px;
-  margin-top: 5px;
-  border-top: 1px solid #f8f8f8;
-  border-bottom: 1px solid #f8f8f8;
-  font-weight: bold;
-  text-align: center;
-  overflow: hidden;
-  cursor: pointer;
-}
-#datepicker .days {
-  color: #555555;
-  font-weight: normal;
-  border: 0;
-  width: 35px;
-}
-#datepicker .dates {
-  padding: 1px;
-  width: 35px;
-}
-#datepicker .date {
-  border: 1px solid #cccccc;
-  font-weight: normal;
-  color: #666666;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: block;
-  padding: .2em;
-  text-decoration: none;
-  text-align: center;
-  width: 25px;
-}
-#datepicker .date.active {
-  border: 1px solid #4d4d4d;
-  background: #ffffff;
-  color: #4d4d4d;
-}
+
 #datepicker table {
-  display: inline-block;
-  margin-left: 5px;
+	display: inline-block;
+	margin-left: 5px;
 }
-#datepicker .pickerbody-show {
-  width: 240px;
-  padding: 5px 5px 0px 0px;
+
+#datepicker table thead tr {
+	width: 100%;
+}
+
+#datepicker table thead .text-center {
+	text-align: center;
+}
+
+#datepicker table tbody tr,
+#datepicker table tbody tr:hover {
+	background: transparent;
+}
+
+#datepicker table tbody button {
+	margin: 3px;
+	background: transparent;
+	cursor: pointer;
+}
+
+#datepicker table tbody button.active {
+	border: 1px solid #aaa;
+}
+
+#datepicker table tbody button span {
+	cursor:pointer;
 }
 
 #app-navigation {
-  padding-bottom: 0;
-  position: absolute;
+	padding-bottom: 0;
+	position: absolute;
 }
 #app-navigation .togglebuttons {
-  width: 100%;
-  height: 44px;
+	width: 100%;
+	height: 44px;
 }
 #app-navigation .togglebuttons .button {
-  font-weight: normal;
-  padding: 8px;
+	font-weight: normal;
+	padding: 8px;
 }
 #app-navigation .togglebuttons .button.first {
-  margin-left: 5px;
-  -webkit-border-radius: 3px 0 0 3px;
-  -moz-border-radius: 3px 0 0 3px;
-  -ms-border-radius: 3px 0 0 3px;
-  border-radius: 3px 0 0 3px;
+	margin-left: 5px;
+	-webkit-border-radius: 3px 0 0 3px;
+	-ms-border-radius: 3px 0 0 3px;
+	border-radius: 3px 0 0 3px;
 }
 #app-navigation .togglebuttons .button.middle {
-  margin-left: -7px;
-  -webkit-border-radius: 0px;
-  -moz-border-radius: 0px;
-  -ms-border-radius: 0px;
-  border-radius: 0px;
+	margin-left: -7px;
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	-ms-border-radius: 0px;
+	border-radius: 0px;
 }
 #app-navigation .togglebuttons .button.last {
-  margin-left: -8px;
-  -webkit-border-radius: 0 3px 3px 0;
-  -moz-border-radius: 0 3px 3px 0;
-  -ms-border-radius: 0 3px 3px 0;
-  border-radius: 0 3px 3px 0;
+	margin-left: -8px;
+	-webkit-border-radius: 0 3px 3px 0;
+	-moz-border-radius: 0 3px 3px 0;
+	-ms-border-radius: 0 3px 3px 0;
+	border-radius: 0 3px 3px 0;
 }
 #app-navigation .togglebuttons .button.today {
-  position: absolute;
-  right: 0;
-  margin-right: 5px;
+	position: absolute;
+	right: 0;
+	margin-right: 5px;
+}
+
+
+/* Overrides */
+
+.glyphicon-chevron-left {
+	background: url("../img/leftarrow.svg") center center no-repeat;
+}
+
+.glyphicon-chevron-right {
+	background: url("../img/rightarrow.svg") center center no-repeat;
+}
+
+.glyphicon {
+	display: block;
+	height: 15px;
 }

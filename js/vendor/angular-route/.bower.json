@@ -14,7 +14,6 @@
     "commit": "623c956a4151bd8e864ba7d166eb8744413dde7d"
   },
   "_source": "git://github.com/angular/bower-angular-route.git",
-  "_target": "~1.4.8",
-  "_originalSource": "angular-route",
-  "_direct": true
+  "_target": "*",
+  "_originalSource": "angular-route"
 }

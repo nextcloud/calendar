@@ -41,13 +41,13 @@ $scripts = [
 	'vendor/jquery-timepicker/jquery.ui.timepicker',
 	'vendor/ical.js/build/ical',
 	'vendor/jstzdetect/jstz.min',
-	'vendor/fullcalendar/dist/fullcalendar.min',
 	'vendor/angular/angular.min',
 	'vendor/restangular/dist/restangular.min',
 	'vendor/angular-route/angular-route.min',
-	'vendor/angular-ui/angular-ui',
-	'vendor/angular-ui/angular-ui-calendar',
-	'vendor/angular-ui/angular-ui-sortable',
+	'vendor/angular-bootstrap/ui-bootstrap.min',
+	'vendor/angular-bootstrap/ui-bootstrap-tpls.min',
+	'vendor/angular-ui-calendar/src/calendar',
+	'vendor/fullcalendar/dist/fullcalendar.min',
 	'../../../core/js/multiselect',
 	'public/app'
 ];

@@ -39,6 +39,5 @@
   },
   "_source": "git://github.com/mozilla-comm/ical.js.git",
   "_target": "~1.1.2",
-  "_originalSource": "ical.js",
-  "_direct": true
+  "_originalSource": "ical.js"
 }
