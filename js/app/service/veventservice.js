@@ -24,6 +24,8 @@
 app.service('VEventService', ['DavClient', 'VEvent', function(DavClient, VEvent) {
 	'use strict';
 
+	var _this = this;
+
 	this.getAll = function(calendar, start, end) {
 		var xmlDoc = document.implementation.createDocument('', '', null);
 		var cCalQuery = xmlDoc.createElement('c:calendar-query');
@@ -66,25 +68,84 @@ app.service('VEventService', ['DavClient', 'VEvent', function(DavClient, VEvent)
 		var body = cCalQuery.outerHTML;
 
 		return DavClient.request('REPORT', url, headers, body).then(function(response) {
-			var responseBody = DavClient.parseMultiStatus(response.body);
-			console.log(responseBody);
+			if (!DavClient.wasRequestSuccessful(response.status)) {
+				//TODO - something went wrong
+				return;
+			}
+
+			var vevents = [];
+
+			var objects = DavClient.parseMultiStatus(response.body);
+			for (var i in objects) {
+				var object = objects[i];
+				var properties = object.propStat[0].properties;
+
+				var uri = object.href.substr(object.href.lastIndexOf('/') + 1);
+
+				var vevent = new VEvent(calendar, properties, uri);
+				vevents.push(vevent);
+			}
+
+			return vevents;
 		});
 	};
 
-	this.get = function(calendar, uid) {
-
+	this.get = function(calendar, uri) {
+		var url = calendar.url + uri;
+		return DavClient.request('GET', url, {}, '').then(function(response) {
+			return new VEvent(calendar, {
+				'{urn:ietf:params:xml:ns:caldav}calendar-data': response.body,
+				'{DAV:}getetag': response.xhr.getResponseHeader('ETag')
+			}, uri);
+		});
 	};
 
-	this.create = function(iCalData) {
-		return new VEvent();
+	this.create = function(calendar, data) {
+		var headers = {
+			'Content-Type': 'text/calendar; charset=utf-8'
+		};
+		var uri = this._generateRandomUri();
+		var url = calendar.url + uri;
+
+		return DavClient.request('PUT', url, headers, data).then(function(response) {
+			if (!DavClient.wasRequestSuccessful(response.status)) {
+				// TODO - something went wrong, do smth about it
+			}
+
+			return _this.get(calendar, uri);
+		});
 	};
 
 	this.update = function(event) {
+		var url = event.calendar.url + event.uri;
+		var headers = {
+			'Content-Type': 'text/calendar; charset=utf-8',
+			'If-Match': event.etag
+		};
 
+		return DavClient.request('PUT', url, headers, event.data).then(function(response) {
+			return DavClient.wasRequestSuccessful(response.status);
+		});
 	};
 
 	this.delete = function(event) {
+		var url = event.calendar.url + event.uri;
+		var headers = {
+			'If-Match': event.etag
+		};
 
+		return DavClient.request('DELETE', url, headers, '').then(function(response) {
+			return DavClient.wasRequestSuccessful(response.status);
+		});
+	};
+
+	this._generateRandomUri = function() {
+		var uri = 'ownCloud-';
+		uri += Math.random().toString(36).substr(2);
+		uri += Math.random().toString(36).substr(2);
+		uri += '.ics';
+
+		return uri;
 	};
 
 	this._getTimeRangeStamp = function(momentObject) {

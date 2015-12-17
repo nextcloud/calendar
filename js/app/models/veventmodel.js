@@ -24,9 +24,12 @@
 app.factory('VEvent', ['$filter', function($filter) {
 	'use strict';
 
-	return function VEvent(data) {
+	return function VEvent(calendar, props, uri) {
 		angular.extend(this, {
-
+			calendar: calendar,
+			data: props['{urn:ietf:params:xml:ns:caldav}calendar-data'],
+			uri: uri,
+			etag: props['{DAV:}getetag'] || null
 		});
 	};
 }]);
