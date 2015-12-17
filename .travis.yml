@@ -5,6 +5,10 @@ php:
   - 5.6
 #  - 7
 
+branches:
+  only:
+    - master
+
 env:
   global:
     - CORE_BRANCH=master
