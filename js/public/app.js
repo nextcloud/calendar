@@ -42,18 +42,24 @@ app.config(['$provide', '$routeProvider', 'RestangularProvider', '$httpProvider'
 * Description: The fullcalendar controller.
 */
 
-app.controller('CalController', ['$scope', '$rootScope', 'CalendarService', 'EventService', 'SettingsService', 'TimezoneService', 'fcHelper', 'objectConverter', 'Restangular', 'is',
-	function ($scope, $rootScope, CalendarService, EventService, SettingsService, TimezoneService, fcHelper, objectConverter, Restangular, is) {
+app.controller('CalController', ['$scope', '$rootScope', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'fcHelper', 'objectConverter', 'Restangular', 'is',
+	function ($scope, $rootScope, CalendarService, VEventService, SettingsService, TimezoneService, fcHelper, objectConverter, Restangular, is) {
 		'use strict';
 
+		$scope.calendars = [];
 		$scope.eventSources = [];
 		$scope.eventSource = {};
-		console.log(TimezoneService);
 		$scope.defaulttimezone = TimezoneService.current();
-		$scope.i = 0;
 		var switcher = [];
 
-		$scope.is = is;
+		is.loading = true;
+
+		CalendarService.getAll().then(function(calendars) {
+			$scope.calendars = calendars;
+			is.loading = false;
+			// TODO - scope.apply should not be necessary here
+			$scope.$apply();
+		});
 
 		$rootScope.$on('finishedLoadingCalendars', function() {
 			angular.forEach($scope.calendars, function (value) {
@@ -354,20 +360,8 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 	function ($scope, $rootScope, $window, CalendarService, is) {
 		'use strict';
 
-		$scope.calendars = [];
-		$scope.backups = {};
-		is.loading = true;
-
 		$scope.newCalendarInputVal = '';
 		$scope.newCalendarColorVal = '';
-
-		CalendarService.getAll().then(function(calendars) {
-			$scope.calendars = calendars;
-			is.loading = false;
-			// TODO - scope.apply should not be necessary here
-			$scope.$apply();
-		});
-
 
 		$scope.create = function (name, color) {
 			CalendarService.create(name, color).then(function(calendar) {
@@ -399,7 +393,10 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 		};
 
 		$scope.performUpdate = function (calendar) {
-			CalendarService.update(calendar);
+			CalendarService.update(calendar).then(function() {
+				calendar.list.edit = false;
+				$scope.$apply();
+			});
 		};
 
 		$scope.triggerEnable = function(calendar) {
@@ -463,8 +460,8 @@ app.controller('DatePickerController', ['$scope',
 * Description: Takes care of anything inside the Events Modal.
 */
 
-app.controller('EventsModalController', ['$scope', '$rootScope', '$routeParams', 'CalendarService', 'EventService', 'TimezoneService', 'DialogModel', 'eventEditorHelper',
-	function ($scope, $rootScope, $routeParams, CalendarService, EventService, TimezoneService, DialogModel, eventEditorHelper) {
+app.controller('EventsModalController', ['$scope', '$rootScope', '$routeParams', 'CalendarService', 'VEventService', 'TimezoneService', 'DialogModel', 'eventEditorHelper',
+	function ($scope, $rootScope, $routeParams, CalendarService, VEventService, TimezoneService, DialogModel, eventEditorHelper) {
 		'use strict';
 		//$scope.calendarModel = CalendarModel;
 		$scope.calendars = [];//CalendarModel.getAll();
@@ -905,8 +902,8 @@ app.controller('EventsModalController', ['$scope', '$rootScope', '$routeParams',
  * Description: Takes care of the Calendar Settings.
  */
 
-app.controller('SettingsController', ['$scope', '$rootScope', 'CalendarService', 'EventService', 'DialogModel',
-	function ($scope, $rootScope, CalendarService, EventService, DialogModel) {
+app.controller('SettingsController', ['$scope', '$rootScope', 'CalendarService', 'VEventService', 'DialogModel',
+	function ($scope, $rootScope, CalendarService, VEventService, DialogModel) {
 		'use strict';
 
 		$scope.settingsCalDavLink = OC.linkToRemote('caldav') + '/';
@@ -1115,44 +1112,6 @@ app.filter('calendarFilter',
 	}
 	]);
 
-app.filter('eventFilter',
-	[ function () {
-		'use strict';
-		var eventfilter = function (item) {
-			var filter = [];
-			if (item.length > 0) {
-				for (var i = 0; i < item.length; i++) {
-					if (item[i].components.vevent === true) {
-						filter.push(item[i]);
-					}
-				}
-			}
-			return filter;
-		};
-		return eventfilter;
-	}
-	]
-);
-
-app.filter('noteventFilter',
-	[ function () {
-		'use strict';
-		var noteventfilter = function (item) {
-			var filter = [];
-			if (item.length > 0) {
-				for (var i = 0; i < item.length; i++) {
-					if (item[i].components.vevent === false) {
-						filter.push(item[i]);
-					}
-				}
-			}
-			return filter;
-		};
-		return noteventfilter;
-	}
-	]
-);
-
 app.filter('simpleReminderDescription', function() {
 	'use strict';
 	var actionMapper = {
@@ -1232,11 +1191,6 @@ app.factory('Calendar', ['$filter', function($filter) {
 				displayname: props['{DAV:}displayname'] || 'Unnamed',
 				color: props['{http://apple.com/ns/ical/}calendar-color'] || '#1d2d44',
 				order: parseInt(props['{http://apple.com/ns/ical/}calendar-order']) || 0,
-				components: {
-					vevent: false,
-					vjournal: false,
-					vtodo: false
-				},
 				cruds: {
 					create: true,
 					read: true,
@@ -1253,14 +1207,6 @@ app.factory('Calendar', ['$filter', function($filter) {
 			},
 			_updatedProperties: []
 		});
-
-		var components = props['{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set'];
-		for (var i=0; i < components.length; i++) {
-			var name = components[i].attributes.getNamedItem('name').textContent.toLowerCase();
-			if (this._properties.components.hasOwnProperty(name)) {
-				this._properties.components[name] = true;
-			}
-		}
 	}
 
 	Calendar.prototype = {
@@ -1295,13 +1241,6 @@ app.factory('Calendar', ['$filter', function($filter) {
 			this._properties.order = order;
 			this._setUpdated('order');
 		},
-		get components() {
-			return this._properties.components;
-		},
-		set components(components) {
-			this._properties.components = components;
-			this._setUpdated('components');
-		},
 		get cruds() {
 			return this._properties.cruds;
 		},
@@ -1325,7 +1264,6 @@ app.factory('Calendar', ['$filter', function($filter) {
 		prepareUpdate: function() {
 			this._properties.list.edit = true;
 			this._propertiesBackup = angular.copy(this._properties);
-			this._setUpdated('components');
 		},
 		resetToPreviousState: function() {
 			this._properties = angular.copy(this._propertiesBackup);
@@ -1336,7 +1274,7 @@ app.factory('Calendar', ['$filter', function($filter) {
 
 	return Calendar;
 }]);
-app.factory('Event', ['$filter', function($filter) {
+app.factory('Timezone', ['$filter', function($filter) {
 	'use strict';
 
 	return function Event(data) {
@@ -1344,11 +1282,12 @@ app.factory('Event', ['$filter', function($filter) {
 		});
 	};
 }]);
-app.factory('Timezone', ['$filter', function($filter) {
+app.factory('VEvent', ['$filter', function($filter) {
 	'use strict';
 
-	return function Event(data) {
+	return function VEvent(data) {
 		angular.extend(this, {
+
 		});
 	};
 }]);
@@ -1412,7 +1351,6 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 
 		return DavClient.propFind(DavClient.buildUrl(this._CALENDAR_HOME), this._PROPERTIES, 1).then(function(response) {
 			var calendars = [];
-			console.log(response);
 
 			if (!DavClient.wasRequestSuccessful(response.status)) {
 				throw "CalDAV client could not be initialized - Querying calendars failed";
@@ -1428,6 +1366,19 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 
 				var responseCode = getResponseCodeFromHTTPResponse(body.propStat[0].status);
 				if (!DavClient.wasRequestSuccessful(responseCode)) {
+					continue;
+				}
+
+				var doesSupportVEvent = false;
+				var components = body.propStat[0].properties['{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set'];
+				for (var j=0; j < components.length; j++) {
+					var name = components[j].attributes.getNamedItem('name').textContent.toLowerCase();
+					if (name === 'vevent') {
+						doesSupportVEvent = true;
+					}
+				}
+
+				if (!doesSupportVEvent) {
 					continue;
 				}
 
@@ -1827,34 +1778,6 @@ app.factory('eventEditorHelper', function () {
 		}
 	};
 });
-app.service('EventService', ['DavClient', 'Event', function(DavClient, Event) {
-	'use strict';
-
-	this.getAll = function(calendar) {
-
-	};
-
-	this.getAllInPeriod = function(calendar, start, end) {
-
-	};
-
-	this.get = function(calendar, uid) {
-
-	};
-
-	this.create = function(calendar) {
-
-	};
-
-	this.update = function(calendar) {
-
-	};
-
-	this.delete = function(calendar) {
-
-	};
-
-}]);
 app.factory('fcHelper', function () {
 	'use strict';
 
@@ -2862,6 +2785,77 @@ app.service('TimezoneService', ['Timezone', function(Timezone) {
 
 	this.current = function() {
 
+	};
+
+}]);
+app.service('VEventService', ['DavClient', 'VEvent', function(DavClient, VEvent) {
+	'use strict';
+
+	this.getAll = function(calendar, start, end) {
+		var xmlDoc = document.implementation.createDocument('', '', null);
+		var cCalQuery = xmlDoc.createElement('c:calendar-query');
+		cCalQuery.setAttribute('xmlns:c', 'urn:ietf:params:xml:ns:caldav');
+		cCalQuery.setAttribute('xmlns:d', 'DAV:');
+		cCalQuery.setAttribute('xmlns:a', 'http://apple.com/ns/ical/');
+		cCalQuery.setAttribute('xmlns:o', 'http://owncloud.org/ns');
+		xmlDoc.appendChild(cCalQuery);
+
+		var dProp = xmlDoc.createElement('d:prop');
+		cCalQuery.appendChild(dProp);
+
+		var dGetEtag = xmlDoc.createElement('d:getetag');
+		dProp.appendChild(dGetEtag);
+
+		var cCalendarData = xmlDoc.createElement('c:calendar-data');
+		dProp.appendChild(cCalendarData);
+
+		var cFilter = xmlDoc.createElement('c:filter');
+		cCalQuery.appendChild(cFilter);
+
+		var cCompFilterVCal = xmlDoc.createElement('c:comp-filter');
+		cCompFilterVCal.setAttribute('name', 'VCALENDAR');
+		cFilter.appendChild(cCompFilterVCal);
+
+		var cCompFilterVEvent = xmlDoc.createElement('c:comp-filter');
+		cCompFilterVEvent.setAttribute('name', 'VEVENT');
+		cCompFilterVCal.appendChild(cCompFilterVEvent);
+
+		var cTimeRange = xmlDoc.createElement('c:time-range');
+		cTimeRange.setAttribute('start', this._getTimeRangeStamp(start));
+		cTimeRange.setAttribute('end', this._getTimeRangeStamp(end));
+		cCompFilterVEvent.appendChild(cTimeRange);
+
+		var url = calendar.url;
+		var headers = {
+			'Content-Type': 'application/xml; charset=utf-8',
+			'Depth': 1
+		};
+		var body = cCalQuery.outerHTML;
+
+		return DavClient.request('REPORT', url, headers, body).then(function(response) {
+			var responseBody = DavClient.parseMultiStatus(response.body);
+			console.log(responseBody);
+		});
+	};
+
+	this.get = function(calendar, uid) {
+
+	};
+
+	this.create = function(iCalData) {
+		return new VEvent();
+	};
+
+	this.update = function(event) {
+
+	};
+
+	this.delete = function(event) {
+
+	};
+
+	this._getTimeRangeStamp = function(momentObject) {
+		return momentObject.format('YYYYMMDD') + 'T' + momentObject.format('HHmmss') + 'Z';
 	};
 
 }]);

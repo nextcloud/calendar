@@ -26,18 +26,24 @@
 * Description: The fullcalendar controller.
 */
 
-app.controller('CalController', ['$scope', '$rootScope', 'CalendarService', 'EventService', 'SettingsService', 'TimezoneService', 'fcHelper', 'objectConverter', 'Restangular', 'is',
-	function ($scope, $rootScope, CalendarService, EventService, SettingsService, TimezoneService, fcHelper, objectConverter, Restangular, is) {
+app.controller('CalController', ['$scope', '$rootScope', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'fcHelper', 'objectConverter', 'Restangular', 'is',
+	function ($scope, $rootScope, CalendarService, VEventService, SettingsService, TimezoneService, fcHelper, objectConverter, Restangular, is) {
 		'use strict';
 
+		$scope.calendars = [];
 		$scope.eventSources = [];
 		$scope.eventSource = {};
-		console.log(TimezoneService);
 		$scope.defaulttimezone = TimezoneService.current();
-		$scope.i = 0;
 		var switcher = [];
 
-		$scope.is = is;
+		is.loading = true;
+
+		CalendarService.getAll().then(function(calendars) {
+			$scope.calendars = calendars;
+			is.loading = false;
+			// TODO - scope.apply should not be necessary here
+			$scope.$apply();
+		});
 
 		$rootScope.$on('finishedLoadingCalendars', function() {
 			angular.forEach($scope.calendars, function (value) {

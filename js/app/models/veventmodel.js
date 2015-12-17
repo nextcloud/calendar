@@ -21,31 +21,12 @@
  *
  */
 
-app.service('EventService', ['DavClient', 'Event', function(DavClient, Event) {
+app.factory('VEvent', ['$filter', function($filter) {
 	'use strict';
 
-	this.getAll = function(calendar) {
+	return function VEvent(data) {
+		angular.extend(this, {
 
+		});
 	};
-
-	this.getAllInPeriod = function(calendar, start, end) {
-
-	};
-
-	this.get = function(calendar, uid) {
-
-	};
-
-	this.create = function(calendar) {
-
-	};
-
-	this.update = function(calendar) {
-
-	};
-
-	this.delete = function(calendar) {
-
-	};
-
 }]);

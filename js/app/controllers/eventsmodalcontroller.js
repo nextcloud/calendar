@@ -26,8 +26,8 @@
 * Description: Takes care of anything inside the Events Modal.
 */
 
-app.controller('EventsModalController', ['$scope', '$rootScope', '$routeParams', 'CalendarService', 'EventService', 'TimezoneService', 'DialogModel', 'eventEditorHelper',
-	function ($scope, $rootScope, $routeParams, CalendarService, EventService, TimezoneService, DialogModel, eventEditorHelper) {
+app.controller('EventsModalController', ['$scope', '$rootScope', '$routeParams', 'CalendarService', 'VEventService', 'TimezoneService', 'DialogModel', 'eventEditorHelper',
+	function ($scope, $rootScope, $routeParams, CalendarService, VEventService, TimezoneService, DialogModel, eventEditorHelper) {
 		'use strict';
 		//$scope.calendarModel = CalendarModel;
 		$scope.calendars = [];//CalendarModel.getAll();

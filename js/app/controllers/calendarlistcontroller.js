@@ -30,20 +30,8 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 	function ($scope, $rootScope, $window, CalendarService, is) {
 		'use strict';
 
-		$scope.calendars = [];
-		$scope.backups = {};
-		is.loading = true;
-
 		$scope.newCalendarInputVal = '';
 		$scope.newCalendarColorVal = '';
-
-		CalendarService.getAll().then(function(calendars) {
-			$scope.calendars = calendars;
-			is.loading = false;
-			// TODO - scope.apply should not be necessary here
-			$scope.$apply();
-		});
-
 
 		$scope.create = function (name, color) {
 			CalendarService.create(name, color).then(function(calendar) {
@@ -75,7 +63,10 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 		};
 
 		$scope.performUpdate = function (calendar) {
-			CalendarService.update(calendar);
+			CalendarService.update(calendar).then(function() {
+				calendar.list.edit = false;
+				$scope.$apply();
+			});
 		};
 
 		$scope.triggerEnable = function(calendar) {

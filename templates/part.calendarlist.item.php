@@ -39,14 +39,6 @@
 			title="<?php p($l->t('Share Calendar')) ?>">
 		</span>
 	</span>
-
-	<span class="action">
-		<span
-			class="calendarlist-icon caldav permanent icon-public"
-			title="<?php p($l->t('CalDav Link')); ?>"
-			ng-click="calendar.list.showCalDav = !calendar.list.showCalDav">
-		</span>
-	</span>
 	<span class="action">
 		<span
 			id="calendarlist-icon download"
@@ -73,29 +65,9 @@
 		</span>
 	</span>
 </span>
-<fieldset ng-show="calendar.list.showCalDav" class="caldavURL">
-	<input class="app-navigation-input" type="text" ng-model="calendar.list.calDavLink" data-id="{{ calendar.id }}" readonly />
-	<button id="chooseCalendar-close" class="btn close-button" ng-click="calendar.list.showCalDav = !calendar.list.showCalDav">
-		<i class="fa fa-times fa-1x"></i>
-	</button>
-</fieldset>
 <fieldset ng-show="calendar.list.edit" class="editfieldset">
 	<input class="app-navigation-input" type="text" ng-model="calendar.displayname" data-id="{{ calendar.id }}" />
 	<colorpicker class="colorpicker" selected="calendar.color"></colorpicker>
-	<div class="calendartype">
-		<p>
-			<input class="app-navigation-checkbox" type="checkbox" ng-model="calendar.components.vevent" />
-			<label class="label"><?php p($l->t('Event')); ?></label>
-		</p>
-		<p>
-			<input class="app-navigation-checkbox" type="checkbox" ng-model="calendar.components.vjournal" />
-			<label class="label"><?php p($l->t('Journal')); ?></label>
-		</p>
-		<p>
-			<input class="app-navigation-checkbox" type="checkbox" ng-model="calendar.components.vtodo" />
-			<label class="label"><?php p($l->t('Todo')); ?></label>
-		</p>
-	</div>
 	<div class="buttongroups">
 		<button ng-click="performUpdate(calendar)" id="updateCalendar" class="primary icon-checkmark-white accept-button"></button>
 		<button id="chooseCalendar-close" class="btn close-button icon-close" ng-click="cancelUpdate(calendar)">

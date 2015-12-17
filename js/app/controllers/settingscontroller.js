@@ -26,8 +26,8 @@
  * Description: Takes care of the Calendar Settings.
  */
 
-app.controller('SettingsController', ['$scope', '$rootScope', 'CalendarService', 'EventService', 'DialogModel',
-	function ($scope, $rootScope, CalendarService, EventService, DialogModel) {
+app.controller('SettingsController', ['$scope', '$rootScope', 'CalendarService', 'VEventService', 'DialogModel',
+	function ($scope, $rootScope, CalendarService, VEventService, DialogModel) {
 		'use strict';
 
 		$scope.settingsCalDavLink = OC.linkToRemote('caldav') + '/';

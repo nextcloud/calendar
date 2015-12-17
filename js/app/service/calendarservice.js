@@ -81,7 +81,6 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 
 		return DavClient.propFind(DavClient.buildUrl(this._CALENDAR_HOME), this._PROPERTIES, 1).then(function(response) {
 			var calendars = [];
-			console.log(response);
 
 			if (!DavClient.wasRequestSuccessful(response.status)) {
 				throw "CalDAV client could not be initialized - Querying calendars failed";
@@ -97,6 +96,19 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 
 				var responseCode = getResponseCodeFromHTTPResponse(body.propStat[0].status);
 				if (!DavClient.wasRequestSuccessful(responseCode)) {
+					continue;
+				}
+
+				var doesSupportVEvent = false;
+				var components = body.propStat[0].properties['{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set'];
+				for (var j=0; j < components.length; j++) {
+					var name = components[j].attributes.getNamedItem('name').textContent.toLowerCase();
+					if (name === 'vevent') {
+						doesSupportVEvent = true;
+					}
+				}
+
+				if (!doesSupportVEvent) {
 					continue;
 				}
 

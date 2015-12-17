@@ -10,11 +10,6 @@ app.factory('Calendar', ['$filter', function($filter) {
 				displayname: props['{DAV:}displayname'] || 'Unnamed',
 				color: props['{http://apple.com/ns/ical/}calendar-color'] || '#1d2d44',
 				order: parseInt(props['{http://apple.com/ns/ical/}calendar-order']) || 0,
-				components: {
-					vevent: false,
-					vjournal: false,
-					vtodo: false
-				},
 				cruds: {
 					create: true,
 					read: true,
@@ -31,14 +26,6 @@ app.factory('Calendar', ['$filter', function($filter) {
 			},
 			_updatedProperties: []
 		});
-
-		var components = props['{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set'];
-		for (var i=0; i < components.length; i++) {
-			var name = components[i].attributes.getNamedItem('name').textContent.toLowerCase();
-			if (this._properties.components.hasOwnProperty(name)) {
-				this._properties.components[name] = true;
-			}
-		}
 	}
 
 	Calendar.prototype = {
@@ -73,13 +60,6 @@ app.factory('Calendar', ['$filter', function($filter) {
 			this._properties.order = order;
 			this._setUpdated('order');
 		},
-		get components() {
-			return this._properties.components;
-		},
-		set components(components) {
-			this._properties.components = components;
-			this._setUpdated('components');
-		},
 		get cruds() {
 			return this._properties.cruds;
 		},
@@ -103,7 +83,6 @@ app.factory('Calendar', ['$filter', function($filter) {
 		prepareUpdate: function() {
 			this._properties.list.edit = true;
 			this._propertiesBackup = angular.copy(this._properties);
-			this._setUpdated('components');
 		},
 		resetToPreviousState: function() {
 			this._properties = angular.copy(this._propertiesBackup);
