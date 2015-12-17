@@ -12,6 +12,6 @@
     "ical.js": "~1.1.2"
   },
   "devDependencies": {
-    "angular-mocks": ""
+    "angular-mocks": "1.3.15"
   }
 }
