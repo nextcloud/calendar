@@ -31,10 +31,6 @@
 	 * @returns {boolean}
 	 */
 	function isCorrectEvent(event, vevent) {
-		if (event.objectUri !== vevent.getFirstPropertyValue('x-oc-uri')) {
-			return false;
-		}
-
 		if (event.recurrenceId === null) {
 			if (!vevent.hasProperty('recurrence-id')) {
 				return true;
@@ -82,11 +78,9 @@
 	 * @returns {*}
 	 */
 	function addCalendarDataToFCData(fcData, calendar) {
-		fcData.calendarId = calendar.id;
-		fcData.color = calendar.color;
-		fcData.textColor = calendar.textColor;
-		fcData.editable = calendar.editable;
-		fcData.className = 'fcCalendar-id-' + calendar.id;
+		fcData.calendar = calendar;
+		fcData.editable = calendar.cruds.update;
+		fcData.className = 'fcCalendar-id-' + calendar.url;
 
 		return fcData;
 	}
@@ -96,11 +90,12 @@
 	 * @param fcData
 	 * @param vevent
 	 * @param event
+	 * @param eventsObject
 	 * @returns {*}
 	 */
-	function addEventDataToFCData(fcData, vevent, event) {
-		fcData.objectUri = vevent.getFirstPropertyValue('x-oc-uri');
-		fcData.etag = vevent.getFirstPropertyValue('x-oc-etag');
+	function addEventDataToFCData(fcData, vevent, event, eventsObject) {
+		fcData.uri = eventsObject.uri;
+		fcData.etag = eventsObject.etag;
 		fcData.title = vevent.getFirstPropertyValue('summary');
 
 		if (event.isRecurrenceException()) {
@@ -169,10 +164,10 @@
 			var dtendOfRecurrence = next.clone();
 			dtendOfRecurrence.addDuration(duration);
 
-			if (isTimezoneConversionNecessary(dtstartOfRecurrence)) {
+			if (isTimezoneConversionNecessary(dtstartOfRecurrence) && timezone) {
 				dtstartOfRecurrence = dtstartOfRecurrence.convertToZone(timezone);
 			}
-			if (isTimezoneConversionNecessary(dtendOfRecurrence)) {
+			if (isTimezoneConversionNecessary(dtendOfRecurrence) && timezone) {
 				dtendOfRecurrence = dtendOfRecurrence.convertToZone(timezone);
 			}
 
@@ -197,10 +192,10 @@
 		var dtstart = vevent.getFirstPropertyValue('dtstart');
 		var dtend = calculateDTEnd(vevent);
 
-		if (isTimezoneConversionNecessary(dtstart)) {
+		if (isTimezoneConversionNecessary(dtstart) && timezone) {
 			dtstart = dtstart.convertToZone(timezone);
 		}
-		if (isTimezoneConversionNecessary(dtend)) {
+		if (isTimezoneConversionNecessary(dtend) && timezone) {
 			dtend = dtend.convertToZone(timezone);
 		}
 
@@ -214,22 +209,21 @@
 
 	return {
 		/**
-		 * render a jCal string
-		 * @param calendar
-		 * @param jCalData
+		 * render a ics string
+		 * @param eventObject
 		 * @param start
 		 * @param end
 		 * @param timezone
-		 * @param renderCallback a callback that is called for each rendered event
 		 * @returns {Array}
 		 */
-		renderJCAL: function(calendar, jCalData, start, end, timezone, renderCallback) {
-			var components = new ICAL.Component(jCalData);
+		renderCalData: function(eventObject, start, end, timezone) {
+			var jcal = ICAL.parse(eventObject.data);
+			var components = new ICAL.Component(jcal);
 
-			start = new ICAL.Time();
-			start.fromUnixTime(start);
-			end = new ICAL.Time();
-			end.fromUnixTime(end);
+			var icalstart = new ICAL.Time();
+			icalstart.fromUnixTime(start.format('X'));
+			var icalend = new ICAL.Time();
+			icalend.fromUnixTime(end.format('X'));
 
 			if (components.jCal.length === 0) {
 				return null;
@@ -238,6 +232,7 @@
 			registerTimezones(components);
 
 			var vevents = components.getAllSubcomponents('vevent');
+			var renderedEvents = [];
 
 			angular.forEach(vevents, function (vevent) {
 				var event = new ICAL.Event(vevent);
@@ -248,7 +243,7 @@
 						return;
 					}
 					if (event.isRecurring()) {
-						fcData = parseTimeForRecurringEvent(vevent, start, end, timezone);
+						fcData = parseTimeForRecurringEvent(vevent, icalstart, icalend, timezone);
 					} else {
 						fcData = [];
 						fcData.push(parseTimeForSingleEvent(vevent, timezone));
@@ -262,25 +257,27 @@
 				}
 
 				for (var i = 0, length = fcData.length; i < length; i++) {
-					fcData[i] = addCalendarDataToFCData(fcData[i], calendar);
-					fcData[i] = addEventDataToFCData(fcData[i], vevent, event);
+					fcData[i] = addCalendarDataToFCData(fcData[i], eventObject.calendar);
+					fcData[i] = addEventDataToFCData(fcData[i], vevent, event, eventObject);
+					fcData[i].event = eventObject;
 
-					renderCallback(fcData[i]);
+					renderedEvents.push(fcData[i]);
 				}
 			});
 
-			return [];
+			return renderedEvents;
 		},
 
 		/**
 		 * resize an event
 		 * @param event
 		 * @param delta
-		 * @param jCalData
+		 * @param data
 		 * @returns {*}
 		 */
-		resizeEvent: function(event, delta, jCalData) {
-			var components = new ICAL.Component(jCalData);
+		resizeEvent: function(event, delta, data) {
+			var jcal = ICAL.parse(data);
+			var components = new ICAL.Component(jcal);
 			var vevents = components.getAllSubcomponents('vevent');
 			var foundEvent = false;
 			var deltaAsSeconds = 0;
@@ -327,11 +324,12 @@
 		 * drop an event
 		 * @param event
 		 * @param delta
-		 * @param jCalData
+		 * @param data
 		 * @returns {*}
 		 */
-		dropEvent: function(event, delta, jCalData) {
-			var components = new ICAL.Component(jCalData);
+		dropEvent: function(event, delta, data) {
+			var jcal = ICAL.parse(data);
+			var components = new ICAL.Component(jcal);
 			var vevents = components.getAllSubcomponents('vevent');
 			var foundEvent = false;
 			var deltaAsSeconds = 0;
@@ -374,9 +372,10 @@
 		/**
 		 *
 		 * @param event
-		 * @param jCalData
+		 * @param data
 		 */
-		getCorrectEvent: function(event, jCalData) {
+		getCorrectEvent: function(event, data) {
+			var jCalData = ICAL.parse(data);
 			var components = new ICAL.Component(jCalData);
 			var vevents = components.getAllSubcomponents('vevent');
 

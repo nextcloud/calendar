@@ -25,7 +25,7 @@
 <div 
 	ui-calendar="uiConfig.calendar"
 	id="fullcalendar" class="calendar"
+	calendar="calendar"
 	ng-model="eventSources"
-	calendar="calendar" 
 	data-defaultView="<?php p(OCP\Config::getUserValue(OCP\User::getUser(), 'calendar', 'currentView', 'month')); ?>">
 </div>

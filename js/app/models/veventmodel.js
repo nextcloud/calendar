@@ -21,15 +21,43 @@
  *
  */
 
-app.factory('VEvent', ['$filter', function($filter) {
+app.factory('VEvent', ['$filter', 'fcHelper', 'objectConverter', function($filter, fcHelper, objectConverter) {
 	'use strict';
 
-	return function VEvent(calendar, props, uri) {
+	function VEvent(calendar, props, uri) {
 		angular.extend(this, {
 			calendar: calendar,
 			data: props['{urn:ietf:params:xml:ns:caldav}calendar-data'],
 			uri: uri,
-			etag: props['{DAV:}getetag'] || null
+			etag: props['{DAV:}getetag'] || null,
+			getFcEvent: function(start, end, timezone) {
+				var tz = ICAL.TimezoneService.has(timezone) ? ICAL.TimezoneService.get('UTC') : null;
+				return fcHelper.renderCalData(this, start, end, tz);
+			},
+			getSimpleData: function(fcEvent) {
+				var vevent = fcHelper.getCorrectEvent(fcEvent, this.data);
+				return objectConverter.parse(vevent);
+			},
+			drop: function(fcEvent, delta) {
+				var data = fcHelper.dropEvent(fcEvent, delta, this.data);
+				if (data === null) {
+					return false;
+				}
+
+				this.data = data;
+				return true;
+			},
+			resize: function(fcEvent, delta) {
+				var data = fcHelper.resizeEvent(fcEvent, delta, this.data);
+				if (data === null) {
+					return false;
+				}
+
+				this.data = data;
+				return true;
+			}
 		});
-	};
+	}
+
+	return VEvent;
 }]);

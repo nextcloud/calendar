@@ -42,8 +42,8 @@ app.config(['$provide', '$routeProvider', 'RestangularProvider', '$httpProvider'
 * Description: The fullcalendar controller.
 */
 
-app.controller('CalController', ['$scope', '$rootScope', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'fcHelper', 'objectConverter', 'Restangular', 'is',
-	function ($scope, $rootScope, CalendarService, VEventService, SettingsService, TimezoneService, fcHelper, objectConverter, Restangular, is) {
+app.controller('CalController', ['$scope', '$rootScope', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'fcHelper', 'objectConverter', 'Restangular', 'is', 'uiCalendarConfig',
+	function ($scope, $rootScope, CalendarService, VEventService, SettingsService, TimezoneService, fcHelper, objectConverter, Restangular, is, uiCalendarConfig) {
 		'use strict';
 
 		$scope.calendars = [];
@@ -59,38 +59,15 @@ app.controller('CalController', ['$scope', '$rootScope', 'CalendarService', 'VEv
 			is.loading = false;
 			// TODO - scope.apply should not be necessary here
 			$scope.$apply();
-		});
 
-		$rootScope.$on('finishedLoadingCalendars', function() {
-			angular.forEach($scope.calendars, function (value) {
-				if ($scope.eventSource[value.id] === undefined) {
-					$scope.eventSource[value.id] = {
-						events: function (start, end, timezone, callback) {
-							value.loading = true;
-							start = start.format('X');
-							end = end.format('X');
-							Restangular.one('calendars', value.id).one('events').one('inPeriod').getList(start + '/' + end).then(function (eventsobject) {
-								callback([]);
-								fcHelper.renderJCAL($scope.eventSource[value.id], eventsobject, start, end, $scope.timezone, function(renderedEvent) {
-									$scope.calendar.fullCalendar('renderEvent', renderedEvent);
-								});
-								$rootScope.$broadcast('finishedLoadingEvents', value.id);
-							}, function (response) {
-								OC.Notification.show(t('calendar', response.data.message));
-								$rootScope.$broadcast('finishedLoadingEvents', value.id);
-							});
-						},
-						color: value.color,
-						textColor: value.textColor,
-						editable: value.cruds.update,
-						id: value.id
-					};
-					if (value.enabled === true && value.components.vevent === true) {
-						$scope.calendar.fullCalendar('addEventSource',
-							$scope.eventSource[value.id]);
-						switcher.push(value.id);
-					}
+			angular.forEach($scope.calendars, function (calendar) {
+				$scope.eventSource[calendar.url] = calendar.fcEventSource;
+				if (calendar.enabled) {
+					uiCalendarConfig.calendars.calendar.fullCalendar(
+						'addEventSource',
+						$scope.eventSource[calendar.url]);
 				}
+				switcher.push(calendar.url);
 			});
 		});
 
@@ -184,57 +161,27 @@ app.controller('CalController', ['$scope', '$rootScope', 'CalendarService', 'VEv
 				},
 				firstDay: moment().startOf('week').format('d'),
 				select: $scope.newEvent,
-				eventClick: function( event, jsEvent, view ) {
-					Restangular.one('calendars', event.calendarId).one('events', event.objectUri).get().then(function (jCalData) {
-						var vevent = fcHelper.getCorrectEvent(event, jCalData);
-						var simpleData = objectConverter.parse(vevent);
-
-						console.log(simpleData);
-
-						$rootScope.$broadcast('initializeEventEditor', {
-							data: simpleData,
-							onSuccess: function(newData) {
-
-							}
-						});
+				eventClick: function(fcEvent, jsEvent, view) {
+					var simpleData = fcEvent.event.getSimpleData(fcEvent);
+					$rootScope.$broadcast('initializeEventEditor', {
+						data: simpleData,
+						onSuccess: function(newData) {
+						}
 					});
 				},
-				eventResize: function (event, delta, revertFunc) {
-					Restangular.one('calendars', event.calendarId).one('events', event.objectUri).get().then(function (eventsobject) {
-						var data = fcHelper.resizeEvent(event, delta, eventsobject);
-						if (data === null) {
-							revertFunc();
-							return;
-						}
-						Restangular.one('calendars', event.calendarId).one('events', event.objectUri).customPUT(
-							data,
-							'',
-							{},
-							{'Content-Type':'text/calendar'}
-						);
-					}, function (response) {
-						OC.Notification.show(t('calendar', response.data.message));
-					});
+				eventResize: function (fcEvent, delta, revertFunc) {
+					if (!fcEvent.event.resize(fcEvent, delta)) {
+						revertFunc();
+					}
+					VEventService.update(fcEvent.event);
 				},
-				eventDrop: function (event, delta, revertFunc) {
-					Restangular.one('calendars', event.calendarId).one('events', event.objectUri).get().then(function (eventsobject) {
-						var data = fcHelper.dropEvent(event, delta, eventsobject);
-						if (data === null) {
-							revertFunc();
-							return;
-						}
-						Restangular.one('calendars', event.calendarId).one('events', event.objectUri).customPUT(
-							data,
-							'',
-							{},
-							{'Content-Type':'text/calendar'}
-						);
-					}, function (response) {
-						OC.Notification.show(t('calendar', response.data.message));
-					});
+				eventDrop: function (fcEvent, delta, revertFunc) {
+					if(!fcEvent.event.drop(fcEvent, delta)) {
+						revertFunc();
+					}
+					VEventService.update(fcEvent.event);
 				},
 				viewRender: function (view, element) {
-					$scope.calendar = element;
 					angular.element('#firstrow').find('.datepicker_current').html(view.title).text();
 					angular.element('#datecontrol_date').datepicker('setDate', element.fullCalendar('getDate'));
 					var newview = view.name;
@@ -270,7 +217,7 @@ app.controller('CalController', ['$scope', '$rootScope', 'CalendarService', 'VEv
 					end = end.format('X');
 					Restangular.one('calendars', id).one('events').one('inPeriod').getList(start + '/' + end).then(function (eventsobject) {
 						callback([]);
-						fcHelper.renderJCAL($scope.eventSource[id], eventsobject, start, end, $scope.timezone, function(renderedEvent) {
+						fcHelper.renderCalData($scope.eventSource[id], eventsobject, start, end, $scope.timezone, function(renderedEvent) {
 							$scope.calendar.fullCalendar('renderEvent', renderedEvent);
 						});
 						$rootScope.$broadcast('finishedLoadingEvents', id);
@@ -1179,10 +1126,12 @@ app.filter('subscriptionFilter',
 	}
 	]);
 
-app.factory('Calendar', ['$filter', function($filter) {
+app.factory('Calendar', ['$filter', 'VEventService', function($filter, VEventService) {
 	'use strict';
 
 	function Calendar(url, props) {
+		var _this = this;
+
 		angular.extend(this, {
 			_propertiesBackup: {},
 			_properties: {
@@ -1205,6 +1154,28 @@ app.factory('Calendar', ['$filter', function($filter) {
 				}
 			},
 			_updatedProperties: []
+		});
+
+		angular.extend(this, {
+			fcEventSource: {
+				events: function (start, end, timezone, callback) {
+					_this._properties.list.loading = true;
+
+					VEventService.getAll(_this, start, end).then(function(events) {
+						var vevents = [];
+						for (var i = 0; i < events.length; i++) {
+							vevents = vevents.concat(events[i].getFcEvent(start, end, timezone));
+						}
+
+						callback(vevents);
+
+						_this._properties.list.loading = false;
+					});
+				},
+				color: this._properties.color,
+				editable: this._properties.cruds.update,
+				calendar: this
+			}
 		});
 	}
 
@@ -1282,18 +1253,47 @@ app.factory('Timezone', ['$filter', function($filter) {
 		});
 	};
 }]);
-app.factory('VEvent', ['$filter', function($filter) {
+app.factory('VEvent', ['$filter', 'fcHelper', 'objectConverter', function($filter, fcHelper, objectConverter) {
 	'use strict';
 
-	return function VEvent(calendar, props, uri) {
+	function VEvent(calendar, props, uri) {
 		angular.extend(this, {
 			calendar: calendar,
 			data: props['{urn:ietf:params:xml:ns:caldav}calendar-data'],
 			uri: uri,
-			etag: props['{DAV:}getetag'] || null
+			etag: props['{DAV:}getetag'] || null,
+			getFcEvent: function(start, end, timezone) {
+				var tz = ICAL.TimezoneService.has(timezone) ? ICAL.TimezoneService.get('UTC') : null;
+				return fcHelper.renderCalData(this, start, end, tz);
+			},
+			getSimpleData: function(fcEvent) {
+				var vevent = fcHelper.getCorrectEvent(fcEvent, this.data);
+				return objectConverter.parse(vevent);
+			},
+			drop: function(fcEvent, delta) {
+				var data = fcHelper.dropEvent(fcEvent, delta, this.data);
+				if (data === null) {
+					return false;
+				}
+
+				this.data = data;
+				return true;
+			},
+			resize: function(fcEvent, delta) {
+				var data = fcHelper.resizeEvent(fcEvent, delta, this.data);
+				if (data === null) {
+					return false;
+				}
+
+				this.data = data;
+				return true;
+			}
 		});
-	};
+	}
+
+	return VEvent;
 }]);
+
 app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Calendar){
 	'use strict';
 
@@ -1815,10 +1815,6 @@ app.factory('fcHelper', function () {
 	 * @returns {boolean}
 	 */
 	function isCorrectEvent(event, vevent) {
-		if (event.objectUri !== vevent.getFirstPropertyValue('x-oc-uri')) {
-			return false;
-		}
-
 		if (event.recurrenceId === null) {
 			if (!vevent.hasProperty('recurrence-id')) {
 				return true;
@@ -1866,11 +1862,9 @@ app.factory('fcHelper', function () {
 	 * @returns {*}
 	 */
 	function addCalendarDataToFCData(fcData, calendar) {
-		fcData.calendarId = calendar.id;
-		fcData.color = calendar.color;
-		fcData.textColor = calendar.textColor;
-		fcData.editable = calendar.editable;
-		fcData.className = 'fcCalendar-id-' + calendar.id;
+		fcData.calendar = calendar;
+		fcData.editable = calendar.cruds.update;
+		fcData.className = 'fcCalendar-id-' + calendar.url;
 
 		return fcData;
 	}
@@ -1880,11 +1874,12 @@ app.factory('fcHelper', function () {
 	 * @param fcData
 	 * @param vevent
 	 * @param event
+	 * @param eventsObject
 	 * @returns {*}
 	 */
-	function addEventDataToFCData(fcData, vevent, event) {
-		fcData.objectUri = vevent.getFirstPropertyValue('x-oc-uri');
-		fcData.etag = vevent.getFirstPropertyValue('x-oc-etag');
+	function addEventDataToFCData(fcData, vevent, event, eventsObject) {
+		fcData.uri = eventsObject.uri;
+		fcData.etag = eventsObject.etag;
 		fcData.title = vevent.getFirstPropertyValue('summary');
 
 		if (event.isRecurrenceException()) {
@@ -1953,10 +1948,10 @@ app.factory('fcHelper', function () {
 			var dtendOfRecurrence = next.clone();
 			dtendOfRecurrence.addDuration(duration);
 
-			if (isTimezoneConversionNecessary(dtstartOfRecurrence)) {
+			if (isTimezoneConversionNecessary(dtstartOfRecurrence) && timezone) {
 				dtstartOfRecurrence = dtstartOfRecurrence.convertToZone(timezone);
 			}
-			if (isTimezoneConversionNecessary(dtendOfRecurrence)) {
+			if (isTimezoneConversionNecessary(dtendOfRecurrence) && timezone) {
 				dtendOfRecurrence = dtendOfRecurrence.convertToZone(timezone);
 			}
 
@@ -1981,10 +1976,10 @@ app.factory('fcHelper', function () {
 		var dtstart = vevent.getFirstPropertyValue('dtstart');
 		var dtend = calculateDTEnd(vevent);
 
-		if (isTimezoneConversionNecessary(dtstart)) {
+		if (isTimezoneConversionNecessary(dtstart) && timezone) {
 			dtstart = dtstart.convertToZone(timezone);
 		}
-		if (isTimezoneConversionNecessary(dtend)) {
+		if (isTimezoneConversionNecessary(dtend) && timezone) {
 			dtend = dtend.convertToZone(timezone);
 		}
 
@@ -1998,22 +1993,21 @@ app.factory('fcHelper', function () {
 
 	return {
 		/**
-		 * render a jCal string
-		 * @param calendar
-		 * @param jCalData
+		 * render a ics string
+		 * @param eventObject
 		 * @param start
 		 * @param end
 		 * @param timezone
-		 * @param renderCallback a callback that is called for each rendered event
 		 * @returns {Array}
 		 */
-		renderJCAL: function(calendar, jCalData, start, end, timezone, renderCallback) {
-			var components = new ICAL.Component(jCalData);
+		renderCalData: function(eventObject, start, end, timezone) {
+			var jcal = ICAL.parse(eventObject.data);
+			var components = new ICAL.Component(jcal);
 
-			start = new ICAL.Time();
-			start.fromUnixTime(start);
-			end = new ICAL.Time();
-			end.fromUnixTime(end);
+			var icalstart = new ICAL.Time();
+			icalstart.fromUnixTime(start.format('X'));
+			var icalend = new ICAL.Time();
+			icalend.fromUnixTime(end.format('X'));
 
 			if (components.jCal.length === 0) {
 				return null;
@@ -2022,6 +2016,7 @@ app.factory('fcHelper', function () {
 			registerTimezones(components);
 
 			var vevents = components.getAllSubcomponents('vevent');
+			var renderedEvents = [];
 
 			angular.forEach(vevents, function (vevent) {
 				var event = new ICAL.Event(vevent);
@@ -2032,7 +2027,7 @@ app.factory('fcHelper', function () {
 						return;
 					}
 					if (event.isRecurring()) {
-						fcData = parseTimeForRecurringEvent(vevent, start, end, timezone);
+						fcData = parseTimeForRecurringEvent(vevent, icalstart, icalend, timezone);
 					} else {
 						fcData = [];
 						fcData.push(parseTimeForSingleEvent(vevent, timezone));
@@ -2046,25 +2041,27 @@ app.factory('fcHelper', function () {
 				}
 
 				for (var i = 0, length = fcData.length; i < length; i++) {
-					fcData[i] = addCalendarDataToFCData(fcData[i], calendar);
-					fcData[i] = addEventDataToFCData(fcData[i], vevent, event);
+					fcData[i] = addCalendarDataToFCData(fcData[i], eventObject.calendar);
+					fcData[i] = addEventDataToFCData(fcData[i], vevent, event, eventObject);
+					fcData[i].event = eventObject;
 
-					renderCallback(fcData[i]);
+					renderedEvents.push(fcData[i]);
 				}
 			});
 
-			return [];
+			return renderedEvents;
 		},
 
 		/**
 		 * resize an event
 		 * @param event
 		 * @param delta
-		 * @param jCalData
+		 * @param data
 		 * @returns {*}
 		 */
-		resizeEvent: function(event, delta, jCalData) {
-			var components = new ICAL.Component(jCalData);
+		resizeEvent: function(event, delta, data) {
+			var jcal = ICAL.parse(data);
+			var components = new ICAL.Component(jcal);
 			var vevents = components.getAllSubcomponents('vevent');
 			var foundEvent = false;
 			var deltaAsSeconds = 0;
@@ -2111,11 +2108,12 @@ app.factory('fcHelper', function () {
 		 * drop an event
 		 * @param event
 		 * @param delta
-		 * @param jCalData
+		 * @param data
 		 * @returns {*}
 		 */
-		dropEvent: function(event, delta, jCalData) {
-			var components = new ICAL.Component(jCalData);
+		dropEvent: function(event, delta, data) {
+			var jcal = ICAL.parse(data);
+			var components = new ICAL.Component(jcal);
 			var vevents = components.getAllSubcomponents('vevent');
 			var foundEvent = false;
 			var deltaAsSeconds = 0;
@@ -2158,9 +2156,10 @@ app.factory('fcHelper', function () {
 		/**
 		 *
 		 * @param event
-		 * @param jCalData
+		 * @param data
 		 */
-		getCorrectEvent: function(event, jCalData) {
+		getCorrectEvent: function(event, data) {
+			var jCalData = ICAL.parse(data);
 			var components = new ICAL.Component(jCalData);
 			var vevents = components.getAllSubcomponents('vevent');
 
@@ -2181,6 +2180,7 @@ app.factory('fcHelper', function () {
 		}
 	 };
  });
+
 app.factory('is', function () {
 	'use strict';
 
@@ -2948,3 +2948,4 @@ app.service('VEventService', ['DavClient', 'VEvent', function(DavClient, VEvent)
 	};
 
 }]);
+

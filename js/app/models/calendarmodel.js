@@ -1,7 +1,9 @@
-app.factory('Calendar', ['$filter', function($filter) {
+app.factory('Calendar', ['$filter', 'VEventService', function($filter, VEventService) {
 	'use strict';
 
 	function Calendar(url, props) {
+		var _this = this;
+
 		angular.extend(this, {
 			_propertiesBackup: {},
 			_properties: {
@@ -24,6 +26,28 @@ app.factory('Calendar', ['$filter', function($filter) {
 				}
 			},
 			_updatedProperties: []
+		});
+
+		angular.extend(this, {
+			fcEventSource: {
+				events: function (start, end, timezone, callback) {
+					_this._properties.list.loading = true;
+
+					VEventService.getAll(_this, start, end).then(function(events) {
+						var vevents = [];
+						for (var i = 0; i < events.length; i++) {
+							vevents = vevents.concat(events[i].getFcEvent(start, end, timezone));
+						}
+
+						callback(vevents);
+
+						_this._properties.list.loading = false;
+					});
+				},
+				color: this._properties.color,
+				editable: this._properties.cruds.update,
+				calendar: this
+			}
 		});
 	}
 

@@ -47,7 +47,7 @@ $scripts = [
 	'vendor/angular-bootstrap/ui-bootstrap.min',
 	'vendor/angular-bootstrap/ui-bootstrap-tpls.min',
 	'vendor/angular-ui-calendar/src/calendar',
-	'vendor/fullcalendar/dist/fullcalendar.min',
+	'vendor/fullcalendar/dist/fullcalendar',
 	'vendor/davclient.js/lib/client',
 	'../../../core/js/multiselect',
 	'public/app'

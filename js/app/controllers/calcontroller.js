@@ -26,8 +26,8 @@
 * Description: The fullcalendar controller.
 */
 
-app.controller('CalController', ['$scope', '$rootScope', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'fcHelper', 'objectConverter', 'Restangular', 'is',
-	function ($scope, $rootScope, CalendarService, VEventService, SettingsService, TimezoneService, fcHelper, objectConverter, Restangular, is) {
+app.controller('CalController', ['$scope', '$rootScope', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'fcHelper', 'objectConverter', 'Restangular', 'is', 'uiCalendarConfig',
+	function ($scope, $rootScope, CalendarService, VEventService, SettingsService, TimezoneService, fcHelper, objectConverter, Restangular, is, uiCalendarConfig) {
 		'use strict';
 
 		$scope.calendars = [];
@@ -43,38 +43,15 @@ app.controller('CalController', ['$scope', '$rootScope', 'CalendarService', 'VEv
 			is.loading = false;
 			// TODO - scope.apply should not be necessary here
 			$scope.$apply();
-		});
 
-		$rootScope.$on('finishedLoadingCalendars', function() {
-			angular.forEach($scope.calendars, function (value) {
-				if ($scope.eventSource[value.id] === undefined) {
-					$scope.eventSource[value.id] = {
-						events: function (start, end, timezone, callback) {
-							value.loading = true;
-							start = start.format('X');
-							end = end.format('X');
-							Restangular.one('calendars', value.id).one('events').one('inPeriod').getList(start + '/' + end).then(function (eventsobject) {
-								callback([]);
-								fcHelper.renderJCAL($scope.eventSource[value.id], eventsobject, start, end, $scope.timezone, function(renderedEvent) {
-									$scope.calendar.fullCalendar('renderEvent', renderedEvent);
-								});
-								$rootScope.$broadcast('finishedLoadingEvents', value.id);
-							}, function (response) {
-								OC.Notification.show(t('calendar', response.data.message));
-								$rootScope.$broadcast('finishedLoadingEvents', value.id);
-							});
-						},
-						color: value.color,
-						textColor: value.textColor,
-						editable: value.cruds.update,
-						id: value.id
-					};
-					if (value.enabled === true && value.components.vevent === true) {
-						$scope.calendar.fullCalendar('addEventSource',
-							$scope.eventSource[value.id]);
-						switcher.push(value.id);
-					}
+			angular.forEach($scope.calendars, function (calendar) {
+				$scope.eventSource[calendar.url] = calendar.fcEventSource;
+				if (calendar.enabled) {
+					uiCalendarConfig.calendars.calendar.fullCalendar(
+						'addEventSource',
+						$scope.eventSource[calendar.url]);
 				}
+				switcher.push(calendar.url);
 			});
 		});
 
@@ -168,57 +145,27 @@ app.controller('CalController', ['$scope', '$rootScope', 'CalendarService', 'VEv
 				},
 				firstDay: moment().startOf('week').format('d'),
 				select: $scope.newEvent,
-				eventClick: function( event, jsEvent, view ) {
-					Restangular.one('calendars', event.calendarId).one('events', event.objectUri).get().then(function (jCalData) {
-						var vevent = fcHelper.getCorrectEvent(event, jCalData);
-						var simpleData = objectConverter.parse(vevent);
-
-						console.log(simpleData);
-
-						$rootScope.$broadcast('initializeEventEditor', {
-							data: simpleData,
-							onSuccess: function(newData) {
-
-							}
-						});
+				eventClick: function(fcEvent, jsEvent, view) {
+					var simpleData = fcEvent.event.getSimpleData(fcEvent);
+					$rootScope.$broadcast('initializeEventEditor', {
+						data: simpleData,
+						onSuccess: function(newData) {
+						}
 					});
 				},
-				eventResize: function (event, delta, revertFunc) {
-					Restangular.one('calendars', event.calendarId).one('events', event.objectUri).get().then(function (eventsobject) {
-						var data = fcHelper.resizeEvent(event, delta, eventsobject);
-						if (data === null) {
-							revertFunc();
-							return;
-						}
-						Restangular.one('calendars', event.calendarId).one('events', event.objectUri).customPUT(
-							data,
-							'',
-							{},
-							{'Content-Type':'text/calendar'}
-						);
-					}, function (response) {
-						OC.Notification.show(t('calendar', response.data.message));
-					});
+				eventResize: function (fcEvent, delta, revertFunc) {
+					if (!fcEvent.event.resize(fcEvent, delta)) {
+						revertFunc();
+					}
+					VEventService.update(fcEvent.event);
 				},
-				eventDrop: function (event, delta, revertFunc) {
-					Restangular.one('calendars', event.calendarId).one('events', event.objectUri).get().then(function (eventsobject) {
-						var data = fcHelper.dropEvent(event, delta, eventsobject);
-						if (data === null) {
-							revertFunc();
-							return;
-						}
-						Restangular.one('calendars', event.calendarId).one('events', event.objectUri).customPUT(
-							data,
-							'',
-							{},
-							{'Content-Type':'text/calendar'}
-						);
-					}, function (response) {
-						OC.Notification.show(t('calendar', response.data.message));
-					});
+				eventDrop: function (fcEvent, delta, revertFunc) {
+					if(!fcEvent.event.drop(fcEvent, delta)) {
+						revertFunc();
+					}
+					VEventService.update(fcEvent.event);
 				},
 				viewRender: function (view, element) {
-					$scope.calendar = element;
 					angular.element('#firstrow').find('.datepicker_current').html(view.title).text();
 					angular.element('#datecontrol_date').datepicker('setDate', element.fullCalendar('getDate'));
 					var newview = view.name;
@@ -254,7 +201,7 @@ app.controller('CalController', ['$scope', '$rootScope', 'CalendarService', 'VEv
 					end = end.format('X');
 					Restangular.one('calendars', id).one('events').one('inPeriod').getList(start + '/' + end).then(function (eventsobject) {
 						callback([]);
-						fcHelper.renderJCAL($scope.eventSource[id], eventsobject, start, end, $scope.timezone, function(renderedEvent) {
+						fcHelper.renderCalData($scope.eventSource[id], eventsobject, start, end, $scope.timezone, function(renderedEvent) {
 							$scope.calendar.fullCalendar('renderEvent', renderedEvent);
 						});
 						$rootScope.$broadcast('finishedLoadingEvents', id);
