@@ -33,7 +33,7 @@ app.service('TimezoneService', ['Timezone', function(Timezone) {
 	};
 
 	this.current = function() {
-
+		return 'UTC';
 	};
 
 }]);

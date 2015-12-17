@@ -1192,11 +1192,11 @@ app.factory('Calendar', ['$filter', function($filter) {
 				color: props['{http://apple.com/ns/ical/}calendar-color'] || '#1d2d44',
 				order: parseInt(props['{http://apple.com/ns/ical/}calendar-order']) || 0,
 				cruds: {
-					create: props['canWrite'],
+					create: props.canWrite,
 					read: true,
-					update: props['canWrite'],
-					delete: props['canWrite'],
-					share: props['canWrite']
+					update: props.canWrite,
+					delete: props.canWrite,
+					share: props.canWrite
 				},
 				list: {
 					edit: false,
@@ -2811,10 +2811,11 @@ app.service('TimezoneService', ['Timezone', function(Timezone) {
 	};
 
 	this.current = function() {
-
+		return 'UTC';
 	};
 
 }]);
+
 app.service('VEventService', ['DavClient', 'VEvent', function(DavClient, VEvent) {
 	'use strict';
 
