@@ -2906,6 +2906,7 @@ app.service('VEventService', ['DavClient', 'VEvent', function(DavClient, VEvent)
 		};
 
 		return DavClient.request('PUT', url, headers, event.data).then(function(response) {
+			event.etag = response.xhr.getResponseHeader('ETag');
 			return DavClient.wasRequestSuccessful(response.status);
 		});
 	};
