@@ -73,7 +73,9 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 			calendar.list.loading = true;
 			calendar.enabled = !calendar.enabled;
 
-			CalendarService.update(calendar);
+			CalendarService.update(calendar).then(function() {
+				$rootScope.$broadcast('updatedCalendarsVisibility', calendar);
+			});
 		};
 
 		$scope.remove = function (calendar) {

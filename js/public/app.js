@@ -210,32 +210,12 @@ app.controller('CalController', ['$scope', '$rootScope', 'CalendarService', 'VEv
 		 * - add event source to fullcalendar when enabled is true
 		 */
 		$rootScope.$on('createdCalendar', function (event, createdCalendar) {
-			var id = createdCalendar.id;
-			$scope.eventSource[id] = {
-				events: function (start, end, timezone, callback) {
-					start = start.format('X');
-					end = end.format('X');
-					Restangular.one('calendars', id).one('events').one('inPeriod').getList(start + '/' + end).then(function (eventsobject) {
-						callback([]);
-						fcHelper.renderCalData($scope.eventSource[id], eventsobject, start, end, $scope.timezone, function(renderedEvent) {
-							$scope.calendar.fullCalendar('renderEvent', renderedEvent);
-						});
-						$rootScope.$broadcast('finishedLoadingEvents', id);
-					}, function (response) {
-						OC.Notification.show(t('calendar', response.data.message));
-						$rootScope.$broadcast('finishedLoadingEvents', id);
-					});
-				},
-				color: createdCalendar.color,
-				editable: createdCalendar.cruds.update,
-				id: id
-			};
+			$scope.eventSource[createdCalendar.url] = createdCalendar.fcEventSource;
 
-			if (createdCalendar.enabled === true &&
-				createdCalendar.components.vevent === true) {
-				$scope.calendar.fullCalendar('addEventSource',
-					$scope.eventSource[id]);
-				switcher.push(id);
+			if (createdCalendar.enabled) {
+				uiCalendarConfig.calendars.calendar.fullCalendar('addEventSource',
+					$scope.eventSource[createdCalendar.url]);
+				switcher.push(createdCalendar.url);
 			}
 		});
 
@@ -246,32 +226,32 @@ app.controller('CalController', ['$scope', '$rootScope', 'CalendarService', 'VEv
 		 * - update permissions
 		 */
 		$rootScope.$on('updatedCalendar', function (event, updatedCalendar) {
-			var id = updatedCalendar.id;
-			var index = switcher.indexOf(id);
+			var url = updatedCalendar.url;
+			var index = switcher.indexOf(url);
 
-			if (updatedCalendar.enabled === true && index ===-1) {
-				$scope.calendar.fullCalendar('addEventSource',
-					$scope.eventSource[id]);
-				switcher.push(id);
+			if (updatedCalendar.enabled && index === - 1) {
+				uiCalendarConfig.calendars.calendar.fullCalendar('addEventSource',
+					$scope.eventSource[url]);
+				switcher.push(url);
 			}
 			//Events are already visible -> loading finished
-			if (updatedCalendar.enabled === true && index !== -1) {
-				$rootScope.$broadcast('finishedLoadingEvents', updatedCalendar.id);
+			if (updatedCalendar.enabled && index !== -1) {
+				$rootScope.$broadcast('finishedLoadingEvents', url);
 			}
 
-			if (updatedCalendar.enabled === false && index !== -1) {
-				$scope.calendar.fullCalendar('removeEventSource',
-					$scope.eventSource[id]);
+			if (!updatedCalendar.enabled && index !== -1) {
+				uiCalendarConfig.calendars.calendar.fullCalendar('removeEventSource',
+					$scope.eventSource[url]);
 				switcher.splice(index, 1);
 			}
 
-			if ($scope.eventSource[id].color !== updatedCalendar.color) {
+			if ($scope.eventSource[url].color !== updatedCalendar.color) {
 				// Sadly fullcalendar doesn't support changing a calendar's
 				// color without removing and then adding it again as an eventSource
-				$scope.eventSource[id].color = updatedCalendar.color;
-				angular.element('.fcCalendar-id-' + id).css('background-color', updatedCalendar.color);
+				$scope.eventSource[url].color = updatedCalendar.color;
+				angular.element('.fcCalendar-id-' + url).css('background-color', updatedCalendar.color);
 			}
-			$scope.eventSource[id].editable = updatedCalendar.cruds.update;
+			$scope.eventSource[url].editable = updatedCalendar.cruds.update;
 		});
 
 		/**
@@ -280,18 +260,23 @@ app.controller('CalController', ['$scope', '$rootScope', 'CalendarService', 'VEv
 		 * - delete event source object
 		 */
 		$rootScope.$on('removedCalendar', function (event, calendar) {
-			var deletedObject = calendar.id;
-			$scope.calendar.fullCalendar('removeEventSource',
+			var deletedObject = calendar.url;
+			uiCalendarConfig.calendars.calendar.fullCalendar('removeEventSource',
 				$scope.eventSource[deletedObject]);
 
 			delete $scope.eventSource[deletedObject];
 		});
 
+		/**
+		 * After a calendar's visibility was changed:
+		 * - add event source to fullcalendar if enabled is true
+		 * - remove event source from fullcalendar if enabled is false
+		 */
 		$rootScope.$on('updatedCalendarsVisibility', function (event, calendar) {
 			if (calendar.enabled) {
-				$scope.calendar.fullCalendar('addEventSource', $scope.eventSource[calendar.id]);
+				uiCalendarConfig.calendars.calendar.fullCalendar('addEventSource', $scope.eventSource[calendar.url]);
 			} else {
-				$scope.calendar.fullCalendar('removeEventSource', $scope.eventSource[calendar.id]);
+				uiCalendarConfig.calendars.calendar.fullCalendar('removeEventSource', $scope.eventSource[calendar.url]);
 			}
 		});
 
@@ -350,7 +335,9 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 			calendar.list.loading = true;
 			calendar.enabled = !calendar.enabled;
 
-			CalendarService.update(calendar);
+			CalendarService.update(calendar).then(function() {
+				$rootScope.$broadcast('updatedCalendarsVisibility', calendar);
+			});
 		};
 
 		$scope.remove = function (calendar) {
