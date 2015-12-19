@@ -24,8 +24,6 @@
 ?>
 
 <uib-datepicker
-	ng-model="datemodel"
-	id="datepicker"
-	show-weeks="false"
-	starting-day="<?php p(OCP\Config::getUserValue(OCP\User::getUser(), 'calendar', 'firstday', '1')); ?>">
+	ng-model="dt"
+	id="datepicker">
 </uib-datepicker>
