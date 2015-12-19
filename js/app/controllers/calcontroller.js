@@ -26,8 +26,8 @@
 * Description: The fullcalendar controller.
 */
 
-app.controller('CalController', ['$scope', '$rootScope', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'fcHelper', 'objectConverter', 'Restangular', 'is', 'uiCalendarConfig',
-	function ($scope, $rootScope, CalendarService, VEventService, SettingsService, TimezoneService, fcHelper, objectConverter, Restangular, is, uiCalendarConfig) {
+app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'objectConverter', 'is', 'uiCalendarConfig',
+	function ($scope, $rootScope, $window, CalendarService, VEventService, SettingsService, TimezoneService, objectConverter, is, uiCalendarConfig) {
 		'use strict';
 
 		$scope.calendars = [];
@@ -35,6 +35,12 @@ app.controller('CalController', ['$scope', '$rootScope', 'CalendarService', 'VEv
 		$scope.eventSource = {};
 		$scope.defaulttimezone = TimezoneService.current();
 		var switcher = [];
+
+		var w = angular.element($window);
+		w.bind('resize', function () {
+			uiCalendarConfig.calendars.calendar
+				.fullCalendar('option', 'height', w.height() - angular.element('#header').height());
+		});
 
 		is.loading = true;
 
@@ -128,7 +134,7 @@ app.controller('CalController', ['$scope', '$rootScope', 'CalendarService', 'VEv
 
 		$scope.uiConfig = {
 			calendar: {
-				height: $(window).height() - $('#controls').height() - $('#header').height(),
+				height: w.height() - angular.element('#header').height(),
 				editable: true,
 				selectable: true,
 				selectHelper: true,
@@ -138,11 +144,7 @@ app.controller('CalController', ['$scope', '$rootScope', 'CalendarService', 'VEv
 				dayNamesShort: dayNamesShort,
 				timezone: $scope.defaulttimezone,
 				defaultView: angular.element('#fullcalendar').attr('data-defaultView'),
-				header: {
-					left: '',
-					center: '',
-					right: ''
-				},
+				header: false,
 				firstDay: moment().startOf('week').format('d'),
 				select: $scope.newEvent,
 				eventClick: function(fcEvent, jsEvent, view) {
