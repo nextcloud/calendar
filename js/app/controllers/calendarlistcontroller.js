@@ -26,8 +26,8 @@
 * Description: Takes care of CalendarList in App Navigation.
 */
 
-app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'CalendarService', 'is',
-	function ($scope, $rootScope, $window, CalendarService, is) {
+app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'CalendarService',
+	function ($scope, $rootScope, $window, CalendarService) {
 		'use strict';
 
 		$scope.newCalendarInputVal = '';
