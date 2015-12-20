@@ -23,8 +23,12 @@
 
 
 #app-content.loading {
-  background-size: 25px;
+	background-size: 25px;
 }
-.fc-toolbar{
-  display: none !important;
+
+.fc-state-highlight.fc-day-number,
+#fullcalendar tbody tr,
+#fullcalendar tbody tr:hover,
+#fullcalendar tbody tr:focus {
+	background: transparent !important;
 }
