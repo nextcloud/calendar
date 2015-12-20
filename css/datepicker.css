@@ -78,7 +78,6 @@
 
 #app-navigation {
 	padding-bottom: 0;
-	position: absolute;
 }
 #app-navigation .togglebuttons {
 	width: 100%;
@@ -109,8 +108,6 @@
 	border-radius: 0 3px 3px 0;
 }
 #app-navigation .togglebuttons .button.today {
-	position: absolute;
-	right: 0;
 	margin-right: 5px;
 }
 
