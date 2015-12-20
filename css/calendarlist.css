@@ -66,12 +66,7 @@
 	color: #4d4d4d;
 	cursor: pointer;
 	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
 	box-sizing: border-box;
-	-webkit-transition: 0.05s ease-out 0.05s;
-	-moz-transition: 0.05s ease-out 0.05s;
-	-ms-transition: 0.05s ease-out 0.05s;
-	transition: 0.05s ease-out 0.05s;
 }
 #app-navigation .new-entity .new-entity-title {
 	cursor: pointer;
@@ -85,11 +80,7 @@
 	content: '+';
 }
 #app-navigation .new-entity:hover {
-	background: #eeeeee;
-	-webkit-transition: 0.05s ease-out 0.05s;
-	-moz-transition: 0.05s ease-out 0.05s;
-	-ms-transition: 0.05s ease-out 0.05s;
-	transition: 0.05s ease-out 0.05s;
+	color:#000;
 }
 #app-navigation .add-new .new-accept-button {
 	position: relative;
@@ -174,9 +165,6 @@
 }
 #app-navigation .app-navigation-list-item .caldavURL input {
 	width: 75%;
-}
-#app-navigation .app-navigation-list-item:hover {
-	background-color: #ddd;
 }
 #app-navigation .app-navigation-list-item:hover .utils {
 	display: inline-block;
