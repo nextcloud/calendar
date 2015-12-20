@@ -21,22 +21,15 @@
  *
  */
 
-/**
-* Model: View
-* Description: Sets the full calendarview.
-*/
-
-app.factory('ViewModel', function () {
+app.service('SettingsService', ['Restangular', function(Restangular) {
 	'use strict';
-	var ViewModel = function () {
-		this.view = [];
+
+	this.getView = function() {
+
 	};
 
-	ViewModel.prototype = {
-		add: function (views) {
-			this.view.push(views);
-		}
+	this.setView = function(view) {
+
 	};
 
-	return new ViewModel();
-});
+}]);

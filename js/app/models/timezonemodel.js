@@ -21,36 +21,11 @@
  *
  */
 
-describe('UploadModel', function() {
+app.factory('Timezone', ['$filter', function($filter) {
 	'use strict';
 
-	var controller, scope, model, http;
-
-	beforeEach(module('Calendar'));
-
-	beforeEach(inject(function ($controller, $rootScope, $httpBackend,
-		UploadModel) {
-			http = $httpBackend;
-			scope = $rootScope.$new();
-			model = UploadModel;
-			controller = $controller;
-		}
-	));
-
-  it ('should upload the file', function () {
-
-  });
-
-  it ('should broadcast the percentage of upload', function () {
-
-  });
-
-  it ('should clear the files', function () {
-
-  });
-
-	afterEach(function() {
-		http.verifyNoOutstandingExpectation();
-		http.verifyNoOutstandingRequest();
-	});
-});
+	return function Event(data) {
+		angular.extend(this, {
+		});
+	};
+}]);

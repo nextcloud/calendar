@@ -48,4 +48,20 @@ escapeHTML = function () {
 	return;
 };
 
+dav = {
+	Client: function() {
+		return {
+			request: function () {
+
+			},
+			propFind: function () {
+
+			},
+			parseMultiStatus: function () {
+
+			}
+		}
+	}
+};
+
 oc_current_user = 'user';

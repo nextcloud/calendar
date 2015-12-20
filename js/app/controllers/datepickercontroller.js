@@ -25,24 +25,36 @@
 * Controller: Date Picker Controller
 * Description: Takes care for pushing dates from app navigation date picker and fullcalendar.
 */
-
-app.controller('DatePickerController', ['$scope', 'CalendarModel',
-	function ($scope, CalendarModel) {
+app.controller('DatePickerController', ['$scope', 'uiCalendarConfig', 'uibDatepickerConfig',
+	function ($scope, uiCalendarConfig, uibDatepickerConfig) {
 		'use strict';
 
+		$scope.dt = new Date();
+
+		angular.extend(uibDatepickerConfig, {
+			showWeeks: false,
+			startingDay: parseInt(moment().startOf('week').format('d'))
+		});
+
 		// Changes the view for the month, week or daywise.
-		$scope.changeview = function (view) {
-			CalendarModel.pushtoggleview(view);
+		$scope.changeView = function (view) {
+			uiCalendarConfig.calendars.calendar.fullCalendar(
+				'changeView',
+				view);
 		};
 
 		// Changes the view to Today's view.
-		$scope.todayview = function (view) {
-			CalendarModel.pushtoggleview(view);
+		$scope.today = function () {
+			$scope.dt = new Date();
 		};
 
-		// Changes the date to today on the datepicker.
-		$scope.settodaytodatepicker = function () {
-			CalendarModel.pushtodaydatepicker();
-		};
+		$scope.$watch('dt', function(newValue) {
+			if (uiCalendarConfig.calendars.calendar) {
+				uiCalendarConfig.calendars.calendar.fullCalendar(
+					'gotoDate',
+					newValue
+				);
+			}
+		});
 	}
 ]);

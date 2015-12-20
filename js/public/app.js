@@ -13,12 +13,8 @@ var app = angular.module('Calendar', [
 app.config(['$provide', '$routeProvider', 'RestangularProvider', '$httpProvider', '$windowProvider',
 	function ($provide, $routeProvider, RestangularProvider, $httpProvider, $windowProvider) {
 		'use strict';
-		$httpProvider.defaults.headers.common.requesttoken = oc_requesttoken;
 
-		$routeProvider.when('/', {
-			templateUrl: 'calendar.html',
-			controller: 'CalController'
-		});
+		$httpProvider.defaults.headers.common.requesttoken = oc_requesttoken;
 
 		var $window = $windowProvider.$get();
 		var url = $window.location.href;
@@ -41,79 +37,43 @@ app.config(['$provide', '$routeProvider', 'RestangularProvider', '$httpProvider'
 	}
 ]);
 
-app.run(['$rootScope', '$location', 'CalendarModel',
-	function ($rootScope, $location, CalendarModel) {
-		'use strict';
-		$rootScope.$on('$routeChangeError', function () {
-			var calendars = CalendarModel.getAll();
-		});
-}]);
-
-app.controller('AppController', ['$scope', 'is',
-	function ($scope, is) {
-		'use strict';
-		$scope.is = is;
-	}
-]);
-
 /**
 * Controller: CalController
 * Description: The fullcalendar controller.
 */
 
-app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'CalendarModel', 'ViewModel', 'TimezoneModel', 'fcHelper', 'objectConverter',
-	function ($scope, $rootScope, Restangular, CalendarModel, ViewModel, TimezoneModel, fcHelper, objectConverter) {
+app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'objectConverter', 'is', 'uiCalendarConfig',
+	function ($scope, $rootScope, $window, CalendarService, VEventService, SettingsService, TimezoneService, objectConverter, is, uiCalendarConfig) {
 		'use strict';
 
+		$scope.calendars = [];
 		$scope.eventSources = [];
 		$scope.eventSource = {};
-		$scope.calendarModel = CalendarModel;
-		$scope.defaulttimezone = TimezoneModel.currenttimezone();
-		$scope.i = 0;
+		$scope.defaulttimezone = TimezoneService.current();
 		var switcher = [];
-		var viewResource = Restangular.one('view');
 
-		if ($scope.defaulttimezone.length > 0) {
-			$scope.requestedtimezone = $scope.defaulttimezone.replace('/', '-');
-			Restangular.one('timezones', $scope.requestedtimezone).get().then(function (timezonedata) {
-				$scope.timezone = TimezoneModel.addtimezone(timezonedata);
-			}, function (response) {
-				OC.Notification.show(t('calendar', response.data.message));
-			});
-		}
+		var w = angular.element($window);
+		w.bind('resize', function () {
+			uiCalendarConfig.calendars.calendar
+				.fullCalendar('option', 'height', w.height() - angular.element('#header').height());
+		});
 
-		$rootScope.$on('finishedLoadingCalendars', function() {
-			$scope.calendars = $scope.calendarModel.getAll();
+		is.loading = true;
 
-			angular.forEach($scope.calendars, function (value) {
-				if ($scope.eventSource[value.id] === undefined) {
-					$scope.eventSource[value.id] = {
-						events: function (start, end, timezone, callback) {
-							value.loading = true;
-							start = start.format('X');
-							end = end.format('X');
-							Restangular.one('calendars', value.id).one('events').one('inPeriod').getList(start + '/' + end).then(function (eventsobject) {
-								callback([]);
-								fcHelper.renderJCAL($scope.eventSource[value.id], eventsobject, start, end, $scope.timezone, function(renderedEvent) {
-									$scope.calendar.fullCalendar('renderEvent', renderedEvent);
-								});
-								$rootScope.$broadcast('finishedLoadingEvents', value.id);
-							}, function (response) {
-								OC.Notification.show(t('calendar', response.data.message));
-								$rootScope.$broadcast('finishedLoadingEvents', value.id);
-							});
-						},
-						color: value.color,
-						textColor: value.textColor,
-						editable: value.cruds.update,
-						id: value.id
-					};
-					if (value.enabled === true && value.components.vevent === true) {
-						$scope.calendar.fullCalendar('addEventSource',
-							$scope.eventSource[value.id]);
-						switcher.push(value.id);
-					}
+		CalendarService.getAll().then(function(calendars) {
+			$scope.calendars = calendars;
+			is.loading = false;
+			// TODO - scope.apply should not be necessary here
+			$scope.$apply();
+
+			angular.forEach($scope.calendars, function (calendar) {
+				$scope.eventSource[calendar.url] = calendar.fcEventSource;
+				if (calendar.enabled) {
+					uiCalendarConfig.calendars.calendar.fullCalendar(
+						'addEventSource',
+						$scope.eventSource[calendar.url]);
 				}
+				switcher.push(calendar.url);
 			});
 		});
 
@@ -190,7 +150,7 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 
 		$scope.uiConfig = {
 			calendar: {
-				height: $(window).height() - $('#controls').height() - $('#header').height(),
+				height: w.height() - angular.element('#header').height(),
 				editable: true,
 				selectable: true,
 				selectHelper: true,
@@ -198,76 +158,37 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 				monthNamesShort: monthNamesShort,
 				dayNames: dayNames,
 				dayNamesShort: dayNamesShort,
-				eventSources: [],
 				timezone: $scope.defaulttimezone,
 				defaultView: angular.element('#fullcalendar').attr('data-defaultView'),
-				header: {
-					left: '',
-					center: '',
-					right: ''
-				},
+				header: false,
 				firstDay: moment().startOf('week').format('d'),
 				select: $scope.newEvent,
-				eventClick: function( event, jsEvent, view ) {
-					Restangular.one('calendars', event.calendarId).one('events', event.objectUri).get().then(function (jCalData) {
-						var vevent = fcHelper.getCorrectEvent(event, jCalData);
-						var simpleData = objectConverter.parse(vevent);
-
-						console.log(simpleData);
-
-						$rootScope.$broadcast('initializeEventEditor', {
-							data: simpleData,
-							onSuccess: function(newData) {
-
-							}
-						});
+				eventClick: function(fcEvent, jsEvent, view) {
+					var simpleData = fcEvent.event.getSimpleData(fcEvent);
+					$rootScope.$broadcast('initializeEventEditor', {
+						data: simpleData,
+						onSuccess: function(newData) {
+						}
 					});
 				},
-				eventResize: function (event, delta, revertFunc) {
-					Restangular.one('calendars', event.calendarId).one('events', event.objectUri).get().then(function (eventsobject) {
-						var data = fcHelper.resizeEvent(event, delta, eventsobject);
-						if (data === null) {
-							revertFunc();
-							return;
-						}
-						Restangular.one('calendars', event.calendarId).one('events', event.objectUri).customPUT(
-							data,
-							'',
-							{},
-							{'Content-Type':'text/calendar'}
-						);
-					}, function (response) {
-						OC.Notification.show(t('calendar', response.data.message));
-					});
+				eventResize: function (fcEvent, delta, revertFunc) {
+					if (!fcEvent.event.resize(fcEvent, delta)) {
+						revertFunc();
+					}
+					VEventService.update(fcEvent.event);
 				},
-				eventDrop: function (event, delta, revertFunc) {
-					Restangular.one('calendars', event.calendarId).one('events', event.objectUri).get().then(function (eventsobject) {
-						var data = fcHelper.dropEvent(event, delta, eventsobject);
-						if (data === null) {
-							revertFunc();
-							return;
-						}
-						Restangular.one('calendars', event.calendarId).one('events', event.objectUri).customPUT(
-							data,
-							'',
-							{},
-							{'Content-Type':'text/calendar'}
-						);
-					}, function (response) {
-						OC.Notification.show(t('calendar', response.data.message));
-					});
+				eventDrop: function (fcEvent, delta, revertFunc) {
+					if(!fcEvent.event.drop(fcEvent, delta)) {
+						revertFunc();
+					}
+					VEventService.update(fcEvent.event);
 				},
 				viewRender: function (view, element) {
-					$scope.calendar = element;
 					angular.element('#firstrow').find('.datepicker_current').html(view.title).text();
 					angular.element('#datecontrol_date').datepicker('setDate', element.fullCalendar('getDate'));
 					var newview = view.name;
 					if (newview !== $scope.defaultView) {
-						viewResource.get().then(function (newview) {
-							ViewModel.add(newview);
-						}, function (response) {
-							OC.Notification.show(t('calendar', response.data.message));
-						});
+						SettingsService.setView(newview);
 						$scope.defaultView = newview;
 					}
 					if (newview === 'agendaDay') {
@@ -291,32 +212,12 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 		 * - add event source to fullcalendar when enabled is true
 		 */
 		$rootScope.$on('createdCalendar', function (event, createdCalendar) {
-			var id = createdCalendar.id;
-			$scope.eventSource[id] = {
-				events: function (start, end, timezone, callback) {
-					start = start.format('X');
-					end = end.format('X');
-					Restangular.one('calendars', id).one('events').one('inPeriod').getList(start + '/' + end).then(function (eventsobject) {
-						callback([]);
-						fcHelper.renderJCAL($scope.eventSource[id], eventsobject, start, end, $scope.timezone, function(renderedEvent) {
-							$scope.calendar.fullCalendar('renderEvent', renderedEvent);
-						});
-						$rootScope.$broadcast('finishedLoadingEvents', id);
-					}, function (response) {
-						OC.Notification.show(t('calendar', response.data.message));
-						$rootScope.$broadcast('finishedLoadingEvents', id);
-					});
-				},
-				color: createdCalendar.color,
-				editable: createdCalendar.cruds.update,
-				id: id
-			};
+			$scope.eventSource[createdCalendar.url] = createdCalendar.fcEventSource;
 
-			if (createdCalendar.enabled === true &&
-				createdCalendar.components.vevent === true) {
-				$scope.calendar.fullCalendar('addEventSource',
-					$scope.eventSource[id]);
-				switcher.push(id);
+			if (createdCalendar.enabled) {
+				uiCalendarConfig.calendars.calendar.fullCalendar('addEventSource',
+					$scope.eventSource[createdCalendar.url]);
+				switcher.push(createdCalendar.url);
 			}
 		});
 
@@ -327,32 +228,32 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 		 * - update permissions
 		 */
 		$rootScope.$on('updatedCalendar', function (event, updatedCalendar) {
-			var id = updatedCalendar.id;
-			var index = switcher.indexOf(id);
+			var url = updatedCalendar.url;
+			var index = switcher.indexOf(url);
 
-			if (updatedCalendar.enabled === true && index ===-1) {
-				$scope.calendar.fullCalendar('addEventSource',
-					$scope.eventSource[id]);
-				switcher.push(id);
+			if (updatedCalendar.enabled && index === - 1) {
+				uiCalendarConfig.calendars.calendar.fullCalendar('addEventSource',
+					$scope.eventSource[url]);
+				switcher.push(url);
 			}
 			//Events are already visible -> loading finished
-			if (updatedCalendar.enabled === true && index !== -1) {
-				$rootScope.$broadcast('finishedLoadingEvents', updatedCalendar.id);
+			if (updatedCalendar.enabled && index !== -1) {
+				$rootScope.$broadcast('finishedLoadingEvents', url);
 			}
 
-			if (updatedCalendar.enabled === false && index !== -1) {
-				$scope.calendar.fullCalendar('removeEventSource',
-					$scope.eventSource[id]);
+			if (!updatedCalendar.enabled && index !== -1) {
+				uiCalendarConfig.calendars.calendar.fullCalendar('removeEventSource',
+					$scope.eventSource[url]);
 				switcher.splice(index, 1);
 			}
 
-			if ($scope.eventSource[id].color !== updatedCalendar.color) {
+			if ($scope.eventSource[url].color !== updatedCalendar.color) {
 				// Sadly fullcalendar doesn't support changing a calendar's
 				// color without removing and then adding it again as an eventSource
-				$scope.eventSource[id].color = updatedCalendar.color;
-				angular.element('.fcCalendar-id-' + id).css('background-color', updatedCalendar.color);
+				$scope.eventSource[url].color = updatedCalendar.color;
+				angular.element('.fcCalendar-id-' + url).css('background-color', updatedCalendar.color);
 			}
-			$scope.eventSource[id].editable = updatedCalendar.cruds.update;
+			$scope.eventSource[url].editable = updatedCalendar.cruds.update;
 		});
 
 		/**
@@ -361,66 +262,26 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 		 * - delete event source object
 		 */
 		$rootScope.$on('removedCalendar', function (event, calendar) {
-			var deletedObject = calendar.id;
-			$scope.calendar.fullCalendar('removeEventSource',
+			var deletedObject = calendar.url;
+			uiCalendarConfig.calendars.calendar.fullCalendar('removeEventSource',
 				$scope.eventSource[deletedObject]);
 
 			delete $scope.eventSource[deletedObject];
 		});
 
+		/**
+		 * After a calendar's visibility was changed:
+		 * - add event source to fullcalendar if enabled is true
+		 * - remove event source from fullcalendar if enabled is false
+		 */
 		$rootScope.$on('updatedCalendarsVisibility', function (event, calendar) {
 			if (calendar.enabled) {
-				$scope.calendar.fullCalendar('addEventSource', $scope.eventSource[calendar.id]);
+				uiCalendarConfig.calendars.calendar.fullCalendar('addEventSource', $scope.eventSource[calendar.url]);
 			} else {
-				$scope.calendar.fullCalendar('removeEventSource', $scope.eventSource[calendar.id]);
+				uiCalendarConfig.calendars.calendar.fullCalendar('removeEventSource', $scope.eventSource[calendar.url]);
 			}
 		});
 
-		/**
-		 * Watches the Calendar view.
-		*/
-
-		$scope.$watch('calendarModel.modelview', function (newview, oldview) {
-			$scope.changeView = function (newview, calendar) {
-				calendar.fullCalendar('changeView', newview);
-			};
-			$scope.today = function (calendar) {
-				calendar.fullCalendar('today');
-			};
-			if (newview.view && $scope.calendar) {
-				if (newview.view !== 'today') {
-					$scope.changeView(newview.view, $scope.calendar);
-				} else {
-					$scope.today($scope.calendar);
-				}
-			}
-		}, true);
-
-		/**
-		 * Watches the date picker.
-		*/
-
-		$scope.$watch('calendarModel.datepickerview', function (newview, oldview) {
-			$scope.changeview = function (newview, calendar) {
-				calendar.fullCalendar(newview.view);
-			};
-			if (newview.view !== '' && $scope.calendar !== undefined) {
-				$scope.changeview(newview, $scope.calendar);
-			}
-		}, true);
-
-		/**
-		 * Watches the date change and its effect on fullcalendar.
-		*/
-
-		$scope.$watch('calendarModel.date', function (newview, oldview) {
-			$scope.gotodate = function (newview, calendar) {
-				calendar.fullCalendar('gotoDate', newview);
-			};
-			if (newview !== '' && $scope.calendar !== undefined) {
-				$scope.gotodate(newview, $scope.calendar);
-			}
-		});
 	}
 ]);
 
@@ -429,40 +290,17 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 * Description: Takes care of CalendarList in App Navigation.
 */
 
-app.controller('CalendarListController', ['$scope', '$rootScope', '$window',
-	'$routeParams', 'Restangular', 'CalendarModel', 'is',
-	function ($scope, $rootScope, $window, $routeParams, Restangular, CalendarModel, is) {
+app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'CalendarService',
+	function ($scope, $rootScope, $window, CalendarService) {
 		'use strict';
 
-		$scope.calendarModel = CalendarModel;
-		$scope.calendars = CalendarModel.getAll();
-		$scope.backups = {};
-		is.loading = true;
-
-		var calendarResource = Restangular.all('calendars');
-		calendarResource.getList().then( function (calendars) {
-			is.loading = false;
-			CalendarModel.addAll(calendars);
-			$scope.calendars = CalendarModel.getAll();
-			$rootScope.$broadcast('finishedLoadingCalendars', calendars);
-		});
-
 		$scope.newCalendarInputVal = '';
+		$scope.newCalendarColorVal = '';
 
 		$scope.create = function (name, color) {
-			calendarResource.post({
-				displayname: name,
-				color: color,
-				components: {
-					vevent: true,
-					vjournal: true,
-					vtodo: true
-				},
-				enabled: true
-			}).then(function (calendar) {
-				CalendarModel.create(calendar);
-				$scope.calendars = CalendarModel.getAll();
-				$rootScope.$broadcast('createdCalendar', calendar);
+			CalendarService.create(name, color).then(function(calendar) {
+				$scope.calendars.push(calendar);
+				$scope.$apply();
 			});
 
 			$scope.newCalendarInputVal = '';
@@ -470,91 +308,62 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window',
 		};
 
 		$scope.download = function (calendar) {
-			$window.open('v1/calendars/' + calendar.id + '/export');
+			var url = calendar.url;
+			// cut off last slash to have a fancy name for the ics
+			if (url.slice(url.length - 1) === '/') {
+				url = url.slice(0, url.length - 1);
+			}
+			url += '?export';
+
+			$window.open(url);
 		};
 
 		$scope.prepareUpdate = function (calendar) {
-			$scope.backups[calendar.id] = angular.copy(calendar);
-			calendar.list.edit = true;
+			calendar.prepareUpdate();
 		};
 
 		$scope.cancelUpdate = function (calendar) {
-			angular.forEach($scope.calendars, function(value, key) {
-				if (value.id === calendar.id) {
-					$scope.calendars[key] = angular.copy($scope.backups[calendar.id]);
-					$scope.calendars[key].list.edit = false;
-				}
-			});
+			calendar.resetToPreviousState();
 		};
 
 		$scope.performUpdate = function (calendar) {
-			Restangular.one('calendars', calendar.id).patch({
-				displayname: calendar.displayname,
-				color: calendar.color,
-				components: angular.copy(calendar.components)
-			}).then(function (updated) {
-				CalendarModel.update(updated);
-				$scope.calendars = CalendarModel.getAll();
-				$rootScope.$broadcast('updatedCalendar', updated);
+			CalendarService.update(calendar).then(function() {
+				calendar.list.edit = false;
+				$scope.$apply();
 			});
 		};
 
-		$scope.triggerEnable = function(c) {
-			c.loading = true;
-			var calendar = CalendarModel.get(c.id);
-			var newEnabled = !calendar.enabled;
-			calendar.patch({
-				'enabled': newEnabled
-			}).then(function (calendarObj) {
-				CalendarModel.update(calendarObj);
-				$scope.calendars = CalendarModel.getAll();
-				$rootScope.$broadcast('updatedCalendarsVisibility', calendarObj);
+		$scope.triggerEnable = function(calendar) {
+			calendar.list.loading = true;
+			calendar.enabled = !calendar.enabled;
+
+			CalendarService.update(calendar).then(function() {
+				$rootScope.$broadcast('updatedCalendarsVisibility', calendar);
 			});
 		};
 
-		$scope.remove = function (c) {
-			c.loading = true;
-			var calendar = CalendarModel.get(c.id);
-			calendar.remove().then(function () {
-				CalendarModel.remove(c.id);
-				$scope.calendars = CalendarModel.getAll();
-				$rootScope.$broadcast('removedCalendar', c);
+		$scope.remove = function (calendar) {
+			calendar.list.loading = true;
+			CalendarService.delete(calendar).then(function() {
+				$scope.calendars = $scope.calendars.filter(function (element) {
+					return element.url !== calendar.url;
+				});
+				$scope.$apply();
 			});
 		};
 
 		//We need to reload the refresh the calendar-list,
 		//if the user added a subscription
 		$rootScope.$on('createdSubscription', function() {
-			Restangular.all('calendars').getList().then(function (calendars) {
-				var toAdd = [];
-				for (var i = 0, length = calendars.length; i < length; i++) {
-					var didFind = false;
-					for (var j = 0, oldLength = $scope.calendars.length; j < oldLength; j++) {
-						if (calendars[i].id === $scope.calendars[j].id) {
-							didFind = true;
-							break;
-						}
-					}
-					if (!didFind) {
-						toAdd.push(calendars[i]);
-					}
-				}
-
-				for (var h = 0, toAddLength = toAdd.length; h < toAddLength; h++) {
-					CalendarModel.create(toAdd[h]);
-					$rootScope.$broadcast('createdCalendar', toAdd[h]);
-				}
-
-				$scope.calendars = CalendarModel.getAll();
-			});
+			// TO BE REIMPLEMENTED, BUT IN A DIFFERENT PR
 		});
 
 
 		$rootScope.$on('finishedLoadingEvents', function(event, calendarId) {
-			var calendar = CalendarModel.get(calendarId);
-			calendar.loading = false;
-			CalendarModel.update(calendar);
-			$scope.calendars = CalendarModel.getAll();
+			//var calendar = CalendarModel.get(calendarId);
+			//calendar.list.loading = false;
+			//CalendarModel.update(calendar);
+			//$scope.calendars = CalendarModel.getAll();
 		});
 	}
 ]);
@@ -563,25 +372,37 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window',
 * Controller: Date Picker Controller
 * Description: Takes care for pushing dates from app navigation date picker and fullcalendar.
 */
-
-app.controller('DatePickerController', ['$scope', 'CalendarModel',
-	function ($scope, CalendarModel) {
+app.controller('DatePickerController', ['$scope', 'uiCalendarConfig', 'uibDatepickerConfig',
+	function ($scope, uiCalendarConfig, uibDatepickerConfig) {
 		'use strict';
 
+		$scope.dt = new Date();
+
+		angular.extend(uibDatepickerConfig, {
+			showWeeks: false,
+			startingDay: parseInt(moment().startOf('week').format('d'))
+		});
+
 		// Changes the view for the month, week or daywise.
-		$scope.changeview = function (view) {
-			CalendarModel.pushtoggleview(view);
+		$scope.changeView = function (view) {
+			uiCalendarConfig.calendars.calendar.fullCalendar(
+				'changeView',
+				view);
 		};
 
 		// Changes the view to Today's view.
-		$scope.todayview = function (view) {
-			CalendarModel.pushtoggleview(view);
+		$scope.today = function () {
+			$scope.dt = new Date();
 		};
 
-		// Changes the date to today on the datepicker.
-		$scope.settodaytodatepicker = function () {
-			CalendarModel.pushtodaydatepicker();
-		};
+		$scope.$watch('dt', function(newValue) {
+			if (uiCalendarConfig.calendars.calendar) {
+				uiCalendarConfig.calendars.calendar.fullCalendar(
+					'gotoDate',
+					newValue
+				);
+			}
+		});
 	}
 ]);
 
@@ -590,11 +411,11 @@ app.controller('DatePickerController', ['$scope', 'CalendarModel',
 * Description: Takes care of anything inside the Events Modal.
 */
 
-app.controller('EventsModalController', ['$scope', '$templateCache','$rootScope', '$routeParams', 'Restangular', 'CalendarModel', 'TimezoneModel', 'DialogModel', 'Model', 'eventEditorHelper',
-	function ($scope, $templateCache, $rootScope, $routeParams, Restangular, CalendarModel, TimezoneModel, DialogModel, Model, eventEditorHelper) {
+app.controller('EventsModalController', ['$scope', '$rootScope', '$routeParams', 'CalendarService', 'VEventService', 'TimezoneService', 'DialogModel', 'eventEditorHelper',
+	function ($scope, $rootScope, $routeParams, CalendarService, VEventService, TimezoneService, DialogModel, eventEditorHelper) {
 		'use strict';
-		$scope.calendarModel = CalendarModel;
-		$scope.calendars = CalendarModel.getAll();
+		//$scope.calendarModel = CalendarModel;
+		$scope.calendars = [];//CalendarModel.getAll();
 		$scope.properties = {};
 		$scope.nameofattendee = '';
 		$scope.eventsinfoview = true;
@@ -693,14 +514,14 @@ app.controller('EventsModalController', ['$scope', '$templateCache','$rootScope'
 		DialogModel.multiselect('#weeklyselect');
 
 		$scope.getLocation = function(val) {
-			return Restangular.one('autocompletion').getList('location',
+			/*return Restangular.one('autocompletion').getList('location',
 					{ 'location': $scope.properties.location }).then(function(res) {
 					var locations = [];
 					angular.forEach(res, function(item) {
 						locations.push(item.label);
 					});
 				return locations;
-			});
+			});*/
 		};
 
 		// First Day Dropdown
@@ -727,14 +548,14 @@ app.controller('EventsModalController', ['$scope', '$templateCache','$rootScope'
 		];
 
 		$scope.getLocation = function() {
-			return Restangular.one('autocompletion').getList('location',
+			/*return Restangular.one('autocompletion').getList('location',
 				{ 'location': $scope.properties.location }).then(function(res) {
 					var locations = [];
 					angular.forEach(res, function(item) {
 						locations.push(item.label);
 					});
 					return locations;
-				});
+				});*/
 		};
 
 		//$scope.changerecurrence = function (id) {
@@ -1024,12 +845,6 @@ app.controller('EventsModalController', ['$scope', '$templateCache','$rootScope'
 		angular.element('#absolutremindertime').timepicker({
 			showPeriodLabels: false
 		});
-
-		$templateCache.put('event.info.html', function () {
-			angular.element('#from').datepicker({
-				dateFormat : 'dd-mm-yy'
-			});
-		});
 	}
 ]);
 
@@ -1038,8 +853,8 @@ app.controller('EventsModalController', ['$scope', '$templateCache','$rootScope'
  * Description: Takes care of the Calendar Settings.
  */
 
-app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'CalendarModel','UploadModel', 'DialogModel',
-	function ($scope, $rootScope, Restangular, CalendarModel, UploadModel, DialogModel) {
+app.controller('SettingsController', ['$scope', '$rootScope', 'CalendarService', 'VEventService', 'DialogModel',
+	function ($scope, $rootScope, CalendarService, VEventService, DialogModel) {
 		'use strict';
 
 		$scope.settingsCalDavLink = OC.linkToRemote('caldav') + '/';
@@ -1065,7 +880,7 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'Ca
 			file.isImporting = true;
 
 			reader.onload = function() {
-				Restangular.one('calendars', file.importToCalendar).withHttpConfig({transformRequest: angular.identity}).customPOST(
+				/*Restangular.one('calendars', file.importToCalendar).withHttpConfig({transformRequest: angular.identity}).customPOST(
 						reader.result,
 						'import',
 						undefined,
@@ -1076,7 +891,7 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'Ca
 					file.done = true;
 				}, function (response) {
 					OC.Notification.show(t('calendar', response.data.message));
-				});
+				});*/
 			};
 
 			reader.readAsText(file);
@@ -1084,7 +899,7 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'Ca
 
 		//to send a patch to add a hidden event again
 		$scope.enableCalendar = function (id) {
-			Restangular.one('calendars', id).patch({ 'components' : {'vevent' : true }});
+			//Restangular.one('calendars', id).patch({ 'components' : {'vevent' : true }});
 		};
 	}
 ]);
@@ -1093,7 +908,8 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'Ca
 * Controller: SubscriptionController
 * Description: Takes care of Subscription List in the App Navigation.
 */
-
+app.controller('SubscriptionController', ['$scope', function($scope) {}]);
+/*
 app.controller('SubscriptionController', ['$scope', '$rootScope', '$window', 'SubscriptionModel', 'CalendarModel', 'Restangular',
 	function ($scope, $rootScope, $window, SubscriptionModel, CalendarModel, Restangular) {
 		'use strict';
@@ -1128,7 +944,7 @@ app.controller('SubscriptionController', ['$scope', '$rootScope', '$window', 'Su
 		};
 	}
 ]);
-
+*/
 /**
 * Directive: Colorpicker
 * Description: Colorpicker for the Calendar app.
@@ -1247,44 +1063,6 @@ app.filter('calendarFilter',
 	}
 	]);
 
-app.filter('eventFilter',
-	[ function () {
-		'use strict';
-		var eventfilter = function (item) {
-			var filter = [];
-			if (item.length > 0) {
-				for (var i = 0; i < item.length; i++) {
-					if (item[i].components.vevent === true) {
-						filter.push(item[i]);
-					}
-				}
-			}
-			return filter;
-		};
-		return eventfilter;
-	}
-	]
-);
-
-app.filter('noteventFilter',
-	[ function () {
-		'use strict';
-		var noteventfilter = function (item) {
-			var filter = [];
-			if (item.length > 0) {
-				for (var i = 0; i < item.length; i++) {
-					if (item[i].components.vevent === false) {
-						filter.push(item[i]);
-					}
-				}
-			}
-			return filter;
-		};
-		return noteventfilter;
-	}
-	]
-);
-
 app.filter('simpleReminderDescription', function() {
 	'use strict';
 	var actionMapper = {
@@ -1352,159 +1130,530 @@ app.filter('subscriptionFilter',
 	}
 	]);
 
-/**
-* Model:
-* Description: Generates a random uid.
-*/
-
-app.factory('Model', function () {
+app.factory('Calendar', ['$filter', 'VEventService', function($filter, VEventService) {
 	'use strict';
-	var Model = function () {
-		this.text = '';
-		this.possible = '';
-	};
 
-	Model.prototype = {
-		uidgen: function () {
-			this.possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-			for (var i = 0; i < 5; i++) {
-				this.text += possible.charAt(Math.floor(Math.random() * possible.length));
+	function Calendar(url, props) {
+		var _this = this;
+
+		angular.extend(this, {
+			_propertiesBackup: {},
+			_properties: {
+				url: url,
+				enabled: props['{http://owncloud.org/ns}calendar-enabled'] === '1',
+				displayname: props['{DAV:}displayname'] || 'Unnamed',
+				color: props['{http://apple.com/ns/ical/}calendar-color'] || '#1d2d44',
+				order: parseInt(props['{http://apple.com/ns/ical/}calendar-order']) || 0,
+				cruds: {
+					create: props.canWrite,
+					read: true,
+					update: props.canWrite,
+					delete: props.canWrite,
+					share: props.canWrite
+				},
+				list: {
+					edit: false,
+					loading: true,
+					locked: false
+				}
+			},
+			_updatedProperties: []
+		});
+
+		angular.extend(this, {
+			fcEventSource: {
+				events: function (start, end, timezone, callback) {
+					_this._properties.list.loading = true;
+
+					VEventService.getAll(_this, start, end).then(function(events) {
+						var vevents = [];
+						for (var i = 0; i < events.length; i++) {
+							vevents = vevents.concat(events[i].getFcEvent(start, end, timezone));
+						}
+
+						callback(vevents);
+
+						_this._properties.list.loading = false;
+					});
+				},
+				color: this._properties.color,
+				editable: this._properties.cruds.update,
+				calendar: this
 			}
-			return this.text;
+		});
+	}
+
+	Calendar.prototype = {
+		get url() {
+			return this._properties.url;
+		},
+		get enabled() {
+			return this._properties.enabled;
+		},
+		set enabled(enabled) {
+			this._properties.enabled = enabled;
+			this._setUpdated('enabled');
+		},
+		get displayname() {
+			return this._properties.displayname;
+		},
+		set displayname(displayname) {
+			this._properties.displayname = displayname;
+			this._setUpdated('displayname');
+		},
+		get color() {
+			return this._properties.color;
+		},
+		set color(color) {
+			this._properties.color = color;
+			this._setUpdated('color');
+		},
+		get order() {
+			return this._properties.order;
+		},
+		set order(order) {
+			this._properties.order = order;
+			this._setUpdated('order');
+		},
+		get cruds() {
+			return this._properties.cruds;
+		},
+		get list() {
+			return this._properties.list;
+		},
+		set list(list) {
+			this._properties.list = list;
+		},
+		_setUpdated: function(propName) {
+			if (this._updatedProperties.indexOf(propName) === -1) {
+				this._updatedProperties.push(propName);
+			}
+		},
+		get updatedProperties() {
+			return this._updatedProperties;
+		},
+		resetUpdatedProperties: function() {
+			this._updatedProperties = [];
+		},
+		prepareUpdate: function() {
+			this._properties.list.edit = true;
+			this._propertiesBackup = angular.copy(this._properties);
+		},
+		resetToPreviousState: function() {
+			this._properties = angular.copy(this._propertiesBackup);
+			this._properties.list.edit = false;
+			this._propertiesBackup = {};
 		}
 	};
 
-	return new Model();
-});
+	return Calendar;
+}]);
 
-/**
-* Model: Calendar
-* Description: Required for Calendar Sharing.
-*/
-
-app.factory('CalendarModel', function () {
+app.factory('Timezone', ['$filter', function($filter) {
 	'use strict';
-	var CalendarModel = function () {
-		this.calendars = [];
-		this.calendarId = {};
-		this.firstday = {};
-		this.modelview = {
-			id: '',
-			view: ''
-		};
-		this.updated = null;
-		this.datepickerview = {
-			id: '',
-			view: ''
-		};
-		this.today = {
-			id: '',
-			date: new Date()
-		};
-		this.activator = {
-			id: '',
-			bool: ''
-		};
-		this.created = null;
-		this.deleted = null;
-		this.date = new Date();
+
+	return function Event(data) {
+		angular.extend(this, {
+		});
+	};
+}]);
+app.factory('VEvent', ['$filter', 'fcHelper', 'objectConverter', function($filter, fcHelper, objectConverter) {
+	'use strict';
+
+	function VEvent(calendar, props, uri) {
+		angular.extend(this, {
+			calendar: calendar,
+			data: props['{urn:ietf:params:xml:ns:caldav}calendar-data'],
+			uri: uri,
+			etag: props['{DAV:}getetag'] || null,
+			getFcEvent: function(start, end, timezone) {
+				var tz = ICAL.TimezoneService.has(timezone) ? ICAL.TimezoneService.get('UTC') : null;
+				return fcHelper.renderCalData(this, start, end, tz);
+			},
+			getSimpleData: function(fcEvent) {
+				var vevent = fcHelper.getCorrectEvent(fcEvent, this.data);
+				return objectConverter.parse(vevent);
+			},
+			drop: function(fcEvent, delta) {
+				var data = fcHelper.dropEvent(fcEvent, delta, this.data);
+				if (data === null) {
+					return false;
+				}
+
+				this.data = data;
+				return true;
+			},
+			resize: function(fcEvent, delta) {
+				var data = fcHelper.resizeEvent(fcEvent, delta, this.data);
+				if (data === null) {
+					return false;
+				}
+
+				this.data = data;
+				return true;
+			}
+		});
+	}
+
+	return VEvent;
+}]);
+
+app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Calendar){
+	'use strict';
+
+	var _this = this;
+
+	this._CALENDAR_HOME = null;
+
+	this._currentUserPrincipal = null;
+
+	this._takenUrls = [];
+
+	this._PROPERTIES = [
+		'{' + DavClient.NS_DAV + '}displayname',
+		'{' + DavClient.NS_IETF + '}calendar-description',
+		'{' + DavClient.NS_IETF + '}calendar-timezone',
+		'{' + DavClient.NS_APPLE + '}calendar-order',
+		'{' + DavClient.NS_APPLE + '}calendar-color',
+		'{' + DavClient.NS_IETF + '}supported-calendar-component-set',
+		'{' + DavClient.NS_OWNCLOUD + '}calendar-enabled',
+		'{' + DavClient.NS_DAV + '}acl',
+		'{' + DavClient.NS_DAV + '}owner'
+	];
+
+	function discoverHome(callback) {
+		return DavClient.propFind(DavClient.buildUrl(OC.linkToRemoteBase('dav')), ['{' + DavClient.NS_DAV + '}current-user-principal'], 0).then(function(response) {
+			if (!DavClient.wasRequestSuccessful(response.status)) {
+				throw "CalDAV client could not be initialized - Querying current-user-principal failed";
+			}
+
+			if (response.body.propStat.length < 1) {
+				return;
+			}
+			var props = response.body.propStat[0].properties;
+			_this._currentUserPrincipal = props['{' + DavClient.NS_DAV + '}current-user-principal'][0].textContent;
+
+			return DavClient.propFind(DavClient.buildUrl(_this._currentUserPrincipal), ['{' + DavClient.NS_IETF + '}calendar-home-set'], 0).then(function (response) {
+				if (!DavClient.wasRequestSuccessful(response.status)) {
+					throw "CalDAV client could not be initialized - Querying calendar-home-set failed";
+				}
+
+				if (response.body.propStat.length < 1) {
+					return;
+				}
+				var props = response.body.propStat[0].properties;
+				_this._CALENDAR_HOME = props['{' + DavClient.NS_IETF + '}calendar-home-set'][0].textContent;
+
+				return callback();
+			});
+		});
+	}
+
+	function getResponseCodeFromHTTPResponse(t) {
+		return parseInt(t.split(' ')[1]);
+	}
+
+	this.getAll = function() {
+		if (this._CALENDAR_HOME === null) {
+			return discoverHome(function() {
+				return _this.getAll();
+			});
+		}
+
+		return DavClient.propFind(DavClient.buildUrl(this._CALENDAR_HOME), this._PROPERTIES, 1).then(function(response) {
+			var calendars = [];
+
+			if (!DavClient.wasRequestSuccessful(response.status)) {
+				throw "CalDAV client could not be initialized - Querying calendars failed";
+			}
+
+			for (var i = 0; i < response.body.length; i++) {
+				var body = response.body[i];
+				if (body.propStat.length < 1) {
+					continue;
+				}
+
+				_this._takenUrls.push(body.href);
+
+				var responseCode = getResponseCodeFromHTTPResponse(body.propStat[0].status);
+				if (!DavClient.wasRequestSuccessful(responseCode)) {
+					continue;
+				}
+
+				var doesSupportVEvent = false;
+				var components = body.propStat[0].properties['{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set'];
+				if (components) {
+					for (var j=0; j < components.length; j++) {
+						var name = components[j].attributes.getNamedItem('name').textContent.toLowerCase();
+						if (name === 'vevent') {
+							doesSupportVEvent = true;
+						}
+					}
+				}
+
+				if (!doesSupportVEvent) {
+					continue;
+				}
+
+				_this._getACLFromResponse(body);
+
+				var calendar = new Calendar(body.href, body.propStat[0].properties);
+				calendars.push(calendar);
+			}
+
+			return calendars;
+		});
 	};
 
-	var addListProperty = function(calendar) {
-		calendar.list = {
-			showCalDav: false,
-			calDavLink: OC.linkToRemote('caldav') + '/' + escapeHTML(encodeURIComponent(oc_current_user)) + '/' + escapeHTML(encodeURIComponent(calendar.uri)),
-			edit: false,
-			locked: false
-		};
+	this.get = function(url) {
+		if (this._CALENDAR_HOME === null) {
+			return discoverHome(function() {
+				return _this.get(url);
+			});
+		}
+
+		return DavClient.propFind(DavClient.buildUrl(url), this._PROPERTIES, 0).then(function(response) {
+			var body = response.body;
+			if (body.propStat.length < 1) {
+				//TODO - something went wrong
+				return;
+			}
+
+			var responseCode = getResponseCodeFromHTTPResponse(body.propStat[0].status);
+			if (!DavClient.wasRequestSuccessful(responseCode)) {
+				//TODO - something went wrong
+				return;
+			}
+
+			_this._getACLFromResponse(body);
+
+			return new Calendar(body.href, body.propStat[0].properties);
+		});
 	};
 
-	CalendarModel.prototype = {
-		create: function (newCalendar) {
-			addListProperty(newCalendar);
+	this.create = function(name, color) {
+		if (this._CALENDAR_HOME === null) {
+			return discoverHome(function() {
+				return _this.create(name, color);
+			});
+		}
 
-			this.calendars.push(newCalendar);
-			this.calendarId[newCalendar.id] = newCalendar;
-			this.created = newCalendar;
-		},
-		addAll: function (calendars) {
-			this.reset();
-			for (var i = 0; i < calendars.length; i++) {
-				addListProperty(calendars[i]);
-				this.calendars.push(calendars[i]);
-				this.calendarId[calendars[i].id] = calendars[i];
-			}
-		},
-		getAll: function () {
-			return this.calendars;
-		},
-		get: function (id) {
-			for (var i = 0; i <this.calendars.length; i++) {
-				if (id === this.calendars[i].id) {
-					this.calendarId[id] = this.calendars[i];
-					break;
-				}
-			}
-			return this.calendarId[id];
-		},
-		update: function(calendar) {
-			addListProperty(calendar);
+		var xmlDoc = document.implementation.createDocument('', '', null);
+		var cMkcalendar = xmlDoc.createElement('c:mkcalendar');
+		cMkcalendar.setAttribute('xmlns:c', 'urn:ietf:params:xml:ns:caldav');
+		cMkcalendar.setAttribute('xmlns:d', 'DAV:');
+		cMkcalendar.setAttribute('xmlns:a', 'http://apple.com/ns/ical/');
+		cMkcalendar.setAttribute('xmlns:o', 'http://owncloud.org/ns');
+		xmlDoc.appendChild(cMkcalendar);
 
-			for (var i = 0; i < this.calendars.length; i++) {
-				if (this.calendars[i].id === calendar.id) {
-					this.calendars[i] = calendar;
-					break;
-				}
-			}
+		var dSet = xmlDoc.createElement('d:set');
+		cMkcalendar.appendChild(dSet);
 
-			this.calendarId[calendar.id] = calendar;
-			this.updated = calendar;
-		},
-		remove: function (id) {
-			for (var i = 0; i < this.calendars.length; i++) {
-				if (this.calendars[i].id === id) {
-					this.calendars.splice(i, 1);
-					delete this.calendarId[id];
-					this.deleted = {
-						id: id
-					};
-					break;
-				}
+		var dProp = xmlDoc.createElement('d:prop');
+		dSet.appendChild(dProp);
+
+		dProp.appendChild(this._createXMLForProperty(xmlDoc, 'displayname', name));
+		dProp.appendChild(this._createXMLForProperty(xmlDoc, 'enabled', true));
+		dProp.appendChild(this._createXMLForProperty(xmlDoc, 'color', color));
+		dProp.appendChild(this._createXMLForProperty(xmlDoc, 'components', {vevent: true}));
+
+		var body = cMkcalendar.outerHTML;
+
+		var uri = this._suggestUri(name);
+		var url = this._CALENDAR_HOME + uri + '/';
+		var headers = {
+			'Content-Type' : 'application/xml; charset=utf-8'
+		};
+
+		return DavClient.request('MKCALENDAR', url, headers, body).then(function(response) {
+			if (response.status === 201) {
+				_this._takenUrls.push(url);
+				return _this.get(url);
 			}
-		},
-		pushdatepickerview: function (view, date) {
-			this.datepickerview.id = Math.random(1000);
-			this.datepickerview.view = view;
-		},
-		pushtoggleview: function (view) {
-			this.modelview.id = Math.random(1000);
-			this.modelview.view = view;
-		},
-		pushtodaydatepicker: function () {
-			this.today.id = Math.random(1000);
-		},
-		pushdate: function (date) {
-			this.date = date;
-		},
-		pushfirstday: function (val) {
-			this.firstday = moment().day(val).day();
-		},
-		toggleactive: function (id,bool) {
-			this.activator.id = id;
-			this.activator.bool = bool;
-		},
-		updatecalendar: function (updated) {
-			this.updated = updated;
-		},
-		reset: function() {
-			this.calendars = [];
-			this.calendarId = {};
+		});
+	};
+
+	this.update = function(calendar) {
+		var xmlDoc = document.implementation.createDocument('', '', null);
+		var dPropUpdate = xmlDoc.createElement('d:propertyupdate');
+		dPropUpdate.setAttribute('xmlns:c', 'urn:ietf:params:xml:ns:caldav');
+		dPropUpdate.setAttribute('xmlns:d', 'DAV:');
+		dPropUpdate.setAttribute('xmlns:a', 'http://apple.com/ns/ical/');
+		dPropUpdate.setAttribute('xmlns:o', 'http://owncloud.org/ns');
+		xmlDoc.appendChild(dPropUpdate);
+
+		var dSet = xmlDoc.createElement('d:set');
+		dPropUpdate.appendChild(dSet);
+
+		var dProp = xmlDoc.createElement('d:prop');
+		dSet.appendChild(dProp);
+
+		var updatedProperties = calendar.updatedProperties;
+		calendar.resetUpdatedProperties();
+		for (var i=0; i < updatedProperties.length; i++) {
+			dProp.appendChild(this._createXMLForProperty(
+				xmlDoc,
+				updatedProperties[i],
+				calendar[updatedProperties[i]]
+			));
+		}
+
+		var url = calendar.url;
+		var body = dPropUpdate.outerHTML;
+		var headers = {
+			'Content-Type' : 'application/xml; charset=utf-8'
+		};
+
+		return DavClient.request('PROPPATCH', url, headers, body).then(function(response) {
+			var responseBody = DavClient.parseMultiStatus(response.body);
+			console.log(responseBody);
+		});
+	};
+
+	this.delete = function(calendar) {
+		return DavClient.request('DELETE', calendar.url, {}, '').then(function(response) {
+			if (response.status === 204) {
+				return true;
+			} else {
+				// TODO - handle error case
+				return false;
+			}
+		});
+	};
+
+	this._createXMLForProperty = function(xmlDoc, propName, value) {
+		switch(propName) {
+			case 'enabled':
+				var oEnabled = xmlDoc.createElement('o:calendar-enabled');
+				oEnabled.textContent = value ? '1' : '0';
+				return oEnabled;
+
+			case 'displayname':
+				var dDisplayname = xmlDoc.createElement('d:displayname');
+				dDisplayname.textContent = value;
+				return dDisplayname;
+
+			case 'order':
+				var aOrder = xmlDoc.createElement('a:calendar-color');
+				aOrder.textContent = value;
+				return aOrder;
+
+			case 'color':
+				var aColor = xmlDoc.createElement('a:calendar-color');
+				aColor.textContent = value;
+				return aColor;
+
+			case 'components':
+				var cComponents = xmlDoc.createElement('c:supported-calendar-component-set');
+				for (var component in value) {
+					if (value.hasOwnProperty(component) && value[component]) {
+						var cComp = xmlDoc.createElement('c:comp');
+						cComp.setAttribute('name', component.toUpperCase());
+						cComponents.appendChild(cComp);
+					}
+				}
+				return cComponents;
 		}
 	};
 
-	return new CalendarModel();
-});
+	this._getACLFromResponse = function(body) {
+		var canWrite = false;
+		var acl = body.propStat[0].properties['{' + DavClient.NS_DAV + '}acl'];
+		if (acl) {
+			for (var k=0; k < acl.length; k++) {
+				var href = acl[k].getElementsByTagNameNS('DAV:', 'href');
+				if (href.length === 0) {
+					continue;
+				}
+				href = href[0].textContent;
+				if (href !== _this._currentUserPrincipal) {
+					continue;
+				}
+				var writeNode = acl[k].getElementsByTagNameNS('DAV:', 'write');
+				if (writeNode.length > 0) {
+					canWrite = true;
+				}
+			}
+		}
+		body.propStat[0].properties['canWrite'] = canWrite;
+	};
 
+	this._isUriAlreadyTaken = function(uri) {
+		return (this._takenUrls.indexOf(this._CALENDAR_HOME + uri + '/') !== -1);
+	};
+
+	this._suggestUri = function(displayname) {
+		var uri = displayname.toString().toLowerCase()
+			.replace(/\s+/g, '-')           // Replace spaces with -
+			.replace(/[^\w\-]+/g, '')       // Remove all non-word chars
+			.replace(/\-\-+/g, '-')         // Replace multiple - with single -
+			.replace(/^-+/, '')             // Trim - from start of text
+			.replace(/-+$/, '');            // Trim - from end of text
+
+		if (!this._isUriAlreadyTaken(uri)) {
+			return uri;
+		}
+
+		if (uri.indexOf('-') === -1) {
+			uri = uri + '-1';
+			if (!this._isUriAlreadyTaken(uri)) {
+				return uri;
+			}
+		}
+
+		while (this._isUriAlreadyTaken(uri)) {
+			var positionLastDash = uri.lastIndexOf('-');
+			var firstPart = uri.substr(0, positionLastDash);
+			var lastPart = uri.substr(positionLastDash + 1);
+
+			if (lastPart.match(/^\d+$/)) {
+				lastPart = parseInt(lastPart);
+				lastPart++;
+
+				uri = firstPart + '-' + lastPart;
+			} else if (lastPart === '') {
+				uri = uri + '1';
+			} else {
+				uri = uri = '-1';
+			}
+		}
+
+		return uri;
+	};
+
+}]);
+
+app.service('DavClient', function() {
+	'use strict';
+
+	var client = new dav.Client({
+		baseUrl: OC.linkToRemote('dav/calendars'),
+		xmlNamespaces: {
+			'DAV:': 'd',
+			'urn:ietf:params:xml:ns:caldav': 'c',
+			'http://apple.com/ns/ical/': 'aapl',
+			'http://owncloud.org/ns': 'oc',
+			'http://calendarserver.org/ns/': 'cs'
+		}
+	});
+
+	angular.extend(client, {
+		NS_DAV: 'DAV:',
+		NS_IETF: 'urn:ietf:params:xml:ns:caldav',
+		NS_APPLE: 'http://apple.com/ns/ical/',
+		NS_OWNCLOUD: 'http://owncloud.org/ns',
+		NS_CALENDARSERVER: 'http://calendarserver.org/ns/',
+
+		buildUrl: function(path) {
+			return window.location.protocol + '//' + window.location.host + path;
+		},
+		wasRequestSuccessful: function(status) {
+			return (status >= 200 && status <= 299);
+		}
+	});
+
+	return client;
+});
 /**
 * Model: Dialog
 * Description: For Dialog Properties.
@@ -1676,10 +1825,6 @@ app.factory('fcHelper', function () {
 	 * @returns {boolean}
 	 */
 	function isCorrectEvent(event, vevent) {
-		if (event.objectUri !== vevent.getFirstPropertyValue('x-oc-uri')) {
-			return false;
-		}
-
 		if (event.recurrenceId === null) {
 			if (!vevent.hasProperty('recurrence-id')) {
 				return true;
@@ -1727,11 +1872,9 @@ app.factory('fcHelper', function () {
 	 * @returns {*}
 	 */
 	function addCalendarDataToFCData(fcData, calendar) {
-		fcData.calendarId = calendar.id;
-		fcData.color = calendar.color;
-		fcData.textColor = calendar.textColor;
-		fcData.editable = calendar.editable;
-		fcData.className = 'fcCalendar-id-' + calendar.id;
+		fcData.calendar = calendar;
+		fcData.editable = calendar.cruds.update;
+		fcData.className = 'fcCalendar-id-' + calendar.url;
 
 		return fcData;
 	}
@@ -1741,11 +1884,12 @@ app.factory('fcHelper', function () {
 	 * @param fcData
 	 * @param vevent
 	 * @param event
+	 * @param eventsObject
 	 * @returns {*}
 	 */
-	function addEventDataToFCData(fcData, vevent, event) {
-		fcData.objectUri = vevent.getFirstPropertyValue('x-oc-uri');
-		fcData.etag = vevent.getFirstPropertyValue('x-oc-etag');
+	function addEventDataToFCData(fcData, vevent, event, eventsObject) {
+		fcData.uri = eventsObject.uri;
+		fcData.etag = eventsObject.etag;
 		fcData.title = vevent.getFirstPropertyValue('summary');
 
 		if (event.isRecurrenceException()) {
@@ -1814,10 +1958,10 @@ app.factory('fcHelper', function () {
 			var dtendOfRecurrence = next.clone();
 			dtendOfRecurrence.addDuration(duration);
 
-			if (isTimezoneConversionNecessary(dtstartOfRecurrence)) {
+			if (isTimezoneConversionNecessary(dtstartOfRecurrence) && timezone) {
 				dtstartOfRecurrence = dtstartOfRecurrence.convertToZone(timezone);
 			}
-			if (isTimezoneConversionNecessary(dtendOfRecurrence)) {
+			if (isTimezoneConversionNecessary(dtendOfRecurrence) && timezone) {
 				dtendOfRecurrence = dtendOfRecurrence.convertToZone(timezone);
 			}
 
@@ -1842,10 +1986,10 @@ app.factory('fcHelper', function () {
 		var dtstart = vevent.getFirstPropertyValue('dtstart');
 		var dtend = calculateDTEnd(vevent);
 
-		if (isTimezoneConversionNecessary(dtstart)) {
+		if (isTimezoneConversionNecessary(dtstart) && timezone) {
 			dtstart = dtstart.convertToZone(timezone);
 		}
-		if (isTimezoneConversionNecessary(dtend)) {
+		if (isTimezoneConversionNecessary(dtend) && timezone) {
 			dtend = dtend.convertToZone(timezone);
 		}
 
@@ -1859,22 +2003,21 @@ app.factory('fcHelper', function () {
 
 	return {
 		/**
-		 * render a jCal string
-		 * @param calendar
-		 * @param jCalData
+		 * render a ics string
+		 * @param eventObject
 		 * @param start
 		 * @param end
 		 * @param timezone
-		 * @param renderCallback a callback that is called for each rendered event
 		 * @returns {Array}
 		 */
-		renderJCAL: function(calendar, jCalData, start, end, timezone, renderCallback) {
-			var components = new ICAL.Component(jCalData);
+		renderCalData: function(eventObject, start, end, timezone) {
+			var jcal = ICAL.parse(eventObject.data);
+			var components = new ICAL.Component(jcal);
 
-			start = new ICAL.Time();
-			start.fromUnixTime(start);
-			end = new ICAL.Time();
-			end.fromUnixTime(end);
+			var icalstart = new ICAL.Time();
+			icalstart.fromUnixTime(start.format('X'));
+			var icalend = new ICAL.Time();
+			icalend.fromUnixTime(end.format('X'));
 
 			if (components.jCal.length === 0) {
 				return null;
@@ -1883,6 +2026,7 @@ app.factory('fcHelper', function () {
 			registerTimezones(components);
 
 			var vevents = components.getAllSubcomponents('vevent');
+			var renderedEvents = [];
 
 			angular.forEach(vevents, function (vevent) {
 				var event = new ICAL.Event(vevent);
@@ -1893,7 +2037,7 @@ app.factory('fcHelper', function () {
 						return;
 					}
 					if (event.isRecurring()) {
-						fcData = parseTimeForRecurringEvent(vevent, start, end, timezone);
+						fcData = parseTimeForRecurringEvent(vevent, icalstart, icalend, timezone);
 					} else {
 						fcData = [];
 						fcData.push(parseTimeForSingleEvent(vevent, timezone));
@@ -1907,25 +2051,27 @@ app.factory('fcHelper', function () {
 				}
 
 				for (var i = 0, length = fcData.length; i < length; i++) {
-					fcData[i] = addCalendarDataToFCData(fcData[i], calendar);
-					fcData[i] = addEventDataToFCData(fcData[i], vevent, event);
+					fcData[i] = addCalendarDataToFCData(fcData[i], eventObject.calendar);
+					fcData[i] = addEventDataToFCData(fcData[i], vevent, event, eventObject);
+					fcData[i].event = eventObject;
 
-					renderCallback(fcData[i]);
+					renderedEvents.push(fcData[i]);
 				}
 			});
 
-			return [];
+			return renderedEvents;
 		},
 
 		/**
 		 * resize an event
 		 * @param event
 		 * @param delta
-		 * @param jCalData
+		 * @param data
 		 * @returns {*}
 		 */
-		resizeEvent: function(event, delta, jCalData) {
-			var components = new ICAL.Component(jCalData);
+		resizeEvent: function(event, delta, data) {
+			var jcal = ICAL.parse(data);
+			var components = new ICAL.Component(jcal);
 			var vevents = components.getAllSubcomponents('vevent');
 			var foundEvent = false;
 			var deltaAsSeconds = 0;
@@ -1972,11 +2118,12 @@ app.factory('fcHelper', function () {
 		 * drop an event
 		 * @param event
 		 * @param delta
-		 * @param jCalData
+		 * @param data
 		 * @returns {*}
 		 */
-		dropEvent: function(event, delta, jCalData) {
-			var components = new ICAL.Component(jCalData);
+		dropEvent: function(event, delta, data) {
+			var jcal = ICAL.parse(data);
+			var components = new ICAL.Component(jcal);
 			var vevents = components.getAllSubcomponents('vevent');
 			var foundEvent = false;
 			var deltaAsSeconds = 0;
@@ -2019,9 +2166,10 @@ app.factory('fcHelper', function () {
 		/**
 		 *
 		 * @param event
-		 * @param jCalData
+		 * @param data
 		 */
-		getCorrectEvent: function(event, jCalData) {
+		getCorrectEvent: function(event, data) {
+			var jCalData = ICAL.parse(data);
 			var components = new ICAL.Component(jCalData);
 			var vevents = components.getAllSubcomponents('vevent');
 
@@ -2042,6 +2190,7 @@ app.factory('fcHelper', function () {
 		}
 	 };
  });
+
 app.factory('is', function () {
 	'use strict';
 
@@ -2648,178 +2797,166 @@ app.factory('objectConverter', function () {
 	};
 });
 
-/**
-* Model: Subscriptions
-* Description: Required for Subscription Sharing.
-*/
-
-app.factory('SubscriptionModel', function () {
-	'use strict';
-	var SubscriptionModel = function () {
-		this.subscriptions = [];
-		this.subscriptionId = {};
-		this.subscriptionDetails = [];
-	};
-
-	SubscriptionModel.prototype = {
-		create: function (newsubscription) {
-			this.subscriptions.push(newsubscription);
-		},
-		add: function (subscription) {
-			this.updateIfExists(subscription);
-		},
-		addAll: function (subscriptions) {
-			for (var i = 0; i < subscriptions.length; i++) {
-				this.add(subscriptions[i]);
-			}
-		},
-		getAll: function () {
-			return this.subscriptions;
-		},
-		get: function (id) {
-			return this.subscriptionId[id];
-		},
-		updateIfExists: function (updated) {
-			var subscription = this.subscriptionId[updated.id];
-			if (!angular.isDefined(subscription)) {
-				this.subscriptions.push(updated);
-				this.subscriptionId[updated.id] = updated;
-			}
-		},
-		remove: function (id) {
-			for (var i = 0; i < this.subscriptions.length; i++) {
-				var subscription = this.subscriptions[i];
-				if (subscription.id === id) {
-					this.subscriptions.splice(i, 1);
-					delete this.subscriptionId[id];
-					break;
-				}
-			}
-		},
-		getSubscriptionNames: function (backends) {
-			var _this = this;
-
-			angular.forEach(backends, function(backend) {
-				angular.forEach(backend.subscriptions, function(subscription) {
-					_this.subscriptionDetails.push({
-						name: subscription.name,
-						type: subscription.type
-					});
-				});
-			});
-
-			return this.subscriptionDetails;
-		}
-	};
-
-	return new SubscriptionModel();
-});
-
-/**
-* Model: Timezone
-* Description: Required for Setting timezone.
-*/
-
-app.factory('TimezoneModel', function () {
+app.service('SettingsService', ['Restangular', function(Restangular) {
 	'use strict';
 
-	var TimezoneModel = function () {
-		this.timezones = [];
-		this.timezoneslist = [];
-		this.timezoneId = {};
+	this.getView = function() {
+
 	};
 
-	TimezoneModel.prototype = {
-		add: function (timezone) {
-			this.timezones.push(timezone);
-		},
-		addAll: function (timezones) {
-			for (var i = 0; i < timezones.length; i++) {
-				this.add(timezones[i]);
-			}
-		},
-		getAll: function () {
-			return this.timezones;
-		},
-		get: function (id) {
-			return this.timezoneId[id];
-		},
-		delete: function (id) {
-			return 0;
-		},
-		currenttimezone: function () {
-			var timezone = jstz.determine();
-			return timezone.name();
-		},
-		addtimezone: function (timezonedata) {
-			var rawdata = new ICAL.Component(timezonedata);
-			var vtimezones = rawdata.getAllSubcomponents('vtimezone');
-			var timezone = [];
-			ICAL.TimezoneService.reset();
-			angular.forEach(vtimezones, function (value, key) {
-				timezone = new ICAL.Timezone(value);
-				ICAL.TimezoneService.register(timezone.tzid, timezone);
-			});
-			return timezone;
-		}
+	this.setView = function(view) {
+
 	};
 
-	return new TimezoneModel();
-});
-
-/**
-* Model: Upload
-* Description: Required for Uploading / Importing Files.
-*/
-
-app.factory('UploadModel', ["$rootScope", function ($rootScope) {
+}]);
+app.service('TimezoneService', ['Timezone', function(Timezone) {
 	'use strict';
-	
-	var _files = [];
-	return {
-		add: function (file) {
-			_files.push(file);
-			$rootScope.$broadcast('fileAdded', file.files[0].name);
-		},
-		clear: function () {
-			_files = [];
-		},
-		files: function () {
-			var fileNames = [];
-			$.each(_files, function (index, file) {
-				fileNames.push(file.files[0].name);
-			});
-			return fileNames;
-		},
-		upload: function () {
-			$.each(_files, function (index, file) {
-				file.submit();
-			});
-			this.clear();
-		},
-		setProgress: function (percentage) {
-			$rootScope.$broadcast('uploadProgress', percentage);
-		}
+
+	this.listAll = function() {
+
 	};
+
+	this.get = function(tzid) {
+
+	};
+
+	this.current = function() {
+		return 'UTC';
+	};
+
 }]);
 
-/**
-* Model: View
-* Description: Sets the full calendarview.
-*/
-
-app.factory('ViewModel', function () {
+app.service('VEventService', ['DavClient', 'VEvent', function(DavClient, VEvent) {
 	'use strict';
-	var ViewModel = function () {
-		this.view = [];
+
+	var _this = this;
+
+	this.getAll = function(calendar, start, end) {
+		var xmlDoc = document.implementation.createDocument('', '', null);
+		var cCalQuery = xmlDoc.createElement('c:calendar-query');
+		cCalQuery.setAttribute('xmlns:c', 'urn:ietf:params:xml:ns:caldav');
+		cCalQuery.setAttribute('xmlns:d', 'DAV:');
+		cCalQuery.setAttribute('xmlns:a', 'http://apple.com/ns/ical/');
+		cCalQuery.setAttribute('xmlns:o', 'http://owncloud.org/ns');
+		xmlDoc.appendChild(cCalQuery);
+
+		var dProp = xmlDoc.createElement('d:prop');
+		cCalQuery.appendChild(dProp);
+
+		var dGetEtag = xmlDoc.createElement('d:getetag');
+		dProp.appendChild(dGetEtag);
+
+		var cCalendarData = xmlDoc.createElement('c:calendar-data');
+		dProp.appendChild(cCalendarData);
+
+		var cFilter = xmlDoc.createElement('c:filter');
+		cCalQuery.appendChild(cFilter);
+
+		var cCompFilterVCal = xmlDoc.createElement('c:comp-filter');
+		cCompFilterVCal.setAttribute('name', 'VCALENDAR');
+		cFilter.appendChild(cCompFilterVCal);
+
+		var cCompFilterVEvent = xmlDoc.createElement('c:comp-filter');
+		cCompFilterVEvent.setAttribute('name', 'VEVENT');
+		cCompFilterVCal.appendChild(cCompFilterVEvent);
+
+		var cTimeRange = xmlDoc.createElement('c:time-range');
+		cTimeRange.setAttribute('start', this._getTimeRangeStamp(start));
+		cTimeRange.setAttribute('end', this._getTimeRangeStamp(end));
+		cCompFilterVEvent.appendChild(cTimeRange);
+
+		var url = calendar.url;
+		var headers = {
+			'Content-Type': 'application/xml; charset=utf-8',
+			'Depth': 1
+		};
+		var body = cCalQuery.outerHTML;
+
+		return DavClient.request('REPORT', url, headers, body).then(function(response) {
+			if (!DavClient.wasRequestSuccessful(response.status)) {
+				//TODO - something went wrong
+				return;
+			}
+
+			var vevents = [];
+
+			var objects = DavClient.parseMultiStatus(response.body);
+			for (var i in objects) {
+				var object = objects[i];
+				var properties = object.propStat[0].properties;
+
+				var uri = object.href.substr(object.href.lastIndexOf('/') + 1);
+
+				var vevent = new VEvent(calendar, properties, uri);
+				vevents.push(vevent);
+			}
+
+			return vevents;
+		});
 	};
 
-	ViewModel.prototype = {
-		add: function (views) {
-			this.view.push(views);
-		}
+	this.get = function(calendar, uri) {
+		var url = calendar.url + uri;
+		return DavClient.request('GET', url, {}, '').then(function(response) {
+			return new VEvent(calendar, {
+				'{urn:ietf:params:xml:ns:caldav}calendar-data': response.body,
+				'{DAV:}getetag': response.xhr.getResponseHeader('ETag')
+			}, uri);
+		});
 	};
 
-	return new ViewModel();
-});
+	this.create = function(calendar, data) {
+		var headers = {
+			'Content-Type': 'text/calendar; charset=utf-8'
+		};
+		var uri = this._generateRandomUri();
+		var url = calendar.url + uri;
+
+		return DavClient.request('PUT', url, headers, data).then(function(response) {
+			if (!DavClient.wasRequestSuccessful(response.status)) {
+				// TODO - something went wrong, do smth about it
+			}
+
+			return _this.get(calendar, uri);
+		});
+	};
+
+	this.update = function(event) {
+		var url = event.calendar.url + event.uri;
+		var headers = {
+			'Content-Type': 'text/calendar; charset=utf-8',
+			'If-Match': event.etag
+		};
+
+		return DavClient.request('PUT', url, headers, event.data).then(function(response) {
+			event.etag = response.xhr.getResponseHeader('ETag');
+			return DavClient.wasRequestSuccessful(response.status);
+		});
+	};
+
+	this.delete = function(event) {
+		var url = event.calendar.url + event.uri;
+		var headers = {
+			'If-Match': event.etag
+		};
+
+		return DavClient.request('DELETE', url, headers, '').then(function(response) {
+			return DavClient.wasRequestSuccessful(response.status);
+		});
+	};
+
+	this._generateRandomUri = function() {
+		var uri = 'ownCloud-';
+		uri += Math.random().toString(36).substr(2);
+		uri += Math.random().toString(36).substr(2);
+		uri += '.ics';
+
+		return uri;
+	};
+
+	this._getTimeRangeStamp = function(momentObject) {
+		return momentObject.format('YYYYMMDD') + 'T' + momentObject.format('HHmmss') + 'Z';
+	};
+
+}]);
 

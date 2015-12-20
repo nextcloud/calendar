@@ -26,59 +26,38 @@
 * Description: The fullcalendar controller.
 */
 
-app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'CalendarModel', 'ViewModel', 'TimezoneModel', 'fcHelper', 'objectConverter',
-	function ($scope, $rootScope, Restangular, CalendarModel, ViewModel, TimezoneModel, fcHelper, objectConverter) {
+app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'objectConverter', 'is', 'uiCalendarConfig',
+	function ($scope, $rootScope, $window, CalendarService, VEventService, SettingsService, TimezoneService, objectConverter, is, uiCalendarConfig) {
 		'use strict';
 
+		$scope.calendars = [];
 		$scope.eventSources = [];
 		$scope.eventSource = {};
-		$scope.calendarModel = CalendarModel;
-		$scope.defaulttimezone = TimezoneModel.currenttimezone();
-		$scope.i = 0;
+		$scope.defaulttimezone = TimezoneService.current();
 		var switcher = [];
-		var viewResource = Restangular.one('view');
 
-		if ($scope.defaulttimezone.length > 0) {
-			$scope.requestedtimezone = $scope.defaulttimezone.replace('/', '-');
-			Restangular.one('timezones', $scope.requestedtimezone).get().then(function (timezonedata) {
-				$scope.timezone = TimezoneModel.addtimezone(timezonedata);
-			}, function (response) {
-				OC.Notification.show(t('calendar', response.data.message));
-			});
-		}
+		var w = angular.element($window);
+		w.bind('resize', function () {
+			uiCalendarConfig.calendars.calendar
+				.fullCalendar('option', 'height', w.height() - angular.element('#header').height());
+		});
 
-		$rootScope.$on('finishedLoadingCalendars', function() {
-			$scope.calendars = $scope.calendarModel.getAll();
+		is.loading = true;
 
-			angular.forEach($scope.calendars, function (value) {
-				if ($scope.eventSource[value.id] === undefined) {
-					$scope.eventSource[value.id] = {
-						events: function (start, end, timezone, callback) {
-							value.loading = true;
-							start = start.format('X');
-							end = end.format('X');
-							Restangular.one('calendars', value.id).one('events').one('inPeriod').getList(start + '/' + end).then(function (eventsobject) {
-								callback([]);
-								fcHelper.renderJCAL($scope.eventSource[value.id], eventsobject, start, end, $scope.timezone, function(renderedEvent) {
-									$scope.calendar.fullCalendar('renderEvent', renderedEvent);
-								});
-								$rootScope.$broadcast('finishedLoadingEvents', value.id);
-							}, function (response) {
-								OC.Notification.show(t('calendar', response.data.message));
-								$rootScope.$broadcast('finishedLoadingEvents', value.id);
-							});
-						},
-						color: value.color,
-						textColor: value.textColor,
-						editable: value.cruds.update,
-						id: value.id
-					};
-					if (value.enabled === true && value.components.vevent === true) {
-						$scope.calendar.fullCalendar('addEventSource',
-							$scope.eventSource[value.id]);
-						switcher.push(value.id);
-					}
+		CalendarService.getAll().then(function(calendars) {
+			$scope.calendars = calendars;
+			is.loading = false;
+			// TODO - scope.apply should not be necessary here
+			$scope.$apply();
+
+			angular.forEach($scope.calendars, function (calendar) {
+				$scope.eventSource[calendar.url] = calendar.fcEventSource;
+				if (calendar.enabled) {
+					uiCalendarConfig.calendars.calendar.fullCalendar(
+						'addEventSource',
+						$scope.eventSource[calendar.url]);
 				}
+				switcher.push(calendar.url);
 			});
 		});
 
@@ -155,7 +134,7 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 
 		$scope.uiConfig = {
 			calendar: {
-				height: $(window).height() - $('#controls').height() - $('#header').height(),
+				height: w.height() - angular.element('#header').height(),
 				editable: true,
 				selectable: true,
 				selectHelper: true,
@@ -163,76 +142,37 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 				monthNamesShort: monthNamesShort,
 				dayNames: dayNames,
 				dayNamesShort: dayNamesShort,
-				eventSources: [],
 				timezone: $scope.defaulttimezone,
 				defaultView: angular.element('#fullcalendar').attr('data-defaultView'),
-				header: {
-					left: '',
-					center: '',
-					right: ''
-				},
+				header: false,
 				firstDay: moment().startOf('week').format('d'),
 				select: $scope.newEvent,
-				eventClick: function( event, jsEvent, view ) {
-					Restangular.one('calendars', event.calendarId).one('events', event.objectUri).get().then(function (jCalData) {
-						var vevent = fcHelper.getCorrectEvent(event, jCalData);
-						var simpleData = objectConverter.parse(vevent);
-
-						console.log(simpleData);
-
-						$rootScope.$broadcast('initializeEventEditor', {
-							data: simpleData,
-							onSuccess: function(newData) {
-
-							}
-						});
+				eventClick: function(fcEvent, jsEvent, view) {
+					var simpleData = fcEvent.event.getSimpleData(fcEvent);
+					$rootScope.$broadcast('initializeEventEditor', {
+						data: simpleData,
+						onSuccess: function(newData) {
+						}
 					});
 				},
-				eventResize: function (event, delta, revertFunc) {
-					Restangular.one('calendars', event.calendarId).one('events', event.objectUri).get().then(function (eventsobject) {
-						var data = fcHelper.resizeEvent(event, delta, eventsobject);
-						if (data === null) {
-							revertFunc();
-							return;
-						}
-						Restangular.one('calendars', event.calendarId).one('events', event.objectUri).customPUT(
-							data,
-							'',
-							{},
-							{'Content-Type':'text/calendar'}
-						);
-					}, function (response) {
-						OC.Notification.show(t('calendar', response.data.message));
-					});
+				eventResize: function (fcEvent, delta, revertFunc) {
+					if (!fcEvent.event.resize(fcEvent, delta)) {
+						revertFunc();
+					}
+					VEventService.update(fcEvent.event);
 				},
-				eventDrop: function (event, delta, revertFunc) {
-					Restangular.one('calendars', event.calendarId).one('events', event.objectUri).get().then(function (eventsobject) {
-						var data = fcHelper.dropEvent(event, delta, eventsobject);
-						if (data === null) {
-							revertFunc();
-							return;
-						}
-						Restangular.one('calendars', event.calendarId).one('events', event.objectUri).customPUT(
-							data,
-							'',
-							{},
-							{'Content-Type':'text/calendar'}
-						);
-					}, function (response) {
-						OC.Notification.show(t('calendar', response.data.message));
-					});
+				eventDrop: function (fcEvent, delta, revertFunc) {
+					if(!fcEvent.event.drop(fcEvent, delta)) {
+						revertFunc();
+					}
+					VEventService.update(fcEvent.event);
 				},
 				viewRender: function (view, element) {
-					$scope.calendar = element;
 					angular.element('#firstrow').find('.datepicker_current').html(view.title).text();
 					angular.element('#datecontrol_date').datepicker('setDate', element.fullCalendar('getDate'));
 					var newview = view.name;
 					if (newview !== $scope.defaultView) {
-						viewResource.get().then(function (newview) {
-							ViewModel.add(newview);
-						}, function (response) {
-							OC.Notification.show(t('calendar', response.data.message));
-						});
+						SettingsService.setView(newview);
 						$scope.defaultView = newview;
 					}
 					if (newview === 'agendaDay') {
@@ -256,32 +196,12 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 		 * - add event source to fullcalendar when enabled is true
 		 */
 		$rootScope.$on('createdCalendar', function (event, createdCalendar) {
-			var id = createdCalendar.id;
-			$scope.eventSource[id] = {
-				events: function (start, end, timezone, callback) {
-					start = start.format('X');
-					end = end.format('X');
-					Restangular.one('calendars', id).one('events').one('inPeriod').getList(start + '/' + end).then(function (eventsobject) {
-						callback([]);
-						fcHelper.renderJCAL($scope.eventSource[id], eventsobject, start, end, $scope.timezone, function(renderedEvent) {
-							$scope.calendar.fullCalendar('renderEvent', renderedEvent);
-						});
-						$rootScope.$broadcast('finishedLoadingEvents', id);
-					}, function (response) {
-						OC.Notification.show(t('calendar', response.data.message));
-						$rootScope.$broadcast('finishedLoadingEvents', id);
-					});
-				},
-				color: createdCalendar.color,
-				editable: createdCalendar.cruds.update,
-				id: id
-			};
+			$scope.eventSource[createdCalendar.url] = createdCalendar.fcEventSource;
 
-			if (createdCalendar.enabled === true &&
-				createdCalendar.components.vevent === true) {
-				$scope.calendar.fullCalendar('addEventSource',
-					$scope.eventSource[id]);
-				switcher.push(id);
+			if (createdCalendar.enabled) {
+				uiCalendarConfig.calendars.calendar.fullCalendar('addEventSource',
+					$scope.eventSource[createdCalendar.url]);
+				switcher.push(createdCalendar.url);
 			}
 		});
 
@@ -292,32 +212,32 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 		 * - update permissions
 		 */
 		$rootScope.$on('updatedCalendar', function (event, updatedCalendar) {
-			var id = updatedCalendar.id;
-			var index = switcher.indexOf(id);
+			var url = updatedCalendar.url;
+			var index = switcher.indexOf(url);
 
-			if (updatedCalendar.enabled === true && index ===-1) {
-				$scope.calendar.fullCalendar('addEventSource',
-					$scope.eventSource[id]);
-				switcher.push(id);
+			if (updatedCalendar.enabled && index === - 1) {
+				uiCalendarConfig.calendars.calendar.fullCalendar('addEventSource',
+					$scope.eventSource[url]);
+				switcher.push(url);
 			}
 			//Events are already visible -> loading finished
-			if (updatedCalendar.enabled === true && index !== -1) {
-				$rootScope.$broadcast('finishedLoadingEvents', updatedCalendar.id);
+			if (updatedCalendar.enabled && index !== -1) {
+				$rootScope.$broadcast('finishedLoadingEvents', url);
 			}
 
-			if (updatedCalendar.enabled === false && index !== -1) {
-				$scope.calendar.fullCalendar('removeEventSource',
-					$scope.eventSource[id]);
+			if (!updatedCalendar.enabled && index !== -1) {
+				uiCalendarConfig.calendars.calendar.fullCalendar('removeEventSource',
+					$scope.eventSource[url]);
 				switcher.splice(index, 1);
 			}
 
-			if ($scope.eventSource[id].color !== updatedCalendar.color) {
+			if ($scope.eventSource[url].color !== updatedCalendar.color) {
 				// Sadly fullcalendar doesn't support changing a calendar's
 				// color without removing and then adding it again as an eventSource
-				$scope.eventSource[id].color = updatedCalendar.color;
-				angular.element('.fcCalendar-id-' + id).css('background-color', updatedCalendar.color);
+				$scope.eventSource[url].color = updatedCalendar.color;
+				angular.element('.fcCalendar-id-' + url).css('background-color', updatedCalendar.color);
 			}
-			$scope.eventSource[id].editable = updatedCalendar.cruds.update;
+			$scope.eventSource[url].editable = updatedCalendar.cruds.update;
 		});
 
 		/**
@@ -326,65 +246,25 @@ app.controller('CalController', ['$scope', '$rootScope', 'Restangular', 'Calenda
 		 * - delete event source object
 		 */
 		$rootScope.$on('removedCalendar', function (event, calendar) {
-			var deletedObject = calendar.id;
-			$scope.calendar.fullCalendar('removeEventSource',
+			var deletedObject = calendar.url;
+			uiCalendarConfig.calendars.calendar.fullCalendar('removeEventSource',
 				$scope.eventSource[deletedObject]);
 
 			delete $scope.eventSource[deletedObject];
 		});
 
+		/**
+		 * After a calendar's visibility was changed:
+		 * - add event source to fullcalendar if enabled is true
+		 * - remove event source from fullcalendar if enabled is false
+		 */
 		$rootScope.$on('updatedCalendarsVisibility', function (event, calendar) {
 			if (calendar.enabled) {
-				$scope.calendar.fullCalendar('addEventSource', $scope.eventSource[calendar.id]);
+				uiCalendarConfig.calendars.calendar.fullCalendar('addEventSource', $scope.eventSource[calendar.url]);
 			} else {
-				$scope.calendar.fullCalendar('removeEventSource', $scope.eventSource[calendar.id]);
+				uiCalendarConfig.calendars.calendar.fullCalendar('removeEventSource', $scope.eventSource[calendar.url]);
 			}
 		});
 
-		/**
-		 * Watches the Calendar view.
-		*/
-
-		$scope.$watch('calendarModel.modelview', function (newview, oldview) {
-			$scope.changeView = function (newview, calendar) {
-				calendar.fullCalendar('changeView', newview);
-			};
-			$scope.today = function (calendar) {
-				calendar.fullCalendar('today');
-			};
-			if (newview.view && $scope.calendar) {
-				if (newview.view !== 'today') {
-					$scope.changeView(newview.view, $scope.calendar);
-				} else {
-					$scope.today($scope.calendar);
-				}
-			}
-		}, true);
-
-		/**
-		 * Watches the date picker.
-		*/
-
-		$scope.$watch('calendarModel.datepickerview', function (newview, oldview) {
-			$scope.changeview = function (newview, calendar) {
-				calendar.fullCalendar(newview.view);
-			};
-			if (newview.view !== '' && $scope.calendar !== undefined) {
-				$scope.changeview(newview, $scope.calendar);
-			}
-		}, true);
-
-		/**
-		 * Watches the date change and its effect on fullcalendar.
-		*/
-
-		$scope.$watch('calendarModel.date', function (newview, oldview) {
-			$scope.gotodate = function (newview, calendar) {
-				calendar.fullCalendar('gotoDate', newview);
-			};
-			if (newview !== '' && $scope.calendar !== undefined) {
-				$scope.gotodate(newview, $scope.calendar);
-			}
-		});
 	}
 ]);

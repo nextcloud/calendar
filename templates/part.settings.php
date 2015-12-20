@@ -35,16 +35,6 @@
 <div id="app-settings-content">
 	<fieldset class="settings-fieldset">
 		<ul class="settings-fieldset-interior">
-			<li class="settings-fieldset-interior-item" ng-show="{{ (calendars | noteventFilter).length }} == 0">
-				<?php p($l->t('You don\'t have any hidden calendars. Once you have, they\'ll show up here.')); ?>
-			</li>
-			<li class="settings-fieldset-interior-item" ng-show="{{ (calendars | noteventFilter).length }} != 0">
-				<label class="settins-label bold"><?php p($l->t('Show in Calendar')); ?></label>
-				<select class="settings-select">
-					<option ng-repeat="calendar in calendars | noteventFilter" ng-selected="{{reminder.type == alarm.action.value}}" value="{{reminder.type}}">{{reminder.displayname}}</option>
-				</select>
-			</li>
-
 			<li class="settings-fieldset-interior-item settings-fieldset-interior-upload">
 				<input type="file" name="file" accept="text/calendar" multiple id="import" />
 				<span href="#" class="settings-upload svg icon-upload"><?php p($l->t('Import calendar')); ?></span>
@@ -74,9 +64,9 @@
 				<td class="calendartype">
 					<select
 						class="settings-select"
-						ng-init="file.importToCalendar = (calendars | eventFilter | calendarFilter)[0].id"
+						ng-init="file.importToCalendar = (calendars | calendarFilter)[0].id"
 						ng-model="file.importToCalendar"
-						ng-options="calendar.id as calendar.displayname for calendar in calendars | eventFilter | calendarFilter | orderBy:['order']"
+						ng-options="calendar.id as calendar.displayname for calendar in calendars | calendarFilter | orderBy:['order']"
 						ng-disabled="file.isImporting">
 					</select>
 				</td>

@@ -26,11 +26,11 @@
 * Description: Takes care of anything inside the Events Modal.
 */
 
-app.controller('EventsModalController', ['$scope', '$templateCache','$rootScope', '$routeParams', 'Restangular', 'CalendarModel', 'TimezoneModel', 'DialogModel', 'Model', 'eventEditorHelper',
-	function ($scope, $templateCache, $rootScope, $routeParams, Restangular, CalendarModel, TimezoneModel, DialogModel, Model, eventEditorHelper) {
+app.controller('EventsModalController', ['$scope', '$rootScope', '$routeParams', 'CalendarService', 'VEventService', 'TimezoneService', 'DialogModel', 'eventEditorHelper',
+	function ($scope, $rootScope, $routeParams, CalendarService, VEventService, TimezoneService, DialogModel, eventEditorHelper) {
 		'use strict';
-		$scope.calendarModel = CalendarModel;
-		$scope.calendars = CalendarModel.getAll();
+		//$scope.calendarModel = CalendarModel;
+		$scope.calendars = [];//CalendarModel.getAll();
 		$scope.properties = {};
 		$scope.nameofattendee = '';
 		$scope.eventsinfoview = true;
@@ -129,14 +129,14 @@ app.controller('EventsModalController', ['$scope', '$templateCache','$rootScope'
 		DialogModel.multiselect('#weeklyselect');
 
 		$scope.getLocation = function(val) {
-			return Restangular.one('autocompletion').getList('location',
+			/*return Restangular.one('autocompletion').getList('location',
 					{ 'location': $scope.properties.location }).then(function(res) {
 					var locations = [];
 					angular.forEach(res, function(item) {
 						locations.push(item.label);
 					});
 				return locations;
-			});
+			});*/
 		};
 
 		// First Day Dropdown
@@ -163,14 +163,14 @@ app.controller('EventsModalController', ['$scope', '$templateCache','$rootScope'
 		];
 
 		$scope.getLocation = function() {
-			return Restangular.one('autocompletion').getList('location',
+			/*return Restangular.one('autocompletion').getList('location',
 				{ 'location': $scope.properties.location }).then(function(res) {
 					var locations = [];
 					angular.forEach(res, function(item) {
 						locations.push(item.label);
 					});
 					return locations;
-				});
+				});*/
 		};
 
 		//$scope.changerecurrence = function (id) {
@@ -459,12 +459,6 @@ app.controller('EventsModalController', ['$scope', '$templateCache','$rootScope'
 		});
 		angular.element('#absolutremindertime').timepicker({
 			showPeriodLabels: false
-		});
-
-		$templateCache.put('event.info.html', function () {
-			angular.element('#from').datepicker({
-				dateFormat : 'dd-mm-yy'
-			});
 		});
 	}
 ]);

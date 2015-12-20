@@ -21,21 +21,19 @@
  *
  */
 
-app.filter('eventFilter',
-	[ function () {
-		'use strict';
-		var eventfilter = function (item) {
-			var filter = [];
-			if (item.length > 0) {
-				for (var i = 0; i < item.length; i++) {
-					if (item[i].components.vevent === true) {
-						filter.push(item[i]);
-					}
-				}
-			}
-			return filter;
-		};
-		return eventfilter;
-	}
-	]
-);
+app.service('TimezoneService', ['Timezone', function(Timezone) {
+	'use strict';
+
+	this.listAll = function() {
+
+	};
+
+	this.get = function(tzid) {
+
+	};
+
+	this.current = function() {
+		return 'UTC';
+	};
+
+}]);

@@ -21,21 +21,34 @@
  *
  */
 
-app.filter('noteventFilter',
-	[ function () {
-		'use strict';
-		var noteventfilter = function (item) {
-			var filter = [];
-			if (item.length > 0) {
-				for (var i = 0; i < item.length; i++) {
-					if (item[i].components.vevent === false) {
-						filter.push(item[i]);
-					}
-				}
-			}
-			return filter;
-		};
-		return noteventfilter;
-	}
-	]
-);
+app.service('DavClient', function() {
+	'use strict';
+
+	var client = new dav.Client({
+		baseUrl: OC.linkToRemote('dav/calendars'),
+		xmlNamespaces: {
+			'DAV:': 'd',
+			'urn:ietf:params:xml:ns:caldav': 'c',
+			'http://apple.com/ns/ical/': 'aapl',
+			'http://owncloud.org/ns': 'oc',
+			'http://calendarserver.org/ns/': 'cs'
+		}
+	});
+
+	angular.extend(client, {
+		NS_DAV: 'DAV:',
+		NS_IETF: 'urn:ietf:params:xml:ns:caldav',
+		NS_APPLE: 'http://apple.com/ns/ical/',
+		NS_OWNCLOUD: 'http://owncloud.org/ns',
+		NS_CALENDARSERVER: 'http://calendarserver.org/ns/',
+
+		buildUrl: function(path) {
+			return window.location.protocol + '//' + window.location.host + path;
+		},
+		wasRequestSuccessful: function(status) {
+			return (status >= 200 && status <= 299);
+		}
+	});
+
+	return client;
+});

@@ -26,8 +26,8 @@
  * Description: Takes care of the Calendar Settings.
  */
 
-app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'CalendarModel','UploadModel', 'DialogModel',
-	function ($scope, $rootScope, Restangular, CalendarModel, UploadModel, DialogModel) {
+app.controller('SettingsController', ['$scope', '$rootScope', 'CalendarService', 'VEventService', 'DialogModel',
+	function ($scope, $rootScope, CalendarService, VEventService, DialogModel) {
 		'use strict';
 
 		$scope.settingsCalDavLink = OC.linkToRemote('caldav') + '/';
@@ -53,7 +53,7 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'Ca
 			file.isImporting = true;
 
 			reader.onload = function() {
-				Restangular.one('calendars', file.importToCalendar).withHttpConfig({transformRequest: angular.identity}).customPOST(
+				/*Restangular.one('calendars', file.importToCalendar).withHttpConfig({transformRequest: angular.identity}).customPOST(
 						reader.result,
 						'import',
 						undefined,
@@ -64,7 +64,7 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'Ca
 					file.done = true;
 				}, function (response) {
 					OC.Notification.show(t('calendar', response.data.message));
-				});
+				});*/
 			};
 
 			reader.readAsText(file);
@@ -72,7 +72,7 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'Ca
 
 		//to send a patch to add a hidden event again
 		$scope.enableCalendar = function (id) {
-			Restangular.one('calendars', id).patch({ 'components' : {'vevent' : true }});
+			//Restangular.one('calendars', id).patch({ 'components' : {'vevent' : true }});
 		};
 	}
 ]);

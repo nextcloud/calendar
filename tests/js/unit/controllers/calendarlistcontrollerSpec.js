@@ -24,64 +24,68 @@
 describe('CalendarListController', function() {
 	'use strict';
 
-	var controller, scope, model, http;
+	var controller, $scope, $rootScope, Calendar, CalendarService, $window, calendar, deferred;
 
 	beforeEach(module('Calendar'));
 
-	beforeEach(inject(function ($controller, $rootScope, $httpBackend,
-		CalendarModel) {
-			http = $httpBackend;
-			scope = $rootScope.$new();
-			model = CalendarModel;
+	beforeEach(inject(function ($controller, _$rootScope_, _$window_, $q) {
+			$scope = _$rootScope_.$new();
+			$rootScope = _$rootScope_;
+			$window = _$window_;
 			controller = $controller;
+
+			CalendarService = {
+				getAll: function(){},
+				get: function() {},
+				create: function() {},
+				update: function() {},
+				delete: function() {}
+			};
+			Calendar = function() {
+				return {
+					list: {}
+				};
+			};
+
+			deferred = $q.defer();
+			deferred.resolve(new Calendar());
 		}
 	));
 
 	it ('should create a calendar', function() {
+		spyOn(CalendarService, 'create').and.returnValue(deferred.promise);
 
 		controller = controller('CalendarListController', {
-			$scope: scope,
-			CalendarModel: model
+			$scope: $scope,
+			CalendarService: CalendarService
 		});
 
-		var calendar = {
-			displayname : 'Sample Calendar',
-			id: 7
-		};
+		$scope.newCalendarInputVal = 'Sample Calendar';
+		$scope.newCalendarColorVal = '#ffffff';
 
-		http.expectGET('/v1/calendars').respond([]);
-		http.expectPOST('/v1/calendars').respond(calendar);
-		scope.create();
-		http.flush(2);
+		$scope.create($scope.newCalendarInputVal, $scope.newCalendarColorVal);
+		expect(CalendarService.create).toHaveBeenCalledWith('Sample Calendar', '#ffffff');
 
-		expect(model.get(7).displayname).toBe('Sample Calendar');
+		//make sure values are reset
+		expect($scope.newCalendarInputVal).toBe('');
+		expect($scope.newCalendarColorVal).toBe('');
 	});
 
 	it ('should delete the selected calendar', function () {
-
-		var calendars = [
-			{id: 2, title: 'Sample Calendar'},
-			{id: 3, title: 'Sample Calendar 2'}
-		];
+		spyOn(CalendarService, 'delete').and.returnValue(deferred.promise);
 
 		controller = controller('CalendarListController', {
-			$scope: scope,
-			CalendarModel: model
+			$scope: $scope,
+			CalendarService: CalendarService
 		});
 
-		http.expectGET('/v1/calendars').respond(calendars);
-		http.flush(1);
+		var calendarToDelete = new Calendar();
 
-		scope.remove({id: 2});
-		http.expectDELETE('/v1/calendars/2').respond(200, {});
-
-		http.flush(1);
-
-		expect(model.getAll().length).toBe(1);
+		$scope.remove(calendarToDelete);
+		expect(CalendarService.delete).toHaveBeenCalledWith(calendarToDelete);
 	});
 
 	afterEach(function() {
-		http.verifyNoOutstandingExpectation();
-		http.verifyNoOutstandingRequest();
+
 	});
 });

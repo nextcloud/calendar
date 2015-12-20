@@ -1,0 +1,35 @@
+{
+  "name": "davclient.js",
+  "version": "0.0.1",
+  "description": "WebDAV, CalDAV and CardDAV client for javascript",
+  "main": "lib/client.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "./node_modules/karma/bin/karma start --single-run --browsers PhantomJS"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/evert/davclient.js.git"
+  },
+  "keywords": [
+    "webdav",
+    "caldav",
+    "carddav"
+  ],
+  "author": "Evert Pot",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/evert/davclient.js/issues"
+  },
+  "devDependencies": {
+    "jasmine-core": "^2.3.4",
+    "karma": "^0.13.9",
+    "karma-chrome-launcher": "^0.2.0",
+    "karma-firefox-launcher": "^0.1.6",
+    "karma-jasmine": "^0.3.6",
+    "karma-phantomjs-launcher": "^0.2.1",
+    "phantomjs": "^1.9.18"
+  }
+}

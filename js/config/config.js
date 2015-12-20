@@ -24,12 +24,8 @@
 app.config(['$provide', '$routeProvider', 'RestangularProvider', '$httpProvider', '$windowProvider',
 	function ($provide, $routeProvider, RestangularProvider, $httpProvider, $windowProvider) {
 		'use strict';
-		$httpProvider.defaults.headers.common.requesttoken = oc_requesttoken;
 
-		$routeProvider.when('/', {
-			templateUrl: 'calendar.html',
-			controller: 'CalController'
-		});
+		$httpProvider.defaults.headers.common.requesttoken = oc_requesttoken;
 
 		var $window = $windowProvider.$get();
 		var url = $window.location.href;
