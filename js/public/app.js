@@ -1395,25 +1395,7 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 					continue;
 				}
 
-				var canWrite = false;
-				var acl = body.propStat[0].properties['{' + DavClient.NS_DAV + '}acl'];
-				if (acl) {
-					for (var k=0; k < acl.length; k++) {
-						var href = acl[k].getElementsByTagNameNS('DAV:', 'href');
-						if (href.length === 0) {
-							continue;
-						}
-						href = href[0].textContent;
-						if (href !== _this._currentUserPrincipal) {
-							continue;
-						}
-						var writeNode = acl[k].getElementsByTagNameNS('DAV:', 'write');
-						if (writeNode.length > 0) {
-							canWrite = true;
-						}
-					}
-				}
-				body.propStat[0].properties['canWrite'] = canWrite;
+				_this._getACLFromResponse(body);
 
 				var calendar = new Calendar(body.href, body.propStat[0].properties);
 				calendars.push(calendar);
@@ -1442,6 +1424,8 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 				//TODO - something went wrong
 				return;
 			}
+
+			_this._getACLFromResponse(body);
 
 			return new Calendar(body.href, body.propStat[0].properties);
 		});
@@ -1570,6 +1554,28 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 				}
 				return cComponents;
 		}
+	};
+
+	this._getACLFromResponse = function(body) {
+		var canWrite = false;
+		var acl = body.propStat[0].properties['{' + DavClient.NS_DAV + '}acl'];
+		if (acl) {
+			for (var k=0; k < acl.length; k++) {
+				var href = acl[k].getElementsByTagNameNS('DAV:', 'href');
+				if (href.length === 0) {
+					continue;
+				}
+				href = href[0].textContent;
+				if (href !== _this._currentUserPrincipal) {
+					continue;
+				}
+				var writeNode = acl[k].getElementsByTagNameNS('DAV:', 'write');
+				if (writeNode.length > 0) {
+					canWrite = true;
+				}
+			}
+		}
+		body.propStat[0].properties['canWrite'] = canWrite;
 	};
 
 	this._isUriAlreadyTaken = function(uri) {
