@@ -36,6 +36,7 @@
           "it": true,
           "exports": true,
           "escapeHTML": true,
-          "possible": true
+          "possible": true,
+          "dav": true
     }
 }

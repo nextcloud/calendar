@@ -298,7 +298,7 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 				}
 			}
 		}
-		body.propStat[0].properties['canWrite'] = canWrite;
+		body.propStat[0].properties.canWrite = canWrite;
 	};
 
 	this._isUriAlreadyTaken = function(uri) {
