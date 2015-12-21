@@ -50,6 +50,7 @@ escapeHTML = function () {
 
 dav = {
 	Client: function() {
+		'use strict';
 		return {
 			request: function () {
 
@@ -60,7 +61,7 @@ dav = {
 			parseMultiStatus: function () {
 
 			}
-		}
+		};
 	}
 };
 

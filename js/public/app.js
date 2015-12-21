@@ -378,6 +378,8 @@ app.controller('DatePickerController', ['$scope', 'uiCalendarConfig', 'uibDatepi
 
 		$scope.dt = new Date();
 
+		$scope.selectedview = 'month';
+
 		angular.extend(uibDatepickerConfig, {
 			showWeeks: false,
 			startingDay: parseInt(moment().startOf('week').format('d'))
@@ -1575,7 +1577,7 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 				}
 			}
 		}
-		body.propStat[0].properties['canWrite'] = canWrite;
+		body.propStat[0].properties.canWrite = canWrite;
 	};
 
 	this._isUriAlreadyTaken = function(uri) {

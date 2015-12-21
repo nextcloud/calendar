@@ -31,6 +31,8 @@ app.controller('DatePickerController', ['$scope', 'uiCalendarConfig', 'uibDatepi
 
 		$scope.dt = new Date();
 
+		$scope.selectedview = 'month';
+
 		angular.extend(uibDatepickerConfig, {
 			showWeeks: false,
 			startingDay: parseInt(moment().startOf('week').format('d'))
