@@ -35,8 +35,9 @@ app.run(['$rootScope', '$window',
 	function ($rootScope, $window) {
 		'use strict';
 
-		var url = $window.location.href;
-		$rootScope.baseUrl = url.split('index.php')[0] + 'index.php/apps/calendar/v1/';
+		$rootScope.baseUrl = $window.location.origin +
+			$window.location.pathname +
+			'v1/';
 	}
 ]);
 
