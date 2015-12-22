@@ -21,7 +21,7 @@
  */
 namespace OCA\Calendar\Controller;
 
-use OCA\Calendar\BusinessLayer\Exception;
+use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http;
 use OCP\IConfig;
@@ -35,62 +35,59 @@ class SettingsController extends Controller {
 	 */
 	private $config;
 
-
 	/**
-	 * array with available settings
-	 * @var array
+	 * @var IUserSession
 	 */
-	private $settings;
-
+	private $userSession;
 
 	/**
 	 * @param string $appName
 	 * @param IRequest $request an instance of the request
 	 * @param IUserSession $userSession
 	 * @param IConfig $config
-	 * @param array $settings
 	 */
 	public function __construct($appName, IRequest $request, IUserSession $userSession,
-								IConfig $config, array $settings) {
-		parent::__construct($appName, $request, $userSession);
+								IConfig $config) {
+		parent::__construct($appName, $request);
 		$this->config = $config;
-		$this->settings = $settings;
+		$this->userSession = $userSession;
 	}
 
 
 	/**
-	 * set a config value
+	 * set a new view
 	 *
-	 * @param string $value
+	 * @param string $view
 	 * @return JSONResponse
 	 *
 	 * @NoAdminRequired
-	 * @NoCSRFRequired
 	 */
-	public function setValue($value) {
+	public function setView($view) {
+		$userId = $this->userSession->getUser()->getUID();
+		$app = $this->appName;
+
+		$allowedViews = [
+			'agendaDay',
+			'agendaWeek',
+			'month',
+		];
+
+		if (!in_array($view, $allowedViews)) {
+			return new JSONResponse([], Http::STATUS_UNPROCESSABLE_ENTITY);
+		}
+
 		try {
-			$userId = $this->user->getUID();
-			$app = $this->appName;
-
-			$info = $this->getInfoFromRoute();
-
-			if (isset($info['options']) && !in_array($value, $info['options'])) {
-				throw new Exception('Value not supported', HTTP::STATUS_UNPROCESSABLE_ENTITY);
-			}
-
 			$this->config->setUserValue(
 				$userId,
 				$app,
-				$info['configKey'],
-				$value
+				'currentView',
+				$view
 			);
-
-			return new JSONResponse([
-				'message' => 'Value stored successfully',
-			], HTTP::STATUS_OK);
-		} catch (\Exception $ex) {
-			return $this->handleException($ex);
+		} catch(\Exception $e) {
+			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
+
+		return new JSONResponse();
 	}
 
 
@@ -100,49 +97,24 @@ class SettingsController extends Controller {
 	 * @return JSONResponse
 	 *
 	 * @NoAdminRequired
-	 * @NoCSRFRequired
 	 */
-	public function getValue() {
+	public function getView() {
+		$userId = $this->userSession->getUser()->getUID();
+		$app = $this->appName;
+
 		try {
-			$userId = $this->user->getUID();
-			$app = $this->appName;
-
-			$info = $this->getInfoFromRoute();
-
-			$value = $this->config->getUserValue(
+			$view = $this->config->getUserValue(
 				$userId,
 				$app,
-				$info['configKey'],
-				(isset($info['default'])) ? $info['default'] : null
+				'currentView',
+				'month'
 			);
-
-			return new JSONResponse([
-				'value' => $value,
-			], HTTP::STATUS_OK);
-		} catch (\Exception $ex) {
-			return $this->handleException($ex);
-		}
-	}
-
-
-	/**
-	 * extract info about config key from route
-	 * @throws \Exception
-	 * @return null|array
-	 */
-	private function getInfoFromRoute() {
-		if (!isset($this->request->server['REQUEST_URI'])) {
-			throw new Exception('Setting not available', HTTP::STATUS_NOT_FOUND);
+		} catch(\Exception $e) {
+			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 
-		$request_uri = $this->request->server['REQUEST_URI'];
-		$request_uri_parts = explode('/', $request_uri);
-		$key = end($request_uri_parts);
-
-		if (isset($this->settings[$key])) {
-			return $this->settings[$key];
-		} else {
-			throw new Exception('Setting not available', HTTP::STATUS_NOT_FOUND);
-		}
+		return new JSONResponse([
+			'value' => $view,
+		]);
 	}
 }

@@ -23,7 +23,3 @@ namespace OCA\Calendar\AppInfo;
 
 $app = new Application();
 $app->registerNavigation();
-
-$app->registerCron();
-$app->registerHooks();
-$app->registerProviders();

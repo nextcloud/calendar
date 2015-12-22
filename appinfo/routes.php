@@ -25,42 +25,15 @@ return [
 	'routes' => [
 		//Main view
 		['name' => 'view#index', 'url' => '/', 'verb' => 'GET'],
-		//Backends
-		['name' => 'backend#index', 'url' => '/v1/backends', 'verb' => 'GET'],
-		//Calendar
-		['name' => 'object#export', 'url' => '/v1/calendars/{calendarId}/export', 'verb' => 'GET'],
-		['name' => 'object#import', 'url' => '/v1/calendars/{calendarId}/import', 'verb' => 'POST'],
-		['name' => 'calendar#patch', 'url' => '/v1/calendars/{id}', 'verb' => 'PATCH'],
-		//Objects
-		['name' => 'object#indexInPeriod', 'url' => '/v1/calendars/{calendarId}/objects/inPeriod/{start}/{end}', 'verb' => 'GET'],
-		['name' => 'object#exportOne', 'url' => '/v1/calendars/{calendarId}/objects/{objectUri}/export', 'verb' => 'GET'],
-		['name' => 'event#indexInPeriod', 'url' => '/v1/calendars/{calendarId}/events/inPeriod/{start}/{end}', 'verb' => 'GET'],
-		['name' => 'event#exportOne', 'url' => '/v1/calendars/{calendarId}/events/{objectUri}/export', 'verb' => 'GET'],
-		['name' => 'journal#indexInPeriod', 'url' => '/v1/calendars/{calendarId}/journals/inPeriod/{start}/{end}', 'verb' => 'GET'],
-		['name' => 'journal#exportOne', 'url' => '/v1/calendars/{calendarId}/journals/{objectUri}/export', 'verb' => 'GET'],
-		['name' => 'todo#indexInPeriod', 'url' => '/v1/calendars/{calendarId}/todos/inPeriod/{start}/{end}', 'verb' => 'GET'],
-		['name' => 'todo#exportOne', 'url' => '/v1/calendars/{calendarId}/todos/{objectUri}/export', 'verb' => 'GET'],
-		//Subscriptions
-		['name' => 'subscription#patch', 'url' => '/v1/subscription/{id}', 'verb' => 'PATCH'],
 		//Timezones
-		//['name' => 'timezone#show', 'url' => '/v1/timezones/{id}', 'verb' => 'GET'],
-		['name' => 'timezone#getList', 'url' => '/v1/timezones-list', 'verb' => 'GET'],
 		['name' => 'view#timezone_list', 'url' => '/v1/timezones/index.json', 'verb' => 'GET'],
 		['name' => 'view#get_timezone', 'url' => '/v1/timezones/{id}', 'verb' => 'GET'],
 		['name' => 'view#get_timezone_with_region', 'url' => '/v1/timezones/{region}/{city}', 'verb' => 'GET'],
 		//Settings
-		['name' => 'settings#getValue', 'url' => '/v1/view', 'verb' => 'GET'],
-		['name' => 'settings#setValue', 'url' => '/v1/view/{value}', 'verb' => 'POST'],
+		['name' => 'settings#getView', 'url' => '/v1/view', 'verb' => 'GET'],
+		['name' => 'settings#setView', 'url' => '/v1/view/{value}', 'verb' => 'POST'],
 		//Autocompletion
 		['name' => 'contact#searchAttendee', 'url' => '/v1/autocompletion/attendee', 'verb' => 'GET'],
 		['name' => 'contact#searchLocation', 'url' => '/v1/autocompletion/location', 'verb' => 'GET'],
-	],
-	'resources' => [
-		'calendar' => ['url' => '/v1/calendars'],
-		'object' => ['url' => '/v1/calendars/{calendarId}/objects'],
-		'event' => ['url' => '/v1/calendars/{calendarId}/events'],
-		'journal' => ['url' => '/v1/calendars/{calendarId}/journals'],
-		'todo' => ['url' => '/v1/calendars/{calendarId}/todos'],
-		'subscription' => ['url' => '/v1/subscriptions'],
 	]
 ];
