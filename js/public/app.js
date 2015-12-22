@@ -4,22 +4,16 @@
 */
 
 var app = angular.module('Calendar', [
-	'restangular',
 	'ngRoute',
 	'ui.bootstrap',
 	'ui.calendar'
 ]);
 
-app.config(['$provide', '$routeProvider', 'RestangularProvider', '$httpProvider', '$windowProvider',
-	function ($provide, $routeProvider, RestangularProvider, $httpProvider, $windowProvider) {
+app.config(['$provide', '$routeProvider', '$httpProvider',
+	function ($provide, $routeProvider, $httpProvider) {
 		'use strict';
 
 		$httpProvider.defaults.headers.common.requesttoken = oc_requesttoken;
-
-		var $window = $windowProvider.$get();
-		var url = $window.location.href;
-		var baseUrl = url.split('index.php')[0] + 'index.php/apps/calendar/v1';
-		RestangularProvider.setBaseUrl(baseUrl);
 
 		ICAL.design.defaultSet.property['x-oc-calid'] = {
 			defaultType: "text"
@@ -34,6 +28,15 @@ app.config(['$provide', '$routeProvider', 'RestangularProvider', '$httpProvider'
 		ICAL.design.defaultSet.param['x-oc-group-id'] = {
 			allowXName: true
 		};
+	}
+]);
+
+app.run(['$rootScope', '$window',
+	function ($rootScope, $window) {
+		'use strict';
+
+		var url = $window.location.href;
+		$rootScope.baseUrl = url.split('index.php')[0] + 'index.php/apps/calendar/v1/';
 	}
 ]);
 
@@ -1132,7 +1135,7 @@ app.filter('subscriptionFilter',
 	}
 	]);
 
-app.factory('Calendar', ['$filter', 'VEventService', function($filter, VEventService) {
+app.factory('Calendar', ['$filter', 'VEventService', 'TimezoneService', function($filter, VEventService, TimezoneService) {
 	'use strict';
 
 	function Calendar(url, props) {
@@ -1165,17 +1168,19 @@ app.factory('Calendar', ['$filter', 'VEventService', function($filter, VEventSer
 		angular.extend(this, {
 			fcEventSource: {
 				events: function (start, end, timezone, callback) {
-					_this._properties.list.loading = true;
+					TimezoneService.get(timezone).then(function(tz) {
+						_this._properties.list.loading = true;
 
-					VEventService.getAll(_this, start, end).then(function(events) {
-						var vevents = [];
-						for (var i = 0; i < events.length; i++) {
-							vevents = vevents.concat(events[i].getFcEvent(start, end, timezone));
-						}
+						VEventService.getAll(_this, start, end).then(function(events) {
+							var vevents = [];
+							for (var i = 0; i < events.length; i++) {
+								vevents = vevents.concat(events[i].getFcEvent(start, end, tz));
+							}
 
-						callback(vevents);
+							callback(vevents);
 
-						_this._properties.list.loading = false;
+							_this._properties.list.loading = false;
+						});
 					});
 				},
 				color: this._properties.color,
@@ -1251,14 +1256,46 @@ app.factory('Calendar', ['$filter', 'VEventService', function($filter, VEventSer
 	return Calendar;
 }]);
 
-app.factory('Timezone', ['$filter', function($filter) {
-	'use strict';
+app.factory('Timezone',
+	function() {
+		'use strict';
 
-	return function Event(data) {
-		angular.extend(this, {
-		});
-	};
-}]);
+		var timezone = function Timezone(data) {
+			angular.extend(this, {
+				_props: {}
+			});
+
+			if (data instanceof ICAL.Timezone) {
+				this._props.jCal = data;
+				this._props.name = data.tzid;
+			} else if (typeof data === 'string') {
+				var jCal = ICAL.parse(data);
+				var components = new ICAL.Component(jCal);
+				var iCalTimezone = null;
+				if (components.name === 'vtimezone') {
+					iCalTimezone = new ICAL.Timezone(components);
+				} else {
+					iCalTimezone = new ICAL.Timezone(components.getFirstSubcomponent('vtimezone'));
+				}
+				this._props.jCal = iCalTimezone;
+				this._props.name = iCalTimezone.tzid;
+			}
+		};
+
+		//Timezones are immutable
+		timezone.prototype = {
+			get jCal() {
+				return this._props.jCal;
+			},
+			get name() {
+				return this._props.name;
+			}
+		};
+
+		return timezone;
+	}
+);
+
 app.factory('VEvent', ['$filter', 'fcHelper', 'objectConverter', function($filter, fcHelper, objectConverter) {
 	'use strict';
 
@@ -1269,8 +1306,7 @@ app.factory('VEvent', ['$filter', 'fcHelper', 'objectConverter', function($filte
 			uri: uri,
 			etag: props['{DAV:}getetag'] || null,
 			getFcEvent: function(start, end, timezone) {
-				var tz = ICAL.TimezoneService.has(timezone) ? ICAL.TimezoneService.get('UTC') : null;
-				return fcHelper.renderCalData(this, start, end, tz);
+				return fcHelper.renderCalData(this, start, end, timezone);
 			},
 			getSimpleData: function(fcEvent) {
 				var vevent = fcHelper.getCorrectEvent(fcEvent, this.data);
@@ -2039,10 +2075,10 @@ app.factory('fcHelper', function () {
 						return;
 					}
 					if (event.isRecurring()) {
-						fcData = parseTimeForRecurringEvent(vevent, icalstart, icalend, timezone);
+						fcData = parseTimeForRecurringEvent(vevent, icalstart, icalend, timezone.jCal);
 					} else {
 						fcData = [];
-						fcData.push(parseTimeForSingleEvent(vevent, timezone));
+						fcData.push(parseTimeForSingleEvent(vevent, timezone.jCal));
 					}
 				} catch(e) {
 					console.log(e);
@@ -2799,7 +2835,7 @@ app.factory('objectConverter', function () {
 	};
 });
 
-app.service('SettingsService', ['Restangular', function(Restangular) {
+app.service('SettingsService', ['$http', function($http) {
 	'use strict';
 
 	this.getView = function() {
@@ -2811,22 +2847,67 @@ app.service('SettingsService', ['Restangular', function(Restangular) {
 	};
 
 }]);
-app.service('TimezoneService', ['Timezone', function(Timezone) {
-	'use strict';
+app.service('TimezoneService', ['$rootScope', '$http', 'Timezone',
+	function($rootScope, $http, Timezone) {
+		'use strict';
 
-	this.listAll = function() {
+		var _this = this;
+		this._timezones = {};
 
-	};
+		this._timezones.UTC = new Timezone(ICAL.TimezoneService.get('UTC'));
+		this._timezones.GMT = this._timezones.UTC;
+		this._timezones.Z = this._timezones.UTC;
 
-	this.get = function(tzid) {
+		this.listAll = function() {
+			return $http({
+				method: 'GET',
+				url: $rootScope.baseUrl + 'timezones/index.json'
+			}).then(function(response) {
+				if (response.status >= 200 && response.status <= 299) {
+					return response.data.concat(['GMT', 'UTC', 'Z']);
+				} else {
+					// TODO - something went wrong, do smth about it
+				}
+			});
+		};
 
-	};
+		this.get = function(tzid) {
+			tzid = tzid.toUpperCase();
 
-	this.current = function() {
-		return 'UTC';
-	};
 
-}]);
+			if (_this._timezones[tzid]) {
+				return new Promise(function(resolve) {
+					resolve(_this._timezones[tzid]);
+				});
+			}
+
+			_this._timezones[tzid] = $http({
+				method: 'GET',
+				url: $rootScope.baseUrl + 'timezones/' + tzid + '.ics'
+			}).then(function(response) {
+				if (response.status >= 200 && response.status <= 299) {
+					var timezone = new Timezone(response.data);
+					_this._timezones[tzid] = timezone;
+
+					return timezone;
+				} else {
+					// TODO - something went wrong, do smth about it
+				}
+			});
+
+			return _this._timezones[tzid];
+		};
+
+		this.getCurrent = function() {
+			return this.get(this.current());
+		};
+
+		this.current = function() {
+			var timezone = jstz.determine();
+			return timezone.name();
+		};
+	}
+]);
 
 app.service('VEventService', ['DavClient', 'VEvent', function(DavClient, VEvent) {
 	'use strict';

@@ -21,19 +21,64 @@
  *
  */
 
-app.service('TimezoneService', ['Timezone', function(Timezone) {
-	'use strict';
+app.service('TimezoneService', ['$rootScope', '$http', 'Timezone',
+	function($rootScope, $http, Timezone) {
+		'use strict';
 
-	this.listAll = function() {
+		var _this = this;
+		this._timezones = {};
 
-	};
+		this._timezones.UTC = new Timezone(ICAL.TimezoneService.get('UTC'));
+		this._timezones.GMT = this._timezones.UTC;
+		this._timezones.Z = this._timezones.UTC;
 
-	this.get = function(tzid) {
+		this.listAll = function() {
+			return $http({
+				method: 'GET',
+				url: $rootScope.baseUrl + 'timezones/index.json'
+			}).then(function(response) {
+				if (response.status >= 200 && response.status <= 299) {
+					return response.data.concat(['GMT', 'UTC', 'Z']);
+				} else {
+					// TODO - something went wrong, do smth about it
+				}
+			});
+		};
 
-	};
+		this.get = function(tzid) {
+			tzid = tzid.toUpperCase();
 
-	this.current = function() {
-		return 'UTC';
-	};
 
-}]);
+			if (_this._timezones[tzid]) {
+				return new Promise(function(resolve) {
+					resolve(_this._timezones[tzid]);
+				});
+			}
+
+			_this._timezones[tzid] = $http({
+				method: 'GET',
+				url: $rootScope.baseUrl + 'timezones/' + tzid + '.ics'
+			}).then(function(response) {
+				if (response.status >= 200 && response.status <= 299) {
+					var timezone = new Timezone(response.data);
+					_this._timezones[tzid] = timezone;
+
+					return timezone;
+				} else {
+					// TODO - something went wrong, do smth about it
+				}
+			});
+
+			return _this._timezones[tzid];
+		};
+
+		this.getCurrent = function() {
+			return this.get(this.current());
+		};
+
+		this.current = function() {
+			var timezone = jstz.determine();
+			return timezone.name();
+		};
+	}
+]);

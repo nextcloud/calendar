@@ -43,8 +43,11 @@ return [
 		//Subscriptions
 		['name' => 'subscription#patch', 'url' => '/v1/subscription/{id}', 'verb' => 'PATCH'],
 		//Timezones
-		['name' => 'timezone#show', 'url' => '/v1/timezones/{id}', 'verb' => 'GET'],
+		//['name' => 'timezone#show', 'url' => '/v1/timezones/{id}', 'verb' => 'GET'],
 		['name' => 'timezone#getList', 'url' => '/v1/timezones-list', 'verb' => 'GET'],
+		['name' => 'view#timezone_list', 'url' => '/v1/timezones/index.json', 'verb' => 'GET'],
+		['name' => 'view#get_timezone', 'url' => '/v1/timezones/{id}', 'verb' => 'GET'],
+		['name' => 'view#get_timezone_with_region', 'url' => '/v1/timezones/{region}/{city}', 'verb' => 'GET'],
 		//Settings
 		['name' => 'settings#getValue', 'url' => '/v1/view', 'verb' => 'GET'],
 		['name' => 'settings#setValue', 'url' => '/v1/view/{value}', 'verb' => 'POST'],

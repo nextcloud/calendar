@@ -31,8 +31,7 @@ app.factory('VEvent', ['$filter', 'fcHelper', 'objectConverter', function($filte
 			uri: uri,
 			etag: props['{DAV:}getetag'] || null,
 			getFcEvent: function(start, end, timezone) {
-				var tz = ICAL.TimezoneService.has(timezone) ? ICAL.TimezoneService.get('UTC') : null;
-				return fcHelper.renderCalData(this, start, end, tz);
+				return fcHelper.renderCalData(this, start, end, timezone);
 			},
 			getSimpleData: function(fcEvent) {
 				var vevent = fcHelper.getCorrectEvent(fcEvent, this.data);
