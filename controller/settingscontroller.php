@@ -66,13 +66,7 @@ class SettingsController extends Controller {
 		$userId = $this->userSession->getUser()->getUID();
 		$app = $this->appName;
 
-		$allowedViews = [
-			'agendaDay',
-			'agendaWeek',
-			'month',
-		];
-
-		if (!in_array($view, $allowedViews)) {
+		if (!$this->isViewAllowed($view)) {
 			return new JSONResponse([], Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
 
@@ -116,5 +110,21 @@ class SettingsController extends Controller {
 		return new JSONResponse([
 			'value' => $view,
 		]);
+	}
+
+	/**
+	 * check if view is allowed
+	 *
+	 * @param $view
+	 * @return bool
+	 */
+	private function isViewAllowed($view) {
+		$allowedViews = [
+			'agendaDay',
+			'agendaWeek',
+			'month',
+		];
+
+		return in_array($view, $allowedViews);
 	}
 }
