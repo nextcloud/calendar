@@ -23,17 +23,19 @@
  */
 ?>
 <div class="datepicker-heading">
-	<button type="button" class="btn btn-default btn-sm btn-arrow">
+	<button type="button" class="btn btn-default btn-sm btn-arrow" ng-click="prev()">
 		<i class="glyphicon glyphicon-chevron-left"></i>
 	</button>
-	<button type="button" class="btn btn-default btn-sm btn-date">
-		<strong class="ng-binding">December 2015</strong>
+	<button type="button" class="btn btn-default btn-sm btn-date" ng-click="toggle()">
+		<strong>{{ displayedMonth }}</strong>
 	</button>
-	<button type="button" class="btn btn-default btn-sm btn-arrow">
+	<button type="button" class="btn btn-default btn-sm btn-arrow" ng-click="next()">
 		<i class="glyphicon glyphicon-chevron-right"></i>
 	</button>
 </div>
-<uib-datepicker
-	ng-model="dt"
-	id="datepicker">
-</uib-datepicker>
+<div ng-show="visibility">
+	<uib-datepicker
+		ng-model="dt"
+		id="datepicker">
+	</uib-datepicker>
+</div>

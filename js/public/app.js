@@ -381,6 +381,8 @@ app.controller('DatePickerController', ['$scope', 'uiCalendarConfig', 'uibDatepi
 		'use strict';
 
 		$scope.dt = new Date();
+		$scope.displayedMonth = '';
+		$scope.visibility = false;
 
 		$scope.selectedview = 'month';
 
@@ -401,6 +403,18 @@ app.controller('DatePickerController', ['$scope', 'uiCalendarConfig', 'uibDatepi
 			$scope.dt = new Date();
 		};
 
+		$scope.prev = function() {
+			$scope.dt = moment($scope.dt).subtract(1, 'month').toDate();
+		};
+
+		$scope.next = function() {
+			$scope.dt = moment($scope.dt).add(1, 'month').toDate();
+		};
+
+		$scope.toggle = function() {
+			$scope.visibility = !$scope.visibility;
+		};
+
 		$scope.$watch('dt', function(newValue) {
 			if (uiCalendarConfig.calendars.calendar) {
 				uiCalendarConfig.calendars.calendar.fullCalendar(
@@ -408,6 +422,7 @@ app.controller('DatePickerController', ['$scope', 'uiCalendarConfig', 'uibDatepi
 					newValue
 				);
 			}
+			$scope.displayedMonth = moment($scope.dt).format('MMMM GGGG');
 		});
 	}
 ]);
