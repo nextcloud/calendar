@@ -1,4 +1,4 @@
-app.factory('Calendar', ['$filter', 'VEventService', function($filter, VEventService) {
+app.factory('Calendar', ['$filter', 'VEventService', 'TimezoneService', function($filter, VEventService, TimezoneService) {
 	'use strict';
 
 	function Calendar(url, props) {
@@ -31,17 +31,19 @@ app.factory('Calendar', ['$filter', 'VEventService', function($filter, VEventSer
 		angular.extend(this, {
 			fcEventSource: {
 				events: function (start, end, timezone, callback) {
-					_this._properties.list.loading = true;
+					TimezoneService.get(timezone).then(function(tz) {
+						_this._properties.list.loading = true;
 
-					VEventService.getAll(_this, start, end).then(function(events) {
-						var vevents = [];
-						for (var i = 0; i < events.length; i++) {
-							vevents = vevents.concat(events[i].getFcEvent(start, end, timezone));
-						}
+						VEventService.getAll(_this, start, end).then(function(events) {
+							var vevents = [];
+							for (var i = 0; i < events.length; i++) {
+								vevents = vevents.concat(events[i].getFcEvent(start, end, tz));
+							}
 
-						callback(vevents);
+							callback(vevents);
 
-						_this._properties.list.loading = false;
+							_this._properties.list.loading = false;
+						});
 					});
 				},
 				color: this._properties.color,

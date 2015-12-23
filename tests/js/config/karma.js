@@ -35,7 +35,6 @@
   			'js/vendor/jstzdetect/jstz.min.js',
   			'js/vendor/fullcalendar/dist/fullcalendar.min.js',
   			'js/vendor/angular/angular.js',
-  			'js/vendor/restangular/dist/restangular.js',
   			'js/vendor/angular-route/angular-route.js',
   			'js/vendor/angular-mocks/angular-mocks.js',
   			'js/vendor/angular-ui/angular-ui.js',

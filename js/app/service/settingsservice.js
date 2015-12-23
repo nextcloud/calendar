@@ -21,7 +21,7 @@
  *
  */
 
-app.service('SettingsService', ['Restangular', function(Restangular) {
+app.service('SettingsService', ['$http', function($http) {
 	'use strict';
 
 	this.getView = function() {

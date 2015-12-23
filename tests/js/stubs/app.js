@@ -23,13 +23,7 @@
 
 window.app = angular.module('Calendar', [
 	'ngMock',
-	'restangular',
 	'ngRoute'
-]).config(['RestangularProvider',
-	function (RestangularProvider) {
-		'use strict';
-		RestangularProvider.setBaseUrl('/v1/');
-	}
 ]);
 
 window.OC = {

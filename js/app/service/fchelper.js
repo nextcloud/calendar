@@ -243,10 +243,10 @@
 						return;
 					}
 					if (event.isRecurring()) {
-						fcData = parseTimeForRecurringEvent(vevent, icalstart, icalend, timezone);
+						fcData = parseTimeForRecurringEvent(vevent, icalstart, icalend, timezone.jCal);
 					} else {
 						fcData = [];
-						fcData.push(parseTimeForSingleEvent(vevent, timezone));
+						fcData.push(parseTimeForSingleEvent(vevent, timezone.jCal));
 					}
 				} catch(e) {
 					console.log(e);

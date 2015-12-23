@@ -21,42 +21,12 @@
  *
  */
 
-app.factory('Timezone',
-	function() {
+app.run(['$rootScope', '$window',
+	function ($rootScope, $window) {
 		'use strict';
 
-		var timezone = function Timezone(data) {
-			angular.extend(this, {
-				_props: {}
-			});
-
-			if (data instanceof ICAL.Timezone) {
-				this._props.jCal = data;
-				this._props.name = data.tzid;
-			} else if (typeof data === 'string') {
-				var jCal = ICAL.parse(data);
-				var components = new ICAL.Component(jCal);
-				var iCalTimezone = null;
-				if (components.name === 'vtimezone') {
-					iCalTimezone = new ICAL.Timezone(components);
-				} else {
-					iCalTimezone = new ICAL.Timezone(components.getFirstSubcomponent('vtimezone'));
-				}
-				this._props.jCal = iCalTimezone;
-				this._props.name = iCalTimezone.tzid;
-			}
-		};
-
-		//Timezones are immutable
-		timezone.prototype = {
-			get jCal() {
-				return this._props.jCal;
-			},
-			get name() {
-				return this._props.name;
-			}
-		};
-
-		return timezone;
+		$rootScope.baseUrl = $window.location.origin +
+			$window.location.pathname +
+			'v1/';
 	}
-);
+]);
