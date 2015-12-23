@@ -22,7 +22,17 @@
  *
  */
 ?>
-
+<div class="datepicker-heading">
+	<button type="button" class="btn btn-default btn-sm btn-arrow">
+		<i class="glyphicon glyphicon-chevron-left"></i>
+	</button>
+	<button type="button" class="btn btn-default btn-sm btn-date">
+		<strong class="ng-binding">December 2015</strong>
+	</button>
+	<button type="button" class="btn btn-default btn-sm btn-arrow">
+		<i class="glyphicon glyphicon-chevron-right"></i>
+	</button>
+</div>
 <uib-datepicker
 	ng-model="dt"
 	id="datepicker">

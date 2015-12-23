@@ -58,6 +58,24 @@
 	margin-left: 5px;
 }
 
+#datepicker thead {
+	display: none;
+}
+
+.datepicker-heading {
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.datepicker-heading .btn-arrow {
+	padding-bottom: 9px;
+	padding-top: 4px;
+}
+
+.datepicker-heading .btn-date {
+	width: 163px;
+}
+
 #datepicker table thead tr {
 	width: 100%;
 }
