@@ -190,17 +190,17 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 				viewRender: function (view, element) {
 					angular.element('#firstrow').find('.datepicker_current').html(view.title).text();
 					angular.element('#datecontrol_date').datepicker('setDate', element.fullCalendar('getDate'));
-					var newview = view.name;
-					if (newview !== $scope.defaultView) {
-						SettingsService.setView(newview);
-						$scope.defaultView = newview;
+					var newView = view.name;
+					if (newView !== $scope.defaultView) {
+						SettingsService.setView(newView);
+						$scope.defaultView = newView;
 					}
-					if (newview === 'agendaDay') {
+					if (newView === 'agendaDay') {
 						angular.element('td.fc-state-highlight').css('background-color', '#ffffff');
 					} else {
 						angular.element('td.fc-state-highlight').css('background-color', '#ffc');
 					}
-					if (newview ==='agendaWeek') {
+					if (newView ==='agendaWeek') {
 						element.fullCalendar('option', 'aspectRatio', 0.1);
 					} else {
 						element.fullCalendar('option', 'aspectRatio', 1.35);
@@ -382,7 +382,7 @@ app.controller('DatePickerController', ['$scope', 'uiCalendarConfig', 'uibDatepi
 
 		$scope.dt = new Date();
 
-		$scope.selectedview = 'month';
+		$scope.selectedview = angular.element('#fullcalendar').attr('data-defaultView');
 
 		angular.extend(uibDatepickerConfig, {
 			showWeeks: false,
@@ -2836,15 +2836,28 @@ app.factory('objectConverter', function () {
 	};
 });
 
-app.service('SettingsService', ['$http', function($http) {
+app.service('SettingsService', ['$rootScope', '$http', function($rootScope, $http) {
 	'use strict';
 
 	this.getView = function() {
-
+		return $http({
+			method: 'GET',
+			url: $rootScope.baseUrl + 'view'
+		}).then(function(response) {
+			return (response.status >= 200 && response.status <= 299) ? response.data.value : null;
+		});
 	};
 
 	this.setView = function(view) {
-
+		return $http({
+			method: 'POST',
+			url: $rootScope.baseUrl + 'view',
+			data: {
+				view: view
+			}
+		}).then(function(response) {
+			return response.status >= 200 && response.status <= 299;
+		});
 	};
 
 }]);

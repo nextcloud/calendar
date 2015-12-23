@@ -21,15 +21,28 @@
  *
  */
 
-app.service('SettingsService', ['$http', function($http) {
+app.service('SettingsService', ['$rootScope', '$http', function($rootScope, $http) {
 	'use strict';
 
 	this.getView = function() {
-
+		return $http({
+			method: 'GET',
+			url: $rootScope.baseUrl + 'view'
+		}).then(function(response) {
+			return (response.status >= 200 && response.status <= 299) ? response.data.value : null;
+		});
 	};
 
 	this.setView = function(view) {
-
+		return $http({
+			method: 'POST',
+			url: $rootScope.baseUrl + 'view',
+			data: {
+				view: view
+			}
+		}).then(function(response) {
+			return response.status >= 200 && response.status <= 299;
+		});
 	};
 
 }]);

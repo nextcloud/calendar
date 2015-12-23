@@ -31,7 +31,7 @@ return [
 		['name' => 'view#get_timezone_with_region', 'url' => '/v1/timezones/{region}/{city}', 'verb' => 'GET'],
 		//Settings
 		['name' => 'settings#getView', 'url' => '/v1/view', 'verb' => 'GET'],
-		['name' => 'settings#setView', 'url' => '/v1/view/{value}', 'verb' => 'POST'],
+		['name' => 'settings#setView', 'url' => '/v1/view', 'verb' => 'POST'],
 		//Autocompletion
 		['name' => 'contact#searchAttendee', 'url' => '/v1/autocompletion/attendee', 'verb' => 'GET'],
 		['name' => 'contact#searchLocation', 'url' => '/v1/autocompletion/location', 'verb' => 'GET'],

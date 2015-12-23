@@ -31,7 +31,7 @@ app.controller('DatePickerController', ['$scope', 'uiCalendarConfig', 'uibDatepi
 
 		$scope.dt = new Date();
 
-		$scope.selectedview = 'month';
+		$scope.selectedview = angular.element('#fullcalendar').attr('data-defaultView');
 
 		angular.extend(uibDatepickerConfig, {
 			showWeeks: false,
