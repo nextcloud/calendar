@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <database>
+
 	<name>*dbname*</name>
 	<create>true</create>
 	<overwrite>false</overwrite>
+
 	<charset>utf8</charset>
-	<!-- table for cached calendars -->
+
 	<table>
-		<name>*dbprefix*clndr_calcache</name>
+
+		<name>*dbprefix*clndr_objects</name>
+
 		<declaration>
+
 			<field>
 				<name>id</name>
 				<type>integer</type>
@@ -17,161 +22,7 @@
 				<unsigned>true</unsigned>
 				<length>4</length>
 			</field>
-			<field>
-				<name>user_id</name>
-				<type>text</type>
-				<default></default>
-				<notnull>true</notnull>
-				<length>255</length>
-			</field>
-			<field>
-				<name>owner_id</name>
-				<type>text</type>
-				<default></default>
-				<notnull>true</notnull>
-				<length>255</length>
-			</field>
-			<field>
-				<name>public_uri</name>
-				<type>text</type>
-				<default></default>
-				<notnull>true</notnull>
-				<length>255</length>
-			</field>
-			<field>
-				<name>backend</name>
-				<type>text</type>
-				<default></default>
-				<notnull>true</notnull>
-				<length>255</length>
-			</field>
-			<field>
-				<name>private_uri</name>
-				<type>text</type>
-				<default></default>
-				<notnull>true</notnull>
-				<length>255</length>
-			</field>
-			<field>
-				<name>displayname</name>
-				<type>text</type>
-				<default></default>
-				<notnull>true</notnull>
-				<length>255</length>
-			</field>
-			<field>
-				<name>components</name>
-				<type>integer</type>
-				<default></default>
-				<notnull>false</notnull>
-				<length>2</length>
-			</field>
-			<field>
-				<name>ctag</name>
-				<type>integer</type>
-				<default>0</default>
-				<notnull>true</notnull>
-				<unsigned>true</unsigned>
-				<length>4</length>
-			</field>
-			<field>
-				<name>timezone</name>
-				<type>clob</type>
-				<notnull>false</notnull>
-			</field>
-			<field>
-				<name>color</name>
-				<type>text</type>
-				<default>#000000</default>
-				<notnull>false</notnull>
-				<length>25</length>
-			</field>
-			<field>
-				<name>order</name>
-				<type>integer</type>
-				<default>0</default>
-				<notnull>true</notnull>
-				<unsigned>true</unsigned>
-				<length>4</length>
-			</field>
-			<field>
-				<name>enabled</name>
-				<type>boolean</type>
-				<default>1</default>
-				<notnull>true</notnull>
-			</field>
-			<field>
-				<name>cruds</name>
-				<type>integer</type>
-				<default>31</default>
-				<notnull>true</notnull>
-			</field>
-			<field>
-				<name>description</name>
-				<type>text</type>
-				<default></default>
-				<notnull>false</notnull>
-				<length>255</length>
-			</field>
-			<field>
-				<name>file_id</name>
-				<type>integer</type>
-				<default></default>
-				<unsigned>true</unsigned>
-				<length>4</length>
-			</field>
-			<index>
-				<name>clndr_calcache_id_index</name>
-				<primary>true</primary>
-				<unique>true</unique>
-				<field>
-					<name>id</name>
-					<sorting>ascending</sorting>
-				</field>
-			</index>
-			<index>
-				<name>clndr_calcache_userid_public</name>
-				<unique>true</unique>
-				<field>
-					<name>user_id</name>
-					<sorting>ascending</sorting>
-				</field>
-				<field>
-					<name>public_uri</name>
-					<sorting>ascending</sorting>
-				</field>
-			</index>
-			<index>
-				<name>clndr_calcache_userid_backend_private</name>
-				<unique>true</unique>
-				<field>
-					<name>user_id</name>
-					<sorting>ascending</sorting>
-				</field>
-				<field>
-					<name>backend</name>
-					<sorting>ascending</sorting>
-				</field>
-				<field>
-					<name>private_uri</name>
-					<sorting>ascending</sorting>
-				</field>
-			</index>
-		</declaration>
-	</table>
-	<!-- table for cached objects -->
-	<table>
-		<name>*dbprefix*clndr_objcache</name>
-		<declaration>
-			<field>
-				<name>id</name>
-				<type>integer</type>
-				<default>0</default>
-				<notnull>true</notnull>
-				<autoincrement>1</autoincrement>
-				<unsigned>true</unsigned>
-				<length>4</length>
-			</field>
+
 			<field>
 				<name>calendarid</name>
 				<type>integer</type>
@@ -180,56 +31,59 @@
 				<unsigned>true</unsigned>
 				<length>4</length>
 			</field>
+
 			<field>
-				<name>uri</name>
+				<name>objecttype</name>
 				<type>text</type>
 				<default></default>
 				<notnull>true</notnull>
-				<length>255</length>
-			</field>
-			<field>
-				<name>type</name>
-				<type>integer</type>
-				<default></default>
-				<notnull>false</notnull>
-				<length>2</length>
-			</field>
-			<field>
-				<name>etag</name>
-				<type>text</type>
-				<default></default>
-				<notnull>false</notnull>
 				<length>40</length>
 			</field>
+
 			<field>
 				<name>startdate</name>
 				<type>timestamp</type>
 				<default>1970-01-01 00:00:00</default>
 				<notnull>false</notnull>
 			</field>
+
 			<field>
 				<name>enddate</name>
 				<type>timestamp</type>
 				<default>1970-01-01 00:00:00</default>
 				<notnull>false</notnull>
 			</field>
+
 			<field>
 				<name>repeating</name>
-				<type>boolean</type>
-				<default>0</default>
+				<type>integer</type>
+				<default></default>
 				<notnull>false</notnull>
+				<length>4</length>
 			</field>
+
 			<field>
 				<name>summary</name>
 				<type>text</type>
 				<default></default>
 				<notnull>false</notnull>
+				<length>255</length>
 			</field>
+
 			<field>
 				<name>calendardata</name>
 				<type>clob</type>
 				<notnull>false</notnull>
 			</field>
+
+			<field>
+				<name>uri</name>
+				<type>text</type>
+				<default></default>
+				<notnull>false</notnull>
+				<length>255</length>
+			</field>
+
 			<field>
 				<name>lastmodified</name>
 				<type>integer</type>
@@ -237,99 +91,17 @@
 				<notnull>false</notnull>
 				<length>4</length>
 			</field>
-			<index>
-				<name>clndr_objcache_id_index</name>
-				<primary>true</primary>
-				<unique>true</unique>
-				<field>
-					<name>id</name>
-					<sorting>ascending</sorting>
-				</field>
-			</index>
-			<index>
-				<name>clndr_objcache_calid_uri</name>
-				<unique>true</unique>
-				<field>
-					<name>calendarid</name>
-					<sorting>ascending</sorting>
-				</field>
-				<field>
-					<name>uri</name>
-					<sorting>ascending</sorting>
-				</field>
-			</index>
-			<index>
-				<name>clndr_objcache_calid</name>
-				<field>
-					<name>calendarid</name>
-					<sorting>ascending</sorting>
-				</field>
-			</index>
-			<index>
-				<name>clndr_objcache_calid_timeframe</name>
-				<field>
-					<name>calendarid</name>
-					<sorting>ascending</sorting>
-				</field>
-				<field>
-					<name>startdate</name>
-					<sorting>ascending</sorting>
-				</field>
-				<field>
-					<name>enddate</name>
-					<sorting>ascending</sorting>
-				</field>
-			</index>
+
 		</declaration>
+
 	</table>
-	<!-- table for cached objects -->
+
 	<table>
-		<name>*dbprefix*clndr_schdl</name>
-		<declaration>
-			<field>
-				<name>id</name>
-				<type>integer</type>
-				<default>0</default>
-				<notnull>true</notnull>
-				<autoincrement>1</autoincrement>
-				<unsigned>true</unsigned>
-				<length>4</length>
-			</field>
-			<field>
-				<name>calendarid</name>
-				<type>integer</type>
-				<default></default>
-				<notnull>true</notnull>
-				<unsigned>true</unsigned>
-				<length>4</length>
-			</field>
-			<field>
-				<name>uri</name>
-				<type>text</type>
-				<default></default>
-				<notnull>true</notnull>
-				<length>255</length>
-			</field>
-			<field>
-				<name>type</name>
-				<type>integer</type>
-				<default></default>
-				<notnull>false</notnull>
-				<length>2</length>
-			</field>
-			<field>
-				<name>due_by</name>
-				<type>timestamp</type>
-				<default>1970-01-01 00:00:00</default>
-				<notnull>false</notnull>
-			</field>
-		</declaration>
-	</table>
-	<!-- table for calendars in the database backend -->
-	<table>
+
 		<name>*dbprefix*clndr_calendars</name>
-		<!--<was>*dbprefix*calendar_calendars</was>-->
+
 		<declaration>
+
 			<field>
 				<name>id</name>
 				<type>integer</type>
@@ -339,6 +111,7 @@
 				<unsigned>true</unsigned>
 				<length>4</length>
 			</field>
+
 			<field>
 				<name>userid</name>
 				<type>text</type>
@@ -346,6 +119,7 @@
 				<notnull>false</notnull>
 				<length>255</length>
 			</field>
+
 			<field>
 				<name>displayname</name>
 				<type>text</type>
@@ -353,6 +127,7 @@
 				<notnull>false</notnull>
 				<length>100</length>
 			</field>
+
 			<field>
 				<name>uri</name>
 				<type>text</type>
@@ -360,6 +135,7 @@
 				<notnull>false</notnull>
 				<length>255</length>
 			</field>
+
 			<field>
 				<name>active</name>
 				<type>integer</type>
@@ -367,6 +143,7 @@
 				<notnull>true</notnull>
 				<length>4</length>
 			</field>
+
 			<field>
 				<name>ctag</name>
 				<type>integer</type>
@@ -375,6 +152,7 @@
 				<unsigned>true</unsigned>
 				<length>4</length>
 			</field>
+
 			<field>
 				<name>calendarorder</name>
 				<type>integer</type>
@@ -383,6 +161,7 @@
 				<unsigned>true</unsigned>
 				<length>4</length>
 			</field>
+
 			<field>
 				<name>calendarcolor</name>
 				<type>text</type>
@@ -390,11 +169,13 @@
 				<notnull>false</notnull>
 				<length>10</length>
 			</field>
+
 			<field>
 				<name>timezone</name>
-				<type>text</type>
+				<type>clob</type>
 				<notnull>false</notnull>
 			</field>
+
 			<field>
 				<name>components</name>
 				<type>text</type>
@@ -402,151 +183,119 @@
 				<notnull>false</notnull>
 				<length>100</length>
 			</field>
-			<index>
-				<name>clndr_calendars_id_index</name>
-				<primary>true</primary>
-				<unique>true</unique>
-				<field>
-					<name>id</name>
-					<sorting>ascending</sorting>
-				</field>
-			</index>
-			<index>
-				<name>clndr_calendars_userid_uri</name>
-				<unique>true</unique>
-				<field>
-					<name>userid</name>
-					<sorting>ascending</sorting>
-				</field>
-				<field>
-					<name>uri</name>
-					<sorting>ascending</sorting>
-				</field>
-			</index>
+
 		</declaration>
+
 	</table>
-	<!-- table for objects in the database backend -->
+
 	<table>
-		<name>*dbprefix*clndr_objects</name>
-		<!--<was>*dbprefix*calendar_objects</was>-->
+
+		<name>*dbprefix*clndr_share_event</name>
+
 		<declaration>
+
 			<field>
-				<name>id</name>
-				<type>integer</type>
-				<default>0</default>
+				<name>owner</name>
+				<type>text</type>
 				<notnull>true</notnull>
-				<autoincrement>1</autoincrement>
-				<unsigned>true</unsigned>
-				<length>4</length>
+				<length>255</length>
 			</field>
+
+			<field>
+				<name>share</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>255</length>
+			</field>
+
+			<field>
+				<name>sharetype</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>6</length>
+			</field>
+
+			<field>
+				<name>eventid</name>
+				<type>integer</type>
+				<default></default>
+				<notnull>true</notnull>
+				<unsigned>true</unsigned>
+				<length>11</length>
+			</field>
+
+			<field>
+				<name>permissions</name>
+				<type>integer</type>
+				<notnull>true</notnull>
+				<length>1</length>
+			</field>
+
+		</declaration>
+
+	</table>
+
+	<table>
+
+		<name>*dbprefix*clndr_share_calendar</name>
+
+		<declaration>
+
+			<field>
+				<name>owner</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>255</length>
+			</field>
+
+			<field>
+				<name>share</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>255</length>
+			</field>
+
+			<field>
+				<name>sharetype</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>6</length>
+			</field>
+
 			<field>
 				<name>calendarid</name>
 				<type>integer</type>
 				<default></default>
 				<notnull>true</notnull>
 				<unsigned>true</unsigned>
-				<length>4</length>
+				<length>11</length>
 			</field>
+
 			<field>
-				<name>objecttype</name>
-				<type>text</type>
-				<default></default>
+				<name>permissions</name>
+				<type>integer</type>
 				<notnull>true</notnull>
-				<length>40</length>
+				<length>1</length>
 			</field>
+
 			<field>
-				<name>startdate</name>
-				<type>timestamp</type>
-				<default>1970-01-01 00:00:00</default>
-				<notnull>false</notnull>
-			</field>
-			<field>
-				<name>enddate</name>
-				<type>timestamp</type>
-				<default>1970-01-01 00:00:00</default>
-				<notnull>false</notnull>
-			</field>
-			<field>
-				<name>repeating</name>
+				<name>active</name>
 				<type>integer</type>
-				<default></default>
-				<notnull>false</notnull>
+				<default>1</default>
+				<notnull>true</notnull>
 				<length>4</length>
 			</field>
-			<field>
-				<name>summary</name>
-				<type>text</type>
-				<default></default>
-				<notnull>false</notnull>
-				<length>255</length>
-			</field>
-			<field>
-				<name>calendardata</name>
-				<type>clob</type>
-				<notnull>false</notnull>
-			</field>
-			<field>
-				<name>uri</name>
-				<type>text</type>
-				<default></default>
-				<notnull>false</notnull>
-				<length>255</length>
-			</field>
-			<field>
-				<name>lastmodified</name>
-				<type>integer</type>
-				<default></default>
-				<notnull>false</notnull>
-				<length>4</length>
-			</field>
-			<index>
-				<name>clndr_objects_id_index</name>
-				<primary>true</primary>
-				<unique>true</unique>
-				<field>
-					<name>id</name>
-					<sorting>ascending</sorting>
-				</field>
-			</index>
-			<index>
-				<name>clndr_objects_calid_uri</name>
-				<unique>true</unique>
-				<field>
-					<name>calendarid</name>
-					<sorting>ascending</sorting>
-				</field>
-				<field>
-					<name>uri</name>
-					<sorting>ascending</sorting>
-				</field>
-			</index>
-			<index>
-				<name>clndr_objects_calid</name>
-				<field>
-					<name>calendarid</name>
-					<sorting>ascending</sorting>
-				</field>
-			</index>
-			<index>
-				<name>clndr_objects_calid_timeframe</name>
-				<field>
-					<name>calendarid</name>
-					<sorting>ascending</sorting>
-				</field>
-				<field>
-					<name>startdate</name>
-					<sorting>ascending</sorting>
-				</field>
-				<field>
-					<name>enddate</name>
-					<sorting>ascending</sorting>
-				</field>
-			</index>
+
 		</declaration>
+
 	</table>
+
 	<table>
-		<name>*dbprefix*clndr_sbscrptns</name>
+
+		<name>*dbprefix*clndr_repeat</name>
+
 		<declaration>
+
 			<field>
 				<name>id</name>
 				<type>integer</type>
@@ -556,49 +305,41 @@
 				<unsigned>true</unsigned>
 				<length>4</length>
 			</field>
+
 			<field>
-				<name>user_id</name>
-				<type>text</type>
+				<name>eventid</name>
+				<type>integer</type>
+				<default>0</default>
 				<notnull>true</notnull>
-				<length>255</length>
+				<unsigned>true</unsigned>
+				<length>4</length>
 			</field>
+
 			<field>
-				<name>type</name>
-				<type>text</type>
+				<name>calid</name>
+				<type>integer</type>
+				<default>0</default>
 				<notnull>true</notnull>
-				<length>255</length>
+				<unsigned>true</unsigned>
+				<length>4</length>
 			</field>
+
 			<field>
-				<name>url</name>
-				<type>text</type>
-				<notnull>true</notnull>
-				<length>255</length>
+				<name>startdate</name>
+				<type>timestamp</type>
+				<default>1970-01-01 00:00:00</default>
+				<notnull>false</notnull>
 			</field>
-			<index>
-				<name>clndr_sbscrptns_id_index</name>
-				<primary>true</primary>
-				<unique>true</unique>
-				<field>
-					<name>id</name>
-					<sorting>ascending</sorting>
-				</field>
-			</index>
-			<index>
-				<name>clndr_sbscrptns_userid_type_url</name>
-				<unique>true</unique>
-				<field>
-					<name>user_id</name>
-					<sorting>ascending</sorting>
-				</field>
-				<field>
-					<name>type</name>
-					<sorting>ascending</sorting>
-				</field>
-				<field>
-					<name>url</name>
-					<sorting>ascending</sorting>
-				</field>
-			</index>
+
+			<field>
+				<name>enddate</name>
+				<type>timestamp</type>
+				<default>1970-01-01 00:00:00</default>
+				<notnull>false</notnull>
+			</field>
+
 		</declaration>
+
 	</table>
+
 </database>
