@@ -1,4 +1,3 @@
-<?php
 /**
  * ownCloud - Calendar App
  *
@@ -21,13 +20,25 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-?>
+app.filter('datepickerFilter',
+	function () {
+		'use strict';
 
-<div class="togglebuttons">
-	<div class="btn-group">
-		<button class="button first" ng-value="agendaDay" ng-model="selectedView" uib-btn-radio="'agendaDay'"><?php p($l->t('Day')); ?></button>
-		<button class="button middle" ng-value="agendaWeek" ng-model="selectedView" uib-btn-radio="'agendaWeek'"><?php p($l->t('Week')); ?></button>
-		<button class="button last" ng-value="month" ng-model="selectedView" uib-btn-radio="'month'"><?php p($l->t('Month')); ?></button>
-	</div>
-	<button class="button today" ng-click="today()"><?php p($l->t('Today')); ?></button>
-</div>
+		return function (item, view) {
+			switch(view) {
+				case 'agendaDay':
+					return moment(item).format('ll');
+
+				case 'agendaWeek':
+					return t('calendar', 'Week {number} of {year}',
+						{number:moment(item).week(),
+							year: moment(item).week() === 1 ?
+								moment(item).add(1, 'week').year() :
+								moment(item).year()});
+
+				case 'month':
+					return moment(item).format('MMMM GGGG');
+			}
+		}
+	}
+);
