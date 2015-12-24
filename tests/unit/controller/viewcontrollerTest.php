@@ -21,6 +21,37 @@
  */
 namespace OCA\Calendar\Controller;
 
+function scandir($directory) {
+	$dir = substr(__DIR__, 0, -strlen('tests/unit/controller')) . 'controller/../timezones/';
+	return $dir === $directory ? [
+		'..',
+		'.',
+		'TIMEZONE1.ics',
+		'TIMEZONE2.ics',
+		'REG-CIT.ics',
+		'INFO.md',
+	] : [];
+}
+
+function file_get_contents($file) {
+	$file_parts = explode('/', $file);
+	end($file_parts);
+	$file = current($file_parts);
+	switch($file) {
+		case 'TIMEZONE1.ics':
+			return 'TIMEZONE1-data';
+
+		case 'TIMEZONE2.ics':
+			return 'ANOTHER TIMEZONE DATA';
+
+		case 'REG-CIT.ics':
+			return 'TIMEZONE DATA WITH REGION AND CITY';
+
+		default:
+			return null;
+	}
+}
+
 class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 
 	private $appName;
@@ -42,5 +73,41 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertInstanceOf('OCP\AppFramework\Http\TemplateResponse', $actual);
 		$this->assertEquals('main', $actual->getTemplateName());
+	}
+
+	public function testTimezoneList() {
+		$actual = $this->controller->timezoneList();
+		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertEquals([
+			'TIMEZONE1.ics',
+			'TIMEZONE2.ics',
+			'REG-CIT.ics',
+		], $actual->getData());
+	}
+
+	public function testGetTimezone() {
+		$actual = $this->controller->getTimezone('TIMEZONE1.ics');
+
+		$this->assertInstanceOf('OCP\AppFramework\Http\DataDisplayResponse', $actual);
+		$this->assertEquals('TIMEZONE1-data', $actual->getData());
+	}
+
+	public function testGetTimezoneWithFakeTz() {
+		$actual = $this->controller->getTimezone('TIMEZONE42.ics');
+
+		$this->assertInstanceOf('OCP\AppFramework\Http\NotFoundResponse', $actual);
+	}
+
+	public function testGetTimezoneWithRegion() {
+		$actual = $this->controller->getTimezoneWithRegion('REG', 'CIT.ics');
+
+		$this->assertInstanceOf('OCP\AppFramework\Http\DataDisplayResponse', $actual);
+		$this->assertEquals('TIMEZONE DATA WITH REGION AND CITY', $actual->getData());
+	}
+
+	public function testGetTimezoneWithRegionWithFakeTz() {
+		$actual = $this->controller->getTimezoneWithRegion('EUROPE', 'BERLIN.ics');
+
+		$this->assertInstanceOf('OCP\AppFramework\Http\NotFoundResponse', $actual);
 	}
 }
