@@ -170,17 +170,17 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 				viewRender: function (view, element) {
 					angular.element('#firstrow').find('.datepicker_current').html(view.title).text();
 					angular.element('#datecontrol_date').datepicker('setDate', element.fullCalendar('getDate'));
-					var newview = view.name;
-					if (newview !== $scope.defaultView) {
-						SettingsService.setView(newview);
-						$scope.defaultView = newview;
+					var newView = view.name;
+					if (newView !== $scope.defaultView) {
+						SettingsService.setView(newView);
+						$scope.defaultView = newView;
 					}
-					if (newview === 'agendaDay') {
+					if (newView === 'agendaDay') {
 						angular.element('td.fc-state-highlight').css('background-color', '#ffffff');
 					} else {
 						angular.element('td.fc-state-highlight').css('background-color', '#ffc');
 					}
-					if (newview ==='agendaWeek') {
+					if (newView ==='agendaWeek') {
 						element.fullCalendar('option', 'aspectRatio', 0.1);
 					} else {
 						element.fullCalendar('option', 'aspectRatio', 1.35);
