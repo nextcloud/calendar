@@ -63,12 +63,12 @@ class SettingsController extends Controller {
 	 * @NoAdminRequired
 	 */
 	public function setView($view) {
-		$userId = $this->userSession->getUser()->getUID();
-		$app = $this->appName;
-
 		if (!$this->isViewAllowed($view)) {
 			return new JSONResponse([], Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
+
+		$userId = $this->userSession->getUser()->getUID();
+		$app = $this->appName;
 
 		try {
 			$this->config->setUserValue(
