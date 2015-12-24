@@ -64,7 +64,7 @@ class ContactController extends Controller {
 				continue;
 			}
 
-			$name = $this->getName($r);
+			$name = $this->getNameFromContact($r);
 
 			foreach ($r['ADR'] as $address) {
 				$address = trim(implode(" ", $address));
@@ -95,7 +95,7 @@ class ContactController extends Controller {
 				continue;
 			}
 
-			$name = $this->getName($r);
+			$name = $this->getNameFromContact($r);
 
 			foreach ($r['EMAIL'] as $email) {
 				$contacts[] = [
@@ -115,7 +115,7 @@ class ContactController extends Controller {
 	 * @param array $r
 	 * @return string
 	 */
-	private function getName(array $r) {
+	private function getNameFromContact(array $r) {
 		$name = '';
 		if (isset($r['FN'])) {
 			$name = $r['FN'];
