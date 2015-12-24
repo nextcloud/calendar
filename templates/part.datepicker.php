@@ -23,13 +23,13 @@
  */
 ?>
 <div class="datepicker-heading">
-	<button type="button" class="btn btn-default btn-sm btn-arrow" ng-click="prev()">
+	<button type="button" class="btn btn-default btn-sm btn-arrow pull-left" ng-click="prev()">
 		<i class="glyphicon glyphicon-chevron-left"></i>
 	</button>
 	<button type="button" class="btn btn-default btn-sm btn-date" ng-click="toggle()">
 		<strong>{{ displayedMonth }}</strong>
 	</button>
-	<button type="button" class="btn btn-default btn-sm btn-arrow" ng-click="next()">
+	<button type="button" class="btn btn-default btn-sm btn-arrow pull-right" ng-click="next()">
 		<i class="glyphicon glyphicon-chevron-right"></i>
 	</button>
 </div>

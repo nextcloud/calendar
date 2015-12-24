@@ -58,22 +58,33 @@
 	margin-left: 5px;
 }
 
+#datepicker table td {
+	padding: 2.4px;
+}
+
+#datepicker table td button {
+	margin: 0;
+}
+
 #datepicker thead {
 	display: none;
 }
 
 .datepicker-heading {
-	margin-left: 10px;
-	margin-right: 10px;
+	margin: 0 5px;
 }
 
 .datepicker-heading .btn-arrow {
 	padding-bottom: 9px;
-	padding-top: 4px;
+	padding-top: 10px;
+	padding-left: 2px;
+	margin-right:0;
 }
 
 .datepicker-heading .btn-date {
-	width: 163px;
+	width: 180px;
+	height: 36px;
+	margin-left:4px;
 }
 
 #datepicker table thead tr {
@@ -90,7 +101,7 @@
 }
 
 #datepicker table tbody button {
-	margin: 3px;
+	margin: 1.3px;
 	background: transparent;
 	cursor: pointer;
 }
