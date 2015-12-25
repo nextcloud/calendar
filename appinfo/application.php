@@ -31,7 +31,7 @@ class Application extends App {
 	/**
 	 * @param array $params
 	 */
-	public function __construct($params = array()) {
+	public function __construct($params=[]) {
 		parent::__construct('calendar', $params);
 		$container = $this->getContainer();
 
