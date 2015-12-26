@@ -380,35 +380,39 @@ app.controller('DatePickerController', ['$scope', 'uiCalendarConfig', 'uibDatepi
 	function ($scope, uiCalendarConfig, uibDatepickerConfig) {
 		'use strict';
 
+		function getStepSizeFromView() {
+			switch($scope.selectedView) {
+				case 'agendaDay':
+					return 'day';
+
+				case 'agendaWeek':
+					return 'week';
+
+				case 'month':
+					return 'month';
+			}
+		}
+
 		$scope.dt = new Date();
-		$scope.displayedMonth = '';
 		$scope.visibility = false;
 
-		$scope.selectedview = angular.element('#fullcalendar').attr('data-defaultView');
+		$scope.selectedView = angular.element('#fullcalendar').attr('data-defaultView');
 
 		angular.extend(uibDatepickerConfig, {
 			showWeeks: false,
 			startingDay: parseInt(moment().startOf('week').format('d'))
 		});
 
-		// Changes the view for the month, week or daywise.
-		$scope.changeView = function (view) {
-			uiCalendarConfig.calendars.calendar.fullCalendar(
-				'changeView',
-				view);
-		};
-
-		// Changes the view to Today's view.
 		$scope.today = function () {
 			$scope.dt = new Date();
 		};
 
 		$scope.prev = function() {
-			$scope.dt = moment($scope.dt).subtract(1, 'month').toDate();
+			$scope.dt = moment($scope.dt).subtract(1, getStepSizeFromView()).toDate();
 		};
 
 		$scope.next = function() {
-			$scope.dt = moment($scope.dt).add(1, 'month').toDate();
+			$scope.dt = moment($scope.dt).add(1, getStepSizeFromView()).toDate();
 		};
 
 		$scope.toggle = function() {
@@ -422,7 +426,14 @@ app.controller('DatePickerController', ['$scope', 'uiCalendarConfig', 'uibDatepi
 					newValue
 				);
 			}
-			$scope.displayedMonth = moment($scope.dt).format('MMMM GGGG');
+		});
+
+		$scope.$watch('selectedView', function(newValue) {
+			if (uiCalendarConfig.calendars.calendar) {
+				uiCalendarConfig.calendars.calendar.fullCalendar(
+					'changeView',
+					newValue);
+			}
 		});
 	}
 ]);
@@ -1083,6 +1094,29 @@ app.filter('calendarFilter',
 		return calendarfilter;
 	}
 	]);
+
+app.filter('datepickerFilter',
+	function () {
+		'use strict';
+
+		return function (item, view) {
+			switch(view) {
+				case 'agendaDay':
+					return moment(item).format('ll');
+
+				case 'agendaWeek':
+					return t('calendar', 'Week {number} of {year}',
+						{number:moment(item).week(),
+							year: moment(item).week() === 1 ?
+								moment(item).add(1, 'week').year() :
+								moment(item).year()});
+
+				case 'month':
+					return moment(item).format('MMMM GGGG');
+			}
+		}
+	}
+);
 
 app.filter('simpleReminderDescription', function() {
 	'use strict';
