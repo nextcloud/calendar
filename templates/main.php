@@ -87,8 +87,11 @@ foreach ($scripts as $script) {
 		<?php print_unescaped($this->inc('part.fullcalendar')); ?>
 	</div>
 
-	<!-- The Event Editor -->
-	<div ng-controller="EventsModalController" class="hide">
-		<?php print_unescaped($this->inc('part.event.dialog')); ?>
-	</div>
+	<script type="text/ng-template" id="eventspopovereditor.html">
+		<?php print_unescaped($this->inc('part.eventspopovereditor')); ?>
+	</script>
+
+	<script type="text/ng-template" id="eventssidebareditor.html">
+		<?php print_unescaped($this->inc('part.eventssidebareditor')); ?>
+	</script>
 </div>

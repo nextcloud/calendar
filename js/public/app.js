@@ -46,8 +46,8 @@ app.run(['$rootScope', '$window',
 * Description: The fullcalendar controller.
 */
 
-app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'objectConverter', 'is', 'uiCalendarConfig',
-	function ($scope, $rootScope, $window, CalendarService, VEventService, SettingsService, TimezoneService, objectConverter, is, uiCalendarConfig) {
+app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'objectConverter', 'is', 'uiCalendarConfig', '$uibModal',
+	function ($scope, $rootScope, $window, CalendarService, VEventService, SettingsService, TimezoneService, objectConverter, is, uiCalendarConfig, $uibModal) {
 		'use strict';
 
 		$scope.calendars = [];
@@ -169,10 +169,34 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 				select: $scope.newEvent,
 				eventLimit: true,
 				eventClick: function(fcEvent, jsEvent, view) {
-					var simpleData = fcEvent.event.getSimpleData(fcEvent);
-					$rootScope.$broadcast('initializeEventEditor', {
-						data: simpleData,
-						onSuccess: function(newData) {
+					var modal = $uibModal.open({
+						templateUrl: 'eventspopovereditor.html',
+						controller: 'EventsPopoverEditorController',
+						appendTo: angular.element(this),
+						resolve: {
+							event: function() {
+								return fcEvent.event;
+							}
+						}
+					});
+
+					modal.result.then(function(result) {
+						if (result.action === 'save') {
+							VEventService.update(result.event);
+						} else if (result.action === 'proceed') {
+							var extendedModal = $uibModal.open({
+								templateUrl: 'eventssidebareditor.html',
+								controller: 'EventsSidebarEditorController',
+								resolve: {
+									event: function() {
+										return result.event;
+									}
+								}
+							});
+
+							extendedModal.result.then(function(event) {
+								VEventService.update(event);
+							});
 						}
 					});
 				},
@@ -1001,6 +1025,46 @@ app.controller('EventsModalController', ['$scope', '$rootScope', '$routeParams',
 	}
 ]);
 
+/**
+ * Controller: Events Dialog Controller
+ * Description: Takes care of anything inside the Events Modal.
+ */
+
+app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'eventEditorHelper', '$uibModalInstance', 'event',
+	function($scope, TimezoneService, eventEditorHelper, $uibModalInstance, event) {
+		'use strict';
+
+		// proceed to right sidebar
+		$scope.proceed = function() {
+			$uibModalInstance.resolve({
+				action: 'proceed',
+				event: null
+			});
+		};
+
+		$scope.save = function() {
+			$uibModalInstance.resolve({
+				action: 'save',
+				event: null
+			});
+		};
+	}
+]);
+/**
+ * Controller: Events Dialog Controller
+ * Description: Takes care of anything inside the Events Modal.
+ */
+
+app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'eventEditorHelper', '$uibModalInstance', 'event',
+	function($scope, TimezoneService, eventEditorHelper, $uibModalInstance, event) {
+		'use strict';
+
+		$scope.save = function() {
+			//todo - generate Data
+			$uibModalInstance.resolve(null);
+		};
+	}
+]);
 /**
  * Controller: SettingController
  * Description: Takes care of the Calendar Settings.
