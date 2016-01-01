@@ -37,7 +37,9 @@ app.filter('datepickerFilter',
 								moment(item).year()});
 
 				case 'month':
-					return moment(item).format('MMMM GGGG');
+					return moment(item).week() === 1 ?
+						moment(item).add(1, 'week').format('MMMM GGGG'):
+						moment(item).format('MMMM GGGG');
 			}
 		}
 	}
