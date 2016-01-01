@@ -6,9 +6,9 @@
  * later. See the COPYING file.
  *
  * @author Alessandro Cosentino <cosenal@gmail.com>
+ * @copyright Alessandro Cosentino 2016
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
- * @copyright Alessandro Cosentino 2012
- * @copyright Bernhard Posselt 2012, 2014
+ * @copyright Bernhard Posselt 2016
  */
 
 require_once __DIR__ . '/../../../3rdparty/autoload.php';

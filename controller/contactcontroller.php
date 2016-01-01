@@ -3,9 +3,7 @@
  * ownCloud - Calendar App
  *
  * @author Georg Ehrke
- * @copyright 2014 Georg Ehrke <oc.list@georgehrke.com>
- * @author Davide Saurino
- * @copyright 2013 Davide Saurino <davide.saurino@alcacoop.it>
+ * @copyright 2016 Georg Ehrke <oc.list@georgehrke.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE

@@ -3,9 +3,9 @@
  * ownCloud - Calendar App
  *
  * @author Georg Ehrke
- * @copyright 2014 Georg Ehrke <oc.list@georgehrke.com>
+ * @copyright 2016 Georg Ehrke <oc.list@georgehrke.com>
  * @author Thomas Müller
- * @copyright 2014 Thomas Müller <thomas.mueller@tmit.eu>
+ * @copyright 2016 Thomas Müller <thomas.mueller@tmit.eu>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
