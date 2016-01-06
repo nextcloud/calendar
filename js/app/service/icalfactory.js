@@ -20,27 +20,21 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-app.filter('datepickerFilter',
-	function () {
+
+app.service('ICalFactory', [
+	function() {
 		'use strict';
 
-		return function (item, view) {
-			switch(view) {
-				case 'agendaDay':
-					return moment(item).format('ll');
+		// creates a new ICAL root element with a product id property
+		return {
+			new: function() {
+				var root = new ICAL.Component(['vcalendar', [], []]);
 
-				case 'agendaWeek':
-					return t('calendar', 'Week {number} of {year}',
-						{number:moment(item).week(),
-							year: moment(item).week() === 1 ?
-								moment(item).add(1, 'week').year() :
-								moment(item).year()});
+				var version = angular.element('#fullcalendar').attr('data-appVersion');
+				root.updatePropertyWithValue('prodid', '-//ownCloud calendar v' + version);
 
-				case 'month':
-					return moment(item).week() === 1 ?
-						moment(item).add(1, 'week').format('MMMM GGGG') :
-						moment(item).format('MMMM GGGG');
+				return root;
 			}
 		};
 	}
-);
+]);

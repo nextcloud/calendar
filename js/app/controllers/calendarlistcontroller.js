@@ -36,7 +36,8 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 		$scope.create = function (name, color) {
 			CalendarService.create(name, color).then(function(calendar) {
 				$scope.calendars.push(calendar);
-				$scope.$apply();
+				$rootScope.$broadcast('createdCalendar', calendar);
+				$rootScope.$broadcast('reloadCalendarList');
 			});
 
 			$scope.newCalendarInputVal = '';
@@ -64,8 +65,11 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 
 		$scope.performUpdate = function (calendar) {
 			CalendarService.update(calendar).then(function() {
+				calendar.dropPreviousState();
 				calendar.list.edit = false;
-				$scope.$apply();
+				console.log(calendar);
+				$rootScope.$broadcast('updatedCalendar', calendar);
+				$rootScope.$broadcast('reloadCalendarList');
 			});
 		};
 
@@ -75,6 +79,7 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 
 			CalendarService.update(calendar).then(function() {
 				$rootScope.$broadcast('updatedCalendarsVisibility', calendar);
+				$rootScope.$broadcast('reloadCalendarList');
 			});
 		};
 
@@ -84,22 +89,15 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 				$scope.calendars = $scope.calendars.filter(function (element) {
 					return element.url !== calendar.url;
 				});
-				$scope.$apply();
+				$rootScope.$broadcast('removedCalendar', calendar);
+				$rootScope.$broadcast('reloadCalendarList');
 			});
 		};
 
-		//We need to reload the refresh the calendar-list,
-		//if the user added a subscription
-		$rootScope.$on('createdSubscription', function() {
-			// TO BE REIMPLEMENTED, BUT IN A DIFFERENT PR
-		});
-
-
-		$rootScope.$on('finishedLoadingEvents', function(event, calendarId) {
-			//var calendar = CalendarModel.get(calendarId);
-			//calendar.list.loading = false;
-			//CalendarModel.update(calendar);
-			//$scope.calendars = CalendarModel.getAll();
+		$rootScope.$on('reloadCalendarList', function() {
+			if(!$scope.$$phase) {
+				$scope.$apply();
+			}
 		});
 	}
 ]);

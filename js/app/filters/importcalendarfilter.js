@@ -20,27 +20,32 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-app.filter('datepickerFilter',
+app.filter('importCalendarFilter',
 	function () {
 		'use strict';
 
-		return function (item, view) {
-			switch(view) {
-				case 'agendaDay':
-					return moment(item).format('ll');
+		return function (calendars, file) {
+			var possibleCalendars = [];
 
-				case 'agendaWeek':
-					return t('calendar', 'Week {number} of {year}',
-						{number:moment(item).week(),
-							year: moment(item).week() === 1 ?
-								moment(item).add(1, 'week').year() :
-								moment(item).year()});
-
-				case 'month':
-					return moment(item).week() === 1 ?
-						moment(item).add(1, 'week').format('MMMM GGGG') :
-						moment(item).format('MMMM GGGG');
+			if (typeof file.split === 'undefined') {
+				return possibleCalendars;
 			}
+
+			angular.forEach(calendars, function(calendar) {
+				if (file.split.vevent.length !== 0 && !calendar.components.vevent) {
+					return;
+				}
+				if (file.split.vjournal.length !== 0 && !calendar.components.vjournal) {
+					return;
+				}
+				if (file.split.vtodo.length !== 0 && !calendar.components.vtodo) {
+					return;
+				}
+
+				possibleCalendars.push(calendar);
+			});
+
+			return possibleCalendars;
 		};
 	}
 );

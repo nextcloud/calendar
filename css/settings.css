@@ -77,12 +77,7 @@
 	-ms-transition: 0.05s ease-out 0.05s;
 	transition: 0.05s ease-out 0.05s;
 }
-.dialog .table .name {
-	padding-left: 20px;
-}
-.dialog .table .dialog-select {
-	width: 100%;
-}
+
 .dialog .table:hover {
 	background: #ddd;
 	-webkit-transition: 0.05s ease-out 0.05s;
@@ -101,4 +96,45 @@
 
 #importdialog .loading.disabled {
 	background-color: #6c8fc0;
+}
+
+#importdialog table,
+#importdialog tbody tr,
+#importdialog tbody tr:hover,
+#importdialog tbody tr:focus {
+	background: transparent !important;
+}
+
+.progress-bar {
+	margin: 0;
+	float: left;
+	width: 0;
+	height: 100%;
+	font-size: 12px;
+	line-height: 20px;
+	background-color: #5cb85c;
+}
+
+#importdialog table {
+	width: 100%;
+}
+
+#importdialog td.name {
+	width: 40%;
+}
+
+#importdialog td.calendartype {
+	width: 50%;
+}
+
+#importdialog td.calendartype select {
+	width: 90%;
+}
+
+#importdialog td.buttongroup {
+	width: 10%;
+}
+
+#importdialog tr {
+	height: 38px;
 }

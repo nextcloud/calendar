@@ -100,7 +100,11 @@ app.service('VEventService', ['DavClient', 'VEvent', function(DavClient, VEvent)
 		});
 	};
 
-	this.create = function(calendar, data) {
+	this.create = function(calendar, data, returnEvent) {
+		if (typeof returnEvent === 'undefined') {
+			returnEvent = true;
+		}
+
 		var headers = {
 			'Content-Type': 'text/calendar; charset=utf-8'
 		};
@@ -109,10 +113,14 @@ app.service('VEventService', ['DavClient', 'VEvent', function(DavClient, VEvent)
 
 		return DavClient.request('PUT', url, headers, data).then(function(response) {
 			if (!DavClient.wasRequestSuccessful(response.status)) {
+				console.log(response);
+				return false;
 				// TODO - something went wrong, do smth about it
 			}
 
-			return _this.get(calendar, uri);
+			return returnEvent ?
+				_this.get(calendar, uri) :
+				true;
 		});
 	};
 

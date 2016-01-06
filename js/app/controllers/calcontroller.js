@@ -147,6 +147,7 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 				header: false,
 				firstDay: moment().startOf('week').format('d'),
 				select: $scope.newEvent,
+				eventLimit: true,
 				eventClick: function(fcEvent, jsEvent, view) {
 					var simpleData = fcEvent.event.getSimpleData(fcEvent);
 					$rootScope.$broadcast('initializeEventEditor', {
@@ -253,6 +254,13 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 			delete $scope.eventSource[deletedObject];
 		});
 
+		$rootScope.$on('refetchEvents', function (event, calendar) {
+			if (switcher.indexOf(calendar.url) !== -1) {
+				uiCalendarConfig.calendars.calendar.fullCalendar('removeEventSource', $scope.eventSource[calendar.url]);
+				uiCalendarConfig.calendars.calendar.fullCalendar('addEventSource', $scope.eventSource[calendar.url]);
+			}
+		});
+
 		/**
 		 * After a calendar's visibility was changed:
 		 * - add event source to fullcalendar if enabled is true
@@ -263,6 +271,7 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 				uiCalendarConfig.calendars.calendar.fullCalendar('addEventSource', $scope.eventSource[calendar.url]);
 			} else {
 				uiCalendarConfig.calendars.calendar.fullCalendar('removeEventSource', $scope.eventSource[calendar.url]);
+				calendar.list.loading = false;
 			}
 		});
 

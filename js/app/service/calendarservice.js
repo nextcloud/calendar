@@ -154,11 +154,15 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 		});
 	};
 
-	this.create = function(name, color) {
+	this.create = function(name, color, components) {
 		if (this._CALENDAR_HOME === null) {
 			return discoverHome(function() {
 				return _this.create(name, color);
 			});
+		}
+
+		if (typeof components === 'undefined') {
+			components = ['vevent'];
 		}
 
 		var xmlDoc = document.implementation.createDocument('', '', null);
@@ -178,7 +182,7 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 		dProp.appendChild(this._createXMLForProperty(xmlDoc, 'displayname', name));
 		dProp.appendChild(this._createXMLForProperty(xmlDoc, 'enabled', true));
 		dProp.appendChild(this._createXMLForProperty(xmlDoc, 'color', color));
-		dProp.appendChild(this._createXMLForProperty(xmlDoc, 'components', {vevent: true}));
+		dProp.appendChild(this._createXMLForProperty(xmlDoc, 'components', components));
 
 		var body = cMkcalendar.outerHTML;
 
@@ -191,7 +195,10 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 		return DavClient.request('MKCALENDAR', url, headers, body).then(function(response) {
 			if (response.status === 201) {
 				_this._takenUrls.push(url);
-				return _this.get(url);
+				return _this.get(url).then(function(calendar) {
+					calendar.enabled = true;
+					return _this.update(calendar);
+				});
 			}
 		});
 	};
@@ -230,6 +237,7 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 		return DavClient.request('PROPPATCH', url, headers, body).then(function(response) {
 			var responseBody = DavClient.parseMultiStatus(response.body);
 			console.log(responseBody);
+			return calendar;
 		});
 	};
 
@@ -268,12 +276,10 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 
 			case 'components':
 				var cComponents = xmlDoc.createElement('c:supported-calendar-component-set');
-				for (var component in value) {
-					if (value.hasOwnProperty(component) && value[component]) {
-						var cComp = xmlDoc.createElement('c:comp');
-						cComp.setAttribute('name', component.toUpperCase());
-						cComponents.appendChild(cComp);
-					}
+				for (var i=0; i < value.length; i++) {
+					var cComp = xmlDoc.createElement('c:comp');
+					cComp.setAttribute('name', value[i].toUpperCase());
+					cComponents.appendChild(cComp);
 				}
 				return cComponents;
 		}

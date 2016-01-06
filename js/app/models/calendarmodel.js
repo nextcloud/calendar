@@ -1,4 +1,4 @@
-app.factory('Calendar', ['$filter', 'VEventService', 'TimezoneService', function($filter, VEventService, TimezoneService) {
+app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneService', function($rootScope, $filter, VEventService, TimezoneService) {
 	'use strict';
 
 	function Calendar(url, props) {
@@ -12,17 +12,17 @@ app.factory('Calendar', ['$filter', 'VEventService', 'TimezoneService', function
 				displayname: props['{DAV:}displayname'] || 'Unnamed',
 				color: props['{http://apple.com/ns/ical/}calendar-color'] || '#1d2d44',
 				order: parseInt(props['{http://apple.com/ns/ical/}calendar-order']) || 0,
+				components: {
+					vevent: false,
+					vjournal: false,
+					vtodo: false
+				},
 				cruds: {
 					create: props.canWrite,
 					read: true,
 					update: props.canWrite,
 					delete: props.canWrite,
 					share: props.canWrite
-				},
-				list: {
-					edit: false,
-					loading: true,
-					locked: false
 				}
 			},
 			_updatedProperties: []
@@ -31,8 +31,10 @@ app.factory('Calendar', ['$filter', 'VEventService', 'TimezoneService', function
 		angular.extend(this, {
 			fcEventSource: {
 				events: function (start, end, timezone, callback) {
+					console.log('querying events ...');
 					TimezoneService.get(timezone).then(function(tz) {
-						_this._properties.list.loading = true;
+						_this.list.loading = true;
+						$rootScope.$broadcast('reloadCalendarList');
 
 						VEventService.getAll(_this, start, end).then(function(events) {
 							var vevents = [];
@@ -42,15 +44,29 @@ app.factory('Calendar', ['$filter', 'VEventService', 'TimezoneService', function
 
 							callback(vevents);
 
-							_this._properties.list.loading = false;
+							_this.list.loading = false;
+							$rootScope.$broadcast('reloadCalendarList');
 						});
 					});
 				},
 				color: this._properties.color,
 				editable: this._properties.cruds.update,
 				calendar: this
+			},
+			list: {
+				edit: false,
+				loading: this.enabled,
+				locked: false
 			}
 		});
+
+		var components = props['{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set'];
+		for (var i=0; i < components.length; i++) {
+			var name = components[i].attributes.getNamedItem('name').textContent.toLowerCase();
+			if (this._properties.components.hasOwnProperty(name)) {
+				this._properties.components[name] = true;
+			}
+		}
 	}
 
 	Calendar.prototype = {
@@ -59,6 +75,9 @@ app.factory('Calendar', ['$filter', 'VEventService', 'TimezoneService', function
 		},
 		get enabled() {
 			return this._properties.enabled;
+		},
+		get components() {
+			return this._properties.components;
 		},
 		set enabled(enabled) {
 			this._properties.enabled = enabled;
@@ -88,12 +107,6 @@ app.factory('Calendar', ['$filter', 'VEventService', 'TimezoneService', function
 		get cruds() {
 			return this._properties.cruds;
 		},
-		get list() {
-			return this._properties.list;
-		},
-		set list(list) {
-			this._properties.list = list;
-		},
 		_setUpdated: function(propName) {
 			if (this._updatedProperties.indexOf(propName) === -1) {
 				this._updatedProperties.push(propName);
@@ -106,12 +119,15 @@ app.factory('Calendar', ['$filter', 'VEventService', 'TimezoneService', function
 			this._updatedProperties = [];
 		},
 		prepareUpdate: function() {
-			this._properties.list.edit = true;
+			this.list.edit = true;
 			this._propertiesBackup = angular.copy(this._properties);
 		},
 		resetToPreviousState: function() {
 			this._properties = angular.copy(this._propertiesBackup);
-			this._properties.list.edit = false;
+			this.list.edit = false;
+			this._propertiesBackup = {};
+		},
+		dropPreviousState: function() {
 			this._propertiesBackup = {};
 		}
 	};

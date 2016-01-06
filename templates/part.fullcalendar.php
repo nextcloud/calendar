@@ -27,5 +27,6 @@
 	id="fullcalendar" class="calendar"
 	calendar="calendar"
 	ng-model="eventSources"
-	data-defaultView="<?php p(OCP\Config::getUserValue(OCP\User::getUser(), 'calendar', 'currentView', 'month')); ?>">
+	data-appVersion="<?php p($_['appVersion']); ?>"
+	data-defaultView="<?php p($_['defaultView']); ?>">
 </div>

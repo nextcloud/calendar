@@ -50,8 +50,10 @@ class Application extends App {
 		});
 		$container->registerService('ViewController', function(IAppContainer $c) {
 			$request = $c->query('Request');
+			$userSession = $c->getServer()->getUserSession();
+			$config = $c->getServer()->getConfig();
 
-			return new Controller\ViewController($c->getAppName(), $request);
+			return new Controller\ViewController($c->getAppName(), $request, $userSession, $config);
 		});
 	}
 
