@@ -236,7 +236,9 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 				// Sadly fullcalendar doesn't support changing a calendar's
 				// color without removing and then adding it again as an eventSource
 				$scope.eventSource[url].color = updatedCalendar.color;
-				angular.element('.fcCalendar-id-' + url).css('background-color', updatedCalendar.color);
+				angular.element('.fcCalendar-id-' + updatedCalendar.tmpId).css('background-color', updatedCalendar.color);
+				angular.element('.fcCalendar-id-' + updatedCalendar.tmpId).css('border-color', updatedCalendar.color);
+				angular.element('.fcCalendar-id-' + updatedCalendar.tmpId).css('color', updatedCalendar.textColor);
 			}
 			$scope.eventSource[url].editable = updatedCalendar.cruds.update;
 		});

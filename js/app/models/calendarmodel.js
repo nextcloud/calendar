@@ -29,6 +29,7 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 		});
 
 		angular.extend(this, {
+			tmpId: null,
 			fcEventSource: {
 				events: function (start, end, timezone, callback) {
 					console.log('querying events ...');
@@ -49,7 +50,6 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 						});
 					});
 				},
-				color: this._properties.color,
 				editable: this._properties.cruds.update,
 				calendar: this
 			},
@@ -67,6 +67,8 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 				this._properties.components[name] = true;
 			}
 		}
+
+		this.tmpId = Math.random().toString(36).substr(2);
 	}
 
 	Calendar.prototype = {
@@ -96,6 +98,39 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 		set color(color) {
 			this._properties.color = color;
 			this._setUpdated('color');
+		},
+		get textColor() {
+			var color = this.color;
+			var fallbackColor = '#fff';
+			var c;
+			switch (color.length) {
+				case 4:
+					c = color.match(/^#([0-9a-f]{3})$/i)[1];
+					if (c) {
+						return this._generateTextColor(
+							parseInt(c.charAt(0),16)*0x11,
+							parseInt(c.charAt(1),16)*0x11,
+							parseInt(c.charAt(2),16)*0x11
+						);
+					}
+					return fallbackColor;
+
+				case 7:
+				case 9:
+					var regex = new RegExp('^#([0-9a-f]{' + (color.length - 1) + '})$', 'i');
+					c = color.match(regex)[1];
+					if (c) {
+						return this._generateTextColor(
+							parseInt(c.substr(0,2),16),
+							parseInt(c.substr(2,2),16),
+							parseInt(c.substr(4,2),16)
+						);
+					}
+					return fallbackColor;
+
+				default:
+					return fallbackColor;
+			}
 		},
 		get order() {
 			return this._properties.order;
@@ -129,6 +164,10 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 		},
 		dropPreviousState: function() {
 			this._propertiesBackup = {};
+		},
+		_generateTextColor: function(r,g,b) {
+			var brightness = (((r * 299) + (g * 587) + (b * 114)) / 1000);
+			return (brightness > 130) ? '#000000' : '#FAFAFA';
 		}
 	};
 
