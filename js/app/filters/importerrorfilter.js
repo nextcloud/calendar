@@ -20,26 +20,21 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-app.filter('datepickerFilter',
+app.filter('importErrorFilter',
 	function () {
 		'use strict';
 
-		return function (item, view) {
-			switch(view) {
-				case 'agendaDay':
-					return moment(item).format('ll');
-
-				case 'agendaWeek':
-					return t('calendar', 'Week {number} of {year}',
-						{number:moment(item).week(),
-							year: moment(item).week() === 1 ?
-								moment(item).add(1, 'week').year() :
-								moment(item).year()});
-
-				case 'month':
-					return moment(item).week() === 1 ?
-						moment(item).add(1, 'week').format('MMMM GGGG') :
-						moment(item).format('MMMM GGGG');
+		return function (file) {
+			if (file.errors === 0) {
+				return t('calendar', 'Successfully imported');
+			} else {
+				if (file.errors === 1) {
+					return t('calendar', 'Partially imported, 1 failure');
+				} else {
+					return t('calendar', 'Partially imported, {n} failures', {
+						n: file.errors
+					});
+				}
 			}
 		};
 	}

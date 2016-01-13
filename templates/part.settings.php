@@ -62,25 +62,61 @@
 					<span>{{ file.name }}</span>
 				</td>
 				<td class="calendartype">
-					<select
-						class="settings-select"
-						ng-init="file.importToCalendar = (calendars | calendarFilter)[0].id"
-						ng-model="file.importToCalendar"
-						ng-options="calendar.id as calendar.displayname for calendar in calendars | calendarFilter | orderBy:['order']"
-						ng-disabled="file.isImporting">
-					</select>
+					<span
+						ng-show="file.state === 0">
+						<?php p($l->t('Analyzing calendar')); ?>
+					</span>
+					<div
+						ng-show="file.state === 1">
+						<span
+							class="svg icon-error"
+							ng-show="file.incompatibleObjectsWarning"
+							title="<?php p($l->t('The file contains objects incompatible with the selected calendar')); ?>">
+							&nbsp;&nbsp;
+						</span>
+						<select
+							class="settings-select"
+							ng-change="changeCalendar(file)"
+							ng-model="file.calendar"
+							ng-show="file.state === 1">
+							<option
+								ng-repeat="calendar in calendars | calendarFilter | orderBy:['order']"
+								value="{{ calendar.url }}">
+								{{ calendar.displayname }}
+							</option>
+							<option
+								value="new">
+								<?php p($l->t('New calendar')); ?>
+							</option>
+						</select>
+					</div>
+					<span
+						ng-show="file.state === 2">
+						<?php p($l->t('Import scheduled')); ?>
+					</span>
+					<uib-progressbar
+						ng-show="file.state === 3"
+						animate="false"
+						value="file.progress"
+						max="file.progressToReach">
+						&nbsp;
+					</uib-progressbar>
+					<div
+						ng-show="file.state === 4">
+						<span>
+							{{ file | importErrorFilter }}
+						</span>
+					</div>
 				</td>
 				<td class="buttongroup">
-					<div class="pull-right">
+					<div class="pull-right" ng-show="file.state === 1">
 						<button
 							class="primary btn icon-checkmark-white"
-							ng-click="import(file, $index)"
-							ng-disabled="file.isImporting" ng-class="{ loading: file.isImporting, disabled: file.isImporting }">
+							ng-click="import(file)">
 						</button>
 						<button
 							class="btn icon-close"
-							ng-click="file.done = true"
-							ng-disabled="file.isImporting">
+							ng-click="file.done = true">
 						</button>
 					</div>
 				</td>

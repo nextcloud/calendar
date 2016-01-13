@@ -167,6 +167,7 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 				header: false,
 				firstDay: moment().startOf('week').format('d'),
 				select: $scope.newEvent,
+				eventLimit: true,
 				eventClick: function(fcEvent, jsEvent, view) {
 					var simpleData = fcEvent.event.getSimpleData(fcEvent);
 					$rootScope.$broadcast('initializeEventEditor', {
@@ -273,6 +274,13 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 			delete $scope.eventSource[deletedObject];
 		});
 
+		$rootScope.$on('refetchEvents', function (event, calendar) {
+			if (switcher.indexOf(calendar.url) !== -1) {
+				uiCalendarConfig.calendars.calendar.fullCalendar('removeEventSource', $scope.eventSource[calendar.url]);
+				uiCalendarConfig.calendars.calendar.fullCalendar('addEventSource', $scope.eventSource[calendar.url]);
+			}
+		});
+
 		/**
 		 * After a calendar's visibility was changed:
 		 * - add event source to fullcalendar if enabled is true
@@ -283,6 +291,7 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 				uiCalendarConfig.calendars.calendar.fullCalendar('addEventSource', $scope.eventSource[calendar.url]);
 			} else {
 				uiCalendarConfig.calendars.calendar.fullCalendar('removeEventSource', $scope.eventSource[calendar.url]);
+				calendar.list.loading = false;
 			}
 		});
 
@@ -304,7 +313,8 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 		$scope.create = function (name, color) {
 			CalendarService.create(name, color).then(function(calendar) {
 				$scope.calendars.push(calendar);
-				$scope.$apply();
+				$rootScope.$broadcast('createdCalendar', calendar);
+				$rootScope.$broadcast('reloadCalendarList');
 			});
 
 			$scope.newCalendarInputVal = '';
@@ -332,8 +342,11 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 
 		$scope.performUpdate = function (calendar) {
 			CalendarService.update(calendar).then(function() {
+				calendar.dropPreviousState();
 				calendar.list.edit = false;
-				$scope.$apply();
+				console.log(calendar);
+				$rootScope.$broadcast('updatedCalendar', calendar);
+				$rootScope.$broadcast('reloadCalendarList');
 			});
 		};
 
@@ -343,6 +356,7 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 
 			CalendarService.update(calendar).then(function() {
 				$rootScope.$broadcast('updatedCalendarsVisibility', calendar);
+				$rootScope.$broadcast('reloadCalendarList');
 			});
 		};
 
@@ -352,22 +366,15 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 				$scope.calendars = $scope.calendars.filter(function (element) {
 					return element.url !== calendar.url;
 				});
-				$scope.$apply();
+				$rootScope.$broadcast('removedCalendar', calendar);
+				$rootScope.$broadcast('reloadCalendarList');
 			});
 		};
 
-		//We need to reload the refresh the calendar-list,
-		//if the user added a subscription
-		$rootScope.$on('createdSubscription', function() {
-			// TO BE REIMPLEMENTED, BUT IN A DIFFERENT PR
-		});
-
-
-		$rootScope.$on('finishedLoadingEvents', function(event, calendarId) {
-			//var calendar = CalendarModel.get(calendarId);
-			//calendar.list.loading = false;
-			//CalendarModel.update(calendar);
-			//$scope.calendars = CalendarModel.getAll();
+		$rootScope.$on('reloadCalendarList', function() {
+			if(!$scope.$$phase) {
+				$scope.$apply();
+			}
 		});
 	}
 ]);
@@ -885,8 +892,8 @@ app.controller('EventsModalController', ['$scope', '$rootScope', '$routeParams',
  * Description: Takes care of the Calendar Settings.
  */
 
-app.controller('SettingsController', ['$scope', '$rootScope', 'CalendarService', 'VEventService', 'DialogModel',
-	function ($scope, $rootScope, CalendarService, VEventService, DialogModel) {
+app.controller('SettingsController', ['$scope', '$rootScope', '$filter', 'CalendarService', 'VEventService', 'DialogModel', 'SplitterService',
+	function ($scope, $rootScope, $filter, CalendarService, VEventService, DialogModel, SplitterService) {
 		'use strict';
 
 		$scope.settingsCalDavLink = OC.linkToRemote('caldav') + '/';
@@ -894,44 +901,130 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'CalendarService',
 
 		// have to use the native HTML call for filereader to work efficiently
 
-		var reader = new FileReader();
-
 		$('#import').on('change', function () {
-			$scope.calendarAdded(this);
+			$scope.analyzeFiles(this.files);
 		});
 
-		$scope.calendarAdded = function (elem) {
-			$scope.files = elem.files;
+		$scope.analyzeFiles = function (files) {
+			$scope.files = files;
+			console.log($scope.calendars);
+
+			angular.forEach($scope.files, function(file) {
+				var reader = new FileReader();
+				reader.onload = function(event) {
+					var splitter = SplitterService.split(event.target.result);
+
+					angular.extend(reader.linkedFile, {
+						split: splitter.split,
+						newCalendarColor: splitter.color,
+						newCalendarName: splitter.name,
+						//state: analyzed
+						state: 1
+					});
+					$scope.preselectCalendar(reader.linkedFile);
+					$scope.$apply();
+
+				};
+
+				angular.extend(file, {
+					//state: analyzing
+					state: 0,
+					errors: 0,
+					progress: 0,
+					progressToReach: 0
+				});
+
+				reader.linkedFile = file;
+				reader.readAsText(file);
+			});
+
 			$scope.$apply();
 			DialogModel.initsmall('#importdialog');
 			DialogModel.open('#importdialog');
 		};
 
 		$scope.import = function (file) {
-			var reader = new FileReader();
-			file.isImporting = true;
+			file.progressToReach = file.split.vevent.length +
+				file.split.vjournal.length +
+				file.split.vtodo.length;
+			//state: import scheduled
+			file.state = 2;
 
-			reader.onload = function() {
-				/*Restangular.one('calendars', file.importToCalendar).withHttpConfig({transformRequest: angular.identity}).customPOST(
-						reader.result,
-						'import',
-						undefined,
-						{
-							'Content-Type': 'text/calendar'
-						}
-				).then( function () {
-					file.done = true;
-				}, function (response) {
-					OC.Notification.show(t('calendar', response.data.message));
-				});*/
+			var importCalendar = function(calendar) {
+				var componentNames = ['vevent', 'vjournal', 'vtodo'];
+				angular.forEach(componentNames, function (componentName) {
+					angular.forEach(file.split[componentName], function(object) {
+						VEventService.create(calendar, object, false).then(function(response) {
+							//state: importing
+							file.state = 3;
+							file.progress++;
+							$scope.$apply();
+
+							if (!response) {
+								file.errors++;
+							}
+
+							calendar.list.loading = true;
+							if (file.progress === file.progressToReach) {
+								//state: done
+								file.state = 4;
+								$scope.$apply();
+								$rootScope.$broadcast('refetchEvents', calendar);
+							}
+						});
+					});
+				});
 			};
 
-			reader.readAsText(file);
+			if (file.calendar === 'new') {
+				var name = file.newCalendarName || file.name;
+				var color = file.newCalendarColor || '#1d2d44';
+
+				var components = [];
+				if (file.split.vevent.length > 0) {
+					components.push('vevent');
+				}
+				if (file.split.vjournal.length > 0) {
+					components.push('vjournal');
+				}
+				if (file.split.vtodo.length > 0) {
+					components.push('vtodo');
+				}
+
+				CalendarService.create(name, color, components).then(function(calendar) {
+					if (calendar.components.vevent) {
+						$scope.calendars.push(calendar);
+						$rootScope.$broadcast('createdCalendar', calendar);
+						$rootScope.$broadcast('reloadCalendarList');
+					}
+					importCalendar(calendar);
+				});
+			} else {
+				var calendar = $scope.calendars.filter(function (element) {
+					return element.url === file.calendar;
+				})[0];
+				importCalendar(calendar);
+			}
+
+
 		};
 
-		//to send a patch to add a hidden event again
-		$scope.enableCalendar = function (id) {
-			//Restangular.one('calendars', id).patch({ 'components' : {'vevent' : true }});
+		$scope.preselectCalendar = function(file) {
+			var possibleCalendars = $filter('importCalendarFilter')($scope.calendars, file);
+			if (possibleCalendars.length === 0) {
+				file.calendar = 'new';
+			} else {
+				file.calendar = possibleCalendars[0];
+			}
+		};
+
+		$scope.changeCalendar = function(file) {
+			if (file.calendar === 'new') {
+				file.incompatibleObjectsWarning = false;
+			} else {
+				var possibleCalendars = $filter('importCalendarFilter')($scope.calendars, file);
+				file.incompatibleObjectsWarning = (possibleCalendars.indexOf(file.calendar) === -1);
+			}
 		};
 	}
 ]);
@@ -1113,10 +1206,60 @@ app.filter('datepickerFilter',
 
 				case 'month':
 					return moment(item).week() === 1 ?
-						moment(item).add(1, 'week').format('MMMM GGGG'):
+						moment(item).add(1, 'week').format('MMMM GGGG') :
 						moment(item).format('MMMM GGGG');
 			}
-		}
+		};
+	}
+);
+
+app.filter('importCalendarFilter',
+	function () {
+		'use strict';
+
+		return function (calendars, file) {
+			var possibleCalendars = [];
+
+			if (typeof file.split === 'undefined') {
+				return possibleCalendars;
+			}
+
+			angular.forEach(calendars, function(calendar) {
+				if (file.split.vevent.length !== 0 && !calendar.components.vevent) {
+					return;
+				}
+				if (file.split.vjournal.length !== 0 && !calendar.components.vjournal) {
+					return;
+				}
+				if (file.split.vtodo.length !== 0 && !calendar.components.vtodo) {
+					return;
+				}
+
+				possibleCalendars.push(calendar);
+			});
+
+			return possibleCalendars;
+		};
+	}
+);
+
+app.filter('importErrorFilter',
+	function () {
+		'use strict';
+
+		return function (file) {
+			if (file.errors === 0) {
+				return t('calendar', 'Successfully imported');
+			} else {
+				if (file.errors === 1) {
+					return t('calendar', 'Partially imported, 1 failure');
+				} else {
+					return t('calendar', 'Partially imported, {n} failures', {
+						n: file.errors
+					});
+				}
+			}
+		};
 	}
 );
 
@@ -1187,7 +1330,7 @@ app.filter('subscriptionFilter',
 	}
 	]);
 
-app.factory('Calendar', ['$filter', 'VEventService', 'TimezoneService', function($filter, VEventService, TimezoneService) {
+app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneService', function($rootScope, $filter, VEventService, TimezoneService) {
 	'use strict';
 
 	function Calendar(url, props) {
@@ -1201,17 +1344,17 @@ app.factory('Calendar', ['$filter', 'VEventService', 'TimezoneService', function
 				displayname: props['{DAV:}displayname'] || 'Unnamed',
 				color: props['{http://apple.com/ns/ical/}calendar-color'] || '#1d2d44',
 				order: parseInt(props['{http://apple.com/ns/ical/}calendar-order']) || 0,
+				components: {
+					vevent: false,
+					vjournal: false,
+					vtodo: false
+				},
 				cruds: {
 					create: props.canWrite,
 					read: true,
 					update: props.canWrite,
 					delete: props.canWrite,
 					share: props.canWrite
-				},
-				list: {
-					edit: false,
-					loading: true,
-					locked: false
 				}
 			},
 			_updatedProperties: []
@@ -1220,8 +1363,10 @@ app.factory('Calendar', ['$filter', 'VEventService', 'TimezoneService', function
 		angular.extend(this, {
 			fcEventSource: {
 				events: function (start, end, timezone, callback) {
+					console.log('querying events ...');
 					TimezoneService.get(timezone).then(function(tz) {
-						_this._properties.list.loading = true;
+						_this.list.loading = true;
+						$rootScope.$broadcast('reloadCalendarList');
 
 						VEventService.getAll(_this, start, end).then(function(events) {
 							var vevents = [];
@@ -1231,15 +1376,29 @@ app.factory('Calendar', ['$filter', 'VEventService', 'TimezoneService', function
 
 							callback(vevents);
 
-							_this._properties.list.loading = false;
+							_this.list.loading = false;
+							$rootScope.$broadcast('reloadCalendarList');
 						});
 					});
 				},
 				color: this._properties.color,
 				editable: this._properties.cruds.update,
 				calendar: this
+			},
+			list: {
+				edit: false,
+				loading: this.enabled,
+				locked: false
 			}
 		});
+
+		var components = props['{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set'];
+		for (var i=0; i < components.length; i++) {
+			var name = components[i].attributes.getNamedItem('name').textContent.toLowerCase();
+			if (this._properties.components.hasOwnProperty(name)) {
+				this._properties.components[name] = true;
+			}
+		}
 	}
 
 	Calendar.prototype = {
@@ -1248,6 +1407,9 @@ app.factory('Calendar', ['$filter', 'VEventService', 'TimezoneService', function
 		},
 		get enabled() {
 			return this._properties.enabled;
+		},
+		get components() {
+			return this._properties.components;
 		},
 		set enabled(enabled) {
 			this._properties.enabled = enabled;
@@ -1277,12 +1439,6 @@ app.factory('Calendar', ['$filter', 'VEventService', 'TimezoneService', function
 		get cruds() {
 			return this._properties.cruds;
 		},
-		get list() {
-			return this._properties.list;
-		},
-		set list(list) {
-			this._properties.list = list;
-		},
 		_setUpdated: function(propName) {
 			if (this._updatedProperties.indexOf(propName) === -1) {
 				this._updatedProperties.push(propName);
@@ -1295,12 +1451,15 @@ app.factory('Calendar', ['$filter', 'VEventService', 'TimezoneService', function
 			this._updatedProperties = [];
 		},
 		prepareUpdate: function() {
-			this._properties.list.edit = true;
+			this.list.edit = true;
 			this._propertiesBackup = angular.copy(this._properties);
 		},
 		resetToPreviousState: function() {
 			this._properties = angular.copy(this._propertiesBackup);
-			this._properties.list.edit = false;
+			this.list.edit = false;
+			this._propertiesBackup = {};
+		},
+		dropPreviousState: function() {
 			this._propertiesBackup = {};
 		}
 	};
@@ -1521,11 +1680,15 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 		});
 	};
 
-	this.create = function(name, color) {
+	this.create = function(name, color, components) {
 		if (this._CALENDAR_HOME === null) {
 			return discoverHome(function() {
 				return _this.create(name, color);
 			});
+		}
+
+		if (typeof components === 'undefined') {
+			components = ['vevent'];
 		}
 
 		var xmlDoc = document.implementation.createDocument('', '', null);
@@ -1545,7 +1708,7 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 		dProp.appendChild(this._createXMLForProperty(xmlDoc, 'displayname', name));
 		dProp.appendChild(this._createXMLForProperty(xmlDoc, 'enabled', true));
 		dProp.appendChild(this._createXMLForProperty(xmlDoc, 'color', color));
-		dProp.appendChild(this._createXMLForProperty(xmlDoc, 'components', {vevent: true}));
+		dProp.appendChild(this._createXMLForProperty(xmlDoc, 'components', components));
 
 		var body = cMkcalendar.outerHTML;
 
@@ -1558,7 +1721,10 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 		return DavClient.request('MKCALENDAR', url, headers, body).then(function(response) {
 			if (response.status === 201) {
 				_this._takenUrls.push(url);
-				return _this.get(url);
+				return _this.get(url).then(function(calendar) {
+					calendar.enabled = true;
+					return _this.update(calendar);
+				});
 			}
 		});
 	};
@@ -1597,6 +1763,7 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 		return DavClient.request('PROPPATCH', url, headers, body).then(function(response) {
 			var responseBody = DavClient.parseMultiStatus(response.body);
 			console.log(responseBody);
+			return calendar;
 		});
 	};
 
@@ -1635,12 +1802,10 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 
 			case 'components':
 				var cComponents = xmlDoc.createElement('c:supported-calendar-component-set');
-				for (var component in value) {
-					if (value.hasOwnProperty(component) && value[component]) {
-						var cComp = xmlDoc.createElement('c:comp');
-						cComp.setAttribute('name', component.toUpperCase());
-						cComponents.appendChild(cComp);
-					}
+				for (var i=0; i < value.length; i++) {
+					var cComp = xmlDoc.createElement('c:comp');
+					cComp.setAttribute('name', value[i].toUpperCase());
+					cComponents.appendChild(cComp);
 				}
 				return cComponents;
 		}
@@ -2281,6 +2446,23 @@ app.factory('fcHelper', function () {
 	 };
  });
 
+app.service('ICalFactory', [
+	function() {
+		'use strict';
+
+		// creates a new ICAL root element with a product id property
+		return {
+			new: function() {
+				var root = new ICAL.Component(['vcalendar', [], []]);
+
+				var version = angular.element('#fullcalendar').attr('data-appVersion');
+				root.updatePropertyWithValue('prodid', '-//ownCloud calendar v' + version);
+
+				return root;
+			}
+		};
+	}
+]);
 app.factory('is', function () {
 	'use strict';
 
@@ -2912,6 +3094,60 @@ app.service('SettingsService', ['$rootScope', '$http', function($rootScope, $htt
 	};
 
 }]);
+app.service('SplitterService', ['ICalFactory',
+	function(ICalFactory) {
+		'use strict';
+
+		// provides function to split big ics blobs into an array of little ics blobs
+		return {
+			split: function(iCalString) {
+				var timezones = [];
+				var allObjects = {};
+
+				var jcal = ICAL.parse(iCalString);
+				var components = new ICAL.Component(jcal);
+
+				var vtimezones = components.getAllSubcomponents('vtimezone');
+				angular.forEach(vtimezones, function (vtimezone) {
+					timezones.push(vtimezone);
+				});
+
+				var componentNames = ['vevent', 'vjournal', 'vtodo'];
+				angular.forEach(componentNames, function (componentName) {
+					var vobjects = components.getAllSubcomponents(componentName);
+					allObjects[componentName] = {};
+
+					angular.forEach(vobjects, function (vobject) {
+						var uid = vobject.getFirstPropertyValue('uid');
+						allObjects[componentName][uid] = allObjects[componentName][uid] || [];
+						allObjects[componentName][uid].push(vobject);
+					});
+				});
+
+				var split = [];
+				angular.forEach(componentNames, function (componentName) {
+					split[componentName] = [];
+					angular.forEach(allObjects[componentName], function (objects) {
+						var component = ICalFactory.new();
+						angular.forEach(timezones, function (timezone) {
+							component.addSubcomponent(timezone);
+						});
+						angular.forEach(objects, function (object) {
+							component.addSubcomponent(object);
+						});
+						split[componentName].push(component.toString());
+					});
+				});
+
+				return {
+					name: components.getFirstPropertyValue('x-wr-calname'),
+					color: components.getFirstPropertyValue('x-apple-calendar-color'),
+					split: split
+				};
+			}
+		};
+	}
+]);
 app.service('TimezoneService', ['$rootScope', '$http', 'Timezone',
 	function($rootScope, $http, Timezone) {
 		'use strict';
@@ -3053,7 +3289,11 @@ app.service('VEventService', ['DavClient', 'VEvent', function(DavClient, VEvent)
 		});
 	};
 
-	this.create = function(calendar, data) {
+	this.create = function(calendar, data, returnEvent) {
+		if (typeof returnEvent === 'undefined') {
+			returnEvent = true;
+		}
+
 		var headers = {
 			'Content-Type': 'text/calendar; charset=utf-8'
 		};
@@ -3062,10 +3302,14 @@ app.service('VEventService', ['DavClient', 'VEvent', function(DavClient, VEvent)
 
 		return DavClient.request('PUT', url, headers, data).then(function(response) {
 			if (!DavClient.wasRequestSuccessful(response.status)) {
+				console.log(response);
+				return false;
 				// TODO - something went wrong, do smth about it
 			}
 
-			return _this.get(calendar, uri);
+			return returnEvent ?
+				_this.get(calendar, uri) :
+				true;
 		});
 	};
 

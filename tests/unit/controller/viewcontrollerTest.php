@@ -56,6 +56,10 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 
 	private $appName;
 	private $request;
+	private $config;
+	private $userSession;
+
+	private $dummyUser;
 
 	private $controller;
 
@@ -64,14 +68,47 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 		$this->request = $this->getMockBuilder('\OCP\IRequest')
 			->disableOriginalConstructor()
 			->getMock();
+		$this->config = $this->getMockBuilder('\OCP\IConfig')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->userSession = $this->getMockBuilder('\OCP\IUserSession')
+			->disableOriginalConstructor()
+			->getMock();
 
-		$this->controller = new ViewController($this->appName, $this->request);
+		$this->dummyUser = $this->getMockBuilder('OCP\IUser')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$this->controller = new ViewController($this->appName, $this->request,
+			$this->userSession, $this->config);
 	}
 
 	public function testIndex() {
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($this->dummyUser));
+
+		$this->dummyUser->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('user123'));
+
+		$this->config->expects($this->once())
+			->method('getAppValue')
+			->with($this->appName, 'installed_version')
+			->will($this->returnValue('42.13.37'));
+
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->with('user123', $this->appName, 'currentView', 'month')
+			->will($this->returnValue('someView'));
+
 		$actual = $this->controller->index();
 
 		$this->assertInstanceOf('OCP\AppFramework\Http\TemplateResponse', $actual);
+		$this->assertEquals([
+			'appVersion' => '42.13.37',
+			'defaultView' => 'someView',
+		], $actual->getParams());
 		$this->assertEquals('main', $actual->getTemplateName());
 	}
 

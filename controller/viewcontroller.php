@@ -29,8 +29,34 @@ use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\IConfig;
+use OCP\IRequest;
+use OCP\IUserSession;
 
 class ViewController extends Controller {
+
+	/**
+	 * @var IConfig
+	 */
+	private $config;
+
+	/**
+	 * @var IUserSession
+	 */
+	private $userSession;
+
+	/**
+	 * @param string $appName
+	 * @param IRequest $request an instance of the request
+	 * @param IConfig $config
+	 * @param IUserSession $userSession
+	 */
+	public function __construct($appName, IRequest $request,
+								IUserSession $userSession, IConfig $config) {
+		parent::__construct($appName, $request);
+		$this->config = $config;
+		$this->userSession = $userSession;
+	}
 
 	/**
 	 * @NoAdminRequired
@@ -38,8 +64,16 @@ class ViewController extends Controller {
 	 *
 	 * @return TemplateResponse
 	 */
-	public function index(){
-		return new TemplateResponse('calendar', 'main');
+	public function index() {
+		$userId = $this->userSession->getUser()->getUID();
+
+		$appVersion = $this->config->getAppValue($this->appName, 'installed_version');
+		$defaultView = $this->config->getUserValue($userId, $this->appName, 'currentView', 'month');
+
+		return new TemplateResponse('calendar', 'main', [
+			'appVersion' => $appVersion,
+			'defaultView' => $defaultView,
+		]);
 	}
 
 	/**
