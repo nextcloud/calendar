@@ -80,7 +80,10 @@
 	function addCalendarDataToFCData(fcData, calendar) {
 		fcData.calendar = calendar;
 		fcData.editable = calendar.cruds.update;
-		fcData.className = 'fcCalendar-id-' + calendar.url;
+		fcData.backgroundColor = calendar.color;
+		fcData.borderColor = calendar.color;
+		fcData.textColor = calendar.textColor;
+		fcData.className = 'fcCalendar-id-' + calendar.tmpId;
 
 		return fcData;
 	}

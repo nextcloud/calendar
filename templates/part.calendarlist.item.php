@@ -22,7 +22,7 @@
  *
  */
 ?>
-<span class="calendarCheckbox" ng-show="!calendar.list.loading && !calendar.list.edit" ng-style="{ background : calendar.enabled == true ? '{{ calendar.color }}' : 'transparent' }"></span>
+<span class="calendarCheckbox" ng-show="!calendar.list.loading && !calendar.list.edit" ng-style="{ background : calendar.enabled == true ? calendar.color : 'transparent' }"></span>
 <span class="loading pull-left" ng-show="calendar.list.loading && !calendar.list.edit">
 	<i class="fa fa-spinner fa-spin"></i>
 </span>
