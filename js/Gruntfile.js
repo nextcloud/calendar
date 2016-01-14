@@ -36,9 +36,9 @@ module.exports = function(grunt) {
 		meta: {
 			pkg: grunt.file.readJSON('package.json'),
 			version: '<%= meta.pkg.version %>',
-			configJS: '../js/config/',
-			buildJS: '../js/app/',
-			productionJS: '../js/public/',
+			configJS: 'config/',
+			buildJS: 'app/',
+			productionJS: 'public/',
 			testsJS: '../tests/js/'
 		},
 
