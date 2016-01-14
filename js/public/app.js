@@ -172,7 +172,7 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 					var modal = $uibModal.open({
 						templateUrl: 'eventspopovereditor.html',
 						controller: 'EventsPopoverEditorController',
-						appendTo: angular.element(this),
+						appendTo: angular.element(this).parent(),
 						resolve: {
 							event: function() {
 								return fcEvent.event;

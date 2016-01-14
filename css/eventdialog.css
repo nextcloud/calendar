@@ -172,3 +172,26 @@ input[name="nameofattendee"] {
 	margin-top: 20px;
 	margin-bottom: 20px;
 }
+
+.fc-event-container.modal-open .modal {
+	position: absolute;
+	bottom: 30px;
+	min-height: 100px;
+	margin-left: -65px;
+	background: #fff;
+	box-shadow: 0 0 3px #999;
+	min-width: 320px;
+}
+}
+
+.fc-event-container.modal-open .modal:after {
+	width: 0;
+	height: 0;
+	border-left: 20px solid transparent;
+	border-right: 20px solid transparent;
+	border-top: 20px solid #f00;
+}
+
+.fc-event-container.modal-open .modal .modal-content {
+	padding: 20px;
+}
