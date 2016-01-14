@@ -53,7 +53,7 @@ before_script:
     - php -f console.php app:enable calendar
     - cd apps/calendar
     - wget https://scrutinizer-ci.com/ocular.phar
-    - cd build
+    - cd js
     # install test deps
     - npm install --deps # npm install needs to run before sudo npm install because otherwise it fails because a tmp file exists in the home dir
     - sudo npm -g install grunt-cli protractor
@@ -63,7 +63,7 @@ script:
   - cd ..
   - phpunit --coverage-clover=coverage.clover tests/unit
   - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
-  - cd build/
+  - cd js/
   # js unit tests
   - grunt karma:continuous
   # debug section to check what went wrong

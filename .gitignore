@@ -71,7 +71,8 @@ vendor/
 .kdev
 *.kdev4
 
-build/node_modules/
+build/
+js/node_modules/
 *.clover
 
 # just sane ignores
