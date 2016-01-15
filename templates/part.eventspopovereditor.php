@@ -1,16 +1,46 @@
 <div>
-	<form id="event_form">
+	<form class="events">
 
-		<?php print_unescaped($this->inc('part.eventsinfo')); ?>
+		<fieldset class="events--fieldset">
+			<input
+					class="events--input h2"
+					ng-model="properties.summary.value"
+					placeholder="<?php p($l->t('Title of the Event'));?>"
+					name="title" type="text"
+					autofocus="autofocus"
+			/>
+			<select
+					ng-model="calendar"
+					ng-init="calendar = oldCalendar || calendars[0]"
+					ng-options="c as c.displayname for c in calendars | orderBy:['order'] | calendarSelectorFilter: oldCalendar"></select>
+		</fieldset>
+
+		<fieldset class="event-time event-fieldset">
+			<div class="event-time-interior pull-left">
+				<input type="text" name="from" id="from" ng-model="fromdatemodel" class="events--date" placeholder="<?php p($l->t('from'));?>" />
+				<input type="text" name="fromtime" id="fromtime" ng-model="fromtimemodel" class="events--time" ng-disabled="properties.allDay" />
+			</div>
+			<div class="event-time-interior pull-right">
+				<input type="text" name="to" id="to" ng-model="todatemodel" class="events--date" placeholder="<?php p($l->t('to'));?>" />
+				<input type="text" name="totime" id="totime" ng-model="totimemodel" class="events--time" ng-disabled="properties.allDay" />
+			</div>
+			<div class="events--checkbox pull-left">
+				<input type="checkbox" name="alldayeventcheckbox"
+					   ng-model="properties.allDay"
+					   id="alldayeventcheckbox" class="event-checkbox" />
+				<label for="alldayeventcheckbox"><?php p($l->t('All day Event'))?></label>
+			</div>
+		</fieldset>
+
+		<fieldset class="events--fieldset">
+			<input ng-model="properties.location.value" type="text" class="events--input events--input__full"
+				   placeholder="<?php p($l->t('Events Location'));?>" name="location"
+				   uib-typeahead="location for location in getLocation($viewValue)"
+				   autocomplete="off" />
+		</fieldset>
 
 		<div class="events-container">
-			<fieldset class="event-fieldset pull-left">
-				<button ng-click="delete()" class="event-button button btn">
-					<?php p($l->t('Delete Event')); ?>
-				</button>
-			</fieldset>
-
-			<fieldset class="event-fieldset pull-right">
+			<fieldset class="events--fieldset">
 				<button ng-click="proceed()" class="event-button button btn">
 					<?php p($l->t('Advanced options')); ?>
 				</button>

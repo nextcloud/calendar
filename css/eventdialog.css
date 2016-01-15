@@ -21,175 +21,45 @@
  *
  */
 
-#events {
-	background: #f8f8f8;
-	padding: 0;
-}
 
-.events-container {
-	/*padding: 10px;*/
-}
-
-.tabs {
-	display: inline-block;
-	width:100%;
-}
-
-.tab {
-	padding: 10px 5px;
-	background: #efefef;
-	margin-right: 10px;
-	margin-top: 5px;
-	margin-left: 1px;
-	cursor: pointer;
-	border-radius: 4px;
-}
-
-.tab.active {
-	background: #1d2d44;
-	color: #fff;
-}
-
-#events .event-input {
-	box-sizing: border-box;
-	width: 100%;
-	max-width: 100%;
-	margin: 3px 0;
-}
-
-#events .h2 {
-	font-size: 20px;
-}
-
-#events .event-time-interior input[type='text'] {
-	width: 80px;
-}
-
-#events .event-time-interior input[type='time'] {
-	width: 110px;
-}
-
-.event-time-interior-allday {
-	display: block;
-	width: 100%;
-	margin: 7px 0;
-}
-
-.ui-tabs-nav {
-	background: none;
-	border: none;
-	border-radius: 0;
-}
-
-.ui-timepicker-hour-cell a,
-.ui-timepicker-minute-cell a {
-	text-overflow: inherit !important;
-}
-
-#events .label {
-	width: 100px;
-	float: left;
-	margin-top: 15px;
-	margin-left: 10px;
-}
-
-input[name="nameofattendee"] {
-	width: 60%;
-}
-
-#listofattendees li,
-#listofalarms > li {
-	width: 100%;
-	padding: 10px 0 5px 0;
-	cursor: pointer;
-}
-
-#listofattendees li:first-child,
-#listofalarms > li:first-child {
-	margin-top:10px;
-}
-
-#listofattendees li:last-child,
-#listofalarms > li:last-child {
-	margin-bottom:10px;
-}
-
-#listofattendees li:hover, #listofattendees li.active,
-#listofalarms > li:hover, #listofalarms > li.active {
-	background: #f4f4f4;
-}
-
-#listofattendees li span,
-#listofalarms > li > div > span {
-	margin-left:10px;
-	cursor: pointer;
-}
-
-#listofattendees > li > div,
-#listofalarms > li > div {
-	cursor: pointer;
-}
-
-.attendeeoptions,
-.alarmoptions {
-	padding: 10px;
-}
-
-.attendeeoptions select {
-	margin: 10px;
-}
-
-.attendeeopt {
-	margin-top: 15px;
-}
-
-.attendeeopt label {
-	float: none !important;
-	margin-left: 0 !important;
-}
-
-.optionallabel {
-	margin-right: 15px;
-}
-
-.event-fieldset-alarm .event-input {
-	width: 20% !important;
-}
-
-.event-fieldset-alarm .custom-container {
-	padding:10px 0;
-}
-
-#listofalarms .event-delete-button,
-#listofattendees .event-delete-button {
-	margin: -3px 10px;
-	z-index: 1000;
-	padding: 10px;
-}
-
-#addreminders {
-	margin-right: 10px;
-	margin-top: 20px;
-	margin-bottom: 20px;
+.modal select {
+	height: 20px;
 }
 
 .fc-event-container.modal-open .modal {
 	position: absolute;
 	bottom: 30px;
-	min-height: 100px;
-	margin-left: -65px;
+	max-height: 220px;
+	margin-left: -100px;
 	background: #fff;
 	box-shadow: 0 0 3px #999;
-	min-width: 320px;
-}
+	max-width: 400px;
+	overflow: hidden;
 }
 
-.fc-event-container.modal-open .modal:after {
-	width: 0;
-	height: 0;
-	border-left: 20px solid transparent;
-	border-right: 20px solid transparent;
-	border-top: 20px solid #f00;
+.events .events--fieldset {
+	padding: 3px 0;
+}
+
+
+.events .events--date {
+	width: 70px;
+}
+
+.events .events--input__full {
+	width:345px;
+}
+
+.events .h2.events--input {
+	width: 190px;
+}
+
+.events .events--time {
+	width:60px;
+}
+
+.events .events--checkbox {
+	padding: 3px 0;
 }
 
 .fc-event-container.modal-open .modal .modal-content {
