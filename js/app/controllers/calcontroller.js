@@ -154,10 +154,14 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 						controller: 'EventsPopoverEditorController',
 						appendTo: angular.element(this).parent(),
 						resolve: {
-							event: function() {
-								return fcEvent.event;
+							fcEvent: function() {
+								return fcEvent;
+							},
+							isNew: function() {
+								return false;
 							}
-						}
+						},
+						scope: $scope
 					});
 
 					modal.result.then(function(result) {
