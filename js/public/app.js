@@ -191,11 +191,13 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 							var extendedModal = $uibModal.open({
 								templateUrl: 'eventssidebareditor.html',
 								controller: 'EventsSidebarEditorController',
+								appendTo: angular.element('#app-content'),
 								resolve: {
 									event: function() {
 										return result.event;
 									}
-								}
+								},
+								scope: $scope
 							});
 
 							extendedModal.result.then(function(event) {
