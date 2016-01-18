@@ -26,10 +26,20 @@
 	height: 20px;
 }
 
+.ui-timepicker .ui-timepicker-hour-cell a,
+.ui-timepicker .ui-timepicker-minute-cell a {
+	text-overflow: inherit !important;
+}
+
+.events--fieldset span,
+.advanced--fieldset span{
+	display: block;
+}
+
 .fc-event-container.modal-open .modal {
 	position: absolute;
 	bottom: 30px;
-	max-height: 220px;
+	max-height: 245px;
 	margin-left: -100px;
 	background: #fff;
 	box-shadow: 0 0 3px #999;
@@ -41,9 +51,17 @@
 	padding: 3px 0;
 }
 
+.events .events--fieldset span {
+	display: block;
+}
+
 
 .events .events--date {
 	width: 70px;
+}
+
+.advanced .events--date {
+	width: 80px;
 }
 
 .events .events--input__full {
@@ -58,10 +76,26 @@
 	width:60px;
 }
 
+.advanced .events--time {
+	width: 75px;
+}
+
 .events .events--checkbox {
 	padding: 3px 0;
 }
 
 .fc-event-container.modal-open .modal .modal-content {
 	padding: 20px;
+}
+
+.advanced--container {
+	padding: 20px;
+}
+
+.advanced .h2.advanced--input {
+	width: 395px;
+}
+
+.advanced .advanced--fieldset select {
+	width: 410px;
 }
