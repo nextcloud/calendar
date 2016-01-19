@@ -22,8 +22,12 @@
  */
 
 
-.modal select {
+.events select {
 	height: 20px;
+}
+
+.advanced select {
+	height: 32px;
 }
 
 .ui-timepicker .ui-timepicker-hour-cell a,
@@ -98,4 +102,10 @@
 
 .advanced .advanced--fieldset select {
 	width: 410px;
+}
+
+.advanced .tabHeaders {
+	margin: 20px 0 15px 0;
+	float: left;
+	width: 100%;
 }
