@@ -41,9 +41,15 @@
 				   autocomplete="off" />
 		</fieldset>
 
-		<fieldset class="events--fieldset">
+		<fieldset class="events--fieldset pull-left">
+			<button ng-click="delete()" ng-show="!is_new" class="events--button button btn delete">
+				<?php p($l->t('Delete')); ?>
+			</button>
+		</fieldset>
+
+		<fieldset class="events--fieldset pull-right">
 			<button ng-click="proceed()" class="events--button button btn">
-				<?php p($l->t('Advanced options')); ?>
+				<?php p($l->t('More ...')); ?>
 			</button>
 			<button
 				class="events--button button btn primary"

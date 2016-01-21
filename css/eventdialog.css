@@ -116,6 +116,17 @@
 	width: 100%;
 }
 
+/* Primary action button, use sparingly */
+.delete, input[type="submit"].delete, input[type="button"].delete, button.delete, .button.delete {
+	border: 1px solid #C60000;
+	background-color: #D60000;
+	color: #fff;
+}
+button.delete:hover, button.delete:focus {
+	border: 1px solid #D60000;
+	background-color: #ff0000;
+	color: #fff;
+}
 .advanced .advanced--list {
 	padding: 10px 0;
 	width: 100%;
