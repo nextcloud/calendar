@@ -173,7 +173,7 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 						if (result.action === 'save') {
 							VEventService.update(result.event);
 						} else if (result.action === 'proceed') {
-							var extendedModal = $uibModal.open({
+							$scope.eventModal = $uibModal.open({
 								templateUrl: 'eventssidebareditor.html',
 								controller: 'EventsSidebarEditorController',
 								appendTo: angular.element('#app-content'),
@@ -188,7 +188,7 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 								scope: $scope
 							});
 
-							extendedModal.result.then(function(event) {
+							$scope.eventModal.result.then(function(event) {
 								VEventService.update(event);
 								$scope.eventModal = null;
 							}, function(reason) {
