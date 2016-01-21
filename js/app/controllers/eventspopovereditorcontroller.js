@@ -30,23 +30,44 @@ app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'e
 	function($scope, TimezoneService, eventEditorHelper, $uibModalInstance, fcEvent, isNew) {
 		'use strict';
 
+		$scope.event = fcEvent.event;
 		$scope.properties = fcEvent.event.getSimpleData(fcEvent);
 		$scope.isNew = isNew;
 		$scope.calendar = isNew ? null : fcEvent.calendar;
 		$scope.oldCalendar = isNew ? null : fcEvent.calendar;
 
-		// proceed to right sidebar
-		$scope.proceed = function() {
-			$uibModalInstance.close({
-				action: 'proceed',
-				event: null
-			});
-		};
+		$scope.close = function(action) {
+			var moment_start = moment(angular.element('#from').datepicker('getDate'));
+			var moment_end = moment(angular.element('#to').datepicker('getDate'));
 
-		$scope.save = function() {
+			if ($scope.properties.allDay) {
+				$scope.properties.dtstart.type = 'date';
+				$scope.properties.dtend.type = 'date';
+
+				moment_end.add(1, 'days');
+
+				$scope.properties.dtstart.time = '00:00:00';
+				$scope.properties.dtend.time = '00:00:00';
+			} else {
+				$scope.properties.dtstart.type = 'date-time';
+				$scope.properties.dtend.type = 'date-time';
+
+				var moment_start_time = moment(angular.element('#fromtime').timepicker('getTimeAsDate'));
+				var moment_end_time = moment(angular.element('#totime').timepicker('getTimeAsDate'));
+
+				$scope.properties.dtstart.time = moment_start_time.format('HH:mm:ss');
+				$scope.properties.dtend.time = moment_end_time.format('HH:mm:ss');
+
+				//TODO - make sure the timezones are loaded!!!!1111OneOneEleven
+			}
+			$scope.properties.dtstart.date = moment_start.format('YYYY-MM-DD');
+			$scope.properties.dtend.date = moment_end.format('YYYY-MM-DD');
+
+			$scope.event.patch(fcEvent, $scope.properties);
+
 			$uibModalInstance.close({
-				action: 'save',
-				event: null
+				action: action,
+				event: $scope.event
 			});
 		};
 

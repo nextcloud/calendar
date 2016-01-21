@@ -48,18 +48,18 @@
 		</fieldset>
 
 		<fieldset class="events--fieldset pull-right">
-			<button ng-click="proceed()" class="events--button button btn">
+			<button ng-click="close('proceed')" class="events--button button btn">
 				<?php p($l->t('More ...')); ?>
 			</button>
 			<button
 				class="events--button button btn primary"
-				ng-click="save()"
+				ng-click="close('save')"
 				ng-show="is_new">
 				<?php p($l->t('Create')); ?>
 			</button>
 			<button
 				class="evens--button button btn primary"
-				ng-click="save()"
+				ng-click="close('save')"
 				ng-show="!is_new">
 				<?php p($l->t('Update')); ?>
 			</button>
