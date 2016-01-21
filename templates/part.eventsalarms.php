@@ -23,33 +23,38 @@
  */
 ?>
 
-<ul id="listofalarms">
-	<li ng-repeat="alarm in properties.alarm" ng-class="{ active : reminderoptions }">
+<ul>
+	<li ng-repeat="alarm in properties.alarm" ng-class="{ active : reminderoptions }" class="advanced--list pull-left">
 		<div ng-model="reminderoptions" ng-click="reminderoptions=!reminderoptions">
-			<span class="bold">{{alarm | simpleReminderDescription}}</span>
-			<button class="event-button event-delete-button pull-right icon-close" ng-click="deleteReminder(alarm.group)">
+			<span class="bold pull-left margin-class">{{alarm | simpleReminderDescription}}</span>
+			<button class="advanced--button__icon pull-right icon-close" ng-click="deleteReminder(alarm.group)">
 			</button>
 		</div>
-		<div class="reminderoptions" ng-show="reminderoptions">
+		<div class="reminderoptions pull-left full-width" ng-show="reminderoptions">
 			<div class="event-fieldset-alarm-editor">
 				<!-- simple reminder settings - should fit >95% if all cases -->
-				<div>
-					<label class="label"><?php p($l->t('Alarm')); ?></label>
-					<select class="event-select event-select-reminder"
-							ng-model="alarm.editor.reminderSelectValue"
-							ng-change="updateReminderSelectValue(alarm)">
-						<option ng-repeat="reminder in reminderSelect"
-								ng-selected="{{reminder.trigger == alarm.editor.reminderSelectValue}}"
-								value="{{reminder.trigger}}">{{reminder.displayname}}</option>
-					</select>
-					<select class="event-select event-select-reminder"
-							ng-model="alarm.action.value">
-						<option ng-repeat="reminder in reminderTypeSelect"
-								ng-selected="{{reminder.type == alarm.action.value}}"
-								value="{{reminder.type}}">{{reminder.displayname}}</option>
-					</select>
+				<div class="advanced--fieldset-interior">
+					<div class="pull-left">
+						<span><?php p($l->t('Time')); ?></span>
+						<select class="advanced--select advanced--select__reminder"
+								ng-model="alarm.editor.reminderSelectValue"
+								ng-change="updateReminderSelectValue(alarm)">
+							<option ng-repeat="reminder in reminderSelect"
+									ng-selected="{{reminder.trigger == alarm.editor.reminderSelectValue}}"
+									value="{{reminder.trigger}}">{{reminder.displayname}}</option>
+						</select>
+					</div>
+					<div class="pull-right">
+						<span><?php p($l->t('Type')); ?></span>
+						<select class="advanced--select advanced--select__reminder"
+								ng-model="alarm.action.value">
+							<option ng-repeat="reminder in reminderTypeSelect"
+									ng-selected="{{reminder.type == alarm.action.value}}"
+									value="{{reminder.type}}">{{reminder.displayname}}</option>
+						</select>
+					</div>
 				</div>
-				<div class="event-fieldset-interior" ng-show="alarm.editor.reminderSelectValue == 'custom'">
+				<div class="advanced--fieldset-interior" ng-show="alarm.editor.reminderSelectValue == 'custom'">
 					<div class="event-fieldset-custom-interior">
 						<!-- Select between relative and absolute -->
 						<div class="relative-container custom-container">
@@ -144,7 +149,7 @@
 	</li>
 </ul>
 <div class="event-fieldset-interior">
-	<button id="addreminders" ng-click="addReminder()" class="btn event-button button pull-right">
+	<button id="addreminders" ng-click="addReminder()" class="btn event-button button">
 		<?php p($l->t('Add')); ?>
 	</button>
 </div>

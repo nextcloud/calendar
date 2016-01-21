@@ -30,6 +30,12 @@
 	height: 32px;
 }
 
+/* TODO : Remove this Hack */
+.margin-class {
+	margin-top: 4px;
+}
+
+
 .ui-timepicker .ui-timepicker-hour-cell a,
 .ui-timepicker .ui-timepicker-minute-cell a {
 	text-overflow: inherit !important;
@@ -108,4 +114,17 @@
 	margin: 20px 0 15px 0;
 	float: left;
 	width: 100%;
+}
+
+.advanced .advanced--list {
+	padding: 10px 0;
+	width: 100%;
+}
+
+.advanced .advanced--button__icon {
+	padding: 10px;
+}
+
+.advanced .advanced--select.advanced--select__reminder {
+	width: 200px;
 }
