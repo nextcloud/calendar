@@ -192,10 +192,16 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 								VEventService.update(event);
 								$scope.eventModal = null;
 							}, function(reason) {
+								if (reason === 'delete') {
+									VEventService.delete(fcEvent.event);
+								}
 								$scope.eventModal = null;
 							});
 						}
 					}, function(reason) {
+						if (reason === 'delete') {
+							VEventService.delete(fcEvent.event);
+						}
 						$scope.eventModal = null;
 					});
 				},

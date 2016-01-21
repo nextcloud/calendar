@@ -212,10 +212,16 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 								VEventService.update(event);
 								$scope.eventModal = null;
 							}, function(reason) {
+								if (reason === 'delete') {
+									VEventService.delete(fcEvent.event);
+								}
 								$scope.eventModal = null;
 							});
 						}
 					}, function(reason) {
+						if (reason === 'delete') {
+							VEventService.delete(fcEvent.event);
+						}
 						$scope.eventModal = null;
 					});
 				},
@@ -1092,6 +1098,10 @@ app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'e
 				action: action,
 				event: $scope.event
 			});
+		};
+
+		$scope.delete = function() {
+			$uibModalInstance.dismiss('delete');
 		};
 
 		$uibModalInstance.rendered.then(function() {
