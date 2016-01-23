@@ -170,6 +170,7 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 				select: $scope.newEvent,
 				eventLimit: true,
 				eventClick: function(fcEvent, jsEvent, view) {
+					console.log($scope.eventModal);
 					if ($scope.eventModal !== null) {
 						$scope.eventModal.dismiss('superseded');
 					}
@@ -214,15 +215,15 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 							}, function(reason) {
 								if (reason === 'delete') {
 									VEventService.delete(fcEvent.event);
+									$scope.eventModal = null;
 								}
-								$scope.eventModal = null;
 							});
 						}
 					}, function(reason) {
 						if (reason === 'delete') {
 							VEventService.delete(fcEvent.event);
+							$scope.eventModal = null;
 						}
-						$scope.eventModal = null;
 					});
 				},
 				eventResize: function (fcEvent, delta, revertFunc) {
