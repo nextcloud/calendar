@@ -98,6 +98,10 @@
 	padding: 20px;
 }
 
+.fc-row.fc-rigid {
+	overflow: visible !important;
+}
+
 .advanced--container {
 	padding: 20px;
 }
