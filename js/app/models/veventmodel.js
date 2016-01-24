@@ -177,26 +177,30 @@ app.factory('VEvent', ['$filter', 'objectConverter', function($filter, objectCon
 			calendar: calendar,
 			data: props['{urn:ietf:params:xml:ns:caldav}calendar-data'],
 			uri: uri,
-			etag: props['{DAV:}getetag'] || null,
-			_onDemandProps: {
-				jCal: null
-			},
+			etag: props['{DAV:}getetag'] || null
+		});
 
+		this.jCal = ICAL.parse(this.data);
+		this.components = new ICAL.Component(this.jCal);
+
+		if (this.components.jCal.length === 0) {
+			throw "invalid calendar"
+		}
+
+		angular.extend(this, {
 			getFcEvent: function(start, end, timezone) {
-				var components = new ICAL.Component(this.jCal);
-
 				var iCalStart = new ICAL.Time();
 				iCalStart.fromUnixTime(start.format('X'));
 				var iCalEnd = new ICAL.Time();
 				iCalEnd.fromUnixTime(end.format('X'));
 
-				if (components.jCal.length === 0) {
+				if (_this.components.jCal.length === 0) {
 					return [];
 				}
 
-				registerTimezones(components);
+				registerTimezones(_this.components);
 
-				var vevents = components.getAllSubcomponents('vevent');
+				var vevents = _this.components.getAllSubcomponents('vevent');
 				var renderedEvents = [];
 
 				angular.forEach(vevents, function (vevent) {
@@ -254,116 +258,97 @@ app.factory('VEvent', ['$filter', 'objectConverter', function($filter, objectCon
 				return renderedEvents;
 			},
 			getSimpleData: function(fcEvent) {
-				var components = new ICAL.Component(this.jCal);
-				var vevents = components.getAllSubcomponents('vevent');
-				var vevent = null;
+				var vevents = _this.components.getAllSubcomponents('vevent');
 
-				if (components.jCal.length !== 0) {
-					for (var i = 0; i < vevents.length; i++) {
-						if (!isCorrectEvent(fcEvent, vevents[i])) {
-							continue;
-						}
-
-						vevent = vevents[i];
+				for (var i = 0; i < vevents.length; i++) {
+					if (!isCorrectEvent(fcEvent, vevents[i])) {
+						continue;
 					}
-				}
 
-				if (!vevent) {
-					return;
+					return objectConverter.parse(vevents[i]);
 				}
-
-				return objectConverter.parse(vevent);
 			},
 			drop: function(fcEvent, delta) {
-				var components = new ICAL.Component(this.jCal);
-				var vevents = components.getAllSubcomponents('vevent');
+				var vevents = _this.components.getAllSubcomponents('vevent');
 				var foundEvent = false;
 				var deltaAsSeconds = delta.asSeconds();
 				var duration = new ICAL.Duration().fromSeconds(deltaAsSeconds);
 				var propertyToUpdate = null;
 
-				if (components.jCal.length !== 0) {
-					for (var i = 0; i < vevents.length; i++) {
-						if (!isCorrectEvent(fcEvent, vevents[i])) {
-							continue;
-						}
-
-						if (vevents[i].hasProperty('dtstart')) {
-							propertyToUpdate = vevents[i].getFirstPropertyValue('dtstart');
-							propertyToUpdate.addDuration(duration);
-							vevents[i].updatePropertyWithValue('dtstart', propertyToUpdate);
-						}
-
-						if (vevents[i].hasProperty('dtend')) {
-							propertyToUpdate = vevents[i].getFirstPropertyValue('dtend');
-							propertyToUpdate.addDuration(duration);
-							vevents[i].updatePropertyWithValue('dtend', propertyToUpdate);
-						}
-
-						foundEvent = true;
+				for (var i = 0; i < vevents.length; i++) {
+					if (!isCorrectEvent(fcEvent, vevents[i])) {
+						continue;
 					}
+
+					if (vevents[i].hasProperty('dtstart')) {
+						propertyToUpdate = vevents[i].getFirstPropertyValue('dtstart');
+						propertyToUpdate.addDuration(duration);
+						vevents[i].updatePropertyWithValue('dtstart', propertyToUpdate);
+					}
+
+					if (vevents[i].hasProperty('dtend')) {
+						propertyToUpdate = vevents[i].getFirstPropertyValue('dtend');
+						propertyToUpdate.addDuration(duration);
+						vevents[i].updatePropertyWithValue('dtend', propertyToUpdate);
+					}
+
+					foundEvent = true;
 				}
 
 				if (!foundEvent) {
 					return false;
 				}
-				this.data = components.toString();
+				_this.data = _this.components.toString();
 				return true;
 			},
 			resize: function(fcEvent, delta) {
-				var components = new ICAL.Component(this.jCal);
-				var vevents = components.getAllSubcomponents('vevent');
+				var vevents = _this.components.getAllSubcomponents('vevent');
 				var foundEvent = false;
 				var deltaAsSeconds = delta.asSeconds();
 				var duration = new ICAL.Duration().fromSeconds(deltaAsSeconds);
 				var propertyToUpdate = null;
 
-				if (components.jCal.length !== 0) {
-					for (var i = 0; i < vevents.length; i++) {
-						if (!isCorrectEvent(fcEvent, vevents[i])) {
-							continue;
-						}
-
-						if (vevents[i].hasProperty('duration')) {
-							propertyToUpdate = vevents[i].getFirstPropertyValue('duration');
-							duration.fromSeconds((duration.toSeconds() + propertyToUpdate.toSeconds()));
-							vevents[i].updatePropertyWithValue('duration', duration);
-						} else if (vevents[i].hasProperty('dtend')) {
-							propertyToUpdate = vevents[i].getFirstPropertyValue('dtend');
-							propertyToUpdate.addDuration(duration);
-							vevents[i].updatePropertyWithValue('dtend', propertyToUpdate);
-						} else if (vevents[i].hasProperty('dtstart')) {
-							propertyToUpdate = vevents[i].getFirstPropertyValue('dtstart').clone();
-							propertyToUpdate.addDuration(duration);
-							vevents[i].addPropertyWithValue('dtend', propertyToUpdate);
-						} else {
-							continue;
-						}
-
-						foundEvent = true;
+				for (var i = 0; i < vevents.length; i++) {
+					if (!isCorrectEvent(fcEvent, vevents[i])) {
+						continue;
 					}
+
+					if (vevents[i].hasProperty('duration')) {
+						propertyToUpdate = vevents[i].getFirstPropertyValue('duration');
+						duration.fromSeconds((duration.toSeconds() + propertyToUpdate.toSeconds()));
+						vevents[i].updatePropertyWithValue('duration', duration);
+					} else if (vevents[i].hasProperty('dtend')) {
+						propertyToUpdate = vevents[i].getFirstPropertyValue('dtend');
+						propertyToUpdate.addDuration(duration);
+						vevents[i].updatePropertyWithValue('dtend', propertyToUpdate);
+					} else if (vevents[i].hasProperty('dtstart')) {
+						propertyToUpdate = vevents[i].getFirstPropertyValue('dtstart').clone();
+						propertyToUpdate.addDuration(duration);
+						vevents[i].addPropertyWithValue('dtend', propertyToUpdate);
+					} else {
+						continue;
+					}
+
+					foundEvent = true;
 				}
 
 				if (!foundEvent) {
 					return false;
 				}
 
-				this.data = components.toString();
+				_this.data = _this.components.toString();
 				return true;
 			},
 			patch: function(fcEvent, newSimpleData) {
-				var components = new ICAL.Component(this.jCal);
-				var vevents = components.getAllSubcomponents('vevent');
+				var vevents = _this.components.getAllSubcomponents('vevent');
 				var vevent = null;
 
-				if (components.jCal.length !== 0) {
-					for (var i = 0; i < vevents.length; i++) {
-						if (!isCorrectEvent(fcEvent, vevents[i])) {
-							continue;
-						}
-
-						vevent = vevents[i];
+				for (var i = 0; i < vevents.length; i++) {
+					if (!isCorrectEvent(fcEvent, vevents[i])) {
+						continue;
 					}
+
+					vevent = vevents[i];
 				}
 
 				if (!vevent) {
@@ -371,15 +356,7 @@ app.factory('VEvent', ['$filter', 'objectConverter', function($filter, objectCon
 				}
 
 				objectConverter.patch(vevent, this.getSimpleData(fcEvent), newSimpleData);
-				this.data = components.toString();
-			},
-			//does this work???
-			get jCal() {
-				if (this._onDemandProps.jCal === null) {
-					this._onDemandProps.jCal = ICAL.parse(this.data);
-				}
-
-				return this._onDemandProps.jCal;
+				_this.data = _this.components.toString();
 			}
 		});
 	}

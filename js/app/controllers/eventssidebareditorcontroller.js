@@ -42,6 +42,8 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'e
 		};
 
 		$uibModalInstance.rendered.then(function() {
+			eventEditorHelper.prepareProperties($scope.properties);
+
 			// TODO: revaluate current solution:
 			// moment.js and the datepicker use different formats to format a date.
 			// therefore we have to do some conversion-black-magic to make the moment.js

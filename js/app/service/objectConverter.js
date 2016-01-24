@@ -447,8 +447,7 @@ app.factory('objectConverter', function () {
 				} else {
 					oldGroups.splice(oldGroups.indexOf(newSimpleData[key][j].group), 1);
 
-
-					components = vevent.getAllSubcomponents('VALARM');
+					components = vevent.getAllSubcomponents('valarm');
 					for (cKey in components) {
 						if (!components.hasOwnProperty(cKey)) {
 							continue;
@@ -458,7 +457,7 @@ app.factory('objectConverter', function () {
 						if (groupId === null) {
 							continue;
 						}
-						if (groupId === newSimpleData[key][j].group) {
+						if (groupId === newSimpleData[key][j].group.toString()) {
 							valarm = components[cKey];
 						}
 					}
