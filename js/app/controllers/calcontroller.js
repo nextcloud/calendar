@@ -111,6 +111,38 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 			});
 		};
 
+		$scope._calculatePopoverPosition = function(event, view) {
+			var headerHeight = angular.element('#header').height(),
+				navigationWidth = angular.element('#app-navigation').width(),
+				mouseX = event.pageX - navigationWidth,
+				mouseY = event.pageY - headerHeight,
+				windowX = $window.innerWidth - navigationWidth,
+				windowY = $window.innerHeight - headerHeight,
+				cssClass = '';
+
+			if (mouseY / windowY < 0.5) {
+				cssClass = 'top';
+			} else {
+				cssClass = 'bottom';
+			}
+
+			cssClass += '-';
+
+			if (view.name === 'agendaDay') {
+				cssClass += 'middle';
+			} else {
+				if (mouseX / windowX < 0.25) {
+					cssClass += 'left';
+				} else if (mouseX / windowX > 0.75) {
+					cssClass += 'right';
+				} else {
+					cssClass += 'middle';
+				}
+			}
+
+			return cssClass;
+		};
+
 		/**
 		 * Calendar UI Configuration.
 		*/
@@ -150,6 +182,7 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 				select: $scope.newEvent,
 				eventLimit: true,
 				eventClick: function(fcEvent, jsEvent, view) {
+					console.log(this, fcEvent, jsEvent, view);
 					console.log($scope.eventModal);
 					if ($scope.eventModal !== null) {
 						$scope.eventModal.dismiss('superseded');
@@ -167,7 +200,8 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 								return false;
 							}
 						},
-						scope: $scope
+						scope: $scope,
+						windowClass: $scope._calculatePopoverPosition(jsEvent, view)
 					});
 
 					$scope.eventModal.result.then(function(result) {
