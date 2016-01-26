@@ -24,6 +24,9 @@
 app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Calendar){
 	'use strict';
 
+	this.SHARING_USER = 0;
+	this.SHARING_GROUP = 1;
+
 	var _this = this;
 
 	this._CALENDAR_HOME = null;
@@ -250,6 +253,22 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 				return false;
 			}
 		});
+	};
+
+	this.share = function(calendar, shareType, shareWith, writable) {
+		if (shareType === this.SHARING_USER) {
+			calendar.sharedWith.users.push({
+				id: shareWith,
+				displayname: shareWith,
+				writable: writable
+			});
+		} else if (shareType === this.SHARING_GROUP) {
+			calendar.sharedWith.groups.push({
+				id: shareWith,
+				displayname: shareWith,
+				writable: writable
+			});
+		}
 	};
 
 	this._createXMLForProperty = function(xmlDoc, propName, value) {

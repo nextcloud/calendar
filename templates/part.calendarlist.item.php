@@ -32,10 +32,9 @@
 <span class="utils hide" ng-if="!calendar.list.locked" ng-show="!calendar.list.edit">
 	<span class="action">
 		<span
-			ng-if="calendar.cruds.share"
+			ng-if="calendar.shareable"
 			class="calendarlist-icon share icon-share permanent"
 			data-item-type="calendar" data-item="{{ calendar.id }}"
-			data-possible-permissions="{{ calendar.cruds.code }}"
 			title="<?php p($l->t('Share Calendar')) ?>">
 		</span>
 	</span>

@@ -17,12 +17,11 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 					vjournal: false,
 					vtodo: false
 				},
-				cruds: {
-					create: props.canWrite,
-					read: true,
-					update: props.canWrite,
-					delete: props.canWrite,
-					share: props.canWrite
+				writable: props.canWrite,
+				shareable: props.canWrite,
+				sharedWith: {
+					users: [],
+					groups: []
 				}
 			},
 			_updatedProperties: []
@@ -50,7 +49,7 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 						});
 					});
 				},
-				editable: this._properties.cruds.update,
+				editable: this._properties.writable,
 				calendar: this
 			},
 			list: {
@@ -99,6 +98,12 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 			this._properties.color = color;
 			this._setUpdated('color');
 		},
+		get sharedWith() {
+			return this._properties.sharedWith;
+		},
+		set sharedWith(sharedWith) {
+			this._properties.sharedWith = sharedWith;
+		},
 		get textColor() {
 			var color = this.color;
 			var fallbackColor = '#fff';
@@ -139,8 +144,11 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 			this._properties.order = order;
 			this._setUpdated('order');
 		},
-		get cruds() {
-			return this._properties.cruds;
+		get writable() {
+			return this._properties.writable;
+		},
+		get shareable() {
+			return this._properties.shareable;
 		},
 		_setUpdated: function(propName) {
 			if (this._updatedProperties.indexOf(propName) === -1) {

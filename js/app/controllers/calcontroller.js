@@ -240,7 +240,7 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 				angular.element('.fcCalendar-id-' + updatedCalendar.tmpId).css('border-color', updatedCalendar.color);
 				angular.element('.fcCalendar-id-' + updatedCalendar.tmpId).css('color', updatedCalendar.textColor);
 			}
-			$scope.eventSource[url].editable = updatedCalendar.cruds.update;
+			$scope.eventSource[url].editable = updatedCalendar.writable;
 		});
 
 		/**
