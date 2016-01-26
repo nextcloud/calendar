@@ -63,13 +63,19 @@ app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'e
 			$scope.properties.dtstart.date = moment_start.format('YYYY-MM-DD');
 			$scope.properties.dtend.date = moment_end.format('YYYY-MM-DD');
 
-			$scope.event.patch(fcEvent, $scope.properties);
+			if (action === 'proceed') {
+				$uibModalInstance.close({
+					action: 'proceed',
+					properties: $scope.properties
+				});
+			} else {
+				$scope.event.patch(fcEvent, $scope.properties);
 
-			$uibModalInstance.close({
-				action: action,
-				event: $scope.event
-			});
-			angular.element('#fullcalendar').addClass('sidebar-open');
+				$uibModalInstance.close({
+					action: action,
+					event: $scope.event
+				});
+			}
 		};
 
 		$scope.delete = function() {

@@ -238,10 +238,14 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 									},
 									isNew: function() {
 										return false;
+									},
+									properties: function() {
+										return result.properties;
 									}
 								},
 								scope: $scope
 							});
+							angular.element('#fullcalendar').addClass('sidebar-open');
 
 							$scope.eventModal.result.then(function(event) {
 								VEventService.update(event);
@@ -1127,13 +1131,19 @@ app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'e
 			$scope.properties.dtstart.date = moment_start.format('YYYY-MM-DD');
 			$scope.properties.dtend.date = moment_end.format('YYYY-MM-DD');
 
-			$scope.event.patch(fcEvent, $scope.properties);
+			if (action === 'proceed') {
+				$uibModalInstance.close({
+					action: 'proceed',
+					properties: $scope.properties
+				});
+			} else {
+				$scope.event.patch(fcEvent, $scope.properties);
 
-			$uibModalInstance.close({
-				action: action,
-				event: $scope.event
-			});
-			angular.element('#fullcalendar').addClass('sidebar-open');
+				$uibModalInstance.close({
+					action: action,
+					event: $scope.event
+				});
+			}
 		};
 
 		$scope.delete = function() {
@@ -1212,11 +1222,11 @@ app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'e
  * Description: Takes care of anything inside the Events Modal.
  */
 
-app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'eventEditorHelper', '$uibModalInstance', 'fcEvent', 'isNew',
-	function($scope, TimezoneService, eventEditorHelper, $uibModalInstance, fcEvent, isNew) {
+app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'eventEditorHelper', '$uibModalInstance', 'fcEvent', 'isNew', 'properties',
+	function($scope, TimezoneService, eventEditorHelper, $uibModalInstance, fcEvent, isNew, properties) {
 		'use strict';
 
-		$scope.properties = fcEvent.event.getSimpleData(fcEvent);
+		$scope.properties = properties;
 		$scope.isNew = isNew;
 		$scope.calendar = isNew ? null : fcEvent.calendar;
 		$scope.oldCalendar = isNew ? null : fcEvent.calendar;

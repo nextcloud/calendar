@@ -26,11 +26,11 @@
  * Description: Takes care of anything inside the Events Modal.
  */
 
-app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'eventEditorHelper', '$uibModalInstance', 'fcEvent', 'isNew',
-	function($scope, TimezoneService, eventEditorHelper, $uibModalInstance, fcEvent, isNew) {
+app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'eventEditorHelper', '$uibModalInstance', 'fcEvent', 'isNew', 'properties',
+	function($scope, TimezoneService, eventEditorHelper, $uibModalInstance, fcEvent, isNew, properties) {
 		'use strict';
 
-		$scope.properties = fcEvent.event.getSimpleData(fcEvent);
+		$scope.properties = properties;
 		$scope.isNew = isNew;
 		$scope.calendar = isNew ? null : fcEvent.calendar;
 		$scope.oldCalendar = isNew ? null : fcEvent.calendar;

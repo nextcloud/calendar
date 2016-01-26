@@ -218,10 +218,14 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 									},
 									isNew: function() {
 										return false;
+									},
+									properties: function() {
+										return result.properties;
 									}
 								},
 								scope: $scope
 							});
+							angular.element('#fullcalendar').addClass('sidebar-open');
 
 							$scope.eventModal.result.then(function(event) {
 								VEventService.update(event);
