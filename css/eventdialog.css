@@ -46,7 +46,29 @@
 	display: block;
 }
 
-.fc-event-container.modal-open .modal {
+.fc-month-view .fc-event-container.modal-open .modal {
+	position: absolute;
+	bottom: 30px;
+	min-height: 245px;
+	margin-left: -100px;
+	background: #fff;
+	box-shadow: 0 0 3px #999;
+	max-width: 400px;
+	overflow: hidden;
+}
+
+.fc-agendaDay-view .fc-event-container.modal-open .modal {
+	position: absolute;
+	bottom: 30px;
+	max-height: 245px;
+	margin-left: -100px;
+	background: #fff;
+	box-shadow: 0 0 3px #999;
+	max-width: 400px;
+	overflow: hidden;
+}
+
+.fc-agendaWeek-view .fc-event-container.modal-open .modal {
 	position: absolute;
 	bottom: 30px;
 	max-height: 245px;
