@@ -55,7 +55,8 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 			list: {
 				edit: false,
 				loading: this.enabled,
-				locked: false
+				locked: false,
+				editingShares: false
 			}
 		});
 
@@ -172,6 +173,9 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 		},
 		dropPreviousState: function() {
 			this._propertiesBackup = {};
+		},
+		editShares: function() {
+			this.list.editingShares = true;
 		},
 		_generateTextColor: function(r,g,b) {
 			var brightness = (((r * 299) + (g * 587) + (b * 114)) / 1000);

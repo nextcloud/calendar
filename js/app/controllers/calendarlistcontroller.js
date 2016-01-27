@@ -55,6 +55,10 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 			$window.open(url);
 		};
 
+		$scope.editShares = function (calendar) {
+			calendar.editShares();
+		}
+
 		$scope.prepareUpdate = function (calendar) {
 			calendar.prepareUpdate();
 		};
@@ -64,6 +68,19 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 		};
 
 		$scope.performUpdate = function (calendar) {
+			CalendarService.update(calendar).then(function() {
+				calendar.dropPreviousState();
+				calendar.list.edit = false;
+				console.log(calendar);
+				$rootScope.$broadcast('updatedCalendar', calendar);
+				$rootScope.$broadcast('reloadCalendarList');
+			});
+		};
+
+		/**
+		 * Updates the shares of the calendar
+		 */
+		$scope.performUpdateShares = function (calendar) {
 			CalendarService.update(calendar).then(function() {
 				calendar.dropPreviousState();
 				calendar.list.edit = false;

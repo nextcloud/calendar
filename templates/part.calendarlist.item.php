@@ -35,7 +35,8 @@
 			ng-if="calendar.shareable"
 			class="calendarlist-icon share icon-share permanent"
 			data-item-type="calendar" data-item="{{ calendar.id }}"
-			title="<?php p($l->t('Share Calendar')) ?>">
+			title="<?php p($l->t('Share Calendar')) ?>"
+			ng-click="editShares(calendar)">
 		</span>
 	</span>
 	<span class="action">
@@ -73,3 +74,8 @@
 		</button>
 	</div>
 </fieldset>
+<ul ng-show="calendar.list.editingShares" class="calendar-share-list">
+	<li ng-repeat="share in calendar.sharedWith.users" class="calendar-share-item">
+		{{ share.displayname }} - {{ share.writeable }}
+	</li>
+</ul>
