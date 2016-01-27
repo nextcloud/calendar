@@ -47,6 +47,7 @@ Simply run the following commands to setup your development environment:
 npm install -g bower
 
 # Install build dependecies
+cd js
 npm install
 ```
 
