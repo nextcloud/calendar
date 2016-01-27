@@ -36,7 +36,7 @@
 			class="calendarlist-icon share icon-share permanent"
 			data-item-type="calendar" data-item="{{ calendar.id }}"
 			title="<?php p($l->t('Share Calendar')) ?>"
-			ng-click="editShares(calendar)">
+			ng-click="toggleSharesEditor(calendar)">
 		</span>
 	</span>
 	<span class="action">
@@ -70,12 +70,15 @@
 	<colorpicker class="colorpicker" selected="calendar.color"></colorpicker>
 	<div class="buttongroups">
 		<button ng-click="performUpdate(calendar)" id="updateCalendar" class="primary icon-checkmark-white accept-button"></button>
-		<button id="chooseCalendar-close" class="btn close-button icon-close" ng-click="cancelUpdate(calendar)">
-		</button>
+		<button id="chooseCalendar-close" class="btn close-button icon-close" ng-click="cancelUpdate(calendar)"></button>
 	</div>
 </fieldset>
-<ul ng-show="calendar.list.editingShares" class="calendar-share-list">
-	<li ng-repeat="share in calendar.sharedWith.users" class="calendar-share-item">
-		{{ share.displayname }} - {{ share.writeable }}
-	</li>
-</ul>
+<div class="calendar-share-editor" ng-show="calendar.list.editingShares">
+	<i ng-show="loadingSharees" class="glyphicon glyphicon-refresh"></i>
+	<input type="text" ng-model="newSharee" placeholder="Share with users or groups" uib-typeahead="sharees in findSharee($viewValue)" typeahead-loading="loadingSharees" typeahead-no-results="noResults" class="form-control">
+	<ul ng-show="calendar.list.editingShares" class="calendar-share-list">
+		<li ng-repeat="userShare in calendar.sharedWith.users" class="calendar-share-item">
+			{{ userShare.displayname }}
+		</li>
+	</ul>
+</div>

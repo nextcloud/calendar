@@ -20,7 +20,7 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 				writable: props.canWrite,
 				shareable: props.canWrite,
 				sharedWith: {
-					users: [],
+					users: [ {displayname: 'Tom Needham', writeable: true} ],
 					groups: []
 				}
 			},
@@ -57,7 +57,9 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 				loading: this.enabled,
 				locked: false,
 				editingShares: false
-			}
+			},
+			newSharee: null,
+			noResults: false
 		});
 
 		var components = props['{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set'];
@@ -174,8 +176,8 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 		dropPreviousState: function() {
 			this._propertiesBackup = {};
 		},
-		editShares: function() {
-			this.list.editingShares = true;
+		toggleSharesEditor: function() {
+			this.list.editingShares = !this.list.editingShares;
 		},
 		_generateTextColor: function(r,g,b) {
 			var brightness = (((r * 299) + (g * 587) + (b * 114)) / 1000);

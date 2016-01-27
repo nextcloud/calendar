@@ -334,15 +334,99 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 			$window.open(url);
 		};
 
+		$scope.toggleSharesEditor = function (calendar) {
+			calendar.toggleSharesEditor();
+		}
+
 		$scope.prepareUpdate = function (calendar) {
 			calendar.prepareUpdate();
 		};
+
+		$scope.findSharee = function (val) {
+			$.get(
+				OC.linkToOCS('apps/files_sharing/api/v1') + 'sharees',
+				{
+					format: 'json',
+					search: val.trim(),
+					perPage: 200
+					/*itemType: view.model.get('itemType') */
+				},
+				function (result) {
+					console.log(result);
+					// Return the object list of users /  groups
+					if (result.ocs.meta.statuscode == 100) {
+						var users   = result.ocs.data.exact.users.concat(result.ocs.data.users);
+						var groups  = result.ocs.data.exact.groups.concat(result.ocs.data.groups);
+						//var remotes = result.ocs.data.exact.remotes.concat(result.ocs.data.remotes); // TODO do we handle remotes?
+
+						// Filter out current user
+						usersLength = users.length;
+						for (i = 0 ; i < usersLength; i++) {
+							if (users[i].value.shareWith === OC.currentUser) {
+								users.splice(i, 1);
+								break;
+							}
+						}
+
+						var userShares = calendar.sharedWith.users;
+						var groupShares = calendar.sharedWith.groups;
+						var userSharesLength = userShares.length;
+						var groupSharesLength = groupShares.length;
+
+						// Now filter out all sharees that are already shared with
+						for (i = 0; i < userSharesLength; i++) {
+							var share = userShares[i];
+							usersLength = users.length;
+							for (j = 0; j < usersLength; j++) {
+								if (users[j].value.shareWith === share.id) {
+									users.splice(j, 1);
+									break;
+								}
+							}
+						}
+
+						/*
+						 * Waiting until we know how these are returned by Calendar Model
+						for (i = 0; i < groupSharesLength; i++) {
+							var share = groupShares[i];
+							groupsLength = groups.length;
+							for (j = 0; j < groupsLength; j++) {
+								if (groups[j].value.shareWith === share.share_with) {
+									groups.splice(j, 1);
+									break;
+								}
+							}
+						}
+						*/
+
+						// Now return the suggestions
+						return users;
+					} else {
+						// Fail as well.
+					}
+				}).fail(function() {
+					// Return nothing??
+				});
+		}
 
 		$scope.cancelUpdate = function (calendar) {
 			calendar.resetToPreviousState();
 		};
 
 		$scope.performUpdate = function (calendar) {
+			CalendarService.update(calendar).then(function() {
+				calendar.dropPreviousState();
+				calendar.list.edit = false;
+				console.log(calendar);
+				$rootScope.$broadcast('updatedCalendar', calendar);
+				$rootScope.$broadcast('reloadCalendarList');
+			});
+		};
+
+		/**
+		 * Updates the shares of the calendar
+		 */
+		$scope.performUpdateShares = function (calendar) {
 			CalendarService.update(calendar).then(function() {
 				calendar.dropPreviousState();
 				calendar.list.edit = false;
@@ -1352,7 +1436,7 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 				writable: props.canWrite,
 				shareable: props.canWrite,
 				sharedWith: {
-					users: [],
+					users: [ {displayname: 'Tom Needham', writeable: true} ],
 					groups: []
 				}
 			},
@@ -1387,8 +1471,11 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 			list: {
 				edit: false,
 				loading: this.enabled,
-				locked: false
-			}
+				locked: false,
+				editingShares: false
+			},
+			newSharee: null,
+			noResults: false
 		});
 
 		var components = props['{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set'];
@@ -1504,6 +1591,9 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 		},
 		dropPreviousState: function() {
 			this._propertiesBackup = {};
+		},
+		toggleSharesEditor: function() {
+			this.list.editingShares = !this.list.editingShares;
 		},
 		_generateTextColor: function(r,g,b) {
 			var brightness = (((r * 299) + (g * 587) + (b * 114)) / 1000);
