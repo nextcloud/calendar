@@ -342,71 +342,63 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 			calendar.prepareUpdate();
 		};
 
-		$scope.findSharee = function (val) {
-			$.get(
+		$scope.onSelectSharee = function (item, model, label, calendar) {
+			// Create the share
+			// Remove content from text box
+			calendar.selectedSharee = null;
+			// Create a default share with the user/group, read only
+			calendar.share(calendar, item.type, item.id, false);
+			// Update the UI
+			// TODO
+		};
+
+		$scope.findSharee = function (val, calendar) {
+			return $.get(
 				OC.linkToOCS('apps/files_sharing/api/v1') + 'sharees',
 				{
 					format: 'json',
 					search: val.trim(),
-					perPage: 200
-					/*itemType: view.model.get('itemType') */
-				},
-				function (result) {
-					console.log(result);
-					// Return the object list of users /  groups
-					if (result.ocs.meta.statuscode == 100) {
-						var users   = result.ocs.data.exact.users.concat(result.ocs.data.users);
-						var groups  = result.ocs.data.exact.groups.concat(result.ocs.data.groups);
-						//var remotes = result.ocs.data.exact.remotes.concat(result.ocs.data.remotes); // TODO do we handle remotes?
+					perPage: 200,
+					itemType: 'calendar'
+				}
+			).then(function(result) {
+				// Todo - filter out current user, existing sharees
+				var users   = result.ocs.data.exact.users.concat(result.ocs.data.users);
+				var groups  = result.ocs.data.exact.groups.concat(result.ocs.data.groups);
 
-						// Filter out current user
-						usersLength = users.length;
-						for (i = 0 ; i < usersLength; i++) {
-							if (users[i].value.shareWith === OC.currentUser) {
-								users.splice(i, 1);
-								break;
-							}
-						}
+				var userShares = calendar.sharedWith.users;
+				var groupShares = calendar.sharedWith.groups;
+				var userSharesLength = userShares.length;
+				var groupSharesLength = groupShares.length;
+				var i, j;
 
-						var userShares = calendar.sharedWith.users;
-						var groupShares = calendar.sharedWith.groups;
-						var userSharesLength = userShares.length;
-						var groupSharesLength = groupShares.length;
-
-						// Now filter out all sharees that are already shared with
-						for (i = 0; i < userSharesLength; i++) {
-							var share = userShares[i];
-							usersLength = users.length;
-							for (j = 0; j < usersLength; j++) {
-								if (users[j].value.shareWith === share.id) {
-									users.splice(j, 1);
-									break;
-								}
-							}
-						}
-
-						/*
-						 * Waiting until we know how these are returned by Calendar Model
-						for (i = 0; i < groupSharesLength; i++) {
-							var share = groupShares[i];
-							groupsLength = groups.length;
-							for (j = 0; j < groupsLength; j++) {
-								if (groups[j].value.shareWith === share.share_with) {
-									groups.splice(j, 1);
-									break;
-								}
-							}
-						}
-						*/
-
-						// Now return the suggestions
-						return users;
-					} else {
-						// Fail as well.
+				// Filter out current user
+				var usersLength = users.length;
+				for (i = 0 ; i < usersLength; i++) {
+					if (users[i].value.shareWith === OC.currentUser) {
+						users.splice(i, 1);
+						break;
 					}
-				}).fail(function() {
-					// Return nothing??
-				});
+				}
+
+				// Now filter out all sharees that are already shared with
+				for (i = 0; i < userSharesLength; i++) {
+					var share = userShares[i];
+					usersLength = users.length;
+					for (j = 0; j < usersLength; j++) {
+						if (users[j].value.shareWith === share.id) {
+							users.splice(j, 1);
+							break;
+						}
+					}
+				}
+
+				// Combine users and groups
+				users = users.map(function(item){return item.value.shareWith;});
+				groups = groups.map(function(item){return item.value.shareWith + ' (group)';});
+
+				return users.concat(groups);
+			});
 		}
 
 		$scope.cancelUpdate = function (calendar) {
@@ -1687,9 +1679,6 @@ app.factory('VEvent', ['$filter', 'fcHelper', 'objectConverter', function($filte
 app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Calendar){
 	'use strict';
 
-	this.SHARING_USER = 0;
-	this.SHARING_GROUP = 1;
-
 	var _this = this;
 
 	this._CALENDAR_HOME = null;
@@ -1919,13 +1908,13 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 	};
 
 	this.share = function(calendar, shareType, shareWith, writable) {
-		if (shareType === this.SHARING_USER) {
+		if (shareType === OC.Share.SHARE_TYPE_USER) {
 			calendar.sharedWith.users.push({
 				id: shareWith,
 				displayname: shareWith,
 				writable: writable
 			});
-		} else if (shareType === this.SHARING_GROUP) {
+		} else if (shareType === OC.Share.SHARE_TYPE_GROUP) {
 			calendar.sharedWith.groups.push({
 				id: shareWith,
 				displayname: shareWith,
