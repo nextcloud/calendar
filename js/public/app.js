@@ -199,7 +199,7 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 					if (newView === 'agendaDay') {
 						angular.element('td.fc-state-highlight').css('background-color', '#ffffff');
 					} else {
-						angular.element('td.fc-state-highlight').css('background-color', '#ffc');
+						angular.element('.fc-bg td.fc-state-highlight').css('background-color', '#ffc');
 					}
 					if (newView ==='agendaWeek') {
 						element.fullCalendar('option', 'aspectRatio', 0.1);
