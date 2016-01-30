@@ -105,28 +105,31 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'e
 
 			angular.element('#from').datepicker('setDate', moment_start.toDate());
 			angular.element('#to').datepicker('setDate', moment_end.toDate());
+
+			$scope.tabopener(1);
 		});
 
 		$scope.tabs = [{
-			title: t('Calendar', 'Attendees'), value: 2
+			title: t('Calendar', 'Attendees'), value: 1
 		}, {
-			title: t('Calendar', 'Alarms'), value: 3
+			title: t('Calendar', 'Alarms'), value: 2
 		}];
 
 		$scope.tabopener = function (val) {
 			$scope.selected = val;
-			if (val === 2) {
-				$scope.eventsinfoview = false;
-				$scope.eventsrepeatview = false;
+			if (val === 1) {
 				$scope.eventsattendeeview = true;
 				$scope.eventsalarmview = false;
-			} else if (val === 3) {
-				$scope.eventsinfoview = false;
 				$scope.eventsrepeatview = false;
+			} else if (val === 2) {
 				$scope.eventsattendeeview = false;
 				$scope.eventsalarmview = true;
+				$scope.eventsrepeatview = false;
+			} else if (val === 3) {
+				$scope.eventsattendeeview = false;
+				$scope.eventsalarmview = false;
+				$scope.eventsrepeatview = true;
 			}
-
 		};
 
 		$scope.repeater = [

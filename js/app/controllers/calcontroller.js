@@ -225,16 +225,20 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 								},
 								scope: $scope
 							});
-							angular.element('#fullcalendar').addClass('sidebar-open');
+							angular.element('#app-content').addClass('with-app-sidebar');
 
 							$scope.eventModal.result.then(function(event) {
 								VEventService.update(event);
 								$scope.eventModal = null;
+
+								angular.element('#app-content').removeClass('with-app-sidebar');
 							}, function(reason) {
 								if (reason === 'delete') {
 									VEventService.delete(fcEvent.event);
 									$scope.eventModal = null;
 								}
+
+								angular.element('#app-content').removeClass('with-app-sidebar');
 							});
 						}
 					}, function(reason) {

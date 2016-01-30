@@ -37,3 +37,7 @@
 .full-width {
   width: 100%;
 }
+
+.clear-both {
+  clear: both;
+}

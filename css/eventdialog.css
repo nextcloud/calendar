@@ -145,15 +145,32 @@
 }
 
 .advanced--container {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
 	padding: 20px;
+	overflow: scroll;
+	margin-bottom: 120px;
 }
 
+.advanced--fieldset {
+	margin-bottom: 10px;
+}
+
+.advanced .advanced--input,
 .advanced .h2.advanced--input {
-	width: 395px;
+	width: 100%;
+	box-sizing: border-box;
 }
 
 .advanced .advanced--fieldset select {
-	width: 410px;
+	width: 100%;
+}
+
+.advanced .advanced--textarea {
+	resize: vertical;
 }
 
 .advanced .tabHeaders {
@@ -184,4 +201,21 @@ button.delete:hover, button.delete:focus {
 
 .advanced .advanced--select.advanced--select__reminder {
 	width: 200px;
+}
+
+.advanced .advanced--button-area {
+	border-top: 1px solid #eee;
+	padding: 5px 20px;
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+.advanced .btn-half {
+	width: 45%;
+}
+
+.advanced .btn-full {
+	width: 100%;
 }

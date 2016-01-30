@@ -35,7 +35,7 @@
 		</fieldset>
 
 		<fieldset class="events--fieldset">
-			<input ng-model="properties.location.value" type="text" class="events--input events--input__full"
+			<input ng-model="properties.location.value" type="text" class="events--input"
 				   placeholder="<?php p($l->t('Events Location'));?>" name="location"
 				   uib-typeahead="location for location in getLocation($viewValue)"
 				   autocomplete="off" />
