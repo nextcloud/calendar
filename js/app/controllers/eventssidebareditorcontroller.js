@@ -243,6 +243,7 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'e
 		$scope.addmoreattendees = function (val) {
 			var attendee = val;
 			if (attendee !== '') {
+				$scope.properties.attendee = $scope.properties.attendee || [];
 				$scope.properties.attendee.push({
 					value: attendee,
 					parameters: {
