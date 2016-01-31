@@ -57,6 +57,24 @@
 	overflow: hidden;
 }
 
+.fc-row.fc-week.fc-widget-content.fc-rigid:nth-of-type(0) {
+	z-index: 5 !important;
+}
+.fc-row.fc-week.fc-widget-content.fc-rigid:nth-of-type(1) {
+	z-index: 4 !important;
+}
+.fc-row.fc-week.fc-widget-content.fc-rigid:nth-of-type(2) {
+	z-index: 3 !important;
+}
+.fc-row.fc-week.fc-widget-content.fc-rigid:nth-of-type(3) {
+	z-index: 2 !important;
+}
+.fc-row.fc-week.fc-widget-content.fc-rigid:nth-of-type(4) {
+	z-index: 1 !important;
+}
+.fc-row.fc-week.fc-widget-content.fc-rigid:nth-of-type(5) {
+	z-index: 0 !important;
+}
 
 .modal.top-middle {
 	bottom: -255px !important;
