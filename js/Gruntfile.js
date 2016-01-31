@@ -76,7 +76,8 @@ module.exports = function(grunt) {
 				'<%= meta.testsJS %>**/*.js'
 			],
 			options: {
-				jshintrc: '.jshintrc'
+				jshintrc: '.jshintrc',
+				reporter: require('jshint-stylish')
 			}
 		},
 
