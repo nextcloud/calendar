@@ -10,6 +10,7 @@
     "noempty": true,
     "nonew": true,
     "plusplus": false,
+    "node": true,
     "undef": true,
     "unused": false,
     "strict": true,
