@@ -26,15 +26,16 @@
  * Description: Takes care of anything inside the Events Modal.
  */
 
-app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'eventEditorHelper', '$uibModalInstance', 'fcEvent', 'isNew',
-	function($scope, TimezoneService, eventEditorHelper, $uibModalInstance, fcEvent, isNew) {
+app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'eventEditorHelper', '$uibModalInstance', 'vevent', 'recurrenceId', 'isNew',
+	function($scope, TimezoneService, eventEditorHelper, $uibModalInstance, vevent, recurrenceId, isNew) {
 		'use strict';
 
-		$scope.event = fcEvent.event;
-		$scope.properties = fcEvent.event.getSimpleData(fcEvent);
+		$scope.properties = vevent.getSimpleData(recurrenceId);
 		$scope.isNew = isNew;
-		$scope.calendar = isNew ? null : fcEvent.calendar;
-		$scope.oldCalendar = isNew ? null : fcEvent.calendar;
+		$scope.calendar = isNew ? null : vevent.calendar;
+		$scope.oldCalendar = isNew ? null : vevent.calendar;
+
+		console.log($scope.properties);
 
 		$scope.close = function(action) {
 			var moment_start = moment(angular.element('#from').datepicker('getDate'));
@@ -69,7 +70,7 @@ app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'e
 					properties: $scope.properties
 				});
 			} else {
-				$scope.event.patch(fcEvent, $scope.properties);
+				$scope.event.patch(recurrenceId, $scope.properties);
 
 				$uibModalInstance.close({
 					action: action,

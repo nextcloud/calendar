@@ -87,13 +87,13 @@
 			</button>
 			<button
 				class="events--button button btn primary btn-full"
-				ng-click="close('save')"
+				ng-click="save"
 				ng-show="is_new">
 				<?php p($l->t('Create')); ?>
 			</button>
 			<button
 				class="evens--button button btn primary btn-full"
-				ng-click="close('save')"
+				ng-click="save"
 				ng-show="!is_new">
 				<?php p($l->t('Update')); ?>
 			</button>

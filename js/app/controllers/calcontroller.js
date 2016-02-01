@@ -26,8 +26,8 @@
 * Description: The fullcalendar controller.
 */
 
-app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'objectConverter', 'is', 'uiCalendarConfig', '$uibModal',
-	function ($scope, $rootScope, $window, CalendarService, VEventService, SettingsService, TimezoneService, objectConverter, is, uiCalendarConfig, $uibModal) {
+app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'VEvent', 'is', 'uiCalendarConfig', '$uibModal',
+	function ($scope, $rootScope, $window, CalendarService, VEventService, SettingsService, TimezoneService, VEvent, is, uiCalendarConfig, $uibModal) {
 		'use strict';
 
 		$scope.calendars = [];
@@ -68,47 +68,34 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 		 */
 
 		$scope.newEvent = function (start, end, jsEvent, view) {
-			console.log(start, end, jsEvent, view);
-			var initWithData = {
-				allDay: !start.hasTime() && !end.hasTime(),
-				dtstart: {
-					type: start.hasTime() ? 'datetime' : 'date',
-					date: start.format('YYYY-MM-DD'),
-					time: start.format('HH:mm:ss'),
-					zone: $scope.defaulttimezone
-				},
-				dtend: {
-					type: end.hasTime() ? 'datetime' : 'date',
-					date: end.format('YYYY-MM-DD'),
-					time: end.format('HH:mm:ss'),
-					zone: $scope.defaulttimezone
-				},
-				summary: {
-					type: 'text',
-					value: t('calendar', 'New event')
-				},
-				alarm: [],
-				attendee: []
-			};
+			console.log(jsEvent, view, this);
+			var vevent = VEvent.fromStartEnd(start, end, $scope.defaulttimezone);
 
-			$rootScope.$broadcast('initializeEventEditor', {
-				data: initWithData,
-				onSuccess: function(newData) {
-					var comp = new ICAL.Component(['vcalendar', [], []]);
-					//TODO - add a proper prodid with version number
-					comp.updatePropertyWithValue('prodid', '-//ownCloud calendar');
-					var vevent = new ICAL.Component('vevent');
-					comp.addSubcomponent(vevent);
-
-					objectConverter.patch(vevent, {}, newData);
-
-					vevent.updatePropertyWithValue('created', ICAL.Time.now());
-					vevent.updatePropertyWithValue('dtstamp', ICAL.Time.now());
-					vevent.updatePropertyWithValue('last-modified', ICAL.Time.now());
-					//TODO - add UID,
-					console.log(comp.toString());
-				}
+			uiCalendarConfig.calendars.calendar.fullCalendar('renderEvent', {
+				id: 'new_placeholder',
+				start: start,
+				end: end,
+				title: t('calendar', 'New event')
 			});
+
+			/*$scope.eventModal = $uibModal.open({
+				templateUrl: 'eventspopovereditor.html',
+				controller: 'EventsPopoverEditorController',
+				//appendTo: angular.element(jsEvent.target),
+				resolve: {
+					vevent: function() {
+						return vevent;
+					},
+					recurrenceId: function() {
+						return null;
+					},
+					isNew: function() {
+						return false;
+					}
+				},
+				scope: $scope,
+				windowClass: $scope._calculatePopoverPosition(jsEvent, view)
+			});*/
 		};
 
 		$scope._calculatePopoverPosition = function(event, view) {
@@ -193,8 +180,11 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 						controller: 'EventsPopoverEditorController',
 						appendTo: angular.element(this).parent(),
 						resolve: {
-							fcEvent: function() {
-								return fcEvent;
+							vevent: function() {
+								return fcEvent.event;
+							},
+							recurrenceId: function() {
+								return fcEvent.recurrenceId;
 							},
 							isNew: function() {
 								return false;
@@ -213,8 +203,11 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 								controller: 'EventsSidebarEditorController',
 								appendTo: angular.element('#app-content'),
 								resolve: {
-									fcEvent: function() {
-										return fcEvent;
+									vevent: function() {
+										return fcEvent.event;
+									},
+									recurrenceId: function() {
+										return fcEvent.recurrenceId;
 									},
 									isNew: function() {
 										return false;
@@ -249,13 +242,13 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 					});
 				},
 				eventResize: function (fcEvent, delta, revertFunc) {
-					if (!fcEvent.event.resize(fcEvent, delta)) {
+					if (!fcEvent.event.resize(fcEvent.recurrenceId, delta)) {
 						revertFunc();
 					}
 					VEventService.update(fcEvent.event);
 				},
 				eventDrop: function (fcEvent, delta, revertFunc) {
-					if(!fcEvent.event.drop(fcEvent, delta)) {
+					if(!fcEvent.event.drop(fcEvent.recurrenceId, delta)) {
 						revertFunc();
 					}
 					VEventService.update(fcEvent.event);

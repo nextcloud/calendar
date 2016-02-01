@@ -26,15 +26,28 @@
  * Description: Takes care of anything inside the Events Modal.
  */
 
-app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'eventEditorHelper', '$uibModalInstance', 'fcEvent', 'isNew', 'properties',
-	function($scope, TimezoneService, eventEditorHelper, $uibModalInstance, fcEvent, isNew, properties) {
+app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'eventEditorHelper', '$window', '$uibModalInstance', 'vevent', 'recurrenceId', 'isNew', 'properties',
+	function($scope, TimezoneService, eventEditorHelper, $window, $uibModalInstance, vevent, recurrenceId, isNew, properties) {
 		'use strict';
 
 		$scope.properties = properties;
 		$scope.isNew = isNew;
-		$scope.calendar = isNew ? null : fcEvent.calendar;
-		$scope.oldCalendar = isNew ? null : fcEvent.calendar;
+		$scope.calendar = isNew ? null : vevent.calendar;
+		$scope.oldCalendar = isNew ? null : vevent.calendar;
 		$scope.selected = 1;
+
+		$scope.cancel = function() {
+			$uibModalInstance.dismiss('cancel');
+		};
+
+		$scope.delete = function() {
+			$uibModalInstance.dismiss('delete');
+		};
+
+		$scope.export = function() {
+			//TODO - download attribute doesn't work in Safari :/
+
+		};
 
 		$scope.save = function() {
 			//todo - generate Data

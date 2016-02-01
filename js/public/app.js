@@ -46,8 +46,8 @@ app.run(['$rootScope', '$window',
 * Description: The fullcalendar controller.
 */
 
-app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'objectConverter', 'is', 'uiCalendarConfig', '$uibModal',
-	function ($scope, $rootScope, $window, CalendarService, VEventService, SettingsService, TimezoneService, objectConverter, is, uiCalendarConfig, $uibModal) {
+app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'VEvent', 'is', 'uiCalendarConfig', '$uibModal',
+	function ($scope, $rootScope, $window, CalendarService, VEventService, SettingsService, TimezoneService, VEvent, is, uiCalendarConfig, $uibModal) {
 		'use strict';
 
 		$scope.calendars = [];
@@ -88,47 +88,34 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 		 */
 
 		$scope.newEvent = function (start, end, jsEvent, view) {
-			console.log(start, end, jsEvent, view);
-			var initWithData = {
-				allDay: !start.hasTime() && !end.hasTime(),
-				dtstart: {
-					type: start.hasTime() ? 'datetime' : 'date',
-					date: start.format('YYYY-MM-DD'),
-					time: start.format('HH:mm:ss'),
-					zone: $scope.defaulttimezone
-				},
-				dtend: {
-					type: end.hasTime() ? 'datetime' : 'date',
-					date: end.format('YYYY-MM-DD'),
-					time: end.format('HH:mm:ss'),
-					zone: $scope.defaulttimezone
-				},
-				summary: {
-					type: 'text',
-					value: t('calendar', 'New event')
-				},
-				alarm: [],
-				attendee: []
-			};
+			console.log(jsEvent, view, this);
+			var vevent = VEvent.fromStartEnd(start, end, $scope.defaulttimezone);
 
-			$rootScope.$broadcast('initializeEventEditor', {
-				data: initWithData,
-				onSuccess: function(newData) {
-					var comp = new ICAL.Component(['vcalendar', [], []]);
-					//TODO - add a proper prodid with version number
-					comp.updatePropertyWithValue('prodid', '-//ownCloud calendar');
-					var vevent = new ICAL.Component('vevent');
-					comp.addSubcomponent(vevent);
-
-					objectConverter.patch(vevent, {}, newData);
-
-					vevent.updatePropertyWithValue('created', ICAL.Time.now());
-					vevent.updatePropertyWithValue('dtstamp', ICAL.Time.now());
-					vevent.updatePropertyWithValue('last-modified', ICAL.Time.now());
-					//TODO - add UID,
-					console.log(comp.toString());
-				}
+			uiCalendarConfig.calendars.calendar.fullCalendar('renderEvent', {
+				id: 'new_placeholder',
+				start: start,
+				end: end,
+				title: t('calendar', 'New event')
 			});
+
+			/*$scope.eventModal = $uibModal.open({
+				templateUrl: 'eventspopovereditor.html',
+				controller: 'EventsPopoverEditorController',
+				//appendTo: angular.element(jsEvent.target),
+				resolve: {
+					vevent: function() {
+						return vevent;
+					},
+					recurrenceId: function() {
+						return null;
+					},
+					isNew: function() {
+						return false;
+					}
+				},
+				scope: $scope,
+				windowClass: $scope._calculatePopoverPosition(jsEvent, view)
+			});*/
 		};
 
 		$scope._calculatePopoverPosition = function(event, view) {
@@ -213,8 +200,11 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 						controller: 'EventsPopoverEditorController',
 						appendTo: angular.element(this).parent(),
 						resolve: {
-							fcEvent: function() {
-								return fcEvent;
+							vevent: function() {
+								return fcEvent.event;
+							},
+							recurrenceId: function() {
+								return fcEvent.recurrenceId;
 							},
 							isNew: function() {
 								return false;
@@ -233,8 +223,11 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 								controller: 'EventsSidebarEditorController',
 								appendTo: angular.element('#app-content'),
 								resolve: {
-									fcEvent: function() {
-										return fcEvent;
+									vevent: function() {
+										return fcEvent.event;
+									},
+									recurrenceId: function() {
+										return fcEvent.recurrenceId;
 									},
 									isNew: function() {
 										return false;
@@ -269,13 +262,13 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 					});
 				},
 				eventResize: function (fcEvent, delta, revertFunc) {
-					if (!fcEvent.event.resize(fcEvent, delta)) {
+					if (!fcEvent.event.resize(fcEvent.recurrenceId, delta)) {
 						revertFunc();
 					}
 					VEventService.update(fcEvent.event);
 				},
 				eventDrop: function (fcEvent, delta, revertFunc) {
-					if(!fcEvent.event.drop(fcEvent, delta)) {
+					if(!fcEvent.event.drop(fcEvent.recurrenceId, delta)) {
 						revertFunc();
 					}
 					VEventService.update(fcEvent.event);
@@ -1098,15 +1091,16 @@ app.controller('EventsModalController', ['$scope', '$rootScope', '$routeParams',
  * Description: Takes care of anything inside the Events Modal.
  */
 
-app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'eventEditorHelper', '$uibModalInstance', 'fcEvent', 'isNew',
-	function($scope, TimezoneService, eventEditorHelper, $uibModalInstance, fcEvent, isNew) {
+app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'eventEditorHelper', '$uibModalInstance', 'vevent', 'recurrenceId', 'isNew',
+	function($scope, TimezoneService, eventEditorHelper, $uibModalInstance, vevent, recurrenceId, isNew) {
 		'use strict';
 
-		$scope.event = fcEvent.event;
-		$scope.properties = fcEvent.event.getSimpleData(fcEvent);
+		$scope.properties = vevent.getSimpleData(recurrenceId);
 		$scope.isNew = isNew;
-		$scope.calendar = isNew ? null : fcEvent.calendar;
-		$scope.oldCalendar = isNew ? null : fcEvent.calendar;
+		$scope.calendar = isNew ? null : vevent.calendar;
+		$scope.oldCalendar = isNew ? null : vevent.calendar;
+
+		console.log($scope.properties);
 
 		$scope.close = function(action) {
 			var moment_start = moment(angular.element('#from').datepicker('getDate'));
@@ -1141,7 +1135,7 @@ app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'e
 					properties: $scope.properties
 				});
 			} else {
-				$scope.event.patch(fcEvent, $scope.properties);
+				$scope.event.patch(recurrenceId, $scope.properties);
 
 				$uibModalInstance.close({
 					action: action,
@@ -1226,15 +1220,28 @@ app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'e
  * Description: Takes care of anything inside the Events Modal.
  */
 
-app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'eventEditorHelper', '$uibModalInstance', 'fcEvent', 'isNew', 'properties',
-	function($scope, TimezoneService, eventEditorHelper, $uibModalInstance, fcEvent, isNew, properties) {
+app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'eventEditorHelper', '$window', '$uibModalInstance', 'vevent', 'recurrenceId', 'isNew', 'properties',
+	function($scope, TimezoneService, eventEditorHelper, $window, $uibModalInstance, vevent, recurrenceId, isNew, properties) {
 		'use strict';
 
 		$scope.properties = properties;
 		$scope.isNew = isNew;
-		$scope.calendar = isNew ? null : fcEvent.calendar;
-		$scope.oldCalendar = isNew ? null : fcEvent.calendar;
+		$scope.calendar = isNew ? null : vevent.calendar;
+		$scope.oldCalendar = isNew ? null : vevent.calendar;
 		$scope.selected = 1;
+
+		$scope.cancel = function() {
+			$uibModalInstance.dismiss('cancel');
+		};
+
+		$scope.delete = function() {
+			$uibModalInstance.dismiss('delete');
+		};
+
+		$scope.export = function() {
+			//TODO - download attribute doesn't work in Safari :/
+
+		};
 
 		$scope.save = function() {
 			//todo - generate Data
@@ -2340,22 +2347,22 @@ app.factory('Timezone',
 	}
 );
 
-app.factory('VEvent', ['$filter', 'objectConverter', function($filter, objectConverter) {
+app.factory('VEvent', ['$filter', 'objectConverter', 'ICalFactory', function($filter, objectConverter, icalfactory) {
 	'use strict';
 
 	/**
 	 * check if vevent is the one described in event
-	 * @param {Object} fcEvent
+	 * @param {String} recurrenceId
 	 * @param {Object} vevent
 	 * @returns {boolean}
 	 */
-	function isCorrectEvent(fcEvent, vevent) {
-		if (fcEvent.recurrenceId === null) {
+	function isCorrectEvent(recurrenceId, vevent) {
+		if (recurrenceId === null) {
 			if (!vevent.hasProperty('recurrence-id')) {
 				return true;
 			}
 		} else {
-			if (fcEvent.recurrenceId === vevent.getFirstPropertyValue('recurrence-id').toICALString()) {
+			if (recurrenceId === vevent.getFirstPropertyValue('recurrence-id').toICALString()) {
 				return true;
 			}
 		}
@@ -2576,18 +2583,18 @@ app.factory('VEvent', ['$filter', 'objectConverter', function($filter, objectCon
 
 				return renderedEvents;
 			},
-			getSimpleData: function(fcEvent) {
+			getSimpleData: function(recurrenceId) {
 				var vevents = _this.components.getAllSubcomponents('vevent');
 
 				for (var i = 0; i < vevents.length; i++) {
-					if (!isCorrectEvent(fcEvent, vevents[i])) {
+					if (!isCorrectEvent(recurrenceId, vevents[i])) {
 						continue;
 					}
 
 					return objectConverter.parse(vevents[i]);
 				}
 			},
-			drop: function(fcEvent, delta) {
+			drop: function(recurrenceId, delta) {
 				var vevents = _this.components.getAllSubcomponents('vevent');
 				var foundEvent = false;
 				var deltaAsSeconds = delta.asSeconds();
@@ -2595,7 +2602,7 @@ app.factory('VEvent', ['$filter', 'objectConverter', function($filter, objectCon
 				var propertyToUpdate = null;
 
 				for (var i = 0; i < vevents.length; i++) {
-					if (!isCorrectEvent(fcEvent, vevents[i])) {
+					if (!isCorrectEvent(recurrenceId, vevents[i])) {
 						continue;
 					}
 
@@ -2620,7 +2627,7 @@ app.factory('VEvent', ['$filter', 'objectConverter', function($filter, objectCon
 				_this.data = _this.components.toString();
 				return true;
 			},
-			resize: function(fcEvent, delta) {
+			resize: function(recurrenceId, delta) {
 				var vevents = _this.components.getAllSubcomponents('vevent');
 				var foundEvent = false;
 				var deltaAsSeconds = delta.asSeconds();
@@ -2628,7 +2635,7 @@ app.factory('VEvent', ['$filter', 'objectConverter', function($filter, objectCon
 				var propertyToUpdate = null;
 
 				for (var i = 0; i < vevents.length; i++) {
-					if (!isCorrectEvent(fcEvent, vevents[i])) {
+					if (!isCorrectEvent(recurrenceId, vevents[i])) {
 						continue;
 					}
 
@@ -2658,12 +2665,12 @@ app.factory('VEvent', ['$filter', 'objectConverter', function($filter, objectCon
 				_this.data = _this.components.toString();
 				return true;
 			},
-			patch: function(fcEvent, newSimpleData) {
+			patch: function(recurrenceId, newSimpleData) {
 				var vevents = _this.components.getAllSubcomponents('vevent');
 				var vevent = null;
 
 				for (var i = 0; i < vevents.length; i++) {
-					if (!isCorrectEvent(fcEvent, vevents[i])) {
+					if (!isCorrectEvent(recurrenceId, vevents[i])) {
 						continue;
 					}
 
@@ -2674,11 +2681,50 @@ app.factory('VEvent', ['$filter', 'objectConverter', function($filter, objectCon
 					return false;
 				}
 
-				objectConverter.patch(vevent, this.getSimpleData(fcEvent), newSimpleData);
+				objectConverter.patch(vevent, this.getSimpleData(recurrenceId), newSimpleData);
 				_this.data = _this.components.toString();
 			}
 		});
 	}
+
+	VEvent.fromStartEnd = function(start, end, timezone) {
+		var comp = icalfactory.new();
+
+		var vevent = new ICAL.Component('vevent');
+		comp.addSubcomponent(vevent);
+		vevent.updatePropertyWithValue('created', ICAL.Time.now());
+		vevent.updatePropertyWithValue('dtstamp', ICAL.Time.now());
+		vevent.updatePropertyWithValue('last-modified', ICAL.Time.now());
+		//TODO - replace with proper UID generator
+		vevent.updatePropertyWithValue('uid', '123123123123123');
+
+		objectConverter.patch(vevent, {}, {
+			allDay: !start.hasTime() && !end.hasTime(),
+			dtstart: {
+				type: start.hasTime() ? 'datetime' : 'date',
+				date: start.format('YYYY-MM-DD'),
+				time: start.format('HH:mm:ss'),
+				zone: timezone
+			},
+			dtend: {
+				type: end.hasTime() ? 'datetime' : 'date',
+				date: end.format('YYYY-MM-DD'),
+				time: end.format('HH:mm:ss'),
+				zone: timezone
+			},
+			summary: {
+				type: 'text',
+				value: t('calendar', 'New event')
+			},
+			alarm: [],
+			attendee: []
+		});
+
+		return new VEvent(null, {
+			'{urn:ietf:params:xml:ns:caldav}calendar-data': comp.toString(),
+			'{DAV:}getetag': null
+		}, null);
+	};
 
 	return VEvent;
 }]);
@@ -3340,12 +3386,10 @@ app.factory('objectConverter', function () {
 	 */
 	var defaults = {
 		'summary': null,
-		'x-oc-calid': null,
 		'location': null,
 		'created': null,
 		'last-modified': null,
 		'organizer': null,
-		'x-oc-cruds': null,
 		'class': null,
 		'description': null,
 		'url': null,
@@ -3618,7 +3662,6 @@ app.factory('objectConverter', function () {
 	var simpleProperties = {
 		//General
 		'summary': {parser: simpleParser.string, reader: simpleReader.string},
-		'x-oc-calid': {parser: simpleParser.string, reader: simpleReader.string},
 		'location': {parser: simpleParser.string, reader: simpleReader.string},
 		'created': {parser: simpleParser.date, reader: simpleReader.date},
 		'last-modified': {parser: simpleParser.date, reader: simpleReader.date},
@@ -3627,7 +3670,6 @@ app.factory('objectConverter', function () {
 		'attendee': {parser: simpleParser.strings, reader: simpleReader.strings, parameters: attendeeParameters},
 		'organizer': {parser: simpleParser.string, reader: simpleReader.string},
 		//sharing
-		'x-oc-cruds': {parser: simpleParser.string, reader: simpleReader.string},
 		'class': {parser: simpleParser.string, reader: simpleReader.string},
 		//other
 		'description': {parser: simpleParser.string, reader: simpleReader.string},
@@ -3645,7 +3687,7 @@ app.factory('objectConverter', function () {
 
 	function formatDate(d) {
 		return d.getFullYear() + '-' +
-			addZero(d.getMonth()) + '-' +
+			addZero(d.getMonth() + 1) + '-' +
 			addZero(d.getDate());
 	}
 

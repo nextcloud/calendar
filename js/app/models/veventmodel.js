@@ -21,22 +21,22 @@
  *
  */
 
-app.factory('VEvent', ['$filter', 'objectConverter', function($filter, objectConverter) {
+app.factory('VEvent', ['$filter', 'objectConverter', 'ICalFactory', function($filter, objectConverter, icalfactory) {
 	'use strict';
 
 	/**
 	 * check if vevent is the one described in event
-	 * @param {Object} fcEvent
+	 * @param {String} recurrenceId
 	 * @param {Object} vevent
 	 * @returns {boolean}
 	 */
-	function isCorrectEvent(fcEvent, vevent) {
-		if (fcEvent.recurrenceId === null) {
+	function isCorrectEvent(recurrenceId, vevent) {
+		if (recurrenceId === null) {
 			if (!vevent.hasProperty('recurrence-id')) {
 				return true;
 			}
 		} else {
-			if (fcEvent.recurrenceId === vevent.getFirstPropertyValue('recurrence-id').toICALString()) {
+			if (recurrenceId === vevent.getFirstPropertyValue('recurrence-id').toICALString()) {
 				return true;
 			}
 		}
@@ -257,18 +257,18 @@ app.factory('VEvent', ['$filter', 'objectConverter', function($filter, objectCon
 
 				return renderedEvents;
 			},
-			getSimpleData: function(fcEvent) {
+			getSimpleData: function(recurrenceId) {
 				var vevents = _this.components.getAllSubcomponents('vevent');
 
 				for (var i = 0; i < vevents.length; i++) {
-					if (!isCorrectEvent(fcEvent, vevents[i])) {
+					if (!isCorrectEvent(recurrenceId, vevents[i])) {
 						continue;
 					}
 
 					return objectConverter.parse(vevents[i]);
 				}
 			},
-			drop: function(fcEvent, delta) {
+			drop: function(recurrenceId, delta) {
 				var vevents = _this.components.getAllSubcomponents('vevent');
 				var foundEvent = false;
 				var deltaAsSeconds = delta.asSeconds();
@@ -276,7 +276,7 @@ app.factory('VEvent', ['$filter', 'objectConverter', function($filter, objectCon
 				var propertyToUpdate = null;
 
 				for (var i = 0; i < vevents.length; i++) {
-					if (!isCorrectEvent(fcEvent, vevents[i])) {
+					if (!isCorrectEvent(recurrenceId, vevents[i])) {
 						continue;
 					}
 
@@ -301,7 +301,7 @@ app.factory('VEvent', ['$filter', 'objectConverter', function($filter, objectCon
 				_this.data = _this.components.toString();
 				return true;
 			},
-			resize: function(fcEvent, delta) {
+			resize: function(recurrenceId, delta) {
 				var vevents = _this.components.getAllSubcomponents('vevent');
 				var foundEvent = false;
 				var deltaAsSeconds = delta.asSeconds();
@@ -309,7 +309,7 @@ app.factory('VEvent', ['$filter', 'objectConverter', function($filter, objectCon
 				var propertyToUpdate = null;
 
 				for (var i = 0; i < vevents.length; i++) {
-					if (!isCorrectEvent(fcEvent, vevents[i])) {
+					if (!isCorrectEvent(recurrenceId, vevents[i])) {
 						continue;
 					}
 
@@ -339,12 +339,12 @@ app.factory('VEvent', ['$filter', 'objectConverter', function($filter, objectCon
 				_this.data = _this.components.toString();
 				return true;
 			},
-			patch: function(fcEvent, newSimpleData) {
+			patch: function(recurrenceId, newSimpleData) {
 				var vevents = _this.components.getAllSubcomponents('vevent');
 				var vevent = null;
 
 				for (var i = 0; i < vevents.length; i++) {
-					if (!isCorrectEvent(fcEvent, vevents[i])) {
+					if (!isCorrectEvent(recurrenceId, vevents[i])) {
 						continue;
 					}
 
@@ -355,11 +355,50 @@ app.factory('VEvent', ['$filter', 'objectConverter', function($filter, objectCon
 					return false;
 				}
 
-				objectConverter.patch(vevent, this.getSimpleData(fcEvent), newSimpleData);
+				objectConverter.patch(vevent, this.getSimpleData(recurrenceId), newSimpleData);
 				_this.data = _this.components.toString();
 			}
 		});
 	}
+
+	VEvent.fromStartEnd = function(start, end, timezone) {
+		var comp = icalfactory.new();
+
+		var vevent = new ICAL.Component('vevent');
+		comp.addSubcomponent(vevent);
+		vevent.updatePropertyWithValue('created', ICAL.Time.now());
+		vevent.updatePropertyWithValue('dtstamp', ICAL.Time.now());
+		vevent.updatePropertyWithValue('last-modified', ICAL.Time.now());
+		//TODO - replace with proper UID generator
+		vevent.updatePropertyWithValue('uid', '123123123123123');
+
+		objectConverter.patch(vevent, {}, {
+			allDay: !start.hasTime() && !end.hasTime(),
+			dtstart: {
+				type: start.hasTime() ? 'datetime' : 'date',
+				date: start.format('YYYY-MM-DD'),
+				time: start.format('HH:mm:ss'),
+				zone: timezone
+			},
+			dtend: {
+				type: end.hasTime() ? 'datetime' : 'date',
+				date: end.format('YYYY-MM-DD'),
+				time: end.format('HH:mm:ss'),
+				zone: timezone
+			},
+			summary: {
+				type: 'text',
+				value: t('calendar', 'New event')
+			},
+			alarm: [],
+			attendee: []
+		});
+
+		return new VEvent(null, {
+			'{urn:ietf:params:xml:ns:caldav}calendar-data': comp.toString(),
+			'{DAV:}getetag': null
+		}, null);
+	};
 
 	return VEvent;
 }]);

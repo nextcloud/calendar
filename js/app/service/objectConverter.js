@@ -28,12 +28,10 @@ app.factory('objectConverter', function () {
 	 */
 	var defaults = {
 		'summary': null,
-		'x-oc-calid': null,
 		'location': null,
 		'created': null,
 		'last-modified': null,
 		'organizer': null,
-		'x-oc-cruds': null,
 		'class': null,
 		'description': null,
 		'url': null,
@@ -306,7 +304,6 @@ app.factory('objectConverter', function () {
 	var simpleProperties = {
 		//General
 		'summary': {parser: simpleParser.string, reader: simpleReader.string},
-		'x-oc-calid': {parser: simpleParser.string, reader: simpleReader.string},
 		'location': {parser: simpleParser.string, reader: simpleReader.string},
 		'created': {parser: simpleParser.date, reader: simpleReader.date},
 		'last-modified': {parser: simpleParser.date, reader: simpleReader.date},
@@ -315,7 +312,6 @@ app.factory('objectConverter', function () {
 		'attendee': {parser: simpleParser.strings, reader: simpleReader.strings, parameters: attendeeParameters},
 		'organizer': {parser: simpleParser.string, reader: simpleReader.string},
 		//sharing
-		'x-oc-cruds': {parser: simpleParser.string, reader: simpleReader.string},
 		'class': {parser: simpleParser.string, reader: simpleReader.string},
 		//other
 		'description': {parser: simpleParser.string, reader: simpleReader.string},
@@ -333,7 +329,7 @@ app.factory('objectConverter', function () {
 
 	function formatDate(d) {
 		return d.getFullYear() + '-' +
-			addZero(d.getMonth()) + '-' +
+			addZero(d.getMonth() + 1) + '-' +
 			addZero(d.getDate());
 	}
 
