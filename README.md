@@ -2,7 +2,6 @@ README
 ======
 
 [![Build Status](https://scrutinizer-ci.com/g/owncloud/calendar-rework/badges/build.png?b=master)](https://scrutinizer-ci.com/g/owncloud/calendar-rework/build-status/master)[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/owncloud/calendar-rework/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/owncloud/calendar-rework/?branch=master)[![Code Coverage](https://scrutinizer-ci.com/g/owncloud/calendar-rework/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/owncloud/calendar-rework/?branch=master)
-![dependencies](https://david-dm.org/owncloud/calendar-rework.svg)
 
 
 This is the rework of the calendar app. <br>
