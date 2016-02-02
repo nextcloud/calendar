@@ -40,6 +40,7 @@ app.service('TimezoneService', ['$rootScope', '$http', 'Timezone',
 				if (response.status >= 200 && response.status <= 299) {
 					return response.data.concat(['GMT', 'UTC', 'Z']);
 				} else {
+					return;
 					// TODO - something went wrong, do smth about it
 				}
 			});
@@ -65,6 +66,7 @@ app.service('TimezoneService', ['$rootScope', '$http', 'Timezone',
 
 					return timezone;
 				} else {
+					return;
 					// TODO - something went wrong, do smth about it
 				}
 			});

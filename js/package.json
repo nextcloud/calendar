@@ -22,6 +22,7 @@
     "grunt-phpunit": "*",
     "grunt-wrap": "*",
     "jasmine-core": "*",
+    "jshint-stylish": "^2.1.0",
     "karma": "*",
     "karma-chrome-launcher": "*",
     "karma-coverage": "*",
