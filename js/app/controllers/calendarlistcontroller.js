@@ -131,7 +131,7 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 					return returnObj;
 				});
 
-				return users.concat(groups);
+				return groups.concat(users);
 			});
 		}
 
