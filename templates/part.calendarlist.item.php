@@ -82,7 +82,7 @@
 		typeahead-on-select="onSelectSharee($item, $model, $label, calendar)"
 		typeahead-loading="loadingSharees"
 		typeahead-no-results="noResults"
-		ng-model="selectedSharee"
+		ng-model="calendar.selectedSharee"
 		placeholder="Share with users or groups">
 	<ul class="calendar-share-list">
 		<li ng-repeat="userShare in calendar.sharedWith.users" class="calendar-share-item">

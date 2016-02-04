@@ -58,8 +58,6 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 				locked: false,
 				editingShares: false
 			},
-			newSharee: null,
-			noResults: false
 		});
 
 		var components = props['{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set'];
