@@ -81,13 +81,16 @@
 		uib-typeahead="sharee.display for sharee in findSharee($viewValue, calendar)"
 		typeahead-on-select="onSelectSharee($item, $model, $label, calendar)"
 		typeahead-loading="loadingSharees"
-		typeahead-no-results="noResults"
 		ng-model="calendar.selectedSharee"
 		placeholder="Share with users or groups">
 	<ul class="calendar-share-list">
-		<li ng-repeat="userShare in calendar.sharedWith.users" class="calendar-share-item">
-			{{ userShare.displayname }} -
-			<input type="checkbox" name="editable" checked="userShare.writeable" value="edit"><label> can edit</label>
+		<li ng-repeat="share in calendar.sharedWith.groups" class="calendar-share-item">
+			{{ share.displayname }} (group) -
+			<input type="checkbox" name="editable" ng-checked="share.writeable" value="edit"><label> can edit</label>
+		</li>
+		<li ng-repeat="share in calendar.sharedWith.users" class="calendar-share-item">
+			{{ share.displayname }} -
+			<input type="checkbox" name="editable" ng-checked="share.writeable" value="edit"><label> can edit</label>
 		</li>
 	</ul>
 </div>

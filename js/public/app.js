@@ -1441,8 +1441,8 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 				writable: props.canWrite,
 				shareable: props.canWrite,
 				sharedWith: {
-					users: [ {displayname: 'Tom Needham', writeable: true} ],
-					groups: []
+					users: [ {displayname: 'Tom Needham', writeable: true}, {displayname: 'Test Account', writeable: false} ],
+					groups: [ {displayname: 'group 4', writeable: true}, {displayname: 'test group', writeable: false}]
 				}
 			},
 			_updatedProperties: []
@@ -2284,7 +2284,7 @@ app.factory('fcHelper', function () {
 	 */
 	function addCalendarDataToFCData(fcData, calendar) {
 		fcData.calendar = calendar;
-		fcData.editable = calendar.editable;
+		fcData.editable = calendar.writable;
 		fcData.backgroundColor = calendar.color;
 		fcData.borderColor = calendar.color;
 		fcData.textColor = calendar.textColor;

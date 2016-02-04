@@ -20,8 +20,8 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 				writable: props.canWrite,
 				shareable: props.canWrite,
 				sharedWith: {
-					users: [ {displayname: 'Tom Needham', writeable: true} ],
-					groups: []
+					users: [ {displayname: 'Tom Needham', writeable: true}, {displayname: 'Test Account', writeable: false} ],
+					groups: [ {displayname: 'group 4', writeable: true}, {displayname: 'test group', writeable: false}]
 				}
 			},
 			_updatedProperties: []
