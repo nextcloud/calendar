@@ -73,9 +73,17 @@
 		<button id="chooseCalendar-close" class="btn close-button icon-close" ng-click="cancelUpdate(calendar)"></button>
 	</div>
 </fieldset>
-<div ng-show="calendar.list.editingShares">
+<div ng-show="calendar.list.editingShares" class="calendarShares">
 	<i ng-show="loadingSharees" class="glyphicon glyphicon-refresh"></i>
-	<input type="text" uib-typeahead="sharee for sharee in findSharee($viewValue, calendar)" typeahead-on-select="onSelectSharee($item, $model, $label, calendar)" typeahead-loading="loadingSharees" typeahead-no-results="noResults" ng-model="calendar.selectedSharee" placeholder="Share with users or groups">
+	<input
+		type="text"
+		class="shareeInput"
+		uib-typeahead="sharee.display for sharee in findSharee($viewValue, calendar)"
+		typeahead-on-select="onSelectSharee($item, $model, $label, calendar)"
+		typeahead-loading="loadingSharees"
+		typeahead-no-results="noResults"
+		ng-model="selectedSharee"
+		placeholder="Share with users or groups">
 	<ul class="calendar-share-list">
 		<li ng-repeat="userShare in calendar.sharedWith.users" class="calendar-share-item">
 			{{ userShare.displayname }} -

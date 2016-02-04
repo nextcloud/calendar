@@ -343,13 +343,11 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 		};
 
 		$scope.onSelectSharee = function (item, model, label, calendar) {
-			// Create the share
 			// Remove content from text box
-			calendar.selectedSharee = null;
+			calendar.selectedSharee = '';
 			// Create a default share with the user/group, read only
-			calendar.share(calendar, item.type, item.id, false);
-			// Update the UI
-			// TODO
+			calendar.share(calendar, item.type, item.identier, false);
+			$scope.apply();
 		};
 
 		$scope.findSharee = function (val, calendar) {
@@ -359,7 +357,7 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 					format: 'json',
 					search: val.trim(),
 					perPage: 200,
-					itemType: 'calendar'
+					itemType: 'principals'
 				}
 			).then(function(result) {
 				// Todo - filter out current user, existing sharees
@@ -394,8 +392,23 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 				}
 
 				// Combine users and groups
-				users = users.map(function(item){return item.value.shareWith;});
-				groups = groups.map(function(item){return item.value.shareWith + ' (group)';});
+				users = users.map(function(item){
+					var returnObj = {
+						display: item.value.shareWith,
+						type: OC.Share.SHARE_TYPE_USER,
+						identifier: item.value.shareWith
+					};
+					return returnObj;
+				});
+
+				groups = groups.map(function(item){
+					var returnObj = {
+						display: item.value.shareWith + ' (group)',
+						type: OC.Share.SHARE_TYPE_GROUP,
+						identifier: item.value.shareWith
+					};
+					return returnObj;
+				});
 
 				return users.concat(groups);
 			});
