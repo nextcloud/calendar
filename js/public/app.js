@@ -2510,7 +2510,7 @@ app.factory('VEvent', ['$filter', 'objectConverter', 'ICalFactory', function($fi
 		this.components = new ICAL.Component(this.jCal);
 
 		if (this.components.jCal.length === 0) {
-			throw "invalid calendar"
+			throw "invalid calendar";
 		}
 
 		angular.extend(this, {
