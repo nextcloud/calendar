@@ -1467,7 +1467,8 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 				sharedWith: {
 					users: [],
 					groups: []
-				}
+				},
+				owner: ''
 			},
 			_updatedProperties: []
 		});
@@ -1544,6 +1545,14 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 						writable: readWrite
 					});
 				}
+			}
+		}
+
+		var owner = props['{DAV:}owner'];
+		if (typeof owner !== 'undefined' && owner.length !== 0) {
+			owner = owner[0].textContent.slice(0, -1);
+			if (owner.startsWith('/remote.php/dav/principals/users/')) {
+				this._properties.owner = owner.substr(33);
 			}
 		}
 
@@ -1629,6 +1638,9 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 		},
 		get shareable() {
 			return this._properties.shareable;
+		},
+		get owner() {
+			return this._properties.owner;
 		},
 		_setUpdated: function(propName) {
 			if (this._updatedProperties.indexOf(propName) === -1) {
@@ -1999,7 +2011,7 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 		var oSummary = xmlDoc.createElement('o:summary');
 		oSummary.textContent = t('calendar', '{calendar} shared by {owner}', {
 			calendar: calendar.displayname,
-			owner: calendar.displayname
+			owner: calendar.owner
 		});
 		oSet.appendChild(oSummary);
 

@@ -275,7 +275,7 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 		var oSummary = xmlDoc.createElement('o:summary');
 		oSummary.textContent = t('calendar', '{calendar} shared by {owner}', {
 			calendar: calendar.displayname,
-			owner: calendar.displayname
+			owner: calendar.owner
 		});
 		oSet.appendChild(oSummary);
 
