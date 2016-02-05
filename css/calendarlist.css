@@ -177,6 +177,11 @@
 	padding: 14px 2px 14px 2px;
 	cursor: pointer;
 }
+
+#app-navigation .app-navigation-list-item:hover .calendar-share-list .utils .action span {
+	padding: 0;
+}
+
 #app-navigation .app-navigation-list-item:hover .utils.active {
   display: inline-block;
 }
@@ -219,4 +224,31 @@
 /* Spacing */
 #spacer {
   height: 44px;
+}
+
+/* Calendar Sharing */
+input.shareeInput {
+	width: 89%;
+	margin: 6px;
+}
+
+li.calendar-share-item {
+	margin-left: 12px;
+	width: 95% !important;
+}
+ul.dropdown-menu {
+	height: 100px;
+    overflow: scroll;
+    border: 1px #ddd solid;
+    border-radius: 3px;
+	margin-top: -7px;
+    margin-left: 6px;
+    width: 226px;
+}
+ul.dropdown-menu  li {
+	height: 25px;
+}
+
+ul.dropdown-menu li > a:hover {
+	background-color: grey !important;
 }

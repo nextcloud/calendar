@@ -2,6 +2,7 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 	'use strict';
 
 	function Calendar(url, props) {
+		console.log(props);
 		var _this = this;
 
 		angular.extend(this, {
@@ -17,13 +18,13 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 					vjournal: false,
 					vtodo: false
 				},
-				cruds: {
-					create: props.canWrite,
-					read: true,
-					update: props.canWrite,
-					delete: props.canWrite,
-					share: props.canWrite
-				}
+				writable: props.canWrite,
+				shareable: props.canWrite,
+				sharedWith: {
+					users: [],
+					groups: []
+				},
+				owner: ''
 			},
 			_updatedProperties: []
 		});
@@ -50,13 +51,14 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 						});
 					});
 				},
-				editable: this._properties.cruds.update,
+				editable: this._properties.writable,
 				calendar: this
 			},
 			list: {
 				edit: false,
 				loading: this.enabled,
-				locked: false
+				locked: false,
+				editingShares: false
 			}
 		});
 
@@ -65,6 +67,48 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 			var name = components[i].attributes.getNamedItem('name').textContent.toLowerCase();
 			if (this._properties.components.hasOwnProperty(name)) {
 				this._properties.components[name] = true;
+			}
+		}
+
+		var shares = props['{http://owncloud.org/ns}invite'];
+		if (typeof shares !== 'undefined') {
+			for (var j=0; j < shares.length; j++) {
+				var href = shares[j].getElementsByTagNameNS('DAV:', 'href');
+				if (href.length === 0) {
+					continue;
+				}
+				href = href[0].textContent;
+
+				var access = shares[j].getElementsByTagNameNS('http://owncloud.org/ns', 'access');
+				if (access.length === 0) {
+					continue;
+				}
+				access = access[0];
+
+				var readWrite = access.getElementsByTagNameNS('http://owncloud.org/ns', 'read-write');
+				readWrite = readWrite.length !== 0;
+
+				if (href.startsWith('principal:principals/users/')) {
+					this._properties.sharedWith.users.push({
+						id: href.substr(27),
+						displayname: href.substr(27),
+						writable: readWrite
+					});
+				} else if (href.startsWith('principal:principals/groups/')) {
+					this._properties.sharedWith.groups.push({
+						id: href.substr(28),
+						displayname: href.substr(28),
+						writable: readWrite
+					});
+				}
+			}
+		}
+
+		var owner = props['{DAV:}owner'];
+		if (typeof owner !== 'undefined' && owner.length !== 0) {
+			owner = owner[0].textContent.slice(0, -1);
+			if (owner.startsWith('/remote.php/dav/principals/users/')) {
+				this._properties.owner = owner.substr(33);
 			}
 		}
 
@@ -98,6 +142,12 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 		set color(color) {
 			this._properties.color = color;
 			this._setUpdated('color');
+		},
+		get sharedWith() {
+			return this._properties.sharedWith;
+		},
+		set sharedWith(sharedWith) {
+			this._properties.sharedWith = sharedWith;
 		},
 		get textColor() {
 			var color = this.color;
@@ -139,8 +189,14 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 			this._properties.order = order;
 			this._setUpdated('order');
 		},
-		get cruds() {
-			return this._properties.cruds;
+		get writable() {
+			return this._properties.writable;
+		},
+		get shareable() {
+			return this._properties.shareable;
+		},
+		get owner() {
+			return this._properties.owner;
 		},
 		_setUpdated: function(propName) {
 			if (this._updatedProperties.indexOf(propName) === -1) {
@@ -164,6 +220,9 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 		},
 		dropPreviousState: function() {
 			this._propertiesBackup = {};
+		},
+		toggleSharesEditor: function() {
+			this.list.editingShares = !this.list.editingShares;
 		},
 		_generateTextColor: function(r,g,b) {
 			var brightness = (((r * 299) + (g * 587) + (b * 114)) / 1000);

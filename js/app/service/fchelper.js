@@ -79,7 +79,7 @@
 	 */
 	function addCalendarDataToFCData(fcData, calendar) {
 		fcData.calendar = calendar;
-		fcData.editable = calendar.cruds.update;
+		fcData.editable = calendar.writable;
 		fcData.backgroundColor = calendar.color;
 		fcData.borderColor = calendar.color;
 		fcData.textColor = calendar.textColor;

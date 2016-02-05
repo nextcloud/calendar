@@ -20,20 +20,19 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-app.filter('calendarFilter',
-	[ function () {
+app.filter('calendarFilter', [
+	function() {
 		'use strict';
-		var calendarfilter = function (item) {
+		return function (item) {
 			var filter = [];
 			if (item.length > 0) {
 				for (var i = 0; i < item.length; i++) {
-					if (item[i].cruds.create === true || item[i].cruds.update === true || item[i].cruds.delete === true) {
+					if (item[i].writable === true) {
 						filter.push(item[i]);
 					}
 				}
 			}
 			return filter;
 		};
-		return calendarfilter;
 	}
-	]);
+]);

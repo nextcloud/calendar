@@ -41,7 +41,8 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 		'{' + DavClient.NS_IETF + '}supported-calendar-component-set',
 		'{' + DavClient.NS_OWNCLOUD + '}calendar-enabled',
 		'{' + DavClient.NS_DAV + '}acl',
-		'{' + DavClient.NS_DAV + '}owner'
+		'{' + DavClient.NS_DAV + '}owner',
+		'{' + DavClient.NS_OWNCLOUD + '}invite'
 	];
 
 	function discoverHome(callback) {
@@ -247,6 +248,106 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 				return true;
 			} else {
 				// TODO - handle error case
+				return false;
+			}
+		});
+	};
+
+	this.share = function(calendar, shareType, shareWith, writable, existingShare) {
+		var xmlDoc = document.implementation.createDocument('', '', null);
+		var oShare = xmlDoc.createElement('o:share');
+		oShare.setAttribute('xmlns:d', 'DAV:');
+		oShare.setAttribute('xmlns:o', 'http://owncloud.org/ns');
+		xmlDoc.appendChild(oShare);
+
+		var oSet = xmlDoc.createElement('o:set');
+		oShare.appendChild(oSet);
+
+		var dHref = xmlDoc.createElement('d:href');
+		if (shareType === OC.Share.SHARE_TYPE_USER) {
+			dHref.textContent = 'principal:principals/users/';
+		} else if (shareType === OC.Share.SHARE_TYPE_GROUP) {
+			dHref.textContent = 'principal:principals/groups/';
+		}
+		dHref.textContent += shareWith;
+		oSet.appendChild(dHref);
+
+		var oSummary = xmlDoc.createElement('o:summary');
+		oSummary.textContent = t('calendar', '{calendar} shared by {owner}', {
+			calendar: calendar.displayname,
+			owner: calendar.owner
+		});
+		oSet.appendChild(oSummary);
+
+		if (writable) {
+			var oRW = xmlDoc.createElement('o:read-write');
+			oSet.appendChild(oRW);
+		}
+
+		var headers = {
+			'Content-Type' : 'application/xml; charset=utf-8',
+			requesttoken: oc_requesttoken
+		};
+		var body = oShare.outerHTML;
+		return DavClient.request('POST', calendar.url, headers, body).then(function(response) {
+			if (response.status === 200) {
+				if (!existingShare) {
+					if (shareType === OC.Share.SHARE_TYPE_USER) {
+						calendar.sharedWith.users.push({
+							id: shareWith,
+							displayname: shareWith,
+							writable: writable
+						});
+					} else if (shareType === OC.Share.SHARE_TYPE_GROUP) {
+						calendar.sharedWith.groups.push({
+							id: shareWith,
+							displayname: shareWith,
+							writable: writable
+						});
+					}
+				}
+			}
+		});
+	};
+
+	this.unshare = function(calendar, shareType, shareWith) {
+		var xmlDoc = document.implementation.createDocument('', '', null);
+		var oShare = xmlDoc.createElement('o:share');
+		oShare.setAttribute('xmlns:d', 'DAV:');
+		oShare.setAttribute('xmlns:o', 'http://owncloud.org/ns');
+		xmlDoc.appendChild(oShare);
+
+		var oRemove = xmlDoc.createElement('o:remove');
+		oShare.appendChild(oRemove);
+
+		var dHref = xmlDoc.createElement('d:href');
+		if (shareType === OC.Share.SHARE_TYPE_USER) {
+			dHref.textContent = 'principal:principals/users/';
+		} else if (shareType === OC.Share.SHARE_TYPE_GROUP) {
+			dHref.textContent = 'principal:principals/groups/';
+		}
+		dHref.textContent += shareWith;
+		oRemove.appendChild(dHref);
+
+		var headers = {
+			'Content-Type' : 'application/xml; charset=utf-8',
+			requesttoken: oc_requesttoken
+		};
+		var body = oShare.outerHTML;
+		return DavClient.request('POST', calendar.url, headers, body).then(function(response) {
+			if (response.status === 200) {
+				if (shareType === OC.Share.SHARE_TYPE_USER) {
+					calendar.sharedWith.users = calendar.sharedWith.users.filter(function(user) {
+						return user.id !== shareWith;
+					});
+				} else if (shareType === OC.Share.SHARE_TYPE_GROUP) {
+					calendar.sharedWith.groups = calendar.sharedWith.groups.filter(function(groups) {
+						return groups.id !== shareWith;
+					});
+				}
+				//todo - remove entry from calendar object
+				return true;
+			} else {
 				return false;
 			}
 		});
