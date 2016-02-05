@@ -48,8 +48,7 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'e
 		};
 
 		$scope.export = function() {
-			//TODO - download attribute doesn't work in Safari :/
-
+			$window.open($scope.oldCalendar.url + vevent.uri);
 		};
 
 		$scope.save = function() {
