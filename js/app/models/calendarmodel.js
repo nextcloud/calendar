@@ -2,6 +2,7 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 	'use strict';
 
 	function Calendar(url, props) {
+		console.log(props);
 		var _this = this;
 
 		angular.extend(this, {
@@ -20,8 +21,8 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 				writable: props.canWrite,
 				shareable: props.canWrite,
 				sharedWith: {
-					users: [ {displayname: 'Tom Needham', writeable: true}, {displayname: 'Test Account', writeable: false} ],
-					groups: [ {displayname: 'group 4', writeable: true}, {displayname: 'test group', writeable: false}]
+					users: [],
+					groups: []
 				}
 			},
 			_updatedProperties: []
@@ -57,7 +58,7 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 				loading: this.enabled,
 				locked: false,
 				editingShares: false
-			},
+			}
 		});
 
 		var components = props['{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set'];
@@ -65,6 +66,40 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 			var name = components[i].attributes.getNamedItem('name').textContent.toLowerCase();
 			if (this._properties.components.hasOwnProperty(name)) {
 				this._properties.components[name] = true;
+			}
+		}
+
+		var shares = props['{http://owncloud.org/ns}invite'];
+		if (typeof shares !== 'undefined') {
+			for (var j=0; j < shares.length; j++) {
+				var href = shares[j].getElementsByTagNameNS('DAV:', 'href');
+				if (href.length === 0) {
+					continue;
+				}
+				href = href[0].textContent;
+
+				var access = shares[j].getElementsByTagNameNS('http://owncloud.org/ns', 'access');
+				if (access.length === 0) {
+					continue;
+				}
+				access = access[0];
+
+				var readWrite = access.getElementsByTagNameNS('http://owncloud.org/ns', 'read-write');
+				readWrite = readWrite.length !== 0;
+
+				if (href.startsWith('principal:principals/users/')) {
+					this._properties.sharedWith.users.push({
+						id: href.substr(27),
+						displayname: href.substr(27),
+						writable: readWrite
+					});
+				} else if (href.startsWith('principal:principals/groups/')) {
+					this._properties.sharedWith.groups.push({
+						id: href.substr(28),
+						displayname: href.substr(28),
+						writable: readWrite
+					});
+				}
 			}
 		}
 

@@ -336,7 +336,7 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 
 		$scope.toggleSharesEditor = function (calendar) {
 			calendar.toggleSharesEditor();
-		}
+		};
 
 		$scope.prepareUpdate = function (calendar) {
 			calendar.prepareUpdate();
@@ -346,8 +346,33 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 			// Remove content from text box
 			calendar.selectedSharee = '';
 			// Create a default share with the user/group, read only
-			calendar.share(calendar, item.type, item.identier, false);
-			$scope.apply();
+			CalendarService.share(calendar, item.type, item.identifier, false, false).then(function() {
+				$scope.$apply();
+			});
+		};
+
+		$scope.updateExistingUserShare = function(calendar, userId, writable) {
+			CalendarService.share(calendar, OC.Share.SHARE_TYPE_USER, userId, writable, true).then(function() {
+				$scope.$apply();
+			});
+		};
+
+		$scope.updateExistingGroupShare = function(calendar, groupId, writable) {
+			CalendarService.share(calendar, OC.Share.SHARE_TYPE_GROUP, groupId, writable, true).then(function() {
+				$scope.$apply();
+			});
+		};
+
+		$scope.unshareFromUser = function(calendar, userId) {
+			CalendarService.unshare(calendar, OC.Share.SHARE_TYPE_USER, userId).then(function() {
+				$scope.$apply();
+			});
+		};
+
+		$scope.unshareFromGroup = function(calendar, groupId) {
+			CalendarService.unshare(calendar, OC.Share.SHARE_TYPE_GROUP, groupId).then(function() {
+				$scope.$apply();
+			});
 		};
 
 		$scope.findSharee = function (val, calendar) {
@@ -393,26 +418,24 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 
 				// Combine users and groups
 				users = users.map(function(item){
-					var returnObj = {
+					return {
 						display: item.value.shareWith,
 						type: OC.Share.SHARE_TYPE_USER,
 						identifier: item.value.shareWith
 					};
-					return returnObj;
 				});
 
 				groups = groups.map(function(item){
-					var returnObj = {
+					return {
 						display: item.value.shareWith + ' (group)',
 						type: OC.Share.SHARE_TYPE_GROUP,
 						identifier: item.value.shareWith
 					};
-					return returnObj;
 				});
 
 				return groups.concat(users);
 			});
-		}
+		};
 
 		$scope.cancelUpdate = function (calendar) {
 			calendar.resetToPreviousState();
@@ -1423,6 +1446,7 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 	'use strict';
 
 	function Calendar(url, props) {
+		console.log(props);
 		var _this = this;
 
 		angular.extend(this, {
@@ -1441,8 +1465,8 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 				writable: props.canWrite,
 				shareable: props.canWrite,
 				sharedWith: {
-					users: [ {displayname: 'Tom Needham', writeable: true}, {displayname: 'Test Account', writeable: false} ],
-					groups: [ {displayname: 'group 4', writeable: true}, {displayname: 'test group', writeable: false}]
+					users: [],
+					groups: []
 				}
 			},
 			_updatedProperties: []
@@ -1478,7 +1502,7 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 				loading: this.enabled,
 				locked: false,
 				editingShares: false
-			},
+			}
 		});
 
 		var components = props['{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set'];
@@ -1486,6 +1510,40 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 			var name = components[i].attributes.getNamedItem('name').textContent.toLowerCase();
 			if (this._properties.components.hasOwnProperty(name)) {
 				this._properties.components[name] = true;
+			}
+		}
+
+		var shares = props['{http://owncloud.org/ns}invite'];
+		if (typeof shares !== 'undefined') {
+			for (var j=0; j < shares.length; j++) {
+				var href = shares[j].getElementsByTagNameNS('DAV:', 'href');
+				if (href.length === 0) {
+					continue;
+				}
+				href = href[0].textContent;
+
+				var access = shares[j].getElementsByTagNameNS('http://owncloud.org/ns', 'access');
+				if (access.length === 0) {
+					continue;
+				}
+				access = access[0];
+
+				var readWrite = access.getElementsByTagNameNS('http://owncloud.org/ns', 'read-write');
+				readWrite = readWrite.length !== 0;
+
+				if (href.startsWith('principal:principals/users/')) {
+					this._properties.sharedWith.users.push({
+						id: href.substr(27),
+						displayname: href.substr(27),
+						writable: readWrite
+					});
+				} else if (href.startsWith('principal:principals/groups/')) {
+					this._properties.sharedWith.groups.push({
+						id: href.substr(28),
+						displayname: href.substr(28),
+						writable: readWrite
+					});
+				}
 			}
 		}
 
@@ -1707,7 +1765,8 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 		'{' + DavClient.NS_IETF + '}supported-calendar-component-set',
 		'{' + DavClient.NS_OWNCLOUD + '}calendar-enabled',
 		'{' + DavClient.NS_DAV + '}acl',
-		'{' + DavClient.NS_DAV + '}owner'
+		'{' + DavClient.NS_DAV + '}owner',
+		'{' + DavClient.NS_OWNCLOUD + '}invite'
 	];
 
 	function discoverHome(callback) {
@@ -1918,20 +1977,104 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 		});
 	};
 
-	this.share = function(calendar, shareType, shareWith, writable) {
+	this.share = function(calendar, shareType, shareWith, writable, existingShare) {
+		var xmlDoc = document.implementation.createDocument('', '', null);
+		var oShare = xmlDoc.createElement('o:share');
+		oShare.setAttribute('xmlns:d', 'DAV:');
+		oShare.setAttribute('xmlns:o', 'http://owncloud.org/ns');
+		xmlDoc.appendChild(oShare);
+
+		var oSet = xmlDoc.createElement('o:set');
+		oShare.appendChild(oSet);
+
+		var dHref = xmlDoc.createElement('d:href');
 		if (shareType === OC.Share.SHARE_TYPE_USER) {
-			calendar.sharedWith.users.push({
-				id: shareWith,
-				displayname: shareWith,
-				writable: writable
-			});
+			dHref.textContent = 'principal:principals/users/';
 		} else if (shareType === OC.Share.SHARE_TYPE_GROUP) {
-			calendar.sharedWith.groups.push({
-				id: shareWith,
-				displayname: shareWith,
-				writable: writable
-			});
+			dHref.textContent = 'principal:principals/groups/';
 		}
+		dHref.textContent += shareWith;
+		oSet.appendChild(dHref);
+
+		var oSummary = xmlDoc.createElement('o:summary');
+		oSummary.textContent = t('calendar', '{calendar} shared by {owner}', {
+			calendar: calendar.displayname,
+			owner: calendar.displayname
+		});
+		oSet.appendChild(oSummary);
+
+		if (writable) {
+			var oRW = xmlDoc.createElement('o:read-write');
+			oSet.appendChild(oRW);
+		}
+
+		var headers = {
+			'Content-Type' : 'application/xml; charset=utf-8',
+			requesttoken: oc_requesttoken
+		};
+		var body = oShare.outerHTML;
+		return DavClient.request('POST', calendar.url, headers, body).then(function(response) {
+			if (response.status === 200) {
+				if (!existingShare) {
+					if (shareType === OC.Share.SHARE_TYPE_USER) {
+						calendar.sharedWith.users.push({
+							id: shareWith,
+							displayname: shareWith,
+							writable: writable
+						});
+					} else if (shareType === OC.Share.SHARE_TYPE_GROUP) {
+						calendar.sharedWith.groups.push({
+							id: shareWith,
+							displayname: shareWith,
+							writable: writable
+						});
+					}
+				}
+			}
+		});
+	};
+
+	this.unshare = function(calendar, shareType, shareWith) {
+		var xmlDoc = document.implementation.createDocument('', '', null);
+		var oShare = xmlDoc.createElement('o:share');
+		oShare.setAttribute('xmlns:d', 'DAV:');
+		oShare.setAttribute('xmlns:o', 'http://owncloud.org/ns');
+		xmlDoc.appendChild(oShare);
+
+		var oRemove = xmlDoc.createElement('o:remove');
+		oShare.appendChild(oRemove);
+
+		var dHref = xmlDoc.createElement('d:href');
+		if (shareType === OC.Share.SHARE_TYPE_USER) {
+			dHref.textContent = 'principal:principals/users/';
+		} else if (shareType === OC.Share.SHARE_TYPE_GROUP) {
+			dHref.textContent = 'principal:principals/groups/';
+		}
+		dHref.textContent += shareWith;
+		oRemove.appendChild(dHref);
+
+		var headers = {
+			'Content-Type' : 'application/xml; charset=utf-8',
+			requesttoken: oc_requesttoken
+		};
+		var body = oShare.outerHTML;
+		return DavClient.request('POST', calendar.url, headers, body).then(function(response) {
+			if (response.status === 200) {
+				if (shareType === OC.Share.SHARE_TYPE_USER) {
+					calendar.sharedWith.users = calendar.sharedWith.users.filter(function(user) {
+						return user.id !== shareWith;
+					});
+				} else if (shareType === OC.Share.SHARE_TYPE_GROUP) {
+					calendar.sharedWith.groups = calendar.sharedWith.groups.filter(function(groups) {
+						return groups.id !== shareWith;
+					});
+				}
+				//todo - remove entry from calendar object
+				return true;
+			} else {
+				return false;
+			}
+		});
 	};
 
 	this._createXMLForProperty = function(xmlDoc, propName, value) {

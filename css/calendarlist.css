@@ -177,6 +177,11 @@
 	padding: 14px 2px 14px 2px;
 	cursor: pointer;
 }
+
+#app-navigation .app-navigation-list-item:hover .calendar-share-list .utils .action span {
+	padding: 0;
+}
+
 #app-navigation .app-navigation-list-item:hover .utils.active {
   display: inline-block;
 }

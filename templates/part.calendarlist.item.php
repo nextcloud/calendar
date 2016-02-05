@@ -84,13 +84,43 @@
 		ng-model="calendar.selectedSharee"
 		placeholder="Share with users or groups">
 	<ul class="calendar-share-list">
-		<li ng-repeat="share in calendar.sharedWith.groups" class="calendar-share-item">
-			{{ share.displayname }} (group) -
-			<input type="checkbox" name="editable" ng-checked="share.writeable" value="edit"><label> can edit</label>
+		<li ng-repeat="userShare in calendar.sharedWith.users" class="calendar-share-item">
+			{{ userShare.displayname }} -
+			<input type="checkbox" name="editable"
+				   id="checkbox_sharedWithUser_{{calendar.tmpId}}_{{$id}}"
+				   ng-model="userShare.writable" value="edit"
+				   ng-change="updateExistingUserShare(calendar, userShare.id, userShare.writable)">
+			<label for="checkbox_sharedWithUser_{{calendar.tmpId}}_{{$id}}"> can edit</label>
+			<span class="utils hide">
+				<span class="action">
+					<span href="#"
+						  id="calendarlist-icon delete"
+						  data-id="{{ calendar.uri }}"
+						  title="Delete"
+						  class="icon-delete"
+						  ng-click="unshareFromUser(calendar, userShare.id)">
+					</span>
+				</span>
+			</span>
 		</li>
-		<li ng-repeat="share in calendar.sharedWith.users" class="calendar-share-item">
-			{{ share.displayname }} -
-			<input type="checkbox" name="editable" ng-checked="share.writeable" value="edit"><label> can edit</label>
+		<li ng-repeat="groupShare in calendar.sharedWith.groups" class="calendar-share-item">
+			{{ groupShare.displayname }} (<?php p($l->t('group')); ?>) -
+			<input type="checkbox" name="editable"
+				   id="checkbox_sharedWithGroup_{{calendar.tmpId}}_{{$id}}"
+				   ng-model="groupShare.writable" value="edit"
+				   ng-change="updateExistingGroupShare(calendar, groupShare.id, groupShare.writable)">
+			<label for="checkbox_sharedWithGroup_{{calendar.tmpId}}_{{$id}}"> can edit</label>
+			<span class="utils hide">
+				<span class="action">
+					<span href="#"
+						  id="calendarlist-icon delete"
+						  data-id="{{ calendar.uri }}"
+						  title="Delete"
+						  class="icon-delete"
+						  ng-click="unshareFromGroup(calendar, groupShare.Id)">
+					</span>
+				</span>
+			</span>
 		</li>
 	</ul>
 </div>

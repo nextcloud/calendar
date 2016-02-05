@@ -57,7 +57,7 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 
 		$scope.toggleSharesEditor = function (calendar) {
 			calendar.toggleSharesEditor();
-		}
+		};
 
 		$scope.prepareUpdate = function (calendar) {
 			calendar.prepareUpdate();
@@ -67,8 +67,33 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 			// Remove content from text box
 			calendar.selectedSharee = '';
 			// Create a default share with the user/group, read only
-			calendar.share(calendar, item.type, item.identier, false);
-			$scope.apply();
+			CalendarService.share(calendar, item.type, item.identifier, false, false).then(function() {
+				$scope.$apply();
+			});
+		};
+
+		$scope.updateExistingUserShare = function(calendar, userId, writable) {
+			CalendarService.share(calendar, OC.Share.SHARE_TYPE_USER, userId, writable, true).then(function() {
+				$scope.$apply();
+			});
+		};
+
+		$scope.updateExistingGroupShare = function(calendar, groupId, writable) {
+			CalendarService.share(calendar, OC.Share.SHARE_TYPE_GROUP, groupId, writable, true).then(function() {
+				$scope.$apply();
+			});
+		};
+
+		$scope.unshareFromUser = function(calendar, userId) {
+			CalendarService.unshare(calendar, OC.Share.SHARE_TYPE_USER, userId).then(function() {
+				$scope.$apply();
+			});
+		};
+
+		$scope.unshareFromGroup = function(calendar, groupId) {
+			CalendarService.unshare(calendar, OC.Share.SHARE_TYPE_GROUP, groupId).then(function() {
+				$scope.$apply();
+			});
 		};
 
 		$scope.findSharee = function (val, calendar) {
@@ -114,26 +139,24 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 
 				// Combine users and groups
 				users = users.map(function(item){
-					var returnObj = {
+					return {
 						display: item.value.shareWith,
 						type: OC.Share.SHARE_TYPE_USER,
 						identifier: item.value.shareWith
 					};
-					return returnObj;
 				});
 
 				groups = groups.map(function(item){
-					var returnObj = {
+					return {
 						display: item.value.shareWith + ' (group)',
 						type: OC.Share.SHARE_TYPE_GROUP,
 						identifier: item.value.shareWith
 					};
-					return returnObj;
 				});
 
 				return groups.concat(users);
 			});
-		}
+		};
 
 		$scope.cancelUpdate = function (calendar) {
 			calendar.resetToPreviousState();
