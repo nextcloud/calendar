@@ -6,8 +6,7 @@
 					ng-model="properties.summary.value"
 					placeholder="<?php p($l->t('Title of the Event'));?>"
 					name="title" type="text"
-					autofocus="autofocus"
-			/>
+					autofocus="autofocus"/>
 			<select
 					ng-model="calendar"
 					ng-init="calendar = oldCalendar || calendars[0]"
@@ -35,10 +34,10 @@
 		</fieldset>
 
 		<fieldset class="advanced--fieldset">
-			<input ng-model="properties.location.value" type="text" class="advanced--input"
+			<textarea ng-model="properties.location.value" type="text" class="advanced--input"
 				   placeholder="<?php p($l->t('Events Location'));?>" name="location"
 				   uib-typeahead="location for location in getLocation($viewValue)"
-				   autocomplete="off" />
+				   autocomplete="off" ></textarea>
 			<input ng-model="properties.categories.value" type="text" class="advanced--input"
 				   placeholder="<?php p($l->t('Separate Categories with comma'));?>" name="categories" />
   			<textarea ng-model="properties.description.value" type="text" class="advanced--input advanced--textarea"
