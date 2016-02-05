@@ -117,7 +117,7 @@
 						  data-id="{{ calendar.uri }}"
 						  title="Delete"
 						  class="icon-delete"
-						  ng-click="unshareFromGroup(calendar, groupShare.Id)">
+						  ng-click="unshareFromGroup(calendar, groupShare.id)">
 					</span>
 				</span>
 			</span>
