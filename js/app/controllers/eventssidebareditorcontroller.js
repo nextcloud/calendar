@@ -36,6 +36,9 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'e
 		$scope.oldCalendar = isNew ? null : vevent.calendar;
 		$scope.selected = 1;
 
+		console.log(vevent);
+		console.log(properties);
+
 		$scope.cancel = function() {
 			$uibModalInstance.dismiss('cancel');
 		};
@@ -55,8 +58,6 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'e
 		};
 
 		$uibModalInstance.rendered.then(function() {
-			eventEditorHelper.prepareProperties($scope.properties);
-
 			// TODO: revaluate current solution:
 			// moment.js and the datepicker use different formats to format a date.
 			// therefore we have to do some conversion-black-magic to make the moment.js
@@ -97,27 +98,24 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'e
 				showPeriod: (localeData.longDateFormat('LT').toLowerCase().indexOf('a') !== -1)
 			});
 
-			var moment_start = moment($scope.properties.dtstart.date, 'YYYY-MM-DD');
-			var moment_end = moment($scope.properties.dtend.date, 'YYYY-MM-DD');
-
 			var midnight = new Date('2000-01-01 00:00');
 			if ($scope.properties.dtstart.type === 'date') {
 				angular.element('#fromtime').timepicker('setTime', midnight);
 			} else {
-				var fromTime = new Date('2000-01-01 ' + $scope.properties.dtstart.time);
+				var fromTime = $scope.properties.dtstart.value.toDate();
 				angular.element('#fromtime').timepicker('setTime', fromTime);
 			}
 
 			if ($scope.properties.dtend.type === 'date') {
-				moment_end.subtract(1, 'days');
+				$scope.properties.dtend.value.subtract(1, 'days');
 				angular.element('#totime').timepicker('setTime', midnight);
 			} else {
-				var toTime = new Date('2000-01-01 ' + $scope.properties.dtend.time);
+				var toTime = $scope.properties.dtend.value.toDate();
 				angular.element('#totime').timepicker('setTime', toTime);
 			}
 
-			angular.element('#from').datepicker('setDate', moment_start.toDate());
-			angular.element('#to').datepicker('setDate', moment_end.toDate());
+			angular.element('#from').datepicker('setDate', $scope.properties.dtstart.value.toDate());
+			angular.element('#to').datepicker('setDate', $scope.properties.dtend.value.toDate());
 
 			$scope.tabopener(1);
 		});

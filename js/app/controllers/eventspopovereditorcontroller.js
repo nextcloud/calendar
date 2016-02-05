@@ -38,31 +38,31 @@ app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'e
 		console.log($scope.properties);
 
 		$scope.close = function(action) {
-			var moment_start = moment(angular.element('#from').datepicker('getDate'));
-			var moment_end = moment(angular.element('#to').datepicker('getDate'));
+			console.log(angular.element('#from').datepicker('getDate'));
+			console.log(moment(angular.element('#from').datepicker('getDate')));
+
+			$scope.properties.dtstart.value = moment(angular.element('#from').datepicker('getDate'));
+			$scope.properties.dtend.value = moment(angular.element('#to').datepicker('getDate'));
 
 			if ($scope.properties.allDay) {
 				$scope.properties.dtstart.type = 'date';
 				$scope.properties.dtend.type = 'date';
-
-				moment_end.add(1, 'days');
-
-				$scope.properties.dtstart.time = '00:00:00';
-				$scope.properties.dtend.time = '00:00:00';
+				$scope.properties.dtend.value.add(1, 'days');
 			} else {
 				$scope.properties.dtstart.type = 'date-time';
 				$scope.properties.dtend.type = 'date-time';
 
-				var moment_start_time = moment(angular.element('#fromtime').timepicker('getTimeAsDate'));
-				var moment_end_time = moment(angular.element('#totime').timepicker('getTimeAsDate'));
+				console.log(angular.element('#fromtime').timepicker('getHour'));
+				console.log(angular.element('#fromtime').timepicker('getMinute'));
 
-				$scope.properties.dtstart.time = moment_start_time.format('HH:mm:ss');
-				$scope.properties.dtend.time = moment_end_time.format('HH:mm:ss');
+				$scope.properties.dtstart.value.hours(angular.element('#fromtime').timepicker('getHour'));
+				$scope.properties.dtstart.value.minutes(angular.element('#fromtime').timepicker('getMinute'));
+				$scope.properties.dtstart.value.seconds(0);
 
-				//TODO - make sure the timezones are loaded!!!!1111OneOneEleven
+				$scope.properties.dtend.value.hours(angular.element('#totime').timepicker('getHour'));
+				$scope.properties.dtend.value.minutes(angular.element('#totime').timepicker('getMinute'));
+				$scope.properties.dtend.value.seconds(0);
 			}
-			$scope.properties.dtstart.date = moment_start.format('YYYY-MM-DD');
-			$scope.properties.dtend.date = moment_end.format('YYYY-MM-DD');
 
 			if (action === 'proceed') {
 				$uibModalInstance.close({
@@ -70,7 +70,7 @@ app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'e
 					properties: $scope.properties
 				});
 			} else {
-				$scope.event.patch(recurrenceId, $scope.properties);
+				vevent.patch(recurrenceId, $scope.properties);
 
 				$uibModalInstance.close({
 					action: action,
@@ -124,27 +124,24 @@ app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'e
 				showPeriod: (localeData.longDateFormat('LT').toLowerCase().indexOf('a') !== -1)
 			});
 
-			var moment_start = moment($scope.properties.dtstart.date, 'YYYY-MM-DD');
-			var moment_end = moment($scope.properties.dtend.date, 'YYYY-MM-DD');
-
 			var midnight = new Date('2000-01-01 00:00');
 			if ($scope.properties.dtstart.type === 'date') {
 				angular.element('#fromtime').timepicker('setTime', midnight);
 			} else {
-				var fromTime = new Date('2000-01-01 ' + $scope.properties.dtstart.time);
+				var fromTime = $scope.properties.dtstart.value.toDate();
 				angular.element('#fromtime').timepicker('setTime', fromTime);
 			}
 
 			if ($scope.properties.dtend.type === 'date') {
-				moment_end.subtract(1, 'days');
+				$scope.properties.dtend.value.subtract(1, 'days');
 				angular.element('#totime').timepicker('setTime', midnight);
 			} else {
-				var toTime = new Date('2000-01-01 ' + $scope.properties.dtend.time);
+				var toTime = $scope.properties.dtend.value.toDate();
 				angular.element('#totime').timepicker('setTime', toTime);
 			}
 
-			angular.element('#from').datepicker('setDate', moment_start.toDate());
-			angular.element('#to').datepicker('setDate', moment_end.toDate());
+			angular.element('#from').datepicker('setDate', $scope.properties.dtstart.value.toDate());
+			angular.element('#to').datepicker('setDate', $scope.properties.dtend.value.toDate());
 		});
 	}
 ]);

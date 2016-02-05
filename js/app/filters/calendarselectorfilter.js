@@ -26,14 +26,14 @@ app.filter('calendarSelectorFilter',
 
 		return function (calendars, calendar) {
 			var options = calendars.filter(function (c) {
-				return c.cruds.create;
+				return c.writable;
 			});
 
 			if (calendar === null) {
 				return options;
 			}
 
-			if (!calendar.cruds.delete) {
+			if (!calendar.writable) {
 				return [calendar];
 			} else {
 				if (options.indexOf(calendar) === -1) {

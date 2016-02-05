@@ -66,8 +66,8 @@ app.factory('objectConverter', function () {
 			parameters = (parameters || []).concat(['tzid']);
 			simpleParser._parseSingle(data, vevent, key, parameters, function(p) {
 				return (p.type === 'duration') ?
-						p.getFirstValue().toSeconds() :
-						p.getFirstValue().toJSDate();
+						moment.duration(p.getFirstValue().toSeconds(), 'seconds') :
+						moment(p.getFirstValue().toJSDate());
 			});
 		},
 		dates: function(data, vevent, key, parameters) {
@@ -82,8 +82,8 @@ app.factory('objectConverter', function () {
 
 					usableValues.push(
 						(p.type === 'duration') ?
-							values[vKey].toSeconds() :
-							values[vKey].toJSDate()
+							moment.duration(values[vKey].toSeconds(), 'seconds') :
+							moment(values[vKey].toJSDate())
 					);
 				}
 
@@ -175,9 +175,9 @@ app.factory('objectConverter', function () {
 			parameters = (parameters || []).concat(['tzid']);
 			simpleReader._readSingle(vevent, oldSimpleData, newSimpleData, key, parameters, function(v, isMultiValue) {
 				if (v.type === 'duration') {
-					return ICAL.Duration.fromSeconds(v.value);
+					return ICAL.Duration.fromSeconds(v.value.seconds());
 				} else {
-					return ICAL.Time.fromJSDate(v.value);
+					return ICAL.Time.fromJSDate(v.value.toDate());
 				}
 			});
 		},
@@ -188,9 +188,9 @@ app.factory('objectConverter', function () {
 
 				for (var i=0, length=v.values.length; i < length; i++) {
 					if (v.type === 'duration') {
-						values.push(ICAL.Duration.fromSeconds(v.values[i]));
+						values.push(ICAL.Duration.fromSeconds(v.values[i].seconds()));
 					} else {
-						values.push(ICAL.Time.fromJSDate(v.values[i]));
+						values.push(ICAL.Time.fromJSDate(v.values[i].toDate()));
 					}
 				}
 
@@ -320,26 +320,6 @@ app.factory('objectConverter', function () {
 		'resources': {parser: simpleParser.strings, reader: simpleReader.strings}
 	};
 
-	function addZero(t) {
-		if (t < 10) {
-			t = '0' + t;
-		}
-		return t;
-	}
-
-	function formatDate(d) {
-		return d.getFullYear() + '-' +
-			addZero(d.getMonth() + 1) + '-' +
-			addZero(d.getDate());
-	}
-
-	function formatTime(d) {
-		return addZero(d.getHours()) + ':' +
-			addZero(d.getMinutes()) + ':' +
-			addZero(d.getSeconds());
-
-	}
-
 	/**
 	 * specific parsers that check only one property
 	 */
@@ -388,29 +368,29 @@ app.factory('objectConverter', function () {
 			}
 		},
 		date: function(data, vevent) {
-			var dtstart = vevent.getFirstPropertyValue('dtstart');
-			var dtend;
-
+			var dtstart = vevent.getFirstPropertyValue('dtstart'), dtend;
 			if (vevent.hasProperty('dtend')) {
 				dtend = vevent.getFirstPropertyValue('dtend');
 			} else if (vevent.hasProperty('duration')) {
 				dtend = dtstart.clone();
-				dtend.addDuration(vevent.getFirstPropertyValue('dtstart'));
+				dtend.addDuration(vevent.getFirstPropertyValue('duration'));
 			} else {
 				dtend = dtstart.clone();
 			}
 
 			data.dtstart = {
-				date: formatDate(dtstart.toJSDate()),
-				time: formatTime(dtstart.toJSDate()),
+				parameters: {
+					zone: dtstart.zone.toString()
+				},
 				type: dtstart.icaltype,
-				zone: dtstart.zone.toString()
+				value: moment(dtstart.toJSDate())
 			};
 			data.dtend = {
-				date: formatDate(dtend.toJSDate()),
-				time: formatTime(dtend.toJSDate()),
+				parameters: {
+					zone: dtstart.zone.toString()
+				},
 				type: dtend.icaltype,
-				zone: dtend.zone.toString()
+				value: moment(dtend.toJSDate())
 			};
 			data.allDay = (dtstart.icaltype === 'date' && dtend.icaltype === 'date');
 		},
