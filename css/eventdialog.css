@@ -46,9 +46,8 @@
 	display: block;
 }
 
-.fc-month-view .fc-event-container.modal-open .modal {
+.modal-open .modal {
 	position: absolute;
-	bottom: 30px;
 	min-height: 245px;
 	margin-left: -100px;
 	background: #fff;
@@ -57,54 +56,11 @@
 	overflow: hidden;
 }
 
-.fc-row.fc-week.fc-widget-content.fc-rigid:nth-of-type(0) {
-	z-index: 1 !important;
-}
-.fc-row.fc-week.fc-widget-content.fc-rigid:nth-of-type(1) {
-	z-index: 1 !important;
-}
-.fc-row.fc-week.fc-widget-content.fc-rigid:nth-of-type(2) {
-	z-index: 1 !important;
-}
-.fc-row.fc-week.fc-widget-content.fc-rigid:nth-of-type(3) {
-	z-index: 1 !important;
-}
-.fc-row.fc-week.fc-widget-content.fc-rigid:nth-of-type(4) {
-	z-index: 1 !important;
-}
-.fc-row.fc-week.fc-widget-content.fc-rigid:nth-of-type(5) {
-	z-index: 1 !important;
-}
-
-.modal.top-middle {
-	bottom: -255px !important;
-}
-
-.modal.bottom-right {
-	bottom: -15px !important;
-	margin-left: -430px !important;
-}
-
-.modal.top-right {
-	bottom: -200px !important;
-	margin-left: -430px !important;
-}
-
-.modal.bottom-left {
-	bottom: -15px !important;
-	margin-left: 220px !important;
-}
-
-.modal.top-left {
-	bottom: -200px !important;
-	margin-left: 220px !important;
-}
 
 
-.fc-agendaWeek-view .fc-event-container.modal-open .modal,
-.fc-agendaDay-view .fc-event-container.modal-open .modal {
+.modal-open .modal,
+.modal-open .modal {
 	position: absolute;
-	bottom: 30px;
 	min-height: 245px;
 	margin-left: -100px;
 	background: #fff;
@@ -113,7 +69,7 @@
 	overflow: hidden;
 }
 
-.fc-agendaDay-view .fc-event-container.modal-open .modal {
+.modal-open .modal {
 	margin-left: 0 !important;
 }
 
@@ -154,7 +110,7 @@
 	padding: 3px 0;
 }
 
-.fc-event-container.modal-open .modal .modal-content {
+.modal .modal-content {
 	padding: 20px;
 }
 

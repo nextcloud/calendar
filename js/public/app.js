@@ -119,35 +119,57 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 		};
 
 		$scope._calculatePopoverPosition = function(event, view) {
-			var headerHeight = angular.element('#header').height(),
+			var clientRect = event.currentTarget.getClientRects()[0],
+				headerHeight = angular.element('#header').height(),
 				navigationWidth = angular.element('#app-navigation').width(),
-				mouseX = event.pageX - navigationWidth,
-				mouseY = event.pageY - headerHeight,
+				eventX = clientRect.left - navigationWidth,
+				eventY = clientRect.top - headerHeight,
+				eventWidth = clientRect.right - clientRect.left,
 				windowX = $window.innerWidth - navigationWidth,
 				windowY = $window.innerHeight - headerHeight,
-				cssClass = '';
+				popoverHeight = 250,
+				popoverWidth = 400,
+				position = [];
 
-			if (mouseY / windowY < 0.5) {
-				cssClass = 'top';
+			if (eventY / windowY < 0.5) {
+				position.push({
+					name: 'top',
+					value: clientRect.top + 20
+				});
 			} else {
-				cssClass = 'bottom';
+				console.log(clientRect);
+				position.push({
+					name: 'top',
+					value: clientRect.top - popoverHeight - 20
+				});
 			}
 
-			cssClass += '-';
 
 			if (view.name === 'agendaDay') {
-				cssClass += 'middle';
+				position.push({
+					name: 'left',
+					value: clientRect.left - (popoverWidth / 2) - 20 + eventWidth / 2
+				});
 			} else {
-				if (mouseX / windowX < 0.25) {
-					cssClass += 'left';
-				} else if (mouseX / windowX > 0.75) {
-					cssClass += 'right';
+				if (eventX / windowX < 0.25) {
+					position.push({
+						name: 'left',
+						value: clientRect.left - 20 + eventWidth / 2
+					});
+				} else if (eventX / windowX > 0.75) {
+					position.push({
+						name: 'left',
+						value: clientRect.left - popoverWidth - 20 + eventWidth / 2
+					});
 				} else {
-					cssClass += 'middle';
+					position.push({
+						name: 'left',
+						value: clientRect.left - (popoverWidth / 2) - 20 + eventWidth / 2
+					});
 				}
 			}
 
-			return cssClass;
+			return position;
 		};
 
 		/**
@@ -189,8 +211,7 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 				select: $scope.newEvent,
 				eventLimit: true,
 				eventClick: function(fcEvent, jsEvent, view) {
-					console.log(this, fcEvent, jsEvent, view);
-					console.log($scope.eventModal);
+					console.log(jsEvent);
 					if ($scope.eventModal !== null) {
 						$scope.eventModal.dismiss('superseded');
 					}
@@ -198,7 +219,7 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 					$scope.eventModal = $uibModal.open({
 						templateUrl: 'eventspopovereditor.html',
 						controller: 'EventsPopoverEditorController',
-						appendTo: angular.element(this).parent(),
+						animation: false,
 						resolve: {
 							vevent: function() {
 								return fcEvent.event;
@@ -210,8 +231,15 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 								return false;
 							}
 						},
-						scope: $scope,
-						windowClass: $scope._calculatePopoverPosition(jsEvent, view)
+						scope: $scope
+					});
+
+					$scope.eventModal.rendered.then(function() {
+						var position = $scope._calculatePopoverPosition(jsEvent, view);
+						angular.forEach(position, function(v) {
+							console.log(v.name, v.value);
+							angular.element('.modal').css(v.name, v.value);
+						});
 					});
 
 					$scope.eventModal.result.then(function(result) {
