@@ -66,11 +66,12 @@ app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'e
 					properties: $scope.properties
 				});
 			} else {
+				vevent.calendar = $scope.calendar;
 				vevent.patch(recurrenceId, $scope.properties);
 
 				$uibModalInstance.close({
 					action: action,
-					event: $scope.event
+					event: vevent
 				});
 			}
 		};

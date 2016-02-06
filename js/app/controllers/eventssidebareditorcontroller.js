@@ -39,6 +39,8 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'e
 
 		$scope.edittimezone = false;
 
+		// TODO - when user changes timezone input query timezone from server
+
 		TimezoneService.listAll().then(function(list) {
 			$scope.timezones = ['floating'].concat(list);
 			if ($scope.properties.dtstart.parameters.zone !== null) {

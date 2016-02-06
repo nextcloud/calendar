@@ -73,9 +73,17 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 			$scope._initializeEventEditor(vevent, null, true, function() {
 				return $scope._calculatePopoverPosition(jsEvent.target, view);
 			}, function(vevent) {
-				VEventService.create(vevent);
+				VEventService.create(vevent.calendar, vevent.data).then(function(vevent) {
+					var eventsToRender = vevent.getFcEvent(view.intervalStart, view.intervalEnd, $scope.defaulttimezone);
+					angular.forEach(eventsToRender, function(event) {
+						uiCalendarConfig.calendars.calendar.fullCalendar(
+							'renderEvent',
+							event
+						);
+					});
+				});
 			}, function() {
-				//do nothing
+				//nothing to do
 			});
 		};
 

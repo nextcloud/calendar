@@ -447,59 +447,43 @@ app.factory('objectConverter', function () {
 			}
 		},
 		date: function(vevent, oldSimpleData, newSimpleData) {
-			delete vevent.dstart;
+			delete vevent.dtstart;
 			delete vevent.dtend;
 			delete vevent.duration;
 
-			var parseIntWrapper = function(str) {
-				return parseInt(str);
-			};
+			newSimpleData.dtstart.parameters.zone = newSimpleData.dtstart.parameters.zone || 'floating';
+			newSimpleData.dtend.parameters.zone = newSimpleData.dtend.parameters.zone || 'floating';
 
-			if (!ICAL.TimezoneService.has(newSimpleData.dtstart.zone)) {
+			if (newSimpleData.dtstart.parameters.zone !== 'floating' &&
+				!ICAL.TimezoneService.has(newSimpleData.dtstart.parameters.zone)) {
 				throw {
 					kind: 'timezone_missing',
-					missing_timezone: newSimpleData.dtstart.zone
+					missing_timezone: newSimpleData.dtstart.parameters.zone
 				};
 			}
-			if (!ICAL.TimezoneService.has(newSimpleData.dtend.zone)) {
+			if (newSimpleData.dtend.parameters.zone !== 'floating' &&
+				!ICAL.TimezoneService.has(newSimpleData.dtend.parameters.zone)) {
 				throw {
 					kind: 'timezone_missing',
-					missing_timezone: newSimpleData.dtend.zone
+					missing_timezone: newSimpleData.dtend.parameters.zone
 				};
 			}
 
-			var dtstartDateParts = newSimpleData.dtstart.date.split('-').map(parseIntWrapper);
-			var dtstartTimeParts = newSimpleData.dtstart.time.split(':').map(parseIntWrapper);
-			var dtstartTz = ICAL.TimezoneService.get(newSimpleData.dtstart.zone);
-			var start = new ICAL.Time({
-				year: dtstartDateParts[0],
-				month: dtstartDateParts[1],
-				day: dtstartDateParts[2],
-				hour: dtstartTimeParts[0],
-				minute: dtstartTimeParts[1],
-				second: dtstartTimeParts[2],
-				isDate: newSimpleData.allDay
-			}, dtstartTz);
+			newSimpleData.dtstart.value.add(newSimpleData.dtstart.value.toDate().getTimezoneOffset(), 'minutes');
+			newSimpleData.dtend.value.add(newSimpleData.dtend.value.toDate().getTimezoneOffset(), 'minutes');
 
-			var dtendDateParts = newSimpleData.dtend.date.split('-').map(parseIntWrapper);
-			var dtendTimeParts = newSimpleData.dtend.time.split(':').map(parseIntWrapper);
-			var dtendTz = ICAL.TimezoneService.get(newSimpleData.dtend.zone);
-			var end = new ICAL.Time({
-				year: dtendDateParts[0],
-				month: dtendDateParts[1],
-				day: dtendDateParts[2],
-				hour: dtendTimeParts[0],
-				minute: dtendTimeParts[1],
-				second: dtendTimeParts[2],
-				isDate: newSimpleData.allDay
-			}, dtendTz);
+			var start = ICAL.Time.fromJSDate(newSimpleData.dtstart.value.toDate(), false);
+			start.isDate = newSimpleData.allDay;
+			var end = ICAL.Time.fromJSDate(newSimpleData.dtend.value.toDate(), false);
+			end.isDate = newSimpleData.allDay;
 
 			var dtstart = new ICAL.Property('dtstart', vevent);
 			dtstart.setValue(start);
-			dtstart.setParameter('tzid', dtstartTz.tzid);
+			dtstart.setParameter('tzid', newSimpleData.dtstart.parameters.zone);
+
 			var dtend = new ICAL.Property('dtend', vevent);
 			dtend.setValue(end);
-			dtend.setParameter('tzid', dtendTz.tzid);
+			dtend.setParameter('tzid', newSimpleData.dtend.parameters.zone);
 
 			vevent.addProperty(dtstart);
 			vevent.addProperty(dtend);

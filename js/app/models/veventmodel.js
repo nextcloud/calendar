@@ -362,6 +362,7 @@ app.factory('VEvent', ['$filter', 'objectConverter', 'ICalFactory', function($fi
 	}
 
 	VEvent.fromStartEnd = function(start, end, timezone) {
+		console.log(start, end, timezone);
 		var comp = icalfactory.new();
 
 		var vevent = new ICAL.Component('vevent');
@@ -376,15 +377,17 @@ app.factory('VEvent', ['$filter', 'objectConverter', 'ICalFactory', function($fi
 			allDay: !start.hasTime() && !end.hasTime(),
 			dtstart: {
 				type: start.hasTime() ? 'datetime' : 'date',
-				date: start.format('YYYY-MM-DD'),
-				time: start.format('HH:mm:ss'),
-				zone: timezone
+				value: start,
+				parameters: {
+					zone: timezone
+				}
 			},
 			dtend: {
 				type: end.hasTime() ? 'datetime' : 'date',
-				date: end.format('YYYY-MM-DD'),
-				time: end.format('HH:mm:ss'),
-				zone: timezone
+				value: end,
+				parameters: {
+					zone: timezone
+				}
 			},
 			summary: {
 				type: 'text',
