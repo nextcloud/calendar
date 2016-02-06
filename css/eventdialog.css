@@ -21,11 +21,6 @@
  *
  */
 
-
-.events select {
-	height: 20px;
-}
-
 .advanced select {
 	height: 32px;
 }
@@ -48,16 +43,22 @@
 
 .modal-open .modal.popover {
 	position: absolute;
-	min-height: 245px;
+	min-height: 290px;
+	width: 400px;
 	background: #fff;
 	box-shadow: 0 0 3px #999;
-	max-width: 400px;
 	overflow: hidden;
 	margin-left: 0 !important;
 }
 
 .events .events--fieldset {
 	padding: 3px 0;
+}
+
+.events .events--fieldset textarea {
+	height: 4.5em;
+	width: 100%;
+	resize: vertical;
 }
 
 .events .events--fieldset span {
@@ -126,7 +127,8 @@
 	width: 100%;
 }
 
-.advanced .advanced--textarea {
+.advanced .advanced--fieldset textarea {
+	height: 4.5em;
 	resize: vertical;
 }
 
