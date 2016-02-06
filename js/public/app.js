@@ -88,32 +88,14 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 		 */
 
 		$scope.newEvent = function (start, end, jsEvent, view) {
-			console.log(jsEvent, view, this);
 			var vevent = VEvent.fromStartEnd(start, end, $scope.defaulttimezone);
 
-			$scope.eventModal = $uibModal.open({
-				templateUrl: 'eventspopovereditor.html',
-				controller: 'EventsPopoverEditorController',
-				resolve: {
-					vevent: function() {
-						return vevent;
-					},
-					recurrenceId: function() {
-						return null;
-					},
-					isNew: function() {
-						return false;
-					}
-				},
-				scope: $scope
-			});
-
-			$scope.eventModal.rendered.then(function() {
-				var position = $scope._calculatePopoverPosition(jsEvent.target, view);
-				angular.forEach(position, function(v) {
-					console.log(v.name, v.value);
-					angular.element('.modal').css(v.name, v.value);
-				});
+			$scope._initializeEventEditor(vevent, null, true, function() {
+				return $scope._calculatePopoverPosition(jsEvent.target, view);
+			}, function(vevent) {
+				VEventService.create(vevent);
+			}, function() {
+				//do nothing
 			});
 		};
 
@@ -136,13 +118,11 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 					value: clientRect.top + 20
 				});
 			} else {
-				console.log(clientRect);
 				position.push({
 					name: 'top',
 					value: clientRect.top - popoverHeight - 20
 				});
 			}
-
 
 			if (view.name === 'agendaDay') {
 				position.push({
@@ -169,6 +149,83 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 			}
 
 			return position;
+		};
+
+		$scope._initializeEventEditor = function(vevent, recurrenceId, isNew, positionCallback, successCallback, deleteCallBack) {
+			if ($scope.eventModal !== null) {
+				$scope.eventModal.dismiss('superseded');
+			}
+
+			$scope.eventModal = $uibModal.open({
+				templateUrl: 'eventspopovereditor.html',
+				controller: 'EventsPopoverEditorController',
+				windowClass: 'popover',
+				resolve: {
+					vevent: function() {
+						return vevent;
+					},
+					recurrenceId: function() {
+						return recurrenceId;
+					},
+					isNew: function() {
+						return isNew;
+					}
+				},
+				scope: $scope
+			});
+
+			$scope.eventModal.rendered.then(function() {
+				var position = positionCallback();
+				angular.forEach(position, function(v) {
+					angular.element('.modal').css(v.name, v.value);
+				});
+			});
+
+			$scope.eventModal.result.then(function(result) {
+				if (result.action === 'save') {
+					successCallback(result.event);
+				} else if (result.action === 'proceed') {
+					$scope.eventModal = $uibModal.open({
+						templateUrl: 'eventssidebareditor.html',
+						controller: 'EventsSidebarEditorController',
+						appendTo: angular.element('#app-content'),
+						resolve: {
+							vevent: function() {
+								return vevent;
+							},
+							recurrenceId: function() {
+								return recurrenceId;
+							},
+							isNew: function() {
+								return isNew;
+							},
+							properties: function() {
+								return result.properties;
+							}
+						},
+						scope: $scope
+					});
+					angular.element('#app-content').addClass('with-app-sidebar');
+
+					$scope.eventModal.result.then(function(event) {
+						successCallback(event);
+						$scope.eventModal = null;
+						angular.element('#app-content').removeClass('with-app-sidebar');
+					}, function(reason) {
+						if (reason === 'delete') {
+							deleteCallBack(vevent);
+							$scope.eventModal = null;
+						}
+
+						angular.element('#app-content').removeClass('with-app-sidebar');
+					});
+				}
+			}, function(reason) {
+				if (reason === 'delete') {
+					deleteCallBack(vevent);
+					$scope.eventModal = null;
+				}
+			});
 		};
 
 		/**
@@ -210,83 +267,12 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 				select: $scope.newEvent,
 				eventLimit: true,
 				eventClick: function(fcEvent, jsEvent, view) {
-					console.log(jsEvent);
-					if ($scope.eventModal !== null) {
-						$scope.eventModal.dismiss('superseded');
-					}
-
-					$scope.eventModal = $uibModal.open({
-						templateUrl: 'eventspopovereditor.html',
-						controller: 'EventsPopoverEditorController',
-						animation: false,
-						resolve: {
-							vevent: function() {
-								return fcEvent.event;
-							},
-							recurrenceId: function() {
-								return fcEvent.recurrenceId;
-							},
-							isNew: function() {
-								return false;
-							}
-						},
-						scope: $scope
-					});
-
-					$scope.eventModal.rendered.then(function() {
-						var position = $scope._calculatePopoverPosition(jsEvent.currentTarget, view);
-						angular.forEach(position, function(v) {
-							console.log(v.name, v.value);
-							angular.element('.modal').css(v.name, v.value);
-						});
-					});
-
-					$scope.eventModal.result.then(function(result) {
-						if (result.action === 'save') {
-							VEventService.update(result.event);
-						} else if (result.action === 'proceed') {
-							angular.element('.modal').css('display', 'none');
-							$scope.eventModal = $uibModal.open({
-								templateUrl: 'eventssidebareditor.html',
-								controller: 'EventsSidebarEditorController',
-								appendTo: angular.element('#app-content'),
-								resolve: {
-									vevent: function() {
-										return fcEvent.event;
-									},
-									recurrenceId: function() {
-										return fcEvent.recurrenceId;
-									},
-									isNew: function() {
-										return false;
-									},
-									properties: function() {
-										return result.properties;
-									}
-								},
-								scope: $scope
-							});
-							angular.element('#app-content').addClass('with-app-sidebar');
-
-							$scope.eventModal.result.then(function(event) {
-								VEventService.update(event);
-								$scope.eventModal = null;
-
-								angular.element('#app-content').removeClass('with-app-sidebar');
-							}, function(reason) {
-								if (reason === 'delete') {
-									VEventService.delete(fcEvent.event);
-									$scope.eventModal = null;
-								}
-
-								angular.element('#app-content').removeClass('with-app-sidebar');
-							});
-						}
-					}, function(reason) {
-						if (reason === 'delete') {
-							VEventService.delete(fcEvent.event);
-							$scope.eventModal = null;
-						}
+					$scope._initializeEventEditor(fcEvent.event, fcEvent.recurrenceId, false, function() {
+						return $scope._calculatePopoverPosition(jsEvent.currentTarget, view);
+					}, function(vevent) {
+						VEventService.update(vevent);
+					}, function(vevent) {
+						VEventService.delete(vevent);
 					});
 				},
 				eventResize: function (fcEvent, delta, revertFunc) {
@@ -682,16 +668,12 @@ app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'e
 		'use strict';
 
 		$scope.properties = vevent.getSimpleData(recurrenceId);
-		$scope.isNew = isNew;
+		$scope.is_new = isNew;
 		$scope.calendar = isNew ? null : vevent.calendar;
 		$scope.oldCalendar = isNew ? null : vevent.calendar;
 
-		console.log($scope.properties);
 
 		$scope.close = function(action) {
-			console.log(angular.element('#from').datepicker('getDate'));
-			console.log(moment(angular.element('#from').datepicker('getDate')));
-
 			$scope.properties.dtstart.value = moment(angular.element('#from').datepicker('getDate'));
 			$scope.properties.dtend.value = moment(angular.element('#to').datepicker('getDate'));
 
@@ -703,9 +685,6 @@ app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'e
 				$scope.properties.dtstart.type = 'date-time';
 				$scope.properties.dtend.type = 'date-time';
 
-				console.log(angular.element('#fromtime').timepicker('getHour'));
-				console.log(angular.element('#fromtime').timepicker('getMinute'));
-
 				$scope.properties.dtstart.value.hours(angular.element('#fromtime').timepicker('getHour'));
 				$scope.properties.dtstart.value.minutes(angular.element('#fromtime').timepicker('getMinute'));
 				$scope.properties.dtstart.value.seconds(0);
@@ -714,6 +693,9 @@ app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'e
 				$scope.properties.dtend.value.minutes(angular.element('#totime').timepicker('getMinute'));
 				$scope.properties.dtend.value.seconds(0);
 			}
+
+			angular.element('#from').datepicker('destroy');
+			angular.element('#to').datepicker('destroy');
 
 			if (action === 'proceed') {
 				$uibModalInstance.close({
@@ -806,7 +788,7 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'e
 		'use strict';
 
 		$scope.properties = properties;
-		$scope.isNew = isNew;
+		$scope.is_new = isNew;
 		$scope.calendar = isNew ? null : vevent.calendar;
 		$scope.oldCalendar = isNew ? null : vevent.calendar;
 		$scope.selected = 1;
@@ -827,9 +809,6 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'e
 				}
 			}
 		});
-
-		console.log(vevent);
-		console.log(properties);
 
 		$scope.cancel = function() {
 			$uibModalInstance.dismiss('cancel');
@@ -857,7 +836,7 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'e
 			// WE NEED A SHORT UNIT TEST IDEALLY FOR ALL LANGUAGES SUPPORTED
 			// maybe move setting the date format into a try catch block
 			var localeData = moment.localeData();
-			angular.element('#from').datepicker({
+			angular.element('#advanced_from').datepicker({
 				dateFormat : localeData.longDateFormat('L').toLowerCase().replace('yy', 'y').replace('yyy', 'yy'),
 				monthNames: moment.months(),
 				monthNamesShort: moment.monthsShort(),
@@ -867,7 +846,7 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'e
 				firstDay: localeData.firstDayOfWeek(),
 				minDate: null
 			});
-			angular.element('#to').datepicker({
+			angular.element('#advanced_to').datepicker({
 				dateFormat : localeData.longDateFormat('L').toLowerCase().replace('yy', 'y').replace('yyy', 'yy'),
 				monthNames: moment.months(),
 				monthNamesShort: moment.monthsShort(),
@@ -878,12 +857,12 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'e
 				minDate: null
 			});
 
-			angular.element('#fromtime').timepicker({
+			angular.element('#advanced_fromtime').timepicker({
 				showPeriodLabels: false,
 				showLeadingZero: true,
 				showPeriod: (localeData.longDateFormat('LT').toLowerCase().indexOf('a') !== -1)
 			});
-			angular.element('#totime').timepicker({
+			angular.element('#advanced_totime').timepicker({
 				showPeriodLabels: false,
 				showLeadingZero: true,
 				showPeriod: (localeData.longDateFormat('LT').toLowerCase().indexOf('a') !== -1)
@@ -891,22 +870,22 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'e
 
 			var midnight = new Date('2000-01-01 00:00');
 			if ($scope.properties.dtstart.type === 'date') {
-				angular.element('#fromtime').timepicker('setTime', midnight);
+				angular.element('#advanced_fromtime').timepicker('setTime', midnight);
 			} else {
 				var fromTime = $scope.properties.dtstart.value.toDate();
-				angular.element('#fromtime').timepicker('setTime', fromTime);
+				angular.element('#advanced_fromtime').timepicker('setTime', fromTime);
 			}
 
 			if ($scope.properties.dtend.type === 'date') {
 				$scope.properties.dtend.value.subtract(1, 'days');
-				angular.element('#totime').timepicker('setTime', midnight);
+				angular.element('#advanced_totime').timepicker('setTime', midnight);
 			} else {
 				var toTime = $scope.properties.dtend.value.toDate();
-				angular.element('#totime').timepicker('setTime', toTime);
+				angular.element('#advanced_totime').timepicker('setTime', toTime);
 			}
 
-			angular.element('#from').datepicker('setDate', $scope.properties.dtstart.value.toDate());
-			angular.element('#to').datepicker('setDate', $scope.properties.dtend.value.toDate());
+			angular.element('#advanced_from').datepicker('setDate', $scope.properties.dtstart.value.toDate());
+			angular.element('#advanced_to').datepicker('setDate', $scope.properties.dtend.value.toDate());
 
 			$scope.tabopener(1);
 		});

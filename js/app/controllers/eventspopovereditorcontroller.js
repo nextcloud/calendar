@@ -31,16 +31,12 @@ app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'e
 		'use strict';
 
 		$scope.properties = vevent.getSimpleData(recurrenceId);
-		$scope.isNew = isNew;
+		$scope.is_new = isNew;
 		$scope.calendar = isNew ? null : vevent.calendar;
 		$scope.oldCalendar = isNew ? null : vevent.calendar;
 
-		console.log($scope.properties);
 
 		$scope.close = function(action) {
-			console.log(angular.element('#from').datepicker('getDate'));
-			console.log(moment(angular.element('#from').datepicker('getDate')));
-
 			$scope.properties.dtstart.value = moment(angular.element('#from').datepicker('getDate'));
 			$scope.properties.dtend.value = moment(angular.element('#to').datepicker('getDate'));
 
@@ -52,9 +48,6 @@ app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'e
 				$scope.properties.dtstart.type = 'date-time';
 				$scope.properties.dtend.type = 'date-time';
 
-				console.log(angular.element('#fromtime').timepicker('getHour'));
-				console.log(angular.element('#fromtime').timepicker('getMinute'));
-
 				$scope.properties.dtstart.value.hours(angular.element('#fromtime').timepicker('getHour'));
 				$scope.properties.dtstart.value.minutes(angular.element('#fromtime').timepicker('getMinute'));
 				$scope.properties.dtstart.value.seconds(0);
@@ -63,6 +56,9 @@ app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'e
 				$scope.properties.dtend.value.minutes(angular.element('#totime').timepicker('getMinute'));
 				$scope.properties.dtend.value.seconds(0);
 			}
+
+			angular.element('#from').datepicker('destroy');
+			angular.element('#to').datepicker('destroy');
 
 			if (action === 'proceed') {
 				$uibModalInstance.close({

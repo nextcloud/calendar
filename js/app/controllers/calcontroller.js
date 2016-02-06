@@ -68,32 +68,14 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 		 */
 
 		$scope.newEvent = function (start, end, jsEvent, view) {
-			console.log(jsEvent, view, this);
 			var vevent = VEvent.fromStartEnd(start, end, $scope.defaulttimezone);
 
-			$scope.eventModal = $uibModal.open({
-				templateUrl: 'eventspopovereditor.html',
-				controller: 'EventsPopoverEditorController',
-				resolve: {
-					vevent: function() {
-						return vevent;
-					},
-					recurrenceId: function() {
-						return null;
-					},
-					isNew: function() {
-						return false;
-					}
-				},
-				scope: $scope
-			});
-
-			$scope.eventModal.rendered.then(function() {
-				var position = $scope._calculatePopoverPosition(jsEvent.target, view);
-				angular.forEach(position, function(v) {
-					console.log(v.name, v.value);
-					angular.element('.modal').css(v.name, v.value);
-				});
+			$scope._initializeEventEditor(vevent, null, true, function() {
+				return $scope._calculatePopoverPosition(jsEvent.target, view);
+			}, function(vevent) {
+				VEventService.create(vevent);
+			}, function() {
+				//do nothing
 			});
 		};
 
@@ -116,13 +98,11 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 					value: clientRect.top + 20
 				});
 			} else {
-				console.log(clientRect);
 				position.push({
 					name: 'top',
 					value: clientRect.top - popoverHeight - 20
 				});
 			}
-
 
 			if (view.name === 'agendaDay') {
 				position.push({
@@ -149,6 +129,83 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 			}
 
 			return position;
+		};
+
+		$scope._initializeEventEditor = function(vevent, recurrenceId, isNew, positionCallback, successCallback, deleteCallBack) {
+			if ($scope.eventModal !== null) {
+				$scope.eventModal.dismiss('superseded');
+			}
+
+			$scope.eventModal = $uibModal.open({
+				templateUrl: 'eventspopovereditor.html',
+				controller: 'EventsPopoverEditorController',
+				windowClass: 'popover',
+				resolve: {
+					vevent: function() {
+						return vevent;
+					},
+					recurrenceId: function() {
+						return recurrenceId;
+					},
+					isNew: function() {
+						return isNew;
+					}
+				},
+				scope: $scope
+			});
+
+			$scope.eventModal.rendered.then(function() {
+				var position = positionCallback();
+				angular.forEach(position, function(v) {
+					angular.element('.modal').css(v.name, v.value);
+				});
+			});
+
+			$scope.eventModal.result.then(function(result) {
+				if (result.action === 'save') {
+					successCallback(result.event);
+				} else if (result.action === 'proceed') {
+					$scope.eventModal = $uibModal.open({
+						templateUrl: 'eventssidebareditor.html',
+						controller: 'EventsSidebarEditorController',
+						appendTo: angular.element('#app-content'),
+						resolve: {
+							vevent: function() {
+								return vevent;
+							},
+							recurrenceId: function() {
+								return recurrenceId;
+							},
+							isNew: function() {
+								return isNew;
+							},
+							properties: function() {
+								return result.properties;
+							}
+						},
+						scope: $scope
+					});
+					angular.element('#app-content').addClass('with-app-sidebar');
+
+					$scope.eventModal.result.then(function(event) {
+						successCallback(event);
+						$scope.eventModal = null;
+						angular.element('#app-content').removeClass('with-app-sidebar');
+					}, function(reason) {
+						if (reason === 'delete') {
+							deleteCallBack(vevent);
+							$scope.eventModal = null;
+						}
+
+						angular.element('#app-content').removeClass('with-app-sidebar');
+					});
+				}
+			}, function(reason) {
+				if (reason === 'delete') {
+					deleteCallBack(vevent);
+					$scope.eventModal = null;
+				}
+			});
 		};
 
 		/**
@@ -190,83 +247,12 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 				select: $scope.newEvent,
 				eventLimit: true,
 				eventClick: function(fcEvent, jsEvent, view) {
-					console.log(jsEvent);
-					if ($scope.eventModal !== null) {
-						$scope.eventModal.dismiss('superseded');
-					}
-
-					$scope.eventModal = $uibModal.open({
-						templateUrl: 'eventspopovereditor.html',
-						controller: 'EventsPopoverEditorController',
-						animation: false,
-						resolve: {
-							vevent: function() {
-								return fcEvent.event;
-							},
-							recurrenceId: function() {
-								return fcEvent.recurrenceId;
-							},
-							isNew: function() {
-								return false;
-							}
-						},
-						scope: $scope
-					});
-
-					$scope.eventModal.rendered.then(function() {
-						var position = $scope._calculatePopoverPosition(jsEvent.currentTarget, view);
-						angular.forEach(position, function(v) {
-							console.log(v.name, v.value);
-							angular.element('.modal').css(v.name, v.value);
-						});
-					});
-
-					$scope.eventModal.result.then(function(result) {
-						if (result.action === 'save') {
-							VEventService.update(result.event);
-						} else if (result.action === 'proceed') {
-							angular.element('.modal').css('display', 'none');
-							$scope.eventModal = $uibModal.open({
-								templateUrl: 'eventssidebareditor.html',
-								controller: 'EventsSidebarEditorController',
-								appendTo: angular.element('#app-content'),
-								resolve: {
-									vevent: function() {
-										return fcEvent.event;
-									},
-									recurrenceId: function() {
-										return fcEvent.recurrenceId;
-									},
-									isNew: function() {
-										return false;
-									},
-									properties: function() {
-										return result.properties;
-									}
-								},
-								scope: $scope
-							});
-							angular.element('#app-content').addClass('with-app-sidebar');
-
-							$scope.eventModal.result.then(function(event) {
-								VEventService.update(event);
-								$scope.eventModal = null;
-
-								angular.element('#app-content').removeClass('with-app-sidebar');
-							}, function(reason) {
-								if (reason === 'delete') {
-									VEventService.delete(fcEvent.event);
-									$scope.eventModal = null;
-								}
-
-								angular.element('#app-content').removeClass('with-app-sidebar');
-							});
-						}
-					}, function(reason) {
-						if (reason === 'delete') {
-							VEventService.delete(fcEvent.event);
-							$scope.eventModal = null;
-						}
+					$scope._initializeEventEditor(fcEvent.event, fcEvent.recurrenceId, false, function() {
+						return $scope._calculatePopoverPosition(jsEvent.currentTarget, view);
+					}, function(vevent) {
+						VEventService.update(vevent);
+					}, function(vevent) {
+						VEventService.delete(vevent);
 					});
 				},
 				eventResize: function (fcEvent, delta, revertFunc) {

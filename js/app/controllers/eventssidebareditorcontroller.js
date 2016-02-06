@@ -31,7 +31,7 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'e
 		'use strict';
 
 		$scope.properties = properties;
-		$scope.isNew = isNew;
+		$scope.is_new = isNew;
 		$scope.calendar = isNew ? null : vevent.calendar;
 		$scope.oldCalendar = isNew ? null : vevent.calendar;
 		$scope.selected = 1;
@@ -52,9 +52,6 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'e
 				}
 			}
 		});
-
-		console.log(vevent);
-		console.log(properties);
 
 		$scope.cancel = function() {
 			$uibModalInstance.dismiss('cancel');
@@ -82,7 +79,7 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'e
 			// WE NEED A SHORT UNIT TEST IDEALLY FOR ALL LANGUAGES SUPPORTED
 			// maybe move setting the date format into a try catch block
 			var localeData = moment.localeData();
-			angular.element('#from').datepicker({
+			angular.element('#advanced_from').datepicker({
 				dateFormat : localeData.longDateFormat('L').toLowerCase().replace('yy', 'y').replace('yyy', 'yy'),
 				monthNames: moment.months(),
 				monthNamesShort: moment.monthsShort(),
@@ -92,7 +89,7 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'e
 				firstDay: localeData.firstDayOfWeek(),
 				minDate: null
 			});
-			angular.element('#to').datepicker({
+			angular.element('#advanced_to').datepicker({
 				dateFormat : localeData.longDateFormat('L').toLowerCase().replace('yy', 'y').replace('yyy', 'yy'),
 				monthNames: moment.months(),
 				monthNamesShort: moment.monthsShort(),
@@ -103,12 +100,12 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'e
 				minDate: null
 			});
 
-			angular.element('#fromtime').timepicker({
+			angular.element('#advanced_fromtime').timepicker({
 				showPeriodLabels: false,
 				showLeadingZero: true,
 				showPeriod: (localeData.longDateFormat('LT').toLowerCase().indexOf('a') !== -1)
 			});
-			angular.element('#totime').timepicker({
+			angular.element('#advanced_totime').timepicker({
 				showPeriodLabels: false,
 				showLeadingZero: true,
 				showPeriod: (localeData.longDateFormat('LT').toLowerCase().indexOf('a') !== -1)
@@ -116,22 +113,22 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'e
 
 			var midnight = new Date('2000-01-01 00:00');
 			if ($scope.properties.dtstart.type === 'date') {
-				angular.element('#fromtime').timepicker('setTime', midnight);
+				angular.element('#advanced_fromtime').timepicker('setTime', midnight);
 			} else {
 				var fromTime = $scope.properties.dtstart.value.toDate();
-				angular.element('#fromtime').timepicker('setTime', fromTime);
+				angular.element('#advanced_fromtime').timepicker('setTime', fromTime);
 			}
 
 			if ($scope.properties.dtend.type === 'date') {
 				$scope.properties.dtend.value.subtract(1, 'days');
-				angular.element('#totime').timepicker('setTime', midnight);
+				angular.element('#advanced_totime').timepicker('setTime', midnight);
 			} else {
 				var toTime = $scope.properties.dtend.value.toDate();
-				angular.element('#totime').timepicker('setTime', toTime);
+				angular.element('#advanced_totime').timepicker('setTime', toTime);
 			}
 
-			angular.element('#from').datepicker('setDate', $scope.properties.dtstart.value.toDate());
-			angular.element('#to').datepicker('setDate', $scope.properties.dtend.value.toDate());
+			angular.element('#advanced_from').datepicker('setDate', $scope.properties.dtstart.value.toDate());
+			angular.element('#advanced_to').datepicker('setDate', $scope.properties.dtend.value.toDate());
 
 			$scope.tabopener(1);
 		});

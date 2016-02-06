@@ -16,14 +16,14 @@
 		<fieldset class="advanced--fieldset">
 			<div class="event-time-interior pull-left pull-half">
 				<span><?php p($l->t('From')); ?></span>
-				<input type="text" name="from" id="from" ng-model="fromdatemodel" class="events--date" placeholder="<?php p($l->t('from'));?>" />
-				<input type="text" name="fromtime" id="fromtime" ng-model="fromtimemodel" class="events--time" ng-disabled="properties.allDay" />
+				<input type="text" name="from" id="advanced_from" ng-model="fromdatemodel" class="events--date" placeholder="<?php p($l->t('from'));?>" />
+				<input type="text" name="fromtime" id="advanced_fromtime" ng-model="fromtimemodel" class="events--time" ng-disabled="properties.allDay" />
 				<select ng-options="timezone for timezone in timezones" ng-model="properties.dtstart.parameters.zone" ng-show="edittimezone" ng-disabled="properties.allDay"></select>
 			</div>
 			<div class="event-time-interior pull-right pull-half">
 				<span><?php p($l->t('To')); ?></span>
-				<input type="text" name="to" id="to" ng-model="todatemodel" class="events--date" placeholder="<?php p($l->t('to'));?>" />
-				<input type="text" name="totime" id="totime" ng-model="totimemodel" class="events--time" ng-disabled="properties.allDay" />
+				<input type="text" name="to" id="advanced_to" ng-model="todatemodel" class="events--date" placeholder="<?php p($l->t('to'));?>" />
+				<input type="text" name="totime" id="advanced_totime" ng-model="totimemodel" class="events--time" ng-disabled="properties.allDay" />
 				<select ng-options="timezone for timezone in timezones" ng-model="properties.dtend.parameters.zone" ng-show="edittimezone" ng-disabled="properties.allDay"></select>
 			</div>
 			<div class="clear-both"></div>
@@ -83,6 +83,12 @@
 				class="evens--button button btn btn-half pull-right"
 				ng-click="cancel()"
 				ng-show="!is_new">
+				<?php p($l->t('Cancel')); ?>
+			</button>
+			<button
+				class="evens--button button btn btn-full"
+				ng-click="cancel()"
+				ng-show="is_new">
 				<?php p($l->t('Cancel')); ?>
 			</button>
 			<button

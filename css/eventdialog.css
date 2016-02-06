@@ -46,30 +46,13 @@
 	display: block;
 }
 
-.modal-open .modal {
+.modal-open .modal.popover {
 	position: absolute;
 	min-height: 245px;
-	margin-left: -100px;
 	background: #fff;
 	box-shadow: 0 0 3px #999;
 	max-width: 400px;
 	overflow: hidden;
-}
-
-
-
-.modal-open .modal,
-.modal-open .modal {
-	position: absolute;
-	min-height: 245px;
-	margin-left: -100px;
-	background: #fff;
-	box-shadow: 0 0 3px #999;
-	max-width: 400px;
-	overflow: hidden;
-}
-
-.modal-open .modal {
 	margin-left: 0 !important;
 }
 
@@ -110,7 +93,7 @@
 	padding: 3px 0;
 }
 
-.modal .modal-content {
+.modal-open .modal.popover .modal-content {
 	padding: 20px;
 }
 
