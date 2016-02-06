@@ -91,17 +91,9 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 			console.log(jsEvent, view, this);
 			var vevent = VEvent.fromStartEnd(start, end, $scope.defaulttimezone);
 
-			uiCalendarConfig.calendars.calendar.fullCalendar('renderEvent', {
-				id: 'new_placeholder',
-				start: start,
-				end: end,
-				title: t('calendar', 'New event')
-			});
-
-			/*$scope.eventModal = $uibModal.open({
+			$scope.eventModal = $uibModal.open({
 				templateUrl: 'eventspopovereditor.html',
 				controller: 'EventsPopoverEditorController',
-				//appendTo: angular.element(jsEvent.target),
 				resolve: {
 					vevent: function() {
 						return vevent;
@@ -113,13 +105,20 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 						return false;
 					}
 				},
-				scope: $scope,
-				windowClass: $scope._calculatePopoverPosition(jsEvent, view)
-			});*/
+				scope: $scope
+			});
+
+			$scope.eventModal.rendered.then(function() {
+				var position = $scope._calculatePopoverPosition(jsEvent.target, view);
+				angular.forEach(position, function(v) {
+					console.log(v.name, v.value);
+					angular.element('.modal').css(v.name, v.value);
+				});
+			});
 		};
 
-		$scope._calculatePopoverPosition = function(event, view) {
-			var clientRect = event.currentTarget.getClientRects()[0],
+		$scope._calculatePopoverPosition = function(target, view) {
+			var clientRect = target.getClientRects()[0],
 				headerHeight = angular.element('#header').height(),
 				navigationWidth = angular.element('#app-navigation').width(),
 				eventX = clientRect.left - navigationWidth,
@@ -235,7 +234,7 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 					});
 
 					$scope.eventModal.rendered.then(function() {
-						var position = $scope._calculatePopoverPosition(jsEvent, view);
+						var position = $scope._calculatePopoverPosition(jsEvent.currentTarget, view);
 						angular.forEach(position, function(v) {
 							console.log(v.name, v.value);
 							angular.element('.modal').css(v.name, v.value);
@@ -246,6 +245,7 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 						if (result.action === 'save') {
 							VEventService.update(result.event);
 						} else if (result.action === 'proceed') {
+							angular.element('.modal').css('display', 'none');
 							$scope.eventModal = $uibModal.open({
 								templateUrl: 'eventssidebareditor.html',
 								controller: 'EventsSidebarEditorController',
