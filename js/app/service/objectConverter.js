@@ -447,9 +447,9 @@ app.factory('objectConverter', function () {
 			}
 		},
 		date: function(vevent, oldSimpleData, newSimpleData) {
-			delete vevent.dtstart;
-			delete vevent.dtend;
-			delete vevent.duration;
+			vevent.removeAllProperties('dtstart');
+			vevent.removeAllProperties('dtend');
+			vevent.removeAllProperties('duration');
 
 			newSimpleData.dtstart.parameters.zone = newSimpleData.dtstart.parameters.zone || 'floating';
 			newSimpleData.dtend.parameters.zone = newSimpleData.dtend.parameters.zone || 'floating';
@@ -468,9 +468,6 @@ app.factory('objectConverter', function () {
 					missing_timezone: newSimpleData.dtend.parameters.zone
 				};
 			}
-
-			newSimpleData.dtstart.value.add(newSimpleData.dtstart.value.toDate().getTimezoneOffset(), 'minutes');
-			newSimpleData.dtend.value.add(newSimpleData.dtend.value.toDate().getTimezoneOffset(), 'minutes');
 
 			var start = ICAL.Time.fromJSDate(newSimpleData.dtstart.value.toDate(), false);
 			start.isDate = newSimpleData.allDay;

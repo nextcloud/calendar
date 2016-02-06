@@ -88,6 +88,9 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 		 */
 
 		$scope.newEvent = function (start, end, jsEvent, view) {
+			start.add(start.toDate().getTimezoneOffset(), 'minutes');
+			end.add(end.toDate().getTimezoneOffset(), 'minutes');
+
 			var vevent = VEvent.fromStartEnd(start, end, $scope.defaulttimezone);
 
 			$scope._initializeEventEditor(vevent, null, true, function() {
@@ -275,12 +278,51 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 				select: $scope.newEvent,
 				eventLimit: true,
 				eventClick: function(fcEvent, jsEvent, view) {
+					var oldCalendar = fcEvent.event.calendar;
+
 					$scope._initializeEventEditor(fcEvent.event, fcEvent.recurrenceId, false, function() {
 						return $scope._calculatePopoverPosition(jsEvent.currentTarget, view);
 					}, function(vevent) {
-						VEventService.update(vevent);
+						if (oldCalendar === vevent.calendar) {
+							VEventService.update(vevent);
+						} else {
+							var newCalendar = vevent.calendar;
+							vevent.calendar = oldCalendar;
+							VEventService.delete(vevent).then(function() {
+								var id = vevent.uri;
+								if (fcEvent.recurrenceId) {
+									id += fcEvent.recurrenceId;
+								}
+
+								uiCalendarConfig.calendars.calendar.fullCalendar(
+									'removeEvents',
+									id
+								);
+
+								VEventService.create(newCalendar, vevent.data).then(function(vevent) {
+									var eventsToRender = vevent.getFcEvent(view.intervalStart, view.intervalEnd, $scope.defaulttimezone);
+									angular.forEach(eventsToRender, function(event) {
+										uiCalendarConfig.calendars.calendar.fullCalendar(
+											'renderEvent',
+											event
+										);
+									});
+								});
+							});
+						}
 					}, function(vevent) {
-						VEventService.delete(vevent);
+						VEventService.delete(vevent).then(function() {
+							var id = vevent.uri;
+							if (fcEvent.recurrenceId) {
+								id += fcEvent.recurrenceId;
+							}
+
+							uiCalendarConfig.calendars.calendar.fullCalendar(
+								'removeEvents',
+								id
+							);
+						});
+
 					});
 				},
 				eventResize: function (fcEvent, delta, revertFunc) {
@@ -3402,9 +3444,9 @@ app.factory('objectConverter', function () {
 			}
 		},
 		date: function(vevent, oldSimpleData, newSimpleData) {
-			delete vevent.dtstart;
-			delete vevent.dtend;
-			delete vevent.duration;
+			vevent.removeAllProperties('dtstart');
+			vevent.removeAllProperties('dtend');
+			vevent.removeAllProperties('duration');
 
 			newSimpleData.dtstart.parameters.zone = newSimpleData.dtstart.parameters.zone || 'floating';
 			newSimpleData.dtend.parameters.zone = newSimpleData.dtend.parameters.zone || 'floating';
@@ -3423,9 +3465,6 @@ app.factory('objectConverter', function () {
 					missing_timezone: newSimpleData.dtend.parameters.zone
 				};
 			}
-
-			newSimpleData.dtstart.value.add(newSimpleData.dtstart.value.toDate().getTimezoneOffset(), 'minutes');
-			newSimpleData.dtend.value.add(newSimpleData.dtend.value.toDate().getTimezoneOffset(), 'minutes');
 
 			var start = ICAL.Time.fromJSDate(newSimpleData.dtstart.value.toDate(), false);
 			start.isDate = newSimpleData.allDay;
