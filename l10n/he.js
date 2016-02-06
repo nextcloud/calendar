@@ -76,6 +76,7 @@ OC.L10N.register(
     "Month" : "חודש",
     "Today" : "היום",
     "Share Calendar" : "שיתוף לוח שנה",
+    "group" : "קבוצה",
     "New Calendar" : "לוח שנה חדש",
     "Create" : "יצירה",
     "New Subscription" : "מנוי חדש",

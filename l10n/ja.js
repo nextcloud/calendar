@@ -68,6 +68,7 @@ OC.L10N.register(
     "Month" : "月",
     "Today" : "今日",
     "Share Calendar" : "カレンダーを共有する",
+    "group" : "グループ",
     "New Calendar" : "新しいカレンダーを作成",
     "Create" : "作成",
     "New Subscription" : "新しい購読",

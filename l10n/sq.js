@@ -74,6 +74,7 @@ OC.L10N.register(
     "Month" : "Muaj",
     "Today" : "Sot",
     "Share Calendar" : "Ndani Kalendar",
+    "group" : "grup",
     "New Calendar" : "Kalendar i ri",
     "Create" : "Krijoje",
     "New Subscription" : "Pajtim i Ri",
