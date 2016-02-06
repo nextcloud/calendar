@@ -21,8 +21,8 @@
  *
  */
 
-app.service('TimezoneService', ['$rootScope', '$http', 'Timezone',
-	function($rootScope, $http, Timezone) {
+app.service('TimezoneService', ['$rootScope', '$http', 'Timezone', 'TimezoneListProvider',
+	function ($rootScope, $http, Timezone, TimezoneListProvider) {
 		'use strict';
 
 		var _this = this;
@@ -32,26 +32,16 @@ app.service('TimezoneService', ['$rootScope', '$http', 'Timezone',
 		this._timezones.GMT = this._timezones.UTC;
 		this._timezones.Z = this._timezones.UTC;
 
-		this.listAll = function() {
-			return $http({
-				method: 'GET',
-				url: $rootScope.baseUrl + 'timezones/index.json'
-			}).then(function(response) {
-				if (response.status >= 200 && response.status <= 299) {
-					return response.data.concat(['GMT', 'UTC', 'Z']);
-				} else {
-					return;
-					// TODO - something went wrong, do smth about it
-				}
-			});
+		this.listAll = function () {
+			return TimezoneListProvider;
 		};
 
-		this.get = function(tzid) {
+		this.get = function (tzid) {
 			tzid = tzid.toUpperCase();
 
 
 			if (_this._timezones[tzid]) {
-				return new Promise(function(resolve) {
+				return new Promise(function (resolve) {
 					resolve(_this._timezones[tzid]);
 				});
 			}
@@ -59,7 +49,7 @@ app.service('TimezoneService', ['$rootScope', '$http', 'Timezone',
 			_this._timezones[tzid] = $http({
 				method: 'GET',
 				url: $rootScope.baseUrl + 'timezones/' + tzid + '.ics'
-			}).then(function(response) {
+			}).then(function (response) {
 				if (response.status >= 200 && response.status <= 299) {
 					var timezone = new Timezone(response.data);
 					_this._timezones[tzid] = timezone;
@@ -74,11 +64,11 @@ app.service('TimezoneService', ['$rootScope', '$http', 'Timezone',
 			return _this._timezones[tzid];
 		};
 
-		this.getCurrent = function() {
+		this.getCurrent = function () {
 			return this.get(this.current());
 		};
 
-		this.current = function() {
+		this.current = function () {
 			var timezone = jstz.determine();
 			return timezone.name();
 		};

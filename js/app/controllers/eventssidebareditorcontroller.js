@@ -35,6 +35,23 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'e
 		$scope.calendar = isNew ? null : vevent.calendar;
 		$scope.oldCalendar = isNew ? null : vevent.calendar;
 		$scope.selected = 1;
+		$scope.timezones = [];
+
+		$scope.edittimezone = false;
+
+		TimezoneService.listAll().then(function(list) {
+			$scope.timezones = ['floating'].concat(list);
+			if ($scope.properties.dtstart.parameters.zone !== null) {
+				if ($scope.timezones.indexOf($scope.properties.dtstart.parameters.zone) === -1) {
+					$scope.timezones.push($scope.properties.dtstart.parameters.zone);
+				}
+			}
+			if ($scope.properties.dtend.parameters.zone !== null) {
+				if ($scope.timezones.indexOf($scope.properties.dtend.parameters.zone) === -1) {
+					$scope.timezones.push($scope.properties.dtend.parameters.zone);
+				}
+			}
+		});
 
 		console.log(vevent);
 		console.log(properties);

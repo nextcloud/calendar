@@ -41,3 +41,8 @@
 .clear-both {
   clear: both;
 }
+
+.icon-timezone {
+  background: url("../img/timezone.svg") center center no-repeat;
+  display: block;
+}

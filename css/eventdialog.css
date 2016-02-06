@@ -230,6 +230,12 @@ button.delete:hover, button.delete:focus {
 	bottom: 0;
 }
 
+.advanced .pull-half {
+	width: 48%;
+	padding: 0 5px 0 0;
+}
+
+
 .advanced .btn-half {
 	width: 45%;
 }

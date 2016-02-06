@@ -14,15 +14,17 @@
 		</fieldset>
 
 		<fieldset class="advanced--fieldset">
-			<div class="event-time-interior pull-left">
+			<div class="event-time-interior pull-left pull-half">
 				<span><?php p($l->t('From')); ?></span>
 				<input type="text" name="from" id="from" ng-model="fromdatemodel" class="events--date" placeholder="<?php p($l->t('from'));?>" />
 				<input type="text" name="fromtime" id="fromtime" ng-model="fromtimemodel" class="events--time" ng-disabled="properties.allDay" />
+				<select ng-options="timezone for timezone in timezones" ng-model="properties.dtstart.parameters.zone" ng-show="edittimezone" ng-disabled="properties.allDay"></select>
 			</div>
-			<div class="event-time-interior pull-right">
+			<div class="event-time-interior pull-right pull-half">
 				<span><?php p($l->t('To')); ?></span>
 				<input type="text" name="to" id="to" ng-model="todatemodel" class="events--date" placeholder="<?php p($l->t('to'));?>" />
 				<input type="text" name="totime" id="totime" ng-model="totimemodel" class="events--time" ng-disabled="properties.allDay" />
+				<select ng-options="timezone for timezone in timezones" ng-model="properties.dtend.parameters.zone" ng-show="edittimezone" ng-disabled="properties.allDay"></select>
 			</div>
 			<div class="clear-both"></div>
 			<div class="advanced--checkbox pull-left">
@@ -30,6 +32,11 @@
 					   ng-model="properties.allDay"
 					   id="alldayeventcheckbox" class="event-checkbox" />
 				<label for="alldayeventcheckbox"><?php p($l->t('All day Event'))?></label>
+			</div>
+			<div class="pull-right">
+				<button class="button btn-default btn-timezone" ng-click="edittimezone = !edittimezone">
+					<span class="icon-timezone"></span>
+				</button>
 			</div>
 		</fieldset>
 
