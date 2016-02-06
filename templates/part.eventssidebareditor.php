@@ -49,6 +49,7 @@
 				   placeholder="<?php p($l->t('Separate Categories with comma'));?>" name="categories" />
   			<textarea ng-model="properties.description.value" type="text" class="advanced--input advanced--textarea"
 					placeholder="<?php p($l->t('Description'));?>" name="description"></textarea>
+			<select id="classSelector" ng-options="class.value as class.displayname for class in classSelect" ng-model="properties.class.value"></select>
 		</fieldset>
 
 		<ul class="tabHeaders">

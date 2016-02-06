@@ -291,6 +291,12 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'e
 			}
 		};
 
+		$scope.classSelect = [
+			{displayname: t('calendar', 'When shared show full event'), type: 'PUBLIC'},
+			{displayname: t('calendar', 'When shared show only busy'), type: 'CONFIDENTIAL'},
+			{displayname: t('calendar', 'When shared hide this event'), type: 'PRIVATE'}
+		];
+
 		/**
 		 * Everything reminders
 		 * - ui related scope variables
