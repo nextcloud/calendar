@@ -55,6 +55,12 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'e
 			}
 		});
 
+		$scope.loadTimezone = function(tzId) {
+			TimezoneService.get(tzId).then(function(timezone) {
+				ICAL.TimezoneService.register(tzId, timezone.jCal);
+			});
+		};
+
 		$scope.cancel = function() {
 			$uibModalInstance.dismiss('cancel');
 		};
@@ -68,8 +74,33 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'e
 		};
 
 		$scope.save = function() {
-			//todo - generate Data
-			$uibModalInstance.resolve(null);
+			$scope.properties.dtstart.value = moment(angular.element('#advanced_from').datepicker('getDate'));
+			$scope.properties.dtend.value = moment(angular.element('#advanced_to').datepicker('getDate'));
+
+			if ($scope.properties.allDay) {
+				$scope.properties.dtstart.type = 'date';
+				$scope.properties.dtend.type = 'date';
+				$scope.properties.dtend.value.add(1, 'days');
+			} else {
+				$scope.properties.dtstart.type = 'date-time';
+				$scope.properties.dtend.type = 'date-time';
+
+				$scope.properties.dtstart.value.hours(angular.element('#advanced_fromtime').timepicker('getHour'));
+				$scope.properties.dtstart.value.minutes(angular.element('#advanced_fromtime').timepicker('getMinute'));
+				$scope.properties.dtstart.value.seconds(0);
+
+				$scope.properties.dtend.value.hours(angular.element('#advanced_totime').timepicker('getHour'));
+				$scope.properties.dtend.value.minutes(angular.element('#advanced_totime').timepicker('getMinute'));
+				$scope.properties.dtend.value.seconds(0);
+			}
+
+			angular.element('#advanced_from').datepicker('destroy');
+			angular.element('#advanced_to').datepicker('destroy');
+
+			vevent.calendar = $scope.calendar;
+			vevent.patch(recurrenceId, $scope.properties);
+
+			$uibModalInstance.close(vevent);
 		};
 
 		$uibModalInstance.rendered.then(function() {

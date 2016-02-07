@@ -863,6 +863,12 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'e
 			}
 		});
 
+		$scope.loadTimezone = function(tzId) {
+			TimezoneService.get(tzId).then(function(timezone) {
+				ICAL.TimezoneService.register(tzId, timezone.jCal);
+			});
+		};
+
 		$scope.cancel = function() {
 			$uibModalInstance.dismiss('cancel');
 		};
@@ -876,8 +882,33 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'e
 		};
 
 		$scope.save = function() {
-			//todo - generate Data
-			$uibModalInstance.resolve(null);
+			$scope.properties.dtstart.value = moment(angular.element('#advanced_from').datepicker('getDate'));
+			$scope.properties.dtend.value = moment(angular.element('#advanced_to').datepicker('getDate'));
+
+			if ($scope.properties.allDay) {
+				$scope.properties.dtstart.type = 'date';
+				$scope.properties.dtend.type = 'date';
+				$scope.properties.dtend.value.add(1, 'days');
+			} else {
+				$scope.properties.dtstart.type = 'date-time';
+				$scope.properties.dtend.type = 'date-time';
+
+				$scope.properties.dtstart.value.hours(angular.element('#advanced_fromtime').timepicker('getHour'));
+				$scope.properties.dtstart.value.minutes(angular.element('#advanced_fromtime').timepicker('getMinute'));
+				$scope.properties.dtstart.value.seconds(0);
+
+				$scope.properties.dtend.value.hours(angular.element('#advanced_totime').timepicker('getHour'));
+				$scope.properties.dtend.value.minutes(angular.element('#advanced_totime').timepicker('getMinute'));
+				$scope.properties.dtend.value.seconds(0);
+			}
+
+			angular.element('#advanced_from').datepicker('destroy');
+			angular.element('#advanced_to').datepicker('destroy');
+
+			vevent.calendar = $scope.calendar;
+			vevent.patch(recurrenceId, $scope.properties);
+
+			$uibModalInstance.close(vevent);
 		};
 
 		$uibModalInstance.rendered.then(function() {
@@ -3384,7 +3415,7 @@ app.factory('objectConverter', function () {
 			};
 			data.dtend = {
 				parameters: {
-					zone: dtstart.zone.toString()
+					zone: dtend.zone.toString()
 				},
 				type: dtend.icaltype,
 				value: moment(dtend.toJSDate())
@@ -3473,14 +3504,34 @@ app.factory('objectConverter', function () {
 
 			var dtstart = new ICAL.Property('dtstart', vevent);
 			dtstart.setValue(start);
-			dtstart.setParameter('tzid', newSimpleData.dtstart.parameters.zone);
+			if (newSimpleData.dtstart.parameters.zone !== 'floating') {
+				dtstart.setParameter('tzid', newSimpleData.dtstart.parameters.zone);
+			}
 
 			var dtend = new ICAL.Property('dtend', vevent);
 			dtend.setValue(end);
-			dtend.setParameter('tzid', newSimpleData.dtend.parameters.zone);
+			if (newSimpleData.dtend.parameters.zone !== 'floating') {
+				dtend.setParameter('tzid', newSimpleData.dtend.parameters.zone);
+			}
 
 			vevent.addProperty(dtstart);
 			vevent.addProperty(dtend);
+
+			var availableTimezones = [];
+			var vtimezones = vevent.parent.getAllSubcomponents('vtimezone');
+			angular.forEach(vtimezones, function(vtimezone) {
+				availableTimezones.push(vtimezone.getFirstPropertyValue('tzid'));
+			});
+
+			if (availableTimezones.indexOf(newSimpleData.dtstart.parameters.zone) === -1) {
+				var startTz = ICAL.TimezoneService.get(newSimpleData.dtstart.parameters.zone);
+				vevent.parent.addSubcomponent(startTz.component);
+				availableTimezones.push(newSimpleData.dtstart.parameters.zone);
+			}
+			if (availableTimezones.indexOf(newSimpleData.dtend.parameters.zone) === -1) {
+				var endTz = ICAL.TimezoneService.get(newSimpleData.dtend.parameters.zone);
+				vevent.parent.addSubcomponent(endTz.component);
+			}
 		},
 		repeating: function(vevent, oldSimpleData, newSimpleData) {
 			// We won't support exrule, because it's deprecated and barely used in the wild
@@ -3657,7 +3708,7 @@ app.service('TimezoneListProvider',
 			resolve([
 				'Africa\/Abidjan',
 				'Africa\/Accra',
-				'Africa\/Addis_ababa',
+				'Africa\/Addis_Ababa',
 				'Africa\/Algiers',
 				'Africa\/Asmara',
 				'Africa\/Asmera',
@@ -3673,10 +3724,10 @@ app.service('TimezoneListProvider',
 				'Africa\/Ceuta',
 				'Africa\/Conakry',
 				'Africa\/Dakar',
-				'Africa\/Dar_es_salaam',
+				'Africa\/Dar_es_Salaam',
 				'Africa\/Djibouti',
 				'Africa\/Douala',
-				'Africa\/El_aaiun',
+				'Africa\/El_Aaiun',
 				'Africa\/Freetown',
 				'Africa\/Gaborone',
 				'Africa\/Harare',
@@ -3704,7 +3755,7 @@ app.service('TimezoneListProvider',
 				'Africa\/Nouakchott',
 				'Africa\/Ouagadougou',
 				'Africa\/Porto\/Novo',
-				'Africa\/Sao_tome',
+				'Africa\/Sao_Tome',
 				'Africa\/Timbuktu',
 				'Africa\/Tripoli',
 				'Africa\/Tunis',
@@ -3714,33 +3765,33 @@ app.service('TimezoneListProvider',
 				'America\/Anguilla',
 				'America\/Antigua',
 				'America\/Araguaina',
-				'America\/Argentina\/Buenos_aires',
+				'America\/Argentina\/Buenos_Aires',
 				'America\/Argentina\/Catamarca',
 				'America\/Argentina\/Comodrivadavia',
 				'America\/Argentina\/Cordoba',
 				'America\/Argentina\/Jujuy',
-				'America\/Argentina\/La_rioja',
+				'America\/Argentina\/La_Rioja',
 				'America\/Argentina\/Mendoza',
-				'America\/Argentina\/Rio_gallegos',
+				'America\/Argentina\/Rio_Gallegos',
 				'America\/Argentina\/Salta',
-				'America\/Argentina\/San_juan',
-				'America\/Argentina\/San_luis',
+				'America\/Argentina\/San_Juan',
+				'America\/Argentina\/San_Luis',
 				'America\/Argentina\/Tucuman',
 				'America\/Argentina\/Ushuaia',
 				'America\/Aruba',
 				'America\/Asuncion',
 				'America\/Atikokan',
 				'America\/Bahia',
-				'America\/Bahia_banderas',
+				'America\/Bahia_Banderas',
 				'America\/Barbados',
 				'America\/Belem',
 				'America\/Belize',
 				'America\/Blanc\/Sablon',
-				'America\/Boa_vista',
+				'America\/Boa_Vista',
 				'America\/Bogota',
 				'America\/Boise',
-				'America\/Cambridge_bay',
-				'America\/Campo_grande',
+				'America\/Cambridge_Bay',
+				'America\/Campo_Grande',
 				'America\/Cancun',
 				'America\/Caracas',
 				'America\/Cayenne',
@@ -3753,18 +3804,18 @@ app.service('TimezoneListProvider',
 				'America\/Curacao',
 				'America\/Danmarkshavn',
 				'America\/Dawson',
-				'America\/Dawson_creek',
+				'America\/Dawson_Creek',
 				'America\/Denver',
 				'America\/Detroit',
 				'America\/Dominica',
 				'America\/Edmonton',
 				'America\/Eirunepe',
-				'America\/El_salvador',
+				'America\/El_Salvador',
 				'America\/Fortaleza',
 				'America\/Glace_bay',
 				'America\/Godthab',
-				'America\/Goose_bay',
-				'America\/Grand_turk',
+				'America\/Goose_Bay',
+				'America\/Grand_Turk',
 				'America\/Grenada',
 				'America\/Guadeloupe',
 				'America\/Guatemala',
@@ -3788,11 +3839,11 @@ app.service('TimezoneListProvider',
 				'America\/Kentucky\/Louisville',
 				'America\/Kentucky\/Monticello',
 				'America\/Kralendijk',
-				'America\/La_paz',
+				'America\/La_Paz',
 				'America\/Lima',
-				'America\/Los_angeles',
+				'America\/Los_Angeles',
 				'America\/Louisville',
-				'America\/Lower_princes',
+				'America\/Lower_Princes',
 				'America\/Maceio',
 				'America\/Managua',
 				'America\/Manaus',
@@ -3824,33 +3875,33 @@ app.service('TimezoneListProvider',
 				'America\/Paramaribo',
 				'America\/Phoenix',
 				'America\/Port\/Au\/Prince',
-				'America\/Porto_velho',
-				'America\/Port_of_spain',
-				'America\/Puerto_rico',
-				'America\/Rainy_river',
-				'America\/Rankin_inlet',
+				'America\/Porto_Velho',
+				'America\/Port_of_Spain',
+				'America\/Puerto_Rico',
+				'America\/Rainy_River',
+				'America\/Rankin_Inlet',
 				'America\/Recife',
 				'America\/Regina',
 				'America\/Resolute',
-				'America\/Rio_branco',
+				'America\/Rio_Branco',
 				'America\/Santarem',
-				'America\/Santa_isabel',
+				'America\/Santa_Isabel',
 				'America\/Santiago',
-				'America\/Santo_domingo',
-				'America\/Sao_paulo',
+				'America\/Santo_Domingo',
+				'America\/Sao_Paulo',
 				'America\/Scoresbysund',
 				'America\/Shiprock',
 				'America\/Sitka',
-				'America\/St_barthelemy',
-				'America\/St_johns',
-				'America\/St_kitts',
-				'America\/St_lucia',
-				'America\/St_thomas',
-				'America\/St_vincent',
-				'America\/Swift_current',
+				'America\/St_Barthelemy',
+				'America\/St_Johns',
+				'America\/St_Kitts',
+				'America\/St_Lucia',
+				'America\/St_Thomas',
+				'America\/St_Vincent',
+				'America\/Swift_Current',
 				'America\/Tegucigalpa',
 				'America\/Thule',
-				'America\/Thunder_bay',
+				'America\/Thunder_Bay',
 				'America\/Tijuana',
 				'America\/Toronto',
 				'America\/Tortola',
@@ -3867,7 +3918,7 @@ app.service('TimezoneListProvider',
 				'Antarctica\/Mcmurdo',
 				'Antarctica\/Palmer',
 				'Antarctica\/Rothera',
-				'Antarctica\/South_pole',
+				'Antarctica\/South_Pole',
 				'Antarctica\/Syowa',
 				'Antarctica\/Vostok',
 				'Arctic\/Longyearbyen',
@@ -3897,9 +3948,9 @@ app.service('TimezoneListProvider',
 				'Asia\/Gaza',
 				'Asia\/Harbin',
 				'Asia\/Hebron',
-				'Asia\/Hong_kong',
+				'Asia\/Hong_Kong',
 				'Asia\/Hovd',
-				'Asia\/Ho_chi_minh',
+				'Asia\/Ho_Chi_Minh',
 				'Asia\/Irkutsk',
 				'Asia\/Istanbul',
 				'Asia\/Jakarta',
@@ -3957,24 +4008,24 @@ app.service('TimezoneListProvider',
 				'Atlantic\/Azores',
 				'Atlantic\/Bermuda',
 				'Atlantic\/Canary',
-				'Atlantic\/Cape_verde',
+				'Atlantic\/Cape_Verde',
 				'Atlantic\/Faeroe',
 				'Atlantic\/Faroe',
-				'Atlantic\/Jan_mayen',
+				'Atlantic\/Jan_Mayen',
 				'Atlantic\/Madeira',
 				'Atlantic\/Reykjavik',
-				'Atlantic\/South_georgia',
+				'Atlantic\/South_Georgia',
 				'Atlantic\/Stanley',
-				'Atlantic\/St_helena',
+				'Atlantic\/St_Helena',
 				'Australia\/Adelaide',
 				'Australia\/Brisbane',
-				'Australia\/Broken_hill',
+				'Australia\/Broken_Hill',
 				'Australia\/Currie',
 				'Australia\/Darwin',
 				'Australia\/Eucla',
 				'Australia\/Hobart',
 				'Australia\/Lindeman',
-				'Australia\/Lord_howe',
+				'Australia\/Lord_Howe',
 				'Australia\/Melbourne',
 				'Australia\/Perth',
 				'Australia\/Sydney',
@@ -3995,7 +4046,7 @@ app.service('TimezoneListProvider',
 				'Europe\/Gibraltar',
 				'Europe\/Guernsey',
 				'Europe\/Helsinki',
-				'Europe\/Isle_of_man',
+				'Europe\/Isle_of_Man',
 				'Europe\/Istanbul',
 				'Europe\/Jersey',
 				'Europe\/Kaliningrad',
@@ -4018,7 +4069,7 @@ app.service('TimezoneListProvider',
 				'Europe\/Riga',
 				'Europe\/Rome',
 				'Europe\/Samara',
-				'Europe\/San_marino',
+				'Europe\/San_Marino',
 				'Europe\/Sarajevo',
 				'Europe\/Simferopol',
 				'Europe\/Skopje',
@@ -4073,12 +4124,12 @@ app.service('TimezoneListProvider',
 				'Pacific\/Niue',
 				'Pacific\/Norfolk',
 				'Pacific\/Noumea',
-				'Pacific\/Pago_pago',
+				'Pacific\/Pago_Pago',
 				'Pacific\/Palau',
 				'Pacific\/Pitcairn',
 				'Pacific\/Pohnpei',
 				'Pacific\/Ponape',
-				'Pacific\/Port_moresby',
+				'Pacific\/Port_Moresby',
 				'Pacific\/Rarotonga',
 				'Pacific\/Saipan',
 				'Pacific\/Tahiti',

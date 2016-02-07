@@ -18,13 +18,15 @@
 				<span><?php p($l->t('From')); ?></span>
 				<input type="text" name="from" id="advanced_from" ng-model="fromdatemodel" class="events--date" placeholder="<?php p($l->t('from'));?>" />
 				<input type="text" name="fromtime" id="advanced_fromtime" ng-model="fromtimemodel" class="events--time" ng-disabled="properties.allDay" />
-				<select ng-options="timezone for timezone in timezones" ng-model="properties.dtstart.parameters.zone" ng-show="edittimezone" ng-disabled="properties.allDay"></select>
+				<select ng-options="timezone for timezone in timezones" ng-model="properties.dtstart.parameters.zone" ng-show="edittimezone" ng-disabled="properties.allDay"
+						ng-change="loadTimezone(properties.dtstart.parameters.zone)"></select>
 			</div>
 			<div class="event-time-interior pull-right pull-half">
 				<span><?php p($l->t('To')); ?></span>
 				<input type="text" name="to" id="advanced_to" ng-model="todatemodel" class="events--date" placeholder="<?php p($l->t('to'));?>" />
 				<input type="text" name="totime" id="advanced_totime" ng-model="totimemodel" class="events--time" ng-disabled="properties.allDay" />
-				<select ng-options="timezone for timezone in timezones" ng-model="properties.dtend.parameters.zone" ng-show="edittimezone" ng-disabled="properties.allDay"></select>
+				<select ng-options="timezone for timezone in timezones" ng-model="properties.dtend.parameters.zone" ng-show="edittimezone" ng-disabled="properties.allDay"
+					ng-change="loadTimezone(properties.dtend.parameters.zone)"></select>
 			</div>
 			<div class="clear-both"></div>
 			<div class="advanced--checkbox pull-left">
@@ -100,13 +102,13 @@
 			</button>
 			<button
 				class="events--button button btn primary btn-full"
-				ng-click="save"
+				ng-click="save()"
 				ng-show="is_new">
 				<?php p($l->t('Create')); ?>
 			</button>
 			<button
 				class="evens--button button btn primary btn-full"
-				ng-click="save"
+				ng-click="save()"
 				ng-show="!is_new">
 				<?php p($l->t('Update')); ?>
 			</button>
