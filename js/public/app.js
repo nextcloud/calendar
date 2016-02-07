@@ -3502,36 +3502,35 @@ app.factory('objectConverter', function () {
 			var end = ICAL.Time.fromJSDate(newSimpleData.dtend.value.toDate(), false);
 			end.isDate = newSimpleData.allDay;
 
-			var dtstart = new ICAL.Property('dtstart', vevent);
-			dtstart.setValue(start);
-			if (newSimpleData.dtstart.parameters.zone !== 'floating') {
-				dtstart.setParameter('tzid', newSimpleData.dtstart.parameters.zone);
-			}
-
-			var dtend = new ICAL.Property('dtend', vevent);
-			dtend.setValue(end);
-			if (newSimpleData.dtend.parameters.zone !== 'floating') {
-				dtend.setParameter('tzid', newSimpleData.dtend.parameters.zone);
-			}
-
-			vevent.addProperty(dtstart);
-			vevent.addProperty(dtend);
-
 			var availableTimezones = [];
 			var vtimezones = vevent.parent.getAllSubcomponents('vtimezone');
 			angular.forEach(vtimezones, function(vtimezone) {
 				availableTimezones.push(vtimezone.getFirstPropertyValue('tzid'));
 			});
 
-			if (availableTimezones.indexOf(newSimpleData.dtstart.parameters.zone) === -1) {
-				var startTz = ICAL.TimezoneService.get(newSimpleData.dtstart.parameters.zone);
-				vevent.parent.addSubcomponent(startTz.component);
-				availableTimezones.push(newSimpleData.dtstart.parameters.zone);
+			var dtstart = new ICAL.Property('dtstart', vevent);
+			dtstart.setValue(start);
+			if (newSimpleData.dtstart.parameters.zone !== 'floating') {
+				dtstart.setParameter('tzid', newSimpleData.dtstart.parameters.zone);
+				if (availableTimezones.indexOf(newSimpleData.dtstart.parameters.zone) === -1) {
+					var startTz = ICAL.TimezoneService.get(newSimpleData.dtstart.parameters.zone);
+					vevent.parent.addSubcomponent(startTz.component);
+					availableTimezones.push(newSimpleData.dtstart.parameters.zone);
+				}
 			}
-			if (availableTimezones.indexOf(newSimpleData.dtend.parameters.zone) === -1) {
-				var endTz = ICAL.TimezoneService.get(newSimpleData.dtend.parameters.zone);
-				vevent.parent.addSubcomponent(endTz.component);
+
+			var dtend = new ICAL.Property('dtend', vevent);
+			dtend.setValue(end);
+			if (newSimpleData.dtend.parameters.zone !== 'floating') {
+				dtend.setParameter('tzid', newSimpleData.dtend.parameters.zone);
+				if (availableTimezones.indexOf(newSimpleData.dtend.parameters.zone) === -1) {
+					var endTz = ICAL.TimezoneService.get(newSimpleData.dtend.parameters.zone);
+					vevent.parent.addSubcomponent(endTz.component);
+				}
 			}
+
+			vevent.addProperty(dtstart);
+			vevent.addProperty(dtend);
 		},
 		repeating: function(vevent, oldSimpleData, newSimpleData) {
 			// We won't support exrule, because it's deprecated and barely used in the wild
