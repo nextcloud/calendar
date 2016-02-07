@@ -264,7 +264,25 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 						return $scope._calculatePopoverPosition(jsEvent.currentTarget, view);
 					}, function(vevent) {
 						if (oldCalendar === vevent.calendar) {
-							VEventService.update(vevent);
+							VEventService.update(vevent).then(function() {
+								var id = vevent.uri;
+								if (fcEvent.recurrenceId) {
+									id += fcEvent.recurrenceId;
+								}
+
+								uiCalendarConfig.calendars.calendar.fullCalendar(
+									'removeEvents',
+									id
+								);
+
+								var eventsToRender = vevent.getFcEvent(view.intervalStart, view.intervalEnd, $scope.defaulttimezone);
+								angular.forEach(eventsToRender, function(event) {
+									uiCalendarConfig.calendars.calendar.fullCalendar(
+										'renderEvent',
+										event
+									);
+								});
+							});
 						} else {
 							var newCalendar = vevent.calendar;
 							vevent.calendar = oldCalendar;

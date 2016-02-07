@@ -284,7 +284,25 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 						return $scope._calculatePopoverPosition(jsEvent.currentTarget, view);
 					}, function(vevent) {
 						if (oldCalendar === vevent.calendar) {
-							VEventService.update(vevent);
+							VEventService.update(vevent).then(function() {
+								var id = vevent.uri;
+								if (fcEvent.recurrenceId) {
+									id += fcEvent.recurrenceId;
+								}
+
+								uiCalendarConfig.calendars.calendar.fullCalendar(
+									'removeEvents',
+									id
+								);
+
+								var eventsToRender = vevent.getFcEvent(view.intervalStart, view.intervalEnd, $scope.defaulttimezone);
+								angular.forEach(eventsToRender, function(event) {
+									uiCalendarConfig.calendars.calendar.fullCalendar(
+										'renderEvent',
+										event
+									);
+								});
+							});
 						} else {
 							var newCalendar = vevent.calendar;
 							vevent.calendar = oldCalendar;
@@ -3410,7 +3428,7 @@ app.factory('objectConverter', function () {
 					zone: dtstart.zone.toString()
 				},
 				type: dtstart.icaltype,
-				value: moment({years: dtstart.year, months: dtstart.month, date: dtstart.day,
+				value: moment({years: dtstart.year, months: dtstart.month - 1, date: dtstart.day,
 					hours: dtstart.hour, minutes: dtstart.minute, seconds: dtstart.seconds})
 			};
 			data.dtend = {
@@ -3418,7 +3436,7 @@ app.factory('objectConverter', function () {
 					zone: dtend.zone.toString()
 				},
 				type: dtend.icaltype,
-				value: moment({years: dtend.year, months: dtend.month, date: dtend.day,
+				value: moment({years: dtend.year, months: dtend.month - 1, date: dtend.day,
 					hours: dtend.hour, minutes: dtend.minute, seconds: dtend.seconds})
 			};
 			data.allDay = (dtstart.icaltype === 'date' && dtend.icaltype === 'date');
@@ -3513,8 +3531,9 @@ app.factory('objectConverter', function () {
 			dtstart.setValue(start);
 			if (newSimpleData.dtstart.parameters.zone !== 'floating') {
 				dtstart.setParameter('tzid', newSimpleData.dtstart.parameters.zone);
+				var startTz = ICAL.TimezoneService.get(newSimpleData.dtstart.parameters.zone);
+				start.zone = startTz;
 				if (availableTimezones.indexOf(newSimpleData.dtstart.parameters.zone) === -1) {
-					var startTz = ICAL.TimezoneService.get(newSimpleData.dtstart.parameters.zone);
 					vevent.parent.addSubcomponent(startTz.component);
 					availableTimezones.push(newSimpleData.dtstart.parameters.zone);
 				}
@@ -3524,8 +3543,9 @@ app.factory('objectConverter', function () {
 			dtend.setValue(end);
 			if (newSimpleData.dtend.parameters.zone !== 'floating') {
 				dtend.setParameter('tzid', newSimpleData.dtend.parameters.zone);
+				var endTz = ICAL.TimezoneService.get(newSimpleData.dtend.parameters.zone);
+				end.zone = endTz;
 				if (availableTimezones.indexOf(newSimpleData.dtend.parameters.zone) === -1) {
-					var endTz = ICAL.TimezoneService.get(newSimpleData.dtend.parameters.zone);
 					vevent.parent.addSubcomponent(endTz.component);
 				}
 			}
