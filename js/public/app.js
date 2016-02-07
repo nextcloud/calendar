@@ -722,7 +722,6 @@ app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'e
 		$scope.calendar = isNew ? null : vevent.calendar;
 		$scope.oldCalendar = isNew ? null : vevent.calendar;
 
-
 		$scope.close = function(action) {
 			$scope.properties.dtstart.value = moment(angular.element('#from').datepicker('getDate'));
 			$scope.properties.dtend.value = moment(angular.element('#to').datepicker('getDate'));
@@ -3411,14 +3410,16 @@ app.factory('objectConverter', function () {
 					zone: dtstart.zone.toString()
 				},
 				type: dtstart.icaltype,
-				value: moment(dtstart.toJSDate())
+				value: moment({years: dtstart.year, months: dtstart.month, date: dtstart.day,
+					hours: dtstart.hour, minutes: dtstart.minute, seconds: dtstart.seconds})
 			};
 			data.dtend = {
 				parameters: {
 					zone: dtend.zone.toString()
 				},
 				type: dtend.icaltype,
-				value: moment(dtend.toJSDate())
+				value: moment({years: dtend.year, months: dtend.month, date: dtend.day,
+					hours: dtend.hour, minutes: dtend.minute, seconds: dtend.seconds})
 			};
 			data.allDay = (dtstart.icaltype === 'date' && dtend.icaltype === 'date');
 		},
@@ -3811,7 +3812,7 @@ app.service('TimezoneListProvider',
 				'America\/Eirunepe',
 				'America\/El_Salvador',
 				'America\/Fortaleza',
-				'America\/Glace_bay',
+				'America\/Glace_Bay',
 				'America\/Godthab',
 				'America\/Goose_Bay',
 				'America\/Grand_Turk',
@@ -3827,7 +3828,7 @@ app.service('TimezoneListProvider',
 				'America\/Indiana\/Knox',
 				'America\/Indiana\/Marengo',
 				'America\/Indiana\/Petersburg',
-				'America\/Indiana\/Tell_city',
+				'America\/Indiana\/Tell_City',
 				'America\/Indiana\/Vevay',
 				'America\/Indiana\/Vincennes',
 				'America\/Indiana\/Winamac',
@@ -3853,7 +3854,7 @@ app.service('TimezoneListProvider',
 				'America\/Menominee',
 				'America\/Merida',
 				'America\/Metlakatla',
-				'America\/Mexico_city',
+				'America\/Mexico_City',
 				'America\/Miquelon',
 				'America\/Moncton',
 				'America\/Monterrey',
@@ -3861,13 +3862,13 @@ app.service('TimezoneListProvider',
 				'America\/Montreal',
 				'America\/Montserrat',
 				'America\/Nassau',
-				'America\/New_york',
+				'America\/New_York',
 				'America\/Nipigon',
 				'America\/Nome',
 				'America\/Noronha',
-				'America\/North_dakota\/Beulah',
-				'America\/North_dakota\/Center',
-				'America\/North_dakota\/New_salem',
+				'America\/North_Dakota\/Beulah',
+				'America\/North_Dakota\/Center',
+				'America\/North_Dakota\/New_Salem',
 				'America\/Ojinaga',
 				'America\/Panama',
 				'America\/Pangnirtung',
@@ -3964,7 +3965,7 @@ app.service('TimezoneListProvider',
 				'Asia\/Khandyga',
 				'Asia\/Kolkata',
 				'Asia\/Krasnoyarsk',
-				'Asia\/Kuala_lumpur',
+				'Asia\/Kuala_Lumpur',
 				'Asia\/Kuching',
 				'Asia\/Kuwait',
 				'Asia\/Macau',
@@ -3977,7 +3978,7 @@ app.service('TimezoneListProvider',
 				'Asia\/Novosibirsk',
 				'Asia\/Omsk',
 				'Asia\/Oral',
-				'Asia\/Phnom_penh',
+				'Asia\/Phnom_Penh',
 				'Asia\/Pontianak',
 				'Asia\/Pyongyang',
 				'Asia\/Qatar',

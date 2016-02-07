@@ -383,14 +383,16 @@ app.factory('objectConverter', function () {
 					zone: dtstart.zone.toString()
 				},
 				type: dtstart.icaltype,
-				value: moment(dtstart.toJSDate())
+				value: moment({years: dtstart.year, months: dtstart.month, date: dtstart.day,
+					hours: dtstart.hour, minutes: dtstart.minute, seconds: dtstart.seconds})
 			};
 			data.dtend = {
 				parameters: {
 					zone: dtend.zone.toString()
 				},
 				type: dtend.icaltype,
-				value: moment(dtend.toJSDate())
+				value: moment({years: dtend.year, months: dtend.month, date: dtend.day,
+					hours: dtend.hour, minutes: dtend.minute, seconds: dtend.seconds})
 			};
 			data.allDay = (dtstart.icaltype === 'date' && dtend.icaltype === 'date');
 		},
