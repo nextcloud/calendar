@@ -69,6 +69,7 @@ OC.L10N.register(
     "{type} {time} after the event ends" : "{type} {time} pas mbarimit të veprimtarisë",
     "{type} at the event's start" : "{type} në fillim të veprimtarisë",
     "{type} at the event's end" : "{type} në fund të veprimtarisë",
+    "{calendar} shared by {owner}" : "{calendar} ndarë nga {owner}",
     "Day" : "Ditë",
     "Week" : "Javë",
     "Month" : "Muaj",

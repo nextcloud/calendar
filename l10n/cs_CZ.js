@@ -76,6 +76,7 @@ OC.L10N.register(
     "Month" : "Měsíc",
     "Today" : "Dnes",
     "Share Calendar" : "Sdílet kalendář",
+    "group" : "skupina",
     "New Calendar" : "Nový kalendář",
     "Create" : "Vytvořit",
     "New Subscription" : "Nový odběr",

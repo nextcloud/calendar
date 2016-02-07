@@ -76,6 +76,7 @@ OC.L10N.register(
     "Month" : "Maand",
     "Today" : "Vandaag",
     "Share Calendar" : "Delen agenda",
+    "group" : "groep",
     "New Calendar" : "Nieuwe agenda",
     "Create" : "Aanmaken",
     "New Subscription" : "Nieuw abonnement",
