@@ -54,6 +54,7 @@
 										value="{{reminder.type}}">{{reminder.displayname}}</option>
 							</select>
 						</div>
+						<div class="clear-both"></div>
 					</div>
 					<div class="advanced--fieldset-interior" ng-show="alarm.editor.reminderSelectValue == 'custom'">
 						<div class="event-fieldset-custom-interior">
@@ -70,6 +71,7 @@
 									   ng-change="updateReminderAbsolute(alarm)" />
 								<label for="absolutereminderradio_{{$id}}"><?php p($l->t('Absolute')); ?></label>
 							</div>
+							<div class="clear-both"></div>
 							<!-- Relative input -->
 							<div class="custom-container-options" ng-show="alarm.editor.triggerType === 'relative'">
 								<input id="relativealarm_{{$id}}" class="event-input relativealarm" type="number"

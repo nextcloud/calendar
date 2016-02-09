@@ -79,6 +79,10 @@ app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'e
 			$uibModalInstance.dismiss('delete');
 		};
 
+		$scope.cancel = function() {
+			$uibModalInstance.dismiss('cancel');
+		};
+
 		$uibModalInstance.rendered.then(function() {
 			// TODO: revaluate current solution:
 			// moment.js and the datepicker use different formats to format a date.

@@ -43,6 +43,9 @@
 			<button ng-click="delete()" ng-show="!is_new" class="events--button button btn delete">
 				<?php p($l->t('Delete')); ?>
 			</button>
+			<button ng-click="cancel()" class="events--button button btn">
+				<?php p($l->t('Cancel')); ?>
+			</button>
 		</fieldset>
 
 		<fieldset class="events--fieldset pull-right">
