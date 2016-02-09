@@ -66,7 +66,7 @@ app.factory('objectConverter', function () {
 			parameters = (parameters || []).concat(['tzid']);
 			simpleParser._parseSingle(data, vevent, key, parameters, function(p) {
 				return (p.type === 'duration') ?
-						moment.duration(p.getFirstValue().toSeconds(), 'seconds') :
+						p.getFirstValue().toSeconds():
 						moment(p.getFirstValue().toJSDate());
 			});
 		},
@@ -82,7 +82,7 @@ app.factory('objectConverter', function () {
 
 					usableValues.push(
 						(p.type === 'duration') ?
-							moment.duration(values[vKey].toSeconds(), 'seconds') :
+							values[vKey].toSeconds():
 							moment(values[vKey].toJSDate())
 					);
 				}
@@ -175,7 +175,7 @@ app.factory('objectConverter', function () {
 			parameters = (parameters || []).concat(['tzid']);
 			simpleReader._readSingle(vevent, oldSimpleData, newSimpleData, key, parameters, function(v, isMultiValue) {
 				if (v.type === 'duration') {
-					return ICAL.Duration.fromSeconds(v.value.seconds());
+					return ICAL.Duration.fromSeconds(v.value);
 				} else {
 					return ICAL.Time.fromJSDate(v.value.toDate());
 				}
@@ -188,7 +188,7 @@ app.factory('objectConverter', function () {
 
 				for (var i=0, length=v.values.length; i < length; i++) {
 					if (v.type === 'duration') {
-						values.push(ICAL.Duration.fromSeconds(v.values[i].seconds()));
+						values.push(ICAL.Duration.fromSeconds(v.values[i]));
 					} else {
 						values.push(ICAL.Time.fromJSDate(v.values[i].toDate()));
 					}
