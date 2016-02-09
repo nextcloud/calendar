@@ -55,7 +55,8 @@
 #app-navigation .new-entity-container {
 	margin-top: 45px;
 }
-#app-navigation .new-entity {
+#app-navigation .new-entity,
+#app-navigation .subscription-title {
 	display: block;
 	width: 100%;
 	line-height: 44px;
