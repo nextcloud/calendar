@@ -26,14 +26,15 @@
 * Description: The fullcalendar controller.
 */
 
-app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'objectConverter', 'is', 'uiCalendarConfig',
-	function ($scope, $rootScope, $window, CalendarService, VEventService, SettingsService, TimezoneService, objectConverter, is, uiCalendarConfig) {
+app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'VEvent', 'is', 'uiCalendarConfig', '$uibModal',
+	function ($scope, $rootScope, $window, CalendarService, VEventService, SettingsService, TimezoneService, VEvent, is, uiCalendarConfig, $uibModal) {
 		'use strict';
 
 		$scope.calendars = [];
 		$scope.eventSources = [];
 		$scope.eventSource = {};
 		$scope.defaulttimezone = TimezoneService.current();
+		$scope.eventModal = null;
 		var switcher = [];
 
 		var w = angular.element($window);
@@ -67,45 +68,158 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 		 */
 
 		$scope.newEvent = function (start, end, jsEvent, view) {
-			console.log(start, end, jsEvent, view);
-			var initWithData = {
-				allDay: !start.hasTime() && !end.hasTime(),
-				dtstart: {
-					type: start.hasTime() ? 'datetime' : 'date',
-					date: start.format('YYYY-MM-DD'),
-					time: start.format('HH:mm:ss'),
-					zone: $scope.defaulttimezone
-				},
-				dtend: {
-					type: end.hasTime() ? 'datetime' : 'date',
-					date: end.format('YYYY-MM-DD'),
-					time: end.format('HH:mm:ss'),
-					zone: $scope.defaulttimezone
-				},
-				summary: {
-					type: 'text',
-					value: t('calendar', 'New event')
-				},
-				alarm: [],
-				attendee: []
-			};
+			start.add(start.toDate().getTimezoneOffset(), 'minutes');
+			end.add(end.toDate().getTimezoneOffset(), 'minutes');
 
-			$rootScope.$broadcast('initializeEventEditor', {
-				data: initWithData,
-				onSuccess: function(newData) {
-					var comp = new ICAL.Component(['vcalendar', [], []]);
-					//TODO - add a proper prodid with version number
-					comp.updatePropertyWithValue('prodid', '-//ownCloud calendar');
-					var vevent = new ICAL.Component('vevent');
-					comp.addSubcomponent(vevent);
+			var vevent = VEvent.fromStartEnd(start, end, $scope.defaulttimezone);
 
-					objectConverter.patch(vevent, {}, newData);
+			$scope._initializeEventEditor(vevent, null, true, function() {
+				return $scope._calculatePopoverPosition(jsEvent.target, view);
+			}, function(vevent) {
+				VEventService.create(vevent.calendar, vevent.data).then(function(vevent) {
+					var eventsToRender = vevent.getFcEvent(view.intervalStart, view.intervalEnd, $scope.defaulttimezone);
+					angular.forEach(eventsToRender, function(event) {
+						uiCalendarConfig.calendars.calendar.fullCalendar(
+							'renderEvent',
+							event
+						);
+					});
+				});
+			}, function() {
+				//nothing to do
+			});
+		};
 
-					vevent.updatePropertyWithValue('created', ICAL.Time.now());
-					vevent.updatePropertyWithValue('dtstamp', ICAL.Time.now());
-					vevent.updatePropertyWithValue('last-modified', ICAL.Time.now());
-					//TODO - add UID,
-					console.log(comp.toString());
+		$scope._calculatePopoverPosition = function(target, view) {
+			var clientRect = target.getClientRects()[0],
+				headerHeight = angular.element('#header').height(),
+				navigationWidth = angular.element('#app-navigation').width(),
+				eventX = clientRect.left - navigationWidth,
+				eventY = clientRect.top - headerHeight,
+				eventWidth = clientRect.right - clientRect.left,
+				windowX = $window.innerWidth - navigationWidth,
+				windowY = $window.innerHeight - headerHeight,
+				popoverHeight = 300,
+				popoverWidth = 450,
+				position = [];
+
+			if (eventY / windowY < 0.5) {
+				position.push({
+					name: 'top',
+					value: clientRect.bottom - headerHeight + 20
+				});
+			} else {
+				position.push({
+					name: 'top',
+					value: clientRect.top - headerHeight - popoverHeight - 20
+				});
+			}
+
+			if (view.name === 'agendaDay') {
+				position.push({
+					name: 'left',
+					value: clientRect.left - (popoverWidth / 2) - 20 + eventWidth / 2
+				});
+			} else {
+				if (eventX / windowX < 0.25) {
+					position.push({
+						name: 'left',
+						value: clientRect.left - 20 + eventWidth / 2
+					});
+				} else if (eventX / windowX > 0.75) {
+					position.push({
+						name: 'left',
+						value: clientRect.left - popoverWidth - 20 + eventWidth / 2
+					});
+				} else {
+					position.push({
+						name: 'left',
+						value: clientRect.left - (popoverWidth / 2) - 20 + eventWidth / 2
+					});
+				}
+			}
+
+			return position;
+		};
+
+		$scope._initializeEventEditor = function(vevent, recurrenceId, isNew, positionCallback, successCallback, deleteCallBack) {
+			if ($scope.eventModal !== null) {
+				$scope.eventModal.dismiss('superseded');
+			}
+
+			$scope.eventModal = $uibModal.open({
+				templateUrl: 'eventspopovereditor.html',
+				controller: 'EventsPopoverEditorController',
+				windowClass: 'popover',
+				appendTo: angular.element('#popover-container'),
+				resolve: {
+					vevent: function() {
+						return vevent;
+					},
+					recurrenceId: function() {
+						return recurrenceId;
+					},
+					isNew: function() {
+						return isNew;
+					}
+				},
+				scope: $scope
+			});
+
+			$scope.eventModal.rendered.then(function() {
+				angular.element('#popover-container').css('display', 'none');
+
+				var position = positionCallback();
+				angular.forEach(position, function(v) {
+					angular.element('.modal').css(v.name, v.value);
+				});
+
+				angular.element('#popover-container').css('display', 'block');
+			});
+
+			$scope.eventModal.result.then(function(result) {
+				if (result.action === 'save') {
+					successCallback(result.event);
+				} else if (result.action === 'proceed') {
+					$scope.eventModal = $uibModal.open({
+						templateUrl: 'eventssidebareditor.html',
+						controller: 'EventsSidebarEditorController',
+						appendTo: angular.element('#app-content'),
+						resolve: {
+							vevent: function() {
+								return vevent;
+							},
+							recurrenceId: function() {
+								return recurrenceId;
+							},
+							isNew: function() {
+								return isNew;
+							},
+							properties: function() {
+								return result.properties;
+							}
+						},
+						scope: $scope
+					});
+					angular.element('#app-content').addClass('with-app-sidebar');
+
+					$scope.eventModal.result.then(function(event) {
+						successCallback(event);
+						$scope.eventModal = null;
+						angular.element('#app-content').removeClass('with-app-sidebar');
+					}, function(reason) {
+						if (reason === 'delete') {
+							deleteCallBack(vevent);
+							$scope.eventModal = null;
+						}
+
+						angular.element('#app-content').removeClass('with-app-sidebar');
+					});
+				}
+			}, function(reason) {
+				if (reason === 'delete') {
+					deleteCallBack(vevent);
+					$scope.eventModal = null;
 				}
 			});
 		};
@@ -149,21 +263,79 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 				select: $scope.newEvent,
 				eventLimit: true,
 				eventClick: function(fcEvent, jsEvent, view) {
-					var simpleData = fcEvent.event.getSimpleData(fcEvent);
-					$rootScope.$broadcast('initializeEventEditor', {
-						data: simpleData,
-						onSuccess: function(newData) {
+					var oldCalendar = fcEvent.event.calendar;
+
+					$scope._initializeEventEditor(fcEvent.event, fcEvent.recurrenceId, false, function() {
+						return $scope._calculatePopoverPosition(jsEvent.currentTarget, view);
+					}, function(vevent) {
+						if (oldCalendar === vevent.calendar) {
+							VEventService.update(vevent).then(function() {
+								var id = vevent.uri;
+								if (fcEvent.recurrenceId) {
+									id += fcEvent.recurrenceId;
+								}
+
+								uiCalendarConfig.calendars.calendar.fullCalendar(
+									'removeEvents',
+									id
+								);
+
+								var eventsToRender = vevent.getFcEvent(view.intervalStart, view.intervalEnd, $scope.defaulttimezone);
+								angular.forEach(eventsToRender, function(event) {
+									uiCalendarConfig.calendars.calendar.fullCalendar(
+										'renderEvent',
+										event
+									);
+								});
+							});
+						} else {
+							var newCalendar = vevent.calendar;
+							vevent.calendar = oldCalendar;
+							VEventService.delete(vevent).then(function() {
+								var id = vevent.uri;
+								if (fcEvent.recurrenceId) {
+									id += fcEvent.recurrenceId;
+								}
+
+								uiCalendarConfig.calendars.calendar.fullCalendar(
+									'removeEvents',
+									id
+								);
+
+								VEventService.create(newCalendar, vevent.data).then(function(vevent) {
+									var eventsToRender = vevent.getFcEvent(view.intervalStart, view.intervalEnd, $scope.defaulttimezone);
+									angular.forEach(eventsToRender, function(event) {
+										uiCalendarConfig.calendars.calendar.fullCalendar(
+											'renderEvent',
+											event
+										);
+									});
+								});
+							});
 						}
+					}, function(vevent) {
+						VEventService.delete(vevent).then(function() {
+							var id = vevent.uri;
+							if (fcEvent.recurrenceId) {
+								id += fcEvent.recurrenceId;
+							}
+
+							uiCalendarConfig.calendars.calendar.fullCalendar(
+								'removeEvents',
+								id
+							);
+						});
+
 					});
 				},
 				eventResize: function (fcEvent, delta, revertFunc) {
-					if (!fcEvent.event.resize(fcEvent, delta)) {
+					if (!fcEvent.event.resize(fcEvent.recurrenceId, delta)) {
 						revertFunc();
 					}
 					VEventService.update(fcEvent.event);
 				},
 				eventDrop: function (fcEvent, delta, revertFunc) {
-					if(!fcEvent.event.drop(fcEvent, delta)) {
+					if(!fcEvent.event.drop(fcEvent.recurrenceId, delta)) {
 						revertFunc();
 					}
 					VEventService.update(fcEvent.event);

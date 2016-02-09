@@ -34,7 +34,12 @@
   />
 </fieldset>
 
-
+<fieldset class="event-calendarselector">
+  <select
+    ng-model="calendar"
+    ng-init="calendar = oldCalendar || calendars[0]"
+    ng-options="c as c.displayname for c in calendars | orderBy:['order'] | calendarSelectorFilter: oldCalendar"></select>
+</fieldset>
 
 <fieldset class="event-time event-fieldset">
   <div class="event-time-interior pull-left">
@@ -53,21 +58,9 @@
   </div>
 </fieldset>
 
-
-
 <fieldset class="event-fieldset">
   <input ng-model="properties.location.value" type="text" class="event-input"
     placeholder="<?php p($l->t('Events Location'));?>" name="location"
     uib-typeahead="location for location in getLocation($viewValue)"
     autocomplete="off" />
-</fieldset>
-
-
-
-<fieldset>
-  <input ng-model="properties.categories.value" type="text" class="event-input"
-    placeholder="<?php p($l->t('Separate Categories with comma'));?>" name="categories" />
-  <textarea ng-model="properties.description.value" type="text" class="event-input event-textarea"
-    placeholder="<?php p($l->t('Description'));?>" name="description">
-  </textarea>
 </fieldset>

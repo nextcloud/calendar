@@ -3,8 +3,8 @@
  *
  * @author Raghu Nayyar
  * @author Georg Ehrke
- * @copyright 2016 Raghu Nayyar <beingminimal@gmail.com>
- * @copyright 2016 Georg Ehrke <oc.list@georgehrke.com>
+ * @copyright 2014 Raghu Nayyar <beingminimal@gmail.com>
+ * @copyright 2014 Georg Ehrke <oc.list@georgehrke.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -22,27 +22,172 @@
  */
 
 /**
-* Controller: Events Dialog Controller
-* Description: Takes care of anything inside the Events Modal.
-*/
+ * Controller: Events Dialog Controller
+ * Description: Takes care of anything inside the Events Modal.
+ */
 
-app.controller('EventsModalController', ['$scope', '$rootScope', '$routeParams', 'CalendarService', 'VEventService', 'TimezoneService', 'DialogModel', 'eventEditorHelper',
-	function ($scope, $rootScope, $routeParams, CalendarService, VEventService, TimezoneService, DialogModel, eventEditorHelper) {
+app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'eventEditorHelper', '$window', '$uibModalInstance', 'vevent', 'recurrenceId', 'isNew', 'properties',
+	function($scope, TimezoneService, eventEditorHelper, $window, $uibModalInstance, vevent, recurrenceId, isNew, properties) {
 		'use strict';
-		//$scope.calendarModel = CalendarModel;
-		$scope.calendars = [];//CalendarModel.getAll();
-		$scope.properties = {};
-		$scope.nameofattendee = '';
-		$scope.eventsinfoview = true;
+
+		$scope.properties = properties;
+		$scope.is_new = isNew;
+		$scope.calendar = isNew ? null : vevent.calendar;
+		$scope.oldCalendar = isNew ? null : vevent.calendar;
 		$scope.selected = 1;
+		$scope.timezones = [];
+
+		$scope.edittimezone = false;
+
+		// TODO - when user changes timezone input query timezone from server
+
+		TimezoneService.listAll().then(function(list) {
+			$scope.timezones = ['floating'].concat(list);
+			if ($scope.properties.dtstart.parameters.zone !== null) {
+				if ($scope.timezones.indexOf($scope.properties.dtstart.parameters.zone) === -1) {
+					$scope.timezones.push($scope.properties.dtstart.parameters.zone);
+				}
+			}
+			if ($scope.properties.dtend.parameters.zone !== null) {
+				if ($scope.timezones.indexOf($scope.properties.dtend.parameters.zone) === -1) {
+					$scope.timezones.push($scope.properties.dtend.parameters.zone);
+				}
+			}
+		});
+
+		$scope.loadTimezone = function(tzId) {
+			TimezoneService.get(tzId).then(function(timezone) {
+				ICAL.TimezoneService.register(tzId, timezone.jCal);
+			});
+		};
+
+		$scope.cancel = function() {
+			$uibModalInstance.dismiss('cancel');
+		};
+
+		$scope.delete = function() {
+			$uibModalInstance.dismiss('delete');
+		};
+
+		$scope.export = function() {
+			$window.open($scope.oldCalendar.url + vevent.uri);
+		};
+
+		$scope.save = function() {
+			$scope.properties.dtstart.value = moment(angular.element('#advanced_from').datepicker('getDate'));
+			$scope.properties.dtend.value = moment(angular.element('#advanced_to').datepicker('getDate'));
+
+			if ($scope.properties.allDay) {
+				$scope.properties.dtstart.type = 'date';
+				$scope.properties.dtend.type = 'date';
+				$scope.properties.dtend.value.add(1, 'days');
+			} else {
+				$scope.properties.dtstart.type = 'date-time';
+				$scope.properties.dtend.type = 'date-time';
+
+				$scope.properties.dtstart.value.hours(angular.element('#advanced_fromtime').timepicker('getHour'));
+				$scope.properties.dtstart.value.minutes(angular.element('#advanced_fromtime').timepicker('getMinute'));
+				$scope.properties.dtstart.value.seconds(0);
+
+				$scope.properties.dtend.value.hours(angular.element('#advanced_totime').timepicker('getHour'));
+				$scope.properties.dtend.value.minutes(angular.element('#advanced_totime').timepicker('getMinute'));
+				$scope.properties.dtend.value.seconds(0);
+			}
+
+			angular.element('#advanced_from').datepicker('destroy');
+			angular.element('#advanced_to').datepicker('destroy');
+
+			vevent.calendar = $scope.calendar;
+			vevent.patch(recurrenceId, $scope.properties);
+
+			$uibModalInstance.close(vevent);
+		};
+
+		$uibModalInstance.rendered.then(function() {
+			// TODO: revaluate current solution:
+			// moment.js and the datepicker use different formats to format a date.
+			// therefore we have to do some conversion-black-magic to make the moment.js
+			// local formats work with the datepicker.
+			// THIS HAS TO BE TESTED VERY CAREFULLY
+			// WE NEED A SHORT UNIT TEST IDEALLY FOR ALL LANGUAGES SUPPORTED
+			// maybe move setting the date format into a try catch block
+			var localeData = moment.localeData();
+			angular.element('#advanced_from').datepicker({
+				dateFormat : localeData.longDateFormat('L').toLowerCase().replace('yy', 'y').replace('yyy', 'yy'),
+				monthNames: moment.months(),
+				monthNamesShort: moment.monthsShort(),
+				dayNames: moment.weekdays(),
+				dayNamesMin: moment.weekdaysMin(),
+				dayNamesShort: moment.weekdaysShort(),
+				firstDay: localeData.firstDayOfWeek(),
+				minDate: null
+			});
+			angular.element('#advanced_to').datepicker({
+				dateFormat : localeData.longDateFormat('L').toLowerCase().replace('yy', 'y').replace('yyy', 'yy'),
+				monthNames: moment.months(),
+				monthNamesShort: moment.monthsShort(),
+				dayNames: moment.weekdays(),
+				dayNamesMin: moment.weekdaysMin(),
+				dayNamesShort: moment.weekdaysShort(),
+				firstDay: localeData.firstDayOfWeek(),
+				minDate: null
+			});
+
+			angular.element('#advanced_fromtime').timepicker({
+				showPeriodLabels: false,
+				showLeadingZero: true,
+				showPeriod: (localeData.longDateFormat('LT').toLowerCase().indexOf('a') !== -1)
+			});
+			angular.element('#advanced_totime').timepicker({
+				showPeriodLabels: false,
+				showLeadingZero: true,
+				showPeriod: (localeData.longDateFormat('LT').toLowerCase().indexOf('a') !== -1)
+			});
+
+			var midnight = new Date('2000-01-01 00:00');
+			if ($scope.properties.dtstart.type === 'date') {
+				angular.element('#advanced_fromtime').timepicker('setTime', midnight);
+			} else {
+				var fromTime = $scope.properties.dtstart.value.toDate();
+				angular.element('#advanced_fromtime').timepicker('setTime', fromTime);
+			}
+
+			if ($scope.properties.dtend.type === 'date') {
+				$scope.properties.dtend.value.subtract(1, 'days');
+				angular.element('#advanced_totime').timepicker('setTime', midnight);
+			} else {
+				var toTime = $scope.properties.dtend.value.toDate();
+				angular.element('#advanced_totime').timepicker('setTime', toTime);
+			}
+
+			angular.element('#advanced_from').datepicker('setDate', $scope.properties.dtstart.value.toDate());
+			angular.element('#advanced_to').datepicker('setDate', $scope.properties.dtend.value.toDate());
+
+			$scope.tabopener(1);
+		});
 
 		$scope.tabs = [{
-			title: t('Calendar', 'Events Info'), value: 1
+			title: t('Calendar', 'Attendees'), value: 1
 		}, {
-			title: t('Calendar', 'Attendees'), value: 2
-		}, {
-			title: t('Calendar', 'Alarms'), value: 3
+			title: t('Calendar', 'Alarms'), value: 2
 		}];
+
+		$scope.tabopener = function (val) {
+			$scope.selected = val;
+			if (val === 1) {
+				$scope.eventsattendeeview = true;
+				$scope.eventsalarmview = false;
+				$scope.eventsrepeatview = false;
+			} else if (val === 2) {
+				$scope.eventsattendeeview = false;
+				$scope.eventsalarmview = true;
+				$scope.eventsrepeatview = false;
+			} else if (val === 3) {
+				$scope.eventsattendeeview = false;
+				$scope.eventsalarmview = false;
+				$scope.eventsrepeatview = true;
+			}
+		};
 
 		$scope.repeater = [
 			{ val: 'doesnotrepeat' , displayname: t('Calendar', 'Does not repeat')},
@@ -104,41 +249,6 @@ app.controller('EventsModalController', ['$scope', '$rootScope', '$routeParams',
 			}
 		};
 
-
-		$scope.tabopener = function (val) {
-			$scope.selected = val;
-			if (val === 1) {
-				$scope.eventsinfoview = true;
-				$scope.eventsrepeatview = false;
-				$scope.eventsattendeeview = false;
-				$scope.eventsalarmview = false;
-			}  else if (val === 2) {
-				$scope.eventsinfoview = false;
-				$scope.eventsrepeatview = false;
-				$scope.eventsattendeeview = true;
-				$scope.eventsalarmview = false;
-			} else if (val === 3) {
-				$scope.eventsinfoview = false;
-				$scope.eventsrepeatview = false;
-				$scope.eventsattendeeview = false;
-				$scope.eventsalarmview = true;
-			}
-
-		};
-
-		DialogModel.multiselect('#weeklyselect');
-
-		$scope.getLocation = function(val) {
-			/*return Restangular.one('autocompletion').getList('location',
-					{ 'location': $scope.properties.location }).then(function(res) {
-					var locations = [];
-					angular.forEach(res, function(item) {
-						locations.push(item.label);
-					});
-				return locations;
-			});*/
-		};
-
 		// First Day Dropdown
 		$scope.recurrenceSelect = [
 			{ val: t('calendar', 'Daily'), id: '0' },
@@ -164,13 +274,13 @@ app.controller('EventsModalController', ['$scope', '$rootScope', '$routeParams',
 
 		$scope.getLocation = function() {
 			/*return Restangular.one('autocompletion').getList('location',
-				{ 'location': $scope.properties.location }).then(function(res) {
-					var locations = [];
-					angular.forEach(res, function(item) {
-						locations.push(item.label);
-					});
-					return locations;
-				});*/
+			 { 'location': $scope.properties.location }).then(function(res) {
+			 var locations = [];
+			 angular.forEach(res, function(item) {
+			 locations.push(item.label);
+			 });
+			 return locations;
+			 });*/
 		};
 
 		//$scope.changerecurrence = function (id) {
@@ -190,6 +300,7 @@ app.controller('EventsModalController', ['$scope', '$rootScope', '$routeParams',
 		$scope.addmoreattendees = function (val) {
 			var attendee = val;
 			if (attendee !== '') {
+				$scope.properties.attendee = $scope.properties.attendee || [];
 				$scope.properties.attendee.push({
 					value: attendee,
 					parameters: {
@@ -212,6 +323,12 @@ app.controller('EventsModalController', ['$scope', '$rootScope', '$routeParams',
 				}
 			}
 		};
+
+		$scope.classSelect = [
+			{displayname: t('calendar', 'When shared show full event'), type: 'PUBLIC'},
+			{displayname: t('calendar', 'When shared show only busy'), type: 'CONFIDENTIAL'},
+			{displayname: t('calendar', 'When shared hide this event'), type: 'PRIVATE'}
+		];
 
 		/**
 		 * Everything reminders
@@ -338,127 +455,12 @@ app.controller('EventsModalController', ['$scope', '$rootScope', '$routeParams',
 				alarm.trigger.value = moment(alarm.editor.absDate).add(moment.duration(alarm.editor.absTime));
 				alarm.trigger.type = 'date-time';
 			} //else {
-				//show some error message
+			//show some error message
 			//}
 		};
 
 		$scope.updateReminderRepeat = function(alarm) {
 			alarm.duration.value = parseInt(alarm.editor.repeatNValue) * parseInt(alarm.editor.repeatTimeUnit);
 		};
-
-
-
-		$scope.update = function () {
-			var moment_start = moment(angular.element('#from').datepicker('getDate'));
-			var moment_end = moment(angular.element('#to').datepicker('getDate'));
-
-			if ($scope.properties.allDay) {
-				$scope.properties.dtstart.type = 'date';
-				$scope.properties.dtend.type = 'date';
-
-				moment_end.add(1, 'days');
-
-				$scope.properties.dtstart.time = '00:00:00';
-				$scope.properties.dtend.time = '00:00:00';
-			} else {
-				$scope.properties.dtstart.type = 'date-time';
-				$scope.properties.dtend.type = 'date-time';
-
-				var moment_start_time = moment(angular.element('#fromtime').timepicker('getTimeAsDate'));
-				var moment_end_time = moment(angular.element('#totime').timepicker('getTimeAsDate'));
-
-				$scope.properties.dtstart.time = moment_start_time.format('HH:mm:ss');
-				$scope.properties.dtend.time = moment_end_time.format('HH:mm:ss');
-
-				//TODO - make sure the timezones are loaded!!!!1111OneOneEleven
-			}
-			$scope.properties.dtstart.date = moment_start.format('YYYY-MM-DD');
-			$scope.properties.dtend.date = moment_end.format('YYYY-MM-DD');
-
-			$scope.onSuccess($scope.properties);
-		};
-
-
-
-		$rootScope.$on('initializeEventEditor', function(event, obj) {
-			eventEditorHelper.prepareProperties(obj.data);
-
-			$scope.properties = obj.data;
-			$scope.onSuccess = obj.onSuccess;
-
-			var moment_start = moment(obj.data.dtstart.date, 'YYYY-MM-DD');
-			var moment_end = moment(obj.data.dtend.date, 'YYYY-MM-DD');
-
-			var midnight = new Date('2000-01-01 00:00');
-			if (obj.data.dtstart.type === 'date') {
-				angular.element('#fromtime').timepicker('setTime', midnight);
-			} else {
-				var fromTime = new Date('2000-01-01 ' + obj.data.dtstart.time);
-				angular.element('#fromtime').timepicker('setTime', fromTime);
-			}
-
-			if (obj.data.dtend.type === 'date') {
-				moment_end.subtract(1, 'days');
-				angular.element('#totime').timepicker('setTime', midnight);
-			} else {
-				var toTime = new Date('2000-01-01 ' + obj.data.dtend.time);
-				angular.element('#totime').timepicker('setTime', toTime);
-			}
-
-			angular.element('#from').datepicker('setDate', moment_start.toDate());
-			angular.element('#to').datepicker('setDate', moment_end.toDate());
-
-			DialogModel.initbig('#events');
-			DialogModel.open('#events');
-		});
-
-		// TODO: If this can be taken to Model better do that.
-		var localeData = moment.localeData();
-
-		// TODO: revaluate current solution:
-		// moment.js and the datepicker use different formats to format a date.
-		// therefore we have to do some conversion-black-magic to make the moment.js
-		// local formats work with the datepicker.
-		// THIS HAS TO BE TESTED VERY CAREFULLY
-		// WE NEED A SHORT UNIT TEST IDEALLY FOR ALL LANGUAGES SUPPORTED
-		// maybe move setting the date format into a try catch block
-		angular.element('#from').datepicker({
-			dateFormat : localeData.longDateFormat('L').toLowerCase().replace('yy', 'y').replace('yyy', 'yy'),
-			monthNames: moment.months(),
-			monthNamesShort: moment.monthsShort(),
-			dayNames: moment.weekdays(),
-			dayNamesMin: moment.weekdaysMin(),
-			dayNamesShort: moment.weekdaysShort(),
-			firstDay: localeData.firstDayOfWeek(),
-			minDate: null
-		});
-		angular.element('#to').datepicker({
-			dateFormat : localeData.longDateFormat('L').toLowerCase().replace('yy', 'y').replace('yyy', 'yy'),
-			monthNames: moment.months(),
-			monthNamesShort: moment.monthsShort(),
-			dayNames: moment.weekdays(),
-			dayNamesMin: moment.weekdaysMin(),
-			dayNamesShort: moment.weekdaysShort(),
-			firstDay: localeData.firstDayOfWeek(),
-			minDate: null
-		});
-
-		angular.element('#fromtime').timepicker({
-			showPeriodLabels: false,
-			showLeadingZero: true,
-			showPeriod: (localeData.longDateFormat('LT').toLowerCase().indexOf('a') !== -1)
-		});
-		angular.element('#totime').timepicker({
-			showPeriodLabels: false,
-			showLeadingZero: true,
-			showPeriod: (localeData.longDateFormat('LT').toLowerCase().indexOf('a') !== -1)
-		});
-
-		angular.element('#absolutreminderdate').datepicker({
-			dateFormat : 'dd-mm-yy'
-		});
-		angular.element('#absolutremindertime').timepicker({
-			showPeriodLabels: false
-		});
 	}
 ]);

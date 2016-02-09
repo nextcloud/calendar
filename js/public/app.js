@@ -46,14 +46,15 @@ app.run(['$rootScope', '$window',
 * Description: The fullcalendar controller.
 */
 
-app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'objectConverter', 'is', 'uiCalendarConfig',
-	function ($scope, $rootScope, $window, CalendarService, VEventService, SettingsService, TimezoneService, objectConverter, is, uiCalendarConfig) {
+app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'VEvent', 'is', 'uiCalendarConfig', '$uibModal',
+	function ($scope, $rootScope, $window, CalendarService, VEventService, SettingsService, TimezoneService, VEvent, is, uiCalendarConfig, $uibModal) {
 		'use strict';
 
 		$scope.calendars = [];
 		$scope.eventSources = [];
 		$scope.eventSource = {};
 		$scope.defaulttimezone = TimezoneService.current();
+		$scope.eventModal = null;
 		var switcher = [];
 
 		var w = angular.element($window);
@@ -87,45 +88,158 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 		 */
 
 		$scope.newEvent = function (start, end, jsEvent, view) {
-			console.log(start, end, jsEvent, view);
-			var initWithData = {
-				allDay: !start.hasTime() && !end.hasTime(),
-				dtstart: {
-					type: start.hasTime() ? 'datetime' : 'date',
-					date: start.format('YYYY-MM-DD'),
-					time: start.format('HH:mm:ss'),
-					zone: $scope.defaulttimezone
-				},
-				dtend: {
-					type: end.hasTime() ? 'datetime' : 'date',
-					date: end.format('YYYY-MM-DD'),
-					time: end.format('HH:mm:ss'),
-					zone: $scope.defaulttimezone
-				},
-				summary: {
-					type: 'text',
-					value: t('calendar', 'New event')
-				},
-				alarm: [],
-				attendee: []
-			};
+			start.add(start.toDate().getTimezoneOffset(), 'minutes');
+			end.add(end.toDate().getTimezoneOffset(), 'minutes');
 
-			$rootScope.$broadcast('initializeEventEditor', {
-				data: initWithData,
-				onSuccess: function(newData) {
-					var comp = new ICAL.Component(['vcalendar', [], []]);
-					//TODO - add a proper prodid with version number
-					comp.updatePropertyWithValue('prodid', '-//ownCloud calendar');
-					var vevent = new ICAL.Component('vevent');
-					comp.addSubcomponent(vevent);
+			var vevent = VEvent.fromStartEnd(start, end, $scope.defaulttimezone);
 
-					objectConverter.patch(vevent, {}, newData);
+			$scope._initializeEventEditor(vevent, null, true, function() {
+				return $scope._calculatePopoverPosition(jsEvent.target, view);
+			}, function(vevent) {
+				VEventService.create(vevent.calendar, vevent.data).then(function(vevent) {
+					var eventsToRender = vevent.getFcEvent(view.intervalStart, view.intervalEnd, $scope.defaulttimezone);
+					angular.forEach(eventsToRender, function(event) {
+						uiCalendarConfig.calendars.calendar.fullCalendar(
+							'renderEvent',
+							event
+						);
+					});
+				});
+			}, function() {
+				//nothing to do
+			});
+		};
 
-					vevent.updatePropertyWithValue('created', ICAL.Time.now());
-					vevent.updatePropertyWithValue('dtstamp', ICAL.Time.now());
-					vevent.updatePropertyWithValue('last-modified', ICAL.Time.now());
-					//TODO - add UID,
-					console.log(comp.toString());
+		$scope._calculatePopoverPosition = function(target, view) {
+			var clientRect = target.getClientRects()[0],
+				headerHeight = angular.element('#header').height(),
+				navigationWidth = angular.element('#app-navigation').width(),
+				eventX = clientRect.left - navigationWidth,
+				eventY = clientRect.top - headerHeight,
+				eventWidth = clientRect.right - clientRect.left,
+				windowX = $window.innerWidth - navigationWidth,
+				windowY = $window.innerHeight - headerHeight,
+				popoverHeight = 300,
+				popoverWidth = 450,
+				position = [];
+
+			if (eventY / windowY < 0.5) {
+				position.push({
+					name: 'top',
+					value: clientRect.bottom - headerHeight + 20
+				});
+			} else {
+				position.push({
+					name: 'top',
+					value: clientRect.top - headerHeight - popoverHeight - 20
+				});
+			}
+
+			if (view.name === 'agendaDay') {
+				position.push({
+					name: 'left',
+					value: clientRect.left - (popoverWidth / 2) - 20 + eventWidth / 2
+				});
+			} else {
+				if (eventX / windowX < 0.25) {
+					position.push({
+						name: 'left',
+						value: clientRect.left - 20 + eventWidth / 2
+					});
+				} else if (eventX / windowX > 0.75) {
+					position.push({
+						name: 'left',
+						value: clientRect.left - popoverWidth - 20 + eventWidth / 2
+					});
+				} else {
+					position.push({
+						name: 'left',
+						value: clientRect.left - (popoverWidth / 2) - 20 + eventWidth / 2
+					});
+				}
+			}
+
+			return position;
+		};
+
+		$scope._initializeEventEditor = function(vevent, recurrenceId, isNew, positionCallback, successCallback, deleteCallBack) {
+			if ($scope.eventModal !== null) {
+				$scope.eventModal.dismiss('superseded');
+			}
+
+			$scope.eventModal = $uibModal.open({
+				templateUrl: 'eventspopovereditor.html',
+				controller: 'EventsPopoverEditorController',
+				windowClass: 'popover',
+				appendTo: angular.element('#popover-container'),
+				resolve: {
+					vevent: function() {
+						return vevent;
+					},
+					recurrenceId: function() {
+						return recurrenceId;
+					},
+					isNew: function() {
+						return isNew;
+					}
+				},
+				scope: $scope
+			});
+
+			$scope.eventModal.rendered.then(function() {
+				angular.element('#popover-container').css('display', 'none');
+
+				var position = positionCallback();
+				angular.forEach(position, function(v) {
+					angular.element('.modal').css(v.name, v.value);
+				});
+
+				angular.element('#popover-container').css('display', 'block');
+			});
+
+			$scope.eventModal.result.then(function(result) {
+				if (result.action === 'save') {
+					successCallback(result.event);
+				} else if (result.action === 'proceed') {
+					$scope.eventModal = $uibModal.open({
+						templateUrl: 'eventssidebareditor.html',
+						controller: 'EventsSidebarEditorController',
+						appendTo: angular.element('#app-content'),
+						resolve: {
+							vevent: function() {
+								return vevent;
+							},
+							recurrenceId: function() {
+								return recurrenceId;
+							},
+							isNew: function() {
+								return isNew;
+							},
+							properties: function() {
+								return result.properties;
+							}
+						},
+						scope: $scope
+					});
+					angular.element('#app-content').addClass('with-app-sidebar');
+
+					$scope.eventModal.result.then(function(event) {
+						successCallback(event);
+						$scope.eventModal = null;
+						angular.element('#app-content').removeClass('with-app-sidebar');
+					}, function(reason) {
+						if (reason === 'delete') {
+							deleteCallBack(vevent);
+							$scope.eventModal = null;
+						}
+
+						angular.element('#app-content').removeClass('with-app-sidebar');
+					});
+				}
+			}, function(reason) {
+				if (reason === 'delete') {
+					deleteCallBack(vevent);
+					$scope.eventModal = null;
 				}
 			});
 		};
@@ -169,21 +283,79 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 				select: $scope.newEvent,
 				eventLimit: true,
 				eventClick: function(fcEvent, jsEvent, view) {
-					var simpleData = fcEvent.event.getSimpleData(fcEvent);
-					$rootScope.$broadcast('initializeEventEditor', {
-						data: simpleData,
-						onSuccess: function(newData) {
+					var oldCalendar = fcEvent.event.calendar;
+
+					$scope._initializeEventEditor(fcEvent.event, fcEvent.recurrenceId, false, function() {
+						return $scope._calculatePopoverPosition(jsEvent.currentTarget, view);
+					}, function(vevent) {
+						if (oldCalendar === vevent.calendar) {
+							VEventService.update(vevent).then(function() {
+								var id = vevent.uri;
+								if (fcEvent.recurrenceId) {
+									id += fcEvent.recurrenceId;
+								}
+
+								uiCalendarConfig.calendars.calendar.fullCalendar(
+									'removeEvents',
+									id
+								);
+
+								var eventsToRender = vevent.getFcEvent(view.intervalStart, view.intervalEnd, $scope.defaulttimezone);
+								angular.forEach(eventsToRender, function(event) {
+									uiCalendarConfig.calendars.calendar.fullCalendar(
+										'renderEvent',
+										event
+									);
+								});
+							});
+						} else {
+							var newCalendar = vevent.calendar;
+							vevent.calendar = oldCalendar;
+							VEventService.delete(vevent).then(function() {
+								var id = vevent.uri;
+								if (fcEvent.recurrenceId) {
+									id += fcEvent.recurrenceId;
+								}
+
+								uiCalendarConfig.calendars.calendar.fullCalendar(
+									'removeEvents',
+									id
+								);
+
+								VEventService.create(newCalendar, vevent.data).then(function(vevent) {
+									var eventsToRender = vevent.getFcEvent(view.intervalStart, view.intervalEnd, $scope.defaulttimezone);
+									angular.forEach(eventsToRender, function(event) {
+										uiCalendarConfig.calendars.calendar.fullCalendar(
+											'renderEvent',
+											event
+										);
+									});
+								});
+							});
 						}
+					}, function(vevent) {
+						VEventService.delete(vevent).then(function() {
+							var id = vevent.uri;
+							if (fcEvent.recurrenceId) {
+								id += fcEvent.recurrenceId;
+							}
+
+							uiCalendarConfig.calendars.calendar.fullCalendar(
+								'removeEvents',
+								id
+							);
+						});
+
 					});
 				},
 				eventResize: function (fcEvent, delta, revertFunc) {
-					if (!fcEvent.event.resize(fcEvent, delta)) {
+					if (!fcEvent.event.resize(fcEvent.recurrenceId, delta)) {
 						revertFunc();
 					}
 					VEventService.update(fcEvent.event);
 				},
 				eventDrop: function (fcEvent, delta, revertFunc) {
-					if(!fcEvent.event.drop(fcEvent, delta)) {
+					if(!fcEvent.event.drop(fcEvent.recurrenceId, delta)) {
 						revertFunc();
 					}
 					VEventService.update(fcEvent.event);
@@ -560,27 +732,296 @@ app.controller('DatePickerController', ['$scope', 'uiCalendarConfig', 'uibDatepi
 ]);
 
 /**
-* Controller: Events Dialog Controller
-* Description: Takes care of anything inside the Events Modal.
-*/
+ * Controller: Events Dialog Controller
+ * Description: Takes care of anything inside the Events Modal.
+ */
 
-app.controller('EventsModalController', ['$scope', '$rootScope', '$routeParams', 'CalendarService', 'VEventService', 'TimezoneService', 'DialogModel', 'eventEditorHelper',
-	function ($scope, $rootScope, $routeParams, CalendarService, VEventService, TimezoneService, DialogModel, eventEditorHelper) {
+app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'eventEditorHelper', '$uibModalInstance', 'vevent', 'recurrenceId', 'isNew',
+	function($scope, TimezoneService, eventEditorHelper, $uibModalInstance, vevent, recurrenceId, isNew) {
 		'use strict';
-		//$scope.calendarModel = CalendarModel;
-		$scope.calendars = [];//CalendarModel.getAll();
-		$scope.properties = {};
-		$scope.nameofattendee = '';
-		$scope.eventsinfoview = true;
+
+		$scope.properties = vevent.getSimpleData(recurrenceId);
+		$scope.is_new = isNew;
+		$scope.calendar = isNew ? null : vevent.calendar;
+		$scope.oldCalendar = isNew ? null : vevent.calendar;
+
+		$scope.close = function(action) {
+			$scope.properties.dtstart.value = moment(angular.element('#from').datepicker('getDate'));
+			$scope.properties.dtend.value = moment(angular.element('#to').datepicker('getDate'));
+
+			if ($scope.properties.allDay) {
+				$scope.properties.dtstart.type = 'date';
+				$scope.properties.dtend.type = 'date';
+				$scope.properties.dtend.value.add(1, 'days');
+			} else {
+				$scope.properties.dtstart.type = 'date-time';
+				$scope.properties.dtend.type = 'date-time';
+
+				$scope.properties.dtstart.value.hours(angular.element('#fromtime').timepicker('getHour'));
+				$scope.properties.dtstart.value.minutes(angular.element('#fromtime').timepicker('getMinute'));
+				$scope.properties.dtstart.value.seconds(0);
+
+				$scope.properties.dtend.value.hours(angular.element('#totime').timepicker('getHour'));
+				$scope.properties.dtend.value.minutes(angular.element('#totime').timepicker('getMinute'));
+				$scope.properties.dtend.value.seconds(0);
+			}
+
+			angular.element('#from').datepicker('destroy');
+			angular.element('#to').datepicker('destroy');
+
+			if (action === 'proceed') {
+				$uibModalInstance.close({
+					action: 'proceed',
+					properties: $scope.properties
+				});
+			} else {
+				vevent.calendar = $scope.calendar;
+				vevent.patch(recurrenceId, $scope.properties);
+
+				$uibModalInstance.close({
+					action: action,
+					event: vevent
+				});
+			}
+		};
+
+		$scope.delete = function() {
+			$uibModalInstance.dismiss('delete');
+		};
+
+		$scope.cancel = function() {
+			$uibModalInstance.dismiss('cancel');
+		};
+
+		$uibModalInstance.rendered.then(function() {
+			// TODO: revaluate current solution:
+			// moment.js and the datepicker use different formats to format a date.
+			// therefore we have to do some conversion-black-magic to make the moment.js
+			// local formats work with the datepicker.
+			// THIS HAS TO BE TESTED VERY CAREFULLY
+			// WE NEED A SHORT UNIT TEST IDEALLY FOR ALL LANGUAGES SUPPORTED
+			// maybe move setting the date format into a try catch block
+			var localeData = moment.localeData();
+			angular.element('#from').datepicker({
+				dateFormat : localeData.longDateFormat('L').toLowerCase().replace('yy', 'y').replace('yyy', 'yy'),
+				monthNames: moment.months(),
+				monthNamesShort: moment.monthsShort(),
+				dayNames: moment.weekdays(),
+				dayNamesMin: moment.weekdaysMin(),
+				dayNamesShort: moment.weekdaysShort(),
+				firstDay: localeData.firstDayOfWeek(),
+				minDate: null
+			});
+			angular.element('#to').datepicker({
+				dateFormat : localeData.longDateFormat('L').toLowerCase().replace('yy', 'y').replace('yyy', 'yy'),
+				monthNames: moment.months(),
+				monthNamesShort: moment.monthsShort(),
+				dayNames: moment.weekdays(),
+				dayNamesMin: moment.weekdaysMin(),
+				dayNamesShort: moment.weekdaysShort(),
+				firstDay: localeData.firstDayOfWeek(),
+				minDate: null
+			});
+
+			angular.element('#fromtime').timepicker({
+				showPeriodLabels: false,
+				showLeadingZero: true,
+				showPeriod: (localeData.longDateFormat('LT').toLowerCase().indexOf('a') !== -1)
+			});
+			angular.element('#totime').timepicker({
+				showPeriodLabels: false,
+				showLeadingZero: true,
+				showPeriod: (localeData.longDateFormat('LT').toLowerCase().indexOf('a') !== -1)
+			});
+
+			var midnight = new Date('2000-01-01 00:00');
+			if ($scope.properties.dtstart.type === 'date') {
+				angular.element('#fromtime').timepicker('setTime', midnight);
+			} else {
+				var fromTime = $scope.properties.dtstart.value.toDate();
+				angular.element('#fromtime').timepicker('setTime', fromTime);
+			}
+
+			if ($scope.properties.dtend.type === 'date') {
+				$scope.properties.dtend.value.subtract(1, 'days');
+				angular.element('#totime').timepicker('setTime', midnight);
+			} else {
+				var toTime = $scope.properties.dtend.value.toDate();
+				angular.element('#totime').timepicker('setTime', toTime);
+			}
+
+			angular.element('#from').datepicker('setDate', $scope.properties.dtstart.value.toDate());
+			angular.element('#to').datepicker('setDate', $scope.properties.dtend.value.toDate());
+		});
+	}
+]);
+/**
+ * Controller: Events Dialog Controller
+ * Description: Takes care of anything inside the Events Modal.
+ */
+
+app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'eventEditorHelper', '$window', '$uibModalInstance', 'vevent', 'recurrenceId', 'isNew', 'properties',
+	function($scope, TimezoneService, eventEditorHelper, $window, $uibModalInstance, vevent, recurrenceId, isNew, properties) {
+		'use strict';
+
+		$scope.properties = properties;
+		$scope.is_new = isNew;
+		$scope.calendar = isNew ? null : vevent.calendar;
+		$scope.oldCalendar = isNew ? null : vevent.calendar;
 		$scope.selected = 1;
+		$scope.timezones = [];
+
+		$scope.edittimezone = false;
+
+		// TODO - when user changes timezone input query timezone from server
+
+		TimezoneService.listAll().then(function(list) {
+			$scope.timezones = ['floating'].concat(list);
+			if ($scope.properties.dtstart.parameters.zone !== null) {
+				if ($scope.timezones.indexOf($scope.properties.dtstart.parameters.zone) === -1) {
+					$scope.timezones.push($scope.properties.dtstart.parameters.zone);
+				}
+			}
+			if ($scope.properties.dtend.parameters.zone !== null) {
+				if ($scope.timezones.indexOf($scope.properties.dtend.parameters.zone) === -1) {
+					$scope.timezones.push($scope.properties.dtend.parameters.zone);
+				}
+			}
+		});
+
+		$scope.loadTimezone = function(tzId) {
+			TimezoneService.get(tzId).then(function(timezone) {
+				ICAL.TimezoneService.register(tzId, timezone.jCal);
+			});
+		};
+
+		$scope.cancel = function() {
+			$uibModalInstance.dismiss('cancel');
+		};
+
+		$scope.delete = function() {
+			$uibModalInstance.dismiss('delete');
+		};
+
+		$scope.export = function() {
+			$window.open($scope.oldCalendar.url + vevent.uri);
+		};
+
+		$scope.save = function() {
+			$scope.properties.dtstart.value = moment(angular.element('#advanced_from').datepicker('getDate'));
+			$scope.properties.dtend.value = moment(angular.element('#advanced_to').datepicker('getDate'));
+
+			if ($scope.properties.allDay) {
+				$scope.properties.dtstart.type = 'date';
+				$scope.properties.dtend.type = 'date';
+				$scope.properties.dtend.value.add(1, 'days');
+			} else {
+				$scope.properties.dtstart.type = 'date-time';
+				$scope.properties.dtend.type = 'date-time';
+
+				$scope.properties.dtstart.value.hours(angular.element('#advanced_fromtime').timepicker('getHour'));
+				$scope.properties.dtstart.value.minutes(angular.element('#advanced_fromtime').timepicker('getMinute'));
+				$scope.properties.dtstart.value.seconds(0);
+
+				$scope.properties.dtend.value.hours(angular.element('#advanced_totime').timepicker('getHour'));
+				$scope.properties.dtend.value.minutes(angular.element('#advanced_totime').timepicker('getMinute'));
+				$scope.properties.dtend.value.seconds(0);
+			}
+
+			angular.element('#advanced_from').datepicker('destroy');
+			angular.element('#advanced_to').datepicker('destroy');
+
+			vevent.calendar = $scope.calendar;
+			vevent.patch(recurrenceId, $scope.properties);
+
+			$uibModalInstance.close(vevent);
+		};
+
+		$uibModalInstance.rendered.then(function() {
+			// TODO: revaluate current solution:
+			// moment.js and the datepicker use different formats to format a date.
+			// therefore we have to do some conversion-black-magic to make the moment.js
+			// local formats work with the datepicker.
+			// THIS HAS TO BE TESTED VERY CAREFULLY
+			// WE NEED A SHORT UNIT TEST IDEALLY FOR ALL LANGUAGES SUPPORTED
+			// maybe move setting the date format into a try catch block
+			var localeData = moment.localeData();
+			angular.element('#advanced_from').datepicker({
+				dateFormat : localeData.longDateFormat('L').toLowerCase().replace('yy', 'y').replace('yyy', 'yy'),
+				monthNames: moment.months(),
+				monthNamesShort: moment.monthsShort(),
+				dayNames: moment.weekdays(),
+				dayNamesMin: moment.weekdaysMin(),
+				dayNamesShort: moment.weekdaysShort(),
+				firstDay: localeData.firstDayOfWeek(),
+				minDate: null
+			});
+			angular.element('#advanced_to').datepicker({
+				dateFormat : localeData.longDateFormat('L').toLowerCase().replace('yy', 'y').replace('yyy', 'yy'),
+				monthNames: moment.months(),
+				monthNamesShort: moment.monthsShort(),
+				dayNames: moment.weekdays(),
+				dayNamesMin: moment.weekdaysMin(),
+				dayNamesShort: moment.weekdaysShort(),
+				firstDay: localeData.firstDayOfWeek(),
+				minDate: null
+			});
+
+			angular.element('#advanced_fromtime').timepicker({
+				showPeriodLabels: false,
+				showLeadingZero: true,
+				showPeriod: (localeData.longDateFormat('LT').toLowerCase().indexOf('a') !== -1)
+			});
+			angular.element('#advanced_totime').timepicker({
+				showPeriodLabels: false,
+				showLeadingZero: true,
+				showPeriod: (localeData.longDateFormat('LT').toLowerCase().indexOf('a') !== -1)
+			});
+
+			var midnight = new Date('2000-01-01 00:00');
+			if ($scope.properties.dtstart.type === 'date') {
+				angular.element('#advanced_fromtime').timepicker('setTime', midnight);
+			} else {
+				var fromTime = $scope.properties.dtstart.value.toDate();
+				angular.element('#advanced_fromtime').timepicker('setTime', fromTime);
+			}
+
+			if ($scope.properties.dtend.type === 'date') {
+				$scope.properties.dtend.value.subtract(1, 'days');
+				angular.element('#advanced_totime').timepicker('setTime', midnight);
+			} else {
+				var toTime = $scope.properties.dtend.value.toDate();
+				angular.element('#advanced_totime').timepicker('setTime', toTime);
+			}
+
+			angular.element('#advanced_from').datepicker('setDate', $scope.properties.dtstart.value.toDate());
+			angular.element('#advanced_to').datepicker('setDate', $scope.properties.dtend.value.toDate());
+
+			$scope.tabopener(1);
+		});
 
 		$scope.tabs = [{
-			title: t('Calendar', 'Events Info'), value: 1
+			title: t('Calendar', 'Attendees'), value: 1
 		}, {
-			title: t('Calendar', 'Attendees'), value: 2
-		}, {
-			title: t('Calendar', 'Alarms'), value: 3
+			title: t('Calendar', 'Alarms'), value: 2
 		}];
+
+		$scope.tabopener = function (val) {
+			$scope.selected = val;
+			if (val === 1) {
+				$scope.eventsattendeeview = true;
+				$scope.eventsalarmview = false;
+				$scope.eventsrepeatview = false;
+			} else if (val === 2) {
+				$scope.eventsattendeeview = false;
+				$scope.eventsalarmview = true;
+				$scope.eventsrepeatview = false;
+			} else if (val === 3) {
+				$scope.eventsattendeeview = false;
+				$scope.eventsalarmview = false;
+				$scope.eventsrepeatview = true;
+			}
+		};
 
 		$scope.repeater = [
 			{ val: 'doesnotrepeat' , displayname: t('Calendar', 'Does not repeat')},
@@ -642,41 +1083,6 @@ app.controller('EventsModalController', ['$scope', '$rootScope', '$routeParams',
 			}
 		};
 
-
-		$scope.tabopener = function (val) {
-			$scope.selected = val;
-			if (val === 1) {
-				$scope.eventsinfoview = true;
-				$scope.eventsrepeatview = false;
-				$scope.eventsattendeeview = false;
-				$scope.eventsalarmview = false;
-			}  else if (val === 2) {
-				$scope.eventsinfoview = false;
-				$scope.eventsrepeatview = false;
-				$scope.eventsattendeeview = true;
-				$scope.eventsalarmview = false;
-			} else if (val === 3) {
-				$scope.eventsinfoview = false;
-				$scope.eventsrepeatview = false;
-				$scope.eventsattendeeview = false;
-				$scope.eventsalarmview = true;
-			}
-
-		};
-
-		DialogModel.multiselect('#weeklyselect');
-
-		$scope.getLocation = function(val) {
-			/*return Restangular.one('autocompletion').getList('location',
-					{ 'location': $scope.properties.location }).then(function(res) {
-					var locations = [];
-					angular.forEach(res, function(item) {
-						locations.push(item.label);
-					});
-				return locations;
-			});*/
-		};
-
 		// First Day Dropdown
 		$scope.recurrenceSelect = [
 			{ val: t('calendar', 'Daily'), id: '0' },
@@ -702,13 +1108,13 @@ app.controller('EventsModalController', ['$scope', '$rootScope', '$routeParams',
 
 		$scope.getLocation = function() {
 			/*return Restangular.one('autocompletion').getList('location',
-				{ 'location': $scope.properties.location }).then(function(res) {
-					var locations = [];
-					angular.forEach(res, function(item) {
-						locations.push(item.label);
-					});
-					return locations;
-				});*/
+			 { 'location': $scope.properties.location }).then(function(res) {
+			 var locations = [];
+			 angular.forEach(res, function(item) {
+			 locations.push(item.label);
+			 });
+			 return locations;
+			 });*/
 		};
 
 		//$scope.changerecurrence = function (id) {
@@ -728,6 +1134,7 @@ app.controller('EventsModalController', ['$scope', '$rootScope', '$routeParams',
 		$scope.addmoreattendees = function (val) {
 			var attendee = val;
 			if (attendee !== '') {
+				$scope.properties.attendee = $scope.properties.attendee || [];
 				$scope.properties.attendee.push({
 					value: attendee,
 					parameters: {
@@ -750,6 +1157,12 @@ app.controller('EventsModalController', ['$scope', '$rootScope', '$routeParams',
 				}
 			}
 		};
+
+		$scope.classSelect = [
+			{displayname: t('calendar', 'When shared show full event'), type: 'PUBLIC'},
+			{displayname: t('calendar', 'When shared show only busy'), type: 'CONFIDENTIAL'},
+			{displayname: t('calendar', 'When shared hide this event'), type: 'PRIVATE'}
+		];
 
 		/**
 		 * Everything reminders
@@ -876,131 +1289,15 @@ app.controller('EventsModalController', ['$scope', '$rootScope', '$routeParams',
 				alarm.trigger.value = moment(alarm.editor.absDate).add(moment.duration(alarm.editor.absTime));
 				alarm.trigger.type = 'date-time';
 			} //else {
-				//show some error message
+			//show some error message
 			//}
 		};
 
 		$scope.updateReminderRepeat = function(alarm) {
 			alarm.duration.value = parseInt(alarm.editor.repeatNValue) * parseInt(alarm.editor.repeatTimeUnit);
 		};
-
-
-
-		$scope.update = function () {
-			var moment_start = moment(angular.element('#from').datepicker('getDate'));
-			var moment_end = moment(angular.element('#to').datepicker('getDate'));
-
-			if ($scope.properties.allDay) {
-				$scope.properties.dtstart.type = 'date';
-				$scope.properties.dtend.type = 'date';
-
-				moment_end.add(1, 'days');
-
-				$scope.properties.dtstart.time = '00:00:00';
-				$scope.properties.dtend.time = '00:00:00';
-			} else {
-				$scope.properties.dtstart.type = 'date-time';
-				$scope.properties.dtend.type = 'date-time';
-
-				var moment_start_time = moment(angular.element('#fromtime').timepicker('getTimeAsDate'));
-				var moment_end_time = moment(angular.element('#totime').timepicker('getTimeAsDate'));
-
-				$scope.properties.dtstart.time = moment_start_time.format('HH:mm:ss');
-				$scope.properties.dtend.time = moment_end_time.format('HH:mm:ss');
-
-				//TODO - make sure the timezones are loaded!!!!1111OneOneEleven
-			}
-			$scope.properties.dtstart.date = moment_start.format('YYYY-MM-DD');
-			$scope.properties.dtend.date = moment_end.format('YYYY-MM-DD');
-
-			$scope.onSuccess($scope.properties);
-		};
-
-
-
-		$rootScope.$on('initializeEventEditor', function(event, obj) {
-			eventEditorHelper.prepareProperties(obj.data);
-
-			$scope.properties = obj.data;
-			$scope.onSuccess = obj.onSuccess;
-
-			var moment_start = moment(obj.data.dtstart.date, 'YYYY-MM-DD');
-			var moment_end = moment(obj.data.dtend.date, 'YYYY-MM-DD');
-
-			var midnight = new Date('2000-01-01 00:00');
-			if (obj.data.dtstart.type === 'date') {
-				angular.element('#fromtime').timepicker('setTime', midnight);
-			} else {
-				var fromTime = new Date('2000-01-01 ' + obj.data.dtstart.time);
-				angular.element('#fromtime').timepicker('setTime', fromTime);
-			}
-
-			if (obj.data.dtend.type === 'date') {
-				moment_end.subtract(1, 'days');
-				angular.element('#totime').timepicker('setTime', midnight);
-			} else {
-				var toTime = new Date('2000-01-01 ' + obj.data.dtend.time);
-				angular.element('#totime').timepicker('setTime', toTime);
-			}
-
-			angular.element('#from').datepicker('setDate', moment_start.toDate());
-			angular.element('#to').datepicker('setDate', moment_end.toDate());
-
-			DialogModel.initbig('#events');
-			DialogModel.open('#events');
-		});
-
-		// TODO: If this can be taken to Model better do that.
-		var localeData = moment.localeData();
-
-		// TODO: revaluate current solution:
-		// moment.js and the datepicker use different formats to format a date.
-		// therefore we have to do some conversion-black-magic to make the moment.js
-		// local formats work with the datepicker.
-		// THIS HAS TO BE TESTED VERY CAREFULLY
-		// WE NEED A SHORT UNIT TEST IDEALLY FOR ALL LANGUAGES SUPPORTED
-		// maybe move setting the date format into a try catch block
-		angular.element('#from').datepicker({
-			dateFormat : localeData.longDateFormat('L').toLowerCase().replace('yy', 'y').replace('yyy', 'yy'),
-			monthNames: moment.months(),
-			monthNamesShort: moment.monthsShort(),
-			dayNames: moment.weekdays(),
-			dayNamesMin: moment.weekdaysMin(),
-			dayNamesShort: moment.weekdaysShort(),
-			firstDay: localeData.firstDayOfWeek(),
-			minDate: null
-		});
-		angular.element('#to').datepicker({
-			dateFormat : localeData.longDateFormat('L').toLowerCase().replace('yy', 'y').replace('yyy', 'yy'),
-			monthNames: moment.months(),
-			monthNamesShort: moment.monthsShort(),
-			dayNames: moment.weekdays(),
-			dayNamesMin: moment.weekdaysMin(),
-			dayNamesShort: moment.weekdaysShort(),
-			firstDay: localeData.firstDayOfWeek(),
-			minDate: null
-		});
-
-		angular.element('#fromtime').timepicker({
-			showPeriodLabels: false,
-			showLeadingZero: true,
-			showPeriod: (localeData.longDateFormat('LT').toLowerCase().indexOf('a') !== -1)
-		});
-		angular.element('#totime').timepicker({
-			showPeriodLabels: false,
-			showLeadingZero: true,
-			showPeriod: (localeData.longDateFormat('LT').toLowerCase().indexOf('a') !== -1)
-		});
-
-		angular.element('#absolutreminderdate').datepicker({
-			dateFormat : 'dd-mm-yy'
-		});
-		angular.element('#absolutremindertime').timepicker({
-			showPeriodLabels: false
-		});
 	}
 ]);
-
 /**
  * Controller: SettingController
  * Description: Takes care of the Calendar Settings.
@@ -1300,6 +1597,31 @@ app.filter('calendarFilter', [
 	}
 ]);
 
+app.filter('calendarSelectorFilter',
+	function () {
+		'use strict';
+
+		return function (calendars, calendar) {
+			var options = calendars.filter(function (c) {
+				return c.writable;
+			});
+
+			if (calendar === null) {
+				return options;
+			}
+
+			if (!calendar.writable) {
+				return [calendar];
+			} else {
+				if (options.indexOf(calendar) === -1) {
+					options.push(calendar);
+				}
+
+				return options;
+			}
+		};
+	}
+);
 app.filter('datepickerFilter',
 	function () {
 		'use strict';
@@ -1380,7 +1702,8 @@ app.filter('simpleReminderDescription', function() {
 	var actionMapper = {
 		AUDIO: t('calendar', 'Audio alarm'),
 		DISPLAY: t('calendar', 'Pop-up'),
-		EMAIL: t('calendar', 'E-Mail')
+		EMAIL: t('calendar', 'E-Mail'),
+		NONE: t('calendar', 'None')
 	};
 
 	function getActionName(alarm) {
@@ -1418,7 +1741,7 @@ app.filter('simpleReminderDescription', function() {
 				}
 			}
 		} else {
-			return t('{type} at {time}', {type: getActionName(alarm), time: alarm.trigger.value.format()});
+			return t('calendar', '{type} at {time}', {type: getActionName(alarm), time: alarm.trigger.value.format()});
 		}
 	};
 });
@@ -1717,42 +2040,387 @@ app.factory('Timezone',
 	}
 );
 
-app.factory('VEvent', ['$filter', 'fcHelper', 'objectConverter', function($filter, fcHelper, objectConverter) {
+app.factory('VEvent', ['$filter', 'objectConverter', 'ICalFactory', function($filter, objectConverter, icalfactory) {
 	'use strict';
 
+	/**
+	 * check if vevent is the one described in event
+	 * @param {String} recurrenceId
+	 * @param {Object} vevent
+	 * @returns {boolean}
+	 */
+	function isCorrectEvent(recurrenceId, vevent) {
+		if (recurrenceId === null) {
+			if (!vevent.hasProperty('recurrence-id')) {
+				return true;
+			}
+		} else {
+			if (recurrenceId === vevent.getFirstPropertyValue('recurrence-id').toICALString()) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * get DTEND from vevent
+	 * @param {object} vevent
+	 * @returns {ICAL.Time}
+	 */
+	function calculateDTEnd(vevent) {
+		if (vevent.hasProperty('dtend')) {
+			return vevent.getFirstPropertyValue('dtend');
+		} else if (vevent.hasProperty('duration')) {
+			var dtstart = vevent.getFirstPropertyValue('dtstart').clone();
+			dtstart.addDuration(vevent.getFirstPropertyValue('duration'));
+			return dtstart;
+		} else {
+			return vevent.getFirstPropertyValue('dtstart').clone();
+		}
+	}
+
+
+	/**
+	 * register timezones from ical response
+	 * @param components
+	 */
+	function registerTimezones(components) {
+		var vtimezones = components.getAllSubcomponents('vtimezone');
+		angular.forEach(vtimezones, function (vtimezone) {
+			var timezone = new ICAL.Timezone(vtimezone);
+			ICAL.TimezoneService.register(timezone.tzid, timezone);
+		});
+	}
+
+	/**
+	 * check if we need to convert the timezone of either dtstart or dtend
+	 * @param dt
+	 * @returns {boolean}
+	 */
+	function isTimezoneConversionNecessary(dt) {
+		return (dt.icaltype !== 'date' &&
+		dt.zone !== ICAL.Timezone.utcTimezone &&
+		dt.zone !== ICAL.Timezone.localTimezone);
+	}
+
+	/**
+	 * check if dtstart and dtend are both of type date
+	 * @param dtstart
+	 * @param dtend
+	 * @returns {boolean}
+	 */
+	function isEventAllDay(dtstart, dtend) {
+		return (dtstart.icaltype === 'date' && dtend.icaltype === 'date');
+	}
+
+	/**
+	 * parse an recurring event
+	 * @param vevent
+	 * @param start
+	 * @param end
+	 * @param timezone
+	 * @return []
+	 */
+	function parseTimeForRecurringEvent(vevent, start, end, timezone) {
+		var dtstart = vevent.getFirstPropertyValue('dtstart');
+		var dtend = calculateDTEnd(vevent);
+		var duration = dtend.subtractDate(dtstart);
+		var fcDataContainer = [];
+
+		var iterator = new ICAL.RecurExpansion({
+			component: vevent,
+			dtstart: dtstart
+		});
+
+		var next;
+		while ((next = iterator.next())) {
+			if (next.compare(start) < 0) {
+				continue;
+			}
+			if (next.compare(end) > 0) {
+				break;
+			}
+
+			var dtstartOfRecurrence = next.clone();
+			var dtendOfRecurrence = next.clone();
+			dtendOfRecurrence.addDuration(duration);
+
+			if (isTimezoneConversionNecessary(dtstartOfRecurrence) && timezone) {
+				dtstartOfRecurrence = dtstartOfRecurrence.convertToZone(timezone);
+			}
+			if (isTimezoneConversionNecessary(dtendOfRecurrence) && timezone) {
+				dtendOfRecurrence = dtendOfRecurrence.convertToZone(timezone);
+			}
+
+			fcDataContainer.push({
+				allDay: isEventAllDay(dtstartOfRecurrence, dtendOfRecurrence),
+				start: dtstartOfRecurrence.toJSDate(),
+				end: dtendOfRecurrence.toJSDate(),
+				repeating: true
+			});
+		}
+
+		return fcDataContainer;
+	}
+
+	/**
+	 * parse a single event
+	 * @param vevent
+	 * @param timezone
+	 * @returns {object}
+	 */
+	function parseTimeForSingleEvent(vevent, timezone) {
+		var dtstart = vevent.getFirstPropertyValue('dtstart');
+		var dtend = calculateDTEnd(vevent);
+
+		if (isTimezoneConversionNecessary(dtstart) && timezone) {
+			dtstart = dtstart.convertToZone(timezone);
+		}
+		if (isTimezoneConversionNecessary(dtend) && timezone) {
+			dtend = dtend.convertToZone(timezone);
+		}
+
+		return {
+			allDay: isEventAllDay(dtstart, dtend),
+			start: dtstart.toJSDate(),
+			end: dtend.toJSDate(),
+			repeating: false
+		};
+	}
+
 	function VEvent(calendar, props, uri) {
+		var _this = this;
+
 		angular.extend(this, {
 			calendar: calendar,
 			data: props['{urn:ietf:params:xml:ns:caldav}calendar-data'],
 			uri: uri,
-			etag: props['{DAV:}getetag'] || null,
+			etag: props['{DAV:}getetag'] || null
+		});
+
+		this.jCal = ICAL.parse(this.data);
+		this.components = new ICAL.Component(this.jCal);
+
+		if (this.components.jCal.length === 0) {
+			throw "invalid calendar";
+		}
+
+		angular.extend(this, {
 			getFcEvent: function(start, end, timezone) {
-				return fcHelper.renderCalData(this, start, end, timezone);
+				var iCalStart = new ICAL.Time();
+				iCalStart.fromUnixTime(start.format('X'));
+				var iCalEnd = new ICAL.Time();
+				iCalEnd.fromUnixTime(end.format('X'));
+
+				if (_this.components.jCal.length === 0) {
+					return [];
+				}
+
+				registerTimezones(_this.components);
+
+				var vevents = _this.components.getAllSubcomponents('vevent');
+				var renderedEvents = [];
+
+				angular.forEach(vevents, function (vevent) {
+					var event = new ICAL.Event(vevent);
+					var fcData;
+
+					try {
+						if (!vevent.hasProperty('dtstart')) {
+							return;
+						}
+						if (event.isRecurring()) {
+							fcData = parseTimeForRecurringEvent(vevent, iCalStart, iCalEnd, timezone.jCal);
+						} else {
+							fcData = [];
+							fcData.push(parseTimeForSingleEvent(vevent, timezone.jCal));
+						}
+					} catch(e) {
+						console.log(e);
+					}
+
+					if (typeof fcData === 'undefined') {
+						return;
+					}
+
+					for (var i = 0, length = fcData.length; i < length; i++) {
+						// add information about calendar
+						fcData[i].calendar = _this.calendar;
+						fcData[i].editable = calendar.writable;
+						fcData[i].backgroundColor = calendar.color;
+						fcData[i].borderColor = calendar.color;
+						fcData[i].textColor = calendar.textColor;
+						fcData[i].className = 'fcCalendar-id-' + calendar.tmpId;
+
+						// add information about actual event
+						fcData[i].uri = _this.uri;
+						fcData[i].etag = _this.etag;
+						fcData[i].title = vevent.getFirstPropertyValue('summary');
+
+						if (event.isRecurrenceException()) {
+							fcData[i].recurrenceId = vevent
+								.getFirstPropertyValue('recurrence-id')
+								.toICALString();
+							fcData[i].id = _this.uri + event.recurrenceId;
+						} else {
+							fcData[i].recurrenceId = null;
+							fcData[i].id = _this.uri;
+						}
+
+						fcData[i].event = _this;
+
+						renderedEvents.push(fcData[i]);
+					}
+				});
+
+				return renderedEvents;
 			},
-			getSimpleData: function(fcEvent) {
-				var vevent = fcHelper.getCorrectEvent(fcEvent, this.data);
-				return objectConverter.parse(vevent);
+			getSimpleData: function(recurrenceId) {
+				var vevents = _this.components.getAllSubcomponents('vevent');
+
+				for (var i = 0; i < vevents.length; i++) {
+					if (!isCorrectEvent(recurrenceId, vevents[i])) {
+						continue;
+					}
+
+					return objectConverter.parse(vevents[i]);
+				}
 			},
-			drop: function(fcEvent, delta) {
-				var data = fcHelper.dropEvent(fcEvent, delta, this.data);
-				if (data === null) {
+			drop: function(recurrenceId, delta) {
+				var vevents = _this.components.getAllSubcomponents('vevent');
+				var foundEvent = false;
+				var deltaAsSeconds = delta.asSeconds();
+				var duration = new ICAL.Duration().fromSeconds(deltaAsSeconds);
+				var propertyToUpdate = null;
+
+				for (var i = 0; i < vevents.length; i++) {
+					if (!isCorrectEvent(recurrenceId, vevents[i])) {
+						continue;
+					}
+
+					if (vevents[i].hasProperty('dtstart')) {
+						propertyToUpdate = vevents[i].getFirstPropertyValue('dtstart');
+						propertyToUpdate.addDuration(duration);
+						vevents[i].updatePropertyWithValue('dtstart', propertyToUpdate);
+					}
+
+					if (vevents[i].hasProperty('dtend')) {
+						propertyToUpdate = vevents[i].getFirstPropertyValue('dtend');
+						propertyToUpdate.addDuration(duration);
+						vevents[i].updatePropertyWithValue('dtend', propertyToUpdate);
+					}
+
+					foundEvent = true;
+				}
+
+				if (!foundEvent) {
+					return false;
+				}
+				_this.data = _this.components.toString();
+				return true;
+			},
+			resize: function(recurrenceId, delta) {
+				var vevents = _this.components.getAllSubcomponents('vevent');
+				var foundEvent = false;
+				var deltaAsSeconds = delta.asSeconds();
+				var duration = new ICAL.Duration().fromSeconds(deltaAsSeconds);
+				var propertyToUpdate = null;
+
+				for (var i = 0; i < vevents.length; i++) {
+					if (!isCorrectEvent(recurrenceId, vevents[i])) {
+						continue;
+					}
+
+					if (vevents[i].hasProperty('duration')) {
+						propertyToUpdate = vevents[i].getFirstPropertyValue('duration');
+						duration.fromSeconds((duration.toSeconds() + propertyToUpdate.toSeconds()));
+						vevents[i].updatePropertyWithValue('duration', duration);
+					} else if (vevents[i].hasProperty('dtend')) {
+						propertyToUpdate = vevents[i].getFirstPropertyValue('dtend');
+						propertyToUpdate.addDuration(duration);
+						vevents[i].updatePropertyWithValue('dtend', propertyToUpdate);
+					} else if (vevents[i].hasProperty('dtstart')) {
+						propertyToUpdate = vevents[i].getFirstPropertyValue('dtstart').clone();
+						propertyToUpdate.addDuration(duration);
+						vevents[i].addPropertyWithValue('dtend', propertyToUpdate);
+					} else {
+						continue;
+					}
+
+					foundEvent = true;
+				}
+
+				if (!foundEvent) {
 					return false;
 				}
 
-				this.data = data;
+				_this.data = _this.components.toString();
 				return true;
 			},
-			resize: function(fcEvent, delta) {
-				var data = fcHelper.resizeEvent(fcEvent, delta, this.data);
-				if (data === null) {
+			patch: function(recurrenceId, newSimpleData) {
+				var vevents = _this.components.getAllSubcomponents('vevent');
+				var vevent = null;
+
+				for (var i = 0; i < vevents.length; i++) {
+					if (!isCorrectEvent(recurrenceId, vevents[i])) {
+						continue;
+					}
+
+					vevent = vevents[i];
+				}
+
+				if (!vevent) {
 					return false;
 				}
 
-				this.data = data;
-				return true;
+				objectConverter.patch(vevent, this.getSimpleData(recurrenceId), newSimpleData);
+				_this.data = _this.components.toString();
 			}
 		});
 	}
+
+	VEvent.fromStartEnd = function(start, end, timezone) {
+		console.log(start, end, timezone);
+		var comp = icalfactory.new();
+
+		var vevent = new ICAL.Component('vevent');
+		comp.addSubcomponent(vevent);
+		vevent.updatePropertyWithValue('created', ICAL.Time.now());
+		vevent.updatePropertyWithValue('dtstamp', ICAL.Time.now());
+		vevent.updatePropertyWithValue('last-modified', ICAL.Time.now());
+		//TODO - replace with proper UID generator
+		vevent.updatePropertyWithValue('uid', '123123123123123');
+
+		objectConverter.patch(vevent, {}, {
+			allDay: !start.hasTime() && !end.hasTime(),
+			dtstart: {
+				type: start.hasTime() ? 'datetime' : 'date',
+				value: start,
+				parameters: {
+					zone: timezone
+				}
+			},
+			dtend: {
+				type: end.hasTime() ? 'datetime' : 'date',
+				value: end,
+				parameters: {
+					zone: timezone
+				}
+			},
+			summary: {
+				type: 'text',
+				value: t('calendar', 'New event')
+			},
+			alarm: [],
+			attendee: []
+		});
+
+		return new VEvent(null, {
+			'{urn:ietf:params:xml:ns:caldav}calendar-data': comp.toString(),
+			'{DAV:}getetag': null
+		}, null);
+	};
 
 	return VEvent;
 }]);
@@ -2381,385 +3049,6 @@ app.factory('eventEditorHelper', function () {
 		}
 	};
 });
-app.factory('fcHelper', function () {
-	'use strict';
-
-	/**
-	 * check if vevent is the one described in event
-	 * @param {Object} event
-	 * @param {Object} vevent
-	 * @returns {boolean}
-	 */
-	function isCorrectEvent(event, vevent) {
-		if (event.recurrenceId === null) {
-			if (!vevent.hasProperty('recurrence-id')) {
-				return true;
-			}
-		} else {
-			if (event.recurrenceId === vevent.getFirstPropertyValue('recurrence-id').toICALString()) {
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	/**
-	 * get DTEND from vevent
-	 * @param {object} vevent
-	 * @returns {ICAL.Time}
-	 */
-	function calculateDTEnd(vevent) {
-		if (vevent.hasProperty('dtend')) {
-			return vevent.getFirstPropertyValue('dtend');
-		} else if (vevent.hasProperty('duration')) {
-			return vevent.getFirstPropertyValue('dtstart').clone();
-		} else {
-			return vevent.getFirstPropertyValue('dtstart').clone();
-		}
-	}
-
-	/**
-	 * register timezones from ical response
-	 * @param components
-	 */
-	function registerTimezones(components) {
-		var vtimezones = components.getAllSubcomponents('vtimezone');
-		angular.forEach(vtimezones, function (vtimezone) {
-			var timezone = new ICAL.Timezone(vtimezone);
-			ICAL.TimezoneService.register(timezone.tzid, timezone);
-		});
-	}
-
-	/**
-	 * adds data about the calendar to the fcData object
-	 * @param fcData
-	 * @param calendar
-	 * @returns {*}
-	 */
-	function addCalendarDataToFCData(fcData, calendar) {
-		fcData.calendar = calendar;
-		fcData.editable = calendar.writable;
-		fcData.backgroundColor = calendar.color;
-		fcData.borderColor = calendar.color;
-		fcData.textColor = calendar.textColor;
-		fcData.className = 'fcCalendar-id-' + calendar.tmpId;
-
-		return fcData;
-	}
-
-	/**
-	 * Adds data about the event to the fcData object
-	 * @param fcData
-	 * @param vevent
-	 * @param event
-	 * @param eventsObject
-	 * @returns {*}
-	 */
-	function addEventDataToFCData(fcData, vevent, event, eventsObject) {
-		fcData.uri = eventsObject.uri;
-		fcData.etag = eventsObject.etag;
-		fcData.title = vevent.getFirstPropertyValue('summary');
-
-		if (event.isRecurrenceException()) {
-			fcData.recurrenceId = vevent
-				.getFirstPropertyValue('recurrence-id')
-				.toICALString();
-			fcData.id = event.objectUri + event.recurrenceId;
-		} else {
-			fcData.recurrenceId = null;
-			fcData.id = fcData.objectUri;
-		}
-
-		return fcData;
-	}
-
-	/**
-	 * check if we need to convert the timezone of either dtstart or dtend
-	 * @param dt
-	 * @returns {boolean}
-	 */
-	function isTimezoneConversionNecessary(dt) {
-		return (dt.icaltype !== 'date' &&
-		dt.zone !== ICAL.Timezone.utcTimezone &&
-		dt.zone !== ICAL.Timezone.localTimezone);
-	}
-
-	/**
-	 * check if dtstart and dtend are both of type date
-	 * @param dtstart
-	 * @param dtend
-	 * @returns {boolean}
-	 */
-	function isEventAllDay(dtstart, dtend) {
-		return (dtstart.icaltype === 'date' && dtend.icaltype === 'date');
-	}
-
-	/**
-	 * parse an recurring event
-	 * @param vevent
-	 * @param start
-	 * @param end
-	 * @param timezone
-	 * @return []
-	 */
-	function parseTimeForRecurringEvent(vevent, start, end, timezone) {
-		var dtstart = vevent.getFirstPropertyValue('dtstart');
-		var dtend = calculateDTEnd(vevent);
-		var duration = dtend.subtractDate(dtstart);
-		var fcDataContainer = [];
-
-		var iterator = new ICAL.RecurExpansion({
-			component: vevent,
-			dtstart: dtstart
-		});
-
-		var next;
-		while ((next = iterator.next())) {
-			if (next.compare(start) < 0) {
-				continue;
-			}
-			if (next.compare(end) > 0) {
-				break;
-			}
-
-			var dtstartOfRecurrence = next.clone();
-			var dtendOfRecurrence = next.clone();
-			dtendOfRecurrence.addDuration(duration);
-
-			if (isTimezoneConversionNecessary(dtstartOfRecurrence) && timezone) {
-				dtstartOfRecurrence = dtstartOfRecurrence.convertToZone(timezone);
-			}
-			if (isTimezoneConversionNecessary(dtendOfRecurrence) && timezone) {
-				dtendOfRecurrence = dtendOfRecurrence.convertToZone(timezone);
-			}
-
-			fcDataContainer.push({
-				allDay: isEventAllDay(dtstartOfRecurrence, dtendOfRecurrence),
-				start: dtstartOfRecurrence.toJSDate(),
-				end: dtendOfRecurrence.toJSDate(),
-				repeating: true
-			});
-		}
-
-		return fcDataContainer;
-	}
-
-	/**
-	 * parse a single event
-	 * @param vevent
-	 * @param timezone
-	 * @returns {object}
-	 */
-	function parseTimeForSingleEvent(vevent, timezone) {
-		var dtstart = vevent.getFirstPropertyValue('dtstart');
-		var dtend = calculateDTEnd(vevent);
-
-		if (isTimezoneConversionNecessary(dtstart) && timezone) {
-			dtstart = dtstart.convertToZone(timezone);
-		}
-		if (isTimezoneConversionNecessary(dtend) && timezone) {
-			dtend = dtend.convertToZone(timezone);
-		}
-
-		return {
-			allDay: isEventAllDay(dtstart, dtend),
-			start: dtstart.toJSDate(),
-			end: dtend.toJSDate(),
-			repeating: false
-		};
-	}
-
-	return {
-		/**
-		 * render a ics string
-		 * @param eventObject
-		 * @param start
-		 * @param end
-		 * @param timezone
-		 * @returns {Array}
-		 */
-		renderCalData: function(eventObject, start, end, timezone) {
-			var jcal = ICAL.parse(eventObject.data);
-			var components = new ICAL.Component(jcal);
-
-			var icalstart = new ICAL.Time();
-			icalstart.fromUnixTime(start.format('X'));
-			var icalend = new ICAL.Time();
-			icalend.fromUnixTime(end.format('X'));
-
-			if (components.jCal.length === 0) {
-				return null;
-			}
-
-			registerTimezones(components);
-
-			var vevents = components.getAllSubcomponents('vevent');
-			var renderedEvents = [];
-
-			angular.forEach(vevents, function (vevent) {
-				var event = new ICAL.Event(vevent);
-				var fcData;
-
-				try {
-					if (!vevent.hasProperty('dtstart')) {
-						return;
-					}
-					if (event.isRecurring()) {
-						fcData = parseTimeForRecurringEvent(vevent, icalstart, icalend, timezone.jCal);
-					} else {
-						fcData = [];
-						fcData.push(parseTimeForSingleEvent(vevent, timezone.jCal));
-					}
-				} catch(e) {
-					console.log(e);
-				}
-
-				if (typeof fcData === 'undefined') {
-					return;
-				}
-
-				for (var i = 0, length = fcData.length; i < length; i++) {
-					fcData[i] = addCalendarDataToFCData(fcData[i], eventObject.calendar);
-					fcData[i] = addEventDataToFCData(fcData[i], vevent, event, eventObject);
-					fcData[i].event = eventObject;
-
-					renderedEvents.push(fcData[i]);
-				}
-			});
-
-			return renderedEvents;
-		},
-
-		/**
-		 * resize an event
-		 * @param event
-		 * @param delta
-		 * @param data
-		 * @returns {*}
-		 */
-		resizeEvent: function(event, delta, data) {
-			var jcal = ICAL.parse(data);
-			var components = new ICAL.Component(jcal);
-			var vevents = components.getAllSubcomponents('vevent');
-			var foundEvent = false;
-			var deltaAsSeconds = 0;
-			var duration = null;
-			var propertyToUpdate = null;
-
-			components.removeAllSubcomponents('vevent');
-
-			if (components.jCal.length !== 0) {
-				for (var i = 0; i < vevents.length; i++) {
-					if (!isCorrectEvent(event, vevents[i])) {
-						components.addSubcomponent(vevents[i]);
-						continue;
-					}
-
-					deltaAsSeconds = delta.asSeconds();
-					duration = new ICAL.Duration().fromSeconds(deltaAsSeconds);
-
-					if (vevents[i].hasProperty('duration')) {
-						propertyToUpdate = vevents[i].getFirstPropertyValue('duration');
-						duration.fromSeconds((duration.toSeconds() + propertyToUpdate.toSeconds()));
-						vevents[i].updatePropertyWithValue('duration', duration);
-					} else if (vevents[i].hasProperty('dtend')) {
-						propertyToUpdate = vevents[i].getFirstPropertyValue('dtend');
-						propertyToUpdate.addDuration(duration);
-						vevents[i].updatePropertyWithValue('dtend', propertyToUpdate);
-					} else if (vevents[i].hasProperty('dtstart')) {
-						propertyToUpdate = vevents[i].getFirstPropertyValue('dtstart').clone();
-						propertyToUpdate.addDuration(duration);
-						vevents[i].addPropertyWithValue('dtend', propertyToUpdate);
-					} else {
-						continue;
-					}
-
-					components.addSubcomponent(vevents[i]);
-					foundEvent = true;
-				}
-			}
-
-			return (foundEvent) ? components.toString() : null;
-		},
-
-		/**
-		 * drop an event
-		 * @param event
-		 * @param delta
-		 * @param data
-		 * @returns {*}
-		 */
-		dropEvent: function(event, delta, data) {
-			var jcal = ICAL.parse(data);
-			var components = new ICAL.Component(jcal);
-			var vevents = components.getAllSubcomponents('vevent');
-			var foundEvent = false;
-			var deltaAsSeconds = 0;
-			var duration = null;
-			var propertyToUpdate = null;
-
-			components.removeAllSubcomponents('vevent');
-
-			if (components.jCal.length !== 0) {
-				for (var i = 0; i < vevents.length; i++) {
-					if (!isCorrectEvent(event, vevents[i])) {
-						components.addSubcomponent(vevents[i]);
-						continue;
-					}
-
-					deltaAsSeconds = delta.asSeconds();
-					duration = new ICAL.Duration().fromSeconds(deltaAsSeconds);
-
-					if (vevents[i].hasProperty('dtstart')) {
-						propertyToUpdate = vevents[i].getFirstPropertyValue('dtstart');
-						propertyToUpdate.addDuration(duration);
-						vevents[i].updatePropertyWithValue('dtstart', propertyToUpdate);
-
-					}
-
-					if (vevents[i].hasProperty('dtend')) {
-						propertyToUpdate = vevents[i].getFirstPropertyValue('dtend');
-						propertyToUpdate.addDuration(duration);
-						vevents[i].updatePropertyWithValue('dtend', propertyToUpdate);
-					}
-
-					components.addSubcomponent(vevents[i]);
-					foundEvent = true;
-				}
-			}
-
-			return (foundEvent) ? components.toString() : null;
-		},
-
-		/**
-		 *
-		 * @param event
-		 * @param data
-		 */
-		getCorrectEvent: function(event, data) {
-			var jCalData = ICAL.parse(data);
-			var components = new ICAL.Component(jCalData);
-			var vevents = components.getAllSubcomponents('vevent');
-
-			components.removeAllSubcomponents('vevent');
-
-			if (components.jCal.length !== 0) {
-				for (var i = 0; i < vevents.length; i++) {
-					if (!isCorrectEvent(event, vevents[i])) {
-						components.addSubcomponent(vevents[i]);
-						continue;
-					}
-
-					return vevents[i];
-				}
-			}
-
-			return null;
-		}
-	 };
- });
-
 app.service('ICalFactory', [
 	function() {
 		'use strict';
@@ -2793,12 +3082,10 @@ app.factory('objectConverter', function () {
 	 */
 	var defaults = {
 		'summary': null,
-		'x-oc-calid': null,
 		'location': null,
 		'created': null,
 		'last-modified': null,
 		'organizer': null,
-		'x-oc-cruds': null,
 		'class': null,
 		'description': null,
 		'url': null,
@@ -2833,8 +3120,8 @@ app.factory('objectConverter', function () {
 			parameters = (parameters || []).concat(['tzid']);
 			simpleParser._parseSingle(data, vevent, key, parameters, function(p) {
 				return (p.type === 'duration') ?
-						p.getFirstValue().toSeconds() :
-						p.getFirstValue().toJSDate();
+						p.getFirstValue().toSeconds():
+						moment(p.getFirstValue().toJSDate());
 			});
 		},
 		dates: function(data, vevent, key, parameters) {
@@ -2849,8 +3136,8 @@ app.factory('objectConverter', function () {
 
 					usableValues.push(
 						(p.type === 'duration') ?
-							values[vKey].toSeconds() :
-							values[vKey].toJSDate()
+							values[vKey].toSeconds():
+							moment(values[vKey].toJSDate())
 					);
 				}
 
@@ -2944,7 +3231,7 @@ app.factory('objectConverter', function () {
 				if (v.type === 'duration') {
 					return ICAL.Duration.fromSeconds(v.value);
 				} else {
-					return ICAL.Time.fromJSDate(v.value);
+					return ICAL.Time.fromJSDate(v.value.toDate());
 				}
 			});
 		},
@@ -2957,7 +3244,7 @@ app.factory('objectConverter', function () {
 					if (v.type === 'duration') {
 						values.push(ICAL.Duration.fromSeconds(v.values[i]));
 					} else {
-						values.push(ICAL.Time.fromJSDate(v.values[i]));
+						values.push(ICAL.Time.fromJSDate(v.values[i].toDate()));
 					}
 				}
 
@@ -3071,7 +3358,6 @@ app.factory('objectConverter', function () {
 	var simpleProperties = {
 		//General
 		'summary': {parser: simpleParser.string, reader: simpleReader.string},
-		'x-oc-calid': {parser: simpleParser.string, reader: simpleReader.string},
 		'location': {parser: simpleParser.string, reader: simpleReader.string},
 		'created': {parser: simpleParser.date, reader: simpleReader.date},
 		'last-modified': {parser: simpleParser.date, reader: simpleReader.date},
@@ -3080,7 +3366,6 @@ app.factory('objectConverter', function () {
 		'attendee': {parser: simpleParser.strings, reader: simpleReader.strings, parameters: attendeeParameters},
 		'organizer': {parser: simpleParser.string, reader: simpleReader.string},
 		//sharing
-		'x-oc-cruds': {parser: simpleParser.string, reader: simpleReader.string},
 		'class': {parser: simpleParser.string, reader: simpleReader.string},
 		//other
 		'description': {parser: simpleParser.string, reader: simpleReader.string},
@@ -3088,26 +3373,6 @@ app.factory('objectConverter', function () {
 		'status': {parser: simpleParser.string, reader: simpleReader.string},
 		'resources': {parser: simpleParser.strings, reader: simpleReader.strings}
 	};
-
-	function addZero(t) {
-		if (t < 10) {
-			t = '0' + t;
-		}
-		return t;
-	}
-
-	function formatDate(d) {
-		return d.getFullYear() + '-' +
-			addZero(d.getMonth()) + '-' +
-			addZero(d.getDate());
-	}
-
-	function formatTime(d) {
-		return addZero(d.getHours()) + ':' +
-			addZero(d.getMinutes()) + ':' +
-			addZero(d.getSeconds());
-
-	}
 
 	/**
 	 * specific parsers that check only one property
@@ -3157,29 +3422,31 @@ app.factory('objectConverter', function () {
 			}
 		},
 		date: function(data, vevent) {
-			var dtstart = vevent.getFirstPropertyValue('dtstart');
-			var dtend;
-
+			var dtstart = vevent.getFirstPropertyValue('dtstart'), dtend;
 			if (vevent.hasProperty('dtend')) {
 				dtend = vevent.getFirstPropertyValue('dtend');
 			} else if (vevent.hasProperty('duration')) {
 				dtend = dtstart.clone();
-				dtend.addDuration(vevent.getFirstPropertyValue('dtstart'));
+				dtend.addDuration(vevent.getFirstPropertyValue('duration'));
 			} else {
 				dtend = dtstart.clone();
 			}
 
 			data.dtstart = {
-				date: formatDate(dtstart.toJSDate()),
-				time: formatTime(dtstart.toJSDate()),
+				parameters: {
+					zone: dtstart.zone.toString()
+				},
 				type: dtstart.icaltype,
-				zone: dtstart.zone.toString()
+				value: moment({years: dtstart.year, months: dtstart.month - 1, date: dtstart.day,
+					hours: dtstart.hour, minutes: dtstart.minute, seconds: dtstart.seconds})
 			};
 			data.dtend = {
-				date: formatDate(dtend.toJSDate()),
-				time: formatTime(dtend.toJSDate()),
+				parameters: {
+					zone: dtend.zone.toString()
+				},
 				type: dtend.icaltype,
-				zone: dtend.zone.toString()
+				value: moment({years: dtend.year, months: dtend.month - 1, date: dtend.day,
+					hours: dtend.hour, minutes: dtend.minute, seconds: dtend.seconds})
 			};
 			data.allDay = (dtstart.icaltype === 'date' && dtend.icaltype === 'date');
 		},
@@ -3212,8 +3479,7 @@ app.factory('objectConverter', function () {
 				} else {
 					oldGroups.splice(oldGroups.indexOf(newSimpleData[key][j].group), 1);
 
-
-					components = vevent.getAllSubcomponents('VALARM');
+					components = vevent.getAllSubcomponents('valarm');
 					for (cKey in components) {
 						if (!components.hasOwnProperty(cKey)) {
 							continue;
@@ -3223,7 +3489,7 @@ app.factory('objectConverter', function () {
 						if (groupId === null) {
 							continue;
 						}
-						if (groupId === newSimpleData[key][j].group) {
+						if (groupId === newSimpleData[key][j].group.toString()) {
 							valarm = components[cKey];
 						}
 					}
@@ -3237,59 +3503,61 @@ app.factory('objectConverter', function () {
 			}
 		},
 		date: function(vevent, oldSimpleData, newSimpleData) {
-			delete vevent.dstart;
-			delete vevent.dtend;
-			delete vevent.duration;
+			vevent.removeAllProperties('dtstart');
+			vevent.removeAllProperties('dtend');
+			vevent.removeAllProperties('duration');
 
-			var parseIntWrapper = function(str) {
-				return parseInt(str);
-			};
+			newSimpleData.dtstart.parameters.zone = newSimpleData.dtstart.parameters.zone || 'floating';
+			newSimpleData.dtend.parameters.zone = newSimpleData.dtend.parameters.zone || 'floating';
 
-			if (!ICAL.TimezoneService.has(newSimpleData.dtstart.zone)) {
+			if (newSimpleData.dtstart.parameters.zone !== 'floating' &&
+				!ICAL.TimezoneService.has(newSimpleData.dtstart.parameters.zone)) {
 				throw {
 					kind: 'timezone_missing',
-					missing_timezone: newSimpleData.dtstart.zone
+					missing_timezone: newSimpleData.dtstart.parameters.zone
 				};
 			}
-			if (!ICAL.TimezoneService.has(newSimpleData.dtend.zone)) {
+			if (newSimpleData.dtend.parameters.zone !== 'floating' &&
+				!ICAL.TimezoneService.has(newSimpleData.dtend.parameters.zone)) {
 				throw {
 					kind: 'timezone_missing',
-					missing_timezone: newSimpleData.dtend.zone
+					missing_timezone: newSimpleData.dtend.parameters.zone
 				};
 			}
 
-			var dtstartDateParts = newSimpleData.dtstart.date.split('-').map(parseIntWrapper);
-			var dtstartTimeParts = newSimpleData.dtstart.time.split(':').map(parseIntWrapper);
-			var dtstartTz = ICAL.TimezoneService.get(newSimpleData.dtstart.zone);
-			var start = new ICAL.Time({
-				year: dtstartDateParts[0],
-				month: dtstartDateParts[1],
-				day: dtstartDateParts[2],
-				hour: dtstartTimeParts[0],
-				minute: dtstartTimeParts[1],
-				second: dtstartTimeParts[2],
-				isDate: newSimpleData.allDay
-			}, dtstartTz);
+			var start = ICAL.Time.fromJSDate(newSimpleData.dtstart.value.toDate(), false);
+			start.isDate = newSimpleData.allDay;
+			var end = ICAL.Time.fromJSDate(newSimpleData.dtend.value.toDate(), false);
+			end.isDate = newSimpleData.allDay;
 
-			var dtendDateParts = newSimpleData.dtend.date.split('-').map(parseIntWrapper);
-			var dtendTimeParts = newSimpleData.dtend.time.split(':').map(parseIntWrapper);
-			var dtendTz = ICAL.TimezoneService.get(newSimpleData.dtend.zone);
-			var end = new ICAL.Time({
-				year: dtendDateParts[0],
-				month: dtendDateParts[1],
-				day: dtendDateParts[2],
-				hour: dtendTimeParts[0],
-				minute: dtendTimeParts[1],
-				second: dtendTimeParts[2],
-				isDate: newSimpleData.allDay
-			}, dtendTz);
+			var availableTimezones = [];
+			var vtimezones = vevent.parent.getAllSubcomponents('vtimezone');
+			angular.forEach(vtimezones, function(vtimezone) {
+				availableTimezones.push(vtimezone.getFirstPropertyValue('tzid'));
+			});
 
 			var dtstart = new ICAL.Property('dtstart', vevent);
 			dtstart.setValue(start);
-			dtstart.setParameter('tzid', dtstartTz.tzid);
+			if (newSimpleData.dtstart.parameters.zone !== 'floating') {
+				dtstart.setParameter('tzid', newSimpleData.dtstart.parameters.zone);
+				var startTz = ICAL.TimezoneService.get(newSimpleData.dtstart.parameters.zone);
+				start.zone = startTz;
+				if (availableTimezones.indexOf(newSimpleData.dtstart.parameters.zone) === -1) {
+					vevent.parent.addSubcomponent(startTz.component);
+					availableTimezones.push(newSimpleData.dtstart.parameters.zone);
+				}
+			}
+
 			var dtend = new ICAL.Property('dtend', vevent);
 			dtend.setValue(end);
-			dtend.setParameter('tzid', dtendTz.tzid);
+			if (newSimpleData.dtend.parameters.zone !== 'floating') {
+				dtend.setParameter('tzid', newSimpleData.dtend.parameters.zone);
+				var endTz = ICAL.TimezoneService.get(newSimpleData.dtend.parameters.zone);
+				end.zone = endTz;
+				if (availableTimezones.indexOf(newSimpleData.dtend.parameters.zone) === -1) {
+					vevent.parent.addSubcomponent(endTz.component);
+				}
+			}
 
 			vevent.addProperty(dtstart);
 			vevent.addProperty(dtend);
@@ -3462,8 +3730,453 @@ app.service('SplitterService', ['ICalFactory',
 		};
 	}
 ]);
-app.service('TimezoneService', ['$rootScope', '$http', 'Timezone',
-	function($rootScope, $http, Timezone) {
+app.service('TimezoneListProvider',
+	function () {
+		'use strict';
+		return new Promise(function (resolve) {
+			resolve([
+				'Africa\/Abidjan',
+				'Africa\/Accra',
+				'Africa\/Addis_Ababa',
+				'Africa\/Algiers',
+				'Africa\/Asmara',
+				'Africa\/Asmera',
+				'Africa\/Bamako',
+				'Africa\/Bangui',
+				'Africa\/Banjul',
+				'Africa\/Bissau',
+				'Africa\/Blantyre',
+				'Africa\/Brazzaville',
+				'Africa\/Bujumbura',
+				'Africa\/Cairo',
+				'Africa\/Casablanca',
+				'Africa\/Ceuta',
+				'Africa\/Conakry',
+				'Africa\/Dakar',
+				'Africa\/Dar_es_Salaam',
+				'Africa\/Djibouti',
+				'Africa\/Douala',
+				'Africa\/El_Aaiun',
+				'Africa\/Freetown',
+				'Africa\/Gaborone',
+				'Africa\/Harare',
+				'Africa\/Johannesburg',
+				'Africa\/Juba',
+				'Africa\/Kampala',
+				'Africa\/Khartoum',
+				'Africa\/Kigali',
+				'Africa\/Kinshasa',
+				'Africa\/Lagos',
+				'Africa\/Libreville',
+				'Africa\/Lome',
+				'Africa\/Luanda',
+				'Africa\/Lubumbashi',
+				'Africa\/Lusaka',
+				'Africa\/Malabo',
+				'Africa\/Maputo',
+				'Africa\/Maseru',
+				'Africa\/Mbabane',
+				'Africa\/Mogadishu',
+				'Africa\/Monrovia',
+				'Africa\/Nairobi',
+				'Africa\/Ndjamena',
+				'Africa\/Niamey',
+				'Africa\/Nouakchott',
+				'Africa\/Ouagadougou',
+				'Africa\/Porto\/Novo',
+				'Africa\/Sao_Tome',
+				'Africa\/Timbuktu',
+				'Africa\/Tripoli',
+				'Africa\/Tunis',
+				'Africa\/Windhoek',
+				'America\/Adak',
+				'America\/Anchorage',
+				'America\/Anguilla',
+				'America\/Antigua',
+				'America\/Araguaina',
+				'America\/Argentina\/Buenos_Aires',
+				'America\/Argentina\/Catamarca',
+				'America\/Argentina\/Comodrivadavia',
+				'America\/Argentina\/Cordoba',
+				'America\/Argentina\/Jujuy',
+				'America\/Argentina\/La_Rioja',
+				'America\/Argentina\/Mendoza',
+				'America\/Argentina\/Rio_Gallegos',
+				'America\/Argentina\/Salta',
+				'America\/Argentina\/San_Juan',
+				'America\/Argentina\/San_Luis',
+				'America\/Argentina\/Tucuman',
+				'America\/Argentina\/Ushuaia',
+				'America\/Aruba',
+				'America\/Asuncion',
+				'America\/Atikokan',
+				'America\/Bahia',
+				'America\/Bahia_Banderas',
+				'America\/Barbados',
+				'America\/Belem',
+				'America\/Belize',
+				'America\/Blanc\/Sablon',
+				'America\/Boa_Vista',
+				'America\/Bogota',
+				'America\/Boise',
+				'America\/Cambridge_Bay',
+				'America\/Campo_Grande',
+				'America\/Cancun',
+				'America\/Caracas',
+				'America\/Cayenne',
+				'America\/Cayman',
+				'America\/Chicago',
+				'America\/Chihuahua',
+				'America\/Costa_rica',
+				'America\/Creston',
+				'America\/Cuiaba',
+				'America\/Curacao',
+				'America\/Danmarkshavn',
+				'America\/Dawson',
+				'America\/Dawson_Creek',
+				'America\/Denver',
+				'America\/Detroit',
+				'America\/Dominica',
+				'America\/Edmonton',
+				'America\/Eirunepe',
+				'America\/El_Salvador',
+				'America\/Fortaleza',
+				'America\/Glace_Bay',
+				'America\/Godthab',
+				'America\/Goose_Bay',
+				'America\/Grand_Turk',
+				'America\/Grenada',
+				'America\/Guadeloupe',
+				'America\/Guatemala',
+				'America\/Guayaquil',
+				'America\/Guyana',
+				'America\/Halifax',
+				'America\/Havana',
+				'America\/Hermosillo',
+				'America\/Indiana\/Indianapolis',
+				'America\/Indiana\/Knox',
+				'America\/Indiana\/Marengo',
+				'America\/Indiana\/Petersburg',
+				'America\/Indiana\/Tell_City',
+				'America\/Indiana\/Vevay',
+				'America\/Indiana\/Vincennes',
+				'America\/Indiana\/Winamac',
+				'America\/Inuvik',
+				'America\/Iqaluit',
+				'America\/Jamaica',
+				'America\/Juneau',
+				'America\/Kentucky\/Louisville',
+				'America\/Kentucky\/Monticello',
+				'America\/Kralendijk',
+				'America\/La_Paz',
+				'America\/Lima',
+				'America\/Los_Angeles',
+				'America\/Louisville',
+				'America\/Lower_Princes',
+				'America\/Maceio',
+				'America\/Managua',
+				'America\/Manaus',
+				'America\/Marigot',
+				'America\/Martinique',
+				'America\/Matamoros',
+				'America\/Mazatlan',
+				'America\/Menominee',
+				'America\/Merida',
+				'America\/Metlakatla',
+				'America\/Mexico_City',
+				'America\/Miquelon',
+				'America\/Moncton',
+				'America\/Monterrey',
+				'America\/Montevideo',
+				'America\/Montreal',
+				'America\/Montserrat',
+				'America\/Nassau',
+				'America\/New_York',
+				'America\/Nipigon',
+				'America\/Nome',
+				'America\/Noronha',
+				'America\/North_Dakota\/Beulah',
+				'America\/North_Dakota\/Center',
+				'America\/North_Dakota\/New_Salem',
+				'America\/Ojinaga',
+				'America\/Panama',
+				'America\/Pangnirtung',
+				'America\/Paramaribo',
+				'America\/Phoenix',
+				'America\/Port\/Au\/Prince',
+				'America\/Porto_Velho',
+				'America\/Port_of_Spain',
+				'America\/Puerto_Rico',
+				'America\/Rainy_River',
+				'America\/Rankin_Inlet',
+				'America\/Recife',
+				'America\/Regina',
+				'America\/Resolute',
+				'America\/Rio_Branco',
+				'America\/Santarem',
+				'America\/Santa_Isabel',
+				'America\/Santiago',
+				'America\/Santo_Domingo',
+				'America\/Sao_Paulo',
+				'America\/Scoresbysund',
+				'America\/Shiprock',
+				'America\/Sitka',
+				'America\/St_Barthelemy',
+				'America\/St_Johns',
+				'America\/St_Kitts',
+				'America\/St_Lucia',
+				'America\/St_Thomas',
+				'America\/St_Vincent',
+				'America\/Swift_Current',
+				'America\/Tegucigalpa',
+				'America\/Thule',
+				'America\/Thunder_Bay',
+				'America\/Tijuana',
+				'America\/Toronto',
+				'America\/Tortola',
+				'America\/Vancouver',
+				'America\/Whitehorse',
+				'America\/Winnipeg',
+				'America\/Yakutat',
+				'America\/Yellowknife',
+				'Antarctica\/Casey',
+				'Antarctica\/Davis',
+				'Antarctica\/Dumontdurville',
+				'Antarctica\/Macquarie',
+				'Antarctica\/Mawson',
+				'Antarctica\/Mcmurdo',
+				'Antarctica\/Palmer',
+				'Antarctica\/Rothera',
+				'Antarctica\/South_Pole',
+				'Antarctica\/Syowa',
+				'Antarctica\/Vostok',
+				'Arctic\/Longyearbyen',
+				'Asia\/Aden',
+				'Asia\/Almaty',
+				'Asia\/Amman',
+				'Asia\/Anadyr',
+				'Asia\/Aqtau',
+				'Asia\/Aqtobe',
+				'Asia\/Ashgabat',
+				'Asia\/Baghdad',
+				'Asia\/Bahrain',
+				'Asia\/Baku',
+				'Asia\/Bangkok',
+				'Asia\/Beirut',
+				'Asia\/Bishkek',
+				'Asia\/Brunei',
+				'Asia\/Calcutta',
+				'Asia\/Choibalsan',
+				'Asia\/Chongqing',
+				'Asia\/Colombo',
+				'Asia\/Damascus',
+				'Asia\/Dhaka',
+				'Asia\/Dili',
+				'Asia\/Dubai',
+				'Asia\/Dushanbe',
+				'Asia\/Gaza',
+				'Asia\/Harbin',
+				'Asia\/Hebron',
+				'Asia\/Hong_Kong',
+				'Asia\/Hovd',
+				'Asia\/Ho_Chi_Minh',
+				'Asia\/Irkutsk',
+				'Asia\/Istanbul',
+				'Asia\/Jakarta',
+				'Asia\/Jayapura',
+				'Asia\/Jerusalem',
+				'Asia\/Kabul',
+				'Asia\/Kamchatka',
+				'Asia\/Karachi',
+				'Asia\/Kashgar',
+				'Asia\/Kathmandu',
+				'Asia\/Katmandu',
+				'Asia\/Khandyga',
+				'Asia\/Kolkata',
+				'Asia\/Krasnoyarsk',
+				'Asia\/Kuala_Lumpur',
+				'Asia\/Kuching',
+				'Asia\/Kuwait',
+				'Asia\/Macau',
+				'Asia\/Magadan',
+				'Asia\/Makassar',
+				'Asia\/Manila',
+				'Asia\/Muscat',
+				'Asia\/Nicosia',
+				'Asia\/Novokuznetsk',
+				'Asia\/Novosibirsk',
+				'Asia\/Omsk',
+				'Asia\/Oral',
+				'Asia\/Phnom_Penh',
+				'Asia\/Pontianak',
+				'Asia\/Pyongyang',
+				'Asia\/Qatar',
+				'Asia\/Qyzylorda',
+				'Asia\/Rangoon',
+				'Asia\/Riyadh',
+				'Asia\/Saigon',
+				'Asia\/Sakhalin',
+				'Asia\/Samarkand',
+				'Asia\/Seoul',
+				'Asia\/Shanghai',
+				'Asia\/Singapore',
+				'Asia\/Taipei',
+				'Asia\/Tashkent',
+				'Asia\/Tbilisi',
+				'Asia\/Tehran',
+				'Asia\/Thimphu',
+				'Asia\/Tokyo',
+				'Asia\/Ulaanbaatar',
+				'Asia\/Urumqi',
+				'Asia\/Ust\/Nera',
+				'Asia\/Vientiane',
+				'Asia\/Vladivostok',
+				'Asia\/Yakutsk',
+				'Asia\/Yekaterinburg',
+				'Asia\/Yerevan',
+				'Atlantic\/Azores',
+				'Atlantic\/Bermuda',
+				'Atlantic\/Canary',
+				'Atlantic\/Cape_Verde',
+				'Atlantic\/Faeroe',
+				'Atlantic\/Faroe',
+				'Atlantic\/Jan_Mayen',
+				'Atlantic\/Madeira',
+				'Atlantic\/Reykjavik',
+				'Atlantic\/South_Georgia',
+				'Atlantic\/Stanley',
+				'Atlantic\/St_Helena',
+				'Australia\/Adelaide',
+				'Australia\/Brisbane',
+				'Australia\/Broken_Hill',
+				'Australia\/Currie',
+				'Australia\/Darwin',
+				'Australia\/Eucla',
+				'Australia\/Hobart',
+				'Australia\/Lindeman',
+				'Australia\/Lord_Howe',
+				'Australia\/Melbourne',
+				'Australia\/Perth',
+				'Australia\/Sydney',
+				'Europe\/Amsterdam',
+				'Europe\/Andorra',
+				'Europe\/Athens',
+				'Europe\/Belfast',
+				'Europe\/Belgrade',
+				'Europe\/Berlin',
+				'Europe\/Bratislava',
+				'Europe\/Brussels',
+				'Europe\/Bucharest',
+				'Europe\/Budapest',
+				'Europe\/Busingen',
+				'Europe\/Chisinau',
+				'Europe\/Copenhagen',
+				'Europe\/Dublin',
+				'Europe\/Gibraltar',
+				'Europe\/Guernsey',
+				'Europe\/Helsinki',
+				'Europe\/Isle_of_Man',
+				'Europe\/Istanbul',
+				'Europe\/Jersey',
+				'Europe\/Kaliningrad',
+				'Europe\/Kiev',
+				'Europe\/Lisbon',
+				'Europe\/Ljubljana',
+				'Europe\/London',
+				'Europe\/Luxembourg',
+				'Europe\/Madrid',
+				'Europe\/Malta',
+				'Europe\/Mariehamn',
+				'Europe\/Minsk',
+				'Europe\/Monaco',
+				'Europe\/Moscow',
+				'Europe\/Nicosia',
+				'Europe\/Oslo',
+				'Europe\/Paris',
+				'Europe\/Podgorica',
+				'Europe\/Prague',
+				'Europe\/Riga',
+				'Europe\/Rome',
+				'Europe\/Samara',
+				'Europe\/San_Marino',
+				'Europe\/Sarajevo',
+				'Europe\/Simferopol',
+				'Europe\/Skopje',
+				'Europe\/Sofia',
+				'Europe\/Stockholm',
+				'Europe\/Tallinn',
+				'Europe\/Tirane',
+				'Europe\/Uzhgorod',
+				'Europe\/Vaduz',
+				'Europe\/Vatican',
+				'Europe\/Vienna',
+				'Europe\/Vilnius',
+				'Europe\/Volgograd',
+				'Europe\/Warsaw',
+				'Europe\/Zagreb',
+				'Europe\/Zaporozhye',
+				'Europe\/Zurich',
+				'Indian\/Antananarivo',
+				'Indian\/Chagos',
+				'Indian\/Christmas',
+				'Indian\/Cocos',
+				'Indian\/Comoro',
+				'Indian\/Kerguelen',
+				'Indian\/Mahe',
+				'Indian\/Maldives',
+				'Indian\/Mauritius',
+				'Indian\/Mayotte',
+				'Indian\/Reunion',
+				'Pacific\/Apia',
+				'Pacific\/Auckland',
+				'Pacific\/Chatham',
+				'Pacific\/Chuuk',
+				'Pacific\/Easter',
+				'Pacific\/Efate',
+				'Pacific\/Enderbury',
+				'Pacific\/Fakaofo',
+				'Pacific\/Fiji',
+				'Pacific\/Funafuti',
+				'Pacific\/Galapagos',
+				'Pacific\/Gambier',
+				'Pacific\/Guadalcanal',
+				'Pacific\/Guam',
+				'Pacific\/Honolulu',
+				'Pacific\/Johnston',
+				'Pacific\/Kiritimati',
+				'Pacific\/Kosrae',
+				'Pacific\/Kwajalein',
+				'Pacific\/Majuro',
+				'Pacific\/Marquesas',
+				'Pacific\/Midway',
+				'Pacific\/Nauru',
+				'Pacific\/Niue',
+				'Pacific\/Norfolk',
+				'Pacific\/Noumea',
+				'Pacific\/Pago_Pago',
+				'Pacific\/Palau',
+				'Pacific\/Pitcairn',
+				'Pacific\/Pohnpei',
+				'Pacific\/Ponape',
+				'Pacific\/Port_Moresby',
+				'Pacific\/Rarotonga',
+				'Pacific\/Saipan',
+				'Pacific\/Tahiti',
+				'Pacific\/Tarawa',
+				'Pacific\/Tongatapu',
+				'Pacific\/Truk',
+				'Pacific\/Wake',
+				'Pacific\/Wallis',
+				'Pacific\/Yap',
+				'UTC',
+				'GMT',
+				'Z'
+			]);
+		});
+	}
+);
+app.service('TimezoneService', ['$rootScope', '$http', 'Timezone', 'TimezoneListProvider',
+	function ($rootScope, $http, Timezone, TimezoneListProvider) {
 		'use strict';
 
 		var _this = this;
@@ -3473,26 +4186,16 @@ app.service('TimezoneService', ['$rootScope', '$http', 'Timezone',
 		this._timezones.GMT = this._timezones.UTC;
 		this._timezones.Z = this._timezones.UTC;
 
-		this.listAll = function() {
-			return $http({
-				method: 'GET',
-				url: $rootScope.baseUrl + 'timezones/index.json'
-			}).then(function(response) {
-				if (response.status >= 200 && response.status <= 299) {
-					return response.data.concat(['GMT', 'UTC', 'Z']);
-				} else {
-					return;
-					// TODO - something went wrong, do smth about it
-				}
-			});
+		this.listAll = function () {
+			return TimezoneListProvider;
 		};
 
-		this.get = function(tzid) {
+		this.get = function (tzid) {
 			tzid = tzid.toUpperCase();
 
 
 			if (_this._timezones[tzid]) {
-				return new Promise(function(resolve) {
+				return new Promise(function (resolve) {
 					resolve(_this._timezones[tzid]);
 				});
 			}
@@ -3500,7 +4203,7 @@ app.service('TimezoneService', ['$rootScope', '$http', 'Timezone',
 			_this._timezones[tzid] = $http({
 				method: 'GET',
 				url: $rootScope.baseUrl + 'timezones/' + tzid + '.ics'
-			}).then(function(response) {
+			}).then(function (response) {
 				if (response.status >= 200 && response.status <= 299) {
 					var timezone = new Timezone(response.data);
 					_this._timezones[tzid] = timezone;
@@ -3515,11 +4218,11 @@ app.service('TimezoneService', ['$rootScope', '$http', 'Timezone',
 			return _this._timezones[tzid];
 		};
 
-		this.getCurrent = function() {
+		this.getCurrent = function () {
 			return this.get(this.current());
 		};
 
-		this.current = function() {
+		this.current = function () {
 			var timezone = jstz.determine();
 			return timezone.name();
 		};

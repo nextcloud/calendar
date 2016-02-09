@@ -28,12 +28,10 @@ app.factory('objectConverter', function () {
 	 */
 	var defaults = {
 		'summary': null,
-		'x-oc-calid': null,
 		'location': null,
 		'created': null,
 		'last-modified': null,
 		'organizer': null,
-		'x-oc-cruds': null,
 		'class': null,
 		'description': null,
 		'url': null,
@@ -68,8 +66,8 @@ app.factory('objectConverter', function () {
 			parameters = (parameters || []).concat(['tzid']);
 			simpleParser._parseSingle(data, vevent, key, parameters, function(p) {
 				return (p.type === 'duration') ?
-						p.getFirstValue().toSeconds() :
-						p.getFirstValue().toJSDate();
+						p.getFirstValue().toSeconds():
+						moment(p.getFirstValue().toJSDate());
 			});
 		},
 		dates: function(data, vevent, key, parameters) {
@@ -84,8 +82,8 @@ app.factory('objectConverter', function () {
 
 					usableValues.push(
 						(p.type === 'duration') ?
-							values[vKey].toSeconds() :
-							values[vKey].toJSDate()
+							values[vKey].toSeconds():
+							moment(values[vKey].toJSDate())
 					);
 				}
 
@@ -179,7 +177,7 @@ app.factory('objectConverter', function () {
 				if (v.type === 'duration') {
 					return ICAL.Duration.fromSeconds(v.value);
 				} else {
-					return ICAL.Time.fromJSDate(v.value);
+					return ICAL.Time.fromJSDate(v.value.toDate());
 				}
 			});
 		},
@@ -192,7 +190,7 @@ app.factory('objectConverter', function () {
 					if (v.type === 'duration') {
 						values.push(ICAL.Duration.fromSeconds(v.values[i]));
 					} else {
-						values.push(ICAL.Time.fromJSDate(v.values[i]));
+						values.push(ICAL.Time.fromJSDate(v.values[i].toDate()));
 					}
 				}
 
@@ -306,7 +304,6 @@ app.factory('objectConverter', function () {
 	var simpleProperties = {
 		//General
 		'summary': {parser: simpleParser.string, reader: simpleReader.string},
-		'x-oc-calid': {parser: simpleParser.string, reader: simpleReader.string},
 		'location': {parser: simpleParser.string, reader: simpleReader.string},
 		'created': {parser: simpleParser.date, reader: simpleReader.date},
 		'last-modified': {parser: simpleParser.date, reader: simpleReader.date},
@@ -315,7 +312,6 @@ app.factory('objectConverter', function () {
 		'attendee': {parser: simpleParser.strings, reader: simpleReader.strings, parameters: attendeeParameters},
 		'organizer': {parser: simpleParser.string, reader: simpleReader.string},
 		//sharing
-		'x-oc-cruds': {parser: simpleParser.string, reader: simpleReader.string},
 		'class': {parser: simpleParser.string, reader: simpleReader.string},
 		//other
 		'description': {parser: simpleParser.string, reader: simpleReader.string},
@@ -323,26 +319,6 @@ app.factory('objectConverter', function () {
 		'status': {parser: simpleParser.string, reader: simpleReader.string},
 		'resources': {parser: simpleParser.strings, reader: simpleReader.strings}
 	};
-
-	function addZero(t) {
-		if (t < 10) {
-			t = '0' + t;
-		}
-		return t;
-	}
-
-	function formatDate(d) {
-		return d.getFullYear() + '-' +
-			addZero(d.getMonth()) + '-' +
-			addZero(d.getDate());
-	}
-
-	function formatTime(d) {
-		return addZero(d.getHours()) + ':' +
-			addZero(d.getMinutes()) + ':' +
-			addZero(d.getSeconds());
-
-	}
 
 	/**
 	 * specific parsers that check only one property
@@ -392,29 +368,31 @@ app.factory('objectConverter', function () {
 			}
 		},
 		date: function(data, vevent) {
-			var dtstart = vevent.getFirstPropertyValue('dtstart');
-			var dtend;
-
+			var dtstart = vevent.getFirstPropertyValue('dtstart'), dtend;
 			if (vevent.hasProperty('dtend')) {
 				dtend = vevent.getFirstPropertyValue('dtend');
 			} else if (vevent.hasProperty('duration')) {
 				dtend = dtstart.clone();
-				dtend.addDuration(vevent.getFirstPropertyValue('dtstart'));
+				dtend.addDuration(vevent.getFirstPropertyValue('duration'));
 			} else {
 				dtend = dtstart.clone();
 			}
 
 			data.dtstart = {
-				date: formatDate(dtstart.toJSDate()),
-				time: formatTime(dtstart.toJSDate()),
+				parameters: {
+					zone: dtstart.zone.toString()
+				},
 				type: dtstart.icaltype,
-				zone: dtstart.zone.toString()
+				value: moment({years: dtstart.year, months: dtstart.month - 1, date: dtstart.day,
+					hours: dtstart.hour, minutes: dtstart.minute, seconds: dtstart.seconds})
 			};
 			data.dtend = {
-				date: formatDate(dtend.toJSDate()),
-				time: formatTime(dtend.toJSDate()),
+				parameters: {
+					zone: dtend.zone.toString()
+				},
 				type: dtend.icaltype,
-				zone: dtend.zone.toString()
+				value: moment({years: dtend.year, months: dtend.month - 1, date: dtend.day,
+					hours: dtend.hour, minutes: dtend.minute, seconds: dtend.seconds})
 			};
 			data.allDay = (dtstart.icaltype === 'date' && dtend.icaltype === 'date');
 		},
@@ -447,8 +425,7 @@ app.factory('objectConverter', function () {
 				} else {
 					oldGroups.splice(oldGroups.indexOf(newSimpleData[key][j].group), 1);
 
-
-					components = vevent.getAllSubcomponents('VALARM');
+					components = vevent.getAllSubcomponents('valarm');
 					for (cKey in components) {
 						if (!components.hasOwnProperty(cKey)) {
 							continue;
@@ -458,7 +435,7 @@ app.factory('objectConverter', function () {
 						if (groupId === null) {
 							continue;
 						}
-						if (groupId === newSimpleData[key][j].group) {
+						if (groupId === newSimpleData[key][j].group.toString()) {
 							valarm = components[cKey];
 						}
 					}
@@ -472,59 +449,61 @@ app.factory('objectConverter', function () {
 			}
 		},
 		date: function(vevent, oldSimpleData, newSimpleData) {
-			delete vevent.dstart;
-			delete vevent.dtend;
-			delete vevent.duration;
+			vevent.removeAllProperties('dtstart');
+			vevent.removeAllProperties('dtend');
+			vevent.removeAllProperties('duration');
 
-			var parseIntWrapper = function(str) {
-				return parseInt(str);
-			};
+			newSimpleData.dtstart.parameters.zone = newSimpleData.dtstart.parameters.zone || 'floating';
+			newSimpleData.dtend.parameters.zone = newSimpleData.dtend.parameters.zone || 'floating';
 
-			if (!ICAL.TimezoneService.has(newSimpleData.dtstart.zone)) {
+			if (newSimpleData.dtstart.parameters.zone !== 'floating' &&
+				!ICAL.TimezoneService.has(newSimpleData.dtstart.parameters.zone)) {
 				throw {
 					kind: 'timezone_missing',
-					missing_timezone: newSimpleData.dtstart.zone
+					missing_timezone: newSimpleData.dtstart.parameters.zone
 				};
 			}
-			if (!ICAL.TimezoneService.has(newSimpleData.dtend.zone)) {
+			if (newSimpleData.dtend.parameters.zone !== 'floating' &&
+				!ICAL.TimezoneService.has(newSimpleData.dtend.parameters.zone)) {
 				throw {
 					kind: 'timezone_missing',
-					missing_timezone: newSimpleData.dtend.zone
+					missing_timezone: newSimpleData.dtend.parameters.zone
 				};
 			}
 
-			var dtstartDateParts = newSimpleData.dtstart.date.split('-').map(parseIntWrapper);
-			var dtstartTimeParts = newSimpleData.dtstart.time.split(':').map(parseIntWrapper);
-			var dtstartTz = ICAL.TimezoneService.get(newSimpleData.dtstart.zone);
-			var start = new ICAL.Time({
-				year: dtstartDateParts[0],
-				month: dtstartDateParts[1],
-				day: dtstartDateParts[2],
-				hour: dtstartTimeParts[0],
-				minute: dtstartTimeParts[1],
-				second: dtstartTimeParts[2],
-				isDate: newSimpleData.allDay
-			}, dtstartTz);
+			var start = ICAL.Time.fromJSDate(newSimpleData.dtstart.value.toDate(), false);
+			start.isDate = newSimpleData.allDay;
+			var end = ICAL.Time.fromJSDate(newSimpleData.dtend.value.toDate(), false);
+			end.isDate = newSimpleData.allDay;
 
-			var dtendDateParts = newSimpleData.dtend.date.split('-').map(parseIntWrapper);
-			var dtendTimeParts = newSimpleData.dtend.time.split(':').map(parseIntWrapper);
-			var dtendTz = ICAL.TimezoneService.get(newSimpleData.dtend.zone);
-			var end = new ICAL.Time({
-				year: dtendDateParts[0],
-				month: dtendDateParts[1],
-				day: dtendDateParts[2],
-				hour: dtendTimeParts[0],
-				minute: dtendTimeParts[1],
-				second: dtendTimeParts[2],
-				isDate: newSimpleData.allDay
-			}, dtendTz);
+			var availableTimezones = [];
+			var vtimezones = vevent.parent.getAllSubcomponents('vtimezone');
+			angular.forEach(vtimezones, function(vtimezone) {
+				availableTimezones.push(vtimezone.getFirstPropertyValue('tzid'));
+			});
 
 			var dtstart = new ICAL.Property('dtstart', vevent);
 			dtstart.setValue(start);
-			dtstart.setParameter('tzid', dtstartTz.tzid);
+			if (newSimpleData.dtstart.parameters.zone !== 'floating') {
+				dtstart.setParameter('tzid', newSimpleData.dtstart.parameters.zone);
+				var startTz = ICAL.TimezoneService.get(newSimpleData.dtstart.parameters.zone);
+				start.zone = startTz;
+				if (availableTimezones.indexOf(newSimpleData.dtstart.parameters.zone) === -1) {
+					vevent.parent.addSubcomponent(startTz.component);
+					availableTimezones.push(newSimpleData.dtstart.parameters.zone);
+				}
+			}
+
 			var dtend = new ICAL.Property('dtend', vevent);
 			dtend.setValue(end);
-			dtend.setParameter('tzid', dtendTz.tzid);
+			if (newSimpleData.dtend.parameters.zone !== 'floating') {
+				dtend.setParameter('tzid', newSimpleData.dtend.parameters.zone);
+				var endTz = ICAL.TimezoneService.get(newSimpleData.dtend.parameters.zone);
+				end.zone = endTz;
+				if (availableTimezones.indexOf(newSimpleData.dtend.parameters.zone) === -1) {
+					vevent.parent.addSubcomponent(endTz.component);
+				}
+			}
 
 			vevent.addProperty(dtstart);
 			vevent.addProperty(dtend);

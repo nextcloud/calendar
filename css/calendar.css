@@ -32,3 +32,9 @@
 #fullcalendar tbody tr:focus {
 	background: transparent !important;
 }
+
+#popover-container {
+	max-height: 0 !important;
+	max-width: 0 !important;
+	overflow: hidden !important;
+}

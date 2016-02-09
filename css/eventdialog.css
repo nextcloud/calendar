@@ -21,154 +21,181 @@
  *
  */
 
-#events {
-	background: #f8f8f8;
-	padding: 0;
+.advanced select {
+	height: 32px;
 }
 
-.events-container {
-	/*padding: 10px;*/
+/* TODO : Remove this Hack */
+.margin-class {
+	margin-top: 4px;
 }
 
-.tabs {
-	display: inline-block;
-	width:100%;
-}
 
-.tab {
-	padding: 10px 5px;
-	background: #efefef;
-	margin-right: 10px;
-	margin-top: 5px;
-	margin-left: 1px;
-	cursor: pointer;
-	border-radius: 4px;
-}
-
-.tab.active {
-	background: #1d2d44;
-	color: #fff;
-}
-
-#events .event-input {
-	box-sizing: border-box;
-	width: 100%;
-	max-width: 100%;
-	margin: 3px 0;
-}
-
-#events .h2 {
-	font-size: 20px;
-}
-
-#events .event-time-interior input[type='text'] {
-	width: 80px;
-}
-
-#events .event-time-interior input[type='time'] {
-	width: 110px;
-}
-
-.event-time-interior-allday {
-	display: block;
-	width: 100%;
-	margin: 7px 0;
-}
-
-.ui-tabs-nav {
-	background: none;
-	border: none;
-	border-radius: 0;
-}
-
-.ui-timepicker-hour-cell a,
-.ui-timepicker-minute-cell a {
+.ui-timepicker .ui-timepicker-hour-cell a,
+.ui-timepicker .ui-timepicker-minute-cell a {
 	text-overflow: inherit !important;
 }
 
-#events .label {
-	width: 100px;
-	float: left;
-	margin-top: 15px;
-	margin-left: 10px;
+.events--fieldset span,
+.advanced--fieldset span{
+	display: block;
 }
 
-input[name="nameofattendee"] {
-	width: 60%;
-}
-
-#listofattendees li,
-#listofalarms > li {
-	width: 100%;
-	padding: 10px 0 5px 0;
-	cursor: pointer;
-}
-
-#listofattendees li:first-child,
-#listofalarms > li:first-child {
-	margin-top:10px;
-}
-
-#listofattendees li:last-child,
-#listofalarms > li:last-child {
-	margin-bottom:10px;
-}
-
-#listofattendees li:hover, #listofattendees li.active,
-#listofalarms > li:hover, #listofalarms > li.active {
-	background: #f4f4f4;
-}
-
-#listofattendees li span,
-#listofalarms > li > div > span {
-	margin-left:10px;
-	cursor: pointer;
-}
-
-#listofattendees > li > div,
-#listofalarms > li > div {
-	cursor: pointer;
-}
-
-.attendeeoptions,
-.alarmoptions {
-	padding: 10px;
-}
-
-.attendeeoptions select {
-	margin: 10px;
-}
-
-.attendeeopt {
-	margin-top: 15px;
-}
-
-.attendeeopt label {
-	float: none !important;
+.modal-open .modal.popover {
+	position: absolute;
+	min-height: 290px;
+	width: 450px;
+	background: #fff;
+	box-shadow: 0 0 3px #999;
+	overflow: hidden;
 	margin-left: 0 !important;
 }
 
-.optionallabel {
-	margin-right: 15px;
+.events .events--fieldset {
+	padding: 3px 0;
 }
 
-.event-fieldset-alarm .event-input {
-	width: 20% !important;
+.events .events--fieldset textarea {
+	height: 4.5em;
+	width: 100%;
+	resize: vertical;
 }
 
-.event-fieldset-alarm .custom-container {
-	padding:10px 0;
+.events .events--fieldset span {
+	display: block;
 }
 
-#listofalarms .event-delete-button,
-#listofattendees .event-delete-button {
-	margin: -3px 10px;
-	z-index: 1000;
+
+.events .events--date {
+	width: 70px;
+}
+
+.advanced .events--date {
+	width: 80px;
+}
+
+.events .events--input__full {
+	width:345px;
+}
+
+.events .h2.events--input {
+	width: 190px;
+}
+
+.events .events--time {
+	width:60px;
+}
+
+.advanced .events--time {
+	width: 75px;
+}
+
+.events .events--checkbox {
+	padding: 3px 0;
+}
+
+.modal-open .modal.popover .modal-content {
+	padding: 20px;
+}
+
+.fc-row.fc-rigid {
+	overflow: visible !important;
+}
+
+.advanced--container {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	padding: 20px;
+	overflow: scroll;
+	margin-bottom: 120px;
+}
+
+.advanced--fieldset {
+	margin-bottom: 10px;
+}
+
+.advanced .advanced--input,
+.advanced .h2.advanced--input {
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.advanced .advanced--fieldset select {
+	width: 100%;
+}
+
+.advanced .advanced--fieldset textarea {
+	height: 4.5em;
+	resize: vertical;
+}
+
+.advanced .tabHeaders {
+	margin: 20px 0 15px 0;
+	float: left;
+	width: 100%;
+}
+
+/* Primary action button, use sparingly */
+.delete, input[type="submit"].delete, input[type="button"].delete, button.delete, .button.delete {
+	border: 1px solid #C60000;
+	background-color: #D60000;
+	color: #fff;
+}
+button.delete:hover, button.delete:focus {
+	border: 1px solid #D60000;
+	background-color: #ff0000;
+	color: #fff;
+}
+.advanced .advanced--list {
+	padding: 10px 0;
+	width: 100%;
+}
+
+.advanced .advanced--button__icon {
 	padding: 10px;
 }
 
-#addreminders {
-	margin-right: 10px;
-	margin-top: 20px;
-	margin-bottom: 20px;
+.advanced .advanced--button-area {
+	border-top: 1px solid #eee;
+	padding: 5px 20px;
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+.advanced .pull-half {
+	width: 48%;
+}
+
+
+.advanced .btn-half {
+	width: 45%;
+}
+
+.advanced .btn-full {
+	width: 100%;
+}
+
+.advanced--fieldset-attendeelist li {
+	display: block;
+	cursor: pointer;
+	width: 100%;
+}
+
+.advanced--fieldset-attendeelist .advanced--toggler,
+.advanced--fieldset-reminderlist .advanced--toggler {
+	padding: 5px 2px;
+	display: block;
+	width: 100%;
+	float: left;
+}
+
+.advanced--fieldset-attendeelist .advanced--toggler:hover,
+.advanced--fieldset-reminderlist .advanced--toggler:hover {
+	background: #efefef;
+	cursor: pointer;
 }

@@ -26,7 +26,8 @@ app.filter('simpleReminderDescription', function() {
 	var actionMapper = {
 		AUDIO: t('calendar', 'Audio alarm'),
 		DISPLAY: t('calendar', 'Pop-up'),
-		EMAIL: t('calendar', 'E-Mail')
+		EMAIL: t('calendar', 'E-Mail'),
+		NONE: t('calendar', 'None')
 	};
 
 	function getActionName(alarm) {
@@ -64,7 +65,7 @@ app.filter('simpleReminderDescription', function() {
 				}
 			}
 		} else {
-			return t('{type} at {time}', {type: getActionName(alarm), time: alarm.trigger.value.format()});
+			return t('calendar', '{type} at {time}', {type: getActionName(alarm), time: alarm.trigger.value.format()});
 		}
 	};
 });
