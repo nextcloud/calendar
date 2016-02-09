@@ -42,7 +42,7 @@ app.filter('importCalendarFilter',
 					return;
 				}
 
-				possibleCalendars.push(calendar);
+				possibleCalendars.push(calendar.url);
 			});
 
 			return possibleCalendars;

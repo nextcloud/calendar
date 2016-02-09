@@ -26,139 +26,38 @@
  * Description: Takes care of the Calendar Settings.
  */
 
-app.controller('SettingsController', ['$scope', '$rootScope', '$filter', 'CalendarService', 'VEventService', 'DialogModel', 'SplitterService',
-	function ($scope, $rootScope, $filter, CalendarService, VEventService, DialogModel, SplitterService) {
+app.controller('SettingsController', ['$scope', '$uibModal',
+	function ($scope, $uibModal) {
 		'use strict';
 
 		$scope.settingsCalDavLink = OC.linkToRemote('caldav') + '/';
 		$scope.settingsCalDavPrincipalLink = OC.linkToRemote('caldav') + '/principals/' + escapeHTML(encodeURIComponent(oc_current_user)) + '/';
 
-		// have to use the native HTML call for filereader to work efficiently
+		angular.element('#import').on('change', function () {
+			var _this = this;
 
-		$('#import').on('change', function () {
-			$scope.analyzeFiles(this.files);
+			if (this.files.length > 0) {
+				var modal = $uibModal.open({
+					templateUrl: 'import.html',
+					controller: 'ImportController',
+					windowClass: 'import',
+					appendTo: angular.element('#importpopover-container'),
+					resolve: {
+						files: function () {
+							return _this.files;
+						}
+					},
+					scope: $scope
+				});
+
+				/*angular.element('#import').attr('disabled', 'disabled');
+				modal.result.then(function() {
+					console.log('removeAttr called');
+					angular.element('#import').removeAttr('disabled', 'disabled');
+				});*/
+			}
+
+			angular.element('#import').value = '';
 		});
-
-		$scope.analyzeFiles = function (files) {
-			$scope.files = files;
-			console.log($scope.calendars);
-
-			angular.forEach($scope.files, function(file) {
-				var reader = new FileReader();
-				reader.onload = function(event) {
-					var splitter = SplitterService.split(event.target.result);
-
-					angular.extend(reader.linkedFile, {
-						split: splitter.split,
-						newCalendarColor: splitter.color,
-						newCalendarName: splitter.name,
-						//state: analyzed
-						state: 1
-					});
-					$scope.preselectCalendar(reader.linkedFile);
-					$scope.$apply();
-
-				};
-
-				angular.extend(file, {
-					//state: analyzing
-					state: 0,
-					errors: 0,
-					progress: 0,
-					progressToReach: 0
-				});
-
-				reader.linkedFile = file;
-				reader.readAsText(file);
-			});
-
-			$scope.$apply();
-			DialogModel.initsmall('#importdialog');
-			DialogModel.open('#importdialog');
-		};
-
-		$scope.import = function (file) {
-			file.progressToReach = file.split.vevent.length +
-				file.split.vjournal.length +
-				file.split.vtodo.length;
-			//state: import scheduled
-			file.state = 2;
-
-			var importCalendar = function(calendar) {
-				var componentNames = ['vevent', 'vjournal', 'vtodo'];
-				angular.forEach(componentNames, function (componentName) {
-					angular.forEach(file.split[componentName], function(object) {
-						VEventService.create(calendar, object, false).then(function(response) {
-							//state: importing
-							file.state = 3;
-							file.progress++;
-							$scope.$apply();
-
-							if (!response) {
-								file.errors++;
-							}
-
-							calendar.list.loading = true;
-							if (file.progress === file.progressToReach) {
-								//state: done
-								file.state = 4;
-								$scope.$apply();
-								$rootScope.$broadcast('refetchEvents', calendar);
-							}
-						});
-					});
-				});
-			};
-
-			if (file.calendar === 'new') {
-				var name = file.newCalendarName || file.name;
-				var color = file.newCalendarColor || '#1d2d44';
-
-				var components = [];
-				if (file.split.vevent.length > 0) {
-					components.push('vevent');
-				}
-				if (file.split.vjournal.length > 0) {
-					components.push('vjournal');
-				}
-				if (file.split.vtodo.length > 0) {
-					components.push('vtodo');
-				}
-
-				CalendarService.create(name, color, components).then(function(calendar) {
-					if (calendar.components.vevent) {
-						$scope.calendars.push(calendar);
-						$rootScope.$broadcast('createdCalendar', calendar);
-						$rootScope.$broadcast('reloadCalendarList');
-					}
-					importCalendar(calendar);
-				});
-			} else {
-				var calendar = $scope.calendars.filter(function (element) {
-					return element.url === file.calendar;
-				})[0];
-				importCalendar(calendar);
-			}
-
-
-		};
-
-		$scope.preselectCalendar = function(file) {
-			var possibleCalendars = $filter('importCalendarFilter')($scope.calendars, file);
-			if (possibleCalendars.length === 0) {
-				file.calendar = 'new';
-			} else {
-				file.calendar = possibleCalendars[0];
-			}
-		};
-
-		$scope.changeCalendar = function(file) {
-			if (file.calendar === 'new') {
-				file.incompatibleObjectsWarning = false;
-			} else {
-				var possibleCalendars = $filter('importCalendarFilter')($scope.calendars, file);
-				file.incompatibleObjectsWarning = (possibleCalendars.indexOf(file.calendar) === -1);
-			}
-		};
 	}
 ]);

@@ -88,6 +88,7 @@ foreach ($scripts as $script) {
 	</div>
 
 	<div id="popover-container"></div>
+	<div id="importpopover-container"></div>
 
 	<script type="text/ng-template" id="eventspopovereditor.html">
 		<?php print_unescaped($this->inc('part.eventspopovereditor')); ?>
@@ -95,5 +96,9 @@ foreach ($scripts as $script) {
 
 	<script type="text/ng-template" id="eventssidebareditor.html">
 		<?php print_unescaped($this->inc('part.eventssidebareditor')); ?>
+	</script>
+
+	<script type="text/ng-template" id="import.html">
+		<?php print_unescaped($this->inc('part.import.dialog')); ?>
 	</script>
 </div>

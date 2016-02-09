@@ -41,7 +41,8 @@
 	display: block;
 }
 
-.modal-open .modal.popover {
+.modal-open .modal.popover,
+.modal-open .modal.import {
 	position: absolute;
 	min-height: 290px;
 	width: 450px;
@@ -49,6 +50,12 @@
 	box-shadow: 0 0 3px #999;
 	overflow: hidden;
 	margin-left: 0 !important;
+}
+
+.modal-open .modal.import {
+	top: calc(50% - 145px);
+	left: calc(50% - 225px);
+	padding: 20px;
 }
 
 .events .events--fieldset {
