@@ -22,7 +22,7 @@
  *
  */
 ?>
-<div class="event-fieldset-interior">
+<div class="advanced--fieldset">
 	<input type="text" class="advanced--input h2" ng-model="nameofattendee"
 		placeholder="<?php p($l->t('Name of attendee'))?>" name="nameofattendee" autocomplete="off" />
 	<button id="addmoreattendees" ng-click="addmoreattendees(nameofattendee)" class="btn event-button button">
@@ -30,12 +30,12 @@
 	</button>
 </div>
 
-<div class="event-fieldset-interior">
-	<ul id="listofattendees">
+<div class="advanced--fieldset">
+	<ul class="advanced--fieldset-attendeelist">
 		<li class="pull-left" ng-class="{ active: attendeeoptions }" ng-repeat="attendee in properties.attendee">
-			<div ng-model="attendeeoptions" ng-click="attendeeoptions=!attendeeoptions">
-				<span class="bold">{{ attendee.value }}</span>
-				<button class="event-button event-delete-button icon-close" ng-click="deleteAttendee(attendee.value)">
+			<div class="advanced--toggler" ng-model="attendeeoptions" ng-click="attendeeoptions=!attendeeoptions">
+				<span class="bold pull-left">{{ attendee.value }}</span>
+				<button class="event-button event-delete-button icon-close pull-right" ng-click="deleteAttendee(attendee.value)">
 				</button>
 			</div>
 			<div class="attendeeoptions" ng-show="attendeeoptions">

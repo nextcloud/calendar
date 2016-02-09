@@ -158,10 +158,6 @@ button.delete:hover, button.delete:focus {
 	padding: 10px;
 }
 
-.advanced .advanced--select.advanced--select__reminder {
-	width: 200px;
-}
-
 .advanced .advanced--button-area {
 	border-top: 1px solid #eee;
 	padding: 5px 20px;
@@ -173,7 +169,6 @@ button.delete:hover, button.delete:focus {
 
 .advanced .pull-half {
 	width: 48%;
-	padding: 0 5px 0 0;
 }
 
 
@@ -183,4 +178,24 @@ button.delete:hover, button.delete:focus {
 
 .advanced .btn-full {
 	width: 100%;
+}
+
+.advanced--fieldset-attendeelist li {
+	display: block;
+	cursor: pointer;
+	width: 100%;
+}
+
+.advanced--fieldset-attendeelist .advanced--toggler,
+.advanced--fieldset-reminderlist .advanced--toggler {
+	padding: 5px 2px;
+	display: block;
+	width: 100%;
+	float: left;
+}
+
+.advanced--fieldset-attendeelist .advanced--toggler:hover,
+.advanced--fieldset-reminderlist .advanced--toggler:hover {
+	background: #efefef;
+	cursor: pointer;
 }
