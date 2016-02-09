@@ -87,6 +87,8 @@ foreach ($scripts as $script) {
 		<?php print_unescaped($this->inc('part.fullcalendar')); ?>
 	</div>
 
+	<div id="popover-container"></div>
+
 	<script type="text/ng-template" id="eventspopovereditor.html">
 		<?php print_unescaped($this->inc('part.eventspopovereditor')); ?>
 	</script>

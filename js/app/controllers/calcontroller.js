@@ -99,19 +99,19 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 				eventWidth = clientRect.right - clientRect.left,
 				windowX = $window.innerWidth - navigationWidth,
 				windowY = $window.innerHeight - headerHeight,
-				popoverHeight = 250,
-				popoverWidth = 400,
+				popoverHeight = 300,
+				popoverWidth = 450,
 				position = [];
 
 			if (eventY / windowY < 0.5) {
 				position.push({
 					name: 'top',
-					value: clientRect.top + 20
+					value: clientRect.bottom - headerHeight + 20
 				});
 			} else {
 				position.push({
 					name: 'top',
-					value: clientRect.top - popoverHeight - 20
+					value: clientRect.top - headerHeight - popoverHeight - 20
 				});
 			}
 
@@ -151,6 +151,7 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 				templateUrl: 'eventspopovereditor.html',
 				controller: 'EventsPopoverEditorController',
 				windowClass: 'popover',
+				appendTo: angular.element('#popover-container'),
 				resolve: {
 					vevent: function() {
 						return vevent;
@@ -166,10 +167,14 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 			});
 
 			$scope.eventModal.rendered.then(function() {
+				angular.element('#popover-container').css('display', 'none');
+
 				var position = positionCallback();
 				angular.forEach(position, function(v) {
 					angular.element('.modal').css(v.name, v.value);
 				});
+
+				angular.element('#popover-container').css('display', 'block');
 			});
 
 			$scope.eventModal.result.then(function(result) {

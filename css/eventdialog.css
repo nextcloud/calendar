@@ -44,7 +44,7 @@
 .modal-open .modal.popover {
 	position: absolute;
 	min-height: 290px;
-	width: 400px;
+	width: 450px;
 	background: #fff;
 	box-shadow: 0 0 3px #999;
 	overflow: hidden;
