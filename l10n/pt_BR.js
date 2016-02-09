@@ -71,6 +71,7 @@ OC.L10N.register(
     "{type} {time} after the event ends" : "{type} {time} após o término do evento",
     "{type} at the event's start" : "{type} no início do evento",
     "{type} at the event's end" : "{type} no final do evento",
+    "{calendar} shared by {owner}" : "{calendar} compartilhado por {owner}",
     "Day" : "Dia",
     "Week" : "Semana",
     "Month" : "Mês",
