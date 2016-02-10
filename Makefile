@@ -25,6 +25,7 @@ appstore: clean
 	--exclude=$(project_dir)/Makefile \
 	--exclude=$(project_dir)/phpunit.xml \
 	--exclude=$(project_dir)/README.md \
+	--exclude=$(project_dir)/build \
 	--exclude=$(project_dir)/js/.bowerrc \
 	--exclude=$(project_dir)/js/.jshintrc \
 	--exclude=$(project_dir)/js/bower.json \
