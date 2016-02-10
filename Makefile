@@ -15,7 +15,11 @@ appstore: clean
 	tar cvzf $(appstore_dir)/$(package_name).tar.gz $(project_dir) \
 	--exclude-vcs \
 	--exclude-vcs-ignores \
-	--exclude=$(project_dir)/js/app \
+	--exclude=$(project_dir)/js/app/**.js \
+	--exclude=$(project_dir)/js/app/controllers \
+	--exclude=$(project_dir)/js/app/filters \
+	--exclude=$(project_dir)/js/app/models \
+	--exclude=$(project_dir)/js/app/service \
 	--exclude=$(project_dir)/js/config \
 	--exclude=$(project_dir)/tests \
 	--exclude=$(project_dir)/.idea \
