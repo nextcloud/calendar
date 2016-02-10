@@ -30,6 +30,7 @@ appstore: clean
 	--exclude=$(project_dir)/js/bower.json \
 	--exclude=$(project_dir)/js/Gruntfile.js \
 	--exclude=$(project_dir)/js/package.json \
+	--exclude=$(project_dir)/js/node_modules \
 	--exclude=$(project_dir)/js/vendor/**/.bower.json \
 	--exclude=$(project_dir)/js/vendor/**/.npmignore \
 	--exclude=$(project_dir)/js/vendor/**/bower.json \
