@@ -54,6 +54,9 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 		$scope.eventSources = [];
 		$scope.eventSource = {};
 		$scope.defaulttimezone = TimezoneService.current();
+		TimezoneService.getCurrent().then(function(timezone) {
+			ICAL.TimezoneService.register($scope.defaulttimezone, timezone.jCal);
+		});
 		$scope.eventModal = null;
 		var switcher = [];
 
