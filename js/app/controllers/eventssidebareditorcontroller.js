@@ -34,6 +34,7 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'e
 		$scope.is_new = isNew;
 		$scope.calendar = isNew ? null : vevent.calendar;
 		$scope.oldCalendar = isNew ? null : vevent.calendar;
+		$scope.readOnly = isNew ? false : !vevent.calendar.writable;
 		$scope.selected = 1;
 		$scope.timezones = [];
 
