@@ -388,13 +388,7 @@ app.factory('VEvent', ['$filter', 'objectConverter', 'ICalFactory', function($fi
 				parameters: {
 					zone: timezone
 				}
-			},
-			summary: {
-				type: 'text',
-				value: t('calendar', 'New event')
-			},
-			alarm: [],
-			attendee: []
+			}
 		});
 
 		return new VEvent(null, {
