@@ -21,7 +21,7 @@
  *
  */
 
-app.service('VEventService', ['DavClient', 'VEvent', function(DavClient, VEvent) {
+app.service('VEventService', ['DavClient', 'VEvent', 'RandomStringService', function(DavClient, VEvent, RandomStringService) {
 	'use strict';
 
 	var _this = this;
@@ -150,8 +150,8 @@ app.service('VEventService', ['DavClient', 'VEvent', function(DavClient, VEvent)
 
 	this._generateRandomUri = function() {
 		var uri = 'ownCloud-';
-		uri += Math.random().toString(36).substr(2);
-		uri += Math.random().toString(36).substr(2);
+		uri += RandomStringService.generate();
+		uri += RandomStringService.generate();
 		uri += '.ics';
 
 		return uri;

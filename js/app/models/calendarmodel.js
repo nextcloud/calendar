@@ -1,4 +1,4 @@
-app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneService', function($rootScope, $filter, VEventService, TimezoneService) {
+app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneService', 'RandomStringService', function($rootScope, $filter, VEventService, TimezoneService, RandomStringService) {
 	'use strict';
 
 	function Calendar(url, props) {
@@ -112,7 +112,7 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 			}
 		}
 
-		this.tmpId = Math.random().toString(36).substr(2);
+		this.tmpId = RandomStringService.generate();
 	}
 
 	Calendar.prototype = {
