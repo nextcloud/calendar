@@ -904,17 +904,36 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'e
 		// TODO - when user changes timezone input query timezone from server
 
 		TimezoneService.listAll().then(function(list) {
-			$scope.timezones = ['floating'].concat(list);
-			if ($scope.properties.dtstart.parameters.zone !== null) {
-				if ($scope.timezones.indexOf($scope.properties.dtstart.parameters.zone) === -1) {
-					$scope.timezones.push($scope.properties.dtstart.parameters.zone);
-				}
+			if ($scope.properties.dtstart.parameters.zone !== 'floating' &&
+				list.indexOf($scope.properties.dtstart.parameters.zone) === -1) {
+				list.push($scope.properties.dtstart.parameters.zone);
 			}
-			if ($scope.properties.dtend.parameters.zone !== null) {
-				if ($scope.timezones.indexOf($scope.properties.dtend.parameters.zone) === -1) {
-					$scope.timezones.push($scope.properties.dtend.parameters.zone);
-				}
+			if ($scope.properties.dtend.parameters.zone !== 'floating' &&
+				list.indexOf($scope.properties.dtend.parameters.zone) === -1) {
+				list.push($scope.properties.dtend.parameters.zone);
 			}
+
+			angular.forEach(list, function(timezone) {
+				if (timezone.split('/').length === 1) {
+					$scope.timezones.push({
+						displayname: timezone,
+						group: t('calendar', 'Global'),
+						value: timezone
+					});
+				} else {
+					$scope.timezones.push({
+						displayname: timezone.split('/').slice(1).join('/'),
+						group: timezone.split('/', 1),
+						value: timezone
+					});
+				}
+			});
+
+			$scope.timezones.push({
+				displayname: t('calendar', 'Floating'),
+				group: t('calendar', 'Global'),
+				value: 'floating'
+			});
 		});
 
 		$scope.loadTimezone = function(tzId) {
@@ -1830,7 +1849,7 @@ app.filter('subscriptionFilter',
 	}
 	]);
 
-app.filter('timezoneFilter', function() {
+app.filter('timezoneFilter', ['$filter', function($filter) {
 	'use strict';
 
 	return function(timezone) {
@@ -1841,10 +1860,20 @@ app.filter('timezoneFilter', function() {
 			return elements[0];
 		} else {
 			var continent = elements[0];
-			var city = elements.slice(1);
+			var city = $filter('timezoneWithoutContinentFilter')(elements.slice(1).join('/'));
 
-			return city.join(' - ') + ' (' + continent + ')';
+			return city + ' (' + continent + ')';
 		}
+	};
+}]);
+
+app.filter('timezoneWithoutContinentFilter', function() {
+	'use strict';
+
+	return function(timezone) {
+		timezone = timezone.replace('_', ' ');
+
+		return timezone.split('/').join(' - ');
 	};
 });
 

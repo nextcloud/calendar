@@ -21,20 +21,12 @@
  *
  */
 
-app.filter('timezoneFilter', ['$filter', function($filter) {
+app.filter('timezoneWithoutContinentFilter', function() {
 	'use strict';
 
 	return function(timezone) {
 		timezone = timezone.replace('_', ' ');
 
-		var elements = timezone.split('/');
-		if (elements.length === 1) {
-			return elements[0];
-		} else {
-			var continent = elements[0];
-			var city = $filter('timezoneWithoutContinentFilter')(elements.slice(1).join('/'));
-
-			return city + ' (' + continent + ')';
-		}
+		return timezone.split('/').join(' - ');
 	};
-}]);
+});
