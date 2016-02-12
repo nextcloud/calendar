@@ -1533,7 +1533,7 @@ app.directive('colorpicker', function() {
             customizedColors: '=colors'
         },
         restrict: 'AE',
-        templateUrl: OC.filePath('calendar','js/app/directives', 'colorpicker.html'),
+        templateUrl: OC.filePath('calendar','templates', 'colorpicker.html'),
         link: function (scope, element, attr) {
             scope.colors = scope.customizedColors || listofcolours;
             scope.selected = scope.selected || scope.colors[0];
