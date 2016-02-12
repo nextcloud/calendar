@@ -1006,7 +1006,7 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'e
 		$scope.tabs = [{
 			title: t('Calendar', 'Attendees'), value: 1
 		}, {
-			title: t('Calendar', 'Alarms'), value: 2
+			title: t('Calendar', 'Reminders'), value: 2
 		}];
 
 		$scope.tabopener = function (val) {
