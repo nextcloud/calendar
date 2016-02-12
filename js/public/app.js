@@ -748,6 +748,12 @@ app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'e
 		$scope.calendar = isNew ? null : vevent.calendar;
 		$scope.oldCalendar = isNew ? null : vevent.calendar;
 		$scope.readOnly = isNew ? false : !vevent.calendar.writable;
+		$scope.showTimezone = false;
+
+		if (($scope.properties.dtstart.parameters.zone !== 'floating' && $scope.properties.dtstart.parameters.zone !== $scope.defaulttimezone) ||
+			($scope.properties.dtend.parameters.zone !== 'floating' && $scope.properties.dtend.parameters.zone !== $scope.defaulttimezone)) {
+			$scope.showTimezone = true;
+		}
 
 		$scope.close = function(action) {
 			$scope.properties.dtstart.value = moment(angular.element('#from').datepicker('getDate'));
@@ -795,6 +801,18 @@ app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'e
 
 		$scope.cancel = function() {
 			$uibModalInstance.dismiss('cancel');
+		};
+
+		$scope.toggledAllDay = function() {
+			if ($scope.properties.allDay) {
+				return;
+			}
+
+			if ($scope.properties.dtstart.parameters.zone === 'floating' &&
+				$scope.properties.dtend.parameters.zone === 'floating') {
+				$scope.properties.dtstart.parameters.zone = $scope.defaulttimezone;
+				$scope.properties.dtend.parameters.zone = $scope.defaulttimezone;
+			}
 		};
 
 		$uibModalInstance.rendered.then(function() {
@@ -877,6 +895,11 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'e
 		$scope.timezones = [];
 
 		$scope.edittimezone = false;
+		if (($scope.properties.dtstart.parameters.zone !== 'floating' && $scope.properties.dtstart.parameters.zone !== $scope.defaulttimezone) ||
+			($scope.properties.dtend.parameters.zone !== 'floating' && $scope.properties.dtend.parameters.zone !== $scope.defaulttimezone)) {
+			$scope.edittimezone = true;
+		}
+
 
 		// TODO - when user changes timezone input query timezone from server
 
@@ -910,6 +933,18 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'e
 
 		$scope.export = function() {
 			$window.open($scope.oldCalendar.url + vevent.uri);
+		};
+
+		$scope.toggledAllDay = function() {
+			if ($scope.properties.allDay) {
+				return;
+			}
+
+			if ($scope.properties.dtstart.parameters.zone === 'floating' &&
+				$scope.properties.dtend.parameters.zone === 'floating') {
+				$scope.properties.dtstart.parameters.zone = $scope.defaulttimezone;
+				$scope.properties.dtend.parameters.zone = $scope.defaulttimezone;
+			}
 		};
 
 		$scope.save = function() {
@@ -1794,6 +1829,24 @@ app.filter('subscriptionFilter',
 		return subscriptionfilter;
 	}
 	]);
+
+app.filter('timezoneFilter', function() {
+	'use strict';
+
+	return function(timezone) {
+		timezone = timezone.replace('_', ' ');
+
+		var elements = timezone.split('/');
+		if (elements.length === 1) {
+			return elements[0];
+		} else {
+			var continent = elements[0];
+			var city = elements.slice(1);
+
+			return city.join(' - ') + ' (' + continent + ')';
+		}
+	};
+});
 
 app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneService', 'RandomStringService', function($rootScope, $filter, VEventService, TimezoneService, RandomStringService) {
 	'use strict';

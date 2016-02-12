@@ -32,7 +32,8 @@
 			<div class="advanced--checkbox pull-left">
 				<input type="checkbox" name="alldayeventcheckbox"
 					   ng-model="properties.allDay"
-					   id="alldayeventcheckbox" class="event-checkbox" />
+					   id="alldayeventcheckbox" class="event-checkbox"
+					   ng-change="toggledAllDay()"/>
 				<label for="alldayeventcheckbox"><?php p($l->t('All day Event'))?></label>
 			</div>
 			<div class="pull-right">

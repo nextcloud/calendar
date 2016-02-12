@@ -20,16 +20,20 @@
 				<span><?php p($l->t('starts')); ?></span>
 				<input type="text" name="from" id="from" ng-model="fromdatemodel" class="events--date" placeholder="<?php p($l->t('starts'));?>" />
 				<input type="text" name="fromtime" id="fromtime" ng-model="fromtimemodel" class="events--time" ng-disabled="properties.allDay" />
+				<span ng-show="showTimezone">{{ properties.dtstart.parameters.zone | timezoneFilter }}</span>
 			</div>
 			<div class="event-time-interior pull-right">
 				<span><?php p($l->t('ends')); ?></span>
 				<input type="text" name="to" id="to" ng-model="todatemodel" class="events--date" placeholder="<?php p($l->t('ends'));?>" />
 				<input type="text" name="totime" id="totime" ng-model="totimemodel" class="events--time" ng-disabled="properties.allDay" />
+				<span ng-show="showTimezone">{{ properties.dtend.parameters.zone | timezoneFilter }}</span>
 			</div>
+			<div class="clear-both"></div>
 			<div class="events--checkbox pull-left">
 				<input type="checkbox" name="alldayeventcheckbox"
 					   ng-model="properties.allDay"
-					   id="alldayeventcheckbox" class="event-checkbox" />
+					   id="alldayeventcheckbox" class="event-checkbox"
+					   ng-change="toggledAllDay()" />
 				<label for="alldayeventcheckbox"><?php p($l->t('All day Event'))?></label>
 			</div>
 		</fieldset>

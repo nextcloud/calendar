@@ -117,6 +117,19 @@ class ViewController extends Controller {
 
 
 	/**
+	 * @NoAdminRequired
+	 *
+	 * @param $region
+	 * @param $subregion
+	 * @param $city
+	 * @return DataDisplayResponse
+	 */
+	public function getTimezoneWithSubRegion($region, $subregion, $city) {
+		return $this->getTimezone($region . '-' . $subregion . '-' . $city);
+	}
+
+
+	/**
 	 * get a list of default timezones
 	 *
 	 * @return array

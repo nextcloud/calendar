@@ -39,6 +39,11 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'e
 		$scope.timezones = [];
 
 		$scope.edittimezone = false;
+		if (($scope.properties.dtstart.parameters.zone !== 'floating' && $scope.properties.dtstart.parameters.zone !== $scope.defaulttimezone) ||
+			($scope.properties.dtend.parameters.zone !== 'floating' && $scope.properties.dtend.parameters.zone !== $scope.defaulttimezone)) {
+			$scope.edittimezone = true;
+		}
+
 
 		// TODO - when user changes timezone input query timezone from server
 
@@ -72,6 +77,18 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'e
 
 		$scope.export = function() {
 			$window.open($scope.oldCalendar.url + vevent.uri);
+		};
+
+		$scope.toggledAllDay = function() {
+			if ($scope.properties.allDay) {
+				return;
+			}
+
+			if ($scope.properties.dtstart.parameters.zone === 'floating' &&
+				$scope.properties.dtend.parameters.zone === 'floating') {
+				$scope.properties.dtstart.parameters.zone = $scope.defaulttimezone;
+				$scope.properties.dtend.parameters.zone = $scope.defaulttimezone;
+			}
 		};
 
 		$scope.save = function() {
