@@ -21,7 +21,7 @@
  *
  */
 
-app.factory('VEvent', ['$filter', 'objectConverter', 'ICalFactory', function($filter, objectConverter, icalfactory) {
+app.factory('VEvent', ['$filter', 'objectConverter', 'ICalFactory', 'RandomStringService', function($filter, objectConverter, icalfactory, RandomStringService) {
 	'use strict';
 
 	/**
@@ -370,8 +370,7 @@ app.factory('VEvent', ['$filter', 'objectConverter', 'ICalFactory', function($fi
 		vevent.updatePropertyWithValue('created', ICAL.Time.now());
 		vevent.updatePropertyWithValue('dtstamp', ICAL.Time.now());
 		vevent.updatePropertyWithValue('last-modified', ICAL.Time.now());
-		//TODO - replace with proper UID generator
-		vevent.updatePropertyWithValue('uid', '123123123123123');
+		vevent.updatePropertyWithValue('uid', RandomStringService.generate());
 
 		objectConverter.patch(vevent, {}, {
 			allDay: !start.hasTime() && !end.hasTime(),

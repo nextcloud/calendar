@@ -1793,7 +1793,7 @@ app.filter('subscriptionFilter',
 	}
 	]);
 
-app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneService', function($rootScope, $filter, VEventService, TimezoneService) {
+app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneService', 'RandomStringService', function($rootScope, $filter, VEventService, TimezoneService, RandomStringService) {
 	'use strict';
 
 	function Calendar(url, props) {
@@ -1907,7 +1907,7 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 			}
 		}
 
-		this.tmpId = Math.random().toString(36).substr(2);
+		this.tmpId = RandomStringService.generate();
 	}
 
 	Calendar.prototype = {
@@ -2068,7 +2068,7 @@ app.factory('Timezone',
 	}
 );
 
-app.factory('VEvent', ['$filter', 'objectConverter', 'ICalFactory', function($filter, objectConverter, icalfactory) {
+app.factory('VEvent', ['$filter', 'objectConverter', 'ICalFactory', 'RandomStringService', function($filter, objectConverter, icalfactory, RandomStringService) {
 	'use strict';
 
 	/**
@@ -2417,8 +2417,7 @@ app.factory('VEvent', ['$filter', 'objectConverter', 'ICalFactory', function($fi
 		vevent.updatePropertyWithValue('created', ICAL.Time.now());
 		vevent.updatePropertyWithValue('dtstamp', ICAL.Time.now());
 		vevent.updatePropertyWithValue('last-modified', ICAL.Time.now());
-		//TODO - replace with proper UID generator
-		vevent.updatePropertyWithValue('uid', '123123123123123');
+		vevent.updatePropertyWithValue('uid', RandomStringService.generate());
 
 		objectConverter.patch(vevent, {}, {
 			allDay: !start.hasTime() && !end.hasTime(),
@@ -3673,6 +3672,15 @@ app.factory('objectConverter', function () {
 	};
 });
 
+app.factory('RandomStringService', function () {
+	'use strict';
+
+	return {
+		generate: function() {
+			return Math.random().toString(36).substr(2);
+		}
+	};
+});
 app.service('SettingsService', ['$rootScope', '$http', function($rootScope, $http) {
 	'use strict';
 
@@ -4251,7 +4259,7 @@ app.service('TimezoneService', ['$rootScope', '$http', 'Timezone', 'TimezoneList
 	}
 ]);
 
-app.service('VEventService', ['DavClient', 'VEvent', function(DavClient, VEvent) {
+app.service('VEventService', ['DavClient', 'VEvent', 'RandomStringService', function(DavClient, VEvent, RandomStringService) {
 	'use strict';
 
 	var _this = this;
@@ -4380,8 +4388,8 @@ app.service('VEventService', ['DavClient', 'VEvent', function(DavClient, VEvent)
 
 	this._generateRandomUri = function() {
 		var uri = 'ownCloud-';
-		uri += Math.random().toString(36).substr(2);
-		uri += Math.random().toString(36).substr(2);
+		uri += RandomStringService.generate();
+		uri += RandomStringService.generate();
 		uri += '.ics';
 
 		return uri;
