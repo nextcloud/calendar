@@ -52,9 +52,6 @@
 	width: 92%;
 	background-size: 20px;
 }
-#app-navigation .new-entity-container {
-	margin-top: 45px;
-}
 #app-navigation .new-entity,
 #app-navigation .subscription-title {
 	display: block;
@@ -65,10 +62,10 @@
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	color: #4d4d4d;
-	cursor: pointer;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 }
+#app-navigation .new-entity,
 #app-navigation .new-entity .new-entity-title {
 	cursor: pointer;
 }

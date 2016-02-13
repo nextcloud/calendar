@@ -23,7 +23,7 @@
  */
 ?>
 
-<div class="new-entity-container">
+<div class="new-entity-container" ng-show="(calendars | subscriptionFilter).length > 0">
 
 	<div class="subscription-title">
 		<span class="new-entity-title"><?php p($l->t('Subscriptions')); ?></span>
