@@ -70,7 +70,6 @@ OC.L10N.register(
     "{type} {time} after the event ends" : "{type} {time} หลังจากที่เหตุการณ์จบลง",
     "{type} at the event's start" : "{type} ในช่วงที่เหตุการณ์เริ่มต้น",
     "{type} at the event's end" : "{type} ในช่วงที่เหตุการณ์จบลง",
-    "New event" : "เหตุการณ์ใหม่",
     "Day" : "วัน",
     "Week" : "สัปดาห์",
     "Month" : "เดือน",

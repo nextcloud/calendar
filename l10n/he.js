@@ -74,7 +74,6 @@ OC.L10N.register(
     "{type} at the event's start" : "{type} בתחילת האירוע",
     "{type} at the event's end" : "{type} בסיום האירוע",
     "{type} at {time}" : "{type} בשעה {time}",
-    "New event" : "אירוע חדש",
     "{calendar} shared by {owner}" : "{calendar} משותף על ידי {owner}",
     "Day" : "יום",
     "Week" : "שבוע",

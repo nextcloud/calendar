@@ -58,7 +58,6 @@ OC.L10N.register(
     "Pop-up" : "Pop-up",
     "E-Mail" : "E-Mail",
     "None" : "Keine",
-    "New event" : "neue Veranstaltung",
     "Day" : "Tag",
     "Week" : "Woche",
     "Month" : "Monat",

@@ -59,7 +59,6 @@ OC.L10N.register(
     "Pop-up" : "Felugró ablak",
     "E-Mail" : "E-mail",
     "None" : "Egyik sem",
-    "New event" : "Új esemény",
     "Day" : "Nap",
     "Week" : "Hét",
     "Month" : "Hónap",

@@ -70,7 +70,6 @@ OC.L10N.register(
     "{type} {time} after the event ends" : "{type} {time} na het eind van de afspraak",
     "{type} at the event's start" : "{type} bij het begin van de afspraak",
     "{type} at the event's end" : "{type} bij het eind van de afspraak",
-    "New event" : "Nieuwe afspraak",
     "{calendar} shared by {owner}" : "{calendar} gedeeld door {owner}",
     "Day" : "Dag",
     "Week" : "Week",

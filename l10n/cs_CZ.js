@@ -74,7 +74,6 @@ OC.L10N.register(
     "{type} at the event's start" : "{type} při začátku události",
     "{type} at the event's end" : "{type} při konci události",
     "{type} at {time}" : "{type} v {time}",
-    "New event" : "Nová událost",
     "{calendar} shared by {owner}" : "{calendar} sdílen uživatelem {owner}",
     "Day" : "Den",
     "Week" : "Týden",

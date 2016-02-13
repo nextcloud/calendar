@@ -68,7 +68,6 @@ OC.L10N.register(
     "{type} {time} after the event ends" : "{type} {time} tapahtuman päättymisen jälkeen",
     "{type} at the event's start" : "{type} tapahtuman alkaessa",
     "{type} at the event's end" : "{type} tapahtuman päättyessä",
-    "New event" : "Uusi tapahtuma",
     "{calendar} shared by {owner}" : "{calendar} jakanut {owner}",
     "Day" : "Päivä",
     "Week" : "Viikko",

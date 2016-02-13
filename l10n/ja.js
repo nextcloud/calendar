@@ -64,7 +64,6 @@ OC.L10N.register(
     "{type} {time} before the event ends" : "イベント終了の{type} {time} 前",
     "{type} {time} after the event starts" : "イベント開始の{type} {time} 後",
     "{type} {time} after the event ends" : "イベント終了の{type} {time} 後",
-    "New event" : "新しいイベント",
     "{calendar} shared by {owner}" : "{owner} が共有中の{calendar} ",
     "Day" : "日",
     "Week" : "週",

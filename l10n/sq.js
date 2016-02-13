@@ -74,7 +74,6 @@ OC.L10N.register(
     "{type} at the event's start" : "{type} në fillim të veprimtarisë",
     "{type} at the event's end" : "{type} në fund të veprimtarisë",
     "{type} at {time}" : "{type} në {time}",
-    "New event" : "Veprimtari e re",
     "{calendar} shared by {owner}" : "{calendar} ndarë nga {owner}",
     "Day" : "Ditë",
     "Week" : "Javë",
