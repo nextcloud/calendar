@@ -114,6 +114,10 @@
 	cursor:pointer;
 }
 
+#datepicker .text-muted {
+	color: #aaa;
+}
+
 #app-navigation {
 	padding-bottom: 0;
 }
