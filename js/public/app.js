@@ -814,7 +814,9 @@ app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'e
 				dayNamesMin: moment.weekdaysMin(),
 				dayNamesShort: moment.weekdaysShort(),
 				firstDay: localeData.firstDayOfWeek(),
-				minDate: null
+				minDate: null,
+				showOtherMonths: true,
+				selectOtherMonths: true
 			});
 			angular.element('#to').datepicker({
 				dateFormat : localeData.longDateFormat('L').toLowerCase().replace('yy', 'y').replace('yyy', 'yy'),
@@ -824,7 +826,9 @@ app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'e
 				dayNamesMin: moment.weekdaysMin(),
 				dayNamesShort: moment.weekdaysShort(),
 				firstDay: localeData.firstDayOfWeek(),
-				minDate: null
+				minDate: null,
+				showOtherMonths: true,
+				selectOtherMonths: true
 			});
 
 			angular.element('#fromtime').timepicker({
