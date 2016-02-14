@@ -107,10 +107,17 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 				position = [];
 
 			if (eventY / windowY < 0.5) {
-				position.push({
-					name: 'top',
-					value: clientRect.bottom - headerHeight + 20
-				});
+				if (view.name === 'agendaDay' || view.name === 'agendaWeek') {
+					position.push({
+						name: 'top',
+						value: clientRect.top - headerHeight + 30
+					});
+				} else {
+					position.push({
+						name: 'top',
+						value: clientRect.bottom - headerHeight + 20
+					});
+				}
 			} else {
 				position.push({
 					name: 'top',
