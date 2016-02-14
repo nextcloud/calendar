@@ -1169,6 +1169,15 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'e
 			{displayname: t('calendar', 'When shared hide this event'), type: 'PRIVATE'}
 		];
 
+		$scope.setClassToDefault = function() {
+			if ($scope.properties.class === null) {
+				$scope.properties.class = {
+					type: 'string',
+					value: 'PUBLIC'
+				};
+			}
+		};
+
 		/**
 		 * Everything reminders
 		 * - ui related scope variables
