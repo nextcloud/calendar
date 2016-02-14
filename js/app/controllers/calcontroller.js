@@ -71,17 +71,29 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 		 */
 
 		$scope.newEvent = function (start, end, jsEvent, view) {
+			var fcEvent = {
+				id: 'new',
+				allDay: !start.hasTime() && !end.hasTime(),
+				start: start.clone(),
+				end: end.clone(),
+				title: t('calendar', 'New event'),
+				className: 'new-event-dummy'
+			};
+
 			start.add(start.toDate().getTimezoneOffset(), 'minutes');
 			end.add(end.toDate().getTimezoneOffset(), 'minutes');
 
 			var vevent = VEvent.fromStartEnd(start, end, $scope.defaulttimezone);
-
 			$scope._initializeEventEditor(vevent, null, true, function() {
-				return $scope._calculatePopoverPosition(jsEvent.target, view);
+				uiCalendarConfig.calendars.calendar.fullCalendar('renderEvent', fcEvent);
+				uiCalendarConfig.calendars.calendar.fullCalendar('unselect');
+
+				return $scope._calculatePopoverPosition(angular.element('.new-event-dummy')[0], view);
 			}, function(vevent) {
 				VEventService.create(vevent.calendar, vevent.data).then(function(vevent) {
 					var eventsToRender = vevent.getFcEvent(view.intervalStart, view.intervalEnd, $scope.defaulttimezone);
 					angular.forEach(eventsToRender, function(event) {
+						uiCalendarConfig.calendars.calendar.fullCalendar('removeEvents', 'new');
 						uiCalendarConfig.calendars.calendar.fullCalendar(
 							'renderEvent',
 							event
@@ -90,6 +102,9 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 				});
 			}, function() {
 				//nothing to do
+				uiCalendarConfig.calendars.calendar.fullCalendar('removeEvents', 'new');
+			}, function() {
+				uiCalendarConfig.calendars.calendar.fullCalendar('removeEvents', 'new');
 			});
 		};
 
@@ -145,7 +160,7 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 			return position;
 		};
 
-		$scope._initializeEventEditor = function(vevent, recurrenceId, isNew, positionCallback, successCallback, deleteCallBack) {
+		$scope._initializeEventEditor = function(vevent, recurrenceId, isNew, positionCallback, successCallback, deleteCallBack, cancelCallback) {
 			if ($scope.eventModal !== null) {
 				$scope.eventModal.dismiss('superseded');
 			}
@@ -214,6 +229,8 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 						if (reason === 'delete') {
 							deleteCallBack(vevent);
 							$scope.eventModal = null;
+						} else {
+							cancelCallback();
 						}
 
 						angular.element('#app-content').removeClass('with-app-sidebar');
@@ -223,6 +240,8 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 				if (reason === 'delete') {
 					deleteCallBack(vevent);
 					$scope.eventModal = null;
+				} else {
+					cancelCallback();
 				}
 			});
 		};
@@ -254,7 +273,7 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 				height: w.height() - angular.element('#header').height(),
 				editable: true,
 				selectable: true,
-				selectHelper: true,
+				//selectHelper: true,
 				monthNames: monthNames,
 				monthNamesShort: monthNamesShort,
 				dayNames: dayNames,
@@ -267,6 +286,8 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 				eventLimit: true,
 				eventClick: function(fcEvent, jsEvent, view) {
 					var oldCalendar = fcEvent.event.calendar;
+
+					console.log(jsEvent.currentTarget);
 
 					$scope._initializeEventEditor(fcEvent.event, fcEvent.recurrenceId, false, function() {
 						return $scope._calculatePopoverPosition(jsEvent.currentTarget, view);
@@ -329,6 +350,8 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 							);
 						});
 
+					}, function() {
+						//do nothing to cancel editing
 					});
 				},
 				eventResize: function (fcEvent, delta, revertFunc) {
