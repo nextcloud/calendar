@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Calendar" : "Kalenteri",
     "Attendees" : "Osallistujat",
-    "Alarms" : "Hälytykset",
     "Does not repeat" : "Ei toistoa",
     "Daily" : "Päivittäin",
     "Weekly" : "Viikottain",
@@ -99,6 +98,7 @@ OC.L10N.register(
     "Cancel" : "Peruuta",
     "More ..." : "Lisää...",
     "Update" : "Päivitä",
+    "Close" : "Sulje",
     "Interval" : "Aikaväli",
     "Description" : "Kuvaus",
     "Export" : "Vie",

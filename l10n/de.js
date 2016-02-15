@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Calendar" : "Kalender",
     "Attendees" : "Teilnehmer",
-    "Alarms" : "Alarm",
     "Does not repeat" : "einmalig",
     "Daily" : "Täglich",
     "Weekly" : "Wöchentlich",
@@ -88,6 +87,7 @@ OC.L10N.register(
     "Delete" : "Löschen",
     "Cancel" : "Abbrechen",
     "Update" : "Aktualisierung durchführen",
+    "Close" : "Schließen",
     "Interval" : "Intervall",
     "Description" : "Beschreibung",
     "Export" : "Exportieren",

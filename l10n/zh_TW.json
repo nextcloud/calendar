@@ -1,7 +1,6 @@
 { "translations": {
     "Calendar" : "日曆",
     "Attendees" : "出席者",
-    "Alarms" : "鬧鐘",
     "Does not repeat" : "不重覆",
     "Daily" : "每日",
     "Weekly" : "每週",
@@ -103,6 +102,7 @@
     "Cancel" : "取消",
     "More ..." : "更多…",
     "Update" : "更新",
+    "Close" : " 關閉",
     "Interval" : "間隔",
     "Description" : "描述",
     "Export" : "匯出",

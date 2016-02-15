@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Calendar" : "Календарь",
     "Attendees" : "Участники",
-    "Alarms" : "Сигналы",
     "Does not repeat" : "Не повторяется",
     "Daily" : "Ежедневно",
     "Weekly" : "Еженедельно",
@@ -108,6 +107,7 @@ OC.L10N.register(
     "Cancel" : "Отмена",
     "More ..." : "Больше ...",
     "Update" : "Обновить",
+    "Close" : "Закрыть",
     "Interval" : "Интервал",
     "Description" : "Описание",
     "Export" : "Экспорт",

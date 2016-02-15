@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Calendar" : "Naptár",
     "Attendees" : "Résztvevők",
-    "Alarms" : "Értesítések",
     "Does not repeat" : "Nem ismétlődik",
     "Daily" : "naponta",
     "Weekly" : "hetente",
@@ -89,6 +88,7 @@ OC.L10N.register(
     "Cancel" : "Mégsem",
     "More ..." : "Bővebben...",
     "Update" : "Frissítés",
+    "Close" : "Bezárás",
     "Interval" : "Időköz",
     "Description" : "Leírás",
     "Export" : "Exportálás",

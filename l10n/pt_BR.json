@@ -1,7 +1,6 @@
 { "translations": {
     "Calendar" : "Calendário",
     "Attendees" : "Participantes",
-    "Alarms" : "Alarmes",
     "Does not repeat" : "Não repetir",
     "Daily" : "Diário",
     "Weekly" : "Semanal",
@@ -106,6 +105,7 @@
     "Cancel" : "Cancelar",
     "More ..." : "Mais ...",
     "Update" : "Atualizar",
+    "Close" : "Fechar",
     "Interval" : "Intervalo",
     "Description" : "Descrição",
     "Export" : "Exportar",

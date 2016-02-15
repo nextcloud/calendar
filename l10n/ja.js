@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Calendar" : "カレンダー",
     "Attendees" : "参加者",
-    "Alarms" : "アラーム",
     "Does not repeat" : "繰り返さない",
     "Daily" : "毎日",
     "Weekly" : "毎週",
@@ -92,6 +91,7 @@ OC.L10N.register(
     "Delete" : "削除",
     "Cancel" : "キャンセル",
     "Update" : "アップデート",
+    "Close" : "閉じる",
     "Interval" : "間隔",
     "Description" : "説明",
     "Export" : "エクスポート",

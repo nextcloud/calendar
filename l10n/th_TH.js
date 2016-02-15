@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Calendar" : "ปฏิทิน",
     "Attendees" : "ผู้เข้าร่วมกิจกรรม",
-    "Alarms" : "การแจ้งเตือน",
     "Does not repeat" : "ไม่ต้องทำซ้ำ",
     "Daily" : "รายวัน",
     "Weekly" : "รายสัปดาห์",
@@ -100,6 +99,7 @@ OC.L10N.register(
     "Delete" : "ลบ",
     "Cancel" : "ยกเลิก",
     "Update" : "อัพเดท",
+    "Close" : "ปิด",
     "Interval" : "ช่วงเวลา",
     "Description" : "รายละเอียด",
     "Export" : "ส่งออก",

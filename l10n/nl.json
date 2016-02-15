@@ -1,7 +1,6 @@
 { "translations": {
     "Calendar" : "Kalender",
     "Attendees" : "Deelnemers",
-    "Alarms" : "Alarmen",
     "Does not repeat" : "Geen",
     "Daily" : "Dagelijks",
     "Weekly" : "Wekelijks",
@@ -103,6 +102,7 @@
     "Cancel" : "Annuleren",
     "More ..." : "Meer...",
     "Update" : "Bijwerken",
+    "Close" : "Sluiten",
     "Interval" : "Interval",
     "Description" : "Beschrijving",
     "Export" : "Exporteer",
