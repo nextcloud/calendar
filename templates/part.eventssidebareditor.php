@@ -18,21 +18,22 @@
 				<span><?php p($l->t('starts')); ?></span>
 				<input type="text" name="from" id="advanced_from" ng-model="fromdatemodel" class="events--date" placeholder="<?php p($l->t('starts'));?>" />
 				<input type="text" name="fromtime" id="advanced_fromtime" ng-model="fromtimemodel" class="events--time" ng-disabled="properties.allDay" />
-				<select ng-options="timezone for timezone in timezones" ng-model="properties.dtstart.parameters.zone" ng-show="edittimezone || readOnly" ng-disabled="properties.allDay"
+				<select ng-options="timezone.value as timezone.displayname | timezoneWithoutContinentFilter group by timezone.group for timezone in timezones" ng-model="properties.dtstart.parameters.zone" ng-show="edittimezone || readOnly" ng-disabled="properties.allDay"
 						ng-change="loadTimezone(properties.dtstart.parameters.zone)"></select>
 			</div>
 			<div class="event-time-interior pull-right pull-half">
 				<span><?php p($l->t('ends')); ?></span>
 				<input type="text" name="to" id="advanced_to" ng-model="todatemodel" class="events--date" placeholder="<?php p($l->t('ends'));?>" />
 				<input type="text" name="totime" id="advanced_totime" ng-model="totimemodel" class="events--time" ng-disabled="properties.allDay" />
-				<select ng-options="timezone for timezone in timezones" ng-model="properties.dtend.parameters.zone" ng-show="edittimezone || readOnly" ng-disabled="properties.allDay"
+				<select ng-options="timezone.value as timezone.displayname | timezoneWithoutContinentFilter group by timezone.group for timezone in timezones" ng-model="properties.dtend.parameters.zone" ng-show="edittimezone || readOnly" ng-disabled="properties.allDay"
 					ng-change="loadTimezone(properties.dtend.parameters.zone)"></select>
 			</div>
 			<div class="clear-both"></div>
 			<div class="advanced--checkbox pull-left">
 				<input type="checkbox" name="alldayeventcheckbox"
 					   ng-model="properties.allDay"
-					   id="alldayeventcheckbox" class="event-checkbox" />
+					   id="alldayeventcheckbox" class="event-checkbox"
+					   ng-change="toggledAllDay()"/>
 				<label for="alldayeventcheckbox"><?php p($l->t('All day Event'))?></label>
 			</div>
 			<div class="pull-right">

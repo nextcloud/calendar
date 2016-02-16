@@ -39,21 +39,45 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'e
 		$scope.timezones = [];
 
 		$scope.edittimezone = false;
+		if (($scope.properties.dtstart.parameters.zone !== 'floating' && $scope.properties.dtstart.parameters.zone !== $scope.defaulttimezone) ||
+			($scope.properties.dtend.parameters.zone !== 'floating' && $scope.properties.dtend.parameters.zone !== $scope.defaulttimezone)) {
+			$scope.edittimezone = true;
+		}
+
 
 		// TODO - when user changes timezone input query timezone from server
 
 		TimezoneService.listAll().then(function(list) {
-			$scope.timezones = ['floating'].concat(list);
-			if ($scope.properties.dtstart.parameters.zone !== null) {
-				if ($scope.timezones.indexOf($scope.properties.dtstart.parameters.zone) === -1) {
-					$scope.timezones.push($scope.properties.dtstart.parameters.zone);
-				}
+			if ($scope.properties.dtstart.parameters.zone !== 'floating' &&
+				list.indexOf($scope.properties.dtstart.parameters.zone) === -1) {
+				list.push($scope.properties.dtstart.parameters.zone);
 			}
-			if ($scope.properties.dtend.parameters.zone !== null) {
-				if ($scope.timezones.indexOf($scope.properties.dtend.parameters.zone) === -1) {
-					$scope.timezones.push($scope.properties.dtend.parameters.zone);
-				}
+			if ($scope.properties.dtend.parameters.zone !== 'floating' &&
+				list.indexOf($scope.properties.dtend.parameters.zone) === -1) {
+				list.push($scope.properties.dtend.parameters.zone);
 			}
+
+			angular.forEach(list, function(timezone) {
+				if (timezone.split('/').length === 1) {
+					$scope.timezones.push({
+						displayname: timezone,
+						group: t('calendar', 'Global'),
+						value: timezone
+					});
+				} else {
+					$scope.timezones.push({
+						displayname: timezone.split('/').slice(1).join('/'),
+						group: timezone.split('/', 1),
+						value: timezone
+					});
+				}
+			});
+
+			$scope.timezones.push({
+				displayname: t('calendar', 'Floating'),
+				group: t('calendar', 'Global'),
+				value: 'floating'
+			});
 		});
 
 		$scope.loadTimezone = function(tzId) {
@@ -72,6 +96,18 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'e
 
 		$scope.export = function() {
 			$window.open($scope.oldCalendar.url + vevent.uri);
+		};
+
+		$scope.toggledAllDay = function() {
+			if ($scope.properties.allDay) {
+				return;
+			}
+
+			if ($scope.properties.dtstart.parameters.zone === 'floating' &&
+				$scope.properties.dtend.parameters.zone === 'floating') {
+				$scope.properties.dtstart.parameters.zone = $scope.defaulttimezone;
+				$scope.properties.dtend.parameters.zone = $scope.defaulttimezone;
+			}
 		};
 
 		$scope.save = function() {

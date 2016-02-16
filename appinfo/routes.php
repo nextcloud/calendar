@@ -29,6 +29,7 @@ return [
 		['name' => 'view#timezone_list', 'url' => '/v1/timezones/index.json', 'verb' => 'GET'],
 		['name' => 'view#get_timezone', 'url' => '/v1/timezones/{id}', 'verb' => 'GET'],
 		['name' => 'view#get_timezone_with_region', 'url' => '/v1/timezones/{region}/{city}', 'verb' => 'GET'],
+		['name' => 'view#get_timezone_with_subregion', 'url' => '/v1/timezones/{region}/{subregion}/{city}', 'verb' => 'GET'],
 		//Settings
 		['name' => 'settings#getView', 'url' => '/v1/view', 'verb' => 'GET'],
 		['name' => 'settings#setView', 'url' => '/v1/view', 'verb' => 'POST'],
