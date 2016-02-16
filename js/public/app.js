@@ -1853,7 +1853,7 @@ app.filter('timezoneFilter', ['$filter', function($filter) {
 	'use strict';
 
 	return function(timezone) {
-		timezone = timezone.replace('_', ' ');
+		timezone = timezone.split('_').join(' ');
 
 		var elements = timezone.split('/');
 		if (elements.length === 1) {
@@ -1871,7 +1871,8 @@ app.filter('timezoneWithoutContinentFilter', function() {
 	'use strict';
 
 	return function(timezone) {
-		timezone = timezone.replace('_', ' ');
+		timezone = timezone.split('_').join(' ');
+		timezone = timezone.replace('St ', 'St. ');
 
 		return timezone.split('/').join(' - ');
 	};

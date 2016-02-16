@@ -25,7 +25,8 @@ app.filter('timezoneWithoutContinentFilter', function() {
 	'use strict';
 
 	return function(timezone) {
-		timezone = timezone.replace('_', ' ');
+		timezone = timezone.split('_').join(' ');
+		timezone = timezone.replace('St ', 'St. ');
 
 		return timezone.split('/').join(' - ');
 	};
