@@ -1,6 +1,7 @@
 { "translations": {
     "Calendar" : "Calendário",
     "Attendees" : "Participantes",
+    "Reminders" : "Lembretes",
     "Does not repeat" : "Não repete",
     "Daily" : "Diariamente",
     "Weekly" : "Semanalmente",

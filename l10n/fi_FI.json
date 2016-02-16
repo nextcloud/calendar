@@ -1,6 +1,7 @@
 { "translations": {
     "Calendar" : "Kalenteri",
     "Attendees" : "Osallistujat",
+    "Reminders" : "Muistutukset",
     "Does not repeat" : "Ei toistoa",
     "Daily" : "Päivittäin",
     "Weekly" : "Viikottain",

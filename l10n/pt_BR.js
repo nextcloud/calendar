@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Calendar" : "Calendário",
     "Attendees" : "Participantes",
+    "Reminders" : "Lembretes",
     "Does not repeat" : "Não repetir",
     "Daily" : "Diário",
     "Weekly" : "Semanal",
@@ -103,6 +104,8 @@ OC.L10N.register(
     "to" : "para",
     "All day Event" : "Evento todo o dia",
     "Events Location" : "Local dos Eventos",
+    "starts" : "Inícios",
+    "ends" : "Finais",
     "Delete" : "Excluir",
     "Cancel" : "Cancelar",
     "More ..." : "Mais ...",

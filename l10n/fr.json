@@ -1,6 +1,7 @@
 { "translations": {
     "Calendar" : "Agenda",
     "Attendees" : "Participants",
+    "Reminders" : "Rappels",
     "Does not repeat" : "Pas de répétition",
     "Daily" : "Quotidien",
     "Weekly" : "Hebdomadaire",
@@ -101,6 +102,8 @@
     "to" : "à",
     "All day Event" : "Journée entière",
     "Events Location" : "Lieu de l'événement",
+    "starts" : "démarre",
+    "ends" : "termine",
     "Delete" : "Supprimer",
     "Cancel" : "Annuler",
     "More ..." : "Plus…",

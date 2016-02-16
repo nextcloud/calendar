@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Calendar" : "Kalenteri",
     "Attendees" : "Osallistujat",
+    "Reminders" : "Muistutukset",
     "Does not repeat" : "Ei toistoa",
     "Daily" : "Päivittäin",
     "Weekly" : "Viikottain",

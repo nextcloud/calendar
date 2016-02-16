@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Calendar" : "Agenda",
     "Attendees" : "Participants",
+    "Reminders" : "Rappels",
     "Does not repeat" : "Pas de répétition",
     "Daily" : "Quotidien",
     "Weekly" : "Hebdomadaire",
@@ -103,6 +104,8 @@ OC.L10N.register(
     "to" : "à",
     "All day Event" : "Journée entière",
     "Events Location" : "Lieu de l'événement",
+    "starts" : "démarre",
+    "ends" : "termine",
     "Delete" : "Supprimer",
     "Cancel" : "Annuler",
     "More ..." : "Plus…",

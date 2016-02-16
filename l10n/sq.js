@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Calendar" : "Kalendar",
     "Attendees" : "Pjesëmarrës",
+    "Reminders" : "Kujtues",
     "Does not repeat" : "Mos e përsërit",
     "Daily" : "Përditë",
     "Weekly" : "Çdo javë",

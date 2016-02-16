@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Calendar" : "Calendario",
     "Attendees" : "Partecipanti",
+    "Reminders" : "Promemoria",
     "Does not repeat" : "Non ripetere",
     "Daily" : "Quotidiano",
     "Weekly" : "Settimanale",

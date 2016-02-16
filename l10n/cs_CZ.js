@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Calendar" : "Kalendář",
     "Attendees" : "Účastníci",
+    "Reminders" : "Připomínky",
     "Does not repeat" : "Neopakuje se",
     "Daily" : "Denně",
     "Weekly" : "Týdně",
