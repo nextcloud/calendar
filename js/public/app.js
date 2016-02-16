@@ -4018,7 +4018,7 @@ app.service('TimezoneListProvider',
 				'America\/Pangnirtung',
 				'America\/Paramaribo',
 				'America\/Phoenix',
-				'America\/Port\/Au\/Prince',
+				'America\/Port-Au-Prince',
 				'America\/Porto_Velho',
 				'America\/Port_of_Spain',
 				'America\/Puerto_Rico',
@@ -4290,6 +4290,7 @@ app.service('TimezoneListProvider',
 		});
 	}
 );
+
 app.service('TimezoneService', ['$rootScope', '$http', 'Timezone', 'TimezoneListProvider',
 	function ($rootScope, $http, Timezone, TimezoneListProvider) {
 		'use strict';
