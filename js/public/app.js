@@ -474,6 +474,10 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 		 * - delete event source object
 		 */
 		$rootScope.$on('removedCalendar', function (event, calendar) {
+			$scope.calendars = $scope.calendars.filter(function (element) {
+				return element.url !== calendar.url;
+			});
+
 			var deletedObject = calendar.url;
 			uiCalendarConfig.calendars.calendar.fullCalendar('removeEventSource',
 				$scope.eventSource[deletedObject]);
@@ -682,9 +686,6 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 		$scope.remove = function (calendar) {
 			calendar.list.loading = true;
 			CalendarService.delete(calendar).then(function() {
-				$scope.calendars = $scope.calendars.filter(function (element) {
-					return element.url !== calendar.url;
-				});
 				$rootScope.$broadcast('removedCalendar', calendar);
 				$rootScope.$broadcast('reloadCalendarList');
 			});
