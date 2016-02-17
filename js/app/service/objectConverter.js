@@ -132,12 +132,10 @@ app.factory('objectConverter', function () {
 					continue;
 				}
 
-				var values = valueParser(properties[pKey]);
 				var currentElement = {
 					group: group,
 					parameters: simpleParser._parseParameters(properties[pKey], parameters),
-					type: properties[pKey].type,
-					values: values
+					type: properties[pKey].type
 				};
 
 				if (properties[pKey].isMultiValue) {

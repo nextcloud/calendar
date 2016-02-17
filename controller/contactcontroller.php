@@ -94,6 +94,9 @@ class ContactController extends Controller {
 			}
 
 			$name = $this->getNameFromContact($r);
+			if (is_string($r['EMAIL'])) {
+				$r['EMAIL'] = [$r['EMAIL']];
+			}
 
 			foreach ($r['EMAIL'] as $email) {
 				$contacts[] = [

@@ -206,3 +206,21 @@ button.delete:hover, button.delete:focus {
 	background: #efefef;
 	cursor: pointer;
 }
+
+.dropdown-menu {
+	width: 100%;
+}
+
+.dropdown-menu li {
+	border-bottom:1px solid #ddd;
+	background: #f8f8f8;
+}
+
+.dropdown-menu li a {
+	display: block;
+	padding:5px;
+}
+
+.dropdown-menu li a:hover {
+	background: #eee;
+}

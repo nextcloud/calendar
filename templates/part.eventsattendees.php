@@ -24,7 +24,9 @@
 ?>
 <div class="advanced--fieldset">
 	<input type="text" class="advanced--input h2" ng-model="nameofattendee"
-		placeholder="<?php p($l->t('Name of attendee'))?>" name="nameofattendee" autocomplete="off" />
+		placeholder="<?php p($l->t('Name of attendee'))?>" name="nameofattendee" autocomplete="off"
+		uib-typeahead="contact.name for contact in searchAttendee($viewValue)" typeahead-show-hint="true" typeahead-min-length="3"
+		   typeahead-on-select="selectAttendeeFromTypeahead($item)" />
 	<button id="addmoreattendees" ng-click="addmoreattendees(nameofattendee)" class="btn event-button button">
 		<?php p($l->t('Add')); ?>
 	</button>
@@ -34,7 +36,7 @@
 	<ul class="advanced--fieldset-attendeelist">
 		<li class="pull-left" ng-class="{ active: attendeeoptions }" ng-repeat="attendee in properties.attendee">
 			<div class="advanced--toggler" ng-model="attendeeoptions" ng-click="attendeeoptions=!attendeeoptions">
-				<span class="bold pull-left">{{ attendee.value }}</span>
+				<span class="bold pull-left">{{ attendee | attendeeFilter }}</span>
 				<button class="event-button event-delete-button icon-close pull-right" ng-click="deleteAttendee(attendee.value)">
 				</button>
 			</div>

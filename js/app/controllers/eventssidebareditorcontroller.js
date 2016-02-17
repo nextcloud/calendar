@@ -26,8 +26,8 @@
  * Description: Takes care of anything inside the Events Modal.
  */
 
-app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'eventEditorHelper', '$window', '$uibModalInstance', 'vevent', 'recurrenceId', 'isNew', 'properties',
-	function($scope, TimezoneService, eventEditorHelper, $window, $uibModalInstance, vevent, recurrenceId, isNew, properties) {
+app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'AutoCompletionService', 'eventEditorHelper', '$window', '$uibModalInstance', 'vevent', 'recurrenceId', 'isNew', 'properties',
+	function($scope, TimezoneService, AutoCompletionService, eventEditorHelper, $window, $uibModalInstance, vevent, recurrenceId, isNew, properties) {
 		'use strict';
 
 		$scope.properties = properties;
@@ -359,6 +359,24 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'e
 					break;
 				}
 			}
+		};
+
+		$scope.searchAttendee = function(value) {
+			return AutoCompletionService.searchAttendee(value);
+		};
+
+		$scope.selectAttendeeFromTypeahead = function(item) {
+			$scope.properties.attendee = $scope.properties.attendee || [];
+			$scope.properties.attendee.push({
+				value: 'MAILTO:' + item.email,
+				parameters: {
+					cn: item.name,
+					role: 'REQ-PARTICIPANT',
+					rsvp: true,
+					partstat: 'NEEDS-ACTION',
+					cutype: 'INDIVIDUAL'
+				}
+			});
 		};
 
 		$scope.classSelect = [
