@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Calendar" : "יומן",
     "Attendees" : "משתתפים",
+    "Reminders" : "תזכורות",
     "Does not repeat" : "ללא חזרה",
     "Daily" : "יומי",
     "Weekly" : "שבועי",
