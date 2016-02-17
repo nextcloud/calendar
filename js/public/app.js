@@ -1423,11 +1423,12 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
  * Description: Takes care of importing calendars
  */
 
-app.controller('ImportController', ['$scope', '$rootScope', '$filter', 'CalendarService', 'VEventService', 'SplitterService', 'files',
-	function($scope, $rootScope, $filter, CalendarService, VEventService, SplitterService, files) {
+app.controller('ImportController', ['$scope', '$rootScope', '$filter', 'CalendarService', 'VEventService', 'SplitterService', '$uibModalInstance', 'files',
+	function($scope, $rootScope, $filter, CalendarService, VEventService, SplitterService, $uibModalInstance, files) {
 		'use strict';
 
 		$scope.files = files;
+		$scope.showCloseButton = false;
 
 		$scope.import = function (file) {
 			file.progressToReach = file.split.vevent.length +
@@ -1456,6 +1457,7 @@ app.controller('ImportController', ['$scope', '$rootScope', '$filter', 'Calendar
 								file.state = 4;
 								$scope.$apply();
 								$rootScope.$broadcast('refetchEvents', calendar);
+								$scope.closeIfNecessary();
 							}
 						});
 					});
@@ -1509,7 +1511,6 @@ app.controller('ImportController', ['$scope', '$rootScope', '$filter', 'Calendar
 				file.incompatibleObjectsWarning = false;
 			} else {
 				var possibleCalendars = $filter('importCalendarFilter')($scope.calendars, file);
-				console.log(possibleCalendars, file);
 				file.incompatibleObjectsWarning = (possibleCalendars.indexOf(file.calendar) === -1);
 			}
 		};
@@ -1542,6 +1543,31 @@ app.controller('ImportController', ['$scope', '$rootScope', '$filter', 'Calendar
 			reader.linkedFile = file;
 			reader.readAsText(file);
 		});
+
+
+		$scope.closeIfNecessary = function() {
+			var unfinishedFiles = $scope.files.filter(function(element) {
+				return (element.state !== -1 && element.state !== 4);
+			});
+			var filesEncounteredErrors = $scope.files.filter(function(element) {
+				return (element.state === 4 && element.errors !== 0);
+			});
+
+			if (unfinishedFiles.length === 0 && filesEncounteredErrors.length === 0) {
+				$uibModalInstance.close();
+			} else if (unfinishedFiles.length === 0 && filesEncounteredErrors.length !== 0) {
+				$scope.showCloseButton = true;
+			}
+		};
+
+		$scope.close = function() {
+			$uibModalInstance.close();
+		};
+
+		$scope.cancelFile = function(file) {
+			file.state = -1;
+			$scope.closeIfNecessary();
+		};
 	}
 ]);
 /**
@@ -1557,27 +1583,26 @@ app.controller('SettingsController', ['$scope', '$uibModal',
 		$scope.settingsCalDavPrincipalLink = OC.linkToRemote('caldav') + '/principals/' + escapeHTML(encodeURIComponent(oc_current_user)) + '/';
 
 		angular.element('#import').on('change', function () {
-			var _this = this;
+			var filesArray = [];
+			for (var i=0; i < this.files.length; i++) {
+				filesArray.push(this.files[i]);
+			}
 
-			if (this.files.length > 0) {
-				var modal = $uibModal.open({
+			if (filesArray.length > 0) {
+				$uibModal.open({
 					templateUrl: 'import.html',
 					controller: 'ImportController',
 					windowClass: 'import',
+					backdropClass: 'import-backdrop',
+					keyboard: false,
 					appendTo: angular.element('#importpopover-container'),
 					resolve: {
 						files: function () {
-							return _this.files;
+							return filesArray;
 						}
 					},
 					scope: $scope
 				});
-
-				/*angular.element('#import').attr('disabled', 'disabled');
-				modal.result.then(function() {
-					console.log('removeAttr called');
-					angular.element('#import').removeAttr('disabled', 'disabled');
-				});*/
 			}
 
 			angular.element('#import').value = '';

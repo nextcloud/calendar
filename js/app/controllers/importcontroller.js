@@ -26,11 +26,12 @@
  * Description: Takes care of importing calendars
  */
 
-app.controller('ImportController', ['$scope', '$rootScope', '$filter', 'CalendarService', 'VEventService', 'SplitterService', 'files',
-	function($scope, $rootScope, $filter, CalendarService, VEventService, SplitterService, files) {
+app.controller('ImportController', ['$scope', '$rootScope', '$filter', 'CalendarService', 'VEventService', 'SplitterService', '$uibModalInstance', 'files',
+	function($scope, $rootScope, $filter, CalendarService, VEventService, SplitterService, $uibModalInstance, files) {
 		'use strict';
 
 		$scope.files = files;
+		$scope.showCloseButton = false;
 
 		$scope.import = function (file) {
 			file.progressToReach = file.split.vevent.length +
@@ -59,6 +60,7 @@ app.controller('ImportController', ['$scope', '$rootScope', '$filter', 'Calendar
 								file.state = 4;
 								$scope.$apply();
 								$rootScope.$broadcast('refetchEvents', calendar);
+								$scope.closeIfNecessary();
 							}
 						});
 					});
@@ -112,7 +114,6 @@ app.controller('ImportController', ['$scope', '$rootScope', '$filter', 'Calendar
 				file.incompatibleObjectsWarning = false;
 			} else {
 				var possibleCalendars = $filter('importCalendarFilter')($scope.calendars, file);
-				console.log(possibleCalendars, file);
 				file.incompatibleObjectsWarning = (possibleCalendars.indexOf(file.calendar) === -1);
 			}
 		};
@@ -145,5 +146,30 @@ app.controller('ImportController', ['$scope', '$rootScope', '$filter', 'Calendar
 			reader.linkedFile = file;
 			reader.readAsText(file);
 		});
+
+
+		$scope.closeIfNecessary = function() {
+			var unfinishedFiles = $scope.files.filter(function(element) {
+				return (element.state !== -1 && element.state !== 4);
+			});
+			var filesEncounteredErrors = $scope.files.filter(function(element) {
+				return (element.state === 4 && element.errors !== 0);
+			});
+
+			if (unfinishedFiles.length === 0 && filesEncounteredErrors.length === 0) {
+				$uibModalInstance.close();
+			} else if (unfinishedFiles.length === 0 && filesEncounteredErrors.length !== 0) {
+				$scope.showCloseButton = true;
+			}
+		};
+
+		$scope.close = function() {
+			$uibModalInstance.close();
+		};
+
+		$scope.cancelFile = function(file) {
+			file.state = -1;
+			$scope.closeIfNecessary();
+		};
 	}
 ]);
