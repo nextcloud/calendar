@@ -916,8 +916,8 @@ app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'e
  * Description: Takes care of anything inside the Events Modal.
  */
 
-app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'eventEditorHelper', '$window', '$uibModalInstance', 'vevent', 'recurrenceId', 'isNew', 'properties',
-	function($scope, TimezoneService, eventEditorHelper, $window, $uibModalInstance, vevent, recurrenceId, isNew, properties) {
+app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'AutoCompletionService', 'eventEditorHelper', '$window', '$uibModalInstance', 'vevent', 'recurrenceId', 'isNew', 'properties',
+	function($scope, TimezoneService, AutoCompletionService, eventEditorHelper, $window, $uibModalInstance, vevent, recurrenceId, isNew, properties) {
 		'use strict';
 
 		$scope.properties = properties;
@@ -1249,6 +1249,24 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'e
 					break;
 				}
 			}
+		};
+
+		$scope.searchAttendee = function(value) {
+			return AutoCompletionService.searchAttendee(value);
+		};
+
+		$scope.selectAttendeeFromTypeahead = function(item) {
+			$scope.properties.attendee = $scope.properties.attendee || [];
+			$scope.properties.attendee.push({
+				value: 'MAILTO:' + item.email,
+				parameters: {
+					cn: item.name,
+					role: 'REQ-PARTICIPANT',
+					rsvp: true,
+					partstat: 'NEEDS-ACTION',
+					cutype: 'INDIVIDUAL'
+				}
+			});
 		};
 
 		$scope.classSelect = [
@@ -1686,6 +1704,22 @@ app.directive('openDialog', function() {
 			elem.bind('click', function(e) {
 				$(dialogId).dialog('open');
 			});
+		}
+	};
+});
+
+app.filter('attendeeFilter', function() {
+	'use strict';
+
+	return function(attendee) {
+		if (typeof attendee.parameters.cn === 'string') {
+			return attendee.parameters.cn;
+		}
+
+		if (attendee.value.startsWith('MAILTO:')) {
+			return attendee.value.substr(7);
+		} else {
+			return attendee.value;
 		}
 	};
 });
@@ -2574,6 +2608,26 @@ app.factory('VEvent', ['$filter', 'objectConverter', 'ICalFactory', 'RandomStrin
 	return VEvent;
 }]);
 
+app.service('AutoCompletionService', ['$rootScope', '$http',
+	function ($rootScope, $http) {
+		'use strict';
+
+		return {
+			searchAttendee: function(name) {
+				return $http.get($rootScope.baseUrl + 'autocompletion/attendee', {
+					params: {
+						search: name
+					}
+				}).then(function (response) {
+					return response.data;
+				});
+			},
+			searchLocation: function(address) {
+
+			}
+		};
+	}
+]);
 app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Calendar){
 	'use strict';
 
@@ -3335,12 +3389,10 @@ app.factory('objectConverter', function () {
 					continue;
 				}
 
-				var values = valueParser(properties[pKey]);
 				var currentElement = {
 					group: group,
 					parameters: simpleParser._parseParameters(properties[pKey], parameters),
-					type: properties[pKey].type,
-					values: values
+					type: properties[pKey].type
 				};
 
 				if (properties[pKey].isMultiValue) {
