@@ -32,6 +32,9 @@
 				<span>{{ file.name }}</span>
 			</td>
 			<td class="calendartype">
+				<span ng-show="file.state === -1">
+					<?php p($l->t('Import canceled')); ?>
+				</span>
 					<span
 						ng-show="file.state === 0">
 						<?php p($l->t('Analyzing calendar')); ?>
@@ -86,11 +89,15 @@
 					</button>
 					<button
 						class="btn icon-close"
-						ng-click="file.done = true">
+						ng-click="cancelFile(file)">
 					</button>
 				</div>
 			</td>
 		</tr>
 		</tbody>
 	</table>
+	<div ng-show="showCloseButton">
+		<div class="spacer" ng-show="didFail"></div>
+		<button class="button btn btn-full" ng-click="close()"><?php p($l->t('Close')); ?></button>
+	</div>
 </div>

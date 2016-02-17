@@ -138,3 +138,18 @@
 #importdialog tr {
 	height: 38px;
 }
+
+.import-backdrop {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #000;
+	opacity: .6;
+}
+
+#importdialog .spacer {
+	clear: both;
+	height: 25px;
+}

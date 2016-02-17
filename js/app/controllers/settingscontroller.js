@@ -34,27 +34,26 @@ app.controller('SettingsController', ['$scope', '$uibModal',
 		$scope.settingsCalDavPrincipalLink = OC.linkToRemote('caldav') + '/principals/' + escapeHTML(encodeURIComponent(oc_current_user)) + '/';
 
 		angular.element('#import').on('change', function () {
-			var _this = this;
+			var filesArray = [];
+			for (var i=0; i < this.files.length; i++) {
+				filesArray.push(this.files[i]);
+			}
 
-			if (this.files.length > 0) {
-				var modal = $uibModal.open({
+			if (filesArray.length > 0) {
+				$uibModal.open({
 					templateUrl: 'import.html',
 					controller: 'ImportController',
 					windowClass: 'import',
+					backdropClass: 'import-backdrop',
+					keyboard: false,
 					appendTo: angular.element('#importpopover-container'),
 					resolve: {
 						files: function () {
-							return _this.files;
+							return filesArray;
 						}
 					},
 					scope: $scope
 				});
-
-				/*angular.element('#import').attr('disabled', 'disabled');
-				modal.result.then(function() {
-					console.log('removeAttr called');
-					angular.element('#import').removeAttr('disabled', 'disabled');
-				});*/
 			}
 
 			angular.element('#import').value = '';

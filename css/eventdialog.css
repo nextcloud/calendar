@@ -53,9 +53,12 @@
 }
 
 .modal-open .modal.import {
-	top: calc(50% - 145px);
+	top: 75px;
 	left: calc(50% - 225px);
 	padding: 20px;
+	min-height: 25px;
+	max-height: calc(100% - 150px - 45px);
+	overflow-y: scroll;
 }
 
 .events .events--fieldset {
@@ -183,6 +186,7 @@ button.delete:hover, button.delete:focus {
 	width: 45%;
 }
 
+#importdialog .btn-full,
 .advanced .btn-full {
 	width: 100%;
 }
