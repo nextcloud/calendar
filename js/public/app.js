@@ -2679,7 +2679,7 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 	];
 
 	function discoverHome(callback) {
-		return DavClient.propFind(DavClient.buildUrl(OC.linkToRemoteBase('dav')), ['{' + DavClient.NS_DAV + '}current-user-principal'], 0).then(function(response) {
+		return DavClient.propFind(DavClient.buildUrl(OC.linkToRemoteBase('dav')), ['{' + DavClient.NS_DAV + '}current-user-principal'], 0, {'requesttoken': OC.requestToken}).then(function(response) {
 			if (!DavClient.wasRequestSuccessful(response.status)) {
 				throw "CalDAV client could not be initialized - Querying current-user-principal failed";
 			}
@@ -2690,7 +2690,7 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 			var props = response.body.propStat[0].properties;
 			_this._currentUserPrincipal = props['{' + DavClient.NS_DAV + '}current-user-principal'][0].textContent;
 
-			return DavClient.propFind(DavClient.buildUrl(_this._currentUserPrincipal), ['{' + DavClient.NS_IETF + '}calendar-home-set'], 0).then(function (response) {
+			return DavClient.propFind(DavClient.buildUrl(_this._currentUserPrincipal), ['{' + DavClient.NS_IETF + '}calendar-home-set'], 0, {'requesttoken': OC.requestToken}).then(function (response) {
 				if (!DavClient.wasRequestSuccessful(response.status)) {
 					throw "CalDAV client could not be initialized - Querying calendar-home-set failed";
 				}
@@ -2717,7 +2717,7 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 			});
 		}
 
-		return DavClient.propFind(DavClient.buildUrl(this._CALENDAR_HOME), this._PROPERTIES, 1).then(function(response) {
+		return DavClient.propFind(DavClient.buildUrl(this._CALENDAR_HOME), this._PROPERTIES, 1, {'requesttoken': OC.requestToken}).then(function(response) {
 			var calendars = [];
 
 			if (!DavClient.wasRequestSuccessful(response.status)) {
@@ -2769,7 +2769,7 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 			});
 		}
 
-		return DavClient.propFind(DavClient.buildUrl(url), this._PROPERTIES, 0).then(function(response) {
+		return DavClient.propFind(DavClient.buildUrl(url), this._PROPERTIES, 0, {'requesttoken': OC.requestToken}).then(function(response) {
 			var body = response.body;
 			if (body.propStat.length < 1) {
 				//TODO - something went wrong
@@ -2823,7 +2823,8 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 		var uri = this._suggestUri(name);
 		var url = this._CALENDAR_HOME + uri + '/';
 		var headers = {
-			'Content-Type' : 'application/xml; charset=utf-8'
+			'Content-Type' : 'application/xml; charset=utf-8',
+			'requesttoken' : OC.requestToken
 		};
 
 		return DavClient.request('MKCALENDAR', url, headers, body).then(function(response) {
@@ -2865,7 +2866,8 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 		var url = calendar.url;
 		var body = dPropUpdate.outerHTML;
 		var headers = {
-			'Content-Type' : 'application/xml; charset=utf-8'
+			'Content-Type' : 'application/xml; charset=utf-8',
+			'requesttoken' : OC.requestToken
 		};
 
 		return DavClient.request('PROPPATCH', url, headers, body).then(function(response) {
@@ -2919,7 +2921,7 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 
 		var headers = {
 			'Content-Type' : 'application/xml; charset=utf-8',
-			requesttoken: oc_requesttoken
+			requesttoken : oc_requesttoken
 		};
 		var body = oShare.outerHTML;
 		return DavClient.request('POST', calendar.url, headers, body).then(function(response) {
@@ -2964,7 +2966,7 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 
 		var headers = {
 			'Content-Type' : 'application/xml; charset=utf-8',
-			requesttoken: oc_requesttoken
+			requesttoken : oc_requesttoken
 		};
 		var body = oShare.outerHTML;
 		return DavClient.request('POST', calendar.url, headers, body).then(function(response) {
@@ -4508,7 +4510,8 @@ app.service('VEventService', ['DavClient', 'VEvent', 'RandomStringService', func
 		var url = calendar.url;
 		var headers = {
 			'Content-Type': 'application/xml; charset=utf-8',
-			'Depth': 1
+			'Depth': 1,
+			'requesttoken': OC.requestToken
 		};
 		var body = cCalQuery.outerHTML;
 
@@ -4551,7 +4554,8 @@ app.service('VEventService', ['DavClient', 'VEvent', 'RandomStringService', func
 		}
 
 		var headers = {
-			'Content-Type': 'text/calendar; charset=utf-8'
+			'Content-Type': 'text/calendar; charset=utf-8',
+			'requesttoken': OC.requestToken
 		};
 		var uri = this._generateRandomUri();
 		var url = calendar.url + uri;
@@ -4573,7 +4577,8 @@ app.service('VEventService', ['DavClient', 'VEvent', 'RandomStringService', func
 		var url = event.calendar.url + event.uri;
 		var headers = {
 			'Content-Type': 'text/calendar; charset=utf-8',
-			'If-Match': event.etag
+			'If-Match': event.etag,
+			'requesttoken': OC.requestToken
 		};
 
 		return DavClient.request('PUT', url, headers, event.data).then(function(response) {
@@ -4585,7 +4590,8 @@ app.service('VEventService', ['DavClient', 'VEvent', 'RandomStringService', func
 	this.delete = function(event) {
 		var url = event.calendar.url + event.uri;
 		var headers = {
-			'If-Match': event.etag
+			'If-Match': event.etag,
+			'requesttoken': OC.requestToken
 		};
 
 		return DavClient.request('DELETE', url, headers, '').then(function(response) {
