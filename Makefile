@@ -45,7 +45,6 @@ appstore: clean
 	--exclude=$(project_dir)/js/vendor/**/karma.conf.js \
 	--exclude=$(project_dir)/js/vendor/davclient.js/index.html \
 	--exclude=$(project_dir)/js/vendor/fullcalendar/dist/gcal.js \
-	--exclude=$(project_dir)/js/vendor/fullcalendar/dist/lang-all.js \
 	--exclude=$(project_dir)/js/vendor/fullcalendar/dist/lang \
 	--exclude=$(project_dir)/js/vendor/ical.js/build/benchmark \
 	--exclude=$(project_dir)/js/vendor/ical.js/lib \

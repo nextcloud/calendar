@@ -280,7 +280,7 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 				height: w.height() - angular.element('#header').height(),
 				editable: true,
 				selectable: true,
-				//selectHelper: true,
+				lang: moment.locale(),
 				monthNames: monthNames,
 				monthNamesShort: monthNamesShort,
 				dayNames: dayNames,
