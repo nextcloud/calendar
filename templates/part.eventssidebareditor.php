@@ -45,7 +45,7 @@
 
 		<fieldset class="advanced--fieldset" ng-disabled="readOnly">
 			<textarea ng-model="properties.location.value" type="text" class="advanced--input"
-				   placeholder="<?php p($l->t('Events Location'));?>" name="location"
+				   placeholder="<?php p($l->t('Location'));?>" name="location"
 				   uib-typeahead="location for location in getLocation($viewValue)"
 				   autocomplete="off" ></textarea>
   			<textarea ng-model="properties.description.value" type="text" class="advanced--input advanced--textarea"

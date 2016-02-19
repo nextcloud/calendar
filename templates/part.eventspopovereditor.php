@@ -40,7 +40,7 @@
 
 		<fieldset class="events--fieldset" ng-disabled="readOnly">
 			<textarea ng-model="properties.location.value" type="text" class="events--input"
-				   placeholder="<?php p($l->t('Events Location'));?>" name="location"></textarea>
+				   placeholder="<?php p($l->t('Location'));?>" name="location"></textarea>
 		</fieldset>
 
 		<fieldset class="events--fieldset pull-left" ng-show="!readOnly">
