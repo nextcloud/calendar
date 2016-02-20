@@ -46,8 +46,9 @@
 		<fieldset class="advanced--fieldset" ng-disabled="readOnly">
 			<textarea ng-model="properties.location.value" type="text" class="advanced--input"
 				   placeholder="<?php p($l->t('Location'));?>" name="location"
-				   uib-typeahead="location for location in getLocation($viewValue)"
-				   autocomplete="off" ></textarea>
+					  uib-typeahead="location.name for location in searchLocation($viewValue)" typeahead-show-hint="true" typeahead-min-length="3"
+					  typeahead-on-select="selectLocationFromTypeahead($item)"
+					  autocomplete="off" ></textarea>
   			<textarea ng-model="properties.description.value" type="text" class="advanced--input advanced--textarea"
 					placeholder="<?php p($l->t('Description'));?>" name="description"></textarea>
 			<select id="classSelector" ng-options="class.type as class.displayname for class in classSelect" ng-init="setClassToDefault()" ng-model="properties.class.value"></select>

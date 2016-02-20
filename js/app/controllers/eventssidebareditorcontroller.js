@@ -226,6 +226,14 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
 			}
 		};
 
+		$scope.searchLocation = function(value) {
+			return AutoCompletionService.searchLocation(value);
+		};
+
+		$scope.selectLocationFromTypeahead = function(item) {
+			$scope.properties.location.value = item.label;
+		};
+
 		$scope.repeater = [
 			{ val: 'doesnotrepeat' , displayname: t('Calendar', 'Does not repeat')},
 			{ val: 'daily' , displayname: t('Calendar', 'Daily')},

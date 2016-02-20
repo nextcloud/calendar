@@ -36,7 +36,13 @@ app.service('AutoCompletionService', ['$rootScope', '$http',
 				});
 			},
 			searchLocation: function(address) {
-
+			return $http.get($rootScope.baseUrl + 'autocompletion/location', {
+				params: {
+					location: address
+				}
+			}).then(function (response) {
+				return response.data;
+			});
 			}
 		};
 	}
