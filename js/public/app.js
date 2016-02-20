@@ -2871,8 +2871,7 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 		};
 
 		return DavClient.request('PROPPATCH', url, headers, body).then(function(response) {
-			var responseBody = DavClient.parseMultiStatus(response.body);
-			console.log(responseBody);
+			console.log(response.body);
 			return calendar;
 		});
 	};
@@ -4523,9 +4522,8 @@ app.service('VEventService', ['DavClient', 'VEvent', 'RandomStringService', func
 
 			var vevents = [];
 
-			var objects = DavClient.parseMultiStatus(response.body);
-			for (var i in objects) {
-				var object = objects[i];
+			for (var i in response.body) {
+				var object = response.body[i];
 				var properties = object.propStat[0].properties;
 
 				var uri = object.href.substr(object.href.lastIndexOf('/') + 1);
