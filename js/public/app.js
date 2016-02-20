@@ -1225,12 +1225,14 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
 			}
 		};
 
+		$scope.newAttendeeGroup = -1;
 		$scope.addmoreattendees = function (val) {
 			var attendee = val;
 			if (attendee !== '') {
 				$scope.properties.attendee = $scope.properties.attendee || [];
 				$scope.properties.attendee.push({
 					value: attendee,
+					group: $scope.newAttendeeGroup--,
 					parameters: {
 						'role': 'REQ-PARTICIPANT',
 						'rsvp': true,
@@ -3532,7 +3534,7 @@ app.factory('objectConverter', function () {
 						if (groupId === null) {
 							continue;
 						}
-						if (groupId === newSimpleData[key][j].group) {
+						if (parseInt(groupId) === newSimpleData[key][j].group) {
 							simpleReader._setProperty(properties[pKey], value, isMultiValue);
 							simpleReader._readParameters(properties[pKey], newSimpleData[key][j], parameters);
 						}
@@ -3548,10 +3550,11 @@ app.factory('objectConverter', function () {
 
 				groupId = properties[pKey].getParameter('x-oc-group-id');
 				if (groupId === null) {
+					console.log('WTF');
 					continue;
 				}
-				if (oldGroups.indexOf(groupId) !== -1) {
-					delete properties[pKey];
+				if (oldGroups.indexOf(parseInt(groupId)) !== -1) {
+					vevent.removeProperty(properties[pKey]);
 				}
 			}
 		},
