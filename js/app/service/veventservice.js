@@ -63,7 +63,8 @@ app.service('VEventService', ['DavClient', 'VEvent', 'RandomStringService', func
 		var url = calendar.url;
 		var headers = {
 			'Content-Type': 'application/xml; charset=utf-8',
-			'Depth': 1
+			'Depth': 1,
+			'requesttoken': OC.requestToken
 		};
 		var body = cCalQuery.outerHTML;
 
@@ -106,7 +107,8 @@ app.service('VEventService', ['DavClient', 'VEvent', 'RandomStringService', func
 		}
 
 		var headers = {
-			'Content-Type': 'text/calendar; charset=utf-8'
+			'Content-Type': 'text/calendar; charset=utf-8',
+			'requesttoken': OC.requestToken
 		};
 		var uri = this._generateRandomUri();
 		var url = calendar.url + uri;
@@ -128,7 +130,8 @@ app.service('VEventService', ['DavClient', 'VEvent', 'RandomStringService', func
 		var url = event.calendar.url + event.uri;
 		var headers = {
 			'Content-Type': 'text/calendar; charset=utf-8',
-			'If-Match': event.etag
+			'If-Match': event.etag,
+			'requesttoken': OC.requestToken
 		};
 
 		return DavClient.request('PUT', url, headers, event.data).then(function(response) {
@@ -140,7 +143,8 @@ app.service('VEventService', ['DavClient', 'VEvent', 'RandomStringService', func
 	this.delete = function(event) {
 		var url = event.calendar.url + event.uri;
 		var headers = {
-			'If-Match': event.etag
+			'If-Match': event.etag,
+			'requesttoken': OC.requestToken
 		};
 
 		return DavClient.request('DELETE', url, headers, '').then(function(response) {
