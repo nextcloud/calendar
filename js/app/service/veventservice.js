@@ -92,7 +92,7 @@ app.service('VEventService', ['DavClient', 'VEvent', 'RandomStringService', func
 
 	this.get = function(calendar, uri) {
 		var url = calendar.url + uri;
-		return DavClient.request('GET', url, {}, '').then(function(response) {
+		return DavClient.request('GET', url, {'requesttoken' : OC.requestToken}, '').then(function(response) {
 			return new VEvent(calendar, {
 				'{urn:ietf:params:xml:ns:caldav}calendar-data': response.body,
 				'{DAV:}getetag': response.xhr.getResponseHeader('ETag')

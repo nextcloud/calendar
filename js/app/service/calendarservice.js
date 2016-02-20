@@ -244,7 +244,7 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 	};
 
 	this.delete = function(calendar) {
-		return DavClient.request('DELETE', calendar.url, {}, '').then(function(response) {
+		return DavClient.request('DELETE', calendar.url, {'requesttoken': OC.requestToken}, '').then(function(response) {
 			if (response.status === 204) {
 				return true;
 			} else {
