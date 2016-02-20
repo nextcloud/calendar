@@ -22,7 +22,7 @@
  *
  */
 ?>
-<div class="advanced--fieldset">
+<div class="advanced--fieldset" ng-hide="emailAddress === ''">
 	<input type="text" class="advanced--input h2" ng-model="nameofattendee"
 		placeholder="<?php p($l->t('Name of attendee'))?>" name="nameofattendee" autocomplete="off"
 		uib-typeahead="contact.name for contact in searchAttendee($viewValue)" typeahead-show-hint="true" typeahead-min-length="3"
@@ -31,10 +31,13 @@
 		<?php p($l->t('Add')); ?>
 	</button>
 </div>
+<div class="advanced--fieldset" ng-show="emailAddress === ''">
+	<span><?php p($l->t('Please add your email address in the personal settings in order to add attendees.')); ?></span>
+</div>
 
 <div class="advanced--fieldset">
 	<ul class="advanced--fieldset-attendeelist">
-		<li class="pull-left" ng-class="{ active: attendeeoptions }" ng-repeat="attendee in properties.attendee">
+		<li class="pull-left" ng-class="{ active: attendeeoptions }" ng-repeat="attendee in properties.attendee | attendeeNotOrganizerFilter: $scope.emailAddress">
 			<div class="advanced--toggler" ng-model="attendeeoptions" ng-click="attendeeoptions=!attendeeoptions">
 				<span class="bold pull-left">{{ attendee | attendeeFilter }}</span>
 				<button class="event-button event-delete-button icon-close pull-right" ng-click="deleteAttendee(attendee.value)">

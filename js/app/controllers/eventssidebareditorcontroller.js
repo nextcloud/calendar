@@ -26,8 +26,8 @@
  * Description: Takes care of anything inside the Events Modal.
  */
 
-app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'AutoCompletionService', 'eventEditorHelper', '$window', '$uibModalInstance', 'vevent', 'recurrenceId', 'isNew', 'properties',
-	function($scope, TimezoneService, AutoCompletionService, eventEditorHelper, $window, $uibModalInstance, vevent, recurrenceId, isNew, properties) {
+app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'AutoCompletionService', 'eventEditorHelper', '$window', '$uibModalInstance', 'vevent', 'recurrenceId', 'isNew', 'properties', 'emailAddress',
+	function($scope, TimezoneService, AutoCompletionService, eventEditorHelper, $window, $uibModalInstance, vevent, recurrenceId, isNew, properties, emailAddress) {
 		'use strict';
 
 		$scope.properties = properties;
@@ -37,6 +37,7 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
 		$scope.readOnly = isNew ? false : !vevent.calendar.writable;
 		$scope.selected = 1;
 		$scope.timezones = [];
+		$scope.emailAddress = emailAddress;
 
 		$scope.edittimezone = false;
 		if (($scope.properties.dtstart.parameters.zone !== 'floating' && $scope.properties.dtstart.parameters.zone !== $scope.defaulttimezone) ||
@@ -133,6 +134,15 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
 
 			angular.element('#advanced_from').datepicker('destroy');
 			angular.element('#advanced_to').datepicker('destroy');
+
+			if ($scope.properties.attendee.length > 0 && $scope.properties.organizer === null) {
+				$scope.properties.organizer = {
+					value: 'MAILTO:' + emailAddress,
+					parameters: {
+						cn: OC.getCurrentUser().displayName
+					}
+				};
+			}
 
 			vevent.calendar = $scope.calendar;
 			vevent.patch(recurrenceId, $scope.properties);
