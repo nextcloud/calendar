@@ -63,7 +63,8 @@ app.service('VEventService', ['DavClient', 'VEvent', 'RandomStringService', func
 		var url = calendar.url;
 		var headers = {
 			'Content-Type': 'application/xml; charset=utf-8',
-			'Depth': 1
+			'Depth': 1,
+			'requesttoken': OC.requestToken
 		};
 		var body = cCalQuery.outerHTML;
 
@@ -75,9 +76,8 @@ app.service('VEventService', ['DavClient', 'VEvent', 'RandomStringService', func
 
 			var vevents = [];
 
-			var objects = DavClient.parseMultiStatus(response.body);
-			for (var i in objects) {
-				var object = objects[i];
+			for (var i in response.body) {
+				var object = response.body[i];
 				var properties = object.propStat[0].properties;
 
 				var uri = object.href.substr(object.href.lastIndexOf('/') + 1);
@@ -92,7 +92,7 @@ app.service('VEventService', ['DavClient', 'VEvent', 'RandomStringService', func
 
 	this.get = function(calendar, uri) {
 		var url = calendar.url + uri;
-		return DavClient.request('GET', url, {}, '').then(function(response) {
+		return DavClient.request('GET', url, {'requesttoken' : OC.requestToken}, '').then(function(response) {
 			return new VEvent(calendar, {
 				'{urn:ietf:params:xml:ns:caldav}calendar-data': response.body,
 				'{DAV:}getetag': response.xhr.getResponseHeader('ETag')
@@ -106,7 +106,8 @@ app.service('VEventService', ['DavClient', 'VEvent', 'RandomStringService', func
 		}
 
 		var headers = {
-			'Content-Type': 'text/calendar; charset=utf-8'
+			'Content-Type': 'text/calendar; charset=utf-8',
+			'requesttoken': OC.requestToken
 		};
 		var uri = this._generateRandomUri();
 		var url = calendar.url + uri;
@@ -128,7 +129,8 @@ app.service('VEventService', ['DavClient', 'VEvent', 'RandomStringService', func
 		var url = event.calendar.url + event.uri;
 		var headers = {
 			'Content-Type': 'text/calendar; charset=utf-8',
-			'If-Match': event.etag
+			'If-Match': event.etag,
+			'requesttoken': OC.requestToken
 		};
 
 		return DavClient.request('PUT', url, headers, event.data).then(function(response) {
@@ -140,7 +142,8 @@ app.service('VEventService', ['DavClient', 'VEvent', 'RandomStringService', func
 	this.delete = function(event) {
 		var url = event.calendar.url + event.uri;
 		var headers = {
-			'If-Match': event.etag
+			'If-Match': event.etag,
+			'requesttoken': OC.requestToken
 		};
 
 		return DavClient.request('DELETE', url, headers, '').then(function(response) {

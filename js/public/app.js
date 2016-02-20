@@ -2871,14 +2871,13 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 		};
 
 		return DavClient.request('PROPPATCH', url, headers, body).then(function(response) {
-			var responseBody = DavClient.parseMultiStatus(response.body);
-			console.log(responseBody);
+			console.log(response.body);
 			return calendar;
 		});
 	};
 
 	this.delete = function(calendar) {
-		return DavClient.request('DELETE', calendar.url, {}, '').then(function(response) {
+		return DavClient.request('DELETE', calendar.url, {'requesttoken': OC.requestToken}, '').then(function(response) {
 			if (response.status === 204) {
 				return true;
 			} else {
@@ -4523,9 +4522,8 @@ app.service('VEventService', ['DavClient', 'VEvent', 'RandomStringService', func
 
 			var vevents = [];
 
-			var objects = DavClient.parseMultiStatus(response.body);
-			for (var i in objects) {
-				var object = objects[i];
+			for (var i in response.body) {
+				var object = response.body[i];
 				var properties = object.propStat[0].properties;
 
 				var uri = object.href.substr(object.href.lastIndexOf('/') + 1);
@@ -4540,7 +4538,7 @@ app.service('VEventService', ['DavClient', 'VEvent', 'RandomStringService', func
 
 	this.get = function(calendar, uri) {
 		var url = calendar.url + uri;
-		return DavClient.request('GET', url, {}, '').then(function(response) {
+		return DavClient.request('GET', url, {'requesttoken' : OC.requestToken}, '').then(function(response) {
 			return new VEvent(calendar, {
 				'{urn:ietf:params:xml:ns:caldav}calendar-data': response.body,
 				'{DAV:}getetag': response.xhr.getResponseHeader('ETag')
