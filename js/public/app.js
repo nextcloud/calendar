@@ -773,8 +773,8 @@ app.controller('DatePickerController', ['$scope', 'uiCalendarConfig', 'uibDatepi
  * Description: Takes care of anything inside the Events Modal.
  */
 
-app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'eventEditorHelper', '$uibModalInstance', 'vevent', 'recurrenceId', 'isNew',
-	function($scope, TimezoneService, eventEditorHelper, $uibModalInstance, vevent, recurrenceId, isNew) {
+app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'eventEditorHelper', 'AutoCompletionService', '$uibModalInstance', 'vevent', 'recurrenceId', 'isNew',
+	function($scope, TimezoneService, eventEditorHelper, AutoCompletionService, $uibModalInstance, vevent, recurrenceId, isNew) {
 		'use strict';
 
 		$scope.properties = vevent.getSimpleData(recurrenceId);
@@ -835,6 +835,14 @@ app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'e
 
 		$scope.cancel = function() {
 			$uibModalInstance.dismiss('cancel');
+		};
+
+		$scope.searchLocation = function(value) {
+			return AutoCompletionService.searchLocation(value);
+		};
+
+		$scope.selectLocationFromTypeahead = function(item) {
+			$scope.properties.location.value = item.label;
 		};
 
 		$scope.toggledAllDay = function() {
@@ -1128,6 +1136,14 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
 				$scope.eventsalarmview = false;
 				$scope.eventsrepeatview = true;
 			}
+		};
+
+		$scope.searchLocation = function(value) {
+			return AutoCompletionService.searchLocation(value);
+		};
+
+		$scope.selectLocationFromTypeahead = function(item) {
+			$scope.properties.location.value = item.label;
 		};
 
 		$scope.repeater = [
@@ -2684,7 +2700,13 @@ app.service('AutoCompletionService', ['$rootScope', '$http',
 				});
 			},
 			searchLocation: function(address) {
-
+			return $http.get($rootScope.baseUrl + 'autocompletion/location', {
+				params: {
+					location: address
+				}
+			}).then(function (response) {
+				return response.data;
+			});
 			}
 		};
 	}

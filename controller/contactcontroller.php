@@ -63,9 +63,12 @@ class ContactController extends Controller {
 			}
 
 			$name = $this->getNameFromContact($r);
+			if (is_string($r['ADR'])) {
+				$r['ADR'] = [$r['ADR']];
+			}
 
 			foreach ($r['ADR'] as $address) {
-				$address = trim(implode(" ", $address));
+				$address = trim(preg_replace("/\n+/", "\n", str_replace(';', "\n", $address)));
 				$contacts[] = [
 					'label' => $address,
 					'name' => $name
