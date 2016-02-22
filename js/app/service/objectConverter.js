@@ -58,6 +58,10 @@ app.factory('objectConverter', function () {
 		'delegated-to'
 	];
 
+	var organizerParameters = [
+		'cn'
+	];
+
 	/**
 	 * parsers of supported properties
 	 */
@@ -304,19 +308,19 @@ app.factory('objectConverter', function () {
 		//General
 		'summary': {parser: simpleParser.string, reader: simpleReader.string},
 		'location': {parser: simpleParser.string, reader: simpleReader.string},
-		'created': {parser: simpleParser.date, reader: simpleReader.date},
-		'last-modified': {parser: simpleParser.date, reader: simpleReader.date},
-		'categories': {parser: simpleParser.strings, reader: simpleReader.strings},
+		//'created': {parser: simpleParser.date, reader: simpleReader.date},
+		//'last-modified': {parser: simpleParser.date, reader: simpleReader.date},
+		//'categories': {parser: simpleParser.strings, reader: simpleReader.strings},
 		//attendees
 		'attendee': {parser: simpleParser.strings, reader: simpleReader.strings, parameters: attendeeParameters},
-		'organizer': {parser: simpleParser.string, reader: simpleReader.string},
+		'organizer': {parser: simpleParser.string, reader: simpleReader.string, parameters: organizerParameters},
 		//sharing
 		'class': {parser: simpleParser.string, reader: simpleReader.string},
 		//other
-		'description': {parser: simpleParser.string, reader: simpleReader.string},
-		'url': {parser: simpleParser.string, reader: simpleReader.string},
-		'status': {parser: simpleParser.string, reader: simpleReader.string},
-		'resources': {parser: simpleParser.strings, reader: simpleReader.strings}
+		'description': {parser: simpleParser.string, reader: simpleReader.string}
+		//'url': {parser: simpleParser.string, reader: simpleReader.string},
+		//'status': {parser: simpleParser.string, reader: simpleReader.string},
+		//'resources': {parser: simpleParser.strings, reader: simpleReader.strings}
 	};
 
 	/**

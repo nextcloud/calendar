@@ -97,10 +97,15 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 			->with($this->appName, 'installed_version')
 			->will($this->returnValue('42.13.37'));
 
-		$this->config->expects($this->once())
+		$this->config->expects($this->at(1))
 			->method('getUserValue')
 			->with('user123', $this->appName, 'currentView', 'month')
 			->will($this->returnValue('someView'));
+
+		$this->config->expects($this->at(2))
+			->method('getUserValue')
+			->with('user123', 'settings', 'email')
+			->will($this->returnValue('test@bla.com'));
 
 		$actual = $this->controller->index();
 
@@ -108,6 +113,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals([
 			'appVersion' => '42.13.37',
 			'defaultView' => 'someView',
+			'emailAddress' => 'test@bla.com',
 		], $actual->getParams());
 		$this->assertEquals('main', $actual->getTemplateName());
 	}

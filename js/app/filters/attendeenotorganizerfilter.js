@@ -1,4 +1,3 @@
-<?php
 /**
  * ownCloud - Calendar App
  *
@@ -21,13 +20,23 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-?>
-<div 
-	ui-calendar="uiConfig.calendar"
-	id="fullcalendar" class="calendar"
-	calendar="calendar"
-	ng-model="eventSources"
-	data-appVersion="<?php p($_['appVersion']); ?>"
-	data-defaultView="<?php p($_['defaultView']); ?>"
-	data-emailAddress="<?php p($_['emailAddress']); ?>">
-</div>
+app.filter('attendeeNotOrganizerFilter',
+	function () {
+		'use strict';
+
+		return function (attendees, organizer) {
+			if (organizer === '') {
+				return attendees;
+			}
+
+			if (attendees === null) {
+				return null;
+			}
+
+			var organizerValue = 'MAILTO:' + organizer;
+			return attendees.filter(function(element) {
+				return element.value !== organizerValue;
+			});
+		};
+	}
+);

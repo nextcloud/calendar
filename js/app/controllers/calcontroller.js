@@ -222,6 +222,9 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 							},
 							properties: function() {
 								return result.properties;
+							},
+							emailAddress: function() {
+								return angular.element('#fullcalendar').attr('data-emailAddress');
 							}
 						},
 						scope: $scope

@@ -242,6 +242,9 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 							},
 							properties: function() {
 								return result.properties;
+							},
+							emailAddress: function() {
+								return angular.element('#fullcalendar').attr('data-emailAddress');
 							}
 						},
 						scope: $scope
@@ -917,8 +920,8 @@ app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'e
  * Description: Takes care of anything inside the Events Modal.
  */
 
-app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'AutoCompletionService', 'eventEditorHelper', '$window', '$uibModalInstance', 'vevent', 'recurrenceId', 'isNew', 'properties',
-	function($scope, TimezoneService, AutoCompletionService, eventEditorHelper, $window, $uibModalInstance, vevent, recurrenceId, isNew, properties) {
+app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'AutoCompletionService', 'eventEditorHelper', '$window', '$uibModalInstance', 'vevent', 'recurrenceId', 'isNew', 'properties', 'emailAddress',
+	function($scope, TimezoneService, AutoCompletionService, eventEditorHelper, $window, $uibModalInstance, vevent, recurrenceId, isNew, properties, emailAddress) {
 		'use strict';
 
 		$scope.properties = properties;
@@ -928,6 +931,7 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
 		$scope.readOnly = isNew ? false : !vevent.calendar.writable;
 		$scope.selected = 1;
 		$scope.timezones = [];
+		$scope.emailAddress = emailAddress;
 
 		$scope.edittimezone = false;
 		if (($scope.properties.dtstart.parameters.zone !== 'floating' && $scope.properties.dtstart.parameters.zone !== $scope.defaulttimezone) ||
@@ -1024,6 +1028,15 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
 
 			angular.element('#advanced_from').datepicker('destroy');
 			angular.element('#advanced_to').datepicker('destroy');
+
+			if ($scope.properties.attendee.length > 0 && $scope.properties.organizer === null) {
+				$scope.properties.organizer = {
+					value: 'MAILTO:' + emailAddress,
+					parameters: {
+						cn: OC.getCurrentUser().displayName
+					}
+				};
+			}
 
 			vevent.calendar = $scope.calendar;
 			vevent.patch(recurrenceId, $scope.properties);
@@ -1752,6 +1765,26 @@ app.filter('attendeeFilter', function() {
 	};
 });
 
+app.filter('attendeeNotOrganizerFilter',
+	function () {
+		'use strict';
+
+		return function (attendees, organizer) {
+			if (organizer === '') {
+				return attendees;
+			}
+
+			if (attendees === null) {
+				return null;
+			}
+
+			var organizerValue = 'MAILTO:' + organizer;
+			return attendees.filter(function(element) {
+				return element.value !== organizerValue;
+			});
+		};
+	}
+);
 app.filter('calendareventFilter', [
 	function() {
 		'use strict';
@@ -3344,6 +3377,10 @@ app.factory('objectConverter', function () {
 		'delegated-to'
 	];
 
+	var organizerParameters = [
+		'cn'
+	];
+
 	/**
 	 * parsers of supported properties
 	 */
@@ -3590,19 +3627,19 @@ app.factory('objectConverter', function () {
 		//General
 		'summary': {parser: simpleParser.string, reader: simpleReader.string},
 		'location': {parser: simpleParser.string, reader: simpleReader.string},
-		'created': {parser: simpleParser.date, reader: simpleReader.date},
-		'last-modified': {parser: simpleParser.date, reader: simpleReader.date},
-		'categories': {parser: simpleParser.strings, reader: simpleReader.strings},
+		//'created': {parser: simpleParser.date, reader: simpleReader.date},
+		//'last-modified': {parser: simpleParser.date, reader: simpleReader.date},
+		//'categories': {parser: simpleParser.strings, reader: simpleReader.strings},
 		//attendees
 		'attendee': {parser: simpleParser.strings, reader: simpleReader.strings, parameters: attendeeParameters},
-		'organizer': {parser: simpleParser.string, reader: simpleReader.string},
+		'organizer': {parser: simpleParser.string, reader: simpleReader.string, parameters: organizerParameters},
 		//sharing
 		'class': {parser: simpleParser.string, reader: simpleReader.string},
 		//other
-		'description': {parser: simpleParser.string, reader: simpleReader.string},
-		'url': {parser: simpleParser.string, reader: simpleReader.string},
-		'status': {parser: simpleParser.string, reader: simpleReader.string},
-		'resources': {parser: simpleParser.strings, reader: simpleReader.strings}
+		'description': {parser: simpleParser.string, reader: simpleReader.string}
+		//'url': {parser: simpleParser.string, reader: simpleReader.string},
+		//'status': {parser: simpleParser.string, reader: simpleReader.string},
+		//'resources': {parser: simpleParser.strings, reader: simpleReader.strings}
 	};
 
 	/**
