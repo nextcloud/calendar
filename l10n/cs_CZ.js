@@ -2,6 +2,9 @@ OC.L10N.register(
     "calendar-rework",
     {
     "Calendar" : "Kalendář",
+    "New event" : "Nová událost",
+    "Global" : "Globální",
+    "Floating" : "Plovoucí",
     "Attendees" : "Účastníci",
     "Reminders" : "Připomínky",
     "Does not repeat" : "Neopakuje se",
@@ -103,7 +106,6 @@ OC.L10N.register(
     "from" : "od",
     "to" : "do",
     "All day Event" : "Celodenní událost",
-    "Events Location" : "Místo události",
     "starts" : "začíná",
     "ends" : "končí",
     "Delete" : "Smazat",

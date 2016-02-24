@@ -2,6 +2,8 @@ OC.L10N.register(
     "calendar-rework",
     {
     "Calendar" : "ปฏิทิน",
+    "New event" : "เหตุการณ์ใหม่",
+    "Global" : "ทั่วไป",
     "Attendees" : "ผู้เข้าร่วมกิจกรรม",
     "Does not repeat" : "ไม่ต้องทำซ้ำ",
     "Daily" : "รายวัน",
@@ -95,7 +97,6 @@ OC.L10N.register(
     "from" : "จาก",
     "to" : "ถึง",
     "All day Event" : "เหตุการณ์ตลอดทั้งวัน",
-    "Events Location" : "ที่อยู่ของเหตุการณ์",
     "Delete" : "ลบ",
     "Cancel" : "ยกเลิก",
     "Update" : "อัพเดท",

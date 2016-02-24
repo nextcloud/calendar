@@ -2,6 +2,7 @@ OC.L10N.register(
     "calendar-rework",
     {
     "Calendar" : "日曆",
+    "New event" : "新活動",
     "Attendees" : "出席者",
     "Does not repeat" : "不重覆",
     "Daily" : "每日",
@@ -99,7 +100,6 @@ OC.L10N.register(
     "from" : "從",
     "to" : "至",
     "All day Event" : "全天活動",
-    "Events Location" : "活動地點",
     "Delete" : "刪除",
     "Cancel" : "取消",
     "More ..." : "更多…",

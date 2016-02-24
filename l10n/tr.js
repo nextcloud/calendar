@@ -102,7 +102,6 @@ OC.L10N.register(
     "from" : "kimden",
     "to" : "alıcı",
     "All day Event" : "Tüm gün etkinliği",
-    "Events Location" : "Etkinlik Konumu",
     "starts" : "başlangıç",
     "ends" : "bitiş",
     "Delete" : "Sil",

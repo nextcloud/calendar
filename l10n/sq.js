@@ -2,6 +2,8 @@ OC.L10N.register(
     "calendar-rework",
     {
     "Calendar" : "Kalendar",
+    "New event" : "Veprimtari e re",
+    "Global" : "Globale",
     "Attendees" : "Pjesëmarrës",
     "Reminders" : "Kujtues",
     "Does not repeat" : "Mos e përsërit",
@@ -103,7 +105,6 @@ OC.L10N.register(
     "from" : "nga",
     "to" : "për",
     "All day Event" : "Veprimtari Gjithëditore",
-    "Events Location" : "Vend Veprimtarish",
     "starts" : "fillon",
     "ends" : "mbaron",
     "Delete" : "Fshije",

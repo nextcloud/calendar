@@ -1,5 +1,8 @@
 { "translations": {
     "Calendar" : "Kalendář",
+    "New event" : "Nová událost",
+    "Global" : "Globální",
+    "Floating" : "Plovoucí",
     "Attendees" : "Účastníci",
     "Reminders" : "Připomínky",
     "Does not repeat" : "Neopakuje se",
@@ -101,7 +104,6 @@
     "from" : "od",
     "to" : "do",
     "All day Event" : "Celodenní událost",
-    "Events Location" : "Místo události",
     "starts" : "začíná",
     "ends" : "končí",
     "Delete" : "Smazat",

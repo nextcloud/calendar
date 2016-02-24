@@ -2,6 +2,7 @@ OC.L10N.register(
     "calendar-rework",
     {
     "Calendar" : "Kalenteri",
+    "New event" : "Uusi tapahtuma",
     "Attendees" : "Osallistujat",
     "Reminders" : "Muistutukset",
     "Does not repeat" : "Ei toistoa",
@@ -94,7 +95,8 @@ OC.L10N.register(
     "from" : "alkaen",
     "to" : "päättyen",
     "All day Event" : "Koko päivän tapahtuma",
-    "Events Location" : "Tapahtuman sijainti",
+    "starts" : "alkaa",
+    "ends" : "päättyy",
     "Delete" : "Poista",
     "Cancel" : "Peruuta",
     "More ..." : "Lisää...",

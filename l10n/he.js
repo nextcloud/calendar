@@ -2,6 +2,9 @@ OC.L10N.register(
     "calendar-rework",
     {
     "Calendar" : "יומן",
+    "New event" : "אירוע חדש",
+    "Global" : "גלובלי",
+    "Floating" : "צף",
     "Attendees" : "משתתפים",
     "Reminders" : "תזכורות",
     "Does not repeat" : "ללא חזרה",
@@ -103,7 +106,6 @@ OC.L10N.register(
     "from" : "מאת",
     "to" : "אל",
     "All day Event" : "אירוע יום מלא",
-    "Events Location" : "מיקום אירועים",
     "starts" : "מתחיל",
     "ends" : "מסתיים",
     "Delete" : "מחיקה",

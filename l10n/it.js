@@ -2,6 +2,9 @@ OC.L10N.register(
     "calendar-rework",
     {
     "Calendar" : "Calendario",
+    "New event" : "Nuovo evento",
+    "Global" : "Globale",
+    "Floating" : "Fluttuante",
     "Attendees" : "Partecipanti",
     "Reminders" : "Promemoria",
     "Does not repeat" : "Non ripetere",
@@ -103,7 +106,6 @@ OC.L10N.register(
     "from" : "da",
     "to" : "a",
     "All day Event" : "Evento di un giorno intero",
-    "Events Location" : "Posizione eventi",
     "starts" : "inizia",
     "ends" : "finisce",
     "Delete" : "Elimina",

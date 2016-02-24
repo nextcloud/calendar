@@ -1,5 +1,7 @@
 { "translations": {
     "Calendar" : "Kalendar",
+    "New event" : "Veprimtari e re",
+    "Global" : "Globale",
     "Attendees" : "Pjesëmarrës",
     "Reminders" : "Kujtues",
     "Does not repeat" : "Mos e përsërit",
@@ -101,7 +103,6 @@
     "from" : "nga",
     "to" : "për",
     "All day Event" : "Veprimtari Gjithëditore",
-    "Events Location" : "Vend Veprimtarish",
     "starts" : "fillon",
     "ends" : "mbaron",
     "Delete" : "Fshije",

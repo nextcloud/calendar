@@ -2,6 +2,7 @@ OC.L10N.register(
     "calendar-rework",
     {
     "Calendar" : "Naptár",
+    "New event" : "Új esemény",
     "Attendees" : "Résztvevők",
     "Does not repeat" : "Nem ismétlődik",
     "Daily" : "naponta",
@@ -83,7 +84,6 @@ OC.L10N.register(
     "from" : "feladó",
     "to" : "címzett",
     "All day Event" : "Mindennapos esemény",
-    "Events Location" : "Esemény helye",
     "Delete" : "Törlés",
     "Cancel" : "Mégsem",
     "More ..." : "Bővebben...",
