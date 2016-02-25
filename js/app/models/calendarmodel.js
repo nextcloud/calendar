@@ -6,6 +6,9 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 		var _this = this;
 
 		angular.extend(this, {
+			_callbacks: {
+				enabled: function() {}
+			},
 			_propertiesBackup: {},
 			_properties: {
 				url: url,
@@ -36,6 +39,7 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 					console.log('querying events ...');
 					TimezoneService.get(timezone).then(function(tz) {
 						_this.list.loading = true;
+						_this.fcEventSource.isRendering = true;
 						$rootScope.$broadcast('reloadCalendarList');
 
 						VEventService.getAll(_this, start, end).then(function(events) {
@@ -45,6 +49,7 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 							}
 
 							callback(vevents);
+							_this.fcEventSource.isRendering = false;
 
 							_this.list.loading = false;
 							$rootScope.$broadcast('reloadCalendarList');
@@ -52,7 +57,8 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 					});
 				},
 				editable: this._properties.writable,
-				calendar: this
+				calendar: this,
+				isRendering: false
 			},
 			list: {
 				edit: false,
@@ -126,6 +132,11 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 			return this._properties.components;
 		},
 		set enabled(enabled) {
+			if (enabled !== this._properties.enabled) {
+				console.log('triggering callback');
+				this._callbacks.enabled(enabled);
+			}
+
 			this._properties.enabled = enabled;
 			this._setUpdated('enabled');
 		},
@@ -227,6 +238,9 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 		_generateTextColor: function(r,g,b) {
 			var brightness = (((r * 299) + (g * 587) + (b * 114)) / 1000);
 			return (brightness > 130) ? '#000000' : '#FAFAFA';
+		},
+		registerEnabledCallback: function(callback) {
+			this._callbacks.enabled = callback;
 		}
 	};
 
