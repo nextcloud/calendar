@@ -84,6 +84,7 @@ OC.L10N.register(
     "from" : "feladó",
     "to" : "címzett",
     "All day Event" : "Mindennapos esemény",
+    "Location" : "Hely",
     "Delete" : "Törlés",
     "Cancel" : "Mégsem",
     "More ..." : "Bővebben...",

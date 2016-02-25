@@ -106,6 +106,7 @@ OC.L10N.register(
     "from" : "从",
     "to" : "到",
     "All day Event" : "全天事件",
+    "Location" : "地点",
     "starts" : "开始于",
     "ends" : "结束于",
     "Delete" : "删除",

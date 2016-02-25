@@ -100,6 +100,7 @@ OC.L10N.register(
     "from" : "從",
     "to" : "至",
     "All day Event" : "全天活動",
+    "Location" : "地點",
     "Delete" : "刪除",
     "Cancel" : "取消",
     "More ..." : "更多…",

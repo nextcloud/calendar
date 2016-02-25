@@ -106,6 +106,7 @@ OC.L10N.register(
     "from" : "od",
     "to" : "do",
     "All day Event" : "Celodenní událost",
+    "Location" : "Umístění",
     "starts" : "začíná",
     "ends" : "končí",
     "Delete" : "Smazat",

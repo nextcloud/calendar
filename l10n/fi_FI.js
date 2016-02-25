@@ -95,6 +95,7 @@ OC.L10N.register(
     "from" : "alkaen",
     "to" : "päättyen",
     "All day Event" : "Koko päivän tapahtuma",
+    "Location" : "Sijainti",
     "starts" : "alkaa",
     "ends" : "päättyy",
     "Delete" : "Poista",

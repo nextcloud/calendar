@@ -106,6 +106,7 @@ OC.L10N.register(
     "from" : "fra",
     "to" : "til",
     "All day Event" : "Heldagshendelse",
+    "Location" : "Sted",
     "starts" : "starter",
     "ends" : "slutter",
     "Delete" : "Slett",

@@ -105,6 +105,7 @@ OC.L10N.register(
     "from" : "van",
     "to" : "naar",
     "All day Event" : "Hele dag",
+    "Location" : "Locatie",
     "starts" : "begint",
     "ends" : "eindigt",
     "Delete" : "Verwijderen",

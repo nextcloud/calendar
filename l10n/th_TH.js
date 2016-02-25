@@ -97,6 +97,7 @@ OC.L10N.register(
     "from" : "จาก",
     "to" : "ถึง",
     "All day Event" : "เหตุการณ์ตลอดทั้งวัน",
+    "Location" : "ตำแหน่งที่อยู่",
     "Delete" : "ลบ",
     "Cancel" : "ยกเลิก",
     "Update" : "อัพเดท",

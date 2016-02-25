@@ -106,6 +106,7 @@ OC.L10N.register(
     "from" : "von",
     "to" : "an",
     "All day Event" : "Ganztägiges Ereignis",
+    "Location" : "Ort",
     "starts" : "starten",
     "ends" : "enden",
     "Delete" : "Löschen",

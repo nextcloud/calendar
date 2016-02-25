@@ -106,6 +106,7 @@ OC.L10N.register(
     "from" : "מאת",
     "to" : "אל",
     "All day Event" : "אירוע יום מלא",
+    "Location" : "מיקום",
     "starts" : "מתחיל",
     "ends" : "מסתיים",
     "Delete" : "מחיקה",

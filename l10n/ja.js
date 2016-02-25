@@ -106,6 +106,7 @@ OC.L10N.register(
     "from" : "差出人",
     "to" : "宛先",
     "All day Event" : "終日イベント",
+    "Location" : "場所",
     "starts" : "開始",
     "ends" : "終了",
     "Delete" : "削除",

@@ -83,6 +83,7 @@ OC.L10N.register(
     "Title of the Event" : "Sündmuse pealkiri",
     "from" : "alates",
     "to" : "kuni",
+    "Location" : "Asukoht",
     "ends" : "lõpeb",
     "Delete" : "Kustuta",
     "Cancel" : "Loobu",

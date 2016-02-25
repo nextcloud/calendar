@@ -87,6 +87,7 @@ OC.L10N.register(
     "from" : "od",
     "to" : "za",
     "All day Event" : "Celodnevni dogodek",
+    "Location" : "Mesto",
     "starts" : "začetek",
     "ends" : "konec",
     "Delete" : "Izbriši",

@@ -104,6 +104,7 @@ OC.L10N.register(
     "from" : "från",
     "to" : "till",
     "All day Event" : "Heldags evenemang",
+    "Location" : "Plats",
     "starts" : "börjar",
     "ends" : "slutar",
     "Delete" : "Ta bort",
