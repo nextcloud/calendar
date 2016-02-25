@@ -356,6 +356,7 @@ app.factory('VEvent', ['$filter', 'objectConverter', 'ICalFactory', 'RandomStrin
 				}
 
 				objectConverter.patch(vevent, this.getSimpleData(recurrenceId), newSimpleData);
+				vevent.updatePropertyWithValue('last-modified', ICAL.Time.now());
 				_this.data = _this.components.toString();
 			}
 		});
