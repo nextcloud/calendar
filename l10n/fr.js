@@ -117,6 +117,7 @@ OC.L10N.register(
     "Description" : "Description",
     "Export" : "Exporter",
     "Import Calendars" : "Importer des agendas",
+    "Import canceled" : "Importation annulée",
     "Analyzing calendar" : "Analyse de l'agenda en cours",
     "The file contains objects incompatible with the selected calendar" : "Le fichier contient des objets incompatibles avec l'agenda sélectionné",
     "New calendar" : "Nouvel agenda",
