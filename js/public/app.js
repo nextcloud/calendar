@@ -523,6 +523,7 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 
 		$scope.newCalendarInputVal = '';
 		$scope.newCalendarColorVal = '';
+		$scope.currentUser = oc_current_user;
 
 		$scope.create = function (name, color) {
 			CalendarService.create(name, color).then(function(calendar) {

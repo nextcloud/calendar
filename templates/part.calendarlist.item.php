@@ -47,7 +47,8 @@
 			ng-click="download(calendar)">
 		</span>
 	</span>
-	<span class="action">
+	<span class="action"
+		ng-show="calendar.owner === currentUser">
 		<span id="calendarlist-icon edit"
 			  data-id="{{ calendar.uri }}"
 			  title="Edit"
