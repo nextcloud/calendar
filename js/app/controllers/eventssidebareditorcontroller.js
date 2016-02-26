@@ -75,7 +75,7 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
 			});
 
 			$scope.timezones.push({
-				displayname: t('calendar', 'Floating'),
+				displayname: t('calendar', 'None'),
 				group: t('calendar', 'Global'),
 				value: 'floating'
 			});
