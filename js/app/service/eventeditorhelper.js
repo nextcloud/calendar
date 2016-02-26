@@ -74,11 +74,9 @@ app.factory('eventEditorHelper', function () {
 		}
 
 		if (alarm.editor.triggerType === 'absolute') {
-			alarm.editor.absDate = alarm.trigger.value.format('L');
-			alarm.editor.absTime = alarm.trigger.value.format('LT');
+			alarm.editor.absMoment = alarm.trigger.value;
 		} else {
-			alarm.editor.absDate = '';
-			alarm.editor.absTime = '';
+			alarm.editor.absMoment = moment();
 		}
 
 		alarm.editor.repeat = !(!alarm.repeat.value || alarm.repeat.value === 0);

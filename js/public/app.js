@@ -127,6 +127,8 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 		 */
 
 		$scope.newEvent = function (start, end, jsEvent, view) {
+			uiCalendarConfig.calendars.calendar.fullCalendar('removeEvents', 'new');
+
 			var fcEvent = {
 				id: 'new',
 				allDay: !start.hasTime() && !end.hasTime(),
@@ -148,7 +150,7 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 				return $scope._calculatePopoverPosition(angular.element('.new-event-dummy')[0], view);
 			}, function(vevent) {
 				VEventService.create(vevent.calendar, vevent.data).then(function(vevent) {
-					var eventsToRender = vevent.getFcEvent(view.intervalStart, view.intervalEnd, $scope.defaulttimezone);
+					var eventsToRender = vevent.getFcEvent(view.start, view.end, $scope.defaulttimezone);
 					angular.forEach(eventsToRender, function(event) {
 						uiCalendarConfig.calendars.calendar.fullCalendar('removeEvents', 'new');
 						uiCalendarConfig.calendars.calendar.fullCalendar(
@@ -284,6 +286,12 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 			$scope.eventModal.result.then(function(result) {
 				if (result.action === 'save') {
 					successCallback(result.event);
+
+					$scope.eventModal = null;
+					$scope.eventModalVEvent = null;
+					$scope.eventModalRecurrenceId = null;
+					$scope.eventModalFcEvent = null;
+
 				} else if (result.action === 'proceed') {
 					$scope.eventModal = $uibModal.open({
 						templateUrl: 'eventssidebareditor.html',
@@ -312,7 +320,12 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 
 					$scope.eventModal.result.then(function(event) {
 						successCallback(event);
+
 						$scope.eventModal = null;
+						$scope.eventModalVEvent = null;
+						$scope.eventModalRecurrenceId = null;
+						$scope.eventModalFcEvent = null;
+
 						angular.element('#app-content').removeClass('with-app-sidebar');
 					}, function(reason) {
 						if (reason === 'delete') {
@@ -409,7 +422,7 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 									id
 								);
 
-								var eventsToRender = vevent.getFcEvent(view.intervalStart, view.intervalEnd, $scope.defaulttimezone);
+								var eventsToRender = vevent.getFcEvent(view.start, view.end, $scope.defaulttimezone);
 								angular.forEach(eventsToRender, function(event) {
 									uiCalendarConfig.calendars.calendar.fullCalendar(
 										'renderEvent',
@@ -432,7 +445,7 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 								);
 
 								VEventService.create(newCalendar, vevent.data).then(function(vevent) {
-									var eventsToRender = vevent.getFcEvent(view.intervalStart, view.intervalEnd, $scope.defaulttimezone);
+									var eventsToRender = vevent.getFcEvent(view.start, view.end, $scope.defaulttimezone);
 									angular.forEach(eventsToRender, function(event) {
 										uiCalendarConfig.calendars.calendar.fullCalendar(
 											'renderEvent',
@@ -822,12 +835,17 @@ app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'e
 	function($scope, TimezoneService, eventEditorHelper, AutoCompletionService, $uibModalInstance, vevent, recurrenceId, isNew) {
 		'use strict';
 
-		$scope.properties = vevent.getSimpleData(recurrenceId);
+		var simpleData = vevent.getSimpleData(recurrenceId);
+		console.log('sd', simpleData);
+		$scope.properties = simpleData;
+		console.log('s.p', $scope.properties);
 		$scope.is_new = isNew;
 		$scope.calendar = isNew ? null : vevent.calendar;
 		$scope.oldCalendar = isNew ? null : vevent.calendar;
 		$scope.readOnly = isNew ? false : !vevent.calendar.writable;
 		$scope.showTimezone = false;
+
+		console.log($scope.properties);
 
 		var startZoneAintFloating = $scope.properties.dtstart.parameters.zone !== 'floating',
 			startZoneAintDefaultTz = $scope.properties.dtstart.parameters.zone !== $scope.defaulttimezone,
@@ -863,6 +881,7 @@ app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'e
 			}
 
 			if (action === 'proceed') {
+				console.log('proceed', $scope.properties);
 				$uibModalInstance.close({
 					action: 'proceed',
 					properties: $scope.properties
@@ -939,6 +958,8 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
 		$scope.timezones = [];
 		$scope.emailAddress = emailAddress;
 		$scope.rruleNotSupported = false;
+
+		console.log(properties);
 
 		var startZoneAintFloating = $scope.properties.dtstart.parameters.zone !== 'floating',
 			startZoneAintDefaultTz = $scope.properties.dtstart.parameters.zone !== $scope.defaulttimezone,
@@ -1058,6 +1079,14 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
 				$scope.properties.rrule.until = null;
 			}
 
+			angular.forEach($scope.properties.alarm, function(alarm) {
+				if (alarm.editor.triggerType === 'absolute') {
+					alarm.trigger.value = alarm.editor.absMoment;
+				}
+				console.log(alarm);
+
+			});
+
 			vevent.calendar = $scope.calendar;
 			vevent.patch(recurrenceId, $scope.properties);
 
@@ -1065,6 +1094,8 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
 		};
 
 		$uibModalInstance.rendered.then(function() {
+			eventEditorHelper.prepareProperties($scope.properties);
+
 			if ($scope.properties.dtend.type === 'date') {
 				$scope.properties.dtend.value = moment($scope.properties.dtend.value.subtract(1, 'days'));
 			}
@@ -1381,17 +1412,17 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
 		};
 
 		$scope.updateReminderAbsolute = function(alarm) {
-			if (alarm.editor.absDate.length > 0 && alarm.editor.absTime.length > 0) {
-				alarm.trigger.value = moment(alarm.editor.absDate).add(moment.duration(alarm.editor.absTime));
-				alarm.trigger.type = 'date-time';
-			} //else {
-			//show some error message
-			//}
+			if (!moment.isMoment(alarm.trigger.value)) {
+				alarm.trigger.value = moment();
+			}
+			alarm.trigger.type = 'date-time';
 		};
 
+		/*
 		$scope.updateReminderRepeat = function(alarm) {
 			alarm.duration.value = parseInt(alarm.editor.repeatNValue) * parseInt(alarm.editor.repeatTimeUnit);
 		};
+		*/
 	}
 ]);
 /**
@@ -2016,7 +2047,14 @@ app.filter('simpleReminderDescription', function() {
 				}
 			}
 		} else {
-			return t('calendar', '{type} at {time}', {type: getActionName(alarm), time: alarm.trigger.value.format()});
+			if (alarm.editor && moment.isMoment(alarm.editor.absMoment)) {
+				return t('calendar', '{type} at {time}', {
+					type: getActionName(alarm),
+					time: alarm.editor.absMoment.format('LLLL')
+				});
+			} else {
+				return '';
+			}
 		}
 	};
 });
@@ -3334,11 +3372,9 @@ app.factory('eventEditorHelper', function () {
 		}
 
 		if (alarm.editor.triggerType === 'absolute') {
-			alarm.editor.absDate = alarm.trigger.value.format('L');
-			alarm.editor.absTime = alarm.trigger.value.format('LT');
+			alarm.editor.absMoment = alarm.trigger.value;
 		} else {
-			alarm.editor.absDate = '';
-			alarm.editor.absTime = '';
+			alarm.editor.absMoment = moment();
 		}
 
 		alarm.editor.repeat = !(!alarm.repeat.value || alarm.repeat.value === 0);
@@ -3422,17 +3458,17 @@ app.factory('objectConverter', function () {
 	var defaults = {
 		'summary': null,
 		'location': null,
-		'created': null,
-		'last-modified': null,
+		//'created': null,
+		//'last-modified': null,
 		'organizer': null,
 		'class': null,
 		'description': null,
-		'url': null,
-		'status': null,
-		'resources': null,
+		//'url': null,
+		//'status': null,
+		//'resources': null,
 		'alarm': null,
 		'attendee': null,
-		'categories': null,
+		//'categories': null,
 		'dtstart': null,
 		'dtend': null,
 		'repeating': null,
@@ -3744,9 +3780,9 @@ app.factory('objectConverter', function () {
 				simpleParser.date(alarmData, alarm, 'trigger');
 				simpleParser.string(alarmData, alarm, 'repeat');
 				simpleParser.string(alarmData, alarm, 'duration');
-				simpleParser.strings(alarmData, alarm, 'attendee', attendeeParameters);
+				//simpleParser.strings(alarmData, alarm, 'attendee', attendeeParameters);
 
-				if (alarm.hasProperty('trigger')) {
+				if (alarmData.trigger.type === 'duration' && alarm.hasProperty('trigger')) {
 					var trigger = alarm.getFirstProperty('trigger');
 					var related = trigger.getParameter('related');
 					if (related) {
@@ -3958,14 +3994,6 @@ app.factory('objectConverter', function () {
 		parse: function(vevent) {
 			var data=angular.extend({}, defaults), parser, parameters;
 
-			for (parser in specificParser) {
-				if (!specificParser.hasOwnProperty(parser)) {
-					continue;
-				}
-
-				specificParser[parser](data, vevent);
-			}
-
 			for (var key in simpleProperties) {
 				if (!simpleProperties.hasOwnProperty(key)) {
 					continue;
@@ -3976,6 +4004,14 @@ app.factory('objectConverter', function () {
 				if (vevent.hasProperty(key)) {
 					parser(data, vevent, key, parameters);
 				}
+			}
+
+			for (parser in specificParser) {
+				if (!specificParser.hasOwnProperty(parser)) {
+					continue;
+				}
+
+				specificParser[parser](data, vevent);
 			}
 
 			return data;

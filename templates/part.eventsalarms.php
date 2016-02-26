@@ -60,12 +60,12 @@
 						<div class="event-fieldset-custom-interior">
 							<!-- Select between relative and absolute -->
 							<div class="relative-container custom-container">
-								<input type="radio" name="relativeorabsolute"
+								<input type="radio" name="relativeorabsolute_{{$id}}"
 									   id="relativereminderradio_{{$id}}" class="event-radio"
 									   value="relative" ng-model="alarm.editor.triggerType"
 									   ng-change="updateReminderRelative(alarm)" />
 								<label for="relativereminderradio_{{$id}}"><?php p($l->t('Relative')); ?></label>
-								<input type="radio" name="relativeorabsolute"
+								<input type="radio" name="relativeorabsolute_{{$id}}"
 									   id="absolutereminderradio_{{$id}}" class="event-radio"
 									   value="absolute" ng-model="alarm.editor.triggerType"
 									   ng-change="updateReminderAbsolute(alarm)" />
@@ -74,12 +74,12 @@
 							<div class="clear-both"></div>
 							<!-- Relative input -->
 							<div class="custom-container-options" ng-show="alarm.editor.triggerType === 'relative'">
-								<input id="relativealarm_{{$id}}" class="event-input relativealarm" type="number"
+								<input id="relativealarm_{{$id}}" class="event-input relativealarm pull-quarter" type="number"
 									   ng-model="alarm.editor.triggerValue"
 									   ng-disabled="alarm.editor.triggerType != 'relative'"
 									   ng-change="updateReminderRelative(alarm)"
 								/>
-								<select class="event-select event-select-reminder"
+								<select class="event-select event-select-reminder pull-quarter"
 										ng-disabled="alarm.editor.triggerType != 'relative'"
 										ng-model="alarm.editor.triggerTimeUnit"
 										ng-change="updateReminderRelative(alarm)">
@@ -87,15 +87,13 @@
 											ng-selected="{{reminder.factor == alarm.editor.triggerTimeUnit}}"
 											value="{{reminder.factor}}">{{reminder.displayname}}</option>
 								</select>
-								<select class="event-select event-select-reminder"
+								<select class="event-select event-select-reminder pull-quarter"
 										ng-disabled="alarm.editor.triggerType != 'relative'"
 										ng-model="alarm.editor.triggerBeforeAfter"
-										ng-change="updateReminderRelative(alarm)">
-									<option ng-repeat="reminder in timepositionreminderSelect"
-											ng-selected="{{reminder.factor == alarm.editor.triggerBeforeAfter}}"
-											value="{{reminder.factor}}">{{reminder.displayname}}</option>
+										ng-change="updateReminderRelative(alarm)"
+										ng-options="reminder.factor as reminder.displayname for reminder in timepositionreminderSelect">
 								</select>
-								<select class="event-select event-select-reminder"
+								<select class="event-select event-select-reminder pull-quarter"
 										ng-disabled="alarm.editor.triggerType != 'relative'"
 										ng-model="alarm.trigger.related"
 										ng-change="updateReminderRelative(alarm)">
@@ -106,19 +104,10 @@
 							</div>
 							<!-- absolute input -->
 							<div class="custom-container-options" ng-show="alarm.editor.triggerType === 'absolute'">
-								<input type="text" name="absolutreminderdate"
-									   id="absolutreminderdate_{{$id}}" class="event-input"
-									   ng-model="alarm.editor.absTime" ng-disabled="alarm.editor.triggerType != 'absolute'"
-									   placeholder="<?php p($l->t('Date'));?>"
-									   ng-change="updateReminderAbsolute(alarm)"
-								/>
-								<input type="text" class="event-input"
-									   name="absolutremindertime" id="absolutremindertime_{{$id}}"
-									   ng-model="alarm.editor.absDate" ng-disabled="alarm.editor.triggerType != 'absolute'"
-									   ng-change="updateReminderAbsolute(alarm)"
-								/>
+								<ocdatetimepicker ng-model="alarm.editor.absMoment"></ocdatetimepicker>
 							</div>
 							<!-- repeat settings -->
+							<!--
 							<div class="custom-container repeat-container">
 								<input type="checkbox" class="event-checkbox"
 									   id="repeatabsolutereminder_{{$id}}"
@@ -127,16 +116,16 @@
 								<label for="repeatabsolutereminder_{{$id}}"><?php p($l->t('Repeat')); ?></label>
 							</div>
 							<div class="custom-container-options" ng-show="alarm.editor.repeat == true">
-								<input class="event-input" type="number"
+								<input class="event-input pull-quarter" type="number"
 									   ng-model="alarm.editor.repeatNTimes"
 									   ng-disabled="alarm.editor.repeat == false"
 									   ng-change="updateReminderRepeat(alarm)" />
-								<span><?php p($l->t('times every')); ?></span>
-								<input class="event-input" type="number"
+								<span class="pull-quarter inline"><?php p($l->t('times every')); ?></span>
+								<input class="event-input pull-quarter" type="number"
 									   ng-model="alarm.editor.repeatNValue"
 									   ng-disabled="alarm.editor.repeat == false"
 									   ng-change="updateReminderRepeat(alarm)" />
-								<select class="event-select event-select-reminder"
+								<select class="event-select event-select-reminder pull-quarter"
 										ng-model="alarm.editor.repeatTimeUnit"
 										ng-disabled="alarm.editor.repeat == false"
 										ng-change="updateReminderRepeat(alarm)">
@@ -145,6 +134,7 @@
 											value="{{reminder.factor}}">{{reminder.displayname}}</option>
 								</select>
 							</div>
+							-->
 						</div>
 					</div>
 				</div>

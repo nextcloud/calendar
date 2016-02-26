@@ -107,6 +107,8 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 		 */
 
 		$scope.newEvent = function (start, end, jsEvent, view) {
+			uiCalendarConfig.calendars.calendar.fullCalendar('removeEvents', 'new');
+
 			var fcEvent = {
 				id: 'new',
 				allDay: !start.hasTime() && !end.hasTime(),
@@ -128,7 +130,7 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 				return $scope._calculatePopoverPosition(angular.element('.new-event-dummy')[0], view);
 			}, function(vevent) {
 				VEventService.create(vevent.calendar, vevent.data).then(function(vevent) {
-					var eventsToRender = vevent.getFcEvent(view.intervalStart, view.intervalEnd, $scope.defaulttimezone);
+					var eventsToRender = vevent.getFcEvent(view.start, view.end, $scope.defaulttimezone);
 					angular.forEach(eventsToRender, function(event) {
 						uiCalendarConfig.calendars.calendar.fullCalendar('removeEvents', 'new');
 						uiCalendarConfig.calendars.calendar.fullCalendar(
@@ -264,6 +266,12 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 			$scope.eventModal.result.then(function(result) {
 				if (result.action === 'save') {
 					successCallback(result.event);
+
+					$scope.eventModal = null;
+					$scope.eventModalVEvent = null;
+					$scope.eventModalRecurrenceId = null;
+					$scope.eventModalFcEvent = null;
+
 				} else if (result.action === 'proceed') {
 					$scope.eventModal = $uibModal.open({
 						templateUrl: 'eventssidebareditor.html',
@@ -292,7 +300,12 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 
 					$scope.eventModal.result.then(function(event) {
 						successCallback(event);
+
 						$scope.eventModal = null;
+						$scope.eventModalVEvent = null;
+						$scope.eventModalRecurrenceId = null;
+						$scope.eventModalFcEvent = null;
+
 						angular.element('#app-content').removeClass('with-app-sidebar');
 					}, function(reason) {
 						if (reason === 'delete') {
@@ -389,7 +402,7 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 									id
 								);
 
-								var eventsToRender = vevent.getFcEvent(view.intervalStart, view.intervalEnd, $scope.defaulttimezone);
+								var eventsToRender = vevent.getFcEvent(view.start, view.end, $scope.defaulttimezone);
 								angular.forEach(eventsToRender, function(event) {
 									uiCalendarConfig.calendars.calendar.fullCalendar(
 										'renderEvent',
@@ -412,7 +425,7 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 								);
 
 								VEventService.create(newCalendar, vevent.data).then(function(vevent) {
-									var eventsToRender = vevent.getFcEvent(view.intervalStart, view.intervalEnd, $scope.defaulttimezone);
+									var eventsToRender = vevent.getFcEvent(view.start, view.end, $scope.defaulttimezone);
 									angular.forEach(eventsToRender, function(event) {
 										uiCalendarConfig.calendars.calendar.fullCalendar(
 											'renderEvent',

@@ -30,12 +30,17 @@ app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'e
 	function($scope, TimezoneService, eventEditorHelper, AutoCompletionService, $uibModalInstance, vevent, recurrenceId, isNew) {
 		'use strict';
 
-		$scope.properties = vevent.getSimpleData(recurrenceId);
+		var simpleData = vevent.getSimpleData(recurrenceId);
+		console.log('sd', simpleData);
+		$scope.properties = simpleData;
+		console.log('s.p', $scope.properties);
 		$scope.is_new = isNew;
 		$scope.calendar = isNew ? null : vevent.calendar;
 		$scope.oldCalendar = isNew ? null : vevent.calendar;
 		$scope.readOnly = isNew ? false : !vevent.calendar.writable;
 		$scope.showTimezone = false;
+
+		console.log($scope.properties);
 
 		var startZoneAintFloating = $scope.properties.dtstart.parameters.zone !== 'floating',
 			startZoneAintDefaultTz = $scope.properties.dtstart.parameters.zone !== $scope.defaulttimezone,
@@ -71,6 +76,7 @@ app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'e
 			}
 
 			if (action === 'proceed') {
+				console.log('proceed', $scope.properties);
 				$uibModalInstance.close({
 					action: 'proceed',
 					properties: $scope.properties

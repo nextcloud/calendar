@@ -40,6 +40,8 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
 		$scope.emailAddress = emailAddress;
 		$scope.rruleNotSupported = false;
 
+		console.log(properties);
+
 		var startZoneAintFloating = $scope.properties.dtstart.parameters.zone !== 'floating',
 			startZoneAintDefaultTz = $scope.properties.dtstart.parameters.zone !== $scope.defaulttimezone,
 			endZoneAintFloating = $scope.properties.dtend.parameters.zone !== 'floating',
@@ -158,6 +160,14 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
 				$scope.properties.rrule.until = null;
 			}
 
+			angular.forEach($scope.properties.alarm, function(alarm) {
+				if (alarm.editor.triggerType === 'absolute') {
+					alarm.trigger.value = alarm.editor.absMoment;
+				}
+				console.log(alarm);
+
+			});
+
 			vevent.calendar = $scope.calendar;
 			vevent.patch(recurrenceId, $scope.properties);
 
@@ -165,6 +175,8 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
 		};
 
 		$uibModalInstance.rendered.then(function() {
+			eventEditorHelper.prepareProperties($scope.properties);
+
 			if ($scope.properties.dtend.type === 'date') {
 				$scope.properties.dtend.value = moment($scope.properties.dtend.value.subtract(1, 'days'));
 			}
@@ -481,16 +493,16 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
 		};
 
 		$scope.updateReminderAbsolute = function(alarm) {
-			if (alarm.editor.absDate.length > 0 && alarm.editor.absTime.length > 0) {
-				alarm.trigger.value = moment(alarm.editor.absDate).add(moment.duration(alarm.editor.absTime));
-				alarm.trigger.type = 'date-time';
-			} //else {
-			//show some error message
-			//}
+			if (!moment.isMoment(alarm.trigger.value)) {
+				alarm.trigger.value = moment();
+			}
+			alarm.trigger.type = 'date-time';
 		};
 
+		/*
 		$scope.updateReminderRepeat = function(alarm) {
 			alarm.duration.value = parseInt(alarm.editor.repeatNValue) * parseInt(alarm.editor.repeatTimeUnit);
 		};
+		*/
 	}
 ]);
