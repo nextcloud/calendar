@@ -61,3 +61,8 @@ You sure can help us!
 
 Testing is a crucial part of developing software. You can help us by testing the calendar app and providing high-quality bug reports. Please always __use the [issue template](https://raw.githubusercontent.com/owncloud/core/master/issue_template.md)__, __fill out everything__ and be as precise as possible.
 Always make sure that you are running the latest version. Search for existing issues before creating new ones, having to deal with duplicate bug reports is a big waste of time for us.
+
+#### Supported Browsers
+* Latest Firefox
+* Latest Chrome/Chromium
+* Latest Safari
