@@ -118,6 +118,7 @@ OC.L10N.register(
     "Description" : "Popis",
     "Export" : "Exportovat",
     "Import Calendars" : "Importovat kalendáře",
+    "Import canceled" : "Import zrušen",
     "Analyzing calendar" : "Analýza kalendáře",
     "The file contains objects incompatible with the selected calendar" : "Soubor obsahuje objekty nekompatibilní s vybraným kalendářem",
     "New calendar" : "Nový kalendář",
