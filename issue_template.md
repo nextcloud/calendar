@@ -1,6 +1,6 @@
-NOTE: Migration and CalDAV issues belong in the core repo!
---
-
+<!--
+Migration and CalDAV issues belong in the core repo!
+-->
 ### Steps to reproduce
 1.
 2.
