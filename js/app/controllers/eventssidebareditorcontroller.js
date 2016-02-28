@@ -354,7 +354,7 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
 		$scope.partstats = [
 			{ displayname: t('Calendar', 'Required'), val : 'REQ-PARTICIPANT' },
 			{ displayname: t('Calendar', 'Optional'), val : 'OPT-PARTICIPANT' },
-			{ displayname: t('Calendar', 'Copied for Info'), val : 'NON-PARTICIPANT' }
+			{ displayname: t('Calendar', 'Does not attend'), val : 'NON-PARTICIPANT' }
 		];
 
 		$scope.getLocation = function() {

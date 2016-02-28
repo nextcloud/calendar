@@ -50,15 +50,52 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 	function ($scope, $rootScope, $window, CalendarService, VEventService, SettingsService, TimezoneService, VEvent, is, uiCalendarConfig, $uibModal) {
 		'use strict';
 
+		is.loading = true;
+
 		$scope.calendars = [];
 		$scope.eventSources = [];
 		$scope.eventSource = {};
 		$scope.defaulttimezone = TimezoneService.current();
-		TimezoneService.getCurrent().then(function(timezone) {
-			ICAL.TimezoneService.register($scope.defaulttimezone, timezone.jCal);
-		});
 		$scope.eventModal = null;
 		var switcher = [];
+
+		function showCalendar(url) {
+			if (switcher.indexOf(url) === -1 && $scope.eventSource[url].isRendering === false) {
+				switcher.push(url);
+				uiCalendarConfig.calendars.calendar.fullCalendar(
+					'removeEventSource',
+					$scope.eventSource[url]);
+				uiCalendarConfig.calendars.calendar.fullCalendar(
+					'addEventSource',
+					$scope.eventSource[url]);
+			}
+		}
+
+		function hideCalendar(url) {
+			if (switcher.indexOf(url) !== -1) {
+				uiCalendarConfig.calendars.calendar.fullCalendar(
+					'removeEventSource',
+					$scope.eventSource[url]);
+				switcher.splice(switcher.indexOf(url), 1);
+			}
+		}
+
+		$scope.$watchCollection('calendars', function(newCalendarCollection, oldCalendarCollection) {
+			var newCalendars = newCalendarCollection.filter(function(calendar) {
+				return oldCalendarCollection.indexOf(calendar) === -1;
+			});
+
+			angular.forEach(newCalendars, function(calendar) {
+				calendar.registerEnabledCallback(function(enabled) {
+					if (enabled) {
+						showCalendar(calendar.url);
+					} else {
+						hideCalendar(calendar.url);
+						calendar.list.loading = false;
+					}
+				});
+			});
+		});
 
 		var w = angular.element($window);
 		w.bind('resize', function () {
@@ -66,7 +103,9 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 				.fullCalendar('option', 'height', w.height() - angular.element('#header').height());
 		});
 
-		is.loading = true;
+		TimezoneService.getCurrent().then(function(timezone) {
+			ICAL.TimezoneService.register($scope.defaulttimezone, timezone.jCal);
+		});
 
 		CalendarService.getAll().then(function(calendars) {
 			$scope.calendars = calendars;
@@ -77,11 +116,8 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 			angular.forEach($scope.calendars, function (calendar) {
 				$scope.eventSource[calendar.url] = calendar.fcEventSource;
 				if (calendar.enabled) {
-					uiCalendarConfig.calendars.calendar.fullCalendar(
-						'addEventSource',
-						$scope.eventSource[calendar.url]);
+					showCalendar(calendar.url);
 				}
-				switcher.push(calendar.url);
 			});
 		});
 
@@ -470,12 +506,6 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 		 */
 		$rootScope.$on('createdCalendar', function (event, createdCalendar) {
 			$scope.eventSource[createdCalendar.url] = createdCalendar.fcEventSource;
-
-			if (createdCalendar.enabled) {
-				uiCalendarConfig.calendars.calendar.fullCalendar('addEventSource',
-					$scope.eventSource[createdCalendar.url]);
-				switcher.push(createdCalendar.url);
-			}
 		});
 
 		/**
@@ -486,23 +516,6 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 		 */
 		$rootScope.$on('updatedCalendar', function (event, updatedCalendar) {
 			var url = updatedCalendar.url;
-			var index = switcher.indexOf(url);
-
-			if (updatedCalendar.enabled && index === - 1) {
-				uiCalendarConfig.calendars.calendar.fullCalendar('addEventSource',
-					$scope.eventSource[url]);
-				switcher.push(url);
-			}
-			//Events are already visible -> loading finished
-			if (updatedCalendar.enabled && index !== -1) {
-				$rootScope.$broadcast('finishedLoadingEvents', url);
-			}
-
-			if (!updatedCalendar.enabled && index !== -1) {
-				uiCalendarConfig.calendars.calendar.fullCalendar('removeEventSource',
-					$scope.eventSource[url]);
-				switcher.splice(index, 1);
-			}
 
 			if ($scope.eventSource[url].color !== updatedCalendar.color) {
 				// Sadly fullcalendar doesn't support changing a calendar's
@@ -526,33 +539,14 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 			});
 
 			var deletedObject = calendar.url;
-			uiCalendarConfig.calendars.calendar.fullCalendar('removeEventSource',
-				$scope.eventSource[deletedObject]);
+			hideCalendar(calendar.url);
 
 			delete $scope.eventSource[deletedObject];
 		});
 
 		$rootScope.$on('refetchEvents', function (event, calendar) {
-			if (switcher.indexOf(calendar.url) !== -1) {
-				uiCalendarConfig.calendars.calendar.fullCalendar('removeEventSource', $scope.eventSource[calendar.url]);
-				uiCalendarConfig.calendars.calendar.fullCalendar('addEventSource', $scope.eventSource[calendar.url]);
-			}
+			uiCalendarConfig.calendars.calendar.fullCalendar('refetchEvents');
 		});
-
-		/**
-		 * After a calendar's visibility was changed:
-		 * - add event source to fullcalendar if enabled is true
-		 * - remove event source from fullcalendar if enabled is false
-		 */
-		$rootScope.$on('updatedCalendarsVisibility', function (event, calendar) {
-			if (calendar.enabled) {
-				uiCalendarConfig.calendars.calendar.fullCalendar('addEventSource', $scope.eventSource[calendar.url]);
-			} else {
-				uiCalendarConfig.calendars.calendar.fullCalendar('removeEventSource', $scope.eventSource[calendar.url]);
-				calendar.list.loading = false;
-			}
-		});
-
 	}
 ]);
 
@@ -1300,7 +1294,7 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
 		$scope.partstats = [
 			{ displayname: t('Calendar', 'Required'), val : 'REQ-PARTICIPANT' },
 			{ displayname: t('Calendar', 'Optional'), val : 'OPT-PARTICIPANT' },
-			{ displayname: t('Calendar', 'Copied for Info'), val : 'NON-PARTICIPANT' }
+			{ displayname: t('Calendar', 'Does not attend'), val : 'NON-PARTICIPANT' }
 		];
 
 		$scope.getLocation = function() {
@@ -2114,6 +2108,9 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 		var _this = this;
 
 		angular.extend(this, {
+			_callbacks: {
+				enabled: function() {}
+			},
 			_propertiesBackup: {},
 			_properties: {
 				url: url,
@@ -2144,6 +2141,7 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 					console.log('querying events ...');
 					TimezoneService.get(timezone).then(function(tz) {
 						_this.list.loading = true;
+						_this.fcEventSource.isRendering = true;
 						$rootScope.$broadcast('reloadCalendarList');
 
 						VEventService.getAll(_this, start, end).then(function(events) {
@@ -2153,6 +2151,7 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 							}
 
 							callback(vevents);
+							_this.fcEventSource.isRendering = false;
 
 							_this.list.loading = false;
 							$rootScope.$broadcast('reloadCalendarList');
@@ -2160,7 +2159,8 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 					});
 				},
 				editable: this._properties.writable,
-				calendar: this
+				calendar: this,
+				isRendering: false
 			},
 			list: {
 				edit: false,
@@ -2234,6 +2234,11 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 			return this._properties.components;
 		},
 		set enabled(enabled) {
+			if (enabled !== this._properties.enabled) {
+				console.log('triggering callback');
+				this._callbacks.enabled(enabled);
+			}
+
 			this._properties.enabled = enabled;
 			this._setUpdated('enabled');
 		},
@@ -2335,6 +2340,9 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 		_generateTextColor: function(r,g,b) {
 			var brightness = (((r * 299) + (g * 587) + (b * 114)) / 1000);
 			return (brightness > 130) ? '#000000' : '#FAFAFA';
+		},
+		registerEnabledCallback: function(callback) {
+			this._callbacks.enabled = callback;
 		}
 	};
 
