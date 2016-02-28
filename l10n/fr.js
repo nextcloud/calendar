@@ -9,7 +9,7 @@ OC.L10N.register(
     "Does not repeat" : "Pas de répétition",
     "Daily" : "Quotidien",
     "Weekly" : "Hebdomadaire",
-    "Every Weekday" : "Du lundi au vendredi",
+    "Every Weekday" : "En semaine",
     "Bi-weekly" : "Bihebdomadaire",
     "Monthly" : "Mensuel",
     "Yearly" : "Annuel",
