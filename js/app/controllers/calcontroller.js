@@ -249,11 +249,15 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 
 				angular.element('#popover-container').css('display', 'block');
 
-				fcEvent.editable = false;
-				uiCalendarConfig.calendars.calendar.fullCalendar('updateEvent', fcEvent);
-				if (oldFcEvent) {
-					oldFcEvent.editable = oldFcEvent.calendar.writable;
-					uiCalendarConfig.calendars.calendar.fullCalendar('updateEvent', oldFcEvent);
+				if (fcEvent) {
+					fcEvent.editable = false;
+					uiCalendarConfig.calendars.calendar.fullCalendar('updateEvent', fcEvent);
+					if (oldFcEvent) {
+						oldFcEvent.editable = oldFcEvent.calendar.writable;
+						uiCalendarConfig.calendars.calendar.fullCalendar('updateEvent', oldFcEvent);
+					} else {
+						uiCalendarConfig.calendars.calendar.fullCalendar('removeEvents', 'new');
+					}
 				}
 			});
 
@@ -448,12 +452,14 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 					VEventService.update(fcEvent.event);
 				},
 				eventRender: function(fcEvent) {
-					if (fcEvent.backgroundColor !== fcEvent.calendar.color) {
-						fcEvent.backgroundColor = fcEvent.calendar.color;
-						fcEvent.borderColor = fcEvent.calendar.color;
-						fcEvent.textColor = fcEvent.calendar.textColor;
+					if (fcEvent.calendar) {
+						if (fcEvent.backgroundColor !== fcEvent.calendar.color) {
+							fcEvent.backgroundColor = fcEvent.calendar.color;
+							fcEvent.borderColor = fcEvent.calendar.color;
+							fcEvent.textColor = fcEvent.calendar.textColor;
 
-						uiCalendarConfig.calendars.calendar.fullCalendar('updateEvent', fcEvent);
+							uiCalendarConfig.calendars.calendar.fullCalendar('updateEvent', fcEvent);
+						}
 					}
 				},
 				viewRender: function (view, element) {
