@@ -376,6 +376,15 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 					}
 					VEventService.update(fcEvent.event);
 				},
+				eventRender: function(fcEvent) {
+					if (fcEvent.backgroundColor !== fcEvent.calendar.color) {
+						fcEvent.backgroundColor = fcEvent.calendar.color;
+						fcEvent.borderColor = fcEvent.calendar.color;
+						fcEvent.textColor = fcEvent.calendar.textColor;
+
+						uiCalendarConfig.calendars.calendar.fullCalendar('updateEvent', fcEvent);
+					}
+				},
 				viewRender: function (view, element) {
 					angular.element('#firstrow').find('.datepicker_current').html(view.title).text();
 					angular.element('#datecontrol_date').datepicker('setDate', element.fullCalendar('getDate'));
