@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Calendar" : "Naptár",
     "New event" : "Új esemény",
+    "None" : "Egyik sem",
     "Attendees" : "Résztvevők",
     "Does not repeat" : "Nem ismétlődik",
     "Daily" : "naponta",
@@ -58,7 +59,6 @@ OC.L10N.register(
     "Audio alarm" : "Hangriasztás",
     "Pop-up" : "Felugró ablak",
     "E-Mail" : "E-mail",
-    "None" : "Egyik sem",
     "Day" : "Nap",
     "Week" : "Hét",
     "Month" : "Hónap",
