@@ -1,5 +1,5 @@
 OC.L10N.register(
-    "calendar-rework",
+    "calendar",
     {
     "Calendar" : "カレンダー",
     "New event" : "新しいイベント",
