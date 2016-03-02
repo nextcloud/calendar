@@ -1,5 +1,9 @@
 <!--
+Please report only issues corresponding to the calendar for ownCloud 9 or later.
+The old calendar, which is compatible with ownCloud 8.2 or earlier, is discontinued!
+
 Migration and CalDAV issues belong in the core repo!
+https://github.com/owncloud/core/issues
 -->
 ### Steps to reproduce
 1.
