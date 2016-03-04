@@ -100,6 +100,7 @@ OC.L10N.register(
     "times every" : "Répéter tous les",
     "Add" : "Ajouter",
     "Name of attendee" : "Nom du participant",
+    "Please add your email address in the personal settings in order to add attendees." : "Veuillez ajouter votre adresse mail dans les paramètres du comptes  dans l'ordre pour ajouter des participants .",
     "Title of the Event" : "Titre de l'événement",
     "from" : "du",
     "to" : "à",
