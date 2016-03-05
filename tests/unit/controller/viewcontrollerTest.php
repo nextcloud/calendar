@@ -83,39 +83,63 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 			$this->userSession, $this->config);
 	}
 
-	public function testIndex() {
-		$this->userSession->expects($this->once())
-			->method('getUser')
-			->will($this->returnValue($this->dummyUser));
-
-		$this->dummyUser->expects($this->once())
-			->method('getUID')
-			->will($this->returnValue('user123'));
-
+	/**
+	 * @dataProvider indexDataProvider
+	 */
+	public function testIndex($isAssetPipelineEnabled) {
 		$this->config->expects($this->once())
-			->method('getAppValue')
-			->with($this->appName, 'installed_version')
-			->will($this->returnValue('42.13.37'));
+			->method('getSystemValue')
+			->with('asset-pipeline.enabled', false)
+			->will($this->returnValue($isAssetPipelineEnabled));
 
-		$this->config->expects($this->at(1))
-			->method('getUserValue')
-			->with('user123', $this->appName, 'currentView', 'month')
-			->will($this->returnValue('someView'));
+		if ($isAssetPipelineEnabled) {
+			$actual = $this->controller->index();
 
-		$this->config->expects($this->at(2))
-			->method('getUserValue')
-			->with('user123', 'settings', 'email')
-			->will($this->returnValue('test@bla.com'));
+			$this->assertInstanceOf('OCP\AppFramework\Http\TemplateResponse', $actual);
+			$this->assertEquals([], $actual->getParams());
+			$this->assertEquals('main-asset-pipeline-unsupported', $actual->getTemplateName());
+		} else {
+			$this->userSession->expects($this->once())
+				->method('getUser')
+				->will($this->returnValue($this->dummyUser));
 
-		$actual = $this->controller->index();
+			$this->dummyUser->expects($this->once())
+				->method('getUID')
+				->will($this->returnValue('user123'));
 
-		$this->assertInstanceOf('OCP\AppFramework\Http\TemplateResponse', $actual);
-		$this->assertEquals([
-			'appVersion' => '42.13.37',
-			'defaultView' => 'someView',
-			'emailAddress' => 'test@bla.com',
-		], $actual->getParams());
-		$this->assertEquals('main', $actual->getTemplateName());
+			$this->config->expects($this->once())
+				->method('getAppValue')
+				->with($this->appName, 'installed_version')
+				->will($this->returnValue('42.13.37'));
+
+			$this->config->expects($this->at(2))
+				->method('getUserValue')
+				->with('user123', $this->appName, 'currentView', 'month')
+				->will($this->returnValue('someView'));
+
+			$this->config->expects($this->at(3))
+				->method('getUserValue')
+				->with('user123', 'settings', 'email')
+				->will($this->returnValue('test@bla.com'));
+
+			$actual = $this->controller->index();
+
+			$this->assertInstanceOf('OCP\AppFramework\Http\TemplateResponse', $actual);
+			$this->assertEquals([
+				'appVersion' => '42.13.37',
+				'defaultView' => 'someView',
+				'emailAddress' => 'test@bla.com',
+			], $actual->getParams());
+			$this->assertEquals('main', $actual->getTemplateName());
+		}
+
+	}
+
+	public function indexDataProvider() {
+		return [
+			[true],
+			[false]
+		];
 	}
 
 	public function testTimezoneList() {
