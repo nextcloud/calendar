@@ -1335,7 +1335,7 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
 			if (attendee !== '') {
 				$scope.properties.attendee = $scope.properties.attendee || [];
 				$scope.properties.attendee.push({
-					value: attendee,
+					value: 'MAILTO:' + attendee,
 					group: $scope.newAttendeeGroup--,
 					parameters: {
 						'role': 'REQ-PARTICIPANT',
@@ -1374,6 +1374,7 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
 					cutype: 'INDIVIDUAL'
 				}
 			});
+			$scope.nameofattendee = '';
 		};
 
 		$scope.classSelect = [
