@@ -30,8 +30,8 @@ app.controller('SettingsController', ['$scope', '$uibModal',
 	function ($scope, $uibModal) {
 		'use strict';
 
-		$scope.settingsCalDavLink = OC.linkToRemote('caldav') + '/';
-		$scope.settingsCalDavPrincipalLink = OC.linkToRemote('caldav') + '/principals/' + escapeHTML(encodeURIComponent(oc_current_user)) + '/';
+		$scope.settingsCalDavLink = OC.linkToRemote('dav') + '/';
+		$scope.settingsCalDavPrincipalLink = OC.linkToRemote('dav') + '/principals/users/' + escapeHTML(encodeURIComponent(oc_current_user)) + '/';
 
 		angular.element('#import').on('change', function () {
 			var filesArray = [];
