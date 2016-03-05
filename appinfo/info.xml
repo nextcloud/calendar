@@ -9,8 +9,9 @@
 	<dependencies>
 		<owncloud min-version="9.0" max-version="9.1" />
 	</dependencies>
-	<description>Calendar with CalDAV support</description>
+	<description>Calendar GUI for ownCloud's integrated CalDAV server</description>
 	<documentation>
-		<user>http://doc.owncloud.org/server/8.1/user_manual/pim/calendar.html</user>
+		<user>http://doc.owncloud.org/server/9.0/user_manual/pim/calendar.html</user>
 	</documentation>
+	<ocsid>168707</ocsid>
 </info>
