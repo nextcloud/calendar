@@ -19,11 +19,11 @@
     "test",
     "tests"
   ],
-  "_release": "bb109d6caf",
+  "_release": "aac08f74e8",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "bb109d6caf3e29989fbb246adc8914b67472c463"
+    "commit": "aac08f74e8d10fdf17cdfb9ee4edd205b9363f74"
   },
   "_source": "https://github.com/evert/davclient.js.git",
   "_target": "*",
