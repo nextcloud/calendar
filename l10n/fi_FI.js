@@ -94,7 +94,6 @@ OC.L10N.register(
     "Date" : "Päivämäärä",
     "Repeat" : "Kertaa",
     "Add" : "Lisää",
-    "Name of attendee" : "Osallistujan nimi",
     "Please add your email address in the personal settings in order to add attendees." : "Lisää sähköpostiosoitteesi henkilökohtaisiin asetuksiin, jotta voit lisätä osallistujia.",
     "Title of the Event" : "Tapahtuman otsikko",
     "from" : "alkaen",

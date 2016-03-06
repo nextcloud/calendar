@@ -99,7 +99,6 @@ OC.L10N.register(
     "Repeat" : "Opakovat",
     "times every" : "krát každých",
     "Add" : "Přidat",
-    "Name of attendee" : "Jméno účastníka",
     "Please add your email address in the personal settings in order to add attendees." : "Zadejte prosím svou emailovou adresu v osobním nastavení, abyste mohli přidávat účastníky.",
     "Title of the Event" : "Název události",
     "from" : "od",

@@ -98,7 +98,6 @@ OC.L10N.register(
     "Repeat" : "Upprepa",
     "times every" : "gånger varje",
     "Add" : "Lägg till",
-    "Name of attendee" : "Namn på deltagare",
     "Title of the Event" : "Rubrik för händelsen",
     "from" : "från",
     "to" : "till",

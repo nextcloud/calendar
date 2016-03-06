@@ -95,7 +95,6 @@ OC.L10N.register(
     "Repeat" : "重覆",
     "times every" : "次每",
     "Add" : "增加",
-    "Name of attendee" : "參加者姓名",
     "Title of the Event" : "活動標題",
     "from" : "從",
     "to" : "至",

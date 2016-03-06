@@ -96,7 +96,6 @@ OC.L10N.register(
     "Repeat" : "Tekrarla",
     "times every" : "defa, her",
     "Add" : "Ekle",
-    "Name of attendee" : "Katılımcı adı",
     "Title of the Event" : "Etkinlik Başlığı",
     "from" : "kimden",
     "to" : "alıcı",

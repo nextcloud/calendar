@@ -99,7 +99,6 @@ OC.L10N.register(
     "Repeat" : "חזרה",
     "times every" : "פעמים כל",
     "Add" : "הוספה",
-    "Name of attendee" : "שם משתתף",
     "Please add your email address in the personal settings in order to add attendees." : "יש להזין את כתובת הדואר האלקטרוני שלך בהגדרות האישיות בכדי להוסיף מוזמנים.",
     "Title of the Event" : "כותרת האירוע",
     "from" : "מאת",

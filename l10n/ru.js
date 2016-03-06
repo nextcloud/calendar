@@ -99,7 +99,6 @@ OC.L10N.register(
     "Repeat" : "Повтор",
     "times every" : "раз каждые",
     "Add" : "Добавить",
-    "Name of attendee" : "Имя участника",
     "Title of the Event" : "Название события",
     "from" : "из",
     "to" : "до",

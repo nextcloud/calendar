@@ -85,7 +85,6 @@ OC.L10N.register(
     "Date" : "Data",
     "Repeat" : "Powtarzaj",
     "Add" : "Dodaj",
-    "Name of attendee" : "Nazwa uczestnika",
     "Please add your email address in the personal settings in order to add attendees." : "Aby móc dodać uczestników, proszę ustawić adres e-mail w ustawieniach konta.",
     "Title of the Event" : "Nazwa wydarzenia",
     "from" : "z",

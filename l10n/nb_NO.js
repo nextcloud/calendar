@@ -99,7 +99,6 @@ OC.L10N.register(
     "Repeat" : "Gjenta",
     "times every" : "ganger hver",
     "Add" : "Legg til",
-    "Name of attendee" : "Navn på deltaker",
     "Please add your email address in the personal settings in order to add attendees." : "Vennligst legg inn epost-adressen din i personlige innstillinger for å kunne legge til deltakere.",
     "Title of the Event" : "Tittel for hendelsen",
     "from" : "fra",

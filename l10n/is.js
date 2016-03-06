@@ -99,7 +99,6 @@ OC.L10N.register(
     "Repeat" : "Endurtaka",
     "times every" : "sinnum hverjar",
     "Add" : "Bæta við",
-    "Name of attendee" : "Nafn þátttakanda",
     "Please add your email address in the personal settings in order to add attendees." : "Settu inn tölvupóstfangið þitt í einkastillingum þínum svo að þú getir bætt við þátttakendum.",
     "Title of the Event" : "Titill atburðar",
     "from" : "frá",

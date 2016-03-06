@@ -99,7 +99,6 @@ OC.L10N.register(
     "Repeat" : "Ponovi",
     "times every" : "krat, vsakič",
     "Add" : "Dodaj",
-    "Name of attendee" : "Ime udeleženca",
     "Please add your email address in the personal settings in order to add attendees." : "Dodati morate vaš elektronski naslov med osebne nastavitve, preden je mogoče dodajati udeležence",
     "Title of the Event" : "Naslov dogodka",
     "from" : "od",

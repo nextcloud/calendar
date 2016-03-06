@@ -99,7 +99,6 @@ OC.L10N.register(
     "Repeat" : "Herhaling",
     "times every" : "keer elke",
     "Add" : "Toevoegen",
-    "Name of attendee" : "Naam deelnemer",
     "Please add your email address in the personal settings in order to add attendees." : "Stel uw email adres in in de account instellingen om aanwezigen toe te voegen.",
     "Title of the Event" : "Titel van de afspraak",
     "from" : "van",

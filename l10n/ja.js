@@ -99,7 +99,6 @@ OC.L10N.register(
     "Repeat" : "繰り返し",
     "times every" : "繰り返し",
     "Add" : "追加",
-    "Name of attendee" : "参加者名",
     "Please add your email address in the personal settings in order to add attendees." : "出席者に追加するにはアカウント設定でメールアドレスを追加してください",
     "Title of the Event" : "イベントのタイトル",
     "from" : "差出人",
