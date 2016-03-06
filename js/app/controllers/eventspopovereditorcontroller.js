@@ -37,15 +37,14 @@ app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'e
 		$scope.readOnly = isNew ? false : !vevent.calendar.writable;
 		$scope.showTimezone = false;
 
-		if (($scope.properties.dtstart.parameters.zone !== 'floating' && $scope.properties.dtstart.parameters.zone !== $scope.defaulttimezone) ||
-			($scope.properties.dtend.parameters.zone !== 'floating' && $scope.properties.dtend.parameters.zone !== $scope.defaulttimezone)) {
-			$scope.showTimezone = true;
-		}
+		var startZoneAintFloating = $scope.properties.dtstart.parameters.zone !== 'floating',
+			startZoneAintDefaultTz = $scope.properties.dtstart.parameters.zone !== $scope.defaulttimezone,
+			endZoneAintFloating = $scope.properties.dtend.parameters.zone !== 'floating',
+			endZoneAintDefaultTz = $scope.properties.dtend.parameters.zone !== $scope.defaulttimezone;
+
+		$scope.showTimezone = ((startZoneAintFloating && startZoneAintDefaultTz) || (endZoneAintFloating && endZoneAintDefaultTz));
 
 		$scope.close = function(action) {
-			$scope.properties.dtstart.value = moment(angular.element('#from').datepicker('getDate'));
-			$scope.properties.dtend.value = moment(angular.element('#to').datepicker('getDate'));
-
 			if ($scope.properties.allDay) {
 				$scope.properties.dtstart.type = 'date';
 				$scope.properties.dtend.type = 'date';
@@ -53,18 +52,7 @@ app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'e
 			} else {
 				$scope.properties.dtstart.type = 'date-time';
 				$scope.properties.dtend.type = 'date-time';
-
-				$scope.properties.dtstart.value.hours(angular.element('#fromtime').timepicker('getHour'));
-				$scope.properties.dtstart.value.minutes(angular.element('#fromtime').timepicker('getMinute'));
-				$scope.properties.dtstart.value.seconds(0);
-
-				$scope.properties.dtend.value.hours(angular.element('#totime').timepicker('getHour'));
-				$scope.properties.dtend.value.minutes(angular.element('#totime').timepicker('getMinute'));
-				$scope.properties.dtend.value.seconds(0);
 			}
-
-			angular.element('#from').datepicker('destroy');
-			angular.element('#to').datepicker('destroy');
 
 			if (action === 'proceed') {
 				$uibModalInstance.close({
@@ -111,68 +99,16 @@ app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'e
 		};
 
 		$uibModalInstance.rendered.then(function() {
-			// TODO: revaluate current solution:
-			// moment.js and the datepicker use different formats to format a date.
-			// therefore we have to do some conversion-black-magic to make the moment.js
-			// local formats work with the datepicker.
-			// THIS HAS TO BE TESTED VERY CAREFULLY
-			// WE NEED A SHORT UNIT TEST IDEALLY FOR ALL LANGUAGES SUPPORTED
-			// maybe move setting the date format into a try catch block
-			var localeData = moment.localeData();
-			angular.element('#from').datepicker({
-				dateFormat : localeData.longDateFormat('L').toLowerCase().replace('yy', 'y').replace('yyy', 'yy'),
-				monthNames: moment.months(),
-				monthNamesShort: moment.monthsShort(),
-				dayNames: moment.weekdays(),
-				dayNamesMin: moment.weekdaysMin(),
-				dayNamesShort: moment.weekdaysShort(),
-				firstDay: localeData.firstDayOfWeek(),
-				minDate: null,
-				showOtherMonths: true,
-				selectOtherMonths: true
-			});
-			angular.element('#to').datepicker({
-				dateFormat : localeData.longDateFormat('L').toLowerCase().replace('yy', 'y').replace('yyy', 'yy'),
-				monthNames: moment.months(),
-				monthNamesShort: moment.monthsShort(),
-				dayNames: moment.weekdays(),
-				dayNamesMin: moment.weekdaysMin(),
-				dayNamesShort: moment.weekdaysShort(),
-				firstDay: localeData.firstDayOfWeek(),
-				minDate: null,
-				showOtherMonths: true,
-				selectOtherMonths: true
-			});
-
-			angular.element('#fromtime').timepicker({
-				showPeriodLabels: false,
-				showLeadingZero: true,
-				showPeriod: (localeData.longDateFormat('LT').toLowerCase().indexOf('a') !== -1)
-			});
-			angular.element('#totime').timepicker({
-				showPeriodLabels: false,
-				showLeadingZero: true,
-				showPeriod: (localeData.longDateFormat('LT').toLowerCase().indexOf('a') !== -1)
-			});
-
-			var midnight = new Date('2000-01-01 00:00');
-			if ($scope.properties.dtstart.type === 'date') {
-				angular.element('#fromtime').timepicker('setTime', midnight);
-			} else {
-				var fromTime = $scope.properties.dtstart.value.toDate();
-				angular.element('#fromtime').timepicker('setTime', fromTime);
-			}
-
 			if ($scope.properties.dtend.type === 'date') {
 				$scope.properties.dtend.value.subtract(1, 'days');
-				angular.element('#totime').timepicker('setTime', midnight);
-			} else {
-				var toTime = $scope.properties.dtend.value.toDate();
-				angular.element('#totime').timepicker('setTime', toTime);
 			}
+		});
 
-			angular.element('#from').datepicker('setDate', $scope.properties.dtstart.value.toDate());
-			angular.element('#to').datepicker('setDate', $scope.properties.dtend.value.toDate());
+		$scope.$watch('properties.dtstart.value', function(nv, ov) {
+			var diff = nv.diff(ov, 'seconds');
+			if (diff !== 0) {
+				$scope.properties.dtend.value = moment($scope.properties.dtend.value.add(diff, 'seconds'));
+			}
 		});
 	}
 ]);

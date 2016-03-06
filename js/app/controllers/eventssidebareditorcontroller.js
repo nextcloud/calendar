@@ -39,89 +39,13 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
 		$scope.timezones = [];
 		$scope.emailAddress = emailAddress;
 
-		$scope.previousDtStartDate = null;
-		$scope.previousDtStartHour = null;
-		$scope.previousDtStartMinute = null;
+		var startZoneAintFloating = $scope.properties.dtstart.parameters.zone !== 'floating',
+			startZoneAintDefaultTz = $scope.properties.dtstart.parameters.zone !== $scope.defaulttimezone,
+			endZoneAintFloating = $scope.properties.dtend.parameters.zone !== 'floating',
+			endZoneAintDefaultTz = $scope.properties.dtend.parameters.zone !== $scope.defaulttimezone;
 
-		$scope.edittimezone = false;
-		if (($scope.properties.dtstart.parameters.zone !== 'floating' && $scope.properties.dtstart.parameters.zone !== $scope.defaulttimezone) ||
-			($scope.properties.dtend.parameters.zone !== 'floating' && $scope.properties.dtend.parameters.zone !== $scope.defaulttimezone)) {
-			$scope.edittimezone = true;
-		}
+		$scope.edittimezone = ((startZoneAintFloating && startZoneAintDefaultTz) || (endZoneAintFloating && endZoneAintDefaultTz));
 
-		var localeData = moment.localeData();
-		$scope._initializeDateAndTimePicker = function(id) {
-			angular.element(id).datepicker({
-				dateFormat : localeData.longDateFormat('L').toLowerCase().replace('yy', 'y').replace('yyy', 'yy'),
-				monthNames: moment.months(),
-				monthNamesShort: moment.monthsShort(),
-				dayNames: moment.weekdays(),
-				dayNamesMin: moment.weekdaysMin(),
-				dayNamesShort: moment.weekdaysShort(),
-				firstDay: localeData.firstDayOfWeek(),
-				minDate: null,
-				showOtherMonths: true,
-				selectOtherMonths: true
-			});
-			angular.element(id + 'time').timepicker({
-				showPeriodLabels: false,
-				showLeadingZero: true,
-				showPeriod: (localeData.longDateFormat('LT').toLowerCase().indexOf('a') !== -1)
-			});
-		};
-
-		$scope._fillDateAndTimePicker = function(id, momentObject) {
-			if ($scope.properties.dtstart.type === 'date') {
-				angular.element(id + 'time').timepicker('setTime', new Date('2000-01-01 00:00'));
-			} else {
-				angular.element(id + 'time').timepicker('setTime', momentObject.toDate());
-			}
-
-			angular.element(id).datepicker('setDate', momentObject.toDate());
-		};
-
-		$scope._getMomentFromDateAndTimePicker = function(id) {
-			var momentObject = moment(angular.element(id).datepicker('getDate'));
-
-			momentObject.hours(angular.element(id + 'time').timepicker('getHour'));
-			momentObject.minutes(angular.element(id + 'time').timepicker('getMinute'));
-			momentObject.seconds(0);
-
-			return momentObject;
-		};
-
-		$scope.$watch('fromdatemodel', function() {
-			if ($scope.previousDtStartDate) {
-				var duration = moment.duration(moment(angular.element('#advanced_from').datepicker('getDate')).diff($scope.previousDtStartDate, 'seconds'), 'seconds');
-				$scope.previousDtStartDate = moment(angular.element('#advanced_from').datepicker('getDate'));
-				$scope.previousDtStartDate.hours(0);
-				$scope.previousDtStartDate.minutes(0);
-				$scope.previousDtStartDate.seconds(0);
-
-				var dtendMoment = $scope._getMomentFromDateAndTimePicker('#advanced_to');
-				dtendMoment.add(duration);
-
-				$scope._fillDateAndTimePicker('#advanced_to', dtendMoment);
-			}
-		});
-		$scope.$watch('fromtimemodel', function() {
-			window.setTimeout(function() {
-				var duration = moment.duration();
-				duration.add(angular.element('#advanced_fromtime').timepicker('getHour') - $scope.previousDtStartHour, 'hours');
-				duration.add(angular.element('#advanced_fromtime').timepicker('getMinute') - $scope.previousDtStartMinute, 'minutes');
-
-				$scope.previousDtStartHour = angular.element('#advanced_fromtime').timepicker('getHour');
-				$scope.previousDtStartMinute = angular.element('#advanced_fromtime').timepicker('getMinute');
-
-				var dtendMoment = $scope._getMomentFromDateAndTimePicker('#advanced_to');
-				dtendMoment.add(duration);
-
-				$scope._fillDateAndTimePicker('#advanced_to', dtendMoment);
-				$scope._initializeDateAndTimePicker('#advanced_from');
-			}, 100);
-		});
-
-		// TODO - when user changes timezone input query timezone from server
 		TimezoneService.listAll().then(function(list) {
 			if ($scope.properties.dtstart.parameters.zone !== 'floating' &&
 				list.indexOf($scope.properties.dtstart.parameters.zone) === -1) {
@@ -155,6 +79,13 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
 			});
 		});
 
+		$scope.$watch('properties.dtstart.value', function(nv, ov) {
+			var diff = nv.diff(ov, 'seconds');
+			if (diff !== 0) {
+				$scope.properties.dtend.value = moment($scope.properties.dtend.value.add(diff, 'seconds'));
+			}
+		});
+
 		$scope.loadTimezone = function(tzId) {
 			TimezoneService.get(tzId).then(function(timezone) {
 				ICAL.TimezoneService.register(tzId, timezone.jCal);
@@ -186,9 +117,6 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
 		};
 
 		$scope.save = function() {
-			$scope.properties.dtstart.value = moment(angular.element('#advanced_from').datepicker('getDate'));
-			$scope.properties.dtend.value = moment(angular.element('#advanced_to').datepicker('getDate'));
-
 			if ($scope.properties.allDay) {
 				$scope.properties.dtstart.type = 'date';
 				$scope.properties.dtend.type = 'date';
@@ -196,14 +124,6 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
 			} else {
 				$scope.properties.dtstart.type = 'date-time';
 				$scope.properties.dtend.type = 'date-time';
-
-				$scope.properties.dtstart.value.hours(angular.element('#advanced_fromtime').timepicker('getHour'));
-				$scope.properties.dtstart.value.minutes(angular.element('#advanced_fromtime').timepicker('getMinute'));
-				$scope.properties.dtstart.value.seconds(0);
-
-				$scope.properties.dtend.value.hours(angular.element('#advanced_totime').timepicker('getHour'));
-				$scope.properties.dtend.value.minutes(angular.element('#advanced_totime').timepicker('getMinute'));
-				$scope.properties.dtend.value.seconds(0);
 			}
 
 			$scope.properties.attendee = $scope.properties.attendee || [];
@@ -223,22 +143,9 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
 		};
 
 		$uibModalInstance.rendered.then(function() {
-			$scope._initializeDateAndTimePicker('#advanced_from');
-			$scope._initializeDateAndTimePicker('#advanced_to');
-
 			if ($scope.properties.dtend.type === 'date') {
 				$scope.properties.dtend.value.subtract(1, 'days');
 			}
-			$scope._fillDateAndTimePicker('#advanced_from', $scope.properties.dtstart.value);
-			$scope._fillDateAndTimePicker('#advanced_to', $scope.properties.dtend.value);
-
-			$scope.previousDtStartDate = $scope.properties.dtstart.value.clone();
-			$scope.previousDtStartDate.hours(0);
-			$scope.previousDtStartDate.minutes(0);
-			$scope.previousDtStartDate.seconds(0);
-
-			$scope.previousDtStartHour = angular.element('#advanced_fromtime').timepicker('getHour');
-			$scope.previousDtStartMinute = angular.element('#advanced_fromtime').timepicker('getMinute');
 
 			$scope.tabopener(1);
 		});
