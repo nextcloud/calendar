@@ -81,15 +81,6 @@ class ViewController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 *
-	 * @return JSONResponse
-	 */
-	public function timezoneList() {
-		return new JSONResponse($this->getTimezoneList());
-	}
-
-	/**
-	 * @NoAdminRequired
-	 *
 	 * @param string $id
 	 * @return DataDisplayResponse
 	 */

@@ -118,16 +118,6 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals('main', $actual->getTemplateName());
 	}
 
-	public function testTimezoneList() {
-		$actual = $this->controller->timezoneList();
-		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
-		$this->assertEquals([
-			'TIMEZONE1.ics',
-			'TIMEZONE2.ics',
-			'REG-CIT.ics',
-		], $actual->getData());
-	}
-
 	public function testGetTimezone() {
 		$actual = $this->controller->getTimezone('TIMEZONE1.ics');
 
