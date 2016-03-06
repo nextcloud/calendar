@@ -1,17 +1,18 @@
 {
   "name": "angular-mocks",
-  "version": "1.4.9",
+  "version": "1.5.0",
+  "license": "MIT",
   "main": "./angular-mocks.js",
   "ignore": [],
   "dependencies": {
-    "angular": "1.4.9"
+    "angular": "1.5.0"
   },
   "homepage": "https://github.com/angular/bower-angular-mocks",
-  "_release": "1.4.9",
+  "_release": "1.5.0",
   "_resolution": {
     "type": "version",
-    "tag": "v1.4.9",
-    "commit": "681485d618bace0bda94886772f5b9328bf4412b"
+    "tag": "v1.5.0",
+    "commit": "febc5527ce59ae9217bf4fcc23a8d9d8d0b567b0"
   },
   "_source": "git://github.com/angular/bower-angular-mocks.git",
   "_target": "*",

@@ -164,7 +164,8 @@ dav.Client.prototype = {
 
         var self = this;
         var xhr = this.xhrProvider();
-
+        headers = headers || {};
+        
         if (this.userName) {
             headers['Authorization'] = 'Basic ' + btoa(this.userName + ':' + this.password);
             // xhr.open(method, this.resolveUrl(url), true, this.userName, this.password);
@@ -360,22 +361,22 @@ dav.Client.prototype = {
      */
     parseUrl : function(url) {
 
-        var parts = url.match(/^(?:([A-Za-z]+):)?(\/{0,3})([0-9.\-A-Za-z]+)(?::(\d+))?(?:\/([^?#]*))?(?:\?([^#]*))?(?:#(.*))?$/);
-        var result = {
-            url : parts[0],
-            scheme : parts[1],
-            host : parts[3],
-            port : parts[4],
-            path : parts[5],
-            query : parts[6],
-            fragment : parts[7],
-        };
-        result.root =
+         var parts = url.match(/^(?:([A-Za-z]+):)?(\/{0,3})([0-9.\-A-Za-z]+)(?::(\d+))?(?:\/([^?#]*))?(?:\?([^#]*))?(?:#(.*))?$/);
+         var result = {
+             url : parts[0],
+             scheme : parts[1],
+             host : parts[3],
+             port : parts[4],
+             path : parts[5],
+             query : parts[6],
+             fragment : parts[7],
+         };
+         result.root =
             result.scheme + '://' +
             result.host +
             (result.port ? ':' + result.port : '');
 
-        return result;
+         return result;
 
     },
 
@@ -394,3 +395,4 @@ dav.Client.prototype = {
     }
 
 };
+
