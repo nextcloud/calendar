@@ -29,17 +29,17 @@ app.factory('objectConverter', function () {
 	var defaults = {
 		'summary': null,
 		'location': null,
-		'created': null,
-		'last-modified': null,
+		//'created': null,
+		//'last-modified': null,
 		'organizer': null,
 		'class': null,
 		'description': null,
-		'url': null,
-		'status': null,
-		'resources': null,
+		//'url': null,
+		//'status': null,
+		//'resources': null,
 		'alarm': null,
 		'attendee': null,
-		'categories': null,
+		//'categories': null,
 		'dtstart': null,
 		'dtend': null,
 		'repeating': null,
@@ -351,9 +351,9 @@ app.factory('objectConverter', function () {
 				simpleParser.date(alarmData, alarm, 'trigger');
 				simpleParser.string(alarmData, alarm, 'repeat');
 				simpleParser.string(alarmData, alarm, 'duration');
-				simpleParser.strings(alarmData, alarm, 'attendee', attendeeParameters);
+				//simpleParser.strings(alarmData, alarm, 'attendee', attendeeParameters);
 
-				if (alarm.hasProperty('trigger')) {
+				if (alarmData.trigger.type === 'duration' && alarm.hasProperty('trigger')) {
 					var trigger = alarm.getFirstProperty('trigger');
 					var related = trigger.getParameter('related');
 					if (related) {
@@ -565,14 +565,6 @@ app.factory('objectConverter', function () {
 		parse: function(vevent) {
 			var data=angular.extend({}, defaults), parser, parameters;
 
-			for (parser in specificParser) {
-				if (!specificParser.hasOwnProperty(parser)) {
-					continue;
-				}
-
-				specificParser[parser](data, vevent);
-			}
-
 			for (var key in simpleProperties) {
 				if (!simpleProperties.hasOwnProperty(key)) {
 					continue;
@@ -583,6 +575,14 @@ app.factory('objectConverter', function () {
 				if (vevent.hasProperty(key)) {
 					parser(data, vevent, key, parameters);
 				}
+			}
+
+			for (parser in specificParser) {
+				if (!specificParser.hasOwnProperty(parser)) {
+					continue;
+				}
+
+				specificParser[parser](data, vevent);
 			}
 
 			return data;

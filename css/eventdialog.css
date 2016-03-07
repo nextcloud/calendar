@@ -178,7 +178,11 @@ button.delete:hover, button.delete:focus {
 }
 
 .advanced .pull-half {
-	width: 48%;
+	width: 48% !important;
+}
+
+.advanced .pull-quarter {
+	width: 22% !important;
 }
 
 
@@ -187,7 +191,8 @@ button.delete:hover, button.delete:focus {
 }
 
 #importdialog .btn-full,
-.advanced .btn-full {
+.advanced .btn-full,
+.advanced .pull-full {
 	width: 100%;
 }
 
@@ -214,6 +219,10 @@ button.delete:hover, button.delete:focus {
 .advanced--fieldset .hint {
 	font-size: .75em;
 	color: #888;
+}
+
+.advanced--fieldset .inline {
+	display: inline;
 }
 
 .dropdown-menu {

@@ -65,7 +65,14 @@ app.filter('simpleReminderDescription', function() {
 				}
 			}
 		} else {
-			return t('calendar', '{type} at {time}', {type: getActionName(alarm), time: alarm.trigger.value.format()});
+			if (alarm.editor && moment.isMoment(alarm.editor.absMoment)) {
+				return t('calendar', '{type} at {time}', {
+					type: getActionName(alarm),
+					time: alarm.editor.absMoment.format('LLLL')
+				});
+			} else {
+				return '';
+			}
 		}
 	};
 });
