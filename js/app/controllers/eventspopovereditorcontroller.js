@@ -45,6 +45,22 @@ app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'e
 		$scope.showTimezone = ((startZoneAintFloating && startZoneAintDefaultTz) || (endZoneAintFloating && endZoneAintDefaultTz));
 
 		$scope.close = function(action) {
+			if (action !== 'proceed') {
+				var error = false;
+				if ($scope.properties.summary === null || $scope.properties.summary.value.trim() === '') {
+					OC.Notification.showTemporary(t('calendar', 'Please add a title!'));
+					error = true;
+				}
+				if ($scope.calendar === null || typeof $scope.calendar === 'undefined') {
+					OC.Notification.showTemporary(t('calendar', 'Please select a calendar!'));
+					error = true;
+				}
+
+				if (error) {
+					return;
+				}
+			}
+
 			if ($scope.properties.allDay) {
 				$scope.properties.dtstart.type = 'date';
 				$scope.properties.dtend.type = 'date';
@@ -100,7 +116,7 @@ app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'e
 
 		$uibModalInstance.rendered.then(function() {
 			if ($scope.properties.dtend.type === 'date') {
-				$scope.properties.dtend.value.subtract(1, 'days');
+				$scope.properties.dtend.value = moment($scope.properties.dtend.value.subtract(1, 'days'));
 			}
 		});
 
