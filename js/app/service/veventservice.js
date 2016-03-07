@@ -114,7 +114,6 @@ app.service('VEventService', ['DavClient', 'VEvent', 'RandomStringService', func
 
 		return DavClient.request('PUT', url, headers, data).then(function(response) {
 			if (!DavClient.wasRequestSuccessful(response.status)) {
-				console.log(response);
 				return false;
 				// TODO - something went wrong, do smth about it
 			}

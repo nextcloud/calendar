@@ -267,10 +267,6 @@ app.factory('objectConverter', function () {
 				}
 
 				groupId = properties[pKey].getParameter('x-oc-group-id');
-				if (groupId === null) {
-					console.log('WTF');
-					continue;
-				}
 				if (oldGroups.indexOf(parseInt(groupId)) !== -1) {
 					vevent.removeProperty(properties[pKey]);
 				}
@@ -551,8 +547,6 @@ app.factory('objectConverter', function () {
 
 			var rrule = new ICAL.Recur(params);
 			vevent.updatePropertyWithValue('rrule', rrule);
-
-			console.log(rrule);
 		}
 	};
 

@@ -405,8 +405,6 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 				eventClick: function(fcEvent, jsEvent, view) {
 					var oldCalendar = fcEvent.event.calendar;
 
-					console.log(jsEvent.currentTarget);
-
 					$scope._initializeEventEditor(fcEvent.event, fcEvent.recurrenceId, false, function() {
 						return $scope._calculatePopoverPosition(jsEvent.currentTarget, view);
 					}, function(vevent) {
@@ -715,7 +713,6 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 			CalendarService.update(calendar).then(function() {
 				calendar.dropPreviousState();
 				calendar.list.edit = false;
-				console.log(calendar);
 				$rootScope.$broadcast('updatedCalendar', calendar);
 				$rootScope.$broadcast('reloadCalendarList');
 			});
@@ -728,7 +725,6 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 			CalendarService.update(calendar).then(function() {
 				calendar.dropPreviousState();
 				calendar.list.edit = false;
-				console.log(calendar);
 				$rootScope.$broadcast('updatedCalendar', calendar);
 				$rootScope.$broadcast('reloadCalendarList');
 			});
@@ -836,16 +832,12 @@ app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'e
 		'use strict';
 
 		var simpleData = vevent.getSimpleData(recurrenceId);
-		console.log('sd', simpleData);
 		$scope.properties = simpleData;
-		console.log('s.p', $scope.properties);
 		$scope.is_new = isNew;
 		$scope.calendar = isNew ? null : vevent.calendar;
 		$scope.oldCalendar = isNew ? null : vevent.calendar;
 		$scope.readOnly = isNew ? false : !vevent.calendar.writable;
 		$scope.showTimezone = false;
-
-		console.log($scope.properties);
 
 		var startZoneAintFloating = $scope.properties.dtstart.parameters.zone !== 'floating',
 			startZoneAintDefaultTz = $scope.properties.dtstart.parameters.zone !== $scope.defaulttimezone,
@@ -881,7 +873,6 @@ app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'e
 			}
 
 			if (action === 'proceed') {
-				console.log('proceed', $scope.properties);
 				$uibModalInstance.close({
 					action: 'proceed',
 					properties: $scope.properties
@@ -958,8 +949,6 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
 		$scope.timezones = [];
 		$scope.emailAddress = emailAddress;
 		$scope.rruleNotSupported = false;
-
-		console.log(properties);
 
 		var startZoneAintFloating = $scope.properties.dtstart.parameters.zone !== 'floating',
 			startZoneAintDefaultTz = $scope.properties.dtstart.parameters.zone !== $scope.defaulttimezone,
@@ -1083,8 +1072,6 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
 				if (alarm.editor.triggerType === 'absolute') {
 					alarm.trigger.value = alarm.editor.absMoment;
 				}
-				console.log(alarm);
-
 			});
 
 			vevent.calendar = $scope.calendar;
@@ -1249,7 +1236,6 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
 
 		$scope.deleteAttendee = function (val) {
 			for (var key in $scope.properties.attendee) {
-				console.warn();
 				if ($scope.properties.attendee[key].value === val) {
 					$scope.properties.attendee.splice(key, 1);
 					break;
@@ -1360,13 +1346,11 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
 
 		$scope.deleteReminder = function (group) {
 			for (var key in $scope.properties.alarm) {
-				console.warn();
 				if ($scope.properties.alarm[key].group === group) {
 					$scope.properties.alarm.splice(key, 1);
 					break;
 				}
 			}
-			console.log('deleted alarm with groupId:' + group);
 		};
 
 		$scope.editReminder = function(id) {
@@ -2111,7 +2095,6 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 	'use strict';
 
 	function Calendar(url, props) {
-		console.log(props);
 		var _this = this;
 
 		angular.extend(this, {
@@ -2146,7 +2129,6 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 			tmpId: null,
 			fcEventSource: {
 				events: function (start, end, timezone, callback) {
-					console.log('querying events ...');
 					TimezoneService.get(timezone).then(function(tz) {
 						_this.list.loading = true;
 						_this.fcEventSource.isRendering = true;
@@ -2243,7 +2225,6 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 		},
 		set enabled(enabled) {
 			if (enabled !== this._properties.enabled) {
-				console.log('triggering callback');
 				this._callbacks.enabled(enabled);
 			}
 
@@ -2739,7 +2720,6 @@ app.factory('VEvent', ['$filter', 'objectConverter', 'ICalFactory', 'RandomStrin
 	}
 
 	VEvent.fromStartEnd = function(start, end, timezone) {
-		console.log(start, end, timezone);
 		var comp = icalfactory.new();
 
 		var vevent = new ICAL.Component('vevent');
@@ -3019,7 +2999,6 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 		};
 
 		return DavClient.request('PROPPATCH', url, headers, body).then(function(response) {
-			console.log(response.body);
 			return calendar;
 		});
 	};
@@ -3697,10 +3676,6 @@ app.factory('objectConverter', function () {
 				}
 
 				groupId = properties[pKey].getParameter('x-oc-group-id');
-				if (groupId === null) {
-					console.log('WTF');
-					continue;
-				}
 				if (oldGroups.indexOf(parseInt(groupId)) !== -1) {
 					vevent.removeProperty(properties[pKey]);
 				}
@@ -3981,8 +3956,6 @@ app.factory('objectConverter', function () {
 
 			var rrule = new ICAL.Recur(params);
 			vevent.updatePropertyWithValue('rrule', rrule);
-
-			console.log(rrule);
 		}
 	};
 
@@ -4740,7 +4713,6 @@ app.service('VEventService', ['DavClient', 'VEvent', 'RandomStringService', func
 
 		return DavClient.request('PUT', url, headers, data).then(function(response) {
 			if (!DavClient.wasRequestSuccessful(response.status)) {
-				console.log(response);
 				return false;
 				// TODO - something went wrong, do smth about it
 			}
