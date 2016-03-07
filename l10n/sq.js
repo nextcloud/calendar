@@ -99,6 +99,7 @@ OC.L10N.register(
     "Repeat" : "Përsërite",
     "times every" : "herë çdo",
     "Add" : "Shtoje",
+    "E-Mail address of attendee" : "Adresa email e pjesëmarrësit",
     "Please add your email address in the personal settings in order to add attendees." : "Që të shtoni pjesëmarrës, ju lutemi, shtoni adresën tuaj email te rregullimet personale.",
     "Title of the Event" : "Titulli i Veprimtarisë",
     "from" : "nga",
