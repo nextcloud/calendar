@@ -2,7 +2,7 @@
 <info>
 	<id>calendar</id>
 	<name>Calendar</name>
-	<version>0.82</version>
+	<version>1.0</version>
 	<licence>AGPL</licence>
 	<author>Georg Ehrke, Raghu Nayyar, Bernhard Fröhler</author>
 	<require>9</require>
