@@ -15,17 +15,14 @@ appstore: clean
 	tar cvzf $(appstore_dir)/$(package_name).tar.gz $(project_dir) \
 	--exclude-vcs \
 	--exclude-vcs-ignores \
-	--exclude=$(project_dir)/js/app/**.js \
-	--exclude=$(project_dir)/js/app/controllers \
-	--exclude=$(project_dir)/js/app/filters \
-	--exclude=$(project_dir)/js/app/models \
-	--exclude=$(project_dir)/js/app/service \
+	--exclude=$(project_dir)/js/app \
 	--exclude=$(project_dir)/js/config \
 	--exclude=$(project_dir)/tests \
 	--exclude=$(project_dir)/.idea \
 	--exclude=$(project_dir)/.gitignore \
 	--exclude=$(project_dir)/.scrutinizer.yml \
 	--exclude=$(project_dir)/.travis.yml \
+	--exclude=$(project_dir)/issue_template.md \
 	--exclude=$(project_dir)/Makefile \
 	--exclude=$(project_dir)/phpunit.xml \
 	--exclude=$(project_dir)/README.md \
@@ -43,6 +40,7 @@ appstore: clean
 	--exclude=$(project_dir)/js/vendor/**/package.json \
 	--exclude=$(project_dir)/js/vendor/**/*.md \
 	--exclude=$(project_dir)/js/vendor/**/karma.conf.js \
+	--exclude=$(project_dir)/js/vendor/angular-mocks \
 	--exclude=$(project_dir)/js/vendor/davclient.js/index.html \
 	--exclude=$(project_dir)/js/vendor/fullcalendar/dist/gcal.js \
 	--exclude=$(project_dir)/js/vendor/fullcalendar/dist/lang \
@@ -59,3 +57,4 @@ appstore: clean
 	--exclude=$(project_dir)/js/vendor/jquery-timepicker/legacy_1.2.6 \
 	--exclude=$(project_dir)/js/vendor/jquery-timepicker/tests \
 	--exclude=$(project_dir)/js/vendor/jquery-timepicker/index.html \
+	--exclude=$(project_dir)/timezones/INFO.md \
