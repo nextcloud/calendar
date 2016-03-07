@@ -70,6 +70,10 @@
 		<fieldset ng-show="eventsalarmview" class="advanced--fieldset" ng-disabled="readOnly">
 			<?php print_unescaped($this->inc('part.eventsalarms')); ?>
 		</fieldset>
+
+		<fieldset ng-show="eventsrepeatview" class="advanced--fieldset" ng-disabled="readOnly">
+			<?php print_unescaped($this->inc('part.eventsrepeat')); ?>
+		</fieldset>
 	</div>
 
 	<div class="advanced--button-area" ng-show="!readOnly">
