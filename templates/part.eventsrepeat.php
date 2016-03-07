@@ -39,7 +39,7 @@
 
 
 
-<fieldset class="event-fieldset" ng-hide="repeat.simple === 'NONE' || rruleNotSupported">
+<fieldset class="event-fieldset" ng-hide="properties.rrule.freq === 'NONE' || rruleNotSupported">
 	<label class="pull-left">
 		<?php p($l->t('Repeat every ...')); ?>
 	</label>
