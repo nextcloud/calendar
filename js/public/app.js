@@ -2080,6 +2080,7 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 		});
 
 		angular.extend(this, {
+			caldav: OC.linkToRemote('dav') + url.substr(15),
 			tmpId: null,
 			fcEventSource: {
 				events: function (start, end, timezone, callback) {
