@@ -40,8 +40,6 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
 		$scope.emailAddress = emailAddress;
 		$scope.rruleNotSupported = false;
 
-		console.log(properties);
-
 		var startZoneAintFloating = $scope.properties.dtstart.parameters.zone !== 'floating',
 			startZoneAintDefaultTz = $scope.properties.dtstart.parameters.zone !== $scope.defaulttimezone,
 			endZoneAintFloating = $scope.properties.dtend.parameters.zone !== 'floating',
@@ -164,8 +162,6 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
 				if (alarm.editor.triggerType === 'absolute') {
 					alarm.trigger.value = alarm.editor.absMoment;
 				}
-				console.log(alarm);
-
 			});
 
 			vevent.calendar = $scope.calendar;
@@ -330,7 +326,6 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
 
 		$scope.deleteAttendee = function (val) {
 			for (var key in $scope.properties.attendee) {
-				console.warn();
 				if ($scope.properties.attendee[key].value === val) {
 					$scope.properties.attendee.splice(key, 1);
 					break;
@@ -441,13 +436,11 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
 
 		$scope.deleteReminder = function (group) {
 			for (var key in $scope.properties.alarm) {
-				console.warn();
 				if ($scope.properties.alarm[key].group === group) {
 					$scope.properties.alarm.splice(key, 1);
 					break;
 				}
 			}
-			console.log('deleted alarm with groupId:' + group);
 		};
 
 		$scope.editReminder = function(id) {

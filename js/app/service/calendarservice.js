@@ -238,7 +238,6 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 		};
 
 		return DavClient.request('PROPPATCH', url, headers, body).then(function(response) {
-			console.log(response.body);
 			return calendar;
 		});
 	};

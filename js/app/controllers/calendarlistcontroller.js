@@ -167,7 +167,6 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 			CalendarService.update(calendar).then(function() {
 				calendar.dropPreviousState();
 				calendar.list.edit = false;
-				console.log(calendar);
 				$rootScope.$broadcast('updatedCalendar', calendar);
 				$rootScope.$broadcast('reloadCalendarList');
 			});
@@ -180,7 +179,6 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 			CalendarService.update(calendar).then(function() {
 				calendar.dropPreviousState();
 				calendar.list.edit = false;
-				console.log(calendar);
 				$rootScope.$broadcast('updatedCalendar', calendar);
 				$rootScope.$broadcast('reloadCalendarList');
 			});

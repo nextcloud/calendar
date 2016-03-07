@@ -363,7 +363,6 @@ app.factory('VEvent', ['$filter', 'objectConverter', 'ICalFactory', 'RandomStrin
 	}
 
 	VEvent.fromStartEnd = function(start, end, timezone) {
-		console.log(start, end, timezone);
 		var comp = icalfactory.new();
 
 		var vevent = new ICAL.Component('vevent');

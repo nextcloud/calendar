@@ -385,8 +385,6 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 				eventClick: function(fcEvent, jsEvent, view) {
 					var oldCalendar = fcEvent.event.calendar;
 
-					console.log(jsEvent.currentTarget);
-
 					$scope._initializeEventEditor(fcEvent.event, fcEvent.recurrenceId, false, function() {
 						return $scope._calculatePopoverPosition(jsEvent.currentTarget, view);
 					}, function(vevent) {

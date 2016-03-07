@@ -2,7 +2,6 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 	'use strict';
 
 	function Calendar(url, props) {
-		console.log(props);
 		var _this = this;
 
 		angular.extend(this, {
@@ -37,7 +36,6 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 			tmpId: null,
 			fcEventSource: {
 				events: function (start, end, timezone, callback) {
-					console.log('querying events ...');
 					TimezoneService.get(timezone).then(function(tz) {
 						_this.list.loading = true;
 						_this.fcEventSource.isRendering = true;
@@ -134,7 +132,6 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 		},
 		set enabled(enabled) {
 			if (enabled !== this._properties.enabled) {
-				console.log('triggering callback');
 				this._callbacks.enabled(enabled);
 			}
 
