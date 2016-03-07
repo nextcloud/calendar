@@ -922,6 +922,7 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
 		$scope.selected = 1;
 		$scope.timezones = [];
 		$scope.emailAddress = emailAddress;
+		$scope.rruleNotSupported = false;
 
 		var startZoneAintFloating = $scope.properties.dtstart.parameters.zone !== 'floating',
 			startZoneAintDefaultTz = $scope.properties.dtstart.parameters.zone !== $scope.defaulttimezone,
@@ -1020,6 +1021,13 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
 				};
 			}
 
+			$scope.properties.rrule.dontTouch = $scope.rruleNotSupported;
+
+			if ($scope.selected_repeat_end === 'NEVER') {
+				$scope.properties.rrule.count = null;
+				$scope.properties.rrule.until = null;
+			}
+
 			vevent.calendar = $scope.calendar;
 			vevent.patch(recurrenceId, $scope.properties);
 
@@ -1031,14 +1039,43 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
 				$scope.properties.dtend.value.subtract(1, 'days');
 			}
 
+			if ($scope.properties.rrule.freq !== 'NONE') {
+				var unsupportedFREQs = ['SECONDLY', 'MINUTELY', 'HOURLY'];
+				if (unsupportedFREQs.indexOf($scope.properties.rrule.freq) !== -1) {
+					$scope.rruleNotSupported = true;
+				}
+
+				if (typeof $scope.properties.rrule.parameters !== 'undefined') {
+					var partIds = Object.getOwnPropertyNames($scope.properties.rrule.parameters);
+					if (partIds.length > 0) {
+						$scope.rruleNotSupported = true;
+					}
+				}
+
+				if ($scope.properties.rrule.count !== null) {
+					$scope.selected_repeat_end = 'COUNT';
+				} else if ($scope.properties.rrule.until !== null) {
+					$scope.rruleNotSupported = true;
+					//$scope.selected_repeat_end = 'UNTIL';
+				}
+
+				/*if (!moment.isMoment($scope.properties.rrule.until)) {
+					$scope.properties.rrule.until = moment();
+				}*/
+
+				if ($scope.properties.rrule.interval === null) {
+					$scope.properties.rrule.interval = 1;
+				}
+			}
+
 			$scope.tabopener(1);
 		});
 
-		$scope.tabs = [{
-			title: t('Calendar', 'Attendees'), value: 1
-		}, {
-			title: t('Calendar', 'Reminders'), value: 2
-		}];
+		$scope.tabs = [
+			{title: t('calendar', 'Attendees'), value: 1},
+			{title: t('calendar', 'Reminders'), value: 2},
+			{title: t('calendar', 'Repeating'), value: 3}
+		];
 
 		$scope.tabopener = function (val) {
 			$scope.selected = val;
@@ -1065,74 +1102,31 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
 			$scope.properties.location.value = item.label;
 		};
 
-		$scope.repeater = [
-			{ val: 'doesnotrepeat' , displayname: t('Calendar', 'Does not repeat')},
-			{ val: 'daily' , displayname: t('Calendar', 'Daily')},
-			{ val: 'weekly' , displayname: t('Calendar', 'Weekly')},
-			{ val: 'weekday' , displayname: t('Calendar', 'Every Weekday')},
-			{ val: 'biweekly' , displayname: t('Calendar', 'Bi-weekly')},
-			{ val: 'monthly' , displayname: t('Calendar', 'Monthly')},
-			{ val: 'yearly' , displayname: t('Calendar', 'Yearly')},
-		];
-		$scope.repeatmodel = $scope.repeater[0].val;
-
-		$scope.ender = [
-			{ val: 'never', displayname: t('Calendar','never')},
-			{ val: 'count', displayname: t('Calendar','by occurances')},
-			{ val: 'date', displayname: t('Calendar','by date')},
+		$scope.repeat_options_simple = [
+			{val: 'NONE', displayname: t('Calendar', 'None')},
+			{val: 'DAILY', displayname: t('Calendar', 'Every day')},
+			{val: 'WEEKLY', displayname: t('Calendar', 'Every week')},
+			{val: 'MONTHLY', displayname: t('Calendar', 'Every month')},
+			{val: 'YEARLY', displayname: t('Calendar', 'Every year')}//,
+			//{val: 'CUSTOM', displayname: t('calendar', 'Custom')}
 		];
 
-		$scope.monthdays = [
-			{ val: 'monthday', displayname: t('Calendar','by monthday')},
-			{ val: 'weekday', displayname: t('Calendar','by weekday')}
-		];
-		$scope.monthdaymodel = $scope.monthdays[0].val;
-
-		$scope.years = [
-			{ val: 'bydate', displayname: t('Calendar','by events date')},
-			{ val: 'byyearday', displayname: t('Calendar','by yearday(s)')},
-			{ val: 'byweekno', displayname: t('Calendar','by week no(s)')},
-			{ val: 'bydaymonth', displayname: t('Calendar','by day and month')}
+		$scope.selected_repeat_end = 'NEVER';
+		$scope.repeat_end = [
+			{val: 'NEVER', displayname: t('Calendar', 'never')},
+			{val: 'COUNT', displayname: t('Calendar', 'after')}//,
+			//{val: 'UNTIL', displayname: t('Calendar', 'on date')}
 		];
 
-		$scope.weeks = [
-			{ val: 'mon', displayname: t('Calendar','Monday')},
-			{ val: 'tue', displayname: t('Calendar','Tuesday')},
-			{ val: 'wed', displayname: t('Calendar','Wednesday')},
-			{ val: 'thu', displayname: t('Calendar','Thursday')},
-			{ val: 'fri', displayname: t('Calendar','Friday')},
-			{ val: 'sat', displayname: t('Calendar','Saturday')},
-			{ val: 'sun', displayname: t('Calendar','Sunday')}
-		];
-
-		$scope.changerepeater = function (repeat) {
-			if (repeat.val === 'monthly') {
-				$scope.monthday = false;
-				$scope.yearly = true;
-				$scope.weekly = true;
-			} else if (repeat.val === 'yearly') {
-				$scope.yearly = false;
-				$scope.monthday = true;
-				$scope.weekly = true;
-			} else if (repeat.val === 'weekly') {
-				$scope.weekly = false;
-				$scope.monthday = true;
-				$scope.yearly = true;
-			} else {
-				$scope.weekly = true;
-				$scope.monthday = true;
-				$scope.yearly = true;
-			}
+		$scope.resetRRule = function() {
+			$scope.selected_repeat_end = 'NEVER';
+			$scope.properties.rrule.freq = 'NONE';
+			$scope.properties.rrule.count = null;
+			//$scope.properties.rrule.until = null;
+			$scope.properties.rrule.interval = 1;
+			$scope.rruleNotSupported = false;
+			$scope.properties.rrule.parameters = {};
 		};
-
-		// First Day Dropdown
-		$scope.recurrenceSelect = [
-			{ val: t('calendar', 'Daily'), id: '0' },
-			{ val: t('calendar', 'Weekly'), id: '1' },
-			{ val: t('calendar', 'Monthly'), id: '2' },
-			{ val: t('calendar', 'Yearly'), id: '3' },
-			{ val: t('calendar', 'Other'), id: '4' }
-		];
 
 		$scope.cutstats = [
 			{ displayname: t('Calendar', 'Individual'), val : 'INDIVIDUAL' },
@@ -3772,10 +3766,25 @@ app.factory('objectConverter', function () {
 			var iCalEvent = new ICAL.Event(vevent);
 
 			data.repeating = iCalEvent.isRecurring();
-			simpleParser.dates(data, vevent, 'rdate');
-			simpleParser.string(data, vevent, 'rrule');
 
-			simpleParser.dates(data, vevent, 'exdate');
+			var rrule = vevent.getFirstPropertyValue('rrule');
+			if (rrule) {
+				data.rrule = {
+					count: rrule.count,
+					freq: rrule.freq,
+					interval: rrule.interval,
+					parameters: rrule.parts,
+					until: null
+				};
+
+				/*if (rrule.until) {
+					simpleParser.date(data.rrule, rrule, 'until');
+				}*/
+			} else {
+				data.rrule = {
+					freq: 'NONE'
+				};
+			}
 		}
 	};
 
@@ -3882,17 +3891,31 @@ app.factory('objectConverter', function () {
 		},
 		repeating: function(vevent, oldSimpleData, newSimpleData) {
 			// We won't support exrule, because it's deprecated and barely used in the wild
-			if (newSimpleData.repeating === false) {
-				delete vevent.rdate;
-				delete vevent.rrule;
-				delete vevent.exdate;
+			if (newSimpleData.rrule === null || newSimpleData.rrule.freq === 'NONE') {
+				vevent.removeAllProperties('rdate');
+				vevent.removeAllProperties('rrule');
+				vevent.removeAllProperties('exdate');
 
 				return;
 			}
 
-			simpleReader.dates(vevent, oldSimpleData, newSimpleData, 'rdate');
-			simpleReader.string(vevent, oldSimpleData, newSimpleData, 'rrule');
-			simpleReader.dates(vevent, oldSimpleData, newSimpleData, 'exdate');
+			if (newSimpleData.rrule.dontTouch) {
+				return;
+			}
+
+			var params = {
+				interval: newSimpleData.rrule.interval,
+				freq: newSimpleData.rrule.freq
+			};
+
+			if (newSimpleData.rrule.count) {
+				params.count = newSimpleData.rrule.count;
+			}
+
+			var rrule = new ICAL.Recur(params);
+			vevent.updatePropertyWithValue('rrule', rrule);
+
+			console.log(rrule);
 		}
 	};
 
@@ -3950,7 +3973,7 @@ app.factory('objectConverter', function () {
 				parameters = simpleProperties[key].parameters;
 				if (oldSimpleData[key] !== newSimpleData[key]) {
 					if (newSimpleData === null) {
-						delete vevent[key];
+						vevent.removeAllProperties(key);
 					} else {
 						reader(vevent, oldSimpleData, newSimpleData, key, parameters);
 					}

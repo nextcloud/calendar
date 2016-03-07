@@ -23,32 +23,49 @@
  */
 ?>
 
-<fieldset class="event-fieldset">
-	<label class="label"><?php p($l->t('Repeat'))?></label>
-	<select ng-model="repeatmodel" ng-options="repeat as repeat.displayname for repeat in repeater" ng-change="changerepeater(repeatmodel)">
-	</select>
-	<select ng-hide="monthday" ng-model="monthdaymodel" ng-options="day as day.displayname for day in monthdays" ng-change="changemonthday(monthdaymodel)">
-	</select>
-	<select ng-hide="yearly" ng-model="yearmodel" ng-options="year as year.displayname for year in years" ng-change="changeyear(yearmodel)">
-	</select>
-	<select ng-hide="weekly" ng-model="weekmodel" id="weeklyselect" ng-change="changeweek(weekmodel)" multiple="multiple" data-placeholder="yoll" title="yol">
-		<option ng-repeat="week in weeks" value="{{ week.val }}"> {{ week.displayname }}</option>
+<fieldset ng-show="rruleNotSupported">
+	<span><?php p($l->t('This event\'s repeating rule is not supported yet.')); ?></span>
+	<span class="hint"><?php p($l->t('Support for advanced rules will be added with subsequent updates.')); ?></span>
+	<button ng-click="resetRRule()"><?php p($l->t('Reset repeating rule')); ?></button>
+</fieldset>
+
+<fieldset ng-hide="rruleNotSupported">
+	<select
+		id="frequency_select"
+		ng-options="repeat.val as repeat.displayname for repeat in repeat_options_simple"
+		ng-model="properties.rrule.freq">
 	</select>
 </fieldset>
 
 
 
-
-<fieldset class="event-fieldset">
-	<label class="label"><?php p($l->t('Interval'))?></label>
-	<input type="number" min="1" max="1000" value="1" name="interval" ng-model="intervalmodel">
-</fieldset>
-
-
-
-<fieldset class="event-fieldset">
-	<label class="label"><?php p($l->t('End'))?></label>
-	<select>
-		<option ng-repeat="end in ender" value="end.val" ng-model="end.val">{{ end.displayname }}</option>
-	</select>
+<fieldset class="event-fieldset" ng-hide="repeat.simple === 'NONE' || rruleNotSupported">
+	<label class="pull-left">
+		<?php p($l->t('Repeat every ...')); ?>
+	</label>
+	<input
+		class="pull-right pull-half"
+		type="number"
+		min="1"
+		ng-model="properties.rrule.interval">
+	<div class="clear-both"></div>
+	<label class="pull-left inline">
+		<?php p($l->t('end repeat ...')); ?>
+	</label>
+	<div class="pull-right pull-half">
+		<select id="frequency_select"
+				ng-options="repeat.val as repeat.displayname for repeat in repeat_end"
+				ng-model="selected_repeat_end">
+		</select>
+	</div>
+	<div class="clear-both"></div>
+	<div class="pull-right pull-half" ng-show="selected_repeat_end === 'COUNT'">
+		<input type="number" min="1" ng-model="properties.rrule.count">
+		<?php p($l->t('times')); ?>
+	</div>
+	<!--
+	<div class="pull-right pull-half" ng-show="selected_repeat_end === 'UNTIL'">
+		<ocdatetimepicker ng-model="properties.rrule.until"></ocdatetimepicker>
+	</div>
+	-->
 </fieldset>

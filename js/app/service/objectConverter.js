@@ -403,10 +403,25 @@ app.factory('objectConverter', function () {
 			var iCalEvent = new ICAL.Event(vevent);
 
 			data.repeating = iCalEvent.isRecurring();
-			simpleParser.dates(data, vevent, 'rdate');
-			simpleParser.string(data, vevent, 'rrule');
 
-			simpleParser.dates(data, vevent, 'exdate');
+			var rrule = vevent.getFirstPropertyValue('rrule');
+			if (rrule) {
+				data.rrule = {
+					count: rrule.count,
+					freq: rrule.freq,
+					interval: rrule.interval,
+					parameters: rrule.parts,
+					until: null
+				};
+
+				/*if (rrule.until) {
+					simpleParser.date(data.rrule, rrule, 'until');
+				}*/
+			} else {
+				data.rrule = {
+					freq: 'NONE'
+				};
+			}
 		}
 	};
 
@@ -513,17 +528,31 @@ app.factory('objectConverter', function () {
 		},
 		repeating: function(vevent, oldSimpleData, newSimpleData) {
 			// We won't support exrule, because it's deprecated and barely used in the wild
-			if (newSimpleData.repeating === false) {
-				delete vevent.rdate;
-				delete vevent.rrule;
-				delete vevent.exdate;
+			if (newSimpleData.rrule === null || newSimpleData.rrule.freq === 'NONE') {
+				vevent.removeAllProperties('rdate');
+				vevent.removeAllProperties('rrule');
+				vevent.removeAllProperties('exdate');
 
 				return;
 			}
 
-			simpleReader.dates(vevent, oldSimpleData, newSimpleData, 'rdate');
-			simpleReader.string(vevent, oldSimpleData, newSimpleData, 'rrule');
-			simpleReader.dates(vevent, oldSimpleData, newSimpleData, 'exdate');
+			if (newSimpleData.rrule.dontTouch) {
+				return;
+			}
+
+			var params = {
+				interval: newSimpleData.rrule.interval,
+				freq: newSimpleData.rrule.freq
+			};
+
+			if (newSimpleData.rrule.count) {
+				params.count = newSimpleData.rrule.count;
+			}
+
+			var rrule = new ICAL.Recur(params);
+			vevent.updatePropertyWithValue('rrule', rrule);
+
+			console.log(rrule);
 		}
 	};
 
@@ -581,7 +610,7 @@ app.factory('objectConverter', function () {
 				parameters = simpleProperties[key].parameters;
 				if (oldSimpleData[key] !== newSimpleData[key]) {
 					if (newSimpleData === null) {
-						delete vevent[key];
+						vevent.removeAllProperties(key);
 					} else {
 						reader(vevent, oldSimpleData, newSimpleData, key, parameters);
 					}
