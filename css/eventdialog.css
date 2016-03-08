@@ -67,7 +67,7 @@
 
 .events .events--fieldset textarea {
 	height: 4.5em;
-	width: 100%;
+	width: 96%;
 	resize: vertical;
 }
 
@@ -89,7 +89,8 @@
 }
 
 .events .h2.events--input {
-	width: 190px;
+	width: 96%;
+	font-size: 20px;
 }
 
 .events .events--time {
