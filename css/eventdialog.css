@@ -133,6 +133,9 @@
 	width: 100%;
 	box-sizing: border-box;
 }
+.advanced .h2.advanced--input {
+	font-size: 20px;
+}
 
 .advanced .advanced--fieldset select {
 	width: 100%;
