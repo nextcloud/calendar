@@ -6,7 +6,7 @@
 
 **A calendar app for [ownCloud](https://owncloud.org).**  
 
-It will replace the [old calendar app](https://github.com/owncloudarchive/calendar) with ownCloud 9.0, and is only the frontend for the new CalDAV-Backend which has moved into the [ownCloud Core](https://github.com/owncloud/core). 
+This is the new calendar app that has replaced the [old calendar app](https://github.com/owncloudarchive/calendar) with ownCloud 9.0, and is only the frontend for the new CalDAV-Backend which has moved into the [ownCloud Core](https://github.com/owncloud/core). 
 
 ![](https://github.com/owncloud/screenshots/blob/master/calendar/screenshot.png)
 
