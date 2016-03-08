@@ -250,3 +250,10 @@ ul.dropdown-menu  li {
 ul.dropdown-menu li > a:hover {
 	background-color: grey !important;
 }
+
+
+/* Fullcalendar modifications */
+
+.fc th {
+	opacity: .3;
+}
