@@ -7,6 +7,7 @@ OC.L10N.register(
     "None" : "Ingen",
     "Attendees" : "Deltagere",
     "Reminders" : "Påmindindelser",
+    "Repeating" : "Gentagende",
     "Custom" : "Valgfrit",
     "never" : "aldrig",
     "Individual" : "Individuelt",

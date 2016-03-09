@@ -7,6 +7,7 @@ OC.L10N.register(
     "None" : "Ninguno",
     "Attendees" : "Asistentes",
     "Reminders" : "Recordatorios",
+    "Repeating" : "Repetición",
     "Custom" : "Personal",
     "never" : "nunca",
     "Individual" : "Individual",

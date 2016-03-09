@@ -7,6 +7,7 @@ OC.L10N.register(
     "None" : "Отсутствует",
     "Attendees" : "Участники",
     "Reminders" : "Напоминания",
+    "Repeating" : "Повторение",
     "Custom" : "Произвольно",
     "never" : "никогда",
     "Individual" : "Индивидуально",

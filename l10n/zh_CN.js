@@ -7,6 +7,7 @@ OC.L10N.register(
     "None" : "不提醒",
     "Attendees" : "参加者",
     "Reminders" : "提醒",
+    "Repeating" : "重复",
     "Custom" : "自定义",
     "never" : "从不",
     "Individual" : "个人",

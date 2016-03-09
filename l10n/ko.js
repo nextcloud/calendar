@@ -7,6 +7,7 @@ OC.L10N.register(
     "None" : "없음",
     "Attendees" : "참석자",
     "Reminders" : "알림",
+    "Repeating" : "반복",
     "Custom" : "사용자 정의",
     "never" : "없음",
     "Individual" : "개별",

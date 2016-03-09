@@ -4,6 +4,7 @@ OC.L10N.register(
     "Calendar" : "Takvim",
     "None" : "Hiçbiri",
     "Attendees" : "Katılanlar",
+    "Repeating" : "Tekrarlama",
     "Custom" : "Özel",
     "never" : "hiçbir zaman",
     "Individual" : "Bireysel",

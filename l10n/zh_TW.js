@@ -5,6 +5,7 @@ OC.L10N.register(
     "New event" : "新活動",
     "None" : "無",
     "Attendees" : "出席者",
+    "Repeating" : "重覆中",
     "Custom" : "自訂",
     "never" : "永不",
     "Group" : "群組",

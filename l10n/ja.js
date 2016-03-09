@@ -7,6 +7,7 @@ OC.L10N.register(
     "None" : "なし",
     "Attendees" : "参加者",
     "Reminders" : "リマインダー",
+    "Repeating" : "繰り返し",
     "Custom" : "カスタム",
     "never" : "なし",
     "Individual" : "個人",
