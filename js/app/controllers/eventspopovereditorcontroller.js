@@ -26,8 +26,8 @@
  * Description: Takes care of anything inside the Events Modal.
  */
 
-app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'eventEditorHelper', 'AutoCompletionService', '$uibModalInstance', 'vevent', 'recurrenceId', 'isNew',
-	function($scope, TimezoneService, eventEditorHelper, AutoCompletionService, $uibModalInstance, vevent, recurrenceId, isNew) {
+app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'AutoCompletionService', '$uibModalInstance', 'vevent', 'recurrenceId', 'isNew',
+	function($scope, TimezoneService, AutoCompletionService, $uibModalInstance, vevent, recurrenceId, isNew) {
 		'use strict';
 
 		var simpleData = vevent.getSimpleData(recurrenceId);
