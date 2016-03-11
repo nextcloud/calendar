@@ -10,6 +10,7 @@ OC.L10N.register(
     "Repeating" : "Repetição",
     "Custom" : "Personalizado",
     "never" : "nunca",
+    "after" : "após",
     "Individual" : "Individual",
     "Group" : "Grupo",
     "Resource" : "Recurso",

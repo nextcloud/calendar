@@ -97,6 +97,8 @@ OC.L10N.register(
     "More ..." : "Mehr...",
     "Update" : "Update durchführen",
     "Close" : "Schließen",
+    "Repeat every ..." : "wiederhole jeden ...",
+    "times" : "Zeiten",
     "Description" : "Beschreibung",
     "Export" : "Exportieren",
     "Import Calendars" : "Kalender importieren",
