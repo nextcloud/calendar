@@ -58,12 +58,9 @@
 	margin-left: 5px;
 }
 
-#datepicker table td {
-	padding: 2.4px;
-}
-
 #datepicker table td button {
 	margin: 0;
+	font-weight: 300;
 }
 
 #datepicker thead {
@@ -101,13 +98,23 @@
 }
 
 #datepicker table tbody button {
-	margin: 1.3px;
+	margin: 0;
+	padding: 6px 9px;
 	background: transparent;
 	cursor: pointer;
+	border-radius: 0;
+	border-top: 0;
+	border-left: 0;
+}
+#datepicker table tbody tr.uib-weeks td:last-child button {
+	border-right: none;
+}
+#datepicker table tbody tr.uib-weeks:last-child td button {
+	border-bottom: none;
 }
 
 #datepicker table tbody button.active {
-	border: 1px solid #aaa;
+	background-color: rgba(240,240,240,.9);
 }
 
 #datepicker table tbody button span {

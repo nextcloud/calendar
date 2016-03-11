@@ -24,7 +24,6 @@
 
 #app-navigation .calendar-list {
 	max-height: 400px;
-	overflow-y: scroll;
 }
 #app-navigation .app-navigation-input {
 	width: 95%;
@@ -100,19 +99,19 @@
 }
 
 #app-navigation .app-navigation-list-item .calendarCheckbox {
-	border: 1px solid #000000;
-	cursor: pointer;
-	margin-left: 5px;
-	margin-top: 15px;
-	width: 10px;
 	position: absolute;
-	height: 10px;
 	top: 2px;
 	left: 5px;
+	margin-left: 4px;
+	margin-top: 14px;
+	width: 11px;
+	height: 11px;
+	border: none;
+	border-radius: 50%;
+	cursor: pointer;
 }
 #app-navigation .app-navigation-list-item .calendarCheckbox.unchecked {
 	background: transparent !important;
-	border-color: #aaa;
 }
 #app-navigation .app-navigation-list-item .loading {
 	margin-left: 6px;
@@ -172,7 +171,7 @@
 	line-height: 44px;
 	height: 16px;
 	width: 16px;
-	padding: 14px 2px 14px 2px;
+	padding: 12px 6px 12px 6px;
 	cursor: pointer;
 }
 
@@ -249,4 +248,21 @@ ul.dropdown-menu  li {
 
 ul.dropdown-menu li > a:hover {
 	background-color: grey !important;
+}
+
+
+/* Fullcalendar modifications */
+
+.fc th {
+	opacity: .3;
+}
+.fc td.fc-widget-header {
+	border-top: none;
+}
+.fc th, .fc td {
+	border-left: none;
+	border-bottom: none;
+}
+.fc-unthemed th, .fc-unthemed td, .fc-unthemed thead, .fc-unthemed tbody, .fc-unthemed .fc-divider, .fc-unthemed .fc-row, .fc-unthemed .fc-popover {
+	border-color: #eee;
 }

@@ -39,7 +39,8 @@
 	z-index: 10;
 	padding: 7.33333px 0 0 0 !important;
 	text-align: center;
-	border: 1px solid rgba(190, 190, 190, 0.9);
+	background-color: rgba(240,240,240,.9);
+	border: 1px solid rgba(240,240,240,.9);
 	background-position: 5%;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
