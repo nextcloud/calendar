@@ -86,7 +86,7 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 			});
 
 			angular.forEach(newCalendars, function(calendar) {
-				calendar.registerEnabledCallback(function(enabled) {
+				calendar.registerCallback('enabled', function(enabled) {
 					if (enabled) {
 						showCalendar(calendar.url);
 					} else {
@@ -2094,61 +2094,59 @@ app.filter('timezoneWithoutContinentFilter', function() {
 app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneService', 'RandomStringService', function($rootScope, $filter, VEventService, TimezoneService, RandomStringService) {
 	'use strict';
 
+	function generateTextColor(r,g,b) {
+		var brightness = (((r * 299) + (g * 587) + (b * 114)) / 1000);
+		return (brightness > 130) ? '#000000' : '#FAFAFA';
+	}
+
 	function Calendar(url, props) {
-		var _this = this;
+		var self = this;
 
 		angular.extend(this, {
+			_mutableProperties: {
+				displayname: props.displayname,
+				enabled: props.enabled,
+				color: props.color,
+				order: props.order
+			}
+		});
+
+		delete props.displayname;
+		delete props.enabled;
+		delete props.color;
+		delete props.order;
+
+		angular.extend(this, props, {
 			_callbacks: {
 				enabled: function() {}
 			},
 			_propertiesBackup: {},
-			_properties: {
-				url: url,
-				enabled: props['{http://owncloud.org/ns}calendar-enabled'] === '1',
-				displayname: props['{DAV:}displayname'] || 'Unnamed',
-				color: props['{http://apple.com/ns/ical/}calendar-color'] || '#1d2d44',
-				order: parseInt(props['{http://apple.com/ns/ical/}calendar-order']) || 0,
-				components: {
-					vevent: false,
-					vjournal: false,
-					vtodo: false
-				},
-				writable: props.canWrite,
-				shareable: props.canWrite,
-				sharedWith: {
-					users: [],
-					groups: []
-				},
-				owner: ''
-			},
-			_updatedProperties: []
-		});
-
-		angular.extend(this, {
+			updatedProperties: [],
 			caldav: OC.linkToRemote('dav') + url.substr(15),
-			tmpId: null,
+			url: url,
+			tmpId: RandomStringService.generate(),
 			fcEventSource: {
 				events: function (start, end, timezone, callback) {
 					TimezoneService.get(timezone).then(function(tz) {
-						_this.list.loading = true;
-						_this.fcEventSource.isRendering = true;
+						self.list.loading = true;
+						self.fcEventSource.isRendering = true;
 						$rootScope.$broadcast('reloadCalendarList');
 
-						VEventService.getAll(_this, start, end).then(function(events) {
+						VEventService.getAll(self, start, end).then(function(events) {
 							var vevents = [];
 							for (var i = 0; i < events.length; i++) {
 								vevents = vevents.concat(events[i].getFcEvent(start, end, tz));
 							}
 
 							callback(vevents);
-							_this.fcEventSource.isRendering = false;
+							self.fcEventSource.isRendering = false;
 
-							_this.list.loading = false;
+							self.list.loading = false;
 							$rootScope.$broadcast('reloadCalendarList');
 						});
 					});
 				},
-				editable: this._properties.writable,
+				editable: this.writable,
 				calendar: this,
 				isRendering: false
 			},
@@ -2157,99 +2155,67 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 				loading: this.enabled,
 				locked: false,
 				editingShares: false
+			},
+			registerCallback: function(prop, callback) {
+				this._callbacks[prop] = callback;
+			},
+			_setUpdated: function(propName) {
+				if (this.updatedProperties.indexOf(propName) === -1) {
+					this.updatedProperties.push(propName);
+				}
+
+				var callback = this._callbacks[propName] || function(){};
+				callback(this._mutableProperties[propName]);
+			},
+			resetUpdatedProperties: function() {
+				this.updatedProperties = [];
+			},
+			prepareUpdate: function() {
+				this.list.edit = true;
+				this._propertiesBackup = angular.copy(this._mutableProperties);
+			},
+			resetToPreviousState: function() {
+				this._mutableProperties = angular.copy(this._propertiesBackup);
+				this.list.edit = false;
+				this.dropPreviousState();
+			},
+			dropPreviousState: function() {
+				this._propertiesBackup = {};
+			},
+			toggleSharesEditor: function() {
+				this.list.editingShares = !this.list.editingShares;
 			}
 		});
-
-		var components = props['{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set'];
-		for (var i=0; i < components.length; i++) {
-			var name = components[i].attributes.getNamedItem('name').textContent.toLowerCase();
-			if (this._properties.components.hasOwnProperty(name)) {
-				this._properties.components[name] = true;
-			}
-		}
-
-		var shares = props['{http://owncloud.org/ns}invite'];
-		if (typeof shares !== 'undefined') {
-			for (var j=0; j < shares.length; j++) {
-				var href = shares[j].getElementsByTagNameNS('DAV:', 'href');
-				if (href.length === 0) {
-					continue;
-				}
-				href = href[0].textContent;
-
-				var access = shares[j].getElementsByTagNameNS('http://owncloud.org/ns', 'access');
-				if (access.length === 0) {
-					continue;
-				}
-				access = access[0];
-
-				var readWrite = access.getElementsByTagNameNS('http://owncloud.org/ns', 'read-write');
-				readWrite = readWrite.length !== 0;
-
-				if (href.startsWith('principal:principals/users/')) {
-					this._properties.sharedWith.users.push({
-						id: href.substr(27),
-						displayname: href.substr(27),
-						writable: readWrite
-					});
-				} else if (href.startsWith('principal:principals/groups/')) {
-					this._properties.sharedWith.groups.push({
-						id: href.substr(28),
-						displayname: href.substr(28),
-						writable: readWrite
-					});
-				}
-			}
-		}
-
-		var owner = props['{DAV:}owner'];
-		if (typeof owner !== 'undefined' && owner.length !== 0) {
-			owner = owner[0].textContent.slice(0, -1);
-			if (owner.startsWith('/remote.php/dav/principals/users/')) {
-				this._properties.owner = owner.substr(33);
-			}
-		}
-
-		this.tmpId = RandomStringService.generate();
 	}
 
 	Calendar.prototype = {
-		get url() {
-			return this._properties.url;
-		},
 		get enabled() {
-			return this._properties.enabled;
-		},
-		get components() {
-			return this._properties.components;
+			return this._mutableProperties.enabled;
 		},
 		set enabled(enabled) {
-			if (enabled !== this._properties.enabled) {
-				this._callbacks.enabled(enabled);
-			}
-
-			this._properties.enabled = enabled;
+			this._mutableProperties.enabled = enabled;
 			this._setUpdated('enabled');
 		},
 		get displayname() {
-			return this._properties.displayname;
+			return this._mutableProperties.displayname;
 		},
 		set displayname(displayname) {
-			this._properties.displayname = displayname;
+			this._mutableProperties.displayname = displayname;
 			this._setUpdated('displayname');
 		},
 		get color() {
-			return this._properties.color;
+			return this._mutableProperties.color;
 		},
 		set color(color) {
-			this._properties.color = color;
+			this._mutableProperties.color = color;
 			this._setUpdated('color');
 		},
-		get sharedWith() {
-			return this._properties.sharedWith;
+		get order() {
+			return this._mutableProperties.order;
 		},
-		set sharedWith(sharedWith) {
-			this._properties.sharedWith = sharedWith;
+		set order(order) {
+			this._mutableProperties.order = order;
+			this._setUpdated('order');
 		},
 		get textColor() {
 			var color = this.color;
@@ -2259,7 +2225,7 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 				case 4:
 					c = color.match(/^#([0-9a-f]{3})$/i)[1];
 					if (c) {
-						return this._generateTextColor(
+						return generateTextColor(
 							parseInt(c.charAt(0),16)*0x11,
 							parseInt(c.charAt(1),16)*0x11,
 							parseInt(c.charAt(2),16)*0x11
@@ -2272,7 +2238,7 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 					var regex = new RegExp('^#([0-9a-f]{' + (color.length - 1) + '})$', 'i');
 					c = color.match(regex)[1];
 					if (c) {
-						return this._generateTextColor(
+						return generateTextColor(
 							parseInt(c.substr(0,2),16),
 							parseInt(c.substr(2,2),16),
 							parseInt(c.substr(4,2),16)
@@ -2283,55 +2249,6 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 				default:
 					return fallbackColor;
 			}
-		},
-		get order() {
-			return this._properties.order;
-		},
-		set order(order) {
-			this._properties.order = order;
-			this._setUpdated('order');
-		},
-		get writable() {
-			return this._properties.writable;
-		},
-		get shareable() {
-			return this._properties.shareable;
-		},
-		get owner() {
-			return this._properties.owner;
-		},
-		_setUpdated: function(propName) {
-			if (this._updatedProperties.indexOf(propName) === -1) {
-				this._updatedProperties.push(propName);
-			}
-		},
-		get updatedProperties() {
-			return this._updatedProperties;
-		},
-		resetUpdatedProperties: function() {
-			this._updatedProperties = [];
-		},
-		prepareUpdate: function() {
-			this.list.edit = true;
-			this._propertiesBackup = angular.copy(this._properties);
-		},
-		resetToPreviousState: function() {
-			this._properties = angular.copy(this._propertiesBackup);
-			this.list.edit = false;
-			this._propertiesBackup = {};
-		},
-		dropPreviousState: function() {
-			this._propertiesBackup = {};
-		},
-		toggleSharesEditor: function() {
-			this.list.editingShares = !this.list.editingShares;
-		},
-		_generateTextColor: function(r,g,b) {
-			var brightness = (((r * 299) + (g * 587) + (b * 114)) / 1000);
-			return (brightness > 130) ? '#000000' : '#FAFAFA';
-		},
-		registerEnabledCallback: function(callback) {
-			this._callbacks.enabled = callback;
 		}
 	};
 
@@ -2785,7 +2702,7 @@ app.service('AutoCompletionService', ['$rootScope', '$http',
 app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Calendar){
 	'use strict';
 
-	var _this = this;
+	var self = this;
 
 	this._CALENDAR_HOME = null;
 
@@ -2816,9 +2733,9 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 				return;
 			}
 			var props = response.body.propStat[0].properties;
-			_this._currentUserPrincipal = props['{' + DavClient.NS_DAV + '}current-user-principal'][0].textContent;
+			self._currentUserPrincipal = props['{' + DavClient.NS_DAV + '}current-user-principal'][0].textContent;
 
-			return DavClient.propFind(DavClient.buildUrl(_this._currentUserPrincipal), ['{' + DavClient.NS_IETF + '}calendar-home-set'], 0, {'requesttoken': OC.requestToken}).then(function (response) {
+			return DavClient.propFind(DavClient.buildUrl(self._currentUserPrincipal), ['{' + DavClient.NS_IETF + '}calendar-home-set'], 0, {'requesttoken': OC.requestToken}).then(function (response) {
 				if (!DavClient.wasRequestSuccessful(response.status)) {
 					throw "CalDAV client could not be initialized - Querying calendar-home-set failed";
 				}
@@ -2827,7 +2744,7 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 					return;
 				}
 				var props = response.body.propStat[0].properties;
-				_this._CALENDAR_HOME = props['{' + DavClient.NS_IETF + '}calendar-home-set'][0].textContent;
+				self._CALENDAR_HOME = props['{' + DavClient.NS_IETF + '}calendar-home-set'][0].textContent;
 
 				return callback();
 			});
@@ -2841,7 +2758,7 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 	this.getAll = function() {
 		if (this._CALENDAR_HOME === null) {
 			return discoverHome(function() {
-				return _this.getAll();
+				return self.getAll();
 			});
 		}
 
@@ -2858,31 +2775,19 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 					continue;
 				}
 
-				_this._takenUrls.push(body.href);
+				self._takenUrls.push(body.href);
 
 				var responseCode = getResponseCodeFromHTTPResponse(body.propStat[0].status);
 				if (!DavClient.wasRequestSuccessful(responseCode)) {
 					continue;
 				}
 
-				var doesSupportVEvent = false;
-				var components = body.propStat[0].properties['{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set'];
-				if (components) {
-					for (var j=0; j < components.length; j++) {
-						var name = components[j].attributes.getNamedItem('name').textContent.toLowerCase();
-						if (name === 'vevent') {
-							doesSupportVEvent = true;
-						}
-					}
-				}
-
-				if (!doesSupportVEvent) {
+				var props = self._getSimplePropertiesFromRequest(body.propStat[0].properties);
+				if (!props || !props.components.vevent) {
 					continue;
 				}
 
-				_this._getACLFromResponse(body);
-
-				var calendar = new Calendar(body.href, body.propStat[0].properties);
+				var calendar = new Calendar(body.href, props);
 				calendars.push(calendar);
 			}
 
@@ -2893,7 +2798,7 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 	this.get = function(url) {
 		if (this._CALENDAR_HOME === null) {
 			return discoverHome(function() {
-				return _this.get(url);
+				return self.get(url);
 			});
 		}
 
@@ -2910,16 +2815,19 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 				return;
 			}
 
-			_this._getACLFromResponse(body);
+			var props = self._getSimplePropertiesFromRequest(body.propStat[0].properties);
+			if (!props || !props.components.vevent) {
+				return;
+			}
 
-			return new Calendar(body.href, body.propStat[0].properties);
+			return new Calendar(body.href, props);
 		});
 	};
 
 	this.create = function(name, color, components) {
 		if (this._CALENDAR_HOME === null) {
 			return discoverHome(function() {
-				return _this.create(name, color);
+				return self.create(name, color);
 			});
 		}
 
@@ -2957,10 +2865,10 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 
 		return DavClient.request('MKCALENDAR', url, headers, body).then(function(response) {
 			if (response.status === 201) {
-				_this._takenUrls.push(url);
-				return _this.get(url).then(function(calendar) {
+				self._takenUrls.push(url);
+				return self.get(url).then(function(calendar) {
 					calendar.enabled = true;
-					return _this.update(calendar);
+					return self.update(calendar);
 				});
 			}
 		});
@@ -3147,26 +3055,105 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 		}
 	};
 
-	this._getACLFromResponse = function(body) {
-		var canWrite = false;
-		var acl = body.propStat[0].properties['{' + DavClient.NS_DAV + '}acl'];
-		if (acl) {
-			for (var k=0; k < acl.length; k++) {
-				var href = acl[k].getElementsByTagNameNS('DAV:', 'href');
+	this._getSimplePropertiesFromRequest = function(props) {
+		if (!props['{' + DavClient.NS_IETF + '}supported-calendar-component-set']) {
+			return;
+		}
+
+		this._getACLFromResponse(props);
+
+		var simple = {
+			enabled: props['{' + DavClient.NS_OWNCLOUD + '}calendar-enabled'],
+			displayname: props['{' + DavClient.NS_DAV + '}displayname'],
+			color: props['{' + DavClient.NS_APPLE + '}calendar-color'],
+			order: props['{' + DavClient.NS_APPLE + '}calendar-order'],
+			components: {
+				vevent: false,
+				vjournal: false,
+				vtodo: false
+			},
+			owner: null,
+			shareable: props.canWrite,
+			sharedWith: {
+				users: [],
+				groups: []
+			},
+			writable: props.canWrite
+		};
+
+		var components = props['{' + DavClient.NS_IETF + '}supported-calendar-component-set'];
+		for (var i=0; i < components.length; i++) {
+			var name = components[i].attributes.getNamedItem('name').textContent.toLowerCase();
+			if (simple.components.hasOwnProperty(name)) {
+				simple.components[name] = true;
+			}
+		}
+
+		var owner = props['{' + DavClient.NS_DAV + '}owner'];
+		if (typeof owner !== 'undefined' && owner.length !== 0) {
+			owner = owner[0].textContent.slice(0, -1);
+			if (owner.indexOf('/remote.php/dav/principals/users/') !== -1) {
+				simple.owner = owner.substr(33 + owner.indexOf('/remote.php/dav/principals/users/'));
+			}
+		}
+
+		var shares = props['{' + DavClient.NS_OWNCLOUD + '}invite'];
+		if (typeof shares !== 'undefined') {
+			for (var j=0; j < shares.length; j++) {
+				var href = shares[j].getElementsByTagNameNS('DAV:', 'href');
 				if (href.length === 0) {
 					continue;
 				}
 				href = href[0].textContent;
-				if (href !== _this._currentUserPrincipal) {
+
+				var access = shares[j].getElementsByTagNameNS(DavClient.NS_OWNCLOUD, 'access');
+				if (access.length === 0) {
 					continue;
 				}
-				var writeNode = acl[k].getElementsByTagNameNS('DAV:', 'write');
+				access = access[0];
+
+				var readWrite = access.getElementsByTagNameNS(DavClient.NS_OWNCLOUD, 'read-write');
+				readWrite = readWrite.length !== 0;
+
+				if (href.startsWith('principal:principals/users/')) {
+					simple.sharedWith.users.push({
+						id: href.substr(27),
+						displayname: href.substr(27),
+						writable: readWrite
+					});
+				} else if (href.startsWith('principal:principals/groups/')) {
+					simple.sharedWith.groups.push({
+						id: href.substr(28),
+						displayname: href.substr(28),
+						writable: readWrite
+					});
+				}
+			}
+		}
+
+		return simple;
+	};
+
+	this._getACLFromResponse = function(props) {
+		var canWrite = false;
+		var acl = props['{' + DavClient.NS_DAV + '}acl'];
+		if (acl) {
+			for (var k=0; k < acl.length; k++) {
+				var href = acl[k].getElementsByTagNameNS(DavClient.NS_DAV, 'href');
+				if (href.length === 0) {
+					continue;
+				}
+				href = href[0].textContent;
+				if (href !== self._currentUserPrincipal) {
+					continue;
+				}
+				var writeNode = acl[k].getElementsByTagNameNS(DavClient.NS_DAV, 'write');
 				if (writeNode.length > 0) {
 					canWrite = true;
 				}
 			}
 		}
-		body.propStat[0].properties.canWrite = canWrite;
+		props.canWrite = canWrite;
 	};
 
 	this._isUriAlreadyTaken = function(uri) {

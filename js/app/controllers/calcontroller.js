@@ -66,7 +66,7 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 			});
 
 			angular.forEach(newCalendars, function(calendar) {
-				calendar.registerEnabledCallback(function(enabled) {
+				calendar.registerCallback('enabled', function(enabled) {
 					if (enabled) {
 						showCalendar(calendar.url);
 					} else {
