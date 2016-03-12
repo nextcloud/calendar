@@ -17,6 +17,7 @@ OC.L10N.register(
     "Custom" : "benutzerdefiniert",
     "never" : "niemals",
     "after" : "nach",
+    "on date" : "am Datum",
     "Individual" : "individuell",
     "Group" : "Gruppe",
     "Resource" : "Ressource",
