@@ -41,6 +41,80 @@ app.run(['$rootScope', '$window',
 	}
 ]);
 
+app.controller('AttendeeController', ["$scope", "AutoCompletionService", function($scope, AutoCompletionService) {
+	'use strict';
+
+	$scope.newAttendeeGroup = -1;
+
+	$scope.cutstats = [
+		{displayname: t('calendar', 'Individual'), val: 'INDIVIDUAL'},
+		{displayname: t('calendar', 'Group'), val: 'GROUP'},
+		{displayname: t('calendar', 'Resource'), val: 'RESOURCE'},
+		{displayname: t('calendar', 'Room'), val: 'ROOM'},
+		{displayname: t('calendar', 'Unknown'), val: 'UNKNOWN'}
+	];
+
+	$scope.partstats = [
+		{displayname: t('calendar', 'Required'), val: 'REQ-PARTICIPANT'},
+		{displayname: t('calendar', 'Optional'), val: 'OPT-PARTICIPANT'},
+		{displayname: t('calendar', 'Does not attend'), val: 'NON-PARTICIPANT'}
+	];
+
+	$scope.$parent.registerPostHook(function() {
+		$scope.properties.attendee = $scope.properties.attendee || [];
+		if ($scope.properties.attendee.length > 0 && $scope.properties.organizer === null) {
+			$scope.properties.organizer = {
+				value: 'MAILTO:' + $scope.$parent.emailAddress,
+				parameters: {
+					cn: OC.getCurrentUser().displayName
+				}
+			};
+		}
+	});
+
+	$scope.add = function (email) {
+		if (email !== '') {
+			$scope.properties.attendee = $scope.properties.attendee || [];
+			$scope.properties.attendee.push({
+				value: 'MAILTO:' + email,
+				group: $scope.newAttendeeGroup--,
+				parameters: {
+					'role': 'REQ-PARTICIPANT',
+					'rsvp': true,
+					'partstat': 'NEEDS-ACTION',
+					'cutype': 'INDIVIDUAL'
+				}
+			});
+		}
+		$scope.attendeeoptions = false;
+		$scope.nameofattendee = '';
+	};
+
+	$scope.remove = function (attendee) {
+		$scope.properties.attendee = $scope.properties.attendee.filter(function(elem) {
+			return elem.group !== attendee.group;
+		});
+	};
+
+	$scope.search = function (value) {
+		return AutoCompletionService.searchAttendee(value);
+	};
+
+	$scope.selectFromTypeahead = function (item) {
+		$scope.properties.attendee = $scope.properties.attendee || [];
+		$scope.properties.attendee.push({
+			value: 'MAILTO:' + item.email,
+			parameters: {
+				cn: item.name,
+				role: 'REQ-PARTICIPANT',
+				rsvp: true,
+				partstat: 'NEEDS-ACTION',
+				cutype: 'INDIVIDUAL'
+			}
+		});
+		$scope.nameofattendee = '';
+	};
+}]);
 /**
 * Controller: CalController
 * Description: The fullcalendar controller.
@@ -827,8 +901,8 @@ app.controller('DatePickerController', ['$scope', 'uiCalendarConfig', 'uibDatepi
  * Description: Takes care of anything inside the Events Modal.
  */
 
-app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'eventEditorHelper', 'AutoCompletionService', '$uibModalInstance', 'vevent', 'recurrenceId', 'isNew',
-	function($scope, TimezoneService, eventEditorHelper, AutoCompletionService, $uibModalInstance, vevent, recurrenceId, isNew) {
+app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'AutoCompletionService', '$uibModalInstance', 'vevent', 'recurrenceId', 'isNew',
+	function($scope, TimezoneService, AutoCompletionService, $uibModalInstance, vevent, recurrenceId, isNew) {
 		'use strict';
 
 		var simpleData = vevent.getSimpleData(recurrenceId);
@@ -936,8 +1010,8 @@ app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'e
  * Description: Takes care of anything inside the Events Modal.
  */
 
-app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'AutoCompletionService', 'eventEditorHelper', '$window', '$uibModalInstance', 'vevent', 'recurrenceId', 'isNew', 'properties', 'emailAddress',
-	function($scope, TimezoneService, AutoCompletionService, eventEditorHelper, $window, $uibModalInstance, vevent, recurrenceId, isNew, properties, emailAddress) {
+app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'AutoCompletionService', '$window', '$uibModalInstance', 'vevent', 'recurrenceId', 'isNew', 'properties', 'emailAddress',
+	function($scope, TimezoneService, AutoCompletionService, $window, $uibModalInstance, vevent, recurrenceId, isNew, properties, emailAddress) {
 		'use strict';
 
 		$scope.properties = properties;
@@ -948,15 +1022,138 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
 		$scope.selected = 1;
 		$scope.timezones = [];
 		$scope.emailAddress = emailAddress;
-		$scope.rruleNotSupported = false;
+		$scope.edittimezone = ((
+			$scope.properties.dtstart.parameters.zone !== 'floating' &&
+			$scope.properties.dtstart.parameters.zone !== $scope.defaulttimezone) || (
+			$scope.properties.dtend.parameters.zone !== 'floating' &&
+			$scope.properties.dtend.parameters.zone !== $scope.defaulttimezone
+		));
 
-		var startZoneAintFloating = $scope.properties.dtstart.parameters.zone !== 'floating',
-			startZoneAintDefaultTz = $scope.properties.dtstart.parameters.zone !== $scope.defaulttimezone,
-			endZoneAintFloating = $scope.properties.dtend.parameters.zone !== 'floating',
-			endZoneAintDefaultTz = $scope.properties.dtend.parameters.zone !== $scope.defaulttimezone;
+		$scope.preEditingHooks = [];
+		$scope.postEditingHooks = [];
 
-		$scope.edittimezone = ((startZoneAintFloating && startZoneAintDefaultTz) || (endZoneAintFloating && endZoneAintDefaultTz));
+		$scope.tabs = [
+			{title: t('calendar', 'Attendees'), value: 1},
+			{title: t('calendar', 'Reminders'), value: 2},
+			{title: t('calendar', 'Repeating'), value: 3}
+		];
 
+		$scope.classSelect = [
+			{displayname: t('calendar', 'When shared show full event'), type: 'PUBLIC'},
+			{displayname: t('calendar', 'When shared show only busy'), type: 'CONFIDENTIAL'},
+			{displayname: t('calendar', 'When shared hide this event'), type: 'PRIVATE'}
+		];
+
+		$scope.registerPreHook = function(callback) {
+			$scope.preEditingHooks.push(callback);
+		};
+
+		$uibModalInstance.rendered.then(function() {
+			if ($scope.properties.dtend.type === 'date') {
+				$scope.properties.dtend.value = moment($scope.properties.dtend.value.subtract(1, 'days'));
+			}
+
+			angular.forEach($scope.preEditingHooks, function(callback) {
+				callback();
+			});
+
+			$scope.tabopener(1);
+		});
+
+		$scope.registerPostHook = function(callback) {
+			$scope.postEditingHooks.push(callback);
+		};
+
+		$scope.save = function() {
+			var error = false;
+			if ($scope.properties.summary === null || $scope.properties.summary.value.trim() === '') {
+				OC.Notification.showTemporary(t('calendar', 'Please add a title!'));
+				error = true;
+			}
+			if ($scope.calendar === null || typeof $scope.calendar === 'undefined') {
+				OC.Notification.showTemporary(t('calendar', 'Please select a calendar!'));
+				error = true;
+			}
+
+			if (error) {
+				return;
+			}
+
+			if ($scope.properties.allDay) {
+				$scope.properties.dtstart.type = 'date';
+				$scope.properties.dtend.type = 'date';
+				$scope.properties.dtend.value.add(1, 'days');
+			} else {
+				$scope.properties.dtstart.type = 'date-time';
+				$scope.properties.dtend.type = 'date-time';
+			}
+
+			angular.forEach($scope.postEditingHooks, function(callback) {
+				callback();
+			});
+
+			vevent.calendar = $scope.calendar;
+			vevent.patch(recurrenceId, $scope.properties);
+
+			$uibModalInstance.close(vevent);
+		};
+
+		$scope.cancel = function() {
+			$uibModalInstance.dismiss('cancel');
+		};
+
+		$scope.delete = function() {
+			$uibModalInstance.dismiss('delete');
+		};
+
+		$scope.export = function() {
+			$window.open($scope.oldCalendar.url + vevent.uri);
+		};
+
+		/**
+		 * Everything tabs
+		 */
+		$scope.tabopener = function (val) {
+			$scope.selected = val;
+			if (val === 1) {
+				$scope.eventsattendeeview = true;
+				$scope.eventsalarmview = false;
+				$scope.eventsrepeatview = false;
+			} else if (val === 2) {
+				$scope.eventsattendeeview = false;
+				$scope.eventsalarmview = true;
+				$scope.eventsrepeatview = false;
+			} else if (val === 3) {
+				$scope.eventsattendeeview = false;
+				$scope.eventsalarmview = false;
+				$scope.eventsrepeatview = true;
+			}
+		};
+		/**
+		 * Everything date and time
+		 */
+		$scope.$watch('properties.dtstart.value', function(nv, ov) {
+			var diff = nv.diff(ov, 'seconds');
+			if (diff !== 0) {
+				$scope.properties.dtend.value = moment($scope.properties.dtend.value.add(diff, 'seconds'));
+			}
+		});
+
+		$scope.toggledAllDay = function() {
+			if ($scope.properties.allDay) {
+				return;
+			}
+
+			if ($scope.properties.dtstart.parameters.zone === 'floating' &&
+				$scope.properties.dtend.parameters.zone === 'floating') {
+				$scope.properties.dtstart.parameters.zone = $scope.defaulttimezone;
+				$scope.properties.dtend.parameters.zone = $scope.defaulttimezone;
+			}
+		};
+
+		/**
+		 * Everything timezones
+		 */
 		TimezoneService.listAll().then(function(list) {
 			if ($scope.properties.dtstart.parameters.zone !== 'floating' &&
 				list.indexOf($scope.properties.dtstart.parameters.zone) === -1) {
@@ -990,158 +1187,15 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
 			});
 		});
 
-		$scope.$watch('properties.dtstart.value', function(nv, ov) {
-			var diff = nv.diff(ov, 'seconds');
-			if (diff !== 0) {
-				$scope.properties.dtend.value = moment($scope.properties.dtend.value.add(diff, 'seconds'));
-			}
-		});
-
 		$scope.loadTimezone = function(tzId) {
 			TimezoneService.get(tzId).then(function(timezone) {
 				ICAL.TimezoneService.register(tzId, timezone.jCal);
 			});
 		};
 
-		$scope.cancel = function() {
-			$uibModalInstance.dismiss('cancel');
-		};
-
-		$scope.delete = function() {
-			$uibModalInstance.dismiss('delete');
-		};
-
-		$scope.export = function() {
-			$window.open($scope.oldCalendar.url + vevent.uri);
-		};
-
-		$scope.toggledAllDay = function() {
-			if ($scope.properties.allDay) {
-				return;
-			}
-
-			if ($scope.properties.dtstart.parameters.zone === 'floating' &&
-				$scope.properties.dtend.parameters.zone === 'floating') {
-				$scope.properties.dtstart.parameters.zone = $scope.defaulttimezone;
-				$scope.properties.dtend.parameters.zone = $scope.defaulttimezone;
-			}
-		};
-
-		$scope.save = function() {
-			var error = false;
-			if ($scope.properties.summary === null || $scope.properties.summary.value.trim() === '') {
-				OC.Notification.showTemporary(t('calendar', 'Please add a title!'));
-				error = true;
-			}
-			if ($scope.calendar === null || typeof $scope.calendar === 'undefined') {
-				OC.Notification.showTemporary(t('calendar', 'Please select a calendar!'));
-				error = true;
-			}
-
-			if (error) {
-				return;
-			}
-
-			if ($scope.properties.allDay) {
-				$scope.properties.dtstart.type = 'date';
-				$scope.properties.dtend.type = 'date';
-				$scope.properties.dtend.value.add(1, 'days');
-			} else {
-				$scope.properties.dtstart.type = 'date-time';
-				$scope.properties.dtend.type = 'date-time';
-			}
-
-			$scope.properties.attendee = $scope.properties.attendee || [];
-			if ($scope.properties.attendee.length > 0 && $scope.properties.organizer === null) {
-				$scope.properties.organizer = {
-					value: 'MAILTO:' + emailAddress,
-					parameters: {
-						cn: OC.getCurrentUser().displayName
-					}
-				};
-			}
-
-			$scope.properties.rrule.dontTouch = $scope.rruleNotSupported;
-
-			if ($scope.selected_repeat_end === 'NEVER') {
-				$scope.properties.rrule.count = null;
-				$scope.properties.rrule.until = null;
-			}
-
-			angular.forEach($scope.properties.alarm, function(alarm) {
-				if (alarm.editor.triggerType === 'absolute') {
-					alarm.trigger.value = alarm.editor.absMoment;
-				}
-			});
-
-			vevent.calendar = $scope.calendar;
-			vevent.patch(recurrenceId, $scope.properties);
-
-			$uibModalInstance.close(vevent);
-		};
-
-		$uibModalInstance.rendered.then(function() {
-			eventEditorHelper.prepareProperties($scope.properties);
-
-			if ($scope.properties.dtend.type === 'date') {
-				$scope.properties.dtend.value = moment($scope.properties.dtend.value.subtract(1, 'days'));
-			}
-
-			if ($scope.properties.rrule.freq !== 'NONE') {
-				var unsupportedFREQs = ['SECONDLY', 'MINUTELY', 'HOURLY'];
-				if (unsupportedFREQs.indexOf($scope.properties.rrule.freq) !== -1) {
-					$scope.rruleNotSupported = true;
-				}
-
-				if (typeof $scope.properties.rrule.parameters !== 'undefined') {
-					var partIds = Object.getOwnPropertyNames($scope.properties.rrule.parameters);
-					if (partIds.length > 0) {
-						$scope.rruleNotSupported = true;
-					}
-				}
-
-				if ($scope.properties.rrule.count !== null) {
-					$scope.selected_repeat_end = 'COUNT';
-				} else if ($scope.properties.rrule.until !== null) {
-					$scope.rruleNotSupported = true;
-					//$scope.selected_repeat_end = 'UNTIL';
-				}
-
-				/*if (!moment.isMoment($scope.properties.rrule.until)) {
-					$scope.properties.rrule.until = moment();
-				}*/
-
-				if ($scope.properties.rrule.interval === null) {
-					$scope.properties.rrule.interval = 1;
-				}
-			}
-
-			$scope.tabopener(1);
-		});
-
-		$scope.tabs = [
-			{title: t('calendar', 'Attendees'), value: 1},
-			{title: t('calendar', 'Reminders'), value: 2},
-			{title: t('calendar', 'Repeating'), value: 3}
-		];
-
-		$scope.tabopener = function (val) {
-			$scope.selected = val;
-			if (val === 1) {
-				$scope.eventsattendeeview = true;
-				$scope.eventsalarmview = false;
-				$scope.eventsrepeatview = false;
-			} else if (val === 2) {
-				$scope.eventsattendeeview = false;
-				$scope.eventsalarmview = true;
-				$scope.eventsrepeatview = false;
-			} else if (val === 3) {
-				$scope.eventsattendeeview = false;
-				$scope.eventsalarmview = false;
-				$scope.eventsrepeatview = true;
-			}
-		};
-
+		/**
+		 * Everything location
+		 */
 		$scope.searchLocation = function(value) {
 			return AutoCompletionService.searchLocation(value);
 		};
@@ -1150,124 +1204,9 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
 			$scope.properties.location.value = item.label;
 		};
 
-		$scope.repeat_options_simple = [
-			{val: 'NONE', displayname: t('Calendar', 'None')},
-			{val: 'DAILY', displayname: t('Calendar', 'Every day')},
-			{val: 'WEEKLY', displayname: t('Calendar', 'Every week')},
-			{val: 'MONTHLY', displayname: t('Calendar', 'Every month')},
-			{val: 'YEARLY', displayname: t('Calendar', 'Every year')}//,
-			//{val: 'CUSTOM', displayname: t('calendar', 'Custom')}
-		];
-
-		$scope.selected_repeat_end = 'NEVER';
-		$scope.repeat_end = [
-			{val: 'NEVER', displayname: t('Calendar', 'never')},
-			{val: 'COUNT', displayname: t('Calendar', 'after')}//,
-			//{val: 'UNTIL', displayname: t('Calendar', 'on date')}
-		];
-
-		$scope.resetRRule = function() {
-			$scope.selected_repeat_end = 'NEVER';
-			$scope.properties.rrule.freq = 'NONE';
-			$scope.properties.rrule.count = null;
-			//$scope.properties.rrule.until = null;
-			$scope.properties.rrule.interval = 1;
-			$scope.rruleNotSupported = false;
-			$scope.properties.rrule.parameters = {};
-		};
-
-		$scope.cutstats = [
-			{ displayname: t('Calendar', 'Individual'), val : 'INDIVIDUAL' },
-			{ displayname: t('Calendar', 'Group'), val : 'GROUP' },
-			{ displayname: t('Calendar', 'Resource'), val : 'RESOURCE' },
-			{ displayname: t('Calendar', 'Room'), val : 'ROOM' },
-			{ displayname: t('Calendar', 'Unknown'), val : 'UNKNOWN' }
-		];
-
-		$scope.partstats = [
-			{ displayname: t('Calendar', 'Required'), val : 'REQ-PARTICIPANT' },
-			{ displayname: t('Calendar', 'Optional'), val : 'OPT-PARTICIPANT' },
-			{ displayname: t('Calendar', 'Does not attend'), val : 'NON-PARTICIPANT' }
-		];
-
-		$scope.getLocation = function() {
-			/*return Restangular.one('autocompletion').getList('location',
-			 { 'location': $scope.properties.location }).then(function(res) {
-			 var locations = [];
-			 angular.forEach(res, function(item) {
-			 locations.push(item.label);
-			 });
-			 return locations;
-			 });*/
-		};
-
-		//$scope.changerecurrence = function (id) {
-		//	if (id==='4') {
-		//		EventsModel.getrecurrencedialog('#repeatdialog');
-		//	}
-		//};
-
-		$scope.changestat = function (blah,attendeeval) {
-			for (var i = 0; i < $scope.properties.attendee.length; i++) {
-				if ($scope.properties.attendee[i].value === attendeeval) {
-					$scope.properties.attendee[i].parameters.CUTTYPE = blah.val;
-				}
-			}
-		};
-
-		$scope.newAttendeeGroup = -1;
-		$scope.addmoreattendees = function (val) {
-			var attendee = val;
-			if (attendee !== '') {
-				$scope.properties.attendee = $scope.properties.attendee || [];
-				$scope.properties.attendee.push({
-					value: 'MAILTO:' + attendee,
-					group: $scope.newAttendeeGroup--,
-					parameters: {
-						'role': 'REQ-PARTICIPANT',
-						'rsvp': true,
-						'partstat': 'NEEDS-ACTION',
-						'cutype': 'INDIVIDUAL'
-					}
-				});
-			}
-			$scope.attendeeoptions = false;
-		};
-
-		$scope.deleteAttendee = function (val) {
-			for (var key in $scope.properties.attendee) {
-				if ($scope.properties.attendee[key].value === val) {
-					$scope.properties.attendee.splice(key, 1);
-					break;
-				}
-			}
-		};
-
-		$scope.searchAttendee = function(value) {
-			return AutoCompletionService.searchAttendee(value);
-		};
-
-		$scope.selectAttendeeFromTypeahead = function(item) {
-			$scope.properties.attendee = $scope.properties.attendee || [];
-			$scope.properties.attendee.push({
-				value: 'MAILTO:' + item.email,
-				parameters: {
-					cn: item.name,
-					role: 'REQ-PARTICIPANT',
-					rsvp: true,
-					partstat: 'NEEDS-ACTION',
-					cutype: 'INDIVIDUAL'
-				}
-			});
-			$scope.nameofattendee = '';
-		};
-
-		$scope.classSelect = [
-			{displayname: t('calendar', 'When shared show full event'), type: 'PUBLIC'},
-			{displayname: t('calendar', 'When shared show only busy'), type: 'CONFIDENTIAL'},
-			{displayname: t('calendar', 'When shared hide this event'), type: 'PRIVATE'}
-		];
-
+		/**
+		 * Everything access class
+		 */
 		$scope.setClassToDefault = function() {
 			if ($scope.properties.class === null) {
 				$scope.properties.class = {
@@ -1276,137 +1215,6 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
 				};
 			}
 		};
-
-		/**
-		 * Everything reminders
-		 * - ui related scope variables
-		 * - content of select blocks
-		 * - related functions
-		 */
-		$scope.selectedReminderId = null;
-		$scope.newReminderId = -1;
-
-		$scope.reminderSelect = [
-			{ displayname: t('Calendar', 'At time of event'), trigger: 0},
-			{ displayname: t('Calendar', '5 minutes before'), trigger: -1 * 5 * 60},
-			{ displayname: t('Calendar', '10 minutes before'), trigger: -1 * 10 * 60},
-			{ displayname: t('Calendar', '15 minutes before'), trigger: -1 * 15 * 60},
-			{ displayname: t('Calendar', '30 minutes before'), trigger: -1 * 30 * 60},
-			{ displayname: t('Calendar', '1 hour before'), trigger: -1 * 60 * 60},
-			{ displayname: t('Calendar', '2 hours before'), trigger: -1 * 2 * 60 * 60},
-			{ displayname: t('Calendar', 'Custom'), trigger: 'custom'}
-		];
-
-		$scope.reminderTypeSelect = [
-			{ displayname: t('Calendar', 'Audio'), type: 'AUDIO'},
-			{ displayname: t('Calendar', 'E Mail'), type: 'EMAIL'},
-			{ displayname: t('Calendar', 'Pop up'), type: 'DISPLAY'}
-		];
-
-		$scope.timeUnitReminderSelect = [
-			{ displayname: t('Calendar', 'sec'), factor: 1},
-			{ displayname: t('Calendar', 'min'), factor: 60},
-			{ displayname: t('Calendar', 'hours'), factor: 60 * 60},
-			{ displayname: t('Calendar', 'days'), factor: 60 * 60 * 24},
-			{ displayname: t('Calendar', 'week'), factor: 60 * 60 * 24 * 7}
-		];
-
-		$scope.timepositionreminderSelect = [
-			{ displayname: t('Calendar', 'Before'), factor: -1},
-			{ displayname: t('Calendar', 'After'), factor: 1}
-		];
-
-		$scope.startendreminderSelect = [
-			{ displayname: t('Calendar', 'Start'), type: 'start'},
-			{ displayname: t('Calendar', 'End'), type: 'end'}
-		];
-
-		$scope.addReminder = function() {
-			//TODO - if a reminder with 15 mins before already exists, create one with 30 minutes before
-			var alarm = {
-				id: $scope.newReminderId,
-				action: {
-					type: 'text',
-					value: 'AUDIO'
-				},
-				trigger: {
-					type: 'duration',
-					value: -900,
-					related: 'start'
-				},
-				repeat: {},
-				duration: {},
-				attendees: []
-			};
-
-			eventEditorHelper.prepareAlarm(alarm);
-			$scope.properties.alarm.push(alarm);
-			$scope.newReminderId--;
-		};
-
-		$scope.deleteReminder = function (group) {
-			for (var key in $scope.properties.alarm) {
-				if ($scope.properties.alarm[key].group === group) {
-					$scope.properties.alarm.splice(key, 1);
-					break;
-				}
-			}
-		};
-
-		$scope.editReminder = function(id) {
-			if ($scope.isEditingReminderSupported(id)) {
-				$scope.selectedReminderId = id;
-			}
-		};
-
-		$scope.isEditingReminderSupported = function(group) {
-			for (var key in $scope.properties.alarm) {
-				if ($scope.properties.alarm[key].group === group) {
-					var action = $scope.properties.alarm[key].action.value;
-					//WE DON'T AIM TO SUPPORT PROCEDURE
-					return (['AUDIO', 'DISPLAY', 'EMAIL'].indexOf(action) !==-1);
-				}
-			}
-			return false;
-		};
-
-		$scope.updateReminderSelectValue = function(alarm) {
-			var factor = alarm.editor.reminderSelectValue;
-			if (factor !== 'custom') {
-				alarm.duration = {};
-				alarm.repeat = {};
-				alarm.trigger.related = 'start';
-				alarm.trigger.type = 'duration';
-				alarm.trigger.value = parseInt(factor);
-
-				eventEditorHelper.prepareAlarm(alarm);
-			}
-		};
-
-		$scope.updateReminderRepeat = function(alarm) {
-			alarm.repeat.type = 'string';
-			alarm.repeat.value = alarm.editor.repeatNTimes;
-			alarm.duration.type = 'duration';
-			alarm.duration.value = parseInt(alarm.editor.repeatNValue) * parseInt(alarm.editor.repeatTimeUnit);
-		};
-
-		$scope.updateReminderRelative = function(alarm) {
-			alarm.trigger.value = parseInt(alarm.editor.triggerBeforeAfter) * parseInt(alarm.editor.triggerTimeUnit) * parseInt(alarm.editor.triggerValue);
-			alarm.trigger.type = 'duration';
-		};
-
-		$scope.updateReminderAbsolute = function(alarm) {
-			if (!moment.isMoment(alarm.trigger.value)) {
-				alarm.trigger.value = moment();
-			}
-			alarm.trigger.type = 'date-time';
-		};
-
-		/*
-		$scope.updateReminderRepeat = function(alarm) {
-			alarm.duration.value = parseInt(alarm.editor.repeatNValue) * parseInt(alarm.editor.repeatTimeUnit);
-		};
-		*/
 	}
 ]);
 /**
@@ -1561,6 +1369,79 @@ app.controller('ImportController', ['$scope', '$rootScope', '$filter', 'Calendar
 		};
 	}
 ]);
+app.controller('RecurrenceController', ["$scope", function($scope) {
+	'use strict';
+
+	$scope.rruleNotSupported = false;
+
+	$scope.repeat_options_simple = [
+		{val: 'NONE', displayname: t('calendar', 'None')},
+		{val: 'DAILY', displayname: t('calendar', 'Every day')},
+		{val: 'WEEKLY', displayname: t('calendar', 'Every week')},
+		{val: 'MONTHLY', displayname: t('calendar', 'Every month')},
+		{val: 'YEARLY', displayname: t('calendar', 'Every year')}//,
+		//{val: 'CUSTOM', displayname: t('calendar', 'Custom')}
+	];
+
+	$scope.selected_repeat_end = 'NEVER';
+	$scope.repeat_end = [
+		{val: 'NEVER', displayname: t('calendar', 'never')},
+		{val: 'COUNT', displayname: t('calendar', 'after')}//,
+		//{val: 'UNTIL', displayname: t('calendar', 'on date')}
+	];
+
+	$scope.$parent.registerPreHook(function() {
+		if ($scope.properties.rrule.freq !== 'NONE') {
+			var unsupportedFREQs = ['SECONDLY', 'MINUTELY', 'HOURLY'];
+			if (unsupportedFREQs.indexOf($scope.properties.rrule.freq) !== -1) {
+				$scope.rruleNotSupported = true;
+			}
+
+			if (typeof $scope.properties.rrule.parameters !== 'undefined') {
+				var partIds = Object.getOwnPropertyNames($scope.properties.rrule.parameters);
+				if (partIds.length > 0) {
+					$scope.rruleNotSupported = true;
+				}
+			}
+
+			if ($scope.properties.rrule.count !== null) {
+				$scope.selected_repeat_end = 'COUNT';
+			} else if ($scope.properties.rrule.until !== null) {
+				$scope.rruleNotSupported = true;
+				//$scope.selected_repeat_end = 'UNTIL';
+			}
+
+			/*if (!moment.isMoment($scope.properties.rrule.until)) {
+			 $scope.properties.rrule.until = moment();
+			 }*/
+
+			if ($scope.properties.rrule.interval === null) {
+				$scope.properties.rrule.interval = 1;
+			}
+		}
+	});
+
+	$scope.$parent.registerPostHook(function() {
+		$scope.properties.rrule.dontTouch = $scope.rruleNotSupported;
+
+		if ($scope.selected_repeat_end === 'NEVER') {
+			$scope.properties.rrule.count = null;
+			$scope.properties.rrule.until = null;
+		}
+	});
+
+	$scope.resetRRule = function() {
+		$scope.selected_repeat_end = 'NEVER';
+		$scope.properties.rrule.freq = 'NONE';
+		$scope.properties.rrule.count = null;
+		//$scope.properties.rrule.until = null;
+		$scope.properties.rrule.interval = 1;
+		$scope.rruleNotSupported = false;
+		$scope.properties.rrule.parameters = {};
+	};
+
+
+}]);
 /**
  * Controller: SettingController
  * Description: Takes care of the Calendar Settings.
@@ -1642,6 +1523,227 @@ app.controller('SubscriptionController', ['$scope', '$rootScope', '$window', 'Su
 	}
 ]);
 */
+app.controller('VAlarmController', ["$scope", function($scope) {
+	'use strict';
+
+	$scope.newReminderId = -1;
+
+	$scope.alarmFactors = [
+		60, //seconds
+		60, //minutes
+		24, //hours
+		7 //days
+	];
+
+	$scope.reminderSelect = [
+		{ displayname: t('calendar', 'At time of event'), trigger: 0},
+		{ displayname: t('calendar', '5 minutes before'), trigger: -1 * 5 * 60},
+		{ displayname: t('calendar', '10 minutes before'), trigger: -1 * 10 * 60},
+		{ displayname: t('calendar', '15 minutes before'), trigger: -1 * 15 * 60},
+		{ displayname: t('calendar', '30 minutes before'), trigger: -1 * 30 * 60},
+		{ displayname: t('calendar', '1 hour before'), trigger: -1 * 60 * 60},
+		{ displayname: t('calendar', '2 hours before'), trigger: -1 * 2 * 60 * 60},
+		{ displayname: t('calendar', 'Custom'), trigger: 'custom'}
+	];
+
+	$scope.reminderSelectTriggers = $scope.reminderSelect.map(function(elem) {
+		return elem.trigger;
+	}).filter(function(elem) {
+		return (typeof elem === 'number');
+	});
+
+	$scope.reminderTypeSelect = [
+		{ displayname: t('calendar', 'Audio'), type: 'AUDIO'},
+		{ displayname: t('calendar', 'E Mail'), type: 'EMAIL'},
+		{ displayname: t('calendar', 'Pop up'), type: 'DISPLAY'}
+	];
+
+	$scope.timeUnitReminderSelect = [
+		{ displayname: t('calendar', 'sec'), factor: 1},
+		{ displayname: t('calendar', 'min'), factor: 60},
+		{ displayname: t('calendar', 'hours'), factor: 60 * 60},
+		{ displayname: t('calendar', 'days'), factor: 60 * 60 * 24},
+		{ displayname: t('calendar', 'week'), factor: 60 * 60 * 24 * 7}
+	];
+
+	$scope.timePositionReminderSelect = [
+		{ displayname: t('calendar', 'before'), factor: -1},
+		{ displayname: t('calendar', 'after'), factor: 1}
+	];
+
+	$scope.startEndReminderSelect = [
+		{ displayname: t('calendar', 'start'), type: 'start'},
+		{ displayname: t('calendar', 'end'), type: 'end'}
+	];
+
+	$scope.$parent.registerPreHook(function() {
+		angular.forEach($scope.properties.alarm, function(alarm) {
+			$scope._addEditorProps(alarm);
+		});
+	});
+
+	$scope.$parent.registerPostHook(function() {
+		angular.forEach($scope.properties.alarm, function(alarm) {
+			if (alarm.editor.triggerType === 'absolute') {
+				alarm.trigger.value = alarm.editor.absMoment;
+			}
+		});
+	});
+
+	$scope._addEditorProps = function(alarm) {
+		angular.extend(alarm, {
+			editor: {
+				triggerValue: 0,
+				triggerBeforeAfter: -1,
+				triggerTimeUnit: 1,
+				absMoment: moment(),
+				editing: false
+			}
+		});
+
+		alarm.editor.reminderSelectValue =
+			($scope.reminderSelectTriggers.indexOf(alarm.trigger.value) !== -1) ?
+				alarm.editor.reminderSelectValue = alarm.trigger.value :
+				alarm.editor.reminderSelectValue = 'custom';
+
+		alarm.editor.triggerType =
+			(alarm.trigger.type === 'duration') ?
+				'relative' :
+				'absolute';
+
+		if (alarm.editor.triggerType === 'relative') {
+			$scope._prepareRelativeVAlarm(alarm);
+		} else {
+			$scope._prepareAbsoluteVAlarm(alarm);
+		}
+
+		$scope._prepareRepeat(alarm);
+	};
+
+	$scope._prepareRelativeVAlarm = function(alarm) {
+		var unitAndValue = $scope._getUnitAndValue(Math.abs(alarm.trigger.value));
+
+		angular.extend(alarm.editor, {
+			triggerBeforeAfter: (alarm.trigger.value < 0) ? -1 : 1,
+			triggerTimeUnit: unitAndValue[0],
+			triggerValue: unitAndValue
+		});
+	};
+
+	$scope._prepareAbsoluteVAlarm = function(alarm) {
+		alarm.editor.absMoment = alarm.trigger.value;
+	};
+
+	$scope._prepareRepeat = function(alarm) {
+		var unitAndValue = $scope._getUnitAndValue((alarm.duration && alarm.duration.value) ? alarm.duration.value : 0);
+
+		angular.extend(alarm.editor, {
+			repeat: !(!alarm.repeat.value || alarm.repeat.value === 0),
+			repeatNTimes: (alarm.editor.repeat) ? alarm.repeat.value : 0,
+			repeatTimeUnit: unitAndValue[0],
+			repeatNValue: unitAndValue[1]
+		});
+	};
+
+	$scope._getUnitAndValue = function(value) {
+		var unit = 1;
+
+		for (var i = 0; i < $scope.reminderSelectTriggers.length && value !== 0; i++) {
+			var mod = value % $scope.reminderSelectTriggers[i];
+			if (mod !== 0) {
+				break;
+			}
+
+			unit *= $scope.reminderSelectTriggers[i];
+			value /= $scope.reminderSelectTriggers[i];
+		}
+
+		return [unit, value];
+	};
+
+	$scope.add = function() {
+		var alarm = {
+			id: $scope.newReminderId--,
+			action: {
+				type: 'text',
+				value: 'AUDIO'
+			},
+			trigger: {
+				type: 'duration',
+				value: -900,
+				related: 'start'
+			},
+			repeat: {},
+			duration: {}
+		};
+
+		$scope._addEditorProps(alarm);
+		$scope.properties.alarm.push(alarm);
+	};
+
+	$scope.remove = function (alarm) {
+		$scope.properties.alarm = $scope.properties.alarm.filter(function(elem) {
+			return elem.group !== alarm.group;
+		});
+	};
+
+	$scope.triggerEdit = function(alarm) {
+		if (alarm.editor.editing === true) {
+			alarm.editor.editing = false;
+		} else {
+			if ($scope.isEditingReminderSupported(alarm)) {
+				alarm.editor.editing = true;
+			} else {
+				OC.Notification.showTemporary(t('calendar', 'Editing reminders of uknown type not supported.'));
+			}
+		}
+	};
+
+	$scope.isEditingReminderSupported = function(alarm) {
+		//WE DON'T AIM TO SUPPORT PROCEDURE
+		return (['AUDIO', 'DISPLAY', 'EMAIL'].indexOf(alarm.action.value) !== -1);
+	};
+
+	$scope.updateReminderSelectValue = function(alarm) {
+		var factor = alarm.editor.reminderSelectValue;
+		if (factor !== 'custom') {
+			alarm.duration = {};
+			alarm.repeat = {};
+			alarm.trigger.related = 'start';
+			alarm.trigger.type = 'duration';
+			alarm.trigger.value = parseInt(factor);
+
+			$scope._addEditorProps(alarm);
+		}
+	};
+
+	$scope.updateReminderRelative = function(alarm) {
+		alarm.trigger.value =
+			parseInt(alarm.editor.triggerBeforeAfter) *
+			parseInt(alarm.editor.triggerTimeUnit) *
+			parseInt(alarm.editor.triggerValue);
+
+		alarm.trigger.type = 'duration';
+	};
+
+	$scope.updateReminderAbsolute = function(alarm) {
+		if (!moment.isMoment(alarm.trigger.value)) {
+			alarm.trigger.value = moment();
+		}
+
+		alarm.trigger.type = 'date-time';
+	};
+
+	$scope.updateReminderRepeat = function(alarm) {
+		alarm.repeat.type = 'string';
+		alarm.repeat.value = alarm.editor.repeatNTimes;
+		alarm.duration.type = 'duration';
+		alarm.duration.value =
+			parseInt(alarm.editor.repeatNValue) *
+			parseInt(alarm.editor.repeatTimeUnit);
+	};
+}]);
+
 /**
 * Directive: Colorpicker
 * Description: Colorpicker for the Calendar app.
@@ -3244,165 +3346,6 @@ app.service('DavClient', function() {
 	});
 
 	return client;
-});
-/**
-* Model: Dialog
-* Description: For Dialog Properties.
-*/
-
-app.factory('DialogModel', function() {
-	'use strict';
-
-	return {
-		initsmall: function(elementId) {
-			$(elementId).dialog({
-				width : 400,
-				height: 300,
-				resizable: false,
-				draggable: true,
-				close : function(event, ui) {
-					$(this).dialog('destroy');
-				}
-			});
-		},
-		initbig: function (elementId) {
-			$(elementId).dialog({
-				width : 500,
-				height: 400,
-				resizable: false,
-				draggable: true,
-				close : function(event, ui) {
-					$(this).dialog('destroy');
-				}
-			});
-		},
-		open: function (elementId) {
-			$(elementId).dialog('open');
-		},
-		close: function (elementId) {
-			$(elementId).dialog('close');
-		},
-		multiselect: function (elementId) {
-			this.checked = [];
-			$(elementId).multiSelect({
-				minWidth: 300,
-				createCallback: false,
-				createText: false,
-				singleSelect: false,
-				checked: this.checked,
-				labels:[]
-			});
-		},
-		checkedarraymultiselect : function () {
-			return this.checked;
-		}
-	};
-});
-
-app.factory('eventEditorHelper', function () {
-	'use strict';
-
-	var alarmFactors = [
-		60,
-		60,
-		24,
-		7
-	];
-
-	var alarmDropdownValues = [
-		0,
-		-1 * 5 * 60,
-		-1 * 10 * 60,
-		-1 * 15 * 60,
-		-1 * 30 * 60,
-		-1 * 60 * 60,
-		-1 * 2 * 60 * 60
-	];
-	
-	/**
-	 * prepare alarm
-	 */
-	function prepareAlarm(alarm) {
-		alarm.editor = {};
-		alarm.editor.reminderSelectValue = (alarmDropdownValues.indexOf(alarm.trigger.value) !== -1) ? alarm.trigger.value.toString() : 'custom';
-
-		alarm.editor.triggerType = (alarm.trigger.type === 'duration') ? 'relative' : 'absolute';
-		if (alarm.editor.triggerType === 'relative') {
-			var triggerValue = Math.abs(alarm.trigger.value);
-
-			alarm.editor.triggerBeforeAfter = (alarm.trigger.value < 0) ? -1 : 1;
-			alarm.editor.triggerTimeUnit = 1;
-
-			for (var i = 0; i < alarmFactors.length && triggerValue !== 0; i++) {
-				var mod = triggerValue % alarmFactors[i];
-				if (mod !== 0) {
-					break;
-				}
-
-				alarm.editor.triggerTimeUnit *= alarmFactors[i];
-				triggerValue /= alarmFactors[i];
-			}
-
-			alarm.editor.triggerTimeUnit = alarm.editor.triggerTimeUnit.toString();
-			alarm.editor.triggerValue = triggerValue;
-		} else {
-			alarm.editor.triggerValue = 0;
-			alarm.editor.triggerBeforeAfter = -1;
-			alarm.editor.triggerTimeUnit = 1;
-		}
-
-		if (alarm.editor.triggerType === 'absolute') {
-			alarm.editor.absMoment = alarm.trigger.value;
-		} else {
-			alarm.editor.absMoment = moment();
-		}
-
-		alarm.editor.repeat = !(!alarm.repeat.value || alarm.repeat.value === 0);
-		alarm.editor.repeatNTimes = (alarm.editor.repeat) ? alarm.repeat.value : 0;
-		alarm.editor.repeatTimeUnit = 1;
-
-		var repeatValue = (alarm.duration && alarm.duration.value) ? alarm.duration.value : 0;
-
-		for (var i2 = 0; i2 < alarmFactors.length && repeatValue !== 0; i2++) {
-			var mod2 = repeatValue % alarmFactors[i2];
-			if (mod2 !== 0) {
-				break;
-			}
-
-			alarm.editor.repeatTimeUnit *= alarmFactors[i2];
-			repeatValue /= alarmFactors[i2];
-		}
-
-		alarm.editor.repeatNValue = repeatValue;
-	}
-
-	/**
-	 * prepare attendee
-	 */
-	function prepareAttendee(attendee) {
-
-	}
-
-	return {
-		prepareAlarm: prepareAlarm,
-		prepareProperties: function(simpleData) {
-			if(Object.getOwnPropertyNames(simpleData).length !== 0) {
-				if (simpleData.calendar !== '') {
-					//prepare alarms
-					angular.forEach(simpleData.alarm, function(value, key) {
-						var alarm = simpleData.alarm[key];
-						prepareAlarm(alarm);
-					});
-
-					//prepare attendees
-					angular.forEach(simpleData.attendee, function(value, key) {
-						var attendee = simpleData.attendee[key];
-						prepareAttendee(attendee);
-					});
-				}
-			}
-		}
-	};
 });
 app.service('ICalFactory', [
 	function() {

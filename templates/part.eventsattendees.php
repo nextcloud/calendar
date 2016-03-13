@@ -25,9 +25,9 @@
 <div class="advanced--fieldset" ng-hide="emailAddress === ''">
 	<input type="text" class="advanced--input" ng-model="nameofattendee"
 		placeholder="<?php p($l->t('E-Mail address of attendee'))?>" name="nameofattendee" autocomplete="off"
-		uib-typeahead="contact.name for contact in searchAttendee($viewValue)" typeahead-show-hint="true" typeahead-min-length="3"
-		   typeahead-on-select="selectAttendeeFromTypeahead($item)" />
-	<button id="addmoreattendees" ng-click="addmoreattendees(nameofattendee)" class="btn event-button button">
+		uib-typeahead="contact.name for contact in search($viewValue)" typeahead-show-hint="true" typeahead-min-length="3"
+		   typeahead-on-select="selectFromTypeahead($item)" />
+	<button id="addmoreattendees" ng-click="add(nameofattendee)" class="btn event-button button">
 		<?php p($l->t('Add')); ?>
 	</button>
 </div>
@@ -40,7 +40,7 @@
 		<li class="pull-left" ng-class="{ active: attendeeoptions }" ng-repeat="attendee in properties.attendee | attendeeNotOrganizerFilter: $scope.emailAddress">
 			<div class="advanced--toggler" ng-model="attendeeoptions" ng-click="attendeeoptions=!attendeeoptions">
 				<span class="bold pull-left">{{ attendee | attendeeFilter }}</span>
-				<button class="event-button event-delete-button icon-close pull-right" ng-click="deleteAttendee(attendee.value)">
+				<button class="event-button event-delete-button icon-close pull-right" ng-click="remove(attendee)">
 				</button>
 			</div>
 			<div class="attendeeoptions" ng-show="attendeeoptions">

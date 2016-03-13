@@ -63,15 +63,15 @@
 			<div ng-include="currentTab"></div>
 		</fieldset>
 
-		<fieldset ng-show="eventsattendeeview" class="advanced--fieldset" ng-disabled="readOnly">
+		<fieldset ng-show="eventsattendeeview" class="advanced--fieldset" ng-disabled="readOnly" ng-controller="AttendeeController">
 			<?php print_unescaped($this->inc('part.eventsattendees')); ?>
 		</fieldset>
 
-		<fieldset ng-show="eventsalarmview" class="advanced--fieldset" ng-disabled="readOnly">
+		<fieldset ng-show="eventsalarmview" class="advanced--fieldset" ng-disabled="readOnly" ng-controller="VAlarmController">
 			<?php print_unescaped($this->inc('part.eventsalarms')); ?>
 		</fieldset>
 
-		<fieldset ng-show="eventsrepeatview" class="advanced--fieldset" ng-disabled="readOnly">
+		<fieldset ng-show="eventsrepeatview" class="advanced--fieldset" ng-disabled="readOnly" ng-controller="RecurrenceController">
 			<?php print_unescaped($this->inc('part.eventsrepeat')); ?>
 		</fieldset>
 	</div>
