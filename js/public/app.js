@@ -217,7 +217,7 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 			end.add(end.toDate().getTimezoneOffset(), 'minutes');
 
 			var vevent = VEvent.fromStartEnd(start, end, $scope.defaulttimezone);
-			$scope._initializeEventEditor(vevent, null, true, function() {
+			$scope._initializeEventEditor(vevent, null, vevent.getSimpleEvent(null), true, function() {
 				uiCalendarConfig.calendars.calendar.fullCalendar('renderEvent', fcEvent);
 				uiCalendarConfig.calendars.calendar.fullCalendar('unselect');
 
@@ -300,7 +300,7 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 			return position;
 		};
 
-		$scope._initializeEventEditor = function(vevent, recurrenceId, isNew, positionCallback, successCallback, deleteCallBack, cancelCallback, fcEvent) {
+		$scope._initializeEventEditor = function(vevent, recurrenceId, simpleEvent, isNew, positionCallback, successCallback, deleteCallBack, cancelCallback, fcEvent) {
 			// Don't open the same dialog again
 			if ($scope.eventModalVEvent === vevent && $scope.eventModalRecurrenceId === recurrenceId) {
 				return;
@@ -325,8 +325,8 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 					vevent: function() {
 						return vevent;
 					},
-					recurrenceId: function() {
-						return recurrenceId;
+					simpleEvent: function() {
+						return simpleEvent;
 					},
 					isNew: function() {
 						return isNew;
@@ -375,13 +375,10 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 							vevent: function() {
 								return vevent;
 							},
-							recurrenceId: function() {
-								return recurrenceId;
-							},
 							isNew: function() {
 								return isNew;
 							},
-							properties: function() {
+							simpleEvent: function() {
 								return result.properties;
 							},
 							emailAddress: function() {
@@ -477,9 +474,9 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 				select: $scope.newEvent,
 				eventLimit: true,
 				eventClick: function(fcEvent, jsEvent, view) {
-					var oldCalendar = fcEvent.event.calendar;
+					var oldCalendar = fcEvent.vevent.calendar;
 
-					$scope._initializeEventEditor(fcEvent.event, fcEvent.recurrenceId, false, function() {
+					$scope._initializeEventEditor(fcEvent.vevent, fcEvent.recurrenceId, fcEvent.getSimpleEvent(), false, function() {
 						return $scope._calculatePopoverPosition(jsEvent.currentTarget, view);
 					}, function(vevent) {
 						if (oldCalendar === vevent.calendar) {
@@ -545,16 +542,16 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 					}, fcEvent);
 				},
 				eventResize: function (fcEvent, delta, revertFunc) {
-					if (!fcEvent.event.resize(fcEvent.recurrenceId, delta)) {
+					fcEvent.resize(delta);
+					VEventService.update(fcEvent.vevent).catch(function() {
 						revertFunc();
-					}
-					VEventService.update(fcEvent.event);
+					});
 				},
 				eventDrop: function (fcEvent, delta, revertFunc) {
-					if(!fcEvent.event.drop(fcEvent.recurrenceId, delta)) {
+					fcEvent.drop(delta);
+					VEventService.update(fcEvent.vevent).catch(function() {
 						revertFunc();
-					}
-					VEventService.update(fcEvent.event);
+					});
 				},
 				eventRender: function(fcEvent) {
 					if (fcEvent.calendar) {
@@ -901,12 +898,11 @@ app.controller('DatePickerController', ['$scope', 'uiCalendarConfig', 'uibDatepi
  * Description: Takes care of anything inside the Events Modal.
  */
 
-app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'AutoCompletionService', '$uibModalInstance', 'vevent', 'recurrenceId', 'isNew',
-	function($scope, TimezoneService, AutoCompletionService, $uibModalInstance, vevent, recurrenceId, isNew) {
+app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'AutoCompletionService', '$uibModalInstance', 'vevent', 'simpleEvent', 'isNew',
+	function($scope, TimezoneService, AutoCompletionService, $uibModalInstance, vevent, simpleEvent, isNew) {
 		'use strict';
 
-		var simpleData = vevent.getSimpleData(recurrenceId);
-		$scope.properties = simpleData;
+		$scope.properties = simpleEvent;
 		$scope.is_new = isNew;
 		$scope.calendar = isNew ? null : vevent.calendar;
 		$scope.oldCalendar = isNew ? null : vevent.calendar;
@@ -953,7 +949,7 @@ app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'A
 				});
 			} else {
 				vevent.calendar = $scope.calendar;
-				vevent.patch(recurrenceId, $scope.properties);
+				$scope.properties.patch();
 
 				$uibModalInstance.close({
 					action: action,
@@ -1010,11 +1006,11 @@ app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'A
  * Description: Takes care of anything inside the Events Modal.
  */
 
-app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'AutoCompletionService', '$window', '$uibModalInstance', 'vevent', 'recurrenceId', 'isNew', 'properties', 'emailAddress',
-	function($scope, TimezoneService, AutoCompletionService, $window, $uibModalInstance, vevent, recurrenceId, isNew, properties, emailAddress) {
+app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'AutoCompletionService', '$window', '$uibModalInstance', 'vevent', 'simpleEvent', 'isNew', 'emailAddress',
+	function($scope, TimezoneService, AutoCompletionService, $window, $uibModalInstance, vevent, simpleEvent, isNew, properties, emailAddress) {
 		'use strict';
 
-		$scope.properties = properties;
+		$scope.properties = simpleEvent;
 		$scope.is_new = isNew;
 		$scope.calendar = isNew ? null : vevent.calendar;
 		$scope.oldCalendar = isNew ? null : vevent.calendar;
@@ -1093,7 +1089,7 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
 			});
 
 			vevent.calendar = $scope.calendar;
-			vevent.patch(recurrenceId, $scope.properties);
+			$scope.properties.patch();
 
 			$uibModalInstance.close(vevent);
 		};
@@ -2357,6 +2353,752 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 	return Calendar;
 }]);
 
+app.factory('FcEvent', ["SimpleEvent", function(SimpleEvent) {
+	'use strict';
+
+	/**
+	 * check if dtstart and dtend are both of type date
+	 * @param dtstart
+	 * @param dtend
+	 * @returns {boolean}
+	 */
+	function isEventAllDay (dtstart, dtend) {
+		return (dtstart.icaltype === 'date' && dtend.icaltype === 'date');
+	}
+
+	/**
+	 * get recurrence id from event
+	 * @param {Component} event
+	 * @returns {string}
+	 */
+	function getRecurrenceIdFromEvent (event) {
+		return event.hasProperty('recurrence-id') ?
+			event.getFirstPropertyValue('recurrence-id').toICALString() :
+			null;
+	}
+
+	/**
+	 * get calendar related information about event
+	 * @param {VEvent} vevent
+	 * @returns {{calendar: *, editable: *, backgroundColor: *, borderColor: *, textColor: *, className: string}}
+	 */
+	function getCalendarRelatedProps (vevent) {
+		return {
+			calendar: vevent.calendar,
+			editable: vevent.calendar.writable,
+			backgroundColor: vevent.calendar.color,
+			borderColor: vevent.calendar.color,
+			textColor: vevent.calendar.textColor,
+			className: 'fcCalendar-id-' + vevent.calendar.tmpId
+		};
+	}
+
+	/**
+	 * get event related information about event
+	 * @param {Component} event
+	 * @returns {{title: string}}
+	 */
+	function getEventRelatedProps (event) {
+		return {
+			title: event.getFirstPropertyValue('summary')
+		};
+	}
+
+	/**
+	 * get unique id for fullcalendar
+	 * @param {VEvent} vevent
+	 * @param {Component} event
+	 * @returns {string}
+	 */
+	function getFcEventId (vevent, event) {
+		var id = vevent.uri;
+		var recurrenceId = getRecurrenceIdFromEvent(event);
+		if (recurrenceId) {
+			id += recurrenceId;
+		}
+
+		return id;
+	}
+
+	/**
+	 * @constructor
+	 * @param {VEvent} vevent
+	 * @param {Component} event
+	 * @param {icaltime} start
+	 * @param {icaltime} end
+	 */
+	function FcEvent (vevent, event, start, end) {
+		var iCalEvent = new ICAL.Event(event);
+
+		angular.extend(this, {
+			vevent: vevent,
+			event: event,
+			id: getFcEventId(vevent, event),
+			allDay: isEventAllDay(start, end),
+			start: start.toJSDate(),
+			end: end.toJSDate(),
+			repeating: iCalEvent.isRecurring()
+		}, getCalendarRelatedProps(vevent), getEventRelatedProps(event));
+	}
+
+	FcEvent.prototype = {
+		/**
+		 * get SimpleEvent for current fcEvent
+		 * @returns {SimpleEvent}
+		 */
+		getSimpleEvent: function () {
+			return new SimpleEvent(this.event);
+		},
+		/**
+		 * moves the event to a different position
+		 * @param {Duration} delta
+		 */
+		drop: function (delta) {
+			delta = new ICAL.Duration().fromSeconds(delta.asSeconds());
+
+			if (this.event.hasProperty('dtstart')) {
+				var dtstart = this.event.getFirstPropertyValue('dtstart');
+				dtstart.addDuration(delta);
+				this.event.updatePropertyWithValue('dtstart', dtstart);
+			}
+
+			if (this.event.hasProperty('dtend')) {
+				var dtend = this.event.getFirstPropertyValue('dtend');
+				dtend.addDuration(delta);
+				this.event.updatePropertyWithValue('dtend', dtend);
+			}
+		},
+		/**
+		 * resizes the event
+		 * @param {moment.duration} delta
+		 */
+		resize: function (delta) {
+			delta = new ICAL.Duration().fromSeconds(delta.asSeconds());
+
+			if (this.event.hasProperty('duration')) {
+				var duration = this.event.getFirstPropertyValue('duration');
+				duration.fromSeconds((delta.toSeconds() + duration.toSeconds()));
+				this.event.updatePropertyWithValue('duration', duration);
+			} else if (this.event.hasProperty('dtend')) {
+				var dtend = this.event.getFirstPropertyValue('dtend');
+				dtend.addDuration(delta);
+				this.event.updatePropertyWithValue('dtend', dtend);
+			} else if (this.event.hasProperty('dtstart')) {
+				var dtstart = event.getFirstPropertyValue('dtstart').clone();
+				dtstart.addDuration(delta);
+				this.event.addPropertyWithValue('dtend', dtstart);
+			}
+		}
+	};
+
+	return FcEvent;
+}]);
+
+app.factory('SimpleEvent', function() {
+	'use strict';
+
+	/**
+	 * structure of simple data
+	 */
+	var defaults = {
+		'summary': null,
+		'location': null,
+		//'created': null,
+		//'last-modified': null,
+		'organizer': null,
+		'class': null,
+		'description': null,
+		//'url': null,
+		//'status': null,
+		//'resources': null,
+		'alarm': null,
+		'attendee': null,
+		//'categories': null,
+		'dtstart': null,
+		'dtend': null,
+		'repeating': null,
+		'rdate': null,
+		'rrule': null,
+		'exdate': null
+	};
+
+	var attendeeParameters = [
+		'role',
+		'rvsp',
+		'partstat',
+		'cutype',
+		'cn',
+		'delegated-from',
+		'delegated-to'
+	];
+
+	var organizerParameters = [
+		'cn'
+	];
+
+	/**
+	 * parsers of supported properties
+	 */
+	var simpleParser = {
+		date: function(data, vevent, key, parameters) {
+			parameters = (parameters || []).concat(['tzid']);
+			simpleParser._parseSingle(data, vevent, key, parameters, function(p) {
+				return (p.type === 'duration') ?
+					p.getFirstValue().toSeconds():
+					moment(p.getFirstValue().toJSDate());
+			});
+		},
+		dates: function(data, vevent, key, parameters) {
+			parameters = (parameters || []).concat(['tzid']);
+			simpleParser._parseMultiple(data, vevent, key, parameters, function(p) {
+				var values = p.getValues(),
+					usableValues = [];
+				for (var vKey in values) {
+					if (!values.hasOwnProperty(vKey)) {
+						continue;
+					}
+
+					usableValues.push(
+						(p.type === 'duration') ?
+							values[vKey].toSeconds():
+							moment(values[vKey].toJSDate())
+					);
+				}
+
+				return usableValues;
+			});
+		},
+		string: function(data, vevent, key, parameters) {
+			simpleParser._parseSingle(data, vevent, key, parameters, function(p) {
+				return p.isMultiValue ? p.getValues() : p.getFirstValue();
+			});
+		},
+		strings: function(data, vevent, key, parameters) {
+			simpleParser._parseMultiple(data, vevent, key, parameters, function(p) {
+				return p.isMultiValue ? p.getValues() : p.getFirstValue();
+			});
+		},
+		_parseSingle: function(data, vevent, key, parameters, valueParser) {
+			var prop = vevent.getFirstProperty(key);
+			if (!prop) {
+				return;
+			}
+
+			data[key] = {
+				parameters: simpleParser._parseParameters(prop, parameters),
+				type: prop.type
+			};
+
+			if (prop.isMultiValue) {
+				angular.extend(data[key], {
+					values: valueParser(prop)
+				});
+			} else {
+				angular.extend(data[key], {
+					value: valueParser(prop)
+				});
+			}
+		},
+		_parseMultiple: function(data, vevent, key, parameters, valueParser) {
+			data[key] = data[key] || [];
+
+			var properties = vevent.getAllProperties(key),
+				group = 0;
+
+			for (var pKey in properties) {
+				if (!properties.hasOwnProperty(pKey)) {
+					continue;
+				}
+
+				var currentElement = {
+					group: group,
+					parameters: simpleParser._parseParameters(properties[pKey], parameters),
+					type: properties[pKey].type
+				};
+
+				if (properties[pKey].isMultiValue) {
+					angular.extend(currentElement, {
+						values: valueParser(properties[pKey])
+					});
+				} else {
+					angular.extend(currentElement, {
+						value: valueParser(properties[pKey])
+					});
+				}
+
+				data[key].push(currentElement);
+				properties[pKey].setParameter('x-oc-group-id', group.toString());
+				group++;
+			}
+		},
+		_parseParameters: function(prop, para) {
+			var parameters = {};
+
+			if (!para) {
+				return parameters;
+			}
+
+			for (var i=0,l=para.length; i < l; i++) {
+				parameters[para[i]] = prop.getParameter(para[i]);
+			}
+
+			return parameters;
+		}
+	};
+
+	var simpleReader = {
+		date: function(vevent, oldSimpleData, newSimpleData, key, parameters) {
+			parameters = (parameters || []).concat(['tzid']);
+			simpleReader._readSingle(vevent, oldSimpleData, newSimpleData, key, parameters, function(v, isMultiValue) {
+				if (v.type === 'duration') {
+					return ICAL.Duration.fromSeconds(v.value);
+				} else {
+					return ICAL.Time.fromJSDate(v.value.toDate());
+				}
+			});
+		},
+		dates: function(vevent, oldSimpleData, newSimpleData, key, parameters) {
+			parameters = (parameters || []).concat(['tzid']);
+			simpleReader._readMultiple(vevent, oldSimpleData, newSimpleData, key, parameters, function(v, isMultiValue) {
+				var values = [];
+
+				for (var i=0, length=v.values.length; i < length; i++) {
+					if (v.type === 'duration') {
+						values.push(ICAL.Duration.fromSeconds(v.values[i]));
+					} else {
+						values.push(ICAL.Time.fromJSDate(v.values[i].toDate()));
+					}
+				}
+
+				return values;
+			});
+		},
+		string: function(vevent, oldSimpleData, newSimpleData, key, parameters) {
+			simpleReader._readSingle(vevent, oldSimpleData, newSimpleData, key, parameters, function(v, isMultiValue) {
+				return isMultiValue ? v.values : v.value;
+			});
+		},
+		strings: function(vevent, oldSimpleData, newSimpleData, key, parameters) {
+			simpleReader._readMultiple(vevent, oldSimpleData, newSimpleData, key, parameters, function(v, isMultiValue) {
+				return isMultiValue ? v.values : v.value;
+			});
+		},
+		_readSingle: function(vevent, oldSimpleData, newSimpleData, key, parameters, valueReader) {
+			if (!newSimpleData[key]) {
+				return;
+			}
+			if (!newSimpleData[key].hasOwnProperty('value') && !newSimpleData[key].hasOwnProperty('values')) {
+				return;
+			}
+			var isMultiValue = newSimpleData[key].hasOwnProperty('values');
+
+			var prop = vevent.updatePropertyWithValue(key, valueReader(newSimpleData[key], isMultiValue));
+			simpleReader._readParameters(prop, newSimpleData[key], parameters);
+		},
+		_readMultiple: function(vevent, oldSimpleData, newSimpleData, key, parameters, valueReader) {
+			var oldGroups=[], properties=null, pKey=null, groupId;
+
+			oldSimpleData[key] = oldSimpleData[key] || [];
+			for (var i=0, oldLength=oldSimpleData[key].length; i < oldLength; i++) {
+				oldGroups.push(oldSimpleData[key][i].group);
+			}
+
+			newSimpleData[key] = newSimpleData[key] || [];
+			for (var j=0, newLength=newSimpleData[key].length; j < newLength; j++) {
+				var isMultiValue = newSimpleData[key][j].hasOwnProperty('values');
+				var value = valueReader(newSimpleData[key][j], isMultiValue);
+
+				if (oldGroups.indexOf(newSimpleData[key][j].group) === -1) {
+					var property = new ICAL.Property(key);
+					simpleReader._setProperty(property, value, isMultiValue);
+					simpleReader._readParameters(property, newSimpleData[key][j], parameters);
+					vevent.addProperty(property);
+				} else {
+					oldGroups.splice(oldGroups.indexOf(newSimpleData[key][j].group), 1);
+
+					properties = vevent.getAllProperties(key);
+					for (pKey in properties) {
+						if (!properties.hasOwnProperty(pKey)) {
+							continue;
+						}
+
+						groupId = properties[pKey].getParameter('x-oc-group-id');
+						if (groupId === null) {
+							continue;
+						}
+						if (parseInt(groupId) === newSimpleData[key][j].group) {
+							simpleReader._setProperty(properties[pKey], value, isMultiValue);
+							simpleReader._readParameters(properties[pKey], newSimpleData[key][j], parameters);
+						}
+					}
+				}
+			}
+
+			properties = vevent.getAllProperties(key);
+			for (pKey in properties) {
+				if (!properties.hasOwnProperty(pKey)) {
+					continue;
+				}
+
+				groupId = properties[pKey].getParameter('x-oc-group-id');
+				if (oldGroups.indexOf(parseInt(groupId)) !== -1) {
+					vevent.removeProperty(properties[pKey]);
+				}
+			}
+		},
+		_readParameters: function(prop, simple, para) {
+			if (!para) {
+				return;
+			}
+			if (!simple.parameters) {
+				return;
+			}
+
+			for (var i=0,l=para.length; i < l; i++) {
+				if (simple.parameters[para[i]]) {
+					prop.setParameter(para[i], simple.parameters[para[i]]);
+				} else {
+					prop.removeParameter(simple.parameters[para[i]]);
+				}
+			}
+		},
+		_setProperty: function(prop, value, isMultiValue) {
+			if (isMultiValue) {
+				prop.setValues(value);
+			} else {
+				prop.setValue(value);
+			}
+		}
+	};
+
+	/**
+	 * properties supported by event editor
+	 */
+	var simpleProperties = {
+		//General
+		'summary': {parser: simpleParser.string, reader: simpleReader.string},
+		'location': {parser: simpleParser.string, reader: simpleReader.string},
+		//'created': {parser: simpleParser.date, reader: simpleReader.date},
+		//'last-modified': {parser: simpleParser.date, reader: simpleReader.date},
+		//'categories': {parser: simpleParser.strings, reader: simpleReader.strings},
+		//attendees
+		'attendee': {parser: simpleParser.strings, reader: simpleReader.strings, parameters: attendeeParameters},
+		'organizer': {parser: simpleParser.string, reader: simpleReader.string, parameters: organizerParameters},
+		//sharing
+		'class': {parser: simpleParser.string, reader: simpleReader.string},
+		//other
+		'description': {parser: simpleParser.string, reader: simpleReader.string}
+		//'url': {parser: simpleParser.string, reader: simpleReader.string},
+		//'status': {parser: simpleParser.string, reader: simpleReader.string},
+		//'resources': {parser: simpleParser.strings, reader: simpleReader.strings}
+	};
+
+	/**
+	 * specific parsers that check only one property
+	 */
+	var specificParser = {
+		alarm: function(data, vevent) {
+			data.alarm = data.alarm || [];
+
+			var alarms = vevent.getAllSubcomponents('valarm'),
+				group = 0;
+			for (var key in alarms) {
+				if (!alarms.hasOwnProperty(key)) {
+					continue;
+				}
+
+				var alarm = alarms[key];
+				var alarmData = {
+					group: group,
+					action: {},
+					trigger: {},
+					repeat: {},
+					duration: {},
+					attendee: []
+				};
+
+				simpleParser.string(alarmData, alarm, 'action');
+				simpleParser.date(alarmData, alarm, 'trigger');
+				simpleParser.string(alarmData, alarm, 'repeat');
+				simpleParser.string(alarmData, alarm, 'duration');
+				//simpleParser.strings(alarmData, alarm, 'attendee', attendeeParameters);
+
+				if (alarmData.trigger.type === 'duration' && alarm.hasProperty('trigger')) {
+					var trigger = alarm.getFirstProperty('trigger');
+					var related = trigger.getParameter('related');
+					if (related) {
+						alarmData.trigger.related = related;
+					} else {
+						alarmData.trigger.related = 'start';
+					}
+				}
+
+				data.alarm.push(alarmData);
+
+				alarm.getFirstProperty('action')
+					.setParameter('x-oc-group-id', group.toString());
+				group++;
+			}
+		},
+		date: function(data, vevent) {
+			var dtstart = vevent.getFirstPropertyValue('dtstart'), dtend;
+			if (vevent.hasProperty('dtend')) {
+				dtend = vevent.getFirstPropertyValue('dtend');
+			} else if (vevent.hasProperty('duration')) {
+				dtend = dtstart.clone();
+				dtend.addDuration(vevent.getFirstPropertyValue('duration'));
+			} else {
+				dtend = dtstart.clone();
+			}
+
+			data.dtstart = {
+				parameters: {
+					zone: dtstart.zone.toString()
+				},
+				type: dtstart.icaltype,
+				value: moment({years: dtstart.year, months: dtstart.month - 1, date: dtstart.day,
+					hours: dtstart.hour, minutes: dtstart.minute, seconds: dtstart.seconds})
+			};
+			data.dtend = {
+				parameters: {
+					zone: dtend.zone.toString()
+				},
+				type: dtend.icaltype,
+				value: moment({years: dtend.year, months: dtend.month - 1, date: dtend.day,
+					hours: dtend.hour, minutes: dtend.minute, seconds: dtend.seconds})
+			};
+			data.allDay = (dtstart.icaltype === 'date' && dtend.icaltype === 'date');
+		},
+		repeating: function(data, vevent) {
+			var iCalEvent = new ICAL.Event(vevent);
+
+			data.repeating = iCalEvent.isRecurring();
+
+			var rrule = vevent.getFirstPropertyValue('rrule');
+			if (rrule) {
+				data.rrule = {
+					count: rrule.count,
+					freq: rrule.freq,
+					interval: rrule.interval,
+					parameters: rrule.parts,
+					until: null
+				};
+
+				/*if (rrule.until) {
+				 simpleParser.date(data.rrule, rrule, 'until');
+				 }*/
+			} else {
+				data.rrule = {
+					freq: 'NONE'
+				};
+			}
+		}
+	};
+
+	var specificReader = {
+		alarm: function(vevent, oldSimpleData, newSimpleData) {
+			var oldGroups=[], components=null, cKey=null, groupId, key='alarm';
+
+			oldSimpleData[key] = oldSimpleData[key] || [];
+			for (var i=0, oldLength=oldSimpleData[key].length; i < oldLength; i++) {
+				oldGroups.push(oldSimpleData[key][i].group);
+			}
+
+			newSimpleData[key] = newSimpleData[key] || [];
+			for (var j=0, newLength=newSimpleData[key].length; j < newLength; j++) {
+				var valarm;
+				if (oldGroups.indexOf(newSimpleData[key][j].group) === -1) {
+					valarm = new ICAL.Component('VALARM');
+					vevent.addSubcomponent(valarm);
+				} else {
+					oldGroups.splice(oldGroups.indexOf(newSimpleData[key][j].group), 1);
+
+					components = vevent.getAllSubcomponents('valarm');
+					for (cKey in components) {
+						if (!components.hasOwnProperty(cKey)) {
+							continue;
+						}
+
+						groupId = components[cKey].getFirstProperty('action').getParameter('x-oc-group-id');
+						if (groupId === null) {
+							continue;
+						}
+						if (groupId === newSimpleData[key][j].group.toString()) {
+							valarm = components[cKey];
+						}
+					}
+				}
+
+				simpleReader.string(valarm, {}, newSimpleData[key][j], 'action', []);
+				simpleReader.date(valarm, {}, newSimpleData[key][j], 'trigger', []);
+				simpleReader.string(valarm, {}, newSimpleData[key][j], 'repeat', []);
+				simpleReader.string(valarm, {}, newSimpleData[key][j], 'duration', []);
+				simpleReader.strings(valarm, {}, newSimpleData[key][j], 'attendee', attendeeParameters);
+			}
+		},
+		date: function(vevent, oldSimpleData, newSimpleData) {
+			vevent.removeAllProperties('dtstart');
+			vevent.removeAllProperties('dtend');
+			vevent.removeAllProperties('duration');
+
+			newSimpleData.dtstart.parameters.zone = newSimpleData.dtstart.parameters.zone || 'floating';
+			newSimpleData.dtend.parameters.zone = newSimpleData.dtend.parameters.zone || 'floating';
+
+			if (newSimpleData.dtstart.parameters.zone !== 'floating' &&
+				!ICAL.TimezoneService.has(newSimpleData.dtstart.parameters.zone)) {
+				throw {
+					kind: 'timezone_missing',
+					missing_timezone: newSimpleData.dtstart.parameters.zone
+				};
+			}
+			if (newSimpleData.dtend.parameters.zone !== 'floating' &&
+				!ICAL.TimezoneService.has(newSimpleData.dtend.parameters.zone)) {
+				throw {
+					kind: 'timezone_missing',
+					missing_timezone: newSimpleData.dtend.parameters.zone
+				};
+			}
+
+			var start = ICAL.Time.fromJSDate(newSimpleData.dtstart.value.toDate(), false);
+			start.isDate = newSimpleData.allDay;
+			var end = ICAL.Time.fromJSDate(newSimpleData.dtend.value.toDate(), false);
+			end.isDate = newSimpleData.allDay;
+
+			var availableTimezones = [];
+			var vtimezones = vevent.parent.getAllSubcomponents('vtimezone');
+			angular.forEach(vtimezones, function(vtimezone) {
+				availableTimezones.push(vtimezone.getFirstPropertyValue('tzid'));
+			});
+
+			var dtstart = new ICAL.Property('dtstart', vevent);
+			dtstart.setValue(start);
+			if (newSimpleData.dtstart.parameters.zone !== 'floating') {
+				dtstart.setParameter('tzid', newSimpleData.dtstart.parameters.zone);
+				var startTz = ICAL.TimezoneService.get(newSimpleData.dtstart.parameters.zone);
+				start.zone = startTz;
+				if (availableTimezones.indexOf(newSimpleData.dtstart.parameters.zone) === -1) {
+					vevent.parent.addSubcomponent(startTz.component);
+					availableTimezones.push(newSimpleData.dtstart.parameters.zone);
+				}
+			}
+
+			var dtend = new ICAL.Property('dtend', vevent);
+			dtend.setValue(end);
+			if (newSimpleData.dtend.parameters.zone !== 'floating') {
+				dtend.setParameter('tzid', newSimpleData.dtend.parameters.zone);
+				var endTz = ICAL.TimezoneService.get(newSimpleData.dtend.parameters.zone);
+				end.zone = endTz;
+				if (availableTimezones.indexOf(newSimpleData.dtend.parameters.zone) === -1) {
+					vevent.parent.addSubcomponent(endTz.component);
+				}
+			}
+
+			vevent.addProperty(dtstart);
+			vevent.addProperty(dtend);
+		},
+		repeating: function(vevent, oldSimpleData, newSimpleData) {
+			// We won't support exrule, because it's deprecated and barely used in the wild
+			if (newSimpleData.rrule === null || newSimpleData.rrule.freq === 'NONE') {
+				vevent.removeAllProperties('rdate');
+				vevent.removeAllProperties('rrule');
+				vevent.removeAllProperties('exdate');
+
+				return;
+			}
+
+			if (newSimpleData.rrule.dontTouch) {
+				return;
+			}
+
+			var params = {
+				interval: newSimpleData.rrule.interval,
+				freq: newSimpleData.rrule.freq
+			};
+
+			if (newSimpleData.rrule.count) {
+				params.count = newSimpleData.rrule.count;
+			}
+
+			var rrule = new ICAL.Recur(params);
+			vevent.updatePropertyWithValue('rrule', rrule);
+		}
+	};
+
+	function SimpleEvent(event) {
+		this._event = event;
+		angular.extend(this, defaults);
+
+		var parser, parameters;
+		for (var key in simpleProperties) {
+			if (!simpleProperties.hasOwnProperty(key)) {
+				continue;
+			}
+
+			parser = simpleProperties[key].parser;
+			parameters = simpleProperties[key].parameters;
+			if (this._event.hasProperty(key)) {
+				parser(this, this._event, key, parameters);
+			}
+		}
+
+		for (parser in specificParser) {
+			if (!specificParser.hasOwnProperty(parser)) {
+				continue;
+			}
+
+			specificParser[parser](this, this._event);
+		}
+
+		this._generateOldProperties();
+	}
+
+	SimpleEvent.prototype = {
+		_generateOldProperties: function() {
+			this._oldProperties = {};
+
+			for (var def in defaults) {
+				if (!defaults.hasOwnProperty(def)) {
+					continue;
+				}
+
+				this._oldProperties[def] = angular.copy(this[def]);
+			}
+		},
+		patch: function() {
+			var key, reader, parameters;
+
+			for (key in simpleProperties) {
+				if (!simpleProperties.hasOwnProperty(key)) {
+					continue;
+				}
+
+				reader = simpleProperties[key].reader;
+				parameters = simpleProperties[key].parameters;
+				if (this._oldProperties[key] !== this[key]) {
+					if (this[key] === null) {
+						this._event.removeAllProperties(key);
+					} else {
+						reader(this._event, this._oldProperties, this, key, parameters);
+					}
+				}
+			}
+
+			for (key in specificReader) {
+				if (!specificReader.hasOwnProperty(key)) {
+					continue;
+				}
+
+				reader = specificReader[key];
+				reader(this._event, this._oldProperties, this);
+			}
+
+			this._generateOldProperties();
+		}
+	};
+
+	return SimpleEvent;
+});
+
 app.factory('Timezone',
 	function() {
 		'use strict';
@@ -2397,32 +3139,12 @@ app.factory('Timezone',
 	}
 );
 
-app.factory('VEvent', ['$filter', 'objectConverter', 'ICalFactory', 'RandomStringService', function($filter, objectConverter, icalfactory, RandomStringService) {
+app.factory('VEvent', ["FcEvent", "SimpleEvent", "ICalFactory", "RandomStringService", function(FcEvent, SimpleEvent, ICalFactory, RandomStringService) {
 	'use strict';
 
 	/**
-	 * check if vevent is the one described in event
-	 * @param {String} recurrenceId
-	 * @param {Object} vevent
-	 * @returns {boolean}
-	 */
-	function isCorrectEvent(recurrenceId, vevent) {
-		if (recurrenceId === null) {
-			if (!vevent.hasProperty('recurrence-id')) {
-				return true;
-			}
-		} else {
-			if (recurrenceId === vevent.getFirstPropertyValue('recurrence-id').toICALString()) {
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	/**
 	 * get DTEND from vevent
-	 * @param {object} vevent
+	 * @param {ICAL.Component} vevent
 	 * @returns {ICAL.Time}
 	 */
 	function calculateDTEnd(vevent) {
@@ -2437,22 +3159,9 @@ app.factory('VEvent', ['$filter', 'objectConverter', 'ICalFactory', 'RandomStrin
 		}
 	}
 
-
-	/**
-	 * register timezones from ical response
-	 * @param components
-	 */
-	function registerTimezones(components) {
-		var vtimezones = components.getAllSubcomponents('vtimezone');
-		angular.forEach(vtimezones, function (vtimezone) {
-			var timezone = new ICAL.Timezone(vtimezone);
-			ICAL.TimezoneService.register(timezone.tzid, timezone);
-		});
-	}
-
 	/**
 	 * check if we need to convert the timezone of either dtstart or dtend
-	 * @param dt
+	 * @param {ICAL.Time} dt
 	 * @returns {boolean}
 	 */
 	function isTimezoneConversionNecessary(dt) {
@@ -2462,31 +3171,36 @@ app.factory('VEvent', ['$filter', 'objectConverter', 'ICalFactory', 'RandomStrin
 	}
 
 	/**
-	 * check if dtstart and dtend are both of type date
-	 * @param dtstart
-	 * @param dtend
-	 * @returns {boolean}
+	 * convert a dt's timezone if necessary
+	 * @param {ICAL.Time} dt
+	 * @param {ICAL.Component} timezone
+	 * @returns {ICAL.Time}
 	 */
-	function isEventAllDay(dtstart, dtend) {
-		return (dtstart.icaltype === 'date' && dtend.icaltype === 'date');
+	function convertTimezoneIfNecessary(dt, timezone) {
+		if (isTimezoneConversionNecessary(dt) && timezone) {
+			dt = dt.convertToZone(timezone);
+		}
+
+		return dt;
 	}
 
 	/**
 	 * parse an recurring event
 	 * @param vevent
+	 * @param event
 	 * @param start
 	 * @param end
 	 * @param timezone
 	 * @return []
 	 */
-	function parseTimeForRecurringEvent(vevent, start, end, timezone) {
-		var dtstart = vevent.getFirstPropertyValue('dtstart');
-		var dtend = calculateDTEnd(vevent);
+	function getTimeForRecurring(vevent, event, start, end, timezone) {
+		var dtstart = event.getFirstPropertyValue('dtstart');
+		var dtend = calculateDTEnd(event);
 		var duration = dtend.subtractDate(dtstart);
-		var fcDataContainer = [];
+		var fcEvents = [];
 
 		var iterator = new ICAL.RecurExpansion({
-			component: vevent,
+			component: event,
 			dtstart: dtstart
 		});
 
@@ -2499,256 +3213,160 @@ app.factory('VEvent', ['$filter', 'objectConverter', 'ICalFactory', 'RandomStrin
 				break;
 			}
 
-			var dtstartOfRecurrence = next.clone();
-			var dtendOfRecurrence = next.clone();
-			dtendOfRecurrence.addDuration(duration);
+			var singleDtStart = next.clone();
+			var singleDtEnd = next.clone();
+			singleDtEnd.addDuration(duration);
 
-			if (isTimezoneConversionNecessary(dtstartOfRecurrence) && timezone) {
-				dtstartOfRecurrence = dtstartOfRecurrence.convertToZone(timezone);
-			}
-			if (isTimezoneConversionNecessary(dtendOfRecurrence) && timezone) {
-				dtendOfRecurrence = dtendOfRecurrence.convertToZone(timezone);
-			}
-
-			fcDataContainer.push({
-				allDay: isEventAllDay(dtstartOfRecurrence, dtendOfRecurrence),
-				start: dtstartOfRecurrence.toJSDate(),
-				end: dtendOfRecurrence.toJSDate(),
-				repeating: true
-			});
+			fcEvents.push(new FcEvent(vevent, event,
+				convertTimezoneIfNecessary(singleDtStart, timezone),
+				convertTimezoneIfNecessary(singleDtEnd, timezone)));
 		}
 
-		return fcDataContainer;
+		return fcEvents;
 	}
 
 	/**
 	 * parse a single event
 	 * @param vevent
+	 * @param event
 	 * @param timezone
-	 * @returns {object}
+	 * @returns {FcEvent}
 	 */
-	function parseTimeForSingleEvent(vevent, timezone) {
-		var dtstart = vevent.getFirstPropertyValue('dtstart');
-		var dtend = calculateDTEnd(vevent);
+	function getTime(vevent, event, timezone) {
+		var dtstart = event.getFirstPropertyValue('dtstart');
+		var dtend = calculateDTEnd(event);
 
-		if (isTimezoneConversionNecessary(dtstart) && timezone) {
-			dtstart = dtstart.convertToZone(timezone);
-		}
-		if (isTimezoneConversionNecessary(dtend) && timezone) {
-			dtend = dtend.convertToZone(timezone);
-		}
-
-		return {
-			allDay: isEventAllDay(dtstart, dtend),
-			start: dtstart.toJSDate(),
-			end: dtend.toJSDate(),
-			repeating: false
-		};
+		return new FcEvent(vevent, event,
+			convertTimezoneIfNecessary(dtstart, timezone),
+			convertTimezoneIfNecessary(dtend, timezone));
 	}
 
-	function VEvent(calendar, props, uri) {
-		var _this = this;
+	/**
+	 * register timezones from ical response
+	 * @param {ICAL.Component} components
+	 */
+	function registerTimezones(components) {
+		var vtimezones = components.getAllSubcomponents('vtimezone');
+		angular.forEach(vtimezones, function (vtimezone) {
+			var timezone = new ICAL.Timezone(vtimezone);
+			ICAL.TimezoneService.register(timezone.tzid, timezone);
+		});
+	}
+
+	/**
+	 * @constructor
+	 * @param {Calendar} calendar
+	 * @param {string|ICAL.Component} ical
+	 * @param {string|null} etag
+	 * @param {string|null} uri
+	 * @constructor
+	 */
+	function VEvent(calendar, ical, etag, uri) {
+		if (typeof ical === 'string') {
+			try {
+				var jcal = ICAL.parse(ical);
+				this.comp = new ICAL.Component(jcal);
+			} catch (e) {
+				console.log(e);
+				throw VEvent.INVALID;
+			}
+		} else if (Object.getPrototypeOf(ical) === ICAL.Component.prototype) {
+			this.comp = ical;
+		}
+
+		if (!this.comp || this.comp.jCal.length === 0) {
+			throw VEvent.INVALID;
+		}
+
+		registerTimezones(this.comp);
 
 		angular.extend(this, {
 			calendar: calendar,
-			data: props['{urn:ietf:params:xml:ns:caldav}calendar-data'],
-			uri: uri,
-			etag: props['{DAV:}getetag'] || null
-		});
-
-		this.jCal = ICAL.parse(this.data);
-		this.components = new ICAL.Component(this.jCal);
-
-		if (this.components.jCal.length === 0) {
-			throw "invalid calendar";
-		}
-
-		angular.extend(this, {
-			getFcEvent: function(start, end, timezone) {
-				var iCalStart = new ICAL.Time();
-				iCalStart.fromUnixTime(start.format('X'));
-				var iCalEnd = new ICAL.Time();
-				iCalEnd.fromUnixTime(end.format('X'));
-
-				if (_this.components.jCal.length === 0) {
-					return [];
-				}
-
-				registerTimezones(_this.components);
-
-				var vevents = _this.components.getAllSubcomponents('vevent');
-				var renderedEvents = [];
-
-				angular.forEach(vevents, function (vevent) {
-					var event = new ICAL.Event(vevent);
-					var fcData;
-
-					try {
-						if (!vevent.hasProperty('dtstart')) {
-							return;
-						}
-						if (event.isRecurring()) {
-							fcData = parseTimeForRecurringEvent(vevent, iCalStart, iCalEnd, timezone.jCal);
-						} else {
-							fcData = [];
-							fcData.push(parseTimeForSingleEvent(vevent, timezone.jCal));
-						}
-					} catch(e) {
-						console.log(e);
-					}
-
-					if (typeof fcData === 'undefined') {
-						return;
-					}
-
-					for (var i = 0, length = fcData.length; i < length; i++) {
-						// add information about calendar
-						fcData[i].calendar = _this.calendar;
-						fcData[i].editable = calendar.writable;
-						fcData[i].backgroundColor = calendar.color;
-						fcData[i].borderColor = calendar.color;
-						fcData[i].textColor = calendar.textColor;
-						fcData[i].className = 'fcCalendar-id-' + calendar.tmpId;
-
-						// add information about actual event
-						fcData[i].uri = _this.uri;
-						fcData[i].etag = _this.etag;
-						fcData[i].title = vevent.getFirstPropertyValue('summary');
-
-						if (event.isRecurrenceException()) {
-							fcData[i].recurrenceId = vevent
-								.getFirstPropertyValue('recurrence-id')
-								.toICALString();
-							fcData[i].id = _this.uri + event.recurrenceId;
-						} else {
-							fcData[i].recurrenceId = null;
-							fcData[i].id = _this.uri;
-						}
-
-						fcData[i].event = _this;
-
-						renderedEvents.push(fcData[i]);
-					}
-				});
-
-				return renderedEvents;
-			},
-			getSimpleData: function(recurrenceId) {
-				var vevents = _this.components.getAllSubcomponents('vevent');
-
-				for (var i = 0; i < vevents.length; i++) {
-					if (!isCorrectEvent(recurrenceId, vevents[i])) {
-						continue;
-					}
-
-					return objectConverter.parse(vevents[i]);
-				}
-			},
-			drop: function(recurrenceId, delta) {
-				var vevents = _this.components.getAllSubcomponents('vevent');
-				var foundEvent = false;
-				var deltaAsSeconds = delta.asSeconds();
-				var duration = new ICAL.Duration().fromSeconds(deltaAsSeconds);
-				var propertyToUpdate = null;
-
-				for (var i = 0; i < vevents.length; i++) {
-					if (!isCorrectEvent(recurrenceId, vevents[i])) {
-						continue;
-					}
-
-					if (vevents[i].hasProperty('dtstart')) {
-						propertyToUpdate = vevents[i].getFirstPropertyValue('dtstart');
-						propertyToUpdate.addDuration(duration);
-						vevents[i].updatePropertyWithValue('dtstart', propertyToUpdate);
-					}
-
-					if (vevents[i].hasProperty('dtend')) {
-						propertyToUpdate = vevents[i].getFirstPropertyValue('dtend');
-						propertyToUpdate.addDuration(duration);
-						vevents[i].updatePropertyWithValue('dtend', propertyToUpdate);
-					}
-
-					foundEvent = true;
-				}
-
-				if (!foundEvent) {
-					return false;
-				}
-				_this.data = _this.components.toString();
-				return true;
-			},
-			resize: function(recurrenceId, delta) {
-				var vevents = _this.components.getAllSubcomponents('vevent');
-				var foundEvent = false;
-				var deltaAsSeconds = delta.asSeconds();
-				var duration = new ICAL.Duration().fromSeconds(deltaAsSeconds);
-				var propertyToUpdate = null;
-
-				for (var i = 0; i < vevents.length; i++) {
-					if (!isCorrectEvent(recurrenceId, vevents[i])) {
-						continue;
-					}
-
-					if (vevents[i].hasProperty('duration')) {
-						propertyToUpdate = vevents[i].getFirstPropertyValue('duration');
-						duration.fromSeconds((duration.toSeconds() + propertyToUpdate.toSeconds()));
-						vevents[i].updatePropertyWithValue('duration', duration);
-					} else if (vevents[i].hasProperty('dtend')) {
-						propertyToUpdate = vevents[i].getFirstPropertyValue('dtend');
-						propertyToUpdate.addDuration(duration);
-						vevents[i].updatePropertyWithValue('dtend', propertyToUpdate);
-					} else if (vevents[i].hasProperty('dtstart')) {
-						propertyToUpdate = vevents[i].getFirstPropertyValue('dtstart').clone();
-						propertyToUpdate.addDuration(duration);
-						vevents[i].addPropertyWithValue('dtend', propertyToUpdate);
-					} else {
-						continue;
-					}
-
-					foundEvent = true;
-				}
-
-				if (!foundEvent) {
-					return false;
-				}
-
-				_this.data = _this.components.toString();
-				return true;
-			},
-			patch: function(recurrenceId, newSimpleData) {
-				var vevents = _this.components.getAllSubcomponents('vevent');
-				var vevent = null;
-
-				for (var i = 0; i < vevents.length; i++) {
-					if (!isCorrectEvent(recurrenceId, vevents[i])) {
-						continue;
-					}
-
-					vevent = vevents[i];
-				}
-
-				if (!vevent) {
-					return false;
-				}
-
-				objectConverter.patch(vevent, this.getSimpleData(recurrenceId), newSimpleData);
-				vevent.updatePropertyWithValue('last-modified', ICAL.Time.now());
-				_this.data = _this.components.toString();
-			}
+			etag: etag,
+			uri: uri
 		});
 	}
 
+	VEvent.prototype = {
+		/**
+		 * serialize jsical object to actual ical data
+		 * @returns {String}
+		 */
+		get data() {
+			return this.comp.toString();
+		},
+		/**
+		 *
+		 * @param start
+		 * @param end
+		 * @param timezone
+		 * @returns {Array}
+		 */
+		getFcEvent: function(start, end, timezone) {
+			var iCalStart = ICAL.Time.fromJSDate(start.toDate());
+			var iCalEnd = ICAL.Time.fromJSDate(end.toDate());
+			var renderedEvents = [], self = this;
+
+			var vevents = this.comp.getAllSubcomponents('vevent');
+			angular.forEach(vevents, function (event) {
+				var iCalEvent = new ICAL.Event(event);
+
+				if (!event.hasProperty('dtstart')) {
+					return;
+				}
+
+				if (iCalEvent.isRecurring()) {
+					angular.extend(renderedEvents,
+						getTimeForRecurring(self, event, iCalStart, iCalEnd, timezone.jCal));
+				} else {
+					renderedEvents.push(getTime(self, event, timezone.jCal));
+				}
+			});
+
+			return renderedEvents;
+		},
+		/**
+		 *
+		 * @param recurrenceId
+		 * @returns {SimpleEvent}
+		 */
+		getSimpleEvent: function(recurrenceId) {
+			var vevents = this.comp.getAllSubcomponents('vevent'), simpleEvent = null;
+
+			angular.forEach(vevents, function (event) {
+				var hasRecurrenceId = event.hasProperty('recurrence-id');
+				if ((!hasRecurrenceId && recurrenceId === null) ||
+					(hasRecurrenceId && recurrenceId === event.getFirstPropertyValue('recurrence-id'))) {
+					simpleEvent = new SimpleEvent(event);
+				}
+			});
+
+			return simpleEvent;
+		}
+	};
+
+	/**
+	 *
+	 * @param start
+	 * @param end
+	 * @param timezone
+	 * @returns {VEvent}
+	 */
 	VEvent.fromStartEnd = function(start, end, timezone) {
-		var comp = icalfactory.new();
+		var comp = ICalFactory.new();
 
-		var vevent = new ICAL.Component('vevent');
-		comp.addSubcomponent(vevent);
-		vevent.updatePropertyWithValue('created', ICAL.Time.now());
-		vevent.updatePropertyWithValue('dtstamp', ICAL.Time.now());
-		vevent.updatePropertyWithValue('last-modified', ICAL.Time.now());
-		vevent.updatePropertyWithValue('uid', RandomStringService.generate());
+		var iCalEvent = new ICAL.Component('vevent');
+		comp.addSubcomponent(iCalEvent);
+		iCalEvent.updatePropertyWithValue('created', ICAL.Time.now());
+		iCalEvent.updatePropertyWithValue('dtstamp', ICAL.Time.now());
+		iCalEvent.updatePropertyWithValue('last-modified', ICAL.Time.now());
+		iCalEvent.updatePropertyWithValue('uid', RandomStringService.generate());
+		// add a dummy dtstart to make the ical valid before we create SimpleEvent
+		iCalEvent.updatePropertyWithValue('dtstart', ICAL.Time.now());
 
-		objectConverter.patch(vevent, {}, {
+		var vevent = new VEvent(null, comp, null, null);
+		var simple = new SimpleEvent(iCalEvent);
+		angular.extend(simple, {
 			allDay: !start.hasTime() && !end.hasTime(),
 			dtstart: {
 				type: start.hasTime() ? 'datetime' : 'date',
@@ -2765,12 +3383,16 @@ app.factory('VEvent', ['$filter', 'objectConverter', 'ICalFactory', 'RandomStrin
 				}
 			}
 		});
+		simple.patch();
 
-		return new VEvent(null, {
-			'{urn:ietf:params:xml:ns:caldav}calendar-data': comp.toString(),
-			'{DAV:}getetag': null
-		}, null);
+		return vevent;
 	};
+
+	/**
+	 *
+	 * @type {string}
+	 */
+	VEvent.INVALID = 'INVALID_EVENT';
 
 	return VEvent;
 }]);
@@ -3365,609 +3987,6 @@ app.factory('is', function () {
 
 	return {
 		loading: false
-	};
-});
-
-app.factory('objectConverter', function () {
-	'use strict';
-
-	/**
-	 * structure of simple data
-	 */
-	var defaults = {
-		'summary': null,
-		'location': null,
-		//'created': null,
-		//'last-modified': null,
-		'organizer': null,
-		'class': null,
-		'description': null,
-		//'url': null,
-		//'status': null,
-		//'resources': null,
-		'alarm': null,
-		'attendee': null,
-		//'categories': null,
-		'dtstart': null,
-		'dtend': null,
-		'repeating': null,
-		'rdate': null,
-		'rrule': null,
-		'exdate': null
-	};
-
-	var attendeeParameters = [
-		'role',
-		'rvsp',
-		'partstat',
-		'cutype',
-		'cn',
-		'delegated-from',
-		'delegated-to'
-	];
-
-	var organizerParameters = [
-		'cn'
-	];
-
-	/**
-	 * parsers of supported properties
-	 */
-	var simpleParser = {
-		date: function(data, vevent, key, parameters) {
-			parameters = (parameters || []).concat(['tzid']);
-			simpleParser._parseSingle(data, vevent, key, parameters, function(p) {
-				return (p.type === 'duration') ?
-						p.getFirstValue().toSeconds():
-						moment(p.getFirstValue().toJSDate());
-			});
-		},
-		dates: function(data, vevent, key, parameters) {
-			parameters = (parameters || []).concat(['tzid']);
-			simpleParser._parseMultiple(data, vevent, key, parameters, function(p) {
-				var values = p.getValues(),
-					usableValues = [];
-				for (var vKey in values) {
-					if (!values.hasOwnProperty(vKey)) {
-						continue;
-					}
-
-					usableValues.push(
-						(p.type === 'duration') ?
-							values[vKey].toSeconds():
-							moment(values[vKey].toJSDate())
-					);
-				}
-
-				return usableValues;
-			});
-		},
-		string: function(data, vevent, key, parameters) {
-			simpleParser._parseSingle(data, vevent, key, parameters, function(p) {
-				return p.isMultiValue ? p.getValues() : p.getFirstValue();
-			});
-		},
-		strings: function(data, vevent, key, parameters) {
-			simpleParser._parseMultiple(data, vevent, key, parameters, function(p) {
-				return p.isMultiValue ? p.getValues() : p.getFirstValue();
-			});
-		},
-		_parseSingle: function(data, vevent, key, parameters, valueParser) {
-			var prop = vevent.getFirstProperty(key);
-			if (!prop) {
-				return;
-			}
-
-			data[key] = {
-				parameters: simpleParser._parseParameters(prop, parameters),
-				type: prop.type
-			};
-
-			if (prop.isMultiValue) {
-				angular.extend(data[key], {
-					values: valueParser(prop)
-				});
-			} else {
-				angular.extend(data[key], {
-					value: valueParser(prop)
-				});
-			}
-		},
-		_parseMultiple: function(data, vevent, key, parameters, valueParser) {
-			data[key] = data[key] || [];
-
-			var properties = vevent.getAllProperties(key),
-					group = 0;
-
-			for (var pKey in properties) {
-				if (!properties.hasOwnProperty(pKey)) {
-					continue;
-				}
-
-				var currentElement = {
-					group: group,
-					parameters: simpleParser._parseParameters(properties[pKey], parameters),
-					type: properties[pKey].type
-				};
-
-				if (properties[pKey].isMultiValue) {
-					angular.extend(currentElement, {
-						values: valueParser(properties[pKey])
-					});
-				} else {
-					angular.extend(currentElement, {
-						value: valueParser(properties[pKey])
-					});
-				}
-
-				data[key].push(currentElement);
-				properties[pKey].setParameter('x-oc-group-id', group.toString());
-				group++;
-			}
-		},
-		_parseParameters: function(prop, para) {
-			var parameters = {};
-
-			if (!para) {
-				return parameters;
-			}
-
-			for (var i=0,l=para.length; i < l; i++) {
-				parameters[para[i]] = prop.getParameter(para[i]);
-			}
-
-			return parameters;
-		}
-	};
-
-	var simpleReader = {
-		date: function(vevent, oldSimpleData, newSimpleData, key, parameters) {
-			parameters = (parameters || []).concat(['tzid']);
-			simpleReader._readSingle(vevent, oldSimpleData, newSimpleData, key, parameters, function(v, isMultiValue) {
-				if (v.type === 'duration') {
-					return ICAL.Duration.fromSeconds(v.value);
-				} else {
-					return ICAL.Time.fromJSDate(v.value.toDate());
-				}
-			});
-		},
-		dates: function(vevent, oldSimpleData, newSimpleData, key, parameters) {
-			parameters = (parameters || []).concat(['tzid']);
-			simpleReader._readMultiple(vevent, oldSimpleData, newSimpleData, key, parameters, function(v, isMultiValue) {
-				var values = [];
-
-				for (var i=0, length=v.values.length; i < length; i++) {
-					if (v.type === 'duration') {
-						values.push(ICAL.Duration.fromSeconds(v.values[i]));
-					} else {
-						values.push(ICAL.Time.fromJSDate(v.values[i].toDate()));
-					}
-				}
-
-				return values;
-			});
-		},
-		string: function(vevent, oldSimpleData, newSimpleData, key, parameters) {
-			simpleReader._readSingle(vevent, oldSimpleData, newSimpleData, key, parameters, function(v, isMultiValue) {
-				return isMultiValue ? v.values : v.value;
-			});
-		},
-		strings: function(vevent, oldSimpleData, newSimpleData, key, parameters) {
-			simpleReader._readMultiple(vevent, oldSimpleData, newSimpleData, key, parameters, function(v, isMultiValue) {
-				return isMultiValue ? v.values : v.value;
-			});
-		},
-		_readSingle: function(vevent, oldSimpleData, newSimpleData, key, parameters, valueReader) {
-			if (!newSimpleData[key]) {
-				return;
-			}
-			if (!newSimpleData[key].hasOwnProperty('value') && !newSimpleData[key].hasOwnProperty('values')) {
-				return;
-			}
-			var isMultiValue = newSimpleData[key].hasOwnProperty('values');
-
-			var prop = vevent.updatePropertyWithValue(key, valueReader(newSimpleData[key], isMultiValue));
-			simpleReader._readParameters(prop, newSimpleData[key], parameters);
-		},
-		_readMultiple: function(vevent, oldSimpleData, newSimpleData, key, parameters, valueReader) {
-			var oldGroups=[], properties=null, pKey=null, groupId;
-
-			oldSimpleData[key] = oldSimpleData[key] || [];
-			for (var i=0, oldLength=oldSimpleData[key].length; i < oldLength; i++) {
-				oldGroups.push(oldSimpleData[key][i].group);
-			}
-
-			newSimpleData[key] = newSimpleData[key] || [];
-			for (var j=0, newLength=newSimpleData[key].length; j < newLength; j++) {
-				var isMultiValue = newSimpleData[key][j].hasOwnProperty('values');
-				var value = valueReader(newSimpleData[key][j], isMultiValue);
-
-				if (oldGroups.indexOf(newSimpleData[key][j].group) === -1) {
-					var property = new ICAL.Property(key);
-					simpleReader._setProperty(property, value, isMultiValue);
-					simpleReader._readParameters(property, newSimpleData[key][j], parameters);
-					vevent.addProperty(property);
-				} else {
-					oldGroups.splice(oldGroups.indexOf(newSimpleData[key][j].group), 1);
-
-					properties = vevent.getAllProperties(key);
-					for (pKey in properties) {
-						if (!properties.hasOwnProperty(pKey)) {
-							continue;
-						}
-
-						groupId = properties[pKey].getParameter('x-oc-group-id');
-						if (groupId === null) {
-							continue;
-						}
-						if (parseInt(groupId) === newSimpleData[key][j].group) {
-							simpleReader._setProperty(properties[pKey], value, isMultiValue);
-							simpleReader._readParameters(properties[pKey], newSimpleData[key][j], parameters);
-						}
-					}
-				}
-			}
-
-			properties = vevent.getAllProperties(key);
-			for (pKey in properties) {
-				if (!properties.hasOwnProperty(pKey)) {
-					continue;
-				}
-
-				groupId = properties[pKey].getParameter('x-oc-group-id');
-				if (oldGroups.indexOf(parseInt(groupId)) !== -1) {
-					vevent.removeProperty(properties[pKey]);
-				}
-			}
-		},
-		_readParameters: function(prop, simple, para) {
-			if (!para) {
-				return;
-			}
-			if (!simple.parameters) {
-				return;
-			}
-
-			for (var i=0,l=para.length; i < l; i++) {
-				if (simple.parameters[para[i]]) {
-					prop.setParameter(para[i], simple.parameters[para[i]]);
-				} else {
-					prop.removeParameter(simple.parameters[para[i]]);
-				}
-			}
-		},
-		_setProperty: function(prop, value, isMultiValue) {
-			if (isMultiValue) {
-				prop.setValues(value);
-			} else {
-				prop.setValue(value);
-			}
-		}
-	};
-
-	/**
-	 * properties supported by event editor
-	 */
-	var simpleProperties = {
-		//General
-		'summary': {parser: simpleParser.string, reader: simpleReader.string},
-		'location': {parser: simpleParser.string, reader: simpleReader.string},
-		//'created': {parser: simpleParser.date, reader: simpleReader.date},
-		//'last-modified': {parser: simpleParser.date, reader: simpleReader.date},
-		//'categories': {parser: simpleParser.strings, reader: simpleReader.strings},
-		//attendees
-		'attendee': {parser: simpleParser.strings, reader: simpleReader.strings, parameters: attendeeParameters},
-		'organizer': {parser: simpleParser.string, reader: simpleReader.string, parameters: organizerParameters},
-		//sharing
-		'class': {parser: simpleParser.string, reader: simpleReader.string},
-		//other
-		'description': {parser: simpleParser.string, reader: simpleReader.string}
-		//'url': {parser: simpleParser.string, reader: simpleReader.string},
-		//'status': {parser: simpleParser.string, reader: simpleReader.string},
-		//'resources': {parser: simpleParser.strings, reader: simpleReader.strings}
-	};
-
-	/**
-	 * specific parsers that check only one property
-	 */
-	var specificParser = {
-		alarm: function(data, vevent) {
-			data.alarm = data.alarm || [];
-
-			var alarms = vevent.getAllSubcomponents('valarm'),
-				group = 0;
-			for (var key in alarms) {
-				if (!alarms.hasOwnProperty(key)) {
-					continue;
-				}
-
-				var alarm = alarms[key];
-				var alarmData = {
-					group: group,
-					action: {},
-					trigger: {},
-					repeat: {},
-					duration: {},
-					attendee: []
-				};
-
-				simpleParser.string(alarmData, alarm, 'action');
-				simpleParser.date(alarmData, alarm, 'trigger');
-				simpleParser.string(alarmData, alarm, 'repeat');
-				simpleParser.string(alarmData, alarm, 'duration');
-				//simpleParser.strings(alarmData, alarm, 'attendee', attendeeParameters);
-
-				if (alarmData.trigger.type === 'duration' && alarm.hasProperty('trigger')) {
-					var trigger = alarm.getFirstProperty('trigger');
-					var related = trigger.getParameter('related');
-					if (related) {
-						alarmData.trigger.related = related;
-					} else {
-						alarmData.trigger.related = 'start';
-					}
-				}
-
-				data.alarm.push(alarmData);
-
-				alarm.getFirstProperty('action')
-					.setParameter('x-oc-group-id', group.toString());
-				group++;
-			}
-		},
-		date: function(data, vevent) {
-			var dtstart = vevent.getFirstPropertyValue('dtstart'), dtend;
-			if (vevent.hasProperty('dtend')) {
-				dtend = vevent.getFirstPropertyValue('dtend');
-			} else if (vevent.hasProperty('duration')) {
-				dtend = dtstart.clone();
-				dtend.addDuration(vevent.getFirstPropertyValue('duration'));
-			} else {
-				dtend = dtstart.clone();
-			}
-
-			data.dtstart = {
-				parameters: {
-					zone: dtstart.zone.toString()
-				},
-				type: dtstart.icaltype,
-				value: moment({years: dtstart.year, months: dtstart.month - 1, date: dtstart.day,
-					hours: dtstart.hour, minutes: dtstart.minute, seconds: dtstart.seconds})
-			};
-			data.dtend = {
-				parameters: {
-					zone: dtend.zone.toString()
-				},
-				type: dtend.icaltype,
-				value: moment({years: dtend.year, months: dtend.month - 1, date: dtend.day,
-					hours: dtend.hour, minutes: dtend.minute, seconds: dtend.seconds})
-			};
-			data.allDay = (dtstart.icaltype === 'date' && dtend.icaltype === 'date');
-		},
-		repeating: function(data, vevent) {
-			var iCalEvent = new ICAL.Event(vevent);
-
-			data.repeating = iCalEvent.isRecurring();
-
-			var rrule = vevent.getFirstPropertyValue('rrule');
-			if (rrule) {
-				data.rrule = {
-					count: rrule.count,
-					freq: rrule.freq,
-					interval: rrule.interval,
-					parameters: rrule.parts,
-					until: null
-				};
-
-				/*if (rrule.until) {
-					simpleParser.date(data.rrule, rrule, 'until');
-				}*/
-			} else {
-				data.rrule = {
-					freq: 'NONE'
-				};
-			}
-		}
-	};
-
-	var specificReader = {
-		alarm: function(vevent, oldSimpleData, newSimpleData) {
-			var oldGroups=[], components=null, cKey=null, groupId, key='alarm';
-
-			oldSimpleData[key] = oldSimpleData[key] || [];
-			for (var i=0, oldLength=oldSimpleData[key].length; i < oldLength; i++) {
-				oldGroups.push(oldSimpleData[key][i].group);
-			}
-
-			newSimpleData[key] = newSimpleData[key] || [];
-			for (var j=0, newLength=newSimpleData[key].length; j < newLength; j++) {
-				var valarm;
-				if (oldGroups.indexOf(newSimpleData[key][j].group) === -1) {
-					valarm = new ICAL.Component('VALARM');
-					vevent.addSubcomponent(valarm);
-				} else {
-					oldGroups.splice(oldGroups.indexOf(newSimpleData[key][j].group), 1);
-
-					components = vevent.getAllSubcomponents('valarm');
-					for (cKey in components) {
-						if (!components.hasOwnProperty(cKey)) {
-							continue;
-						}
-
-						groupId = components[cKey].getFirstProperty('action').getParameter('x-oc-group-id');
-						if (groupId === null) {
-							continue;
-						}
-						if (groupId === newSimpleData[key][j].group.toString()) {
-							valarm = components[cKey];
-						}
-					}
-				}
-
-				simpleReader.string(valarm, {}, newSimpleData[key][j], 'action', []);
-				simpleReader.date(valarm, {}, newSimpleData[key][j], 'trigger', []);
-				simpleReader.string(valarm, {}, newSimpleData[key][j], 'repeat', []);
-				simpleReader.string(valarm, {}, newSimpleData[key][j], 'duration', []);
-				simpleReader.strings(valarm, {}, newSimpleData[key][j], 'attendee', attendeeParameters);
-			}
-		},
-		date: function(vevent, oldSimpleData, newSimpleData) {
-			vevent.removeAllProperties('dtstart');
-			vevent.removeAllProperties('dtend');
-			vevent.removeAllProperties('duration');
-
-			newSimpleData.dtstart.parameters.zone = newSimpleData.dtstart.parameters.zone || 'floating';
-			newSimpleData.dtend.parameters.zone = newSimpleData.dtend.parameters.zone || 'floating';
-
-			if (newSimpleData.dtstart.parameters.zone !== 'floating' &&
-				!ICAL.TimezoneService.has(newSimpleData.dtstart.parameters.zone)) {
-				throw {
-					kind: 'timezone_missing',
-					missing_timezone: newSimpleData.dtstart.parameters.zone
-				};
-			}
-			if (newSimpleData.dtend.parameters.zone !== 'floating' &&
-				!ICAL.TimezoneService.has(newSimpleData.dtend.parameters.zone)) {
-				throw {
-					kind: 'timezone_missing',
-					missing_timezone: newSimpleData.dtend.parameters.zone
-				};
-			}
-
-			var start = ICAL.Time.fromJSDate(newSimpleData.dtstart.value.toDate(), false);
-			start.isDate = newSimpleData.allDay;
-			var end = ICAL.Time.fromJSDate(newSimpleData.dtend.value.toDate(), false);
-			end.isDate = newSimpleData.allDay;
-
-			var availableTimezones = [];
-			var vtimezones = vevent.parent.getAllSubcomponents('vtimezone');
-			angular.forEach(vtimezones, function(vtimezone) {
-				availableTimezones.push(vtimezone.getFirstPropertyValue('tzid'));
-			});
-
-			var dtstart = new ICAL.Property('dtstart', vevent);
-			dtstart.setValue(start);
-			if (newSimpleData.dtstart.parameters.zone !== 'floating') {
-				dtstart.setParameter('tzid', newSimpleData.dtstart.parameters.zone);
-				var startTz = ICAL.TimezoneService.get(newSimpleData.dtstart.parameters.zone);
-				start.zone = startTz;
-				if (availableTimezones.indexOf(newSimpleData.dtstart.parameters.zone) === -1) {
-					vevent.parent.addSubcomponent(startTz.component);
-					availableTimezones.push(newSimpleData.dtstart.parameters.zone);
-				}
-			}
-
-			var dtend = new ICAL.Property('dtend', vevent);
-			dtend.setValue(end);
-			if (newSimpleData.dtend.parameters.zone !== 'floating') {
-				dtend.setParameter('tzid', newSimpleData.dtend.parameters.zone);
-				var endTz = ICAL.TimezoneService.get(newSimpleData.dtend.parameters.zone);
-				end.zone = endTz;
-				if (availableTimezones.indexOf(newSimpleData.dtend.parameters.zone) === -1) {
-					vevent.parent.addSubcomponent(endTz.component);
-				}
-			}
-
-			vevent.addProperty(dtstart);
-			vevent.addProperty(dtend);
-		},
-		repeating: function(vevent, oldSimpleData, newSimpleData) {
-			// We won't support exrule, because it's deprecated and barely used in the wild
-			if (newSimpleData.rrule === null || newSimpleData.rrule.freq === 'NONE') {
-				vevent.removeAllProperties('rdate');
-				vevent.removeAllProperties('rrule');
-				vevent.removeAllProperties('exdate');
-
-				return;
-			}
-
-			if (newSimpleData.rrule.dontTouch) {
-				return;
-			}
-
-			var params = {
-				interval: newSimpleData.rrule.interval,
-				freq: newSimpleData.rrule.freq
-			};
-
-			if (newSimpleData.rrule.count) {
-				params.count = newSimpleData.rrule.count;
-			}
-
-			var rrule = new ICAL.Recur(params);
-			vevent.updatePropertyWithValue('rrule', rrule);
-		}
-	};
-
-	return {
-		/**
-		 * parse and expand jCal data to simple structure
-		 * @param vevent object to be parsed
-		 * @returns {{}}
-		 */
-		parse: function(vevent) {
-			var data=angular.extend({}, defaults), parser, parameters;
-
-			for (var key in simpleProperties) {
-				if (!simpleProperties.hasOwnProperty(key)) {
-					continue;
-				}
-
-				parser = simpleProperties[key].parser;
-				parameters = simpleProperties[key].parameters;
-				if (vevent.hasProperty(key)) {
-					parser(data, vevent, key, parameters);
-				}
-			}
-
-			for (parser in specificParser) {
-				if (!specificParser.hasOwnProperty(parser)) {
-					continue;
-				}
-
-				specificParser[parser](data, vevent);
-			}
-
-			return data;
-		},
-
-		/**
-		 * patch vevent with data from event editor
-		 * @param vevent object to update
-		 * @param oldSimpleData
-		 * @param newSimpleData
-		 * @returns {*}
-		 */
-		patch: function(vevent, oldSimpleData, newSimpleData) {
-			var key, reader, parameters;
-
-			oldSimpleData = angular.extend({}, defaults, oldSimpleData);
-			newSimpleData = angular.extend({}, defaults, newSimpleData);
-
-			for (key in simpleProperties) {
-				if (!simpleProperties.hasOwnProperty(key)) {
-					continue;
-				}
-
-				reader = simpleProperties[key].reader;
-				parameters = simpleProperties[key].parameters;
-				if (oldSimpleData[key] !== newSimpleData[key]) {
-					if (newSimpleData === null) {
-						vevent.removeAllProperties(key);
-					} else {
-						reader(vevent, oldSimpleData, newSimpleData, key, parameters);
-					}
-				}
-			}
-
-			for (key in specificReader) {
-				if (!specificReader.hasOwnProperty(key)) {
-					continue;
-				}
-
-				reader = specificReader[key];
-				reader(vevent, oldSimpleData, newSimpleData);
-			}
-		}
 	};
 });
 
@@ -4618,9 +4637,17 @@ app.service('VEventService', ['DavClient', 'VEvent', 'RandomStringService', func
 				var object = response.body[i];
 				var properties = object.propStat[0].properties;
 
+				var data = properties['{urn:ietf:params:xml:ns:caldav}calendar-data'];
+				var etag = properties['{DAV:}getetag'];
 				var uri = object.href.substr(object.href.lastIndexOf('/') + 1);
 
-				var vevent = new VEvent(calendar, properties, uri);
+				var vevent;
+				//try {
+					vevent = new VEvent(calendar, data, etag, uri);
+				//} catch(e) {
+				//	console.log(e);
+				//	continue;
+				//}
 				vevents.push(vevent);
 			}
 
@@ -4631,10 +4658,7 @@ app.service('VEventService', ['DavClient', 'VEvent', 'RandomStringService', func
 	this.get = function(calendar, uri) {
 		var url = calendar.url + uri;
 		return DavClient.request('GET', url, {'requesttoken' : OC.requestToken}, '').then(function(response) {
-			return new VEvent(calendar, {
-				'{urn:ietf:params:xml:ns:caldav}calendar-data': response.body,
-				'{DAV:}getetag': response.xhr.getResponseHeader('ETag')
-			}, uri);
+			return new VEvent(calendar, response.body, response.xhr.getResponseHeader('ETag'), uri);
 		});
 	};
 

@@ -80,9 +80,17 @@ app.service('VEventService', ['DavClient', 'VEvent', 'RandomStringService', func
 				var object = response.body[i];
 				var properties = object.propStat[0].properties;
 
+				var data = properties['{urn:ietf:params:xml:ns:caldav}calendar-data'];
+				var etag = properties['{DAV:}getetag'];
 				var uri = object.href.substr(object.href.lastIndexOf('/') + 1);
 
-				var vevent = new VEvent(calendar, properties, uri);
+				var vevent;
+				//try {
+					vevent = new VEvent(calendar, data, etag, uri);
+				//} catch(e) {
+				//	console.log(e);
+				//	continue;
+				//}
 				vevents.push(vevent);
 			}
 
@@ -93,10 +101,7 @@ app.service('VEventService', ['DavClient', 'VEvent', 'RandomStringService', func
 	this.get = function(calendar, uri) {
 		var url = calendar.url + uri;
 		return DavClient.request('GET', url, {'requesttoken' : OC.requestToken}, '').then(function(response) {
-			return new VEvent(calendar, {
-				'{urn:ietf:params:xml:ns:caldav}calendar-data': response.body,
-				'{DAV:}getetag': response.xhr.getResponseHeader('ETag')
-			}, uri);
+			return new VEvent(calendar, response.body, response.xhr.getResponseHeader('ETag'), uri);
 		});
 	};
 

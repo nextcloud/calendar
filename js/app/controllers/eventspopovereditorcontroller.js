@@ -26,12 +26,11 @@
  * Description: Takes care of anything inside the Events Modal.
  */
 
-app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'AutoCompletionService', '$uibModalInstance', 'vevent', 'recurrenceId', 'isNew',
-	function($scope, TimezoneService, AutoCompletionService, $uibModalInstance, vevent, recurrenceId, isNew) {
+app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'AutoCompletionService', '$uibModalInstance', 'vevent', 'simpleEvent', 'isNew',
+	function($scope, TimezoneService, AutoCompletionService, $uibModalInstance, vevent, simpleEvent, isNew) {
 		'use strict';
 
-		var simpleData = vevent.getSimpleData(recurrenceId);
-		$scope.properties = simpleData;
+		$scope.properties = simpleEvent;
 		$scope.is_new = isNew;
 		$scope.calendar = isNew ? null : vevent.calendar;
 		$scope.oldCalendar = isNew ? null : vevent.calendar;
@@ -78,7 +77,7 @@ app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'A
 				});
 			} else {
 				vevent.calendar = $scope.calendar;
-				vevent.patch(recurrenceId, $scope.properties);
+				$scope.properties.patch();
 
 				$uibModalInstance.close({
 					action: action,
