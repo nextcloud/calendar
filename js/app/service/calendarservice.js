@@ -24,7 +24,7 @@
 app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Calendar){
 	'use strict';
 
-	var _this = this;
+	var self = this;
 
 	this._CALENDAR_HOME = null;
 
@@ -55,9 +55,9 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 				return;
 			}
 			var props = response.body.propStat[0].properties;
-			_this._currentUserPrincipal = props['{' + DavClient.NS_DAV + '}current-user-principal'][0].textContent;
+			self._currentUserPrincipal = props['{' + DavClient.NS_DAV + '}current-user-principal'][0].textContent;
 
-			return DavClient.propFind(DavClient.buildUrl(_this._currentUserPrincipal), ['{' + DavClient.NS_IETF + '}calendar-home-set'], 0, {'requesttoken': OC.requestToken}).then(function (response) {
+			return DavClient.propFind(DavClient.buildUrl(self._currentUserPrincipal), ['{' + DavClient.NS_IETF + '}calendar-home-set'], 0, {'requesttoken': OC.requestToken}).then(function (response) {
 				if (!DavClient.wasRequestSuccessful(response.status)) {
 					throw "CalDAV client could not be initialized - Querying calendar-home-set failed";
 				}
@@ -66,7 +66,7 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 					return;
 				}
 				var props = response.body.propStat[0].properties;
-				_this._CALENDAR_HOME = props['{' + DavClient.NS_IETF + '}calendar-home-set'][0].textContent;
+				self._CALENDAR_HOME = props['{' + DavClient.NS_IETF + '}calendar-home-set'][0].textContent;
 
 				return callback();
 			});
@@ -80,7 +80,7 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 	this.getAll = function() {
 		if (this._CALENDAR_HOME === null) {
 			return discoverHome(function() {
-				return _this.getAll();
+				return self.getAll();
 			});
 		}
 
@@ -97,31 +97,19 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 					continue;
 				}
 
-				_this._takenUrls.push(body.href);
+				self._takenUrls.push(body.href);
 
 				var responseCode = getResponseCodeFromHTTPResponse(body.propStat[0].status);
 				if (!DavClient.wasRequestSuccessful(responseCode)) {
 					continue;
 				}
 
-				var doesSupportVEvent = false;
-				var components = body.propStat[0].properties['{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set'];
-				if (components) {
-					for (var j=0; j < components.length; j++) {
-						var name = components[j].attributes.getNamedItem('name').textContent.toLowerCase();
-						if (name === 'vevent') {
-							doesSupportVEvent = true;
-						}
-					}
-				}
-
-				if (!doesSupportVEvent) {
+				var props = self._getSimplePropertiesFromRequest(body.propStat[0].properties);
+				if (!props || !props.components.vevent) {
 					continue;
 				}
 
-				_this._getACLFromResponse(body);
-
-				var calendar = new Calendar(body.href, body.propStat[0].properties);
+				var calendar = new Calendar(body.href, props);
 				calendars.push(calendar);
 			}
 
@@ -132,7 +120,7 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 	this.get = function(url) {
 		if (this._CALENDAR_HOME === null) {
 			return discoverHome(function() {
-				return _this.get(url);
+				return self.get(url);
 			});
 		}
 
@@ -149,16 +137,19 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 				return;
 			}
 
-			_this._getACLFromResponse(body);
+			var props = self._getSimplePropertiesFromRequest(body.propStat[0].properties);
+			if (!props || !props.components.vevent) {
+				return;
+			}
 
-			return new Calendar(body.href, body.propStat[0].properties);
+			return new Calendar(body.href, props);
 		});
 	};
 
 	this.create = function(name, color, components) {
 		if (this._CALENDAR_HOME === null) {
 			return discoverHome(function() {
-				return _this.create(name, color);
+				return self.create(name, color);
 			});
 		}
 
@@ -196,10 +187,10 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 
 		return DavClient.request('MKCALENDAR', url, headers, body).then(function(response) {
 			if (response.status === 201) {
-				_this._takenUrls.push(url);
-				return _this.get(url).then(function(calendar) {
+				self._takenUrls.push(url);
+				return self.get(url).then(function(calendar) {
 					calendar.enabled = true;
-					return _this.update(calendar);
+					return self.update(calendar);
 				});
 			}
 		});
@@ -386,26 +377,105 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 		}
 	};
 
-	this._getACLFromResponse = function(body) {
-		var canWrite = false;
-		var acl = body.propStat[0].properties['{' + DavClient.NS_DAV + '}acl'];
-		if (acl) {
-			for (var k=0; k < acl.length; k++) {
-				var href = acl[k].getElementsByTagNameNS('DAV:', 'href');
+	this._getSimplePropertiesFromRequest = function(props) {
+		if (!props['{' + DavClient.NS_IETF + '}supported-calendar-component-set']) {
+			return;
+		}
+
+		this._getACLFromResponse(props);
+
+		var simple = {
+			enabled: props['{' + DavClient.NS_OWNCLOUD + '}calendar-enabled'],
+			displayname: props['{' + DavClient.NS_DAV + '}displayname'],
+			color: props['{' + DavClient.NS_APPLE + '}calendar-color'],
+			order: props['{' + DavClient.NS_APPLE + '}calendar-order'],
+			components: {
+				vevent: false,
+				vjournal: false,
+				vtodo: false
+			},
+			owner: null,
+			shareable: props.canWrite,
+			sharedWith: {
+				users: [],
+				groups: []
+			},
+			writable: props.canWrite
+		};
+
+		var components = props['{' + DavClient.NS_IETF + '}supported-calendar-component-set'];
+		for (var i=0; i < components.length; i++) {
+			var name = components[i].attributes.getNamedItem('name').textContent.toLowerCase();
+			if (simple.components.hasOwnProperty(name)) {
+				simple.components[name] = true;
+			}
+		}
+
+		var owner = props['{' + DavClient.NS_DAV + '}owner'];
+		if (typeof owner !== 'undefined' && owner.length !== 0) {
+			owner = owner[0].textContent.slice(0, -1);
+			if (owner.indexOf('/remote.php/dav/principals/users/') !== -1) {
+				simple.owner = owner.substr(33 + owner.indexOf('/remote.php/dav/principals/users/'));
+			}
+		}
+
+		var shares = props['{' + DavClient.NS_OWNCLOUD + '}invite'];
+		if (typeof shares !== 'undefined') {
+			for (var j=0; j < shares.length; j++) {
+				var href = shares[j].getElementsByTagNameNS('DAV:', 'href');
 				if (href.length === 0) {
 					continue;
 				}
 				href = href[0].textContent;
-				if (href !== _this._currentUserPrincipal) {
+
+				var access = shares[j].getElementsByTagNameNS(DavClient.NS_OWNCLOUD, 'access');
+				if (access.length === 0) {
 					continue;
 				}
-				var writeNode = acl[k].getElementsByTagNameNS('DAV:', 'write');
+				access = access[0];
+
+				var readWrite = access.getElementsByTagNameNS(DavClient.NS_OWNCLOUD, 'read-write');
+				readWrite = readWrite.length !== 0;
+
+				if (href.startsWith('principal:principals/users/')) {
+					simple.sharedWith.users.push({
+						id: href.substr(27),
+						displayname: href.substr(27),
+						writable: readWrite
+					});
+				} else if (href.startsWith('principal:principals/groups/')) {
+					simple.sharedWith.groups.push({
+						id: href.substr(28),
+						displayname: href.substr(28),
+						writable: readWrite
+					});
+				}
+			}
+		}
+
+		return simple;
+	};
+
+	this._getACLFromResponse = function(props) {
+		var canWrite = false;
+		var acl = props['{' + DavClient.NS_DAV + '}acl'];
+		if (acl) {
+			for (var k=0; k < acl.length; k++) {
+				var href = acl[k].getElementsByTagNameNS(DavClient.NS_DAV, 'href');
+				if (href.length === 0) {
+					continue;
+				}
+				href = href[0].textContent;
+				if (href !== self._currentUserPrincipal) {
+					continue;
+				}
+				var writeNode = acl[k].getElementsByTagNameNS(DavClient.NS_DAV, 'write');
 				if (writeNode.length > 0) {
 					canWrite = true;
 				}
 			}
 		}
-		body.propStat[0].properties.canWrite = canWrite;
+		props.canWrite = canWrite;
 	};
 
 	this._isUriAlreadyTaken = function(uri) {
