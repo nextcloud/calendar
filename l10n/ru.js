@@ -72,6 +72,7 @@ OC.L10N.register(
     "Close" : "Закрыть",
     "Description" : "Описание",
     "Export" : "Экспорт",
+    "Please contact your administrator and ask them to disable the \"asset-pipeline.enabled\" config option." : "Пожалуйста свяжитесь с администратором и попросите отключить опцию \"assep-pipeline.enabled\"",
     "Day" : "День",
     "Week" : "Неделя",
     "Month" : "Месяц",
