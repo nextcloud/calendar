@@ -663,6 +663,7 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 
 			$scope.newCalendarInputVal = '';
 			$scope.newCalendarColorVal = '';
+			angular.element('#new-calendar-button').click();
 		};
 
 		$scope.download = function (calendar) {

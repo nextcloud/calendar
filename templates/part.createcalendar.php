@@ -28,18 +28,18 @@
 
 	<div
 		class="new-entity"
-		data-apps-slide-toggle=".add-new">
+		data-apps-slide-toggle=".add-new"
+		id="new-calendar-button">
 		<span class="new-entity-title"><?php p($l->t('New Calendar')); ?></span>
 	</div>
 
 
 
 	<fieldset class="calendarlist-fieldset add-new hide">
-		<form>
+		<form ng-submit="create(newCalendarInputVal,selected)">
 			<input class="app-navigation-input" type="text" ng-model="newCalendarInputVal" autofocus />
 			<colorpicker class="colorpicker" selected="selected"></colorpicker>
 			<button
-				ng-click="create(newCalendarInputVal,selected)"
 				id="submitnewCalendar"
 				class="primary accept-button new-accept-button"
 				oc-click-slide-toggle="{
