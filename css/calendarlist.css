@@ -122,7 +122,10 @@
 	padding: 0 5px 0 0;
 }
 #app-navigation .app-navigation-list-item .utils .action span {
-	opacity: 0.6;
+	opacity: .3;
+}
+#app-navigation .app-navigation-list-item .utils .action:hover span {
+	opacity: 1;
 }
 #app-navigation .app-navigation-list-item .active {
 	background: transparent !important;
@@ -137,7 +140,7 @@
 	/* Core Override */
 }
 #app-navigation .app-navigation-list-item > a {
-	padding: 0 44px !important;
+	padding: 0 66px 0 44px !important;
 }
 #app-navigation .app-navigation-list-item .editfieldset {
 	padding: 0 4px;
@@ -157,10 +160,10 @@
 #app-navigation .app-navigation-list-item .caldavURL input {
 	width: 75%;
 }
-#app-navigation .app-navigation-list-item:hover .utils {
+#app-navigation .app-navigation-list-item .utils {
 	display: inline-block;
 }
-#app-navigation .app-navigation-list-item:hover .utils .action span {
+#app-navigation .app-navigation-list-item .utils .action span {
 	display: inline-block;
 	line-height: 44px;
 	height: 16px;
@@ -178,11 +181,6 @@
 }
 #app-navigation .app-navigation-list-item:hover .utils > a {
 	background-color: transparent !important;
-}
-#app-navigation .app-navigation-list-item:hover a {
-	text-overflow: ellipsis;
-	overflow: hidden;
-	width: 130px;
 }
 #app-navigation > ul {
   height: auto;
