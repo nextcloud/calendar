@@ -158,7 +158,7 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 		}
 
 		var xmlDoc = document.implementation.createDocument('', '', null);
-		var cMkcalendar = xmlDoc.createElement('c:mkcalendar');
+		var cMkcalendar = xmlDoc.createElement('d:mkcol');
 		cMkcalendar.setAttribute('xmlns:c', 'urn:ietf:params:xml:ns:caldav');
 		cMkcalendar.setAttribute('xmlns:d', 'DAV:');
 		cMkcalendar.setAttribute('xmlns:a', 'http://apple.com/ns/ical/');
@@ -170,6 +170,15 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 
 		var dProp = xmlDoc.createElement('d:prop');
 		dSet.appendChild(dProp);
+
+		var dResourceType = xmlDoc.createElement('d:resourcetype');
+		dProp.appendChild(dResourceType);
+
+		var dCollection = xmlDoc.createElement('d:collection');
+		dResourceType.appendChild(dCollection);
+
+		var cCalendar = xmlDoc.createElement('c:calendar');
+		dResourceType.appendChild(cCalendar);
 
 		dProp.appendChild(this._createXMLForProperty(xmlDoc, 'displayname', name));
 		dProp.appendChild(this._createXMLForProperty(xmlDoc, 'enabled', true));
@@ -185,7 +194,7 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 			'requesttoken' : OC.requestToken
 		};
 
-		return DavClient.request('MKCALENDAR', url, headers, body).then(function(response) {
+		return DavClient.request('MKCOL', url, headers, body).then(function(response) {
 			if (response.status === 201) {
 				self._takenUrls.push(url);
 				return self.get(url).then(function(calendar) {
