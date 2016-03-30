@@ -1491,7 +1491,7 @@ app.controller('SubscriptionController', ['$scope', function($scope) {}]);
 app.controller('SubscriptionController', ['$scope', '$rootScope', '$window', 'SubscriptionModel', 'CalendarModel', 'Restangular',
 	function ($scope, $rootScope, $window, SubscriptionModel, CalendarModel, Restangular) {
 		'use strict';
-		
+
 		$scope.subscriptions = SubscriptionModel.getAll();
 		var subscriptionResource = Restangular.all('subscriptions');
 
@@ -1753,14 +1753,14 @@ app.controller('VAlarmController', ["$scope", function($scope) {
 app.directive('colorpicker', function() {
   'use strict';
     var listofcolours =  [
-        '#21213D',
-        '#253151',
-        '#9C909D',
-        '#3A3B3D',
+		'#31CC7C',
+		'#317CCC',
         '#FF7A66',
-        '#009CFC',
         '#F1DB50',
-        '#CC317C'
+        '#7C31CC',
+        '#CC317C',
+        '#3A3B3D',
+        '#CACBCD'
     ];
     return {
         scope: {
@@ -2148,7 +2148,7 @@ app.filter('simpleReminderDescription', function() {
 app.filter('subscriptionFilter',
 	[ function () {
 		'use strict';
-		
+
 		var subscriptionfilter = function (item) {
 			var filter = [];
 			if (item.length > 0) {
@@ -4693,4 +4693,3 @@ app.service('VEventService', ['DavClient', 'VEvent', 'RandomStringService', func
 	};
 
 }]);
-
