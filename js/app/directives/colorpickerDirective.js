@@ -30,14 +30,14 @@
 app.directive('colorpicker', function() {
   'use strict';
     var listofcolours =  [
-        '#21213D',
-        '#253151',
-        '#9C909D',
-        '#3A3B3D',
+        '#31CC7C',
+        '#317CCC',
         '#FF7A66',
-        '#009CFC',
         '#F1DB50',
-        '#CC317C'
+        '#7C31CC',
+        '#CC317C',
+        '#3A3B3D',
+        '#CACBCD'
     ];
     return {
         scope: {
