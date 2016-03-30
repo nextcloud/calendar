@@ -56,7 +56,7 @@
 	display: block;
 	width: 100%;
 	line-height: 44px;
-	padding: 0 25px;
+	padding: 0 44px;
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
@@ -69,10 +69,8 @@
 	cursor: pointer;
 }
 #app-navigation .new-entity .new-entity-title:before {
-	left: 10px;
-	width: 10px;
+	left: 18px;
 	position: absolute;
-	font-weight: bold;
 	font-size: 150%;
 	content: '+';
 }
@@ -100,12 +98,10 @@
 
 #app-navigation .app-navigation-list-item .calendarCheckbox {
 	position: absolute;
-	top: 2px;
-	left: 5px;
-	margin-left: 4px;
-	margin-top: 14px;
-	width: 11px;
-	height: 11px;
+	margin-left: 17px;
+	margin-top: 16px;
+	width: 12px;
+	height: 12px;
 	border: none;
 	border-radius: 50%;
 	cursor: pointer;
@@ -114,14 +110,12 @@
 	background: transparent !important;
 }
 #app-navigation .app-navigation-list-item .loading {
-	margin-left: 6px;
-	margin-top: 16px;
-	width: 10px;
 	position: absolute;
-	height: 10px;
-	top: 2px;
-	left: 5px;
-	background-size: 10px;
+	margin-left: 17px;
+	margin-top: 16px;
+	width: 12px;
+	height: 12px;
+	background-size: 12px;
 }
 #app-navigation .app-navigation-list-item .utils {
 	height: 44px;
@@ -143,7 +137,7 @@
 	/* Core Override */
 }
 #app-navigation .app-navigation-list-item > a {
-	padding: 0 25px !important;
+	padding: 0 44px !important;
 }
 #app-navigation .app-navigation-list-item .editfieldset {
 	padding: 0 4px;
