@@ -66,7 +66,7 @@ class Application extends App {
 
 		$server->getNavigationManager()->add(array(
 			'id' => $appName,
-			'order' => 10,
+			'order' => 5,
 			'href' => $server->getURLGenerator()
 				->linkToRoute('calendar.view.index'),
 			'icon' => $server->getURLGenerator()
