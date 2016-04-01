@@ -154,7 +154,7 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 		}
 
 		if (typeof components === 'undefined') {
-			components = ['vevent'];
+			components = ['vevent', 'vtodo'];
 		}
 
 		var xmlDoc = document.implementation.createDocument('', '', null);
