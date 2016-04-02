@@ -9,7 +9,6 @@
 					autofocus="autofocus"/>
 			<select
 					ng-model="calendar"
-					ng-init="calendar = oldCalendar || calendars[0]"
 					ng-options="c as c.displayname for c in calendars | orderBy:['order'] | calendarSelectorFilter: oldCalendar"></select>
 		</fieldset>
 

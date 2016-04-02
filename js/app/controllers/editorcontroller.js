@@ -26,14 +26,14 @@
  * Description: Takes care of anything inside the Events Modal.
  */
 
-app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'AutoCompletionService', '$window', '$uibModalInstance', 'vevent', 'simpleEvent', 'isNew', 'emailAddress',
-	function($scope, TimezoneService, AutoCompletionService, $window, $uibModalInstance, vevent, simpleEvent, isNew, properties, emailAddress) {
+app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletionService', '$window', '$uibModalInstance', 'vevent', 'simpleEvent', 'calendar', 'isNew', 'emailAddress',
+	function($scope, TimezoneService, AutoCompletionService, $window, $uibModalInstance, vevent, simpleEvent, calendar, isNew, emailAddress) {
 		'use strict';
 
 		$scope.properties = simpleEvent;
 		$scope.is_new = isNew;
-		$scope.calendar = isNew ? null : vevent.calendar;
-		$scope.oldCalendar = isNew ? null : vevent.calendar;
+		$scope.calendar = calendar;
+		$scope.oldCalendar = isNew ? calendar : vevent.calendar;
 		$scope.readOnly = isNew ? false : !vevent.calendar.writable;
 		$scope.selected = 1;
 		$scope.timezones = [];
@@ -80,7 +80,32 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
 			$scope.postEditingHooks.push(callback);
 		};
 
+		$scope.proceed = function() {
+			$scope.prepareClose();
+			$uibModalInstance.close({
+				action: 'proceed',
+				calendar: $scope.calendar,
+				simple: $scope.properties,
+				vevent: vevent
+			});
+		};
+
 		$scope.save = function() {
+			if (!$scope.validate()) {
+				return;
+			}
+
+			$scope.prepareClose();
+			$scope.properties.patch();
+			$uibModalInstance.close({
+				action: 'save',
+				calendar: $scope.calendar,
+				simple: $scope.properties,
+				vevent: vevent
+			});
+		};
+
+		$scope.validate = function() {
 			var error = false;
 			if ($scope.properties.summary === null || $scope.properties.summary.value.trim() === '') {
 				OC.Notification.showTemporary(t('calendar', 'Please add a title!'));
@@ -91,10 +116,10 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
 				error = true;
 			}
 
-			if (error) {
-				return;
-			}
+			return !error;
+		};
 
+		$scope.prepareClose = function() {
 			if ($scope.properties.allDay) {
 				$scope.properties.dtstart.type = 'date';
 				$scope.properties.dtend.type = 'date';
@@ -107,11 +132,6 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
 			angular.forEach($scope.postEditingHooks, function(callback) {
 				callback();
 			});
-
-			vevent.calendar = $scope.calendar;
-			$scope.properties.patch();
-
-			$uibModalInstance.close(vevent);
 		};
 
 		$scope.cancel = function() {

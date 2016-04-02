@@ -11,7 +11,6 @@
 			/>
 			<select
 					ng-model="calendar"
-					ng-init="calendar = oldCalendar || calendars[0]"
 					ng-options="c as c.displayname for c in calendars | orderBy:['order'] | calendarSelectorFilter: oldCalendar"></select>
 		</fieldset>
 
@@ -19,12 +18,12 @@
 			<div class="event-time-interior pull-left">
 				<span><?php p($l->t('starts')); ?></span>
 				<ocdatetimepicker ng-model="properties.dtstart.value" disabletime="properties.allDay"></ocdatetimepicker>
-				<span ng-show="showTimezone">{{ properties.dtstart.parameters.zone | timezoneFilter }}</span>
+				<span ng-show="edittimezone">{{ properties.dtstart.parameters.zone | timezoneFilter }}</span>
 			</div>
 			<div class="event-time-interior pull-right">
 				<span><?php p($l->t('ends')); ?></span>
 				<ocdatetimepicker ng-model="properties.dtend.value" disabletime="properties.allDay"></ocdatetimepicker>
-				<span ng-show="showTimezone">{{ properties.dtend.parameters.zone | timezoneFilter }}</span>
+				<span ng-show="edittimezone">{{ properties.dtend.parameters.zone | timezoneFilter }}</span>
 			</div>
 			<div class="clear-both"></div>
 			<div class="events--checkbox pull-left">
@@ -53,25 +52,25 @@
 		</fieldset>
 
 		<fieldset class="events--fieldset pull-right" ng-show="!readOnly">
-			<button ng-click="close('proceed')" class="events--button button btn">
+			<button ng-click="proceed()" class="events--button button btn">
 				<?php p($l->t('More ...')); ?>
 			</button>
 			<button
 				class="events--button button btn primary"
-				ng-click="close('save')"
+				ng-click="save()"
 				ng-show="is_new">
 				<?php p($l->t('Create')); ?>
 			</button>
 			<button
 				class="evens--button button btn primary"
-				ng-click="close('save')"
+				ng-click="save()"
 				ng-show="!is_new">
 				<?php p($l->t('Update')); ?>
 			</button>
 		</fieldset>
 
 		<fieldset class="events--fieldset pull-right" ng-show="readOnly">
-			<button ng-click="close('proceed')" class="events--button button btn">
+			<button ng-click="proceed()" class="events--button button btn">
 				<?php p($l->t('More ...')); ?>
 			</button>
 			<button ng-click="cancel()" class="events--button button btn">

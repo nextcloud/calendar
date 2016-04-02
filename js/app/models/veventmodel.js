@@ -246,7 +246,11 @@ app.factory('VEvent', function(FcEvent, SimpleEvent, ICalFactory, RandomStringSe
 		// add a dummy dtstart to make the ical valid before we create SimpleEvent
 		iCalEvent.updatePropertyWithValue('dtstart', ICAL.Time.now());
 
-		var vevent = new VEvent(null, comp, null, null);
+		var uri = RandomStringService.generate();
+		uri += RandomStringService.generate();
+		uri += '.ics';
+
+		var vevent = new VEvent(null, comp, null, uri);
 		var simple = new SimpleEvent(iCalEvent);
 		angular.extend(simple, {
 			allDay: !start.hasTime() && !end.hasTime(),
