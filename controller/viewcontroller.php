@@ -70,11 +70,12 @@ class ViewController extends Controller {
 			return new TemplateResponse('calendar', 'main-asset-pipeline-unsupported');
 		}
 
-		$userId = $this->userSession->getUser()->getUID();
+		$user = $this->userSession->getUser();
+		$userId = $user->getUID();
+		$emailAddress = $user->getEMailAddress();
 
 		$appVersion = $this->config->getAppValue($this->appName, 'installed_version');
 		$defaultView = $this->config->getUserValue($userId, $this->appName, 'currentView', 'month');
-		$emailAddress = $this->config->getUserValue($userId, 'settings', 'email');
 
 		return new TemplateResponse('calendar', 'main', [
 			'appVersion' => $appVersion,

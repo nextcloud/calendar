@@ -107,6 +107,10 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 				->method('getUID')
 				->will($this->returnValue('user123'));
 
+			$this->dummyUser->expects($this->once())
+				->method('getEMailAddress')
+				->will($this->returnValue('test@bla.com'));
+
 			$this->config->expects($this->once())
 				->method('getAppValue')
 				->with($this->appName, 'installed_version')
@@ -116,11 +120,6 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 				->method('getUserValue')
 				->with('user123', $this->appName, 'currentView', 'month')
 				->will($this->returnValue('someView'));
-
-			$this->config->expects($this->at(3))
-				->method('getUserValue')
-				->with('user123', 'settings', 'email')
-				->will($this->returnValue('test@bla.com'));
 
 			$actual = $this->controller->index();
 
