@@ -123,7 +123,7 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 			end.add(end.toDate().getTimezoneOffset(), 'minutes');
 
 			var vevent = VEvent.fromStartEnd(start, end, $scope.defaulttimezone);
-			$scope._initializeEventEditor(vevent, null, true, function() {
+			$scope._initializeEventEditor(vevent, null, vevent.getSimpleEvent(null), true, function() {
 				uiCalendarConfig.calendars.calendar.fullCalendar('renderEvent', fcEvent);
 				uiCalendarConfig.calendars.calendar.fullCalendar('unselect');
 
@@ -206,7 +206,7 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 			return position;
 		};
 
-		$scope._initializeEventEditor = function(vevent, recurrenceId, isNew, positionCallback, successCallback, deleteCallBack, cancelCallback, fcEvent) {
+		$scope._initializeEventEditor = function(vevent, recurrenceId, simpleEvent, isNew, positionCallback, successCallback, deleteCallBack, cancelCallback, fcEvent) {
 			// Don't open the same dialog again
 			if ($scope.eventModalVEvent === vevent && $scope.eventModalRecurrenceId === recurrenceId) {
 				return;
@@ -231,8 +231,8 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 					vevent: function() {
 						return vevent;
 					},
-					recurrenceId: function() {
-						return recurrenceId;
+					simpleEvent: function() {
+						return simpleEvent;
 					},
 					isNew: function() {
 						return isNew;
@@ -281,13 +281,10 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 							vevent: function() {
 								return vevent;
 							},
-							recurrenceId: function() {
-								return recurrenceId;
-							},
 							isNew: function() {
 								return isNew;
 							},
-							properties: function() {
+							simpleEvent: function() {
 								return result.properties;
 							},
 							emailAddress: function() {
@@ -383,9 +380,9 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 				select: $scope.newEvent,
 				eventLimit: true,
 				eventClick: function(fcEvent, jsEvent, view) {
-					var oldCalendar = fcEvent.event.calendar;
+					var oldCalendar = fcEvent.vevent.calendar;
 
-					$scope._initializeEventEditor(fcEvent.event, fcEvent.recurrenceId, false, function() {
+					$scope._initializeEventEditor(fcEvent.vevent, fcEvent.recurrenceId, fcEvent.getSimpleEvent(), false, function() {
 						return $scope._calculatePopoverPosition(jsEvent.currentTarget, view);
 					}, function(vevent) {
 						if (oldCalendar === vevent.calendar) {
@@ -451,16 +448,16 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 					}, fcEvent);
 				},
 				eventResize: function (fcEvent, delta, revertFunc) {
-					if (!fcEvent.event.resize(fcEvent.recurrenceId, delta)) {
+					fcEvent.resize(delta);
+					VEventService.update(fcEvent.vevent).catch(function() {
 						revertFunc();
-					}
-					VEventService.update(fcEvent.event);
+					});
 				},
 				eventDrop: function (fcEvent, delta, revertFunc) {
-					if(!fcEvent.event.drop(fcEvent.recurrenceId, delta)) {
+					fcEvent.drop(delta);
+					VEventService.update(fcEvent.vevent).catch(function() {
 						revertFunc();
-					}
-					VEventService.update(fcEvent.event);
+					});
 				},
 				eventRender: function(fcEvent) {
 					if (fcEvent.calendar) {

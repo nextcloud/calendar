@@ -20,7 +20,8 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-app.factory('objectConverter', function () {
+
+app.factory('SimpleEvent', function() {
 	'use strict';
 
 	/**
@@ -70,8 +71,8 @@ app.factory('objectConverter', function () {
 			parameters = (parameters || []).concat(['tzid']);
 			simpleParser._parseSingle(data, vevent, key, parameters, function(p) {
 				return (p.type === 'duration') ?
-						p.getFirstValue().toSeconds():
-						moment(p.getFirstValue().toJSDate());
+					p.getFirstValue().toSeconds():
+					moment(p.getFirstValue().toJSDate());
 			});
 		},
 		dates: function(data, vevent, key, parameters) {
@@ -129,7 +130,7 @@ app.factory('objectConverter', function () {
 			data[key] = data[key] || [];
 
 			var properties = vevent.getAllProperties(key),
-					group = 0;
+				group = 0;
 
 			for (var pKey in properties) {
 				if (!properties.hasOwnProperty(pKey)) {
@@ -411,8 +412,8 @@ app.factory('objectConverter', function () {
 				};
 
 				/*if (rrule.until) {
-					simpleParser.date(data.rrule, rrule, 'until');
-				}*/
+				 simpleParser.date(data.rrule, rrule, 'until');
+				 }*/
 			} else {
 				data.rrule = {
 					freq: 'NONE'
@@ -550,50 +551,48 @@ app.factory('objectConverter', function () {
 		}
 	};
 
-	return {
-		/**
-		 * parse and expand jCal data to simple structure
-		 * @param vevent object to be parsed
-		 * @returns {{}}
-		 */
-		parse: function(vevent) {
-			var data=angular.extend({}, defaults), parser, parameters;
+	function SimpleEvent(event) {
+		this._event = event;
+		angular.extend(this, defaults);
 
-			for (var key in simpleProperties) {
-				if (!simpleProperties.hasOwnProperty(key)) {
+		var parser, parameters;
+		for (var key in simpleProperties) {
+			if (!simpleProperties.hasOwnProperty(key)) {
+				continue;
+			}
+
+			parser = simpleProperties[key].parser;
+			parameters = simpleProperties[key].parameters;
+			if (this._event.hasProperty(key)) {
+				parser(this, this._event, key, parameters);
+			}
+		}
+
+		for (parser in specificParser) {
+			if (!specificParser.hasOwnProperty(parser)) {
+				continue;
+			}
+
+			specificParser[parser](this, this._event);
+		}
+
+		this._generateOldProperties();
+	}
+
+	SimpleEvent.prototype = {
+		_generateOldProperties: function() {
+			this._oldProperties = {};
+
+			for (var def in defaults) {
+				if (!defaults.hasOwnProperty(def)) {
 					continue;
 				}
 
-				parser = simpleProperties[key].parser;
-				parameters = simpleProperties[key].parameters;
-				if (vevent.hasProperty(key)) {
-					parser(data, vevent, key, parameters);
-				}
+				this._oldProperties[def] = angular.copy(this[def]);
 			}
-
-			for (parser in specificParser) {
-				if (!specificParser.hasOwnProperty(parser)) {
-					continue;
-				}
-
-				specificParser[parser](data, vevent);
-			}
-
-			return data;
 		},
-
-		/**
-		 * patch vevent with data from event editor
-		 * @param vevent object to update
-		 * @param oldSimpleData
-		 * @param newSimpleData
-		 * @returns {*}
-		 */
-		patch: function(vevent, oldSimpleData, newSimpleData) {
+		patch: function() {
 			var key, reader, parameters;
-
-			oldSimpleData = angular.extend({}, defaults, oldSimpleData);
-			newSimpleData = angular.extend({}, defaults, newSimpleData);
 
 			for (key in simpleProperties) {
 				if (!simpleProperties.hasOwnProperty(key)) {
@@ -602,11 +601,11 @@ app.factory('objectConverter', function () {
 
 				reader = simpleProperties[key].reader;
 				parameters = simpleProperties[key].parameters;
-				if (oldSimpleData[key] !== newSimpleData[key]) {
-					if (newSimpleData === null) {
-						vevent.removeAllProperties(key);
+				if (this._oldProperties[key] !== this[key]) {
+					if (this[key] === null) {
+						this._event.removeAllProperties(key);
 					} else {
-						reader(vevent, oldSimpleData, newSimpleData, key, parameters);
+						reader(this._event, this._oldProperties, this, key, parameters);
 					}
 				}
 			}
@@ -617,8 +616,12 @@ app.factory('objectConverter', function () {
 				}
 
 				reader = specificReader[key];
-				reader(vevent, oldSimpleData, newSimpleData);
+				reader(this._event, this._oldProperties, this);
 			}
+
+			this._generateOldProperties();
 		}
 	};
+
+	return SimpleEvent;
 });

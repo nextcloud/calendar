@@ -26,11 +26,11 @@
  * Description: Takes care of anything inside the Events Modal.
  */
 
-app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'AutoCompletionService', '$window', '$uibModalInstance', 'vevent', 'recurrenceId', 'isNew', 'properties', 'emailAddress',
-	function($scope, TimezoneService, AutoCompletionService, $window, $uibModalInstance, vevent, recurrenceId, isNew, properties, emailAddress) {
+app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'AutoCompletionService', '$window', '$uibModalInstance', 'vevent', 'simpleEvent', 'isNew', 'emailAddress',
+	function($scope, TimezoneService, AutoCompletionService, $window, $uibModalInstance, vevent, simpleEvent, isNew, properties, emailAddress) {
 		'use strict';
 
-		$scope.properties = properties;
+		$scope.properties = simpleEvent;
 		$scope.is_new = isNew;
 		$scope.calendar = isNew ? null : vevent.calendar;
 		$scope.oldCalendar = isNew ? null : vevent.calendar;
@@ -109,7 +109,7 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
 			});
 
 			vevent.calendar = $scope.calendar;
-			vevent.patch(recurrenceId, $scope.properties);
+			$scope.properties.patch();
 
 			$uibModalInstance.close(vevent);
 		};
