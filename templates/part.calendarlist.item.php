@@ -67,12 +67,14 @@
 	</span>
 </span>
 <fieldset ng-show="calendar.list.edit" class="editfieldset">
-	<input class="app-navigation-input" type="text" ng-model="calendar.displayname" data-id="{{ calendar.id }}" />
-	<colorpicker class="colorpicker" selected="calendar.color"></colorpicker>
-	<div class="buttongroups">
-		<button ng-click="performUpdate(calendar)" id="updateCalendar" class="primary icon-checkmark-white accept-button"></button>
-		<button id="chooseCalendar-close" class="btn close-button icon-close" ng-click="cancelUpdate(calendar)"></button>
-	</div>
+	<form ng-submit="performUpdate(calendar)">
+		<input class="app-navigation-input" type="text" ng-model="calendar.displayname" data-id="{{ calendar.id }}" />
+		<colorpicker class="colorpicker" selected="calendar.color"></colorpicker>
+		<div class="buttongroups">
+			<button id="updateCalendar" class="primary icon-checkmark-white accept-button"></button>
+			<button id="chooseCalendar-close" class="btn close-button icon-close" ng-click="cancelUpdate(calendar)"></button>
+		</div>
+	</form>
 </fieldset>
 <div ng-show="calendar.list.editingShares" class="calendarShares">
 	<i ng-show="loadingSharees" class="glyphicon glyphicon-refresh"></i>
