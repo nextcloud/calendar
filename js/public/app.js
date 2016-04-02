@@ -2221,6 +2221,13 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 				enabled = false;
 			}
 		}
+		if (typeof props.color !== 'undefined') {
+			if (props.color.length === 9) {
+				props.color = props.color.substr(0,7);
+			}
+		} else {
+			props.color = '#1d2d44';
+		}
 
 		angular.extend(this, {
 			_mutableProperties: {
