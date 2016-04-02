@@ -74,11 +74,12 @@ app.controller('ImportController', ['$scope', '$rootScope', '$filter', 'Calendar
 				var components = [];
 				if (file.split.vevent.length > 0) {
 					components.push('vevent');
+					components.push('vtodo');
 				}
 				if (file.split.vjournal.length > 0) {
 					components.push('vjournal');
 				}
-				if (file.split.vtodo.length > 0) {
+				if (file.split.vtodo.length > 0 && components.indexOf('vtodo') === -1) {
 					components.push('vtodo');
 				}
 
