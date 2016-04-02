@@ -83,8 +83,19 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 				.fullCalendar('option', 'height', w.height() - angular.element('#header').height());
 		});
 
-		TimezoneService.getCurrent().then(function(timezone) {
-			ICAL.TimezoneService.register($scope.defaulttimezone, timezone.jCal);
+		TimezoneService.get($scope.defaulttimezone).then(function(timezone) {
+			if (timezone) {
+				ICAL.TimezoneService.register($scope.defaulttimezone, timezone.jCal);
+			}
+		}).catch(function() {
+			OC.Notification.showTemporary(
+				t('calendar', 'You are in an unknown timezone ({tz}), falling back to UTC', {
+					tz: $scope.defaulttimezone
+				})
+			);
+
+			$scope.defaulttimezone = 'UTC';
+			$scope.uiConfig.calendar.timezone = 'UTC';
 		});
 
 		CalendarService.getAll().then(function(calendars) {

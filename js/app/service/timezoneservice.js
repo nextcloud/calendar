@@ -55,9 +55,6 @@ app.service('TimezoneService', ['$rootScope', '$http', 'Timezone', 'TimezoneList
 					_this._timezones[tzid] = timezone;
 
 					return timezone;
-				} else {
-					return;
-					// TODO - something went wrong, do smth about it
 				}
 			});
 
@@ -69,8 +66,19 @@ app.service('TimezoneService', ['$rootScope', '$http', 'Timezone', 'TimezoneList
 		};
 
 		this.current = function () {
-			var timezone = jstz.determine();
-			return timezone.name();
+			var tz = jstz.determine();
+			var tzname = tz ? tz.name() : 'UTC';
+
+			switch(tzname) {
+				case 'Etc/UTC':
+					tzname = 'UTC';
+					break;
+
+				default:
+					break;
+			}
+
+			return tzname;
 		};
 	}
 ]);
