@@ -2200,10 +2200,19 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 	function Calendar(url, props) {
 		var self = this;
 
+		var enabled = props.enabled;
+		if (typeof enabled === 'undefined') {
+			if (typeof props.owner !== 'undefined') {
+				enabled = props.owner === oc_current_user;
+			} else {
+				enabled = false;
+			}
+		}
+
 		angular.extend(this, {
 			_mutableProperties: {
 				displayname: props.displayname,
-				enabled: props.enabled,
+				enabled: enabled,
 				color: props.color,
 				order: props.order
 			}
