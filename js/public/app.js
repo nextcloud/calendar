@@ -31,13 +31,17 @@ app.config(['$provide', '$routeProvider', '$httpProvider',
 	}
 ]);
 
-app.run(['$rootScope', '$window',
-	function ($rootScope, $window) {
+app.run(['$document', '$rootScope', '$window',
+	function ($document, $rootScope, $window) {
 		'use strict';
 
 		$rootScope.baseUrl = $window.location.origin +
 			$window.location.pathname +
 			'v1/';
+
+		$document.click(function (event) {
+			$rootScope.$broadcast('documentClicked', event);
+		});
 	}
 ]);
 
@@ -1923,6 +1927,30 @@ app.directive('openDialog', function() {
 			var dialogId = '#' + attr.openDialog;
 			elem.bind('click', function(e) {
 				$(dialogId).dialog('open');
+			});
+		}
+	};
+});
+
+app.directive('onToggleShow', function () {
+	'use strict';
+	return {
+		restrict: 'A',
+		scope: {
+			'onToggleShow': '@'
+		},
+		link: function (scope, elem) {
+			elem.click(function () {
+				var target = $(scope.onToggleShow);
+				target.toggle();
+			});
+
+			scope.$on('documentClicked', function (s, event) {
+				var target = $(scope.onToggleShow);
+
+				if (event.target !== elem[0]) {
+					target.hide();
+				}
 			});
 		}
 	};

@@ -26,10 +26,10 @@
 <span class="loading pull-left" ng-show="calendar.list.loading && !calendar.list.edit">
 	<i class="fa fa-spinner fa-spin"></i>
 </span>
-<a href="#/" ng-click="triggerEnable(calendar)" data-id="{{ calendar.id }}" ng-show="!calendar.list.edit" title="{{ calendar.caldav }}">
+<a href="#/" ng-click="triggerEnable(calendar)" ng-show="!calendar.list.edit" title="{{ calendar.caldav }}">
 	{{ calendar.displayname }}
 </a>
-<span class="utils hide" ng-if="!calendar.list.locked" ng-show="!calendar.list.edit">
+<span class="utils" ng-if="!calendar.list.locked" ng-show="!calendar.list.edit">
 	<span class="action">
 		<span
 			ng-if="calendar.shareable"
@@ -40,32 +40,37 @@
 		</span>
 	</span>
 	<span class="action">
-		<span
-			id="calendarlist-icon download"
-			title="Download"
-			class="icon-download"
-			ng-click="download(calendar)">
-		</span>
-	</span>
-	<span class="action"
-		ng-show="calendar.owner === currentUser">
-		<span id="calendarlist-icon edit"
-			  data-id="{{ calendar.uri }}"
-			  title="Edit"
-			  class="icon-rename"
-			  ng-click="prepareUpdate(calendar)">
-		</span>
-	</span>
-	<span class="action">
 		<span href="#"
-			  id="calendarlist-icon delete"
-			  data-id="{{ calendar.uri }}"
-			  title="Delete"
-			  class="icon-delete"
-			  ng-click="remove(calendar)">
+			  title="<?php p($l->t('More')); ?>"
+			  on-toggle-show="#more-actions-{{calendar.tmpId}}"
+			  class="icon-more">
 		</span>
 	</span>
 </span>
+
+<div id="more-actions-{{calendar.tmpId}}" class="app-navigation-entry-menu hidden">
+	<ul>
+		<li ng-show="calendar.owner === currentUser">
+			<button class="icon-rename svg"
+					title="<?php p($l->t('Edit')); ?>"
+					ng-click="prepareUpdate(calendar)">
+			</button>
+		</li>
+		<li>
+			<button class="icon-download svg"
+					title="<?php p($l->t('Export')); ?>"
+					ng-click="download(calendar)">
+			</button>
+		</li>
+		<li>
+			<button class="icon-delete svg"
+					title="<?php p($l->t('Delete')); ?>"
+					ng-click="remove(calendar)">
+			</button>
+		</li>
+	</ul>
+</div>
+
 <fieldset ng-show="calendar.list.edit" class="editfieldset">
 	<form ng-submit="performUpdate(calendar)">
 		<input class="app-navigation-input" type="text" ng-model="calendar.displayname" data-id="{{ calendar.id }}" />

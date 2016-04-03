@@ -3,8 +3,10 @@
  *
  * @author Raghu Nayyar
  * @author Georg Ehrke
+ * @author Bernhard Posselt
  * @copyright 2016 Raghu Nayyar <beingminimal@gmail.com>
  * @copyright 2016 Georg Ehrke <oc.list@georgehrke.com>
+ * @copyright 2016 Bernhard Posselt <dev@bernhard-posselt.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -21,16 +23,26 @@
  *
  */
 
-app.run(['$document', '$rootScope', '$window',
-	function ($document, $rootScope, $window) {
-		'use strict';
+app.directive('onToggleShow', function () {
+	'use strict';
+	return {
+		restrict: 'A',
+		scope: {
+			'onToggleShow': '@'
+		},
+		link: function (scope, elem) {
+			elem.click(function () {
+				var target = $(scope.onToggleShow);
+				target.toggle();
+			});
 
-		$rootScope.baseUrl = $window.location.origin +
-			$window.location.pathname +
-			'v1/';
+			scope.$on('documentClicked', function (s, event) {
+				var target = $(scope.onToggleShow);
 
-		$document.click(function (event) {
-			$rootScope.$broadcast('documentClicked', event);
-		});
-	}
-]);
+				if (event.target !== elem[0]) {
+					target.hide();
+				}
+			});
+		}
+	};
+});
