@@ -26,7 +26,7 @@
 <span class="loading pull-left" ng-show="calendar.list.loading && !calendar.list.edit">
 	<i class="fa fa-spinner fa-spin"></i>
 </span>
-<a href="#/" ng-click="triggerEnable(calendar)" ng-show="!calendar.list.edit" title="{{ calendar.caldav }}">
+<a href="#/" ng-click="triggerEnable(calendar)" ng-show="!calendar.list.edit" title="{{ calendar.displayname }}">
 	{{ calendar.displayname }}
 </a>
 <span class="utils" ng-if="!calendar.list.locked" ng-show="!calendar.list.edit">
@@ -57,6 +57,12 @@
 			</button>
 		</li>
 		<li>
+			<button class="icon-public svg"
+					title="<?php p($l->t('CalDAV')); ?>"
+					ng-click="showCalDAVLink(calendar)">
+			</button>
+		</li>
+		<li>
 			<button class="icon-download svg"
 					title="<?php p($l->t('Export')); ?>"
 					ng-click="download(calendar)">
@@ -80,6 +86,10 @@
 			<button id="chooseCalendar-close" class="btn close-button icon-close" ng-click="cancelUpdate(calendar)"></button>
 		</div>
 	</form>
+</fieldset>
+<fieldset ng-show="calendar.list.showCalDAVLink" class="editfieldset">
+	<input class="input-with-button-on-right-side" type="text" ng-model="calendar.caldav" readonly />
+	<button class="btn icon-close button-next-to-input" ng-click="hideCalDAVLink(calendar)"></button>
 </fieldset>
 <div ng-show="calendar.list.editingShares" class="calendarShares">
 	<i ng-show="loadingSharees" class="glyphicon glyphicon-refresh"></i>

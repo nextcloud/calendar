@@ -806,6 +806,17 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 		};
 
 		/**
+		 * trigger visibility of caldav link
+		 */
+		$scope.showCalDAVLink = function(calendar) {
+			calendar.list.showCalDAVLink = true;
+		};
+
+		$scope.hideCalDAVLink = function(calendar) {
+			calendar.list.showCalDAVLink = false;
+		};
+
+		/**
 		 * Updates the shares of the calendar
 		 */
 		$scope.performUpdateShares = function (calendar) {

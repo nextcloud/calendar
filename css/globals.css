@@ -46,3 +46,13 @@
   background: url("../img/timezone.svg") center center no-repeat;
   display: block;
 }
+
+.input-with-button-on-right-side {
+  width: 85% !important;
+  float: left;
+}
+
+.button-next-to-input {
+  height: 32px;
+  width: 5%;
+}
