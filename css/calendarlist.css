@@ -231,13 +231,20 @@ ul.dropdown-menu {
 	height: 100px;
     overflow: scroll;
     border: 1px #ddd solid;
-    border-radius: 3px;
+    border-radius: 0 0 3px 3px;
 	margin-top: -7px;
     margin-left: 6px;
-    width: 226px;
+    width: 94%;
 }
 ul.dropdown-menu  li {
 	height: 25px;
+}
+
+#app-navigation ul.dropdown-menu a {
+	min-height: 22px;
+	max-height: 22px;
+	padding: 0 10px;
+	line-height: 2;
 }
 
 ul.dropdown-menu li > a:hover {
