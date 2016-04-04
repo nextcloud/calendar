@@ -10,6 +10,7 @@ OC.L10N.register(
     "Required" : "Erforderlich",
     "Optional" : "Optional",
     "Does not attend" : "nicht teilnehmen",
+    "You are in an unknown timezone ({tz}), falling back to UTC" : "Du bist in einer unbekannten Zeitzone ({tz}), auf UTC wird geändert",
     "New event" : "Neue Veranstaltung",
     "Please add a title!" : "Bitte gib einen Titel an!",
     "Please select a calendar!" : "Bitte wähle einen Kalender aus!",

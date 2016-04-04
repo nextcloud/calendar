@@ -10,6 +10,7 @@ OC.L10N.register(
     "Required" : "E domosdoshme",
     "Optional" : "Në dëshirë",
     "Does not attend" : "Nuk merr pjesë",
+    "You are in an unknown timezone ({tz}), falling back to UTC" : "Gjendeni një zonë kohore të panjohur ({tz}), po përdoret parazgjedhja UTC",
     "New event" : "Veprimtari e re",
     "Please add a title!" : "Ju lutemi, shtoni një titull!",
     "Please select a calendar!" : "Ju lutemi, përzgjidhni një kalendar",

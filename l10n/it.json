@@ -8,6 +8,7 @@
     "Required" : "Richiesto",
     "Optional" : "Facoltativo",
     "Does not attend" : "Non partecipa",
+    "You are in an unknown timezone ({tz}), falling back to UTC" : "Sei in un fuso orario sconosciuto ({tz}), ripiego su UTC",
     "New event" : "Nuovo evento",
     "Please add a title!" : "Aggiungi un titolo!",
     "Please select a calendar!" : "Seleziona un calendario!",
