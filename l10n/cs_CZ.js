@@ -83,6 +83,8 @@ OC.L10N.register(
     "Month" : "Měsíc",
     "Today" : "Dnes",
     "Share Calendar" : "Sdílet kalendář",
+    "More" : "Více",
+    "Edit" : "Upravit",
     "group" : "skupina",
     "New Calendar" : "Nový kalendář",
     "Subscriptions" : "Odběry",

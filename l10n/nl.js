@@ -83,6 +83,8 @@ OC.L10N.register(
     "Month" : "Maand",
     "Today" : "Vandaag",
     "Share Calendar" : "Delen agenda",
+    "More" : "Meer",
+    "Edit" : "Bewerk",
     "group" : "groep",
     "New Calendar" : "Nieuwe agenda",
     "Subscriptions" : "Abonnementen",

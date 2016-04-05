@@ -83,6 +83,8 @@ OC.L10N.register(
     "Month" : "Mánuður",
     "Today" : "Í dag",
     "Share Calendar" : "Deila dagatali",
+    "More" : "Meira",
+    "Edit" : "Breyta",
     "group" : "hópur",
     "New Calendar" : "Nýtt dagatal",
     "Subscriptions" : "Áskriftir",

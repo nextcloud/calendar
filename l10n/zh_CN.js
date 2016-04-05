@@ -69,6 +69,8 @@ OC.L10N.register(
     "Month" : "月",
     "Today" : "今天",
     "Share Calendar" : "共享日历",
+    "More" : "更多",
+    "Edit" : "编辑",
     "group" : "群组",
     "New Calendar" : "新建日历",
     "Subscriptions" : "订阅",

@@ -75,6 +75,8 @@ OC.L10N.register(
     "Month" : "Miesiąc",
     "Today" : "Dziś",
     "Share Calendar" : "Współdziel kalendarz",
+    "More" : "Więcej",
+    "Edit" : "Edytuj",
     "group" : "grupa",
     "New Calendar" : "Nowy kalendarz",
     "Subscriptions" : "Subskrypcje",

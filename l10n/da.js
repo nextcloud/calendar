@@ -77,6 +77,8 @@ OC.L10N.register(
     "Month" : "Måned",
     "Today" : "I dag",
     "Share Calendar" : "Del kalender",
+    "More" : "Mere",
+    "Edit" : "Redigér",
     "group" : "gruppe",
     "New Calendar" : "Ny kalender",
     "Subscriptions" : "Abonnementer",

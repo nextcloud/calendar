@@ -83,6 +83,8 @@ OC.L10N.register(
     "Month" : "Mesec",
     "Today" : "Danes",
     "Share Calendar" : "Omogoči souporabo koledarja",
+    "More" : "Več",
+    "Edit" : "Uredi",
     "group" : "skupina",
     "New Calendar" : "Nov koledar",
     "Subscriptions" : "Naročila",

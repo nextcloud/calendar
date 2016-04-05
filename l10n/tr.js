@@ -83,6 +83,8 @@ OC.L10N.register(
     "Month" : "Ay",
     "Today" : "Bugün",
     "Share Calendar" : "Takvimi Paylaş",
+    "More" : "Daha fazla",
+    "Edit" : "Düzenle",
     "group" : "grup",
     "New Calendar" : "Yeni Takvim",
     "Subscriptions" : "Abonelikler",

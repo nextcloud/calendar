@@ -78,6 +78,8 @@ OC.L10N.register(
     "Month" : "Месяц",
     "Today" : "Сегодня",
     "Share Calendar" : "Поделиться календарем",
+    "More" : "Больше",
+    "Edit" : "Редактировать",
     "group" : "группа",
     "New Calendar" : "Новый Календарь",
     "Subscriptions" : "Подписки",

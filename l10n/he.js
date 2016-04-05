@@ -83,6 +83,8 @@ OC.L10N.register(
     "Month" : "חודש",
     "Today" : "היום",
     "Share Calendar" : "שיתוף לוח שנה",
+    "More" : "יותר",
+    "Edit" : "עריכה",
     "group" : "קבוצה",
     "New Calendar" : "לוח שנה חדש",
     "Subscriptions" : "מנויים",
