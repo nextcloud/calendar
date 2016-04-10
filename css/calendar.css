@@ -26,6 +26,11 @@
 	background-size: 25px;
 }
 
+.app {
+	height: 100%;
+	width: 100%;
+}
+
 .fc-state-highlight.fc-day-number,
 #fullcalendar tbody tr,
 #fullcalendar tbody tr:hover,
