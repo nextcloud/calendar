@@ -26,8 +26,8 @@
 * Description: The fullcalendar controller.
 */
 
-app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'VEvent', 'is', 'uiCalendarConfig', '$uibModal',
-	function ($scope, $rootScope, $window, CalendarService, VEventService, SettingsService, TimezoneService, VEvent, is, uiCalendarConfig, $uibModal) {
+app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'VEvent', 'is', 'uiCalendarConfig', 'EventsEditorDialogService',
+	function ($scope, $rootScope, $window, CalendarService, VEventService, SettingsService, TimezoneService, VEvent, is, uiCalendarConfig, EventsEditorDialogService) {
 		'use strict';
 
 		is.loading = true;
@@ -58,6 +58,23 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 					$scope.eventSource[url]);
 				switcher.splice(switcher.indexOf(url), 1);
 			}
+		}
+
+		function createAndRenderEvent(calendar, data, start, end, tz) {
+			VEventService.create(calendar, data).then(function(vevent) {
+				if (calendar.enabled) {
+					var eventsToRender = vevent.getFcEvent(start, end, tz);
+					angular.forEach(eventsToRender, function (event) {
+						uiCalendarConfig.calendars.calendar.fullCalendar('renderEvent', event);
+					});
+				}
+			});
+		}
+
+		function deleteAndRemoveEvent(vevent, fcEvent) {
+			VEventService.delete(vevent).then(function() {
+				uiCalendarConfig.calendars.calendar.fullCalendar('removeEvents', fcEvent.id);
+			});
 		}
 
 		$scope.$watchCollection('calendars', function(newCalendarCollection, oldCalendarCollection) {
@@ -111,52 +128,6 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 				}
 			});
 		});
-
-		/**
-		 * Creates a New Calendar Events Dialog
-		 * - only contains the start date and the end date.
-		 */
-
-		$scope.newEvent = function (start, end, jsEvent, view) {
-			uiCalendarConfig.calendars.calendar.fullCalendar('removeEvents', 'new');
-
-			var fcEvent = {
-				id: 'new',
-				allDay: !start.hasTime() && !end.hasTime(),
-				start: start.clone(),
-				end: end.clone(),
-				title: t('calendar', 'New event'),
-				className: 'new-event-dummy',
-				editable: false
-			};
-
-			start.add(start.toDate().getTimezoneOffset(), 'minutes');
-			end.add(end.toDate().getTimezoneOffset(), 'minutes');
-
-			var vevent = VEvent.fromStartEnd(start, end, $scope.defaulttimezone);
-			$scope._initializeEventEditor(vevent, null, vevent.getSimpleEvent(null), true, function() {
-				uiCalendarConfig.calendars.calendar.fullCalendar('renderEvent', fcEvent);
-				uiCalendarConfig.calendars.calendar.fullCalendar('unselect');
-
-				return $scope._calculatePopoverPosition(angular.element('.new-event-dummy')[0], view);
-			}, function(vevent) {
-				VEventService.create(vevent.calendar, vevent.data).then(function(vevent) {
-					var eventsToRender = vevent.getFcEvent(view.start, view.end, $scope.defaulttimezone);
-					angular.forEach(eventsToRender, function(event) {
-						uiCalendarConfig.calendars.calendar.fullCalendar('removeEvents', 'new');
-						uiCalendarConfig.calendars.calendar.fullCalendar(
-							'renderEvent',
-							event
-						);
-					});
-				});
-			}, function() {
-				//nothing to do
-				uiCalendarConfig.calendars.calendar.fullCalendar('removeEvents', 'new');
-			}, function() {
-				uiCalendarConfig.calendars.calendar.fullCalendar('removeEvents', 'new');
-			}, null);
-		};
 
 		$scope._calculatePopoverPosition = function(target, view) {
 			var clientRect = target.getClientRects()[0],
@@ -217,140 +188,7 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 			return position;
 		};
 
-		$scope._initializeEventEditor = function(vevent, recurrenceId, simpleEvent, isNew, positionCallback, successCallback, deleteCallBack, cancelCallback, fcEvent) {
-			// Don't open the same dialog again
-			if ($scope.eventModalVEvent === vevent && $scope.eventModalRecurrenceId === recurrenceId) {
-				return;
-			}
 
-			var oldFcEvent = $scope.eventModalFcEvent;
-
-			if ($scope.eventModal !== null) {
-				$scope.eventModal.dismiss('superseded');
-			}
-
-			$scope.eventModalVEvent = vevent;
-			$scope.eventModalRecurrenceId = recurrenceId;
-			$scope.eventModalFcEvent = fcEvent;
-
-			$scope.eventModal = $uibModal.open({
-				templateUrl: 'eventspopovereditor.html',
-				controller: 'EventsPopoverEditorController',
-				windowClass: 'popover',
-				appendTo: angular.element('#popover-container'),
-				resolve: {
-					vevent: function() {
-						return vevent;
-					},
-					simpleEvent: function() {
-						return simpleEvent;
-					},
-					isNew: function() {
-						return isNew;
-					}
-				},
-				scope: $scope
-			});
-
-			$scope.eventModal.rendered.then(function() {
-				angular.element('#popover-container').css('display', 'none');
-
-				var position = positionCallback();
-				angular.forEach(position, function(v) {
-					angular.element('.modal').css(v.name, v.value);
-				});
-
-				angular.element('#popover-container').css('display', 'block');
-
-				if (fcEvent) {
-					fcEvent.editable = false;
-					uiCalendarConfig.calendars.calendar.fullCalendar('updateEvent', fcEvent);
-					if (oldFcEvent) {
-						oldFcEvent.editable = oldFcEvent.calendar.writable;
-						uiCalendarConfig.calendars.calendar.fullCalendar('updateEvent', oldFcEvent);
-					} else {
-						uiCalendarConfig.calendars.calendar.fullCalendar('removeEvents', 'new');
-					}
-				}
-			});
-
-			$scope.eventModal.result.then(function(result) {
-				if (result.action === 'save') {
-					successCallback(result.event);
-
-					$scope.eventModal = null;
-					$scope.eventModalVEvent = null;
-					$scope.eventModalRecurrenceId = null;
-					$scope.eventModalFcEvent = null;
-
-				} else if (result.action === 'proceed') {
-					$scope.eventModal = $uibModal.open({
-						templateUrl: 'eventssidebareditor.html',
-						controller: 'EventsSidebarEditorController',
-						appendTo: angular.element('#app-content'),
-						resolve: {
-							vevent: function() {
-								return vevent;
-							},
-							isNew: function() {
-								return isNew;
-							},
-							simpleEvent: function() {
-								return result.properties;
-							},
-							emailAddress: function() {
-								return angular.element('#fullcalendar').attr('data-emailAddress');
-							}
-						},
-						scope: $scope
-					});
-					angular.element('#app-content').addClass('with-app-sidebar');
-
-					$scope.eventModal.result.then(function(event) {
-						successCallback(event);
-
-						$scope.eventModal = null;
-						$scope.eventModalVEvent = null;
-						$scope.eventModalRecurrenceId = null;
-						$scope.eventModalFcEvent = null;
-
-						angular.element('#app-content').removeClass('with-app-sidebar');
-					}, function(reason) {
-						if (reason === 'delete') {
-							deleteCallBack(vevent);
-							$scope.eventModal = null;
-						} else if (reason !== 'superseded') {
-							if ($scope.eventModalFcEvent) {
-								$scope.eventModalFcEvent.editable = $scope.eventModalFcEvent.calendar.writable;
-								uiCalendarConfig.calendars.calendar.fullCalendar('updateEvent', $scope.eventModalFcEvent);
-							}
-							cancelCallback();
-
-							$scope.eventModalVEvent = null;
-							$scope.eventModalRecurrenceId = null;
-							$scope.eventModalFcEvent = null;
-						}
-
-						angular.element('#app-content').removeClass('with-app-sidebar');
-					});
-				}
-			}, function(reason) {
-				if (reason === 'delete') {
-					deleteCallBack(vevent);
-					$scope.eventModal = null;
-				} else if (reason !== 'superseded') {
-					if ($scope.eventModalFcEvent) {
-						$scope.eventModalFcEvent.editable = $scope.eventModalFcEvent.calendar.writable;
-						uiCalendarConfig.calendars.calendar.fullCalendar('updateEvent', $scope.eventModalFcEvent);
-					}
-					cancelCallback();
-
-					$scope.eventModalVEvent = null;
-					$scope.eventModalRecurrenceId = null;
-					$scope.eventModalFcEvent = null;
-				}
-			});
-		};
 
 		/**
 		 * Calendar UI Configuration.
@@ -374,6 +212,8 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 			momentWeekHelper.add(1, 'days');
 		}
 
+
+
 		$scope.uiConfig = {
 			calendar: {
 				height: w.height() - angular.element('#header').height(),
@@ -388,75 +228,88 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 				defaultView: angular.element('#fullcalendar').attr('data-defaultView'),
 				header: false,
 				firstDay: moment().startOf('week').format('d'),
-				select: $scope.newEvent,
+				select: function (start, end, jsEvent, view) {
+					var writableCalendars = $scope.calendars.filter(function(elem) {
+						return elem.writable;
+					});
+
+					if (writableCalendars.length === 0) {
+						OC.Notification.showTemporary(t('calendar', 'Please create a calendar first.'));
+						return;
+					}
+
+					start.add(start.toDate().getTimezoneOffset(), 'minutes');
+					end.add(end.toDate().getTimezoneOffset(), 'minutes');
+
+					var vevent = VEvent.fromStartEnd(start, end, $scope.defaulttimezone);
+					vevent.calendar = writableCalendars[0];
+
+					var timestamp = Date.now();
+					var fcEventClass = 'new-event-dummy-' + timestamp;
+
+					var fcEvent = vevent.getFcEvent(view.start, view.end, $scope.defaulttimezone)[0];
+					fcEvent.title = t('calendar', 'New event');
+					fcEvent.className.push(fcEventClass);
+					fcEvent.writable = false;
+					uiCalendarConfig.calendars.calendar.fullCalendar('renderEvent', fcEvent);
+
+					EventsEditorDialogService.open($scope, fcEvent, function() {
+						return $scope._calculatePopoverPosition(angular.element('.' + fcEventClass)[0], view);
+					}, function() {
+						return null;
+					}, function() {
+						uiCalendarConfig.calendars.calendar.fullCalendar('removeEvents', function(fcEventToCheck) {
+							if (Array.isArray(fcEventToCheck.className)) {
+								return (fcEventToCheck.className.indexOf(fcEventClass) !== -1);
+							} else {
+								return false;
+							}
+						});
+					}).then(function(result) {
+						createAndRenderEvent(result.calendar, result.vevent.data, view.start, view.end, $scope.defaulttimezone);
+					}).catch(function() {
+						//fcEvent is removed by unlock callback
+						//no need to anything
+						return null;
+					});
+				},
 				eventLimit: true,
 				eventClick: function(fcEvent, jsEvent, view) {
-					var oldCalendar = fcEvent.vevent.calendar;
+					var vevent = fcEvent.vevent;
+					var oldCalendar = vevent.calendar;
+					var fc = fcEvent;
 
-					$scope._initializeEventEditor(fcEvent.vevent, fcEvent.recurrenceId, fcEvent.getSimpleEvent(), false, function() {
+					EventsEditorDialogService.open($scope, fcEvent, function() {
 						return $scope._calculatePopoverPosition(jsEvent.currentTarget, view);
-					}, function(vevent) {
-						if (oldCalendar === vevent.calendar) {
+					}, function() {
+						fc.editable = false;
+						uiCalendarConfig.calendars.calendar.fullCalendar('updateEvent', fc);
+					}, function() {
+						fc.editable = fcEvent.calendar.writable;
+						uiCalendarConfig.calendars.calendar.fullCalendar('updateEvent', fc);
+					}).then(function(result) {
+						// was the event moved to another calendar?
+						if (result.calendar === oldCalendar) {
 							VEventService.update(vevent).then(function() {
-								var id = vevent.uri;
-								if (fcEvent.recurrenceId) {
-									id += fcEvent.recurrenceId;
+								uiCalendarConfig.calendars.calendar.fullCalendar('removeEvents', fcEvent.id);
+
+								if (result.calendar.enabled) {
+									var eventsToRender = vevent.getFcEvent(view.start, view.end, $scope.defaulttimezone);
+									angular.forEach(eventsToRender, function (event) {
+										uiCalendarConfig.calendars.calendar.fullCalendar('renderEvent', event);
+									});
 								}
-
-								uiCalendarConfig.calendars.calendar.fullCalendar(
-									'removeEvents',
-									id
-								);
-
-								var eventsToRender = vevent.getFcEvent(view.start, view.end, $scope.defaulttimezone);
-								angular.forEach(eventsToRender, function(event) {
-									uiCalendarConfig.calendars.calendar.fullCalendar(
-										'renderEvent',
-										event
-									);
-								});
 							});
 						} else {
-							var newCalendar = vevent.calendar;
-							vevent.calendar = oldCalendar;
-							VEventService.delete(vevent).then(function() {
-								var id = vevent.uri;
-								if (fcEvent.recurrenceId) {
-									id += fcEvent.recurrenceId;
-								}
-
-								uiCalendarConfig.calendars.calendar.fullCalendar(
-									'removeEvents',
-									id
-								);
-
-								VEventService.create(newCalendar, vevent.data).then(function(vevent) {
-									var eventsToRender = vevent.getFcEvent(view.start, view.end, $scope.defaulttimezone);
-									angular.forEach(eventsToRender, function(event) {
-										uiCalendarConfig.calendars.calendar.fullCalendar(
-											'renderEvent',
-											event
-										);
-									});
-								});
-							});
+							deleteAndRemoveEvent(vevent, fcEvent);
+							createAndRenderEvent(result.calendar, result.vevent.data, view.start, view.end, $scope.defaulttimezone);
 						}
-					}, function(vevent) {
-						VEventService.delete(vevent).then(function() {
-							var id = vevent.uri;
-							if (fcEvent.recurrenceId) {
-								id += fcEvent.recurrenceId;
-							}
-
-							uiCalendarConfig.calendars.calendar.fullCalendar(
-								'removeEvents',
-								id
-							);
-						});
-
-					}, function() {
-						//do nothing to cancel editing
-					}, fcEvent);
+						console.log(result);
+					}).catch(function(reason) {
+						if (reason === 'delete') {
+							deleteAndRemoveEvent(vevent, fcEvent);
+						}
+					});
 				},
 				eventResize: function (fcEvent, delta, revertFunc) {
 					fcEvent.resize(delta);
@@ -469,17 +322,6 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 					VEventService.update(fcEvent.vevent).catch(function() {
 						revertFunc();
 					});
-				},
-				eventRender: function(fcEvent) {
-					if (fcEvent.calendar) {
-						if (fcEvent.backgroundColor !== fcEvent.calendar.color) {
-							fcEvent.backgroundColor = fcEvent.calendar.color;
-							fcEvent.borderColor = fcEvent.calendar.color;
-							fcEvent.textColor = fcEvent.calendar.textColor;
-
-							uiCalendarConfig.calendars.calendar.fullCalendar('updateEvent', fcEvent);
-						}
-					}
 				},
 				viewRender: function (view, element) {
 					angular.element('#firstrow').find('.datepicker_current').html(view.title).text();
@@ -503,16 +345,6 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 			}
 		};
 
-
-		/**
-		 * After a calendar was created:
-		 * - create a new event source object
-		 * - add event source to fullcalendar when enabled is true
-		 */
-		$rootScope.$on('createdCalendar', function (event, createdCalendar) {
-			$scope.eventSource[createdCalendar.url] = createdCalendar.fcEventSource;
-		});
-
 		/**
 		 * After a calendar was updated:
 		 * - show/hide
@@ -523,12 +355,8 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 			var url = updatedCalendar.url;
 
 			if ($scope.eventSource[url].color !== updatedCalendar.color) {
-				// Sadly fullcalendar doesn't support changing a calendar's
-				// color without removing and then adding it again as an eventSource
-				$scope.eventSource[url].color = updatedCalendar.color;
-				angular.element('.fcCalendar-id-' + updatedCalendar.tmpId).css('background-color', updatedCalendar.color);
-				angular.element('.fcCalendar-id-' + updatedCalendar.tmpId).css('border-color', updatedCalendar.color);
-				angular.element('.fcCalendar-id-' + updatedCalendar.tmpId).css('color', updatedCalendar.textColor);
+				hideCalendar(updatedCalendar.url);
+				showCalendar(updatedCalendar.url);
 			}
 			$scope.eventSource[url].editable = updatedCalendar.writable;
 		});

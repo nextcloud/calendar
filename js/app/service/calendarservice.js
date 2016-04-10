@@ -394,7 +394,7 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 		this._getACLFromResponse(props);
 
 		var simple = {
-			enabled: props['{' + DavClient.NS_OWNCLOUD + '}calendar-enabled'],
+			enabled: props['{' + DavClient.NS_OWNCLOUD + '}calendar-enabled'] === '1',
 			displayname: props['{' + DavClient.NS_DAV + '}displayname'],
 			color: props['{' + DavClient.NS_APPLE + '}calendar-color'],
 			order: props['{' + DavClient.NS_APPLE + '}calendar-order'],
