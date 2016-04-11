@@ -3,6 +3,14 @@
 var path = require('path');
 
 module.exports = function(grunt) {
+  function loadOptionalTask(name) {
+    var root = path.resolve('node_modules');
+    var tasksdir = path.join(root, name, 'tasks');
+    if (grunt.file.exists(tasksdir)) {
+      grunt.loadNpmTasks(name);
+    }
+  }
+
   var pkg = grunt.file.readJSON('package.json');
   grunt.initConfig({
     pkg: pkg,
@@ -258,8 +266,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-mocha-cli');
   grunt.loadNpmTasks('grunt-mocha-istanbul');
-  grunt.loadNpmTasks('grunt-node-inspector');
   grunt.loadNpmTasks('grunt-release');
+
+  loadOptionalTask('grunt-node-inspector');
 
   grunt.loadTasks('tasks');
 

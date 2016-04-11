@@ -25,7 +25,7 @@
     "branch": "master",
     "commit": "aac08f74e8d10fdf17cdfb9ee4edd205b9363f74"
   },
-  "_source": "https://github.com/evert/davclient.js.git",
+  "_source": "git://github.com/evert/davclient.js.git",
   "_target": "*",
-  "_originalSource": "https://github.com/evert/davclient.js.git"
+  "_originalSource": "evert/davclient.js"
 }

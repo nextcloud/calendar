@@ -60,11 +60,19 @@ ICAL.stringify = (function() {
   stringify.component = function(component, designSet) {
     var name = component[0].toUpperCase();
     var result = 'BEGIN:' + name + LINE_ENDING;
-    designSet = designSet || design.getDesignSet(component[0]);
 
     var props = component[1];
     var propIdx = 0;
     var propLen = props.length;
+
+    var designSetName = component[0];
+    // rfc6350 requires that in vCard 4.0 the first component is the VERSION
+    // component with as value 4.0, note that 3.0 does not have this requirement.
+    if (designSetName === 'vcard' && component[1].length > 0 &&
+            !(component[1][0][0] === "version" && component[1][0][3] === "4.0")) {
+      designSetName = "vcard3";
+    }
+    designSet = designSet || design.getDesignSet(designSetName);
 
     for (; propIdx < propLen; propIdx++) {
       result += stringify.property(props[propIdx], designSet) + LINE_ENDING;
@@ -90,9 +98,11 @@ ICAL.stringify = (function() {
    *        jCal/jCard property array
    * @param {ICAL.design.designSet} designSet
    *        The design data to use for this property
+   * @param {Boolean} noFold
+   *        If true, the line is not folded
    * @return {String}       The iCalendar/vCard string
    */
-  stringify.property = function(property, designSet) {
+  stringify.property = function(property, designSet, noFold) {
     var name = property[0].toUpperCase();
     var jsName = property[0];
     var params = property[1];
@@ -107,6 +117,9 @@ ICAL.stringify = (function() {
       if (params.hasOwnProperty(paramName)) {
         var multiValue = (paramName in designSet.param) && designSet.param[paramName].multiValue;
         if (multiValue && Array.isArray(value)) {
+          if (designSet.param[paramName].multiValueSeparateDQuote) {
+            multiValue = '"' + multiValue + '"';
+          }
           value = value.map(stringify._rfc6868Unescape);
           value = stringify.multiValue(value, multiValue, "unknown", null, designSet);
         } else {
@@ -172,21 +185,21 @@ ICAL.stringify = (function() {
 
     if (multiValue && structuredValue) {
       line += stringify.multiValue(
-        property[3], structuredValue, valueType, multiValue, designSet
+        property[3], structuredValue, valueType, multiValue, designSet, structuredValue
       );
     } else if (multiValue) {
       line += stringify.multiValue(
-        property.slice(3), multiValue, valueType, null, designSet
+        property.slice(3), multiValue, valueType, null, designSet, false
       );
     } else if (structuredValue) {
       line += stringify.multiValue(
-        property[3], structuredValue, valueType, null, designSet
+        property[3], structuredValue, valueType, null, designSet, structuredValue
       );
     } else {
-      line += stringify.value(property[3], valueType, designSet);
+      line += stringify.value(property[3], valueType, designSet, false);
     }
 
-    return ICAL.helpers.foldline(line);
+    return noFold ? line : ICAL.helpers.foldline(line);
   };
 
   /**
@@ -229,16 +242,16 @@ ICAL.stringify = (function() {
    *
    * @return {String}           iCalendar/vCard string for value
    */
-  stringify.multiValue = function(values, delim, type, innerMulti, designSet) {
+  stringify.multiValue = function(values, delim, type, innerMulti, designSet, structuredValue) {
     var result = '';
     var len = values.length;
     var i = 0;
 
     for (; i < len; i++) {
       if (innerMulti && Array.isArray(values[i])) {
-        result += stringify.multiValue(values[i], innerMulti, type, null, designSet);
+        result += stringify.multiValue(values[i], innerMulti, type, null, designSet, structuredValue);
       } else {
-        result += stringify.value(values[i], type, designSet);
+        result += stringify.value(values[i], type, designSet, structuredValue);
       }
 
       if (i !== (len - 1)) {
@@ -259,9 +272,9 @@ ICAL.stringify = (function() {
    *  (like boolean, date-time, etc..)
    * @return {String}                   iCalendar/vCard value for single value
    */
-  stringify.value = function(value, type, designSet) {
+  stringify.value = function(value, type, designSet, structuredValue) {
     if (type in designSet.value && 'toICAL' in designSet.value[type]) {
-      return designSet.value[type].toICAL(value);
+      return designSet.value[type].toICAL(value, structuredValue);
     }
     return value;
   };

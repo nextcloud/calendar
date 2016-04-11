@@ -23,8 +23,8 @@ that doesn't affect the API or just adds methods and you don't want to waste
 time discussing it, feel free to just send a pull request and we'll see.
 
 When you send a pull request, don't forget to call `grunt package` to ensure the
-browser build in `build/ical.js` is updated. This should be done in a separate
-commit.
+browser build in `build/ical.js`, its minified counterpart and the source map
+is updated. These files should be put into a separate commit.
 
 Also, you should check for linter errors and run the tests using `grunt
 linters` and `grunt test-node`. See the next section for details on tests. As

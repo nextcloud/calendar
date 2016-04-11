@@ -152,10 +152,13 @@ output in the `api/` subdirectory.
 
 ### Packaging
 When you are done with your work, you can run `grunt package` to create the
-single-file build for use in the browser. This file needs to be checked in (in
-a separate commit) and can be found in [build/ical.js](build/ical.js). Please
-see [CONTRIBUTING.md](CONTRIBUTING.md) for more details.
+single-file build for use in the browser, including its minified counterpart
+and the source map. These files need to be checked in (in a separate commit)
+and can be found in [build/ical.js](build/ical.js),
+[build/ical.min.js](build/ical.min.js) and
+[build/ical.min.js.map](build/ical.min.js.map). Please see
+[CONTRIBUTING.md](CONTRIBUTING.md) for more details.
 
-Running the `package` target will also create a minified version in
-`build/ical.min.js`. This file is not pushed to the repository at the moment,
-but you can use it for front end projects.
+## License
+ical.js is licensed under the
+[Mozilla Public License](https://www.mozilla.org/MPL/2.0/), version 2.0.

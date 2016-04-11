@@ -207,20 +207,30 @@ ICAL.Property = (function() {
     /**
      * Gets a parameter on the property.
      *
-     * @param {String} name     Property name (lowercase)
-     * @return {String}         Property value
+     * @param {String}        name   Property name (lowercase)
+     * @return {Array|String}        Property value
      */
     getParameter: function(name) {
-      return this.jCal[PROP_INDEX][name];
+      if (name in this.jCal[PROP_INDEX]) {
+        return this.jCal[PROP_INDEX][name];
+      } else {
+        return undefined;
+      }
     },
 
     /**
      * Sets a parameter on the property.
      *
-     * @param {String} name     The parameter name
-     * @param {String} value    The parameter value
+     * @param {String}       name     The parameter name
+     * @param {Array|String} value    The parameter value
      */
     setParameter: function(name, value) {
+      var lcname = name.toLowerCase();
+      if (typeof value === "string" &&
+          lcname in this._designSet.param &&
+          'multiValue' in this._designSet.param[lcname]) {
+          value = [value];
+      }
       this.jCal[PROP_INDEX][name] = value;
     },
 
@@ -374,9 +384,9 @@ ICAL.Property = (function() {
      * The string representation of this component.
      * @return {String}
      */
-    toICAL: function() {
+    toICALString: function() {
       return ICAL.stringify.property(
-        this.jCal, this._designSet
+        this.jCal, this._designSet, true
       );
     }
   };
@@ -384,10 +394,12 @@ ICAL.Property = (function() {
   /**
    * Create an {@link ICAL.Property} by parsing the passed iCalendar string.
    *
-   * @param {String} str        The iCalendar string to parse
+   * @param {String} str                        The iCalendar string to parse
+   * @param {ICAL.design.designSet=} designSet  The design data to use for this property
+   * @return {ICAL.Property}                    The created iCalendar property
    */
-  Property.fromString = function(str) {
-    return new Property(ICAL.parse.property(str));
+  Property.fromString = function(str, designSet) {
+    return new Property(ICAL.parse.property(str, designSet));
   };
 
   return Property;

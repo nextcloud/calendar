@@ -97,7 +97,7 @@
     /**
      * Returns a clone of the time object.
      *
-     * @return {ICAL.Duration}      The cloned object
+     * @return {ICAL.Time}              The cloned object
      */
     clone: function() {
       return new ICAL.Time(this._time, this.zone);
@@ -1113,7 +1113,7 @@
 
     var zone;
 
-    if (aValue[19] === 'Z') {
+    if (aValue[19] && aValue[19] === 'Z') {
       zone = 'Z';
     } else if (prop) {
       zone = prop.getParameter('tzid');

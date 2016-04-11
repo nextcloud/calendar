@@ -17,7 +17,7 @@ module.exports = function(grunt) {
     var done = this.async();
     grunt.util.spawn({
       cmd: 'git',
-      args: ['diff', '--shortstat', 'build/ical.js'],
+      args: ['diff', '--shortstat', 'build/ical.js', 'build/ical.min.js', 'build/ical.min.js.map'],
     }, function(error, result, code) {
       if (result.stdout.length) {
         grunt.fail.fatal('Browser build is not up to date, please run `grunt package`');

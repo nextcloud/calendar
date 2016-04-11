@@ -156,7 +156,7 @@
       var propsToCopy = ["weeks", "days", "hours",
                          "minutes", "seconds", "isNegative"];
       for (var key in propsToCopy) {
-        /* istanbul ignore else */
+        /* istanbul ignore if */
         if (!propsToCopy.hasOwnProperty(key)) {
           continue;
         }

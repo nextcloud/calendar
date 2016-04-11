@@ -18,6 +18,7 @@
    *
    * Also, normalization is not yet implemented for this class!
    *
+   * @alias ICAL.VCardTime
    * @class
    * @extends {ICAL.Time}
    * @param {Object} data                           The data for the time instance
@@ -45,7 +46,7 @@
 
     this.fromData(data, zone);
   };
-  ICAL.helpers.inherits(ICAL.Time, ICAL.VCardTime, {
+  ICAL.helpers.inherits(ICAL.Time, ICAL.VCardTime, /** @lends ICAL.VCardTime */ {
 
     /**
      * The class identifier.
