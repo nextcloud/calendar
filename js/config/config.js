@@ -40,5 +40,11 @@ app.config(['$provide', '$routeProvider', '$httpProvider',
 		ICAL.design.defaultSet.param['x-oc-group-id'] = {
 			allowXName: true
 		};
+
+		angular.forEach($.fullCalendar.langs, function(obj, lang) {
+			$.fullCalendar.lang(lang, {
+				timeFormat: obj.mediumTimeFormat
+			});
+		});
 	}
 ]);
