@@ -56,7 +56,7 @@ app.controller('SettingsController', ['$scope', '$uibModal',
 				});
 			}
 
-			angular.element('#import').value = '';
+			angular.element('#import').val(null);
 		});
 	}
 ]);
