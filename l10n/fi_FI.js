@@ -10,6 +10,7 @@ OC.L10N.register(
     "Optional" : "Valinnainen",
     "Does not attend" : "Ei osallistu",
     "You are in an unknown timezone ({tz}), falling back to UTC" : "Olet tuntemattomalla aikavyöhykkeellä ({tz}), palataan UTC-tilaan",
+    "Please create a calendar first." : "Luo ensin kalenteri.",
     "New event" : "Uusi tapahtuma",
     "Attendees" : "Osallistujat",
     "Reminders" : "Muistutukset",

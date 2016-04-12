@@ -9,6 +9,7 @@
     "Optional" : "Në dëshirë",
     "Does not attend" : "Nuk merr pjesë",
     "You are in an unknown timezone ({tz}), falling back to UTC" : "Gjendeni një zonë kohore të panjohur ({tz}), po përdoret parazgjedhja UTC",
+    "Please create a calendar first." : "Ju lutemi, së pari krijoni një kalendar.",
     "New event" : "Veprimtari e re",
     "Attendees" : "Pjesëmarrës",
     "Reminders" : "Kujtues",
