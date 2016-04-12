@@ -1,6 +1,5 @@
 <div>
-	<form class="events">
-
+	<form class="events" ng-submit="save()">
 		<fieldset class="events--fieldset" ng-disabled="readOnly">
 			<input
 					class="events--input h2"
@@ -43,37 +42,37 @@
 		</fieldset>
 
 		<fieldset class="events--fieldset pull-left" ng-show="!readOnly">
-			<button ng-click="delete()" ng-show="!is_new" class="events--button button btn delete">
+			<button ng-click="delete()" ng-show="!is_new" class="events--button button btn delete" type="button">
 				<?php p($l->t('Delete')); ?>
 			</button>
-			<button ng-click="cancel()" class="events--button button btn">
+			<button ng-click="cancel()" class="events--button button btn" type="button">
 				<?php p($l->t('Cancel')); ?>
 			</button>
 		</fieldset>
 
 		<fieldset class="events--fieldset pull-right" ng-show="!readOnly">
-			<button ng-click="proceed()" class="events--button button btn">
+			<button ng-click="proceed()" class="events--button button btn" type="button">
 				<?php p($l->t('More ...')); ?>
 			</button>
 			<button
 				class="events--button button btn primary"
-				ng-click="save()"
-				ng-show="is_new">
+				ng-show="is_new"
+				type="submit">
 				<?php p($l->t('Create')); ?>
 			</button>
 			<button
 				class="evens--button button btn primary"
-				ng-click="save()"
-				ng-show="!is_new">
+				ng-show="!is_new"
+				type="submit">
 				<?php p($l->t('Update')); ?>
 			</button>
 		</fieldset>
 
 		<fieldset class="events--fieldset pull-right" ng-show="readOnly">
-			<button ng-click="proceed()" class="events--button button btn">
+			<button ng-click="proceed()" class="events--button button btn" type="button">
 				<?php p($l->t('More ...')); ?>
 			</button>
-			<button ng-click="cancel()" class="events--button button btn">
+			<button ng-click="cancel()" class="events--button button btn" type="button">
 				<?php p($l->t('Close')); ?>
 			</button>
 		</fieldset>
