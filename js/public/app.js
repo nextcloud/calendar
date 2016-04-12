@@ -913,6 +913,10 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
 				return;
 			}
 
+			if ($scope.properties.dtstart.value.isSame($scope.properties.dtend.value)) {
+				$scope.properties.dtend.value = moment($scope.properties.dtend.value.add(1, 'hours'));
+			}
+
 			if ($scope.properties.dtstart.parameters.zone === 'floating' &&
 				$scope.properties.dtend.parameters.zone === 'floating') {
 				$scope.properties.dtstart.parameters.zone = $scope.defaulttimezone;
