@@ -160,6 +160,33 @@ app.controller('VAlarmController', function($scope) {
 	};
 
 	$scope.add = function() {
+		var setTriggers = [];
+		angular.forEach($scope.properties.alarm, function(alarm) {
+			if (alarm.trigger && alarm.trigger.type === 'duration') {
+				setTriggers.push(alarm.trigger.value);
+			}
+		});
+
+		var triggersToSuggest = [];
+		angular.forEach($scope.reminderSelect, function(option) {
+			if (typeof option.trigger !== 'number' || option.trigger > -1 * 15 * 60) {
+				return;
+			}
+
+			triggersToSuggest.push(option.trigger);
+		});
+
+		var triggerToSet = null;
+		for (var i=0; i < triggersToSuggest.length; i++) {
+			if (setTriggers.indexOf(triggersToSuggest[i]) === -1) {
+				triggerToSet = triggersToSuggest[i];
+				break;
+			}
+		}
+		if (triggerToSet === null) {
+			triggerToSet = triggersToSuggest[triggersToSuggest.length - 1];
+		}
+
 		var alarm = {
 			id: $scope.newReminderId--,
 			action: {
@@ -168,7 +195,7 @@ app.controller('VAlarmController', function($scope) {
 			},
 			trigger: {
 				type: 'duration',
-				value: -900,
+				value: triggerToSet,
 				related: 'start'
 			},
 			repeat: {},
@@ -181,7 +208,7 @@ app.controller('VAlarmController', function($scope) {
 
 	$scope.remove = function (alarm) {
 		$scope.properties.alarm = $scope.properties.alarm.filter(function(elem) {
-			return elem.group !== alarm.group;
+			return elem !== alarm;
 		});
 	};
 

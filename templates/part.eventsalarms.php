@@ -28,7 +28,7 @@
 		<li class="advanced--list pull-left" ng-repeat="alarm in properties.alarm" ng-class="{ active : reminderoptions }">
 			<div class="advanced--toggler" ng-model="reminderoptions" ng-click="triggerEdit(alarm)">
 				<span class="pull-left margin-class">{{alarm | simpleReminderDescription}}</span>
-				<button class="advanced--button__icon pull-right icon-close" ng-click="remove(alarm.group)">
+				<button class="advanced--button__icon pull-right icon-close" ng-click="remove(alarm)">
 				</button>
 			</div>
 			<div class="reminderoptions pull-left full-width" ng-show="alarm.editor.editing">
