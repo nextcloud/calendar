@@ -1562,10 +1562,30 @@ app.directive('ocdatetimepicker', ["$compile", "$timeout", function($compile, $t
 
 			scope.date = null;
 			scope.time = null;
-			scope.ignoreWatch = false;
 
 			$compile(template)(scope);
 			element.append(template);
+
+			function updateFromUserInput() {
+				var date = element.find('.events--date').datepicker('getDate'),
+					hours = 0,
+					minutes = 0;
+
+				if (!scope.disabletime) {
+					hours = element.find('.events--time').timepicker('getHour');
+					minutes = element.find('.events--time').timepicker('getMinute');
+				}
+
+				var m = moment(date);
+				m.hours(hours);
+				m.minutes(minutes);
+				m.seconds(0);
+
+				//Hiding the timepicker is an ugly hack to mitigate a bug in the timepicker
+				//We might want to consider using another timepicker in the future
+				element.find('.events--time').timepicker('hide');
+				ngModelCtrl.$setViewValue(m);
+			}
 
 			var localeData = moment.localeData();
 			function initDatePicker() {
@@ -1579,7 +1599,8 @@ app.directive('ocdatetimepicker', ["$compile", "$timeout", function($compile, $t
 					firstDay: localeData.firstDayOfWeek(),
 					minDate: null,
 					showOtherMonths: true,
-					selectOtherMonths: true
+					selectOtherMonths: true,
+					onClose: updateFromUserInput
 				});
 			}
 			function initTimepicker() {
@@ -1587,7 +1608,8 @@ app.directive('ocdatetimepicker', ["$compile", "$timeout", function($compile, $t
 					showPeriodLabels: false,
 					showLeadingZero: true,
 					showPeriod: (localeData.longDateFormat('LT').toLowerCase().indexOf('a') !== -1),
-					duration: 0
+					duration: 0,
+					onClose: updateFromUserInput
 				});
 			}
 
@@ -1598,40 +1620,10 @@ app.directive('ocdatetimepicker', ["$compile", "$timeout", function($compile, $t
 				return ngModelCtrl.$modelValue;
 			}, function(value) {
 				if (moment.isMoment(value)) {
-					scope.ignoreWatch = true;
-
 					element.find('.events--date').datepicker('setDate', value.toDate());
 					element.find('.events--time').timepicker('setTime', value.toDate());
-
-					$timeout(function() {
-						scope.ignoreWatch = false;
-					}, 100);
 				}
 			});
-
-			scope.$watch('date + time', function() {
-				if (!scope.ignoreWatch) {
-					var date = element.find('.events--date').datepicker('getDate'),
-						hours = 0,
-						minutes = 0;
-
-					if (!scope.disabletime) {
-						hours = element.find('.events--time').timepicker('getHour');
-						minutes = element.find('.events--time').timepicker('getMinute');
-					}
-
-					var m = moment(date);
-					m.hours(hours);
-					m.minutes(minutes);
-					m.seconds(0);
-
-					//Hiding the timepicker is an ugly hack to mitigate a bug in the timepicker
-					//We might want to consider using another timepicker in the future
-					element.find('.events--time').timepicker('hide');
-					ngModelCtrl.$setViewValue(m);
-				}
-			});
-
 			element.on('$destroy', function() {
 				element.find('.events--date').datepicker('destroy');
 				element.find('.events--time').timepicker('destroy');
