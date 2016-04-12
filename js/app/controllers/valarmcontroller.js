@@ -146,14 +146,21 @@ app.controller('VAlarmController', function($scope) {
 	$scope._getUnitAndValue = function(value) {
 		var unit = 1;
 
-		for (var i = 0; i < $scope.reminderSelectTriggers.length && value !== 0; i++) {
-			var mod = value % $scope.reminderSelectTriggers[i];
+		var alarmFactors = [
+			60,
+			60,
+			24,
+			7
+		];
+
+		for (var i = 0; i < alarmFactors.length && value !== 0; i++) {
+			var mod = value % alarmFactors[i];
 			if (mod !== 0) {
 				break;
 			}
 
-			unit *= $scope.reminderSelectTriggers[i];
-			value /= $scope.reminderSelectTriggers[i];
+			unit *= alarmFactors[i];
+			value /= alarmFactors[i];
 		}
 
 		return [unit, value];
