@@ -124,7 +124,7 @@ app.controller('VAlarmController', function($scope) {
 		angular.extend(alarm.editor, {
 			triggerBeforeAfter: (alarm.trigger.value < 0) ? -1 : 1,
 			triggerTimeUnit: unitAndValue[0],
-			triggerValue: unitAndValue
+			triggerValue: unitAndValue[1]
 		});
 	};
 
