@@ -296,7 +296,7 @@
       }
 
       for (var k in this.parts) {
-        /* istanbul ignore else */
+        /* istanbul ignore if */
         if (!this.parts.hasOwnProperty(k)) {
           continue;
         }

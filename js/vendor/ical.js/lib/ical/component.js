@@ -276,14 +276,16 @@ ICAL.Component = (function() {
     },
 
     _removeObjectByIndex: function(jCalIndex, cache, index) {
+      cache = cache || [];
       // remove cached version
-      if (cache && cache[index]) {
+      if (cache[index]) {
         var obj = cache[index];
         if ("parent" in obj) {
             obj.parent = null;
         }
-        cache.splice(index, 1);
       }
+
+      cache.splice(index, 1);
 
       // remove it from the jCal
       this.jCal[jCalIndex].splice(index, 1);

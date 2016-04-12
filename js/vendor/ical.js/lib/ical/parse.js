@@ -275,19 +275,24 @@ ICAL.parse = (function() {
 
     var result;
     if (multiValue && structuredValue) {
-      value = parser._parseMultiValue(value, structuredValue, valueType, [], multiValue, state.designSet);
+      value = parser._parseMultiValue(value, structuredValue, valueType, [], multiValue, state.designSet, structuredValue);
       result = [name, params, valueType, value];
     } else if (multiValue) {
       result = [name, params, valueType];
-      parser._parseMultiValue(value, multiValue, valueType, result, null, state.designSet);
+      parser._parseMultiValue(value, multiValue, valueType, result, null, state.designSet, false);
     } else if (structuredValue) {
-      value = parser._parseMultiValue(value, structuredValue, valueType, [], null, state.designSet);
+      value = parser._parseMultiValue(value, structuredValue, valueType, [], null, state.designSet, structuredValue);
       result = [name, params, valueType, value];
     } else {
-      value = parser._parseValue(value, valueType, state.designSet);
+      value = parser._parseValue(value, valueType, state.designSet, false);
       result = [name, params, valueType, value];
     }
-
+    // rfc6350 requires that in vCard 4.0 the first component is the VERSION
+    // component with as value 4.0, note that 3.0 does not have this requirement.
+    if (state.component[0] === 'vcard' && state.component[1].length === 0 &&
+            !(name === 'version' && value === '4.0')) {
+      state.designSet = design.getDesignSet("vcard3");
+    }
     state.component[1].push(result);
   };
 
@@ -301,9 +306,9 @@ ICAL.parse = (function() {
    * @param {Object} designSet      The design data to use for this value
    * @return {Object} varies on type
    */
-  parser._parseValue = function(value, type, designSet) {
+  parser._parseValue = function(value, type, designSet, structuredValue) {
     if (type in designSet.value && 'fromICAL' in designSet.value[type]) {
-      return designSet.value[type].fromICAL(value);
+      return designSet.value[type].fromICAL(value, structuredValue);
     }
     return value;
   };
@@ -325,7 +330,7 @@ ICAL.parse = (function() {
     var result = {};
     var name, lcname;
     var value, valuePos = -1;
-    var type, multiValue;
+    var type, multiValue, mvdelim;
 
     // find the next '=' sign
     // use lastParam and pos to find name
@@ -341,10 +346,33 @@ ICAL.parse = (function() {
       }
       lcname = name.toLowerCase();
 
+      if (lcname in designSet.param && designSet.param[lcname].valueType) {
+        type = designSet.param[lcname].valueType;
+      } else {
+        type = DEFAULT_PARAM_TYPE;
+      }
+
+      if (lcname in designSet.param) {
+        multiValue = designSet.param[lcname].multiValue;
+        if (designSet.param[lcname].multiValueSeparateDQuote) {
+          mvdelim = parser._rfc6868Escape('"' + multiValue + '"');
+        }
+      }
+
       var nextChar = line[pos + 1];
       if (nextChar === '"') {
         valuePos = pos + 2;
         pos = helpers.unescapedIndexOf(line, '"', valuePos);
+        if (multiValue && pos != -1) {
+            var extendedValue = true;
+            while (extendedValue) {
+              if (line[pos + 1] == multiValue && line[pos + 2] == '"') {
+                pos = helpers.unescapedIndexOf(line, '"', pos + 3);
+              } else {
+                extendedValue = false;
+              }
+            }
+          }
         if (pos === -1) {
           throw new ParserError(
             'invalid line (no matching double quote) "' + line + '"'
@@ -375,24 +403,16 @@ ICAL.parse = (function() {
           pos = false;
         } else {
           lastParam = nextPos;
+          pos = nextPos;
         }
 
         value = line.substr(valuePos, nextPos - valuePos);
       }
 
-      if (lcname in designSet.param && designSet.param[lcname].valueType) {
-        type = designSet.param[lcname].valueType;
-      } else {
-        type = DEFAULT_PARAM_TYPE;
-      }
-
-      if (lcname in designSet.param) {
-        multiValue = designSet.param[lcname].multiValue;
-      }
-
       value = parser._rfc6868Escape(value);
       if (multiValue) {
-        result[lcname] = parser._parseMultiValue(value, multiValue, type, [], null, designSet);
+        var delimiter = mvdelim || multiValue;
+        result[lcname] = parser._parseMultiValue(value, delimiter, type, [], null, designSet);
       } else {
         result[lcname] = parser._parseValue(value, type, designSet);
       }
@@ -430,29 +450,32 @@ ICAL.parse = (function() {
    * @param {ICAL.design.designSet} designSet   The design data for this value
    * @return {?|Array.<?>}            Either an array of results, or the first result
    */
-  parser._parseMultiValue = function(buffer, delim, type, result, innerMulti, designSet) {
+  parser._parseMultiValue = function(buffer, delim, type, result, innerMulti, designSet, structuredValue) {
     var pos = 0;
     var lastPos = 0;
     var value;
+    if (delim.length === 0) {
+      return buffer;
+    }
 
     // split each piece
     while ((pos = helpers.unescapedIndexOf(buffer, delim, lastPos)) !== -1) {
       value = buffer.substr(lastPos, pos - lastPos);
       if (innerMulti) {
-        value = parser._parseMultiValue(value, innerMulti, type, [], null, designSet);
+        value = parser._parseMultiValue(value, innerMulti, type, [], null, designSet, structuredValue);
       } else {
-        value = parser._parseValue(value, type, designSet);
+        value = parser._parseValue(value, type, designSet, structuredValue);
       }
       result.push(value);
-      lastPos = pos + 1;
+      lastPos = pos + delim.length;
     }
 
     // on the last piece take the rest of string
     value = buffer.substr(lastPos);
     if (innerMulti) {
-      value = parser._parseMultiValue(value, innerMulti, type, [], null, designSet);
+      value = parser._parseMultiValue(value, innerMulti, type, [], null, designSet, structuredValue);
     } else {
-      value = parser._parseValue(value, type, designSet);
+      value = parser._parseValue(value, type, designSet, structuredValue);
     }
     result.push(value);
 
@@ -480,7 +503,7 @@ ICAL.parse = (function() {
     do {
       pos = buffer.indexOf('\n', lastPos) + 1;
 
-      if (buffer[pos - 2] === '\r') {
+      if (pos > 1 && buffer[pos - 2] === '\r') {
         newlineOffset = 2;
       } else {
         newlineOffset = 1;

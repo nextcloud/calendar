@@ -8,10 +8,13 @@
     "angular-ui-calendar": "",
     "jquery-timepicker": "",
     "jstzdetect": "",
-    "ical.js": "~1.1.2",
-    "davclient.js": "https://github.com/evert/davclient.js.git"
+    "ical.js": "mozilla-comm/ical.js#master",
+    "davclient.js": "evert/davclient.js"
   },
   "devDependencies": {
     "angular-mocks": ""
+  },
+  "resolutions": {
+    "angular": "1.5.3"
   }
 }

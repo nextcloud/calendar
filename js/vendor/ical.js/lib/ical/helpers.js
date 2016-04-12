@@ -9,14 +9,9 @@
 if (typeof module === 'object') {
   // CommonJS, where exports may be different each time.
   ICAL = module.exports;
-} else /* istanbul ignore next */ if (typeof window !== 'undefined') {
-  if (typeof ICAL !== 'object') {
-    /** @ignore */
-    this.ICAL = {};
-  }
-} else /* istanbul ignore next */ {
-  // ...?
-  ICAL = {};
+} else if (typeof ICAL !== 'object') {/* istanbul ignore next */
+  /** @ignore */
+  this.ICAL = {};
 }
 /* jshint ignore:end */
 
@@ -301,7 +296,7 @@ ICAL.helpers = {
   /**
    * Poor-man's cross-browser object extension. Doesn't support all the
    * features, but enough for our usage. Note that the target's properties are
-   * always overwritten with the source properties.
+   * not overwritten with the source properties.
    *
    * @example
    * var child = ICAL.helpers.extend(parent, {
@@ -315,7 +310,7 @@ ICAL.helpers = {
   extend: function(source, target) {
     for (var key in source) {
       var descr = Object.getOwnPropertyDescriptor(source, key);
-      if (descr) {
+      if (descr && !Object.getOwnPropertyDescriptor(target, key)) {
         Object.defineProperty(target, key, descr);
       }
     }

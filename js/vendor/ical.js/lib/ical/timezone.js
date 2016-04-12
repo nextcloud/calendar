@@ -333,7 +333,7 @@
       } else {
         var props = aComponent.getAllProperties("rdate");
         for (var rdatekey in props) {
-          /* istanbul ignore else */
+          /* istanbul ignore if */
           if (!props.hasOwnProperty(rdatekey)) {
             continue;
           }

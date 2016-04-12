@@ -1,6 +1,23 @@
 <html>
   <head>
-    <script type="text/javascript" src="../build/ical.js"></script>
+    <!-- Note this code is pretty fugly, it needs to be rewritten -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <style>
+      #descr {
+        width: 42em;
+      }
+      input[type="submit"] {
+        font-size: 1.2em;
+        border-radius: 5px;
+        border: 1px solid black;
+        margin-top: 1ex;
+      }
+
+      hr {
+        border: 1px solid black;
+      }
+    </style>
+    <script type="text/javascript" src="https://raw.github.com/mozilla-comm/ical.js/master/build/ical.js"></script>
     <script type="text/javascript">
       function stringError(e) {
         return "Error: " + e +
@@ -13,59 +30,51 @@
         var duration = document.getElementById("duration");
 
         var data = document.getElementById("data");
-        var decorate = document.getElementById("decorate").checked;
 
         var error = document.getElementById("error");
-        var results = document.getElementById("results");
-
-        var serialize_error = document.getElementById("serialize_error");
-        var reserialized = document.getElementById("reserialized");
-
-        var undecorate_error = document.getElementById("undecorate_error");
-        var undecorated = document.getElementById("undecorated");
-
-        var sourceResult, jsonResult, icalResult, component;
+        var jcalres = document.getElementById("jcal");
+        var icalres = document.getElementById("ical");
 
         duration.textContent = '';
-        error.textContent = serialize_error.textContent = undecorate_error.textContent = "";
-        results.textContent = reserialized.textContent = undecorated.textContent =  "";
+        error.textContent = jcalres.textContent = icalres.textContent = "";
 
         var beginTime = Date.now();
 
+        var jcal, from;
         try {
-            // First load the source representation
-            sourceResult = ICAL.parse(data.value)
-
-            // Try to jsonify it
-            jsonResult = JSON.stringify(sourceResult, null, " ");
-            results.textContent = jsonResult;
-        } catch (e) {
-            error.textContent = stringError(e);
-        }
-
-        try {
-            // Try to reserialize it
-            icalResult = ICAL.stringify(JSON.parse(jsonResult));
-            reserialized.textContent = icalResult;
-        } catch (e) {
-            serialize_error.textContent = stringError(e);
-        }
-
-        if (decorate) {
-
-            component = new ICAL.Component(sourceResult[1]);
-
+            jcal = JSON.parse(data.value);
+            from = "json";
+        } catch (jsonerr) {
             try {
-                // Try to jsonify it
-                jsonResult = JSON.stringify(component, null, " ");
-                undecorated.textContent = jsonResult;
-            } catch (e) {
-                undecorate_error.textContent = stringError(e);
+                jcal = ICAL.parse(data.value);
+                from = "ical";
+            } catch (icalerr) {
+                error.textContent = "Couldn't parse as iCalendar:\n" +
+                    stringError(icalerr) + "\n\nNor as jCal:\n" +
+                    stringError(jsonerr);
             }
         }
 
+        if (from == "json") {
+            ical = ICAL.stringify(jcal);
+            jcal = ICAL.parse(ical);
+        } else if (from == "ical") {
+            ical = ICAL.stringify(jcal);
+        } else {
+            ical = jcal = null;
+        }
+
         var totalRuntime = Date.now() - beginTime;
-        duration.textContent = 'Total Runtime: ' + totalRuntime;
+        duration.textContent = 'Total Runtime: ' + totalRuntime + ' ms';
+
+        try {
+            jcalres.textContent = jcal ? JSON.stringify(jcal, null, " ") : "";
+            icalres.textContent = ical;
+            document.getElementById("jcalbox").style.display = "";
+            document.getElementById("icalbox").style.display = "";
+        } catch (e) {
+            error.textContent = stringError(e);
+        }
 
         return false;
       }
@@ -74,19 +83,22 @@
   </head>
   <body>
     <form method="post" action="#" onsubmit="return validate()">
+      <h1>iCalendar / jCal Validator</h1>
+      <p id="descr">This validator form takes either iCalendar or jCal data. iCalendar data will be parsed to jCal and re-serialized to iCalendar. Similarly, jCal data will be parsed to iCalendar and re-serialized to jCal.</p>
       <textarea id="data" rows="20" cols="80"></textarea><br/>
-      <input type="checkbox" id="decorate">Decorate</input>
-      <input type="submit" value="Validate"/><br/>
+      <input type="submit" value="Validate" /><br/>
       <p id="duration"></p>
       <hr>
       <pre id="error"></pre>
-      <pre id="results"></pre>
-      <hr>
-      <pre id="serialize_error"></pre>
-      <pre id="reserialized"></pre>
-      <hr>
-      <pre id="undecorate_error"></pre>
-      <pre id="undecorated"></pre>
+      <div id="jcalbox" style="display: none">
+        <h2>jCal Representation</h2>
+        <pre id="jcal"></pre>
+        <hr>
+      </div>
+      <div id="icalbox" style="display: none">
+        <h2>iCalendar Representation</h2>
+        <pre id="ical"></pre>
+      </div>
     </form>
   </body>
 </html>
