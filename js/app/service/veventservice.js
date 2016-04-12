@@ -26,6 +26,8 @@ app.service('VEventService', ['DavClient', 'VEvent', 'RandomStringService', func
 
 	var _this = this;
 
+	this._xmls = new XMLSerializer();
+
 	this.getAll = function(calendar, start, end) {
 		var xmlDoc = document.implementation.createDocument('', '', null);
 		var cCalQuery = xmlDoc.createElement('c:calendar-query');
@@ -66,7 +68,7 @@ app.service('VEventService', ['DavClient', 'VEvent', 'RandomStringService', func
 			'Depth': 1,
 			'requesttoken': OC.requestToken
 		};
-		var body = cCalQuery.outerHTML;
+		var body = this._xmls.serializeToString(cCalQuery);
 
 		return DavClient.request('REPORT', url, headers, body).then(function(response) {
 			if (!DavClient.wasRequestSuccessful(response.status)) {

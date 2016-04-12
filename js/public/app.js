@@ -3307,6 +3307,8 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 		'{' + DavClient.NS_OWNCLOUD + '}invite'
 	];
 
+	this._xmls = new XMLSerializer();
+
 	function discoverHome(callback) {
 		return DavClient.propFind(DavClient.buildUrl(OC.linkToRemoteBase('dav')), ['{' + DavClient.NS_DAV + '}current-user-principal'], 0, {'requesttoken': OC.requestToken}).then(function(response) {
 			if (!DavClient.wasRequestSuccessful(response.status)) {
@@ -3447,7 +3449,7 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 		dProp.appendChild(this._createXMLForProperty(xmlDoc, 'color', color));
 		dProp.appendChild(this._createXMLForProperty(xmlDoc, 'components', components));
 
-		var body = cMkcalendar.outerHTML;
+		var body = this._xmls.serializeToString(cMkcalendar);
 
 		var uri = this._suggestUri(name);
 		var url = this._CALENDAR_HOME + uri + '/';
@@ -3493,7 +3495,7 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 		}
 
 		var url = calendar.url;
-		var body = dPropUpdate.outerHTML;
+		var body = this._xmls.serializeToString(dPropUpdate);
 		var headers = {
 			'Content-Type' : 'application/xml; charset=utf-8',
 			'requesttoken' : OC.requestToken
@@ -3550,7 +3552,7 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 			'Content-Type' : 'application/xml; charset=utf-8',
 			requesttoken : oc_requesttoken
 		};
-		var body = oShare.outerHTML;
+		var body = this._xmls.serializeToString(oShare);
 		return DavClient.request('POST', calendar.url, headers, body).then(function(response) {
 			if (response.status === 200) {
 				if (!existingShare) {
@@ -3595,7 +3597,7 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 			'Content-Type' : 'application/xml; charset=utf-8',
 			requesttoken : oc_requesttoken
 		};
-		var body = oShare.outerHTML;
+		var body = this._xmls.serializeToString(oShare);
 		return DavClient.request('POST', calendar.url, headers, body).then(function(response) {
 			if (response.status === 200) {
 				if (shareType === OC.Share.SHARE_TYPE_USER) {
@@ -4594,6 +4596,8 @@ app.service('VEventService', ['DavClient', 'VEvent', 'RandomStringService', func
 
 	var _this = this;
 
+	this._xmls = new XMLSerializer();
+
 	this.getAll = function(calendar, start, end) {
 		var xmlDoc = document.implementation.createDocument('', '', null);
 		var cCalQuery = xmlDoc.createElement('c:calendar-query');
@@ -4634,7 +4638,7 @@ app.service('VEventService', ['DavClient', 'VEvent', 'RandomStringService', func
 			'Depth': 1,
 			'requesttoken': OC.requestToken
 		};
-		var body = cCalQuery.outerHTML;
+		var body = this._xmls.serializeToString(cCalQuery);
 
 		return DavClient.request('REPORT', url, headers, body).then(function(response) {
 			if (!DavClient.wasRequestSuccessful(response.status)) {
