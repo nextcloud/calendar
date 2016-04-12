@@ -991,6 +991,9 @@ app.controller('ImportController', ['$scope', '$rootScope', '$filter', 'Calendar
 
 		$scope.files = files;
 		$scope.showCloseButton = false;
+		$scope.writableCalendars = $scope.calendars.filter(function(elem) {
+			return elem.writable;
+		});
 
 		$scope.import = function (file) {
 			file.progressToReach = file.split.vevent.length +
@@ -1045,6 +1048,7 @@ app.controller('ImportController', ['$scope', '$rootScope', '$filter', 'Calendar
 				CalendarService.create(name, color, components).then(function(calendar) {
 					if (calendar.components.vevent) {
 						$scope.calendars.push(calendar);
+						$scope.writableCalendars.push(calendar);
 						$rootScope.$broadcast('createdCalendar', calendar);
 						$rootScope.$broadcast('reloadCalendarList');
 					}
@@ -1061,7 +1065,8 @@ app.controller('ImportController', ['$scope', '$rootScope', '$filter', 'Calendar
 		};
 
 		$scope.preselectCalendar = function(file) {
-			var possibleCalendars = $filter('importCalendarFilter')($scope.calendars, file);
+
+			var possibleCalendars = $filter('importCalendarFilter')($scope.writableCalendars, file);
 			if (possibleCalendars.length === 0) {
 				file.calendar = 'new';
 			} else {
@@ -1073,7 +1078,7 @@ app.controller('ImportController', ['$scope', '$rootScope', '$filter', 'Calendar
 			if (file.calendar === 'new') {
 				file.incompatibleObjectsWarning = false;
 			} else {
-				var possibleCalendars = $filter('importCalendarFilter')($scope.calendars, file);
+				var possibleCalendars = $filter('importCalendarFilter')($scope.writableCalendars, file);
 				file.incompatibleObjectsWarning = (possibleCalendars.indexOf(file.calendar) === -1);
 			}
 		};
