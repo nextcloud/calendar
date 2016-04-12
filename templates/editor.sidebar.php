@@ -35,7 +35,7 @@
 					<label for="alldayeventcheckbox"><?php p($l->t('All day Event'))?></label>
 				</div>
 				<div class="pull-right">
-					<button class="button btn-default btn-timezone" ng-click="edittimezone = !edittimezone" ng-show="!readOnly">
+					<button class="button btn-default btn-timezone" ng-click="edittimezone = !edittimezone" ng-show="!readOnly" type="button">
 						<span class="icon-timezone"></span>
 					</button>
 				</div>
