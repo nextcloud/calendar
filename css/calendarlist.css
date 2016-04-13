@@ -257,7 +257,7 @@ ul.dropdown-menu li > a:hover {
 .fc-day-grid-event .fc-time,
 .fc-ltr .fc-basic-view .fc-day-number,
 .fc-time-grid-event .fc-time {
-	opacity: .4;
+	opacity: .8;
 	font-size: 80%;
 	font-weight: normal;
 }
