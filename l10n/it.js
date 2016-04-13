@@ -11,6 +11,7 @@ OC.L10N.register(
     "Optional" : "Facoltativo",
     "Does not attend" : "Non partecipa",
     "You are in an unknown timezone ({tz}), falling back to UTC" : "Sei in un fuso orario sconosciuto ({tz}), ripiego su UTC",
+    "Please create a calendar first." : "Crea prima un calendario.",
     "New event" : "Nuovo evento",
     "Attendees" : "Partecipanti",
     "Reminders" : "Promemoria",
