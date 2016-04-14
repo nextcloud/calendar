@@ -8,6 +8,7 @@
     "Required" : "Vereist",
     "Optional" : "Optioneel",
     "Does not attend" : "Neemt niet deel",
+    "You are in an unknown timezone ({tz}), falling back to UTC" : "U bevindt zich in een onbekende tijdzone ({tz}), UTC zal worden gebruikt",
     "Please create a calendar first." : "Maak eerst een kalender aan",
     "New event" : "Nieuwe afspraak",
     "Attendees" : "Deelnemers",

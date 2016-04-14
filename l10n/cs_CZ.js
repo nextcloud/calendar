@@ -10,6 +10,7 @@ OC.L10N.register(
     "Required" : "Vyžadován",
     "Optional" : "Nepovinně",
     "Does not attend" : "Neúčastní se",
+    "Please create a calendar first." : "Nejdříve prosím vytvořte kalendář.",
     "New event" : "Nová událost",
     "Attendees" : "Účastníci",
     "Reminders" : "Připomínky",

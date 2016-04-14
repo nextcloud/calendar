@@ -11,6 +11,7 @@ OC.L10N.register(
     "Optional" : "Valfritt",
     "Does not attend" : "Kommer inte att delta",
     "You are in an unknown timezone ({tz}), falling back to UTC" : "Du är i en okänd tidszon ({tz}), faller tillbaka på UTC",
+    "Please create a calendar first." : "Vänlligen skapa en kalender först.",
     "New event" : "Nytt event",
     "Attendees" : "Deltagare",
     "Reminders" : "Påminnelser",
