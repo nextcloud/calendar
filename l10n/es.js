@@ -77,6 +77,7 @@ OC.L10N.register(
     "Close" : "Cerrar",
     "Description" : "Descripción",
     "Export" : "Exportar",
+    "Due to an upstream bug, the calendar is currently not able to provide support for the asset pipeline feature." : "Debido a un bug de upstream, el calendario no soporta la funcionalidad de asset pipeline",
     "Please contact your administrator and ask them to disable the \"asset-pipeline.enabled\" config option." : "Por favor contacta con el administrador y proponle que desactive la opción \"asset-pipeline.enabled'.",
     "Day" : "Día",
     "Week" : "Semana",

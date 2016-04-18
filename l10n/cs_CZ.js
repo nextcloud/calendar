@@ -10,6 +10,7 @@ OC.L10N.register(
     "Required" : "Vyžadován",
     "Optional" : "Nepovinně",
     "Does not attend" : "Neúčastní se",
+    "You are in an unknown timezone ({tz}), falling back to UTC" : "Nacházíte se v neznámé časové zóně ({tz}), použije se UTC",
     "Please create a calendar first." : "Nejdříve prosím vytvořte kalendář.",
     "New event" : "Nová událost",
     "Attendees" : "Účastníci",
