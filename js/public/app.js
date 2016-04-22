@@ -2069,7 +2069,7 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 			},
 			_propertiesBackup: {},
 			updatedProperties: [],
-			caldav: OC.linkToRemote('dav') + url.substr(15),
+			caldav: window.location.origin + url,
 			url: url,
 			tmpId: RandomStringService.generate(),
 			fcEventSource: {
