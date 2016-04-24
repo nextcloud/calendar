@@ -9,6 +9,7 @@
     "Optional" : "Opcional",
     "Does not attend" : "Não comparecerá",
     "You are in an unknown timezone ({tz}), falling back to UTC" : "Está numa zona horário desconhecida ({tz}), a repor para UTC",
+    "Please create a calendar first." : "Por favor crie um calendário primeiro.",
     "New event" : "Novo evento",
     "Attendees" : "Participantes",
     "Reminders" : "Lembretes",
