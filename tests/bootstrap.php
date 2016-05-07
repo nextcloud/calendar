@@ -41,9 +41,7 @@ spl_autoload_register(function ($className){
 			require_once $relPath;
 		}
 	} else if(strpos($className, 'OC\\') === 0) {
-		$path = strtolower(
-			str_replace('\\', '/', substr($className, 2)) . '.php'
-		);
+		$path = str_replace('\\', '/', substr($className, 2)) . '.php';
 		$relPath = __DIR__ . '/../../../lib/private' . $path;
 
 		if(file_exists($relPath)){
