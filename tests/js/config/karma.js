@@ -28,7 +28,7 @@
      frameworks: ['jasmine'],
      basePath: '../../../',
      files: [
-  			'../../core/vendor/jquery/jquery.js',
+  			'../../core/vendor/jquery/dist/jquery.js',
   			//'3rdparty/ical/ical.js',
   			'../../core/vendor/moment/min/moment-with-locales.js',
   			'js/vendor/lodash/lodash.min.js',
