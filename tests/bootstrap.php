@@ -10,52 +10,17 @@
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @copyright Bernhard Posselt 2016
  */
+define('PHPUNIT_RUN', 1);
 
-require_once __DIR__ . '/../../../3rdparty/autoload.php';
+require_once __DIR__.'/../../../lib/base.php';
 
-// to execute without owncloud, we need to create our own classloader
-spl_autoload_register(function ($className){
-	if (strpos($className, 'OCA\\') === 0) {
+if (version_compare(implode('.', \OCP\Util::getVersion()), '8.2', '>=')) {
+	\OC::$loader->addValidRoot(OC::$SERVERROOT . '/tests');
+	\OC_App::loadApp('mail');
+}
 
-		$path = strtolower(
-			str_replace('\\', '/', substr($className, 3)) . '.php'
-		);
-		$relPath = __DIR__ . '/../..' . $path;
+if(!class_exists('PHPUnit_Framework_TestCase')) {
+	require_once('PHPUnit/Autoload.php');
+}
 
-		if(file_exists($relPath)){
-			require $relPath;
-		} else {
-			list(,$app, $rest) = explode('/', $path);
-			$relPath = __DIR__ . '/../../' . $app . '/lib/' . $rest;
-			if (file_exists($relPath)) {
-				require $relPath;
-			}
-		}
-	} else if(strpos($className, 'OCP\\') === 0) {
-		$path = strtolower(
-			str_replace('\\', '/', substr($className, 3)) . '.php'
-		);
-		$relPath = __DIR__ . '/../../../lib/public' . $path;
-
-		if(file_exists($relPath)){
-			require_once $relPath;
-		}
-	} else if(strpos($className, 'OC\\') === 0) {
-		$path = str_replace('\\', '/', substr($className, 2)) . '.php';
-		$relPath = __DIR__ . '/../../../lib/private' . $path;
-
-		if(file_exists($relPath)){
-			require_once $relPath;
-		}
-	} else if(strpos($className, 'Test\\') === 0) {
-		$path = strtolower(
-			str_replace('\\', '/', substr($className, 4)) . '.php'
-		);
-		echo $path;
-		$relPath = __DIR__ . '/../../../tests/lib' . $path;
-
-		if(file_exists($relPath)){
-			require_once $relPath;
-		}
-	}
-});
+OC_Hook::clear();
