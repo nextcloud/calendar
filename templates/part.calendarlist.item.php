@@ -98,7 +98,7 @@
 		typeahead-on-select="onSelectSharee($item, $model, $label, calendar)"
 		typeahead-loading="loadingSharees"
 		ng-model="calendar.selectedSharee"
-		placeholder="Share with users or groups">
+		placeholder="<?php p($l->t('Share with users or groups')); ?>">
 	<ul class="calendar-share-list">
 		<li ng-repeat="userShare in calendar.sharedWith.users" class="calendar-share-item">
 			{{ userShare.displayname }} -
@@ -106,7 +106,7 @@
 				   id="checkbox_sharedWithUser_{{calendar.tmpId}}_{{$id}}"
 				   ng-model="userShare.writable" value="edit"
 				   ng-change="updateExistingUserShare(calendar, userShare.id, userShare.writable)">
-			<label for="checkbox_sharedWithUser_{{calendar.tmpId}}_{{$id}}"> can edit</label>
+			<label for="checkbox_sharedWithUser_{{calendar.tmpId}}_{{$id}}"> <?php p($l->t('can edit')); ?></label>
 			<span class="utils hide">
 				<span class="action">
 					<span href="#"
@@ -125,7 +125,7 @@
 				   id="checkbox_sharedWithGroup_{{calendar.tmpId}}_{{$id}}"
 				   ng-model="groupShare.writable" value="edit"
 				   ng-change="updateExistingGroupShare(calendar, groupShare.id, groupShare.writable)">
-			<label for="checkbox_sharedWithGroup_{{calendar.tmpId}}_{{$id}}"> can edit</label>
+			<label for="checkbox_sharedWithGroup_{{calendar.tmpId}}_{{$id}}"> <?php p($l->t('can edit')); ?></label>
 			<span class="utils hide">
 				<span class="action">
 					<span href="#"
