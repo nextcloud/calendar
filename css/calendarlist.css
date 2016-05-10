@@ -45,12 +45,6 @@
 	width: 100%;
 	padding: 8px;
 }
-#app-navigation .loading {
-	margin-left: 5px;
-	height: 30px;
-	width: 92%;
-	background-size: 20px;
-}
 #app-navigation .new-entity,
 #app-navigation .subscription-title {
 	display: block;
@@ -109,13 +103,10 @@
 #app-navigation .app-navigation-list-item .calendarCheckbox.unchecked {
 	background: transparent !important;
 }
-#app-navigation .app-navigation-list-item .loading {
+#app-navigation .app-navigation-list-item .icon-loading-small {
 	position: absolute;
-	margin-left: 17px;
-	margin-top: 16px;
-	width: 12px;
-	height: 12px;
-	background-size: 12px;
+	margin-left: 15px;
+	margin-top: 14px;
 }
 #app-navigation .app-navigation-list-item .utils {
 	height: 44px;
