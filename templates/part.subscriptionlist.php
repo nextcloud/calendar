@@ -23,7 +23,7 @@
  */
 ?>
 <ul class="app-navigation-list subscription-list">
-	<div ng-class="{loading: is.loading}"></div>
+	<div ng-class="{'icon-loading-small': is.loading}"></div>
 	<li ng-repeat="calendar in calendars | orderBy:['order'] | subscriptionFilter" class="app-navigation-list-item" ng-class="{active: calendar.enabled}">
 		<?php print_unescaped($this->inc('part.calendarlist.item')); ?>
 	</li>
