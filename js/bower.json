@@ -9,12 +9,14 @@
     "jquery-timepicker": "",
     "jstzdetect": "",
     "ical.js": "mozilla-comm/ical.js#master",
-    "davclient.js": "evert/davclient.js"
+    "davclient.js": "evert/davclient.js",
+    "fullcalendar": ""
   },
   "devDependencies": {
     "angular-mocks": ""
   },
   "resolutions": {
-    "angular": "1.5.3"
+    "angular": "1.5.5",
+    "fullcalendar": "^2.7.1"
   }
 }
