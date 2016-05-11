@@ -14,24 +14,30 @@
  *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
  *
  * You should have received a copy of the GNU Affero General Public
  * License along with this library. If not, see <http://www.gnu.org/licenses/>.
  *
  */
- 
+
 /* https://github.com/kayellpeee/hsl_rgb_converter
  * expected hue range: [0, 360)
  * expected saturation range: [0, 1]
  * expected lightness range: [0, 1]
  */
 var hslToRgb = function(hue, saturation, lightness) {
+	'use strict';
 	// based on algorithm from http://en.wikipedia.org/wiki/HSL_and_HSV#Converting_to_RGB
-	if (hue == undefined) {
+	if(Array.isArray(hue)) {
+		[hue, saturation, lightness] = hue;
+	}
+	if (hue === undefined) {
 		return [0, 0, 0];
 	}
+	saturation /= 100;
+	lightness /= 100;
 
 	var chroma = (1 - Math.abs((2 * lightness) - 1)) * saturation;
 	var huePrime = hue / 60;
@@ -77,6 +83,25 @@ var hslToRgb = function(hue, saturation, lightness) {
 
 };
 
+/*
+ * Convert rgb array to hex string
+ */
+var rgbToHex = function(r, g, b) {
+	'use strict';
+	if(Array.isArray(r)) {
+		[r, g, b] = r;
+	}
+	return '#' + parseInt(r, 10).toString(16) + parseInt(g, 10).toString(16) + parseInt(b, 10).toString(16);
+};
+
+
+/*
+ * Generate a random colour with the core generator
+ */
+var randColour = function() {
+	'use strict';
+	return rgbToHex(hslToRgb(Math.random().toString().toHsl()));
+};
 
 /**
  * Directive: Colorpicker
@@ -100,13 +125,11 @@ app.directive('colorpicker', function() {
 		var hsl = "";
 		var hslcolour = "";
 		//		  0    40   80   120  160  200   240  280  320
-		listofcolours = ["15", "9", "4", "b", "6", "11", "e", "f", "57"];
+		listofcolours = ["15", "9", "4", "b", "6", "11", "74", "f", "57"];
 		listofcolours.forEach(function(hash, index) {
 			hsl = hash.toHsl();
-			hslcolour = hslToRgb(Math.round(hsl[0]/40)*40, hsl[1]/100, hsl[2]/100);
-			listofcolours[index] = '#' + parseInt(hslcolour[0], 10).toString(16)+
-										 parseInt(hslcolour[1], 10).toString(16)+
-										 parseInt(hslcolour[2], 10).toString(16)
+			hslcolour = hslToRgb(hsl);
+			listofcolours[index] = rgbToHex(hslcolour);
 		});
 	}
 	return {
@@ -119,6 +142,12 @@ app.directive('colorpicker', function() {
 		link: function(scope, element, attr) {
 			scope.colors = scope.customizedColors || listofcolours;
 			scope.selected = scope.selected || scope.colors[0];
+			scope.random = "#000000";
+
+			scope.randomizeColour = function() {
+				scope.random = randColour();
+				scope.pick(scope.random);
+			};
 
 			scope.pick = function(color) {
 				scope.selected = color;

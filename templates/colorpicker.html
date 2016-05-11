@@ -1,7 +1,9 @@
 <ul class="colorpicker-list">
-	<li
-			ng-repeat="color in colors"
-			ng-class="{ selected: (color===selected) }"
-			ng-click="pick(color)"
-			ng-style="{ 'background-color':color}; "></li>
+	<li ng-repeat="color in colors"
+		ng-class="{ selected: (color===selected) }"
+		ng-click="pick(color)"
+		ng-style="{ 'background-color':color}; "></li>
+	<li class="randomcolour"
+		ng-click="randomizeColour()"
+		ng-style="{ 'background-color':random}; "></li>
 </ul>
