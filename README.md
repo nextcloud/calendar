@@ -3,6 +3,7 @@
 [![Build Status](https://scrutinizer-ci.com/g/owncloud/calendar-rework/badges/build.png?b=master)](https://scrutinizer-ci.com/g/owncloud/calendar/build-status/master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/owncloud/calendar-rework/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/owncloud/calendar/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/owncloud/calendar-rework/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/owncloud/calendar/?branch=master)
+[![Dependency Status](https://www.versioneye.com/user/projects/57333497a0ca35004cf77c92/badge.svg?style=flat)](https://www.versioneye.com/user/projects/57333497a0ca35004cf77c92)
 
 **A calendar app for [ownCloud](https://owncloud.org).**  
 
