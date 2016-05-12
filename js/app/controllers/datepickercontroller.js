@@ -29,6 +29,10 @@ app.controller('DatePickerController', ['$scope', 'uiCalendarConfig', 'uibDatepi
 	function ($scope, uiCalendarConfig, uibDatepickerConfig) {
 		'use strict';
 
+		$scope.datepickerOptions = {
+			formatDay: 'd'
+		};
+
 		function getStepSizeFromView() {
 			switch($scope.selectedView) {
 				case 'agendaDay':
