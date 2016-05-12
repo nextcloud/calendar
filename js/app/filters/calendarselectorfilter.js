@@ -20,28 +20,30 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-app.filter('calendarSelectorFilter',
-	function () {
-		'use strict';
+app.filter('calendarSelectorFilter', function () {
+	'use strict';
 
-		return function (calendars, calendar) {
-			var options = calendars.filter(function (c) {
-				return c.writable;
-			});
+	return function (calendars, calendar) {
+		if (!Array.isArray(calendars)) {
+			return [];
+		}
 
-			if (calendar === null) {
-				return options;
+		var options = calendars.filter(function (c) {
+			return c.writable;
+		});
+
+		if (typeof calendar !== 'object' || !calendar) {
+			return options;
+		}
+
+		if (!calendar.writable) {
+			return [calendar];
+		} else {
+			if (options.indexOf(calendar) === -1) {
+				options.push(calendar);
 			}
 
-			if (!calendar.writable) {
-				return [calendar];
-			} else {
-				if (options.indexOf(calendar) === -1) {
-					options.push(calendar);
-				}
-
-				return options;
-			}
-		};
-	}
-);
+			return options;
+		}
+	};
+});

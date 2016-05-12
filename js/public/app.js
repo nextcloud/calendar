@@ -1288,7 +1288,7 @@ app.controller('SubscriptionController', ['$scope', function($scope) {}]);
 app.controller('SubscriptionController', ['$scope', '$rootScope', '$window', 'SubscriptionModel', 'CalendarModel', 'Restangular',
 	function ($scope, $rootScope, $window, SubscriptionModel, CalendarModel, Restangular) {
 		'use strict';
-
+		
 		$scope.subscriptions = SubscriptionModel.getAll();
 		var subscriptionResource = Restangular.all('subscriptions');
 
@@ -1876,174 +1876,172 @@ app.filter('attendeeFilter', function() {
 	'use strict';
 
 	return function(attendee) {
-		if (typeof attendee.parameters.cn === 'string') {
+		if (typeof attendee !== 'object' || !attendee) {
+			return '';
+		} else if (typeof attendee.parameters === 'object' && typeof attendee.parameters.cn === 'string') {
 			return attendee.parameters.cn;
-		}
-
-		if (attendee.value.startsWith('MAILTO:')) {
+		} else if (typeof attendee.value === 'string' && attendee.value.startsWith('MAILTO:')) {
 			return attendee.value.substr(7);
 		} else {
-			return attendee.value;
+			return attendee.value || '';
 		}
 	};
 });
 
-app.filter('attendeeNotOrganizerFilter',
-	function () {
-		'use strict';
+app.filter('attendeeNotOrganizerFilter', function () {
+	'use strict';
 
-		return function (attendees, organizer) {
-			if (organizer === '') {
-				return attendees;
-			}
+	return function (attendees, organizer) {
+		if (typeof organizer !== 'string' || organizer === '') {
+			return Array.isArray(attendees) ? attendees : [];
+		}
 
-			if (attendees === null) {
-				return null;
-			}
+		if (!Array.isArray(attendees)) {
+			return [];
+		}
 
-			var organizerValue = 'MAILTO:' + organizer;
-			return attendees.filter(function(element) {
+		var organizerValue = 'MAILTO:' + organizer;
+		return attendees.filter(function(element) {
+			if (typeof element !== 'object') {
+				return false;
+			} else {
 				return element.value !== organizerValue;
-			});
-		};
-	}
-);
-app.filter('calendareventFilter', [
-	function() {
-		'use strict';
-		return function (item) {
-			var filter = [];
-			if (item.length > 0) {
-				for (var i = 0; i < item.length; i++) {
-					if (item[i].writable === true) {
-						filter.push(item[i]);
-					}
-				}
 			}
-			return filter;
-		};
-	}
-]);
+		});
+	};
+});
 
-app.filter('calendarFilter', [
-	function() {
-		'use strict';
-		return function (item) {
-			var filter = [];
-			if (item.length > 0) {
-				for (var i = 0; i < item.length; i++) {
-					if (item[i].writable === true) {
-						filter.push(item[i]);
-					}
-				}
-			}
-			return filter;
-		};
-	}
-]);
+app.filter('calendarFilter', function() {
+	'use strict';
 
-app.filter('calendarSelectorFilter',
-	function () {
-		'use strict';
+	return function (calendars) {
+		if (!Array.isArray(calendars)) {
+			return [];
+		}
 
-		return function (calendars, calendar) {
-			var options = calendars.filter(function (c) {
-				return c.writable;
-			});
-
-			if (calendar === null) {
-				return options;
-			}
-
-			if (!calendar.writable) {
-				return [calendar];
+		return calendars.filter(function(element) {
+			if (typeof element !== 'object') {
+				return false;
 			} else {
-				if (options.indexOf(calendar) === -1) {
-					options.push(calendar);
-				}
-
-				return options;
+				return element.writable;
 			}
-		};
-	}
-);
-app.filter('datepickerFilter',
-	function () {
-		'use strict';
+		});
+	};
+});
 
-		return function (item, view) {
-			switch(view) {
-				case 'agendaDay':
-					return moment(item).format('ll');
+app.filter('calendarSelectorFilter', function () {
+	'use strict';
 
-				case 'agendaWeek':
-					return t('calendar', 'Week {number} of {year}',
-						{number:moment(item).week(),
-							year: moment(item).week() === 1 ?
-								moment(item).add(1, 'week').year() :
-								moment(item).year()});
+	return function (calendars, calendar) {
+		if (!Array.isArray(calendars)) {
+			return [];
+		}
 
-				case 'month':
-					return moment(item).week() === 1 ?
-						moment(item).add(1, 'week').format('MMMM GGGG') :
-						moment(item).format('MMMM GGGG');
-			}
-		};
-	}
-);
+		var options = calendars.filter(function (c) {
+			return c.writable;
+		});
 
-app.filter('importCalendarFilter',
-	function () {
-		'use strict';
+		if (typeof calendar !== 'object' || !calendar) {
+			return options;
+		}
 
-		return function (calendars, file) {
-			var possibleCalendars = [];
-
-			if (typeof file.split === 'undefined') {
-				return possibleCalendars;
+		if (!calendar.writable) {
+			return [calendar];
+		} else {
+			if (options.indexOf(calendar) === -1) {
+				options.push(calendar);
 			}
 
-			angular.forEach(calendars, function(calendar) {
-				if (file.split.vevent.length !== 0 && !calendar.components.vevent) {
-					return;
-				}
-				if (file.split.vjournal.length !== 0 && !calendar.components.vjournal) {
-					return;
-				}
-				if (file.split.vtodo.length !== 0 && !calendar.components.vtodo) {
-					return;
-				}
+			return options;
+		}
+	};
+});
 
-				possibleCalendars.push(calendar.url);
-			});
+app.filter('datepickerFilter', function () {
+	'use strict';
 
-			return possibleCalendars;
-		};
-	}
-);
+	return function (datetime, view) {
+		if (!(datetime instanceof Date) || typeof view !== 'string') {
+			return '';
+		}
 
-app.filter('importErrorFilter',
-	function () {
-		'use strict';
+		switch(view) {
+			case 'agendaDay':
+				return moment(datetime).format('ll');
 
-		return function (file) {
-			if (file.errors === 0) {
+			case 'agendaWeek':
+				return t('calendar', 'Week {number} of {year}',
+					{number:moment(datetime).week(),
+						year: moment(datetime).week() === 1 ?
+							moment(datetime).add(1, 'week').year() :
+							moment(datetime).year()});
+
+			case 'month':
+				return moment(datetime).week() === 1 ?
+					moment(datetime).add(1, 'week').format('MMMM GGGG') :
+					moment(datetime).format('MMMM GGGG');
+
+			default:
+				return '';
+		}
+	};
+});
+
+app.filter('importCalendarFilter', function () {
+	'use strict';
+
+	return function (calendars, file) {
+		if (!Array.isArray(calendars) || typeof file !== 'object' || !file || typeof file.split !== 'object' || !file.split) {
+			return [];
+		}
+
+		var events = Array.isArray(file.split.vevent) ? file.split.vevent.length : 0,
+			journals = Array.isArray(file.split.vjournal) ? file.split.vjournal.length : 0,
+			todos = Array.isArray(file.split.vtodo) ? file.split.vtodo.length : 0;
+
+		return calendars.filter(function(calendar) {
+			if (events !== 0 && !calendar.components.vevent) {
+				return false;
+			}
+			if (journals !== 0 && !calendar.components.vjournal) {
+				return false;
+			}
+			if (todos !== 0 && !calendar.components.vtodo) {
+				return false;
+			}
+
+			return true;
+		});
+	};
+});
+
+app.filter('importErrorFilter', function () {
+	'use strict';
+
+	return function (file) {
+		if (typeof file !== 'object' || !file || typeof file.errors !== 'number') {
+			return '';
+		}
+
+		//TODO - use n instead of t to use proper plurals in all translations
+		switch(file.errors) {
+			case 0:
 				return t('calendar', 'Successfully imported');
-			} else {
-				if (file.errors === 1) {
-					return t('calendar', 'Partially imported, 1 failure');
-				} else {
-					return t('calendar', 'Partially imported, {n} failures', {
-						n: file.errors
-					});
-				}
-			}
-		};
-	}
-);
+
+			case 1:
+				return t('calendar', 'Partially imported, 1 failure');
+
+			default:
+				return t('calendar', 'Partially imported, {n} failures', {
+					n: file.errors
+				});
+		}
+	};
+});
 
 app.filter('simpleReminderDescription', function() {
 	'use strict';
+	
 	var actionMapper = {
 		AUDIO: t('calendar', 'Audio alarm'),
 		DISPLAY: t('calendar', 'Pop-up'),
@@ -2061,9 +2059,12 @@ app.filter('simpleReminderDescription', function() {
 	}
 
 	return function(alarm) {
+		if (typeof alarm !== 'object' || !alarm || typeof alarm.trigger !== 'object' || !alarm.trigger) {
+			return '';
+		}
+
 		var relative = alarm.trigger.type === 'duration';
 		var relatedToStart = alarm.trigger.related === 'start';
-
 		if (relative) {
 			var timeString = moment.duration(Math.abs(alarm.trigger.value), 'seconds').humanize();
 			if (alarm.trigger.value < 0) {
@@ -2098,29 +2099,32 @@ app.filter('simpleReminderDescription', function() {
 	};
 });
 
-app.filter('subscriptionFilter',
-	[ function () {
-		'use strict';
+app.filter('subscriptionFilter', function () {
+	'use strict';
 
-		var subscriptionfilter = function (item) {
-			var filter = [];
-			if (item.length > 0) {
-				for (var i = 0; i < item.length; i++) {
-					if (item[i].writable === false) {
-						filter.push(item[i]);
-					}
-				}
+	return function (calendars) {
+		if (!Array.isArray(calendars)) {
+			return [];
+		}
+
+		return calendars.filter(function(element) {
+			if (typeof element !== 'object') {
+				return false;
+			} else {
+				return !element.writable;
 			}
-			return filter;
-		};
-		return subscriptionfilter;
-	}
-	]);
+		});
+	};
+});
 
 app.filter('timezoneFilter', ['$filter', function($filter) {
 	'use strict';
 
 	return function(timezone) {
+		if (typeof timezone !== 'string') {
+			return '';
+		}
+
 		timezone = timezone.split('_').join(' ');
 
 		var elements = timezone.split('/');
@@ -4878,3 +4882,4 @@ app.service('VEventService', ['DavClient', 'VEvent', 'RandomStringService', func
 	};
 
 }]);
+

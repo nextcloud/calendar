@@ -25,6 +25,10 @@ app.filter('timezoneFilter', ['$filter', function($filter) {
 	'use strict';
 
 	return function(timezone) {
+		if (typeof timezone !== 'string') {
+			return '';
+		}
+
 		timezone = timezone.split('_').join(' ');
 
 		var elements = timezone.split('/');

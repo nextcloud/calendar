@@ -25,14 +25,14 @@ app.filter('attendeeFilter', function() {
 	'use strict';
 
 	return function(attendee) {
-		if (typeof attendee.parameters.cn === 'string') {
+		if (typeof attendee !== 'object' || !attendee) {
+			return '';
+		} else if (typeof attendee.parameters === 'object' && typeof attendee.parameters.cn === 'string') {
 			return attendee.parameters.cn;
-		}
-
-		if (attendee.value.startsWith('MAILTO:')) {
+		} else if (typeof attendee.value === 'string' && attendee.value.startsWith('MAILTO:')) {
 			return attendee.value.substr(7);
 		} else {
-			return attendee.value;
+			return attendee.value || '';
 		}
 	};
 });

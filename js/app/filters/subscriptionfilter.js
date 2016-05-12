@@ -21,21 +21,20 @@
  *
  */
 
-app.filter('subscriptionFilter',
-	[ function () {
-		'use strict';
-		
-		var subscriptionfilter = function (item) {
-			var filter = [];
-			if (item.length > 0) {
-				for (var i = 0; i < item.length; i++) {
-					if (item[i].writable === false) {
-						filter.push(item[i]);
-					}
-				}
+app.filter('subscriptionFilter', function () {
+	'use strict';
+
+	return function (calendars) {
+		if (!Array.isArray(calendars)) {
+			return [];
+		}
+
+		return calendars.filter(function(element) {
+			if (typeof element !== 'object') {
+				return false;
+			} else {
+				return !element.writable;
 			}
-			return filter;
-		};
-		return subscriptionfilter;
-	}
-	]);
+		});
+	};
+});

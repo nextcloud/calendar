@@ -20,23 +20,25 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-app.filter('attendeeNotOrganizerFilter',
-	function () {
-		'use strict';
+app.filter('attendeeNotOrganizerFilter', function () {
+	'use strict';
 
-		return function (attendees, organizer) {
-			if (organizer === '') {
-				return attendees;
-			}
+	return function (attendees, organizer) {
+		if (typeof organizer !== 'string' || organizer === '') {
+			return Array.isArray(attendees) ? attendees : [];
+		}
 
-			if (attendees === null) {
-				return null;
-			}
+		if (!Array.isArray(attendees)) {
+			return [];
+		}
 
-			var organizerValue = 'MAILTO:' + organizer;
-			return attendees.filter(function(element) {
+		var organizerValue = 'MAILTO:' + organizer;
+		return attendees.filter(function(element) {
+			if (typeof element !== 'object') {
+				return false;
+			} else {
 				return element.value !== organizerValue;
-			});
-		};
-	}
-);
+			}
+		});
+	};
+});

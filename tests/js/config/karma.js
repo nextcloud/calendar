@@ -30,9 +30,7 @@
      files: [
   			'../../core/vendor/jquery/dist/jquery.js',
 		 	'../../core/vendor/jquery/jquery.js',
-  			//'3rdparty/ical/ical.js',
   			'../../core/vendor/moment/min/moment-with-locales.js',
-  			'js/vendor/lodash/lodash.min.js',
   			'js/vendor/jstzdetect/jstz.min.js',
   			'js/vendor/fullcalendar/dist/fullcalendar.min.js',
   			'js/vendor/angular/angular.js',
@@ -40,8 +38,6 @@
   			'js/vendor/angular-mocks/angular-mocks.js',
   			'js/vendor/angular-ui/angular-ui.js',
   			'js/vendor/angular-ui/angular-ui-calendar.js',
-  			'js/vendor/angular-ui/angular-ui-sortable.js',
-  			'js/vendor/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.js',
   			'js/vendor/appframework/app.js',
   			'tests/js/stubs/app.js',
   			'js/app/**/*.js',
@@ -52,7 +48,7 @@
 
 		],
 
-		reporters: ['coverage','progress'],
+		reporters: ['coverage', 'progress'],
 
 		port: 8080,
 
