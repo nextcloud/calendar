@@ -45,6 +45,17 @@ app.config(['$provide', '$routeProvider', '$httpProvider',
 			$.fullCalendar.lang(lang, {
 				timeFormat: obj.mediumTimeFormat
 			});
+
+			var propsToCheck = ['extraSmallTimeFormat', 'hourFormat', 'mediumTimeFormat', 'noMeridiemTimeFormat', 'smallTimeFormat'];
+
+			angular.forEach(propsToCheck, function(propToCheck) {
+				if (obj[propToCheck]) {
+					var overwrite = {};
+					overwrite[propToCheck] = obj[propToCheck].replace('HH', 'H');
+
+					$.fullCalendar.lang(lang, overwrite);
+				}
+			});
 		});
 	}
 ]);
