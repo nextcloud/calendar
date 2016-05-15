@@ -24,7 +24,12 @@
 ?>
 <span class="calendarCheckbox" ng-show="!calendar.list.loading && !calendar.list.edit" ng-style="{ background : calendar.enabled == true ? calendar.color : 'transparent' }" ng-click="triggerEnable(calendar)"></span>
 <span class="icon-loading-small pull-left" ng-show="calendar.list.loading && !calendar.list.edit"></span>
-<a href="#/" ng-click="triggerEnable(calendar)" ng-show="!calendar.list.edit" title="{{ calendar.displayname }}">
+<a href="#" ng-click="triggerEnable(calendar)" ng-show="!calendar.list.edit" title="{{ calendar.displayname }}" class="action permanent">
+	<span
+		ng-if="calendar.hasWarnings()"
+		class="icon icon-error">
+		&nbsp;&nbsp;&nbsp;&nbsp;
+	</span>
 	{{ calendar.displayname }}
 </a>
 <span class="utils" ng-if="!calendar.list.locked" ng-show="!calendar.list.edit">

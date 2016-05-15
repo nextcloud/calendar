@@ -2181,6 +2181,7 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 			caldav: window.location.origin + url,
 			url: url,
 			tmpId: RandomStringService.generate(),
+			warnings: [],
 			fcEventSource: {
 				events: function (start, end, timezone, callback) {
 					TimezoneService.get(timezone).then(function(tz) {
@@ -2191,7 +2192,16 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 						VEventService.getAll(self, start, end).then(function(events) {
 							var vevents = [];
 							for (var i = 0; i < events.length; i++) {
-								vevents = vevents.concat(events[i].getFcEvent(start, end, tz));
+								var vevent;
+								try {
+									vevent = events[i].getFcEvent(start, end, tz);
+								} catch (err) {
+									self.warnings.push(err.toString());
+									console.log(err);
+									console.log(events[i]);
+									continue;
+								}
+								vevents = vevents.concat(vevent);
 							}
 
 							callback(vevents);
@@ -2245,6 +2255,9 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 	}
 
 	Calendar.prototype = {
+		hasWarnings: function() {
+			return this.warnings.length > 0;
+		},
 		get enabled() {
 			return this._mutableProperties.enabled;
 		},
