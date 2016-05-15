@@ -1041,7 +1041,7 @@ app.controller('ImportController', ['$scope', '$rootScope', '$filter', 'Calendar
 
 			if (file.calendar === 'new') {
 				var name = file.newCalendarName || file.name;
-				var color = file.newCalendarColor || '#1d2d44';
+				var color = file.newCalendarColor || randColour(); // jshint ignore:line
 
 				var components = [];
 				if (file.split.vevent.length > 0) {
