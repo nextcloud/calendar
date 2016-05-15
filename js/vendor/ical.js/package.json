@@ -1,6 +1,6 @@
 {
   "name": "ical.js",
-  "version": "1.1.2",
+  "version": "1.2.1",
   "author": "Philipp Kewisch",
   "contributors": [
     "Github Contributors (https://github.com/mozilla-comm/ical.js/graphs/contributors)"
@@ -34,16 +34,16 @@
     "grunt-coveralls": "^1.0.0",
     "grunt-gh-pages": "^1.0.0",
     "grunt-gjslint": "^0.2.0",
-    "grunt-jsdoc": "^1.1.0",
-    "grunt-karma": "^0.12.0",
+    "grunt-jsdoc": "^2.0.0",
+    "grunt-karma": "^1.0.0",
     "grunt-mocha-cli": "^2.0.0",
     "grunt-mocha-istanbul": "^4.0.2",
     "grunt-release": "^0.13.0",
     "istanbul": "^0.4.2",
     "karma": "^0.13.9",
     "karma-chai": "^0.1.0",
-    "karma-mocha": "^0.2.0",
-    "karma-sauce-launcher": "^0.3.0",
+    "karma-mocha": "^1.0.1",
+    "karma-sauce-launcher": "^1.0.0",
     "karma-spec-reporter": "^0.0.26",
     "minami": "^1.1.0",
     "mocha": "~2.4",
@@ -51,9 +51,6 @@
     "open": "0.0.5",
     "sync-exec": "^0.6.0",
     "test-agent": "~0.28.2"
-  },
-  "optionalDependencies": {
-    "grunt-node-inspector": "^0.4.1"
   },
   "license": "MPL-2.0",
   "engine": {

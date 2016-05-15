@@ -30,11 +30,11 @@
     "coverage",
     "junk"
   ],
-  "_release": "d133c71ecc",
+  "_release": "066ebd3b27",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "d133c71ecc0a1456df73f4f9b90be43141edcff2"
+    "commit": "066ebd3b27f06d3cc37ee9f764874f73e31d2014"
   },
   "_source": "git://github.com/mozilla-comm/ical.js.git",
   "_target": "master",

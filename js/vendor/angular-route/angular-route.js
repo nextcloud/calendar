@@ -1,9 +1,9 @@
 /**
- * @license AngularJS v1.5.3
+ * @license AngularJS v1.5.5
  * (c) 2010-2016 Google, Inc. http://angularjs.org
  * License: MIT
  */
-(function(window, angular, undefined) {'use strict';
+(function(window, angular) {'use strict';
 
 /**
  * @ngdoc module
@@ -22,11 +22,7 @@
  */
  /* global -ngRouteModule */
 var ngRouteModule = angular.module('ngRoute', ['ng']).
-                        provider('$route', $RouteProvider).
-                        // Ensure `$route` will be instantiated in time to capture the initial
-                        // `$locationChangeSuccess` event. This is necessary in case `ngView` is
-                        // included in an asynchronously loaded template.
-                        run(['$route', angular.noop]),
+                        provider('$route', $RouteProvider),
     $routeMinErr = angular.$$minErr('ngRoute');
 
 /**
@@ -759,6 +755,13 @@ ngRouteModule.directive('ngView', ngViewFillContentFactory);
  * | {@link ng.$animate#leave leave}  | when the old element is removed from to the DOM  |
  *
  * The enter and leave animation occur concurrently.
+ *
+ * @knownIssue If `ngView` is contained in an asynchronously loaded template (e.g. in another
+ *             directive's templateUrl or in a template loaded using `ngInclude`), then you need to
+ *             make sure that `$route` is instantiated in time to capture the initial
+ *             `$locationChangeStart` event and load the appropriate view. One way to achieve this
+ *             is to have it as a dependency in a `.run` block:
+ *             `myModule.run(['$route', function() {}]);`
  *
  * @scope
  * @priority 400
