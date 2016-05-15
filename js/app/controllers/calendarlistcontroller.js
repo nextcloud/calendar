@@ -26,10 +26,11 @@
 * Description: Takes care of CalendarList in App Navigation.
 */
 
-app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'CalendarService',
-	function ($scope, $rootScope, $window, CalendarService) {
+app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'CalendarService', 'is',
+	function ($scope, $rootScope, $window, CalendarService, is) {
 		'use strict';
 
+		$scope.is = is;
 		$scope.newCalendarInputVal = '';
 		$scope.newCalendarColorVal = '';
 		$scope.currentUser = oc_current_user;
