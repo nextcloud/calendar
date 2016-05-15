@@ -24,7 +24,6 @@
 $styles = [
 	'../js/vendor/fullcalendar/dist/fullcalendar',
 	'../js/vendor/jquery-timepicker/jquery.ui.timepicker',
-	'../../../core/css/multiselect',
 	'globals',
 	'calendar',
 	'calendarlist',
@@ -49,7 +48,6 @@ $scripts = [
 	'vendor/fullcalendar/dist/fullcalendar',
 	'vendor/fullcalendar/dist/lang-all',
 	'vendor/davclient.js/lib/client',
-	'../../../core/js/multiselect',
 	'public/app'
 ];
 
