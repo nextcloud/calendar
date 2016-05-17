@@ -36,6 +36,7 @@
 <div ng-show="visibility">
 	<uib-datepicker
 		ng-model="dt"
-		id="datepicker">
+		id="datepicker"
+		datepicker-options="datepickerOptions">
 	</uib-datepicker>
 </div>
