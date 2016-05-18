@@ -94,13 +94,27 @@ var rgbToHex = function(r, g, b) {
 	return '#' + parseInt(r, 10).toString(16) + parseInt(g, 10).toString(16) + parseInt(b, 10).toString(16);
 };
 
+var listofcolours = [
+	'#31CC7C',
+	'#317CCC',
+	'#FF7A66',
+	'#F1DB50',
+	'#7C31CC',
+	'#CC317C',
+	'#3A3B3D',
+	'#CACBCD'
+];
 
 /*
  * Generate a random colour with the core generator
  */
 var randColour = function() {
 	'use strict';
-	return rgbToHex(hslToRgb(Math.random().toString().toHsl()));
+	if (typeof String.prototype.toHsl === 'function') {
+		return rgbToHex(hslToRgb(Math.random().toString().toHsl()));
+	} else {
+		return listofcolours[Math.floor(Math.random() * listofcolours.length)];
+	}
 };
 
 /**
@@ -111,16 +125,6 @@ var randColour = function() {
 
 app.directive('colorpicker', function() {
 	'use strict';
-	var listofcolours = [
-		'#31CC7C',
-		'#317CCC',
-		'#FF7A66',
-		'#F1DB50',
-		'#7C31CC',
-		'#CC317C',
-		'#3A3B3D',
-		'#CACBCD'
-	];
 	if (typeof String.prototype.toHsl === 'function') {
 		var hsl = "";
 		var hslcolour = "";
