@@ -1584,7 +1584,9 @@ var hslToRgb = function(hue, saturation, lightness) {
 	'use strict';
 	// based on algorithm from http://en.wikipedia.org/wiki/HSL_and_HSV#Converting_to_RGB
 	if(Array.isArray(hue)) {
-		[hue, saturation, lightness] = hue;
+		saturation = hue[1];
+		lightness = hue[2];
+		hue = hue[0];
 	}
 	if (hue === undefined) {
 		return [0, 0, 0];
@@ -1642,7 +1644,9 @@ var hslToRgb = function(hue, saturation, lightness) {
 var rgbToHex = function(r, g, b) {
 	'use strict';
 	if(Array.isArray(r)) {
-		[r, g, b] = r;
+		g = r[1];
+		b = r[2];
+		r = r[0];
 	}
 	return '#' + parseInt(r, 10).toString(16) + parseInt(g, 10).toString(16) + parseInt(b, 10).toString(16);
 };
