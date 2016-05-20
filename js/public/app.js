@@ -4018,6 +4018,16 @@ app.service('ColorUtilityService', function() {
 	};
 
 	/**
+	 * Make sure string for Hex always uses two digits
+	 * @param str
+	 * @returns {string}
+	 * @private
+	 */
+	this._ensureTwoDigits = function(str) {
+		return str.length === 1 ? '0' + str : str;
+	};
+
+	/**
 	 * convert three Numbers to rgb hex string
 	 * @param r
 	 * @param g
@@ -4031,9 +4041,9 @@ app.service('ColorUtilityService', function() {
 			r = r[0];
 		}
 
-		return '#' + parseInt(r, 10).toString(16) +
-			parseInt(g, 10).toString(16) +
-			parseInt(b, 10).toString(16);
+		return '#' + this._ensureTwoDigits(parseInt(r, 10).toString(16)) +
+			this._ensureTwoDigits(parseInt(g, 10).toString(16)) +
+			this._ensureTwoDigits(parseInt(b, 10).toString(16));
 	};
 
 	/**
