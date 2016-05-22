@@ -226,7 +226,7 @@ app.controller('VAlarmController', function($scope) {
 			if ($scope.isEditingReminderSupported(alarm)) {
 				alarm.editor.editing = true;
 			} else {
-				OC.Notification.showTemporary(t('calendar', 'Editing reminders of uknown type not supported.'));
+				OC.Notification.showTemporary(t('calendar', 'Editing reminders of unknown type not supported.'));
 			}
 		}
 	};
