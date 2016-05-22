@@ -1288,7 +1288,7 @@ app.controller('SubscriptionController', ['$scope', function($scope) {}]);
 app.controller('SubscriptionController', ['$scope', '$rootScope', '$window', 'SubscriptionModel', 'CalendarModel', 'Restangular',
 	function ($scope, $rootScope, $window, SubscriptionModel, CalendarModel, Restangular) {
 		'use strict';
-		
+
 		$scope.subscriptions = SubscriptionModel.getAll();
 		var subscriptionResource = Restangular.all('subscriptions');
 
@@ -1525,7 +1525,7 @@ app.controller('VAlarmController', ["$scope", function($scope) {
 			if ($scope.isEditingReminderSupported(alarm)) {
 				alarm.editor.editing = true;
 			} else {
-				OC.Notification.showTemporary(t('calendar', 'Editing reminders of uknown type not supported.'));
+				OC.Notification.showTemporary(t('calendar', 'Editing reminders of unknown type not supported.'));
 			}
 		}
 	};
@@ -2101,7 +2101,7 @@ app.filter('simpleReminderDescription', function() {
 app.filter('subscriptionFilter',
 	[ function () {
 		'use strict';
-		
+
 		var subscriptionfilter = function (item) {
 			var filter = [];
 			if (item.length > 0) {
@@ -4878,4 +4878,3 @@ app.service('VEventService', ['DavClient', 'VEvent', 'RandomStringService', func
 	};
 
 }]);
-
