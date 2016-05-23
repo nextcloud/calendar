@@ -29,6 +29,7 @@
      basePath: '../../../',
      files: [
   			'../../core/vendor/jquery/dist/jquery.js',
+		 	'../../core/vendor/jquery/jquery.js',
   			//'3rdparty/ical/ical.js',
   			'../../core/vendor/moment/min/moment-with-locales.js',
   			'js/vendor/lodash/lodash.min.js',

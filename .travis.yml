@@ -80,5 +80,5 @@ matrix:
       env: DB=postgresql
     - php: 5.4
       env: DB=mysql
-#    - php: 5.4
-#      env: "DB=mysql CORE_BRANCH=stable9"
+    - php: 5.4
+      env: "DB=mysql CORE_BRANCH=stable9"
