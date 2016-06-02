@@ -12,5 +12,9 @@
 	<documentation>
 		<user>http://doc.owncloud.org/server/9.0/user_manual/pim/calendar.html</user>
 	</documentation>
+	<category>productivity</category>
+	<website>https://github.com/owncloud/calendar/</website>
+	<bugs>https://github.com/owncloud/calendar/issues</bugs>
+	<repository type="git">https://github.com/owncloud/calendar.git</repository>
 	<ocsid>168707</ocsid>
 </info>
