@@ -49,7 +49,13 @@
 						  autocomplete="off" ></textarea>
 				<textarea ng-model="properties.description.value" type="text" class="advanced--input advanced--textarea"
 						placeholder="<?php p($l->t('Description'));?>" name="description"></textarea>
-				<!--<select id="classSelector" ng-options="class.type as class.displayname for class in classSelect" ng-init="setClassToDefault()" ng-model="properties.class.value"></select>-->
+				<?php if ($_['supportsClass']): ?>
+				<select id="classSelector"
+						ng-options="class.type as class.displayname for class in classSelect"
+						ng-init="setClassToDefault()"
+						ng-model="properties.class.value"
+						title="<?php p($l->t('Visibility when sharing')); ?>"></select>
+				<?php endif; ?>
 			</fieldset>
 
 			<ul class="tabHeaders">
