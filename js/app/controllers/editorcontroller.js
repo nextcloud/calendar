@@ -85,6 +85,44 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
 		$scope.registerPostHook = function(callback) {
 			$scope.postEditingHooks.push(callback);
 		};
+		
+		$scope.parse_summary = function() {
+			var summary = $scope.properties.summary.value;
+			
+			// Parse text to extract schedule from string beginning
+			var timePattern = "(\\d{1,2}:\\d{2}(?:\\s?[ap]\\.?m\\.?)?)";
+			var linkPattern = "\\s?[-/]\\s?";
+			var scheduleExp = new RegExp("^"+timePattern+"(?:"+linkPattern+timePattern+")?\\s", 'i');
+			var matches = scheduleExp.exec(summary);
+			
+			if(matches !== null) {
+		
+			  	// Strip schedule string from summary
+			  	summary = summary.substring(matches.shift().length);
+			
+			  	var start = matches[0];
+			  	var end = matches[1];
+				
+				// Convert string to time
+				var schemes = ["HH:mm", "hh:mm a"];
+				start = moment(start, schemes);
+				if(typeof end !== 'undefined') {
+					end = moment(end, schemes);
+				}
+				else {
+					end = start.clone();
+				}
+				
+				// Update event properties
+				$scope.properties.dtstart.value = moment($scope.properties.dtstart.value.set(
+						{'hour': start.get('hour'), 'minute': start.get('minute')}));
+				$scope.properties.dtend.value = moment($scope.properties.dtend.value.set(
+						{'hour': end.get('hour'), 'minute': end.get('minute')}));
+				$scope.properties.allDay = false;
+				$scope.toggledAllDay();
+				$scope.properties.summary.value = summary;
+			}
+		};
 
 		$scope.proceed = function() {
 			$scope.prepareClose();
