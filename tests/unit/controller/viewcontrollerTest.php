@@ -86,8 +86,13 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @dataProvider indexDataProvider
 	 */
-	public function testIndex($isAssetPipelineEnabled) {
-		$this->config->expects($this->once())
+	public function testIndex($isAssetPipelineEnabled, $serverVersion, $expectsSupportsClass) {
+		$this->config->expects($this->at(0))
+			->method('getSystemValue')
+			->with('version')
+			->will($this->returnValue($serverVersion));
+
+		$this->config->expects($this->at(1))
 			->method('getSystemValue')
 			->with('asset-pipeline.enabled', false)
 			->will($this->returnValue($isAssetPipelineEnabled));
@@ -116,7 +121,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 				->with($this->appName, 'installed_version')
 				->will($this->returnValue('42.13.37'));
 
-			$this->config->expects($this->at(2))
+			$this->config->expects($this->once())
 				->method('getUserValue')
 				->with('user123', $this->appName, 'currentView', 'month')
 				->will($this->returnValue('someView'));
@@ -128,6 +133,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 				'appVersion' => '42.13.37',
 				'defaultView' => 'someView',
 				'emailAddress' => 'test@bla.com',
+				'supportsClass' => $expectsSupportsClass
 			], $actual->getParams());
 			$this->assertEquals('main', $actual->getTemplateName());
 		}
@@ -136,8 +142,10 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 
 	public function indexDataProvider() {
 		return [
-			[true],
-			[false]
+			[true, '9.0.5.2', false],
+			[true, '9.1.0.0', true],
+			[false, '9.0.5.2', false],
+			[false, '9.1.0.0', true]
 		];
 	}
 

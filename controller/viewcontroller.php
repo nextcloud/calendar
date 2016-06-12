@@ -64,6 +64,8 @@ class ViewController extends Controller {
 	 * @return TemplateResponse
 	 */
 	public function index() {
+		$runningOn = $this->config->getSystemValue('version');
+
 		$isAssetPipelineEnabled = $this->config->getSystemValue('asset-pipeline.enabled', false);
 		if ($isAssetPipelineEnabled) {
 			return new TemplateResponse('calendar', 'main-asset-pipeline-unsupported');
@@ -75,11 +77,14 @@ class ViewController extends Controller {
 
 		$appVersion = $this->config->getAppValue($this->appName, 'installed_version');
 		$defaultView = $this->config->getUserValue($userId, $this->appName, 'currentView', 'month');
+		
+		$supportsClass = version_compare($runningOn, '9.1', '>=');
 
 		return new TemplateResponse('calendar', 'main', [
 			'appVersion' => $appVersion,
 			'defaultView' => $defaultView,
 			'emailAddress' => $emailAddress,
+			'supportsClass' => $supportsClass
 		]);
 	}
 
