@@ -10,7 +10,8 @@
     "jstzdetect": "",
     "ical.js": "mozilla-comm/ical.js#master",
     "davclient.js": "evert/davclient.js",
-    "fullcalendar": ""
+    "fullcalendar": "",
+    "hsl_rgb_converter": "https://github.com/kayellpeee/hsl_rgb_converter.git"
   },
   "devDependencies": {
     "angular-mocks": ""

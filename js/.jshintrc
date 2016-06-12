@@ -38,6 +38,7 @@
           "exports": true,
           "escapeHTML": true,
           "possible": true,
-          "dav": true
+          "dav": true,
+          "hslToRgb": true
     }
 }
