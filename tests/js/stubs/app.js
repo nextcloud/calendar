@@ -60,3 +60,12 @@ dav = {
 };
 
 oc_current_user = 'user';
+
+function t(app, text, vars, count, options) {
+	'use strict';
+
+	return text;
+}
+
+//TODO - properly mock moment in the future
+moment.locale('en');

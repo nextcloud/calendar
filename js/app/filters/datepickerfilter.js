@@ -20,27 +20,32 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-app.filter('datepickerFilter',
-	function () {
-		'use strict';
+app.filter('datepickerFilter', function () {
+	'use strict';
 
-		return function (item, view) {
-			switch(view) {
-				case 'agendaDay':
-					return moment(item).format('ll');
+	return function (datetime, view) {
+		if (!(datetime instanceof Date) || typeof view !== 'string') {
+			return '';
+		}
 
-				case 'agendaWeek':
-					return t('calendar', 'Week {number} of {year}',
-						{number:moment(item).week(),
-							year: moment(item).week() === 1 ?
-								moment(item).add(1, 'week').year() :
-								moment(item).year()});
+		switch(view) {
+			case 'agendaDay':
+				return moment(datetime).format('ll');
 
-				case 'month':
-					return moment(item).week() === 1 ?
-						moment(item).add(1, 'week').format('MMMM GGGG') :
-						moment(item).format('MMMM GGGG');
-			}
-		};
-	}
-);
+			case 'agendaWeek':
+				return t('calendar', 'Week {number} of {year}',
+					{number:moment(datetime).week(),
+						year: moment(datetime).week() === 1 ?
+							moment(datetime).add(1, 'week').year() :
+							moment(datetime).year()});
+
+			case 'month':
+				return moment(datetime).week() === 1 ?
+					moment(datetime).add(1, 'week').format('MMMM GGGG') :
+					moment(datetime).format('MMMM GGGG');
+
+			default:
+				return '';
+		}
+	};
+});

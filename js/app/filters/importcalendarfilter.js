@@ -20,32 +20,30 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-app.filter('importCalendarFilter',
-	function () {
-		'use strict';
+app.filter('importCalendarFilter', function () {
+	'use strict';
 
-		return function (calendars, file) {
-			var possibleCalendars = [];
+	return function (calendars, file) {
+		if (!Array.isArray(calendars) || typeof file !== 'object' || !file || typeof file.split !== 'object' || !file.split) {
+			return [];
+		}
 
-			if (typeof file.split === 'undefined') {
-				return possibleCalendars;
+		var events = Array.isArray(file.split.vevent) ? file.split.vevent.length : 0,
+			journals = Array.isArray(file.split.vjournal) ? file.split.vjournal.length : 0,
+			todos = Array.isArray(file.split.vtodo) ? file.split.vtodo.length : 0;
+
+		return calendars.filter(function(calendar) {
+			if (events !== 0 && !calendar.components.vevent) {
+				return false;
+			}
+			if (journals !== 0 && !calendar.components.vjournal) {
+				return false;
+			}
+			if (todos !== 0 && !calendar.components.vtodo) {
+				return false;
 			}
 
-			angular.forEach(calendars, function(calendar) {
-				if (file.split.vevent.length !== 0 && !calendar.components.vevent) {
-					return;
-				}
-				if (file.split.vjournal.length !== 0 && !calendar.components.vjournal) {
-					return;
-				}
-				if (file.split.vtodo.length !== 0 && !calendar.components.vtodo) {
-					return;
-				}
-
-				possibleCalendars.push(calendar.url);
-			});
-
-			return possibleCalendars;
-		};
-	}
-);
+			return true;
+		});
+	};
+});

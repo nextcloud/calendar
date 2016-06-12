@@ -20,22 +20,26 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-app.filter('importErrorFilter',
-	function () {
-		'use strict';
+app.filter('importErrorFilter', function () {
+	'use strict';
 
-		return function (file) {
-			if (file.errors === 0) {
+	return function (file) {
+		if (typeof file !== 'object' || !file || typeof file.errors !== 'number') {
+			return '';
+		}
+
+		//TODO - use n instead of t to use proper plurals in all translations
+		switch(file.errors) {
+			case 0:
 				return t('calendar', 'Successfully imported');
-			} else {
-				if (file.errors === 1) {
-					return t('calendar', 'Partially imported, 1 failure');
-				} else {
-					return t('calendar', 'Partially imported, {n} failures', {
-						n: file.errors
-					});
-				}
-			}
-		};
-	}
-);
+
+			case 1:
+				return t('calendar', 'Partially imported, 1 failure');
+
+			default:
+				return t('calendar', 'Partially imported, {n} failures', {
+					n: file.errors
+				});
+		}
+	};
+});

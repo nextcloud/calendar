@@ -23,6 +23,7 @@
 
 app.filter('simpleReminderDescription', function() {
 	'use strict';
+	
 	var actionMapper = {
 		AUDIO: t('calendar', 'Audio alarm'),
 		DISPLAY: t('calendar', 'Pop-up'),
@@ -40,9 +41,12 @@ app.filter('simpleReminderDescription', function() {
 	}
 
 	return function(alarm) {
+		if (typeof alarm !== 'object' || !alarm || typeof alarm.trigger !== 'object' || !alarm.trigger) {
+			return '';
+		}
+
 		var relative = alarm.trigger.type === 'duration';
 		var relatedToStart = alarm.trigger.related === 'start';
-
 		if (relative) {
 			var timeString = moment.duration(Math.abs(alarm.trigger.value), 'seconds').humanize();
 			if (alarm.trigger.value < 0) {
