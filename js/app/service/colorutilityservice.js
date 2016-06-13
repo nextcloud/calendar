@@ -34,27 +34,6 @@ app.service('ColorUtilityService', function() {
 	 */
 	this.colors = [];
 
-	if (typeof String.prototype.toHsl === 'function') {
-		//0 40 80 120 160 200 240 280 320
-		var hashValues = ['15', '9', '4', 'b', '6', '11', '74', 'f', '57'];
-		angular.forEach(hashValues, function(hashValue) {
-			var hsl = hashValue.toHsl();
-			var hslColor = hslToRgb(hsl[0], hsl[1], hsl[2]);
-			self.colors.push(self.rgbToHex(hslColor));
-		});
-	} else {
-		this.colors = [
-			'#31CC7C',
-			'#317CCC',
-			'#FF7A66',
-			'#F1DB50',
-			'#7C31CC',
-			'#CC317C',
-			'#3A3B3D',
-			'#CACBCD'
-		];
-	}
-
 	/**
 	 * generate an appropriate text color based on background color
 	 * @param red
@@ -144,4 +123,26 @@ app.service('ColorUtilityService', function() {
 			return self.colors[Math.floor(Math.random() * self.colors.length)];
 		}
 	};
+
+	// initialize default colors
+	if (typeof String.prototype.toHsl === 'function') {
+		//0 40 80 120 160 200 240 280 320
+		var hashValues = ['15', '9', '4', 'b', '6', '11', '74', 'f', '57'];
+		angular.forEach(hashValues, function(hashValue) {
+			var hsl = hashValue.toHsl();
+			var hslColor = hslToRgb(hsl[0], hsl[1], hsl[2]);
+			self.colors.push(self.rgbToHex(hslColor));
+		});
+	} else {
+		this.colors = [
+			'#31CC7C',
+			'#317CCC',
+			'#FF7A66',
+			'#F1DB50',
+			'#7C31CC',
+			'#CC317C',
+			'#3A3B3D',
+			'#CACBCD'
+		];
+	}
 });

@@ -29,14 +29,14 @@ app.filter('calendarSelectorFilter', function () {
 		}
 
 		var options = calendars.filter(function (c) {
-			return c.writable;
+			return c.isWritable();
 		});
 
 		if (typeof calendar !== 'object' || !calendar) {
 			return options;
 		}
 
-		if (!calendar.writable) {
+		if (!calendar.isWritable()) {
 			return [calendar];
 		} else {
 			if (options.indexOf(calendar) === -1) {

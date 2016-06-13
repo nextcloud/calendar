@@ -22,131 +22,167 @@
  *
  */
 ?>
-<span class="calendarCheckbox" ng-show="!calendar.list.loading && !calendar.list.edit" ng-style="{ background : calendar.enabled == true ? calendar.color : 'transparent' }" ng-click="triggerEnable(calendar)"></span>
-<span class="icon-loading-small pull-left" ng-show="calendar.list.loading && !calendar.list.edit"></span>
-<a href="#" ng-click="triggerEnable(calendar)" ng-show="!calendar.list.edit" title="{{ calendar.displayname }}" class="action permanent">
-	<span
-		ng-if="calendar.hasWarnings()"
-		class="icon icon-error">
+<span class="calendarCheckbox"
+	  ng-click="triggerEnable(item)"
+	  ng-show="item.displayColorIndicator()"
+	  ng-style="{ background : item.calendar.enabled == true ? item.calendar.color : 'transparent' }">
+</span>
+<span class="icon-loading-small pull-left"
+	  ng-show="item.displaySpinner()">
+</span>
+<a class="action permanent"
+   href="#"
+   ng-click="triggerEnable(item)"
+   ng-show="!item.isEditing()"
+   title="{{ item.calendar.displayname }}">
+	<span class="icon icon-error"
+		  ng-if="item.calendar.hasWarnings()"
+		  title="<?php p($l->t('Some events in this calendar are broken. Please check the JS console for more info.')); ?>">
 		&nbsp;&nbsp;&nbsp;&nbsp;
 	</span>
-	{{ calendar.displayname }}
+	{{ item.calendar.displayname }}
 </a>
-<span class="utils" ng-if="!calendar.list.locked" ng-show="!calendar.list.edit">
-	<span class="action" ng-class="{'withitems': calendar.hasShares()}">
+<span class="utils"
+	  ng-show="item.displayActions()">
+	<span class="action"
+		  ng-class="{'withitems': item.calendar.isShared()}">
 		<span
-			ng-if="calendar.shareable"
-	 		class="calendarlist-icon share permanent"
-			ng-class="{'icon-shared': calendar.hasShares(), 'icon-share': !hasShares(calendar)}"
-			data-item-type="calendar" data-item="{{ calendar.id }}"
-			title="<?php p($l->t('Share Calendar')) ?>"
-			ng-click="toggleSharesEditor(calendar)">
+			class="calendarlist-icon share permanent"
+			ng-class="{'icon-shared': item.calendar.isShared(), 'icon-share': !item.calendar.isShared()}"
+			ng-click="item.toggleEditingShares()"
+			ng-if="item.calendar.isShareable()"
+			title="<?php p($l->t('Share Calendar')) ?>">
 		</span>
 		<!-- Add a label if the calendar has shares -->
 		<span
-			ng-if="calendar.hasShares() && calendar.shareable"
+			ng-if="item.calendar.isShared() && item.calendar.isShareable()"
 			style="position: relative; bottom: 16px; left: -12px; width: 30px; opacity: 1"
-			ng-click="toggleSharesEditor(calendar)">
+			ng-click="item.toggleEditingShares()">
 				<?php p($l->t('Shared'))?>
 		</span>
 	</span>
 	<span class="action">
-		<span href="#"
-			  title="<?php p($l->t('More')); ?>"
-			  on-toggle-show="#more-actions-{{calendar.tmpId}}"
-			  class="icon-more">
+		<span class="icon-more"
+			  href="#"
+			  on-toggle-show="#more-actions-{{ $id }}"
+			  title="<?php p($l->t('More')); ?>">
 		</span>
 	</span>
 </span>
 
-<div id="more-actions-{{calendar.tmpId}}" class="app-navigation-entry-menu hidden">
+<div id="more-actions-{{ $id }}"
+	 class="app-navigation-entry-menu hidden">
 	<ul>
-		<li ng-show="calendar.owner === currentUser">
+		<li ng-show="item.calendar.arePropertiesWritable()">
 			<button class="icon-rename svg"
-					title="<?php p($l->t('Edit')); ?>"
-					ng-click="prepareUpdate(calendar)">
+					ng-click="item.openEditor()"
+					title="<?php p($l->t('Edit')); ?>">
 			</button>
 		</li>
 		<li>
 			<button class="icon-public svg"
-					title="<?php p($l->t('CalDAV')); ?>"
-					ng-click="showCalDAVLink(calendar)">
+					ng-click="item.showCalDAVUrl()"
+					title="<?php p($l->t('CalDAV')); ?>">
 			</button>
 		</li>
 		<li>
 			<button class="icon-download svg"
-					title="<?php p($l->t('Export')); ?>"
-					ng-click="download(calendar)">
+					ng-click="download(item)"
+					title="<?php p($l->t('Export')); ?>">
 			</button>
 		</li>
 		<li>
 			<button class="icon-delete svg"
-					title="<?php p($l->t('Delete')); ?>"
-					ng-click="remove(calendar)">
+					ng-click="remove(item)"
+					title="<?php p($l->t('Delete')); ?>">
 			</button>
 		</li>
 	</ul>
 </div>
 
-<fieldset ng-show="calendar.list.edit" class="editfieldset">
-	<form ng-submit="performUpdate(calendar)">
-		<input class="app-navigation-input" type="text" ng-model="calendar.displayname" data-id="{{ calendar.id }}" />
-		<colorpicker class="colorpicker" selected="calendar.color"></colorpicker>
+<fieldset class="editfieldset"
+		  ng-show="item.isEditing()">
+	<form ng-submit="performUpdate(item)">
+		<input class="app-navigation-input"
+			   ng-model="item.displayname"
+			   type="text"/>
+		<colorpicker class="colorpicker"
+					 selected="item.color">
+		</colorpicker>
 		<div class="buttongroups">
-			<button id="updateCalendar" class="primary icon-checkmark-white accept-button"></button>
-			<button id="chooseCalendar-close" class="btn close-button icon-close" ng-click="cancelUpdate(calendar)"></button>
+			<button class="primary icon-checkmark-white accept-button">
+			</button>
+			<button class="btn close-button icon-close"
+					ng-click="item.cancelEditor()">
+			</button>
 		</div>
 	</form>
 </fieldset>
-<fieldset ng-show="calendar.list.showCalDAVLink" class="editfieldset">
-	<input class="input-with-button-on-right-side" type="text" ng-model="calendar.caldav" readonly />
-	<button class="btn icon-close button-next-to-input" ng-click="hideCalDAVLink(calendar)"></button>
+<fieldset class="editfieldset"
+		  ng-show="item.displayCalDAVUrl()">
+	<input class="input-with-button-on-right-side"
+		   ng-value="item.calendar.caldav"
+		   readonly
+		   type="text"/>
+	<button class="btn icon-close button-next-to-input"
+			ng-click="item.hideCalDAVUrl()">
+	</button>
 </fieldset>
-<div ng-show="calendar.list.editingShares" class="calendarShares">
-	<i ng-show="loadingSharees" class="glyphicon glyphicon-refresh"></i>
-	<input
-		type="text"
-		class="shareeInput"
-		uib-typeahead="sharee.display for sharee in findSharee($viewValue, calendar)"
-		typeahead-on-select="onSelectSharee($item, $model, $label, calendar)"
-		typeahead-loading="loadingSharees"
-		ng-model="calendar.selectedSharee"
-		placeholder="<?php p($l->t('Share with users or groups')); ?>">
+<div class="calendarShares"
+	 ng-show="item.isEditingShares()">
+	<i class="glyphicon glyphicon-refresh"
+	   ng-show="loadingSharees">
+	</i>
+	<input class="shareeInput"
+		   ng-model="item.selectedSharee"
+		   placeholder="<?php p($l->t('Share with users or groups')); ?>"
+		   type="text"
+		   typeahead-on-select="onSelectSharee($item, $model, $label, item.calendar)"
+		   typeahead-loading="loadingSharees"
+		   uib-typeahead="sharee.display for sharee in findSharee($viewValue, item.calendar)">
 	<ul class="calendar-share-list">
-		<li ng-repeat="userShare in calendar.sharedWith.users" class="calendar-share-item">
+		<li class="calendar-share-item"
+			ng-repeat="userShare in item.calendar.shares.users">
 			{{ userShare.displayname }} -
-			<input type="checkbox" name="editable"
-				   id="checkbox_sharedWithUser_{{calendar.tmpId}}_{{$id}}"
-				   ng-model="userShare.writable" value="edit"
-				   ng-change="updateExistingUserShare(calendar, userShare.id, userShare.writable)">
-			<label for="checkbox_sharedWithUser_{{calendar.tmpId}}_{{$id}}"> <?php p($l->t('can edit')); ?></label>
+			<input id="checkbox_sharedWithUser_{{ $parent.$index }}_{{ $id }}"
+				   name="editable"
+				   ng-change="updateExistingUserShare(item.calendar, userShare.id, userShare.writable)"
+				   ng-model="userShare.writable"
+				   type="checkbox"
+				   value="edit">
+			<label for="checkbox_sharedWithUser_{{ $parent.$index }}_{{ $id }}">
+				<?php p($l->t('can edit')); ?>
+			</label>
 			<span class="utils hide">
 				<span class="action">
-					<span href="#"
+					<span class="icon-delete"
+						  href="#"
 						  id="calendarlist-icon delete"
-						  data-id="{{ calendar.uri }}"
-						  title="Delete"
-						  class="icon-delete"
-						  ng-click="unshareFromUser(calendar, userShare.id)">
+						  ng-click="unshareFromUser(item.calendar, userShare.id)"
+						  title="<?php p($l->t('Delete')); ?>">
 					</span>
 				</span>
 			</span>
 		</li>
-		<li ng-repeat="groupShare in calendar.sharedWith.groups" class="calendar-share-item">
+		<li class="calendar-share-item"
+			ng-repeat="groupShare in item.calendar.shares.groups">
 			{{ groupShare.displayname }} (<?php p($l->t('group')); ?>) -
-			<input type="checkbox" name="editable"
-				   id="checkbox_sharedWithGroup_{{calendar.tmpId}}_{{$id}}"
-				   ng-model="groupShare.writable" value="edit"
-				   ng-change="updateExistingGroupShare(calendar, groupShare.id, groupShare.writable)">
-			<label for="checkbox_sharedWithGroup_{{calendar.tmpId}}_{{$id}}"> <?php p($l->t('can edit')); ?></label>
+			<input id="checkbox_sharedWithGroup_{{ $parent.$index }}_{{ $id }}"
+				   name="editable"
+				   ng-change="updateExistingGroupShare(item.calendar, groupShare.id, groupShare.writable)"
+				   ng-model="groupShare.writable"
+				   type="checkbox"
+				   value="edit">
+			<label for="checkbox_sharedWithGroup_{{ $parent.$index }}_{{ $id }}">
+				<?php p($l->t('can edit')); ?>
+			</label>
 			<span class="utils hide">
 				<span class="action">
-					<span href="#"
+					<span class="icon-delete"
+						  href="#"
 						  id="calendarlist-icon delete"
-						  data-id="{{ calendar.uri }}"
-						  title="Delete"
-						  class="icon-delete"
-						  ng-click="unshareFromGroup(calendar, groupShare.id)">
+						  ng-click="unshareFromGroup(item.calendar, groupShare.id)"
+						  title="<?php p($l->t('Delete')); ?>">
 					</span>
 				</span>
 			</span>

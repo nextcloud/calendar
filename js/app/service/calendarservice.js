@@ -111,7 +111,7 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 					continue;
 				}
 
-				var calendar = new Calendar(body.href, props);
+				var calendar = Calendar(body.href, props);
 				calendars.push(calendar);
 			}
 
@@ -144,7 +144,7 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 				return;
 			}
 
-			return new Calendar(body.href, props);
+			return Calendar(body.href, props);
 		});
 	};
 
@@ -222,8 +222,11 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 		var dProp = xmlDoc.createElement('d:prop');
 		dSet.appendChild(dProp);
 
-		var updatedProperties = calendar.updatedProperties;
-		calendar.resetUpdatedProperties();
+		var updatedProperties = calendar.getUpdated();
+		if (updatedProperties.length === 0) {
+			//nothing to do here
+			return calendar;
+		}
 		for (var i=0; i < updatedProperties.length; i++) {
 			dProp.appendChild(this._createXMLForProperty(
 				xmlDoc,
@@ -411,7 +414,7 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 				users: [],
 				groups: []
 			},
-			writable: props.canWrite
+			writable: props.canWrite,
 		};
 
 		var components = props['{' + DavClient.NS_IETF + '}supported-calendar-component-set'];
@@ -463,6 +466,23 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 				}
 			}
 		}
+
+		if (typeof simple.enabled === 'undefined') {
+			if (typeof simple.owner !== 'undefined') {
+				simple.enabled = simple.owner === oc_current_user;
+			} else {
+				simple.enabled = false;
+			}
+		}
+		if (typeof simple.color !== 'undefined') {
+			if (simple.color.length === 9) {
+				simple.color = simple.color.substr(0,7);
+			}
+		} else {
+			simple.color = '#1d2d44';
+		}
+
+		simple.writableProperties = (oc_current_user === simple.owner);
 
 		return simple;
 	};

@@ -33,7 +33,7 @@ app.filter('subscriptionFilter', function () {
 			if (typeof element !== 'object') {
 				return false;
 			} else {
-				return !element.writable;
+				return !element.isWritable();
 			}
 		});
 	};
