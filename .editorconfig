@@ -1,0 +1,11 @@
+root = true
+
+# General
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+
+[*.{js,php}]
+indent_style = tab
+insert_final_newline = true
