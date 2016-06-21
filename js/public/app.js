@@ -457,6 +457,20 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 					} else {
 						element.fullCalendar('option', 'aspectRatio', 1.35);
 					}
+				},
+				eventRender: function(event, element) {
+					var status = event.getSimpleEvent().status;
+					if (status !== null) {
+						if (status.value === 'TENTATIVE') {
+							element.css({'opacity': 0.5});
+						}
+						else if (status.value === 'CANCELLED') {
+							element.css({
+								'text-decoration': 'line-through',
+								'opacity': 0.5
+							});
+						}
+					}
 				}
 			}
 		};
@@ -809,6 +823,12 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
 			{displayname: t('calendar', 'When shared show only busy'), type: 'CONFIDENTIAL'},
 			{displayname: t('calendar', 'When shared hide this event'), type: 'PRIVATE'}
 		];
+		
+		$scope.statusSelect = [
+			{displayname: t('calendar', 'Confirmed'), type: 'CONFIRMED'},
+			{displayname: t('calendar', 'Tentative'), type: 'TENTATIVE'},
+			{displayname: t('calendar', 'Cancelled'), type: 'CANCELLED'}
+		];
 
 		$scope.registerPreHook = function(callback) {
 			$scope.preEditingHooks.push(callback);
@@ -1002,6 +1022,15 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
 				$scope.properties.class = {
 					type: 'string',
 					value: 'PUBLIC'
+				};
+			}
+		};
+		
+		$scope.setStatusToDefault = function() {
+			if ($scope.properties.status === null) {
+				$scope.properties.status = {
+						type: 'string',
+						value: 'CONFIRMED'
 				};
 			}
 		};
@@ -1288,7 +1317,7 @@ app.controller('SubscriptionController', ['$scope', function($scope) {}]);
 app.controller('SubscriptionController', ['$scope', '$rootScope', '$window', 'SubscriptionModel', 'CalendarModel', 'Restangular',
 	function ($scope, $rootScope, $window, SubscriptionModel, CalendarModel, Restangular) {
 		'use strict';
-
+		
 		$scope.subscriptions = SubscriptionModel.getAll();
 		var subscriptionResource = Restangular.all('subscriptions');
 
@@ -2041,7 +2070,7 @@ app.filter('importErrorFilter', function () {
 
 app.filter('simpleReminderDescription', function() {
 	'use strict';
-
+	
 	var actionMapper = {
 		AUDIO: t('calendar', 'Audio alarm'),
 		DISPLAY: t('calendar', 'Pop-up'),
@@ -2506,7 +2535,7 @@ app.factory('SimpleEvent', function() {
 		'class': null,
 		'description': null,
 		//'url': null,
-		//'status': null,
+		'status': null,
 		//'resources': null,
 		'alarm': null,
 		'attendee': null,
@@ -2784,9 +2813,9 @@ app.factory('SimpleEvent', function() {
 		//sharing
 		'class': {parser: simpleParser.string, reader: simpleReader.string},
 		//other
-		'description': {parser: simpleParser.string, reader: simpleReader.string}
+		'description': {parser: simpleParser.string, reader: simpleReader.string},
 		//'url': {parser: simpleParser.string, reader: simpleReader.string},
-		//'status': {parser: simpleParser.string, reader: simpleReader.string},
+		'status': {parser: simpleParser.string, reader: simpleReader.string}
 		//'resources': {parser: simpleParser.strings, reader: simpleReader.strings}
 	};
 
@@ -5005,3 +5034,4 @@ app.service('VEventService', ['DavClient', 'VEvent', 'RandomStringService', func
 	};
 
 }]);
+

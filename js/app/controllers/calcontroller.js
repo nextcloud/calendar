@@ -342,6 +342,20 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 					} else {
 						element.fullCalendar('option', 'aspectRatio', 1.35);
 					}
+				},
+				eventRender: function(event, element) {
+					var status = event.getSimpleEvent().status;
+					if (status !== null) {
+						if (status.value === 'TENTATIVE') {
+							element.css({'opacity': 0.5});
+						}
+						else if (status.value === 'CANCELLED') {
+							element.css({
+								'text-decoration': 'line-through',
+								'opacity': 0.5
+							});
+						}
+					}
 				}
 			}
 		};
