@@ -34,13 +34,6 @@
 			</div>
 		</fieldset>
 
-		<fieldset class="events--fieldset" ng-disabled="readOnly">
-			<textarea ng-model="properties.location.value" type="text" class="events--input"
-				   placeholder="<?php p($l->t('Location'));?>" name="location"
-					  uib-typeahead="location.name for location in searchLocation($viewValue)" typeahead-show-hint="true" typeahead-min-length="3"
-					  typeahead-on-select="selectLocationFromTypeahead($item)"></textarea>
-		</fieldset>
-
 		<fieldset class="events--fieldset pull-left" ng-show="!readOnly">
 			<button ng-click="delete()" ng-show="!is_new" class="events--button button btn delete" type="button">
 				<?php p($l->t('Delete')); ?>
