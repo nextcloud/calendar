@@ -8,7 +8,7 @@
     "angular-ui-calendar": "",
     "jquery-timepicker": "",
     "jstzdetect": "",
-    "ical.js": "mozilla-comm/ical.js#master",
+    "ical.js": "",
     "davclient.js": "evert/davclient.js",
     "fullcalendar": "",
     "hsl_rgb_converter": "https://github.com/kayellpeee/hsl_rgb_converter.git"
