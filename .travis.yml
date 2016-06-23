@@ -63,7 +63,7 @@ before_script:
 script:
     - phpunit --coverage-clover=coverage.clover tests/unit
     - cd js/
-    - grunt karma:continuous
+    - grunt karma
 
 after_success:
     - wget https://scrutinizer-ci.com/ocular.phar
