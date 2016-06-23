@@ -1288,7 +1288,7 @@ app.controller('SubscriptionController', ['$scope', function($scope) {}]);
 app.controller('SubscriptionController', ['$scope', '$rootScope', '$window', 'SubscriptionModel', 'CalendarModel', 'Restangular',
 	function ($scope, $rootScope, $window, SubscriptionModel, CalendarModel, Restangular) {
 		'use strict';
-		
+
 		$scope.subscriptions = SubscriptionModel.getAll();
 		var subscriptionResource = Restangular.all('subscriptions');
 
@@ -2041,7 +2041,7 @@ app.filter('importErrorFilter', function () {
 
 app.filter('simpleReminderDescription', function() {
 	'use strict';
-	
+
 	var actionMapper = {
 		AUDIO: t('calendar', 'Audio alarm'),
 		DISPLAY: t('calendar', 'Pop-up'),
@@ -3771,7 +3771,7 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 				return dDisplayname;
 
 			case 'order':
-				var aOrder = xmlDoc.createElement('a:calendar-color');
+				var aOrder = xmlDoc.createElement('a:calendar-order');
 				aOrder.textContent = value;
 				return aOrder;
 
@@ -5005,4 +5005,3 @@ app.service('VEventService', ['DavClient', 'VEvent', 'RandomStringService', func
 	};
 
 }]);
-
