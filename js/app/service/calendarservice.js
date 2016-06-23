@@ -368,7 +368,7 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 				return dDisplayname;
 
 			case 'order':
-				var aOrder = xmlDoc.createElement('a:calendar-color');
+				var aOrder = xmlDoc.createElement('a:calendar-order');
 				aOrder.textContent = value;
 				return aOrder;
 
