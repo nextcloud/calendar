@@ -12,6 +12,7 @@
   "dependencies": {},
   "devDependencies": {
     "bower": "*",
+    "coveralls": "^2.11.9",
     "grunt": "*",
     "grunt-cli": "*",
     "grunt-contrib-concat": "*",
@@ -21,6 +22,7 @@
     "grunt-ng-annotate": "^1.0.1",
     "grunt-phpunit": "*",
     "grunt-wrap": "*",
+    "istanbul": "^0.4.4",
     "jasmine-core": "*",
     "jshint-stylish": "^2.1.0",
     "karma": "*",

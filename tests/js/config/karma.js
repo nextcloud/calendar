@@ -21,43 +21,39 @@
  *
  */
 
- module.exports = function(config) {
-   'use strict';
+module.exports = function (config) {
+	'use strict';
 
-   config.set({
-     frameworks: ['jasmine'],
-     basePath: '../../../',
-     files: [
-  			'../../core/vendor/jquery/dist/jquery.js',
-		 	'../../core/vendor/jquery/jquery.js',
-  			'../../core/vendor/moment/min/moment-with-locales.js',
-  			'js/vendor/jstzdetect/jstz.min.js',
-  			'js/vendor/fullcalendar/dist/fullcalendar.min.js',
-  			'js/vendor/angular/angular.js',
-  			'js/vendor/angular-route/angular-route.js',
-  			'js/vendor/angular-mocks/angular-mocks.js',
-  			'js/vendor/angular-ui/angular-ui.js',
-  			'js/vendor/angular-ui/angular-ui-calendar.js',
-  			'js/vendor/appframework/app.js',
-  			'tests/js/stubs/app.js',
-  			'js/app/**/*.js',
-  			'tests/js/unit/**/*.js',
-  	],
-
-		exclude: [
-
+	config.set({
+		basePath: '../../../',
+		frameworks: ['jasmine'],
+		files: [
+			'../../core/vendor/jquery/dist/jquery.js',
+			'../../core/vendor/jquery/jquery.js',
+			'../../core/vendor/moment/min/moment-with-locales.js',
+			'js/vendor/jstzdetect/jstz.min.js',
+			'js/vendor/fullcalendar/dist/fullcalendar.min.js',
+			'js/vendor/angular/angular.js',
+			'js/vendor/angular-route/angular-route.js',
+			'js/vendor/angular-mocks/angular-mocks.js',
+			'js/vendor/angular-ui/angular-ui.js',
+			'js/vendor/angular-ui/angular-ui-calendar.js',
+			'js/vendor/appframework/app.js',
+			'tests/js/stubs/app.js',
+			'js/app/**/*.js',
+			'tests/js/unit/**/*.js'
 		],
-
-		reporters: ['coverage', 'progress'],
-
+		exclude: [],
+		reporters: ['progress', 'coverage'],
 		port: 8080,
-
 		colors: true,
-
 		autoWatch: false,
-
 		browsers: ['Firefox'],
-
-		singleRun: false
+		singleRun: true,
+		preprocessors: { 'js/app/**/*.js': ['coverage'] },
+		coverageReporter: {
+			type: 'lcov',
+			dir: 'coverage/'
+		}
 	});
 };

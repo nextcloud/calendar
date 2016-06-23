@@ -106,13 +106,10 @@ module.exports = function(grunt) {
 
 		karma: {
 			unit: {
-				configFile: '<%= meta.testsJS %>config/karma.js'
-			},
-			continuous: {
 				configFile: '<%= meta.testsJS %>config/karma.js',
 				browsers: ['Firefox'],
 				singleRun: true,
-				reporters: ['progress']
+				reporters: ['progress', 'coverage']
 			}
 		},
 
@@ -127,6 +124,6 @@ module.exports = function(grunt) {
 
 	// make tasks available under simpler commands
 	grunt.registerTask('build', ['jshint', 'concat', 'wrap', 'ngAnnotate']);
-	grunt.registerTask('js-unit', ['karma:continuous']);
+	grunt.registerTask('js-unit', ['karma']);
 
 };
