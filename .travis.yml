@@ -22,7 +22,7 @@ matrix:
     - php: 5.4
       env: DB=sqlite
     - php: 5.4
-      env: DB=pqsql
+      env: DB=pgsql
     - php: 5.4
       env: "DB=mysql CORE_BRANCH=stable9"
   fast_finish: true
@@ -64,7 +64,7 @@ script:
     - phpunit --coverage-clover=coverage.clover tests/unit
     - cd js/
     - grunt karma
-    - cd ..
+
 
 after_success:
     - wget https://scrutinizer-ci.com/ocular.phar
