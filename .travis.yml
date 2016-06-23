@@ -1,3 +1,5 @@
+sudo: false
+dist: trusty
 language: php
 php:
   - 5.4
@@ -13,72 +15,62 @@ env:
   global:
     - CORE_BRANCH=master
   matrix:
-    - DB=sqlite
+    - DB=mysql
+
+matrix:
+  include:
+    - php: 5.4
+      env: DB=sqlite
+    - php: 5.4
+      env: DB=pqsql
+    - php: 5.4
+      env: "DB=mysql CORE_BRANCH=stable9"
+  fast_finish: true
+
 
 before_install:
   # get a newer node.js version
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
-  - sudo add-apt-repository -y ppa:chris-lea/node.js  # ubuntu 12.04 only
-  - sudo apt-get update
-  - composer self-update
+  - nvm install 6
   - npm install -g npm@latest
-
-install:
-  - cd ..
-  - sudo add-apt-repository -y ppa:chris-lea/node.js
-  - sudo apt-get -y install nodejs python3-jinja2 python3-setuptools apache2 libapache2-mod-fastcgi firefox chromium-browser
-  - export CHROME_BIN=/usr/bin/chromium-browser
-  - sudo easy_install3 requests
-  - sudo easy_install3 ocdev
-  # clone core
-  - ocdev setup core --dir owncloud --branch $CORE_BRANCH --no-history
+  - make
+  # install core
+  - cd ../
+  - git clone https://github.com/owncloud/core.git --recursive --depth 1 -b $CORE_BRANCH owncloud
   - mv calendar owncloud/apps/
 
 before_script:
-    - phpenv config-add owncloud/apps/calendar/tests/travis/php.ini
-    # set up databases and users for postgres and mysql
-    - createuser -U travis -s oc_autotest
-    - mysql -e 'create database oc_autotest;'
-    - mysql -u root -e "CREATE USER 'oc_autotest'@'localhost';"
-    - mysql -u root -e "grant all on oc_autotest.* to 'oc_autotest'@'localhost';"
-    # set up php under apache
-    - bash owncloud/apps/calendar/tests/travis/travis-ci-apache.sh
+    - if [[ "$DB" == 'pgsql' ]]; then createuser -U travis -s oc_autotest; fi
+    - if [[ "$DB" == 'mysql' ]]; then mysql -u root -e 'create database oc_autotest;'; fi
+    - if [[ "$DB" == 'mysql' ]]; then mysql -u root -e "CREATE USER 'oc_autotest'@'localhost' IDENTIFIED BY '';"; fi
+    - if [[ "$DB" == 'mysql' ]]; then mysql -u root -e "grant all on oc_autotest.* to 'oc_autotest'@'localhost';"; fi
     # fill owncloud with default configs and enable news
     - cd owncloud
-    - mkdir apps2
     - mkdir data
-    - ocdev ci $DB
-    - php -f console.php app:enable calendar
+    - ./occ maintenance:install --database-name oc_autotest --database-user oc_autotest --admin-user admin --admin-pass admin --database $DB --database-pass=''
+    - ./occ app:enable calendar
+    - ./occ app:check-code calendar
+    - php -S localhost:8080 &
     - cd apps/calendar
-    - wget https://scrutinizer-ci.com/ocular.phar
     - cd js
     # install test deps
     - npm install --deps # npm install needs to run before sudo npm install because otherwise it fails because a tmp file exists in the home dir
-    - sudo npm -g install grunt-cli protractor
+    - npm -g install grunt-cli protractor
+    - cd ..
+
 
 script:
-  # php unit tests
-  - cd ..
-  - phpunit --coverage-clover=coverage.clover tests/unit
-  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
-  - cd js/
-  # js unit tests
-  - grunt karma:continuous
-  # debug section to check what went wrong
-  - sudo apt-get install curl
-  - curl http://admin:admin@localhost/owncloud/index.php
-  - curl http://admin:admin@localhost/owncloud/index.php/apps/calendar/
-  - sudo cat ../../../data/owncloud.log
+    - phpunit --coverage-clover=coverage.clover tests/unit
+    - cd js/
+    - grunt karma:continuous
+
+after_success:
+    - wget https://scrutinizer-ci.com/ocular.phar
+    - php ocular.phar code-coverage:upload --format=php-clover build/php-unit.clover
+
+after_failure:
+    - cat ../../data/owncloud.log
 
 addons:
-  postgresql: "9.3"
-
-matrix:
-  include:
-    - php: 5.4
-      env: DB=postgresql
-    - php: 5.4
-      env: DB=mysql
-    - php: 5.4
-      env: "DB=mysql CORE_BRANCH=stable9"
+  firefox: "latest"
