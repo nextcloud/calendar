@@ -12,6 +12,7 @@
   "dependencies": {},
   "devDependencies": {
     "bower": "*",
+    "coveralls": "^2.11.9",
     "grunt": "*",
     "grunt-cli": "*",
     "grunt-contrib-concat": "*",

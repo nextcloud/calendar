@@ -64,10 +64,12 @@ script:
     - phpunit --coverage-clover=coverage.clover tests/unit
     - cd js/
     - grunt karma
+    - cd ..
 
 after_success:
     - wget https://scrutinizer-ci.com/ocular.phar
     - php ocular.phar code-coverage:upload --format=php-clover build/php-unit.clover
+    - cat ./coverage/*/lcov.info | ./js/node_modules/coveralls/bin/coveralls.js
 
 after_failure:
     - cat ../../data/owncloud.log
