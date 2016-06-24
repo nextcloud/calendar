@@ -59,6 +59,12 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
 			{displayname: t('calendar', 'When shared show only busy'), type: 'CONFIDENTIAL'},
 			{displayname: t('calendar', 'When shared hide this event'), type: 'PRIVATE'}
 		];
+		
+		$scope.statusSelect = [
+			{displayname: t('calendar', 'Confirmed'), type: 'CONFIRMED'},
+			{displayname: t('calendar', 'Tentative'), type: 'TENTATIVE'},
+			{displayname: t('calendar', 'Cancelled'), type: 'CANCELLED'}
+		];
 
 		$scope.registerPreHook = function(callback) {
 			$scope.preEditingHooks.push(callback);
@@ -252,6 +258,15 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
 				$scope.properties.class = {
 					type: 'string',
 					value: 'PUBLIC'
+				};
+			}
+		};
+		
+		$scope.setStatusToDefault = function() {
+			if ($scope.properties.status === null) {
+				$scope.properties.status = {
+						type: 'string',
+						value: 'CONFIRMED'
 				};
 			}
 		};

@@ -36,7 +36,7 @@ app.factory('SimpleEvent', function() {
 		'class': null,
 		'description': null,
 		//'url': null,
-		//'status': null,
+		'status': null,
 		//'resources': null,
 		'alarm': null,
 		'attendee': null,
@@ -314,9 +314,9 @@ app.factory('SimpleEvent', function() {
 		//sharing
 		'class': {parser: simpleParser.string, reader: simpleReader.string},
 		//other
-		'description': {parser: simpleParser.string, reader: simpleReader.string}
+		'description': {parser: simpleParser.string, reader: simpleReader.string},
 		//'url': {parser: simpleParser.string, reader: simpleReader.string},
-		//'status': {parser: simpleParser.string, reader: simpleReader.string},
+		'status': {parser: simpleParser.string, reader: simpleReader.string}
 		//'resources': {parser: simpleParser.strings, reader: simpleReader.strings}
 	};
 

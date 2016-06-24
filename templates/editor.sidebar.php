@@ -49,6 +49,11 @@
 						  autocomplete="off" ></textarea>
 				<textarea ng-model="properties.description.value" type="text" class="advanced--input advanced--textarea"
 						placeholder="<?php p($l->t('Description'));?>" name="description"></textarea>
+				<select id="statusSelector"
+						ng-options="status.type as status.displayname for status in statusSelect"
+						ng-init="setStatusToDefault()"
+						ng-model="properties.status.value"
+						title="<?php p($l->t('Event status')); ?>"></select>
 				<?php if ($_['supportsClass']): ?>
 				<select id="classSelector"
 						ng-options="class.type as class.displayname for class in classSelect"
