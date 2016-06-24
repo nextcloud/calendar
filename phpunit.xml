@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <phpunit bootstrap="tests/bootstrap.php">
+	<filter>
+		<blacklist>
+			<directory suffix=".php">appinfo</directory>
+		</blacklist>
+	</filter>
 	<testsuite name='unit'>
 		<directory suffix='.php'>tests/unit</directory>
 	</testsuite>
