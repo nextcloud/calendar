@@ -343,7 +343,7 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 				defaultView: angular.element('#fullcalendar').attr('data-defaultView'),
 				header: false,
 				nowIndicator: true,
-				firstDay: moment().startOf('week').format('d'),
+				firstDay: +moment().startOf('week').format('d'),
 				select: function (start, end, jsEvent, view) {
 					var writableCalendars = $scope.calendars.filter(function(elem) {
 						return elem.writable;
@@ -1798,7 +1798,7 @@ app.directive('ocdatetimepicker', ["$compile", "$timeout", function($compile, $t
 					dayNames: moment.weekdays(),
 					dayNamesMin: moment.weekdaysMin(),
 					dayNamesShort: moment.weekdaysShort(),
-					firstDay: localeData.firstDayOfWeek(),
+					firstDay: +localeData.firstDayOfWeek(),
 					minDate: null,
 					showOtherMonths: true,
 					selectOtherMonths: true,

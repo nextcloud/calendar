@@ -70,7 +70,7 @@ app.directive('ocdatetimepicker', function($compile, $timeout) {
 					dayNames: moment.weekdays(),
 					dayNamesMin: moment.weekdaysMin(),
 					dayNamesShort: moment.weekdaysShort(),
-					firstDay: localeData.firstDayOfWeek(),
+					firstDay: +localeData.firstDayOfWeek(),
 					minDate: null,
 					showOtherMonths: true,
 					selectOtherMonths: true,
