@@ -126,12 +126,24 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 			$scope.uiConfig.calendar.timezone = 'UTC';
 		});
 
-		CalendarService.getAll().then(function(calendars) {
-			$scope.calendars = calendars;
-			is.loading = false;
-			// TODO - scope.apply should not be necessary here
-			$scope.$apply();
-		});
+		var url = window.location.toString();
+		if (url.endsWith('calendar/') || url.endsWith('calendar') || url.endsWith('calendar/#')) {
+			CalendarService.getAll().then(function (calendars) {
+				$scope.calendars = calendars;
+				is.loading = false;
+				// TODO - scope.apply should not be necessary here
+				$scope.$apply();
+			});
+		} else {
+			var token = url.substr(url.lastIndexOf('/') + 1);
+
+			CalendarService.getPubUrl(OC.linkToRemoteBase('dav') + '/public-calendars/' + token).then(function(calendar) {
+				$scope.calendars = [calendar];
+				is.loading = false;
+				// TODO - scope.apply should not be necessary here
+				$scope.$apply();
+			});
+		}
 
 
 		/**
@@ -145,7 +157,9 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 					});
 
 					if (writableCalendars.length === 0) {
-						OC.Notification.showTemporary(t('calendar', 'Please create a calendar first.'));
+						if ($scope.calendars[0].publicurl !== $window.location.href) {
+							OC.Notification.showTemporary(t('calendar', 'Please create a calendar first.'));
+						}
 						return;
 					}
 

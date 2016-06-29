@@ -12,13 +12,17 @@ app.factory('Calendar', function($window, Hook, VEventService, TimezoneService, 
 				color: props.color,
 				displayname: props.displayname,
 				enabled: props.enabled,
-				order: props.order
+				order: props.order,
+				published: props.published
 			},
 			updatedProperties: [],
 			tmpId: RandomStringService.generate(),
 			url: url,
 			owner: props.owner,
 			shares: props.shares,
+			publishurl: props.prepublishurl,
+			publicurl: props.publicurl,
+			publishable: props.publishable,
 			warnings: [],
 			shareable: props.shareable,
 			writable: props.writable,
@@ -163,6 +167,29 @@ app.factory('Calendar', function($window, Hook, VEventService, TimezoneService, 
 					return $window.location.origin + context.url;
 				}
 			},
+			publishurl: {
+				get: function() {
+					return context.publishurl;
+				}
+			},
+			published: {
+				get: function() {
+					return context.mutableProperties.published;
+				},
+				set: function(published) {
+					context.mutableProperties.published = published;
+				}
+			},
+			publishable: {
+				get: function() {
+					return context.publishable;
+				}
+			},
+			publicurl: {
+				get: function() {
+					return context.publicurl;
+				}
+			},
 			fcEventSource: {
 				get: function() {
 					return context.fcEventSource;
@@ -226,15 +253,15 @@ app.factory('Calendar', function($window, Hook, VEventService, TimezoneService, 
 		};
 
 		iface.isPublished = function() {
-			return false;
+			return context.mutableProperties.published;
+		};
+
+		iface.isPublishable = function() {
+			return context.publishable;
 		};
 
 		iface.isShareable = function() {
 			return context.shareable;
-		};
-
-		iface.isPublishable = function() {
-			return false;
 		};
 
 		iface.isRendering = function() {

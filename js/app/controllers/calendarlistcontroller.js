@@ -106,8 +106,28 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 			$window.open(item.calendar.downloadUrl);
 		};
 
+		$scope.integration = function (item) {
+			return '<iframe width="400" height="215" src="' + item.calendar.publicurl + '"></iframe>';
+		};
+
+		$scope.goPublic = function (item) {
+			$window.open(item.calendar.publicurl);
+		};
+
 		$scope.toggleSharesEditor = function (calendar) {
 			calendar.toggleSharesEditor();
+		};
+
+		$scope.togglePublish = function(item) {
+			if (item.calendar.published) {
+				CalendarService.publish(item.calendar).then(function (response) {
+					$scope.$apply();
+				});
+			} else {
+				CalendarService.unpublish(item.calendar).then(function (response) {
+					$scope.$apply();
+				});
+			}
 		};
 
 		$scope.prepareUpdate = function (calendar) {

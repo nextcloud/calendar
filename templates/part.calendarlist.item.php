@@ -46,10 +46,10 @@
 <span class="utils"
 	  ng-show="item.displayActions()">
 	<span class="action"
-		  ng-class="{'withitems': item.calendar.isShared()}">
+		  ng-class="{'withitems': item.calendar.isShared() || item.calendar.isPublished() }">
 		<span
 			class="calendarlist-icon share permanent"
-			ng-class="{'icon-shared': item.calendar.isShared(), 'icon-share': !item.calendar.isShared()}"
+			ng-class="{'icon-shared': item.calendar.isShared() && !item.calendar.isPublished(), 'icon-public': item.calendar.isPublished(), 'icon-share': !item.calendar.isShared() && !item.calendar.isPublished()}"
 			ng-click="item.toggleEditingShares()"
 			ng-if="item.calendar.isShareable()"
 			title="<?php p($l->t('Share Calendar')) ?>"
@@ -58,7 +58,7 @@
 		<!-- Add a label if the calendar has shares -->
 		<span
 			class="calendarlist-icon shared"
-			ng-if="item.calendar.isShared() && item.calendar.isShareable()"
+			ng-if="item.calendar.isShared() && item.calendar.isShareable() || item.calendar.isPublished()"
 			ng-click="item.toggleEditingShares()">
 				<?php p($l->t('Shared'))?>
 		</span>
@@ -147,8 +147,23 @@
 			ng-click="item.hideWebCalUrl()">
 	</button>
 </fieldset>
+
 <div class="calendarShares"
 	 ng-show="item.isEditingShares()">
+	 <div class="publishing" ng-if="item.calendar.isPublishable()">
+		 <input type="checkbox" name="publish"
+				 id="checkbox_publish_calendar_{{ $index }}"
+				 ng-model="item.calendar.published" value="edit"
+				 ng-change="togglePublish(item)">
+		<label for="checkbox_publish_calendar_{{ $index }}"> {{ item.calendar.isPublished() ? '<?php p($l->t('Published')); ?>' : '<?php p($l->t('Publish')); ?>' }}</label>
+		<div class="oneline" ng-show="item.calendar.published">
+			<span><?php p($l->t('Public access')); ?></span>
+		<button class="icon-public pull-right svg "
+				target="_blank"
+				ng-href="item.calendar.publicurl"
+				ng-mousedown="goPublic(item)"></button>
+		</div>
+	</div>
 	<i class="glyphicon glyphicon-refresh refresh-shares"
 	   ng-show="loadingSharees">
 	</i>

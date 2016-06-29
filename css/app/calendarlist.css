@@ -133,7 +133,7 @@
 	opacity: .7 !important;
 }
 
-#app-navigation .app-navigation-list-item .utils .action:hover span {
+#app-navigation .app-navigation-list-item .utils .action span:hover {
 	opacity: 1;
 }
 
@@ -311,6 +311,40 @@
 /* Spacing */
 #spacer {
 	height: 44px;
+}
+
+/* Public */
+
+.public-ics-download {
+	width: 90%;
+	display: block;
+	height: 25px;
+	font-weight: 300;
+	font-size: 14px;
+	cursor: pointer;
+	z-index: 10;
+	padding: 7px 0 0;
+	text-align: center;
+	background-color: rgba(240, 240, 240, .9);
+	border: 1px solid rgba(240, 240, 240, .9);
+	background-position: 5%;
+	border-radius: 3px;
+	margin: 7px auto;
+}
+
+.integration-code {
+	width: 90%;
+	height: 100px;
+	margin: 5px;
+}
+
+.public-left-side {
+	margin-top: 50px;
+}
+
+/* Publishing */
+.publishing {
+	margin-left: 10px;
 }
 
 /* Calendar Sharing */

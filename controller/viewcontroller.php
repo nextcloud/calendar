@@ -120,6 +120,8 @@ class ViewController extends Controller {
 
 	/**
 	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 * @PublicPage
 	 *
 	 * @param $region
 	 * @param $city
@@ -132,6 +134,8 @@ class ViewController extends Controller {
 
 	/**
 	 * @NoAdminRequired
+	 * @PublicPage
+	 * @NoCSRFRequired
 	 *
 	 * @param $region
 	 * @param $subregion

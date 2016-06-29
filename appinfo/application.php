@@ -60,6 +60,13 @@ class Application extends App {
 			$client = $c->getServer()->getHTTPClientService();
 
 			return new Controller\ProxyController($c->getAppName(), $request, $client);
+
+		$container->registerService('PublicController', function(IAppContainer $c) {
+			$request = $c->query('Request');
+			$userSession = $c->getServer()->getUserSession();
+			$config = $c->getServer()->getConfig();
+
+			return new Controller\PublicController($c->getAppName(), $request, $userSession, $config);
 		});
 	}
 
