@@ -256,17 +256,20 @@
 
 /* ColorPicker overrides. */
 .colorpicker {
-	display: block;
-	height: 30px;
+  display: block;
+  height: auto;
+  padding-bottom: 3px;
+  padding-top: 3px;
 }
 
 .colorpicker .colorpicker-list {
-	display: flex;
-	width: 100%;
-	height: 100%;
-	text-align: center;
-	justify-content: center;
-	align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
 }
 
 .colorpicker .colorpicker-list li {
