@@ -125,6 +125,9 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 		hasWarnings: function() {
 			return this.warnings.length > 0;
 		},
+		hasShares: function() {
+			return (this.sharedWith.users.length > 0 || this.sharedWith.groups.length > 0);
+		},
 		get enabled() {
 			return this._mutableProperties.enabled;
 		},

@@ -33,13 +33,21 @@
 	{{ calendar.displayname }}
 </a>
 <span class="utils" ng-if="!calendar.list.locked" ng-show="!calendar.list.edit">
-	<span class="action">
+	<span class="action" ng-class="{'withitems': calendar.hasShares()}">
 		<span
 			ng-if="calendar.shareable"
-			class="calendarlist-icon share icon-share permanent"
+	 		class="calendarlist-icon share permanent"
+			ng-class="{'icon-shared': calendar.hasShares(), 'icon-share': !hasShares(calendar)}"
 			data-item-type="calendar" data-item="{{ calendar.id }}"
 			title="<?php p($l->t('Share Calendar')) ?>"
 			ng-click="toggleSharesEditor(calendar)">
+		</span>
+		<!-- Add a label if the calendar has shares -->
+		<span
+			ng-if="calendar.hasShares() && calendar.shareable"
+			style="position: relative; bottom: 16px; left: -12px; width: 30px; opacity: 1"
+			ng-click="toggleSharesEditor(calendar)">
+				<?php p($l->t('Shared'))?>
 		</span>
 	</span>
 	<span class="action">
