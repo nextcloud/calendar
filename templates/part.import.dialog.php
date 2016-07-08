@@ -29,18 +29,18 @@
 		<tbody>
 		<tr ng-repeat="file in files" ng-show="!file.done">
 			<td class="name">
-				<span>{{ file.name }}</span>
+				<span>{{ file.file.name }}</span>
 			</td>
 			<td class="calendartype">
-				<span ng-show="file.state === -1">
+				<span ng-show="file.wasCanceled()">
 					<?php p($l->t('Import canceled')); ?>
 				</span>
 					<span
-						ng-show="file.state === 0">
+						ng-show="file.isAnalyzing()">
 						<?php p($l->t('Analyzing calendar')); ?>
 					</span>
 				<div
-					ng-show="file.state === 1">
+					ng-show="file.isAnalyzed()">
 						<span
 							class="svg icon-error"
 							ng-show="file.incompatibleObjectsWarning"
@@ -50,8 +50,8 @@
 					<select
 						class="settings-select"
 						ng-change="changeCalendar(file)"
-						ng-model="file.calendar"
-						ng-show="file.state === 1">
+						ng-model="file.selectedCalendar"
+						ng-show="file.isAnalyzed()">
 						<option
 							ng-repeat="calendar in calendars | calendarFilter | orderBy:['order']"
 							value="{{ calendar.url }}">
@@ -64,25 +64,25 @@
 					</select>
 				</div>
 					<span
-						ng-show="file.state === 2">
+						ng-show="file.isScheduled()">
 						<?php p($l->t('Import scheduled')); ?>
 					</span>
 				<uib-progressbar
-					ng-show="file.state === 3"
+					ng-show="file.isImporting()"
 					animate="false"
 					value="file.progress"
 					max="file.progressToReach">
 					&nbsp;
 				</uib-progressbar>
 				<div
-					ng-show="file.state === 4">
+					ng-show="file.isDone()">
 						<span>
 							{{ file | importErrorFilter }}
 						</span>
 				</div>
 			</td>
 			<td class="buttongroup">
-				<div class="pull-right" ng-show="file.state === 1">
+				<div class="pull-right" ng-show="file.isAnalyzed()">
 					<button
 						class="primary btn icon-checkmark-white"
 						ng-click="import(file)">

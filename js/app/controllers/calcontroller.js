@@ -52,10 +52,10 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'Calendar', 
 		}
 
 		function hideCalendar(url) {
+			uiCalendarConfig.calendars.calendar.fullCalendar(
+				'removeEventSource',
+				$scope.eventSource[url]);
 			if (switcher.indexOf(url) !== -1) {
-				uiCalendarConfig.calendars.calendar.fullCalendar(
-					'removeEventSource',
-					$scope.eventSource[url]);
 				switcher.splice(switcher.indexOf(url), 1);
 			}
 		}
@@ -81,6 +81,7 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'Calendar', 
 			newCalendars.filter(function(calendar) {
 				return oldCalendars.indexOf(calendar) === -1;
 			}).forEach(function(calendar) {
+				$scope.eventSource[calendar.url] = calendar.fcEventSource;
 				calendar.register(Calendar.hookEnabledChanged, function(enabled) {
 					if (enabled) {
 						showCalendar(calendar.url);

@@ -21,8 +21,8 @@
  *
  */
 
-app.service('SplitterService', ['ICalFactory',
-	function(ICalFactory) {
+app.service('SplitterService', ['ICalFactory', 'SplittedICal',
+	function(ICalFactory, SplittedICal) {
 		'use strict';
 
 		// provides function to split big ics blobs into an array of little ics blobs
@@ -51,9 +51,11 @@ app.service('SplitterService', ['ICalFactory',
 					});
 				});
 
-				var split = [];
+				var	name = components.getFirstPropertyValue('x-wr-calname');
+				var color =  components.getFirstPropertyValue('x-apple-calendar-color');
+
+				var split = SplittedICal(name, color);
 				angular.forEach(componentNames, function (componentName) {
-					split[componentName] = [];
 					angular.forEach(allObjects[componentName], function (objects) {
 						var component = ICalFactory.new();
 						angular.forEach(timezones, function (timezone) {
@@ -62,15 +64,11 @@ app.service('SplitterService', ['ICalFactory',
 						angular.forEach(objects, function (object) {
 							component.addSubcomponent(object);
 						});
-						split[componentName].push(component.toString());
+						split.addObject(componentName, component.toString());
 					});
 				});
 
-				return {
-					name: components.getFirstPropertyValue('x-wr-calname'),
-					color: components.getFirstPropertyValue('x-apple-calendar-color'),
-					split: split
-				};
+				return split;
 			}
 		};
 	}
