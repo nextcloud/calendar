@@ -2,6 +2,9 @@ app.factory('Calendar', function($window, Hook, VEventService, TimezoneService, 
 	'use strict';
 
 	function Calendar(url, props) {
+		url = url || '';
+		props = props || {};
+
 		const context = {
 			fcEventSource: {},
 			components: props.components,
@@ -155,6 +158,16 @@ app.factory('Calendar', function($window, Hook, VEventService, TimezoneService, 
 				get: function() {
 					return context.tmpId;
 				}
+			},
+			warnings: {
+				get: function() {
+					return context.warnings;
+				}
+			},
+			owner: {
+				get: function() {
+					return context.owner;
+				}
 			}
 		});
 
@@ -164,6 +177,10 @@ app.factory('Calendar', function($window, Hook, VEventService, TimezoneService, 
 
 		iface.getUpdated = function() {
 			return context.updatedProperties;
+		};
+
+		iface.resetUpdated = function() {
+			context.updatedProperties = [];
 		};
 
 		iface.addWarning = function(msg) {
@@ -222,7 +239,7 @@ app.factory('Calendar', function($window, Hook, VEventService, TimezoneService, 
 	}
 
 	Calendar.isCalendar = function(obj) {
-		return obj instanceof Calendar || (typeof obj === 'object' && obj !== null && obj._isACalendarObject !== null);
+		return (typeof obj === 'object' && obj !== null && obj._isACalendarObject === true);
 	};
 
 	Calendar.hookFinishedRendering = 1;

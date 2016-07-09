@@ -29,109 +29,117 @@ describe('The calendarSelectorFilter filter', function () {
 	});
 
 	it('should return only writable calendars', function() {
+		var writable1 = () => true,
+			writable4 = () => true;
 		expect(filter([
 			{
 				id: 1,
-				writable: true
+				isWritable: writable1
 			},
 			{
-				id: 2
+				id: 2,
+				isWritable: () => false
 			},
 			{
 				id: 3,
-				writable: false
+				isWritable: () => false
 			},
 			{
 				id: 4,
-				writable: true
+				isWritable: writable4
 			}
 		])).toEqual([
 			{
 				id: 1,
-				writable: true
+				isWritable: writable1
 			},
 			{
 				id: 4,
-				writable: true
+				isWritable: writable4
 			}
 		]);
 	});
 
 	it('should add the calendar to calendars if it ain\'t in there yet', function() {
+		var writable2 = () => true,
+			writable42 = () => true;
 		var calendar = {
 			id: 42,
-			writable: true
+			isWritable: writable42
 		};
 
 		expect(filter([
 			{
 				id: 1,
-				writable: false
+				isWritable: () => false
 			},
 			{
 				id: 2,
-				writable: true
+				isWritable: writable2
 			}
 		], calendar)).toEqual([
 			{
 				id: 2,
-				writable: true
+				isWritable: writable2
 			},
 			{
 				id: 42,
-				writable: true
+				isWritable: writable42
 			}
 		]);
 	});
 
 	it('should not add the calendars if it\'s already in there', function() {
+		var writable2 = () => true,
+			writable42 = () => true;
 		var calendar = {
 			id: 42,
-			writable: true
+			isWritable: writable42
 		};
 
 		expect(filter([
 			{
 				id: 1,
-				writable: false
+				isWritable: () => false
 			},
 			calendar,
 			{
 				id: 2,
-				writable: true
+				isWritable: writable2
 			}
 		], calendar)).toEqual([
 			{
 				id: 42,
-				writable: true
+				isWritable: writable42
 			},
 			{
 				id: 2,
-				writable: true
+				isWritable: writable2
 			}
 		]);
 	});
 
 	it('should only return the calendar if it\'s readonly', function() {
+		var notWritable = () => false;
 		var calendar = {
 			id: 42,
-			writable: false
+			isWritable: notWritable
 		};
 
 		expect(filter([
 			{
 				id: 1,
-				writable: false
+				isWritable: () => false
 			},
 			calendar,
 			{
 				id: 2,
-				writable: true
+				isWritable: () => true
 			}
 		], calendar)).toEqual([
 			{
 				id: 42,
-				writable: false
+				isWritable: notWritable
 			}
 		]);
 	});

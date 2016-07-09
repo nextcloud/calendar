@@ -24,32 +24,34 @@ describe('The attendeeNotOrganizerFilter filter', function () {
 	});
 
 	it('should be able to handle non-objects inside the array', function() {
+		var writable55 = () => true;
 		expect(filter([
 			123,
 			456,
 			{
 				id: 55,
-				writable: true
+				isWritable: writable55
 			}
 		])).toEqual([{
 			id: 55,
-			writable: true
+			isWritable: writable55
 		}]);
 	});
 
 	it('should only return writable calendars', function() {
+		var writable55 = () => true;
 		expect(filter([
 			{
 				id: 60,
-				writable: false
+				isWritable: () => false
 			},
 			{
 				id: 55,
-				writable: true
+				isWritable: writable55
 			}
 		])).toEqual([{
 			id: 55,
-			writable: true
+			isWritable: writable55
 		}]);
 	});
 

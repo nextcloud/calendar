@@ -2260,7 +2260,6 @@ app.factory('CalendarListItem', ["Calendar", function(Calendar) {
 		iface.openEditor = function() {
 			iface.color = context.calendar.color;
 			iface.displayname = context.calendar.displayname;
-			iface.order = context.calendar.order;
 
 			context.isEditingProperties = true;
 		};
@@ -2268,7 +2267,6 @@ app.factory('CalendarListItem', ["Calendar", function(Calendar) {
 		iface.cancelEditor = function() {
 			iface.color = '';
 			iface.displayname = '';
-			iface.order = 0;
 
 			context.isEditingProperties = false;
 		};
@@ -2277,12 +2275,16 @@ app.factory('CalendarListItem', ["Calendar", function(Calendar) {
 			context.calendar.color = iface.color;
 			context.calendar.displayname = iface.displayname;
 
+			iface.color = '';
+			iface.displayname = '';
+
 			context.isEditingProperties = false;
 		};
 
 		//Properties for ng-model of calendar editor
 		iface.color = '';
 		iface.displayname = '';
+
 		iface.order = 0;
 
 		iface.selectedSharee = '';
@@ -2291,7 +2293,7 @@ app.factory('CalendarListItem', ["Calendar", function(Calendar) {
 	}
 
 	CalendarListItem.isCalendarListItem = function(obj) {
-		return obj instanceof CalendarListItem || (typeof obj === 'object' && obj !== null && obj._isACalendarListItemObject !== null);
+		return (typeof obj === 'object' && obj !== null && obj._isACalendarListItemObject === true);
 	};
 
 	return CalendarListItem;
@@ -2301,6 +2303,9 @@ app.factory('Calendar', ["$window", "Hook", "VEventService", "TimezoneService", 
 	'use strict';
 
 	function Calendar(url, props) {
+		url = url || '';
+		props = props || {};
+
 		const context = {
 			fcEventSource: {},
 			components: props.components,
@@ -2454,6 +2459,16 @@ app.factory('Calendar', ["$window", "Hook", "VEventService", "TimezoneService", 
 				get: function() {
 					return context.tmpId;
 				}
+			},
+			warnings: {
+				get: function() {
+					return context.warnings;
+				}
+			},
+			owner: {
+				get: function() {
+					return context.owner;
+				}
 			}
 		});
 
@@ -2463,6 +2478,10 @@ app.factory('Calendar', ["$window", "Hook", "VEventService", "TimezoneService", 
 
 		iface.getUpdated = function() {
 			return context.updatedProperties;
+		};
+
+		iface.resetUpdated = function() {
+			context.updatedProperties = [];
 		};
 
 		iface.addWarning = function(msg) {
@@ -2521,7 +2540,7 @@ app.factory('Calendar', ["$window", "Hook", "VEventService", "TimezoneService", 
 	}
 
 	Calendar.isCalendar = function(obj) {
-		return obj instanceof Calendar || (typeof obj === 'object' && obj !== null && obj._isACalendarObject !== null);
+		return (typeof obj === 'object' && obj !== null && obj._isACalendarObject === true);
 	};
 
 	Calendar.hookFinishedRendering = 1;
@@ -4087,6 +4106,8 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 			));
 		}
 
+		calendar.resetUpdated();
+
 		var url = calendar.url;
 		var body = this._xmls.serializeToString(dPropUpdate);
 		var headers = {
@@ -4334,7 +4355,7 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 			simple.color = '#1d2d44';
 		}
 
-		simple.writableProperties = (oc_current_user === simple.owner);
+		simple.writableProperties = (oc_current_user === simple.owner) && simple.writable;
 
 		return simple;
 	};

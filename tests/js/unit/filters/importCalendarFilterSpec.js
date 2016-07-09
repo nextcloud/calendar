@@ -48,10 +48,10 @@ describe('The importCalendarFilter filter', function () {
 				}
 			}
 		], {
-			split: {
-				vevent: [{},{},{},{},{}],
-				vjournal: 0,
-				vtodo: [{},{}]
+			splittedICal: {
+				vevents: [{}, {}, {}, {}, {}],
+				vjournals: [],
+				vtodos: [{}, {}]
 			}
 		})).toEqual([
 			{
@@ -92,9 +92,10 @@ describe('The importCalendarFilter filter', function () {
 				}
 			}
 		], {
-			split: {
-				vevent: [{},{},{}],
-				vtodo: 'abc'
+			splittedICal: {
+				vevents: [{}, {}, {}],
+				vjournals: [],
+				vtodos: []
 			}
 		})).toEqual([
 			{

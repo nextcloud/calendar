@@ -235,6 +235,8 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 			));
 		}
 
+		calendar.resetUpdated();
+
 		var url = calendar.url;
 		var body = this._xmls.serializeToString(dPropUpdate);
 		var headers = {
@@ -482,7 +484,7 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 			simple.color = '#1d2d44';
 		}
 
-		simple.writableProperties = (oc_current_user === simple.owner);
+		simple.writableProperties = (oc_current_user === simple.owner) && simple.writable;
 
 		return simple;
 	};

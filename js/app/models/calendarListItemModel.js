@@ -86,7 +86,6 @@ app.factory('CalendarListItem', function(Calendar) {
 		iface.openEditor = function() {
 			iface.color = context.calendar.color;
 			iface.displayname = context.calendar.displayname;
-			iface.order = context.calendar.order;
 
 			context.isEditingProperties = true;
 		};
@@ -94,7 +93,6 @@ app.factory('CalendarListItem', function(Calendar) {
 		iface.cancelEditor = function() {
 			iface.color = '';
 			iface.displayname = '';
-			iface.order = 0;
 
 			context.isEditingProperties = false;
 		};
@@ -103,12 +101,16 @@ app.factory('CalendarListItem', function(Calendar) {
 			context.calendar.color = iface.color;
 			context.calendar.displayname = iface.displayname;
 
+			iface.color = '';
+			iface.displayname = '';
+
 			context.isEditingProperties = false;
 		};
 
 		//Properties for ng-model of calendar editor
 		iface.color = '';
 		iface.displayname = '';
+
 		iface.order = 0;
 
 		iface.selectedSharee = '';
@@ -117,7 +119,7 @@ app.factory('CalendarListItem', function(Calendar) {
 	}
 
 	CalendarListItem.isCalendarListItem = function(obj) {
-		return obj instanceof CalendarListItem || (typeof obj === 'object' && obj !== null && obj._isACalendarListItemObject !== null);
+		return (typeof obj === 'object' && obj !== null && obj._isACalendarListItemObject === true);
 	};
 
 	return CalendarListItem;
