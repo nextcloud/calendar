@@ -66,6 +66,7 @@ script:
     - phpunit --coverage-clover=coverage.clover tests/unit
     - cd js/
     - grunt karma
+    - cd ..
 
 
 after_success:
