@@ -298,13 +298,13 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 			if (response.status === 200) {
 				if (!existingShare) {
 					if (shareType === OC.Share.SHARE_TYPE_USER) {
-						calendar.sharedWith.users.push({
+						calendar.shares.users.push({
 							id: shareWith,
 							displayname: shareWith,
 							writable: writable
 						});
 					} else if (shareType === OC.Share.SHARE_TYPE_GROUP) {
-						calendar.sharedWith.groups.push({
+						calendar.shares.groups.push({
 							id: shareWith,
 							displayname: shareWith,
 							writable: writable
@@ -342,11 +342,11 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 		return DavClient.request('POST', calendar.url, headers, body).then(function(response) {
 			if (response.status === 200) {
 				if (shareType === OC.Share.SHARE_TYPE_USER) {
-					calendar.sharedWith.users = calendar.sharedWith.users.filter(function(user) {
+					calendar.shares.users = calendar.shares.users.filter(function(user) {
 						return user.id !== shareWith;
 					});
 				} else if (shareType === OC.Share.SHARE_TYPE_GROUP) {
-					calendar.sharedWith.groups = calendar.sharedWith.groups.filter(function(groups) {
+					calendar.shares.groups = calendar.shares.groups.filter(function(groups) {
 						return groups.id !== shareWith;
 					});
 				}
@@ -410,11 +410,11 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 			},
 			owner: null,
 			shareable: props.canWrite,
-			sharedWith: {
+			shares: {
 				users: [],
 				groups: []
 			},
-			writable: props.canWrite,
+			writable: props.canWrite
 		};
 
 		var components = props['{' + DavClient.NS_IETF + '}supported-calendar-component-set'];
@@ -452,13 +452,13 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 				readWrite = readWrite.length !== 0;
 
 				if (href.startsWith('principal:principals/users/')) {
-					simple.sharedWith.users.push({
+					simple.shares.users.push({
 						id: href.substr(27),
 						displayname: href.substr(27),
 						writable: readWrite
 					});
 				} else if (href.startsWith('principal:principals/groups/')) {
-					simple.sharedWith.groups.push({
+					simple.shares.groups.push({
 						id: href.substr(28),
 						displayname: href.substr(28),
 						writable: readWrite

@@ -142,12 +142,11 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 					itemType: 'principals'
 				}
 			).then(function(result) {
-				// Todo - filter out current user, existing sharees
 				var users   = result.ocs.data.exact.users.concat(result.ocs.data.users);
 				var groups  = result.ocs.data.exact.groups.concat(result.ocs.data.groups);
 
-				var userShares = calendar.sharedWith.users;
-				var groupShares = calendar.sharedWith.groups;
+				var userShares = calendar.shares.users;
+				var groupShares = calendar.shares.groups;
 				var userSharesLength = userShares.length;
 				var groupSharesLength = groupShares.length;
 				var i, j;

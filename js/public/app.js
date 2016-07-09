@@ -618,12 +618,11 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 					itemType: 'principals'
 				}
 			).then(function(result) {
-				// Todo - filter out current user, existing sharees
 				var users   = result.ocs.data.exact.users.concat(result.ocs.data.users);
 				var groups  = result.ocs.data.exact.groups.concat(result.ocs.data.groups);
 
-				var userShares = calendar.sharedWith.users;
-				var groupShares = calendar.sharedWith.groups;
+				var userShares = calendar.shares.users;
+				var groupShares = calendar.shares.groups;
 				var userSharesLength = userShares.length;
 				var groupSharesLength = groupShares.length;
 				var i, j;
@@ -2315,7 +2314,7 @@ app.factory('Calendar', ["$window", "Hook", "VEventService", "TimezoneService", 
 			tmpId: RandomStringService.generate(),
 			url: url,
 			owner: props.owner,
-			shares: props.sharedWith,
+			shares: props.shares,
 			warnings: [],
 			shareable: props.shareable,
 			writable: props.writable,
@@ -4151,13 +4150,13 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 			if (response.status === 200) {
 				if (!existingShare) {
 					if (shareType === OC.Share.SHARE_TYPE_USER) {
-						calendar.sharedWith.users.push({
+						calendar.shares.users.push({
 							id: shareWith,
 							displayname: shareWith,
 							writable: writable
 						});
 					} else if (shareType === OC.Share.SHARE_TYPE_GROUP) {
-						calendar.sharedWith.groups.push({
+						calendar.shares.groups.push({
 							id: shareWith,
 							displayname: shareWith,
 							writable: writable
@@ -4195,11 +4194,11 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 		return DavClient.request('POST', calendar.url, headers, body).then(function(response) {
 			if (response.status === 200) {
 				if (shareType === OC.Share.SHARE_TYPE_USER) {
-					calendar.sharedWith.users = calendar.sharedWith.users.filter(function(user) {
+					calendar.shares.users = calendar.shares.users.filter(function(user) {
 						return user.id !== shareWith;
 					});
 				} else if (shareType === OC.Share.SHARE_TYPE_GROUP) {
-					calendar.sharedWith.groups = calendar.sharedWith.groups.filter(function(groups) {
+					calendar.shares.groups = calendar.shares.groups.filter(function(groups) {
 						return groups.id !== shareWith;
 					});
 				}
@@ -4263,11 +4262,11 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 			},
 			owner: null,
 			shareable: props.canWrite,
-			sharedWith: {
+			shares: {
 				users: [],
 				groups: []
 			},
-			writable: props.canWrite,
+			writable: props.canWrite
 		};
 
 		var components = props['{' + DavClient.NS_IETF + '}supported-calendar-component-set'];
@@ -4305,13 +4304,13 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 				readWrite = readWrite.length !== 0;
 
 				if (href.startsWith('principal:principals/users/')) {
-					simple.sharedWith.users.push({
+					simple.shares.users.push({
 						id: href.substr(27),
 						displayname: href.substr(27),
 						writable: readWrite
 					});
 				} else if (href.startsWith('principal:principals/groups/')) {
-					simple.sharedWith.groups.push({
+					simple.shares.groups.push({
 						id: href.substr(28),
 						displayname: href.substr(28),
 						writable: readWrite
