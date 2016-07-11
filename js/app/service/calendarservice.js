@@ -401,7 +401,6 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 		this._getACLFromResponse(props);
 
 		var simple = {
-			enabled: props['{' + DavClient.NS_OWNCLOUD + '}calendar-enabled'] === '1',
 			displayname: props['{' + DavClient.NS_DAV + '}displayname'],
 			color: props['{' + DavClient.NS_APPLE + '}calendar-color'],
 			order: props['{' + DavClient.NS_APPLE + '}calendar-order'],
@@ -469,13 +468,16 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 			}
 		}
 
-		if (typeof simple.enabled === 'undefined') {
+		if (typeof props['{' + DavClient.NS_OWNCLOUD + '}calendar-enabled'] === 'undefined') {
 			if (typeof simple.owner !== 'undefined') {
 				simple.enabled = simple.owner === oc_current_user;
 			} else {
 				simple.enabled = false;
 			}
+		} else {
+			simple.enabled = (props['{' + DavClient.NS_OWNCLOUD + '}calendar-enabled'] === '1');
 		}
+
 		if (typeof simple.color !== 'undefined') {
 			if (simple.color.length === 9) {
 				simple.color = simple.color.substr(0,7);
