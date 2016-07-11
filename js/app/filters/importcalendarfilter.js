@@ -24,13 +24,13 @@ app.filter('importCalendarFilter', function () {
 	'use strict';
 
 	return function (calendars, file) {
-		if (!Array.isArray(calendars) || typeof file !== 'object' || !file || typeof file.split !== 'object' || !file.split) {
+		if (!Array.isArray(calendars) || typeof file !== 'object' || !file || typeof file.splittedICal !== 'object' || !file.splittedICal) {
 			return [];
 		}
 
-		var events = Array.isArray(file.split.vevent) ? file.split.vevent.length : 0,
-			journals = Array.isArray(file.split.vjournal) ? file.split.vjournal.length : 0,
-			todos = Array.isArray(file.split.vtodo) ? file.split.vtodo.length : 0;
+		var events = file.splittedICal.vevents.length,
+			journals = file.splittedICal.vjournals.length,
+			todos = file.splittedICal.vtodos.length;
 
 		return calendars.filter(function(calendar) {
 			if (events !== 0 && !calendar.components.vevent) {

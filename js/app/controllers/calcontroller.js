@@ -26,8 +26,8 @@
 * Description: The fullcalendar controller.
 */
 
-app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'VEvent', 'is', 'uiCalendarConfig', 'EventsEditorDialogService',
-	function ($scope, $rootScope, $window, CalendarService, VEventService, SettingsService, TimezoneService, VEvent, is, uiCalendarConfig, EventsEditorDialogService) {
+app.controller('CalController', ['$scope', '$rootScope', '$window', 'Calendar', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'VEvent', 'is', 'uiCalendarConfig', 'EventsEditorDialogService',
+	function ($scope, $rootScope, $window, Calendar, CalendarService, VEventService, SettingsService, TimezoneService, VEvent, is, uiCalendarConfig, EventsEditorDialogService) {
 		'use strict';
 
 		is.loading = true;
@@ -52,10 +52,10 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 		}
 
 		function hideCalendar(url) {
+			uiCalendarConfig.calendars.calendar.fullCalendar(
+				'removeEventSource',
+				$scope.eventSource[url]);
 			if (switcher.indexOf(url) !== -1) {
-				uiCalendarConfig.calendars.calendar.fullCalendar(
-					'removeEventSource',
-					$scope.eventSource[url]);
 				switcher.splice(switcher.indexOf(url), 1);
 			}
 		}
@@ -77,20 +77,35 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 			});
 		}
 
-		$scope.$watchCollection('calendars', function(newCalendarCollection, oldCalendarCollection) {
-			var newCalendars = newCalendarCollection.filter(function(calendar) {
-				return oldCalendarCollection.indexOf(calendar) === -1;
-			});
-
-			angular.forEach(newCalendars, function(calendar) {
-				calendar.registerCallback('enabled', function(enabled) {
+		$scope.$watchCollection('calendars', function(newCalendars, oldCalendars) {
+			newCalendars.filter(function(calendar) {
+				return oldCalendars.indexOf(calendar) === -1;
+			}).forEach(function(calendar) {
+				$scope.eventSource[calendar.url] = calendar.fcEventSource;
+				calendar.register(Calendar.hookEnabledChanged, function(enabled) {
 					if (enabled) {
 						showCalendar(calendar.url);
 					} else {
 						hideCalendar(calendar.url);
-						calendar.list.loading = false;
+						//calendar.list.loading = false;
 					}
 				});
+
+				calendar.register(Calendar.hookColorChanged, function() {
+					if (calendar.enabled) {
+						hideCalendar(calendar.url);
+						showCalendar(calendar.url);
+					}
+				});
+			});
+
+			oldCalendars.filter(function(calendar) {
+				return newCalendars.indexOf(calendar) === -1;
+			}).forEach(function(calendar) {
+				var url = calendar.url;
+				hideCalendar(calendar.url);
+
+				delete $scope.eventSource[url];
 			});
 		});
 
@@ -231,7 +246,7 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 				firstDay: moment().startOf('week').format('d'),
 				select: function (start, end, jsEvent, view) {
 					var writableCalendars = $scope.calendars.filter(function(elem) {
-						return elem.writable;
+						return elem.isWritable();
 					});
 
 					if (writableCalendars.length === 0) {
@@ -360,38 +375,7 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 			}
 		};
 
-		/**
-		 * After a calendar was updated:
-		 * - show/hide
-		 * - update calendar
-		 * - update permissions
-		 */
-		$rootScope.$on('updatedCalendar', function (event, updatedCalendar) {
-			var url = updatedCalendar.url;
-
-			if ($scope.eventSource[url].color !== updatedCalendar.color) {
-				hideCalendar(updatedCalendar.url);
-				showCalendar(updatedCalendar.url);
-			}
-			$scope.eventSource[url].editable = updatedCalendar.writable;
-		});
-
-		/**
-		 * After a calendar was deleted:
-		 * - remove event source from fullcalendar
-		 * - delete event source object
-		 */
-		$rootScope.$on('removedCalendar', function (event, calendar) {
-			$scope.calendars = $scope.calendars.filter(function (element) {
-				return element.url !== calendar.url;
-			});
-
-			var deletedObject = calendar.url;
-			hideCalendar(calendar.url);
-
-			delete $scope.eventSource[deletedObject];
-		});
-
+		// TODO - where is this triggered
 		$rootScope.$on('refetchEvents', function (event, calendar) {
 			uiCalendarConfig.calendars.calendar.fullCalendar('refetchEvents');
 		});

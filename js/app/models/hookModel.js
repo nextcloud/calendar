@@ -1,4 +1,3 @@
-<?php
 /**
  * ownCloud - Calendar App
  *
@@ -21,10 +20,27 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-?>
-<ul class="app-navigation-list calendar-list">
-	<div ng-class="{'icon-loading-small': is.loading}"></div>
-	<li ng-repeat="item in calendarListItems | orderBy: item.calendar.order | calendarListFilter" class="app-navigation-list-item" ng-class="{active: item.calendar.enabled}">
-		<?php print_unescaped($this->inc('part.calendarlist.item')); ?>
-	</li>
-</ul>
+
+app.factory('Hook', function() {
+	'use strict';
+
+	return function Hook(context) {
+		context.hooks = {};
+		const iface = {};
+		
+		iface.emit = function(identifier, newValue, oldValue) {
+			if (Array.isArray(context.hooks[identifier])) {
+				context.hooks[identifier].forEach(function(callback) {
+					callback(newValue, oldValue);
+				});
+			}
+		};
+		
+		iface.register = function(identifier, callback) {
+			context.hooks[identifier] = context.hooks[identifier] || [];
+			context.hooks[identifier].push(callback);
+		};
+
+		return iface;
+	};
+});

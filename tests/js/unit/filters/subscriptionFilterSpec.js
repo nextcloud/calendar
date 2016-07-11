@@ -29,24 +29,26 @@ describe('The subscriptionFilter filter', function () {
 			456,
 			{
 				id: 55,
-				writable: true
+				isWritable: () => true
 			}
 		])).toEqual([]);
 	});
 
 	it('should only return writable calendars', function() {
+		var notWritable = () => false;
+
 		expect(filter([
 			{
 				id: 60,
-				writable: false
+				isWritable: notWritable
 			},
 			{
 				id: 55,
-				writable: true
+				isWritable: () => true
 			}
 		])).toEqual([{
 			id: 60,
-			writable: false
+			isWritable: notWritable
 		}]);
 	});
 

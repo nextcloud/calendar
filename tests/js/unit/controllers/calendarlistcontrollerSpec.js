@@ -79,9 +79,12 @@ describe('CalendarListController', function() {
 			CalendarService: CalendarService
 		});
 
-		var calendarToDelete = new Calendar();
+		var calendarToDelete = {};
+		var calendarItem = {
+			calendar: calendarToDelete
+		};
 
-		$scope.remove(calendarToDelete);
+		$scope.remove(calendarItem);
 		expect(CalendarService.delete).toHaveBeenCalledWith(calendarToDelete);
 	});
 

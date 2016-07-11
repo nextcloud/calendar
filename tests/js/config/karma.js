@@ -39,6 +39,7 @@ module.exports = function (config) {
 			'js/vendor/angular-ui/angular-ui.js',
 			'js/vendor/angular-ui/angular-ui-calendar.js',
 			'js/vendor/appframework/app.js',
+			'js/vendor/ical.js/build/ical.js',
 			'tests/js/stubs/app.js',
 			'js/app/**/*.js',
 			'tests/js/unit/**/*.js'

@@ -53,7 +53,7 @@ app.factory('FcEvent', function(SimpleEvent) {
 	function getCalendarRelatedProps (vevent) {
 		return {
 			calendar: vevent.calendar,
-			editable: vevent.calendar.writable,
+			editable: vevent.calendar.isWritable(),
 			className: ['fcCalendar-id-' + vevent.calendar.tmpId]
 		};
 	}
