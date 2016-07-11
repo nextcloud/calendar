@@ -1,7 +1,6 @@
 {
   "name": "fullcalendar",
   "title": "FullCalendar",
-  "version": "2.7.1",
   "description": "Full-sized drag & drop event calendar",
   "keywords": [
     "calendar",
@@ -29,11 +28,11 @@
   "devDependencies": {
     "jquery-ui": ">=1.11.1",
     "jquery-simulate": "~1.0.1",
-    "jasmine-jquery": "~2.0.3",
-    "jasmine-fixture": "~1.2.0",
+    "jasmine-jquery": "~2.1.1",
+    "jasmine-fixture": "~2.0.0",
     "moment-timezone": "~0.2.1",
     "bootstrap": "~3.2.0",
-    "jquery-mockjax": "~2.1.1"
+    "jquery-mockjax": "~2.2.0"
   },
   "main": [
     "dist/fullcalendar.js",
@@ -48,14 +47,14 @@
     "!/CHANGELOG.*",
     "!/CONTRIBUTING.*"
   ],
-  "_release": "2.7.1",
+  "version": "2.9.0",
+  "_release": "2.9.0",
   "_resolution": {
     "type": "version",
-    "tag": "v2.7.1",
-    "commit": "c0cf46d19d632bf4402ef7198b3619ad63953582"
+    "tag": "v2.9.0",
+    "commit": "de60899f7e4083e0a0fde85cfe761e4fd77cc9b2"
   },
-  "_source": "https://github.com/arshaw/fullcalendar.git",
+  "_source": "https://github.com/fullcalendar/fullcalendar.git",
   "_target": "^2.7.1",
-  "_originalSource": "fullcalendar",
-  "_direct": true
+  "_originalSource": "fullcalendar"
 }
