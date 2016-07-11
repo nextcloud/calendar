@@ -86,7 +86,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @dataProvider indexDataProvider
 	 */
-	public function testIndex($isAssetPipelineEnabled, $serverVersion, $expectsSupportsClass) {
+	public function testIndex($isAssetPipelineEnabled, $showAssetPipelineError, $serverVersion, $expectsSupportsClass) {
 		$this->config->expects($this->at(0))
 			->method('getSystemValue')
 			->with('version')
@@ -97,7 +97,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 			->with('asset-pipeline.enabled', false)
 			->will($this->returnValue($isAssetPipelineEnabled));
 
-		if ($isAssetPipelineEnabled) {
+		if ($showAssetPipelineError) {
 			$actual = $this->controller->index();
 
 			$this->assertInstanceOf('OCP\AppFramework\Http\TemplateResponse', $actual);
@@ -142,10 +142,10 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 
 	public function indexDataProvider() {
 		return [
-			[true, '9.0.5.2', false],
-			[true, '9.1.0.0', true],
-			[false, '9.0.5.2', false],
-			[false, '9.1.0.0', true]
+			[true, true, '9.0.5.2', false],
+			[true, false, '9.1.0.0', true],
+			[false, false, '9.0.5.2', false],
+			[false, false, '9.1.0.0', true]
 		];
 	}
 
