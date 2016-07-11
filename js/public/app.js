@@ -5571,3 +5571,75 @@ app.service('StringUtility', function () {
 		return uri;
 	};
 });
+app.service('XMLUtility', function() {
+	'use strict';
+
+	const context = {};
+	context.XMLify = function(xmlDoc, parent, json) {
+		const element = xmlDoc.createElement(json.name);
+
+		for (let key in json.attributes) {
+			if (json.attributes.hasOwnProperty(key)) {
+				element.setAttribute(key, json.attributes[key]);
+			}
+		}
+
+		if (json.value) {
+			element.textContent = json.value;
+		} else if (json.children) {
+			for (let key in json.children) {
+				if (json.children.hasOwnProperty(key)) {
+					context.XMLify(xmlDoc, element, json.children[key]);
+				}
+			}
+		}
+
+		parent.appendChild(element);
+	};
+
+	const serializer = new XMLSerializer();
+
+	this.getRootSceleton = function() {
+		if (arguments.length === 0) {
+			return {};
+		}
+
+		const sceleton = {
+			name: arguments[0],
+			attributes: {
+				'xmlns:c': 'urn:ietf:params:xml:ns:caldav',
+				'xmlns:d': 'DAV:',
+				'xmlns:a': 'http://apple.com/ns/ical/',
+				'xmlns:o': 'http://owncloud.org/ns'
+			},
+			children: []
+		};
+
+		let childrenWrapper = sceleton.children;
+
+		const args = Array.prototype.slice.call(arguments, 1);
+		args.forEach(function(argument) {
+			const level = {
+				name: argument,
+				children: []
+			};
+			childrenWrapper.push(level);
+			childrenWrapper = level.children;
+		});
+
+		return sceleton;
+	};
+
+	this.serialize = function(json) {
+		json = json || {};
+		if (typeof json !== 'object' || !json.hasOwnProperty('name')) {
+			return '';
+		}
+
+		const root = document.implementation.createDocument('', '', null);
+		context.XMLify(root, root, json);
+
+		return serializer.serializeToString(root.firstChild);
+	};
+});
+
