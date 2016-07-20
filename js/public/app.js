@@ -54,6 +54,7 @@ app.run(['$document', '$rootScope', '$window',
 
 		$rootScope.baseUrl = $window.location.origin +
 			$window.location.pathname +
+			($window.location.pathname.substr(-1) === '/' ? '' : '/') +
 			'v1/';
 
 		$document.click(function (event) {
