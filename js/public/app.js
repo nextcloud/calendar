@@ -2857,8 +2857,8 @@ app.factory('ImportFileWrapper', ["Hook", "SplitterService", function(Hook, Spli
 				context.progressToReach = context.splittedICal.vevents.length +
 					context.splittedICal.vjournals.length +
 					context.splittedICal.vtodos.length;
-				afterReadCallback();
 				iface.state = ImportFileWrapper.stateAnalyzed;
+				afterReadCallback();
 			};
 
 			reader.readAsText(file);

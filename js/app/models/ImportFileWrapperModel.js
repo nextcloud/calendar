@@ -120,8 +120,8 @@ app.factory('ImportFileWrapper', function(Hook, SplitterService) {
 				context.progressToReach = context.splittedICal.vevents.length +
 					context.splittedICal.vjournals.length +
 					context.splittedICal.vtodos.length;
-				afterReadCallback();
 				iface.state = ImportFileWrapper.stateAnalyzed;
+				afterReadCallback();
 			};
 
 			reader.readAsText(file);
