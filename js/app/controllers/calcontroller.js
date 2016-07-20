@@ -243,7 +243,7 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'Calendar', 
 				defaultView: angular.element('#fullcalendar').attr('data-defaultView'),
 				header: false,
 				nowIndicator: true,
-				firstDay: moment().startOf('week').format('d'),
+				firstDay: +moment().startOf('week').format('d'),
 				select: function (start, end, jsEvent, view) {
 					var writableCalendars = $scope.calendars.filter(function(elem) {
 						return elem.isWritable();
