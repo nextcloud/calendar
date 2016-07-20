@@ -260,13 +260,17 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'Calendar', 
 			});
 		});
 
-		$scope._calculatePopoverPosition = function(target, view) {
-			var clientRect = target.getClientRects()[0],
-				headerHeight = angular.element('#header').height(),
+		$scope._calculatePopoverPositionByTarget = function(target, view) {
+			var clientRect = target.getClientRects()[0];
+			return $scope._calculatePopoverPosition(clientRect.left, clientRect.top, clientRect.right, clientRect.bottom, view);
+		};
+
+		$scope._calculatePopoverPosition = function(left, top, right, bottom, view) {
+			var headerHeight = angular.element('#header').height(),
 				navigationWidth = angular.element('#app-navigation').width(),
-				eventX = clientRect.left - navigationWidth,
-				eventY = clientRect.top - headerHeight,
-				eventWidth = clientRect.right - clientRect.left,
+				eventX = left - navigationWidth,
+				eventY = top - headerHeight,
+				eventWidth = right - left,
 				windowX = $window.innerWidth - navigationWidth,
 				windowY = $window.innerHeight - headerHeight,
 				popoverHeight = 300,
@@ -277,41 +281,41 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'Calendar', 
 				if (view.name === 'agendaDay' || view.name === 'agendaWeek') {
 					position.push({
 						name: 'top',
-						value: clientRect.top - headerHeight + 30
+						value: top - headerHeight + 30
 					});
 				} else {
 					position.push({
 						name: 'top',
-						value: clientRect.bottom - headerHeight + 20
+						value: bottom - headerHeight + 20
 					});
 				}
 			} else {
 				position.push({
 					name: 'top',
-					value: clientRect.top - headerHeight - popoverHeight - 20
+					value: top - headerHeight - popoverHeight - 20
 				});
 			}
 
 			if (view.name === 'agendaDay') {
 				position.push({
 					name: 'left',
-					value: clientRect.left - (popoverWidth / 2) - 20 + eventWidth / 2
+					value: left - (popoverWidth / 2) - 20 + eventWidth / 2
 				});
 			} else {
 				if (eventX / windowX < 0.25) {
 					position.push({
 						name: 'left',
-						value: clientRect.left - 20 + eventWidth / 2
+						value: left - 20 + eventWidth / 2
 					});
 				} else if (eventX / windowX > 0.75) {
 					position.push({
 						name: 'left',
-						value: clientRect.left - popoverWidth - 20 + eventWidth / 2
+						value: left - popoverWidth - 20 + eventWidth / 2
 					});
 				} else {
 					position.push({
 						name: 'left',
-						value: clientRect.left - (popoverWidth / 2) - 20 + eventWidth / 2
+						value: left - (popoverWidth / 2) - 20 + eventWidth / 2
 					});
 				}
 			}
@@ -386,7 +390,13 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'Calendar', 
 					uiCalendarConfig.calendars.calendar.fullCalendar('renderEvent', fcEvent);
 
 					EventsEditorDialogService.open($scope, fcEvent, function() {
-						return $scope._calculatePopoverPosition(angular.element('.' + fcEventClass)[0], view);
+						const elements = angular.element('.' + fcEventClass);
+						const isHidden = angular.element(elements[0]).parents('.fc-limited').length !== 0;
+						if (isHidden) {
+							return $scope._calculatePopoverPosition(jsEvent.clientX, jsEvent.clientY, jsEvent.clientX, jsEvent.clientY, view);
+						} else {
+							return $scope._calculatePopoverPositionByTarget(elements[0], view);
+						}
 					}, function() {
 						return null;
 					}, function() {
@@ -412,7 +422,7 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'Calendar', 
 					var fc = fcEvent;
 
 					EventsEditorDialogService.open($scope, fcEvent, function() {
-						return $scope._calculatePopoverPosition(jsEvent.currentTarget, view);
+						return $scope._calculatePopoverPositionByTarget(jsEvent.currentTarget, view);
 					}, function() {
 						fc.editable = false;
 						uiCalendarConfig.calendars.calendar.fullCalendar('updateEvent', fc);
