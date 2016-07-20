@@ -29,7 +29,7 @@
 		<tbody>
 		<tr ng-repeat="file in files" ng-show="!file.done">
 			<td class="name">
-				<span>{{ file.file.name }}</span>
+				<span>{{ file.file.name | limitTo:nameSize }}</span>
 			</td>
 			<td class="calendartype">
 				<span ng-show="file.wasCanceled()">

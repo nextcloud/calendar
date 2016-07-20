@@ -30,6 +30,8 @@ app.controller('ImportController', ['$scope', '$filter', 'CalendarService', 'VEv
 	function($scope, $filter, CalendarService, VEventService, $uibModalInstance, files, ImportFileWrapper) {
 		'use strict';
 
+		$scope.nameSize = 30;
+
 		$scope.rawFiles = files;
 		$scope.files = [];
 
