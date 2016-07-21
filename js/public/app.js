@@ -1108,6 +1108,7 @@ app.controller('ImportController', ['$scope', '$filter', 'CalendarService', 'VEv
 						$scope.writableCalendars.push(calendar);
 					}
 					importCalendar(calendar);
+					fileWrapper.selectedCalendar = calendar.url;
 				});
 			} else {
 				var calendar = $scope.calendars.filter(function (element) {
@@ -1152,7 +1153,13 @@ app.controller('ImportController', ['$scope', '$filter', 'CalendarService', 'VEv
 				$scope.$apply();
 				$scope.closeIfNecessary();
 
-				//TODO - refetch calendar
+				var calendar = $scope.calendars.filter(function (element) {
+					return element.url === fileWrapper.selectedCalendar;
+				})[0];
+				if (calendar.enabled) {
+					calendar.enabled = false;
+					calendar.enabled = true;
+				}
 			});
 
 			fileWrapper.register(ImportFileWrapper.hookErrorsChanged, function() {
