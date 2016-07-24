@@ -10,7 +10,7 @@ package_name=$(app_name)
 clean:
 	rm -rf $(build_dir)
 
-appstore: clean
+build: clean
 	mkdir -p $(appstore_dir)
 	tar cvzf $(appstore_dir)/$(package_name).tar.gz $(project_dir) \
 	--exclude-vcs \
@@ -23,6 +23,7 @@ appstore: clean
 	--exclude=$(project_dir)/.scrutinizer.yml \
 	--exclude=$(project_dir)/.travis.yml \
 	--exclude=$(project_dir)/issue_template.md \
+	--exclude=$(project_dir)/coverage \
 	--exclude=$(project_dir)/Makefile \
 	--exclude=$(project_dir)/phpunit.xml \
 	--exclude=$(project_dir)/README.md \
@@ -58,3 +59,15 @@ appstore: clean
 	--exclude=$(project_dir)/js/vendor/jquery-timepicker/tests \
 	--exclude=$(project_dir)/js/vendor/jquery-timepicker/index.html \
 	--exclude=$(project_dir)/timezones/INFO.md \
+
+appstore: build
+	cd build/artifacts/appstore && \
+	tar -xvf calendar.tar.gz && \
+	cd ../../../../../config && \
+	mv config.php config2.php && \
+	cd .. && \
+	php occ integrity:sign-app --path="/Users/georgehrke/Development/Projects/ownCloud/apps/calendar/build/artifacts/appstore/calendar" --privateKey="/Users/georgehrke/Development/Keys/calendar/calendar.key" --certificate="/Users/georgehrke/Development/Keys/calendar/calendar.crt" && \
+	cd config && \
+	mv config2.php config.php && \
+	cd ../apps/calendar/build/artifacts/appstore && \
+	tar cvzf calendar.tar.gz calendar/
