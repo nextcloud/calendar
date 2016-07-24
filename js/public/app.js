@@ -5517,3 +5517,57 @@ app.service('VEventService', ['DavClient', 'VEvent', 'RandomStringService', func
 
 }]);
 
+app.service('StringUtility', function () {
+	'use strict';
+
+	this.uid = function() {
+			return Math.random().toString(36).substr(2).toUpperCase() +
+				Math.random().toString(36).substr(2).toUpperCase();
+	};
+
+	this.uri = function(start, isAvailable) {
+		start = start || '';
+
+		var uri = start.toString().toLowerCase()
+			.replace(/\s+/g, '-')           // Replace spaces with -
+			.replace(/[^\w\-]+/g, '')       // Remove all non-word chars
+			.replace(/\-\-+/g, '-')         // Replace multiple - with single -
+			.replace(/^-+/, '')             // Trim - from start of text
+			.replace(/-+$/, '');            // Trim - from end of text
+
+		if (uri === '') {
+			uri = '-';
+		}
+
+		if (isAvailable(uri)) {
+			return uri;
+		}
+
+		if (uri.indexOf('-') === -1) {
+			uri = uri + '-1';
+			if (isAvailable(uri)) {
+				return uri;
+			}
+		}
+
+		// === false because !undefined = true, possible infinite loop
+		do {
+			var positionLastDash = uri.lastIndexOf('-');
+			var firstPart = uri.substr(0, positionLastDash);
+			var lastPart = uri.substr(positionLastDash + 1);
+
+			if (lastPart.match(/^\d+$/)) {
+				lastPart = parseInt(lastPart);
+				lastPart++;
+
+				uri = firstPart + '-' + lastPart;
+			} else if (lastPart === '') {
+				uri = uri + '1';
+			} else {
+				uri = uri + '-1';
+			}
+		} while(isAvailable(uri) === false);
+
+		return uri;
+	};
+});
