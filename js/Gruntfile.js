@@ -30,6 +30,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-ng-annotate');
 	grunt.loadNpmTasks('grunt-karma');
 	grunt.loadNpmTasks('grunt-phpunit');
+	grunt.loadNpmTasks('grunt-babel');
 
 	grunt.initConfig({
 
@@ -118,12 +119,26 @@ module.exports = function(grunt) {
 				src: ['<%= meta.productionJS %>app.js'],
 				dest: '<%= meta.productionJS %>app.js'
 			}
+		},
+
+		babel: {
+			options: {
+				presets: ['es2015'],
+				compact: false,
+				babelrc: false,
+				ast: false
+			},
+			dist: {
+				files: {
+					'<%= meta.productionJS %>app.js': '<%= meta.productionJS %>app.js'
+				}
+			}
 		}
 
 	});
 
 	// make tasks available under simpler commands
-	grunt.registerTask('build', ['jshint', 'concat', 'wrap', 'ngAnnotate']);
+	grunt.registerTask('build', ['jshint', 'concat', 'babel', 'wrap', 'ngAnnotate']);
 	grunt.registerTask('js-unit', ['karma']);
 
 };
