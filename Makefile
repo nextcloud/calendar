@@ -11,10 +11,12 @@ clean:
 	rm -rf $(build_dir)
 
 build: clean
+	cd js && grunt build
 	mkdir -p $(appstore_dir)
 	tar cvzf $(appstore_dir)/$(package_name).tar.gz $(project_dir) \
 	--exclude-vcs \
 	--exclude-vcs-ignores \
+	--add-file=$(project_dir)/js/public/app.js \
 	--exclude=$(project_dir)/js/app \
 	--exclude=$(project_dir)/js/config \
 	--exclude=$(project_dir)/tests \
