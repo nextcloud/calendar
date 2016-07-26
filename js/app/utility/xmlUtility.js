@@ -49,7 +49,7 @@ app.service('XMLUtility', function() {
 
 	this.getRootSceleton = function() {
 		if (arguments.length === 0) {
-			return {};
+			return [{}, null];
 		}
 
 		const sceleton = {
@@ -75,7 +75,7 @@ app.service('XMLUtility', function() {
 			childrenWrapper = level.children;
 		});
 
-		return sceleton;
+		return [sceleton, childrenWrapper];
 	};
 
 	this.serialize = function(json) {

@@ -143,11 +143,11 @@ describe('XMLUtility', function () {
 	});
 
 	it('should return an empty object when getRootSceleton is called with no parameters', function() {
-		expect(XMLUtility.getRootSceleton()).toEqual({});
+		expect(XMLUtility.getRootSceleton()).toEqual([{}, null]);
 	});
 
 	it('should return the root sceleton correctly for one element', function() {
-		expect(XMLUtility.getRootSceleton('d:mkcol')).toEqual({
+		const expected = {
 			name: 'd:mkcol',
 			attributes: {
 				'xmlns:c': 'urn:ietf:params:xml:ns:caldav',
@@ -156,11 +156,14 @@ describe('XMLUtility', function () {
 				'xmlns:o': 'http://owncloud.org/ns'
 			},
 			children: []
-		});
+		};
+		const result = XMLUtility.getRootSceleton('d:mkcol');
+		expect(result).toEqual([expected, expected.children]);
+		expect(result[0].children === result[1]).toBe(true);
 	});
 
 	it('should return the root sceleton correctly for two elements', function() {
-		expect(XMLUtility.getRootSceleton('d:mkcol', 'd:set')).toEqual({
+		const expected = {
 			name: 'd:mkcol',
 			attributes: {
 				'xmlns:c': 'urn:ietf:params:xml:ns:caldav',
@@ -172,11 +175,14 @@ describe('XMLUtility', function () {
 				name: 'd:set',
 				children: []
 			}]
-		});
+		};
+		const result = XMLUtility.getRootSceleton('d:mkcol', 'd:set');
+		expect(result).toEqual([expected, expected.children[0].children]);
+		expect(result[0].children[0].children === result[1]).toBe(true);
 	});
 
 	it('should return the root sceleton correctly for three elements', function() {
-		expect(XMLUtility.getRootSceleton('d:mkcol', 'd:set', 'd:prop')).toEqual({
+		const expected = {
 			name: 'd:mkcol',
 			attributes: {
 				'xmlns:c': 'urn:ietf:params:xml:ns:caldav',
@@ -191,7 +197,10 @@ describe('XMLUtility', function () {
 					children: []
 				}]
 			}]
-		});
+		};
+		const result = XMLUtility.getRootSceleton('d:mkcol', 'd:set', 'd:prop');
+		expect(result).toEqual([expected, expected.children[0].children[0].children]);
+		expect(result[0].children[0].children[0].children === result[1]).toBe(true);
 	});
 
 });
