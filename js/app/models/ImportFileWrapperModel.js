@@ -1,4 +1,4 @@
-app.factory('ImportFileWrapper', function(Hook, SplitterService) {
+app.factory('ImportFileWrapper', function(Hook, ICalSplitterUtility) {
 	'use strict';
 
 	function ImportFileWrapper(file) {
@@ -116,7 +116,7 @@ app.factory('ImportFileWrapper', function(Hook, SplitterService) {
 			var reader = new FileReader();
 
 			reader.onload = function(event) {
-				context.splittedICal = SplitterService.split(event.target.result);
+				context.splittedICal = ICalSplitterUtility.split(event.target.result);
 				context.progressToReach = context.splittedICal.vevents.length +
 					context.splittedICal.vjournals.length +
 					context.splittedICal.vtodos.length;
