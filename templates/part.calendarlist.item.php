@@ -112,7 +112,7 @@
 		<div class="buttongroups">
 			<button class="primary icon-checkmark-white accept-button">
 			</button>
-			<button class="btn close-button icon-close"
+			<button type="button" class="btn close-button icon-close"
 					ng-click="item.cancelEditor()">
 			</button>
 		</div>
