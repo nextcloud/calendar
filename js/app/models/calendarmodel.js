@@ -1,4 +1,4 @@
-app.factory('Calendar', function($window, Hook, VEventService, TimezoneService, ColorUtilityService, RandomStringService) {
+app.factory('Calendar', function($window, Hook, VEventService, TimezoneService, ColorUtility, RandomStringService) {
 	'use strict';
 
 	function Calendar(url, props) {
@@ -82,8 +82,8 @@ app.factory('Calendar', function($window, Hook, VEventService, TimezoneService, 
 			},
 			textColor: {
 				get: function() {
-					const colors = ColorUtilityService.extractRGBFromHexString(context.mutableProperties.color);
-					return ColorUtilityService.generateTextColorFromRGB(colors.r, colors.g, colors.b);
+					const colors = ColorUtility.extractRGBFromHexString(context.mutableProperties.color);
+					return ColorUtility.generateTextColorFromRGB(colors.r, colors.g, colors.b);
 				}
 			},
 			displayname: {

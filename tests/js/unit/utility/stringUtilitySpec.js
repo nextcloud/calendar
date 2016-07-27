@@ -55,19 +55,6 @@ describe('StringUtility', function () {
 		expect(isAvailable.calls.count()).toEqual(2);
 	});
 
-	it('should be able to append number to the name if name contains - at the end', function() {
-		const isAvailable = jasmine.createSpy().and.returnValues(false, false, false, false, true);
-		const uri = StringUtility.uri('abc-', isAvailable);
-
-		expect(uri).toEqual('abc-4');
-		expect(isAvailable.calls.argsFor(0)).toEqual(['abc']);
-		expect(isAvailable.calls.argsFor(1)).toEqual(['abc-1']);
-		expect(isAvailable.calls.argsFor(2)).toEqual(['abc-2']);
-		expect(isAvailable.calls.argsFor(3)).toEqual(['abc-3']);
-		expect(isAvailable.calls.argsFor(4)).toEqual(['abc-4']);
-		expect(isAvailable.calls.count()).toEqual(5);
-	});
-
 	it('should be able to append 1 to the name if name contains - in the middle', function() {
 		const isAvailable = jasmine.createSpy().and.returnValues(false, true);
 		const uri = StringUtility.uri('a-bc', isAvailable);
