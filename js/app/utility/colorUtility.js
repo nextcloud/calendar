@@ -23,7 +23,7 @@
  *
  */
 
-app.service('ColorUtilityService', function() {
+app.service('ColorUtility', function() {
 	'use strict';
 
 	var self = this;
@@ -58,23 +58,27 @@ app.service('ColorUtilityService', function() {
 			b: 255
 		}, matchedString;
 
+		if (typeof colorString !== 'string') {
+			return fallbackColor;
+		}
+
 		switch (colorString.length) {
 			case 4:
-				matchedString = colorString.match(/^#([0-9a-f]{3})$/i)[1];
-				return (matchedString) ? {
-					r: parseInt(matchedString.charAt(0), 16) * 0x11,
-					g: parseInt(matchedString.charAt(1), 16) * 0x11,
-					b: parseInt(matchedString.charAt(2), 16) * 0x11
+				matchedString = colorString.match(/^#([0-9a-f]{3})$/i);
+				return (Array.isArray(matchedString) && matchedString[1]) ? {
+					r: parseInt(matchedString[1].charAt(0), 16) * 0x11,
+					g: parseInt(matchedString[1].charAt(1), 16) * 0x11,
+					b: parseInt(matchedString[1].charAt(2), 16) * 0x11
 				} : fallbackColor;
 
 			case 7:
 			case 9:
 				var regex = new RegExp('^#([0-9a-f]{' + (colorString.length - 1) + '})$', 'i');
-				matchedString = colorString.match(regex)[1];
-				return (matchedString) ? {
-					r: parseInt(matchedString.substr(0, 2), 16),
-					g: parseInt(matchedString.substr(2, 2), 16),
-					b: parseInt(matchedString.substr(4, 2), 16)
+				matchedString = colorString.match(regex);
+				return (Array.isArray(matchedString) && matchedString[1]) ? {
+					r: parseInt(matchedString[1].substr(0, 2), 16),
+					g: parseInt(matchedString[1].substr(2, 2), 16),
+					b: parseInt(matchedString[1].substr(4, 2), 16)
 				} : fallbackColor;
 
 			default:
@@ -101,14 +105,27 @@ app.service('ColorUtilityService', function() {
 	 */
 	this.rgbToHex = function(r, g, b) {
 		if(Array.isArray(r)) {
-			g = r[1];
-			b = r[2];
-			r = r[0];
+			[r, g, b] = r;
 		}
 
 		return '#' + this._ensureTwoDigits(parseInt(r, 10).toString(16)) +
 			this._ensureTwoDigits(parseInt(g, 10).toString(16)) +
 			this._ensureTwoDigits(parseInt(b, 10).toString(16));
+	};
+
+	/**
+	 * convert HSL to RGB
+	 * @param r
+	 * @param g
+	 * @param b
+	 * @returns array
+	 */
+	this._hslToRgb = function(r,g,b) {
+		if(Array.isArray(r)) {
+			[r, g, b] = r;
+		}
+
+		return hslToRgb(r, g, b);
 	};
 
 	/**
@@ -118,7 +135,7 @@ app.service('ColorUtilityService', function() {
 	this.randomColor = function() {
 		if (typeof String.prototype.toHsl === 'function') {
 			var hsl = Math.random().toString().toHsl();
-			return self.rgbToHex(hslToRgb(hsl[0], hsl[1], hsl[2]));
+			return self.rgbToHex(self._hslToRgb(hsl));
 		} else {
 			return self.colors[Math.floor(Math.random() * self.colors.length)];
 		}
@@ -130,8 +147,7 @@ app.service('ColorUtilityService', function() {
 		var hashValues = ['15', '9', '4', 'b', '6', '11', '74', 'f', '57'];
 		angular.forEach(hashValues, function(hashValue) {
 			var hsl = hashValue.toHsl();
-			var hslColor = hslToRgb(hsl[0], hsl[1], hsl[2]);
-			self.colors.push(self.rgbToHex(hslColor));
+			self.colors.push(self.rgbToHex(self._hslToRgb(hsl)));
 		});
 	} else {
 		this.colors = [
