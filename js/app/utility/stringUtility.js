@@ -62,8 +62,6 @@ app.service('StringUtility', function () {
 				lastPart++;
 
 				uri = firstPart + '-' + lastPart;
-			} else if (lastPart === '') {
-				uri = uri + '1';
 			} else {
 				uri = uri + '-1';
 			}
