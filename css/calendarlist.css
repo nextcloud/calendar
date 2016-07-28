@@ -133,6 +133,11 @@
 #app-navigation .app-navigation-list-item > a {
 	padding: 0 66px 0 44px !important;
 }
+
+#app-navigation .app-navigation-list-item > a.calendar-list-cut-name {
+	padding: 0 106px 0 44px !important;
+}
+
 #app-navigation .app-navigation-list-item .editfieldset {
 	padding: 0 4px;
 }
