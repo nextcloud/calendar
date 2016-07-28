@@ -53,6 +53,37 @@ class SettingsController extends Controller {
 		$this->userSession = $userSession;
 	}
 
+	/**
+	 * get a configuration item
+	 *
+	 * @param string $key
+	 * @return JSONResponse
+	 */
+	public function getConfig($key) {
+		switch ($key) {
+			case 'view':
+				return $this->getView();
+			default:
+				return new JSONResponse([], Http::STATUS_BAD_REQUEST);
+		}
+	}
+
+	/**
+	 * set a configuration item
+	 *
+	 * @param string $key
+	 * @param mixed $value
+	 * @return JSONResponse
+	 */
+	public function setConfig($key, $value) {
+		switch ($key) {
+			case 'view':
+				return $this->setView($value);
+			default:
+				return new JSONResponse([], Http::STATUS_BAD_REQUEST);
+		}
+	}
+
 
 	/**
 	 * set a new view
@@ -62,7 +93,7 @@ class SettingsController extends Controller {
 	 *
 	 * @NoAdminRequired
 	 */
-	public function setView($view) {
+	private function setView($view) {
 		if (!$this->isViewAllowed($view)) {
 			return new JSONResponse([], Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
@@ -92,7 +123,7 @@ class SettingsController extends Controller {
 	 *
 	 * @NoAdminRequired
 	 */
-	public function getView() {
+	private function getView() {
 		$userId = $this->userSession->getUser()->getUID();
 		$app = $this->appName;
 
