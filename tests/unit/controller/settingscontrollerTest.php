@@ -68,7 +68,7 @@ class SettingsControllerTest extends \PHPUnit_Framework_TestCase {
 			->method('setUserValue')
 			->with('user123', $this->appName, 'currentView', $view);
 
-		$actual = $this->controller->setView($view);
+		$actual = $this->controller->setConfig('view', $view);
 
 		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
 		$this->assertEquals([], $actual->getData());
@@ -84,7 +84,7 @@ class SettingsControllerTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testSetViewWithForbiddenView() {
-		$actual = $this->controller->setView('someForbiddenView');
+		$actual = $this->controller->setConfig('view','someForbiddenView');
 
 		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
 		$this->assertEquals([], $actual->getData());
@@ -105,7 +105,7 @@ class SettingsControllerTest extends \PHPUnit_Framework_TestCase {
 			->with('user123', $this->appName, 'currentView', 'month')
 			->will($this->throwException(new \Exception));
 
-		$actual = $this->controller->setView('month');
+		$actual = $this->controller->setConfig('view', 'month');
 
 		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
 		$this->assertEquals([], $actual->getData());
@@ -126,7 +126,7 @@ class SettingsControllerTest extends \PHPUnit_Framework_TestCase {
 			->with('user123', $this->appName, 'currentView', 'month')
 			->will($this->returnValue('agendaWeek'));
 
-		$actual = $this->controller->getView();
+		$actual = $this->controller->getConfig('view');
 
 		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
 		$this->assertEquals(['value' => 'agendaWeek'], $actual->getData());
@@ -147,10 +147,26 @@ class SettingsControllerTest extends \PHPUnit_Framework_TestCase {
 			->with('user123', $this->appName, 'currentView', 'month')
 			->will($this->throwException(new \Exception));
 
-		$actual = $this->controller->getView();
+		$actual = $this->controller->getConfig('view');
 
 		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
 		$this->assertEquals([], $actual->getData());
 		$this->assertEquals(500, $actual->getStatus());
+	}
+
+	public function testGetNotExistingConfig() {
+		$actual = $this->controller->getConfig('foo');
+		
+		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertEquals([], $actual->getData());
+		$this->assertEquals(400, $actual->getStatus());
+	}
+
+	public function testSetNotExistingConfig() {
+		$actual = $this->controller->setConfig('foo', 'bar');
+
+		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertEquals([], $actual->getData());
+		$this->assertEquals(400, $actual->getStatus());
 	}
 }

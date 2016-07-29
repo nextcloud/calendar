@@ -27,7 +27,8 @@ app.service('SettingsService', ['$rootScope', '$http', function($rootScope, $htt
 	this.getView = function() {
 		return $http({
 			method: 'GET',
-			url: $rootScope.baseUrl + 'view'
+			url: $rootScope.baseUrl + 'config',
+			params: {key: 'view'}
 		}).then(function(response) {
 			return (response.status >= 200 && response.status <= 299) ? response.data.value : null;
 		});
@@ -36,9 +37,10 @@ app.service('SettingsService', ['$rootScope', '$http', function($rootScope, $htt
 	this.setView = function(view) {
 		return $http({
 			method: 'POST',
-			url: $rootScope.baseUrl + 'view',
+			url: $rootScope.baseUrl + 'config',
 			data: {
-				view: view
+				key: 'view',
+				value: view
 			}
 		}).then(function(response) {
 			return response.status >= 200 && response.status <= 299;
