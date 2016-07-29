@@ -31,6 +31,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-karma');
 	grunt.loadNpmTasks('grunt-phpunit');
 	grunt.loadNpmTasks('grunt-babel');
+	grunt.loadNpmTasks('grunt-postcss');
 
 	grunt.initConfig({
 
@@ -40,7 +41,8 @@ module.exports = function(grunt) {
 			configJS: 'config/',
 			buildJS: 'app/',
 			productionJS: 'public/',
-			testsJS: '../tests/js/'
+			testsJS: '../tests/js/',
+			buildCSS: '../css/'
 		},
 
 		concat: {
@@ -87,6 +89,7 @@ module.exports = function(grunt) {
 				files: [
 					'<%= meta.buildJS %>**/*.js',
 					'<%= meta.configJS %>*.js',
+					'<%= meta.buildCSS %>*.css'
 				],
 				options: {
 					livereload: true
@@ -133,12 +136,23 @@ module.exports = function(grunt) {
 					'<%= meta.productionJS %>app.js': '<%= meta.productionJS %>app.js'
 				}
 			}
+		},
+		postcss: {
+			lint: {
+				options: {
+					map: false,
+					processors: [
+						require('stylelint')()
+					]
+				},
+				src: [ "../css/*.css" ]
+			}
 		}
 
 	});
 
 	// make tasks available under simpler commands
-	grunt.registerTask('build', ['jshint', 'concat', 'babel', 'wrap', 'ngAnnotate']);
+	grunt.registerTask('build', ['jshint', 'postcss', 'concat', 'babel', 'wrap', 'ngAnnotate']);
 	grunt.registerTask('js-unit', ['karma']);
 
 };

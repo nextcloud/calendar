@@ -21,38 +21,37 @@
  *
  */
 
-
 .pull-left {
-  float: left;
+	float: left;
 }
 
 .pull-right {
-  float: right;
+	float: right;
 }
 
 .hide {
-  display: none;
+	display: none;
 }
 
 .full-width {
-  width: 100%;
+	width: 100%;
 }
 
 .clear-both {
-  clear: both;
+	clear: both;
 }
 
 .icon-timezone {
-  background: url("../img/timezone.svg") center center no-repeat;
-  display: block;
+	background: url("../img/timezone.svg") center center no-repeat;
+	display: block;
 }
 
 .input-with-button-on-right-side {
-  width: 85% !important;
-  float: left;
+	width: 85% !important;
+	float: left;
 }
 
 .button-next-to-input {
-  height: 32px;
-  width: 5%;
+	height: 32px;
+	width: 5%;
 }
