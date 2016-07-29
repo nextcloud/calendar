@@ -75,6 +75,11 @@
 	display: block;
 }
 
+.events .events--fieldset select {
+	width: 99.5%;
+	margin-right: 0;
+}
+
 
 .events .events--date {
 	width: 70px;
