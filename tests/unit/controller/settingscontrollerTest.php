@@ -153,4 +153,20 @@ class SettingsControllerTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals([], $actual->getData());
 		$this->assertEquals(500, $actual->getStatus());
 	}
+
+	public function testGetNotExistingConfig() {
+		$actual = $this->controller->getConfig('foo');
+		
+		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertEquals([], $actual->getData());
+		$this->assertEquals(400, $actual->getStatus());
+	}
+
+	public function testSetNotExistingConfig() {
+		$actual = $this->controller->setConfig('foo', 'bar');
+
+		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertEquals([], $actual->getData());
+		$this->assertEquals(400, $actual->getStatus());
+	}
 }
