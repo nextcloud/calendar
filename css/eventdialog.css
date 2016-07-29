@@ -30,14 +30,13 @@
 	margin-top: 4px;
 }
 
-
 .ui-timepicker .ui-timepicker-hour-cell a,
 .ui-timepicker .ui-timepicker-minute-cell a {
 	text-overflow: inherit !important;
 }
 
 .events--fieldset span,
-.advanced--fieldset span{
+.advanced--fieldset span {
 	display: block;
 }
 
@@ -80,7 +79,6 @@
 	margin-right: 0;
 }
 
-
 .events .events--date {
 	width: 70px;
 }
@@ -90,7 +88,7 @@
 }
 
 .events .events--input__full {
-	width:345px;
+	width: 345px;
 }
 
 .events .h2.events--input {
@@ -99,7 +97,7 @@
 }
 
 .events .events--time {
-	width:60px;
+	width: 60px;
 }
 
 .advanced .events--time {
@@ -137,6 +135,7 @@
 	width: 100%;
 	box-sizing: border-box;
 }
+
 .advanced .h2.advanced--input {
 	font-size: 20px;
 }
@@ -151,22 +150,29 @@
 }
 
 .advanced .tabHeaders {
-	margin: 20px 0 15px 0;
+	margin: 20px 0 15px;
 	float: left;
 	width: 100%;
 }
 
 /* Primary action button, use sparingly */
-.delete, input[type="submit"].delete, input[type="button"].delete, button.delete, .button.delete {
-	border: 1px solid #C60000;
-	background-color: #D60000;
+.delete,
+input[type="submit"].delete,
+input[type="button"].delete,
+button.delete,
+.button.delete {
+	border: 1px solid #c60000;
+	background-color: #d60000;
 	color: #fff;
 }
-button.delete:hover, button.delete:focus {
-	border: 1px solid #D60000;
-	background-color: #ff0000;
+
+button.delete:hover,
+button.delete:focus {
+	border: 1px solid #d60000;
+	background-color: #f00;
 	color: #fff;
 }
+
 .advanced .advanced--list {
 	padding: 10px 0;
 	width: 100%;
@@ -192,7 +198,6 @@ button.delete:hover, button.delete:focus {
 .advanced .pull-quarter {
 	width: 22% !important;
 }
-
 
 .advanced .btn-half {
 	width: 45%;
@@ -238,13 +243,13 @@ button.delete:hover, button.delete:focus {
 }
 
 .dropdown-menu li {
-	border-bottom:1px solid #ddd;
+	border-bottom: 1px solid #ddd;
 	background: #f8f8f8;
 }
 
 .dropdown-menu li a {
 	display: block;
-	padding:5px;
+	padding: 5px;
 }
 
 .dropdown-menu li a:hover {

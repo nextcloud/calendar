@@ -23,6 +23,7 @@
     "grunt-karma": "*",
     "grunt-ng-annotate": "^1.0.1",
     "grunt-phpunit": "*",
+    "grunt-postcss": "^0.8.0",
     "grunt-wrap": "*",
     "istanbul": "^0.4.4",
     "jasmine-core": "*",
@@ -33,7 +34,10 @@
     "karma-firefox-launcher": "*",
     "karma-jasmine": "*",
     "karma-phantomjs-launcher": "*",
-    "phantomjs": "*"
+    "phantomjs": "*",
+    "postcss": "^5.1.1",
+    "stylelint": "^7.0.3",
+    "stylelint-config-standard": "^11.0.0"
   },
   "engine": "node >= 0.8"
 }
