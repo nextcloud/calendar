@@ -126,8 +126,8 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 			$scope.uiConfig.calendar.timezone = 'UTC';
 		});
 
-		var url = window.location.toString();
-		if (url.endsWith('calendar/') || url.endsWith('calendar') || url.endsWith('calendar/#')) {
+		const isPublic = (angular.element('#fullcalendar').attr('data-defaultView') === '1');
+		if (!isPublic) {
 			CalendarService.getAll().then(function (calendars) {
 				$scope.calendars = calendars;
 				is.loading = false;
@@ -135,6 +135,7 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 				$scope.$apply();
 			});
 		} else {
+			const url = $window.location.toString();
 			var token = url.substr(url.lastIndexOf('/') + 1);
 
 			CalendarService.getPubUrl(OC.linkToRemoteBase('dav') + '/public-calendars/' + token).then(function(calendar) {
