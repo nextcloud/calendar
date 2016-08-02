@@ -182,6 +182,7 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 	};
 
 	this.getPubUrl = function(url) {
+		url = OC.linkToRemoteBase('dav') + '/public-calendars/' + url;
 		return DavClient.propFind(DavClient.buildUrl(url), this._PROPERTIES, 0, {'requesttoken': OC.requestToken}).then(function(response) {
 			var body = response.body;
 			if (body.propStat.length < 1) {

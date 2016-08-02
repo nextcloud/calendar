@@ -138,7 +138,7 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 			const url = $window.location.toString();
 			var token = url.substr(url.lastIndexOf('/') + 1);
 
-			CalendarService.getPubUrl(OC.linkToRemoteBase('dav') + '/public-calendars/' + token).then(function(calendar) {
+			CalendarService.getPubUrl(token).then(function(calendar) {
 				$scope.calendars = [calendar];
 				is.loading = false;
 				// TODO - scope.apply should not be necessary here
