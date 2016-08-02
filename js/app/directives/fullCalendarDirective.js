@@ -85,7 +85,7 @@ app.constant('fc', {})
 				dayNames: dayNames,
 				dayNamesShort: dayNamesShort,
 				defaultView: attrs.defaultview,
-				editable: true,
+				editable: !attrs.ispublic,
 				eventLimit: true,
 				firstDay: firstDay,
 				header: false,
@@ -94,9 +94,9 @@ app.constant('fc', {})
 				monthNames: monthNames,
 				monthNamesShort: monthNamesShort,
 				nowIndicator: true,
-				selectable: true,
 				weekNumbers: (attrs.weeknumbers === 'yes'),
 				weekNumbersWithinDays: true,
+				selectable: !attrs.ispublic
 			};
 			const controllerConfig = scope.$parent.fcConfig;
 			const config = angular.extend({}, baseConfig, controllerConfig);
