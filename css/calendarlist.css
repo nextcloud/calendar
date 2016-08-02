@@ -184,13 +184,29 @@
 	display: inline-block;
 }
 
+#app-navigation .app-navigation-list-item .utils span.action.withitems {
+	display: inline-block;
+	vertical-align: top;
+}
+
 #app-navigation .app-navigation-list-item .utils .action span {
 	display: inline-block;
-	line-height: 44px;
-	height: 16px;
+	line-height: 20px;
+	height: 20px;
 	width: 16px;
 	padding: 12px 6px;
 	cursor: pointer;
+	vertical-align: top;
+}
+#app-navigation .app-navigation-list-item .utils .action .icon-shared {
+	padding: 12px 0;
+}
+
+#app-navigation .app-navigation-list-item span.calendarlist-icon.shared {
+	width: 40px;
+	opacity: 1;
+	padding-left: 0;
+	padding-right: 5px;
 }
 
 #app-navigation .app-navigation-list-item:hover .calendar-share-list .utils .action span {

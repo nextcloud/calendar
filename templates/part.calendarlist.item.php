@@ -56,8 +56,8 @@
 		</span>
 		<!-- Add a label if the calendar has shares -->
 		<span
+			class="calendarlist-icon shared"
 			ng-if="item.calendar.isShared() && item.calendar.isShareable()"
-			style="position: relative; bottom: 16px; left: -12px; width: 30px; opacity: 1"
 			ng-click="item.toggleEditingShares()">
 				<?php p($l->t('Shared'))?>
 		</span>
