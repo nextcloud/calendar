@@ -279,7 +279,7 @@
 }
 
 .colorpicker .colorpicker-list li.randomcolour {
-	background-image: url('../img/random.svg');
+	background-image: url('../../img/random.svg');
 	background-repeat: no-repeat;
 	background-position: center center;
 }

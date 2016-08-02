@@ -17,6 +17,8 @@ build: clean
 	--exclude-vcs \
 	--exclude-vcs-ignores \
 	--add-file=$(project_dir)/js/public/app.js \
+	--add-file=$(project_dir)/css/public/app.css \
+	--exclude=$(project_dir)/css/app \
 	--exclude=$(project_dir)/js/app \
 	--exclude=$(project_dir)/js/config \
 	--exclude=$(project_dir)/tests \
