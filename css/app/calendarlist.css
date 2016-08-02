@@ -238,8 +238,8 @@
 	padding-right: 5px;
 }
 
-#app-navigation .app-navigation-list-item:hover .calendar-share-list .utils .action span {
-	padding: 0;
+#app-navigation .app-navigation-list-item .calendar-share-list .utils .action span {
+	padding: 0 6px;
 }
 
 #app-navigation .app-navigation-list-item:hover .utils.active {
