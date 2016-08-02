@@ -152,7 +152,8 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 				'weekNumbers' => 'someShowWeekNrValue',
 				'supportsClass' => $expectsSupportsClass,
 				'defaultColor' => '#ff00ff',
-				'webCalWorkaround' => $expectsWebcalWorkaround
+				'webCalWorkaround' => $expectsWebcalWorkaround,
+				'isPublic' => false,
 			], $actual->getParams());
 			$this->assertEquals('main', $actual->getTemplateName());
 		}
@@ -165,6 +166,56 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 			[true, false, '9.1.0.0', true, 'no'],
 			[false, false, '9.0.5.2', false, 'yes'],
 			[false, false, '9.1.0.0', true, 'no']
+		];
+	}
+
+	/**
+	 * @dataProvider indexPublicDataProvider
+	 */
+	public function testPublicIndex($isAssetPipelineEnabled, $showAssetPipelineError, $serverVersion, $expectsSupportsClass) {
+		$this->config->expects($this->at(0))
+			->method('getSystemValue')
+			->with('version')
+			->will($this->returnValue($serverVersion));
+
+		$this->config->expects($this->at(1))
+			->method('getSystemValue')
+			->with('asset-pipeline.enabled', false)
+			->will($this->returnValue($isAssetPipelineEnabled));
+
+		if ($showAssetPipelineError) {
+			$actual = $this->controller->index();
+
+			$this->assertInstanceOf('OCP\AppFramework\Http\TemplateResponse', $actual);
+			$this->assertEquals([], $actual->getParams());
+			$this->assertEquals('main-asset-pipeline-unsupported', $actual->getTemplateName());
+		} else {
+			$this->config->expects($this->once())
+				->method('getAppValue')
+				->with($this->appName, 'installed_version')
+				->will($this->returnValue('42.13.37'));
+
+			$actual = $this->controller->publicIndex();
+
+			$this->assertInstanceOf('OCP\AppFramework\Http\TemplateResponse', $actual);
+			$this->assertEquals([
+				'appVersion' => '42.13.37',
+				'defaultView' => 'month',
+				'emailAddress' => '',
+				'supportsClass' => $expectsSupportsClass,
+				'isPublic' => true
+			], $actual->getParams());
+			$this->assertEquals('main', $actual->getTemplateName());
+		}
+
+	}
+
+	public function indexPublicDataProvider() {
+		return [
+			[true, true, '9.0.5.2', false],
+			[true, false, '9.1.0.0', true],
+			[false, false, '9.0.5.2', false],
+			[false, false, '9.1.0.0', true]
 		];
 	}
 
