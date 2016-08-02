@@ -64,7 +64,7 @@ class PublicController extends Controller {
 	 *
 	 * @return TemplateResponse
 	 */
-	public function index($calendar) {
+	public function index() {
 		
 		$runningOn = $this->config->getSystemValue('version');
 
@@ -83,7 +83,7 @@ class PublicController extends Controller {
 			'defaultView' => $defaultView,
 			'emailAddress' => '',
 			'supportsClass' => $supportsClass
-		]);
+		], 'public');
 		$response->addHeader('X-Frame-Options', 'ALLOW');
 		$csp = new ContentSecurityPolicy();
 		$csp->addAllowedScriptDomain('*');
