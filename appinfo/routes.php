@@ -25,6 +25,7 @@ return [
 	'routes' => [
 		//Main view
 		['name' => 'view#index', 'url' => '/', 'verb' => 'GET'],
+		['name' => 'view#public_index', 'url' => '/public/{calendarid}', 'verb' => 'GET'],
 		//Timezones
 		['name' => 'view#get_timezone', 'url' => '/v1/timezones/{id}', 'verb' => 'GET'],
 		['name' => 'view#get_timezone_with_region', 'url' => '/v1/timezones/{region}/{city}', 'verb' => 'GET'],

@@ -96,7 +96,43 @@ class ViewController extends Controller {
 			'supportsClass' => $supportsClass,
 			'defaultColor' => $defaultColor,
 			'webCalWorkaround' => $webCalWorkaround,
+			'isPublic' => false,
 		]);
+	}
+
+	/**
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 *
+	 * @return TemplateResponse
+	 */
+	public function publicIndex() {
+		$runningOn = $this->config->getSystemValue('version');
+		$runningOnServer91OrLater = version_compare($runningOn, '9.1', '>=');
+
+		$supportsClass = $runningOnServer91OrLater;
+		$assetPipelineBroken = !$runningOnServer91OrLater;
+
+		$isAssetPipelineEnabled = $this->config->getSystemValue('asset-pipeline.enabled', false);
+		if ($isAssetPipelineEnabled && $assetPipelineBroken) {
+			return new TemplateResponse('calendar', 'main-asset-pipeline-unsupported');
+		}
+
+		$appVersion = $this->config->getAppValue($this->appName, 'installed_version');
+
+		$response = new TemplateResponse('calendar', 'main', [
+			'appVersion' => $appVersion,
+			'defaultView' => 'month',
+			'emailAddress' => '',
+			'supportsClass' => $supportsClass,
+			'isPublic' => true,
+		], 'public');
+		$response->addHeader('X-Frame-Options', 'ALLOW');
+		$csp = new ContentSecurityPolicy();
+		$csp->addAllowedScriptDomain('*');
+		$response->setContentSecurityPolicy($csp);
+
+		return $response;
 	}
 
 	/**

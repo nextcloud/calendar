@@ -59,6 +59,7 @@ foreach ($scripts as $script) {
 			<?php print_unescaped($this->inc('part.buttonarea')); ?>
 			<div class="clear-both"></div>
 		</div>
+		<?php if(!$_['isPublic']): ?>
 		<div ng-controller="CalendarListController" ng-cloak>
 			<div id="scrollable">
 				<?php print_unescaped($this->inc('part.createcalendar')); ?>
@@ -74,6 +75,11 @@ foreach ($scripts as $script) {
 				<?php print_unescaped($this->inc('part.settings')); ?>
 			</div>
 		</div>
+		<?php else: ?>
+		<div ng-controller="CalendarListController" id="publicinformationscontainer">
+			<?php print_unescaped($this->inc('part.publicinformations')); ?>
+		</div>
+		<?php endif; ?>
 	</div>
 
 	<!-- The Calendar on the right -->
@@ -82,7 +88,9 @@ foreach ($scripts as $script) {
 	</div>
 
 	<div id="popover-container"></div>
+	<?php if(!$_['isPublic']): ?>
 	<div id="importpopover-container"></div>
+	<?php endif; ?>
 
 	<script type="text/ng-template" id="eventspopovereditor.html">
 		<?php print_unescaped($this->inc('editor.popover')); ?>
@@ -92,7 +100,9 @@ foreach ($scripts as $script) {
 		<?php print_unescaped($this->inc('editor.sidebar')); ?>
 	</script>
 
+	<?php if(!$_['isPublic']): ?>
 	<script type="text/ng-template" id="import.html">
 		<?php print_unescaped($this->inc('part.import.dialog')); ?>
 	</script>
+	<?php endif; ?>
 </div>
