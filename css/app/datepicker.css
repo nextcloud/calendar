@@ -170,11 +170,11 @@
 /* Overrides */
 
 .glyphicon-chevron-left {
-	background: url("../img/leftarrow.svg") center center no-repeat;
+	background: url("../../img/leftarrow.svg") center center no-repeat;
 }
 
 .glyphicon-chevron-right {
-	background: url("../img/rightarrow.svg") center center no-repeat;
+	background: url("../../img/rightarrow.svg") center center no-repeat;
 }
 
 .glyphicon {

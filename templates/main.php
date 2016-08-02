@@ -24,12 +24,7 @@
 $styles = [
 	'../js/vendor/fullcalendar/dist/fullcalendar',
 	'../js/vendor/jquery-timepicker/jquery.ui.timepicker',
-	'globals',
-	'calendar',
-	'calendarlist',
-	'datepicker',
-	'eventdialog',
-	'settings'
+	'public/app'
 ];
 
 foreach ($styles as $style) {
