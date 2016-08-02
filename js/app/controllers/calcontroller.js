@@ -126,7 +126,7 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 			$scope.uiConfig.calendar.timezone = 'UTC';
 		});
 
-		const isPublic = (angular.element('#fullcalendar').attr('data-defaultView') === '1');
+		const isPublic = (angular.element('#fullcalendar').attr('data-isPublic') === '1');
 		if (!isPublic) {
 			CalendarService.getAll().then(function (calendars) {
 				$scope.calendars = calendars;
