@@ -42,19 +42,26 @@ module.exports = function(grunt) {
 			buildJS: 'app/',
 			productionJS: 'public/',
 			testsJS: '../tests/js/',
-			buildCSS: '../css/'
+			buildCSS: '../css/app/',
+			productionCSS: '../css/public/'
 		},
 
 		concat: {
 			options: {
 				stripBanners: true
 			},
-			dist: {
+			basic: {
 				src: [
 					'<%= meta.configJS %>*.js',
 					'<%= meta.buildJS %>/**/*.js'
 				],
 				dest: '<%= meta.productionJS %>app.js'
+			},
+			extras: {
+				src: [
+					'<%= meta.buildCSS %>*.css'
+				],
+				dest: '<%= meta.productionCSS %>app.css'
 			}
 		},
 
@@ -145,7 +152,7 @@ module.exports = function(grunt) {
 						require('stylelint')()
 					]
 				},
-				src: [ "../css/*.css" ]
+				src: [ "<%= meta.buildCSS %>*.css" ]
 			}
 		}
 
