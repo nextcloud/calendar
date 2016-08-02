@@ -158,10 +158,10 @@
 		<label for="checkbox_publish_calendar_{{ $index }}"> {{ item.calendar.isPublished() ? '<?php p($l->t('Published')); ?>' : '<?php p($l->t('Publish')); ?>' }}</label>
 		<div class="oneline" ng-show="item.calendar.published">
 			<span><?php p($l->t('Public access')); ?></span>
-		<button class="icon-public pull-right svg "
+		<span class="icon-public pull-right svg "
 				target="_blank"
 				ng-href="item.calendar.publicurl"
-				ng-mousedown="goPublic(item)"></button>
+				ng-click="goPublic(item)"></span>
 		</div>
 	</div>
 	<i class="glyphicon glyphicon-refresh refresh-shares"

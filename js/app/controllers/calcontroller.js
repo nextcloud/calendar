@@ -158,7 +158,7 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 					});
 
 					if (writableCalendars.length === 0) {
-						if ($scope.calendars[0].publicurl !== $window.location.href) {
+						if (!isPublic) {
 							OC.Notification.showTemporary(t('calendar', 'Please create a calendar first.'));
 						}
 						return;

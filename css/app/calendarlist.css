@@ -334,17 +334,21 @@
 
 .integration-code {
 	width: 90%;
-	height: 100px;
+	height: 130px;
 	margin: 5px;
 }
 
 .public-left-side {
-	margin-top: 50px;
+	margin: 50px auto auto 10px;
 }
 
 /* Publishing */
 .publishing {
-	margin-left: 10px;
+	margin: auto 10px;
+}
+
+.publishing .icon-public {
+	cursor: pointer;
 }
 
 /* Calendar Sharing */

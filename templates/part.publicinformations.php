@@ -34,7 +34,7 @@
         <li>
 			<span class="icon-download svg public-ics-download"
 					ng-click="download(item)">
-					<?php p($l->t('Export to ICS')); ?>
+					<?php p($l->t('Download')); ?>
 			</span>
         </li>
         <li class="settings-fieldset-interior-item">
