@@ -224,7 +224,7 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 
 		$scope.remove = function (item) {
 			CalendarService.delete(item.calendar).then(function() {
-				$scope.calendars = $scope.calendars.filter(function(elem) {
+				$scope.$parent.calendars = $scope.$parent.calendars.filter(function(elem) {
 					return elem !== item.calendar;
 				});
 				if (!$scope.$$phase) {

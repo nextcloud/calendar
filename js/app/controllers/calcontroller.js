@@ -63,10 +63,7 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'Calendar', 
 		function createAndRenderEvent(calendar, data, start, end, tz) {
 			VEventService.create(calendar, data).then(function(vevent) {
 				if (calendar.enabled) {
-					var eventsToRender = vevent.getFcEvent(start, end, tz);
-					angular.forEach(eventsToRender, function (event) {
-						uiCalendarConfig.calendars.calendar.fullCalendar('renderEvent', event);
-					});
+					uiCalendarConfig.calendars.calendar.fullCalendar('refetchEventSources', calendar.fcEventSource);
 				}
 			});
 		}
@@ -82,6 +79,10 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'Calendar', 
 				return oldCalendars.indexOf(calendar) === -1;
 			}).forEach(function(calendar) {
 				$scope.eventSource[calendar.url] = calendar.fcEventSource;
+				if (calendar.enabled) {
+					showCalendar(calendar.url);
+				}
+
 				calendar.register(Calendar.hookEnabledChanged, function(enabled) {
 					if (enabled) {
 						showCalendar(calendar.url);
@@ -135,13 +136,6 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'Calendar', 
 			is.loading = false;
 			// TODO - scope.apply should not be necessary here
 			$scope.$apply();
-
-			angular.forEach($scope.calendars, function (calendar) {
-				$scope.eventSource[calendar.url] = calendar.fcEventSource;
-				if (calendar.enabled) {
-					showCalendar(calendar.url);
-				}
-			});
 		});
 
 		$scope._calculatePopoverPositionByTarget = function(target, view) {
@@ -320,10 +314,7 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'Calendar', 
 								uiCalendarConfig.calendars.calendar.fullCalendar('removeEvents', fcEvent.id);
 
 								if (result.calendar.enabled) {
-									var eventsToRender = vevent.getFcEvent(view.start, view.end, $scope.defaulttimezone);
-									angular.forEach(eventsToRender, function (event) {
-										uiCalendarConfig.calendars.calendar.fullCalendar('renderEvent', event);
-									});
+									uiCalendarConfig.calendars.calendar.fullCalendar('refetchEventSources', result.calendar.fcEventSource);
 								}
 							});
 						} else {
