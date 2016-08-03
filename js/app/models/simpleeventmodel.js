@@ -522,8 +522,7 @@ app.factory('SimpleEvent', function() {
 
 			var dtstart = new ICAL.Property('dtstart', vevent);
 			dtstart.setValue(start);
-		
-			if (start.zone.tzid !== 'UTC') {
+			if (start.zone.tzid !== 'UTC' && start.zone.tzid !== 'floating') {
 				dtstart.setParameter('tzid', newSimpleData.dtstart.parameters.zone);
 				
 				if (availableTimezones.indexOf(newSimpleData.dtstart.parameters.zone) === -1) {
@@ -534,7 +533,7 @@ app.factory('SimpleEvent', function() {
 
 			var dtend = new ICAL.Property('dtend', vevent);
 			dtend.setValue(end);
-			if (end.zone.tzid !== 'UTC') {
+			if (end.zone.tzid !== 'UTC' && end.zone.tzid !== 'floating') {
 				dtend.setParameter('tzid', newSimpleData.dtend.parameters.zone);
 				
 				if (availableTimezones.indexOf(newSimpleData.dtend.parameters.zone) === -1) {
