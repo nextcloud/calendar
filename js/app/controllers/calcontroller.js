@@ -63,10 +63,7 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'Calendar', 
 		function createAndRenderEvent(calendar, data, start, end, tz) {
 			VEventService.create(calendar, data).then(function(vevent) {
 				if (calendar.enabled) {
-					var eventsToRender = vevent.getFcEvent(start, end, tz);
-					angular.forEach(eventsToRender, function (event) {
-						uiCalendarConfig.calendars.calendar.fullCalendar('renderEvent', event);
-					});
+					uiCalendarConfig.calendars.calendar.fullCalendar('refetchEventSources', calendar.fcEventSource);
 				}
 			});
 		}
@@ -320,10 +317,7 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'Calendar', 
 								uiCalendarConfig.calendars.calendar.fullCalendar('removeEvents', fcEvent.id);
 
 								if (result.calendar.enabled) {
-									var eventsToRender = vevent.getFcEvent(view.start, view.end, $scope.defaulttimezone);
-									angular.forEach(eventsToRender, function (event) {
-										uiCalendarConfig.calendars.calendar.fullCalendar('renderEvent', event);
-									});
+									uiCalendarConfig.calendars.calendar.fullCalendar('refetchEventSources', result.calendar.fcEventSource);
 								}
 							});
 						} else {
