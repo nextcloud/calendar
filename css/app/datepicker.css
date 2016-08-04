@@ -114,6 +114,10 @@
 	border-bottom: none;
 }
 
+#datepicker table tbody button {
+	max-width: 34px; /* Hack for Firefox for overflowing tables */
+}
+
 #datepicker table tbody button.active {
 	background-color: rgba(240, 240, 240, .9);
 }
