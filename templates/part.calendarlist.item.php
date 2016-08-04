@@ -31,7 +31,7 @@
 	  ng-show="item.displaySpinner()">
 </span>
 <a class="action permanent"
-   ng-class="{'calendar-list-cut-name': item.calendar.isShared()}"
+   ng-class="{'calendar-list-cut-name': item.calendar.isShared() || item.calendar.isPublished() }"
    href="#"
    ng-click="triggerEnable(item)"
    ng-show="!item.isEditing()"
