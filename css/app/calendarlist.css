@@ -315,8 +315,39 @@
 
 /* Public */
 
+#app-navigation .davbuttons {
+	width: 100%;
+	height: 44px;
+}
+
+#app-navigation .davbuttons .button {
+	font-weight: normal;
+	padding: 8px;
+	width: 48%;
+}
+
+#app-navigation .davbuttons .button.first {
+	margin-left: 5px;
+	-webkit-border-radius: 3px 0 0 3px;
+	-ms-border-radius: 3px 0 0 3px;
+	border-radius: 3px 0 0 3px;
+}
+
+#app-navigation .davbuttons .button.last {
+	margin-left: -8px;
+	-webkit-border-radius: 0 3px 3px 0;
+	-moz-border-radius: 0 3px 3px 0;
+	-ms-border-radius: 0 3px 3px 0;
+	border-radius: 0 3px 3px 0;
+}
+
+input.public-linkinput {
+	width: 94%;
+	margin: 6px auto;
+}
+
 .public-ics-download {
-	width: 90%;
+	width: 100%;
 	display: block;
 	height: 25px;
 	font-weight: 300;
@@ -333,13 +364,13 @@
 }
 
 .integration-code {
-	width: 90%;
-	height: 130px;
-	margin: 5px;
+	width: 93%;
+	height: 100px;
+	margin: 5px auto;
 }
 
 .public-left-side {
-	margin: 50px auto auto 10px;
+	margin: 100px 10px auto;
 }
 
 /* Publishing */

@@ -38,6 +38,10 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 		$scope.subscription = {};
 		$scope.subscription.newSubscriptionUrl = '';
 		$scope.subscription.newSubscriptionLocked = false;
+		$scope.publicdav = 'CalDAV';
+		$scope.publicdavdesc = t('calendar', 'CalDAV address for clients');
+
+		window.scope = $scope;
 
 		$scope.$watchCollection('calendars', function(newCalendars, oldCalendars) {
 			newCalendars = newCalendars || [];
@@ -49,6 +53,7 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 				const item = CalendarListItem(calendar);
 				if (item) {
 					$scope.calendarListItems.push(item);
+					$scope.publicdavurl = $scope.$parent.calendars[0].caldav;
 					calendar.register(Calendar.hookFinishedRendering, function() {
 						if (!$scope.$$phase) {
 							$scope.$apply();
@@ -109,6 +114,25 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 		$scope.integration = function (item) {
 			return '<iframe width="400" height="215" src="' + item.calendar.publicurl + '"></iframe>';
 		};
+
+
+		$scope.$watch('publicdav', function (newvalue) {
+			if ($scope.$parent.calendars[0]) {
+				if (newvalue === 'CalDAV') { // CalDAV address
+					$scope.publicdavurl = $scope.$parent.calendars[0].caldav;
+					$scope.publicdavdesc = t('calendar', 'CalDAV address for clients');
+				} else { // WebDAV address
+					var url = $scope.$parent.calendars[0].url;
+					// cut off last slash to have a fancy name for the ics
+					if (url.slice(url.length - 1) === '/') {
+						url = url.slice(0, url.length - 1);
+					}
+					url += '?export';
+					$scope.publicdavurl = $window.location.origin + url;
+					$scope.publicdavdesc = t('calendar', 'WebDAV address for subscriptions');
+				}
+			}
+		});
 
 		$scope.goPublic = function (item) {
 			$window.open(item.calendar.publicurl);

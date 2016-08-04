@@ -24,11 +24,17 @@
 ?>
 <ul class="settings-fieldset-interior public-left-side" ng-repeat="item in calendarListItems" >
 		<li class="settings-fieldset-interior-item">
-			<label><?php p($l->t('CalDAV address for clients')); ?></label>
+			<div class="davbuttons">
+				<div class="btn-group">
+					<button class="button first" ng-model="$parent.publicdav" uib-btn-radio="'CalDAV'">CalDAV</button>
+					<button class="button last" ng-model="$parent.publicdav" uib-btn-radio="'WebDAV'">WebDAV</button>
+				</div>
+			</div>
+			<label>{{ $parent.publicdavdesc }}</label>
 			<input
-				class="shareeInput"
+				class="public-linkinput"
 				type="text"
-				ng-model="item.calendar.publishurl"
+				ng-model="$parent.publicdavurl"
 				placeholder="<?php p($l->t('Publish URL')); ?>">
 		</li>
         <li>
