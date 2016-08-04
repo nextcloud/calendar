@@ -31,6 +31,7 @@ app.service('TimezoneService', ['$rootScope', '$http', 'Timezone', 'TimezoneList
 		this._timezones.UTC = new Timezone(ICAL.TimezoneService.get('UTC'));
 		this._timezones.GMT = this._timezones.UTC;
 		this._timezones.Z = this._timezones.UTC;
+		this._timezones.FLOATING = new Timezone(ICAL.Timezone.localTimezone);
 
 		this.listAll = function () {
 			return TimezoneListProvider;
