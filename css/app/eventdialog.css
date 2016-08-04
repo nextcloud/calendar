@@ -40,6 +40,26 @@
 	display: block;
 }
 
+.advanced .btn-timezone {
+	float: right;
+}
+
+.advanced .start-end-container {
+	margin-right: 15px;
+}
+
+.advanced .advanced--checkbox {
+	margin: 10px 0;
+}
+
+.advanced .timezone-container {
+	margin: 4px -17px;
+}
+
+.advanced .timezone-select {
+	width: 110% !important; /* very dirty hack to fix alignment issues. */
+}
+
 .modal-open .modal.popover,
 .modal-open .modal.import {
 	position: absolute;
@@ -84,7 +104,7 @@
 }
 
 .advanced .events--date {
-	width: 80px;
+	width: 100%;
 }
 
 .events .events--input__full {
@@ -101,7 +121,7 @@
 }
 
 .advanced .events--time {
-	width: 75px;
+	width: 100%;
 }
 
 .events .events--checkbox {
@@ -192,7 +212,7 @@ button.delete:focus {
 }
 
 .advanced .pull-half {
-	width: 48% !important;
+	width: 45% !important;
 }
 
 .advanced .pull-quarter {

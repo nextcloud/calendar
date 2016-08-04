@@ -13,28 +13,27 @@
 						ng-options="c as c.displayname for c in calendars | orderBy:['order'] | calendarSelectorFilter: oldCalendar"></select>
 			</fieldset>
 
-			<fieldset class="advanced--fieldset" ng-disabled="readOnly">
+			<fieldset class="advanced--fieldset start-end-container" ng-disabled="readOnly">
 				<div class="event-time-interior pull-left pull-half">
 					<span><?php p($l->t('starts')); ?></span>
 					<ocdatetimepicker ng-model="properties.dtstart.value" disabletime="properties.allDay"></ocdatetimepicker>
 					<select ng-options="timezone.value as timezone.displayname | timezoneWithoutContinentFilter group by timezone.group for timezone in timezones" ng-model="properties.dtstart.parameters.zone" ng-show="edittimezone || readOnly" ng-disabled="properties.allDay"
-							ng-change="loadTimezone(properties.dtstart.parameters.zone)"></select>
+							ng-change="loadTimezone(properties.dtstart.parameters.zone)" class="timezone-select"></select>
 				</div>
 				<div class="event-time-interior pull-right pull-half">
 					<span><?php p($l->t('ends')); ?></span>
 					<ocdatetimepicker ng-model="properties.dtend.value" disabletime="properties.allDay"></ocdatetimepicker>
 					<select ng-options="timezone.value as timezone.displayname | timezoneWithoutContinentFilter group by timezone.group for timezone in timezones" ng-model="properties.dtend.parameters.zone" ng-show="edittimezone || readOnly" ng-disabled="properties.allDay"
-						ng-change="loadTimezone(properties.dtend.parameters.zone)"></select>
+						ng-change="loadTimezone(properties.dtend.parameters.zone)" class="timezone-select"></select>
 				</div>
-				<div class="clear-both"></div>
-				<div class="advanced--checkbox pull-left">
+				<div class="advanced--checkbox pull-left pull-half">
 					<input type="checkbox" name="alldayeventcheckbox"
 						   ng-model="properties.allDay"
 						   id="alldayeventcheckbox" class="event-checkbox"
 						   ng-change="toggledAllDay()"/>
 					<label for="alldayeventcheckbox"><?php p($l->t('All day Event'))?></label>
 				</div>
-				<div class="pull-right">
+				<div class="pull-right pull-half timezone-container">
 					<button class="button btn-default btn-timezone" ng-click="edittimezone = !edittimezone" ng-show="!readOnly" type="button">
 						<span class="icon-timezone"></span>
 					</button>
