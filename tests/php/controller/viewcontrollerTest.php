@@ -58,6 +58,8 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 	private $request;
 	private $config;
 	private $userSession;
+	private $mailer;
+	private $l10n;
 
 	private $dummyUser;
 
@@ -79,8 +81,16 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
+		$this->mailer = $this->getMockBuilder('\OCP\Mail\IMailer')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$this->l10n = $this->getMockBuilder('OC\L10N\L10N')
+			->disableOriginalConstructor()
+			->getMock();
+
 		$this->controller = new ViewController($this->appName, $this->request,
-			$this->userSession, $this->config);
+			$this->userSession, $this->config, $this->mailer, $this->l10n);
 	}
 
 	/**
@@ -243,5 +253,27 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 		$actual = $this->controller->getTimezoneWithRegion('EUROPE', 'BERLIN.ics');
 
 		$this->assertInstanceOf('OCP\AppFramework\Http\NotFoundResponse', $actual);
+	}
+
+	/**
+	 * @dataProvider indexEmailPublicLink
+	 */
+	public function testEmailPublicLink($to, $url, $name) {
+
+		$this->userSession->expects($this->exactly(1))
+			->method('getUser')
+			->will($this->returnValue($this->dummyUser));
+
+		$actual = $this->controller->sendEmailPublicLink($to, $url, $name);
+
+		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+
+	}
+
+	public function indexEmailPublicLink() {
+		return [
+			['test@test.tld', 'myurl.tld', 'user123'],
+			['testtesttld', 'myurl.tld', 'user123'],
+		];
 	}
 }
