@@ -82,6 +82,7 @@ OC.L10N.register(
     "Month" : "Hónap",
     "Today" : "Ma",
     "Share Calendar" : "A naptár megosztása",
+    "Shared" : "Megosztott",
     "More" : "Több",
     "Edit" : "Szerkesztés",
     "CalDAV" : "CalDAV",

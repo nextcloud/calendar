@@ -84,6 +84,7 @@ OC.L10N.register(
     "Month" : "Mánuður",
     "Today" : "Í dag",
     "Share Calendar" : "Deila dagatali",
+    "Shared" : "Deilt",
     "More" : "Meira",
     "Edit" : "Breyta",
     "CalDAV" : "CalDAV",

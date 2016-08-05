@@ -69,6 +69,7 @@ OC.L10N.register(
     "Month" : "달",
     "Today" : "오늘",
     "Share Calendar" : "달력 공유",
+    "Shared" : "공유됨",
     "More" : "더 보기",
     "Edit" : "편집",
     "can edit" : "편집 가능",

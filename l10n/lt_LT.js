@@ -79,6 +79,7 @@ OC.L10N.register(
     "Month" : "Mėnuo",
     "Today" : "Šiandien",
     "Share Calendar" : "Dalintis kalendoriumi",
+    "Shared" : "Dalinamasi",
     "More" : "Daugiau",
     "Edit" : "Redaguoti",
     "CalDAV" : "CalDAV",

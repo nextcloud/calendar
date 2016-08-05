@@ -84,6 +84,7 @@ OC.L10N.register(
     "Month" : "Måned",
     "Today" : "I dag",
     "Share Calendar" : "Del kalender",
+    "Shared" : "Delt",
     "More" : "Mere",
     "Edit" : "Redigér",
     "CalDAV" : "CalDAV",
