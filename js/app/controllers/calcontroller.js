@@ -26,14 +26,13 @@
 * Description: The fullcalendar controller.
 */
 
-app.controller('CalController', ['$scope', '$rootScope', '$window', 'Calendar', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'VEvent', 'is', 'uiCalendarConfig', 'EventsEditorDialogService',
-	function ($scope, $rootScope, $window, Calendar, CalendarService, VEventService, SettingsService, TimezoneService, VEvent, is, uiCalendarConfig, EventsEditorDialogService) {
+app.controller('CalController', ['$scope', '$rootScope', '$window', 'Calendar', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'VEvent', 'is', 'fc', 'EventsEditorDialogService',
+	function ($scope, $rootScope, $window, Calendar, CalendarService, VEventService, SettingsService, TimezoneService, VEvent, is, fc, EventsEditorDialogService) {
 		'use strict';
 
 		is.loading = true;
 
 		$scope.calendars = [];
-		$scope.eventSources = [];
 		$scope.eventSource = {};
 		$scope.defaulttimezone = TimezoneService.current();
 		$scope.eventModal = null;
@@ -42,17 +41,17 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'Calendar', 
 		function showCalendar(url) {
 			if (switcher.indexOf(url) === -1 && $scope.eventSource[url].isRendering === false) {
 				switcher.push(url);
-				uiCalendarConfig.calendars.calendar.fullCalendar(
+				fc.elm.fullCalendar(
 					'removeEventSource',
 					$scope.eventSource[url]);
-				uiCalendarConfig.calendars.calendar.fullCalendar(
+				fc.elm.fullCalendar(
 					'addEventSource',
 					$scope.eventSource[url]);
 			}
 		}
 
 		function hideCalendar(url) {
-			uiCalendarConfig.calendars.calendar.fullCalendar(
+			fc.elm.fullCalendar(
 				'removeEventSource',
 				$scope.eventSource[url]);
 			if (switcher.indexOf(url) !== -1) {
@@ -63,14 +62,14 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'Calendar', 
 		function createAndRenderEvent(calendar, data, start, end, tz) {
 			VEventService.create(calendar, data).then(function(vevent) {
 				if (calendar.enabled) {
-					uiCalendarConfig.calendars.calendar.fullCalendar('refetchEventSources', calendar.fcEventSource);
+					fc.elm.fullCalendar('refetchEventSources', calendar.fcEventSource);
 				}
 			});
 		}
 
 		function deleteAndRemoveEvent(vevent, fcEvent) {
 			VEventService.delete(vevent).then(function() {
-				uiCalendarConfig.calendars.calendar.fullCalendar('removeEvents', fcEvent.id);
+				fc.elm.fullCalendar('removeEvents', fcEvent.id);
 			});
 		}
 
@@ -110,11 +109,7 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'Calendar', 
 			});
 		});
 
-		var w = angular.element($window);
-		w.bind('resize', function () {
-			uiCalendarConfig.calendars.calendar
-				.fullCalendar('option', 'height', w.height() - angular.element('#header').height());
-		});
+
 
 		TimezoneService.get($scope.defaulttimezone).then(function(timezone) {
 			if (timezone) {
@@ -206,42 +201,8 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'Calendar', 
 		/**
 		 * Calendar UI Configuration.
 		*/
-		var i;
-
-		var monthNames = [];
-		var monthNamesShort = [];
-		for (i = 0; i < 12; i++) {
-			monthNames.push(moment.localeData().months(moment([0, i]), ''));
-			monthNamesShort.push(moment.localeData().monthsShort(moment([0, i]), ''));
-		}
-
-		var dayNames = [];
-		var dayNamesShort = [];
-		var momentWeekHelper = moment().startOf('week');
-		momentWeekHelper.subtract(momentWeekHelper.format('d'));
-		for (i = 0; i < 7; i++) {
-			dayNames.push(moment.localeData().weekdays(momentWeekHelper));
-			dayNamesShort.push(moment.localeData().weekdaysShort(momentWeekHelper));
-			momentWeekHelper.add(1, 'days');
-		}
-
-
-
-		$scope.uiConfig = {
-			calendar: {
-				height: w.height() - angular.element('#header').height(),
-				editable: true,
-				selectable: true,
-				lang: moment.locale(),
-				monthNames: monthNames,
-				monthNamesShort: monthNamesShort,
-				dayNames: dayNames,
-				dayNamesShort: dayNamesShort,
+		$scope.fcConfig = {
 				timezone: $scope.defaulttimezone,
-				defaultView: angular.element('#fullcalendar').attr('data-defaultView'),
-				header: false,
-				nowIndicator: true,
-				firstDay: +moment().startOf('week').format('d'),
 				select: function (start, end, jsEvent, view) {
 					var writableCalendars = $scope.calendars.filter(function(elem) {
 						return elem.isWritable();
@@ -265,7 +226,7 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'Calendar', 
 					fcEvent.title = t('calendar', 'New event');
 					fcEvent.className.push(fcEventClass);
 					fcEvent.writable = false;
-					uiCalendarConfig.calendars.calendar.fullCalendar('renderEvent', fcEvent);
+					fc.elm.fullCalendar('renderEvent', fcEvent);
 
 					EventsEditorDialogService.open($scope, fcEvent, function() {
 						const elements = angular.element('.' + fcEventClass);
@@ -278,7 +239,7 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'Calendar', 
 					}, function() {
 						return null;
 					}, function() {
-						uiCalendarConfig.calendars.calendar.fullCalendar('removeEvents', function(fcEventToCheck) {
+						fc.elm.fullCalendar('removeEvents', function(fcEventToCheck) {
 							if (Array.isArray(fcEventToCheck.className)) {
 								return (fcEventToCheck.className.indexOf(fcEventClass) !== -1);
 							} else {
@@ -293,7 +254,6 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'Calendar', 
 						return null;
 					});
 				},
-				eventLimit: true,
 				eventClick: function(fcEvent, jsEvent, view) {
 					var vevent = fcEvent.vevent;
 					var oldCalendar = vevent.calendar;
@@ -302,19 +262,19 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'Calendar', 
 					EventsEditorDialogService.open($scope, fcEvent, function() {
 						return $scope._calculatePopoverPositionByTarget(jsEvent.currentTarget, view);
 					}, function() {
-						fc.editable = false;
-						uiCalendarConfig.calendars.calendar.fullCalendar('updateEvent', fc);
+						fc.elm.editable = false;
+						fc.elm.fullCalendar('updateEvent', fc);
 					}, function() {
-						fc.editable = fcEvent.calendar.writable;
-						uiCalendarConfig.calendars.calendar.fullCalendar('updateEvent', fc);
+						fc.elm.editable = fcEvent.calendar.writable;
+						fc.elm.fullCalendar('updateEvent', fc);
 					}).then(function(result) {
 						// was the event moved to another calendar?
 						if (result.calendar === oldCalendar) {
 							VEventService.update(vevent).then(function() {
-								uiCalendarConfig.calendars.calendar.fullCalendar('removeEvents', fcEvent.id);
+								fc.elm.fullCalendar('removeEvents', fcEvent.id);
 
 								if (result.calendar.enabled) {
-									uiCalendarConfig.calendars.calendar.fullCalendar('refetchEventSources', result.calendar.fcEventSource);
+									fc.elm.fullCalendar('refetchEventSources', result.calendar.fcEventSource);
 								}
 							});
 						} else {
@@ -373,12 +333,6 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'Calendar', 
 						}
 					}
 				}
-			}
 		};
-
-		// TODO - where is this triggered
-		$rootScope.$on('refetchEvents', function (event, calendar) {
-			uiCalendarConfig.calendars.calendar.fullCalendar('refetchEvents');
-		});
 	}
 ]);
