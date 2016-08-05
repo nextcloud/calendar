@@ -30,7 +30,11 @@ app.factory('CalendarListItem', function(Calendar, WebCal) {
 			isEditingShares: false,
 			isEditingProperties: false,
 			isDisplayingCalDAVUrl: false,
+<<<<<<< 8a5a18b5bab4111ad9b9b3694c6bc7bc3d403b00
 			isDisplayingWebCalUrl: false
+=======
+			isSendingMail: false
+>>>>>>> bring email
 		};
 		const iface = {
 			_isACalendarListItemObject: true
@@ -76,8 +80,16 @@ app.factory('CalendarListItem', function(Calendar, WebCal) {
 			return context.isEditingShares;
 		};
 
+		iface.isSendingMail = function() {
+			return context.isSendingMail;
+		};
+
 		iface.toggleEditingShares = function() {
 			context.isEditingShares = !context.isEditingShares;
+		};
+
+		iface.toggleSendingMail = function() {
+			context.isSendingMail = !context.isSendingMail;
 		};
 
 		iface.isEditing = function() {

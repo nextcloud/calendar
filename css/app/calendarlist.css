@@ -378,8 +378,21 @@ input.public-linkinput {
 	margin: auto 10px;
 }
 
-.publishing .icon-public {
+.publication-tools {
 	cursor: pointer;
+	margin: 5px auto auto 5px;
+}
+
+input.mailerInput {
+	width: 77%;
+}
+
+.mailerInput + button {
+	position: relative;
+	top: -5px;
+	height: 32px;
+	margin-right: 0;
+	width: 32px;
 }
 
 /* Calendar Sharing */

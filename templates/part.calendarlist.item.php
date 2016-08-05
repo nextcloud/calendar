@@ -158,11 +158,21 @@
 		<label for="checkbox_publish_calendar_{{ $index }}"> {{ item.calendar.isPublished() ? '<?php p($l->t('Published')); ?>' : '<?php p($l->t('Publish')); ?>' }}</label>
 		<div class="oneline" ng-show="item.calendar.published">
 			<span><?php p($l->t('Public access')); ?></span>
-		<span class="icon-public pull-right svg "
-				target="_blank"
-				ng-href="item.calendar.publicurl"
-				ng-click="goPublic(item)"></span>
+			<span class="icon-public pull-right svg publication-tools"
+				  target="_blank"
+				  ng-href="item.calendar.publicurl"
+				  ng-click="goPublic(item)"></span>
+			<span class="icon-mail pull-right svg publication-tools"
+				  target="_blank"
+				  ng-click="item.toggleSendingMail()"></span>
 		</div>
+		<form ng-submit="sendMail(item)" ng-show="item.isSendingMail()">
+			<input class="mailerInput"
+				   ng-model="item.email"
+				   placeholder="<?php p($l->t('Email link to person')); ?>"
+				   type="text">
+			<button type="submit" class="icon-confirm svg"></button>
+		</form>
 	</div>
 	<i class="glyphicon glyphicon-refresh refresh-shares"
 	   ng-show="loadingSharees">

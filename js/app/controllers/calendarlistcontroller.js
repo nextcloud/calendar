@@ -26,8 +26,8 @@
 * Description: Takes care of CalendarList in App Navigation.
 */
 
-app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'CalendarService', 'WebCalService', 'is', 'CalendarListItem', 'Calendar', 'ColorUtility',
-	function ($scope, $rootScope, $window, CalendarService, WebCalService, is, CalendarListItem, Calendar, ColorUtility) {
+app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'CalendarService', 'WebCalService', 'is', 'CalendarListItem', 'Calendar', 'MailerService', 'ColorUtility',
+	function ($scope, $rootScope, $window, CalendarService, WebCalService, is, CalendarListItem, Calendar, MailerService, ColorUtility) {
 		'use strict';
 
 		$scope.calendarListItems = [];
@@ -115,7 +115,6 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 			return '<iframe width="400" height="215" src="' + item.calendar.publicurl + '"></iframe>';
 		};
 
-
 		$scope.$watch('publicdav', function (newvalue) {
 			if ($scope.$parent.calendars[0]) {
 				if (newvalue === 'CalDAV') { // CalDAV address
@@ -133,6 +132,18 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 				}
 			}
 		});
+
+		$scope.sendMail = function (item) {
+			item.toggleSendingMail();
+			MailerService.sendMail(item.email, item.calendar.publicurl, item.calendar.displayname).then(function (response) {
+				if (response.status === 200) {
+					item.email = '';
+					OC.Notification.showTemporary(t('calendar', 'Email has been correctly sent.'));
+				} else {
+					OC.Notification.showTemporary(t('calendar', 'There was an issue while sending your Email.'));
+				}
+			});
+		};
 
 		$scope.goPublic = function (item) {
 			$window.open(item.calendar.publicurl);
