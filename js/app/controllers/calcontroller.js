@@ -257,16 +257,16 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'Calendar', 
 				eventClick: function(fcEvent, jsEvent, view) {
 					var vevent = fcEvent.vevent;
 					var oldCalendar = vevent.calendar;
-					var fc = fcEvent;
+					var fcEvt = fcEvent;
 
 					EventsEditorDialogService.open($scope, fcEvent, function() {
 						return $scope._calculatePopoverPositionByTarget(jsEvent.currentTarget, view);
 					}, function() {
-						fc.elm.editable = false;
-						fc.elm.fullCalendar('updateEvent', fc);
+						fcEvt.editable = false;
+						fc.elm.fullCalendar('updateEvent', fcEvt);
 					}, function() {
-						fc.elm.editable = fcEvent.calendar.writable;
-						fc.elm.fullCalendar('updateEvent', fc);
+						fcEvt.editable = fcEvent.calendar.writable;
+						fc.elm.fullCalendar('updateEvent', fcEvt);
 					}).then(function(result) {
 						// was the event moved to another calendar?
 						if (result.calendar === oldCalendar) {
