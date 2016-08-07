@@ -25,8 +25,8 @@
 * Controller: Date Picker Controller
 * Description: Takes care for pushing dates from app navigation date picker and fullcalendar.
 */
-app.controller('DatePickerController', ['$scope', 'uiCalendarConfig', 'uibDatepickerConfig',
-	function ($scope, uiCalendarConfig, uibDatepickerConfig) {
+app.controller('DatePickerController', ['$scope', 'fc', 'uibDatepickerConfig',
+	function ($scope, fc, uibDatepickerConfig) {
 		'use strict';
 
 		$scope.datepickerOptions = {
@@ -73,8 +73,8 @@ app.controller('DatePickerController', ['$scope', 'uiCalendarConfig', 'uibDatepi
 		};
 
 		$scope.$watch('dt', function(newValue) {
-			if (uiCalendarConfig.calendars.calendar) {
-				uiCalendarConfig.calendars.calendar.fullCalendar(
+			if (fc) {
+				fc.elm.fullCalendar(
 					'gotoDate',
 					newValue
 				);
@@ -82,8 +82,8 @@ app.controller('DatePickerController', ['$scope', 'uiCalendarConfig', 'uibDatepi
 		});
 
 		$scope.$watch('selectedView', function(newValue) {
-			if (uiCalendarConfig.calendars.calendar) {
-				uiCalendarConfig.calendars.calendar.fullCalendar(
+			if (fc) {
+				fc.elm.fullCalendar(
 					'changeView',
 					newValue);
 			}
