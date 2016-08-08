@@ -135,7 +135,7 @@
 </fieldset>
 <div class="calendarShares"
 	 ng-show="item.isEditingShares()">
-	<i class="glyphicon glyphicon-refresh"
+	<i class="glyphicon glyphicon-refresh refresh-shares"
 	   ng-show="loadingSharees">
 	</i>
 	<input class="shareeInput"
