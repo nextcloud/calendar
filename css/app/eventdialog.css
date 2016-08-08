@@ -215,6 +215,14 @@ button.delete:focus {
 	width: 45% !important;
 }
 
+.advanced .sidebar-top {
+	position: absolute;
+	width: 100%;
+	top: 0;
+	bottom: 120px;
+	overflow-y: scroll;
+}
+
 .advanced .pull-quarter {
 	width: 22% !important;
 }
