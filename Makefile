@@ -7,6 +7,9 @@ appstore_dir=$(build_dir)/appstore
 source_dir=$(build_dir)/source
 package_name=$(app_name)
 
+assets:
+	cd js && grunt build
+
 clean:
 	rm -rf $(build_dir)
 
