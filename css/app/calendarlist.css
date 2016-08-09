@@ -250,6 +250,15 @@
 	background-color: transparent !important;
 }
 
+#app-navigation .refresh-shares {
+	position: absolute;
+	right: 15px;
+	height: 15px;
+	width: 15px;
+	top: 15px;
+	z-index: 1000;
+}
+
 #app-navigation > ul {
 	height: auto;
 }
@@ -309,8 +318,8 @@ li.calendar-share-item {
 }
 
 ul.dropdown-menu {
-	height: 100px;
-	overflow: scroll;
+	max-height: 100px;
+	overflow-y: scroll;
 	border: 1px #ddd solid;
 	border-radius: 0 0 3px 3px;
 	margin-top: -7px;
@@ -318,8 +327,12 @@ ul.dropdown-menu {
 	width: 94%;
 }
 
-ul.dropdown-menu  li {
+ul.dropdown-menu li {
 	height: 25px;
+}
+
+ul.dropdown-menu li:last-child {
+	border-bottom: none !important;
 }
 
 #app-navigation ul.dropdown-menu a {
