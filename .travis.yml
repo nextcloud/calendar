@@ -36,7 +36,6 @@ before_install:
   - "sh -e /etc/init.d/xvfb start"
   - nvm install 6
   - npm install -g npm@latest
-  - make
   # install core
   - cd ../
   - git clone https://github.com/owncloud/core.git --recursive --depth 1 -b $CORE_BRANCH owncloud
