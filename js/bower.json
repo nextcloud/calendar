@@ -3,7 +3,6 @@
   "version": "0.10.7",
   "dependencies": {
     "angular": "",
-    "angular-route": "",
     "angular-bootstrap": "",
     "jquery-timepicker": "",
     "jstzdetect": "",

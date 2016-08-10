@@ -22,8 +22,7 @@
  */
 
 window.app = angular.module('Calendar', [
-	'ngMock',
-	'ngRoute'
+	'ngMock'
 ]);
 
 window.OC = {
