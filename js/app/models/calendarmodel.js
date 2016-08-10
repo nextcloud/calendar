@@ -29,6 +29,8 @@ app.factory('Calendar', function($window, Hook, VEventService, TimezoneService, 
 		};
 
 		context.fcEventSource.events = function (start, end, timezone, callback) {
+			const fcAPI = this;
+
 			TimezoneService.get(timezone).then(function (tz) {
 				context.fcEventSource.isRendering = true;
 				iface.emit(Calendar.hookFinishedRendering);
@@ -49,6 +51,7 @@ app.factory('Calendar', function($window, Hook, VEventService, TimezoneService, 
 					}
 
 					callback(vevents);
+					fcAPI.reportEvents(fcAPI.clientEvents());
 					context.fcEventSource.isRendering = false;
 
 					iface.emit(Calendar.hookFinishedRendering);
