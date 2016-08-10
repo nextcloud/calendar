@@ -23,48 +23,32 @@
  */
 ?>
 
-<div class="new-entity-container" ng-show="(calendars | subscriptionFilter).length > 0">
-
-	<div class="subscription-title">
-		<span class="new-entity-title"><?php p($l->t('Subscriptions')); ?></span>
-	</div>
-	<!--
+<div class="new-entity-container">
 	<div
 		class="new-entity"
-		data-apps-slide-toggle=".add-new-subscription">
+		data-apps-slide-toggle=".add-new-subscription"
+		id="new-subscription-button">
 		<span class="new-entity-title"><?php p($l->t('New Subscription')); ?></span>
 	</div>
 
-
-
 	<fieldset class="calendarlist-fieldset add-new-subscription hide">
-		<form>
-			<fieldset class="calendarlist-fieldset">
-				<input
-					class="calendarlist-input pull-left"
-					type="text"
-					ng-model="newSubscriptionUrl"\
-					placeholder="<?php p($l->t('Url')); ?>"
-					autofocus />
-				<select id="subscription pull-left"
-					name="subscription"
-					ng-model="selectedsubscriptionbackendmodel"
-					ng-options="subscription.name for subscription in subscriptiontypeSelect"
-					ng-selected="selectedsubscriptionbackend.type">
-				</select>
-				<button
-					ng-click="create(newSubscriptionUrl)"
-					id="submitnewSubscription"
-					class="primary accept-button"
-					oc-click-slide-toggle="{
+		<form  ng-submit="createSubscription(newSubscriptionUrl)">
+			<input
+				class="app-navigation-input"
+				type="text"
+				ng-model="newSubscriptionUrl"
+				placeholder="<?php p($l->t('WebCal-URL')); ?>"
+				autofocus />
+			<input
+				id="submitnewSubscription"
+				class="primary accept-button"
+				oc-click-slide-toggle="{
 						selector: '.add-new-subscription',
 						hideOnFocusLost: false,
 						cssClass: 'closed'
-					}">
-					<?php p($l->t('Create')); ?>
-				</button>
-			</fieldset>
+					}"
+				type="submit"
+				value="<?php p($l->t('Create')); ?>" />
 		</form>
 	</fieldset>
-	-->
 </div>

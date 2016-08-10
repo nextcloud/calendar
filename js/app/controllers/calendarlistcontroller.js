@@ -26,8 +26,8 @@
 * Description: Takes care of CalendarList in App Navigation.
 */
 
-app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'CalendarService', 'is', 'CalendarListItem', 'Calendar',
-	function ($scope, $rootScope, $window, CalendarService, is, CalendarListItem, Calendar) {
+app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'CalendarService', 'WebCalService', 'is', 'CalendarListItem', 'Calendar', 'ColorUtility',
+	function ($scope, $rootScope, $window, CalendarService, WebCalService, is, CalendarListItem, Calendar, ColorUtility) {
 		'use strict';
 
 		$scope.calendarListItems = [];
@@ -80,15 +80,18 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 			angular.element('#new-calendar-button').click();
 		};
 
-		$scope.download = function (item) {
-			var url = item.calendar.url;
-			// cut off last slash to have a fancy name for the ics
-			if (url.slice(url.length - 1) === '/') {
-				url = url.slice(0, url.length - 1);
-			}
-			url += '?export';
+		$scope.createSubscription = function(url) {
+			WebCalService.get(url).then(function(splittedICal) {
+				const color = splittedICal.color || ColorUtility.randomColor();
+				const name = splittedICal.name || url;
+				CalendarService.createWebCal(name, color, url)
+					.then((calendar) => $scope.calendars.push(calendar))
+					.catch(() => OC.Notification.showTemporary(t('calendar', 'Error saving WebCal-calendar')));
+			}).catch((error) => OC.Notification.showTemporary(error));
+		};
 
-			$window.open(url);
+		$scope.download = function (item) {
+			$window.open(item.calendar.downloadUrl);
 		};
 
 		$scope.toggleSharesEditor = function (calendar) {

@@ -80,7 +80,7 @@
 				<span><?php p($l->t('Edit')); ?></span>
 			</button>
 		</li>
-		<li>
+		<li ng-show="item.calendar.eventsAccessibleViaCalDAV()">
 			<button	ng-click="item.showCalDAVUrl()">
 				<span class="icon-public svg"></span>
 				<span><?php p($l->t('Link')); ?></span>

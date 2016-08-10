@@ -47,8 +47,8 @@ class ViewController extends Controller {
 	/**
 	 * @param string $appName
 	 * @param IRequest $request an instance of the request
-	 * @param IConfig $config
 	 * @param IUserSession $userSession
+	 * @param IConfig $config
 	 */
 	public function __construct($appName, IRequest $request,
 								IUserSession $userSession, IConfig $config) {

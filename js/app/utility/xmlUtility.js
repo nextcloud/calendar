@@ -47,23 +47,24 @@ app.service('XMLUtility', function() {
 
 	const serializer = new XMLSerializer();
 
-	this.getRootSceleton = function() {
+	this.getRootSkeleton = function() {
 		if (arguments.length === 0) {
 			return [{}, null];
 		}
 
-		const sceleton = {
+		const skeleton = {
 			name: arguments[0],
 			attributes: {
 				'xmlns:c': 'urn:ietf:params:xml:ns:caldav',
 				'xmlns:d': 'DAV:',
 				'xmlns:a': 'http://apple.com/ns/ical/',
-				'xmlns:o': 'http://owncloud.org/ns'
+				'xmlns:o': 'http://owncloud.org/ns',
+				'xmlns:cs': 'http://calendarserver.org/ns/'
 			},
 			children: []
 		};
 
-		let childrenWrapper = sceleton.children;
+		let childrenWrapper = skeleton.children;
 
 		const args = Array.prototype.slice.call(arguments, 1);
 		args.forEach(function(argument) {
@@ -75,7 +76,7 @@ app.service('XMLUtility', function() {
 			childrenWrapper = level.children;
 		});
 
-		return [sceleton, childrenWrapper];
+		return [skeleton, childrenWrapper];
 	};
 
 	this.serialize = function(json) {

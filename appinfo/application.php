@@ -55,6 +55,12 @@ class Application extends App {
 
 			return new Controller\ViewController($c->getAppName(), $request, $userSession, $config);
 		});
+		$container->registerService('ProxyController', function(IAppContainer $c) {
+			$request = $c->query('Request');
+			$client = $c->getServer()->getHTTPClientService();
+
+			return new Controller\ProxyController($c->getAppName(), $request, $client);
+		});
 	}
 
 	/**

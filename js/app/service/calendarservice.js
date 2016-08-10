@@ -21,7 +21,7 @@
  *
  */
 
-app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Calendar){
+app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Calendar, WebCal){
 	'use strict';
 
 	var self = this;
@@ -34,6 +34,7 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 
 	this._PROPERTIES = [
 		'{' + DavClient.NS_DAV + '}displayname',
+		'{' + DavClient.NS_DAV + '}resourcetype',
 		'{' + DavClient.NS_IETF + '}calendar-description',
 		'{' + DavClient.NS_IETF + '}calendar-timezone',
 		'{' + DavClient.NS_APPLE + '}calendar-order',
@@ -42,7 +43,8 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 		'{' + DavClient.NS_OWNCLOUD + '}calendar-enabled',
 		'{' + DavClient.NS_DAV + '}acl',
 		'{' + DavClient.NS_DAV + '}owner',
-		'{' + DavClient.NS_OWNCLOUD + '}invite'
+		'{' + DavClient.NS_OWNCLOUD + '}invite',
+		'{' + DavClient.NS_CALENDARSERVER + '}source'
 	];
 
 	this._xmls = new XMLSerializer();
@@ -111,8 +113,23 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 					continue;
 				}
 
-				var calendar = Calendar(body.href, props);
-				calendars.push(calendar);
+				const resourceTypes = body.propStat[0].properties['{' + DavClient.NS_DAV + '}resourcetype'];
+				if (!resourceTypes) {
+					continue;
+				}
+
+				for (var j = 0; j < resourceTypes.length; j++) {
+					var name = DavClient.getNodesFullName(resourceTypes[j]);
+
+					if (name === '{' + DavClient.NS_IETF + '}calendar') {
+						const calendar = Calendar(body.href, props);
+						calendars.push(calendar);
+					}
+					if (name === '{' + DavClient.NS_CALENDARSERVER + '}subscribed') {
+						const webcal = WebCal(body.href, props);
+						calendars.push(webcal);
+					}
+				}
 			}
 
 			return calendars;
@@ -144,7 +161,21 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 				return;
 			}
 
-			return Calendar(body.href, props);
+			const resourceTypes = body.propStat[0].properties['{' + DavClient.NS_DAV + '}resourcetype'];
+			if (!resourceTypes) {
+				return;
+			}
+
+			for (var j = 0; j < resourceTypes.length; j++) {
+				var name = DavClient.getNodesFullName(resourceTypes[j]);
+
+				if (name === '{' + DavClient.NS_IETF + '}calendar') {
+					return Calendar(body.href, props);
+				}
+				if (name === '{' + DavClient.NS_CALENDARSERVER + '}subscribed') {
+					return WebCal(body.href, props);
+				}
+			}
 		});
 	};
 
@@ -189,7 +220,7 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 
 		var body = this._xmls.serializeToString(cMkcalendar);
 
-		var uri = this._suggestUri(name);
+		var uri = StringUtility.uri(name, (suggestedUri) => self._takenUrls.indexOf(self._CALENDAR_HOME + suggestedUri + '/') === -1);
 		var url = this._CALENDAR_HOME + uri + '/';
 		var headers = {
 			'Content-Type' : 'application/xml; charset=utf-8',
@@ -203,6 +234,58 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 					calendar.enabled = true;
 					return self.update(calendar);
 				});
+			}
+		});
+	};
+
+	this.createWebCal = function(name, color, source) {
+		if (this._CALENDAR_HOME === null) {
+			return discoverHome(function() {
+				return self.createWebCal(name, color, source);
+			});
+		}
+
+		const [skeleton, dPropChildren] = XMLUtility.getRootSkeleton('d:mkcol', 'd:set', 'd:prop');
+		dPropChildren.push({
+			name: 'd:resourcetype',
+			children: [{
+				name: 'd:collection'
+			}, {
+				name: 'cs:subscribed'
+			}]
+		});
+		dPropChildren.push({
+			name: 'd:displayname',
+			value: name
+		});
+		dPropChildren.push({
+			name: 'a:calendar-color',
+			value: color
+		});
+		dPropChildren.push({
+			name: 'o:calendar-enabled',
+			value: '1'
+		});
+		dPropChildren.push({
+			name: 'cs:source',
+			children: [{
+				name: 'd:href',
+				value: source
+			}]
+		});
+
+		const uri = StringUtility.uri(name, (suggestedUri) => self._takenUrls.indexOf(self._CALENDAR_HOME + suggestedUri + '/') === -1);
+		const url = this._CALENDAR_HOME + uri + '/';
+		const headers = {
+			'Content-Type' : 'application/xml; charset=utf-8',
+			'requesttoken' : OC.requestToken
+		};
+		const xml = XMLUtility.serialize(skeleton);
+
+		return DavClient.request('MKCOL', url, headers, xml).then(function(response) {
+			if (response.status === 201) {
+				self._takenUrls.push(url);
+				return self.get(url);
 			}
 		});
 	};
@@ -488,6 +571,17 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 
 		simple.writableProperties = (oc_current_user === simple.owner) && simple.writable;
 
+		var source = props['{' + DavClient.NS_CALENDARSERVER + '}source'];
+		if (source) {
+			for (var k=0; k < source.length; k++) {
+				if (DavClient.getNodesFullName(source[k]) === '{' + DavClient.NS_DAV + '}href') {
+					simple.href = source[k].textContent;
+					simple.writable = false; //this is a webcal calendar
+					simple.writableProperties = (oc_current_user === simple.owner);
+				}
+			}
+		}
+
 		return simple;
 	};
 
@@ -512,48 +606,4 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 		}
 		props.canWrite = canWrite;
 	};
-
-	this._isUriAlreadyTaken = function(uri) {
-		return (this._takenUrls.indexOf(this._CALENDAR_HOME + uri + '/') !== -1);
-	};
-
-	this._suggestUri = function(displayname) {
-		var uri = displayname.toString().toLowerCase()
-			.replace(/\s+/g, '-')           // Replace spaces with -
-			.replace(/[^\w\-]+/g, '')       // Remove all non-word chars
-			.replace(/\-\-+/g, '-')         // Replace multiple - with single -
-			.replace(/^-+/, '')             // Trim - from start of text
-			.replace(/-+$/, '');            // Trim - from end of text
-
-		if (!this._isUriAlreadyTaken(uri)) {
-			return uri;
-		}
-
-		if (uri.indexOf('-') === -1) {
-			uri = uri + '-1';
-			if (!this._isUriAlreadyTaken(uri)) {
-				return uri;
-			}
-		}
-
-		while (this._isUriAlreadyTaken(uri)) {
-			var positionLastDash = uri.lastIndexOf('-');
-			var firstPart = uri.substr(0, positionLastDash);
-			var lastPart = uri.substr(positionLastDash + 1);
-
-			if (lastPart.match(/^\d+$/)) {
-				lastPart = parseInt(lastPart);
-				lastPart++;
-
-				uri = firstPart + '-' + lastPart;
-			} else if (lastPart === '') {
-				uri = uri + '1';
-			} else {
-				uri = uri = '-1';
-			}
-		}
-
-		return uri;
-	};
-
-}]);
+});

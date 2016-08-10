@@ -142,8 +142,8 @@ describe('XMLUtility', function () {
 		})).toEqual('<d:mkcol xmlns:c="urn:ietf:params:xml:ns:caldav" xmlns:d="DAV:" xmlns:a="http://apple.com/ns/ical/" xmlns:o="http://owncloud.org/ns"><d:set><d:prop><d:resourcetype><d:collection><c:calendar/></d:collection><d:displayname>test_displayname</d:displayname><o:calendar-enabled>1</o:calendar-enabled><a:calendar-order>42</a:calendar-order><a:calendar-color>#00FF00</a:calendar-color><c:supported-calendar-component-set><c:comp name="VEVENT"/><c:comp name="VTODO"/></c:supported-calendar-component-set></d:resourcetype></d:prop></d:set></d:mkcol>');
 	});
 
-	it('should return an empty object when getRootSceleton is called with no parameters', function() {
-		expect(XMLUtility.getRootSceleton()).toEqual([{}, null]);
+	it('should return an empty object when getRootSkeleton is called with no parameters', function() {
+		expect(XMLUtility.getRootSkeleton()).toEqual([{}, null]);
 	});
 
 	it('should return the root sceleton correctly for one element', function() {
@@ -153,11 +153,12 @@ describe('XMLUtility', function () {
 				'xmlns:c': 'urn:ietf:params:xml:ns:caldav',
 				'xmlns:d': 'DAV:',
 				'xmlns:a': 'http://apple.com/ns/ical/',
-				'xmlns:o': 'http://owncloud.org/ns'
+				'xmlns:o': 'http://owncloud.org/ns',
+				'xmlns:cs': 'http://calendarserver.org/ns/'
 			},
 			children: []
 		};
-		const result = XMLUtility.getRootSceleton('d:mkcol');
+		const result = XMLUtility.getRootSkeleton('d:mkcol');
 		expect(result).toEqual([expected, expected.children]);
 		expect(result[0].children === result[1]).toBe(true);
 	});
@@ -169,14 +170,15 @@ describe('XMLUtility', function () {
 				'xmlns:c': 'urn:ietf:params:xml:ns:caldav',
 				'xmlns:d': 'DAV:',
 				'xmlns:a': 'http://apple.com/ns/ical/',
-				'xmlns:o': 'http://owncloud.org/ns'
+				'xmlns:o': 'http://owncloud.org/ns',
+				'xmlns:cs': 'http://calendarserver.org/ns/'
 			},
 			children: [{
 				name: 'd:set',
 				children: []
 			}]
 		};
-		const result = XMLUtility.getRootSceleton('d:mkcol', 'd:set');
+		const result = XMLUtility.getRootSkeleton('d:mkcol', 'd:set');
 		expect(result).toEqual([expected, expected.children[0].children]);
 		expect(result[0].children[0].children === result[1]).toBe(true);
 	});
@@ -188,7 +190,8 @@ describe('XMLUtility', function () {
 				'xmlns:c': 'urn:ietf:params:xml:ns:caldav',
 				'xmlns:d': 'DAV:',
 				'xmlns:a': 'http://apple.com/ns/ical/',
-				'xmlns:o': 'http://owncloud.org/ns'
+				'xmlns:o': 'http://owncloud.org/ns',
+				'xmlns:cs': 'http://calendarserver.org/ns/'
 			},
 			children: [{
 				name: 'd:set',
@@ -198,7 +201,7 @@ describe('XMLUtility', function () {
 				}]
 			}]
 		};
-		const result = XMLUtility.getRootSceleton('d:mkcol', 'd:set', 'd:prop');
+		const result = XMLUtility.getRootSkeleton('d:mkcol', 'd:set', 'd:prop');
 		expect(result).toEqual([expected, expected.children[0].children[0].children]);
 		expect(result[0].children[0].children[0].children === result[1]).toBe(true);
 	});

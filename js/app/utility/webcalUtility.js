@@ -1,10 +1,7 @@
-<?php
 /**
- * Calendar App
+ * ownCloud - Calendar App
  *
- * @author Raghu Nayyar
  * @author Georg Ehrke
- * @copyright 2016 Raghu Nayyar <beingminimal@gmail.com>
  * @copyright 2016 Georg Ehrke <oc.list@georgehrke.com>
  *
  * This library is free software; you can redistribute it and/or
@@ -21,10 +18,31 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-?>
-<ul class="app-navigation-list subscription-list">
-	<div ng-class="{'icon-loading-small': is.loading}"></div>
-	<li ng-repeat="item in calendarListItems | orderBy: item.calendar.order | subscriptionListFilter" class="app-navigation-list-item" ng-class="{active: item.calendar.enabled}">
-		<?php print_unescaped($this->inc('part.calendarlist.item')); ?>
-	</li>
-</ul>
+
+app.service('WebCalUtility', function($rootScope) {
+	'use strict';
+
+	this.downgradeURL = function(url) {
+		if (url.startsWith('https://')) {
+			return 'http://' + url.substr(8);
+		}
+	};
+
+	this.downgradePossible = function(url, allowDowngradeToHttp) {
+		return url.startsWith('https://') && allowDowngradeToHttp;
+	};
+
+	this.buildProxyURL = function(url) {
+		return $rootScope.baseUrl + 'proxy?url=' + encodeURIComponent(url);
+	};
+
+	this.fixURL = function(url) {
+		if (url.startsWith('http://') || url.startsWith('https://')) {
+			return url;
+		} else if (url.startsWith('webcal://')) {
+			return 'https://' + url.substr(9);
+		} else {
+			return 'https://' + url;
+		}
+	};
+});

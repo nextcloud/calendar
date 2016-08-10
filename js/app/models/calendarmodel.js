@@ -30,32 +30,35 @@ app.factory('Calendar', function($window, Hook, VEventService, TimezoneService, 
 
 		context.fcEventSource.events = function (start, end, timezone, callback) {
 			const fcAPI = this;
+			context.fcEventSource.isRendering = true;
+			iface.emit(Calendar.hookFinishedRendering);
 
-			TimezoneService.get(timezone).then(function (tz) {
-				context.fcEventSource.isRendering = true;
-				iface.emit(Calendar.hookFinishedRendering);
+			const TimezoneServicePromise = TimezoneService.get(timezone);
+			const VEventServicePromise = VEventService.getAll(iface, start, end);
+			Promise.all([TimezoneServicePromise, VEventServicePromise]).then(function(results) {
+				const [tz, events] = results;
+				let vevents = [];
 
-				VEventService.getAll(iface, start, end).then(function (events) {
-					var vevents = [];
-					for (var i = 0; i < events.length; i++) {
-						var vevent;
-						try {
-							vevent = events[i].getFcEvent(start, end, tz);
-						} catch (err) {
-							iface.addWarning(err.toString());
-							console.log(err);
-							console.log(events[i]);
-							continue;
-						}
-						vevents = vevents.concat(vevent);
+				for (var i = 0; i < events.length; i++) {
+					var vevent;
+					try {
+						vevent = events[i].getFcEvent(start, end, tz);
+					} catch (err) {
+						iface.addWarning(err.toString());
+						console.log(err);
+						console.log(events[i]);
+						continue;
 					}
+					vevents = vevents.concat(vevent);
+				}
 
-					callback(vevents);
-					fcAPI.reportEvents(fcAPI.clientEvents());
-					context.fcEventSource.isRendering = false;
+				callback(vevents);
+				fcAPI.reportEvents(fcAPI.clientEvents());
+				context.fcEventSource.isRendering = false;
 
-					iface.emit(Calendar.hookFinishedRendering);
-				});
+				iface.emit(Calendar.hookFinishedRendering);
+			}).catch(function(reason) {
+				console.log(reason);
 			});
 		};
 		context.fcEventSource.editable = context.writable;
@@ -141,6 +144,19 @@ app.factory('Calendar', function($window, Hook, VEventService, TimezoneService, 
 				get: function() {
 					return context.url;
 				}
+			},
+			downloadUrl: {
+				get: function() {
+					let url = context.url;
+					// cut off last slash to have a fancy name for the ics
+					if (url.slice(url.length - 1) === '/') {
+						url = url.slice(0, url.length - 1);
+					}
+					url += '?export';
+
+					return url;
+				},
+				configurable: true
 			},
 			caldav: {
 				get: function() {
@@ -231,6 +247,10 @@ app.factory('Calendar', function($window, Hook, VEventService, TimezoneService, 
 
 		iface.arePropertiesWritable = function() {
 			return context.writableProperties;
+		};
+
+		iface.eventsAccessibleViaCalDAV = function() {
+			return true;
 		};
 
 		Object.assign(

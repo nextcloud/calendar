@@ -30,6 +30,13 @@ app.run(['$document', '$rootScope', '$window',
 			($window.location.pathname.substr(-1) === '/' ? '' : '/') +
 			'v1/';
 
+		try {
+			const url = $window.location.origin + $window.location.pathname + '?addWebCal=%s';
+			navigator.registerProtocolHandler('webcal', url, 'Calendar');
+		} catch(e) {
+			console.log('Browser does not support registering web protocol handlers.');
+		}
+
 		$document.click(function (event) {
 			$rootScope.$broadcast('documentClicked', event);
 		});
