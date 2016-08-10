@@ -36,7 +36,6 @@ $scripts = [
 	'vendor/ical.js/build/ical',
 	'vendor/jstzdetect/jstz.min',
 	'vendor/angular/angular',
-	'vendor/angular-route/angular-route',
 	'vendor/angular-bootstrap/ui-bootstrap.min',
 	'vendor/angular-bootstrap/ui-bootstrap-tpls.min',
 	'vendor/fullcalendar/dist/fullcalendar',
