@@ -75,29 +75,25 @@
 	 class="app-navigation-entry-menu hidden">
 	<ul>
 		<li ng-show="item.calendar.arePropertiesWritable()">
-			<button	ng-click="item.openEditor()"
-					title="<?php p($l->t('Edit')); ?>">
+			<button	ng-click="item.openEditor()">
 				<span class="icon-rename svg"></span>
 				<span><?php p($l->t('Edit')); ?></span>
 			</button>
 		</li>
 		<li>
-			<button	ng-click="item.showCalDAVUrl()"
-					title="<?php p($l->t('CalDAV')); ?>">
+			<button	ng-click="item.showCalDAVUrl()">
 				<span class="icon-public svg"></span>
-				<span><?php p($l->t('CalDAV-Link')); ?></span>
+				<span><?php p($l->t('Link')); ?></span>
 			</button>
 		</li>
 		<li>
-			<button	ng-click="download(item)"
-					title="<?php p($l->t('Export')); ?>">
+			<button	ng-click="download(item)">
 				<span class="icon-download svg"></span>
-				<span><?php p($l->t('Export')); ?></span>
+				<span><?php p($l->t('Download')); ?></span>
 			</button>
 		</li>
 		<li>
-			<button	ng-click="remove(item)"
-					title="<?php p($l->t('Delete')); ?>">
+			<button	ng-click="remove(item)">
 				<span class="icon-delete svg"></span>
 				<span><?php p($l->t('Delete')); ?></span>
 			</button>
