@@ -228,7 +228,6 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
 						value: timezone
 					});
 				}
-				console.log(timezone);
 			});
 
 			$scope.timezones.push({
