@@ -211,6 +211,10 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
 			}
 
 			angular.forEach(list, function(timezone) {
+				if(timezone === 'GMT' || timezone === 'Z') {
+					return;
+				}
+
 				if (timezone.split('/').length === 1) {
 					$scope.timezones.push({
 						displayname: timezone,
@@ -224,6 +228,7 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
 						value: timezone
 					});
 				}
+				console.log(timezone);
 			});
 
 			$scope.timezones.push({
