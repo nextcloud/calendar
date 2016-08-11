@@ -88,7 +88,6 @@ OC.L10N.register(
     "Shared" : "已共享",
     "More" : "更多",
     "Edit" : "编辑",
-    "CalDAV" : "日历DAV",
     "Share with users or groups" : "共享给其他组或者用户",
     "can edit" : "可编辑",
     "group" : "群组",

@@ -85,8 +85,6 @@ OC.L10N.register(
     "Shared" : "Jaettu",
     "More" : "Lisää",
     "Edit" : "Muokkaa",
-    "CalDAV" : "CalDAV",
-    "CalDAV-Link" : "CalDAV-linkki",
     "Share with users or groups" : "Jaa käyttäjien tai ryhmien kanssa",
     "can edit" : "voi muokata",
     "group" : "ryhmä",

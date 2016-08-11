@@ -82,7 +82,6 @@ OC.L10N.register(
     "Shared" : "Dalinamasi",
     "More" : "Daugiau",
     "Edit" : "Redaguoti",
-    "CalDAV" : "CalDAV",
     "Share with users or groups" : "Dalintis su naudotojais arba grupėmis",
     "can edit" : "gali redaguoti",
     "group" : "grupė",

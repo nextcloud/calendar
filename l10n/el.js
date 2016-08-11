@@ -77,7 +77,6 @@ OC.L10N.register(
     "Shared" : "Κοινόχρηστα",
     "More" : "Περισσότερα",
     "Edit" : "Επεξεργασία",
-    "CalDAV" : "CalDAV",
     "Share with users or groups" : "Διαμοιρασμός με χρήστες ή ομάδες",
     "can edit" : "δυνατότητα επεξεργασίας",
     "group" : "ομάδα",

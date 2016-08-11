@@ -80,7 +80,6 @@ OC.L10N.register(
     "Shared" : "共有中",
     "More" : "もっと見る",
     "Edit" : "編集",
-    "CalDAV" : "CalDAV",
     "Share with users or groups" : "ユーザーもしくはグループと共有",
     "can edit" : "編集を許可",
     "group" : "グループ",

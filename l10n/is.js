@@ -87,7 +87,6 @@ OC.L10N.register(
     "Shared" : "Deilt",
     "More" : "Meira",
     "Edit" : "Breyta",
-    "CalDAV" : "CalDAV",
     "Share with users or groups" : "Deila með notendum eða hópum",
     "can edit" : "getur breytt",
     "group" : "hópur",

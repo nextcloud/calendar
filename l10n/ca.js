@@ -85,7 +85,6 @@ OC.L10N.register(
     "Shared" : "Compartit",
     "More" : "Més",
     "Edit" : "Edita",
-    "CalDAV" : "CalDAV",
     "can edit" : "pot editar",
     "group" : "grup",
     "New Calendar" : "Calendari nou",

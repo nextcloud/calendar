@@ -78,7 +78,6 @@ OC.L10N.register(
     "Shared" : "Jagatud",
     "More" : "Rohkem",
     "Edit" : "Muuda",
-    "CalDAV" : "CalDAV",
     "can edit" : "saab muuta",
     "group" : "grupp",
     "New Calendar" : "Uus kalender",

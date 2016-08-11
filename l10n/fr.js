@@ -92,7 +92,6 @@ OC.L10N.register(
     "Shared" : "Partagé",
     "More" : "Plus",
     "Edit" : "Éditer",
-    "CalDAV" : "CalDAV",
     "Share with users or groups" : "Partager avec des utilisateurs ou des groupes",
     "can edit" : "peut modifier",
     "group" : "groupe",

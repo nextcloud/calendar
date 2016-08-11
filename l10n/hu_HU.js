@@ -85,7 +85,6 @@ OC.L10N.register(
     "Shared" : "Megosztott",
     "More" : "Több",
     "Edit" : "Szerkesztés",
-    "CalDAV" : "CalDAV",
     "Share with users or groups" : "Megosztás felhasználókkal vagy csoportokkal",
     "can edit" : "szerkesztheti",
     "group" : "csoport",

@@ -93,8 +93,6 @@ OC.L10N.register(
     "Shared" : "Общий доступ",
     "More" : "Больше",
     "Edit" : "Редактировать",
-    "CalDAV" : "CalDAV",
-    "CalDAV-Link" : "Ссылка CalDAV",
     "Share with users or groups" : "Общий доступ с пользователями или группами",
     "can edit" : "можно редактировать",
     "group" : "группа",
