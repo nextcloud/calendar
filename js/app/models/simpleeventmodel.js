@@ -487,32 +487,26 @@ app.factory('SimpleEvent', function() {
 			}
 
 			var startTz = newSimpleData.dtstart.parameters.zone === "floating" ? ICAL.Timezone.localTimezone : ICAL.TimezoneService.get(newSimpleData.dtstart.parameters.zone);
-			var start = ICAL.Time.fromData(
-				{
-     			year: newSimpleData.dtstart.value.year(), 
-     			month: newSimpleData.dtstart.value.month() + 1, 
-     			day: newSimpleData.dtstart.value.date(), 
-     			hour: newSimpleData.dtstart.value.hour(), 
-     			minute: newSimpleData.dtstart.value.minute(), 
-     			second: newSimpleData.dtstart.value.second(),
-					isDate: newSimpleData.allDay
-				},
-				startTz
-			);
+			var start = ICAL.Time.fromData({
+				year: newSimpleData.dtstart.value.year(),
+				month: newSimpleData.dtstart.value.month() + 1,
+				day: newSimpleData.dtstart.value.date(),
+				hour: newSimpleData.dtstart.value.hour(),
+				minute: newSimpleData.dtstart.value.minute(),
+				second: newSimpleData.dtstart.value.second(),
+				isDate: newSimpleData.allDay
+				}, startTz);
 
 			var endTz = newSimpleData.dtend.parameters.zone === "floating" ? ICAL.Timezone.localTimezone : ICAL.TimezoneService.get(newSimpleData.dtend.parameters.zone);
-			var end = ICAL.Time.fromData(
-				{
-     			year: newSimpleData.dtend.value.year(), 
-     			month: newSimpleData.dtend.value.month() + 1, 
-     			day: newSimpleData.dtend.value.date(), 
-     			hour: newSimpleData.dtend.value.hour(), 
-     			minute: newSimpleData.dtend.value.minute(), 
-     			second: newSimpleData.dtend.value.second(),
-					isDate: newSimpleData.allDay
-				},
-				endTz
-			);
+			var end = ICAL.Time.fromData({
+				year: newSimpleData.dtend.value.year(),
+				month: newSimpleData.dtend.value.month() + 1,
+				day: newSimpleData.dtend.value.date(),
+				hour: newSimpleData.dtend.value.hour(),
+				minute: newSimpleData.dtend.value.minute(),
+				second: newSimpleData.dtend.value.second(),
+				isDate: newSimpleData.allDay
+				}, endTz);
 
 			var availableTimezones = [];
 			var vtimezones = vevent.parent.getAllSubcomponents('vtimezone');
