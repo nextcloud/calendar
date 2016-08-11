@@ -341,6 +341,13 @@
 	border-radius: 0 3px 3px 0;
 }
 
+.public-calendar-name {
+	font-size: 20px;
+	padding: 5px;
+	border-radius: 5px;
+	margin: 5px auto;
+}
+
 input.public-linkinput {
 	width: 94%;
 	margin: 6px auto;

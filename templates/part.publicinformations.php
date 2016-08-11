@@ -24,6 +24,10 @@
 ?>
 <ul class="settings-fieldset-interior public-left-side" ng-repeat="item in calendarListItems" >
 		<li class="settings-fieldset-interior-item">
+			<div ng-style="{background : item.calendar.color}" class="public-calendar-name">
+				{{ item.calendar.displayname }}
+			</div>
+		<li class="settings-fieldset-interior-item">
 			<div class="davbuttons">
 				<div class="btn-group">
 					<button class="button first" ng-model="$parent.publicdav" uib-btn-radio="'CalDAV'">CalDAV</button>
