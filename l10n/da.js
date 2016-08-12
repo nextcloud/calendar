@@ -93,6 +93,8 @@ OC.L10N.register(
     "Shared" : "Delt",
     "More" : "Mere",
     "Edit" : "Redigér",
+    "Link" : "Link",
+    "Download" : "Hent",
     "Share with users or groups" : "Del med brugere eller grupper",
     "can edit" : "kan redigere",
     "group" : "gruppe",

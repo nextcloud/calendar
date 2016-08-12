@@ -93,6 +93,8 @@ OC.L10N.register(
     "Shared" : "Paylaşılan",
     "More" : "Daha fazla",
     "Edit" : "Düzenle",
+    "Link" : "Bağlantı",
+    "Download" : "İndir",
     "Share with users or groups" : "Kullanıcı ve gruplarla paylaş",
     "can edit" : "düzenleyebilir",
     "group" : "grup",

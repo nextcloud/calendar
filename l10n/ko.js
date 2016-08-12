@@ -72,6 +72,8 @@ OC.L10N.register(
     "Shared" : "공유됨",
     "More" : "더 보기",
     "Edit" : "편집",
+    "Link" : "링크",
+    "Download" : "다운로드",
     "can edit" : "편집 가능",
     "group" : "그룹",
     "New Calendar" : "새 달력",

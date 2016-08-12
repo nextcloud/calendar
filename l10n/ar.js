@@ -92,6 +92,8 @@ OC.L10N.register(
     "Shared" : "مشارك",
     "More" : "المزيد",
     "Edit" : "تعديل",
+    "Link" : "الرابط",
+    "Download" : "تحميل",
     "Share with users or groups" : "شارِك مع مستخدمين أو مجموعات",
     "can edit" : "يمكن التحرير",
     "group" : "مجموعة",

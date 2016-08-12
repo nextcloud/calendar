@@ -78,6 +78,8 @@ OC.L10N.register(
     "Shared" : "Jagatud",
     "More" : "Rohkem",
     "Edit" : "Muuda",
+    "Link" : "Link",
+    "Download" : "Lae alla",
     "can edit" : "saab muuta",
     "group" : "grupp",
     "New Calendar" : "Uus kalender",

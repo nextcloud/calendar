@@ -85,6 +85,8 @@ OC.L10N.register(
     "Shared" : "Jaettu",
     "More" : "Lisää",
     "Edit" : "Muokkaa",
+    "Link" : "Linkki",
+    "Download" : "Lataa",
     "Share with users or groups" : "Jaa käyttäjien tai ryhmien kanssa",
     "can edit" : "voi muokata",
     "group" : "ryhmä",

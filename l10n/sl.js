@@ -93,6 +93,8 @@ OC.L10N.register(
     "Shared" : "V souporabi",
     "More" : "Več",
     "Edit" : "Uredi",
+    "Link" : "Povezava",
+    "Download" : "Prejmi",
     "Share with users or groups" : "Souporaba z uporabniki ali skupinami",
     "can edit" : "lahko ureja",
     "group" : "skupina",

@@ -82,6 +82,7 @@ OC.L10N.register(
     "Shared" : "Compartido",
     "More" : "Más",
     "Edit" : "Editar",
+    "Download" : "Descargar",
     "Share with users or groups" : "Compartir con usuarios o grupos",
     "can edit" : "puede editar",
     "group" : "grupo",

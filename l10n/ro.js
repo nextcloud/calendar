@@ -78,6 +78,8 @@ OC.L10N.register(
     "Shared" : "Partajat",
     "More" : "Mai mult",
     "Edit" : "Editează",
+    "Link" : "Legătură",
+    "Download" : "Descarcă",
     "Share with users or groups" : "Partajează cu utilizatori sau grupuri",
     "can edit" : "poate edita",
     "group" : "grup",

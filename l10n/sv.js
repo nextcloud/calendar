@@ -88,6 +88,8 @@ OC.L10N.register(
     "Shared" : "Delad",
     "More" : "Mer",
     "Edit" : "Ändra",
+    "Link" : "Länk",
+    "Download" : "Ladda ned",
     "Share with users or groups" : "Dela med användare eller grupper",
     "can edit" : "kan redigera",
     "group" : "Grupp",

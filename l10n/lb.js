@@ -87,6 +87,8 @@ OC.L10N.register(
     "Shared" : "Gedeelt",
     "More" : "Méi",
     "Edit" : "Änneren",
+    "Link" : "Link",
+    "Download" : "Eroflueden",
     "Share with users or groups" : "Mat Benotzer oder Gruppen deelen",
     "can edit" : "kann änneren",
     "group" : "Grupp",

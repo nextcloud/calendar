@@ -82,6 +82,8 @@ OC.L10N.register(
     "Shared" : "Dalinamasi",
     "More" : "Daugiau",
     "Edit" : "Redaguoti",
+    "Link" : "Nuoroda",
+    "Download" : "Atsisiųsti",
     "Share with users or groups" : "Dalintis su naudotojais arba grupėmis",
     "can edit" : "gali redaguoti",
     "group" : "grupė",

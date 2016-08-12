@@ -86,6 +86,8 @@ OC.L10N.register(
     "Shared" : "已分享",
     "More" : "更多",
     "Edit" : "編輯",
+    "Link" : "連結",
+    "Download" : "下載",
     "Share with users or groups" : "與使用者和群組分享",
     "can edit" : "可編輯",
     "group" : "群組",

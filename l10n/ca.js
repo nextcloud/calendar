@@ -85,6 +85,8 @@ OC.L10N.register(
     "Shared" : "Compartit",
     "More" : "Més",
     "Edit" : "Edita",
+    "Link" : "Enllaç",
+    "Download" : "Descàrrega",
     "can edit" : "pot editar",
     "group" : "grup",
     "New Calendar" : "Calendari nou",
