@@ -21,9 +21,19 @@
 app.service('StringUtility', function () {
 	'use strict';
 
-	this.uid = function() {
-			return Math.random().toString(36).substr(2).toUpperCase() +
-				Math.random().toString(36).substr(2).toUpperCase();
+	this.uid = function(prefix, suffix) {
+		prefix = prefix || '';
+		suffix = suffix || '';
+
+		if (prefix !== '') {
+			prefix += '-';
+		}
+		if (suffix !== '') {
+			suffix = '.' + suffix;
+		}
+
+		return prefix + Math.random().toString(36).substr(2).toUpperCase() +
+			Math.random().toString(36).substr(2).toUpperCase() + suffix;
 	};
 
 	this.uri = function(start, isAvailable) {
