@@ -88,6 +88,7 @@ OC.L10N.register(
     "Week" : "Týden",
     "Month" : "Měsíc",
     "Today" : "Dnes",
+    "Some events in this calendar are broken. Please check the JS console for more info." : "V tomto kalendáři jsou některé události poškozené. Pro více informací prosím nahlédněte do JS konzole.",
     "Share Calendar" : "Sdílet kalendář",
     "Shared" : "Sdílené",
     "More" : "Více",
