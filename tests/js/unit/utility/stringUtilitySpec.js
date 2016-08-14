@@ -17,6 +17,21 @@ describe('StringUtility', function () {
 		expect(uid).toEqual(uid.toUpperCase());
 	});
 
+	it('should return a unique identifier with a prefix and/or a suffix', function() {
+		const uid1 = StringUtility.uid('foobar');
+		expect(uid1).toEqual(jasmine.any(String));
+		expect(uid1.startsWith('foobar-')).toBe(true);
+
+		const uid2 = StringUtility.uid(null, 'ics');
+		expect(uid2).toEqual(jasmine.any(String));
+		expect(uid2.endsWith('.ics')).toBe(true);
+
+		const uid3 = StringUtility.uid('foobar', 'ics');
+		expect(uid3).toEqual(jasmine.any(String));
+		expect(uid3.startsWith('foobar-')).toBe(true);
+		expect(uid3.endsWith('.ics')).toBe(true);
+	});
+
 	it('should return the uri if it\'s available', function() {
 		const isAvailable = jasmine.createSpy().and.returnValue(true);
 		const uri = StringUtility.uri('abc', isAvailable);
