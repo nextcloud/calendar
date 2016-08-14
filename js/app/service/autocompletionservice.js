@@ -25,17 +25,17 @@ app.service('AutoCompletionService', ['$rootScope', '$http',
 	function ($rootScope, $http) {
 		'use strict';
 
-		return {
-			searchAttendee: function(name) {
-				return $http.get($rootScope.baseUrl + 'autocompletion/attendee', {
-					params: {
-						search: name
-					}
-				}).then(function (response) {
-					return response.data;
-				});
-			},
-			searchLocation: function(address) {
+		this.searchAttendee = function(name) {
+			return $http.get($rootScope.baseUrl + 'autocompletion/attendee', {
+				params: {
+					search: name
+				}
+			}).then(function (response) {
+				return response.data;
+			});
+		};
+
+		this.searchLocation = function(address) {
 			return $http.get($rootScope.baseUrl + 'autocompletion/location', {
 				params: {
 					location: address
@@ -43,7 +43,6 @@ app.service('AutoCompletionService', ['$rootScope', '$http',
 			}).then(function (response) {
 				return response.data;
 			});
-			}
 		};
 	}
 ]);

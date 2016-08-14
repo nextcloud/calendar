@@ -30,7 +30,7 @@ app.service('SettingsService', ['$rootScope', '$http', function($rootScope, $htt
 			url: $rootScope.baseUrl + 'config',
 			params: {key: 'view'}
 		}).then(function(response) {
-			return (response.status >= 200 && response.status <= 299) ? response.data.value : null;
+			return response.data.value;
 		});
 	};
 
@@ -42,8 +42,8 @@ app.service('SettingsService', ['$rootScope', '$http', function($rootScope, $htt
 				key: 'view',
 				value: view
 			}
-		}).then(function(response) {
-			return response.status >= 200 && response.status <= 299;
+		}).then(function() {
+			return true;
 		});
 	};
 
