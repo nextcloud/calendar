@@ -42,7 +42,7 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 		'{' + DavClient.NS_IETF + '}supported-calendar-component-set',
 		'{' + DavClient.NS_CALENDARSERVER + '}publish-url',
 		'{' + DavClient.NS_CALENDARSERVER + '}pre-publish-url',
-		'{' + DavClient.NS_CALENDARSERVER + '}can-be-published',
+		'{' + DavClient.NS_CALENDARSERVER + '}allowed-sharing-modes',
 		'{' + DavClient.NS_OWNCLOUD + '}calendar-enabled',
 		'{' + DavClient.NS_DAV + '}acl',
 		'{' + DavClient.NS_DAV + '}owner',
@@ -570,7 +570,6 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 				vtodo: false
 			},
 			owner: null,
-			shareable: publicMode ? false : props.canWrite,
 			shares: {
 				users: [],
 				groups: []
@@ -597,7 +596,16 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 			}
 		}
 
-		simple.publishable = '{' + DavClient.NS_CALENDARSERVER + '}can-be-published' in props;
+		simple.publishable = false;
+		simple.shareable = false;
+
+		var sharingmodes = props['{' + DavClient.NS_CALENDARSERVER + '}allowed-sharing-modes'];
+		if (typeof sharingmodes !== 'undefined' && sharingmodes.length !== 0 && !publicMode){
+			for (let sharemode of sharingmodes) {
+				simple.shareable = simple.shareable || sharemode.localName === 'can-be-shared';
+				simple.publishable = simple.publishable || sharemode.localName === 'can-be-published';
+			}
+		}
 
 		var components = props['{' + DavClient.NS_IETF + '}supported-calendar-component-set'];
 		for (var i=0; i < components.length; i++) {
