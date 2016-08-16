@@ -599,11 +599,16 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 		simple.publishable = false;
 		simple.shareable = false;
 
-		var sharingmodes = props['{' + DavClient.NS_CALENDARSERVER + '}allowed-sharing-modes'];
-		if (typeof sharingmodes !== 'undefined' && sharingmodes.length !== 0 && !publicMode){
-			for (let sharemode of sharingmodes) {
-				simple.shareable = simple.shareable || sharemode.localName === 'can-be-shared';
-				simple.publishable = simple.publishable || sharemode.localName === 'can-be-published';
+		if (!publicMode && props.canWrite) {
+			var sharingmodes = props['{' + DavClient.NS_CALENDARSERVER + '}allowed-sharing-modes'];
+			if (typeof sharingmodes !== 'undefined' && sharingmodes.length !== 0){
+				for (let sharemode of sharingmodes) {
+					simple.shareable = simple.shareable || sharemode.localName === 'can-be-shared';
+					simple.publishable = simple.publishable || sharemode.localName === 'can-be-published';
+				}
+			} else {
+				// Fallback if allowed-sharing-modes is not provided
+				simple.shareable = props.canWrite;
 			}
 		}
 
