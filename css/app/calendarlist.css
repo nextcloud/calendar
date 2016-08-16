@@ -395,11 +395,10 @@ input.mailerInput {
 }
 
 .mailerInput + button {
-	position: relative;
-	top: -5px;
 	height: 32px;
 	margin-right: 0;
 	width: 32px;
+	vertical-align: bottom;
 }
 
 /* Calendar Sharing */
