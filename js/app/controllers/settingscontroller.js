@@ -26,12 +26,13 @@
  * Description: Takes care of the Calendar Settings.
  */
 
-app.controller('SettingsController', ['$scope', '$uibModal',
-	function ($scope, $uibModal) {
+app.controller('SettingsController', ['$scope', '$uibModal', 'SettingsService',
+	function ($scope, $uibModal, SettingsService) {
 		'use strict';
 
 		$scope.settingsCalDavLink = OC.linkToRemote('dav') + '/';
 		$scope.settingsCalDavPrincipalLink = OC.linkToRemote('dav') + '/principals/users/' + escapeHTML(encodeURIComponent(oc_current_user)) + '/';
+		$scope.skipPopover = angular.element('#fullcalendar').attr('data-skipPopover');
 
 		angular.element('#import').on('change', function () {
 			var filesArray = [];
@@ -58,5 +59,11 @@ app.controller('SettingsController', ['$scope', '$uibModal',
 
 			angular.element('#import').val(null);
 		});
+
+		$scope.updateSkipPopover = function() {
+			const newValue = $scope.skipPopover;
+			angular.element('#fullcalendar').attr('data-skipPopover', newValue);
+			SettingsService.setSkipPopover(newValue);
+		};
 	}
 ]);

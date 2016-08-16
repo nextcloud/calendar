@@ -21,7 +21,7 @@
  *
  */
 
-#app-settings .settings-fieldset .settings-fieldset-interior input {
+#app-settings .settings-fieldset .settings-fieldset-interior input:not([type="checkbox"]) {
 	width: 90%;
 }
 
@@ -62,6 +62,10 @@
 #app-settings .settings-fieldset .settings-fieldset-interior-upload input {
 	position: absolute;
 	top: 18px;
+}
+
+#app-settings .settings-fieldset .settings-fieldset-interior-inline-label {
+	display: inline;
 }
 
 #app-settings .settings-fieldset .settings-fieldset-interior input[type="file"] {

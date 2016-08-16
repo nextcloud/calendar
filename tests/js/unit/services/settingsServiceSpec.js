@@ -39,4 +39,27 @@ describe('Settings Service', function () {
 		expect(http.flush).not.toThrow();
 	});
 
+	it ('should set the view', function() {
+		http.expect('POST', 'fancy-url/config', {
+			'key': 'skipPopover',
+			'value': 'yes'
+		}).respond(200, {value: 'yes'});
+
+		SettingsService.setSkipPopover('yes').then(function(result) {
+			expect(result).toBe(true);
+		});
+
+		expect(http.flush).not.toThrow();
+	});
+
+	it ('should get the view', function() {
+		http.expect('GET', 'fancy-url/config?key=skipPopover').respond(200, {value: 'no'});
+
+		SettingsService.getSkipPopover().then(function(result) {
+			expect(result).toEqual('no');
+		});
+
+		expect(http.flush).not.toThrow();
+	});
+
 });

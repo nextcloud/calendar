@@ -41,6 +41,11 @@ class SettingsController extends Controller {
 	private $userSession;
 
 	/**
+	 * @var string
+	 */
+	private $userId;
+
+	/**
 	 * @param string $appName
 	 * @param IRequest $request an instance of the request
 	 * @param IUserSession $userSession
@@ -51,10 +56,13 @@ class SettingsController extends Controller {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->userSession = $userSession;
+		$this->userId = $userSession->getUser()->getUID();
 	}
 
 	/**
 	 * get a configuration item
+	 *
+	 * @NoAdminRequired
 	 *
 	 * @param string $key
 	 * @return JSONResponse
@@ -63,6 +71,8 @@ class SettingsController extends Controller {
 		switch ($key) {
 			case 'view':
 				return $this->getView();
+			case 'skipPopover':
+				return $this->getSkipPopover();
 			default:
 				return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		}
@@ -70,6 +80,8 @@ class SettingsController extends Controller {
 
 	/**
 	 * set a configuration item
+	 *
+	 * @NoAdminRequired
 	 *
 	 * @param string $key
 	 * @param mixed $value
@@ -79,6 +91,8 @@ class SettingsController extends Controller {
 		switch ($key) {
 			case 'view':
 				return $this->setView($value);
+			case 'skipPopover':
+				return $this->setSkipPopover($value);
 			default:
 				return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		}
@@ -90,21 +104,16 @@ class SettingsController extends Controller {
 	 *
 	 * @param string $view
 	 * @return JSONResponse
-	 *
-	 * @NoAdminRequired
 	 */
 	private function setView($view) {
 		if (!$this->isViewAllowed($view)) {
 			return new JSONResponse([], Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
 
-		$userId = $this->userSession->getUser()->getUID();
-		$app = $this->appName;
-
 		try {
 			$this->config->setUserValue(
-				$userId,
-				$app,
+				$this->userId,
+				$this->appName,
 				'currentView',
 				$view
 			);
@@ -120,17 +129,12 @@ class SettingsController extends Controller {
 	 * get a config value
 	 *
 	 * @return JSONResponse
-	 *
-	 * @NoAdminRequired
 	 */
 	private function getView() {
-		$userId = $this->userSession->getUser()->getUID();
-		$app = $this->appName;
-
 		try {
 			$view = $this->config->getUserValue(
-				$userId,
-				$app,
+				$this->userId,
+				$this->appName,
 				'currentView',
 				'month'
 			);
@@ -157,5 +161,67 @@ class SettingsController extends Controller {
 		];
 
 		return in_array($view, $allowedViews);
+	}
+
+	/**
+	 * set if popover shall be skipped
+	 *
+	 * @param $value
+	 * @return JSONResponse
+	 */
+	private function setSkipPopover($value) {
+		if (!$this->isSkipPopoverValueAllowed($value)) {
+			return new JSONResponse([], Http::STATUS_UNPROCESSABLE_ENTITY);
+		}
+
+		try {
+			$this->config->setUserValue(
+				$this->userId,
+				$this->appName,
+				'skipPopover',
+				$value
+			);
+		} catch(\Exception $e) {
+			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+
+		return new JSONResponse();
+	}
+
+	/**
+	 * get if popover shall be skipped
+	 *
+	 * @return JSONResponse
+	 */
+	private function getSkipPopover() {
+		try {
+			$view = $this->config->getUserValue(
+				$this->userId,
+				$this->appName,
+				'skipPopover',
+				'no'
+			);
+		} catch(\Exception $e) {
+			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+
+		return new JSONResponse([
+			'value' => $view,
+		]);
+	}
+
+	/**
+	 * check if value for skipPopover is allowed
+	 *
+	 * @param $value
+	 * @return bool
+	 */
+	private function isSkipPopoverValueAllowed($value) {
+		$allowedValues = [
+			'yes',
+			'no'
+		];
+
+		return in_array($value, $allowedValues);
 	}
 }

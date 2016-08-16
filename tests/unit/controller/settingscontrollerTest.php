@@ -48,14 +48,6 @@ class SettingsControllerTest extends \PHPUnit_Framework_TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->controller = new SettingsController($this->appName,
-			$this->request, $this->userSession, $this->config);
-	}
-
-	/**
-	 * @dataProvider setViewWithAllowedViewDataProvider
-	 */
-	public function testSetViewWithAllowedView($view) {
 		$this->userSession->expects($this->once())
 			->method('getUser')
 			->will($this->returnValue($this->dummyUser));
@@ -64,6 +56,14 @@ class SettingsControllerTest extends \PHPUnit_Framework_TestCase {
 			->method('getUID')
 			->will($this->returnValue('user123'));
 
+		$this->controller = new SettingsController($this->appName,
+			$this->request, $this->userSession, $this->config);
+	}
+
+	/**
+	 * @dataProvider setViewWithAllowedViewDataProvider
+	 */
+	public function testSetViewWithAllowedView($view) {
 		$this->config->expects($this->once())
 			->method('setUserValue')
 			->with('user123', $this->appName, 'currentView', $view);
@@ -92,14 +92,6 @@ class SettingsControllerTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testSetViewWithConfigException() {
-		$this->userSession->expects($this->once())
-			->method('getUser')
-			->will($this->returnValue($this->dummyUser));
-
-		$this->dummyUser->expects($this->once())
-			->method('getUID')
-			->will($this->returnValue('user123'));
-
 		$this->config->expects($this->once())
 			->method('setUserValue')
 			->with('user123', $this->appName, 'currentView', 'month')
@@ -113,14 +105,6 @@ class SettingsControllerTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testGetView() {
-		$this->userSession->expects($this->once())
-			->method('getUser')
-			->will($this->returnValue($this->dummyUser));
-
-		$this->dummyUser->expects($this->once())
-			->method('getUID')
-			->will($this->returnValue('user123'));
-
 		$this->config->expects($this->once())
 			->method('getUserValue')
 			->with('user123', $this->appName, 'currentView', 'month')
@@ -134,20 +118,81 @@ class SettingsControllerTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testGetViewWithConfigException() {
-		$this->userSession->expects($this->once())
-			->method('getUser')
-			->will($this->returnValue($this->dummyUser));
-
-		$this->dummyUser->expects($this->once())
-			->method('getUID')
-			->will($this->returnValue('user123'));
-
 		$this->config->expects($this->once())
 			->method('getUserValue')
 			->with('user123', $this->appName, 'currentView', 'month')
 			->will($this->throwException(new \Exception));
 
 		$actual = $this->controller->getConfig('view');
+
+		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertEquals([], $actual->getData());
+		$this->assertEquals(500, $actual->getStatus());
+	}
+
+	/**
+	 * @dataProvider setPopoverWithAllowedValueDataProvider
+	 */
+	public function testSetPopoverWithAllowedValue($value) {
+		$this->config->expects($this->once())
+			->method('setUserValue')
+			->with('user123', $this->appName, 'skipPopover', $value);
+
+		$actual = $this->controller->setConfig('skipPopover', $value);
+
+		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertEquals([], $actual->getData());
+		$this->assertEquals(200, $actual->getStatus());
+	}
+
+	public function setPopoverWithAllowedValueDataProvider() {
+		return [
+			['yes'],
+			['no']
+		];
+	}
+
+	public function testSetPopoverWithForbiddenValue() {
+		$actual = $this->controller->setConfig('skipPopover','someForbiddenValue');
+
+		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertEquals([], $actual->getData());
+		$this->assertEquals(422, $actual->getStatus());
+	}
+
+	public function testSetPopoverWithConfigException() {
+		$this->config->expects($this->once())
+			->method('setUserValue')
+			->with('user123', $this->appName, 'skipPopover', 'no')
+			->will($this->throwException(new \Exception));
+
+		$actual = $this->controller->setConfig('skipPopover', 'no');
+
+		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertEquals([], $actual->getData());
+		$this->assertEquals(500, $actual->getStatus());
+	}
+
+	public function testGetPopover() {
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->with('user123', $this->appName, 'skipPopover', 'no')
+			->will($this->returnValue('agendaWeek'));
+
+		$actual = $this->controller->getConfig('skipPopover');
+
+		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertEquals(['value' => 'agendaWeek'], $actual->getData());
+		$this->assertEquals(200, $actual->getStatus());
+	}
+
+	public function testGetPopoverWithConfigException() {
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->with('user123', $this->appName, 'skipPopover', 'no')
+			->will($this->throwException(new \Exception));
+
+		$actual = $this->controller->getConfig('skipPopover');
 
 		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
 		$this->assertEquals([], $actual->getData());
