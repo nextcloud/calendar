@@ -22,37 +22,51 @@
  *
  */
 ?>
-<ul class="settings-fieldset-interior public-left-side" ng-repeat="item in calendarListItems" >
-		<li class="settings-fieldset-interior-item">
-			<div ng-style="{background : item.calendar.color}" class="public-calendar-name">
-				{{ item.calendar.displayname }}
-			</div>
-		<li class="settings-fieldset-interior-item">
-			<div class="davbuttons">
-				<div class="btn-group">
-					<button class="button first" ng-model="$parent.publicdav" uib-btn-radio="'CalDAV'">CalDAV</button>
-					<button class="button last" ng-model="$parent.publicdav" uib-btn-radio="'WebDAV'">WebDAV</button>
-				</div>
-			</div>
-			<label>{{ $parent.publicdavdesc }}</label>
-			<input
-				class="public-linkinput"
-				type="text"
-				ng-model="$parent.publicdavurl"
-				placeholder="<?php p($l->t('Publish URL')); ?>">
-		</li>
-        <li>
-			<span class="icon-download svg public-ics-download"
-					ng-click="download(item)">
-					<?php p($l->t('Download')); ?>
-			</span>
-        </li>
-        <li class="settings-fieldset-interior-item">
-        	<label><?php p($l->t('Iframe to integrate')); ?></label>
-        	<textarea class="integration-code"
-            	type="text"
-            	ng-value="integration(item)"
-            	placeholder="<?php p($l->t('Publish URL')); ?>">
-            </textarea>
-        </li>
-    </ul>
+<div id="scollable" class="settings-fieldset-interior public-left-side" ng-repeat="item in calendarListItems" >
+		<div ng-style="{background : item.calendar.color}" class="public-calendar-name">
+			{{ item.calendar.displayname }}
+		</div>
+		<span class="icon-download svg public-ics-download"
+			ng-click="download(item)">
+			<?php p($l->t('Download')); ?>
+		</span>
+</div>
+<div id="app-settings">
+	<div id="app-settings-header">
+		<button name="app settings"
+			class="settings-button"
+			data-apps-slide-toggle="#app-settings-content">
+			<?php p($l->t('Settings')); ?>
+		</button>
+	</div>
+
+	<div id="app-settings-content" ng-repeat="item in calendarListItems">
+		<fieldset class="settings-fieldset">
+			<ul class="settings-fieldset-interior">
+				<li class="settings-fieldset-interior-item">
+					<div class="davbuttons">
+						<div class="btn-group">
+							<button class="button first" ng-model="$parent.publicdav" uib-btn-radio="'CalDAV'">CalDAV</button>
+							<button class="button last" ng-model="$parent.publicdav" uib-btn-radio="'WebDAV'">WebDAV</button>
+						</div>
+					</div>
+					<label>{{ $parent.publicdavdesc }}</label>
+					<input
+						class="public-linkinput"
+						type="text"
+						ng-model="$parent.publicdavurl"
+						placeholder="<?php p($l->t('Publish URL')); ?>">
+				</li>
+
+				<li class="settings-fieldset-interior-item">
+					<label><?php p($l->t('Iframe to integrate')); ?></label>
+			    <textarea class="integration-code"
+			      type="text"
+			      ng-value="integration(item)"
+			      placeholder="<?php p($l->t('Publish URL')); ?>">
+			    </textarea>
+				</li>
+			</ul>
+		</fieldset>
+	</div>
+</div>
