@@ -115,17 +115,20 @@ app.service('ColorUtility', function() {
 
 	/**
 	 * convert HSL to RGB
-	 * @param r
-	 * @param g
-	 * @param b
+	 * @param h
+	 * @param s
+	 * @param l
 	 * @returns array
 	 */
-	this._hslToRgb = function(r,g,b) {
-		if(Array.isArray(r)) {
-			[r, g, b] = r;
+	this._hslToRgb = function(h, s, l) {
+		if(Array.isArray(h)) {
+			[h, s, l] = h;
 		}
 
-		return hslToRgb(r, g, b);
+		s /= 100;
+		l /= 100;
+
+		return hslToRgb(h, s, l);
 	};
 
 	/**

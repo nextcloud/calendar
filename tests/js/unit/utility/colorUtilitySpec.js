@@ -96,10 +96,10 @@ describe('ColorUtility shared tests', function () {
 
 	it('should call forward the call to hslToRgb', function () {
 		expect(ColorUtility._hslToRgb(6, 70, 68));
-		expect(hslToRgb).toHaveBeenCalledWith(6, 70, 68);
+		expect(hslToRgb).toHaveBeenCalledWith(6, 0.7, 0.68);
 
 		expect(ColorUtility._hslToRgb([6, 77, 68]));
-		expect(hslToRgb).toHaveBeenCalledWith(6, 77, 68);
+		expect(hslToRgb).toHaveBeenCalledWith(6, 0.77, 0.68);
 	});
 });
 
