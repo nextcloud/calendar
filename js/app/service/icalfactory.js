@@ -21,20 +21,18 @@
  *
  */
 
-app.service('ICalFactory', [
-	function() {
-		'use strict';
+app.service('ICalFactory', function() {
+	'use strict';
 
-		// creates a new ICAL root element with a product id property
-		return {
-			new: function() {
-				var root = new ICAL.Component(['vcalendar', [], []]);
+	this.new = function() {
+		const root = new ICAL.Component(['vcalendar', [], []]);
 
-				var version = angular.element('#fullcalendar').attr('data-appVersion');
-				root.updatePropertyWithValue('prodid', '-//ownCloud calendar v' + version);
+		const version = angular.element('#fullcalendar').attr('data-appVersion');
+		root.updatePropertyWithValue('prodid', '-//ownCloud calendar v' + version);
 
-				return root;
-			}
-		};
-	}
-]);
+		root.updatePropertyWithValue('version', '2.0');
+		root.updatePropertyWithValue('calscale', 'GREGORIAN');
+
+		return root;
+	};
+});
