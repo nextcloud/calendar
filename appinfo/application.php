@@ -54,8 +54,9 @@ class Application extends App {
 			$config = $c->getServer()->getConfig();
 			$mailer = $c->getServer()->getMailer();
 			$l10n = $c->getServer()->getL10N($c->query('AppName'));
+			$defaults = new \OCP\Defaults();
 
-			return new Controller\ViewController($c->getAppName(), $request, $userSession, $config, $mailer, $l10n);
+			return new Controller\ViewController($c->getAppName(), $request, $userSession, $config, $mailer, $l10n, $defaults);
 		});
 		$container->registerService('ProxyController', function(IAppContainer $c) {
 			$request = $c->query('Request');

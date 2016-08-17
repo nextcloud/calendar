@@ -31,6 +31,7 @@ use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IUserSession;
@@ -59,6 +60,11 @@ class ViewController extends Controller {
 	private $l10n;
 
 	/**
+	 * @var Defaults
+	 */
+	private $defaults;
+
+	/**
 	 * @param string $appName
 	 * @param IRequest $request an instance of the request
 	 * @param IUserSession $userSession
@@ -67,12 +73,13 @@ class ViewController extends Controller {
 	 * @param L10N $l10N
 	 */
 	public function __construct($appName, IRequest $request,
-								IUserSession $userSession, IConfig $config, IMailer $mailer, L10N $l10N) {
+								IUserSession $userSession, IConfig $config, IMailer $mailer, L10N $l10N, Defaults $defaults) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->userSession = $userSession;
 		$this->mailer = $mailer;
 		$this->l10n = $l10N;
+		$this->defaults = $defaults;
 	}
 
 	/**
@@ -226,11 +233,12 @@ class ViewController extends Controller {
 		$user = $this->userSession->getUser();
 		$username = $user->getDisplayName();
 
-		$body = $this->l10n->t("This is an automated message to inform you that %s has published the calendar named %s.\nYou can view it at this address : %s\n\nPlease don't respond to this email", [$username, $name, $url]);
-
 		$subject = $this->l10n->t('%s has shared the calendar "%s" with you', [$username, $name]);
 
-		return $this->sendEmail($to, $subject, $body, false);
+		$emailTemplate = new TemplateResponse('calendar', 'mail.publication', ['subject' => $subject, 'username' => $username, 'calendarname' => $name, 'calendarurl' => $url, 'defaults' => $this->defaults], 'public');
+		$body = $emailTemplate->render();
+
+		return $this->sendEmail($to, $subject, $body, true);
 	}
 
 	/**
