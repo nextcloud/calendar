@@ -1,5 +1,5 @@
 {
-  "name": "ownCloud Calendar",
+  "name": "Calendar",
   "version": "0.10.7",
   "dependencies": {
     "angular": "",

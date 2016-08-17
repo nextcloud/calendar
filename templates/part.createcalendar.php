@@ -1,7 +1,7 @@
 
 <?php
 /**
- * ownCloud - Calendar App
+ * Calendar App
  *
  * @author Raghu Nayyar
  * @author Georg Ehrke

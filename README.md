@@ -1,4 +1,4 @@
-# ownCloud Calendar 
+# Calendar 
 
 [![Build Status](https://travis-ci.org/owncloud/calendar.svg?branch=master)](https://travis-ci.org/owncloud/calendar)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/owncloud/calendar/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/owncloud/calendar/?branch=master)
@@ -6,9 +6,9 @@
 [![Coverage Status](https://coveralls.io/repos/github/owncloud/calendar/badge.svg?branch=master)](https://coveralls.io/github/owncloud/calendar?branch=master)
 [![Dependency Status](https://www.versioneye.com/user/projects/57333497a0ca35004cf77c92/badge.svg?style=flat)](https://www.versioneye.com/user/projects/57333497a0ca35004cf77c92)
 
-**A calendar app for [ownCloud](https://owncloud.org).**  
+**A calendar app for [ownCloud](https://owncloud.org) and [Nextcloud](http://nextcloud.com).**  
 
-This is the new calendar app that has replaced the [old calendar app](https://github.com/owncloudarchive/calendar) with ownCloud 9.0, and is only the frontend for the new CalDAV-Backend which has moved into the [ownCloud Core](https://github.com/owncloud/core). 
+This is the new calendar app that has replaced the [old calendar app](https://github.com/owncloudarchive/calendar), and is only the frontend for the new server-integrated CalDAV-Backend.
 
 ![](https://github.com/owncloud/screenshots/blob/master/calendar/screenshot.png)
 

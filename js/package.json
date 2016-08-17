@@ -1,6 +1,6 @@
 {
   "name": "calendar",
-  "description": "Calendar Application for ownCloud",
+  "description": "Integrated Calendar Application",
   "version": "0.10.7",
   "private": true,
   "homepage": "https://github.com/owncloud/calendar",

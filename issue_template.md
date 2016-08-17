@@ -1,5 +1,5 @@
 <!--
-Please report only issues corresponding to the calendar for ownCloud 9 or later.
+Please report only issues corresponding to the calendar for ownCloud / Nextcloud 9 or later.
 The old calendar, which is compatible with ownCloud 8.2 or earlier, is discontinued!
 
 Migration and CalDAV issues belong in the core repo!
@@ -25,16 +25,16 @@ Tell us what happens instead
 
 **PHP version:**
 
-**ownCloud version:** (see ownCloud admin page)
+**Server version:** (see your admin page)
 
-**Calendar version:** (see ownCloud apps page)
+**Calendar version:** (see the apps page)
 
-**Updated from an older ownCloud or fresh install:**
+**Updated from an older installed version or fresh install:**
 
-**Signing status (ownCloud 9.0 and above):**
+**Signing status (ownCloud/Nextcloud 9.0 and above):**
 
 ```
-Login as admin user into your ownCloud and access 
+Login as admin user into your cloud and access 
 http://example.com/index.php/settings/integrity/failed 
 paste the results here.
 ```
@@ -44,7 +44,7 @@ paste the results here.
 ```
 If you have access to your command line run e.g.:
 sudo -u www-data php occ app:list
-from within your ownCloud installation folder
+from within your instance's installation folder
 ```
 
 **The content of config/config.php:**
@@ -52,7 +52,7 @@ from within your ownCloud installation folder
 ```
 If you have access to your command line run e.g.:
 sudo -u www-data php occ config:list system
-from within your ownCloud installation folder
+from within your instance's installation folder
 
 or 
 
@@ -71,7 +71,7 @@ Insert your config.php content here
 ```
 With access to your command line run e.g.:
 sudo -u www-data php occ ldap:show-config
-from within your ownCloud installation folder
+from within your instance's installation folder
 
 Without access to your command line download the data/owncloud.db to your local
 computer or access your SQL server remotely and run the select query:
@@ -94,9 +94,9 @@ Eventually replace sensitive data as the name/IP-address of your LDAP server or 
 Insert your webserver log here
 ```
 
-#### ownCloud log (data/owncloud.log)
+#### Log file (data/owncloud.log)
 ```
-Insert your ownCloud log here
+Insert your ownCloud.log file here
 ```
 
 #### Browser log

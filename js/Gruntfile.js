@@ -1,5 +1,5 @@
 /**
- * ownCloud - Calendar App
+ * Calendar App
  *
  * @author Raghu Nayyar
  * @copyright 2014 Raghu Nayyar <beingminimal@gmail.com>

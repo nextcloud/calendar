@@ -1,5 +1,5 @@
 /**
- * ownCloud - Calendar App
+ * Calendar App
  *
  * @author Georg Ehrke
  * @copyright 2016 Georg Ehrke <oc.list@georgehrke.com>
