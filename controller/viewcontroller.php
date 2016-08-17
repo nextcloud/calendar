@@ -71,6 +71,7 @@ class ViewController extends Controller {
 	 * @param IConfig $config
 	 * @param IMailer $mailer
 	 * @param L10N $l10N
+	 * @param Defaults $defaults
 	 */
 	public function __construct($appName, IRequest $request,
 								IUserSession $userSession, IConfig $config, IMailer $mailer, L10N $l10N, Defaults $defaults) {

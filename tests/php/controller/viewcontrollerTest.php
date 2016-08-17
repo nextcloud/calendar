@@ -60,6 +60,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 	private $userSession;
 	private $mailer;
 	private $l10n;
+	private $defaults;
 
 	private $dummyUser;
 
@@ -89,8 +90,12 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
+		$this->defaults = $this->getMockBuilder('OCP\Defaults')
+			->disableOriginalConstructor()
+			->getMock();
+
 		$this->controller = new ViewController($this->appName, $this->request,
-			$this->userSession, $this->config, $this->mailer, $this->l10n);
+			$this->userSession, $this->config, $this->mailer, $this->l10n, $this->defaults);
 	}
 
 	/**
