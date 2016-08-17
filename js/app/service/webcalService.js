@@ -35,6 +35,12 @@ app.service('WebCalService', function ($http, SplitterService, WebCalUtility, Sp
 		}
 
 		const url = WebCalUtility.buildProxyURL(webcalUrl);
+
+		let localWebcal = JSON.parse(localStorage.getItem(webcalUrl));
+		if (localWebcal && localWebcal.timestamp > new Date().getTime()) {
+			return Promise.resolve(SplitterService.split(localWebcal.value));
+		}
+
 		return $http.get(url).then(function(response) {
 			const splitted = SplitterService.split(response.data);
 
@@ -43,6 +49,8 @@ app.service('WebCalService', function ($http, SplitterService, WebCalUtility, Sp
 			}
 
 			context.cachedSplittedICals[webcalUrl] = splitted;
+			localStorage.setItem(webcalUrl, JSON.stringify({value: response.data, timestamp: new Date().getTime() + 7200000})); // That would be two hours in milliseconds
+
 			return splitted;
 		}).catch(function() {
 			if (WebCalUtility.downgradePossible(webcalUrl, allowDowngradeToHttp)) {

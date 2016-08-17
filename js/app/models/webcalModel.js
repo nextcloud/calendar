@@ -36,6 +36,11 @@ app.factory('WebCal', function($http, Calendar, VEvent, TimezoneService, WebCalS
 				get: function() {
 					return context.url;
 				}
+			},
+			storedUrl: {
+				get: function () {
+					return context.storedUrl;
+				}
 			}
 		});
 
@@ -85,7 +90,7 @@ app.factory('WebCal', function($http, Calendar, VEvent, TimezoneService, WebCalS
 	}
 
 	WebCal.isWebCal = function(obj) {
-		return (typeof obj === 'object' && obj !== null && obj._isAWebCalObject === false);
+		return (typeof obj === 'object' && obj !== null && obj._isAWebCalObject === true);
 	};
 
 	return WebCal;

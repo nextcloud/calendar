@@ -333,6 +333,9 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 	};
 
 	this.delete = function(calendar) {
+		if (WebCal.isWebCal(calendar)) {
+			localStorage.removeItem(calendar.storedUrl);
+		}
 		return DavClient.request('DELETE', calendar.url, {'requesttoken': OC.requestToken}, '').then(function(response) {
 			if (response.status === 204) {
 				return true;
