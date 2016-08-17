@@ -138,6 +138,7 @@
 					<button
 						class="evens--button button btn btn-full"
 						ng-click="export()"
+						ng-show="accessibleViaCalDAV"
 						type="button">
 						<?php p($l->t('Export')); ?>
 					</button>

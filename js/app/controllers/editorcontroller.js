@@ -35,6 +35,7 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
 		$scope.calendar = calendar;
 		$scope.oldCalendar = isNew ? calendar : vevent.calendar;
 		$scope.readOnly = isNew ? false : !vevent.calendar.isWritable();
+		$scope.accessibleViaCalDAV = vevent.calendar.eventsAccessibleViaCalDAV();
 		$scope.selected = 1;
 		$scope.timezones = [];
 		$scope.emailAddress = emailAddress;
