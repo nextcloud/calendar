@@ -35,6 +35,12 @@
 <div id="app-settings-content">
 	<fieldset class="settings-fieldset">
 		<ul class="settings-fieldset-interior">
+			<li class="settings-fieldset-interior-item">
+				<label>
+					<input type="checkbox" ng-change="updateSkipPopover()" ng-model="skipPopover" ng-true-value="'yes'" ng-false-value="'no'"/>
+					<?php p($l->t('Skip simple event editor')); ?>
+				</label>
+			</li>
 			<li class="settings-fieldset-interior-item settings-fieldset-interior-upload">
 				<input type="file" name="file" accept="text/calendar" multiple id="import" />
 				<span href="#" class="settings-upload svg icon-upload"><?php p($l->t('Import calendar')); ?></span>

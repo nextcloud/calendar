@@ -81,11 +81,13 @@ class ViewController extends Controller {
 
 		$appVersion = $this->config->getAppValue($this->appName, 'installed_version');
 		$defaultView = $this->config->getUserValue($userId, $this->appName, 'currentView', 'month');
+		$skipPopover = $this->config->getUserValue($userId, $this->appName, 'skipPopover', 'no');
 		
 		return new TemplateResponse('calendar', 'main', [
 			'appVersion' => $appVersion,
 			'defaultView' => $defaultView,
 			'emailAddress' => $emailAddress,
+			'skipPopover' => $skipPopover,
 			'supportsClass' => $supportsClass
 		]);
 	}

@@ -122,6 +122,8 @@ app.service('EventsEditorDialogService', function($uibModal) {
 		}
 
 		this.open = function(scope, fcEvent, positionCallback, lockCallback, unlockCallback) {
+			const skipPopover = (angular.element('#fullcalendar').attr('data-skipPopover') === 'yes');
+
 			//don't reload editor for the same event
 			if (self.fcEvent === fcEvent) {
 				return self.promise;
@@ -152,7 +154,7 @@ app.service('EventsEditorDialogService', function($uibModal) {
 				self.unlockCallback = unlockCallback;
 
 				//skip popover on small devices
-				if (angular.element(window).width() > 768) {
+				if (angular.element(window).width() > 768 && !skipPopover) {
 					openDialog(EDITOR_POPOVER, position, reject, resolve);
 				} else {
 					openDialog(EDITOR_SIDEBAR, null, reject, resolve);

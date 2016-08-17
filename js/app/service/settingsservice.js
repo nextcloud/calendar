@@ -47,4 +47,26 @@ app.service('SettingsService', ['$rootScope', '$http', function($rootScope, $htt
 		});
 	};
 
+	this.getSkipPopover = function() {
+		return $http({
+			method: 'GET',
+			url: $rootScope.baseUrl + 'config',
+			params: {key: 'skipPopover'}
+		}).then(function(response) {
+			return response.data.value;
+		});
+	};
+
+	this.setSkipPopover = function(value) {
+		return $http({
+			method: 'POST',
+			url: $rootScope.baseUrl + 'config',
+			data: {
+				key: 'skipPopover',
+				value: value
+			}
+		}).then(function() {
+			return true;
+		});
+	};
 }]);

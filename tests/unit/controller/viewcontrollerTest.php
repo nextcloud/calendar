@@ -116,15 +116,20 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 				->method('getEMailAddress')
 				->will($this->returnValue('test@bla.com'));
 
-			$this->config->expects($this->once())
+			$this->config->expects($this->at(2))
 				->method('getAppValue')
 				->with($this->appName, 'installed_version')
 				->will($this->returnValue('42.13.37'));
 
-			$this->config->expects($this->once())
+			$this->config->expects($this->at(3))
 				->method('getUserValue')
 				->with('user123', $this->appName, 'currentView', 'month')
 				->will($this->returnValue('someView'));
+
+			$this->config->expects($this->at(4))
+				->method('getUserValue')
+				->with('user123', $this->appName, 'skipPopover', 'no')
+				->will($this->returnValue('someSkipPopoverValue'));
 
 			$actual = $this->controller->index();
 
@@ -133,6 +138,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 				'appVersion' => '42.13.37',
 				'defaultView' => 'someView',
 				'emailAddress' => 'test@bla.com',
+				'skipPopover' => 'someSkipPopoverValue',
 				'supportsClass' => $expectsSupportsClass
 			], $actual->getParams());
 			$this->assertEquals('main', $actual->getTemplateName());
