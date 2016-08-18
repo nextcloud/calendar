@@ -234,7 +234,7 @@ class ViewController extends Controller {
 		$user = $this->userSession->getUser();
 		$username = $user->getDisplayName();
 
-		$subject = $this->l10n->t('%s has shared the calendar "%s" with you', [$username, $name]);
+		$subject = $this->l10n->t('%s has published the calendar "%s"', [$username, $name]);
 
 		$emailTemplate = new TemplateResponse('calendar', 'mail.publication', ['subject' => $subject, 'username' => $username, 'calendarname' => $name, 'calendarurl' => $url, 'defaults' => $this->defaults], 'public');
 		$body = $emailTemplate->render();
