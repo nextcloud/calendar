@@ -127,6 +127,7 @@
     "New calendar" : "Новый календарь",
     "Import scheduled" : "Импорт запланирован",
     "Settings" : "Настройки",
+    "Skip simple event editor" : "Пропустить простой редактор события",
     "Import calendar" : "Импорт календаря",
     "No Calendars selected for import" : "Календари для импорта не выбраны",
     "Primary CalDAV address" : "Основной адрес синхронизации CalDAV",

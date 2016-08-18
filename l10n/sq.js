@@ -129,6 +129,7 @@ OC.L10N.register(
     "New calendar" : "Kalendar i ri",
     "Import scheduled" : "Importimi u planifikua",
     "Settings" : "Rregullime",
+    "Skip simple event editor" : "Anashkaloje përpunuesin e thjeshtë të veprimtarive",
     "Import calendar" : "Importo kalendar",
     "No Calendars selected for import" : "S’ka Kalendarë të përzgjedhur për import",
     "Primary CalDAV address" : "Adresë CalDAV parësore",

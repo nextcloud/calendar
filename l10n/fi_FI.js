@@ -115,6 +115,7 @@ OC.L10N.register(
     "New calendar" : "Uusi kalenteri",
     "Import scheduled" : "Tuonti ajastettu",
     "Settings" : "Asetukset",
+    "Skip simple event editor" : "Ohita yksinkertainen tapahtumamuokkain",
     "Import calendar" : "Tuo kalenteri",
     "No Calendars selected for import" : "Kalentereita ei ole valittu tuotavaksi",
     "Primary CalDAV address" : "Ensisijainen CalDAV-osoite",
