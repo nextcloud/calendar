@@ -129,6 +129,7 @@ OC.L10N.register(
     "New calendar" : "Nov koledar",
     "Import scheduled" : "Uvoz urnika",
     "Settings" : "Nastavitve",
+    "Skip simple event editor" : "Preskoči enostavni urejevalnik dogodkov",
     "Import calendar" : "Uvoz koledarja",
     "No Calendars selected for import" : "Ni navedenih koledarjev za uvoz",
     "Primary CalDAV address" : "Osnovni naslov CalDAV",
