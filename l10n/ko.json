@@ -15,6 +15,7 @@
     "When shared show full event" : "전체 일정 공유",
     "When shared show only busy" : "바쁨/한가함만 공유",
     "When shared hide this event" : "일정 공유하지 않음",
+    "Cancelled" : "취소됨",
     "Global" : "전역",
     "None" : "없음",
     "never" : "없음",
