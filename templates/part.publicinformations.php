@@ -23,13 +23,20 @@
  */
 ?>
 <div id="scollable" class="settings-fieldset-interior public-left-side" ng-repeat="item in calendarListItems" >
-		<div ng-style="{background : item.calendar.color}" class="public-calendar-name">
-			{{ item.calendar.displayname }}
-		</div>
-		<span class="icon-download svg public-ics-download"
-			ng-click="download(item)">
-			<?php p($l->t('Download')); ?>
-		</span>
+
+	<span class="calendarCheckbox"
+		  ng-show="item.displayColorIndicator()"
+		  ng-style="{ background: item.calendar.color }">
+	</span>
+		<span class="icon-loading-small pull-left"
+			  ng-show="item.displaySpinner()">
+	</span>
+	<span class="action permanent displayname">{{ item.calendar.displayname }}</span>
+
+	<span class="icon-download svg public-ics-download"
+		ng-click="download(item)">
+		<?php p($l->t('Download')); ?>
+	</span>
 </div>
 <div id="app-settings">
 	<div id="app-settings-header">
