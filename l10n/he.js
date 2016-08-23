@@ -129,6 +129,7 @@ OC.L10N.register(
     "New calendar" : "לוח שנה חדש",
     "Import scheduled" : "לוח זמנים ליבוא",
     "Settings" : "הגדרות",
+    "Skip simple event editor" : "מדלג על עורך אירוע פשוט",
     "Import calendar" : "יבוא יומן",
     "No Calendars selected for import" : "לא נבחרו יומנים ליבוא",
     "Primary CalDAV address" : "כתובת CalDAV ראשית",
