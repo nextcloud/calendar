@@ -73,8 +73,9 @@ appstore: build
 	cd ../../../../../config && \
 	mv config.php config2.php && \
 	cd .. && \
-	php occ integrity:sign-app --path="/Users/georgehrke/Development/Projects/ownCloud/apps/calendar/build/artifacts/appstore/calendar" --privateKey="/Users/georgehrke/Development/Keys/calendar/calendar.key" --certificate="/Users/georgehrke/Development/Keys/calendar/calendar.crt" && \
+	php occ integrity:sign-app --path="/Users/georgehrke/Development/Projects/Nextcloud/apps/calendar/build/artifacts/appstore/calendar" --privateKey="/Users/georgehrke/Development/Keys/calendar/calendar.key" --certificate="/Users/georgehrke/Development/Keys/calendar/calendar.crt" && \
 	cd config && \
 	mv config2.php config.php && \
 	cd ../apps/calendar/build/artifacts/appstore && \
-	tar cvzf calendar.tar.gz calendar/
+	tar cvzf calendar.tar.gz calendar/ && \
+	open ./
