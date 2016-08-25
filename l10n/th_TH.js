@@ -129,6 +129,7 @@ OC.L10N.register(
     "New calendar" : "สร้างปฏิทินใหม่",
     "Import scheduled" : "นำเข้าตารางเวลาตามที่กำหนดไว้",
     "Settings" : "ตั้งค่า",
+    "Skip simple event editor" : "ข้ามการแก้ไขกิจกรรมอย่างง่าย",
     "Import calendar" : "นำเข้าปฏิทิน",
     "No Calendars selected for import" : "ไม่มีปฏิทินที่เลือกนำเข้า",
     "Primary CalDAV address" : "ที่อยู่ CalDAV หลัก",
