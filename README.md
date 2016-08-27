@@ -31,4 +31,4 @@ Check out our [FAQ](https://github.com/owncloud/calendar/wiki/FAQs). If you dont
 * Latest Chrome/Chromium
 * Latest Safari
 
-We don't support Internet Explorer or Egde. Patches for IE8+ and Edge are accepted though.
+We don't support Internet Explorer or Edge. Patches for IE8+ and Edge are accepted though.
