@@ -129,6 +129,7 @@ OC.L10N.register(
     "New calendar" : "Nieuwe agenda",
     "Import scheduled" : "Import ingepland",
     "Settings" : "Instellingen",
+    "Skip simple event editor" : "Negeer simpele afsprakenbewerker",
     "Import calendar" : "Importeer agenda",
     "No Calendars selected for import" : "Geen agenda's voor import opgegeven",
     "Primary CalDAV address" : "Primair CalDAV adres",
