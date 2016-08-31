@@ -129,6 +129,7 @@ OC.L10N.register(
     "New calendar" : "Yeni takvim",
     "Import scheduled" : "İçe aktarma zamanlandı",
     "Settings" : "Ayarlar",
+    "Skip simple event editor" : "Basit etkinlik düzenleyiciyi atla",
     "Import calendar" : "Takvimi içe aktar",
     "No Calendars selected for import" : "İçe aktarılmak üzere hiç takvim seçilmemiş",
     "Primary CalDAV address" : "Birincil CalDAV adresi",
