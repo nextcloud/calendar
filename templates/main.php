@@ -41,6 +41,7 @@ $scripts = [
 	'vendor/fullcalendar/dist/fullcalendar',
 	'vendor/fullcalendar/dist/lang-all',
 	'vendor/davclient.js/lib/client',
+	'vendor/hsl_rgb_converter/converter',
 	'public/app'
 ];
 
