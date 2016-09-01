@@ -18,6 +18,7 @@ OC.L10N.register(
     "When shared show full event" : "Mostrar l'esdeveniment sencer al compartir",
     "When shared show only busy" : "Mostra només ocupat al compartir",
     "When shared hide this event" : "Ocular aquest esdeveniment al compartir",
+    "Confirmed" : "Confirmada",
     "Cancelled" : "S'ha cancel·lat",
     "Please add a title!" : "Si us plau, afegiu un títol!",
     "Please select a calendar!" : "Si us plau, seleccioneu un calendari!",
