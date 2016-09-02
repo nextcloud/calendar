@@ -2,8 +2,6 @@ sudo: false
 dist: trusty
 language: php
 php:
-  - 5.4
-  - 5.5
   - 5.6
   - 7
 
@@ -19,13 +17,13 @@ env:
 
 matrix:
   include:
-    - php: 5.4
+    - php: 5.6
       env: DB=sqlite
-    - php: 5.4
+    - php: 5.6
       env: DB=pgsql
-    - php: 5.4
+    - php: 5.6
       env: "DB=mysql CORE_BRANCH=stable9"
-    - php: 5.4
+    - php: 5.6
       env: "DB=mysql CORE_BRANCH=stable9.1"
   fast_finish: true
 
@@ -40,6 +38,9 @@ before_install:
   - cd ../
   - git clone https://github.com/owncloud/core.git --recursive --depth 1 -b $CORE_BRANCH owncloud
   - mv calendar owncloud/apps/
+  - cd owncloud
+  - if [ "$CORE_BRANCH" != 'stable9' ] && [ "$CORE_BRANCH" != 'stable9.1' ]; then make; fi
+
 
 before_script:
     - if [[ "$DB" == 'pgsql' ]]; then createuser -U travis -s oc_autotest; fi
@@ -47,7 +48,6 @@ before_script:
     - if [[ "$DB" == 'mysql' ]]; then mysql -u root -e "CREATE USER 'oc_autotest'@'localhost' IDENTIFIED BY '';"; fi
     - if [[ "$DB" == 'mysql' ]]; then mysql -u root -e "grant all on oc_autotest.* to 'oc_autotest'@'localhost';"; fi
     # fill owncloud with default configs and enable news
-    - cd owncloud
     - mkdir data
     - ./occ maintenance:install --database-name oc_autotest --database-user oc_autotest --admin-user admin --admin-pass admin --database $DB --database-pass=''
     - ./occ app:enable calendar
