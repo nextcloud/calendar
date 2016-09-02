@@ -105,6 +105,7 @@ OC.L10N.register(
     "Please add your email address in the personal settings in order to add attendees." : "出席者に追加するにはアカウント設定でメールアドレスを追加してください",
     "from" : "差出人",
     "to" : "宛先",
+    "This event's repeating rule is not supported yet." : "イベントの繰り返しルールはまだサポートされていません。",
     "Reset repeating rule" : "繰り返し規則のリセット",
     "Repeat every ..." : "繰り返し…",
     "Import Calendars" : "カレンダーのインポート",
