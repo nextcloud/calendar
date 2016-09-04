@@ -34,6 +34,7 @@ app.service('WebCalService', function ($http, ICalSplitterUtility, WebCalUtility
 			return Promise.resolve(context.cachedSplittedICals[webcalUrl]);
 		}
 
+		webcalUrl = WebCalUtility.fixURL(webcalUrl);
 		const url = WebCalUtility.buildProxyURL(webcalUrl);
 
 		let localWebcal = JSON.parse(localStorage.getItem(webcalUrl));
@@ -61,6 +62,7 @@ app.service('WebCalService', function ($http, ICalSplitterUtility, WebCalUtility
 					return splitted;
 				});
 			}
+
 			return Promise.reject(t('calendar', 'Please enter a valid WebCal-URL'));
 		});
 	};

@@ -35,8 +35,6 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 		$scope.newCalendarInputVal = '';
 		$scope.newCalendarColorVal = '';
 
-		window.scope = $scope;
-
 		$scope.$watchCollection('calendars', function(newCalendars, oldCalendars) {
 			newCalendars = newCalendars || [];
 			oldCalendars = oldCalendars || [];
@@ -62,10 +60,6 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 					return itemToCheck.calendar !== calendar;
 				});
 			});
-
-			if (!$scope.$$phase) {
-				$scope.$apply();
-			}
 		});
 
 		$scope.create = function (name, color) {
@@ -81,13 +75,22 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 		};
 
 		$scope.createSubscription = function(url) {
-			WebCalService.get(url).then(function(splittedICal) {
+			WebCalService.get(url, true).then(function(splittedICal) {
 				const color = splittedICal.color || ColorUtility.randomColor();
 				const name = splittedICal.name || url;
 				CalendarService.createWebCal(name, color, url)
-					.then((calendar) => $scope.calendars.push(calendar))
-					.catch(() => OC.Notification.showTemporary(t('calendar', 'Error saving WebCal-calendar')));
-			}).catch((error) => OC.Notification.showTemporary(error));
+					.then(function(calendar) {
+						$scope.newSubscriptionUrl = '';
+						angular.element('#new-subscription-button').click();
+						$scope.calendars.push(calendar);
+						$scope.$digest();
+					})
+					.catch(function() {
+						OC.Notification.showTemporary(t('calendar', 'Error saving WebCal-calendar'));
+					});
+			}).catch(function(error) {
+				OC.Notification.showTemporary(error);
+			});
 		};
 
 		$scope.download = function (item) {
