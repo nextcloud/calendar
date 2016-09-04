@@ -84,6 +84,7 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 						angular.element('#new-subscription-button').click();
 						$scope.calendars.push(calendar);
 						$scope.$digest();
+						$scope.$parent.$digest();
 					})
 					.catch(function() {
 						OC.Notification.showTemporary(t('calendar', 'Error saving WebCal-calendar'));
