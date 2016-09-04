@@ -21,7 +21,7 @@
  *
  */
 
-app.service('WebCalService', function ($http, SplitterService, WebCalUtility, SplittedICal) {
+app.service('WebCalService', function ($http, ICalSplitterUtility, WebCalUtility, SplittedICal) {
 	'use strict';
 
 	const self = this;
@@ -38,11 +38,11 @@ app.service('WebCalService', function ($http, SplitterService, WebCalUtility, Sp
 
 		let localWebcal = JSON.parse(localStorage.getItem(webcalUrl));
 		if (localWebcal && localWebcal.timestamp > new Date().getTime()) {
-			return Promise.resolve(SplitterService.split(localWebcal.value));
+			return Promise.resolve(ICalSplitterUtility.split(localWebcal.value));
 		}
 
 		return $http.get(url).then(function(response) {
-			const splitted = SplitterService.split(response.data);
+			const splitted = ICalSplitterUtility.split(response.data);
 
 			if (!SplittedICal.isSplittedICal(splitted)) {
 				return Promise.reject(t('calendar', 'Please enter a valid WebCal-URL'));
