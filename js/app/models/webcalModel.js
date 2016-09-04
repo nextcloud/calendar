@@ -59,7 +59,7 @@ app.factory('WebCal', function($http, Calendar, VEvent, TimezoneService, WebCalS
 
 				response.vevents.forEach(function(ical) {
 					try {
-						const vevent = new VEvent(iface, ical, '', '');
+						const vevent = new VEvent(iface, ical);
 						const events = vevent.getFcEvent(start, end, tz);
 						vevents = vevents.concat(events);
 					} catch (err) {

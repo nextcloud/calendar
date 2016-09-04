@@ -162,6 +162,12 @@ app.factory('VEvent', function(FcEvent, SimpleEvent, ICalFactory, RandomStringSe
 
 		registerTimezones(this.comp);
 
+		etag = etag || '';
+		if (typeof uri === 'undefined') {
+			const vevent = this.comp.getFirstSubcomponent('vevent');
+			uri = vevent.getFirstPropertyValue('uid');
+		}
+
 		angular.extend(this, {
 			calendar: calendar,
 			etag: etag,
