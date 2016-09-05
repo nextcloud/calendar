@@ -35,6 +35,9 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 		$scope.newCalendarInputVal = '';
 		$scope.newCalendarColorVal = '';
 
+		$scope.newSubscriptionUrl = '';
+		$scope.newSubscriptionLocked = false;
+
 		$scope.$watchCollection('calendars', function(newCalendars, oldCalendars) {
 			newCalendars = newCalendars || [];
 			oldCalendars = oldCalendars || [];
@@ -75,6 +78,7 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 		};
 
 		$scope.createSubscription = function(url) {
+			$scope.newSubscriptionLocked = true;
 			WebCalService.get(url, true).then(function(splittedICal) {
 				const color = splittedICal.color || ColorUtility.randomColor();
 				const name = splittedICal.name || url;
@@ -85,12 +89,15 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 						$scope.calendars.push(calendar);
 						$scope.$digest();
 						$scope.$parent.$digest();
+						$scope.newSubscriptionLocked = false;
 					})
 					.catch(function() {
 						OC.Notification.showTemporary(t('calendar', 'Error saving WebCal-calendar'));
+						$scope.newSubscriptionLocked = false;
 					});
 			}).catch(function(error) {
 				OC.Notification.showTemporary(error);
+				$scope.newSubscriptionLocked = false;
 			});
 		};
 
