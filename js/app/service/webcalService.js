@@ -53,7 +53,7 @@ app.service('WebCalService', function ($http, ICalSplitterUtility, WebCalUtility
 			localStorage.setItem(webcalUrl, JSON.stringify({value: response.data, timestamp: new Date().getTime() + 7200000})); // That would be two hours in milliseconds
 
 			return splitted;
-		}).catch(function() {
+		}).catch(function(e) {
 			if (WebCalUtility.downgradePossible(webcalUrl, allowDowngradeToHttp)) {
 				const httpUrl = WebCalUtility.downgradeURL(webcalUrl);
 
@@ -61,6 +61,11 @@ app.service('WebCalService', function ($http, ICalSplitterUtility, WebCalUtility
 					context.cachedSplittedICals[webcalUrl] = splitted;
 					return splitted;
 				});
+			}
+			if (e.status < 200 || e.status > 299) {
+			 return Promise.reject(t('calendar', 'The remote server did not give us access to the calendar (HTTP {code} error)',
+				 {code: e.status}
+				 ));
 			}
 
 			return Promise.reject(t('calendar', 'Please enter a valid WebCal-URL'));

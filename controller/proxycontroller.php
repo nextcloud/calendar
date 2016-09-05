@@ -21,7 +21,9 @@
  */
 namespace OCA\Calendar\Controller;
 
+use GuzzleHttp\Exception\ClientException;
 use OCA\Calendar\Http\StreamResponse;
+use OCP\AppFramework\Http\JSONResponse;
 
 use OCP\AppFramework\Controller;
 use OCP\Http\Client\IClientService;
@@ -49,19 +51,26 @@ class ProxyController extends Controller {
 	 * @NoAdminRequired
 	 *
 	 * @param $url
-	 * @return StreamResponse
+	 * @return StreamResponse|JSONResponse
 	 */
 	public function proxy($url) {
 		$client = $this->client->newClient();
-		$clientResponse = $client->get($url, [
-			'stream' => true,
-		]);
-
-		$response = new StreamResponse($clientResponse->getBody());
-		$response->setHeaders([
-			'Content-Type' => 'text/calendar',
-		]);
-
+		try {
+			$clientResponse = $client->get($url, [
+				'stream' => true,
+			]);
+			$response = new StreamResponse($clientResponse->getBody());
+			$response->setHeaders([
+				'Content-Type' => 'text/calendar',
+			]);
+		} catch (ClientException $e) {
+			$error_code = $e->getResponse()->getStatusCode();
+			$response = new JSONResponse();
+			$response->setHeaders([
+				'Content-Type' => 'text/calendar',
+			]);
+			$response->setStatus($error_code);
+		}
 		return $response;
 	}
 }
