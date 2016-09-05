@@ -1,13 +1,14 @@
 describe('WebCal Service', function () {
 	'use strict';
 
-	var WebCalService, $http, SplitterService, WebCalUtility, SplittedICal;
+	var WebCalService, $http, ICalSplitterUtility, WebCalUtility, SplittedICal;
 
 	beforeEach(module('Calendar', function ($provide) {
-		SplitterService = {};
-		SplitterService.split = jasmine.createSpy();
+		ICalSplitterUtility = {};
+		ICalSplitterUtility.split = jasmine.createSpy();
 
 		WebCalUtility = {};
+		WebCalUtility.fixURL = jasmine.createSpy();
 		WebCalUtility.buildProxyURL = jasmine.createSpy();
 		WebCalUtility.downgradePossible = jasmine.createSpy();
 		WebCalUtility.downgradeURL = jasmine.createSpy();
@@ -15,7 +16,7 @@ describe('WebCal Service', function () {
 		SplittedICal = {};
 		SplittedICal.isSplittedICal = jasmine.createSpy();
 
-		$provide.value('SplitterService', SplitterService);
+		$provide.value('ICalSplitterUtility', ICalSplitterUtility);
 		$provide.value('WebCalUtility', WebCalUtility);
 		$provide.value('SplittedICal', SplittedICal);
 
@@ -35,27 +36,30 @@ describe('WebCal Service', function () {
 	it ('should load the url and verify that is\'s a SplittedICal object', function() {
 		$http.expect('GET', 'proxyURL').respond(200, 'icsdata');
 
+		WebCalUtility.fixURL.and.returnValue('foobar123');
 		WebCalUtility.buildProxyURL.and.returnValue('proxyURL');
-		SplitterService.split.and.returnValue({v:'splittedObject'});
+		ICalSplitterUtility.split.and.returnValue({v:'splittedObject'});
 		SplittedICal.isSplittedICal.and.returnValue(true);
 
 		WebCalService.get('foobar').then(function(result) {
 			expect(result).toEqual({v:'splittedObject'});
 		});
 
-		expect(WebCalUtility.buildProxyURL).toHaveBeenCalledWith('foobar');
+		expect(WebCalUtility.fixURL).toHaveBeenCalledWith('foobar');
+		expect(WebCalUtility.buildProxyURL).toHaveBeenCalledWith('foobar123');
 
 		expect($http.flush).not.toThrow();
 
-		expect(SplitterService.split).toHaveBeenCalledWith('icsdata');
+		expect(ICalSplitterUtility.split).toHaveBeenCalledWith('icsdata');
 		expect(SplittedICal.isSplittedICal).toHaveBeenCalledWith({v:'splittedObject'});
 	});
 
 	it ('should throw an error when it\'s not an SplittedICal object', function() {
 		$http.expect('GET', 'proxyURL').respond(200, 'icsdata');
 
+		WebCalUtility.fixURL.and.returnValue('foobar123');
 		WebCalUtility.buildProxyURL.and.returnValue('proxyURL');
-		SplitterService.split.and.returnValue({v:'splittedObject'});
+		ICalSplitterUtility.split.and.returnValue({v:'splittedObject'});
 		SplittedICal.isSplittedICal.and.returnValue(false);
 
 		WebCalService.get('foobar').then(function(result) {
@@ -64,11 +68,12 @@ describe('WebCal Service', function () {
 			expect(reason).toEqual('Please enter a valid WebCal-URL');
 		});
 
-		expect(WebCalUtility.buildProxyURL).toHaveBeenCalledWith('foobar');
+		expect(WebCalUtility.fixURL).toHaveBeenCalledWith('foobar');
+		expect(WebCalUtility.buildProxyURL).toHaveBeenCalledWith('foobar123');
 
 		expect($http.flush).not.toThrow();
 
-		expect(SplitterService.split).toHaveBeenCalledWith('icsdata');
+		expect(ICalSplitterUtility.split).toHaveBeenCalledWith('icsdata');
 		expect(SplittedICal.isSplittedICal).toHaveBeenCalledWith({v:'splittedObject'});
 		expect(t).toHaveBeenCalledWith('calendar', 'Please enter a valid WebCal-URL');
 	});
@@ -84,7 +89,7 @@ describe('WebCal Service', function () {
 
 
 
-		SplitterService.split.and.returnValue({v:'splittedObject'});
+		ICalSplitterUtility.split.and.returnValue({v:'splittedObject'});
 		SplittedICal.isSplittedICal.and.returnValue(true);
 		WebCalUtility.downgradePossible.and.returnValue(true);
 		WebCalUtility.downgradeURL.and.returnValue('newProxyURL');
@@ -105,7 +110,7 @@ describe('WebCal Service', function () {
 
 
 
-		expect(SplitterService.split).toHaveBeenCalledWith('icsdata');
+		expect(ICalSplitterUtility.split).toHaveBeenCalledWith('icsdata');
 		expect(SplittedICal.isSplittedICal).toHaveBeenCalledWith({v:'splittedObject'});
 
 		//expect($http.flush).not.toThrow();
