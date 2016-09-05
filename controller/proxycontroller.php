@@ -66,9 +66,6 @@ class ProxyController extends Controller {
 		} catch (ClientException $e) {
 			$error_code = $e->getResponse()->getStatusCode();
 			$response = new JSONResponse();
-			$response->setHeaders([
-				'Content-Type' => 'text/calendar',
-			]);
 			$response->setStatus($error_code);
 		}
 		return $response;
