@@ -41,7 +41,6 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 		'{' + DavClient.NS_APPLE + '}calendar-color',
 		'{' + DavClient.NS_IETF + '}supported-calendar-component-set',
 		'{' + DavClient.NS_CALENDARSERVER + '}publish-url',
-		'{' + DavClient.NS_CALENDARSERVER + '}pre-publish-url',
 		'{' + DavClient.NS_CALENDARSERVER + '}allowed-sharing-modes',
 		'{' + DavClient.NS_OWNCLOUD + '}calendar-enabled',
 		'{' + DavClient.NS_DAV + '}acl',
@@ -580,19 +579,12 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 		if ('{' + DavClient.NS_CALENDARSERVER + '}publish-url' in props) {
 			simple.publishurl = props['{' + DavClient.NS_CALENDARSERVER + '}publish-url'][0].textContent;
 			simple.published = true;
-		}
 
-		if ('{' + DavClient.NS_CALENDARSERVER + '}pre-publish-url' in props) {
-			simple.prepublishurl = props['{' + DavClient.NS_CALENDARSERVER + '}pre-publish-url'];
-
-			var publicpath = 'public/';
-			if (!window.location.toString().endsWith('/')) {
-				publicpath = '/public/';
-			}
+			let publicpath = (!window.location.toString().endsWith('/')) ? '/public/' : 'public/';
 			if (publicMode) {
 				simple.publicurl = window.location.toString();
 			} else {
-				simple.publicurl = window.location.toString() + publicpath + simple.prepublishurl.substr(simple.prepublishurl.lastIndexOf('/') + 1);
+				simple.publicurl = window.location.toString() + publicpath + simple.publishurl.substr(simple.publishurl.lastIndexOf('/') + 1);
 			}
 		}
 

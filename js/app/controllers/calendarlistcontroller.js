@@ -156,10 +156,20 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 		$scope.togglePublish = function(item) {
 			if (item.calendar.published) {
 				CalendarService.publish(item.calendar).then(function (response) {
+					if (response) {
+						CalendarService.get(item.calendar.url).then(function (calendar) {
+							item.calendar.publishurl = calendar.publishurl;
+							item.calendar.publicurl = calendar.publicurl;
+							item.calendar.published = true;
+						});
+					}
 					$scope.$apply();
 				});
 			} else {
 				CalendarService.unpublish(item.calendar).then(function (response) {
+					if (response) {
+						item.calendar.published = false;
+					}
 					$scope.$apply();
 				});
 			}
