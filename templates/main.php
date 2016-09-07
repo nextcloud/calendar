@@ -36,10 +36,10 @@ $scripts = [
 	'vendor/ical.js/build/ical',
 	'vendor/jstzdetect/jstz.min',
 	'vendor/angular/angular',
-	'vendor/angular-bootstrap/ui-bootstrap.min',
-	'vendor/angular-bootstrap/ui-bootstrap-tpls.min',
+	'vendor/angular-bootstrap/ui-bootstrap',
+	'vendor/angular-bootstrap/ui-bootstrap-tpls',
 	'vendor/fullcalendar/dist/fullcalendar',
-	'vendor/fullcalendar/dist/lang-all',
+	'vendor/fullcalendar/dist/locale-all',
 	'vendor/davclient.js/lib/client',
 	'vendor/hsl_rgb_converter/converter',
 	'public/app'

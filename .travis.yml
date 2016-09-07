@@ -40,6 +40,10 @@ before_install:
   - mv calendar owncloud/apps/
   - cd owncloud
   - if [ "$CORE_BRANCH" != 'stable9' ] && [ "$CORE_BRANCH" != 'stable9.1' ]; then make; fi
+  - cd apps/calendar/
+  - npm -g i bower
+  - make deps
+  - cd ../../
 
 
 before_script:

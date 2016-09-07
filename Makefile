@@ -10,6 +10,9 @@ package_name=$(app_name)
 assets:
 	cd js && grunt build
 
+deps:
+	cd js && bower install
+
 clean:
 	rm -rf $(build_dir)
 
@@ -25,6 +28,7 @@ build: clean
 	--exclude=$(project_dir)/js/app \
 	--exclude=$(project_dir)/js/config \
 	--exclude=$(project_dir)/tests \
+	--exclude=$(project_dir)/.editorconfig \
 	--exclude=$(project_dir)/.idea \
 	--exclude=$(project_dir)/.gitignore \
 	--exclude=$(project_dir)/.scrutinizer.yml \
@@ -41,6 +45,7 @@ build: clean
 	--exclude=$(project_dir)/js/Gruntfile.js \
 	--exclude=$(project_dir)/js/package.json \
 	--exclude=$(project_dir)/js/node_modules \
+	--exclude=$(project_dir)/js/.stylelintrc \
 	--exclude=$(project_dir)/js/vendor/**/.bower.json \
 	--exclude=$(project_dir)/js/vendor/**/.npmignore \
 	--exclude=$(project_dir)/js/vendor/**/bower.json \
@@ -48,11 +53,23 @@ build: clean
 	--exclude=$(project_dir)/js/vendor/**/package.json \
 	--exclude=$(project_dir)/js/vendor/**/*.md \
 	--exclude=$(project_dir)/js/vendor/**/karma.conf.js \
+	--exclude=$(project_dir)/js/vendor/angular/angular-csp.css \
+	--exclude=$(project_dir)/js/vendor/angular/angular.min.js \
+	--exclude=$(project_dir)/js/vendor/angular/angular.min.js.gzip \
+	--exclude=$(project_dir)/js/vendor/angular/angular.min.js.map \
+	--exclude=$(project_dir)/js/vendor/angular-bootstrap/index.js \
+	--exclude=$(project_dir)/js/vendor/angular-bootstrap/ui-bootstrap-csp.css \
+	--exclude=$(project_dir)/js/vendor/angular-bootstrap/ui-bootstrap-tpls.min.js \
+	--exclude=$(project_dir)/js/vendor/angular-bootstrap/ui-bootstrap.min.js \
 	--exclude=$(project_dir)/js/vendor/angular-mocks \
 	--exclude=$(project_dir)/js/vendor/davclient.js/index.html \
+	--exclude=$(project_dir)/js/vendor/fullcalendar/dist/fullcalendar.min.css \
+	--exclude=$(project_dir)/js/vendor/fullcalendar/dist/fullcalendar.min.js \
 	--exclude=$(project_dir)/js/vendor/fullcalendar/dist/gcal.js \
-	--exclude=$(project_dir)/js/vendor/fullcalendar/dist/lang \
+	--exclude=$(project_dir)/js/vendor/fullcalendar/dist/locale \
 	--exclude=$(project_dir)/js/vendor/ical.js/build/benchmark \
+	--exclude=$(project_dir)/js/vendor/ical.js/build/ical.min.js \
+	--exclude=$(project_dir)/js/vendor/ical.js/build/ical.min.js.map \
 	--exclude=$(project_dir)/js/vendor/ical.js/lib \
 	--exclude=$(project_dir)/js/vendor/ical.js/samples \
 	--exclude=$(project_dir)/js/vendor/ical.js/sandbox \
@@ -65,6 +82,7 @@ build: clean
 	--exclude=$(project_dir)/js/vendor/jquery-timepicker/legacy_1.2.6 \
 	--exclude=$(project_dir)/js/vendor/jquery-timepicker/tests \
 	--exclude=$(project_dir)/js/vendor/jquery-timepicker/index.html \
+	--exclude=$(project_dir)/js/vendor/jstzdetect/jstz.min.js \
 	--exclude=$(project_dir)/timezones/INFO.md \
 
 appstore: build

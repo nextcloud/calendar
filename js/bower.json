@@ -2,20 +2,16 @@
   "name": "Calendar",
   "version": "0.10.7",
   "dependencies": {
-    "angular": "",
-    "angular-bootstrap": "",
-    "jquery-timepicker": "",
-    "jstzdetect": "",
-    "ical.js": "",
+    "angular": "1.5.8",
+    "angular-bootstrap": "2.1.3",
+    "jquery-timepicker": "883bb2cd94",
+    "jstzdetect": "1.0.6",
+    "ical.js": "1.2.2",
     "davclient.js": "evert/davclient.js",
-    "fullcalendar": "",
+    "fullcalendar": "3.0.0",
     "hsl_rgb_converter": "https://github.com/kayellpeee/hsl_rgb_converter.git"
   },
   "devDependencies": {
-    "angular-mocks": ""
-  },
-  "resolutions": {
-    "angular": "1.5.5",
-    "fullcalendar": "^2.7.1"
+    "angular-mocks": "1.5.8"
   }
 }
