@@ -31,8 +31,8 @@ app.config(['$provide', '$httpProvider',
 			allowXName: true
 		};
 
-		angular.forEach($.fullCalendar.langs, function(obj, lang) {
-			$.fullCalendar.lang(lang, {
+		angular.forEach($.fullCalendar.locales, function(obj, locale) {
+			$.fullCalendar.locale(locale, {
 				timeFormat: obj.mediumTimeFormat
 			});
 
@@ -43,7 +43,7 @@ app.config(['$provide', '$httpProvider',
 					var overwrite = {};
 					overwrite[propToCheck] = obj[propToCheck].replace('HH', 'H');
 
-					$.fullCalendar.lang(lang, overwrite);
+					$.fullCalendar.locale(locale, overwrite);
 				}
 			});
 		});
