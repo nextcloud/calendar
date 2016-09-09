@@ -139,6 +139,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 				'defaultView' => 'someView',
 				'emailAddress' => 'test@bla.com',
 				'skipPopover' => 'someSkipPopoverValue',
+				'weekNumbers' => false,
 				'supportsClass' => $expectsSupportsClass
 			], $actual->getParams());
 			$this->assertEquals('main', $actual->getTemplateName());
