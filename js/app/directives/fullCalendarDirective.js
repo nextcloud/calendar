@@ -62,7 +62,7 @@ app.constant('fc', {})
 				firstDay: firstDay,
 				header: false,
 				height: windowElement.height() - headerSize,
-				lang: moment.locale(),
+				locale: moment.locale(),
 				monthNames: monthNames,
 				monthNamesShort: monthNamesShort,
 				nowIndicator: true,
