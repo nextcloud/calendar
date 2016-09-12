@@ -131,6 +131,11 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 				->with('user123', $this->appName, 'skipPopover', 'no')
 				->will($this->returnValue('someSkipPopoverValue'));
 
+			$this->config->expects($this->at(5))
+				->method('getUserValue')
+				->with('user123', $this->appName, 'showWeekNr', 'no')
+				->will($this->returnValue('someShowWeekNrValue'));
+
 			$actual = $this->controller->index();
 
 			$this->assertInstanceOf('OCP\AppFramework\Http\TemplateResponse', $actual);
@@ -139,6 +144,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 				'defaultView' => 'someView',
 				'emailAddress' => 'test@bla.com',
 				'skipPopover' => 'someSkipPopoverValue',
+				'weekNumbers' => 'someShowWeekNrValue',
 				'supportsClass' => $expectsSupportsClass
 			], $actual->getParams());
 			$this->assertEquals('main', $actual->getTemplateName());

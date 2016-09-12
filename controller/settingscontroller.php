@@ -73,6 +73,8 @@ class SettingsController extends Controller {
 				return $this->getView();
 			case 'skipPopover':
 				return $this->getSkipPopover();
+			case 'showWeekNr':
+				return $this->getShowWeekNr();
 			default:
 				return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		}
@@ -93,6 +95,8 @@ class SettingsController extends Controller {
 				return $this->setView($value);
 			case 'skipPopover':
 				return $this->setSkipPopover($value);
+			case 'showWeekNr':
+				return $this->setShowWeekNr($value);
 			default:
 				return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		}
@@ -217,6 +221,68 @@ class SettingsController extends Controller {
 	 * @return bool
 	 */
 	private function isSkipPopoverValueAllowed($value) {
+		$allowedValues = [
+			'yes',
+			'no'
+		];
+
+		return in_array($value, $allowedValues);
+	}
+
+	/**
+	 * set config value for showing week numbers
+	 *
+	 * @param $value
+	 * @return JSONResponse
+	 */
+	private function setShowWeekNr($value) {
+		if (!$this->isShowWeekNrValueAllowed($value)) {
+			return new JSONResponse([], Http::STATUS_UNPROCESSABLE_ENTITY);
+		}
+
+		try {
+			$this->config->setUserValue(
+				$this->userId,
+				$this->appName,
+				'showWeekNr',
+				$value
+			);
+		} catch(\Exception $e) {
+			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+
+		return new JSONResponse();
+	}
+
+	/**
+	 * get config value for showing week numbers
+	 *
+	 * @return JSONResponse
+	 */
+	private function getShowWeekNr() {
+		try {
+			$value = $this->config->getUserValue(
+				$this->userId,
+				$this->appName,
+				'showWeekNr',
+				'no'
+			);
+		} catch(\Exception $e) {
+			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+
+		return new JSONResponse([
+			'value' => $value,
+		]);
+	}
+
+	/**
+	 * check if value for showWeekNr is allowed
+	 *
+	 * @param $value
+	 * @return bool
+	 */
+	private function isShowWeekNrValueAllowed($value) {
 		$allowedValues = [
 			'yes',
 			'no'

@@ -41,6 +41,12 @@
 					<?php p($l->t('Skip simple event editor')); ?>
 				</label>
 			</li>
+			<li class="settings-fieldset-interior-item settings-fieldset-interior-weeknumbers">
+				<label>
+					<input type="checkbox" ng-change="updateShowWeekNr()" ng-model="settingsShowWeekNr" ng-true-value="'yes'" ng-false-value="'no'"/>
+					<?php p($l->t('Show week numbers')); ?>
+				</label>
+			</li>
 			<li class="settings-fieldset-interior-item settings-fieldset-interior-upload">
 				<input type="file" name="file" accept="text/calendar" multiple id="import" />
 				<span href="#" class="settings-upload svg icon-upload"><?php p($l->t('Import calendar')); ?></span>

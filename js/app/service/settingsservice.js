@@ -69,4 +69,27 @@ app.service('SettingsService', ['$rootScope', '$http', function($rootScope, $htt
 			return true;
 		});
 	};
+
+	this.getShowWeekNr = function() {
+		return $http({
+			method: 'GET',
+			url: $rootScope.baseUrl + 'config',
+			params: {key: 'showWeekNr'}
+		}).then(function(response) {
+			return response.data.value;
+		});
+	};
+
+	this.setShowWeekNr = function(value) {
+		return $http({
+			method: 'POST',
+			url: $rootScope.baseUrl + 'config',
+			data: {
+				key: 'showWeekNr',
+				value: value
+			}
+		}).then(function() {
+			return true;
+		});
+	};
 }]);
