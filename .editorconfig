@@ -9,3 +9,10 @@ insert_final_newline = true
 [*.{js,php}]
 indent_style = tab
 insert_final_newline = true
+
+[Makefile]
+indent_style = tab
+
+[*.yml]
+indent_style = space
+indent_size = 2
