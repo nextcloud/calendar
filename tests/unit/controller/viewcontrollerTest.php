@@ -133,7 +133,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 
 			$this->config->expects($this->at(5))
 				->method('getUserValue')
-				->with('user123', $this->appName, 'currentShowWeekNr', 'no')
+				->with('user123', $this->appName, 'showWeekNr', 'no')
 				->will($this->returnValue('someShowWeekNrValue'));
 
 			$actual = $this->controller->index();

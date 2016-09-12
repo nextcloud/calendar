@@ -73,7 +73,7 @@ class SettingsController extends Controller {
 				return $this->getView();
 			case 'skipPopover':
 				return $this->getSkipPopover();
-			case 'showweeknr':
+			case 'showWeekNr':
 				return $this->getShowWeekNr();
 			default:
 				return new JSONResponse([], Http::STATUS_BAD_REQUEST);
@@ -95,7 +95,7 @@ class SettingsController extends Controller {
 				return $this->setView($value);
 			case 'skipPopover':
 				return $this->setSkipPopover($value);
-			case 'showweeknr':
+			case 'showWeekNr':
 				return $this->setShowWeekNr($value);
 			default:
 				return new JSONResponse([], Http::STATUS_BAD_REQUEST);
@@ -244,7 +244,7 @@ class SettingsController extends Controller {
 			$this->config->setUserValue(
 				$this->userId,
 				$this->appName,
-				'currentShowWeekNr',
+				'showWeekNr',
 				$value
 			);
 		} catch(\Exception $e) {
@@ -264,7 +264,7 @@ class SettingsController extends Controller {
 			$value = $this->config->getUserValue(
 				$this->userId,
 				$this->appName,
-				'currentShowWeekNr',
+				'showWeekNr',
 				'no'
 			);
 		} catch(\Exception $e) {
