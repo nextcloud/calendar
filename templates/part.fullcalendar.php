@@ -28,6 +28,7 @@
 	data-defaultView="<?php p($_['defaultView']); ?>"
 	data-emailAddress="<?php p($_['emailAddress']); ?>"
 	data-skipPopover="<?php p($_['skipPopover']); ?>"
+	data-weekNumbers="<?php p($_['weekNumbers']); ?>"
 	fc
 	id="fullcalendar">
 </div>

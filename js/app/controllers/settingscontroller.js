@@ -26,13 +26,14 @@
  * Description: Takes care of the Calendar Settings.
  */
 
-app.controller('SettingsController', ['$scope', '$uibModal', 'SettingsService',
-	function ($scope, $uibModal, SettingsService) {
+app.controller('SettingsController', ['$scope', '$uibModal', 'SettingsService', 'fc',
+	function ($scope, $uibModal, SettingsService, fc) {
 		'use strict';
 
 		$scope.settingsCalDavLink = OC.linkToRemote('dav') + '/';
 		$scope.settingsCalDavPrincipalLink = OC.linkToRemote('dav') + '/principals/users/' + escapeHTML(encodeURIComponent(oc_current_user)) + '/';
 		$scope.skipPopover = angular.element('#fullcalendar').attr('data-skipPopover');
+		$scope.settingsShowWeekNr = angular.element('#fullcalendar').attr('data-weekNumbers');
 
 		angular.element('#import').on('change', function () {
 			var filesArray = [];
@@ -65,5 +66,15 @@ app.controller('SettingsController', ['$scope', '$uibModal', 'SettingsService',
 			angular.element('#fullcalendar').attr('data-skipPopover', newValue);
 			SettingsService.setSkipPopover(newValue);
 		};
+
+		$scope.updateShowWeekNr = function() {
+			const newValue = $scope.settingsShowWeekNr;
+			angular.element('#fullcalendar').attr('data-weekNumbers', newValue);
+			SettingsService.setShowWeekNr(newValue);
+			if (fc.elm) {
+				fc.elm.fullCalendar('option', 'weekNumbers', (newValue === 'yes'));
+			}
+		};
+
 	}
 ]);

@@ -67,6 +67,8 @@ app.constant('fc', {})
 				monthNamesShort: monthNamesShort,
 				nowIndicator: true,
 				selectable: true,
+				weekNumbers: (attrs.weeknumbers === 'yes'),
+				weekNumbersWithinDays: true,
 			};
 			const controllerConfig = scope.$parent.fcConfig;
 			const config = angular.extend({}, baseConfig, controllerConfig);
