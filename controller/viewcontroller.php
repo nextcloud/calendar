@@ -83,6 +83,7 @@ class ViewController extends Controller {
 		$defaultView = $this->config->getUserValue($userId, $this->appName, 'currentView', 'month');
 		$skipPopover = $this->config->getUserValue($userId, $this->appName, 'skipPopover', 'no');
 		$weekNumbers = $this->config->getUserValue($userId, $this->appName, 'showWeekNr', 'no');
+		$defaultColor = $this->config->getAppValue('theming', 'color', '#0082C9');
 		
 		return new TemplateResponse('calendar', 'main', [
 			'appVersion' => $appVersion,
@@ -90,7 +91,8 @@ class ViewController extends Controller {
 			'emailAddress' => $emailAddress,
 			'skipPopover' => $skipPopover,
 			'weekNumbers' => $weekNumbers,
-			'supportsClass' => $supportsClass
+			'supportsClass' => $supportsClass,
+			'defaultColor' => $defaultColor,
 		]);
 	}
 

@@ -25,6 +25,7 @@
 <div
 	class="calendar"
 	data-appVersion="<?php p($_['appVersion']); ?>"
+	data-defaultColor="<?php p($_['defaultColor']); ?>"
 	data-defaultView="<?php p($_['defaultView']); ?>"
 	data-emailAddress="<?php p($_['emailAddress']); ?>"
 	data-skipPopover="<?php p($_['skipPopover']); ?>"
