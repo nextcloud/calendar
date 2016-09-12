@@ -64,7 +64,7 @@ describe('Settings Service', function () {
 
 	it ('should set the skipPopover value', function() {
 		http.expect('POST', 'fancy-url/config', {
-			'key': 'showweeknr',
+			'key': 'showWeekNr',
 			'value': 'yes'
 		}).respond(200, {value: 'yes'});
 
@@ -76,7 +76,7 @@ describe('Settings Service', function () {
 	});
 
 	it ('should get the skipPopoverValue', function() {
-		http.expect('GET', 'fancy-url/config?key=showweeknr').respond(200, {value: 'no'});
+		http.expect('GET', 'fancy-url/config?key=showWeekNr').respond(200, {value: 'no'});
 
 		SettingsService.getShowWeekNr().then(function(result) {
 			expect(result).toEqual('no');

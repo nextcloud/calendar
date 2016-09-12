@@ -74,7 +74,7 @@ app.service('SettingsService', ['$rootScope', '$http', function($rootScope, $htt
 		return $http({
 			method: 'GET',
 			url: $rootScope.baseUrl + 'config',
-			params: {key: 'showweeknr'}
+			params: {key: 'showWeekNr'}
 		}).then(function(response) {
 			return response.data.value;
 		});
@@ -85,7 +85,7 @@ app.service('SettingsService', ['$rootScope', '$http', function($rootScope, $htt
 			method: 'POST',
 			url: $rootScope.baseUrl + 'config',
 			data: {
-				key: 'showweeknr',
+				key: 'showWeekNr',
 				value: value
 			}
 		}).then(function() {
