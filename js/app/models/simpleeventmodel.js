@@ -424,44 +424,53 @@ app.factory('SimpleEvent', function() {
 
 	var specificReader = {
 		alarm: function(vevent, oldSimpleData, newSimpleData) {
-			var oldGroups=[], components=null, cKey=null, groupId, key='alarm';
+			var oldGroups, newGroups, valarm, removedAlarms, components={}, key='alarm';
 
-			oldSimpleData[key] = oldSimpleData[key] || [];
-			for (var i=0, oldLength=oldSimpleData[key].length; i < oldLength; i++) {
-				oldGroups.push(oldSimpleData[key][i].group);
+			function getAlarmGroup(alarmData) {
+				return alarmData.group;
 			}
 
+			oldSimpleData[key] = oldSimpleData[key] || [];
+			oldGroups = oldSimpleData[key].map(getAlarmGroup);
+			
 			newSimpleData[key] = newSimpleData[key] || [];
-			for (var j=0, newLength=newSimpleData[key].length; j < newLength; j++) {
-				var valarm;
-				if (oldGroups.indexOf(newSimpleData[key][j].group) === -1) {
+			newGroups = newSimpleData[key].map(getAlarmGroup);
+			
+			//check for any alarms that are in the old data,
+			//but have been removed from the new data
+			removedAlarms = oldGroups.filter(function(group) {
+				return (newGroups.indexOf(group) === -1);
+			});
+
+			//get all of the valarms and save them in an object keyed by their groupId
+			angular.forEach(vevent.getAllSubcomponents('valarm'), function(component) {
+				var group = component.getFirstProperty('action').getParameter('x-oc-group-id');
+				components[group] = component;
+			});
+
+			//remove any valarm subcomponents have a groupId that matches one of the removedAlarms
+			angular.forEach(removedAlarms, function(group){
+				if (components[group]) {
+					vevent.removeSubcomponent(components[group]);
+					delete components[group];
+				}
+			});
+
+			//update and create valarms using the new alarm data
+			angular.forEach(newSimpleData[key], function(alarmData) {
+				if (oldGroups.indexOf(alarmData.group) === -1) {
 					valarm = new ICAL.Component('VALARM');
 					vevent.addSubcomponent(valarm);
 				} else {
-					oldGroups.splice(oldGroups.indexOf(newSimpleData[key][j].group), 1);
-
-					components = vevent.getAllSubcomponents('valarm');
-					for (cKey in components) {
-						if (!components.hasOwnProperty(cKey)) {
-							continue;
-						}
-
-						groupId = components[cKey].getFirstProperty('action').getParameter('x-oc-group-id');
-						if (groupId === null) {
-							continue;
-						}
-						if (groupId === newSimpleData[key][j].group.toString()) {
-							valarm = components[cKey];
-						}
-					}
+					valarm = components[alarmData.group];
 				}
-
-				simpleReader.string(valarm, {}, newSimpleData[key][j], 'action', []);
-				simpleReader.date(valarm, {}, newSimpleData[key][j], 'trigger', []);
-				simpleReader.string(valarm, {}, newSimpleData[key][j], 'repeat', []);
-				simpleReader.string(valarm, {}, newSimpleData[key][j], 'duration', []);
-				simpleReader.strings(valarm, {}, newSimpleData[key][j], 'attendee', attendeeParameters);
-			}
+				
+				simpleReader.string(valarm, {}, alarmData, 'action', []);
+				simpleReader.date(valarm, {}, alarmData, 'trigger', []);
+				simpleReader.string(valarm, {}, alarmData, 'repeat', []);
+				simpleReader.string(valarm, {}, alarmData, 'duration', []);
+				simpleReader.strings(valarm, {}, alarmData, 'attendee', attendeeParameters);
+			});
 		},
 		date: function(vevent, oldSimpleData, newSimpleData) {
 			vevent.removeAllProperties('dtstart');
