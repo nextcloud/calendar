@@ -34,7 +34,7 @@ foreach ($styles as $style) {
 $scripts = [
 	'vendor/jquery-timepicker/jquery.ui.timepicker',
 	'vendor/ical.js/build/ical',
-	'vendor/jstzdetect/jstz.min',
+	'vendor/jstzdetect/jstz',
 	'vendor/angular/angular',
 	'vendor/angular-bootstrap/ui-bootstrap',
 	'vendor/angular-bootstrap/ui-bootstrap-tpls',
