@@ -26,6 +26,10 @@
 	width: 100%;
 }
 
+#fullcalendar table {
+	white-space: inherit !important;
+}
+
 .fc-state-highlight.fc-day-number,
 #fullcalendar tbody tr,
 #fullcalendar tbody tr:hover,
