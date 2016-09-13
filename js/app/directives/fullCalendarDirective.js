@@ -27,11 +27,26 @@ app.constant('fc', {})
 		restrict: 'A',
 		scope: {},
 		link: function(scope, elm, attrs) {
+			const localeData = moment.localeData();
+			const englishFallback = moment.localeData('en');
+
 			const monthNames = [];
 			const monthNamesShort = [];
 			for (let i = 0; i < 12; i++) {
-				monthNames.push(moment.localeData().months(moment([0, i]), ''));
-				monthNamesShort.push(moment.localeData().monthsShort(moment([0, i]), ''));
+				const monthName = localeData.months(moment([0, i]), '');
+				const shortMonthName = localeData.monthsShort(moment([0, i]), '');
+
+				if (monthName) {
+					monthNames.push(monthName);
+				} else {
+					monthNames.push(englishFallback.months(moment([0, i]), ''));
+				}
+
+				if (shortMonthName) {
+					monthNamesShort.push(shortMonthName);
+				} else {
+					monthNamesShort.push(englishFallback.monthsShort(moment([0, i]), ''));
+				}
 			}
 
 			const dayNames = [];
@@ -39,8 +54,21 @@ app.constant('fc', {})
 			const momentWeekHelper = moment().startOf('week');
 			momentWeekHelper.subtract(momentWeekHelper.format('d'));
 			for (let i = 0; i < 7; i++) {
-				dayNames.push(moment.localeData().weekdays(momentWeekHelper));
-				dayNamesShort.push(moment.localeData().weekdaysShort(momentWeekHelper));
+				const dayName = localeData.weekdays(momentWeekHelper);
+				const shortDayName = localeData.weekdaysShort(momentWeekHelper);
+
+				if (dayName) {
+					dayNames.push(dayName);
+				} else {
+					dayNames.push(englishFallback.weekdays(momentWeekHelper));
+				}
+
+				if (shortDayName) {
+					dayNamesShort.push(shortDayName);
+				} else {
+					dayNamesShort.push(englishFallback.weekdaysShort(momentWeekHelper));
+				}
+
 				momentWeekHelper.add(1, 'days');
 			}
 
