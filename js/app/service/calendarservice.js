@@ -483,7 +483,7 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 				simple.color = simple.color.substr(0,7);
 			}
 		} else {
-			simple.color = '#1d2d44';
+			simple.color = angular.element('#fullcalendar').attr('data-defaultColor');
 		}
 
 		simple.writableProperties = (oc_current_user === simple.owner) && simple.writable;

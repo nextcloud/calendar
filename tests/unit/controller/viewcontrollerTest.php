@@ -136,6 +136,11 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 				->with('user123', $this->appName, 'showWeekNr', 'no')
 				->will($this->returnValue('someShowWeekNrValue'));
 
+			$this->config->expects($this->at(6))
+				->method('getAppValue')
+				->with('theming', 'color', '#0082C9')
+				->will($this->returnValue('#ff00ff'));
+
 			$actual = $this->controller->index();
 
 			$this->assertInstanceOf('OCP\AppFramework\Http\TemplateResponse', $actual);
@@ -145,7 +150,8 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 				'emailAddress' => 'test@bla.com',
 				'skipPopover' => 'someSkipPopoverValue',
 				'weekNumbers' => 'someShowWeekNrValue',
-				'supportsClass' => $expectsSupportsClass
+				'supportsClass' => $expectsSupportsClass,
+				'defaultColor' => '#ff00ff',
 			], $actual->getParams());
 			$this->assertEquals('main', $actual->getTemplateName());
 		}
