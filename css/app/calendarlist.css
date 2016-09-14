@@ -387,3 +387,7 @@ ul.dropdown-menu li > a:hover {
 	line-height: initial;
 	padding-left: 3px;
 }
+
+.app-navigation-entry-menu .icon-link {
+	background-size: 16px;
+}

@@ -86,6 +86,12 @@
 				<span><?php p($l->t('Link')); ?></span>
 			</button>
 		</li>
+		<li ng-show="item.isWebCal()">
+			<button	ng-click="item.showWebCalUrl()">
+				<span class="icon-link svg"></span>
+				<span><?php p($l->t('WebCal URL')); ?></span>
+			</button>
+		</li>
 		<li>
 			<button	ng-click="download(item)">
 				<span class="icon-download svg"></span>
@@ -127,6 +133,16 @@
 		   type="text"/>
 	<button class="btn icon-close button-next-to-input"
 			ng-click="item.hideCalDAVUrl()">
+	</button>
+</fieldset>
+<fieldset class="editfieldset"
+		  ng-show="item.displayWebCalUrl()">
+	<input class="input-with-button-on-right-side"
+		   ng-value="item.calendar.storedUrl"
+		   readonly
+		   type="text"/>
+	<button class="btn icon-close button-next-to-input"
+			ng-click="item.hideWebCalUrl()">
 	</button>
 </fieldset>
 <div class="calendarShares"
