@@ -6,7 +6,7 @@
   "scripts": {
     "test": "node node_modules/grunt-cli/bin/grunt karma",
     "prebuild": "npm install && npm update && node_modules/bower/bin/bower install && node_modules/bower/bin/bower update",
-    "build": "node node_modules/grunt-cli/bin/grunt karma"
+    "build": "node node_modules/grunt-cli/bin/grunt build"
   },
   "repository": {
     "type": "git",
