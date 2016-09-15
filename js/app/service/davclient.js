@@ -47,6 +47,12 @@ app.service('DavClient', function() {
 		},
 		wasRequestSuccessful: function(status) {
 			return (status >= 200 && status <= 299);
+		},
+		getResponseCodeFromHTTPResponse: function(t) {
+			return parseInt(t.split(' ')[1]);
+		},
+		getNodesFullName: function(node) {
+			return '{' + node.namespaceURI + '}' + node.localName;
 		}
 	});
 

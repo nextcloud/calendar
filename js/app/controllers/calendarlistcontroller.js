@@ -26,8 +26,8 @@
 * Description: Takes care of CalendarList in App Navigation.
 */
 
-app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'CalendarService', 'is', 'CalendarListItem', 'Calendar',
-	function ($scope, $rootScope, $window, CalendarService, is, CalendarListItem, Calendar) {
+app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'CalendarService', 'WebCalService', 'is', 'CalendarListItem', 'Calendar', 'ColorUtility',
+	function ($scope, $rootScope, $window, CalendarService, WebCalService, is, CalendarListItem, Calendar, ColorUtility) {
 		'use strict';
 
 		$scope.calendarListItems = [];
@@ -35,7 +35,8 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 		$scope.newCalendarInputVal = '';
 		$scope.newCalendarColorVal = '';
 
-		window.scope = $scope;
+		$scope.newSubscriptionUrl = '';
+		$scope.newSubscriptionLocked = false;
 
 		$scope.$watchCollection('calendars', function(newCalendars, oldCalendars) {
 			newCalendars = newCalendars || [];
@@ -62,10 +63,6 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 					return itemToCheck.calendar !== calendar;
 				});
 			});
-
-			if (!$scope.$$phase) {
-				$scope.$apply();
-			}
 		});
 
 		$scope.create = function (name, color) {
@@ -80,15 +77,32 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 			angular.element('#new-calendar-button').click();
 		};
 
-		$scope.download = function (item) {
-			var url = item.calendar.url;
-			// cut off last slash to have a fancy name for the ics
-			if (url.slice(url.length - 1) === '/') {
-				url = url.slice(0, url.length - 1);
-			}
-			url += '?export';
+		$scope.createSubscription = function(url) {
+			$scope.newSubscriptionLocked = true;
+			WebCalService.get(url, true).then(function(splittedICal) {
+				const color = splittedICal.color || ColorUtility.randomColor();
+				const name = splittedICal.name || url;
+				CalendarService.createWebCal(name, color, url)
+					.then(function(calendar) {
+						$scope.newSubscriptionUrl = '';
+						angular.element('#new-subscription-button').click();
+						$scope.calendars.push(calendar);
+						$scope.$digest();
+						$scope.$parent.$digest();
+						$scope.newSubscriptionLocked = false;
+					})
+					.catch(function() {
+						OC.Notification.showTemporary(t('calendar', 'Error saving WebCal-calendar'));
+						$scope.newSubscriptionLocked = false;
+					});
+			}).catch(function(error) {
+				OC.Notification.showTemporary(error);
+				$scope.newSubscriptionLocked = false;
+			});
+		};
 
-			$window.open(url);
+		$scope.download = function (item) {
+			$window.open(item.calendar.downloadUrl);
 		};
 
 		$scope.toggleSharesEditor = function (calendar) {

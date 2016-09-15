@@ -35,5 +35,7 @@ return [
 		//Autocompletion
 		['name' => 'contact#searchAttendee', 'url' => '/v1/autocompletion/attendee', 'verb' => 'GET'],
 		['name' => 'contact#searchLocation', 'url' => '/v1/autocompletion/location', 'verb' => 'GET'],
+
+		['name' => 'proxy#proxy', 'url' => '/v1/proxy', 'verb' => 'GET'],
 	]
 ];

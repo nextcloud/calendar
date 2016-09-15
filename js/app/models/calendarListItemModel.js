@@ -21,7 +21,7 @@
  *
  */
 
-app.factory('CalendarListItem', function(Calendar) {
+app.factory('CalendarListItem', function(Calendar, WebCal) {
 	'use strict';
 
 	function CalendarListItem(calendar) {
@@ -29,7 +29,8 @@ app.factory('CalendarListItem', function(Calendar) {
 			calendar: calendar,
 			isEditingShares: false,
 			isEditingProperties: false,
-			isDisplayingCalDAVUrl: false
+			isDisplayingCalDAVUrl: false,
+			isDisplayingWebCalUrl: false
 		};
 		const iface = {
 			_isACalendarListItemObject: true
@@ -55,8 +56,20 @@ app.factory('CalendarListItem', function(Calendar) {
 			context.isDisplayingCalDAVUrl = true;
 		};
 
+		iface.displayWebCalUrl = function() {
+			return context.isDisplayingWebCalUrl;
+		};
+
 		iface.hideCalDAVUrl = function() {
 			context.isDisplayingCalDAVUrl = false;
+		};
+
+		iface.showWebCalUrl = function() {
+			context.isDisplayingWebCalUrl = true;
+		};
+
+		iface.hideWebCalUrl = function() {
+			context.isDisplayingWebCalUrl = false;
 		};
 
 		iface.isEditingShares = function() {
@@ -105,6 +118,10 @@ app.factory('CalendarListItem', function(Calendar) {
 			iface.displayname = '';
 
 			context.isEditingProperties = false;
+		};
+
+		iface.isWebCal = function() {
+			return WebCal.isWebCal(context.calendar);
 		};
 
 		//Properties for ng-model of calendar editor
