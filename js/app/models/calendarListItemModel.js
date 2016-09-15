@@ -30,11 +30,8 @@ app.factory('CalendarListItem', function(Calendar, WebCal) {
 			isEditingShares: false,
 			isEditingProperties: false,
 			isDisplayingCalDAVUrl: false,
-<<<<<<< 8a5a18b5bab4111ad9b9b3694c6bc7bc3d403b00
-			isDisplayingWebCalUrl: false
-=======
+			isDisplayingWebCalUrl: false,
 			isSendingMail: false
->>>>>>> bring email
 		};
 		const iface = {
 			_isACalendarListItemObject: true
