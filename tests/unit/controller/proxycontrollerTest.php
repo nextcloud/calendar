@@ -29,6 +29,7 @@ class ProxyControllerTest extends \PHPUnit_Framework_TestCase {
 
 	private $newClient;
 	private $response;
+	private $exception;
 
 	private $controller;
 
@@ -45,6 +46,10 @@ class ProxyControllerTest extends \PHPUnit_Framework_TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$this->response = $this->getMockBuilder('\OCP\Http\Client\IResponse')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$this->exception = $this->getMockBuilder('\GuzzleHttp\Exception\ClientException')
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -69,5 +74,31 @@ class ProxyControllerTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertInstanceOf('OCA\Calendar\Http\StreamResponse', $actual);
 		$this->assertEquals('text/calendar', $actual->getHeaders()['Content-Type']);
+	}
+
+	public function testProxyException() {
+		$testUrl = 'http://abc.def/foobar?123';
+
+		$this->client->expects($this->once())
+			->method('newClient')
+			->will($this->returnValue($this->newClient));
+		$this->newClient->expects($this->once())
+			->method('get')
+			->with($testUrl, [
+				'stream' => true,
+			])
+			->will($this->throwException($this->exception));
+		$this->exception->expects($this->once())
+			->method('getResponse')
+			->will($this->returnValue($this->response));
+		$this->response->expects($this->once())
+			->method('getStatusCode')
+			->will($this->returnValue(403));
+
+		$actual = $this->controller->proxy($testUrl);
+
+		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertEquals('403', $actual->getStatus());
+
 	}
 }
