@@ -29,6 +29,7 @@ describe('WebCal Service', function () {
 	}));
 
 	afterEach(function() {
+		localStorage.clear();
 		$http.verifyNoOutstandingExpectation();
 		$http.verifyNoOutstandingRequest();
 	});
@@ -79,41 +80,34 @@ describe('WebCal Service', function () {
 	});
 
 	it ('should fallback to http if possible', function() {
-		$http.expect('GET', 'proxyURL').respond(500, null);
+		$http.expect('GET', 'proxyURL').respond(403, {});
+		$http.expect('GET', 'newProxyURL').respond(200, 'icsdata');
 
-		WebCalUtility.buildProxyURL.and.returnValue('proxyURL');
-
-
-
-
-
-
+		WebCalUtility.fixURL.and.returnValues('foobar123', 'newProx123');
+		WebCalUtility.buildProxyURL.and.returnValues('proxyURL', 'newProxyURL');
 
 		ICalSplitterUtility.split.and.returnValue({v:'splittedObject'});
 		SplittedICal.isSplittedICal.and.returnValue(true);
 		WebCalUtility.downgradePossible.and.returnValue(true);
-		WebCalUtility.downgradeURL.and.returnValue('newProxyURL');
+		WebCalUtility.downgradeURL.and.returnValue('newProx');
 
 		WebCalService.get('foobar').then(function(result) {
-			expect(true).toBe(false);
+			expect(result).toEqual({v:'splittedObject'});
 		}).catch(function(reason) {
 			expect(reason).toEqual('Please enter a valid WebCal-URL');
 		});
 
-		expect($http.flush).not.toThrow();
+		$http.flush(1);
 
-		expect(WebCalUtility.buildProxyURL).toHaveBeenCalledWith('foobar');
+		expect(WebCalUtility.fixURL).toHaveBeenCalledWith('foobar');
+		expect(WebCalUtility.buildProxyURL).toHaveBeenCalledWith('foobar123');
 
-		$http.expect('GET', 'newProxyURL').respond(200, 'icsdata');
+		$http.flush(1);
 
-
-
-
-
+		expect(WebCalUtility.fixURL).toHaveBeenCalledWith('newProx');
+		expect(WebCalUtility.buildProxyURL).toHaveBeenCalledWith('newProx123');
 		expect(ICalSplitterUtility.split).toHaveBeenCalledWith('icsdata');
 		expect(SplittedICal.isSplittedICal).toHaveBeenCalledWith({v:'splittedObject'});
-
-		//expect($http.flush).not.toThrow();
 	});
 
 	it ('should throw an error when fallback is not possible', function() {
