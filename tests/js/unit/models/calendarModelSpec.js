@@ -43,7 +43,7 @@ describe('The calendar factory', function () {
 			owner: 'user123',
 			shares: shares,
 			shareable: true,
-			prepublishurl: 'somepublishedurl',
+			publishurl: 'somepublishedurl',
 			publishable: true,
 			writable: false,
 			writableProperties: true
