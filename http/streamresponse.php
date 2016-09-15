@@ -44,7 +44,6 @@ class StreamResponse extends Response implements ICallbackResponse {
 	 * @param IOutput $output a small wrapper that handles output
 	 */
 	public function callback (IOutput $output) {
-		rewind($this->stream);
 		fpassthru($this->stream);
 	}
 

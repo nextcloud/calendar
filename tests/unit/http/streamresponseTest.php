@@ -38,17 +38,4 @@ class StreamResponseTest extends \PHPUnit_Framework_TestCase {
 		$streamResponse = new StreamResponse($stream);
 		$streamResponse->callback($ioutput);
 	}
-
-	public function testCallbackRewind() {
-		$stream = fopen('data://text/plain,test_data', 'r');
-		fseek($stream, 5);
-		$this->expectOutputString('test_data');
-
-		$ioutput = $this->getMockBuilder('OCP\AppFramework\Http\IOutput')
-			->disableOriginalConstructor()
-			->getMock();
-
-		$streamResponse = new StreamResponse($stream);
-		$streamResponse->callback($ioutput);
-	}
 }
