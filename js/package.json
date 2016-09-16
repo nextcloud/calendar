@@ -2,7 +2,7 @@
   "name": "calendar",
   "description": "Integrated Calendar Application",
   "private": true,
-  "homepage": "https://github.com/owncloud/calendar",
+  "homepage": "https://github.com/nextcloud/calendar",
   "scripts": {
     "test": "node node_modules/grunt-cli/bin/grunt karma",
     "prebuild": "npm install && npm update && node_modules/bower/bin/bower install && node_modules/bower/bin/bower update",
@@ -10,10 +10,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:owncloud/calendar.git"
+    "url": "git@github.com:nextcloud/calendar.git"
   },
   "bugs": {
-    "url": "https://github.com/owncloud/calendar/issues"
+    "url": "https://github.com/nextcloud/calendar/issues"
   },
   "dependencies": {},
   "devDependencies": {

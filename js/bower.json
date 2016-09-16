@@ -1,6 +1,5 @@
 {
   "name": "Calendar",
-  "version": "0.10.7",
   "dependencies": {
     "angular": "1.5.8",
     "angular-bootstrap": "2.1.3",

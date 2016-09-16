@@ -36,9 +36,9 @@ before_install:
   - npm install -g npm@latest
   # install core
   - cd ../
-  - git clone https://github.com/owncloud/core.git --recursive --depth 1 -b $CORE_BRANCH owncloud
-  - mv calendar owncloud/apps/
-  - cd owncloud
+  - git clone https://github.com/nextcloud/core.git --recursive --depth 1 -b $CORE_BRANCH nextcloud
+  - mv calendar nextcloud/apps/
+  - cd nextcloud
   - if [ "$CORE_BRANCH" != 'stable9' ] && [ "$CORE_BRANCH" != 'stable9.1' ]; then make; fi
   - cd apps/calendar/
   - make
@@ -50,7 +50,7 @@ before_script:
     - if [[ "$DB" == 'mysql' ]]; then mysql -u root -e 'create database oc_autotest;'; fi
     - if [[ "$DB" == 'mysql' ]]; then mysql -u root -e "CREATE USER 'oc_autotest'@'localhost' IDENTIFIED BY '';"; fi
     - if [[ "$DB" == 'mysql' ]]; then mysql -u root -e "grant all on oc_autotest.* to 'oc_autotest'@'localhost';"; fi
-    # fill owncloud with default configs and enable news
+    # fill nextcloud with default configs and enable news
     - mkdir data
     - ./occ maintenance:install --database-name oc_autotest --database-user oc_autotest --admin-user admin --admin-pass admin --database $DB --database-pass=''
     - ./occ app:enable calendar
@@ -78,7 +78,7 @@ after_success:
     - cat ./coverage/*/lcov.info | ./js/node_modules/coveralls/bin/coveralls.js
 
 after_failure:
-    - cat ../../data/owncloud.log
+    - cat ../../data/nextcloud.log
 
 addons:
   firefox: "latest"
