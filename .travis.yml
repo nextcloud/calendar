@@ -39,7 +39,7 @@ before_install:
   - git clone https://github.com/nextcloud/core.git --recursive --depth 1 -b $CORE_BRANCH nextcloud
   - mv calendar nextcloud/apps/
   - cd nextcloud
-  - if [ "$CORE_BRANCH" != 'stable9' ] && [ "$CORE_BRANCH" != 'stable9.1' ]; then make; fi
+  #- if [ "$CORE_BRANCH" != 'stable9' ] && [ "$CORE_BRANCH" != 'stable9.1' ]; then make; fi
   - cd apps/calendar/
   - make
   - cd ../../
