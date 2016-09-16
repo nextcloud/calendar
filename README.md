@@ -10,7 +10,7 @@
 
 This is the new calendar app that has replaced the [old calendar app](https://github.com/owncloudarchive/calendar), and is only the frontend for the new server-integrated CalDAV-Backend.
 
-![](https://github.com/owncloud/screenshots/blob/master/calendar/screenshot.png)
+![](https://github.com/nextcloud/screenshots/raw/master/apps/Calendar/calendar.png)
 
 ## Maintainers:
 
