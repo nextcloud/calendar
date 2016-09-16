@@ -4,7 +4,7 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nextcloud/calendar/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/nextcloud/calendar/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/nextcloud/calendar/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/nextcloud/calendar/?branch=master)
 [![Coverage Status](https://coveralls.io/repos/github/nextcloud/calendar/badge.svg?branch=master)](https://coveralls.io/github/nextcloud/calendar?branch=master)
-[![Dependency Status](https://www.versioneye.com/user/projects/57333497a0ca35004cf77c92/badge.svg?style=flat)](https://www.versioneye.com/user/projects/57333497a0ca35004cf77c92)
+[![Dependency Status](https://www.versioneye.com/user/projects/57dc165a037c200040cdced9/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/57dc165a037c200040cdced9)
 
 **A calendar app for [Nextcloud](http://nextcloud.com).**  
 
