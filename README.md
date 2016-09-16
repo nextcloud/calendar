@@ -1,12 +1,12 @@
 # Calendar 
 
-[![Build Status](https://travis-ci.org/owncloud/calendar.svg?branch=master)](https://travis-ci.org/owncloud/calendar)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/owncloud/calendar/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/owncloud/calendar/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/owncloud/calendar/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/owncloud/calendar/?branch=master)
-[![Coverage Status](https://coveralls.io/repos/github/owncloud/calendar/badge.svg?branch=master)](https://coveralls.io/github/owncloud/calendar?branch=master)
+[![Build Status](https://travis-ci.org/nextcloud/calendar.svg?branch=master)](https://travis-ci.org/owncloud/calendar)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nextcloud/calendar/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/owncloud/calendar/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/nextcloud/calendar/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/owncloud/calendar/?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/nextcloud/calendar/badge.svg?branch=master)](https://coveralls.io/github/owncloud/calendar?branch=master)
 [![Dependency Status](https://www.versioneye.com/user/projects/57333497a0ca35004cf77c92/badge.svg?style=flat)](https://www.versioneye.com/user/projects/57333497a0ca35004cf77c92)
 
-**A calendar app for [ownCloud](https://owncloud.org) and [Nextcloud](http://nextcloud.com).**  
+**A calendar app for [Nextcloud](http://nextcloud.com).**  
 
 This is the new calendar app that has replaced the [old calendar app](https://github.com/owncloudarchive/calendar), and is only the frontend for the new server-integrated CalDAV-Backend.
 
@@ -16,7 +16,11 @@ This is the new calendar app that has replaced the [old calendar app](https://gi
 
  - [Georg Ehrke](https://github.com/georgehrke)
  - [Raghu Nayyar](https://github.com/raghunayyar)
+ - [Thomas Citharel](https://github.com/tcitworld)
+
+## Former contributors:
  - [Bernhard Fröhler](https://github.com/codeling)
+
 
 If you’d like to join, just go through the [issue list](https://github.com/owncloud/calendar/issues) and fix some. :)   
 We’re also in [#owncloud-calendar on freenode IRC](https://webchat.freenode.net/?channels=owncloud-calendar).
