@@ -47,11 +47,12 @@
 }
 
 .input-with-button-on-right-side {
-	width: 85% !important;
+	width: 76% !important;
 	float: left;
+	margin-right: 6px !important;
 }
 
 .button-next-to-input {
 	height: 32px;
-	width: 5%;
+	width: 32px;
 }
