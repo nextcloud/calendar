@@ -104,6 +104,7 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
 
 			$scope.prepareClose();
 			$scope.properties.patch();
+			$scope.cleanupTimezones();
 			$uibModalInstance.close({
 				action: 'save',
 				calendar: $scope.calendar,
@@ -126,6 +127,40 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
 			return !error;
 		};
 
+		$scope.cleanupTimezones = function() {
+			var reqTzid = [];
+			var properties = [];
+			var vtimezones = [];
+			
+			//store vtimezone subcomponents in an array. Store the properties from everything in another array
+			angular.forEach(vevent.comp.getAllSubcomponents(), function(sub) {
+				var tzid;
+				if (sub.name !== "vtimezone") {
+					properties = properties.concat(sub.getAllProperties());
+				} else {
+					vtimezones.push(sub);
+				}
+			});
+
+			//search through all of the nonvtimezone propties for tzid parameters
+			angular.forEach(properties, function(prop) {
+				var tzid = prop.getParameter("tzid");
+				if (tzid) {
+					//found a tzid reference, add it to the reqTzid object
+					reqTzid[tzid] = true;
+				}
+			});
+
+			//check each vtimezone component to make sure it is in the list of required tzids.
+			//if its not a required vtimezone, remove it
+			angular.forEach(vtimezones, function (tzComp) {
+				var tzid = tzComp.getAllProperties("tzid")[0].getFirstValue();
+				if (tzid && !reqTzid[tzid]) {
+					vevent.comp.removeSubcomponent(tzComp);
+				} 
+			});
+		};
+		
 		$scope.prepareClose = function() {
 			if ($scope.properties.allDay) {
 				$scope.properties.dtstart.type = 'date';
