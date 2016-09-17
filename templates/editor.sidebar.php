@@ -6,6 +6,7 @@
 					<input
 							class="advanced--input h2"
 							ng-model="properties.summary.value"
+							ng-blur="parse_summary()"
 							placeholder="<?php p($l->t('Title of the Event'));?>"
 							name="title" type="text"
 							autofocus="autofocus"/>
