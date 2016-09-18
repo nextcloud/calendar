@@ -48,7 +48,7 @@ We don't support Internet Explorer or Edge. Patches for IE9+ and Edge are accept
 ## Former contributors:
  - [Bernhard Fröhler](https://github.com/codeling)
 
-If you’d like to join, just go through the [issue list](https://github.com/owncloud/calendar/issues) and fix some. :)   
+If you’d like to join, just go through the [issue list](https://github.com/nextcloud/calendar/issues?q=is%3Aopen+is%3Aissue+label%3A%22starter+issue%22) and fix some. :)   
 We’re also in [#nextcloud-calendar on freenode IRC](https://webchat.freenode.net/?channels=nextcloud-calendar).
 
 ## Developer setup info
