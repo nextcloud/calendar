@@ -4,17 +4,17 @@
 	<name>Calendar</name>
 	<version>1.4.0</version>
 	<licence>AGPL</licence>
-	<author>Georg Ehrke, Raghu Nayyar, Bernhard Fröhler</author>
+	<author>Georg Ehrke, Raghu Nayyar, Thomas Citharel</author>
 	<dependencies>
 		<owncloud min-version="9.0" max-version="9.2" />
 	</dependencies>
-	<description>Calendar GUI for the server-integrated CalDAV server</description>
+	<description>Calendar GUI for Nextcloud's CalDAV server</description>
 	<documentation>
-		<user>http://doc.owncloud.org/server/9.0/user_manual/pim/calendar.html</user>
+		<user>https://docs.nextcloud.com/server/10/user_manual/pim/calendar.html</user>
 	</documentation>
 	<category>productivity</category>
-	<website>https://github.com/owncloud/calendar/</website>
-	<bugs>https://github.com/owncloud/calendar/issues</bugs>
-	<repository type="git">https://github.com/owncloud/calendar.git</repository>
+	<website>https://github.com/nextcloud/calendar/</website>
+	<bugs>https://github.com/nextcloud/calendar/issues</bugs>
+	<repository type="git">https://github.com/nextcloud/calendar.git</repository>
 	<ocsid>168707</ocsid>
 </info>
