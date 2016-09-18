@@ -1,5 +1,4 @@
 {
-    "esnext": true,
     "curly": true,
     "eqeqeq": true,
     "immed": true,
@@ -15,6 +14,7 @@
     "strict": true,
     "maxparams": false,
     "maxdepth": 4,
+    "esversion": 6,
     "browser": true,
     "devel": true,
     "jquery": true,
