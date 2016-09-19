@@ -29,7 +29,6 @@ module.exports = function (config) {
 		frameworks: ['jasmine'],
 		files: [
 			'../../core/vendor/jquery/dist/jquery.js',
-			'../../core/vendor/jquery/jquery.js',
 			'../../core/vendor/moment/min/moment-with-locales.js',
 			'js/vendor/jstzdetect/jstz.min.js',
 			'js/vendor/fullcalendar/dist/fullcalendar.min.js',
