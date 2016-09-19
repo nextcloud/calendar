@@ -40,7 +40,7 @@
     "karma-firefox-launcher": "^1.0.0",
     "karma-jasmine": "^1.0.2",
     "karma-phantomjs-launcher": "^1.0.2",
-    "phantomjs": "^2.1.7",
+    "phantomjs-prebuilt": "^2.1.7",
     "postcss": "^5.2.0",
     "stylelint": "^7.2.0",
     "stylelint-config-standard": "^13.0.0"
