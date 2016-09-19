@@ -32,18 +32,18 @@
 	</div>
 
 	<fieldset class="calendarlist-fieldset add-new-subscription hide">
-		<form  ng-submit="createSubscription(newSubscriptionUrl)">
+		<form ng-submit="createSubscription(subscription.newSubscriptionUrl)">
 			<input
 				class="app-navigation-input"
 				type="text"
-				ng-disabled="newSubscriptionLocked"
-				ng-model="newSubscriptionUrl"
+				ng-disabled="subscription.newSubscriptionLocked"
+				ng-model="subscription.newSubscriptionUrl"
 				placeholder="<?php p($l->t('WebCal-URL')); ?>"
 				autofocus />
 			<input
 				id="submitnewSubscription"
 				class="primary accept-button"
-				ng-disabled="newSubscriptionLocked"
+				ng-disabled="subscription.newSubscriptionLocked"
 				oc-click-slide-toggle="{
 						selector: '.add-new-subscription',
 						hideOnFocusLost: false,
