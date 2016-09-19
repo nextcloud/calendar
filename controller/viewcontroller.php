@@ -36,8 +36,14 @@ use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IUserSession;
 use OCP\Mail\IMailer;
+use OCP\IURLGenerator;
 
 class ViewController extends Controller {
+
+	/**
+	 * @var IURLGenerator
+	 */
+	private $urlGenerator;
 
 	/**
 	 * @var IConfig
@@ -72,15 +78,17 @@ class ViewController extends Controller {
 	 * @param IMailer $mailer
 	 * @param L10N $l10N
 	 * @param Defaults $defaults
+	 * @param IURLGenerator $urlGenerator
 	 */
 	public function __construct($appName, IRequest $request,
-								IUserSession $userSession, IConfig $config, IMailer $mailer, L10N $l10N, Defaults $defaults) {
+								IUserSession $userSession, IConfig $config, IMailer $mailer, L10N $l10N, Defaults $defaults, IURLGenerator $urlGenerator) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->userSession = $userSession;
 		$this->mailer = $mailer;
 		$this->l10n = $l10N;
 		$this->defaults = $defaults;
+		$this->urlGenerator = $urlGenerator;
 	}
 
 	/**
@@ -110,9 +118,9 @@ class ViewController extends Controller {
 		$skipPopover = $this->config->getUserValue($userId, $this->appName, 'skipPopover', 'no');
 		$weekNumbers = $this->config->getUserValue($userId, $this->appName, 'showWeekNr', 'no');
 		$defaultColor = $this->config->getAppValue('theming', 'color', '#0082C9');
-
-		$webCalWorkaround = $runningOnNextcloud10OrLater ? 'no' : 'yes';
 		
+		$webCalWorkaround = $runningOnNextcloud10OrLater ? 'no' : 'yes';
+
 		return new TemplateResponse('calendar', 'main', [
 			'appVersion' => $appVersion,
 			'defaultView' => $defaultView,
@@ -152,6 +160,8 @@ class ViewController extends Controller {
 			'emailAddress' => '',
 			'supportsClass' => $supportsClass,
 			'isPublic' => true,
+			'shareURL' => $this->request->getServerProtocol() . '://' . $this->request->getServerHost() . $this->request->getRequestUri(),
+			'previewImage' => $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'favicon-touch.png')),
 		], 'public');
 		$response->addHeader('X-Frame-Options', 'ALLOW');
 		$csp = new ContentSecurityPolicy();

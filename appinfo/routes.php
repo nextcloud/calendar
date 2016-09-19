@@ -40,7 +40,5 @@ return [
 		['name' => 'contact#searchLocation', 'url' => '/v1/autocompletion/location', 'verb' => 'GET'],
 
 		['name' => 'proxy#proxy', 'url' => '/v1/proxy', 'verb' => 'GET'],
-		// Public
-		['name' => 'public#index', 'url' => '/public/{calendarid}', 'verb' => 'GET'],
 	]
 ];

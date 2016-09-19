@@ -55,21 +55,15 @@ class Application extends App {
 			$mailer = $c->getServer()->getMailer();
 			$l10n = $c->getServer()->getL10N($c->query('AppName'));
 			$defaults = new \OCP\Defaults();
+			$urlGenerator = $c->getServer()->getURLGenerator();
 
-			return new Controller\ViewController($c->getAppName(), $request, $userSession, $config, $mailer, $l10n, $defaults);
+			return new Controller\ViewController($c->getAppName(), $request, $userSession, $config, $mailer, $l10n, $defaults, $urlGenerator);
 		});
 		$container->registerService('ProxyController', function(IAppContainer $c) {
 			$request = $c->query('Request');
 			$client = $c->getServer()->getHTTPClientService();
 
 			return new Controller\ProxyController($c->getAppName(), $request, $client);
-		});
-		$container->registerService('PublicController', function(IAppContainer $c) {
-			$request = $c->query('Request');
-			$userSession = $c->getServer()->getUserSession();
-			$config = $c->getServer()->getConfig();
-
-			return new Controller\PublicController($c->getAppName(), $request, $userSession, $config);
 		});
 	}
 

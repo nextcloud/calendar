@@ -61,6 +61,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 	private $mailer;
 	private $l10n;
 	private $defaults;
+	private $urlGenerator;
 
 	private $dummyUser;
 
@@ -94,8 +95,12 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
+		$this->urlGenerator = $this->getMockBuilder('OCP\IURLGenerator')
+			->disableOriginalConstructor()
+			->getMock();
+
 		$this->controller = new ViewController($this->appName, $this->request,
-			$this->userSession, $this->config, $this->mailer, $this->l10n, $this->defaults);
+			$this->userSession, $this->config, $this->mailer, $this->l10n, $this->defaults, $this->urlGenerator);
 	}
 
 	/**
@@ -218,7 +223,9 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 				'defaultView' => 'month',
 				'emailAddress' => '',
 				'supportsClass' => $expectsSupportsClass,
-				'isPublic' => true
+				'isPublic' => true,
+				'shareURL' => '://',
+				'previewImage' => null,
 			], $actual->getParams());
 			$this->assertEquals('main', $actual->getTemplateName());
 		}
