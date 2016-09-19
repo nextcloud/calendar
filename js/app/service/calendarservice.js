@@ -245,6 +245,8 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 			});
 		}
 
+		const needsWorkaround = angular.element('#fullcalendar').attr('data-webCalWorkaround') === 'yes';
+
 		const [skeleton, dPropChildren] = XMLUtility.getRootSkeleton('d:mkcol', 'd:set', 'd:prop');
 		dPropChildren.push({
 			name: 'd:resourcetype',
@@ -285,7 +287,18 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 		return DavClient.request('MKCOL', url, headers, xml).then(function(response) {
 			if (response.status === 201) {
 				self._takenUrls.push(url);
-				return self.get(url);
+
+				return self.get(url).then(function(webcal) {
+					if (needsWorkaround) {
+						webcal.enabled = true;
+						webcal.displayname = name;
+						webcal.color = color;
+
+						return self.update(webcal);
+					} else {
+						return webcal;
+					}
+				});
 			}
 		});
 	};
