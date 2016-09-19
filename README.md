@@ -14,13 +14,13 @@
 
 * :rocket: **Integration with other Nextcloud apps!** Currently Contacts – more to come.
 * :globe_with_meridians: **WebCal Support!** Want to see your favorite team's matchdays in your calendar? No problem!
-* :raising_hand: **Attendees** Invite people to your events.
+* :raising_hand: **Attendees!** Invite people to your events.
 * :see_no_evil: **We’re not reinventing the wheel!** Based on the great [davclient.js](https://github.com/evert/davclient.js) and [ical.js](https://github.com/mozilla-comm/ical.js) libraries.
 
 And in the works for the [coming versions](https://github.com/nextcloud/calendar/milestones/):
-* :mag: Search for events
-* :alarm_clock: Get alarms for events inside your browser
-* :watch: See when other attendees are free
+* :mag: Search for events ([#8](https://github.com/nextcloud/calendar/issues/8))
+* :alarm_clock: Get alarms for events inside your browser ([#51](https://github.com/nextcloud/calendar/issues/51))
+* :watch: See when other attendees are free ([#39](https://github.com/nextcloud/calendar/issues/39))
 
 ## Installation
 
