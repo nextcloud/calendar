@@ -86,7 +86,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @dataProvider indexDataProvider
 	 */
-	public function testIndex($isAssetPipelineEnabled, $showAssetPipelineError, $serverVersion, $expectsSupportsClass) {
+	public function testIndex($isAssetPipelineEnabled, $showAssetPipelineError, $serverVersion, $expectsSupportsClass, $expectsWebcalWorkaround) {
 		$this->config->expects($this->at(0))
 			->method('getSystemValue')
 			->with('version')
@@ -152,6 +152,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 				'weekNumbers' => 'someShowWeekNrValue',
 				'supportsClass' => $expectsSupportsClass,
 				'defaultColor' => '#ff00ff',
+				'webCalWorkaround' => $expectsWebcalWorkaround
 			], $actual->getParams());
 			$this->assertEquals('main', $actual->getTemplateName());
 		}
@@ -160,10 +161,10 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 
 	public function indexDataProvider() {
 		return [
-			[true, true, '9.0.5.2', false],
-			[true, false, '9.1.0.0', true],
-			[false, false, '9.0.5.2', false],
-			[false, false, '9.1.0.0', true]
+			[true, true, '9.0.5.2', false, 'yes'],
+			[true, false, '9.1.0.0', true, 'no'],
+			[false, false, '9.0.5.2', false, 'yes'],
+			[false, false, '9.1.0.0', true, 'no']
 		];
 	}
 

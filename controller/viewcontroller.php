@@ -65,10 +65,10 @@ class ViewController extends Controller {
 	 */
 	public function index() {
 		$runningOn = $this->config->getSystemValue('version');
-		$runningOnServer91OrLater = version_compare($runningOn, '9.1', '>=');
+		$runningOnNextcloud10OrLater = version_compare($runningOn, '9.1', '>=');
 
-		$supportsClass = $runningOnServer91OrLater;
-		$assetPipelineBroken = !$runningOnServer91OrLater;
+		$supportsClass = $runningOnNextcloud10OrLater;
+		$assetPipelineBroken = !$runningOnNextcloud10OrLater;
 
 		$isAssetPipelineEnabled = $this->config->getSystemValue('asset-pipeline.enabled', false);
 		if ($isAssetPipelineEnabled && $assetPipelineBroken) {
@@ -84,6 +84,8 @@ class ViewController extends Controller {
 		$skipPopover = $this->config->getUserValue($userId, $this->appName, 'skipPopover', 'no');
 		$weekNumbers = $this->config->getUserValue($userId, $this->appName, 'showWeekNr', 'no');
 		$defaultColor = $this->config->getAppValue('theming', 'color', '#0082C9');
+
+		$webCalWorkaround = $runningOnNextcloud10OrLater ? 'no' : 'yes';
 		
 		return new TemplateResponse('calendar', 'main', [
 			'appVersion' => $appVersion,
@@ -93,6 +95,7 @@ class ViewController extends Controller {
 			'weekNumbers' => $weekNumbers,
 			'supportsClass' => $supportsClass,
 			'defaultColor' => $defaultColor,
+			'webCalWorkaround' => $webCalWorkaround,
 		]);
 	}
 

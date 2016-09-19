@@ -30,6 +30,7 @@
 	data-emailAddress="<?php p($_['emailAddress']); ?>"
 	data-skipPopover="<?php p($_['skipPopover']); ?>"
 	data-weekNumbers="<?php p($_['weekNumbers']); ?>"
+	data-webCalWorkaround="<?php p($_['webCalWorkaround']); ?>"
 	fc
 	id="fullcalendar">
 </div>
