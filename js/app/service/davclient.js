@@ -21,40 +21,43 @@
  *
  */
 
-app.service('DavClient', function() {
+app.service('DavClient', function($window) {
 	'use strict';
 
-	var client = new dav.Client({
+	const client = new dav.Client({
 		baseUrl: OC.linkToRemote('dav/calendars'),
 		xmlNamespaces: {
 			'DAV:': 'd',
 			'urn:ietf:params:xml:ns:caldav': 'c',
 			'http://apple.com/ns/ical/': 'aapl',
 			'http://owncloud.org/ns': 'oc',
+			'http://nextcloud.com/ns': 'nc',
 			'http://calendarserver.org/ns/': 'cs'
 		}
 	});
 
-	angular.extend(client, {
-		NS_DAV: 'DAV:',
-		NS_IETF: 'urn:ietf:params:xml:ns:caldav',
-		NS_APPLE: 'http://apple.com/ns/ical/',
-		NS_OWNCLOUD: 'http://owncloud.org/ns',
-		NS_CALENDARSERVER: 'http://calendarserver.org/ns/',
+	client.NS_DAV = 'DAV:';
+	client.NS_IETF = 'urn:ietf:params:xml:ns:caldav';
+	client.NS_APPLE = 'http://apple.com/ns/ical/';
+	client.NS_OWNCLOUD = 'http://owncloud.org/ns';
+	client.NS_NEXTCLOUD = 'http://nextcloud.com/ns';
+	client.NS_CALENDARSERVER = 'http://calendarserver.org/ns/';
 
-		buildUrl: function(path) {
-			return window.location.protocol + '//' + window.location.host + path;
-		},
-		wasRequestSuccessful: function(status) {
-			return (status >= 200 && status <= 299);
-		},
-		getResponseCodeFromHTTPResponse: function(t) {
-			return parseInt(t.split(' ')[1]);
-		},
-		getNodesFullName: function(node) {
-			return '{' + node.namespaceURI + '}' + node.localName;
-		}
-	});
+	client.buildUrl = function(path) {
+		return $window.location.origin + path;
+	};
+
+	client.getResponseCodeFromHTTPResponse = function(t) {
+		return parseInt(t.split(' ')[1]);
+	};
+
+	client.getNodesFullName = function(node) {
+		return '{' + node.namespaceURI + '}' + node.localName;
+	};
+
+	client.wasRequestSuccessful = function(status) {
+		return (status >= 200 && status <= 299);
+	};
 
 	return client;
 });
