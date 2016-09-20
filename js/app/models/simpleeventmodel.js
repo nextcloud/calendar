@@ -496,6 +496,13 @@ app.factory('SimpleEvent', function() {
 			}
 
 			var startTz = newSimpleData.dtstart.parameters.zone === "floating" ? ICAL.Timezone.localTimezone : ICAL.TimezoneService.get(newSimpleData.dtstart.parameters.zone);
+
+			//make sure _isUTC flag is turned off for the Moments
+			var isUTC =
+			  [newSimpleData.dtstart.value._isUTC, newSimpleData.dtend.value._isUTC];
+			newSimpleData.dtstart.value._isUTC = false;
+			newSimpleData.dtend.value._isUTC = false;
+
  			var start = ICAL.Time.fromData(
  				{
 						year: newSimpleData.dtstart.value.year(), 
@@ -522,6 +529,10 @@ app.factory('SimpleEvent', function() {
  				},
  				endTz
  			);
+
+			//reset Moments to previous value of _isUTC 
+			newSimpleData.dtstart.value._isUTC = isUTC[0];
+			newSimpleData.dtend.value._isUTC = isUTC[1];
 
 			var availableTimezones = [];
 			var vtimezones = vevent.parent.getAllSubcomponents('vtimezone');
