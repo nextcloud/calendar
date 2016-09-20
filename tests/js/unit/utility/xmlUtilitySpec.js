@@ -154,6 +154,7 @@ describe('XMLUtility', function () {
 				'xmlns:d': 'DAV:',
 				'xmlns:a': 'http://apple.com/ns/ical/',
 				'xmlns:o': 'http://owncloud.org/ns',
+				'xmlns:n': 'http://nextcloud.com/ns',
 				'xmlns:cs': 'http://calendarserver.org/ns/'
 			},
 			children: []
@@ -171,6 +172,7 @@ describe('XMLUtility', function () {
 				'xmlns:d': 'DAV:',
 				'xmlns:a': 'http://apple.com/ns/ical/',
 				'xmlns:o': 'http://owncloud.org/ns',
+				'xmlns:n': 'http://nextcloud.com/ns',
 				'xmlns:cs': 'http://calendarserver.org/ns/'
 			},
 			children: [{
@@ -191,6 +193,7 @@ describe('XMLUtility', function () {
 				'xmlns:d': 'DAV:',
 				'xmlns:a': 'http://apple.com/ns/ical/',
 				'xmlns:o': 'http://owncloud.org/ns',
+				'xmlns:n': 'http://nextcloud.com/ns',
 				'xmlns:cs': 'http://calendarserver.org/ns/'
 			},
 			children: [{
