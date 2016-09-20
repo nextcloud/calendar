@@ -66,7 +66,7 @@ app.service('EventsEditorDialogService', function($uibModal) {
 						return self.calendar;
 					},
 					isNew: function() {
-						return (self.fcEvent.vevent.etag === null);
+						return (self.fcEvent.vevent.etag === null || self.fcEvent.vevent.etag === '');
 					},
 					emailAddress: function() {
 						return angular.element('#fullcalendar').attr('data-emailAddress');
