@@ -34,9 +34,10 @@
 	</button>
 </div>
 <div ng-show="visibility">
-	<uib-datepicker
+	<div
 		ng-model="dt"
 		id="datepicker"
+		uib-datepicker
 		datepicker-options="datepickerOptions">
-	</uib-datepicker>
+	</div>
 </div>
