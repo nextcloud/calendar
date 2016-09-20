@@ -26,39 +26,3 @@
 * Description: Takes care of Subscription List in the App Navigation.
 */
 app.controller('SubscriptionController', ['$scope', function($scope) {}]);
-/*
-app.controller('SubscriptionController', ['$scope', '$rootScope', '$window', 'SubscriptionModel', 'CalendarModel', 'Restangular',
-	function ($scope, $rootScope, $window, SubscriptionModel, CalendarModel, Restangular) {
-		'use strict';
-		
-		$scope.subscriptions = SubscriptionModel.getAll();
-		var subscriptionResource = Restangular.all('subscriptions');
-
-		var backendResource = Restangular.all('backends');
-		backendResource.getList().then(function (backendObject) {
-			$scope.subscriptiontypeSelect = SubscriptionModel.getSubscriptionNames(backendObject);
-			$scope.selectedsubscriptionbackendmodel = $scope.subscriptiontypeSelect[0]; // to remove the empty model.
-		}, function (response) {
-			OC.Notification.show(t('calendar', response.data.message));
-		});
-
-		$scope.newSubscriptionUrl = '';
-
-		$scope.create = function () {
-			subscriptionResource.post({
-				type: $scope.selectedsubscriptionbackendmodel.type,
-				url: $scope.newSubscriptionUrl
-			}).then(function (newSubscription) {
-				SubscriptionModel.create(newSubscription);
-				$rootScope.$broadcast('createdSubscription', {
-					subscription: newSubscription
-				});
-			}, function (response) {
-				OC.Notification.show(t('calendar', response.data.message));
-			});
-
-			$scope.newSubscriptionUrl = '';
-		};
-	}
-]);
-*/
