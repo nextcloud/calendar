@@ -21,153 +21,203 @@
  *
  */
 
-app.service('VEventService', ['DavClient', 'VEvent', 'RandomStringService', function(DavClient, VEvent, RandomStringService) {
+app.service('VEventService', function(DavClient, StringUtility, XMLUtility, VEvent) {
 	'use strict';
 
-	var _this = this;
+	const context = {
+		calendarDataPropName: '{' + DavClient.NS_IETF + '}calendar-data',
+		eTagPropName: '{' + DavClient.NS_DAV + '}getetag',
+		self: this
+	};
 
-	this._xmls = new XMLSerializer();
+	/**
+	 * get url for event
+	 * @param {VEvent} event
+	 * @returns {string}
+	 */
+	context.getEventUrl = function(event) {
+		return event.calendar.url + event.uri;
+	};
 
-	this.getAll = function(calendar, start, end) {
-		var xmlDoc = document.implementation.createDocument('', '', null);
-		var cCalQuery = xmlDoc.createElement('c:calendar-query');
-		cCalQuery.setAttribute('xmlns:c', 'urn:ietf:params:xml:ns:caldav');
-		cCalQuery.setAttribute('xmlns:d', 'DAV:');
-		cCalQuery.setAttribute('xmlns:a', 'http://apple.com/ns/ical/');
-		cCalQuery.setAttribute('xmlns:o', 'http://owncloud.org/ns');
-		xmlDoc.appendChild(cCalQuery);
+	/**
+	 * get a time-range string from moment object
+	 * @param momentObject
+	 * @returns {string}
+	 */
+	context.getTimeRangeString = function(momentObject) {
+		return momentObject.format('YYYYMMDD') + 'T' + momentObject.format('HHmmss') + 'Z';
+	};
 
-		var dProp = xmlDoc.createElement('d:prop');
-		cCalQuery.appendChild(dProp);
+	/**
+	 * get all events from a calendar within a time-range
+	 * @param calendar
+	 * @param start
+	 * @param end
+	 * @returns {Promise}
+	 */
+	this.getAll = function (calendar, start, end) {
+		const [skeleton, dPropChildren] = XMLUtility.getRootSkeleton('c:calendar-query');
+		dPropChildren.push({
+			name: 'd:prop',
+			children: [{
+				name: 'd:getetag'
+			}, {
+				name: 'c:calendar-data'
+			}]
+		});
+		dPropChildren.push({
+			name: 'c:filter',
+			children: [{
+				name: 'c:comp-filter',
+				attributes: {
+					name: 'VCALENDAR'
+				},
+				children: [{
+					name: 'c:comp-filter',
+					attributes: {
+						name: 'VEVENT'
+					},
+					children: [{
+						name: 'c:time-range',
+						attributes: {
+							start: context.getTimeRangeString(start),
+							end: context.getTimeRangeString(end)
+						}
+					}]
+				}]
+			}]
+		});
 
-		var dGetEtag = xmlDoc.createElement('d:getetag');
-		dProp.appendChild(dGetEtag);
-
-		var cCalendarData = xmlDoc.createElement('c:calendar-data');
-		dProp.appendChild(cCalendarData);
-
-		var cFilter = xmlDoc.createElement('c:filter');
-		cCalQuery.appendChild(cFilter);
-
-		var cCompFilterVCal = xmlDoc.createElement('c:comp-filter');
-		cCompFilterVCal.setAttribute('name', 'VCALENDAR');
-		cFilter.appendChild(cCompFilterVCal);
-
-		var cCompFilterVEvent = xmlDoc.createElement('c:comp-filter');
-		cCompFilterVEvent.setAttribute('name', 'VEVENT');
-		cCompFilterVCal.appendChild(cCompFilterVEvent);
-
-		var cTimeRange = xmlDoc.createElement('c:time-range');
-		cTimeRange.setAttribute('start', this._getTimeRangeStamp(start));
-		cTimeRange.setAttribute('end', this._getTimeRangeStamp(end));
-		cCompFilterVEvent.appendChild(cTimeRange);
-
-		var url = calendar.url;
-		var headers = {
+		const url = calendar.url;
+		const headers = {
 			'Content-Type': 'application/xml; charset=utf-8',
 			'Depth': 1,
 			'requesttoken': OC.requestToken
 		};
-		var body = this._xmls.serializeToString(cCalQuery);
+		const xml = XMLUtility.serialize(skeleton);
 
-		return DavClient.request('REPORT', url, headers, body).then(function(response) {
+		return DavClient.request('REPORT', url, headers, xml).then(function (response) {
 			if (!DavClient.wasRequestSuccessful(response.status)) {
-				//TODO - something went wrong
-				return;
+				return Promise.reject(response.status);
 			}
 
-			var vevents = [];
+			const vevents = [];
+			for (let key in response.body) {
+				if (!response.body.hasOwnProperty(key)) {
+					continue;
+				}
 
-			for (var i in response.body) {
-				var object = response.body[i];
-				var properties = object.propStat[0].properties;
+				const obj = response.body[key];
+				const props = obj.propStat[0].properties;
+				const calendarData = props[context.calendarDataPropName];
+				const etag = props[context.eTagPropName];
+				const uri = obj.href.substr(obj.href.lastIndexOf('/') + 1);
 
-				var data = properties['{urn:ietf:params:xml:ns:caldav}calendar-data'];
-				var etag = properties['{DAV:}getetag'];
-				var uri = object.href.substr(object.href.lastIndexOf('/') + 1);
-
-				var vevent;
-				//try {
-					vevent = new VEvent(calendar, data, etag, uri);
-				//} catch(e) {
-				//	console.log(e);
-				//	continue;
-				//}
-				vevents.push(vevent);
+				try {
+					const vevent = new VEvent(calendar, calendarData, etag, uri);
+					vevents.push(vevent);
+				} catch (e) {
+					console.log(e);
+				}
 			}
 
 			return vevents;
 		});
 	};
 
-	this.get = function(calendar, uri) {
-		var url = calendar.url + uri;
-		return DavClient.request('GET', url, {'requesttoken' : OC.requestToken}, '').then(function(response) {
-			return new VEvent(calendar, response.body, response.xhr.getResponseHeader('ETag'), uri);
+	/**
+	 * get an event by uri from a calendar
+	 * @param {Calendar} calendar
+	 * @param {string} uri
+	 * @returns {Promise}
+	 */
+	this.get = function (calendar, uri) {
+		const url = calendar.url + uri;
+		const headers = {
+			'requesttoken': OC.requestToken
+		};
+
+		return DavClient.request('GET', url, headers, '').then(function (response) {
+			const calendarData = response.body;
+			const etag = response.xhr.getResponseHeader('ETag');
+
+			try {
+				return new VEvent(calendar, calendarData, etag, uri);
+			} catch (e) {
+				console.log(e);
+				return Promise.reject(e);
+			}
 		});
 	};
 
-	this.create = function(calendar, data, returnEvent) {
-		if (typeof returnEvent === 'undefined') {
-			returnEvent = true;
-		}
-
-		var headers = {
+	/**
+	 * create a new event
+	 * @param {Calendar} calendar
+	 * @param {data} data
+	 * @param {boolean} returnEvent
+	 * @returns {Promise}
+	 */
+	this.create = function (calendar, data, returnEvent=true) {
+		const headers = {
 			'Content-Type': 'text/calendar; charset=utf-8',
 			'requesttoken': OC.requestToken
 		};
-		var uri = this._generateRandomUri();
-		var url = calendar.url + uri;
+		const uri = StringUtility.uid('Nextcloud', 'ics');
+		const url = calendar.url + uri;
 
-		return DavClient.request('PUT', url, headers, data).then(function(response) {
+		return DavClient.request('PUT', url, headers, data).then(function (response) {
 			if (!DavClient.wasRequestSuccessful(response.status)) {
-				return false;
-				// TODO - something went wrong, do smth about it
+				return Promise.reject(response.status);
 			}
 
-			return returnEvent ?
-				_this.get(calendar, uri) :
-				true;
+			if (returnEvent) {
+				return context.self.get(calendar, uri);
+			} else {
+				return true;
+			}
 		});
 	};
 
-	this.update = function(event) {
-		var url = event.calendar.url + event.uri;
-		var headers = {
+	/**
+	 * update an event
+	 * @param {VEvent} event
+	 * @returns {Promise}
+	 */
+	this.update = function (event) {
+		const url = context.getEventUrl;
+		const headers = {
 			'Content-Type': 'text/calendar; charset=utf-8',
 			'If-Match': event.etag,
 			'requesttoken': OC.requestToken
 		};
+		const payload = event.data;
 
-		return DavClient.request('PUT', url, headers, event.data).then(function(response) {
+		return DavClient.request('PUT', url, headers, payload).then(function (response) {
+			// update etag of existing event
 			event.etag = response.xhr.getResponseHeader('ETag');
+
 			return DavClient.wasRequestSuccessful(response.status);
 		});
 	};
 
-	this.delete = function(event) {
-		var url = event.calendar.url + event.uri;
-		var headers = {
+	/**
+	 * delete an event
+	 * @param {VEvent} event
+	 * @returns {Promise}
+	 */
+	this.delete = function (event) {
+		const url = context.getEventUrl(event);
+		const headers = {
 			'If-Match': event.etag,
 			'requesttoken': OC.requestToken
 		};
 
-		return DavClient.request('DELETE', url, headers, '').then(function(response) {
-			return DavClient.wasRequestSuccessful(response.status);
+		return DavClient.request('DELETE', url, headers, '').then(function (response) {
+			if (DavClient.wasRequestSuccessful(response.status)) {
+				return true;
+			} else {
+				return Promise.reject(response.status);
+			}
 		});
 	};
-
-	this._generateRandomUri = function() {
-		var uri = 'ownCloud-';
-		uri += RandomStringService.generate();
-		uri += RandomStringService.generate();
-		uri += '.ics';
-
-		return uri;
-	};
-
-	this._getTimeRangeStamp = function(momentObject) {
-		return momentObject.format('YYYYMMDD') + 'T' + momentObject.format('HHmmss') + 'Z';
-	};
-
-}]);
+});
