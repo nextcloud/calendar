@@ -41,7 +41,7 @@ app.service('VEventService', function(DavClient, StringUtility, XMLUtility, VEve
 
 	/**
 	 * get a time-range string from moment object
-	 * @param momentObject
+	 * @param {moment} momentObject
 	 * @returns {string}
 	 */
 	context.getTimeRangeString = function(momentObject) {
@@ -50,9 +50,9 @@ app.service('VEventService', function(DavClient, StringUtility, XMLUtility, VEve
 
 	/**
 	 * get all events from a calendar within a time-range
-	 * @param calendar
-	 * @param start
-	 * @param end
+	 * @param {Calendar} calendar
+	 * @param {moment} start
+	 * @param {moment} end
 	 * @returns {Promise}
 	 */
 	this.getAll = function (calendar, start, end) {

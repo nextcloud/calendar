@@ -43,18 +43,38 @@ app.service('DavClient', function($window) {
 	client.NS_NEXTCLOUD = 'http://nextcloud.com/ns';
 	client.NS_CALENDARSERVER = 'http://calendarserver.org/ns/';
 
+	/**
+	 * get absolute url for path
+	 * @param {string} path
+	 * @returns {string}
+	 */
 	client.buildUrl = function(path) {
 		return $window.location.origin + path;
 	};
 
-	client.getResponseCodeFromHTTPResponse = function(t) {
-		return parseInt(t.split(' ')[1]);
-	};
-
+	/**
+	 * get a nodes full name including its namespace
+	 * @param {Node} node
+	 * @returns {string}
+	 */
 	client.getNodesFullName = function(node) {
 		return '{' + node.namespaceURI + '}' + node.localName;
 	};
 
+	/**
+	 * get response code from http response
+	 * @param {string} t
+	 * @returns {Number}
+	 */
+	client.getResponseCodeFromHTTPResponse = function(t) {
+		return parseInt(t.split(' ')[1]);
+	};
+
+	/**
+	 * check if request was successful
+	 * @param {Number} status
+	 * @returns {boolean}
+	 */
 	client.wasRequestSuccessful = function(status) {
 		return (status >= 200 && status <= 299);
 	};
