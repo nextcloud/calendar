@@ -41,23 +41,6 @@ escapeHTML = function () {
 	return;
 };
 
-dav = {
-	Client: function() {
-		'use strict';
-		return {
-			request: function () {
-
-			},
-			propFind: function () {
-
-			},
-			parseMultiStatus: function () {
-
-			}
-		};
-	}
-};
-
 oc_current_user = 'user';
 
 function t(app, text, vars, count, options) {

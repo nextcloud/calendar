@@ -49,6 +49,10 @@ app.service('DavClient', function($window) {
 	 * @returns {string}
 	 */
 	client.buildUrl = function(path) {
+		if (path.substr(0,1) !== '/') {
+			path = '/' + path;
+		}
+
 		return $window.location.origin + path;
 	};
 
