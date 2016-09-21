@@ -95,6 +95,10 @@
 	width: 80px;
 }
 
+#app-navigation .app-navigation-list {
+	width: 100%;
+}
+
 #app-navigation .app-navigation-list-item .calendarCheckbox {
 	position: absolute;
 	margin-left: 17px;
@@ -296,7 +300,12 @@
 
 /* scroll issues */
 #scrollable {
-	height: 80%;
+	overflow-y: auto;
+	overflow-x: hidden;
+	position: absolute;
+	top: 85px;
+	bottom: 44px;
+	width: 250px;
 }
 
 /* Spacing */

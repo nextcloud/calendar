@@ -57,6 +57,7 @@ foreach ($scripts as $script) {
 		<div ng-controller="DatePickerController" id="datepickercontainer">
 			<?php print_unescaped($this->inc('part.datepicker')); ?>
 			<?php print_unescaped($this->inc('part.buttonarea')); ?>
+			<div class="clear-both"></div>
 		</div>
 		<div ng-controller="CalendarListController" ng-cloak>
 			<div id="scrollable">
