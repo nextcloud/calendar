@@ -36,14 +36,14 @@
 	<fieldset class="settings-fieldset">
 		<ul class="settings-fieldset-interior">
 			<li class="settings-fieldset-interior-item">
-				<label>
-					<input type="checkbox" ng-change="updateSkipPopover()" ng-model="skipPopover" ng-true-value="'yes'" ng-false-value="'no'"/>
+				<input class="checkbox" type="checkbox" ng-change="updateSkipPopover()" ng-model="skipPopover" ng-true-value="'yes'" ng-false-value="'no'" id="skip_popover_checkbox"/>
+				<label for="skip_popover_checkbox">
 					<?php p($l->t('Skip simple event editor')); ?>
 				</label>
 			</li>
 			<li class="settings-fieldset-interior-item settings-fieldset-interior-weeknumbers">
-				<label>
-					<input type="checkbox" ng-change="updateShowWeekNr()" ng-model="settingsShowWeekNr" ng-true-value="'yes'" ng-false-value="'no'"/>
+				<input class="checkbox" type="checkbox" ng-change="updateShowWeekNr()" ng-model="settingsShowWeekNr" ng-true-value="'yes'" ng-false-value="'no'" id="show_weeknumbers_checkbox"/>
+				<label for="show_weeknumbers_checkbox">
 					<?php p($l->t('Show week numbers')); ?>
 				</label>
 			</li>
