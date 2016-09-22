@@ -45,7 +45,8 @@ app.service('VEventService', function(DavClient, StringUtility, XMLUtility, VEve
 	 * @returns {string}
 	 */
 	context.getTimeRangeString = function(momentObject) {
-		return momentObject.format('YYYYMMDD') + 'T' + momentObject.format('HHmmss') + 'Z';
+		const utc = momentObject.utc();
+		return utc.format('YYYYMMDD') + 'T' + utc.format('HHmmss') + 'Z';
 	};
 
 	/**
@@ -138,6 +139,10 @@ app.service('VEventService', function(DavClient, StringUtility, XMLUtility, VEve
 		};
 
 		return DavClient.request('GET', url, headers, '').then(function (response) {
+			if (!DavClient.wasRequestSuccessful(response.status)) {
+				return Promise.reject(response.status);
+			}
+
 			const calendarData = response.body;
 			const etag = response.xhr.getResponseHeader('ETag');
 
@@ -184,7 +189,7 @@ app.service('VEventService', function(DavClient, StringUtility, XMLUtility, VEve
 	 * @returns {Promise}
 	 */
 	this.update = function (event) {
-		const url = context.getEventUrl;
+		const url = context.getEventUrl(event);
 		const headers = {
 			'Content-Type': 'text/calendar; charset=utf-8',
 			'If-Match': event.etag,
@@ -193,10 +198,14 @@ app.service('VEventService', function(DavClient, StringUtility, XMLUtility, VEve
 		const payload = event.data;
 
 		return DavClient.request('PUT', url, headers, payload).then(function (response) {
+			if (!DavClient.wasRequestSuccessful(response.status)) {
+				return Promise.reject(response.status);
+			}
+
 			// update etag of existing event
 			event.etag = response.xhr.getResponseHeader('ETag');
 
-			return DavClient.wasRequestSuccessful(response.status);
+			return true;
 		});
 	};
 
