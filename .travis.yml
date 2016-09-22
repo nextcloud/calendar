@@ -12,6 +12,7 @@ branches:
 env:
   global:
     - CORE_BRANCH=master
+    - NIGHTLY=false
   matrix:
     - DB=mysql
 
@@ -70,7 +71,9 @@ script:
     - grunt karma
     - ./node_modules/stylelint/dist/cli.js ../css/app/*.css
     - cd ..
-
+    # Upload nightly
+    - if [[ "$NIGHTLY" = "TRUE" ]]; then make dist; fi
+    - if [[ "$NIGHTLY" = "TRUE" ]]; then curl --ftp-create-dirs -T build/artifacts/appstore/calendar.tar.gz -u $FTP_LOGIN:$FTP_PW ftp://144.76.174.90/htdocs/calendar/calendar.tar.gz; fi
 
 after_success:
     - wget https://scrutinizer-ci.com/ocular.phar
