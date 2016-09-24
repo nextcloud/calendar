@@ -28,7 +28,7 @@ app.service('ICalFactory', function() {
 		const root = new ICAL.Component(['vcalendar', [], []]);
 
 		const version = angular.element('#fullcalendar').attr('data-appVersion');
-		root.updatePropertyWithValue('prodid', '-//ownCloud calendar v' + version);
+		root.updatePropertyWithValue('prodid', '-//Nextcloud calendar v' + version);
 
 		root.updatePropertyWithValue('version', '2.0');
 		root.updatePropertyWithValue('calscale', 'GREGORIAN');
