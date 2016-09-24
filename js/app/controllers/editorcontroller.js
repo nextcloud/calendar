@@ -36,7 +36,7 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
 		$scope.oldCalendar = isNew ? calendar : vevent.calendar;
 		$scope.readOnly = !vevent.calendar.isWritable();
 		$scope.accessibleViaCalDAV = vevent.calendar.eventsAccessibleViaCalDAV();
-		$scope.selected = 1;
+		$scope.selected = 0;
 		$scope.timezones = [];
 		$scope.emailAddress = emailAddress;
 		$scope.edittimezone = ((
@@ -50,6 +50,7 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
 		$scope.postEditingHooks = [];
 
 		$scope.tabs = [
+			{title: t('calendar', 'Details'), value: 0},
 			{title: t('calendar', 'Attendees'), value: 1},
 			{title: t('calendar', 'Reminders'), value: 2},
 			{title: t('calendar', 'Repeating'), value: 3}
@@ -80,7 +81,7 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
 				callback();
 			});
 
-			$scope.tabopener(1);
+			$scope.tabopener(0);
 		});
 
 		$scope.registerPostHook = function(callback) {
@@ -158,15 +159,23 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
 		 */
 		$scope.tabopener = function (val) {
 			$scope.selected = val;
-			if (val === 1) {
+			if (val === 0) {
+				$scope.eventsdetailsview = true;
+				$scope.eventsattendeeview = false;
+				$scope.eventsalarmview = false;
+				$scope.eventsrepeatview = false;
+			} else if (val === 1) {
+				$scope.eventsdetailsview = false;
 				$scope.eventsattendeeview = true;
 				$scope.eventsalarmview = false;
 				$scope.eventsrepeatview = false;
 			} else if (val === 2) {
+				$scope.eventsdetailsview = false;
 				$scope.eventsattendeeview = false;
 				$scope.eventsalarmview = true;
 				$scope.eventsrepeatview = false;
 			} else if (val === 3) {
+				$scope.eventsdetailsview = false;
 				$scope.eventsattendeeview = false;
 				$scope.eventsalarmview = false;
 				$scope.eventsrepeatview = true;
