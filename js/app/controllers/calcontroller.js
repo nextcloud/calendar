@@ -295,6 +295,17 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 							});
 						}
 					}
+
+					if (event.description) {
+						element.tooltip({
+							container: 'body',
+							placement: function(tip, element) {
+								const position = $(element).offset();
+								return (position.top < 300) ? 'bottom' : 'top';
+							},
+							title: event.description
+						});
+					}
 				}
 		};
 	}

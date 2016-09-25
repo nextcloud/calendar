@@ -54,3 +54,13 @@
 #fullcalendar td.fc-day.fc-sun {
 	background-color: nc-darken($color-main-background, 3%);
 }
+
+.tooltip-inner {
+	white-space: pre-line;
+	max-height: 175px !important;
+	overflow: hidden;
+	display: -webkit-box;
+	-webkit-line-clamp: 10;
+	-webkit-box-orient: vertical;
+}
+

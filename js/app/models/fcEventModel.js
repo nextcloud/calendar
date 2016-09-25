@@ -54,7 +54,8 @@ app.factory('FcEvent', function(SimpleEvent) {
 			backgroundColor: vevent.calendar.color,
 			borderColor: vevent.calendar.color,
 			textColor: vevent.calendar.textColor,
-			title: event.getFirstPropertyValue('summary')
+			title: event.getFirstPropertyValue('summary'),
+			description: event.getFirstPropertyValue('description')
 		};
 
 		Object.defineProperties(iface, {
