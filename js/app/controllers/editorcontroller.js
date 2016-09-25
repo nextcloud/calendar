@@ -172,6 +172,18 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
 				$scope.eventsrepeatview = true;
 			}
 		};
+
+		/**
+		 * Everything calendar select
+		 */
+		$scope.showCalendarSelection = function() {
+			const writableCalendars = $scope.calendars.filter(function (c) {
+				return c.isWritable();
+			});
+
+			return writableCalendars.length > 1;
+		};
+
 		/**
 		 * Everything date and time
 		 */

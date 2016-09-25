@@ -10,7 +10,8 @@
 			/>
 			<select
 					ng-model="calendar"
-					ng-options="c as c.displayname for c in calendars | orderBy:['order'] | calendarSelectorFilter: oldCalendar"></select>
+					ng-options="c as c.displayname for c in calendars | orderBy:['order'] | calendarSelectorFilter: oldCalendar"
+					ng-show="showCalendarSelection()"></select>
 		</fieldset>
 
 		<fieldset class="event-time events--fieldset" ng-disabled="readOnly">
