@@ -73,7 +73,7 @@ script:
     - cd ..
     # Upload nightly
     - if [[ "$NIGHTLY" = "TRUE" ]]; then make dist; fi
-    - if [[ "$NIGHTLY" = "TRUE" ]]; then curl --ftp-create-dirs -T build/artifacts/appstore/calendar.tar.gz -u $FTP_LOGIN:$FTP_PW ftp://144.76.174.90/htdocs/calendar/calendar.tar.gz; fi
+    - if [[ "$NIGHTLY" = "TRUE" ]]; then curl --ftp-create-dirs -T build/artifacts/appstore/calendar.tar.gz -u $FTP_LOGIN:$FTP_PW ftp://upload.portknox.de/htdocs/calendar/nextcloud_calendar_nightly_build_$(date +%Y-%m-%d).tar.gz; fi
 
 after_success:
     - wget https://scrutinizer-ci.com/ocular.phar
