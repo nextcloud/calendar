@@ -4,7 +4,7 @@
  * @author Raghu Nayyar
  * @author Georg Ehrke
  * @author Bernhard Posselt
- * @copyright 2016 Raghu Nayyar <beingminimal@gmail.com>
+ * @copyright 2016 Raghu Nayyar <hey@raghunayyar.com>
  * @copyright 2016 Georg Ehrke <oc.list@georgehrke.com>
  * @copyright 2016 Bernhard Posselt <dev@bernhard-posselt.com>
  *

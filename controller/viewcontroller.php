@@ -5,7 +5,7 @@
  * @author Georg Ehrke
  * @copyright 2016 Georg Ehrke <oc.list@georgehrke.com>
  * @author Raghu Nayyar
- * @copyright 2016 Raghu Nayyar <beingminimal@gmail.com>
+ * @copyright 2016 Raghu Nayyar <hey@raghunayyar.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
