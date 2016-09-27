@@ -217,7 +217,6 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 							deleteAndRemoveEvent(vevent, fcEvent);
 							createAndRenderEvent(result.calendar, result.vevent.data, view.start, view.end, $scope.defaulttimezone);
 						}
-						console.log(result);
 					}).catch(function(reason) {
 						if (reason === 'delete') {
 							deleteAndRemoveEvent(vevent, fcEvent);
