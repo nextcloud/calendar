@@ -52,7 +52,8 @@
 			ng-class="{'icon-shared': item.calendar.isShared(), 'icon-share': !item.calendar.isShared()}"
 			ng-click="item.toggleEditingShares()"
 			ng-if="item.calendar.isShareable()"
-			title="<?php p($l->t('Share Calendar')) ?>">
+			title="<?php p($l->t('Share Calendar')) ?>"
+			role="button">
 		</span>
 		<!-- Add a label if the calendar has shares -->
 		<span
@@ -66,7 +67,8 @@
 		<span class="icon-more"
 			  href="#"
 			  on-toggle-show="#more-actions-{{ $id }}"
-			  title="<?php p($l->t('More')); ?>">
+			  title="<?php p($l->t('More')); ?>"
+			  role="button">
 		</span>
 	</span>
 </span>

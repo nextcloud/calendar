@@ -28,7 +28,7 @@
 		class="new-entity"
 		data-apps-slide-toggle=".add-new-subscription"
 		id="new-subscription-button">
-		<span class="new-entity-title"><?php p($l->t('New Subscription')); ?></span>
+		<span class="new-entity-title" role="button"><?php p($l->t('New Subscription')); ?></span>
 	</div>
 
 	<fieldset class="calendarlist-fieldset add-new-subscription hide">
