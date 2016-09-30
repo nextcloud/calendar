@@ -30,7 +30,7 @@
 		class="new-entity"
 		data-apps-slide-toggle=".add-new"
 		id="new-calendar-button">
-		<span class="new-entity-title"><?php p($l->t('New Calendar')); ?></span>
+		<span class="new-entity-title" role="button"><?php p($l->t('New Calendar')); ?></span>
 	</div>
 
 

@@ -49,7 +49,7 @@
 			</li>
 			<li class="settings-fieldset-interior-item settings-fieldset-interior-upload">
 				<input type="file" name="file" accept="text/calendar" multiple id="import" />
-				<span href="#" class="settings-upload svg icon-upload"><?php p($l->t('Import calendar')); ?></span>
+				<span href="#" class="settings-upload svg icon-upload" role="button"><?php p($l->t('Import calendar')); ?></span>
 				<span ng-show="!files.length" class="hide"><?php p($l->t('No Calendars selected for import')); ?></span>
 			</li>
 
