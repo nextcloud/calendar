@@ -24,6 +24,12 @@
 app.service('ICalFactory', function() {
 	'use strict';
 
+	const self = this;
+
+	/**
+	 * create a new ICAL calendar object
+	 * @returns {ICAL.Component}
+	 */
 	this.new = function() {
 		const root = new ICAL.Component(['vcalendar', [], []]);
 
@@ -34,5 +40,27 @@ app.service('ICalFactory', function() {
 		root.updatePropertyWithValue('calscale', 'GREGORIAN');
 
 		return root;
+	};
+
+	/**
+	 * create a new ICAL calendar object that contains a calendar
+	 * @param uid
+	 * @returns ICAL.Component
+	 */
+	this.newEvent = function(uid) {
+		const comp = self.new();
+
+		const event = new ICAL.Component('vevent');
+		comp.addSubcomponent(event);
+
+		event.updatePropertyWithValue('created', ICAL.Time.now());
+		event.updatePropertyWithValue('dtstamp', ICAL.Time.now());
+		event.updatePropertyWithValue('last-modified', ICAL.Time.now());
+		event.updatePropertyWithValue('uid', uid);
+
+		//add a dummy dtstart, so it's a valid ics
+		event.updatePropertyWithValue('dtstart', ICAL.Time.now());
+
+		return comp;
 	};
 });

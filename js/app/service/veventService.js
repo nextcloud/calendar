@@ -115,7 +115,7 @@ app.service('VEventService', function(DavClient, StringUtility, XMLUtility, VEve
 				const uri = obj.href.substr(obj.href.lastIndexOf('/') + 1);
 
 				try {
-					const vevent = new VEvent(calendar, calendarData, etag, uri);
+					const vevent = VEvent.fromRawICS(calendar, calendarData, uri, etag);
 					vevents.push(vevent);
 				} catch (e) {
 					console.log(e);
@@ -147,7 +147,7 @@ app.service('VEventService', function(DavClient, StringUtility, XMLUtility, VEve
 			const etag = response.xhr.getResponseHeader('ETag');
 
 			try {
-				return new VEvent(calendar, calendarData, etag, uri);
+				return VEvent.fromRawICS(calendar, calendarData, uri, etag);
 			} catch (e) {
 				console.log(e);
 				return Promise.reject(e);
