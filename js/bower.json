@@ -7,7 +7,7 @@
     "jstzdetect": "1.0.6",
     "ical.js": "1.2.2",
     "davclient.js": "evert/davclient.js",
-    "fullcalendar": "3.0.0",
+    "fullcalendar": "3.0.1",
     "hsl_rgb_converter": "https://github.com/kayellpeee/hsl_rgb_converter.git"
   },
   "devDependencies": {
