@@ -25,7 +25,7 @@
 <div class="advanced--fieldset" ng-hide="emailAddress === ''">
 	<input type="text" class="advanced--input" ng-model="nameofattendee"
 		placeholder="<?php p($l->t('E-Mail address of attendee'))?>" name="nameofattendee" autocomplete="off"
-		uib-typeahead="contact.name for contact in search($viewValue)" typeahead-show-hint="true" typeahead-min-length="3"
+		uib-typeahead="contact as (contact.name | limitTo: 20) + ' (' + (contact.email | limitTo: 30) + ')' for contact in search($viewValue)" typeahead-show-hint="true" typeahead-min-length="3"
 		   typeahead-on-select="selectFromTypeahead($item)" />
 	<button id="addmoreattendees" ng-click="add(nameofattendee)" class="btn event-button button" type="button">
 		<?php p($l->t('Add')); ?>
