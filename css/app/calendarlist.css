@@ -303,7 +303,6 @@
 #scrollable {
 	overflow-y: auto;
 	overflow-x: hidden;
-	position: absolute;
 	top: 85px;
 	bottom: 44px;
 	width: 250px;
