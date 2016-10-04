@@ -214,7 +214,7 @@
 			   ng-model="item.calendar.published" value="edit"
 			   ng-change="togglePublish(item)">
 		<label for="checkbox_publish_calendar_{{ $index }}"> <?php p($l->t('Share link')); ?></label>
-		<div class="oneline" ng-show="item.calendar.published">
+		<div ng-show="item.calendar.published">
 			<span><?php p($l->t('Public access')); ?></span>
 			<span class="icon-public pull-right svg publication-tools"
 				  target="_blank"
@@ -229,7 +229,7 @@
 				   ng-model="item.email"
 				   placeholder="<?php p($l->t('Email link to person')); ?>"
 				   type="text">
-			<button type="submit" class="icon-confirm svg"></button>
+			<button type="submit"><?php p($l->t('Send')); ?></button>
 		</form>
 	</div>
 </div>

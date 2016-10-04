@@ -401,14 +401,12 @@ input.public-linkinput {
 }
 
 input.mailerInput {
-	width: 77%;
+	width: 94%;
 }
 
 .mailerInput + button {
-	height: 32px;
-	margin-right: 0;
-	width: 32px;
-	vertical-align: bottom;
+	width: 100%;
+	padding: 6px;
 }
 
 /* Calendar Sharing */
