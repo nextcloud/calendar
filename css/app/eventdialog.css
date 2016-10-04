@@ -266,8 +266,10 @@ button.delete:focus {
 	display: inline;
 }
 
-.dropdown-menu {
+.dropdown-menu,
+.attendeename {
 	width: 100%;
+	max-width: 470px;
 }
 
 .dropdown-menu li {
@@ -278,6 +280,9 @@ button.delete:focus {
 .dropdown-menu li a {
 	display: block;
 	padding: 5px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .dropdown-menu li a:hover {
