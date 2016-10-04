@@ -11,6 +11,6 @@
 		</whitelist>
 	</filter>
 	<testsuite name='unit'>
-		<directory suffix='.php'>tests/unit</directory>
+		<directory suffix='.php'>tests/php</directory>
 	</testsuite>
 </phpunit>
