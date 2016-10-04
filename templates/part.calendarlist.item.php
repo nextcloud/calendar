@@ -210,10 +210,13 @@
 	</ul>
 	<div class="publishing" ng-if="item.calendar.isPublishable()">
 		<input type="checkbox" name="publish"
+			   class="checkbox"
 			   id="checkbox_publish_calendar_{{ $index }}"
 			   ng-model="item.calendar.published" value="edit"
 			   ng-change="togglePublish(item)">
-		<label for="checkbox_publish_calendar_{{ $index }}"> <?php p($l->t('Share link')); ?></label>
+		<label for="checkbox_publish_calendar_{{ $index }}">
+			<?php p($l->t('Share link')); ?>
+		</label>
 		<div ng-show="item.calendar.published">
 			<span><?php p($l->t('Public access')); ?></span>
 			<span class="icon-public pull-right svg publication-tools"
