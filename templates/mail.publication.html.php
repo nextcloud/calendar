@@ -160,33 +160,6 @@
 			border-color: #3498db;
 			color: #ffffff; }
 
-		/* -------------------------------------
-			OTHER STYLES THAT MIGHT BE USEFUL
-		------------------------------------- */
-		.last {
-			margin-bottom: 0; }
-
-		.first {
-			margin-top: 0; }
-
-		.align-center {
-			text-align: center; }
-
-		.align-right {
-			text-align: right; }
-
-		.align-left {
-			text-align: left; }
-
-		.clear {
-			clear: both; }
-
-		.mt0 {
-			margin-top: 0; }
-
-		.mb0 {
-			margin-bottom: 0; }
-
 		.preheader {
 			color: transparent;
 			display: none;
@@ -261,7 +234,7 @@
 				background-color: #34495e !important;
 				border-color: #34495e !important; } }
 
-		/* Fixes for owncloud */
+		/* Fixes for NextCloud */
 		#nojavascript {
 			display: none !important;
 		}

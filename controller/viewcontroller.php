@@ -246,25 +246,26 @@ class ViewController extends Controller {
 
 		$subject = $this->l10n->t('%s has published the calendar "%s"', [$username, $name]);
 
-		$emailTemplate = new TemplateResponse('calendar', 'mail.publication', ['subject' => $subject, 'username' => $username, 'calendarname' => $name, 'calendarurl' => $url, 'defaults' => $this->defaults], 'public');
-		$body = $emailTemplate->render();
+		$emailTemplateHTML = new TemplateResponse('calendar', 'mail.publication.html', ['subject' => $subject, 'username' => $username, 'calendarname' => $name, 'calendarurl' => $url, 'defaults' => $this->defaults], 'public');
+		$bodyHTML = $emailTemplateHTML->render();
+		$emailTemplateText = new TemplateResponse('calendar', 'mail.publication.text', ['subject' => $subject, 'username' => $username, 'calendarname' => $name, 'calendarurl' => $url], 'public');
+		$textBody = $emailTemplateText->render();
 
-		return $this->sendEmail($to, $subject, $body, true);
+		$status = $this->sendEmail($to, $subject, $bodyHTML, $textBody);
+
+		return new JSONResponse([], $status);
 	}
 
 	/**
 	 * @param string $target
 	 * @param string $subject
 	 * @param string $body
-	 * @param boolean $useHTML
-	 * @return JSONResponse
-	 *
-	 * TODO : This should be moved to a Tools class
-	 *
+	 * @param string $textBody
+	 * @return int
 	 */
-	private function sendEmail($target, $subject, $body, $useHTML = false) {
+	private function sendEmail($target, $subject, $body, $textBody) {
 		if (!$this->mailer->validateMailAddress($target)) {
-			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
+			return Http::STATUS_BAD_REQUEST;
 		}
 
 		$sendFromDomain = $this->config->getSystemValue('mail_domain', 'domain.org');
@@ -273,15 +274,12 @@ class ViewController extends Controller {
 
 		$message = $this->mailer->createMessage();
 		$message->setSubject($subject);
-		$message->setFrom([$sendFrom => 'ownCloud Notifier']);
+		$message->setFrom([$sendFrom => $this->defaults->getName()]);
 		$message->setTo([$target => 'Recipient']);
-		if ($useHTML) {
-			$message->setHtmlBody($body);
-		} else {
-			$message->setPlainBody($body);
-		}
+		$message->setPlainBody($textBody);
+		$message->setHtmlBody($body);
 		$this->mailer->send($message);
 
-		return new JSONResponse([], Http::STATUS_OK);
+		return Http::STATUS_OK;
 	}
 }
