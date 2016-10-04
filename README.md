@@ -46,6 +46,8 @@ We don't support Internet Explorer or Edge. Patches for IE9+ and Edge are accept
 If you’d like to join, just go through the [issue list](https://github.com/nextcloud/calendar/issues?q=is%3Aopen+is%3Aissue+label%3A%22starter+issue%22) and fix some. :)   
 We’re also in [#nextcloud-calendar on freenode IRC](https://webchat.freenode.net/?channels=nextcloud-calendar).
 
+We’d like to thank [BrowserStack](https://www.browserstack.com) for providing us with a free subscription.
+
 ## Developer setup info
 
 Just clone this repo into your apps directory (Nextcloud server installation needed). Additionally,  [nodejs and npm](https://nodejs.org/en/download/package-manager/) are needed for installing JavaScript dependencies.
