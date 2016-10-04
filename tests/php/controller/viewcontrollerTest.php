@@ -22,7 +22,7 @@
 namespace OCA\Calendar\Controller;
 
 function scandir($directory) {
-	$dir = substr(__DIR__, 0, -strlen('tests/unit/controller')) . 'controller/../timezones/';
+	$dir = substr(__DIR__, 0, -strlen('tests/php/controller')) . 'controller/../timezones/';
 	return $dir === $directory ? [
 		'..',
 		'.',
