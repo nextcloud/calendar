@@ -15,7 +15,7 @@
 * :rocket: **Integration with other Nextcloud apps!** Currently Contacts – more to come.
 * :globe_with_meridians: **WebCal Support!** Want to see your favorite team's matchdays in your calendar? No problem!
 * :raising_hand: **Attendees!** Invite people to your events.
-* :see_no_evil: **We’re not reinventing the wheel!** Based on the great [davclient.js](https://github.com/evert/davclient.js) and [ical.js](https://github.com/mozilla-comm/ical.js) libraries.
+* :see_no_evil: **We’re not reinventing the wheel!** Based on the great [davclient.js](https://github.com/evert/davclient.js), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries.
 
 And in the works for the [coming versions](https://github.com/nextcloud/calendar/milestones/):
 * :mag: Search for events ([#8](https://github.com/nextcloud/calendar/issues/8))
