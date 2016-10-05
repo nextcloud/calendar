@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <phpunit bootstrap="tests/bootstrap.php">
 	<filter>
-		<blacklist>
-			<directory suffix=".php">appinfo</directory>
-		</blacklist>
+		<whitelist>
+			<directory suffix=".php">controller</directory>
+			<directory suffix=".php">http</directory>
+			<exclude>
+				<directory suffix=".php">appinfo</directory>
+				<directory suffix=".php">templates</directory>
+			</exclude>
+		</whitelist>
 	</filter>
 	<testsuite name='unit'>
-		<directory suffix='.php'>tests/unit</directory>
+		<directory suffix='.php'>tests/php</directory>
 	</testsuite>
 </phpunit>
