@@ -39,6 +39,21 @@ Check out our [FAQ](https://github.com/nextcloud/calendar/wiki/FAQs). If you don
 
 We don't support Internet Explorer or Edge. Patches for IE9+ and Edge are accepted though.
 
+## Nightly builds
+
+Testing is a great way to contribute without having to write source code.
+Although it's straight forward, setting up the development environment requires some knowledge and extra tools on your device.
+
+We provide [nightly builds](https://nightly.portknox.net/calendar/?C=M;O=D) to enable everyone help testing without setting up the development environment.  
+
+1. Download
+2. Extract the tar archive to 'path-to-nextcloud/apps'
+3. Navigate to »Apps«, choose the category »Productivity«, find the Calendar app and enable it.
+
+The nightly builds are provided by [Portknox.net](https://portknox.net)
+
+When reporting issues, please mention the date in the tar archive's name.
+
 ## Maintainers
 
 [Georg Ehrke](https://github.com/georgehrke), [Raghu Nayyar](https://github.com/raghunayyar), [Thomas Citharel](https://github.com/tcitworld) [and many more](https://github.com/nextcloud/calendar/graphs/contributors)
