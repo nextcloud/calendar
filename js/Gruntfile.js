@@ -23,6 +23,8 @@
 module.exports = function(grunt) {
 	'use strict';
 
+	const stylelintConfig = require('./.stylelintrc.json');
+
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -149,10 +151,10 @@ module.exports = function(grunt) {
 				options: {
 					map: false,
 					processors: [
-						require('stylelint')()
+						require('stylelint')(stylelintConfig)
 					]
 				},
-				src: [ "<%= meta.buildCSS %>*.css" ]
+				src: [ '<%= meta.buildCSS %>*.css' ]
 			}
 		}
 
