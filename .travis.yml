@@ -69,7 +69,7 @@ script:
     - phpunit --coverage-clover=coverage.clover tests/php
     - cd js/
     - grunt karma
-    - ./node_modules/stylelint/dist/cli.js ../css/app/*.css
+    - grunt postcss
     - cd ..
     # Upload nightly
     - if [[ "$NIGHTLY" = "TRUE" ]]; then make dist; fi
