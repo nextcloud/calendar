@@ -1,14 +1,26 @@
 <?xml version="1.0"?>
-<info>
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
 	<id>calendar</id>
 	<name>Calendar</name>
+	<summary>Calendar GUI for Nextcloud's CalDAV server</summary>
+	<description><![CDATA[The Nextcloud calendar app is a user interface for Nextcloud's CalDAV server.
+
+It integrates with other apps, allows you to manage calendars and events, display external calendars and invite attendees to your events]]></description>
 	<version>1.4.0</version>
 	<licence>AGPL</licence>
-	<author>Georg Ehrke, Raghu Nayyar, Thomas Citharel</author>
+	<namespace>Calendar</namespace>
+	<author homepage="https://georg.coffee">Georg Ehrke</author>
+	<author homepage="http://raghunayyar.com">Raghu Nayyar</author>
+	<author homepage="https://tcit.fr">Thomas Citharel</author>
+	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/1.png</screenshot>
+	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/2.png</screenshot>
+	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/3.png</screenshot>
+	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/4.png</screenshot>
 	<dependencies>
 		<owncloud min-version="9.0" max-version="9.2" />
+		<nextcloud min-version="9" max-version="11" />
 	</dependencies>
-	<description>Calendar GUI for Nextcloud's CalDAV server</description>
 	<documentation>
 		<user>https://docs.nextcloud.com/server/10/user_manual/pim/calendar.html</user>
 	</documentation>
