@@ -495,10 +495,44 @@ app.factory('SimpleEvent', function() {
 				};
 			}
 
-			var start = ICAL.Time.fromJSDate(newSimpleData.dtstart.value.toDate(), false);
-			start.isDate = newSimpleData.allDay;
-			var end = ICAL.Time.fromJSDate(newSimpleData.dtend.value.toDate(), false);
-			end.isDate = newSimpleData.allDay;
+			var startTz = newSimpleData.dtstart.parameters.zone === "floating" ? ICAL.Timezone.localTimezone : ICAL.TimezoneService.get(newSimpleData.dtstart.parameters.zone);
+
+			//make sure _isUTC flag is turned off for the Moments
+			var isUTC =
+			  [newSimpleData.dtstart.value._isUTC, newSimpleData.dtend.value._isUTC];
+			newSimpleData.dtstart.value._isUTC = false;
+			newSimpleData.dtend.value._isUTC = false;
+
+ 			var start = ICAL.Time.fromData(
+ 				{
+						year: newSimpleData.dtstart.value.year(), 
+						month: newSimpleData.dtstart.value.month() + 1, 
+						day: newSimpleData.dtstart.value.date(), 
+						hour: newSimpleData.dtstart.value.hour(), 
+						minute: newSimpleData.dtstart.value.minute(), 
+						second: newSimpleData.dtstart.value.second(),
+ 					isDate: newSimpleData.allDay
+ 				},
+ 				startTz
+ 			);
+ 
+ 			var endTz = newSimpleData.dtend.parameters.zone === "floating" ? ICAL.Timezone.localTimezone : ICAL.TimezoneService.get(newSimpleData.dtend.parameters.zone);
+ 			var end = ICAL.Time.fromData(
+ 				{
+						year: newSimpleData.dtend.value.year(), 
+						month: newSimpleData.dtend.value.month() + 1, 
+						day: newSimpleData.dtend.value.date(), 
+						hour: newSimpleData.dtend.value.hour(), 
+						minute: newSimpleData.dtend.value.minute(), 
+						second: newSimpleData.dtend.value.second(),
+ 					isDate: newSimpleData.allDay
+ 				},
+ 				endTz
+ 			);
+
+			//reset Moments to previous value of _isUTC 
+			newSimpleData.dtstart.value._isUTC = isUTC[0];
+			newSimpleData.dtend.value._isUTC = isUTC[1];
 
 			var availableTimezones = [];
 			var vtimezones = vevent.parent.getAllSubcomponents('vtimezone');
@@ -508,10 +542,9 @@ app.factory('SimpleEvent', function() {
 
 			var dtstart = new ICAL.Property('dtstart', vevent);
 			dtstart.setValue(start);
-			if (newSimpleData.dtstart.parameters.zone !== 'floating') {
+			if (start.zone.tzid !== 'UTC' && start.zone.tzid !== 'floating') {
 				dtstart.setParameter('tzid', newSimpleData.dtstart.parameters.zone);
-				var startTz = ICAL.TimezoneService.get(newSimpleData.dtstart.parameters.zone);
-				start.zone = startTz;
+			
 				if (availableTimezones.indexOf(newSimpleData.dtstart.parameters.zone) === -1) {
 					vevent.parent.addSubcomponent(startTz.component);
 					availableTimezones.push(newSimpleData.dtstart.parameters.zone);
@@ -520,10 +553,9 @@ app.factory('SimpleEvent', function() {
 
 			var dtend = new ICAL.Property('dtend', vevent);
 			dtend.setValue(end);
-			if (newSimpleData.dtend.parameters.zone !== 'floating') {
+			if (end.zone.tzid !== 'UTC' && end.zone.tzid !== 'floating') {
 				dtend.setParameter('tzid', newSimpleData.dtend.parameters.zone);
-				var endTz = ICAL.TimezoneService.get(newSimpleData.dtend.parameters.zone);
-				end.zone = endTz;
+				
 				if (availableTimezones.indexOf(newSimpleData.dtend.parameters.zone) === -1) {
 					vevent.parent.addSubcomponent(endTz.component);
 				}
