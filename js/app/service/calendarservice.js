@@ -580,11 +580,14 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 			simple.publishurl = props['{' + DavClient.NS_CALENDARSERVER + '}publish-url'][0].textContent;
 			simple.published = true;
 
-			let publicpath = (!window.location.toString().endsWith('/')) ? '/public/' : 'public/';
-			if (publicMode) {
-				simple.publicurl = window.location.toString();
-			} else {
-				simple.publicurl = window.location.toString() + publicpath + simple.publishurl.substr(simple.publishurl.lastIndexOf('/') + 1);
+			// Take care of urls ending with #
+			simple.publicurl = (window.location.toString().endsWith('#')) ? window.location.toString().slice(0, -1) : window.location.toString();
+
+			// Take care of urls ending with /
+			let publicpath = (!simple.publicurl.endsWith('/')) ? '/public/' : 'public/';
+
+			if (!publicMode) {
+				simple.publicurl += publicpath + simple.publishurl.substr(simple.publishurl.lastIndexOf('/') + 1);
 			}
 		}
 
