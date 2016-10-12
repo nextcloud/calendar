@@ -2,7 +2,7 @@
   "name": "Calendar",
   "dependencies": {
     "angular": "1.5.8",
-    "angular-bootstrap": "2.1.3",
+    "angular-bootstrap": "2.2.0",
     "jquery-timepicker": "883bb2cd94",
     "jstzdetect": "1.0.6",
     "ical.js": "1.2.2",
