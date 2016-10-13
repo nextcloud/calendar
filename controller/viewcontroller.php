@@ -269,7 +269,7 @@ class ViewController extends Controller {
 		}
 
 		$sendFromDomain = $this->config->getSystemValue('mail_domain', 'domain.org');
-		$sendFromAddress = $this->config->getSystemValue('mail_from_address', 'owncloud');
+		$sendFromAddress = $this->config->getSystemValue('mail_from_address', 'nextcloud');
 		$sendFrom = $sendFromAddress . '@' . $sendFromDomain;
 
 		$message = $this->mailer->createMessage();
