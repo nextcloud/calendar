@@ -138,9 +138,9 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 			MailerService.sendMail(item.email, item.calendar.publicurl, item.calendar.displayname).then(function (response) {
 				if (response.status === 200) {
 					item.email = '';
-					OC.Notification.showTemporary(t('calendar', 'Email has been correctly sent.'));
+					OC.Notification.showTemporary(t('calendar', 'EMail has been sent.'));
 				} else {
-					OC.Notification.showTemporary(t('calendar', 'There was an issue while sending your Email.'));
+					OC.Notification.showTemporary(t('calendar', 'There was an issue while sending your EMail.'));
 				}
 			});
 		};
