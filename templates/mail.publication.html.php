@@ -272,7 +272,7 @@
 													<table border="0" cellpadding="0" cellspacing="0">
 														<tbody>
 														<tr>
-															<td> <a href="<?php p($_['calendarurl']); ?>" target="_blank"><?php p($l->t('Click here to access it !')); ?></a> </td>
+															<td> <a href="<?php p($_['calendarurl']); ?>" target="_blank"><?php p($l->t('Click here to access it')); ?></a> </td>
 														</tr>
 														</tbody>
 													</table>
