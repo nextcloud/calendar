@@ -263,7 +263,7 @@
 											print_unescaped(str_replace(
 												['{boldstart}', '{boldend}'],
 												['<b>', '</b>'],
-												$l->t("We wanted to inform you that %s has publicly shared the calendar {boldstart}%s{boldend}.", [$_['username'], '<b>' . $_['calendarname'] . '</b>'])
+												$l->t("We wanted to inform you that %s has published the calendar {boldstart}%s{boldend}.", [$_['username'], '<b>' . $_['calendarname'] . '</b>'])
 											)); ?></p>
 										<table border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
 											<tbody>
