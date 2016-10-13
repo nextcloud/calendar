@@ -248,7 +248,7 @@ class ViewController extends Controller {
 
 		$emailTemplateHTML = new TemplateResponse('calendar', 'mail.publication.html', ['subject' => $subject, 'username' => $username, 'calendarname' => $name, 'calendarurl' => $url, 'defaults' => $this->defaults], 'public');
 		$bodyHTML = $emailTemplateHTML->render();
-		$emailTemplateText = new TemplateResponse('calendar', 'mail.publication.text', ['subject' => $subject, 'username' => $username, 'calendarname' => $name, 'calendarurl' => $url], 'public');
+		$emailTemplateText = new TemplateResponse('calendar', 'mail.publication.text', ['subject' => $subject, 'username' => $username, 'calendarname' => $name, 'calendarurl' => $url], 'blank');
 		$textBody = $emailTemplateText->render();
 
 		$status = $this->sendEmail($to, $subject, $bodyHTML, $textBody);
