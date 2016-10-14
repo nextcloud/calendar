@@ -37,6 +37,9 @@ app.factory('Calendar', function($window, Hook, VEventService, TimezoneService, 
 			context.fcEventSource.isRendering = true;
 			iface.emit(Calendar.hookFinishedRendering);
 
+			start = moment(start.stripZone().format());
+			end = moment(end.stripZone().format());
+
 			const TimezoneServicePromise = TimezoneService.get(timezone);
 			const VEventServicePromise = VEventService.getAll(iface, start, end);
 			Promise.all([TimezoneServicePromise, VEventServicePromise]).then(function(results) {

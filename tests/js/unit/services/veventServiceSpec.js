@@ -17,9 +17,13 @@ describe('VEventService', function () {
 		XMLUtility.getRootSkeleton = jasmine.createSpy();
 		XMLUtility.serialize = jasmine.createSpy();
 
-		VEvent = jasmine.createSpy().and.callFake(function() {
-			this.uri = arguments[3];
+		VEvent = {};
+		VEvent.fromRawICS = jasmine.createSpy().and.callFake(function() {
+			return {
+				uri: arguments[2]
+			};
 		});
+
 
 		OC.requestToken = 'requestToken42';
 
@@ -127,9 +131,9 @@ describe('VEventService', function () {
 			expect(result.length).toEqual(2);
 			expect(result[0].uri).toEqual('Nextcloud-m9qnwt85rkqpi5f4x8j2lnmil5llj7p1fbj3fsrmvtg74x6r.ics');
 			expect(result[1].uri).toEqual('Nextcloud-g123jhg13hgghasdgjhasjdghjgsdjasgd123gjjahsgdash.ics');
-			expect(VEvent.calls.count()).toEqual(2);
-			expect(VEvent.calls.argsFor(0)).toEqual([{url: 'calendar-url-123'}, 'fancy-ical-data-1', '"223c4ded836176fff47a23b820f63930"', 'Nextcloud-m9qnwt85rkqpi5f4x8j2lnmil5llj7p1fbj3fsrmvtg74x6r.ics']);
-			expect(VEvent.calls.argsFor(1)).toEqual([{url: 'calendar-url-123'}, 'fancy-ical-data-2', '"8769876sdfbsdf876asdasdas78d6987"', 'Nextcloud-g123jhg13hgghasdgjhasjdghjgsdjasgd123gjjahsgdash.ics']);
+			expect(VEvent.fromRawICS.calls.count()).toEqual(2);
+			expect(VEvent.fromRawICS.calls.argsFor(0)).toEqual([{url: 'calendar-url-123'}, 'fancy-ical-data-1', 'Nextcloud-m9qnwt85rkqpi5f4x8j2lnmil5llj7p1fbj3fsrmvtg74x6r.ics', '"223c4ded836176fff47a23b820f63930"']);
+			expect(VEvent.fromRawICS.calls.argsFor(1)).toEqual([{url: 'calendar-url-123'}, 'fancy-ical-data-2', 'Nextcloud-g123jhg13hgghasdgjhasjdghjgsdjasgd123gjjahsgdash.ics', '"8769876sdfbsdf876asdasdas78d6987"']);
 			called = true;
 		});
 		getAllRequest.catch(function() {
@@ -246,8 +250,8 @@ describe('VEventService', function () {
 		let called = false;
 		getRequest.then(function(result) {
 			expect(result.uri).toEqual('Nextcloud-m9qnwt85rkqpi5f4x8j2lnmil5llj7p1fbj3fsrmvtg74x6r.ics');
-			expect(VEvent.calls.count()).toEqual(1);
-			expect(VEvent.calls.argsFor(0)).toEqual([{url: 'calendar-url-123/'}, 'fancy-ical-data', '"223c4ded836176fff47a23b820f63930"', 'Nextcloud-m9qnwt85rkqpi5f4x8j2lnmil5llj7p1fbj3fsrmvtg74x6r.ics']);
+			expect(VEvent.fromRawICS.calls.count()).toEqual(1);
+			expect(VEvent.fromRawICS.calls.argsFor(0)).toEqual([{url: 'calendar-url-123/'}, 'fancy-ical-data', 'Nextcloud-m9qnwt85rkqpi5f4x8j2lnmil5llj7p1fbj3fsrmvtg74x6r.ics', '"223c4ded836176fff47a23b820f63930"']);
 
 			called = true;
 		});
@@ -381,8 +385,8 @@ describe('VEventService', function () {
 		let called = false;
 		createRequest.then(function(result) {
 			expect(result.uri).toEqual('awesome-uid');
-			expect(VEvent.calls.count()).toEqual(1);
-			expect(VEvent.calls.argsFor(0)).toEqual([{url: 'calendar-url-123/'}, 'fancy-ical-data', '"223c4ded836176fff47a23b820f63930"', 'awesome-uid']);
+			expect(VEvent.fromRawICS.calls.count()).toEqual(1);
+			expect(VEvent.fromRawICS.calls.argsFor(0)).toEqual([{url: 'calendar-url-123/'}, 'fancy-ical-data', 'awesome-uid', '"223c4ded836176fff47a23b820f63930"']);
 
 			called = true;
 		});

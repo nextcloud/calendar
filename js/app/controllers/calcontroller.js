@@ -199,7 +199,7 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 						});
 					}).then(function(result) {
 						createAndRenderEvent(result.calendar, result.vevent.data, view.start, view.end, $scope.defaulttimezone);
-					}).catch(function() {
+					}).catch(function(reason) {
 						//fcEvent is removed by unlock callback
 						//no need to anything
 						return null;
