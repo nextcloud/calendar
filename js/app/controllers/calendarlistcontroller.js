@@ -26,8 +26,8 @@
 * Description: Takes care of CalendarList in App Navigation.
 */
 
-app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'CalendarService', 'WebCalService', 'is', 'CalendarListItem', 'Calendar', 'ColorUtility',
-	function ($scope, $rootScope, $window, CalendarService, WebCalService, is, CalendarListItem, Calendar, ColorUtility) {
+app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'CalendarService', 'WebCalService', 'is', 'CalendarListItem', 'Calendar', 'MailerService', 'ColorUtility',
+	function ($scope, $rootScope, $window, CalendarService, WebCalService, is, CalendarListItem, Calendar, MailerService, ColorUtility) {
 		'use strict';
 
 		$scope.calendarListItems = [];
@@ -38,6 +38,10 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 		$scope.subscription = {};
 		$scope.subscription.newSubscriptionUrl = '';
 		$scope.subscription.newSubscriptionLocked = false;
+		$scope.publicdav = 'CalDAV';
+		$scope.publicdavdesc = t('calendar', 'CalDAV address for clients');
+
+		window.scope = $scope;
 
 		$scope.$watchCollection('calendars', function(newCalendars, oldCalendars) {
 			newCalendars = newCalendars || [];
@@ -49,6 +53,7 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 				const item = CalendarListItem(calendar);
 				if (item) {
 					$scope.calendarListItems.push(item);
+					$scope.publicdavurl = $scope.$parent.calendars[0].caldav;
 					calendar.register(Calendar.hookFinishedRendering, function() {
 						if (!$scope.$$phase) {
 							$scope.$apply();
@@ -106,8 +111,68 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 			$window.open(item.calendar.downloadUrl);
 		};
 
+		$scope.integration = function (item) {
+			return '<iframe width="400" height="215" src="' + item.calendar.publicurl + '"></iframe>';
+		};
+
+		$scope.$watch('publicdav', function (newvalue) {
+			if ($scope.$parent.calendars[0]) {
+				if (newvalue === 'CalDAV') { // CalDAV address
+					$scope.publicdavurl = $scope.$parent.calendars[0].caldav;
+					$scope.publicdavdesc = t('calendar', 'CalDAV address for clients');
+				} else { // WebDAV address
+					var url = $scope.$parent.calendars[0].url;
+					// cut off last slash to have a fancy name for the ics
+					if (url.slice(url.length - 1) === '/') {
+						url = url.slice(0, url.length - 1);
+					}
+					url += '?export';
+					$scope.publicdavurl = $window.location.origin + url;
+					$scope.publicdavdesc = t('calendar', 'WebDAV address for subscriptions');
+				}
+			}
+		});
+
+		$scope.sendMail = function (item) {
+			item.toggleSendingMail();
+			MailerService.sendMail(item.email, item.calendar.publicurl, item.calendar.displayname).then(function (response) {
+				if (response.status === 200) {
+					item.email = '';
+					OC.Notification.showTemporary(t('calendar', 'EMail has been sent.'));
+				} else {
+					OC.Notification.showTemporary(t('calendar', 'There was an issue while sending your EMail.'));
+				}
+			});
+		};
+
+		$scope.goPublic = function (item) {
+			$window.open(item.calendar.publicurl);
+		};
+
 		$scope.toggleSharesEditor = function (calendar) {
 			calendar.toggleSharesEditor();
+		};
+
+		$scope.togglePublish = function(item) {
+			if (item.calendar.published) {
+				CalendarService.publish(item.calendar).then(function (response) {
+					if (response) {
+						CalendarService.get(item.calendar.url).then(function (calendar) {
+							item.calendar.publishurl = calendar.publishurl;
+							item.calendar.publicurl = calendar.publicurl;
+							item.calendar.published = true;
+						});
+					}
+					$scope.$apply();
+				});
+			} else {
+				CalendarService.unpublish(item.calendar).then(function (response) {
+					if (response) {
+						item.calendar.published = false;
+					}
+					$scope.$apply();
+				});
+			}
 		};
 
 		$scope.prepareUpdate = function (calendar) {

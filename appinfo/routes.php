@@ -25,6 +25,9 @@ return [
 	'routes' => [
 		//Main view
 		['name' => 'view#index', 'url' => '/', 'verb' => 'GET'],
+		['name' => 'view#public_index', 'url' => '/public/{calendarid}', 'verb' => 'GET'],
+		// Tools
+		['name' => 'view#sendEmailPublicLink', 'url' => '/v1/public/sendmail', 'verb' => 'POST'],
 		//Timezones
 		['name' => 'view#get_timezone', 'url' => '/v1/timezones/{id}', 'verb' => 'GET'],
 		['name' => 'view#get_timezone_with_region', 'url' => '/v1/timezones/{region}/{city}', 'verb' => 'GET'],

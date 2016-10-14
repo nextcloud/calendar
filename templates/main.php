@@ -21,6 +21,15 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
+ /* OpenGraph */
+if($_['isPublic']) {
+	OCP\Util::addHeader('meta', ['property' => "og:title", 'content' => $theme->getName() . ' - ' . $theme->getSlogan()]);
+	OCP\Util::addHeader('meta', ['property' => "og:site_name", 'content' => $theme->getName()]);
+	OCP\Util::addHeader('meta', ['property' => "og:url", 'content' => $_['shareURL']]);
+	OCP\Util::addHeader('meta', ['property' => "og:type", 'content' => "object"]);
+	OCP\Util::addHeader('meta', ['property' => "og:image", 'content' => $_['previewImage']]);
+}
 $styles = [
 	'../js/vendor/fullcalendar/dist/fullcalendar',
 	'../js/vendor/jquery-timepicker/jquery.ui.timepicker',
@@ -59,6 +68,7 @@ foreach ($scripts as $script) {
 			<?php print_unescaped($this->inc('part.buttonarea')); ?>
 			<div class="clear-both"></div>
 		</div>
+		<?php if(!$_['isPublic']): ?>
 		<div ng-controller="CalendarListController" ng-cloak>
 			<div id="scrollable">
 				<?php print_unescaped($this->inc('part.createcalendar')); ?>
@@ -74,6 +84,11 @@ foreach ($scripts as $script) {
 				<?php print_unescaped($this->inc('part.settings')); ?>
 			</div>
 		</div>
+		<?php else: ?>
+		<div ng-controller="CalendarListController" id="publicinformationscontainer">
+			<?php print_unescaped($this->inc('part.publicinformations')); ?>
+		</div>
+		<?php endif; ?>
 	</div>
 
 	<!-- The Calendar on the right -->
@@ -82,7 +97,9 @@ foreach ($scripts as $script) {
 	</div>
 
 	<div id="popover-container"></div>
+	<?php if(!$_['isPublic']): ?>
 	<div id="importpopover-container"></div>
+	<?php endif; ?>
 
 	<script type="text/ng-template" id="eventspopovereditor.html">
 		<?php print_unescaped($this->inc('editor.popover')); ?>
@@ -92,7 +109,9 @@ foreach ($scripts as $script) {
 		<?php print_unescaped($this->inc('editor.sidebar')); ?>
 	</script>
 
+	<?php if(!$_['isPublic']): ?>
 	<script type="text/ng-template" id="import.html">
 		<?php print_unescaped($this->inc('part.import.dialog')); ?>
 	</script>
+	<?php endif; ?>
 </div>

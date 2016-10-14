@@ -39,7 +39,9 @@ describe('CalendarListController', function() {
 				get: function() {},
 				create: function() {},
 				update: function() {},
-				delete: function() {}
+				delete: function() {},
+				publish: function() {},
+				unpublish: function() {}
 			};
 			Calendar = function() {
 				return {
@@ -86,6 +88,44 @@ describe('CalendarListController', function() {
 
 		$scope.remove(calendarItem);
 		expect(CalendarService.delete).toHaveBeenCalledWith(calendarToDelete);
+	});
+
+	it ('should publish the selected calendar', function () {
+		spyOn(CalendarService, 'publish').and.returnValue(deferred.promise);
+
+		controller = controller('CalendarListController', {
+			$scope: $scope,
+			CalendarService: CalendarService
+		});
+
+		var calendarToPublish = {
+			published: true
+		};
+		var calendarItem = {
+			calendar: calendarToPublish
+		};
+
+		$scope.togglePublish(calendarItem);
+		expect(CalendarService.publish).toHaveBeenCalledWith(calendarToPublish);
+	});
+
+	it ('should unpublish the selected calendar', function () {
+		spyOn(CalendarService, 'unpublish').and.returnValue(deferred.promise);
+
+		controller = controller('CalendarListController', {
+			$scope: $scope,
+			CalendarService: CalendarService
+		});
+
+		var calendarToUnPublish = {
+			published: false
+		};
+		var calendarItem = {
+			calendar: calendarToUnPublish
+		};
+
+		$scope.togglePublish(calendarItem);
+		expect(CalendarService.unpublish).toHaveBeenCalledWith(calendarToUnPublish);
 	});
 
 	afterEach(function() {

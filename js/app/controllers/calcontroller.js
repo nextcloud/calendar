@@ -26,8 +26,8 @@
 * Description: The fullcalendar controller.
 */
 
-app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'VEvent', 'is', 'fc', 'EventsEditorDialogService', 'PopoverPositioningUtility',
-	function ($scope, Calendar, CalendarService, VEventService, SettingsService, TimezoneService, VEvent, is, fc, EventsEditorDialogService, PopoverPositioningUtility) {
+app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'VEvent', 'is', 'fc', 'EventsEditorDialogService', 'PopoverPositioningUtility', '$window',
+	function ($scope, Calendar, CalendarService, VEventService, SettingsService, TimezoneService, VEvent, is, fc, EventsEditorDialogService, PopoverPositioningUtility, $window) {
 		'use strict';
 
 		is.loading = true;
@@ -126,12 +126,25 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 			$scope.uiConfig.calendar.timezone = 'UTC';
 		});
 
-		CalendarService.getAll().then(function(calendars) {
-			$scope.calendars = calendars;
-			is.loading = false;
-			// TODO - scope.apply should not be necessary here
-			$scope.$apply();
-		});
+		const isPublic = (angular.element('#fullcalendar').attr('data-isPublic') === '1');
+		if (!isPublic) {
+			CalendarService.getAll().then(function (calendars) {
+				$scope.calendars = calendars;
+				is.loading = false;
+				// TODO - scope.apply should not be necessary here
+				$scope.$apply();
+			});
+		} else {
+			const url = $window.location.toString();
+			var token = url.substr(url.lastIndexOf('/') + 1);
+
+			CalendarService.getPublicCalendar(token).then(function(calendar) {
+				$scope.calendars = [calendar];
+				is.loading = false;
+				// TODO - scope.apply should not be necessary here
+				$scope.$apply();
+			});
+		}
 
 
 		/**
@@ -145,7 +158,9 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 					});
 
 					if (writableCalendars.length === 0) {
-						OC.Notification.showTemporary(t('calendar', 'Please create a calendar first.'));
+						if (!isPublic) {
+							OC.Notification.showTemporary(t('calendar', 'Please create a calendar first.'));
+						}
 						return;
 					}
 

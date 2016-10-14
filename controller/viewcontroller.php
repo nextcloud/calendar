@@ -24,15 +24,26 @@
 namespace OCA\Calendar\Controller;
 
 use OC\AppFramework\Http;
+use OC\L10N\L10N;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\DataDisplayResponse;
+use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IUserSession;
+use OCP\Mail\IMailer;
+use OCP\IURLGenerator;
 
 class ViewController extends Controller {
+
+	/**
+	 * @var IURLGenerator
+	 */
+	private $urlGenerator;
 
 	/**
 	 * @var IConfig
@@ -45,16 +56,39 @@ class ViewController extends Controller {
 	private $userSession;
 
 	/**
+	 * @var IMailer
+	 */
+	private $mailer;
+
+	/**
+	 * @var L10N
+	 */
+	private $l10n;
+
+	/**
+	 * @var Defaults
+	 */
+	private $defaults;
+
+	/**
 	 * @param string $appName
 	 * @param IRequest $request an instance of the request
 	 * @param IUserSession $userSession
 	 * @param IConfig $config
+	 * @param IMailer $mailer
+	 * @param L10N $l10N
+	 * @param Defaults $defaults
+	 * @param IURLGenerator $urlGenerator
 	 */
 	public function __construct($appName, IRequest $request,
-								IUserSession $userSession, IConfig $config) {
+								IUserSession $userSession, IConfig $config, IMailer $mailer, L10N $l10N, Defaults $defaults, IURLGenerator $urlGenerator) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->userSession = $userSession;
+		$this->mailer = $mailer;
+		$this->l10n = $l10N;
+		$this->defaults = $defaults;
+		$this->urlGenerator = $urlGenerator;
 	}
 
 	/**
@@ -84,9 +118,9 @@ class ViewController extends Controller {
 		$skipPopover = $this->config->getUserValue($userId, $this->appName, 'skipPopover', 'no');
 		$weekNumbers = $this->config->getUserValue($userId, $this->appName, 'showWeekNr', 'no');
 		$defaultColor = $this->config->getAppValue('theming', 'color', '#0082C9');
-
-		$webCalWorkaround = $runningOnNextcloud10OrLater ? 'no' : 'yes';
 		
+		$webCalWorkaround = $runningOnNextcloud10OrLater ? 'no' : 'yes';
+
 		return new TemplateResponse('calendar', 'main', [
 			'appVersion' => $appVersion,
 			'defaultView' => $defaultView,
@@ -96,14 +130,52 @@ class ViewController extends Controller {
 			'supportsClass' => $supportsClass,
 			'defaultColor' => $defaultColor,
 			'webCalWorkaround' => $webCalWorkaround,
+			'isPublic' => false,
 		]);
+	}
+
+	/**
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 *
+	 * @return TemplateResponse
+	 */
+	public function publicIndex() {
+		$runningOn = $this->config->getSystemValue('version');
+		$runningOnServer91OrLater = version_compare($runningOn, '9.1', '>=');
+
+		$supportsClass = $runningOnServer91OrLater;
+		$assetPipelineBroken = !$runningOnServer91OrLater;
+
+		$isAssetPipelineEnabled = $this->config->getSystemValue('asset-pipeline.enabled', false);
+		if ($isAssetPipelineEnabled && $assetPipelineBroken) {
+			return new TemplateResponse('calendar', 'main-asset-pipeline-unsupported');
+		}
+
+		$appVersion = $this->config->getAppValue($this->appName, 'installed_version');
+
+		$response = new TemplateResponse('calendar', 'main', [
+			'appVersion' => $appVersion,
+			'defaultView' => 'month',
+			'emailAddress' => '',
+			'supportsClass' => $supportsClass,
+			'isPublic' => true,
+			'shareURL' => $this->request->getServerProtocol() . '://' . $this->request->getServerHost() . $this->request->getRequestUri(),
+			'previewImage' => $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'favicon-touch.png')),
+		], 'public');
+		$response->addHeader('X-Frame-Options', 'ALLOW');
+		$csp = new ContentSecurityPolicy();
+		$csp->addAllowedScriptDomain('*');
+		$response->setContentSecurityPolicy($csp);
+
+		return $response;
 	}
 
 	/**
 	 * @NoAdminRequired
 	 *
 	 * @param string $id
-	 * @return DataDisplayResponse
+	 * @return NotFoundResponse|DataDisplayResponse
 	 */
 	public function getTimezone($id) {
 		if (!in_array($id, $this->getTimezoneList())) {
@@ -120,6 +192,8 @@ class ViewController extends Controller {
 
 	/**
 	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 * @PublicPage
 	 *
 	 * @param $region
 	 * @param $city
@@ -132,6 +206,8 @@ class ViewController extends Controller {
 
 	/**
 	 * @NoAdminRequired
+	 * @PublicPage
+	 * @NoCSRFRequired
 	 *
 	 * @param $region
 	 * @param $subregion
@@ -154,5 +230,56 @@ class ViewController extends Controller {
 		return array_values(array_filter($allFiles, function($file) {
 			return (substr($file, -4) === '.ics');
 		}));
+	}
+
+	/**
+	 * @param string $to
+	 * @param string $url
+	 * @param string $name
+	 * @return JSONResponse
+	 * @NoAdminRequired
+	 */
+	public function sendEmailPublicLink($to, $url, $name) {
+
+		$user = $this->userSession->getUser();
+		$username = $user->getDisplayName();
+
+		$subject = $this->l10n->t('%s has published the calendar "%s"', [$username, $name]);
+
+		$emailTemplateHTML = new TemplateResponse('calendar', 'mail.publication.html', ['subject' => $subject, 'username' => $username, 'calendarname' => $name, 'calendarurl' => $url, 'defaults' => $this->defaults], 'public');
+		$bodyHTML = $emailTemplateHTML->render();
+		$emailTemplateText = new TemplateResponse('calendar', 'mail.publication.text', ['subject' => $subject, 'username' => $username, 'calendarname' => $name, 'calendarurl' => $url], 'blank');
+		$textBody = $emailTemplateText->render();
+
+		$status = $this->sendEmail($to, $subject, $bodyHTML, $textBody);
+
+		return new JSONResponse([], $status);
+	}
+
+	/**
+	 * @param string $target
+	 * @param string $subject
+	 * @param string $body
+	 * @param string $textBody
+	 * @return int
+	 */
+	private function sendEmail($target, $subject, $body, $textBody) {
+		if (!$this->mailer->validateMailAddress($target)) {
+			return Http::STATUS_BAD_REQUEST;
+		}
+
+		$sendFromDomain = $this->config->getSystemValue('mail_domain', 'domain.org');
+		$sendFromAddress = $this->config->getSystemValue('mail_from_address', 'nextcloud');
+		$sendFrom = $sendFromAddress . '@' . $sendFromDomain;
+
+		$message = $this->mailer->createMessage();
+		$message->setSubject($subject);
+		$message->setFrom([$sendFrom => $this->defaults->getName()]);
+		$message->setTo([$target => 'Recipient']);
+		$message->setPlainBody($textBody);
+		$message->setHtmlBody($body);
+		$this->mailer->send($message);
+
+		return Http::STATUS_OK;
 	}
 }

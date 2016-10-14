@@ -1,10 +1,9 @@
-<?php
 /**
- * Calendar App
+ * ownCloud - Calendar App
  *
  * @author Raghu Nayyar
  * @author Georg Ehrke
- * @copyright 2016 Raghu Nayyar <hey@raghunayyar.com>
+ * @copyright 2016 Raghu Nayyar <beingminimal@gmail.com>
  * @copyright 2016 Georg Ehrke <oc.list@georgehrke.com>
  *
  * This library is free software; you can redistribute it and/or
@@ -21,17 +20,22 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-?>
-<div
-	class="calendar"
-	data-appVersion="<?php p($_['appVersion']); ?>"
-	data-defaultColor="<?php p($_['defaultColor']); ?>"
-	data-defaultView="<?php p($_['defaultView']); ?>"
-	data-emailAddress="<?php p($_['emailAddress']); ?>"
-	data-skipPopover="<?php p($_['skipPopover']); ?>"
-	data-weekNumbers="<?php p($_['weekNumbers']); ?>"
-	data-webCalWorkaround="<?php p($_['webCalWorkaround']); ?>"
-	data-isPublic="<?php p($_['isPublic'] ? '1' : '0'); ?>"
-	fc
-	id="fullcalendar">
-</div>
+
+app.service('MailerService', ['$rootScope', 'DavClient',
+	function ($rootScope, DavClient) {
+		'use strict';
+
+		this.sendMail = function (dest, url, name) {
+			var headers = {
+				'Content-Type' : 'application/json; charset=utf-8',
+				requesttoken : oc_requesttoken
+			};
+			var mailBody = {
+				'to': dest,
+				'url': url,
+				'name': name
+			};
+			return DavClient.request('POST', $rootScope.baseUrl + 'public/sendmail', headers, JSON.stringify(mailBody));
+		};
+	}
+]);

@@ -81,11 +81,13 @@ app.constant('fc', {})
 				fc.elm.fullCalendar('option', 'height', newHeight);
 			});
 
+			const isPublic = (attrs.ispublic === '1');
+
 			const baseConfig = {
 				dayNames: dayNames,
 				dayNamesShort: dayNamesShort,
 				defaultView: attrs.defaultview,
-				editable: true,
+				editable: !isPublic,
 				eventLimit: true,
 				firstDay: firstDay,
 				header: false,
@@ -94,9 +96,9 @@ app.constant('fc', {})
 				monthNames: monthNames,
 				monthNamesShort: monthNamesShort,
 				nowIndicator: true,
-				selectable: true,
 				weekNumbers: (attrs.weeknumbers === 'yes'),
 				weekNumbersWithinDays: true,
+				selectable: !isPublic
 			};
 			const controllerConfig = scope.$parent.fcConfig;
 			const config = angular.extend({}, baseConfig, controllerConfig);

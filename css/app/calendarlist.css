@@ -99,7 +99,8 @@
 	width: 100%;
 }
 
-#app-navigation .app-navigation-list-item .calendarCheckbox {
+#app-navigation .app-navigation-list-item .calendarCheckbox,
+#publicinformationscontainer .calendarCheckbox {
 	position: absolute;
 	margin-left: 17px;
 	margin-top: 16px;
@@ -133,7 +134,7 @@
 	opacity: .7 !important;
 }
 
-#app-navigation .app-navigation-list-item .utils .action:hover span {
+#app-navigation .app-navigation-list-item .utils .action span:hover {
 	opacity: 1;
 }
 
@@ -157,7 +158,7 @@
 }
 
 #app-navigation .app-navigation-list-item > a.calendar-list-cut-name {
-	padding: 0 106px 0 44px !important;
+	padding: 0 107px 0 44px !important;
 }
 
 #app-navigation .app-navigation-list-item .editfieldset {
@@ -311,6 +312,101 @@
 /* Spacing */
 #spacer {
 	height: 44px;
+}
+
+/* Public */
+
+#app-navigation .davbuttons {
+	width: 100%;
+	height: 44px;
+}
+
+#app-navigation .davbuttons .button {
+	font-weight: normal;
+	padding: 8px;
+	width: 48%;
+}
+
+#app-navigation .davbuttons .button.first {
+	margin-left: 5px;
+	-webkit-border-radius: 3px 0 0 3px;
+	-ms-border-radius: 3px 0 0 3px;
+	border-radius: 3px 0 0 3px;
+}
+
+#app-navigation .davbuttons .button.last {
+	margin-left: -8px;
+	-webkit-border-radius: 0 3px 3px 0;
+	-moz-border-radius: 0 3px 3px 0;
+	-ms-border-radius: 0 3px 3px 0;
+	border-radius: 0 3px 3px 0;
+}
+
+.public-calendar-name {
+	font-size: 20px;
+	padding: 5px;
+	border-radius: 5px;
+	margin: 5px auto;
+}
+
+input.public-linkinput {
+	width: 94%;
+	margin: 6px auto;
+}
+
+#publicinformationscontainer .displayname {
+	padding-left: 44px !important;
+}
+
+#publicinformationscontainer .calendarCheckbox {
+	cursor: default;
+	margin-top: 5px;
+}
+
+.public-ics-download {
+	width: 100%;
+	display: block;
+	height: 25px;
+	font-weight: 300;
+	font-size: 14px;
+	cursor: pointer;
+	z-index: 10;
+	padding: 7px 0 0;
+	text-align: center;
+	background-color: rgba(240, 240, 240, .9);
+	border: 1px solid rgba(240, 240, 240, .9);
+	background-position: 5%;
+	border-radius: 3px;
+	margin: 7px auto;
+}
+
+.integration-code {
+	width: 93%;
+	height: 100px;
+	margin: 5px auto;
+}
+
+.public-left-side {
+	margin: 100px 10px auto;
+}
+
+/* Publishing */
+.publishing {
+	margin: auto 10px;
+}
+
+.publication-tools {
+	cursor: pointer;
+	margin: 5px auto auto 5px;
+}
+
+input.mailerInput {
+	width: 94%;
+}
+
+.mailerInput + button {
+	width: 100%;
+	padding: 6px;
 }
 
 /* Calendar Sharing */
