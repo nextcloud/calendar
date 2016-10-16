@@ -255,7 +255,7 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 				// Combine users and groups
 				users = users.map(function(item){
 					return {
-						display: item.value.shareWith,
+						display: item.label,
 						type: OC.Share.SHARE_TYPE_USER,
 						identifier: item.value.shareWith
 					};
@@ -263,7 +263,7 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 
 				groups = groups.map(function(item){
 					return {
-						display: item.value.shareWith + ' (group)',
+						display: item.label + ' (' + t('calendar', 'group') + ')',
 						type: OC.Share.SHARE_TYPE_GROUP,
 						identifier: item.value.shareWith
 					};

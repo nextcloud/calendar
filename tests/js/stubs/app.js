@@ -27,6 +27,11 @@ window.app = angular.module('Calendar', [
 
 window.OC = {
 
+	Share: {
+		SHARE_TYPE_USER: 42,
+		SHARE_TYPE_GROUP: 1337
+	},
+
     linkToRemote: function (url) {
         'use strict';
 
@@ -42,6 +47,9 @@ escapeHTML = function () {
 };
 
 oc_current_user = 'user';
+oc_requesttoken = 'requestToken42';
+
+
 
 function t(app, text, vars, count, options) {
 	'use strict';
@@ -49,5 +57,4 @@ function t(app, text, vars, count, options) {
 	return text;
 }
 
-//TODO - properly mock moment in the future
 moment.locale('en');

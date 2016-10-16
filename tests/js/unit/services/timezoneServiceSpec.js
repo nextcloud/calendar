@@ -65,6 +65,6 @@ describe('Timezone Service', function () {
 
 		window.setTimeout(function() {
 			expect(called).toBe(true);
-		}, 100);
+		}, 1000);
 	});
 });
