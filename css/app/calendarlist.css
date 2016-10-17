@@ -310,7 +310,8 @@
 	transition: 200ms margin ease-in-out;
 }
 
-#datepickercontainer.active + div#calendarlistcontainer #scrollable {
+#datepickercontainer.active + div#calendarlistcontainer #scrollable,
+#datepickercontainer.active + div#publicinformationscontainer #scrollable {
 	margin-top: 185px;
 }
 
