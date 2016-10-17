@@ -315,6 +315,17 @@
 	margin-top: 185px;
 }
 
+#datepicker-ng-show-container {
+	display: block !important;
+	height: 185px;
+	overflow: hidden;
+	transition: 200ms ease-in-out all;
+}
+
+#datepicker-ng-show-container.ng-hide {
+	height: 0;
+}
+
 /* Spacing */
 #spacer {
 	height: 44px;
