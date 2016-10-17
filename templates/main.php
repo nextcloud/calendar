@@ -69,7 +69,7 @@ foreach ($scripts as $script) {
 			<div class="clear-both"></div>
 		</div>
 		<?php if(!$_['isPublic']): ?>
-		<div ng-controller="CalendarListController" ng-cloak>
+		<div ng-controller="CalendarListController" id="calendarlistcontainer" ng-cloak>
 			<div id="scrollable">
 				<?php print_unescaped($this->inc('part.createcalendar')); ?>
 				<?php print_unescaped($this->inc('part.calendarlist')); ?>
