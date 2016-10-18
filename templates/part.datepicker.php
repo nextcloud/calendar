@@ -33,7 +33,7 @@
 		<i class="glyphicon glyphicon-chevron-right"></i>
 	</button>
 </div>
-<div ng-show="visibility">
+<div id="datepicker-ng-show-container" class="ng-hide" ng-show="visibility">
 	<div
 		ng-model="dt"
 		id="datepicker"

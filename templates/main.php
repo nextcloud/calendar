@@ -63,13 +63,14 @@ foreach ($scripts as $script) {
 	<!-- The Left Calendar Navigation -->
 	<div id="app-navigation">
 
-		<div ng-controller="DatePickerController" id="datepickercontainer">
+		<div ng-controller="DatePickerController" id="datepickercontainer" ng-class="{active: visibility}">
 			<?php print_unescaped($this->inc('part.datepicker')); ?>
 			<?php print_unescaped($this->inc('part.buttonarea')); ?>
 			<div class="clear-both"></div>
 		</div>
+
 		<?php if(!$_['isPublic']): ?>
-		<div ng-controller="CalendarListController" ng-cloak>
+		<div ng-controller="CalendarListController" id="calendarlistcontainer" ng-cloak>
 			<div id="scrollable">
 				<?php print_unescaped($this->inc('part.createcalendar')); ?>
 				<?php print_unescaped($this->inc('part.calendarlist')); ?>
