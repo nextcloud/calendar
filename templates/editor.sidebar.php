@@ -30,6 +30,7 @@
 					</div>
 					<div class="advanced--checkbox pull-left pull-half">
 						<input type="checkbox" name="alldayeventcheckbox"
+							   class="checkbox"
 							   ng-model="properties.allDay"
 							   id="alldayeventcheckbox" class="event-checkbox"
 							   ng-change="toggledAllDay()"/>
