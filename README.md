@@ -69,5 +69,6 @@ Just clone this repo into your apps directory (Nextcloud server installation nee
 
 Once node and npm are installed, PHP and JavaScript dependencies can be installed by running
 ```bash
-make
+$ make
 ```
+Please execute this command with your ordinary user account and neither root nor sudo.
