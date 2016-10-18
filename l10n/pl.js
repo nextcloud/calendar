@@ -14,6 +14,7 @@ OC.L10N.register(
     "Please create a calendar first." : "Proszę najpierw stworzyć kalendarz.",
     "New event" : "Nowe zdarzenie",
     "Error saving WebCal-calendar" : "Błąd podczas zapisywania kalendarza WebCal",
+    "Details" : "Szczegóły",
     "Attendees" : "Uczestnicy",
     "Reminders" : "Przypomnienia",
     "Repeating" : "Powtarzające się",
