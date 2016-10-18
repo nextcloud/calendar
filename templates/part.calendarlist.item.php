@@ -166,6 +166,7 @@
 			{{ userShare.displayname }} -
 			<input id="checkbox_sharedWithUser_{{ $parent.$index }}_{{ $id }}"
 				   name="editable"
+				   class="checkbox"
 				   ng-change="updateExistingUserShare(item.calendar, userShare.id, userShare.writable)"
 				   ng-model="userShare.writable"
 				   type="checkbox"
@@ -189,6 +190,7 @@
 			{{ groupShare.displayname }} (<?php p($l->t('group')); ?>) -
 			<input id="checkbox_sharedWithGroup_{{ $parent.$index }}_{{ $id }}"
 				   name="editable"
+				   class="checkbox"
 				   ng-change="updateExistingGroupShare(item.calendar, groupShare.id, groupShare.writable)"
 				   ng-model="groupShare.writable"
 				   type="checkbox"
