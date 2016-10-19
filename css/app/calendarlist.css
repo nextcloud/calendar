@@ -493,6 +493,13 @@ ul.dropdown-menu li > a:hover {
 	border-bottom: none;
 }
 
+/* border styles for grid, highlight full-hour horizontal lines */
+.fc-unthemed tr td {
+	border-top-color: #eee;
+}
+.fc-unthemed tr:nth-child(even) td {
+	border-top-color: #f8f8f8;
+}
 .fc-unthemed th,
 .fc-unthemed td,
 .fc-unthemed thead,
