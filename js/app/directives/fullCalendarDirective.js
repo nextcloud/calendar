@@ -90,6 +90,7 @@ app.constant('fc', {})
 				editable: !isPublic,
 				eventLimit: true,
 				firstDay: firstDay,
+				forceEventDuration: true,
 				header: false,
 				height: windowElement.height() - headerSize,
 				locale: moment.locale(),
