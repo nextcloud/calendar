@@ -88,7 +88,6 @@ app.constant('fc', {})
 				dayNamesShort: dayNamesShort,
 				defaultView: attrs.defaultview,
 				editable: !isPublic,
-				eventLimit: true,
 				firstDay: firstDay,
 				header: false,
 				height: windowElement.height() - headerSize,
