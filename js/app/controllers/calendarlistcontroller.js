@@ -307,13 +307,16 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ha
 		};
 
 		$scope.remove = function (item) {
-			item.calendar.delete().then(function() {
-				$scope.$parent.calendars = $scope.$parent.calendars.filter(function(elem) {
-					return elem !== item.calendar;
+			item.delete().then(function() {
+				item.calendar.delete().then(function() {
+					$scope.$parent.calendars = $scope.$parent.calendars.filter(function (elem) {
+						return elem !== item.calendar;
+					});
+					if (!$scope.$$phase) {
+						$scope.$apply();
+					}
+					return true;
 				});
-				if (!$scope.$$phase) {
-					$scope.$apply();
-				}
 			});
 		};
 

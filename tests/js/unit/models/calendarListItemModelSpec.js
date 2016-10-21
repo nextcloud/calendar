@@ -1,7 +1,7 @@
 describe('The calendarListItem factory', function () {
 	'use strict';
 
-	var CalendarListItem, Calendar, WebCal;
+	var CalendarListItem, Calendar, WebCal, $timeout, $rootScope;
 
 	beforeEach(module('Calendar', function($provide) {
 		Calendar = {};
@@ -10,13 +10,25 @@ describe('The calendarListItem factory', function () {
 		WebCal = {};
 		WebCal.isCalendar = jasmine.createSpy().and.returnValue(true);
 
+		OC.Notification = {};
+		OC.Notification.hide = jasmine.createSpy();
+		OC.Notification.showTemporary = jasmine.createSpy();
+
 		$provide.value('Calendar', Calendar);
 		$provide.value('WebCal', WebCal);
 		$provide.value('isSharingAPI', null);
 	}));
 
-	beforeEach(inject(function(_CalendarListItem_) {
+	beforeEach(inject(function(_CalendarListItem_, $q, _$timeout_, _$rootScope_) {
 		CalendarListItem = _CalendarListItem_;
+		$timeout = _$timeout_;
+		$rootScope = _$rootScope_;
+
+		// mixing ES6 Promises and $q ain't no good
+		// ES6 Promises will be replaced with $q for the unit tests
+		if (window.Promise !== $q) {
+			window.Promise = $q;
+		}
 	}));
 
 	it('should have certain exposed properties', function() {
@@ -222,6 +234,73 @@ describe('The calendarListItem factory', function () {
 
 		var item = CalendarListItem({});
 		expect(CalendarListItem.isCalendarListItem(item)).toBe(true);
+	});
+
+	it('should resolve the delete promise after 7.5s when not cancelled', function() {
+		let called = false;
+		const item = CalendarListItem({});
+
+		const elm = angular.element('<div/>');
+		const elms = [elm];
+
+		OC.Notification.showTemporary.and.returnValue(elms);
+
+		const promise = item.delete();
+
+		expect(OC.Notification.showTemporary.calls.count()).toEqual(1);
+		expect(OC.Notification.showTemporary.calls.argsFor(0)[0].html()).toEqual('<strong>{calendarname}</strong> has been deleted. <strong>Undo?</strong>');
+		expect(OC.Notification.showTemporary.calls.argsFor(0)[1]).toEqual({isHTML: true});
+
+		$timeout.flush(7499);
+		expect(promise.$$state.status).toEqual(0);
+
+		promise.then(function() {
+			called = true;
+		}).catch(function() {
+			fail();
+		});
+
+		$timeout.flush(1);
+		expect(promise.$$state.status).toEqual(1);
+		expect(called).toEqual(true);
+	});
+
+	it('should reject the delete promise when cancelled by the user', function() {
+		let called = false;
+		const item = CalendarListItem({});
+
+		const elm = angular.element('<div/>');
+		const elms = [elm];
+
+		OC.Notification.showTemporary.and.returnValue(elms);
+
+		const promise = item.delete();
+
+		expect(OC.Notification.showTemporary.calls.count()).toEqual(1);
+		expect(OC.Notification.showTemporary.calls.argsFor(0)[0].html()).toEqual('<strong>{calendarname}</strong> has been deleted. <strong>Undo?</strong>');
+		expect(OC.Notification.showTemporary.calls.argsFor(0)[1]).toEqual({isHTML: true});
+
+		$timeout.flush(7499);
+		expect(promise.$$state.status).toEqual(0);
+
+		promise.then(function() {
+			fail();
+		}).catch(function() {
+			called = true;
+		});
+
+		angular.element(elm).click();
+
+		$rootScope.$apply();
+
+		expect(called).toEqual(true);
+		expect(promise.$$state.status).toEqual(2);
+		expect(OC.Notification.hide).toHaveBeenCalledWith(elms);
+
+		$timeout.flush(1);
+		$rootScope.$apply();
+
+		expect(promise.$$state.status).toEqual(2);
 	});
 });
 
