@@ -1930,8 +1930,7 @@ END:VEVENT`.split("\n").join("\r\n"));
 	});
 
 	it ('should modify the general date-time information datetime -> datetime floating to UTC', function() {
-		//TODO - fix me
-/*		const ics = `BEGIN:VCALENDAR
+		const ics = `BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Apple Inc.//Mac OS X 10.11.6//EN
 CALSCALE:GREGORIAN
@@ -1965,12 +1964,11 @@ DTSTAMP:20161012T140135Z
 SEQUENCE:0
 DTSTART:20160927T153000Z
 DTEND:20160928T160000Z
-END:VEVENT`.split("\n").join("\r\n"));*/
+END:VEVENT`.split("\n").join("\r\n"));
 	});
 
 	it ('should modify the general date-time information datetime -> datetime tz to UTC', function() {
-		//TODO - fix me
-/*		const ics = `BEGIN:VCALENDAR
+		const ics = `BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Apple Inc.//Mac OS X 10.11.6//EN
 CALSCALE:GREGORIAN
@@ -2004,7 +2002,7 @@ DTSTAMP:20161012T140135Z
 SEQUENCE:0
 DTSTART:20160927T153000Z
 DTEND:20160928T160000Z
-END:VEVENT`.split("\n").join("\r\n"));*/
+END:VEVENT`.split("\n").join("\r\n"));
 	});
 
 	it ('should modify the general date-time information datetime -> datetime UTC to tz', function() {
