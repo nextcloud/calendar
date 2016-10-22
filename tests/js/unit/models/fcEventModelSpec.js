@@ -1,7 +1,7 @@
 describe('The FullCalendar Event factory', function () {
 	'use strict';
 
-	let FcEvent, SimpleEvent;
+	let FcEvent, SimpleEvent, $timeout, $rootScope;
 
 	const ics1 = `BEGIN:VCALENDAR
 VERSION:2.0
@@ -221,11 +221,23 @@ END:STANDARD
 END:VTIMEZONE`)));
 		ICAL.TimezoneService.register('Europe/Berlin', tzBerlin);
 
+		OC.Notification = {};
+		OC.Notification.hide = jasmine.createSpy();
+		OC.Notification.showTemporary = jasmine.createSpy();
+
 		$provide.value('SimpleEvent', SimpleEvent);
 	}));
 
-	beforeEach(inject(function (_FcEvent_) {
+	beforeEach(inject(function (_FcEvent_, $q, _$timeout_, _$rootScope_) {
 		FcEvent = _FcEvent_;
+		$timeout = _$timeout_;
+		$rootScope = _$rootScope_;
+
+		// mixing ES6 Promises and $q ain't no good
+		// ES6 Promises will be replaced with $q for the unit tests
+		if (window.Promise !== $q) {
+			window.Promise = $q;
+		}
 	}));
 
 	it ('should initialize correctly', function() {
@@ -1084,5 +1096,100 @@ SEQUENCE:0
 DTEND;TZID=America/New_York:20161106T015900
 END:VEVENT`.split("\n").join("\r\n"));
 		expect(vevent.touch).toHaveBeenCalled();
+	});
+
+	it('should resolve the delete promise after 7.5s when not cancelled', function() {
+		let called = false;
+		const comp = new ICAL.Component(ICAL.parse(ics3));
+		const vevent = {
+			calendar: {
+				color: '#000',
+				textColor: '#fff',
+				tmpId: '3.1415926536',
+				isWritable: jasmine.createSpy()
+			},
+			uri: 'fancy1337',
+			touch: jasmine.createSpy()
+		};
+		const event = comp.getFirstSubcomponent('vevent');
+		const start = event.getFirstPropertyValue('dtstart');
+
+		const fcEvent = FcEvent(vevent, event, start, start);
+
+		const elm = angular.element('<div/>');
+		const elms = [elm];
+
+		OC.Notification.showTemporary.and.returnValue(elms);
+
+		const promise = fcEvent.delete();
+
+		expect(OC.Notification.showTemporary.calls.count()).toEqual(1);
+		expect(OC.Notification.showTemporary.calls.argsFor(0)[0].html()).toEqual('<strong>{title}</strong> has been deleted. <strong>Undo?</strong>');
+		expect(OC.Notification.showTemporary.calls.argsFor(0)[1]).toEqual({isHTML: true});
+
+		$timeout.flush(7499);
+		expect(promise.$$state.status).toEqual(0);
+
+		promise.then(function() {
+			called = true;
+		}).catch(function() {
+			fail();
+		});
+
+		$timeout.flush(1);
+		expect(promise.$$state.status).toEqual(1);
+		expect(called).toEqual(true);
+	});
+
+	it('should reject the delete promise when cancelled by the user', function() {
+		let called = false;
+		const comp = new ICAL.Component(ICAL.parse(ics3));
+		const vevent = {
+			calendar: {
+				color: '#000',
+				textColor: '#fff',
+				tmpId: '3.1415926536',
+				isWritable: jasmine.createSpy()
+			},
+			uri: 'fancy1337',
+			touch: jasmine.createSpy()
+		};
+		const event = comp.getFirstSubcomponent('vevent');
+		const start = event.getFirstPropertyValue('dtstart');
+
+		const fcEvent = FcEvent(vevent, event, start, start);
+
+		const elm = angular.element('<div/>');
+		const elms = [elm];
+
+		OC.Notification.showTemporary.and.returnValue(elms);
+
+		const promise = fcEvent.delete();
+
+		expect(OC.Notification.showTemporary.calls.count()).toEqual(1);
+		expect(OC.Notification.showTemporary.calls.argsFor(0)[0].html()).toEqual('<strong>{title}</strong> has been deleted. <strong>Undo?</strong>');
+		expect(OC.Notification.showTemporary.calls.argsFor(0)[1]).toEqual({isHTML: true});
+
+		$timeout.flush(7499);
+		expect(promise.$$state.status).toEqual(0);
+
+		promise.then(function() {
+			fail();
+		}).catch(function() {
+			called = true;
+		});
+
+		angular.element(elm).click();
+
+		$rootScope.$apply();
+
+		expect(called).toEqual(true);
+		expect(promise.$$state.status).toEqual(2);
+		expect(OC.Notification.hide).toHaveBeenCalledWith(elms);
+
+		$timeout.flush(1);
+		$rootScope.$apply();
+
+		expect(promise.$$state.status).toEqual(2);
 	});
 });

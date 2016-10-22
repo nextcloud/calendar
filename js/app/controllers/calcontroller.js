@@ -63,6 +63,9 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 			VEventService.create(calendar, data).then(function(vevent) {
 				if (calendar.enabled) {
 					fc.elm.fullCalendar('refetchEventSources', calendar.fcEventSource);
+					fc.elm.fullCalendar('removeEvents', function(fcEvent) {
+						return fcEvent.artificiallyRendered;
+					});
 				}
 			});
 		}
@@ -232,9 +235,25 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 							createAndRenderEvent(result.calendar, result.vevent.data, view.start, view.end, $scope.defaulttimezone);
 						}
 					}).catch(function(reason) {
-						if (reason === 'delete') {
-							deleteAndRemoveEvent(vevent, fcEvent);
+						if (reason !== 'delete') {
+							return true;
 						}
+
+						fc.elm.fullCalendar('removeEvents', fcEvent.id);
+						fcEvent.delete().then(function() {
+							return VEventService.delete(vevent).catch(function() {
+								throw new Error();
+							});
+						}).catch(function() {
+							const start = view.start.subtract(1, 'day');
+							const end = view.end.add(1, 'day');
+
+							const eventsToRender = vevent.getFcEvent(start, end, $scope.defaulttimezone);
+							angular.forEach(eventsToRender, function (event) {
+								event.artificiallyRendered = true;
+								fc.elm.fullCalendar('renderEvent', event);
+							});
+						});
 					});
 				},
 				eventResize: function (fcEvent, delta, revertFunc) {
