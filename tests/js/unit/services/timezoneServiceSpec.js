@@ -16,11 +16,17 @@ describe('Timezone Service', function () {
 	}));
 
 
-	beforeEach(inject(function (_TimezoneService_, $httpBackend, _$rootScope_) {
+	beforeEach(inject(function (_TimezoneService_, $httpBackend, $q, _$rootScope_) {
 		TimezoneService = _TimezoneService_;
 		$rootScope = _$rootScope_;
 		$rootScope.baseUrl = 'fancy-url/';
 		http = $httpBackend;
+
+		// mixing ES6 Promises and $q ain't no good
+		// ES6 Promises will be replaced with $q for the unit tests
+		if (window.Promise !== $q) {
+			window.Promise = $q;
+		}
 	}));
 
 	afterEach(function () {
@@ -63,8 +69,7 @@ describe('Timezone Service', function () {
 			called = true;
 		});
 
-		window.setTimeout(function() {
-			expect(called).toBe(true);
-		}, 1000);
+		$rootScope.$apply();
+		expect(called).toBe(true);
 	});
 });
