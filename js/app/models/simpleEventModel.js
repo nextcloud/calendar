@@ -489,16 +489,10 @@ app.factory('SimpleEvent', function () {
 			newSimpleData.dtend.parameters.zone = newSimpleData.dtend.parameters.zone || 'floating';
 
 			if (newSimpleData.dtstart.parameters.zone !== 'floating' && !ICAL.TimezoneService.has(newSimpleData.dtstart.parameters.zone)) {
-				throw {
-					kind: 'timezone_missing',
-					missing_timezone: newSimpleData.dtstart.parameters.zone
-				};
+				throw new Error('Requested timezone not found (' + newSimpleData.dtstart.parameters.zone + ')');
 			}
 			if (newSimpleData.dtend.parameters.zone !== 'floating' && !ICAL.TimezoneService.has(newSimpleData.dtend.parameters.zone)) {
-				throw {
-					kind: 'timezone_missing',
-					missing_timezone: newSimpleData.dtend.parameters.zone
-				};
+				throw new Error('Requested timezone not found (' + newSimpleData.dtend.parameters.zone + ')');
 			}
 
 			const start = ICAL.Time.fromJSDate(newSimpleData.dtstart.value.toDate(), false);
@@ -506,37 +500,43 @@ app.factory('SimpleEvent', function () {
 			const end = ICAL.Time.fromJSDate(newSimpleData.dtend.value.toDate(), false);
 			end.isDate = isNewSimpleDataAllDay;
 
-			const availableTimezones = [];
+			const alreadyStoredTimezones = ['UTC'];
 			const vtimezones = vevent.parent.getAllSubcomponents('vtimezone');
 			vtimezones.forEach(function (vtimezone) {
-				availableTimezones.push(vtimezone.getFirstPropertyValue('tzid'));
+				alreadyStoredTimezones.push(vtimezone.getFirstPropertyValue('tzid'));
 			});
 
-			const dtstart = new ICAL.Property('dtstart', vevent);
-			dtstart.setValue(start);
+			const startProp = new ICAL.Property('dtstart', vevent);
 			if (newSimpleData.dtstart.parameters.zone !== 'floating') {
-				dtstart.setParameter('tzid', newSimpleData.dtstart.parameters.zone);
+				if (newSimpleData.dtstart.parameters.zone !== 'UTC') {
+					startProp.setParameter('tzid', newSimpleData.dtstart.parameters.zone);
+				}
+
 				const startTz = ICAL.TimezoneService.get(newSimpleData.dtstart.parameters.zone);
 				start.zone = startTz;
-				if (availableTimezones.indexOf(newSimpleData.dtstart.parameters.zone) === -1) {
+				if (alreadyStoredTimezones.indexOf(newSimpleData.dtstart.parameters.zone) === -1) {
 					vevent.parent.addSubcomponent(startTz.component);
-					availableTimezones.push(newSimpleData.dtstart.parameters.zone);
+					alreadyStoredTimezones.push(newSimpleData.dtstart.parameters.zone);
 				}
 			}
+			startProp.setValue(start);
 
-			const dtend = new ICAL.Property('dtend', vevent);
-			dtend.setValue(end);
+			const endProp = new ICAL.Property('dtend', vevent);
 			if (newSimpleData.dtend.parameters.zone !== 'floating') {
-				dtend.setParameter('tzid', newSimpleData.dtend.parameters.zone);
+				if (newSimpleData.dtend.parameters.zone !== 'UTC') {
+					endProp.setParameter('tzid', newSimpleData.dtend.parameters.zone);
+				}
+
 				const endTz = ICAL.TimezoneService.get(newSimpleData.dtend.parameters.zone);
 				end.zone = endTz;
-				if (availableTimezones.indexOf(newSimpleData.dtend.parameters.zone) === -1) {
+				if (alreadyStoredTimezones.indexOf(newSimpleData.dtend.parameters.zone) === -1) {
 					vevent.parent.addSubcomponent(endTz.component);
 				}
 			}
+			endProp.setValue(end);
 
-			vevent.addProperty(dtstart);
-			vevent.addProperty(dtend);
+			vevent.addProperty(startProp);
+			vevent.addProperty(endProp);
 		},
 		repeating: function (vevent, oldSimpleData, newSimpleData) {
 			// We won't support exrule, because it's deprecated and barely used in the wild
