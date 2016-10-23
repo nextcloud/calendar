@@ -89,6 +89,7 @@ app.constant('fc', {})
 				defaultView: attrs.defaultview,
 				editable: !isPublic,
 				firstDay: firstDay,
+				forceEventDuration: true,
 				header: false,
 				height: windowElement.height() - headerSize,
 				locale: moment.locale(),

@@ -245,7 +245,17 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 					});
 				},
 				eventDrop: function (fcEvent, delta, revertFunc) {
-					fcEvent.drop(delta);
+					const isAllDay = !fcEvent.start.hasTime();
+
+					const defaultAllDayEventDuration = fc.elm.fullCalendar('option', 'defaultAllDayEventDuration');
+					const defaultAllDayEventMomentDuration = moment.duration(defaultAllDayEventDuration);
+
+					const defaultTimedEventDuration = fc.elm.fullCalendar('option', 'defaultTimedEventDuration');
+					const defaultTimedEventMomentDuration = moment.duration(defaultTimedEventDuration);
+
+					const timezone = $scope.defaulttimezone;
+
+					fcEvent.drop(delta, isAllDay, timezone, defaultTimedEventMomentDuration, defaultAllDayEventMomentDuration);
 					VEventService.update(fcEvent.vevent).catch(function() {
 						revertFunc();
 					});

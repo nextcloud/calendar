@@ -31,7 +31,7 @@ app.factory('FcEvent', function(SimpleEvent) {
 	 * @param {ICAL.Time} end
 	 */
 	function FcEvent(vevent, event, start, end) {
-		const context = {vevent, event, start, end};
+		const context = {vevent, event};
 		context.iCalEvent = new ICAL.Event(event);
 
 		let id = context.vevent.uri;
@@ -40,6 +40,7 @@ app.factory('FcEvent', function(SimpleEvent) {
 		}
 
 		const allDay = (start.icaltype === 'date' && end.icaltype === 'date');
+		context.allDay = allDay;
 
 		const iface = {
 			_isAFcEventObject: true,
@@ -85,21 +86,77 @@ app.factory('FcEvent', function(SimpleEvent) {
 
 		/**
 		 * moves the event to a different position
-		 * @param {Duration} delta
+		 * @param {moment.duration} delta
+		 * @param {boolean} isAllDay
+		 * @param {string} timezone
+		 * @param {moment.duration} defaultTimedEventMomentDuration
+		 * @param {moment.duration} defaultAllDayEventMomentDuration
 		 */
-		iface.drop = function (delta) {
+		iface.drop = function (delta, isAllDay, timezone, defaultTimedEventMomentDuration, defaultAllDayEventMomentDuration) {
 			delta = new ICAL.Duration().fromSeconds(delta.asSeconds());
 
-			const dtstart = context.event.getFirstPropertyValue('dtstart');
+			const timedDuration = new ICAL.Duration().fromSeconds(defaultTimedEventMomentDuration.asSeconds());
+			const allDayDuration = new ICAL.Duration().fromSeconds(defaultAllDayEventMomentDuration.asSeconds());
+
+			const dtstartProp = context.event.getFirstProperty('dtstart');
+			const dtstart = dtstartProp.getFirstValue();
+			dtstart.isDate = isAllDay;
 			dtstart.addDuration(delta);
+			dtstart.zone = isAllDay ? 'floating' : dtstart.zone;
+
+			// event was moved from allDay to grid
+			// we need to add a tzid to the dtstart
+			if (context.allDay && !isAllDay) {
+				const timezoneObject = ICAL.TimezoneService.get(timezone);
+
+				if (timezone === 'UTC') {
+					timezone = 'Z';
+				}
+
+				dtstart.zone = timezoneObject;
+				if (timezone !== 'Z') {
+					dtstartProp.setParameter('tzid', timezone);
+
+					if (context.event.parent) {
+						context.event.parent.addSubcomponent(timezoneObject.component);
+					}
+				}
+			}
+			// event was moved from grid to allDay
+			// remove tzid
+			if (!context.allDay && isAllDay) {
+				dtstartProp.removeParameter('tzid');
+			}
 			context.event.updatePropertyWithValue('dtstart', dtstart);
 
-			if (context.event.hasProperty('dtend')) {
-				const dtend = context.event.getFirstPropertyValue('dtend');
-				dtend.addDuration(delta);
-				context.event.updatePropertyWithValue('dtend', dtend);
+			// event was moved from allday to grid or vice versa
+			if (context.allDay !== isAllDay) {
+				// No DURATION -> either DTEND or only DTSTART
+				if (!context.event.hasProperty('duration')) {
+					const dtend = dtstart.clone();
+					dtend.addDuration(isAllDay ? allDayDuration : timedDuration);
+					const dtendProp = context.event.updatePropertyWithValue('dtend', dtend);
+
+					const tzid = dtstartProp.getParameter('tzid');
+					if (tzid) {
+						dtendProp.setParameter('tzid', tzid);
+					} else {
+						dtendProp.removeParameter('tzid');
+					}
+				} else {
+					context.event.updatePropertyWithValue('duration', isAllDay ?
+						allDayDuration : timedDuration);
+				}
+			} else {
+				// No DURATION -> either DTEND or only DTSTART
+				if (context.event.hasProperty('dtend')) {
+					const dtend = context.event.getFirstPropertyValue('dtend');
+					dtend.addDuration(delta);
+					context.event.updatePropertyWithValue('dtend', dtend);
+				}
 			}
 
+			context.allDay = isAllDay;
 			context.vevent.touch();
 		};
 
