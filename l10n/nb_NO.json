@@ -12,6 +12,7 @@
     "You are in an unknown timezone ({tz}), falling back to UTC" : "Du er i en ukjent tidssone ({tz}), faller tilbake til UTC",
     "Please create a calendar first." : "Vennligst opprett en kalender først",
     "New event" : "Ny hendelse",
+    "CalDAV address for clients" : "CalDAV adresse for klienter",
     "Error saving WebCal-calendar" : "Feil under lagring av WebCal-kalender",
     "EMail has been sent." : "E-post er sendt",
     "group" : "gruppe",
