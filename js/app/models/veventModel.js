@@ -233,6 +233,30 @@ app.factory('VEvent', function(FcEvent, SimpleEvent, ICalFactory, StringUtility)
 	};
 
 	/**
+	* create all-day event from malformed input
+	* @param {string} ics
+	* @returns {string}
+	*/
+	VEvent.sanDate = function(ics) {
+
+		// console.log( ICAL.Time.now() );
+
+		ics.split("\n").forEach(function(el, i) {
+
+			var findTypes = ['DTSTART', 'DTEND'];
+			var dateType = /[^:]*/.exec(el)[0];
+			var icsDate = null;
+
+			if (findTypes.indexOf(dateType) >= 0 && el.trim().substr(-3) === "T::") { // is date without time
+				icsDate = el.replace(/[^0-9]/g, '');
+				ics = ics.replace(el, dateType + ";VALUE=DATE:" + icsDate);
+			}
+		});
+
+		return ics;
+	};
+
+	/**
 	 * create a VEvent object from raw ics data
 	 * @param {Calendar} calendar
 	 * @param {string} ics
@@ -242,6 +266,11 @@ app.factory('VEvent', function(FcEvent, SimpleEvent, ICalFactory, StringUtility)
 	 */
 	VEvent.fromRawICS = function(calendar, ics, uri, etag='') {
 		let comp;
+
+		if (ics.search("T::") > 0) { // no time
+			ics = VEvent.sanDate(ics);
+		}
+
 		try {
 			const jCal = ICAL.parse(ics);
 			comp = new ICAL.Component(jCal);
