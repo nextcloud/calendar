@@ -29,7 +29,7 @@ OC.L10N.register(
     "When shared hide this event" : "Se condiviso, nascondi questo evento",
     "Confirmed" : "Confermato",
     "Tentative" : "Provvisorio",
-    "Cancelled" : "Annullati",
+    "Cancelled" : "Annullato",
     "Please add a title!" : "Aggiungi un titolo!",
     "Please select a calendar!" : "Seleziona un calendario!",
     "Global" : "Globale",
