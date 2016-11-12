@@ -36,4 +36,11 @@ describe('WebCalUtility', function () {
 		expect(WebCalUtility.fixURL('webcal://foobar')).toEqual('https://foobar');
 		expect(WebCalUtility.fixURL('foobar')).toEqual('https://foobar');
 	});
+
+	it('should guess if a downgrade is allowed', function() {
+		expect(WebCalUtility.allowDowngrade('https://foobar')).toEqual(false);
+		expect(WebCalUtility.allowDowngrade('webcal://foobar')).toEqual(true);
+		expect(WebCalUtility.allowDowngrade('true://foobar')).toEqual(true);
+		expect(WebCalUtility.allowDowngrade('foobar')).toEqual(true);
+	});
 });

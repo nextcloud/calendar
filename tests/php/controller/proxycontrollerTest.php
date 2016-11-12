@@ -21,15 +21,22 @@
  */
 namespace OCA\Calendar\Controller;
 
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ConnectException;
+
 class ProxyControllerTest extends \PHPUnit_Framework_TestCase {
 
 	private $appName;
 	private $request;
 	private $client;
+	private $l10n;
+	private $logger;
 
 	private $newClient;
 	private $response;
-	private $exception;
+	private $exceptionRequest;
+	private $exceptionResponse;
 
 	private $controller;
 
@@ -41,6 +48,12 @@ class ProxyControllerTest extends \PHPUnit_Framework_TestCase {
 		$this->client = $this->getMockBuilder('\OCP\Http\Client\IClientService')
 			->disableOriginalConstructor()
 			->getMock();
+		$this->l10n = $this->getMockBuilder('\OCP\IL10N')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->logger = $this->getMockBuilder('\OCP\ILogger')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$this->newClient = $this->getMockBuilder('\OCP\Http\Client\IClient')
 			->disableOriginalConstructor()
@@ -49,12 +62,15 @@ class ProxyControllerTest extends \PHPUnit_Framework_TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->exception = $this->getMockBuilder('\GuzzleHttp\Exception\ClientException')
+		$this->exceptionRequest = $this->getMockBuilder('GuzzleHttp\Message\RequestInterface')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->exceptionResponse = $this->getMockBuilder('GuzzleHttp\Message\ResponseInterface')
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->controller = new ProxyController($this->appName,
-			$this->request, $this->client);
+		$this->controller = new ProxyController($this->appName, $this->request,
+			$this->client, $this->l10n, $this->logger);
 	}
 
 	public function testProxy() {
@@ -76,7 +92,7 @@ class ProxyControllerTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals('text/calendar', $actual->getHeaders()['Content-Type']);
 	}
 
-	public function testProxyException() {
+	public function testProxyClientException() {
 		$testUrl = 'http://abc.def/foobar?123';
 
 		$this->client->expects($this->once())
@@ -87,18 +103,119 @@ class ProxyControllerTest extends \PHPUnit_Framework_TestCase {
 			->with($testUrl, [
 				'stream' => true,
 			])
-			->will($this->throwException($this->exception));
-		$this->exception->expects($this->once())
-			->method('getResponse')
-			->will($this->returnValue($this->response));
-		$this->response->expects($this->once())
+			->will($this->throwException(new ClientException('Exception Message foo bar 42',
+				$this->exceptionRequest, $this->exceptionResponse)));
+		$this->exceptionResponse->expects($this->once())
 			->method('getStatusCode')
 			->will($this->returnValue(403));
+		$this->l10n->expects($this->once())
+			->method('t')
+			->with($this->equalTo('The remote server did not give us access to the calendar (HTTP {%s} error)', '403'))
+			->will($this->returnValue('translated string 1337'));
+		$this->logger->expects($this->once())
+			->method('debug')
+			->with($this->equalTo('Exception Message foo bar 42'));
 
 		$actual = $this->controller->proxy($testUrl);
 
 		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
-		$this->assertEquals('403', $actual->getStatus());
+		$this->assertEquals('422', $actual->getStatus());
+		$this->assertEquals([
+			'message' => 'translated string 1337',
+			'proxy_code' => 403
+		], $actual->getData());
+	}
 
+	public function testProxyConnectException() {
+		$testUrl = 'http://abc.def/foobar?123';
+
+		$this->client->expects($this->once())
+			->method('newClient')
+			->will($this->returnValue($this->newClient));
+		$this->newClient->expects($this->once())
+			->method('get')
+			->with($testUrl, [
+				'stream' => true,
+			])
+			->will($this->throwException(new ConnectException('Exception Message foo bar 42',
+				$this->exceptionRequest, $this->exceptionResponse)));
+		$this->l10n->expects($this->once())
+			->method('t')
+			->with($this->equalTo('Error connecting to remote server'))
+			->will($this->returnValue('translated string 1337'));
+		$this->logger->expects($this->once())
+			->method('debug')
+			->with($this->equalTo('Exception Message foo bar 42'));
+
+		$actual = $this->controller->proxy($testUrl);
+
+		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertEquals('422', $actual->getStatus());
+		$this->assertEquals([
+			'message' => 'translated string 1337',
+			'proxy_code' => -1
+		], $actual->getData());
+	}
+
+	public function testProxyRequestExceptionHTTP() {
+		$testUrl = 'http://abc.def/foobar?123';
+
+		$this->client->expects($this->once())
+			->method('newClient')
+			->will($this->returnValue($this->newClient));
+		$this->newClient->expects($this->once())
+			->method('get')
+			->with($testUrl, [
+				'stream' => true,
+			])
+			->will($this->throwException(new RequestException('Exception Message foo bar 42',
+				$this->exceptionRequest, $this->exceptionResponse)));
+		$this->l10n->expects($this->once())
+			->method('t')
+			->with($this->equalTo('Error requesting resource on remote server'))
+			->will($this->returnValue('translated string 1337'));
+		$this->logger->expects($this->once())
+			->method('debug')
+			->with($this->equalTo('Exception Message foo bar 42'));
+
+		$actual = $this->controller->proxy($testUrl);
+
+		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertEquals('422', $actual->getStatus());
+		$this->assertEquals([
+			'message' => 'translated string 1337',
+			'proxy_code' => -2
+		], $actual->getData());
+	}
+
+	public function testProxyRequestExceptionHTTPS() {
+		$testUrl = 'https://abc.def/foobar?123';
+
+		$this->client->expects($this->once())
+			->method('newClient')
+			->will($this->returnValue($this->newClient));
+		$this->newClient->expects($this->once())
+			->method('get')
+			->with($testUrl, [
+				'stream' => true,
+			])
+			->will($this->throwException(new RequestException('Exception Message foo bar 42',
+				$this->exceptionRequest, $this->exceptionResponse)));
+		$this->l10n->expects($this->once())
+			->method('t')
+			->with($this->equalTo('Error requesting resource on remote server. This could possible be related to a certificate mismatch'))
+			->will($this->returnValue('translated string 1337'));
+		$this->logger->expects($this->once())
+			->method('debug')
+			->with($this->equalTo('Exception Message foo bar 42'));
+
+		$actual = $this->controller->proxy($testUrl);
+
+		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertEquals('422', $actual->getStatus());
+		$this->assertEquals([
+			'message' => 'translated string 1337',
+			'proxy_code' => -2
+		], $actual->getData());
 	}
 }

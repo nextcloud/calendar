@@ -34,6 +34,10 @@ app.service('WebCalService', function ($http, ICalSplitterUtility, WebCalUtility
 			return Promise.resolve(context.cachedSplittedICals[webcalUrl]);
 		}
 
+		if (allowDowngradeToHttp === undefined) {
+			allowDowngradeToHttp = WebCalUtility.allowDowngrade(webcalUrl);
+		}
+
 		webcalUrl = WebCalUtility.fixURL(webcalUrl);
 		const url = WebCalUtility.buildProxyURL(webcalUrl);
 
@@ -62,13 +66,12 @@ app.service('WebCalService', function ($http, ICalSplitterUtility, WebCalUtility
 					return splitted;
 				});
 			}
-			if (e.status < 200 || e.status > 299) {
-			 return Promise.reject(t('calendar', 'The remote server did not give us access to the calendar (HTTP {code} error)',
-				 {code: e.status}
-				 ));
-			}
 
-			return Promise.reject(t('calendar', 'Please enter a valid WebCal-URL'));
+			if (e.status === 422) {
+				return Promise.reject(e.data.message);
+			} else {
+				return Promise.reject(t('calendar', 'Severe error in webcal proxy. Please contact administrator for more information.'));
+			}
 		});
 	};
 });
