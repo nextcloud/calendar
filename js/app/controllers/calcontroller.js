@@ -175,7 +175,7 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 					var fcEvent = vevent.getFcEvent(view.start, view.end, $scope.defaulttimezone)[0];
 					fcEvent.title = t('calendar', 'New event');
 					fcEvent.className.push(fcEventClass);
-					fcEvent.writable = false;
+					fcEvent.editable = false;
 					fc.elm.fullCalendar('renderEvent', fcEvent);
 
 					EventsEditorDialogService.open($scope, fcEvent, function() {
