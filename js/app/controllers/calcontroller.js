@@ -263,7 +263,7 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 					angular.element('#firstrow').find('.datepicker_current').html(view.title).text();
 					angular.element('#datecontrol_date').datepicker('setDate', element.fullCalendar('getDate'));
 					var newView = view.name;
-					if (newView !== $scope.defaultView) {
+					if (newView !== $scope.defaultView && !isPublic) {
 						SettingsService.setView(newView);
 						$scope.defaultView = newView;
 					}
