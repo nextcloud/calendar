@@ -62,8 +62,10 @@ class Application extends App {
 		$container->registerService('ProxyController', function(IAppContainer $c) {
 			$request = $c->query('Request');
 			$client = $c->getServer()->getHTTPClientService();
+			$l10n = $c->getServer()->getL10N($c->query('AppName'));
+			$logger = $c->getServer()->getLogger();
 
-			return new Controller\ProxyController($c->getAppName(), $request, $client);
+			return new Controller\ProxyController($c->getAppName(), $request, $client, $l10n, $logger);
 		});
 	}
 

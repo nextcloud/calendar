@@ -8,6 +8,7 @@ describe('WebCal Service', function () {
 		ICalSplitterUtility.split = jasmine.createSpy();
 
 		WebCalUtility = {};
+		WebCalUtility.allowDowngrade = jasmine.createSpy();
 		WebCalUtility.fixURL = jasmine.createSpy();
 		WebCalUtility.buildProxyURL = jasmine.createSpy();
 		WebCalUtility.downgradePossible = jasmine.createSpy();

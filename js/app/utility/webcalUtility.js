@@ -22,20 +22,50 @@
 app.service('WebCalUtility', function($rootScope) {
 	'use strict';
 
+	/**
+	 * check if downgrading is allowed
+	 * @param {string} url
+	 * @returns {boolean}
+	 */
+	this.allowDowngrade = function(url) {
+		return !url.startsWith('https://');
+	};
+
+	/**
+	 * construct proxy url
+	 * @param url
+	 * @returns {string}
+	 */
+	this.buildProxyURL = function(url) {
+		return $rootScope.baseUrl + 'proxy?url=' + encodeURIComponent(url);
+	};
+
+	/**
+	 * check if a downgrade is possible
+	 * @param {string} url
+	 * @param {boolean} allowDowngradeToHttp
+	 * @returns {boolean}
+	 */
+	this.downgradePossible = function(url, allowDowngradeToHttp) {
+		return url.startsWith('https://') && allowDowngradeToHttp;
+	};
+
+	/**
+	 * downgrade a url from https to insecure http
+	 * @param {string} url
+	 * @returns {string}
+	 */
 	this.downgradeURL = function(url) {
 		if (url.startsWith('https://')) {
 			return 'http://' + url.substr(8);
 		}
 	};
 
-	this.downgradePossible = function(url, allowDowngradeToHttp) {
-		return url.startsWith('https://') && allowDowngradeToHttp;
-	};
-
-	this.buildProxyURL = function(url) {
-		return $rootScope.baseUrl + 'proxy?url=' + encodeURIComponent(url);
-	};
-
+	/**
+	 * replace webcal:// in a url
+	 * @param {string} url
+	 * @returns {string}
+	 */
 	this.fixURL = function(url) {
 		if (url.startsWith('http://') || url.startsWith('https://')) {
 			return url;

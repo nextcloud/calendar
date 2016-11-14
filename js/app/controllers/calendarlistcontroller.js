@@ -85,7 +85,7 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 
 		$scope.createSubscription = function(url) {
 			$scope.subscription.newSubscriptionLocked = true;
-			WebCalService.get(url, true).then(function(splittedICal) {
+			WebCalService.get(url).then(function(splittedICal) {
 				const color = splittedICal.color || ColorUtility.randomColor();
 				const name = splittedICal.name || url;
 				CalendarService.createWebCal(name, color, url)

@@ -21,12 +21,18 @@
  */
 namespace OCA\Calendar\Controller;
 
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ClientException;
-use OCA\Calendar\Http\StreamResponse;
-use OCP\AppFramework\Http\JSONResponse;
+use GuzzleHttp\Exception\ConnectException;
 
+use OCA\Calendar\Http\StreamResponse;
+
+use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Controller;
 use OCP\Http\Client\IClientService;
+use OCP\IL10N;
+use OCP\ILogger;
 use OCP\IRequest;
 
 class ProxyController extends Controller {
@@ -37,14 +43,29 @@ class ProxyController extends Controller {
 	protected $client;
 
 	/**
+	 * @var IL10N
+	 */
+	protected $l10n;
+
+	/**
+	 * @var ILogger
+	 */
+	protected $logger;
+
+	/**
 	 * @param string $appName
 	 * @param IRequest $request an instance of the request
 	 * @param IClientService $client
+	 * @param IL10N $l10n
+	 * @param ILogger $logger
 	 */
 	public function __construct($appName, IRequest $request,
-								IClientService $client) {
+								IClientService $client,
+								IL10N $l10n, ILogger $logger) {
 		parent::__construct($appName, $request);
 		$this->client = $client;
+		$this->l10n = $l10n;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -65,9 +86,36 @@ class ProxyController extends Controller {
 			]);
 		} catch (ClientException $e) {
 			$error_code = $e->getResponse()->getStatusCode();
-			$response = new JSONResponse();
-			$response->setStatus($error_code);
+			$message = $e->getMessage();
+
+			$this->logger->debug($message);
+			$response = new JSONResponse([
+				'message' => $this->l10n->t('The remote server did not give us access to the calendar (HTTP {%s} error)', [
+					(string) $error_code
+				]),
+				'proxy_code' => $error_code
+			], Http::STATUS_UNPROCESSABLE_ENTITY);
+		} catch (ConnectException $e) {
+			$this->logger->debug($e->getMessage());
+			$response = new JSONResponse([
+				'message' => $this->l10n->t('Error connecting to remote server'),
+				'proxy_code' => -1
+			], Http::STATUS_UNPROCESSABLE_ENTITY);
+		} catch (RequestException $e) {
+			$this->logger->debug($e->getMessage());
+
+			if (substr($url, 0, 8) === 'https://') {
+				$message = $this->l10n->t('Error requesting resource on remote server. This could possible be related to a certificate mismatch');
+			} else {
+				$message = $this->l10n->t('Error requesting resource on remote server');
+			}
+
+			$response = new JSONResponse([
+				'message' => $message,
+				'proxy_code' => -2,
+			], Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
+
 		return $response;
 	}
 }
