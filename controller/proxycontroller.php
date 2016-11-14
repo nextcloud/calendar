@@ -77,13 +77,57 @@ class ProxyController extends Controller {
 	public function proxy($url) {
 		$client = $this->client->newClient();
 		try {
-			$clientResponse = $client->get($url, [
-				'stream' => true,
-			]);
-			$response = new StreamResponse($clientResponse->getBody());
-			$response->setHeaders([
-				'Content-Type' => 'text/calendar',
-			]);
+			$queryUrl = $url;
+			$allow_redirects = false; // try to handle redirects manually at first
+			$redirect_count = 0;
+			$max_redirects = 5;
+			$done = false;
+
+			// try to find a chain of 301s
+			do {
+				$clientResponse = $client->get($queryUrl, [
+					'stream' => true,
+					'allow_redirects' => $allow_redirects,
+				]);
+
+				$statusCode = $clientResponse->getStatusCode();
+				if ($statusCode === 301) { // 400+ goes straight to catch
+					$redirect_count++;
+					$queryUrl = $clientResponse->getHeader('Location');
+				} elseif ($statusCode >= 300) {
+					if ($redirect_count > 0) {
+						// $redirect_count > 0 => There have been 301s before,
+						// break and return Location from last 301
+						break;
+					} else {
+						// this is the very first request
+						// it's being redirected, but the redirection is not
+						// permanently, just let Guzzle take care
+						$allow_redirects = [
+							'max' => $max_redirects
+						];
+					}
+				} else {
+					$done = true;
+				}
+			} while(!$done && $redirect_count <= $max_redirects);
+
+			if ($redirect_count > 0 && $redirect_count <= $max_redirects) {
+				$response = new JSONResponse([
+					'proxy_code' => -4,
+					'new_url' => $queryUrl,
+				], Http::STATUS_BAD_REQUEST);
+			} elseif ($done) {
+				$response = new StreamResponse($clientResponse->getBody());
+				$response->setHeaders([
+					'Content-Type' => 'text/calendar',
+				]);
+			} else {
+				$response = new JSONResponse([
+					'message' => $this->l10n->t('Too many redirects. Aborting ...'),
+					'proxy_code' => -3
+				], Http::STATUS_UNPROCESSABLE_ENTITY);
+			}
 		} catch (ClientException $e) {
 			$error_code = $e->getResponse()->getStatusCode();
 			$message = $e->getMessage();

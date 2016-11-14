@@ -59,7 +59,8 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 		'color',
 		'displayname',
 		'enabled',
-		'order'
+		'order',
+		'storedUrl'
 	];
 
 	const UPDATABLE_PROPERTIES_MAP = {
@@ -450,10 +451,20 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 				value = value ? '1' : '0';
 			}
 
-			dPropChildren.push({
-				name: UPDATABLE_PROPERTIES_MAP[name],
-				value
-			});
+			if (name === 'storedUrl') {
+				dPropChildren.push({
+					name: 'cs:source',
+					children: [{
+						name: 'd:href',
+						value: value
+					}]
+				});
+			} else {
+				dPropChildren.push({
+					name: UPDATABLE_PROPERTIES_MAP[name],
+					value
+				});
+			}
 		});
 		calendar.resetUpdated();
 

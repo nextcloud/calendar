@@ -101,9 +101,13 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 						OC.Notification.showTemporary(t('calendar', 'Error saving WebCal-calendar'));
 						$scope.subscription.newSubscriptionLocked = false;
 					});
-			}).catch(function(error) {
-				OC.Notification.showTemporary(error);
-				$scope.subscription.newSubscriptionLocked = false;
+			}).catch(function(reason) {
+				if (reason.error) {
+					OC.Notification.showTemporary(reason.message);
+					$scope.subscription.newSubscriptionLocked = false;
+				} else if(reason.redirect) {
+					$scope.createSubscription(reason.new_url);
+				}
 			});
 		};
 

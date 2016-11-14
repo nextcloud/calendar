@@ -33,12 +33,19 @@ app.factory('WebCal', function($http, Calendar, VEvent, TimezoneService, WebCalS
 	function WebCal(CalendarService, url, props) {
 		const context = {
 			calendarService: CalendarService,
+			updatedProperties: [],
 			storedUrl: props.href, //URL stored in CalDAV
 			url: WebCalUtility.fixURL(props.href)
 		};
 
 		const iface = Calendar(CalendarService, url, props);
 		iface._isAWebCalObject = true;
+
+		context.setUpdated = function(property) {
+			if (context.updatedProperties.indexOf(property) === -1) {
+				context.updatedProperties.push(property);
+			}
+		};
 
 		Object.defineProperties(iface, {
 			downloadUrl: {
@@ -84,15 +91,40 @@ app.factory('WebCal', function($http, Calendar, VEvent, TimezoneService, WebCalS
 				iface.fcEventSource.isRendering = false;
 				iface.emit(Calendar.hookFinishedRendering);
 			}).catch(function(reason) {
-				iface.addWarning(reason);
-				console.log(reason);
-				iface.fcEventSource.isRendering = false;
-				iface.emit(Calendar.hookFinishedRendering);
+				if (reason.redirect === true) {
+					if (context.storedUrl === reason.new_url) {
+						return Promise.reject('Fatal error. Redirected URL matched original URL. Aborting');
+					}
+
+					context.storedUrl = reason.new_url;
+					context.url = reason.new_url;
+					context.setUpdated('storedUrl');
+					iface.update();
+					const eventsFn = iface.fcEventSource.events.bind(fcAPI);
+					eventsFn(start, end, timezone, callback);
+				} else {
+					iface.addWarning(reason);
+					console.log(reason);
+					iface.fcEventSource.isRendering = false;
+					iface.emit(Calendar.hookFinishedRendering);
+				}
 			});
 		};
 
 		iface.eventsAccessibleViaCalDAV = function() {
 			return false;
+		};
+
+		const parentGetUpdated = iface.getUpdated;
+		iface.getUpdated = function() {
+			const updated = parentGetUpdated();
+			return updated.concat(context.updatedProperties);
+		};
+
+		const parentResetUpdated = iface.resetUpdated;
+		iface.resetUpdated = function() {
+			parentResetUpdated();
+			context.updatedProperties = [];
 		};
 
 		iface.delete = function() {

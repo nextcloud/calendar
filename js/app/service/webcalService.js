@@ -68,9 +68,23 @@ app.service('WebCalService', function ($http, ICalSplitterUtility, WebCalUtility
 			}
 
 			if (e.status === 422) {
-				return Promise.reject(e.data.message);
+				return Promise.reject({
+					error: true,
+					redirect: false,
+					message: e.data.message
+				});
+			} else if(e.status === 400) {
+				return Promise.reject({
+					error: false,
+					redirect: true,
+					new_url: e.data.new_url
+				});
 			} else {
-				return Promise.reject(t('calendar', 'Severe error in webcal proxy. Please contact administrator for more information.'));
+				return Promise.reject({
+					error: true,
+					redirect: false,
+					message: t('calendar', 'Severe error in webcal proxy. Please contact administrator for more information.')
+				});
 			}
 		});
 	};
