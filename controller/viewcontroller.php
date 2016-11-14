@@ -23,9 +23,8 @@
  */
 namespace OCA\Calendar\Controller;
 
-use OC\AppFramework\Http;
-use OC\L10N\L10N;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\JSONResponse;
@@ -33,6 +32,7 @@ use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Defaults;
 use OCP\IConfig;
+use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUserSession;
 use OCP\Mail\IMailer;
@@ -61,7 +61,7 @@ class ViewController extends Controller {
 	private $mailer;
 
 	/**
-	 * @var L10N
+	 * @var IL10N
 	 */
 	private $l10n;
 
@@ -76,12 +76,13 @@ class ViewController extends Controller {
 	 * @param IUserSession $userSession
 	 * @param IConfig $config
 	 * @param IMailer $mailer
-	 * @param L10N $l10N
+	 * @param IL10N $l10N
 	 * @param Defaults $defaults
 	 * @param IURLGenerator $urlGenerator
 	 */
-	public function __construct($appName, IRequest $request,
-								IUserSession $userSession, IConfig $config, IMailer $mailer, L10N $l10N, Defaults $defaults, IURLGenerator $urlGenerator) {
+	public function __construct($appName, IRequest $request, IUserSession $userSession,
+								IConfig $config, IMailer $mailer, IL10N $l10N,
+								Defaults $defaults, IURLGenerator $urlGenerator) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->userSession = $userSession;
@@ -184,7 +185,7 @@ class ViewController extends Controller {
 
 		$tzData = file_get_contents(__DIR__ . '/../timezones/' . $id);
 
-		return new DataDisplayResponse($tzData, HTTP::STATUS_OK, [
+		return new DataDisplayResponse($tzData, Http::STATUS_OK, [
 			'content-type' => 'text/calendar',
 		]);
 	}
