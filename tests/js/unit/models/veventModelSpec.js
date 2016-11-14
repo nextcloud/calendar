@@ -395,6 +395,41 @@ SEQUENCE:0
 END:VEVENT
 END:VCALENDAR`;
 
+	const ics11 = `BEGIN:VCALENDAR
+PRODID:-//ownCloud calendar v1.4.0
+VERSION:2.0
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+CREATED:20161020T130607
+DTSTAMP:20161020T130607
+LAST-MODIFIED:20161020T130607
+UID:ujihvdbldzg
+SUMMARY:Test
+CLASS:PUBLIC
+STATUS:CONFIRMED
+RRULE:FREQ=DAILY;COUNT=3
+DTSTART;TZID=Europe/Berlin:20161022T180000
+DTEND;TZID=Europe/Berlin:20161023T060000
+END:VEVENT
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=3
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=10
+END:STANDARD
+END:VTIMEZONE
+END:VCALENDAR`;
+
 	const timezone_nyc = {
 		jCal: new ICAL.Timezone(new ICAL.Component(ICAL.parse(`BEGIN:VTIMEZONE
 TZID:America/New_York
@@ -1263,6 +1298,53 @@ END:VEVENT`.split("\n").join("\r\n"));
 		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[3][2])).toBe(true);
 		expect(fcEvents[3][3].toString()).toEqual('2016-11-02T05:00:00');
 		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[3][3])).toBe(true);
+	});
+
+	it ('should extract events correctly when they span over the fdof', function() {
+		const calendar = {this_is_a_fancy_calendar: true};
+		const comp = new ICAL.Component(ICAL.parse(ics11));
+
+		const vevent = VEvent(calendar, comp);
+		const start = moment('2016-10-24 00+02:00');
+		const end = moment('2016-10-31 23:59:59+02:00');
+
+		const fcEvents = vevent.getFcEvent(start, end, timezone_berlin);
+		expect(fcEvents.length).toEqual(2);
+		expect(fcEvents[0][0]).toEqual(vevent);
+		expect(fcEvents[0][1].toString()).toEqual(`BEGIN:VEVENT
+CREATED:20161020T130607
+DTSTAMP:20161020T130607
+LAST-MODIFIED:20161020T130607
+UID:ujihvdbldzg
+SUMMARY:Test
+CLASS:PUBLIC
+STATUS:CONFIRMED
+RRULE:FREQ=DAILY;COUNT=3
+DTSTART;TZID=Europe/Berlin:20161022T180000
+DTEND;TZID=Europe/Berlin:20161023T060000
+END:VEVENT`.split("\n").join("\r\n"));
+		expect(fcEvents[0][2].toString()).toEqual('2016-10-23T18:00:00');
+		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[0][2])).toBe(true);
+		expect(fcEvents[0][3].toString()).toEqual('2016-10-24T06:00:00');
+		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[0][3])).toBe(true);
+
+		expect(fcEvents[1][0]).toEqual(vevent);
+		expect(fcEvents[1][1].toString()).toEqual(`BEGIN:VEVENT
+CREATED:20161020T130607
+DTSTAMP:20161020T130607
+LAST-MODIFIED:20161020T130607
+UID:ujihvdbldzg
+SUMMARY:Test
+CLASS:PUBLIC
+STATUS:CONFIRMED
+RRULE:FREQ=DAILY;COUNT=3
+DTSTART;TZID=Europe/Berlin:20161022T180000
+DTEND;TZID=Europe/Berlin:20161023T060000
+END:VEVENT`.split("\n").join("\r\n"));
+		expect(fcEvents[1][2].toString()).toEqual('2016-10-24T18:00:00');
+		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[1][2])).toBe(true);
+		expect(fcEvents[1][3].toString()).toEqual('2016-10-25T06:00:00');
+		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[1][3])).toBe(true);
 	});
 
 	it ('should get a simple event without recurrenceId', function() {

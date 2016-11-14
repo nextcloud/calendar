@@ -162,16 +162,16 @@ app.factory('VEvent', function(FcEvent, SimpleEvent, ICalFactory, StringUtility)
 
 					let next;
 					while ((next = iterator.next())) {
-						if (next.compare(iCalStart) < 0) {
+						const singleDtStart = next.clone();
+						const singleDtEnd = next.clone();
+						singleDtEnd.addDuration(duration);
+
+						if (singleDtEnd.compare(iCalStart) < 0) {
 							continue;
 						}
 						if (next.compare(iCalEnd) > 0) {
 							break;
 						}
-
-						const singleDtStart = next.clone();
-						const singleDtEnd = next.clone();
-						singleDtEnd.addDuration(duration);
 
 						const dtstart = context.convertTz(singleDtStart, timezone.jCal);
 						const dtend = context.convertTz(singleDtEnd, timezone.jCal);
