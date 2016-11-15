@@ -103,5 +103,5 @@ app.service('SettingsService', ['$rootScope', '$http', function($rootScope, $htt
 		}).then(function() {
 			return true;
 		});
-	}
+	};
 }]);
