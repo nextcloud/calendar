@@ -28,6 +28,7 @@
 	data-defaultColor="<?php p($_['defaultColor']); ?>"
 	data-defaultView="<?php p($_['defaultView']); ?>"
 	data-emailAddress="<?php p($_['emailAddress']); ?>"
+	data-firstRun="<?php p($_['firstRun']); ?>"
 	data-skipPopover="<?php p($_['skipPopover']); ?>"
 	data-weekNumbers="<?php p($_['weekNumbers']); ?>"
 	data-webCalWorkaround="<?php p($_['webCalWorkaround']); ?>"

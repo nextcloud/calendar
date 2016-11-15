@@ -92,4 +92,16 @@ app.service('SettingsService', ['$rootScope', '$http', function($rootScope, $htt
 			return true;
 		});
 	};
+
+	this.passedFirstRun = function() {
+		return $http({
+			method: 'POST',
+			url: $rootScope.baseUrl + 'config',
+			data: {
+				key: 'firstRun'
+			}
+		}).then(function() {
+			return true;
+		});
+	}
 }]);

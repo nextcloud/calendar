@@ -26,14 +26,33 @@
  * Description: Takes care of the Calendar Settings.
  */
 
-app.controller('SettingsController', ['$scope', '$uibModal', 'SettingsService', 'fc',
-	function ($scope, $uibModal, SettingsService, fc) {
+app.controller('SettingsController', ['$scope', '$uibModal', '$timeout', 'SettingsService', 'fc',
+	function ($scope, $uibModal, $timeout, SettingsService, fc) {
 		'use strict';
 
 		$scope.settingsCalDavLink = OC.linkToRemote('dav') + '/';
 		$scope.settingsCalDavPrincipalLink = OC.linkToRemote('dav') + '/principals/users/' + escapeHTML(encodeURIComponent(oc_current_user)) + '/';
 		$scope.skipPopover = angular.element('#fullcalendar').attr('data-skipPopover');
 		$scope.settingsShowWeekNr = angular.element('#fullcalendar').attr('data-weekNumbers');
+
+		$timeout(() => {
+			const isFirstRun = angular.element('#fullcalendar').attr('data-firstRun') === 'yes';
+			if (isFirstRun) {
+				angular.element('.settings-button').click();
+				angular.element('#import-button-overlay').tooltip({
+					animation: true,
+					placement: 'bottom',
+					title: t('calendar', 'How about getting started by importing some calendars?')
+				});
+				$timeout(() => {
+					angular.element('#import-button-overlay').tooltip('toggle');
+				}, 500);
+				$timeout(() => {
+					angular.element('#import-button-overlay').tooltip('toggle');
+				}, 10500);
+				SettingsService.passedFirstRun();
+			}
+		}, 1500);
 
 		angular.element('#import').on('change', function () {
 			var filesArray = [];
@@ -75,6 +94,5 @@ app.controller('SettingsController', ['$scope', '$uibModal', 'SettingsService', 
 				fc.elm.fullCalendar('option', 'weekNumbers', (newValue === 'yes'));
 			}
 		};
-
 	}
 ]);
