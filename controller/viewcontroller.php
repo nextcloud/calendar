@@ -118,6 +118,7 @@ class ViewController extends Controller {
 		$defaultView = $this->config->getUserValue($userId, $this->appName, 'currentView', 'month');
 		$skipPopover = $this->config->getUserValue($userId, $this->appName, 'skipPopover', 'no');
 		$weekNumbers = $this->config->getUserValue($userId, $this->appName, 'showWeekNr', 'no');
+		$firstRun = $this->config->getUserValue($userId, $this->appName, 'firstRun', 'yes');
 		$defaultColor = $this->config->getAppValue('theming', 'color', '#0082C9');
 		
 		$webCalWorkaround = $runningOnNextcloud10OrLater ? 'no' : 'yes';
@@ -128,6 +129,7 @@ class ViewController extends Controller {
 			'emailAddress' => $emailAddress,
 			'skipPopover' => $skipPopover,
 			'weekNumbers' => $weekNumbers,
+			'firstRun' => $firstRun,
 			'supportsClass' => $supportsClass,
 			'defaultColor' => $defaultColor,
 			'webCalWorkaround' => $webCalWorkaround,
@@ -160,6 +162,7 @@ class ViewController extends Controller {
 			'defaultView' => 'month',
 			'emailAddress' => '',
 			'supportsClass' => $supportsClass,
+			'firstRun' => 'no',
 			'isPublic' => true,
 			'shareURL' => $this->request->getServerProtocol() . '://' . $this->request->getServerHost() . $this->request->getRequestUri(),
 			'previewImage' => $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'favicon-touch.png')),

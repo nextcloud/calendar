@@ -157,6 +157,11 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 				->will($this->returnValue('someShowWeekNrValue'));
 
 			$this->config->expects($this->at(6))
+				->method('getUserValue')
+				->with('user123', $this->appName, 'firstRun', 'yes')
+				->will($this->returnValue('someFirstRunValue'));
+
+			$this->config->expects($this->at(7))
 				->method('getAppValue')
 				->with('theming', 'color', '#0082C9')
 				->will($this->returnValue('#ff00ff'));
@@ -170,6 +175,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 				'emailAddress' => 'test@bla.com',
 				'skipPopover' => 'someSkipPopoverValue',
 				'weekNumbers' => 'someShowWeekNrValue',
+				'firstRun' => 'someFirstRunValue',
 				'supportsClass' => $expectsSupportsClass,
 				'defaultColor' => '#ff00ff',
 				'webCalWorkaround' => $expectsWebcalWorkaround,
@@ -226,6 +232,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 				'isPublic' => true,
 				'shareURL' => '://',
 				'previewImage' => null,
+				'firstRun' => 'no',
 			], $actual->getParams());
 			$this->assertEquals('main', $actual->getTemplateName());
 		}
