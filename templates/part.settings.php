@@ -28,7 +28,7 @@
 	<button name="app settings"
 		class="settings-button"
 		data-apps-slide-toggle="#app-settings-content">
-		<?php p($l->t('Settings')); ?>
+		<?php p($l->t('Settings & Import')); ?>
 	</button>
 </div>
 
