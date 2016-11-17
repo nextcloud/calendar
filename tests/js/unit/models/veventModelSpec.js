@@ -554,6 +554,15 @@ END:VTIMEZONE
 		expect(() => VEvent(calendar, 'foobar')).toThrowError(TypeError, 'Given comp is not a valid calendar');
 	});
 
+	it ('should sanatize an malformed DTSTART, DTEND', function() {
+		const calendar = {this_is_a_fancy_calendar: true};
+		const compDTStart = `DTSTART:1970-01-01T::`;
+		const compDTEnd = `DTEND:1970-01-01T::`;
+
+		expect(VEvent.sanDate(compDTStart)).toEqual("DTSTART;VALUE=DATE:19700101");
+		expect(VEvent.sanDate(compDTEnd)).toEqual("DTEND;VALUE=DATE:19700101");
+	});
+
 	it ('should register timezones in the given comp', function() {
 		const calendar = {this_is_a_fancy_calendar: true};
 		const comp = new ICAL.Component(ICAL.parse(ics2));
