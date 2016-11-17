@@ -63,7 +63,6 @@ OC.L10N.register(
     "{type} at {time}" : "{type} ajankohtana {time}",
     "{calendar} shared by {owner}" : "{calendar} jakanut {owner}",
     "Please enter a valid WebCal-URL" : "Anna kelvollinen WebCal-osoite",
-    "The remote server did not give us access to the calendar (HTTP {code} error)" : "Etäpalvelin ei antanut pääsyä kalenteriin (HTTP-virhe {code})",
     "Title of the Event" : "Tapahtuman otsikko",
     "starts" : "alkaa",
     "ends" : "päättyy",

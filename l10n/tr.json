@@ -74,7 +74,6 @@
     "{type} at {time}" : "{time} zamanında {type}",
     "{calendar} shared by {owner}" : "{owner} tarafından paylaşılmış {calendar}",
     "Please enter a valid WebCal-URL" : "Lütfen geçerli bir WebCal adresi yazın",
-    "The remote server did not give us access to the calendar (HTTP {code} error)" : "Uzak sunucu takvim erişimi sunmuyor (HTTP {code} hatası)",
     "Title of the Event" : "Etkinlik Başlığı",
     "starts" : "başlangıç",
     "ends" : "bitiş",

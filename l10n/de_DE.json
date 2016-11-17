@@ -74,7 +74,6 @@
     "{type} at {time}" : "{type} um {time}",
     "{calendar} shared by {owner}" : "{calendar} geteilt von {owner}",
     "Please enter a valid WebCal-URL" : "Bitte geben Sie eine gültige WebCal-URL an",
-    "The remote server did not give us access to the calendar (HTTP {code} error)" : "Der entfernte Server gibt uns keinen Zugriff auf den Kalender (HTTP {code} error)",
     "Title of the Event" : "Titel der Veranstaltung",
     "starts" : "Beginnt",
     "ends" : "endet",

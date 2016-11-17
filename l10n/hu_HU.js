@@ -76,7 +76,6 @@ OC.L10N.register(
     "{type} at {time}" : "{type} ekkor: {time}",
     "{calendar} shared by {owner}" : "{calendar} megosztója: {owner}",
     "Please enter a valid WebCal-URL" : "Kérlek adj meg egy érvényes WebCal-URL-t",
-    "The remote server did not give us access to the calendar (HTTP {code} error)" : "A távoli szerver nem adott hozzáférést a naptárhoz (HTTP hiba: {code})",
     "Title of the Event" : "Az esemény címe",
     "starts" : "kezdete",
     "ends" : "vége",

@@ -74,7 +74,6 @@
     "{type} at {time}" : "{type} v {time}",
     "{calendar} shared by {owner}" : "{calendar} sdílen uživatelem {owner}",
     "Please enter a valid WebCal-URL" : "Zadejte prosím platnout WebCal URL",
-    "The remote server did not give us access to the calendar (HTTP {code} error)" : "Vzdálený server nepovolil přístup ke kalendáři (HTTP {code} chyba)",
     "Title of the Event" : "Název události",
     "starts" : "začíná",
     "ends" : "končí",

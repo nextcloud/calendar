@@ -70,7 +70,6 @@ OC.L10N.register(
     "{type} at {time}" : "{type} në {time}",
     "{calendar} shared by {owner}" : "{calendar} ndarë nga {owner}",
     "Please enter a valid WebCal-URL" : "Ju lutemi, jepni një url të vlefshme WebCal-URL",
-    "The remote server did not give us access to the calendar (HTTP {code} error)" : "Shërbyesi i largët nuk na lejoi hyrje te kalendari (gabim HTTP {code})",
     "Title of the Event" : "Titulli i Veprimtarisë",
     "starts" : "fillon",
     "ends" : "mbaron",

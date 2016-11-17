@@ -69,7 +69,6 @@ OC.L10N.register(
     "{type} at {time}" : "{type} {time}",
     "{calendar} shared by {owner}" : "{calendar} 由 {owner} 共享",
     "Please enter a valid WebCal-URL" : "请输入有效的WebCal地址",
-    "The remote server did not give us access to the calendar (HTTP {code} error)" : "远程服务器阻止访问日历(HTTP错误码 {code} )",
     "Title of the Event" : "事件标题",
     "starts" : "开始于",
     "ends" : "结束于",

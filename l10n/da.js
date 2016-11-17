@@ -70,7 +70,6 @@ OC.L10N.register(
     "{type} at {time}" : "{type} på {time}",
     "{calendar} shared by {owner}" : "{calendar} delt af {owner}",
     "Please enter a valid WebCal-URL" : "Angiv en gyldig WebCal-URL",
-    "The remote server did not give us access to the calendar (HTTP {code} error)" : "Den eksterne server nægtet os adgang til kalenderen (HTTP {code} error)",
     "Title of the Event" : "Titel på begivenheden",
     "starts" : "starter",
     "ends" : "slutter",

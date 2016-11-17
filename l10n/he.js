@@ -70,7 +70,6 @@ OC.L10N.register(
     "{type} at {time}" : "{type} בשעה {time}",
     "{calendar} shared by {owner}" : "{calendar} משותף על ידי {owner}",
     "Please enter a valid WebCal-URL" : "יש להכניס נתיב אינטרנט WebCal חוקי",
-    "The remote server did not give us access to the calendar (HTTP {code} error)" : "השרת המרוחק לא מאפשר כניסה ללוח השנה (HTTP {code} error)",
     "Title of the Event" : "כותרת האירוע",
     "starts" : "מתחיל",
     "ends" : "מסתיים",

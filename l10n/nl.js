@@ -76,7 +76,6 @@ OC.L10N.register(
     "{type} at {time}" : "{type} om {time}",
     "{calendar} shared by {owner}" : "{calendar} gedeeld door {owner}",
     "Please enter a valid WebCal-URL" : "Voer een geldig WebCal-URL in",
-    "The remote server did not give us access to the calendar (HTTP {code} error)" : "De externe server verleende geen toegang tot de agenda (HTTP {code} four)",
     "Title of the Event" : "Titel van de afspraak",
     "starts" : "begint",
     "ends" : "eindigt",

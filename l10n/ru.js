@@ -75,7 +75,6 @@ OC.L10N.register(
     "{type} at {time}" : "{type} в {time}",
     "{calendar} shared by {owner}" : "{calendar} опубликован пользователем {owner}",
     "Please enter a valid WebCal-URL" : "Пожалуйста, введите правильный адрес WebCal",
-    "The remote server did not give us access to the calendar (HTTP {code} error)" : "Удалённый сервер не дал нам доступ к календарю (ошибка HTTP {code})",
     "Title of the Event" : "Название события",
     "starts" : "начинается",
     "ends" : "заканчивается",
