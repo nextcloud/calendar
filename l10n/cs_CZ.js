@@ -2,6 +2,10 @@ OC.L10N.register(
     "calendar",
     {
     "Calendar" : "Kalendář",
+    "The remote server did not give us access to the calendar (HTTP {%s} error)" : "Vzdálený server nepovolil přístup ke kalendáři (HTTP {%s} chyba)",
+    "Error connecting to remote server" : "Chyba připojování ke vzdálenému serveru",
+    "Error requesting resource on remote server. This could possible be related to a certificate mismatch" : "Chyba při vyžádání zdroje na vzdáleném serveru. To může být způsobeno neshodným certifikátem",
+    "Error requesting resource on remote server" : "Chyba při vyžádání zdroje na vzdáleném serveru",
     "%s has published the calendar \"%s\"" : "%s publikoval kalendář \"%s\"",
     "Individual" : "Individuální",
     "Group" : "Skupina",
@@ -76,6 +80,7 @@ OC.L10N.register(
     "{type} at {time}" : "{type} v {time}",
     "{calendar} shared by {owner}" : "{calendar} sdílen uživatelem {owner}",
     "Please enter a valid WebCal-URL" : "Zadejte prosím platnout WebCal URL",
+    "Severe error in webcal proxy. Please contact administrator for more information." : "Kritická chyba ve webcal proxy. Pro více informací kontaktujte svého administrátora.",
     "Title of the Event" : "Název události",
     "starts" : "začíná",
     "ends" : "končí",

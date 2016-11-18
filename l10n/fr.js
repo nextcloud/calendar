@@ -2,6 +2,8 @@ OC.L10N.register(
     "calendar",
     {
     "Calendar" : "Agenda",
+    "The remote server did not give us access to the calendar (HTTP {%s} error)" : "Ce serveur distant ne semble pas nous donner accès au calendrier (erreur HTTP {%s})",
+    "Error connecting to remote server" : "Erreur de connexion au serveur distant",
     "%s has published the calendar \"%s\"" : "%s a publié le calendrier \"%s\"",
     "Individual" : "Individuel",
     "Group" : "Groupe",
