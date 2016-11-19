@@ -2,6 +2,10 @@ OC.L10N.register(
     "calendar",
     {
     "Calendar" : "Kalender",
+    "The remote server did not give us access to the calendar (HTTP {%s} error)" : "Der entfernte Server erlaubt keinen Zugriff auf den Kalender (HTTP {%s} error)",
+    "Error connecting to remote server" : "Fehler bei der Verbindung zum entfernten Server",
+    "Error requesting resource on remote server. This could possible be related to a certificate mismatch" : "Fehler beim Abrufen einer Resource auf dem entfernten Server. Dies könnte mit einem Zertifikatsfehler zusammenhängen.",
+    "Error requesting resource on remote server" : "Fehler beim Abruf einer Resource auf dem entfernten Server",
     "%s has published the calendar \"%s\"" : "%s hat den Kalender \"%s\" veröffentlicht",
     "Individual" : "individuell",
     "Group" : "Gruppe",
@@ -76,6 +80,7 @@ OC.L10N.register(
     "{type} at {time}" : "{type} um {time}",
     "{calendar} shared by {owner}" : "{calendar} geteilt von {owner}",
     "Please enter a valid WebCal-URL" : "Bitte geben Sie eine gültige WebCal-URL an",
+    "Severe error in webcal proxy. Please contact administrator for more information." : "Schwerer Fehler im webcal-Proxy. Bitte kontaktieren Sie Ihren Administrator für weitere Informationen.",
     "Title of the Event" : "Titel der Veranstaltung",
     "starts" : "Beginnt",
     "ends" : "endet",
