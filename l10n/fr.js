@@ -78,6 +78,7 @@ OC.L10N.register(
     "{type} at {time}" : "{type} à {time}",
     "{calendar} shared by {owner}" : "{calendar} partagé par {owner}",
     "Please enter a valid WebCal-URL" : "Veuillez saisir une URL WebCal valide",
+    "Severe error in webcal proxy. Please contact administrator for more information." : "Erreur grave du mandataire webcal.  Communiquez avec votre administrateur de réseau pour plus de renseignements.",
     "Title of the Event" : "Titre de l'événement",
     "starts" : "démarre",
     "ends" : "termine",
