@@ -77,7 +77,32 @@ app.controller('AttendeeController', function($scope, AutoCompletionService) {
 	};
 
 	$scope.search = function (value) {
-		return AutoCompletionService.searchAttendee(value);
+		return AutoCompletionService.searchAttendee(value).then((attendees) => {
+			const arr = [];
+
+			attendees.forEach((attendee) => {
+				const emailCount = attendee.email.length;
+				attendee.email.forEach((email) => {
+					let displayname;
+					if (emailCount === 1) {
+						displayname = attendee.name;
+					} else {
+						displayname = t('calendar', '{name} ({email})', {
+							name: attendee.name,
+							email: email
+						});
+					}
+
+					arr.push({
+						displayname: displayname,
+						email: email,
+						name: attendee.name
+					});
+				});
+			});
+
+			return arr;
+		});
 	};
 
 	$scope.selectFromTypeahead = function (item) {

@@ -101,12 +101,10 @@ class ContactController extends Controller {
 				$r['EMAIL'] = [$r['EMAIL']];
 			}
 
-			foreach ($r['EMAIL'] as $email) {
-				$contacts[] = [
-					'email' => $email,
+			$contacts[] = [
+					'email' => $r['EMAIL'],
 					'name' => $name
-				];
-			}
+			];
 		}
 
 		return new JSONResponse($contacts);
