@@ -53,14 +53,14 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 
 	const UPDATABLE_PROPERTIES = [
 		'color',
-		'description',
+		'displayname',
 		'enabled',
 		'order'
 	];
 
 	const UPDATABLE_PROPERTIES_MAP = {
 		color: 'a:calendar-color',
-		description: 'd:displayname',
+		displayname: 'd:displayname',
 		enabled: 'o:calendar-enabled',
 		order: 'a:calendar-order'
 	};
@@ -442,6 +442,7 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 				value
 			});
 		});
+		calendar.resetUpdated();
 
 		const method = 'PROPPATCH';
 		const url = calendar.url;
