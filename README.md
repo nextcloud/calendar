@@ -33,11 +33,12 @@ Check out our [FAQ](https://github.com/nextcloud/calendar/wiki/FAQs). If you don
 
 ## Supported Browsers
 
-* Latest Firefox
-* Latest Chrome/Chromium
-* Latest Safari
+* Chrome/Chromium 49+
+* Firefox 45+
+* Safari 10+
+* Edge 14+
 
-We don't support Internet Explorer or Edge. Patches for IE9+ and Edge are accepted though.
+We don't support Internet Explorer. Patches for IE9+ and are accepted though.
 
 ## Nightly builds
 
