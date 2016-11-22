@@ -84,4 +84,18 @@ describe('Settings Service', function () {
 
 		expect(http.flush).not.toThrow();
 	});
+
+	it ('should tell the server about the first run', function() {
+		http.expect('POST', 'fancy-url/config', {
+			'key': 'firstRun'
+		}).respond(200, {value: 'yes'});
+
+		let called = false;
+		SettingsService.passedFirstRun().then(function(result) {
+			called = true;
+		});
+
+		expect(http.flush).not.toThrow();
+		expect(called).toEqual(true);
+	});
 });

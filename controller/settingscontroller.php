@@ -75,6 +75,8 @@ class SettingsController extends Controller {
 				return $this->getSkipPopover();
 			case 'showWeekNr':
 				return $this->getShowWeekNr();
+			case 'firstRun':
+				return $this->getFirstRun();
 			default:
 				return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		}
@@ -97,6 +99,8 @@ class SettingsController extends Controller {
 				return $this->setSkipPopover($value);
 			case 'showWeekNr':
 				return $this->setShowWeekNr($value);
+			case 'firstRun':
+				return $this->setFirstRun();
 			default:
 				return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		}
@@ -289,5 +293,47 @@ class SettingsController extends Controller {
 		];
 
 		return in_array($value, $allowedValues);
+	}
+
+	/**
+	 * remember that first run routines executed
+	 *
+	 * @return JSONResponse
+	 */
+	private function setFirstRun() {
+		try {
+			$this->config->setUserValue(
+				$this->userId,
+				$this->appName,
+				'firstRun',
+				'no'
+			);
+		} catch(\Exception $e) {
+			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+
+		return new JSONResponse();
+	}
+
+	/**
+	 * get stored value for first run
+	 *
+	 * @return JSONResponse
+	 */
+	private function getFirstRun() {
+		try {
+			$value = $this->config->getUserValue(
+				$this->userId,
+				$this->appName,
+				'firstRun',
+				'yes'
+			);
+		} catch(\Exception $e) {
+			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+
+		return new JSONResponse([
+			'value' => $value,
+		]);
 	}
 }

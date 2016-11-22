@@ -199,6 +199,57 @@ class SettingsControllerTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(500, $actual->getStatus());
 	}
 
+	public function testSetFirstRun() {
+		$this->config->expects($this->once())
+			->method('setUserValue')
+			->with('user123', $this->appName, 'firstRun', 'no');
+
+		$actual = $this->controller->setConfig('firstRun', 'some_random_ignored_value');
+
+		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertEquals([], $actual->getData());
+		$this->assertEquals(200, $actual->getStatus());
+	}
+
+	public function testSetFirstRunWithException() {
+		$this->config->expects($this->once())
+			->method('setUserValue')
+			->with('user123', $this->appName, 'firstRun', 'no')
+			->will($this->throwException(new \Exception));
+
+		$actual = $this->controller->setConfig('firstRun', 'some_random_ignored_value');
+
+		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertEquals([], $actual->getData());
+		$this->assertEquals(500, $actual->getStatus());
+	}
+
+	public function testGetFirstRun() {
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->with('user123', $this->appName, 'firstRun', 'yes')
+			->will($this->returnValue('no'));
+
+		$actual = $this->controller->getConfig('firstRun');
+
+		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertEquals(['value' => 'no'], $actual->getData());
+		$this->assertEquals(200, $actual->getStatus());
+	}
+
+	public function testGetFirstRunWithException() {
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->with('user123', $this->appName, 'firstRun', 'yes')
+			->will($this->throwException(new \Exception));
+
+		$actual = $this->controller->getConfig('firstRun');
+
+		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertEquals([], $actual->getData());
+		$this->assertEquals(500, $actual->getStatus());
+	}
+
 	public function testGetNotExistingConfig() {
 		$actual = $this->controller->getConfig('foo');
 		

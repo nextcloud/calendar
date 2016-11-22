@@ -115,10 +115,27 @@ class ViewController extends Controller {
 		$emailAddress = $user->getEMailAddress();
 
 		$appVersion = $this->config->getAppValue($this->appName, 'installed_version');
-		$defaultView = $this->config->getUserValue($userId, $this->appName, 'currentView', 'month');
+		$defaultView = $this->config->getUserValue($userId, $this->appName, 'currentView', null);
 		$skipPopover = $this->config->getUserValue($userId, $this->appName, 'skipPopover', 'no');
 		$weekNumbers = $this->config->getUserValue($userId, $this->appName, 'showWeekNr', 'no');
+		$firstRun = $this->config->getUserValue($userId, $this->appName, 'firstRun', null);
 		$defaultColor = $this->config->getAppValue('theming', 'color', '#0082C9');
+
+		// the default view will be saved as soon as a user
+		// opens the calendar app, therefore this is a good
+		// indication if the calendar was used before
+		if ($firstRun === null) {
+			if ($defaultView === null) {
+				$firstRun = 'yes';
+			} else {
+				$this->config->setUserValue($userId, $this->appName, 'firstRun', 'no');
+				$firstRun = 'no';
+			}
+		}
+
+		if ($defaultView === null) {
+			$defaultView = 'month';
+		}
 		
 		$webCalWorkaround = $runningOnNextcloud10OrLater ? 'no' : 'yes';
 
@@ -128,6 +145,7 @@ class ViewController extends Controller {
 			'emailAddress' => $emailAddress,
 			'skipPopover' => $skipPopover,
 			'weekNumbers' => $weekNumbers,
+			'firstRun' => $firstRun,
 			'supportsClass' => $supportsClass,
 			'defaultColor' => $defaultColor,
 			'webCalWorkaround' => $webCalWorkaround,
@@ -160,6 +178,7 @@ class ViewController extends Controller {
 			'defaultView' => 'month',
 			'emailAddress' => '',
 			'supportsClass' => $supportsClass,
+			'firstRun' => 'no',
 			'isPublic' => true,
 			'shareURL' => $this->request->getServerProtocol() . '://' . $this->request->getServerHost() . $this->request->getRequestUri(),
 			'previewImage' => $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'favicon-touch.png')),

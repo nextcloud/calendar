@@ -143,7 +143,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 
 			$this->config->expects($this->at(3))
 				->method('getUserValue')
-				->with('user123', $this->appName, 'currentView', 'month')
+				->with('user123', $this->appName, 'currentView', null)
 				->will($this->returnValue('someView'));
 
 			$this->config->expects($this->at(4))
@@ -157,6 +157,11 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 				->will($this->returnValue('someShowWeekNrValue'));
 
 			$this->config->expects($this->at(6))
+				->method('getUserValue')
+				->with('user123', $this->appName, 'firstRun', null)
+				->will($this->returnValue('someFirstRunValue'));
+
+			$this->config->expects($this->at(7))
 				->method('getAppValue')
 				->with('theming', 'color', '#0082C9')
 				->will($this->returnValue('#ff00ff'));
@@ -170,6 +175,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 				'emailAddress' => 'test@bla.com',
 				'skipPopover' => 'someSkipPopoverValue',
 				'weekNumbers' => 'someShowWeekNrValue',
+				'firstRun' => 'someFirstRunValue',
 				'supportsClass' => $expectsSupportsClass,
 				'defaultColor' => '#ff00ff',
 				'webCalWorkaround' => $expectsWebcalWorkaround,
@@ -186,6 +192,164 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 			[true, false, '9.1.0.0', true, 'no'],
 			[false, false, '9.0.5.2', false, 'yes'],
 			[false, false, '9.1.0.0', true, 'no']
+		];
+	}
+
+	public function testIndexNoMonthFallback() {
+		$this->config->expects($this->at(0))
+			->method('getSystemValue')
+			->with('version')
+			->will($this->returnValue('9.1.0.0'));
+
+		$this->config->expects($this->at(1))
+			->method('getSystemValue')
+			->with('asset-pipeline.enabled', false)
+			->will($this->returnValue(false));
+
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($this->dummyUser));
+
+		$this->dummyUser->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('user123'));
+
+		$this->dummyUser->expects($this->once())
+			->method('getEMailAddress')
+			->will($this->returnValue('test@bla.com'));
+
+		$this->config->expects($this->at(2))
+			->method('getAppValue')
+			->with($this->appName, 'installed_version')
+			->will($this->returnValue('42.13.37'));
+
+		$this->config->expects($this->at(3))
+			->method('getUserValue')
+			->with('user123', $this->appName, 'currentView', null)
+			->will($this->returnValue(null));
+
+		$this->config->expects($this->at(4))
+			->method('getUserValue')
+			->with('user123', $this->appName, 'skipPopover', 'no')
+			->will($this->returnValue('someSkipPopoverValue'));
+
+		$this->config->expects($this->at(5))
+			->method('getUserValue')
+			->with('user123', $this->appName, 'showWeekNr', 'no')
+			->will($this->returnValue('someShowWeekNrValue'));
+
+		$this->config->expects($this->at(6))
+			->method('getUserValue')
+			->with('user123', $this->appName, 'firstRun', null)
+			->will($this->returnValue('someFirstRunValue'));
+
+		$this->config->expects($this->at(7))
+			->method('getAppValue')
+			->with('theming', 'color', '#0082C9')
+			->will($this->returnValue('#ff00ff'));
+
+		$actual = $this->controller->index();
+
+		$this->assertInstanceOf('OCP\AppFramework\Http\TemplateResponse', $actual);
+		$this->assertEquals([
+			'appVersion' => '42.13.37',
+			'defaultView' => 'month',
+			'emailAddress' => 'test@bla.com',
+			'skipPopover' => 'someSkipPopoverValue',
+			'weekNumbers' => 'someShowWeekNrValue',
+			'firstRun' => 'someFirstRunValue',
+			'supportsClass' => true,
+			'defaultColor' => '#ff00ff',
+			'webCalWorkaround' => 'no',
+			'isPublic' => false,
+		], $actual->getParams());
+		$this->assertEquals('main', $actual->getTemplateName());
+	}
+
+	/**
+	 * @dataProvider indexFirstRunDetectionProvider
+	 */
+	public function testIndexFirstRunDetection($defaultView, $expectedFirstRun, $expectsSetRequest) {
+		$this->config->expects($this->at(0))
+			->method('getSystemValue')
+			->with('version')
+			->will($this->returnValue('9.1.0.0'));
+
+		$this->config->expects($this->at(1))
+			->method('getSystemValue')
+			->with('asset-pipeline.enabled', false)
+			->will($this->returnValue(false));
+
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($this->dummyUser));
+
+		$this->dummyUser->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('user123'));
+
+		$this->dummyUser->expects($this->once())
+			->method('getEMailAddress')
+			->will($this->returnValue('test@bla.com'));
+
+		$this->config->expects($this->at(2))
+			->method('getAppValue')
+			->with($this->appName, 'installed_version')
+			->will($this->returnValue('42.13.37'));
+
+		$this->config->expects($this->at(3))
+			->method('getUserValue')
+			->with('user123', $this->appName, 'currentView', null)
+			->will($this->returnValue($defaultView));
+
+		$this->config->expects($this->at(4))
+			->method('getUserValue')
+			->with('user123', $this->appName, 'skipPopover', 'no')
+			->will($this->returnValue('someSkipPopoverValue'));
+
+		$this->config->expects($this->at(5))
+			->method('getUserValue')
+			->with('user123', $this->appName, 'showWeekNr', 'no')
+			->will($this->returnValue('someShowWeekNrValue'));
+
+		$this->config->expects($this->at(6))
+			->method('getUserValue')
+			->with('user123', $this->appName, 'firstRun', null)
+			->will($this->returnValue(null));
+
+		$this->config->expects($this->at(7))
+			->method('getAppValue')
+			->with('theming', 'color', '#0082C9')
+			->will($this->returnValue('#ff00ff'));
+
+		if ($expectsSetRequest) {
+			$this->config->expects($this->at(8))
+				->method('setUserValue')
+				->with('user123');
+		}
+
+		$actual = $this->controller->index();
+
+		$this->assertInstanceOf('OCP\AppFramework\Http\TemplateResponse', $actual);
+		$this->assertEquals([
+			'appVersion' => '42.13.37',
+			'defaultView' => $defaultView ? 'someRandomDefaultView' : 'month',
+			'emailAddress' => 'test@bla.com',
+			'skipPopover' => 'someSkipPopoverValue',
+			'weekNumbers' => 'someShowWeekNrValue',
+			'firstRun' => $expectedFirstRun,
+			'supportsClass' => true,
+			'defaultColor' => '#ff00ff',
+			'webCalWorkaround' => 'no',
+			'isPublic' => false,
+		], $actual->getParams());
+		$this->assertEquals('main', $actual->getTemplateName());
+	}
+
+	public function indexFirstRunDetectionProvider() {
+		return [
+			[null, 'yes', false],
+			['someRandomDefaultView', 'no', true],
 		];
 	}
 
@@ -226,6 +390,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 				'isPublic' => true,
 				'shareURL' => '://',
 				'previewImage' => null,
+				'firstRun' => 'no',
 			], $actual->getParams());
 			$this->assertEquals('main', $actual->getTemplateName());
 		}
