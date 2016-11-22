@@ -91,15 +91,11 @@ class ContactControllerTest extends \PHPUnit_Framework_TestCase {
 		$expected = [
 			[
 				'name' => 'Person 1',
-				'email' => '1@2.org',
-			],
-			[
-				'name' => 'Person 1',
-				'email' => '3@4.com',
+				'email' => ['1@2.org', '3@4.com'],
 			],
 			[
 				'name' => '',
-				'email' => '5@6.net',
+				'email' => ['5@6.net'],
 			],
 		];
 
