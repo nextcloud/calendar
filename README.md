@@ -38,7 +38,7 @@ Check out our [FAQ](https://github.com/nextcloud/calendar/wiki/FAQs). If you don
 * Safari 10+
 * Edge 14+
 
-We don't support Internet Explorer. Patches for IE9+ and are accepted though.
+We don't support Internet Explorer. Patches for IE9+ are accepted though.
 
 ## Nightly builds
 
