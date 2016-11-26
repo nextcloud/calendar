@@ -125,10 +125,10 @@ app.controller('ImportController', ['$scope', '$filter', 'CalendarService', 'VEv
 				$scope.$apply();
 				$scope.closeIfNecessary();
 
-				var calendar = $scope.calendars.filter(function (element) {
+				const calendar = $scope.calendars.find(function (element) {
 					return element.url === fileWrapper.selectedCalendar;
-				})[0];
-				if (calendar.enabled) {
+				});
+				if (calendar && calendar.enabled) {
 					calendar.enabled = false;
 					calendar.enabled = true;
 				}
@@ -144,15 +144,18 @@ app.controller('ImportController', ['$scope', '$filter', 'CalendarService', 'VEv
 
 		$scope.closeIfNecessary = function() {
 			var unfinishedFiles = $scope.files.filter(function(fileWrapper) {
-				return !fileWrapper.wasCanceled() && !fileWrapper.isDone();
+				return !fileWrapper.wasCanceled() && !fileWrapper.isDone() && !fileWrapper.isEmpty();
 			});
 			var filesEncounteredErrors = $scope.files.filter(function(fileWrapper) {
 				return fileWrapper.isDone() && fileWrapper.hasErrors();
 			});
+			const emptyFiles = $scope.files.filter((fileWrapper) => {
+				return fileWrapper.isEmpty();
+			});
 
-			if (unfinishedFiles.length === 0 && filesEncounteredErrors.length === 0) {
+			if (unfinishedFiles.length === 0 && filesEncounteredErrors.length === 0 && emptyFiles.length === 0) {
 				$uibModalInstance.close();
-			} else if (unfinishedFiles.length === 0 && filesEncounteredErrors.length !== 0) {
+			} else if (unfinishedFiles.length === 0 && (filesEncounteredErrors.length !== 0 || emptyFiles.length !== 0)) {
 				$scope.showCloseButton = true;
 				$scope.$apply();
 			}
