@@ -2,6 +2,7 @@ OC.L10N.register(
     "calendar",
     {
     "Calendar" : "Kalendorius",
+    "Error connecting to remote server" : "Klaida, jungiantis prie nuotolinio serverio",
     "Individual" : "Individualus",
     "Group" : "Grupė",
     "Resource" : "Išteklis",

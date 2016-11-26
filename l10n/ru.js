@@ -144,6 +144,8 @@ OC.L10N.register(
     "New calendar" : "Новый календарь",
     "Import scheduled" : "Импорт запланирован",
     "Settings" : "Настройки",
+    "Publish URL" : "Опубликовать URL",
+    "Settings & Import" : "Настройки и Импорт",
     "Skip simple event editor" : "Пропустить простой редактор события",
     "Show week numbers" : "Показать номера недель",
     "Import calendar" : "Импорт календаря",
