@@ -45,6 +45,7 @@ OC.L10N.register(
     "Every year" : "Minden év",
     "never" : "soha",
     "after" : "után",
+    "How about getting started by importing some calendars?" : "Mi lenne, ha a meglévő naptárak importálásával kezdenénk?",
     "At time of event" : "az eseménnyel egy időben",
     "5 minutes before" : "5 perccel előtte",
     "10 minutes before" : "10 perccel előtte",

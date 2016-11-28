@@ -45,6 +45,7 @@ OC.L10N.register(
     "Every year" : "Ogni anno",
     "never" : "mai",
     "after" : "dopo",
+    "How about getting started by importing some calendars?" : "Perché non inizi importando qualche calendario?",
     "At time of event" : "Al momento dell'evento",
     "5 minutes before" : "5 minuti prima",
     "10 minutes before" : "10 minuti prima",
