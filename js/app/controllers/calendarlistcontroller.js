@@ -41,8 +41,6 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 		$scope.publicdav = 'CalDAV';
 		$scope.publicdavdesc = t('calendar', 'CalDAV address for clients');
 
-		window.scope = $scope;
-
 		$scope.$watchCollection('calendars', function(newCalendars, oldCalendars) {
 			newCalendars = newCalendars || [];
 			oldCalendars = oldCalendars || [];
@@ -155,7 +153,7 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 
 		$scope.togglePublish = function(item) {
 			if (item.calendar.published) {
-				CalendarService.publish(item.calendar).then(function (response) {
+				item.calendar.publish().then(function (response) {
 					if (response) {
 						CalendarService.get(item.calendar.url).then(function (calendar) {
 							item.calendar.publishurl = calendar.publishurl;
@@ -166,7 +164,7 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 					$scope.$apply();
 				});
 			} else {
-				CalendarService.unpublish(item.calendar).then(function (response) {
+				item.calendar.unpublish().then(function (response) {
 					if (response) {
 						item.calendar.published = false;
 					}
@@ -183,31 +181,31 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 			// Remove content from text box
 			calendar.selectedSharee = '';
 			// Create a default share with the user/group, read only
-			CalendarService.share(calendar, item.type, item.identifier, false, false).then(function() {
+			calendar.share(item.type, item.identifier, false, false).then(function() {
 				$scope.$apply();
 			});
 		};
 
 		$scope.updateExistingUserShare = function(calendar, userId, writable) {
-			CalendarService.share(calendar, OC.Share.SHARE_TYPE_USER, userId, writable, true).then(function() {
+			calendar.share(OC.Share.SHARE_TYPE_USER, userId, writable, true).then(function() {
 				$scope.$apply();
 			});
 		};
 
 		$scope.updateExistingGroupShare = function(calendar, groupId, writable) {
-			CalendarService.share(calendar, OC.Share.SHARE_TYPE_GROUP, groupId, writable, true).then(function() {
+			calendar.share(OC.Share.SHARE_TYPE_GROUP, groupId, writable, true).then(function() {
 				$scope.$apply();
 			});
 		};
 
 		$scope.unshareFromUser = function(calendar, userId) {
-			CalendarService.unshare(calendar, OC.Share.SHARE_TYPE_USER, userId).then(function() {
+			calendar.unshare(OC.Share.SHARE_TYPE_USER, userId).then(function() {
 				$scope.$apply();
 			});
 		};
 
 		$scope.unshareFromGroup = function(calendar, groupId) {
-			CalendarService.unshare(calendar, OC.Share.SHARE_TYPE_GROUP, groupId).then(function() {
+			calendar.unshare(OC.Share.SHARE_TYPE_GROUP, groupId).then(function() {
 				$scope.$apply();
 			});
 		};
@@ -275,7 +273,7 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 
 		$scope.performUpdate = function (item) {
 			item.saveEditor();
-			CalendarService.update(item.calendar).then(function() {
+			item.calendar.update().then(function() {
 				$rootScope.$broadcast('updatedCalendar', item.calendar);
 				$rootScope.$broadcast('reloadCalendarList');
 			});
@@ -285,7 +283,7 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 		 * Updates the shares of the calendar
 		 */
 		$scope.performUpdateShares = function (calendar) {
-			CalendarService.update(calendar).then(function() {
+			calendar.update().then(function() {
 				calendar.dropPreviousState();
 				calendar.list.edit = false;
 				$rootScope.$broadcast('updatedCalendar', calendar);
@@ -296,14 +294,14 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 		$scope.triggerEnable = function(item) {
 			item.calendar.toggleEnabled();
 
-			CalendarService.update(item.calendar).then(function() {
+			item.calendar.update().then(function() {
 				$rootScope.$broadcast('updatedCalendarsVisibility', item.calendar);
 				$rootScope.$broadcast('reloadCalendarList');
 			});
 		};
 
 		$scope.remove = function (item) {
-			CalendarService.delete(item.calendar).then(function() {
+			item.calendar.delete().then(function() {
 				$scope.$parent.calendars = $scope.$parent.calendars.filter(function(elem) {
 					return elem !== item.calendar;
 				});

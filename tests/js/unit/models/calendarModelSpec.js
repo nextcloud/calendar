@@ -2,6 +2,7 @@ describe('The calendar factory', function () {
 	'use strict';
 
 	var Calendar, window, hook, veventservice, timezoneservice, colorutilityservice, randomstringservice;
+	let privateCalendarServiceAPI;
 
 	beforeEach(module('Calendar', function ($provide) {
 		window = {};
@@ -14,6 +15,15 @@ describe('The calendar factory', function () {
 
 		randomstringservice = {};
 		randomstringservice.generate = jasmine.createSpy().and.returnValue('**random**');
+
+		privateCalendarServiceAPI = {
+			update: jasmine.createSpy(),
+			delete: jasmine.createSpy(),
+			share: jasmine.createSpy(),
+			unshare: jasmine.createSpy(),
+			publish: jasmine.createSpy(),
+			unpublish: jasmine.createSpy()
+		};
 
 		$provide.value('$window', window);
 		$provide.value('Hook', hook);
@@ -34,7 +44,7 @@ describe('The calendar factory', function () {
 			groups: [],
 			users: []
 		};
-		var calendar = Calendar('/remote.php/dav/caldav/foobar/', {
+		var calendar = Calendar(privateCalendarServiceAPI, '/remote.php/dav/caldav/foobar/', {
 			components: components,
 			color: '#001122',
 			displayname: 'name_1337',
@@ -69,7 +79,7 @@ describe('The calendar factory', function () {
 	});
 
 	it('should correctly reflect if it\'s shared', function() {
-		var calendar1 = Calendar('/remote.php/dav/caldav/foobar/', {
+		var calendar1 = Calendar(privateCalendarServiceAPI, '/remote.php/dav/caldav/foobar/', {
 			shares: {
 				groups: [],
 				users: []
@@ -77,7 +87,7 @@ describe('The calendar factory', function () {
 		});
 		expect(calendar1.isShared()).toEqual(false);
 
-		var calendar2 = Calendar('/remote.php/dav/caldav/foobar/', {
+		var calendar2 = Calendar(privateCalendarServiceAPI, '/remote.php/dav/caldav/foobar/', {
 			shares: {
 				groups: [{}],
 				users: []
@@ -85,7 +95,7 @@ describe('The calendar factory', function () {
 		});
 		expect(calendar2.isShared()).toEqual(true);
 
-		var calendar3 = Calendar('/remote.php/dav/caldav/foobar/', {
+		var calendar3 = Calendar(privateCalendarServiceAPI, '/remote.php/dav/caldav/foobar/', {
 			shares: {
 				groups: [],
 				users: [{}]
@@ -93,7 +103,7 @@ describe('The calendar factory', function () {
 		});
 		expect(calendar3.isShared()).toEqual(true);
 
-		var calendar4 = Calendar('/remote.php/dav/caldav/foobar/', {
+		var calendar4 = Calendar(privateCalendarServiceAPI, '/remote.php/dav/caldav/foobar/', {
 			shares: {
 				groups: [{}],
 				users: [{}]
@@ -103,7 +113,7 @@ describe('The calendar factory', function () {
 	});
 
 	it('should be able to store warnings', function() {
-		var calendar = Calendar();
+		var calendar = Calendar(privateCalendarServiceAPI);
 
 		expect(calendar.hasWarnings()).toEqual(false);
 		expect(calendar.warnings).toEqual([]);
@@ -121,7 +131,7 @@ describe('The calendar factory', function () {
 	});
 
 	it('should be able to remember updated properties', function() {
-		var calendar = Calendar();
+		var calendar = Calendar(privateCalendarServiceAPI);
 
 		expect(calendar.hasUpdated()).toEqual(false);
 		expect(calendar.getUpdated()).toEqual([]);
@@ -163,7 +173,49 @@ describe('The calendar factory', function () {
 			_isACalendarObject: true
 		})).toBe(true);
 
-		var item = Calendar('/', {});
+		var item = Calendar(privateCalendarServiceAPI, '/', {});
 		expect(Calendar.isCalendar(item)).toBe(true);
+	});
+
+	it('should call the calendarService api - update', () => {
+		const calendar = Calendar(privateCalendarServiceAPI);
+
+		calendar.update();
+		expect(privateCalendarServiceAPI.update).toHaveBeenCalledWith(calendar);
+	});
+
+	it('should call the calendarService api - delete', () => {
+		const calendar = Calendar(privateCalendarServiceAPI);
+
+		calendar.delete();
+		expect(privateCalendarServiceAPI.delete).toHaveBeenCalledWith(calendar);
+	});
+
+	it('should call the calendarService api - share', () => {
+		const calendar = Calendar(privateCalendarServiceAPI);
+
+		calendar.share(1, 2, 3, 4);
+		expect(privateCalendarServiceAPI.share).toHaveBeenCalledWith(calendar, 1, 2, 3, 4);
+	});
+
+	it('should call the calendarService api - unshare', () => {
+		const calendar = Calendar(privateCalendarServiceAPI);
+
+		calendar.unshare(5, 6, 7, 8);
+		expect(privateCalendarServiceAPI.unshare).toHaveBeenCalledWith(calendar, 5, 6, 7, 8);
+	});
+
+	it('should call the calendarService api - publish', () => {
+		const calendar = Calendar(privateCalendarServiceAPI);
+
+		calendar.publish();
+		expect(privateCalendarServiceAPI.publish).toHaveBeenCalledWith(calendar);
+	});
+
+	it('should call the calendarService api - unpublish', () => {
+		const calendar = Calendar(privateCalendarServiceAPI);
+
+		calendar.unpublish();
+		expect(privateCalendarServiceAPI.unpublish).toHaveBeenCalledWith(calendar);
 	});
 });

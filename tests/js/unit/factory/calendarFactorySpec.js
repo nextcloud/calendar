@@ -25,6 +25,7 @@ describe('CalendarFactory', function () {
 	let CalendarFactory;
 	let $window, DavClient, Calendar, WebCal;
 	let davService, attrSpy, ngElementSpy;
+	let privateCalendarServiceAPI;
 
 	const calendar_default = `<?xml version="1.0"?>
 <d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:cal="urn:ietf:params:xml:ns:caldav" xmlns:cs="http://calendarserver.org/ns/" xmlns:card="urn:ietf:params:xml:ns:carddav" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns">
@@ -839,6 +840,8 @@ describe('CalendarFactory', function () {
 		attrSpy = jasmine.createSpy();
 		ngElementSpy = spyOn(angular, 'element').and.returnValue({attr: attrSpy});
 
+		privateCalendarServiceAPI = {};
+
 		$provide.value('$window', $window);
 		$provide.value('DavClient', DavClient);
 		$provide.value('Calendar', Calendar);
@@ -855,8 +858,8 @@ describe('CalendarFactory', function () {
 
 	it('create a calendar object', function() {
 		const calendarProperties = davService.parseMultiStatus(calendar_default);
-		const calendar = CalendarFactory.calendar(calendarProperties[0], '/remote.php/dav/principals/users/admin/', false);
-		expect(calendar).toEqual(['/remote.php/dav/calendars/admin/privat/', {
+		const calendar = CalendarFactory.calendar(privateCalendarServiceAPI, calendarProperties[0], '/remote.php/dav/principals/users/admin/', false);
+		expect(calendar).toEqual([privateCalendarServiceAPI, '/remote.php/dav/calendars/admin/privat/', {
 			color: '#78e774', displayname: 'Privat', components: {vevent: true, vjournal: false, vtodo: true},
 			order: 0, writable: true, owner: 'admin', enabled: true, shares: {users: [], groups: []},
 			shareable: true, publishable: true, published: false, publishurl: null, publicurl: null,
@@ -865,8 +868,8 @@ describe('CalendarFactory', function () {
 
 	it('create a webcal object', function() {
 		const webcalProperties = davService.parseMultiStatus(webcal_default);
-		const webcal = CalendarFactory.webcal(webcalProperties[0], '/remote.php/dav/principals/users/admin/', false);
-		expect(webcal).toEqual(['/remote.php/dav/calendars/admin/some-webcal-abo/', {
+		const webcal = CalendarFactory.webcal(privateCalendarServiceAPI, webcalProperties[0], '/remote.php/dav/principals/users/admin/', false);
+		expect(webcal).toEqual([privateCalendarServiceAPI, '/remote.php/dav/calendars/admin/some-webcal-abo/', {
 			color: '#e774b5', displayname: 'http://some-fancy-webcal.com/foo.ics',
 			components: {vevent: true, vjournal: false, vtodo: true}, order: 0, writable: false, owner: 'admin',
 			enabled: true, shares: {users: [ ], groups: [  ]}, shareable: false, publishable: false, published: false,
@@ -879,8 +882,8 @@ describe('CalendarFactory', function () {
 		attrSpy.and.returnValue('#fefefe');
 
 		const calendarProperties = davService.parseMultiStatus(calendar_nocolor);
-		const calendar = CalendarFactory.calendar(calendarProperties[0], '/remote.php/dav/principals/users/admin/', false);
-		expect(calendar).toEqual(['/remote.php/dav/calendars/admin/privat/', {
+		const calendar = CalendarFactory.calendar(privateCalendarServiceAPI, calendarProperties[0], '/remote.php/dav/principals/users/admin/', false);
+		expect(calendar).toEqual([privateCalendarServiceAPI, '/remote.php/dav/calendars/admin/privat/', {
 			color: '#fefefe', displayname: 'Privat', components: {vevent: true, vjournal: false, vtodo: true},
 			order: 0, writable: true, owner: 'admin', enabled: true, shares: {users: [], groups: []},
 			shareable: true, publishable: true, published: false, publishurl: null, publicurl: null,
@@ -889,8 +892,8 @@ describe('CalendarFactory', function () {
 
 	it('enable the calendar when it\'s owned by the user and enabled is not set', function() {
 		const calendarProperties = davService.parseMultiStatus(calendar_noenabled);
-		const calendar = CalendarFactory.calendar(calendarProperties[0], '/remote.php/dav/principals/users/admin/', false);
-		expect(calendar).toEqual(['/remote.php/dav/calendars/admin/privat/', {
+		const calendar = CalendarFactory.calendar(privateCalendarServiceAPI, calendarProperties[0], '/remote.php/dav/principals/users/admin/', false);
+		expect(calendar).toEqual([privateCalendarServiceAPI, '/remote.php/dav/calendars/admin/privat/', {
 			color: '#78e774', displayname: 'Privat', components: {vevent: true, vjournal: false, vtodo: true},
 			order: 0, writable: true, owner: 'admin', enabled: true, shares: {users: [], groups: []},
 			shareable: true, publishable: true, published: false, publishurl: null, publicurl: null,
@@ -899,8 +902,8 @@ describe('CalendarFactory', function () {
 
 	it('disable the calendar when it\'s not owned by the user and enabled is not set', function() {
 		const calendarProperties = davService.parseMultiStatus(calendar_noenabled);
-		const calendar = CalendarFactory.calendar(calendarProperties[0], '/remote.php/dav/principals/users/hans_dieter/', false);
-		expect(calendar).toEqual(['/remote.php/dav/calendars/admin/privat/', {
+		const calendar = CalendarFactory.calendar(privateCalendarServiceAPI, calendarProperties[0], '/remote.php/dav/principals/users/hans_dieter/', false);
+		expect(calendar).toEqual([privateCalendarServiceAPI, '/remote.php/dav/calendars/admin/privat/', {
 			color: '#78e774', displayname: 'Privat', components: {vevent: true, vjournal: false, vtodo: true},
 			order: 0, writable: false, owner: 'admin', enabled: false, shares: {users: [], groups: []},
 			shareable: false, publishable: false, published: false, publishurl: null, publicurl: null,
@@ -911,8 +914,8 @@ describe('CalendarFactory', function () {
 		$window.location = 'http://nextcloud.dev/index.php/apps/calendar/';
 
 		const calendarProperties = davService.parseMultiStatus(calendar_published);
-		const calendar = CalendarFactory.calendar(calendarProperties[0], '/remote.php/dav/principals/users/admin/', false);
-		expect(calendar).toEqual(['/remote.php/dav/calendars/admin/privat/', {
+		const calendar = CalendarFactory.calendar(privateCalendarServiceAPI, calendarProperties[0], '/remote.php/dav/principals/users/admin/', false);
+		expect(calendar).toEqual([privateCalendarServiceAPI, '/remote.php/dav/calendars/admin/privat/', {
 			color: '#78e774', displayname: 'Privat', components: {vevent: true, vjournal: false, vtodo: true},
 			order: 0, writable: true, owner: 'admin', enabled: true, shares: {users: [], groups: []},
 			shareable: true, publishable: true, published: true,
@@ -924,8 +927,8 @@ describe('CalendarFactory', function () {
 		$window.location = 'http://nextcloud.dev/index.php/apps/calendar/#';
 
 		const calendarProperties = davService.parseMultiStatus(calendar_published);
-		const calendar = CalendarFactory.calendar(calendarProperties[0], '/remote.php/dav/principals/users/admin/', false);
-		expect(calendar).toEqual(['/remote.php/dav/calendars/admin/privat/', {
+		const calendar = CalendarFactory.calendar(privateCalendarServiceAPI, calendarProperties[0], '/remote.php/dav/principals/users/admin/', false);
+		expect(calendar).toEqual([privateCalendarServiceAPI, '/remote.php/dav/calendars/admin/privat/', {
 			color: '#78e774', displayname: 'Privat', components: {vevent: true, vjournal: false, vtodo: true},
 			order: 0, writable: true, owner: 'admin', enabled: true, shares: {users: [], groups: []},
 			shareable: true, publishable: true, published: true,
@@ -935,8 +938,8 @@ describe('CalendarFactory', function () {
 
 	it('handle shared calendars for owner', function() {
 		const calendarProperties = davService.parseMultiStatus(calendar_shared);
-		const calendar = CalendarFactory.calendar(calendarProperties[0], '/remote.php/dav/principals/users/admin/', false);
-		expect(calendar).toEqual(['/remote.php/dav/calendars/admin/privat/', {
+		const calendar = CalendarFactory.calendar(privateCalendarServiceAPI, calendarProperties[0], '/remote.php/dav/principals/users/admin/', false);
+		expect(calendar).toEqual([privateCalendarServiceAPI, '/remote.php/dav/calendars/admin/privat/', {
 			color: '#78e774', displayname: 'Privat', components: {vevent: true, vjournal: false, vtodo: true},
 			order: 0, writable: true, owner: 'admin', enabled: true,
 			shares: {
@@ -953,8 +956,8 @@ describe('CalendarFactory', function () {
 
 	it('handle shared calendars for ro sharee', function() {
 		const calendarProperties = davService.parseMultiStatus(calendar_shared);
-		const calendar = CalendarFactory.calendar(calendarProperties[0], '/remote.php/dav/principals/users/user1/', false);
-		expect(calendar).toEqual(['/remote.php/dav/calendars/admin/privat/', {
+		const calendar = CalendarFactory.calendar(privateCalendarServiceAPI, calendarProperties[0], '/remote.php/dav/principals/users/user1/', false);
+		expect(calendar).toEqual([privateCalendarServiceAPI, '/remote.php/dav/calendars/admin/privat/', {
 			color: '#78e774', displayname: 'Privat', components: {vevent: true, vjournal: false, vtodo: true},
 			order: 0, writable: false, owner: 'admin', enabled: true,
 			shares: {
@@ -971,8 +974,8 @@ describe('CalendarFactory', function () {
 
 	it('handle shared calendars for rw sharee', function() {
 		const calendarProperties = davService.parseMultiStatus(calendar_shared);
-		const calendar = CalendarFactory.calendar(calendarProperties[0], '/remote.php/dav/principals/users/user2/', false);
-		expect(calendar).toEqual(['/remote.php/dav/calendars/admin/privat/', {
+		const calendar = CalendarFactory.calendar(privateCalendarServiceAPI, calendarProperties[0], '/remote.php/dav/principals/users/user2/', false);
+		expect(calendar).toEqual([privateCalendarServiceAPI, '/remote.php/dav/calendars/admin/privat/', {
 			color: '#78e774', displayname: 'Privat', components: {vevent: true, vjournal: false, vtodo: true},
 			order: 0, writable: true, owner: 'admin', enabled: true,
 			shares: {
@@ -989,8 +992,8 @@ describe('CalendarFactory', function () {
 
 	it('handle vjournal as a component', function() {
 		const calendarProperties = davService.parseMultiStatus(calendar_vevent_vjournal);
-		const calendar = CalendarFactory.calendar(calendarProperties[0], '/remote.php/dav/principals/users/admin/', false);
-		expect(calendar).toEqual(['/remote.php/dav/calendars/admin/privat/', {
+		const calendar = CalendarFactory.calendar(privateCalendarServiceAPI, calendarProperties[0], '/remote.php/dav/principals/users/admin/', false);
+		expect(calendar).toEqual([privateCalendarServiceAPI, '/remote.php/dav/calendars/admin/privat/', {
 			color: '#78e774', displayname: 'Privat', components: {vevent: true, vjournal: true, vtodo: true},
 			order: 0, writable: true, owner: 'admin', enabled: true, shares: {users: [], groups: []},
 			shareable: true, publishable: true, published: false, publishurl: null, publicurl: null,
@@ -999,8 +1002,8 @@ describe('CalendarFactory', function () {
 
 	it('correctly determine sharing options when sharing-modes is not available - owner', function() {
 		const calendarProperties = davService.parseMultiStatus(calendar_no_sharingmodes_fallback);
-		const calendar = CalendarFactory.calendar(calendarProperties[0], '/remote.php/dav/principals/users/admin/', false);
-		expect(calendar).toEqual(['/remote.php/dav/calendars/admin/123/', {
+		const calendar = CalendarFactory.calendar(privateCalendarServiceAPI, calendarProperties[0], '/remote.php/dav/principals/users/admin/', false);
+		expect(calendar).toEqual([privateCalendarServiceAPI, '/remote.php/dav/calendars/admin/123/', {
 			color: '#FF7A66', displayname: '123', components: {vevent: true, vjournal: false, vtodo: true},
 			order: 0, writable: true, owner: 'admin', enabled: true, shares: {users: [], groups: []},
 			shareable: true, publishable: false, published: false, publishurl: null, publicurl: null,
@@ -1009,8 +1012,8 @@ describe('CalendarFactory', function () {
 
 	it('correctly determine sharing options when sharing-modes is not available - not owner', function() {
 		const calendarProperties = davService.parseMultiStatus(calendar_no_sharingmodes_fallback);
-		const calendar = CalendarFactory.calendar(calendarProperties[0], '/remote.php/dav/principals/users/foobar/', false);
-		expect(calendar).toEqual(['/remote.php/dav/calendars/admin/123/', {
+		const calendar = CalendarFactory.calendar(privateCalendarServiceAPI, calendarProperties[0], '/remote.php/dav/principals/users/foobar/', false);
+		expect(calendar).toEqual([privateCalendarServiceAPI, '/remote.php/dav/calendars/admin/123/', {
 			color: '#FF7A66', displayname: '123', components: {vevent: true, vjournal: false, vtodo: true},
 			order: 0, writable: false, owner: 'admin', enabled: true, shares: {users: [], groups: []},
 			shareable: false, publishable: false, published: false, publishurl: null, publicurl: null,
@@ -1021,8 +1024,8 @@ describe('CalendarFactory', function () {
 		$window.location = 'http://nextcloud.dev/index.php/apps/calendar/public/KCMY4V5JZ22ODGFW';
 
 		const calendarProperties = davService.parseMultiStatus(public_calendar);
-		const calendar = CalendarFactory.calendar(calendarProperties[0], '', true);
-		expect(calendar).toEqual(['/remote.php/dav/public-calendars/KCMY4V5JZ22ODGFW/', {
+		const calendar = CalendarFactory.calendar(privateCalendarServiceAPI, calendarProperties[0], '', true);
+		expect(calendar).toEqual([privateCalendarServiceAPI, '/remote.php/dav/public-calendars/KCMY4V5JZ22ODGFW/', {
 			color: undefined, displayname: 'Personal (admin)', components: {vevent: true, vjournal: false, vtodo: true},
 			order: 0, writable: false, owner: 'admin', enabled: true, shares: {users: [], groups: []}, shareable: false,
 			publishable: false, published: true, publishurl: 'http://nextcloud.dev/remote.php/dav/public-calendars/KCMY4V5JZ22ODGFW',

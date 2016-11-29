@@ -285,27 +285,29 @@ app.service('CalendarFactory', function($window, DavClient, Calendar, WebCal) {
 
 	/**
 	 * get a calendar object from raw xml data
+	 * @param {object} CalendarService
 	 * @param body
 	 * @param {string} userPrincipal
 	 * @param {boolean} publicMode
 	 * @returns {Calendar}
 	 */
-	this.calendar = function(body, userPrincipal, publicMode=false) {
+	this.calendar = function(CalendarService, body, userPrincipal, publicMode=false) {
 		const href = body.href;
 		const props = body.propStat[0].properties;
 
 		const simple = context.calendarSkeleton(props, userPrincipal, publicMode);
-		return Calendar(href, simple);
+		return Calendar(CalendarService, href, simple);
 	};
 
 	/**
 	 * get a webcal object from raw xml data
+	 * @param {object} CalendarService
 	 * @param body
 	 * @param {string} userPrincipal
 	 * @param {boolean} publicMode
 	 * @returns {WebCal}
 	 */
-	this.webcal = function(body, userPrincipal, publicMode=false) {
+	this.webcal = function(CalendarService, body, userPrincipal, publicMode=false) {
 		const href = body.href;
 		const props = body.propStat[0].properties;
 		const currentUser = context.getUserFromUserPrincipal(userPrincipal);
@@ -321,6 +323,6 @@ app.service('CalendarFactory', function($window, DavClient, Calendar, WebCal) {
 		simple.publishable = false;
 		simple.shareable = false;
 
-		return WebCal(href, simple);
+		return WebCal(CalendarService, href, simple);
 	};
 });
