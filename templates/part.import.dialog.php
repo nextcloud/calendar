@@ -64,6 +64,10 @@
 					</select>
 				</div>
 					<span
+						ng-show="file.isEmpty()">
+						<?php p($l->t('File is empty')); ?>
+					</span>
+					<span
 						ng-show="file.isScheduled()">
 						<?php p($l->t('Import scheduled')); ?>
 					</span>
