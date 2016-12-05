@@ -156,6 +156,7 @@ OC.L10N.register(
     "Analyzing calendar" : "Analyseren agenda",
     "The file contains objects incompatible with the selected calendar" : "Het bestand bevat objecten die niet compatible zijn met de geselecteerde agenda",
     "New calendar" : "Nieuwe agenda",
+    "File is empty" : "Bestand te leeg",
     "Import scheduled" : "Import ingepland",
     "Settings" : "Instellingen",
     "Publish URL" : "Publiceren URL",

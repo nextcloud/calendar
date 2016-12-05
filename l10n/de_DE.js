@@ -156,6 +156,7 @@ OC.L10N.register(
     "Analyzing calendar" : "Kalender analysieren",
     "The file contains objects incompatible with the selected calendar" : "Die Datei enthält ein Objekt, dass inkompatibel ist mit dem ausgewählten Kalender",
     "New calendar" : "Neuer Kalender",
+    "File is empty" : "Datei ist leer",
     "Import scheduled" : "Import geplant",
     "Settings" : "Einstellungen",
     "Publish URL" : "URL veröffentlichen",
