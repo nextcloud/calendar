@@ -1,11 +1,41 @@
+/**
+ * Nextcloud - Calendar App
+ *
+ * @author Georg Ehrke
+ * @copyright 2016 Georg Ehrke <oc.list@georgehrke.com>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
 app.factory('Calendar', function($window, Hook, VEventService, TimezoneService, ColorUtility, RandomStringService) {
 	'use strict';
 
-	function Calendar(url, props) {
+	/**
+	 * instantiate a calendar object
+	 * @param {object} CalendarService
+	 * @param {string} url
+	 * @param {object} props
+	 * @returns {object}
+	 * @constructor
+	 */
+	function Calendar(CalendarService, url, props) {
 		url = url || '';
 		props = props || {};
 
 		const context = {
+			calendarService: CalendarService,
 			fcEventSource: {},
 			components: props.components,
 			mutableProperties: {
@@ -287,6 +317,34 @@ app.factory('Calendar', function($window, Hook, VEventService, TimezoneService, 
 
 		iface.eventsAccessibleViaCalDAV = function() {
 			return true;
+		};
+
+		iface.refresh = function() {
+			// TODO in a follow up PR
+		};
+
+		iface.update = function() {
+			return context.calendarService.update(iface);
+		};
+
+		iface.delete = function() {
+			return context.calendarService.delete(iface);
+		};
+
+		iface.share = function(shareType, shareWith, writable, existingShare) {
+			return context.calendarService.share(iface, shareType, shareWith, writable, existingShare);
+		};
+
+		iface.unshare = function(shareType, shareWith, writable, existingShare) {
+			return context.calendarService.unshare(iface, shareType, shareWith, writable, existingShare);
+		};
+
+		iface.publish = function() {
+			return context.calendarService.publish(iface);
+		};
+
+		iface.unpublish = function() {
+			return context.calendarService.unpublish(iface);
 		};
 
 		Object.assign(

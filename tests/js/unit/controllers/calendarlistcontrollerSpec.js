@@ -37,15 +37,15 @@ describe('CalendarListController', function() {
 			CalendarService = {
 				getAll: function(){},
 				get: function() {},
-				create: function() {},
-				update: function() {},
-				delete: function() {},
-				publish: function() {},
-				unpublish: function() {}
+				create: function() {}
 			};
 			Calendar = function() {
 				return {
-					list: {}
+					list: {},
+					update: jasmine.createSpy(),
+					delete: jasmine.createSpy(),
+					publish: jasmine.createSpy(),
+					unpublish: jasmine.createSpy()
 				};
 			};
 
@@ -74,31 +74,30 @@ describe('CalendarListController', function() {
 	});
 
 	it ('should delete the selected calendar', function () {
-		spyOn(CalendarService, 'delete').and.returnValue(deferred.promise);
-
 		controller = controller('CalendarListController', {
 			$scope: $scope,
 			CalendarService: CalendarService
 		});
 
-		var calendarToDelete = {};
+		var calendarToDelete = {
+			delete: jasmine.createSpy().and.returnValue(deferred.promise),
+		};
 		var calendarItem = {
 			calendar: calendarToDelete
 		};
 
 		$scope.remove(calendarItem);
-		expect(CalendarService.delete).toHaveBeenCalledWith(calendarToDelete);
+		expect(calendarToDelete.delete).toHaveBeenCalledWith();
 	});
 
 	it ('should publish the selected calendar', function () {
-		spyOn(CalendarService, 'publish').and.returnValue(deferred.promise);
-
 		controller = controller('CalendarListController', {
 			$scope: $scope,
 			CalendarService: CalendarService
 		});
 
 		var calendarToPublish = {
+			publish: jasmine.createSpy().and.returnValue(deferred.promise),
 			published: true
 		};
 		var calendarItem = {
@@ -106,18 +105,17 @@ describe('CalendarListController', function() {
 		};
 
 		$scope.togglePublish(calendarItem);
-		expect(CalendarService.publish).toHaveBeenCalledWith(calendarToPublish);
+		expect(calendarToPublish.publish).toHaveBeenCalledWith();
 	});
 
 	it ('should unpublish the selected calendar', function () {
-		spyOn(CalendarService, 'unpublish').and.returnValue(deferred.promise);
-
 		controller = controller('CalendarListController', {
 			$scope: $scope,
 			CalendarService: CalendarService
 		});
 
 		var calendarToUnPublish = {
+			unpublish: jasmine.createSpy().and.returnValue(deferred.promise),
 			published: false
 		};
 		var calendarItem = {
@@ -125,7 +123,7 @@ describe('CalendarListController', function() {
 		};
 
 		$scope.togglePublish(calendarItem);
-		expect(CalendarService.unpublish).toHaveBeenCalledWith(calendarToUnPublish);
+		expect(calendarToUnPublish.unpublish).toHaveBeenCalledWith();
 	});
 
 	afterEach(function() {

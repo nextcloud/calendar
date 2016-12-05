@@ -25,6 +25,7 @@ describe('CalendarService non-public', function () {
 	let CalendarService, DavClient, StringUtility, XMLUtility, CalendarFactory, WebCal, $q, $rootScope, davService;
 	let firstPropFindDeferred, secondPropFindDeferred, thirdPropFindDeferred;
 	let firstRequestDeferred, secondRequestDeferred, thirdRequestDeferred;
+	let updateSpy;
 
 	const xmlCurrentUserPrincipal = `<?xml version="1.0"?>
 <d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:cal="urn:ietf:params:xml:ns:caldav" xmlns:cs="http://calendarserver.org/ns/" xmlns:card="urn:ietf:params:xml:ns:carddav" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns">
@@ -691,8 +692,9 @@ END:VCALENDAR&#13;
 		XMLUtility.getRootSkeleton = jasmine.createSpy();
 		XMLUtility.serialize = jasmine.createSpy();
 
+		updateSpy = jasmine.createSpy();
 		CalendarFactory = {};
-		CalendarFactory.calendar = jasmine.createSpy().and.callFake((b,p) => {
+		CalendarFactory.calendar = jasmine.createSpy().and.callFake((a,b,p) => {
 			if (b.href === '/remote.php/dav/calendars/admin/private/' || b.href === '/remote.php/dav/calendars/admin/privat/') {
 				return {
 					href: b.href,
@@ -700,7 +702,8 @@ END:VCALENDAR&#13;
 						vevent: true,
 						vjournal: false,
 						vtodo: true,
-					}
+					},
+					update: updateSpy.and.callFake(() => CalendarFactory.calendar(a,b,p))
 				};
 			} else if (b.href === '/remote.php/dav/calendars/admin/private2/') {
 				return {
@@ -709,18 +712,20 @@ END:VCALENDAR&#13;
 						vevent: false,
 						vjournal: false,
 						vtodo: true,
-					}
+					},
+					update: updateSpy.and.callFake(() => CalendarFactory.calendar(a,b,p))
 				};
 			}
 		});
-		CalendarFactory.webcal = jasmine.createSpy().and.callFake((b,p) => {
+		CalendarFactory.webcal = jasmine.createSpy().and.callFake((a,b,p) => {
 			return {
 				href: b.href,
 				components: {
 					vevent: true,
 					vjournal: false,
 					vtodo: true,
-				}
+				},
+				update: updateSpy.and.callFake(() => CalendarFactory.calendar(a,b,p))
 			};
 		});
 
@@ -907,27 +912,32 @@ END:VCALENDAR&#13;
 		expect(calendars).toEqual([
 			{
 				href: '/remote.php/dav/calendars/admin/private/',
-				components: {vevent: true, vjournal: false, vtodo: true}
+				components: {vevent: true, vjournal: false, vtodo: true},
+				update: updateSpy
 			},
 			{
 				href: '/remote.php/dav/calendars/admin/some-webcal-abo/',
-				components: {vevent: true, vjournal: false, vtodo: true}
+				components: {vevent: true, vjournal: false, vtodo: true},
+				update: updateSpy
 			}
 		]);
 		expect(called).toEqual(true);
 
 		expect(CalendarFactory.calendar.calls.count()).toEqual(2);
-		expect(CalendarFactory.calendar.calls.argsFor(0).length).toEqual(2);
-		expect(CalendarFactory.calendar.calls.argsFor(0)[0]).toEqual(getAllCalendarProperty[0]);
-		expect(CalendarFactory.calendar.calls.argsFor(0)[1]).toEqual('/remote.php/dav/principals/users/admin/');
-		expect(CalendarFactory.calendar.calls.argsFor(1).length).toEqual(2);
-		expect(CalendarFactory.calendar.calls.argsFor(1)[0]).toEqual(getAllCalendarProperty[1]);
-		expect(CalendarFactory.calendar.calls.argsFor(1)[1]).toEqual('/remote.php/dav/principals/users/admin/');
+		expect(CalendarFactory.calendar.calls.argsFor(0).length).toEqual(3);
+		expect(CalendarFactory.calendar.calls.argsFor(0)[0]).toEqual(CalendarService.privateAPI);
+		expect(CalendarFactory.calendar.calls.argsFor(0)[1]).toEqual(getAllCalendarProperty[0]);
+		expect(CalendarFactory.calendar.calls.argsFor(0)[2]).toEqual('/remote.php/dav/principals/users/admin/');
+		expect(CalendarFactory.calendar.calls.argsFor(1).length).toEqual(3);
+		expect(CalendarFactory.calendar.calls.argsFor(1)[0]).toEqual(CalendarService.privateAPI);
+		expect(CalendarFactory.calendar.calls.argsFor(1)[1]).toEqual(getAllCalendarProperty[1]);
+		expect(CalendarFactory.calendar.calls.argsFor(1)[2]).toEqual('/remote.php/dav/principals/users/admin/');
 
 		expect(CalendarFactory.webcal.calls.count()).toEqual(1);
-		expect(CalendarFactory.webcal.calls.argsFor(0).length).toEqual(2);
-		expect(CalendarFactory.webcal.calls.argsFor(0)[0]).toEqual(getAllCalendarProperty[4]);
-		expect(CalendarFactory.webcal.calls.argsFor(0)[1]).toEqual('/remote.php/dav/principals/users/admin/');
+		expect(CalendarFactory.webcal.calls.argsFor(0).length).toEqual(3);
+		expect(CalendarFactory.webcal.calls.argsFor(0)[0]).toEqual(CalendarService.privateAPI);
+		expect(CalendarFactory.webcal.calls.argsFor(0)[1]).toEqual(getAllCalendarProperty[4]);
+		expect(CalendarFactory.webcal.calls.argsFor(0)[2]).toEqual('/remote.php/dav/principals/users/admin/');
 
 		expect(DavClient.propFind.calls.count()).toEqual(3);
 		expect(DavClient.propFind.calls.argsFor(2)).toEqual(['fancy-url-2', [
@@ -976,13 +986,15 @@ END:VCALENDAR&#13;
 		$rootScope.$apply();
 
 		expect(CalendarFactory.calendar.calls.count()).toEqual(1);
-		expect(CalendarFactory.calendar.calls.argsFor(0).length).toEqual(2);
-		expect(CalendarFactory.calendar.calls.argsFor(0)[0]).toEqual(getCalendarProperty[0]);
-		expect(CalendarFactory.calendar.calls.argsFor(0)[1]).toEqual('/remote.php/dav/principals/users/admin/');
+		expect(CalendarFactory.calendar.calls.argsFor(0).length).toEqual(3);
+		expect(CalendarFactory.calendar.calls.argsFor(0)[0]).toEqual(CalendarService.privateAPI);
+		expect(CalendarFactory.calendar.calls.argsFor(0)[1]).toEqual(getCalendarProperty[0]);
+		expect(CalendarFactory.calendar.calls.argsFor(0)[2]).toEqual('/remote.php/dav/principals/users/admin/');
 
 		expect(calendar).toEqual({
 			href: '/remote.php/dav/calendars/admin/privat/',
-			components: {vevent: true, vjournal: false, vtodo: true}
+			components: {vevent: true, vjournal: false, vtodo: true},
+			update: updateSpy
 		});
 
 		expect(DavClient.propFind.calls.count()).toEqual(3);
@@ -1079,13 +1091,15 @@ END:VCALENDAR&#13;
 		$rootScope.$apply();
 
 		expect(CalendarFactory.calendar.calls.count()).toEqual(1);
-		expect(CalendarFactory.calendar.calls.argsFor(0).length).toEqual(2);
-		expect(CalendarFactory.calendar.calls.argsFor(0)[0]).toEqual(getCalendarProperty[0]);
-		expect(CalendarFactory.calendar.calls.argsFor(0)[1]).toEqual('/remote.php/dav/principals/users/admin/');
+		expect(CalendarFactory.calendar.calls.argsFor(0).length).toEqual(3);
+		expect(CalendarFactory.calendar.calls.argsFor(0)[0]).toEqual(CalendarService.privateAPI);
+		expect(CalendarFactory.calendar.calls.argsFor(0)[1]).toEqual(getCalendarProperty[0]);
+		expect(CalendarFactory.calendar.calls.argsFor(0)[2]).toEqual('/remote.php/dav/principals/users/admin/');
 
 		expect(calendar).toEqual({
 			href: '/remote.php/dav/calendars/admin/privat/',
-			components: {vevent: true, vjournal: false, vtodo: true}
+			components: {vevent: true, vjournal: false, vtodo: true},
+			update: updateSpy
 		});
 
 		expect(XMLUtility.serialize).toHaveBeenCalledWith(skeleton);
@@ -1128,7 +1142,7 @@ END:VCALENDAR&#13;
 		firstPropFindDeferred.reject();
 
 		let called = false;
-		CalendarService.delete({url: 'fancy-calendar-url'}).then(function() {
+		CalendarService.privateAPI.delete({url: 'fancy-calendar-url'}).then(function() {
 			called = true;
 		}).catch(function() {
 			fail('delete() was supposed to succeed');
@@ -1172,7 +1186,7 @@ END:VCALENDAR&#13;
 
 		let called = false;
 		let result = null;
-		CalendarService.publish({url: 'fancy-calendar-url'}).then(function(res) {
+		CalendarService.privateAPI.publish({url: 'fancy-calendar-url'}).then(function(res) {
 			called = true;
 			result = res;
 		});
@@ -1206,7 +1220,7 @@ END:VCALENDAR&#13;
 
 		let called = false;
 		let result = null;
-		CalendarService.publish({url: 'fancy-calendar-url'}).then(function(res) {
+		CalendarService.privateAPI.publish({url: 'fancy-calendar-url'}).then(function(res) {
 			called = true;
 			result = res;
 		});
@@ -1240,7 +1254,7 @@ END:VCALENDAR&#13;
 
 		let called = false;
 		let result = null;
-		CalendarService.unpublish({url: 'fancy-calendar-url'}).then(function(res) {
+		CalendarService.privateAPI.unpublish({url: 'fancy-calendar-url'}).then(function(res) {
 			called = true;
 			result = res;
 		});
@@ -1274,7 +1288,7 @@ END:VCALENDAR&#13;
 
 		let called = false;
 		let result = null;
-		CalendarService.unpublish({url: 'fancy-calendar-url'}).then(function(res) {
+		CalendarService.privateAPI.unpublish({url: 'fancy-calendar-url'}).then(function(res) {
 			called = true;
 			result = res;
 		});

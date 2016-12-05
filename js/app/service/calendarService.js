@@ -21,7 +21,7 @@
  *
  */
 
-app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, CalendarFactory, WebCal, isPublic) {
+app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, CalendarFactory, isPublic) {
 	'use strict';
 	
 	const context = {
@@ -30,6 +30,10 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 		userPrincipal: null,
 		usedURLs: []
 	};
+	const privateAPI = {};
+	// this is for testing purposes and testing purposes only
+	// don't you dare to call CalendarService.privateAPI.foo()
+	this.privateAPI = privateAPI;
 
 	const PROPERTIES = [
 		'{' + DavClient.NS_DAV + '}displayname',
@@ -185,10 +189,10 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 
 					const resourceType = context.getResourceType(body);
 					if (resourceType === CALENDAR_IDENTIFIER) {
-						const calendar = CalendarFactory.calendar(body, context.userPrincipal);
+						const calendar = CalendarFactory.calendar(privateAPI, body, context.userPrincipal);
 						calendars.push(calendar);
 					} else if (resourceType === WEBCAL_IDENTIFIER) {
-						const webcal = CalendarFactory.webcal(body, context.userPrincipal);
+						const webcal = CalendarFactory.webcal(privateAPI, body, context.userPrincipal);
 						calendars.push(webcal);
 					}
 				});
@@ -224,9 +228,9 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 
 				const resourceType = context.getResourceType(body);
 				if (resourceType === CALENDAR_IDENTIFIER) {
-					return CalendarFactory.calendar(body, context.userPrincipal);
+					return CalendarFactory.calendar(privateAPI, body, context.userPrincipal);
 				} else if (resourceType === WEBCAL_IDENTIFIER) {
-					return CalendarFactory.webcal(body, context.userPrincipal);
+					return CalendarFactory.webcal(privateAPI, body, context.userPrincipal);
 				}
 			}).then(function(calendar) {
 				if (calendar.components.vevent === false) {
@@ -263,7 +267,7 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 				throw new Error('Loading requested calendar failed');
 			}
 
-			return CalendarFactory.calendar(body, '', true);
+			return CalendarFactory.calendar(privateAPI, body, '', true);
 		}).then(function(calendar) {
 			if (calendar.components.vevent === false) {
 				throw new Error('Requested calendar exists, but does not qualify for storing events');
@@ -405,7 +409,7 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 						webcal.displayname = name;
 						webcal.color = color;
 
-						return context.self.update(webcal);
+						return webcal.update();
 					} else {
 						return webcal;
 					}
@@ -415,11 +419,20 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 	};
 
 	/**
+	 * get properties for a calendar without instantiating a new calendar/webcal object
+	 * @param {Calendar|WebCal} calendar
+	 * @returns {Promise}
+	 */
+	privateAPI.get = function(calendar) {
+		// TODO in a follow up PR
+	};
+
+	/**
 	 * updates a calendar or a webcal subscription
 	 * @param {Calendar|WebCal} calendar
 	 * @returns {Promise}
 	 */
-	this.update = function(calendar) {
+	privateAPI.update = function(calendar) {
 		const updatedProperties = calendar.getUpdated();
 		// nothing changed, so why bother to send a http request?
 		if (updatedProperties.length === 0) {
@@ -466,13 +479,7 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 	 * @param {Calendar|WebCal} calendar
 	 * @returns {Promise}
 	 */
-	this.delete = function(calendar) {
-		// :see-no-evil:
-		// TODO - send hook when calendar was deleted, this doesn't belong in here
-		if (WebCal.isWebCal(calendar)) {
-			localStorage.removeItem(calendar.storedUrl);
-		}
-
+	privateAPI.delete = function(calendar) {
 		const method = 'DELETE';
 		const url = calendar.url;
 		const headers = {
@@ -499,7 +506,7 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 	 * @param {boolean} existingShare
 	 * @returns {Promise}
 	 */
-	this.share = function(calendar, shareType, shareWith, writable, existingShare) {
+	privateAPI.share = function(calendar, shareType, shareWith, writable, existingShare) {
 		const [skeleton, oSetChildren] = XMLUtility.getRootSkeleton('o:share', 'o:set');
 
 		const hrefValue = context.getShareValue(shareType, shareWith);
@@ -561,7 +568,7 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 	 * @param {string} shareWith
 	 * @returns {Promise}
 	 */
-	this.unshare = function(calendar, shareType, shareWith) {
+	privateAPI.unshare = function(calendar, shareType, shareWith) {
 		const [skeleton, oRemoveChildren] = XMLUtility.getRootSkeleton('o:share', 'o:remove');
 
 		const hrefValue = context.getShareValue(shareType, shareWith);
@@ -602,7 +609,7 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 	 * @param {Calendar} calendar
 	 * @returns {Promise}
 	 */
-	this.publish = function(calendar) {
+	privateAPI.publish = function(calendar) {
 		const [skeleton] = XMLUtility.getRootSkeleton('cs:publish-calendar');
 
 		const method = 'POST';
@@ -629,7 +636,7 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 	 * @param {Calendar} calendar
 	 * @returns {Promise}
 	 */
-	this.unpublish = function(calendar) {
+	privateAPI.unpublish = function(calendar) {
 		const [skeleton] = XMLUtility.getRootSkeleton('cs:unpublish-calendar');
 
 		const method = 'POST';

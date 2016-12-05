@@ -22,13 +22,22 @@
 app.factory('WebCal', function($http, Calendar, VEvent, TimezoneService, WebCalService, WebCalUtility) {
 	'use strict';
 
-	function WebCal(url, props) {
+	/**
+	 * instantiate a webcal object
+	 * @param {object} CalendarService
+	 * @param {string} url
+	 * @param {object} props
+	 * @returns {object}
+	 * @constructor
+	 */
+	function WebCal(CalendarService, url, props) {
 		const context = {
+			calendarService: CalendarService,
 			storedUrl: props.href, //URL stored in CalDAV
 			url: WebCalUtility.fixURL(props.href)
 		};
 
-		const iface = Calendar(url, props);
+		const iface = Calendar(CalendarService, url, props);
 		iface._isAWebCalObject = true;
 
 		Object.defineProperties(iface, {
@@ -84,6 +93,11 @@ app.factory('WebCal', function($http, Calendar, VEvent, TimezoneService, WebCalS
 
 		iface.eventsAccessibleViaCalDAV = function() {
 			return false;
+		};
+
+		iface.delete = function() {
+			localStorage.removeItem(iface.storedUrl);
+			context.calendarService.delete(iface);
 		};
 
 		return iface;
