@@ -156,6 +156,7 @@ OC.L10N.register(
     "Analyzing calendar" : "Naptár analizálása",
     "The file contains objects incompatible with the selected calendar" : "A fájlban olyan objektumok találhatók amik nem kompatibilisek a naptárral.",
     "New calendar" : "Új naptár",
+    "File is empty" : "A fájl üres",
     "Import scheduled" : "Importálás beütemezve",
     "Settings" : "Beállítások",
     "Publish URL" : "Közzétételi URL",
