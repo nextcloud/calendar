@@ -24,6 +24,7 @@ It integrates with other apps, allows you to manage calendars and events, displa
 	<documentation>
 		<user>https://docs.nextcloud.com/server/10/user_manual/pim/calendar.html</user>
 	</documentation>
+	<category>office</category>
 	<category>productivity</category>
 	<website>https://github.com/nextcloud/calendar/</website>
 	<bugs>https://github.com/nextcloud/calendar/issues</bugs>
