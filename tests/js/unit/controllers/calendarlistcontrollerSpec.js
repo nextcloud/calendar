@@ -26,7 +26,9 @@ describe('CalendarListController', function() {
 
 	var controller, $scope, $rootScope, Calendar, CalendarService, $window, calendar, deferred;
 
-	beforeEach(module('Calendar'));
+	beforeEach(module('Calendar', function($provide) {
+		$provide.value('isSharingAPI', true);
+	}));
 
 	beforeEach(inject(function ($controller, _$rootScope_, _$window_, $q) {
 			$scope = _$rootScope_.$new();

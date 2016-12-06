@@ -69,8 +69,8 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 		order: 'a:calendar-order'
 	};
 
-	const SHARE_USER = OC.Share.SHARE_TYPE_USER;
-	const SHARE_GROUP = OC.Share.SHARE_TYPE_GROUP;
+	const SHARE_USER = OC.Share ? OC.Share.SHARE_TYPE_USER : 0;
+	const SHARE_GROUP = OC.Share ?  OC.Share.SHARE_TYPE_GROUP : 1;
 
 	context.bootPromise = (function() {
 		if (isPublic) {
