@@ -48,10 +48,24 @@ app.config(['$provide', '$httpProvider',
 			});
 		});
 
+		const isFirstRun = (angular.element('#fullcalendar').attr('data-firstRun') === 'yes');
+		$provide.constant('isFirstRun', isFirstRun);
+
 		const isPublic = (angular.element('#fullcalendar').attr('data-isPublic') === '1');
 		$provide.constant('isPublic', isPublic);
 
 		const isSharingAPI = (typeof OC.Share === 'object');
 		$provide.constant('isSharingAPI', isSharingAPI);
+
+		const skipPopover = angular.element('#fullcalendar').attr('data-skipPopover');
+		const showWeekNr = angular.element('#fullcalendar').attr('data-weekNumbers');
+		$provide.constant('settings', {skipPopover, showWeekNr});
+
+		const defaultView = angular.element('#fullcalendar').attr('data-defaultView');
+		const emailAddress = angular.element('#fullcalendar').attr('data-emailAddress');
+		const fallbackColor = angular.element('#fullcalendar').attr('data-defaultColor');
+		const needsWebCalWorkaround = angular.element('#fullcalendar').attr('data-webCalWorkaround') === 'yes';
+		const version = angular.element('#fullcalendar').attr('data-appVersion');
+		$provide.constant('constants', {defaultView, emailAddress, fallbackColor, needsWebCalWorkaround, version});
 	}
 ]);

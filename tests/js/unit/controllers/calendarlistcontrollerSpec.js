@@ -27,6 +27,9 @@ describe('CalendarListController', function() {
 	var controller, $scope, $rootScope, Calendar, CalendarService, $window, calendar, deferred;
 
 	beforeEach(module('Calendar', function($provide) {
+		$provide.value('Calendar', {});
+		$provide.value('CalendarListItem', {});
+		$provide.value('WebCalService', {});
 		$provide.value('isSharingAPI', true);
 	}));
 

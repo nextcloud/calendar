@@ -1,13 +1,17 @@
 describe('The calendarListItem factory', function () {
 	'use strict';
 
-	var CalendarListItem, Calendar;
+	var CalendarListItem, Calendar, WebCal;
 
 	beforeEach(module('Calendar', function($provide) {
 		Calendar = {};
-
 		Calendar.isCalendar = jasmine.createSpy().and.returnValue(true);
+
+		WebCal = {};
+		WebCal.isCalendar = jasmine.createSpy().and.returnValue(true);
+
 		$provide.value('Calendar', Calendar);
+		$provide.value('WebCal', WebCal);
 		$provide.value('isSharingAPI', null);
 	}));
 

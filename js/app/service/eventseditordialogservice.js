@@ -21,7 +21,7 @@
  *
  */
 
-app.service('EventsEditorDialogService', function($uibModal) {
+app.service('EventsEditorDialogService', function($uibModal, constants, settings) {
 	'use strict';
 
 	const EDITOR_POPOVER = 'eventspopovereditor.html';
@@ -88,7 +88,7 @@ app.service('EventsEditorDialogService', function($uibModal) {
 				simpleEvent: () => simpleEvent,
 				calendar: () => calendar,
 				isNew: () => (fcEvent.vevent.etag === null || fcEvent.vevent.etag === ''),
-				emailAddress: () => angular.element('#fullcalendar').attr('data-emailAddress')
+				emailAddress: () => constants.emailAddress
 			},
 			scope: scope,
 			templateUrl: template,
@@ -143,8 +143,6 @@ app.service('EventsEditorDialogService', function($uibModal) {
 	 * @returns {Promise}
 	 */
 	this.open = function(scope, fcEvent, calculatePosition, lock, unlock) {
-		const skipPopover = (angular.element('#fullcalendar').attr('data-skipPopover') === 'yes');
-
 		// don't reload editor for the same event
 		if (context.fcEvent === fcEvent) {
 			return context.promise;
@@ -167,7 +165,7 @@ app.service('EventsEditorDialogService', function($uibModal) {
 			const simpleEvent = fcEvent.getSimpleEvent();
 
 			// skip popover on small devices
-			if (context.showPopover() && !skipPopover) {
+			if (context.showPopover() && !settings.skipPopover) {
 				context.openDialog(EDITOR_POPOVER, resolve, reject, unlock, position, scope, fcEvent, simpleEvent, calendar);
 			} else {
 				context.openDialog(EDITOR_SIDEBAR, resolve, reject, unlock, [], scope, fcEvent, simpleEvent, calendar);

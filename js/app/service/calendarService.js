@@ -21,7 +21,7 @@
  *
  */
 
-app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, CalendarFactory, isPublic) {
+app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, CalendarFactory, isPublic, constants) {
 	'use strict';
 	
 	const context = {
@@ -403,8 +403,7 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 				context.usedURLs.push(url);
 
 				return context.self.get(url).then(function(webcal) {
-					const needsWorkaround = angular.element('#fullcalendar').attr('data-webCalWorkaround') === 'yes';
-					if (needsWorkaround) {
+					if (constants.needsWebCalWorkaround) {
 						webcal.enabled = true;
 						webcal.displayname = name;
 						webcal.color = color;
