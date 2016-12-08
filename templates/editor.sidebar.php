@@ -11,6 +11,7 @@
 							autofocus="autofocus"/>
 					<select
 							ng-model="calendar"
+							ng-change="selectedCalendarChanged()"
 							ng-options="c as c.displayname for c in calendars | orderBy:['order'] | calendarSelectorFilter: oldCalendar"
 							ng-show="showCalendarSelection()"></select>
 				</fieldset>

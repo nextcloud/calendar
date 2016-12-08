@@ -185,6 +185,13 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
 		/**
 		 * Everything calendar select
 		 */
+		$scope.selectedCalendarChanged = () => {
+			if ($scope.calendar.enabled === false) {
+				$scope.calendar.enabled = true;
+				$scope.calendar.update();
+			}
+		};
+
 		$scope.showCalendarSelection = function() {
 			const writableCalendars = $scope.calendars.filter(function (c) {
 				return c.isWritable();
