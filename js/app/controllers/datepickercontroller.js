@@ -49,7 +49,7 @@ app.controller('DatePickerController', ['$scope', 'fc', 'uibDatepickerConfig', '
 		$scope.dt = new Date();
 		$scope.visibility = false;
 
-		$scope.selectedView = constants.defaultView;
+		$scope.selectedView = constants.initialView;
 
 		angular.extend(uibDatepickerConfig, {
 			showWeeks: false,

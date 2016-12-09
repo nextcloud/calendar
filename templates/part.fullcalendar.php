@@ -26,7 +26,7 @@
 	class="calendar"
 	data-appVersion="<?php p($_['appVersion']); ?>"
 	data-defaultColor="<?php p($_['defaultColor']); ?>"
-	data-defaultView="<?php p($_['defaultView']); ?>"
+	data-initialView="<?php p($_['initialView']); ?>"
 	data-emailAddress="<?php p($_['emailAddress']); ?>"
 	data-firstRun="<?php p($_['firstRun']); ?>"
 	data-skipPopover="<?php p($_['skipPopover']); ?>"

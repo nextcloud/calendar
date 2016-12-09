@@ -115,7 +115,7 @@ class ViewController extends Controller {
 		$emailAddress = $user->getEMailAddress();
 
 		$appVersion = $this->config->getAppValue($this->appName, 'installed_version');
-		$defaultView = $this->config->getUserValue($userId, $this->appName, 'currentView', null);
+		$initialView = $this->config->getUserValue($userId, $this->appName, 'currentView', null);
 		$skipPopover = $this->config->getUserValue($userId, $this->appName, 'skipPopover', 'no');
 		$weekNumbers = $this->config->getUserValue($userId, $this->appName, 'showWeekNr', 'no');
 		$firstRun = $this->config->getUserValue($userId, $this->appName, 'firstRun', null);
@@ -125,7 +125,7 @@ class ViewController extends Controller {
 		// opens the calendar app, therefore this is a good
 		// indication if the calendar was used before
 		if ($firstRun === null) {
-			if ($defaultView === null) {
+			if ($initialView === null) {
 				$firstRun = 'yes';
 			} else {
 				$this->config->setUserValue($userId, $this->appName, 'firstRun', 'no');
@@ -133,15 +133,15 @@ class ViewController extends Controller {
 			}
 		}
 
-		if ($defaultView === null) {
-			$defaultView = 'month';
+		if ($initialView === null) {
+			$initialView = 'month';
 		}
 		
 		$webCalWorkaround = $runningOnNextcloud10OrLater ? 'no' : 'yes';
 
 		return new TemplateResponse('calendar', 'main', [
 			'appVersion' => $appVersion,
-			'defaultView' => $defaultView,
+			'initialView' => $initialView,
 			'emailAddress' => $emailAddress,
 			'skipPopover' => $skipPopover,
 			'weekNumbers' => $weekNumbers,
@@ -175,7 +175,7 @@ class ViewController extends Controller {
 
 		$response = new TemplateResponse('calendar', 'main', [
 			'appVersion' => $appVersion,
-			'defaultView' => 'month',
+			'initialView' => 'month',
 			'emailAddress' => '',
 			'supportsClass' => $supportsClass,
 			'firstRun' => 'no',
