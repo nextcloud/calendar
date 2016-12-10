@@ -8,6 +8,7 @@ describe('The calendarListItem factory', function () {
 
 		Calendar.isCalendar = jasmine.createSpy().and.returnValue(true);
 		$provide.value('Calendar', Calendar);
+		$provide.value('isSharingAPI', null);
 	}));
 
 	beforeEach(inject(function(_CalendarListItem_) {
@@ -219,3 +220,200 @@ describe('The calendarListItem factory', function () {
 		expect(CalendarListItem.isCalendarListItem(item)).toBe(true);
 	});
 });
+
+describe('The calendarListItem factory - sharingAPI enabled', function () {
+	'use strict';
+
+	let CalendarListItem, Calendar;
+
+	beforeEach(module('Calendar', function($provide) {
+		Calendar = {};
+
+		Calendar.isCalendar = jasmine.createSpy().and.returnValue(true);
+		$provide.value('Calendar', Calendar);
+		$provide.value('isSharingAPI', true);
+	}));
+
+	beforeEach(inject(function(_CalendarListItem_) {
+		CalendarListItem = _CalendarListItem_;
+	}));
+
+	it ('should correctly determine whether to display the sharing api - 1', () => {
+		const calendar = {};
+		calendar.isShareable = jasmine.createSpy().and.returnValue(false);
+		calendar.isShared = jasmine.createSpy().and.returnValue(false);
+		calendar.isPublishable = jasmine.createSpy().and.returnValue(false);
+
+		const calendarListItem = CalendarListItem(calendar);
+		expect(calendarListItem.showSharingIcon()).toEqual(false);
+	});
+
+	it ('should correctly determine whether to display the sharing api - 2', () => {
+		const calendar = {};
+		calendar.isShareable = jasmine.createSpy().and.returnValue(false);
+		calendar.isShared = jasmine.createSpy().and.returnValue(false);
+		calendar.isPublishable = jasmine.createSpy().and.returnValue(true);
+
+		const calendarListItem = CalendarListItem(calendar);
+		expect(calendarListItem.showSharingIcon()).toEqual(true);
+	});
+
+	it ('should correctly determine whether to display the sharing api - 3', () => {
+		const calendar = {};
+		calendar.isShareable = jasmine.createSpy().and.returnValue(false);
+		calendar.isShared = jasmine.createSpy().and.returnValue(true);
+		calendar.isPublishable = jasmine.createSpy().and.returnValue(false);
+
+		const calendarListItem = CalendarListItem(calendar);
+		expect(calendarListItem.showSharingIcon()).toEqual(false);
+	});
+
+	it ('should correctly determine whether to display the sharing api - 4', () => {
+		const calendar = {};
+		calendar.isShareable = jasmine.createSpy().and.returnValue(false);
+		calendar.isShared = jasmine.createSpy().and.returnValue(true);
+		calendar.isPublishable = jasmine.createSpy().and.returnValue(true);
+
+		const calendarListItem = CalendarListItem(calendar);
+		expect(calendarListItem.showSharingIcon()).toEqual(true);
+	});
+
+	it ('should correctly determine whether to display the sharing api - 5', () => {
+		const calendar = {};
+		calendar.isShareable = jasmine.createSpy().and.returnValue(true);
+		calendar.isShared = jasmine.createSpy().and.returnValue(false);
+		calendar.isPublishable = jasmine.createSpy().and.returnValue(false);
+
+		const calendarListItem = CalendarListItem(calendar);
+		expect(calendarListItem.showSharingIcon()).toEqual(true);
+	});
+
+	it ('should correctly determine whether to display the sharing api - 6', () => {
+		const calendar = {};
+		calendar.isShareable = jasmine.createSpy().and.returnValue(true);
+		calendar.isShared = jasmine.createSpy().and.returnValue(false);
+		calendar.isPublishable = jasmine.createSpy().and.returnValue(true);
+
+		const calendarListItem = CalendarListItem(calendar);
+		expect(calendarListItem.showSharingIcon()).toEqual(true);
+	});
+
+	it ('should correctly determine whether to display the sharing api - 7', () => {
+		const calendar = {};
+		calendar.isShareable = jasmine.createSpy().and.returnValue(true);
+		calendar.isShared = jasmine.createSpy().and.returnValue(true);
+		calendar.isPublishable = jasmine.createSpy().and.returnValue(false);
+
+		const calendarListItem = CalendarListItem(calendar);
+		expect(calendarListItem.showSharingIcon()).toEqual(true);
+	});
+
+	it ('should correctly determine whether to display the sharing api - 8', () => {
+		const calendar = {};
+		calendar.isShareable = jasmine.createSpy().and.returnValue(true);
+		calendar.isShared = jasmine.createSpy().and.returnValue(true);
+		calendar.isPublishable = jasmine.createSpy().and.returnValue(true);
+
+		const calendarListItem = CalendarListItem(calendar);
+		expect(calendarListItem.showSharingIcon()).toEqual(true);
+	});
+});
+
+describe('The calendarListItem factory - sharingAPI disabled', function () {
+	'use strict';
+
+	let CalendarListItem, Calendar;
+
+	beforeEach(module('Calendar', function($provide) {
+		Calendar = {};
+
+		Calendar.isCalendar = jasmine.createSpy().and.returnValue(true);
+		$provide.value('Calendar', Calendar);
+		$provide.value('isSharingAPI', false);
+	}));
+
+	beforeEach(inject(function(_CalendarListItem_) {
+		CalendarListItem = _CalendarListItem_;
+	}));
+
+	it ('should correctly determine whether to display the sharing api - 1', () => {
+		const calendar = {};
+		calendar.isShareable = jasmine.createSpy().and.returnValue(false);
+		calendar.isShared = jasmine.createSpy().and.returnValue(false);
+		calendar.isPublishable = jasmine.createSpy().and.returnValue(false);
+
+		const calendarListItem = CalendarListItem(calendar);
+		expect(calendarListItem.showSharingIcon()).toEqual(false);
+	});
+
+	it ('should correctly determine whether to display the sharing api - 2', () => {
+		const calendar = {};
+		calendar.isShareable = jasmine.createSpy().and.returnValue(false);
+		calendar.isShared = jasmine.createSpy().and.returnValue(false);
+		calendar.isPublishable = jasmine.createSpy().and.returnValue(true);
+
+		const calendarListItem = CalendarListItem(calendar);
+		expect(calendarListItem.showSharingIcon()).toEqual(true);
+	});
+
+	it ('should correctly determine whether to display the sharing api - 3', () => {
+		const calendar = {};
+		calendar.isShareable = jasmine.createSpy().and.returnValue(false);
+		calendar.isShared = jasmine.createSpy().and.returnValue(true);
+		calendar.isPublishable = jasmine.createSpy().and.returnValue(false);
+
+		const calendarListItem = CalendarListItem(calendar);
+		expect(calendarListItem.showSharingIcon()).toEqual(false);
+	});
+
+	it ('should correctly determine whether to display the sharing api - 4', () => {
+		const calendar = {};
+		calendar.isShareable = jasmine.createSpy().and.returnValue(false);
+		calendar.isShared = jasmine.createSpy().and.returnValue(true);
+		calendar.isPublishable = jasmine.createSpy().and.returnValue(true);
+
+		const calendarListItem = CalendarListItem(calendar);
+		expect(calendarListItem.showSharingIcon()).toEqual(true);
+	});
+
+	it ('should correctly determine whether to display the sharing api - 5', () => {
+		const calendar = {};
+		calendar.isShareable = jasmine.createSpy().and.returnValue(true);
+		calendar.isShared = jasmine.createSpy().and.returnValue(false);
+		calendar.isPublishable = jasmine.createSpy().and.returnValue(false);
+
+		const calendarListItem = CalendarListItem(calendar);
+		expect(calendarListItem.showSharingIcon()).toEqual(false);
+	});
+
+	it ('should correctly determine whether to display the sharing api - 6', () => {
+		const calendar = {};
+		calendar.isShareable = jasmine.createSpy().and.returnValue(true);
+		calendar.isShared = jasmine.createSpy().and.returnValue(false);
+		calendar.isPublishable = jasmine.createSpy().and.returnValue(true);
+
+		const calendarListItem = CalendarListItem(calendar);
+		expect(calendarListItem.showSharingIcon()).toEqual(true);
+	});
+
+	it ('should correctly determine whether to display the sharing api - 7', () => {
+		const calendar = {};
+		calendar.isShareable = jasmine.createSpy().and.returnValue(true);
+		calendar.isShared = jasmine.createSpy().and.returnValue(true);
+		calendar.isPublishable = jasmine.createSpy().and.returnValue(false);
+
+		const calendarListItem = CalendarListItem(calendar);
+		expect(calendarListItem.showSharingIcon()).toEqual(true);
+	});
+
+	it ('should correctly determine whether to display the sharing api - 8', () => {
+		const calendar = {};
+		calendar.isShareable = jasmine.createSpy().and.returnValue(true);
+		calendar.isShared = jasmine.createSpy().and.returnValue(true);
+		calendar.isPublishable = jasmine.createSpy().and.returnValue(true);
+
+		const calendarListItem = CalendarListItem(calendar);
+		expect(calendarListItem.showSharingIcon()).toEqual(true);
+	});
+});
+

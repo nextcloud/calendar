@@ -26,8 +26,8 @@
 * Description: Takes care of CalendarList in App Navigation.
 */
 
-app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'CalendarService', 'WebCalService', 'is', 'CalendarListItem', 'Calendar', 'MailerService', 'ColorUtility',
-	function ($scope, $rootScope, $window, CalendarService, WebCalService, is, CalendarListItem, Calendar, MailerService, ColorUtility) {
+app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'CalendarService', 'WebCalService', 'is', 'CalendarListItem', 'Calendar', 'MailerService', 'ColorUtility', 'isSharingAPI',
+	function ($scope, $rootScope, $window, CalendarService, WebCalService, is, CalendarListItem, Calendar, MailerService, ColorUtility, isSharingAPI) {
 		'use strict';
 
 		$scope.calendarListItems = [];
@@ -40,6 +40,8 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 		$scope.subscription.newSubscriptionLocked = false;
 		$scope.publicdav = 'CalDAV';
 		$scope.publicdavdesc = t('calendar', 'CalDAV address for clients');
+
+		$scope.isSharingAPI = isSharingAPI;
 
 		$scope.$watchCollection('calendars', function(newCalendars, oldCalendars) {
 			newCalendars = newCalendars || [];

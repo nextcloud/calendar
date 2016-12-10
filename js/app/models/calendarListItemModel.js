@@ -21,7 +21,7 @@
  *
  */
 
-app.factory('CalendarListItem', function(Calendar, WebCal) {
+app.factory('CalendarListItem', function(Calendar, WebCal, isSharingAPI) {
 	'use strict';
 
 	function CalendarListItem(calendar) {
@@ -71,6 +71,27 @@ app.factory('CalendarListItem', function(Calendar, WebCal) {
 
 		iface.hideWebCalUrl = function() {
 			context.isDisplayingWebCalUrl = false;
+		};
+
+		iface.showSharingIcon = function() {
+			const isCalendarShareable = context.calendar.isShareable();
+			const isCalendarShared = context.calendar.isShared();
+			const isCalendarPublishable = context.calendar.isPublishable();
+
+			// Publishing does not depend on sharing API
+			// always show sharing icon in this case
+			if (isCalendarPublishable) {
+				return true;
+			}
+
+			// if the sharing API was disabled, but the calendar was
+			// previously shared, allow users to edit or remove
+			// existing shares
+			if (!isSharingAPI && isCalendarShared && isCalendarShareable) {
+				return true;
+			}
+
+			return (isSharingAPI && isCalendarShareable);
 		};
 
 		iface.isEditingShares = function() {

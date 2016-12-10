@@ -51,7 +51,7 @@
 			class="calendarlist-icon share permanent"
 			ng-class="{'icon-shared': item.calendar.isShared() && !item.calendar.isPublished(), 'icon-public': item.calendar.isPublished(), 'icon-share': !item.calendar.isShared() && !item.calendar.isPublished()}"
 			ng-click="item.toggleEditingShares()"
-			ng-if="item.calendar.isShareable()"
+			ng-if="item.showSharingIcon()"
 			title="<?php p($l->t('Share Calendar')) ?>"
 			role="button">
 		</span>
@@ -154,6 +154,7 @@
 	   ng-show="loadingSharees">
 	</i>
 	<input class="shareeInput"
+		   ng-if="isSharingAPI"
 		   ng-model="item.selectedSharee"
 		   placeholder="<?php p($l->t('Share with users or groups')); ?>"
 		   type="text"
