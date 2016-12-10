@@ -1,7 +1,7 @@
 describe('The calendar factory', function () {
 	'use strict';
 
-	var Calendar, window, hook, veventservice, timezoneservice, colorutilityservice, randomstringservice;
+	var Calendar, window, hook, veventservice, timezoneservice, colorutilityservice, StringUtility;
 	let privateCalendarServiceAPI;
 
 	beforeEach(module('Calendar', function ($provide) {
@@ -13,8 +13,8 @@ describe('The calendar factory', function () {
 			emit: jasmine.createSpy()
 		});
 
-		randomstringservice = {};
-		randomstringservice.generate = jasmine.createSpy().and.returnValue('**random**');
+		StringUtility = {};
+		StringUtility.uid = jasmine.createSpy().and.returnValue('**random**');
 
 		privateCalendarServiceAPI = {
 			update: jasmine.createSpy(),
@@ -27,7 +27,7 @@ describe('The calendar factory', function () {
 
 		$provide.value('$window', window);
 		$provide.value('Hook', hook);
-		$provide.value('RandomStringService', randomstringservice);
+		$provide.value('StringUtility', StringUtility);
 	}));
 
 	beforeEach(inject(function (_Calendar_) {
@@ -75,7 +75,7 @@ describe('The calendar factory', function () {
 
 		expect(calendar.isShared()).toEqual(false);
 
-		expect(randomstringservice.generate).toHaveBeenCalled();
+		expect(StringUtility.uid).toHaveBeenCalled();
 	});
 
 	it('should correctly reflect if it\'s shared', function() {
