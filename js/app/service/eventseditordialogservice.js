@@ -24,145 +24,174 @@
 app.service('EventsEditorDialogService', function($uibModal) {
 	'use strict';
 
-		var EDITOR_POPOVER = 'eventspopovereditor.html';
-		var EDITOR_SIDEBAR = 'eventssidebareditor.html';
-		var REPEAT_QUESTION = ''; //TODO in followup PR
+	const EDITOR_POPOVER = 'eventspopovereditor.html';
+	const EDITOR_SIDEBAR = 'eventssidebareditor.html';
+	const REPEAT_QUESTION = ''; // TODO in followup PR
 
-		var self = this;
+	const context = {
+		fcEvent: null,
+		promise: null,
+		eventModal: null
+	};
 
-		self.calendar = null;
-		self.eventModal = null;
-		self.fcEvent = null;
-		self.promise = null;
-		self.scope = null;
-		self.simpleEvent = null;
-		self.unlockCallback = null;
+	/**
+	 * cleanup context variables after dialog was closed
+	 */
+	context.cleanup = () => {
+		context.fcEvent = null;
+		context.promise = null;
+		context.eventModal = null;
+	};
 
-		function cleanup() {
-			self.calendar = null;
-			self.eventModal = null;
-			self.fcEvent = null;
-			self.promise = null;
-			self.scope = null;
-			self.simpleEvent = null;
+	/**
+	 * checks if popover should be shown based
+	 * on viewport dimensions
+	 * @returns {boolean}
+	 */
+	context.showPopover = () => {
+		return angular.element(window).width() > 768;
+	};
+
+	/**
+	 * set position of popover based on previously calculated position
+	 * @param {object[]} position
+	 */
+	context.positionPopover = (position) => {
+		angular.element('#popover-container').css('display', 'none');
+		angular.forEach(position, (v) => {
+			angular.element('.modal').css(v.name, v.value);
+		});
+		angular.element('#popover-container').css('display', 'block');
+	};
+
+	/**
+	 * open dialog for editing events
+	 * @param {string} template - use EDITOR_POPOVER or EDITOR_SIDEBAR
+	 * @param {resolveCallback} resolve
+	 * @param {rejectCallback} reject
+	 * @param {unlockCallback} unlock
+	 * @param {object[]} position
+	 * @param {object} scope
+	 * @param {FcEvent} fcEvent
+	 * @param {SimpleEvent} simpleEvent
+	 * @param {Calendar} calendar
+	 */
+	context.openDialog = (template, resolve, reject, unlock, position, scope, fcEvent, simpleEvent, calendar) => {
+		context.fcEvent = fcEvent;
+		context.eventModal = $uibModal.open({
+			appendTo: (template === EDITOR_POPOVER) ?
+				angular.element('#popover-container') :
+				angular.element('#app-content'),
+			controller: 'EditorController',
+			resolve: {
+				vevent: () => fcEvent.vevent,
+				simpleEvent: () => simpleEvent,
+				calendar: () => calendar,
+				isNew: () => (fcEvent.vevent.etag === null || fcEvent.vevent.etag === ''),
+				emailAddress: () => angular.element('#fullcalendar').attr('data-emailAddress')
+			},
+			scope: scope,
+			templateUrl: template,
+			windowClass: (template === EDITOR_POPOVER) ? 'popover' : null
+		});
+
+		if (template === EDITOR_SIDEBAR) {
+			angular.element('#app-content').addClass('with-app-sidebar');
 		}
 
-		function openDialog (template, position, rejectDialog, resolveDialog) {
-			self.eventModal = $uibModal.open({
-				templateUrl: template,
-				controller: 'EditorController',
-				windowClass: (template === EDITOR_POPOVER) ? 'popover' : null,
-				appendTo: (template === EDITOR_POPOVER) ?
-					angular.element('#popover-container') :
-					angular.element('#app-content'),
-				resolve: {
-					vevent: function() {
-						return self.fcEvent.vevent;
-					},
-					simpleEvent: function() {
-						return self.simpleEvent;
-					},
-					calendar: function() {
-						return self.calendar;
-					},
-					isNew: function() {
-						return (self.fcEvent.vevent.etag === null || self.fcEvent.vevent.etag === '');
-					},
-					emailAddress: function() {
-						return angular.element('#fullcalendar').attr('data-emailAddress');
-					}
-				},
-				scope: self.scope
-			});
-
-			if (template === EDITOR_SIDEBAR) {
-				angular.element('#app-content').addClass('with-app-sidebar');
-			}
-
-			self.eventModal.rendered.then(function(result) {
-				angular.element('#popover-container').css('display', 'none');
-				angular.forEach(position, function(v) {
-					angular.element('.modal').css(v.name, v.value);
-				});
-				angular.element('#popover-container').css('display', 'block');
-			});
-
-			self.eventModal.result.then(function(result) {
-				if (result.action === 'proceed') {
-					self.calendar = result.calendar;
-					openDialog(EDITOR_SIDEBAR, null, rejectDialog, resolveDialog);
-				} else {
-					if (template === EDITOR_SIDEBAR) {
-						angular.element('#app-content').removeClass('with-app-sidebar');
-					}
-
-					self.unlockCallback();
-					resolveDialog({
-						calendar: result.calendar,
-						vevent: result.vevent
-					});
-					cleanup();
-				}
-			}).catch(function(reason) {
+		context.eventModal.rendered.then(() => context.positionPopover(position));
+		context.eventModal.result.then((result) => {
+			if (result.action === 'proceed') {
+				context.openDialog(EDITOR_SIDEBAR, resolve, reject, unlock, [], scope, fcEvent, simpleEvent, result.calendar);
+			} else {
 				if (template === EDITOR_SIDEBAR) {
 					angular.element('#app-content').removeClass('with-app-sidebar');
 				}
 
-				if (reason !== 'superseded') {
-					self.unlockCallback();
-					cleanup();
-				}
-
-				rejectDialog(reason);
-			});
-		}
-
-		function openRepeatQuestion() {
-			//TODO in followup PR
-		}
-
-		this.open = function(scope, fcEvent, positionCallback, lockCallback, unlockCallback) {
-			const skipPopover = (angular.element('#fullcalendar').attr('data-skipPopover') === 'yes');
-
-			//don't reload editor for the same event
-			if (self.fcEvent === fcEvent) {
-				return self.promise;
+				unlock();
+				context.cleanup();
+				resolve({
+					calendar: result.calendar,
+					vevent: result.vevent
+				});
+			}
+		}).catch((reason) => {
+			if (template === EDITOR_SIDEBAR) {
+				angular.element('#app-content').removeClass('with-app-sidebar');
 			}
 
-			//is an editor already open?
-			if (self.fcEvent) {
-				self.eventModal.dismiss('superseded');
+			if (reason !== 'superseded') {
+				context.cleanup();
 			}
 
-			cleanup();
-			self.promise = new Promise(function(resolve, reject) {
-				self.fcEvent = fcEvent;
-				self.simpleEvent = fcEvent.getSimpleEvent();
-				if (fcEvent.vevent) {
-					self.calendar = fcEvent.vevent.calendar;
-				}
-				self.scope = scope;
-
-				//calculate position of popover
-				var position = positionCallback();
-
-				//lock new fcEvent and unlock old fcEvent
-				lockCallback();
-				if (self.unlockCallback) {
-					self.unlockCallback();
-				}
-				self.unlockCallback = unlockCallback;
-
-				//skip popover on small devices
-				if (angular.element(window).width() > 768 && !skipPopover) {
-					openDialog(EDITOR_POPOVER, position, reject, resolve);
-				} else {
-					openDialog(EDITOR_SIDEBAR, null, reject, resolve);
-				}
-			});
-
-			return self.promise;
+			unlock();
+			reject(reason);
+		});
 	};
 
-	return this;
+	context.openRepeatQuestion = () => {
+		// TODO in followup PR
+	};
+
+	/**
+	 * open dialog for editing events
+	 * @param {object} scope
+	 * @param {FcEvent} fcEvent
+	 * @param {positionCallback} calculatePosition
+	 * @param {lockCallback} lock
+	 * @param {unlockCallback} unlock
+	 * @returns {Promise}
+	 */
+	this.open = function(scope, fcEvent, calculatePosition, lock, unlock) {
+		const skipPopover = (angular.element('#fullcalendar').attr('data-skipPopover') === 'yes');
+
+		// don't reload editor for the same event
+		if (context.fcEvent === fcEvent) {
+			return context.promise;
+		}
+
+		// dismiss existing dialogs
+		if (context.fcEvent) {
+			context.eventModal.dismiss('superseded');
+		}
+
+		context.promise = new Promise(function(resolve, reject) {
+			// calculate position of popover
+			// needs to happen before locking event
+			const position = calculatePosition();
+
+			// lock new fcEvent
+			lock();
+
+			const calendar = (fcEvent.vevent) ? fcEvent.vevent.calendar : null;
+			const simpleEvent = fcEvent.getSimpleEvent();
+
+			// skip popover on small devices
+			if (context.showPopover() && !skipPopover) {
+				context.openDialog(EDITOR_POPOVER, resolve, reject, unlock, position, scope, fcEvent, simpleEvent, calendar);
+			} else {
+				context.openDialog(EDITOR_SIDEBAR, resolve, reject, unlock, [], scope, fcEvent, simpleEvent, calendar);
+			}
+		});
+
+		return context.promise;
+	};
+
+	/**
+	 * @callback resolveCallback
+	 * @param {*} value
+	 */
+	/**
+	 * @callback rejectCallback
+	 * @param {*} reason
+	 */
+	/**
+	 * @callback positionCallback
+	 */
+	/**
+	 * @callback lockCallback
+	 */
+	/**
+	 * @callback unlockCallback
+	 */
 });
