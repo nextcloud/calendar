@@ -38,6 +38,7 @@
           "escapeHTML": true,
           "possible": true,
           "dav": true,
-          "hslToRgb": true
+          "hslToRgb": true,
+          "autosize": true
     }
 }

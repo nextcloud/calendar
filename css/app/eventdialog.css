@@ -120,6 +120,11 @@
 	width: 60px;
 }
 
+.events--textarea,
+.advanced--textarea {
+	resize: none;
+}
+
 .advanced .events--time {
 	width: 100%;
 }
@@ -162,11 +167,6 @@
 
 .advanced .advanced--fieldset select {
 	width: 100%;
-}
-
-.advanced .advanced--fieldset textarea {
-	height: 4.5em;
-	resize: vertical;
 }
 
 .advanced .tabHeaders {
