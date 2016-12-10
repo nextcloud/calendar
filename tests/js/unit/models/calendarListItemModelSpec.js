@@ -228,13 +228,17 @@ describe('The calendarListItem factory', function () {
 describe('The calendarListItem factory - sharingAPI enabled', function () {
 	'use strict';
 
-	let CalendarListItem, Calendar;
+	let CalendarListItem, Calendar, WebCal;
 
 	beforeEach(module('Calendar', function($provide) {
 		Calendar = {};
-
 		Calendar.isCalendar = jasmine.createSpy().and.returnValue(true);
+
+		WebCal = {};
+		WebCal.isCalendar = jasmine.createSpy().and.returnValue(true);
+
 		$provide.value('Calendar', Calendar);
+		$provide.value('WebCal', WebCal);
 		$provide.value('isSharingAPI', true);
 	}));
 
@@ -326,13 +330,17 @@ describe('The calendarListItem factory - sharingAPI enabled', function () {
 describe('The calendarListItem factory - sharingAPI disabled', function () {
 	'use strict';
 
-	let CalendarListItem, Calendar;
+	let CalendarListItem, Calendar, WebCal;
 
 	beforeEach(module('Calendar', function($provide) {
 		Calendar = {};
-
 		Calendar.isCalendar = jasmine.createSpy().and.returnValue(true);
+
+		WebCal = {};
+		WebCal.isCalendar = jasmine.createSpy().and.returnValue(true);
+
 		$provide.value('Calendar', Calendar);
+		$provide.value('WebCal', WebCal);
 		$provide.value('isSharingAPI', false);
 	}));
 

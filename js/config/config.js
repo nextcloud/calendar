@@ -57,8 +57,8 @@ app.config(['$provide', '$httpProvider',
 		const isSharingAPI = (typeof OC.Share === 'object');
 		$provide.constant('isSharingAPI', isSharingAPI);
 
-		const skipPopover = angular.element('#fullcalendar').attr('data-skipPopover');
-		const showWeekNr = angular.element('#fullcalendar').attr('data-weekNumbers');
+		const skipPopover = angular.element('#fullcalendar').attr('data-skipPopover') === 'yes';
+		const showWeekNr = angular.element('#fullcalendar').attr('data-weekNumbers') === 'yes';
 		$provide.constant('settings', {skipPopover, showWeekNr});
 
 		const initialView = angular.element('#fullcalendar').attr('data-initialView');

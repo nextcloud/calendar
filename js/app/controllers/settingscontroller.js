@@ -32,8 +32,8 @@ app.controller('SettingsController', ['$scope', '$uibModal', '$timeout', 'Settin
 
 		$scope.settingsCalDavLink = OC.linkToRemote('dav') + '/';
 		$scope.settingsCalDavPrincipalLink = OC.linkToRemote('dav') + '/principals/users/' + escapeHTML(encodeURIComponent(oc_current_user)) + '/';
-		$scope.skipPopover = settings.skipPopover;
-		$scope.settingsShowWeekNr = settings.showWeekNr;
+		$scope.skipPopover = settings.skipPopover ? 'yes' : 'no';
+		$scope.settingsShowWeekNr = settings.showWeekNr ? 'yes' : 'no';
 
 		$timeout(() => {
 			if (isFirstRun) {
@@ -81,13 +81,13 @@ app.controller('SettingsController', ['$scope', '$uibModal', '$timeout', 'Settin
 
 		$scope.updateSkipPopover = function() {
 			const newValue = $scope.skipPopover;
-			settings.skipPopover = newValue;
+			settings.skipPopover = (newValue === 'yes');
 			SettingsService.setSkipPopover(newValue);
 		};
 
 		$scope.updateShowWeekNr = function() {
 			const newValue = $scope.settingsShowWeekNr;
-			settings.showWeekNr = newValue;
+			settings.showWeekNr = (newValue === 'yes');
 			SettingsService.setShowWeekNr(newValue);
 			if (fc.elm) {
 				fc.elm.fullCalendar('option', 'weekNumbers', (newValue === 'yes'));
