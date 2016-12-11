@@ -19,7 +19,7 @@
  *
  */
 
-app.factory('Calendar', function($window, Hook, VEventService, TimezoneService, ColorUtility, RandomStringService) {
+app.factory('Calendar', function($window, Hook, VEventService, TimezoneService, ColorUtility, StringUtility) {
 	'use strict';
 
 	/**
@@ -46,7 +46,7 @@ app.factory('Calendar', function($window, Hook, VEventService, TimezoneService, 
 				published: props.published
 			},
 			updatedProperties: [],
-			tmpId: RandomStringService.generate(),
+			tmpId: StringUtility.uid(),
 			url: url,
 			owner: props.owner,
 			shares: props.shares,
