@@ -3,12 +3,13 @@
 		<div class="sidebar-top">
 			<div class="advanced--container">
 				<fieldset class="advanced--fieldset" ng-disabled="readOnly">
-					<input
-							class="advanced--input h2"
+					<textarea
+							class="advanced--input h2 advanced--textarea"
 							ng-model="properties.summary.value"
 							placeholder="<?php p($l->t('Title of the Event'));?>"
 							name="title" type="text"
-							autofocus="autofocus"/>
+							rows="1"
+							autofocus="autofocus"></textarea>
 					<select
 							ng-model="calendar"
 							ng-change="selectedCalendarChanged()"
@@ -56,12 +57,12 @@
 				</fieldset>
 
 				<fieldset ng-show="eventsdetailsview" class="advanced--fieldset" ng-disabled="readOnly">
-					<textarea ng-model="properties.location.value" type="text" class="advanced--input"
+					<textarea ng-model="properties.location.value" type="text" class="advanced--input advanced--textarea" rows="1"
 							  placeholder="<?php p($l->t('Location'));?>" name="location"
 							  uib-typeahead="location.name for location in searchLocation($viewValue)" typeahead-show-hint="true" typeahead-min-length="3"
 							  typeahead-on-select="selectLocationFromTypeahead($item)"
 							  autocomplete="off" ></textarea>
-					<textarea ng-model="properties.description.value" type="text" class="advanced--input advanced--textarea"
+					<textarea ng-model="properties.description.value" type="text" class="advanced--input advanced--textarea" rows="1"
 							  placeholder="<?php p($l->t('Description'));?>" name="description"></textarea>
 					<select id="statusSelector"
 							ng-options="status.type as status.displayname for status in statusSelect"

@@ -26,8 +26,8 @@
  * Description: Takes care of anything inside the Events Modal.
  */
 
-app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletionService', '$window', '$uibModalInstance', 'vevent', 'simpleEvent', 'calendar', 'isNew', 'emailAddress',
-	function($scope, TimezoneService, AutoCompletionService, $window, $uibModalInstance, vevent, simpleEvent, calendar, isNew, emailAddress) {
+app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletionService', '$timeout', '$window', '$uibModalInstance', 'vevent', 'simpleEvent', 'calendar', 'isNew', 'emailAddress',
+	function($scope, TimezoneService, AutoCompletionService, $timeout, $window, $uibModalInstance, vevent, simpleEvent, calendar, isNew, emailAddress) {
 		'use strict';
 
 		$scope.properties = simpleEvent;
@@ -76,6 +76,14 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
 			if ($scope.properties.dtend.type === 'date') {
 				$scope.properties.dtend.value = moment($scope.properties.dtend.value.subtract(1, 'days'));
 			}
+
+			autosize($('.advanced--textarea'));
+			autosize($('.events--textarea'));
+
+			$timeout(() => {
+				autosize.update($('.advanced--textarea'));
+				autosize.update($('.events--textarea'));
+			}, 50);
 
 			angular.forEach($scope.preEditingHooks, function(callback) {
 				callback();

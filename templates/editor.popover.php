@@ -1,13 +1,14 @@
 <div>
 	<form class="events" ng-submit="save()">
 		<fieldset class="events--fieldset" ng-disabled="readOnly">
-			<input
-					class="events--input h2"
+			<textarea
+					rows="1"
+					class="events--input h2 events--textarea"
 					ng-model="properties.summary.value"
 					placeholder="<?php p($l->t('Title of the Event'));?>"
 					name="title" type="text"
 					autofocus="autofocus"
-			/>
+			></textarea>
 			<select
 					ng-model="calendar"
 					ng-change="selectedCalendarChanged()"
