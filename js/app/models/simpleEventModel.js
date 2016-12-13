@@ -46,7 +46,7 @@ app.factory('SimpleEvent', function () {
 
 	const attendeeParameters = [
 		'role',
-		'rvsp',
+		'rsvp',
 		'partstat',
 		'cutype',
 		'cn',

@@ -60,7 +60,7 @@ app.controller('AttendeeController', function($scope, AutoCompletionService) {
 				group: $scope.newAttendeeGroup--,
 				parameters: {
 					'role': 'REQ-PARTICIPANT',
-					'rsvp': true,
+					'rsvp': 'TRUE',
 					'partstat': 'NEEDS-ACTION',
 					'cutype': 'INDIVIDUAL'
 				}
@@ -112,7 +112,7 @@ app.controller('AttendeeController', function($scope, AutoCompletionService) {
 			parameters: {
 				cn: item.name,
 				role: 'REQ-PARTICIPANT',
-				rsvp: true,
+				rsvp: 'TRUE',
 				partstat: 'NEEDS-ACTION',
 				cutype: 'INDIVIDUAL'
 			}

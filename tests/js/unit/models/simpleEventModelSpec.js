@@ -540,7 +540,7 @@ END:VCALENDAR`;
 			group: 0,
 			parameters: {
 				role: undefined,
-				rvsp: undefined,
+				rsvp: undefined,
 				partstat: undefined,
 				cutype: 'INDIVIDUAL',
 				cn: 'bar@foo.com',
@@ -597,7 +597,7 @@ END:VCALENDAR`;
 				group: 0,
 				parameters: {
 					role: undefined,
-					rvsp: undefined,
+					rsvp: undefined,
 					partstat: undefined,
 					cutype: 'INDIVIDUAL',
 					cn: 'bar@foo.com',
@@ -610,7 +610,7 @@ END:VCALENDAR`;
 				group: 1,
 				parameters: {
 					role: undefined,
-					rvsp: undefined,
+					rsvp: undefined,
 					partstat: undefined,
 					cutype: 'INDIVIDUAL',
 					cn: 'foo@bar.com',
@@ -1393,7 +1393,7 @@ END:VCALENDAR`;
 					group: 0,
 					parameters: {
 						role: undefined,
-						rvsp: undefined,
+						rsvp: undefined,
 						partstat: undefined,
 						cutype: 'INDIVIDUAL',
 						cn: 'bar@foo.com',
