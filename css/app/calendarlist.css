@@ -435,6 +435,13 @@ input.shareeInput {
 li.calendar-share-item {
 	margin-left: 12px;
 	width: 95% !important;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	padding-right: 33px;
+}
+
+li.calendar-share-item span {
+	white-space: nowrap;
 }
 
 ul.dropdown-menu {
@@ -497,9 +504,11 @@ ul.dropdown-menu li > a:hover {
 .fc-unthemed tr td {
 	border-top-color: #eee;
 }
+
 .fc-unthemed tr:nth-child(even) td {
 	border-top-color: #f8f8f8;
 }
+
 .fc-unthemed th,
 .fc-unthemed td,
 .fc-unthemed thead,

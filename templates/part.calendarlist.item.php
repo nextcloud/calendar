@@ -163,18 +163,21 @@
 		   uib-typeahead="sharee.display for sharee in findSharee($viewValue, item.calendar)">
 	<ul class="calendar-share-list">
 		<li class="calendar-share-item"
-			ng-repeat="userShare in item.calendar.shares.users">
+			ng-repeat="userShare in item.calendar.shares.users"
+			title="{{ userShare.displayname }}">
 			{{ userShare.displayname }} -
-			<input id="checkbox_sharedWithUser_{{ $parent.$index }}_{{ $id }}"
-				   name="editable"
-				   class="checkbox"
-				   ng-change="updateExistingUserShare(item.calendar, userShare.id, userShare.writable)"
-				   ng-model="userShare.writable"
-				   type="checkbox"
-				   value="edit">
-			<label for="checkbox_sharedWithUser_{{ $parent.$index }}_{{ $id }}">
-				<?php p($l->t('can edit')); ?>
-			</label>
+			<span>
+				<input id="checkbox_sharedWithUser_{{ $parent.$index }}_{{ $id }}"
+					   name="editable"
+					   class="checkbox"
+					   ng-change="updateExistingUserShare(item.calendar, userShare.id, userShare.writable)"
+					   ng-model="userShare.writable"
+					   type="checkbox"
+					   value="edit">
+				<label for="checkbox_sharedWithUser_{{ $parent.$index }}_{{ $id }}">
+					<?php p($l->t('can edit')); ?>
+				</label>
+			</span>
 			<span class="utils hide">
 				<span class="action">
 					<span class="icon-delete"
@@ -187,18 +190,21 @@
 			</span>
 		</li>
 		<li class="calendar-share-item"
-			ng-repeat="groupShare in item.calendar.shares.groups">
+			ng-repeat="groupShare in item.calendar.shares.groups"
+			title="{{ groupShare.displayname }} (<?php p($l->t('group')); ?>)">
 			{{ groupShare.displayname }} (<?php p($l->t('group')); ?>) -
-			<input id="checkbox_sharedWithGroup_{{ $parent.$index }}_{{ $id }}"
-				   name="editable"
-				   class="checkbox"
-				   ng-change="updateExistingGroupShare(item.calendar, groupShare.id, groupShare.writable)"
-				   ng-model="groupShare.writable"
-				   type="checkbox"
-				   value="edit">
-			<label for="checkbox_sharedWithGroup_{{ $parent.$index }}_{{ $id }}">
-				<?php p($l->t('can edit')); ?>
-			</label>
+			<span>
+				<input id="checkbox_sharedWithGroup_{{ $parent.$index }}_{{ $id }}"
+					   name="editable"
+					   class="checkbox"
+					   ng-change="updateExistingGroupShare(item.calendar, groupShare.id, groupShare.writable)"
+					   ng-model="groupShare.writable"
+					   type="checkbox"
+					   value="edit">
+				<label for="checkbox_sharedWithGroup_{{ $parent.$index }}_{{ $id }}">
+					<?php p($l->t('can edit')); ?>
+				</label>
+			</span>
 			<span class="utils hide">
 				<span class="action">
 					<span class="icon-delete"
