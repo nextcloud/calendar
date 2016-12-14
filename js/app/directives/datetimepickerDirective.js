@@ -31,11 +31,17 @@ app.directive('ocdatetimepicker', function($compile, $timeout) {
 		},
 		link: function (scope, element, attrs, ngModelCtrl) {
 			var templateHTML = '<input type="text" ng-model="date" class="events--date" />';
-			templateHTML += '<input type="text" ng-model="time" class="events--time" ng-disabled="disabletime"/>';
+			templateHTML += '<span class="events--time--wrapper" ng-click="disableAllDayIfNecessary()"><input type="text" ng-model="time" class="events--time" ng-disabled="disabletime"/></span>';
 			var template = angular.element(templateHTML);
 
 			scope.date = null;
 			scope.time = null;
+			scope.disableAllDayIfNecessary = () => {
+				if (scope.disabletime) {
+					scope.disabletime = false;
+					element.find('.events--time').timepicker('show');
+				}
+			};
 
 			$compile(template)(scope);
 			element.append(template);

@@ -116,8 +116,17 @@
 	font-size: 20px;
 }
 
+.advanced .events--time--wrapper,
+.events .events--time--wrapper {
+	display: inline !important;
+}
+
 .events .events--time {
 	width: 60px;
+}
+
+.events .events--time[disabled] {
+	pointer-events: none;
 }
 
 .events--textarea,
