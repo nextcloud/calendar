@@ -54,6 +54,10 @@ app.controller('ImportController', ['$scope', '$filter', 'CalendarService', 'VEv
 						if (!response) {
 							fileWrapper.errors++;
 						}
+					}).catch(function(reason) {
+						fileWrapper.state = ImportFileWrapper.stateImporting;
+						fileWrapper.progress++;
+						fileWrapper.errors++;
 					});
 				});
 			};
