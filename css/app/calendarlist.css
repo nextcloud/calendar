@@ -231,7 +231,8 @@
 	vertical-align: top;
 }
 
-#app-navigation .app-navigation-list-item .utils .action .icon-shared {
+#app-navigation .app-navigation-list-item .utils .action .icon-shared,
+#app-navigation .app-navigation-list-item .utils .action .icon-public {
 	padding: 12px 0;
 }
 
