@@ -151,17 +151,12 @@
 }
 
 .advanced--container {
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
 	padding: 20px;
-	margin-bottom: 120px;
+	padding-bottom: 0;
 }
 
 .advanced--fieldset {
-	margin-bottom: 10px;
+	margin-bottom: 5px;
 }
 
 .advanced .advanced--input,
@@ -214,22 +209,23 @@ button.delete:focus {
 .advanced .advanced--button-area {
 	border-top: 1px solid #eee;
 	padding: 5px 20px;
-	position: absolute;
-	left: 0;
-	right: 0;
-	bottom: 0;
 }
 
 .advanced .pull-half {
 	width: 45% !important;
 }
 
+.advanced > form {
+	height: 100%;
+}
+
 .advanced .sidebar-top {
-	position: absolute;
-	width: 100%;
-	top: 0;
-	bottom: 120px;
+	height: calc(100% - 119px);
 	overflow-y: scroll;
+}
+
+.advanced .sidebar-top.new {
+	height: calc(100% - 83px);
 }
 
 .advanced .pull-quarter {
