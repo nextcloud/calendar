@@ -1,6 +1,6 @@
 <div id="app-sidebar" class="advanced">
 	<form ng-submit="save()">
-		<div class="sidebar-top">
+		<div class="sidebar-top" ng-class="{'new': is_new}">
 			<div class="advanced--container">
 				<fieldset class="advanced--fieldset" ng-disabled="readOnly">
 					<textarea
