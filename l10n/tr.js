@@ -161,7 +161,6 @@ OC.L10N.register(
     "Settings" : "Ayarlar",
     "Publish URL" : "Yayın adresi",
     "Iframe to integrate" : "bütünleştirilecek Iframe",
-    "Settings & Import" : "Ayarlar ve Alma",
     "Skip simple event editor" : "Basit etkinlik düzenleyici atlansın",
     "Show week numbers" : "Hafta numaraları görüntülensin",
     "Import calendar" : "Takvimi al",

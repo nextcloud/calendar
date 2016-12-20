@@ -161,7 +161,6 @@ OC.L10N.register(
     "Settings" : "Nastavení",
     "Publish URL" : "Zveřejnit URL",
     "Iframe to integrate" : "Iframe k integraci",
-    "Settings & Import" : "Nastavení & import",
     "Skip simple event editor" : "Přeskočit jednoduchý editor události",
     "Show week numbers" : "Zobrazit čísla týdnů",
     "Import calendar" : "Importovat kalendář",

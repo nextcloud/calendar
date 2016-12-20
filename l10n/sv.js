@@ -154,7 +154,6 @@ OC.L10N.register(
     "Import scheduled" : "Import schemalagd",
     "Settings" : "Inställningar",
     "Publish URL" : "Publicera URL",
-    "Settings & Import" : "Inställningar & Import",
     "Skip simple event editor" : "Använd inte den enkla händelse-redigeraren",
     "Show week numbers" : "Visa veckonummer",
     "Import calendar" : "Importera kalender",
