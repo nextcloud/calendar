@@ -112,13 +112,17 @@ describe('HashService', () => {
 		}));
 
 		it ('should return call registered callbacks', () => {
-			const callback1 = jasmine.createSpy();
+			let map;
+			const callback1 = jasmine.createSpy().and.callFake((p) => map = p);
 			const callback2 = jasmine.createSpy();
 
 			HashService.runIfApplicable('fancy_id', callback1);
 			HashService.runIfApplicable('another_fancy_id', callback2);
 
-			expect(callback1).toHaveBeenCalledWith('param1=value1&param2=value2');
+			expect(callback1).toHaveBeenCalledWith(jasmine.any(Map));
+			expect(map.size).toEqual(2);
+			expect(map.get('param1')).toEqual('value1');
+			expect(map.get('param2')).toEqual('value2');
 			expect(callback2).not.toHaveBeenCalled();
 		});
 	});
@@ -136,13 +140,73 @@ describe('HashService', () => {
 		}));
 
 		it ('should handle hashes beginning with #', () => {
-			const callback1 = jasmine.createSpy();
+			let map;
+			const callback1 = jasmine.createSpy().and.callFake((p) => map = p);
 			const callback2 = jasmine.createSpy();
 
 			HashService.runIfApplicable('fancy_id', callback1);
 			HashService.runIfApplicable('another_fancy_id', callback2);
 
-			expect(callback1).toHaveBeenCalledWith('param1=value1&param2=value2');
+			expect(callback1).toHaveBeenCalledWith(jasmine.any(Map));
+			expect(map.size).toEqual(2);
+			expect(map.get('param1')).toEqual('value1');
+			expect(map.get('param2')).toEqual('value2');
+			expect(callback2).not.toHaveBeenCalled();
+		});
+	});
+
+	describe('', () => {
+		beforeEach(module('Calendar', function ($provide) {
+			$location = {};
+			$location.hash = jasmine.createSpy().and.returnValue('#fancy_id?param1=value1&param2=http%3A%2F%2Fwww.foobar.crazytld%2Fde-sk.ics');
+
+			$provide.value('$location', $location);
+		}));
+
+		beforeEach(inject(function (_HashService_) {
+			HashService = _HashService_;
+		}));
+
+		it ('should handle hashes beginning with #', () => {
+			let map;
+			const callback1 = jasmine.createSpy().and.callFake((p) => map = p);
+			const callback2 = jasmine.createSpy();
+
+			HashService.runIfApplicable('fancy_id', callback1);
+			HashService.runIfApplicable('another_fancy_id', callback2);
+
+			expect(callback1).toHaveBeenCalledWith(jasmine.any(Map));
+			expect(map.size).toEqual(2);
+			expect(map.get('param1')).toEqual('value1');
+			expect(map.get('param2')).toEqual('http://www.foobar.crazytld/de-sk.ics');
+			expect(callback2).not.toHaveBeenCalled();
+		});
+	});
+
+	describe('', () => {
+		beforeEach(module('Calendar', function ($provide) {
+			$location = {};
+			$location.hash = jasmine.createSpy().and.returnValue('#/fancy_id?param1=value1&param2=http%3A%2F%2Fwww.foobar.crazytld%2Fde-sk.ics');
+
+			$provide.value('$location', $location);
+		}));
+
+		beforeEach(inject(function (_HashService_) {
+			HashService = _HashService_;
+		}));
+
+		it ('should handle hashes beginning with #/', () => {
+			let map;
+			const callback1 = jasmine.createSpy().and.callFake((p) => map = p);
+			const callback2 = jasmine.createSpy();
+
+			HashService.runIfApplicable('fancy_id', callback1);
+			HashService.runIfApplicable('another_fancy_id', callback2);
+
+			expect(callback1).toHaveBeenCalledWith(jasmine.any(Map));
+			expect(map.size).toEqual(2);
+			expect(map.get('param1')).toEqual('value1');
+			expect(map.get('param2')).toEqual('http://www.foobar.crazytld/de-sk.ics');
 			expect(callback2).not.toHaveBeenCalled();
 		});
 	});

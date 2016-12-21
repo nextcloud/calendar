@@ -24,7 +24,7 @@ app.service('HashService', function ($location) {
 
 	const context = {
 		hashId: null,
-		parameters: null,
+		parameters: new Map(),
 	};
 
 	(function() {
@@ -37,6 +37,10 @@ app.service('HashService', function ($location) {
 
 		if (hash.startsWith('#')) {
 			hash = hash.substr(1);
+
+			if (hash.startsWith('/')) {
+				hash = hash.substr(1);
+			}
 		}
 
 		// the hashes must comply with the following convention
@@ -48,14 +52,18 @@ app.service('HashService', function ($location) {
 		// #subscribe_to_webcal?url=https%3A%2F%2Fwww.foo.bar%2F
 		//
 		// hashes without a question mark after the id will be ignored
-
 		if (!hash.includes('?')) {
 			return;
 		}
 
 		const questionMarkPosition = hash.indexOf('?');
 		context.hashId = hash.substr(0, questionMarkPosition);
-		context.parameters = hash.substr(questionMarkPosition + 1);
+
+		const parameters = hash.substr(questionMarkPosition + 1);
+		parameters.split('&').forEach((part) => {
+			const [key, value] = part.split('=');
+			context.parameters.set(key, decodeURIComponent(value));
+		});
 	}());
 
 	/**
