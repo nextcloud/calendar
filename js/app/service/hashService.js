@@ -28,7 +28,7 @@ app.service('HashService', function ($location) {
 	};
 
 	(function() {
-		let hash = $location.hash();
+		let hash = $location.url();
 
 		if (!hash || hash === '') {
 			// nothing to do
@@ -37,11 +37,11 @@ app.service('HashService', function ($location) {
 
 		if (hash.startsWith('#')) {
 			hash = hash.substr(1);
-
-			if (hash.startsWith('/')) {
-				hash = hash.substr(1);
-			}
 		}
+		if (hash.startsWith('/')) {
+			hash = hash.substr(1);
+		}
+
 
 		// the hashes must comply with the following convention
 		// #id?param1=value1&param2=value2& ... &paramN=valueN

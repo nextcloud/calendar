@@ -27,7 +27,7 @@ describe('HashService', () => {
 	describe('', () => {
 		beforeEach(module('Calendar', function ($provide) {
 			$location = {};
-			$location.hash = jasmine.createSpy().and.returnValue(undefined);
+			$location.url = jasmine.createSpy().and.returnValue(undefined);
 
 			$provide.value('$location', $location);
 		}));
@@ -43,7 +43,7 @@ describe('HashService', () => {
 			HashService.runIfApplicable('fancy_id', callback1);
 			HashService.runIfApplicable('another_fancy_id', callback2);
 
-			expect($location.hash).toHaveBeenCalled();
+			expect($location.url).toHaveBeenCalled();
 			expect(callback1).not.toHaveBeenCalled();
 			expect(callback2).not.toHaveBeenCalled();
 		});
@@ -52,7 +52,7 @@ describe('HashService', () => {
 	describe('', () => {
 		beforeEach(module('Calendar', function ($provide) {
 			$location = {};
-			$location.hash = jasmine.createSpy().and.returnValue(null);
+			$location.url = jasmine.createSpy().and.returnValue(null);
 
 			$provide.value('$location', $location);
 		}));
@@ -68,7 +68,7 @@ describe('HashService', () => {
 			HashService.runIfApplicable('fancy_id', callback1);
 			HashService.runIfApplicable('another_fancy_id', callback2);
 
-			expect($location.hash).toHaveBeenCalled();
+			expect($location.url).toHaveBeenCalled();
 			expect(callback1).not.toHaveBeenCalled();
 			expect(callback2).not.toHaveBeenCalled();
 		});
@@ -77,7 +77,7 @@ describe('HashService', () => {
 	describe('', () => {
 		beforeEach(module('Calendar', function ($provide) {
 			$location = {};
-			$location.hash = jasmine.createSpy().and.returnValue('');
+			$location.url = jasmine.createSpy().and.returnValue('');
 
 			$provide.value('$location', $location);
 		}));
@@ -93,7 +93,7 @@ describe('HashService', () => {
 			HashService.runIfApplicable('fancy_id', callback1);
 			HashService.runIfApplicable('another_fancy_id', callback2);
 
-			expect($location.hash).toHaveBeenCalled();
+			expect($location.url).toHaveBeenCalled();
 			expect(callback1).not.toHaveBeenCalled();
 			expect(callback2).not.toHaveBeenCalled();
 		});
@@ -102,7 +102,7 @@ describe('HashService', () => {
 	describe('', () => {
 		beforeEach(module('Calendar', function ($provide) {
 			$location = {};
-			$location.hash = jasmine.createSpy().and.returnValue('fancy_id?param1=value1&param2=value2');
+			$location.url = jasmine.createSpy().and.returnValue('fancy_id?param1=value1&param2=value2');
 
 			$provide.value('$location', $location);
 		}));
@@ -130,7 +130,7 @@ describe('HashService', () => {
 	describe('', () => {
 		beforeEach(module('Calendar', function ($provide) {
 			$location = {};
-			$location.hash = jasmine.createSpy().and.returnValue('#fancy_id?param1=value1&param2=value2');
+			$location.url = jasmine.createSpy().and.returnValue('#fancy_id?param1=value1&param2=value2');
 
 			$provide.value('$location', $location);
 		}));
@@ -158,7 +158,7 @@ describe('HashService', () => {
 	describe('', () => {
 		beforeEach(module('Calendar', function ($provide) {
 			$location = {};
-			$location.hash = jasmine.createSpy().and.returnValue('#fancy_id?param1=value1&param2=http%3A%2F%2Fwww.foobar.crazytld%2Fde-sk.ics');
+			$location.url = jasmine.createSpy().and.returnValue('#fancy_id?param1=value1&param2=http%3A%2F%2Fwww.foobar.crazytld%2Fde-sk.ics');
 
 			$provide.value('$location', $location);
 		}));
@@ -186,7 +186,7 @@ describe('HashService', () => {
 	describe('', () => {
 		beforeEach(module('Calendar', function ($provide) {
 			$location = {};
-			$location.hash = jasmine.createSpy().and.returnValue('#/fancy_id?param1=value1&param2=http%3A%2F%2Fwww.foobar.crazytld%2Fde-sk.ics');
+			$location.url = jasmine.createSpy().and.returnValue('#/fancy_id?param1=value1&param2=http%3A%2F%2Fwww.foobar.crazytld%2Fde-sk.ics');
 
 			$provide.value('$location', $location);
 		}));
@@ -214,7 +214,7 @@ describe('HashService', () => {
 	describe('', () => {
 		beforeEach(module('Calendar', function ($provide) {
 			$location = {};
-			$location.hash = jasmine.createSpy().and.returnValue('super_fancy_id?param1=value1&param2=value2');
+			$location.url = jasmine.createSpy().and.returnValue('super_fancy_id?param1=value1&param2=value2');
 
 			$provide.value('$location', $location);
 		}));
@@ -238,7 +238,7 @@ describe('HashService', () => {
 	describe('', () => {
 		beforeEach(module('Calendar', function ($provide) {
 			$location = {};
-			$location.hash = jasmine.createSpy().and.returnValue('fancy_id');
+			$location.url = jasmine.createSpy().and.returnValue('fancy_id');
 
 			$provide.value('$location', $location);
 		}));
