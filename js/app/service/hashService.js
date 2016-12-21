@@ -23,39 +23,16 @@ app.service('HashService', function ($location) {
 	'use strict';
 
 	const context = {
-		callbacks: {}
+		hashId: null,
+		parameters: null,
 	};
 
-	/**
-	 * register a handler for a certain hash id
-	 * @param {string} id
-	 * @param {function} callback
-	 */
-	this.register = (id, callback) => {
-		if (context.callbacks[id]) {
-			throw new Error('A callback for this id was already registered in the HashService');
-		}
-
-		context.callbacks[id] = callback;
-	};
-
-	/**
-	 * unregister a handler for a certain hash
-	 * @param {string} id
-	 */
-	this.unregister = (id) => {
-		delete context.callbacks[id];
-	};
-
-	/**
-	 * calls a registered handler if necessary
-	 */
-	this.call = () => {
+	(function() {
 		let hash = $location.hash();
 
 		if (!hash || hash === '') {
 			// nothing to do
-			return false;
+			return;
 		}
 
 		if (hash.startsWith('#')) {
@@ -73,18 +50,22 @@ app.service('HashService', function ($location) {
 		// hashes without a question mark after the id will be ignored
 
 		if (!hash.includes('?')) {
-			return false;
+			return;
 		}
 
 		const questionMarkPosition = hash.indexOf('?');
-		const identifier = hash.substr(0, questionMarkPosition);
-		const parameters = hash.substr(questionMarkPosition + 1);
+		context.hashId = hash.substr(0, questionMarkPosition);
+		context.parameters = hash.substr(questionMarkPosition + 1);
+	}());
 
-		if (context.callbacks[identifier]) {
-			context.callbacks[identifier](parameters);
-			return true;
-		} else {
-			return false;
+	/**
+	 * register a handler for a certain hash id
+	 * @param {string} id
+	 * @param {function} callback
+	 */
+	this.runIfApplicable = (id, callback) => {
+		if (id === context.hashId) {
+			callback(context.parameters);
 		}
 	};
 });

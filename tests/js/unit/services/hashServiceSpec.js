@@ -24,107 +24,173 @@ describe('HashService', () => {
 
 	let HashService, $location;
 
-	beforeEach(module('Calendar', function ($provide) {
-		$location = {};
-		$location.hash = jasmine.createSpy();
+	describe('', () => {
+		beforeEach(module('Calendar', function ($provide) {
+			$location = {};
+			$location.hash = jasmine.createSpy().and.returnValue(undefined);
 
-		$provide.value('$location', $location);
-	}));
+			$provide.value('$location', $location);
+		}));
 
-	beforeEach(inject(function (_HashService_) {
-		HashService = _HashService_;
-	}));
+		beforeEach(inject(function (_HashService_) {
+			HashService = _HashService_;
+		}));
 
-	it ('should not allow an identifier to be registered twice', () => {
-		const callback1 = jasmine.createSpy();
-		const callback2 = jasmine.createSpy();
-		const callback3 = jasmine.createSpy();
+		it ('should return false when the hash is undefined or empty', () => {
+			const callback1 = jasmine.createSpy();
+			const callback2 = jasmine.createSpy();
 
-		HashService.register('fancy_id', callback1);
-		HashService.register('another_fancy_id', callback2);
-		expect(() => HashService.register('fancy_id', callback3)).toThrowError(Error, 'A callback for this id was already registered in the HashService');
+			HashService.runIfApplicable('fancy_id', callback1);
+			HashService.runIfApplicable('another_fancy_id', callback2);
+
+			expect($location.hash).toHaveBeenCalled();
+			expect(callback1).not.toHaveBeenCalled();
+			expect(callback2).not.toHaveBeenCalled();
+		});
 	});
 
-	it ('should allow identifiers to be unregistered', () => {
-		const callback1 = jasmine.createSpy();
-		const callback2 = jasmine.createSpy();
-		const callback3 = jasmine.createSpy();
+	describe('', () => {
+		beforeEach(module('Calendar', function ($provide) {
+			$location = {};
+			$location.hash = jasmine.createSpy().and.returnValue(null);
 
-		HashService.register('fancy_id', callback1);
-		HashService.register('another_fancy_id', callback2);
-		HashService.unregister('fancy_id');
-		HashService.register('fancy_id', callback3);
+			$provide.value('$location', $location);
+		}));
+
+		beforeEach(inject(function (_HashService_) {
+			HashService = _HashService_;
+		}));
+
+		it ('should return false when the hash is undefined or empty', () => {
+			const callback1 = jasmine.createSpy();
+			const callback2 = jasmine.createSpy();
+
+			HashService.runIfApplicable('fancy_id', callback1);
+			HashService.runIfApplicable('another_fancy_id', callback2);
+
+			expect($location.hash).toHaveBeenCalled();
+			expect(callback1).not.toHaveBeenCalled();
+			expect(callback2).not.toHaveBeenCalled();
+		});
 	});
 
-	it ('should return false when the hash is undefined or empty', () => {
-		const callback1 = jasmine.createSpy();
-		const callback2 = jasmine.createSpy();
+	describe('', () => {
+		beforeEach(module('Calendar', function ($provide) {
+			$location = {};
+			$location.hash = jasmine.createSpy().and.returnValue('');
 
-		HashService.register('fancy_id', callback1);
-		HashService.register('another_fancy_id', callback2);
+			$provide.value('$location', $location);
+		}));
 
-		$location.hash.and.returnValue(undefined);
-		expect(HashService.call()).toEqual(false);
-		expect($location.hash).toHaveBeenCalled();
+		beforeEach(inject(function (_HashService_) {
+			HashService = _HashService_;
+		}));
 
-		$location.hash.and.returnValue(null);
-		expect(HashService.call()).toEqual(false);
-		expect($location.hash).toHaveBeenCalled();
+		it ('should return false when the hash is undefined or empty', () => {
+			const callback1 = jasmine.createSpy();
+			const callback2 = jasmine.createSpy();
 
-		$location.hash.and.returnValue('');
-		expect(HashService.call()).toEqual(false);
-		expect($location.hash).toHaveBeenCalled();
+			HashService.runIfApplicable('fancy_id', callback1);
+			HashService.runIfApplicable('another_fancy_id', callback2);
+
+			expect($location.hash).toHaveBeenCalled();
+			expect(callback1).not.toHaveBeenCalled();
+			expect(callback2).not.toHaveBeenCalled();
+		});
 	});
 
-	it ('should return call registered callbacks', () => {
-		const callback1 = jasmine.createSpy();
-		const callback2 = jasmine.createSpy();
+	describe('', () => {
+		beforeEach(module('Calendar', function ($provide) {
+			$location = {};
+			$location.hash = jasmine.createSpy().and.returnValue('fancy_id?param1=value1&param2=value2');
 
-		HashService.register('fancy_id', callback1);
-		HashService.register('another_fancy_id', callback2);
+			$provide.value('$location', $location);
+		}));
 
-		$location.hash.and.returnValue('fancy_id?param1=value1&param2=value2');
-		expect(HashService.call()).toEqual(true);
-		expect(callback1).toHaveBeenCalledWith('param1=value1&param2=value2');
-		expect(callback2).not.toHaveBeenCalled();
+		beforeEach(inject(function (_HashService_) {
+			HashService = _HashService_;
+		}));
+
+		it ('should return call registered callbacks', () => {
+			const callback1 = jasmine.createSpy();
+			const callback2 = jasmine.createSpy();
+
+			HashService.runIfApplicable('fancy_id', callback1);
+			HashService.runIfApplicable('another_fancy_id', callback2);
+
+			expect(callback1).toHaveBeenCalledWith('param1=value1&param2=value2');
+			expect(callback2).not.toHaveBeenCalled();
+		});
 	});
 
-	it ('should handle hashes beginning with #', () => {
-		const callback1 = jasmine.createSpy();
-		const callback2 = jasmine.createSpy();
+	describe('', () => {
+		beforeEach(module('Calendar', function ($provide) {
+			$location = {};
+			$location.hash = jasmine.createSpy().and.returnValue('#fancy_id?param1=value1&param2=value2');
 
-		HashService.register('fancy_id', callback1);
-		HashService.register('another_fancy_id', callback2);
+			$provide.value('$location', $location);
+		}));
 
-		$location.hash.and.returnValue('#fancy_id?param1=value1&param2=value2');
-		expect(HashService.call()).toEqual(true);
-		expect(callback1).toHaveBeenCalledWith('param1=value1&param2=value2');
-		expect(callback2).not.toHaveBeenCalled();
+		beforeEach(inject(function (_HashService_) {
+			HashService = _HashService_;
+		}));
+
+		it ('should handle hashes beginning with #', () => {
+			const callback1 = jasmine.createSpy();
+			const callback2 = jasmine.createSpy();
+
+			HashService.runIfApplicable('fancy_id', callback1);
+			HashService.runIfApplicable('another_fancy_id', callback2);
+
+			expect(callback1).toHaveBeenCalledWith('param1=value1&param2=value2');
+			expect(callback2).not.toHaveBeenCalled();
+		});
 	});
 
-	it ('should return false when no registered callbacks are available', () => {
-		const callback1 = jasmine.createSpy();
-		const callback2 = jasmine.createSpy();
+	describe('', () => {
+		beforeEach(module('Calendar', function ($provide) {
+			$location = {};
+			$location.hash = jasmine.createSpy().and.returnValue('super_fancy_id?param1=value1&param2=value2');
 
-		HashService.register('fancy_id', callback1);
-		HashService.register('another_fancy_id', callback2);
+			$provide.value('$location', $location);
+		}));
 
-		$location.hash.and.returnValue('super_fancy_id?param1=value1&param2=value2');
-		expect(HashService.call()).toEqual(false);
-		expect(callback1).not.toHaveBeenCalled();
-		expect(callback2).not.toHaveBeenCalled();
+		beforeEach(inject(function (_HashService_) {
+			HashService = _HashService_;
+		}));
+
+		it ('should return false when no registered callbacks are available', () => {
+			const callback1 = jasmine.createSpy();
+			const callback2 = jasmine.createSpy();
+
+			HashService.runIfApplicable('fancy_id', callback1);
+			HashService.runIfApplicable('another_fancy_id', callback2);
+
+			expect(callback1).not.toHaveBeenCalled();
+			expect(callback2).not.toHaveBeenCalled();
+		});
 	});
 
-	it ('should return false when hash contains no ?', () => {
-		const callback1 = jasmine.createSpy();
-		const callback2 = jasmine.createSpy();
+	describe('', () => {
+		beforeEach(module('Calendar', function ($provide) {
+			$location = {};
+			$location.hash = jasmine.createSpy().and.returnValue('fancy_id');
 
-		HashService.register('fancy_id', callback1);
-		HashService.register('another_fancy_id', callback2);
+			$provide.value('$location', $location);
+		}));
 
-		$location.hash.and.returnValue('fancy_id');
-		expect(HashService.call()).toEqual(false);
-		expect(callback1).not.toHaveBeenCalled();
-		expect(callback2).not.toHaveBeenCalled();
+		beforeEach(inject(function (_HashService_) {
+			HashService = _HashService_;
+		}));
+
+		it ('should return false when hash contains no ?', () => {
+			const callback1 = jasmine.createSpy();
+			const callback2 = jasmine.createSpy();
+
+			HashService.runIfApplicable('fancy_id', callback1);
+			HashService.runIfApplicable('another_fancy_id', callback2);
+			expect(callback1).not.toHaveBeenCalled();
+			expect(callback2).not.toHaveBeenCalled();
+		});
 	});
 });
