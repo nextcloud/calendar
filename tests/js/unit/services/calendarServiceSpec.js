@@ -22,7 +22,7 @@
 describe('CalendarService non-public', function () {
 	'use strict';
 
-	let CalendarService, DavClient, StringUtility, XMLUtility, CalendarFactory, WebCal, $q, $rootScope, davService;
+	let CalendarService, DavClient, StringUtility, XMLUtility, CalendarFactory, WebCal, $q, $rootScope, davService, constants;
 	let firstPropFindDeferred, secondPropFindDeferred, thirdPropFindDeferred;
 	let firstRequestDeferred, secondRequestDeferred, thirdRequestDeferred;
 	let updateSpy;
@@ -735,12 +735,17 @@ END:VCALENDAR&#13;
 		OC.requestToken = 'requestToken42';
 		OC.linkToRemoteBase = jasmine.createSpy();
 
+		constants = {
+			needsWebCalWorkaround: true
+		};
+
 		$provide.value('DavClient', DavClient);
 		$provide.value('StringUtility', StringUtility);
 		$provide.value('XMLUtility', XMLUtility);
 		$provide.value('CalendarFactory', CalendarFactory);
 		$provide.value('WebCal', WebCal);
 		$provide.value('isPublic', false);
+		$provide.value('constants', constants);
 	}));
 
 	beforeEach(inject(function (_$q_, _$rootScope_) {
@@ -1317,7 +1322,7 @@ END:VCALENDAR&#13;
 describe('CalendarService - public', function() {
 	'use strict';
 
-	let CalendarService, DavClient, StringUtility, XMLUtility, CalendarFactory, WebCal, $q, $rootScope, davService;
+	let CalendarService, DavClient, StringUtility, XMLUtility, CalendarFactory, WebCal, $q, $rootScope, davService, constants;
 	let firstPropFindDeferred, secondPropFindDeferred, thirdPropFindDeferred;
 	let firstRequestDeferred, secondRequestDeferred, thirdRequestDeferred;
 
@@ -1475,12 +1480,17 @@ describe('CalendarService - public', function() {
 		OC.requestToken = 'requestToken42';
 		OC.linkToRemoteBase = jasmine.createSpy();
 
+		constants = {
+			needsWebCalWorkaround: true
+		};
+
 		$provide.value('DavClient', DavClient);
 		$provide.value('StringUtility', StringUtility);
 		$provide.value('XMLUtility', XMLUtility);
 		$provide.value('CalendarFactory', CalendarFactory);
 		$provide.value('WebCal', WebCal);
 		$provide.value('isPublic', true);
+		$provide.value('constants', constants);
 	}));
 
 	beforeEach(inject(function (_$q_, _$rootScope_) {

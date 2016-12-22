@@ -86,7 +86,7 @@ app.constant('fc', {})
 			const baseConfig = {
 				dayNames: dayNames,
 				dayNamesShort: dayNamesShort,
-				defaultView: attrs.defaultview,
+				defaultView: attrs.initialView,
 				editable: !isPublic,
 				firstDay: firstDay,
 				forceEventDuration: true,

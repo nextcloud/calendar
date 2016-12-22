@@ -23,14 +23,19 @@ describe('EventsEditorDialogService', function () {
 	'use strict';
 
 	let EventsEditorDialogService;
-	let $uibModal, dismissSpy, renderedPromise, resultPromise, attrSpy, ngElementSpy, addClassSpy, removeClassSpy, widthSpy;
+	let $uibModal, dismissSpy, renderedPromise, resultPromise, attrSpy, ngElementSpy, addClassSpy, removeClassSpy, widthSpy, constants, settings;
 	let $q, $rootScope;
 
 	beforeEach(module('Calendar', function($provide) {
 		$uibModal = {};
 		$uibModal.open = jasmine.createSpy();
 
+		constants = {};
+		settings = {};
+
 		$provide.value('$uibModal', $uibModal);
+		$provide.constant('constants', 'constants');
+		$provide.constant('settings', 'settings');
 	}));
 
 	beforeEach(inject(function (_$q_, _$rootScope_) {

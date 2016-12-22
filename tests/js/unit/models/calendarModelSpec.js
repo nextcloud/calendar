@@ -25,8 +25,15 @@ describe('The calendar factory', function () {
 			unpublish: jasmine.createSpy()
 		};
 
+		veventservice = {};
+		timezoneservice = {};
+		colorutilityservice = {};
+
 		$provide.value('$window', window);
 		$provide.value('Hook', hook);
+		$provide.value('VEventService', veventservice);
+		$provide.value('TimezoneService', timezoneservice);
+		$provide.value('ColorUtility', colorutilityservice);
 		$provide.value('StringUtility', StringUtility);
 	}));
 

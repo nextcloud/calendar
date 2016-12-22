@@ -19,7 +19,7 @@
  *
  */
 
-app.service('CalendarFactory', function($window, DavClient, Calendar, WebCal) {
+app.service('CalendarFactory', function($window, DavClient, Calendar, WebCal, constants) {
 	'use strict';
 
 	const context = {};
@@ -52,7 +52,7 @@ app.service('CalendarFactory', function($window, DavClient, Calendar, WebCal) {
 
 	context.color = function(props) {
 		const colorProp = props['{' + DavClient.NS_APPLE + '}calendar-color'];
-		const fallbackColor = angular.element('#fullcalendar').attr('data-defaultColor');
+		const fallbackColor = constants.fallbackColor;
 
 		if (angular.isString(colorProp) && colorProp.length > 0) {
 			// some stupid clients store an alpha value in the rgb hash (like #rrggbbaa) *cough cough* Apple Calendar *cough cough*

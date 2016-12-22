@@ -26,17 +26,16 @@
  * Description: Takes care of the Calendar Settings.
  */
 
-app.controller('SettingsController', ['$scope', '$uibModal', '$timeout', 'SettingsService', 'fc',
-	function ($scope, $uibModal, $timeout, SettingsService, fc) {
+app.controller('SettingsController', ['$scope', '$uibModal', '$timeout', 'SettingsService', 'fc', 'isFirstRun', 'settings',
+	function ($scope, $uibModal, $timeout, SettingsService, fc, isFirstRun, settings) {
 		'use strict';
 
 		$scope.settingsCalDavLink = OC.linkToRemote('dav') + '/';
 		$scope.settingsCalDavPrincipalLink = OC.linkToRemote('dav') + '/principals/users/' + escapeHTML(encodeURIComponent(oc_current_user)) + '/';
-		$scope.skipPopover = angular.element('#fullcalendar').attr('data-skipPopover');
-		$scope.settingsShowWeekNr = angular.element('#fullcalendar').attr('data-weekNumbers');
+		$scope.skipPopover = settings.skipPopover ? 'yes' : 'no';
+		$scope.settingsShowWeekNr = settings.showWeekNr ? 'yes' : 'no';
 
 		$timeout(() => {
-			const isFirstRun = angular.element('#fullcalendar').attr('data-firstRun') === 'yes';
 			if (isFirstRun) {
 				angular.element('.settings-button').click();
 				angular.element('#import-button-overlay').tooltip({
@@ -82,13 +81,13 @@ app.controller('SettingsController', ['$scope', '$uibModal', '$timeout', 'Settin
 
 		$scope.updateSkipPopover = function() {
 			const newValue = $scope.skipPopover;
-			angular.element('#fullcalendar').attr('data-skipPopover', newValue);
+			settings.skipPopover = (newValue === 'yes');
 			SettingsService.setSkipPopover(newValue);
 		};
 
 		$scope.updateShowWeekNr = function() {
 			const newValue = $scope.settingsShowWeekNr;
-			angular.element('#fullcalendar').attr('data-weekNumbers', newValue);
+			settings.showWeekNr = (newValue === 'yes');
 			SettingsService.setShowWeekNr(newValue);
 			if (fc.elm) {
 				fc.elm.fullCalendar('option', 'weekNumbers', (newValue === 'yes'));

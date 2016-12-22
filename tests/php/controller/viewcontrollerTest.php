@@ -171,7 +171,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 			$this->assertInstanceOf('OCP\AppFramework\Http\TemplateResponse', $actual);
 			$this->assertEquals([
 				'appVersion' => '42.13.37',
-				'defaultView' => 'someView',
+				'initialView' => 'someView',
 				'emailAddress' => 'test@bla.com',
 				'skipPopover' => 'someSkipPopoverValue',
 				'weekNumbers' => 'someShowWeekNrValue',
@@ -253,7 +253,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 		$this->assertInstanceOf('OCP\AppFramework\Http\TemplateResponse', $actual);
 		$this->assertEquals([
 			'appVersion' => '42.13.37',
-			'defaultView' => 'month',
+			'initialView' => 'month',
 			'emailAddress' => 'test@bla.com',
 			'skipPopover' => 'someSkipPopoverValue',
 			'weekNumbers' => 'someShowWeekNrValue',
@@ -269,7 +269,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @dataProvider indexFirstRunDetectionProvider
 	 */
-	public function testIndexFirstRunDetection($defaultView, $expectedFirstRun, $expectsSetRequest) {
+	public function testIndexFirstRunDetection($initialView, $expectedFirstRun, $expectsSetRequest) {
 		$this->config->expects($this->at(0))
 			->method('getSystemValue')
 			->with('version')
@@ -300,7 +300,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 		$this->config->expects($this->at(3))
 			->method('getUserValue')
 			->with('user123', $this->appName, 'currentView', null)
-			->will($this->returnValue($defaultView));
+			->will($this->returnValue($initialView));
 
 		$this->config->expects($this->at(4))
 			->method('getUserValue')
@@ -333,7 +333,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 		$this->assertInstanceOf('OCP\AppFramework\Http\TemplateResponse', $actual);
 		$this->assertEquals([
 			'appVersion' => '42.13.37',
-			'defaultView' => $defaultView ? 'someRandomDefaultView' : 'month',
+			'initialView' => $initialView ? 'someRandominitialView' : 'month',
 			'emailAddress' => 'test@bla.com',
 			'skipPopover' => 'someSkipPopoverValue',
 			'weekNumbers' => 'someShowWeekNrValue',
@@ -349,7 +349,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 	public function indexFirstRunDetectionProvider() {
 		return [
 			[null, 'yes', false],
-			['someRandomDefaultView', 'no', true],
+			['someRandominitialView', 'no', true],
 		];
 	}
 
@@ -384,7 +384,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 			$this->assertInstanceOf('OCP\AppFramework\Http\TemplateResponse', $actual);
 			$this->assertEquals([
 				'appVersion' => '42.13.37',
-				'defaultView' => 'month',
+				'initialView' => 'month',
 				'emailAddress' => '',
 				'supportsClass' => $expectsSupportsClass,
 				'isPublic' => true,

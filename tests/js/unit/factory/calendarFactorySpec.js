@@ -23,8 +23,8 @@ describe('CalendarFactory', function () {
 	'use strict';
 
 	let CalendarFactory;
-	let $window, DavClient, Calendar, WebCal;
-	let davService, attrSpy, ngElementSpy;
+	let $window, DavClient, Calendar, WebCal, constants;
+	let davService;
 	let privateCalendarServiceAPI;
 
 	const calendar_default = `<?xml version="1.0"?>
@@ -837,24 +837,22 @@ describe('CalendarFactory', function () {
 		Calendar = jasmine.createSpy().and.callFake(function() {return Array.from(arguments);});
 		WebCal = jasmine.createSpy().and.callFake(function() {return Array.from(arguments);});
 
-		attrSpy = jasmine.createSpy();
-		ngElementSpy = spyOn(angular, 'element').and.returnValue({attr: attrSpy});
-
 		privateCalendarServiceAPI = {};
+
+		constants = {
+			fallbackColor: '#fefefe'
+		};
 
 		$provide.value('$window', $window);
 		$provide.value('DavClient', DavClient);
 		$provide.value('Calendar', Calendar);
 		$provide.value('WebCal', WebCal);
+		$provide.value('constants', constants);
 	}));
 
 	beforeEach(inject(function (_CalendarFactory_) {
 		CalendarFactory = _CalendarFactory_;
 	}));
-
-	afterEach(function() {
-		ngElementSpy.and.callThrough();
-	});
 
 	it('create a calendar object', function() {
 		const calendarProperties = davService.parseMultiStatus(calendar_default);
@@ -879,8 +877,6 @@ describe('CalendarFactory', function () {
 	});
 
 	it('fallback to the instance color if no color is given', function() {
-		attrSpy.and.returnValue('#fefefe');
-
 		const calendarProperties = davService.parseMultiStatus(calendar_nocolor);
 		const calendar = CalendarFactory.calendar(privateCalendarServiceAPI, calendarProperties[0], '/remote.php/dav/principals/users/admin/', false);
 		expect(calendar).toEqual([privateCalendarServiceAPI, '/remote.php/dav/calendars/admin/privat/', {
@@ -1026,7 +1022,7 @@ describe('CalendarFactory', function () {
 		const calendarProperties = davService.parseMultiStatus(public_calendar);
 		const calendar = CalendarFactory.calendar(privateCalendarServiceAPI, calendarProperties[0], '', true);
 		expect(calendar).toEqual([privateCalendarServiceAPI, '/remote.php/dav/public-calendars/KCMY4V5JZ22ODGFW/', {
-			color: undefined, displayname: 'Personal (admin)', components: {vevent: true, vjournal: false, vtodo: true},
+			color: '#fefefe', displayname: 'Personal (admin)', components: {vevent: true, vjournal: false, vtodo: true},
 			order: 0, writable: false, owner: 'admin', enabled: true, shares: {users: [], groups: []}, shareable: false,
 			publishable: false, published: true, publishurl: 'http://nextcloud.dev/remote.php/dav/public-calendars/KCMY4V5JZ22ODGFW',
 			publicurl: 'http://nextcloud.dev/index.php/apps/calendar/public/KCMY4V5JZ22ODGFW', writableProperties: false}

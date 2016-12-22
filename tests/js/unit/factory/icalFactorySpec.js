@@ -1,27 +1,20 @@
 describe('ICalFactory tests', function () {
 	'use strict';
 
-	var ICalFactory, spy;
+	var ICalFactory, constants;
 
-	beforeEach(function () {
-		module('Calendar');
+	beforeEach(module('Calendar', function($provide) {
 
-		const elemMock = {
-			attr: function(name) {
-				return name === 'data-appVersion' ? '42.2.4' : null;
-			}
+		constants = {
+			version: '42.2.4'
 		};
 
-		spy = spyOn(angular, 'element').and.returnValue(elemMock);
+		$provide.value('constants', constants);
+	}));
 
-		inject(function ($injector) {
-			ICalFactory = $injector.get('ICalFactory');
-		});
-	});
-
-	afterEach(function(){
-		spy.and.callThrough();
-	});
+	beforeEach(inject(function (_ICalFactory_) {
+		ICalFactory = _ICalFactory_;
+	}));
 
 	it ('should return an ICAL object', function() {
 		const ical = ICalFactory.new();
