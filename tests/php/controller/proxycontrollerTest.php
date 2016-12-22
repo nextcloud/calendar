@@ -34,7 +34,12 @@ class ProxyControllerTest extends \PHPUnit_Framework_TestCase {
 	private $logger;
 
 	private $newClient;
-	private $response;
+	private $response0;
+	private $response1;
+	private $response2;
+	private $response3;
+	private $response4;
+	private $response5;
 	private $exceptionRequest;
 	private $exceptionResponse;
 
@@ -58,7 +63,22 @@ class ProxyControllerTest extends \PHPUnit_Framework_TestCase {
 		$this->newClient = $this->getMockBuilder('\OCP\Http\Client\IClient')
 			->disableOriginalConstructor()
 			->getMock();
-		$this->response = $this->getMockBuilder('\OCP\Http\Client\IResponse')
+		$this->response0 = $this->getMockBuilder('\OCP\Http\Client\IResponse')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->response1 = $this->getMockBuilder('\OCP\Http\Client\IResponse')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->response2 = $this->getMockBuilder('\OCP\Http\Client\IResponse')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->response3 = $this->getMockBuilder('\OCP\Http\Client\IResponse')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->response4 = $this->getMockBuilder('\OCP\Http\Client\IResponse')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->response5 = $this->getMockBuilder('\OCP\Http\Client\IResponse')
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -83,8 +103,13 @@ class ProxyControllerTest extends \PHPUnit_Framework_TestCase {
 			->method('get')
 			->with($testUrl, [
 				'stream' => true,
+				'allow_redirects' => false,
 			])
-			->will($this->returnValue($this->response));
+			->will($this->returnValue($this->response0));
+		$this->response0->expects($this->once())
+			->method('getStatusCode')
+			->with()
+			->will($this->returnValue(200));
 
 		$actual = $this->controller->proxy($testUrl);
 
@@ -102,6 +127,7 @@ class ProxyControllerTest extends \PHPUnit_Framework_TestCase {
 			->method('get')
 			->with($testUrl, [
 				'stream' => true,
+				'allow_redirects' => false,
 			])
 			->will($this->throwException(new ClientException('Exception Message foo bar 42',
 				$this->exceptionRequest, $this->exceptionResponse)));
@@ -136,6 +162,7 @@ class ProxyControllerTest extends \PHPUnit_Framework_TestCase {
 			->method('get')
 			->with($testUrl, [
 				'stream' => true,
+				'allow_redirects' => false,
 			])
 			->will($this->throwException(new ConnectException('Exception Message foo bar 42',
 				$this->exceptionRequest, $this->exceptionResponse)));
@@ -167,6 +194,7 @@ class ProxyControllerTest extends \PHPUnit_Framework_TestCase {
 			->method('get')
 			->with($testUrl, [
 				'stream' => true,
+				'allow_redirects' => false,
 			])
 			->will($this->throwException(new RequestException('Exception Message foo bar 42',
 				$this->exceptionRequest, $this->exceptionResponse)));
@@ -198,6 +226,7 @@ class ProxyControllerTest extends \PHPUnit_Framework_TestCase {
 			->method('get')
 			->with($testUrl, [
 				'stream' => true,
+				'allow_redirects' => false,
 			])
 			->will($this->throwException(new RequestException('Exception Message foo bar 42',
 				$this->exceptionRequest, $this->exceptionResponse)));
@@ -218,4 +247,296 @@ class ProxyControllerTest extends \PHPUnit_Framework_TestCase {
 			'proxy_code' => -2
 		], $actual->getData());
 	}
+
+	public function testProxyRedirect() {
+		$testUrl = 'http://abc.def/foobar?123';
+
+		$this->client->expects($this->once())
+			->method('newClient')
+			->will($this->returnValue($this->newClient));
+		$this->newClient->expects($this->at(0))
+			->method('get')
+			->with($testUrl, [
+				'stream' => true,
+				'allow_redirects' => false,
+			])
+			->will($this->returnValue($this->response0));
+		$this->response0->expects($this->at(0))
+			->method('getStatusCode')
+			->with()
+			->will($this->returnValue(301));
+		$this->response0->expects($this->at(1))
+			->method('getHeader')
+			->with('Location')
+			->will($this->returnValue('http://def.abc/foobar?456'));
+		$this->newClient->expects($this->at(1))
+			->method('get')
+			->with('http://def.abc/foobar?456', [
+				'stream' => true,
+				'allow_redirects' => false,
+			])
+			->will($this->returnValue($this->response0));
+		$this->response0->expects($this->at(2))
+			->method('getStatusCode')
+			->with()
+			->will($this->returnValue(200));
+
+		$actual = $this->controller->proxy($testUrl);
+
+		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertEquals([
+			'proxy_code' => -4,
+			'new_url' => 'http://def.abc/foobar?456',
+		], $actual->getData());
+	}
+
+	public function testProxyRedirectNonPermanent() {
+		$testUrl = 'http://abc.def/foobar?123';
+
+		$this->client->expects($this->once())
+			->method('newClient')
+			->will($this->returnValue($this->newClient));
+		$this->newClient->expects($this->at(0))
+			->method('get')
+			->with($testUrl, [
+				'stream' => true,
+				'allow_redirects' => false,
+			])
+			->will($this->returnValue($this->response0));
+		$this->response0->expects($this->at(0))
+			->method('getStatusCode')
+			->with()
+			->will($this->returnValue(307));
+		$this->newClient->expects($this->at(1))
+			->method('get')
+			->with('http://abc.def/foobar?123' , [
+				'stream' => true,
+				'allow_redirects' => [
+					'max' => 5,
+				],
+			])
+			->will($this->returnValue($this->response1));
+		$this->response1->expects($this->at(0))
+			->method('getStatusCode')
+			->with()
+			->will($this->returnValue(200));
+
+		$actual = $this->controller->proxy($testUrl);
+
+		$this->assertInstanceOf('OCA\Calendar\Http\StreamResponse', $actual);
+		$this->assertEquals('text/calendar', $actual->getHeaders()['Content-Type']);
+	}
+
+	public function testProxyMultipleRedirects() {
+		$testUrl = 'http://abc.def/foobar?123';
+
+		$this->client->expects($this->once())
+			->method('newClient')
+			->will($this->returnValue($this->newClient));
+		$this->newClient->expects($this->at(0))
+			->method('get')
+			->with($testUrl, [
+				'stream' => true,
+				'allow_redirects' => false,
+			])
+			->will($this->returnValue($this->response0));
+		$this->newClient->expects($this->at(1))
+			->method('get')
+			->with('http://def.abc/foobar?456' , [
+				'stream' => true,
+				'allow_redirects' => false,
+			])
+			->will($this->returnValue($this->response1));
+		$this->newClient->expects($this->at(2))
+			->method('get')
+			->with('http://xyz.abc/foobar?789' , [
+				'stream' => true,
+				'allow_redirects' => false,
+			])
+			->will($this->returnValue($this->response2));
+		$this->response0->expects($this->at(0))
+			->method('getStatusCode')
+			->with()
+			->will($this->returnValue(301));
+		$this->response0->expects($this->at(1))
+			->method('getHeader')
+			->with('Location')
+			->will($this->returnValue('http://def.abc/foobar?456'));
+		$this->response1->expects($this->at(0))
+			->method('getStatusCode')
+			->with()
+			->will($this->returnValue(301));
+		$this->response1->expects($this->at(1))
+			->method('getHeader')
+			->with('Location')
+			->will($this->returnValue('http://xyz.abc/foobar?789'));
+		$this->response2->expects($this->at(0))
+			->method('getStatusCode')
+			->with()
+			->will($this->returnValue(200));
+
+		$actual = $this->controller->proxy($testUrl);
+
+		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertEquals([
+			'proxy_code' => -4,
+			'new_url' => 'http://xyz.abc/foobar?789',
+		], $actual->getData());
+	}
+
+	public function testProxyMultipleRedirectsNonPermanent() {
+		$testUrl = 'http://abc.def/foobar?123';
+
+		$this->client->expects($this->once())
+			->method('newClient')
+			->will($this->returnValue($this->newClient));
+		$this->newClient->expects($this->at(0))
+			->method('get')
+			->with($testUrl, [
+				'stream' => true,
+				'allow_redirects' => false,
+			])
+			->will($this->returnValue($this->response0));
+		$this->newClient->expects($this->at(1))
+			->method('get')
+			->with('http://def.abc/foobar?456' , [
+				'stream' => true,
+				'allow_redirects' => false,
+			])
+			->will($this->returnValue($this->response1));
+		$this->response0->expects($this->at(0))
+			->method('getStatusCode')
+			->with()
+			->will($this->returnValue(301));
+		$this->response0->expects($this->at(1))
+			->method('getHeader')
+			->with('Location')
+			->will($this->returnValue('http://def.abc/foobar?456'));
+		$this->response1->expects($this->at(0))
+			->method('getStatusCode')
+			->with()
+			->will($this->returnValue(307));
+
+		$actual = $this->controller->proxy($testUrl);
+
+		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertEquals([
+			'proxy_code' => -4,
+			'new_url' => 'http://def.abc/foobar?456',
+		], $actual->getData());
+	}
+
+	public function testProxyAtMostFiveRedirects() {
+		$testUrl = 'http://abc.def/foobar?123';
+
+		$this->client->expects($this->once())
+			->method('newClient')
+			->will($this->returnValue($this->newClient));
+		$this->newClient->expects($this->at(0))
+			->method('get')
+			->with($testUrl, [
+				'stream' => true,
+				'allow_redirects' => false,
+			])
+			->will($this->returnValue($this->response0));
+		$this->newClient->expects($this->at(1))
+			->method('get')
+			->with('http://def.abc/foobar?456-0', [
+				'stream' => true,
+				'allow_redirects' => false,
+			])
+			->will($this->returnValue($this->response1));
+		$this->newClient->expects($this->at(2))
+			->method('get')
+			->with('http://def.abc/foobar?456-1', [
+				'stream' => true,
+				'allow_redirects' => false,
+			])
+			->will($this->returnValue($this->response2));
+		$this->newClient->expects($this->at(3))
+			->method('get')
+			->with('http://def.abc/foobar?456-2', [
+				'stream' => true,
+				'allow_redirects' => false,
+			])
+			->will($this->returnValue($this->response3));
+		$this->newClient->expects($this->at(4))
+			->method('get')
+			->with('http://def.abc/foobar?456-3', [
+				'stream' => true,
+				'allow_redirects' => false,
+			])
+			->will($this->returnValue($this->response4));
+		$this->newClient->expects($this->at(5))
+			->method('get')
+			->with('http://def.abc/foobar?456-4', [
+				'stream' => true,
+				'allow_redirects' => false,
+			])
+			->will($this->returnValue($this->response5));
+		$this->response0->expects($this->at(0))
+			->method('getStatusCode')
+			->with()
+			->will($this->returnValue(301));
+		$this->response0->expects($this->at(1))
+			->method('getHeader')
+			->with('Location')
+			->will($this->returnValue('http://def.abc/foobar?456-0'));
+		$this->response1->expects($this->at(0))
+			->method('getStatusCode')
+			->with()
+			->will($this->returnValue(301));
+		$this->response1->expects($this->at(1))
+			->method('getHeader')
+			->with('Location')
+			->will($this->returnValue('http://def.abc/foobar?456-1'));
+		$this->response2->expects($this->at(0))
+			->method('getStatusCode')
+			->with()
+			->will($this->returnValue(301));
+		$this->response2->expects($this->at(1))
+			->method('getHeader')
+			->with('Location')
+			->will($this->returnValue('http://def.abc/foobar?456-2'));
+		$this->response3->expects($this->at(0))
+			->method('getStatusCode')
+			->with()
+			->will($this->returnValue(301));
+		$this->response3->expects($this->at(1))
+			->method('getHeader')
+			->with('Location')
+			->will($this->returnValue('http://def.abc/foobar?456-3'));
+		$this->response4->expects($this->at(0))
+			->method('getStatusCode')
+			->with()
+			->will($this->returnValue(301));
+		$this->response4->expects($this->at(1))
+			->method('getHeader')
+			->with('Location')
+			->will($this->returnValue('http://def.abc/foobar?456-4'));
+		$this->response5->expects($this->at(0))
+			->method('getStatusCode')
+			->with()
+			->will($this->returnValue(301));
+		$this->response5->expects($this->at(1))
+			->method('getHeader')
+			->with('Location')
+			->will($this->returnValue('http://def.abc/foobar?456-5'));
+		$this->l10n->expects($this->once())
+			->method('t')
+			->with($this->equalTo('Too many redirects. Aborting ...'))
+			->will($this->returnValue('translated string 1337'));
+		$this->newClient->expects($this->exactly(6))
+			->method('get');
+
+		$actual = $this->controller->proxy($testUrl);
+
+		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertEquals([
+			'proxy_code' => -3,
+			'message' => 'translated string 1337',
+		], $actual->getData());
+	}
+
+
 }
