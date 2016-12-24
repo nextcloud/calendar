@@ -172,36 +172,39 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 					var timestamp = Date.now();
 					var fcEventClass = 'new-event-dummy-' + timestamp;
 
-					var fcEvent = vevent.getFcEvent(view.start, view.end, $scope.defaulttimezone)[0];
-					fcEvent.title = t('calendar', 'New event');
-					fcEvent.className.push(fcEventClass);
-					fcEvent.editable = false;
-					fc.elm.fullCalendar('renderEvent', fcEvent);
+					vevent.getFcEvent(view.start, view.end, $scope.defaulttimezone).then((fcEvents) => {
+						const fcEvent = fcEvents[0];
 
-					EventsEditorDialogService.open($scope, fcEvent, function() {
-						const elements = angular.element('.' + fcEventClass);
-						const isHidden = angular.element(elements[0]).parents('.fc-limited').length !== 0;
-						if (isHidden) {
-							return PopoverPositioningUtility.calculate(jsEvent.clientX, jsEvent.clientY, jsEvent.clientX, jsEvent.clientY, view);
-						} else {
-							return PopoverPositioningUtility.calculateByTarget(elements[0], view);
-						}
-					}, function() {
-						return null;
-					}, function() {
-						fc.elm.fullCalendar('removeEvents', function(fcEventToCheck) {
-							if (Array.isArray(fcEventToCheck.className)) {
-								return (fcEventToCheck.className.indexOf(fcEventClass) !== -1);
+						fcEvent.title = t('calendar', 'New event');
+						fcEvent.className.push(fcEventClass);
+						fcEvent.editable = false;
+						fc.elm.fullCalendar('renderEvent', fcEvent);
+
+						EventsEditorDialogService.open($scope, fcEvent, function() {
+							const elements = angular.element('.' + fcEventClass);
+							const isHidden = angular.element(elements[0]).parents('.fc-limited').length !== 0;
+							if (isHidden) {
+								return PopoverPositioningUtility.calculate(jsEvent.clientX, jsEvent.clientY, jsEvent.clientX, jsEvent.clientY, view);
 							} else {
-								return false;
+								return PopoverPositioningUtility.calculateByTarget(elements[0], view);
 							}
+						}, function() {
+							return null;
+						}, function() {
+							fc.elm.fullCalendar('removeEvents', function(fcEventToCheck) {
+								if (Array.isArray(fcEventToCheck.className)) {
+									return (fcEventToCheck.className.indexOf(fcEventClass) !== -1);
+								} else {
+									return false;
+								}
+							});
+						}).then(function(result) {
+							createAndRenderEvent(result.calendar, result.vevent.data, view.start, view.end, $scope.defaulttimezone);
+						}).catch(function(reason) {
+							//fcEvent is removed by unlock callback
+							//no need to anything
+							return null;
 						});
-					}).then(function(result) {
-						createAndRenderEvent(result.calendar, result.vevent.data, view.start, view.end, $scope.defaulttimezone);
-					}).catch(function(reason) {
-						//fcEvent is removed by unlock callback
-						//no need to anything
-						return null;
 					});
 				},
 				eventClick: function(fcEvent, jsEvent, view) {
