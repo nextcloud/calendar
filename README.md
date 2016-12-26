@@ -24,7 +24,7 @@ And in the works for the [coming versions](https://github.com/nextcloud/calendar
 
 ## Installation
 
-In your Nextcloud, simply navigate to »Apps«, choose the category »Productivity«, find the Calendar app and enable it.
+In your Nextcloud, simply navigate to »Apps«, choose the category »Organization«, find the Calendar app and enable it.
 Then open the Calendar app from the app menu.
 
 ## Support
