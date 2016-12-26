@@ -161,6 +161,7 @@ OC.L10N.register(
     "Settings" : "Instellingen",
     "Publish URL" : "Publiceren URL",
     "Iframe to integrate" : "Iframe om te integreren",
+    "Settings & import" : "Instellingen & Importeren",
     "Skip simple event editor" : "Negeer simpele afsprakenbewerker",
     "Show week numbers" : "Tonen weeknummers",
     "Import calendar" : "Importeer agenda",

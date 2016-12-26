@@ -161,6 +161,7 @@ OC.L10N.register(
     "Settings" : "Ajustes",
     "Publish URL" : "Publicar URL",
     "Iframe to integrate" : "Iframe para integrar",
+    "Settings & import" : "Ajustes & importar",
     "Skip simple event editor" : "Omitir el editor de evento único",
     "Show week numbers" : "Mostrar numero de semana",
     "Import calendar" : "Importar calendario",

@@ -161,6 +161,7 @@ OC.L10N.register(
     "Settings" : "Beállítások",
     "Publish URL" : "Közzétételi URL",
     "Iframe to integrate" : "Beépítendő iframe",
+    "Settings & import" : "Beállítások és Import",
     "Skip simple event editor" : "Váltás az egyszerű esemény szerkesztőre",
     "Show week numbers" : "Hetek számának megjelenítése",
     "Import calendar" : "Naptár importálása",
