@@ -2,6 +2,7 @@ OC.L10N.register(
     "calendar",
     {
     "Calendar" : "Kalender",
+    "Too many redirects. Aborting ..." : "Zu viele Umleitungen. Abbruch ...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "Der entfernte Server erlaubt keinen Zugriff auf den Kalender (HTTP {%s} error)",
     "Error connecting to remote server" : "Fehler bei der Verbindung zum entfernten Server",
     "Error requesting resource on remote server. This could possible be related to a certificate mismatch" : "Fehler beim Abrufen einer Resource auf dem entfernten Server. Dies könnte mit einem Zertifikatsfehler zusammenhängen.",

@@ -2,6 +2,7 @@ OC.L10N.register(
     "calendar",
     {
     "Calendar" : "Kalendar",
+    "Too many redirects. Aborting ..." : "Shumë ridrejtime. Duke e ndërprerë ...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "Serveri i largët nuk na dha akses në kalendar (gabim HTTP {%s})",
     "Error connecting to remote server" : "Gabim gjatë lidhjes me serverin e largët",
     "Error requesting resource on remote server. This could possible be related to a certificate mismatch" : "Gabim gjatë kërkimit të burimit në serverin e largët. Kjo mund të jetë e lidhur me një mospërputhje të çertifikatave.",

@@ -1,5 +1,6 @@
 { "translations": {
     "Calendar" : "Calendario",
+    "Too many redirects. Aborting ..." : "Troppe redirezioni. Interruzione in corso...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "Il server remoto ha negato l'accesso al calendario (errore HTTP {%s})",
     "Error connecting to remote server" : "Errore durante la connessione al server remoto",
     "Error requesting resource on remote server. This could possible be related to a certificate mismatch" : "Errore durante la richiesta di una risorsa al server remoto. Ciò potrebbe essere dovuto da una mancata corrispondenza del certificato",
