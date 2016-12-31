@@ -1,5 +1,6 @@
 { "translations": {
     "Calendar" : "Naptár",
+    "Too many redirects. Aborting ..." : "Túl sok átirányítás. Megszakítás...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "A távoli szerver nem adott hozzáférést a naptárhoz (HTTP hiba: {%s})",
     "Error connecting to remote server" : "Hiba a távoli szerverhez való csatlahozásban",
     "Error requesting resource on remote server. This could possible be related to a certificate mismatch" : "Hiba a távoli szerver erőforrásainak lekérése közben. Lehetséges, hogy ez egy hibás tanúsítvány okozza.",
