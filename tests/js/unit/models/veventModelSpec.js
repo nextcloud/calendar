@@ -2,6 +2,7 @@ describe('The VEvent factory', function () {
 	'use strict';
 
 	let VEvent, FcEvent, SimpleEvent, ICalFactory, StringUtility;
+	let $q, $rootScope;
 
 	const ics_invalid = `ASHGDAS
 ASDASD
@@ -501,6 +502,17 @@ END:VTIMEZONE
 		$provide.value('StringUtility', StringUtility);
 	}));
 
+	beforeEach(inject(function (_$q_, _$rootScope_) {
+		$q = _$q_;
+		$rootScope = _$rootScope_;
+
+		// mixing ES6 Promises and $q ain't no good
+		// ES6 Promises will be replaced with $q for the unit tests
+		if (window.Promise !== $q) {
+			window.Promise = $q;
+		}
+	}));
+
 	beforeEach(inject(function (_VEvent_) {
 		VEvent = _VEvent_;
 	}));
@@ -687,16 +699,19 @@ END:VTIMEZONE`.split("\n").join("\r\n"));
 	it ('should generate FcEvents for a dedicated time-range - single event with DTEND', function() {
 		const calendar = {this_is_a_fancy_calendar: true};
 		const comp = new ICAL.Component(ICAL.parse(ics3));
+		let called = false;
 
 		const vevent = VEvent(calendar, comp);
 		const start = moment('2016-09-25');
 		const end = moment('2016-11-06');
 
-		const fcEvents = vevent.getFcEvent(start, end, timezone_nyc);
-		expect(fcEvents.length).toEqual(1);
-		expect(fcEvents[0].length).toEqual(4);
-		expect(fcEvents[0][0]).toEqual(vevent);
-		expect(fcEvents[0][1].toString()).toEqual(`BEGIN:VEVENT
+		vevent.getFcEvent(start, end, timezone_nyc).then((fcEvents) => {
+			called = true;
+
+			expect(fcEvents.length).toEqual(1);
+			expect(fcEvents[0].length).toEqual(4);
+			expect(fcEvents[0][0]).toEqual(vevent);
+			expect(fcEvents[0][1].toString()).toEqual(`BEGIN:VEVENT
 CREATED:20161002T105542Z
 UID:DF8A5F8D-9037-4FA3-84CC-97FB6D5D0DA9
 DTEND;TZID=America/New_York:20161004T113000
@@ -707,26 +722,34 @@ DTSTART;TZID=America/New_York:20161004T090000
 DTSTAMP:20161002T105552Z
 SEQUENCE:0
 END:VEVENT`.split("\n").join("\r\n"));
-		expect(ICAL.Component.prototype.isPrototypeOf(fcEvents[0][1])).toBe(true);
-		expect(fcEvents[0][2].toString()).toEqual('2016-10-04T09:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[0][2])).toBe(true);
-		expect(fcEvents[0][3].toString()).toEqual('2016-10-04T11:30:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[0][3])).toBe(true);
+			expect(ICAL.Component.prototype.isPrototypeOf(fcEvents[0][1])).toBe(true);
+			expect(fcEvents[0][2].toString()).toEqual('2016-10-04T09:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[0][2])).toBe(true);
+			expect(fcEvents[0][3].toString()).toEqual('2016-10-04T11:30:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[0][3])).toBe(true);
+		}).catch(() => fail('Promise was not supposed to fail'));
+
+		$rootScope.$apply();
+
+		expect(called).toEqual(true);
 	});
 
 	it ('should generate FcEvents for a dedicated time-range - single event with DURATION', function() {
 		const calendar = {this_is_a_fancy_calendar: true};
 		const comp = new ICAL.Component(ICAL.parse(ics4));
+		let called = false;
 
 		const vevent = VEvent(calendar, comp);
 		const start = moment('2016-09-25');
 		const end = moment('2016-11-06');
 
-		const fcEvents = vevent.getFcEvent(start, end, timezone_nyc);
-		expect(fcEvents.length).toEqual(1);
-		expect(fcEvents[0].length).toEqual(4);
-		expect(fcEvents[0][0]).toEqual(vevent);
-		expect(fcEvents[0][1].toString()).toEqual(`BEGIN:VEVENT
+		const fcEvents = vevent.getFcEvent(start, end, timezone_nyc).then((fcEvents) => {
+			called = true;
+
+			expect(fcEvents.length).toEqual(1);
+			expect(fcEvents[0].length).toEqual(4);
+			expect(fcEvents[0][0]).toEqual(vevent);
+			expect(fcEvents[0][1].toString()).toEqual(`BEGIN:VEVENT
 CREATED:20161002T105555Z
 UID:C8E094B8-A7E6-4CF3-9E59-58608B9B61C5
 TRANSP:OPAQUE
@@ -737,26 +760,34 @@ DURATION:P15DT5H0M20S
 DTSTAMP:20161002T105633Z
 SEQUENCE:0
 END:VEVENT`.split("\n").join("\r\n"));
-		expect(ICAL.Component.prototype.isPrototypeOf(fcEvents[0][1])).toBe(true);
-		expect(fcEvents[0][2].toString()).toEqual('2016-09-25T00:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[0][2])).toBe(true);
-		expect(fcEvents[0][3].toString()).toEqual('2016-10-10T05:00:20');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[0][3])).toBe(true);
+			expect(ICAL.Component.prototype.isPrototypeOf(fcEvents[0][1])).toBe(true);
+			expect(fcEvents[0][2].toString()).toEqual('2016-09-25T00:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[0][2])).toBe(true);
+			expect(fcEvents[0][3].toString()).toEqual('2016-10-10T05:00:20');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[0][3])).toBe(true);
+		}).catch(() => fail('Promise was not supposed to fail'));
+
+		$rootScope.$apply();
+
+		expect(called).toEqual(true);
 	});
 
 	it ('should generate FcEvents for a dedicated time-range - single event with neither DTEND nor DURATION', function() {
 		const calendar = {this_is_a_fancy_calendar: true};
 		const comp = new ICAL.Component(ICAL.parse(ics5));
+		let called = false;
 
 		const vevent = VEvent(calendar, comp);
 		const start = moment('2016-09-25');
 		const end = moment('2016-11-06');
 
-		const fcEvents = vevent.getFcEvent(start, end, timezone_nyc);
-		expect(fcEvents.length).toEqual(1);
-		expect(fcEvents[0].length).toEqual(4);
-		expect(fcEvents[0][0]).toEqual(vevent);
-		expect(fcEvents[0][1].toString()).toEqual(`BEGIN:VEVENT
+		const fcEvents = vevent.getFcEvent(start, end, timezone_nyc).then((fcEvents) => {
+			called = true;
+
+			expect(fcEvents.length).toEqual(1);
+			expect(fcEvents[0].length).toEqual(4);
+			expect(fcEvents[0][0]).toEqual(vevent);
+			expect(fcEvents[0][1].toString()).toEqual(`BEGIN:VEVENT
 CREATED:20161002T105635Z
 UID:9D0C33D1-334E-4B46-9E0E-D62C11E60700
 TRANSP:OPAQUE
@@ -766,26 +797,34 @@ DTSTART;TZID=America/New_York:20161105T235900
 DTSTAMP:20161002T105648Z
 SEQUENCE:0
 END:VEVENT`.split("\n").join("\r\n"));
-		expect(ICAL.Component.prototype.isPrototypeOf(fcEvents[0][1])).toBe(true);
-		expect(fcEvents[0][2].toString()).toEqual('2016-11-05T23:59:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[0][2])).toBe(true);
-		expect(fcEvents[0][3].toString()).toEqual('2016-11-05T23:59:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[0][3])).toBe(true);
+			expect(ICAL.Component.prototype.isPrototypeOf(fcEvents[0][1])).toBe(true);
+			expect(fcEvents[0][2].toString()).toEqual('2016-11-05T23:59:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[0][2])).toBe(true);
+			expect(fcEvents[0][3].toString()).toEqual('2016-11-05T23:59:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[0][3])).toBe(true);
+		}).catch(() => fail('Promise was not supposed to fail'));
+
+		$rootScope.$apply();
+
+		expect(called).toEqual(true);
 	});
 
 	it ('should generate FcEvents for a dedicated time-range - single event with neither DTEND nor DURATION and conversion', function() {
 		const calendar = {this_is_a_fancy_calendar: true};
 		const comp = new ICAL.Component(ICAL.parse(ics5));
+		let called = false;
 
 		const vevent = VEvent(calendar, comp);
 		const start = moment('2016-09-25');
 		const end = moment('2016-11-06');
 
-		const fcEvents = vevent.getFcEvent(start, end, timezone_berlin);
-		expect(fcEvents.length).toEqual(1);
-		expect(fcEvents[0].length).toEqual(4);
-		expect(fcEvents[0][0]).toEqual(vevent);
-		expect(fcEvents[0][1].toString()).toEqual(`BEGIN:VEVENT
+		const fcEvents = vevent.getFcEvent(start, end, timezone_berlin).then((fcEvents) => {
+			called = true;
+
+			expect(fcEvents.length).toEqual(1);
+			expect(fcEvents[0].length).toEqual(4);
+			expect(fcEvents[0][0]).toEqual(vevent);
+			expect(fcEvents[0][1].toString()).toEqual(`BEGIN:VEVENT
 CREATED:20161002T105635Z
 UID:9D0C33D1-334E-4B46-9E0E-D62C11E60700
 TRANSP:OPAQUE
@@ -795,27 +834,35 @@ DTSTART;TZID=America/New_York:20161105T235900
 DTSTAMP:20161002T105648Z
 SEQUENCE:0
 END:VEVENT`.split("\n").join("\r\n"));
-		expect(ICAL.Component.prototype.isPrototypeOf(fcEvents[0][1])).toBe(true);
-		expect(fcEvents[0][2].toString()).toEqual('2016-11-06T04:59:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[0][2])).toBe(true);
-		expect(fcEvents[0][3].toString()).toEqual('2016-11-06T04:59:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[0][3])).toBe(true);
+			expect(ICAL.Component.prototype.isPrototypeOf(fcEvents[0][1])).toBe(true);
+			expect(fcEvents[0][2].toString()).toEqual('2016-11-06T04:59:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[0][2])).toBe(true);
+			expect(fcEvents[0][3].toString()).toEqual('2016-11-06T04:59:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[0][3])).toBe(true);
+		}).catch(() => fail('Promise was not supposed to fail'));
+
+		$rootScope.$apply();
+
+		expect(called).toEqual(true);
 	});
 
 	it ('should generate FcEvents for a dedicated time-range - single event /w timezone conversion', function() {
 		const calendar = {this_is_a_fancy_calendar: true};
 		const parsed = ICAL.parse(ics3);
 		const comp = new ICAL.Component(parsed);
+		let called = false;
 
 		const vevent = VEvent(calendar, comp);
 		const start = moment('2016-09-25');
 		const end = moment('2016-11-06');
 
-		const fcEvents = vevent.getFcEvent(start, end, timezone_berlin);
-		expect(fcEvents.length).toEqual(1);
-		expect(fcEvents[0].length).toEqual(4);
-		expect(fcEvents[0][0]).toEqual(vevent);
-		expect(fcEvents[0][1].toString()).toEqual(`BEGIN:VEVENT
+		const fcEvents = vevent.getFcEvent(start, end, timezone_berlin).then((fcEvents) => {
+			called = true;
+
+			expect(fcEvents.length).toEqual(1);
+			expect(fcEvents[0].length).toEqual(4);
+			expect(fcEvents[0][0]).toEqual(vevent);
+			expect(fcEvents[0][1].toString()).toEqual(`BEGIN:VEVENT
 CREATED:20161002T105542Z
 UID:DF8A5F8D-9037-4FA3-84CC-97FB6D5D0DA9
 DTEND;TZID=America/New_York:20161004T113000
@@ -826,57 +873,55 @@ DTSTART;TZID=America/New_York:20161004T090000
 DTSTAMP:20161002T105552Z
 SEQUENCE:0
 END:VEVENT`.split("\n").join("\r\n"));
-		expect(ICAL.Component.prototype.isPrototypeOf(fcEvents[0][1])).toBe(true);
+			expect(ICAL.Component.prototype.isPrototypeOf(fcEvents[0][1])).toBe(true);
 
-		expect(fcEvents[0][2].toString()).toEqual('2016-10-04T15:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[0][2])).toBe(true);
-		expect(fcEvents[0][3].toString()).toEqual('2016-10-04T17:30:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[0][3])).toBe(true);
+			expect(fcEvents[0][2].toString()).toEqual('2016-10-04T15:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[0][2])).toBe(true);
+			expect(fcEvents[0][3].toString()).toEqual('2016-10-04T17:30:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[0][3])).toBe(true);
+		}).catch(() => fail('Promise was not supposed to fail'));
+
+		$rootScope.$apply();
+
+		expect(called).toEqual(true);
 	});
 
 	it ('should generate FcEvents for a dedicated time-range - skip an event when it doesn\'t contain a DTSTART', function() {
 		const calendar = {this_is_a_fancy_calendar: true};
 		const parsed = ICAL.parse(ics6);
 		const comp = new ICAL.Component(parsed);
+		let called = false;
 
 		const vevent = VEvent(calendar, comp);
 		const start = moment('2016-09-25');
 		const end = moment('2016-11-06');
 
-		const fcEvents = vevent.getFcEvent(start, end, timezone_berlin);
-		expect(fcEvents.length).toEqual(0);
+		const fcEvents = vevent.getFcEvent(start, end, timezone_berlin).then((fcEvents) => {
+			called = true;
+
+			expect(fcEvents.length).toEqual(0);
+		}).catch(() => fail('Promise was not supposed to fail'));
+
+		$rootScope.$apply();
+
+		expect(called).toEqual(true);
 	});
 
 	it ('should generate FcEvents for a dedicated time-range - recurring events', function() {
 		const calendar = {this_is_a_fancy_calendar: true};
 		const comp = new ICAL.Component(ICAL.parse(ics7));
+		let called = false;
 
 		const vevent = VEvent(calendar, comp);
 		const start = moment('2016-09-25');
 		const end = moment('2016-11-06');
 
-		const fcEvents = vevent.getFcEvent(start, end, timezone_berlin);
-		expect(fcEvents.length).toEqual(6);
-		expect(fcEvents[0][0]).toEqual(vevent);
-		expect(fcEvents[0][1].toString()).toEqual(`BEGIN:VEVENT
-CREATED:20161003T140450Z
-UID:6D2955B1-5E46-4683-AA11-236D2E8458CE
-RRULE:FREQ=WEEKLY;INTERVAL=1
-DTEND;TZID=Europe/Berlin:20160928T100000
-TRANSP:OPAQUE
-X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC
-SUMMARY:foobar
-DTSTART;TZID=Europe/Berlin:20160928T090000
-DTSTAMP:20161003T140538Z
-SEQUENCE:0
-END:VEVENT`.split("\n").join("\r\n"));
-		expect(fcEvents[0][2].toString()).toEqual('2016-09-28T09:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[0][2])).toBe(true);
-		expect(fcEvents[0][3].toString()).toEqual('2016-09-28T10:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[0][3])).toBe(true);
+		const fcEvents = vevent.getFcEvent(start, end, timezone_berlin).then((fcEvents) => {
+			called = true;
 
-		expect(fcEvents[1][0]).toEqual(vevent);
-		expect(fcEvents[1][1].toString()).toEqual(`BEGIN:VEVENT
+			expect(fcEvents.length).toEqual(6);
+			expect(fcEvents[0][0]).toEqual(vevent);
+			expect(fcEvents[0][1].toString()).toEqual(`BEGIN:VEVENT
 CREATED:20161003T140450Z
 UID:6D2955B1-5E46-4683-AA11-236D2E8458CE
 RRULE:FREQ=WEEKLY;INTERVAL=1
@@ -888,13 +933,13 @@ DTSTART;TZID=Europe/Berlin:20160928T090000
 DTSTAMP:20161003T140538Z
 SEQUENCE:0
 END:VEVENT`.split("\n").join("\r\n"));
-		expect(fcEvents[1][2].toString()).toEqual('2016-10-05T09:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[1][2])).toBe(true);
-		expect(fcEvents[1][3].toString()).toEqual('2016-10-05T10:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[1][3])).toBe(true);
+			expect(fcEvents[0][2].toString()).toEqual('2016-09-28T09:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[0][2])).toBe(true);
+			expect(fcEvents[0][3].toString()).toEqual('2016-09-28T10:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[0][3])).toBe(true);
 
-		expect(fcEvents[2][0]).toEqual(vevent);
-		expect(fcEvents[2][1].toString()).toEqual(`BEGIN:VEVENT
+			expect(fcEvents[1][0]).toEqual(vevent);
+			expect(fcEvents[1][1].toString()).toEqual(`BEGIN:VEVENT
 CREATED:20161003T140450Z
 UID:6D2955B1-5E46-4683-AA11-236D2E8458CE
 RRULE:FREQ=WEEKLY;INTERVAL=1
@@ -906,13 +951,13 @@ DTSTART;TZID=Europe/Berlin:20160928T090000
 DTSTAMP:20161003T140538Z
 SEQUENCE:0
 END:VEVENT`.split("\n").join("\r\n"));
-		expect(fcEvents[2][2].toString()).toEqual('2016-10-12T09:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[2][2])).toBe(true);
-		expect(fcEvents[2][3].toString()).toEqual('2016-10-12T10:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[2][3])).toBe(true);
+			expect(fcEvents[1][2].toString()).toEqual('2016-10-05T09:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[1][2])).toBe(true);
+			expect(fcEvents[1][3].toString()).toEqual('2016-10-05T10:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[1][3])).toBe(true);
 
-		expect(fcEvents[3][0]).toEqual(vevent);
-		expect(fcEvents[3][1].toString()).toEqual(`BEGIN:VEVENT
+			expect(fcEvents[2][0]).toEqual(vevent);
+			expect(fcEvents[2][1].toString()).toEqual(`BEGIN:VEVENT
 CREATED:20161003T140450Z
 UID:6D2955B1-5E46-4683-AA11-236D2E8458CE
 RRULE:FREQ=WEEKLY;INTERVAL=1
@@ -924,13 +969,13 @@ DTSTART;TZID=Europe/Berlin:20160928T090000
 DTSTAMP:20161003T140538Z
 SEQUENCE:0
 END:VEVENT`.split("\n").join("\r\n"));
-		expect(fcEvents[3][2].toString()).toEqual('2016-10-19T09:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[3][2])).toBe(true);
-		expect(fcEvents[3][3].toString()).toEqual('2016-10-19T10:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[3][3])).toBe(true);
+			expect(fcEvents[2][2].toString()).toEqual('2016-10-12T09:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[2][2])).toBe(true);
+			expect(fcEvents[2][3].toString()).toEqual('2016-10-12T10:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[2][3])).toBe(true);
 
-		expect(fcEvents[4][0]).toEqual(vevent);
-		expect(fcEvents[4][1].toString()).toEqual(`BEGIN:VEVENT
+			expect(fcEvents[3][0]).toEqual(vevent);
+			expect(fcEvents[3][1].toString()).toEqual(`BEGIN:VEVENT
 CREATED:20161003T140450Z
 UID:6D2955B1-5E46-4683-AA11-236D2E8458CE
 RRULE:FREQ=WEEKLY;INTERVAL=1
@@ -942,13 +987,13 @@ DTSTART;TZID=Europe/Berlin:20160928T090000
 DTSTAMP:20161003T140538Z
 SEQUENCE:0
 END:VEVENT`.split("\n").join("\r\n"));
-		expect(fcEvents[4][2].toString()).toEqual('2016-10-26T09:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[4][2])).toBe(true);
-		expect(fcEvents[4][3].toString()).toEqual('2016-10-26T10:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[4][3])).toBe(true);
+			expect(fcEvents[3][2].toString()).toEqual('2016-10-19T09:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[3][2])).toBe(true);
+			expect(fcEvents[3][3].toString()).toEqual('2016-10-19T10:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[3][3])).toBe(true);
 
-		expect(fcEvents[5][0]).toEqual(vevent);
-		expect(fcEvents[5][1].toString()).toEqual(`BEGIN:VEVENT
+			expect(fcEvents[4][0]).toEqual(vevent);
+			expect(fcEvents[4][1].toString()).toEqual(`BEGIN:VEVENT
 CREATED:20161003T140450Z
 UID:6D2955B1-5E46-4683-AA11-236D2E8458CE
 RRULE:FREQ=WEEKLY;INTERVAL=1
@@ -960,42 +1005,50 @@ DTSTART;TZID=Europe/Berlin:20160928T090000
 DTSTAMP:20161003T140538Z
 SEQUENCE:0
 END:VEVENT`.split("\n").join("\r\n"));
-		expect(fcEvents[5][2].toString()).toEqual('2016-11-02T09:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[5][2])).toBe(true);
-		expect(fcEvents[5][3].toString()).toEqual('2016-11-02T10:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[5][3])).toBe(true);
+			expect(fcEvents[4][2].toString()).toEqual('2016-10-26T09:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[4][2])).toBe(true);
+			expect(fcEvents[4][3].toString()).toEqual('2016-10-26T10:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[4][3])).toBe(true);
+
+			expect(fcEvents[5][0]).toEqual(vevent);
+			expect(fcEvents[5][1].toString()).toEqual(`BEGIN:VEVENT
+CREATED:20161003T140450Z
+UID:6D2955B1-5E46-4683-AA11-236D2E8458CE
+RRULE:FREQ=WEEKLY;INTERVAL=1
+DTEND;TZID=Europe/Berlin:20160928T100000
+TRANSP:OPAQUE
+X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC
+SUMMARY:foobar
+DTSTART;TZID=Europe/Berlin:20160928T090000
+DTSTAMP:20161003T140538Z
+SEQUENCE:0
+END:VEVENT`.split("\n").join("\r\n"));
+			expect(fcEvents[5][2].toString()).toEqual('2016-11-02T09:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[5][2])).toBe(true);
+			expect(fcEvents[5][3].toString()).toEqual('2016-11-02T10:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[5][3])).toBe(true);
+		}).catch(() => fail('Promise was not supposed to fail'));
+
+		$rootScope.$apply();
+
+		expect(called).toEqual(true);
 	});
 
 	it ('should generate FcEvents for a dedicated time-range - recurring events - timezone conversion', function() {
 		const calendar = {this_is_a_fancy_calendar: true};
 		const comp = new ICAL.Component(ICAL.parse(ics7));
+		let called = false;
 
 		const vevent = VEvent(calendar, comp);
 		const start = moment('2016-09-25');
 		const end = moment('2016-11-06');
 
-		const fcEvents = vevent.getFcEvent(start, end, timezone_nyc);
-		expect(fcEvents.length).toEqual(6);
-		expect(fcEvents[0][0]).toEqual(vevent);
-		expect(fcEvents[0][1].toString()).toEqual(`BEGIN:VEVENT
-CREATED:20161003T140450Z
-UID:6D2955B1-5E46-4683-AA11-236D2E8458CE
-RRULE:FREQ=WEEKLY;INTERVAL=1
-DTEND;TZID=Europe/Berlin:20160928T100000
-TRANSP:OPAQUE
-X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC
-SUMMARY:foobar
-DTSTART;TZID=Europe/Berlin:20160928T090000
-DTSTAMP:20161003T140538Z
-SEQUENCE:0
-END:VEVENT`.split("\n").join("\r\n"));
-		expect(fcEvents[0][2].toString()).toEqual('2016-09-28T03:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[0][2])).toBe(true);
-		expect(fcEvents[0][3].toString()).toEqual('2016-09-28T04:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[0][3])).toBe(true);
+		const fcEvents = vevent.getFcEvent(start, end, timezone_nyc).then((fcEvents) => {
+			called = true;
 
-		expect(fcEvents[1][0]).toEqual(vevent);
-		expect(fcEvents[1][1].toString()).toEqual(`BEGIN:VEVENT
+			expect(fcEvents.length).toEqual(6);
+			expect(fcEvents[0][0]).toEqual(vevent);
+			expect(fcEvents[0][1].toString()).toEqual(`BEGIN:VEVENT
 CREATED:20161003T140450Z
 UID:6D2955B1-5E46-4683-AA11-236D2E8458CE
 RRULE:FREQ=WEEKLY;INTERVAL=1
@@ -1007,13 +1060,13 @@ DTSTART;TZID=Europe/Berlin:20160928T090000
 DTSTAMP:20161003T140538Z
 SEQUENCE:0
 END:VEVENT`.split("\n").join("\r\n"));
-		expect(fcEvents[1][2].toString()).toEqual('2016-10-05T03:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[1][2])).toBe(true);
-		expect(fcEvents[1][3].toString()).toEqual('2016-10-05T04:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[1][3])).toBe(true);
+			expect(fcEvents[0][2].toString()).toEqual('2016-09-28T03:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[0][2])).toBe(true);
+			expect(fcEvents[0][3].toString()).toEqual('2016-09-28T04:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[0][3])).toBe(true);
 
-		expect(fcEvents[2][0]).toEqual(vevent);
-		expect(fcEvents[2][1].toString()).toEqual(`BEGIN:VEVENT
+			expect(fcEvents[1][0]).toEqual(vevent);
+			expect(fcEvents[1][1].toString()).toEqual(`BEGIN:VEVENT
 CREATED:20161003T140450Z
 UID:6D2955B1-5E46-4683-AA11-236D2E8458CE
 RRULE:FREQ=WEEKLY;INTERVAL=1
@@ -1025,13 +1078,13 @@ DTSTART;TZID=Europe/Berlin:20160928T090000
 DTSTAMP:20161003T140538Z
 SEQUENCE:0
 END:VEVENT`.split("\n").join("\r\n"));
-		expect(fcEvents[2][2].toString()).toEqual('2016-10-12T03:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[2][2])).toBe(true);
-		expect(fcEvents[2][3].toString()).toEqual('2016-10-12T04:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[2][3])).toBe(true);
+			expect(fcEvents[1][2].toString()).toEqual('2016-10-05T03:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[1][2])).toBe(true);
+			expect(fcEvents[1][3].toString()).toEqual('2016-10-05T04:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[1][3])).toBe(true);
 
-		expect(fcEvents[3][0]).toEqual(vevent);
-		expect(fcEvents[3][1].toString()).toEqual(`BEGIN:VEVENT
+			expect(fcEvents[2][0]).toEqual(vevent);
+			expect(fcEvents[2][1].toString()).toEqual(`BEGIN:VEVENT
 CREATED:20161003T140450Z
 UID:6D2955B1-5E46-4683-AA11-236D2E8458CE
 RRULE:FREQ=WEEKLY;INTERVAL=1
@@ -1043,13 +1096,13 @@ DTSTART;TZID=Europe/Berlin:20160928T090000
 DTSTAMP:20161003T140538Z
 SEQUENCE:0
 END:VEVENT`.split("\n").join("\r\n"));
-		expect(fcEvents[3][2].toString()).toEqual('2016-10-19T03:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[3][2])).toBe(true);
-		expect(fcEvents[3][3].toString()).toEqual('2016-10-19T04:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[3][3])).toBe(true);
+			expect(fcEvents[2][2].toString()).toEqual('2016-10-12T03:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[2][2])).toBe(true);
+			expect(fcEvents[2][3].toString()).toEqual('2016-10-12T04:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[2][3])).toBe(true);
 
-		expect(fcEvents[4][0]).toEqual(vevent);
-		expect(fcEvents[4][1].toString()).toEqual(`BEGIN:VEVENT
+			expect(fcEvents[3][0]).toEqual(vevent);
+			expect(fcEvents[3][1].toString()).toEqual(`BEGIN:VEVENT
 CREATED:20161003T140450Z
 UID:6D2955B1-5E46-4683-AA11-236D2E8458CE
 RRULE:FREQ=WEEKLY;INTERVAL=1
@@ -1061,13 +1114,13 @@ DTSTART;TZID=Europe/Berlin:20160928T090000
 DTSTAMP:20161003T140538Z
 SEQUENCE:0
 END:VEVENT`.split("\n").join("\r\n"));
-		expect(fcEvents[4][2].toString()).toEqual('2016-10-26T03:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[4][2])).toBe(true);
-		expect(fcEvents[4][3].toString()).toEqual('2016-10-26T04:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[4][3])).toBe(true);
+			expect(fcEvents[3][2].toString()).toEqual('2016-10-19T03:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[3][2])).toBe(true);
+			expect(fcEvents[3][3].toString()).toEqual('2016-10-19T04:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[3][3])).toBe(true);
 
-		expect(fcEvents[5][0]).toEqual(vevent);
-		expect(fcEvents[5][1].toString()).toEqual(`BEGIN:VEVENT
+			expect(fcEvents[4][0]).toEqual(vevent);
+			expect(fcEvents[4][1].toString()).toEqual(`BEGIN:VEVENT
 CREATED:20161003T140450Z
 UID:6D2955B1-5E46-4683-AA11-236D2E8458CE
 RRULE:FREQ=WEEKLY;INTERVAL=1
@@ -1079,10 +1132,33 @@ DTSTART;TZID=Europe/Berlin:20160928T090000
 DTSTAMP:20161003T140538Z
 SEQUENCE:0
 END:VEVENT`.split("\n").join("\r\n"));
-		expect(fcEvents[5][2].toString()).toEqual('2016-11-02T04:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[5][2])).toBe(true);
-		expect(fcEvents[5][3].toString()).toEqual('2016-11-02T05:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[5][3])).toBe(true);
+			expect(fcEvents[4][2].toString()).toEqual('2016-10-26T03:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[4][2])).toBe(true);
+			expect(fcEvents[4][3].toString()).toEqual('2016-10-26T04:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[4][3])).toBe(true);
+
+			expect(fcEvents[5][0]).toEqual(vevent);
+			expect(fcEvents[5][1].toString()).toEqual(`BEGIN:VEVENT
+CREATED:20161003T140450Z
+UID:6D2955B1-5E46-4683-AA11-236D2E8458CE
+RRULE:FREQ=WEEKLY;INTERVAL=1
+DTEND;TZID=Europe/Berlin:20160928T100000
+TRANSP:OPAQUE
+X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC
+SUMMARY:foobar
+DTSTART;TZID=Europe/Berlin:20160928T090000
+DTSTAMP:20161003T140538Z
+SEQUENCE:0
+END:VEVENT`.split("\n").join("\r\n"));
+			expect(fcEvents[5][2].toString()).toEqual('2016-11-02T04:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[5][2])).toBe(true);
+			expect(fcEvents[5][3].toString()).toEqual('2016-11-02T05:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[5][3])).toBe(true);
+		}).catch(() => fail('Promise was not supposed to fail'));
+
+		$rootScope.$apply();
+
+		expect(called).toEqual(true);
 	});
 
 	//TODO - this test currently fails
@@ -1209,47 +1285,38 @@ END:VEVENT`.split("\n").join("\r\n"));
 	it ('should generate FcEvents for a dedicated time-range - recurring events ending before requested time-frame', function() {
 		const calendar = {this_is_a_fancy_calendar: true};
 		const comp = new ICAL.Component(ICAL.parse(ics9));
+		let called = false;
 
 		const vevent = VEvent(calendar, comp);
 		const start = moment('2016-09-25');
 		const end = moment('2016-11-06');
 
-		const fcEvents = vevent.getFcEvent(start, end, timezone_nyc);
-		expect(fcEvents.length).toEqual(0);
+		const fcEvents = vevent.getFcEvent(start, end, timezone_nyc).then((fcEvents) => {
+			called = true;
+
+			expect(fcEvents.length).toEqual(0);
+		}).catch(() => fail('Promise was not supposed to fail'));
+
+		$rootScope.$apply();
+
+		expect(called).toEqual(true);
 	});
 
 	it ('should generate FcEvents for a dedicated time-range - recurring events with EXDATES', function() {
 		const calendar = {this_is_a_fancy_calendar: true};
 		const comp = new ICAL.Component(ICAL.parse(ics10));
+		let called = false;
 
 		const vevent = VEvent(calendar, comp);
 		const start = moment('2016-09-25');
 		const end = moment('2016-11-06');
 
-		const fcEvents = vevent.getFcEvent(start, end, timezone_nyc);
-		expect(fcEvents.length).toEqual(4);
-		expect(fcEvents[0][0]).toEqual(vevent);
-		expect(fcEvents[0][1].toString()).toEqual(`BEGIN:VEVENT
-CREATED:20161003T140732Z
-UID:4AE5E4A8-B010-4CA5-8FCD-4FAECE77E59B
-RRULE:FREQ=WEEKLY;INTERVAL=1;COUNT=6
-DTEND;TZID=Europe/Berlin:20160928T100000
-EXDATE;TZID=Europe/Berlin:20161019T090000
-EXDATE;TZID=Europe/Berlin:20161012T090000
-TRANSP:OPAQUE
-SUMMARY:test
-DTSTART;TZID=Europe/Berlin:20160928T090000
-DTSTAMP:20161003T140928Z
-X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC
-SEQUENCE:0
-END:VEVENT`.split("\n").join("\r\n"));
-		expect(fcEvents[0][2].toString()).toEqual('2016-09-28T03:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[0][2])).toBe(true);
-		expect(fcEvents[0][3].toString()).toEqual('2016-09-28T04:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[0][3])).toBe(true);
+		const fcEvents = vevent.getFcEvent(start, end, timezone_nyc).then((fcEvents) => {
+			called = true;
 
-		expect(fcEvents[1][0]).toEqual(vevent);
-		expect(fcEvents[1][1].toString()).toEqual(`BEGIN:VEVENT
+			expect(fcEvents.length).toEqual(4);
+			expect(fcEvents[0][0]).toEqual(vevent);
+			expect(fcEvents[0][1].toString()).toEqual(`BEGIN:VEVENT
 CREATED:20161003T140732Z
 UID:4AE5E4A8-B010-4CA5-8FCD-4FAECE77E59B
 RRULE:FREQ=WEEKLY;INTERVAL=1;COUNT=6
@@ -1263,13 +1330,13 @@ DTSTAMP:20161003T140928Z
 X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC
 SEQUENCE:0
 END:VEVENT`.split("\n").join("\r\n"));
-		expect(fcEvents[1][2].toString()).toEqual('2016-10-05T03:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[1][2])).toBe(true);
-		expect(fcEvents[1][3].toString()).toEqual('2016-10-05T04:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[1][3])).toBe(true);
+			expect(fcEvents[0][2].toString()).toEqual('2016-09-28T03:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[0][2])).toBe(true);
+			expect(fcEvents[0][3].toString()).toEqual('2016-09-28T04:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[0][3])).toBe(true);
 
-		expect(fcEvents[2][0]).toEqual(vevent);
-		expect(fcEvents[2][1].toString()).toEqual(`BEGIN:VEVENT
+			expect(fcEvents[1][0]).toEqual(vevent);
+			expect(fcEvents[1][1].toString()).toEqual(`BEGIN:VEVENT
 CREATED:20161003T140732Z
 UID:4AE5E4A8-B010-4CA5-8FCD-4FAECE77E59B
 RRULE:FREQ=WEEKLY;INTERVAL=1;COUNT=6
@@ -1283,13 +1350,13 @@ DTSTAMP:20161003T140928Z
 X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC
 SEQUENCE:0
 END:VEVENT`.split("\n").join("\r\n"));
-		expect(fcEvents[2][2].toString()).toEqual('2016-10-26T03:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[2][2])).toBe(true);
-		expect(fcEvents[2][3].toString()).toEqual('2016-10-26T04:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[2][3])).toBe(true);
+			expect(fcEvents[1][2].toString()).toEqual('2016-10-05T03:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[1][2])).toBe(true);
+			expect(fcEvents[1][3].toString()).toEqual('2016-10-05T04:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[1][3])).toBe(true);
 
-		expect(fcEvents[3][0]).toEqual(vevent);
-		expect(fcEvents[3][1].toString()).toEqual(`BEGIN:VEVENT
+			expect(fcEvents[2][0]).toEqual(vevent);
+			expect(fcEvents[2][1].toString()).toEqual(`BEGIN:VEVENT
 CREATED:20161003T140732Z
 UID:4AE5E4A8-B010-4CA5-8FCD-4FAECE77E59B
 RRULE:FREQ=WEEKLY;INTERVAL=1;COUNT=6
@@ -1303,42 +1370,52 @@ DTSTAMP:20161003T140928Z
 X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC
 SEQUENCE:0
 END:VEVENT`.split("\n").join("\r\n"));
-		expect(fcEvents[3][2].toString()).toEqual('2016-11-02T04:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[3][2])).toBe(true);
-		expect(fcEvents[3][3].toString()).toEqual('2016-11-02T05:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[3][3])).toBe(true);
+			expect(fcEvents[2][2].toString()).toEqual('2016-10-26T03:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[2][2])).toBe(true);
+			expect(fcEvents[2][3].toString()).toEqual('2016-10-26T04:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[2][3])).toBe(true);
+
+			expect(fcEvents[3][0]).toEqual(vevent);
+			expect(fcEvents[3][1].toString()).toEqual(`BEGIN:VEVENT
+CREATED:20161003T140732Z
+UID:4AE5E4A8-B010-4CA5-8FCD-4FAECE77E59B
+RRULE:FREQ=WEEKLY;INTERVAL=1;COUNT=6
+DTEND;TZID=Europe/Berlin:20160928T100000
+EXDATE;TZID=Europe/Berlin:20161019T090000
+EXDATE;TZID=Europe/Berlin:20161012T090000
+TRANSP:OPAQUE
+SUMMARY:test
+DTSTART;TZID=Europe/Berlin:20160928T090000
+DTSTAMP:20161003T140928Z
+X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC
+SEQUENCE:0
+END:VEVENT`.split("\n").join("\r\n"));
+			expect(fcEvents[3][2].toString()).toEqual('2016-11-02T04:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[3][2])).toBe(true);
+			expect(fcEvents[3][3].toString()).toEqual('2016-11-02T05:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[3][3])).toBe(true);
+		}).catch(() => fail('Promise was not supposed to fail'));
+
+		$rootScope.$apply();
+
+		expect(called).toEqual(true);
 	});
 
 	it ('should extract events correctly when they span over the fdof', function() {
 		const calendar = {this_is_a_fancy_calendar: true};
 		const comp = new ICAL.Component(ICAL.parse(ics11));
+		let called = false;
 
 		const vevent = VEvent(calendar, comp);
 		const start = moment('2016-10-24 00+02:00');
 		const end = moment('2016-10-31 23:59:59+02:00');
 
-		const fcEvents = vevent.getFcEvent(start, end, timezone_berlin);
-		expect(fcEvents.length).toEqual(2);
-		expect(fcEvents[0][0]).toEqual(vevent);
-		expect(fcEvents[0][1].toString()).toEqual(`BEGIN:VEVENT
-CREATED:20161020T130607
-DTSTAMP:20161020T130607
-LAST-MODIFIED:20161020T130607
-UID:ujihvdbldzg
-SUMMARY:Test
-CLASS:PUBLIC
-STATUS:CONFIRMED
-RRULE:FREQ=DAILY;COUNT=3
-DTSTART;TZID=Europe/Berlin:20161022T180000
-DTEND;TZID=Europe/Berlin:20161023T060000
-END:VEVENT`.split("\n").join("\r\n"));
-		expect(fcEvents[0][2].toString()).toEqual('2016-10-23T18:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[0][2])).toBe(true);
-		expect(fcEvents[0][3].toString()).toEqual('2016-10-24T06:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[0][3])).toBe(true);
+		const fcEvents = vevent.getFcEvent(start, end, timezone_berlin).then((fcEvents) => {
+			called = true;
 
-		expect(fcEvents[1][0]).toEqual(vevent);
-		expect(fcEvents[1][1].toString()).toEqual(`BEGIN:VEVENT
+			expect(fcEvents.length).toEqual(2);
+			expect(fcEvents[0][0]).toEqual(vevent);
+			expect(fcEvents[0][1].toString()).toEqual(`BEGIN:VEVENT
 CREATED:20161020T130607
 DTSTAMP:20161020T130607
 LAST-MODIFIED:20161020T130607
@@ -1350,10 +1427,33 @@ RRULE:FREQ=DAILY;COUNT=3
 DTSTART;TZID=Europe/Berlin:20161022T180000
 DTEND;TZID=Europe/Berlin:20161023T060000
 END:VEVENT`.split("\n").join("\r\n"));
-		expect(fcEvents[1][2].toString()).toEqual('2016-10-24T18:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[1][2])).toBe(true);
-		expect(fcEvents[1][3].toString()).toEqual('2016-10-25T06:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[1][3])).toBe(true);
+			expect(fcEvents[0][2].toString()).toEqual('2016-10-23T18:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[0][2])).toBe(true);
+			expect(fcEvents[0][3].toString()).toEqual('2016-10-24T06:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[0][3])).toBe(true);
+
+			expect(fcEvents[1][0]).toEqual(vevent);
+			expect(fcEvents[1][1].toString()).toEqual(`BEGIN:VEVENT
+CREATED:20161020T130607
+DTSTAMP:20161020T130607
+LAST-MODIFIED:20161020T130607
+UID:ujihvdbldzg
+SUMMARY:Test
+CLASS:PUBLIC
+STATUS:CONFIRMED
+RRULE:FREQ=DAILY;COUNT=3
+DTSTART;TZID=Europe/Berlin:20161022T180000
+DTEND;TZID=Europe/Berlin:20161023T060000
+END:VEVENT`.split("\n").join("\r\n"));
+			expect(fcEvents[1][2].toString()).toEqual('2016-10-24T18:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[1][2])).toBe(true);
+			expect(fcEvents[1][3].toString()).toEqual('2016-10-25T06:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[1][3])).toBe(true);
+		}).catch(() => fail('Promise was not supposed to fail'));
+
+		$rootScope.$apply();
+
+		expect(called).toEqual(true);
 	});
 
 	it ('should get a simple event without recurrenceId', function() {

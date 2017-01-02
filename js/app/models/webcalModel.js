@@ -71,25 +71,33 @@ app.factory('WebCal', function($http, Calendar, VEvent, TimezoneService, WebCalS
 			const WebCalServicePromise = WebCalService.get(context.url, allowDowngradeToHttp);
 			Promise.all([TimezoneServicePromise, WebCalServicePromise]).then(function(results) {
 				const [tz, response] = results;
+				const promises = [];
 				let vevents = [];
 
-				response.vevents.forEach(function(ical) {
+				response.vevents.forEach((ics) => {
 					try {
-						const vevent = VEvent.fromRawICS(iface, ical);
-						const events = vevent.getFcEvent(start, end, tz);
-						vevents = vevents.concat(events);
-					} catch (err) {
-						iface.addWarning(err.toString());
-						console.log(err);
-						console.log(event);
+						const vevent = VEvent.fromRawICS(iface, ics);
+						const promise = vevent.getFcEvent(start, end, tz).then((vevent) => {
+							vevents = vevents.concat(vevent);
+						}).catch((reason) => {
+							iface.addWarning(reason);
+							console.log(event, reason);
+						});
+
+						promises.push(promise);
+					} catch(e) {
+						// catch errors in VEvent.fromRawICS
+						console.log(e);
 					}
 				});
 
-				callback(vevents);
-				fcAPI.reportEvents(fcAPI.clientEvents());
+				return Promise.all(promises).then(() => {
+					callback(vevents);
+					fcAPI.reportEvents(fcAPI.clientEvents());
 
-				iface.fcEventSource.isRendering = false;
-				iface.emit(Calendar.hookFinishedRendering);
+					iface.fcEventSource.isRendering = false;
+					iface.emit(Calendar.hookFinishedRendering);
+				});
 			}).catch(function(reason) {
 				if (reason.redirect === true) {
 					if (context.storedUrl === reason.new_url) {

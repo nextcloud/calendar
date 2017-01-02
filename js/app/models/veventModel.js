@@ -21,7 +21,7 @@
  *
  */
 
-app.factory('VEvent', function(FcEvent, SimpleEvent, ICalFactory, StringUtility) {
+app.factory('VEvent', function(TimezoneService, FcEvent, SimpleEvent, ICalFactory, StringUtility) {
 	'use strict';
 
 	/**
@@ -96,6 +96,29 @@ app.factory('VEvent', function(FcEvent, SimpleEvent, ICalFactory, StringUtility)
 				dt.zone !== ICAL.Timezone.localTimezone);
 		};
 
+		/**
+		 * collect missing timezones
+		 * @returns {Array}
+		 */
+		context.getMissingEventTimezones = () => {
+			const missingTimezones = [];
+			const propertiesToSearch = ['dtstart', 'dtend'];
+			const vevents = context.comp.getAllSubcomponents('vevent');
+			vevents.forEach(function (vevent) {
+				propertiesToSearch.forEach((propName) => {
+					if (vevent.hasProperty(propName)) {
+						const prop = vevent.getFirstProperty(propName);
+						const tzid = prop.getParameter('tzid');
+						if (tzid && !ICAL.TimezoneService.has(tzid) && missingTimezones.indexOf(tzid) === -1) {
+							missingTimezones.push(tzid);
+						}
+					}
+				});
+			});
+
+			return missingTimezones;
+		};
+
 		Object.defineProperties(iface, {
 			calendar: {
 				get: function() {
@@ -135,60 +158,83 @@ app.factory('VEvent', function(FcEvent, SimpleEvent, ICalFactory, StringUtility)
 		 * @param {moment} start
 		 * @param {moment} end
 		 * @param {Timezone} timezone
-		 * @returns {Array}
+		 * @returns {Promise}
 		 */
 		iface.getFcEvent = function(start, end, timezone) {
-			const iCalStart = ICAL.Time.fromJSDate(start.toDate());
-			const iCalEnd = ICAL.Time.fromJSDate(end.toDate());
-			const fcEvents = [];
+			return new Promise((resolve, reject) => {
+				const iCalStart = ICAL.Time.fromJSDate(start.toDate());
+				const iCalEnd = ICAL.Time.fromJSDate(end.toDate());
+				const fcEvents = [];
 
-			const vevents = context.comp.getAllSubcomponents('vevent');
-			vevents.forEach(function(vevent) {
-				const iCalEvent = new ICAL.Event(vevent);
+				const missingTimezones = context.getMissingEventTimezones();
+				const errorSafeMissingTimezones = [];
+				missingTimezones.forEach((missingTimezone) => {
+					const promise = TimezoneService.get(missingTimezone)
+						.then((tz) => tz)
+						.catch((reason) => null);
+					errorSafeMissingTimezones.push(promise);
+				});
 
-				if (!vevent.hasProperty('dtstart')) {
-					return;
-				}
+				Promise.all(errorSafeMissingTimezones).then((timezones) => {
+					timezones.forEach((timezone) => {
+						if (!timezone) {
+							return;
+						}
 
-				const rawDtstart = vevent.getFirstPropertyValue('dtstart');
-				const rawDtend = context.calculateDTEnd(vevent);
+						const icalTimezone = new ICAL.Timezone(timezone.jCal);
+						ICAL.TimezoneService.register(timezone.name, icalTimezone);
+					});
+				}).then(() => {
+					const vevents = context.comp.getAllSubcomponents('vevent');
+					vevents.forEach(function (vevent) {
+						const iCalEvent = new ICAL.Event(vevent);
 
-				if (iCalEvent.isRecurring()) {
-					const duration = rawDtend.subtractDate(rawDtstart);
-					const iterator = new ICAL.RecurExpansion({
-						component: vevent,
-						dtstart: rawDtstart
+						if (!vevent.hasProperty('dtstart')) {
+							return;
+						}
+
+						const dtstartProp = vevent.getFirstProperty('dtstart');
+						const rawDtstart = dtstartProp.getFirstValue('dtstart');
+						const rawDtend = context.calculateDTEnd(vevent);
+
+						if (iCalEvent.isRecurring()) {
+							const duration = rawDtend.subtractDate(rawDtstart);
+							const iterator = new ICAL.RecurExpansion({
+								component: vevent,
+								dtstart: rawDtstart
+							});
+
+							let next;
+							while ((next = iterator.next())) {
+								const singleDtStart = next.clone();
+								const singleDtEnd = next.clone();
+								singleDtEnd.addDuration(duration);
+
+								if (singleDtEnd.compare(iCalStart) < 0) {
+									continue;
+								}
+								if (next.compare(iCalEnd) > 0) {
+									break;
+								}
+
+								const dtstart = context.convertTz(singleDtStart, timezone.jCal);
+								const dtend = context.convertTz(singleDtEnd, timezone.jCal);
+								const fcEvent = FcEvent(iface, vevent, dtstart, dtend);
+
+								fcEvents.push(fcEvent);
+							}
+						} else {
+							const dtstart = context.convertTz(rawDtstart, timezone.jCal);
+							const dtend = context.convertTz(rawDtend, timezone.jCal);
+							const fcEvent = FcEvent(iface, vevent, dtstart, dtend);
+
+							fcEvents.push(fcEvent);
+						}
 					});
 
-					let next;
-					while ((next = iterator.next())) {
-						const singleDtStart = next.clone();
-						const singleDtEnd = next.clone();
-						singleDtEnd.addDuration(duration);
-
-						if (singleDtEnd.compare(iCalStart) < 0) {
-							continue;
-						}
-						if (next.compare(iCalEnd) > 0) {
-							break;
-						}
-
-						const dtstart = context.convertTz(singleDtStart, timezone.jCal);
-						const dtend = context.convertTz(singleDtEnd, timezone.jCal);
-						const fcEvent = FcEvent(iface, vevent, dtstart, dtend);
-
-						fcEvents.push(fcEvent);
-					}
-				} else {
-					const dtstart = context.convertTz(rawDtstart, timezone.jCal);
-					const dtend = context.convertTz(rawDtend, timezone.jCal);
-					const fcEvent = FcEvent(iface, vevent, dtstart, dtend);
-
-					fcEvents.push(fcEvent);
-				}
+					resolve(fcEvents);
+				});
 			});
-
-			return fcEvents;
 		};
 
 		/**

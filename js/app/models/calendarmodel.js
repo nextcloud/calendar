@@ -74,28 +74,29 @@ app.factory('Calendar', function($window, Hook, VEventService, TimezoneService, 
 			const VEventServicePromise = VEventService.getAll(iface, start, end);
 			Promise.all([TimezoneServicePromise, VEventServicePromise]).then(function(results) {
 				const [tz, events] = results;
+				const promises = [];
 				let vevents = [];
 
-				for (var i = 0; i < events.length; i++) {
-					var vevent;
-					try {
-						vevent = events[i].getFcEvent(start, end, tz);
-					} catch (err) {
-						iface.addWarning(err.toString());
-						console.log(err);
-						console.log(events[i]);
-						continue;
-					}
-					vevents = vevents.concat(vevent);
-				}
+				events.forEach((event) => {
+					const promise = event.getFcEvent(start, end, tz).then((vevent) => {
+						vevents = vevents.concat(vevent);
+					}).catch((reason) => {
+						iface.addWarning(reason);
+						console.log(event, reason);
+					});
 
-				callback(vevents);
-				fcAPI.reportEvents(fcAPI.clientEvents());
-				context.fcEventSource.isRendering = false;
+					promises.push(promise);
+				});
 
-				iface.emit(Calendar.hookFinishedRendering);
+				return Promise.all(promises).then(() => {
+					callback(vevents);
+					fcAPI.reportEvents(fcAPI.clientEvents());
+					context.fcEventSource.isRendering = false;
+
+					iface.emit(Calendar.hookFinishedRendering);
+				});
 			}).catch(function(reason) {
-				console.log(reason);
+				console.log(context.url, reason);
 			});
 		};
 		context.fcEventSource.editable = context.writable;
