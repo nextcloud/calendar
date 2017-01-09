@@ -123,7 +123,7 @@ OC.L10N.register(
     "Share with users or groups" : "Dela med användare eller grupper",
     "can edit" : "kan redigera",
     "Share link" : "Dela länk",
-    "Public access" : "Publik åtkomst",
+    "Public access" : "Offentlig åtkomst",
     "Email link to person" : "E-posta länk till person",
     "Send" : "Skicka",
     "New Calendar" : "Ny kalender",
