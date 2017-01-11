@@ -2,6 +2,7 @@ OC.L10N.register(
     "calendar",
     {
     "Calendar" : "Kalendář",
+    "Too many redirects. Aborting ..." : "Příliš mnoho přesměrování.",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "Vzdálený server nepovolil přístup ke kalendáři (HTTP {%s} chyba)",
     "Error connecting to remote server" : "Chyba připojování ke vzdálenému serveru",
     "Error requesting resource on remote server. This could possible be related to a certificate mismatch" : "Chyba při vyžádání zdroje na vzdáleném serveru. To může být způsobeno neshodným certifikátem",
@@ -161,6 +162,7 @@ OC.L10N.register(
     "Settings" : "Nastavení",
     "Publish URL" : "Zveřejnit URL",
     "Iframe to integrate" : "Iframe k integraci",
+    "Settings & import" : "Nastavení & import",
     "Skip simple event editor" : "Přeskočit jednoduchý editor události",
     "Show week numbers" : "Zobrazit čísla týdnů",
     "Import calendar" : "Importovat kalendář",
