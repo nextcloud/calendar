@@ -26,8 +26,8 @@
 * Description: Takes care of CalendarList in App Navigation.
 */
 
-app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'CalendarService', 'WebCalService', 'is', 'CalendarListItem', 'Calendar', 'MailerService', 'ColorUtility', 'isSharingAPI',
-	function ($scope, $rootScope, $window, CalendarService, WebCalService, is, CalendarListItem, Calendar, MailerService, ColorUtility, isSharingAPI) {
+app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'HashService', 'CalendarService', 'WebCalService', 'is', 'CalendarListItem', 'Calendar', 'MailerService', 'ColorUtility', 'isSharingAPI',
+	function ($scope, $rootScope, $window, HashService, CalendarService, WebCalService, is, CalendarListItem, Calendar, MailerService, ColorUtility, isSharingAPI) {
 		'use strict';
 
 		$scope.calendarListItems = [];
@@ -320,6 +320,22 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 		$rootScope.$on('reloadCalendarList', function() {
 			if (!$scope.$$phase) {
 				$scope.$apply();
+			}
+		});
+
+		HashService.runIfApplicable('subscribe_to_webcal', (map) => {
+			if (map.has('url')) {
+				const url = map.get('url');
+
+				$scope.subscription.newSubscriptionUrl = url;
+				$scope.subscription.newSubscriptionLocked = true;
+				angular.element('#new-subscription-button').click();
+
+				//  wait for calendars to be initialized
+				// needed for creating a proper url
+				$scope.calendarsPromise.then(() => {
+					$scope.createSubscription(url);
+				});
 			}
 		});
 	}

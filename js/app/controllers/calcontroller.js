@@ -127,7 +127,7 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 		});
 
 		if (!isPublic) {
-			CalendarService.getAll().then(function (calendars) {
+			$scope.calendarsPromise = CalendarService.getAll().then(function (calendars) {
 				$scope.calendars = calendars;
 				is.loading = false;
 				// TODO - scope.apply should not be necessary here
@@ -137,7 +137,7 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 			const url = $window.location.toString();
 			var token = url.substr(url.lastIndexOf('/') + 1);
 
-			CalendarService.getPublicCalendar(token).then(function(calendar) {
+			$scope.calendarsPromise = CalendarService.getPublicCalendar(token).then(function(calendar) {
 				$scope.calendars = [calendar];
 				is.loading = false;
 				// TODO - scope.apply should not be necessary here
