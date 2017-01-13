@@ -76,15 +76,15 @@ before_script:
     - cd js
     # install test deps
     - npm install --deps # npm install needs to run before sudo npm install because otherwise it fails because a tmp file exists in the home dir
-    - npm -g install grunt-cli protractor
+    - npm -g install gulp-cli protractor
     - cd ..
 
 
 script:
     - phpunit --coverage-clover=coverage.clover tests/php
     - cd js/
-    - grunt karma
-    - grunt postcss
+    - gulp karma
+    - gulp csslint
     - cd ..
     # Upload nightly
     - if [[ "$NIGHTLY" = "TRUE" ]]; then make dist; fi
