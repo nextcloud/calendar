@@ -431,6 +431,49 @@ END:STANDARD
 END:VTIMEZONE
 END:VCALENDAR`;
 
+	const ics12 = `BEGIN:VCALENDAR
+VERSION:2.0
+CALSCALE:GREGORIAN
+PRODID:-//SabreDAV//SabreDAV//EN
+X-WR-CALNAME:Test
+X-APPLE-CALENDAR-COLOR:#c274e7
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+DTSTART:19810329T020000
+TZNAME:GMT+2
+TZOFFSETTO:+0200
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+DTSTART:19961027T030000
+TZNAME:GMT+1
+TZOFFSETTO:+0100
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+CLASS:PUBLIC
+DESCRIPTION: 
+DTEND;TZID=Europe/Berlin:20170105T130000
+DTSTART;TZID=Europe/Berlin:20170105T120000
+DTSTAMP:20170103T150245Z
+LAST-MODIFIED:20170103T150246Z
+PRIORITY:5
+SEQUENCE:1
+SUMMARY:Test
+TRANSP:OPAQUE
+UID:348acb0f-b02f-4800-9fde-202a0717c5b5
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+TRIGGER:P
+END:VALARM
+END:VEVENT
+END:VCALENDAR`;
+
 	const timezone_nyc = {
 		jCal: new ICAL.Timezone(new ICAL.Component(ICAL.parse(`BEGIN:VTIMEZONE
 TZID:America/New_York
@@ -1861,5 +1904,43 @@ END:VCALENDAR`.split("\n").join("\r\n"));
 		expect(vevent.calendar).toEqual(null);
 		expect(vevent.comp).toEqual(root);
 		expect(vevent.uri).toEqual('Nextcloud-123456.ics');
+	});
+
+	it ('should correctly sanatize malformed triggers', () => {
+		const calendar = {this_is_a_fancy_calendar: true};
+		const vevent = VEvent.fromRawICS(calendar, ics12);
+
+		let called = false;
+
+		const start = moment('2017-01-01');
+		const end = moment('2017-01-31');
+
+		vevent.getFcEvent(start, end, timezone_berlin).then((fcEvents) => {
+			expect(fcEvents.length).toEqual(1);
+			expect(fcEvents[0][1].toString()).toEqual(`BEGIN:VEVENT
+CLASS:PUBLIC
+DESCRIPTION: 
+DTEND;TZID=Europe/Berlin:20170105T130000
+DTSTART;TZID=Europe/Berlin:20170105T120000
+DTSTAMP:20170103T150245Z
+LAST-MODIFIED:20170103T150246Z
+PRIORITY:5
+SEQUENCE:1
+SUMMARY:Test
+TRANSP:OPAQUE
+UID:348acb0f-b02f-4800-9fde-202a0717c5b5
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+TRIGGER:P0D
+END:VALARM
+END:VEVENT`.split("\n").join("\r\n"));
+
+			called = true;
+		}).catch(() => fail('Promise was not supposed to fail'));
+
+		$rootScope.$apply();
+
+		expect(called).toEqual(true);
 	});
 });

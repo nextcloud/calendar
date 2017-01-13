@@ -284,20 +284,31 @@ app.factory('VEvent', function(TimezoneService, FcEvent, SimpleEvent, ICalFactor
 	* @returns {string}
 	*/
 	VEvent.sanDate = function(ics) {
-
-		// console.log( ICAL.Time.now() );
-
 		ics.split("\n").forEach(function(el, i) {
 
 			var findTypes = ['DTSTART', 'DTEND'];
 			var dateType = /[^:]*/.exec(el)[0];
 			var icsDate = null;
 
-			if (findTypes.indexOf(dateType) >= 0 && el.trim().substr(-3) === "T::") { // is date without time
+			if (findTypes.indexOf(dateType) >= 0 && el.trim().substr(-3) === 'T::') { // is date without time
 				icsDate = el.replace(/[^0-9]/g, '');
-				ics = ics.replace(el, dateType + ";VALUE=DATE:" + icsDate);
+				ics = ics.replace(el, dateType + ';VALUE=DATE:' + icsDate);
 			}
 		});
+
+		return ics;
+	};
+
+	/**
+	 * fix incorrectly populated trigger
+	 * @param {string} ics
+	 * @returns {string}
+	 */
+	VEvent.sanTrigger = function(ics) {
+		const regex = /^TRIGGER:P$/gm;
+		if (ics.match(regex)) {
+			ics = ics.replace(regex, 'TRIGGER:P0D');
+		}
 
 		return ics;
 	};
@@ -313,8 +324,12 @@ app.factory('VEvent', function(TimezoneService, FcEvent, SimpleEvent, ICalFactor
 	VEvent.fromRawICS = function(calendar, ics, uri, etag='') {
 		let comp;
 
-		if (ics.search("T::") > 0) { // no time
+		if (ics.search('T::') > 0) { // no time
 			ics = VEvent.sanDate(ics);
+		}
+
+		if (ics.search('TRIGGER:P') > 0) {
+			ics = VEvent.sanTrigger(ics);
 		}
 
 		try {
