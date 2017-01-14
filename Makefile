@@ -142,8 +142,8 @@ appstore:
 	"l10n" \
 	"templates" \
 	"timezones" \
-	"css/public/app.css" \
-	"js/public/app.js" \
+	"css/public/app.min.css" \
+	"js/public/app.min.js" \
 	"js/vendor/fullcalendar/dist/fullcalendar.css" \
 	"js/vendor/jquery-timepicker/jquery.ui.timepicker.css" \
 	"js/vendor/jquery-timepicker/jquery.ui.timepicker.js" \
