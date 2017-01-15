@@ -137,7 +137,7 @@ app.factory('WebCal', function($http, Calendar, VEvent, TimezoneService, WebCalS
 
 		iface.delete = function() {
 			localStorage.removeItem(iface.storedUrl);
-			context.calendarService.delete(iface);
+			return context.calendarService.delete(iface);
 		};
 
 		return iface;
