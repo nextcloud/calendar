@@ -27,11 +27,13 @@ app.directive('ocdatetimepicker', function($compile, $timeout) {
 		restrict: 'E',
 		require: 'ngModel',
 		scope: {
-			disabletime: '=disabletime'
+			disabletime: '=disabletime',
+			date_tabindex: '=datetabindex',
+			time_tabindex: '=timetabindex'
 		},
 		link: function (scope, element, attrs, ngModelCtrl) {
-			var templateHTML = '<input type="text" ng-model="date" class="events--date" />';
-			templateHTML += '<span class="events--time--wrapper" ng-click="disableAllDayIfNecessary()"><input type="text" ng-model="time" class="events--time" ng-disabled="disabletime"/></span>';
+			var templateHTML = '<input type="text" ng-model="date" class="events--date" tabindex="{{ date_tabindex }}"/>';
+			templateHTML += '<span class="events--time--wrapper" ng-click="disableAllDayIfNecessary()"><input type="text" ng-model="time" class="events--time" ng-disabled="disabletime" tabindex="{{ time_tabindex }}"/></span>';
 			var template = angular.element(templateHTML);
 
 			scope.date = null;
