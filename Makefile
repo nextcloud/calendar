@@ -49,7 +49,7 @@ source_package_name=$(source_artifact_directory)/$(app_name)
 appstore_build_directory=$(CURDIR)/build/appstore/calendar
 appstore_artifact_directory=$(CURDIR)/build/artifacts/appstore
 appstore_package_name=$(appstore_artifact_directory)/$(app_name)
-npm=$(shell which npm 2> /dev/null)
+yarn=$(shell which yarn 2> /dev/null)
 gcp=$(shell which gcp 2> /dev/null)
 
 ifeq (, $(gcp))
@@ -84,12 +84,12 @@ all: build
 # is present, the npm step is skipped
 .PHONY: build
 build:
-	make npm
+	make yarn
 
-# Installs npm dependencies
-.PHONY: npm
-npm:
-	cd js && $(npm) run build
+# Installs yarn dependencies
+.PHONY: yarn
+yarn:
+	cd js && $(yarn) run build
 
 # Removes the appstore build
 .PHONY: clean
@@ -142,8 +142,8 @@ appstore:
 	"l10n" \
 	"templates" \
 	"timezones" \
-	"css/public/app.css" \
-	"js/public/app.js" \
+	"css/public/app.min.css" \
+	"js/public/app.min.js" \
 	"js/vendor/fullcalendar/dist/fullcalendar.css" \
 	"js/vendor/jquery-timepicker/jquery.ui.timepicker.css" \
 	"js/vendor/jquery-timepicker/jquery.ui.timepicker.js" \
@@ -172,14 +172,14 @@ endif
 # from the internet
 .PHONY: test
 test:
-	cd js && $(npm) run test
+	cd js && $(yarn) run test
 ifeq (, $(shell which phpunit 2> /dev/null))
 	@echo "No phpunit command available, downloading a copy from the web"
 	mkdir -p $(build_tools_directory)
 	curl -sSL https://phar.phpunit.de/phpunit.phar -o $(build_tools_directory)/phpunit.phar
-	php $(build_tools_directory)/phpunit.phar -c phpunit.xml --coverage-clover build/php-unit.clover
-	php $(build_tools_directory)/phpunit.phar -c phpunit.integration.xml --coverage-clover build/php-integration.clover
+	php $(build_tools_directory)/phpunit.phar -c phpunit.xml --coverage-clover coverage.clover
+	# php $(build_tools_directory)/phpunit.phar -c phpunit.integration.xml --coverage-clover build/php-integration.clover
 else
-	phpunit -c phpunit.xml --coverage-clover build/php-unit.clover
-	phpunit -c phpunit.integration.xml --coverage-clover build/php-unit.clover
+	phpunit -c phpunit.xml --coverage-clover coverage.clover
+	# phpunit -c phpunit.integration.xml --coverage-clover build/php-unit.clover
 endif

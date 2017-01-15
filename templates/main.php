@@ -33,7 +33,7 @@ if($_['isPublic']) {
 $styles = [
 	'../js/vendor/fullcalendar/dist/fullcalendar',
 	'../js/vendor/jquery-timepicker/jquery.ui.timepicker',
-	'public/app'
+	'public/app.min'
 ];
 
 foreach ($styles as $style) {
@@ -51,7 +51,7 @@ $scripts = [
 	'vendor/fullcalendar/dist/locale-all',
 	'vendor/davclient.js/lib/client',
 	'vendor/hsl_rgb_converter/converter',
-	'public/app'
+	'public/app.min'
 ];
 
 foreach ($scripts as $script) {

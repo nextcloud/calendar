@@ -49,51 +49,49 @@ before_install:
   - "sh -e /etc/init.d/xvfb start"
   - nvm install 6
   - npm install -g npm@latest
-  # install core
+  # install server
   - cd ../
   - git clone https://github.com/nextcloud/core.git --recursive --depth 1 -b $CORE_BRANCH nextcloud
   - mv calendar nextcloud/apps/
   - cd nextcloud
-  - cd apps/calendar/
-  - make
-  - cd ../../
 
+cache:
+  directories:
+  - $HOME/.cache/yarn
 
 before_script:
-    - if [[ "$DB" == 'pgsql' ]]; then psql -c 'create database oc_autotest;' -U postgres; fi
-    - if [[ "$DB" == 'pgsql' ]]; then psql -c "create user oc_autotest with password '';" -U postgres; fi
-    - if [[ "$DB" == 'pgsql' ]]; then psql -c 'grant all privileges on database oc_autotest to oc_autotest;' -U postgres; fi
-    - if [[ "$DB" == 'mysql' ]]; then mysql -u root -e 'create database oc_autotest;'; fi
-    - if [[ "$DB" == 'mysql' ]]; then mysql -u root -e "CREATE USER 'oc_autotest'@'localhost' IDENTIFIED BY '';"; fi
-    - if [[ "$DB" == 'mysql' ]]; then mysql -u root -e "grant all on oc_autotest.* to 'oc_autotest'@'localhost';"; fi
-    # fill nextcloud with default configs and enable calendar
-    - mkdir data
-    - ./occ maintenance:install --database-name oc_autotest --database-user oc_autotest --admin-user admin --admin-pass admin --database $DB --database-pass=''
-    - ./occ app:enable calendar
-    - ./occ app:check-code calendar
-    - php -S localhost:8080 &
-    - cd apps/calendar
-    - cd js
-    # install test deps
-    - npm install --deps # npm install needs to run before sudo npm install because otherwise it fails because a tmp file exists in the home dir
-    - npm -g install grunt-cli protractor
-    - cd ..
-
+  # Repo for Yarn
+  - sudo apt-key adv --fetch-keys http://dl.yarnpkg.com/debian/pubkey.gpg
+  - echo "deb http://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+  - sudo apt-get update -qq
+  - sudo apt-get install -y -qq yarn
+  # Setup Postgres if applicable
+  - if [[ "$DB" == 'pgsql' ]]; then psql -c 'create database oc_autotest;' -U postgres; fi
+  - if [[ "$DB" == 'pgsql' ]]; then psql -c "create user oc_autotest with password '';" -U postgres; fi
+  - if [[ "$DB" == 'pgsql' ]]; then psql -c 'grant all privileges on database oc_autotest to oc_autotest;' -U postgres; fi
+  # Setup MySQL if applicable
+  - if [[ "$DB" == 'mysql' ]]; then mysql -u root -e 'create database oc_autotest;'; fi
+  - if [[ "$DB" == 'mysql' ]]; then mysql -u root -e "CREATE USER 'oc_autotest'@'localhost' IDENTIFIED BY '';"; fi
+  - if [[ "$DB" == 'mysql' ]]; then mysql -u root -e "grant all on oc_autotest.* to 'oc_autotest'@'localhost';"; fi
+  # fill nextcloud with default configs and enable calendar
+  - mkdir data
+  - ./occ maintenance:install --database-name oc_autotest --database-user oc_autotest --admin-user admin --admin-pass admin --database $DB --database-pass=''
+  - ./occ app:enable calendar
+  - ./occ app:check-code calendar
+  - php -S localhost:8080 &
+  - cd apps/calendar
 
 script:
-    - phpunit --coverage-clover=coverage.clover tests/php
-    - cd js/
-    - grunt karma
-    - grunt postcss
-    - cd ..
-    # Upload nightly
-    - if [[ "$NIGHTLY" = "TRUE" ]]; then make dist; fi
-    - if [[ "$NIGHTLY" = "TRUE" ]]; then curl --ftp-create-dirs -T build/artifacts/appstore/calendar.tar.gz -u $FTP_LOGIN:$FTP_PW ftp://upload.portknox.de/htdocs/calendar/nextcloud_calendar_nightly_build_$(date +%Y-%m-%d).tar.gz; fi
+  - make
+  - make test
+  # Upload nightly
+  - if [[ "$NIGHTLY" = "TRUE" ]]; then make dist; fi
+  - if [[ "$NIGHTLY" = "TRUE" ]]; then curl --ftp-create-dirs -T build/artifacts/appstore/calendar.tar.gz -u $FTP_LOGIN:$FTP_PW ftp://upload.portknox.de/htdocs/calendar/nextcloud_calendar_nightly_build_$(date +%Y-%m-%d).tar.gz; fi
 
 after_success:
-    - wget https://scrutinizer-ci.com/ocular.phar
-    - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
-    - cat ./coverage/*/lcov.info | ./js/node_modules/coveralls/bin/coveralls.js
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+  - cat ./coverage/*/lcov.info | ./js/node_modules/coveralls/bin/coveralls.js
 
 after_failure:
-    - cat ../../data/nextcloud.log
+  - cat ../../data/nextcloud.log
