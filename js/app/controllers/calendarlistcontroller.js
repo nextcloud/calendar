@@ -26,8 +26,8 @@
 * Description: Takes care of CalendarList in App Navigation.
 */
 
-app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'HashService', 'CalendarService', 'WebCalService', 'is', 'CalendarListItem', 'Calendar', 'MailerService', 'ColorUtility', 'isSharingAPI',
-	function ($scope, $rootScope, $window, HashService, CalendarService, WebCalService, is, CalendarListItem, Calendar, MailerService, ColorUtility, isSharingAPI) {
+app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'HashService', 'CalendarService', 'WebCalService', 'is', 'CalendarListItem', 'Calendar', 'MailerService', 'ColorUtility', 'isSharingAPI', 'constants',
+	function ($scope, $rootScope, $window, HashService, CalendarService, WebCalService, is, CalendarListItem, Calendar, MailerService, ColorUtility, isSharingAPI, constants) {
 		'use strict';
 
 		$scope.calendarListItems = [];
@@ -193,25 +193,25 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ha
 		};
 
 		$scope.updateExistingUserShare = function(calendar, userId, writable) {
-			calendar.share(OC.Share.SHARE_TYPE_USER, userId, writable, true).then(function() {
+			calendar.share(constants.SHARE_TYPE_USER, userId, writable, true).then(function() {
 				$scope.$apply();
 			});
 		};
 
 		$scope.updateExistingGroupShare = function(calendar, groupId, writable) {
-			calendar.share(OC.Share.SHARE_TYPE_GROUP, groupId, writable, true).then(function() {
+			calendar.share(constants.SHARE_TYPE_GROUP, groupId, writable, true).then(function() {
 				$scope.$apply();
 			});
 		};
 
 		$scope.unshareFromUser = function(calendar, userId) {
-			calendar.unshare(OC.Share.SHARE_TYPE_USER, userId).then(function() {
+			calendar.unshare(constants.SHARE_TYPE_USER, userId).then(function() {
 				$scope.$apply();
 			});
 		};
 
 		$scope.unshareFromGroup = function(calendar, groupId) {
-			calendar.unshare(OC.Share.SHARE_TYPE_GROUP, groupId).then(function() {
+			calendar.unshare(constants.SHARE_TYPE_GROUP, groupId).then(function() {
 				$scope.$apply();
 			});
 		};
@@ -260,7 +260,7 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ha
 				users = users.map(function(item){
 					return {
 						display: item.label,
-						type: OC.Share.SHARE_TYPE_USER,
+						type: constants.SHARE_TYPE_USER,
 						identifier: item.value.shareWith
 					};
 				});
@@ -268,7 +268,7 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ha
 				groups = groups.map(function(item){
 					return {
 						display: item.label + ' (' + t('calendar', 'group') + ')',
-						type: OC.Share.SHARE_TYPE_GROUP,
+						type: constants.SHARE_TYPE_GROUP,
 						identifier: item.value.shareWith
 					};
 				});
