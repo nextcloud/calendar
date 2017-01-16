@@ -7,7 +7,7 @@
 	<description><![CDATA[The Nextcloud calendar app is a user interface for Nextcloud's CalDAV server.
 
 It integrates with other apps, allows you to manage calendars and events, display external calendars and invite attendees to your events]]></description>
-	<version>1.4.1</version>
+	<version>1.5.0</version>
 	<licence>AGPL</licence>
 	<namespace>Calendar</namespace>
 	<author homepage="https://georg.coffee">Georg Ehrke</author>
