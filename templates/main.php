@@ -54,6 +54,10 @@ $scripts = [
 	'public/app.min'
 ];
 
+if ($_['needsAutosize']) {
+	$scripts[] = 'vendor/autosize/dist/autosize';
+}
+
 foreach ($scripts as $script) {
 	script('calendar', $script);
 }
