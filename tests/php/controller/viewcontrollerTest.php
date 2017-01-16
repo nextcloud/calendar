@@ -106,7 +106,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @dataProvider indexDataProvider
 	 */
-	public function testIndex($isAssetPipelineEnabled, $showAssetPipelineError, $serverVersion, $expectsSupportsClass, $expectsWebcalWorkaround) {
+	public function testIndex($isAssetPipelineEnabled, $showAssetPipelineError, $serverVersion, $expectsSupportsClass, $expectsWebcalWorkaround, $needsAutosize) {
 		$this->config->expects($this->at(0))
 			->method('getSystemValue')
 			->with('version')
@@ -180,6 +180,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 				'defaultColor' => '#ff00ff',
 				'webCalWorkaround' => $expectsWebcalWorkaround,
 				'isPublic' => false,
+				'needsAutosize' => $needsAutosize,
 			], $actual->getParams());
 			$this->assertEquals('main', $actual->getTemplateName());
 		}
@@ -188,10 +189,11 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 
 	public function indexDataProvider() {
 		return [
-			[true, true, '9.0.5.2', false, 'yes'],
-			[true, false, '9.1.0.0', true, 'no'],
-			[false, false, '9.0.5.2', false, 'yes'],
-			[false, false, '9.1.0.0', true, 'no']
+			[true, true, '9.0.5.2', false, 'yes', true],
+			[true, false, '9.1.0.0', true, 'no', true],
+			[false, false, '9.0.5.2', false, 'yes', true],
+			[false, false, '9.1.0.0', true, 'no', true],
+			[false, false, '11.0.1', true, 'no', false],
 		];
 	}
 
@@ -262,6 +264,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 			'defaultColor' => '#ff00ff',
 			'webCalWorkaround' => 'no',
 			'isPublic' => false,
+			'needsAutosize' => true,
 		], $actual->getParams());
 		$this->assertEquals('main', $actual->getTemplateName());
 	}
@@ -342,6 +345,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 			'defaultColor' => '#ff00ff',
 			'webCalWorkaround' => 'no',
 			'isPublic' => false,
+			'needsAutosize' => true,
 		], $actual->getParams());
 		$this->assertEquals('main', $actual->getTemplateName());
 	}
@@ -356,7 +360,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @dataProvider indexPublicDataProvider
 	 */
-	public function testPublicIndex($isAssetPipelineEnabled, $showAssetPipelineError, $serverVersion, $expectsSupportsClass) {
+	public function testPublicIndex($isAssetPipelineEnabled, $showAssetPipelineError, $serverVersion, $expectsSupportsClass, $needsAutosize) {
 		$this->config->expects($this->at(0))
 			->method('getSystemValue')
 			->with('version')
@@ -391,6 +395,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 				'shareURL' => '://',
 				'previewImage' => null,
 				'firstRun' => 'no',
+				'needsAutosize' => $needsAutosize,
 			], $actual->getParams());
 			$this->assertEquals('main', $actual->getTemplateName());
 		}
@@ -399,10 +404,11 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 
 	public function indexPublicDataProvider() {
 		return [
-			[true, true, '9.0.5.2', false],
-			[true, false, '9.1.0.0', true],
-			[false, false, '9.0.5.2', false],
-			[false, false, '9.1.0.0', true]
+			[true, true, '9.0.5.2', false, true],
+			[true, false, '9.1.0.0', true, true],
+			[false, false, '9.0.5.2', false, true],
+			[false, false, '9.1.0.0', true, true],
+			[false, false, '11.0.0', true, false],
 		];
 	}
 

@@ -156,6 +156,7 @@ appstore:
 	"js/vendor/fullcalendar/dist/locale-all.js" \
 	"js/vendor/davclient.js/lib/client.js" \
 	"js/vendor/hsl_rgb_converter/converter.js" \
+	"js/vendor/autosize/dist/autosize.js" \
 	"COPYING" \
 	"CHANGELOG.md" \
 	$(appstore_build_directory)
