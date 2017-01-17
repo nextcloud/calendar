@@ -29,7 +29,8 @@ app.directive('ocdatetimepicker', function($compile, $timeout) {
 		scope: {
 			disabletime: '=disabletime',
 			date_tabindex: '=datetabindex',
-			time_tabindex: '=timetabindex'
+			time_tabindex: '=timetabindex',
+			readonly: '=readonly'
 		},
 		link: function (scope, element, attrs, ngModelCtrl) {
 			var templateHTML = '<input type="text" ng-model="date" class="events--date" tabindex="{{ date_tabindex }}"/>';
@@ -39,7 +40,7 @@ app.directive('ocdatetimepicker', function($compile, $timeout) {
 			scope.date = null;
 			scope.time = null;
 			scope.disableAllDayIfNecessary = () => {
-				if (scope.disabletime) {
+				if (scope.disabletime && !scope.readonly) {
 					scope.disabletime = false;
 					element.find('.events--time').timepicker('show');
 				}
