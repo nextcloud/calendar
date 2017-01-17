@@ -21,12 +21,12 @@
 		<fieldset class="event-time events--fieldset" ng-disabled="readOnly">
 			<div class="event-time-interior pull-left">
 				<span><?php p($l->t('starts')); ?></span>
-				<ocdatetimepicker ng-model="properties.dtstart.value" disabletime="properties.allDay" datetabindex="103" timetabindex="104"></ocdatetimepicker>
+				<ocdatetimepicker ng-model="properties.dtstart.value" disabletime="properties.allDay" datetabindex="103" timetabindex="104" readonly="readOnly"></ocdatetimepicker>
 				<span ng-show="edittimezone">{{ properties.dtstart.parameters.zone | timezoneFilter }}</span>
 			</div>
 			<div class="event-time-interior pull-right">
 				<span><?php p($l->t('ends')); ?></span>
-				<ocdatetimepicker ng-model="properties.dtend.value" disabletime="properties.allDay" datetabindex="105" timetabindex="106"></ocdatetimepicker>
+				<ocdatetimepicker ng-model="properties.dtend.value" disabletime="properties.allDay" datetabindex="105" timetabindex="106" readonly="readOnly"></ocdatetimepicker>
 				<span ng-show="edittimezone">{{ properties.dtend.parameters.zone | timezoneFilter }}</span>
 			</div>
 			<div class="clear-both"></div>
