@@ -31,6 +31,7 @@ describe('CalendarListController', function() {
 		$provide.value('CalendarListItem', {});
 		$provide.value('WebCalService', {});
 		$provide.value('isSharingAPI', true);
+		$provide.value('constants', {});
 	}));
 
 	beforeEach(inject(function ($controller, _$rootScope_, _$window_, $q) {
