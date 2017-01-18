@@ -40,6 +40,10 @@ app.directive('colorpicker', function(ColorUtility) {
 			scope.selected = scope.selected || scope.colors[0];
 			scope.random = "#000000";
 
+			const inputElement = document.createElement('input');
+			inputElement.setAttribute('type', 'color');
+			scope.supportsColorPicker = (inputElement.type === 'color');
+
 			scope.randomizeColour = function() {
 				scope.random = ColorUtility.randomColor();
 				scope.pick(scope.random);

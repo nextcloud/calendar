@@ -300,6 +300,19 @@
 	background-position: center center;
 }
 
+.colorpicker .colorpicker-list .color-selector-label {
+	display: block;
+	height: 24px;
+	width: 24px !important;
+	background-image: url('../../img/color_picker.svg');
+	background-repeat: no-repeat;
+	background-position: center center;
+}
+
+.colorpicker .colorpicker-list .color-selector-label .color-selector {
+	visibility: hidden;
+}
+
 /* scroll issues */
 #scrollable {
 	overflow-y: auto;
