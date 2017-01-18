@@ -39,6 +39,7 @@
           "possible": true,
           "dav": true,
           "hslToRgb": true,
-          "autosize": true
+          "autosize": true,
+          "_": true
     }
 }
