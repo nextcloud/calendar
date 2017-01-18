@@ -66,9 +66,9 @@ We’d like to thank [BrowserStack](https://www.browserstack.com) for providing 
 
 ## Developer setup info
 
-Just clone this repo into your apps directory (Nextcloud server installation needed). Additionally,  [nodejs and npm](https://nodejs.org/en/download/package-manager/) are needed for installing JavaScript dependencies.
+Just clone this repo into your apps directory (Nextcloud server installation needed). Additionally,  [nodejs](https://nodejs.org/en/download/package-manager/) and [yarn](https://yarnpkg.com/) are needed for installing JavaScript dependencies.
 
-Once node and npm are installed, PHP and JavaScript dependencies can be installed by running
+Once node and yarn are installed, PHP and JavaScript dependencies can be installed by running
 ```bash
 $ make
 ```
