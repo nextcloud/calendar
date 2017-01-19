@@ -817,7 +817,16 @@ END:VCALENDAR&#13;
 			status: 403
 		});
 
-		expect(() => $rootScope.$apply()).toThrowError(Error, 'current-user-principal could not be determined');
+		$rootScope.$apply();
+
+		let called = false;
+		CalendarService.getAll().then(() => fail('was not supposed to succeed')).catch((reason) => {
+			called = true;
+			expect(() => {throw reason;}).toThrowError(Error, 'current-user-principal could not be determined');
+		});
+
+		$rootScope.$apply();
+		expect(called).toEqual(true);
 	});
 
 	it('should initialize correctly with creating the service - current-user-principal fails - empty propStat', function() {
@@ -830,7 +839,16 @@ END:VCALENDAR&#13;
 			status: 403
 		});
 
-		expect(() => $rootScope.$apply()).toThrowError(Error, 'current-user-principal could not be determined');
+		$rootScope.$apply();
+
+		let called = false;
+		CalendarService.getAll().then(() => fail('was not supposed to succeed')).catch((reason) => {
+			called = true;
+			expect(() => {throw reason;}).toThrowError(Error, 'current-user-principal could not be determined');
+		});
+
+		$rootScope.$apply();
+		expect(called).toEqual(true);
 	});
 
 	it('should initialize correctly with creating the service - calendar-home-set fails  - non successful request', function() {
@@ -847,7 +865,17 @@ END:VCALENDAR&#13;
 			body: calendarHomeSetProperties[0],
 			status: 403
 		});
-		expect(() => $rootScope.$apply()).toThrowError(Error, 'calendar-home-set could not be determind');
+
+		$rootScope.$apply();
+
+		let called = false;
+		CalendarService.getAll().then(() => fail('was not supposed to succeed')).catch((reason) => {
+			called = true;
+			expect(() => {throw reason;}).toThrowError(Error, 'calendar-home-set could not be determind');
+		});
+
+		$rootScope.$apply();
+		expect(called).toEqual(true);
 	});
 
 	it('should initialize correctly with creating the service - calendar-home-set fails - empty propStat', function() {
@@ -865,7 +893,18 @@ END:VCALENDAR&#13;
 			},
 			status: 403
 		});
-		expect(() => $rootScope.$apply()).toThrowError(Error, 'calendar-home-set could not be determind');
+
+
+		$rootScope.$apply();
+
+		let called = false;
+		CalendarService.getAll().then(() => fail('was not supposed to succeed')).catch((reason) => {
+			called = true;
+			expect(() => {throw reason;}).toThrowError(Error, 'calendar-home-set could not be determind');
+		});
+
+		$rootScope.$apply();
+		expect(called).toEqual(true);
 	});
 
 	it('should fetch all calendars', function() {
