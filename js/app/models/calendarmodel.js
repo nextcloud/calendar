@@ -90,7 +90,7 @@ app.factory('Calendar', function($window, Hook, VEventService, TimezoneService, 
 
 				return Promise.all(promises).then(() => {
 					callback(vevents);
-					fcAPI.reportEvents(fcAPI.clientEvents());
+					fcAPI.reportEventChange();
 					context.fcEventSource.isRendering = false;
 
 					iface.emit(Calendar.hookFinishedRendering);

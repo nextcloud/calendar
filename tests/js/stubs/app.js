@@ -25,6 +25,10 @@ window.app = angular.module('Calendar', [
 	'ngMock'
 ]);
 
+window.app.config(['$qProvider', function ($qProvider) {
+	$qProvider.errorOnUnhandledRejections(false);
+}]);
+
 window.OC = {
 
 	Share: {

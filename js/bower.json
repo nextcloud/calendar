@@ -1,17 +1,17 @@
 {
   "name": "Calendar",
   "dependencies": {
-    "angular": "1.5.8",
-    "angular-bootstrap": "2.2.0",
+    "angular": "1.6.1",
+    "angular-bootstrap": "2.4.0",
     "jquery-timepicker": "883bb2cd94",
     "jstzdetect": "1.0.6",
     "ical.js": "1.2.2",
     "davclient.js": "evert/davclient.js",
-    "fullcalendar": "3.0.1",
+    "fullcalendar": "3.1.0",
     "hsl_rgb_converter": "https://github.com/kayellpeee/hsl_rgb_converter.git",
     "autosize": "^3.0.20"
   },
   "devDependencies": {
-    "angular-mocks": "1.5.8"
+    "angular-mocks": "1.6.1"
   }
 }
