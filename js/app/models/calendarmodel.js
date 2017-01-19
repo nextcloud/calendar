@@ -65,7 +65,7 @@ app.factory('Calendar', function($window, Hook, VEventService, TimezoneService, 
 		context.fcEventSource.events = function (start, end, timezone, callback) {
 			const fcAPI = this;
 			context.fcEventSource.isRendering = true;
-			iface.emit(Calendar.hookFinishedRendering);
+			iface.emit(Calendar.hookStartedRendering);
 
 			start = moment(start.stripZone().format());
 			end = moment(end.stripZone().format());
@@ -89,6 +89,7 @@ app.factory('Calendar', function($window, Hook, VEventService, TimezoneService, 
 				});
 
 				return Promise.all(promises).then(() => {
+					//fcAPI.getEventCache().push(vevents);
 					callback(vevents);
 					fcAPI.reportEventChange();
 					context.fcEventSource.isRendering = false;
@@ -370,6 +371,7 @@ app.factory('Calendar', function($window, Hook, VEventService, TimezoneService, 
 	Calendar.hookDisplaynameChanged = 3;
 	Calendar.hookEnabledChanged = 4;
 	Calendar.hookOrderChanged = 5;
+	Calendar.hookStartedRendering = 6;
 
 	return Calendar;
 });

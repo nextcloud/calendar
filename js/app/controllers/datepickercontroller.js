@@ -74,18 +74,18 @@ app.controller('DatePickerController', ['$scope', 'fc', 'uibDatepickerConfig', '
 
 		$scope.$watch('dt', function(newValue) {
 			if (fc) {
-				fc.elm.fullCalendar(
-					'gotoDate',
-					newValue
-				);
+				const sources = fc.elm.fullCalendar('getEventSources');
+				fc.elm.fullCalendar( 'removeEventSources', sources);
+				fc.elm.fullCalendar('gotoDate', newValue);
+				sources.forEach((source) => {
+					fc.elm.fullCalendar('addEventSource', source);
+				});
 			}
 		});
 
 		$scope.$watch('selectedView', function(newValue) {
 			if (fc) {
-				fc.elm.fullCalendar(
-					'changeView',
-					newValue);
+				fc.elm.fullCalendar('changeView', newValue);
 			}
 		});
 	}

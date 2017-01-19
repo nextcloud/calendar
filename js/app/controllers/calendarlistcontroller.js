@@ -54,7 +54,7 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ha
 				if (item) {
 					$scope.calendarListItems.push(item);
 					$scope.publicdavurl = $scope.$parent.calendars[0].caldav;
-					calendar.register(Calendar.hookFinishedRendering, function() {
+					item.register(CalendarListItem.hookTriggerRendering, function() {
 						if (!$scope.$$phase) {
 							$scope.$apply();
 						}

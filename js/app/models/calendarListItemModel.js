@@ -21,7 +21,7 @@
  *
  */
 
-app.factory('CalendarListItem', function(Calendar, WebCal, isSharingAPI) {
+app.factory('CalendarListItem', function($timeout, Hook, Calendar, WebCal, isSharingAPI) {
 	'use strict';
 
 	function CalendarListItem(calendar) {
@@ -31,7 +31,9 @@ app.factory('CalendarListItem', function(Calendar, WebCal, isSharingAPI) {
 			isEditingProperties: false,
 			isDisplayingCalDAVUrl: false,
 			isDisplayingWebCalUrl: false,
-			isSendingMail: false
+			isSendingMail: false,
+			isRenderingThreeSeconds: false,
+			isRenderingThreeSecondsPromise: null
 		};
 		const iface = {
 			_isACalendarListItemObject: true
@@ -47,6 +49,28 @@ app.factory('CalendarListItem', function(Calendar, WebCal, isSharingAPI) {
 					return context.calendar;
 				}
 			}
+		});
+
+		const showCalendarSpinner = () => {
+			context.isRenderingThreeSecondsPromise = $timeout(() => {
+				context.isRenderingThreeSeconds = true;
+				iface.emit(CalendarListItem.hookTriggerRendering);
+				context.isRenderingThreeSecondsPromise = null;
+			}, 3000);
+		};
+		context.calendar.register(Calendar.hookStartedRendering, showCalendarSpinner);
+
+		if (context.calendar.isRendering()) {
+			showCalendarSpinner();
+		}
+
+		context.calendar.register(Calendar.hookFinishedRendering, () => {
+			if (context.isRenderingThreeSecondsPromise) {
+				$timeout.cancel(context.isRenderingThreeSecondsPromise);
+			}
+			context.isRenderingThreeSeconds = false;
+			iface.emit(CalendarListItem.hookTriggerRendering);
+			context.isRenderingThreeSecondsPromise = null;
 		});
 		
 		iface.displayCalDAVUrl = function() {
@@ -119,11 +143,11 @@ app.factory('CalendarListItem', function(Calendar, WebCal, isSharingAPI) {
 		};
 
 		iface.displayColorIndicator = function() {
-			return (!iface.isEditing() && !context.calendar.isRendering());
+			return (!iface.isEditing() && !context.isRenderingThreeSeconds);
 		};
 
 		iface.displaySpinner = function() {
-			return (!iface.isEditing() && context.calendar.isRendering());
+			return (!iface.isEditing() && context.isRenderingThreeSeconds);
 		};
 
 		iface.openEditor = function() {
@@ -154,6 +178,11 @@ app.factory('CalendarListItem', function(Calendar, WebCal, isSharingAPI) {
 			return WebCal.isWebCal(context.calendar);
 		};
 
+		Object.assign(
+			iface,
+			Hook(context)
+		);
+
 		//Properties for ng-model of calendar editor
 		iface.color = '';
 		iface.displayname = '';
@@ -168,6 +197,8 @@ app.factory('CalendarListItem', function(Calendar, WebCal, isSharingAPI) {
 	CalendarListItem.isCalendarListItem = function(obj) {
 		return (typeof obj === 'object' && obj !== null && obj._isACalendarListItemObject === true);
 	};
+
+	CalendarListItem.hookTriggerRendering = 0;
 
 	return CalendarListItem;
 });

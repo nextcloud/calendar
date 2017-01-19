@@ -63,7 +63,7 @@ app.factory('WebCal', function($http, Calendar, VEvent, TimezoneService, WebCalS
 		iface.fcEventSource.events = function (start, end, timezone, callback) {
 			var fcAPI = this;
 			iface.fcEventSource.isRendering = true;
-			iface.emit(Calendar.hookFinishedRendering);
+			iface.emit(Calendar.hookStartedRendering);
 
 			const allowDowngradeToHttp = !context.storedUrl.startsWith('https://');
 
