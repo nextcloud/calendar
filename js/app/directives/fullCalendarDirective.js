@@ -76,10 +76,10 @@ app.constant('fc', {})
 
 			const headerSize = angular.element('#header').height();
 			const windowElement = angular.element($window);
-			windowElement.bind('resize', function () {
+			windowElement.bind('resize', _.debounce(function () {
 				const newHeight = windowElement.height() - headerSize;
 				fc.elm.fullCalendar('option', 'height', newHeight);
-			});
+			}, 150));
 
 			const isPublic = (attrs.ispublic === '1');
 
