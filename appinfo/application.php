@@ -3,7 +3,7 @@
  * Calendar App
  *
  * @author Georg Ehrke
- * @copyright 2016 Georg Ehrke <oc.list@georgehrke.com>
+ * @copyright 2017 Georg Ehrke <oc.list@georgehrke.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -41,24 +41,18 @@ class Application extends App {
 
 			return new Controller\ContactController($c->getAppName(), $request, $contacts);
 		});
-		$container->registerService('SettingsController', function(IAppContainer $c) {
-			$request = $c->query('Request');
-			$config = $c->getServer()->getConfig();
-			$userSession = $c->getServer()->getUserSession();
 
-			return new Controller\SettingsController($c->getAppName(), $request, $userSession, $config);
-		});
-		$container->registerService('ViewController', function(IAppContainer $c) {
+		$container->registerService('EmailController', function(IAppContainer $c) {
 			$request = $c->query('Request');
 			$userSession = $c->getServer()->getUserSession();
 			$config = $c->getServer()->getConfig();
 			$mailer = $c->getServer()->getMailer();
 			$l10n = $c->getServer()->getL10N($c->query('AppName'));
 			$defaults = new \OCP\Defaults();
-			$urlGenerator = $c->getServer()->getURLGenerator();
 
-			return new Controller\ViewController($c->getAppName(), $request, $userSession, $config, $mailer, $l10n, $defaults, $urlGenerator);
+			return new Controller\EmailController($c->getAppName(), $request, $userSession, $config, $mailer, $l10n, $defaults);
 		});
+
 		$container->registerService('ProxyController', function(IAppContainer $c) {
 			$request = $c->query('Request');
 			$client = $c->getServer()->getHTTPClientService();
@@ -66,6 +60,29 @@ class Application extends App {
 			$logger = $c->getServer()->getLogger();
 
 			return new Controller\ProxyController($c->getAppName(), $request, $client, $l10n, $logger);
+		});
+
+		$container->registerService('SettingsController', function(IAppContainer $c) {
+			$request = $c->query('Request');
+			$config = $c->getServer()->getConfig();
+			$userSession = $c->getServer()->getUserSession();
+
+			return new Controller\SettingsController($c->getAppName(), $request, $userSession, $config);
+		});
+
+		$container->registerService('TimezoneController', function(IAppContainer $c) {
+			$request = $c->query('Request');
+
+			return new Controller\TimezoneController($c->getAppName(), $request);
+		});
+
+		$container->registerService('ViewController', function(IAppContainer $c) {
+			$request = $c->query('Request');
+			$userSession = $c->getServer()->getUserSession();
+			$config = $c->getServer()->getConfig();
+			$urlGenerator = $c->getServer()->getURLGenerator();
+
+			return new Controller\ViewController($c->getAppName(), $request, $userSession, $config, $urlGenerator);
 		});
 	}
 
