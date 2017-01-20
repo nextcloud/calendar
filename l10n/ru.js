@@ -164,7 +164,7 @@ OC.L10N.register(
     "Iframe to integrate" : "Iframe для встраивания",
     "Settings & import" : "Настройки и импорт",
     "Skip simple event editor" : "Не использовать простой редактор события",
-    "Show week numbers" : "Показать номера недель",
+    "Show week numbers" : "Показывать номера недель",
     "Import calendar" : "Импорт календаря",
     "No Calendars selected for import" : "Не выбраны календари для импорта",
     "Primary CalDAV address" : "Основной адрес синхронизации CalDAV",
