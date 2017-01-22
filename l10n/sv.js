@@ -19,7 +19,7 @@ OC.L10N.register(
     "{name} ({email})" : "{name} ({email})",
     "You are in an unknown timezone ({tz}), falling back to UTC" : "Du är i en okänd tidszon ({tz}), faller tillbaka på UTC",
     "Please create a calendar first." : "Vänlligen skapa en kalender först.",
-    "New event" : "Nytt event",
+    "New event" : "Ny händelse",
     "CalDAV address for clients" : "CalDAV adress för klienter",
     "Error saving WebCal-calendar" : "Ett fel uppstod när WebCal-kalendern sparades",
     "WebDAV address for subscriptions" : "WebDAV-adress för prenumerationer",
