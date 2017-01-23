@@ -79,6 +79,68 @@ app.factory('SimpleEvent', function () {
 		return iCalTime;
 	}
 
+	const simpleRRule = {
+		freq: 'none',
+		interval: null,
+		count: null,
+		until: null,
+		byMonth: {
+			active: false
+		},
+		byWeekNo: {
+			active: false
+		},
+		byYearDay: {
+			active: false
+		},
+		byMonthDay: {
+			active: false
+		},
+		byDay: {
+			active: false,
+		},
+		bySetPos: {
+			active: false
+		}
+	};
+
+	// 1 ... 12
+	_.range(1, 13).forEach((v) => {
+		simpleRRule.byMonth[v] = null;
+	});
+
+	// -53 ... -1
+	_.range(-53, 0).forEach((v) => {
+		simpleRRule.byWeekNo[v] = null;
+	});
+	// 1 ... 53
+	_.range(1, 54).forEach((v) => {
+		simpleRRule.byWeekNo[v] = null;
+	});
+
+	// -366 ... -1
+	_.range(-366, 0).forEach((v) => {
+		simpleRRule.byYearDay[v] = null;
+	});
+	// 1 ... 366
+	_.range(1, 367).forEach((v) => {
+		simpleRRule.byYearDay[v] = null;
+	});
+
+	// -31 ... -1
+	_.range(-31, 0).forEach((v) => {
+		simpleRRule.byMonthDay[v] = null;
+	});
+	// 1 ... 31
+	_.range(1, 32).forEach((v) => {
+		simpleRRule.byMonthDay[v] = null;
+	});
+
+	// 0 ... 6
+	_.range(0, 7).forEach((v) => {
+		simpleRRule.byDay[v] = null;
+	});
+
 	/**
 	 * parsers of supported properties
 	 */
@@ -410,6 +472,8 @@ app.factory('SimpleEvent', function () {
 		},
 		repeating: function (data, vevent) {
 			const iCalEvent = new ICAL.Event(vevent);
+
+
 
 			data.repeating = iCalEvent.isRecurring();
 
