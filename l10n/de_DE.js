@@ -165,7 +165,7 @@ OC.L10N.register(
     "Settings & import" : "Einstellungen & Import",
     "Skip simple event editor" : "Einfachen Termin-Editor überspringen",
     "Show week numbers" : "Kalenderwochen anzeigen",
-    "Import calendar" : "Kalendar importieren",
+    "Import calendar" : "Kalender importieren",
     "No Calendars selected for import" : "Es wurde kein Kalender für den Import ausgewählt",
     "Primary CalDAV address" : "Primäre CalDAV-Adresse",
     "iOS/OS X CalDAV address" : "iOS/OS X CalDAV-Adresse"
