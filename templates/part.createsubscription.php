@@ -38,7 +38,7 @@
 				type="text"
 				ng-disabled="subscription.newSubscriptionLocked"
 				ng-model="subscription.newSubscriptionUrl"
-				placeholder="<?php p($l->t('WebCal-URL')); ?>"
+				placeholder="<?php p($l->t('iCal link')); ?>"
 				autofocus />
 			<input
 				id="submitnewSubscription"
