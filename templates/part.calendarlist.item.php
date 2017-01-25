@@ -91,7 +91,7 @@
 		<li ng-show="item.isWebCal()">
 			<button	ng-click="item.showWebCalUrl()">
 				<span class="icon-link svg"></span>
-				<span><?php p($l->t('WebCal URL')); ?></span>
+				<span><?php p($l->t('iCal link')); ?></span>
 			</button>
 		</li>
 		<li>
