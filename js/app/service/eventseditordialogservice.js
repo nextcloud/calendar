@@ -53,30 +53,18 @@ app.service('EventsEditorDialogService', function($uibModal, constants, settings
 	};
 
 	/**
-	 * set position of popover based on previously calculated position
-	 * @param {object[]} position
-	 */
-	context.positionPopover = (position) => {
-		angular.element('#popover-container').css('display', 'none');
-		angular.forEach(position, (v) => {
-			angular.element('.modal').css(v.name, v.value);
-		});
-		angular.element('#popover-container').css('display', 'block');
-	};
-
-	/**
 	 * open dialog for editing events
 	 * @param {string} template - use EDITOR_POPOVER or EDITOR_SIDEBAR
 	 * @param {resolveCallback} resolve
 	 * @param {rejectCallback} reject
 	 * @param {unlockCallback} unlock
-	 * @param {object[]} position
+	 * @param {string} attachTo
 	 * @param {object} scope
 	 * @param {FcEvent} fcEvent
 	 * @param {SimpleEvent} simpleEvent
 	 * @param {Calendar} calendar
 	 */
-	context.openDialog = (template, resolve, reject, unlock, position, scope, fcEvent, simpleEvent, calendar) => {
+	context.openDialog = (template, resolve, reject, unlock, attachTo, scope, fcEvent, simpleEvent, calendar) => {
 		context.fcEvent = fcEvent;
 		context.eventModal = $uibModal.open({
 			appendTo: (template === EDITOR_POPOVER) ?
@@ -99,7 +87,23 @@ app.service('EventsEditorDialogService', function($uibModal, constants, settings
 			angular.element('#app-content').addClass('with-app-sidebar');
 		}
 
-		context.eventModal.rendered.then(() => context.positionPopover(position));
+		if (template === EDITOR_POPOVER) {
+			context.eventModal.rendered.then(() => {
+				new Tether({
+					element: '.modal.popover',
+					target: attachTo,
+					attachment: 'bottom center',
+					targetAttachment: 'top center',
+					constraints: [
+						{
+							to: 'scrollParent',
+							attachment: 'together',
+							pin: true,
+						}
+					]
+				});
+			});
+		}
 		context.eventModal.result.then((result) => {
 			if (result.action === 'proceed') {
 				context.openDialog(EDITOR_SIDEBAR, resolve, reject, unlock, [], scope, fcEvent, simpleEvent, result.calendar);
@@ -137,12 +141,12 @@ app.service('EventsEditorDialogService', function($uibModal, constants, settings
 	 * open dialog for editing events
 	 * @param {object} scope
 	 * @param {FcEvent} fcEvent
-	 * @param {positionCallback} calculatePosition
+	 * @param {string} attachTo
 	 * @param {lockCallback} lock
 	 * @param {unlockCallback} unlock
 	 * @returns {Promise}
 	 */
-	this.open = function(scope, fcEvent, calculatePosition, lock, unlock) {
+	this.open = function(scope, fcEvent, attachTo, lock, unlock) {
 		// don't reload editor for the same event
 		if (context.fcEvent === fcEvent) {
 			return context.promise;
@@ -154,10 +158,6 @@ app.service('EventsEditorDialogService', function($uibModal, constants, settings
 		}
 
 		context.promise = new Promise(function(resolve, reject) {
-			// calculate position of popover
-			// needs to happen before locking event
-			const position = calculatePosition();
-
 			// lock new fcEvent
 			lock();
 
@@ -166,9 +166,9 @@ app.service('EventsEditorDialogService', function($uibModal, constants, settings
 
 			// skip popover on small devices
 			if (context.showPopover() && !settings.skipPopover) {
-				context.openDialog(EDITOR_POPOVER, resolve, reject, unlock, position, scope, fcEvent, simpleEvent, calendar);
+				context.openDialog(EDITOR_POPOVER, resolve, reject, unlock, attachTo, scope, fcEvent, simpleEvent, calendar);
 			} else {
-				context.openDialog(EDITOR_SIDEBAR, resolve, reject, unlock, [], scope, fcEvent, simpleEvent, calendar);
+				context.openDialog(EDITOR_SIDEBAR, resolve, reject, unlock, null, scope, fcEvent, simpleEvent, calendar);
 			}
 		});
 

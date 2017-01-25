@@ -26,8 +26,8 @@
 * Description: The fullcalendar controller.
 */
 
-app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'VEvent', 'is', 'fc', 'EventsEditorDialogService', 'PopoverPositioningUtility', '$window', 'isPublic', 'constants',
-	function ($scope, Calendar, CalendarService, VEventService, SettingsService, TimezoneService, VEvent, is, fc, EventsEditorDialogService, PopoverPositioningUtility, $window, isPublic, constants) {
+app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'VEvent', 'is', 'fc', 'EventsEditorDialogService', '$window', 'isPublic', 'constants',
+	function ($scope, Calendar, CalendarService, VEventService, SettingsService, TimezoneService, VEvent, is, fc, EventsEditorDialogService, $window, isPublic, constants) {
 		'use strict';
 
 		is.loading = true;
@@ -181,15 +181,7 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 						fcEvent.editable = false;
 						fc.elm.fullCalendar('renderEvent', fcEvent);
 
-						EventsEditorDialogService.open($scope, fcEvent, function() {
-							const elements = angular.element('.' + fcEventClass);
-							const isHidden = angular.element(elements[0]).parents('.fc-limited').length !== 0;
-							if (isHidden) {
-								return PopoverPositioningUtility.calculate(jsEvent.clientX, jsEvent.clientY, jsEvent.clientX, jsEvent.clientY, view);
-							} else {
-								return PopoverPositioningUtility.calculateByTarget(elements[0], view);
-							}
-						}, function() {
+						EventsEditorDialogService.open($scope, fcEvent, '.' + fcEventClass, function() {
 							return null;
 						}, function() {
 							fc.elm.fullCalendar('removeEvents', function(fcEventToCheck) {
@@ -213,13 +205,15 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 					var oldCalendar = vevent.calendar;
 					var fcEvt = fcEvent;
 
-					EventsEditorDialogService.open($scope, fcEvent, function() {
-						return PopoverPositioningUtility.calculateByTarget(jsEvent.currentTarget, view);
-					}, function() {
+					EventsEditorDialogService.open($scope, fcEvent, '.open-event', function() {
 						fcEvt.editable = false;
+						fcEvt.className.push('open-event');
 						fc.elm.fullCalendar('updateEvent', fcEvt);
 					}, function() {
 						fcEvt.editable = fcEvent.calendar.writable;
+						fcEvt.className = fcEvt.className.filter((elm) => {
+							return elm !== 'open-event';
+						});
 						fc.elm.fullCalendar('updateEvent', fcEvt);
 					}).then(function(result) {
 						// was the event moved to another calendar?

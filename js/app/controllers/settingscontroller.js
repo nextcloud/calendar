@@ -60,7 +60,7 @@ app.controller('SettingsController', ['$scope', '$uibModal', '$timeout', 'Settin
 			}
 
 			if (filesArray.length > 0) {
-				$uibModal.open({
+				const modal = $uibModal.open({
 					templateUrl: 'import.html',
 					controller: 'ImportController',
 					windowClass: 'import',
@@ -73,6 +73,16 @@ app.controller('SettingsController', ['$scope', '$uibModal', '$timeout', 'Settin
 						}
 					},
 					scope: $scope
+				});
+
+				modal.rendered.then(() => {
+					new Tether({
+						element: '.modal.import',
+						target: document.body,
+						attachment: 'middle center',
+						targetAttachment: 'middle center',
+						targetModifier: 'visible'
+					});
 				});
 			}
 

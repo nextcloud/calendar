@@ -6,7 +6,6 @@
     "latedef": true,
     "noarg": true,
     "noempty": true,
-    "nonew": true,
     "plusplus": false,
     "node": true,
     "undef": true,
@@ -40,6 +39,7 @@
           "dav": true,
           "hslToRgb": true,
           "autosize": true,
-          "_": true
+          "_": true,
+          "Tether": true
     }
 }

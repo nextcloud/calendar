@@ -64,13 +64,15 @@ const vendorSources = [
 	'vendor/hsl_rgb_converter/converter.js',
 	'vendor/ical.js/build/ical.js',
 	'vendor/jquery-timepicker/jquery.ui.timepicker.js',
+	'vendor/tether/dist/js/tether.js',
 	'vendor/jstzdetect/dist/jstz.js',
 ];
 const vendorCssSources = [
 	'vendor/fullcalendar/dist/fullcalendar.css',
 	'vendor/angular/angular-csp.css',
 	'licenses/jquery.timepicker.css',
-	'vendor/jquery-timepicker/jquery.ui.timepicker.css'
+	'vendor/jquery-timepicker/jquery.ui.timepicker.css',
+	'vendor/tether/dist/css/tether.css',
 ];
 
 const testSources = ['../tests/js/unit/**/*.js'];

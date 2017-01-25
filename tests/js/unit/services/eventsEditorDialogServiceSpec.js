@@ -100,7 +100,6 @@ describe('EventsEditorDialogService', function () {
 			fail('was not supposed to fail');
 		});
 
-		expect(positionCallback).toHaveBeenCalled();
 		expect(lockCallback).toHaveBeenCalled();
 		expect(fcEvent.getSimpleEvent).toHaveBeenCalled();
 		expect($uibModal.open).toHaveBeenCalledWith({
@@ -145,7 +144,6 @@ describe('EventsEditorDialogService', function () {
 			fail('was not supposed to fail');
 		});
 
-		expect(positionCallback).toHaveBeenCalled();
 		expect(lockCallback).toHaveBeenCalled();
 		expect(fcEvent.getSimpleEvent).toHaveBeenCalled();
 		expect($uibModal.open).toHaveBeenCalledWith({
@@ -210,7 +208,6 @@ describe('EventsEditorDialogService', function () {
 			result = r;
 		});
 
-		expect(positionCallback).toHaveBeenCalled();
 		expect(lockCallback).toHaveBeenCalled();
 		expect(fcEvent.getSimpleEvent).toHaveBeenCalled();
 		expect($uibModal.open).toHaveBeenCalledWith({
