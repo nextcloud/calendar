@@ -126,7 +126,6 @@ OC.L10N.register(
     "The file contains objects incompatible with the selected calendar" : "يحوي الملف كائنات غير متوافقة مع التقويم المختار",
     "New calendar" : "مفكرة جديدة",
     "Import scheduled" : "الاستيراد مُجدوَل",
-    "Settings" : "الإعدادات",
     "Import calendar" : "استيراد التقويم",
     "No Calendars selected for import" : "لم تختر تقويمات للاستيراد",
     "Primary CalDAV address" : "الرئيسية CalDAV عناوين",

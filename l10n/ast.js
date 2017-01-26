@@ -127,7 +127,6 @@ OC.L10N.register(
     "The file contains objects incompatible with the selected calendar" : "El ficheru contién oxetos incompatibles col calendariu esbilláu",
     "New calendar" : "Calendariu nuevu",
     "Import scheduled" : "Importar horariu",
-    "Settings" : "Axustes",
     "Skip simple event editor" : "Saltar editor d'eventos simples",
     "Import calendar" : "Importar calendariu",
     "No Calendars selected for import" : "Nun s'esbilló nengún calendariu pa la importación",
