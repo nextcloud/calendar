@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Calendar" : "Kalendārs",
     "Too many redirects. Aborting ..." : "Pārāk daudz novirzīšanas gadījumu. Pārtrauc ...",
+    "Error connecting to remote server" : "Kļūda, veidojot savienojumu ar attālo serveri",
     "Individual" : "Individuāls",
     "Group" : "Grupa",
     "Resource" : "Resurss",
@@ -11,6 +12,7 @@ OC.L10N.register(
     "Required" : "Nepieciešams",
     "Optional" : "Neobligāts",
     "Does not attend" : "Neieradās",
+    "{name} ({email})" : "{name} ({email})",
     "You are in an unknown timezone ({tz}), falling back to UTC" : "Jūs atrodaties nezināmā laika zonā ({tz}), pārslēdz atpakaļ uz UTC",
     "Please create a calendar first." : "Lūdzu vispirms izveido kalendāru.",
     "New event" : "Jauns notikums",
