@@ -27,10 +27,13 @@ const gulp = require('gulp'),
 	babel = require('gulp-babel'),
 	stylelint = require('gulp-stylelint'),
 	sourcemaps = require('gulp-sourcemaps');
+const gulpsync = require('gulp-sync')(gulp);
 
 // configure
-const buildTarget = 'app.min.js';
-const cssBuildTarget = 'app.min.css';
+const buildTarget = 'app.js';
+const buildTargetMin = 'app.min.js';
+const cssBuildTarget = 'app.css';
+const cssBuildTargetMin = 'app.min.css';
 const karmaConfig = __dirname + '/../tests/js/config/karma.js';
 const destinationFolder = __dirname + '/public/';
 const cssDestinationFolder = __dirname + '/../css/public/';
@@ -48,14 +51,14 @@ const watchSources = jsSources.concat(testSources).concat(['*.js']);
 const lintSources = watchSources;
 
 // tasks
-gulp.task('default', ['lint', 'csslint'], () => {
-	// build css
+gulp.task('default', ['lint', 'csslint', 'build']);
+
+gulp.task('build', gulpsync.sync(['buildSources', 'minifySources']));
+
+gulp.task('buildSources', () => {
 	gulp.src(cssSources)
 		.pipe(strip())
-		.pipe(sourcemaps.init({identityMap: true}))
 		.pipe(concat(cssBuildTarget))
-		.pipe(uglifyCSS())
-		.pipe(sourcemaps.write('./'))
 		.pipe(gulp.dest(cssDestinationFolder));
 
 	return gulp.src(jsSources)
@@ -67,15 +70,26 @@ gulp.task('default', ['lint', 'csslint'], () => {
 		}))
 		.pipe(ngAnnotate())
 		.pipe(strip())
-		.pipe(sourcemaps.init({identityMap: true}))
 		.pipe(concat(buildTarget))
 		.pipe(wrap(`(function(angular, $, oc_requesttoken, undefined){
-	'use strict';
-	
 	<%= contents %>
 })(angular, jQuery, oc_requesttoken);`))
+		.pipe(gulp.dest(destinationFolder));
+});
+
+gulp.task('minifySources', () => {
+	gulp.src([cssDestinationFolder + cssBuildTarget])
+		.pipe(concat(cssBuildTargetMin))
+		.pipe(sourcemaps.init({identityMap: true, largeFile: true}))
+		.pipe(uglifyCSS())
+		.pipe(sourcemaps.write('./', {includeContent: false}))
+		.pipe(gulp.dest(cssDestinationFolder));
+
+	return gulp.src([destinationFolder + buildTarget])
+		.pipe(concat(buildTargetMin))
+		.pipe(sourcemaps.init({identityMap: true, largeFile: true}))
 		.pipe(uglify())
-		.pipe(sourcemaps.write('./'))
+		.pipe(sourcemaps.write('./', {includeContent: false}))
 		.pipe(gulp.dest(destinationFolder));
 });
 
