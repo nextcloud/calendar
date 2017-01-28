@@ -34,6 +34,10 @@ const buildTarget = 'app.js';
 const buildTargetMin = 'app.min.js';
 const cssBuildTarget = 'app.css';
 const cssBuildTargetMin = 'app.min.css';
+const vendorTarget = 'vendor.js';
+const vendorTargetMin = 'vendor.min.js';
+const vendorCssTarget = 'vendor.css';
+const vendorCssTargetMin = 'vendor.min.css';
 const karmaConfig = __dirname + '/../tests/js/config/karma.js';
 const destinationFolder = __dirname + '/public/';
 const cssDestinationFolder = __dirname + '/../css/public/';
@@ -45,15 +49,32 @@ const jsSources = [
 const cssSources = [
 	'../css/app/*.css'
 ];
+const vendorSources = [
+	'vendor/angular/angular.js',
+	'vendor/angular-bootstrap/ui-bootstrap-tpls.js',
+	'vendor/fullcalendar/dist/fullcalendar.js',
+	'vendor/fullcalendar/dist/locale-all.js',
+	'licenses/hsl_rgb_converter.js',
+	'vendor/hsl_rgb_converter/converter.js',
+	'vendor/ical.js/build/ical.js',
+	'vendor/jquery-timepicker/jquery.ui.timepicker.js',
+	'vendor/jstzdetect/jstz.js',
+];
+const vendorCssSources = [
+	'vendor/fullcalendar/dist/fullcalendar.css',
+	'vendor/jquery-timepicker/jquery.ui.timepicker.css'
+];
 
 const testSources = ['../tests/js/unit/**/*.js'];
 const watchSources = jsSources.concat(testSources).concat(['*.js']);
 const lintSources = watchSources;
 
 // tasks
-gulp.task('default', ['lint', 'csslint', 'build']);
+gulp.task('default', ['lint', 'csslint', 'buildSource', 'buildVendor']);
+gulp.task('build', ['lint', 'csslint', 'buildSource']);
 
-gulp.task('build', gulpsync.sync(['buildSources', 'minifySources']));
+gulp.task('buildSource', gulpsync.sync(['buildSources', 'minifySources']));
+gulp.task('buildVendor', gulpsync.sync(['buildVendor', 'minifyVendor']));
 
 gulp.task('buildSources', () => {
 	gulp.src(cssSources)
@@ -87,6 +108,32 @@ gulp.task('minifySources', () => {
 
 	return gulp.src([destinationFolder + buildTarget])
 		.pipe(concat(buildTargetMin))
+		.pipe(sourcemaps.init({identityMap: true, largeFile: true}))
+		.pipe(uglify())
+		.pipe(sourcemaps.write('./', {includeContent: false}))
+		.pipe(gulp.dest(destinationFolder));
+});
+
+gulp.task('buildVendor', () => {
+	gulp.src(vendorCssSources)
+		.pipe(concat(vendorCssTarget))
+		.pipe(gulp.dest(cssDestinationFolder));
+
+	return gulp.src(vendorSources)
+		.pipe(concat(vendorTarget))
+		.pipe(gulp.dest(destinationFolder));
+});
+
+gulp.task('minifyVendor', () => {
+	gulp.src([cssDestinationFolder + vendorCssTarget])
+		.pipe(concat(vendorCssTargetMin))
+		.pipe(sourcemaps.init({identityMap: true, largeFile: true}))
+		.pipe(uglifyCSS())
+		.pipe(sourcemaps.write('./', {includeContent: false}))
+		.pipe(gulp.dest(cssDestinationFolder));
+
+	return gulp.src([destinationFolder + vendorTarget])
+		.pipe(concat(vendorTargetMin))
 		.pipe(sourcemaps.init({identityMap: true, largeFile: true}))
 		.pipe(uglify())
 		.pipe(sourcemaps.write('./', {includeContent: false}))
