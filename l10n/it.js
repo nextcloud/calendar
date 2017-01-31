@@ -118,6 +118,7 @@ OC.L10N.register(
     "More" : "Altro",
     "Edit" : "Modifica",
     "Link" : "Collegamento",
+    "iCal link" : "Collegamento iCal",
     "Download" : "Scarica",
     "Share with users or groups" : "Condividi con utenti o gruppi",
     "can edit" : "può modificare",
