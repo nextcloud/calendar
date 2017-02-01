@@ -2,6 +2,7 @@ OC.L10N.register(
     "calendar",
     {
     "Calendar" : "Kalender",
+    "Error connecting to remote server" : "Feil ved opprettelsen av forbindelse til tjeneren",
     "%s has published the calendar \"%s\"" : "%s har publisert kalenderen \"%s\"",
     "Individual" : "Individuel",
     "Group" : "Gruppe",
@@ -109,6 +110,7 @@ OC.L10N.register(
     "More" : "Mer",
     "Edit" : "Endre",
     "Link" : "Lenke",
+    "iCal link" : "iCal lenke",
     "Download" : "Last ned",
     "Share with users or groups" : "Del med brukere eller grupper",
     "can edit" : "kan endre",
@@ -149,6 +151,7 @@ OC.L10N.register(
     "File is empty" : "Filen er tom",
     "Import scheduled" : "Importer planlagte",
     "Iframe to integrate" : "Iframe du vil integrere",
+    "Settings & import" : "Innstillinger og import",
     "Skip simple event editor" : "Hopp over enkelt hendelsesredigering",
     "Show week numbers" : "Vis ukenumre",
     "Import calendar" : "Importer kalender",
