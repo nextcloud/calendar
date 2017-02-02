@@ -142,20 +142,18 @@ appstore:
 	"l10n" \
 	"templates" \
 	"timezones" \
+	"css/public/app.css" \
 	"css/public/app.min.css" \
+	"css/public/app.min.css.map" \
+	"css/public/vendor.css" \
+	"css/public/vendor.min.css" \
+	"css/public/vendor.min.css.map" \
+	"js/public/app.js" \
 	"js/public/app.min.js" \
-	"js/vendor/fullcalendar/dist/fullcalendar.css" \
-	"js/vendor/jquery-timepicker/jquery.ui.timepicker.css" \
-	"js/vendor/jquery-timepicker/jquery.ui.timepicker.js" \
-	"js/vendor/ical.js/build/ical.js" \
-	"js/vendor/jstzdetect/jstz.js" \
-	"js/vendor/angular/angular.js" \
-	"js/vendor/angular-bootstrap/ui-bootstrap.js" \
-	"js/vendor/angular-bootstrap/ui-bootstrap-tpls.js" \
-	"js/vendor/fullcalendar/dist/fullcalendar.js" \
-	"js/vendor/fullcalendar/dist/locale-all.js" \
-	"js/vendor/davclient.js/lib/client.js" \
-	"js/vendor/hsl_rgb_converter/converter.js" \
+	"js/public/app.min.js.map" \
+	"js/public/vendor.js" \
+	"js/public/vendor.min.js" \
+	"js/public/vendor.min.js.map" \
 	"js/vendor/autosize/dist/autosize.js" \
 	"COPYING" \
 	"CHANGELOG.md" \
