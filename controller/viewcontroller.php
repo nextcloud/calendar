@@ -23,6 +23,7 @@
  */
 namespace OCA\Calendar\Controller;
 
+use OC\AppFramework\Http\Request;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -111,6 +112,7 @@ class ViewController extends Controller {
 		}
 		
 		$webCalWorkaround = $runningOnNextcloud10OrLater ? 'no' : 'yes';
+		$isIE = $this->request->isUserAgent([Request::USER_AGENT_IE]);
 
 		return new TemplateResponse('calendar', 'main', [
 			'appVersion' => $appVersion,
@@ -123,6 +125,7 @@ class ViewController extends Controller {
 			'defaultColor' => $defaultColor,
 			'webCalWorkaround' => $webCalWorkaround,
 			'isPublic' => false,
+			'isIE' => $isIE,
 			'needsAutosize' => $needsAutosize,
 		]);
 	}
@@ -148,6 +151,7 @@ class ViewController extends Controller {
 		}
 
 		$appVersion = $this->config->getAppValue($this->appName, 'installed_version');
+		$isIE = $this->request->isUserAgent([Request::USER_AGENT_IE]);
 
 		$response = new TemplateResponse('calendar', 'main', [
 			'appVersion' => $appVersion,
@@ -157,6 +161,7 @@ class ViewController extends Controller {
 			'weekNumbers' => 'no',
 			'supportsClass' => $supportsClass,
 			'firstRun' => 'no',
+			'isIE' => $isIE,
 			'webCalWorkaround' => 'no',
 			'isPublic' => true,
 			'shareURL' => $this->request->getServerProtocol() . '://' . $this->request->getServerHost() . $this->request->getRequestUri(),

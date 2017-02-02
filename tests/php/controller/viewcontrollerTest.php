@@ -60,7 +60,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @dataProvider indexDataProvider
 	 */
-	public function testIndex($isAssetPipelineEnabled, $showAssetPipelineError, $serverVersion, $expectsSupportsClass, $expectsWebcalWorkaround, $needsAutosize) {
+	public function testIndex($isAssetPipelineEnabled, $showAssetPipelineError, $serverVersion, $expectsSupportsClass, $expectsWebcalWorkaround, $needsAutosize, $isIE) {
 		$this->config->expects($this->at(0))
 			->method('getSystemValue')
 			->with('version')
@@ -70,6 +70,13 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 			->method('getSystemValue')
 			->with('asset-pipeline.enabled', false)
 			->will($this->returnValue($isAssetPipelineEnabled));
+
+		if (!$showAssetPipelineError) {
+			$this->request->expects($this->once())
+				->method('isUserAgent')
+				->with(['/(MSIE)|(Trident)/'])
+				->will($this->returnValue($isIE));
+		}
 
 		if ($showAssetPipelineError) {
 			$actual = $this->controller->index();
@@ -135,6 +142,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 				'webCalWorkaround' => $expectsWebcalWorkaround,
 				'isPublic' => false,
 				'needsAutosize' => $needsAutosize,
+				'isIE' => $isIE,
 			], $actual->getParams());
 			$this->assertEquals('main', $actual->getTemplateName());
 		}
@@ -143,11 +151,12 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 
 	public function indexDataProvider() {
 		return [
-			[true, true, '9.0.5.2', false, 'yes', true],
-			[true, false, '9.1.0.0', true, 'no', true],
-			[false, false, '9.0.5.2', false, 'yes', true],
-			[false, false, '9.1.0.0', true, 'no', true],
-			[false, false, '11.0.1', true, 'no', false],
+			[true, true, '9.0.5.2', false, 'yes', true, false],
+			[true, false, '9.1.0.0', true, 'no', true, false],
+			[false, false, '9.0.5.2', false, 'yes', true, false],
+			[false, false, '9.1.0.0', true, 'no', true, false],
+			[false, false, '11.0.1', true, 'no', false, false],
+			[false, false, '11.0.1', true, 'no', false, true],
 		];
 	}
 
@@ -160,6 +169,11 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 		$this->config->expects($this->at(1))
 			->method('getSystemValue')
 			->with('asset-pipeline.enabled', false)
+			->will($this->returnValue(false));
+
+		$this->request->expects($this->once())
+			->method('isUserAgent')
+			->with(['/(MSIE)|(Trident)/'])
 			->will($this->returnValue(false));
 
 		$this->userSession->expects($this->once())
@@ -219,6 +233,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 			'webCalWorkaround' => 'no',
 			'isPublic' => false,
 			'needsAutosize' => true,
+			'isIE' => false,
 		], $actual->getParams());
 		$this->assertEquals('main', $actual->getTemplateName());
 	}
@@ -235,6 +250,11 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 		$this->config->expects($this->at(1))
 			->method('getSystemValue')
 			->with('asset-pipeline.enabled', false)
+			->will($this->returnValue(false));
+
+		$this->request->expects($this->once())
+			->method('isUserAgent')
+			->with(['/(MSIE)|(Trident)/'])
 			->will($this->returnValue(false));
 
 		$this->userSession->expects($this->once())
@@ -300,6 +320,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 			'webCalWorkaround' => 'no',
 			'isPublic' => false,
 			'needsAutosize' => true,
+			'isIE' => false,
 		], $actual->getParams());
 		$this->assertEquals('main', $actual->getTemplateName());
 	}
@@ -314,7 +335,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @dataProvider indexPublicDataProvider
 	 */
-	public function testPublicIndex($isAssetPipelineEnabled, $showAssetPipelineError, $serverVersion, $expectsSupportsClass, $needsAutosize) {
+	public function testPublicIndex($isAssetPipelineEnabled, $showAssetPipelineError, $serverVersion, $expectsSupportsClass, $needsAutosize, $isIE) {
 		$this->config->expects($this->at(0))
 			->method('getSystemValue')
 			->with('version')
@@ -324,6 +345,13 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 			->method('getSystemValue')
 			->with('asset-pipeline.enabled', false)
 			->will($this->returnValue($isAssetPipelineEnabled));
+
+		if (!$showAssetPipelineError) {
+			$this->request->expects($this->once())
+				->method('isUserAgent')
+				->with(['/(MSIE)|(Trident)/'])
+				->will($this->returnValue($isIE));
+		}
 
 		if ($showAssetPipelineError) {
 			$actual = $this->controller->index();
@@ -353,6 +381,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 				'firstRun' => 'no',
 				'webCalWorkaround' => 'no',
 				'needsAutosize' => $needsAutosize,
+				'isIE' => $isIE,
 			], $actual->getParams());
 			$this->assertEquals('main', $actual->getTemplateName());
 		}
@@ -361,11 +390,12 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 
 	public function indexPublicDataProvider() {
 		return [
-			[true, true, '9.0.5.2', false, true],
-			[true, false, '9.1.0.0', true, true],
-			[false, false, '9.0.5.2', false, true],
-			[false, false, '9.1.0.0', true, true],
-			[false, false, '11.0.0', true, false],
+			[true, true, '9.0.5.2', false, true, false],
+			[true, false, '9.1.0.0', true, true, false],
+			[false, false, '9.0.5.2', false, true, false],
+			[false, false, '9.1.0.0', true, true, false],
+			[false, false, '11.0.0', true, false, false],
+			[false, false, '11.0.0', true, false, true],
 		];
 	}
 }
