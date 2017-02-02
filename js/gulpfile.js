@@ -23,7 +23,8 @@ const gulp = require('gulp'),
 	KarmaServer = require('karma').Server,
 	concat = require('gulp-concat'),
 	wrap = require('gulp-wrap'),
-	strip = require('gulp-strip-banner'),
+	strip = require('gulp-strip-comments'),
+	stripCSS = require('gulp-strip-css-comments'),
 	babel = require('gulp-babel'),
 	stylelint = require('gulp-stylelint'),
 	sourcemaps = require('gulp-sourcemaps');
@@ -62,6 +63,7 @@ const vendorSources = [
 ];
 const vendorCssSources = [
 	'vendor/fullcalendar/dist/fullcalendar.css',
+	'licenses/jquery.timepicker.css',
 	'vendor/jquery-timepicker/jquery.ui.timepicker.css'
 ];
 
@@ -70,15 +72,17 @@ const watchSources = jsSources.concat(testSources).concat(['*.js']);
 const lintSources = watchSources;
 
 // tasks
-gulp.task('default', ['lint', 'csslint', 'buildSource', 'buildVendor']);
-gulp.task('build', ['lint', 'csslint', 'buildSource']);
+gulp.task('default', ['lint', 'csslint', 'buildS', 'vendor']);
+gulp.task('build', ['lint', 'csslint', 'buildS']);
 
-gulp.task('buildSource', gulpsync.sync(['buildSources', 'minifySources']));
-gulp.task('buildVendor', gulpsync.sync(['buildVendor', 'minifyVendor']));
+gulp.task('buildS', gulpsync.sync(['buildSources', 'minifySources']));
+gulp.task('vendor', gulpsync.sync(['buildVendor', 'minifyVendor']));
 
 gulp.task('buildSources', () => {
 	gulp.src(cssSources)
-		.pipe(strip())
+		.pipe(stripCSS({
+			preserve: false
+		}))
 		.pipe(concat(cssBuildTarget))
 		.pipe(gulp.dest(cssDestinationFolder));
 
@@ -128,6 +132,9 @@ gulp.task('minifyVendor', () => {
 	gulp.src([cssDestinationFolder + vendorCssTarget])
 		.pipe(concat(vendorCssTargetMin))
 		.pipe(sourcemaps.init({identityMap: true, largeFile: true}))
+		.pipe(stripCSS({
+			preserve: false
+		}))
 		.pipe(uglifyCSS())
 		.pipe(sourcemaps.write('./', {includeContent: false}))
 		.pipe(gulp.dest(cssDestinationFolder));
@@ -135,6 +142,7 @@ gulp.task('minifyVendor', () => {
 	return gulp.src([destinationFolder + vendorTarget])
 		.pipe(concat(vendorTargetMin))
 		.pipe(sourcemaps.init({identityMap: true, largeFile: true}))
+		.pipe(strip())
 		.pipe(uglify())
 		.pipe(sourcemaps.write('./', {includeContent: false}))
 		.pipe(gulp.dest(destinationFolder));

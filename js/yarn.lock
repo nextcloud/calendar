@@ -1051,16 +1051,12 @@ date-now@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/date-now/-/date-now-0.1.4.tgz#eaf439fd4d4848ad74e5cc7dbef200672b9e345b"
 
-dateformat@^1.0.6:
+dateformat@^1.0.11, dateformat@^1.0.6:
   version "1.0.12"
   resolved "https://registry.yarnpkg.com/dateformat/-/dateformat-1.0.12.tgz#9f124b67594c937ff706932e4a642cca8dbbfee9"
   dependencies:
     get-stdin "^4.0.1"
     meow "^3.3.0"
-
-dateformat@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/dateformat/-/dateformat-2.0.0.tgz#2743e3abb5c3fc2462e527dca445e04e9f4dee17"
 
 debug-fabulous@0.0.X:
   version "0.0.4"
@@ -1089,6 +1085,12 @@ debug@2.X, debug@^2.1.1, debug@^2.2.0:
 decamelize@^1.0.0, decamelize@^1.1.1, decamelize@^1.1.2:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/decamelize/-/decamelize-1.2.0.tgz#f6534d15148269b20352e7bee26f501f9a191290"
+
+decomment@^0.8.6:
+  version "0.8.7"
+  resolved "https://registry.yarnpkg.com/decomment/-/decomment-0.8.7.tgz#248f2116f6ce3a8e8dd1b63e5b35aba5ca054ca5"
+  dependencies:
+    esprima "3.1"
 
 deep-extend@^0.4.1, deep-extend@~0.4.0:
   version "0.4.1"
@@ -1306,6 +1308,10 @@ escodegen@1.8.x:
 esprima@2.7.x, esprima@^2.6.0, esprima@^2.7.1:
   version "2.7.3"
   resolved "https://registry.yarnpkg.com/esprima/-/esprima-2.7.3.tgz#96e3b70d5779f6ad49cd032673d1c312767ba581"
+
+esprima@3.1:
+  version "3.1.3"
+  resolved "https://registry.yarnpkg.com/esprima/-/esprima-3.1.3.tgz#fdca51cee6133895e3c88d535ce49dbff62a4633"
 
 estraverse@^1.9.1:
   version "1.9.3"
@@ -1818,13 +1824,21 @@ gulp-sourcemaps@^2.4.0:
     through2 "2.X"
     vinyl "1.X"
 
-gulp-strip-banner@0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/gulp-strip-banner/-/gulp-strip-banner-0.0.2.tgz#8d3c046552c13d2d844692349f2db985c61c952b"
+gulp-strip-comments@^2.4.3:
+  version "2.4.3"
+  resolved "https://registry.yarnpkg.com/gulp-strip-comments/-/gulp-strip-comments-2.4.3.tgz#e219b7c7beac1aba6c36e0aff1db7c5ae2c1c1b0"
   dependencies:
-    gulp-util "^3.0.1"
-    strip-comments "^0.3.2"
-    through2 "^0.6.1"
+    decomment "^0.8.6"
+    gulp-util "3.0.7"
+    through2 "^2.0.1"
+
+gulp-strip-css-comments@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/gulp-strip-css-comments/-/gulp-strip-css-comments-1.2.0.tgz#fe79863ce32f50dd4cbe8d0db56f476c86cfb9b8"
+  dependencies:
+    gulp-util "^3.0.0"
+    strip-css-comments "^3.0.0"
+    through2 "^2.0.0"
 
 gulp-stylelint@^3.7.0:
   version "3.7.0"
@@ -1863,15 +1877,15 @@ gulp-uglifycss@^1.0.6:
     through2 "~2.0.1"
     uglifycss "~0.0.20"
 
-gulp-util@^3.0.0, gulp-util@^3.0.1, gulp-util@^3.0.3, gulp-util@^3.0.7, gulp-util@~3.0.7:
-  version "3.0.8"
-  resolved "https://registry.yarnpkg.com/gulp-util/-/gulp-util-3.0.8.tgz#0054e1e744502e27c04c187c3ecc505dd54bbb4f"
+gulp-util@3.0.7, gulp-util@^3.0.0, gulp-util@^3.0.3, gulp-util@^3.0.7, gulp-util@~3.0.7:
+  version "3.0.7"
+  resolved "https://registry.yarnpkg.com/gulp-util/-/gulp-util-3.0.7.tgz#78925c4b8f8b49005ac01a011c557e6218941cbb"
   dependencies:
     array-differ "^1.0.0"
     array-uniq "^1.0.2"
     beeper "^1.0.0"
     chalk "^1.0.0"
-    dateformat "^2.0.0"
+    dateformat "^1.0.11"
     fancy-log "^1.1.0"
     gulplog "^1.0.0"
     has-gulplog "^0.1.0"
@@ -3924,9 +3938,11 @@ strip-bom@^2.0.0:
   dependencies:
     is-utf8 "^0.2.0"
 
-strip-comments@^0.3.2:
-  version "0.3.4"
-  resolved "https://registry.yarnpkg.com/strip-comments/-/strip-comments-0.3.4.tgz#e1cb91b86de432540d13db2da8e81ae0d4e2ecbf"
+strip-css-comments@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/strip-css-comments/-/strip-css-comments-3.0.0.tgz#7a5625eff8a2b226cf8947a11254da96e13dae89"
+  dependencies:
+    is-regexp "^1.0.0"
 
 strip-indent@^1.0.1:
   version "1.0.1"
