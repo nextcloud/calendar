@@ -37,6 +37,8 @@ const cssBuildTarget = 'app.css';
 const cssBuildTargetMin = 'app.min.css';
 const vendorTarget = 'vendor.js';
 const vendorTargetMin = 'vendor.min.js';
+const vendorIETarget = 'vendor.ie.js';
+const vendorIETargetMin = 'vendor.ie.min.js';
 const vendorCssTarget = 'vendor.css';
 const vendorCssTargetMin = 'vendor.min.css';
 const karmaConfig = __dirname + '/../tests/js/config/karma.js';
@@ -123,6 +125,10 @@ gulp.task('buildVendor', () => {
 		.pipe(concat(vendorCssTarget))
 		.pipe(gulp.dest(cssDestinationFolder));
 
+	gulp.src(['node_modules/babel-polyfill/dist/polyfill.js'].concat(vendorSources))
+		.pipe(concat(vendorIETarget))
+		.pipe(gulp.dest(destinationFolder));
+
 	return gulp.src(vendorSources)
 		.pipe(concat(vendorTarget))
 		.pipe(gulp.dest(destinationFolder));
@@ -138,6 +144,14 @@ gulp.task('minifyVendor', () => {
 		.pipe(uglifyCSS())
 		.pipe(sourcemaps.write('./', {includeContent: false}))
 		.pipe(gulp.dest(cssDestinationFolder));
+
+	gulp.src([destinationFolder + vendorIETarget])
+		.pipe(concat(vendorIETargetMin))
+		.pipe(sourcemaps.init({identityMap: true, largeFile: true}))
+		.pipe(strip())
+		.pipe(uglify())
+		.pipe(sourcemaps.write('./', {includeContent: false}))
+		.pipe(gulp.dest(destinationFolder));
 
 	return gulp.src([destinationFolder + vendorTarget])
 		.pipe(concat(vendorTargetMin))
