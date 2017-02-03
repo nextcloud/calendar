@@ -71,14 +71,14 @@
 }
 
 .datepicker-heading .btn-arrow {
-	padding-bottom: 9px;
-	padding-top: 10px;
-	padding-left: 2px;
 	margin-right: 0;
+	height: 36px;
+	min-width: 25px;
+	padding: 5px;
 }
 
 .datepicker-heading .btn-date {
-	width: 180px;
+	width: 181px;
 	height: 36px;
 	margin-left: 4px;
 }
