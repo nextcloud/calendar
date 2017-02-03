@@ -64,10 +64,10 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 	];
 
 	const UPDATABLE_PROPERTIES_MAP = {
-		color: 'a:calendar-color',
-		displayname: 'd:displayname',
-		enabled: 'o:calendar-enabled',
-		order: 'a:calendar-order'
+		color: [DavClient.NS_APPLE, 'a:calendar-color'],
+		displayname: [DavClient.NS_DAV, 'd:displayname'],
+		enabled: [DavClient.NS_OWNCLOUD, 'o:calendar-enabled'],
+		order: [DavClient.NS_APPLE, 'a:calendar-order']
 	};
 
 	const SHARE_USER = constants.SHARE_TYPE_USER;
@@ -287,35 +287,37 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 	 */
 	this.create = function(name, color, components=['vevent', 'vtodo']) {
 		return context.bootPromise.then(function() {
-			const [skeleton, dPropChildren] = XMLUtility.getRootSkeleton('d:mkcol', 'd:set', 'd:prop');
+			const [skeleton, dPropChildren] = XMLUtility.getRootSkeleton(
+				[DavClient.NS_DAV, 'd:mkcol'], [DavClient.NS_DAV, 'd:set'],
+				[DavClient.NS_DAV, 'd:prop']);
 			dPropChildren.push({
-				name: 'd:resourcetype',
+				name: [DavClient.NS_DAV, 'd:resourcetype'],
 				children: [{
-					name: 'd:collection'
+					name: [DavClient.NS_DAV, 'd:collection']
 				}, {
-					name: 'c:calendar'
+					name: [DavClient.NS_IETF, 'c:calendar']
 				}]
 			});
 			dPropChildren.push({
-				name: 'd:displayname',
+				name: [DavClient.NS_DAV, 'd:displayname'],
 				value: name
 			});
 			dPropChildren.push({
-				name: 'a:calendar-color',
+				name: [DavClient.NS_APPLE, 'a:calendar-color'],
 				value: color
 			});
 			dPropChildren.push({
-				name: 'o:calendar-enabled',
+				name: [DavClient.NS_OWNCLOUD, 'o:calendar-enabled'],
 				value: '1'
 			});
 			dPropChildren.push({
-				name: 'c:supported-calendar-component-set',
+				name: [DavClient.NS_IETF, 'c:supported-calendar-component-set'],
 				children: components.map(function(component) {
 					return {
-						name: 'c:comp',
-						attributes: {
-							name: component.toUpperCase()
-						}
+						name: [DavClient.NS_IETF, 'c:comp'],
+						attributes: [
+							['name', component.toUpperCase()]
+						]
 					};
 				})
 			});
@@ -357,31 +359,33 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 	 */
 	this.createWebCal = function(name, color, source) {
 		return context.bootPromise.then(function() {
-			const [skeleton, dPropChildren] = XMLUtility.getRootSkeleton('d:mkcol', 'd:set', 'd:prop');
+			const [skeleton, dPropChildren] = XMLUtility.getRootSkeleton(
+				[DavClient.NS_DAV, 'd:mkcol'], [DavClient.NS_DAV, 'd:set'],
+				[DavClient.NS_DAV, 'd:prop']);
 			dPropChildren.push({
-				name: 'd:resourcetype',
+				name: [DavClient.NS_DAV, 'd:resourcetype'],
 				children: [{
-					name: 'd:collection'
+					name: [DavClient.NS_DAV, 'd:collection']
 				}, {
-					name: 'cs:subscribed'
+					name: [DavClient.NS_CALENDARSERVER, 'cs:subscribed']
 				}]
 			});
 			dPropChildren.push({
-				name: 'd:displayname',
+				name: [DavClient.NS_DAV, 'd:displayname'],
 				value: name
 			});
 			dPropChildren.push({
-				name: 'a:calendar-color',
+				name: [DavClient.NS_APPLE, 'a:calendar-color'],
 				value: color
 			});
 			dPropChildren.push({
-				name: 'o:calendar-enabled',
+				name: [DavClient.NS_OWNCLOUD, 'o:calendar-enabled'],
 				value: '1'
 			});
 			dPropChildren.push({
-				name: 'cs:source',
+				name: [DavClient.NS_CALENDARSERVER, 'cs:source'],
 				children: [{
-					name: 'd:href',
+					name: [DavClient.NS_DAV, 'd:href'],
 					value: source
 				}]
 			});
@@ -439,7 +443,9 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 			return Promise.resolve(calendar);
 		}
 
-		const [skeleton, dPropChildren] = XMLUtility.getRootSkeleton('d:propertyupdate', 'd:set', 'd:prop');
+		const [skeleton, dPropChildren] = XMLUtility.getRootSkeleton(
+			[DavClient.NS_DAV, 'd:propertyupdate'], [DavClient.NS_DAV, 'd:set'],
+			[DavClient.NS_DAV, 'd:prop']);
 		updatedProperties.forEach(function(name) {
 			if (UPDATABLE_PROPERTIES.indexOf(name) === -1) {
 				return;
@@ -452,9 +458,9 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 
 			if (name === 'storedUrl') {
 				dPropChildren.push({
-					name: 'cs:source',
+					name: [DavClient.NS_CALENDARSERVER, 'cs:source'],
 					children: [{
-						name: 'd:href',
+						name: [DavClient.NS_DAV, 'd:href'],
 						value: value
 					}]
 				});
@@ -517,15 +523,16 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 	 * @returns {Promise}
 	 */
 	privateAPI.share = function(calendar, shareType, shareWith, writable, existingShare) {
-		const [skeleton, oSetChildren] = XMLUtility.getRootSkeleton('o:share', 'o:set');
+		const [skeleton, oSetChildren] = XMLUtility.getRootSkeleton(
+			[DavClient.NS_OWNCLOUD, 'o:share'], [DavClient.NS_OWNCLOUD, 'o:set']);
 
 		const hrefValue = context.getShareValue(shareType, shareWith);
 		oSetChildren.push({
-			name: 'd:href',
+			name: [DavClient.NS_DAV, 'd:href'],
 			value: hrefValue
 		});
 		oSetChildren.push({
-			name: 'o:summary',
+			name: [DavClient.NS_OWNCLOUD, 'o:summary'],
 			value: t('calendar', '{calendar} shared by {owner}', {
 				calendar: calendar.displayname,
 				owner: calendar.owner
@@ -533,7 +540,7 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 		});
 		if (writable) {
 			oSetChildren.push({
-				name: 'o:read-write'
+				name: [DavClient.NS_OWNCLOUD, 'o:read-write']
 			});
 		}
 
@@ -579,11 +586,12 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 	 * @returns {Promise}
 	 */
 	privateAPI.unshare = function(calendar, shareType, shareWith) {
-		const [skeleton, oRemoveChildren] = XMLUtility.getRootSkeleton('o:share', 'o:remove');
+		const [skeleton, oRemoveChildren] = XMLUtility.getRootSkeleton(
+			[DavClient.NS_OWNCLOUD, 'o:share'], [DavClient.NS_OWNCLOUD, 'o:remove']);
 
 		const hrefValue = context.getShareValue(shareType, shareWith);
 		oRemoveChildren.push({
-			name: 'd:href',
+			name: [DavClient.NS_DAV, 'd:href'],
 			value: hrefValue
 		});
 
@@ -620,7 +628,8 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 	 * @returns {Promise}
 	 */
 	privateAPI.publish = function(calendar) {
-		const [skeleton] = XMLUtility.getRootSkeleton('cs:publish-calendar');
+		const [skeleton] = XMLUtility.getRootSkeleton(
+			[DavClient.NS_CALENDARSERVER, 'cs:publish-calendar']);
 
 		const method = 'POST';
 		const url = calendar.url;
@@ -647,7 +656,8 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 	 * @returns {Promise}
 	 */
 	privateAPI.unpublish = function(calendar) {
-		const [skeleton] = XMLUtility.getRootSkeleton('cs:unpublish-calendar');
+		const [skeleton] = XMLUtility.getRootSkeleton(
+			[DavClient.NS_CALENDARSERVER, 'cs:unpublish-calendar']);
 
 		const method = 'POST';
 		const url = calendar.url;

@@ -62,32 +62,32 @@ describe('VEventService', function () {
 
 		const getAllRequest = VEventService.getAll(calendar, start, end);
 
-		expect(XMLUtility.getRootSkeleton).toHaveBeenCalledWith('c:calendar-query');
+		expect(XMLUtility.getRootSkeleton).toHaveBeenCalledWith(['*NSIETF*', 'c:calendar-query']);
 		expect(dPropChildren).toEqual([{
-			name: 'd:prop',
+			name: ['*NSDAV*', 'd:prop'],
 			children: [{
-				name: 'd:getetag'
+				name: ['*NSDAV*', 'd:getetag']
 			}, {
-				name: 'c:calendar-data'
+				name: ['*NSIETF*', 'c:calendar-data']
 			}]
 		}, {
-			name: 'c:filter',
+			name: ['*NSIETF*', 'c:filter'],
 			children: [{
-				name: 'c:comp-filter',
-				attributes: {
-					name: 'VCALENDAR'
-				},
+				name: ['*NSIETF*', 'c:comp-filter'],
+				attributes: [
+					['name', 'VCALENDAR']
+				],
 				children: [{
-					name: 'c:comp-filter',
-					attributes: {
-						name: 'VEVENT'
-					},
+					name: ['*NSIETF*', 'c:comp-filter'],
+					attributes: [
+						['name', 'VEVENT']
+					],
 					children: [{
-						name: 'c:time-range',
-						attributes: {
-							start: '20160828T070000Z',
-							end: '20161002T065959Z'
-						}
+						name: ['*NSIETF*', 'c:time-range'],
+						attributes: [
+							['start', '20160828T070000Z'],
+							['end', '20161002T065959Z']
+						]
 					}]
 				}]
 			}]
@@ -160,32 +160,32 @@ describe('VEventService', function () {
 
 		const getAllRequest = VEventService.getAll(calendar, start, end);
 
-		expect(XMLUtility.getRootSkeleton).toHaveBeenCalledWith('c:calendar-query');
+		expect(XMLUtility.getRootSkeleton).toHaveBeenCalledWith(['*NSIETF*', 'c:calendar-query']);
 		expect(dPropChildren).toEqual([{
-			name: 'd:prop',
+			name: ['*NSDAV*', 'd:prop'],
 			children: [{
-				name: 'd:getetag'
+				name: ['*NSDAV*', 'd:getetag']
 			}, {
-				name: 'c:calendar-data'
+				name: ['*NSIETF*', 'c:calendar-data']
 			}]
 		}, {
-			name: 'c:filter',
+			name: ['*NSIETF*', 'c:filter'],
 			children: [{
-				name: 'c:comp-filter',
-				attributes: {
-					name: 'VCALENDAR'
-				},
+				name: ['*NSIETF*', 'c:comp-filter'],
+				attributes: [
+					['name', 'VCALENDAR']
+				],
 				children: [{
-					name: 'c:comp-filter',
-					attributes: {
-						name: 'VEVENT'
-					},
+					name: ['*NSIETF*', 'c:comp-filter'],
+					attributes: [
+						['name', 'VEVENT']
+					],
 					children: [{
-						name: 'c:time-range',
-						attributes: {
-							start: '20160828T070000Z',
-							end: '20161002T065959Z'
-						}
+						name: ['*NSIETF*', 'c:time-range'],
+						attributes: [
+							['start', '20160828T070000Z'],
+							['end', '20161002T065959Z']
+						]
 					}]
 				}]
 			}]

@@ -57,33 +57,33 @@ app.service('VEventService', function(DavClient, StringUtility, XMLUtility, VEve
 	 * @returns {Promise}
 	 */
 	this.getAll = function (calendar, start, end) {
-		const [skeleton, dPropChildren] = XMLUtility.getRootSkeleton('c:calendar-query');
+		const [skeleton, dPropChildren] = XMLUtility.getRootSkeleton([DavClient.NS_IETF, 'c:calendar-query']);
 		dPropChildren.push({
-			name: 'd:prop',
+			name: [DavClient.NS_DAV, 'd:prop'],
 			children: [{
-				name: 'd:getetag'
+				name: [DavClient.NS_DAV, 'd:getetag']
 			}, {
-				name: 'c:calendar-data'
+				name: [DavClient.NS_IETF, 'c:calendar-data']
 			}]
 		});
 		dPropChildren.push({
-			name: 'c:filter',
+			name: [DavClient.NS_IETF, 'c:filter'],
 			children: [{
-				name: 'c:comp-filter',
-				attributes: {
-					name: 'VCALENDAR'
-				},
+				name: [DavClient.NS_IETF, 'c:comp-filter'],
+				attributes: [
+					['name', 'VCALENDAR']
+				],
 				children: [{
-					name: 'c:comp-filter',
-					attributes: {
-						name: 'VEVENT'
-					},
+					name: [DavClient.NS_IETF, 'c:comp-filter'],
+					attributes: [
+						['name', 'VEVENT']
+					],
 					children: [{
-						name: 'c:time-range',
-						attributes: {
-							start: context.getTimeRangeString(start),
-							end: context.getTimeRangeString(end)
-						}
+						name: [DavClient.NS_IETF, 'c:time-range'],
+						attributes: [
+							['start', context.getTimeRangeString(start)],
+							['end', context.getTimeRangeString(end)]
+						]
 					}]
 				}]
 			}]
