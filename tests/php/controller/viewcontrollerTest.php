@@ -21,46 +21,12 @@
  */
 namespace OCA\Calendar\Controller;
 
-function scandir($directory) {
-	$dir = substr(__DIR__, 0, -strlen('tests/php/controller')) . 'controller/../timezones/';
-	return $dir === $directory ? [
-		'..',
-		'.',
-		'TIMEZONE1.ics',
-		'TIMEZONE2.ics',
-		'REG-CIT.ics',
-		'INFO.md',
-	] : [];
-}
-
-function file_get_contents($file) {
-	$file_parts = explode('/', $file);
-	end($file_parts);
-	$file = current($file_parts);
-	switch($file) {
-		case 'TIMEZONE1.ics':
-			return 'TIMEZONE1-data';
-
-		case 'TIMEZONE2.ics':
-			return 'ANOTHER TIMEZONE DATA';
-
-		case 'REG-CIT.ics':
-			return 'TIMEZONE DATA WITH REGION AND CITY';
-
-		default:
-			return null;
-	}
-}
-
 class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 
 	private $appName;
 	private $request;
 	private $config;
 	private $userSession;
-	private $mailer;
-	private $l10n;
-	private $defaults;
 	private $urlGenerator;
 
 	private $dummyUser;
@@ -83,24 +49,12 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->mailer = $this->getMockBuilder('\OCP\Mail\IMailer')
-			->disableOriginalConstructor()
-			->getMock();
-
-		$this->l10n = $this->getMockBuilder('OC\L10N\L10N')
-			->disableOriginalConstructor()
-			->getMock();
-
-		$this->defaults = $this->getMockBuilder('OCP\Defaults')
-			->disableOriginalConstructor()
-			->getMock();
-
 		$this->urlGenerator = $this->getMockBuilder('OCP\IURLGenerator')
 			->disableOriginalConstructor()
 			->getMock();
 
 		$this->controller = new ViewController($this->appName, $this->request,
-			$this->userSession, $this->config, $this->mailer, $this->l10n, $this->defaults, $this->urlGenerator);
+			$this->userSession, $this->config, $this->urlGenerator);
 	}
 
 	/**
@@ -409,54 +363,6 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 			[false, false, '9.0.5.2', false, true],
 			[false, false, '9.1.0.0', true, true],
 			[false, false, '11.0.0', true, false],
-		];
-	}
-
-	public function testGetTimezone() {
-		$actual = $this->controller->getTimezone('TIMEZONE1.ics');
-
-		$this->assertInstanceOf('OCP\AppFramework\Http\DataDisplayResponse', $actual);
-		$this->assertEquals('TIMEZONE1-data', $actual->getData());
-	}
-
-	public function testGetTimezoneWithFakeTz() {
-		$actual = $this->controller->getTimezone('TIMEZONE42.ics');
-
-		$this->assertInstanceOf('OCP\AppFramework\Http\NotFoundResponse', $actual);
-	}
-
-	public function testGetTimezoneWithRegion() {
-		$actual = $this->controller->getTimezoneWithRegion('REG', 'CIT.ics');
-
-		$this->assertInstanceOf('OCP\AppFramework\Http\DataDisplayResponse', $actual);
-		$this->assertEquals('TIMEZONE DATA WITH REGION AND CITY', $actual->getData());
-	}
-
-	public function testGetTimezoneWithRegionWithFakeTz() {
-		$actual = $this->controller->getTimezoneWithRegion('EUROPE', 'BERLIN.ics');
-
-		$this->assertInstanceOf('OCP\AppFramework\Http\NotFoundResponse', $actual);
-	}
-
-	/**
-	 * @dataProvider indexEmailPublicLink
-	 */
-	public function testEmailPublicLink($to, $url, $name) {
-
-		$this->userSession->expects($this->exactly(1))
-			->method('getUser')
-			->will($this->returnValue($this->dummyUser));
-
-		$actual = $this->controller->sendEmailPublicLink($to, $url, $name);
-
-		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
-
-	}
-
-	public function indexEmailPublicLink() {
-		return [
-			['test@test.tld', 'myurl.tld', 'user123'],
-			['testtesttld', 'myurl.tld', 'user123'],
 		];
 	}
 }

@@ -24,26 +24,14 @@
 namespace OCA\Calendar\Controller;
 
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
-use OCP\AppFramework\Http\DataDisplayResponse;
-use OCP\AppFramework\Http\JSONResponse;
-use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\Defaults;
 use OCP\IConfig;
-use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUserSession;
-use OCP\Mail\IMailer;
 use OCP\IURLGenerator;
 
 class ViewController extends Controller {
-
-	/**
-	 * @var IURLGenerator
-	 */
-	private $urlGenerator;
 
 	/**
 	 * @var IConfig
@@ -51,44 +39,27 @@ class ViewController extends Controller {
 	private $config;
 
 	/**
+	 * @var IURLGenerator
+	 */
+	private $urlGenerator;
+
+	/**
 	 * @var IUserSession
 	 */
 	private $userSession;
-
-	/**
-	 * @var IMailer
-	 */
-	private $mailer;
-
-	/**
-	 * @var IL10N
-	 */
-	private $l10n;
-
-	/**
-	 * @var Defaults
-	 */
-	private $defaults;
 
 	/**
 	 * @param string $appName
 	 * @param IRequest $request an instance of the request
 	 * @param IUserSession $userSession
 	 * @param IConfig $config
-	 * @param IMailer $mailer
-	 * @param IL10N $l10N
-	 * @param Defaults $defaults
 	 * @param IURLGenerator $urlGenerator
 	 */
 	public function __construct($appName, IRequest $request, IUserSession $userSession,
-								IConfig $config, IMailer $mailer, IL10N $l10N,
-								Defaults $defaults, IURLGenerator $urlGenerator) {
+								IConfig $config, IURLGenerator $urlGenerator) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->userSession = $userSession;
-		$this->mailer = $mailer;
-		$this->l10n = $l10N;
-		$this->defaults = $defaults;
 		$this->urlGenerator = $urlGenerator;
 	}
 
@@ -195,117 +166,5 @@ class ViewController extends Controller {
 		$response->setContentSecurityPolicy($csp);
 
 		return $response;
-	}
-
-	/**
-	 * @NoAdminRequired
-	 *
-	 * @param string $id
-	 * @return NotFoundResponse|DataDisplayResponse
-	 */
-	public function getTimezone($id) {
-		if (!in_array($id, $this->getTimezoneList())) {
-			return new NotFoundResponse();
-		}
-
-		$tzData = file_get_contents(__DIR__ . '/../timezones/' . $id);
-
-		return new DataDisplayResponse($tzData, Http::STATUS_OK, [
-			'content-type' => 'text/calendar',
-		]);
-	}
-
-
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 *
-	 * @param $region
-	 * @param $city
-	 * @return DataDisplayResponse
-	 */
-	public function getTimezoneWithRegion($region, $city) {
-		return $this->getTimezone($region . '-' . $city);
-	}
-
-
-	/**
-	 * @NoAdminRequired
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
-	 * @param $region
-	 * @param $subregion
-	 * @param $city
-	 * @return DataDisplayResponse
-	 */
-	public function getTimezoneWithSubRegion($region, $subregion, $city) {
-		return $this->getTimezone($region . '-' . $subregion . '-' . $city);
-	}
-
-
-	/**
-	 * get a list of default timezones
-	 *
-	 * @return array
-	 */
-	private function getTimezoneList() {
-		$allFiles = scandir(__DIR__ . '/../timezones/');
-
-		return array_values(array_filter($allFiles, function($file) {
-			return (substr($file, -4) === '.ics');
-		}));
-	}
-
-	/**
-	 * @param string $to
-	 * @param string $url
-	 * @param string $name
-	 * @return JSONResponse
-	 * @NoAdminRequired
-	 */
-	public function sendEmailPublicLink($to, $url, $name) {
-
-		$user = $this->userSession->getUser();
-		$username = $user->getDisplayName();
-
-		$subject = $this->l10n->t('%s has published the calendar "%s"', [$username, $name]);
-
-		$emailTemplateHTML = new TemplateResponse('calendar', 'mail.publication.html', ['subject' => $subject, 'username' => $username, 'calendarname' => $name, 'calendarurl' => $url, 'defaults' => $this->defaults], 'public');
-		$bodyHTML = $emailTemplateHTML->render();
-		$emailTemplateText = new TemplateResponse('calendar', 'mail.publication.text', ['subject' => $subject, 'username' => $username, 'calendarname' => $name, 'calendarurl' => $url], 'blank');
-		$textBody = $emailTemplateText->render();
-
-		$status = $this->sendEmail($to, $subject, $bodyHTML, $textBody);
-
-		return new JSONResponse([], $status);
-	}
-
-	/**
-	 * @param string $target
-	 * @param string $subject
-	 * @param string $body
-	 * @param string $textBody
-	 * @return int
-	 */
-	private function sendEmail($target, $subject, $body, $textBody) {
-		if (!$this->mailer->validateMailAddress($target)) {
-			return Http::STATUS_BAD_REQUEST;
-		}
-
-		$sendFromDomain = $this->config->getSystemValue('mail_domain', 'domain.org');
-		$sendFromAddress = $this->config->getSystemValue('mail_from_address', 'nextcloud');
-		$sendFrom = $sendFromAddress . '@' . $sendFromDomain;
-
-		$message = $this->mailer->createMessage();
-		$message->setSubject($subject);
-		$message->setFrom([$sendFrom => $this->defaults->getName()]);
-		$message->setTo([$target => 'Recipient']);
-		$message->setPlainBody($textBody);
-		$message->setHtmlBody($body);
-		$this->mailer->send($message);
-
-		return Http::STATUS_OK;
 	}
 }
