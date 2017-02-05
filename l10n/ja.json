@@ -1,11 +1,11 @@
 { "translations": {
     "Calendar" : "カレンダー",
+    "%s has published the calendar \"%s\"" : "%sさんがカレンダー \"%s\"を公開しました",
     "Too many redirects. Aborting ..." : "リダイレクトが多すぎます。 中止します...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "リモートサーバーのカレンダーにアクセスできませんでした（HTTP {%s}エラー）",
     "Error connecting to remote server" : "リモートサーバーに接続中にエラーが発生しました",
     "Error requesting resource on remote server. This could possible be related to a certificate mismatch" : "リモートサーバー上のリソースを要求中にエラーが発生しました。 これは証明書の不一致に関連する可能性があります",
     "Error requesting resource on remote server" : "リモートサーバー上のリソースを要求中にエラーが発生しました",
-    "%s has published the calendar \"%s\"" : "%sさんがカレンダー \"%s\"を公開しました",
     "Individual" : "個人",
     "Group" : "グループ",
     "Resource" : "リソース",

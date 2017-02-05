@@ -2,12 +2,12 @@ OC.L10N.register(
     "calendar",
     {
     "Calendar" : "Kalender",
+    "%s has published the calendar \"%s\"" : "%s har publicerat kalendern \"%s\"",
     "Too many redirects. Aborting ..." : "För många omdirigeringar. Avbryter ...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "Externa servern gav inte åtkomst när vi försökte ansluta till kalendern (HTTP {%s} error)",
     "Error connecting to remote server" : "Ett fel uppstod med anslutningen till extern delning",
     "Error requesting resource on remote server. This could possible be related to a certificate mismatch" : "Ett fel uppstod när en resurs på externa servern skulle begäras. Detta kan vara relaterat till ett certifikat som inte matchar",
     "Error requesting resource on remote server" : "Ett fel uppstod när en resurs på externa servern skulle begäras ",
-    "%s has published the calendar \"%s\"" : "%s har publicerat kalendern \"%s\"",
     "Individual" : "Individuell",
     "Group" : "Grupp",
     "Resource" : "Resurs",

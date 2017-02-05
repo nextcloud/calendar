@@ -2,12 +2,12 @@ OC.L10N.register(
     "calendar",
     {
     "Calendar" : "Календарь",
+    "%s has published the calendar \"%s\"" : "%s опубликовал календарь \"%s\"",
     "Too many redirects. Aborting ..." : "Очень много перенаправлений. Отмена...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "Удалённый сервер не предоставил нам доступ к календарю (ошибка HTTP {%s})",
     "Error connecting to remote server" : "Ошибка подключения к удаленному серверу",
     "Error requesting resource on remote server. This could possible be related to a certificate mismatch" : "Ошибка запроса ресурса на удаленном сервере. Это может  быть связано с несовпадением сертификата.",
     "Error requesting resource on remote server" : "Ошибка запроса ресурса на удалённом сервере",
-    "%s has published the calendar \"%s\"" : "%s опубликовал календарь \"%s\"",
     "Individual" : "Личность",
     "Group" : "Группа",
     "Resource" : "Ресурс",

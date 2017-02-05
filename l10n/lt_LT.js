@@ -2,12 +2,12 @@ OC.L10N.register(
     "calendar",
     {
     "Calendar" : "Kalendorius",
+    "%s has published the calendar \"%s\"" : "%s buvo paskelbta kalendoriuje \"%s\"",
     "Too many redirects. Aborting ..." : "Per daug nukreipimų. Nutraukiama ...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "Nutolęs serveris neleido prisijungti prie kalendoriaus (HTTP {%s} klaida)",
     "Error connecting to remote server" : "Klaida, jungiantis prie nuotolinio serverio",
     "Error requesting resource on remote server. This could possible be related to a certificate mismatch" : "Klaida gaunant informaciją iš nutolusio serverio. Tai galimai gali būti susiję su sertifikatų neatitikimu",
     "Error requesting resource on remote server" : "Klaida gaunant informaciją iš nutolusio serverio",
-    "%s has published the calendar \"%s\"" : "%s buvo paskelbta kalendoriuje \"%s\"",
     "Individual" : "Individualus",
     "Group" : "Grupė",
     "Resource" : "Išteklis",

@@ -2,12 +2,12 @@ OC.L10N.register(
     "calendar",
     {
     "Calendar" : "Kalender",
+    "%s has published the calendar \"%s\"" : "%s publiceerde agenda \"%s\"",
     "Too many redirects. Aborting ..." : "Teveel doorverwijzingen. Afbreken ...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "De externe server verleende geen toegang tot de agenda (HTTP {%s} fout)",
     "Error connecting to remote server" : "Fout bij het verbinden met de externe server",
     "Error requesting resource on remote server. This could possible be related to a certificate mismatch" : "Fout bij opvragen object op externe server. Dit kan te maken hebben met een onjuist certificaat",
     "Error requesting resource on remote server" : "Fout bij opvragen object op externe server.",
-    "%s has published the calendar \"%s\"" : "%s publiceerde agenda \"%s\"",
     "Individual" : "Individueel",
     "Group" : "Groep",
     "Resource" : "Bron",

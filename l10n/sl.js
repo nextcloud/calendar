@@ -2,12 +2,12 @@ OC.L10N.register(
     "calendar",
     {
     "Calendar" : "Koledar",
+    "%s has published the calendar \"%s\"" : "%s je objavil koledar \"%s\"",
     "Too many redirects. Aborting ..." : "Preveč preusmeritev. Odstopam...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "Oddaljeni strežnik nam ni dovolil dostopa koledarja(HTTP {%s} napaka)",
     "Error connecting to remote server" : "Napaka pri povezovanju na strežnik",
     "Error requesting resource on remote server. This could possible be related to a certificate mismatch" : "Napaka med zahtevanjem virov na strežniku. To je lahko povezano z napako certifikata",
     "Error requesting resource on remote server" : "Napaka med zahtevanjem virov na strežniku",
-    "%s has published the calendar \"%s\"" : "%s je objavil koledar \"%s\"",
     "Individual" : "Posamezno",
     "Group" : "Skupina",
     "Resource" : "Vir",

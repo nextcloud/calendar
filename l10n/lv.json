@@ -1,11 +1,11 @@
 { "translations": {
     "Calendar" : "Kalendārs",
+    "%s has published the calendar \"%s\"" : "%s publicējis kalendāru \"%s\"",
     "Too many redirects. Aborting ..." : "Pārāk daudz novirzīšanas gadījumu. Pārtrauc ...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "Attālais serveris nedeva mums piekļuvi kalendāram (HTTP {%s} kļūda)",
     "Error connecting to remote server" : "Kļūda, veidojot savienojumu ar attālo serveri",
     "Error requesting resource on remote server. This could possible be related to a certificate mismatch" : "Attālā servera resursu pieprasījumam, radās kļūda. Tas varētu būt saistīts ar sertifikātu neatbilstība",
     "Error requesting resource on remote server" : "Attālā servera resursu pieprasījuma kļūda",
-    "%s has published the calendar \"%s\"" : "%s publicējis kalendāru \"%s\"",
     "Individual" : "Individuāls",
     "Group" : "Grupa",
     "Resource" : "Resurss",

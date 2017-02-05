@@ -2,11 +2,11 @@ OC.L10N.register(
     "calendar",
     {
     "Calendar" : "Календар",
+    "%s has published the calendar \"%s\"" : "%s публикува календарът \"%s\"",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "Отдалечения сървър не предостави достъп до календара (HTTP {%s} грешка)",
     "Error connecting to remote server" : "Грешка при свързване с отдалечен сървър",
     "Error requesting resource on remote server. This could possible be related to a certificate mismatch" : "Грешка при извличане на ресурс от отдалечен сървър. Възможно е да е свързано с несъответствие в сертификатите",
     "Error requesting resource on remote server" : "Грешка при извличане на ресурс от отдалечен сървър",
-    "%s has published the calendar \"%s\"" : "%s публикува календарът \"%s\"",
     "Individual" : "Индивидуално",
     "Group" : "Група",
     "Resource" : "Ресурс",

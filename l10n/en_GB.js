@@ -2,11 +2,11 @@ OC.L10N.register(
     "calendar",
     {
     "Calendar" : "Calendar",
+    "%s has published the calendar \"%s\"" : "%s has published the calendar \"%s\"",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "The remote server did not give us access to the calendar (HTTP {%s} error)",
     "Error connecting to remote server" : "Error connecting to remote server",
     "Error requesting resource on remote server. This could possible be related to a certificate mismatch" : "Error requesting resource on remote server. This could possible be related to a certificate mismatch",
     "Error requesting resource on remote server" : "Error requesting resource on remote server",
-    "%s has published the calendar \"%s\"" : "%s has published the calendar \"%s\"",
     "Individual" : "Individual",
     "Group" : "Group",
     "Resource" : "Resource",

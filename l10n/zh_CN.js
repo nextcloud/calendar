@@ -2,12 +2,12 @@ OC.L10N.register(
     "calendar",
     {
     "Calendar" : "日历",
+    "%s has published the calendar \"%s\"" : "%s 发布了 \"%s\" 日历",
     "Too many redirects. Aborting ..." : "太多重定向。取消中...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "远程服务器日程无法访问 (HTTP {%s} 错误)",
     "Error connecting to remote server" : "连接远程服务器出错",
     "Error requesting resource on remote server. This could possible be related to a certificate mismatch" : "获取远程服务器资源出错。可能由于未通过鉴定导致。",
     "Error requesting resource on remote server" : " 获取远程服务器资源出错",
-    "%s has published the calendar \"%s\"" : "%s 发布了 \"%s\" 日历",
     "Individual" : "个人",
     "Group" : "群组",
     "Resource" : "源",

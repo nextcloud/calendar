@@ -2,11 +2,11 @@ OC.L10N.register(
     "calendar",
     {
     "Calendar" : "Takvim",
+    "%s has published the calendar \"%s\"" : "%s, \"%s\" takvimini yayınladı",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "Uzak sunucu takvim erişimine izin vermedi (HTTP {%s} hatası)",
     "Error connecting to remote server" : "Uzak sunucuya bağlanılırken bir sorun çıktı",
     "Error requesting resource on remote server. This could possible be related to a certificate mismatch" : "Uzak sunucu üzerindeki kaynak istenirken bir sorun çıktı. Bu sorun bir sertifika uyuşmazlığından kaynaklanıyor olabilir",
     "Error requesting resource on remote server" : "Uzak sunucu üzerindeki kaynak istenirken bir sorun çıktı",
-    "%s has published the calendar \"%s\"" : "%s, \"%s\" takvimini yayınladı",
     "Individual" : "Birey",
     "Group" : "Grup",
     "Resource" : "Kaynak",
