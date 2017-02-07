@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Calendar" : "Kalender",
     "%s has published the calendar \"%s\"" : "%s har publisert kalenderen \"%s\"",
+    "Too many redirects. Aborting ..." : "For mange viderekoblinger. Avbryter...",
     "Error connecting to remote server" : "Feil ved opprettelsen av forbindelse til tjeneren",
     "Individual" : "Individuel",
     "Group" : "Gruppe",
