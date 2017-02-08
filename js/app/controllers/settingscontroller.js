@@ -93,5 +93,17 @@ app.controller('SettingsController', ['$scope', '$uibModal', '$timeout', 'Settin
 				fc.elm.fullCalendar('option', 'weekNumbers', (newValue === 'yes'));
 			}
 		};
+
+		$scope.updateStartOfWeek = function() {
+			let newValue = $scope.settingsStartOfWeek;
+			settings.startOfWeek = newValue;
+			SettingsService.setStartOfWeek(newValue);
+			if (newValue === '') {
+				newValue = +moment().startOf('week').format('d');
+			}
+			if (fc.elm) {
+				fc.elm.fullCalendar('option', 'firstDay', newValue);
+			}
+		};
 	}
 ]);

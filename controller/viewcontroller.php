@@ -91,6 +91,7 @@ class ViewController extends Controller {
 		$initialView = $this->config->getUserValue($userId, $this->appName, 'currentView', null);
 		$skipPopover = $this->config->getUserValue($userId, $this->appName, 'skipPopover', 'no');
 		$weekNumbers = $this->config->getUserValue($userId, $this->appName, 'showWeekNr', 'no');
+		$startOfWeek = $this->config->getUserValue($userId, $this->appName, 'startOfWeek', '');
 		$firstRun = $this->config->getUserValue($userId, $this->appName, 'firstRun', null);
 		$defaultColor = $this->config->getAppValue('theming', 'color', '#0082C9');
 
@@ -118,6 +119,7 @@ class ViewController extends Controller {
 			'emailAddress' => $emailAddress,
 			'skipPopover' => $skipPopover,
 			'weekNumbers' => $weekNumbers,
+			'startOfWeek' => $startOfWeek,
 			'firstRun' => $firstRun,
 			'supportsClass' => $supportsClass,
 			'defaultColor' => $defaultColor,

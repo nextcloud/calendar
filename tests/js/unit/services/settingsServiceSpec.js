@@ -85,6 +85,29 @@ describe('Settings Service', function () {
 		expect(http.flush).not.toThrow();
 	});
 
+	it ('should set the startOfWeek value', function() {
+		http.expect('POST', 'fancy-url/config', {
+			'key': 'startOfWeek',
+			'value': '3'
+		}).respond(200, {value: '3'});
+
+		SettingsService.setStartOfWeek('3').then(function(result) {
+			expect(result).toBe(true);
+		});
+
+		expect(http.flush).not.toThrow();
+	});
+
+	it ('should get the startOfWeek value', function() {
+		http.expect('GET', 'fancy-url/config?key=startOfWeek').respond(200, {value: '2'});
+
+		SettingsService.getStartOfWeek().then(function(result) {
+			expect(result).toEqual('2');
+		});
+
+		expect(http.flush).not.toThrow();
+	});
+
 	it ('should tell the server about the first run', function() {
 		http.expect('POST', 'fancy-url/config', {
 			'key': 'firstRun'

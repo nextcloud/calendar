@@ -93,6 +93,29 @@ app.service('SettingsService', ['$rootScope', '$http', function($rootScope, $htt
 		});
 	};
 
+	this.getStartOfWeek = function() {
+		return $http({
+			method: 'GET',
+			url: $rootScope.baseUrl + 'config',
+			params: {key: 'startOfWeek'}
+		}).then(function(response) {
+			return response.data.value;
+		});
+	};
+
+	this.setStartOfWeek = function(value) {
+		return $http({
+			method: 'POST',
+			url: $rootScope.baseUrl + 'config',
+			data: {
+				key: 'startOfWeek',
+				value: value
+			}
+		}).then(function() {
+			return true;
+		});
+	};
+
 	this.passedFirstRun = function() {
 		return $http({
 			method: 'POST',

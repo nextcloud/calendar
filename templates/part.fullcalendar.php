@@ -31,6 +31,7 @@
 	data-firstRun="<?php p($_['firstRun']); ?>"
 	data-skipPopover="<?php p($_['skipPopover']); ?>"
 	data-weekNumbers="<?php p($_['weekNumbers']); ?>"
+	data-startOfWeek="<?php p($_['startOfWeek']); ?>"
 	data-webCalWorkaround="<?php p($_['webCalWorkaround']); ?>"
 	data-isPublic="<?php p($_['isPublic'] ? '1' : '0'); ?>"
 	fc

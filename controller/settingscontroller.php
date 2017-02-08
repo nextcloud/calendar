@@ -77,6 +77,8 @@ class SettingsController extends Controller {
 				return $this->getShowWeekNr();
 			case 'firstRun':
 				return $this->getFirstRun();
+			case 'startOfWeek':
+				return $this->getStartOfWeek();
 			default:
 				return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		}
@@ -101,6 +103,8 @@ class SettingsController extends Controller {
 				return $this->setShowWeekNr($value);
 			case 'firstRun':
 				return $this->setFirstRun();
+			case 'startOfWeek':
+				return $this->setStartOfWeek($value);
 			default:
 				return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		}
@@ -270,6 +274,49 @@ class SettingsController extends Controller {
 				$this->appName,
 				'showWeekNr',
 				'no'
+			);
+		} catch(\Exception $e) {
+			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+
+		return new JSONResponse([
+			'value' => $value,
+		]);
+	}
+
+	/**
+	 * set config value for start of week
+	 *
+	 * @param $value
+	 * @return JSONResponse
+	 */
+	private function setStartOfWeek($value) {
+		try {
+			$this->config->setUserValue(
+				$this->userId,
+				$this->appName,
+				'startOfWeek',
+				$value
+			);
+		} catch(\Exception $e) {
+			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+
+		return new JSONResponse();
+	}
+
+	/**
+	 * get config value for start of week
+	 *
+	 * @return JSONResponse
+	 */
+	private function getStartOfWeek() {
+		try {
+			$value = $this->config->getUserValue(
+				$this->userId,
+				$this->appName,
+				'startOfWeek',
+				''
 			);
 		} catch(\Exception $e) {
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
