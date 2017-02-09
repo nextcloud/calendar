@@ -344,11 +344,14 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 				'appVersion' => '42.13.37',
 				'initialView' => 'month',
 				'emailAddress' => '',
+				'skipPopover' => 'no',
+				'weekNumbers' => 'no',
 				'supportsClass' => $expectsSupportsClass,
 				'isPublic' => true,
 				'shareURL' => '://',
 				'previewImage' => null,
 				'firstRun' => 'no',
+				'webCalWorkaround' => 'no',
 				'needsAutosize' => $needsAutosize,
 			], $actual->getParams());
 			$this->assertEquals('main', $actual->getTemplateName());
