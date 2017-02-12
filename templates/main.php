@@ -31,8 +31,7 @@ if($_['isPublic']) {
 	OCP\Util::addHeader('meta', ['property' => "og:image", 'content' => $_['previewImage']]);
 }
 $styles = [
-	'../js/vendor/fullcalendar/dist/fullcalendar',
-	'../js/vendor/jquery-timepicker/jquery.ui.timepicker',
+	'public/vendor.min',
 	'public/app.min'
 ];
 
@@ -41,17 +40,8 @@ foreach ($styles as $style) {
 }
 
 $scripts = [
-	'vendor/jquery-timepicker/jquery.ui.timepicker',
-	'vendor/ical.js/build/ical',
-	'vendor/jstzdetect/jstz',
-	'vendor/angular/angular',
-	'vendor/angular-bootstrap/ui-bootstrap',
-	'vendor/angular-bootstrap/ui-bootstrap-tpls',
-	'vendor/fullcalendar/dist/fullcalendar',
-	'vendor/fullcalendar/dist/locale-all',
-	'vendor/davclient.js/lib/client',
-	'vendor/hsl_rgb_converter/converter',
-	'public/app.min'
+	'public/vendor.min',
+	'public/app.min',
 ];
 
 if ($_['needsAutosize']) {
