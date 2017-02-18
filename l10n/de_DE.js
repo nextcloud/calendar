@@ -158,7 +158,7 @@ OC.L10N.register(
     "New calendar" : "Neuer Kalender",
     "File is empty" : "Datei ist leer",
     "Import scheduled" : "Import geplant",
-    "Subscribe & embed" : "Abbonieren & Einbetten",
+    "Subscribe & embed" : "Abonnieren & einbetten",
     "Publish URL" : "URL veröffentlichen",
     "Iframe to integrate" : "Iframe zum Einbinden",
     "Settings & import" : "Einstellungen & Import",
