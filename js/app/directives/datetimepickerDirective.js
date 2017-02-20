@@ -88,7 +88,7 @@ app.directive('ocdatetimepicker', function($compile, $timeout) {
 			}
 			function initTimepicker() {
 				element.find('.events--time').timepicker({
-					showPeriodLabels: false,
+					showPeriodLabels: (localeData.longDateFormat('LT').toLowerCase().indexOf('a') !== -1),
 					showLeadingZero: true,
 					showPeriod: (localeData.longDateFormat('LT').toLowerCase().indexOf('a') !== -1),
 					duration: 0,
