@@ -101,7 +101,7 @@
     "Hello," : "Salute %s,",
     "We wanted to inform you that %s has published the calendar {boldstart}%s{boldend}." : "Nos vole informar te que %s ha publicate le calendario {boldstart}%s{boldend}.",
     "Click here to access it" : "Clicca ci pro acceder lo.",
-    "Cheers!" : "A vostre sanitate!",
+    "Cheers!" : "Congratulationes!",
     "We wanted to inform you that %s has published the calendar %s." : "Nos vole informar te que %s ha publicate le calendario %s.",
     "Click on the link below to access it" : "Clicca super le ligamine infra pro acceder lo",
     "Due to an upstream bug, the calendar is currently not able to provide support for the asset pipeline feature." : "A causa de un defecto ex le fonte, le calendario actualmente non es capace a provider supporto al function de tubo active.",
