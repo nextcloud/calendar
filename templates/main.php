@@ -104,6 +104,20 @@ foreach ($scripts as $script) {
 		<?php print_unescaped($this->inc('editor.sidebar')); ?>
 	</script>
 
+	<script type="text/ng-template" id="confirmation.html">
+		<button	class="confirmation-default">
+			<span class="icon-delete svg"></span>
+			<span><?php p($l->t('Delete')); ?></span>
+		</button>
+		<span class="confirmation-abort" title="<?php p($l->t('Cancel')); ?>">
+			<span class="icon-close svg"></span>
+		</span>
+		<span class="confirmation-confirm">
+    		<span class="countdown">3</span>
+			<span class="icon-delete-white svg"></span>
+		</span>
+	</script>
+
 	<?php if(!$_['isPublic']): ?>
 	<script type="text/ng-template" id="import.html">
 		<?php print_unescaped($this->inc('part.import.dialog')); ?>

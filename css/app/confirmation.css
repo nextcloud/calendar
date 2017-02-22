@@ -1,0 +1,67 @@
+#app-navigation .app-navigation-entry-menu .confirmed {
+	opacity: 1 !important;
+}
+
+#app-navigation .app-navigation-entry-menu .confirmed img {
+	margin-left: auto;
+	margin-right: auto !important;
+	display: block;
+}
+
+#app-navigation .app-navigation-entry-menu .confirmation-default {
+	overflow: hidden;
+}
+
+#app-navigation .app-navigation-entry-menu .confirmed .confirmation-default {
+	display: none !important;
+}
+
+#app-navigation .app-navigation-entry-menu .confirmation-confirm,
+#app-navigation .app-navigation-entry-menu .confirmation-abort {
+	width: 50% !important;
+	display: none !important;
+	padding-left: 10px;
+	overflow: hidden;
+	float: right;
+	height: 100% !important;
+}
+
+#app-navigation .app-navigation-entry-menu .confirmation-confirm,
+#app-navigation .app-navigation-entry-menu .confirmation-confirm span {
+	background-color: red;
+	cursor: default !important;
+}
+
+#app-navigation .app-navigation-entry-menu .confirmed .confirmation-confirm,
+#app-navigation .app-navigation-entry-menu .confirmed .confirmation-abort {
+	padding: 0;
+	display: inline-block !important;
+}
+
+#app-navigation .app-navigation-entry-menu .confirmed .confirmation-confirm span,
+#app-navigation .app-navigation-entry-menu .confirmed .confirmation-abort span {
+	margin-left: 8px;
+}
+
+#app-navigation .app-navigation-entry-menu .countdown {
+	color: white;
+	display: block;
+	text-align: center;
+	padding-right: 0;
+}
+
+#app-navigation .app-navigation-entry-menu .confirmed.active .confirmation-confirm {
+	cursor: pointer !important;
+}
+
+#app-navigation .app-navigation-entry-menu .confirmed .confirmation-confirm span.countdown {
+	margin-left: 15px;
+}
+
+#app-navigation .app-navigation-entry-menu .confirmed.active .confirmation-confirm span.countdown {
+	display: none !important;
+}
+
+#app-navigation .app-navigation-entry-menu .confirmed.active .confirmation-confirm span {
+	display: block;
+}
