@@ -151,6 +151,7 @@ OC.L10N.register(
     "New calendar" : "Jauns kalendārs",
     "File is empty" : "Fails ir tukšs",
     "Import scheduled" : "Imports ielikts grafikā",
+    "Publish URL" : "Publicēt URL",
     "Settings & import" : "Iestatījumi un imports",
     "Skip simple event editor" : "Izlaist vienkāršoto notikuma redaktoru",
     "Show week numbers" : "Rādīt nedēļu numurus",
