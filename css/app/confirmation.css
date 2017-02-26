@@ -20,14 +20,16 @@
 #app-navigation .app-navigation-entry-menu .confirmation-abort {
 	width: 50% !important;
 	display: none !important;
-	padding-left: 10px;
+	/*padding-left: 10px;*/
 	overflow: hidden;
 	float: right;
 	height: 100% !important;
+	background-position: center !important;
+	opacity: 1 !important;
 }
 
 #app-navigation .app-navigation-entry-menu .confirmation-confirm,
-#app-navigation .app-navigation-entry-menu .confirmation-confirm span {
+#app-navigation .app-navigation-entry-menu .confirmation-confirm .countdown {
 	background-color: red;
 	cursor: default !important;
 }
@@ -36,11 +38,6 @@
 #app-navigation .app-navigation-entry-menu .confirmed .confirmation-abort {
 	padding: 0;
 	display: inline-block !important;
-}
-
-#app-navigation .app-navigation-entry-menu .confirmed .confirmation-confirm span,
-#app-navigation .app-navigation-entry-menu .confirmed .confirmation-abort span {
-	margin-left: 8px;
 }
 
 #app-navigation .app-navigation-entry-menu .countdown {
@@ -54,14 +51,10 @@
 	cursor: pointer !important;
 }
 
-#app-navigation .app-navigation-entry-menu .confirmed .confirmation-confirm span.countdown {
-	margin-left: 15px;
-}
-
-#app-navigation .app-navigation-entry-menu .confirmed.active .confirmation-confirm span.countdown {
+#app-navigation .app-navigation-entry-menu .confirmed.active .confirmation-confirm .countdown {
 	display: none !important;
 }
 
-#app-navigation .app-navigation-entry-menu .confirmed.active .confirmation-confirm span {
-	display: block;
+#app-navigation .app-navigation-entry-menu .confirmation-confirm .countdown {
+		width: 100%;
 }

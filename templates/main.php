@@ -109,12 +109,10 @@ foreach ($scripts as $script) {
 			<span class="icon-delete svg"></span>
 			<span><?php p($l->t('Delete')); ?></span>
 		</button>
-		<span class="confirmation-abort" title="<?php p($l->t('Cancel')); ?>">
-			<span class="icon-close svg"></span>
+		<span class="confirmation-abort icon-close svg" title="<?php p($l->t('Cancel')); ?>">
 		</span>
-		<span class="confirmation-confirm">
+		<span class="confirmation-confirm icon-delete-white svg no-permission">
     		<span class="countdown">3</span>
-			<span class="icon-delete-white svg"></span>
 		</span>
 	</script>
 
