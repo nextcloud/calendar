@@ -55,6 +55,8 @@
 					</li>
 				</ul>
 
+				<div class="clear-both"></div>
+
 				<fieldset class="advanced--fieldset" ng-disabled="readOnly">
 					<div ng-include="currentTab"></div>
 				</fieldset>

@@ -24,13 +24,16 @@ app.service('XMLUtility', function() {
 
 	const context = {};
 	context.XMLify = function(xmlDoc, parent, json) {
-		const element = xmlDoc.createElement(json.name);
+		const element = xmlDoc.createElementNS(json.name[0], json.name[1]);
 
-		for (let key in json.attributes) {
-			if (json.attributes.hasOwnProperty(key)) {
-				element.setAttribute(key, json.attributes[key]);
+		json.attributes = json.attributes || [];
+		json.attributes.forEach((a) => {
+			if (a.length === 2) {
+				element.setAttribute(a[0], a[1]);
+			} else {
+				element.setAttributeNS(a[0], a[1], a[2]);
 			}
-		}
+		});
 
 		if (json.value) {
 			element.textContent = json.value;
@@ -54,14 +57,6 @@ app.service('XMLUtility', function() {
 
 		const skeleton = {
 			name: arguments[0],
-			attributes: {
-				'xmlns:c': 'urn:ietf:params:xml:ns:caldav',
-				'xmlns:d': 'DAV:',
-				'xmlns:a': 'http://apple.com/ns/ical/',
-				'xmlns:o': 'http://owncloud.org/ns',
-				'xmlns:n': 'http://nextcloud.com/ns',
-				'xmlns:cs': 'http://calendarserver.org/ns/'
-			},
 			children: []
 		};
 
@@ -89,6 +84,6 @@ app.service('XMLUtility', function() {
 		const root = document.implementation.createDocument('', '', null);
 		context.XMLify(root, root, json);
 
-		return serializer.serializeToString(root.firstChild);
+		return serializer.serializeToString(root);
 	};
 });

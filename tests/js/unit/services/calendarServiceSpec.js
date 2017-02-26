@@ -1084,38 +1084,38 @@ END:VCALENDAR&#13;
 		$rootScope.$apply();
 
 		expect(dPropChildren).toEqual([{
-			name: 'd:resourcetype',
+			name: ['DAV:', 'd:resourcetype'],
 			children: [{
-				name: 'd:collection'
+				name: ['DAV:', 'd:collection']
 			}, {
-				name: 'c:calendar'
+				name: ['urn:ietf:params:xml:ns:caldav', 'c:calendar']
 			}]
 		},{
-			name: 'd:displayname',
+			name: ['DAV:', 'd:displayname'],
 			value: 'name-foobar-1337'
 		},{
-			name: 'a:calendar-color',
+			name: ['http://apple.com/ns/ical/', 'a:calendar-color'],
 			value: '#eeeeee'
 		},{
-			name: 'o:calendar-enabled',
+			name: ['http://owncloud.org/ns', 'o:calendar-enabled'],
 			value: '1'
 		},{
-			name: 'c:supported-calendar-component-set',
+			name: ['urn:ietf:params:xml:ns:caldav', 'c:supported-calendar-component-set'],
 			children: [{
-				name: 'c:comp',
-				attributes: {
-					name: 'VEVENT'
-				}
+				name: ['urn:ietf:params:xml:ns:caldav', 'c:comp'],
+				attributes: [
+					['name', 'VEVENT']
+				]
 			}, {
-				name: 'c:comp',
-				attributes: {
-					name: 'VJOURNAL'
-				}
+				name: ['urn:ietf:params:xml:ns:caldav', 'c:comp'],
+				attributes: [
+					['name', 'VJOURNAL']
+				]
 			}, {
-				name: 'c:comp',
-				attributes: {
-					name: 'VTODO'
-				}
+				name: ['urn:ietf:params:xml:ns:caldav', 'c:comp'],
+				attributes: [
+					['name', 'VTODO']
+				]
 			}]
 		}
 		]);
@@ -1170,7 +1170,7 @@ END:VCALENDAR&#13;
 
 		expect(called).toEqual(true);
 
-		expect(XMLUtility.getRootSkeleton).toHaveBeenCalledWith('d:mkcol', 'd:set', 'd:prop');
+		expect(XMLUtility.getRootSkeleton).toHaveBeenCalledWith(['DAV:', 'd:mkcol'], ['DAV:', 'd:set'], ['DAV:', 'd:prop']);
 	});
 
 	it('should create a webcal subscription', function() {
@@ -1252,7 +1252,7 @@ END:VCALENDAR&#13;
 
 		expect(called).toEqual(true);
 		expect(result).toEqual(true);
-		expect(XMLUtility.getRootSkeleton).toHaveBeenCalledWith('cs:publish-calendar');
+		expect(XMLUtility.getRootSkeleton).toHaveBeenCalledWith(['http://calendarserver.org/ns/', 'cs:publish-calendar']);
 	});
 
 	it('should publish a calendar - unsuccessful', function() {
@@ -1286,7 +1286,7 @@ END:VCALENDAR&#13;
 
 		expect(called).toEqual(true);
 		expect(result).toEqual(false);
-		expect(XMLUtility.getRootSkeleton).toHaveBeenCalledWith('cs:publish-calendar');
+		expect(XMLUtility.getRootSkeleton).toHaveBeenCalledWith(['http://calendarserver.org/ns/', 'cs:publish-calendar']);
 	});
 
 	it('should unpublish a calendar', function() {
@@ -1320,7 +1320,7 @@ END:VCALENDAR&#13;
 
 		expect(called).toEqual(true);
 		expect(result).toEqual(true);
-		expect(XMLUtility.getRootSkeleton).toHaveBeenCalledWith('cs:unpublish-calendar');
+		expect(XMLUtility.getRootSkeleton).toHaveBeenCalledWith(['http://calendarserver.org/ns/', 'cs:unpublish-calendar']);
 	});
 
 	it('should unpublish a calendar - unsuccessful', function() {
@@ -1354,7 +1354,7 @@ END:VCALENDAR&#13;
 
 		expect(called).toEqual(true);
 		expect(result).toEqual(false);
-		expect(XMLUtility.getRootSkeleton).toHaveBeenCalledWith('cs:unpublish-calendar');
+		expect(XMLUtility.getRootSkeleton).toHaveBeenCalledWith(['http://calendarserver.org/ns/', 'cs:unpublish-calendar']);
 	});
 });
 
