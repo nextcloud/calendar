@@ -1,3 +1,20 @@
+## 1.5.1 - 2017-02-28
+### Added
+- advanced color-picker
+  [#4](https://github.com/nextcloud/calendar/issues/4)
+- support for Internet Explorer 11
+  [#329](https://github.com/nextcloud/calendar/pull/329)
+- added second step for deleting calendars
+  [#341](https://github.com/nextcloud/calendar/issues/341)
+
+### Fixed
+- debounce vertical window resize
+  [#23](https://github.com/nextcloud/calendar/issues/23)
+- fix phrasing on public sharing site
+  [#233](https://github.com/nextcloud/calendar/issues/233)
+- fix missing am/pm label in timepicker
+  [#345](https://github.com/nextcloud/calendar/issues/345)
+
 ## 1.5.0 - 2017-01-17
 ### Added
 - enable calendar when selecting it in editor
