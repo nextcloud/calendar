@@ -142,18 +142,8 @@ appstore:
 	"l10n" \
 	"templates" \
 	"timezones" \
-	"css/public/app.css" \
-	"css/public/app.min.css" \
-	"css/public/app.min.css.map" \
-	"css/public/vendor.css" \
-	"css/public/vendor.min.css" \
-	"css/public/vendor.min.css.map" \
-	"js/public/app.js" \
-	"js/public/app.min.js" \
-	"js/public/app.min.js.map" \
-	"js/public/vendor.js" \
-	"js/public/vendor.min.js" \
-	"js/public/vendor.min.js.map" \
+	"css/public
+	"js/public
 	"js/vendor/autosize/dist/autosize.js" \
 	"COPYING" \
 	"CHANGELOG.md" \
