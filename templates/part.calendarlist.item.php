@@ -100,12 +100,7 @@
 				<span><?php p($l->t('Download')); ?></span>
 			</button>
 		</li>
-		<li>
-			<button	ng-click="remove(item)">
-				<span class="icon-delete svg"></span>
-				<span><?php p($l->t('Delete')); ?></span>
-			</button>
-		</li>
+		<li confirmation="remove(item)"></li>
 	</ul>
 </div>
 
