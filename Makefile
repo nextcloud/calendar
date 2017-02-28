@@ -142,8 +142,8 @@ appstore:
 	"l10n" \
 	"templates" \
 	"timezones" \
-	"css/public
-	"js/public
+	"css/public" \
+	"js/public" \
 	"js/vendor/autosize/dist/autosize.js" \
 	"COPYING" \
 	"CHANGELOG.md" \
