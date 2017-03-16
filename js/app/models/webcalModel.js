@@ -99,7 +99,10 @@ app.factory('WebCal', function($http, Calendar, VEvent, TimezoneService, WebCalS
 					iface.emit(Calendar.hookFinishedRendering);
 				});
 			}).catch(function(reason) {
-				if (reason.redirect === true) {
+				if (reason === 'Unknown timezone' && timezone !== 'UTC') {
+					const eventsFn = iface.fcEventSource.events.bind(fcAPI);
+					eventsFn(start, end, 'UTC', callback);
+				} else if (reason.redirect === true) {
 					if (context.storedUrl === reason.new_url) {
 						return Promise.reject('Fatal error. Redirected URL matched original URL. Aborting');
 					}

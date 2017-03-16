@@ -96,6 +96,11 @@ app.factory('Calendar', function($window, Hook, VEventService, TimezoneService, 
 					iface.emit(Calendar.hookFinishedRendering);
 				});
 			}).catch(function(reason) {
+				if (reason === 'Unknown timezone' && timezone !== 'UTC') {
+					const eventsFn = iface.fcEventSource.events.bind(fcAPI);
+					eventsFn(start, end, 'UTC', callback);
+				}
+
 				console.log(context.url, reason);
 			});
 		};

@@ -123,7 +123,8 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 			);
 
 			$scope.defaulttimezone = 'UTC';
-			$scope.uiConfig.calendar.timezone = 'UTC';
+			$scope.fcConfig.timezone = 'UTC';
+			fc.elm.fullCalendar('option', 'timezone', 'UTC');
 		});
 
 		if (!isPublic) {
