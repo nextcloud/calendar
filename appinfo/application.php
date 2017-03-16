@@ -93,14 +93,16 @@ class Application extends App {
 		$appName = $this->getContainer()->getAppName();
 		$server = $this->getContainer()->getServer();
 
-		$server->getNavigationManager()->add(array(
-			'id' => $appName,
-			'order' => 5,
-			'href' => $server->getURLGenerator()
-				->linkToRoute('calendar.view.index'),
-			'icon' => $server->getURLGenerator()
-				->imagePath($appName, 'calendar.svg'),
-			'name' => $server->getL10N($appName)->t('Calendar'),
-		));
+		$server->getNavigationManager()->add(function() use ($appName, $server) {
+			return [
+				'id' => $appName,
+				'order' => 5,
+				'href' => $server->getURLGenerator()
+					->linkToRoute('calendar.view.index'),
+				'icon' => $server->getURLGenerator()
+					->imagePath($appName, 'calendar.svg'),
+				'name' => $server->getL10N($appName)->t('Calendar'),
+			];
+		});
 	}
 }
