@@ -1,7 +1,8 @@
 describe('Timezone Service', function () {
 	'use strict';
 
-	var TimezoneService, http, $rootScope, Timezone;
+	let $q, $rootScope;
+	let TimezoneService, http, Timezone;
 
 	beforeEach(module('Calendar', function ($provide) {
 		Timezone = jasmine.createSpy().and.callFake(function() {
@@ -15,11 +16,20 @@ describe('Timezone Service', function () {
 		$provide.value('Timezone', Timezone);
 	}));
 
-
-	beforeEach(inject(function (_TimezoneService_, $httpBackend, _$rootScope_) {
-		TimezoneService = _TimezoneService_;
+	beforeEach(inject(function (_$q_, _$rootScope_) {
+		$q = _$q_;
 		$rootScope = _$rootScope_;
 		$rootScope.baseUrl = 'fancy-url/';
+
+		// mixing ES6 Promises and $q ain't no good
+		// ES6 Promises will be replaced with $q for the unit tests
+		if (window.Promise !== $q) {
+			window.Promise = $q;
+		}
+	}));
+
+	beforeEach(inject(function (_TimezoneService_, $httpBackend) {
+		TimezoneService = _TimezoneService_;
 		http = $httpBackend;
 	}));
 
@@ -54,6 +64,36 @@ describe('Timezone Service', function () {
 		});
 	});
 
+	it('should not send two requests for the same timezone', function() {
+		http.expect('GET', 'fancy-url/timezones/EUROPE/BERLIN.ics').respond(200, '*tzdata*');
+
+		const tzid = 'Europe/Berlin';
+		const promise1 = TimezoneService.get(tzid);
+		const promise2 = TimezoneService.get(tzid);
+
+		expect(promise1).toEqual(promise2);
+
+		expect(() => http.flush(1)).not.toThrow();
+	});
+
+	it('should not send requests for unknown timezones', function() {
+		let called = false;
+
+		const tzid = 'Europe/New_York';
+		TimezoneService.get(tzid).then(function(result) {
+			fail('not supposed to succeed');
+		}).catch(function(reason) {
+			called = true;
+			expect(reason).toEqual('Unknown timezone');
+		});
+
+		// throw because no pending requests
+		expect(http.flush).toThrow();
+
+		expect(called).toEqual(true);
+
+	});
+
 	it('should list all timezones', function() {
 		let called = false;
 
@@ -63,8 +103,7 @@ describe('Timezone Service', function () {
 			called = true;
 		});
 
-		window.setTimeout(function() {
-			expect(called).toBe(true);
-		}, 1000);
+		$rootScope.$apply();
+		expect(called).toBe(true);
 	});
 });
