@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Calendar" : "Kalendár",
     "%s has published the calendar \"%s\"" : "%s zverejnil kalendár \"%s\"",
+    "Too many redirects. Aborting ..." : "Príliš veľa presmerovaní. Ruším ...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "Vzdialený server neposkytol prístup ku kalendáru (HTTP chyba {%s})",
     "Individual" : "Individuálny",
     "Group" : "Skupina",
