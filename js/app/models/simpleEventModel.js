@@ -363,7 +363,6 @@ app.factory('SimpleEvent', function () {
 				parameters: {
 					zone: dtstart.zone.toString()
 				},
-				type: dtstart.icaltype,
 				value: moment({
 					years: dtstart.year,
 					months: dtstart.month - 1,
@@ -377,7 +376,6 @@ app.factory('SimpleEvent', function () {
 				parameters: {
 					zone: dtend.zone.toString()
 				},
-				type: dtend.icaltype,
 				value: moment({
 					years: dtend.year,
 					months: dtend.month - 1,
@@ -478,9 +476,8 @@ app.factory('SimpleEvent', function () {
 			vevent.removeAllProperties('dtend');
 			vevent.removeAllProperties('duration');
 
-			const isNewSimpleDataAllDay = (newSimpleData.dtstart.type === 'date' && newSimpleData.dtend.type === 'date');
 			// remove tzid property from allday events
-			if (isNewSimpleDataAllDay) {
+			if (newSimpleData.allDay) {
 				newSimpleData.dtstart.parameters.zone = 'floating';
 				newSimpleData.dtend.parameters.zone = 'floating';
 			}
@@ -496,9 +493,9 @@ app.factory('SimpleEvent', function () {
 			}
 
 			const start = ICAL.Time.fromJSDate(newSimpleData.dtstart.value.toDate(), false);
-			start.isDate = isNewSimpleDataAllDay;
+			start.isDate = newSimpleData.allDay;
 			const end = ICAL.Time.fromJSDate(newSimpleData.dtend.value.toDate(), false);
-			end.isDate = isNewSimpleDataAllDay;
+			end.isDate = newSimpleData.allDay;
 
 			const alreadyStoredTimezones = ['UTC'];
 			const vtimezones = vevent.parent.getAllSubcomponents('vtimezone');

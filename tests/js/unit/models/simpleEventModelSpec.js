@@ -1561,14 +1561,12 @@ END:VCALENDAR`;
 		expect(simple.dtstart).toEqual({
 			parameters: {
 				zone: 'Europe/Berlin'
-			},
-			type: 'date-time'
+			}
 		});
 		expect(simple.dtend).toEqual({
 			parameters: {
 				zone: 'Europe/Berlin'
-			},
-			type: 'date-time'
+			}
 		});
 	});
 
@@ -1603,14 +1601,12 @@ END:VCALENDAR`;
 		expect(simple.dtstart).toEqual({
 			parameters: {
 				zone: 'Europe/Berlin'
-			},
-			type: 'date-time'
+			}
 		});
 		expect(simple.dtend).toEqual({
 			parameters: {
 				zone: 'Europe/Berlin'
-			},
-			type: 'date-time'
+			}
 		});
 	});
 
@@ -1644,14 +1640,12 @@ END:VCALENDAR`;
 		expect(simple.dtstart).toEqual({
 			parameters: {
 				zone: 'Europe/Berlin'
-			},
-			type: 'date-time'
+			}
 		});
 		expect(simple.dtend).toEqual({
 			parameters: {
 				zone: 'Europe/Berlin'
-			},
-			type: 'date-time'
+			}
 		});
 	});
 
@@ -1685,14 +1679,12 @@ END:VCALENDAR`;
 		expect(simple.dtstart).toEqual({
 			parameters: {
 				zone: 'floating'
-			},
-			type: 'date'
+			}
 		});
 		expect(simple.dtend).toEqual({
 			parameters: {
 				zone: 'floating'
-			},
-			type: 'date'
+			}
 		});
 	});
 
@@ -1718,11 +1710,10 @@ END:VCALENDAR`;
 
 		const simple = SimpleEvent(event);
 
+		simple.allDay = false;
 		simple.dtstart.parameters.zone = 'Europe/Berlin';
-		simple.dtstart.type = 'date-time';
 		simple.dtstart.value.add(15, 'hours').add(30, 'minutes');
 		simple.dtend.parameters.zone = 'Europe/Berlin';
-		simple.dtend.type = 'date-time';
 		simple.dtend.value.add(16, 'hours');
 
 		simple.patch();
@@ -1760,8 +1751,7 @@ END:VCALENDAR`;
 		const event = root.getFirstSubcomponent('vevent');
 
 		const simple = SimpleEvent(event);
-		simple.dtstart.type = 'date';
-		simple.dtend.type = 'date';
+		simple.allDay = true;
 
 		simple.patch();
 
