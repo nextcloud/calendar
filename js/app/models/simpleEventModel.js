@@ -58,6 +58,27 @@ app.factory('SimpleEvent', function () {
 		'cn'
 	];
 
+	function getDtProperty(simple, propName) {
+		if (simple.allDay) {
+			simple[propName].parameters.zone = 'floating';
+		}
+
+		simple[propName].parameters.zone = simple[propName].parameters.zone || 'floating';
+
+		if (simple[propName].parameters.zone !== 'floating' && !ICAL.TimezoneService.has(simple[propName].parameters.zone)) {
+			throw new Error('Requested timezone not found (' + simple[propName].parameters.zone + ')');
+		}
+
+		const iCalTime = ICAL.Time.fromJSDate(simple[propName].value.toDate(), false);
+		iCalTime.isDate = simple.allDay;
+
+		if (simple[propName].parameters.zone !== 'floating') {
+			iCalTime.zone = ICAL.TimezoneService.get(simple[propName].parameters.zone);
+		}
+
+		return iCalTime;
+	}
+
 	/**
 	 * parsers of supported properties
 	 */
@@ -581,6 +602,14 @@ app.factory('SimpleEvent', function () {
 			for (let key in defaults) {
 				context.oldProperties[key] = angular.copy(iface[key]);
 			}
+		};
+
+		iface.checkDtStartBeforeDtEnd = function() {
+			const dtStart = getDtProperty(iface, 'dtstart');
+			const dtEnd = getDtProperty(iface, 'dtend');
+
+			// dtend may be at the same time or later, but not before
+			return (dtEnd.compare(dtStart) !== -1);
 		};
 
 		iface.patch = function() {

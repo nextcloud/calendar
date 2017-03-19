@@ -131,6 +131,10 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
 				OC.Notification.showTemporary(t('calendar', 'Please select a calendar!'));
 				error = true;
 			}
+			if (!$scope.properties.checkDtStartBeforeDtEnd()) {
+				OC.Notification.showTemporary(t('calendar', 'The event ends before it starts!'));
+				error = true;
+			}
 
 			return !error;
 		};

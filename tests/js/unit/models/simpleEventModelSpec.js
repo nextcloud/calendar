@@ -2329,4 +2329,95 @@ DTSTART;VALUE=DATE:20160927
 DTEND;VALUE=DATE:20160928
 END:VEVENT`.split("\n").join("\r\n"));
 	});
+
+	it ('should check if the event ends before it starts - allday', function() {
+		const ics = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Apple Inc.//Mac OS X 10.11.6//EN
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+CREATED:20161012T140129Z
+UID:22F1E592-FB25-4A9D-AE15-BA2A367EA428
+DTEND;VALUE=DATE:20160928
+TRANSP:TRANSPARENT
+SUMMARY:test
+DTSTART;VALUE=DATE:20160927
+DTSTAMP:20161012T140135Z
+SEQUENCE:0
+END:VEVENT
+END:VCALENDAR`;
+
+		const root = new ICAL.Component(ICAL.parse(ics));
+		const event = root.getFirstSubcomponent('vevent');
+
+		const simple = SimpleEvent(event);
+
+		expect(simple.checkDtStartBeforeDtEnd()).toEqual(true);
+		simple.dtend.value.subtract(1, 'days').subtract(1, 'seconds');
+		expect(simple.checkDtStartBeforeDtEnd()).toEqual(false);
+	});
+
+	it ('should check if the event ends before it starts - timed - same tz', function() {
+		const ics = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Apple Inc.//Mac OS X 10.11.6//EN
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+CREATED:20161002T105542Z
+UID:DF8A5F8D-9037-4FA3-84CC-97FB6D5D0DA9
+DTEND;TZID=Europe/Berlin:20161004T113000
+TRANSP:OPAQUE
+X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC
+SUMMARY:Event 1
+DTSTART;TZID=Europe/Berlin:20161004T090000
+DTSTAMP:20161002T105552Z
+SEQUENCE:0
+END:VEVENT
+END:VCALENDAR`;
+
+		const root = new ICAL.Component(ICAL.parse(ics));
+		const event = root.getFirstSubcomponent('vevent');
+
+		const simple = SimpleEvent(event);
+		expect(simple.checkDtStartBeforeDtEnd()).toEqual(true);
+		simple.dtend.value.subtract(2, 'hours').subtract(30, 'minutes');
+		expect(simple.checkDtStartBeforeDtEnd()).toEqual(true);
+		simple.dtend.value.subtract(1, 'seconds');
+		expect(simple.checkDtStartBeforeDtEnd()).toEqual(false);
+	});
+
+	it ('should check if the event ends before it starts - timed - different tz', function() {
+		const ics = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Apple Inc.//Mac OS X 10.11.6//EN
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+CREATED:20161002T105542Z
+UID:DF8A5F8D-9037-4FA3-84CC-97FB6D5D0DA9
+DTEND;TZID=Europe/Berlin:20161004T113000
+TRANSP:OPAQUE
+X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC
+SUMMARY:Event 1
+DTSTART;TZID=Europe/Berlin:20161004T090000
+DTSTAMP:20161002T105552Z
+SEQUENCE:0
+END:VEVENT
+END:VCALENDAR`;
+
+		const root = new ICAL.Component(ICAL.parse(ics));
+		const event = root.getFirstSubcomponent('vevent');
+
+		const simple = SimpleEvent(event);
+		expect(simple.checkDtStartBeforeDtEnd()).toEqual(true);
+		simple.dtend.value.subtract(2, 'hours').subtract(30, 'minutes');
+		expect(simple.checkDtStartBeforeDtEnd()).toEqual(true);
+		simple.dtend.value.subtract(1, 'seconds');
+		expect(simple.checkDtStartBeforeDtEnd()).toEqual(false);
+		simple.dtend.parameters.zone = 'America/New_York';
+		expect(simple.checkDtStartBeforeDtEnd()).toEqual(true);
+		simple.dtend.value.add(1, 'seconds').subtract(6, 'hours');
+		expect(simple.checkDtStartBeforeDtEnd()).toEqual(true);
+		simple.dtend.value.subtract(1, 'seconds');
+		expect(simple.checkDtStartBeforeDtEnd()).toEqual(false);
+	});
 });
