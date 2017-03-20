@@ -25,6 +25,7 @@ return [
 	'routes' => [
 		//Main view
 		['name' => 'view#index', 'url' => '/', 'verb' => 'GET'],
+		['name' => 'view#public_index_with_branding', 'url' => '/p/{calendarid}', 'verb' => 'GET'],
 		['name' => 'view#public_index', 'url' => '/public/{calendarid}', 'verb' => 'GET'],
 		// Tools
 		['name' => 'email#sendEmailPublicLink', 'url' => '/v1/public/sendmail', 'verb' => 'POST'],

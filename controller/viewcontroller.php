@@ -71,29 +71,20 @@ class ViewController extends Controller {
 	 * @return TemplateResponse
 	 */
 	public function index() {
-		$runningOn = $this->config->getSystemValue('version');
-		$runningOnNextcloud10OrLater = version_compare($runningOn, '9.1', '>=');
-		$runningOnNextcloud11OrLater = version_compare($runningOn, '11', '>=');
-
-		$supportsClass = $runningOnNextcloud10OrLater;
-		$assetPipelineBroken = !$runningOnNextcloud10OrLater;
-		$needsAutosize = !$runningOnNextcloud11OrLater;
-
-		$isAssetPipelineEnabled = $this->config->getSystemValue('asset-pipeline.enabled', false);
-		if ($isAssetPipelineEnabled && $assetPipelineBroken) {
+		if ($this->needsAssetPipelineWarning()) {
 			return new TemplateResponse('calendar', 'main-asset-pipeline-unsupported');
 		}
+
+		$templateParameters = $this->getTemplateParams();
 
 		$user = $this->userSession->getUser();
 		$userId = $user->getUID();
 		$emailAddress = $user->getEMailAddress();
 
-		$appVersion = $this->config->getAppValue($this->appName, 'installed_version');
 		$initialView = $this->config->getUserValue($userId, $this->appName, 'currentView', null);
 		$skipPopover = $this->config->getUserValue($userId, $this->appName, 'skipPopover', 'no');
 		$weekNumbers = $this->config->getUserValue($userId, $this->appName, 'showWeekNr', 'no');
 		$firstRun = $this->config->getUserValue($userId, $this->appName, 'firstRun', null);
-		$defaultColor = $this->config->getAppValue('theming', 'color', '#0082C9');
 
 		// the default view will be saved as soon as a user
 		// opens the calendar app, therefore this is a good
@@ -110,24 +101,33 @@ class ViewController extends Controller {
 		if ($initialView === null) {
 			$initialView = 'month';
 		}
-		
-		$webCalWorkaround = $runningOnNextcloud10OrLater ? 'no' : 'yes';
-		$isIE = $this->request->isUserAgent([Request::USER_AGENT_IE]);
 
-		return new TemplateResponse('calendar', 'main', [
-			'appVersion' => $appVersion,
+		return new TemplateResponse('calendar', 'main', array_merge($templateParameters, [
 			'initialView' => $initialView,
 			'emailAddress' => $emailAddress,
 			'skipPopover' => $skipPopover,
 			'weekNumbers' => $weekNumbers,
 			'firstRun' => $firstRun,
-			'supportsClass' => $supportsClass,
-			'defaultColor' => $defaultColor,
-			'webCalWorkaround' => $webCalWorkaround,
 			'isPublic' => false,
-			'isIE' => $isIE,
-			'needsAutosize' => $needsAutosize,
-		]);
+		]));
+	}
+
+	/**
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 *
+	 * @return TemplateResponse
+	 */
+	public function publicIndexWithBranding() {
+		if ($this->needsAssetPipelineWarning()) {
+			return new TemplateResponse('calendar', 'main-asset-pipeline-unsupported');
+		}
+
+		$templateParameters = $this->getTemplateParams();
+		$publicTemplateParameters = $this->getPublicTemplateParameters();
+		$params = array_merge($templateParameters, $publicTemplateParameters);
+
+		return new TemplateResponse('calendar', 'public', $params, 'base');
 	}
 
 	/**
@@ -137,42 +137,80 @@ class ViewController extends Controller {
 	 * @return TemplateResponse
 	 */
 	public function publicIndex() {
-		$runningOn = $this->config->getSystemValue('version');
-		$runningOnServer91OrLater = version_compare($runningOn, '9.1', '>=');
-		$runningOnNextcloud11OrLater = version_compare($runningOn, '11', '>=');
-
-		$supportsClass = $runningOnServer91OrLater;
-		$assetPipelineBroken = !$runningOnServer91OrLater;
-		$needsAutosize = !$runningOnNextcloud11OrLater;
-
-		$isAssetPipelineEnabled = $this->config->getSystemValue('asset-pipeline.enabled', false);
-		if ($isAssetPipelineEnabled && $assetPipelineBroken) {
+		if ($this->needsAssetPipelineWarning()) {
 			return new TemplateResponse('calendar', 'main-asset-pipeline-unsupported');
 		}
 
-		$appVersion = $this->config->getAppValue($this->appName, 'installed_version');
-		$isIE = $this->request->isUserAgent([Request::USER_AGENT_IE]);
+		$templateParameters = $this->getTemplateParams();
+		$publicTemplateParameters = $this->getPublicTemplateParameters();
+		$params = array_merge($templateParameters, $publicTemplateParameters);
 
-		$response = new TemplateResponse('calendar', 'main', [
-			'appVersion' => $appVersion,
-			'initialView' => 'month',
-			'emailAddress' => '',
-			'skipPopover' => 'no',
-			'weekNumbers' => 'no',
-			'supportsClass' => $supportsClass,
-			'firstRun' => 'no',
-			'isIE' => $isIE,
-			'webCalWorkaround' => 'no',
-			'isPublic' => true,
-			'shareURL' => $this->request->getServerProtocol() . '://' . $this->request->getServerHost() . $this->request->getRequestUri(),
-			'previewImage' => $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'favicon-touch.png')),
-			'needsAutosize' => $needsAutosize,
-		], 'public');
+		$response = new TemplateResponse('calendar', 'main', $params, 'public');
+
 		$response->addHeader('X-Frame-Options', 'ALLOW');
 		$csp = new ContentSecurityPolicy();
 		$csp->addAllowedScriptDomain('*');
 		$response->setContentSecurityPolicy($csp);
 
 		return $response;
+	}
+
+	/**
+	 * get common parameters used for all three routes
+	 * @return array
+	 */
+	private function getTemplateParams() {
+		$runningOn = $this->config->getSystemValue('version');
+		$runningOnNextcloud10OrLater = version_compare($runningOn, '9.1', '>=');
+		$runningOnNextcloud11OrLater = version_compare($runningOn, '11', '>=');
+
+		$supportsClass = $runningOnNextcloud10OrLater;
+		$needsAutosize = !$runningOnNextcloud11OrLater;
+
+		$appVersion = $this->config->getAppValue($this->appName, 'installed_version');
+		$webCalWorkaround = $runningOnNextcloud10OrLater ? 'no' : 'yes';
+		$isIE = $this->request->isUserAgent([Request::USER_AGENT_IE]);
+		$defaultColor = $this->config->getAppValue('theming', 'color', '#0082C9');
+
+		return [
+			'appVersion' => $appVersion,
+			'supportsClass' => $supportsClass,
+			'isIE' => $isIE,
+			'webCalWorkaround' => $webCalWorkaround,
+			'needsAutosize' => $needsAutosize,
+			'defaultColor' => $defaultColor,
+		];
+	}
+
+	/**
+	 * get common parameters for public sites
+	 * @return array
+	 */
+	private function getPublicTemplateParameters() {
+		return [
+			'initialView' => 'month',
+			'emailAddress' => '',
+			'skipPopover' => 'no',
+			'weekNumbers' => 'no',
+			'firstRun' => 'no',
+			'webCalWorkaround' => 'no',
+			'isPublic' => true,
+			'shareURL' => $this->request->getServerProtocol() . '://' . $this->request->getServerHost() . $this->request->getRequestUri(),
+			'previewImage' => $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'favicon-touch.png')),
+			'webcalURL' => '',
+			'downloadURL' => '',
+		];
+	}
+
+	/**
+	 * check if we need to show the asset pipeline warning
+	 * @return bool
+	 */
+	private function needsAssetPipelineWarning() {
+		$runningOn = $this->config->getSystemValue('version');
+		$assetPipelineBroken = version_compare($runningOn, '9.1', '<');
+		$isAssetPipelineEnabled = $this->config->getSystemValue('asset-pipeline.enabled', false);
+
+		return ($isAssetPipelineEnabled && $assetPipelineBroken);
 	}
 }

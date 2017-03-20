@@ -31,12 +31,7 @@
 		<span class="icon-loading-small pull-left"
 			  ng-show="item.displaySpinner()">
 	</span>
-	<span class="action permanent displayname">{{ item.calendar.displayname }}</span>
-
-	<span class="icon-download svg public-ics-download"
-		ng-click="download(item)">
-		<?php p($l->t('Download')); ?>
-	</span>
+	<h2 class="action permanent displayname">{{ item.calendar.displayname }}</h2>
 </div>
 <div id="app-settings">
 	<div id="app-settings-header">
