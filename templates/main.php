@@ -120,6 +120,17 @@ foreach ($scripts as $script) {
 		</span>
 	</script>
 
+	<script type="text/ng-template" id="customShareMatchTemplate.html">
+		<a tabindex="-1"
+		   ng-attr-title="{{ match.label }}">
+			<div class="share-autocomplete-item" title="{{ match.label }}">
+				<div class="avatardiv" data-user="{{ match.model.identifier }}" avatar></div>
+				<div class="autocomplete-item-text" ng-bind-html="match.label | uibTypeaheadHighlight:query"></div>
+			</div>
+
+		</a>
+	</script>
+
 	<?php if(!$_['isPublic']): ?>
 	<script type="text/ng-template" id="import.html">
 		<?php print_unescaped($this->inc('part.import.dialog')); ?>
