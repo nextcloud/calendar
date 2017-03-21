@@ -66,12 +66,14 @@ app.config(['$provide', '$httpProvider',
 		const fallbackColor = angular.element('#fullcalendar').attr('data-defaultColor');
 		const needsWebCalWorkaround = angular.element('#fullcalendar').attr('data-webCalWorkaround') === 'yes';
 		const version = angular.element('#fullcalendar').attr('data-appVersion');
+		const publicSharingToken = angular.element('#fullcalendar').attr('data-publicSharingToken');
 		$provide.constant('constants', {
 			initialView,
 			emailAddress,
 			fallbackColor,
 			needsWebCalWorkaround,
 			version,
+			publicSharingToken,
 			SHARE_TYPE_USER: 0,
 			SHARE_TYPE_GROUP: 1
 		});
