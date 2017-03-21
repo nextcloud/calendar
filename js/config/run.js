@@ -29,15 +29,23 @@ app.run(['$document', '$rootScope', '$window', 'isPublic',
 		const pathname = $window.location.pathname;
 		const endsWithSlash = pathname.substr(-1) === '/';
 
-		if (pathname.lastIndexOf('/calendar/public/') === -1) {
+		if (!isPublic) {
 			$rootScope.baseUrl = origin + pathname;
 			if (!endsWithSlash) {
 				$rootScope.baseUrl += '/';
 			}
 		} else {
-			const calendarPathname = pathname.substr(0,
-					pathname.lastIndexOf('/calendar/public/')) + '/calendar/';
-			$rootScope.baseUrl = origin + calendarPathname;
+			if (pathname.lastIndexOf('/calendar/public/') !== -1) {
+				const calendarPathname = pathname.substr(0,
+						pathname.lastIndexOf('/calendar/public/')) + '/calendar/';
+				$rootScope.baseUrl = origin + calendarPathname;
+			} else if (pathname.lastIndexOf('/calendar/p/') !== -1) {
+				const calendarPathname = pathname.substr(0,
+						pathname.lastIndexOf('/calendar/p/')) + '/calendar/';
+				$rootScope.baseUrl = origin + calendarPathname;
+			} else {
+				console.warn('Unexpected state, public path containes neither /calendar/public/ nor /calendar/p/');
+			}
 		}
 
 		const root = $rootScope.baseUrl;
