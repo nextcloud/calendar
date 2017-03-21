@@ -54,6 +54,9 @@ app.config(['$provide', '$httpProvider',
 		const isPublic = (angular.element('#fullcalendar').attr('data-isPublic') === '1');
 		$provide.constant('isPublic', isPublic);
 
+		const isEmbedded = (angular.element('#fullcalendar').attr('data-isEmbedded') === '1');
+		$provide.constant('isEmbedded', isEmbedded);
+
 		const isSharingAPI = (typeof OC.Share === 'object');
 		$provide.constant('isSharingAPI', isSharingAPI);
 

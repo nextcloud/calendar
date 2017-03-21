@@ -109,6 +109,7 @@ class ViewController extends Controller {
 			'weekNumbers' => $weekNumbers,
 			'firstRun' => $firstRun,
 			'isPublic' => false,
+			'isEmbedded' => false,
 			'token' => '',
 		]));
 	}
@@ -129,6 +130,7 @@ class ViewController extends Controller {
 		$templateParameters = $this->getTemplateParams();
 		$publicTemplateParameters = $this->getPublicTemplateParameters($token);
 		$params = array_merge($templateParameters, $publicTemplateParameters);
+		$params['isEmbedded'] = false;
 
 		return new TemplateResponse('calendar', 'public', $params, 'base');
 	}
@@ -149,6 +151,7 @@ class ViewController extends Controller {
 		$templateParameters = $this->getTemplateParams();
 		$publicTemplateParameters = $this->getPublicTemplateParameters($token);
 		$params = array_merge($templateParameters, $publicTemplateParameters);
+		$params['isEmbedded'] = true;
 
 		$response = new TemplateResponse('calendar', 'main', $params, 'public');
 
