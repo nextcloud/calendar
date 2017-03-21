@@ -109,6 +109,7 @@ class ViewController extends Controller {
 			'weekNumbers' => $weekNumbers,
 			'firstRun' => $firstRun,
 			'isPublic' => false,
+			'token' => '',
 		]));
 	}
 
@@ -219,6 +220,7 @@ class ViewController extends Controller {
 			'previewImage' => $previewImage,
 			'webcalURL' => $webcalUrl,
 			'downloadURL' => $downloadUrl,
+			'token' => $token,
 		];
 	}
 

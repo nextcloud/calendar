@@ -148,6 +148,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 				'isPublic' => false,
 				'needsAutosize' => $needsAutosize,
 				'isIE' => $isIE,
+				'token' => '',
 			], $actual->getParams());
 			$this->assertEquals('main', $actual->getTemplateName());
 		}
@@ -244,6 +245,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 			'isPublic' => false,
 			'needsAutosize' => true,
 			'isIE' => false,
+			'token' => '',
 		], $actual->getParams());
 		$this->assertEquals('main', $actual->getTemplateName());
 	}
@@ -336,6 +338,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 			'isPublic' => false,
 			'needsAutosize' => true,
 			'isIE' => false,
+			'token' => '',
 		], $actual->getParams());
 		$this->assertEquals('main', $actual->getTemplateName());
 	}
@@ -448,6 +451,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 				'defaultColor' => '#ff00ff',
 				'webcalURL' => 'webcal://foo.bar/remote.php/dav/public-calendars/fancy_token_123?export',
 				'downloadURL' => 'fancy_protocol://foo.bar/remote.php/dav/public-calendars/fancy_token_123?export',
+				'token' => 'fancy_token_123',
 			], $actual->getParams());
 			$this->assertEquals('main', $actual->getTemplateName());
 		}
