@@ -116,15 +116,17 @@ class ViewController extends Controller {
 	 * @PublicPage
 	 * @NoCSRFRequired
 	 *
+	 * @param string $token
+	 *
 	 * @return TemplateResponse
 	 */
-	public function publicIndexWithBranding() {
+	public function publicIndexWithBranding($token) {
 		if ($this->needsAssetPipelineWarning()) {
 			return new TemplateResponse('calendar', 'main-asset-pipeline-unsupported');
 		}
 
 		$templateParameters = $this->getTemplateParams();
-		$publicTemplateParameters = $this->getPublicTemplateParameters();
+		$publicTemplateParameters = $this->getPublicTemplateParameters($token);
 		$params = array_merge($templateParameters, $publicTemplateParameters);
 
 		return new TemplateResponse('calendar', 'public', $params, 'base');
@@ -134,15 +136,17 @@ class ViewController extends Controller {
 	 * @PublicPage
 	 * @NoCSRFRequired
 	 *
+	 * @param string $token
+	 *
 	 * @return TemplateResponse
 	 */
-	public function publicIndex() {
+	public function publicIndex($token) {
 		if ($this->needsAssetPipelineWarning()) {
 			return new TemplateResponse('calendar', 'main-asset-pipeline-unsupported');
 		}
 
 		$templateParameters = $this->getTemplateParams();
-		$publicTemplateParameters = $this->getPublicTemplateParameters();
+		$publicTemplateParameters = $this->getPublicTemplateParameters($token);
 		$params = array_merge($templateParameters, $publicTemplateParameters);
 
 		$response = new TemplateResponse('calendar', 'main', $params, 'public');
@@ -184,9 +188,25 @@ class ViewController extends Controller {
 
 	/**
 	 * get common parameters for public sites
+	 * @param string $token
 	 * @return array
 	 */
-	private function getPublicTemplateParameters() {
+	private function getPublicTemplateParameters($token) {
+		$shareURL = $this->request->getServerProtocol() . '://';
+		$shareURL .= $this->request->getServerHost();
+		$shareURL .= $this->request->getRequestUri();
+
+		$relativeImagePath = $this->urlGenerator->imagePath('core', 'favicon-touch.png');
+		$previewImage = $this->urlGenerator->getAbsoluteURL($relativeImagePath);
+
+		$remoteBase = $this->urlGenerator->linkTo('', 'remote.php');
+		$remoteBase .= '/dav/public-calendars/' . $token . '?export';
+
+		$downloadUrl = $this->urlGenerator->getAbsoluteURL($remoteBase);
+
+		$protocolLength = strlen($this->request->getServerProtocol()) + 3;
+		$webcalUrl = 'webcal://' . substr($downloadUrl, $protocolLength);
+
 		return [
 			'initialView' => 'month',
 			'emailAddress' => '',
@@ -195,10 +215,10 @@ class ViewController extends Controller {
 			'firstRun' => 'no',
 			'webCalWorkaround' => 'no',
 			'isPublic' => true,
-			'shareURL' => $this->request->getServerProtocol() . '://' . $this->request->getServerHost() . $this->request->getRequestUri(),
-			'previewImage' => $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'favicon-touch.png')),
-			'webcalURL' => '',
-			'downloadURL' => '',
+			'shareURL' => $shareURL,
+			'previewImage' => $previewImage,
+			'webcalURL' => $webcalUrl,
+			'downloadURL' => $downloadUrl,
 		];
 	}
 

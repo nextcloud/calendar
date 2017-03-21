@@ -390,7 +390,45 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 				->with('theming', 'color', '#0082C9')
 				->will($this->returnValue('#ff00ff'));
 
-			$actual = $this->controller->publicIndex();
+			$this->request->expects($this->at(1))
+				->method('getServerProtocol')
+				->will($this->returnValue('fancy_protocol'));
+
+			$this->request->expects($this->at(2))
+				->method('getServerHost')
+				->will($this->returnValue('nextcloud-host.tld'));
+
+			$this->request->expects($this->at(3))
+				->method('getRequestUri')
+				->will($this->returnValue('/request/uri/123/42'));
+
+			$this->urlGenerator->expects($this->at(0))
+				->method('imagePath')
+				->with('core', 'favicon-touch.png')
+				->will($this->returnValue('/core/img/foo'));
+
+			$this->urlGenerator->expects($this->at(1))
+				->method('getAbsoluteURL')
+				->with('/core/img/foo')
+				->will($this->returnValue('fancy_protocol://foo.bar/core/img/foo'));
+
+			$this->urlGenerator->expects($this->at(2))
+				->method('linkTo')
+				->with('', 'remote.php')
+				->will($this->returnValue('remote.php'));
+
+			$this->urlGenerator->expects($this->at(3))
+				->method('getAbsoluteURL')
+				->with('remote.php/dav/public-calendars/fancy_token_123?export')
+				->will($this->returnValue('fancy_protocol://foo.bar/remote.php/dav/public-calendars/fancy_token_123?export'));
+
+			$this->request->expects($this->at(4))
+				->method('getServerProtocol')
+				->will($this->returnValue('fancy_protocol'));
+
+
+
+			$actual = $this->controller->publicIndex('fancy_token_123');
 
 			$this->assertInstanceOf('OCP\AppFramework\Http\TemplateResponse', $actual);
 			$this->assertEquals([
@@ -401,15 +439,15 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 				'weekNumbers' => 'no',
 				'supportsClass' => $expectsSupportsClass,
 				'isPublic' => true,
-				'shareURL' => '://',
-				'previewImage' => null,
+				'shareURL' => 'fancy_protocol://nextcloud-host.tld/request/uri/123/42',
+				'previewImage' => 'fancy_protocol://foo.bar/core/img/foo',
 				'firstRun' => 'no',
 				'webCalWorkaround' => 'no',
 				'needsAutosize' => $needsAutosize,
 				'isIE' => $isIE,
 				'defaultColor' => '#ff00ff',
-				'webcalURL' => '',
-				'downloadURL' => '',
+				'webcalURL' => 'webcal://foo.bar/remote.php/dav/public-calendars/fancy_token_123?export',
+				'downloadURL' => 'fancy_protocol://foo.bar/remote.php/dav/public-calendars/fancy_token_123?export',
 			], $actual->getParams());
 			$this->assertEquals('main', $actual->getTemplateName());
 		}
