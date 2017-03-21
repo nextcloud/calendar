@@ -860,7 +860,7 @@ describe('CalendarFactory', function () {
 		expect(calendar).toEqual([privateCalendarServiceAPI, '/remote.php/dav/calendars/admin/privat/', {
 			color: '#78e774', displayname: 'Privat', components: {vevent: true, vjournal: false, vtodo: true},
 			order: 0, writable: true, owner: 'admin', enabled: true, shares: {users: [], groups: []},
-			shareable: true, publishable: true, published: false, publishurl: null, publicurl: null,
+			shareable: true, publishable: true, published: false, publicToken: null,
 			writableProperties: true}]);
 	});
 
@@ -871,7 +871,7 @@ describe('CalendarFactory', function () {
 			color: '#e774b5', displayname: 'http://some-fancy-webcal.com/foo.ics',
 			components: {vevent: true, vjournal: false, vtodo: true}, order: 0, writable: false, owner: 'admin',
 			enabled: true, shares: {users: [ ], groups: [  ]}, shareable: false, publishable: false, published: false,
-			publishurl: null, publicurl: null, writableProperties: true,
+			publicToken: null, writableProperties: true,
 			href: 'http://some-fancy-webcal.com/foo.ics'
 		}]);
 	});
@@ -882,7 +882,7 @@ describe('CalendarFactory', function () {
 		expect(calendar).toEqual([privateCalendarServiceAPI, '/remote.php/dav/calendars/admin/privat/', {
 			color: '#fefefe', displayname: 'Privat', components: {vevent: true, vjournal: false, vtodo: true},
 			order: 0, writable: true, owner: 'admin', enabled: true, shares: {users: [], groups: []},
-			shareable: true, publishable: true, published: false, publishurl: null, publicurl: null,
+			shareable: true, publishable: true, published: false, publicToken: null,
 			writableProperties: true}]);
 	});
 
@@ -892,7 +892,7 @@ describe('CalendarFactory', function () {
 		expect(calendar).toEqual([privateCalendarServiceAPI, '/remote.php/dav/calendars/admin/privat/', {
 			color: '#78e774', displayname: 'Privat', components: {vevent: true, vjournal: false, vtodo: true},
 			order: 0, writable: true, owner: 'admin', enabled: true, shares: {users: [], groups: []},
-			shareable: true, publishable: true, published: false, publishurl: null, publicurl: null,
+			shareable: true, publishable: true, published: false, publicToken: null,
 			writableProperties: true}]);
 	});
 
@@ -902,7 +902,7 @@ describe('CalendarFactory', function () {
 		expect(calendar).toEqual([privateCalendarServiceAPI, '/remote.php/dav/calendars/admin/privat/', {
 			color: '#78e774', displayname: 'Privat', components: {vevent: true, vjournal: false, vtodo: true},
 			order: 0, writable: false, owner: 'admin', enabled: false, shares: {users: [], groups: []},
-			shareable: false, publishable: false, published: false, publishurl: null, publicurl: null,
+			shareable: false, publishable: false, published: false, publicToken: null,
 			writableProperties: false}]);
 	});
 
@@ -914,9 +914,8 @@ describe('CalendarFactory', function () {
 		expect(calendar).toEqual([privateCalendarServiceAPI, '/remote.php/dav/calendars/admin/privat/', {
 			color: '#78e774', displayname: 'Privat', components: {vevent: true, vjournal: false, vtodo: true},
 			order: 0, writable: true, owner: 'admin', enabled: true, shares: {users: [], groups: []},
-			shareable: true, publishable: true, published: true,
-			publishurl: 'http://nextcloud.dev/remote.php/dav/public-calendars/NW1DRAC4J4UDCH4M',
-			publicurl: 'http://nextcloud.dev/index.php/apps/calendar/public/NW1DRAC4J4UDCH4M', writableProperties: true}]);
+			shareable: true, publishable: true, published: true, publicToken: 'NW1DRAC4J4UDCH4M',
+			writableProperties: true}]);
 	});
 
 	it('handle published calendars when current url ends with #', function() {
@@ -927,9 +926,8 @@ describe('CalendarFactory', function () {
 		expect(calendar).toEqual([privateCalendarServiceAPI, '/remote.php/dav/calendars/admin/privat/', {
 			color: '#78e774', displayname: 'Privat', components: {vevent: true, vjournal: false, vtodo: true},
 			order: 0, writable: true, owner: 'admin', enabled: true, shares: {users: [], groups: []},
-			shareable: true, publishable: true, published: true,
-			publishurl: 'http://nextcloud.dev/remote.php/dav/public-calendars/NW1DRAC4J4UDCH4M',
-			publicurl: 'http://nextcloud.dev/index.php/apps/calendar/public/NW1DRAC4J4UDCH4M', writableProperties: true}]);
+			shareable: true, publishable: true, published: true, publicToken: 'NW1DRAC4J4UDCH4M',
+			writableProperties: true}]);
 	});
 
 	it('handle shared calendars for owner', function() {
@@ -946,7 +944,7 @@ describe('CalendarFactory', function () {
 				groups: [
 					{id: 'test', displayname: 'test', writable: false}
 				]
-			}, shareable: true, publishable: true, published: false, publishurl: null, publicurl: null, writableProperties: true}
+			}, shareable: true, publishable: true, published: false, publicToken: null, writableProperties: true}
 		]);
 	});
 
@@ -964,7 +962,7 @@ describe('CalendarFactory', function () {
 				groups: [
 					{id: 'test', displayname: 'test', writable: false}
 				]
-			}, shareable: false, publishable: false, published: false, publishurl: null, publicurl: null, writableProperties: false}
+			}, shareable: false, publishable: false, published: false, publicToken: null, writableProperties: false}
 		]);
 	});
 
@@ -982,7 +980,7 @@ describe('CalendarFactory', function () {
 				groups: [
 					{id: 'test', displayname: 'test', writable: false}
 				]
-			}, shareable: true, publishable: true, published: false, publishurl: null, publicurl: null, writableProperties: false}
+			}, shareable: true, publishable: true, published: false, publicToken: null, writableProperties: false}
 		]);
 	});
 
@@ -992,7 +990,7 @@ describe('CalendarFactory', function () {
 		expect(calendar).toEqual([privateCalendarServiceAPI, '/remote.php/dav/calendars/admin/privat/', {
 			color: '#78e774', displayname: 'Privat', components: {vevent: true, vjournal: true, vtodo: true},
 			order: 0, writable: true, owner: 'admin', enabled: true, shares: {users: [], groups: []},
-			shareable: true, publishable: true, published: false, publishurl: null, publicurl: null,
+			shareable: true, publishable: true, published: false, publicToken: null,
 			writableProperties: true}]);
 	});
 
@@ -1002,7 +1000,7 @@ describe('CalendarFactory', function () {
 		expect(calendar).toEqual([privateCalendarServiceAPI, '/remote.php/dav/calendars/admin/123/', {
 			color: '#FF7A66', displayname: '123', components: {vevent: true, vjournal: false, vtodo: true},
 			order: 0, writable: true, owner: 'admin', enabled: true, shares: {users: [], groups: []},
-			shareable: true, publishable: false, published: false, publishurl: null, publicurl: null,
+			shareable: true, publishable: false, published: false, publicToken: null,
 			writableProperties: true}]);
 	});
 
@@ -1012,7 +1010,7 @@ describe('CalendarFactory', function () {
 		expect(calendar).toEqual([privateCalendarServiceAPI, '/remote.php/dav/calendars/admin/123/', {
 			color: '#FF7A66', displayname: '123', components: {vevent: true, vjournal: false, vtodo: true},
 			order: 0, writable: false, owner: 'admin', enabled: true, shares: {users: [], groups: []},
-			shareable: false, publishable: false, published: false, publishurl: null, publicurl: null,
+			shareable: false, publishable: false, published: false, publicToken: null,
 			writableProperties: false}]);
 	});
 
@@ -1024,8 +1022,7 @@ describe('CalendarFactory', function () {
 		expect(calendar).toEqual([privateCalendarServiceAPI, '/remote.php/dav/public-calendars/KCMY4V5JZ22ODGFW/', {
 			color: '#fefefe', displayname: 'Personal (admin)', components: {vevent: true, vjournal: false, vtodo: true},
 			order: 0, writable: false, owner: 'admin', enabled: true, shares: {users: [], groups: []}, shareable: false,
-			publishable: false, published: true, publishurl: 'http://nextcloud.dev/remote.php/dav/public-calendars/KCMY4V5JZ22ODGFW',
-			publicurl: 'http://nextcloud.dev/index.php/apps/calendar/public/KCMY4V5JZ22ODGFW', writableProperties: false}
+			publishable: false, published: true, publicToken: 'KCMY4V5JZ22ODGFW', writableProperties: false}
 		]);
 	});
 });

@@ -199,29 +199,22 @@ app.service('CalendarFactory', function($window, DavClient, Calendar, WebCal, co
 		return [shareable, publishable];
 	};
 
-	context.publishedAndPublishURL = function(props, publicMode) {
+	context.publishedAndPublicToken = function(props, publicMode) {
 		let published = false;
-		let publishurl = null;
-		let publicurl = null;
+		let publicToken = null;
 
 		if (angular.isDefined(props['{' + DavClient.NS_CALENDARSERVER + '}publish-url'])) {
 			published = true;
-			publishurl = props['{' + DavClient.NS_CALENDARSERVER + '}publish-url'][0].textContent;
-
-			// Take care of urls ending with #
-			publicurl = ($window.location.toString().endsWith('#')) ?
-				$window.location.toString().slice(0, -1) :
-				$window.location.toString();
-
-			// Take care of urls ending with /
-			let publicPath = (!publicurl.endsWith('/')) ? '/public/' : 'public/';
-
-			if (!publicMode) {
-				publicurl += publicPath + publishurl.substr(publishurl.lastIndexOf('/') + 1);
+			let publishURL = props['{' + DavClient.NS_CALENDARSERVER + '}publish-url'][0].textContent;
+			if (publishURL.substr(-1) === '/') {
+				publishURL = publishURL.substr(0, publishURL.length - 1);
 			}
+
+			const lastIndexOfSlash = publishURL.lastIndexOf('/');
+			publicToken = publishURL.substr(lastIndexOfSlash + 1);
 		}
 
-		return [published, publishurl, publicurl];
+		return [published, publicToken];
 	};
 
 
@@ -258,10 +251,9 @@ app.service('CalendarFactory', function($window, DavClient, Calendar, WebCal, co
 		simple.shareable = shareable;
 		simple.publishable = publishable;
 
-		const [published, publishurl, publicurl] = context.publishedAndPublishURL(props, publicMode);
+		const [published, publicToken] = context.publishedAndPublicToken(props, publicMode);
 		simple.published = published;
-		simple.publishurl = publishurl;
-		simple.publicurl = publicurl;
+		simple.publicToken = publicToken;
 
 		// always enabled calendars in public mode
 		if (publicMode) {

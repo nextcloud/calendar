@@ -50,8 +50,7 @@ app.factory('Calendar', function($window, Hook, VEventService, TimezoneService, 
 			url: url,
 			owner: props.owner,
 			shares: props.shares,
-			publishurl: props.publishurl,
-			publicurl: props.publicurl,
+			publicToken: props.publicToken,
 			publishable: props.publishable,
 			warnings: [],
 			shareable: props.shareable,
@@ -206,12 +205,12 @@ app.factory('Calendar', function($window, Hook, VEventService, TimezoneService, 
 					return $window.location.origin + context.url;
 				}
 			},
-			publishurl: {
+			publicToken: {
 				get: function() {
-					return context.publishurl;
+					return context.publicToken;
 				},
-				set: function(publishurl) {
-					context.publishurl = publishurl;
+				set: function(publicToken) {
+					context.publicToken = publicToken;
 				}
 			},
 			published: {
@@ -225,14 +224,6 @@ app.factory('Calendar', function($window, Hook, VEventService, TimezoneService, 
 			publishable: {
 				get: function() {
 					return context.publishable;
-				}
-			},
-			publicurl: {
-				get: function() {
-					return context.publicurl;
-				},
-				set: function(publicurl) {
-					context.publicurl = publicurl;
 				}
 			},
 			fcEventSource: {
