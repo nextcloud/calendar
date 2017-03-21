@@ -1,3 +1,8 @@
+## 1.5.2 - 2017-03-21
+### Fixed
+- fixed issue with "three-part-timezone" like America/Argentina/Buenos_Aires
+  [#358](https://github.com/nextcloud/calendar/issues/358)
+
 ## 1.5.1 - 2017-02-28
 ### Added
 - advanced color-picker
