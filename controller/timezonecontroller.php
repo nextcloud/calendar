@@ -30,6 +30,7 @@ class TimezoneController extends Controller {
 
 	/**
 	 * @NoAdminRequired
+	 * @PublicPage
 	 *
 	 * @param string $id
 	 * @return NotFoundResponse|DataDisplayResponse
@@ -48,7 +49,6 @@ class TimezoneController extends Controller {
 
 	/**
 	 * @NoAdminRequired
-	 * @NoCSRFRequired
 	 * @PublicPage
 	 *
 	 * @param $region
@@ -61,16 +61,15 @@ class TimezoneController extends Controller {
 
 	/**
 	 * @NoAdminRequired
-	 * @NoCSRFRequired
 	 * @PublicPage
 	 *
 	 * @param $region
-	 * @param $subRegion
+	 * @param $subregion
 	 * @param $city
 	 * @return DataDisplayResponse
 	 */
-	public function getTimezoneWithSubRegion($region, $subRegion, $city) {
-		return $this->getTimezone($region . '-' . $subRegion . '-' . $city);
+	public function getTimezoneWithSubRegion($region, $subregion, $city) {
+		return $this->getTimezone($region . '-' . $subregion . '-' . $city);
 	}
 
 	/**
