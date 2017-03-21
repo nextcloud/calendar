@@ -33,6 +33,7 @@
 	</span>
 	<h2 class="action permanent displayname">{{ item.calendar.displayname }}</h2>
 </div>
+<?php if(!$_['isEmbedded']): ?>
 <div id="app-settings">
 	<div id="app-settings-header">
 		<button name="app settings"
@@ -57,3 +58,4 @@
 		</fieldset>
 	</div>
 </div>
+<?php endif; ?>
