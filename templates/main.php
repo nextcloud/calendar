@@ -56,6 +56,15 @@ foreach ($scripts as $script) {
 	script('calendar', $script);
 }
 ?>
+<?php if($_['isEmbedded']): ?>
+<style>
+	@media only screen and (max-width: 768px) {
+		#app-navigation-toggle {
+			top: 0 !important;
+		}
+	}
+</style>
+<?php endif; ?>
 <div class="app" ng-app="Calendar" ng-controller="CalController">
 
 	<!-- The Left Calendar Navigation -->
