@@ -140,6 +140,9 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 				is.loading = false;
 				// TODO - scope.apply should not be necessary here
 				$scope.$apply();
+			}).catch((reason) => {
+				angular.element('#header-right').css('display', 'none');
+				angular.element('#emptycontent-container').css('display', 'block');
 			});
 		}
 

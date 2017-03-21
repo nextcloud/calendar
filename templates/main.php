@@ -100,6 +100,10 @@ foreach ($scripts as $script) {
 	<div id="importpopover-container"></div>
 	<?php endif; ?>
 
+	<div id="emptycontent-container">
+		<?php print_unescaped($this->inc('part.emptycontent')); ?>
+	</div>
+
 	<script type="text/ng-template" id="eventspopovereditor.html">
 		<?php print_unescaped($this->inc('editor.popover')); ?>
 	</script>
