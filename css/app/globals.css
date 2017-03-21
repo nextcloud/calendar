@@ -71,3 +71,7 @@
 .icon-calendar {
 	background-image: url('../../img/favicon-touch.svg');
 }
+
+.icon-embed {
+	background-image: url('../../img/embed.svg') !important;
+}

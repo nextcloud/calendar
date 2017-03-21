@@ -36,9 +36,9 @@
 <div id="app-settings">
 	<div id="app-settings-header">
 		<button name="app settings"
-			class="settings-button"
+			class="settings-button icon-embed"
 			data-apps-slide-toggle="#app-settings-content">
-			<?php p($l->t('Subscribe & embed')); ?>
+			<?php p($l->t('Embed')); ?>
 		</button>
 	</div>
 
@@ -46,22 +46,7 @@
 		<fieldset class="settings-fieldset">
 			<ul class="settings-fieldset-interior">
 				<li class="settings-fieldset-interior-item">
-					<div class="davbuttons">
-						<div class="btn-group">
-							<button class="button first" ng-model="$parent.publicdav" uib-btn-radio="'CalDAV'">CalDAV</button>
-							<button class="button last" ng-model="$parent.publicdav" uib-btn-radio="'iCal feed'">iCal feed</button>
-						</div>
-					</div>
-					<label>{{ $parent.publicdavdesc }}</label>
-					<input
-						class="public-linkinput"
-						type="text"
-						ng-model="$parent.publicdavurl"
-						placeholder="<?php p($l->t('Publish URL')); ?>">
-				</li>
-
-				<li class="settings-fieldset-interior-item">
-					<label><?php p($l->t('Iframe to integrate')); ?></label>
+					<label><?php p($l->t('IFrame to integrate')); ?></label>
 			    <textarea class="integration-code"
 			      type="text"
 			      ng-value="integration(item)"
