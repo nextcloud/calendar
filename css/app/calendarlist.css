@@ -459,17 +459,14 @@ li.calendar-share-item span {
 }
 
 ul.dropdown-menu {
-	max-height: 100px;
+	max-height: 200px;
 	overflow-y: scroll;
+	overflow-x: hidden;
 	border: 1px #ddd solid;
-	border-radius: 0 0 3px 3px;
+	border-radius: 0 0 4px 4px;
 	margin-top: -7px;
 	margin-left: 6px;
-	width: 94%;
-}
-
-ul.dropdown-menu li {
-	height: 25px;
+	width: 89%;
 }
 
 ul.dropdown-menu li:last-child {
@@ -477,10 +474,7 @@ ul.dropdown-menu li:last-child {
 }
 
 #app-navigation ul.dropdown-menu a {
-	min-height: 22px;
-	max-height: 22px;
-	padding: 0 10px;
-	line-height: 2;
+	padding: 6px;
 }
 
 ul.dropdown-menu li > a:hover {

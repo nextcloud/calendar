@@ -155,6 +155,7 @@
 		   type="text"
 		   typeahead-on-select="onSelectSharee($item, $model, $label, item.calendar)"
 		   typeahead-loading="loadingSharees"
+		   typeahead-template-url="customShareMatchTemplate.html"
 		   uib-typeahead="sharee.display for sharee in findSharee($viewValue, item.calendar)">
 	<ul class="calendar-share-list">
 		<li class="calendar-share-item"
