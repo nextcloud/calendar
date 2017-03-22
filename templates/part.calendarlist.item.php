@@ -226,7 +226,7 @@
 			<span><?php p($l->t('Public access')); ?></span>
 			<span class="icon-public pull-right svg publication-tools"
 				  target="_blank"
-				  ng-href="item.calendar.publicurl"
+				  ng-href="item.publicSharingURL"
 				  ng-click="goPublic(item)"></span>
 			<span class="icon-mail pull-right svg publication-tools"
 				  target="_blank"
