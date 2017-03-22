@@ -54,7 +54,7 @@ app.factory('CalendarListItem', function($window, Calendar, WebCal, isSharingAPI
 			},
 			publicEmbedURL: {
 				get: () => {
-					return $window.origin + OC.generateUrl(OC.linkTo('calendar', 'public/' + context.calendar.publicToken));
+					return $window.origin + OC.generateUrl(OC.linkTo('calendar', 'embed/' + context.calendar.publicToken));
 				}
 			}
 		});

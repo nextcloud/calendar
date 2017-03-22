@@ -434,7 +434,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 
 
 
-			$actual = $this->controller->publicIndex('fancy_token_123');
+			$actual = $this->controller->publicIndexForEmbedding('fancy_token_123');
 
 			$this->assertInstanceOf('OCP\AppFramework\Http\TemplateResponse', $actual);
 			$this->assertEquals([

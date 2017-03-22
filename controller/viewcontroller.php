@@ -143,7 +143,7 @@ class ViewController extends Controller {
 	 *
 	 * @return TemplateResponse
 	 */
-	public function publicIndex($token) {
+	public function publicIndexForEmbedding($token) {
 		if ($this->needsAssetPipelineWarning()) {
 			return new TemplateResponse('calendar', 'main-asset-pipeline-unsupported');
 		}
@@ -161,6 +161,18 @@ class ViewController extends Controller {
 		$response->setContentSecurityPolicy($csp);
 
 		return $response;
+	}
+
+	/**
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 *
+	 * @param string $token
+	 *
+	 * @return TemplateResponse
+	 */
+	public function publicIndexForEmbeddingLegacy($token) {
+		return $this->publicIndexForEmbedding($token);
 	}
 
 	/**

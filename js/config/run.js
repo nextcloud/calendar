@@ -26,30 +26,8 @@ app.run(['$document', '$rootScope', '$window', 'isPublic',
 		'use strict';
 
 		const origin = $window.location.origin;
-		const pathname = $window.location.pathname;
-		const endsWithSlash = pathname.substr(-1) === '/';
-
-		if (!isPublic) {
-			$rootScope.baseUrl = origin + pathname;
-			if (!endsWithSlash) {
-				$rootScope.baseUrl += '/';
-			}
-		} else {
-			if (pathname.lastIndexOf('/calendar/public/') !== -1) {
-				const calendarPathname = pathname.substr(0,
-						pathname.lastIndexOf('/calendar/public/')) + '/calendar/';
-				$rootScope.baseUrl = origin + calendarPathname;
-			} else if (pathname.lastIndexOf('/calendar/p/') !== -1) {
-				const calendarPathname = pathname.substr(0,
-						pathname.lastIndexOf('/calendar/p/')) + '/calendar/';
-				$rootScope.baseUrl = origin + calendarPathname;
-			} else {
-				console.warn('Unexpected state, public path containes neither /calendar/public/ nor /calendar/p/');
-			}
-		}
-
-		const root = $rootScope.baseUrl;
-		$rootScope.baseUrl += 'v1/';
+		const root = origin + OC.generateUrl(OC.linkTo('calendar', ''));
+		$rootScope.baseUrl = origin + OC.generateUrl(OC.linkTo('calendar', 'v1/'));
 
 		try {
 			if (!isPublic) {
