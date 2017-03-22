@@ -612,7 +612,7 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 				const index = calendar.shares.users.findIndex(function(user) {
 					return user.id === shareWith;
 				});
-				calendar.shares.user.splice(index, 1);
+				calendar.shares.users.splice(index, 1);
 			} else {
 				const index = calendar.shares.groups.findIndex(function(group) {
 					return group.id === shareWith;
