@@ -68,6 +68,10 @@
 	z-index: 1000;
 }
 
+#emptycontent-container #emptycontent {
+	color: #a9a9a9 !important;
+}
+
 .icon-calendar {
 	background-image: url('../../img/favicon-touch.svg');
 }
