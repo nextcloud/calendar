@@ -26,7 +26,8 @@ app.directive('avatar', function() {
 		restrict: 'A',
 		scope: {},
 		link: function (scope, elm, attrs) {
-			$(elm).avatar(attrs.user, 32);
+			const size = attrs.size ? parseInt(attrs.size, 10) : 32;
+			$(elm).avatar(attrs.user, size);
 		}
 	};
 });
