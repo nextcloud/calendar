@@ -1,9 +1,8 @@
-<?php
 /**
  * Calendar App
  *
- * @author Georg Ehrke
- * @copyright 2016 Georg Ehrke <oc.list@georgehrke.com>
+ * @author Thomas Citharel
+ * @copyright 2016 Thomas Citharel <tcit@tcit.fr>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -19,18 +18,24 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCA\Calendar\AppInfo;
 
-use OCP\Util;
+'use strict';
 
-$app = new Application();
-$app->registerNavigation();
-$server = $app->getContainer()->getServer();
+let register = (function () {
 
-// only load calendar action if the user is logged in
-if ($server->getUserSession()->isLoggedIn()) {
-	$eventDispatcher = $server->getEventDispatcher();
-	$eventDispatcher->addListener('OCA\Files::loadAdditionalScripts', function() {
-		Util::addScript('calendar', 'utility/registerUtility');
+	OCA.Files.fileActions.registerAction({
+		name: 'View',
+		mime: 'text/calendar',
+		displayName: t('calendar', 'Calendar'),
+		actionHandler: function(filename, context) {
+			let path = $('#fileList').find('[data-file="'+filename+'"]').data('path');
+			path = path.substring(1);
+			window.location = OC.generateUrl('apps/calendar/#/import/{filename}', {filename: encodeURI(path + '/' + filename)});
+		},
+		permissions: OC.PERMISSION_READ,
+		icon: function () {
+			return OC.imagePath('core', 'actions/view');
+		}
 	});
-}
+	OCA.Files.fileActions.setDefault('text/calendar', 'View');
+})();
