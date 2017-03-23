@@ -164,6 +164,17 @@ app.factory('CalendarListItem', function($window, Calendar, WebCal, isSharingAPI
 			return WebCal.isWebCal(context.calendar);
 		};
 
+		iface.getOwnerName = function() {
+			return context.calendar.ownerDisplayname || context.calendar.owner;
+		};
+
+		iface.getPublicDisplayname = function() {
+			const searchFor = '(' + context.calendar.owner + ')';
+			const lastIndexOf = context.calendar.displayname.lastIndexOf(searchFor);
+
+			return context.calendar.displayname.substr(0, lastIndexOf - 1);
+		};
+
 		//Properties for ng-model of calendar editor
 		iface.color = '';
 		iface.displayname = '';

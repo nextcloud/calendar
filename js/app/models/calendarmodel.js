@@ -49,6 +49,7 @@ app.factory('Calendar', function($window, Hook, VEventService, TimezoneService, 
 			tmpId: StringUtility.uid(),
 			url: url,
 			owner: props.owner,
+			ownerDisplayname: props.ownerDisplayname,
 			shares: props.shares,
 			publicToken: props.publicToken,
 			publishable: props.publishable,
@@ -249,6 +250,11 @@ app.factory('Calendar', function($window, Hook, VEventService, TimezoneService, 
 			owner: {
 				get: function() {
 					return context.owner;
+				}
+			},
+			ownerDisplayname: {
+				get: function() {
+					return context.ownerDisplayname;
 				}
 			}
 		});

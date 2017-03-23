@@ -859,7 +859,7 @@ describe('CalendarFactory', function () {
 		const calendar = CalendarFactory.calendar(privateCalendarServiceAPI, calendarProperties[0], '/remote.php/dav/principals/users/admin/', false);
 		expect(calendar).toEqual([privateCalendarServiceAPI, '/remote.php/dav/calendars/admin/privat/', {
 			color: '#78e774', displayname: 'Privat', components: {vevent: true, vjournal: false, vtodo: true},
-			order: 0, writable: true, owner: 'admin', enabled: true, shares: {users: [], groups: []},
+			order: 0, writable: true, owner: 'admin', enabled: true, shares: {users: [], groups: []}, ownerDisplayname: null,
 			shareable: true, publishable: true, published: false, publicToken: null,
 			writableProperties: true}]);
 	});
@@ -870,7 +870,7 @@ describe('CalendarFactory', function () {
 		expect(webcal).toEqual([privateCalendarServiceAPI, '/remote.php/dav/calendars/admin/some-webcal-abo/', {
 			color: '#e774b5', displayname: 'http://some-fancy-webcal.com/foo.ics',
 			components: {vevent: true, vjournal: false, vtodo: true}, order: 0, writable: false, owner: 'admin',
-			enabled: true, shares: {users: [ ], groups: [  ]}, shareable: false, publishable: false, published: false,
+			enabled: true, shares: {users: [ ], groups: [  ]}, ownerDisplayname: null, shareable: false, publishable: false, published: false,
 			publicToken: null, writableProperties: true,
 			href: 'http://some-fancy-webcal.com/foo.ics'
 		}]);
@@ -881,7 +881,7 @@ describe('CalendarFactory', function () {
 		const calendar = CalendarFactory.calendar(privateCalendarServiceAPI, calendarProperties[0], '/remote.php/dav/principals/users/admin/', false);
 		expect(calendar).toEqual([privateCalendarServiceAPI, '/remote.php/dav/calendars/admin/privat/', {
 			color: '#fefefe', displayname: 'Privat', components: {vevent: true, vjournal: false, vtodo: true},
-			order: 0, writable: true, owner: 'admin', enabled: true, shares: {users: [], groups: []},
+			order: 0, writable: true, owner: 'admin', enabled: true, shares: {users: [], groups: []}, ownerDisplayname: null,
 			shareable: true, publishable: true, published: false, publicToken: null,
 			writableProperties: true}]);
 	});
@@ -891,7 +891,7 @@ describe('CalendarFactory', function () {
 		const calendar = CalendarFactory.calendar(privateCalendarServiceAPI, calendarProperties[0], '/remote.php/dav/principals/users/admin/', false);
 		expect(calendar).toEqual([privateCalendarServiceAPI, '/remote.php/dav/calendars/admin/privat/', {
 			color: '#78e774', displayname: 'Privat', components: {vevent: true, vjournal: false, vtodo: true},
-			order: 0, writable: true, owner: 'admin', enabled: true, shares: {users: [], groups: []},
+			order: 0, writable: true, owner: 'admin', enabled: true, shares: {users: [], groups: []}, ownerDisplayname: null,
 			shareable: true, publishable: true, published: false, publicToken: null,
 			writableProperties: true}]);
 	});
@@ -901,7 +901,7 @@ describe('CalendarFactory', function () {
 		const calendar = CalendarFactory.calendar(privateCalendarServiceAPI, calendarProperties[0], '/remote.php/dav/principals/users/hans_dieter/', false);
 		expect(calendar).toEqual([privateCalendarServiceAPI, '/remote.php/dav/calendars/admin/privat/', {
 			color: '#78e774', displayname: 'Privat', components: {vevent: true, vjournal: false, vtodo: true},
-			order: 0, writable: false, owner: 'admin', enabled: false, shares: {users: [], groups: []},
+			order: 0, writable: false, owner: 'admin', enabled: false, shares: {users: [], groups: []}, ownerDisplayname: null,
 			shareable: false, publishable: false, published: false, publicToken: null,
 			writableProperties: false}]);
 	});
@@ -913,7 +913,7 @@ describe('CalendarFactory', function () {
 		const calendar = CalendarFactory.calendar(privateCalendarServiceAPI, calendarProperties[0], '/remote.php/dav/principals/users/admin/', false);
 		expect(calendar).toEqual([privateCalendarServiceAPI, '/remote.php/dav/calendars/admin/privat/', {
 			color: '#78e774', displayname: 'Privat', components: {vevent: true, vjournal: false, vtodo: true},
-			order: 0, writable: true, owner: 'admin', enabled: true, shares: {users: [], groups: []},
+			order: 0, writable: true, owner: 'admin', enabled: true, shares: {users: [], groups: []}, ownerDisplayname: 'admin',
 			shareable: true, publishable: true, published: true, publicToken: 'NW1DRAC4J4UDCH4M',
 			writableProperties: true}]);
 	});
@@ -925,7 +925,7 @@ describe('CalendarFactory', function () {
 		const calendar = CalendarFactory.calendar(privateCalendarServiceAPI, calendarProperties[0], '/remote.php/dav/principals/users/admin/', false);
 		expect(calendar).toEqual([privateCalendarServiceAPI, '/remote.php/dav/calendars/admin/privat/', {
 			color: '#78e774', displayname: 'Privat', components: {vevent: true, vjournal: false, vtodo: true},
-			order: 0, writable: true, owner: 'admin', enabled: true, shares: {users: [], groups: []},
+			order: 0, writable: true, owner: 'admin', enabled: true, shares: {users: [], groups: []}, ownerDisplayname: 'admin',
 			shareable: true, publishable: true, published: true, publicToken: 'NW1DRAC4J4UDCH4M',
 			writableProperties: true}]);
 	});
@@ -944,7 +944,7 @@ describe('CalendarFactory', function () {
 				groups: [
 					{id: 'test', displayname: 'test', writable: false}
 				]
-			}, shareable: true, publishable: true, published: false, publicToken: null, writableProperties: true}
+			}, ownerDisplayname: null, shareable: true, publishable: true, published: false, publicToken: null, writableProperties: true}
 		]);
 	});
 
@@ -962,7 +962,7 @@ describe('CalendarFactory', function () {
 				groups: [
 					{id: 'test', displayname: 'test', writable: false}
 				]
-			}, shareable: false, publishable: false, published: false, publicToken: null, writableProperties: false}
+			}, ownerDisplayname: null, shareable: false, publishable: false, published: false, publicToken: null, writableProperties: false}
 		]);
 	});
 
@@ -980,7 +980,7 @@ describe('CalendarFactory', function () {
 				groups: [
 					{id: 'test', displayname: 'test', writable: false}
 				]
-			}, shareable: true, publishable: true, published: false, publicToken: null, writableProperties: false}
+			}, ownerDisplayname: null, shareable: true, publishable: true, published: false, publicToken: null, writableProperties: false}
 		]);
 	});
 
@@ -989,7 +989,7 @@ describe('CalendarFactory', function () {
 		const calendar = CalendarFactory.calendar(privateCalendarServiceAPI, calendarProperties[0], '/remote.php/dav/principals/users/admin/', false);
 		expect(calendar).toEqual([privateCalendarServiceAPI, '/remote.php/dav/calendars/admin/privat/', {
 			color: '#78e774', displayname: 'Privat', components: {vevent: true, vjournal: true, vtodo: true},
-			order: 0, writable: true, owner: 'admin', enabled: true, shares: {users: [], groups: []},
+			order: 0, writable: true, owner: 'admin', enabled: true, shares: {users: [], groups: []}, ownerDisplayname: null,
 			shareable: true, publishable: true, published: false, publicToken: null,
 			writableProperties: true}]);
 	});
@@ -999,7 +999,7 @@ describe('CalendarFactory', function () {
 		const calendar = CalendarFactory.calendar(privateCalendarServiceAPI, calendarProperties[0], '/remote.php/dav/principals/users/admin/', false);
 		expect(calendar).toEqual([privateCalendarServiceAPI, '/remote.php/dav/calendars/admin/123/', {
 			color: '#FF7A66', displayname: '123', components: {vevent: true, vjournal: false, vtodo: true},
-			order: 0, writable: true, owner: 'admin', enabled: true, shares: {users: [], groups: []},
+			order: 0, writable: true, owner: 'admin', enabled: true, shares: {users: [], groups: []}, ownerDisplayname: null,
 			shareable: true, publishable: false, published: false, publicToken: null,
 			writableProperties: true}]);
 	});
@@ -1009,7 +1009,7 @@ describe('CalendarFactory', function () {
 		const calendar = CalendarFactory.calendar(privateCalendarServiceAPI, calendarProperties[0], '/remote.php/dav/principals/users/foobar/', false);
 		expect(calendar).toEqual([privateCalendarServiceAPI, '/remote.php/dav/calendars/admin/123/', {
 			color: '#FF7A66', displayname: '123', components: {vevent: true, vjournal: false, vtodo: true},
-			order: 0, writable: false, owner: 'admin', enabled: true, shares: {users: [], groups: []},
+			order: 0, writable: false, owner: 'admin', enabled: true, shares: {users: [], groups: []}, ownerDisplayname: null,
 			shareable: false, publishable: false, published: false, publicToken: null,
 			writableProperties: false}]);
 	});
@@ -1021,7 +1021,7 @@ describe('CalendarFactory', function () {
 		const calendar = CalendarFactory.calendar(privateCalendarServiceAPI, calendarProperties[0], '', true);
 		expect(calendar).toEqual([privateCalendarServiceAPI, '/remote.php/dav/public-calendars/KCMY4V5JZ22ODGFW/', {
 			color: '#fefefe', displayname: 'Personal (admin)', components: {vevent: true, vjournal: false, vtodo: true},
-			order: 0, writable: false, owner: 'admin', enabled: true, shares: {users: [], groups: []}, shareable: false,
+			order: 0, writable: false, owner: 'admin', enabled: true, shares: {users: [], groups: []}, ownerDisplayname: 'admin', shareable: false,
 			publishable: false, published: true, publicToken: 'KCMY4V5JZ22ODGFW', writableProperties: false}
 		]);
 	});

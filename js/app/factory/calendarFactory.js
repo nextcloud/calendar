@@ -121,15 +121,16 @@ app.service('CalendarFactory', function($window, DavClient, Calendar, WebCal, co
 		return null;
 	};
 
-	context.shares = function(props, owner) {
+	context.sharesAndOwnerDisplayname = function(props, owner) {
 		const shareProp = props['{' + DavClient.NS_OWNCLOUD + '}invite'];
 		const shares = {
 			users: [],
 			groups: []
 		};
+		let ownerDisplayname = null;
 
 		if (!Array.isArray(shareProp)) {
-			return shares;
+			return [shares, null];
 		}
 
 		shareProp.forEach(function(share) {
@@ -159,12 +160,16 @@ app.service('CalendarFactory', function($window, DavClient, Calendar, WebCal, co
 			let writable = access.getElementsByTagNameNS(DavClient.NS_OWNCLOUD, 'read-write');
 			writable = writable.length !== 0;
 
-			if (href.startsWith(SHARE_USER_PREFIX) && href.substr(SHARE_USER_PREFIX.length) !== owner) {
-				shares.users.push({
-					id: href.substr(SHARE_USER_PREFIX.length),
-					displayname: displayName,
-					writable: writable
-				});
+			if (href.startsWith(SHARE_USER_PREFIX)) {
+				if (href.substr(SHARE_USER_PREFIX.length) === owner) {
+					ownerDisplayname = displayName;
+				} else {
+					shares.users.push({
+						id: href.substr(SHARE_USER_PREFIX.length),
+						displayname: displayName,
+						writable: writable
+					});
+				}
 			} else if (href.startsWith(SHARE_GROUP_PREFIX)) {
 				shares.groups.push({
 					id: href.substr(SHARE_GROUP_PREFIX.length),
@@ -174,7 +179,7 @@ app.service('CalendarFactory', function($window, DavClient, Calendar, WebCal, co
 			}
 		});
 
-		return shares;
+		return [shares, ownerDisplayname];
 	};
 
 	context.shareableAndPublishable = function(props, writable, publicMode) {
@@ -199,7 +204,7 @@ app.service('CalendarFactory', function($window, DavClient, Calendar, WebCal, co
 		return [shareable, publishable];
 	};
 
-	context.publishedAndPublicToken = function(props, publicMode) {
+	context.publishedAndPublicToken = function(props) {
 		let published = false;
 		let publicToken = null;
 
@@ -245,13 +250,15 @@ app.service('CalendarFactory', function($window, DavClient, Calendar, WebCal, co
 		simple.owner = context.owner(props);
 		simple.enabled = context.enabled(props, simple.owner, currentUser);
 
-		simple.shares = context.shares(props, simple.owner);
+		const [shares, ownerDisplayname] = context.sharesAndOwnerDisplayname(props, simple.owner);
+		simple.shares = shares;
+		simple.ownerDisplayname = ownerDisplayname;
 
 		const [shareable, publishable] = context.shareableAndPublishable(props, simple.writable, publicMode);
 		simple.shareable = shareable;
 		simple.publishable = publishable;
 
-		const [published, publicToken] = context.publishedAndPublicToken(props, publicMode);
+		const [published, publicToken] = context.publishedAndPublicToken(props);
 		simple.published = published;
 		simple.publicToken = publicToken;
 
@@ -259,6 +266,7 @@ app.service('CalendarFactory', function($window, DavClient, Calendar, WebCal, co
 		if (publicMode) {
 			simple.enabled = true;
 			simple.writable = false;
+			simple.color = constants.fallbackColor;
 		}
 
 		simple.writableProperties = (currentUser === simple.owner) && simple.writable;
