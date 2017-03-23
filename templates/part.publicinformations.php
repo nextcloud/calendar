@@ -22,16 +22,14 @@
  *
  */
 ?>
-<div id="scollable" class="settings-fieldset-interior public-left-side" ng-repeat="item in calendarListItems" >
-
-	<span class="calendarCheckbox"
-		  ng-show="item.displayColorIndicator()"
-		  ng-style="{ background: item.calendar.color }">
-	</span>
-		<span class="icon-loading-small pull-left"
-			  ng-show="item.displaySpinner()">
-	</span>
-	<h2 class="action permanent displayname">{{ item.calendar.displayname }}</h2>
+<div id="scollable" class="settings-fieldset-interior public-left-side" ng-repeat="item in calendarListItems">
+	<div class="avatardiv" data-user="{{ item.calendar.owner }}" data-size="96" avatar></div>
+	<h3 class="action permanent displayname" ngCloak>
+		<?php print_unescaped($l->t('%s shared the calendar <strong>%s</strong> with you', ['{{ item.getOwnerName() }}', '{{ item.getPublicDisplayname() }}'])); ?>
+	</h3>
+	<div class="icon-loading-small"
+		  ng-show="item.displaySpinner()" ngCloak>
+	</div>
 </div>
 <?php if(!$_['isEmbedded']): ?>
 <div id="app-settings">

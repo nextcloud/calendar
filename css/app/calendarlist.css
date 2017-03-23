@@ -385,10 +385,6 @@ input.public-linkinput {
 	margin: 6px auto;
 }
 
-#publicinformationscontainer .displayname {
-	padding-left: 44px !important;
-}
-
 #publicinformationscontainer .calendarCheckbox {
 	cursor: default;
 	margin-top: 5px;
@@ -418,7 +414,20 @@ input.public-linkinput {
 }
 
 .public-left-side {
-	margin: 100px 10px auto;
+	margin: 30px 10px auto;
+}
+
+.public-left-side .avatardiv {
+	margin: 0 auto;
+}
+
+.public-left-side h3 {
+	text-align: center;
+	margin: 10px 0 5px;
+}
+
+.public-left-side .icon-loading-small {
+	margin: 10px auto;
 }
 
 /* Publishing */
