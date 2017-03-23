@@ -10,8 +10,8 @@
 * 🌐 **WebCal Support!** Want to see your favorite team’s matchdays in your calendar? No problem!
 * 🙋 **Attendees!** Invite people to your events.
 * 🙈 **We’re not reinventing the wheel!** Based on the great [davclient.js](https://github.com/evert/davclient.js), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries.
-	
-	]]</description>
+
+	]]></description>
 	<version>1.5.2</version>
 	<licence>AGPL</licence>
 	<namespace>Calendar</namespace>
