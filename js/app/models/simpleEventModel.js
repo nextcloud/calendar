@@ -58,6 +58,27 @@ app.factory('SimpleEvent', function () {
 		'cn'
 	];
 
+	function getDtProperty(simple, propName) {
+		if (simple.allDay) {
+			simple[propName].parameters.zone = 'floating';
+		}
+
+		simple[propName].parameters.zone = simple[propName].parameters.zone || 'floating';
+
+		if (simple[propName].parameters.zone !== 'floating' && !ICAL.TimezoneService.has(simple[propName].parameters.zone)) {
+			throw new Error('Requested timezone not found (' + simple[propName].parameters.zone + ')');
+		}
+
+		const iCalTime = ICAL.Time.fromJSDate(simple[propName].value.toDate(), false);
+		iCalTime.isDate = simple.allDay;
+
+		if (simple[propName].parameters.zone !== 'floating') {
+			iCalTime.zone = ICAL.TimezoneService.get(simple[propName].parameters.zone);
+		}
+
+		return iCalTime;
+	}
+
 	/**
 	 * parsers of supported properties
 	 */
@@ -363,7 +384,6 @@ app.factory('SimpleEvent', function () {
 				parameters: {
 					zone: dtstart.zone.toString()
 				},
-				type: dtstart.icaltype,
 				value: moment({
 					years: dtstart.year,
 					months: dtstart.month - 1,
@@ -377,7 +397,6 @@ app.factory('SimpleEvent', function () {
 				parameters: {
 					zone: dtend.zone.toString()
 				},
-				type: dtend.icaltype,
 				value: moment({
 					years: dtend.year,
 					months: dtend.month - 1,
@@ -478,9 +497,8 @@ app.factory('SimpleEvent', function () {
 			vevent.removeAllProperties('dtend');
 			vevent.removeAllProperties('duration');
 
-			const isNewSimpleDataAllDay = (newSimpleData.dtstart.type === 'date' && newSimpleData.dtend.type === 'date');
 			// remove tzid property from allday events
-			if (isNewSimpleDataAllDay) {
+			if (newSimpleData.allDay) {
 				newSimpleData.dtstart.parameters.zone = 'floating';
 				newSimpleData.dtend.parameters.zone = 'floating';
 			}
@@ -496,9 +514,9 @@ app.factory('SimpleEvent', function () {
 			}
 
 			const start = ICAL.Time.fromJSDate(newSimpleData.dtstart.value.toDate(), false);
-			start.isDate = isNewSimpleDataAllDay;
+			start.isDate = newSimpleData.allDay;
 			const end = ICAL.Time.fromJSDate(newSimpleData.dtend.value.toDate(), false);
-			end.isDate = isNewSimpleDataAllDay;
+			end.isDate = newSimpleData.allDay;
 
 			const alreadyStoredTimezones = ['UTC'];
 			const vtimezones = vevent.parent.getAllSubcomponents('vtimezone');
@@ -584,6 +602,14 @@ app.factory('SimpleEvent', function () {
 			for (let key in defaults) {
 				context.oldProperties[key] = angular.copy(iface[key]);
 			}
+		};
+
+		iface.checkDtStartBeforeDtEnd = function() {
+			const dtStart = getDtProperty(iface, 'dtstart');
+			const dtEnd = getDtProperty(iface, 'dtend');
+
+			// dtend may be at the same time or later, but not before
+			return (dtEnd.compare(dtStart) !== -1);
 		};
 
 		iface.patch = function() {

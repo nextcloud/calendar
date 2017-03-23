@@ -73,7 +73,7 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
 		};
 
 		$uibModalInstance.rendered.then(function() {
-			if ($scope.properties.dtend.type === 'date') {
+			if ($scope.properties.allDay) {
 				$scope.properties.dtend.value = moment($scope.properties.dtend.value.subtract(1, 'days'));
 			}
 
@@ -131,18 +131,17 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
 				OC.Notification.showTemporary(t('calendar', 'Please select a calendar!'));
 				error = true;
 			}
+			if (!$scope.properties.checkDtStartBeforeDtEnd()) {
+				OC.Notification.showTemporary(t('calendar', 'The event ends before it starts!'));
+				error = true;
+			}
 
 			return !error;
 		};
 
 		$scope.prepareClose = function() {
 			if ($scope.properties.allDay) {
-				$scope.properties.dtstart.type = 'date';
-				$scope.properties.dtend.type = 'date';
 				$scope.properties.dtend.value.add(1, 'days');
-			} else {
-				$scope.properties.dtstart.type = 'date-time';
-				$scope.properties.dtend.type = 'date-time';
 			}
 
 			angular.forEach($scope.postEditingHooks, function(callback) {
