@@ -119,7 +119,6 @@ OC.L10N.register(
     "The file contains objects incompatible with the selected calendar" : "Dëse Fichier enthält Objeten déi net mam ausgelwielte Kalenner kompatibel sinn.",
     "New calendar" : "Neie Kalenner",
     "Import scheduled" : "Import geplangt",
-    "Settings" : "Astellungen",
     "Import calendar" : "Kalenner importéiren",
     "No Calendars selected for import" : "Et ass kee Kalenner fir en Import ausgewielt ginn",
     "Primary CalDAV address" : "Haapt-CalDAV-Adress",

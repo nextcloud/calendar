@@ -36,6 +36,7 @@ OC.L10N.register(
     "Cancelled" : "Peruttu",
     "Please add a title!" : "Lisää otsikko!",
     "Please select a calendar!" : "Valitse kalenteri!",
+    "The event ends before it starts!" : "Tapahtuman päättymisajankohta on ennen alkamisajankohtaa!",
     "Global" : "Julkinen",
     "None" : "Ei mitään",
     "Every day" : "Päivittäin",

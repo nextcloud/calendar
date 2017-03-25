@@ -38,6 +38,7 @@ OC.L10N.register(
     "Cancelled" : "İptal edilmiş",
     "Please add a title!" : "Lütfen bir başlık yazın!",
     "Please select a calendar!" : "Lütfen bir takvim seçin!",
+    "The event ends before it starts!" : "Etkinliğin bitiş tarihi başlangıç tarihinden önce!",
     "Global" : "Genel",
     "None" : "Hiçbiri",
     "Every day" : "Her gün",

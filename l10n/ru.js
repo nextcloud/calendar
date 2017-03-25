@@ -38,6 +38,7 @@ OC.L10N.register(
     "Cancelled" : "Отменено",
     "Please add a title!" : "Пожалуйста добавьте заголовок!",
     "Please select a calendar!" : "Пожалуйста выберите календарь!",
+    "The event ends before it starts!" : "Окончание раньше начала!",
     "Global" : "Основные",
     "None" : "Отсутствует",
     "Every day" : "Каждый день",

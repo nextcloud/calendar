@@ -38,6 +38,7 @@ OC.L10N.register(
     "Cancelled" : "Cancelado",
     "Please add a title!" : "¡Por favor añade un título!",
     "Please select a calendar!" : "¡Por favor selecciona un calendario!",
+    "The event ends before it starts!" : "¡El evento termina antes de que incie!",
     "Global" : "Global",
     "None" : "Ninguno",
     "Every day" : "Cada día",

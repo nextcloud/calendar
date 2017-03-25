@@ -118,7 +118,6 @@
     "The file contains objects incompatible with the selected calendar" : "這個檔案包含與選取的日曆不相容的物件",
     "New calendar" : "新日曆",
     "Import scheduled" : "已排程匯入",
-    "Settings" : "設定",
     "Import calendar" : "匯入日曆",
     "No Calendars selected for import" : "沒有選擇要匯入的日曆",
     "Primary CalDAV address" : "主要的 CalDAV 地址",

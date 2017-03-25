@@ -38,6 +38,7 @@ OC.L10N.register(
     "Cancelled" : "Abgebrochen",
     "Please add a title!" : "Bitte fügen Sie einen Titel hinzu!",
     "Please select a calendar!" : "Bitte wählen Sie einen Kalender aus!",
+    "The event ends before it starts!" : "Das Ereignis endet bevor es startet!",
     "Global" : "Global",
     "None" : "Keine",
     "Every day" : "Jeden Tag",
