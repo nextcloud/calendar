@@ -51,7 +51,6 @@ class ContactController extends Controller {
 	 * @return JSONResponse
 	 *
 	 * @NoAdminRequired
-	 * @NoCSRFRequired
 	 */
 	public function searchLocation($location) {
 		$result = $this->contacts->search($location, ['FN', 'ADR']);
@@ -85,7 +84,6 @@ class ContactController extends Controller {
 	 * @return JSONResponse
 	 *
 	 * @NoAdminRequired
-	 * @NoCSRFRequired
 	 */
 	public function searchAttendee($search) {
 		$result = $this->contacts->search($search, ['FN', 'EMAIL']);
