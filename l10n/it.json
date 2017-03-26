@@ -36,6 +36,7 @@
     "Cancelled" : "Annullato",
     "Please add a title!" : "Aggiungi un titolo!",
     "Please select a calendar!" : "Seleziona un calendario!",
+    "The event ends before it starts!" : "L'evento termina prima del suo inizio!",
     "Global" : "Globale",
     "None" : "Nessuno",
     "Every day" : "Ogni giorno",
