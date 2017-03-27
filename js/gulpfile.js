@@ -105,16 +105,16 @@ gulp.task('buildSources', () => {
 });
 
 gulp.task('minifySources', () => {
-	gulp.src([cssDestinationFolder + cssBuildTarget])
-		.pipe(concat(cssBuildTargetMin))
+	gulp.src(cssDestinationFolder + cssBuildTarget)
 		.pipe(sourcemaps.init({identityMap: true, largeFile: true}))
+		.pipe(concat(cssBuildTargetMin))
 		.pipe(uglifyCSS())
 		.pipe(sourcemaps.write('./', {includeContent: false}))
 		.pipe(gulp.dest(cssDestinationFolder));
 
-	return gulp.src([destinationFolder + buildTarget])
-		.pipe(concat(buildTargetMin))
+	return gulp.src(destinationFolder + buildTarget)
 		.pipe(sourcemaps.init({identityMap: true, largeFile: true}))
+		.pipe(concat(buildTargetMin))
 		.pipe(uglify())
 		.pipe(sourcemaps.write('./', {includeContent: false}))
 		.pipe(gulp.dest(destinationFolder));
@@ -136,8 +136,8 @@ gulp.task('buildVendor', () => {
 
 gulp.task('minifyVendor', () => {
 	gulp.src([cssDestinationFolder + vendorCssTarget])
-		.pipe(concat(vendorCssTargetMin))
 		.pipe(sourcemaps.init({identityMap: true, largeFile: true}))
+		.pipe(concat(vendorCssTargetMin))
 		.pipe(stripCSS({
 			preserve: false
 		}))
@@ -146,16 +146,16 @@ gulp.task('minifyVendor', () => {
 		.pipe(gulp.dest(cssDestinationFolder));
 
 	gulp.src([destinationFolder + vendorIETarget])
-		.pipe(concat(vendorIETargetMin))
 		.pipe(sourcemaps.init({identityMap: true, largeFile: true}))
+		.pipe(concat(vendorIETargetMin))
 		.pipe(strip())
 		.pipe(uglify())
 		.pipe(sourcemaps.write('./', {includeContent: false}))
 		.pipe(gulp.dest(destinationFolder));
 
 	return gulp.src([destinationFolder + vendorTarget])
-		.pipe(concat(vendorTargetMin))
 		.pipe(sourcemaps.init({identityMap: true, largeFile: true}))
+		.pipe(concat(vendorTargetMin))
 		.pipe(strip())
 		.pipe(uglify())
 		.pipe(sourcemaps.write('./', {includeContent: false}))
