@@ -38,6 +38,7 @@ OC.L10N.register(
     "Cancelled" : "Zrušeno",
     "Please add a title!" : "Zadejte prosím název!",
     "Please select a calendar!" : "Vyberte prosím kalendář!",
+    "The event ends before it starts!" : "Událosk končí dříve než začala!",
     "Global" : "Globální",
     "None" : "Žádné",
     "Every day" : "Každý den",
