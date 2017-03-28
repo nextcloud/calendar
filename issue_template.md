@@ -34,8 +34,8 @@ Tell us what happens instead
 **Signing status (ownCloud/Nextcloud 9.0 and above):**
 
 ```
-Login as admin user into your cloud and access 
-http://example.com/index.php/settings/integrity/failed 
+Login as admin user into your cloud and access
+http://example.com/index.php/settings/integrity/failed
 paste the results here.
 ```
 
@@ -54,7 +54,7 @@ If you have access to your command line run e.g.:
 sudo -u www-data php occ config:list system
 from within your instance's installation folder
 
-or 
+or
 
 Insert your config.php content here
 (Without the database password, passwordsalt and secret)
@@ -94,9 +94,9 @@ Eventually replace sensitive data as the name/IP-address of your LDAP server or 
 Insert your webserver log here
 ```
 
-#### Log file (data/owncloud.log)
+#### Log file (data/nextcloud.log)
 ```
-Insert your ownCloud.log file here
+Insert your nextcloud.log file here
 ```
 
 #### Browser log
@@ -104,6 +104,6 @@ Insert your ownCloud.log file here
 Insert your browser log here, this could for example include:
 
 a) The javascript console log
-b) The network log 
+b) The network log
 c) ...
 ```
