@@ -26,12 +26,12 @@ app.run(['$document', '$rootScope', '$window', 'isPublic',
 		'use strict';
 
 		const origin = $window.location.origin;
-		const root = origin + OC.generateUrl(OC.linkTo('calendar', ''));
-		$rootScope.baseUrl = origin + OC.generateUrl(OC.linkTo('calendar', 'v1/'));
+		$rootScope.root = origin + OC.linkTo('calendar', 'index.php') + '/';
+		$rootScope.baseUrl = $rootScope.root + 'v1/';
 
 		try {
 			if (!isPublic) {
-				const webcalHandler = root + '#subscribe_to_webcal?url=%s';
+				const webcalHandler = $rootScope.root + '#subscribe_to_webcal?url=%s';
 				navigator.registerProtocolHandler('webcal', webcalHandler, 'Nextcloud calendar');
 			}
 		} catch(e) {

@@ -21,7 +21,7 @@
  *
  */
 
-app.factory('CalendarListItem', function($window, Calendar, WebCal, isSharingAPI) {
+app.factory('CalendarListItem', function($rootScope, $window, Calendar, WebCal, isSharingAPI) {
 	'use strict';
 
 	function CalendarListItem(calendar) {
@@ -49,12 +49,12 @@ app.factory('CalendarListItem', function($window, Calendar, WebCal, isSharingAPI
 			},
 			publicSharingURL: {
 				get: () => {
-					return $window.origin + OC.generateUrl(OC.linkTo('calendar', 'p/' + context.calendar.publicToken));
+					return $rootScope.root + 'p/' + context.calendar.publicToken;
 				}
 			},
 			publicEmbedURL: {
 				get: () => {
-					return $window.origin + OC.generateUrl(OC.linkTo('calendar', 'embed/' + context.calendar.publicToken));
+					return $rootScope.root + 'embed/' + context.calendar.publicToken;
 				}
 			}
 		});
