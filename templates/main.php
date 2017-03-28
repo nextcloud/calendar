@@ -56,6 +56,16 @@ foreach ($scripts as $script) {
 	script('calendar', $script);
 }
 ?>
+<?php if($_['isPublic'] && !$_['isEmbedded']): ?>
+<style>
+	@media only screen and (max-width: 768px) {
+		#app-navigation, #app-content {
+			top: 45px !important;
+		}
+	}
+</style>
+<?php endif; ?>
+
 <?php if($_['isEmbedded']): ?>
 <style>
 	@media only screen and (max-width: 768px) {
