@@ -31,6 +31,7 @@ module.exports = function (config) {
 			'../../core/vendor/jquery/dist/jquery.js',
 			'../../core/vendor/jquery/jquery.js',
 			'../../core/vendor/moment/min/moment-with-locales.js',
+			'../../core/vendor/moment/min/moment-with-locales.min.js',
 			'../../core/vendor/davclient.js/lib/client.js',
 			'js/vendor/jstzdetect/jstz.min.js',
 			'js/vendor/fullcalendar/dist/fullcalendar.min.js',
