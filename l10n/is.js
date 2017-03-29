@@ -38,6 +38,7 @@ OC.L10N.register(
     "Cancelled" : "Hætt við",
     "Please add a title!" : "Settu inn titil!",
     "Please select a calendar!" : "Veldu dagatal!",
+    "The event ends before it starts!" : "Atburðurinn endar áður en hann byrjar!",
     "Global" : "Almennt",
     "None" : "Ekkert",
     "Every day" : "Daglega",
