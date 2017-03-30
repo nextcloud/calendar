@@ -38,6 +38,7 @@ OC.L10N.register(
     "Cancelled" : "Megszakítva",
     "Please add a title!" : "Kérjük, töltse ki a címet!",
     "Please select a calendar!" : "Kérjük, válasszon egy naptárat!",
+    "The event ends before it starts!" : "Az esemény végetér mielőtt elkezdődne!",
     "Global" : "Globális",
     "None" : "Egyik sem",
     "Every day" : "minden nap",
