@@ -1,12 +1,12 @@
 {
-  "name": "Calendar",
+  "name": "nextcloud-calendar",
   "dependencies": {
     "angular": "1.6.3",
     "angular-bootstrap": "2.5.0",
     "jquery-timepicker": "883bb2cd94",
-    "jstzdetect": "1.0.6",
+    "jstzdetect": "hg+https://bitbucket.org/pellepim/jstimezonedetect",
     "ical.js": "1.2.2",
-    "fullcalendar": "3.2.0",
+    "fullcalendar": "3.3.1",
     "hsl_rgb_converter": "https://github.com/kayellpeee/hsl_rgb_converter.git",
     "autosize": "^3.0.20"
   },

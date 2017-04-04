@@ -33,7 +33,7 @@ module.exports = function (config) {
 			'../../core/vendor/moment/min/moment-with-locales.js',
 			'../../core/vendor/moment/min/moment-with-locales.min.js',
 			'../../core/vendor/davclient.js/lib/client.js',
-			'js/vendor/jstzdetect/jstz.min.js',
+			'js/vendor/jstzdetect/dist/jstz.min.js',
 			'js/vendor/fullcalendar/dist/fullcalendar.min.js',
 			'js/vendor/angular/angular.js',
 			'js/vendor/angular-mocks/angular-mocks.js',
