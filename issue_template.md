@@ -17,6 +17,8 @@ Tell us what should happen
 Tell us what happens instead
 
 ### Server configuration
+You can use the Issue Template application to prefill most of the required information: https://apps.nextcloud.com/apps/issuetemplate
+
 **Operating system**:
 
 **Web server:**
@@ -78,7 +80,7 @@ computer or access your SQL server remotely and run the select query:
 SELECT * FROM `oc_appconfig` WHERE `appid` = 'user_ldap';
 
 
-Eventually replace sensitive data as the name/IP-address of your LDAP server or groups.
+Be sure to replace sensitive data as the name/IP-address of your LDAP server or groups.
 ```
 
 ### Client configuration
