@@ -44,20 +44,8 @@
 	float: right;
 }
 
-.advanced .start-end-container {
-	margin-right: 15px;
-}
-
 .advanced .advanced--checkbox {
 	margin: 10px 0;
-}
-
-.advanced .timezone-container {
-	margin: 4px -17px;
-}
-
-.advanced .timezone-select {
-	width: 110% !important; /* very dirty hack to fix alignment issues. */
 }
 
 .modal-open .modal.popover,
@@ -99,26 +87,44 @@
 	margin-right: 0;
 }
 
+.advanced .event-time-interior,
 .events .event-time-interior {
-	width: 170px;
+	width: 40%;
 }
 
+@media (max-width: 1600px) {
+	.advanced .event-time-interior {
+		width: 45%;
+	}
+}
+
+@media (max-width: 1450px) {
+	.advanced .event-time-interior {
+		width: 48%;
+	}
+}
+
+@media (max-width: 1350px) {
+	.advanced .event-time-interior {
+		width: 100%;
+	}
+}
+
+.advanced .events--date,
 .events .events--date {
-	width: 55%;
+	width: calc(100% - 70px);
 	border-right-width: 0;
 	border-top-right-radius: 0;
 	border-bottom-right-radius: 0;
 	margin-right: 0;
 }
 
+.advanced .events--date:focus,
+.advanced .events--date:hover,
 .events .events--date:focus,
 .events .events--date:hover {
 	border-right-width: 1px;
 	border-right-style: solid;
-}
-
-.advanced .events--date {
-	width: 100%;
 }
 
 .events .events--input__full {
@@ -135,14 +141,18 @@
 	display: inline !important;
 }
 
+.advanced .events--time,
 .events .events--time {
-	width: 45%;
+	width: 70px;
 	border-left: 0;
 	border-top-left-radius: 0;
 	border-bottom-left-radius: 0;
 	margin-right: 0;
+	text-align: right;
 }
 
+.advanced .events--time:focus,
+.advanced .events--time:hover,
 .events .events--time:focus,
 .events .events--time:hover {
 	border-left-width: 1px;
@@ -156,10 +166,6 @@
 .events--textarea,
 .advanced--textarea {
 	resize: none;
-}
-
-.advanced .events--time {
-	width: 100%;
 }
 
 .events .events--checkbox {
