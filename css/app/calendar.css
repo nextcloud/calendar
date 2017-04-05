@@ -43,3 +43,9 @@
 	max-width: 0 !important;
 	overflow: hidden !important;
 }
+
+#fullcalendar .fc-axis,
+#fullcalendar .fc-day-header {
+	font-size: 100%;
+	opacity: .5;
+}
