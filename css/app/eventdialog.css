@@ -95,12 +95,26 @@
 }
 
 .events .events--fieldset select {
-	width: 99.5%;
+	width: 100%;
 	margin-right: 0;
 }
 
+.events .event-time-interior {
+	width: 170px;
+}
+
 .events .events--date {
-	width: 70px;
+	width: 55%;
+	border-right-width: 0;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+	margin-right: 0;
+}
+
+.events .events--date:focus,
+.events .events--date:hover {
+	border-right-width: 1px;
+	border-right-style: solid;
 }
 
 .advanced .events--date {
@@ -112,7 +126,7 @@
 }
 
 .events .h2.events--input {
-	width: 96%;
+	width: 100%;
 	font-size: 20px;
 }
 
@@ -122,7 +136,17 @@
 }
 
 .events .events--time {
-	width: 60px;
+	width: 45%;
+	border-left: 0;
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+	margin-right: 0;
+}
+
+.events .events--time:focus,
+.events .events--time:hover {
+	border-left-width: 1px;
+	border-left-style: solid;
 }
 
 .events .events--time[disabled] {
@@ -139,7 +163,7 @@
 }
 
 .events .events--checkbox {
-	padding: 3px 0;
+	padding: 3px 0 10px;
 }
 
 .modal-open .modal.popover .modal-content {
