@@ -31,7 +31,7 @@ OC.L10N.register(
     "Reminders" : "Recordatorios",
     "Repeating" : "Repitiendo",
     "When shared show full event" : "Al compartir, mostrar el evento completo",
-    "When shared show only busy" : "Al compartir, sólo mostrar cuándo estoy ocupado ",
+    "When shared show only busy" : "Al compartir, mostrar sólo como ocupado ",
     "When shared hide this event" : "Al compartir, ocultar este evento ",
     "Confirmed" : "Confirmado",
     "Tentative" : "Tentativo",
