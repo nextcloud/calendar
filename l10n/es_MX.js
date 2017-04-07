@@ -81,7 +81,7 @@ OC.L10N.register(
     "{type} {time} after the event ends" : "{type} {time} después de que el evento termine",
     "{type} at the event's start" : "{type} al inicio del evento",
     "{type} at the event's end" : "{type} al final del evento",
-    "{type} at {time}" : "{type} a {time}",
+    "{type} at {time}" : "{type} a las {time}",
     "{calendar} shared by {owner}" : "{calendar} compartido por {owner}",
     "Please enter a valid WebCal-URL" : "Favor de ingresar una URL WebCal válida",
     "Severe error in webcal proxy. Please contact administrator for more information." : "Se presentó un error severo en el proxy webcal. Favor de contactar al adminsitrador para más información. ",
