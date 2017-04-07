@@ -186,51 +186,48 @@ app.factory('VEvent', function(TimezoneService, FcEvent, SimpleEvent, ICalFactor
 					});
 				}).then(() => {
 					const vevents = context.comp.getAllSubcomponents('vevent');
-					vevents.forEach(function (vevent) {
-						const iCalEvent = new ICAL.Event(vevent);
+					const exceptions = vevents.filter((vevent) => vevent.hasProperty('recurrence-id'));
+					const vevent = vevents.find((vevent) => !vevent.hasProperty('recurrence-id'));
+					const iCalEvent = new ICAL.Event(vevent, {exceptions});
 
-						if (!vevent.hasProperty('dtstart')) {
-							return;
-						}
+					if (!vevent.hasProperty('dtstart')) {
+						resolve([]);
+					}
 
-						const dtstartProp = vevent.getFirstProperty('dtstart');
-						const rawDtstart = dtstartProp.getFirstValue('dtstart');
-						const rawDtend = context.calculateDTEnd(vevent);
+					const dtstartProp = vevent.getFirstProperty('dtstart');
+					const rawDtstart = dtstartProp.getFirstValue('dtstart');
+					const rawDtend = context.calculateDTEnd(vevent);
 
-						if (iCalEvent.isRecurring()) {
-							const duration = rawDtend.subtractDate(rawDtstart);
-							const iterator = new ICAL.RecurExpansion({
-								component: vevent,
-								dtstart: rawDtstart
-							});
+					if (iCalEvent.isRecurring()) {
+						const iterator = new ICAL.RecurExpansion({
+							component: vevent,
+							dtstart: rawDtstart
+						});
 
-							let next;
-							while ((next = iterator.next())) {
-								const singleDtStart = next.clone();
-								const singleDtEnd = next.clone();
-								singleDtEnd.addDuration(duration);
+						let next;
+						while ((next = iterator.next())) {
+							const occurrence = iCalEvent.getOccurrenceDetails(next);
 
-								if (singleDtEnd.compare(iCalStart) < 0) {
-									continue;
-								}
-								if (next.compare(iCalEnd) > 0) {
-									break;
-								}
-
-								const dtstart = context.convertTz(singleDtStart, timezone.jCal);
-								const dtend = context.convertTz(singleDtEnd, timezone.jCal);
-								const fcEvent = FcEvent(iface, vevent, dtstart, dtend);
-
-								fcEvents.push(fcEvent);
+							if (occurrence.endDate.compare(iCalStart) < 0) {
+								continue;
 							}
-						} else {
-							const dtstart = context.convertTz(rawDtstart, timezone.jCal);
-							const dtend = context.convertTz(rawDtend, timezone.jCal);
-							const fcEvent = FcEvent(iface, vevent, dtstart, dtend);
+							if (occurrence.startDate.compare(iCalEnd) > 0) {
+								break;
+							}
+
+							const dtstart = context.convertTz(occurrence.startDate, timezone.jCal);
+							const dtend = context.convertTz(occurrence.endDate, timezone.jCal);
+							const fcEvent = FcEvent(iface, occurrence.item.component, dtstart, dtend);
 
 							fcEvents.push(fcEvent);
 						}
-					});
+					} else {
+						const dtstart = context.convertTz(rawDtstart, timezone.jCal);
+						const dtend = context.convertTz(rawDtend, timezone.jCal);
+						const fcEvent = FcEvent(iface, vevent, dtstart, dtend);
+
+						fcEvents.push(fcEvent);
+					}
 
 					resolve(fcEvents);
 				});

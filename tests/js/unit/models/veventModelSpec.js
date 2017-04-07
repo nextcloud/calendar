@@ -474,6 +474,53 @@ END:VALARM
 END:VEVENT
 END:VCALENDAR`;
 
+	const ics13 = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Apple Inc.//Mac OS X 10.11.6//EN
+CALSCALE:GREGORIAN
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+DTSTART:19810329T020000
+TZNAME:GMT+2
+TZOFFSETTO:+0200
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+DTSTART:19961027T030000
+TZNAME:GMT+1
+TZOFFSETTO:+0100
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+CREATED:20161003T140450Z
+UID:6D2955B1-5E46-4683-AA11-asdasdasdasdasdasdasdasd
+RRULE:FREQ=WEEKLY;INTERVAL=1
+DTEND;TZID=Europe/Berlin:20160928T100000
+TRANSP:OPAQUE
+SUMMARY:foobar 9990
+DTSTART;TZID=Europe/Berlin:20160928T090000
+DTSTAMP:20161003T140538Z
+X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC
+SEQUENCE:0
+END:VEVENT
+BEGIN:VEVENT
+CREATED:20161003T140450Z
+UID:6D2955B1-5E46-4683-AA11-asdasdasdasdasdasdasdasd
+DTEND;TZID=Europe/Berlin:20161013T100000
+TRANSP:OPAQUE
+X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC
+SUMMARY:foobar 9991
+DTSTART;TZID=Europe/Berlin:20161013T090000
+DTSTAMP:20161003T140622Z
+SEQUENCE:0
+RECURRENCE-ID;RANGE=THISANDFUTURE;TZID=Europe/Berlin:20161012T090000
+END:VEVENT
+END:VCALENDAR`;
+
 	const timezone_nyc = {
 		jCal: new ICAL.Timezone(new ICAL.Component(ICAL.parse(`BEGIN:VTIMEZONE
 TZID:America/New_York
@@ -1204,20 +1251,18 @@ END:VEVENT`.split("\n").join("\r\n"));
 		expect(called).toEqual(true);
 	});
 
-	//TODO - this test currently fails
-	//TODO - correct handling of recurrence exception is failing
-	it ('should generate FcEvents for a dedicated time-range - recurring events with recurrence Exceptions', function() {
-		/*const calendar = {this_is_a_fancy_calendar: true};
+	it ('should generate FcEvents for a dedicated time-range - recurring events with recurrence Exceptions', () => {
+		const calendar = {this_is_a_fancy_calendar: true};
 		const comp = new ICAL.Component(ICAL.parse(ics8));
 
 		const vevent = VEvent(calendar, comp);
 		const start = moment('2016-09-25');
 		const end = moment('2016-11-06');
 
-		const fcEvents = vevent.getFcEvent(start, end, timezone_berlin);
-		expect(fcEvents.length).toEqual(6);
-		expect(fcEvents[0][0]).toEqual(vevent);
-		expect(fcEvents[0][1].toString()).toEqual(`BEGIN:VEVENT
+		vevent.getFcEvent(start, end, timezone_berlin).then((fcEvents) => {
+			expect(fcEvents.length).toEqual(6);
+			expect(fcEvents[0][0]).toEqual(vevent);
+			expect(fcEvents[0][1].toString()).toEqual(`BEGIN:VEVENT
 CREATED:20161003T140450Z
 UID:6D2955B1-5E46-4683-AA11-236D2E8458CE
 RRULE:FREQ=WEEKLY;INTERVAL=1
@@ -1229,13 +1274,13 @@ DTSTAMP:20161003T140538Z
 X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC
 SEQUENCE:0
 END:VEVENT`.split("\n").join("\r\n"));
-		expect(fcEvents[0][2].toString()).toEqual('2016-09-28T09:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[0][2])).toBe(true);
-		expect(fcEvents[0][3].toString()).toEqual('2016-09-28T10:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[0][3])).toBe(true);
+			expect(fcEvents[0][2].toString()).toEqual('2016-09-28T09:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[0][2])).toBe(true);
+			expect(fcEvents[0][3].toString()).toEqual('2016-09-28T10:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[0][3])).toBe(true);
 
-		expect(fcEvents[1][0]).toEqual(vevent);
-		expect(fcEvents[1][1].toString()).toEqual(`BEGIN:VEVENT
+			expect(fcEvents[1][0]).toEqual(vevent);
+			expect(fcEvents[1][1].toString()).toEqual(`BEGIN:VEVENT
 CREATED:20161003T140450Z
 UID:6D2955B1-5E46-4683-AA11-236D2E8458CE
 RRULE:FREQ=WEEKLY;INTERVAL=1
@@ -1247,13 +1292,13 @@ DTSTAMP:20161003T140538Z
 X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC
 SEQUENCE:0
 END:VEVENT`.split("\n").join("\r\n"));
-		expect(fcEvents[1][2].toString()).toEqual('2016-10-05T09:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[1][2])).toBe(true);
-		expect(fcEvents[1][3].toString()).toEqual('2016-10-05T10:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[1][3])).toBe(true);
+			expect(fcEvents[1][2].toString()).toEqual('2016-10-05T09:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[1][2])).toBe(true);
+			expect(fcEvents[1][3].toString()).toEqual('2016-10-05T10:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[1][3])).toBe(true);
 
-		expect(fcEvents[2][0]).toEqual(vevent);
-		expect(fcEvents[2][1].toString()).toEqual(`BEGIN:VEVENT
+			expect(fcEvents[2][0]).toEqual(vevent);
+			expect(fcEvents[2][1].toString()).toEqual(`BEGIN:VEVENT
 CREATED:20161003T140450Z
 UID:6D2955B1-5E46-4683-AA11-236D2E8458CE
 DTEND;TZID=Europe/Berlin:20161013T100000
@@ -1265,13 +1310,13 @@ DTSTAMP:20161003T140622Z
 SEQUENCE:0
 RECURRENCE-ID;TZID=Europe/Berlin:20161012T090000
 END:VEVENT`.split("\n").join("\r\n"));
-		expect(fcEvents[2][2].toString()).toEqual('2016-10-13T09:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[2][2])).toBe(true);
-		expect(fcEvents[2][3].toString()).toEqual('2016-10-13T10:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[2][3])).toBe(true);
+			expect(fcEvents[2][2].toString()).toEqual('2016-10-13T09:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[2][2])).toBe(true);
+			expect(fcEvents[2][3].toString()).toEqual('2016-10-13T10:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[2][3])).toBe(true);
 
-		expect(fcEvents[3][0]).toEqual(vevent);
-		expect(fcEvents[3][1].toString()).toEqual(`BEGIN:VEVENT
+			expect(fcEvents[3][0]).toEqual(vevent);
+			expect(fcEvents[3][1].toString()).toEqual(`BEGIN:VEVENT
 CREATED:20161003T140450Z
 UID:6D2955B1-5E46-4683-AA11-236D2E8458CE
 RRULE:FREQ=WEEKLY;INTERVAL=1
@@ -1283,13 +1328,13 @@ DTSTAMP:20161003T140538Z
 X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC
 SEQUENCE:0
 END:VEVENT`.split("\n").join("\r\n"));
-		expect(fcEvents[3][2].toString()).toEqual('2016-10-19T09:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[3][2])).toBe(true);
-		expect(fcEvents[3][3].toString()).toEqual('2016-10-19T10:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[3][3])).toBe(true);
+			expect(fcEvents[3][2].toString()).toEqual('2016-10-19T09:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[3][2])).toBe(true);
+			expect(fcEvents[3][3].toString()).toEqual('2016-10-19T10:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[3][3])).toBe(true);
 
-		expect(fcEvents[4][0]).toEqual(vevent);
-		expect(fcEvents[4][1].toString()).toEqual(`BEGIN:VEVENT
+			expect(fcEvents[4][0]).toEqual(vevent);
+			expect(fcEvents[4][1].toString()).toEqual(`BEGIN:VEVENT
 CREATED:20161003T140450Z
 UID:6D2955B1-5E46-4683-AA11-236D2E8458CE
 RRULE:FREQ=WEEKLY;INTERVAL=1
@@ -1301,13 +1346,13 @@ DTSTAMP:20161003T140538Z
 X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC
 SEQUENCE:0
 END:VEVENT`.split("\n").join("\r\n"));
-		expect(fcEvents[4][2].toString()).toEqual('2016-10-26T09:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[4][2])).toBe(true);
-		expect(fcEvents[4][3].toString()).toEqual('2016-10-26T10:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[4][3])).toBe(true);
+			expect(fcEvents[4][2].toString()).toEqual('2016-10-26T09:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[4][2])).toBe(true);
+			expect(fcEvents[4][3].toString()).toEqual('2016-10-26T10:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[4][3])).toBe(true);
 
-		expect(fcEvents[5][0]).toEqual(vevent);
-		expect(fcEvents[5][1].toString()).toEqual(`BEGIN:VEVENT
+			expect(fcEvents[5][0]).toEqual(vevent);
+			expect(fcEvents[5][1].toString()).toEqual(`BEGIN:VEVENT
 CREATED:20161003T140450Z
 UID:6D2955B1-5E46-4683-AA11-236D2E8458CE
 RRULE:FREQ=WEEKLY;INTERVAL=1
@@ -1319,10 +1364,135 @@ DTSTAMP:20161003T140538Z
 X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC
 SEQUENCE:0
 END:VEVENT`.split("\n").join("\r\n"));
-		expect(fcEvents[5][2].toString()).toEqual('2016-11-02T09:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[5][2])).toBe(true);
-		expect(fcEvents[5][3].toString()).toEqual('2016-11-02T10:00:00');
-		expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[5][3])).toBe(true);*/
+			expect(fcEvents[5][2].toString()).toEqual('2016-11-02T09:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[5][2])).toBe(true);
+			expect(fcEvents[5][3].toString()).toEqual('2016-11-02T10:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[5][3])).toBe(true);
+		});
+
+		$rootScope.$apply();
+	});
+
+	it ('should generate FcEvents for a dedicated time-range - recurring events with recurrence Exceptions - THISANDFUTURE', () => {
+		const calendar = {this_is_a_fancy_calendar: true};
+		const comp = new ICAL.Component(ICAL.parse(ics13));
+
+		const vevent = VEvent(calendar, comp);
+		const start = moment('2016-09-25');
+		const end = moment('2016-11-06');
+
+		vevent.getFcEvent(start, end, timezone_berlin).then((fcEvents) => {
+			expect(fcEvents.length).toEqual(6);
+			expect(fcEvents[0][0]).toEqual(vevent);
+			expect(fcEvents[0][1].toString()).toEqual(`BEGIN:VEVENT
+CREATED:20161003T140450Z
+UID:6D2955B1-5E46-4683-AA11-asdasdasdasdasdasdasdasd
+RRULE:FREQ=WEEKLY;INTERVAL=1
+DTEND;TZID=Europe/Berlin:20160928T100000
+TRANSP:OPAQUE
+SUMMARY:foobar 9990
+DTSTART;TZID=Europe/Berlin:20160928T090000
+DTSTAMP:20161003T140538Z
+X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC
+SEQUENCE:0
+END:VEVENT`.split("\n").join("\r\n"));
+			expect(fcEvents[0][2].toString()).toEqual('2016-09-28T09:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[0][2])).toBe(true);
+			expect(fcEvents[0][3].toString()).toEqual('2016-09-28T10:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[0][3])).toBe(true);
+
+			expect(fcEvents[1][0]).toEqual(vevent);
+			expect(fcEvents[1][1].toString()).toEqual(`BEGIN:VEVENT
+CREATED:20161003T140450Z
+UID:6D2955B1-5E46-4683-AA11-asdasdasdasdasdasdasdasd
+RRULE:FREQ=WEEKLY;INTERVAL=1
+DTEND;TZID=Europe/Berlin:20160928T100000
+TRANSP:OPAQUE
+SUMMARY:foobar 9990
+DTSTART;TZID=Europe/Berlin:20160928T090000
+DTSTAMP:20161003T140538Z
+X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC
+SEQUENCE:0
+END:VEVENT`.split("\n").join("\r\n"));
+			expect(fcEvents[1][2].toString()).toEqual('2016-10-05T09:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[1][2])).toBe(true);
+			expect(fcEvents[1][3].toString()).toEqual('2016-10-05T10:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[1][3])).toBe(true);
+
+			expect(fcEvents[2][0]).toEqual(vevent);
+			expect(fcEvents[2][1].toString()).toEqual(`BEGIN:VEVENT
+CREATED:20161003T140450Z
+UID:6D2955B1-5E46-4683-AA11-asdasdasdasdasdasdasdasd
+DTEND;TZID=Europe/Berlin:20161013T100000
+TRANSP:OPAQUE
+X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC
+SUMMARY:foobar 9991
+DTSTART;TZID=Europe/Berlin:20161013T090000
+DTSTAMP:20161003T140622Z
+SEQUENCE:0
+RECURRENCE-ID;RANGE=THISANDFUTURE;TZID=Europe/Berlin:20161012T090000
+END:VEVENT`.split("\n").join("\r\n"));
+			expect(fcEvents[2][2].toString()).toEqual('2016-10-13T09:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[2][2])).toBe(true);
+			expect(fcEvents[2][3].toString()).toEqual('2016-10-13T10:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[2][3])).toBe(true);
+
+			expect(fcEvents[3][0]).toEqual(vevent);
+			expect(fcEvents[3][1].toString()).toEqual(`BEGIN:VEVENT
+CREATED:20161003T140450Z
+UID:6D2955B1-5E46-4683-AA11-asdasdasdasdasdasdasdasd
+DTEND;TZID=Europe/Berlin:20161013T100000
+TRANSP:OPAQUE
+X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC
+SUMMARY:foobar 9991
+DTSTART;TZID=Europe/Berlin:20161013T090000
+DTSTAMP:20161003T140622Z
+SEQUENCE:0
+RECURRENCE-ID;RANGE=THISANDFUTURE;TZID=Europe/Berlin:20161012T090000
+END:VEVENT`.split("\n").join("\r\n"));
+			expect(fcEvents[3][2].toString()).toEqual('2016-10-20T09:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[3][2])).toBe(true);
+			expect(fcEvents[3][3].toString()).toEqual('2016-10-20T10:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[3][3])).toBe(true);
+
+			expect(fcEvents[4][0]).toEqual(vevent);
+			expect(fcEvents[4][1].toString()).toEqual(`BEGIN:VEVENT
+CREATED:20161003T140450Z
+UID:6D2955B1-5E46-4683-AA11-asdasdasdasdasdasdasdasd
+DTEND;TZID=Europe/Berlin:20161013T100000
+TRANSP:OPAQUE
+X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC
+SUMMARY:foobar 9991
+DTSTART;TZID=Europe/Berlin:20161013T090000
+DTSTAMP:20161003T140622Z
+SEQUENCE:0
+RECURRENCE-ID;RANGE=THISANDFUTURE;TZID=Europe/Berlin:20161012T090000
+END:VEVENT`.split("\n").join("\r\n"));
+			expect(fcEvents[4][2].toString()).toEqual('2016-10-27T09:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[4][2])).toBe(true);
+			expect(fcEvents[4][3].toString()).toEqual('2016-10-27T10:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[4][3])).toBe(true);
+
+			expect(fcEvents[5][0]).toEqual(vevent);
+			expect(fcEvents[5][1].toString()).toEqual(`BEGIN:VEVENT
+CREATED:20161003T140450Z
+UID:6D2955B1-5E46-4683-AA11-asdasdasdasdasdasdasdasd
+DTEND;TZID=Europe/Berlin:20161013T100000
+TRANSP:OPAQUE
+X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC
+SUMMARY:foobar 9991
+DTSTART;TZID=Europe/Berlin:20161013T090000
+DTSTAMP:20161003T140622Z
+SEQUENCE:0
+RECURRENCE-ID;RANGE=THISANDFUTURE;TZID=Europe/Berlin:20161012T090000
+END:VEVENT`.split("\n").join("\r\n"));
+			expect(fcEvents[5][2].toString()).toEqual('2016-11-03T09:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[5][2])).toBe(true);
+			expect(fcEvents[5][3].toString()).toEqual('2016-11-03T10:00:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[5][3])).toBe(true);
+		});
+
+		$rootScope.$apply();
 	});
 
 	it ('should generate FcEvents for a dedicated time-range - recurring events ending before requested time-frame', function() {
