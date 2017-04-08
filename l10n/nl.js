@@ -143,7 +143,7 @@ OC.L10N.register(
     "times every" : "keer elke",
     "Add" : "Toevoegen",
     "E-Mail address of attendee" : "E-mailadres van deelnemer",
-    "Please add your email address in the personal settings in order to add attendees." : "Stel uw e-mail adres in in de account instellingen om aanwezigen toe te voegen.",
+    "Please add your email address in the personal settings in order to add attendees." : "Stel je e-mailadres in in de accountinstellingen om aanwezigen toe te voegen.",
     "from" : "van",
     "to" : "naar",
     "This event's repeating rule is not supported yet." : "De herhaalregel van deze afspraak wordt nog niet ondersteund.",
