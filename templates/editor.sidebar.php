@@ -20,14 +20,14 @@
 				</fieldset>
 
 				<fieldset class="advanced--fieldset start-end-container" ng-disabled="readOnly">
-					<div class="event-time-interior pull-left pull-half">
-						<span><?php p($l->t('starts')); ?></span>
+					<div class="event-time-interior pull-left">
+						<span><?php p($l->t('Starts')); ?></span>
 						<ocdatetimepicker ng-model="properties.dtstart.value" disabletime="properties.allDay" datetabindex="203" timetabindex="204" readonly="readOnly"></ocdatetimepicker>
 						<select ng-options="timezone.value as timezone.displayname | timezoneWithoutContinentFilter group by timezone.group for timezone in timezones" ng-model="properties.dtstart.parameters.zone" ng-show="edittimezone || readOnly" ng-disabled="properties.allDay"
 								ng-change="loadTimezone(properties.dtstart.parameters.zone)" class="timezone-select" tabindex="205"></select>
 					</div>
-					<div class="event-time-interior pull-right pull-half">
-						<span><?php p($l->t('ends')); ?></span>
+					<div class="event-time-interior pull-right">
+						<span><?php p($l->t('Ends')); ?></span>
 						<ocdatetimepicker ng-model="properties.dtend.value" disabletime="properties.allDay" datetabindex="206" timetabindex="207" readonly="readOnly"></ocdatetimepicker>
 						<select ng-options="timezone.value as timezone.displayname | timezoneWithoutContinentFilter group by timezone.group for timezone in timezones" ng-model="properties.dtend.parameters.zone" ng-show="edittimezone || readOnly" ng-disabled="properties.allDay"
 							ng-change="loadTimezone(properties.dtend.parameters.zone)" class="timezone-select" tabindex="208"></select>

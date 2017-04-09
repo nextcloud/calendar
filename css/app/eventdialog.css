@@ -44,20 +44,8 @@
 	float: right;
 }
 
-.advanced .start-end-container {
-	margin-right: 15px;
-}
-
 .advanced .advanced--checkbox {
 	margin: 10px 0;
-}
-
-.advanced .timezone-container {
-	margin: 4px -17px;
-}
-
-.advanced .timezone-select {
-	width: 110% !important; /* very dirty hack to fix alignment issues. */
 }
 
 .modal-open .modal.popover,
@@ -95,16 +83,48 @@
 }
 
 .events .events--fieldset select {
-	width: 99.5%;
+	width: 100%;
 	margin-right: 0;
 }
 
-.events .events--date {
-	width: 70px;
+.advanced .event-time-interior,
+.events .event-time-interior {
+	width: 40%;
 }
 
-.advanced .events--date {
-	width: 100%;
+@media (max-width: 1600px) {
+	.advanced .event-time-interior {
+		width: 45%;
+	}
+}
+
+@media (max-width: 1450px) {
+	.advanced .event-time-interior {
+		width: 48%;
+	}
+}
+
+@media (max-width: 1350px) {
+	.advanced .event-time-interior {
+		width: 100%;
+	}
+}
+
+.advanced .events--date,
+.events .events--date {
+	width: calc(100% - 70px);
+	border-right-width: 0;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+	margin-right: 0;
+}
+
+.advanced .events--date:focus,
+.advanced .events--date:hover,
+.events .events--date:focus,
+.events .events--date:hover {
+	border-right-width: 1px;
+	border-right-style: solid;
 }
 
 .events .events--input__full {
@@ -112,7 +132,7 @@
 }
 
 .events .h2.events--input {
-	width: 96%;
+	width: 100%;
 	font-size: 20px;
 }
 
@@ -121,8 +141,22 @@
 	display: inline !important;
 }
 
+.advanced .events--time,
 .events .events--time {
-	width: 60px;
+	width: 70px;
+	border-left: 0;
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+	margin-right: 0;
+	text-align: right;
+}
+
+.advanced .events--time:focus,
+.advanced .events--time:hover,
+.events .events--time:focus,
+.events .events--time:hover {
+	border-left-width: 1px;
+	border-left-style: solid;
 }
 
 .events .events--time[disabled] {
@@ -134,12 +168,8 @@
 	resize: none;
 }
 
-.advanced .events--time {
-	width: 100%;
-}
-
 .events .events--checkbox {
-	padding: 3px 0;
+	padding: 3px 0 10px;
 }
 
 .modal-open .modal.popover .modal-content {
