@@ -61,7 +61,7 @@ const vendorSources = [
 	'vendor/hsl_rgb_converter/converter.js',
 	'vendor/ical.js/build/ical.js',
 	'vendor/jquery-timepicker/jquery.ui.timepicker.js',
-	'vendor/jstzdetect/jstz.js',
+	'vendor/jstzdetect/dist/jstz.js',
 ];
 const vendorCssSources = [
 	'vendor/fullcalendar/dist/fullcalendar.css',
