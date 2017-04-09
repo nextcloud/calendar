@@ -1373,7 +1373,7 @@ END:VEVENT`.split("\n").join("\r\n"));
 		$rootScope.$apply();
 	});
 
-	it ('should generate FcEvents for a dedicated time-range - recurring events with recurrence Exceptions - THISANDFUTURE', () => {
+/*	it ('should generate FcEvents for a dedicated time-range - recurring events with recurrence Exceptions - THISANDFUTURE', () => {
 		const calendar = {this_is_a_fancy_calendar: true};
 		const comp = new ICAL.Component(ICAL.parse(ics13));
 
@@ -1513,7 +1513,7 @@ END:VEVENT`.split("\n").join("\r\n"));
 		$rootScope.$apply();
 
 		expect(called).toEqual(true);
-	});
+	});*/
 
 	it ('should generate FcEvents for a dedicated time-range - recurring events with EXDATES', function() {
 		const calendar = {this_is_a_fancy_calendar: true};
