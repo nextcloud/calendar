@@ -69,8 +69,6 @@ OC.L10N.register(
     "{type} at {time}" : "{type} ตอน {time}",
     "{calendar} shared by {owner}" : "{calendar} ถูกแชร์โดย {owner}",
     "Title of the Event" : "ชื่อของกิจกรรม",
-    "starts" : "เริ่ม",
-    "ends" : "จบ",
     "All day Event" : "เหตุการณ์ตลอดทั้งวัน",
     "Delete" : "ลบ",
     "Cancel" : "ยกเลิก",

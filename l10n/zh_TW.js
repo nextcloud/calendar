@@ -65,8 +65,6 @@ OC.L10N.register(
     "{type} at {time}" : "{type} 在 {time}",
     "{calendar} shared by {owner}" : "{calendar} 由 {owner} 分享",
     "Title of the Event" : "活動標題",
-    "starts" : "開始",
-    "ends" : "結束",
     "All day Event" : "全天活動",
     "Delete" : "刪除",
     "Cancel" : "取消",

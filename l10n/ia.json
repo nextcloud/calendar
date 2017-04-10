@@ -83,8 +83,6 @@
     "Please enter a valid WebCal-URL" : "Per favor, insere un adresse URL de WebCal valide",
     "Severe error in webcal proxy. Please contact administrator for more information." : "Error grave in le servitor proxy de WebCal. Per favor, contacta le administrator pro plus informationes.",
     "Title of the Event" : "Titulo del Evento.",
-    "starts" : "initia",
-    "ends" : "fini",
     "All day Event" : "Evento de un die plen",
     "Delete" : "Deler",
     "Cancel" : "Cancellar",

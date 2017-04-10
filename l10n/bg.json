@@ -84,8 +84,6 @@
     "Please enter a valid WebCal-URL" : "Моля въведете валиден WebCal адрес",
     "Severe error in webcal proxy. Please contact administrator for more information." : "Тежка грешка в webcal прокси. Моля, свържете се с администратора за повече информация.",
     "Title of the Event" : "Заглавие на събитието",
-    "starts" : "започва",
-    "ends" : "свършва",
     "All day Event" : "Целодневно събитие",
     "Delete" : "Изтриване",
     "Cancel" : "Отказ",

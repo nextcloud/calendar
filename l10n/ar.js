@@ -69,8 +69,6 @@ OC.L10N.register(
     "{type} at {time}" : "{type} في {time}",
     "{calendar} shared by {owner}" : "شارك {owner} {calendar}",
     "Title of the Event" : "عنوان الحدث",
-    "starts" : "يبدأ",
-    "ends" : "ينتهي",
     "All day Event" : "حدث طيلة اليوم",
     "Delete" : "حذف ",
     "Cancel" : "إلغاء",

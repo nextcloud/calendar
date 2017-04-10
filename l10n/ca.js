@@ -83,8 +83,6 @@ OC.L10N.register(
     "{calendar} shared by {owner}" : "{calendar} compartit per {owner}",
     "Please enter a valid WebCal-URL" : "Introdueix una WebCal-URL vàlida si us plau",
     "Title of the Event" : "Títol de l'esdeveniment",
-    "starts" : "comença",
-    "ends" : "finalitza",
     "All day Event" : "Esdeveniment de tot el dia",
     "Delete" : "Esborra",
     "Cancel" : "Cancel·la",

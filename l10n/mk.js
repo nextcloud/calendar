@@ -45,8 +45,6 @@ OC.L10N.register(
     "end" : "крај",
     "Audio alarm" : "Аудио аларм",
     "Title of the Event" : "Наслов на настанот",
-    "starts" : "започнува",
-    "ends" : "завршува",
     "All day Event" : "Целодневен настан",
     "Delete" : "Избриши",
     "Cancel" : "Откажи",

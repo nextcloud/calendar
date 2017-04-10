@@ -85,8 +85,6 @@ OC.L10N.register(
     "Please enter a valid WebCal-URL" : "Prašome įvesti tinkamą WebCal adresą",
     "Severe error in webcal proxy. Please contact administrator for more information." : "Klaida naudojant WebCal proxy. Prašome susisiekti su administratoriumi.",
     "Title of the Event" : "Įvykio pavadinimas",
-    "starts" : "prasideda",
-    "ends" : "baigiasi",
     "All day Event" : "Visos dienos įvykis",
     "Delete" : "Ištrinti",
     "Cancel" : "Atsisakyti",

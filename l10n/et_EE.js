@@ -60,8 +60,6 @@ OC.L10N.register(
     "{type} at {time}" : "{type} kell {time}",
     "{calendar} shared by {owner}" : "{calendar} jagas {owner}",
     "Title of the Event" : "Sündmuse pealkiri",
-    "starts" : "algab",
-    "ends" : "lõpeb",
     "All day Event" : "Kogu päeva sündmus",
     "Delete" : "Kustuta",
     "Cancel" : "Loobu",

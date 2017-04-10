@@ -86,8 +86,6 @@ OC.L10N.register(
     "Please enter a valid WebCal-URL" : "Wprowadź prawidłowy URL WebCal",
     "Severe error in webcal proxy. Please contact administrator for more information." : "Poważny błąd proxy w WebCal. Aby uzyskać więcej informacji prosimy o kontakt z administratorem.",
     "Title of the Event" : "Nazwa wydarzenia",
-    "starts" : "rozpoczyna się",
-    "ends" : "kończy się",
     "All day Event" : "Wydarzenie całodniowe",
     "Delete" : "Usuń",
     "Cancel" : "Anuluj",

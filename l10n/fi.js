@@ -84,8 +84,6 @@ OC.L10N.register(
     "Please enter a valid WebCal-URL" : "Anna kelvollinen WebCal-osoite",
     "Severe error in webcal proxy. Please contact administrator for more information." : "Kriittinen virhe webcal-välityspalvelimessa. Ota yhteyttä ylläpitäjään saadaksesi lisää tietoa.",
     "Title of the Event" : "Tapahtuman otsikko",
-    "starts" : "alkaa",
-    "ends" : "päättyy",
     "All day Event" : "Koko päivän tapahtuma",
     "Delete" : "Poista",
     "Cancel" : "Peruuta",

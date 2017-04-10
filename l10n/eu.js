@@ -37,8 +37,6 @@ OC.L10N.register(
     "Week {number} of {year}" : "{year}ko {number} astea",
     "E-Mail" : "E-posta",
     "Title of the Event" : "Gertaeraren izenburua",
-    "starts" : "hasiera",
-    "ends" : "bukaera",
     "All day Event" : "Egun osoko gertaera",
     "Delete" : "Ezabatu",
     "Cancel" : "Ezeztatu",

@@ -37,8 +37,6 @@ OC.L10N.register(
     "Partially imported, {n} failures" : "Делимично увезено, {n} неуспелих",
     "E-Mail" : "Е-пошта",
     "Title of the Event" : "Наслов догађаја",
-    "starts" : "почиње",
-    "ends" : "завршава",
     "All day Event" : "Целодневни догађај",
     "Delete" : "Обриши",
     "Cancel" : "Одустани",

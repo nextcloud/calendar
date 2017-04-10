@@ -54,8 +54,6 @@ OC.L10N.register(
     "{type} at {time}" : "{time}에 {type}",
     "{calendar} shared by {owner}" : "{owner} 님이 공유한 달력",
     "Title of the Event" : "일정 제목",
-    "starts" : "시작",
-    "ends" : "끝",
     "All day Event" : "종일 일정",
     "Delete" : "삭제",
     "Cancel" : "취소",

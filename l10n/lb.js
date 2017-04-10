@@ -67,8 +67,6 @@ OC.L10N.register(
     "{type} at {time}" : "{tipp} op {Zäit}",
     "{calendar} shared by {owner}" : "{Kalenner} gedeelt vum {Besëtzer}",
     "Title of the Event" : "Titel vum Evenement",
-    "starts" : "Start",
-    "ends" : "Hält op",
     "All day Event" : "Ganzdaags-Evenement",
     "Delete" : "Läschen",
     "Cancel" : "Ofbriechen",

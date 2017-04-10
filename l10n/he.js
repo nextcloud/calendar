@@ -71,8 +71,6 @@ OC.L10N.register(
     "{calendar} shared by {owner}" : "{calendar} משותף על ידי {owner}",
     "Please enter a valid WebCal-URL" : "יש להכניס נתיב אינטרנט WebCal חוקי",
     "Title of the Event" : "כותרת האירוע",
-    "starts" : "מתחיל",
-    "ends" : "מסתיים",
     "All day Event" : "אירוע יום מלא",
     "Delete" : "מחיקה",
     "Cancel" : "ביטול",

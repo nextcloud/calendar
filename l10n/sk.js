@@ -84,8 +84,6 @@ OC.L10N.register(
     "{calendar} shared by {owner}" : "{calendar} sprístupňuje {owner}",
     "Please enter a valid WebCal-URL" : "Zadajte prosím platnú WebCal-URL",
     "Title of the Event" : "Názov udalosti",
-    "starts" : "začína",
-    "ends" : "končí",
     "All day Event" : "Celodenná udalosť",
     "Delete" : "Zmazať",
     "Cancel" : "Zrušiť",

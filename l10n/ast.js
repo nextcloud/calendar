@@ -69,8 +69,6 @@ OC.L10N.register(
     "{type} at {time}" : "{type} a {time}",
     "{calendar} shared by {owner}" : "{calendar} compartíu por  {owner}",
     "Title of the Event" : "Títulu del eventu",
-    "starts" : "entama",
-    "ends" : "fina",
     "All day Event" : "Tol día",
     "Delete" : "Desaniciar",
     "Cancel" : "Encaboxar",

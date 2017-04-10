@@ -47,8 +47,6 @@ OC.L10N.register(
     "Audio alarm" : "聲音響鬧",
     "E-Mail" : "電郵",
     "Title of the Event" : "活動標題",
-    "starts" : "開始",
-    "ends" : "結束",
     "All day Event" : "全日活動",
     "Delete" : "刪除",
     "Cancel" : "取消",

@@ -82,8 +82,6 @@ OC.L10N.register(
     "{type} at {time}" : "{type}  {time}",
     "{calendar} shared by {owner}" : "{calendar} koplietoja {owner}",
     "Title of the Event" : "Notikuma nosaukums",
-    "starts" : "sākas",
-    "ends" : "beidzās",
     "All day Event" : "Visas dienas notikums",
     "Delete" : "Dzēst",
     "Cancel" : "Atcelt",

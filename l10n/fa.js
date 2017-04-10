@@ -32,8 +32,6 @@ OC.L10N.register(
     "end" : "پایان",
     "E-Mail" : "ایمیل",
     "Title of the Event" : "عنوان رویداد",
-    "starts" : "آغاز",
-    "ends" : "پایان",
     "Delete" : "حذف",
     "Cancel" : "منصرف شدن",
     "Create" : "ایجاد کردن",

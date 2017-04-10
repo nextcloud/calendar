@@ -46,8 +46,6 @@ OC.L10N.register(
     "{type} at the event's end" : "{type} միջոցառման ավարտին",
     "{calendar} shared by {owner}" : "{calendar} կիսված {owner}ի կողմից",
     "Title of the Event" : "Դեպքի վերնագիր",
-    "starts" : "սկսում է",
-    "ends" : "ավարտվում է",
     "All day Event" : "Շուրջօրյա դեպք",
     "Delete" : "Ջնջել",
     "Cancel" : "Չեղարկել",
