@@ -159,6 +159,7 @@
 	border-left-style: solid;
 }
 
+.advanced .events--time[disabled],
 .events .events--time[disabled] {
 	pointer-events: none;
 }
