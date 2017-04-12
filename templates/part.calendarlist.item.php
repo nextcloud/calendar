@@ -49,7 +49,7 @@
 		  ng-class="{'withitems': item.calendar.isShared() || item.calendar.isPublished() }">
 		<span
 			class="calendarlist-icon share permanent"
-			ng-class="{'icon-shared': item.calendar.isShared() && !item.calendar.isPublished(), 'icon-public': item.calendar.isPublished(), 'icon-share': !item.calendar.isShared() && !item.calendar.isPublished()}"
+			ng-class="{'icon-shared': item.calendar.isShared() && !item.calendar.isPublished(), 'icon-public': item.calendar.isPublished(), 'icon-shared': !item.calendar.isShared() && !item.calendar.isPublished()}"
 			ng-click="item.toggleEditingShares()"
 			ng-if="item.showSharingIcon()"
 			title="<?php p($l->t('Share Calendar')) ?>"
