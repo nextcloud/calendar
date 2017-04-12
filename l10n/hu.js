@@ -86,6 +86,8 @@ OC.L10N.register(
     "Please enter a valid WebCal-URL" : "Kérlek adj meg egy érvényes WebCal-URL-t",
     "Severe error in webcal proxy. Please contact administrator for more information." : "Komoly hiba van a webcal proxynál. További információkért kérlek vedd fel a kapcsolatot a rendszergazdával.",
     "Title of the Event" : "Az esemény címe",
+    "Starts" : "Kezdődik",
+    "Ends" : "Véget ér",
     "All day Event" : "Egész napos esemény",
     "Delete" : "Törlés",
     "Cancel" : "Mégsem",
