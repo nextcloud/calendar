@@ -8,7 +8,7 @@ OC.L10N.register(
     "Error connecting to remote server" : "Feil ved opprettelsen av forbindelse til tjeneren",
     "Error requesting resource on remote server. This could possible be related to a certificate mismatch" : "Feil ved forespørsel om ressurser på ekstern tjener. Dette er trolig relatert til sertifikatavvik.",
     "Error requesting resource on remote server" : "Feil ved forespørsel om ressurs på ekstern tjener",
-    "Individual" : "Individuel",
+    "Individual" : "Individuell",
     "Group" : "Gruppe",
     "Resource" : "Ressurs",
     "Room" : "Rom",
