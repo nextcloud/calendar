@@ -26,7 +26,7 @@ app.service('EventsEditorDialogService', function($uibModal, constants, settings
 
 	const EDITOR_POPOVER = 'eventspopovereditor.html';
 	const EDITOR_SIDEBAR = 'eventssidebareditor.html';
-	const REPEAT_QUESTION = ''; // TODO in followup PR
+	const REPEAT_QUESTION = 'eventsrecurrenceexceptionquestion.html';
 
 	const context = {
 		fcEvent: null,
@@ -163,6 +163,12 @@ app.service('EventsEditorDialogService', function($uibModal, constants, settings
 
 			const calendar = (fcEvent.vevent) ? fcEvent.vevent.calendar : null;
 			const simpleEvent = fcEvent.getSimpleEvent();
+
+			if (fcEvent.repeating) {
+
+			}
+
+			console.log(calendar, fcEvent, fcEvent.vevent, simpleEvent);
 
 			// skip popover on small devices
 			if (context.showPopover() && !settings.skipPopover) {
