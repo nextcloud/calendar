@@ -38,6 +38,7 @@ OC.L10N.register(
     "Cancelled" : "Avbrutt",
     "Please add a title!" : "Legg til en tittel!",
     "Please select a calendar!" : "Velg en kalender!",
+    "The event ends before it starts!" : "Hendelsen slutter før den starter!",
     "Global" : "Global",
     "None" : "Ingen",
     "Every day" : "Hver dag",
