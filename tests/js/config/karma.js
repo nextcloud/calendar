@@ -29,7 +29,6 @@ module.exports = function (config) {
 		frameworks: ['jasmine'],
 		files: [
 			'../../core/vendor/jquery/dist/jquery.js',
-			'../../core/vendor/jquery/jquery.js',
 			'../../core/vendor/moment/min/moment-with-locales.js',
 			'../../core/vendor/moment/min/moment-with-locales.min.js',
 			'../../core/vendor/davclient.js/lib/client.js',
