@@ -112,7 +112,7 @@ OC.L10N.register(
     "Day" : "Jour",
     "Week" : "Semaine",
     "Month" : "Mois",
-    "Today" : "Aujourd'hui",
+    "Today" : "Auj.",
     "Some events in this calendar are broken. Please check the JS console for more info." : "Certains événements de cet agenda sont cassés. Merci de consulter la console JS pour plus d'info.",
     "Share Calendar" : "Partager l'agenda",
     "Shared" : "Partagé",
