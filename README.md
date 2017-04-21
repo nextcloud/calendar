@@ -1,4 +1,4 @@
-# Nextcloud Calendar 
+# Nextcloud Calendar - FOOBAR - PR TEST - DON'T MERGE
 
 [![Build Status](https://travis-ci.org/nextcloud/calendar.svg?branch=master)](https://travis-ci.org/nextcloud/calendar)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nextcloud/calendar/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/nextcloud/calendar/?branch=master)
