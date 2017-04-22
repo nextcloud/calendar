@@ -73,6 +73,7 @@ OC.L10N.register(
     "Partially imported, 1 failure" : "Čiastočne importovaný, 1 chyba",
     "Partially imported, {n} failures" : "Čiastočne importovaný, {n} chýb",
     "Audio alarm" : "Zvukový alarm",
+    "Pop-up" : "Vyskakovanie okno",
     "E-Mail" : "email",
     "{type} {time} before the event starts" : "{type} {time} pred začiatkom udalosti",
     "{type} {time} before the event ends" : "{type} {time} pred koncom udalosti",
