@@ -86,6 +86,8 @@ OC.L10N.register(
     "Please enter a valid WebCal-URL" : "Skráðu inn gilda WebCal-slóð",
     "Severe error in webcal proxy. Please contact administrator for more information." : "Alvarleg villa í webcal-milliþjóni. Hafðu samband við kerfisstjóra.",
     "Title of the Event" : "Titill atburðar",
+    "Starts" : "Byrjar",
+    "Ends" : "Endar",
     "All day Event" : "Heilsdagsviðburður",
     "Delete" : "Eyða",
     "Cancel" : "Hætta við",

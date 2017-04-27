@@ -159,6 +159,7 @@ OC.L10N.register(
     "Import scheduled" : "Tuonti ajastettu",
     "Subscribe & embed" : "Tilaa ja sisällytä",
     "Publish URL" : "Julkaise URL",
+    "Iframe to integrate" : "Integroitava iframe",
     "Settings & import" : "Asetukset ja tuonti",
     "Skip simple event editor" : "Ohita yksinkertainen tapahtumamuokkain",
     "Show week numbers" : "Näytä viikkonumerot",
