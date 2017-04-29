@@ -3,8 +3,5 @@
   "ignoredDependencies": [
     "jquery",
     "moment"
-  ],
-  "resolvers": [
-    "mercurial-bower-resolver"
   ]
 }
