@@ -49,3 +49,8 @@
 	font-size: 100%;
 	opacity: .5;
 }
+
+#fullcalendar td.fc-day.fc-sat,
+#fullcalendar td.fc-day.fc-sun {
+	background-color: #f9f9f9;
+}
