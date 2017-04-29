@@ -3,14 +3,13 @@
 	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
 	<id>calendar</id>
 	<name>Calendar</name>
-	<summary>Calendar GUI for Nextcloud's CalDAV server</summary>
-	<description><![CDATA[A calendar app for Nextcloud. Easily sync events from various devices with your Nextcloud and edit them online.
+	<summary>A Calendar app for Nextcloud</summary>
+	<description><![CDATA[The Calendar app is a user interface for Nextcloud's CalDAV server. Easily sync events from various devices with your Nextcloud and edit them online.
 
 * 🚀 **Integration with other Nextcloud apps!** Currently Contacts - more to come.
 * 🌐 **WebCal Support!** Want to see your favorite team’s matchdays in your calendar? No problem!
 * 🙋 **Attendees!** Invite people to your events.
 * 🙈 **We’re not reinventing the wheel!** Based on the great [davclient.js](https://github.com/evert/davclient.js), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries.
-
 	]]></description>
 	<version>1.5.2</version>
 	<licence>AGPL</licence>
