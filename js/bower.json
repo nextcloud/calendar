@@ -4,7 +4,7 @@
     "angular": "1.6.3",
     "angular-bootstrap": "2.5.0",
     "jquery-timepicker": "883bb2cd94",
-    "jstzdetect": "hg+https://bitbucket.org/pellepim/jstimezonedetect",
+    "jstzdetect": "https://github.com/georgehrke/jstimezonedetect.git",
     "ical.js": "1.2.2",
     "fullcalendar": "3.3.1",
     "hsl_rgb_converter": "https://github.com/kayellpeee/hsl_rgb_converter.git",
