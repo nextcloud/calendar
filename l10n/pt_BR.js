@@ -104,7 +104,7 @@ OC.L10N.register(
     "Hello," : "Olá,",
     "We wanted to inform you that %s has published the calendar {boldstart}%s{boldend}." : "Gostaríamos de avisá-lo que %s publicou o calendário {boldstart}%s{boldend}",
     "Click here to access it" : "Clique aqui para acessar",
-    "Cheers!" : "Saúde!",
+    "Cheers!" : "Saudações!",
     "We wanted to inform you that %s has published the calendar %s." : "Gostaríamos de avisá-lo que %s publicou o calendário %s.",
     "Click on the link below to access it" : "Clique no link abaixo para acessá-lo",
     "Due to an upstream bug, the calendar is currently not able to provide support for the asset pipeline feature." : "Devido a um bug, no momento o calendário é incapaz de fornecer suporte para o recurso de pipeline ativo.",
