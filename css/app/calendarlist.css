@@ -115,6 +115,10 @@
 	background: transparent !important;
 }
 
+#app-navigation .app-navigation-list-item .shared.shared-style {
+	opacity: .7;
+}
+
 #app-navigation .app-navigation-list-item .icon-loading-small {
 	position: absolute;
 	margin-left: 15px;
