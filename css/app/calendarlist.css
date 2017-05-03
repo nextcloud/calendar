@@ -216,6 +216,16 @@
 	box-sizing: border-box;
 }
 
+#app-navigation .app-navigation-list-item {
+	max-height: 1000px;
+	transition: 200ms cubic-bezier(.22, .61, .36, 1) all;
+}
+
+#app-navigation .app-navigation-list-item.deleted {
+	max-height: 0;
+	overflow: hidden;
+}
+
 #app-navigation .app-navigation-list-item .utils {
 	display: inline-block;
 }

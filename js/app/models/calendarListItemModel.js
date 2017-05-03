@@ -21,7 +21,7 @@
  *
  */
 
-app.factory('CalendarListItem', function(Calendar, WebCal, isSharingAPI) {
+app.factory('CalendarListItem', function($timeout, Calendar, WebCal, isSharingAPI) {
 	'use strict';
 
 	function CalendarListItem(calendar) {
@@ -31,7 +31,8 @@ app.factory('CalendarListItem', function(Calendar, WebCal, isSharingAPI) {
 			isEditingProperties: false,
 			isDisplayingCalDAVUrl: false,
 			isDisplayingWebCalUrl: false,
-			isSendingMail: false
+			isSendingMail: false,
+			isDeleted: false
 		};
 		const iface = {
 			_isACalendarListItemObject: true
@@ -152,6 +153,37 @@ app.factory('CalendarListItem', function(Calendar, WebCal, isSharingAPI) {
 
 		iface.isWebCal = function() {
 			return WebCal.isWebCal(context.calendar);
+		};
+
+		iface.isDeleted = function() {
+			return context.isDeleted;
+		};
+
+		iface.delete = function() {
+			return new Promise(function(resolve, reject) {
+				context.isDeleted = true;
+
+				const timeout = $timeout(function() {
+					if (context.isDeleted) {
+						resolve();
+					}
+				}, 7500);
+
+				const msg = t('calendar', '<strong>{calendarname}</strong> has been deleted. <strong>Undo?</strong>', {
+					calendarname: context.calendar.displayname
+				});
+				const html = $('<div/>').append($(msg));
+
+				const elm = OC.Notification.showTemporary(html, {
+					isHTML: true
+				});
+				angular.element(elm[0]).click(function() {
+					context.isDeleted = false;
+					OC.Notification.hide(elm);
+					$timeout.cancel(timeout);
+					reject('Deletion cancelled by user');
+				});
+			});
 		};
 
 		//Properties for ng-model of calendar editor
