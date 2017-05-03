@@ -33,6 +33,8 @@
 	data-weekNumbers="<?php p($_['weekNumbers']); ?>"
 	data-webCalWorkaround="<?php p($_['webCalWorkaround']); ?>"
 	data-isPublic="<?php p($_['isPublic'] ? '1' : '0'); ?>"
+	data-isEmbedded="<?php p($_['isEmbedded'] ? '1' : '0'); ?>"
+	data-publicSharingToken="<?php p($_['token']); ?>"
 	fc
 	id="fullcalendar">
 </div>

@@ -54,6 +54,9 @@ app.config(['$provide', '$httpProvider',
 		const isPublic = (angular.element('#fullcalendar').attr('data-isPublic') === '1');
 		$provide.constant('isPublic', isPublic);
 
+		const isEmbedded = (angular.element('#fullcalendar').attr('data-isEmbedded') === '1');
+		$provide.constant('isEmbedded', isEmbedded);
+
 		const isSharingAPI = (typeof OC.Share === 'object');
 		$provide.constant('isSharingAPI', isSharingAPI);
 
@@ -66,12 +69,14 @@ app.config(['$provide', '$httpProvider',
 		const fallbackColor = angular.element('#fullcalendar').attr('data-defaultColor');
 		const needsWebCalWorkaround = angular.element('#fullcalendar').attr('data-webCalWorkaround') === 'yes';
 		const version = angular.element('#fullcalendar').attr('data-appVersion');
+		const publicSharingToken = angular.element('#fullcalendar').attr('data-publicSharingToken');
 		$provide.constant('constants', {
 			initialView,
 			emailAddress,
 			fallbackColor,
 			needsWebCalWorkaround,
 			version,
+			publicSharingToken,
 			SHARE_TYPE_USER: 0,
 			SHARE_TYPE_GROUP: 1
 		});

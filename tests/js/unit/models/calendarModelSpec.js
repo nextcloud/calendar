@@ -60,7 +60,7 @@ describe('The calendar factory', function () {
 			owner: 'user123',
 			shares: shares,
 			shareable: true,
-			publishurl: 'somepublishedurl',
+			publicToken: 'somePublicToken',
 			publishable: true,
 			writable: false,
 			writableProperties: true
@@ -74,7 +74,7 @@ describe('The calendar factory', function () {
 		expect(calendar.owner).toEqual('user123');
 		expect(calendar.shares).toEqual(shares);
 		expect(calendar.isShareable()).toEqual(true);
-		expect(calendar.publishurl).toEqual('somepublishedurl');
+		expect(calendar.publicToken).toEqual('somePublicToken');
 		expect(calendar.publishable).toEqual(true);
 		expect(calendar.isWritable()).toEqual(false);
 		expect(calendar.arePropertiesWritable()).toEqual(true);

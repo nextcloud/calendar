@@ -121,7 +121,7 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ha
 		};
 
 		$scope.integration = function (item) {
-			return '<iframe width="400" height="215" src="' + item.calendar.publicurl + '"></iframe>';
+			return '<iframe width="400" height="215" src="' + item.publicEmbedURL + '"></iframe>';
 		};
 
 		$scope.$watch('publicdav', function (newvalue) {
@@ -144,7 +144,7 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ha
 
 		$scope.sendMail = function (item) {
 			item.toggleSendingMail();
-			MailerService.sendMail(item.email, item.calendar.publicurl, item.calendar.displayname).then(function (response) {
+			MailerService.sendMail(item.email, item.publicSharingURL, item.calendar.displayname).then(function (response) {
 				if (response.status === 200) {
 					item.email = '';
 					OC.Notification.showTemporary(t('calendar', 'EMail has been sent.'));
@@ -155,7 +155,7 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ha
 		};
 
 		$scope.goPublic = function (item) {
-			$window.open(item.calendar.publicurl);
+			$window.open(item.publicSharingURL);
 		};
 
 		$scope.toggleSharesEditor = function (calendar) {

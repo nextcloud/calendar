@@ -56,6 +56,25 @@ foreach ($scripts as $script) {
 	script('calendar', $script);
 }
 ?>
+<?php if($_['isPublic'] && !$_['isEmbedded']): ?>
+<style>
+	@media only screen and (max-width: 768px) {
+		#app-navigation, #app-content {
+			top: 45px !important;
+		}
+	}
+</style>
+<?php endif; ?>
+
+<?php if($_['isEmbedded']): ?>
+<style>
+	@media only screen and (max-width: 768px) {
+		#app-navigation-toggle {
+			top: 0 !important;
+		}
+	}
+</style>
+<?php endif; ?>
 <div class="app" ng-app="Calendar" ng-controller="CalController">
 
 	<!-- The Left Calendar Navigation -->
@@ -99,6 +118,10 @@ foreach ($scripts as $script) {
 	<?php if(!$_['isPublic']): ?>
 	<div id="importpopover-container"></div>
 	<?php endif; ?>
+
+	<div id="emptycontent-container">
+		<?php print_unescaped($this->inc('part.emptycontent')); ?>
+	</div>
 
 	<script type="text/ng-template" id="eventspopovereditor.html">
 		<?php print_unescaped($this->inc('editor.popover')); ?>

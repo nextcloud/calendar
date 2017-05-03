@@ -26,26 +26,12 @@ app.run(['$document', '$rootScope', '$window', 'isPublic',
 		'use strict';
 
 		const origin = $window.location.origin;
-		const pathname = $window.location.pathname;
-		const endsWithSlash = pathname.substr(-1) === '/';
-
-		if (pathname.lastIndexOf('/calendar/public/') === -1) {
-			$rootScope.baseUrl = origin + pathname;
-			if (!endsWithSlash) {
-				$rootScope.baseUrl += '/';
-			}
-		} else {
-			const calendarPathname = pathname.substr(0,
-					pathname.lastIndexOf('/calendar/public/')) + '/calendar/';
-			$rootScope.baseUrl = origin + calendarPathname;
-		}
-
-		const root = $rootScope.baseUrl;
-		$rootScope.baseUrl += 'v1/';
+		$rootScope.root = origin + OC.linkTo('calendar', 'index.php') + '/';
+		$rootScope.baseUrl = $rootScope.root + 'v1/';
 
 		try {
 			if (!isPublic) {
-				const webcalHandler = root + '#subscribe_to_webcal?url=%s';
+				const webcalHandler = $rootScope.root + '#subscribe_to_webcal?url=%s';
 				navigator.registerProtocolHandler('webcal', webcalHandler, 'Nextcloud calendar');
 			}
 		} catch(e) {

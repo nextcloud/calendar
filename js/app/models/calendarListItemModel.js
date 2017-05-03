@@ -21,7 +21,7 @@
  *
  */
 
-app.factory('CalendarListItem', function(Calendar, WebCal, isSharingAPI) {
+app.factory('CalendarListItem', function($rootScope, $window, Calendar, WebCal, isSharingAPI) {
 	'use strict';
 
 	function CalendarListItem(calendar) {
@@ -45,6 +45,16 @@ app.factory('CalendarListItem', function(Calendar, WebCal, isSharingAPI) {
 			calendar: {
 				get: function() {
 					return context.calendar;
+				}
+			},
+			publicSharingURL: {
+				get: () => {
+					return $rootScope.root + 'p/' + context.calendar.publicToken;
+				}
+			},
+			publicEmbedURL: {
+				get: () => {
+					return $rootScope.root + 'embed/' + context.calendar.publicToken;
 				}
 			}
 		});
@@ -152,6 +162,17 @@ app.factory('CalendarListItem', function(Calendar, WebCal, isSharingAPI) {
 
 		iface.isWebCal = function() {
 			return WebCal.isWebCal(context.calendar);
+		};
+
+		iface.getOwnerName = function() {
+			return context.calendar.ownerDisplayname || context.calendar.owner;
+		};
+
+		iface.getPublicDisplayname = function() {
+			const searchFor = '(' + context.calendar.owner + ')';
+			const lastIndexOf = context.calendar.displayname.lastIndexOf(searchFor);
+
+			return context.calendar.displayname.substr(0, lastIndexOf - 1);
 		};
 
 		//Properties for ng-model of calendar editor

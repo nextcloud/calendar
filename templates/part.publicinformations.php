@@ -22,28 +22,22 @@
  *
  */
 ?>
-<div id="scollable" class="settings-fieldset-interior public-left-side" ng-repeat="item in calendarListItems" >
-
-	<span class="calendarCheckbox"
-		  ng-show="item.displayColorIndicator()"
-		  ng-style="{ background: item.calendar.color }">
-	</span>
-		<span class="icon-loading-small pull-left"
-			  ng-show="item.displaySpinner()">
-	</span>
-	<span class="action permanent displayname">{{ item.calendar.displayname }}</span>
-
-	<span class="icon-download svg public-ics-download"
-		ng-click="download(item)">
-		<?php p($l->t('Download')); ?>
-	</span>
+<div id="scollable" class="settings-fieldset-interior public-left-side" ng-repeat="item in calendarListItems">
+	<div class="avatardiv" data-user="{{ item.calendar.owner }}" data-size="96" avatar></div>
+	<h3 class="action permanent displayname" ng-cloak>
+		<?php print_unescaped($l->t('%s shared the calendar <strong>%s</strong> with you', ['{{ item.getOwnerName() }}', '{{ item.getPublicDisplayname() }}'])); ?>
+	</h3>
+	<div class="icon-loading-small"
+		  ng-show="item.displaySpinner()" ng-cloak>
+	</div>
 </div>
+<?php if(!$_['isEmbedded']): ?>
 <div id="app-settings">
 	<div id="app-settings-header">
 		<button name="app settings"
-			class="settings-button"
+			class="settings-button icon-embed"
 			data-apps-slide-toggle="#app-settings-content">
-			<?php p($l->t('Subscribe & embed')); ?>
+			<?php p($l->t('Embed')); ?>
 		</button>
 	</div>
 
@@ -51,22 +45,7 @@
 		<fieldset class="settings-fieldset">
 			<ul class="settings-fieldset-interior">
 				<li class="settings-fieldset-interior-item">
-					<div class="davbuttons">
-						<div class="btn-group">
-							<button class="button first" ng-model="$parent.publicdav" uib-btn-radio="'CalDAV'">CalDAV</button>
-							<button class="button last" ng-model="$parent.publicdav" uib-btn-radio="'iCal feed'">iCal feed</button>
-						</div>
-					</div>
-					<label>{{ $parent.publicdavdesc }}</label>
-					<input
-						class="public-linkinput"
-						type="text"
-						ng-model="$parent.publicdavurl"
-						placeholder="<?php p($l->t('Publish URL')); ?>">
-				</li>
-
-				<li class="settings-fieldset-interior-item">
-					<label><?php p($l->t('Iframe to integrate')); ?></label>
+					<label><?php p($l->t('IFrame to integrate')); ?></label>
 			    <textarea class="integration-code"
 			      type="text"
 			      ng-value="integration(item)"
@@ -77,3 +56,4 @@
 		</fieldset>
 	</div>
 </div>
+<?php endif; ?>

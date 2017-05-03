@@ -25,7 +25,9 @@ return [
 	'routes' => [
 		//Main view
 		['name' => 'view#index', 'url' => '/', 'verb' => 'GET'],
-		['name' => 'view#public_index', 'url' => '/public/{calendarid}', 'verb' => 'GET'],
+		['name' => 'view#public_index_with_branding', 'url' => '/p/{token}', 'verb' => 'GET'],
+		['name' => 'view#public_index_for_embedding', 'url' => '/embed/{token}', 'verb' => 'GET'],
+		['name' => 'view#public_index_for_embedding_legacy', 'url' => '/public/{token}', 'verb' => 'GET'], // keep public/ for legacy reasons
 		// Tools
 		['name' => 'email#sendEmailPublicLink', 'url' => '/v1/public/sendmail', 'verb' => 'POST'],
 		//Timezones

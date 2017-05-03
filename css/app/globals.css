@@ -56,3 +56,22 @@
 	height: 32px;
 	width: 32px;
 }
+
+#emptycontent-container {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(255, 255, 255, .85);
+	z-index: 1000;
+}
+
+#emptycontent-container #emptycontent {
+	color: #a9a9a9 !important;
+}
+
+.icon-embed {
+	background-image: url('../../img/embed.svg') !important;
+}

@@ -26,8 +26,8 @@
 * Description: The fullcalendar controller.
 */
 
-app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'VEvent', 'is', 'fc', 'EventsEditorDialogService', 'PopoverPositioningUtility', '$window', 'isPublic',
-	function ($scope, Calendar, CalendarService, VEventService, SettingsService, TimezoneService, VEvent, is, fc, EventsEditorDialogService, PopoverPositioningUtility, $window, isPublic) {
+app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'VEvent', 'is', 'fc', 'EventsEditorDialogService', 'PopoverPositioningUtility', '$window', 'isPublic', 'constants',
+	function ($scope, Calendar, CalendarService, VEventService, SettingsService, TimezoneService, VEvent, is, fc, EventsEditorDialogService, PopoverPositioningUtility, $window, isPublic, constants) {
 		'use strict';
 
 		is.loading = true;
@@ -135,14 +135,14 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 				$scope.$apply();
 			});
 		} else {
-			const url = $window.location.toString();
-			var token = url.substr(url.lastIndexOf('/') + 1);
-
-			$scope.calendarsPromise = CalendarService.getPublicCalendar(token).then(function(calendar) {
+			$scope.calendarsPromise = CalendarService.getPublicCalendar(constants.publicSharingToken).then(function(calendar) {
 				$scope.calendars = [calendar];
 				is.loading = false;
 				// TODO - scope.apply should not be necessary here
 				$scope.$apply();
+			}).catch((reason) => {
+				angular.element('#header-right').css('display', 'none');
+				angular.element('#emptycontent-container').css('display', 'block');
 			});
 		}
 
