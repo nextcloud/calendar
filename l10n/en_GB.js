@@ -155,7 +155,6 @@ OC.L10N.register(
     "File is empty" : "File is empty",
     "Import scheduled" : "Import scheduled",
     "Publish URL" : "Publish URL",
-    "Iframe to integrate" : "Iframe to integrate",
     "Skip simple event editor" : "Skip simple event editor",
     "Show week numbers" : "Show week numbers",
     "Import calendar" : "Import calendar",
