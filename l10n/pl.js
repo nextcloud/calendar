@@ -132,6 +132,8 @@ OC.L10N.register(
     "New Subscription" : "Nowa subskrypcja",
     "Go back" : "Wróć",
     "Go forward" : "Naprzód",
+    "Calendar does not exist" : "Kalendarz nie istnieje",
+    "Maybe you got a wrong link or the calendar was unshared?" : "Być może link jest nieprawidłowy lub kalendarz przestał być współdzielony.",
     "Edit event" : "Edytuj zdarzenie",
     "Delete Event" : "Usuń zdarzenie",
     "Save Event" : "Zapisz zdarzenie",
@@ -159,6 +161,7 @@ OC.L10N.register(
     "New calendar" : "Nowy kalendarz",
     "File is empty" : "Plik jest pusty",
     "Import scheduled" : "Import został zaplanowany",
+    "%s shared the calendar <strong>%s</strong> with you" : "%s udostępnił Tobie kalendarz <strong>%s</strong>",
     "Publish URL" : "Publikowanie URL",
     "Settings & import" : "Ustawienia i import",
     "Skip simple event editor" : "Pomiń prosty edytor zdarzeń",
@@ -166,6 +169,7 @@ OC.L10N.register(
     "Import calendar" : "Importuj kalendarz",
     "No Calendars selected for import" : "Nie wybrano kalendarzy do importu",
     "Primary CalDAV address" : "Podstawowy adres CalDAV",
-    "iOS/OS X CalDAV address" : "Adres CalDAV dla iOS/OS X"
+    "iOS/OS X CalDAV address" : "Adres CalDAV dla iOS/OS X",
+    "Subscribe" : "Subskrybuj"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>=14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

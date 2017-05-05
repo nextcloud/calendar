@@ -132,6 +132,8 @@ OC.L10N.register(
     "New Subscription" : "Nueva suscripción",
     "Go back" : "Regresar",
     "Go forward" : "Adelante",
+    "Calendar does not exist" : "El calendario no existe",
+    "Maybe you got a wrong link or the calendar was unshared?" : "¿Tal vez tiene una liga equivocada o el calendario dejó de ser compartido?",
     "Edit event" : "Editar evento",
     "Delete Event" : "Borrar evento",
     "Save Event" : "Guardar Evento",
@@ -159,6 +161,9 @@ OC.L10N.register(
     "New calendar" : "Nuevo calendario",
     "File is empty" : "El archivo está vacío",
     "Import scheduled" : "Importar agendados",
+    "%s shared the calendar <strong>%s</strong> with you" : "%s compartió el calendario <strong>%s</strong> con usted",
+    "Embed" : "Integrar",
+    "IFrame to integrate" : "IFrame a integrar",
     "Publish URL" : "Publicar URL",
     "Settings & import" : "Ajustes & importar",
     "Skip simple event editor" : "Omitir el editor de eventos simple",
@@ -166,6 +171,7 @@ OC.L10N.register(
     "Import calendar" : "Importar calendario",
     "No Calendars selected for import" : "No se han seleccionado Caldenarios para importar",
     "Primary CalDAV address" : "Dirección principal de CalDAV",
-    "iOS/OS X CalDAV address" : "Dirección CalDAV de iOS/OS X"
+    "iOS/OS X CalDAV address" : "Dirección CalDAV de iOS/OS X",
+    "Subscribe" : "Suscribirse"
 },
 "nplurals=2; plural=(n != 1);");

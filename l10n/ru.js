@@ -132,6 +132,8 @@ OC.L10N.register(
     "New Subscription" : "Новая подписка",
     "Go back" : "Назад",
     "Go forward" : "Вперед",
+    "Calendar does not exist" : "Календарь не существует",
+    "Maybe you got a wrong link or the calendar was unshared?" : "Вероятно, неверная ссылка или общий доступ к календарю был закрыт.",
     "Edit event" : "Редактировать событие",
     "Delete Event" : "Удалить событие",
     "Save Event" : "Сохранить событие",
@@ -159,6 +161,9 @@ OC.L10N.register(
     "New calendar" : "Новый календарь",
     "File is empty" : "Файл пуст",
     "Import scheduled" : "Импорт запланирован",
+    "%s shared the calendar <strong>%s</strong> with you" : "%s поделился с вами календарём  <strong>%s</strong> ",
+    "Embed" : "Встроить",
+    "IFrame to integrate" : "Iframe для встраивания",
     "Publish URL" : "Опубликовать URL",
     "Settings & import" : "Настройки и импорт",
     "Skip simple event editor" : "Не использовать простой редактор события",
@@ -166,6 +171,7 @@ OC.L10N.register(
     "Import calendar" : "Импорт календаря",
     "No Calendars selected for import" : "Не выбраны календари для импорта",
     "Primary CalDAV address" : "Основной адрес синхронизации CalDAV",
-    "iOS/OS X CalDAV address" : "Адрес синхронизации iOS/OS X CalDAV"
+    "iOS/OS X CalDAV address" : "Адрес синхронизации iOS/OS X CalDAV",
+    "Subscribe" : "Подписаться"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");
