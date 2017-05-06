@@ -132,6 +132,8 @@ OC.L10N.register(
     "New Subscription" : "Abonelik Ekle",
     "Go back" : "Geri dön",
     "Go forward" : "İleri git",
+    "Calendar does not exist" : "Takvim bulunamadı",
+    "Maybe you got a wrong link or the calendar was unshared?" : "Bağlantınız yanlış ya da takvim paylaşılmamış olabilir mi?",
     "Edit event" : "Etkinliği düzenle",
     "Delete Event" : "Etkinliği Sil",
     "Save Event" : "Etkinliği Kaydet",
@@ -159,6 +161,9 @@ OC.L10N.register(
     "New calendar" : "Takvim ekle",
     "File is empty" : "Dosya boş",
     "Import scheduled" : "Alma işlemi zamanlandı",
+    "%s shared the calendar <strong>%s</strong> with you" : "%s sizinle <strong>%s</strong> takvimini paylaştı",
+    "Embed" : "Göm",
+    "IFrame to integrate" : "Bütünleştirilecek IFrame",
     "Publish URL" : "Yayın adresi",
     "Settings & import" : "Ayarlar ve Alma",
     "Skip simple event editor" : "Basit etkinlik düzenleyici atlansın",
@@ -166,6 +171,7 @@ OC.L10N.register(
     "Import calendar" : "Takvimi al",
     "No Calendars selected for import" : "Alınacak bir takvim seçilmemiş",
     "Primary CalDAV address" : "Birincil CalDAV adresi",
-    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV adresi"
+    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV adresi",
+    "Subscribe" : "Abone Ol"
 },
 "nplurals=2; plural=(n > 1);");
