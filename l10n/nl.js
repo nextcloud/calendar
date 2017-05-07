@@ -132,6 +132,7 @@ OC.L10N.register(
     "New Subscription" : "Nieuw abonnement",
     "Go back" : "Ga terug",
     "Go forward" : "Ga verder",
+    "Calendar does not exist" : "Agenda bestaat niet",
     "Edit event" : "Bewerk gebeurtenis",
     "Delete Event" : "Verwijder afspraak",
     "Save Event" : "Bewaar afspraak",
@@ -159,6 +160,9 @@ OC.L10N.register(
     "New calendar" : "Nieuwe agenda",
     "File is empty" : "Bestand te leeg",
     "Import scheduled" : "Import ingepland",
+    "%s shared the calendar <strong>%s</strong> with you" : "%s deelde agenda <strong>%s</strong> met jou",
+    "Embed" : "Inbedden",
+    "IFrame to integrate" : "Iframe om te integreren",
     "Publish URL" : "Publiceren URL",
     "Settings & import" : "Instellingen & importeren",
     "Skip simple event editor" : "Negeer simpele afsprakenbewerker",
@@ -166,6 +170,7 @@ OC.L10N.register(
     "Import calendar" : "Importeer agenda",
     "No Calendars selected for import" : "Geen agenda's voor import opgegeven",
     "Primary CalDAV address" : "Primair CalDAV adres",
-    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV adres"
+    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV adres",
+    "Subscribe" : "Abonneren"
 },
 "nplurals=2; plural=(n != 1);");

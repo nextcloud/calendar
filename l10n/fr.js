@@ -162,6 +162,7 @@ OC.L10N.register(
     "File is empty" : "Le fichier est vide",
     "Import scheduled" : "Importation planifiée",
     "%s shared the calendar <strong>%s</strong> with you" : "%s a partagé l'agenda <strong>%s</strong> avec vous",
+    "Embed" : "Embarquer",
     "Publish URL" : "Publier l'URL",
     "Settings & import" : "Paramètres & Importation",
     "Skip simple event editor" : "Passer l'éditeur d'évènement simple",
