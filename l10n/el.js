@@ -118,6 +118,7 @@ OC.L10N.register(
     "Add" : "Προσθήκη",
     "from" : "από",
     "to" : "προς",
+    "Repeat every ..." : "Επανάληψη κάθε ...",
     "times" : "φορές",
     "Import Calendars" : "Εισαγωγή ημερολογίων",
     "Import canceled" : "Ακύρωση εισαγωγής",
@@ -125,8 +126,10 @@ OC.L10N.register(
     "New calendar" : "Νέο ημερολόγιο",
     "File is empty" : "Το αρχείο είναι άδειο",
     "Settings & import" : "Ρυθμίσεις & εισαγωγή",
+    "Show week numbers" : "Εμφάνιση αριθμού εβδομάδας",
     "Import calendar" : "Εισαγωγή ημερολογίου",
     "Primary CalDAV address" : "Κύρια διεύθυνση CalDAV",
-    "iOS/OS X CalDAV address" : "Διεύθυνση CalDAV για iOS/OS X"
+    "iOS/OS X CalDAV address" : "Διεύθυνση CalDAV για iOS/OS X",
+    "Subscribe" : "Εγγραφή"
 },
 "nplurals=2; plural=(n != 1);");
