@@ -132,6 +132,8 @@ OC.L10N.register(
     "New Subscription" : "Nový odběr",
     "Go back" : "Jít zpět",
     "Go forward" : "Jít vpřed",
+    "Calendar does not exist" : "Kalendář neexistuje",
+    "Maybe you got a wrong link or the calendar was unshared?" : "Možná máte chybný odkaz nebo kalendář nebyl sdílen?",
     "Edit event" : "Upravit událost",
     "Delete Event" : "Smazat událost",
     "Save Event" : "Uložit událost",
@@ -159,6 +161,9 @@ OC.L10N.register(
     "New calendar" : "Nový kalendář",
     "File is empty" : "Soubor je prázdný",
     "Import scheduled" : "Import načasován",
+    "%s shared the calendar <strong>%s</strong> with you" : "%s sdílel(a) tento kalendář <strong>%s</strong> s tebou",
+    "Embed" : "Vložit",
+    "IFrame to integrate" : "Iframe k integraci",
     "Publish URL" : "Zveřejnit URL",
     "Settings & import" : "Nastavení & import",
     "Skip simple event editor" : "Přeskočit jednoduchý editor události",
@@ -166,6 +171,7 @@ OC.L10N.register(
     "Import calendar" : "Importovat kalendář",
     "No Calendars selected for import" : "Nebyl vybrán kalendář k importu",
     "Primary CalDAV address" : "Primární adresa CalDAV",
-    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV adresa"
+    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV adresa",
+    "Subscribe" : "Odebírat"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");
