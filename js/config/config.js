@@ -70,6 +70,8 @@ app.config(['$provide', '$httpProvider',
 		const needsWebCalWorkaround = angular.element('#fullcalendar').attr('data-webCalWorkaround') === 'yes';
 		const version = angular.element('#fullcalendar').attr('data-appVersion');
 		const publicSharingToken = angular.element('#fullcalendar').attr('data-publicSharingToken');
+		const shareeCanEditShares = angular.element('#fullcalendar').attr('data-shareeCanEditShares') === 'yes';
+		const shareeCanEditCalendarProperties = angular.element('#fullcalendar').attr('data-shareeCanEditCalendarProperties') === 'yes';
 		$provide.constant('constants', {
 			initialView,
 			emailAddress,
@@ -77,6 +79,8 @@ app.config(['$provide', '$httpProvider',
 			needsWebCalWorkaround,
 			version,
 			publicSharingToken,
+			shareeCanEditShares,
+			shareeCanEditCalendarProperties,
 			SHARE_TYPE_USER: 0,
 			SHARE_TYPE_GROUP: 1
 		});

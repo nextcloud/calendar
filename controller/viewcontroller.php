@@ -183,9 +183,12 @@ class ViewController extends Controller {
 		$runningOn = $this->config->getSystemValue('version');
 		$runningOnNextcloud10OrLater = version_compare($runningOn, '9.1', '>=');
 		$runningOnNextcloud11OrLater = version_compare($runningOn, '11', '>=');
+		$runningOnNextcloud12OrLater = version_compare($runningOn, '12', '>=');
 
 		$supportsClass = $runningOnNextcloud10OrLater;
 		$needsAutosize = !$runningOnNextcloud11OrLater;
+		$shareeCanEditShares = !$runningOnNextcloud12OrLater;
+		$shareeCanEditCalendarProperties = $runningOnNextcloud12OrLater;
 
 		$appVersion = $this->config->getAppValue($this->appName, 'installed_version');
 		$webCalWorkaround = $runningOnNextcloud10OrLater ? 'no' : 'yes';
@@ -199,6 +202,8 @@ class ViewController extends Controller {
 			'webCalWorkaround' => $webCalWorkaround,
 			'needsAutosize' => $needsAutosize,
 			'defaultColor' => $defaultColor,
+			'shareeCanEditShares' => $shareeCanEditShares ? 'yes' : 'no',
+			'shareeCanEditCalendarProperties' => $shareeCanEditCalendarProperties ? 'yes' : 'no',
 		];
 	}
 

@@ -60,7 +60,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @dataProvider indexDataProvider
 	 */
-	public function testIndex($isAssetPipelineEnabled, $showAssetPipelineError, $serverVersion, $expectsSupportsClass, $expectsWebcalWorkaround, $needsAutosize, $isIE) {
+	public function testIndex($isAssetPipelineEnabled, $showAssetPipelineError, $serverVersion, $expectsSupportsClass, $expectsWebcalWorkaround, $needsAutosize, $isIE, $shareeActions, $shareeCanEdit) {
 		$this->config->expects($this->at(0))
 			->method('getSystemValue')
 			->with('version')
@@ -150,6 +150,8 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 				'needsAutosize' => $needsAutosize,
 				'isIE' => $isIE,
 				'token' => '',
+				'shareeCanEditShares' => $shareeActions,
+				'shareeCanEditCalendarProperties' => $shareeCanEdit,
 			], $actual->getParams());
 			$this->assertEquals('main', $actual->getTemplateName());
 		}
@@ -158,12 +160,14 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 
 	public function indexDataProvider() {
 		return [
-			[true, true, '9.0.5.2', false, 'yes', true, false],
-			[true, false, '9.1.0.0', true, 'no', true, false],
-			[false, false, '9.0.5.2', false, 'yes', true, false],
-			[false, false, '9.1.0.0', true, 'no', true, false],
-			[false, false, '11.0.1', true, 'no', false, false],
-			[false, false, '11.0.1', true, 'no', false, true],
+			[true, true, '9.0.5.2', false, 'yes', true, false, 'yes', 'no'],
+			[true, false, '9.1.0.0', true, 'no', true, false, 'yes', 'no'],
+			[false, false, '9.0.5.2', false, 'yes', true, false, 'yes', 'no'],
+			[false, false, '9.1.0.0', true, 'no', true, false, 'yes', 'no'],
+			[false, false, '11.0.1', true, 'no', false, false, 'yes', 'no'],
+			[false, false, '11.0.1', true, 'no', false, true, 'yes', 'no'],
+			[false, false, '12.0.0', true, 'no', false, false, 'no', 'yes'],
+			[false, false, '12.0.0', true, 'no', false, true, 'no', 'yes'],
 		];
 	}
 
@@ -248,6 +252,8 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 			'needsAutosize' => true,
 			'isIE' => false,
 			'token' => '',
+			'shareeCanEditShares' => 'yes',
+			'shareeCanEditCalendarProperties' => 'no',
 		], $actual->getParams());
 		$this->assertEquals('main', $actual->getTemplateName());
 	}
@@ -342,6 +348,8 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 			'needsAutosize' => true,
 			'isIE' => false,
 			'token' => '',
+			'shareeCanEditShares' => 'yes',
+			'shareeCanEditCalendarProperties' => 'no',
 		], $actual->getParams());
 		$this->assertEquals('main', $actual->getTemplateName());
 	}
@@ -356,7 +364,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @dataProvider indexPublicDataProvider
 	 */
-	public function testPublicIndex($isAssetPipelineEnabled, $showAssetPipelineError, $serverVersion, $expectsSupportsClass, $needsAutosize, $isIE) {
+	public function testPublicIndex($isAssetPipelineEnabled, $showAssetPipelineError, $serverVersion, $expectsSupportsClass, $needsAutosize, $isIE, $shareeActions, $shareeCanEdit) {
 		$this->config->expects($this->at(0))
 			->method('getSystemValue')
 			->with('version')
@@ -456,6 +464,8 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 				'webcalURL' => 'webcal://foo.bar/remote.php/dav/public-calendars/fancy_token_123?export',
 				'downloadURL' => 'fancy_protocol://foo.bar/remote.php/dav/public-calendars/fancy_token_123?export',
 				'token' => 'fancy_token_123',
+				'shareeCanEditShares' => $shareeActions,
+				'shareeCanEditCalendarProperties' => $shareeCanEdit,
 			], $actual->getParams());
 			$this->assertEquals('main', $actual->getTemplateName());
 		}
@@ -465,7 +475,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @dataProvider indexPublicDataProvider
 	 */
-	public function testPublicIndexWithBranding($isAssetPipelineEnabled, $showAssetPipelineError, $serverVersion, $expectsSupportsClass, $needsAutosize, $isIE) {
+	public function testPublicIndexWithBranding($isAssetPipelineEnabled, $showAssetPipelineError, $serverVersion, $expectsSupportsClass, $needsAutosize, $isIE, $shareeActions, $shareeCanEdit) {
 		$this->config->expects($this->at(0))
 			->method('getSystemValue')
 			->with('version')
@@ -565,6 +575,8 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 				'webcalURL' => 'webcal://foo.bar/remote.php/dav/public-calendars/fancy_token_123?export',
 				'downloadURL' => 'fancy_protocol://foo.bar/remote.php/dav/public-calendars/fancy_token_123?export',
 				'token' => 'fancy_token_123',
+				'shareeCanEditShares' => $shareeActions,
+    			'shareeCanEditCalendarProperties' => $shareeCanEdit,
 			], $actual->getParams());
 			$this->assertEquals('public', $actual->getTemplateName());
 		}
@@ -573,12 +585,14 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 
 	public function indexPublicDataProvider() {
 		return [
-			[true, true, '9.0.5.2', false, true, false],
-			[true, false, '9.1.0.0', true, true, false],
-			[false, false, '9.0.5.2', false, true, false],
-			[false, false, '9.1.0.0', true, true, false],
-			[false, false, '11.0.0', true, false, false],
-			[false, false, '11.0.0', true, false, true],
+			[true, true, '9.0.5.2', false, true, false, 'yes', 'no'],
+			[true, false, '9.1.0.0', true, true, false, 'yes', 'no'],
+			[false, false, '9.0.5.2', false, true, false, 'yes', 'no'],
+			[false, false, '9.1.0.0', true, true, false, 'yes', 'no'],
+			[false, false, '11.0.0', true, false, false, 'yes', 'no'],
+			[false, false, '11.0.0', true, false, true, 'yes', 'no'],
+			[false, false, '12.0.0', true, false, false, 'no', 'yes'],
+			[false, false, '12.0.0', true, false, true, 'no', 'yes'],
 		];
 	}
 }

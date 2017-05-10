@@ -258,6 +258,11 @@ app.service('CalendarFactory', function($window, DavClient, Calendar, WebCal, co
 		simple.shareable = shareable;
 		simple.publishable = publishable;
 
+		if (simple.owner !== currentUser && !constants.shareeCanEditShares) {
+			simple.shareable = false;
+			simple.publishable = false;
+		}
+
 		const [published, publicToken] = context.publishedAndPublicToken(props);
 		simple.published = published;
 		simple.publicToken = publicToken;
@@ -269,7 +274,13 @@ app.service('CalendarFactory', function($window, DavClient, Calendar, WebCal, co
 			simple.color = constants.fallbackColor;
 		}
 
-		simple.writableProperties = (currentUser === simple.owner) && simple.writable;
+		if (publicMode) {
+			simple.writableProperties = false;
+		} else if (simple.owner === currentUser) {
+			simple.writableProperties = simple.writable;
+		} else {
+			simple.writableProperties = constants.shareeCanEditCalendarProperties || false;
+		}
 
 		return simple;
 	};
