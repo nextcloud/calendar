@@ -35,6 +35,8 @@
 	data-isPublic="<?php p($_['isPublic'] ? '1' : '0'); ?>"
 	data-isEmbedded="<?php p($_['isEmbedded'] ? '1' : '0'); ?>"
 	data-publicSharingToken="<?php p($_['token']); ?>"
+	data-shareeCanEditShares="<?php p($_['shareeCanEditShares']); ?>"
+	data-shareeCanEditCalendarProperties="<?php p($_['shareeCanEditCalendarProperties']); ?>"
 	fc
 	id="fullcalendar">
 </div>

@@ -840,7 +840,9 @@ describe('CalendarFactory', function () {
 		privateCalendarServiceAPI = {};
 
 		constants = {
-			fallbackColor: '#fefefe'
+			fallbackColor: '#fefefe',
+			shareeCanEditCalendarProperties: true,
+			shareeCanEditShares: false
 		};
 
 		$provide.value('$window', $window);
@@ -903,7 +905,7 @@ describe('CalendarFactory', function () {
 			color: '#78e774', displayname: 'Privat', components: {vevent: true, vjournal: false, vtodo: true},
 			order: 0, writable: false, owner: 'admin', enabled: false, shares: {users: [], groups: []}, ownerDisplayname: null,
 			shareable: false, publishable: false, published: false, publicToken: null,
-			writableProperties: false}]);
+			writableProperties: true}]);
 	});
 
 	it('handle published calendars', function() {
@@ -948,7 +950,28 @@ describe('CalendarFactory', function () {
 		]);
 	});
 
-	it('handle shared calendars for ro sharee', function() {
+	it('handle shared calendars for ro sharee - 12+', function() {
+		const calendarProperties = davService.parseMultiStatus(calendar_shared);
+		const calendar = CalendarFactory.calendar(privateCalendarServiceAPI, calendarProperties[0], '/remote.php/dav/principals/users/user1/', false);
+		expect(calendar).toEqual([privateCalendarServiceAPI, '/remote.php/dav/calendars/admin/privat/', {
+			color: '#78e774', displayname: 'Privat', components: {vevent: true, vjournal: false, vtodo: true},
+			order: 0, writable: false, owner: 'admin', enabled: true,
+			shares: {
+				users: [
+					{id: 'user1', displayname: 'User 1', writable: false},
+					{id: 'user2', displayname: 'User 2', writable: true}
+				],
+				groups: [
+					{id: 'test', displayname: 'test', writable: false}
+				]
+			}, ownerDisplayname: null, shareable: false, publishable: false, published: false, publicToken: null, writableProperties: true}
+		]);
+	});
+
+	it('handle shared calendars for ro sharee - 11 and below', function() {
+		constants.shareeCanEditCalendarProperties = false;
+		constants.shareeCanEditShares = true;
+
 		const calendarProperties = davService.parseMultiStatus(calendar_shared);
 		const calendar = CalendarFactory.calendar(privateCalendarServiceAPI, calendarProperties[0], '/remote.php/dav/principals/users/user1/', false);
 		expect(calendar).toEqual([privateCalendarServiceAPI, '/remote.php/dav/calendars/admin/privat/', {
@@ -966,7 +989,28 @@ describe('CalendarFactory', function () {
 		]);
 	});
 
-	it('handle shared calendars for rw sharee', function() {
+	it('handle shared calendars for rw sharee - 12+', function() {
+		const calendarProperties = davService.parseMultiStatus(calendar_shared);
+		const calendar = CalendarFactory.calendar(privateCalendarServiceAPI, calendarProperties[0], '/remote.php/dav/principals/users/user2/', false);
+		expect(calendar).toEqual([privateCalendarServiceAPI, '/remote.php/dav/calendars/admin/privat/', {
+			color: '#78e774', displayname: 'Privat', components: {vevent: true, vjournal: false, vtodo: true},
+			order: 0, writable: true, owner: 'admin', enabled: true,
+			shares: {
+				users: [
+					{id: 'user1', displayname: 'User 1', writable: false},
+					{id: 'user2', displayname: 'User 2', writable: true}
+				],
+				groups: [
+					{id: 'test', displayname: 'test', writable: false}
+				]
+			}, ownerDisplayname: null, shareable: false, publishable: false, published: false, publicToken: null, writableProperties: true}
+		]);
+	});
+
+	it('handle shared calendars for rw sharee - 11 and below', function() {
+		constants.shareeCanEditCalendarProperties = false;
+		constants.shareeCanEditShares = true;
+
 		const calendarProperties = davService.parseMultiStatus(calendar_shared);
 		const calendar = CalendarFactory.calendar(privateCalendarServiceAPI, calendarProperties[0], '/remote.php/dav/principals/users/user2/', false);
 		expect(calendar).toEqual([privateCalendarServiceAPI, '/remote.php/dav/calendars/admin/privat/', {
@@ -1011,7 +1055,7 @@ describe('CalendarFactory', function () {
 			color: '#FF7A66', displayname: '123', components: {vevent: true, vjournal: false, vtodo: true},
 			order: 0, writable: false, owner: 'admin', enabled: true, shares: {users: [], groups: []}, ownerDisplayname: null,
 			shareable: false, publishable: false, published: false, publicToken: null,
-			writableProperties: false}]);
+			writableProperties: true}]);
 	});
 
 	it('create a calendar object from a public calendar', function() {
