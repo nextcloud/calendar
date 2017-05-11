@@ -132,6 +132,8 @@ OC.L10N.register(
     "New Subscription" : "Ný áskrift",
     "Go back" : "Fara til baka",
     "Go forward" : "Fara áfram",
+    "Calendar does not exist" : "Dagatalið er ekki til",
+    "Maybe you got a wrong link or the calendar was unshared?" : "Hugsanlega ertu með rangan tengil eða að deilingu var hætt á dagatalinu?",
     "Edit event" : "Breyta atburði",
     "Delete Event" : "Eyða atburði",
     "Save Event" : "Vista atburð",
@@ -159,6 +161,9 @@ OC.L10N.register(
     "New calendar" : "Nýtt dagatal",
     "File is empty" : "Skráin er tóm",
     "Import scheduled" : "Áætlaður innflutningur",
+    "%s shared the calendar <strong>%s</strong> with you" : "%s deildi dagatalinu <strong>%s</strong> með þér",
+    "Embed" : "Ívefja",
+    "IFrame to integrate" : "Iframe-rammi til að samþætta",
     "Publish URL" : "Gefa út slóð",
     "Settings & import" : "Stillingar og innflutningur",
     "Skip simple event editor" : "Sleppa einföldum atburðaritli",
@@ -166,6 +171,7 @@ OC.L10N.register(
     "Import calendar" : "Flytja inn dagatal",
     "No Calendars selected for import" : "Engin dagatöl valin til innflutnings",
     "Primary CalDAV address" : "Aðal-CalDAV-vistfang",
-    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV-vistfang"
+    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV-vistfang",
+    "Subscribe" : "Gerast áskrifandi"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");
