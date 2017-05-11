@@ -164,3 +164,7 @@
 	clear: both;
 	height: 25px;
 }
+
+#importdialog div.progress {
+	height: 1.2em;
+}
