@@ -232,6 +232,7 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
 				$scope.properties.dtend.parameters.zone = $scope.defaulttimezone;
 			}
 		};
+		$scope.$watch('properties.allDay', $scope.toggledAllDay);
 
 		/**
 		 * Everything timezones

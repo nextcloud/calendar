@@ -35,7 +35,6 @@
 					   ng-model="properties.allDay"
 					   class="checkbox"
 					   id="alldayeventcheckbox" class="event-checkbox"
-					   ng-change="toggledAllDay()"
 						tabindex="102" />
 				<label for="alldayeventcheckbox"><?php p($l->t('All day Event'))?></label>
 			</div>
