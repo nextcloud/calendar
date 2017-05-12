@@ -41,8 +41,12 @@ app.directive('ocdatetimepicker', function($compile, $timeout) {
 			scope.time = null;
 			scope.disableAllDayIfNecessary = () => {
 				if (scope.disabletime && !scope.readonly) {
-					scope.disabletime = false;
-					element.find('.events--time').timepicker('show');
+					$timeout(() => {
+						scope.$apply(() => {
+							scope.disabletime = false;
+						});
+						element.find('.events--time').timepicker('show');
+					});
 				}
 			};
 
