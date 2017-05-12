@@ -527,7 +527,7 @@ ul.dropdown-menu li > a:hover {
 }
 
 .fc-unthemed tr:nth-child(even) td {
-	border-top-color: #f8f8f8;
+	border-top-color: #ebebeb;
 }
 
 .fc-unthemed th,
@@ -538,6 +538,8 @@ ul.dropdown-menu li > a:hover {
 .fc-unthemed .fc-row,
 .fc-unthemed .fc-popover {
 	border-color: #f8f8f8;
+	border-left-color: #ebebeb;
+	border-right-color: #ebebeb;
 }
 
 /* properly size events */
