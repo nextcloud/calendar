@@ -6,6 +6,7 @@ OC.L10N.register(
     "Too many redirects. Aborting ..." : "Liian monta uudelleenohjausta. Keskeytetään ...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "Etäpalvelin ei antanut pääsyä kalenteriin (HTTP-virhe {%s})",
     "Error connecting to remote server" : "Virhe yhdistettäessä etäpalvelimeen",
+    "Error requesting resource on remote server. This could possible be related to a certificate mismatch" : "Virhe etäpalvelimen resurssia pyydettäessä. Sertifikaatti saattaa olla yhteensopimaton",
     "Error requesting resource on remote server" : "Virhe etäpalvelimen resurssia pyytäessä",
     "Individual" : "Yksittäinen",
     "Group" : "Ryhmä",
@@ -130,6 +131,8 @@ OC.L10N.register(
     "New Subscription" : "Uusi tilaus",
     "Go back" : "Takaisin",
     "Go forward" : "Eteenpäin",
+    "Calendar does not exist" : "Kalenteria ei ole olemassa",
+    "Maybe you got a wrong link or the calendar was unshared?" : "Saatoit saada väärän linkin tai kalenteria ei ole jaettu?",
     "Edit event" : "Muokkaa tapahtumaa",
     "Delete Event" : "Poista tapahtuma",
     "Save Event" : "Tallenna tapahtuma",
@@ -157,6 +160,9 @@ OC.L10N.register(
     "New calendar" : "Uusi kalenteri",
     "File is empty" : "Tiedosto on tyhjä",
     "Import scheduled" : "Tuonti ajastettu",
+    "%s shared the calendar <strong>%s</strong> with you" : "%s jakoi kalenterin<strong>%s</strong>sinulle",
+    "Embed" : "Upota",
+    "IFrame to integrate" : "IFrame integraatio",
     "Publish URL" : "Julkaise URL",
     "Settings & import" : "Asetukset ja tuonti",
     "Skip simple event editor" : "Ohita yksinkertainen tapahtumamuokkain",
@@ -164,6 +170,7 @@ OC.L10N.register(
     "Import calendar" : "Tuo kalenteri",
     "No Calendars selected for import" : "Kalentereita ei ole valittu tuotavaksi",
     "Primary CalDAV address" : "Ensisijainen CalDAV-osoite",
-    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV -osoite"
+    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV -osoite",
+    "Subscribe" : "Tilaa"
 },
 "nplurals=2; plural=(n != 1);");
