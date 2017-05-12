@@ -101,6 +101,10 @@ app.factory('Calendar', function($window, Hook, VEventService, TimezoneService, 
 					eventsFn(start, end, 'UTC', callback);
 				}
 
+				iface.addWarning(reason);
+				context.fcEventSource.isRendering = false;
+				iface.emit(Calendar.hookFinishedRendering);
+
 				console.log(context.url, reason);
 			});
 		};
