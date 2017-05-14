@@ -66,6 +66,10 @@
 	display: none;
 }
 
+#datepicker td button {
+	min-height: 0;
+}
+
 .datepicker-heading {
 	margin: 0 5px;
 }
