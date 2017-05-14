@@ -657,12 +657,28 @@ END:VTIMEZONE
 	});
 
 	it ('should sanatize an malformed DTSTART, DTEND', function() {
-		const calendar = {this_is_a_fancy_calendar: true};
 		const compDTStart = `DTSTART:1970-01-01T::`;
 		const compDTEnd = `DTEND:1970-01-01T::`;
 
 		expect(VEvent.sanDate(compDTStart)).toEqual("DTSTART;VALUE=DATE:19700101");
 		expect(VEvent.sanDate(compDTEnd)).toEqual("DTEND;VALUE=DATE:19700101");
+	});
+
+	it ('should add a missing VALUE=DATE', () => {
+		// add a VALUE=DATE
+		expect(VEvent.sanNoDateValue('DTSTART;FOO=BAR;BAR=FOO:20170515')).toEqual('DTSTART;FOO=BAR;BAR=FOO;VALUE=DATE:20170515');
+		expect(VEvent.sanNoDateValue('DTSTART:20170515')).toEqual('DTSTART;VALUE=DATE:20170515');
+
+		// don't touch date-time values
+		expect(VEvent.sanNoDateValue('DTSTART;TZID=Europe/Berlin:20161018T152500')).toEqual('DTSTART;TZID=Europe/Berlin:20161018T152500');
+		expect(VEvent.sanNoDateValue('DTSTART:20161018T152500')).toEqual('DTSTART:20161018T152500');
+
+		// don't add VALUE=DATE if already present
+		expect(VEvent.sanNoDateValue('DTSTART;FOO=BAR;BAR=FOO;VALUE=DATE:20170515')).toEqual('DTSTART;FOO=BAR;BAR=FOO;VALUE=DATE:20170515');
+		expect(VEvent.sanNoDateValue('DTSTART;VALUE=DATE:20170515')).toEqual('DTSTART;VALUE=DATE:20170515');
+
+		// sanitize DTEND as well
+		expect(VEvent.sanNoDateValue('DTEND:20170515')).toEqual('DTEND;VALUE=DATE:20170515');
 	});
 
 	it ('should register timezones in the given comp', function() {
