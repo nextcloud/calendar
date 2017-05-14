@@ -135,6 +135,7 @@ OC.L10N.register(
     "Settings & import" : "Ρυθμίσεις & εισαγωγή",
     "Show week numbers" : "Εμφάνιση αριθμού εβδομάδας",
     "Import calendar" : "Εισαγωγή ημερολογίου",
+    "No Calendars selected for import" : "Δεν επιλέχτηκαν ημερολόγια προς εισαγωγή",
     "Primary CalDAV address" : "Κύρια διεύθυνση CalDAV",
     "iOS/OS X CalDAV address" : "Διεύθυνση CalDAV για iOS/OS X",
     "Subscribe" : "Εγγραφή"

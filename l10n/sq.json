@@ -83,6 +83,8 @@
     "Please enter a valid WebCal-URL" : "Ju lutemi, jepni një url të vlefshme WebCal-URL",
     "Severe error in webcal proxy. Please contact administrator for more information." : "Gabim i rëndë në webcal proxy. Ju lutemi, kontaktoni administratorin për më shumë informacion.",
     "Title of the Event" : "Titulli i Veprimtarisë",
+    "Starts" : "Fillim",
+    "Ends" : "Mbarim",
     "All day Event" : "Veprimtari Gjithëditore",
     "Delete" : "Fshije",
     "Cancel" : "Anuloje",

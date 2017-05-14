@@ -132,6 +132,8 @@ OC.L10N.register(
     "New Subscription" : "新的订阅",
     "Go back" : "回到上一步",
     "Go forward" : "向前",
+    "Calendar does not exist" : "日历不存在",
+    "Maybe you got a wrong link or the calendar was unshared?" : "也许你访问了错误的连接或者此日历未被分享？",
     "Edit event" : "编辑事件",
     "Delete Event" : "删除事件",
     "Save Event" : "保存事件",
@@ -159,6 +161,9 @@ OC.L10N.register(
     "New calendar" : "新建日历",
     "File is empty" : "文件是空的",
     "Import scheduled" : "导入时间表",
+    "%s shared the calendar <strong>%s</strong> with you" : "%s给你分享了日历 <strong>%s</strong>",
+    "Embed" : "嵌入",
+    "IFrame to integrate" : "一体化框架",
     "Publish URL" : "发布 URL",
     "Settings & import" : "设置 & 导入",
     "Skip simple event editor" : "跳过简单事件编辑器",
@@ -166,6 +171,7 @@ OC.L10N.register(
     "Import calendar" : "导入日历",
     "No Calendars selected for import" : "未选择要导入的日历",
     "Primary CalDAV address" : "主要的 CalDAV 地址",
-    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV 地址"
+    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV 地址",
+    "Subscribe" : "订阅"
 },
 "nplurals=1; plural=0;");
