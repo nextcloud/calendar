@@ -28,7 +28,7 @@ describe('CalendarFactory', function () {
 	let privateCalendarServiceAPI;
 
 	const calendar_default = `<?xml version="1.0"?>
-<d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:cal="urn:ietf:params:xml:ns:caldav" xmlns:cs="http://calendarserver.org/ns/" xmlns:card="urn:ietf:params:xml:ns:carddav" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns">
+<d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:cal="urn:ietf:params:xml:ns:caldav" xmlns:cs="http://calendarserver.org/ns/" xmlns:card="urn:ietf:params:xml:ns:carddav" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.com/ns">
  <d:response>
   <d:href>/remote.php/dav/calendars/admin/privat/</d:href>
   <d:propstat>
@@ -93,7 +93,7 @@ describe('CalendarFactory', function () {
 </d:multistatus>`;
 
 	const calendar_nocolor = `<?xml version="1.0"?>
-<d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:cal="urn:ietf:params:xml:ns:caldav" xmlns:cs="http://calendarserver.org/ns/" xmlns:card="urn:ietf:params:xml:ns:carddav" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns">
+<d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:cal="urn:ietf:params:xml:ns:caldav" xmlns:cs="http://calendarserver.org/ns/" xmlns:card="urn:ietf:params:xml:ns:carddav" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.com/ns">
  <d:response>
   <d:href>/remote.php/dav/calendars/admin/privat/</d:href>
   <d:propstat>
@@ -158,7 +158,7 @@ describe('CalendarFactory', function () {
 </d:multistatus>`;
 
 	const calendar_noenabled = `<?xml version="1.0"?>
-<d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:cal="urn:ietf:params:xml:ns:caldav" xmlns:cs="http://calendarserver.org/ns/" xmlns:card="urn:ietf:params:xml:ns:carddav" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns">
+<d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:cal="urn:ietf:params:xml:ns:caldav" xmlns:cs="http://calendarserver.org/ns/" xmlns:card="urn:ietf:params:xml:ns:carddav" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.com/ns">
  <d:response>
   <d:href>/remote.php/dav/calendars/admin/privat/</d:href>
   <d:propstat>
@@ -223,7 +223,7 @@ describe('CalendarFactory', function () {
 </d:multistatus>`;
 
 	const calendar_published = `<?xml version="1.0"?>
-<d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:cal="urn:ietf:params:xml:ns:caldav" xmlns:cs="http://calendarserver.org/ns/" xmlns:card="urn:ietf:params:xml:ns:carddav" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns">
+<d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:cal="urn:ietf:params:xml:ns:caldav" xmlns:cs="http://calendarserver.org/ns/" xmlns:card="urn:ietf:params:xml:ns:carddav" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.com/ns">
  <d:response>
   <d:href>/remote.php/dav/calendars/admin/privat/</d:href>
   <d:propstat>
@@ -321,7 +321,7 @@ describe('CalendarFactory', function () {
 </d:multistatus>`;
 
 	const calendar_shared = `<?xml version="1.0"?>
-<d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:cal="urn:ietf:params:xml:ns:caldav" xmlns:cs="http://calendarserver.org/ns/" xmlns:card="urn:ietf:params:xml:ns:carddav" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns">
+<d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:cal="urn:ietf:params:xml:ns:caldav" xmlns:cs="http://calendarserver.org/ns/" xmlns:card="urn:ietf:params:xml:ns:carddav" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.com/ns">
  <d:response>
   <d:href>/remote.php/dav/calendars/admin/privat/</d:href>
   <d:propstat>
@@ -475,8 +475,164 @@ describe('CalendarFactory', function () {
  </d:response>
 </d:multistatus>`;
 
+	const calendar_shared_owner_displayname = `<?xml version="1.0"?>
+<d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:cal="urn:ietf:params:xml:ns:caldav" xmlns:cs="http://calendarserver.org/ns/" xmlns:card="urn:ietf:params:xml:ns:carddav" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.com/ns">
+ <d:response>
+  <d:href>/remote.php/dav/calendars/admin/privat/</d:href>
+  <d:propstat>
+   <d:prop>
+    <d:displayname>Privat</d:displayname>
+    <d:resourcetype>
+     <d:collection/>
+     <cal:calendar/>
+    </d:resourcetype>
+    <cal:calendar-description/>
+    <cal:calendar-timezone/>
+    <x1:calendar-order xmlns:x1="http://apple.com/ns/ical/">0</x1:calendar-order>
+    <x1:calendar-color xmlns:x1="http://apple.com/ns/ical/">#78e774</x1:calendar-color>
+    <cal:supported-calendar-component-set>
+     <cal:comp name="VEVENT"/>
+     <cal:comp name="VTODO"/>
+    </cal:supported-calendar-component-set>
+    <cs:allowed-sharing-modes>
+     <cs:can-be-shared/>
+     <cs:can-be-published/>
+    </cs:allowed-sharing-modes>
+    <oc:calendar-enabled>1</oc:calendar-enabled>
+    <d:acl>
+     <d:ace>
+      <d:principal>
+       <d:href>/remote.php/dav/principals/users/admin/</d:href>
+      </d:principal>
+      <d:grant>
+       <d:privilege>
+        <d:read/>
+       </d:privilege>
+      </d:grant>
+      <d:protected/>
+     </d:ace>
+     <d:ace>
+      <d:principal>
+       <d:href>/remote.php/dav/principals/users/admin/</d:href>
+      </d:principal>
+      <d:grant>
+       <d:privilege>
+        <d:write/>
+       </d:privilege>
+      </d:grant>
+      <d:protected/>
+     </d:ace>
+     <d:ace>
+      <d:principal>
+       <d:href>/remote.php/dav/principals/groups/test/</d:href>
+      </d:principal>
+      <d:grant>
+       <d:privilege>
+        <d:read/>
+       </d:privilege>
+      </d:grant>
+      <d:protected/>
+     </d:ace>
+     <d:ace>
+      <d:principal>
+       <d:href>/remote.php/dav/principals/groups/test/</d:href>
+      </d:principal>
+      <d:grant>
+       <d:privilege>
+        <d:write-properties/>
+       </d:privilege>
+      </d:grant>
+      <d:protected/>
+     </d:ace>
+     <d:ace>
+      <d:principal>
+       <d:href>/remote.php/dav/principals/users/user1/</d:href>
+      </d:principal>
+      <d:grant>
+       <d:privilege>
+        <d:read/>
+       </d:privilege>
+      </d:grant>
+      <d:protected/>
+     </d:ace>
+     <d:ace>
+      <d:principal>
+       <d:href>/remote.php/dav/principals/users/user1/</d:href>
+      </d:principal>
+      <d:grant>
+       <d:privilege>
+        <d:write-properties/>
+       </d:privilege>
+      </d:grant>
+      <d:protected/>
+     </d:ace>
+     <d:ace>
+      <d:principal>
+       <d:href>/remote.php/dav/principals/users/user2/</d:href>
+      </d:principal>
+      <d:grant>
+       <d:privilege>
+        <d:read/>
+       </d:privilege>
+      </d:grant>
+      <d:protected/>
+     </d:ace>
+     <d:ace>
+      <d:principal>
+       <d:href>/remote.php/dav/principals/users/user2/</d:href>
+      </d:principal>
+      <d:grant>
+       <d:privilege>
+        <d:write/>
+       </d:privilege>
+      </d:grant>
+      <d:protected/>
+     </d:ace>
+    </d:acl>
+    <d:owner>
+     <d:href>/remote.php/dav/principals/users/admin/</d:href>
+    </d:owner>
+    <nc:owner-displayname>Administrator</nc:owner-displayname>
+    <oc:invite>
+     <oc:user>
+      <d:href>principal:principals/groups/test</d:href>
+      <oc:invite-accepted/>
+      <oc:access>
+       <oc:read/>
+      </oc:access>
+     </oc:user>
+     <oc:user>
+      <d:href>principal:principals/users/user1</d:href>
+      <oc:common-name>User 1</oc:common-name>
+      <oc:invite-accepted/>
+      <oc:access>
+       <oc:read/>
+      </oc:access>
+     </oc:user>
+     <oc:user>
+      <d:href>principal:principals/users/user2</d:href>
+      <oc:common-name>User 2</oc:common-name>
+      <oc:invite-accepted/>
+      <oc:access>
+       <oc:read-write/>
+      </oc:access>
+     </oc:user>
+    </oc:invite>
+   </d:prop>
+   <d:status>HTTP/1.1 200 OK</d:status>
+  </d:propstat>
+  <d:propstat>
+   <d:prop>
+    <cs:publish-url/>
+    <cs:source/>
+   </d:prop>
+   <d:status>HTTP/1.1 404 Not Found</d:status>
+  </d:propstat>
+ </d:response>
+</d:multistatus>`;
+
 	const calendar_vevent_vjournal = `<?xml version="1.0"?>
-<d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:cal="urn:ietf:params:xml:ns:caldav" xmlns:cs="http://calendarserver.org/ns/" xmlns:card="urn:ietf:params:xml:ns:carddav" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns">
+<d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:cal="urn:ietf:params:xml:ns:caldav" xmlns:cs="http://calendarserver.org/ns/" xmlns:card="urn:ietf:params:xml:ns:carddav" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.com/ns">
  <d:response>
   <d:href>/remote.php/dav/calendars/admin/privat/</d:href>
   <d:propstat>
@@ -604,7 +760,7 @@ describe('CalendarFactory', function () {
 </d:multistatus>`;
 
 	const webcal_default = `<?xml version="1.0"?>
-<d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:cal="urn:ietf:params:xml:ns:caldav" xmlns:cs="http://calendarserver.org/ns/" xmlns:card="urn:ietf:params:xml:ns:carddav" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns">
+<d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:cal="urn:ietf:params:xml:ns:caldav" xmlns:cs="http://calendarserver.org/ns/" xmlns:card="urn:ietf:params:xml:ns:carddav" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.com/ns">
  <d:response>
   <d:href>/remote.php/dav/calendars/admin/some-webcal-abo/</d:href>
   <d:propstat>
@@ -701,7 +857,7 @@ describe('CalendarFactory', function () {
 </d:multistatus>`;
 
 	const public_calendar = `<?xml version="1.0"?>
-<d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:cal="urn:ietf:params:xml:ns:caldav" xmlns:cs="http://calendarserver.org/ns/" xmlns:card="urn:ietf:params:xml:ns:carddav" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns">
+<d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:cal="urn:ietf:params:xml:ns:caldav" xmlns:cs="http://calendarserver.org/ns/" xmlns:card="urn:ietf:params:xml:ns:carddav" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.com/ns">
  <d:response>
   <d:href>/remote.php/dav/public-calendars/KCMY4V5JZ22ODGFW/</d:href>
   <d:propstat>
@@ -932,7 +1088,7 @@ describe('CalendarFactory', function () {
 			writableProperties: true}]);
 	});
 
-	it('handle shared calendars for owner', function() {
+	it('handle shared calendars for owner - 11 and below', function() {
 		const calendarProperties = davService.parseMultiStatus(calendar_shared);
 		const calendar = CalendarFactory.calendar(privateCalendarServiceAPI, calendarProperties[0], '/remote.php/dav/principals/users/admin/', false);
 		expect(calendar).toEqual([privateCalendarServiceAPI, '/remote.php/dav/calendars/admin/privat/', {
@@ -947,6 +1103,24 @@ describe('CalendarFactory', function () {
 					{id: 'test', displayname: 'test', writable: false}
 				]
 			}, ownerDisplayname: null, shareable: true, publishable: true, published: false, publicToken: null, writableProperties: true}
+		]);
+	});
+
+	it('handle shared calendars for owner - 12+', function() {
+		const calendarProperties = davService.parseMultiStatus(calendar_shared_owner_displayname);
+		const calendar = CalendarFactory.calendar(privateCalendarServiceAPI, calendarProperties[0], '/remote.php/dav/principals/users/admin/', false);
+		expect(calendar).toEqual([privateCalendarServiceAPI, '/remote.php/dav/calendars/admin/privat/', {
+			color: '#78e774', displayname: 'Privat', components: {vevent: true, vjournal: false, vtodo: true},
+			order: 0, writable: true, owner: 'admin', enabled: true,
+			shares: {
+				users: [
+					{id: 'user1', displayname: 'User 1', writable: false},
+					{id: 'user2', displayname: 'User 2', writable: true}
+				],
+				groups: [
+					{id: 'test', displayname: 'test', writable: false}
+				]
+			}, ownerDisplayname: 'Administrator', shareable: true, publishable: true, published: false, publicToken: null, writableProperties: true}
 		]);
 	});
 

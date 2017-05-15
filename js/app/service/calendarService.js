@@ -49,7 +49,8 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 		'{' + DavClient.NS_DAV + '}acl',
 		'{' + DavClient.NS_DAV + '}owner',
 		'{' + DavClient.NS_OWNCLOUD + '}invite',
-		'{' + DavClient.NS_CALENDARSERVER + '}source'
+		'{' + DavClient.NS_CALENDARSERVER + '}source',
+		'{' + DavClient.NS_NEXTCLOUD + '}owner-displayname'
 	];
 
 	const CALENDAR_IDENTIFIER = '{' + DavClient.NS_IETF + '}calendar';
