@@ -38,6 +38,7 @@ OC.L10N.register(
     "Cancelled" : "Preklicano",
     "Please add a title!" : "Dodajte naslov!",
     "Please select a calendar!" : "Izberite koledar!",
+    "The event ends before it starts!" : "Dogodek se je končal, preden se je začnel!",
     "Global" : "Splošno",
     "None" : "Brez",
     "Every day" : "Vsak dan",
@@ -85,6 +86,8 @@ OC.L10N.register(
     "Please enter a valid WebCal-URL" : "Vpišite veljaven naslov URL WebCal",
     "Severe error in webcal proxy. Please contact administrator for more information." : "Resna težava na  webcal proxy. Prosim, kontaktiraj administratorja za dodatne informacije.",
     "Title of the Event" : "Naslov dogodka",
+    "Starts" : "Začel",
+    "Ends" : "Končal",
     "All day Event" : "Celodnevni dogodek",
     "Delete" : "Izbriši",
     "Cancel" : "Prekliči",
@@ -129,6 +132,8 @@ OC.L10N.register(
     "New Subscription" : "Novo naročilo",
     "Go back" : "Nazaj",
     "Go forward" : "Naprej",
+    "Calendar does not exist" : "Koledar ne obstaja",
+    "Maybe you got a wrong link or the calendar was unshared?" : "Mogoče imaš napačno povezavo ali koledar nima skupne rabe?",
     "Edit event" : "Uredi dogodek",
     "Delete Event" : "Izbriši dogodek",
     "Save Event" : "Shrani dogodek",
@@ -156,6 +161,7 @@ OC.L10N.register(
     "New calendar" : "Nov koledar",
     "File is empty" : "Datoteka je prazna",
     "Import scheduled" : "Uvoz urnika",
+    "%s shared the calendar <strong>%s</strong> with you" : "%s skupno rabo koledarja <strong>%s</strong> z vami",
     "Publish URL" : "Objavi URL",
     "Settings & import" : "Nastavitve in uvoz",
     "Skip simple event editor" : "Preskoči enostavni urejevalnik dogodkov",
@@ -163,6 +169,7 @@ OC.L10N.register(
     "Import calendar" : "Uvoz koledarja",
     "No Calendars selected for import" : "Ni navedenih koledarjev za uvoz",
     "Primary CalDAV address" : "Osnovni naslov CalDAV",
-    "iOS/OS X CalDAV address" : "Naslov CalDAV iOS/OS"
+    "iOS/OS X CalDAV address" : "Naslov CalDAV iOS/OS",
+    "Subscribe" : "Naročite se"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");
