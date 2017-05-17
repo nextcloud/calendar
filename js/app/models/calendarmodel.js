@@ -319,7 +319,8 @@ app.factory('Calendar', function($window, Hook, VEventService, TimezoneService, 
 		};
 
 		iface.arePropertiesWritable = function() {
-			return context.writableProperties;
+			return true;
+			//return context.writableProperties;
 		};
 
 		iface.eventsAccessibleViaCalDAV = function() {
