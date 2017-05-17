@@ -45,9 +45,6 @@ if ($_['isIE']) {
 } else {
 	$scripts[] = 'public/vendor.min';
 }
-if ($_['needsAutosize']) {
-	$scripts[] = 'vendor/autosize/dist/autosize';
-}
 
 $scripts[] = 'public/app.min';
 
