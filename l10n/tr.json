@@ -105,7 +105,7 @@
     "Cheers!" : "Görüşmek üzere",
     "We wanted to inform you that %s has published the calendar %s." : "Bu ileti %s tarafından %s takviminin yayınlandığını bildirmek üzere gönderilmiştir.",
     "Click on the link below to access it" : "Takvime eirşmek için aşağıdaki bağlantıya tıklayın",
-    "Due to an upstream bug, the calendar is currently not able to provide support for the asset pipeline feature." : "Bir yükleme akışı hatası nedeniyle takvim asset pipeline özelliğine destek veremiyor.",
+    "Due to an upstream bug, the calendar is currently not able to provide support for the asset pipeline feature." : "Bir yükleme akışı sorunu nedeniyle takvim asset pipeline özelliğine destek veremiyor.",
     "Please contact your administrator and ask them to disable the \"asset-pipeline.enabled\" config option." : "Lütfen yöneticinizle görüşerek \"asset-pipeline.enabled\" ayarını devre dışı bırakmasını isteyin.",
     "Day" : "Gün",
     "Week" : "Hafta",
