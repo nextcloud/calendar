@@ -86,6 +86,8 @@ OC.L10N.register(
     "Please enter a valid WebCal-URL" : "Моля въведете валиден WebCal адрес",
     "Severe error in webcal proxy. Please contact administrator for more information." : "Тежка грешка в webcal прокси. Моля, свържете се с администратора за повече информация.",
     "Title of the Event" : "Заглавие на събитието",
+    "Starts" : "Започва",
+    "Ends" : "Завършва",
     "All day Event" : "Целодневно събитие",
     "Delete" : "Изтриване",
     "Cancel" : "Отказ",
@@ -130,6 +132,8 @@ OC.L10N.register(
     "New Subscription" : "Нов абонамент",
     "Go back" : "Назад",
     "Go forward" : "Продължи напред",
+    "Calendar does not exist" : "Календарът не съществува",
+    "Maybe you got a wrong link or the calendar was unshared?" : "Може би имате грешна връзка или календарът не е бил споделен?",
     "Edit event" : "Редакция на събитието",
     "Delete Event" : "Изтрий събитие",
     "Save Event" : "Запамети събитие",
@@ -157,6 +161,9 @@ OC.L10N.register(
     "New calendar" : "Нов календар",
     "File is empty" : "Файлът е празен",
     "Import scheduled" : "Внасянето насрочено",
+    "%s shared the calendar <strong>%s</strong> with you" : "%s сподели календарът <strong>%s</strong> с вас",
+    "Embed" : "Вграден",
+    "IFrame to integrate" : "Рамка за вграждане",
     "Publish URL" : "Публикувай URL",
     "Settings & import" : "Настройки и внасяне",
     "Skip simple event editor" : "Пропусни опростения редактор за събития",
@@ -164,6 +171,7 @@ OC.L10N.register(
     "Import calendar" : "Внасяне на календар",
     "No Calendars selected for import" : "Няма избрани календари за внасяне",
     "Primary CalDAV address" : "Основен CalDAV адрес",
-    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV адрес"
+    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV адрес",
+    "Subscribe" : "Абонирай ме"
 },
 "nplurals=2; plural=(n != 1);");
