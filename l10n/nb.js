@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Calendar" : "Kalender",
     "%s has published the calendar \"%s\"" : "%s har publisert kalenderen \"%s\"",
-    "Too many redirects. Aborting ..." : "For mange viderekoblinger. Avbryter…",
+    "Too many redirects. Aborting ..." : "For mange videresendinger. Avbryter…",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "Ekstern tjener nektet tilgang til kalenderen (HTTP {%s} error)",
     "Error connecting to remote server" : "Feil ved opprettelsen av forbindelse til tjeneren",
     "Error requesting resource on remote server. This could possible be related to a certificate mismatch" : "Feil ved forespørsel om ressurser på ekstern tjener. Dette er trolig relatert til sertifikatavvik.",
@@ -24,7 +24,7 @@ OC.L10N.register(
     "Error saving WebCal-calendar" : "Feil under lagring av WebCal-kalender",
     "WebDAV address for subscriptions" : "WebDAV-adresse for abonnementer",
     "EMail has been sent." : "E-post er sendt",
-    "There was an issue while sending your EMail." : "Problem ved sending av din epost.",
+    "There was an issue while sending your EMail." : "Problem ved forsendelse av din e-post.",
     "group" : "gruppe",
     "Details" : "Detaljer",
     "Attendees" : "Deltakere",
