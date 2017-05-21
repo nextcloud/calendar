@@ -1,3 +1,53 @@
+## 1.5.3 - 2017-05-21
+### Added
+- allow editing props of shared calendars (Nextcloud 12 and above only)
+  [#406](https://github.com/nextcloud/calendar/issues/406)
+- add avatar to sharing list
+  [#207](https://github.com/nextcloud/calendar/issues/207)
+- effort to get rid of adblocker issues
+  [#417](https://github.com/nextcloud/calendar/pull/417)
+- color weekends slightly darker
+  [#430](https://github.com/nextcloud/calendar/pull/430)
+
+
+### Fixed
+- fix visual deletion of user shares
+  [#378](https://github.com/nextcloud/calendar/issues/378)
+- make sure the user can not set the end to something earlier than the start
+  [#11](https://github.com/nextcloud/calendar/issues/11)
+- increased font-size of calendar-view
+  [#166](https://github.com/nextcloud/calendar/issues/166)
+- sanitize missing VALUE=DATE when parsing ics data
+  [#376](https://github.com/nextcloud/calendar/issues/376)
+- fix visibility of import progressbar
+  [#423](https://github.com/nextcloud/calendar/issues/423)
+- properly display errors when querying events failed
+  [#359](https://github.com/nextcloud/calendar/issues/359)
+- increase ending time by an hour also when clicking on disabled time-input
+  [#438](https://github.com/nextcloud/calendar/issues/438)
+- improve visibility of vertical calendar grid
+  [#314](https://github.com/nextcloud/calendar/issues/314)
+- hide sharing actions for sharees (Nextcloud 12 and above only)
+  [#432](https://github.com/nextcloud/calendar/issues/432)
+- allow clicking on disabled time-input in sidebar (only affected Firefox)
+  [#388](https://github.com/nextcloud/calendar/issues/388)
+- fixed issue with chinese characters showing up in estonian language
+  [#264](https://github.com/nextcloud/calendar/issues/264)
+- fixed handling of Recurrence-ID
+  [#142](https://github.com/nextcloud/calendar/issues/142)
+- fixed and unified timepicker layout in editor popover and editor sidebar
+  [#72](https://github.com/nextcloud/calendar/issues/72)
+- improved visibility of current-day color
+  [#395](https://github.com/nextcloud/calendar/pull/395)
+- fix issue with too long webcal urls
+  [#325](https://github.com/nextcloud/calendar/issues/325)
+- show proper empty content view for non-existing public calendar links
+  [#240](https://github.com/nextcloud/calendar/issues/240)
+- refactored public calendar links page
+  [#243](https://github.com/nextcloud/calendar/issues/243)
+- fixed position of mobile menu on public calendar link page
+  [#248](https://github.com/nextcloud/calendar/issues/248)
+
 ## 1.5.2 - 2017-03-21
 ### Fixed
 - fixed issue with "three-part-timezone" like America/Argentina/Buenos_Aires
