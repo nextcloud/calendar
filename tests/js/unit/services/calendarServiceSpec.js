@@ -949,7 +949,7 @@ END:VCALENDAR&#13;
 			'{http://apple.com/ns/ical/}calendar-color', '{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set',
 			'{http://calendarserver.org/ns/}publish-url', '{http://calendarserver.org/ns/}allowed-sharing-modes',
 			'{http://owncloud.org/ns}calendar-enabled', '{DAV:}acl', '{DAV:}owner', '{http://owncloud.org/ns}invite',
-			'{http://calendarserver.org/ns/}source' ], 1, {requesttoken: 'requestToken42'}]);
+			'{http://calendarserver.org/ns/}source', '{http://nextcloud.com/ns}owner-displayname'], 1, {requesttoken: 'requestToken42'}]);
 
 		$rootScope.$apply();
 
@@ -990,7 +990,7 @@ END:VCALENDAR&#13;
 			'{http://apple.com/ns/ical/}calendar-color', '{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set',
 			'{http://calendarserver.org/ns/}publish-url', '{http://calendarserver.org/ns/}allowed-sharing-modes',
 			'{http://owncloud.org/ns}calendar-enabled', '{DAV:}acl', '{DAV:}owner', '{http://owncloud.org/ns}invite',
-			'{http://calendarserver.org/ns/}source'],
+			'{http://calendarserver.org/ns/}source', '{http://nextcloud.com/ns}owner-displayname'],
 			1, {requesttoken: 'requestToken42'}]);
 	});
 
@@ -1048,7 +1048,7 @@ END:VCALENDAR&#13;
 			'{http://apple.com/ns/ical/}calendar-color', '{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set',
 			'{http://calendarserver.org/ns/}publish-url', '{http://calendarserver.org/ns/}allowed-sharing-modes',
 			'{http://owncloud.org/ns}calendar-enabled', '{DAV:}acl', '{DAV:}owner', '{http://owncloud.org/ns}invite',
-			'{http://calendarserver.org/ns/}source'],
+			'{http://calendarserver.org/ns/}source', '{http://nextcloud.com/ns}owner-displayname'],
 			0, {requesttoken: 'requestToken42'}]);
 	});
 
@@ -1165,7 +1165,7 @@ END:VCALENDAR&#13;
 			'{http://apple.com/ns/ical/}calendar-color', '{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set',
 			'{http://calendarserver.org/ns/}publish-url', '{http://calendarserver.org/ns/}allowed-sharing-modes',
 			'{http://owncloud.org/ns}calendar-enabled', '{DAV:}acl', '{DAV:}owner', '{http://owncloud.org/ns}invite',
-			'{http://calendarserver.org/ns/}source'],
+			'{http://calendarserver.org/ns/}source', '{http://nextcloud.com/ns}owner-displayname'],
 			0, {requesttoken: 'requestToken42'}]);
 
 		expect(called).toEqual(true);

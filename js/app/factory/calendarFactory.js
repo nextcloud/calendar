@@ -129,6 +129,11 @@ app.service('CalendarFactory', function($window, DavClient, Calendar, WebCal, co
 		};
 		let ownerDisplayname = null;
 
+		const ownerDisplaynameProp = props['{' + DavClient.NS_NEXTCLOUD + '}owner-displayname'];
+		if (ownerDisplaynameProp) {
+			ownerDisplayname = ownerDisplaynameProp;
+		}
+
 		if (!Array.isArray(shareProp)) {
 			return [shares, null];
 		}
@@ -162,7 +167,10 @@ app.service('CalendarFactory', function($window, DavClient, Calendar, WebCal, co
 
 			if (href.startsWith(SHARE_USER_PREFIX)) {
 				if (href.substr(SHARE_USER_PREFIX.length) === owner) {
-					ownerDisplayname = displayName;
+					// don't overwrite already present displayname
+					if (!ownerDisplayname) {
+						ownerDisplayname = displayName;
+					}
 				} else {
 					shares.users.push({
 						id: href.substr(SHARE_USER_PREFIX.length),
