@@ -65,6 +65,7 @@ const vendorSources = [
 ];
 const vendorCssSources = [
 	'vendor/fullcalendar/dist/fullcalendar.css',
+	'vendor/angular/angular-csp.css',
 	'licenses/jquery.timepicker.css',
 	'vendor/jquery-timepicker/jquery.ui.timepicker.css'
 ];
