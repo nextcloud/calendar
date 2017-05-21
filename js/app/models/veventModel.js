@@ -297,6 +297,30 @@ app.factory('VEvent', function(TimezoneService, FcEvent, SimpleEvent, ICalFactor
 	};
 
 	/**
+	 * create all-day event from malformed input
+	 * @param {string} ics
+	 * @returns {string}
+	 */
+	VEvent.sanNoDateValue = (ics) => {
+		ics.split("\n").forEach(function(el, i) {
+
+			if (el.indexOf(';VALUE=DATE') !== -1) {
+				return;
+			}
+
+			const findTypes = ['DTSTART', 'DTEND'];
+			const [dateTypePara, dateValue] = el.split(':');
+			const [dateType, ...dateParameters] = dateTypePara.split(';');
+
+			if (findTypes.indexOf(dateType) >= 0 && dateParameters.indexOf('VALUE=DATE') === -1 && dateValue.length === 8) { // is date without time
+				ics = ics.replace(el, dateTypePara + ';VALUE=DATE:' + dateValue);
+			}
+		});
+
+		return ics;
+	};
+
+	/**
 	 * fix incorrectly populated trigger
 	 * @param {string} ics
 	 * @returns {string}
@@ -328,6 +352,8 @@ app.factory('VEvent', function(TimezoneService, FcEvent, SimpleEvent, ICalFactor
 		if (ics.search('TRIGGER:P') > 0) {
 			ics = VEvent.sanTrigger(ics);
 		}
+
+		ics = VEvent.sanNoDateValue(ics);
 
 		try {
 			const jCal = ICAL.parse(ics);
