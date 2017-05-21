@@ -167,8 +167,7 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ha
 				item.calendar.publish().then(function (response) {
 					if (response) {
 						CalendarService.get(item.calendar.url).then(function (calendar) {
-							item.calendar.publishurl = calendar.publishurl;
-							item.calendar.publicurl = calendar.publicurl;
+							item.calendar.publicToken = calendar.publicToken;
 							item.calendar.published = true;
 						});
 					}
