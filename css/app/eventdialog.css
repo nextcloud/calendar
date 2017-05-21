@@ -111,6 +111,13 @@
 }
 
 .advanced .events--date,
+.events .events--date,
+.advanced .events--time,
+.events .events--time {
+	box-sizing: border-box;
+}
+
+.advanced .events--date,
 .events .events--date {
 	width: calc(100% - 70px);
 	border-right-width: 0;
