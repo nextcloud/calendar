@@ -2,7 +2,7 @@ describe('Timezone Service', function () {
 	'use strict';
 
 	let $q, $rootScope;
-	let TimezoneService, http, Timezone;
+	let TimezoneService, Timezone, TimezoneDataProvider;
 
 	beforeEach(module('Calendar', function ($provide) {
 		Timezone = jasmine.createSpy().and.callFake(function() {
@@ -11,8 +11,49 @@ describe('Timezone Service', function () {
 			};
 		});
 
-		OC.requestToken = 'requestToken42';
+		TimezoneDataProvider = {
+			aliases: {
+				"Africa/Asmera": {
+					"aliasTo": "Africa/Asmara"
+				},
+				"Africa/Timbuktu": {
+					"aliasTo": "Africa/Bamako"
+				},
+				"Etc/UTC": {
+					"aliasTo": "UTC"
+				},
+				"W. Europe Standard Time": {
+					"aliasTo": "Europe/Berlin"
+				},
+				"Z": {
+					"aliasTo": "UTC"
+				}
+			},
+			zones: {
+				"America/New_York": {
+					"ics": "BEGIN:VTIMEZONE\r\nTZID:America/New_York\r\nBEGIN:DAYLIGHT\r\nTZOFFSETFROM:-0500\r\nTZOFFSETTO:-0400\r\nTZNAME:EDT\r\nDTSTART:19700308T020000\r\nRRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU\r\nEND:DAYLIGHT\r\nBEGIN:STANDARD\r\nTZOFFSETFROM:-0400\r\nTZOFFSETTO:-0500\r\nTZNAME:EST\r\nDTSTART:19701101T020000\r\nRRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU\r\nEND:STANDARD\r\nEND:VTIMEZONE",
+					"latitude": "+0404251",
+					"longitude": "-0740023"
+				},
+				"Europe/Berlin": {
+					"ics": "BEGIN:VTIMEZONE\r\nTZID:Europe/Berlin\r\nBEGIN:DAYLIGHT\r\nTZOFFSETFROM:+0100\r\nTZOFFSETTO:+0200\r\nTZNAME:CEST\r\nDTSTART:19700329T020000\r\nRRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU\r\nEND:DAYLIGHT\r\nBEGIN:STANDARD\r\nTZOFFSETFROM:+0200\r\nTZOFFSETTO:+0100\r\nTZNAME:CET\r\nDTSTART:19701025T030000\r\nRRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU\r\nEND:STANDARD\r\nEND:VTIMEZONE",
+					"latitude": "+0523000",
+					"longitude": "+0132200"
+				},
+				"Europe/Busingen": {
+					"ics": "BEGIN:VTIMEZONE\r\nTZID:Europe/Busingen\r\nBEGIN:DAYLIGHT\r\nTZOFFSETFROM:+0100\r\nTZOFFSETTO:+0200\r\nTZNAME:CEST\r\nDTSTART:19700329T020000\r\nRRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU\r\nEND:DAYLIGHT\r\nBEGIN:STANDARD\r\nTZOFFSETFROM:+0200\r\nTZOFFSETTO:+0100\r\nTZNAME:CET\r\nDTSTART:19701025T030000\r\nRRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU\r\nEND:STANDARD\r\nEND:VTIMEZONE",
+					"latitude": "+0474200",
+					"longitude": "+0084100"
+				},
+				"Europe/Vienna": {
+					"ics": "BEGIN:VTIMEZONE\r\nTZID:Europe/Vienna\r\nBEGIN:DAYLIGHT\r\nTZOFFSETFROM:+0100\r\nTZOFFSETTO:+0200\r\nTZNAME:CEST\r\nDTSTART:19700329T020000\r\nRRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU\r\nEND:DAYLIGHT\r\nBEGIN:STANDARD\r\nTZOFFSETFROM:+0200\r\nTZOFFSETTO:+0100\r\nTZNAME:CET\r\nDTSTART:19701025T030000\r\nRRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU\r\nEND:STANDARD\r\nEND:VTIMEZONE",
+					"latitude": "+0481300",
+					"longitude": "+0162000"
+				}
+			}
+		};
 
+		$provide.value('TimezoneDataProvider', TimezoneDataProvider);
 		$provide.value('Timezone', Timezone);
 	}));
 
@@ -28,15 +69,9 @@ describe('Timezone Service', function () {
 		}
 	}));
 
-	beforeEach(inject(function (_TimezoneService_, $httpBackend) {
+	beforeEach(inject(function (_TimezoneService_) {
 		TimezoneService = _TimezoneService_;
-		http = $httpBackend;
 	}));
-
-	afterEach(function () {
-		http.verifyNoOutstandingExpectation();
-		http.verifyNoOutstandingRequest();
-	});
 
 	it('should should get the current timezone id', function() {
 		jstz.determine = jasmine.createSpy().and.returnValues(
@@ -47,33 +82,35 @@ describe('Timezone Service', function () {
 		expect(TimezoneService.current()).toEqual('UTC');
 	});
 
-	it('should get a timezone and store it locally', function() {
-		http.expect('GET', 'fancy-url/timezones/EUROPE/BERLIN.ics').respond(200, '*tzdata*');
-
+	it('should get a timezone', function() {
 		const tzid = 'Europe/Berlin';
-		TimezoneService.get(tzid).then(function(result) {
-			expect(result.data).toEqual('*tzdata*');
-			expect(Timezone.calls.count()).toEqual(3);
-			expect(Timezone.calls.argsFor(2)).toEqual(['*tzdata*']);
-		});
-
-		expect(http.flush).not.toThrow();
+		let called = false;
 
 		TimezoneService.get(tzid).then(function(result) {
-			expect(result.data).toEqual('*tzdata*');
+			expect(Timezone.calls.count()).toEqual(1);
+			expect(Timezone.calls.argsFor(0)).toEqual([`BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE`.split("\n").join("\r\n")]);
+			called = true;
 		});
-	});
 
-	it('should not send two requests for the same timezone', function() {
-		http.expect('GET', 'fancy-url/timezones/EUROPE/BERLIN.ics').respond(200, '*tzdata*');
+		$rootScope.$apply();
 
-		const tzid = 'Europe/Berlin';
-		const promise1 = TimezoneService.get(tzid);
-		const promise2 = TimezoneService.get(tzid);
-
-		expect(promise1).toEqual(promise2);
-
-		expect(() => http.flush(1)).not.toThrow();
+		expect(called).toEqual(true);
 	});
 
 	it('should not send requests for unknown timezones', function() {
@@ -87,8 +124,7 @@ describe('Timezone Service', function () {
 			expect(reason).toEqual('Unknown timezone');
 		});
 
-		// throw because no pending requests
-		expect(http.flush).toThrow();
+		$rootScope.$apply();
 
 		expect(called).toEqual(true);
 
@@ -99,7 +135,7 @@ describe('Timezone Service', function () {
 
 		TimezoneService.listAll().then(function(list) {
 			expect(Array.isArray(list));
-			expect(list.length).toEqual(436);
+			expect(list.length).toEqual(7);
 			called = true;
 		});
 

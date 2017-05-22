@@ -22,13 +22,16 @@ const gulp = require('gulp'),
 	jshint = require('gulp-jshint'),
 	KarmaServer = require('karma').Server,
 	concat = require('gulp-concat'),
+	insert = require('gulp-insert'),
 	wrap = require('gulp-wrap'),
 	strip = require('gulp-strip-comments'),
 	stripCSS = require('gulp-strip-css-comments'),
 	babel = require('gulp-babel'),
 	stylelint = require('gulp-stylelint'),
-	sourcemaps = require('gulp-sourcemaps');
+	sourcemaps = require('gulp-sourcemaps'),
+	fs = require('fs');
 const gulpsync = require('gulp-sync')(gulp);
+const timezones = fs.readFileSync('./timezones/zones.json', 'UTF-8');
 
 // configure
 const buildTarget = 'app.js';
@@ -89,7 +92,7 @@ gulp.task('buildSources', () => {
 		.pipe(concat(cssBuildTarget))
 		.pipe(gulp.dest(cssDestinationFolder));
 
-	return gulp.src(jsSources)
+	gulp.src(jsSources)
 		.pipe(babel({
 			presets: ['es2015'],
 			compact: false,
@@ -99,6 +102,9 @@ gulp.task('buildSources', () => {
 		.pipe(ngAnnotate())
 		.pipe(strip())
 		.pipe(concat(buildTarget))
+		.pipe(insert.append('\napp.service(\'TimezoneDataProvider\', function () { return '))
+		.pipe(insert.append(timezones))
+		.pipe(insert.append(';});'))
 		.pipe(wrap(`(function(angular, $, oc_requesttoken, undefined){
 	<%= contents %>
 })(angular, jQuery, oc_requesttoken);`))

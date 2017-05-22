@@ -590,6 +590,7 @@ END:VTIMEZONE
 		$provide.value('SimpleEvent', SimpleEvent);
 		$provide.value('ICalFactory', ICalFactory);
 		$provide.value('StringUtility', StringUtility);
+		$provide.value('TimezoneService', {});
 	}));
 
 	beforeEach(inject(function (_$q_, _$rootScope_) {
