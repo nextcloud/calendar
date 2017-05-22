@@ -132,6 +132,8 @@ OC.L10N.register(
     "New Subscription" : "Ny prenumeration",
     "Go back" : "Gå framåt",
     "Go forward" : "Gå bakåt",
+    "Calendar does not exist" : "Kalendern finns inte",
+    "Maybe you got a wrong link or the calendar was unshared?" : "Du kanske fick en felaktig länk eller så har delningen av kalendern tagits bort?",
     "Edit event" : "Redigera händelse",
     "Delete Event" : "Radera händelse",
     "Save Event" : "Spara händelse",
@@ -159,6 +161,8 @@ OC.L10N.register(
     "New calendar" : "Ny kalender",
     "File is empty" : "Filen är tom",
     "Import scheduled" : "Import schemalagd",
+    "%s shared the calendar <strong>%s</strong> with you" : "%s delade kalender <strong>%s</strong> med dig",
+    "Embed" : "Bädda in",
     "Publish URL" : "Publicera URL",
     "Settings & import" : "Inställningar & import",
     "Skip simple event editor" : "Använd inte den enkla händelse-redigeraren",
@@ -166,6 +170,7 @@ OC.L10N.register(
     "Import calendar" : "Importera kalender",
     "No Calendars selected for import" : "Ingen kalender vald för import",
     "Primary CalDAV address" : "Primär CalDAV adress",
-    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV adress"
+    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV adress",
+    "Subscribe" : "Prenumerera"
 },
 "nplurals=2; plural=(n != 1);");
