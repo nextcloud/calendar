@@ -53,7 +53,7 @@ describe('The simpleReminderDescription filter', function () {
 				value: -900
 			}
 		})).toEqual('{type} {time} before the event starts');
-		expect(t).toHaveBeenCalledWith( 'calendar', '{type} {time} before the event starts', { type: 'E-Mail', time: '15 minutes' });
+		expect(t).toHaveBeenCalledWith( 'calendar', '{type} {time} before the event starts', { type: 'Email', time: '15 minutes' });
 	});
 
 	it('should display popup alarms correctly', function() {
