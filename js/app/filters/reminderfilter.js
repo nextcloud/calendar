@@ -27,7 +27,7 @@ app.filter('simpleReminderDescription', function() {
 	var actionMapper = {
 		AUDIO: t('calendar', 'Audio alarm'),
 		DISPLAY: t('calendar', 'Pop-up'),
-		EMAIL: t('calendar', 'E-Mail'),
+		EMAIL: t('calendar', 'Email'),
 		NONE: t('calendar', 'None')
 	};
 

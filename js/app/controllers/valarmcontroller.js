@@ -52,8 +52,8 @@ app.controller('VAlarmController', function($scope) {
 
 	$scope.reminderTypeSelect = [
 		{ displayname: t('calendar', 'Audio'), type: 'AUDIO'},
-		{ displayname: t('calendar', 'E Mail'), type: 'EMAIL'},
-		{ displayname: t('calendar', 'Pop up'), type: 'DISPLAY'}
+		{ displayname: t('calendar', 'Email'), type: 'EMAIL'},
+		{ displayname: t('calendar', 'Pop-up'), type: 'DISPLAY'}
 	];
 
 	$scope.timeUnitReminderSelect = [
