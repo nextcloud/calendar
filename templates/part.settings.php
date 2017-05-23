@@ -47,6 +47,21 @@
 					<?php p($l->t('Show week numbers')); ?>
 				</label>
 			</li>
+      <li class="settings-fieldset-interior-item settings-fieldset-interior-startofweek">
+        <label for="show_startofweek_select">
+					<?php p($l->t('Start of week')); ?>
+				</label>
+				<select class="checkbox" type="checkbox" ng-change="updateStartOfWeek()" ng-model="settingsStartOfWeek" id="show_startofweek_select">
+          <option value=""><?php p($l->t('From language')); ?></option>
+          <option value="1"><?php p($l->t('Monday')); ?></option>
+          <option value="2"><?php p($l->t('Tuesday')); ?></option>
+          <option value="3"><?php p($l->t('Wednesday')); ?></option>
+          <option value="4"><?php p($l->t('Thursday')); ?></option>
+          <option value="5"><?php p($l->t('Friday')); ?></option>
+          <option value="6"><?php p($l->t('Saturday')); ?></option>
+          <option value="0"><?php p($l->t('Sunday')); ?></option>
+        </select>
+			</li>
 			<li class="settings-fieldset-interior-item settings-fieldset-interior-upload">
 				<input type="file" name="file" accept="text/calendar" multiple id="import" />
 				<span href="#" class="settings-upload svg icon-upload" role="button" id="import-button-overlay"><?php p($l->t('Import calendar')); ?></span>

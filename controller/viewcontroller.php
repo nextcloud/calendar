@@ -84,6 +84,7 @@ class ViewController extends Controller {
 		$initialView = $this->config->getUserValue($userId, $this->appName, 'currentView', null);
 		$skipPopover = $this->config->getUserValue($userId, $this->appName, 'skipPopover', 'no');
 		$weekNumbers = $this->config->getUserValue($userId, $this->appName, 'showWeekNr', 'no');
+		$startOfWeek = $this->config->getUserValue($userId, $this->appName, 'startOfWeek', '');
 		$firstRun = $this->config->getUserValue($userId, $this->appName, 'firstRun', null);
 
 		// the default view will be saved as soon as a user
@@ -107,6 +108,7 @@ class ViewController extends Controller {
 			'emailAddress' => $emailAddress,
 			'skipPopover' => $skipPopover,
 			'weekNumbers' => $weekNumbers,
+			'startOfWeek' => $startOfWeek,
 			'firstRun' => $firstRun,
 			'isPublic' => false,
 			'isEmbedded' => false,
