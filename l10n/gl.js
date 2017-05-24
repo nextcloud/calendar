@@ -15,7 +15,6 @@ OC.L10N.register(
     "hours" : "horas",
     "days" : "días",
     "week" : "semana",
-    "E-Mail" : "Correo-e",
     "Title of the Event" : "Título da actividade",
     "Delete" : "Eliminar",
     "Cancel" : "Cancelar",

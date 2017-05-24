@@ -14,7 +14,6 @@ OC.L10N.register(
     "hours" : "horoj",
     "days" : "tagoj",
     "week" : "semajno",
-    "E-Mail" : "Retpoŝto",
     "Title of the Event" : "Okazaĵotitolo",
     "All day Event" : "Tuttaga okazaĵo",
     "Delete" : "Forigi",

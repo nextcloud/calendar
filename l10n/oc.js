@@ -32,7 +32,6 @@ OC.L10N.register(
     "before" : "abans",
     "start" : "començament",
     "end" : "fin",
-    "E-Mail" : "Corrièr electronic",
     "Title of the Event" : "Títol del eveniment",
     "Delete" : "Suprimir",
     "Cancel" : "Anullar",

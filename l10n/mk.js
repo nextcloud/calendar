@@ -34,7 +34,6 @@ OC.L10N.register(
     "1 hour before" : "1 час пред",
     "2 hours before" : "2 часа пред",
     "Audio" : "Аудио",
-    "E Mail" : "Електронска пошта",
     "sec" : "сек",
     "min" : "мин",
     "hours" : "часови",

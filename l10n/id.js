@@ -14,7 +14,6 @@ OC.L10N.register(
     "hours" : "jam",
     "days" : "hari",
     "week" : "minggu",
-    "E-Mail" : "E-Mail",
     "Title of the Event" : "Judul Agenda",
     "Delete" : "Hapus",
     "Cancel" : "Batal",
