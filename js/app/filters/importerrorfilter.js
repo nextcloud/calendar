@@ -31,7 +31,7 @@ app.filter('importErrorFilter', function () {
 		//TODO - use n instead of t to use proper plurals in all translations
 		switch(file.errors) {
 			case 0:
-				return t('calendar', 'Successfully imported');
+				return t('calendar', 'Imported');
 
 			case 1:
 				return t('calendar', 'Partially imported, 1 failure');
