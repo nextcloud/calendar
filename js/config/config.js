@@ -67,7 +67,6 @@ app.config(['$provide', '$httpProvider',
 		const initialView = angular.element('#fullcalendar').attr('data-initialView');
 		const emailAddress = angular.element('#fullcalendar').attr('data-emailAddress');
 		const fallbackColor = angular.element('#fullcalendar').attr('data-defaultColor');
-		const needsWebCalWorkaround = angular.element('#fullcalendar').attr('data-webCalWorkaround') === 'yes';
 		const version = angular.element('#fullcalendar').attr('data-appVersion');
 		const publicSharingToken = angular.element('#fullcalendar').attr('data-publicSharingToken');
 		const shareeCanEditShares = angular.element('#fullcalendar').attr('data-shareeCanEditShares') === 'yes';
@@ -76,7 +75,6 @@ app.config(['$provide', '$httpProvider',
 			initialView,
 			emailAddress,
 			fallbackColor,
-			needsWebCalWorkaround,
 			version,
 			publicSharingToken,
 			shareeCanEditShares,

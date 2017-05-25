@@ -735,17 +735,13 @@ END:VCALENDAR&#13;
 		OC.requestToken = 'requestToken42';
 		OC.linkToRemoteBase = jasmine.createSpy();
 
-		constants = {
-			needsWebCalWorkaround: true
-		};
-
 		$provide.value('DavClient', DavClient);
 		$provide.value('StringUtility', StringUtility);
 		$provide.value('XMLUtility', XMLUtility);
 		$provide.value('CalendarFactory', CalendarFactory);
 		$provide.value('WebCal', WebCal);
 		$provide.value('isPublic', false);
-		$provide.value('constants', constants);
+		$provide.value('constants', {});
 	}));
 
 	beforeEach(inject(function (_$q_, _$rootScope_) {
@@ -1519,17 +1515,13 @@ describe('CalendarService - public', function() {
 		OC.requestToken = 'requestToken42';
 		OC.linkToRemoteBase = jasmine.createSpy();
 
-		constants = {
-			needsWebCalWorkaround: true
-		};
-
 		$provide.value('DavClient', DavClient);
 		$provide.value('StringUtility', StringUtility);
 		$provide.value('XMLUtility', XMLUtility);
 		$provide.value('CalendarFactory', CalendarFactory);
 		$provide.value('WebCal', WebCal);
 		$provide.value('isPublic', true);
-		$provide.value('constants', constants);
+		$provide.value('constants', {});
 	}));
 
 	beforeEach(inject(function (_$q_, _$rootScope_) {

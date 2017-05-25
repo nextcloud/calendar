@@ -71,10 +71,6 @@ class ViewController extends Controller {
 	 * @return TemplateResponse
 	 */
 	public function index() {
-		if ($this->needsAssetPipelineWarning()) {
-			return new TemplateResponse('calendar', 'main-asset-pipeline-unsupported');
-		}
-
 		$templateParameters = $this->getTemplateParams();
 
 		$user = $this->userSession->getUser();
@@ -123,10 +119,6 @@ class ViewController extends Controller {
 	 * @return TemplateResponse
 	 */
 	public function publicIndexWithBranding($token) {
-		if ($this->needsAssetPipelineWarning()) {
-			return new TemplateResponse('calendar', 'main-asset-pipeline-unsupported');
-		}
-
 		$templateParameters = $this->getTemplateParams();
 		$publicTemplateParameters = $this->getPublicTemplateParameters($token);
 		$params = array_merge($templateParameters, $publicTemplateParameters);
@@ -144,10 +136,6 @@ class ViewController extends Controller {
 	 * @return TemplateResponse
 	 */
 	public function publicIndexForEmbedding($token) {
-		if ($this->needsAssetPipelineWarning()) {
-			return new TemplateResponse('calendar', 'main-asset-pipeline-unsupported');
-		}
-
 		$templateParameters = $this->getTemplateParams();
 		$publicTemplateParameters = $this->getPublicTemplateParameters($token);
 		$params = array_merge($templateParameters, $publicTemplateParameters);
@@ -181,26 +169,18 @@ class ViewController extends Controller {
 	 */
 	private function getTemplateParams() {
 		$runningOn = $this->config->getSystemValue('version');
-		$runningOnNextcloud10OrLater = version_compare($runningOn, '9.1', '>=');
-		$runningOnNextcloud11OrLater = version_compare($runningOn, '11', '>=');
 		$runningOnNextcloud12OrLater = version_compare($runningOn, '12', '>=');
 
-		$supportsClass = $runningOnNextcloud10OrLater;
-		$needsAutosize = !$runningOnNextcloud11OrLater;
 		$shareeCanEditShares = !$runningOnNextcloud12OrLater;
 		$shareeCanEditCalendarProperties = $runningOnNextcloud12OrLater;
 
 		$appVersion = $this->config->getAppValue($this->appName, 'installed_version');
-		$webCalWorkaround = $runningOnNextcloud10OrLater ? 'no' : 'yes';
 		$isIE = $this->request->isUserAgent([Request::USER_AGENT_IE]);
 		$defaultColor = $this->config->getAppValue('theming', 'color', '#0082C9');
 
 		return [
 			'appVersion' => $appVersion,
-			'supportsClass' => $supportsClass,
 			'isIE' => $isIE,
-			'webCalWorkaround' => $webCalWorkaround,
-			'needsAutosize' => $needsAutosize,
 			'defaultColor' => $defaultColor,
 			'shareeCanEditShares' => $shareeCanEditShares ? 'yes' : 'no',
 			'shareeCanEditCalendarProperties' => $shareeCanEditCalendarProperties ? 'yes' : 'no',
@@ -234,7 +214,6 @@ class ViewController extends Controller {
 			'skipPopover' => 'no',
 			'weekNumbers' => 'no',
 			'firstRun' => 'no',
-			'webCalWorkaround' => 'no',
 			'isPublic' => true,
 			'shareURL' => $shareURL,
 			'previewImage' => $previewImage,
@@ -242,17 +221,5 @@ class ViewController extends Controller {
 			'downloadURL' => $downloadUrl,
 			'token' => $token,
 		];
-	}
-
-	/**
-	 * check if we need to show the asset pipeline warning
-	 * @return bool
-	 */
-	private function needsAssetPipelineWarning() {
-		$runningOn = $this->config->getSystemValue('version');
-		$assetPipelineBroken = version_compare($runningOn, '9.1', '<');
-		$isAssetPipelineEnabled = $this->config->getSystemValue('asset-pipeline.enabled', false);
-
-		return ($isAssetPipelineEnabled && $assetPipelineBroken);
 	}
 }

@@ -73,13 +73,11 @@
 							ng-init="setStatusToDefault()"
 							ng-model="properties.status.value"
 							title="<?php p($l->t('Event status')); ?>" tabindex="210"></select>
-					<?php if ($_['supportsClass']): ?>
-						<select id="classSelector"
-								ng-options="class.type as class.displayname for class in classSelect"
-								ng-init="setClassToDefault()"
-								ng-model="properties.class.value"
-								title="<?php p($l->t('Visibility when sharing')); ?>" tabindex="210"></select>
-					<?php endif; ?>
+					<select id="classSelector"
+							ng-options="class.type as class.displayname for class in classSelect"
+							ng-init="setClassToDefault()"
+							ng-model="properties.class.value"
+							title="<?php p($l->t('Visibility when sharing')); ?>" tabindex="210"></select>
 				</fieldset>
 
 				<fieldset ng-show="eventsattendeeview" class="advanced--fieldset" ng-disabled="readOnly" ng-controller="AttendeeController">

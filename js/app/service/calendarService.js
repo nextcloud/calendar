@@ -408,17 +408,7 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 				// remember that url is now used
 				context.usedURLs.push(url);
 
-				return context.self.get(url).then(function(webcal) {
-					if (constants.needsWebCalWorkaround) {
-						webcal.enabled = true;
-						webcal.displayname = name;
-						webcal.color = color;
-
-						return webcal.update();
-					} else {
-						return webcal;
-					}
-				});
+				return context.self.get(url);
 			});
 		});
 	};

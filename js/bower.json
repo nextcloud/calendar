@@ -7,8 +7,7 @@
     "jstzdetect": "https://github.com/georgehrke/jstimezonedetect.git",
     "ical.js": "1.2.2",
     "fullcalendar": "3.4.0",
-    "hsl_rgb_converter": "https://github.com/kayellpeee/hsl_rgb_converter.git",
-    "autosize": "^3.0.20"
+    "hsl_rgb_converter": "https://github.com/kayellpeee/hsl_rgb_converter.git"
   },
   "devDependencies": {
     "angular-mocks": "1.6.4"
