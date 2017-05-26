@@ -100,7 +100,6 @@
     "Cheers!" : "Kiitos!",
     "We wanted to inform you that %s has published the calendar %s." : "Halusimme ilmoittaa, että %s on julkaissut kalenterin %s.",
     "Click on the link below to access it" : "Klikkaa alla olevaa linkkiä päästäksesi siihen käsiksi",
-    "Please contact your administrator and ask them to disable the \"asset-pipeline.enabled\" config option." : "Ota yhteys ylläpitoon ja pyydä poistamaan käytöstä valinta \"asset-pipeline.enabled\" asetustiedostosta.",
     "Day" : "Päivä",
     "Week" : "Viikko",
     "Month" : "Kuukausi",

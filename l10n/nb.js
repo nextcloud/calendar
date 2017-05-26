@@ -105,8 +105,6 @@ OC.L10N.register(
     "Cheers!" : "Ha det!",
     "We wanted to inform you that %s has published the calendar %s." : "Vi ønsker å informere deg om at %s har publisert kalenderen %s.",
     "Click on the link below to access it" : "Klikk på lenken under for å åpne den.",
-    "Due to an upstream bug, the calendar is currently not able to provide support for the asset pipeline feature." : "Pga. en feil oppstrøms, støtter kalenderen for tiden ikke \"asset pipeline\".",
-    "Please contact your administrator and ask them to disable the \"asset-pipeline.enabled\" config option." : "Kontakt administratoren og be dem skru av valget \"asset-pipeline.enabled\" i oppsettet.",
     "Day" : "Dag",
     "Week" : "Uke",
     "Month" : "Måned",

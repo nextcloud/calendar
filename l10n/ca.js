@@ -96,7 +96,6 @@ OC.L10N.register(
     "Click here to access it" : "Click aquí per accedir",
     "Cheers!" : "Salut!",
     "Click on the link below to access it" : "Entra a l'enllaç de sota per accedir-hi",
-    "Due to an upstream bug, the calendar is currently not able to provide support for the asset pipeline feature." : "A causa d'un error (bug) de \"upstrem\", el calendari no suporta la funció \"asset pipeline\"",
     "Day" : "Dia",
     "Week" : "Setmana",
     "Month" : "Mes",

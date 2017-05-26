@@ -72,8 +72,6 @@ OC.L10N.register(
     "Location" : "地點",
     "Description" : "描述",
     "Export" : "匯出",
-    "Due to an upstream bug, the calendar is currently not able to provide support for the asset pipeline feature." : "上傳錯誤，目前不支援asset pipeline功能。",
-    "Please contact your administrator and ask them to disable the \"asset-pipeline.enabled\" config option." : "請聯絡系統管理員，於設定檔中關閉\"asset-pipeline.enabled\" 選項。",
     "Day" : "日",
     "Week" : "週",
     "Month" : "月",

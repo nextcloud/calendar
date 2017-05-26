@@ -102,8 +102,6 @@ OC.L10N.register(
     "Cheers!" : "Üdv!",
     "We wanted to inform you that %s has published the calendar %s." : "Szeretnénk tájékoztatni, hogy %s közzétette ezt a naptárt: %s.",
     "Click on the link below to access it" : "A hozzáféréshez kattints az alábbi hivatkozásra",
-    "Due to an upstream bug, the calendar is currently not able to provide support for the asset pipeline feature." : "Egy fennálló hiba miatt a naptár jelenleg nem képes támogatni az asset pipeline funkciót.",
-    "Please contact your administrator and ask them to disable the \"asset-pipeline.enabled\" config option." : "Kérlek vedd fel a kapcsolatot a rendszergazdáddal és kérd meg, hogy tiltsa le az \"asset-pipeline.enabled\" beállítási lehetőséget.",
     "Day" : "Nap",
     "Week" : "Hét",
     "Month" : "Hónap",

@@ -103,8 +103,6 @@
     "Cheers!" : "¡Saludos!",
     "We wanted to inform you that %s has published the calendar %s." : "Queremos informarle que %s ha publicado el calendario %s.",
     "Click on the link below to access it" : "Siga la liga para accederlo",
-    "Due to an upstream bug, the calendar is currently not able to provide support for the asset pipeline feature." : "Debido a una falla en otro proyecto, el calendario no puede soportar la funcionalidad de pipeline de activos",
-    "Please contact your administrator and ask them to disable the \"asset-pipeline.enabled\" config option." : "Favor de contactar a su administrador y solicitar que deshabiliten la opción de configuración \"asset-pipeline.enabled\".",
     "Day" : "Día",
     "Week" : "Semana",
     "Month" : "Mes",

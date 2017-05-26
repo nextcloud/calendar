@@ -99,8 +99,6 @@
     "Cheers!" : "Gëzuar!",
     "We wanted to inform you that %s has published the calendar %s." : "Donim t'ju informanim se %s ka publikuar kalendarin %s.",
     "Click on the link below to access it" : "Klikoni lidhjen e mëposhtme për ta aksesuar atë",
-    "Due to an upstream bug, the calendar is currently not able to provide support for the asset pipeline feature." : "Për shkak të një të mete në degën kryesore, kalendari, hëpërhë, s’është në gjendje të ofrojë mbulim të veçorinë \"asset pipeline\".",
-    "Please contact your administrator and ask them to disable the \"asset-pipeline.enabled\" config option." : "Ju lutemi, lidhuni me përgjegjësin tuaj dhe kërkojini të çaktivizojë mundësinë \"asset-pipeline.enabled\" te formësimet.",
     "Day" : "Ditë",
     "Week" : "Javë",
     "Month" : "Muaj",

@@ -102,8 +102,6 @@ OC.L10N.register(
     "Cheers!" : "감사합니다!",
     "We wanted to inform you that %s has published the calendar %s." : "%s 님이 달력 %s을(를) 공개했음을 알려 드립니다.",
     "Click on the link below to access it" : "접근하려면 아래의 링크를 누르십시오",
-    "Due to an upstream bug, the calendar is currently not able to provide support for the asset pipeline feature." : "업스트림 버그로 인하여 달력에서 자원 파이프라인 기능을 지원하지 않습니다.",
-    "Please contact your administrator and ask them to disable the \"asset-pipeline.enabled\" config option." : "시스템 관리자에게 연락하여 \"asset-pipeline.enabled\" 설정 옵션을 비활성화할 것을 요청하십시오.",
     "Day" : "일",
     "Week" : "주",
     "Month" : "달",

@@ -105,8 +105,6 @@ OC.L10N.register(
     "Cheers!" : "Noch einen schönen Tag!",
     "We wanted to inform you that %s has published the calendar %s." : "Wir wollen Sie informieren, dass %s den Kalender %s veröffentlicht hat.",
     "Click on the link below to access it" : "Klicken Sie auf den unteren Link, um darauf zuzugreifen",
-    "Due to an upstream bug, the calendar is currently not able to provide support for the asset pipeline feature." : "Durch einen vorgeschalteten Fehler, ist der Kalender zur Zeit nicht in der Lage eine Unterstützung für die Asset Pipeline -Funktion zur Verfügung zu stellen.",
-    "Please contact your administrator and ask them to disable the \"asset-pipeline.enabled\" config option." : "Bitte kontaktieren Sie ihren Administrator und bitten Sie ihn, die \"asset-pipeline.enabled\" Konfiguration zu deaktivieren.",
     "Day" : "Tag",
     "Week" : "Woche",
     "Month" : "Monat",

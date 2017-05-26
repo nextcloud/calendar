@@ -74,7 +74,6 @@ OC.L10N.register(
     "Location" : "Uert",
     "Description" : "Beschreiwung",
     "Export" : "Exportéieren",
-    "Please contact your administrator and ask them to disable the \"asset-pipeline.enabled\" config option." : "Kontaktéier w.e.g. däin Administrateur a fro en fir d'Optioun \"asset-pipeline.enabled\" ze desaktivéieren.",
     "Day" : "Dag",
     "Week" : "Woch",
     "Month" : "Mount",

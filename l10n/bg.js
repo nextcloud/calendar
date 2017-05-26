@@ -102,8 +102,6 @@ OC.L10N.register(
     "Cheers!" : "Поздрави!",
     "We wanted to inform you that %s has published the calendar %s." : "Искаме да те информираме че %s е публикувал календар %s.",
     "Click on the link below to access it" : "Натисни на връзката отдолу за да го достъпиш ",
-    "Due to an upstream bug, the calendar is currently not able to provide support for the asset pipeline feature." : "Поради грешка в по-нови версии, календара не е способен да предостави поддръжка за функционалността поток на активи.",
-    "Please contact your administrator and ask them to disable the \"asset-pipeline.enabled\" config option." : "Свържи се с администратора с молба за изключване на \"asset-pipeline.enabled\" конфигурационна опция.",
     "Day" : "Ден",
     "Week" : "Седмица",
     "Month" : "Месец",

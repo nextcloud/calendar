@@ -99,8 +99,6 @@ OC.L10N.register(
     "Cheers!" : "Sveikinimai!",
     "We wanted to inform you that %s has published the calendar %s." : "Norime Jus informuoti, kad %s paskelbė kalendorių %s.",
     "Click on the link below to access it" : "Paspauskite nuorodą norėdami pamatyti",
-    "Due to an upstream bug, the calendar is currently not able to provide support for the asset pipeline feature." : "Dėl klaidos kalendorius šiuo metu nepalaiko \"pipeline\" funkcijos.",
-    "Please contact your administrator and ask them to disable the \"asset-pipeline.enabled\" config option." : "Prašome susisiekti su administratoriumi ir paprašyti išjungti \"asset-pipeline.enabled\" nustatymą.",
     "Day" : "Diena",
     "Week" : "Savaitė",
     "Month" : "Mėnuo",

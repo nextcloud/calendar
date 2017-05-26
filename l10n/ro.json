@@ -98,8 +98,6 @@
     "Cheers!" : "Noroc!",
     "We wanted to inform you that %s has published the calendar %s." : "Am vrut să vă anunțăm că %s a publicat calendarul  %s.",
     "Click on the link below to access it" : "Faceți clic pe link-ul de mai jos pentru a accesa",
-    "Due to an upstream bug, the calendar is currently not able to provide support for the asset pipeline feature." : "Din cauza unei erori \"upstream bug\", calendarul nu este în prezent în măsură să ofere suport pentru caracteristica \"asset pipeline\".",
-    "Please contact your administrator and ask them to disable the \"asset-pipeline.enabled\" config option." : "Vă rugăm să contactați administratorul și solicitați să dezactiveze opțiunea de configurare \"asset-pipeline.enabled\".",
     "Day" : "Zi",
     "Week" : "Săptămâna",
     "Month" : "Luna",

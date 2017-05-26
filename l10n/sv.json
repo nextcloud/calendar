@@ -100,8 +100,6 @@
     "Cheers!" : "Ha de fint!",
     "We wanted to inform you that %s has published the calendar %s." : "Vi vill bara informera dig om att %s har publicerat kalendern %s.",
     "Click on the link below to access it" : "Klicka på länken nedan för att komma åt den",
-    "Due to an upstream bug, the calendar is currently not able to provide support for the asset pipeline feature." : "På grund utav en bug uppströms, så kan inte calendar ge någon support för asset pipeline funktionen.",
-    "Please contact your administrator and ask them to disable the \"asset-pipeline.enabled\" config option." : "Var god kontakta din administratör och be denne avaktivera \"asset-pipeline.enable\" inställningen.",
     "Day" : "Dag",
     "Week" : "Vecka",
     "Month" : "Månad",

@@ -100,8 +100,6 @@
     "Cheers!" : "Congratulationes!",
     "We wanted to inform you that %s has published the calendar %s." : "Nos vole informar te que %s ha publicate le calendario %s.",
     "Click on the link below to access it" : "Clicca super le ligamine infra pro acceder lo",
-    "Due to an upstream bug, the calendar is currently not able to provide support for the asset pipeline feature." : "A causa de un defecto ex le fonte, le calendario actualmente non es capace a provider supporto al function de tubo active.",
-    "Please contact your administrator and ask them to disable the \"asset-pipeline.enabled\" config option." : "Per favor, contacta tu administrator e sollicita le pro disactivar le option de configuration \"asset-pipeline.enabled\".",
     "Day" : "Die",
     "Week" : "Septimana",
     "Month" : "Mense",

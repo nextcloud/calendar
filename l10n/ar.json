@@ -76,8 +76,6 @@
     "Event status" : "حال الحدث",
     "Visibility when sharing" : "نوع الظهور عند المشاركة",
     "Export" : "تصدير",
-    "Due to an upstream bug, the calendar is currently not able to provide support for the asset pipeline feature." : "لا يمكن للتقويم حالياً دعم ميزة asset pipeline نظراً لوجود علّة في مكوّن برمجي صاعد.",
-    "Please contact your administrator and ask them to disable the \"asset-pipeline.enabled\" config option." : "فضلاً اتصل بمدير النظام واطلب منه تعطيل خيار \"asset-pipeline.enabled\" في الإعدادات.",
     "Day" : "يوم",
     "Week" : "أسبوع",
     "Month" : "شهر",

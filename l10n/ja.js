@@ -102,8 +102,6 @@ OC.L10N.register(
     "Cheers!" : "それでは！",
     "We wanted to inform you that %s has published the calendar %s." : "%sはカレンダー%sを公開しました",
     "Click on the link below to access it" : "それにアクセスするには下をクリック",
-    "Due to an upstream bug, the calendar is currently not able to provide support for the asset pipeline feature." : "流れをさかのぼるバグのため、カレンダーは現在、アセットパイプライン機能のサポートを提供することができません。",
-    "Please contact your administrator and ask them to disable the \"asset-pipeline.enabled\" config option." : "管理者に連絡して、「asset-pipeline.enabled」オプションを無効にするよう依頼してください。",
     "Day" : "日",
     "Week" : "週",
     "Month" : "月",

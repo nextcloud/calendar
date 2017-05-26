@@ -80,8 +80,6 @@ OC.L10N.register(
     "Event status" : "סטטוס אירוע",
     "Visibility when sharing" : "הרשאות צפייה כשמשתפים",
     "Export" : "ייצוא",
-    "Due to an upstream bug, the calendar is currently not able to provide support for the asset pipeline feature." : "בשל באג upstream, היומן לא יכול לספק תמיכה לתכונת asset pipeline.",
-    "Please contact your administrator and ask them to disable the \"asset-pipeline.enabled\" config option." : "יש ליצור קשר עם המנהל שלך לבקש לנטרל את אפשרות תצורה \"asset-pipeline.enabled\".",
     "Day" : "יום",
     "Week" : "שבוע",
     "Month" : "חודש",

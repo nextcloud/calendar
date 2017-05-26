@@ -88,8 +88,6 @@
     "Export" : "Esportar",
     "Hello," : "Hola,",
     "Cheers!" : "¡Salú!",
-    "Due to an upstream bug, the calendar is currently not able to provide support for the asset pipeline feature." : "Por cuenta d'un bug d'upstream, el calendariu nun soporta la carauterística d'asset pipeline",
-    "Please contact your administrator and ask them to disable the \"asset-pipeline.enabled\" config option." : "Contauta col to alministrador y pídi-y que desactive la opción de configuración \"asset-pipeline.enabled\".",
     "Day" : "Día",
     "Week" : "Selmana",
     "Month" : "Mes",

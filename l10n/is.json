@@ -103,8 +103,6 @@
     "Cheers!" : "Til hamingju!",
     "We wanted to inform you that %s has published the calendar %s." : "Við vildum láta þig vita að s gaf út dagatalið %s.",
     "Click on the link below to access it" : "Smelltu á tengilinn hér fyrir neðan til að nálgast það",
-    "Due to an upstream bug, the calendar is currently not able to provide support for the asset pipeline feature." : "Vegna villu í frumkóða, verður dagatalið ekki nothæft með stuðningi við pípaða vinnslu tilfanga.",
-    "Please contact your administrator and ask them to disable the \"asset-pipeline.enabled\" config option." : "Hafðu samband við kerfisstjóra og biddu þá/hann um að gera \"asset-pipeline.enabled\" stillingakostinn óvirkann.",
     "Day" : "Dagur",
     "Week" : "Vika",
     "Month" : "Mánuður",
