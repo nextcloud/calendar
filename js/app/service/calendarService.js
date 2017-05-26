@@ -509,11 +509,12 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 	 * @param {Calendar|WebCal} calendar
 	 * @param {number} shareType
 	 * @param {string} shareWith
+	 * @param {string} shareWithDisplayname
 	 * @param {boolean} writable
 	 * @param {boolean} existingShare
 	 * @returns {Promise}
 	 */
-	privateAPI.share = function(calendar, shareType, shareWith, writable, existingShare) {
+	privateAPI.share = function(calendar, shareType, shareWith, shareWithDisplayname, writable, existingShare) {
 		const [skeleton, oSetChildren] = XMLUtility.getRootSkeleton(
 			[DavClient.NS_OWNCLOUD, 'o:share'], [DavClient.NS_OWNCLOUD, 'o:set']);
 
@@ -552,17 +553,16 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 				return;
 			}
 
-			//TODO - fix displayname
 			if (shareType === SHARE_USER) {
 				calendar.shares.users.push({
 					id: shareWith,
-					displayname: shareWith,
+					displayname: shareWithDisplayname,
 					writable: writable
 				});
 			} else {
 				calendar.shares.groups.push({
 					id: shareWith,
-					displayname: shareWith,
+					displayname: shareWithDisplayname,
 					writable: writable
 				});
 			}

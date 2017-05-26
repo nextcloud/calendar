@@ -153,7 +153,7 @@
 		   ng-model="item.selectedSharee"
 		   placeholder="<?php p($l->t('Share with users or groups')); ?>"
 		   type="text"
-		   typeahead-on-select="onSelectSharee($item, $model, $label, item.calendar)"
+		   typeahead-on-select="onSelectSharee($item, $model, $label, item)"
 		   typeahead-loading="loadingSharees"
 		   typeahead-template-url="customShareMatchTemplate.html"
 		   uib-typeahead="sharee.display for sharee in findSharee($viewValue, item.calendar)">
@@ -166,7 +166,7 @@
 				<input id="checkbox_sharedWithUser_{{ $parent.$index }}_{{ $id }}"
 					   name="editable"
 					   class="checkbox"
-					   ng-change="updateExistingUserShare(item.calendar, userShare.id, userShare.writable)"
+					   ng-change="updateExistingUserShare(item.calendar, userShare.id, userShare.displayname, userShare.writable)"
 					   ng-model="userShare.writable"
 					   type="checkbox"
 					   value="edit">
@@ -193,7 +193,7 @@
 				<input id="checkbox_sharedWithGroup_{{ $parent.$index }}_{{ $id }}"
 					   name="editable"
 					   class="checkbox"
-					   ng-change="updateExistingGroupShare(item.calendar, groupShare.id, groupShare.writable)"
+					   ng-change="updateExistingGroupShare(item.calendar, groupShare.id, groupShare.displayname, groupShare.writable)"
 					   ng-model="groupShare.writable"
 					   type="checkbox"
 					   value="edit">
