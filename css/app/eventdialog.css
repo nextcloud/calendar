@@ -258,12 +258,12 @@ button.delete:focus {
 }
 
 .advanced .sidebar-top {
-	height: calc(100% - 119px);
+	height: calc(100% - 131px);
 	overflow-y: scroll;
 }
 
 .advanced .sidebar-top.new {
-	height: calc(100% - 83px);
+	height: calc(100% - 91px);
 }
 
 .advanced .pull-quarter {
