@@ -228,7 +228,7 @@ describe('The calendarListItem factory', function () {
 describe('The calendarListItem factory - sharingAPI enabled', function () {
 	'use strict';
 
-	let CalendarListItem, Calendar, WebCal;
+	let CalendarListItem, Calendar, WebCal, $rootScope;
 
 	beforeEach(module('Calendar', function($provide) {
 		Calendar = {};
@@ -237,9 +237,13 @@ describe('The calendarListItem factory - sharingAPI enabled', function () {
 		WebCal = {};
 		WebCal.isCalendar = jasmine.createSpy().and.returnValue(true);
 
+		$rootScope = {};
+		$rootScope.root = 'https://foo.bar/biz/nextcloud/apps/calendar/';
+
 		$provide.value('Calendar', Calendar);
 		$provide.value('WebCal', WebCal);
 		$provide.value('isSharingAPI', true);
+		$provide.value('$rootScope', $rootScope);
 	}));
 
 	beforeEach(inject(function(_CalendarListItem_) {
@@ -324,6 +328,32 @@ describe('The calendarListItem factory - sharingAPI enabled', function () {
 
 		const calendarListItem = CalendarListItem(calendar);
 		expect(calendarListItem.showSharingIcon()).toEqual(true);
+	});
+
+	it ('should properly build the public share url', () => {
+		const calendarListItem1 = CalendarListItem({
+			displayname: 'foobar',
+			publicToken: '133742LEET',
+		});
+
+		expect(calendarListItem1.publicSharingURL).toEqual('https://foo.bar/biz/nextcloud/apps/calendar/p/133742LEET/foobar');
+
+
+		const calendarListItem2 = CalendarListItem({
+			displayname: 'äüö',
+			publicToken: '133742LEET',
+		});
+
+		expect(calendarListItem2.publicSharingURL).toEqual('https://foo.bar/biz/nextcloud/apps/calendar/p/133742LEET');
+	});
+
+	it ('should properly build the embed url', () => {
+		const calendarListItem1 = CalendarListItem({
+			displayname: 'foobar',
+			publicToken: '133742LEET',
+		});
+
+		expect(calendarListItem1.publicEmbedURL).toEqual('https://foo.bar/biz/nextcloud/apps/calendar/embed/133742LEET');
 	});
 });
 

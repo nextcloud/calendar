@@ -49,7 +49,16 @@ app.factory('CalendarListItem', function($rootScope, $window, Calendar, WebCal, 
 			},
 			publicSharingURL: {
 				get: () => {
-					return $rootScope.root + 'p/' + context.calendar.publicToken;
+					let displayname = context.calendar.displayname
+						.replace(/\s+/g, '-').replace(/[^\w\-]+/g, '')
+						.replace(/\-\-+/g, '-').replace(/^-+/, '')
+						.replace(/-+$/, '');
+
+					if (displayname === '') {
+						return $rootScope.root + 'p/' + context.calendar.publicToken;
+					} else {
+						return $rootScope.root + 'p/' + context.calendar.publicToken + '/' + displayname;
+					}
 				}
 			},
 			publicEmbedURL: {
