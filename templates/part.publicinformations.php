@@ -45,7 +45,7 @@
 		<fieldset class="settings-fieldset">
 			<ul class="settings-fieldset-interior">
 				<li class="settings-fieldset-interior-item">
-					<label><?php p($l->t('IFrame to integrate')); ?></label>
+					<label><?php p($l->t('Iframe to integrate')); ?></label>
 			    <textarea class="integration-code"
 			      type="text"
 			      ng-value="integration(item)"
