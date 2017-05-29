@@ -96,7 +96,7 @@ app.service('EventsEditorDialogService', function($uibModal, constants, settings
 					targetAttachment: 'top center',
 					constraints: [
 						{
-							to: 'scrollParent',
+							to: '.fc-body',
 							attachment: 'together',
 							pin: true,
 						}
