@@ -155,7 +155,6 @@ OC.L10N.register(
     "Import scheduled" : "Внасянето насрочено",
     "%s shared the calendar <strong>%s</strong> with you" : "%s сподели календарът <strong>%s</strong> с вас",
     "Embed" : "Вграден",
-    "IFrame to integrate" : "Рамка за вграждане",
     "Publish URL" : "Публикувай URL",
     "Settings & import" : "Настройки и внасяне",
     "Skip simple event editor" : "Пропусни опростения редактор за събития",

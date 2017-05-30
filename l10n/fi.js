@@ -155,7 +155,6 @@ OC.L10N.register(
     "Import scheduled" : "Tuonti ajastettu",
     "%s shared the calendar <strong>%s</strong> with you" : "%s jakoi kalenterin<strong>%s</strong>sinulle",
     "Embed" : "Upota",
-    "IFrame to integrate" : "IFrame integraatio",
     "Publish URL" : "Julkaise URL",
     "Settings & import" : "Asetukset ja tuonti",
     "Skip simple event editor" : "Ohita yksinkertainen tapahtumamuokkain",

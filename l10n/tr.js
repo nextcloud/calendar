@@ -159,7 +159,6 @@ OC.L10N.register(
     "Import scheduled" : "Alma işlemi zamanlandı",
     "%s shared the calendar <strong>%s</strong> with you" : "%s sizinle <strong>%s</strong> takvimini paylaştı",
     "Embed" : "Göm",
-    "IFrame to integrate" : "Bütünleştirilecek IFrame",
     "Publish URL" : "Yayın adresi",
     "Settings & import" : "Ayarlar ve Alma",
     "Skip simple event editor" : "Basit etkinlik düzenleyici atlansın",

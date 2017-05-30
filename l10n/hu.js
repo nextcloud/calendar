@@ -154,7 +154,6 @@ OC.L10N.register(
     "File is empty" : "A fájl üres",
     "Import scheduled" : "Importálás beütemezve",
     "Embed" : "Beágyazott",
-    "IFrame to integrate" : "IFrame az integráláshoz",
     "Publish URL" : "Közzétételi URL",
     "Settings & import" : "Beállítások és Import",
     "Skip simple event editor" : "Váltás az egyszerű esemény szerkesztőre",

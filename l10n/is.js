@@ -159,7 +159,6 @@ OC.L10N.register(
     "Import scheduled" : "Áætlaður innflutningur",
     "%s shared the calendar <strong>%s</strong> with you" : "%s deildi dagatalinu <strong>%s</strong> með þér",
     "Embed" : "Ívefja",
-    "IFrame to integrate" : "Iframe-rammi til að samþætta",
     "Publish URL" : "Gefa út slóð",
     "Settings & import" : "Stillingar og innflutningur",
     "Skip simple event editor" : "Sleppa einföldum atburðaritli",

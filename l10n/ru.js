@@ -159,7 +159,6 @@ OC.L10N.register(
     "Import scheduled" : "Импорт запланирован",
     "%s shared the calendar <strong>%s</strong> with you" : "%s поделился с вами календарём  <strong>%s</strong> ",
     "Embed" : "Встроить",
-    "IFrame to integrate" : "Iframe для встраивания",
     "Publish URL" : "Опубликовать URL",
     "Settings & import" : "Настройки и импорт",
     "Skip simple event editor" : "Не использовать простой редактор события",

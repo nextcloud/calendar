@@ -159,7 +159,6 @@ OC.L10N.register(
     "Import scheduled" : "导入时间表",
     "%s shared the calendar <strong>%s</strong> with you" : "%s给你分享了日历 <strong>%s</strong>",
     "Embed" : "嵌入",
-    "IFrame to integrate" : "一体化框架",
     "Publish URL" : "发布 URL",
     "Settings & import" : "设置 & 导入",
     "Skip simple event editor" : "跳过简单事件编辑器",

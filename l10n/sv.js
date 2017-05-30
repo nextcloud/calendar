@@ -155,7 +155,6 @@ OC.L10N.register(
     "Import scheduled" : "Import schemalagd",
     "%s shared the calendar <strong>%s</strong> with you" : "%s delade kalender <strong>%s</strong> med dig",
     "Embed" : "Bädda in",
-    "IFrame to integrate" : "iFrame att integrera",
     "Publish URL" : "Publicera URL",
     "Settings & import" : "Inställningar & import",
     "Skip simple event editor" : "Använd inte den enkla händelse-redigeraren",

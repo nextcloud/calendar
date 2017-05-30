@@ -159,7 +159,6 @@ OC.L10N.register(
     "Import scheduled" : "Import scheduled",
     "%s shared the calendar <strong>%s</strong> with you" : "%s shared the calendar <strong>%s</strong> with you",
     "Embed" : "Embed",
-    "IFrame to integrate" : "IFrame to integrate",
     "Publish URL" : "Publish URL",
     "Settings & import" : "Settings & import",
     "Skip simple event editor" : "Skip simple event editor",

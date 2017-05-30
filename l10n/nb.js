@@ -159,7 +159,6 @@ OC.L10N.register(
     "Import scheduled" : "Importer planlagte",
     "%s shared the calendar <strong>%s</strong> with you" : "%s delte kalenderen <strong>%s</strong> med deg",
     "Embed" : "Innebygg",
-    "IFrame to integrate" : "Putt i iframe for å integrere",
     "Publish URL" : "Offentlig URL",
     "Settings & import" : "Innstillinger og import",
     "Skip simple event editor" : "Hopp over enkelt hendelsesredigering",

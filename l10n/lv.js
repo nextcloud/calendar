@@ -159,7 +159,6 @@ OC.L10N.register(
     "Import scheduled" : "Imports ielikts grafikā",
     "%s shared the calendar <strong>%s</strong> with you" : "%s koplietoja kalendāru <strong>%s</strong> ar jums",
     "Embed" : "Iestrādāt",
-    "IFrame to integrate" : "IFrame, ko iestrādāt",
     "Publish URL" : "Publicēt URL",
     "Settings & import" : "Iestatījumi un imports",
     "Skip simple event editor" : "Izlaist vienkāršoto notikuma redaktoru",
