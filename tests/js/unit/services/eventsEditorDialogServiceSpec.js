@@ -79,7 +79,9 @@ describe('EventsEditorDialogService', function () {
 	});
 
 	it ('should open a dialog', () => {
-		const scope = {};
+		const scope = {
+			"$on": jasmine.createSpy()
+		};
 		const fcEvent = {
 			vevent: {
 				calendar: {}
@@ -121,7 +123,9 @@ describe('EventsEditorDialogService', function () {
 	});
 
 	it ('should submit changes', () => {
-		const scope = {};
+		const scope = {
+			"$on": jasmine.createSpy().and.returnValue(jasmine.createSpy())
+		};
 		const fcEvent = {
 			vevent: {
 				calendar: {}
@@ -185,7 +189,9 @@ describe('EventsEditorDialogService', function () {
 	// deleting and canceling looks the same for the eventsEditorDialog
 	// the reason is neither checked for cancelled nor for deleted
 	it ('should cancel a dialog', () => {
-		const scope = {};
+		const scope = {
+			"$on": jasmine.createSpy().and.returnValue(jasmine.createSpy())
+		};
 		const fcEvent = {
 			vevent: {
 				calendar: {}

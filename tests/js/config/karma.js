@@ -39,6 +39,7 @@ module.exports = function (config) {
 			'js/vendor/angular-mocks/angular-mocks.js',
 			'js/vendor/ical.js/build/ical.js',
 			'js/vendor/hsl_rgb_converter/converter.js',
+			'js/vendor/tether/dist/js/tether.js',
 			'tests/js/stubs/app.js',
 			'js/app/**/*.js',
 			'tests/js/unit/**/*.js'
