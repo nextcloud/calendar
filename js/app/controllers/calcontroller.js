@@ -275,6 +275,8 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 					} else {
 						element.fullCalendar('option', 'aspectRatio', 1.35);
 					}
+
+					$scope.$emit('fc_view_render', view);
 				},
 				eventRender: function(event, element) {
 					var status = event.getSimpleEvent().status;

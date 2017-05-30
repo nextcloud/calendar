@@ -31,7 +31,9 @@ app.service('EventsEditorDialogService', function($uibModal, constants, settings
 	const context = {
 		fcEvent: null,
 		promise: null,
-		eventModal: null
+		eventModal: null,
+		unsubscribeFromEvents: null,
+		tether: null
 	};
 
 	/**
@@ -41,6 +43,8 @@ app.service('EventsEditorDialogService', function($uibModal, constants, settings
 		context.fcEvent = null;
 		context.promise = null;
 		context.eventModal = null;
+		context.unsubscribeFromEvents = null;
+		context.tether = null;
 	};
 
 	/**
@@ -53,18 +57,48 @@ app.service('EventsEditorDialogService', function($uibModal, constants, settings
 	};
 
 	/**
+	 * @param {string} target
+	 */
+	context.initTether = (target) => {
+		let attachment, targetAttachment, constraints;
+		if (target === '#app-content') {
+			attachment = 'middle center';
+			targetAttachment = 'middle center';
+			constraints = [];
+		} else {
+			attachment = 'bottom center';
+			targetAttachment = 'top center';
+			constraints = [
+				{
+					to: 'scrollParent',
+					attachment: 'together',
+					pin: true,
+				}
+			];
+		}
+
+		context.tether = new Tether({
+			element: '.modal.popover',
+			target: target,
+			attachment: attachment,
+			targetAttachment: targetAttachment,
+			constraints: constraints
+		});
+	};
+
+	/**
 	 * open dialog for editing events
 	 * @param {string} template - use EDITOR_POPOVER or EDITOR_SIDEBAR
 	 * @param {resolveCallback} resolve
 	 * @param {rejectCallback} reject
 	 * @param {unlockCallback} unlock
-	 * @param {string} attachTo
+	 * @param {string} target
 	 * @param {object} scope
 	 * @param {FcEvent} fcEvent
 	 * @param {SimpleEvent} simpleEvent
 	 * @param {Calendar} calendar
 	 */
-	context.openDialog = (template, resolve, reject, unlock, attachTo, scope, fcEvent, simpleEvent, calendar) => {
+	context.openDialog = (template, resolve, reject, unlock, target, scope, fcEvent, simpleEvent, calendar) => {
 		context.fcEvent = fcEvent;
 		context.eventModal = $uibModal.open({
 			appendTo: (template === EDITOR_POPOVER) ?
@@ -88,21 +122,7 @@ app.service('EventsEditorDialogService', function($uibModal, constants, settings
 		}
 
 		if (template === EDITOR_POPOVER) {
-			context.eventModal.rendered.then(() => {
-				new Tether({
-					element: '.modal.popover',
-					target: attachTo,
-					attachment: 'bottom center',
-					targetAttachment: 'top center',
-					constraints: [
-						{
-							to: '.fc-body',
-							attachment: 'together',
-							pin: true,
-						}
-					]
-				});
-			});
+			context.eventModal.rendered.then(() => context.initTether(target));
 		}
 		context.eventModal.result.then((result) => {
 			if (result.action === 'proceed') {
@@ -113,6 +133,7 @@ app.service('EventsEditorDialogService', function($uibModal, constants, settings
 				}
 
 				unlock();
+				context.unsubscribeFromEvents();
 				context.cleanup();
 				resolve({
 					calendar: result.calendar,
@@ -124,12 +145,25 @@ app.service('EventsEditorDialogService', function($uibModal, constants, settings
 				angular.element('#app-content').removeClass('with-app-sidebar');
 			}
 
+			context.unsubscribeFromEvents();
 			if (reason !== 'superseded') {
 				context.cleanup();
 			}
 
 			unlock();
 			reject(reason);
+		});
+
+		context.unsubscribeFromEvents = scope.$on('fc_view_render', () => {
+			let newTarget;
+			if (angular.element(target).length === 1) {
+				newTarget = target;
+			} else {
+				newTarget = '#app-content';
+			}
+
+			context.tether.destroy();
+			context.initTether(newTarget);
 		});
 	};
 
