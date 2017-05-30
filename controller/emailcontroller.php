@@ -88,27 +88,19 @@ class EmailController extends Controller {
 		$user = $this->userSession->getUser();
 		$username = $user->getDisplayName();
 
-		$subject = $this->l10n->t('%s has published the calendar "%s"', [$username, $name]);
+		$subject = $this->l10n->t('%s has published the calendar »%s«', [$username, $name]);
 
 		$serverVersion = $this->config->getSystemValue('version');
 		if (version_compare($serverVersion, '12', '>=')) {
 			$emailTemplate = $this->mailer->createEMailTemplate();
 
 			$emailTemplate->addHeader();
-			$emailTemplate->addHeading($this->l10n->t('%s has published the calendar %s', [$username, $name]));
+			$emailTemplate->addHeading($this->l10n->t('%s has published the calendar »%s«', [$username, $name]));
 
 			$emailTemplate->addBodyText($this->l10n->t('Hello,'));
+			$emailTemplate->addBodyText($this->l10n->t('We wanted to inform you that %s has published the calendar »%s«.', [$username, $name]));
 
-			$htmlText = str_replace(
-				['{boldstart}', '{boldend}'],
-				['<b>', '</b>'],
-				$this->l10n->t('We wanted to inform you that %s has published the calendar {boldstart}%s{boldend}.', [$username, $name])
-			);
-
-			$plainText = $this->l10n->t('We wanted to inform you that %s has published the calendar %s.', [$username, $name]);
-			$emailTemplate->addBodyText($htmlText, $plainText);
-
-			$emailTemplate->addBodyButton($this->l10n->t('Click here to access it'), $url);
+			$emailTemplate->addBodyButton($this->l10n->t('Open »%s«', [$name]), $url);
 
 			// TRANSLATORS term at the end of a mail
 			$emailTemplate->addBodyText($this->l10n->t('Cheers!'));
