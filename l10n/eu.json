@@ -1,5 +1,6 @@
 { "translations": {
     "Calendar" : "Egutegia",
+    "Hello," : "Kaixo,",
     "Individual" : "Bakarkakoa",
     "Group" : "Taldea",
     "Unknown" : "Ezezaguna",
@@ -43,7 +44,6 @@
     "Location" : "Kokapena",
     "Description" : "Deskribapena",
     "Export" : "Esportatu",
-    "Hello," : "Kaixo,",
     "Day" : "Eguna",
     "Week" : "Astea",
     "Month" : "Hilabetea",

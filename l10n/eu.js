@@ -2,6 +2,7 @@ OC.L10N.register(
     "calendar",
     {
     "Calendar" : "Egutegia",
+    "Hello," : "Kaixo,",
     "Individual" : "Bakarkakoa",
     "Group" : "Taldea",
     "Unknown" : "Ezezaguna",
@@ -45,7 +46,6 @@ OC.L10N.register(
     "Location" : "Kokapena",
     "Description" : "Deskribapena",
     "Export" : "Esportatu",
-    "Hello," : "Kaixo,",
     "Day" : "Eguna",
     "Week" : "Astea",
     "Month" : "Hilabetea",

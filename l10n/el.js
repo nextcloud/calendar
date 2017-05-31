@@ -3,6 +3,8 @@ OC.L10N.register(
     {
     "Calendar" : "Ημερολόγιο",
     "%s has published the calendar \"%s\"" : "%s δημοσίευσε το ημερολόγιο \"%s\"",
+    "Click here to access it" : "Κάντε κλικ εδώ για πρόσβαση",
+    "Cheers!" : "Με εκτίμηση!",
     "Too many redirects. Aborting ..." : "Πάρα πολλές ανακατευθύνσεις. Ματαίωση ...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "Ο απομακρυσμένος διακομιστής δεν δίνει πρόσβαση στο ημερολόγιο (HTTP {%s} σφάλμα)",
     "Error connecting to remote server" : "Σφάλμα σύνδεσης στον απομακρυσμένο διακομιστή",
@@ -84,8 +86,6 @@ OC.L10N.register(
     "Event status" : "Κατάσταση συμβάντος",
     "Visibility when sharing" : "Ορατότητα κατά τον διαμοιρασμό",
     "Export" : "Εξαγωγή",
-    "Click here to access it" : "Κάντε κλικ εδώ για πρόσβαση",
-    "Cheers!" : "Με εκτίμηση!",
     "Day" : "Ημέρα",
     "Week" : "Εβδομάδα",
     "Month" : "Μήνας",

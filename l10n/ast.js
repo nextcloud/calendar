@@ -3,6 +3,8 @@ OC.L10N.register(
     {
     "Calendar" : "Calendariu",
     "%s has published the calendar \"%s\"" : "%s espublizó'l calendariu «%s»",
+    "Hello," : "Hola,",
+    "Cheers!" : "¡Salú!",
     "Too many redirects. Aborting ..." : "Milenta redireiciones. Albortando...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "El sirvidor remotu nun mos dio accesu al calendariu (fallu HTTP {%s})",
     "Error connecting to remote server" : "Fallu coneutando col sirvidor remotu",
@@ -88,8 +90,6 @@ OC.L10N.register(
     "Event status" : "Estáu del eventu",
     "Visibility when sharing" : "Visibilida mientres compartes",
     "Export" : "Esportar",
-    "Hello," : "Hola,",
-    "Cheers!" : "¡Salú!",
     "Day" : "Día",
     "Week" : "Selmana",
     "Month" : "Mes",
