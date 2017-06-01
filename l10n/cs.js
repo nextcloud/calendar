@@ -159,6 +159,7 @@ OC.L10N.register(
     "Import scheduled" : "Import načasován",
     "%s shared the calendar <strong>%s</strong> with you" : "%s sdílel(a) tento kalendář <strong>%s</strong> s tebou",
     "Embed" : "Vložit",
+    "Iframe to integrate" : "Iframe k integraci",
     "Publish URL" : "Zveřejnit URL",
     "Settings & import" : "Nastavení & import",
     "Skip simple event editor" : "Přeskočit jednoduchý editor události",

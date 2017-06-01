@@ -7,7 +7,7 @@
     "We wanted to inform you that %s has published the calendar %s." : "Wir möchten Dich darüber informieren, dass %s den Kalender %s veröffentlicht hat.",
     "Click here to access it" : "Klicke hier, um darauf zuzugreifen",
     "Cheers!" : "Noch einen schönen Tag!",
-    "Too many redirects. Aborting ..." : "Zu viele Umleitungen. Abbruch ...",
+    "Too many redirects. Aborting ..." : "Zu viele Umleitungen. Abbruch…",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "Der entfernte Server erlaubt keinen Zugriff auf den Kalender (HTTP {%s} Fehler)",
     "Error connecting to remote server" : "Fehler bei der Verbindung zum entfernten Server",
     "Error requesting resource on remote server. This could possible be related to a certificate mismatch" : "Fehler beim Abrufen einer Resource auf dem entfernten Server. Dies könnte mit einem Zertifikatsfehler zusammenhängen.",
