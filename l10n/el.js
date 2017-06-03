@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Calendar" : "Ημερολόγιο",
     "%s has published the calendar \"%s\"" : "%s δημοσίευσε το ημερολόγιο \"%s\"",
+    "Hello," : "Γεια σας,",
     "Click here to access it" : "Κάντε κλικ εδώ για πρόσβαση",
     "Cheers!" : "Με εκτίμηση!",
     "Too many redirects. Aborting ..." : "Πάρα πολλές ανακατευθύνσεις. Ματαίωση ...",
