@@ -157,6 +157,7 @@
     "Import scheduled" : "Importar horario",
     "%s shared the calendar <strong>%s</strong> with you" : "%s compartió el calendario <strong>%s</strong> contigo",
     "Embed" : "Insertar",
+    "Iframe to integrate" : "Iframe para integrar",
     "Publish URL" : "Publicar URL",
     "Settings & import" : "Ajustes & importar",
     "Skip simple event editor" : "Omitir el editor de evento único",
