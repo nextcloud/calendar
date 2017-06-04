@@ -124,15 +124,15 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
 		$scope.validate = function() {
 			var error = false;
 			if ($scope.properties.summary === null || $scope.properties.summary.value.trim() === '') {
-				OC.Notification.showTemporary(t('calendar', 'Please add a title!'));
+				OC.Notification.showTemporary(t('calendar', 'Please add a title.'));
 				error = true;
 			}
 			if ($scope.calendar === null || typeof $scope.calendar === 'undefined') {
-				OC.Notification.showTemporary(t('calendar', 'Please select a calendar!'));
+				OC.Notification.showTemporary(t('calendar', 'Please select a calendar.'));
 				error = true;
 			}
 			if (!$scope.properties.checkDtStartBeforeDtEnd()) {
-				OC.Notification.showTemporary(t('calendar', 'The event ends before it starts!'));
+				OC.Notification.showTemporary(t('calendar', 'The event can not end before it starts.'));
 				error = true;
 			}
 
