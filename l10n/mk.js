@@ -17,8 +17,6 @@ OC.L10N.register(
     "Attendees" : "Присутни",
     "Reminders" : "Потсетници",
     "Repeating" : "Повторување",
-    "Please add a title!" : "Ве молам додадете наслов!",
-    "Please select a calendar!" : "Ве молам одберете календар!",
     "Global" : "Глобално",
     "None" : "Ништо",
     "Every day" : "Секој ден",

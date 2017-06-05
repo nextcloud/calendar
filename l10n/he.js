@@ -24,8 +24,6 @@ OC.L10N.register(
     "Confirmed" : "מאושר",
     "Tentative" : "אישור טנטטיבי",
     "Cancelled" : "בוטל",
-    "Please add a title!" : "יש להוסיף כותרת!",
-    "Please select a calendar!" : "יש לבחור לוח שנה!",
     "Global" : "גלובלי",
     "None" : "כלום",
     "Every day" : "כל יום",

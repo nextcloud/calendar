@@ -15,8 +15,6 @@ OC.L10N.register(
     "Attendees" : "出席者",
     "Reminders" : "提示",
     "Repeating" : "重複",
-    "Please add a title!" : "請加入標題!",
-    "Please select a calendar!" : "請選擇日曆!",
     "None" : "空",
     "Every day" : "每日",
     "Every week" : "每星期",

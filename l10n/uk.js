@@ -30,8 +30,6 @@ OC.L10N.register(
     "Confirmed" : "Підтверджено",
     "Tentative" : "Попередній",
     "Cancelled" : "Відмінено",
-    "Please add a title!" : "Будь ласка, додайте назву!",
-    "Please select a calendar!" : "Будь ласка, виберіть календар!",
     "Global" : "Загальний",
     "None" : "Жоден",
     "Every day" : "Щоденно",

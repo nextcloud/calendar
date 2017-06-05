@@ -21,8 +21,6 @@ OC.L10N.register(
     "When shared hide this event" : "Kui on jagatud, siis peida see sündmus",
     "Confirmed" : "Kinnitatud",
     "Cancelled" : "Tühistatud",
-    "Please add a title!" : "Palu lisa pealkiri!",
-    "Please select a calendar!" : "Palun vali kalender!",
     "Global" : "Üldine",
     "None" : "Pole",
     "Every day" : "Iga päev",

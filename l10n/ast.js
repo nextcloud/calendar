@@ -35,8 +35,6 @@ OC.L10N.register(
     "Confirmed" : "Confirmáu",
     "Tentative" : "Tentativa",
     "Cancelled" : "Encaboxáu",
-    "Please add a title!" : "¡Por favor, amiesta un títulu!",
-    "Please select a calendar!" : "¡Por favor, esbilla un calendariu!",
     "Global" : "Global",
     "None" : "Dengún",
     "Every day" : "Caldía",

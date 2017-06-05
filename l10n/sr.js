@@ -18,8 +18,6 @@ OC.L10N.register(
     "Reminders" : "Подсетници",
     "Repeating" : "Понављање",
     "Cancelled" : "Отказан",
-    "Please add a title!" : "Молимо унесите наслов!",
-    "The event ends before it starts!" : "Догађај завршава прије него је почео!",
     "Global" : "Опште",
     "None" : "Ништа",
     "Every day" : "Сваки дан",

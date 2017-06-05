@@ -23,8 +23,6 @@ OC.L10N.register(
     "Confirmed" : "مؤكَّد",
     "Tentative" : "مبدئي",
     "Cancelled" : "ملغي",
-    "Please add a title!" : "رجاءا ضِف عنوان",
-    "Please select a calendar!" : "فضلاً إختر مفكرةً !",
     "Global" : "عالمي",
     "None" : "لا شيء",
     "Every day" : "كل يوم",

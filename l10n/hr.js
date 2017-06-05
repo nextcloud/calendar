@@ -19,8 +19,6 @@ OC.L10N.register(
     "Confirmed" : "Potvrđeno",
     "Tentative" : "Probno",
     "Cancelled" : "Otkazano",
-    "Please add a title!" : "Molimo dodati naslov!",
-    "Please select a calendar!" : "Molimo odabrati kalendar!",
     "None" : "Ništa",
     "Every day" : "Svakodnevno",
     "never" : "nikad",

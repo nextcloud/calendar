@@ -38,8 +38,6 @@ OC.L10N.register(
     "Confirmed" : "Confirmada",
     "Tentative" : "Temptativa",
     "Cancelled" : "S'ha cancel·lat",
-    "Please add a title!" : "Si us plau, afegiu un títol!",
-    "Please select a calendar!" : "Si us plau, seleccioneu un calendari!",
     "Global" : "Global",
     "None" : "Cap",
     "Every day" : "Cada dia",

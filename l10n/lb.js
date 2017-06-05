@@ -21,8 +21,6 @@ OC.L10N.register(
     "When shared show only busy" : "Wann et gedeelt gouf, dann nëmmen als beschäftegt uweisen",
     "When shared hide this event" : "Wann et gedeelt gouf, dann verstopp dëst Evenement",
     "Cancelled" : "Ofgebrach",
-    "Please add a title!" : "Setz w.e.g. nach en Titel derbäi!",
-    "Please select a calendar!" : "Wiel w.e.gl e Kalenner aus!",
     "Global" : "Global",
     "None" : "Keng",
     "Every day" : "All Dag",

@@ -40,8 +40,6 @@ OC.L10N.register(
     "Confirmed" : "Patvirtintas",
     "Tentative" : "Neapibrėžtas",
     "Cancelled" : "Atsisakyta",
-    "Please add a title!" : "Pridėkite pavadinimą!",
-    "Please select a calendar!" : "Pasirinkite kalendorių!",
     "Global" : "Globalus",
     "None" : "Nieko",
     "Every day" : "Kas dieną",
