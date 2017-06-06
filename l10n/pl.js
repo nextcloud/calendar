@@ -42,6 +42,8 @@ OC.L10N.register(
     "Confirmed" : "Potwierdzone",
     "Tentative" : "Możliwe",
     "Cancelled" : "Przerwano",
+    "Please add a title." : "Dodaj tytuł.",
+    "Please select a calendar." : "Wybierz kalendarz.",
     "Global" : "Ogólny",
     "None" : "Brak.",
     "Every day" : "Codziennie",
