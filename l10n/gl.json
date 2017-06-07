@@ -85,7 +85,7 @@
     "{type} at the event's end" : "{type} no remate do evento",
     "{type} at {time}" : "{type} ás {time}",
     "{calendar} shared by {owner}" : "{calendar} compartido por {owner}",
-    "Please enter a valid WebCal-URL" : "Insira un URL WebCal correcto",
+    "Please enter a valid WebCal-URL" : "Introduza un URL WebCal correcto",
     "Severe error in webcal proxy. Please contact administrator for more information." : "Produciuse un erro severo no proxy WebCal. Contacte co administrador para obter máis información. ",
     "Title of the Event" : "Título do evento",
     "Starts" : "Comeza",

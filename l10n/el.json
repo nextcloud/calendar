@@ -1,7 +1,9 @@
 { "translations": {
     "Calendar" : "Ημερολόγιο",
     "%s has published the calendar \"%s\"" : "%s δημοσίευσε το ημερολόγιο \"%s\"",
+    "%s has published the calendar %s" : "%sέχει δημοσιεύσει το ημερολόγιο%s",
     "Hello," : "Γεια σας,",
+    "We wanted to inform you that %s has published the calendar {boldstart}%s{boldend}." : "Θα θέλαμε να σας πληροφορήσουμε ότι %sέχει δημοσιευτεί από το ημερολόγιο {boldstart}%s{boldend}.",
     "Click here to access it" : "Κάντε κλικ εδώ για πρόσβαση",
     "Cheers!" : "Με εκτίμηση!",
     "Too many redirects. Aborting ..." : "Πάρα πολλές ανακατευθύνσεις. Ματαίωση ...",
