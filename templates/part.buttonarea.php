@@ -27,5 +27,7 @@
 	<button class="button first" ng-value="agendaDay" ng-model="selectedView" uib-btn-radio="'agendaDay'"><?php p($l->t('Day')); ?></button>
 	<button class="button middle" ng-value="agendaWeek" ng-model="selectedView" uib-btn-radio="'agendaWeek'"><?php p($l->t('Week')); ?></button>
 	<button class="button last" ng-value="month" ng-model="selectedView" uib-btn-radio="'month'"><?php p($l->t('Month')); ?></button>
+</div>
+<div class="togglebuttons">
 	<button class="button today" ng-click="today()"><?php p($l->t('Today')); ?></button>
 </div>
