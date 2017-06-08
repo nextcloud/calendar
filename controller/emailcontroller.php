@@ -85,56 +85,16 @@ class EmailController extends Controller {
 	 * @NoAdminRequired
 	 */
 	public function sendEmailPublicLink($to, $url, $name) {
+
 		$user = $this->userSession->getUser();
 		$username = $user->getDisplayName();
 
 		$subject = $this->l10n->t('%s has published the calendar "%s"', [$username, $name]);
 
-		$serverVersion = $this->config->getSystemValue('version');
-		if (version_compare($serverVersion, '12', '>=')) {
-			$emailTemplate = $this->mailer->createEMailTemplate();
-
-			$emailTemplate->addHeader();
-			$emailTemplate->addHeading($this->l10n->t('%s has published the calendar %s', [$username, $name]));
-
-			$emailTemplate->addBodyText($this->l10n->t('Hello,'));
-
-			$htmlText = str_replace(
-				['{boldstart}', '{boldend}'],
-				['<b>', '</b>'],
-				$this->l10n->t('We wanted to inform you that %s has published the calendar {boldstart}%s{boldend}.', [$username, $name])
-			);
-
-			$plainText = $this->l10n->t('We wanted to inform you that %s has published the calendar %s.', [$username, $name]);
-			$emailTemplate->addBodyText($htmlText, $plainText);
-
-			$emailTemplate->addBodyButton($this->l10n->t('Click here to access it'), $url);
-
-			// TRANSLATORS term at the end of a mail
-			$emailTemplate->addBodyText($this->l10n->t('Cheers!'));
-
-			$emailTemplate->addFooter();
-
-			$bodyHTML = $emailTemplate->renderHtml();
-			$textBody = $emailTemplate->renderText();
-		} else {
-			$emailTemplateHTML = new TemplateResponse('calendar', 'mail.publication.html', [
-				'subject' => $subject,
-				'username' => $username,
-				'calendarname' => $name,
-				'calendarurl' => $url,
-				'defaults' => $this->defaults
-			], 'public');
-			$bodyHTML = $emailTemplateHTML->render();
-
-			$emailTemplateText = new TemplateResponse('calendar', 'mail.publication.text', [
-				'subject' => $subject,
-				'username' => $username,
-				'calendarname' => $name,
-				'calendarurl' => $url
-			], 'blank');
-			$textBody = $emailTemplateText->render();
-		}
+		$emailTemplateHTML = new TemplateResponse('calendar', 'mail.publication.html', ['subject' => $subject, 'username' => $username, 'calendarname' => $name, 'calendarurl' => $url, 'defaults' => $this->defaults], 'public');
+		$bodyHTML = $emailTemplateHTML->render();
+		$emailTemplateText = new TemplateResponse('calendar', 'mail.publication.text', ['subject' => $subject, 'username' => $username, 'calendarname' => $name, 'calendarurl' => $url], 'blank');
+		$textBody = $emailTemplateText->render();
 
 		$status = $this->sendEmail($to, $subject, $bodyHTML, $textBody);
 
