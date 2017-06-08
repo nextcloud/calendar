@@ -32,7 +32,7 @@ OC.L10N.register(
     "group" : "gruppe",
     "Details" : "Detaljer",
     "Attendees" : "Deltagere",
-    "Reminders" : "Påmindindelser",
+    "Reminders" : "Påmindelser",
     "Repeating" : "Gentagende",
     "When shared show full event" : "Når delt, vis den fulde begivenhed",
     "When shared show only busy" : "Når delt, vis kun optaget",
