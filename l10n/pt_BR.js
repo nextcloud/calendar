@@ -48,7 +48,7 @@ OC.L10N.register(
     "Global" : "Global",
     "None" : "Nenhum",
     "Every day" : "Todos os dias",
-    "Every week" : "Toda semana",
+    "Every week" : "Todas as semanas",
     "Every month" : "Todo mês",
     "Every year" : "Todo ano",
     "never" : "nunca",

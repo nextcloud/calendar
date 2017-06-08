@@ -44,6 +44,7 @@ OC.L10N.register(
     "Cancelled" : "Przerwano",
     "Please add a title." : "Dodaj tytuł.",
     "Please select a calendar." : "Wybierz kalendarz.",
+    "The event can not end before it starts." : "Wydarzenie nie może kończyć się zanim się rozpocznie.",
     "Global" : "Ogólny",
     "None" : "Brak.",
     "Every day" : "Codziennie",
