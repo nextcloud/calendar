@@ -131,7 +131,9 @@
 }
 
 #app-navigation .datepicker-heading .button:hover,
-#app-navigation .togglebuttons .button:hover {
+#app-navigation .togglebuttons .button:hover,
+#app-navigation .datepicker-heading .button.active,
+#app-navigation .togglebuttons .button.active {
 	z-index: 50; /* Force show border */
 }
 
