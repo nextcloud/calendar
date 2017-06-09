@@ -66,24 +66,6 @@
 	min-height: 0;
 }
 
-.datepicker-heading {
-	margin: 0 5px;
-	display: flex;
-}
-
-.datepicker-heading .btn-arrow {
-	margin-right: 0;
-	height: 36px;
-	min-width: 25px;
-	padding: 5px;
-}
-
-.datepicker-heading .btn-date {
-	height: 36px;
-	margin-left: 4px;
-	flex-grow: 1;
-}
-
 #datepicker table thead tr {
 	width: 100%;
 }
@@ -135,6 +117,7 @@
 	padding-bottom: 0;
 }
 
+#app-navigation .datepicker-heading,
 #app-navigation .togglebuttons {
 	display: flex;
 	margin: 0 5px;
@@ -147,28 +130,37 @@
 	flex-grow: 1;
 }
 
+#app-navigation .datepicker-heading .button:hover,
 #app-navigation .togglebuttons .button:hover {
 	z-index: 50; /* Force show border */
 }
 
+#app-navigation .datepicker-heading .button.first,
 #app-navigation .togglebuttons .button.first {
 	margin-right: -1px;
 	border-radius: 3px 0 0 3px;
 }
 
+#app-navigation .datepicker-heading .button.middle,
 #app-navigation .togglebuttons .button.middle {
 	margin-left: 0;
 	margin-right: 0;
 	border-radius: 0;
 }
 
+#app-navigation .datepicker-heading .button.last,
 #app-navigation .togglebuttons .button.last {
 	margin-left: -1px;
 	border-radius: 0 3px 3px 0;
 }
 
-#app-navigation .togglebuttons .button.today {
-	margin-left: auto;
+#app-navigation .datepicker-heading .button.first,
+#app-navigation .datepicker-heading .button.last {
+	width: 35px;
+}
+
+#app-navigation .datepicker-heading .button.middle {
+	width: calc(100% - 70px);
 }
 
 /* Overrides */

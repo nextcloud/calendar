@@ -23,13 +23,13 @@
  */
 ?>
 <div class="datepicker-heading">
-	<button type="button" class="btn btn-default btn-sm btn-arrow" ng-click="prev()" aria-label="<?php p($l->t('Go back')) ?>">
+	<button type="button" class="button first" ng-click="prev()" aria-label="<?php p($l->t('Go back')) ?>">
 		<i class="glyphicon glyphicon-chevron-left"></i>
 	</button>
-	<button type="button" class="btn btn-default btn-sm btn-date" ng-click="toggle()">
+	<button type="button" class="button middle" ng-click="toggle()">
 		<strong ng-cloak>{{ dt | datepickerFilter:selectedView }}</strong>
 	</button>
-	<button type="button" class="btn btn-default btn-sm btn-arrow" ng-click="next()" aria-label="<?php p($l->t('Go forward')) ?>">
+	<button type="button" class="button last" ng-click="next()" aria-label="<?php p($l->t('Go forward')) ?>">
 		<i class="glyphicon glyphicon-chevron-right"></i>
 	</button>
 </div>
