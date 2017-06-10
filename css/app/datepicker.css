@@ -32,10 +32,6 @@
 	color: #111;
 }
 
-#app-navigation .togglebuttons .button.today {
-	float: right;
-}
-
 #app-navigation .togglebuttons .button.today:focus {
 	background-color: rgba(240, 240, 240, .9);
 }
@@ -68,23 +64,6 @@
 
 #datepicker td button {
 	min-height: 0;
-}
-
-.datepicker-heading {
-	margin: 0 5px;
-}
-
-.datepicker-heading .btn-arrow {
-	margin-right: 0;
-	height: 36px;
-	min-width: 25px;
-	padding: 5px;
-}
-
-.datepicker-heading .btn-date {
-	width: 181px;
-	height: 36px;
-	margin-left: 4px;
 }
 
 #datepicker table thead tr {
@@ -138,41 +117,52 @@
 	padding-bottom: 0;
 }
 
+#app-navigation .datepicker-heading,
 #app-navigation .togglebuttons {
-	width: 100%;
-	height: 44px;
+	display: flex;
+	margin: 0 5px;
+	width: calc(100% - 10px);
 }
 
 #app-navigation .togglebuttons .button {
 	font-weight: normal;
 	padding: 8px;
+	flex-grow: 1;
 }
 
+#app-navigation .datepicker-heading .button:hover,
+#app-navigation .togglebuttons .button:hover,
+#app-navigation .datepicker-heading .button.active,
+#app-navigation .togglebuttons .button.active {
+	z-index: 50; /* Force show border */
+}
+
+#app-navigation .datepicker-heading .button.first,
 #app-navigation .togglebuttons .button.first {
-	margin-left: 5px;
-	-webkit-border-radius: 3px 0 0 3px;
-	-ms-border-radius: 3px 0 0 3px;
+	margin-right: -1px;
 	border-radius: 3px 0 0 3px;
 }
 
+#app-navigation .datepicker-heading .button.middle,
 #app-navigation .togglebuttons .button.middle {
-	margin-left: -7px;
-	-webkit-border-radius: 0;
-	-moz-border-radius: 0;
-	-ms-border-radius: 0;
+	margin-left: 0;
+	margin-right: 0;
 	border-radius: 0;
 }
 
+#app-navigation .datepicker-heading .button.last,
 #app-navigation .togglebuttons .button.last {
-	margin-left: -8px;
-	-webkit-border-radius: 0 3px 3px 0;
-	-moz-border-radius: 0 3px 3px 0;
-	-ms-border-radius: 0 3px 3px 0;
+	margin-left: -1px;
 	border-radius: 0 3px 3px 0;
 }
 
-#app-navigation .togglebuttons .button.today {
-	margin-right: 5px;
+#app-navigation .datepicker-heading .button.first,
+#app-navigation .datepicker-heading .button.last {
+	width: 35px;
+}
+
+#app-navigation .datepicker-heading .button.middle {
+	width: calc(100% - 70px);
 }
 
 /* Overrides */
