@@ -78,37 +78,29 @@ class EmailController extends Controller {
 	}
 
 	/**
-	 * @param string $to
+	 * @param string $recipient
 	 * @param string $url
-	 * @param string $name
+	 * @param string $calendarName
 	 * @return JSONResponse
 	 * @NoAdminRequired
 	 */
-	public function sendEmailPublicLink($to, $url, $name) {
+	public function sendEmailPublicLink($recipient, $url, $calendarName) {
 		$user = $this->userSession->getUser();
-		$username = $user->getDisplayName();
+		$displayName = $user->getDisplayName();
 
-		$subject = $this->l10n->t('%s has published the calendar "%s"', [$username, $name]);
+		$subject = $this->l10n->t('%s has published the calendar »%s«', [$displayName, $calendarName]);
 
 		$serverVersion = $this->config->getSystemValue('version');
 		if (version_compare($serverVersion, '12', '>=')) {
 			$emailTemplate = $this->mailer->createEMailTemplate();
 
 			$emailTemplate->addHeader();
-			$emailTemplate->addHeading($this->l10n->t('%s has published the calendar %s', [$username, $name]));
+			$emailTemplate->addHeading($this->l10n->t('%s has published the calendar »%s«', [$displayName, $calendarName]));
 
 			$emailTemplate->addBodyText($this->l10n->t('Hello,'));
+			$emailTemplate->addBodyText($this->l10n->t('We wanted to inform you that %s has published the calendar »%s«.', [$displayName, $calendarName]));
 
-			$htmlText = str_replace(
-				['{boldstart}', '{boldend}'],
-				['<b>', '</b>'],
-				$this->l10n->t('We wanted to inform you that %s has published the calendar {boldstart}%s{boldend}.', [$username, $name])
-			);
-
-			$plainText = $this->l10n->t('We wanted to inform you that %s has published the calendar %s.', [$username, $name]);
-			$emailTemplate->addBodyText($htmlText, $plainText);
-
-			$emailTemplate->addBodyButton($this->l10n->t('Click here to access it'), $url);
+			$emailTemplate->addBodyButton($this->l10n->t('Open »%s«', [$calendarName]), $url);
 
 			// TRANSLATORS term at the end of a mail
 			$emailTemplate->addBodyText($this->l10n->t('Cheers!'));
@@ -120,8 +112,8 @@ class EmailController extends Controller {
 		} else {
 			$emailTemplateHTML = new TemplateResponse('calendar', 'mail.publication.html', [
 				'subject' => $subject,
-				'username' => $username,
-				'calendarname' => $name,
+				'username' => $displayName,
+				'calendarname' => $calendarName,
 				'calendarurl' => $url,
 				'defaults' => $this->defaults
 			], 'public');
@@ -129,27 +121,27 @@ class EmailController extends Controller {
 
 			$emailTemplateText = new TemplateResponse('calendar', 'mail.publication.text', [
 				'subject' => $subject,
-				'username' => $username,
-				'calendarname' => $name,
+				'username' => $displayName,
+				'calendarname' => $calendarName,
 				'calendarurl' => $url
 			], 'blank');
 			$textBody = $emailTemplateText->render();
 		}
 
-		$status = $this->sendEmail($to, $subject, $bodyHTML, $textBody);
+		$status = $this->sendEmail($recipient, $subject, $bodyHTML, $textBody);
 
 		return new JSONResponse([], $status);
 	}
 
 	/**
-	 * @param string $target
+	 * @param string $recipient
 	 * @param string $subject
 	 * @param string $body
 	 * @param string $textBody
 	 * @return int
 	 */
-	private function sendEmail($target, $subject, $body, $textBody) {
-		if (!$this->mailer->validateMailAddress($target)) {
+	private function sendEmail($recipient, $subject, $body, $textBody) {
+		if (!$this->mailer->validateMailAddress($recipient)) {
 			return Http::STATUS_BAD_REQUEST;
 		}
 
@@ -160,7 +152,7 @@ class EmailController extends Controller {
 		$message = $this->mailer->createMessage();
 		$message->setSubject($subject);
 		$message->setFrom([$sendFrom => $this->defaults->getName()]);
-		$message->setTo([$target => 'Recipient']);
+		$message->setTo([$recipient => $this->l10n->t('Recipient')]);
 		$message->setPlainBody($textBody);
 		$message->setHtmlBody($body);
 		$this->mailer->send($message);
