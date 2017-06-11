@@ -2,7 +2,6 @@ OC.L10N.register(
     "calendar",
     {
     "Calendar" : "Calendariu",
-    "%s has published the calendar \"%s\"" : "%s espublizó'l calendariu «%s»",
     "Hello," : "Hola,",
     "Cheers!" : "¡Salú!",
     "Too many redirects. Aborting ..." : "Milenta redireiciones. Albortando...",

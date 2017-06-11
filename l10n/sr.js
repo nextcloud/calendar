@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Calendar" : "Календар",
     "Hello," : "Здраво, ",
-    "Click here to access it" : "Кликните овде за приступ",
     "Individual" : "Индивидуално",
     "Group" : "Група",
     "Resource" : "Ресурс",
@@ -61,6 +60,7 @@ OC.L10N.register(
     "Description" : "Опис",
     "Event status" : "Статус догађаја",
     "Export" : "Извези",
+    "Click here to access it" : "Кликните овде за приступ",
     "Day" : "Дан",
     "Week" : "Недеља",
     "Month" : "Месец",

@@ -2,7 +2,6 @@ OC.L10N.register(
     "calendar",
     {
     "Calendar" : "Календар",
-    "%s has published the calendar \"%s\"" : "%s опублікувано календар \"%s\"",
     "Too many redirects. Aborting ..." : "Забагато перенаправлень. Скасовую...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "Віддалений сервер не дає нам доступ до календаря (HTTP {%s} помилок)",
     "Error connecting to remote server" : "Помилка з'єднання з віддаленим сервером",
