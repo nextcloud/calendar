@@ -1,7 +1,11 @@
 { "translations": {
     "Calendar" : "Календарь",
+    "%s has published the calendar »%s«" : "%s опубликовал календарь »%s«",
     "Hello," : "Привет,",
+    "We wanted to inform you that %s has published the calendar »%s«." : "Хотим сообщить, что %s опубликовал календарь %s«.",
+    "Open »%s«" : "Открыть »%s«",
     "Cheers!" : "Удачи!",
+    "Recipient" : "Получатель",
     "Too many redirects. Aborting ..." : "Очень много перенаправлений. Отмена...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "Удалённый сервер не предоставил нам доступ к календарю (ошибка HTTP {%s})",
     "Error connecting to remote server" : "Ошибка подключения к удаленному серверу",

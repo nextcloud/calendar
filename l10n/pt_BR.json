@@ -1,7 +1,11 @@
 { "translations": {
     "Calendar" : "Calendário",
+    "%s has published the calendar »%s«" : "%s publicou o calendário »%s«",
     "Hello," : "Olá,",
+    "We wanted to inform you that %s has published the calendar »%s«." : "Informamos que %s publicou o calendário »%s«.",
+    "Open »%s«" : "Abrir »%s«",
     "Cheers!" : "Saudações!",
+    "Recipient" : "Destinatário",
     "Too many redirects. Aborting ..." : "Muitos redirecionamentos. Abortando...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "O servidor remoto não nos deu acesso ao calendário (erro HTTP {%s})",
     "Error connecting to remote server" : "Erro ao conectar o servidor remoto",
