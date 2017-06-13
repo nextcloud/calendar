@@ -1,8 +1,9 @@
 OC.L10N.register(
     "calendar",
     {
-    "Calendar" : "Цагийн хуваарь",
     "Hello," : "Сайн байна уу",
+    "Cheers!" : "Болж байна!",
+    "Recipient" : "Хүлээн авагч",
     "Too many redirects. Aborting ..." : "Хэтэрхий олон дамжилттай байна. Үйлдлийг цуцлав...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "Өөр сервэр бидэнд цагийн хуваарь луу хандах эрх өгсөнгүй (HTTP алдаа {%s})",
     "Error connecting to remote server" : "Өөр сервэр рүү холбогдоход алдаа гарлаа",

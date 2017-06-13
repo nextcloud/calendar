@@ -3,7 +3,9 @@ OC.L10N.register(
     {
     "Calendar" : "Calendario",
     "Hello," : "Hola,",
+    "Open »%s«" : "Abrir »%s«",
     "Cheers!" : "¡Saludos!",
+    "Recipient" : "Destinatario",
     "Too many redirects. Aborting ..." : "Demasiadas redirecciones. Abortando...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "El servidor remoto no proporcionó acceso al calendario (error {%s} HTTP)",
     "Error connecting to remote server" : "Se presentó un error al conectarse al servidor remoto",

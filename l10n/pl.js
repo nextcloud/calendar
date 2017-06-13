@@ -2,8 +2,12 @@ OC.L10N.register(
     "calendar",
     {
     "Calendar" : "Kalendarz",
+    "%s has published the calendar »%s«" : "%s opublikował kalendarz »%s«",
     "Hello," : "Witaj,",
+    "We wanted to inform you that %s has published the calendar »%s«." : "Chcieliśmy poinformować, że %s opublikował kalendarz %s.",
+    "Open »%s«" : "Otwórz »%s«",
     "Cheers!" : "Zdrówko!",
+    "Recipient" : "Odbiorca",
     "Too many redirects. Aborting ..." : "Za dużo przekierowań. Przerywam...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "Brak dostępu do kalendarza na zdalnym serwerze (HTTP {%s} error)",
     "Error connecting to remote server" : "Błąd podczas łączenia się z serwerem zdalnym",
