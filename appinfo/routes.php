@@ -26,6 +26,7 @@ return [
 		//Main view
 		['name' => 'view#index', 'url' => '/', 'verb' => 'GET'],
 		['name' => 'view#public_index_with_branding', 'url' => '/p/{token}', 'verb' => 'GET'],
+		['name' => 'view#public_index_with_branding_and_fancy_name', 'url' => '/p/{token}/{fancyName}', 'verb' => 'GET'],
 		['name' => 'view#public_index_for_embedding', 'url' => '/embed/{token}', 'verb' => 'GET'],
 		['name' => 'view#public_index_for_embedding_legacy', 'url' => '/public/{token}', 'verb' => 'GET'], // keep public/ for legacy reasons
 		// Tools

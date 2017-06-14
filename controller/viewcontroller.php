@@ -135,6 +135,18 @@ class ViewController extends Controller {
 	 *
 	 * @return TemplateResponse
 	 */
+	public function publicIndexWithBrandingAndFancyName($token) {
+		return $this->publicIndexWithBranding($token);
+	}
+
+	/**
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 *
+	 * @param string $token
+	 *
+	 * @return TemplateResponse
+	 */
 	public function publicIndexForEmbedding($token) {
 		$templateParameters = $this->getTemplateParams();
 		$publicTemplateParameters = $this->getPublicTemplateParameters($token);
