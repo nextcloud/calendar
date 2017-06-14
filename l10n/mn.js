@@ -1,6 +1,7 @@
 OC.L10N.register(
     "calendar",
     {
+    "Calendar" : "Календарь",
     "Hello," : "Сайн байна уу",
     "Cheers!" : "Болж байна!",
     "Recipient" : "Хүлээн авагч",
