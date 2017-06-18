@@ -3,7 +3,9 @@ OC.L10N.register(
     {
     "Calendar" : "Kalenteri",
     "Hello," : "Hei,",
+    "Open »%s«" : "Avaa »%s«",
     "Cheers!" : "Kiitos!",
+    "Recipient" : "Vastaanottaja",
     "Too many redirects. Aborting ..." : "Liian monta uudelleenohjausta. Keskeytetään ...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "Etäpalvelin ei antanut pääsyä kalenteriin (HTTP-virhe {%s})",
     "Error connecting to remote server" : "Virhe yhdistettäessä etäpalvelimeen",
