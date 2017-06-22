@@ -2,8 +2,12 @@ OC.L10N.register(
     "calendar",
     {
     "Calendar" : "Kalendář",
+    "%s has published the calendar »%s«" : "Osoba %s právě publikoval/a kalendář »%s«.",
     "Hello," : "Ahoj,",
+    "We wanted to inform you that %s has published the calendar »%s«." : "Chceme vás upozornit, že  %s právě publikoval/a  kalendář »%s«.",
+    "Open »%s«" : "Otevřít »%s«",
     "Cheers!" : "Mějte se!",
+    "Recipient" : "Adresát",
     "Too many redirects. Aborting ..." : "Příliš mnoho přesměrování.",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "Vzdálený server nepovolil přístup ke kalendáři (HTTP {%s} chyba)",
     "Error connecting to remote server" : "Chyba připojování ke vzdálenému serveru",
