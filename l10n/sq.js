@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Calendar" : "Kalendar",
     "Hello," : "Përshëndetje,",
+    "Open »%s«" : "Hap »%s«",
     "Cheers!" : "Gëzuar!",
     "Too many redirects. Aborting ..." : "Shumë ridrejtime. Duke e ndërprerë ...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "Serveri i largët nuk na dha akses në kalendar (gabim HTTP {%s})",
