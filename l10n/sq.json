@@ -1,8 +1,10 @@
 { "translations": {
     "Calendar" : "Kalendar",
     "Hello," : "Përshëndetje,",
+    "We wanted to inform you that %s has published the calendar »%s«." : "Donim t'ju informonim se %s ka publikuar kalendarin »%s«",
     "Open »%s«" : "Hap »%s«",
     "Cheers!" : "Gëzuar!",
+    "Recipient" : "Marrës",
     "Too many redirects. Aborting ..." : "Shumë ridrejtime. Duke e ndërprerë ...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "Serveri i largët nuk na dha akses në kalendar (gabim HTTP {%s})",
     "Error connecting to remote server" : "Gabim gjatë lidhjes me serverin e largët",
