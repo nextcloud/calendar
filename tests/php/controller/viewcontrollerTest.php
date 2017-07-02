@@ -114,6 +114,11 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 			->with('user123', $this->appName, 'firstRun', null)
 			->will($this->returnValue('someFirstRunValue'));
 
+		$this->config->expects($this->at(6))
+			->method('getAppValue')
+			->with('core', 'shareapi_allow_links', 'no')
+			->will($this->returnValue('yes'));
+
 		$actual = $this->controller->index();
 
 		$this->assertInstanceOf('OCP\AppFramework\Http\TemplateResponse', $actual);
@@ -124,6 +129,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 			'skipPopover' => 'someSkipPopoverValue',
 			'weekNumbers' => 'someShowWeekNrValue',
 			'firstRun' => 'someFirstRunValue',
+			'canSharePublicLink' => 'yes',
 			'defaultColor' => '#ff00ff',
 			'isPublic' => false,
 			'isEmbedded' => false,
@@ -389,6 +395,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 			'token' => 'fancy_token_123',
 			'shareeCanEditShares' => $shareeActions,
 			'shareeCanEditCalendarProperties' => $shareeCanEdit,
+			'canSharePublicLink' => 'no',
 		], $actual->getParams());
 		$this->assertEquals('main', $actual->getTemplateName());
 	}
@@ -474,6 +481,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 			'token' => 'fancy_token_123',
 			'shareeCanEditShares' => $shareeActions,
 			'shareeCanEditCalendarProperties' => $shareeCanEdit,
+			'canSharePublicLink' => 'no',
 		], $actual->getParams());
 		$this->assertEquals('public', $actual->getTemplateName());
 	}
