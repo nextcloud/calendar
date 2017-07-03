@@ -2,6 +2,7 @@ OC.L10N.register(
     "calendar",
     {
     "Calendar" : "Kalenteri",
+    "%s has published the calendar »%s«" : "%s on julkaissut kalenterin  »%s«",
     "Hello," : "Hei,",
     "Open »%s«" : "Avaa »%s«",
     "Cheers!" : "Kiitos!",
