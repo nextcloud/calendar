@@ -24,6 +24,7 @@ OC.L10N.register(
     "CalDAV address for clients" : "CalDAV adresas klientams",
     "Error saving WebCal-calendar" : "Klaida, įrašant WebCal kalendorių",
     "WebDAV address for subscriptions" : "WebDAV adresas prenumeratoms",
+    "Email has been sent." : "El. laiškas išsiųstas.",
     "group" : "grupė",
     "Details" : "Išsamiau",
     "Attendees" : "Dalyviai",
