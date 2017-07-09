@@ -1,7 +1,11 @@
 { "translations": {
     "Calendar" : "Kalendár",
+    "%s has published the calendar »%s«" : "Používateľ %s zverejnil kalendár %s",
     "Hello," : "Ahoj,",
+    "We wanted to inform you that %s has published the calendar »%s«." : "Chceme vás upozorniť, že používateľ %s zverejnil kalendár %s",
+    "Open »%s«" : "Otvoriť »%s«",
     "Cheers!" : "Pekný deň!",
+    "Recipient" : "Prijímateľ",
     "Too many redirects. Aborting ..." : "Príliš veľa presmerovaní. Ruším ...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "Vzdialený server neposkytol prístup ku kalendáru (HTTP chyba {%s})",
     "Error connecting to remote server" : "Chyba pri pripájaní na vzdialený server",
@@ -35,6 +39,9 @@
     "Confirmed" : "Potvrdené",
     "Tentative" : "Neistý",
     "Cancelled" : "Zrušené",
+    "Please add a title." : "Prosím, uveďte názov.",
+    "Please select a calendar." : "Prosím, vyberte kalendár.",
+    "The event can not end before it starts." : "Udalosť končí skôr ako začne!",
     "Global" : "Globálny",
     "None" : "Žiadny",
     "Every day" : "Každý deň",
@@ -134,9 +141,11 @@
     "Repeat" : "Opakovať",
     "times every" : "krát každý",
     "Add" : "Pridať",
+    "Email address of attendee" : "E-mail adresa účastníka",
     "Please add your email address in the personal settings in order to add attendees." : "Pre pridávanie účastníkov priraďte k vašemu účtu e-mailovú adresu v osobných nastaveniach.",
     "from" : "od",
     "to" : "do",
+    "This event's repeating rule is not supported yet." : "Pravidlá opakovania tejto udalosti ešte nie sú podporované.",
     "Support for advanced rules will be added with subsequent updates." : "Podpora pre rozšírené pravidlá bude pridaná v ďalších aktualizáciách.",
     "Reset repeating rule" : "Vypnúť pravidlo opakovania",
     "Repeat every ..." : "Opakovať každý ...",
@@ -150,6 +159,8 @@
     "File is empty" : "Súbor je prázdny",
     "Import scheduled" : "Import naplánovaný",
     "%s shared the calendar <strong>%s</strong> with you" : "%s zdieľaných kalendárov <strong>%s</strong> s vami",
+    "Embed" : "Vložiť",
+    "Iframe to integrate" : "Pridať Iframe",
     "Publish URL" : "Zverejniť URL",
     "Settings & import" : "Nastavenia a import",
     "Skip simple event editor" : "Nepoužívať jednoduchý editor",
@@ -157,6 +168,7 @@
     "Import calendar" : "Importovať kalendár",
     "No Calendars selected for import" : "Nebol označený kalendár na import",
     "Primary CalDAV address" : "Primárna CalDAV adresa",
-    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV adresa"
+    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV adresa",
+    "Subscribe" : "Odoberať"
 },"pluralForm" :"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"
 }
