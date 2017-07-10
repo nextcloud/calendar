@@ -29,22 +29,22 @@ app.controller('DatePickerController', ['$scope', 'fc', 'uibDatepickerConfig', '
 	function ($scope, fc, uibDatepickerConfig, constants) {
 		'use strict';
 
-		$scope.datepickerOptions = {
-			formatDay: 'd'
-		};
-
-		function getStepSizeFromView() {
-			switch($scope.selectedView) {
-				case 'agendaDay':
-					return 'day';
-
-				case 'agendaWeek':
-					return 'week';
-
-				case 'month':
-					return 'month';
+		function getDayClass(data) {
+			if (moment(data.date).isSame(new Date(), 'day')) {
+				return 'highlight-today';
 			}
+
+			if (data.date.getDay() === 0 || data.date.getDay() === 6) {
+				return 'highlight-weekend';
+			}
+
+			return '';
 		}
+
+		$scope.datepickerOptions = {
+			formatDay: 'd',
+			customClass: getDayClass
+		};
 
 		$scope.dt = new Date();
 		$scope.visibility = false;
@@ -60,12 +60,33 @@ app.controller('DatePickerController', ['$scope', 'fc', 'uibDatepickerConfig', '
 			$scope.dt = new Date();
 		};
 
+		function changeView(index) {
+			switch($scope.selectedView) {
+				case 'agendaDay':
+					return moment($scope.dt)
+						.add(index, 'day')
+						.toDate();
+
+				case 'agendaWeek':
+					return moment($scope.dt)
+						.add(index, 'week')
+						.startOf('week')
+						.toDate();
+
+				case 'month':
+					return moment($scope.dt)
+						.add(index, 'month')
+						.startOf('month')
+						.toDate();
+			}
+		}
+
 		$scope.prev = function() {
-			$scope.dt = moment($scope.dt).subtract(1, getStepSizeFromView()).toDate();
+			$scope.dt = changeView(-1);
 		};
 
 		$scope.next = function() {
-			$scope.dt = moment($scope.dt).add(1, getStepSizeFromView()).toDate();
+			$scope.dt = changeView(1);
 		};
 
 		$scope.toggle = function() {
