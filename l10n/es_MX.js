@@ -23,7 +23,7 @@ OC.L10N.register(
     "Does not attend" : "No va a asistir",
     "{name} ({email})" : "{name} ({email})",
     "You are in an unknown timezone ({tz}), falling back to UTC" : "Se encuentra en una zona horaria desconocida ({tz}), restableciendo UTC",
-    "Please create a calendar first." : "Favor de crear un calendario primero.",
+    "Please create a calendar first." : "Por favor crea un calendario primero.",
     "New event" : "Nuevo evento",
     "CalDAV address for clients" : "Dirección CalDAV para clientes",
     "Error saving WebCal-calendar" : "Error al guardar el calendaro WebCal",
