@@ -5,7 +5,7 @@ OC.L10N.register(
     "%s has published the calendar »%s«" : "%s hat den Kalender »%s« veröffentlicht",
     "Hello," : "Hallo,",
     "We wanted to inform you that %s has published the calendar »%s«." : "Wir wollen Sie informieren, dass %s den Kalender %s veröffentlicht hat.",
-    "Open »%s«" : "Öffne »%s«",
+    "Open »%s«" : "»%s« öffnen",
     "Cheers!" : "Noch einen schönen Tag!",
     "Recipient" : "Empfänger",
     "Too many redirects. Aborting ..." : "Zu viele Umleitungen. Abbruch …",
