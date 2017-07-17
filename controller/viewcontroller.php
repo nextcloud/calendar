@@ -189,7 +189,7 @@ class ViewController extends Controller {
 		$appVersion = $this->config->getAppValue($this->appName, 'installed_version');
 		$isIE = $this->request->isUserAgent([Request::USER_AGENT_IE]);
 		$defaultColor = $this->config->getAppValue('theming', 'color', '#0082C9');
-		$canSharePublicLink = $this->config->getAppValue('core', 'shareapi_allow_links', 'no');
+		$canSharePublicLink = $this->config->getAppValue('core', 'shareapi_allow_links', 'yes');
 
 		return [
 			'appVersion' => $appVersion,

@@ -84,7 +84,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 
 		$this->config->expects($this->at(3))
 			->method('getAppValue')
-			->with('core', 'shareapi_allow_links', 'no')
+			->with('core', 'shareapi_allow_links', 'yes')
 			->will($this->returnValue('yes'));
 
 		$this->userSession->expects($this->once())
@@ -185,7 +185,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 
 		$this->config->expects($this->at(3))
 			->method('getAppValue')
-			->with('core', 'shareapi_allow_links', 'no')
+			->with('core', 'shareapi_allow_links', 'yes')
 			->will($this->returnValue('no'));
 
 		$this->config->expects($this->at(4))
@@ -268,7 +268,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 
 		$this->config->expects($this->at(3))
 			->method('getAppValue')
-			->with('core', 'shareapi_allow_links', 'no')
+			->with('core', 'shareapi_allow_links', 'yes')
 			->will($this->returnValue('no'));
 
 		$this->config->expects($this->at(4))
@@ -352,7 +352,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 
 		$this->config->expects($this->at(3))
 			->method('getAppValue')
-			->with('core', 'shareapi_allow_links', 'no')
+			->with('core', 'shareapi_allow_links', 'yes')
 			->will($this->returnValue('no'));
 
 		$this->request->expects($this->at(1))
@@ -443,7 +443,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 
 		$this->config->expects($this->at(3))
 			->method('getAppValue')
-			->with('core', 'shareapi_allow_links', 'no')
+			->with('core', 'shareapi_allow_links', 'yes')
 			->will($this->returnValue('no'));
 
 		$this->request->expects($this->at(1))
