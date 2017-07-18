@@ -95,6 +95,8 @@ yarn:
 .PHONY: clean
 clean:
 	rm -rf ./build
+	rm -rf css/public
+	rm -rf js/public
 
 # Same as clean but also removes dependencies installed by composer, bower and
 # npm
