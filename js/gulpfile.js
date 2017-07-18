@@ -78,21 +78,44 @@ const watchSources = jsSources.concat(testSources).concat(['*.js']);
 const lintSources = watchSources;
 
 // tasks
-gulp.task('default', ['lint', 'csslint', 'buildS', 'vendor']);
-gulp.task('build', ['lint', 'csslint', 'buildS']);
+gulp.task('default', ['lint', 'csslint', '_buildSource', '_buildVendor']);
+gulp.task('build', ['lint', 'csslint', '_buildSource']);
 
-gulp.task('buildS', gulpsync.sync(['buildSources', 'minifySources']));
-gulp.task('vendor', gulpsync.sync(['buildVendor', 'minifyVendor']));
+gulp.task('_buildAndMinifyCSSSources', gulpsync.sync(['_buildCSSSources', '_minifyCSSSources']));
+gulp.task('_buildAndMinifyJavaScriptSources', gulpsync.sync(['_buildJavaScriptSources', '_minifyJavaScriptSources']));
+gulp.task('_buildAndMinifyCSSVendor', gulpsync.sync(['_buildCSSVendor', '_minifyCSSVendor']));
+gulp.task('_buildAndMinifyJavaScriptVendor', gulpsync.sync(['_buildJavaScriptVendor', '_minifyJavaScriptVendor']));
+gulp.task('_buildAndMinifyIEJavaScriptVendor', gulpsync.sync(['_buildIEJavaScriptVendor', '_minifyIEJavaScriptVendor']));
 
-gulp.task('buildSources', () => {
-	gulp.src(cssSources)
+gulp.task('_buildSource', ['_buildAndMinifyCSSSources', '_buildAndMinifyJavaScriptSources']);
+gulp.task('_buildVendor', ['_buildAndMinifyCSSVendor', '_buildAndMinifyJavaScriptVendor', '_buildAndMinifyIEJavaScriptVendor']);
+
+// #############################################################################
+// ################################ SOURCE CSS #################################
+// #############################################################################
+gulp.task('_buildCSSSources', () => {
+	return gulp.src(cssSources)
 		.pipe(stripCSS({
 			preserve: false
 		}))
 		.pipe(concat(cssBuildTarget))
 		.pipe(gulp.dest(cssDestinationFolder));
+});
 
-	gulp.src(jsSources)
+gulp.task('_minifyCSSSources', () => {
+	return gulp.src(cssDestinationFolder + cssBuildTarget)
+		.pipe(sourcemaps.init({identityMap: true, largeFile: true}))
+		.pipe(concat(cssBuildTargetMin))
+		.pipe(uglifyCSS())
+		.pipe(sourcemaps.write('./', {includeContent: false}))
+		.pipe(gulp.dest(cssDestinationFolder));
+});
+
+// #############################################################################
+// ################################ SOURCE JS ##################################
+// #############################################################################
+gulp.task('_buildJavaScriptSources', () => {
+	return gulp.src(jsSources)
 		.pipe(babel({
 			presets: ['es2015'],
 			compact: false,
@@ -111,14 +134,7 @@ gulp.task('buildSources', () => {
 		.pipe(gulp.dest(destinationFolder));
 });
 
-gulp.task('minifySources', () => {
-	gulp.src(cssDestinationFolder + cssBuildTarget)
-		.pipe(sourcemaps.init({identityMap: true, largeFile: true}))
-		.pipe(concat(cssBuildTargetMin))
-		.pipe(uglifyCSS())
-		.pipe(sourcemaps.write('./', {includeContent: false}))
-		.pipe(gulp.dest(cssDestinationFolder));
-
+gulp.task('_minifyJavaScriptSources', () => {
 	return gulp.src(destinationFolder + buildTarget)
 		.pipe(sourcemaps.init({identityMap: true, largeFile: true}))
 		.pipe(concat(buildTargetMin))
@@ -127,22 +143,17 @@ gulp.task('minifySources', () => {
 		.pipe(gulp.dest(destinationFolder));
 });
 
-gulp.task('buildVendor', () => {
-	gulp.src(vendorCssSources)
+// #############################################################################
+// ################################ VENDOR CSS #################################
+// #############################################################################
+gulp.task('_buildCSSVendor', () => {
+	return gulp.src(vendorCssSources)
 		.pipe(concat(vendorCssTarget))
 		.pipe(gulp.dest(cssDestinationFolder));
-
-	gulp.src(['node_modules/babel-polyfill/dist/polyfill.js'].concat(vendorSources))
-		.pipe(concat(vendorIETarget))
-		.pipe(gulp.dest(destinationFolder));
-
-	return gulp.src(vendorSources)
-		.pipe(concat(vendorTarget))
-		.pipe(gulp.dest(destinationFolder));
 });
 
-gulp.task('minifyVendor', () => {
-	gulp.src([cssDestinationFolder + vendorCssTarget])
+gulp.task('_minifyCSSVendor', () => {
+	return gulp.src([cssDestinationFolder + vendorCssTarget])
 		.pipe(sourcemaps.init({identityMap: true, largeFile: true}))
 		.pipe(concat(vendorCssTargetMin))
 		.pipe(stripCSS({
@@ -151,18 +162,40 @@ gulp.task('minifyVendor', () => {
 		.pipe(uglifyCSS())
 		.pipe(sourcemaps.write('./', {includeContent: false}))
 		.pipe(gulp.dest(cssDestinationFolder));
+});
 
-	gulp.src([destinationFolder + vendorIETarget])
+// #############################################################################
+// ################################# VENDOR JS #################################
+// #############################################################################
+gulp.task('_buildJavaScriptVendor', () => {
+	return gulp.src(vendorSources)
+		.pipe(concat(vendorTarget))
+		.pipe(gulp.dest(destinationFolder));
+});
+
+gulp.task('_minifyJavaScriptVendor', () => {
+	return gulp.src([destinationFolder + vendorTarget])
 		.pipe(sourcemaps.init({identityMap: true, largeFile: true}))
-		.pipe(concat(vendorIETargetMin))
+		.pipe(concat(vendorTargetMin))
 		.pipe(strip())
 		.pipe(uglify())
 		.pipe(sourcemaps.write('./', {includeContent: false}))
 		.pipe(gulp.dest(destinationFolder));
+});
 
-	return gulp.src([destinationFolder + vendorTarget])
+// #############################################################################
+// ############################### VENDOR IE JS ################################
+// #############################################################################
+gulp.task('_buildIEJavaScriptVendor', () => {
+	return gulp.src(['node_modules/babel-polyfill/dist/polyfill.js'].concat(vendorSources))
+		.pipe(concat(vendorIETarget))
+		.pipe(gulp.dest(destinationFolder));
+});
+
+gulp.task('_minifyIEJavaScriptVendor', () => {
+	return gulp.src([destinationFolder + vendorIETarget])
 		.pipe(sourcemaps.init({identityMap: true, largeFile: true}))
-		.pipe(concat(vendorTargetMin))
+		.pipe(concat(vendorIETargetMin))
 		.pipe(strip())
 		.pipe(uglify())
 		.pipe(sourcemaps.write('./', {includeContent: false}))
