@@ -89,12 +89,13 @@
 	border-left: 0;
 }
 
-#datepicker table tbody tr.uib-weeks td:last-child button {
-	border-right: none;
+.highlight-today {
+	border-radius: 50%;
+	background-color: #e6e6e6;
 }
 
-#datepicker table tbody tr.uib-weeks:last-child td button {
-	border-bottom: none;
+#datepicker table tbody tr td button {
+	border: none;
 }
 
 #datepicker table tbody button {
@@ -102,7 +103,10 @@
 }
 
 #datepicker table tbody button.active {
-	background-color: rgba(240, 240, 240, .9);
+	border-radius: 50%;
+	background-color: #0082c9;
+	color: #fff;
+	font-weight: bold;
 }
 
 #datepicker table tbody button span {
@@ -110,6 +114,10 @@
 }
 
 #datepicker .text-muted {
+	color: #c7c7c7;
+}
+
+.highlight-weekend button {
 	color: #aaa;
 }
 
@@ -122,6 +130,12 @@
 	display: flex;
 	margin: 0 5px;
 	width: calc(100% - 10px);
+}
+
+#app-navigation .datepicker-heading .button {
+	background-color: #fff;
+	border: none;
+	font-weight: normal;
 }
 
 #app-navigation .togglebuttons .button {
