@@ -220,7 +220,7 @@ gulp.task('csslint', () => {
 });
 
 gulp.task('watch', () => {
-	gulp.watch(watchSources, ['default']);
+	gulp.watch(watchSources, ['build']);
 });
 
 gulp.task('karma', (done) => {
