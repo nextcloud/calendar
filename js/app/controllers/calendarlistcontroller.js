@@ -187,23 +187,25 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ha
 			calendar.prepareUpdate();
 		};
 
-		$scope.onSelectSharee = function (item, model, label, calendar) {
-			// Remove content from text box
-			calendar.selectedSharee = '';
+		$scope.onSelectSharee = function (item, model, label, calendarItem) {
+			const calendar = calendarItem.calendar;
 			// Create a default share with the user/group, read only
-			calendar.share(item.type, item.identifier, false, false).then(function() {
+			calendar.share(item.type, item.identifier, item.displayname, false, false).then(function() {
+				// Remove content from text box
+				calendarItem.selectedSharee = '';
+
 				$scope.$apply();
 			});
 		};
 
-		$scope.updateExistingUserShare = function(calendar, userId, writable) {
-			calendar.share(constants.SHARE_TYPE_USER, userId, writable, true).then(function() {
+		$scope.updateExistingUserShare = function(calendar, displayname, userId, writable) {
+			calendar.share(constants.SHARE_TYPE_USER, userId, displayname, writable, true).then(function() {
 				$scope.$apply();
 			});
 		};
 
-		$scope.updateExistingGroupShare = function(calendar, groupId, writable) {
-			calendar.share(constants.SHARE_TYPE_GROUP, groupId, writable, true).then(function() {
+		$scope.updateExistingGroupShare = function(calendar, groupId, displayname, writable) {
+			calendar.share(constants.SHARE_TYPE_GROUP, groupId, displayname, writable, true).then(function() {
 				$scope.$apply();
 			});
 		};
@@ -264,6 +266,7 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ha
 				users = users.map(function(item){
 					return {
 						display: item.label,
+						displayname: item.label,
 						type: constants.SHARE_TYPE_USER,
 						identifier: item.value.shareWith
 					};
@@ -272,6 +275,7 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ha
 				groups = groups.map(function(item){
 					return {
 						display: item.label + ' (' + t('calendar', 'group') + ')',
+						displayname: item.label,
 						type: constants.SHARE_TYPE_GROUP,
 						identifier: item.value.shareWith
 					};

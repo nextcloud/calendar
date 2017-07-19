@@ -201,8 +201,8 @@ describe('The calendar factory', function () {
 	it('should call the calendarService api - share', () => {
 		const calendar = Calendar(privateCalendarServiceAPI);
 
-		calendar.share(1, 2, 3, 4);
-		expect(privateCalendarServiceAPI.share).toHaveBeenCalledWith(calendar, 1, 2, 3, 4);
+		calendar.share(1, 2, 3, 4, 5);
+		expect(privateCalendarServiceAPI.share).toHaveBeenCalledWith(calendar, 1, 2, 3, 4, 5);
 	});
 
 	it('should call the calendarService api - unshare', () => {

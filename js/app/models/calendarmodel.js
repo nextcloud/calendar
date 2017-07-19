@@ -338,8 +338,8 @@ app.factory('Calendar', function($window, Hook, VEventService, TimezoneService, 
 			return context.calendarService.delete(iface);
 		};
 
-		iface.share = function(shareType, shareWith, writable, existingShare) {
-			return context.calendarService.share(iface, shareType, shareWith, writable, existingShare);
+		iface.share = function(shareType, shareWith, shareWithDisplayname, writable, existingShare) {
+			return context.calendarService.share(iface, shareType, shareWith, shareWithDisplayname, writable, existingShare);
 		};
 
 		iface.unshare = function(shareType, shareWith, writable, existingShare) {
