@@ -213,7 +213,7 @@
 			</span>
 		</li>
 	</ul>
-	<div class="publishing" ng-if="item.calendar.isPublishable()">
+	<div class="publishing" ng-if="item.calendar.isPublishable() && canSharePublicLink">
 		<input type="checkbox" name="publish"
 			   class="checkbox"
 			   id="checkbox_publish_calendar_{{ $index }}"

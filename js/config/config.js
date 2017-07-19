@@ -71,6 +71,7 @@ app.config(['$provide', '$httpProvider',
 		const publicSharingToken = angular.element('#fullcalendar').attr('data-publicSharingToken');
 		const shareeCanEditShares = angular.element('#fullcalendar').attr('data-shareeCanEditShares') === 'yes';
 		const shareeCanEditCalendarProperties = angular.element('#fullcalendar').attr('data-shareeCanEditCalendarProperties') === 'yes';
+		const canSharePublicLink = angular.element('#fullcalendar').attr('data-canSharePublicLink') === 'yes';
 		$provide.constant('constants', {
 			initialView,
 			emailAddress,
@@ -79,6 +80,7 @@ app.config(['$provide', '$httpProvider',
 			publicSharingToken,
 			shareeCanEditShares,
 			shareeCanEditCalendarProperties,
+			canSharePublicLink,
 			SHARE_TYPE_USER: 0,
 			SHARE_TYPE_GROUP: 1
 		});

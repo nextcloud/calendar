@@ -42,6 +42,7 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ha
 		$scope.publicdavdesc = t('calendar', 'CalDAV address for clients');
 
 		$scope.isSharingAPI = isSharingAPI;
+		$scope.canSharePublicLink = constants.canSharePublicLink;
 
 		$scope.$watchCollection('calendars', function(newCalendars, oldCalendars) {
 			newCalendars = newCalendars || [];

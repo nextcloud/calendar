@@ -82,6 +82,11 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 			->with('theming', 'color', '#0082C9')
 			->will($this->returnValue('#ff00ff'));
 
+		$this->config->expects($this->at(3))
+			->method('getAppValue')
+			->with('core', 'shareapi_allow_links', 'yes')
+			->will($this->returnValue('yes'));
+
 		$this->userSession->expects($this->once())
 			->method('getUser')
 			->will($this->returnValue($this->dummyUser));
@@ -94,22 +99,22 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 			->method('getEMailAddress')
 			->will($this->returnValue('test@bla.com'));
 
-		$this->config->expects($this->at(3))
+		$this->config->expects($this->at(4))
 			->method('getUserValue')
 			->with('user123', $this->appName, 'currentView', null)
 			->will($this->returnValue('someView'));
 
-		$this->config->expects($this->at(4))
+		$this->config->expects($this->at(5))
 			->method('getUserValue')
 			->with('user123', $this->appName, 'skipPopover', 'no')
 			->will($this->returnValue('someSkipPopoverValue'));
 
-		$this->config->expects($this->at(5))
+		$this->config->expects($this->at(6))
 			->method('getUserValue')
 			->with('user123', $this->appName, 'showWeekNr', 'no')
 			->will($this->returnValue('someShowWeekNrValue'));
 
-		$this->config->expects($this->at(6))
+		$this->config->expects($this->at(7))
 			->method('getUserValue')
 			->with('user123', $this->appName, 'firstRun', null)
 			->will($this->returnValue('someFirstRunValue'));
@@ -124,6 +129,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 			'skipPopover' => 'someSkipPopoverValue',
 			'weekNumbers' => 'someShowWeekNrValue',
 			'firstRun' => 'someFirstRunValue',
+			'canSharePublicLink' => 'yes',
 			'defaultColor' => '#ff00ff',
 			'isPublic' => false,
 			'isEmbedded' => false,
@@ -178,21 +184,26 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 			->will($this->returnValue('#ff00ff'));
 
 		$this->config->expects($this->at(3))
+			->method('getAppValue')
+			->with('core', 'shareapi_allow_links', 'yes')
+			->will($this->returnValue('no'));
+
+		$this->config->expects($this->at(4))
 			->method('getUserValue')
 			->with('user123', $this->appName, 'currentView', null)
 			->will($this->returnValue(null));
 
-		$this->config->expects($this->at(4))
+		$this->config->expects($this->at(5))
 			->method('getUserValue')
 			->with('user123', $this->appName, 'skipPopover', 'no')
 			->will($this->returnValue('someSkipPopoverValue'));
 
-		$this->config->expects($this->at(5))
+		$this->config->expects($this->at(6))
 			->method('getUserValue')
 			->with('user123', $this->appName, 'showWeekNr', 'no')
 			->will($this->returnValue('someShowWeekNrValue'));
 
-		$this->config->expects($this->at(6))
+		$this->config->expects($this->at(7))
 			->method('getUserValue')
 			->with('user123', $this->appName, 'firstRun', null)
 			->will($this->returnValue('someFirstRunValue'));
@@ -214,6 +225,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 			'token' => '',
 			'shareeCanEditShares' => 'no',
 			'shareeCanEditCalendarProperties' => 'yes',
+			'canSharePublicLink' => 'no'
 		], $actual->getParams());
 		$this->assertEquals('main', $actual->getTemplateName());
 	}
@@ -255,27 +267,32 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 			->will($this->returnValue('#ff00ff'));
 
 		$this->config->expects($this->at(3))
+			->method('getAppValue')
+			->with('core', 'shareapi_allow_links', 'yes')
+			->will($this->returnValue('no'));
+
+		$this->config->expects($this->at(4))
 			->method('getUserValue')
 			->with('user123', $this->appName, 'currentView', null)
 			->will($this->returnValue($initialView));
 
-		$this->config->expects($this->at(4))
+		$this->config->expects($this->at(5))
 			->method('getUserValue')
 			->with('user123', $this->appName, 'skipPopover', 'no')
 			->will($this->returnValue('someSkipPopoverValue'));
 
-		$this->config->expects($this->at(5))
+		$this->config->expects($this->at(6))
 			->method('getUserValue')
 			->with('user123', $this->appName, 'showWeekNr', 'no')
 			->will($this->returnValue('someShowWeekNrValue'));
 
-		$this->config->expects($this->at(6))
+		$this->config->expects($this->at(7))
 			->method('getUserValue')
 			->with('user123', $this->appName, 'firstRun', null)
 			->will($this->returnValue(null));
 
 		if ($expectsSetRequest) {
-			$this->config->expects($this->at(7))
+			$this->config->expects($this->at(8))
 				->method('setUserValue')
 				->with('user123');
 		}
@@ -297,6 +314,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 			'token' => '',
 			'shareeCanEditShares' => 'yes',
 			'shareeCanEditCalendarProperties' => 'no',
+			'canSharePublicLink' => 'no'
 		], $actual->getParams());
 		$this->assertEquals('main', $actual->getTemplateName());
 	}
@@ -331,6 +349,11 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 			->method('getAppValue')
 			->with('theming', 'color', '#0082C9')
 			->will($this->returnValue('#ff00ff'));
+
+		$this->config->expects($this->at(3))
+			->method('getAppValue')
+			->with('core', 'shareapi_allow_links', 'yes')
+			->will($this->returnValue('no'));
 
 		$this->request->expects($this->at(1))
 			->method('getServerProtocol')
@@ -389,6 +412,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 			'token' => 'fancy_token_123',
 			'shareeCanEditShares' => $shareeActions,
 			'shareeCanEditCalendarProperties' => $shareeCanEdit,
+			'canSharePublicLink' => 'no',
 		], $actual->getParams());
 		$this->assertEquals('main', $actual->getTemplateName());
 	}
@@ -416,6 +440,11 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 			->method('getAppValue')
 			->with('theming', 'color', '#0082C9')
 			->will($this->returnValue('#ff00ff'));
+
+		$this->config->expects($this->at(3))
+			->method('getAppValue')
+			->with('core', 'shareapi_allow_links', 'yes')
+			->will($this->returnValue('no'));
 
 		$this->request->expects($this->at(1))
 			->method('getServerProtocol')
@@ -474,6 +503,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 			'token' => 'fancy_token_123',
 			'shareeCanEditShares' => $shareeActions,
 			'shareeCanEditCalendarProperties' => $shareeCanEdit,
+			'canSharePublicLink' => 'no',
 		], $actual->getParams());
 		$this->assertEquals('public', $actual->getTemplateName());
 	}
