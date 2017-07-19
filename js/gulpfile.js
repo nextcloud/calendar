@@ -74,12 +74,13 @@ const vendorCssSources = [
 ];
 
 const testSources = ['../tests/js/unit/**/*.js'];
-const watchSources = jsSources.concat(testSources).concat(['*.js']);
-const lintSources = watchSources;
+const lintJsSources = jsSources.concat(testSources).concat(['*.js']);
+const watchSources = lintJsSources.concat(cssSources);
 
 // tasks
-gulp.task('default', ['lint', 'csslint', '_buildSource', '_buildVendor']);
-gulp.task('build', ['lint', 'csslint', '_buildSource']);
+gulp.task('lint', ['jslint', 'csslint']);
+gulp.task('default', ['lint', '_buildSource', '_buildVendor']);
+gulp.task('build', ['lint', '_buildSource']);
 
 gulp.task('_buildAndMinifyCSSSources', gulpsync.sync(['_buildCSSSources', '_minifyCSSSources']));
 gulp.task('_buildAndMinifyJavaScriptSources', gulpsync.sync(['_buildJavaScriptSources', '_minifyJavaScriptSources']));
@@ -202,8 +203,8 @@ gulp.task('_minifyIEJavaScriptVendor', () => {
 		.pipe(gulp.dest(destinationFolder));
 });
 
-gulp.task('lint', () => {
-	return gulp.src(lintSources)
+gulp.task('jslint', () => {
+	return gulp.src(lintJsSources)
 		.pipe(jshint('.jshintrc'))
 		.pipe(jshint.reporter('default'))
 		.pipe(jshint.reporter('fail'));
@@ -220,7 +221,7 @@ gulp.task('csslint', () => {
 });
 
 gulp.task('watch', () => {
-	gulp.watch(watchSources, ['build']);
+	gulp.watch(watchSources, ['_buildSource']);
 });
 
 gulp.task('karma', (done) => {
