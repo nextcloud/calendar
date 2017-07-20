@@ -2,6 +2,7 @@ OC.L10N.register(
     "calendar",
     {
     "Calendar" : "日曆",
+    "Hello," : "你好，",
     "Individual" : "個人",
     "Group" : "群組",
     "Resource" : "資源",
