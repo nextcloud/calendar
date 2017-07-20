@@ -147,6 +147,7 @@ appstore:
 	"js/public" \
 	"COPYING" \
 	"CHANGELOG.md" \
+	".gitignore" \
 	$(appstore_build_directory)
 ifdef CAN_SIGN
 	mv $(configdir)/config.php $(configdir)/config-2.php
@@ -155,7 +156,7 @@ ifdef CAN_SIGN
 else
 	@echo $(sign_skip_msg)
 endif
-	tar -czf $(appstore_package_name).tar.gz -C $(appstore_build_directory)/../ $(app_name)
+	tar -czf $(appstore_package_name).tar.gz -C $(appstore_build_directory)/../ --exclude-vcs-ignores --exclude='.gitignore' $(app_name)
 
 
 # Command for running JS and PHP tests. Works for package.json files in the js/
