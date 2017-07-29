@@ -2,6 +2,7 @@ OC.L10N.register(
     "calendar",
     {
     "Calendar" : "Kalendar",
+    "%s has published the calendar »%s«" : "%s ka publikuar kalendarin %s",
     "Hello," : "Përshëndetje,",
     "We wanted to inform you that %s has published the calendar »%s«." : "Donim t'ju informonim se %s ka publikuar kalendarin »%s«",
     "Open »%s«" : "Hap »%s«",
