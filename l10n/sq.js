@@ -43,6 +43,7 @@ OC.L10N.register(
     "Cancelled" : "Anuluar",
     "Please add a title." : "Ju lutemi shtoni një titull.",
     "Please select a calendar." : "Ju lutemi selektoni një kalendar.",
+    "The event can not end before it starts." : "Ngjarja nuk mund të përfundojë para se të fillojë.",
     "Global" : "Globale",
     "None" : "Asnjë",
     "Every day" : "Çdo ditë",
