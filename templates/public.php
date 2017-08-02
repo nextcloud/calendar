@@ -9,7 +9,6 @@
 			</a>
 		</div>
 
-		<div id="logo-claim" style="display:none;"><?php p($theme->getLogoClaim()); ?></div>
 		<div id="header-right" class="header-right">
 			<a href="<?php p($_['webcalURL']); ?>" id="download" class="button">
 				<span class="icon icon-public"></span>
