@@ -160,6 +160,7 @@
     "Import scheduled" : "スケジュールのインポート",
     "%s shared the calendar <strong>%s</strong> with you" : "%sはカレンダー<strong>%s</strong>をあなたと共有しています。",
     "Embed" : "埋め込み",
+    "Iframe to integrate" : "Iframeの統合",
     "Publish URL" : "URLを公開する",
     "Settings & import" : "設定とインポート",
     "Skip simple event editor" : "シンプルイベントエディタをスキップ",
@@ -167,6 +168,7 @@
     "Import calendar" : "カレンダーのインポート",
     "No Calendars selected for import" : "インポートするカレンダーが指定されていません",
     "Primary CalDAV address" : "一番目の CalDAV アドレス",
-    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV アドレス"
+    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV アドレス",
+    "Subscribe" : "購読"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
