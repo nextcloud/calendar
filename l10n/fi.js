@@ -4,6 +4,7 @@ OC.L10N.register(
     "Calendar" : "Kalenteri",
     "%s has published the calendar »%s«" : "%s on julkaissut kalenterin  »%s«",
     "Hello," : "Hei,",
+    "We wanted to inform you that %s has published the calendar »%s«." : "Halusimme ilmoittaa että %s on julkaissut kalenterin »%s«.",
     "Open »%s«" : "Avaa »%s«",
     "Cheers!" : "Kiitos!",
     "Recipient" : "Vastaanottaja",
