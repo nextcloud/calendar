@@ -9,7 +9,7 @@ OC.L10N.register(
     "Unknown" : "Tundmatu",
     "Required" : "Kohustuslik",
     "Optional" : "Valikuline",
-    "Does not attend" : "Ei võta soa",
+    "Does not attend" : "Ei võta osa",
     "Please create a calendar first." : "Palun loo esmalt kalender.",
     "New event" : "Uus sündmus",
     "group" : "grupp",
