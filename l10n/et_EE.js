@@ -2,6 +2,7 @@ OC.L10N.register(
     "calendar",
     {
     "Calendar" : "Kalender",
+    "Hello," : "Tere,",
     "Individual" : "Individuaalne",
     "Group" : "Grupp",
     "Resource" : "Ressurss",
