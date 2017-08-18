@@ -53,7 +53,8 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
 			{title: t('calendar', 'Details'), value: 0},
 			{title: t('calendar', 'Attendees'), value: 1},
 			{title: t('calendar', 'Reminders'), value: 2},
-			{title: t('calendar', 'Repeating'), value: 3}
+			{title: t('calendar', 'Repeating'), value: 3},
+			{title: t('calendar', 'Spreed Meeting'), value: 4}
 		];
 
 		$scope.classSelect = [
@@ -61,7 +62,7 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
 			{displayname: t('calendar', 'When shared show only busy'), type: 'CONFIDENTIAL'},
 			{displayname: t('calendar', 'When shared hide this event'), type: 'PRIVATE'}
 		];
-		
+
 		$scope.statusSelect = [
 			{displayname: t('calendar', 'Confirmed'), type: 'CONFIRMED'},
 			{displayname: t('calendar', 'Tentative'), type: 'TENTATIVE'},
@@ -171,21 +172,31 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
 				$scope.eventsattendeeview = false;
 				$scope.eventsalarmview = false;
 				$scope.eventsrepeatview = false;
+				$scope.eventsspreedmeetingview = false;
 			} else if (val === 1) {
 				$scope.eventsdetailsview = false;
 				$scope.eventsattendeeview = true;
 				$scope.eventsalarmview = false;
 				$scope.eventsrepeatview = false;
+				$scope.eventsspreedmeetingview = false;
 			} else if (val === 2) {
 				$scope.eventsdetailsview = false;
 				$scope.eventsattendeeview = false;
 				$scope.eventsalarmview = true;
 				$scope.eventsrepeatview = false;
+				$scope.eventsspreedmeetingview = false;
 			} else if (val === 3) {
 				$scope.eventsdetailsview = false;
 				$scope.eventsattendeeview = false;
 				$scope.eventsalarmview = false;
 				$scope.eventsrepeatview = true;
+				$scope.eventsspreedmeetingview = false;
+			} else if (val === 4) {
+				$scope.eventsdetailsview = false;
+				$scope.eventsattendeeview = false;
+				$scope.eventsalarmview = false;
+				$scope.eventsrepeatview = false;
+				$scope.eventsspreedmeetingview = true;
 			}
 		};
 
@@ -302,7 +313,7 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
 				};
 			}
 		};
-		
+
 		$scope.setStatusToDefault = function() {
 			if ($scope.properties.status === null) {
 				$scope.properties.status = {

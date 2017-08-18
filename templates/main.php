@@ -121,7 +121,7 @@ foreach ($scripts as $script) {
 	</script>
 
 	<script type="text/ng-template" id="eventssidebareditor.html">
-		<?php print_unescaped($this->inc('editor.sidebar')); ?>
+		<?php print_unescaped($this->inc('editor.sidebar', $_)); ?>
 	</script>
 
 	<script type="text/ng-template" id="confirmation.html">
@@ -145,6 +145,29 @@ foreach ($scripts as $script) {
 			</div>
 
 		</a>
+	</script>
+
+	<script type="text/ng-template" id="spreedMeetingRoomUrl.html">
+		<div ng-show="settings.doScheduleMeeting && settings.roomToken">
+			<label>
+				<?php p($l->t('Meeting URL:'));?> <textarea
+					name="roomurl" type="text" class="advanced--input advanced--textarea"
+					readonly="readonly" rows="1" tabindex="210">{{ getCurrentRoomURL() }}</textarea>
+			</label>
+		</div>
+	</script>
+
+	<script type="text/ng-template" id="spreedMeetingAttendeeRoles.html">
+		<div ng-show="settings.doScheduleMeeting && settings.roomToken">
+			<label>
+				<?php p($l->t('Spreed meeting role:'));?>
+				<select class="event-select pull-left"
+					ng-model="attendee.parameters.spreedmeetingrole"
+					ng-selected="attendee.parameters.spreedmeetingrole"
+					ng-options="r.val as r.displayname for r in attendeeRoles" />
+				</select>
+			</label>
+		</div>
 	</script>
 
 	<?php if(!$_['isPublic']): ?>

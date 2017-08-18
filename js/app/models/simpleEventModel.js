@@ -30,7 +30,7 @@ app.factory('SimpleEvent', function () {
 		'organizer': null,
 		'class': null,
 		'description': null,
-		//'url': null,
+		'url': null,
 		'status': null,
 		//'resources': null,
 		'alarm': null,
@@ -317,7 +317,7 @@ app.factory('SimpleEvent', function () {
 			parser: simpleParser.string,
 			reader: simpleReader.string
 		},
-		//'url': {parser: simpleParser.string, reader: simpleReader.string},
+		'url': {parser: simpleParser.string, reader: simpleReader.string},
 		'status': {parser: simpleParser.string, reader: simpleReader.string}
 		//'resources': {parser: simpleParser.strings, reader: simpleReader.strings}
 	};

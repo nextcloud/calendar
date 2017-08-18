@@ -6,7 +6,7 @@
 					<textarea
 							class="advanced--input h2 advanced--textarea"
 							ng-model="properties.summary.value"
-							placeholder="<?php p($l->t('Title of the Event'));?>"
+							placeholder="<?php p($l->t('Title of the Event editor.sidebar'));?>"
 							name="title" type="text"
 							rows="1"
 							autofocus="autofocus"
@@ -90,6 +90,10 @@
 
 				<fieldset ng-show="eventsrepeatview" class="advanced--fieldset" ng-disabled="readOnly" ng-controller="RecurrenceController">
 					<?php print_unescaped($this->inc('part.eventsrepeat')); ?>
+				</fieldset>
+
+				<fieldset ng-show="eventsspreedmeetingview" class="advanced--fieldset" ng-disabled="readOnly" ng-controller="SpreedMeetingController">
+					<?php print_unescaped($this->inc('part.spreedmeeting', $_)); ?>
 				</fieldset>
 			</div>
 		</div>

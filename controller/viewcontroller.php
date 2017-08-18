@@ -23,14 +23,15 @@
  */
 namespace OCA\Calendar\Controller;
 
-use OC\AppFramework\Http\Request;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\App\IAppManager;
 use OCP\IConfig;
 use OCP\IRequest;
-use OCP\IUserSession;
 use OCP\IURLGenerator;
+use OCP\IUserSession;
+use OC\AppFramework\Http\Request;
 
 class ViewController extends Controller {
 
@@ -50,18 +51,25 @@ class ViewController extends Controller {
 	private $userSession;
 
 	/**
+	 * @var IAppManager
+	 */
+	private $appManager;
+
+	/**
 	 * @param string $appName
 	 * @param IRequest $request an instance of the request
 	 * @param IUserSession $userSession
 	 * @param IConfig $config
 	 * @param IURLGenerator $urlGenerator
+	 * @param IAppManager $appManager
 	 */
 	public function __construct($appName, IRequest $request, IUserSession $userSession,
-								IConfig $config, IURLGenerator $urlGenerator) {
+		IConfig $config, IURLGenerator $urlGenerator, IAppManager $appManager) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->userSession = $userSession;
 		$this->urlGenerator = $urlGenerator;
+		$this->appManager = $appManager;
 	}
 
 	/**
@@ -107,6 +115,7 @@ class ViewController extends Controller {
 			'isPublic' => false,
 			'isEmbedded' => false,
 			'token' => '',
+			'isSpreedAvailable' => $this->appManager->isEnabledForUser('spreed', null),
 		]));
 	}
 

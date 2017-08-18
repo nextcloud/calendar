@@ -28,11 +28,11 @@
 		uib-typeahead="contact as contact.displayname for contact in search($viewValue)" typeahead-show-hint="true" typeahead-min-length="3"
 		   typeahead-on-select="selectFromTypeahead($item)" />
 	<button id="addmoreattendees" ng-click="add(nameofattendee)" class="btn event-button button" type="button">
-		<?php p($l->t('Add')); ?>
+		<?php p($l->t('Add'));?>
 	</button>
 </div>
 <div class="advanced--fieldset" ng-show="emailAddress === ''">
-	<span><?php p($l->t('Please add your email address in the personal settings in order to add attendees.')); ?></span>
+	<span><?php p($l->t('Please add your email address in the personal settings in order to add attendees.'));?></span>
 </div>
 
 <div class="advanced--fieldset">
@@ -44,7 +44,7 @@
 				</button>
 			</div>
 			<div class="attendeeoptions" ng-show="attendeeoptions">
-				<label class="label" for="attendeecutype_{{$id}}"><?php p($l->t('Type')); ?>:</label>
+				<label class="label" for="attendeecutype_{{$id}}"><?php p($l->t('Type'));?>:</label>
 				<select class="event-select pull-left"
 					ng-model="attendee.parameters.cutype"
 					ng-selected="attendee.parameters.cutype"
@@ -62,6 +62,9 @@
 						ng-click="attendee.parameters.role == 'NON-PARTICIPANT' ? attendee.parameters.role = 'REQ-PARTICIPANT' : attendee.parameters.role = 'NON-PARTICIPANT'"
 						id="attendeeno_{{$id}}"/>
 					<label class="optionallabel" for="attendeeno_{{$id}}"><?php p($l->t('Does not attend'));?></label>
+				</div>
+				<div>
+					<spreed-meeting-attendee-roles class="display-inline-block"></spreed-meeting-attendee-roles>
 				</div>
 			</div>
 		</li>
