@@ -51,11 +51,11 @@ app.controller('SpreedMeetingController', ['$scope', '$http', '$timeout', functi
 		GUEST: 'guest',
 		MODERATOR: 'moderator',
 	};
+	var defaultAttendeeRole = attendeeRoles.GUEST;
 	$scope.attendeeRoles = [
 		{displayname: t('calendar', 'Guest'), val: attendeeRoles.GUEST},
 		{displayname: t('calendar', 'Moderator'), val: attendeeRoles.MODERATOR},
 	];
-	var defaultAttendeeRole = attendeeRoles.GUEST;
 	// Set default attendee meeting role
 	var setDefaultAttendeeMeetingRole = function(attendees) {
 		if (!attendees) {
