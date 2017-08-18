@@ -24,26 +24,9 @@
 /*
 
 # TODO
-- Move directives / factory to an appropriate location
 - Reset service, else roomToken is stored and reused across events, why do we even need a service? Without it everything should work fine.
 
 */
-
-app.directive('spreedMeetingRoomUrl', function() {
-	return {
-		restrict: 'E',
-		templateUrl: 'spreedMeetingRoomUrl.html',
-		controller: 'SpreedMeetingController',
-	};
-});
-
-app.directive('spreedMeetingAttendeeRoles', function() {
-	return {
-		restrict: 'E',
-		templateUrl: 'spreedMeetingAttendeeRoles.html',
-		controller: 'SpreedMeetingController',
-	};
-});
 
 app.controller('SpreedMeetingController', ['$scope', '$http', '$timeout', function($scope, $http, $timeout) {
 	'use strict';
