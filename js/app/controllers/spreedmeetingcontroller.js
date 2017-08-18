@@ -54,11 +54,28 @@ app.controller('SpreedMeetingController', ['$scope', '$http', '$timeout', functi
 		oldRoomURL: null,
 	});
 
-	// $scope.attendee.parameters.spreedmeetingrole = undefined || 'guest'; // TODO(leon): Retrieve from somewhere
+	var attendeeRoles = {
+		GUEST: 'guest',
+		MODERATOR: 'moderator',
+	};
 	$scope.attendeeRoles = [
-		{displayname: t('calendar', 'Guest'), val: 'guest'},
-		{displayname: t('calendar', 'Moderator'), val: 'moderator'},
+		{displayname: t('calendar', 'Guest'), val: attendeeRoles.GUEST},
+		{displayname: t('calendar', 'Moderator'), val: attendeeRoles.MODERATOR},
 	];
+	// Set default attendee meeting role
+	var setDefaultAttendeeMeetingRole = function(attendees) {
+		if (!attendees) {
+			return;
+		}
+		attendees.forEach(function(a, i) {
+			if (!a.parameters.spreedmeetingrole) {
+				a.parameters.spreedmeetingrole = attendeeRoles.GUEST;
+			}
+		});
+	};
+	$scope.$watchCollection('properties.attendee', function(n, o) {
+		setDefaultAttendeeMeetingRole(n);
+	});
 
 	// Stolen from Spreed app, spreed/lib/Room.php
 	var meetingTypes = {
@@ -140,6 +157,9 @@ app.controller('SpreedMeetingController', ['$scope', '$http', '$timeout', functi
 
 		// Back up "old" room URL
 		$scope.properties.oldRoomURL = currentRoomURL;
+
+		// Set default attendee role for already existing attendees
+		setDefaultAttendeeMeetingRole($scope.properties.attendee);
 
 		// Fix roomurl textarea size
 		// TODO(leon): This is crap and should not be done by us but automatically
