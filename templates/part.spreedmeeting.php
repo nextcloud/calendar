@@ -32,11 +32,11 @@
 	<input
 		type="checkbox" class="spreedmeetingcreatecheckbox event-checkbox"
 		ng-change="scheduleMeetingChanged()"
-		ng-model="settings.doScheduleMeeting" />
+		ng-model="properties.doScheduleMeeting" />
 	<?php p($l->t('Schedule Spreed Meeting for this event'));?>
 </label>
 
-<div ng-show="settings.doScheduleMeeting && settings.roomToken">
+<div ng-show="properties.doScheduleMeeting && properties.roomToken">
 	<label>
 		<?php p($l->t('Meeting type:'));?>
 		<select class="event-select pull-left"

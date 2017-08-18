@@ -45,21 +45,14 @@ app.directive('spreedMeetingAttendeeRoles', function() {
 	};
 });
 
-app.factory('SpreedMeetingService', function() {
-	// Make sure you always assign a value here!
-	return {
-		settings: {
-			doScheduleMeeting: null, // TODO(leon): Retrieve from somewhere
-			roomToken: null, // Must evaluate to a false value by default // TODO(leon): Retrieve from somewhere
-			oldRoomURL: null, // Is required to modify the event description, e.g. on roomToken update
-		}
-	};
-});
-
-app.controller('SpreedMeetingController', ['$scope', '$http', '$timeout', 'SpreedMeetingService', function($scope, $http, $timeout, SpreedMeetingService) {
+app.controller('SpreedMeetingController', ['$scope', '$http', '$timeout', function($scope, $http, $timeout) {
 	'use strict';
 
-	$scope.settings = SpreedMeetingService.settings;
+	angular.extend($scope.properties, {
+		doScheduleMeeting: null, // TODO(leon): Retrieve from somewhere
+		roomToken: null, // TODO(leon): Retrieve from somewhere
+		oldRoomURL: null,
+	});
 
 	// $scope.attendee.parameters.spreedmeetingrole = undefined || 'guest'; // TODO(leon): Retrieve from somewhere
 	$scope.attendeeRoles = [
@@ -100,11 +93,11 @@ app.controller('SpreedMeetingController', ['$scope', '$http', '$timeout', 'Spree
 	};
 
 	var getCurrentRoomURL = $scope.getCurrentRoomURL = function() {
-		return getRoomURL($scope.settings.roomToken);
+		return getRoomURL($scope.properties.roomToken);
 	};
 
 	var getOldRoomURL = function() {
-		return $scope.settings.oldRoomURL;
+		return $scope.properties.oldRoomURL;
 	};
 
 	var getNewRoomToken = function() {
@@ -124,7 +117,7 @@ app.controller('SpreedMeetingController', ['$scope', '$http', '$timeout', 'Spree
 
 	// TODO(leon): Fix this mess, why do we even need multiple room URLs? Stupid idea ;)
 	var setRoomToken = function(token) {
-		$scope.settings.roomToken = token;
+		$scope.properties.roomToken = token;
 
 		var delimiter = "\n";
 		$scope.properties.description = $scope.properties.description || {value: ''};
@@ -134,8 +127,8 @@ app.controller('SpreedMeetingController', ['$scope', '$http', '$timeout', 'Spree
 		}
 
 		// Remove old room URL from description
-		if ($scope.settings.oldRoomURL) {
-			$scope.properties.description.value = $scope.properties.description.value.replace(delimiter + $scope.settings.oldRoomURL, "");
+		if ($scope.properties.oldRoomURL) {
+			$scope.properties.description.value = $scope.properties.description.value.replace(delimiter + $scope.properties.oldRoomURL, "");
 		}
 
 		var currentRoomURL = getCurrentRoomURL();
@@ -146,7 +139,7 @@ app.controller('SpreedMeetingController', ['$scope', '$http', '$timeout', 'Spree
 		$scope.properties.description.value += delimiter + currentRoomURL;
 
 		// Back up "old" room URL
-		$scope.settings.oldRoomURL = currentRoomURL;
+		$scope.properties.oldRoomURL = currentRoomURL;
 
 		// Fix roomurl textarea size
 		// TODO(leon): This is crap and should not be done by us but automatically
@@ -160,7 +153,7 @@ app.controller('SpreedMeetingController', ['$scope', '$http', '$timeout', 'Spree
 	};
 
 	var updateRoomToken = function() {
-		if ($scope.settings.roomToken) {
+		if ($scope.properties.roomToken) {
 			resetRoomToken();
 			return;
 		}

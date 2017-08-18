@@ -148,7 +148,7 @@ foreach ($scripts as $script) {
 	</script>
 
 	<script type="text/ng-template" id="spreedMeetingRoomUrl.html">
-		<div ng-show="settings.doScheduleMeeting && settings.roomToken">
+		<div ng-show="properties.doScheduleMeeting && properties.roomToken">
 			<label>
 				<?php p($l->t('Meeting URL:'));?> <textarea
 					name="roomurl" type="text" class="advanced--input advanced--textarea"
@@ -158,7 +158,7 @@ foreach ($scripts as $script) {
 	</script>
 
 	<script type="text/ng-template" id="spreedMeetingAttendeeRoles.html">
-		<div ng-show="settings.doScheduleMeeting && settings.roomToken">
+		<div ng-show="properties.doScheduleMeeting && properties.roomToken">
 			<label>
 				<?php p($l->t('Spreed meeting role:'));?>
 				<select class="event-select pull-left"
