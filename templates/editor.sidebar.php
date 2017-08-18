@@ -6,7 +6,7 @@
 					<textarea
 							class="advanced--input h2 advanced--textarea"
 							ng-model="properties.summary.value"
-							placeholder="<?php p($l->t('Title of the Event editor.sidebar'));?>"
+							placeholder="<?php p($l->t('Title of the Event'));?>"
 							name="title" type="text"
 							rows="1"
 							autofocus="autofocus"

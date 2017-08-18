@@ -5,7 +5,7 @@
 					rows="1"
 					class="events--input h2 events--textarea"
 					ng-model="properties.summary.value"
-					placeholder="<?php p($l->t('Title of the Event editor.popover'));?>"
+					placeholder="<?php p($l->t('Title of the Event'));?>"
 					name="title" type="text"
 					autofocus="autofocus"
 					tabindex="100"
