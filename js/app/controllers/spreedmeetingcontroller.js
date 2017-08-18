@@ -21,38 +21,15 @@
  *
  */
 
-/*
-
-# TODO
-- Reset service, else roomToken is stored and reused across events, why do we even need a service? Without it everything should work fine.
-
-*/
-
-app.controller('SpreedMeetingController', ['$scope', '$http', '$timeout', function($scope, $http, $timeout) {
+app.controller('SpreedMeetingController', ['$scope', '$http', '$q', '$timeout', function($scope, $http, $q, $timeout) {
 	'use strict';
-
-	angular.extend($scope.properties, {
-		// TODO(leon): Retrieve these values from somewhere
-		doScheduleMeeting: false,
-		url: null,
-	});
-
-	$scope.descriptionTemplates = [
-		{
-			name: '[SPREED-MEETING-URL]',
-			desc: t('calendar', 'is replaced by the URL to the meeting'),
-			fn: function() {
-				return $scope.getCurrentRoomURL();
-			},
-		},
-	];
 
 	var attendeeRoles = {
 		GUEST: 'guest',
 		MODERATOR: 'moderator',
 	};
 	var defaultAttendeeRole = attendeeRoles.GUEST;
-	$scope.attendeeRoles = [
+	$scope.properties.attendeeRoles = [
 		{displayname: t('calendar', 'Guest'), val: attendeeRoles.GUEST},
 		{displayname: t('calendar', 'Moderator'), val: attendeeRoles.MODERATOR},
 	];
@@ -73,17 +50,30 @@ app.controller('SpreedMeetingController', ['$scope', '$http', '$timeout', functi
 
 	// Stolen from Spreed app, spreed/lib/Room.php
 	var meetingTypes = {
-		ONE_TO_ONE_CALL: 1,
-		// GROUP_CALL: 2, // We don't support group calls (a "group" is a Nextcloud" user group)
-		PUBLIC_CALL: 3,
+		// ONE_TO_ONE_CALL: '1',
+		// GROUP_CALL: '2', // We don't support group calls (a "group" is a Nextcloud" user group)
+		PUBLIC_CALL: '3',
 	};
-	$scope.meetingType = undefined || meetingTypes.PUBLIC_CALL; // TODO(leon): Retrieve from somewhere // TODO(leon): Make this 'private' by default again once we have support for that
-	$scope.meetingTypes = [
+	var defaultMeetingType = meetingTypes.PUBLIC_CALL; // TODO(leon): Make this 'private' by default again once we have support for that
+	$scope.properties.meetingTypes = [
 		// TODO(leon): Reeable once we support other types of meetings
 		// {displayname: t('calendar', 'Private'), val: meetingTypes.ONE_TO_ONE_CALL},
 		// TODO(leon): What do to about type 2?
 		{displayname: t('calendar', 'Public'), val: meetingTypes.PUBLIC_CALL},
 	];
+
+	// TODO(leon): This is shitty, but how to do it better?
+	$scope.properties.spreedmeeting = $scope.properties.spreedmeeting || {
+		value: 'nonempty', // NOTE(leon): This must not evaluate to false, else the whole property is ignored
+		parameters: {
+			token: '',
+			type: defaultMeetingType,
+		},
+	};
+	angular.extend($scope.properties, {
+		// We are set to schedule a meeting if we have a token
+		doScheduleMeeting: !!$scope.properties.spreedmeeting.parameters.token,
+	});
 
 	var spreedAppBase = 'apps/spreed';
 
@@ -99,11 +89,11 @@ app.controller('SpreedMeetingController', ['$scope', '$http', '$timeout', functi
 		if (!token) {
 			return null;
 		}
-		return $scope.meetingType + ": " + getURL('call/' + token);
+		return $scope.properties.spreedmeeting.parameters.type + ": " + getURL('call/' + token);
 	};
 
 	var getCurrentRoomURL = $scope.getCurrentRoomURL = function() {
-		return getRoomURL($scope.properties.roomToken);
+		return getRoomURL($scope.properties.spreedmeeting.parameters.token);
 	};
 
 	var getNewRoomToken = function() {
@@ -112,26 +102,33 @@ app.controller('SpreedMeetingController', ['$scope', '$http', '$timeout', functi
 			url: OC.linkToOCS(spreedAppBase + '/api/v1', 2) + 'room',
 			format: 'json',
 			data: {
-				roomType: $scope.meetingType,
+				roomType: $scope.properties.spreedmeeting.parameters.type,
 			},
 		}).then(function(res) {
 			var token = res.data.ocs.data.token;
-			$scope.properties.roomToken = token;
 			return token;
 		}, function() {
-			// TODO(leon): Handle error
+			// TODO(leon): Maybe pass / annotate error
 		});
 	};
 
-	// Our parent might not be the parent we want
-	if ($scope.$parent.registerPostHook) {
-		$scope.$parent.registerPostHook(function() {
-			getNewRoomToken().then(function(token) {
-				$scope.properties.url = {
-					value: getCurrentRoomURL(),
-				};
-			});
+	$scope.$parent.registerPostHook(function() {
+		if (!$scope.properties.doScheduleMeeting) {
+			// We don't want to create a meeting
+			return;
+		}
+
+		var deferred = $q.defer();
+		getNewRoomToken().then(function(token) {
+			$scope.properties.spreedmeeting.parameters.token = token;
+			$scope.properties.url = {
+				value: getCurrentRoomURL(),
+			};
+			deferred.resolve();
+		}, function() {
+			deferred.reject(t('calendar', 'Failed to create meeting.'))
 		});
-	}
+		return deferred.promise;
+	});
 
 }]);

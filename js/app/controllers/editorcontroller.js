@@ -26,8 +26,8 @@
  * Description: Takes care of anything inside the Events Modal.
  */
 
-app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletionService', '$timeout', '$window', '$uibModalInstance', 'vevent', 'simpleEvent', 'calendar', 'isNew', 'emailAddress',
-	function($scope, TimezoneService, AutoCompletionService, $timeout, $window, $uibModalInstance, vevent, simpleEvent, calendar, isNew, emailAddress) {
+app.controller('EditorController', ['$scope', '$q', 'TimezoneService', 'AutoCompletionService', '$timeout', '$window', '$uibModalInstance', 'vevent', 'simpleEvent', 'calendar', 'isNew', 'emailAddress',
+	function($scope, $q, TimezoneService, AutoCompletionService, $timeout, $window, $uibModalInstance, vevent, simpleEvent, calendar, isNew, emailAddress) {
 		'use strict';
 
 		$scope.properties = simpleEvent;
@@ -97,14 +97,20 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
 			$scope.postEditingHooks.push(callback);
 		};
 
+		var failedToClose = function(reason) {
+			OC.Notification.showTemporary(t('calendar', 'Failed to save: {reason}', {reason: reason}));
+		};
+
 		$scope.proceed = function() {
-			$scope.prepareClose();
-			$uibModalInstance.close({
-				action: 'proceed',
-				calendar: $scope.calendar,
-				simple: $scope.properties,
-				vevent: vevent
-			});
+			$scope.prepareClose().then(function() {
+				// TODO(leon): Maybe close modal immediately, without waiting for promise
+				$uibModalInstance.close({
+					action: 'proceed',
+					calendar: $scope.calendar,
+					simple: $scope.properties,
+					vevent: vevent
+				});
+			}, failedToClose);
 		};
 
 		$scope.save = function() {
@@ -112,14 +118,16 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
 				return;
 			}
 
-			$scope.prepareClose();
-			$scope.properties.patch();
-			$uibModalInstance.close({
-				action: 'save',
-				calendar: $scope.calendar,
-				simple: $scope.properties,
-				vevent: vevent
-			});
+			$scope.prepareClose().then(function() {
+				$scope.properties.patch();
+				// TODO(leon): Maybe close modal immediately, without waiting for promise
+				$uibModalInstance.close({
+					action: 'save',
+					calendar: $scope.calendar,
+					simple: $scope.properties,
+					vevent: vevent
+				});
+			}, failedToClose);
 		};
 
 		$scope.validate = function() {
@@ -145,9 +153,18 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
 				$scope.properties.dtend.value.add(1, 'days');
 			}
 
+			var ps = [];
 			angular.forEach($scope.postEditingHooks, function(callback) {
-				callback();
+				var res = callback();
+				// If it has a 'then' method, it must be a promise! :)
+				if (res && res.then) {
+					ps.push(res);
+				}
 			});
+
+			var deferred = $q.defer();
+			$q.all(ps).then(deferred.resolve, deferred.reject);
+			return deferred.promise;
 		};
 
 		$scope.cancel = function() {

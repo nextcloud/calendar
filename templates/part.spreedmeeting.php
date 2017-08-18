@@ -40,9 +40,9 @@
 	<label>
 		<?php p($l->t('Meeting type:'));?>
 		<select class="event-select pull-left"
-			ng-model="meetingType"
-			ng-selected="meetingType"
-			ng-options="t.val as t.displayname for t in meetingTypes" />
+			ng-model="properties.spreedmeeting.parameters.type"
+			ng-selected="properties.spreedmeeting.parameters.type"
+			ng-options="t.val as t.displayname for t in properties.meetingTypes" />
 		</select>
 	</label>
 </div>

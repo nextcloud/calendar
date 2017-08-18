@@ -41,22 +41,28 @@ app.factory('SimpleEvent', function () {
 		'repeating': null,
 		'rdate': null,
 		'rrule': null,
-		'exdate': null
+		'exdate': null,
+		'spreedmeeting': null
 	};
 
 	const attendeeParameters = [
 		'role',
-		'spreedmeetingrole',
 		'rsvp',
 		'partstat',
 		'cutype',
 		'cn',
 		'delegated-from',
-		'delegated-to'
+		'delegated-to',
+		'spreedmeetingrole'
 	];
 
 	const organizerParameters = [
 		'cn'
+	];
+
+	const spreedMeetingParameters = [
+		'token',
+		'type'
 	];
 
 	function getDtProperty(simple, propName) {
@@ -319,8 +325,13 @@ app.factory('SimpleEvent', function () {
 			reader: simpleReader.string
 		},
 		'url': {parser: simpleParser.string, reader: simpleReader.string},
-		'status': {parser: simpleParser.string, reader: simpleReader.string}
-		//'resources': {parser: simpleParser.strings, reader: simpleReader.strings}
+		'status': {parser: simpleParser.string, reader: simpleReader.string},
+		//'resources': {parser: simpleParser.strings, reader: simpleReader.strings},
+		'spreedmeeting': {
+			parser: simpleParser.string,
+			reader: simpleReader.string,
+			parameters: spreedMeetingParameters
+		},
 	};
 
 	/**

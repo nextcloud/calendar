@@ -164,18 +164,9 @@ foreach ($scripts as $script) {
 				<select class="event-select pull-left"
 					ng-model="attendee.parameters.spreedmeetingrole"
 					ng-selected="attendee.parameters.spreedmeetingrole"
-					ng-options="r.val as r.displayname for r in attendeeRoles" />
+					ng-options="r.val as r.displayname for r in properties.attendeeRoles" />
 				</select>
 			</label>
-		</div>
-	</script>
-
-	<script type="text/ng-template" id="spreedMeetingDescriptionHelp.html">
-		<div ng-show="properties.doScheduleMeeting">
-			<?php p($l->t('Use these templates to customize your meeting description:'));?>
-			<ul ng-repeat="tmpl in descriptionTemplates">
-				<li><code>{{ tmpl.name }}</code> {{ tmpl.desc }}</li>
-			</ul>
 		</div>
 	</script>
 

@@ -25,20 +25,11 @@ app.directive('spreedMeetingRoomUrl', function() {
 	return {
 		restrict: 'E',
 		templateUrl: 'spreedMeetingRoomUrl.html',
-		controller: 'SpreedMeetingController',
 	};
 })
 .directive('spreedMeetingAttendeeRoles', function() {
 	return {
 		restrict: 'E',
 		templateUrl: 'spreedMeetingAttendeeRoles.html',
-		controller: 'SpreedMeetingController',
-	};
-})
-.directive('spreedMeetingDescriptionHelp', function() {
-	return {
-		restrict: 'E',
-		templateUrl: 'spreedMeetingDescriptionHelp.html',
-		controller: 'SpreedMeetingController',
 	};
 });
