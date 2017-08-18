@@ -34,4 +34,11 @@ app.directive('spreedMeetingRoomUrl', function() {
 		templateUrl: 'spreedMeetingAttendeeRoles.html',
 		controller: 'SpreedMeetingController',
 	};
+})
+.directive('spreedMeetingDescriptionHelp', function() {
+	return {
+		restrict: 'E',
+		templateUrl: 'spreedMeetingDescriptionHelp.html',
+		controller: 'SpreedMeetingController',
+	};
 });

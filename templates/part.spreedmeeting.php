@@ -36,18 +36,15 @@
 	<?php p($l->t('Schedule Spreed Meeting for this event'));?>
 </label>
 
-<div ng-show="properties.doScheduleMeeting && properties.roomToken">
+<div ng-show="properties.doScheduleMeeting">
 	<label>
 		<?php p($l->t('Meeting type:'));?>
 		<select class="event-select pull-left"
-			ng-change="meetingTypeChanged()"
 			ng-model="meetingType"
 			ng-selected="meetingType"
 			ng-options="t.val as t.displayname for t in meetingTypes" />
 		</select>
 	</label>
 </div>
-
-<spreed-meeting-room-url></spreed-meeting-room-url>
 
 <?php }?>

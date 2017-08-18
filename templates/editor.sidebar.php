@@ -66,7 +66,11 @@
 							  uib-typeahead="location.name for location in searchLocation($viewValue)" typeahead-show-hint="true" typeahead-min-length="3"
 							  typeahead-on-select="selectLocationFromTypeahead($item)"
 							  autocomplete="off" tabindex="210"></textarea>
-					<textarea ng-model="properties.description.value" type="text" class="advanced--input advanced--textarea" rows="1"
+					<label for="description">
+						<spreed-meeting-description-help></spreed-meeting-description-help>
+					</label>
+					<textarea id="description" ng-model="properties.description.value"
+							  type="text" class="advanced--input advanced--textarea" rows="1"
 							  placeholder="<?php p($l->t('Description'));?>" name="description" tabindex="210"></textarea>
 					<select id="statusSelector"
 							ng-options="status.type as status.displayname for status in statusSelect"

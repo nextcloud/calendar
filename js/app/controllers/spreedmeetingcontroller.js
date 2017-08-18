@@ -32,10 +32,20 @@ app.controller('SpreedMeetingController', ['$scope', '$http', '$timeout', functi
 	'use strict';
 
 	angular.extend($scope.properties, {
-		doScheduleMeeting: null, // TODO(leon): Retrieve from somewhere
-		roomToken: null, // TODO(leon): Retrieve from somewhere
-		oldRoomURL: null,
+		// TODO(leon): Retrieve these values from somewhere
+		doScheduleMeeting: false,
+		url: null,
 	});
+
+	$scope.descriptionTemplates = [
+		{
+			name: '[SPREED-MEETING-URL]',
+			desc: t('calendar', 'is replaced by the URL to the meeting'),
+			fn: function() {
+				return $scope.getCurrentRoomURL();
+			},
+		},
+	];
 
 	var attendeeRoles = {
 		GUEST: 'guest',
@@ -89,16 +99,11 @@ app.controller('SpreedMeetingController', ['$scope', '$http', '$timeout', functi
 		if (!token) {
 			return null;
 		}
-		// return $scope.meetingType + ": " + getAppURL('call/' + token);
 		return $scope.meetingType + ": " + getURL('call/' + token);
 	};
 
 	var getCurrentRoomURL = $scope.getCurrentRoomURL = function() {
 		return getRoomURL($scope.properties.roomToken);
-	};
-
-	var getOldRoomURL = function() {
-		return $scope.properties.oldRoomURL;
 	};
 
 	var getNewRoomToken = function() {
@@ -110,76 +115,23 @@ app.controller('SpreedMeetingController', ['$scope', '$http', '$timeout', functi
 				roomType: $scope.meetingType,
 			},
 		}).then(function(res) {
-			return res.data.ocs.data.token;
+			var token = res.data.ocs.data.token;
+			$scope.properties.roomToken = token;
+			return token;
 		}, function() {
 			// TODO(leon): Handle error
 		});
 	};
 
-	// TODO(leon): Fix this mess, why do we even need multiple room URLs? Stupid idea ;)
-	var setRoomToken = function(token) {
-		$scope.properties.roomToken = token;
-
-		var delimiter = "\n";
-		$scope.properties.description = $scope.properties.description || {value: ''};
-		if (!$scope.properties.description.value) {
-			// We don't have any description, so we also don't need a delimiter
-			delimiter = "";
-		}
-
-		// Remove old room URL from description
-		if ($scope.properties.oldRoomURL) {
-			$scope.properties.description.value = $scope.properties.description.value.replace(delimiter + $scope.properties.oldRoomURL, "");
-		}
-
-		var currentRoomURL = getCurrentRoomURL();
-		// Bail out if we no longer have a room token -> meeting disabled
-		if (!currentRoomURL) {
-			return;
-		}
-		$scope.properties.description.value += delimiter + currentRoomURL;
-
-		// Back up "old" room URL
-		$scope.properties.oldRoomURL = currentRoomURL;
-
-		// Set default attendee role for already existing attendees
-		setDefaultAttendeeMeetingRole($scope.properties.attendee);
-
-		// Fix roomurl textarea size
-		// TODO(leon): This is crap and should not be done by us but automatically
-		$timeout(function() {
-			autosize.update($('.advanced--textarea[name="roomurl"]'));
-		}, 50);
+	// Our parent might not be the parent we want
+	if ($scope.$parent.registerPostHook) {
+		$scope.$parent.registerPostHook(function() {
+			getNewRoomToken().then(function(token) {
+				$scope.properties.url = {
+					value: getCurrentRoomURL(),
+				};
+			});
+		});
 	}
-
-	var resetRoomToken = function() {
-		setRoomToken(null);
-	};
-
-	var updateRoomToken = function() {
-		if ($scope.properties.roomToken) {
-			resetRoomToken();
-			return;
-		}
-		getNewRoomToken().then(setRoomToken);
-	};
-
-	$scope.scheduleMeetingChanged = function() {
-		updateRoomToken();
-	};
-
-	$scope.meetingTypeChanged = function() {
-		updateRoomToken();
-	};
-
-	$scope.$parent.registerPostHook(function() {
-		var currentRoomURL = getCurrentRoomURL();
-		if (!currentRoomURL) {
-			return;
-		}
-		$scope.properties.url = {
-			value: currentRoomURL,
-		};
-	});
 
 }]);

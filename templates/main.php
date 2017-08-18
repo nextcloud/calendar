@@ -148,7 +148,7 @@ foreach ($scripts as $script) {
 	</script>
 
 	<script type="text/ng-template" id="spreedMeetingRoomUrl.html">
-		<div ng-show="properties.doScheduleMeeting && properties.roomToken">
+		<div ng-show="false && properties.doScheduleMeeting">
 			<label>
 				<?php p($l->t('Meeting URL:'));?> <textarea
 					name="roomurl" type="text" class="advanced--input advanced--textarea"
@@ -158,7 +158,7 @@ foreach ($scripts as $script) {
 	</script>
 
 	<script type="text/ng-template" id="spreedMeetingAttendeeRoles.html">
-		<div ng-show="properties.doScheduleMeeting && properties.roomToken">
+		<div ng-show="properties.doScheduleMeeting">
 			<label>
 				<?php p($l->t('Spreed meeting role:'));?>
 				<select class="event-select pull-left"
@@ -167,6 +167,15 @@ foreach ($scripts as $script) {
 					ng-options="r.val as r.displayname for r in attendeeRoles" />
 				</select>
 			</label>
+		</div>
+	</script>
+
+	<script type="text/ng-template" id="spreedMeetingDescriptionHelp.html">
+		<div ng-show="properties.doScheduleMeeting">
+			<?php p($l->t('Use these templates to customize your meeting description:'));?>
+			<ul ng-repeat="tmpl in descriptionTemplates">
+				<li><code>{{ tmpl.name }}</code> {{ tmpl.desc }}</li>
+			</ul>
 		</div>
 	</script>
 
