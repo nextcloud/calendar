@@ -64,7 +64,7 @@
 					<label class="optionallabel" for="attendeeno_{{$id}}"><?php p($l->t('Does not attend'));?></label>
 				</div>
 				<div>
-					<spreed-meeting-attendee-roles class="display-inline-block"></spreed-meeting-attendee-roles>
+					<spreed-meeting-attendee-roles class="display-inline-block full-width"></spreed-meeting-attendee-roles>
 				</div>
 			</div>
 		</li>
