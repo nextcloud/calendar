@@ -101,6 +101,7 @@ app.controller('SpreedMeetingController', ['$scope', '$http', '$q', '$timeout', 
 	});
 
 	// Stolen from Spreed app, spreed/lib/Room.php
+	// Type values must be strings, for whatever reason using ints doesn't issue a PUT request
 	var meetingTypes = {
 		// ONE_TO_ONE_CALL: '1',
 		// GROUP_CALL: '2', // We don't support group calls (a "group" is a Nextcloud" user group)
