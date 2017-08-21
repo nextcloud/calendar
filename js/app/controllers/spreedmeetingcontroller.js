@@ -136,7 +136,7 @@ app.controller('SpreedMeetingController', ['$scope', '$http', '$q', '$timeout', 
 				// We don't want to create a meeting
 				if (getRoomToken()) {
 					// If we have a token, nuke it
-					setRoomToken(null); // TODO(leon): This doesn't update the ics for whatever reason
+					setRoomToken(null);
 					// .. and update the properties
 					updateProperties();
 				}
