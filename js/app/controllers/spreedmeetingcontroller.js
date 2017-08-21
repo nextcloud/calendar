@@ -76,6 +76,23 @@ app.controller('SpreedMeetingController', ['$scope', '$http', '$q', '$timeout', 
 		};
 	};
 
+	var decorateAttendees = function(attendees) {
+		var token = getRoomToken();
+		var decorate = function(email) {
+			// TODO(leon): Each participant should get an unique room PIN
+		};
+
+		var ps = [];
+		attendees.forEach(function(a, i) {
+			var email = a.value.replace("MAILTO:", "");
+			if (!email) {
+				return;
+			}
+			ps.push(decorate(email));
+		});
+		return $q.all(ps);
+	};
+
 	var attendeeRoles = {
 		GUEST: 'guest',
 		MODERATOR: 'moderator',
@@ -147,7 +164,8 @@ app.controller('SpreedMeetingController', ['$scope', '$http', '$q', '$timeout', 
 			getNewRoomToken().then(function(token) {
 				setRoomToken(token);
 				updateProperties();
-				deferred.resolve();
+				decorateAttendees($scope.properties.attendee)
+					.then(deferred.resolve, deferred.reject);
 			}, function() {
 				deferred.reject(t('calendar', 'Failed to create meeting.'))
 			});
