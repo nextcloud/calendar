@@ -4,7 +4,7 @@ OC.L10N.register(
     "Calendar" : "Kalender",
     "%s has published the calendar »%s«" : "%s heeft de kalender gepubliceerd »%s«",
     "Hello," : "Hallo,",
-    "We wanted to inform you that %s has published the calendar »%s«." : "We willen je laten weten dat %s heeft de kalender gepubliceerd »%s«.",
+    "We wanted to inform you that %s has published the calendar »%s«." : "We willen je laten weten dat %s de kalender heeft gepubliceerd »%s«.",
     "Open »%s«" : "Open »%s«",
     "Cheers!" : "Proficiat!",
     "Recipient" : "Ontvanger",
