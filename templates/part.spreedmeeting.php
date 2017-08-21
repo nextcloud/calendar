@@ -31,7 +31,6 @@
 <label>
 	<input
 		type="checkbox" class="spreedmeetingcreatecheckbox event-checkbox"
-		ng-change="scheduleMeetingChanged()"
 		ng-model="properties.doScheduleMeeting" />
 	<?php p($l->t('Schedule Spreed Meeting for this event'));?>
 </label>
