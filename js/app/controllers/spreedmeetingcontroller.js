@@ -24,6 +24,58 @@
 app.controller('SpreedMeetingController', ['$scope', '$http', '$q', '$timeout', function($scope, $http, $q, $timeout) {
 	'use strict';
 
+	var spreedAppBase = 'apps/spreed';
+
+	var getURL = function(path) {
+		return document.location.origin + OC.generateUrl(path);
+	};
+
+	var getAppURL = function(path) {
+		return getURL(spreedAppBase + '/' + path);
+	};
+
+	var getRoomURL = function(token) {
+		if (!token) {
+			return null;
+		}
+		return getURL('call/' + token);
+	};
+
+	var getCurrentRoomURL = $scope.getCurrentRoomURL = function() {
+		return getRoomURL(getRoomToken());
+	};
+
+	var getNewRoomToken = function() {
+		return $http({
+			method: 'POST',
+			url: OC.linkToOCS(spreedAppBase + '/api/v1', 2) + 'room',
+			format: 'json',
+			data: {
+				// We internally store the room type as a string -> convert back to an int
+				roomType: parseInt($scope.properties.spreedmeeting.parameters.type, 10),
+			},
+		}).then(function(res) {
+			var token = res.data.ocs.data.token;
+			return token;
+		}, function() {
+			// TODO(leon): Maybe pass / annotate error
+		});
+	};
+
+	var getRoomToken = function() {
+		return $scope.properties.spreedmeeting.parameters.token;
+	};
+
+	var setRoomToken = function(token) {
+		$scope.properties.spreedmeeting.parameters.token = token || ''; // token must be a string
+	};
+
+	var updateProperties = function() {
+		$scope.properties.url = {
+			value: getCurrentRoomURL() || '', // value must be a string
+		};
+	};
+
 	var attendeeRoles = {
 		GUEST: 'guest',
 		MODERATOR: 'moderator',
@@ -71,64 +123,35 @@ app.controller('SpreedMeetingController', ['$scope', '$http', '$q', '$timeout', 
 		},
 	};
 	angular.extend($scope.properties, {
-		// We are set to schedule a meeting if we have a token
-		doScheduleMeeting: !!$scope.properties.spreedmeeting.parameters.token,
+		// We have a meeting if we have a token
+		doScheduleMeeting: !!getRoomToken(),
 	});
 
-	var spreedAppBase = 'apps/spreed';
+	// This function might be undefined if this controller is used from a directive
+	// TODO(leon): How to properly handle this in Angular?
+	if ($scope.$parent.registerPostHook) {
+		$scope.$parent.registerPostHook(function() {
+			if (!$scope.properties.doScheduleMeeting) {
+				// We don't want to create a meeting
+				if (getRoomToken()) {
+					// If we have a token, nuke it
+					setRoomToken(null); // TODO(leon): This doesn't update the ics for whatever reason
+					// .. and update the properties
+					updateProperties();
+				}
+				return;
+			}
 
-	var getURL = function(path) {
-		return document.location.origin + OC.generateUrl(path);
-	};
-
-	var getAppURL = function(path) {
-		return getURL(spreedAppBase + '/' + path);
-	};
-
-	var getRoomURL = function(token) {
-		if (!token) {
-			return null;
-		}
-		return $scope.properties.spreedmeeting.parameters.type + ": " + getURL('call/' + token);
-	};
-
-	var getCurrentRoomURL = $scope.getCurrentRoomURL = function() {
-		return getRoomURL($scope.properties.spreedmeeting.parameters.token);
-	};
-
-	var getNewRoomToken = function() {
-		return $http({
-			method: 'POST',
-			url: OC.linkToOCS(spreedAppBase + '/api/v1', 2) + 'room',
-			format: 'json',
-			data: {
-				roomType: $scope.properties.spreedmeeting.parameters.type,
-			},
-		}).then(function(res) {
-			var token = res.data.ocs.data.token;
-			return token;
-		}, function() {
-			// TODO(leon): Maybe pass / annotate error
+			var deferred = $q.defer();
+			getNewRoomToken().then(function(token) {
+				setRoomToken(token);
+				updateProperties();
+				deferred.resolve();
+			}, function() {
+				deferred.reject(t('calendar', 'Failed to create meeting.'))
+			});
+			return deferred.promise;
 		});
-	};
-
-	$scope.$parent.registerPostHook(function() {
-		if (!$scope.properties.doScheduleMeeting) {
-			// We don't want to create a meeting
-			return;
-		}
-
-		var deferred = $q.defer();
-		getNewRoomToken().then(function(token) {
-			$scope.properties.spreedmeeting.parameters.token = token;
-			$scope.properties.url = {
-				value: getCurrentRoomURL(),
-			};
-			deferred.resolve();
-		}, function() {
-			deferred.reject(t('calendar', 'Failed to create meeting.'))
-		});
-		return deferred.promise;
-	});
+	}
 
 }]);
