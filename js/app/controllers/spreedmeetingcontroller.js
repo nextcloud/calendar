@@ -111,7 +111,7 @@ app.controller('SpreedMeetingController', ['$scope', '$http', '$q', '$timeout', 
 	$scope.properties.meetingTypes = [
 		// TODO(leon): Reeable once we support other types of meetings
 		// {displayname: t('calendar', 'Private'), val: meetingTypes.ONE_TO_ONE_CALL},
-		// TODO(leon): What do to about type 2?
+		// TODO(leon): What to do about type 2?
 		{displayname: t('calendar', 'Public'), val: meetingTypes.PUBLIC_CALL},
 	];
 
