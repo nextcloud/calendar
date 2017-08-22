@@ -158,6 +158,7 @@ app.controller('SpreedMeetingController', ['$scope', '$http', '$q', '$timeout', 
 	if ($scope.$parent.registerPostHook) {
 		$scope.$parent.registerPostHook(function() {
 			var deferred = $q.defer();
+
 			if (!$scope.properties.doScheduleMeeting) {
 				// We don't want to create a meeting
 				var token = getRoomToken();
