@@ -146,7 +146,7 @@ OC.L10N.register(
     "Email address of attendee" : "Adresse e-mail du participant",
     "Please add your email address in the personal settings in order to add attendees." : "Veuillez ajouter votre adresse mail dans les paramètres du compte afin d'ajouter des participants .",
     "from" : "du",
-    "to" : "à",
+    "to" : "vers",
     "This event's repeating rule is not supported yet." : "La répétition de cet évènement n'est pas prise en charge pour le moment.",
     "Support for advanced rules will be added with subsequent updates." : "Le support de règles multiples sera ajouté dans des mises à jour ultérieures.",
     "Reset repeating rule" : "Réinitialiser la règle de répétition",
