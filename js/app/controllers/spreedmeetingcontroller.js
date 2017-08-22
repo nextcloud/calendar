@@ -68,6 +68,7 @@ app.controller('SpreedMeetingController', ['$scope', '$http', '$q', '$timeout', 
 
 	var setRoomToken = function(token) {
 		$scope.properties.spreedmeeting.parameters.token = token || ''; // token must be a string
+		updateProperties();
 	};
 
 	var updateProperties = function() {
@@ -154,8 +155,6 @@ app.controller('SpreedMeetingController', ['$scope', '$http', '$q', '$timeout', 
 				if (getRoomToken()) {
 					// If we have a token, nuke it
 					setRoomToken(null);
-					// .. and update the properties
-					updateProperties();
 				}
 				return;
 			}
@@ -163,7 +162,6 @@ app.controller('SpreedMeetingController', ['$scope', '$http', '$q', '$timeout', 
 			var deferred = $q.defer();
 			getNewRoomToken().then(function(token) {
 				setRoomToken(token);
-				updateProperties();
 				decorateAttendees($scope.properties.attendee)
 					.then(deferred.resolve, deferred.reject);
 			}, function() {
