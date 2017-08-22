@@ -161,12 +161,14 @@ app.controller('SpreedMeetingController', ['$scope', '$http', '$q', '$timeout', 
 			if (!$scope.properties.doScheduleMeeting) {
 				// We don't want to create a meeting
 				var token = getRoomToken();
-				if (token) {
-					// If we have a token, nike it and archive the affected room
-					setRoomToken(null);
-					archiveRoom(token)
-						.then(deferred.resolve, deferred.reject);
+				if (!token) {
+					// We don't have a token, simply return
+					return;
 				}
+				// We have a token, nuke it and archive the affected room
+				setRoomToken(null);
+				archiveRoom(token)
+					.then(deferred.resolve, deferred.reject);
 			} else {
 				getNewRoomToken().then(function(token) {
 					setRoomToken(token);
