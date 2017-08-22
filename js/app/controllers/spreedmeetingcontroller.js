@@ -71,6 +71,13 @@ app.controller('SpreedMeetingController', ['$scope', '$http', '$q', '$timeout', 
 		updateProperties();
 	};
 
+	var archiveRoom = function(token) {
+		// TODO(leon): Notify backend to archive room
+		var deferred = $q.defer()
+		deferred.resolve();
+		return deferred.promise;
+	};
+
 	var updateProperties = function() {
 		$scope.properties.url = {
 			value: getCurrentRoomURL() || '', // value must be a string
@@ -150,23 +157,26 @@ app.controller('SpreedMeetingController', ['$scope', '$http', '$q', '$timeout', 
 	// TODO(leon): How to properly handle this in Angular?
 	if ($scope.$parent.registerPostHook) {
 		$scope.$parent.registerPostHook(function() {
+			var deferred = $q.defer();
 			if (!$scope.properties.doScheduleMeeting) {
 				// We don't want to create a meeting
-				if (getRoomToken()) {
-					// If we have a token, nuke it
+				var token = getRoomToken();
+				if (token) {
+					// If we have a token, nike it and archive the affected room
 					setRoomToken(null);
+					archiveRoom(token)
+						.then(deferred.resolve, deferred.reject);
 				}
-				return;
+			} else {
+				getNewRoomToken().then(function(token) {
+					setRoomToken(token);
+					decorateAttendees($scope.properties.attendee)
+						.then(deferred.resolve, deferred.reject);
+				}, function() {
+					deferred.reject(t('calendar', 'Failed to create meeting.'))
+				});
 			}
 
-			var deferred = $q.defer();
-			getNewRoomToken().then(function(token) {
-				setRoomToken(token);
-				decorateAttendees($scope.properties.attendee)
-					.then(deferred.resolve, deferred.reject);
-			}, function() {
-				deferred.reject(t('calendar', 'Failed to create meeting.'))
-			});
 			return deferred.promise;
 		});
 	}
