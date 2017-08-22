@@ -38,8 +38,10 @@ class Application extends App {
 		$container->registerService('ContactController', function(IAppContainer $c) {
 			$request = $c->query('Request');
 			$contacts = $c->getServer()->getContactsManager();
+			$config = $c->getServer()->getConfig();
+			$l10nFactory = $c->getServer()->getL10NFactory();
 
-			return new Controller\ContactController($c->getAppName(), $request, $contacts);
+			return new Controller\ContactController($c->getAppName(), $request, $contacts, $config, $l10nFactory);
 		});
 
 		$container->registerService('EmailController', function(IAppContainer $c) {
