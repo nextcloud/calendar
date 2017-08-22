@@ -53,7 +53,8 @@ app.factory('SimpleEvent', function () {
 		'cn',
 		'delegated-from',
 		'delegated-to',
-		'spreedmeetingrole'
+		'spreedmeetingrole',
+		'lang'
 	];
 
 	const organizerParameters = [
