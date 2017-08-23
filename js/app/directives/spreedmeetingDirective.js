@@ -22,12 +22,14 @@
  */
 
 app.directive('spreedMeetingRoomUrl', function() {
+	'use strict';
 	return {
 		restrict: 'E',
 		templateUrl: 'spreedMeetingRoomUrl.html',
 	};
 })
 .directive('spreedMeetingAttendeeRoles', function() {
+	'use strict';
 	return {
 		restrict: 'E',
 		templateUrl: 'spreedMeetingAttendeeRoles.html',

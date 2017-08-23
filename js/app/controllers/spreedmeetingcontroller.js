@@ -24,23 +24,23 @@
 app.controller('SpreedMeetingController', ['$scope', '$http', '$q', 'SpreedMeetingService', function($scope, $http, $q, SpreedMeetingService) {
 	'use strict';
 
-	var getCurrentRoomURL = $scope.getCurrentRoomURL = function() {
-		return SpreedMeetingService.getRoomURL(getRoomToken());
-	};
-
 	var getRoomToken = function() {
 		return $scope.properties.spreedmeeting.parameters.token;
 	};
 
-	var setRoomToken = function(token) {
-		$scope.properties.spreedmeeting.parameters.token = token || ''; // token must be a string
-		updateProperties();
+	var getCurrentRoomURL = $scope.getCurrentRoomURL = function() {
+		return SpreedMeetingService.getRoomURL(getRoomToken());
 	};
 
 	var updateProperties = function() {
 		$scope.properties.url = {
 			value: getCurrentRoomURL() || '', // value must be a string
 		};
+	};
+
+	var setRoomToken = function(token) {
+		$scope.properties.spreedmeeting.parameters.token = token || ''; // token must be a string
+		updateProperties();
 	};
 
 	var decorateAttendees = function(attendees) {
@@ -123,7 +123,7 @@ app.controller('SpreedMeetingController', ['$scope', '$http', '$q', 'SpreedMeeti
 					decorateAttendees($scope.properties.attendee)
 						.then(deferred.resolve, deferred.reject);
 				}, function() {
-					deferred.reject(t('calendar', 'Failed to create meeting.'))
+					deferred.reject(t('calendar', 'Failed to create meeting.'));
 				});
 			}
 

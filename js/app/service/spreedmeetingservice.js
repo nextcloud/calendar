@@ -77,7 +77,7 @@ app.service('SpreedMeetingService', ['$rootScope', '$http', '$location', '$q', f
 
 	this.archiveRoom = function(token) {
 		// TODO(leon): Notify backend to archive room
-		var deferred = $q.defer()
+		var deferred = $q.defer();
 		deferred.resolve();
 		return deferred.promise;
 	};
