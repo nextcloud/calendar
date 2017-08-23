@@ -21,7 +21,7 @@
  *
  */
 
-app.controller('SpreedMeetingController', ['$scope', '$http', '$q', '$location', 'SpreedMeetingService', function($scope, $http, $q, $location, SpreedMeetingService) {
+app.controller('SpreedMeetingController', ['$scope', '$http', '$q', 'SpreedMeetingService', function($scope, $http, $q, SpreedMeetingService) {
 	'use strict';
 
 	var getCurrentRoomURL = $scope.getCurrentRoomURL = function() {
@@ -95,8 +95,8 @@ app.controller('SpreedMeetingController', ['$scope', '$http', '$q', '$location',
 		},
 	};
 	angular.extend($scope.properties, {
-		// We have a meeting if we have a token
-		doScheduleMeeting: !!getRoomToken(),
+		// We have a meeting if we have a token or want to create a meeting by default
+		doScheduleMeeting: !!getRoomToken() || SpreedMeetingService.createMeetingByDefault,
 	});
 
 	// This function might be undefined if this controller is used from a directive
