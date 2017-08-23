@@ -21,45 +21,11 @@
  *
  */
 
-app.controller('SpreedMeetingController', ['$scope', '$http', '$q', '$timeout', function($scope, $http, $q, $timeout) {
+app.controller('SpreedMeetingController', ['$scope', '$http', '$q', '$timeout', '$location', 'SpreedMeetingService', function($scope, $http, $q, $timeout, $location, SpreedMeetingService) {
 	'use strict';
 
-	var spreedAppBase = 'apps/spreed';
-
-	var getURL = function(path) {
-		return document.location.origin + OC.generateUrl(path);
-	};
-
-	var getAppURL = function(path) {
-		return getURL(spreedAppBase + '/' + path);
-	};
-
-	var getRoomURL = function(token) {
-		if (!token) {
-			return null;
-		}
-		return getURL('call/' + token);
-	};
-
 	var getCurrentRoomURL = $scope.getCurrentRoomURL = function() {
-		return getRoomURL(getRoomToken());
-	};
-
-	var getNewRoomToken = function() {
-		return $http({
-			method: 'POST',
-			url: OC.linkToOCS(spreedAppBase + '/api/v1', 2) + 'room',
-			format: 'json',
-			data: {
-				// We internally store the room type as a string -> convert back to an int
-				roomType: parseInt($scope.properties.spreedmeeting.parameters.type, 10),
-			},
-		}).then(function(res) {
-			var token = res.data.ocs.data.token;
-			return token;
-		}, function() {
-			// TODO(leon): Maybe pass / annotate error
-		});
+		return SpreedMeetingService.getRoomURL(getRoomToken());
 	};
 
 	var getRoomToken = function() {
@@ -69,13 +35,6 @@ app.controller('SpreedMeetingController', ['$scope', '$http', '$q', '$timeout', 
 	var setRoomToken = function(token) {
 		$scope.properties.spreedmeeting.parameters.token = token || ''; // token must be a string
 		updateProperties();
-	};
-
-	var archiveRoom = function(token) {
-		// TODO(leon): Notify backend to archive room
-		var deferred = $q.defer()
-		deferred.resolve();
-		return deferred.promise;
 	};
 
 	var updateProperties = function() {
@@ -101,14 +60,9 @@ app.controller('SpreedMeetingController', ['$scope', '$http', '$q', '$timeout', 
 		return $q.all(ps);
 	};
 
-	var attendeeRoles = {
-		GUEST: 'guest',
-		MODERATOR: 'moderator',
-	};
-	var defaultAttendeeRole = attendeeRoles.GUEST;
 	$scope.properties.attendeeRoles = [
-		{displayname: t('calendar', 'Guest'), val: attendeeRoles.GUEST},
-		{displayname: t('calendar', 'Moderator'), val: attendeeRoles.MODERATOR},
+		{displayname: t('calendar', 'Guest'), val: SpreedMeetingService.attendeeRoles.GUEST},
+		{displayname: t('calendar', 'Moderator'), val: SpreedMeetingService.attendeeRoles.MODERATOR},
 	];
 	// Set default attendee meeting role
 	var setDefaultAttendeeMeetingRole = function(attendees) {
@@ -125,19 +79,11 @@ app.controller('SpreedMeetingController', ['$scope', '$http', '$q', '$timeout', 
 		setDefaultAttendeeMeetingRole(n);
 	});
 
-	// Stolen from Spreed app, spreed/lib/Room.php
-	// Type values must be strings, for whatever reason using ints doesn't issue a PUT request
-	var meetingTypes = {
-		// ONE_TO_ONE_CALL: '1',
-		// GROUP_CALL: '2', // We don't support group calls (a "group" is a Nextcloud" user group)
-		PUBLIC_CALL: '3',
-	};
-	var defaultMeetingType = meetingTypes.PUBLIC_CALL; // TODO(leon): Make this 'private' by default again once we have support for that
 	$scope.properties.meetingTypes = [
 		// TODO(leon): Reeable once we support other types of meetings
 		// {displayname: t('calendar', 'Private'), val: meetingTypes.ONE_TO_ONE_CALL},
 		// TODO(leon): What to do about type 2?
-		{displayname: t('calendar', 'Public'), val: meetingTypes.PUBLIC_CALL},
+		{displayname: t('calendar', 'Public'), val: SpreedMeetingService.meetingTypes.PUBLIC_CALL},
 	];
 
 	// TODO(leon): This is shitty, but how to do it better?
@@ -168,10 +114,11 @@ app.controller('SpreedMeetingController', ['$scope', '$http', '$q', '$timeout', 
 				}
 				// We have a token, nuke it and archive the affected room
 				setRoomToken(null);
-				archiveRoom(token)
+				SpreedMeetingService.archiveRoom(token)
 					.then(deferred.resolve, deferred.reject);
 			} else {
-				getNewRoomToken().then(function(token) {
+				var type = $scope.properties.spreedmeeting.parameters.type;
+				SpreedMeetingService.getNewRoomToken(type).then(function(token) {
 					setRoomToken(token);
 					decorateAttendees($scope.properties.attendee)
 						.then(deferred.resolve, deferred.reject);
