@@ -117,7 +117,8 @@ app.controller('AttendeeController', function($scope, AutoCompletionService) {
 				rsvp: 'TRUE',
 				partstat: 'NEEDS-ACTION',
 				cutype: 'INDIVIDUAL',
-				lang: item.lang
+				lang: item.lang,
+				isregistered: 'TRUE'
 			}
 		});
 		$scope.nameofattendee = '';

@@ -164,7 +164,8 @@ foreach ($scripts as $script) {
 				<select class="event-select pull-left"
 					ng-model="attendee.parameters.spreedmeetingrole"
 					ng-selected="attendee.parameters.spreedmeetingrole"
-					ng-options="r.val as r.displayname for r in properties.attendeeRoles" />
+					ng-options="r.val as r.displayname for r in properties.attendeeRoles"
+					ng-disabled="attendee.parameters.isregistered !== 'TRUE'" />
 				</select>
 			</label>
 		</div>
