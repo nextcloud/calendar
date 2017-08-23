@@ -71,7 +71,7 @@ app.controller('SpreedMeetingController', ['$scope', '$http', '$q', '$location',
 		}
 		attendees.forEach(function(a, i) {
 			if (!a.parameters.spreedmeetingrole) {
-				a.parameters.spreedmeetingrole = defaultAttendeeRole;
+				a.parameters.spreedmeetingrole = SpreedMeetingService.defaultAttendeeRole;
 			}
 		});
 	};
@@ -91,7 +91,7 @@ app.controller('SpreedMeetingController', ['$scope', '$http', '$q', '$location',
 		value: 'nonempty', // NOTE(leon): This must not evaluate to false, else the whole property is ignored
 		parameters: {
 			token: '',
-			type: defaultMeetingType,
+			type: SpreedMeetingService.defaultMeetingType,
 		},
 	};
 	angular.extend($scope.properties, {
