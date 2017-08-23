@@ -63,7 +63,7 @@ app.controller('AttendeeController', function($scope, AutoCompletionService) {
 					'rsvp': 'TRUE',
 					'partstat': 'NEEDS-ACTION',
 					'cutype': 'INDIVIDUAL',
-					'lang': OC.getLocale() // Use current user's timezone as a default value
+					'lang': OC.getLocale() // Use current user's locale as a default value
 				}
 			});
 		}
