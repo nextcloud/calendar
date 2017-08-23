@@ -21,7 +21,7 @@
  *
  */
 
-app.controller('SpreedMeetingController', ['$scope', '$http', '$q', '$timeout', '$location', 'SpreedMeetingService', function($scope, $http, $q, $timeout, $location, SpreedMeetingService) {
+app.controller('SpreedMeetingController', ['$scope', '$http', '$q', '$location', 'SpreedMeetingService', function($scope, $http, $q, $location, SpreedMeetingService) {
 	'use strict';
 
 	var getCurrentRoomURL = $scope.getCurrentRoomURL = function() {
