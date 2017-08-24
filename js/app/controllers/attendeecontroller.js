@@ -98,7 +98,8 @@ app.controller('AttendeeController', function($scope, AutoCompletionService) {
 						displayname: displayname,
 						email: email,
 						name: attendee.name,
-						lang: attendee.lang
+						lang: attendee.lang,
+						is_local_user: attendee.is_local_user
 					});
 				});
 			});
@@ -118,7 +119,7 @@ app.controller('AttendeeController', function($scope, AutoCompletionService) {
 				partstat: 'NEEDS-ACTION',
 				cutype: 'INDIVIDUAL',
 				lang: item.lang,
-				isregistered: 'TRUE'
+				isregistered: item.is_local_user ? 'TRUE' : 'FALSE'
 			}
 		});
 		$scope.nameofattendee = '';
