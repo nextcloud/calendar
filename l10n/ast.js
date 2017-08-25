@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Calendar" : "Calendariu",
     "Hello," : "Hola,",
+    "We wanted to inform you that %s has published the calendar »%s«." : "Quiximos informate de que %s espublizó'l calendariu «%s»",
     "Cheers!" : "¡Salú!",
     "Too many redirects. Aborting ..." : "Milenta redireiciones. Albortando...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "El sirvidor remotu nun mos dio accesu al calendariu (fallu HTTP {%s})",
