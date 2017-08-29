@@ -21,6 +21,7 @@ OC.L10N.register(
     "Does not attend" : "Ei võta osa",
     "Please create a calendar first." : "Palun loo esmalt kalender.",
     "New event" : "Uus sündmus",
+    "CalDAV address for clients" : "CalDAV aadress klientidele",
     "Email has been sent." : "E-kiri on saadetud.",
     "group" : "grupp",
     "Details" : "Üksikasjad",
