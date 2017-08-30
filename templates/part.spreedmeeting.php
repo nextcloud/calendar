@@ -28,11 +28,11 @@
 	// TODO(leon): Include link to app store (https://apps.nextcloud.com/apps/spreed)
 } else {?>
 
-<label>
-	<input
-		type="checkbox" class="spreedmeetingcreatecheckbox event-checkbox"
-		ng-model="properties.doScheduleMeeting" />
-	<?php p($l->t('Schedule Spreed Meeting for this event'));?>
+<input type="checkbox" name="spreedmeetingcreatecheckbox"
+	ng-model="properties.doScheduleMeeting"
+	id="spreedmeetingcreatecheckbox" class="checkbox" />
+<label for="spreedmeetingcreatecheckbox">
+	<?php p($l->t('Schedule Spreed Meeting for this event'))?>
 </label>
 
 <div ng-show="properties.doScheduleMeeting">
