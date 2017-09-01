@@ -22,6 +22,7 @@ OC.L10N.register(
     "You are in an unknown timezone ({tz}), falling back to UTC" : "Tas nunca zona horaria desconocia  ({tz}), torna a UTC",
     "Please create a calendar first." : "Por favor, crea entantes un calendariu.",
     "New event" : "Eventu nuevu",
+    "CalDAV address for clients" : "Direición CalDAV pa veceros",
     "Error saving WebCal-calendar" : "Fallu guardando'l calendariu WebCal",
     "WebDAV address for subscriptions" : "Direición WebDAV pa soscripciones",
     "group" : "grupu",
