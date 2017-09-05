@@ -92,7 +92,12 @@ class EmailController extends Controller {
 
 		$serverVersion = $this->config->getSystemValue('version');
 		if (version_compare($serverVersion, '12', '>=')) {
-			$emailTemplate = $this->mailer->createEMailTemplate();
+			$emailTemplate = $this->mailer->createEMailTemplate('calendar.PublicShareNotification', [
+				'recipient' => $recipient,
+				'displayname' => $displayName,
+				'calendar_name' => $calendarName,
+				'calendar_url' => $url,
+			]);
 
 			$emailTemplate->addHeader();
 			$emailTemplate->addHeading($this->l10n->t('%s has published the calendar »%s«', [$displayName, $calendarName]));
