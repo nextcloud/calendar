@@ -278,7 +278,7 @@ app.factory('SimpleEvent', function () {
 				if (simple.parameters[p]) {
 					prop.setParameter(p, simple.parameters[p]);
 				} else {
-					prop.removeParameter(simple.parameters[p]);
+					prop.removeParameter(p);
 				}
 			});
 		},
