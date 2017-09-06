@@ -32,6 +32,8 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OC\AppFramework\Http\Request;
+use OCP\IL10N;
+use OCP\L10N\IFactory;
 
 class ViewController extends Controller {
 
@@ -56,20 +58,48 @@ class ViewController extends Controller {
 	private $appManager;
 
 	/**
+	 * @var IFactory
+	 */
+	private $l10nFactory;
+
+	// TODO(artur): Duplicate: Refactor Language --> NC:Server:PersonalInfo.php
+	const COMMON_LANGUAGE_CODES = [
+		'en', 'es', 'fr', 'de', 'de_DE', 'ja', 'ar', 'ru', 'nl', 'it',
+		'pt_BR', 'pt_PT', 'da', 'fi_FI', 'nb_NO', 'sv', 'tr', 'zh_CN', 'ko'
+	];
+
+	/**
+	 * @var [type]
+	 */
+	private $l;
+
+	/**
 	 * @param string $appName
 	 * @param IRequest $request an instance of the request
 	 * @param IUserSession $userSession
 	 * @param IConfig $config
 	 * @param IURLGenerator $urlGenerator
 	 * @param IAppManager $appManager
+	 * @param IFactory $l10nFactory
+	 * @param IL10N $l
 	 */
-	public function __construct($appName, IRequest $request, IUserSession $userSession,
-		IConfig $config, IURLGenerator $urlGenerator, IAppManager $appManager) {
+	public function __construct(
+		$appName,
+		IRequest $request,
+		IUserSession $userSession,
+		IConfig $config,
+		IURLGenerator $urlGenerator,
+		IAppManager $appManager,
+		IFactory $l10nFactory,
+		IL10N $l
+	) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->userSession = $userSession;
 		$this->urlGenerator = $urlGenerator;
 		$this->appManager = $appManager;
+		$this->l10nFactory = $l10nFactory;
+		$this->l = $l;
 	}
 
 	/**
@@ -78,12 +108,12 @@ class ViewController extends Controller {
 	 *
 	 * @return TemplateResponse
 	 */
-	public function index() {
+		public function index() {
 		$templateParameters = $this->getTemplateParams();
 
-		$user = $this->userSession->getUser();
-		$userId = $user->getUID();
-		$emailAddress = $user->getEMailAddress();
+		$userSession = $this->userSession->getUser();
+		$userId = $userSession->getUID();
+		$emailAddress = $userSession->getEMailAddress();
 
 		$initialView = $this->config->getUserValue($userId, $this->appName, 'currentView', null);
 		$skipPopover = $this->config->getUserValue($userId, $this->appName, 'skipPopover', 'no');
@@ -106,6 +136,65 @@ class ViewController extends Controller {
 			$initialView = 'month';
 		}
 
+		// TODO(artur): Duplicate: Refactor Language --> NC:Server:PersonalInfo.php
+		$forceLanguage = $this->config->getSystemValue('force_language', false);
+		if($forceLanguage !== false) {
+			return [];
+		}
+
+		$userLang = $this->config->getUserValue($userId, 'core', 'lang', $this->l10nFactory->findLanguage());
+		$languageCodes = $this->l10nFactory->findAvailableLanguages();
+
+		$commonLanguages = [];
+		$languages = [];
+
+		foreach($languageCodes as $lang) {
+			$l = \OC::$server->getL10N('settings', $lang);
+			// TRANSLATORS this is the language name for the language switcher in the personal settings and should be the localized version
+			$potentialName = (string) $l->t('__language_name__');
+			if($l->getLanguageCode() === $lang && substr($potentialName, 0, 1) !== '_') {//first check if the language name is in the translation file
+				$ln = array('code' => $lang, 'name' => $potentialName);
+			} elseif ($lang === 'en') {
+				$ln = ['code' => $lang, 'name' => 'English (US)'];
+			}else{//fallback to language code
+				$ln=array('code'=>$lang, 'name'=>$lang);
+			}
+
+			// put appropriate languages into appropriate arrays, to print them sorted
+			// used language -> common languages -> divider -> other languages
+			if ($lang === $userLang) {
+				$userLang = $ln;
+			} elseif (in_array($lang, self::COMMON_LANGUAGE_CODES)) {
+				$commonLanguages[array_search($lang, self::COMMON_LANGUAGE_CODES)]=$ln;
+			} else {
+				$languages[]=$ln;
+			}
+		}
+
+		// if user language is not available but set somehow: show the actual code as name
+		if (!is_array($userLang)) {
+			$userLang = [
+				'code' => $userLang,
+				'name' => $userLang,
+			];
+		}
+
+		ksort($commonLanguages);
+
+		// sort now by displayed language not the iso-code
+		usort( $languages, function ($a, $b) {
+			if ($a['code'] === $a['name'] && $b['code'] !== $b['name']) {
+				// If a doesn't have a name, but b does, list b before a
+				return 1;
+			}
+			if ($a['code'] !== $a['name'] && $b['code'] === $b['name']) {
+				// If a does have a name, but b doesn't, list a before b
+				return -1;
+			}
+			// Otherwise compare the names
+			return strcmp($a['name'], $b['name']);
+		});
+
 		return new TemplateResponse('calendar', 'main', array_merge($templateParameters, [
 			'initialView' => $initialView,
 			'emailAddress' => $emailAddress,
@@ -116,6 +205,9 @@ class ViewController extends Controller {
 			'isEmbedded' => false,
 			'token' => '',
 			'isSpreedAvailable' => $this->appManager->isEnabledForUser('spreed', null),
+			'activelanguage' => $userLang,
+			'commonlanguages' => $commonLanguages,
+			'languages' => $languages
 		]));
 	}
 

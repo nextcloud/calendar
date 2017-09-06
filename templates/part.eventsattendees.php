@@ -68,6 +68,29 @@
 				<div>
 					<spreed-meeting-attendee-roles class="display-inline-block full-width"></spreed-meeting-attendee-roles>
 				</div>
+				<div>
+					<label class="label" for="attendeelang_{{$id}"><?php p($l->t('Language'));?>:</label>
+					<select class="event-select pull-left"
+						ng-model="attendee.parameters.lang"
+						ng-selected="attendee.parameters.lang"
+						id="attendeelang_{{$id}}">
+
+						<option value="<?php p($_['activelanguage']['code']);?>">
+							<?php p($_['activelanguage']['name']);?>
+						</option>
+						<?php foreach($_['commonlanguages'] as $language): ?>
+						<option value="<?php p($language['code']);?>">
+							<?php p($language['name']);?>
+						</option>
+						<?php endforeach; ?>
+						<optgroup label="––––––––––"></optgroup>
+						<?php foreach($_['languages'] as $language): ?>
+						<option value="<?php p($language['code']);?>">
+							<?php p($language['name']);?>
+						</option>
+						<?php endforeach; ?>
+					</select>
+				</div>
 			</div>
 		</li>
 	</ul>
