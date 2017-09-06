@@ -24,7 +24,9 @@ namespace OCA\Calendar\Controller;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Contacts\IManager;
+use OCP\IConfig;
 use OCP\IRequest;
+use OCP\L10N\IFactory;
 
 class ContactController extends Controller {
 
@@ -34,15 +36,29 @@ class ContactController extends Controller {
 	 */
 	private $contacts;
 
+	/**
+	 * @var IConfig
+	 */
+	private $config;
+
+	/**
+	 * @var IFactory
+	 */
+	private $l10nFactory;
+
 
 	/**
 	 * @param string $appName
 	 * @param IRequest $request an instance of the request
 	 * @param IManager $contacts
+	 * @param IConfig $config
+	 * @param IFactory $l10nFactory
 	 */
-	public function __construct($appName, IRequest $request, IManager $contacts) {
+	public function __construct($appName, IRequest $request, IManager $contacts, IConfig $config, IFactory $l10nFactory) {
 		parent::__construct($appName, $request);
 		$this->contacts = $contacts;
+		$this->config = $config;
+		$this->l10nFactory = $l10nFactory;
 	}
 
 
@@ -88,6 +104,7 @@ class ContactController extends Controller {
 	public function searchAttendee($search) {
 		$result = $this->contacts->search($search, ['FN', 'EMAIL']);
 
+		$defaultLang = $this->l10nFactory->findLanguage();
 		$contacts = [];
 		foreach ($result as $r) {
 			if (!isset($r['EMAIL'])) {
@@ -99,9 +116,13 @@ class ContactController extends Controller {
 				$r['EMAIL'] = [$r['EMAIL']];
 			}
 
+			$lang = $this->getPreferredLanguageFromUidOrDefault($r['UID'], $defaultLang);
+			$isLocalUser = isset($r['isLocalSystemBook']) && $r['isLocalSystemBook'];
+
 			$contacts[] = [
 					'email' => $r['EMAIL'],
-					'name' => $name
+					'name' => $name,
+					'lang' => $lang
 			];
 		}
 
@@ -122,5 +143,16 @@ class ContactController extends Controller {
 		}
 
 		return $name;
+	}
+
+	/**
+	 * Returns the preferred language of a given user uid or $default instead
+	 *
+	 * @param string $uid
+	 * @param string $default
+	 * @return string
+	 */
+	private function getPreferredLanguageFromUidOrDefault($uid, $default) {
+		return $this->config->getUserValue($uid, 'core', 'lang', $default);
 	}
 }

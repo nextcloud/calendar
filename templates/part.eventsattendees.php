@@ -63,7 +63,30 @@
 						ng-checked="attendee.parameters.role == 'NON-PARTICIPANT'"
 						ng-click="attendee.parameters.role == 'NON-PARTICIPANT' ? attendee.parameters.role = 'REQ-PARTICIPANT' : attendee.parameters.role = 'NON-PARTICIPANT'"
 						id="attendeeno_{{$id}}"/>
-					<label class="label" for="attendeeno_{{$id}}"><?php p($l->t('Does not attend'))?></label>
+					<label class="label" for="attendeeno_{{$id}}"><?php p($l->t('Does not attend')); ?></label>
+				</div>
+				<div>
+					<label class="label" for="attendeelang_{{$id}"><?php p($l->t('Language')); ?>:</label>
+					<select class="event-select pull-left"
+						ng-model="attendee.parameters.lang"
+						ng-selected="attendee.parameters.lang"
+						id="attendeelang_{{$id}}">
+
+						<option value="<?php p($_['activelanguage']['code']); ?>">
+							<?php p($_['activelanguage']['name']); ?>
+						</option>
+						<?php foreach($_['commonlanguages'] as $language): ?>
+						<option value="<?php p($language['code']); ?>">
+							<?php p($language['name']); ?>
+						</option>
+						<?php endforeach; ?>
+						<optgroup label="––––––––––"></optgroup>
+						<?php foreach($_['languages'] as $language): ?>
+						<option value="<?php p($language['code']); ?>">
+							<?php p($language['name']); ?>
+						</option>
+						<?php endforeach; ?>
+					</select>
 				</div>
 			</div>
 		</li>
