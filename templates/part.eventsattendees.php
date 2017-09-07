@@ -65,7 +65,7 @@
 						id="attendeeno_{{$id}}"/>
 					<label class="label" for="attendeeno_{{$id}}"><?php p($l->t('Does not attend')); ?></label>
 				</div>
-				<div>
+				<div class="display-inline-block full-width">
 					<label class="label" for="attendeelang_{{$id}"><?php p($l->t('Language')); ?>:</label>
 					<select class="event-select pull-left"
 						ng-model="attendee.parameters.lang"
