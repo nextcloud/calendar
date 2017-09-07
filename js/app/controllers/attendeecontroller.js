@@ -63,7 +63,7 @@ app.controller('AttendeeController', function($scope, AutoCompletionService) {
 					'rsvp': 'TRUE',
 					'partstat': 'NEEDS-ACTION',
 					'cutype': 'INDIVIDUAL',
-					'lang': OC.getLocale() // Use current user's timezone as a default value
+					'language': OC.getLocale() // Use current user's timezone as a default value
 				}
 			});
 		}
@@ -98,7 +98,7 @@ app.controller('AttendeeController', function($scope, AutoCompletionService) {
 						displayname: displayname,
 						email: email,
 						name: attendee.name,
-						lang: attendee.lang
+						language: attendee.language
 					});
 				});
 			});
@@ -117,7 +117,7 @@ app.controller('AttendeeController', function($scope, AutoCompletionService) {
 				rsvp: 'TRUE',
 				partstat: 'NEEDS-ACTION',
 				cutype: 'INDIVIDUAL',
-				lang: item.lang
+				language: item.language
 			}
 		});
 		$scope.nameofattendee = '';

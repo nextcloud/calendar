@@ -133,30 +133,30 @@ class ViewController extends Controller {
 			return [];
 		}
 
-		$userLang = $this->config->getUserValue($userId, 'core', 'lang', $this->l10nFactory->findLanguage());
+		$userLang = $this->config->getUserValue($userId, 'core', 'language', $this->l10nFactory->findLanguage());
 		$languageCodes = $this->l10nFactory->findAvailableLanguages();
 
 		$commonLanguages = [];
 		$languages = [];
 
-		foreach($languageCodes as $lang) {
-			$l = \OC::$server->getL10N('settings', $lang);
+		foreach($languageCodes as $language) {
+			$l = \OC::$server->getL10N('settings', $language);
 			// TRANSLATORS this is the language name for the language switcher in the personal settings and should be the localized version
 			$potentialName = (string) $l->t('__language_name__');
-			if($l->getLanguageCode() === $lang && substr($potentialName, 0, 1) !== '_') {//first check if the language name is in the translation file
-				$ln = array('code' => $lang, 'name' => $potentialName);
-			} elseif ($lang === 'en') {
-				$ln = ['code' => $lang, 'name' => 'English (US)'];
+			if($l->getLanguageCode() === $language && substr($potentialName, 0, 1) !== '_') {//first check if the language name is in the translation file
+				$ln = array('code' => $language, 'name' => $potentialName);
+			} elseif ($language === 'en') {
+				$ln = ['code' => $language, 'name' => 'English (US)'];
 			}else{//fallback to language code
-				$ln=array('code'=>$lang, 'name'=>$lang);
+				$ln=array('code'=>$language, 'name'=>$language);
 			}
 
 			// put appropriate languages into appropriate arrays, to print them sorted
 			// used language -> common languages -> divider -> other languages
-			if ($lang === $userLang) {
+			if ($language === $userLang) {
 				$userLang = $ln;
-			} elseif (in_array($lang, self::COMMON_LANGUAGE_CODES)) {
-				$commonLanguages[array_search($lang, self::COMMON_LANGUAGE_CODES)]=$ln;
+			} elseif (in_array($language, self::COMMON_LANGUAGE_CODES)) {
+				$commonLanguages[array_search($language, self::COMMON_LANGUAGE_CODES)]=$ln;
 			} else {
 				$languages[]=$ln;
 			}

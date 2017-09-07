@@ -116,13 +116,13 @@ class ContactController extends Controller {
 				$r['EMAIL'] = [$r['EMAIL']];
 			}
 
-			$lang = $this->getPreferredLanguageFromUidOrDefault($r['UID'], $defaultLang);
+			$language = $this->getPreferredLanguageFromUidOrDefault($r['UID'], $defaultLang);
 			$isLocalUser = isset($r['isLocalSystemBook']) && $r['isLocalSystemBook'];
 
 			$contacts[] = [
 					'email' => $r['EMAIL'],
 					'name' => $name,
-					'lang' => $lang
+					'lang' => $language
 			];
 		}
 
@@ -153,6 +153,6 @@ class ContactController extends Controller {
 	 * @return string
 	 */
 	private function getPreferredLanguageFromUidOrDefault($uid, $default) {
-		return $this->config->getUserValue($uid, 'core', 'lang', $default);
+		return $this->config->getUserValue($uid, 'core', 'language', $default);
 	}
 }
