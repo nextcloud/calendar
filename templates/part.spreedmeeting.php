@@ -32,7 +32,7 @@
 	ng-model="properties.doScheduleMeeting"
 	id="spreedmeetingcreatecheckbox" class="checkbox" />
 <label for="spreedmeetingcreatecheckbox">
-	<?php p($l->t('Schedule Spreed Meeting for this event'));?>
+	<?php p($l->t('Schedule Spreed Meeting for this event'))?>
 </label>
 
 <div ng-show="properties.doScheduleMeeting">
