@@ -31,9 +31,9 @@ app.service('MailerService', ['$rootScope', 'DavClient',
 				requesttoken : oc_requesttoken
 			};
 			var mailBody = {
-				'to': dest,
+				'recipient': dest,
 				'url': url,
-				'name': name
+				'calendarName': name
 			};
 			return DavClient.request('POST', $rootScope.baseUrl + 'public/sendmail', headers, JSON.stringify(mailBody));
 		};
