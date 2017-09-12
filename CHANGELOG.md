@@ -1,3 +1,30 @@
+## 1.5.4 - 2017-09-12
+### Fixed
+- Wrong timezone for Europe/Moscow
+  [#82](https://github.com/nextcloud/calendar/issues/82)
+- Double scrollbar in advanced event editor
+  [#468](https://github.com/nextcloud/calendar/pull/468)
+- Show displayname when creating a new calendar share
+  [#459](https://github.com/nextcloud/calendar/issues/459)
+- Better looking public-share notification emails on Nextcloud 12
+  [#427](https://github.com/nextcloud/calendar/issues/427)
+- Readable public sharing links
+  [#239](https://github.com/nextcloud/calendar/issues/239)
+- Today button overlapped with new calendar button in some localizations
+  [#312](https://github.com/nextcloud/calendar/issues/312)
+- Respect admin option to disable public sharing
+  [#525](https://github.com/nextcloud/calendar/issues/525)
+- Highlight current day in left sidebar datepicker
+  [#513](https://github.com/nextcloud/calendar/issues/513)
+- mispositioned buttons on public sharing site (only affected Nextcloud 11)
+  [#509](https://github.com/nextcloud/calendar/issues/509)
+- Fix checkbox style for attendee input
+  [#580](https://github.com/nextcloud/calendar/pull/580)
+- Spelling fixes
+  [#469](https://github.com/nextcloud/calendar/pull/469)
+  [#473](https://github.com/nextcloud/calendar/pull/473)
+  [#474](https://github.com/nextcloud/calendar/pull/474)
+
 ## 1.5.3 - 2017-05-21
 ### Added
 - allow editing props of shared calendars (Nextcloud 12 and above only)
