@@ -54,7 +54,6 @@ app.factory('SimpleEvent', function () {
 		'delegated-from',
 		'delegated-to',
 		'spreedmeetingrole',
-		'lang',
 		'isregistered'
 	];
 
