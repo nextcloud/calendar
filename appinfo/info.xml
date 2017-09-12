@@ -11,7 +11,7 @@
 * 🙋 **Attendees!** Invite people to your events.
 * 🙈 **We’re not reinventing the wheel!** Based on the great [davclient.js](https://github.com/evert/davclient.js), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries.
 	]]></description>
-	<version>1.5.3</version>
+	<version>1.5.4</version>
 	<licence>AGPL</licence>
 	<namespace>Calendar</namespace>
 	<author homepage="https://georg.coffee">Georg Ehrke</author>
