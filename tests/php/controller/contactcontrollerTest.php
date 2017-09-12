@@ -39,15 +39,9 @@ class ContactControllerTest extends \PHPUnit_Framework_TestCase {
 		$this->contacts = $this->getMockBuilder('OCP\Contacts\IManager')
 			->disableOriginalConstructor()
 			->getMock();
-		$this->config = $this->getMockBuilder('OCP\IConfig')
-			->disableOriginalConstructor()
-			->getMock();
-		$this->l10nFactory = $this->getMockBuilder('OCP\L10N\IFactory')
-			->disableOriginalConstructor()
-			->getMock();
 
 		$this->controller = new ContactController($this->appName,
-			$this->request, $this->contacts, $this->config, $this->l10nFactory);
+			$this->request, $this->contacts);
 	}
 
 	public function testSearchLocation() {
