@@ -24,9 +24,7 @@ namespace OCA\Calendar\Controller;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Contacts\IManager;
-use OCP\IConfig;
 use OCP\IRequest;
-use OCP\L10N\IFactory;
 
 class ContactController extends Controller {
 
@@ -36,14 +34,13 @@ class ContactController extends Controller {
 	 */
 	private $contacts;
 
+
 	/**
 	 * @param string $appName
 	 * @param IRequest $request an instance of the request
 	 * @param IManager $contacts
 	 */
-	public function __construct($appName,
-								IRequest $request,
-								IManager $contacts) {
+	public function __construct($appName, IRequest $request, IManager $contacts) {
 		parent::__construct($appName, $request);
 		$this->contacts = $contacts;
 	}

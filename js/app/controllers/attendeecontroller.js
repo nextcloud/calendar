@@ -62,7 +62,7 @@ app.controller('AttendeeController', function($scope, AutoCompletionService) {
 					'role': 'REQ-PARTICIPANT',
 					'rsvp': 'TRUE',
 					'partstat': 'NEEDS-ACTION',
-					'cutype': 'INDIVIDUAL',
+					'cutype': 'INDIVIDUAL'
 				}
 			});
 		}
