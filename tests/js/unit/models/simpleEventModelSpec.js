@@ -545,7 +545,8 @@ END:VCALENDAR`;
 				cutype: 'INDIVIDUAL',
 				cn: 'bar@foo.com',
 				'delegated-from': undefined,
-				'delegated-to': undefined
+				'delegated-to': undefined,
+				language: undefined
 			},
 			type: 'cal-address',
 			value: 'mailto:bar@foo.com'
@@ -602,7 +603,8 @@ END:VCALENDAR`;
 					cutype: 'INDIVIDUAL',
 					cn: 'bar@foo.com',
 					'delegated-from': undefined,
-					'delegated-to': undefined
+					'delegated-to': undefined,
+					language: undefined
 				},
 				type: 'cal-address',
 				value: 'mailto:bar@foo.com'
@@ -615,7 +617,8 @@ END:VCALENDAR`;
 					cutype: 'INDIVIDUAL',
 					cn: 'foo@bar.com',
 					'delegated-from': undefined,
-					'delegated-to': undefined
+					'delegated-to': undefined,
+					language: undefined
 				},
 				type: 'cal-address',
 				value: 'mailto:foo@bar.com'
@@ -1398,7 +1401,8 @@ END:VCALENDAR`;
 						cutype: 'INDIVIDUAL',
 						cn: 'bar@foo.com',
 						'delegated-from': undefined,
-						'delegated-to': undefined
+						'delegated-to': undefined,
+						language: undefined
 					},
 					type: 'cal-address',
 					value: 'mailto:bar@foo.com'
