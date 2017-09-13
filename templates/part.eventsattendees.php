@@ -68,8 +68,8 @@
 				<div class="display-inline-block full-width">
 					<label class="label" for="attendeelang_{{$id}"><?php p($l->t('Language')); ?>:</label>
 					<select class="event-select pull-left"
-						ng-model="attendee.parameters.lang"
-						ng-selected="attendee.parameters.lang"
+						ng-model="attendee.parameters.language"
+						ng-selected="attendee.parameters.language"
 						id="attendeelang_{{$id}}">
 
 						<option value="<?php p($_['activelanguage']['code']); ?>">

@@ -122,7 +122,7 @@ class ContactController extends Controller {
 			$contacts[] = [
 					'email' => $r['EMAIL'],
 					'name' => $name,
-					'lang' => $lang
+					'language' => $lang
 			];
 		}
 
