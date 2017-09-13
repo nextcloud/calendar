@@ -63,7 +63,7 @@
 						ng-checked="attendee.parameters.role == 'NON-PARTICIPANT'"
 						ng-click="attendee.parameters.role == 'NON-PARTICIPANT' ? attendee.parameters.role = 'REQ-PARTICIPANT' : attendee.parameters.role = 'NON-PARTICIPANT'"
 						id="attendeeno_{{$id}}"/>
-					<label class="label" for="attendeeno_{{$id}}"><?php p($l->t('Does not attend')); ?></label>
+					<label class="optionallabel" for="attendeeno_{{$id}}"><?php p($l->t('Does not attend'));?></label>
 				</div>
 				<div class="display-inline-block full-width">
 					<label class="label" for="attendeelang_{{$id}"><?php p($l->t('Language')); ?>:</label>
