@@ -77,6 +77,8 @@ endif
 endif
 endif
 
+TAR_CAN_EXCLUDE_VCS=$(shell expr `tar --version | grep ^tar | sed 's/^.* //g'` \>= 1.28)
+
 all: build
 
 # Fetches the PHP and JS dependencies and compiles the JS. If no composer.json
@@ -125,7 +127,9 @@ source:
 	--exclude=/js/node_modules/ \
 	--exclude=*.log
 ifdef CAN_SIGN
+	mv $(configdir)/config.php $(configdir)/config-2.php
 	$(sign) --path "$(source_build_directory)"
+	mv $(configdir)/config-2.php $(configdir)/config.php
 else
 	@echo $(sign_skip_msg)
 endif
@@ -147,6 +151,7 @@ appstore:
 	"js/public" \
 	"COPYING" \
 	"CHANGELOG.md" \
+	".gitignore" \
 	$(appstore_build_directory)
 ifdef CAN_SIGN
 	mv $(configdir)/config.php $(configdir)/config-2.php
@@ -155,8 +160,12 @@ ifdef CAN_SIGN
 else
 	@echo $(sign_skip_msg)
 endif
-	tar -czf $(appstore_package_name).tar.gz -C $(appstore_build_directory)/../ $(app_name)
 
+ifeq "$(TAR_CAN_EXCLUDE_VCS)" "1"
+	tar -czf $(appstore_package_name).tar.gz -C $(appstore_build_directory)/../ --exclude-vcs-ignores --exclude='.gitignore' $(app_name)
+else
+	tar -czf $(appstore_package_name).tar.gz -C $(appstore_build_directory)/../ --exclude='.gitignore' $(app_name)
+endif
 
 # Command for running JS and PHP tests. Works for package.json files in the js/
 # and root directory. If phpunit is not installed systemwide, a copy is fetched

@@ -52,14 +52,12 @@
 					id="attendeecutype_{{$id}}">
 				</select>
 				<div class="attendeeopt pull-right">
-					<input
-						type="checkbox" class="attendeecheckbox event-checkbox"
+					<input type="checkbox" name="attendeecheckbox" class="checkbox"
 						ng-checked="attendee.parameters.role == 'OPT-PARTICIPANT'"
 						ng-click="attendee.parameters.role == 'OPT-PARTICIPANT' ? attendee.parameters.role = 'REQ-PARTICIPANT' : attendee.parameters.role = 'OPT-PARTICIPANT'"
 						id="attendeeopt_{{$id}}"/>
-					<label class="label optionallabel" for="attendeeopt_{{$id}}"><?php p($l->t('Optional')); ?></label>
-
-					<input type="checkbox" class="attendeecheckbox event-checkbox"
+					<label class="optionallabel" for="attendeeopt_{{$id}}"><?php p($l->t('Optional'));?></label>
+					<input type="checkbox" name="attendeecheckbox" class="checkbox"
 						ng-checked="attendee.parameters.role == 'NON-PARTICIPANT'"
 						ng-click="attendee.parameters.role == 'NON-PARTICIPANT' ? attendee.parameters.role = 'REQ-PARTICIPANT' : attendee.parameters.role = 'NON-PARTICIPANT'"
 						id="attendeeno_{{$id}}"/>
