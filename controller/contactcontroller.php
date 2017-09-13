@@ -117,7 +117,6 @@ class ContactController extends Controller {
 			}
 
 			$lang = $this->getPreferredLanguageFromUidOrDefault($r['UID'], $defaultLang);
-			$isLocalUser = isset($r['isLocalSystemBook']) && $r['isLocalSystemBook'];
 
 			$contacts[] = [
 					'email' => $r['EMAIL'],
