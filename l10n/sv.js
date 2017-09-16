@@ -73,7 +73,7 @@ OC.L10N.register(
     "start" : "start",
     "end" : "slut",
     "Editing reminders of unknown type not supported." : "Att redigera påminnelser för okända typer stöds inte.",
-    "Week {number} of {year}" : "Vecka {number} av {year}",
+    "Week {number} of {year}" : "Vecka {number} år {year}",
     "Successfully imported" : "Lyckad importering",
     "Partially imported, 1 failure" : "Delvis importerad, 1 fel",
     "Partially imported, {n} failures" : "Delvis importerad, {n} fel",
