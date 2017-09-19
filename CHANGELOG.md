@@ -1,3 +1,7 @@
+## 1.5.5 - 2017-09-19
+### Fixed
+- Remove invalid signed signature from release 
+
 ## 1.5.4 - 2017-09-12
 ### Fixed
 - Wrong timezone for Europe/Moscow
