@@ -264,10 +264,6 @@
 	z-index: 1000;
 }
 
-#app-navigation > ul {
-	height: auto;
-}
-
 /* ColorPicker overrides. */
 .colorpicker {
 	display: block;
