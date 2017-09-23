@@ -55,9 +55,8 @@
 		</li>
 		<li class="app-navigation-entry-utils-menu-button"
 			href="#"
-			on-toggle-show="#more-actions-{{ $id }}"
 			title="<?php p($l->t('More')); ?>"
-			role="button"><button></button></li>
+			role="button"><button on-toggle-show="#more-actions-{{ $id }}"></button></li>
 	</ul>
 </div>
 
