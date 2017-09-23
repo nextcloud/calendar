@@ -24,6 +24,11 @@
 ?>
 <li ng-if="is.loading" class="icon-loading-small"><a></a></li>
 <li ng-repeat="item in calendarListItems | orderBy: item.calendar.order | calendarListFilter"
-	class="app-navigation-list-item" ng-class="{active: item.calendar.enabled, 'icon-loading-small': item.displaySpinner()}">
+	class="app-navigation-list-item"
+	ng-class="{
+		active: item.calendar.enabled,
+		'icon-loading-small': item.displaySpinner(),
+		editing: item.isEditing() || item.displayCalDAVUrl || item.displayWebCalUrl
+	}">
 	<?php print_unescaped($this->inc('part.calendarlist.item')); ?>
 </li>
