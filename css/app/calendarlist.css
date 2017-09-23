@@ -157,10 +157,6 @@
 	background-color: transparent !important;
 }
 
-#app-navigation .app-navigation-list-item > a {
-	padding: 0 66px 0 44px !important;
-}
-
 #app-navigation .app-navigation-list-item > a.calendar-list-cut-name {
 	padding: 0 107px 0 44px !important;
 }
@@ -347,6 +343,7 @@
 /* Spacing */
 #spacer {
 	height: 44px;
+	box-shadow: none !important;
 }
 
 /* Public */

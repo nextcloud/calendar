@@ -23,7 +23,7 @@
  *
  */
 ?>
-<div class="new-entity-container">
+<li class="new-entity-container">
 
 
 	<div
@@ -51,4 +51,4 @@
 			</button>
 		</form>
 	</fieldset>
-</div>
+</li>

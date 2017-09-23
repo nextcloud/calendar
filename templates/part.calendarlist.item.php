@@ -27,9 +27,6 @@
 	  ng-show="item.displayColorIndicator()"
 	  ng-style="{ background : item.calendar.enabled == true ? item.calendar.color : 'transparent' }">
 </span>
-<span class="icon-loading-small pull-left"
-	  ng-show="item.displaySpinner()">
-</span>
 <a class="action permanent"
    ng-class="{'calendar-list-cut-name': item.calendar.isShared() || item.calendar.isPublished() }"
    href="#"
@@ -43,35 +40,26 @@
 	</span>
 	{{ item.calendar.displayname }}
 </a>
-<span class="utils"
-	  ng-show="item.displayActions()">
-	<span class="action"
-		  ng-class="{'withitems': item.calendar.isShared() || item.calendar.isPublished() }">
-		<span
-			class="calendarlist-icon share permanent"
-			ng-class="{'icon-shared shared-style': item.calendar.isShared() && !item.calendar.isPublished(), 'icon-public': item.calendar.isPublished(), 'icon-shared': !item.calendar.isShared() && !item.calendar.isPublished()}"
+<div class="app-navigation-entry-utils"
+	 ng-show="item.displayActions()">
+	<ul ng-class="{'withitems': item.calendar.isShared() || item.calendar.isPublished() }">
+		<li class="app-navigation-entry-utils-menu-button calendarlist-icon share permanent"
 			ng-click="item.toggleEditingShares()"
 			ng-if="item.showSharingIcon()"
 			title="<?php p($l->t('Share Calendar')) ?>"
-			role="button">
-		</span>
-		<!-- Add a label if the calendar has shares -->
-		<span
-			class="calendarlist-icon shared"
+			role="button"><button ng-class="{'icon-shared shared-style': item.calendar.isShared() && !item.calendar.isPublished(), 'icon-public': item.calendar.isPublished(), 'icon-shared': !item.calendar.isShared() && !item.calendar.isPublished()}"></button></li>
+		<li class="app-navigation-entry-utils-menu-button calendarlist-icon shared"
 			ng-if="item.calendar.isShared() && item.calendar.isShareable() || item.calendar.isPublished()"
 			ng-click="item.toggleEditingShares()">
 				<?php p($l->t('Shared'))?>
-		</span>
-	</span>
-	<span class="action">
-		<span class="icon-more"
-			  href="#"
-			  on-toggle-show="#more-actions-{{ $id }}"
-			  title="<?php p($l->t('More')); ?>"
-			  role="button">
-		</span>
-	</span>
-</span>
+		</li>
+		<li class="app-navigation-entry-utils-menu-button"
+			href="#"
+			on-toggle-show="#more-actions-{{ $id }}"
+			title="<?php p($l->t('More')); ?>"
+			role="button"><button></button></li>
+	</ul>
+</div>
 
 <div id="more-actions-{{ $id }}"
 	 class="app-navigation-entry-menu hidden">
