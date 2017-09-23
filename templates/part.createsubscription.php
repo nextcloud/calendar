@@ -23,7 +23,7 @@
  */
 ?>
 
-<div class="new-entity-container">
+<li class="new-entity-container">
 	<div
 		class="new-entity"
 		data-apps-slide-toggle=".add-new-subscription"
@@ -53,4 +53,4 @@
 				value="<?php p($l->t('Create')); ?>" />
 		</form>
 	</fieldset>
-</div>
+</li>

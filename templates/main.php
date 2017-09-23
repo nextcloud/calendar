@@ -84,20 +84,16 @@ foreach ($scripts as $script) {
 		</div>
 
 		<?php if(!$_['isPublic']): ?>
-		<div ng-controller="CalendarListController" id="calendarlistcontainer" ng-cloak>
-			<div id="scrollable">
+		<ul ng-controller="CalendarListController" id="calendarlistcontainer" ng-cloak>
 				<?php print_unescaped($this->inc('part.createcalendar')); ?>
 				<?php print_unescaped($this->inc('part.calendarlist')); ?>
-				<div id="spacer"></div><!-- Creates space between Subscriptionlist and Calendarlist.-->
-				<div ng-controller="SubscriptionController">
-					<?php print_unescaped($this->inc('part.createsubscription')); ?>
-				</div>
+				<li id="spacer"></li><!-- Creates space between Subscriptionlist and Calendarlist.-->
+				<?php print_unescaped($this->inc('part.createsubscription')); ?>
 				<?php print_unescaped($this->inc('part.subscriptionlist')); ?>
-			</div>
+		</ul>
 
-			<div id="app-settings" ng-controller="SettingsController">
-				<?php print_unescaped($this->inc('part.settings')); ?>
-			</div>
+		<div id="app-settings" ng-controller="SettingsController">
+			<?php print_unescaped($this->inc('part.settings')); ?>
 		</div>
 		<?php else: ?>
 		<div ng-controller="CalendarListController" id="publicinformationscontainer">
