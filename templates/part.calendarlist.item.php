@@ -22,7 +22,7 @@
  *
  */
 ?>
-<span class="calendarCheckbox"
+<span class="calendarCheckbox app-navigation-entry-bullet"
 	  ng-click="triggerEnable(item)"
 	  ng-show="item.displayColorIndicator()"
 	  ng-style="{ background : item.calendar.enabled == true ? item.calendar.color : 'transparent' }">

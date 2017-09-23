@@ -99,6 +99,7 @@
 	width: 100%;
 }
 
+/* TODO remove when 13 is lower version: ref app-navigation-entry-bullet */
 #app-navigation .app-navigation-list-item .calendarCheckbox,
 #publicinformationscontainer .calendarCheckbox {
 	position: absolute;
