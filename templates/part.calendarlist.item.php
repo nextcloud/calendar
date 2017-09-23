@@ -31,7 +31,6 @@
    ng-class="{'calendar-list-cut-name': item.calendar.isShared() || item.calendar.isPublished() }"
    href="#"
    ng-click="triggerEnable(item)"
-   ng-show="!item.isEditing()"
    title="{{ item.calendar.displayname }}">
 	<span class="icon icon-error"
 		  ng-if="item.calendar.hasWarnings()"
@@ -90,45 +89,35 @@
 		<li confirmation="remove(item)"></li>
 	</ul>
 </div>
-
-<fieldset class="editfieldset"
-		  ng-show="item.isEditing()">
+<div class="app-navigation-entry-edit"
+	 ng-if="item.isEditing()">
 	<form ng-submit="performUpdate(item)">
-		<input class="app-navigation-input"
-			   ng-model="item.displayname"
-			   type="text"/>
-		<colorpicker class="colorpicker"
-					 selected="item.color">
-		</colorpicker>
-		<div class="buttongroups">
-			<button class="primary icon-checkmark-white accept-button">
-			</button>
-			<button type="button" class="btn close-button icon-close"
-					ng-click="item.cancelEditor()">
-			</button>
-		</div>
+		<input type="text" ng-model="item.displayname">
+		<input type="submit" value="" class="primary icon-checkmark-white accept-button">
+		<input type="button" value="" class="btn close-button icon-close" ng-click="item.cancelEditor()">
 	</form>
-</fieldset>
-<fieldset class="editfieldset"
-		  ng-show="item.displayCalDAVUrl()">
-	<input class="input-with-button-on-right-side"
-		   ng-value="item.calendar.caldav"
-		   readonly
-		   type="text"/>
-	<button class="btn icon-close button-next-to-input"
-			ng-click="item.hideCalDAVUrl()">
-	</button>
-</fieldset>
-<fieldset class="editfieldset"
-		  ng-show="item.displayWebCalUrl()">
-	<input class="input-with-button-on-right-side"
-		   ng-value="item.calendar.storedUrl"
-		   readonly
-		   type="text"/>
-	<button class="btn icon-close button-next-to-input"
-			ng-click="item.hideWebCalUrl()">
-	</button>
-</fieldset>
+	<colorpicker class="colorpicker"
+				 selected="item.color">
+	</colorpicker>
+</div>
+<div class="app-navigation-entry-edit"
+	 ng-if="item.displayCalDAVUrl()">
+	<form ng-submit="performUpdate(item)">
+		<input ng-value="item.calendar.caldav"
+			   readonly
+			   type="text"/>
+		<input type="button" value="" class="n icon-close button-next-to-input" ng-click="item.hideCalDAVUrl()">
+	</form>
+</div>
+<div class="app-navigation-entry-edit"
+	 ng-if="item.displayWebCalUrl()">
+	<form ng-submit="performUpdate(item)">
+		<input ng-value="item.calendar.storedUrl"
+			   readonly
+			   type="text"/>
+		<input type="button" value="" class="n icon-close button-next-to-input" ng-click="item.hideWebCalUrl()">
+	</form>
+</div>
 
 <div class="calendarShares"
 	 ng-show="item.isEditingShares()">
