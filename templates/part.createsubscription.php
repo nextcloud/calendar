@@ -23,15 +23,13 @@
  */
 ?>
 
-<li class="new-entity-container">
-	<div
-		class="new-entity"
-		data-apps-slide-toggle=".add-new-subscription"
-		id="new-subscription-button">
-		<span class="new-entity-title" role="button"><?php p($l->t('New Subscription')); ?></span>
-	</div>
+<li class="new-entity-container" ng-class="{editing: $scope.addingSub}">
 
-	<fieldset class="calendarlist-fieldset add-new-subscription hide">
+	<a class="new-entity icon-add" ng-click="$scope.addingSub = true" id="new-subscription-button">
+		<?php p($l->t('New Subscription')); ?>	
+	</a>
+
+	<div class="app-navigation-entry-edit calendarlist-fieldset add-new hide">
 		<form ng-submit="createSubscription(subscription.newSubscriptionUrl)">
 			<input
 				class="app-navigation-input"
@@ -42,7 +40,7 @@
 				autofocus />
 			<input
 				id="submitnewSubscription"
-				class="primary accept-button"
+				class="primary accept-button icon-checkmark"
 				ng-disabled="subscription.newSubscriptionLocked"
 				oc-click-slide-toggle="{
 						selector: '.add-new-subscription',
@@ -50,7 +48,8 @@
 						cssClass: 'closed'
 					}"
 				type="submit"
-				value="<?php p($l->t('Create')); ?>" />
+				value="" />
+			<input type="button" value="" class="icon-close" ng-click="$scope.addingSub = false" />
 		</form>
-	</fieldset>
+	</div>
 </li>

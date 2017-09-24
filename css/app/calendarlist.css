@@ -5,6 +5,7 @@
  * @author Georg Ehrke
  * @copyright 2016 Raghu Nayyar <hey@raghunayyar.com>
  * @copyright 2016 Georg Ehrke <oc.list@georgehrke.com>
+ * @copyright 2017 John Molakvoæ <skjnldsv@protonmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -34,18 +35,6 @@
 	border: 0;
 }
 
-#app-navigation .close-button {
-	height: 30px;
-	width: 30px;
-	padding: 0;
-	position: relative;
-}
-
-#app-navigation .accept-button {
-	width: 100%;
-	padding: 8px;
-}
-
 #app-navigation .new-entity,
 #app-navigation .subscription-title {
 	display: block;
@@ -55,25 +44,15 @@
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
-	color: #4d4d4d;
+	opacity: .5;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
+	box-shadow: none !important; /* override server */
 }
 
 #app-navigation .new-entity,
 #app-navigation .new-entity .new-entity-title {
 	cursor: pointer;
-}
-
-#app-navigation .new-entity .new-entity-title::before {
-	left: 18px;
-	position: absolute;
-	font-size: 150%;
-	content: '+';
-}
-
-#app-navigation .new-entity:hover {
-	color: #000;
 }
 
 #app-navigation .add-new .new-accept-button {

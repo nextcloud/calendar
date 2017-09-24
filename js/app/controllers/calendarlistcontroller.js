@@ -34,6 +34,8 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ha
 		$scope.is = is;
 		$scope.newCalendarInputVal = '';
 		$scope.newCalendarColorVal = '';
+		$scope.addingCal = false;
+		$scope.addingSub = false;
 
 		$scope.subscription = {};
 		$scope.subscription.newSubscriptionUrl = '';
@@ -81,6 +83,7 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ha
 
 			$scope.newCalendarInputVal = '';
 			$scope.newCalendarColorVal = '';
+			$scope.addingCal = false;
 			angular.element('#new-calendar-button').click();
 		};
 
@@ -102,6 +105,7 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ha
 						$scope.$digest();
 						$scope.$parent.$digest();
 						$scope.subscription.newSubscriptionLocked = false;
+						$scope.addingSub = false;
 					})
 					.catch(function() {
 						OC.Notification.showTemporary(t('calendar', 'Error saving WebCal-calendar'));
