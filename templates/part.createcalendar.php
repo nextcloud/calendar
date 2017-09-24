@@ -23,32 +23,25 @@
  *
  */
 ?>
-<li class="new-entity-container">
+<li class="new-entity-container" ng-class="{editing: $scope.addingCal}">
 
+	<a class="new-entity icon-add" ng-click="$scope.addingCal = true" id="new-calendar-button">
+		<?php p($l->t('New Calendar')); ?>	
+	</a>
 
-	<div
-		class="new-entity"
-		data-apps-slide-toggle=".add-new"
-		id="new-calendar-button">
-		<span class="new-entity-title" role="button"><?php p($l->t('New Calendar')); ?></span>
-	</div>
-
-
-
-	<fieldset class="calendarlist-fieldset add-new hide">
+	<div class="app-navigation-entry-edit calendarlist-fieldset add-new hide">
 		<form ng-submit="create(newCalendarInputVal,selected)">
 			<input class="app-navigation-input" type="text" ng-model="newCalendarInputVal" autofocus placeholder="<?php p($l->t('Name')); ?>"/>
-			<colorpicker class="colorpicker" selected="selected"></colorpicker>
-			<button
-				id="submitnewCalendar"
-				class="primary accept-button new-accept-button"
-				oc-click-slide-toggle="{
-					selector: '.add-new',
-					hideOnFocusLost: false,
-					cssClass: 'closed'
-				}">
-				<?php p($l->t('Create')); ?>
-			</button>
+			<input type="submit" value=""
+				   class="primary icon-checkmark-white accept-button new-accept-button"
+				   id="submitnewCalendar"
+				   oc-click-slide-toggle="{
+				   		selector: '.add-new',
+						hideOnFocusLost: false,
+						cssClass: 'closed'
+					}">
+			<input type="button" value="" class="icon-close" ng-click="$scope.addingCal = false" />
 		</form>
-	</fieldset>
+		<colorpicker class="colorpicker" selected="selected"></colorpicker>
+	</div>
 </li>
