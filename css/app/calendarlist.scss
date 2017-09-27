@@ -22,6 +22,9 @@
  *
  */
 
+/* fallback, TODO remove when min nc version >=13 */
+$color-border: nc-darken($color-main-background, 8%) !default;
+
 #app-navigation .app-navigation-input {
 	width: 95%;
 }
@@ -480,6 +483,11 @@ ul.dropdown-menu li > a:hover {
 	font-weight: normal;
 }
 
+.fc-basic-view .fc-day-top .fc-week-number {
+	background-color: $color-border;
+	color: $color-main-text;
+}
+
 .fc-day-number.fc-other-month {
 	opacity: .1 !important;
 }
@@ -495,12 +503,13 @@ ul.dropdown-menu li > a:hover {
 }
 
 /* border styles for grid, highlight full-hour horizontal lines */
+
 .fc-unthemed tr td {
-	border-top-color: #eee;
+	border-top-color: $color-border;
 }
 
 .fc-unthemed tr:nth-child(even) td {
-	border-top-color: #ebebeb;
+	border-top-color: $color-border;
 }
 
 .fc-unthemed th,
@@ -510,9 +519,10 @@ ul.dropdown-menu li > a:hover {
 .fc-unthemed .fc-divider,
 .fc-unthemed .fc-row,
 .fc-unthemed .fc-popover {
-	border-color: #f8f8f8;
-	border-left-color: #ebebeb;
-	border-right-color: #ebebeb;
+	/* fallback, TODO remove when min nc version >=13 */
+	border-color: $color-border;
+	border-left-color: $color-border;
+	border-right-color: $color-border;
 }
 
 /* properly size events */
