@@ -24,20 +24,23 @@
 ?>
 <span class="calendarCheckbox app-navigation-entry-bullet"
 	  ng-click="triggerEnable(item)"
-	  ng-show="item.displayColorIndicator()"
-	  ng-style="{ background : item.calendar.enabled == true ? item.calendar.color : 'transparent' }">
+	  ng-if="item.displayColorIndicator() && !item.calendar.hasWarnings()"
+	  ng-style="{ 'background-color' : item.calendar.enabled == true ? item.calendar.color : 'transparent' }">
 </span>
 <a class="action permanent"
-   ng-class="{'calendar-list-cut-name': item.calendar.isShared() || item.calendar.isPublished() }"
+   ng-class="{
+      'calendar-list-cut-name': item.calendar.isShared() || item.calendar.isPublished(),
+      'icon-error':  item.calendar.hasWarnings()
+   }"
    href="#"
    ng-click="triggerEnable(item)"
-   title="{{ item.calendar.displayname }}">
-	<span class="icon icon-error"
-		  ng-if="item.calendar.hasWarnings()"
-		  title="<?php p($l->t('Some events in this calendar are broken. Please check the JS console for more info.')); ?>">
-		&nbsp;&nbsp;&nbsp;&nbsp;
-	</span>
+   title="{{
+      item.calendar.hasWarnings() 
+      ? '<?php p($l->t('Some events in this calendar are broken. Please check the JS console for more info.')); ?>'
+      :item.calendar.displayname
+   }}">
 	{{ item.calendar.displayname }}
+</span>
 </a>
 <div class="app-navigation-entry-utils"
 	 ng-show="item.displayActions()">
