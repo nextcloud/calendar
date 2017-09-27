@@ -28,12 +28,12 @@
 }
 
 #app-navigation .togglebuttons .button.active {
-	background-color: rgba(255, 255, 255, .95);
-	color: #111;
+	background-color: $color-primary;
+	color: $color-primary-text;
 }
 
 #app-navigation .togglebuttons .button.today:focus {
-	background-color: rgba(240, 240, 240, .9);
+	background-color: rgba(nc-darken($color-main-background, 6%), .9);
 }
 
 #datepicker .pickerbody-hide {
@@ -89,11 +89,6 @@
 	border-left: 0;
 }
 
-.highlight-today {
-	border-radius: 50%;
-	background-color: #e6e6e6;
-}
-
 #datepicker table tbody tr td button {
 	border: none;
 }
@@ -104,8 +99,8 @@
 
 #datepicker table tbody button.active {
 	border-radius: 50%;
-	background-color: #0082c9;
-	color: #fff;
+	background-color: $color-primary;
+	color: $color-primary-text;
 	font-weight: bold;
 }
 
@@ -133,7 +128,7 @@
 }
 
 #app-navigation .datepicker-heading .button {
-	background-color: #fff;
+	background-color: transparent;
 	border: none;
 	font-weight: normal;
 }

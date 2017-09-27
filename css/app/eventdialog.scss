@@ -52,8 +52,8 @@
 .modal-open .modal.import {
 	position: absolute;
 	width: 450px;
-	background: #fff;
-	box-shadow: 0 0 3px #999;
+	background: $color-main-background;
+	box-shadow: 0 0 3px $color-box-shadow;
 	overflow: hidden;
 	margin-left: 0 !important;
 	padding-bottom: 12px;
