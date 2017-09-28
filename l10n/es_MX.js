@@ -149,7 +149,7 @@ OC.L10N.register(
     "to" : "para",
     "This event's repeating rule is not supported yet." : "La regla de repetición de este evento aún no está soportada. ",
     "Support for advanced rules will be added with subsequent updates." : "El soporte a reglas avanzadas se integrará en actualizaciones posteriores.",
-    "Reset repeating rule" : "Reestablecer la regla de repetición",
+    "Reset repeating rule" : "Restablecer la regla de repetición",
     "Repeat every ..." : "Repitir cada ...",
     "end repeat ..." : "fin de repetición ...",
     "times" : "veces",
