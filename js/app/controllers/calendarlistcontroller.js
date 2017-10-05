@@ -199,7 +199,7 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ha
 			});
 		};
 
-		$scope.updateExistingUserShare = function(calendar, displayname, userId, writable) {
+		$scope.updateExistingUserShare = function(calendar, userId, displayname, writable) {
 			calendar.share(constants.SHARE_TYPE_USER, userId, displayname, writable, true).then(function() {
 				$scope.$apply();
 			});
