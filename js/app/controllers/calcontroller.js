@@ -26,8 +26,8 @@
 * Description: The fullcalendar controller.
 */
 
-app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'VEvent', 'is', 'fc', 'EventsEditorDialogService', 'PopoverPositioningUtility', '$window', 'isPublic', 'constants',
-	function ($scope, Calendar, CalendarService, VEventService, SettingsService, TimezoneService, VEvent, is, fc, EventsEditorDialogService, PopoverPositioningUtility, $window, isPublic, constants) {
+app.controller('CalController', ['$scope', '$location', 'Calendar', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'VEvent', 'is', 'fc', 'EventsEditorDialogService', 'PopoverPositioningUtility', '$window', 'isPublic', 'constants',
+	function ($scope, $location, Calendar, CalendarService, VEventService, SettingsService, TimezoneService, VEvent, is, fc, EventsEditorDialogService, PopoverPositioningUtility, $window, isPublic, constants) {
 		'use strict';
 
 		is.loading = true;
@@ -37,6 +37,18 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 		$scope.defaulttimezone = TimezoneService.current();
 		$scope.eventModal = null;
 		var switcher = [];
+
+		$scope.$on('ready', () => {
+			var autoOpenNewEvent = $location.search().hasOwnProperty('newevent');
+			if (autoOpenNewEvent) {
+				$scope.fcConfig.select(
+					moment(),
+					moment(),
+					{}, // TODO(leon): Do we need this argument?
+					fc.elm.fullCalendar('getView')
+				);
+			}
+		});
 
 		function showCalendar(url) {
 			if (switcher.indexOf(url) === -1 && $scope.eventSource[url].isRendering === false) {
@@ -133,6 +145,7 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 				is.loading = false;
 				// TODO - scope.apply should not be necessary here
 				$scope.$apply();
+				$scope.$emit('ready');
 			});
 		} else {
 			$scope.calendarsPromise = CalendarService.getPublicCalendar(constants.publicSharingToken).then(function(calendar) {
@@ -140,6 +153,7 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 				is.loading = false;
 				// TODO - scope.apply should not be necessary here
 				$scope.$apply();
+				$scope.$emit('ready');
 			}).catch((reason) => {
 				angular.element('#header-right').css('display', 'none');
 				angular.element('#emptycontent-container').css('display', 'block');
