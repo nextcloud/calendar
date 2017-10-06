@@ -104,10 +104,10 @@ app.controller('SpreedMeetingController', ['$scope', '$http', '$q', 'SpreedMeeti
 	if ($scope.$parent.registerPostHook) {
 		$scope.$parent.registerPostHook(function() {
 			var deferred = $q.defer();
+			var token = getRoomToken();
 
 			if (!$scope.properties.doScheduleMeeting) {
 				// We don't want to create a meeting
-				var token = getRoomToken();
 				if (!token) {
 					// We don't have a token, simply return
 					return;
@@ -117,6 +117,11 @@ app.controller('SpreedMeetingController', ['$scope', '$http', '$q', 'SpreedMeeti
 				SpreedMeetingService.archiveRoom(token)
 					.then(deferred.resolve, deferred.reject);
 			} else {
+				// We want to create a meeting
+				if (token) {
+					// We already have a token, simply return
+					return;
+				}
 				var type = $scope.properties.spreedmeeting.parameters.type;
 				SpreedMeetingService.getNewRoomToken(type).then(function(token) {
 					setRoomToken(token);
