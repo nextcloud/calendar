@@ -64,8 +64,7 @@ app.service('SpreedMeetingService', ['$rootScope', '$http', '$location', '$q', f
 			url: OC.linkToOCS(appBase + '/api/v1', 2) + 'room',
 			format: 'json',
 			data: {
-				// We internally store the room type as a string -> convert back to an int
-				roomType: parseInt(type, 10),
+				roomType: type,
 			},
 		}).then(function(res) {
 			var token = res.data.ocs.data.token;

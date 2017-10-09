@@ -123,6 +123,8 @@ app.controller('SpreedMeetingController', ['$scope', '$http', '$q', 'SpreedMeeti
 					return;
 				}
 				var type = $scope.properties.spreedmeeting.parameters.type;
+				// We internally store the room type as a string -> convert to an int
+				type = parseInt(type, 10);
 				var name = $scope.properties.summary.value;
 				SpreedMeetingService.createRoom(type).then(function(token) {
 					setRoomToken(token);
