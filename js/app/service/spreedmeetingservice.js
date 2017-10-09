@@ -58,7 +58,7 @@ app.service('SpreedMeetingService', ['$rootScope', '$http', '$location', '$q', f
 		return getURL('call/' + token);
 	};
 
-	this.getNewRoomToken = function(type) {
+	this.createRoom = function(type) {
 		return $http({
 			method: 'POST',
 			url: OC.linkToOCS(appBase + '/api/v1', 2) + 'room',

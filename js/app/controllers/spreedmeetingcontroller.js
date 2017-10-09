@@ -124,7 +124,7 @@ app.controller('SpreedMeetingController', ['$scope', '$http', '$q', 'SpreedMeeti
 				}
 				var type = $scope.properties.spreedmeeting.parameters.type;
 				var name = $scope.properties.summary.value;
-				SpreedMeetingService.getNewRoomToken(type).then(function(token) {
+				SpreedMeetingService.createRoom(type).then(function(token) {
 					setRoomToken(token);
 					SpreedMeetingService.setRoomName(token, name);
 					decorateAttendees($scope.properties.attendee)
