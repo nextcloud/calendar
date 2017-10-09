@@ -75,6 +75,23 @@ app.service('SpreedMeetingService', ['$rootScope', '$http', '$location', '$q', f
 		});
 	};
 
+	this.setRoomName = function(token, name) {
+		return $http({
+			method: 'PUT',
+			url: OC.linkToOCS(appBase + '/api/v1/room', 2) + token,
+			format: 'json',
+			data: {
+				roomName: name,
+			},
+		}).then(function(res) {
+			console.log(res);
+			var token = res.data.ocs.data.token;
+			return token;
+		}, function() {
+			// TODO(leon): Maybe pass / annotate error
+		});
+	};
+
 	this.archiveRoom = function(token) {
 		// TODO(leon): Notify backend to archive room
 		var deferred = $q.defer();
