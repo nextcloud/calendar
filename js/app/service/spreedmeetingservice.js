@@ -84,9 +84,6 @@ app.service('SpreedMeetingService', ['$rootScope', '$http', '$location', '$q', f
 				roomName: name,
 			},
 		}).then(function(res) {
-			console.log(res);
-			var token = res.data.ocs.data.token;
-			return token;
 		}, function() {
 			// TODO(leon): Maybe pass / annotate error
 		});
