@@ -140,4 +140,11 @@ app.controller('SpreedMeetingController', ['$scope', '$http', '$q', 'SpreedMeeti
 		});
 	}
 
+	if ($scope.$parent.registerDeleteHook) {
+		$scope.$parent.registerDeleteHook(function() {
+			var token = getRoomToken();
+			SpreedMeetingService.deleteRoom(token);
+		});
+	}
+
 }]);

@@ -48,6 +48,7 @@ app.controller('EditorController', ['$scope', '$q', 'TimezoneService', 'AutoComp
 
 		$scope.preEditingHooks = [];
 		$scope.postEditingHooks = [];
+		$scope.deleteHooks = [];
 
 		$scope.tabs = [
 			{title: t('calendar', 'Details'), value: 0},
@@ -95,6 +96,10 @@ app.controller('EditorController', ['$scope', '$q', 'TimezoneService', 'AutoComp
 
 		$scope.registerPostHook = function(callback) {
 			$scope.postEditingHooks.push(callback);
+		};
+
+		$scope.registerDeleteHook = function(callback) {
+			$scope.deleteHooks.push(callback);
 		};
 
 		var failedToClose = function(reason) {
@@ -173,6 +178,9 @@ app.controller('EditorController', ['$scope', '$q', 'TimezoneService', 'AutoComp
 
 		$scope.delete = function() {
 			$uibModalInstance.dismiss('delete');
+			angular.forEach($scope.deleteHooks, function(callback) {
+				callback();
+			});
 		};
 
 		$scope.export = function() {

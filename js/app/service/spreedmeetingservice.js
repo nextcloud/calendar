@@ -95,4 +95,14 @@ app.service('SpreedMeetingService', ['$rootScope', '$http', '$location', '$q', f
 		return deferred.promise;
 	};
 
+	this.deleteRoom = function(token) {
+		return $http({
+			method: 'DELETE',
+			url: OC.linkToOCS(appBase + '/api/v1/room', 2) + token,
+		}).then(function(res) {
+		}, function() {
+			// TODO(leon): Maybe pass / annotate error
+		});
+	};
+
 }]);
