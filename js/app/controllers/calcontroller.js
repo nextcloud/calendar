@@ -295,6 +295,21 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 							});
 						}
 					}
+
+					// TODO(leon): Trigger event instead
+					var spreedmeeting = event.getSimpleEvent().spreedmeeting;
+					if (spreedmeeting && spreedmeeting.parameters.token) {
+						var icon = angular.element('<img>')
+							.attr('src', OC.filePath('spreed', 'img', 'app.svg'))
+						;
+						var wrapper = angular.element('<div>')
+							.addClass('spreedmeeting')
+							.append(icon)
+						;
+						element.find('.fc-content')
+							.append(wrapper)
+						;
+					}
 				}
 		};
 	}
