@@ -72,6 +72,7 @@ app.config(['$provide', '$httpProvider',
 		const shareeCanEditShares = angular.element('#fullcalendar').attr('data-shareeCanEditShares') === 'yes';
 		const shareeCanEditCalendarProperties = angular.element('#fullcalendar').attr('data-shareeCanEditCalendarProperties') === 'yes';
 		const canSharePublicLink = angular.element('#fullcalendar').attr('data-canSharePublicLink') === 'yes';
+		const createSpreedMeetingByDefault = angular.element('#fullcalendar').attr('data-createSpreedMeetingByDefault') === 'yes';
 		$provide.constant('constants', {
 			initialView,
 			emailAddress,
@@ -81,6 +82,7 @@ app.config(['$provide', '$httpProvider',
 			shareeCanEditShares,
 			shareeCanEditCalendarProperties,
 			canSharePublicLink,
+			createSpreedMeetingByDefault,
 			SHARE_TYPE_USER: 0,
 			SHARE_TYPE_GROUP: 1
 		});

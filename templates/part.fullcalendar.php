@@ -37,6 +37,7 @@
 	data-shareeCanEditShares="<?php p($_['shareeCanEditShares']); ?>"
 	data-shareeCanEditCalendarProperties="<?php p($_['shareeCanEditCalendarProperties']); ?>"
 	data-canSharePublicLink="<?php p($_['canSharePublicLink']); ?>"
+	data-createSpreedMeetingByDefault="<?php p($_['createSpreedMeetingByDefault'] ? 'yes' : 'no'); ?>"
 	fc
 	id="fullcalendar">
 </div>

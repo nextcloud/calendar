@@ -21,10 +21,10 @@
  *
  */
 
-app.service('SpreedMeetingService', ['$rootScope', '$http', '$location', '$q', function ($rootScope, $http, $location, $q) {
+app.service('SpreedMeetingService', ['$rootScope', '$http', '$location', '$q', 'constants', function ($rootScope, $http, $location, $q, constants) {
 	'use strict';
 
-	this.createMeetingByDefault = $location.search().hasOwnProperty('spreedmeeting');
+	this.createMeetingByDefault = constants.createSpreedMeetingByDefault || $location.search().hasOwnProperty('spreedmeeting');
 
 	this.attendeeRoles = {
 		GUEST: 'guest',

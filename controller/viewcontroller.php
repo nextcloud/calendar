@@ -200,6 +200,7 @@ class ViewController extends Controller {
 		$canSharePublicLink = $this->config->getAppValue('core', 'shareapi_allow_links', 'yes');
 
 		$isSpreedAvailable = $this->appManager->isEnabledForUser('spreed', null);
+		$createSpreedMeetingByDefault = $this->config->getAppValue($this->appName, 'create_spreed_meeting_by_default', 'no') === 'yes';
 
 		return [
 			'appVersion' => $appVersion,
@@ -209,6 +210,7 @@ class ViewController extends Controller {
 			'shareeCanEditCalendarProperties' => $shareeCanEditCalendarProperties ? 'yes' : 'no',
 			'canSharePublicLink' => $canSharePublicLink,
 			'isSpreedAvailable' => $isSpreedAvailable,
+			'createSpreedMeetingByDefault' => $createSpreedMeetingByDefault,
 		];
 	}
 
