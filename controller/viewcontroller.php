@@ -115,7 +115,6 @@ class ViewController extends Controller {
 			'isPublic' => false,
 			'isEmbedded' => false,
 			'token' => '',
-			'isSpreedAvailable' => $this->appManager->isEnabledForUser('spreed', null),
 		]));
 	}
 
@@ -200,6 +199,8 @@ class ViewController extends Controller {
 		$defaultColor = $this->config->getAppValue('theming', 'color', '#0082C9');
 		$canSharePublicLink = $this->config->getAppValue('core', 'shareapi_allow_links', 'yes');
 
+		$isSpreedAvailable = $this->appManager->isEnabledForUser('spreed', null);
+
 		return [
 			'appVersion' => $appVersion,
 			'isIE' => $isIE,
@@ -207,6 +208,7 @@ class ViewController extends Controller {
 			'shareeCanEditShares' => $shareeCanEditShares ? 'yes' : 'no',
 			'shareeCanEditCalendarProperties' => $shareeCanEditCalendarProperties ? 'yes' : 'no',
 			'canSharePublicLink' => $canSharePublicLink,
+			'isSpreedAvailable' => $isSpreedAvailable,
 		];
 	}
 
