@@ -28,6 +28,13 @@ app.directive('spreedMeetingRoomUrl', function() {
 		templateUrl: 'spreedMeetingRoomUrl.html',
 	};
 })
+.directive('spreedMeetingJoinButton', function() {
+	'use strict';
+	return {
+		restrict: 'E',
+		templateUrl: 'spreedMeetingJoinButton.html',
+	};
+})
 .directive('spreedMeetingAttendeeRoles', function() {
 	'use strict';
 	return {

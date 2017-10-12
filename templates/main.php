@@ -148,12 +148,21 @@ foreach ($scripts as $script) {
 	</script>
 
 	<script type="text/ng-template" id="spreedMeetingRoomUrl.html">
-		<div ng-show="false && properties.doScheduleMeeting">
+		<div ng-show="properties.doScheduleMeeting && getCurrentRoomURL()">
 			<label>
 				<?php p($l->t('Meeting URL:'));?> <textarea
 					name="roomurl" type="text" class="advanced--input advanced--textarea"
 					readonly="readonly" rows="1" tabindex="210">{{ getCurrentRoomURL() }}</textarea>
 			</label>
+		</div>
+	</script>
+
+	<script type="text/ng-template" id="spreedMeetingJoinButton.html">
+		<div ng-show="properties.doScheduleMeeting && getCurrentRoomURL()">
+			<a class="button"
+				ng-href="{{ getCurrentRoomURL() }}"
+				target="_blank"
+			><?php p($l->t('Join Meeting')); ?></a>
 		</div>
 	</script>
 

@@ -26,8 +26,8 @@
 * Description: The fullcalendar controller.
 */
 
-app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'VEvent', 'is', 'fc', 'EventsEditorDialogService', 'PopoverPositioningUtility', '$window', 'isPublic', 'constants',
-	function ($scope, Calendar, CalendarService, VEventService, SettingsService, TimezoneService, VEvent, is, fc, EventsEditorDialogService, PopoverPositioningUtility, $window, isPublic, constants) {
+app.controller('CalController', ['$scope', '$location', 'Calendar', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'VEvent', 'is', 'fc', 'EventsEditorDialogService', 'PopoverPositioningUtility', '$window', 'isPublic', 'constants', 'SpreedMeetingService',
+	function ($scope, $location, Calendar, CalendarService, VEventService, SettingsService, TimezoneService, VEvent, is, fc, EventsEditorDialogService, PopoverPositioningUtility, $window, isPublic, constants, SpreedMeetingService) {
 		'use strict';
 
 		is.loading = true;
@@ -298,16 +298,23 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 
 					// TODO(leon): Trigger event instead
 					var spreedmeeting = event.getSimpleEvent().spreedmeeting;
-					if (spreedmeeting && spreedmeeting.parameters.token) {
-						var icon = angular.element('<img>')
+					if (spreedmeeting) {
+						var token = spreedmeeting.parameters.token;
+						var $icon = angular.element('<img>')
 							.attr('src', OC.filePath('spreed', 'img', 'app.svg'))
 						;
-						var wrapper = angular.element('<div>')
+						var $container = angular.element('<div>')
 							.addClass('spreedmeeting')
-							.append(icon)
+							.append($icon)
+						;
+						var redirectUrl = SpreedMeetingService.getRoomURL(token);
+						var $wrapper = angular.element('<a>')
+							.attr('href', redirectUrl)
+							.attr('target', '_blank')
+							.append($container);
 						;
 						element.find('.fc-content')
-							.append(wrapper)
+							.append($wrapper)
 						;
 					}
 				}

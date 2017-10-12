@@ -35,7 +35,7 @@
 	<?php p($l->t('Schedule Spreed Meeting for this event'));?>
 </label>
 
-<div ng-show="properties.doScheduleMeeting">
+<div ng-show="properties.doScheduleMeeting" class="spreedmeeting-details">
 	<label>
 		<?php p($l->t('Meeting type:'));?>
 		<select class="event-select pull-left"
@@ -44,6 +44,8 @@
 			ng-options="t.val as t.displayname for t in properties.meetingTypes" />
 		</select>
 	</label>
+
+	<spreed-meeting-join-button class="display-inline-block full-width"></spreed-meeting-join-button>
 </div>
 
 <?php }?>
