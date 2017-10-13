@@ -84,7 +84,7 @@ class Application extends App {
 			$config = $c->getServer()->getConfig();
 			$urlGenerator = $c->getServer()->getURLGenerator();
 			$l10nFactory = $c->getServer()->getL10NFactory();
-			$l10n = $c->getServer()->getL10N();
+			$l10n = $c->getServer()->getL10N($c->query('AppName'));
 
 			return new Controller\ViewController($c->getAppName(), $request, $userSession, $config, $urlGenerator, $l10nFactory, $l10n);
 		});
