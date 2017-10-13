@@ -95,8 +95,11 @@ app.controller('SpreedMeetingController', ['$scope', '$http', '$q', 'SpreedMeeti
 		},
 	};
 	angular.extend($scope.properties, {
-		// We have a meeting if we have a token or want to create a meeting by default
-		doScheduleMeeting: !!getRoomToken() || SpreedMeetingService.createMeetingByDefault,
+		// We do schedule a meeting if
+		// 1. We already have a token
+		// or
+		// 2. Are about to create a new event and chose to create a meeting by default
+		doScheduleMeeting: !!getRoomToken() || ($scope.is_new && SpreedMeetingService.createMeetingByDefault),
 	});
 
 	// This function might be undefined if this controller is used from a directive
