@@ -24,6 +24,9 @@
 app.service('SpreedMeetingService', ['$rootScope', '$http', '$location', '$q', 'constants', function ($rootScope, $http, $location, $q, constants) {
 	'use strict';
 
+	var defaultUrlTemplate = 'call/$meetingId';
+
+	this.meetingUrlTemplate = constants.spreedMeetingUrlTemplate || defaultUrlTemplate;
 	this.createMeetingByDefault = constants.createSpreedMeetingByDefault || $location.search().hasOwnProperty('spreedmeeting');
 
 	this.attendeeRoles = {
@@ -55,7 +58,7 @@ app.service('SpreedMeetingService', ['$rootScope', '$http', '$location', '$q', '
 		if (!token) {
 			return null;
 		}
-		return getURL('call/' + token);
+		return getURL(this.meetingUrlTemplate.replace('$meetingId', token));
 	};
 
 	this.createRoom = function(type) {
