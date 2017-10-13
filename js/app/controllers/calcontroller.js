@@ -311,7 +311,7 @@ app.controller('CalController', ['$scope', '$location', 'Calendar', 'CalendarSer
 						var $wrapper = angular.element('<a>')
 							.attr('href', redirectUrl)
 							.attr('target', '_blank')
-							.append($container);
+							.append($container)
 						;
 						element.find('.fc-content')
 							.append($wrapper)
