@@ -298,7 +298,7 @@ app.controller('CalController', ['$scope', '$location', 'Calendar', 'CalendarSer
 
 					// TODO(leon): Trigger event instead
 					var spreedmeeting = event.getSimpleEvent().spreedmeeting;
-					if (spreedmeeting) {
+					if (spreedmeeting && spreedmeeting.parameters.token) {
 						var token = spreedmeeting.parameters.token;
 						var $icon = angular.element('<img>')
 							.attr('src', OC.filePath('spreed', 'img', 'app.svg'))
