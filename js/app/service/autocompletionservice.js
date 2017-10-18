@@ -26,20 +26,16 @@ app.service('AutoCompletionService', ['$rootScope', '$http',
 		'use strict';
 
 		this.searchAttendee = function(name) {
-			return $http.get($rootScope.baseUrl + 'autocompletion/attendee', {
-				params: {
-					search: name
-				}
+			return $http.post($rootScope.baseUrl + 'autocompletion/attendee', {
+				search: name
 			}).then(function (response) {
 				return response.data;
 			});
 		};
 
 		this.searchLocation = function(address) {
-			return $http.get($rootScope.baseUrl + 'autocompletion/location', {
-				params: {
-					location: address
-				}
+			return $http.post($rootScope.baseUrl + 'autocompletion/location', {
+				location: address
 			}).then(function (response) {
 				return response.data;
 			});

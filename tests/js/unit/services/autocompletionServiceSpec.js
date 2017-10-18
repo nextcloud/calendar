@@ -17,9 +17,11 @@ describe('AutoCompletion Service', function () {
 	});
 
 	it('should load attendees from the server', function() {
-		http.expect('GET', 'fancy-url/autocompletion/attendee?search=hans+dieter').respond(200, [{ foo: 'bar' }]);
+		var search = 'hans dieter';
 
-		AutoCompletionService.searchAttendee('hans dieter').then(function(result) {
+		http.expect('POST', 'fancy-url/autocompletion/attendee', { search: search }).respond(200, [{ foo: 'bar' }]);
+
+		AutoCompletionService.searchAttendee(search).then(function(result) {
 			expect(result).toEqual([{ foo: 'bar' }]);
 		});
 
@@ -27,9 +29,11 @@ describe('AutoCompletion Service', function () {
 	});
 
 	it('should load locations from the server', function() {
-		http.expect('GET', 'fancy-url/autocompletion/location?location=place+123').respond(200, [{ bar: 'foo' }]);
+		var location = 'place 123';
 
-		AutoCompletionService.searchLocation('place 123').then(function(result) {
+		http.expect('POST', 'fancy-url/autocompletion/location', { location: location }).respond(200, [{ bar: 'foo' }]);
+
+		AutoCompletionService.searchLocation(location).then(function(result) {
 			expect(result).toEqual([{ bar: 'foo' }]);
 		});
 
