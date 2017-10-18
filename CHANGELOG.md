@@ -1,3 +1,8 @@
+## 1.5.6 - 2017-10-18
+### Fixed
+- Issue with sharing read-write with users
+  [#606](https://github.com/nextcloud/calendar/issues/606)
+
 ## 1.5.5 - 2017-09-19
 ### Fixed
 - Remove invalid signed signature from release 
