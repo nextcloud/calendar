@@ -25,6 +25,7 @@
  /* OpenGraph */
 if($_['isPublic']) {
 	OCP\Util::addHeader('meta', ['property' => "og:title", 'content' => $theme->getName() . ' - ' . $theme->getSlogan()]);
+	OCP\Util::addHeader('meta', ['property' => "og:description", 'content' => $l->t('Public access')]);
 	OCP\Util::addHeader('meta', ['property' => "og:site_name", 'content' => $theme->getName()]);
 	OCP\Util::addHeader('meta', ['property' => "og:url", 'content' => $_['shareURL']]);
 	OCP\Util::addHeader('meta', ['property' => "og:type", 'content' => "object"]);
