@@ -47,36 +47,27 @@ app.filter('simpleReminderDescription', function() {
 
 		var relative = alarm.trigger.type === 'duration';
 		var relatedToStart = alarm.trigger.related === 'start';
+		var translationEscapingDisabled = { escape: false };
+		var translationVars = { type: getActionName(alarm) };
 		if (relative) {
 			var timeString = moment.duration(Math.abs(alarm.trigger.value), 'seconds').humanize();
 			if (alarm.trigger.value < 0) {
-				if (relatedToStart) {
-					return t('calendar', '{type} {time} before the event starts', {type: getActionName(alarm), time: timeString});
-				} else {
-					return t('calendar', '{type} {time} before the event ends', {type: getActionName(alarm), time: timeString});
-				}
+				var translationKey = '{type} {time} before the event ' + ( relatedToStart ? 'starts' : 'ends' );
+				translationVars.time = timeString;
 			} else if (alarm.trigger.value > 0) {
-				if (relatedToStart) {
-					return t('calendar', '{type} {time} after the event starts', {type: getActionName(alarm), time: timeString});
-				} else {
-					return t('calendar', '{type} {time} after the event ends', {type: getActionName(alarm), time: timeString});
-				}
+				var translationKey = '{type} {time} after the event ' + ( relatedToStart ? 'starts' : 'ends' );
+				translationVars.time = timeString;
 			} else {
-				if (relatedToStart) {
-					return t('calendar', '{type} at the event\'s start', {type: getActionName(alarm)});
-				} else {
-					return t('calendar', '{type} at the event\'s end', {type: getActionName(alarm)});
-				}
+				var translationKey = '{type} at the event\'s ' + ( relatedToStart ? 'start' : 'end' );
 			}
 		} else {
 			if (alarm.editor && moment.isMoment(alarm.editor.absMoment)) {
-				return t('calendar', '{type} at {time}', {
-					type: getActionName(alarm),
-					time: alarm.editor.absMoment.format('LLLL')
-				});
+				var translationKey = '{type} at {time}';
+				translationVars.time = alarm.editor.absMoment.format('LLLL');
 			} else {
 				return '';
 			}
 		}
+		return t('calendar', translationKey, translationVars, undefined, translationEscapingDisabled);
 	};
 });
