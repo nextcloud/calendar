@@ -33,8 +33,8 @@ describe('The simpleReminderDescription filter', function () {
 				type: 'duration',
 				value: -900
 			}
-		})).toEqual('{type} {time} before the event starts');
-		expect(t).toHaveBeenCalledWith( 'calendar', '{type} {time} before the event starts', { type: 'Audio alarm', time: '15 minutes' });
+		})).toEqual('Audio alarm {time} before the event starts');
+		expect(t).toHaveBeenCalledWith( 'calendar', 'Audio alarm {time} before the event starts', { time: '15 minutes' });
 	});
 
 	it('should display email alarms correctly', function() {
@@ -52,8 +52,8 @@ describe('The simpleReminderDescription filter', function () {
 				type: 'duration',
 				value: -900
 			}
-		})).toEqual('{type} {time} before the event starts');
-		expect(t).toHaveBeenCalledWith( 'calendar', '{type} {time} before the event starts', { type: 'Email', time: '15 minutes' });
+		})).toEqual('Email {time} before the event starts');
+		expect(t).toHaveBeenCalledWith( 'calendar', 'Email {time} before the event starts', { time: '15 minutes' });
 	});
 
 	it('should display popup alarms correctly', function() {
@@ -71,8 +71,8 @@ describe('The simpleReminderDescription filter', function () {
 				type: 'duration',
 				value: -900
 			}
-		})).toEqual('{type} {time} before the event starts');
-		expect(t).toHaveBeenCalledWith( 'calendar', '{type} {time} before the event starts', { type: 'Pop-up', time: '15 minutes' });
+		})).toEqual('Pop-up {time} before the event starts');
+		expect(t).toHaveBeenCalledWith( 'calendar', 'Pop-up {time} before the event starts', { time: '15 minutes' });
 	});
 
 	it('should display none alarms correctly', function() {
@@ -90,8 +90,8 @@ describe('The simpleReminderDescription filter', function () {
 				type: 'duration',
 				value: -900
 			}
-		})).toEqual('{type} {time} before the event starts');
-		expect(t).toHaveBeenCalledWith( 'calendar', '{type} {time} before the event starts', { type: 'None', time: '15 minutes' });
+		})).toEqual('None {time} before the event starts');
+		expect(t).toHaveBeenCalledWith( 'calendar', 'None {time} before the event starts', { time: '15 minutes' });
 	});
 
 	it('should display unknown alarms with it\'s identifier', function() {
@@ -128,8 +128,8 @@ describe('The simpleReminderDescription filter', function () {
 				type: 'duration',
 				value: -900
 			}
-		})).toEqual('{type} {time} before the event starts');
-		expect(t).toHaveBeenCalledWith( 'calendar', '{type} {time} before the event starts', { type: 'Audio alarm', time: '15 minutes' });
+		})).toEqual('Audio alarm {time} before the event starts');
+		expect(t).toHaveBeenCalledWith( 'calendar', 'Audio alarm {time} before the event starts', { time: '15 minutes' });
 	});
 
 	it('should display alarms correctly (relative before end)', function() {
@@ -147,8 +147,8 @@ describe('The simpleReminderDescription filter', function () {
 				type: 'duration',
 				value: -900
 			}
-		})).toEqual('{type} {time} before the event ends');
-		expect(t).toHaveBeenCalledWith( 'calendar', '{type} {time} before the event ends', { type: 'Audio alarm', time: '15 minutes' });
+		})).toEqual('Audio alarm {time} before the event ends');
+		expect(t).toHaveBeenCalledWith( 'calendar', 'Audio alarm {time} before the event ends', { time: '15 minutes' });
 	});
 
 	it('should display alarms correctly (relative at start)', function() {
@@ -166,8 +166,8 @@ describe('The simpleReminderDescription filter', function () {
 				type: 'duration',
 				value: 0
 			}
-		})).toEqual('{type} at the event\'s start');
-		expect(t).toHaveBeenCalledWith( 'calendar', '{type} at the event\'s start', { type: 'Audio alarm'});
+		})).toEqual('Audio alarm at the event\'s start');
+		expect(t).toHaveBeenCalledWith( 'calendar', 'Audio alarm at the event\'s start');
 	});
 
 	it('should display alarms correctly (relative at end)', function() {
@@ -185,8 +185,8 @@ describe('The simpleReminderDescription filter', function () {
 				type: 'duration',
 				value: 0
 			}
-		})).toEqual('{type} at the event\'s end');
-		expect(t).toHaveBeenCalledWith( 'calendar', '{type} at the event\'s end', { type: 'Audio alarm'});
+		})).toEqual('Audio alarm at the event\'s end');
+		expect(t).toHaveBeenCalledWith( 'calendar', 'Audio alarm at the event\'s end');
 	});
 
 	it('should display alarms correctly (relative after start)', function() {
@@ -204,8 +204,8 @@ describe('The simpleReminderDescription filter', function () {
 				type: 'duration',
 				value: 900
 			}
-		})).toEqual('{type} {time} after the event starts');
-		expect(t).toHaveBeenCalledWith( 'calendar', '{type} {time} after the event starts', { type: 'Audio alarm', time: '15 minutes' });
+		})).toEqual('Audio alarm {time} after the event starts');
+		expect(t).toHaveBeenCalledWith( 'calendar', 'Audio alarm {time} after the event starts', { time: '15 minutes' });
 	});
 
 	it('should display alarms correctly (relative after end)', function() {
@@ -223,8 +223,8 @@ describe('The simpleReminderDescription filter', function () {
 				type: 'duration',
 				value: 900
 			}
-		})).toEqual('{type} {time} after the event ends');
-		expect(t).toHaveBeenCalledWith( 'calendar', '{type} {time} after the event ends', { type: 'Audio alarm', time: '15 minutes' });
+		})).toEqual('Audio alarm {time} after the event ends');
+		expect(t).toHaveBeenCalledWith( 'calendar', 'Audio alarm {time} after the event ends', { time: '15 minutes' });
 	});
 
 	it('should display alarms correctly (absolute)', function() {
@@ -244,8 +244,8 @@ describe('The simpleReminderDescription filter', function () {
 				type: 'date-time',
 				value: moment('2013-02-08 09:30')
 			}
-		})).toEqual('{type} at {time}');
-		expect(t).toHaveBeenCalledWith( 'calendar', '{type} at {time}', { type: 'Audio alarm', time: 'Friday, February 8, 2013 9:30 AM' });
+		})).toEqual('Audio alarm at {time}');
+		expect(t).toHaveBeenCalledWith( 'calendar', 'Audio alarm at {time}', { time: 'Friday, February 8, 2013 9:30 AM' });
 	});
 
 	it('should return empty string when editor is not set for absolute alarms', function() {
