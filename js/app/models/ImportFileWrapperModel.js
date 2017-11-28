@@ -12,6 +12,7 @@ app.factory('ImportFileWrapper', function(Hook, ICalSplitterUtility) {
 			progressToReach: -1
 		};
 		const iface = {
+			duplicates: 0,
 			_isAImportFileWrapperObject: true
 		};
 

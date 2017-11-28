@@ -99,7 +99,7 @@ app.service('VEventService', function(DavClient, StringUtility, XMLUtility, VEve
 
 		return DavClient.request('REPORT', url, headers, xml).then(function (response) {
 			if (!DavClient.wasRequestSuccessful(response.status)) {
-				return Promise.reject(response.status);
+				return Promise.reject(response);
 			}
 
 			const vevents = [];
@@ -140,7 +140,7 @@ app.service('VEventService', function(DavClient, StringUtility, XMLUtility, VEve
 
 		return DavClient.request('GET', url, headers, '').then(function (response) {
 			if (!DavClient.wasRequestSuccessful(response.status)) {
-				return Promise.reject(response.status);
+				return Promise.reject(response);
 			}
 
 			const calendarData = response.body;
@@ -172,7 +172,7 @@ app.service('VEventService', function(DavClient, StringUtility, XMLUtility, VEve
 
 		return DavClient.request('PUT', url, headers, data).then(function (response) {
 			if (!DavClient.wasRequestSuccessful(response.status)) {
-				return Promise.reject(response.status);
+				return Promise.reject(response);
 			}
 
 			if (returnEvent) {
@@ -199,7 +199,7 @@ app.service('VEventService', function(DavClient, StringUtility, XMLUtility, VEve
 
 		return DavClient.request('PUT', url, headers, payload).then(function (response) {
 			if (!DavClient.wasRequestSuccessful(response.status)) {
-				return Promise.reject(response.status);
+				return Promise.reject(response);
 			}
 
 			// update etag of existing event
@@ -225,7 +225,7 @@ app.service('VEventService', function(DavClient, StringUtility, XMLUtility, VEve
 			if (DavClient.wasRequestSuccessful(response.status)) {
 				return true;
 			} else {
-				return Promise.reject(response.status);
+				return Promise.reject(response);
 			}
 		});
 	};

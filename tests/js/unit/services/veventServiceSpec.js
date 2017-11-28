@@ -211,7 +211,7 @@ describe('VEventService', function () {
 			fail('Promise was not supposed to succeed');
 		});
 		getAllRequest.catch(function(reason) {
-			expect(reason).toEqual(404);
+			expect(reason).toEqual({body: [], status: 404});
 			called = true;
 		});
 		$rootScope.$apply();
@@ -291,7 +291,7 @@ describe('VEventService', function () {
 			fail('Promise was not supposed to succeed');
 		});
 		getRequest.catch(function(reason) {
-			expect(reason).toEqual(404);
+			expect(reason).toEqual({status: 404});
 			called = true;
 		});
 		$rootScope.$apply();
@@ -429,7 +429,7 @@ describe('VEventService', function () {
 			fail('Promise was not supposed to succeed');
 		});
 		createRequest.catch(function(reason) {
-			expect(reason).toEqual(403);
+			expect(reason).toEqual({status: 403});
 			called = true;
 		});
 		$rootScope.$apply();
@@ -468,7 +468,7 @@ describe('VEventService', function () {
 			fail('Promise was not supposed to succeed');
 		});
 		createRequest.catch(function(reason) {
-			expect(reason).toEqual(403);
+			expect(reason).toEqual({status: 403});
 			called = true;
 		});
 		$rootScope.$apply();
@@ -556,7 +556,7 @@ describe('VEventService', function () {
 			fail('Promise was not supposed to succeed');
 		});
 		updateRequest.catch(function(reason) {
-			expect(reason).toEqual(412);
+			expect(reason).toEqual({status: 412});
 			expect(event.etag).toEqual('etag2.71828');
 			called = true;
 		});
@@ -631,7 +631,7 @@ describe('VEventService', function () {
 			fail('Promise was not supposed to succeed');
 		});
 		deleteRequest.catch(function(reason) {
-			expect(reason).toEqual(403);
+			expect(reason).toEqual({status: 403});
 			called = true;
 			return true;
 		});
