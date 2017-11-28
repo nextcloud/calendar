@@ -26,7 +26,7 @@
 <li class="new-entity-container" ng-class="{editing: $scope.addingSub}">
 
 	<a class="new-entity icon-add" ng-click="$scope.addingSub = true" id="new-subscription-button">
-		<?php p($l->t('New Subscription')); ?>	
+		<?php p($l->t('New Subscription')); ?>
 	</a>
 
 	<div class="app-navigation-entry-edit calendarlist-fieldset add-new hide">
@@ -40,7 +40,7 @@
 				autofocus />
 			<input
 				id="submitnewSubscription"
-				class="primary accept-button icon-checkmark"
+				class="primary accept-button icon-checkmark-white"
 				ng-disabled="subscription.newSubscriptionLocked"
 				oc-click-slide-toggle="{
 						selector: '.add-new-subscription',
