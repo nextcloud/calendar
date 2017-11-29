@@ -35,7 +35,7 @@
    href="#"
    ng-click="triggerEnable(item)"
    title="{{
-      item.calendar.hasWarnings() 
+      item.calendar.hasWarnings()
       ? '<?php p($l->t('Some events in this calendar are broken. Please check the JS console for more info.')); ?>'
       :item.calendar.displayname
    }}">
@@ -96,7 +96,7 @@
 	 ng-if="item.isEditing()">
 	<form ng-submit="performUpdate(item)">
 		<input type="text" ng-model="item.displayname">
-		<input type="submit" value="" class="primary icon-checkmark-white accept-button">
+		<input type="submit" value="" class="icon-checkmark accept-button">
 		<input type="button" value="" class="btn close-button icon-close" ng-click="item.cancelEditor()">
 	</form>
 	<colorpicker class="colorpicker"
