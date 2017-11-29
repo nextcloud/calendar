@@ -26,14 +26,14 @@
 <li class="new-entity-container" ng-class="{editing: $scope.addingCal}">
 
 	<a class="new-entity icon-add" ng-click="$scope.addingCal = true" id="new-calendar-button">
-		<?php p($l->t('New Calendar')); ?>	
+		<?php p($l->t('New Calendar')); ?>
 	</a>
 
 	<div class="app-navigation-entry-edit calendarlist-fieldset add-new hide">
 		<form ng-submit="create(newCalendarInputVal,selected)">
 			<input class="app-navigation-input" type="text" ng-model="newCalendarInputVal" autofocus placeholder="<?php p($l->t('Name')); ?>"/>
 			<input type="submit" value=""
-				   class="primary icon-checkmark-white accept-button new-accept-button"
+				   class="icon-checkmark accept-button new-accept-button"
 				   id="submitnewCalendar"
 				   oc-click-slide-toggle="{
 				   		selector: '.add-new',

@@ -40,7 +40,7 @@
 				autofocus />
 			<input
 				id="submitnewSubscription"
-				class="primary accept-button icon-checkmark-white"
+				class="accept-button icon-checkmark"
 				ng-disabled="subscription.newSubscriptionLocked"
 				oc-click-slide-toggle="{
 						selector: '.add-new-subscription',
