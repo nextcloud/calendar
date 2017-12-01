@@ -121,6 +121,13 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
 			});
 		};
 
+		$scope.keypress = function(event) {
+			var code = event.keyCode || event.which;
+			if(event.ctrlKey===true && code === 13) {
+				$scope.save();
+			}
+		};
+
 		$scope.validate = function() {
 			var error = false;
 			if ($scope.properties.summary === null || $scope.properties.summary.value.trim() === '') {
