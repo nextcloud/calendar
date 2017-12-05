@@ -26,8 +26,8 @@
 * Description: The fullcalendar controller.
 */
 
-app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'VEvent', 'is', 'fc', 'EventsEditorDialogService', 'PopoverPositioningUtility', '$window', 'isPublic', 'constants',
-	function ($scope, Calendar, CalendarService, VEventService, SettingsService, TimezoneService, VEvent, is, fc, EventsEditorDialogService, PopoverPositioningUtility, $window, isPublic, constants) {
+app.controller('CalController', ['$scope', '$location', 'Calendar', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'VEvent', 'is', 'fc', 'EventsEditorDialogService', 'PopoverPositioningUtility', '$window', 'isPublic', 'constants',
+	function ($scope, $location, Calendar, CalendarService, VEventService, SettingsService, TimezoneService, VEvent, is, fc, EventsEditorDialogService, PopoverPositioningUtility, $window, isPublic, constants) {
 		'use strict';
 
 		is.loading = true;
@@ -37,6 +37,25 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 		$scope.defaulttimezone = TimezoneService.current();
 		$scope.eventModal = null;
 		var switcher = [];
+
+		(function() {
+			var search = $location.search();
+			var idToEdit = search.hasOwnProperty('edit') && search.edit;
+			if (!idToEdit) {
+				return;
+			}
+
+			var done = $scope.$on('doneRendering', () => {
+				var matches = fc.elm.fullCalendar('clientEvents', function(event) {
+					return idToEdit === event.id;
+				});
+				if (matches.length > 0) {
+					done();
+					angular.element('.' + matches[0].className)
+						.trigger('click');
+				}
+			});
+		})();
 
 		function showCalendar(url) {
 			if (switcher.indexOf(url) === -1 && $scope.eventSource[url].isRendering === false) {
@@ -295,6 +314,13 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 							});
 						}
 					}
+				},
+				eventAfterAllRender: function() {
+					if (!fc.elm) {
+						// Don't trigger an event if we haven't done anything yet
+						return;
+					}
+					$scope.$emit('doneRendering');
 				}
 		};
 	}
