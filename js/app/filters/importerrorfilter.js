@@ -4,7 +4,7 @@
  * @author Raghu Nayyar
  * @author Georg Ehrke
  * @copyright 2016 Raghu Nayyar <hey@raghunayyar.com>
- * @copyright 2016 Georg Ehrke <oc.list@georgehrke.com>
+ * @copyright 2017 Georg Ehrke <oc.list@georgehrke.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -28,18 +28,28 @@ app.filter('importErrorFilter', function () {
 			return '';
 		}
 
+		const all = file.progressToReach;
+		const errors = (file.errors - file.duplicates);
+		const duplicates = file.duplicates;
+		const imported = (all - file.errors);
+
 		//TODO - use n instead of t to use proper plurals in all translations
-		switch(file.errors) {
-			case 0:
-				return t('calendar', 'Successfully imported');
-
-			case 1:
-				return t('calendar', 'Partially imported, 1 failure');
-
-			default:
-				return t('calendar', 'Partially imported, {n} failures', {
-					n: file.errors
-				});
+		if (file.errors === 0) {
+			return t('calendar', 'Successfully imported {imported} objects', {imported});
+		} else if(file.errors === 1) {
+			if (file.duplicates === 1) {
+				return t('calendar', 'Imported {imported} out of {all}, skipped one duplicate', {all, imported});
+			} else {
+				return t('calendar', 'Imported {imported} out of {all}, one failure', {all, imported});
+			}
+		} else {
+			if (file.duplicates === 0) {
+				return t('calendar', 'Imported {imported} out of {all}, {errors} failures', {all, errors, imported});
+			} else if (file.duplicates === file.errors) {
+				return t('calendar', 'Imported {imported} out of {all}, skipped {duplicates} duplicates', {all, duplicates, imported});
+			} else {
+				return t('calendar', 'Imported {imported} out of {all}, {errors} failures, skipped {duplicates} duplicates', {all, duplicates, errors, imported});
+			}
 		}
 	};
 });

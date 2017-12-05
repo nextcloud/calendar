@@ -55,9 +55,21 @@ app.controller('ImportController', ['$scope', '$filter', 'CalendarService', 'VEv
 							fileWrapper.errors++;
 						}
 					}).catch(function(reason) {
+						if (reason.status === 400) {
+							const xml = reason.xhr.responseXML;
+							const error = xml.children[0];
+
+							if (error) {
+								const message = error.children[1].textContent;
+								if (message === 'Calendar object with uid already exists in this calendar collection.') {
+									fileWrapper.duplicates++;
+								}
+							}
+						}
+
 						fileWrapper.state = ImportFileWrapper.stateImporting;
-						fileWrapper.progress++;
 						fileWrapper.errors++;
+						fileWrapper.progress++;
 					});
 				});
 			};
