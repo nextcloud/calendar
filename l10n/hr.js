@@ -37,7 +37,6 @@ OC.L10N.register(
     "days" : "dana",
     "week" : "tjedan",
     "before" : "prije",
-    "Audio alarm" : "Audio alarm",
     "Title of the Event" : "Naslov Događaja",
     "Delete" : "Izbrišite",
     "Cancel" : "Odustanite",

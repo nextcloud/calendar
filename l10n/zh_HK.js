@@ -39,8 +39,6 @@ OC.L10N.register(
     "start" : "開始",
     "end" : "結束",
     "Week {number} of {year}" : "{year} 年的第 {number} 週",
-    "Successfully imported" : "成功滙入",
-    "Audio alarm" : "聲音響鬧",
     "Title of the Event" : "活動標題",
     "All day Event" : "全日活動",
     "Delete" : "刪除",

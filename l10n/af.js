@@ -40,7 +40,6 @@ OC.L10N.register(
     "start" : "begin",
     "end" : "einde",
     "Week {number} of {year}" : "Week {number} van {year}",
-    "Successfully imported" : "Suksesvol ingevoer",
     "Delete" : "Skrap",
     "Cancel" : "Kanselleer",
     "More ..." : "Nog …",
