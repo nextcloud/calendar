@@ -274,4 +274,16 @@ app.controller('VAlarmController', function($scope) {
 			parseInt(alarm.editor.repeatNValue) *
 			parseInt(alarm.editor.repeatTimeUnit);
 	};
+
+	$scope.hasAnyEmailReminders = function() {
+		let hasEmail = false;
+
+		angular.forEach($scope.properties.alarm, function(alarm) {
+			if (alarm.action.value === 'EMAIL') {
+				hasEmail = true;
+			}
+		});
+
+		return hasEmail;
+	};
 });
