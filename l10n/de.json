@@ -72,6 +72,7 @@
     "end" : "Ende",
     "Editing reminders of unknown type not supported." : "Das Ändern von Erinnerungen unbekannten Typs wird nicht unterstützt.",
     "Week {number} of {year}" : "Woche {number} aus {year}",
+    "Successfully imported {imported} objects" : "Erfolgreich {imported} Objekte importiert ",
     "{type} {time} before the event starts" : "{type} {time} vor Beginn des Ereignisses",
     "{type} {time} before the event ends" : "{type} {time} vor Ende des Ereignisses",
     "{type} {time} after the event starts" : "{type} {time} nach Beginn des Ereignisses",

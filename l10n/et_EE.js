@@ -92,6 +92,7 @@ OC.L10N.register(
     "Event status" : "Sündmuse staatus",
     "Visibility when sharing" : "Nähtavus jagamisel",
     "Export" : "Ekspordi",
+    "%s has published the calendar %s" : "%s on avaldanud kalendri %s",
     "Click on the link below to access it" : "Ligipääsuks vajuta allolevale lingile",
     "Day" : "Päev",
     "Week" : "Nädal",
