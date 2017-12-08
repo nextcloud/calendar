@@ -252,6 +252,11 @@ $color-border: nc-darken($color-main-background, 8%) !default;
 	z-index: 1000;
 }
 
+#app-navigation .loader-list::after {
+	left: 50% !important;
+	top: 50% !important;
+}
+
 /* ColorPicker overrides. */
 .colorpicker {
 	display: block;
@@ -435,8 +440,12 @@ input.mailerInput {
 }
 
 /* Calendar Sharing */
+.calendarShares {
+	width: 100%;
+}
+
 input.shareeInput {
-	width: 89%;
+	width: calc(100% - 12px);
 	margin: 6px;
 }
 

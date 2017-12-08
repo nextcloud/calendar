@@ -22,7 +22,7 @@
  *
  */
 ?>
-<li ng-if="is.loading" class="icon-loading-small"><a></a></li>
+<li ng-if="is.loading" class="icon-loading-small loader-list"><a></a></li>
 <li ng-repeat="item in calendarListItems | orderBy: item.calendar.order | subscriptionListFilter"
 	class="app-navigation-list-item"
 	ng-class="{
