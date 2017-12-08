@@ -1,4 +1,4 @@
-## 1.5.7 0 2017-12-08
+## 1.5.7 - 2017-12-08
 ### Fixed
 - Issue with displaying wrong year in upper left corner for certain cases
   [#434](https://github.com/nextcloud/calendar/issues/434)
