@@ -1,3 +1,14 @@
+## 1.5.7 0 2017-12-08
+### Fixed
+- Issue with displaying wrong year in upper left corner for certain cases
+  [#434](https://github.com/nextcloud/calendar/issues/434)
+- Don't allow importing events with the same UID in a calendar
+  [#589](https://github.com/nextcloud/calendar/issues/589)
+- Show warning about email reminders not being implemented in the server yet
+  [#676](https://github.com/nextcloud/calendar/pull/676)
+- Double escaping of alarm types in the event editor
+  [#269](https://github.com/nextcloud/calendar/issues/269)
+
 ## 1.5.6 - 2017-10-18
 ### Fixed
 - Issue with sharing read-write with users
