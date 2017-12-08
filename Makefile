@@ -63,17 +63,14 @@ endif
 # * the app is inside the nextcloud/apps folder
 # * the private key is located in ~/.nextcloud/calendar.key
 # * the certificate is located in ~/.nextcloud/calendar.crt
-occ=$(CURDIR)/../../occ
 configdir=$(CURDIR)/../../config
 private_key=$(HOME)/.nextcloud/$(app_name).key
 certificate=$(HOME)/.nextcloud/$(app_name).crt
-sign=php -f $(occ) integrity:sign-app --privateKey="$(private_key)" --certificate="$(certificate)"
-sign_skip_msg="Skipping signing, either no key and certificate found in $(private_key) and $(certificate) or occ can not be found at $(occ)"
+sign_skip_msg="Skipping signing, no key and certificate found in $(private_key) and $(certificate)"
+openssl_msg="SHA512 signature for appstore package"
 ifneq (,$(wildcard $(private_key)))
 ifneq (,$(wildcard $(certificate)))
-ifneq (,$(wildcard $(occ)))
 	CAN_SIGN=true
-endif
 endif
 endif
 
@@ -126,13 +123,6 @@ source:
 	--exclude=/build/ \
 	--exclude=/js/node_modules/ \
 	--exclude=*.log
-ifdef CAN_SIGN
-	mv $(configdir)/config.php $(configdir)/config-2.php
-	$(sign) --path "$(source_build_directory)"
-	mv $(configdir)/config-2.php $(configdir)/config.php
-else
-	@echo $(sign_skip_msg)
-endif
 	tar -cvzf $(source_package_name).tar.gz -C $(source_build_directory)/../ $(app_name)
 
 # Builds the source package for the app store, ignores php and js tests
@@ -153,19 +143,18 @@ appstore:
 	"CHANGELOG.md" \
 	".gitignore" \
 	$(appstore_build_directory)
-ifdef CAN_SIGN
-	mv $(configdir)/config.php $(configdir)/config-2.php
-	$(sign) --path="$(appstore_build_directory)"
-	mv $(configdir)/config-2.php $(configdir)/config.php
-else
-	@echo $(sign_skip_msg)
-endif
-
 ifeq "$(TAR_CAN_EXCLUDE_VCS)" "1"
 	tar -czf $(appstore_package_name).tar.gz -C $(appstore_build_directory)/../ --exclude-vcs-ignores --exclude='.gitignore' $(app_name)
 else
 	tar -czf $(appstore_package_name).tar.gz -C $(appstore_build_directory)/../ --exclude='.gitignore' $(app_name)
 endif
+ifdef CAN_SIGN
+	@echo $(openssl_msg)
+	openssl dgst -sha512 -sign $(private_key) $(appstore_package_name).tar.gz | openssl base64
+else
+	@echo $(sign_skip_msg)
+endif
+
 
 # Command for running JS and PHP tests. Works for package.json files in the js/
 # and root directory. If phpunit is not installed systemwide, a copy is fetched

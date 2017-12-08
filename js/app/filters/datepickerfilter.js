@@ -33,16 +33,13 @@ app.filter('datepickerFilter', function () {
 				return moment(datetime).format('ll');
 
 			case 'agendaWeek':
-				return t('calendar', 'Week {number} of {year}',
-					{number:moment(datetime).week(),
-						year: moment(datetime).week() === 1 ?
-							moment(datetime).add(1, 'week').year() :
-							moment(datetime).year()});
+				return t('calendar', 'Week {number} of {year}', {
+					number: moment(datetime).week(),
+					year: moment(datetime).year()
+				});
 
 			case 'month':
-				return moment(datetime).week() === 1 ?
-					moment(datetime).add(1, 'week').format('MMMM GGGG') :
-					moment(datetime).format('MMMM GGGG');
+				return moment(datetime).format('MMMM YYYY');
 
 			default:
 				return '';
