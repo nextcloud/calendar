@@ -28,7 +28,6 @@
 		<user>https://docs.nextcloud.com/server/11/user_manual/pim/calendar.html</user>
 	</documentation>
 	<category>office</category>
-	<category>productivity</category>
 	<website>https://github.com/nextcloud/calendar/</website>
 	<bugs>https://github.com/nextcloud/calendar/issues</bugs>
 	<repository type="git">https://github.com/nextcloud/calendar.git</repository>
