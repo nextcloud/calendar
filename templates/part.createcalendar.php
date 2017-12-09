@@ -32,6 +32,7 @@
 	<div class="app-navigation-entry-edit calendarlist-fieldset add-new hide">
 		<form ng-submit="create(newCalendarInputVal,selected)">
 			<input class="app-navigation-input" type="text" ng-model="newCalendarInputVal" autofocus placeholder="<?php p($l->t('Name')); ?>"/>
+			<input type="button" value="" class="icon-close" ng-click="$scope.addingCal = false" />
 			<input type="submit" value=""
 				   class="icon-checkmark accept-button new-accept-button"
 				   id="submitnewCalendar"
@@ -40,7 +41,6 @@
 						hideOnFocusLost: false,
 						cssClass: 'closed'
 					}">
-			<input type="button" value="" class="icon-close" ng-click="$scope.addingCal = false" />
 		</form>
 		<colorpicker class="colorpicker" selected="selected"></colorpicker>
 	</div>

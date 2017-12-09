@@ -38,6 +38,7 @@
 				ng-model="subscription.newSubscriptionUrl"
 				placeholder="<?php p($l->t('iCal link')); ?>"
 				autofocus />
+			<input type="button" value="" class="icon-close" ng-click="$scope.addingSub = false" />
 			<input
 				id="submitnewSubscription"
 				class="accept-button icon-checkmark"
@@ -49,7 +50,6 @@
 					}"
 				type="submit"
 				value="" />
-			<input type="button" value="" class="icon-close" ng-click="$scope.addingSub = false" />
 		</form>
 	</div>
 </li>

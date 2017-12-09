@@ -94,8 +94,8 @@
 	 ng-if="item.isEditing()">
 	<form ng-submit="performUpdate(item)">
 		<input type="text" ng-model="item.displayname">
-		<input type="submit" value="" class="icon-checkmark accept-button">
 		<input type="button" value="" class="btn close-button icon-close" ng-click="item.cancelEditor()">
+		<input type="submit" value="" class="icon-checkmark accept-button">
 	</form>
 	<colorpicker class="colorpicker"
 				 selected="item.color">
