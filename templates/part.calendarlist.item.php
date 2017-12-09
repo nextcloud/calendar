@@ -28,10 +28,7 @@
 	  ng-style="{ 'background-color' : item.calendar.enabled == true ? item.calendar.color : 'transparent' }">
 </span>
 <a class="action permanent"
-   ng-class="{
-      'calendar-list-cut-name': item.calendar.isShared() || item.calendar.isPublished(),
-      'icon-error':  item.calendar.hasWarnings()
-   }"
+   ng-class="{'icon-error': item.calendar.hasWarnings()}"
    href="#"
    ng-click="triggerEnable(item)"
    title="{{
@@ -48,12 +45,13 @@
 		<li class="app-navigation-entry-utils-menu-button calendarlist-icon share permanent"
 			ng-click="item.toggleEditingShares()"
 			ng-if="item.showSharingIcon()"
-			title="<?php p($l->t('Share Calendar')) ?>"
-			role="button"><button ng-class="{'icon-shared shared-style': item.calendar.isShared() && !item.calendar.isPublished(), 'icon-public': item.calendar.isPublished(), 'icon-shared': !item.calendar.isShared() && !item.calendar.isPublished()}"></button></li>
-		<li class="app-navigation-entry-utils-menu-button calendarlist-icon shared"
-			ng-if="item.calendar.isShared() && item.calendar.isShareable() || item.calendar.isPublished()"
-			ng-click="item.toggleEditingShares()">
-				<?php p($l->t('Shared'))?>
+			role="button">
+			<button ng-class="{
+				'icon-shared shared-style': item.calendar.isShared() && !item.calendar.isPublished(),
+				'icon-public': item.calendar.isPublished(),
+				'icon-shared': !item.calendar.isShared() && !item.calendar.isPublished()}"
+				title="{{item.calendar.isShared() && item.calendar.isShareable() || item.calendar.isPublished() ? '<?php p($l->t('Shared'))?>' : '<?php p($l->t('Share Calendar')) ?>'}}">
+			</button>
 		</li>
 		<li class="app-navigation-entry-utils-menu-button"
 			href="#"
