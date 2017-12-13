@@ -141,7 +141,7 @@
 	</ul>
 </div>
 <em class="events-fieldset-interior" ng-show="hasAnyEmailReminders()">
-	<?php p($l->t('Email reminders have not been implemented in the CalDAV server yet, hence no email reminders will be send.')); ?>
+	<?php p($l->t('Email reminders have not been implemented in the CalDAV server yet, so none will be sent.')); ?>
 </em>
 <div class="event-fieldset-interior">
 	<button id="addreminders" ng-click="add()" class="btn event-button button" type="button">
