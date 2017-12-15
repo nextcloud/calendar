@@ -144,7 +144,6 @@
     "Absolute" : "絕對",
     "Repeat" : "重覆",
     "times every" : "次每",
-    "Email reminders have not been implemented in the CalDAV server yet, hence no email reminders will be send." : "CalDAV 伺服器尚未提供 Email 提醒功能，因此沒有 Email 提醒將會被寄出",
     "Add" : "加入",
     "Email address of attendee" : "參與者的 Email 地址",
     "Please add your email address in the personal settings in order to add attendees." : "請在個人設定頁面中設定您的 email 地址，才能新增參與者",

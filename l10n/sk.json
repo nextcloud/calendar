@@ -159,7 +159,6 @@
     "Absolute" : "Absolútny",
     "Repeat" : "Opakovať",
     "times every" : "krát každý",
-    "Email reminders have not been implemented in the CalDAV server yet, hence no email reminders will be send." : "Upozornenia emailom nie sú implementované v CalDAV servri, takže žiadne emailové upozornenia nebudú odoslané.",
     "Add" : "Pridať",
     "Email address of attendee" : "E-mail adresa účastníka",
     "Please add your email address in the personal settings in order to add attendees." : "Pre pridávanie účastníkov priraďte k vašemu účtu e-mailovú adresu v osobných nastaveniach.",
