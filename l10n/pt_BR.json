@@ -170,6 +170,7 @@
     "Absolute" : "Absoluto",
     "Repeat" : "Repetir",
     "times every" : "vezes a cada",
+    "Email reminders have not been implemented in the CalDAV server yet, so none will be sent." : "Os lembretes de e-mail ainda não foram implementados no servidor CalDAV, portanto nenhum será enviado.",
     "Add" : "Adicionar",
     "Email address of attendee" : "Endereço de e-mail do atendente",
     "Please add your email address in the personal settings in order to add attendees." : "Por favor, adicione seu endereço de e-mail nas configurações pessoais, a fim de adicionar participantes.",

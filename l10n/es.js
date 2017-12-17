@@ -172,6 +172,7 @@ OC.L10N.register(
     "Absolute" : "Absoluto",
     "Repeat" : "Repetir",
     "times every" : "veces cada",
+    "Email reminders have not been implemented in the CalDAV server yet, so none will be sent." : "Los recordatorios de correo todavía no se han implementado en el servidor, por lo que no se enviarán.",
     "Add" : "Añadir",
     "Email address of attendee" : "Correo electrónico del asistente",
     "Please add your email address in the personal settings in order to add attendees." : "Por favor indique su correo electrónico en la configuración de su cuenta para agregar asistentes",

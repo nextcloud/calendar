@@ -184,7 +184,7 @@ OC.L10N.register(
     "New calendar" : "Nieuwe agenda",
     "File is empty" : "Bestand te leeg",
     "Import scheduled" : "Import ingepland",
-    "%s shared the calendar <strong>%s</strong> with you" : "%s deelde agenda <strong>%s</strong> met jou",
+    "%s shared the calendar <strong>%s</strong> with you" : "%s heeft de agenda <strong>%s</strong> met je gedeeld",
     "Embed" : "Inbedden",
     "Iframe to integrate" : "Iframe integreert",
     "Publish URL" : "Publiceren URL",

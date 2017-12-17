@@ -172,6 +172,7 @@ OC.L10N.register(
     "Absolute" : "Mutlak",
     "Repeat" : "Yineleme",
     "times every" : "kez, her",
+    "Email reminders have not been implemented in the CalDAV server yet, so none will be sent." : "E-posta anımsatıcı özelliği henüz CalDAV sunucusuna eklenmediğinden herhangi bir e-posta gönderilmeyecek.",
     "Add" : "Ekle",
     "Email address of attendee" : "Katılımcının e-posta adresi",
     "Please add your email address in the personal settings in order to add attendees." : "Lütfen katılımcıları eklemek için kişisel ayarlardan e-posta adresinizi ekleyin.",

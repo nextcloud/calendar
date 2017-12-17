@@ -172,6 +172,7 @@ OC.L10N.register(
     "Absolute" : "Abszolút",
     "Repeat" : "Ismétlés",
     "times every" : "mindennyiszer",
+    "Email reminders have not been implemented in the CalDAV server yet, so none will be sent." : "Az email emlékeztetők még nincsenek implementálva a CalDAV szerverbe, ezért semmi nem lesz elküldve.",
     "Add" : "Hozzáadás",
     "Email address of attendee" : "Résztvevők e-mail címe",
     "Please add your email address in the personal settings in order to add attendees." : "Kérem adja meg az email címét a személyes beállításokban, hogy résztvevőket tudjon hozzáadni.",

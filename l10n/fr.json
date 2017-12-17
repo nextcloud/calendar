@@ -170,6 +170,7 @@
     "Absolute" : "Absolu",
     "Repeat" : "Répéter",
     "times every" : "Répéter tous les",
+    "Email reminders have not been implemented in the CalDAV server yet, so none will be sent." : "Les rappels par e-mail n'ont pas encore été implémentés sur le serveur CalDAV, donc aucun ne sera envoyé.",
     "Add" : "Ajouter",
     "Email address of attendee" : "Adresse e-mail du participant",
     "Please add your email address in the personal settings in order to add attendees." : "Veuillez ajouter votre adresse mail dans les paramètres du compte afin d'ajouter des participants .",
