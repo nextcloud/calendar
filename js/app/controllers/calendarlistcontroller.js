@@ -148,9 +148,9 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ha
 			MailerService.sendMail(item.email, item.publicSharingURL, item.calendar.displayname).then(function (response) {
 				if (response.status === 200) {
 					item.email = '';
-					OC.Notification.showTemporary(t('calendar', 'Email has been sent.'));
+					OC.Notification.showTemporary(t('calendar', 'Email sent.'));
 				} else {
-					OC.Notification.showTemporary(t('calendar', 'There was an issue while sending your email.'));
+					OC.Notification.showTemporary(t('calendar', 'There was an issue sending your email.'));
 				}
 			});
 		};
