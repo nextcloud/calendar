@@ -168,6 +168,7 @@ OC.L10N.register(
     "Absolute" : "Assoluto",
     "Repeat" : "Ripeti",
     "times every" : "volte ogni",
+    "Email reminders have not been implemented in the CalDAV server yet, so none will be sent." : "I promemoria via email non sono ancora stati implementati nel server CalDAV, per cui non sarà inviato niente.",
     "Add" : "Aggiungi",
     "Email address of attendee" : "Indirizzo email del partecipante",
     "Please add your email address in the personal settings in order to add attendees." : "Aggiungi il tuo indirizzo email nelle impostazioni personali per aggiungere i partecipanti.",

@@ -28,7 +28,7 @@ OC.L10N.register(
     "CalDAV address for clients" : "CalDAV adresse for klienter",
     "Error saving WebCal-calendar" : "Feil under lagring av WebCal-kalender",
     "WebDAV address for subscriptions" : "WebDAV-adresse for abonnementer",
-    "Email has been sent." : "E-post er sendt.",
+    "Email has been sent." : "E-post sendt.",
     "There was an issue while sending your email." : "Problem ved forsendelse av din e-post.",
     "group" : "gruppe",
     "Details" : "Detaljer",
