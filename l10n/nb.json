@@ -72,6 +72,7 @@
     "end" : "slutt",
     "Editing reminders of unknown type not supported." : "Redigering av varsler av ukjent type støttes ikke.",
     "Week {number} of {year}" : "Uke {number} {year}",
+    "Imported {imported} out of {all}, one failure" : "Importerte {imported} av {all}, én feil",
     "{type} {time} before the event starts" : "{type} {time} før hendelsen starter",
     "{type} {time} before the event ends" : "{type} {time} før hendelsen slutter",
     "{type} {time} after the event starts" : "{type} {time} etter hendelsen starter",
