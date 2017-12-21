@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Calendar" : "Koledar",
     "%s has published the calendar »%s«" : "%s je objavil koledar \"%s\"",
-    "Hello," : "Živjo,",
+    "Hello," : "Živijo,",
     "We wanted to inform you that %s has published the calendar »%s«." : "Želimo te obvestiti, da je %s objavil(a) koledar %s.",
     "Open »%s«" : "Odpri »%s«",
     "Cheers!" : "Lep pozdrav!",
