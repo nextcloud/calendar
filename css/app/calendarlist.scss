@@ -108,6 +108,11 @@ $color-border: nc-darken($color-main-background, 8%) !default;
 	opacity: .7 !important;
 }
 
+/* z-index of "New subscription" is 250. Prevent overlapping issues by setting z-index of menu to something higher */
+#app-navigation .app-navigation-list-item .app-navigation-entry-menu {
+	z-index: 300;
+}
+
 #app-navigation .app-navigation-list-item .icon-loading-small {
 	position: absolute;
 	margin-left: 15px;
