@@ -102,7 +102,7 @@ $color-border: nc-darken($color-main-background, 8%) !default;
 	opacity: .3 !important;
 }
 
-#app-navigation .app-navigation-list-item .app-navigation-entry-utils-menu-button button.icon-shared:hover,
+#app-navigation .app-navigation-list-item .app-navigation-entry-utils-menu-button button:hover,
 #app-navigation .app-navigation-list-item .app-navigation-entry-utils-menu-button button.icon-public,
 #app-navigation .app-navigation-list-item .app-navigation-entry-utils-menu-button button.icon-shared.shared-style {
 	opacity: .7 !important;
