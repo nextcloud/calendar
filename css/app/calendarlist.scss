@@ -119,6 +119,11 @@ $color-border: nc-darken($color-main-background, 8%) !default;
 	margin-top: 14px;
 }
 
+#app-navigation .icon-loading-small.loader-list:hover,
+#app-navigation .icon-loading-small.loader-list:hover a {
+	box-shadow: none;
+}
+
 #app-navigation .app-navigation-list-item .utils {
 	height: 44px;
 	padding: 0 5px 0 0;
