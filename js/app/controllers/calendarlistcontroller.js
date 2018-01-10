@@ -44,6 +44,9 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ha
 		$scope.subscription.newSubscriptionLocked = false;
 		$scope.publicdav = 'CalDAV';
 		$scope.publicdavdesc = t('calendar', 'CalDAV address for clients');
+		$scope.warningLabel = t('calendar', 'Some events in this calendar are broken. Please check the JS console for more info.');
+		$scope.shareLabel = t('calendar', 'Share Calendar');
+		$scope.sharedLabel = t('calendar', 'Shared');
 
 		$scope.isSharingAPI = isSharingAPI;
 		$scope.canSharePublicLink = constants.canSharePublicLink;

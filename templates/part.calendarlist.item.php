@@ -31,11 +31,7 @@
    ng-class="{'icon-error': item.calendar.hasWarnings()}"
    href="#"
    ng-click="triggerEnable(item)"
-   title="{{
-      item.calendar.hasWarnings()
-      ? '<?php p($l->t('Some events in this calendar are broken. Please check the JS console for more info.')); ?>'
-      :item.calendar.displayname
-   }}">
+   title="{{ item.calendar.hasWarnings() ? warningLabel : item.calendar.displayname }}">
 	{{ item.calendar.displayname }}
 </span>
 </a>
@@ -50,7 +46,7 @@
 				'icon-shared shared-style': item.calendar.isShared() && !item.calendar.isPublished(),
 				'icon-public': item.calendar.isPublished(),
 				'icon-shared': !item.calendar.isShared() && !item.calendar.isPublished()}"
-				title="{{item.calendar.isShared() && item.calendar.isShareable() || item.calendar.isPublished() ? '<?php p($l->t('Shared'))?>' : '<?php p($l->t('Share Calendar')) ?>'}}">
+				title="{{item.calendar.isShared() && item.calendar.isShareable() || item.calendar.isPublished() ? sharedLabel : shareLabel}}">
 			</button>
 		</li>
 		<li class="app-navigation-entry-utils-menu-button"
