@@ -110,7 +110,7 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ha
 
 		$scope.dismissNewSubscription = () => {
 			$scope.subscription.newSubscriptionUrl = '';
-			$scope.addingSub = false
+			$scope.addingSub = false;
 		};
 
 		$scope.createSubscription = function(url) {
