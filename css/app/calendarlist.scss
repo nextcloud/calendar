@@ -62,6 +62,11 @@ $color-border: nc-darken($color-main-background, 8%) !default;
 	position: relative;
 }
 
+#app-navigation .add-new .add-new-is-processing {
+	margin-left: -16px;
+	left: -5px;
+}
+
 #app-navigation .add-new .color-button {
 	height: 25px;
 	border: 0;

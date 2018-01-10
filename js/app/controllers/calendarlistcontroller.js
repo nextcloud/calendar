@@ -35,7 +35,9 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ha
 		$scope.newCalendarInputVal = '';
 		$scope.newCalendarColorVal = '';
 		$scope.addingCal = false;
+		$scope.addingCalRequest = false;
 		$scope.addingSub = false;
+		$scope.addingSubRequest = false;
 
 		$scope.subscription = {};
 		$scope.subscription.newSubscriptionUrl = '';
@@ -74,17 +76,38 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ha
 			});
 		});
 
-		$scope.create = function (name, color) {
-			CalendarService.create(name, color).then(function(calendar) {
-				$scope.calendars.push(calendar);
-				$rootScope.$broadcast('createdCalendar', calendar);
-				$rootScope.$broadcast('reloadCalendarList');
-			});
+		$scope.openNewCalendarForm = () => {
+			$scope.addingCal = true;
+		};
 
+		$scope.dismissNewCalendar = () => {
 			$scope.newCalendarInputVal = '';
 			$scope.newCalendarColorVal = '';
 			$scope.addingCal = false;
-			angular.element('#new-calendar-button').click();
+		};
+
+		$scope.create = function (name) {
+			$scope.addingCalRequest = true;
+			const color = ColorUtility.randomColor();
+			CalendarService.create(name, color).then(function(calendar) {
+				$scope.calendars.push(calendar);
+				$rootScope.$broadcast('createdCalendar', calendar);
+
+				$scope.newCalendarInputVal = '';
+				$scope.newCalendarColorVal = '';
+				$scope.addingCal = false;
+				$scope.addingCalRequest = false;
+				$scope.$apply();
+			});
+		};
+
+		$scope.openNewSubscriptionForm = () => {
+			$scope.addingSub = true;
+		};
+
+		$scope.dismissNewSubscription = () => {
+			$scope.subscription.newSubscriptionUrl = '';
+			$scope.addingSub = false
 		};
 
 		$scope.createSubscription = function(url) {

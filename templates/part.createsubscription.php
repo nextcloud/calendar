@@ -23,9 +23,9 @@
  */
 ?>
 
-<li class="new-entity-container" ng-class="{editing: $scope.addingSub}">
+<li class="new-entity-container" ng-class="{'editing': addingSub}">
 
-	<a class="new-entity icon-add" ng-click="$scope.addingSub = true" id="new-subscription-button">
+	<a class="new-entity icon-add" ng-click="openNewSubscriptionForm()" id="new-subscription-button">
 		<?php p($l->t('New Subscription')); ?>
 	</a>
 
@@ -38,7 +38,13 @@
 				ng-model="subscription.newSubscriptionUrl"
 				placeholder="<?php p($l->t('iCal link')); ?>"
 				autofocus />
-			<input type="button" value="" class="icon-close" ng-click="$scope.addingSub = false" />
+			<span class="add-new-is-processing icon-loading-small"
+				  ng-class="{'hidden': !subscription.newSubscriptionLocked}"></span>
+			<input
+				type="button" value=""
+				class="icon-close"
+				ng-click="dismissNewSubscription()"
+				ng-disabled="subscription.newSubscriptionLocked" />
 			<input
 				id="submitnewSubscription"
 				class="accept-button icon-checkmark"

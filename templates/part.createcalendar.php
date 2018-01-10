@@ -23,16 +23,26 @@
  *
  */
 ?>
-<li class="new-entity-container" ng-class="{editing: $scope.addingCal}">
+<li class="new-entity-container" ng-class="{'editing': addingCal}">
 
-	<a class="new-entity icon-add" ng-click="$scope.addingCal = true" id="new-calendar-button">
+	<a class="new-entity icon-add" ng-click="openNewCalendarForm()" id="new-calendar-button">
 		<?php p($l->t('New Calendar')); ?>
 	</a>
 
 	<div class="app-navigation-entry-edit calendarlist-fieldset add-new hide">
-		<form ng-submit="create(newCalendarInputVal,selected)">
-			<input class="app-navigation-input" type="text" ng-model="newCalendarInputVal" autofocus placeholder="<?php p($l->t('Name')); ?>"/>
-			<input type="button" value="" class="icon-close" ng-click="$scope.addingCal = false" />
+		<form ng-submit="create(newCalendarInputVal)">
+			<input class="app-navigation-input"
+				   type="text"
+				   ng-model="newCalendarInputVal"
+				   autofocus
+				   placeholder="<?php p($l->t('Name')); ?>"
+				   ng-disabled="addingCalRequest" />
+			<span class="add-new-is-processing icon-loading-small"
+				ng-class="{'hidden': !addingCalRequest}"></span>
+			<input type="button" value=""
+				   class="icon-close"
+				   ng-click="dismissNewCalendar()"
+				   ng-disabled="addingCalRequest" />
 			<input type="submit" value=""
 				   class="icon-checkmark accept-button new-accept-button"
 				   id="submitnewCalendar"
@@ -40,8 +50,8 @@
 				   		selector: '.add-new',
 						hideOnFocusLost: false,
 						cssClass: 'closed'
-					}">
+					}"
+				   ng-disabled="addingCalRequest" />
 		</form>
-		<colorpicker class="colorpicker" selected="selected"></colorpicker>
 	</div>
 </li>
