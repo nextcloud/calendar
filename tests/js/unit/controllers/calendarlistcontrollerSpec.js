@@ -24,7 +24,7 @@
 describe('CalendarListController', function() {
 	'use strict';
 
-	var controller, $scope, $rootScope, Calendar, CalendarService, $window, calendar, deferred;
+	var controller, $scope, $rootScope, Calendar, CalendarService, ColorUtility, $window, calendar, deferred;
 
 	beforeEach(module('Calendar', function($provide) {
 		$provide.value('Calendar', {});
@@ -54,6 +54,9 @@ describe('CalendarListController', function() {
 					unpublish: jasmine.createSpy()
 				};
 			};
+			ColorUtility = {
+				randomColor: () => {}
+			};
 
 			deferred = $q.defer();
 			deferred.resolve(new Calendar());
@@ -62,21 +65,18 @@ describe('CalendarListController', function() {
 
 	it ('should create a calendar', function() {
 		spyOn(CalendarService, 'create').and.returnValue(deferred.promise);
+		spyOn(ColorUtility, 'randomColor').and.returnValue('#ffffff');
 
 		controller = controller('CalendarListController', {
 			$scope: $scope,
-			CalendarService: CalendarService
+			CalendarService: CalendarService,
+			ColorUtility: ColorUtility
 		});
 
 		$scope.newCalendarInputVal = 'Sample Calendar';
-		$scope.newCalendarColorVal = '#ffffff';
 
-		$scope.create($scope.newCalendarInputVal, $scope.newCalendarColorVal);
+		$scope.create($scope.newCalendarInputVal);
 		expect(CalendarService.create).toHaveBeenCalledWith('Sample Calendar', '#ffffff');
-
-		//make sure values are reset
-		expect($scope.newCalendarInputVal).toBe('');
-		expect($scope.newCalendarColorVal).toBe('');
 	});
 
 	it ('should delete the selected calendar', function () {

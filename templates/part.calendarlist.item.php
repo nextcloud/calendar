@@ -22,56 +22,39 @@
  *
  */
 ?>
-<span class="calendarCheckbox"
+<span class="calendarCheckbox app-navigation-entry-bullet"
 	  ng-click="triggerEnable(item)"
-	  ng-show="item.displayColorIndicator()"
-	  ng-style="{ background : item.calendar.enabled == true ? item.calendar.color : 'transparent' }">
-</span>
-<span class="icon-loading-small pull-left"
-	  ng-show="item.displaySpinner()">
+	  ng-if="item.displayColorIndicator() && !item.calendar.hasWarnings()"
+	  ng-style="{ 'background-color' : item.calendar.enabled == true ? item.calendar.color : 'transparent' }">
 </span>
 <a class="action permanent"
-   ng-class="{'calendar-list-cut-name': item.calendar.isShared() || item.calendar.isPublished() }"
+   ng-class="{'icon-error': item.calendar.hasWarnings()}"
    href="#"
    ng-click="triggerEnable(item)"
-   ng-show="!item.isEditing()"
-   title="{{ item.calendar.displayname }}">
-	<span class="icon icon-error"
-		  ng-if="item.calendar.hasWarnings()"
-		  title="<?php p($l->t('Some events in this calendar are broken. Please check the JS console for more info.')); ?>">
-		&nbsp;&nbsp;&nbsp;&nbsp;
-	</span>
+   title="{{ item.calendar.hasWarnings() ? warningLabel : item.calendar.displayname }}">
 	{{ item.calendar.displayname }}
+</span>
 </a>
-<span class="utils"
-	  ng-show="item.displayActions()">
-	<span class="action"
-		  ng-class="{'withitems': item.calendar.isShared() || item.calendar.isPublished() }">
-		<span
-			class="calendarlist-icon share permanent"
-			ng-class="{'icon-shared shared-style': item.calendar.isShared() && !item.calendar.isPublished(), 'icon-public': item.calendar.isPublished(), 'icon-shared': !item.calendar.isShared() && !item.calendar.isPublished()}"
+<div class="app-navigation-entry-utils"
+	 ng-show="item.displayActions()">
+	<ul ng-class="{'withitems': item.calendar.isShared() || item.calendar.isPublished() }">
+		<li class="app-navigation-entry-utils-menu-button calendarlist-icon share permanent"
 			ng-click="item.toggleEditingShares()"
 			ng-if="item.showSharingIcon()"
-			title="<?php p($l->t('Share Calendar')) ?>"
 			role="button">
-		</span>
-		<!-- Add a label if the calendar has shares -->
-		<span
-			class="calendarlist-icon shared"
-			ng-if="item.calendar.isShared() && item.calendar.isShareable() || item.calendar.isPublished()"
-			ng-click="item.toggleEditingShares()">
-				<?php p($l->t('Shared'))?>
-		</span>
-	</span>
-	<span class="action">
-		<span class="icon-more"
-			  href="#"
-			  on-toggle-show="#more-actions-{{ $id }}"
-			  title="<?php p($l->t('More')); ?>"
-			  role="button">
-		</span>
-	</span>
-</span>
+			<button ng-class="{
+				'icon-shared shared-style': item.calendar.isShared() && !item.calendar.isPublished(),
+				'icon-public': item.calendar.isPublished(),
+				'icon-shared': !item.calendar.isShared() && !item.calendar.isPublished()}"
+				title="{{item.calendar.isShared() && item.calendar.isShareable() || item.calendar.isPublished() ? sharedLabel : shareLabel}}">
+			</button>
+		</li>
+		<li class="app-navigation-entry-utils-menu-button"
+			href="#"
+			title="<?php p($l->t('More')); ?>"
+			role="button"><button on-toggle-show="#more-actions-{{ $id }}"></button></li>
+	</ul>
+</div>
 
 <div id="more-actions-{{ $id }}"
 	 class="app-navigation-entry-menu hidden">
@@ -103,45 +86,35 @@
 		<li confirmation="remove(item)"></li>
 	</ul>
 </div>
-
-<fieldset class="editfieldset"
-		  ng-show="item.isEditing()">
+<div class="app-navigation-entry-edit"
+	 ng-if="item.isEditing()">
 	<form ng-submit="performUpdate(item)">
-		<input class="app-navigation-input"
-			   ng-model="item.displayname"
-			   type="text"/>
-		<colorpicker class="colorpicker"
-					 selected="item.color">
-		</colorpicker>
-		<div class="buttongroups">
-			<button class="primary icon-checkmark-white accept-button">
-			</button>
-			<button type="button" class="btn close-button icon-close"
-					ng-click="item.cancelEditor()">
-			</button>
-		</div>
+		<input type="text" ng-model="item.displayname">
+		<input type="button" value="" class="btn close-button icon-close" ng-click="item.cancelEditor()">
+		<input type="submit" value="" class="icon-checkmark accept-button">
 	</form>
-</fieldset>
-<fieldset class="editfieldset"
-		  ng-show="item.displayCalDAVUrl()">
-	<input class="input-with-button-on-right-side"
-		   ng-value="item.calendar.caldav"
-		   readonly
-		   type="text"/>
-	<button class="btn icon-close button-next-to-input"
-			ng-click="item.hideCalDAVUrl()">
-	</button>
-</fieldset>
-<fieldset class="editfieldset"
-		  ng-show="item.displayWebCalUrl()">
-	<input class="input-with-button-on-right-side"
-		   ng-value="item.calendar.storedUrl"
-		   readonly
-		   type="text"/>
-	<button class="btn icon-close button-next-to-input"
-			ng-click="item.hideWebCalUrl()">
-	</button>
-</fieldset>
+	<colorpicker class="colorpicker"
+				 selected="item.color">
+	</colorpicker>
+</div>
+<div class="app-navigation-entry-edit"
+	 ng-if="item.displayCalDAVUrl()">
+	<form ng-submit="performUpdate(item)">
+		<input ng-value="item.calendar.caldav"
+			   readonly
+			   type="text"/>
+		<input type="button" value="" class="n icon-close button-next-to-input" ng-click="item.hideCalDAVUrl()">
+	</form>
+</div>
+<div class="app-navigation-entry-edit"
+	 ng-if="item.displayWebCalUrl()">
+	<form ng-submit="performUpdate(item)">
+		<input ng-value="item.calendar.storedUrl"
+			   readonly
+			   type="text"/>
+		<input type="button" value="" class="n icon-close button-next-to-input" ng-click="item.hideWebCalUrl()">
+	</form>
+</div>
 
 <div class="calendarShares"
 	 ng-show="item.isEditingShares()">

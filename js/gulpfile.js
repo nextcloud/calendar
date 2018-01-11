@@ -36,8 +36,8 @@ const timezones = fs.readFileSync('./timezones/zones.json', 'UTF-8');
 // configure
 const buildTarget = 'app.js';
 const buildTargetMin = 'app.min.js';
-const cssBuildTarget = 'app.css';
-const cssBuildTargetMin = 'app.min.css';
+const cssBuildTarget = 'app.scss';
+const cssBuildTargetMin = 'app.min.scss';
 const vendorTarget = 'vendor.js';
 const vendorTargetMin = 'vendor.min.js';
 const vendorIETarget = 'vendor.ie.js';
@@ -53,7 +53,7 @@ const jsSources = [
 	'app/**/*.js'
 ];
 const cssSources = [
-	'../css/app/*.css'
+	'../css/app/*.scss'
 ];
 const vendorSources = [
 	'vendor/angular/angular.js',

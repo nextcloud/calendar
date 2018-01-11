@@ -5,6 +5,7 @@
  * @author Georg Ehrke
  * @copyright 2016 Raghu Nayyar <hey@raghunayyar.com>
  * @copyright 2016 Georg Ehrke <oc.list@georgehrke.com>
+ * @copyright 2017 John Molakvoæ <skjnldsv@protonmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -21,6 +22,9 @@
  *
  */
 
+/* fallback, TODO remove when min nc version >=13 */
+$color-border: nc-darken($color-main-background, 8%) !default;
+
 #app-navigation .app-navigation-input {
 	width: 95%;
 }
@@ -34,18 +38,6 @@
 	border: 0;
 }
 
-#app-navigation .close-button {
-	height: 30px;
-	width: 30px;
-	padding: 0;
-	position: relative;
-}
-
-#app-navigation .accept-button {
-	width: 100%;
-	padding: 8px;
-}
-
 #app-navigation .new-entity,
 #app-navigation .subscription-title {
 	display: block;
@@ -55,9 +47,10 @@
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
-	color: #4d4d4d;
+	opacity: .5;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
+	box-shadow: none !important; /* override server */
 }
 
 #app-navigation .new-entity,
@@ -65,19 +58,13 @@
 	cursor: pointer;
 }
 
-#app-navigation .new-entity .new-entity-title::before {
-	left: 18px;
-	position: absolute;
-	font-size: 150%;
-	content: '+';
-}
-
-#app-navigation .new-entity:hover {
-	color: #000;
-}
-
 #app-navigation .add-new .new-accept-button {
 	position: relative;
+}
+
+#app-navigation .add-new .add-new-is-processing {
+	margin-left: -16px;
+	left: -5px;
 }
 
 #app-navigation .add-new .color-button {
@@ -99,6 +86,7 @@
 	width: 100%;
 }
 
+/* TODO remove when 13 is lower version: ref app-navigation-entry-bullet */
 #app-navigation .app-navigation-list-item .calendarCheckbox,
 #publicinformationscontainer .calendarCheckbox {
 	position: absolute;
@@ -115,14 +103,30 @@
 	background: transparent !important;
 }
 
-#app-navigation .app-navigation-list-item .shared.shared-style {
-	opacity: .7;
+#app-navigation .app-navigation-list-item .app-navigation-entry-utils-menu-button button {
+	opacity: .3 !important;
+}
+
+#app-navigation .app-navigation-list-item .app-navigation-entry-utils-menu-button button:hover,
+#app-navigation .app-navigation-list-item .app-navigation-entry-utils-menu-button button.icon-public,
+#app-navigation .app-navigation-list-item .app-navigation-entry-utils-menu-button button.icon-shared.shared-style {
+	opacity: .7 !important;
+}
+
+/* z-index of "New subscription" is 250. Prevent overlapping issues by setting z-index of menu to something higher */
+#app-navigation .app-navigation-list-item .app-navigation-entry-menu {
+	z-index: 300;
 }
 
 #app-navigation .app-navigation-list-item .icon-loading-small {
 	position: absolute;
 	margin-left: 15px;
 	margin-top: 14px;
+}
+
+#app-navigation .icon-loading-small.loader-list:hover,
+#app-navigation .icon-loading-small.loader-list:hover a {
+	box-shadow: none;
 }
 
 #app-navigation .app-navigation-list-item .utils {
@@ -155,14 +159,6 @@
 #app-navigation .app-navigation-list-item .active:hover .calendarlist-icon {
 	/* Core Override */
 	background-color: transparent !important;
-}
-
-#app-navigation .app-navigation-list-item > a {
-	padding: 0 66px 0 44px !important;
-}
-
-#app-navigation .app-navigation-list-item > a.calendar-list-cut-name {
-	padding: 0 107px 0 44px !important;
 }
 
 #app-navigation .app-navigation-list-item .editfieldset {
@@ -259,6 +255,11 @@
 	background-color: transparent !important;
 }
 
+/* Workaround for input edit */
+#app-navigation > ul > li > .app-navigation-entry-edit {
+	padding-left: 5px !important;
+}
+
 #app-navigation .refresh-shares {
 	position: absolute;
 	right: 15px;
@@ -268,8 +269,9 @@
 	z-index: 1000;
 }
 
-#app-navigation > ul {
-	height: auto;
+#app-navigation .loader-list::after {
+	left: 50% !important;
+	top: 50% !important;
 }
 
 /* ColorPicker overrides. */
@@ -317,20 +319,8 @@
 	visibility: hidden;
 }
 
-/* scroll issues */
-#scrollable {
-	overflow-y: auto;
-	overflow-x: hidden;
-	position: absolute;
-	top: 126px;
-	bottom: 44px;
-	width: 250px;
-	transition: 200ms margin ease-in-out;
-}
-
-#datepickercontainer.active + div#calendarlistcontainer #scrollable,
-#datepickercontainer.active + div#publicinformationscontainer #scrollable {
-	margin-top: 185px;
+ul#calendarlistcontainer {
+	padding-bottom: 44px;
 }
 
 #datepicker-ng-show-container {
@@ -347,6 +337,7 @@
 /* Spacing */
 #spacer {
 	height: 44px;
+	box-shadow: none !important;
 }
 
 /* Public */
@@ -454,8 +445,12 @@ input.mailerInput {
 }
 
 /* Calendar Sharing */
+.calendarShares {
+	width: 100%;
+}
+
 input.shareeInput {
-	width: 89%;
+	width: calc(100% - 12px);
 	margin: 6px;
 }
 
@@ -507,6 +502,11 @@ ul.dropdown-menu li > a:hover {
 	font-weight: normal;
 }
 
+.fc-basic-view .fc-day-top .fc-week-number {
+	background-color: $color-border;
+	color: $color-main-text;
+}
+
 .fc-day-number.fc-other-month {
 	opacity: .1 !important;
 }
@@ -522,12 +522,13 @@ ul.dropdown-menu li > a:hover {
 }
 
 /* border styles for grid, highlight full-hour horizontal lines */
+
 .fc-unthemed tr td {
-	border-top-color: #eee;
+	border-top-color: $color-border;
 }
 
 .fc-unthemed tr:nth-child(even) td {
-	border-top-color: #ebebeb;
+	border-top-color: $color-border;
 }
 
 .fc-unthemed th,
@@ -537,9 +538,10 @@ ul.dropdown-menu li > a:hover {
 .fc-unthemed .fc-divider,
 .fc-unthemed .fc-row,
 .fc-unthemed .fc-popover {
-	border-color: #f8f8f8;
-	border-left-color: #ebebeb;
-	border-right-color: #ebebeb;
+	/* fallback, TODO remove when min nc version >=13 */
+	border-color: $color-border;
+	border-left-color: $color-border;
+	border-right-color: $color-border;
 }
 
 /* properly size events */

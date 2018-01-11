@@ -21,8 +21,36 @@
  *
  */
 
-/**
-* Controller: SubscriptionController
-* Description: Takes care of Subscription List in the App Navigation.
-*/
-app.controller('SubscriptionController', ['$scope', function($scope) {}]);
+.app {
+	height: 100%;
+	width: 100%;
+}
+
+#fullcalendar table {
+	white-space: inherit !important;
+}
+
+.fc-state-highlight.fc-day-number,
+#fullcalendar tbody tr,
+#fullcalendar tbody tr:hover,
+#fullcalendar tbody tr:focus {
+	background: transparent !important;
+}
+
+#popover-container,
+#importpopover-container {
+	max-height: 0 !important;
+	max-width: 0 !important;
+	overflow: hidden !important;
+}
+
+#fullcalendar .fc-axis,
+#fullcalendar .fc-day-header {
+	font-size: 100%;
+	opacity: .5;
+}
+
+#fullcalendar td.fc-day.fc-sat,
+#fullcalendar td.fc-day.fc-sun {
+	background-color: nc-darken($color-main-background, 3%);
+}
