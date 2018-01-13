@@ -1,15 +1,15 @@
 {
   "name": "nextcloud-calendar",
   "dependencies": {
-    "angular": "1.6.4",
+    "angular": "1.6.8",
     "angular-bootstrap": "2.5.0",
     "jquery-timepicker": "883bb2cd94",
     "jstzdetect": "https://github.com/georgehrke/jstimezonedetect.git",
     "ical.js": "1.2.2",
-    "fullcalendar": "3.4.0",
+    "fullcalendar": "3.8.0",
     "hsl_rgb_converter": "https://github.com/kayellpeee/hsl_rgb_converter.git"
   },
   "devDependencies": {
-    "angular-mocks": "1.6.4"
+    "angular-mocks": "1.6.8"
   }
 }
