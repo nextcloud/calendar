@@ -80,6 +80,7 @@
     "{type} {time} before the event ends" : "{type} {time} før hendelsen slutter",
     "{type} {time} after the event starts" : "{type} {time} etter hendelsen starter",
     "{type} {time} after the event ends" : "{type} {time} etter hendelsen slutter",
+    "Pop-up at the event's start" : "Oppsprett ved hendelsens start",
     "Email at the event's start" : "E-post ved hendelsens start",
     "None at the event's start" : "Ingen ved hendelsens start",
     "{type} at the event's start" : "{type} ved hendelsens start",
