@@ -137,6 +137,7 @@ OC.L10N.register(
     "Import scheduled" : "Importar horariu",
     "%s shared the calendar <strong>%s</strong> with you" : "%s compartió'l calendariu <strong>%s</strong> contigo",
     "Publish URL" : "Espublizar URL",
+    "Settings & import" : "Axustes ya importación",
     "Skip simple event editor" : "Saltar editor d'eventos simples",
     "Show week numbers" : "Amosar númberos de la selmana",
     "Import calendar" : "Importar calendariu",
