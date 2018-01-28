@@ -134,7 +134,7 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ha
 						$scope.addingSub = false;
 					})
 					.catch(function() {
-						OC.Notification.showTemporary(t('calendar', 'Error saving WebCal-calendar'));
+						OC.Notification.showTemporary(t('calendar', 'Could not save WebCal-calendar'));
 						$scope.subscription.newSubscriptionLocked = false;
 					});
 			}).catch(function(reason) {
@@ -178,9 +178,9 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ha
 			MailerService.sendMail(item.email, item.publicSharingURL, item.calendar.displayname).then(function (response) {
 				if (response.status === 200) {
 					item.email = '';
-					OC.Notification.showTemporary(t('calendar', 'Email has been sent.'));
+					OC.Notification.showTemporary(t('calendar', 'Email sent.'));
 				} else {
-					OC.Notification.showTemporary(t('calendar', 'There was an issue while sending your email.'));
+					OC.Notification.showTemporary(t('calendar', 'Could not send your email.'));
 				}
 			});
 		};
@@ -371,7 +371,7 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ha
 				angular.element('#new-subscription-button').click();
 
 				//  wait for calendars to be initialized
-				// needed for creating a proper url
+				// needed for creating a proper URL
 				$scope.calendarsPromise.then(() => {
 					$scope.createSubscription(url);
 				});
