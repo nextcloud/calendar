@@ -6,7 +6,7 @@
     "jquery-timepicker": "883bb2cd94",
     "jstzdetect": "https://github.com/georgehrke/jstimezonedetect.git",
     "ical.js": "1.2.2",
-    "fullcalendar": "3.8.0",
+    "fullcalendar": "3.8.1",
     "hsl_rgb_converter": "https://github.com/kayellpeee/hsl_rgb_converter.git"
   },
   "devDependencies": {
