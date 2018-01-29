@@ -93,7 +93,7 @@ app.factory('WebCal', function($http, Calendar, VEvent, TimezoneService, WebCalS
 
 				return Promise.all(promises).then(() => {
 					callback(vevents);
-					fcAPI.reportEventChange();
+					fcAPI.eventManager.currentPeriod.release();
 
 					iface.fcEventSource.isRendering = false;
 					iface.emit(Calendar.hookFinishedRendering);
@@ -114,6 +114,9 @@ app.factory('WebCal', function($http, Calendar, VEvent, TimezoneService, WebCalS
 					const eventsFn = iface.fcEventSource.events.bind(fcAPI);
 					eventsFn(start, end, timezone, callback);
 				} else {
+					callback([]);
+					fcAPI.eventManager.currentPeriod.release();
+
 					iface.addWarning(reason);
 					console.log(reason);
 					iface.fcEventSource.isRendering = false;
