@@ -90,7 +90,7 @@ app.factory('Calendar', function($window, Hook, VEventService, TimezoneService, 
 
 				return Promise.all(promises).then(() => {
 					callback(vevents);
-					fcAPI.reportEventChange();
+					fcAPI.eventManager.currentPeriod.release();
 					context.fcEventSource.isRendering = false;
 
 					iface.emit(Calendar.hookFinishedRendering);
@@ -100,6 +100,9 @@ app.factory('Calendar', function($window, Hook, VEventService, TimezoneService, 
 					const eventsFn = iface.fcEventSource.events.bind(fcAPI);
 					eventsFn(start, end, 'UTC', callback);
 				}
+
+				callback([]);
+				fcAPI.eventManager.currentPeriod.release();
 
 				iface.addWarning(reason);
 				context.fcEventSource.isRendering = false;

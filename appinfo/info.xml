@@ -22,7 +22,7 @@
 	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/3.png</screenshot>
 	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/4.png</screenshot>
 	<dependencies>
-		<nextcloud min-version="12" max-version="13" />
+		<nextcloud min-version="12" max-version="14" />
 	</dependencies>
 	<documentation>
 		<user>https://docs.nextcloud.com/server/11/user_manual/pim/calendar.html</user>
