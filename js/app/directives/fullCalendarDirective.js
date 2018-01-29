@@ -98,7 +98,8 @@ app.constant('fc', {})
 				nowIndicator: true,
 				weekNumbers: (attrs.weeknumbers === 'yes'),
 				weekNumbersWithinDays: true,
-				selectable: !isPublic
+				selectable: !isPublic,
+				agendaEventMinHeight: 21
 			};
 			const controllerConfig = scope.$parent.fcConfig;
 			const config = angular.extend({}, baseConfig, controllerConfig);
