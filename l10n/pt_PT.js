@@ -15,7 +15,6 @@ OC.L10N.register(
     "New event" : "Novo evento",
     "Share Calendar" : "Comartilhar Calendário",
     "Shared" : "Partilhado",
-    "Error saving WebCal-calendar" : "Erro ao guardar o calendário WebCal",
     "group" : "grupo",
     "Attendees" : "Participantes",
     "Reminders" : "Lembretes",

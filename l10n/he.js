@@ -16,7 +16,6 @@ OC.L10N.register(
     "Some events in this calendar are broken. Please check the JS console for more info." : "אירועים מסויימים בלוח שנה זה פגומים. יש לבדוק את קונסולת ה- JS למידע נוסף.",
     "Share Calendar" : "שיתוף לוח שנה",
     "Shared" : "שותף",
-    "Error saving WebCal-calendar" : "שגיאה בשמירת WebCal-calendar",
     "group" : "קבוצה",
     "Attendees" : "משתתפים",
     "Reminders" : "תזכורות",

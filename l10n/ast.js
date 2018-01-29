@@ -26,7 +26,6 @@ OC.L10N.register(
     "Some events in this calendar are broken. Please check the JS console for more info." : "Dalgunos eventos nesti calendariu tán francíos. Por favor, compruebe la consola JS pa más información.",
     "Share Calendar" : "Compartir calendariu",
     "Shared" : "Compartíu",
-    "Error saving WebCal-calendar" : "Fallu guardando'l calendariu WebCal",
     "WebDAV address for subscriptions" : "Direición WebDAV pa soscripciones",
     "group" : "grupu",
     "Details" : "Detalles",

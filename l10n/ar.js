@@ -18,7 +18,6 @@ OC.L10N.register(
     "New event" : "حدث جديد",
     "Share Calendar" : "مشاركة المفكرة",
     "Shared" : "مشارك",
-    "Email has been sent." : "تم إرسال الرسالة الإلكترونية.",
     "group" : "مجموعة",
     "Details" : "تفاصيل",
     "Attendees" : "المشاركون",

@@ -15,7 +15,6 @@ OC.L10N.register(
     "Please create a calendar first." : "Skep asb. eers ’n kalender.",
     "Share Calendar" : "Deel Kalender",
     "Shared" : "Gedeel",
-    "Email has been sent." : "E-pos is gestuur.",
     "group" : "groep",
     "Details" : "Details",
     "Attendees" : "Bywoners",

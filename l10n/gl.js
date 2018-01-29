@@ -21,7 +21,6 @@ OC.L10N.register(
     "New event" : "Novo evento",
     "Share Calendar" : "Compartir calendario",
     "Shared" : "Partillado",
-    "Email has been sent." : "Enviouse o correo.",
     "Details" : "Detalles",
     "Reminders" : "Recordatorios",
     "Confirmed" : "Confirmado",

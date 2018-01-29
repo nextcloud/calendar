@@ -25,7 +25,6 @@ OC.L10N.register(
     "Some events in this calendar are broken. Please check the JS console for more info." : "Някои събития в този календар са счупени. Моля погледни JS конзолата за подробности.",
     "Share Calendar" : "Споделяне на Календара",
     "Shared" : "Споделено",
-    "Error saving WebCal-calendar" : "Грешка при запаметяване на WebCal-календар",
     "WebDAV address for subscriptions" : "WebDAV адрес за абонаменти",
     "group" : "група",
     "Details" : "Детайли",

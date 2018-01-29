@@ -21,7 +21,6 @@ OC.L10N.register(
     "CalDAV address for clients" : "CalDAV адреса для клієнтів",
     "Share Calendar" : "Розподілити Календар",
     "Shared" : "Опубліковано",
-    "Error saving WebCal-calendar" : "Помилка при збереженні WebCal-календаря",
     "WebDAV address for subscriptions" : "WebDAV адреса для підписки",
     "group" : "група",
     "Details" : "Деталі",
