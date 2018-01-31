@@ -23,7 +23,7 @@ describe('CalendarFactory', function () {
 	'use strict';
 
 	let CalendarFactory;
-	let $window, DavClient, Calendar, WebCal, constants;
+	let DavClient, Calendar, WebCal, constants;
 	let davService;
 	let privateCalendarServiceAPI;
 
@@ -965,6 +965,107 @@ describe('CalendarFactory', function () {
  </d:response>
 </d:multistatus>`;
 
+	const public_calendar_bug_596 = `<?xml version="1.0" encoding="UTF-8"?>
+<d:multistatus xmlns:d="DAV:" xmlns:cal="urn:ietf:params:xml:ns:caldav" xmlns:card="urn:ietf:params:xml:ns:carddav" xmlns:cs="http://calendarserver.org/ns/" xmlns:nc="http://nextcloud.org/ns" xmlns:oc="http://owncloud.org/ns" xmlns:s="http://sabredav.org/ns">
+   <d:response>
+      <d:href>/remote.php/dav/public-calendars/cx46HtLEtgGgEgbz/</d:href>
+      <d:propstat>
+         <d:prop>
+            <d:displayname>Personal (admin)</d:displayname>
+            <d:resourcetype>
+               <d:collection />
+               <cal:calendar />
+            </d:resourcetype>
+            <x1:calendar-order xmlns:x1="http://apple.com/ns/ical/">0</x1:calendar-order>
+            <cal:supported-calendar-component-set>
+               <cal:comp name="VEVENT" />
+               <cal:comp name="VTODO" />
+            </cal:supported-calendar-component-set>
+            <cs:publish-url>
+               <d:href>http://nextcloud.local/remote.php/dav/public-calendars/cx46HtLEtgGgEgbz</d:href>
+            </cs:publish-url>
+            <cs:allowed-sharing-modes>
+               <cs:can-be-shared />
+               <cs:can-be-published />
+            </cs:allowed-sharing-modes>
+            <d:acl>
+               <d:ace>
+                  <d:principal>
+                     <d:href>/remote.php/dav/principals/users/admin/</d:href>
+                  </d:principal>
+                  <d:grant>
+                     <d:privilege>
+                        <d:read />
+                     </d:privilege>
+                  </d:grant>
+                  <d:protected />
+               </d:ace>
+               <d:ace>
+                  <d:principal>
+                     <d:href>/remote.php/dav/principals/users/admin/</d:href>
+                  </d:principal>
+                  <d:grant>
+                     <d:privilege>
+                        <d:write />
+                     </d:privilege>
+                  </d:grant>
+                  <d:protected />
+               </d:ace>
+               <d:ace>
+                  <d:principal>
+                     <d:href>/remote.php/dav/principals/system/public/</d:href>
+                  </d:principal>
+                  <d:grant>
+                     <d:privilege>
+                        <d:read />
+                     </d:privilege>
+                  </d:grant>
+                  <d:protected />
+               </d:ace>
+               <d:ace>
+                  <d:principal>
+                     <d:href>/remote.php/dav/principals/users/admin/</d:href>
+                  </d:principal>
+                  <d:grant>
+                     <d:privilege>
+                        <d:read />
+                     </d:privilege>
+                  </d:grant>
+                  <d:protected />
+               </d:ace>
+               <d:ace>
+                  <d:principal>
+                     <d:href>/remote.php/dav/principals/users/admin/</d:href>
+                  </d:principal>
+                  <d:grant>
+                     <d:privilege>
+                        <d:write />
+                     </d:privilege>
+                  </d:grant>
+                  <d:protected />
+               </d:ace>
+            </d:acl>
+            <d:owner>
+               <d:href>/remote.php/dav/principals/users/admin/</d:href>
+            </d:owner>
+            <oc:invite />
+            <x2:owner-displayname xmlns:x2="http://nextcloud.com/ns">Señor Administrator</x2:owner-displayname>
+         </d:prop>
+         <d:status>HTTP/1.1 200 OK</d:status>
+      </d:propstat>
+      <d:propstat>
+         <d:prop>
+            <cal:calendar-description />
+            <cal:calendar-timezone />
+            <x1:calendar-color xmlns:x1="http://apple.com/ns/ical/" />
+            <oc:calendar-enabled />
+            <cs:source />
+         </d:prop>
+         <d:status>HTTP/1.1 404 Not Found</d:status>
+      </d:propstat>
+   </d:response>
+</d:multistatus>`;
+
 	beforeEach(function() {
 		davService = new dav.Client({
 			xmlNamespaces: {
@@ -979,8 +1080,6 @@ describe('CalendarFactory', function () {
 	});
 
 	beforeEach(module('Calendar', function($provide) {
-		$window = {};
-
 		DavClient = {};
 		DavClient.NS_DAV = 'DAV:';
 		DavClient.NS_IETF = 'urn:ietf:params:xml:ns:caldav';
@@ -1001,7 +1100,6 @@ describe('CalendarFactory', function () {
 			shareeCanEditShares: false
 		};
 
-		$provide.value('$window', $window);
 		$provide.value('DavClient', DavClient);
 		$provide.value('Calendar', Calendar);
 		$provide.value('WebCal', WebCal);
@@ -1065,8 +1163,6 @@ describe('CalendarFactory', function () {
 	});
 
 	it('handle published calendars', function() {
-		$window.location = 'http://nextcloud.dev/index.php/apps/calendar/';
-
 		const calendarProperties = davService.parseMultiStatus(calendar_published);
 		const calendar = CalendarFactory.calendar(privateCalendarServiceAPI, calendarProperties[0], '/remote.php/dav/principals/users/admin/', false);
 		expect(calendar).toEqual([privateCalendarServiceAPI, '/remote.php/dav/calendars/admin/privat/', {
@@ -1077,8 +1173,6 @@ describe('CalendarFactory', function () {
 	});
 
 	it('handle published calendars when current url ends with #', function() {
-		$window.location = 'http://nextcloud.dev/index.php/apps/calendar/#';
-
 		const calendarProperties = davService.parseMultiStatus(calendar_published);
 		const calendar = CalendarFactory.calendar(privateCalendarServiceAPI, calendarProperties[0], '/remote.php/dav/principals/users/admin/', false);
 		expect(calendar).toEqual([privateCalendarServiceAPI, '/remote.php/dav/calendars/admin/privat/', {
@@ -1233,14 +1327,20 @@ describe('CalendarFactory', function () {
 	});
 
 	it('create a calendar object from a public calendar', function() {
-		$window.location = 'http://nextcloud.dev/index.php/apps/calendar/public/KCMY4V5JZ22ODGFW';
-
 		const calendarProperties = davService.parseMultiStatus(public_calendar);
 		const calendar = CalendarFactory.calendar(privateCalendarServiceAPI, calendarProperties[0], '', true);
 		expect(calendar).toEqual([privateCalendarServiceAPI, '/remote.php/dav/public-calendars/KCMY4V5JZ22ODGFW/', {
 			color: '#fefefe', displayname: 'Personal (admin)', components: {vevent: true, vjournal: false, vtodo: true},
 			order: 0, writable: false, owner: 'admin', enabled: true, shares: {users: [], groups: []}, ownerDisplayname: 'admin', shareable: false,
-			publishable: false, published: true, publicToken: 'KCMY4V5JZ22ODGFW', writableProperties: false}
-		]);
+			publishable: false, published: true, publicToken: 'KCMY4V5JZ22ODGFW', writableProperties: false}]);
+	});
+
+	it('create a calendar object from a public calendar (#596)', function () {
+		const calendarProperties = davService.parseMultiStatus(public_calendar_bug_596);
+		const calendar = CalendarFactory.calendar(privateCalendarServiceAPI, calendarProperties[0], '', true);
+		expect(calendar).toEqual([privateCalendarServiceAPI, '/remote.php/dav/public-calendars/cx46HtLEtgGgEgbz/', {
+			color: '#fefefe', displayname: 'Personal (admin)', components: {vevent: true, vjournal: false, vtodo: true},
+			order: 0, writable: false, owner: 'admin', enabled: true, shares: {users: [], groups: []}, ownerDisplayname: 'Señor Administrator', shareable: false,
+			publishable: false, published: true, publicToken: 'cx46HtLEtgGgEgbz', writableProperties: false}]);
 	});
 });

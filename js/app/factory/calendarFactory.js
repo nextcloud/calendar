@@ -19,7 +19,7 @@
  *
  */
 
-app.service('CalendarFactory', function($window, DavClient, Calendar, WebCal, constants) {
+app.service('CalendarFactory', function(DavClient, Calendar, WebCal, constants) {
 	'use strict';
 
 	const context = {};
@@ -135,7 +135,7 @@ app.service('CalendarFactory', function($window, DavClient, Calendar, WebCal, co
 		}
 
 		if (!Array.isArray(shareProp)) {
-			return [shares, null];
+			return [shares, ownerDisplayname];
 		}
 
 		shareProp.forEach(function(share) {
