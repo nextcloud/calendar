@@ -30,6 +30,7 @@ OC.L10N.register(
     "Share Calendar" : "Sprístupniť kalendár",
     "Shared" : "Sprístupnené",
     "WebDAV address for subscriptions" : "WebDAV adresa pre odbery",
+    "Email sent." : "Email odoslaný.",
     "group" : "skupina",
     "Details" : "Podrobnosti",
     "Attendees" : "Účastníci",
