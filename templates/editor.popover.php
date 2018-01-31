@@ -1,5 +1,5 @@
 <div>
-	<form class="events" ng-submit="save()">
+	<form class="events" ng-keydown="keypress($event)">
 		<fieldset class="events--fieldset" ng-disabled="readOnly">
 			<textarea
 					rows="1"
@@ -56,14 +56,14 @@
 			<button
 				class="events--button button btn primary"
 				ng-if="is_new"
-				type="submit"
+				type="button"
 				tabindex="121">
 				<?php p($l->t('Create')); ?>
 			</button>
 			<button
 				class="evens--button button btn primary"
 				ng-if="!is_new"
-				type="submit"
+				type="button"
 				tabindex="122">
 				<?php p($l->t('Update')); ?>
 			</button>
