@@ -30,6 +30,7 @@ OC.L10N.register(
     "Share Calendar" : "Del kalender",
     "Shared" : "Delt",
     "WebDAV address for subscriptions" : "WebDAV-adresse for abonnementer",
+    "Email sent." : "E-post sendt.",
     "group" : "gruppe",
     "Details" : "Detaljer",
     "Attendees" : "Deltakere",
