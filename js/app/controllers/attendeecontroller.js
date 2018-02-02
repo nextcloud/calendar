@@ -70,6 +70,10 @@ app.controller('AttendeeController', function($scope, AutoCompletionService) {
 		$scope.nameofattendee = '';
 	};
 
+	$scope.$on('save-contents', function() {
+		$scope.add($scope.nameofattendee);
+	});
+
 	$scope.remove = function (attendee) {
 		$scope.properties.attendee = $scope.properties.attendee.filter(function(elem) {
 			return elem.group !== attendee.group;
