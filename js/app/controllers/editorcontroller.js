@@ -123,7 +123,7 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
 
 		$scope.keypress = function(event) {
 			var code = event.keyCode || event.which;
-			if(event.ctrlKey===true && code === 13) {
+			if((event.metaKey === true || event.ctrlKey === true) && code === 13) {
 				$scope.$broadcast('save-contents');
 				$scope.save();
 			}
