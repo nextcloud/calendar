@@ -130,6 +130,7 @@
 					</button>
 					<button
 						class="events--button button btn primary btn-full"
+						ng-click="save()"
 						ng-if="is_new"
 						type="button"
 						tabindex="284">
@@ -137,6 +138,7 @@
 					</button>
 					<button
 						class="evens--button button btn primary btn-full"
+						ng-click="save()"
 						ng-if="!is_new"
 						type="button"
 						tabindex="285">
