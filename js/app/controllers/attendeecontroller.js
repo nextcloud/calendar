@@ -25,6 +25,7 @@ app.controller('AttendeeController', function($scope, AutoCompletionService) {
 	'use strict';
 
 	$scope.newAttendeeGroup = -1;
+	$scope.nameofattendee = '';
 
 	$scope.cutstats = [
 		{displayname: t('calendar', 'Individual'), val: 'INDIVIDUAL'},
@@ -69,6 +70,10 @@ app.controller('AttendeeController', function($scope, AutoCompletionService) {
 		$scope.attendeeoptions = false;
 		$scope.nameofattendee = '';
 	};
+
+	$scope.$on('save-contents', function() {
+		$scope.add($scope.nameofattendee);
+	});
 
 	$scope.remove = function (attendee) {
 		$scope.properties.attendee = $scope.properties.attendee.filter(function(elem) {
