@@ -25,6 +25,7 @@ app.controller('AttendeeController', function($scope, AutoCompletionService) {
 	'use strict';
 
 	$scope.newAttendeeGroup = -1;
+	$scope.nameofattendee = '';
 
 	$scope.cutstats = [
 		{displayname: t('calendar', 'Individual'), val: 'INDIVIDUAL'},
