@@ -1,5 +1,5 @@
 <div id="app-sidebar" class="advanced">
-	<form ng-submit="save()">
+	<form ng-keydown="keypress($event)">
 		<div class="sidebar-top" ng-class="{'new': is_new}">
 			<div class="advanced--container">
 				<fieldset class="advanced--fieldset" ng-disabled="readOnly">
@@ -131,14 +131,14 @@
 					<button
 						class="events--button button btn primary btn-full"
 						ng-if="is_new"
-						type="submit"
+						type="button"
 						tabindex="284">
 						<?php p($l->t('Create')); ?>
 					</button>
 					<button
 						class="evens--button button btn primary btn-full"
 						ng-if="!is_new"
-						type="submit"
+						type="button"
 						tabindex="285">
 						<?php p($l->t('Update')); ?>
 					</button>
