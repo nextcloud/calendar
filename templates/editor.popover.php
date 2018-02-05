@@ -55,6 +55,7 @@
 			</button>
 			<button
 				class="events--button button btn primary"
+				ng-click="save()"
 				ng-if="is_new"
 				type="button"
 				tabindex="121">
@@ -62,6 +63,7 @@
 			</button>
 			<button
 				class="evens--button button btn primary"
+				ng-click="save()"
 				ng-if="!is_new"
 				type="button"
 				tabindex="122">
