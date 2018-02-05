@@ -11,23 +11,25 @@
 * 🙋 **Attendees!** Invite people to your events.
 * 🙈 **We’re not reinventing the wheel!** Based on the great [davclient.js](https://github.com/evert/davclient.js), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries.
 	]]></description>
-	<version>1.5.7</version>
+	<version>1.6.0</version>
 	<licence>agpl</licence>
 	<namespace>Calendar</namespace>
 	<author homepage="https://georg.coffee">Georg Ehrke</author>
 	<author homepage="http://raghunayyar.com">Raghu Nayyar</author>
 	<author homepage="https://tcit.fr">Thomas Citharel</author>
-	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/1.png</screenshot>
-	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/2.png</screenshot>
-	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/3.png</screenshot>
-	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/4.png</screenshot>
+	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/view_week.png</screenshot>
+	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/sidebar.png</screenshot>
+	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/public_sharing.png</screenshot>
+	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/sidebar_attendees.png</screenshot>
+	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/sidebar_reminders.png</screenshot>
 	<dependencies>
-		<nextcloud min-version="12" max-version="14" />
+		<nextcloud min-version="13" max-version="14" />
 	</dependencies>
 	<documentation>
 		<user>https://docs.nextcloud.com/server/11/user_manual/pim/calendar.html</user>
 	</documentation>
 	<category>office</category>
+	<category>organization</category>
 	<website>https://github.com/nextcloud/calendar/</website>
 	<bugs>https://github.com/nextcloud/calendar/issues</bugs>
 	<repository type="git">https://github.com/nextcloud/calendar.git</repository>

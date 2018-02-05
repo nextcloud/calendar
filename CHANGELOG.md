@@ -1,3 +1,19 @@
+## 1.6.0 - 2018-02-05
+### Fixed
+- Compatibility with 13
+- Enter in new attendee field closes sidebar
+  [#502](https://github.com/nextcloud/calendar/issues/502)
+- Displayname is missing on public sharing site
+  [#596](https://github.com/nextcloud/calendar/issues/596)
+- Small / short dates not usable in any agenda view
+  [#221](https://github.com/nextcloud/calendar/issues/221)
+- Missing 'Nextcloud' logo when accessing shared calendar
+  [#571](https://github.com/nextcloud/calendar/issues/571)
+
+### Informational:
+- Shortcut changed: The events editor can be closed with CTRL / CMD + Enter now
+- 1.6.0 does not support Nextcloud 12 and below, the 1.5 tree will be maintained till Nextcloud 12 is end of life
+
 ## 1.5.7 - 2017-12-08
 ### Fixed
 - Issue with displaying wrong year in upper left corner for certain cases
