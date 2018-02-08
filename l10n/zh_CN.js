@@ -30,6 +30,7 @@ OC.L10N.register(
     "Share Calendar" : "共享日历",
     "Shared" : "已共享",
     "WebDAV address for subscriptions" : "订阅的WebDAV地址",
+    "Email sent." : "邮件已发送。",
     "Could not send your email." : "无法发送您的电子邮件。",
     "group" : "群组",
     "Details" : "细节",
