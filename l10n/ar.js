@@ -128,6 +128,7 @@ OC.L10N.register(
     "File is empty" : "الملف فارغ",
     "Import scheduled" : "الاستيراد مُجدوَل",
     "Publish URL" : "نشر الرابط",
+    "Settings & import" : "الإعدادات و الإستيراد",
     "Show week numbers" : "إظهار رقم الأسابيع",
     "Import calendar" : "استيراد التقويم",
     "No Calendars selected for import" : "لم تختر تقويمات للاستيراد",
