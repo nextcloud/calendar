@@ -77,6 +77,7 @@ OC.L10N.register(
     "end" : "slut",
     "Editing reminders of unknown type not supported." : "Att redigera påminnelser för okända typer stöds inte.",
     "Week {number} of {year}" : "Vecka {number} år {year}",
+    "Imported {imported} out of {all}, one failure" : "Importerade {imported} av {all}, en misslyckades",
     "Audio alarm {time} before the event starts" : "Ljudalarm {time} före händelsen startar",
     "Email {time} before the event starts" : "Epost {time} före händelsen startar",
     "{type} {time} before the event starts" : "{type} {time} före händelsen börjar",
