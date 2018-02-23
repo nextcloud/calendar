@@ -67,7 +67,24 @@ app.factory('VEvent', function(TimezoneService, FcEvent, SimpleEvent, ICalFactor
 
 				return dtstart;
 			} else {
-				return vevent.getFirstPropertyValue('dtstart').clone();
+				/*
+				 * RFC 5545 - 3.6.1.
+				 *
+				 * For cases where a "VEVENT" calendar component
+				 * specifies a "DTSTART" property with a DATE value type but no
+				 * "DTEND" nor "DURATION" property, the event’s duration is taken to
+				 * be one day.  For cases where a "VEVENT" calendar component
+				 * specifies a "DTSTART" property with a DATE-TIME value type but no
+				 * "DTEND" property, the event ends on the same calendar date and
+				 * time of day specified by the "DTSTART" property.
+				 */
+				const dtstart = vevent.getFirstPropertyValue('dtstart').clone();
+
+				if (dtstart.icaltype === 'date') {
+					dtstart.addDuration(ICAL.Duration.fromString('P1D'));
+				}
+
+				return dtstart;
 			}
 		};
 

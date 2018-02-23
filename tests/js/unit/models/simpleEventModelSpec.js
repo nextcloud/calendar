@@ -1610,7 +1610,7 @@ END:VCALENDAR`;
 		});
 	});
 
-	it ('should parse DTSTART only', function() {
+	it ('should parse DTSTART only - timed', function() {
 		const ics = `BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Apple Inc.//Mac OS X 10.11.6//EN
@@ -1645,6 +1645,42 @@ END:VCALENDAR`;
 		expect(simple.dtend).toEqual({
 			parameters: {
 				zone: 'Europe/Berlin'
+			}
+		});
+	});
+
+	it ('should parse DTSTART only - allDay', function() {
+		const ics = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:carrier CMS
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:3736a16963ebae6ef46c32dd120c9520
+SUMMARY:Abfuhrtermin: Schadstoffmobil S1
+CLASS:PUBLIC
+DTSTART;VALUE=DATE:20180102
+DTSTAMP:20180103T154011Z
+END:VEVENT
+END:VCALENDAR`;
+
+		const root = new ICAL.Component(ICAL.parse(ics));
+		const event = root.getFirstSubcomponent('vevent');
+
+		const simple = SimpleEvent(event);
+
+		expect(simple.dtstart.value.toString().substr(0, 24)).toEqual('Tue Jan 02 2018 00:00:00');
+		delete simple.dtstart.value;
+		expect(simple.dtend.value.toString().substr(0, 24)).toEqual('Wed Jan 03 2018 00:00:00');
+		delete simple.dtend.value;
+
+		expect(simple.dtstart).toEqual({
+			parameters: {
+				zone: 'floating'
+			}
+		});
+		expect(simple.dtend).toEqual({
+			parameters: {
+				zone: 'floating'
 			}
 		});
 	});

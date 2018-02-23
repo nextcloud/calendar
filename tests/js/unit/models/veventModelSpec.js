@@ -521,6 +521,19 @@ RECURRENCE-ID;RANGE=THISANDFUTURE;TZID=Europe/Berlin:20161012T090000
 END:VEVENT
 END:VCALENDAR`;
 
+	const ics14 = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:carrier CMS
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:3736a16963ebae6ef46c32dd120c9520
+SUMMARY:Abfuhrtermin: Schadstoffmobil S1
+CLASS:PUBLIC
+DTSTART;VALUE=DATE:20180102
+DTSTAMP:20180103T154011Z
+END:VEVENT
+END:VCALENDAR`;
+
 	const timezone_nyc = {
 		jCal: new ICAL.Timezone(new ICAL.Component(ICAL.parse(`BEGIN:VTIMEZONE
 TZID:America/New_York
@@ -879,7 +892,7 @@ END:VEVENT`.split("\n").join("\r\n"));
 		expect(called).toEqual(true);
 	});
 
-	it ('should generate FcEvents for a dedicated time-range - single event with neither DTEND nor DURATION', function() {
+	it ('should generate FcEvents for a dedicated time-range - single event with neither DTEND nor DURATION - datetime', function() {
 		const calendar = {this_is_a_fancy_calendar: true};
 		const comp = new ICAL.Component(ICAL.parse(ics5));
 		let called = false;
@@ -908,6 +921,40 @@ END:VEVENT`.split("\n").join("\r\n"));
 			expect(fcEvents[0][2].toString()).toEqual('2016-11-05T23:59:00');
 			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[0][2])).toBe(true);
 			expect(fcEvents[0][3].toString()).toEqual('2016-11-05T23:59:00');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[0][3])).toBe(true);
+		}).catch(() => fail('Promise was not supposed to fail'));
+
+		$rootScope.$apply();
+
+		expect(called).toEqual(true);
+	});
+
+	it ('should generate FcEvents for a dedicated time-range - single event with neither DTEND nor DURATION - allday', function() {
+		const calendar = {this_is_a_fancy_calendar: true};
+		const comp = new ICAL.Component(ICAL.parse(ics14));
+		let called = false;
+
+		const vevent = VEvent(calendar, comp);
+		const start = moment('2018-01-01');
+		const end = moment('2018-01-31');
+
+		const fcEvents = vevent.getFcEvent(start, end, timezone_berlin).then((fcEvents) => {
+			called = true;
+
+			expect(fcEvents.length).toEqual(1);
+			expect(fcEvents[0].length).toEqual(4);
+			expect(fcEvents[0][0]).toEqual(vevent);
+			expect(fcEvents[0][1].toString()).toEqual(`BEGIN:VEVENT
+UID:3736a16963ebae6ef46c32dd120c9520
+SUMMARY:Abfuhrtermin: Schadstoffmobil S1
+CLASS:PUBLIC
+DTSTART;VALUE=DATE:20180102
+DTSTAMP:20180103T154011Z
+END:VEVENT`.split("\n").join("\r\n"));
+			expect(ICAL.Component.prototype.isPrototypeOf(fcEvents[0][1])).toBe(true);
+			expect(fcEvents[0][2].toString()).toEqual('2018-01-02');
+			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[0][2])).toBe(true);
+			expect(fcEvents[0][3].toString()).toEqual('2018-01-03');
 			expect(ICAL.Time.prototype.isPrototypeOf(fcEvents[0][3])).toBe(true);
 		}).catch(() => fail('Promise was not supposed to fail'));
 
