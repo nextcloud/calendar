@@ -82,12 +82,21 @@ class ProxyControllerTest extends \PHPUnit_Framework_TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->exceptionRequest = $this->getMockBuilder('GuzzleHttp\Message\RequestInterface')
-			->disableOriginalConstructor()
-			->getMock();
-		$this->exceptionResponse = $this->getMockBuilder('GuzzleHttp\Message\ResponseInterface')
-			->disableOriginalConstructor()
-			->getMock();
+		if (version_compare(\OC::$server->getConfig()->getSystemValue('version'), '14', '>=')) {
+			$this->exceptionRequest = $this->getMockBuilder('Psr\Http\Message\RequestInterface')
+				->disableOriginalConstructor()
+				->getMock();
+			$this->exceptionResponse = $this->getMockBuilder('Psr\Http\Message\ResponseInterface')
+				->disableOriginalConstructor()
+				->getMock();
+		} else {
+			$this->exceptionRequest = $this->getMockBuilder('GuzzleHttp\Message\RequestInterface')
+				->disableOriginalConstructor()
+				->getMock();
+			$this->exceptionResponse = $this->getMockBuilder('GuzzleHttp\Message\ResponseInterface')
+				->disableOriginalConstructor()
+				->getMock();
+		}
 
 		$this->controller = new ProxyController($this->appName, $this->request,
 			$this->client, $this->l10n, $this->logger);
@@ -165,7 +174,7 @@ class ProxyControllerTest extends \PHPUnit_Framework_TestCase {
 				'allow_redirects' => false,
 			])
 			->will($this->throwException(new ConnectException('Exception Message foo bar 42',
-				$this->exceptionRequest, $this->exceptionResponse)));
+				$this->exceptionRequest)));
 		$this->l10n->expects($this->once())
 			->method('t')
 			->with($this->equalTo('Error connecting to remote server'))
