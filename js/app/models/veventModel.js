@@ -135,6 +135,95 @@ app.factory('VEvent', function(TimezoneService, FcEvent, SimpleEvent, ICalFactor
 			return missingTimezones;
 		};
 
+		/**
+		 * find a single VEvent subcomponent based on its recurrenceId
+		 * @param {ICAL.Time|null} recurrenceId
+		 * @throws {Error} if no matching subcomponent was found
+		 * @return {ICAL.Component|null}
+		 */
+		iface.findComponentByRecurrenceId = function(recurrenceId) {
+			const vEvents = context.comp.getAllSubcomponents('vevent');
+
+			return vEvents.find((vEvent) => {
+				const hasRecurrenceId = vEvent.hasProperty('recurrence-id');
+
+				if (hasRecurrenceId === false) {
+					return recurrenceId === null;
+				} else {
+					let vEventsRecurrenceId = vEvent.getFirstPropertyValue('recurrence-id');
+					return vEventsRecurrenceId.compare(recurrenceId) === 0;
+				}
+			}) || null;
+		};
+
+		/**
+		 * check if certain component of VEvent has more than one RRule property
+		 * @param {ICAL.Time|null} recurrenceId
+		 */
+		context.hasMultipleRRules = function(recurrenceId) {
+			const comp = context.findComponentByRecurrenceId(recurrenceId);
+			// getAllProperties always returns an array, so its safe to use length directly
+			return comp.getAllProperties('rrule').length > 1;
+		};
+
+		/**
+		 * Clones the event and sets new URI and UID and adds event
+		 * @param {ICAL.Component} event
+		 */
+		iface.fork = function(event) {
+			const uid = StringUtility.uid();
+			const uri = StringUtility.uid('Nextcloud', 'ics');
+
+			const ics = context.comp.toString();
+			const clone = VEvent.fromRawICS(context.calendar, ics, uri);
+
+			clone.comp.removeAllSubcomponents('vevent');
+			clone.comp.addSubcomponent(event);
+
+			event.updatePropertyWithValue('uid', uid);
+
+			return clone;
+		};
+
+		/**
+		 * search ExDates / RDates and list categorize in relation to another time
+		 * @param {ICAL.Time} recurrenceId
+		 * @param {ICAL.Time} delimiterRecurrenceId
+		 * @param {String} type
+		 */
+		context.sortRecurrenceDates = (recurrenceId, delimiterRecurrenceId, type) => {
+			const vEvent = context.findComponentByRecurrenceId(recurrenceId);
+			if (!vEvent) {
+				throw new Error('WTF?');
+			}
+
+			const dates = vEvent.getAllProperties(type);
+			const categorizedDates = {
+				'before': [],
+				'equal': [],
+				'after': []
+			};
+
+			dates.forEach((date) => {
+				const comparison = date.compare(delimiterRecurrenceId);
+				switch(comparison) {
+					case -1:
+						categorizedDates.before.push(date);
+						break;
+
+					case 0:
+						categorizedDates.equal.push(date);
+						break;
+
+					case 1:
+						categorizedDates.after.push(date);
+						break;
+				}
+			});
+
+			return categorizedDates;
+		};
+
 		Object.defineProperties(iface, {
 			calendar: {
 				get: function() {
@@ -224,9 +313,10 @@ app.factory('VEvent', function(TimezoneService, FcEvent, SimpleEvent, ICalFactor
 							dtstart: rawDtstart
 						});
 
-						let next;
+						let next, i=0, lastFcEvent;
 						while ((next = iterator.next())) {
 							const occurrence = iCalEvent.getOccurrenceDetails(next);
+							i++;
 
 							if (occurrence.endDate.compare(iCalStart) < 0) {
 								continue;
@@ -235,11 +325,25 @@ app.factory('VEvent', function(TimezoneService, FcEvent, SimpleEvent, ICalFactor
 								break;
 							}
 
+							console.log(occurrence);
+
 							const dtstart = context.convertTz(occurrence.startDate, timezone.jCal);
 							const dtend = context.convertTz(occurrence.endDate, timezone.jCal);
-							const fcEvent = FcEvent(iface, occurrence.item.component, dtstart, dtend);
+							const fcEvent = FcEvent(iface, occurrence.item.component, dtstart, dtend, {
+								recurring: occurrence.item.isRecurring(),
+								recurrenceId: occurrence.recurrenceId,
+								count: i + iterator.exDateInc - iterator.ruleDateInc,
+								firstOccurrence: (i === 1),
+								lastOccurrence: false
+							});
+							lastFcEvent = fcEvent;
 
 							fcEvents.push(fcEvent);
+						}
+
+						iterator.next();
+						if (iterator.complete) {
+							lastFcEvent.recurrenceDetails.lastOccurrence = true;
 						}
 					} else {
 						if (vevent) {
@@ -255,13 +359,22 @@ app.factory('VEvent', function(TimezoneService, FcEvent, SimpleEvent, ICalFactor
 							const rawDtstart = dtstartProp.getFirstValue('dtstart');
 							const rawDtend = context.calculateDTEnd(singleVEvent);
 
-							const dtstart = context.convertTz(rawDtstart, timezone.jCal);
-							const dtend = context.convertTz(rawDtend, timezone.jCal);
-							const fcEvent = FcEvent(iface, singleVEvent, dtstart, dtend);
+                            const dtstart = context.convertTz(rawDtstart, timezone.jCal);
+                            const dtend = context.convertTz(rawDtend, timezone.jCal);
+                            const fcEvent = FcEvent(iface, vevent, dtstart, dtend, {
+                                date: rawDtstart,
+                                recurring: false,
+                                count: 1,
+                                firstOccurrence: true,
+                                lastOccurrence: true
+                            });
 
 							fcEvents.push(fcEvent);
 						});
 					}
+                    //
+					// console.log(fcEvents);
+					// fcEvents.forEach((fcEvent) => console.log(fcEvent.title, fcEvent.recurrenceDetails));
 
 					resolve(fcEvents);
 				});
@@ -300,6 +413,14 @@ app.factory('VEvent', function(TimezoneService, FcEvent, SimpleEvent, ICalFactor
 		iface.touch = function() {
 			const vevent = context.comp.getFirstSubcomponent('vevent');
 			vevent.updatePropertyWithValue('last-modified', ICAL.Time.now());
+		};
+
+		iface.updateOccurrence = function(dtstart, thisAndFuture=false) {
+
+		};
+
+		iface.deleteOccurrence = function(dtstart, thisAndFuture=false) {
+
 		};
 
 		return iface;

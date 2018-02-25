@@ -29,10 +29,15 @@ app.factory('FcEvent', function(SimpleEvent) {
 	 * @param {ICAL.Component} event
 	 * @param {ICAL.Time} start
 	 * @param {ICAL.Time} end
+	 * @param {object} recurrenceDetails
 	 */
-	function FcEvent(vevent, event, start, end) {
+	function FcEvent(vevent, event, start, end, recurrenceDetails) {
 		const context = {vevent, event};
 		context.iCalEvent = new ICAL.Event(event);
+
+		context.previousEvent = null;
+		context.peviousVEvent = null;
+		context.previousRRule = null;
 
 		let id = context.vevent.uri;
 		if (event.hasProperty('recurrence-id')) {
@@ -54,7 +59,8 @@ app.factory('FcEvent', function(SimpleEvent) {
 			backgroundColor: vevent.calendar.color,
 			borderColor: vevent.calendar.color,
 			textColor: vevent.calendar.textColor,
-			title: event.getFirstPropertyValue('summary')
+			title: event.getFirstPropertyValue('summary'),
+			recurrenceDetails: recurrenceDetails
 		};
 
 		Object.defineProperties(iface, {
@@ -189,6 +195,168 @@ app.factory('FcEvent', function(SimpleEvent) {
 			}
 
 			context.vevent.touch();
+		};
+
+		/**
+		 *
+		 */
+		iface.createRecurrenceException = function() {
+			context.previousEvent = context.event;
+			const ics = context.event.toString();
+			const newComp = new ICAL.Component(ICAL.parse(ics));
+
+			newComp.addPropertyWithValue('recurrence-id',
+				iface.recurrenceDetails.recurrenceId);
+
+			if (newComp.hasProperty('dtend')) {
+				const diff = newComp.getFirstPropertyValue('dtend').subtractDateTz(
+					newComp.getFirstPropertyValue('dtstart'));
+				const dtend = iface.recurrenceDetails.recurrenceId.clone();
+				dtend.addDuration(diff);
+
+				newComp.updatePropertyWithValue('dtend', dtend);
+			}
+
+			newComp.updatePropertyWithValue('dtstart',
+				iface.recurrenceDetails.recurrenceId.clone());
+
+			newComp.removeAllProperties('rrule');
+			newComp.removeAllProperties('exrule');
+			newComp.removeAllProperties('rdate');
+			newComp.removeAllProperties('exdate');
+
+			context.vevent.comp.addSubcomponent(newComp);
+			context.event = newComp;
+
+			return newComp;
+		};
+
+		/**
+		 * revert changes previously made by
+		 * createRecurrenceException
+		 */
+		iface.revertCreateRecurrenceException = function() {
+			if (context.previousEvent) {
+				context.vevent.comp.removeSubcomponent(context.event);
+				context.event = context.previousEvent;
+			}
+		};
+
+		/**
+		 * create a fork for modifying this and all future events
+		 */
+		iface.createFork = function() {
+			const oldRRule = context.event.getFirstPropertyValue('rrule');
+			if (!oldRRule) {
+				return;
+			}
+
+			context.previousEvent = context.event;
+			context.previousVEvent = context.vevent;
+			context.previousRRule = oldRRule.clone();
+
+			const ics = context.event.toString();
+			const newComp = new ICAL.Component(ICAL.parse(ics));
+			const fork = context.vevent.fork(newComp);
+
+			const newRRule = newComp.getFirstPropertyValue('rrule');
+			if (oldRRule.count) {
+				newRRule.count = oldRRule.count - iface.recurrenceDetails.count + 1;
+				oldRRule.count = iface.recurrenceDetails.count - 1;
+			} else {
+				oldRRule.until = iface.recurrenceDetails.recurrenceId.clone();
+				console.log(oldRRule.until.toString());
+				oldRRule.until.addDuration(ICAL.Duration.fromSeconds(-1 * 60 * 60 * 24));
+				console.log(oldRRule.until.toString());
+			}
+
+			context.previousEvent.updatePropertyWithValue('rrule', oldRRule);
+			newComp.updatePropertyWithValue('rrule', newRRule);
+
+			if (newComp.hasProperty('dtend')) {
+				const diff = newComp.getFirstPropertyValue('dtend').subtractDateTz(
+					newComp.getFirstPropertyValue('dtstart'));
+				const dtend = iface.recurrenceDetails.recurrenceId.clone();
+				dtend.addDuration(diff);
+
+				newComp.updatePropertyWithValue('dtend', dtend);
+			}
+
+			newComp.updatePropertyWithValue('dtstart',
+				iface.recurrenceDetails.recurrenceId.clone());
+
+			context.vevent = fork;
+			context.event = newComp;
+
+			console.log('successfully forked event');
+			console.log('fork:', fork, context.vevent, iface.vevent);
+			console.log('event:', newComp, context.event, iface.event);
+
+			return iface;
+		};
+
+		/**
+		 * revert changes previously made by
+		 * createFork
+		 */
+		iface.revertCreateFork = function() {
+			if (context.previousRRule) {
+				context.vevent = context.previousVEvent;
+				context.event = context.previousEvent;
+				context.event.updatePropertyWithValue('rrule', context.previousRRule);
+			}
+
+			context.previousEvent = null;
+			context.previousVEvent = null;
+			context.previousRRule = null;
+		};
+
+		iface.isForked = function() {
+			return context.previousRRule;
+		};
+
+		iface.revertCreateForkKeepingRRule = function() {
+			if (context.previousRRule) {
+				context.vevent = context.previousVEvent;
+				context.event = context.previousEvent;
+			}
+
+			context.previousEvent = null;
+			context.previousVEvent = null;
+			context.previousRRule = null;
+		};
+
+		iface.getPreviousVEvent = () => {
+			return context.previousVEvent;
+		};
+
+		/**
+		 * Does this event have multiple recurrence rule sets?
+		 * @return {boolean}
+		 */
+		iface.hasMultipleRRules = function() {
+			// getAllProperties always returns an array, so its safe to use length directly
+			return context.event.getAllProperties('rrule').length > 1;
+		};
+
+		/**
+		 * removes VEvent that this fcEvent is based on from
+		 * VEvent object and returns number of vEvents left
+		 * @return {number}
+		 */
+		iface.removeFromVEvent = function() {
+			if (context.event.hasProperty('recurrence-id')) {
+				const recurrenceId = context.event.getFirstPropertyValue('recurrence-id');
+				const rootElement = context.vevent.findComponentByRecurrenceId(null);
+
+				if (rootElement) {
+					rootElement.addPropertyWithValue('exdate', recurrenceId.clone());
+				}
+			}
+
+			context.vevent.comp.removeSubcomponent(context.event);
+
+			return context.vevent.comp.getAllSubcomponents('vevent').length;
 		};
 
 		/**

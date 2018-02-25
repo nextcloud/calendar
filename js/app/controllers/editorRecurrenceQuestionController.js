@@ -34,9 +34,9 @@ app.controller('EditorRecurrenceQuestionController', function($scope, $uibModalI
 	/**
 	 * edit only this event
 	 */
-	$scope.onlyThis = () => {
+	$scope.thisOnly = () => {
 		$uibModalInstance.close({
-			action: 'onlyThis'
+			action: 'thisOnly'
 		});
 	};
 

@@ -78,6 +78,22 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 			});
 		}
 
+		function updateAndRenderEvent(newCalendar, oldCalendar, vevent, fcEvent, view) {
+			// was the event moved to another calendar?
+			if (newCalendar === oldCalendar) {
+				VEventService.update(vevent).then(function() {
+					fc.elm.fullCalendar('removeEvents', fcEvent.id);
+
+					if (newCalendar.enabled) {
+						fc.elm.fullCalendar('refetchEventSources', newCalendar.fcEventSource);
+					}
+				});
+			} else {
+				deleteAndRemoveEvent(vevent, fcEvent);
+				createAndRenderEvent(newCalendar, vevent.data, view.start, view.end, $scope.defaulttimezone);
+			}
+		}
+
 		$scope.$watchCollection('calendars', function(newCalendars, oldCalendars) {
 			newCalendars.filter(function(calendar) {
 				return oldCalendars.indexOf(calendar) === -1;
@@ -205,7 +221,12 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 								}
 							});
 						}).then(function(result) {
-							createAndRenderEvent(result.calendar, result.vevent.data, view.start, view.end, $scope.defaulttimezone);
+							result.create = result.create || [];
+
+							result.create.forEach(eventToCreate => {
+								createAndRenderEvent(eventToCreate.calendar, eventToCreate.vevent.data,
+									view.start, view.end, $scope.defaulttimezone);
+							});
 						}).catch(function(reason) {
 							//fcEvent is removed by unlock callback
 							//no need to anything
@@ -227,19 +248,17 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 						fcEvt.editable = fcEvent.calendar.writable;
 						fc.elm.fullCalendar('updateEvent', fcEvt);
 					}).then(function(result) {
-						// was the event moved to another calendar?
-						if (result.calendar === oldCalendar) {
-							VEventService.update(vevent).then(function() {
-								fc.elm.fullCalendar('removeEvents', fcEvent.id);
+						result.create = result.create || [];
+						result.update = result.update || [];
 
-								if (result.calendar.enabled) {
-									fc.elm.fullCalendar('refetchEventSources', result.calendar.fcEventSource);
-								}
-							});
-						} else {
-							deleteAndRemoveEvent(vevent, fcEvent);
-							createAndRenderEvent(result.calendar, result.vevent.data, view.start, view.end, $scope.defaulttimezone);
-						}
+						result.create.forEach(eventToCreate => {
+							createAndRenderEvent(eventToCreate.calendar, eventToCreate.vevent.data,
+								view.start, view.end, $scope.defaulttimezone);
+						});
+						result.update.forEach(eventToUpdate => {
+							updateAndRenderEvent(eventToUpdate.calendar, oldCalendar, eventToUpdate.vevent,
+								fcEvent, view);
+						});
 					}).catch(function(reason) {
 						if (reason === 'delete') {
 							deleteAndRemoveEvent(vevent, fcEvent);
