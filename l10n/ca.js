@@ -154,7 +154,7 @@ OC.L10N.register(
     "File is empty" : "El Fitxer està plè",
     "Import scheduled" : "Importa els programats",
     "%s shared the calendar <strong>%s</strong> with you" : "%s ha compartit el calendar <strong>%s</strong> amb tu",
-    "Embed" : "Empotra",
+    "Embed" : "Incrusta",
     "Iframe to integrate" : "Iframe per integrar",
     "Publish URL" : "Publica la URL",
     "Settings & import" : "Configuració & importació",
