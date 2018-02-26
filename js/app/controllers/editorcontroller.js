@@ -208,6 +208,11 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
 		};
 
 		$scope.showCalendarSelection = function() {
+			// always show selection if it's a readonly calendar
+			if (!$scope.calendar.isWritable()) {
+				return true;
+			}
+
 			const writableCalendars = $scope.calendars.filter(function (c) {
 				return c.isWritable();
 			});
