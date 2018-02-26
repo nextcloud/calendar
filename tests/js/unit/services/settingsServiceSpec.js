@@ -98,4 +98,27 @@ describe('Settings Service', function () {
 		expect(http.flush).not.toThrow();
 		expect(called).toEqual(true);
 	});
+
+	it ('should set the timezone value', function() {
+		http.expect('POST', 'fancy-url/config', {
+			'key': 'timezone',
+			'value': 'Europe/Berlin'
+		}).respond(200, {});
+
+		SettingsService.setTimezone('Europe/Berlin').then(function(result) {
+			expect(result).toBe(true);
+		});
+
+		expect(http.flush).not.toThrow();
+	});
+
+	it ('should get the timezone value', function() {
+		http.expect('GET', 'fancy-url/config?key=timezone').respond(200, {value: 'Europe/Berlin'});
+
+		SettingsService.getTimezone().then(function(result) {
+			expect(result).toEqual('Europe/Berlin');
+		});
+
+		expect(http.flush).not.toThrow();
+	});
 });
