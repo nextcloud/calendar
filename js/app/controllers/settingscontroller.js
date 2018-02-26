@@ -26,14 +26,45 @@
  * Description: Takes care of the Calendar Settings.
  */
 
-app.controller('SettingsController', ['$scope', '$uibModal', '$timeout', 'SettingsService', 'fc', 'isFirstRun', 'settings',
-	function ($scope, $uibModal, $timeout, SettingsService, fc, isFirstRun, settings) {
+app.controller('SettingsController', ['$scope', '$uibModal', '$timeout', 'TimezoneService', 'SettingsService', 'fc', 'isFirstRun', 'settings',
+	function ($scope, $uibModal, $timeout, TimezoneService, SettingsService, fc, isFirstRun, settings) {
 		'use strict';
 
 		$scope.settingsCalDavLink = OC.linkToRemote('dav') + '/';
 		$scope.settingsCalDavPrincipalLink = OC.linkToRemote('dav') + '/principals/users/' + escapeHTML(encodeURIComponent(oc_current_user)) + '/';
 		$scope.skipPopover = settings.skipPopover ? 'yes' : 'no';
 		$scope.settingsShowWeekNr = settings.showWeekNr ? 'yes' : 'no';
+		$scope.timezone = 'automatic';
+		$scope.timezones = [];
+
+		TimezoneService.listAll().then((timezones) => {
+			$scope.timezones.push({
+				displayname: t('calendar', 'Automatic ({timezone})', {
+					timezone: TimezoneService.getDetected()
+				}),
+				value: 'automatic'
+			});
+
+			timezones.forEach((timezone) => {
+				if (timezone.split('/').length === 1) {
+					$scope.timezones.push({
+						displayname: timezone,
+						group: t('calendar', 'Global'),
+						value: timezone
+					});
+				} else {
+					$scope.timezones.push({
+						displayname: timezone.split('/').slice(1).join('/'),
+						group: timezone.split('/', 1),
+						value: timezone
+					});
+				}
+			});
+		});
+
+		$scope.setTimezone = () => {
+			SettingsService.setTimezone($scope.timezone);
+		};
 
 		$timeout(() => {
 			if (isFirstRun) {

@@ -80,6 +80,21 @@ app.service('TimezoneService', function (TimezoneDataProvider, Timezone) {
 	};
 
 	/**
+	 * get timezone detected by jstz
+	 * @return {string}
+	 */
+	this.getDetected = () => {
+		const tz = jstz.determine();
+		let tzname = tz ? tz.name() : 'UTC';
+
+		if (TimezoneDataProvider.aliases[tzname]) {
+			return TimezoneDataProvider.aliases[tzname].aliasTo;
+		}
+
+		return tzname;
+	};
+
+	/**
 	 * list all timezone ids
 	 * @returns {Promise}
 	 */
