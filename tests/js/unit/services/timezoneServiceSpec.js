@@ -77,9 +77,9 @@ describe('Timezone Service', function () {
 		jstz.determine = jasmine.createSpy().and.returnValues(
 			{name: () => 'Europe/Berlin'}, {name: () => 'UTC'}, {name: () => 'Etc/UTC'});
 
-		expect(TimezoneService.current()).toEqual('Europe/Berlin');
-		expect(TimezoneService.current()).toEqual('UTC');
-		expect(TimezoneService.current()).toEqual('UTC');
+		expect(TimezoneService.getDetected()).toEqual('Europe/Berlin');
+		expect(TimezoneService.getDetected()).toEqual('UTC');
+		expect(TimezoneService.getDetected()).toEqual('UTC');
 	});
 
 	it('should get a timezone', function() {

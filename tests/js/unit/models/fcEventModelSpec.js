@@ -260,8 +260,8 @@ END:VTIMEZONE`)));
 
 		expect(fcEvent.id).toEqual('fancy1337');
 		expect(fcEvent.allDay).toEqual(false);
-		expect(fcEvent.start.toString()).toEqual(start.toJSDate().toString());
-		expect(fcEvent.end.toString()).toEqual(end.toJSDate().toString());
+		expect(fcEvent.start.toString()).toEqual(moment(start.toString()).toString());
+		expect(fcEvent.end.toString()).toEqual(moment(end.toString()).toString());
 		expect(fcEvent.repeating).toEqual(false);
 		expect(fcEvent.backgroundColor).toEqual('#000');
 		expect(fcEvent.borderColor).toEqual('#000');

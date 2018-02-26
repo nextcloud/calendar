@@ -81,6 +81,7 @@ class ViewController extends Controller {
 		$skipPopover = $this->config->getUserValue($userId, $this->appName, 'skipPopover', 'no');
 		$weekNumbers = $this->config->getUserValue($userId, $this->appName, 'showWeekNr', 'no');
 		$firstRun = $this->config->getUserValue($userId, $this->appName, 'firstRun', null);
+		$timezone = $this->config->getUserValue($userId, $this->appName, 'timezone', 'automatic');
 
 		// the default view will be saved as soon as a user
 		// opens the calendar app, therefore this is a good
@@ -107,6 +108,7 @@ class ViewController extends Controller {
 			'isPublic' => false,
 			'isEmbedded' => false,
 			'token' => '',
+			'timezone' => $timezone,
 		]));
 	}
 
@@ -198,6 +200,7 @@ class ViewController extends Controller {
 			'shareeCanEditShares' => $shareeCanEditShares ? 'yes' : 'no',
 			'shareeCanEditCalendarProperties' => $shareeCanEditCalendarProperties ? 'yes' : 'no',
 			'canSharePublicLink' => $canSharePublicLink,
+			'timezone' => 'automatic',
 		];
 	}
 
@@ -234,6 +237,7 @@ class ViewController extends Controller {
 			'webcalURL' => $webcalUrl,
 			'downloadURL' => $downloadUrl,
 			'token' => $token,
+			'timezone' => 'automatic',
 		];
 	}
 }

@@ -39,22 +39,6 @@ app.service('TimezoneService', function (TimezoneDataProvider, Timezone) {
 	};
 
 	/**
-	 * get the browser's timezone id
-	 * @returns {string}
-	 */
-	this.current = function () {
-		const tz = jstz.determine();
-		let tzname = tz ? tz.name() : 'UTC';
-
-		if (TimezoneDataProvider.aliases[tzname]) {
-			return TimezoneDataProvider.aliases[tzname].aliasTo;
-		}
-
-		return tzname;
-	};
-
-
-	/**
 	 * get a timezone object by it's id
 	 * @param tzid
 	 * @returns {Promise}

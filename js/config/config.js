@@ -62,7 +62,8 @@ app.config(['$provide', '$httpProvider',
 
 		const skipPopover = angular.element('#fullcalendar').attr('data-skipPopover') === 'yes';
 		const showWeekNr = angular.element('#fullcalendar').attr('data-weekNumbers') === 'yes';
-		$provide.constant('settings', {skipPopover, showWeekNr});
+		const timezone = angular.element('#fullcalendar').attr('data-timezone');
+		$provide.constant('settings', {skipPopover, showWeekNr, timezone});
 
 		const initialView = angular.element('#fullcalendar').attr('data-initialView');
 		const emailAddress = angular.element('#fullcalendar').attr('data-emailAddress');

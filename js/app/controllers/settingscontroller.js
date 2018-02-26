@@ -34,7 +34,7 @@ app.controller('SettingsController', ['$scope', '$uibModal', '$timeout', 'Timezo
 		$scope.settingsCalDavPrincipalLink = OC.linkToRemote('dav') + '/principals/users/' + escapeHTML(encodeURIComponent(oc_current_user)) + '/';
 		$scope.skipPopover = settings.skipPopover ? 'yes' : 'no';
 		$scope.settingsShowWeekNr = settings.showWeekNr ? 'yes' : 'no';
-		$scope.timezone = 'automatic';
+		$scope.timezone = settings.timezone;
 		$scope.timezones = [];
 
 		TimezoneService.listAll().then((timezones) => {
@@ -64,6 +64,11 @@ app.controller('SettingsController', ['$scope', '$uibModal', '$timeout', 'Timezo
 
 		$scope.setTimezone = () => {
 			SettingsService.setTimezone($scope.timezone);
+			settings.timezone = $scope.timezone;
+
+			if (fc.elm) {
+				fc.elm.fullCalendar('option', 'timezone', settings.timezone);
+			}
 		};
 
 		$timeout(() => {

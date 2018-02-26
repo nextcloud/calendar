@@ -37,6 +37,7 @@
 	data-shareeCanEditShares="<?php p($_['shareeCanEditShares']); ?>"
 	data-shareeCanEditCalendarProperties="<?php p($_['shareeCanEditCalendarProperties']); ?>"
 	data-canSharePublicLink="<?php p($_['canSharePublicLink']); ?>"
+	data-timezone="<?php p($_['timezone']); ?>"
 	fc
 	id="fullcalendar">
 </div>
