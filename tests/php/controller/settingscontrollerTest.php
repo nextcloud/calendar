@@ -250,6 +250,57 @@ class SettingsControllerTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(500, $actual->getStatus());
 	}
 
+	public function testSetTimezone() {
+		$this->config->expects($this->once())
+			->method('setUserValue')
+			->with('user123', $this->appName, 'timezone', 'Europe/Berlin');
+
+		$actual = $this->controller->setConfig('timezone', 'Europe/Berlin');
+
+		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertEquals([], $actual->getData());
+		$this->assertEquals(200, $actual->getStatus());
+	}
+
+	public function testSetTimezoneWithException() {
+		$this->config->expects($this->once())
+			->method('setUserValue')
+			->with('user123', $this->appName, 'timezone', 'Europe/Berlin')
+			->will($this->throwException(new \Exception));
+
+		$actual = $this->controller->setConfig('timezone', 'Europe/Berlin');
+
+		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertEquals([], $actual->getData());
+		$this->assertEquals(500, $actual->getStatus());
+	}
+
+	public function testGetTimezone() {
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->with('user123', $this->appName, 'timezone', 'automatic')
+			->will($this->returnValue('Europe/Berlin'));
+
+		$actual = $this->controller->getConfig('timezone');
+
+		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertEquals(['value' => 'Europe/Berlin'], $actual->getData());
+		$this->assertEquals(200, $actual->getStatus());
+	}
+
+	public function testGetTimezoneWithException() {
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->with('user123', $this->appName, 'timezone', 'automatic')
+			->will($this->throwException(new \Exception));
+
+		$actual = $this->controller->getConfig('timezone');
+
+		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertEquals([], $actual->getData());
+		$this->assertEquals(500, $actual->getStatus());
+	}
+
 	public function testGetNotExistingConfig() {
 		$actual = $this->controller->getConfig('foo');
 		
