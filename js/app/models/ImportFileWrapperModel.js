@@ -113,15 +113,28 @@ app.factory('ImportFileWrapper', function(Hook, ICalSplitterUtility) {
 			return context.errors > 0;
 		};
 
-		iface.isEmpty = function() {
-			return context.progressToReach === 0;
-		};
+		iface.isEmpty = () => iface.state === ImportFileWrapper.stateEmpty;
+		iface.hasParsingErrors = () => iface.state === ImportFileWrapper.stateParsingError;
 
 		iface.read = function(afterReadCallback) {
 			var reader = new FileReader();
 
 			reader.onload = function(event) {
-				context.splittedICal = ICalSplitterUtility.split(event.target.result);
+				try {
+					context.splittedICal = ICalSplitterUtility.split(event.target.result);
+				} catch(e) {
+					context.splittedICal = {
+						vevents: [],
+						vjournals: [],
+						vtodos: []
+					};
+					context.progressToReach = 0;
+
+					iface.state = ImportFileWrapper.stateParsingError;
+					iface.emit(ImportFileWrapper.hookDone);
+					return;
+				}
+
 				context.progressToReach = context.splittedICal.vevents.length +
 					context.splittedICal.vjournals.length +
 					context.splittedICal.vtodos.length;
@@ -150,6 +163,7 @@ app.factory('ImportFileWrapper', function(Hook, ICalSplitterUtility) {
 		return obj instanceof ImportFileWrapper || (typeof obj === 'object' && obj !== null && obj._isAImportFileWrapperObject !== null);
 	};
 
+	ImportFileWrapper.stateParsingError = -3;
 	ImportFileWrapper.stateEmpty = -2;
 	ImportFileWrapper.stateCanceled = -1;
 	ImportFileWrapper.stateAnalyzing = 0;
