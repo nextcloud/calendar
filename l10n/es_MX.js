@@ -30,6 +30,8 @@ OC.L10N.register(
     "Share Calendar" : "Compartir Calendario",
     "Shared" : "Compartido",
     "WebDAV address for subscriptions" : "Dirección WebDav para suscripciones",
+    "Email sent." : "Correo electrónico enviado.",
+    "Could not send your email." : "No fue posible enviar tu correo electrónico.",
     "group" : "grupo",
     "Details" : "Detalles",
     "Attendees" : "Asistentes",
