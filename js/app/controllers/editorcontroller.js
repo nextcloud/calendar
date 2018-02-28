@@ -297,7 +297,16 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
 		 * Everything location
 		 */
 		$scope.searchLocation = function(value) {
-			return AutoCompletionService.searchLocation(value);
+			return AutoCompletionService.searchLocation(value).then(function(locations) {
+				locations = locations.map(function(location){
+					return {
+						label: location.label,
+						name: _.escape(location.name)
+					};
+				});
+
+				return locations;
+			});
 		};
 
 		$scope.selectLocationFromTypeahead = function(item) {
