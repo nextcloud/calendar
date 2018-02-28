@@ -296,7 +296,7 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ha
 				// Combine users and groups
 				users = users.map(function(item){
 					return {
-						display: item.label,
+						display: _.escape(item.label),
 						displayname: item.label,
 						type: constants.SHARE_TYPE_USER,
 						identifier: item.value.shareWith
@@ -305,7 +305,7 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ha
 
 				groups = groups.map(function(item){
 					return {
-						display: item.label + ' (' + t('calendar', 'group') + ')',
+						display: _.escape(item.label + ' (' + t('calendar', 'group') + ')'),
 						displayname: item.label,
 						type: constants.SHARE_TYPE_GROUP,
 						identifier: item.value.shareWith
