@@ -27,6 +27,7 @@
     "Some events in this calendar are broken. Please check the JS console for more info." : "Algunos eventos en este calenario están rotos. Por favor verifica la consola JS para más información. ",
     "Share Calendar" : "Compartir Calendario",
     "Shared" : "Compartido",
+    "Could not save WebCal-calendar" : "No fue posible guardar el calendario-WebCal",
     "WebDAV address for subscriptions" : "Dirección WebDav para suscripciones",
     "Email sent." : "Correo electrónico enviado.",
     "Could not send your email." : "No fue posible enviar tu correo electrónico.",
