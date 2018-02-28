@@ -85,7 +85,7 @@ app.controller('AttendeeController', function($scope, AutoCompletionService) {
 				attendee.email.forEach((email) => {
 					let displayname;
 					if (emailCount === 1) {
-						displayname = attendee.name;
+						displayname = _.escape(attendee.name);
 					} else {
 						displayname = t('calendar', '{name} ({email})', {
 							name: attendee.name,
