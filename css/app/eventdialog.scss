@@ -208,6 +208,7 @@
 
 .advanced .advanced--fieldset select {
 	width: 100%;
+	margin-left: 3px;
 }
 
 .advanced .tabHeaders {
@@ -285,6 +286,82 @@ button.delete:focus {
 	width: 100%;
 }
 
+#app-sidebar .advanced--fieldset.emptycontent.noattendees {
+	margin-top: 5px;
+}
+
+#app-sidebar .advanced--fieldset.emptycontent.noattendees [class^='icon-'] {
+	background-size: 32px;
+	height: 32px;
+	width: 32px;
+}
+
+#app-sidebar .advanced--fieldset.new-attendee-form {
+	display: inline-flex;
+	width: 100%;
+	margin-top: 6px;
+}
+
+#app-sidebar .advanced--fieldset.new-attendee-form div {
+	width: 100%;
+}
+
+#app-sidebar .advanced--fieldset.new-attendee-form div input {
+	margin-right: 0;
+	border-bottom-right-radius: 0;
+	border-top-right-radius: 0;
+}
+
+#app-sidebar .advanced--fieldset.new-attendee-form button:hover {
+	z-index: 10;
+}
+
+#app-sidebar .advanced--fieldset ul.advanced--fieldset-attendeelist > li {
+	display: inline-flex;
+	padding: 5px 0;
+}
+
+#app-sidebar .advanced--fieldset ul.advanced--fieldset-attendeelist div.avatardiv {
+	margin-right: 8px;
+	height: 32px;
+}
+
+#app-sidebar .advanced--fieldset ul.advanced--fieldset-attendeelist .attendeeOptionsGroup {
+	position: relative;
+	flex-shrink: 0;
+}
+
+#app-sidebar .advanced--fieldset ul.advanced--fieldset-attendeelist span.icon-more {
+	margin-top: 8px;
+}
+
+#app-sidebar .advanced--fieldset ul.advanced--fieldset-attendeelist .popovermenu {
+	top: 38px;
+	right: -15px;
+	min-width: 150px;
+}
+
+#app-sidebar .advanced--fieldset .new-attendee-form ul.dropdown-menu {
+	max-height: 200px;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	border: 1px #ddd solid;
+	border-radius: 0 0 4px 4px;
+	margin-top: -7px;
+	width: 100%;
+	margin-left: 0;
+}
+
+#app-sidebar .advanced--fieldset.new-attendee-form button {
+	border-bottom-left-radius: 0;
+	border-top-left-radius: 0;
+	margin-left: -1px;
+	margin-right: 0;
+	width: 34px;
+	height: 34px;
+	flex: 0 0 34px;
+}
+
 .advanced--fieldset-attendeelist .advanced--toggler,
 .advanced--fieldset-reminderlist .advanced--toggler {
 	padding: 5px 2px;
@@ -293,7 +370,6 @@ button.delete:focus {
 	float: left;
 }
 
-.advanced--fieldset-attendeelist .advanced--toggler:hover,
 .advanced--fieldset-reminderlist .advanced--toggler:hover {
 	background: #efefef;
 	cursor: pointer;

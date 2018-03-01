@@ -41,10 +41,12 @@ app.controller('AttendeeController', function($scope, AutoCompletionService) {
 		{displayname: t('calendar', 'Does not attend'), val: 'NON-PARTICIPANT'}
 	];
 
+	$scope.$parent.properties.attendee = $scope.$parent.properties.attendee || [];
+
 	$scope.$parent.registerPostHook(function() {
-		$scope.properties.attendee = $scope.properties.attendee || [];
-		if ($scope.properties.attendee.length > 0 && $scope.properties.organizer === null) {
-			$scope.properties.organizer = {
+		$scope.$parent.properties.attendee = $scope.$parent.properties.attendee || [];
+		if ($scope.$parent.properties.attendee.length > 0 && $scope.$parent.properties.organizer === null) {
+			$scope.$parent.properties.organizer = {
 				value: 'MAILTO:' + $scope.$parent.emailAddress,
 				parameters: {
 					cn: OC.getCurrentUser().displayName
@@ -55,9 +57,19 @@ app.controller('AttendeeController', function($scope, AutoCompletionService) {
 
 	$scope.add = function (email) {
 		if (email !== '') {
-			$scope.properties.attendee = $scope.properties.attendee || [];
-			$scope.properties.attendee.push({
-				value: 'MAILTO:' + email,
+			if (!$scope.validateEMail(email)) {
+				OC.Notification.showTemporary('Please enter a valid e-mail address!');
+				return;
+			}
+
+			if ($scope.isEMailInAttendeeList(email)) {
+				OC.Notification.showTemporary('This person is already in your attendee list.');
+				return;
+			}
+
+			$scope.$parent.properties.attendee = $scope.$parent.properties.attendee || [];
+			$scope.$parent.properties.attendee.push({
+				value: $scope.mailtoHelper(email),
 				group: $scope.newAttendeeGroup--,
 				parameters: {
 					'role': 'REQ-PARTICIPANT',
@@ -69,6 +81,8 @@ app.controller('AttendeeController', function($scope, AutoCompletionService) {
 		}
 		$scope.attendeeoptions = false;
 		$scope.nameofattendee = '';
+
+		console.log($scope.$parent.properties.attendee);
 	};
 
 	$scope.$on('save-contents', function() {
@@ -76,7 +90,7 @@ app.controller('AttendeeController', function($scope, AutoCompletionService) {
 	});
 
 	$scope.remove = function (attendee) {
-		$scope.properties.attendee = $scope.properties.attendee.filter(function(elem) {
+		$scope.$parent.properties.attendee = $scope.$parent.properties.attendee.filter(function(elem) {
 			return elem.group !== attendee.group;
 		});
 	};
@@ -106,14 +120,19 @@ app.controller('AttendeeController', function($scope, AutoCompletionService) {
 				});
 			});
 
-			return arr;
+			return arr.filter((elm) => !$scope.isEMailInAttendeeList(elm.email));
 		});
 	};
 
 	$scope.selectFromTypeahead = function (item) {
-		$scope.properties.attendee = $scope.properties.attendee || [];
-		$scope.properties.attendee.push({
-			value: 'MAILTO:' + item.email,
+		if ($scope.isEMailInAttendeeList(item.email)) {
+			OC.Notification.showTemporary('This person is already in your attendee list.');
+			return;
+		}
+
+		$scope.$parent.properties.attendee.push({
+			value: $scope.mailtoHelper(item.email),
+			group: $scope.newAttendeeGroup--,
 			parameters: {
 				cn: item.name,
 				role: 'REQ-PARTICIPANT',
@@ -123,5 +142,29 @@ app.controller('AttendeeController', function($scope, AutoCompletionService) {
 			}
 		});
 		$scope.nameofattendee = '';
+	};
+
+	$scope.didUserSetupEmail = () => ($scope.$parent.emailAddress !== '');
+	$scope.isAttendeeListEmpty = () => ($scope.$parent.properties.attendee.length === 0);
+
+	$scope.isEMailInAttendeeList = (emailAddress) => {
+		console.log($scope.$parent.properties.attendee, $scope.mailtoHelper(emailAddress));
+
+		return !!$scope.$parent.properties.attendee.filter(
+			(elm) => elm.value === $scope.mailtoHelper(emailAddress)).length;
+	};
+
+	$scope.mailtoHelper = (emailAddress) => {
+		return 'MAILTO:' + emailAddress;
+	};
+
+	$scope.validateEMail = (emailAddress) => {
+		const helperInput = document.createElement('input');
+		helperInput.type = 'email';
+		helperInput.value = emailAddress;
+
+		return typeof helperInput.checkValidity === 'function' ?
+			helperInput.checkValidity() :
+			/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(emailAddress);
 	};
 });

@@ -34,7 +34,7 @@ app.factory('SimpleEvent', function () {
 		'status': null,
 		//'resources': null,
 		'alarm': null,
-		'attendee': null,
+		'attendee': [],
 		//'categories': null,
 		'dtstart': null,
 		'dtend': null,
