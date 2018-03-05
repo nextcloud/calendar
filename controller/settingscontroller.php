@@ -77,6 +77,8 @@ class SettingsController extends Controller {
 				return $this->getShowWeekNr();
 			case 'firstRun':
 				return $this->getFirstRun();
+			case 'timezone':
+				return $this->getTimezone();
 			default:
 				return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		}
@@ -101,6 +103,8 @@ class SettingsController extends Controller {
 				return $this->setShowWeekNr($value);
 			case 'firstRun':
 				return $this->setFirstRun();
+			case 'timezone':
+				return $this->setTimezone($value);
 			default:
 				return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		}
@@ -327,6 +331,49 @@ class SettingsController extends Controller {
 				$this->appName,
 				'firstRun',
 				'yes'
+			);
+		} catch(\Exception $e) {
+			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+
+		return new JSONResponse([
+			'value' => $value,
+		]);
+	}
+
+	/**
+	 * sets display timezone for user
+	 *
+	 * @param string $value
+	 * @return JSONResponse
+	 */
+	private function setTimezone($value) {
+		try {
+			$this->config->setUserValue(
+				$this->userId,
+				$this->appName,
+				'timezone',
+				$value
+			);
+		} catch(\Exception $e) {
+			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+
+		return new JSONResponse();
+	}
+
+	/**
+	 * gets display timezone for user
+	 *
+	 * @return JSONResponse
+	 */
+	private function getTimezone() {
+		try {
+			$value = $this->config->getUserValue(
+				$this->userId,
+				$this->appName,
+				'timezone',
+				'automatic'
 			);
 		} catch(\Exception $e) {
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);

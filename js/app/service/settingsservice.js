@@ -104,4 +104,27 @@ app.service('SettingsService', ['$rootScope', '$http', function($rootScope, $htt
 			return true;
 		});
 	};
+
+	this.getTimezone = function() {
+		return $http({
+			method: 'GET',
+			url: $rootScope.baseUrl + 'config',
+			params: {key: 'timezone'}
+		}).then(function(response) {
+			return response.data.value;
+		});
+	};
+
+	this.setTimezone = function(value) {
+		return $http({
+			method: 'POST',
+			url: $rootScope.baseUrl + 'config',
+			data: {
+				key: 'timezone',
+				value: value
+			}
+		}).then(function() {
+			return true;
+		});
+	};
 }]);

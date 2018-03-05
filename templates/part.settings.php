@@ -35,6 +35,11 @@
 <div id="app-settings-content">
 	<fieldset class="settings-fieldset">
 		<ul class="settings-fieldset-interior">
+			<li class="settings-fieldset-interior-item settings-fieldset-interior-upload">
+				<input type="file" name="file" accept="text/calendar" multiple id="import" />
+				<span href="#" class="button settings-upload svg icon-upload" role="button" id="import-button-overlay"><?php p($l->t('Import calendar')); ?></span>
+				<span ng-show="!files.length" class="hide"><?php p($l->t('No Calendars selected for import')); ?></span>
+			</li>
 			<li class="settings-fieldset-interior-item">
 				<input class="checkbox" type="checkbox" ng-change="updateSkipPopover()" ng-model="skipPopover" ng-true-value="'yes'" ng-false-value="'no'" id="skip_popover_checkbox"/>
 				<label for="skip_popover_checkbox">
@@ -47,12 +52,11 @@
 					<?php p($l->t('Show week numbers')); ?>
 				</label>
 			</li>
-			<li class="settings-fieldset-interior-item settings-fieldset-interior-upload">
-				<input type="file" name="file" accept="text/calendar" multiple id="import" />
-				<span href="#" class="button settings-upload svg icon-upload" role="button" id="import-button-overlay"><?php p($l->t('Import calendar')); ?></span>
-				<span ng-show="!files.length" class="hide"><?php p($l->t('No Calendars selected for import')); ?></span>
+			<li class="settings-fieldset-interior-item">
+				<label class="settings-input"><?php p($l->t('Timezone')); ?></label>
+				<select ng-options="timezone.value as timezone.displayname | timezoneWithoutContinentFilter group by timezone.group for timezone in timezones"
+						ng-model="timezone" ng-change="setTimezone()" class="input settings-input"></select>
 			</li>
-
 			<li class="settings-fieldset-interior-item">
 				<label class="settings-input"><?php p($l->t('Primary CalDAV address')); ?></label>
 				<input class="input settings-input" type="text" ng-model="settingsCalDavLink" readonly />

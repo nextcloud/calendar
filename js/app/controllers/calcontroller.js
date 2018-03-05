@@ -26,17 +26,22 @@
 * Description: The fullcalendar controller.
 */
 
-app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'VEvent', 'is', 'fc', 'EventsEditorDialogService', 'PopoverPositioningUtility', '$window', 'isPublic', 'constants',
-	function ($scope, Calendar, CalendarService, VEventService, SettingsService, TimezoneService, VEvent, is, fc, EventsEditorDialogService, PopoverPositioningUtility, $window, isPublic, constants) {
+app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'VEvent', 'is', 'fc', 'EventsEditorDialogService', 'PopoverPositioningUtility', '$window', 'isPublic', 'constants', 'settings',
+	function ($scope, Calendar, CalendarService, VEventService, SettingsService, TimezoneService, VEvent, is, fc, EventsEditorDialogService, PopoverPositioningUtility, $window, isPublic, constants, settings) {
 		'use strict';
 
 		is.loading = true;
 
 		$scope.calendars = [];
 		$scope.eventSource = {};
-		$scope.defaulttimezone = TimezoneService.current();
 		$scope.eventModal = null;
 		var switcher = [];
+
+		if (settings.timezone === 'automatic') {
+			$scope.defaulttimezone = TimezoneService.getDetected();
+		} else {
+			$scope.defaulttimezone = settings.timezone;
+		}
 
 		function showCalendar(url) {
 			if (switcher.indexOf(url) === -1 && $scope.eventSource[url].isRendering === false) {
