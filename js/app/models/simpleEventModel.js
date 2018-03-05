@@ -378,6 +378,10 @@ app.factory('SimpleEvent', function () {
 				dtend.addDuration(vevent.getFirstPropertyValue('duration'));
 			} else {
 				dtend = dtstart.clone();
+
+				if (dtend.icaltype === 'date') {
+					dtend.addDuration(ICAL.Duration.fromString('P1D'));
+				}
 			}
 
 			data.dtstart = {
