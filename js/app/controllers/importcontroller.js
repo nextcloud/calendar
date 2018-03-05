@@ -159,15 +159,9 @@ app.controller('ImportController', ['$scope', '$filter', 'CalendarService', 'VEv
 
 
 		$scope.closeIfNecessary = function() {
-			var unfinishedFiles = $scope.files.filter(function(fileWrapper) {
-				return !fileWrapper.wasCanceled() && !fileWrapper.isDone() && !fileWrapper.isEmpty();
-			});
-			var filesEncounteredErrors = $scope.files.filter(function(fileWrapper) {
-				return fileWrapper.isDone() && fileWrapper.hasErrors();
-			});
-			const emptyFiles = $scope.files.filter((fileWrapper) => {
-				return fileWrapper.isEmpty();
-			});
+			const unfinishedFiles = $scope.files.filter((file) => (!file.wasCanceled() && !file.isDone() && !file.isEmpty() && !file.hasParsingErrors()));
+			const filesEncounteredErrors = $scope.files.filter((file) => ((file.isDone() && file.hasErrors()) || file.hasParsingErrors()));
+			const emptyFiles = $scope.files.filter((file) => file.isEmpty());
 
 			if (unfinishedFiles.length === 0 && filesEncounteredErrors.length === 0 && emptyFiles.length === 0) {
 				$uibModalInstance.close();

@@ -68,6 +68,10 @@
 						<?php p($l->t('File is empty')); ?>
 					</span>
 					<span
+						ng-show="file.hasParsingErrors()">
+						<?php p($l->t('File could not be parsed')); ?>
+					</span>
+					<span
 						ng-show="file.isScheduled()">
 						<?php p($l->t('Import scheduled')); ?>
 					</span>
