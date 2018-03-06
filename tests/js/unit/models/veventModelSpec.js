@@ -523,6 +523,41 @@ END:VCALENDAR`;
 
 	const ics14 = `BEGIN:VCALENDAR
 VERSION:2.0
+PRODID:-//Apple Inc.//Mac OS X 10.13.3//EN
+CALSCALE:GREGORIAN
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+DTSTART:19810329T020000
+TZNAME:GMT+2
+TZOFFSETTO:+0200
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+DTSTART:19961027T030000
+TZNAME:GMT+1
+TZOFFSETTO:+0100
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+CREATED:20180207T173756Z
+UID:77A9ABE1-D203-4E42-808A-05C9BC896455
+DTEND;TZID=Europe/Berlin:20180227T100000
+TRANSP:OPAQUE
+X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC
+SUMMARY:TestEvent
+DTSTART;TZID=Europe/Berlin:20180227T090000
+DTSTAMP:20180207T173812Z
+SEQUENCE:0
+RECURRENCE-ID;TZID=Europe/Berlin:20180226T090000
+END:VEVENT
+END:VCALENDAR`;
+
+	const ics15 = `BEGIN:VCALENDAR
+VERSION:2.0
 PRODID:carrier CMS
 METHOD:PUBLISH
 BEGIN:VEVENT
@@ -931,7 +966,7 @@ END:VEVENT`.split("\n").join("\r\n"));
 
 	it ('should generate FcEvents for a dedicated time-range - single event with neither DTEND nor DURATION - allday', function() {
 		const calendar = {this_is_a_fancy_calendar: true};
-		const comp = new ICAL.Component(ICAL.parse(ics14));
+		const comp = new ICAL.Component(ICAL.parse(ics15));
 		let called = false;
 
 		const vevent = VEvent(calendar, comp);
@@ -2168,6 +2203,38 @@ ACTION:DISPLAY
 DESCRIPTION:Reminder
 TRIGGER:P0D
 END:VALARM
+END:VEVENT`.split("\n").join("\r\n"));
+
+			called = true;
+		}).catch(() => fail('Promise was not supposed to fail'));
+
+		$rootScope.$apply();
+
+		expect(called).toEqual(true);
+	});
+
+	it ('should parse VEvents with recurrence exceptions only', () => {
+		const calendar = {this_is_a_fancy_calendar: true};
+		const vevent = VEvent.fromRawICS(calendar, ics14);
+
+		let called = false;
+
+		const start = moment('2018-02-25');
+		const end = moment('2018-03-03');
+
+		vevent.getFcEvent(start, end, timezone_berlin).then((fcEvents) => {
+			expect(fcEvents.length).toEqual(1);
+			expect(fcEvents[0][1].toString()).toEqual(`BEGIN:VEVENT
+CREATED:20180207T173756Z
+UID:77A9ABE1-D203-4E42-808A-05C9BC896455
+DTEND;TZID=Europe/Berlin:20180227T100000
+TRANSP:OPAQUE
+X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC
+SUMMARY:TestEvent
+DTSTART;TZID=Europe/Berlin:20180227T090000
+DTSTAMP:20180207T173812Z
+SEQUENCE:0
+RECURRENCE-ID;TZID=Europe/Berlin:20180226T090000
 END:VEVENT`.split("\n").join("\r\n"));
 
 			called = true;
