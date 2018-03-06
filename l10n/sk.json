@@ -72,6 +72,8 @@
     "end" : "koniec",
     "Editing reminders of unknown type not supported." : "Editovanie pripomienky neznámeho typu nie je podporované.",
     "Week {number} of {year}" : "Týždeň {number} roku {year}",
+    "Successfully imported {imported} objects" : "Úspešne importované {imported} objekty",
+    "Imported {imported} out of {all}, skipped one duplicate" : "Importované {imported} z {all}, preskočený jeden duplikát",
     "{type} {time} before the event starts" : "{type} {time} pred začiatkom udalosti",
     "{type} {time} before the event ends" : "{type} {time} pred koncom udalosti",
     "{type} {time} after the event starts" : "{type} {time} po začiatku udalosti",
