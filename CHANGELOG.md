@@ -1,3 +1,18 @@
+## 1.6.1 - 2018-03-06
+### Fixed
+- Double the height of the description textarea
+  [#675](https://github.com/nextcloud/calendar/issues/675)
+- Fix parsing for all-day VEvents that 
+  [#692](https://github.com/nextcloud/calendar/issues/692)
+- Manual override for timezone
+  [#586](https://github.com/nextcloud/calendar/issues/586)
+- Improved error handling for parsing of events when importing
+  [#598](https://github.com/nextcloud/calendar/issues/598)
+- Fix correct highlighting of today on weekends
+  [#726](https://github.com/nextcloud/calendar/issues/726)
+- Fix handling of VEvents that contain only Recurrence-IDs
+  [#722](https://github.com/nextcloud/calendar/issues/722)
+
 ## 1.6.0 - 2018-02-05
 ### Fixed
 - Compatibility with 13
