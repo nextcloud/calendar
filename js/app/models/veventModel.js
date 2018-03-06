@@ -205,17 +205,21 @@ app.factory('VEvent', function(TimezoneService, FcEvent, SimpleEvent, ICalFactor
 					const vevents = context.comp.getAllSubcomponents('vevent');
 					const exceptions = vevents.filter((vevent) => vevent.hasProperty('recurrence-id'));
 					const vevent = vevents.find((vevent) => !vevent.hasProperty('recurrence-id'));
-					const iCalEvent = new ICAL.Event(vevent, {exceptions});
 
-					if (!vevent.hasProperty('dtstart')) {
+					if (!vevent && exceptions.length === 0) {
 						resolve([]);
 					}
 
-					const dtstartProp = vevent.getFirstProperty('dtstart');
-					const rawDtstart = dtstartProp.getFirstValue('dtstart');
-					const rawDtend = context.calculateDTEnd(vevent);
+					// is there a main event that's recurring?
+					if (vevent && (vevent.hasProperty('rrule') || vevent.hasProperty('rdate'))) {
+						if (!vevent.hasProperty('dtstart')) {
+							resolve([]);
+						}
 
-					if (iCalEvent.isRecurring()) {
+						const iCalEvent = new ICAL.Event(vevent, {exceptions});
+						const dtstartProp = vevent.getFirstProperty('dtstart');
+						const rawDtstart = dtstartProp.getFirstValue('dtstart');
+
 						const iterator = new ICAL.RecurExpansion({
 							component: vevent,
 							dtstart: rawDtstart
@@ -239,11 +243,25 @@ app.factory('VEvent', function(TimezoneService, FcEvent, SimpleEvent, ICalFactor
 							fcEvents.push(fcEvent);
 						}
 					} else {
-						const dtstart = context.convertTz(rawDtstart, timezone.jCal);
-						const dtend = context.convertTz(rawDtend, timezone.jCal);
-						const fcEvent = FcEvent(iface, vevent, dtstart, dtend);
+						if (vevent) {
+							exceptions.push(vevent);
+						}
 
-						fcEvents.push(fcEvent);
+						exceptions.forEach((singleVEvent) => {
+							if (!singleVEvent.hasProperty('dtstart')) {
+								return;
+							}
+
+							const dtstartProp = singleVEvent.getFirstProperty('dtstart');
+							const rawDtstart = dtstartProp.getFirstValue('dtstart');
+							const rawDtend = context.calculateDTEnd(singleVEvent);
+
+							const dtstart = context.convertTz(rawDtstart, timezone.jCal);
+							const dtend = context.convertTz(rawDtend, timezone.jCal);
+							const fcEvent = FcEvent(iface, singleVEvent, dtstart, dtend);
+
+							fcEvents.push(fcEvent);
+						});
 					}
 
 					resolve(fcEvents);
