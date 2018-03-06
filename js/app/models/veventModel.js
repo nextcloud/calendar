@@ -109,7 +109,6 @@ app.factory('VEvent', function(TimezoneService, FcEvent, SimpleEvent, ICalFactor
 		 */
 		context.needsTzConversion = function(dt) {
 			return (dt.icaltype !== 'date' &&
-				dt.zone !== ICAL.Timezone.utcTimezone &&
 				dt.zone !== ICAL.Timezone.localTimezone);
 		};
 
