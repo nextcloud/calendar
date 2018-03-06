@@ -67,7 +67,24 @@ app.factory('VEvent', function(TimezoneService, FcEvent, SimpleEvent, ICalFactor
 
 				return dtstart;
 			} else {
-				return vevent.getFirstPropertyValue('dtstart').clone();
+				/*
+				 * RFC 5545 - 3.6.1.
+				 *
+				 * For cases where a "VEVENT" calendar component
+				 * specifies a "DTSTART" property with a DATE value type but no
+				 * "DTEND" nor "DURATION" property, the event’s duration is taken to
+				 * be one day.  For cases where a "VEVENT" calendar component
+				 * specifies a "DTSTART" property with a DATE-TIME value type but no
+				 * "DTEND" property, the event ends on the same calendar date and
+				 * time of day specified by the "DTSTART" property.
+				 */
+				const dtstart = vevent.getFirstPropertyValue('dtstart').clone();
+
+				if (dtstart.icaltype === 'date') {
+					dtstart.addDuration(ICAL.Duration.fromString('P1D'));
+				}
+
+				return dtstart;
 			}
 		};
 
@@ -188,17 +205,21 @@ app.factory('VEvent', function(TimezoneService, FcEvent, SimpleEvent, ICalFactor
 					const vevents = context.comp.getAllSubcomponents('vevent');
 					const exceptions = vevents.filter((vevent) => vevent.hasProperty('recurrence-id'));
 					const vevent = vevents.find((vevent) => !vevent.hasProperty('recurrence-id'));
-					const iCalEvent = new ICAL.Event(vevent, {exceptions});
 
-					if (!vevent.hasProperty('dtstart')) {
+					if (!vevent && exceptions.length === 0) {
 						resolve([]);
 					}
 
-					const dtstartProp = vevent.getFirstProperty('dtstart');
-					const rawDtstart = dtstartProp.getFirstValue('dtstart');
-					const rawDtend = context.calculateDTEnd(vevent);
+					// is there a main event that's recurring?
+					if (vevent && (vevent.hasProperty('rrule') || vevent.hasProperty('rdate'))) {
+						if (!vevent.hasProperty('dtstart')) {
+							resolve([]);
+						}
 
-					if (iCalEvent.isRecurring()) {
+						const iCalEvent = new ICAL.Event(vevent, {exceptions});
+						const dtstartProp = vevent.getFirstProperty('dtstart');
+						const rawDtstart = dtstartProp.getFirstValue('dtstart');
+
 						const iterator = new ICAL.RecurExpansion({
 							component: vevent,
 							dtstart: rawDtstart
@@ -222,11 +243,25 @@ app.factory('VEvent', function(TimezoneService, FcEvent, SimpleEvent, ICalFactor
 							fcEvents.push(fcEvent);
 						}
 					} else {
-						const dtstart = context.convertTz(rawDtstart, timezone.jCal);
-						const dtend = context.convertTz(rawDtend, timezone.jCal);
-						const fcEvent = FcEvent(iface, vevent, dtstart, dtend);
+						if (vevent) {
+							exceptions.push(vevent);
+						}
 
-						fcEvents.push(fcEvent);
+						exceptions.forEach((singleVEvent) => {
+							if (!singleVEvent.hasProperty('dtstart')) {
+								return;
+							}
+
+							const dtstartProp = singleVEvent.getFirstProperty('dtstart');
+							const rawDtstart = dtstartProp.getFirstValue('dtstart');
+							const rawDtend = context.calculateDTEnd(singleVEvent);
+
+							const dtstart = context.convertTz(rawDtstart, timezone.jCal);
+							const dtend = context.convertTz(rawDtend, timezone.jCal);
+							const fcEvent = FcEvent(iface, singleVEvent, dtstart, dtend);
+
+							fcEvents.push(fcEvent);
+						});
 					}
 
 					resolve(fcEvents);
