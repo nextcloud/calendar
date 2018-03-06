@@ -194,10 +194,10 @@
     "Iframe to integrate" : "Iframe a integrar",
     "Publish URL" : "Publicar URL",
     "Settings & import" : "Configurações & Importação",
-    "Skip simple event editor" : "Saltar editor de eventos simples",
-    "Show week numbers" : "Mostrar o número das semanas",
     "Import calendar" : "Importar calendário",
     "No Calendars selected for import" : "Nenhum Calendário foi selecionado para importação",
+    "Skip simple event editor" : "Saltar editor de eventos simples",
+    "Show week numbers" : "Mostrar o número das semanas",
     "Primary CalDAV address" : "Endereço CalDAV primário",
     "iOS/OS X CalDAV address" : "Endereço iOS/OS X CalDAV ",
     "Subscribe" : "Inscrever-se"

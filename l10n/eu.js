@@ -161,10 +161,10 @@ OC.L10N.register(
     "Iframe to integrate" : "Integratzeko Iframea",
     "Publish URL" : "URL-a publikatu",
     "Settings & import" : "Ezarpenak & inportazioa",
-    "Skip simple event editor" : "Gertaeren editore sinplea saltatu",
-    "Show week numbers" : "aste zenbakiak erakutsi",
     "Import calendar" : "Egutegia inportatu",
     "No Calendars selected for import" : "Inportatzeko Egutegitirk ez da hautatu",
+    "Skip simple event editor" : "Gertaeren editore sinplea saltatu",
+    "Show week numbers" : "aste zenbakiak erakutsi",
     "Primary CalDAV address" : "CalDAV helbide nagusia",
     "iOS/OS X CalDAV address" : "iOS/OS X CalDAV helbidea",
     "Subscribe" : "Harpidetu"

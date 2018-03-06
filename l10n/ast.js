@@ -137,10 +137,10 @@ OC.L10N.register(
     "%s shared the calendar <strong>%s</strong> with you" : "%s compartió'l calendariu <strong>%s</strong> contigo",
     "Publish URL" : "Espublizar URL",
     "Settings & import" : "Axustes ya importación",
-    "Skip simple event editor" : "Saltar editor d'eventos simples",
-    "Show week numbers" : "Amosar númberos de la selmana",
     "Import calendar" : "Importar calendariu",
     "No Calendars selected for import" : "Nun s'esbilló nengún calendariu pa la importación",
+    "Skip simple event editor" : "Saltar editor d'eventos simples",
+    "Show week numbers" : "Amosar númberos de la selmana",
     "Primary CalDAV address" : "Direición de calendariu CalDAV primariu",
     "iOS/OS X CalDAV address" : "Direición de calendariu CalDAV iOS/OSX",
     "Subscribe" : "Soscribise"

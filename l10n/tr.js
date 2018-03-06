@@ -196,10 +196,10 @@ OC.L10N.register(
     "Iframe to integrate" : "bütünleştirilecek Iframe",
     "Publish URL" : "Yayın adresi",
     "Settings & import" : "Ayarlar ve İçe Aktarma",
-    "Skip simple event editor" : "Basit etkinlik düzenleyici atlansın",
-    "Show week numbers" : "Hafta numaraları görüntülensin",
     "Import calendar" : "Takvimi içe aktar",
     "No Calendars selected for import" : "İçe aktarılacak bir takvim seçilmemiş",
+    "Skip simple event editor" : "Basit etkinlik düzenleyici atlansın",
+    "Show week numbers" : "Hafta numaraları görüntülensin",
     "Primary CalDAV address" : "Birincil CalDAV adresi",
     "iOS/OS X CalDAV address" : "iOS/OS X CalDAV adresi",
     "Subscribe" : "Abone Ol"

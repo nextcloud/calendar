@@ -165,10 +165,10 @@ OC.L10N.register(
     "Iframe to integrate" : "整合框架",
     "Publish URL" : "發佈網址",
     "Settings & import" : "設定及匯入",
-    "Skip simple event editor" : "略過簡易事件編輯器",
-    "Show week numbers" : "顯示週數",
     "Import calendar" : "匯入日曆",
     "No Calendars selected for import" : "沒有選擇要匯入的日曆",
+    "Skip simple event editor" : "略過簡易事件編輯器",
+    "Show week numbers" : "顯示週數",
     "Primary CalDAV address" : "主要的 CalDAV 地址",
     "iOS/OS X CalDAV address" : "iOS/OS X CalDAV 地址",
     "Subscribe" : "訂閱"

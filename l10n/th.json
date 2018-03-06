@@ -111,9 +111,9 @@
     "The file contains objects incompatible with the selected calendar" : "ไฟล์ประกอบด้วยวัตถุเข้ากันไม่ได้กับปฏิทินที่เลือก",
     "New calendar" : "สร้างปฏิทินใหม่",
     "Import scheduled" : "นำเข้าตารางเวลาตามที่กำหนดไว้",
-    "Skip simple event editor" : "ข้ามการแก้ไขกิจกรรมอย่างง่าย",
     "Import calendar" : "นำเข้าปฏิทิน",
     "No Calendars selected for import" : "ไม่มีปฏิทินที่เลือกนำเข้า",
+    "Skip simple event editor" : "ข้ามการแก้ไขกิจกรรมอย่างง่าย",
     "Primary CalDAV address" : "ที่อยู่ CalDAV หลัก",
     "iOS/OS X CalDAV address" : "ที่อยู่ CalDAV ของ iOS/OS X"
 },"pluralForm" :"nplurals=1; plural=0;"

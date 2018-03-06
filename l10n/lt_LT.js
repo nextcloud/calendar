@@ -158,10 +158,10 @@ OC.L10N.register(
     "Iframe to integrate" : "Langas, kurį reikia įterpti",
     "Publish URL" : "Skelbti adresą",
     "Settings & import" : "Nustatymai ir importavimas",
-    "Skip simple event editor" : "Praleisti paprastą įvykių redaktorių",
-    "Show week numbers" : "Rodyti savaičių numerius",
     "Import calendar" : "Importuoti kalendorių",
     "No Calendars selected for import" : "Nepasirinktas kalendorius importavimui",
+    "Skip simple event editor" : "Praleisti paprastą įvykių redaktorių",
+    "Show week numbers" : "Rodyti savaičių numerius",
     "Primary CalDAV address" : "Pirminis CalDAV adresas",
     "iOS/OS X CalDAV address" : "iOS/OS X CalDAV adresas",
     "Subscribe" : "Prenumeruoti"

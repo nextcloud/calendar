@@ -142,10 +142,10 @@
     "Import scheduled" : "Importar eventos inscribite",
     "Publish URL" : "Publicar adresse URL",
     "Settings & import" : "Configurationes e importation",
-    "Skip simple event editor" : "Saltar modificator de eventos simple",
-    "Show week numbers" : "Monstrar le numero del septimanas",
     "Import calendar" : "Importar calendario",
     "No Calendars selected for import" : "Nulle Calendarios selectionate pro importar",
+    "Skip simple event editor" : "Saltar modificator de eventos simple",
+    "Show week numbers" : "Monstrar le numero del septimanas",
     "Primary CalDAV address" : "Adresse de CalDAV primari",
     "iOS/OS X CalDAV address" : "Adresse CalDAV de iOS/OS X"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

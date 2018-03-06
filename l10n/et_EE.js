@@ -152,10 +152,10 @@ OC.L10N.register(
     "Iframe to integrate" : "Iframe integreerimiseks",
     "Publish URL" : "Avalikusta URL",
     "Settings & import" : "Sätted & importimine",
-    "Skip simple event editor" : "Jäta lihtne sündmuse redaktor vahele",
-    "Show week numbers" : "Näita nädalanumberid",
     "Import calendar" : "Impordi kalender",
     "No Calendars selected for import" : "Pole valitud kalendreid, mida importida",
+    "Skip simple event editor" : "Jäta lihtne sündmuse redaktor vahele",
+    "Show week numbers" : "Näita nädalanumberid",
     "Primary CalDAV address" : "Primaarne CalDAV aadress",
     "iOS/OS X CalDAV address" : "iOS/OS X CalDAV aadress",
     "Subscribe" : "Telli"

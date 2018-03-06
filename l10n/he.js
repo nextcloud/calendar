@@ -114,10 +114,10 @@ OC.L10N.register(
     "The file contains objects incompatible with the selected calendar" : "הקובץ כולל אוביקטים שאינם נתמכים על ידי היומן הנבחר",
     "New calendar" : "לוח שנה חדש",
     "Import scheduled" : "לוח זמנים ליבוא",
-    "Skip simple event editor" : "מדלג על עורך אירוע פשוט",
-    "Show week numbers" : "הצגת מספרי שבועות",
     "Import calendar" : "יבוא יומן",
     "No Calendars selected for import" : "לא נבחרו יומנים ליבוא",
+    "Skip simple event editor" : "מדלג על עורך אירוע פשוט",
+    "Show week numbers" : "הצגת מספרי שבועות",
     "Primary CalDAV address" : "כתובת CalDAV ראשית",
     "iOS/OS X CalDAV address" : "כתובת CalDAV עבור iOS/OS X"
 },

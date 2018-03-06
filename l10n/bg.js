@@ -157,10 +157,10 @@ OC.L10N.register(
     "Embed" : "Вграден",
     "Publish URL" : "Публикувай URL",
     "Settings & import" : "Настройки и внасяне",
-    "Skip simple event editor" : "Пропусни опростения редактор за събития",
-    "Show week numbers" : "Показвай номерата на седмиците",
     "Import calendar" : "Внасяне на календар",
     "No Calendars selected for import" : "Няма избрани календари за внасяне",
+    "Skip simple event editor" : "Пропусни опростения редактор за събития",
+    "Show week numbers" : "Показвай номерата на седмиците",
     "Primary CalDAV address" : "Основен CalDAV адрес",
     "iOS/OS X CalDAV address" : "iOS/OS X CalDAV адрес",
     "Subscribe" : "Абонирай ме"

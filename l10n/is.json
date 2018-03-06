@@ -194,10 +194,10 @@
     "Iframe to integrate" : "Iframe-rammi til að samþætta",
     "Publish URL" : "Gefa út slóð",
     "Settings & import" : "Stillingar og innflutningur",
-    "Skip simple event editor" : "Sleppa einföldum atburðaritli",
-    "Show week numbers" : "Sýna vikunúmer",
     "Import calendar" : "Flytja inn dagatal",
     "No Calendars selected for import" : "Engin dagatöl valin til innflutnings",
+    "Skip simple event editor" : "Sleppa einföldum atburðaritli",
+    "Show week numbers" : "Sýna vikunúmer",
     "Primary CalDAV address" : "Aðal-CalDAV-vistfang",
     "iOS/OS X CalDAV address" : "iOS/OS X CalDAV-vistfang",
     "Subscribe" : "Gerast áskrifandi"

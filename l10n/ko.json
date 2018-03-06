@@ -194,10 +194,10 @@
     "Iframe to integrate" : "통합할 IFrame",
     "Publish URL" : "URL 공개",
     "Settings & import" : "설정 및 가져오기",
-    "Skip simple event editor" : "간단한 이벤트 편집기 건너뛰기",
-    "Show week numbers" : "주 번호 보이기",
     "Import calendar" : "달력 가져오기",
     "No Calendars selected for import" : "가져올 달력을 선택하지 않았음",
+    "Skip simple event editor" : "간단한 이벤트 편집기 건너뛰기",
+    "Show week numbers" : "주 번호 보이기",
     "Primary CalDAV address" : "주 CalDAV 주소",
     "iOS/OS X CalDAV address" : "iOS/OS X CalDAV 주소",
     "Subscribe" : "구독"

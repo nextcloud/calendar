@@ -196,10 +196,10 @@ OC.L10N.register(
     "Iframe to integrate" : "Beépítendő iframe",
     "Publish URL" : "Közzétételi URL",
     "Settings & import" : "Beállítások és Import",
-    "Skip simple event editor" : "Váltás az egyszerű esemény szerkesztőre",
-    "Show week numbers" : "Hetek számának megjelenítése",
     "Import calendar" : "Naptár importálása",
     "No Calendars selected for import" : "Nincs importálásra kiválasztott naptár",
+    "Skip simple event editor" : "Váltás az egyszerű esemény szerkesztőre",
+    "Show week numbers" : "Hetek számának megjelenítése",
     "Primary CalDAV address" : "Elsődleges CalDAV cím",
     "iOS/OS X CalDAV address" : "iOS/OS X CalDAV cím",
     "Subscribe" : "Feliratkozás"

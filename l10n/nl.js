@@ -196,10 +196,10 @@ OC.L10N.register(
     "Iframe to integrate" : "Iframe integreert",
     "Publish URL" : "Publiceren URL",
     "Settings & import" : "Instellingen & importeren",
-    "Skip simple event editor" : "Negeer simpele afsprakenbewerker",
-    "Show week numbers" : "Tonen weeknummers",
     "Import calendar" : "Importeer agenda",
     "No Calendars selected for import" : "Geen agenda's voor import opgegeven",
+    "Skip simple event editor" : "Negeer simpele afsprakenbewerker",
+    "Show week numbers" : "Tonen weeknummers",
     "Primary CalDAV address" : "Primair CalDAV adres",
     "iOS/OS X CalDAV address" : "iOS/OS X CalDAV adres",
     "Subscribe" : "Abonneren"

@@ -196,10 +196,10 @@ OC.L10N.register(
     "Iframe to integrate" : "Integroitava iframe",
     "Publish URL" : "Julkaise URL",
     "Settings & import" : "Asetukset ja tuonti",
-    "Skip simple event editor" : "Ohita yksinkertainen tapahtumamuokkain",
-    "Show week numbers" : "Näytä viikkonumerot",
     "Import calendar" : "Tuo kalenteri",
     "No Calendars selected for import" : "Kalentereita ei ole valittu tuotavaksi",
+    "Skip simple event editor" : "Ohita yksinkertainen tapahtumamuokkain",
+    "Show week numbers" : "Näytä viikkonumerot",
     "Primary CalDAV address" : "Ensisijainen CalDAV-osoite",
     "iOS/OS X CalDAV address" : "iOS/OS X CalDAV -osoite",
     "Subscribe" : "Tilaa"

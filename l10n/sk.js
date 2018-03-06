@@ -182,10 +182,10 @@ OC.L10N.register(
     "Iframe to integrate" : "Pridať Iframe",
     "Publish URL" : "Zverejniť URL",
     "Settings & import" : "Nastavenia a import",
-    "Skip simple event editor" : "Nepoužívať jednoduchý editor",
-    "Show week numbers" : "Zobraziť čísla týždňov",
     "Import calendar" : "Importovať kalendár",
     "No Calendars selected for import" : "Nebol označený kalendár na import",
+    "Skip simple event editor" : "Nepoužívať jednoduchý editor",
+    "Show week numbers" : "Zobraziť čísla týždňov",
     "Primary CalDAV address" : "Primárna CalDAV adresa",
     "iOS/OS X CalDAV address" : "iOS/OS X CalDAV adresa",
     "Subscribe" : "Odoberať"

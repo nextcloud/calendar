@@ -163,10 +163,10 @@ OC.L10N.register(
     "Iframe to integrate" : "Iframe προς ενσωμάτωση",
     "Publish URL" : "Δημοσίευση URL",
     "Settings & import" : "Ρυθμίσεις & εισαγωγή",
-    "Skip simple event editor" : "Παράλειψη απλού επεξεργαστή γεγονότων",
-    "Show week numbers" : "Εμφάνιση αριθμού εβδομάδας",
     "Import calendar" : "Εισαγωγή ημερολογίου",
     "No Calendars selected for import" : "Δεν επιλέχτηκαν ημερολόγια προς εισαγωγή",
+    "Skip simple event editor" : "Παράλειψη απλού επεξεργαστή γεγονότων",
+    "Show week numbers" : "Εμφάνιση αριθμού εβδομάδας",
     "Primary CalDAV address" : "Κύρια διεύθυνση CalDAV",
     "iOS/OS X CalDAV address" : "Διεύθυνση CalDAV για iOS/OS X",
     "Subscribe" : "Εγγραφή"

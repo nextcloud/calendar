@@ -196,10 +196,10 @@ OC.L10N.register(
     "Iframe to integrate" : "Iframe a integrar",
     "Publish URL" : "Publicar URL",
     "Settings & import" : "Configuraciones & importar",
-    "Skip simple event editor" : "Omitir el editor de eventos simple",
-    "Show week numbers" : "Mostrar número de semana",
     "Import calendar" : "Importar calendario",
     "No Calendars selected for import" : "No se han seleccionado Caldenarios para importar",
+    "Skip simple event editor" : "Omitir el editor de eventos simple",
+    "Show week numbers" : "Mostrar número de semana",
     "Primary CalDAV address" : "Dirección principal de CalDAV",
     "iOS/OS X CalDAV address" : "Dirección CalDAV de iOS/OS X",
     "Subscribe" : "Suscríbete"

@@ -81,8 +81,8 @@ OC.L10N.register(
     "New calendar" : "Nuwe kalender",
     "File is empty" : "Lêer is leeg",
     "Embed" : "Bed In",
-    "Show week numbers" : "Toon weeknommers",
     "Import calendar" : "Voer kalender in",
+    "Show week numbers" : "Toon weeknommers",
     "Primary CalDAV address" : "Primêre CalDAV-adres",
     "iOS/OS X CalDAV address" : "iOS/OS X CalDAV-adres",
     "Subscribe" : "Teken In"

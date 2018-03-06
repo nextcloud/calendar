@@ -86,10 +86,10 @@ OC.L10N.register(
     "Import scheduled" : "Importación programada",
     "Embed" : "Incrustar",
     "Publish URL" : "Publicar URL",
-    "Skip simple event editor" : "Saltarse o editor de eventos simplificado",
-    "Show week numbers" : "Amosar números semanais",
     "Import calendar" : "Importar calendario",
     "No Calendars selected for import" : "Non se seleccionarion calendarios para importar",
+    "Skip simple event editor" : "Saltarse o editor de eventos simplificado",
+    "Show week numbers" : "Amosar números semanais",
     "Primary CalDAV address" : "Dirección CalDAV principal",
     "iOS/OS X CalDAV address" : "Dirección iOS/OS X CalDAV",
     "Subscribe" : "Suscribirse"

@@ -150,10 +150,10 @@ OC.L10N.register(
     "Embed" : "Iestrādāt",
     "Publish URL" : "Publicēt URL",
     "Settings & import" : "Iestatījumi un imports",
-    "Skip simple event editor" : "Izlaist vienkāršoto notikuma redaktoru",
-    "Show week numbers" : "Rādīt nedēļu numurus",
     "Import calendar" : "Importēt kalendāru",
     "No Calendars selected for import" : "Nav izvēlēti kalendāri importēšai",
+    "Skip simple event editor" : "Izlaist vienkāršoto notikuma redaktoru",
+    "Show week numbers" : "Rādīt nedēļu numurus",
     "Primary CalDAV address" : "Primārā CalDAV adrese",
     "iOS/OS X CalDAV address" : "iOS/OS X CalDAV adrese",
     "Subscribe" : "Abonēt"

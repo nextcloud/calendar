@@ -156,10 +156,10 @@
     "Iframe to integrate" : "Нэгтгэх Iframe",
     "Publish URL" : "URL-г нийтлэх",
     "Settings & import" : "Тохиргоо, импорт",
-    "Skip simple event editor" : "Энгийн засварлагчийг алгасах",
-    "Show week numbers" : "7 хоногийн дугаарыг харуулах",
     "Import calendar" : "Цагийн хуваарь оруулах",
     "No Calendars selected for import" : "Оруулж ирэх цагийн хуваарь сонгогдсонгүй",
+    "Skip simple event editor" : "Энгийн засварлагчийг алгасах",
+    "Show week numbers" : "7 хоногийн дугаарыг харуулах",
     "Primary CalDAV address" : "Үндсэн CalDAV хаяг",
     "iOS/OS X CalDAV address" : "iOS/OS X CalDAV хаяг",
     "Subscribe" : "Захиалах"

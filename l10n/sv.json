@@ -180,10 +180,10 @@
     "Iframe to integrate" : "Iframe att integrera",
     "Publish URL" : "Publicera URL",
     "Settings & import" : "Inställningar & import",
-    "Skip simple event editor" : "Använd inte den enkla händelse-redigeraren",
-    "Show week numbers" : "Visa veckonummer",
     "Import calendar" : "Importera kalender",
     "No Calendars selected for import" : "Ingen kalender vald för import",
+    "Skip simple event editor" : "Använd inte den enkla händelse-redigeraren",
+    "Show week numbers" : "Visa veckonummer",
     "Primary CalDAV address" : "Primär CalDAV adress",
     "iOS/OS X CalDAV address" : "iOS/OS X CalDAV adress",
     "Subscribe" : "Prenumerera"

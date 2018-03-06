@@ -196,10 +196,10 @@ OC.L10N.register(
     "Iframe to integrate" : "Iframe за интеграцију",
     "Publish URL" : "Објави URL",
     "Settings & import" : "Поставке & увоз",
-    "Skip simple event editor" : "Прескочи једноставни уређивач догађаја",
-    "Show week numbers" : "Прикажи број седмице",
     "Import calendar" : "Увези календар",
     "No Calendars selected for import" : "Није одабран ниједан календар за увоз",
+    "Skip simple event editor" : "Прескочи једноставни уређивач догађаја",
+    "Show week numbers" : "Прикажи број седмице",
     "Primary CalDAV address" : "Примарна CalDAV адреса",
     "iOS/OS X CalDAV address" : "иОС/ОС Икс CalDAV адреса",
     "Subscribe" : "Претплати се"

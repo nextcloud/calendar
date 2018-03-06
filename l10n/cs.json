@@ -156,10 +156,10 @@
     "Iframe to integrate" : "Iframe k integraci",
     "Publish URL" : "Zveřejnit URL",
     "Settings & import" : "Nastavení & import",
-    "Skip simple event editor" : "Přeskočit jednoduchý editor události",
-    "Show week numbers" : "Zobrazit čísla týdnů",
     "Import calendar" : "Importovat kalendář",
     "No Calendars selected for import" : "Nebyl vybrán kalendář k importu",
+    "Skip simple event editor" : "Přeskočit jednoduchý editor události",
+    "Show week numbers" : "Zobrazit čísla týdnů",
     "Primary CalDAV address" : "Primární adresa CalDAV",
     "iOS/OS X CalDAV address" : "iOS/OS X CalDAV adresa",
     "Subscribe" : "Odebírat"

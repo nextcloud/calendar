@@ -196,10 +196,10 @@ OC.L10N.register(
     "Iframe to integrate" : "საინტეგრაციო Iframe",
     "Publish URL" : "გამოქვეყნების მისამართი",
     "Settings & import" : "პარამეტრები და იმპორტი",
-    "Skip simple event editor" : "მარტივი მოვლენების ედიტორის გამოტოვება",
-    "Show week numbers" : "კვირის ნომრების ჩვენება",
     "Import calendar" : "კალენდრის იმპორტი",
     "No Calendars selected for import" : "იმპორტისთვის კალენდარი არაა არჩეული",
+    "Skip simple event editor" : "მარტივი მოვლენების ედიტორის გამოტოვება",
+    "Show week numbers" : "კვირის ნომრების ჩვენება",
     "Primary CalDAV address" : "მთავარი CalDAV მისამართი",
     "iOS/OS X CalDAV address" : "iOS/OS X CalDAV მისამართი",
     "Subscribe" : "გამოწერა"

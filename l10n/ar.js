@@ -129,9 +129,9 @@ OC.L10N.register(
     "Import scheduled" : "الاستيراد مُجدوَل",
     "Publish URL" : "نشر الرابط",
     "Settings & import" : "الإعدادات و الإستيراد",
-    "Show week numbers" : "إظهار رقم الأسابيع",
     "Import calendar" : "استيراد التقويم",
     "No Calendars selected for import" : "لم تختر تقويمات للاستيراد",
+    "Show week numbers" : "إظهار رقم الأسابيع",
     "Primary CalDAV address" : "الرئيسية CalDAV عناوين",
     "iOS/OS X CalDAV address" : "لأنظمة التشغيل الماك/الآيفون CalDAV عناوين"
 },
