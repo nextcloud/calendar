@@ -13,10 +13,17 @@
 	]]></description>
 	<version>1.5.8</version>
 	<licence>agpl</licence>
-	<namespace>Calendar</namespace>
 	<author homepage="https://georg.coffee">Georg Ehrke</author>
 	<author homepage="http://raghunayyar.com">Raghu Nayyar</author>
 	<author homepage="https://tcit.fr">Thomas Citharel</author>
+	<namespace>Calendar</namespace>
+	<documentation>
+		<user>https://docs.nextcloud.com/server/11/user_manual/pim/calendar.html</user>
+	</documentation>
+	<category>office</category>
+	<website>https://github.com/nextcloud/calendar/</website>
+	<bugs>https://github.com/nextcloud/calendar/issues</bugs>
+	<repository type="git">https://github.com/nextcloud/calendar.git</repository>
 	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/1.png</screenshot>
 	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/2.png</screenshot>
 	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/3.png</screenshot>
@@ -24,12 +31,4 @@
 	<dependencies>
 		<nextcloud min-version="11" max-version="13" />
 	</dependencies>
-	<documentation>
-		<user>https://docs.nextcloud.com/server/11/user_manual/pim/calendar.html</user>
-	</documentation>
-	<category>office</category>
-	<category>productivity</category>
-	<website>https://github.com/nextcloud/calendar/</website>
-	<bugs>https://github.com/nextcloud/calendar/issues</bugs>
-	<repository type="git">https://github.com/nextcloud/calendar.git</repository>
 </info>
