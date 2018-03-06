@@ -1,4 +1,11 @@
-## 1.5.7 0 2017-12-08
+## 1.5.8 - 2018-03-06
+### Fixed
+- Fix parsing for all-day VEvents that
+  [#692](https://github.com/nextcloud/calendar/issues/692)
+- Fix handling of VEvents that contain only Recurrence-IDs
+  [#722](https://github.com/nextcloud/calendar/issues/722)
+
+## 1.5.7 - 2017-12-08
 ### Fixed
 - Issue with displaying wrong year in upper left corner for certain cases
   [#434](https://github.com/nextcloud/calendar/issues/434)
