@@ -67,7 +67,12 @@ app.controller('SettingsController', ['$scope', '$uibModal', '$timeout', 'Timezo
 			settings.timezone = $scope.timezone;
 
 			if (fc.elm) {
-				fc.elm.fullCalendar('option', 'timezone', settings.timezone);
+				let timezone = settings.timezone;
+				if (settings.timezone === 'automatic') {
+					timezone = TimezoneService.getDetected();
+				}
+
+				fc.elm.fullCalendar('option', 'timezone', timezone);
 			}
 		};
 
