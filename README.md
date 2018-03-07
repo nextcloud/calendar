@@ -8,7 +8,7 @@
 
 **A calendar app for [Nextcloud](http://nextcloud.com). Easily sync events from various devices with your Nextcloud and edit them online.**  
 
-![](https://github.com/nextcloud/screenshots/raw/master/apps/Calendar/calendar.png)
+![](https://raw.githubusercontent.com/nextcloud/screenshots/master/apps/Calendar/view_week.png)
 
 ## Why is this so awesome?
 
