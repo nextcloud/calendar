@@ -55,6 +55,7 @@ OC.L10N.register(
     "Every year" : "Elk jaar",
     "never" : "geen",
     "after" : "na",
+    "Automatic ({timezone})" : "Automatisch ({timezone})",
     "How about getting started by importing some calendars?" : "Zullen we beginnen met een paar agenda's te importeren?",
     "At time of event" : "Op de tijd van de afspraak",
     "5 minutes before" : "5 minuten vooraf",
@@ -190,6 +191,7 @@ OC.L10N.register(
     "The file contains objects incompatible with the selected calendar" : "Het bestand bevat objecten die niet compatible zijn met de geselecteerde agenda",
     "New calendar" : "Nieuwe agenda",
     "File is empty" : "Bestand te leeg",
+    "File could not be parsed" : "Bestand kan niet worden verwerkt.",
     "Import scheduled" : "Import ingepland",
     "%s shared the calendar <strong>%s</strong> with you" : "%s heeft de agenda <strong>%s</strong> met je gedeeld",
     "Embed" : "Inbedden",
@@ -200,6 +202,7 @@ OC.L10N.register(
     "No Calendars selected for import" : "Geen agenda's voor import opgegeven",
     "Skip simple event editor" : "Negeer simpele afsprakenbewerker",
     "Show week numbers" : "Tonen weeknummers",
+    "Timezone" : "Tijdzone",
     "Primary CalDAV address" : "Primair CalDAV adres",
     "iOS/OS X CalDAV address" : "iOS/OS X CalDAV adres",
     "Subscribe" : "Abonneren"

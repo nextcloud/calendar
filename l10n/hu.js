@@ -55,6 +55,7 @@ OC.L10N.register(
     "Every year" : "Minden év",
     "never" : "soha",
     "after" : "után",
+    "Automatic ({timezone})" : "Automatikus ({timezone})",
     "How about getting started by importing some calendars?" : "Mi lenne, ha a meglévő naptárak importálásával kezdenénk?",
     "At time of event" : "az eseménnyel egy időben",
     "5 minutes before" : "5 perccel előtte",
@@ -190,6 +191,7 @@ OC.L10N.register(
     "The file contains objects incompatible with the selected calendar" : "A fájlban olyan objektumok találhatók amik nem kompatibilisek a naptárral.",
     "New calendar" : "Új naptár",
     "File is empty" : "A fájl üres",
+    "File could not be parsed" : "A fájlt nem lehetett feldolgozni",
     "Import scheduled" : "Importálás beütemezve",
     "%s shared the calendar <strong>%s</strong> with you" : "%s megosztotta <strong>%s</strong> naptárát veled",
     "Embed" : "Beágyazott",
@@ -200,6 +202,7 @@ OC.L10N.register(
     "No Calendars selected for import" : "Nincs importálásra kiválasztott naptár",
     "Skip simple event editor" : "Váltás az egyszerű esemény szerkesztőre",
     "Show week numbers" : "Hetek számának megjelenítése",
+    "Timezone" : "Időzóna",
     "Primary CalDAV address" : "Elsődleges CalDAV cím",
     "iOS/OS X CalDAV address" : "iOS/OS X CalDAV cím",
     "Subscribe" : "Feliratkozás"

@@ -55,6 +55,7 @@ OC.L10N.register(
     "Every year" : "Chaque année",
     "never" : "jamais",
     "after" : "après ",
+    "Automatic ({timezone})" : "Automatique ({timezone})",
     "How about getting started by importing some calendars?" : "Pourquoi ne pas commencer par importer quelques calendriers ?",
     "At time of event" : "À l'heure de l'événement",
     "5 minutes before" : "5 minutes avant",
@@ -200,6 +201,7 @@ OC.L10N.register(
     "No Calendars selected for import" : "Aucun agenda sélectionné pour import",
     "Skip simple event editor" : "Passer l'éditeur d'évènement simple",
     "Show week numbers" : "Afficher les numéros de semaine",
+    "Timezone" : "Fuseau horaire",
     "Primary CalDAV address" : "Adresse CalDAV principale",
     "iOS/OS X CalDAV address" : "Adresse CalDAV pour iOS/OS X",
     "Subscribe" : "S'abonner"

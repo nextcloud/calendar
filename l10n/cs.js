@@ -30,6 +30,8 @@ OC.L10N.register(
     "Share Calendar" : "Sdílet kalendář",
     "Shared" : "Sdílené",
     "WebDAV address for subscriptions" : "WebDAV adresa pro odběry",
+    "Email sent." : "E-mail odeslán.",
+    "Could not send your email." : "Váš e-mail se nedaří odeslat",
     "group" : "skupina",
     "Details" : "Podrobnosti",
     "Attendees" : "Účastníci",
@@ -162,6 +164,7 @@ OC.L10N.register(
     "No Calendars selected for import" : "Nebyl vybrán kalendář k importu",
     "Skip simple event editor" : "Přeskočit jednoduchý editor události",
     "Show week numbers" : "Zobrazit čísla týdnů",
+    "Timezone" : "Časová zóna",
     "Primary CalDAV address" : "Primární adresa CalDAV",
     "iOS/OS X CalDAV address" : "iOS/OS X CalDAV adresa",
     "Subscribe" : "Odebírat"
