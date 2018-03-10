@@ -191,6 +191,7 @@ OC.L10N.register(
     "The file contains objects incompatible with the selected calendar" : "Le fichier contient des objets incompatibles avec l'agenda sélectionné",
     "New calendar" : "Nouvel agenda",
     "File is empty" : "Le fichier est vide",
+    "File could not be parsed" : "Le fichier n'a pas pu être analysé",
     "Import scheduled" : "Importation planifiée",
     "%s shared the calendar <strong>%s</strong> with you" : "%s a partagé l'agenda <strong>%s</strong> avec vous",
     "Embed" : "Embarquer",

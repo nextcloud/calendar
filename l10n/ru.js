@@ -55,6 +55,7 @@ OC.L10N.register(
     "Every year" : "Каждый год",
     "never" : "никогда",
     "after" : "после",
+    "Automatic ({timezone})" : "Автоматически ({timezone})",
     "How about getting started by importing some calendars?" : "Начнем с импорта календарей?",
     "At time of event" : "Во время события",
     "5 minutes before" : "За 5 минут до начала",
@@ -190,6 +191,7 @@ OC.L10N.register(
     "The file contains objects incompatible with the selected calendar" : "Файл содержит объекты, которые не совместимы с выбранным календарем",
     "New calendar" : "Новый календарь",
     "File is empty" : "Файл пуст",
+    "File could not be parsed" : "Не удалось проанализировать файл",
     "Import scheduled" : "Импорт запланирован",
     "%s shared the calendar <strong>%s</strong> with you" : "%s предоставил(а) вам доступ к календарю  <strong>«%s» </strong>",
     "Embed" : "Встроить",
@@ -200,6 +202,7 @@ OC.L10N.register(
     "No Calendars selected for import" : "Не выбраны календари для импорта",
     "Skip simple event editor" : "Не использовать простой редактор события",
     "Show week numbers" : "Показывать номера недель",
+    "Timezone" : "Часовой пояс",
     "Primary CalDAV address" : "Основной адрес синхронизации CalDAV",
     "iOS/OS X CalDAV address" : "Адрес синхронизации iOS/OS X CalDAV",
     "Subscribe" : "Подписаться"
