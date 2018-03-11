@@ -140,15 +140,20 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 				$scope.$apply();
 			});
 		} else {
-			$scope.calendarsPromise = CalendarService.getPublicCalendar(constants.publicSharingToken).then(function(calendar) {
+			var splitted = constants.publicSharingToken.split(".")
+			var i;
+			for(i = 0; i < splitted.length; i++ )
+			{
+				$scope.calendarsPromise = CalendarService.getPublicCalendar(splitted[i]).then(function(calendar) {
 				$scope.calendars = [calendar];
 				is.loading = false;
 				// TODO - scope.apply should not be necessary here
 				$scope.$apply();
-			}).catch((reason) => {
+				}).catch((reason) => {
 				angular.element('#header-right').css('display', 'none');
 				angular.element('#emptycontent-container').css('display', 'block');
 			});
+			}	
 		}
 
 
