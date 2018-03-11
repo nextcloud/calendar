@@ -140,7 +140,7 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 				$scope.$apply();
 			});
 		} else {
-			constants.publicSharingToken.split(".")forEach(token=>
+			constants.publicSharingToken.split(".").forEach(token=>
 			{
 				$scope.calendarsPromise = CalendarService.getPublicCalendar(token).then(function(calendar) {
 				$scope.calendars = [calendar];
