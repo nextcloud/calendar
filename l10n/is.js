@@ -55,6 +55,7 @@ OC.L10N.register(
     "Every year" : "Árlega",
     "never" : "aldrei",
     "after" : "eftir",
+    "Automatic ({timezone})" : "Sjálfvirkt ({timezone})",
     "How about getting started by importing some calendars?" : "Hvernig væri að byrja á því að flytja inn einhver dagatöl?",
     "At time of event" : "Þegar atburður á sér stað",
     "5 minutes before" : "5 mínútum fyrir",
@@ -190,6 +191,7 @@ OC.L10N.register(
     "The file contains objects incompatible with the selected calendar" : "Skráin inniheldur atriði sem ekki eru samhæfanleg völdu dagatali",
     "New calendar" : "Nýtt dagatal",
     "File is empty" : "Skráin er tóm",
+    "File could not be parsed" : "Ekki tókst að þátta skrá",
     "Import scheduled" : "Áætlaður innflutningur",
     "%s shared the calendar <strong>%s</strong> with you" : "%s deildi dagatalinu <strong>%s</strong> með þér",
     "Embed" : "Ívefja",
@@ -200,6 +202,7 @@ OC.L10N.register(
     "No Calendars selected for import" : "Engin dagatöl valin til innflutnings",
     "Skip simple event editor" : "Sleppa einföldum atburðaritli",
     "Show week numbers" : "Sýna vikunúmer",
+    "Timezone" : "Tímabelti",
     "Primary CalDAV address" : "Aðal-CalDAV-vistfang",
     "iOS/OS X CalDAV address" : "iOS/OS X CalDAV-vistfang",
     "Subscribe" : "Gerast áskrifandi"
