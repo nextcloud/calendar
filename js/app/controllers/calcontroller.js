@@ -143,12 +143,12 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 			constants.publicSharingToken.split(".").forEach(token=>
 			{
 				$scope.calendarsPromise = CalendarService.getPublicCalendar(token).then(function(calendar) {
-				$scope.calendars = [calendar];
+					$scope.calendars = [calendar];
 			});
-				is.loading = false;
-				// TODO - scope.apply should not be necessary here
-				$scope.$apply();
-				}).catch((reason) => {
+			is.loading = false;
+			// TODO - scope.apply should not be necessary here
+			$scope.$apply();
+			}).catch((reason) => {
 				angular.element('#header-right').css('display', 'none');
 				angular.element('#emptycontent-container').css('display', 'block');
 			});		
