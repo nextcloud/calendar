@@ -55,6 +55,7 @@ OC.L10N.register(
     "Every year" : "Todos los años",
     "never" : "nunca",
     "after" : "después",
+    "Automatic ({timezone})" : "({timezone}) automática",
     "How about getting started by importing some calendars?" : "¿Qué tal si empiezas importando algunos calendarios?",
     "At time of event" : "A la hora del evento",
     "5 minutes before" : "5 minutos antes",
@@ -190,6 +191,7 @@ OC.L10N.register(
     "The file contains objects incompatible with the selected calendar" : "El archivo contiene objetos incompatibles con el calendario seleccionado",
     "New calendar" : "Nuevo calendario",
     "File is empty" : "El archivo está vacío",
+    "File could not be parsed" : "El archivo no pudo ser interpretado",
     "Import scheduled" : "Importar agendados",
     "%s shared the calendar <strong>%s</strong> with you" : "%s compartió el calendario <strong>%s</strong> contigo",
     "Embed" : "Integrar",
@@ -200,6 +202,7 @@ OC.L10N.register(
     "No Calendars selected for import" : "No se han seleccionado Caldenarios para importar",
     "Skip simple event editor" : "Omitir el editor de eventos simple",
     "Show week numbers" : "Mostrar número de semana",
+    "Timezone" : "Zona horaria",
     "Primary CalDAV address" : "Dirección principal de CalDAV",
     "iOS/OS X CalDAV address" : "Dirección CalDAV de iOS/OS X",
     "Subscribe" : "Suscríbete"
