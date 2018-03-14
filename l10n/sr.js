@@ -55,6 +55,7 @@ OC.L10N.register(
     "Every year" : "Сваке године",
     "never" : "никада",
     "after" : "након",
+    "Automatic ({timezone})" : "Аутоматска ({timezone})",
     "How about getting started by importing some calendars?" : "Како би било да почнете тако што увезете неке календаре?",
     "At time of event" : "Тачно на време догађаја",
     "5 minutes before" : "5 минута раније",
@@ -190,6 +191,7 @@ OC.L10N.register(
     "The file contains objects incompatible with the selected calendar" : "Фајл садржи објекте који нису компатибилни са означеним календаром",
     "New calendar" : "Нови календар",
     "File is empty" : "Фајл је празан",
+    "File could not be parsed" : "Фајл не може да се парсира",
     "Import scheduled" : "Увези заказане",
     "%s shared the calendar <strong>%s</strong> with you" : "%s је поделио календар <strong>%s</strong> са Вама",
     "Embed" : "Угради",
@@ -200,6 +202,7 @@ OC.L10N.register(
     "No Calendars selected for import" : "Није одабран ниједан календар за увоз",
     "Skip simple event editor" : "Прескочи једноставни уређивач догађаја",
     "Show week numbers" : "Прикажи број седмице",
+    "Timezone" : "Временска зона",
     "Primary CalDAV address" : "Примарна CalDAV адреса",
     "iOS/OS X CalDAV address" : "иОС/ОС Икс CalDAV адреса",
     "Subscribe" : "Претплати се"

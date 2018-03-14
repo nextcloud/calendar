@@ -55,6 +55,7 @@ OC.L10N.register(
     "Every year" : "Her yıl",
     "never" : "asla",
     "after" : "şundan sonra",
+    "Automatic ({timezone})" : "Otomatik ({timezone})",
     "How about getting started by importing some calendars?" : "Bazı takvimleri içe aktararak başlamak ister misiniz?",
     "At time of event" : "Etkinlik zamanında",
     "5 minutes before" : "5 dakika önce",
@@ -190,6 +191,7 @@ OC.L10N.register(
     "The file contains objects incompatible with the selected calendar" : "Dosyada, seçilmiş takvime uygun olmayan nesneler var",
     "New calendar" : "Takvim ekle",
     "File is empty" : "Dosya boş",
+    "File could not be parsed" : "Dosya işlenemedi",
     "Import scheduled" : "İçe aktarma işlemi zamanlandı",
     "%s shared the calendar <strong>%s</strong> with you" : "%s sizinle <strong>%s</strong> takvimini paylaştı",
     "Embed" : "Göm",
@@ -200,6 +202,7 @@ OC.L10N.register(
     "No Calendars selected for import" : "İçe aktarılacak bir takvim seçilmemiş",
     "Skip simple event editor" : "Basit etkinlik düzenleyici atlansın",
     "Show week numbers" : "Hafta numaraları görüntülensin",
+    "Timezone" : "Saat dilimi",
     "Primary CalDAV address" : "Birincil CalDAV adresi",
     "iOS/OS X CalDAV address" : "iOS/OS X CalDAV adresi",
     "Subscribe" : "Abone Ol"
