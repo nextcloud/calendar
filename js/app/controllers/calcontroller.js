@@ -150,7 +150,7 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 			}).catch((reason) => {
 				angular.element('#header-right').css('display', 'none');
 				angular.element('#emptycontent-container').css('display', 'block');
-			});		
+			});
 		}
 
 
