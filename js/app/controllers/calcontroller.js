@@ -142,7 +142,7 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 		} else {
 			constants.publicSharingToken.split(".").forEach( (token) => {
 				$scope.calendarsPromise = CalendarService.getPublicCalendar(token).then(function(calendar) {
-					$scope.calendars = [calendar];
+					$scope.calendars.push(calendar);
 			});
 				is.loading = false;
 				// TODO - scope.apply should not be necessary here
