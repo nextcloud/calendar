@@ -202,7 +202,7 @@ OC.L10N.register(
     "No Calendars selected for import" : "Keine Kalender für den Import ausgewählt",
     "Skip simple event editor" : "Einfachen Ereignis-Editor überspringen",
     "Show week numbers" : "Kalenderwochen anzeigen",
-    "Timezone" : "Dateizone",
+    "Timezone" : "Zeitzone",
     "Primary CalDAV address" : "Primäre CalDAV-Adresse",
     "iOS/OS X CalDAV address" : "iOS-/OS-X-CalDAV-Adresse",
     "Subscribe" : "Abonnieren"
