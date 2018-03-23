@@ -55,6 +55,7 @@ OC.L10N.register(
     "Every year" : "Vuosittain",
     "never" : "ei koskaan",
     "after" : "jälkeen",
+    "Automatic ({timezone})" : "Automaattinen ({timezone})",
     "How about getting started by importing some calendars?" : "Haluaisitko tuoda kalentereita?",
     "At time of event" : "Tapahtuman aikaan",
     "5 minutes before" : "5 minuuttia ennen",
@@ -200,6 +201,7 @@ OC.L10N.register(
     "No Calendars selected for import" : "Kalentereita ei ole valittu tuotavaksi",
     "Skip simple event editor" : "Ohita yksinkertainen tapahtumamuokkain",
     "Show week numbers" : "Näytä viikkonumerot",
+    "Timezone" : "Aikavyöhyke",
     "Primary CalDAV address" : "Ensisijainen CalDAV-osoite",
     "iOS/OS X CalDAV address" : "iOS/OS X CalDAV -osoite",
     "Subscribe" : "Tilaa"
