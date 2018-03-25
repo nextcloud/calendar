@@ -191,6 +191,7 @@ OC.L10N.register(
     "The file contains objects incompatible with the selected calendar" : "Tiedosto sisältää valitun kalenterin kanssa yhteensopimattomia objekteja",
     "New calendar" : "Uusi kalenteri",
     "File is empty" : "Tiedosto on tyhjä",
+    "File could not be parsed" : "Tiedostoa ei voitu jäsentää",
     "Import scheduled" : "Tuonti ajastettu",
     "%s shared the calendar <strong>%s</strong> with you" : "%s jakoi kalenterin<strong>%s</strong>sinulle",
     "Embed" : "Upota",
