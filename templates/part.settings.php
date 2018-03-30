@@ -62,7 +62,7 @@
 				<input class="input settings-input" type="text" ng-model="settingsCalDavLink" readonly />
 			</li>
 			<li class="settings-fieldset-interior-item">
-				<label class="settings-label"><?php p($l->t('iOS/OS X CalDAV address')); ?></label>
+				<label class="settings-label"><?php p($l->t('iOS/macOS CalDAV address')); ?></label>
 				<input class="input settings-input" type="text" ng-model="settingsCalDavPrincipalLink" readonly />
 			</li>
 		</ul>
