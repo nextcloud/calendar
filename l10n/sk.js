@@ -186,6 +186,7 @@ OC.L10N.register(
     "No Calendars selected for import" : "Nebol označený kalendár na import",
     "Skip simple event editor" : "Nepoužívať jednoduchý editor",
     "Show week numbers" : "Zobraziť čísla týždňov",
+    "Timezone" : "Časová zóna",
     "Primary CalDAV address" : "Primárna CalDAV adresa",
     "iOS/OS X CalDAV address" : "iOS/OS X CalDAV adresa",
     "Subscribe" : "Odoberať"
