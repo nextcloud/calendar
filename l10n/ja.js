@@ -163,7 +163,6 @@ OC.L10N.register(
     "Skip simple event editor" : "シンプルイベントエディタをスキップ",
     "Show week numbers" : "週番号を表示する",
     "Primary CalDAV address" : "一番目の CalDAV アドレス",
-    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV アドレス",
     "Subscribe" : "購読"
 },
 "nplurals=1; plural=0;");

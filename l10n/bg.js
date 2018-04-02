@@ -162,7 +162,6 @@ OC.L10N.register(
     "Skip simple event editor" : "Пропусни опростения редактор за събития",
     "Show week numbers" : "Показвай номерата на седмиците",
     "Primary CalDAV address" : "Основен CalDAV адрес",
-    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV адрес",
     "Subscribe" : "Абонирай ме"
 },
 "nplurals=2; plural=(n != 1);");

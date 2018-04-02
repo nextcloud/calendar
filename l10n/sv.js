@@ -187,7 +187,6 @@ OC.L10N.register(
     "Skip simple event editor" : "Använd inte den enkla händelse-redigeraren",
     "Show week numbers" : "Visa veckonummer",
     "Primary CalDAV address" : "Primär CalDAV adress",
-    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV adress",
     "Subscribe" : "Prenumerera"
 },
 "nplurals=2; plural=(n != 1);");

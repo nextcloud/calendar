@@ -108,7 +108,6 @@ OC.L10N.register(
     "Import scheduled" : "Import geplangt",
     "Import calendar" : "Kalenner importéiren",
     "No Calendars selected for import" : "Et ass kee Kalenner fir en Import ausgewielt ginn",
-    "Primary CalDAV address" : "Haapt-CalDAV-Adress",
-    "iOS/OS X CalDAV address" : "iOS/OS X-CalDav-Adress"
+    "Primary CalDAV address" : "Haapt-CalDAV-Adress"
 },
 "nplurals=2; plural=(n != 1);");

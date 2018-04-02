@@ -163,7 +163,6 @@ OC.L10N.register(
     "Skip simple event editor" : "Энгийн засварлагчийг алгасах",
     "Show week numbers" : "7 хоногийн дугаарыг харуулах",
     "Primary CalDAV address" : "Үндсэн CalDAV хаяг",
-    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV хаяг",
     "Subscribe" : "Захиалах"
 },
 "nplurals=2; plural=(n != 1);");

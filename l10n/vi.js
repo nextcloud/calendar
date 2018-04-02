@@ -102,7 +102,6 @@ OC.L10N.register(
     "from" : "từ",
     "to" : "đến",
     "New calendar" : "Lịch mới",
-    "Primary CalDAV address" : "Địa chỉ CalDAV chính",
-    "iOS/OS X CalDAV address" : "iOS/OS X địa chỉ CalDAV"
+    "Primary CalDAV address" : "Địa chỉ CalDAV chính"
 },
 "nplurals=1; plural=0;");

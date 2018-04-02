@@ -116,7 +116,6 @@ OC.L10N.register(
     "Import calendar" : "นำเข้าปฏิทิน",
     "No Calendars selected for import" : "ไม่มีปฏิทินที่เลือกนำเข้า",
     "Skip simple event editor" : "ข้ามการแก้ไขกิจกรรมอย่างง่าย",
-    "Primary CalDAV address" : "ที่อยู่ CalDAV หลัก",
-    "iOS/OS X CalDAV address" : "ที่อยู่ CalDAV ของ iOS/OS X"
+    "Primary CalDAV address" : "ที่อยู่ CalDAV หลัก"
 },
 "nplurals=1; plural=0;");

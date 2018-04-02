@@ -117,7 +117,6 @@ OC.L10N.register(
     "Show week numbers" : "Показувати номери тижнів",
     "Timezone" : "Часовий пояс",
     "Primary CalDAV address" : "Первинна CalDAV адреса",
-    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV адреса",
     "Subscribe" : "Підписатися"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

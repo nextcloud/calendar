@@ -168,7 +168,6 @@ OC.L10N.register(
     "Skip simple event editor" : "Παράλειψη απλού επεξεργαστή γεγονότων",
     "Show week numbers" : "Εμφάνιση αριθμού εβδομάδας",
     "Primary CalDAV address" : "Κύρια διεύθυνση CalDAV",
-    "iOS/OS X CalDAV address" : "Διεύθυνση CalDAV για iOS/OS X",
     "Subscribe" : "Εγγραφή"
 },
 "nplurals=2; plural=(n != 1);");

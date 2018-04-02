@@ -155,7 +155,6 @@ OC.L10N.register(
     "Skip simple event editor" : "Izlaist vienkāršoto notikuma redaktoru",
     "Show week numbers" : "Rādīt nedēļu numurus",
     "Primary CalDAV address" : "Primārā CalDAV adrese",
-    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV adrese",
     "Subscribe" : "Abonēt"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

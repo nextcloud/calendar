@@ -170,7 +170,6 @@ OC.L10N.register(
     "Skip simple event editor" : "Anashkaloje përpunuesin e thjeshtë të veprimtarive",
     "Show week numbers" : "Shfaq numra javësh",
     "Primary CalDAV address" : "Adresë CalDAV parësore",
-    "iOS/OS X CalDAV address" : "Adresë iOS/OS X CalDAV",
     "Subscribe" : "Abonohu"
 },
 "nplurals=2; plural=(n != 1);");

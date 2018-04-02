@@ -133,7 +133,6 @@ OC.L10N.register(
     "Import calendar" : "استيراد التقويم",
     "No Calendars selected for import" : "لم تختر تقويمات للاستيراد",
     "Show week numbers" : "إظهار رقم الأسابيع",
-    "Primary CalDAV address" : "الرئيسية CalDAV عناوين",
-    "iOS/OS X CalDAV address" : "لأنظمة التشغيل الماك/الآيفون CalDAV عناوين"
+    "Primary CalDAV address" : "الرئيسية CalDAV عناوين"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

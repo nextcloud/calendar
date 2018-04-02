@@ -188,7 +188,6 @@ OC.L10N.register(
     "Show week numbers" : "Zobraziť čísla týždňov",
     "Timezone" : "Časová zóna",
     "Primary CalDAV address" : "Primárna CalDAV adresa",
-    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV adresa",
     "Subscribe" : "Odoberať"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

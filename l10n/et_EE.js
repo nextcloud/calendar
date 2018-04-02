@@ -157,7 +157,6 @@ OC.L10N.register(
     "Skip simple event editor" : "Jäta lihtne sündmuse redaktor vahele",
     "Show week numbers" : "Näita nädalanumberid",
     "Primary CalDAV address" : "Primaarne CalDAV aadress",
-    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV aadress",
     "Subscribe" : "Telli"
 },
 "nplurals=2; plural=(n != 1);");

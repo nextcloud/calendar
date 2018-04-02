@@ -201,7 +201,6 @@ OC.L10N.register(
     "Skip simple event editor" : "간단한 이벤트 편집기 건너뛰기",
     "Show week numbers" : "주 번호 보이기",
     "Primary CalDAV address" : "주 CalDAV 주소",
-    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV 주소",
     "Subscribe" : "구독"
 },
 "nplurals=1; plural=0;");

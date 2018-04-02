@@ -202,7 +202,6 @@
     "Show week numbers" : "Show week numbers",
     "Timezone" : "Timezone",
     "Primary CalDAV address" : "Primary CalDAV address",
-    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV address",
     "Subscribe" : "Subscribe"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

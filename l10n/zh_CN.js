@@ -165,7 +165,6 @@ OC.L10N.register(
     "Skip simple event editor" : "跳过简单事件编辑器",
     "Show week numbers" : "显示周次",
     "Primary CalDAV address" : "主要的 CalDAV 地址",
-    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV 地址",
     "Subscribe" : "订阅"
 },
 "nplurals=1; plural=0;");

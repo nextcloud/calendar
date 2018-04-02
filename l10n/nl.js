@@ -204,7 +204,6 @@ OC.L10N.register(
     "Show week numbers" : "Tonen weeknummers",
     "Timezone" : "Tijdzone",
     "Primary CalDAV address" : "Primair CalDAV adres",
-    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV adres",
     "Subscribe" : "Abonneren"
 },
 "nplurals=2; plural=(n != 1);");

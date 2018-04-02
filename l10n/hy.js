@@ -86,7 +86,6 @@ OC.L10N.register(
     "Repeat every ..." : "Կրկնել ամեն ...",
     "times" : "անգամ",
     "Import canceled" : "Ներմուծումը չեղարկվեց",
-    "Primary CalDAV address" : "Հիմնական CalDAV հասցե",
-    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV հասցե"
+    "Primary CalDAV address" : "Հիմնական CalDAV հասցե"
 },
 "nplurals=2; plural=(n != 1);");

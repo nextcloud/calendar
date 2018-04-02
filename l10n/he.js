@@ -118,7 +118,6 @@ OC.L10N.register(
     "No Calendars selected for import" : "לא נבחרו יומנים ליבוא",
     "Skip simple event editor" : "מדלג על עורך אירוע פשוט",
     "Show week numbers" : "הצגת מספרי שבועות",
-    "Primary CalDAV address" : "כתובת CalDAV ראשית",
-    "iOS/OS X CalDAV address" : "כתובת CalDAV עבור iOS/OS X"
+    "Primary CalDAV address" : "כתובת CalDAV ראשית"
 },
 "nplurals=2; plural=(n != 1);");

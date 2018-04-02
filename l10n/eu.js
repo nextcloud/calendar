@@ -166,7 +166,6 @@ OC.L10N.register(
     "Skip simple event editor" : "Gertaeren editore sinplea saltatu",
     "Show week numbers" : "aste zenbakiak erakutsi",
     "Primary CalDAV address" : "CalDAV helbide nagusia",
-    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV helbidea",
     "Subscribe" : "Harpidetu"
 },
 "nplurals=2; plural=(n != 1);");

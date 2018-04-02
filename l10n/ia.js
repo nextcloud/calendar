@@ -148,7 +148,6 @@ OC.L10N.register(
     "No Calendars selected for import" : "Nulle Calendarios selectionate pro importar",
     "Skip simple event editor" : "Saltar modificator de eventos simple",
     "Show week numbers" : "Monstrar le numero del septimanas",
-    "Primary CalDAV address" : "Adresse de CalDAV primari",
-    "iOS/OS X CalDAV address" : "Adresse CalDAV de iOS/OS X"
+    "Primary CalDAV address" : "Adresse de CalDAV primari"
 },
 "nplurals=2; plural=(n != 1);");

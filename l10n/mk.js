@@ -78,7 +78,6 @@ OC.L10N.register(
     "to" : "до",
     "Repeat every ..." : "Повтори секои ...",
     "New calendar" : "Нов календар",
-    "Primary CalDAV address" : "Примарна CalDAV адреса",
-    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV адреса"
+    "Primary CalDAV address" : "Примарна CalDAV адреса"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

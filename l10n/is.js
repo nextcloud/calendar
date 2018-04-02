@@ -204,7 +204,6 @@ OC.L10N.register(
     "Show week numbers" : "Sýna vikunúmer",
     "Timezone" : "Tímabelti",
     "Primary CalDAV address" : "Aðal-CalDAV-vistfang",
-    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV-vistfang",
     "Subscribe" : "Gerast áskrifandi"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

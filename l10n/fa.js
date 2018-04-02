@@ -64,7 +64,6 @@ OC.L10N.register(
     "from" : "از",
     "to" : "به",
     "New calendar" : "تقویم جدید",
-    "Primary CalDAV address" : "آدرس اولیه CalDAV",
-    "iOS/OS X CalDAV address" : "آدرس CalDAV مربوط به iOS/OS X"
+    "Primary CalDAV address" : "آدرس اولیه CalDAV"
 },
 "nplurals=1; plural=0;");

@@ -66,7 +66,6 @@ OC.L10N.register(
     "to" : "a",
     "New calendar" : "Calendièr novèl",
     "Import calendar" : "Importar un calendièr",
-    "Primary CalDAV address" : "Adreça CalDAV principala",
-    "iOS/OS X CalDAV address" : "Adreça CalDAV per iOS/OS X"
+    "Primary CalDAV address" : "Adreça CalDAV principala"
 },
 "nplurals=2; plural=(n > 1);");

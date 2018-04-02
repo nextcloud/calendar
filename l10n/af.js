@@ -84,7 +84,6 @@ OC.L10N.register(
     "Import calendar" : "Voer kalender in",
     "Show week numbers" : "Toon weeknommers",
     "Primary CalDAV address" : "Primêre CalDAV-adres",
-    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV-adres",
     "Subscribe" : "Teken In"
 },
 "nplurals=2; plural=(n != 1);");

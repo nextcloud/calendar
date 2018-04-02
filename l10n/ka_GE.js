@@ -201,7 +201,6 @@ OC.L10N.register(
     "Skip simple event editor" : "მარტივი მოვლენების ედიტორის გამოტოვება",
     "Show week numbers" : "კვირის ნომრების ჩვენება",
     "Primary CalDAV address" : "მთავარი CalDAV მისამართი",
-    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV მისამართი",
     "Subscribe" : "გამოწერა"
 },
 "nplurals=1; plural=0;");

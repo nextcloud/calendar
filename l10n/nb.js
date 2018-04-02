@@ -203,7 +203,6 @@ OC.L10N.register(
     "Show week numbers" : "Vis ukenumre",
     "Timezone" : "Tidssone",
     "Primary CalDAV address" : "Primær CalDAV-adresse",
-    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV-adresse",
     "Subscribe" : "Abonner"
 },
 "nplurals=2; plural=(n != 1);");

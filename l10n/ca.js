@@ -163,7 +163,6 @@ OC.L10N.register(
     "Skip simple event editor" : "Salta l'editor simple d'esdeveniments",
     "Show week numbers" : "Mostra el número de la setmana",
     "Primary CalDAV address" : "Adreça primària de caldav",
-    "iOS/OS X CalDAV address" : "Adreça CalDAV per IOS/OS X",
     "Subscribe" : "Subscriu"
 },
 "nplurals=2; plural=(n != 1);");
