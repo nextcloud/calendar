@@ -204,6 +204,7 @@ OC.L10N.register(
     "Show week numbers" : "Mostra i numeri delle settimane",
     "Timezone" : "Fuso orario",
     "Primary CalDAV address" : "Indirizzo CalDAV principale",
+    "iOS/macOS CalDAV address" : "Indirizzo CalDAV iOS/macOS",
     "Subscribe" : "Sottoscrivi"
 },
 "nplurals=2; plural=(n != 1);");

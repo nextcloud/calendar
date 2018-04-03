@@ -204,6 +204,7 @@ OC.L10N.register(
     "Show week numbers" : "Näytä viikkonumerot",
     "Timezone" : "Aikavyöhyke",
     "Primary CalDAV address" : "Ensisijainen CalDAV-osoite",
+    "iOS/macOS CalDAV address" : "iOS/macOS:n CalDAV-osoite",
     "Subscribe" : "Tilaa"
 },
 "nplurals=2; plural=(n != 1);");
