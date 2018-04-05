@@ -30,6 +30,8 @@ OC.L10N.register(
     "Share Calendar" : "Διαμοιράστε ένα ημερολόγιο",
     "Shared" : "Κοινόχρηστα",
     "WebDAV address for subscriptions" : "WebDAV διευθύνσεις για συνδρομές",
+    "Email sent." : "Η αλληλογραφία απεστάλη.",
+    "Could not send your email." : "Αδυναμία αποστολής της αλληλογραφίας σας.",
     "group" : "ομάδα",
     "Details" : "Λεπτομέρειες",
     "Attendees" : "Συμμετέχοντες",
