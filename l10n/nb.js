@@ -55,6 +55,7 @@ OC.L10N.register(
     "Every year" : "Hvert år",
     "never" : "aldri",
     "after" : "etter",
+    "Automatic ({timezone})" : "Automatisk ({timezone})",
     "How about getting started by importing some calendars?" : "Hva med å starte import av noen kalendere?",
     "At time of event" : "Ved tiden for hendelsen",
     "5 minutes before" : "5 minutter før",
@@ -203,6 +204,7 @@ OC.L10N.register(
     "Show week numbers" : "Vis ukenumre",
     "Timezone" : "Tidssone",
     "Primary CalDAV address" : "Primær CalDAV-adresse",
+    "iOS/macOS CalDAV address" : "iOS/macOS CalDAV-adresse",
     "Subscribe" : "Abonner"
 },
 "nplurals=2; plural=(n != 1);");
