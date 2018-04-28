@@ -30,7 +30,6 @@ OC.L10N.register(
     "Share Calendar" : "Comparteix el calendari",
     "Shared" : "Compartit",
     "WebDAV address for subscriptions" : "Adreça WebDAV per subscripcions",
-    "Email sent." : "Correu enviat.",
     "group" : "grup",
     "Details" : "Detalls",
     "Attendees" : "Assistents",

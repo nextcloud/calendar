@@ -26,10 +26,10 @@
 * Description: Takes care of CalendarList in App Navigation.
 */
 
-app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'HashService', 'CalendarService', 'WebCalService', 'is', 'CalendarListItem', 'Calendar', 'MailerService', 'ColorUtility', 'isSharingAPI', 'constants',
-	function ($scope, $rootScope, $window, HashService, CalendarService, WebCalService, is, CalendarListItem, Calendar, MailerService, ColorUtility, isSharingAPI, constants) {
+app.controller('CalendarListController', ['$scope', '$rootScope', '$window','DbService', 'HashService', 'CalendarService', 'WebCalService', 'is', 'CalendarListItem', 'Calendar', 'MailerService', 'ColorUtility', 'isSharingAPI', 'constants', '$log',
+	function ($scope, $rootScope, $window, DbService,HashService, CalendarService, WebCalService, is, CalendarListItem, Calendar, MailerService, ColorUtility, isSharingAPI, constants, $log) {
 		'use strict';
-
+		$log.log('CalendarListController');
 		$scope.calendarListItems = [];
 		$scope.is = is;
 		$scope.newCalendarInputVal = '';
@@ -189,11 +189,17 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ha
 			$window.open(item.publicSharingURL);
 		};
 
+		$scope.goPublicRendering = function (item) {
+			console.log(item.publicRenderingURL);
+                        $window.open(item.publicRenderingURL);
+                };
+
 		$scope.toggleSharesEditor = function (calendar) {
 			calendar.toggleSharesEditor();
 		};
 
 		$scope.togglePublish = function(item) {
+			$log.log("togglePublish...");
 			if (item.calendar.published) {
 				item.calendar.publish().then(function (response) {
 					if (response) {
@@ -207,6 +213,8 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ha
 			} else {
 				item.calendar.unpublish().then(function (response) {
 					if (response) {
+						// deleteBySourceId
+						DbService.deleteBySourceId(item.calendar.url);
 						item.calendar.published = false;
 					}
 					$scope.$apply();

@@ -204,7 +204,6 @@ OC.L10N.register(
     "Show week numbers" : "Hetek számának megjelenítése",
     "Timezone" : "Időzóna",
     "Primary CalDAV address" : "Elsődleges CalDAV cím",
-    "iOS/macOS CalDAV address" : "iOS/macOS CalDAV naptár címe",
     "Subscribe" : "Feliratkozás"
 },
 "nplurals=2; plural=(n != 1);");

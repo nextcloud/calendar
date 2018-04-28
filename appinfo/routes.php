@@ -26,6 +26,8 @@ return [
 		//Main view
 		['name' => 'view#index', 'url' => '/', 'verb' => 'GET'],
 		['name' => 'view#public_index_with_branding', 'url' => '/p/{token}', 'verb' => 'GET'],
+		['name' => 'view#public_index_scheduling', 'url' => '/p/{token}/{fancyName}/{rendering}/{oToLayerID}/{passwordToken}', 'verb' => 'GET'],
+		['name' => 'view#public_index_rendering', 'url' => '/p/{token}/{fancyName}/{rendering}', 'verb' => 'GET'],
 		['name' => 'view#public_index_with_branding_and_fancy_name', 'url' => '/p/{token}/{fancyName}', 'verb' => 'GET'],
 		['name' => 'view#public_index_for_embedding', 'url' => '/embed/{token}', 'verb' => 'GET'],
 		['name' => 'view#public_index_for_embedding_legacy', 'url' => '/public/{token}', 'verb' => 'GET'], // keep public/ for legacy reasons
@@ -37,7 +39,12 @@ return [
 		//Autocompletion
 		['name' => 'contact#searchAttendee', 'url' => '/v1/autocompletion/attendee', 'verb' => 'POST'],
 		['name' => 'contact#searchLocation', 'url' => '/v1/autocompletion/location', 'verb' => 'POST'],
-
 		['name' => 'proxy#proxy', 'url' => '/v1/proxy', 'verb' => 'GET'],
+		//Database Access
+		['name' => 'otoLayer#create', 'url' => '/otoSL/create', 'verb' => 'POST'],
+		['name' => 'otoConfirmation#create', 'url' => '/otoSC/create', 'verb'=> 'POST'],
+		['name' => 'otoConfirmation#getConfirmationsByUser', 'url' => '/otoSC/gCBU', 'verb' => 'GET'],
+		['name' => 'otoConfirmation#deleteBySourceId', 'url' => '/otoSL/dL', 'verb' => 'POST'],
+		['name' => 'otoLayer#findUserLayers', 'url'=>'/otoSL/fUL', 'verb' => 'GET']
 	]
 ];

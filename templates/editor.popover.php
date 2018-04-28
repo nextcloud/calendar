@@ -1,5 +1,9 @@
 <div>
 	<form class="events" ng-keydown="keypress($event)">
+		<!--- oToLayerID , veventID , passwordToken #name.value  params for test435()
+			put a php check to see if it is a meeting scheduling rendering   -->
+
+
 		<fieldset class="events--fieldset" ng-disabled="readOnly">
 			<textarea
 					rows="1"
@@ -40,6 +44,39 @@
 			</div>
 		</fieldset>
 
+		<?php if($_['isPublic'] && $_['rendering'] == 'schedule' ): ?>
+		<fieldset class="events--fieldset">
+			<div class="pull-left">	
+				<?php p($l->t('Confirmation info'))?>
+
+				<textarea
+					rows="1"
+					class="events--input h2 events--textarea"
+					ng-model="name"
+					placeholder="<?php p($l->t('Name and email'));?>"
+					name="title" #name type="text"
+					autofocus="autofocus"
+					tabindex="100"
+					required
+				></textarea>
+			</div>
+			
+		</fieldset class="events--fieldset pull-left">
+
+		<fieldset class="events--fieldset pull-left">
+				<button ng-click="createConfirmation()" class="events--button button btn primary">Confirm Event</button>
+		</fieldset>
+		<?php endif; ?>
+
+		<fieldset class="events--fieldset pull-right" ng-if="readOnly">
+
+				<button ng-click="cancel()" class="events--button button btn" type="button" tabindex="131">
+					<?php p($l->t('Close')); ?>
+				</button>
+		</fieldset>
+		
+		
+
 		<fieldset class="events--fieldset pull-left" ng-if="!readOnly">
 			<button ng-click="delete()" ng-if="!is_new" class="events--button button btn delete" type="button" tabindex="110">
 				<?php p($l->t('Delete')); ?>
@@ -71,13 +108,7 @@
 			</button>
 		</fieldset>
 
-		<fieldset class="events--fieldset pull-right" ng-if="readOnly">
-			<button ng-click="proceed()" class="events--button button btn" type="button" tabindex="130">
-				<?php p($l->t('More ...')); ?>
-			</button>
-			<button ng-click="cancel()" class="events--button button btn" type="button" tabindex="131">
-				<?php p($l->t('Close')); ?>
-			</button>
-		</fieldset>
+		
+
 	</form>
 </div>

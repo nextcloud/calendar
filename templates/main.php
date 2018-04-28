@@ -72,9 +72,10 @@ foreach ($scripts as $script) {
 	}
 </style>
 <?php endif; ?>
-<div class="app" ng-app="Calendar" ng-controller="CalController">
+<div class="app" ng-app="Calendar" ng-controller="CalController" ng-init=init("<?php p($_['oToLayerID']); ?>","<?php p($_['passwordToken']); ?>")>
 
 	<!-- The Left Calendar Navigation -->
+	<?php if(($_['isPublic'] && $_['rendering'] !== 'rendering') || !$_['isPublic'] ): ?>
 	<div id="app-navigation">
 
 		<div ng-controller="DatePickerController" id="datepickercontainer" ng-class="{active: visibility}">
@@ -101,6 +102,17 @@ foreach ($scripts as $script) {
 		</div>
 		<?php endif; ?>
 	</div>
+	<?php endif; ?>
+	<?php if($_['rendering'] == 'rendering'): ?>
+		<div ng-controller="DatePickerController" id="datepickercontainer" ng-class="{active: visibility}">
+			<?php print_unescaped($this->inc('part.datepicker')); ?>
+			<?php print_unescaped($this->inc('part.buttonarea')); ?>
+			<div class="clear-both"></div>
+		</div>
+	<?php endif; ?>
+
+	
+
 
 	<!-- The Calendar on the right -->
 	<div id="app-content">

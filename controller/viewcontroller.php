@@ -130,6 +130,44 @@ class ViewController extends Controller {
 	}
 
 	/**
+         * @PublicPage
+         * @NoCSRFRequired
+         *
+         * @param string $token
+         * @param string $rendering
+         * @param string $passwordtoken
+         * @param string $otolayerid
+         * @return TemplateResponse
+         */
+        public function publicIndexScheduling($token,$rendering,$passwordToken,$oToLayerID) {
+                $templateParameters = $this->getTemplateParams();
+                $publicTemplateParameters = $this->getPublicTemplateParameters($token);
+                $params = array_merge($templateParameters, $publicTemplateParameters);
+                $params = array_merge($params, ['rendering' => $rendering]);
+		$params['passwordToken'] = $passwordToken;
+		$params['oToLayerID'] = $oToLayerID;
+                $params['isEmbedded'] = false;
+                return new TemplateResponse('calendar', 'public', $params, 'base');
+        }
+
+	/**
+         * @PublicPage
+         * @NoCSRFRequired
+         *
+         * @param string $token
+         * @param string $rendering
+         * @return TemplateResponse
+         */
+        public function publicIndexRendering($token,$rendering) {
+                $templateParameters = $this->getTemplateParams();
+                $publicTemplateParameters = $this->getPublicTemplateParameters($token);
+                $params = array_merge($templateParameters, $publicTemplateParameters);
+		$params = array_merge($params, ['rendering' => $rendering]);
+		$params['isEmbedded'] = false;
+                return new TemplateResponse('calendar', 'public', $params, 'base');
+        }
+
+	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
 	 *
@@ -201,6 +239,8 @@ class ViewController extends Controller {
 			'shareeCanEditCalendarProperties' => $shareeCanEditCalendarProperties ? 'yes' : 'no',
 			'canSharePublicLink' => $canSharePublicLink,
 			'timezone' => 'automatic',
+			'passwordToken' => '',
+                        'oToLayerID' => '',
 		];
 	}
 

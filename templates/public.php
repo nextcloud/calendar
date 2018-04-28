@@ -1,3 +1,4 @@
+<?php if($_['isPublic'] && $_['rendering']!== 'rendering' && $_['rendering']!== 'schedule' ): ?>
 <header><div id="header" class="<?php p((isset($_['folder']) ? 'share-folder' : 'share-file')) ?>">
 		<div id="header-left">
 			<a href="<?php print_unescaped(link_to('', 'index.php')); ?>"
@@ -22,6 +23,15 @@
 		</div>
 	</div>
 </header>
+<?php else: ?>
+<header>
+<div id="header" class="<?php p((isset($_['folder']) ? 'share-folder' : 'share-file')) ?>">
+
+</div>
+</header>
+<?php endif; ?>
+
 <div id="content-wrapper">
 	<?php print_unescaped($this->inc('main')); ?>
 </div>
+

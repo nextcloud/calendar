@@ -61,13 +61,31 @@ app.factory('CalendarListItem', function($rootScope, $window, Calendar, WebCal, 
 					}
 				}
 			},
+			publicRenderingURL: {
+                                get: () => {
+					let displayname = context.calendar.displayname
+                                                .replace(/\s+/g, '-').replace(/[^\w\-]+/g, '')
+                                                .replace(/\-\-+/g, '-').replace(/^-+/, '')
+                                                .replace(/-+$/, '');
+                                        return $rootScope.root + 'p/' + context.calendar.publicToken + '/' + displayname + '/rendering';
+                                }
+                        },
+			publicSchedulingURL: {
+                                get: () => {
+                                        let displayname = context.calendar.displayname
+                                                .replace(/\s+/g, '-').replace(/[^\w\-]+/g, '')
+                                                .replace(/\-\-+/g, '-').replace(/^-+/, '')
+                                                .replace(/-+$/, '');
+                                        return $rootScope.root + 'p/' + context.calendar.publicToken + '/' + displayname + '/schedule';
+                                }
+                        },
 			publicEmbedURL: {
 				get: () => {
 					return $rootScope.root + 'embed/' + context.calendar.publicToken;
 				}
 			}
 		});
-		
+
 		iface.displayCalDAVUrl = function() {
 			return context.isDisplayingCalDAVUrl;
 		};
@@ -112,6 +130,7 @@ app.factory('CalendarListItem', function($rootScope, $window, Calendar, WebCal, 
 
 			return (isSharingAPI && isCalendarShareable);
 		};
+		
 
 		iface.isEditingShares = function() {
 			return context.isEditingShares;

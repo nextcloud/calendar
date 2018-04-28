@@ -193,18 +193,36 @@
 			   ng-model="item.calendar.published" value="edit"
 			   ng-change="togglePublish(item)">
 		<label for="checkbox_publish_calendar_{{ $index }}">
-			<?php p($l->t('Share link')); ?>
+			<?php p($l->t('Share link')); ?> 
 		</label>
 		<div ng-show="item.calendar.published">
-			<span><?php p($l->t('Public access')); ?></span>
-			<span class="icon-public pull-right svg publication-tools"
-				  target="_blank"
-				  ng-href="item.publicSharingURL"
-				  ng-click="goPublic(item)"></span>
-			<span class="icon-mail pull-right svg publication-tools"
-				  target="_blank"
-				  ng-click="item.toggleSendingMail()"></span>
+			<fieldset>
+				<span><?php p($l->t('Public access')); ?></span>
+				<span class="icon-public pull-right svg publication-tools"
+					  target="_blank"
+					  ng-href="item.publicSharingURL"
+					  ng-click="goPublic(item)"></span>
+				<span class="icon-mail pull-right svg publication-tools"
+					  target="_blank"
+					  ng-click="item.toggleSendingMail()"></span>
+			</fieldset>
+			<fieldset>
+				<span><?php p($l->t('Export Rendering')); ?></span>
+				<span class="icon-download  pull-right svg publication-tools"
+					  target="_blank"
+					  ng-href="item.publicRenderingURL"
+					  ng-click="goPublicRendering(item)"></span>
+			</fieldset>
+			<fieldset ng-controller = "ModalDemoCtrl as $ctrl" ng-init="init(item.calendar.url)">
+				<span><?php p($l->t('Meeting Scheduler')); ?></span>
+				<span class="icon-category-social pull-right svg publication-tools"
+					target="_blank"
+					ng-href="item.publicSchedulingURL"
+					ng-click="$ctrl.openOTOScheduling()"></span>
+			</fieldset>
+
 		</div>
+
 		<form ng-submit="sendMail(item)" ng-show="item.isSendingMail() && item.calendar.published">
 			<input class="mailerInput"
 				   ng-model="item.email"
@@ -212,5 +230,7 @@
 				   type="text">
 			<button type="submit"><?php p($l->t('Send')); ?></button>
 		</form>
+		<span></span>
+		
 	</div>
 </div>

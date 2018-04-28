@@ -204,7 +204,6 @@ OC.L10N.register(
     "Show week numbers" : "Hafta numaraları görüntülensin",
     "Timezone" : "Saat dilimi",
     "Primary CalDAV address" : "Birincil CalDAV adresi",
-    "iOS/macOS CalDAV address" : "iOS/macOS CalDAV adresi",
     "Subscribe" : "Abone Ol"
 },
 "nplurals=2; plural=(n > 1);");

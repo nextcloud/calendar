@@ -26,9 +26,20 @@
  * Description: Takes care of anything inside the Events Modal.
  */
 
-app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletionService', '$timeout', '$window', '$uibModalInstance', 'vevent', 'simpleEvent', 'calendar', 'isNew', 'emailAddress',
-	function($scope, TimezoneService, AutoCompletionService, $timeout, $window, $uibModalInstance, vevent, simpleEvent, calendar, isNew, emailAddress) {
+app.controller('EditorController', ['$rootScope','$scope', 'TimezoneService', 'AutoCompletionService', '$timeout', '$window', '$uibModalInstance', 'vevent', 'simpleEvent', 'calendar', 'isNew', 'emailAddress', 'DbService',
+	function($rootScope,$scope, TimezoneService, AutoCompletionService, $timeout, $window, $uibModalInstance, vevent, simpleEvent, calendar, isNew, emailAddress, DbService) {
 		'use strict';
+
+		$scope.veventID = vevent.uri;
+		$scope.name = '';
+
+		console.log("oToLayerID: "+$rootScope.oToLayerID);
+		console.log("passwordToken: "+$rootScope.passwordToken);
+		$scope.veventID = vevent.uri;
+		$scope.createConfirmation = function(){
+			DbService.createConfirmation($rootScope.oToLayerID, $rootScope.passwordToken,  $scope.veventID, $scope.name);
+			$uibModalInstance.dismiss('confirm');
+		};
 
 		$scope.properties = simpleEvent;
 		$scope.is_new = isNew;

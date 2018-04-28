@@ -22,6 +22,8 @@
  *
  */
 ?>
+<?php if($_['type'] != 'rendering'): ?>
+
 <div id="scollable" class="settings-fieldset-interior public-left-side" ng-repeat="item in calendarListItems">
 	<div class="avatardiv" data-user="{{ item.calendar.owner }}" data-size="96" avatar></div>
 	<h3 class="action permanent displayname" ng-cloak>
@@ -57,3 +59,7 @@
 	</div>
 </div>
 <?php endif; ?>
+
+<?php endif; ?>
+
+
