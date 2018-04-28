@@ -79,6 +79,7 @@ OC.L10N.register(
     "Week {number} of {year}" : "Týždeň {number} roku {year}",
     "Successfully imported {imported} objects" : "Úspešne importované {imported} objekty",
     "Imported {imported} out of {all}, skipped one duplicate" : "Importované {imported} z {all}, preskočený jeden duplikát",
+    "Imported {imported} out of {all}, {errors} failures" : "Importovaných {imported} z {all}, {errors} zlyhalo",
     "Audio alarm {time} before the event starts" : "Zvukový alarm {time} pred začiatkom udalosti",
     "Pop-up {time} before the event starts" : "Vyskakovacie okno {time} pred začiatkom udalosti",
     "Email {time} before the event starts" : "Email {time} pred začiatkom udalosti",
