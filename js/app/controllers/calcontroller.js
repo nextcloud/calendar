@@ -33,23 +33,18 @@ app.controller('CalController', ['$rootScope','$scope', 'Calendar','DbService', 
 		var processConfirmation = function(otoConfirmation){
 			CalendarService.get(otoConfirmation.sourceId).then(function(sourceCal){
 	    		VEventService.get(sourceCal, otoConfirmation.eventId).then(function(event){
-	            		console.log(event.comp);
 	            		var comp = event.comp;
-	            		console.log(comp.jCal[2][0][1][4][3]);
 	            		comp.jCal[2][0][1][4][3] = otoConfirmation.name;
 	            		var data = comp.toString();
 	            		VEventService.delete(event).then(function(){
                     		fc.elm.fullCalendar('removeEvents', otoConfirmation.eventId);
-                    		console.log('deleted');
                     		CalendarService.get(otoConfirmation.destId).then(function(destCal){
                             		VEventService.create(destCal,data).then(function(newEvent){
-                                    		console.log('refetching EventSources');
+
                                     		fc.elm.fullCalendar('refetchEvents');
                             		});
                     		});
-                    		console.log("created");
 	            		});
-	            		console.log("done");
 	    		}).catch((reason) => {
 	    			console.log("reason for failing: "+ reason);
 	    		});
@@ -57,17 +52,14 @@ app.controller('CalController', ['$rootScope','$scope', 'Calendar','DbService', 
 		};
 
 		var response = DbService.getConfirmationsByUser();
-		console.log('in calcontroler'+response);
 		var otoConfirmation;
+		if (response instanceof Array) {
 		for (var i = 0; i < response.length; i++){
-			console.log(response[i]);
 			otoConfirmation = response[i];
-			console.log("Testing Auto Pop");
 			processConfirmation(otoConfirmation);
 			DbService.deleteBySourceId(otoConfirmation.sourceId);
-			console.log('otoConfirmation.sourceId: '+otoConfirmation.sourceId);
 		}
-
+		}
 		$scope.init = function(oToLayerID,passwordToken){
 			$rootScope.oToLayerID = oToLayerID;
 			$rootScope.passwordToken = passwordToken;
@@ -261,18 +253,17 @@ app.controller('CalController', ['$rootScope','$scope', 'Calendar','DbService', 
 					var oldCalendar = vevent.calendar;
 					var fcEvt = fcEvent;
 
-					console.log('eventClick:' + vevent.uri);
-
 					var layers = DbService.findUserLayers();
-					console.log(layers);
 
 					var flag = false;
-					for (i=0;i<layers.length;i++) {
-						if (layers[i].sourceId === vevent.calendar.url){
-							flag = true;
+					if (layers instanceof Array) {
+						for (i=0;i<layers.length;i++) {
+							if (layers[i].sourceId === vevent.calendar.url){
+								flag = true;
+							}
 						}
-						
 					}
+					
 
 					if (!flag) {
 
