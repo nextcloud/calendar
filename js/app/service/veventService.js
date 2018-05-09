@@ -118,7 +118,7 @@ app.service('VEventService', function(DavClient, StringUtility, XMLUtility, VEve
 					const vevent = VEvent.fromRawICS(calendar, calendarData, uri, etag);
 					vevents.push(vevent);
 				} catch (e) {
-					console.log(e);
+					
 				}
 			}
 
@@ -137,7 +137,7 @@ app.service('VEventService', function(DavClient, StringUtility, XMLUtility, VEve
 		const headers = {
 			'requesttoken': OC.requestToken
 		};
-		console.log('Getting url: '+url);
+		
 		return DavClient.request('GET', url, headers, '').then(function (response) {
 			if (!DavClient.wasRequestSuccessful(response.status)) {
 				return Promise.reject(response);
@@ -149,7 +149,7 @@ app.service('VEventService', function(DavClient, StringUtility, XMLUtility, VEve
 			try {
 				return VEvent.fromRawICS(calendar, calendarData, uri, etag);
 			} catch (e) {
-				console.log(e);
+				
 				return Promise.reject(e);
 			}
 		});
@@ -169,7 +169,7 @@ app.service('VEventService', function(DavClient, StringUtility, XMLUtility, VEve
 		};
 		const uri = StringUtility.uid('Nextcloud', 'ics');
 		const url = calendar.url + uri;
-		console.log('Create url: '+url);
+		
 
 		return DavClient.request('PUT', url, headers, data).then(function (response) {
 			if (!DavClient.wasRequestSuccessful(response.status)) {
@@ -197,7 +197,7 @@ app.service('VEventService', function(DavClient, StringUtility, XMLUtility, VEve
 			'requesttoken': OC.requestToken
 		};
 		const payload = event.data;
-		console.log('Updating url: '+url);
+		
 
 		return DavClient.request('PUT', url, headers, payload).then(function (response) {
 			if (!DavClient.wasRequestSuccessful(response.status)) {
@@ -222,7 +222,7 @@ app.service('VEventService', function(DavClient, StringUtility, XMLUtility, VEve
 			'If-Match': event.etag,
 			'requesttoken': OC.requestToken
 		};
-		console.log('Deleting url: '+url);
+		
 		return DavClient.request('DELETE', url, headers, '').then(function (response) {
 			if (DavClient.wasRequestSuccessful(response.status)) {
 				return true;

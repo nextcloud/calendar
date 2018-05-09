@@ -82,7 +82,7 @@ app.factory('Calendar', function($window, Hook, VEventService, TimezoneService, 
 						vevents = vevents.concat(vevent);
 					}).catch((reason) => {
 						iface.addWarning(reason);
-						console.log(event, reason);
+						//console.log(event, reason);
 					});
 
 					promises.push(promise);
@@ -108,7 +108,7 @@ app.factory('Calendar', function($window, Hook, VEventService, TimezoneService, 
 				context.fcEventSource.isRendering = false;
 				iface.emit(Calendar.hookFinishedRendering);
 
-				console.log(context.url, reason);
+				//console.log(context.url, reason);
 			});
 		};
 		context.fcEventSource.editable = context.writable;

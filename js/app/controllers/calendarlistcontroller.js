@@ -29,7 +29,7 @@
 app.controller('CalendarListController', ['$scope', '$rootScope', '$window','DbService', 'HashService', 'CalendarService', 'WebCalService', 'is', 'CalendarListItem', 'Calendar', 'MailerService', 'ColorUtility', 'isSharingAPI', 'constants', '$log',
 	function ($scope, $rootScope, $window, DbService,HashService, CalendarService, WebCalService, is, CalendarListItem, Calendar, MailerService, ColorUtility, isSharingAPI, constants, $log) {
 		'use strict';
-		$log.log('CalendarListController');
+
 		$scope.calendarListItems = [];
 		$scope.is = is;
 		$scope.newCalendarInputVal = '';
@@ -190,16 +190,14 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window','DbS
 		};
 
 		$scope.goPublicRendering = function (item) {
-			console.log(item.publicRenderingURL);
-                        $window.open(item.publicRenderingURL);
-                };
+			$window.open(item.publicRenderingURL);
+		};
 
 		$scope.toggleSharesEditor = function (calendar) {
 			calendar.toggleSharesEditor();
 		};
 
 		$scope.togglePublish = function(item) {
-			$log.log("togglePublish...");
 			if (item.calendar.published) {
 				item.calendar.publish().then(function (response) {
 					if (response) {

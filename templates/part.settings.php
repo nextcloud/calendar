@@ -35,6 +35,13 @@
 <div id="app-settings-content">
 	<fieldset class="settings-fieldset">
 		<ul class="settings-fieldset-interior">
+      <!-- class="togglebuttons" -->
+      <!-- "button today" -->
+      <li class="settings-fieldset-interior-item settings-fieldset-interior-upload">
+        <div ng-controller = "ModalDemoCtrl as $ctrl" >
+        	 <span class="button settings-upload svg icon-upload" role = "button" ng-click="$ctrl.open()"><?php p($l->t('Time Reporting')); ?></span>
+        </div>
+      </li>
 			<li class="settings-fieldset-interior-item settings-fieldset-interior-upload">
 				<input type="file" name="file" accept="text/calendar" multiple id="import" />
 				<span href="#" class="button settings-upload svg icon-upload" role="button" id="import-button-overlay"><?php p($l->t('Import calendar')); ?></span>

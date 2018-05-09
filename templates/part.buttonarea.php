@@ -31,9 +31,7 @@
 <div class="togglebuttons">
 	<button class="button today" ng-click="today()"><?php p($l->t('Today')); ?></button>
 </div>
-<div ng-controller = "ModalDemoCtrl as $ctrl" class="togglebuttons">
-	 <button class="button today" ng-click="$ctrl.open()"><?php p($l->t('Time Reporting')); ?></button>
-</div>
+
 
  <!-- ng-keydown="keypress($event)" -->
 <script type="text/ng-template" id="myModalContent.html">
@@ -43,31 +41,39 @@
 	        <h3 class="modal-title" id="modal-title">I'm a modal placeholder!</h3>
 	    </div>
 	    <form class="events">
-			<fieldset class="events--fieldset" ng-disabled="readOnly">
-				<span><?php p($l->t('Select all layers')); ?></span>
-				<select
-						ng-model = "$ctrl.data.selectedLayers"
-						ng-options = "layer.displayname for layer in $ctrl.layers"
-						tabindex="101"
-						multiple></select>
+			<table>
+				<tr>
+					<td width = "40%">
+						<!-- ng-model="properties.dtstart.value" -->
+						<fieldset class="event-time events--fieldset" ng-disabled="readOnly">
+							<div class="event-time-interior pull-left">
+								<span><?php p($l->t('Starts')); ?></span>
+								<ocdatetimepicker ng-model = "$ctrl.data.start" disabletime="properties.allDay" datetabindex="101" timetabindex="102" readonly="readOnly"></ocdatetimepicker>
+								<span ng-show="edittimezone">{{ properties.dtstart.parameters.zone | timezoneFilter }}</span>
+							</div>
+							<div class="event-time-interior pull-right">
+								<span><?php p($l->t('Ends')); ?></span>
+								<ocdatetimepicker ng-model = "$ctrl.data.end" disabletime="properties.allDay" datetabindex="103" timetabindex="104" readonly="readOnly"></ocdatetimepicker>
+								<span ng-show="edittimezone">{{ properties.dtend.parameters.zone | timezoneFilter }}</span>
+							</div>
+							<div class="clear-both"></div>
+						</fieldset>
+					</td>
+					<td width="10%"></td>
+					<td width="50%">
+						<fieldset class="events--fieldset" ng-disabled="readOnly">
+							<span><?php p($l->t('Select all layers')); ?></span>
+							<select
+									ng-model = "$ctrl.data.selectedLayers"
+									ng-options = "layer.displayname for layer in $ctrl.layers"
+									tabindex="106"
+									style="height:60px"
+									multiple></select>
 
-			</fieldset>
-			<!-- ng-model="properties.dtstart.value" -->
-			<fieldset class="event-time events--fieldset" ng-disabled="readOnly">
-				<div class="event-time-interior pull-left">
-					<span><?php p($l->t('Starts')); ?></span>
-					<ocdatetimepicker ng-model = "$ctrl.data.start" disabletime="properties.allDay" datetabindex="103" timetabindex="104" readonly="readOnly"></ocdatetimepicker>
-					<span ng-show="edittimezone">{{ properties.dtstart.parameters.zone | timezoneFilter }}</span>
-				</div>
-				<div class="event-time-interior pull-right">
-					<span><?php p($l->t('Ends')); ?></span>
-					<ocdatetimepicker ng-model = "$ctrl.data.end" disabletime="properties.allDay" datetabindex="105" timetabindex="106" readonly="readOnly"></ocdatetimepicker>
-					<span ng-show="edittimezone">{{ properties.dtend.parameters.zone | timezoneFilter }}</span>
-				</div>
-				<div class="clear-both"></div>
-
-			</fieldset>
-
+						</fieldset>
+					</td>
+				</tr>
+			</table>
 			<fieldset class="events--fieldset pull-left" ng-if="!readOnly">
 				<div>
 					<button ng-click="$ctrl.cancel()" class="events--button button btn" type="button" tabindex="111">
@@ -106,9 +112,22 @@
 						ng-options = "layer.displayname for layer in $ctrl.layers"
 						tabindex="101"
 						></select>
-
+				<label for="granularizationSelect"> <?php p($l->t('Split events into smaller time slots?'))?></label> 
+				<select 
+						id="granularizationSelect"
+						ng-model = "$ctrl.data.timeBlockSize"
+						tabindex="102"
+						>
+					<option ng-value="1440"><?php p($l->t('No, leave calendar as is'))?></option>
+					<option ng-value="15"><?php p($l->t('15 minute time slots'))?></option>
+					<option ng-value="30"><?php p($l->t('30 minute time slots'))?></option>
+					<option ng-value="45"><?php p($l->t('45 minute time slots'))?></option>
+					<option ng-value="60"><?php p($l->t('60 minute time slots'))?></option>
+					<option ng-value="90"><?php p($l->t('90 minute time slots'))?></option>
+					<option ng-value="120"><?php p($l->t('120 minute time slots'))?></option>
+					<option ng-value="180"><?php p($l->t('180 minute time slots'))?></option>
+				</select>
 			</fieldset>
-
 
 
 			<fieldset class="events--fieldset pull-left" ng-if="!readOnly">

@@ -34,7 +34,7 @@ app.service('DbService', ['$rootScope', '$window',
 			}).done(function(res){
 				ret = res;
 			}).fail(function () {
-				console.log("fail to findUserLayers");
+				
 			});
 			return ret;
 		};
@@ -76,7 +76,7 @@ app.service('DbService', ['$rootScope', '$window',
 			}).done(function(response){
 				return response;
 			}).fail(function () {
-				$window.alert("failed createOtoLayer: "+ path);
+				
 			});
 		};
 
@@ -93,9 +93,9 @@ app.service('DbService', ['$rootScope', '$window',
 				},
 				url: path,
 			}).done(function(response){
-				console.log('deleted BySourceId');
+				
 			}).fail(function() {
-				console.log("Failed deleteBySourceId: " + path);
+				
 			});
 		};
 
@@ -113,7 +113,7 @@ app.service('DbService', ['$rootScope', '$window',
 			}).done(function(response){
 				return response;
 			}).fail(function() {
-				console.log("Failed isSchedulingLayer: " + path);
+				
 			});
 		};
 
@@ -129,9 +129,9 @@ app.service('DbService', ['$rootScope', '$window',
 				url: path ,
 			}).done(function(res){
 				ret = res;
-				console.log('in dbservice:'+ret);
+				
 			}).fail(function () {
-				console.log("failed confirmationsByUser: "+ path);
+				
 			});
 			return ret;
 		};

@@ -33,8 +33,6 @@ app.controller('EditorController', ['$rootScope','$scope', 'TimezoneService', 'A
 		$scope.veventID = vevent.uri;
 		$scope.name = '';
 
-		console.log("oToLayerID: "+$rootScope.oToLayerID);
-		console.log("passwordToken: "+$rootScope.passwordToken);
 		$scope.veventID = vevent.uri;
 		$scope.createConfirmation = function(){
 			DbService.createConfirmation($rootScope.oToLayerID, $rootScope.passwordToken,  $scope.veventID, $scope.name);

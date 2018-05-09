@@ -216,8 +216,8 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 			const headers = {
 				'requesttoken': OC.requestToken
 			};
-			console.log(" get a certain calendar by its url");
-			console.log(calendarUrl);
+			
+			
 			return DavClient.propFind(url, PROPERTIES, depth, headers).then(function(response) {
 				const body = response.body;
 				if (body.propStat.length < 1) {
@@ -327,9 +327,9 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 			const method = 'MKCOL';
 			const uri = StringUtility.uri(name, context.isURIAvailable);
 			const url = context.calendarHome + uri + '/';
-			console.log('url info');
-			console.log('context.calendarHome :' + context.calendarHome);
-			console.log('uri:' + uri);
+			
+			
+			
 			const headers = {
 				'Content-Type' : 'application/xml; charset=utf-8',
 				'requesttoken' : OC.requestToken
@@ -633,7 +633,7 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 			requesttoken : oc_requesttoken
 		};
 		const xml = XMLUtility.serialize(skeleton);
-		console.log('calendar.url = ' + url);
+		
 		return DavClient.request(method, url, headers, xml).then(function(response) {
 			if (!DavClient.wasRequestSuccessful(response.status)) {
 				//throw new Error('Publishing calendar failed');

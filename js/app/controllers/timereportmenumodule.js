@@ -1,14 +1,19 @@
-app.controller('ModalDemoCtrl',['$rootScope','$scope','$uibModal', '$log', '$document', 'CalendarService', 'VEventService', 'DbService', '$q', '$window',
-  function ($rootScope,$scope, $uibModal, $log, $document, CalendarService, VEventService, DbService, $q, $window) {
+app.controller('ModalDemoCtrl',['$rootScope','$scope','VEvent','settings','TimezoneService','$uibModal', '$log', '$document', 'CalendarService', 'VEventService', 'DbService', '$q', '$window','fc',
+  function ($rootScope,$scope,VEvent, settings,TimezoneService,$uibModal, $log, $document, CalendarService, VEventService, DbService, $q, $window,fc) {
   'use strict';
 
-
+  if (settings.timezone === 'automatic') {
+    $scope.defaulttimezone = TimezoneService.getDetected();
+  } else {
+    $scope.defaulttimezone = settings.timezone;
+  }
   $scope.init = function (sourceId) {
     $scope.sourceId = sourceId;
   };
   var $ctrl = this;
   var isOpen = false;
   $ctrl.layers = [];
+  
 
   $ctrl.openOTOScheduling = function(size, parentSelector){
 
@@ -42,7 +47,6 @@ app.controller('ModalDemoCtrl',['$rootScope','$scope','$uibModal', '$log', '$doc
           destLayer : function(){
             return $ctrl.destLayer;
           }
-          // calendar: () => calendar,
         }
       });
 
@@ -50,16 +54,11 @@ app.controller('ModalDemoCtrl',['$rootScope','$scope','$uibModal', '$log', '$doc
 
       modalInstance.result.then(function(data){
         isOpen = false;
-        //$ctrl.sourceLayer = data.sourceLayer;
         $ctrl.destLayer = data.destLayer;
-
-        //CODE FOR OTO SCHEDULING GOES HERE. SOURCE AND DEST LAYERS ARE CALENDAR
-        //OBJECTS STORED IN $ctrl.source.. AND $ctrl.dest...
+		$ctrl.timeBlockSize = data.timeBlockSize;
 
         // deleteBySourceId
         DbService.deleteBySourceId($scope.sourceId);
-
-
 
         var layerId, layerPass;
         var path = OC.generateUrl('/apps/calendar')+'/otoSL/create';
@@ -75,32 +74,63 @@ app.controller('ModalDemoCtrl',['$rootScope','$scope','$uibModal', '$log', '$doc
           async: false,
           url: path ,
         }).done(function(response){
-          //console.log(response);
           layerId = response.otoLayerId;
           layerPass = response.password;
         }).fail(function () {
-          //console.log("failed createOtoLayer: "+ path);
         });
 
-        //console.log('layerId: ' + layerId + ' layerPass: ' + layerPass);
+        var chopEvent = function(calendar,event,slot) {
+          //console.log("start: " + moment(event.comp.jCal[2][0][1][5][3]).format());
+          var mmt = moment(event.comp.jCal[2][0][1][5][3]);
+          var endMmt = moment(event.comp.jCal[2][0][1][6][3]);
+          console.log(mmt.format());
+          console.log(endMmt.format());
+          if (mmt.clone().add(slot,'minutes')<endMmt) {
+            while(mmt.clone().add(slot,'minutes') < endMmt){
+              var newEvent = VEvent.fromStartEnd(mmt,mmt.clone().add(slot,'minutes'),$scope.defaulttimezone);
+              var summary = event.comp.jCal[2][0][1][4].slice();
+              summary[3] = 'slot';
+              newEvent.comp.jCal[2][0][1].splice(4,0,summary);
+              console.log(newEvent.comp);
+              VEventService.create(calendar,newEvent.comp.toString());
+              mmt = mmt.clone().add(slot,'minutes');
+            }
+            VEventService.delete(event);
+          }
+
+        };
 
         // Get the meeting scheduling URL
-        CalendarService.get($scope.sourceId).then(function (calendar) {
-          let displayname = calendar.displayname
-            .replace(/\s+/g, '-').replace(/[^\w\-]+/g, '')
-            .replace(/\-\-+/g, '-').replace(/^-+/, '')
-            .replace(/-+$/, '');
-          $window.open( $rootScope.root + 'p/' + calendar.publicToken  + '/' + displayname + '/schedule' + '/' + layerId + '/' + layerPass);
+        CalendarService.get($scope.sourceId).then(function(calendar){
+          var currentMoment = moment();
+          var getStart = currentMoment.clone().add(-1,'year');
+          var getEnd = currentMoment.clone().add(1,'year');
+          console.log(getStart.format());
+          console.log(getEnd.format());
+          VEventService.getAll(calendar,getStart,getEnd).then(function(events){
+            console.log(events);
+            for (var i = 0; i < events.length; i++) {
+              chopEvent(calendar,events[i],$ctrl.timeBlockSize);
+            }
+
+            let displayname = calendar.displayname
+              .replace(/\s+/g, '-').replace(/[^\w\-]+/g, '')
+              .replace(/\-\-+/g, '-').replace(/^-+/, '')
+              .replace(/-+$/, '');
+            $window.open( $rootScope.root + 'p/' + calendar.publicToken  + '/' + displayname + '/schedule' + '/' + layerId + '/' + layerPass);
+          });
+
+
         });
 
       }, function () {
         isOpen = false;
-        //$log.info('OTO Modal REJECT dismissed at: ' + new Date());
       });
 
     });
 
   };
+
 
   $ctrl.open = function (size, parentSelector) {
 
@@ -143,39 +173,22 @@ app.controller('ModalDemoCtrl',['$rootScope','$scope','$uibModal', '$log', '$doc
       isOpen = true;
 
       modalInstance.result.then(function (data) {
-        //TODO NEED TO ADDRESS BUG WHERE START AND END TIME ARE THE SAME. DAVCLIENT GLITCHES
-        //SHOULD BE ABLE TO JUST RETURN IF IT'S NOTICED THAT THE DIFF IS 0.
         isOpen = false;
-        // $log.info(selectedLayers);
-        //Check if no layers selected. Just return if so.
         if(data.selectedLayers.length < 1){return;}
         $ctrl.selectedLayers = data.selectedLayers;
-        // $log.info($ctrl.selectedLayers);
         $ctrl.start = data.start;
         $ctrl.end = data.end;
 
-        //Put all promises into the array.
         var calLayerEvents = [];
         for (var i = 0; i < $ctrl.selectedLayers.length; i++) {
           calLayerEvents.push(VEventService.getAll($ctrl.selectedLayers[i], $ctrl.start, $ctrl.end));
         }
 
-        //Use $q.all to wait on all promises to resolve. When they are done,
-        //sum each data[i] for each layer, then sum each sum for the total time spent. Maybe just a summary for each layer?
         var results = {};
         $q.all(calLayerEvents).then(function(data){
-          // $log.info(data);
-          // $log.info("datalen" + data.length);
-          // $log.info("data[0]len" + data[0].length);
           for (var i = 0; i < data.length; i++) {
             for (var j = 0; j < data[i].length; j++) {
-              // $log.info(data[i][j]);
-              // $log.info(data[i][j].getSimpleEvent().dtstart);
               var minuteDiff = data[i][j].getSimpleEvent().dtend.value.diff(data[i][j].getSimpleEvent().dtstart.value,"minutes");
-              //$log.info(minuteDiff);
-              // var hourDur = Math.floor(minuteDiff/60);
-              // var minuteDur = minuteDiff % 60;
-              // $log.info("Hours: " + hourDur + "  Minutes: " + minuteDur);
               if(results[$ctrl.selectedLayers[i].displayname]){
                 results[$ctrl.selectedLayers[i].displayname] += minuteDiff;
               } else{
@@ -188,9 +201,7 @@ app.controller('ModalDemoCtrl',['$rootScope','$scope','$uibModal', '$log', '$doc
           var text = "";
           text = text + "Layers,Time(Minutes)\n";
           var total = 0;
-          //Should I just make this in raw minutes? Would be easier to add up.
           angular.forEach(results, function(value, key){
-            //$log.info("key : "+ key + "  value : " + value);
             total += value;
             text = text + "\"" + key + "\"" + "," + "\"" + value + "\"" + "\n";
           });
@@ -207,7 +218,6 @@ app.controller('ModalDemoCtrl',['$rootScope','$scope','$uibModal', '$log', '$doc
 
       }, function () {
         isOpen = false;
-        //$log.info('Modal dismissed at: ' + new Date());
       });
     });
 
@@ -228,8 +238,6 @@ app.controller('ModalInstanceCtrl',  function ( $uibModalInstance, layers) {
 
   $ctrl.layers = layers;
   $ctrl.data = {
-    //TODO Need to add the two moment objects(?) to this data. MAKE SURE YOU USE
-    //THE RIGHT MODEL ON THE PHP PAGE!!!!!
     selectedLayers : $ctrl.layers,
     start : moment(),
     end : moment()
@@ -237,14 +245,12 @@ app.controller('ModalInstanceCtrl',  function ( $uibModalInstance, layers) {
 
 
 
+
   $ctrl.ok = function () {
-    // $ctrl.isOpen = false;
-    // $log.info("instance" + $ctrl.layers);
     $uibModalInstance.close($ctrl.data);
   };
 
   $ctrl.cancel = function () {
-    // $ctrl.isOpen = false;
     $uibModalInstance.dismiss('cancel');
   };
 });
@@ -255,24 +261,17 @@ app.controller('OTOModalInstanceCtrl',  function ( $uibModalInstance, layers) {
 
   $ctrl.layers = layers;
   $ctrl.data = {
-    //TODO Need to add the two moment objects(?) to this data. MAKE SURE YOU USE
-    //THE RIGHT MODEL ON THE PHP PAGE!!!!!
-    //sourceLayer : $ctrl.layers[0],
-    destLayer : $ctrl.layers[0]
+    destLayer : $ctrl.layers[0],
+	timeBlockSize : 1440
   };
 
 
 
   $ctrl.ok = function () {
-    // $ctrl.isOpen = false;
-    // $log.info("instance" + $ctrl.layers);
     $uibModalInstance.close($ctrl.data);
   };
 
   $ctrl.cancel = function () {
-    // $ctrl.isOpen = false;
     $uibModalInstance.dismiss('cancel');
   };
 });
-
-// Please note that the close and dismiss bindings are from $uibModalInstance.

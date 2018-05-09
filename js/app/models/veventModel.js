@@ -393,7 +393,7 @@ app.factory('VEvent', function(TimezoneService, FcEvent, SimpleEvent, ICalFactor
 			const jCal = ICAL.parse(ics);
 			comp = new ICAL.Component(jCal);
 		} catch (e) {
-			console.log(e);
+			//console.log(e);
 			throw new TypeError('given ics data was not valid');
 		}
 

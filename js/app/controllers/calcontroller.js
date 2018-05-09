@@ -34,13 +34,17 @@ app.controller('CalController', ['$rootScope','$scope', 'Calendar','DbService', 
 			CalendarService.get(otoConfirmation.sourceId).then(function(sourceCal){
 	    		VEventService.get(sourceCal, otoConfirmation.eventId).then(function(event){
 	            		var comp = event.comp;
-	            		comp.jCal[2][0][1][4][3] = otoConfirmation.name;
+	            		console.log(comp);
+	            		for (var i = 0; i < comp.jCal[2][0][1].length; i++) {
+	            			if (comp.jCal[2][0][1][i][0] === "summary") {
+	            				comp.jCal[2][0][1][i][3] = otoConfirmation.name;
+	            			}
+	            		}
 	            		var data = comp.toString();
 	            		VEventService.delete(event).then(function(){
                     		fc.elm.fullCalendar('removeEvents', otoConfirmation.eventId);
                     		CalendarService.get(otoConfirmation.destId).then(function(destCal){
                             		VEventService.create(destCal,data).then(function(newEvent){
-
                                     		fc.elm.fullCalendar('refetchEvents');
                             		});
                     		});
@@ -193,6 +197,10 @@ app.controller('CalController', ['$rootScope','$scope', 'Calendar','DbService', 
 		$scope.fcConfig = {
 				timezone: $scope.defaulttimezone,
 				select: function (start, end, jsEvent, view) {
+
+					console.log(start);
+					console.log(end);
+
 					var writableCalendars = $scope.calendars.filter(function(elem) {
 						return elem.isWritable();
 					});
@@ -252,7 +260,7 @@ app.controller('CalController', ['$rootScope','$scope', 'Calendar','DbService', 
 					var vevent = fcEvent.vevent;
 					var oldCalendar = vevent.calendar;
 					var fcEvt = fcEvent;
-
+					console.log(vevent.comp);
 					var layers = DbService.findUserLayers();
 
 					var flag = false;

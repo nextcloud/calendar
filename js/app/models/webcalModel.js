@@ -81,13 +81,13 @@ app.factory('WebCal', function($http, Calendar, VEvent, TimezoneService, WebCalS
 							vevents = vevents.concat(vevent);
 						}).catch((reason) => {
 							iface.addWarning(reason);
-							console.log(event, reason);
+							//console.log(event, reason);
 						});
 
 						promises.push(promise);
 					} catch(e) {
 						// catch errors in VEvent.fromRawICS
-						console.log(e);
+						//console.log(e);
 					}
 				});
 
@@ -118,7 +118,7 @@ app.factory('WebCal', function($http, Calendar, VEvent, TimezoneService, WebCalS
 					fcAPI.eventManager.currentPeriod.release();
 
 					iface.addWarning(reason);
-					console.log(reason);
+					//console.log(reason);
 					iface.fcEventSource.isRendering = false;
 					iface.emit(Calendar.hookFinishedRendering);
 				}
