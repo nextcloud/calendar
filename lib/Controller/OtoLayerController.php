@@ -21,6 +21,7 @@
 	private $userSession;
 	private $mapper;
 	/**
+     * @NoAdminRequired
 	 * @param string $appName
 	 * @param IRequest $request an instance of the request
 	 * @param OtoLayerMapper $mapper the dbo mapper
@@ -34,7 +35,8 @@
 		//$userSession has the user id we are looking for
      }
 	  /**
-      * 
+      *
+      * @NoAdminRequired 
 	  * @CSRFRequired
 	  *
 	  * @param string $sourceId
@@ -66,7 +68,9 @@
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
 	 }
-	 
+	 /**
+     * @NoAdminRequired
+	 */
 	 public function deleteOtoLayer($otoLayerId){
 		try{
 			$this->mapper->deleteLayer($otoLayerId);
@@ -75,7 +79,9 @@
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
 	 }
-	 
+	 /**
+     * @NoAdminRequired
+	 */
 	 public function isSchedulingLayer($sourceId){
 		try{
 			$isSchedulingLayer = $this->mapper->isSchedulingLayer($sourceId);
@@ -84,7 +90,9 @@
 			return new DataResponse(False);
 		}
 	}
-	
+	/**
+     * @NoAdminRequired
+	 */
 	public function findUserLayers(){
 		$userId = $this->userSession->getUser()->getUID();
 		try{
