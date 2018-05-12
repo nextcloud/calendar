@@ -27,6 +27,7 @@
     "Some events in this calendar are broken. Please check the JS console for more info." : "Alguns esdeveniments d'aquest calendari contenen errors. Revisa la consola JS per a més informació.",
     "Share Calendar" : "Comparteix el calendari",
     "Shared" : "Compartit",
+    "Could not save WebCal-calendar" : "No s'ha pogut desar el calendari WebCal",
     "WebDAV address for subscriptions" : "Adreça WebDAV per subscripcions",
     "Email sent." : "Correu enviat.",
     "group" : "grup",
