@@ -203,4 +203,4 @@ OC.L10N.register(
     "Primary CalDAV address" : "მთავარი CalDAV მისამართი",
     "Subscribe" : "გამოწერა"
 },
-"nplurals=1; plural=0;");
+"nplurals=2; plural=(n==1);");
