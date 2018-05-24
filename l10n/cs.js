@@ -162,6 +162,7 @@ OC.L10N.register(
     "The file contains objects incompatible with the selected calendar" : "Soubor obsahuje objekty nekompatibilní s vybraným kalendářem",
     "New calendar" : "Nový kalendář",
     "File is empty" : "Soubor je prázdný",
+    "File could not be parsed" : "Soubor se nepodařilo zpracovat",
     "Import scheduled" : "Import načasován",
     "%s shared the calendar <strong>%s</strong> with you" : "%s sdílel(a) tento kalendář <strong>%s</strong> s tebou",
     "Embed" : "Vložit",
