@@ -122,6 +122,7 @@ OC.L10N.register(
     "{calendar} shared by {owner}" : "{calendar} geteilt von {owner}",
     "Please enter a valid WebCal-URL" : "Bitte eine gültige WebCal-Adresse angeben",
     "Severe error in webcal proxy. Please contact administrator for more information." : "Schwerer Fehler im webcal-Proxy. Bitte kontaktiere deinen Administrator für weitere Informationen.",
+    "A Calendar app for Nextcloud" : "Eine Kalender-App für Nextcloud",
     "Title of the Event" : "Titel des Ereignisses",
     "Starts" : "Beginnt",
     "Ends" : "Endet",

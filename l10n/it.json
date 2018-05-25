@@ -120,6 +120,7 @@
     "{calendar} shared by {owner}" : "{calendar} condiviso da {owner}",
     "Please enter a valid WebCal-URL" : "Digita un URL WebCal valido",
     "Severe error in webcal proxy. Please contact administrator for more information." : "Errore grave nel proxy webcal. Contatta l'amministratore per ulteriori informazioni.",
+    "A Calendar app for Nextcloud" : "Un'applicazione di calendario per Nextcloud",
     "Title of the Event" : "Titolo dell'evento",
     "Starts" : "Inizia",
     "Ends" : "Finisce",
