@@ -6,7 +6,7 @@
     "Open »%s«" : "Åpne \"%s\"",
     "Cheers!" : "Ha det!",
     "Recipient" : "Mottaker",
-    "Too many redirects. Aborting ..." : "For mange videresendinger. Avbryter…",
+    "Too many redirects. Aborting ..." : "For mange videresendinger. Avbryter …",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "Ekstern tjener nektet tilgang til kalenderen (HTTP {%s} error)",
     "Error connecting to remote server" : "Feil ved opprettelsen av forbindelse til tjeneren",
     "Error requesting resource on remote server. This could possible be related to a certificate mismatch" : "Feil ved forespørsel om ressurser på ekstern tjener. Dette er trolig relatert til sertifikatavvik.",
