@@ -122,6 +122,7 @@ OC.L10N.register(
     "{calendar} shared by {owner}" : "{calendar} jakanut {owner}",
     "Please enter a valid WebCal-URL" : "Anna kelvollinen WebCal-osoite",
     "Severe error in webcal proxy. Please contact administrator for more information." : "Kriittinen virhe webcal-välityspalvelimessa. Ota yhteyttä ylläpitäjään saadaksesi lisää tietoa.",
+    "A Calendar app for Nextcloud" : "Kalenterisovellus Nextcloudille",
     "Title of the Event" : "Tapahtuman otsikko",
     "Starts" : "Alkaa",
     "Ends" : "Päättyy",
