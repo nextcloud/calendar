@@ -154,7 +154,7 @@ OC.L10N.register(
     "Download" : "Descargar",
     "Share with users or groups" : "Compartir con usuarios o grupos",
     "can edit" : "puede editar",
-    "Share link" : "Enlace compartido",
+    "Share link" : "Compartir enlace",
     "Public access" : "Acceso público",
     "Email link to person" : "Enviar enlace por correo electrónico a una persona",
     "Send" : "Enviar",
