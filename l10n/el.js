@@ -169,7 +169,9 @@ OC.L10N.register(
     "No Calendars selected for import" : "Δεν επιλέχτηκαν ημερολόγια προς εισαγωγή",
     "Skip simple event editor" : "Παράλειψη απλού επεξεργαστή γεγονότων",
     "Show week numbers" : "Εμφάνιση αριθμού εβδομάδας",
+    "Timezone" : "Ζώνη ώρας",
     "Primary CalDAV address" : "Κύρια διεύθυνση CalDAV",
+    "iOS/macOS CalDAV address" : "Διεύθυνση CalDAV για iOS/macOS",
     "Subscribe" : "Εγγραφή"
 },
 "nplurals=2; plural=(n != 1);");
