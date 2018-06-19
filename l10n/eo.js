@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Calendar" : "Kalendaro",
     "Hello," : "Saluton,",
+    "Open »%s«" : "Malfermi »%s«",
     "Cheers!" : "Dankon",
     "Group" : "Grupo",
     "Room" : "Ĉambro",
@@ -25,6 +26,7 @@ OC.L10N.register(
     "Please select a calendar." : "Bonvolu elekti kalendaron.",
     "Global" : "Malloka",
     "None" : "Nenio",
+    "Every day" : "Ĉiutage",
     "never" : "neniam",
     "Email" : "Retpoŝto",
     "hours" : "horoj",
