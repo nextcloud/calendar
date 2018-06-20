@@ -558,3 +558,12 @@ ul.dropdown-menu li > a:hover {
 .fc-unthemed td.fc-today {
 	background: #fcf8e3 !important;
 }
+
+/* highlight today day number */
+.fc-today > .fc-day-number {
+	background: $color-primary;
+	color: $color-primary-text;
+	border-radius: 50%;
+	padding-left: 6px;
+	padding-right: 6px;
+}
