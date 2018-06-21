@@ -25,6 +25,9 @@
     "Global" : "Malloka",
     "None" : "Nenio",
     "Every day" : "Ĉiutage",
+    "Every week" : "Ĉiusemajne",
+    "Every month" : "Ĉiumonate",
+    "Every year" : "Ĉiujare",
     "never" : "neniam",
     "Email" : "Retpoŝto",
     "hours" : "horoj",
@@ -50,8 +53,13 @@
     "Link" : "Ligilo",
     "Download" : "Elŝuti",
     "can edit" : "povas redakti",
+    "Share link" : "Kunhavigi ligilon",
+    "Email link to person" : "Retpoŝti la ligilon al ulo",
+    "Send" : "Sendi",
     "New Calendar" : "Nova kalendaro",
     "Name" : "Nomo",
+    "New Subscription" : "Nova abono",
+    "Go back" : "Revenu",
     "Edit event" : "Redakti okazaĵon",
     "Time" : "Horo",
     "Type" : "Tipo",
@@ -60,9 +68,11 @@
     "from" : "el",
     "to" : "ĝis",
     "Import Calendars" : "Enporti kalendarojn",
+    "Import canceled" : "Enporti nuliĝis",
     "New calendar" : "Nova kalendaro",
     "Import calendar" : "Enporti kalendaron",
     "No Calendars selected for import" : "Neniu kalendaro elektiĝis por enporti",
-    "Primary CalDAV address" : "Ĉefa CalDAV-adreso"
+    "Primary CalDAV address" : "Ĉefa CalDAV-adreso",
+    "Subscribe" : "Aboni"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -30,6 +30,7 @@ OC.L10N.register(
     "Share Calendar" : "カレンダーを共有する",
     "Shared" : "共有中",
     "WebDAV address for subscriptions" : "サブスクリプションのWebDAVアドレス",
+    "Email sent." : "メールを送信しました。",
     "group" : "グループ",
     "Details" : "詳細",
     "Attendees" : "参加者",
