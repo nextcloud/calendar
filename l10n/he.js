@@ -74,6 +74,7 @@ OC.L10N.register(
     "end" : "סוף",
     "Editing reminders of unknown type not supported." : "עריכת תזכורות מסוגים לא מוכרים אינה נתמכת.",
     "Week {number} of {year}" : "שבוע {number} ב־{year}",
+    "Successfully imported {imported} objects" : "{imported} פריטים ייובאו בהצלחה",
     "Pop-up {time} before the event starts" : "הקפצה {time} לפני תחילת האירוע",
     "Email {time} before the event starts" : "שליחת דוא״ל {time} לפני תחילת האירוע",
     "None {time} before the event starts" : "לא לעשות כלום {time} לפני תחילת האירוע",
