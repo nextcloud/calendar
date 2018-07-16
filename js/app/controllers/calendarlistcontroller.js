@@ -151,10 +151,6 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ha
 			$window.open(item.calendar.downloadUrl);
 		};
 
-		$scope.integration = function (item) {
-			return '<iframe width="400" height="215" src="' + item.publicEmbedURL + '"></iframe>';
-		};
-
 		$scope.$watch('publicdav', function (newvalue) {
 			if ($scope.$parent.calendars[0]) {
 				if (newvalue === 'CalDAV') { // CalDAV address

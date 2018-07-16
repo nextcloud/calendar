@@ -22,9 +22,9 @@
  */
 
 /**
-* Controller: CalController
-* Description: The fullcalendar controller.
-*/
+ * Controller: CalController
+ * Description: The fullcalendar controller.
+ */
 
 app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'VEvent', 'is', 'fc', 'EventsEditorDialogService', 'PopoverPositioningUtility', '$window', 'isPublic', 'constants', 'settings',
 	function ($scope, Calendar, CalendarService, VEventService, SettingsService, TimezoneService, VEvent, is, fc, EventsEditorDialogService, PopoverPositioningUtility, $window, isPublic, constants, settings) {
@@ -140,167 +140,177 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 				$scope.$apply();
 			});
 		} else {
-			$scope.calendarsPromise = CalendarService.getPublicCalendar(constants.publicSharingToken).then(function(calendar) {
-				$scope.calendars = [calendar];
+			$scope.calendars = [];
+			var tokens = new Set(constants.publicSharingToken.split("."));
+			var promises = [];
+			tokens.forEach(function(token){
+				promises.push(CalendarService.getPublicCalendar(token).then(function(calendar) {
+					$scope.calendars.push(calendar);
+				}).catch((reason => {
+					OC.Notification.showTemporary(t('calendar', 'Calendar does not exist'));
+				})));
+			});
+			$scope.calendarsPromise = Promise.all(promises).finally(() => {
 				is.loading = false;
 				// TODO - scope.apply should not be necessary here
 				$scope.$apply();
-			}).catch((reason) => {
-				angular.element('#header-right').css('display', 'none');
-				angular.element('#emptycontent-container').css('display', 'block');
 			});
 		}
 
+		$scope.integration = function () {
+			return '<iframe width="400" height="215" src="' + $scope.$parent.root + 'embed/' + constants.publicSharingToken + '"></iframe>';
+		};
+		
 
 		/**
 		 * Calendar UI Configuration.
-		*/
+		 */
 		$scope.fcConfig = {
-				timezone: $scope.defaulttimezone,
-				select: function (start, end, jsEvent, view) {
-					var writableCalendars = $scope.calendars.filter(function(elem) {
-						return elem.isWritable();
-					});
+			timezone: $scope.defaulttimezone,
+			select: function (start, end, jsEvent, view) {
+				var writableCalendars = $scope.calendars.filter(function(elem) {
+					return elem.isWritable();
+				});
 
-					if (writableCalendars.length === 0) {
-						if (!isPublic) {
-							OC.Notification.showTemporary(t('calendar', 'Please create a calendar first.'));
-						}
-						return;
+				if (writableCalendars.length === 0) {
+					if (!isPublic) {
+						OC.Notification.showTemporary(t('calendar', 'Please create a calendar first.'));
 					}
+					return;
+				}
 
-					start.add(start.toDate().getTimezoneOffset(), 'minutes');
-					end.add(end.toDate().getTimezoneOffset(), 'minutes');
+				start.add(start.toDate().getTimezoneOffset(), 'minutes');
+				end.add(end.toDate().getTimezoneOffset(), 'minutes');
 
-					var vevent = VEvent.fromStartEnd(start, end, $scope.defaulttimezone);
-					vevent.calendar = writableCalendars[0];
+				var vevent = VEvent.fromStartEnd(start, end, $scope.defaulttimezone);
+				vevent.calendar = writableCalendars[0];
 
-					var timestamp = Date.now();
-					var fcEventClass = 'new-event-dummy-' + timestamp;
+				var timestamp = Date.now();
+				var fcEventClass = 'new-event-dummy-' + timestamp;
 
-					vevent.getFcEvent(view.start, view.end, $scope.defaulttimezone).then((fcEvents) => {
-						const fcEvent = fcEvents[0];
+				vevent.getFcEvent(view.start, view.end, $scope.defaulttimezone).then((fcEvents) => {
+					const fcEvent = fcEvents[0];
 
-						fcEvent.title = t('calendar', 'New event');
-						fcEvent.className.push(fcEventClass);
-						fcEvent.editable = false;
-						fc.elm.fullCalendar('renderEvent', fcEvent);
-
-						EventsEditorDialogService.open($scope, fcEvent, function() {
-							const elements = angular.element('.' + fcEventClass);
-							const isHidden = angular.element(elements[0]).parents('.fc-limited').length !== 0;
-							if (isHidden) {
-								return PopoverPositioningUtility.calculate(jsEvent.clientX, jsEvent.clientY, jsEvent.clientX, jsEvent.clientY, view);
-							} else {
-								return PopoverPositioningUtility.calculateByTarget(elements[0], view);
-							}
-						}, function() {
-							return null;
-						}, function() {
-							fc.elm.fullCalendar('removeEvents', function(fcEventToCheck) {
-								if (Array.isArray(fcEventToCheck.className)) {
-									return (fcEventToCheck.className.indexOf(fcEventClass) !== -1);
-								} else {
-									return false;
-								}
-							});
-						}).then(function(result) {
-							createAndRenderEvent(result.calendar, result.vevent.data, view.start, view.end, $scope.defaulttimezone);
-						}).catch(function(reason) {
-							//fcEvent is removed by unlock callback
-							//no need to anything
-							return null;
-						});
-					});
-				},
-				eventClick: function(fcEvent, jsEvent, view) {
-					var vevent = fcEvent.vevent;
-					var oldCalendar = vevent.calendar;
-					var fcEvt = fcEvent;
+					fcEvent.title = t('calendar', 'New event');
+					fcEvent.className.push(fcEventClass);
+					fcEvent.editable = false;
+					fc.elm.fullCalendar('renderEvent', fcEvent);
 
 					EventsEditorDialogService.open($scope, fcEvent, function() {
-						return PopoverPositioningUtility.calculateByTarget(jsEvent.currentTarget, view);
-					}, function() {
-						fcEvt.editable = false;
-						fc.elm.fullCalendar('updateEvent', fcEvt);
-					}, function() {
-						fcEvt.editable = fcEvent.calendar.writable;
-						fc.elm.fullCalendar('updateEvent', fcEvt);
-					}).then(function(result) {
-						// was the event moved to another calendar?
-						if (result.calendar === oldCalendar) {
-							VEventService.update(vevent).then(function() {
-								fc.elm.fullCalendar('removeEvents', fcEvent.id);
-
-								if (result.calendar.enabled) {
-									fc.elm.fullCalendar('refetchEventSources', result.calendar.fcEventSource);
-								}
-							});
+						const elements = angular.element('.' + fcEventClass);
+						const isHidden = angular.element(elements[0]).parents('.fc-limited').length !== 0;
+						if (isHidden) {
+							return PopoverPositioningUtility.calculate(jsEvent.clientX, jsEvent.clientY, jsEvent.clientX, jsEvent.clientY, view);
 						} else {
-							deleteAndRemoveEvent(vevent, fcEvent);
-							createAndRenderEvent(result.calendar, result.vevent.data, view.start, view.end, $scope.defaulttimezone);
+							return PopoverPositioningUtility.calculateByTarget(elements[0], view);
 						}
+					}, function() {
+						return null;
+					}, function() {
+						fc.elm.fullCalendar('removeEvents', function(fcEventToCheck) {
+							if (Array.isArray(fcEventToCheck.className)) {
+								return (fcEventToCheck.className.indexOf(fcEventClass) !== -1);
+							} else {
+								return false;
+							}
+						});
+					}).then(function(result) {
+						createAndRenderEvent(result.calendar, result.vevent.data, view.start, view.end, $scope.defaulttimezone);
 					}).catch(function(reason) {
-						if (reason === 'delete') {
-							deleteAndRemoveEvent(vevent, fcEvent);
-						}
+						//fcEvent is removed by unlock callback
+						//no need to anything
+						return null;
 					});
-				},
-				eventResize: function (fcEvent, delta, revertFunc) {
-					fcEvent.resize(delta);
-					VEventService.update(fcEvent.vevent).catch(function() {
-						revertFunc();
-					});
-				},
-				eventDrop: function (fcEvent, delta, revertFunc) {
-					const isAllDay = !fcEvent.start.hasTime();
+				});
+			},
+			eventClick: function(fcEvent, jsEvent, view) {
+				var vevent = fcEvent.vevent;
+				var oldCalendar = vevent.calendar;
+				var fcEvt = fcEvent;
 
-					const defaultAllDayEventDuration = fc.elm.fullCalendar('option', 'defaultAllDayEventDuration');
-					const defaultAllDayEventMomentDuration = moment.duration(defaultAllDayEventDuration);
+				EventsEditorDialogService.open($scope, fcEvent, function() {
+					return PopoverPositioningUtility.calculateByTarget(jsEvent.currentTarget, view);
+				}, function() {
+					fcEvt.editable = false;
+					fc.elm.fullCalendar('updateEvent', fcEvt);
+				}, function() {
+					fcEvt.editable = fcEvent.calendar.writable;
+					fc.elm.fullCalendar('updateEvent', fcEvt);
+				}).then(function(result) {
+					// was the event moved to another calendar?
+					if (result.calendar === oldCalendar) {
+						VEventService.update(vevent).then(function() {
+							fc.elm.fullCalendar('removeEvents', fcEvent.id);
 
-					const defaultTimedEventDuration = fc.elm.fullCalendar('option', 'defaultTimedEventDuration');
-					const defaultTimedEventMomentDuration = moment.duration(defaultTimedEventDuration);
-
-					const timezone = $scope.defaulttimezone;
-
-					fcEvent.drop(delta, isAllDay, timezone, defaultTimedEventMomentDuration, defaultAllDayEventMomentDuration);
-					VEventService.update(fcEvent.vevent).catch(function() {
-						revertFunc();
-					});
-				},
-				viewRender: function (view, element) {
-					angular.element('#firstrow').find('.datepicker_current').html(view.title).text();
-					angular.element('#datecontrol_date').datepicker('setDate', element.fullCalendar('getDate'));
-					var newView = view.name;
-					if (newView !== $scope.defaultView && !isPublic) {
-						SettingsService.setView(newView);
-						$scope.defaultView = newView;
-					}
-					if (newView === 'agendaDay') {
-						angular.element('td.fc-state-highlight').css('background-color', '#ffffff');
+							if (result.calendar.enabled) {
+								fc.elm.fullCalendar('refetchEventSources', result.calendar.fcEventSource);
+							}
+						});
 					} else {
-						angular.element('.fc-bg td.fc-state-highlight').css('background-color', '#ffa');
+						deleteAndRemoveEvent(vevent, fcEvent);
+						createAndRenderEvent(result.calendar, result.vevent.data, view.start, view.end, $scope.defaulttimezone);
 					}
-					if (newView ==='agendaWeek') {
-						element.fullCalendar('option', 'aspectRatio', 0.1);
-					} else {
-						element.fullCalendar('option', 'aspectRatio', 1.35);
+				}).catch(function(reason) {
+					if (reason === 'delete') {
+						deleteAndRemoveEvent(vevent, fcEvent);
 					}
-				},
-				eventRender: function(event, element) {
-					var status = event.getSimpleEvent().status;
-					if (status !== null) {
-						if (status.value === 'TENTATIVE') {
-							element.css({'opacity': 0.5});
-						}
-						else if (status.value === 'CANCELLED') {
-							element.css({
-								'text-decoration': 'line-through',
-								'opacity': 0.5
-							});
-						}
+				});
+			},
+			eventResize: function (fcEvent, delta, revertFunc) {
+				fcEvent.resize(delta);
+				VEventService.update(fcEvent.vevent).catch(function() {
+					revertFunc();
+				});
+			},
+			eventDrop: function (fcEvent, delta, revertFunc) {
+				const isAllDay = !fcEvent.start.hasTime();
+
+				const defaultAllDayEventDuration = fc.elm.fullCalendar('option', 'defaultAllDayEventDuration');
+				const defaultAllDayEventMomentDuration = moment.duration(defaultAllDayEventDuration);
+
+				const defaultTimedEventDuration = fc.elm.fullCalendar('option', 'defaultTimedEventDuration');
+				const defaultTimedEventMomentDuration = moment.duration(defaultTimedEventDuration);
+
+				const timezone = $scope.defaulttimezone;
+
+				fcEvent.drop(delta, isAllDay, timezone, defaultTimedEventMomentDuration, defaultAllDayEventMomentDuration);
+				VEventService.update(fcEvent.vevent).catch(function() {
+					revertFunc();
+				});
+			},
+			viewRender: function (view, element) {
+				angular.element('#firstrow').find('.datepicker_current').html(view.title).text();
+				angular.element('#datecontrol_date').datepicker('setDate', element.fullCalendar('getDate'));
+				var newView = view.name;
+				if (newView !== $scope.defaultView && !isPublic) {
+					SettingsService.setView(newView);
+					$scope.defaultView = newView;
+				}
+				if (newView === 'agendaDay') {
+					angular.element('td.fc-state-highlight').css('background-color', '#ffffff');
+				} else {
+					angular.element('.fc-bg td.fc-state-highlight').css('background-color', '#ffa');
+				}
+				if (newView ==='agendaWeek') {
+					element.fullCalendar('option', 'aspectRatio', 0.1);
+				} else {
+					element.fullCalendar('option', 'aspectRatio', 1.35);
+				}
+			},
+			eventRender: function(event, element) {
+				var status = event.getSimpleEvent().status;
+				if (status !== null) {
+					if (status.value === 'TENTATIVE') {
+						element.css({'opacity': 0.5});
+					}
+					else if (status.value === 'CANCELLED') {
+						element.css({
+							'text-decoration': 'line-through',
+							'opacity': 0.5
+						});
 					}
 				}
+			}
 		};
 	}
 ]);
