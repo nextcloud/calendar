@@ -3,6 +3,8 @@
   "rules": {
     "indentation": "tab",
     "number-leading-zero": "never",
+    "no-descending-specificity": false,
+    "no-duplicate-selectors": false,
     "comment-empty-line-before": ["always", {
         "except": ["first-nested"]
     }]
