@@ -22,8 +22,6 @@
 
 namespace OCA\Calendar\Controller;
 
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-
 class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 
 	private $appName;
@@ -36,8 +34,6 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 
 	private $controller;
 
-	private $dispatcher;
-	
 	public function setUp() {
 		$this->appName = 'calendar';
 		$this->request = $this->getMockBuilder('\OCP\IRequest')
@@ -58,11 +54,8 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->dispatcher = $this->getMockBuilder(EventDispatcherInterface::class)
-			->disableOriginalConstructor()->getMock();
-			
 		$this->controller = new ViewController($this->appName, $this->request,
-			$this->userSession, $this->config, $this->urlGenerator, $this->dispatcher);
+			$this->userSession, $this->config, $this->urlGenerator);
 	}
 
 	/**
@@ -133,10 +126,6 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 
 		$actual = $this->controller->index();
 
-		$this->dispatcher->expects($this->at(0))
-			->method('dispatch')
-			->with('OCA\Calendar\Controller\ViewController::getTemplate');
-			
 		$this->assertInstanceOf('OCP\AppFramework\Http\TemplateResponse', $actual);
 		$this->assertEquals([
 			'appVersion' => '42.13.37',

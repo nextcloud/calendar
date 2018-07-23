@@ -31,8 +31,6 @@ use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IUserSession;
 use OCP\IURLGenerator;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 class ViewController extends Controller {
 
@@ -50,9 +48,6 @@ class ViewController extends Controller {
 	 * @var IUserSession
 	 */
 	private $userSession;
-	
-	/** @var EventDispatcherInterface */
-	private $dispatcher;
 
 	/**
 	 * @param string $appName
@@ -62,12 +57,11 @@ class ViewController extends Controller {
 	 * @param IURLGenerator $urlGenerator
 	 */
 	public function __construct($appName, IRequest $request, IUserSession $userSession,
-								IConfig $config, IURLGenerator $urlGenerator, EventDispatcherInterface $dispatcher) {
+								IConfig $config, IURLGenerator $urlGenerator) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->userSession = $userSession;
 		$this->urlGenerator = $urlGenerator;
-		$this->dispatcher = $dispatcher;
 	}
 
 	/**
@@ -105,7 +99,7 @@ class ViewController extends Controller {
 			$initialView = 'month';
 		}
 
-		$template = new TemplateResponse('calendar', 'main', array_merge($templateParameters, [
+		return new TemplateResponse('calendar', 'main', array_merge($templateParameters, [
 			'initialView' => $initialView,
 			'emailAddress' => $emailAddress,
 			'skipPopover' => $skipPopover,
@@ -116,18 +110,6 @@ class ViewController extends Controller {
 			'token' => '',
 			'timezone' => $timezone,
 		]));
-		
-			
-        $event = new GenericEvent(null, [
-			'template' => $template
-		]);
-		$this->dispatcher->dispatch(self::class . '::getTemplate', $event);
-
-		if ($event->hasArgument('template')) {
-			$template = $event->getArgument('template');
-		}
-		
-		return $template;
 	}
 
 	/**
