@@ -32,10 +32,11 @@
 			<div class="clear-both"></div>
 			<div class="events--checkbox pull-left">
 				<input type="checkbox" name="alldayeventcheckbox"
-					   ng-model="properties.allDay"
+                       ng-model="properties.allDay"
+                       ng-init="initial.allDay='<?php echo $_['initialStateAllDay']; ?>'"
 					   class="checkbox"
 					   id="alldayeventcheckbox" class="event-checkbox"
-						tabindex="102" />
+                       tabindex="102" />
 				<label for="alldayeventcheckbox"><?php p($l->t('All day Event'))?></label>
 			</div>
 		</fieldset>

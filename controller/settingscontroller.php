@@ -383,4 +383,17 @@ class SettingsController extends Controller {
 			'value' => $value,
 		]);
 	}
+
+    /**
+     * get a configuration item
+     *
+     * @NoAdminRequired
+     *
+     * @param string $key
+     * @return JSONResponse
+     */
+    public function setLastChoosenDateState($key) {
+      return "test";
+
+    }
 }

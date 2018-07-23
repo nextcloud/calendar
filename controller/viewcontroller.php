@@ -99,6 +99,13 @@ class ViewController extends Controller {
 			$initialView = 'month';
 		}
 
+		//$this->config->setUserValue($userId, $this->appName, 'initialStateAllDay', 'true')=='true'
+		if(true){
+		    $initialStateAllDay='true';
+        }else{
+            $initialStateAllDay='false';
+		}
+
 		return new TemplateResponse('calendar', 'main', array_merge($templateParameters, [
 			'initialView' => $initialView,
 			'emailAddress' => $emailAddress,
@@ -109,6 +116,7 @@ class ViewController extends Controller {
 			'isEmbedded' => false,
 			'token' => '',
 			'timezone' => $timezone,
+			'initialStateAllDay' => $initialStateAllDay,
 		]));
 	}
 
