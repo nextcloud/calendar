@@ -74,12 +74,18 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
 
 		$uibModalInstance.rendered.then(function() {
 
+            console.log("Pre");
+            console.log($scope.properties);
 			if(	$('#initialValueHolder').attr('value') === 'false' ){
                 $('#alldayeventcheckbox').trigger('click');
 			}
 
            	if ($scope.properties.allDay) {
 				$scope.properties.dtend.value = moment($scope.properties.dtend.value.subtract(1, 'days'));
+			}else{
+                $scope.properties.dtend.value = moment($scope.properties.dtend.value.subtract(1, 'days'));
+                $scope.properties.dtstart.value = moment($scope.properties.dtstart.value.add(12, 'hours'));
+                $scope.properties.dtend.value = moment($scope.properties.dtend.value.add(14, 'hours'));
 			}
 
 			autosize($('.advanced--textarea'));
@@ -125,6 +131,11 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
 
 			$scope.prepareClose();
 			$scope.properties.patch();
+
+            console.log("Post");
+            console.log($scope.properties);
+
+
 			$uibModalInstance.close({
 				action: 'save',
 				calendar: $scope.calendar,
