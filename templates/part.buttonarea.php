@@ -62,7 +62,7 @@
 					<td width="10%"></td>
 					<td width="50%">
 						<fieldset class="events--fieldset" ng-disabled="readOnly">
-							<span><?php p($l->t('Select all layers')); ?></span>
+							<span><?php p($l->t('Select the calendars you wish to summarize')); ?></span>
 							<select
 									ng-model = "$ctrl.data.selectedLayers"
 									ng-options = "layer.displayname for layer in $ctrl.layers"
@@ -94,7 +94,7 @@
 			</fieldset>
 		</form>
 		<div class="modal-footer">
-	        <h2 align = "center" class="modal-title" id="modal-title">Select all calendar layers and time window to summarize report.</h3>
+	        <h2 align = "center" class="modal-title" id="modal-title">Select the calendars you wish to summarize and the time range to create a report.</h3>
 	    </div>
 	</div>
 </script>

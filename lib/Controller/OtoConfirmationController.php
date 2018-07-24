@@ -21,6 +21,7 @@
 
 
 	/**
+     * @NoAdminRequired
 	 * @param string $appName
 	 * @param IRequest $request an instance of the request
 	 * @param OtoConfirmationMapper $mapper 
@@ -72,6 +73,9 @@
 	 }
 	 //returns a data response that contains all of the confirmations for a user 
 	 //along with their otoLayer's sourceId and destinationId
+	 /**
+     * @NoAdminRequired
+	 */
 	 public function getConfirmationsByUser(){
 		//user ID is passed in
 		$userId = $this->userSession->getUser()->getUID();
@@ -82,6 +86,9 @@
 		}
 	 }
 	 //deletes a layer and all of it's confirmations
+	 /**
+     * @NoAdminRequired
+	 */
 	 public function deleteConfirmationsLayers($otoLayerId){
 		try{
 			$this->otoConfirmationService->deleteConfirmationsByOtoLayer($otoLayerId);
@@ -93,6 +100,9 @@
 		}
 	 }
 	 //deletes a layer and all of it's confirmations
+	 /**
+     * @NoAdminRequired
+	 */
 	 public function deleteBySourceId($sourceId){
 		try{
 			$userId = $this->userSession->getUser()->getUID();
