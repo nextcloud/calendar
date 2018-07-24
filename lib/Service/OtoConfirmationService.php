@@ -14,7 +14,6 @@
 	
 	private $mapper;
 	/**
-     * @NoAdminRequired
 	 * @param string $appName
 	 * @param IRequest $request an instance of the request
 	 * @param OtoConfirmationMapper $mapper the db mapper
@@ -23,8 +22,6 @@
 		 $this->mapper = $mapper;
      }
 	 /**
-	 *
-     * @NoAdminRequired
 	 * @NoCSRFRequired
 	 *
 	 * @throws \OCP\AppFramework\Db\DoesNotExistException if not found
@@ -36,15 +33,10 @@
 		$foo =  $this->mapper->getConfirmationsForUser($userId);
 		return($foo);
 	 }
-	 /**
-     * @NoAdminRequired
-	 */
+	 
 	 public function deleteConfirmationsByOtoLayer($otoLayerId){
 		$this->mapper->deleteConfirmationsByOtoLayer($otoLayerId);
 	 }
-	 /**
-     * @NoAdminRequired
-	 */
 	 public function deleteBySourceId($sourceId,$userId){
 		$this->mapper->deleteBySourceId($sourceId,$userId);
 	 }
