@@ -1,10 +1,5 @@
-# Nextcloud Calendar 
-
-[![Build Status](https://travis-ci.org/nextcloud/calendar.svg?branch=master)](https://travis-ci.org/nextcloud/calendar)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nextcloud/calendar/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/nextcloud/calendar/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/nextcloud/calendar/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/nextcloud/calendar/?branch=master)
-[![Coverage Status](https://coveralls.io/repos/github/nextcloud/calendar/badge.svg?branch=master)](https://coveralls.io/github/nextcloud/calendar?branch=master)
-[![Dependency Status](https://www.versioneye.com/user/projects/57dc165a037c200040cdced9/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/57dc165a037c200040cdced9)
+[Presentation of added features] (https://docs.google.com/presentation/d/e/2PACX-1vTXO1JPJStXwyoam5jRlTxTZW9xvVebunE9nHCZHABaqEzuJF_wv_zVtinpG730oX1JpFMD0cr0svfD/pub?start=false&loop=false&delayms=3000)
+# Nextcloud Calendar Source
 
 **A calendar app for [Nextcloud](http://nextcloud.com). Easily sync events from various devices with your Nextcloud and edit them online.**  
 
