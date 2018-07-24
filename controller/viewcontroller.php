@@ -99,12 +99,7 @@ class ViewController extends Controller {
 			$initialView = 'month';
 		}
 
-		//$this->config->setUserValue($userId, $this->appName, 'initialStateAllDay', 'true')=='true'
-		if(true){
-		    $initialStateAllDay='true';
-        }else{
-            $initialStateAllDay='false';
-		}
+		$initialStateAllDay=$this->config->getUserValue($userId, $this->appName, 'initialStateAllDay', true);
 
 		return new TemplateResponse('calendar', 'main', array_merge($templateParameters, [
 			'initialView' => $initialView,

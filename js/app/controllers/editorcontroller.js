@@ -74,7 +74,7 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
 
 		$uibModalInstance.rendered.then(function() {
 
-			if(	$scope.initial.allDay==='false'){
+			if(	$('#initialValueHolder').attr('value') === 'false' ){
                 $('#alldayeventcheckbox').trigger('click');
 			}
 
@@ -116,7 +116,13 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
 				return;
 			}
 
-			alert("save!");
+            var allDayState=true;
+            if($scope.properties.allDay === false){
+                allDayState=false;
+            }
+            $('#initialValueHolder').attr('value',allDayState);
+            $.get(OC.generateUrl("apps/calendar/v1/allday/initial/set"),{state: allDayState}, function (data, status) {});
+
 			$scope.prepareClose();
 			$scope.properties.patch();
 			$uibModalInstance.close({
@@ -237,9 +243,9 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
 		});
 
 		$scope.toggledAllDay = function() {
-			if ($scope.properties.allDay) {
-				return;
-			}
+            if ($scope.properties.allDay) {
+                return;
+            }
 
 			if ($scope.properties.dtstart.value.isSame($scope.properties.dtend.value)) {
 				$scope.properties.dtend.value = moment($scope.properties.dtend.value.add(1, 'hours'));

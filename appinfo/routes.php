@@ -34,6 +34,8 @@ return [
 		//Settings
 		['name' => 'settings#getConfig', 'url' => '/v1/config', 'verb' => 'GET'],
 		['name' => 'settings#setConfig', 'url' => '/v1/config', 'verb' => 'POST'],
+		['name' => 'settings#setLastChoosenDateState', 'url' => '/v1/allday/initial/set', 'verb' => 'GET'],
+		['name' => 'settings#getLastChoosenDateState', 'url' => '/v1/allday/initial/get', 'verb' => 'GET'],
 		//Autocompletion
 		['name' => 'contact#searchAttendee', 'url' => '/v1/autocompletion/attendee', 'verb' => 'POST'],
 		['name' => 'contact#searchLocation', 'url' => '/v1/autocompletion/location', 'verb' => 'POST'],

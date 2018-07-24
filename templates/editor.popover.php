@@ -31,9 +31,9 @@
 			</div>
 			<div class="clear-both"></div>
 			<div class="events--checkbox pull-left">
+                <div id="initialValueHolder" value=<?php echo $_['initialStateAllDay']; ?>></div>
 				<input type="checkbox" name="alldayeventcheckbox"
                        ng-model="properties.allDay"
-                       ng-init="initial.allDay='<?php echo $_['initialStateAllDay']; ?>'"
 					   class="checkbox"
 					   id="alldayeventcheckbox" class="event-checkbox"
                        tabindex="102" />

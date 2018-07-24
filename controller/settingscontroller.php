@@ -389,11 +389,22 @@ class SettingsController extends Controller {
      *
      * @NoAdminRequired
      *
-     * @param string $key
-     * @return JSONResponse
+     * @param string $state
+     * @return String
      */
-    public function setLastChoosenDateState($key) {
-      return "test";
+    public function setLastChoosenDateState($state) {
 
+       $this->config->setUserValue( $this->userId, $this->appName, 'initialStateAllDay', $state);
+
+        return $this->config->getUserValue($this->userId, $this->appName, 'initialStateAllDay', true);
     }
+
+    public function getLastChoosenDateState() {
+
+        $value = $this->config->getUserValue($this->userId, $this->appName, 'initialStateAllDay', true);
+        return new JSONResponse([
+            'initialstate' => $value,
+        ]);
+    }
+
 }
