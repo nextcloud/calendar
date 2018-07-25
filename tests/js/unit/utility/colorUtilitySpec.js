@@ -112,6 +112,7 @@ describe('ColorUtility <9.1', function () {
 		module('Calendar');
 
 		inject(function ($injector) {
+			delete String.prototype.toHsl;
 			spyOn(window, 'hslToRgb').and.callThrough();
 			spyOn(Math, 'random').and.callThrough();
 			spyOn(Math, 'floor').and.callThrough();
@@ -120,14 +121,12 @@ describe('ColorUtility <9.1', function () {
 	});
 
 	it ('should return a random color for <9.1', function() {
-		delete String.prototype.toHsl;
 		expect(ColorUtility.randomColor()).toMatch(/^#([0-9a-f]{6})$/i);
 		expect(Math.random).toHaveBeenCalled();
 		expect(Math.floor).toHaveBeenCalled();
 	});
 
 	it ('should provide a list of default colors for <9.1', function() {
-		delete String.prototype.toHsl;
 		expect(ColorUtility.colors).toEqual(['#31CC7C', '#317CCC', '#FF7A66', '#F1DB50', '#7C31CC', '#CC317C', '#3A3B3D', '#CACBCD']);
 	});
 });
