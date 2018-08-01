@@ -21,6 +21,7 @@
  */
 namespace OCA\Calendar\AppInfo;
 
+use OCA\Calendar\CloudFederationProviderCalendar;
 use OCA\Calendar\Controller;
 
 use OCP\AppFramework\App;
@@ -53,6 +54,22 @@ class Application extends App {
 			return new Controller\EmailController($c->getAppName(), $request, $userSession, $config, $mailer, $l10n, $defaults);
 		});
 
+		$container->registerService('FederationController', function(IAppContainer $c) {
+			$request = $c->query('Request');
+			$server = $c->getServer();
+
+			return new Controller\FederationController(
+				$c->getAppName(),
+				$request,
+				$server->getCloudIdManager(),
+				$server->getCloudFederationProviderManager(),
+				$server->getCloudFederationFactory(),
+				$server->getSecureRandom(),
+				$server->getUserSession()
+			);
+		});
+
+
 		$container->registerService('ProxyController', function(IAppContainer $c) {
 			$request = $c->query('Request');
 			$client = $c->getServer()->getHTTPClientService();
@@ -84,6 +101,14 @@ class Application extends App {
 
 			return new Controller\ViewController($c->getAppName(), $request, $userSession, $config, $urlGenerator);
 		});
+
+		$cloudFederationManager = $container->getServer()->getCloudFederationProviderManager();
+		$cloudFederationManager->addCloudFederationProvider('calendar',
+			'Federated calendar Sharing',
+			function() {
+				return new CloudFederationProviderCalendar();
+			});
+
 	}
 
 	/**
