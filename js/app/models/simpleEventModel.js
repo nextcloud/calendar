@@ -52,7 +52,8 @@ app.factory('SimpleEvent', function () {
 		'cn',
 		'delegated-from',
 		'delegated-to',
-		'language'
+		'language',
+		'timezone'
 	];
 
 	const organizerParameters = [
