@@ -26,6 +26,10 @@
 	width: 100%;
 }
 
+.modal-content #app-sidebar {
+	position: fixed;
+}
+
 #fullcalendar table {
 	white-space: inherit !important;
 }
