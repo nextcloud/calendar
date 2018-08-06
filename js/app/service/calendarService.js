@@ -21,7 +21,7 @@
  *
  */
 
-app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, CalendarFactory, isPublic, constants) {
+app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, CalendarFactory, isPublic, constants, TimezoneService) {
 	'use strict';
 	
 	const context = {
@@ -302,6 +302,10 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 			dPropChildren.push({
 				name: [DavClient.NS_DAV, 'd:displayname'],
 				value: name
+			});
+			dPropChildren.push({
+				name: [DavClient.NS_IETF, 'c:calendar-timezone'],
+				value: TimezoneService.getDetected()
 			});
 			dPropChildren.push({
 				name: [DavClient.NS_APPLE, 'a:calendar-color'],

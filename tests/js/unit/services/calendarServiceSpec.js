@@ -22,7 +22,7 @@
 describe('CalendarService non-public', function () {
 	'use strict';
 
-	let CalendarService, DavClient, StringUtility, XMLUtility, CalendarFactory, WebCal, $q, $rootScope, davService, constants;
+	let CalendarService, DavClient, StringUtility, XMLUtility, CalendarFactory, WebCal, $q, $rootScope, davService, constants, TimezoneService;
 	let firstPropFindDeferred, secondPropFindDeferred, thirdPropFindDeferred;
 	let firstRequestDeferred, secondRequestDeferred, thirdRequestDeferred;
 	let updateSpy;
@@ -735,6 +735,9 @@ END:VCALENDAR&#13;
 		OC.requestToken = 'requestToken42';
 		OC.linkToRemoteBase = jasmine.createSpy();
 
+		TimezoneService = {};
+		TimezoneService.getDetected = jasmine.createSpy();
+
 		$provide.value('DavClient', DavClient);
 		$provide.value('StringUtility', StringUtility);
 		$provide.value('XMLUtility', XMLUtility);
@@ -742,6 +745,7 @@ END:VCALENDAR&#13;
 		$provide.value('WebCal', WebCal);
 		$provide.value('isPublic', false);
 		$provide.value('constants', {});
+		$provide.value('TimezoneService', TimezoneService);
 	}));
 
 	beforeEach(inject(function (_$q_, _$rootScope_) {
@@ -757,6 +761,7 @@ END:VCALENDAR&#13;
 		OC.linkToRemoteBase.and.returnValue('remote-dav');
 		DavClient.buildUrl.and.returnValues('fancy-url-1', 'fancy-url-2', 'fancy-url-3', 'fancy-url-4');
 		StringUtility.uri.and.returnValues('uri-1', 'uri-2', 'uri-3', 'uri-4');
+		TimezoneService.getDetected.and.returnValue('Europe/Berlin');
 
 		firstPropFindDeferred = $q.defer();
 		secondPropFindDeferred = $q.defer();
@@ -1090,6 +1095,9 @@ END:VCALENDAR&#13;
 			name: ['DAV:', 'd:displayname'],
 			value: 'name-foobar-1337'
 		},{
+			name: ['urn:ietf:params:xml:ns:caldav', 'c:calendar-timezone'],
+			value: 'Europe/Berlin'
+		},{
 			name: ['http://apple.com/ns/ical/', 'a:calendar-color'],
 			value: '#eeeeee'
 		},{
@@ -1357,7 +1365,7 @@ END:VCALENDAR&#13;
 describe('CalendarService - public', function() {
 	'use strict';
 
-	let CalendarService, DavClient, StringUtility, XMLUtility, CalendarFactory, WebCal, $q, $rootScope, davService, constants;
+	let CalendarService, DavClient, StringUtility, XMLUtility, CalendarFactory, WebCal, $q, $rootScope, davService, constants, TimezoneService;
 	let firstPropFindDeferred, secondPropFindDeferred, thirdPropFindDeferred;
 	let firstRequestDeferred, secondRequestDeferred, thirdRequestDeferred;
 
@@ -1515,6 +1523,9 @@ describe('CalendarService - public', function() {
 		OC.requestToken = 'requestToken42';
 		OC.linkToRemoteBase = jasmine.createSpy();
 
+		TimezoneService = {};
+		TimezoneService.getDetected = jasmine.createSpy();
+
 		$provide.value('DavClient', DavClient);
 		$provide.value('StringUtility', StringUtility);
 		$provide.value('XMLUtility', XMLUtility);
@@ -1522,6 +1533,7 @@ describe('CalendarService - public', function() {
 		$provide.value('WebCal', WebCal);
 		$provide.value('isPublic', true);
 		$provide.value('constants', {});
+		$provide.value('TimezoneService', TimezoneService);
 	}));
 
 	beforeEach(inject(function (_$q_, _$rootScope_) {
@@ -1536,6 +1548,7 @@ describe('CalendarService - public', function() {
 
 		OC.linkToRemoteBase.and.returnValue('remote-dav');
 		DavClient.buildUrl.and.returnValues('fancy-url-1', 'fancy-url-2', 'fancy-url-3', 'fancy-url-4');
+		TimezoneService.getDetected.and.returnValue('Europe/Berlin');
 
 		firstPropFindDeferred = $q.defer();
 		secondPropFindDeferred = $q.defer();
