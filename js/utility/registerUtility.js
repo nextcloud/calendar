@@ -30,7 +30,7 @@ let register = (function () {
 		actionHandler: function(filename, context) {
 			let path = $('#fileList').find('[data-file="'+filename+'"]').data('path');
 			path = path.substring(1);
-			window.location = OC.generateUrl('apps/calendar/#/import/{filename}', {filename: encodeURI(path + '/' + filename)});
+			window.location = OC.generateUrl('apps/calendar/#/import/{filename}', {filename: encodeURIComponent(path + '/' + filename)});
 		},
 		permissions: OC.PERMISSION_READ,
 		icon: function () {

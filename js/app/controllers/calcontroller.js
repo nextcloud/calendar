@@ -26,8 +26,8 @@
 * Description: The fullcalendar controller.
 */
 
-app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'VEvent', 'is', 'fc', 'EventsEditorDialogService', 'PopoverPositioningUtility', '$window', 'isPublic', 'constants', 'settings', '$uibModal',
-	function ($scope, Calendar, CalendarService, VEventService, SettingsService, TimezoneService, VEvent, is, fc, EventsEditorDialogService, PopoverPositioningUtility, $window, isPublic, constants, settings) {
+app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'VEvent', 'is', 'fc', 'EventsEditorDialogService', 'PopoverPositioningUtility', '$window', 'isPublic', 'constants', 'settings', '$http', '$uibModal',
+	function ($scope, Calendar, CalendarService, VEventService, SettingsService, TimezoneService, VEvent, is, fc, EventsEditorDialogService, PopoverPositioningUtility, $window, isPublic, constants, settings, $http, $uibModal) {
 		'use strict';
 
 		is.loading = true;
@@ -153,9 +153,9 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 
 		$scope.importFileByPath = function(path) {
 			return $http.get(
-				OC.linkToRemoteBase('dav') + '/files/' + OC.getCurrentUser().displayName + '/' + decodeURI(path)
+				OC.linkToRemoteBase('dav') + '/files/' + OC.getCurrentUser().uid + '/' + decodeURIComponent(path)
 			).then(function(response) {
-				const fileName = decodeURIComponent(path);
+				const fileName = decodeURIComponent(decodeURI(path)).split('/').pop();
 				const fileBody = response.data;
 				let file = new File([fileBody], fileName, {type: 'text/calendar'});
 
@@ -173,6 +173,8 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 					},
 					scope: $scope
 				});
+			}).catch(function() {
+				OC.Notification.showTemporary(t('calendar', 'There was an issue while importing your calendar'));
 			});
 		};
 
