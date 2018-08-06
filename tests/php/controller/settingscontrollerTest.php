@@ -21,7 +21,9 @@
  */
 namespace OCA\Calendar\Controller;
 
-class SettingsControllerTest extends \PHPUnit_Framework_TestCase {
+use PHPUnit\Framework\TestCase;
+
+class SettingsControllerTest extends TestCase {
 
 	private $appName;
 	private $request;

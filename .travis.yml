@@ -88,7 +88,7 @@ before_script:
 
 script:
   - make
-  - phpunit --version
+  - make composer || true
   - make test
   - make dist
   # Upload nightly
