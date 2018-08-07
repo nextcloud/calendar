@@ -36,7 +36,12 @@ app.service('XMLUtility', function() {
 		});
 
 		if (json.value) {
-			element.textContent = json.value;
+			if (json.cdata) {
+				const section = xmlDoc.createCDATASection(json.value);
+				element.appendChild(section);
+			} else {
+				element.textContent = json.value;
+			}
 		} else if (json.children) {
 			for (let key in json.children) {
 				if (json.children.hasOwnProperty(key)) {

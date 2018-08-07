@@ -310,7 +310,8 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 			});
 			dPropChildren.push({
 				name: [DavClient.NS_IETF, 'c:calendar-timezone'],
-				value: icalTimezone.component.toString()
+				value: icalTimezone.component.toString(),
+				cdata: true
 			});
 			dPropChildren.push({
 				name: [DavClient.NS_APPLE, 'a:calendar-color'],
