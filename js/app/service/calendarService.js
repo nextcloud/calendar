@@ -287,7 +287,12 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 	 * @returns {Promise}
 	 */
 	this.create = function(name, color, components=['vevent', 'vtodo']) {
-		return context.bootPromise.then(function() {
+		const tzid = TimezoneService.getDetected();
+
+		return context.bootPromise.then(function(tz) {
+			return TimezoneService.get(tzid);
+		}).then(function(tz) {
+			const icalTimezone = new ICAL.Timezone(tz.jCal);
 			const [skeleton, dPropChildren] = XMLUtility.getRootSkeleton(
 				[DavClient.NS_DAV, 'd:mkcol'], [DavClient.NS_DAV, 'd:set'],
 				[DavClient.NS_DAV, 'd:prop']);
@@ -305,7 +310,7 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 			});
 			dPropChildren.push({
 				name: [DavClient.NS_IETF, 'c:calendar-timezone'],
-				value: TimezoneService.getDetected()
+				value: icalTimezone.component.toString()
 			});
 			dPropChildren.push({
 				name: [DavClient.NS_APPLE, 'a:calendar-color'],
