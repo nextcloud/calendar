@@ -155,7 +155,7 @@ class ViewController extends Controller {
 		$params = array_merge($templateParameters, $publicTemplateParameters);
 		$params['isEmbedded'] = true;
 
-		$response = new TemplateResponse('calendar', 'main', $params, 'public');
+		$response = new TemplateResponse('calendar', 'main', $params, 'base');
 
 		$response->addHeader('X-Frame-Options', 'ALLOW');
 		$csp = new ContentSecurityPolicy();
