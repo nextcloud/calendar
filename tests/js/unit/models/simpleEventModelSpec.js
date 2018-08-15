@@ -1333,7 +1333,7 @@ BEGIN:VALARM
 TRIGGER;VALUE=DATE-TIME:19970317T133000Z
 ATTACH;VALUE=URI:Basso
 ACTION:E-MAIL
-ATTENDEE;CUTYPE=INDIVIDUAL;LANGUAGE=English;TIMEZONE=Australia/Melbourne;CN=bar@foo.com:mailto:bar@foo.com
+ATTENDEE;CUTYPE=INDIVIDUAL;LANGUAGE=English;TZID=Australia/Melbourne;CN=bar@foo.com:mailto:bar@foo.com
 END:VALARM
 END:VEVENT
 END:VCALENDAR`;
@@ -1400,7 +1400,7 @@ END:VCALENDAR`;
 						'delegated-from': undefined,
 						'delegated-to': undefined,
 						language: 'English',
-						timezone: 'Australia/Melbourne'
+						tzid: 'Australia/Melbourne'
 					},
 					type: 'cal-address',
 					value: 'mailto:bar@foo.com'

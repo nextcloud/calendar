@@ -53,7 +53,7 @@ app.factory('SimpleEvent', function () {
 		'delegated-from',
 		'delegated-to',
 		'language',
-		'timezone'
+		'tzid'
 	];
 
 	const organizerParameters = [
