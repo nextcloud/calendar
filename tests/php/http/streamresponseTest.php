@@ -21,7 +21,9 @@
  */
 namespace OCA\Calendar\Http;
 
-class StreamResponseTest extends \PHPUnit_Framework_TestCase {
+use PHPUnit\Framework\TestCase;
+
+class StreamResponseTest extends TestCase {
 
 	public function setUp() {
 
