@@ -51,7 +51,8 @@ app.factory('SimpleEvent', function () {
 		'cutype',
 		'cn',
 		'delegated-from',
-		'delegated-to'
+		'delegated-to',
+		'language'
 	];
 
 	const organizerParameters = [
