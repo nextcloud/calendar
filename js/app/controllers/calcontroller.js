@@ -142,8 +142,9 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 			});
 		} else {
 			$scope.calendars = [];
-			var tokens = new Set(constants.publicSharingToken.split("."));
+			var tokens = constants.publicSharingToken.split(".");
 			var promises = [];
+
 			tokens.forEach(function(token){
 				promises.push(CalendarService.getPublicCalendar(token).then(function(calendar) {
 					$scope.calendars.push(calendar);
@@ -151,9 +152,14 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 					OC.Notification.showTemporary(t('calendar', 'Calendar does not exist'));
 				})));
 			});
-			$scope.calendarsPromise = Promise.all(promises).finally(() => {
+
+			$scope.calendarsPromise = Promise.all(promises).then().catch().then(() => {
 				is.loading = false;
 				// TODO - scope.apply should not be necessary here
+				if($scope.calendars.length===0){
+					angular.element('#header-right').css('display', 'none');
+					angular.element('#emptycontent-container').css('display', 'block');
+				}
 				$scope.$apply();
 			});
 		}
