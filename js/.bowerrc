@@ -1,7 +1,0 @@
-{
-  "directory": "vendor",
-  "ignoredDependencies": [
-    "jquery",
-    "moment"
-  ]
-}

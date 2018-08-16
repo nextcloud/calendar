@@ -22,7 +22,9 @@
 
 namespace OCA\Calendar\Controller;
 
-class ViewControllerTest extends \PHPUnit_Framework_TestCase {
+use PHPUnit\Framework\TestCase;
+
+class ViewControllerTest extends TestCase {
 
 	private $appName;
 	private $request;

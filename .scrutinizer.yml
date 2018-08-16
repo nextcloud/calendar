@@ -1,6 +1,5 @@
 filter:
     excluded_paths:
-        - 'js/vendor/*'
         - 'js/public/*'
         - 'l10n/*'
 

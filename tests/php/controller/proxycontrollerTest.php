@@ -21,11 +21,12 @@
  */
 namespace OCA\Calendar\Controller;
 
+use PHPUnit\Framework\TestCase;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ConnectException;
 
-class ProxyControllerTest extends \PHPUnit_Framework_TestCase {
+class ProxyControllerTest extends TestCase {
 
 	private $appName;
 	private $request;

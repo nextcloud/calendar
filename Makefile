@@ -31,13 +31,13 @@
 # build tools and additional package managers should be installed locally in
 # your project, since this won't pollute people's global namespace.
 #
-# The following npm scripts in your package.json install and update the bower
-# and npm dependencies and use gulp as build system (notice how everything is
+# The following npm scripts in your package.json install and update the npm
+# dependencies and use gulp as build system (notice how everything is
 # run from the node_modules folder):
 #
 #    "scripts": {
 #        "test": "node node_modules/gulp-cli/bin/gulp.js karma",
-#        "prebuild": "npm install && node_modules/bower/bin/bower install && node_modules/bower/bin/bower update",
+#        "prebuild": "npm install",
 #        "build": "node node_modules/gulp-cli/bin/gulp.js"
 #    },
 
@@ -51,6 +51,10 @@ appstore_artifact_directory=$(CURDIR)/build/artifacts/appstore
 appstore_package_name=$(appstore_artifact_directory)/$(app_name)
 yarn=$(shell which yarn 2> /dev/null)
 gcp=$(shell which gcp 2> /dev/null)
+composer:=$(shell which composer 2> /dev/null)
+ifeq (,$(composer))
+	composer:=php $(build_tools_directory)/composer.phar
+endif
 
 ifeq (, $(gcp))
 	copy_command=cp
@@ -85,6 +89,18 @@ all: build
 build:
 	make yarn
 
+# Installs and updates the composer dependencies. If composer is not installed
+# a copy is fetched from the web
+.PHONY: composer
+composer:
+ifeq (, $(shell which composer 2> /dev/null))
+	@echo "No composer command available, downloading a copy from the web"
+	mkdir -p $(build_tools_directory)
+	curl -sS https://getcomposer.org/installer | php
+	mv composer.phar $(build_tools_directory)
+endif
+	$(composer) install --prefer-dist
+
 # Installs yarn dependencies
 .PHONY: yarn
 yarn:
@@ -97,13 +113,11 @@ clean:
 	rm -rf css/public
 	rm -rf js/public
 
-# Same as clean but also removes dependencies installed by composer, bower and
-# npm
+# Same as clean but also removes dependencies installed by composer and npm
 .PHONY: distclean
 distclean: clean
 	rm -rf vendor
 	rm -rf node_modules
-	rm -rf js/vendor
 	rm -rf js/node_modules
 
 # Builds the source and appstore package
@@ -161,14 +175,8 @@ endif
 # from the internet
 .PHONY: test
 test:
-	cd js && $(yarn) run test
-ifeq (, $(shell which phpunit 2> /dev/null))
-	@echo "No phpunit command available, downloading a copy from the web"
-	mkdir -p $(build_tools_directory)
-	curl -sSL https://phar.phpunit.de/phpunit.phar -o $(build_tools_directory)/phpunit.phar
-	php $(build_tools_directory)/phpunit.phar -c phpunit.xml --coverage-clover coverage.clover
-	# php $(build_tools_directory)/phpunit.phar -c phpunit.integration.xml --coverage-clover build/php-integration.clover
-else
-	phpunit -c phpunit.xml --coverage-clover coverage.clover
-	# phpunit -c phpunit.integration.xml --coverage-clover build/php-unit.clover
+ifndef TRAVIS
+	make composer
 endif
+	cd js && $(yarn) run test && cd ../
+	export PATH="$$PWD/vendor/bin:$$PATH" && phpunit -c phpunit.xml --coverage-clover coverage.clover

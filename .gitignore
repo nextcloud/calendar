@@ -94,7 +94,5 @@ RCS/*
 
 coverage/
 
-js/vendor
-
 js/public
 css/public

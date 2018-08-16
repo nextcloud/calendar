@@ -55,6 +55,9 @@ foreach ($scripts as $script) {
 ?>
 <?php if($_['isPublic'] && !$_['isEmbedded']): ?>
 <style>
+	#body-public.layout-base #content {
+		padding-top: 50px;
+	}
 	@media only screen and (max-width: 768px) {
 		#app-navigation, #app-content {
 			top: 45px !important;
@@ -65,6 +68,10 @@ foreach ($scripts as $script) {
 
 <?php if($_['isEmbedded']): ?>
 <style>
+	#body-public.layout-base #app-navigation {
+		top: 0;
+		height: 100%;
+	}
 	@media only screen and (max-width: 768px) {
 		#app-navigation-toggle {
 			top: 0 !important;
