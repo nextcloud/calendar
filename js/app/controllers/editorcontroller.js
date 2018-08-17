@@ -74,21 +74,26 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
 
 		$uibModalInstance.rendered.then(function() {
 
-            console.log("Pre");
-            console.log($scope.properties);
-			if(	$('#initialValueHolder').attr('value') === 'false' ){
-                $('#alldayeventcheckbox').trigger('click');
-			}
+            $.get(OC.generateUrl("apps/calendar/v1/allday/initial/get"), function (data, status) {
 
-           	if ($scope.properties.allDay) {
-				$scope.properties.dtend.value = moment($scope.properties.dtend.value.subtract(1, 'days'));
-			}else{
+            	var initiallyAllDay=true;
+                if(data.initialstate === 'false'){
+                    initiallyAllDay=false;
+                }
+
+            	if( !initiallyAllDay && $scope.is_new ){
+                    $('#alldayeventcheckbox').trigger('click');
+                    $scope.properties.dtstart.value = moment($scope.properties.dtstart.value.add(12, 'hours'));
+                    $scope.properties.dtend.value = moment($scope.properties.dtend.value.add(12, 'hours'));
+
+				}
+            });
+
+            if ($scope.properties.allDay) {
                 $scope.properties.dtend.value = moment($scope.properties.dtend.value.subtract(1, 'days'));
-                $scope.properties.dtstart.value = moment($scope.properties.dtstart.value.add(12, 'hours'));
-                $scope.properties.dtend.value = moment($scope.properties.dtend.value.add(14, 'hours'));
-			}
+            }
 
-			autosize($('.advanced--textarea'));
+            autosize($('.advanced--textarea'));
 			autosize($('.events--textarea'));
 
 			$timeout(() => {
@@ -126,15 +131,10 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
             if($scope.properties.allDay === false){
                 allDayState=false;
             }
-            $('#initialValueHolder').attr('value',allDayState);
             $.get(OC.generateUrl("apps/calendar/v1/allday/initial/set"),{state: allDayState}, function (data, status) {});
 
 			$scope.prepareClose();
 			$scope.properties.patch();
-
-            console.log("Post");
-            console.log($scope.properties);
-
 
 			$uibModalInstance.close({
 				action: 'save',
@@ -254,13 +254,21 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
 		});
 
 		$scope.toggledAllDay = function() {
+
             if ($scope.properties.allDay) {
+                $scope.properties.dtstart.value = moment($scope.properties.dtstart.value.subtract(12, 'hours'));
+                $scope.properties.dtend.value = moment($scope.properties.dtend.value.subtract(12, 'hours'));
                 return;
             }
 
 			if ($scope.properties.dtstart.value.isSame($scope.properties.dtend.value)) {
 				$scope.properties.dtend.value = moment($scope.properties.dtend.value.add(1, 'hours'));
-			}
+            }
+
+            if($scope.is_new){
+                $scope.properties.dtstart.value = moment($scope.properties.dtstart.value.add(12, 'hours'));
+                $scope.properties.dtend.value = moment($scope.properties.dtend.value.add(12, 'hours'));
+            }
 
 			if ($scope.properties.dtstart.parameters.zone === 'floating' &&
 				$scope.properties.dtend.parameters.zone === 'floating') {
