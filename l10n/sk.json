@@ -120,6 +120,7 @@
     "{calendar} shared by {owner}" : "{calendar} sprístupňuje {owner}",
     "Please enter a valid WebCal-URL" : "Zadajte prosím platnú WebCal-URL",
     "Severe error in webcal proxy. Please contact administrator for more information." : "Závažná chyba vo webovom proxy.  Pre viac informácií prosím kontaktujte administrátora.",
+    "A Calendar app for Nextcloud" : "Aplikácia Kalendár pre Nextcloud",
     "Title of the Event" : "Názov udalosti",
     "Starts" : "Začína",
     "Ends" : "Končí",
