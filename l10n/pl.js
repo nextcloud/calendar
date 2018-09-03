@@ -55,6 +55,7 @@ OC.L10N.register(
     "Every year" : "Co roku",
     "never" : "nigdy",
     "after" : "po",
+    "Automatic ({timezone})" : "Automatycznie ({timezone})",
     "How about getting started by importing some calendars?" : "Czy rozpocząć pracę przez importowanie kilku kalendarzy?",
     "At time of event" : "W momencie zdarzenia",
     "5 minutes before" : "5 minut przed",
@@ -121,6 +122,7 @@ OC.L10N.register(
     "{calendar} shared by {owner}" : "{calendar} współdzielony przez {owner}",
     "Please enter a valid WebCal-URL" : "Wprowadź prawidłowy URL WebCal",
     "Severe error in webcal proxy. Please contact administrator for more information." : "Poważny błąd proxy w WebCal. Aby uzyskać więcej informacji prosimy o kontakt z administratorem.",
+    "A Calendar app for Nextcloud" : "Aplikacja Kalendarz dla Nextcloud",
     "Title of the Event" : "Nazwa wydarzenia",
     "Starts" : "Zaczyna się",
     "Ends" : "Kończy się",
@@ -190,6 +192,7 @@ OC.L10N.register(
     "The file contains objects incompatible with the selected calendar" : "Plik zawiera obiekty niekompatybilne z wybranym kalendarzem",
     "New calendar" : "Nowy kalendarz",
     "File is empty" : "Plik jest pusty",
+    "File could not be parsed" : "Nie można przeanalizować pliku",
     "Import scheduled" : "Import został zaplanowany",
     "%s shared the calendar <strong>%s</strong> with you" : "%s udostępnił Tobie kalendarz <strong>%s</strong>",
     "Embed" : "Osadź",
@@ -202,6 +205,7 @@ OC.L10N.register(
     "Show week numbers" : "Pokaż numery tygodni",
     "Timezone" : "Strefa czasowa",
     "Primary CalDAV address" : "Podstawowy adres CalDAV",
+    "iOS/macOS CalDAV address" : "Adres CalDAV dla iOS/macOS",
     "Subscribe" : "Subskrybuj"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");
