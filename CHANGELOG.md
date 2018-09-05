@@ -1,3 +1,9 @@
+## 1.6.2 - 2018-09-05
+### Fixed
+- compatibility with Nextcloud 14
+- updated translations
+
+
 ## 1.6.1 - 2018-03-06
 ### Fixed
 - Double the height of the description textarea
