@@ -84,7 +84,7 @@ OC.L10N.register(
     "Imported {imported} out of {all}, {errors} failures" : "Importováno {imported} z {all} objektů, zaznamenáno {errors} chyb",
     "Imported {imported} out of {all}, skipped {duplicates} duplicates" : "Importováno {imported} z {all} objektů, {duplicates} duplicit bylo přeskočeno",
     "Imported {imported} out of {all}, {errors} failures, skipped {duplicates} duplicates" : "Importováno {imported} z {all} objektů, bylo zaznamenáno {errors} chyb a přeskočeno {duplicates} duplicit",
-    "Audio alarm {time} before the event starts" : "Upozornění zvukem {time} před začátkem události",
+    "Audio alarm {time} before the event starts" : "Zvukové upozornění {time} před začátkem události",
     "Pop-up {time} before the event starts" : "Vyskakovací okno {time} před začátkem události",
     "Email {time} before the event starts" : "E-mail {time} před začátkem události",
     "None {time} before the event starts" : "Žádné {time} před začátkem události",
