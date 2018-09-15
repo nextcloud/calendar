@@ -52,7 +52,7 @@ OC.L10N.register(
     "never" : "никога",
     "after" : "переди",
     "Automatic ({timezone})" : "Автоматично ({timezone})",
-    "How about getting started by importing some calendars?" : "Какво ще кажете като започнете с внасяне на календари?",
+    "How about getting started by importing some calendars?" : "Какво ще кажете да започнете с внасяне на календар?",
     "At time of event" : "По време на събитието",
     "5 minutes before" : "5 минути преди",
     "10 minutes before" : "10 минути преди ",
