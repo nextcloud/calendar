@@ -1,7 +1,7 @@
 { "translations": {
     "Calendar" : "Kalendář",
-    "%s has published the calendar »%s«" : "%s právě publikoval/a kalendář »%s«.",
-    "Hello," : "Ahoj,",
+    "%s has published the calendar »%s«" : "%s právě zveřejnil(a) kalendář „%s“",
+    "Hello," : "Zdravím,",
     "We wanted to inform you that %s has published the calendar »%s«." : "Chceme vás upozornit, že  %s právě publikoval/a  kalendář »%s«.",
     "Open »%s«" : "Otevřít »%s«",
     "Cheers!" : "Mějte se!",
@@ -121,6 +121,7 @@
     "Please enter a valid WebCal-URL" : "Zadejte prosím platnout WebCal URL",
     "Severe error in webcal proxy. Please contact administrator for more information." : "Kritická chyba ve webcal proxy. Pro více informací kontaktujte svého administrátora.",
     "A Calendar app for Nextcloud" : "Kalendář pro Nextcloud",
+    "The Calendar app is a user interface for Nextcloud's CalDAV server. Easily sync events from various devices with your Nextcloud and edit them online.\n\n* 🚀 **Integration with other Nextcloud apps!** Currently Contacts - more to come.\n* 🌐 **WebCal Support!** Want to see your favorite team’s matchdays in your calendar? No problem!\n* 🙋 **Attendees!** Invite people to your events.\n* 🙈 **We’re not reinventing the wheel!** Based on the great [davclient.js](https://github.com/evert/davclient.js), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries." : "Aplikace Kalendář je uživatelské rozhraní pro CalDAV server, vestavěný v Nextcloud. Jednoduše synchronizujte události z různých zařízení s vaším Nextcloud a upravujte je online.\n\n* 🚀 **Napojení na ostatní Nextcloud aplikace!** V tuto chvíli  Kontakty – a další jsou na cestě.\n* 🌐 **Podpora WebCal!** Chcete vidět shodující se dny svého oblíbeného týmu ve svém kalendáři? Žádný problém!\n* 🙋 **Účastníci!** Pozvěte lidi na své události.\n* 🙈 **Nevynalézáme znovu kolo!** Založeno na skvělých softwarových knihovnách [davclient.js](https://github.com/evert/davclient.js), [ical.js](https://github.com/mozilla-comm/ical.js) a [fullcalendar](https://github.com/fullcalendar/fullcalendar).",
     "Title of the Event" : "Název události",
     "Starts" : "Začíná",
     "Ends" : "Končí",
