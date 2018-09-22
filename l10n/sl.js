@@ -137,7 +137,7 @@ OC.L10N.register(
     "times every" : "krat vsakih",
     "Add" : "Dodaj",
     "Email address of attendee" : "Elektronski naslov udeleženca",
-    "Please add your email address in the personal settings in order to add attendees." : "Dodati morate vaš elektronski naslov med osebne nastavitve, preden je mogoče dodajati udeležence",
+    "Please add your email address in the personal settings in order to add attendees." : "Preden je mogoče dodajati udeležence, je treba nastaviti elektronski naslov med osebnimi nastavitvami.",
     "from" : "od",
     "to" : "za",
     "This event's repeating rule is not supported yet." : "Ponavljajoče pravilo tega dogodka še ni podprto.",
