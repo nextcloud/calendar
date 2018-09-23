@@ -26,7 +26,7 @@ OC.L10N.register(
     "Please create a calendar first." : "Najprej je treba ustvariti koledar.",
     "New event" : "Nov dogodek",
     "CalDAV address for clients" : "CalDAV naslov za odjemalce",
-    "Some events in this calendar are broken. Please check the JS console for more info." : "Nekateri vpisani dogodki v koledarju so okvarjeni. Preverite konzolo JS za več podrobnosti.",
+    "Some events in this calendar are broken. Please check the JS console for more info." : "Nekateri vpisi v koledarju so napačni. Za več podrobnosti preverite konzolo JS.",
     "Share Calendar" : "Omogoči souporabo koledarja",
     "Shared" : "V souporabi",
     "WebDAV address for subscriptions" : "WebDAV naslov za naročnike",
