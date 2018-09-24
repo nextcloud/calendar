@@ -207,6 +207,6 @@ OC.L10N.register(
     "Timezone" : "Časová zóna",
     "Primary CalDAV address" : "Primární adresa CalDAV",
     "iOS/macOS CalDAV address" : "CalDAV addresa pro iOS/macOS",
-    "Subscribe" : "Odebírat"
+    "Subscribe" : "Přihlásit se k odběru"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");
