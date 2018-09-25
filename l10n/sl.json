@@ -28,6 +28,8 @@
     "Share Calendar" : "Omogoči souporabo koledarja",
     "Shared" : "V souporabi",
     "WebDAV address for subscriptions" : "WebDAV naslov za naročnike",
+    "Email sent." : "Elektronsko sporočilo je poslano.",
+    "Could not send your email." : "Sporočila ni bilo mogoče poslati.",
     "group" : "skupina",
     "Details" : "Podrobnosti",
     "Attendees" : "Udeleženci",
@@ -160,7 +162,9 @@
     "No Calendars selected for import" : "Ni navedenih koledarjev za uvoz",
     "Skip simple event editor" : "Preskoči enostavni urejevalnik dogodkov",
     "Show week numbers" : "Pokaži številke tednov",
+    "Timezone" : "Časovni pas",
     "Primary CalDAV address" : "Osnovni naslov CalDAV",
+    "iOS/macOS CalDAV address" : "Naslov CalDAV za iOS/macOS",
     "Subscribe" : "Naročite se"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

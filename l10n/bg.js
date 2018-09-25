@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Calendar" : "Календар",
     "Hello," : "Здравейте, ",
+    "We wanted to inform you that %s has published the calendar »%s«." : "Информираме ви, че%s е публикувал календара »%s«.",
     "Cheers!" : "Поздрави!",
     "Recipient" : "Получател",
     "Too many redirects. Aborting ..." : "Прекалено много пренасочвания. Прекратяване ...",
@@ -108,6 +109,7 @@ OC.L10N.register(
     "{calendar} shared by {owner}" : "{calendar} споделен от {owner}",
     "Please enter a valid WebCal-URL" : "Моля въведете валиден WebCal адрес",
     "Severe error in webcal proxy. Please contact administrator for more information." : "Тежка грешка в webcal прокси. Моля, свържете се с администратора за повече информация.",
+    "A Calendar app for Nextcloud" : "Приложение Календар за Nextcloud",
     "Title of the Event" : "Заглавие на събитието",
     "Starts" : "Започва",
     "Ends" : "Завършва",
@@ -180,6 +182,7 @@ OC.L10N.register(
     "Import scheduled" : "Внасянето насрочено",
     "%s shared the calendar <strong>%s</strong> with you" : "%s сподели календара <strong>%s</strong> с вас",
     "Embed" : "Вграден",
+    "Iframe to integrate" : "Интегрирай в Iframe",
     "Publish URL" : "Публикувай URL",
     "Settings & import" : "Настройки и внасяне",
     "Import calendar" : "Внасяне на календар",
