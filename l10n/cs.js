@@ -3,8 +3,8 @@ OC.L10N.register(
     {
     "Calendar" : "Kalendář",
     "%s has published the calendar »%s«" : "%s právě zveřejnil(a) kalendář „%s“",
-    "Hello," : "Zdravím,",
-    "We wanted to inform you that %s has published the calendar »%s«." : "Chceme vás upozornit, že  %s právě publikoval/a  kalendář »%s«.",
+    "Hello," : "Zdravíme,",
+    "We wanted to inform you that %s has published the calendar »%s«." : "Chceme vás informovat, že %s právě zveřejnil/a  kalendář „%s“.",
     "Open »%s«" : "Otevřít „%s“",
     "Cheers!" : "Mějte se!",
     "Recipient" : "Adresát",
