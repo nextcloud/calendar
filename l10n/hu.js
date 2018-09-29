@@ -122,6 +122,7 @@ OC.L10N.register(
     "{calendar} shared by {owner}" : "{calendar} megosztója: {owner}",
     "Please enter a valid WebCal-URL" : "Kérlek adj meg egy érvényes WebCal-URL-t",
     "Severe error in webcal proxy. Please contact administrator for more information." : "Komoly hiba van a webcal proxynál. További információkért kérlek vedd fel a kapcsolatot a rendszergazdával.",
+    "A Calendar app for Nextcloud" : "Naptár alkalmazás a Nextcloud-hoz",
     "Title of the Event" : "Az esemény címe",
     "Starts" : "Kezdődik",
     "Ends" : "Véget ér",
