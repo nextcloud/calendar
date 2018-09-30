@@ -90,6 +90,7 @@ OC.L10N.register(
     "{calendar} shared by {owner}" : "Διαμοιρασμός {calendar} από {owner}",
     "Please enter a valid WebCal-URL" : "Παρακαλούμε εισάγετε έγκυρο WebCal-URL",
     "Severe error in webcal proxy. Please contact administrator for more information." : "Σοβαρό σφάλμα στον διαμεσολαβητή webcal. Παρακαλούμε επικοινωνήστε με τον διαχειριστή για περισσότερες πληροφορίες.",
+    "A Calendar app for Nextcloud" : "Η εφαρμογή ημερολογίου για το Nextcloud",
     "Title of the Event" : "Τίτλος συμβάντος",
     "Starts" : "Ξεκινά",
     "Ends" : "Τελειώνει",
