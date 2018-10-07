@@ -29,7 +29,7 @@ app.filter('attendeeFilter', function() {
 			return '';
 		} else if (typeof attendee.parameters === 'object' && typeof attendee.parameters.cn === 'string') {
 			return attendee.parameters.cn;
-		} else if (typeof attendee.value === 'string' && attendee.value.startsWith('MAILTO:')) {
+		} else if (typeof attendee.value === 'string' && attendee.value.toLowerCase().startsWith('mailto:')) {
 			return attendee.value.substr(7);
 		} else {
 			return attendee.value || '';

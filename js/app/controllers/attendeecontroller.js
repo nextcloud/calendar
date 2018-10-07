@@ -45,7 +45,7 @@ app.controller('AttendeeController', function($scope, AutoCompletionService) {
 		$scope.properties.attendee = $scope.properties.attendee || [];
 		if ($scope.properties.attendee.length > 0 && $scope.properties.organizer === null) {
 			$scope.properties.organizer = {
-				value: 'MAILTO:' + $scope.$parent.emailAddress,
+				value: 'mailto:' + $scope.$parent.emailAddress,
 				parameters: {
 					cn: OC.getCurrentUser().displayName
 				}
@@ -57,7 +57,7 @@ app.controller('AttendeeController', function($scope, AutoCompletionService) {
 		if (email !== '') {
 			$scope.properties.attendee = $scope.properties.attendee || [];
 			$scope.properties.attendee.push({
-				value: 'MAILTO:' + email,
+				value: 'mailto:' + email,
 				group: $scope.newAttendeeGroup--,
 				parameters: {
 					'role': 'REQ-PARTICIPANT',
@@ -113,7 +113,7 @@ app.controller('AttendeeController', function($scope, AutoCompletionService) {
 	$scope.selectFromTypeahead = function (item) {
 		$scope.properties.attendee = $scope.properties.attendee || [];
 		$scope.properties.attendee.push({
-			value: 'MAILTO:' + item.email,
+			value: 'mailto:' + item.email,
 			parameters: {
 				cn: item.name,
 				role: 'REQ-PARTICIPANT',
