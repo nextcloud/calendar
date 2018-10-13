@@ -32,12 +32,12 @@ app.filter('attendeeNotOrganizerFilter', function () {
 			return [];
 		}
 
-		var organizerValue = 'MAILTO:' + organizer;
+		var organizerValue = 'mailto:' + organizer.toLowerCase();
 		return attendees.filter(function(element) {
 			if (typeof element !== 'object') {
 				return false;
 			} else {
-				return element.value !== organizerValue;
+				return element.value.toLowerCase() !== organizerValue;
 			}
 		});
 	};
