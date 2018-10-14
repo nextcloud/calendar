@@ -199,7 +199,7 @@
     "Settings & import" : "Beállítások és Importálás",
     "Import calendar" : "Naptár importálása",
     "No Calendars selected for import" : "Nincs importálásra kiválasztott naptár",
-    "Skip simple event editor" : "Váltás az egyszerű esemény szerkesztőre",
+    "Skip simple event editor" : "Az egyszerű eseményszerkesztő kihagyása",
     "Show week numbers" : "Hetek számának megjelenítése",
     "Timezone" : "Időzóna",
     "Primary CalDAV address" : "Elsődleges CalDAV cím",
