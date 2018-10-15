@@ -7,7 +7,7 @@ OC.L10N.register(
     "We wanted to inform you that %s has published the calendar »%s«." : "通知你 %s 發佈了日曆 »%s«.",
     "Open »%s«" : "開啟 »%s«",
     "Cheers!" : "太棒了！",
-    "Recipient" : "接收者",
+    "Recipient" : "收件人",
     "Too many redirects. Aborting ..." : "太多重新導向，正在終止…",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "遠端伺服器未給予日曆存取權限 (HTTP {%s} 錯誤)",
     "Error connecting to remote server" : "在與遠端伺服器連線時發生了錯誤",
