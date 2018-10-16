@@ -1,3 +1,8 @@
+## 1.6.3 - 2018-10-16
+### Fixed
+- Incorrect creation of attendees that led to duplicate entries after invitation response
+- updated translations
+
 ## 1.6.2 - 2018-09-05
 ### Fixed
 - compatibility with Nextcloud 14
