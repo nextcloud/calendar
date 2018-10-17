@@ -11,14 +11,14 @@
 * 🙋 **Attendees!** Invite people to your events.
 * 🙈 **We’re not reinventing the wheel!** Based on the great [davclient.js](https://github.com/evert/davclient.js), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries.
 	]]></description>
-	<version>1.7.1</version>
+	<version>2.0.0-alpha1</version>
 	<licence>agpl</licence>
 	<author homepage="https://georg.coffee">Georg Ehrke</author>
 	<author homepage="http://raghunayyar.com">Raghu Nayyar</author>
 	<author homepage="https://tcit.fr">Thomas Citharel</author>
 	<namespace>Calendar</namespace>
 	<documentation>
-		<user>https://docs.nextcloud.com/server/latest/user_manual/pim/calendar.html</user>
+		<user>https://docs.nextcloud.com/server/11/user_manual/pim/calendar.html</user>
 	</documentation>
 	<category>office</category>
 	<category>organization</category>
@@ -31,6 +31,6 @@
 	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/sidebar_attendees.png</screenshot>
 	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/sidebar_reminders.png</screenshot>
 	<dependencies>
-		<nextcloud min-version="16" max-version="17" />
+		<nextcloud min-version="15" max-version="15" />
 	</dependencies>
 </info>
