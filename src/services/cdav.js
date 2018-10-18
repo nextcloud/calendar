@@ -19,35 +19,29 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import '@babel/polyfill'
 
-import Vue from 'vue'
-import App from './App'
-import router from './router'
-import store from './store'
-// import { sync } from 'vuex-router-sync'
+import DavClient from 'cdav-library'
 
-// CSP config for webpack dynamic chunk loading
-// eslint-disable-next-line
-__webpack_nonce__ = btoa(OC.requestToken)
+function xhrProvider() {
+	var headers = {
+		'X-Requested-With': 'XMLHttpRequest',
+		'requesttoken': OC.requestToken
+	}
+	var xhr = new XMLHttpRequest()
+	var oldOpen = xhr.open
 
-// Correct the root of the app for chunk loading
-// OC.linkTo matches the apps folders
-// OC.generateUrl ensure the index.php (or not)
-// We do not want the index.php since we're loading files
-// eslint-disable-next-line
-__webpack_public_path__ = OC.linkTo('calendar', 'js/')
+	// override open() method to add headers
+	xhr.open = function() {
+		var result = oldOpen.apply(this, arguments)
+		for (let name in headers) {
+			xhr.setRequestHeader(name, headers[name])
+		}
+		return result
+	}
+	OC.registerXHRForErrorProcessing(xhr)
+	return xhr
+}
 
-// sync(store, router)
-
-Vue.prototype.t = t
-Vue.prototype.n = n
-Vue.prototype.OC = OC
-Vue.prototype.OCA = OCA
-
-export default new Vue({
-	el: '#content',
-	router,
-	store,
-	render: h => h(App)
-})
+export default new DavClient({
+	rootUrl: OC.linkToRemote('dav')
+}, xhrProvider)

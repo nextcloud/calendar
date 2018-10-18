@@ -58,3 +58,11 @@
 #fullcalendar td.fc-day.fc-sun {
 	background-color: nc-darken($color-main-background, 3%);
 }
+
+@import 'calendarlist.scss';
+@import 'confirmation.scss';
+@import 'datepicker.scss';
+@import 'eventdialog.scss';
+@import 'globals.scss';
+@import 'print.scss';
+@import 'settings.scss';
