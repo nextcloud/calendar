@@ -21,11 +21,83 @@
  -->
 
 <template>
-	<router-view />
+	<div class="app">
+		<app-navigation menu="menu">
+			<settings-section v-if="!loading" slot="settings-content" />
+		</app-navigation>
+		<router-view />
+	</div>
 </template>
 
 <script>
+import { AppNavigation } from 'nextcloud-vue'
+import client from './services/cdav.js'
+
 export default {
-	name: 'App'
+	name: 'App',
+	components: {
+		AppNavigation,
+	},
+	data() {
+		return {
+		}
+	},
+	computed: {
+		// store getters
+		calendars() {
+			return this.$store.getters.getCalendars
+		},
+	},
+	beforeMount() {
+		// get calendars then get events
+		client.connect({ enableCalDAV: true }).then(() => {
+			console.debug('Connected to dav!', client)
+			this.$store.dispatch('getCalendars')
+				.then((calendars) => {
+
+					// No calendars? Create a new one!
+					if (calendars.length === 0) {
+						this.$store.dispatch('appendCalendar', { displayName: t('calendars', 'Calendars') })
+							.then(() => {
+								this.fetchEvents()
+							})
+					// else, let's get those events!
+					} else {
+						this.fetchEvents()
+					}
+				})
+				// check local storage for orderKey
+			// if (localStorage.getItem('orderKey')) {
+			// 	// run setOrder mutation with local storage key
+			// 	this.$store.commit('setOrder', localStorage.getItem('orderKey'))
+			// }
+		})
+	},
+	methods: {
+		menu() {
+			return {
+				menu: {
+					id: 'navigation',
+					items: [
+
+					]
+				}
+			}
+		},
+		/**
+		 * Fetch the events of each calendar
+		 */
+		fetchEvents() {
+			// wait for all calendars to have fetch their events
+			Promise.all(this.calendars.map(calendar => this.$store.dispatch('getEventsFromCalendar', { calendar })))
+				.then(results => {
+					this.loading = false
+					// eslint-disable-next-line
+					console.log(results)
+				})
+				// no need for a catch, the action does not throw
+				// and the error is handled there
+		},
+	}
 }
 </script>

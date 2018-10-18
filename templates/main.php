@@ -1,4 +1,4 @@
 <?php
-script('contacts', 'contacts');
-style('contacts', 'contacts');
+script('calendar', 'calendar');
+style('calendar', 'app/calendar');
 ?>
