@@ -16,7 +16,7 @@ OC.L10N.register(
     "Individual" : "Einstaklingur",
     "Group" : "Hópur",
     "Resource" : "Tilfang",
-    "Room" : "Herbergi",
+    "Room" : "Spjallsvæði",
     "Unknown" : "Óþekkt",
     "Required" : "þetta þarf",
     "Optional" : "Valkvætt",
