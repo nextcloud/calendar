@@ -74,3 +74,5 @@ Once node and yarn are installed, PHP and JavaScript dependencies can be install
 $ make
 ```
 Please execute this command with your ordinary user account and neither root nor sudo.
+
+__We are currently moving the Calendar app from Angular 1 to Vue. (see [this PR](https://github.com/nextcloud/calendar/pull/926)). Please develop your bugfixes / features against the `vue` branch for the time being__ 
