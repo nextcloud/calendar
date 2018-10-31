@@ -67,7 +67,7 @@ class ContactController extends Controller {
 			}
 
 			foreach ($r['ADR'] as $address) {
-				$address = trim(preg_replace("/\n+/", "\n", str_replace(';', "\n", $address)));
+				$address = preg_replace("/\n+/", ", ", trim(str_replace(';', "\n", $address)));
 				$contacts[] = [
 					'label' => $address,
 					'name' => $name
