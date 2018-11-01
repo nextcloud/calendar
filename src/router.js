@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import View from './components/View'
-import Edit from './components/Edit'
+import View from './views/View'
+import Edit from './views/Edit'
 
 Vue.use(Router)
 
