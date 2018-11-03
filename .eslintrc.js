@@ -12,7 +12,8 @@ module.exports = {
 		OC: true,
 		OCA: true,
 		Vue: true,
-		VueRouter: true
+		VueRouter: true,
+		oca_calendar: true
 	},
 	parserOptions: {
 		parser: 'babel-eslint'

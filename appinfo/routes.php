@@ -25,6 +25,18 @@ return [
 	'routes' => [
 		//Main view
 		['name' => 'view#index', 'url' => '/', 'verb' => 'GET'],
+		// we need to reflect all our javascript routes here as well,
+		// so that you don't get forwarded to the files app on reload
+		['name' => 'view#indexViewTimerange', 'url' => '/month/{timeRange}/', 'verb' => 'GET'],
+		['name' => 'view#indexViewTimerange', 'url' => '/agendaDay/{timeRange}/', 'verb' => 'GET'],
+		['name' => 'view#indexViewTimerange', 'url' => '/agendaWeek/{timeRange}/', 'verb' => 'GET'],
+		['name' => 'view#indexViewTimerangeNew', 'url' => '/month/{timeRange}/new/{mode}/{recurrenceId}/', 'verb' => 'GET'],
+		['name' => 'view#indexViewTimerangeNew', 'url' => '/agendaDay/{timeRange}/new/{mode}/{recurrenceId}/', 'verb' => 'GET'],
+		['name' => 'view#indexViewTimerangeNew', 'url' => '/agendaWeek/{timeRange}/new/{mode}/{recurrenceId}/', 'verb' => 'GET'],
+		['name' => 'view#indexViewTimerangeEdit', 'url' => '/month/{timeRange}/edit/{mode}/{objectId}/{recurrenceId}/', 'verb' => 'GET'],
+		['name' => 'view#indexViewTimerangeEdit', 'url' => '/agendaDay/{timeRange}/edit/{mode}/{objectId}/{recurrenceId}/', 'verb' => 'GET'],
+		['name' => 'view#indexViewTimerangeEdit', 'url' => '/agendaWeek/{timeRange}/edit/{mode}/{objectId}/{recurrenceId}/', 'verb' => 'GET'],
+
 		['name' => 'view#public_index_with_branding', 'url' => '/p/{token}', 'verb' => 'GET'],
 		['name' => 'view#public_index_with_branding_and_fancy_name', 'url' => '/p/{token}/{fancyName}', 'verb' => 'GET'],
 		['name' => 'view#public_index_for_embedding', 'url' => '/embed/{token}', 'verb' => 'GET'],
