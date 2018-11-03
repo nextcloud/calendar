@@ -1,47 +1,44 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import View from './views/View'
+import Calendar from './views/Calendar'
 import Edit from './views/Edit'
+import { dateFactory, getYYYYMMDDFromDate } from './services/date.js'
 
 Vue.use(Router)
 
 const router = new Router({
 	mode: 'history',
-	base: OC.generateUrl('/apps/calendar'),
+	base: OC.linkTo('calendar', 'index.php'),
 	routes: [
 		{
 			path: '/',
 			name: 'Root',
-			component: View,
-			// redirect: {
-			// 	name: 'View',
-			// 	params: {
-			// 		view: 'now',
-			// 		firstday: 'now'
-			// 	},
-			// }
+			component: Calendar,
+			redirect: {
+				name: 'View',
+				params: {
+					view: oca_calendar.initialView,
+					firstday: getYYYYMMDDFromDate(dateFactory())
+				},
+			}
 		},
 		{
-			path: '/{view}/{firstday}',
-			props: true,
+			path: '/:view/:firstday',
 			children: [
 				{
 					path: '/',
 					name: 'View',
-					component: View,
-					props: true
+					component: Calendar,
 				},
 				{
-					path: '/edit/{mode}/{object}/{recurrence}',
+					path: '/edit/:mode/:object/:recurrenceId',
 					name: 'Edit',
 					component: Edit,
-					props: true
 				},
 				{
-					path: '/new/{mode}/{recurrence}',
+					path: '/new/:mode/:recurrenceId',
 					name: 'Edit',
 					component: Edit,
-					props: true,
 				},
 			],
 		},
