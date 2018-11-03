@@ -21,42 +21,17 @@
   -->
 
 <template>
-	<div class="togglebuttons">
-		<button :class="{active: (selectedView === 'agendaDay')}" class="button first" @click="view('agendaDay')">{{ labelAgendaDay }}</button>
-		<button :class="{active: (selectedView === 'agendaWeek')}" class="button middle" @click="view('agendaWeek')">{{ labelAgendaWeek }}</button>
-		<button :class="{active: (selectedView === 'month')}" class="button last" @click="view('month')">{{ labelMonth }}</button>
-	</div>
+	<div id="fullcalendar" />
 </template>
 
 <script>
 export default {
-	name: 'TodayButton',
-	computed: {
-		labelAgendaDay() {
-			return t('calendar', 'Day')
-		},
-		labelAgendaWeek() {
-			return t('calendar', 'Week')
-		},
-		labelMonth() {
-			return t('calendar', 'Month')
-		},
-		selectedView() {
-			return this.$route.params.view
-		}
-	},
-	methods: {
-		view(viewName) {
-			const name = this.$route.name
-			const params = this.$route.params
+	name: 'FullCalendar',
+	mounted: () => {
 
-			params.view = viewName
-			this.$router.push({ name, params })
-		}
+	},
+	beforeDestroy: () => {
+
 	}
 }
 </script>
-
-<style scoped>
-
-</style>

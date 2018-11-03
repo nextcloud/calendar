@@ -1,17 +1,21 @@
 <template>
 	<div class="view">
 		<!-- Full calendar -->
-		<div ref="fullcalendar" class="fullcalendar-wrapper" />
+		<full-calendar />
 		<!-- Edit modal -->
 		<router-view />
 	</div>
 </template>
 <script>
-import { Calendar } from 'fullcalendar'
+
+import FullCalendar from '../components/FullCalendar.vue'
 import '../../node_modules/fullcalendar/dist/fullcalendar.css'
 
 export default {
-	name: 'View',
+	name: 'Calendar',
+	components: {
+		FullCalendar
+	},
 	// props: {
 	// 	view: {
 	// 		type: String,
@@ -28,8 +32,8 @@ export default {
 		}
 	},
 	mounted() {
-		this.calendar = new Calendar(this.$refs.fullcalendar)
-		this.calendar.render()
+		// this.calendar = new Calendar(this.$refs.fullcalendar)
+		// this.calendar.render()
 	},
 }
 </script>
