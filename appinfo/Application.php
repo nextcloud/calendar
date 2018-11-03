@@ -71,12 +71,6 @@ class Application extends App {
 			return new Controller\SettingsController($c->getAppName(), $request, $userSession, $config);
 		});
 
-		$container->registerService('TimezoneController', function(IAppContainer $c) {
-			$request = $c->query('Request');
-
-			return new Controller\TimezoneController($c->getAppName(), $request);
-		});
-
 		$container->registerService('ViewController', function(IAppContainer $c) {
 			$request = $c->query('Request');
 			$userSession = $c->getServer()->getUserSession();
