@@ -165,6 +165,7 @@ OC.L10N.register(
     "No Calendars selected for import" : "インポートするカレンダーが指定されていません",
     "Skip simple event editor" : "シンプルイベントエディタをスキップ",
     "Show week numbers" : "週番号を表示する",
+    "Timezone" : "タイムゾーン",
     "Primary CalDAV address" : "一番目の CalDAV アドレス",
     "Subscribe" : "購読"
 },
