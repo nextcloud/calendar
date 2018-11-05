@@ -27,6 +27,9 @@ import router from './router'
 import store from './store'
 // import { sync } from 'vuex-router-sync'
 
+import VueClipboard from 'vue-clipboard2'
+Vue.use(VueClipboard)
+
 // CSP config for webpack dynamic chunk loading
 // eslint-disable-next-line
 __webpack_nonce__ = btoa(OC.requestToken)
