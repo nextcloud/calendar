@@ -36,7 +36,7 @@ const router = new Router({
 					component: Edit,
 				},
 				{
-					path: '/new/:mode/:recurrenceId',
+					path: '/new/:mode/:dtstart/:dtend',
 					name: 'Edit',
 					component: Edit,
 				},
