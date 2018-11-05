@@ -183,7 +183,7 @@ class ViewController extends Controller {
 			'showWeekends' => $showWeekends,
 			'skipPopover' => $skipPopover,
 			'timezone' => $timezone,
-			'weekNumbers' => $weekNumbers,
+			'showWeekNumbers' => $weekNumbers,
 		]);
 	}
 

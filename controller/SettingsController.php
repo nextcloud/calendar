@@ -99,6 +99,8 @@ class SettingsController extends Controller {
 				return $this->setView($value);
 			case 'skipPopover':
 				return $this->setSkipPopover($value);
+			case 'showWeekends':
+				return $this->showWeekends($value);
 			case 'showWeekNr':
 				return $this->setShowWeekNr($value);
 			case 'firstRun':
@@ -229,6 +231,46 @@ class SettingsController extends Controller {
 	 * @return bool
 	 */
 	private function isSkipPopoverValueAllowed($value) {
+		$allowedValues = [
+			'yes',
+			'no'
+		];
+
+		return in_array($value, $allowedValues);
+	}
+
+	/**
+	 * set config value for showing week numbers
+	 *
+	 * @param $value
+	 * @return JSONResponse
+	 */
+	private function showWeekends($value) {
+		if (!$this->isShowWeekendsValueAllowed($value)) {
+			return new JSONResponse([], Http::STATUS_UNPROCESSABLE_ENTITY);
+		}
+
+		try {
+			$this->config->setUserValue(
+				$this->userId,
+				$this->appName,
+				'showWeekends',
+				$value
+			);
+		} catch(\Exception $e) {
+			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+
+		return new JSONResponse();
+	}
+
+	/**
+	 * check if value for showWeekNr is allowed
+	 *
+	 * @param $value
+	 * @return bool
+	 */
+	private function isShowWeekendsValueAllowed($value) {
 		$allowedValues = [
 			'yes',
 			'no'
