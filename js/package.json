@@ -56,9 +56,12 @@
     "angular": "^1.7.2",
     "angular-ui-bootstrap": "^2.5.0",
     "fullcalendar": "^3.9.0",
+    "hsl-to-rgb": "kayellpeee/hsl_rgb_converter",
     "hsl_rgb_converter": "kayellpeee/hsl_rgb_converter",
     "ical.js": "^1.2.2",
     "jquery-timepicker": "fgelinas/timepicker#883bb2cd94",
-    "jstzdetect": "georgehrke/jstimezonedetect"
+    "jstimezonedetect": "georgehrke/jstimezonedetect",
+    "jstzdetect": "georgehrke/jstimezonedetect",
+    "timepicker": "fgelinas/timepicker#883bb2cd94"
   }
 }
