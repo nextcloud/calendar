@@ -1,7 +1,11 @@
 <template>
 	<div id="app-navigation">
+		<date-picker />
 		<view-buttons />
 		<today-button />
+
+		<calendar-list :loading-calendars="loadingCalendars" />
+
 		<div v-click-outside="closeMenu" id="app-settings" :class="{open: opened}">
 			<div id="app-settings-header">
 				<button class="settings-button"
@@ -16,8 +20,10 @@
 </template>
 
 <script>
+import DatePicker from './AppNavigation/DatePicker.vue'
 import ViewButtons from './AppNavigation/ViewButtons.vue'
 import TodayButton from './AppNavigation/TodayButton.vue'
+import CalendarList from './AppNavigation/CalendarList.vue'
 import Settings from './AppNavigation/Settings.vue'
 
 import ClickOutside from 'vue-click-outside'
@@ -25,12 +31,20 @@ import ClickOutside from 'vue-click-outside'
 export default {
 	name: 'AppNavigation',
 	components: {
+		DatePicker,
 		ViewButtons,
 		TodayButton,
+		CalendarList,
 		Settings
 	},
 	directives: {
 		ClickOutside
+	},
+	props: {
+		loadingCalendars: {
+			type: Boolean,
+			default: false
+		}
 	},
 	data() {
 		return {

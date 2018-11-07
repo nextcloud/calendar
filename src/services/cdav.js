@@ -1,7 +1,7 @@
 /**
- * @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
+ * @copyright Copyright (c) 2018 Georg Ehrke
  *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -19,16 +19,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 import DavClient from 'cdav-library'
 
 function xhrProvider() {
-	var headers = {
+	const headers = {
 		'X-Requested-With': 'XMLHttpRequest',
 		'requesttoken': OC.requestToken
 	}
-	var xhr = new XMLHttpRequest()
-	var oldOpen = xhr.open
+	const xhr = new XMLHttpRequest()
+	const oldOpen = xhr.open
 
 	// override open() method to add headers
 	xhr.open = function() {

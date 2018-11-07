@@ -21,10 +21,10 @@
   -->
 
 <template>
-	<div class="togglebuttons">
-		<button :class="{active: (selectedView === 'agendaDay')}" class="button first" @click="view('agendaDay')">{{ labelAgendaDay }}</button>
-		<button :class="{active: (selectedView === 'agendaWeek')}" class="button middle" @click="view('agendaWeek')">{{ labelAgendaWeek }}</button>
-		<button :class="{active: (selectedView === 'month')}" class="button last" @click="view('month')">{{ labelMonth }}</button>
+	<div class="button-group">
+		<button :class="{active: (selectedView === 'agendaDay')}" class="button" @click="view('agendaDay')">{{ labelAgendaDay }}</button>
+		<button :class="{active: (selectedView === 'agendaWeek')}" class="button" @click="view('agendaWeek')">{{ labelAgendaWeek }}</button>
+		<button :class="{active: (selectedView === 'month')}" class="button" @click="view('month')">{{ labelMonth }}</button>
 	</div>
 </template>
 
@@ -56,7 +56,3 @@ export default {
 	}
 }
 </script>
-
-<style scoped>
-
-</style>
