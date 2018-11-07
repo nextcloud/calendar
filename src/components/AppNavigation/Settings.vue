@@ -50,6 +50,8 @@
 </template>
 
 <script>
+import client from '../../services/cdav'
+
 export default {
 	name: 'Settings',
 	data: function() {
@@ -148,8 +150,10 @@ export default {
 			this.$copyText(OC.linkToRemote('dav'))
 		},
 		copyAppleCalDAV() {
-			// TODO - return current user principal from davClient
-			this.$copyText('TODO implement me')
+			const rootURL = OC.linkToRemote('dav')
+			const url = new URL(client.currentUserPrincipal.principalUrl, rootURL)
+
+			this.$copyText(url)
 		}
 	}
 }

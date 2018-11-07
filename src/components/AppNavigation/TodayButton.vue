@@ -21,8 +21,8 @@
   -->
 
 <template>
-	<div class="togglebuttons">
-		<button class="button today" @click="today()">{{ label }}</button>
+	<div class="button-group">
+		<button class="button" @click="today()">{{ label }}</button>
 	</div>
 </template>
 

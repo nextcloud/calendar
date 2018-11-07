@@ -22,7 +22,7 @@
 
 <template>
 	<div class="app">
-		<app-navigation />
+		<app-navigation :loading-calendars="loadingCalendars" />
 		<router-view />
 	</div>
 </template>
@@ -38,6 +38,7 @@ export default {
 	},
 	data() {
 		return {
+			loadingCalendars: true
 		}
 	},
 	computed: {
@@ -52,6 +53,7 @@ export default {
 			console.debug('Connected to dav!', client)
 			this.$store.dispatch('getCalendars')
 				.then((calendars) => {
+					this.loadingCalendars = false
 
 					// No calendars? Create a new one!
 					if (calendars.length === 0) {

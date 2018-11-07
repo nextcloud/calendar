@@ -21,22 +21,16 @@
  */
 
 /**
- * returns a new Date object
+ * Returns a default color
  *
- * @returns {Date}
- */
-export function dateFactory() {
-	return new Date()
-}
-
-/**
- * formats a Date object as YYYYMMDD
- *
- * @param {Date} date Date to format
  * @returns {string}
  */
-export function getYYYYMMDDFromDate(date) {
-	return new Date(date.getTime() - (date.getTimezoneOffset() * 60000))
-		.toISOString()
-		.split('T')[0]
+export default function defaultColor() {
+	const fallback = '#000000'
+
+	if (!OCA.Theming) {
+		return fallback
+	}
+
+	return OCA.Theming.color || fallback
 }
