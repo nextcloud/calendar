@@ -19,7 +19,6 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCA\Calendar\AppInfo;
 
-$app = new Application();
+$app = new \OCA\Calendar\AppInfo\Application();
 $app->registerNavigation();
