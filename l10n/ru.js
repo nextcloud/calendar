@@ -143,7 +143,7 @@ OC.L10N.register(
     "We wanted to inform you that %s has published the calendar {boldstart}%s{boldend}." : "Хотим проинформировать, что %s опубликовал календарь {boldstart}%s{boldend}.",
     "Click here to access it" : "Нажмите здесь для получения доступа",
     "We wanted to inform you that %s has published the calendar %s." : "Хотим проинформировать, что %s опубликовал календарь %s",
-    "Click on the link below to access it" : "Нажмите на ссылку ниже для получения доступа",
+    "Click on the link below to access it" : "Для получения доступа, нажмите на ссылку, расположенную ниже",
     "Day" : "День",
     "Week" : "Неделя",
     "Month" : "Месяц",
