@@ -74,16 +74,6 @@ class ViewController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 *
-	 * @return TemplateResponse
-	 */
-	public function indexViewTimerange():TemplateResponse {
-		return $this->index();
-	}
-
-	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
 	 *
@@ -96,18 +86,6 @@ class ViewController extends Controller {
 		$params['isEmbedded'] = false;
 
 		return new TemplateResponse('calendar', 'public', $params, 'base');
-	}
-
-	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
-	 * @param string $token
-	 *
-	 * @return TemplateResponse
-	 */
-	public function publicIndexWithBrandingAndFancyName(string $token):TemplateResponse {
-		return $this->publicIndexWithBranding($token);
 	}
 
 	/**
@@ -126,18 +104,6 @@ class ViewController extends Controller {
 		$response = new TemplateResponse('calendar', 'main', $params, 'base');
 		$response->addHeader('X-Frame-Options', 'ALLOW');
 		return $response;
-	}
-
-	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
-	 * @param string $token
-	 *
-	 * @return TemplateResponse
-	 */
-	public function publicIndexForEmbeddingLegacy(string $token):TemplateResponse {
-		return $this->publicIndexForEmbedding($token);
 	}
 
 	/**

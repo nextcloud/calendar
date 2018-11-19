@@ -23,33 +23,24 @@
  */
 return [
 	'routes' => [
-		//Main view
+		// User views
 		['name' => 'view#index', 'url' => '/', 'verb' => 'GET'],
-		// we need to reflect all our javascript routes here as well,
-		// so that you don't get forwarded to the files app on reload
-		['name' => 'view#indexViewTimerange', 'url' => '/month/{timeRange}/', 'verb' => 'GET'],
-//		['name' => 'view#indexViewTimerange', 'url' => '/agendaDay/{timeRange}/', 'verb' => 'GET'],
-//		['name' => 'view#indexViewTimerange', 'url' => '/agendaWeek/{timeRange}/', 'verb' => 'GET'],
-		['name' => 'view#indexViewTimerangeNew', 'url' => '/month/{timeRange}/new/{mode}/{recurrenceId}/', 'verb' => 'GET'],
-//		['name' => 'view#indexViewTimerangeNew', 'url' => '/agendaDay/{timeRange}/new/{mode}/{recurrenceId}/', 'verb' => 'GET'],
-//		['name' => 'view#indexViewTimerangeNew', 'url' => '/agendaWeek/{timeRange}/new/{mode}/{recurrenceId}/', 'verb' => 'GET'],
-		['name' => 'view#indexViewTimerangeEdit', 'url' => '/month/{timeRange}/edit/{mode}/{objectId}/{recurrenceId}/', 'verb' => 'GET'],
-//		['name' => 'view#indexViewTimerangeEdit', 'url' => '/agendaDay/{timeRange}/edit/{mode}/{objectId}/{recurrenceId}/', 'verb' => 'GET'],
-//		['name' => 'view#indexViewTimerangeEdit', 'url' => '/agendaWeek/{timeRange}/edit/{mode}/{objectId}/{recurrenceId}/', 'verb' => 'GET'],
-
+		['name' => 'view#index', 'url' => '/{view}/{timeRange}/', 'verb' => 'GET', 'requirements' => ['view' => 'agendaDay|agendaWeek|month'], 'postfix' => 'view.timerange'],
+		['name' => 'view#index', 'url' => '/{view}/{timeRange}/new/{mode}/{recurrenceId}/', 'verb' => 'GET', 'requirements' => ['view' => 'agendaDay|agendaWeek|month'], 'postfix' => 'view.timerange.new'],
+		['name' => 'view#index', 'url' => '/{view}/{timeRange}/edit/{mode}/{objectId}/{recurrenceId}/', 'verb' => 'GET', 'requirements' => ['view' => 'agendaDay|agendaWeek|month'], 'postfix' => 'view.timerange.edit'],
+		// Public views
 		['name' => 'view#public_index_with_branding', 'url' => '/p/{token}', 'verb' => 'GET'],
-		['name' => 'view#public_index_with_branding_and_fancy_name', 'url' => '/p/{token}/{fancyName}', 'verb' => 'GET'],
+		['name' => 'view#public_index_with_branding', 'url' => '/p/{token}/{fancyName}', 'verb' => 'GET', 'postfix' => 'fancy.name'],
 		['name' => 'view#public_index_for_embedding', 'url' => '/embed/{token}', 'verb' => 'GET'],
-		['name' => 'view#public_index_for_embedding_legacy', 'url' => '/public/{token}', 'verb' => 'GET'], // keep public/ for legacy reasons
-		// Tools
-		['name' => 'email#sendEmailPublicLink', 'url' => '/v1/public/sendmail', 'verb' => 'POST'],
-		//Settings
-		['name' => 'settings#getConfig', 'url' => '/v1/config', 'verb' => 'GET'],
-		['name' => 'settings#setConfig', 'url' => '/v1/config', 'verb' => 'POST'],
+		['name' => 'view#public_index_for_embedding', 'url' => '/public/{token}', 'verb' => 'GET', 'postfix' => 'legacy'], // keep public/ for legacy reasons
+
 		//Autocompletion
 		['name' => 'contact#searchAttendee', 'url' => '/v1/autocompletion/attendee', 'verb' => 'POST'],
 		['name' => 'contact#searchLocation', 'url' => '/v1/autocompletion/location', 'verb' => 'POST'],
-
-		['name' => 'proxy#proxy', 'url' => '/v1/proxy', 'verb' => 'GET'],
+		//Settings
+		['name' => 'settings#getConfig', 'url' => '/v1/config', 'verb' => 'GET'],
+		['name' => 'settings#setConfig', 'url' => '/v1/config', 'verb' => 'POST'],
+		// Tools
+		['name' => 'email#sendEmailPublicLink', 'url' => '/v1/public/sendmail', 'verb' => 'POST'],
 	]
 ];
