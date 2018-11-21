@@ -300,7 +300,7 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
 			return AutoCompletionService.searchLocation(value).then(function(locations) {
 				locations = locations.map(function(location){
 					return {
-						label: location.label,
+						label: _.escape(location.name) + "\n" + location.label,
 						name: _.escape(location.name)
 					};
 				});
