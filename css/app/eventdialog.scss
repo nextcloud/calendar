@@ -52,7 +52,7 @@
 .modal-open .modal.import {
 	position: absolute;
 	width: 450px;
-	background: $color-main-background;
+	background: var(--color-main-background);
 	box-shadow: 0 0 3px $color-box-shadow;
 	overflow: hidden;
 	margin-left: 0 !important;
@@ -173,6 +173,7 @@
 .events--textarea,
 .advanced--textarea {
 	resize: none;
+	background-color: inherit !important;
 }
 
 .events .events--checkbox {
@@ -295,7 +296,7 @@ button.delete:focus {
 
 .advanced--fieldset-attendeelist .advanced--toggler:hover,
 .advanced--fieldset-reminderlist .advanced--toggler:hover {
-	background: #efefef;
+	background: var(--color-background-darker);
 	cursor: pointer;
 }
 
@@ -314,9 +315,12 @@ button.delete:focus {
 	max-width: 470px;
 }
 
+.attendeename {
+	background-color: inherit !important;
+}
+
 .dropdown-menu li {
 	border-bottom: 1px solid #ddd;
-	background: #f8f8f8;
 }
 
 .dropdown-menu li a {

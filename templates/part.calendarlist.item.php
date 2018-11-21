@@ -25,7 +25,10 @@
 <span class="calendarCheckbox app-navigation-entry-bullet"
 	  ng-click="triggerEnable(item)"
 	  ng-if="item.displayColorIndicator() && !item.calendar.hasWarnings()"
-	  ng-style="{ 'background-color' : item.calendar.enabled == true ? item.calendar.color : 'transparent' }">
+	  ng-style="{
+		  'background-color' : item.calendar.enabled == true ? item.calendar.color : 'transparent',
+		  'border': item.calendar.enabled == true ? '1px solid var(--color-border-dark)' : 'none'
+		}">
 </span>
 <a class="action permanent"
    ng-class="{'icon-error': item.calendar.hasWarnings()}"
@@ -52,7 +55,7 @@
 		<li class="app-navigation-entry-utils-menu-button"
 			href="#"
 			title="<?php p($l->t('More')); ?>"
-			role="button"><button on-toggle-show="#more-actions-{{ $id }}"></button></li>
+			role="button"><button class="icon-more" on-toggle-show="#more-actions-{{ $id }}"></button></li>
 	</ul>
 </div>
 

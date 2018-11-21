@@ -56,5 +56,5 @@
 
 #fullcalendar td.fc-day.fc-sat,
 #fullcalendar td.fc-day.fc-sun {
-	background-color: nc-darken($color-main-background, 3%);
+	background-color: var(--color-background-darker);
 }
