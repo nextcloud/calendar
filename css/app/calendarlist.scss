@@ -555,6 +555,14 @@ ul.dropdown-menu li > a:hover {
 	background-size: 16px;
 }
 
-.fc-unthemed td.fc-today {
-	background: #fcf8e3 !important;
+/* highlight today day number */
+.fc-today > .fc-day-number {
+	background: $color-primary;
+	color: $color-primary-text;
+	border-radius: 50%;
+	padding: 3px 8px;
+	min-width: 12px;
+	margin: 3px;
+	text-align: center;
+	font-weight: bold !important;
 }
