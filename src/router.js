@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Calendar from './views/Calendar'
-import Edit from './views/Edit'
+import EditSimple from './views/EditSimple'
+import EditSidebar from './views/EditSidebar'
+
 import { dateFactory, getYYYYMMDDFromDate } from './services/date.js'
 
 Vue.use(Router)
@@ -13,32 +15,60 @@ const router = new Router({
 		{
 			path: '/',
 			name: 'Root',
-			component: Calendar,
 			redirect: {
-				name: 'View',
+				name: 'CalendarView',
 				params: {
 					view: oca_calendar.initialView,
 					firstday: getYYYYMMDDFromDate(dateFactory())
 				},
 			}
 		},
+		// {
+		// 	// This route can be used in order to link to events without knowing it's date
+		// 	path: '/edit/:object',
+		//	name: 'EditNoDateNoRecurrenceId',
+		// 	redirect: {
+		// 		name: 'Edit',
+		//
+		// 	}
+		// },
+		// {
+		// 	// This route can be used in order to link to events without knowing it's date
+		// 	path: '/edit/:object/:recurrenceId',
+		// 	name: 'EditNoDate',
+		// 	redirect: {
+		// 		name: 'Edit',
+		//
+		// 	}
+		// },
 		{
 			path: '/:view/:firstday',
+			component: Calendar,
+			name: 'CalendarView',
 			children: [
+				// {
+				// 	path: '',
+				// 	name: 'CalendarView',
+				// },
 				{
-					path: '/',
-					name: 'View',
-					component: Calendar,
+					path: '/:view/:firstday/edit/popover/:object/:recurrenceId',
+					name: 'EditPopoverView',
+					component: EditSimple,
 				},
 				{
-					path: '/edit/:mode/:object/:recurrenceId',
-					name: 'Edit',
-					component: Edit,
+					path: '/:view/:firstday/edit/sidebar/:object/:recurrenceId',
+					name: 'EditSidebarView',
+					component: EditSidebar,
 				},
 				{
-					path: '/new/:mode/:dtstart/:dtend',
-					name: 'Edit',
-					component: Edit,
+					path: '/:view/:firstday/new/popover/:dtstart/:dtend',
+					name: 'NewPopoverView',
+					component: EditSimple,
+				},
+				{
+					path: '/:view/:firstday/new/sidebar/:dtstart/:dtend',
+					name: 'NewSidebarView',
+					component: EditSidebar,
 				},
 			],
 		},

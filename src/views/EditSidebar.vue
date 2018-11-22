@@ -1,5 +1,6 @@
 <template>
-	<div class="editor">
+	<div id="app-sidebar">
+		FOO VAR
 		<!-- title -->
 		<!-- timepicker -->
 		<!-- details -->
@@ -15,6 +16,6 @@
 </template>
 <script>
 export default {
-	name: 'Edit',
+	name: 'EditSidebar',
 }
 </script>

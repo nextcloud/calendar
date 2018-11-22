@@ -25,10 +25,114 @@
 </template>
 
 <script>
+import { Calendar } from 'fullcalendar'
+import '../../node_modules/fullcalendar/dist/fullcalendar.css'
+import debounce from 'debounce'
+
+import '../fullcalendar/timeZoneImpl'
+
 export default {
 	name: 'FullCalendar',
-	mounted: () => {
+	props: {
+		// single events used for new event, etc.
+		events: {
+			type: Array,
+			default() {
+				return []
+			}
+		},
+		// event sources for calendars
+		eventSources: {
+			type: Array,
+			default() {
+				return []
+			}
+		},
+		// config options
+		config: {
+			type: Object,
+			required: true
+		}
+	},
+	data() {
+		return {
+			defaultConfig: {
+				// dayNames: [],
+				// dayNamesShort: [],
+				defaultView: 'month',
+				editable: true,
+				firstDay: null,
+				forceEventDuration: true,
+				header: false,
+				// locale: null,
+				// monthNames: [],
+				// monthNamesShort: [],
+				slotDuration: '00:15:00',
+				nowIndicator: true,
+				weekNumbers: false, // TODO is this the default in view controller?
+				weekends: true,
+				eventSources: this.eventSources,
+				timeZone: 'America/New_York',
+				timeZoneImpl: 'vtimezone-timezone',
+			},
+			calendar: null,
+			currentDate: null
+		}
+	},
+	watch: {
+		events: {
+			deep: true,
+			handler(newValue, oldValue) {
 
+			}
+		},
+		eventSources: {
+			deep: true,
+			handler(newEventSources, oldEventSources) {
+				const toAdd = newEventSources.filter((es) => oldEventSources.find((oes) => es.id === oes.id) === undefined)
+				const toRemove = oldEventSources.filter((oes) => newEventSources.find((es) => es.id === oes.id) === undefined)
+
+				toAdd.forEach((es) => {
+					this.calendar.addEventSource(es)
+				})
+				toRemove.forEach((es) => {
+					this.calendar.getEventSourceById(es.id).remove()
+				})
+			}
+		},
+		config: {
+			deep: true,
+			handler(newValue, oldValue) {
+
+			}
+		},
+		'$route'({ params }) {
+			if (params.view !== this.calendar.getView().type) {
+				this.calendar.changeView(params.view)
+
+			}
+
+			if (params.firstday !== this.currentDate) {
+				this.calendar.gotoDate(params.firstday)
+				this.currentDate = params.firstday
+			}
+		}
+	},
+	mounted: function() {
+		window.addEventListener('resize', debounce(() => {
+			const windowHeight = window.innerHeight
+			const headerHeight = document.getElementById('header').clientHeight
+
+			this.calendar.setOption('height', windowHeight - headerHeight)
+		}, 500))
+
+		const windowHeight = window.innerHeight
+		const headerHeight = document.getElementById('header').clientHeight
+		const height = windowHeight - headerHeight
+
+		this.calendar = new Calendar(this.$el,
+			Object.assign({}, { height }, this.defaultConfig, this.config))
+		this.calendar.render()
 	},
 	beforeDestroy: () => {
 

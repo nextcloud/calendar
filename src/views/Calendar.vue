@@ -1,39 +1,44 @@
 <template>
-	<div class="view">
+	<div id="app-content">
 		<!-- Full calendar -->
-		<full-calendar />
+		<full-calendar :events="events" :event-sources="eventSources" :config="config" />
 		<!-- Edit modal -->
 		<router-view />
 	</div>
 </template>
-<script>
 
+<script>
 import FullCalendar from '../components/FullCalendar.vue'
-import '../../node_modules/fullcalendar/dist/fullcalendar.css'
+import { generateTextColorFromRGB } from '../services/colorService'
+import fullCalendarEventService from '../services/fullCalendarEventService'
 
 export default {
 	name: 'Calendar',
 	components: {
 		FullCalendar
 	},
-	// props: {
-	// 	view: {
-	// 		type: String,
-	// 		required: true,
-	// 	},
-	// 	firstday: {
-	// 		type: String,
-	// 		required: true,
-	// 	}
-	// },
-	data() {
-		return {
-			calendar: null
+	computed: {
+		events() {
+			return []
+		},
+		eventSources() {
+			console.debug(this.$store.getters.enabledCalendars)
+			return this.$store.getters.enabledCalendars.map((enabledCalendar) => ({
+				id: enabledCalendar.id,
+				// coloring
+				backgroundColor: enabledCalendar.color,
+				borderColor: enabledCalendar.color,
+				textColor: generateTextColorFromRGB(enabledCalendar.color),
+				// html foo
+				className: enabledCalendar.id,
+				editable: !enabledCalendar.readOnly,
+
+				events: fullCalendarEventService(enabledCalendar),
+			}))
+		},
+		config() {
+			return {}
 		}
-	},
-	mounted() {
-		// this.calendar = new Calendar(this.$refs.fullcalendar)
-		// this.calendar.render()
-	},
+	}
 }
 </script>
