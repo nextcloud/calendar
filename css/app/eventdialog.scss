@@ -334,3 +334,16 @@ button.delete:focus {
 .dropdown-menu li a:hover {
 	background: #eee;
 }
+
+
+
+.modal-content #app-sidebar {
+	position: fixed;
+}
+
+#popover-container,
+#importpopover-container {
+	max-height: 0 !important;
+	max-width: 0 !important;
+	overflow: hidden !important;
+}

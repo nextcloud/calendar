@@ -26,12 +26,19 @@ const colors = []
 /**
  * get the appropriate text color to be used on top of an rgb value
  *
- * @param {Number} red decimal value for red
+ * @param {Number|String} red decimal value for red
  * @param {Number} green decimal value for green
  * @param {Number} blue decimal value for blue
  * @returns {string}
  */
 export function generateTextColorFromRGB(red, green, blue) {
+	if (typeof red === 'string') {
+		const { r, g, b } = extractRGBFromHexString(red)
+		red = r
+		green = g
+		blue = b
+	}
+
 	const brightness = (((red * 299) + (green * 587) + (blue * 114)) / 1000)
 	return (brightness > 130) ? '#000000' : '#FAFAFA'
 }
