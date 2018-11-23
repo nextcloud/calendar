@@ -147,7 +147,6 @@ appstore:
 	$(copy_command) --parents -r \
 	"appinfo" \
 	"controller" \
-	"http" \
 	"img" \
 	"l10n" \
 	"templates" \
