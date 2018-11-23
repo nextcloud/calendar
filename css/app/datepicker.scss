@@ -21,12 +21,6 @@
  *
  */
 
-#datepicker .datepicker_current,
-#app-navigation .togglebuttons,
-#app-navigation .togglebuttons .btn-group {
-	float: left;
-}
-
 #app-navigation .togglebuttons .button.active {
 	background-color: $color-primary;
 	color: $color-primary-text;
