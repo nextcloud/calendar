@@ -1,3 +1,18 @@
+## 1.6.4 - 2018-11-23
+### Fixed
+- Use clearer color to easier locate today
+  [#850](https://github.com/nextcloud/calendar/pull/850)
+- Styling broken with Nextcloud 14 using Dark theme
+  [#938](https://github.com/nextcloud/calendar/issues/938)
+- Missing name when using the dropdown for location -> contacts
+  [#776](https://github.com/nextcloud/calendar/issues/776)
+- Public calendar iframe has issues on some browser (requires Nextcloud 15+)
+  [#169](https://github.com/nextcloud/calendar/issues/169)
+- Broken positioning of New calendar button in Internet explorer 11
+  [#949](https://github.com/nextcloud/calendar/pull/949)
+- Provide autocompletion addresses as a single line
+  [#933](https://github.com/nextcloud/calendar/issues/933)
+
 ## 1.6.3 - 2018-10-16
 ### Fixed
 - Incorrect creation of attendees that led to duplicate entries after invitation response
