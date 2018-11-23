@@ -47,15 +47,15 @@ class ContactControllerTest extends TestCase {
 	public function testSearchLocation() {
 		$expected = [
 			[
-				'label' => "33 42nd Street\nRandom Town\nSome State\nUnited States",
+				'label' => '33 42nd Street, Random Town, Some State, United States',
 				'name' => 'Person 1',
 			],
 			[
-				'label' => "5 Random Ave\n12782 Some big city\nYet another state\nUnited States",
+				'label' => '5 Random Ave, 12782 Some big city, Yet another state, United States',
 				'name' => 'Person 1',
 			],
 			[
-				'label' => "ABC Street 2\n01337 Village\nGermany",
+				'label' => 'ABC Street 2, 01337 Village, Germany',
 				'name' => '',
 			],
 		];
