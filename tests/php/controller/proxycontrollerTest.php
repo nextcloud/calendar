@@ -21,6 +21,7 @@
  */
 namespace OCA\Calendar\Controller;
 
+use OCP\AppFramework\Http\DataDisplayResponse;
 use PHPUnit\Framework\TestCase;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ClientException;
@@ -112,7 +113,6 @@ class ProxyControllerTest extends TestCase {
 		$this->newClient->expects($this->once())
 			->method('get')
 			->with($testUrl, [
-				'stream' => true,
 				'allow_redirects' => false,
 			])
 			->will($this->returnValue($this->response0));
@@ -120,11 +120,16 @@ class ProxyControllerTest extends TestCase {
 			->method('getStatusCode')
 			->with()
 			->will($this->returnValue(200));
+		$this->response0->expects($this->once())
+			->method('getBody')
+			->with()
+			->will($this->returnValue("BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.6//EN\r\nCALSCALE:GREGORIAN\r\nEND:VCALENDAR\r\n"));
 
 		$actual = $this->controller->proxy($testUrl);
 
-		$this->assertInstanceOf('OCA\Calendar\Http\StreamResponse', $actual);
+		$this->assertInstanceOf(DataDisplayResponse::class, $actual);
 		$this->assertEquals('text/calendar', $actual->getHeaders()['Content-Type']);
+		$this->assertEquals("BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.6//EN\r\nCALSCALE:GREGORIAN\r\nEND:VCALENDAR\r\n", $actual->getData());
 	}
 
 	public function testProxyClientException() {
@@ -136,7 +141,6 @@ class ProxyControllerTest extends TestCase {
 		$this->newClient->expects($this->once())
 			->method('get')
 			->with($testUrl, [
-				'stream' => true,
 				'allow_redirects' => false,
 			])
 			->will($this->throwException(new ClientException('Exception Message foo bar 42',
@@ -171,7 +175,6 @@ class ProxyControllerTest extends TestCase {
 		$this->newClient->expects($this->once())
 			->method('get')
 			->with($testUrl, [
-				'stream' => true,
 				'allow_redirects' => false,
 			])
 			->will($this->throwException(new ConnectException('Exception Message foo bar 42',
@@ -203,7 +206,6 @@ class ProxyControllerTest extends TestCase {
 		$this->newClient->expects($this->once())
 			->method('get')
 			->with($testUrl, [
-				'stream' => true,
 				'allow_redirects' => false,
 			])
 			->will($this->throwException(new RequestException('Exception Message foo bar 42',
@@ -235,7 +237,6 @@ class ProxyControllerTest extends TestCase {
 		$this->newClient->expects($this->once())
 			->method('get')
 			->with($testUrl, [
-				'stream' => true,
 				'allow_redirects' => false,
 			])
 			->will($this->throwException(new RequestException('Exception Message foo bar 42',
@@ -267,7 +268,6 @@ class ProxyControllerTest extends TestCase {
 		$this->newClient->expects($this->at(0))
 			->method('get')
 			->with($testUrl, [
-				'stream' => true,
 				'allow_redirects' => false,
 			])
 			->will($this->returnValue($this->response0));
@@ -282,7 +282,6 @@ class ProxyControllerTest extends TestCase {
 		$this->newClient->expects($this->at(1))
 			->method('get')
 			->with('http://def.abc/foobar?456', [
-				'stream' => true,
 				'allow_redirects' => false,
 			])
 			->will($this->returnValue($this->response0));
@@ -309,7 +308,6 @@ class ProxyControllerTest extends TestCase {
 		$this->newClient->expects($this->at(0))
 			->method('get')
 			->with($testUrl, [
-				'stream' => true,
 				'allow_redirects' => false,
 			])
 			->will($this->returnValue($this->response0));
@@ -320,7 +318,6 @@ class ProxyControllerTest extends TestCase {
 		$this->newClient->expects($this->at(1))
 			->method('get')
 			->with('http://abc.def/foobar?123' , [
-				'stream' => true,
 				'allow_redirects' => [
 					'max' => 5,
 				],
@@ -330,11 +327,16 @@ class ProxyControllerTest extends TestCase {
 			->method('getStatusCode')
 			->with()
 			->will($this->returnValue(200));
+		$this->response1->expects($this->once())
+			->method('getBody')
+			->with()
+			->will($this->returnValue("BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.6//EN\r\nCALSCALE:GREGORIAN\r\nEND:VCALENDAR\r\n"));
 
 		$actual = $this->controller->proxy($testUrl);
 
-		$this->assertInstanceOf('OCA\Calendar\Http\StreamResponse', $actual);
+		$this->assertInstanceOf(DataDisplayResponse::class, $actual);
 		$this->assertEquals('text/calendar', $actual->getHeaders()['Content-Type']);
+		$this->assertEquals("BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.6//EN\r\nCALSCALE:GREGORIAN\r\nEND:VCALENDAR\r\n", $actual->getData());
 	}
 
 	public function testProxyMultipleRedirects() {
@@ -346,21 +348,18 @@ class ProxyControllerTest extends TestCase {
 		$this->newClient->expects($this->at(0))
 			->method('get')
 			->with($testUrl, [
-				'stream' => true,
 				'allow_redirects' => false,
 			])
 			->will($this->returnValue($this->response0));
 		$this->newClient->expects($this->at(1))
 			->method('get')
 			->with('http://def.abc/foobar?456' , [
-				'stream' => true,
 				'allow_redirects' => false,
 			])
 			->will($this->returnValue($this->response1));
 		$this->newClient->expects($this->at(2))
 			->method('get')
 			->with('http://xyz.abc/foobar?789' , [
-				'stream' => true,
 				'allow_redirects' => false,
 			])
 			->will($this->returnValue($this->response2));
@@ -403,14 +402,12 @@ class ProxyControllerTest extends TestCase {
 		$this->newClient->expects($this->at(0))
 			->method('get')
 			->with($testUrl, [
-				'stream' => true,
 				'allow_redirects' => false,
 			])
 			->will($this->returnValue($this->response0));
 		$this->newClient->expects($this->at(1))
 			->method('get')
 			->with('http://def.abc/foobar?456' , [
-				'stream' => true,
 				'allow_redirects' => false,
 			])
 			->will($this->returnValue($this->response1));
@@ -445,42 +442,36 @@ class ProxyControllerTest extends TestCase {
 		$this->newClient->expects($this->at(0))
 			->method('get')
 			->with($testUrl, [
-				'stream' => true,
 				'allow_redirects' => false,
 			])
 			->will($this->returnValue($this->response0));
 		$this->newClient->expects($this->at(1))
 			->method('get')
 			->with('http://def.abc/foobar?456-0', [
-				'stream' => true,
 				'allow_redirects' => false,
 			])
 			->will($this->returnValue($this->response1));
 		$this->newClient->expects($this->at(2))
 			->method('get')
 			->with('http://def.abc/foobar?456-1', [
-				'stream' => true,
 				'allow_redirects' => false,
 			])
 			->will($this->returnValue($this->response2));
 		$this->newClient->expects($this->at(3))
 			->method('get')
 			->with('http://def.abc/foobar?456-2', [
-				'stream' => true,
 				'allow_redirects' => false,
 			])
 			->will($this->returnValue($this->response3));
 		$this->newClient->expects($this->at(4))
 			->method('get')
 			->with('http://def.abc/foobar?456-3', [
-				'stream' => true,
 				'allow_redirects' => false,
 			])
 			->will($this->returnValue($this->response4));
 		$this->newClient->expects($this->at(5))
 			->method('get')
 			->with('http://def.abc/foobar?456-4', [
-				'stream' => true,
 				'allow_redirects' => false,
 			])
 			->will($this->returnValue($this->response5));

@@ -25,15 +25,15 @@ use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ConnectException;
 
-use OCA\Calendar\Http\StreamResponse;
-
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Controller;
 use OCP\Http\Client\IClientService;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IRequest;
+use Sabre\VObject\Reader;
 
 class ProxyController extends Controller {
 
@@ -72,7 +72,7 @@ class ProxyController extends Controller {
 	 * @NoAdminRequired
 	 *
 	 * @param $url
-	 * @return StreamResponse|JSONResponse
+	 * @return DataDisplayResponse|JSONResponse
 	 */
 	public function proxy($url) {
 		$client = $this->client->newClient();
@@ -86,7 +86,6 @@ class ProxyController extends Controller {
 			// try to find a chain of 301s
 			do {
 				$clientResponse = $client->get($queryUrl, [
-					'stream' => true,
 					'allow_redirects' => $allow_redirects,
 				]);
 
@@ -118,7 +117,20 @@ class ProxyController extends Controller {
 					'new_url' => $queryUrl,
 				], Http::STATUS_BAD_REQUEST);
 			} elseif ($done) {
-				$response = new StreamResponse($clientResponse->getBody());
+				$icsData = $clientResponse->getBody();
+
+				try {
+					Reader::read($icsData, Reader::OPTION_FORGIVING);
+				} catch(\Exception $ex) {
+					$response = new JSONResponse([
+						'message' => $this->l10n->t('The remote server did not give us access to the calendar (HTTP 404 error)'),
+						'proxy_code' => 404
+					], Http::STATUS_UNPROCESSABLE_ENTITY);
+
+					return $response;
+				}
+
+				$response = new DataDisplayResponse($icsData, 200);
 				$response->setHeaders([
 					'Content-Type' => 'text/calendar',
 				]);
