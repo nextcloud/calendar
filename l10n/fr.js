@@ -8,6 +8,7 @@ OC.L10N.register(
     "Open »%s«" : "Ouvrir «%s»",
     "Cheers!" : "À bientôt !",
     "Recipient" : "Destinataire",
+    "The remote server did not give us access to the calendar (HTTP 404 error)" : "Ce serveur distant ne semble pas nous donner accès à l'agenda (erreur HTTP 404)",
     "Too many redirects. Aborting ..." : "Trop de redirections. Annulation en cours...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "Ce serveur distant ne semble pas nous donner accès au calendrier (erreur HTTP {%s})",
     "Error connecting to remote server" : "Erreur de connexion au serveur distant",

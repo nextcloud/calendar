@@ -8,6 +8,7 @@ OC.L10N.register(
     "Open »%s«" : "»%s« Aç",
     "Cheers!" : "Görüşmek üzere",
     "Recipient" : "Alıcı",
+    "The remote server did not give us access to the calendar (HTTP 404 error)" : "Uzak sunucu takvim erişimine izin vermedi (HTTP 404 hatası)",
     "Too many redirects. Aborting ..." : "Çok fazla yönlendirme yapıldı. Vazgeçiliyor ...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "Uzak sunucu takvim erişimine izin vermedi (HTTP {%s} hatası)",
     "Error connecting to remote server" : "Uzak sunucuya bağlanılırken sorun çıktı",
