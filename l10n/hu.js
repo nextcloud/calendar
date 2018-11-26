@@ -8,6 +8,7 @@ OC.L10N.register(
     "Open »%s«" : "»%s« megnyitása",
     "Cheers!" : "Üdv!",
     "Recipient" : "Címzett",
+    "The remote server did not give us access to the calendar (HTTP 404 error)" : "A távoli szerver nem adott hozzáférést a naptárhoz (HTTP  404 hiba)",
     "Too many redirects. Aborting ..." : "Túl sok átirányítás. Megszakítás...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "A távoli szerver nem adott hozzáférést a naptárhoz (HTTP hiba: {%s})",
     "Error connecting to remote server" : "Hiba a távoli szerverhez való csatlakozásban",
