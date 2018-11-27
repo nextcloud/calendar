@@ -54,9 +54,10 @@ export function isAlias(tzName) {
  * gets timezone object for given name
  *
  * @param {String} tzName  name of timezone
- * @returns {icaltimezone}
+ * @param {Boolean} autoRegister automatically register in ICAL.TimezoneService
+ * @returns {ICAL.Timezone}
  */
-export function getTimezone(tzName) {
+export function getTimezone(tzName, autoRegister = true) {
 	if (isAlias(tzName)) {
 		return getTimezone(tzData.aliases[tzName])
 	}
@@ -76,10 +77,31 @@ export function getTimezone(tzName) {
 	const jCal = ICAL.parse(ics)
 	const components = new ICAL.Component(jCal)
 	if (components.name === 'vtimezone') {
-		return new ICAL.Timezone(components)
+		const timezone = new ICAL.Timezone(components)
+		if (autoRegister) {
+			registerTimezone(timezone)
+		}
+
+		return timezone
 	} else {
-		return new ICAL.Timezone(components.getFirstSubcomponent('vtimezone'))
+		const timezone = new ICAL.Timezone(components.getFirstSubcomponent('vtimezone'))
+		if (autoRegister) {
+			registerTimezone(timezone)
+		}
+
+		return timezone
 	}
+}
+
+/**
+ * checks whether a timezone is known in our dataaset
+ *
+ * @param {String} tzName  name of timezone
+ * @returns {Boolean} Whether or not the timezone is known
+ */
+export function hasTimezone(tzName) {
+	return isAlias(tzName)
+		|| tzData.zones.hasOwnProperty(tzName)
 }
 
 /**
@@ -99,4 +121,15 @@ export function listAllTimezones() {
 	timezones.sort()
 
 	return timezones
+}
+
+/**
+ * registers a timezone in the ICAL.Timezoneservice
+ *
+ * @param {ICAL.Timezone} timezone timezone to register
+ */
+function registerTimezone(timezone) {
+	if (!ICAL.TimezoneService.has(timezone.tzid)) {
+		ICAL.TimezoneService.register(timezone.tzid, timezone)
+	}
 }
