@@ -8,6 +8,7 @@ OC.L10N.register(
     "Open »%s«" : "Opna »%s«",
     "Cheers!" : "Til hamingju!",
     "Recipient" : "Viðtakandi",
+    "The remote server did not give us access to the calendar (HTTP 404 error)" : "Fjartengdi þjónninn gaf ekki aðgang að dagatalinu (HTTP 404-villa)",
     "Too many redirects. Aborting ..." : "Of margar endurbeiningar. Hætti við ...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "Fjartengdi þjónninn gaf ekki aðgang að dagatalinu (HTTP {%s} villa)",
     "Error connecting to remote server" : "Villa við tengingu við fjartengdan þjón",
