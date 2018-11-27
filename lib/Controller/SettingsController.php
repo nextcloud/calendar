@@ -36,11 +36,6 @@ class SettingsController extends Controller {
 	private $config;
 
 	/**
-	 * @var IUserSession
-	 */
-	private $userSession;
-
-	/**
 	 * @var string
 	 */
 	private $userId;
@@ -55,32 +50,10 @@ class SettingsController extends Controller {
 								IConfig $config) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
-		$this->userSession = $userSession;
-		$this->userId = $userSession->getUser()->getUID();
-	}
 
-	/**
-	 * get a configuration item
-	 *
-	 * @NoAdminRequired
-	 *
-	 * @param string $key
-	 * @return JSONResponse
-	 */
-	public function getConfig($key) {
-		switch ($key) {
-			case 'view':
-				return $this->getView();
-			case 'skipPopover':
-				return $this->getSkipPopover();
-			case 'showWeekNr':
-				return $this->getShowWeekNr();
-			case 'firstRun':
-				return $this->getFirstRun();
-			case 'timezone':
-				return $this->getTimezone();
-			default:
-				return new JSONResponse([], Http::STATUS_BAD_REQUEST);
+		$user = $userSession->getUser();
+		if ($user) {
+			$this->userId = $user->getUID();
 		}
 	}
 
@@ -89,11 +62,11 @@ class SettingsController extends Controller {
 	 *
 	 * @NoAdminRequired
 	 *
-	 * @param string $key
-	 * @param mixed $value
+	 * @param string $key The config key to set
+	 * @param mixed $value The value to set for given config key
 	 * @return JSONResponse
 	 */
-	public function setConfig($key, $value) {
+	public function setConfig(string $key, string $value):JSONResponse {
 		switch ($key) {
 			case 'view':
 				return $this->setView($value);
@@ -116,11 +89,11 @@ class SettingsController extends Controller {
 	/**
 	 * set a new view
 	 *
-	 * @param string $view
+	 * @param string $view Selected view by user
 	 * @return JSONResponse
 	 */
-	private function setView($view) {
-		if (!$this->isViewAllowed($view)) {
+	private function setView(string $view):JSONResponse {
+		if (!\in_array($view, ['agendaDay', 'agendaWeek', 'month'])) {
 			return new JSONResponse([], Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
 
@@ -138,53 +111,14 @@ class SettingsController extends Controller {
 		return new JSONResponse();
 	}
 
-
-	/**
-	 * get a config value
-	 *
-	 * @return JSONResponse
-	 */
-	private function getView() {
-		try {
-			$view = $this->config->getUserValue(
-				$this->userId,
-				$this->appName,
-				'currentView',
-				'month'
-			);
-		} catch(\Exception $e) {
-			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
-		}
-
-		return new JSONResponse([
-			'value' => $view,
-		]);
-	}
-
-	/**
-	 * check if view is allowed
-	 *
-	 * @param $view
-	 * @return bool
-	 */
-	private function isViewAllowed($view) {
-		$allowedViews = [
-			'agendaDay',
-			'agendaWeek',
-			'month',
-		];
-
-		return in_array($view, $allowedViews);
-	}
-
 	/**
 	 * set if popover shall be skipped
 	 *
-	 * @param $value
+	 * @param $value User-selected option whether or not to show simple event editor
 	 * @return JSONResponse
 	 */
-	private function setSkipPopover($value) {
-		if (!$this->isSkipPopoverValueAllowed($value)) {
+	private function setSkipPopover(string $value):JSONResponse {
+		if (!\in_array($value, ['yes', 'no'])) {
 			return new JSONResponse([], Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
 
@@ -203,50 +137,13 @@ class SettingsController extends Controller {
 	}
 
 	/**
-	 * get if popover shall be skipped
-	 *
-	 * @return JSONResponse
-	 */
-	private function getSkipPopover() {
-		try {
-			$view = $this->config->getUserValue(
-				$this->userId,
-				$this->appName,
-				'skipPopover',
-				'no'
-			);
-		} catch(\Exception $e) {
-			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
-		}
-
-		return new JSONResponse([
-			'value' => $view,
-		]);
-	}
-
-	/**
-	 * check if value for skipPopover is allowed
-	 *
-	 * @param $value
-	 * @return bool
-	 */
-	private function isSkipPopoverValueAllowed($value) {
-		$allowedValues = [
-			'yes',
-			'no'
-		];
-
-		return in_array($value, $allowedValues);
-	}
-
-	/**
 	 * set config value for showing week numbers
 	 *
-	 * @param $value
+	 * @param $value User-selected option whether or not to show weekends
 	 * @return JSONResponse
 	 */
-	private function showWeekends($value) {
-		if (!$this->isShowWeekendsValueAllowed($value)) {
+	private function showWeekends(string $value):JSONResponse {
+		if (!\in_array($value, ['yes', 'no'])) {
 			return new JSONResponse([], Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
 
@@ -265,28 +162,13 @@ class SettingsController extends Controller {
 	}
 
 	/**
-	 * check if value for showWeekNr is allowed
-	 *
-	 * @param $value
-	 * @return bool
-	 */
-	private function isShowWeekendsValueAllowed($value) {
-		$allowedValues = [
-			'yes',
-			'no'
-		];
-
-		return in_array($value, $allowedValues);
-	}
-
-	/**
 	 * set config value for showing week numbers
 	 *
-	 * @param $value
+	 * @param $value User-selected option whether or not to show week numbers
 	 * @return JSONResponse
 	 */
-	private function setShowWeekNr($value) {
-		if (!$this->isShowWeekNrValueAllowed($value)) {
+	private function setShowWeekNr($value):JSONResponse {
+		if (!\in_array($value, ['yes', 'no'])) {
 			return new JSONResponse([], Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
 
@@ -305,48 +187,11 @@ class SettingsController extends Controller {
 	}
 
 	/**
-	 * get config value for showing week numbers
-	 *
-	 * @return JSONResponse
-	 */
-	private function getShowWeekNr() {
-		try {
-			$value = $this->config->getUserValue(
-				$this->userId,
-				$this->appName,
-				'showWeekNr',
-				'no'
-			);
-		} catch(\Exception $e) {
-			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
-		}
-
-		return new JSONResponse([
-			'value' => $value,
-		]);
-	}
-
-	/**
-	 * check if value for showWeekNr is allowed
-	 *
-	 * @param $value
-	 * @return bool
-	 */
-	private function isShowWeekNrValueAllowed($value) {
-		$allowedValues = [
-			'yes',
-			'no'
-		];
-
-		return in_array($value, $allowedValues);
-	}
-
-	/**
 	 * remember that first run routines executed
 	 *
 	 * @return JSONResponse
 	 */
-	private function setFirstRun() {
+	private function setFirstRun():JSONResponse {
 		try {
 			$this->config->setUserValue(
 				$this->userId,
@@ -362,34 +207,12 @@ class SettingsController extends Controller {
 	}
 
 	/**
-	 * get stored value for first run
-	 *
-	 * @return JSONResponse
-	 */
-	private function getFirstRun() {
-		try {
-			$value = $this->config->getUserValue(
-				$this->userId,
-				$this->appName,
-				'firstRun',
-				'yes'
-			);
-		} catch(\Exception $e) {
-			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
-		}
-
-		return new JSONResponse([
-			'value' => $value,
-		]);
-	}
-
-	/**
 	 * sets display timezone for user
 	 *
-	 * @param string $value
+	 * @param string $value User-selected option for timezone to display events in
 	 * @return JSONResponse
 	 */
-	private function setTimezone($value) {
+	private function setTimezone($value):JSONResponse {
 		try {
 			$this->config->setUserValue(
 				$this->userId,
@@ -402,27 +225,5 @@ class SettingsController extends Controller {
 		}
 
 		return new JSONResponse();
-	}
-
-	/**
-	 * gets display timezone for user
-	 *
-	 * @return JSONResponse
-	 */
-	private function getTimezone() {
-		try {
-			$value = $this->config->getUserValue(
-				$this->userId,
-				$this->appName,
-				'timezone',
-				'automatic'
-			);
-		} catch(\Exception $e) {
-			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
-		}
-
-		return new JSONResponse([
-			'value' => $value,
-		]);
 	}
 }
