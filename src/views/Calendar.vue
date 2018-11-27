@@ -1,23 +1,39 @@
 <template>
-	<div id="app-content">
-		<!-- Full calendar -->
-		<full-calendar :events="events" :event-sources="eventSources" :config="config" />
+	<div id="content" class="app-calendar">
+		<app-navigation :loading-calendars="loadingCalendars" />
+		<div id="app-content">
+			<!-- Full calendar -->
+			<full-calendar :events="events" :event-sources="eventSources" :config="config" />
+		</div>
 		<!-- Edit modal -->
 		<router-view />
 	</div>
 </template>
 
 <script>
+import AppNavigation from '../components/AppNavigation.vue'
 import FullCalendar from '../components/FullCalendar.vue'
+
+import client from '../services/cdav.js'
 import { generateTextColorFromRGB } from '../services/colorService'
 import fullCalendarEventService from '../services/fullCalendarEventService'
 
 export default {
 	name: 'Calendar',
 	components: {
+		AppNavigation,
 		FullCalendar
 	},
+	data() {
+		return {
+			loadingCalendars: true
+		}
+	},
 	computed: {
+		// store getters
+		calendars() {
+			return this.$store.getters.getCalendars
+		},
 		events() {
 			return []
 		},
@@ -33,12 +49,38 @@ export default {
 				className: enabledCalendar.id,
 				editable: !enabledCalendar.readOnly,
 
-				events: fullCalendarEventService(enabledCalendar),
+				events: fullCalendarEventService(enabledCalendar, (...args) => console.error(args)),
 			}))
 		},
 		config() {
 			return {}
 		}
-	}
+	},
+	beforeMount() {
+		// get calendars then get events
+		client.connect({ enableCalDAV: true }).then(() => {
+			console.debug('Connected to dav!', client)
+			this.$store.dispatch('getCalendars')
+				.then((calendars) => {
+					this.loadingCalendars = false
+
+					// No calendars? Create a new one!
+					if (calendars.length === 0) {
+						this.$store.dispatch('appendCalendar', { displayName: t('calendars', 'Calendars') })
+							.then(() => {
+								this.fetchEvents()
+							})
+						// else, let's get those events!
+					} else {
+						this.fetchEvents()
+					}
+				})
+			// check local storage for orderKey
+			// if (localStorage.getItem('orderKey')) {
+			// 	// run setOrder mutation with local storage key
+			// 	this.$store.commit('setOrder', localStorage.getItem('orderKey'))
+			// }
+		})
+	},
 }
 </script>

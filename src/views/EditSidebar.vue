@@ -1,5 +1,6 @@
 <template>
 	<div id="app-sidebar">
+
 		FOO VAR
 		<!-- title -->
 		<!-- timepicker -->

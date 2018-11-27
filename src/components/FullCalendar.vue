@@ -74,6 +74,20 @@ export default {
 				eventSources: this.eventSources,
 				timeZone: 'America/New_York',
 				timeZoneImpl: 'vtimezone-timezone',
+				eventClick: ({ event }) => {
+					const params = this.$route.params
+
+					params.object = event.extendedProps.routerParams.object
+					params.recurrenceId = event.extendedProps.routerParams.recurrenceId
+
+					this.$router.push({ name: 'EditSidebarView', params })
+				},
+				eventRender: ({ event, el }) => {
+					console.debug(el)
+					// TODO - add popover
+					// TODO - add categories
+					// TODO - add participation status
+				}
 			},
 			calendar: null,
 			currentDate: null

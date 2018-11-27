@@ -25,7 +25,7 @@
  */
 import Vue from 'vue'
 import ICAL from 'ical.js'
-import parseIcs from '../services/parseIcs'
+import { parseICS } from '../services/iCalendarService'
 import defaultColor from '../services/defaultColor'
 import client from '../services/cdav'
 import Event from '../models/event'
@@ -552,7 +552,7 @@ const actions = {
 	 * @param {Object} data.calendar the calendar to import the ics data into
 	 */
 	async importEventsIntoCalendar(context, { ics, calendar }) {
-		const events = parseIcs(ics, calendar)
+		const events = parseICS(ics, calendar)
 		context.commit('changeStage', 'importing')
 
 		// max simultaneous requests
