@@ -125,6 +125,7 @@ class ViewController extends Controller {
 		$weekNumbers = $this->config->getUserValue($userId, $this->appName, 'showWeekNr', 'no');
 		$firstRun = $this->config->getUserValue($userId, $this->appName, 'firstRun', null);
 		$timezone = $this->config->getUserValue($userId, $this->appName, 'timezone', 'automatic');
+		$appversion = $this->config->getAppValue($this->appName, 'installed_version');
 
 		// the default view will be saved as soon as a user
 		// opens the calendar app, therefore this is a good
@@ -150,6 +151,7 @@ class ViewController extends Controller {
 			'skipPopover' => $skipPopover,
 			'timezone' => $timezone,
 			'showWeekNumbers' => $weekNumbers,
+			'versionstring' => $appversion,
 		]);
 	}
 
@@ -159,6 +161,8 @@ class ViewController extends Controller {
 	 * @param array $array
 	 */
 	public function addJavaScriptVariablesForPublicIndex($array) {
+		$appversion = $this->config->getAppValue($this->appName, 'installed_version');
+
 		$array['array']['oca_calendar'] = \json_encode([
 			'emailAddress' => '',
 			'firstRun' => 'no',
@@ -167,6 +171,7 @@ class ViewController extends Controller {
 			'skipPopover' => 'no',
 			'timezone' => 'automatic',
 			'weekNumbers' => 'no',
+			'versionstring' => $appversion,
 		]);
 	}
 
