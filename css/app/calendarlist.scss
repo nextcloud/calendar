@@ -149,11 +149,7 @@
 				div.multiselect {
 					width: calc(100% - 14px);
 					max-width: none;
-
-					#users-groups-search {
-						padding-left: 6px !important;
-					}
-
+					z-index: 105;
 				}
 
 				.oneline {
