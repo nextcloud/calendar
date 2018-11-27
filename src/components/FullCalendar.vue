@@ -57,22 +57,17 @@ export default {
 	data() {
 		return {
 			defaultConfig: {
-				// dayNames: [],
-				// dayNamesShort: [],
 				defaultView: 'month',
 				editable: true,
-				firstDay: null,
 				forceEventDuration: true,
 				header: false,
 				// locale: null,
-				// monthNames: [],
-				// monthNamesShort: [],
 				slotDuration: '00:15:00',
 				nowIndicator: true,
 				weekNumbers: false, // TODO is this the default in view controller?
 				weekends: true,
 				eventSources: this.eventSources,
-				timeZone: 'America/New_York',
+				timeZone: 'UTC',
 				timeZoneImpl: 'vtimezone-timezone',
 				eventClick: ({ event }) => {
 					const params = this.$route.params
@@ -96,7 +91,7 @@ export default {
 	watch: {
 		events: {
 			deep: true,
-			handler(newValue, oldValue) {
+			handler(newEvents, oldEvents) {
 
 			}
 		},
@@ -116,8 +111,19 @@ export default {
 		},
 		config: {
 			deep: true,
-			handler(newValue, oldValue) {
+			handler(newConfig, oldConfig) {
+				if (newConfig.timeZone !== oldConfig.timeZone) {
+					this.calendar.setOption('timeZoneParam', newConfig.timeZone)
+					this.calendar.refetchEvents()
+				}
 
+				if (newConfig.weekNumbers !== oldConfig.weekNumbers) {
+					this.calendar.setOption('weekNumbers', newConfig.weekNumbers)
+				}
+
+				if (newConfig.weekends !== oldConfig.weekends) {
+					this.calendar.setOption('weekends', newConfig.weekends)
+				}
 			}
 		},
 		'$route'({ params }) {

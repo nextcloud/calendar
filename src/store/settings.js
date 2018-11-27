@@ -73,7 +73,7 @@ const actions = {
 		})
 	},
 	async toggleWeekNumberEnabled(context) {
-		const newState = !context.state.showWeekends
+		const newState = !context.state.showWeekNumbers
 		await axios.post(configEndpoint, {
 			key: 'showWeekNr',
 			value: newState ? 'yes' : 'no'
