@@ -18,6 +18,8 @@ import client from '../services/cdav.js'
 import { generateTextColorFromRGB } from '../services/colorService'
 import fullCalendarEventService from '../services/fullCalendarEventService'
 
+import moment from 'moment'
+
 export default {
 	name: 'Calendar',
 	components: {
@@ -53,7 +55,18 @@ export default {
 			}))
 		},
 		config() {
-			return {}
+			console.debug(this.$store)
+			return {
+				timeZone: 'America/New_York',
+				weekNumbers: this.$store.state.settings.showWeekNumbers,
+				weekends: this.$store.state.settings.showWeekends,
+				dayNames: dayNames,
+				dayNamesShort: dayNamesMin,
+				monthNames: monthNames,
+				monthNamesShort: monthNamesShort,
+				weekNumbersWithinDays: true,
+				firstDay: +moment().startOf('week').format('d')
+			}
 		}
 	},
 	beforeMount() {

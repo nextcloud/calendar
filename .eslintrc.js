@@ -13,7 +13,11 @@ module.exports = {
 		OCA: true,
 		Vue: true,
 		VueRouter: true,
-		oca_calendar: true
+		oca_calendar: true,
+		dayNames: true,
+		dayNamesMin: true,
+		monthNames: true,
+		monthNamesShort: true,
 	},
 	parserOptions: {
 		parser: 'babel-eslint'
