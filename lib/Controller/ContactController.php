@@ -3,7 +3,7 @@
  * Calendar App
  *
  * @author Georg Ehrke
- * @copyright 2016 Georg Ehrke <oc.list@georgehrke.com>
+ * @copyright 2018 Georg Ehrke <oc.list@georgehrke.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -40,7 +40,7 @@ class ContactController extends Controller {
 	 * @param IRequest $request an instance of the request
 	 * @param IManager $contacts
 	 */
-	public function __construct($appName, IRequest $request, IManager $contacts) {
+	public function __construct(string $appName, IRequest $request, IManager $contacts) {
 		parent::__construct($appName, $request);
 		$this->contacts = $contacts;
 	}
@@ -52,7 +52,7 @@ class ContactController extends Controller {
 	 *
 	 * @NoAdminRequired
 	 */
-	public function searchLocation($location) {
+	public function searchLocation(string $location):JSONResponse {
 		$result = $this->contacts->search($location, ['FN', 'ADR']);
 
 		$contacts = [];
@@ -62,7 +62,7 @@ class ContactController extends Controller {
 			}
 
 			$name = $this->getNameFromContact($r);
-			if (is_string($r['ADR'])) {
+			if (\is_string($r['ADR'])) {
 				$r['ADR'] = [$r['ADR']];
 			}
 
@@ -85,7 +85,7 @@ class ContactController extends Controller {
 	 *
 	 * @NoAdminRequired
 	 */
-	public function searchAttendee($search) {
+	public function searchAttendee(string $search):JSONResponse {
 		$result = $this->contacts->search($search, ['FN', 'EMAIL']);
 
 		$contacts = [];
@@ -95,7 +95,7 @@ class ContactController extends Controller {
 			}
 
 			$name = $this->getNameFromContact($r);
-			if (is_string($r['EMAIL'])) {
+			if (\is_string($r['EMAIL'])) {
 				$r['EMAIL'] = [$r['EMAIL']];
 			}
 
@@ -115,7 +115,7 @@ class ContactController extends Controller {
 	 * @param array $r
 	 * @return string
 	 */
-	private function getNameFromContact(array $r) {
+	private function getNameFromContact(array $r):string {
 		$name = '';
 		if (isset($r['FN'])) {
 			$name = $r['FN'];

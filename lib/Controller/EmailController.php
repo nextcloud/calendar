@@ -84,7 +84,7 @@ class EmailController extends Controller {
 	 * @return JSONResponse
 	 * @NoAdminRequired
 	 */
-	public function sendEmailPublicLink($recipient, $url, $calendarName) {
+	public function sendEmailPublicLink(string $recipient, string $url, string $calendarName):JSONResponse {
 		$user = $this->userSession->getUser();
 		$displayName = $user->getDisplayName();
 
@@ -145,7 +145,7 @@ class EmailController extends Controller {
 	 * @param string $textBody
 	 * @return int
 	 */
-	private function sendEmail($recipient, $subject, $body, $textBody) {
+	private function sendEmail(string $recipient, string $subject, string $body, string $textBody):int {
 		if (!$this->mailer->validateMailAddress($recipient)) {
 			return Http::STATUS_BAD_REQUEST;
 		}
@@ -160,7 +160,12 @@ class EmailController extends Controller {
 		$message->setTo([$recipient => $this->l10n->t('Recipient')]);
 		$message->setPlainBody($textBody);
 		$message->setHtmlBody($body);
-		$this->mailer->send($message);
+
+		try {
+			$this->mailer->send($message);
+		} catch(\Exception $ex) {
+			return Http::STATUS_INTERNAL_SERVER_ERROR;
+		}
 
 		return Http::STATUS_OK;
 	}

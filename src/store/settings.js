@@ -29,7 +29,7 @@ const state = {
 	initialView: oca_calendar.initialView || 'month',
 	showPopover: oca_calendar.skipPopover === 'no',
 	showWeekends: oca_calendar.showWeekends === 'yes',
-	showWeekNumbers: oca_calendar.weekNumbers === 'yes',
+	showWeekNumbers: oca_calendar.showWeekNumbers === 'yes',
 	timezone: oca_calendar.timezone || 'automatic'
 }
 
