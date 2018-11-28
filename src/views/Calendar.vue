@@ -19,6 +19,7 @@ import { generateTextColorFromRGB } from '../services/colorService'
 import fullCalendarEventService from '../services/fullCalendarEventService'
 
 import moment from 'moment'
+import { randomColor } from '../services/colorService';
 
 export default {
 	name: 'Calendar',
@@ -40,7 +41,6 @@ export default {
 			return []
 		},
 		eventSources() {
-			console.debug(this.$store.getters.enabledCalendars)
 			return this.$store.getters.enabledCalendars.map((enabledCalendar) => ({
 				id: enabledCalendar.id,
 				// coloring
@@ -55,7 +55,6 @@ export default {
 			}))
 		},
 		config() {
-			console.debug(this.$store)
 			return {
 				timeZone: 'America/New_York',
 				weekNumbers: this.$store.state.settings.showWeekNumbers,
@@ -72,27 +71,19 @@ export default {
 	beforeMount() {
 		// get calendars then get events
 		client.connect({ enableCalDAV: true }).then(() => {
-			console.debug('Connected to dav!', client)
 			this.$store.dispatch('getCalendars')
 				.then((calendars) => {
 					this.loadingCalendars = false
 
 					// No calendars? Create a new one!
 					if (calendars.length === 0) {
-						this.$store.dispatch('appendCalendar', { displayName: t('calendars', 'Calendars') })
-							.then(() => {
-								this.fetchEvents()
-							})
-						// else, let's get those events!
-					} else {
-						this.fetchEvents()
+						this.$store.dispatch('appendCalendar', {
+							displayName: t('calendars', 'Personal'),
+							color: randomColor(),
+							order: 0
+						})
 					}
 				})
-			// check local storage for orderKey
-			// if (localStorage.getItem('orderKey')) {
-			// 	// run setOrder mutation with local storage key
-			// 	this.$store.commit('setOrder', localStorage.getItem('orderKey'))
-			// }
 		})
 	},
 }
