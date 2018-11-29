@@ -116,6 +116,16 @@
 		// Calendar list items / Subscription list items
 		> li.app-navigation-list-item {
 
+			&.enabled {
+				> a {
+					opacity: 1;
+				}
+
+				> .app-navigation-entry-bullet {
+					border: 1px solid var(--color-border-dark)
+				}
+			}
+
 			&.icon.icon-loading {
 				margin-top: 22px;
 				margin-bottom: 44px;
@@ -127,7 +137,7 @@
 
 			li.app-navigation-entry-utils-menu-button {
 
-				&.owner-avatar {
+				&.has-owner-avatar {
 					display: flex;
 					width: 60px !important;
 
@@ -140,6 +150,21 @@
 							}
 						}
 					}
+				}
+
+				&.has-shared-label {
+					display: flex;
+					width: auto !important;
+
+					a.shared-label {
+						margin-top: 13px;
+
+						&:hover,
+						&:focus {
+							box-shadow: none;
+						}
+					}
+
 				}
 
 				button.icon-public,

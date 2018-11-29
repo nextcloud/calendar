@@ -69,6 +69,8 @@ export default {
 				eventSources: this.eventSources,
 				timeZone: 'UTC',
 				timeZoneImpl: 'vtimezone-timezone',
+				selectable: true,
+				selectMirror: true,
 				eventClick: ({ event }) => {
 					const params = this.$route.params
 
@@ -82,6 +84,17 @@ export default {
 					// TODO - add popover
 					// TODO - add categories
 					// TODO - add participation status
+				},
+				select: ({ start, startStr, end, endStr, allDay, jsEvent, view, resource }) => {
+					const params = this.$route.params
+
+					params.allDay = allDay ? '1' : '0'
+					params.dtstart = Math.floor(start.getTime() / 1000)
+					params.dtend = Math.floor(end.getTime() / 1000)
+					params.recurrenceId = event.extendedProps.routerParams.recurrenceId
+
+					this.$router.push({ name: 'NewPopoverView' })
+					console.debug(start, startStr, end, endStr, allDay, jsEvent, view, resource)
 				}
 			},
 			calendar: null,
