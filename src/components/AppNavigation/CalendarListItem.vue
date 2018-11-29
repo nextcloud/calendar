@@ -8,8 +8,11 @@
 		<div class="app-navigation-entry-utils">
 			<ul>
 				<!-- share popovermenu -->
-				<li v-if="showSharingIcon" class="app-navigation-entry-utils-menu-button">
+				<li v-if="showSharingIcon" :class="{'owner-avatar': isSharedWithMe}" class="app-navigation-entry-utils-menu-button">
 					<button :class="{'icon-public': isPublished, 'icon-shared': !isPublished && isShared, 'icon-share': !isPublished && !isShared}" @click="toggleShareMenu" />
+					<!-- TODO this needs a tooltip saying "shared with you by .... " -->
+					<avatar v-if="isSharedWithMe && loadedOwnerPrincipal" :user="ownerUserId" :display-name="ownerDisplayname" />
+					<div v-if="isSharedWithMe && !loadedOwnerPrincipal" class="icon icon-loading" />
 				</li>
 
 				<!-- more popovermenu -->
@@ -28,13 +31,14 @@
 </template>
 
 <script>
-import { PopoverMenu } from 'nextcloud-vue'
+import { Avatar, PopoverMenu } from 'nextcloud-vue'
 import ClickOutside from 'vue-click-outside'
 import CalendarListItemSharing from './CalendarListItemSharing.vue'
 
 export default {
 	name: 'CalendarListItem',
 	components: {
+		Avatar,
 		CalendarListItemSharing,
 		PopoverMenu
 	},
@@ -92,6 +96,54 @@ export default {
 		isPublished() {
 			return !!this.calendar.publishURL
 		},
+		isSharedWithMe() {
+			return this.calendar.isSharedWithMe
+		},
+		owner() {
+			console.debug('OWNER FOO BAR TRALAALALALALALALALALALA')
+			console.debug('OWNER FOO BAR TRALAALALALALALALALALALA')
+			console.debug('OWNER FOO BAR TRALAALALALALALALALALALA')
+			console.debug('OWNER FOO BAR TRALAALALALALALALALALALA')
+			console.debug('OWNER FOO BAR TRALAALALALALALALALALALA')
+			console.debug('OWNER FOO BAR TRALAALALALALALALALALALA')
+			console.debug('OWNER FOO BAR TRALAALALALALALALALALALA')
+			console.debug('OWNER FOO BAR TRALAALALALALALALALALALA')
+			console.debug('OWNER FOO BAR TRALAALALALALALALALALALA')
+			console.debug('OWNER FOO BAR TRALAALALALALALALALALALA')
+			console.debug('OWNER FOO BAR TRALAALALALALALALALALALA')
+
+			console.debug(this.calendar.owner)
+			console.debug(this.calendar)
+
+			if (this.calendar.owner.indexOf('principal:principals/users/') === '0') {
+				console.debug(this.calendar.owner.substr(27))
+				return this.calendar.owner.substr(27)
+			}
+
+			return ''
+		},
+		loadedOwnerPrincipal() {
+			console.debug(this.calendar.owner)
+			console.debug(this.$store.getters.getPrincipalByUrl(this.calendar.owner))
+			console.debug(this.$store.getters.getPrincipalByUrl(this.calendar.owner) !== undefined)
+			return this.$store.getters.getPrincipalByUrl(this.calendar.owner) !== undefined
+		},
+		ownerUserId() {
+			const principal = this.$store.getters.getPrincipalByUrl(this.calendar.owner)
+			if (principal) {
+				return principal.userId
+			}
+
+			return ''
+		},
+		ownerDisplayname() {
+			const principal = this.$store.getters.getPrincipalByUrl(this.calendar.owner)
+			if (principal) {
+				return principal.displayname
+			}
+
+			return ''
+		},
 		moreMenu() {
 			return [
 				{
@@ -137,9 +189,7 @@ export default {
 						: (this.calendar.isSharedWithMe ? t('calendar', 'Unshare from me') : t('calendar', 'Delete')),
 					icon: this.deleteLoading
 						? 'icon-loading-small'
-						: this.calendar.isSharedWithMe
-							? 'icon-unshare'
-							: 'icon-delete',
+						: 'icon-delete',
 					action: this.deleteCalendar
 				}
 			]

@@ -22,8 +22,6 @@
 import ClickOutside from 'vue-click-outside'
 import { randomColor } from '../../services/colorService'
 
-console.debug(randomColor)
-
 export default {
 	name: 'CalendarListNew',
 	directives: {

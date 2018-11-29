@@ -43,8 +43,8 @@ export default function(calendar, userNotificationCallBack) {
 				const comp = new ICAL.Component(jCal)
 
 				if (!comp || !comp.jCal || comp.jCal.length === 0) { // TODO is there a better way to validate the comp?
-					console.debug('The given calendar data does not seem to be a valid calendar')
-					console.debug(calendarObject, comp)
+					console.error('The given calendar data does not seem to be a valid calendar')
+					console.error(calendarObject, comp)
 					return
 				}
 
@@ -94,7 +94,6 @@ export default function(calendar, userNotificationCallBack) {
 				}
 			})
 
-			console.debug(fcEvents)
 			callback(fcEvents)
 		})
 	}
@@ -186,9 +185,6 @@ function getRootAndExceptions(comp) {
  * @returns {Object}
  */
 function getFCEventForOccurrence(calendarObject, event, occurrenceStart, occurrenceEnd, vTimezone) {
-
-	console.debug(occurrenceStart)
-
 	const classNames = []
 	if (event.component.hasProperty('STATUS')) {
 		const status = event.component.getFirstPropertyValue('STATUS')

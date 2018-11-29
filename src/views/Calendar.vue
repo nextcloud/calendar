@@ -68,11 +68,22 @@ export default {
 		}
 	},
 	beforeMount() {
+		console.debug(client)
 		// get calendars then get events
 		client.connect({ enableCalDAV: true }).then(() => {
 			this.$store.dispatch('getCalendars')
 				.then((calendars) => {
 					this.loadingCalendars = false
+
+					const owners = []
+					calendars.forEach((calendar) => {
+						if (owners.indexOf(calendar.owner) === -1) {
+							owners.push(calendar.owner)
+						}
+					})
+					owners.forEach((owner) => {
+						this.$store.dispatch('fetchPrincipalByUrl', owner)
+					})
 
 					// No calendars? Create a new one!
 					if (calendars.length === 0) {
