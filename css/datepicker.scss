@@ -173,18 +173,3 @@
 #app-navigation .datepicker-heading .button.middle {
 	width: calc(100% - 70px);
 }
-
-/* Overrides */
-
-.glyphicon-chevron-left {
-	background: url("../../img/leftarrow.svg") center center no-repeat;
-}
-
-.glyphicon-chevron-right {
-	background: url("../../img/rightarrow.svg") center center no-repeat;
-}
-
-.glyphicon {
-	display: block;
-	height: 15px;
-}
