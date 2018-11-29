@@ -42,6 +42,9 @@ const mutations = {
 	},
 	toggleWeekNumberEnabled(state) {
 		state.showWeekNumbers = !state.showWeekNumbers
+	},
+	setTimezone(state, { tzid }) {
+		state.timezone = tzid
 	}
 }
 
@@ -79,6 +82,16 @@ const actions = {
 			value: newState ? 'yes' : 'no'
 		}).then((response) => {
 			context.commit('toggleWeekNumberEnabled')
+		}).catch((error) => {
+			throw error
+		})
+	},
+	async setTimezone(context, { tzid }) {
+		await axios.post(configEndpoint, {
+			key: 'timezone',
+			value: tzid
+		}).then((response) => {
+			context.commit('setTimezone', { tzid })
 		}).catch((error) => {
 			throw error
 		})

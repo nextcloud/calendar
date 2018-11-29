@@ -255,7 +255,6 @@ const mutations = {
 
 const getters = {
 	sortedCalendars(state) {
-		console.debug(state.calendars)
 		return state.calendars
 			.filter(calendar => calendar.components.includes('VEVENT'))
 			.filter(calendar => !calendar.readOnly)

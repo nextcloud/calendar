@@ -1,10 +1,8 @@
 /**
  * Calendar App
  *
- * @author Raghu Nayyar
  * @author Georg Ehrke
- * @copyright 2016 Raghu Nayyar <hey@raghunayyar.com>
- * @copyright 2016 Georg Ehrke <oc.list@georgehrke.com>
+ * @copyright 2018 Georg Ehrke <oc.list@georgehrke.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -21,141 +19,19 @@
  *
  */
 
-#app-settings .settings-fieldset .settings-fieldset-interior input:not([type="checkbox"]),
-#app-settings .settings-fieldset .settings-fieldset-interior select {
-	width: 90%;
-}
+#app-settings {
 
-#app-settings .settings-fieldset .settings-upload {
-	position: absolute;
-	width: 100%;
-	display: block;
-	height: 33px;
-	font-weight: 300;
-	font-size: 14px;
-	cursor: pointer;
-	z-index: 10;
-	padding: 7.33333px 0 0 !important;
-	text-align: center;
-	background-position: 5%;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	-ms-border-radius: 3px;
-	border-radius: 3px;
-}
+	.settings-fieldset > .settings-fieldset-interior {
 
-#app-settings .settings-fieldset .settings-fieldset-interior-item:hover {
-	background: transparent;
-}
+		.settings-fieldset-interior-item-timezone {
 
-#app-settings .settings-fieldset .settings-fieldset-interior-upload {
-	width: 95%;
-	height: 40px;
-}
+			label {
+				display: block;
+			}
 
-#app-settings .settings-fieldset .settings-fieldset-interior-upload input {
-	position: absolute;
-}
-
-#app-settings .settings-fieldset .settings-fieldset-interior-inline-label {
-	display: inline;
-}
-
-#app-settings .settings-fieldset .settings-fieldset-interior input[type="file"] {
-	width: 100%;
-	height: 33px;
-	padding: 0;
-	font-size: 16px;
-	margin-left: 0;
-	overflow: hidden;
-	z-index: 20;
-	opacity: 0;
-}
-
-.dialog .table {
-	width: 100%;
-	-webkit-transition: .05s ease-out .05s;
-	-moz-transition: .05s ease-out .05s;
-	-ms-transition: .05s ease-out .05s;
-	transition: .05s ease-out .05s;
-}
-
-.dialog .table:hover {
-	background: #ddd;
-	-webkit-transition: .05s ease-out .05s;
-	-moz-transition: .05s ease-out .05s;
-	-ms-transition: .05s ease-out .05s;
-	transition: .05s ease-out .05s;
-}
-
-#importdialog .buttongroup button {
-	padding: 10px;
-}
-
-#importdialog .loading {
-	background-position: 2px;
-}
-
-#importdialog .loading.disabled {
-	background-color: #6c8fc0;
-}
-
-#importdialog table,
-#importdialog tbody tr,
-#importdialog tbody tr:hover,
-#importdialog tbody tr:focus {
-	background: transparent !important;
-}
-
-.progress-bar {
-	margin: 0;
-	float: left;
-	width: 0;
-	height: 100%;
-	font-size: 12px;
-	line-height: 20px;
-	background-color: #0082c9;
-}
-
-#importdialog table {
-	width: 100%;
-}
-
-#importdialog td.name {
-	width: 40%;
-}
-
-#importdialog td.calendartype {
-	width: 50%;
-}
-
-#importdialog td.calendartype select {
-	width: 90%;
-}
-
-#importdialog td.buttongroup {
-	width: 10%;
-}
-
-#importdialog tr {
-	height: 38px;
-}
-
-.import-backdrop {
-	position: fixed;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	background-color: #000;
-	opacity: .6;
-}
-
-#importdialog .spacer {
-	clear: both;
-	height: 25px;
-}
-
-#importdialog div.progress {
-	height: 1.2em;
+			.multiselect {
+				width: calc(100% - 10px);
+			}
+		}
+	}
 }

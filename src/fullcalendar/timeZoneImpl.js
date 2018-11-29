@@ -42,7 +42,6 @@ class VTimezoneNamedTimezone extends NamedTimeZoneImpl {
 		// TODO - all these operations require complex RRULE expansion for DST / Standard
 		// this function is called dozens of dozens of times, result should probably be cached
 
-		console.debug(timezone.utcOffset(time) / 60)
 		return timezone.utcOffset(time) / 60
 	}
 
@@ -61,7 +60,6 @@ class VTimezoneNamedTimezone extends NamedTimeZoneImpl {
 		// TODO - all these operations require complex RRULE expansion for DST / Standard
 		// this function is called dozens of dozens of times, result should probably be cached
 
-		console.debug([local.year, local.month - 1, local.day, local.hour, local.minute, local.second, 0])
 		return [local.year, local.month - 1, local.day, local.hour, local.minute, local.second, 0]
 	}
 

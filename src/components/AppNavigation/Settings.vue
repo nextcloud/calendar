@@ -30,10 +30,12 @@
 					class="checkbox" type="checkbox" @change="toggleWeekNumberEnabled">
 				<label for="app-settings-week-number-checkbox">{{ weekNumberLabel }}</label>
 			</li>
-			<li class="settings-fieldset-interior-item">
-				<label class="settings-input">{{ timezoneLabel }}</label>
-				<!--<select ng-options="timezone.value as timezone.displayname | timezoneWithoutContinentFilter group by timezone.group for timezone in timezones"-->
-				<!--ng-model="timezone" ng-change="setTimezone()" class="input settings-input"></select>-->
+			<li class="settings-fieldset-interior-item settings-fieldset-interior-item-timezone">
+				<label class="settings-input" for="app-settings-timezone-select">{{ timezoneLabel }}</label>
+				<timezone-select id="app-settings-timezone-select" :additional-timezones="additionalTimezones" :value="timezoneValue"
+					@change="setTimezoneValue" />
+					<!--<select ng-options="timezone.value as timezone.displayname | timezoneWithoutContinentFilter group by timezone.group for timezone in timezones"-->
+					<!--ng-model="timezone" ng-change="setTimezone()" class="input settings-input"></select>-->
 			</li>
 			<li class="settings-fieldset-interior-item settings-fieldset-interior-item-link">
 				<label class="settings-input">{{ primaryCalDAVLabel }}</label>
@@ -51,9 +53,15 @@
 
 <script>
 import client from '../../services/cdav'
+import TimezoneSelect from '../Shared/TimezoneSelect'
+
+import detectTimezone from '../../services/timezoneDetectionService'
 
 export default {
 	name: 'Settings',
+	components: {
+		TimezoneSelect
+	},
 	data: function() {
 		return {
 			savingBirthdayCalendar: false,
@@ -107,6 +115,23 @@ export default {
 		},
 		copyLinkLabel() {
 			return t('calendar', 'Copy link')
+		},
+		timezoneValue() {
+			return this.$store.state.settings.timezone
+		},
+		additionalTimezones() {
+			console.debug(t)
+			console.debug(detectTimezone())
+			return [{
+				'continent': t('calendar', 'Automatic'),
+				'regions': [{
+					tzid: 'automatic',
+					cities: [],
+					label: t('calendar', 'Automatic ({detected})', {
+						detected: detectTimezone()
+					})
+				}]
+			}]
 		}
 	},
 	methods: {
@@ -154,6 +179,14 @@ export default {
 			const url = new URL(client.currentUserPrincipal.principalUrl, rootURL)
 
 			this.$copyText(url)
+		},
+		setTimezoneValue(tzid) {
+			return this.$store.dispatch('setTimezone', { tzid }).then(() => {
+				console.debug('foo')
+			}).catch((err) => {
+				console.error(err)
+				OC.Notification.showTemporary(t('calendar', 'Saving timezone setting was not successful'))
+			})
 		}
 	}
 }
