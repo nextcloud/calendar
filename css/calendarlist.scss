@@ -52,6 +52,11 @@
 			text-align: center;
 		}
 
+		.button.icon.icon-leftarrow,
+		.button.icon.icon-rightarrow {
+			background-size: 10px;
+		}
+
 		.button.active {
 			background-color: $color-primary;
 			color: $color-primary-text;
