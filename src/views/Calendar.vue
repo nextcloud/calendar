@@ -15,11 +15,10 @@ import AppNavigation from '../components/AppNavigation.vue'
 import FullCalendar from '../components/FullCalendar.vue'
 
 import client from '../services/cdav.js'
-import { generateTextColorFromRGB } from '../services/colorService'
+import { randomColor, generateTextColorFromRGB } from '../services/colorService'
 import fullCalendarEventService from '../services/fullCalendarEventService'
 
 import moment from 'moment'
-import { randomColor } from '../services/colorService';
 
 export default {
 	name: 'Calendar',

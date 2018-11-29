@@ -111,7 +111,7 @@ export function hasTimezone(tzName) {
  */
 export function listAllTimezones() {
 	const olsonAliases = []
-	tzData.aliases.forEach((value, key) => {
+	Object.keys(tzData.aliases).forEach((key) => {
 		if (isOlsonTimezone(key)) {
 			olsonAliases.push(key)
 		}
