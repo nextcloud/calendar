@@ -3,13 +3,15 @@
 
 		<div :style="{ backgroundColor: calendarColor }" class="app-navigation-entry-bullet" />
 
-		<a :class="{selected: shareMenuOpen}" href="#" @click="toggleEnabled">{{ displayName }}</a>
+		<a :class="{selected: shareMenuOpen}" :title="displayName" href="#"
+			@click="toggleEnabled">{{ displayName }}</a>
 
 		<div class="app-navigation-entry-utils">
 			<ul>
 				<!-- share popovermenu -->
-				<li v-if="showSharingIcon" :class="{'owner-avatar': isSharedWithMe}" class="app-navigation-entry-utils-menu-button">
+				<li v-if="showSharingIcon" :class="{'has-owner-avatar': isSharedWithMe, 'has-shared-label': (isShared || isPublished) && !isSharedWithMe}" class="app-navigation-entry-utils-menu-button">
 					<button :class="{'icon-public': isPublished, 'icon-shared': !isPublished && isShared, 'icon-share': !isPublished && !isShared}" @click="toggleShareMenu" />
+					<a v-if="(isShared || isPublished) && !isSharedWithMe" class="shared-label" @click="toggleShareMenu">{{ sharedLabel }}</a>
 					<!-- TODO this needs a tooltip saying "shared with you by .... " -->
 					<avatar v-if="isSharedWithMe && loadedOwnerPrincipal" :user="ownerUserId" :display-name="ownerDisplayname" />
 					<div v-if="isSharedWithMe && !loadedOwnerPrincipal" class="icon icon-loading" />
@@ -99,22 +101,10 @@ export default {
 		isSharedWithMe() {
 			return this.calendar.isSharedWithMe
 		},
+		sharedLabel() {
+			return t('calendar', 'Shared')
+		},
 		owner() {
-			console.debug('OWNER FOO BAR TRALAALALALALALALALALALA')
-			console.debug('OWNER FOO BAR TRALAALALALALALALALALALA')
-			console.debug('OWNER FOO BAR TRALAALALALALALALALALALA')
-			console.debug('OWNER FOO BAR TRALAALALALALALALALALALA')
-			console.debug('OWNER FOO BAR TRALAALALALALALALALALALA')
-			console.debug('OWNER FOO BAR TRALAALALALALALALALALALA')
-			console.debug('OWNER FOO BAR TRALAALALALALALALALALALA')
-			console.debug('OWNER FOO BAR TRALAALALALALALALALALALA')
-			console.debug('OWNER FOO BAR TRALAALALALALALALALALALA')
-			console.debug('OWNER FOO BAR TRALAALALALALALALALALALA')
-			console.debug('OWNER FOO BAR TRALAALALALALALALALALALA')
-
-			console.debug(this.calendar.owner)
-			console.debug(this.calendar)
-
 			if (this.calendar.owner.indexOf('principal:principals/users/') === '0') {
 				console.debug(this.calendar.owner.substr(27))
 				return this.calendar.owner.substr(27)
