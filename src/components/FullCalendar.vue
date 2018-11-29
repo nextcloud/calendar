@@ -78,7 +78,7 @@ export default {
 					this.$router.push({ name: 'EditSidebarView', params })
 				},
 				eventRender: ({ event, el }) => {
-					console.debug(el)
+					// console.debug(el)
 					// TODO - add popover
 					// TODO - add categories
 					// TODO - add participation status

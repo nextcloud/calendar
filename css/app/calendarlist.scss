@@ -127,6 +127,21 @@
 
 			li.app-navigation-entry-utils-menu-button {
 
+				&.owner-avatar {
+					display: flex;
+					width: 60px !important;
+
+					.avatardiv {
+						margin: 6px 0;
+
+						.popovermenu {
+							> ul > li {
+								width: auto !important;
+							}
+						}
+					}
+				}
+
 				button.icon-public,
 				button.icon-shared {
 					opacity: 1 !important;

@@ -281,13 +281,13 @@ const actions = {
 	 * @param {Object} context the store mutations
 	 * @returns {Promise<Array>} the calendars
 	 */
-	async getCalendars(context) {
+	async getCalendars({ commit, state }) {
 		const calendars = await client.calendarHomes[0].findAllCalendars()
 		calendars.map(mapDavCollectionToCalendar).forEach(calendar => {
-			context.commit('addCalendar', { calendar })
+			commit('addCalendar', { calendar })
 		})
 
-		return [1]
+		return state.calendars
 	},
 
 	/**
