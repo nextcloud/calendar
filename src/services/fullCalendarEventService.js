@@ -30,12 +30,12 @@ import ICAL from 'ical.js'
  * @returns {Function}
  */
 export default function(calendar, userNotificationCallBack) {
-	return ({ start, startStr, end, endStr, timeZone }, callback) => {
+	return ({ start, startStr, end, endStr, timeZone }) => {
 		const iCalStart = ICAL.Time.fromJSDate(start)
 		const iCalEnd = ICAL.Time.fromJSDate(end)
 		const vTimezone = getTimezone(timeZone)
 
-		calendar.dav.findByTypeInTimeRange('VEVENT', start, end).then((calendarObjects) => {
+		return calendar.dav.findByTypeInTimeRange('VEVENT', start, end).then((calendarObjects) => {
 			const fcEvents = []
 
 			calendarObjects.forEach((calendarObject) => {
@@ -94,7 +94,7 @@ export default function(calendar, userNotificationCallBack) {
 				}
 			})
 
-			callback(fcEvents)
+			return fcEvents
 		})
 	}
 }
