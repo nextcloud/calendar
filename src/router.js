@@ -61,12 +61,12 @@ const router = new Router({
 					component: EditSidebar,
 				},
 				{
-					path: '/:view/:firstday/new/popover/:dtstart/:dtend',
+					path: '/:view/:firstday/new/popover/:allDay/:dtstart/:dtend',
 					name: 'NewPopoverView',
 					component: EditSimple,
 				},
 				{
-					path: '/:view/:firstday/new/sidebar/:dtstart/:dtend',
+					path: '/:view/:firstday/new/sidebar/:allDay/:dtstart/:dtend',
 					name: 'NewSidebarView',
 					component: EditSidebar,
 				},
