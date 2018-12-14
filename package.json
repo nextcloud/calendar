@@ -42,7 +42,7 @@
 		"fullcalendar": "^4.0.0-alpha.2",
 		"ical.js": "^1.3.0",
 		"jstz": "^2.1.1",
-		"moment": "^2.22.2",
+		"moment": "^2.23.0",
 		"nextcloud-axios": "^0.1.3",
 		"nextcloud-vue": "^0.4.6",
 		"p-limit": "^2.0.0",
