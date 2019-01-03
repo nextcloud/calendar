@@ -117,6 +117,7 @@
 #app-navigation .datepicker-heading,
 #app-navigation .togglebuttons {
 	display: flex;
+	justify-content: space-around;
 	margin: 0 5px;
 	width: calc(100% - 10px);
 }
@@ -140,10 +141,11 @@
 	z-index: 50; /* Force show border */
 }
 
-#app-navigation .datepicker-heading .button.first,
-#app-navigation .togglebuttons .button.first {
+#app-navigation .datepicker-heading .icon-view-previous,
+#app-navigation .togglebuttons .icon-view-previous {
 	margin-right: -1px;
 	border-radius: 3px 0 0 3px;
+	flex-grow: 1;
 }
 
 #app-navigation .datepicker-heading .button.middle,
@@ -151,34 +153,21 @@
 	margin-left: 0;
 	margin-right: 0;
 	border-radius: 0;
+	flex-grow: 2;
 }
 
-#app-navigation .datepicker-heading .button.last,
-#app-navigation .togglebuttons .button.last {
+#app-navigation .datepicker-heading .icon-view-next,
+#app-navigation .togglebuttons .icon-view-next {
 	margin-left: -1px;
 	border-radius: 0 3px 3px 0;
+	flex-grow: 1;
 }
 
-#app-navigation .datepicker-heading .button.first,
-#app-navigation .datepicker-heading .button.last {
+#app-navigation .datepicker-heading .icon-view-previous,
+#app-navigation .datepicker-heading .icon-view-next {
 	width: 35px;
 }
 
 #app-navigation .datepicker-heading .button.middle {
 	width: calc(100% - 70px);
-}
-
-/* Overrides */
-
-.glyphicon-chevron-left {
-	background: url("../../img/leftarrow.svg") center center no-repeat;
-}
-
-.glyphicon-chevron-right {
-	background: url("../../img/rightarrow.svg") center center no-repeat;
-}
-
-.glyphicon {
-	display: block;
-	height: 15px;
 }
