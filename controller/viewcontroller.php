@@ -48,20 +48,27 @@ class ViewController extends Controller {
 	 * @var IUserSession
 	 */
 	private $userSession;
-
+	
+	/**
+	 * @var EventDispatcherInterface 
+	 */
+	private $eventDispatcher;
+	
 	/**
 	 * @param string $appName
 	 * @param IRequest $request an instance of the request
 	 * @param IUserSession $userSession
 	 * @param IConfig $config
 	 * @param IURLGenerator $urlGenerator
+	 * @param EventDispatcherInterface $eventDispatcherInterface
 	 */
 	public function __construct($appName, IRequest $request, IUserSession $userSession,
-								IConfig $config, IURLGenerator $urlGenerator) {
+								IConfig $config, IURLGenerator $urlGenerator, EventDispatcherInterface $eventDispatcherInterface) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->userSession = $userSession;
 		$this->urlGenerator = $urlGenerator;
+		$this->eventDispatcher = $eventDispatcherInterface;
 	}
 
 	/**
@@ -99,8 +106,7 @@ class ViewController extends Controller {
 			$initialView = 'month';
 		}
 
-		$event = new GenericEvent(null);
-		$this->eventDispatcher->dispatch('OCA\Calendar::loadAdditionalScripts', $event);
+		$this->eventDispatcher->dispatch('OCA\Calendar::loadAdditionalScripts');
 		
 		return new TemplateResponse('calendar', 'main', array_merge($templateParameters, [
 			'initialView' => $initialView,
