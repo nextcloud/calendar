@@ -81,8 +81,9 @@ class Application extends App {
 			$userSession = $c->getServer()->getUserSession();
 			$config = $c->getServer()->getConfig();
 			$urlGenerator = $c->getServer()->getURLGenerator();
+			$eventDispatcher = $c->getServer()->getEventDispatcher();
 
-			return new Controller\ViewController($c->getAppName(), $request, $userSession, $config, $urlGenerator);
+			return new Controller\ViewController($c->getAppName(), $request, $userSession, $config, $urlGenerator, $eventDispatcher);
 		});
 	}
 
