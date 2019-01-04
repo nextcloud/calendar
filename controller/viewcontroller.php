@@ -31,6 +31,8 @@ use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IUserSession;
 use OCP\IURLGenerator;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 class ViewController extends Controller {
 
