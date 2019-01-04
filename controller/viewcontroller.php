@@ -99,6 +99,9 @@ class ViewController extends Controller {
 			$initialView = 'month';
 		}
 
+		$event = new GenericEvent(null);
+		$this->eventDispatcher->dispatch('OCA\Calendar::loadAdditionalScripts', $event);
+		
 		return new TemplateResponse('calendar', 'main', array_merge($templateParameters, [
 			'initialView' => $initialView,
 			'emailAddress' => $emailAddress,
