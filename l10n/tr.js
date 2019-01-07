@@ -172,7 +172,7 @@ OC.L10N.register(
     "Save Event" : "Etkinliği Kaydet",
     "Time" : "Zaman",
     "Type" : "Tür",
-    "Relative" : "Bağıl",
+    "Relative" : "Göreceli",
     "Absolute" : "Mutlak",
     "Repeat" : "Yineleme",
     "times every" : "kez, her",
