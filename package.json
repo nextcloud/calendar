@@ -48,7 +48,7 @@
 		"p-limit": "^2.1.0",
 		"uuid": "^3.3.2",
 		"v-tooltip": "^2.0.0-rc.33",
-		"vue": "^2.5.21",
+		"vue": "^2.5.22",
 		"vue-click-outside": "^1.0.7",
 		"vue-clipboard2": "^0.2.1",
 		"vue-multiselect": "^2.1.0",
@@ -93,7 +93,7 @@
 		"stylelint-webpack-plugin": "^0.10.5",
 		"vue-jest": "^3.0.2",
 		"vue-loader": "^15.5.0",
-		"vue-template-compiler": "^2.5.21",
+		"vue-template-compiler": "^2.5.22",
 		"webpack": "^4.28.3",
 		"webpack-cli": "^3.2.0",
 		"webpack-merge": "^4.1.5"
