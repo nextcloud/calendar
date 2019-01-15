@@ -56,7 +56,7 @@
     "Imported {imported} out of {all}, {errors} failures" : "Importuoti {imported} iš {all}, {errors} klaidų",
     "Imported {imported} out of {all}, skipped {duplicates} duplicates" : "Importuoti {imported} iš {all}, praleisti dubliuoti {duplicates}",
     "Imported {imported} out of {all}, {errors} failures, skipped {duplicates} duplicates" : "Importuota {imported} iš  {all}, nepavyko {errors}, praleista dubliuotų {duplicates} ",
-    "{type} at {time}" : "{type} {time}",
+    "{type} at {time}" : "{type} ties {time}",
     "{calendar} shared by {owner}" : "{calendar} pasidalino {owner}",
     "Please enter a valid WebCal-URL" : "Prašome įvesti tinkamą WebCal adresą",
     "Severe error in webcal proxy. Please contact administrator for more information." : "Klaida naudojant WebCal proxy. Prašome susisiekti su administratoriumi.",
