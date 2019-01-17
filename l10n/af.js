@@ -2,7 +2,10 @@ OC.L10N.register(
     "calendar",
     {
     "Calendar" : "Kalender",
+    "%s has published the calendar »%s«" : "%s het die kalender »%s« gepubliseer",
     "Hello," : "Dag,",
+    "We wanted to inform you that %s has published the calendar »%s«." : "Ons wil u graag inlig dat %s die kalender »%s« gepubliseer het.",
+    "Open »%s«" : "Open »%s«",
     "Recipient" : "Ontvanger",
     "Individual" : "Individueel",
     "Group" : "Groep",
@@ -11,6 +14,7 @@ OC.L10N.register(
     "Unknown" : "Onbekend",
     "Required" : "Vereis",
     "Optional" : "Opsioneel",
+    "Does not attend" : "Woon nie by nie",
     "{name} ({email})" : "{name} ({email})",
     "Please create a calendar first." : "Skep asb. eers ’n kalender.",
     "New event" : "Nuwe geleentheid",
