@@ -113,7 +113,7 @@ OC.L10N.register(
     "More" : "Več",
     "Edit" : "Uredi",
     "Link" : "Povezava",
-    "iCal link" : "iCal povezava",
+    "iCal link" : "Povezava iCal",
     "Download" : "Prejmi",
     "Share with users or groups" : "Souporaba z uporabniki ali skupinami",
     "can edit" : "lahko ureja",
