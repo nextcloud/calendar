@@ -119,7 +119,7 @@ OC.L10N.register(
     "Email at {time}" : "E-post vid {time}",
     "None at {time}" : "Inget vid {time}",
     "{type} at {time}" : "{type} vid {time}",
-    "{calendar} shared by {owner}" : "{calendar} delad utav {owner}",
+    "{calendar} shared by {owner}" : "{calendar} delad av {owner}",
     "Please enter a valid WebCal-URL" : "Vänligen ange en giltig WebCal-URL",
     "Severe error in webcal proxy. Please contact administrator for more information." : "Allvarligt fel i webcal proxy. Vänligen kontakta administratören för vidare information.",
     "A Calendar app for Nextcloud" : "En kalender-app för Nextcloud",
