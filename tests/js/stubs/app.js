@@ -33,7 +33,8 @@ window.OC = {
 
 	Share: {
 		SHARE_TYPE_USER: 42,
-		SHARE_TYPE_GROUP: 1337
+		SHARE_TYPE_GROUP: 1337,
+		SHARE_TYPE_CIRCLE: 4932
 	},
 
     linkToRemote: function (url) {

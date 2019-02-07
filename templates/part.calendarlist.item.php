@@ -4,8 +4,12 @@
  *
  * @author Raghu Nayyar
  * @author Georg Ehrke
+ * @author Vinicius Cubas Brand
+ * @author Daniel Tygel
  * @copyright 2016 Raghu Nayyar <hey@raghunayyar.com>
  * @copyright 2016 Georg Ehrke <oc.list@georgehrke.com>
+ * @copyright 2017 Vinicius Cubas Brand <vinicius@eita.org.br>
+ * @copyright 2017 Daniel Tygel <dtygel@eita.org.br>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -127,7 +131,7 @@
 	<input class="shareeInput"
 		   ng-if="isSharingAPI"
 		   ng-model="item.selectedSharee"
-		   placeholder="<?php p($l->t('Share with users or groups')); ?>"
+		   placeholder="<?php p($l->t('Share with users, groups or circles')); ?>"
 		   type="text"
 		   typeahead-on-select="onSelectSharee($item, $model, $label, item)"
 		   typeahead-loading="loadingSharees"
@@ -183,6 +187,33 @@
 						  href="#"
 						  id="calendarlist-icon delete"
 						  ng-click="unshareFromGroup(item.calendar, groupShare.id)"
+						  title="<?php p($l->t('Delete')); ?>">
+					</span>
+				</span>
+			</span>
+		</li>
+		<li class="calendar-share-item"
+			ng-repeat="circleShare in item.calendar.shares.circles"
+			title="{{ circleShare.displayname }} (<?php p($l->t('circle')); ?>)">
+			{{ circleShare.displayname }} (<?php p($l->t('circle')); ?>) -
+			<span>
+				<input id="checkbox_sharedWithCircle_{{ $parent.$index }}_{{ $id }}"
+					   name="editable"
+					   class="checkbox"
+					   ng-change="updateExistingCircleShare(item.calendar, circleShare.id, circleShare.displayname, circleShare.writable)"
+					   ng-model="circleShare.writable"
+					   type="checkbox"
+					   value="edit">
+				<label for="checkbox_sharedWithCircle_{{ $parent.$index }}_{{ $id }}">
+					<?php p($l->t('can edit')); ?>
+				</label>
+			</span>
+			<span class="utils hide">
+				<span class="action">
+					<span class="icon-delete"
+						  href="#"
+						  id="calendarlist-icon delete"
+						  ng-click="unshareFromCircle(item.calendar, circleShare.id)"
 						  title="<?php p($l->t('Delete')); ?>">
 					</span>
 				</span>
