@@ -3,7 +3,7 @@
     "%s has published the calendar »%s«" : "%s har oprettet en begivenhed i kalenderen »%s«",
     "Hello," : "Hej,",
     "We wanted to inform you that %s has published the calendar »%s«." : "Vi ønkser at informerer dig om at %s har oprettet en begivenhed i kalenderen »%s«.",
-    "Open »%s«" : "Åben »%s«",
+    "Open »%s«" : "Åbn »%s«",
     "Cheers!" : "Hav en fortsat god dag.",
     "Recipient" : "Modtager",
     "The remote server did not give us access to the calendar (HTTP 404 error)" : "Serveren gav ikke adgang til kalenderen (HTTP 404 fejl)",
