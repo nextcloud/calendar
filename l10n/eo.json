@@ -25,7 +25,7 @@
     "Please create a calendar first." : "Bonvolu krei kalendaron unue.",
     "New event" : "Nova okazaĵo",
     "CalDAV address for clients" : "CalDAV-adreso por klientoj",
-    "Some events in this calendar are broken. Please check the JS console for more info." : "Iuj okazaĵoj en tiu kalendaro difektiĝis. Bonvolu kontroli la Ĝavoskripta (JS) konzolo por pli da informo.",
+    "Some events in this calendar are broken. Please check the JS console for more info." : "Iuj okazaĵoj en tiu kalendaro difektiĝis. Bonvolu kontroli la Ĝavoskriptan (JS) konzolon por pli da informo.",
     "Share Calendar" : "Kunhavigi kalendaron",
     "Shared" : "Kunhavata",
     "Could not save WebCal-calendar" : "Ne eblis konservi la WebCal-kalendaron",
