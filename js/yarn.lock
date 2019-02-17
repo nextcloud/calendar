@@ -3406,10 +3406,10 @@ https-proxy-agent@^2.2.1:
     agent-base "^4.1.0"
     debug "^3.1.0"
 
-ical.js@^1.2.2:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/ical.js/-/ical.js-1.2.2.tgz#59b517362a8f61dce0342fe67deb7c20dd119f6e"
-  integrity sha1-WbUXNiqPYdzgNC/mfet8IN0Rn24=
+ical.js@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/ical.js/-/ical.js-1.3.0.tgz#9db1800bfd8d7c003d1baec61441dd7186011768"
+  integrity sha512-wQ0w77MGOe6vNhZMBQuZAtZoTzDEOQ/QoCDofWL7yfkQ/HYWX5NyWPYjN+yj+4JahOvTkhXjTlrZtiQKv+BSOA==
 
 iconv-lite@0.4.15:
   version "0.4.15"
