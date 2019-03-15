@@ -8,6 +8,7 @@ OC.L10N.register(
     "Open »%s«" : "Отвори »%s«",
     "Cheers!" : "Поздрави!",
     "Recipient" : "Получател",
+    "The remote server did not give us access to the calendar (HTTP 404 error)" : "Отдалеченият сървър не ни дава достъп до календара (HTTP 404 error)",
     "Too many redirects. Aborting ..." : "Прекалено много пренасочвания. Прекратяване ...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "Отдалечения сървър не предостави достъп до календара (HTTP {%s} грешка)",
     "Error connecting to remote server" : "Грешка при свързване с отдалечен сървър",
