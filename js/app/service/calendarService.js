@@ -3,8 +3,12 @@
  *
  * @author Raghu Nayyar
  * @author Georg Ehrke
+ * @author Vinicius Cubas Brand
+ * @author Daniel Tygel
  * @copyright 2016 Raghu Nayyar <hey@raghunayyar.com>
  * @copyright 2016 Georg Ehrke <oc.list@georgehrke.com>
+ * @copyright 2017 Vinicius Cubas Brand <vinicius@eita.org.br>
+ * @copyright 2017 Daniel Tygel <dtygel@eita.org.br>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -73,6 +77,7 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 
 	const SHARE_USER = constants.SHARE_TYPE_USER;
 	const SHARE_GROUP = constants.SHARE_TYPE_GROUP;
+	const SHARE_CIRCLE = constants.SHARE_TYPE_CIRCLE;
 
 	context.bootPromise = (function() {
 		if (isPublic) {
@@ -138,15 +143,17 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 	};
 
 	context.getShareValue = function(shareType, shareWith) {
-		if (shareType !== SHARE_USER && shareType !== SHARE_GROUP) {
+		if (shareType !== SHARE_USER && shareType !== SHARE_GROUP && shareType !== SHARE_CIRCLE) {
 			throw new Error('Unknown shareType given');
 		}
 
 		let hrefValue;
 		if (shareType === SHARE_USER) {
 			hrefValue = 'principal:principals/users/';
-		} else {
+		} else if (shareType === SHARE_GROUP) {
 			hrefValue = 'principal:principals/groups/';
+		} else {
+			hrefValue = 'principal:principals/circles/';
 		}
 		hrefValue += shareWith;
 
@@ -559,8 +566,14 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 					displayname: shareWithDisplayname,
 					writable: writable
 				});
-			} else {
+			} else if (shareType === SHARE_GROUP) {
 				calendar.shares.groups.push({
+					id: shareWith,
+					displayname: shareWithDisplayname,
+					writable: writable
+				});
+			} else {
+				calendar.shares.circles.push({
 					id: shareWith,
 					displayname: shareWithDisplayname,
 					writable: writable
@@ -604,11 +617,16 @@ app.service('CalendarService', function(DavClient, StringUtility, XMLUtility, Ca
 					return user.id === shareWith;
 				});
 				calendar.shares.users.splice(index, 1);
-			} else {
+			} else if (shareType === SHARE_GROUP) {
 				const index = calendar.shares.groups.findIndex(function(group) {
 					return group.id === shareWith;
 				});
 				calendar.shares.groups.splice(index, 1);
+			} else {
+				const index = calendar.shares.circles.findIndex(function(circle) {
+					return circle.id === shareWith;
+				});
+				calendar.shares.circles.splice(index, 1);
 			}
 		});
 	};

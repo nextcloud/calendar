@@ -2,7 +2,11 @@
  * Calendar App
  *
  * @author Georg Ehrke
+ * @author Vinicius Cubas Brand
+ * @author Daniel Tygel
  * @copyright 2016 Georg Ehrke <oc.list@georgehrke.com>
+ * @copyright 2017 Vinicius Cubas Brand <vinicius@eita.org.br>
+ * @copyright 2017 Daniel Tygel <dtygel@eita.org.br>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -26,6 +30,7 @@ app.service('CalendarFactory', function(DavClient, Calendar, WebCal, constants) 
 
 	const SHARE_USER_PREFIX = 'principal:principals/users/';
 	const SHARE_GROUP_PREFIX = 'principal:principals/groups/';
+	const SHARE_CIRCLE_PREFIX = 'principal:principals/circles/';
 
 	context.acl = function(props, userPrincipal) {
 		const acl = props['{' + DavClient.NS_DAV + '}acl'] || [];
@@ -125,7 +130,8 @@ app.service('CalendarFactory', function(DavClient, Calendar, WebCal, constants) 
 		const shareProp = props['{' + DavClient.NS_OWNCLOUD + '}invite'];
 		const shares = {
 			users: [],
-			groups: []
+			groups: [],
+			circles: []
 		};
 		let ownerDisplayname = null;
 
@@ -149,8 +155,10 @@ app.service('CalendarFactory', function(DavClient, Calendar, WebCal, constants) 
 			if (displayName.length === 0) {
 				if (href.startsWith(SHARE_USER_PREFIX)) {
 					displayName = href.substr(SHARE_USER_PREFIX.length);
-				} else {
+				} else if (href.startsWith(SHARE_GROUP_PREFIX)) {
 					displayName = href.substr(SHARE_GROUP_PREFIX.length);
+				} else {
+					displayName = href.substr(SHARE_CIRCLE_PREFIX.length);
 				}
 			} else {
 				displayName = displayName[0].textContent;
@@ -181,6 +189,12 @@ app.service('CalendarFactory', function(DavClient, Calendar, WebCal, constants) 
 			} else if (href.startsWith(SHARE_GROUP_PREFIX)) {
 				shares.groups.push({
 					id: href.substr(SHARE_GROUP_PREFIX.length),
+					displayname: displayName,
+					writable: writable
+				});
+			} else if (href.startsWith(SHARE_CIRCLE_PREFIX)) {
+				shares.circles.push({
+					id: href.substr(SHARE_CIRCLE_PREFIX.length),
 					displayname: displayName,
 					writable: writable
 				});

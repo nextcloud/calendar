@@ -83,7 +83,8 @@ app.config(['$provide', '$httpProvider',
 			shareeCanEditCalendarProperties,
 			canSharePublicLink,
 			SHARE_TYPE_USER: 0,
-			SHARE_TYPE_GROUP: 1
+			SHARE_TYPE_GROUP: 1,
+			SHARE_TYPE_CIRCLE: 7
 		});
 	}
 ]);

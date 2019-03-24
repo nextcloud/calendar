@@ -2,7 +2,11 @@
  * Nextcloud - Calendar App
  *
  * @author Georg Ehrke
+ * @author Vinicius Cubas Brand
+ * @author Daniel Tygel
  * @copyright 2016 Georg Ehrke <oc.list@georgehrke.com>
+ * @copyright 2017 Vinicius Cubas Brand <vinicius@eita.org.br>
+ * @copyright 2017 Daniel Tygel <dtygel@eita.org.br>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -297,8 +301,9 @@ app.factory('Calendar', function($window, Hook, VEventService, TimezoneService, 
 		};
 
 		iface.isShared = function() {
-			return context.shares.groups.length !== 0 ||
-					context.shares.users.length !== 0;
+			return context.shares.circles.length !== 0 ||
+					context.shares.groups.length !== 0 ||
+ 					 context.shares.users.length !== 0;
 		};
 
 		iface.isPublished = function() {
