@@ -1,11 +1,11 @@
 <template>
-
+	<div />
 </template>
 
 <script>
-    export default {
-        name: "TitleTimepicker"
-    }
+export default {
+	name: 'TitleTimepicker'
+}
 </script>
 
 <style scoped>

@@ -77,7 +77,9 @@ export default {
 					params.object = event.extendedProps.routerParams.object
 					params.recurrenceId = event.extendedProps.routerParams.recurrenceId
 
-					this.$router.push({ name: 'EditSidebarView', params })
+					const name = this.$store.state.settings.showPopover ? 'EditPopoverView' : 'EditSidebarView'
+
+					this.$router.push({ name, params })
 				},
 				eventRender: ({ event, el }) => {
 					// console.debug(el)
@@ -91,9 +93,10 @@ export default {
 					params.allDay = allDay ? '1' : '0'
 					params.dtstart = Math.floor(start.getTime() / 1000)
 					params.dtend = Math.floor(end.getTime() / 1000)
-					params.recurrenceId = event.extendedProps.routerParams.recurrenceId
+					// params.recurrenceId = event.extendedProps.routerParams.recurrenceId
 
-					this.$router.push({ name: 'NewPopoverView' })
+					const name = this.$store.state.settings.showPopover ? 'NewPopoverView' : 'NewSidebarView'
+					this.$router.push({ name })
 					console.debug(start, startStr, end, endStr, allDay, jsEvent, view, resource)
 				}
 			},
@@ -140,7 +143,7 @@ export default {
 			}
 		},
 		'$route'({ params }) {
-			if (params.view !== this.calendar.getView().type) {
+			if (params.view !== this.calendar.view.type) {
 				this.calendar.changeView(params.view)
 
 			}
