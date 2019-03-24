@@ -325,13 +325,41 @@ ul#calendarlistcontainer {
 
 #datepicker-ng-show-container {
 	display: block !important;
-	height: 185px;
+	height: 205px;
 	overflow: hidden;
 	transition: 200ms ease-in-out all;
 }
 
 #datepicker-ng-show-container.ng-hide {
 	height: 0;
+}
+
+div.uib-daypicker {
+	display: flex;
+
+	table {
+		flex: 1;
+
+		tbody {
+			flex: 1;
+			display: flex;
+			flex-direction: column;
+
+			tr.uib-weeks {
+				flex: 1;
+				display: flex;
+				width: 100%;
+				justify-content: space-evenly;
+
+				td.uib-day {
+					display: flex;
+					flex: 1;
+					align-items: center;
+					justify-content: center;
+				}
+			}
+		}
+	}
 }
 
 /* Spacing */
