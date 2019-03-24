@@ -3014,10 +3014,10 @@ gulp-strip-css-comments@^2.0.0:
     strip-css-comments "^3.0.0"
     through2 "^2.0.0"
 
-gulp-stylelint@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/gulp-stylelint/-/gulp-stylelint-7.0.0.tgz#4249dc36a983e6a2c28a449f73d9a369bb14b458"
-  integrity sha512-0PI+tNTzaJz5+qO3i9Jyd04ZPSb+NCN7bZ2GaIArvbQpuyJha9p3lpWxPG+XJtrVT42bIiyLeYKPnLe7uW4dQQ==
+gulp-stylelint@^8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/gulp-stylelint/-/gulp-stylelint-8.0.0.tgz#b8de497b2dce2ab466d323961f310cf502198bbf"
+  integrity sha512-oEnOsRzS4wObF25dUXF4Mi7lSACUoVbnUt7/ZJqEBsnF+2NWUWf7DHnG3CAQvioAQ+rteeduuyN0TAqxoeNy2Q==
   dependencies:
     chalk "^2.3.0"
     deep-extend "^0.5.0"
