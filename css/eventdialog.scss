@@ -218,8 +218,8 @@
 
 /* Primary action button, use sparingly */
 .delete,
-input[type="submit"].delete,
-input[type="button"].delete,
+input[type='submit'].delete,
+input[type='button'].delete,
 button.delete,
 .button.delete {
 	border: 1px solid #c60000;
