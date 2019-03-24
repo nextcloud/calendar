@@ -1,11 +1,11 @@
 <template>
-
+	<div />
 </template>
 
 <script>
-    export default {
-        name: "RepeatTab"
-    }
+export default {
+	name: 'RepeatTab'
+}
 </script>
 
 <style scoped>

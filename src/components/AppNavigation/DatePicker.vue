@@ -78,18 +78,18 @@ export default {
 		let locale = OC.getLocale().replace('_', '-').toLowerCase()
 		// default load e.g. fr-fr
 		import('moment/locale/' + this.locale)
-			.then(e => {
+			.then(() => {
 				// force locale change to update
 				// the component once done loading
 				this.locale = locale
 			})
-			.catch(e => {
+			.catch(() => {
 				// failure: fallback to fr
 				import('moment/locale/' + locale.split('-')[0])
-					.then(e => {
+					.then(() => {
 						this.locale = locale.split('-')[0]
 					})
-					.catch(e => {
+					.catch(() => {
 						// failure, fallback to english
 						this.locale = 'en'
 					})
