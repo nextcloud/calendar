@@ -58,7 +58,7 @@
     "fullcalendar": "^3.9.0",
     "hsl-to-rgb": "kayellpeee/hsl_rgb_converter",
     "hsl_rgb_converter": "kayellpeee/hsl_rgb_converter",
-    "ical.js": "^1.2.2",
+    "ical.js": "^1.3.0",
     "jquery-timepicker": "fgelinas/timepicker#883bb2cd94",
     "jstimezonedetect": "georgehrke/jstimezonedetect",
     "jstzdetect": "georgehrke/jstimezonedetect",
