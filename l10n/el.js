@@ -120,7 +120,6 @@ OC.L10N.register(
     "Link" : "Σύνδεσμος",
     "iCal link" : "Σύνδεσμος iCal",
     "Download" : "Λήψη",
-    "Share with users or groups" : "Διαμοιρασμός με χρήστες ή ομάδες",
     "can edit" : "δυνατότητα επεξεργασίας",
     "Share link" : "Διαμοιρασμός συνδέσμου",
     "Public access" : "Δημόσια πρόσβαση",

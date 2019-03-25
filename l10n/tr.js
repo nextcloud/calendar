@@ -154,7 +154,6 @@ OC.L10N.register(
     "Link" : "Bağlantı",
     "iCal link" : "iCal bağlantısı",
     "Download" : "İndir",
-    "Share with users or groups" : "Kullanıcı ve gruplarla paylaş",
     "can edit" : "düzenleyebilir",
     "Share link" : "Bağlantıyı paylaş",
     "Public access" : "Herkese açık erişim",

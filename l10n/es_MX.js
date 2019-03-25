@@ -153,7 +153,6 @@ OC.L10N.register(
     "Link" : "Liga",
     "iCal link" : "Liga iCal",
     "Download" : "Descargar",
-    "Share with users or groups" : "Compartir con usuarios o grupos",
     "can edit" : "puede editar",
     "Share link" : "Compartir liga",
     "Public access" : "Acceso público",

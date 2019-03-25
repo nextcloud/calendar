@@ -92,7 +92,6 @@ OC.L10N.register(
     "Edit" : "تعديل",
     "Link" : "الرابط",
     "Download" : "تنزيل",
-    "Share with users or groups" : "شارِك مع مستخدمين أو مجموعات",
     "can edit" : "يمكن التحرير",
     "Share link" : "رابط المشاركة",
     "Public access" : "النفاذ إليه مُصرّح للعامة",

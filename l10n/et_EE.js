@@ -109,7 +109,6 @@ OC.L10N.register(
     "Link" : "Link",
     "iCal link" : "iCal link",
     "Download" : "Lae alla",
-    "Share with users or groups" : "Jaga kasutajate või gruppidega",
     "can edit" : "saab muuta",
     "Share link" : "Jaga link",
     "Public access" : "Avalik ligipääs",

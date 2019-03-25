@@ -123,7 +123,6 @@ OC.L10N.register(
     "Link" : "Saite",
     "iCal link" : "iCal saite",
     "Download" : "Lejupielādēt",
-    "Share with users or groups" : "Koplietot ar lietotājiem vai grupām",
     "can edit" : "var rediģēt",
     "Share link" : "Koplietot saiti",
     "Public access" : "Publiska piekļuve",

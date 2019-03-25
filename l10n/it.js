@@ -154,7 +154,6 @@ OC.L10N.register(
     "Link" : "Collegamento",
     "iCal link" : "Collegamento iCal",
     "Download" : "Scarica",
-    "Share with users or groups" : "Condividi con utenti o gruppi",
     "can edit" : "può modificare",
     "Share link" : "Condividi il collegamento",
     "Public access" : "Accesso pubblico",

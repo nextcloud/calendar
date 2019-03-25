@@ -153,7 +153,6 @@ OC.L10N.register(
     "Link" : "Liên kết",
     "iCal link" : "iCal liên kết",
     "Download" : "Tải về",
-    "Share with users or groups" : "Chia sẽ với người dùng hoặc nhóm",
     "can edit" : "có thể chỉnh sửa",
     "Share link" : "Liên kết chia sẽ",
     "Public access" : "Truy cập công khai",

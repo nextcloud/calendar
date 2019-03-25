@@ -134,7 +134,6 @@ OC.L10N.register(
     "Link" : "連結",
     "iCal link" : "iCal 連結",
     "Download" : "下載",
-    "Share with users or groups" : "與使用者和群組分享",
     "can edit" : "可編輯",
     "Share link" : "分享連結",
     "Public access" : "公開存取",

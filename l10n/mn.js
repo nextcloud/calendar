@@ -113,7 +113,6 @@ OC.L10N.register(
     "Link" : "Холбоос",
     "iCal link" : "iCal холбоос",
     "Download" : "Татаж авах",
-    "Share with users or groups" : "Бусад хэрэглэгч, бүлэгт хуваалцах",
     "can edit" : "засаж чадна",
     "Share link" : "Холбоос хуваалцах",
     "Public access" : "Нийтийн хандах эрх",

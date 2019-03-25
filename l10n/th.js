@@ -83,7 +83,6 @@ OC.L10N.register(
     "Edit" : "แก้ไข",
     "Link" : "ลิงค์",
     "Download" : "ดาวน์โหลด",
-    "Share with users or groups" : "แชร์กับผู้ใช้หรือกลุ่ม",
     "can edit" : "สามารถแก้ไข",
     "New Calendar" : "สร้างปฏิทินใหม่",
     "Name" : "ชื่อ",

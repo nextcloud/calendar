@@ -58,7 +58,6 @@ OC.L10N.register(
     "Link" : "Poveznica",
     "iCal link" : "iCal poveznica",
     "Download" : "Preuzmi",
-    "Share with users or groups" : "Podijeli s korisnicima ili grupama",
     "can edit" : "uređivanje moguće",
     "Share link" : "Podijeli vezu",
     "Public access" : "Javni pristup",

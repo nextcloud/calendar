@@ -153,7 +153,6 @@ OC.L10N.register(
     "Link" : "Hivatkozás",
     "iCal link" : "iCal hivatkozás",
     "Download" : "Letöltés",
-    "Share with users or groups" : "Megosztás felhasználókkal vagy csoportokkal",
     "can edit" : "szerkesztheti",
     "Share link" : "Megosztás hivatkozással",
     "Public access" : "Nyilvános hozzáférés",

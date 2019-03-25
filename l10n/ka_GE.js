@@ -150,7 +150,6 @@ OC.L10N.register(
     "Link" : "ბმული",
     "iCal link" : "iCal ბმული",
     "Download" : "ჩამოტვირთვა",
-    "Share with users or groups" : "გაუზიარეთ მოხმარებლებს ან ჯგუფებს",
     "can edit" : "შეგიძლია შეცვლა",
     "Share link" : "ბმულის გაზიარება",
     "Public access" : "საზოგადო წვდომა",

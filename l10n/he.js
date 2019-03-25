@@ -125,7 +125,6 @@ OC.L10N.register(
     "Link" : "קישור",
     "iCal link" : "קישור iCal",
     "Download" : "הורדה",
-    "Share with users or groups" : "שיתוף עם משתמשים או קבוצות",
     "can edit" : "ניתן לערוך",
     "Share link" : "שיתוף קישור",
     "Public access" : "גישה ציבורית",

@@ -150,7 +150,6 @@ OC.L10N.register(
     "Link" : "링크",
     "iCal link" : "iCal 링크",
     "Download" : "다운로드",
-    "Share with users or groups" : "사용자 및 그룹과 공유",
     "can edit" : "편집 가능",
     "Share link" : "링크 공유",
     "Public access" : "공개 접근",

@@ -105,7 +105,6 @@ OC.L10N.register(
     "Link" : "Ligamine",
     "iCal link" : "Ligamine iCal",
     "Download" : "Discargar",
-    "Share with users or groups" : "Compartir con usatores o gruppos",
     "can edit" : "pote modificar",
     "Share link" : "Compartir ligamine",
     "Public access" : "Accesso public",

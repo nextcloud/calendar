@@ -154,7 +154,6 @@ OC.L10N.register(
     "Link" : "Esteka",
     "iCal link" : "iCal esteka",
     "Download" : "Deskargatu",
-    "Share with users or groups" : "Erabiltzaile edo taldeekin partekatu",
     "can edit" : "editatu dezake",
     "Share link" : "Partekatu esteka",
     "Public access" : "Sarbide publikoa",

@@ -88,7 +88,6 @@ OC.L10N.register(
     "Link" : "Skakel",
     "iCal link" : "iCal-skakel",
     "Download" : "Laai af",
-    "Share with users or groups" : "Deel met gebruikers of groepe",
     "can edit" : "kan wysig",
     "Share link" : "Deel skakel",
     "Public access" : "Openbare toegang",

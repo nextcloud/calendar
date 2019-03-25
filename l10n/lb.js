@@ -78,7 +78,6 @@ OC.L10N.register(
     "Edit" : "Änneren",
     "Link" : "Link",
     "Download" : "Eroflueden",
-    "Share with users or groups" : "Mat Benotzer oder Gruppen deelen",
     "can edit" : "kann änneren",
     "New Calendar" : "Neie Kalenner",
     "Name" : "Numm",

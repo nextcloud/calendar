@@ -119,7 +119,6 @@ OC.L10N.register(
     "Link" : "Lidhje",
     "iCal link" : "Linku i iCal",
     "Download" : "Shkarkoje",
-    "Share with users or groups" : "Ndajeni me përdorues ose grupe",
     "can edit" : "mund të përpunojnë",
     "Share link" : "Ndani lidhjen",
     "Public access" : "Akses publik",

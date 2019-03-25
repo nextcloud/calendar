@@ -154,7 +154,6 @@ OC.L10N.register(
     "Link" : "Tengill",
     "iCal link" : "iCal-tengill",
     "Download" : "Sækja",
-    "Share with users or groups" : "Deila með notendum eða hópum",
     "can edit" : "getur breytt",
     "Share link" : "Deila tengli",
     "Public access" : "Opinber aðgangur",

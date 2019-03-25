@@ -154,7 +154,6 @@ OC.L10N.register(
     "Link" : "Ligilo",
     "iCal link" : "iCal-ligilo",
     "Download" : "Elŝuti",
-    "Share with users or groups" : "Kunhavigi kun uzantoj aŭ grupoj",
     "can edit" : "povas redakti",
     "Share link" : "Kunhavigi ligilon",
     "Public access" : "Publika aliro",

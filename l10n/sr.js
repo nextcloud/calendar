@@ -154,7 +154,6 @@ OC.L10N.register(
     "Link" : "Веза",
     "iCal link" : "iCal веза",
     "Download" : "Преузми",
-    "Share with users or groups" : "Дели са корисницима или групама",
     "can edit" : "може да мења",
     "Share link" : "Дели везу",
     "Public access" : "Јавни приступ",
