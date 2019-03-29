@@ -120,6 +120,7 @@ OC.L10N.register(
     "iCal link" : "iCal nuoroda",
     "Download" : "Atsisiųsti",
     "can edit" : "gali redaguoti",
+    "Share link" : "Dalinimosi nuoroda",
     "Public access" : "Viešoji prieiga",
     "Email link to person" : "Siųsti nuorodą el. paštu",
     "Send" : "Siųsti",
