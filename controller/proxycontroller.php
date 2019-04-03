@@ -30,6 +30,7 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Controller;
 use OCP\Http\Client\IClientService;
+use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IRequest;
@@ -53,19 +54,27 @@ class ProxyController extends Controller {
 	protected $logger;
 
 	/**
+	 * @var IConfig
+	 */
+	protected $config;
+
+	/**
 	 * @param string $appName
 	 * @param IRequest $request an instance of the request
 	 * @param IClientService $client
 	 * @param IL10N $l10n
 	 * @param ILogger $logger
+	 * @param IConfig $config
 	 */
 	public function __construct($appName, IRequest $request,
 								IClientService $client,
-								IL10N $l10n, ILogger $logger) {
+								IL10N $l10n, ILogger $logger,
+								IConfig $config) {
 		parent::__construct($appName, $request);
 		$this->client = $client;
 		$this->l10n = $l10n;
 		$this->logger = $logger;
+		$this->config = $config;
 	}
 
 	/**
@@ -82,6 +91,27 @@ class ProxyController extends Controller {
 			$redirect_count = 0;
 			$max_redirects = 5;
 			$done = false;
+
+			$allowLocalAccess = $this->config->getAppValue('dav', 'webcalAllowLocalAccess', 'no');
+			if ($allowLocalAccess !== 'yes') {
+				$host = parse_url($url, PHP_URL_HOST);
+				// remove brackets from IPv6 addresses
+				if (strpos($host, '[') === 0 && substr($host, -1) === ']') {
+					$host = substr($host, 1, -1);
+				}
+
+				if ($host === 'localhost' || substr($host, -6) === '.local' || substr($host, -10) === '.localhost' ||
+					preg_match('/(^127\.)|(^192\.168\.)|(^10\.)|(^172\.1[6-9]\.)|(^172\.2[0-9]\.)|(^172\.3[0-1]\.)|(^::1$)|(^[fF][cCdD])/', $host)) {
+					$this->logger->warning("Subscription $url was not refreshed because it violates local access rules");
+
+					$response = new JSONResponse([
+						'message' => $this->l10n->t('URL violates local access rules'),
+						'proxy_code' => 403
+					], Http::STATUS_UNPROCESSABLE_ENTITY);
+
+					return $response;
+				}
+			}
 
 			// try to find a chain of 301s
 			do {
