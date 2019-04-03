@@ -35,7 +35,7 @@
 		"test:coverage": "jest --coverage"
 	},
 	"dependencies": {
-		"@babel/polyfill": "^7.4.0",
+		"@babel/polyfill": "^7.4.3",
 		"axios": "^0.18.0",
 		"cdav-library": "github:nextcloud/cdav-library",
 		"debounce": "^1.2.0",
