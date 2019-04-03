@@ -34,6 +34,7 @@ class ProxyControllerTest extends TestCase {
 	private $client;
 	private $l10n;
 	private $logger;
+	private $config;
 
 	private $newClient;
 	private $response0;
@@ -59,6 +60,9 @@ class ProxyControllerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$this->logger = $this->getMockBuilder('\OCP\ILogger')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->config = $this->getMockBuilder('\OCP\IConfig')
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -100,8 +104,12 @@ class ProxyControllerTest extends TestCase {
 				->getMock();
 		}
 
+		$this->config->method('getAppValue')
+			->with('dav', 'webcalAllowLocalAccess', 'no')
+			->willReturn('no');
+
 		$this->controller = new ProxyController($this->appName, $this->request,
-			$this->client, $this->l10n, $this->logger);
+			$this->client, $this->l10n, $this->logger, $this->config);
 	}
 
 	public function testProxy() {
