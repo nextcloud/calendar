@@ -1,3 +1,14 @@
+## 1.7.0 - 2019-03-25
+### Added
+- Share calendars with circles
+  [#602](https://github.com/nextcloud/calendar/pull/602)
+### Fixed
+- compatibility with Nextcloud 16
+- Buttons not visible in dark theme
+  [#1042](https://github.com/nextcloud/calendar/issues/1042)
+- Fix datepicker alignment
+  [#1085](https://github.com/nextcloud/calendar/pull/1085)
+
 ## 1.6.4 - 2018-11-23
 ### Fixed
 - Use clearer color to easier locate today
