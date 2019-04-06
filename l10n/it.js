@@ -8,6 +8,7 @@ OC.L10N.register(
     "Open »%s«" : "Apri «%s»",
     "Cheers!" : "Evviva!",
     "Recipient" : "Destinatario",
+    "URL violates local access rules" : "L'URL viola le regole di accesso locali",
     "The remote server did not give us access to the calendar (HTTP 404 error)" : "Il server remoto ha negato l'accesso al calendario (errore HTTP 404)",
     "Too many redirects. Aborting ..." : "Troppe redirezioni. Interruzione in corso...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "Il server remoto ha negato l'accesso al calendario (errore HTTP {%s})",

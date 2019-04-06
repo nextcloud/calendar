@@ -8,6 +8,7 @@ OC.L10N.register(
     "Open »%s«" : "Atverti \"%s\"",
     "Cheers!" : "Sveikinimai!",
     "Recipient" : "Gavėjas",
+    "URL violates local access rules" : "URL pažeidžia vietinės prieigos taisykles",
     "The remote server did not give us access to the calendar (HTTP 404 error)" : "Nuotolinis serveris nesuteikė mums prieigos prie kalendoriaus (HTTP 404 klaida)",
     "Too many redirects. Aborting ..." : "Per daug nukreipimų. Nutraukiama ...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "Nuotolinis serveris nesuteikė mums prieigos prie kalendoriaus (HTTP {%s} klaida)",

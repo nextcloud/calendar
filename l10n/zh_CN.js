@@ -8,6 +8,7 @@ OC.L10N.register(
     "Open »%s«" : "打开 »%s«",
     "Cheers!" : "干杯！",
     "Recipient" : "容器",
+    "URL violates local access rules" : "URL 违反了本地访问规则",
     "The remote server did not give us access to the calendar (HTTP 404 error)" : "远程服务器并没有告诉我们日历的数据库在哪里（HTTP 404 错误）",
     "Too many redirects. Aborting ..." : "太多重定向。取消中...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "远程服务器日程无法访问（HTTP {%s} 错误）",
