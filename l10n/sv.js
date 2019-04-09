@@ -8,6 +8,7 @@ OC.L10N.register(
     "Open »%s«" : "Öppna »%s«",
     "Cheers!" : "Ha de fint!",
     "Recipient" : "Mottagare",
+    "URL violates local access rules" : "URL:en bryter mot lokala åtkomstregler",
     "The remote server did not give us access to the calendar (HTTP 404 error)" : "Fjärrservern gav inte tillgång till kalendern (HTTP 404)",
     "Too many redirects. Aborting ..." : "För många omdirigeringar. Avbryter ...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "Externa servern gav inte åtkomst när vi försökte ansluta till kalendern (HTTP {%s} error)",
