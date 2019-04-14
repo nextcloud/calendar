@@ -47,7 +47,7 @@
 		"nextcloud-vue": "^0.9.7",
 		"p-limit": "^2.2.0",
 		"uuid": "^3.3.2",
-		"v-tooltip": "^2.0.0-rc.33",
+		"v-tooltip": "^2.0.1",
 		"vue": "^2.6.10",
 		"vue-click-outside": "^1.0.7",
 		"vue-clipboard2": "^0.3.0",
