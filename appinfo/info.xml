@@ -31,6 +31,6 @@
 	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/sidebar_attendees.png</screenshot>
 	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/sidebar_reminders.png</screenshot>
 	<dependencies>
-		<nextcloud min-version="15" max-version="16" />
+		<nextcloud min-version="15" max-version="17" />
 	</dependencies>
 </info>
