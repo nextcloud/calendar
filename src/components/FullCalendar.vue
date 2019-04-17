@@ -150,6 +150,8 @@ export default {
 
 			if (params.firstday !== this.currentDate) {
 				this.calendar.gotoDate(params.firstday)
+				this.calendar.render()
+				this.calendar.updateSize()
 				this.currentDate = params.firstday
 			}
 		}
