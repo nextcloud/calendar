@@ -117,7 +117,7 @@ OC.L10N.register(
     "iCal link" : "Povezava iCal",
     "Download" : "Prejmi",
     "can edit" : "lahko ureja",
-    "Share link" : "Povezava skupne rabe",
+    "Share link" : "Povezava za souporabo",
     "Public access" : "Javni dostop",
     "Email link to person" : "Pošlji osebi povezavo po e-pošti",
     "Send" : "Pošlji",

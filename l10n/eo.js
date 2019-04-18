@@ -8,6 +8,7 @@ OC.L10N.register(
     "Open »%s«" : "Malfermi „%s“",
     "Cheers!" : "Ĝis!",
     "Recipient" : "Ricevonto",
+    "URL violates local access rules" : "Retadreso malobservas lokajn alirregulojn",
     "The remote server did not give us access to the calendar (HTTP 404 error)" : "La fora servilo ne permesas atingon al la kalendaro (eraro HTTP 404)",
     "Too many redirects. Aborting ..." : "Tro da alidirektoj. Ne daŭrigante.",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "La fora servilo ne permesas atingon al la kalendaro (eraro HTTP {%s})",
