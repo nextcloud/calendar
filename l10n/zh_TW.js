@@ -8,6 +8,8 @@ OC.L10N.register(
     "Open »%s«" : "開啟 »%s«",
     "Cheers!" : "太棒了！",
     "Recipient" : "收件人",
+    "URL violates local access rules" : "網路連結(URL) 不合乎此地的存取規則",
+    "The remote server did not give us access to the calendar (HTTP 404 error)" : "遠端伺服器未給予日曆存取權限 (HTTP  404 錯誤)",
     "Too many redirects. Aborting ..." : "太多重新導向，正在終止…",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "遠端伺服器未給予日曆存取權限 (HTTP {%s} 錯誤)",
     "Error connecting to remote server" : "在與遠端伺服器連線時發生了錯誤",
