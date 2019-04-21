@@ -23,7 +23,7 @@
     "coveralls": "^3.0.3",
     "gulp": "^3.9.1",
     "gulp-babel": "^7.0.1",
-    "gulp-cli": "^2.0.1",
+    "gulp-cli": "^2.2.0",
     "gulp-concat": "^2.6.1",
     "gulp-insert": "^0.5.0",
     "gulp-jshint": "^2.1.0",
