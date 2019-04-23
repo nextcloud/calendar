@@ -1,3 +1,10 @@
+## 1.6.5 - 2019-04-04
+### Fixed
+- Buttons not visible in dark theme
+  [#1042](https://github.com/nextcloud/calendar/issues/1042)
+- Fix datepicker alignment
+  [#1085](https://github.com/nextcloud/calendar/pull/1085)
+
 ## 1.6.4 - 2018-11-23
 ### Fixed
 - Use clearer color to easier locate today
