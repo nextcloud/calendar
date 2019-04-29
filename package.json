@@ -51,7 +51,7 @@
 		"vue": "^2.6.10",
 		"vue-click-outside": "^1.0.7",
 		"vue-clipboard2": "^0.3.0",
-		"vue-multiselect": "^2.1.4",
+		"vue-multiselect": "^2.1.6",
 		"vue-router": "^3.0.4",
 		"vuex": "^3.1.0",
 		"vuex-router-sync": "^5.0.0"
