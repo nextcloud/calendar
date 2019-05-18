@@ -43,7 +43,7 @@ OC.L10N.register(
     "Repeating" : "Repetindo",
     "When shared show full event" : "Amosar o evento completo ao compartir",
     "When shared show only busy" : "Amosar só o ocupado ao compartir",
-    "When shared hide this event" : "Agachar este evento ao compartir",
+    "When shared hide this event" : "Agochar este evento ao compartir",
     "Confirmed" : "Confirmado",
     "Tentative" : "Tentativa",
     "Cancelled" : "Cancelado",
