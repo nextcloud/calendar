@@ -40,7 +40,7 @@
     "Reminders" : "Rappels",
     "Repeating" : "Occurrences",
     "When shared show full event" : "Afficher l'événement complet en cas de partage",
-    "When shared show only busy" : "Afficher seulement la plage horaire occupée en cas de partage",
+    "When shared show only busy" : "En cas de partage, afficher la plage horaire comme occupée",
     "When shared hide this event" : "Masquer cet événement en cas de partage",
     "Confirmed" : "Confirmé",
     "Tentative" : "Tentative",
