@@ -43,7 +43,7 @@ OC.L10N.register(
     "Repeating" : "Ripetata",
     "When shared show full event" : "Kiam kunhavigita, montri plenajn detalojn",
     "When shared show only busy" : "Kiam kunhavigita, montri nur kiel okupita",
-    "When shared hide this event" : "Kiam kunhavigita, kaŝi tiun okazaĵon.",
+    "When shared hide this event" : "Kiam kunhavigita, kaŝi tiun okazaĵon",
     "Confirmed" : "Konfirmita",
     "Tentative" : "Nekonfirmita",
     "Cancelled" : "Nuligita",
