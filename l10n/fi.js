@@ -8,6 +8,7 @@ OC.L10N.register(
     "Open »%s«" : "Avaa »%s«",
     "Cheers!" : "Kiitos!",
     "Recipient" : "Vastaanottaja",
+    "URL violates local access rules" : "URL rikkoo paikallisen käytön sääntöjä",
     "The remote server did not give us access to the calendar (HTTP 404 error)" : "Etäpalvelin ei mahdollistanut pääsyä kalenteriin (HTTP 404 -virhe)",
     "Too many redirects. Aborting ..." : "Liian monta uudelleenohjausta. Keskeytetään ...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "Etäpalvelin ei antanut pääsyä kalenteriin (HTTP-virhe {%s})",
