@@ -36,7 +36,7 @@
 	},
 	"dependencies": {
 		"@babel/polyfill": "^7.4.4",
-		"axios": "^0.18.0",
+		"axios": "^0.18.1",
 		"cdav-library": "github:nextcloud/cdav-library",
 		"debounce": "^1.2.0",
 		"fullcalendar": "^4.0.0-alpha.4",
