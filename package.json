@@ -90,7 +90,7 @@
 		"stylelint": "^10.0.1",
 		"stylelint-bare-webpack-plugin": "^1.1.1",
 		"stylelint-config-recommended-scss": "^3.3.0",
-		"stylelint-scss": "^3.6.1",
+		"stylelint-scss": "^3.8.0",
 		"vue-jest": "^3.0.4",
 		"vue-loader": "^15.7.0",
 		"vue-template-compiler": "^2.6.10",
