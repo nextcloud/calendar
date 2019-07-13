@@ -1,0 +1,26 @@
+OC.L10N.register(
+    "calendar",
+    {
+    "Calendar" : "کیلنڈر",
+    "Shared" : "اشتراک شدہ",
+    "group" : "مجموعہ",
+    "Title of the Event" : "تقریب کا عنوان",
+    "Delete" : "حذف کریں",
+    "Cancel" : "منسوخ کریں",
+    "Close" : "بند ",
+    "Location" : "مقام",
+    "Description" : "تصریح",
+    "Week" : "ہفتہ",
+    "Month" : "ماہ",
+    "Today" : "آج",
+    "More" : "مزید",
+    "Edit" : "تدوین کریں",
+    "Download" : "ڈاؤن لوڈ",
+    "can edit" : "تبدیل کر سکے ھیں",
+    "New Calendar" : "جدید کیلنڈر",
+    "Name" : "اسم",
+    "Repeat" : "دہرایں",
+    "Add" : "شامل کریں",
+    "New calendar" : "جدید کیلنڈر"
+},
+"nplurals=2; plural=(n != 1);");
