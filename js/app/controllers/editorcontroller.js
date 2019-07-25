@@ -61,18 +61,30 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
 			{displayname: t('calendar', 'When shared show only busy'), type: 'CONFIDENTIAL'},
 			{displayname: t('calendar', 'When shared hide this event'), type: 'PRIVATE'}
 		];
-		
+
 		$scope.statusSelect = [
 			{displayname: t('calendar', 'Confirmed'), type: 'CONFIRMED'},
 			{displayname: t('calendar', 'Tentative'), type: 'TENTATIVE'},
 			{displayname: t('calendar', 'Cancelled'), type: 'CANCELLED'}
 		];
 
+		$scope.partstatuses = {
+			DECLINED: {title: t('calendar', 'Declined'), value: 0},
+			ACCEPTED: {title: t('calendar', 'Accepted'), value: 0},
+			TENTATIVE: {title: t('calendar', 'Tentative'), value: 0},
+			'NEEDS-ACTION': {title: t('calendar', 'Needs action'), value: 0},
+		};
+
 		$scope.registerPreHook = function(callback) {
 			$scope.preEditingHooks.push(callback);
 		};
 
 		$uibModalInstance.rendered.then(function() {
+			$scope.properties.attendee = $scope.properties.attendee || [];
+			$scope.properties.attendee.forEach((attendee) => {
+				$scope.partstatuses[attendee.parameters.partstat].value++;
+			});
+
 			if ($scope.properties.allDay) {
 				$scope.properties.dtend.value = moment($scope.properties.dtend.value.subtract(1, 'days'));
 			}
@@ -324,7 +336,7 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
 				};
 			}
 		};
-		
+
 		$scope.setStatusToDefault = function() {
 			if ($scope.properties.status === null) {
 				$scope.properties.status = {

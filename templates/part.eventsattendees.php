@@ -42,7 +42,7 @@
 	<ul class="advanced--fieldset-attendeelist">
 		<li class="pull-left" ng-class="{ active: attendeeoptions }" ng-repeat="attendee in properties.attendee | attendeeNotOrganizerFilter: $scope.emailAddress">
 			<div class="advanced--toggler" ng-model="attendeeoptions" ng-click="attendeeoptions=!attendeeoptions">
-				<span class="bold pull-left">{{ attendee | attendeeFilter }}</span>
+				<span class="bold pull-left partstat {{ attendee.parameters.partstat | lowercase }}" title="{{ getTranslatedPartstat(attendee) }}">{{ attendee | attendeeFilter }}</span>
 				<button class="event-button event-delete-button icon-close pull-right" ng-click="remove(attendee)" type="button">
 				</button>
 			</div>

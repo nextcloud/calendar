@@ -40,6 +40,11 @@
 			</div>
 		</fieldset>
 
+		<div class="events--participant-statuses" ng-if="properties.attendee.length > 0">
+			<span><?php p($l->t('Participant responses:')); ?></span>
+			<span ng-repeat="(id, partstatus) in partstatuses" class="status {{ id | lowercase }}" ng-if="partstatus.value > 0" title="{{ partstatus.title }}">{{ partstatus.value }}</span>
+		</div>
+
 		<fieldset class="events--fieldset pull-left" ng-if="!readOnly">
 			<button ng-click="delete()" ng-if="!is_new" class="events--button button btn delete" type="button" tabindex="110">
 				<?php p($l->t('Delete')); ?>

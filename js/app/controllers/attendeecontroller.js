@@ -81,6 +81,19 @@ app.controller('AttendeeController', function($scope, AutoCompletionService) {
 		});
 	};
 
+	$scope.getTranslatedPartstat = function (attendee) {
+		switch (attendee.parameters.partstat) {
+			case 'DECLINED' :
+				return t('calendar', 'Declined');
+			case 'ACCEPTED' :
+				return t('calendar', 'Accepted');
+			case 'TENTATIVE' :
+				return t('calendar', 'Tentative');
+			default:
+				return t('calendar', 'Needs action');
+		}
+	};
+
 	$scope.search = function (value) {
 		return AutoCompletionService.searchAttendee(value).then((attendees) => {
 			const arr = [];
