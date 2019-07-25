@@ -91,33 +91,54 @@
 }
 
 .events--participant-statuses .status{
+    border-radius: 10px;
+    color: #fff;
 	margin-left: 10px;
+    padding: 3px 10px;
 }
 
 .events--participant-statuses .status:before{
 	content: "";
 	display: inline-block;
-	width: 6px;
-	height: 17px;
+	width: 10px;
+	height: 10px;
 	border-radius: 5px;
 	margin-right: 5px;
-	margin-bottom: -4px;
+	background-repeat: no-repeat;
+	background-position: center center;
 }
 
-.events--participant-statuses .status.accepted:before{
+.events--participant-statuses .status.accepted{
 	background: #28a745;
 }
 
-.events--participant-statuses .status.declined:before{
+.events--participant-statuses .status.accepted:before{
+	background-image: url('../../img/plus.svg');
+}
+
+.events--participant-statuses .status.declined{
 	background: #dc3545;
 }
 
-.events--participant-statuses .status.tentative:before{
+.events--participant-statuses .status.declined:before{
+	background-image: url('../../img/minus.svg');
+}
+
+.events--participant-statuses .status.tentative{
+	color: #000;
 	background: #ffc107;
 }
 
-.events--participant-statuses .status.needs-action:before{
+.events--participant-statuses .status.tentative:before{
+	background-image: url('../../img/star.svg');
+}
+
+.events--participant-statuses .status.needs-action{
 	background: #6c757d;
+}
+
+.events--participant-statuses .status.needs-action:before{
+	background-image: url('../../img/question.svg');
 }
 
 .advanced .event-time-interior,
@@ -335,29 +356,36 @@ button.delete:focus {
 }
 
 .advanced--fieldset-attendeelist .partstat:before {
+	background-size: 8px;
+	background-repeat: no-repeat;
+	background-position: center;
 	content: "";
 	display: inline-block;
-	width: 6px;
-	height: 17px;
-	border-radius: 5px;
+	width: 16px;
+	height: 16px;
+	border-radius: 8px;
 	margin-right: 5px;
 	margin-bottom: -4px;
 }
 
 .advanced--fieldset-attendeelist .partstat.accepted:before {
-	background: #28a745;
+	background-image: url('../../img/plus.svg');
+	background-color: #28a745;
 }
 
 .advanced--fieldset-attendeelist .partstat.declined:before {
-	background: #dc3545;
+	background-image: url('../../img/minus.svg');
+	background-color: #dc3545;
 }
 
 .advanced--fieldset-attendeelist .partstat.tentative:before {
-	background: #ffc107;
+	background-image: url('../../img/star.svg');
+	background-color: #ffc107;
 }
 
 .advanced--fieldset-attendeelist .partstat.needs-action:before {
-	background: #6c757d;
+	background-image: url('../../img/question.svg');
+	background-color: #6c757d;
 }
 
 .advanced--fieldset .hint {
