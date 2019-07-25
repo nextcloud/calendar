@@ -69,8 +69,8 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
 		];
 
 		$scope.partstatuses = {
-			DECLINED: {title: t('calendar', 'Declined'), value: 0},
 			ACCEPTED: {title: t('calendar', 'Accepted'), value: 0},
+			DECLINED: {title: t('calendar', 'Declined'), value: 0},
 			TENTATIVE: {title: t('calendar', 'Tentative'), value: 0},
 			'NEEDS-ACTION': {title: t('calendar', 'Needs action'), value: 0},
 		};
