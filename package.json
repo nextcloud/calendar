@@ -64,7 +64,7 @@
 		"node": ">=10.0.0"
 	},
 	"devDependencies": {
-		"@babel/core": "^7.5.4",
+		"@babel/core": "^7.5.5",
 		"@babel/plugin-syntax-dynamic-import": "^7.2.0",
 		"@babel/preset-env": "^7.4.5",
 		"@vue/test-utils": "^1.0.0-beta.29",
