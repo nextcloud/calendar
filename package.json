@@ -88,7 +88,7 @@
 		"prettier-eslint": "^9.0.0",
 		"sass-loader": "^7.1.0",
 		"stylelint": "^10.1.0",
-		"stylelint-bare-webpack-plugin": "^1.1.1",
+		"stylelint-bare-webpack-plugin": "^1.1.2",
 		"stylelint-config-recommended-scss": "^3.3.0",
 		"stylelint-scss": "^3.9.2",
 		"vue-jest": "^3.0.4",
