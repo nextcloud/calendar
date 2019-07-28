@@ -154,7 +154,7 @@ OC.L10N.register(
     "More" : "Więcej",
     "Edit" : "Edytuj",
     "Link" : "Link",
-    "iCal link" : "Łącze iCal",
+    "iCal link" : "Link iCal",
     "Download" : "Pobierz",
     "Share with users, groups or circles" : "Udostępnij użytkownikom, grupom lub kręgom",
     "can edit" : "może edytować",
