@@ -86,21 +86,21 @@
 	margin-right: 0;
 }
 
-.events--participant-statuses{
+.events--participant-statuses {
 	padding-bottom: 10px;
 }
 
-.events--participant-statuses .status{
-    border-radius: 10px;
-    color: #fff;
+.events--participant-statuses .status {
+	border-radius: 10px;
+	color: #fff;
 	margin-left: 10px;
-    padding: 3px 10px;
+	padding: 3px 10px 3px 8px;
 }
 
-.events--participant-statuses .status:before{
+.events--participant-statuses .status::before {
 	content: "";
 	display: inline-block;
-	width: 10px;
+	width: 22px;
 	height: 10px;
 	border-radius: 5px;
 	margin-right: 5px;
@@ -108,37 +108,42 @@
 	background-position: center center;
 }
 
-.events--participant-statuses .status.accepted{
+.events--participant-statuses .status.accepted {
 	background: #28a745;
 }
 
-.events--participant-statuses .status.accepted:before{
-	background-image: url('../../img/plus.svg');
+.events--participant-statuses .status.accepted::before {
+	background-image: url('/index.php/svg/core/actions/checkmark?color=fff&v=1');
 }
 
-.events--participant-statuses .status.declined{
+.events--participant-statuses .status.declined {
 	background: #dc3545;
 }
 
-.events--participant-statuses .status.declined:before{
-	background-image: url('../../img/minus.svg');
+.events--participant-statuses .status.declined::before {
+	background-image: url('/index.php/svg/core/actions/close?color=fff&v=1');
+	background-size: 14px;
 }
 
-.events--participant-statuses .status.tentative{
+.events--participant-statuses .status.tentative {
 	color: #000;
 	background: #ffc107;
 }
 
-.events--participant-statuses .status.tentative:before{
-	background-image: url('../../img/star.svg');
+.events--participant-statuses .status.tentative::before {
+	background-image: url('../../img/tick-in-bracket.svg');
+	background-size: 20px;
 }
 
-.events--participant-statuses .status.needs-action{
+.events--participant-statuses .status.needs-action {
 	background: #6c757d;
 }
 
-.events--participant-statuses .status.needs-action:before{
+.events--participant-statuses .status.needs-action::before {
 	background-image: url('../../img/question.svg');
+	background-size: 7px;
+	height: 16px;
+	vertical-align: middle;
 }
 
 .advanced .event-time-interior,
@@ -355,37 +360,40 @@ button.delete:focus {
 	cursor: pointer;
 }
 
-.advanced--fieldset-attendeelist .partstat:before {
-	background-size: 8px;
+.advanced--fieldset-attendeelist .partstat::before {
 	background-repeat: no-repeat;
 	background-position: center;
 	content: "";
 	display: inline-block;
-	width: 16px;
+	width: 28px;
 	height: 16px;
 	border-radius: 8px;
 	margin-right: 5px;
 	margin-bottom: -4px;
 }
 
-.advanced--fieldset-attendeelist .partstat.accepted:before {
-	background-image: url('../../img/plus.svg');
+.advanced--fieldset-attendeelist .partstat.accepted::before {
+	background-image: url('/index.php/svg/core/actions/checkmark?color=fff&v=1');
 	background-color: #28a745;
+	background-size: 12px;
 }
 
-.advanced--fieldset-attendeelist .partstat.declined:before {
-	background-image: url('../../img/minus.svg');
+.advanced--fieldset-attendeelist .partstat.declined::before {
+	background-image: url('/index.php/svg/core/actions/close?color=fff&v=1');
 	background-color: #dc3545;
+	background-size: 12px;
 }
 
-.advanced--fieldset-attendeelist .partstat.tentative:before {
-	background-image: url('../../img/star.svg');
+.advanced--fieldset-attendeelist .partstat.tentative::before {
+	background-image: url('../../img/tick-in-bracket.svg');
 	background-color: #ffc107;
+	background-size: 18px;
 }
 
-.advanced--fieldset-attendeelist .partstat.needs-action:before {
+.advanced--fieldset-attendeelist .partstat.needs-action::before {
 	background-image: url('../../img/question.svg');
 	background-color: #6c757d;
+	background-size: 6px;
 }
 
 .advanced--fieldset .hint {
