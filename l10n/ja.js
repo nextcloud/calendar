@@ -8,6 +8,7 @@ OC.L10N.register(
     "Open »%s«" : "»%s«を開く",
     "Cheers!" : "それでは！",
     "Recipient" : "受信者",
+    "URL violates local access rules" : "URLがローカルアクセスルールに違反しています",
     "The remote server did not give us access to the calendar (HTTP 404 error)" : "リモートサーバーのカレンダーにアクセスできませんでした（HTTP 404 エラー）",
     "Too many redirects. Aborting ..." : "リダイレクトが多すぎます。 中止します...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "リモートサーバーのカレンダーにアクセスできませんでした（HTTP {%s}エラー）",
