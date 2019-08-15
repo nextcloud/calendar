@@ -86,7 +86,7 @@
 		"jest-serializer-vue": "^2.0.2",
 		"node-sass": "^4.12.0",
 		"prettier-eslint": "^9.0.0",
-		"sass-loader": "^7.1.0",
+		"sass-loader": "^7.2.0",
 		"stylelint": "^10.1.0",
 		"stylelint-bare-webpack-plugin": "^1.1.2",
 		"stylelint-config-recommended-scss": "^3.3.0",
