@@ -181,7 +181,7 @@ OC.L10N.register(
     "Email reminders have not been implemented in the CalDAV server yet, so none will be sent." : "E-mail herinneringen zijn nog niet geïmplementeerd in de CalDAV server, er worden er dus geen verzonden.",
     "Add" : "Toevoegen",
     "Email address of attendee" : "Emailadres van deelnemer",
-    "Please add your email address in the personal settings in order to add attendees." : "Stel je emailadres in in de accountinstellingen om aanwezigen toe te voegen.",
+    "Please add your email address in the personal settings in order to add attendees." : "Stel je e-mailadres in in de accountinstellingen om deelnemers toe te voegen.",
     "from" : "van",
     "to" : "naar",
     "This event's repeating rule is not supported yet." : "De herhaalregel van deze afspraak wordt nog niet ondersteund.",
