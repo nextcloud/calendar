@@ -295,14 +295,15 @@ const actions = {
 	 *
 	 * @param {Object} context the store mutations
 	 * @param {Object} data destructuring object
-	 * @param {Object} data.calendar the new calendar to append
+	 * @param {Object} data.displayName The name of the new calendar
+	 * @param {Object} data.color The color of the new calendar
+	 * @param {Object} data.order The order of the new calendar
 	 * @returns {Promise}
 	 */
-	async appendCalendar(context, { calendar }) {
-		const { displayName, color, order } = calendar
+	async appendCalendar(context, { displayName, color, order }) {
 		return client.calendarHomes[0].createCalendarCollection(displayName, color, ['VEVENT'], order)
 			.then((response) => {
-				calendar = mapDavCollectionToCalendar(response)
+				const calendar = mapDavCollectionToCalendar(response)
 				context.commit('addCalendar', { calendar })
 			})
 			.catch((error) => { throw error })
@@ -313,11 +314,13 @@ const actions = {
 	 *
 	 * @param {Object} context the store mutations
 	 * @param {Object} data destructuring object
-	 * @param {Object} data.calendar the new subscription calendar to append
-	 * @param {String} data.source source of new subscription
+	 * @param {String} data.displayName Name of new subscription
+	 * @param {String} data.color Color of new subscription
+	 * @param {String} data.order Order of new subscription
+	 * @param {String} data.source Source of new subscription
 	 * @returns {Promise}
 	 */
-	async appendSubscription(context, { calendar, source }) {
+	async appendSubscription(context, { displayName, color, order, source }) {
 		const { displayName, color, order } = calendar
 		return client.calendarHomes[0].createSubscribedCollection(displayName, color, source, order)
 			.then((response) => {
@@ -551,43 +554,43 @@ const actions = {
 	 * @param {Object} data.calendar the calendar to import the ics data into
 	 */
 	async importEventsIntoCalendar(context, { ics, calendar }) {
-		const events = parseICS(ics, calendar)
-		context.commit('changeStage', 'importing')
-
-		// max simultaneous requests
-		const limit = pLimit(3)
-		const requests = []
-
-		// create the array of requests to send
-		events.map(async event => {
-			// Get vcard string
-			try {
-				let vData = ICAL.stringify(event.vCard.jCal)
-				// push event to server and use limit
-				requests.push(limit(() => event.calendar.dav.createVCard(vData)
-					.then((response) => {
-						// setting the event dav property
-						Vue.set(event, 'dav', response)
-
-						// success, update store
-						context.commit('addEvent', event)
-						context.commit('addEventToCalendar', event)
-						context.commit('incrementAccepted')
-					})
-					.catch((error) => {
-						// error
-						context.commit('incrementDenied')
-						console.error(error)
-					})
-				))
-			} catch (e) {
-				context.commit('incrementDenied')
-			}
-		})
-
-		Promise.all(requests).then(() => {
-			context.commit('changeStage', 'default')
-		})
+		// const events = parseICS(ics, calendar)
+		// context.commit('changeStage', 'importing')
+		//
+		// // max simultaneous requests
+		// const limit = pLimit(3)
+		// const requests = []
+		//
+		// // create the array of requests to send
+		// events.map(async event => {
+		// 	// Get vcard string
+		// 	try {
+		// 		let vData = ICAL.stringify(event.vCard.jCal)
+		// 		// push event to server and use limit
+		// 		requests.push(limit(() => event.calendar.dav.createVObject(vData)
+		// 			.then((response) => {
+		// 				// setting the event dav property
+		// 				Vue.set(event, 'dav', response)
+		//
+		// 				// success, update store
+		// 				context.commit('addEvent', event)
+		// 				context.commit('addEventToCalendar', event)
+		// 				context.commit('incrementAccepted')
+		// 			})
+		// 			.catch((error) => {
+		// 				// error
+		// 				context.commit('incrementDenied')
+		// 				console.error(error)
+		// 			})
+		// 		))
+		// 	} catch (e) {
+		// 		context.commit('incrementDenied')
+		// 	}
+		// })
+		//
+		// Promise.all(requests).then(() => {
+		// 	context.commit('changeStage', 'default')
+		// })
 	},
 }
 
