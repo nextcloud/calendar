@@ -14,12 +14,14 @@
 			track-by="user"
 			label="user"
 			@search-change="findSharee"
-			@input="shareCalendar" />
+			@input="shareCalendar"
+		/>
 		<!-- list of user or groups addressbook is shared with -->
 		<ul v-if="calendar.shares.length > 0 || calendar.canBePublished" class="shareWithList">
 			<calendar-list-item-sharing-publish-item :calendar="calendar " />
 			<calendar-list-item-sharing-item v-for="sharee in calendar.shares" :key="sharee.uri"
-				:sharee="sharee" :calendar="calendar" />
+				:sharee="sharee" :calendar="calendar"
+			/>
 		</ul>
 	</div>
 </template>

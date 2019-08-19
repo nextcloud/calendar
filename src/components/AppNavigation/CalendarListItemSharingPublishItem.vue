@@ -4,17 +4,20 @@
 		<span class="username">{{ label }}</span>
 		<span class="sharingOptionsGroup">
 			<a v-if="isPublished" :class="{'icon-clippy': !copyingShareLink, 'icon-loading-small': copyingShareLink}" href="#"
-				class="icon icon-clippy" @click="copyPublicLink" />
-			<div v-click-outside="closeMenu" v-if="isPublished" class="share-menu">
+				class="icon icon-clippy" @click="copyPublicLink"
+			/>
+			<div v-if="isPublished" v-click-outside="closeMenu" class="share-menu">
 				<a href="#" class="icon icon-more" title="Copy public link"
-					@click="toggleMenu" />
+					@click="toggleMenu"
+				/>
 				<div :class="{open: menuOpen}" class="popovermenu">
 					<popover-menu :menu="menu" />
 				</div>
 			</div>
 			<div v-if="!isPublished" class="share-menu">
 				<a :class="{hidden: publishingCalendar}" href="#" class="icon icon-add"
-					@click="publishCalendar" />
+					@click="publishCalendar"
+				/>
 				<a :class="{hidden: !publishingCalendar}" href="#" class="icon icon-loading-small" />
 			</div>
 		</span>

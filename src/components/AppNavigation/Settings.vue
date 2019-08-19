@@ -9,43 +9,50 @@
 			<li class="settings-fieldset-interior-item settings-fieldset-interior-item-checkbox">
 				<span :class="{hidden: !savingBirthdayCalendar}" class="icon-loading-small" />
 				<input id="app-settings-birthday-calendar-checkbox" :disabled="savingBirthdayCalendar" class="checkbox"
-					type="checkbox">
+					type="checkbox"
+				>
 				<label for="app-settings-birthday-calendar-checkbox">{{ birthdayCalendarLabel }}</label>
 			</li>
 			<li class="settings-fieldset-interior-item settings-fieldset-interior-item-checkbox">
 				<span :class="{hidden: !savingPopover}" class="icon-loading-small" />
-				<input id="app-settings-popover-checkbox" :disabled="savingPopover" v-model="popoverValue"
-					class="checkbox" type="checkbox" @change="togglePopoverEnabled">
+				<input id="app-settings-popover-checkbox" v-model="popoverValue" :disabled="savingPopover"
+					class="checkbox" type="checkbox" @change="togglePopoverEnabled"
+				>
 				<label for="app-settings-popover-checkbox">{{ popoverLabel }}</label>
 			</li>
 			<li class="settings-fieldset-interior-item settings-fieldset-interior-item-checkbox">
 				<span :class="{hidden: !savingWeekend}" class="icon-loading-small" />
-				<input id="app-settings-weekends-checkbox" :disabled="savingWeekend" v-model="weekendValue"
-					class="checkbox" type="checkbox" @change="toggleWeekendsEnabled">
+				<input id="app-settings-weekends-checkbox" v-model="weekendValue" :disabled="savingWeekend"
+					class="checkbox" type="checkbox" @change="toggleWeekendsEnabled"
+				>
 				<label for="app-settings-weekends-checkbox">{{ weekendLabel }}</label>
 			</li>
 			<li class="settings-fieldset-interior-item settings-fieldset-interior-item-checkbox">
 				<span :class="{hidden: !savingWeekNumber}" class="icon-loading-small" />
-				<input id="app-settings-week-number-checkbox" :disabled="savingWeekNumber" v-model="weekNumberValue"
-					class="checkbox" type="checkbox" @change="toggleWeekNumberEnabled">
+				<input id="app-settings-week-number-checkbox" v-model="weekNumberValue" :disabled="savingWeekNumber"
+					class="checkbox" type="checkbox" @change="toggleWeekNumberEnabled"
+				>
 				<label for="app-settings-week-number-checkbox">{{ weekNumberLabel }}</label>
 			</li>
 			<li class="settings-fieldset-interior-item settings-fieldset-interior-item-timezone">
 				<label class="settings-input" for="app-settings-timezone-select">{{ timezoneLabel }}</label>
 				<timezone-select id="app-settings-timezone-select" :additional-timezones="additionalTimezones" :value="timezoneValue"
-					@change="setTimezoneValue" />
-					<!--<select ng-options="timezone.value as timezone.displayname | timezoneWithoutContinentFilter group by timezone.group for timezone in timezones"-->
-					<!--ng-model="timezone" ng-change="setTimezone()" class="input settings-input"></select>-->
+					@change="setTimezoneValue"
+				/>
+				<!--<select ng-options="timezone.value as timezone.displayname | timezoneWithoutContinentFilter group by timezone.group for timezone in timezones"-->
+				<!--ng-model="timezone" ng-change="setTimezone()" class="input settings-input"></select>-->
 			</li>
 			<li class="settings-fieldset-interior-item settings-fieldset-interior-item-link">
 				<label class="settings-input">{{ primaryCalDAVLabel }}</label>
 				<button :title="copyLinkLabel" class="icon icon-clippy"
-					@click="copyPrimaryCalDAV" />
+					@click="copyPrimaryCalDAV"
+				/>
 			</li>
 			<li class="settings-fieldset-interior-item settings-fieldset-interior-item-link">
 				<label class="settings-label">{{ appleCalDAVLabel }}</label>
 				<button :title="copyLinkLabel" class="icon icon-clippy"
-					@click="copyAppleCalDAV" />
+					@click="copyAppleCalDAV"
+				/>
 			</li>
 		</ul>
 	</fieldset>

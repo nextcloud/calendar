@@ -1,11 +1,9 @@
-<template>
-
-</template>
+<template />
 
 <script>
-    export default {
-        name: "ImportScreen"
-    }
+export default {
+	name: 'ImportScreen'
+}
 </script>
 
 <style scoped>
