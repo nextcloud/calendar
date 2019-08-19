@@ -31,7 +31,13 @@ const principalModel = {
 	dav: false,
 }
 
-export function mapDavToPrincipal(principal) {
+/**
+ * converts a dav principal into a vuex object
+ *
+ * @param {Object} principal
+ * @returns {{emailAddress: *, displayname: *, dav: *, id: *, calendarUserType: *, userId: *, url: *}}
+ */
+function mapDavToPrincipal(principal) {
 	return {
 		id: principal.url,
 		calendarUserType: principal.calendarUserType,
@@ -48,12 +54,26 @@ const state = {
 }
 
 const mutations = {
+
+	/**
+	 * Adds a principal to the state
+	 *
+	 * @param {Object} state The vuex state
+	 * @param {Object} principal The principal to add
+	 */
 	addPrincipal(state, { principal }) {
 		state.principals.push(Object.assign({}, principalModel, principal))
 	},
 }
 
 const getters = {
+
+	/**
+	 * Gets a principal by it's URL
+	 *
+	 * @param {Object} state The vuex state
+	 * @returns {function({String} url): {Object}}
+	 */
 	getPrincipalByUrl: (state) => (url) => {
 		console.debug(state.principals)
 		return state.principals.find((principal) => principal.url === url)
@@ -61,6 +81,14 @@ const getters = {
 }
 
 const actions = {
+
+	/**
+	 * Fetches a principal from the DAV server and commits it to the state
+	 *
+	 * @param {Object} context The vuex context
+	 * @param {String} url The URL of the principal
+	 * @returns {Promise<void>}
+	 */
 	async fetchPrincipalByUrl(context, url) {
 		const principal = await client.findPrincipal(url)
 		context.commit('addPrincipal', { principal: mapDavToPrincipal(principal) })
