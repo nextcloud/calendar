@@ -20,8 +20,6 @@
  *
  */
 
-import ICAL from 'ical.js'
-
 export default class Event {
 
 	/**
@@ -31,8 +29,8 @@ export default class Event {
 	 *
 	 * @param {String} iCalendar Calendar-data of corresponding VObject
 	 * @param {Object} calendar Object from Calendar Vuex store
-	 * @param {ICAL.Property} recurrenceID
-	 * @param {ICAL.Time} clickDtStart
+	 * @param {ICAL.Property} recurrenceID foo
+	 * @param {ICAL.Time} clickDtStart bar
 	 */
 	constructor(iCalendar, calendar, recurrenceID, clickDtStart) {
 		this.dav = null
@@ -42,105 +40,6 @@ export default class Event {
 
 		this.conflict = false
 
-	}
-
-	/**
-	 * This is not needed at the moment, but might be later on
-	 * if we limited the number of requested properties
-	 *
-	 * @param jCal
-	 */
-	updateEvent(jCal) {
-
-	}
-
-	/**
-	 * Update linked calendar of this event
-	 *
-	 * @param {Object} calendar The calendar
-	 */
-	updateCalendar(calendar) {
-		this.calendar = calendar
-	}
-
-	/**
-	 * Return the url
-	 *
-	 * @readonly
-	 */
-	get url() {
-		if (this.dav) {
-			return this.dav.url
-		}
-		return ''
-	}
-
-	/**
-	 * Return the uid
-	 *
-	 * @readonly
-	 */
-	get uid() {
-		return this.vCard.getFirstPropertyValue('uid')
-	}
-
-	/**
-	 * Return the key
-	 *
-	 * @readonly
-	 */
-	get key() {
-		return this.uid + '~' + this.calendar.id
-	}
-
-	get clickDtStart() {
-
-	}
-
-	set clickDtStart(value) {
-
-	}
-
-	get clickDtStartTimezone() {
-
-	}
-
-	set clickDtStartTimezone(value) {
-
-	}
-
-	get clickDtEnd() {
-
-	}
-
-	set clickDtEnd(value) {
-
-	}
-
-	get clickDtEndTimezone() {
-
-	}
-
-	set clickDtEndTimezone(value) {
-
-	}
-
-	get allDay() {
-
-	}
-
-	set allDay(value) {
-
-	}
-
-	/**
-	 * Return all the properties as Property objects
-	 *
-	 * @readonly
-	 * @returns {ICAL.Property[]} http://mozilla-comm.github.io/ical.js/api/ICAL.Property.html
-	 */
-	get properties() {
-		return this.event.getAllProperties
 	}
 
 }
