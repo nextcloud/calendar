@@ -34,25 +34,50 @@ const state = {
 }
 
 const mutations = {
+	/**
+	 *
+	 * @param {Object} state The Vuex state
+	 */
 	togglePopoverEnabled(state) {
 		state.showPopover = !state.showPopover
 	},
+
+	/**
+	 *
+	 * @param {Object} state The Vuex state
+	 */
 	toggleWeekendsEnabled(state) {
 		state.showWeekends = !state.showWeekends
 	},
+
+	/**
+	 *
+	 * @param {Object} state The Vuex state
+	 */
 	toggleWeekNumberEnabled(state) {
 		state.showWeekNumbers = !state.showWeekNumbers
 	},
+
+	/**
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {String} data.tzid The new timezone
+	 */
 	setTimezone(state, { tzid }) {
 		state.timezone = tzid
 	}
 }
 
-const getters = {
-
-}
+const getters = {}
 
 const actions = {
+
+	/**
+	 *
+	 * @param {Object} context The Vuex context
+	 * @returns {Promise<void>}
+	 */
 	async togglePopoverEnabled(context) {
 		const newState = !context.state.showPopover
 		await axios.post(configEndpoint, {
@@ -64,6 +89,12 @@ const actions = {
 			throw error
 		})
 	},
+
+	/**
+	 *
+	 * @param {Object} context The Vuex context
+	 * @returns {Promise<void>}
+	 */
 	async toggleWeekendsEnabled(context) {
 		const newState = !context.state.showWeekends
 		await axios.post(configEndpoint, {
@@ -75,6 +106,12 @@ const actions = {
 			throw error
 		})
 	},
+
+	/**
+	 *
+	 * @param {Object} context The Vuex context
+	 * @returns {Promise<void>}
+	 */
 	async toggleWeekNumberEnabled(context) {
 		const newState = !context.state.showWeekNumbers
 		await axios.post(configEndpoint, {
@@ -86,6 +123,14 @@ const actions = {
 			throw error
 		})
 	},
+
+	/**
+	 *
+	 * @param {Object} context The Vuex context
+	 * @param {Object} data The destructuring object
+	 * @param {String} data.tzid The new timezone
+	 * @returns {Promise<void>}
+	 */
 	async setTimezone(context, { tzid }) {
 		await axios.post(configEndpoint, {
 			key: 'timezone',
