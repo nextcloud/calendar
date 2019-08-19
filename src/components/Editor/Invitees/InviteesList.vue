@@ -1,11 +1,9 @@
-<template>
-
-</template>
+<template />
 
 <script>
-    export default {
-        name: "InviteesList"
-    }
+export default {
+	name: 'InviteesList'
+}
 </script>
 
 <style scoped>

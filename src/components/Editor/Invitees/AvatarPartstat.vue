@@ -1,11 +1,9 @@
-<template>
-
-</template>
+<template />
 
 <script>
-    export default {
-        name: "AvatarPartstat"
-    }
+export default {
+	name: 'AvatarPartstat'
+}
 </script>
 
 <style scoped>

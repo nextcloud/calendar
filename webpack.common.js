@@ -1,7 +1,7 @@
 const path = require('path')
 const webpack = require('webpack')
 const { VueLoaderPlugin } = require('vue-loader')
-const StylelintBarePlugin = require('stylelint-bare-webpack-plugin')
+// const StylelintBarePlugin = require('stylelint-bare-webpack-plugin')
 
 module.exports = {
 	entry: path.join(__dirname, 'src', 'main.js'),
@@ -48,7 +48,7 @@ module.exports = {
 		new VueLoaderPlugin(),
 		// new StyleLintPlugin(),
 		new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-		new StylelintBarePlugin()
+		// new StylelintBarePlugin()
 	],
 	resolve: {
 		alias: {

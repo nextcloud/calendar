@@ -1,11 +1,9 @@
-<template>
-	
-</template>
+<template />
 
 <script>
-	export default {
-		name: "PropertyText.vue"
-	}
+export default {
+	name: 'PropertyTextVue'
+}
 </script>
 
 <style scoped>

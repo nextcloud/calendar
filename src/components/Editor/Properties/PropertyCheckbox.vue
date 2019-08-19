@@ -1,11 +1,9 @@
-<template>
-	
-</template>
+<template />
 
 <script>
-	export default {
-		name: "PropertyCheckbox"
-	}
+export default {
+	name: 'PropertyCheckbox'
+}
 </script>
 
 <style scoped>

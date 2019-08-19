@@ -1,11 +1,9 @@
-<template>
-
-</template>
+<template />
 
 <script>
-    export default {
-        name: "AlarmListNew"
-    }
+export default {
+	name: 'AlarmListNew'
+}
 </script>
 
 <style scoped>

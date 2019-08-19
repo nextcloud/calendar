@@ -1,18 +1,19 @@
 <template>
 	<div class="editor">
-		<h2>
-			<input
-				v-model="event.summary"
-				:readonly="false"
-				:placeholder="t('contacts', 'Summary')"
-				type="text"
-				autocomplete="off"
-				autocorrect="off" />
-		</h2>
-		<calendar-picker :selectCalendar="selectCalendar" />
-		<title-timepicker />
-
-		<button @click="showMore" />
+		<!--		<h2>-->
+		<!--			<input-->
+		<!--				v-model="event.summary"-->
+		<!--				:readonly="false"-->
+		<!--				:placeholder="t('contacts', 'Summary')"-->
+		<!--				type="text"-->
+		<!--				autocomplete="off"-->
+		<!--				autocorrect="off"-->
+		<!--			>-->
+		<!--		</h2>-->
+		<!--		<calendar-picker :select-calendar="selectCalendar" />-->
+		<!--		<title-timepicker />-->
+		<!---->
+		<!--		<button @click="showMore" />-->
 	</div>
 </template>
 <script>
