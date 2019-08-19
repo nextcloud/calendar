@@ -1,11 +1,9 @@
-<template>
-
-</template>
+<template />
 
 <script>
-    export default {
-        name: "InviteesListSearchTemplate"
-    }
+export default {
+	name: 'InviteesListSearchTemplate'
+}
 </script>
 
 <style scoped>

@@ -1,7 +1,7 @@
 <template>
 	<div id="app-sidebar-details">
-		<textarea v-model="event.location"></textarea>
-		<textarea v-model="event.description"></textarea>
+		<textarea v-model="event.location" />
+		<textarea v-model="event.description" />
 		<!-- Status -->
 		<!-- Class -->
 	</div>

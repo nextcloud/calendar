@@ -1,11 +1,9 @@
-<template>
-	
-</template>
+<template />
 
 <script>
-	export default {
-		name: "PropertyDateTime"
-	}
+export default {
+	name: 'PropertyDateTime'
+}
 </script>
 
 <style scoped>

@@ -5,14 +5,17 @@
 		track-by="displayName"
 		:select="selectCalendar"
 		:disabled="calendars.length <= 1"
-		:options="calendars">
-	</multiselect>
+		:options="calendars"
+	/>
 </template>
 <script>
 import { Multiselect } from 'nextcloud-vue'
 
 export default {
 	name: 'CalendarPicker',
+	components: {
+		Multiselect
+	},
 	props: {
 		selectCalendar: {
 			type: Function
@@ -22,9 +25,6 @@ export default {
 		return {
 			calendar: null
 		}
-	},
-	components: {
-		Multiselect
 	},
 	computed: {
 		calendars() {

@@ -1,11 +1,9 @@
-<template>
-	
-</template>
+<template />
 
 <script>
-	export default {
-		name: "PropertyTitle"
-	}
+export default {
+	name: 'PropertyTitle'
+}
 </script>
 
 <style scoped>
