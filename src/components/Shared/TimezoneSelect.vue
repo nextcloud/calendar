@@ -2,7 +2,8 @@
 	<multiselect :value="selectedTimezone" :options="options" :multiple="false"
 		:group-select="false" :placeholder="placeholder" group-values="regions"
 		group-label="continent" track-by="tzid" label="label"
-		open-direction="above" @input="change" />
+		open-direction="above" @input="change"
+	/>
 </template>
 
 <script>

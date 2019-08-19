@@ -35,7 +35,8 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 				boundariesElement: 'body',
 				content: message
 			}"
-		   class="confirmation-confirm icon-delete-white no-permission" @click="deleteCalendar($event)">
+			class="confirmation-confirm icon-delete-white no-permission" @click="deleteCalendar($event)"
+		>
 			<span class="countdown">{{ remaining }}</span>
 		</a>
 	</li>

@@ -22,7 +22,9 @@
 
 <template>
 	<div class="button-group">
-		<button class="button" @click="today()">{{ label }}</button>
+		<button class="button" @click="today()">
+			{{ label }}
+		</button>
 	</div>
 </template>
 

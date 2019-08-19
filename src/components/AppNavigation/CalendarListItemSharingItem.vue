@@ -6,7 +6,8 @@
 		<div class="sharingOptionsGroup">
 			<span>
 				<input :id="uid" :checked="writeable" :disabled="updatingSharee"
-					type="checkbox" class="checkbox" @change="updatePermission">
+					type="checkbox" class="checkbox" @change="updatePermission"
+				>
 				<label :for="uid">{{ label }}</label>
 			</span>
 			<a href="#" class="icon icon-delete" @click="unshare" />

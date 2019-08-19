@@ -1,10 +1,10 @@
 <template>
 	<li v-click-outside="closeShareMenu" :class="{enabled: enabled, 'icon-loading-small': loading}" class="app-navigation-list-item">
-
 		<div :style="{ backgroundColor: calendarColor }" class="app-navigation-entry-bullet" />
 
 		<a :class="{selected: shareMenuOpen}" :title="displayName" href="#"
-			@click="toggleEnabled">{{ displayName }}</a>
+			@click="toggleEnabled"
+		>{{ displayName }}</a>
 
 		<div class="app-navigation-entry-utils">
 			<ul>

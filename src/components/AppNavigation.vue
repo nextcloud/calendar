@@ -6,11 +6,14 @@
 
 		<calendar-list :loading-calendars="loadingCalendars" />
 
-		<div v-click-outside="closeMenu" id="app-settings" :class="{open: opened}">
+		<div id="app-settings" v-click-outside="closeMenu" :class="{open: opened}">
 			<div id="app-settings-header">
 				<button class="settings-button"
 					data-apps-slide-toggle="#app-settings-content"
-					@click="toggleMenu">{{ settingsLabel }}</button>
+					@click="toggleMenu"
+				>
+					{{ settingsLabel }}
+				</button>
 			</div>
 			<div id="app-settings-content">
 				<settings />

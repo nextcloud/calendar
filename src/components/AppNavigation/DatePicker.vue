@@ -1,12 +1,15 @@
 <template>
 	<div class="button-group">
 		<button :aria-label="goBackLabel" :title="goBackLabel" type="button"
-			class="button icon icon-leftarrow" @click="prev()" />
+			class="button icon icon-leftarrow" @click="prev()"
+		/>
 		<label for="app-navigation-datepicker-input" class="button datepicker-label">{{ label }}</label>
 		<datetime-picker v-model="date" :lang="lang" :first-day-of-week="firstDay"
-			:not-before="min" :not-after="max" @change="selectInDatepicker" />
+			:not-before="min" :not-after="max" @change="selectInDatepicker"
+		/>
 		<button :aria-label="goForwardLabel" :title="goForwardLabel" type="button"
-			class="button icon icon-rightarrow" @click="next()" />
+			class="button icon icon-rightarrow" @click="next()"
+		/>
 	</div>
 </template>
 
