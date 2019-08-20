@@ -78,13 +78,13 @@ export const properties = {
 			{ value: 'OPAQUE', label: t('calendar', 'busy') },
 		]
 	},
-	url: {
-		readableName: t('calendar', 'URL'),
-		icon: '',
-		multiple: false,
-		default: false,
-		info: t('calendar', '')
-	},
+	// url: {
+	// 	readableName: t('calendar', 'URL'),
+	// 	icon: '',
+	// 	multiple: false,
+	// 	default: false,
+	// 	info: t('calendar', '')
+	// },
 	// To be implemented later:
 	// attach: {
 	// 	readableName: t('calendar', 'Attachments'),
