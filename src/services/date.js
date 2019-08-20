@@ -40,3 +40,13 @@ export function getYYYYMMDDFromDate(date) {
 		.toISOString()
 		.split('T')[0]
 }
+
+/**
+ * get unix time from date object
+ *
+ * @param {Date} date Date to format
+ * @returns {number}
+ */
+export function getUnixTimestampFromDate(date) {
+	return Math.floor(date.getTime() / 1000)
+}
