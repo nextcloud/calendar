@@ -1,5 +1,5 @@
 /**
- * @copyright Copyright (c) 2018 Team Popcorn <teampopcornberlin@gmail.com>
+ * @copyright Copyright (c) 2019 Team Popcorn <teampopcornberlin@gmail.com>
  * @copyright Copyright (c) 2019 Georg Ehrke
  *
  * @author Team Popcorn <teampopcornberlin@gmail.com>
@@ -22,7 +22,7 @@
  *
  */
 
-const state = {
+const store = {
 	importState: {
 		total: 0,
 		accepted: 0,
@@ -99,4 +99,4 @@ const mutations = {
 const getters = {}
 const actions = {}
 
-export default { state, mutations, getters, actions }
+export default { store, mutations, getters, actions }

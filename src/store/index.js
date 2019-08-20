@@ -1,8 +1,34 @@
+/**
+ * @copyright Copyright (c) 2019 Georg Ehrke
+ *
+ * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Thomas Citharel <tcit@tcit.fr>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 import Vue from 'vue'
 import Vuex from 'vuex'
+import calendarObjects from './calendarObjects'
 import calendars from './calendars.js'
-import settings from './settings.js'
+import fetchedTimeRanges from './fetchedTimeRanges.js'
+import importState from './importState'
 import principals from './principals.js'
+import settings from './settings.js'
 
 Vue.use(Vuex)
 
@@ -10,7 +36,10 @@ const mutations = {}
 
 export default new Vuex.Store({
 	modules: {
+		calendarObjects,
 		calendars,
+		fetchedTimeRanges,
+		importState,
 		principals,
 		settings
 	},
