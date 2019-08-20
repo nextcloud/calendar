@@ -1,5 +1,5 @@
 /**
- * @copyright Copyright (c) 2018 Georg Ehrke
+ * @copyright Copyright (c) 2019 Georg Ehrke
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
@@ -21,13 +21,58 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-const calendarObjectModel = {
-	id: '',
-	url: '',
-	etag: '',
-	dav: false,
+import Vue from 'vue'
+import CalendarObject from '../models/calendarObject'
+import logger from '../services/loggerService'
+
+const state = {
+	calendarObjects: {},
 }
 
-const store = {
+const mutations = {
 
+	/**
+	 * Adds an array of calendar-objects to the store
+	 *
+	 * @param {Object} state The store data
+	 * @param {Object[]} calendarObjects Calendar-objects to add
+	 */
+	appendCalendarObjects(state, calendarObjects = []) {
+		for (const calendarObject of calendarObjects) {
+			if (calendarObject instanceof CalendarObject) {
+				Vue.set(state.calendarObjects, calendarObject.id, calendarObject)
+			} else {
+				logger.error('Invalid calendarObject object')
+			}
+		}
+	},
+
+	/**
+	 * Adds one calendar-object to the store
+	 *
+	 * @param {Object} state The store data
+	 * @param {Object} calendarObject Calendar-object to add
+	 */
+	appendCalendarObject(state, calendarObject) {
+		if (calendarObject instanceof CalendarObject) {
+			Vue.set(state.calendarObjects, calendarObject.id, calendarObject)
+		} else {
+			logger.error('Invalid calendarObject object')
+		}
+	},
+
+	/**
+	 * Removes a calendar-object from the store
+	 *
+	 * @param {Object} state The store data
+	 * @param {Object} calendarObject Calendar-object to add
+	 */
+	deleteCalendarObject(state, calendarObject) {
+		Vue.set(state.calendarObject, calendarObject.id)
+	}
 }
+
+const getters = {}
+const actions = {}
+
+export default { state, mutations, getters, actions }

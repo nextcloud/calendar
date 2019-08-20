@@ -1,5 +1,5 @@
 /**
- * @copyright Copyright (c) 2018 Georg Ehrke
+ * @copyright Copyright (c) 2019 Georg Ehrke
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
@@ -19,22 +19,32 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import Vue from 'vue'
 import client from '../services/cdav.js'
+import logger from '../services/loggerService'
 
-const principalModel = {
-	id: '',
-	calendarUserType: '',
-	emailAddress: '',
-	displayname: '',
-	userId: '',
-	url: '',
-	dav: false,
+/**
+ * Pads on incoming principal object to contain all expected props
+ *
+ * @param {Object} obj Principal object to pad with default values
+ * @returns {Object}
+ */
+function padObject(obj) {
+	return Object.assign({}, {
+		id: '',
+		calendarUserType: '',
+		emailAddress: '',
+		displayname: '',
+		userId: '',
+		url: '',
+		dav: false,
+	}, obj)
 }
 
 /**
  * converts a dav principal into a vuex object
  *
- * @param {Object} principal
+ * @param {Object} principal cdav-library Principal object
  * @returns {{emailAddress: *, displayname: *, dav: *, id: *, calendarUserType: *, userId: *, url: *}}
  */
 function mapDavToPrincipal(principal) {
@@ -50,7 +60,8 @@ function mapDavToPrincipal(principal) {
 }
 
 const state = {
-	principals: []
+	principals: [],
+	currentUserPrincipal: null
 }
 
 const mutations = {
@@ -62,8 +73,18 @@ const mutations = {
 	 * @param {Object} principal The principal to add
 	 */
 	addPrincipal(state, { principal }) {
-		state.principals.push(Object.assign({}, principalModel, principal))
+		state.principals.push(padObject(principal))
 	},
+
+	/**
+	 * Adds the current user principal to the state
+	 *
+	 * @param {Object} state The vuex state
+	 * @param {Object} principal The principal to set as current-user-principal
+	 */
+	addCurrentUserPrincipal(state, { currentUserPrincipal }) {
+		Vue.set(state, 'currentUserPrincipal', padObject(currentUserPrincipal))
+	}
 }
 
 const getters = {
@@ -72,10 +93,10 @@ const getters = {
 	 * Gets a principal by it's URL
 	 *
 	 * @param {Object} state The vuex state
-	 * @returns {function({String} url): {Object}}
+	 * @returns {function({String}): {Object}}
 	 */
 	getPrincipalByUrl: (state) => (url) => {
-		console.debug(state.principals)
+		logger.log(state.principals)
 		return state.principals.find((principal) => principal.url === url)
 	}
 }

@@ -1,7 +1,7 @@
 /**
- * @copyright Copyright (c) 2018 Georg Ehrke
- * @copyright Copyright (c) 2018 John Molakvoæ
- * @copyright Copyright (c) 2018 Thomas Citharel
+ * @copyright Copyright (c) 2019 Georg Ehrke
+ * @copyright Copyright (c) 2019 John Molakvoæ
+ * @copyright Copyright (c) 2019 Thomas Citharel
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
@@ -24,30 +24,52 @@
  *
  */
 import Vue from 'vue'
-import ICAL from 'ical.js'
-import { parseICS } from '../services/iCalendarService'
 import defaultColor from '../services/defaultColor'
 import client from '../services/cdav'
-import Event from '../models/event'
-import pLimit from 'p-limit'
+import CalendarObject from '../models/calendarObject'
+// import pLimit from 'p-limit'
 
 const calendarModel = {
+	// Id of the calendar
 	id: '',
+	// Visible display name
 	displayName: '',
+	// Color of the calendar
 	color: '',
-	enabled: true, // is the calendar visible in the grid
-	loading: false, // is the calendar loading events
-	components: [],
+	// Whether or not the calendar is visible in the grid
+	enabled: true,
+	// Whether or not the calendar is loading events at the moment
+	loading: false,
+	// Whether this calendar supports VEvents
+	supportsEvents: true,
+	// Whether this calendar supports VTodos
+	supportsTasks: true,
+	// The principal uri of the owner
 	owner: '',
+	// List of shares
 	shares: [],
+	// Published url
 	publishURL: null,
+	// Internal CalDAV url of this calendar
 	url: '',
+	// Whether this calendar is read-only
 	readOnly: false,
+	// The order of this calendar in the calendar-list
 	order: 0,
+	// Whether or not the calendar is shared with me
 	isSharedWithMe: false,
+	// Whether or not the calendar can be shared by me
 	canBeShared: false,
+	// Whether or not the calendar can be published by me
 	canBePublished: false,
-	dav: false
+	// Reference to cdav-lib object
+	dav: false,
+	// All calendar-objects from this calendar that have already been fetched
+	calendarObjects: {},
+	// List of UIDs sorted by day of appearance
+	calendarObjectsByDay: {},
+	// Time-ranges that have already been fetched for this calendar
+	fetchedTimeranges: [],
 }
 
 const state = {
@@ -60,14 +82,15 @@ const state = {
  * @param {Object} calendar the calendar object from the cdav library
  * @returns {Object}
  */
-export function mapDavCollectionToCalendar(calendar) {
+function mapDavCollectionToCalendar(calendar) {
 	return {
 		// get last part of url
 		id: calendar.url.split('/').slice(-2, -1)[0], // TODO - improve me
 		displayName: calendar.displayname,
 		color: calendar.color || defaultColor(),
 		enabled: !!calendar.enabled,
-		components: calendar.components,
+		supportsEvents: calendar.components.includes('VEVENT'),
+		supportsTasks: calendar.components.includes('VTODO'),
 		owner: calendar.owner,
 		readOnly: !calendar.isWriteable(),
 		order: calendar.order || 0,
@@ -79,7 +102,7 @@ export function mapDavCollectionToCalendar(calendar) {
 		publishURL: calendar.publishURL || null,
 		isSharedWithMe: calendar.owner !== client.currentUserPrincipal.principalUrl,
 		canBeShared: calendar.isShareable(),
-		canBePublished: calendar.isPublishable(),
+		canBePublished: calendar.isPublishable()
 	}
 }
 
@@ -89,7 +112,7 @@ export function mapDavCollectionToCalendar(calendar) {
  * @param {Object} sharee the sharee object from the cdav library shares
  * @returns {Object}
  */
-export function mapDavShareeToSharee(sharee) {
+function mapDavShareeToSharee(sharee) {
 	const id = sharee.href.split('/').slice(-1)[0]
 	const name = sharee['common-name']
 		? sharee['common-name']
@@ -131,50 +154,62 @@ const mutations = {
 
 	/**
 	 * Toggle whether a calendar is Enabled
-	 * @param {Object} context the store mutations
+	 * @param {Object} state the store mutations
 	 * @param {Object} data destructuring object
 	 * @param {Object} data.calendar the calendar to toggle
 	 */
-	toggleCalendarEnabled(context, { calendar }) {
+	toggleCalendarEnabled(state, { calendar }) {
 		calendar = state.calendars.find(search => search.id === calendar.id)
 		calendar.enabled = !calendar.enabled
 	},
 
 	/**
 	 * Rename a calendar
-	 * @param {Object} context the store mutations
+	 * @param {Object} state the store mutations
 	 * @param {Object} data destructuring object
 	 * @param {Object} data.calendar the calendar to rename
 	 * @param {String} data.newName the new name of the calendar
 	 */
-	renameCalendar(context, { calendar, newName }) {
+	renameCalendar(state, { calendar, newName }) {
 		calendar = state.calendars.find(search => search.id === calendar.id)
 		calendar.displayName = newName
 	},
 
 	/**
 	 * Change calendar's color
-	 * @param {Object} context the store mutations
+	 * @param {Object} state the store mutations
 	 * @param {Object} data destructuring object
 	 * @param {Object} data.calendar the calendar to rename
 	 * @param {String} data.newColor the new color of the calendar
 	 */
-	changeCalendarColor(context, { calendar, newColor }) {
+	changeCalendarColor(state, { calendar, newColor }) {
 		calendar = state.calendars.find(search => search.id === calendar.id)
 		calendar.color = newColor
 	},
 
 	/**
 	 * Change calendar's order
-	 * @param {Object} context the store mutations
+	 * @param {Object} state the store mutations
 	 * @param {Object} data destructuring object
 	 * @param {Object} data.calendar the calendar to rename
 	 * @param {String} data.newOrder the new order of the calendar
 	 */
-	changeCalendarOrder(context, { calendar, newOrder }) {
+	changeCalendarOrder(state, { calendar, newOrder }) {
 		calendar = state.calendars.find(search => search.id === calendar.id)
 		calendar.order = newOrder
 	},
+
+	// appendCalendarObjectsToCalendar(state, { calendar, calendarObjects }) {
+	//
+	// },
+	//
+	// addCalendarObjectToCalendar(state, calendarObject) {
+	//
+	// },
+	//
+	// deleteCalendarObjectFromCalendar(state, calendarObject) {
+	//
+	// },
 
 	/**
 	 * Share calendar with a user or group
@@ -254,21 +289,39 @@ const mutations = {
 }
 
 const getters = {
+
+	/**
+	 *
+	 * @param {Object} state the store data
+	 * @returns {Array}
+	 */
 	sortedCalendars(state) {
 		return state.calendars
-			.filter(calendar => calendar.components.includes('VEVENT'))
+			.filter(calendar => calendar.supportsEvents)
 			.filter(calendar => !calendar.readOnly)
 			.sort((a, b) => a.order - b.order)
 	},
+
+	/**
+	 *
+	 * @param {Object} state the store data
+	 * @returns {Array}
+	 */
 	sortedSubscriptions(state) {
 		return state.calendars
-			.filter(calendar => calendar.components.includes('VEVENT'))
+			.filter(calendar => calendar.supportsEvents)
 			.filter(calendar => calendar.readOnly)
 			.sort((a, b) => a.order - b.order)
 	},
+
+	/**
+	 *
+	 * @param {Object} state the store data
+	 * @returns {Array}
+	 */
 	enabledCalendars(state) {
 		return state.calendars
-			.filter(calendar => calendar.components.includes('VEVENT'))
+			.filter(calendar => calendar.supportsEvents)
 			.filter(calendar => calendar.enabled)
 	}
 }
@@ -321,10 +374,9 @@ const actions = {
 	 * @returns {Promise}
 	 */
 	async appendSubscription(context, { displayName, color, order, source }) {
-		const { displayName, color, order } = calendar
 		return client.calendarHomes[0].createSubscribedCollection(displayName, color, source, order)
 			.then((response) => {
-				calendar = mapDavCollectionToCalendar(response)
+				const calendar = mapDavCollectionToCalendar(response)
 				context.commit('addCalendar', { calendar })
 			})
 			.catch((error) => { throw error })
@@ -529,7 +581,7 @@ const actions = {
 				// We don't want to lose the url information
 				// so we need to parse one by one
 				const events = response.map(item => {
-					let event = new Event(item.data, calendar)
+					let event = new CalendarObject(item.data, calendar)
 					Vue.set(event, 'dav', item)
 					return event
 				})
