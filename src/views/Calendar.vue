@@ -20,7 +20,7 @@ import { randomColor, generateTextColorFromRGB } from '../services/colorService'
 // import fullCalendarEventService from '../services/fullCalendarEventService'
 
 import moment from 'moment'
-import { getUnixTimestampFromDate } from '../services/date'
+import { dateFactory, getUnixTimestampFromDate } from '../services/date'
 import { getFCEventFromEventComponent } from '../services/fullCalendarEventService'
 
 export default {
@@ -31,7 +31,8 @@ export default {
 	},
 	data() {
 		return {
-			loadingCalendars: true
+			loadingCalendars: true,
+			timeFrameCacheExpiryJob: null
 		}
 	},
 	computed: {
@@ -88,6 +89,24 @@ export default {
 				firstDay: +moment().startOf('week').format('d')
 			}
 		}
+	},
+	created() {
+		this.timeFrameCacheExpiryJob = setInterval(() => {
+			const timestamp = (getUnixTimestampFromDate(dateFactory()) - 60 * 10)
+			const timeRanges = this.$store.getters.getAllTimeRangesOlderThan(timestamp)
+
+			for (const timeRange of timeRanges) {
+				this.$store.commit('removeTimeRange', timeRange.id)
+				this.$store.commit('deleteFetchedTimeRangeFromCalendar', {
+					calendar: {
+						id: timeRange.calendarId
+					},
+					fetchedTimeRangeId: timeRange.id
+				})
+			}
+
+			console.debug('Cleaned timeranges')
+		}, 1000 * 60)
 	},
 	beforeMount() {
 		console.debug(client)
