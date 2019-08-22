@@ -20,8 +20,7 @@
  *
  */
 import { NamedTimeZoneImpl, registerNamedTimeZoneImpl } from 'fullcalendar'
-import { getTimezone } from '../services/timezoneDataProviderService'
-import ICAL from 'ical.js'
+import getTimezoneManager from '../services/timezoneDataProviderService'
 
 /**
  * Our own Fullcalendar Timezone implementation based on the VTimezones we ship
@@ -35,14 +34,10 @@ class VTimezoneNamedTimezone extends NamedTimeZoneImpl {
 	 * @returns {Number} offset in minutes
 	 */
 	offsetForArray([year, month, day, hour, minute, second]) {
-		const timezone = getTimezone(this.name)
+		const timezone = getTimezoneManager().getTimezoneForId(this.name)
 		month += 1
-		const time = new ICAL.Time({ year, month, day, hour, minute, second, isDate: false })
 
-		// TODO - all these operations require complex RRULE expansion for DST / Standard
-		// this function is called dozens of dozens of times, result should probably be cached
-
-		return timezone.utcOffset(time) / 60
+		return timezone.offsetForArray(year, month, day, hour, minute, second) / 60
 	}
 
 	/**
@@ -52,15 +47,11 @@ class VTimezoneNamedTimezone extends NamedTimeZoneImpl {
 	 * @returns {Number[]}
 	 */
 	timestampToArray(ms) {
-		const timezone = getTimezone(this.name)
-		const time = ICAL.Time.fromData({ year: 1970, month: 1, day: 1, hour: 0, minute: 0, second: 0 }) // just create a dummy object because fromUnixTime is not exposed on ICAL.Time
-		time.fromUnixTime(Math.floor(ms / 1000))
-		const local = time.convertToZone(timezone)
+		const timezone = getTimezoneManager().getTimezoneForId(this.name)
+		const timestampArray = timezone.timestampToArray(ms)
+		timestampArray[1]--
 
-		// TODO - all these operations require complex RRULE expansion for DST / Standard
-		// this function is called dozens of dozens of times, result should probably be cached
-
-		return [local.year, local.month - 1, local.day, local.hour, local.minute, local.second, 0]
+		return timestampArray
 	}
 
 }

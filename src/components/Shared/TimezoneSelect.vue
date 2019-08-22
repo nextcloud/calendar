@@ -7,13 +7,24 @@
 </template>
 
 <script>
-import { listAllTimezones } from '../../services/timezoneDataProviderService'
+import getTimezoneManager from '../../services/timezoneDataProviderService'
 
 import detectTimezone from '../../services/timezoneDetectionService'
 import { Multiselect } from 'nextcloud-vue'
 
-const mappedTimezoneData = listAllTimezones().reduce((initial, value) => {
-	const [continent, name] = value.split('/', 2)
+const mappedTimezoneData = getTimezoneManager().listAllTimezones().reduce((initial, value) => {
+	if (!value) {
+		console.debug(value)
+		return initial
+	}
+
+	let [continent, name] = value.split('/', 2)
+
+	if (!name) {
+		name = continent
+		continent = 'GLOBAL'
+	}
+
 	initial[continent] = initial[continent] || []
 	initial[continent].push({
 		label: name.split('_').join(' ').replace('St ', 'St. ').split('/').join(' - '),

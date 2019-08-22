@@ -21,9 +21,8 @@
  */
 import Vue from 'vue'
 
-let incCount = 0
-
 const state = {
+	lastTimeRangeInsertId: -1,
 	fetchedTimeRanges: [],
 	fetchedTimeRangesById: {}
 }
@@ -43,7 +42,7 @@ const mutations = {
 	 */
 	addTimeRange(state, { calendarId, from, to, lastFetched, calendarObjectIds }) {
 		const fetchedTimeRange = {
-			id: incCount++,
+			id: ++state.lastTimeRangeInsertId,
 			calendarId,
 			from,
 			to,
@@ -76,7 +75,19 @@ const mutations = {
 	 *
 	 * @param {Object} state The vuex state
 	 * @param {Object} data The destructuring object
-	 * @param {Number} data.timeRangeId The id of the timerange
+	 * @param {Number} data.timeRangeId The id of the time-range
+	 * @param {String[]} data.calendarObjectIds The array of ids of the calendar-object to add
+	 */
+	appendCalendarObjectIdsToTimeFrame(state, { timeRangeId, calendarObjectIds }) {
+
+	},
+
+	/**
+	 * Adds a calendar-object-id to an already fetched time-range
+	 *
+	 * @param {Object} state The vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {Number} data.timeRangeId The id of the time-range
 	 * @param {String} data.calendarObjectId The id of the calendar-object to add
 	 */
 	appendCalendarObjectIdToTimeRange(state, { timeRangeId, calendarObjectId }) {

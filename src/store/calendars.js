@@ -27,6 +27,7 @@ import Vue from 'vue'
 import defaultColor from '../services/defaultColor'
 import client from '../services/cdav'
 import CalendarObject from '../models/calendarObject'
+import { dateFactory, getUnixTimestampFromDate } from '../services/date'
 // import pLimit from 'p-limit'
 
 const calendarModel = {
@@ -66,14 +67,8 @@ const calendarModel = {
 	dav: false,
 	// All calendar-objects from this calendar that have already been fetched
 	calendarObjects: {},
-	// List of UIDs sorted by day of appearance
-	calendarObjectsByDay: {},
 	// Time-ranges that have already been fetched for this calendar
-	fetchedTimeranges: [],
-}
-
-const state = {
-	calendars: []
+	fetchedTimeRanges: [],
 }
 
 /**
@@ -84,8 +79,7 @@ const state = {
  */
 function mapDavCollectionToCalendar(calendar) {
 	return {
-		// get last part of url
-		id: calendar.url.split('/').slice(-2, -1)[0], // TODO - improve me
+		id: btoa(calendar.url),
 		displayName: calendar.displayname,
 		color: calendar.color || defaultColor(),
 		enabled: !!calendar.enabled,
@@ -113,7 +107,7 @@ function mapDavCollectionToCalendar(calendar) {
  * @returns {Object}
  */
 function mapDavShareeToSharee(sharee) {
-	const id = sharee.href.split('/').slice(-1)[0]
+	const id = btoa(sharee.href)
 	const name = sharee['common-name']
 		? sharee['common-name']
 		: id
@@ -127,6 +121,11 @@ function mapDavShareeToSharee(sharee) {
 	}
 }
 
+const state = {
+	calendars: [],
+	calendarsById: {}
+}
+
 const mutations = {
 
 	/**
@@ -138,7 +137,10 @@ const mutations = {
 	 */
 	addCalendar(state, { calendar }) {
 		// extend the calendar to the default model
-		state.calendars.push(Object.assign({}, calendarModel, calendar))
+		const object = Object.assign({}, calendarModel, calendar)
+
+		state.calendars.push(object)
+		Vue.set(state.calendarsById, object.id, object)
 	},
 
 	/**
@@ -150,6 +152,7 @@ const mutations = {
 	 */
 	deleteCalendar(state, { calendar }) {
 		state.calendars.splice(state.calendars.indexOf(calendar), 1)
+		Vue.delete(state.calendarsById, calendar.id)
 	},
 
 	/**
@@ -159,8 +162,7 @@ const mutations = {
 	 * @param {Object} data.calendar the calendar to toggle
 	 */
 	toggleCalendarEnabled(state, { calendar }) {
-		calendar = state.calendars.find(search => search.id === calendar.id)
-		calendar.enabled = !calendar.enabled
+		state.calendarsById[calendar.id].enabled = !state.calendarsById[calendar.id].enabled
 	},
 
 	/**
@@ -171,8 +173,7 @@ const mutations = {
 	 * @param {String} data.newName the new name of the calendar
 	 */
 	renameCalendar(state, { calendar, newName }) {
-		calendar = state.calendars.find(search => search.id === calendar.id)
-		calendar.displayName = newName
+		state.calendarsById[calendar.id].displayName = newName
 	},
 
 	/**
@@ -183,8 +184,7 @@ const mutations = {
 	 * @param {String} data.newColor the new color of the calendar
 	 */
 	changeCalendarColor(state, { calendar, newColor }) {
-		calendar = state.calendars.find(search => search.id === calendar.id)
-		calendar.color = newColor
+		state.calendarsById[calendar.id].color = newColor
 	},
 
 	/**
@@ -195,21 +195,83 @@ const mutations = {
 	 * @param {String} data.newOrder the new order of the calendar
 	 */
 	changeCalendarOrder(state, { calendar, newOrder }) {
-		calendar = state.calendars.find(search => search.id === calendar.id)
-		calendar.order = newOrder
+		state.calendarsById[calendar.id].order = newOrder
 	},
 
-	// appendCalendarObjectsToCalendar(state, { calendar, calendarObjects }) {
-	//
-	// },
-	//
-	// addCalendarObjectToCalendar(state, calendarObject) {
-	//
-	// },
-	//
-	// deleteCalendarObjectFromCalendar(state, calendarObject) {
-	//
-	// },
+	/**
+	 * Add multiple calendar-objects to calendar
+	 *
+	 * @param {Object} state the store mutations
+	 * @param {Object} data destructuring object
+	 * @param {Object} data.calendar The calendar to append objects to
+	 * @param {String[]} data.calendarObjectIds The calendar object ids to append
+	 */
+	appendCalendarObjectsToCalendar(state, { calendar, calendarObjectIds }) {
+		for (const calendarObjectId of calendarObjectIds) {
+			if (state.calendarsById[calendar.id].calendarObjects.indexOf(calendarObjectId) === -1) {
+				state.calendarsById[calendar.id].calendarObjects.push(calendarObjectId)
+			}
+		}
+	},
+
+	/**
+	 * Add calendar-object to calendar
+	 *
+	 * @param {Object} state the store mutations
+	 * @param {Object} data destructuring object
+	 * @param {Object} data.calendar The calendar to append objects to
+	 * @param {String} data.calendarObjectId The calendar object id to append
+	 */
+	addCalendarObjectToCalendar(state, { calendar, calendarObjectId }) {
+		if (state.calendarsById[calendar.id].calendarObjects.indexOf(calendarObjectId) === -1) {
+			state.calendarsById[calendar.id].calendarObjects.push(calendarObjectId)
+		}
+	},
+
+	/**
+	 * Remove calendar-object from calendar
+	 *
+	 * @param {Object} state the store mutations
+	 * @param {Object} data destructuring object
+	 * @param {Object} data.calendar The calendar to delete objects from
+	 * @param {String} data.calendarObjectId The calendar object ids to delete
+	 */
+	deleteCalendarObjectFromCalendar(state, { calendar, calendarObjectId }) {
+		const index = state.calendarsById[calendar.id].calendarObjects.indexOf(calendarObjectId)
+
+		if (index !== -1) {
+			state.calendarsById[calendar.id].calendarObjects.slice(index, 1)
+		}
+	},
+
+	/**
+	 * Add fetched time-range to calendar
+	 *
+	 * @param {Object} state the store mutations
+	 * @param {Object} data destructuring object
+	 * @param {Object} data.calendar The calendar to append a time-range to
+	 * @param {Number} data.fetchedTimeRangeId The time-range-id to append
+	 */
+	addFetchedTimeRangeToCalendar(state, { calendar, fetchedTimeRangeId }) {
+		state.calendarsById[calendar.id].fetchedTimeRanges.push(fetchedTimeRangeId)
+
+	},
+
+	/**
+	 * Remove fetched time-range from calendar
+	 *
+	 * @param {Object} state the store mutations
+	 * @param {Object} data destructuring object
+	 * @param {Object} data.calendar The calendar to remove a time-range from
+	 * @param {Number} data.fetchedTimeRangeId The time-range-id to remove
+	 */
+	deleteFetchedTimeRangeFromCalendar(state, { calendar, fetchedTimeRangeId }) {
+		const index = state.calendarsById[calendar.id].fetchedTimeRanges.indexOf(fetchedTimeRangeId)
+
+		if (index !== -1) {
+			state.calendarsById[calendar.id].fetchedTimeRanges.slice(index, 1)
+		}
+	},
 
 	/**
 	 * Share calendar with a user or group
@@ -223,7 +285,6 @@ const mutations = {
 	 * @param {Boolean} data.isGroup is this a group ?
 	 */
 	shareCalendar(state, { calendar, user, displayName, uri, isGroup }) {
-		calendar = state.calendars.find(search => search.id === calendar.id)
 		const newSharee = {
 			displayName,
 			id: user,
@@ -231,7 +292,7 @@ const mutations = {
 			isGroup,
 			uri
 		}
-		calendar.shares.push(newSharee)
+		state.calendarsById[calendar.id].shares.push(newSharee)
 	},
 
 	/**
@@ -559,6 +620,49 @@ const actions = {
 		return calendar.dav.unpublish()
 			.then((response) => context.commit('unpublishCalendar', { calendar }))
 			.catch((error) => { throw error })
+	},
+
+	/**
+	 * Retrieve the events of the specified calendar
+	 * and commit the results
+	 *
+	 * @param {Object} context the store mutations
+	 * @param {Object} data destructuring object
+	 * @param {Object} data.calendar the calendar to get events from
+	 * @param {Date} data.from the date to start querying events from
+	 * @param {Date} data.to the last date to query events from
+	 * @returns {Promise<void>}
+	 */
+	async getEventsFromCalendarInTimeRange(context, { calendar, from, to }) {
+		return calendar.dav.findByTimeInTimeRange('VEVENT', from, to)
+			.then((response) => {
+				context.commit('addTimeRange', {
+					calendarId: calendar.id,
+					from: getUnixTimestampFromDate(from),
+					to: getUnixTimestampFromDate(to),
+					lastFetched: getUnixTimestampFromDate(dateFactory()),
+					calendarObjectIds: []
+				})
+				context.commit('addFetchedTimeRangeToCalendar', {
+					calendar,
+					fetchedTimeRangeId: context.state.lastTimeRangeInsertId
+				})
+
+				const calendarObjects = []
+				const calendarObjectIds = []
+				for (const r of response) {
+					const calendarObject = new CalendarObject(r.data, calendar.id, r)
+
+					calendarObjects.push(calendarObject)
+					calendarObjectIds.push(calendarObject.id)
+				}
+
+				context.commit('appendCalendarObjects', calendarObjects)
+				context.commit('appendCalendarObjectsToCalendar', calendarObjectIds)
+				context.commit('appendCalendarObjectIdsToTimeFrame', calendarObjectIds)
+
+				return context.state.lastTimeRangeInsertId
+			})
 	},
 
 	/**

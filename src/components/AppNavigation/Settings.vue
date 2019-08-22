@@ -124,7 +124,8 @@ export default {
 			return t('calendar', 'Copy link')
 		},
 		timezoneValue() {
-			return this.$store.state.settings.timezone
+			return detectTimezone()
+			// return this.$store.state.settings.timezone
 		},
 		additionalTimezones() {
 			console.debug(t)
