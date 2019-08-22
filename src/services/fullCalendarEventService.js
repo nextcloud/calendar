@@ -21,13 +21,37 @@
  */
 
 /**
+ * convert an array of calendar-objects to events
  *
- * @param {Object} calendar calendar object from Vuex store
- * @param {Function} userNotificationCallBack display a notification to the user
- * @returns {Function}
+ * @param {CalendarObject[]} calendarObjects Array of calendar-objects to turn into fc events
+ * @param {Date} start Start of time-range
+ * @param {Date} end End of time-range
+ * @param {Timezone} timezone Desired time-zone
+ * @returns {Object}[]
  */
-export default function(calendar, userNotificationCallBack) {
-	return ({ start, startStr, end, endStr, timeZone }) => {
-		console.debug('IMPLEMENT ME')
+export function getFCEventFromEventComponent(calendarObjects, start, end, timezone) {
+	const fcEvents = []
+	for (const calendarObject of calendarObjects) {
+		const allObjectsInTimeRange = calendarObject.getAllObjectsInTimeRange(start, end)
+		for (const object of allObjectsInTimeRange) {
+			const classNames = []
+
+			if (object.status === 'CANCELLED') {
+				classNames.push('fc-event-nc-cancelled')
+			} else if (object.status === 'TENTATIVE') {
+				classNames.push('fc-event-nc-tentative')
+			}
+
+			fcEvents.push({
+				id: object.id,
+				title: object.title,
+				allDay: object.isAllDay(),
+				start: object.startDate.getInTimezone(timezone).jsDate,
+				end: object.endDate.getInTimezone(timezone).jsDate,
+				classNames
+			})
+		}
 	}
+
+	return fcEvents
 }

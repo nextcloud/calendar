@@ -72,7 +72,23 @@ const mutations = {
 	}
 }
 
-const getters = {}
+const getters = {
+
+	/**
+	 *
+	 * @param {Object} state The store data
+	 * @returns {CalendarObject[]}
+	 */
+	getCalendarObjects: (state) => state.calendarObjects,
+
+	/**
+	 *
+	 * @param {Object} state The store data
+	 * @returns {function({Number}): CalendarObject}
+	 */
+	getCalendarObjectById: (state) => (id) => state.calendarObjects[id]
+}
+
 const actions = {}
 
 export default { state, mutations, getters, actions }

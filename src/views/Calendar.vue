@@ -15,10 +15,13 @@ import AppNavigation from '../components/AppNavigation.vue'
 import FullCalendar from '../components/FullCalendar.vue'
 
 import client from '../services/cdav.js'
+import getTimezoneManager from '../services/timezoneDataProviderService'
 import { randomColor, generateTextColorFromRGB } from '../services/colorService'
-import fullCalendarEventService from '../services/fullCalendarEventService'
+// import fullCalendarEventService from '../services/fullCalendarEventService'
 
 import moment from 'moment'
+import { getUnixTimestampFromDate } from '../services/date'
+import { getFCEventFromEventComponent } from '../services/fullCalendarEventService'
 
 export default {
 	name: 'Calendar',
@@ -50,7 +53,26 @@ export default {
 				className: enabledCalendar.id,
 				editable: !enabledCalendar.readOnly,
 
-				events: fullCalendarEventService(enabledCalendar, (...args) => console.error(args)),
+				// events: fullCalendarEventService(enabledCalendar, (...args) => console.error(args)),
+				events: ({ start, startStr, end, endStr, timeZone }, successCallback, failureCallback) => {
+					const timezoneObject = getTimezoneManager().getTimezoneForId(timeZone)
+					const timeRange = this.$store.getters.getTimeRangeForCalendarCoveringRange(enabledCalendar.id, getUnixTimestampFromDate(start), getUnixTimestampFromDate(end))
+					if (!timeRange) {
+						this.$store.dispatch('getEventsFromCalendarInTimeRange', {
+							calendar: enabledCalendar,
+							from: start,
+							to: end
+						}).then(() => {
+							const timeRange = this.$store.getters.getTimeRangeForCalendarCoveringRange(enabledCalendar.id, getUnixTimestampFromDate(start), getUnixTimestampFromDate(end))
+
+							const calendarObjects = this.$store.getters.getCalendarObjectsByTimeRangeId(timeRange.id)
+							successCallback(getFCEventFromEventComponent(calendarObjects, start, end, timezoneObject))
+						})
+					} else {
+						const calendarObjects = this.$store.getters.getCalendarObjectsByTimeRangeId(timeRange.id)
+						successCallback(getFCEventFromEventComponent(calendarObjects, start, end, timezoneObject))
+					}
+				}
 			}))
 		},
 		config() {

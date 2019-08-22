@@ -79,7 +79,11 @@ const mutations = {
 	 * @param {String[]} data.calendarObjectIds The array of ids of the calendar-object to add
 	 */
 	appendCalendarObjectIdsToTimeFrame(state, { timeRangeId, calendarObjectIds }) {
-
+		for (const calendarObjectId of calendarObjectIds) {
+			if (state.fetchedTimeRangesById[timeRangeId].calendarObjectIds.indexOf(calendarObjectId) === -1) {
+				state.fetchedTimeRangesById[timeRangeId].calendarObjectIds.push(calendarObjectId)
+			}
+		}
 	},
 
 	/**
@@ -144,7 +148,7 @@ const getters = {
 	 * @returns {function({Number}, {Number}, {Number}): {Object}|false}
 	 */
 	getTimeRangeForCalendarCoveringRange: (state) => (calendarId, requestedFrom, requestedTo) => {
-		return state.fetchedTimeRanges.first(f => {
+		return state.fetchedTimeRanges.find(f => {
 			return f.calendarId === calendarId && f.from <= requestedFrom && f.to >= requestedTo
 		})
 	},
@@ -157,6 +161,29 @@ const getters = {
 	 */
 	getAllTimeRangesOlderThan: (state) => (olderThan) =>
 		state.fetchedTimeRanges.filter(f => (f.lastFetched <= olderThan)),
+
+	/**
+	 *
+	 * @param {Object} state The vuex state
+	 * @returns {number}
+	 */
+	getLastTimeRangeInsertId: (state) => state.lastTimeRangeInsertId,
+
+	/**
+	 *
+	 * @param {Object} state The vuex state
+	 * @param {Object} getters The vuex getters
+	 * @returns {function({Number}): {CalendarObject}[]}
+	 */
+	getCalendarObjectsByTimeRangeId: (state, getters) => (timeRangeId) => {
+		if (!state.fetchedTimeRangesById[timeRangeId]) {
+			return []
+		}
+
+		return state.fetchedTimeRangesById[timeRangeId].calendarObjectIds.map((calendarObjectId) => {
+			return getters.getCalendarObjectById(calendarObjectId)
+		})
+	}
 }
 
 const actions = {}
