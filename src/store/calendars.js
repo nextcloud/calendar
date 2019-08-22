@@ -66,7 +66,7 @@ const calendarModel = {
 	// Reference to cdav-lib object
 	dav: false,
 	// All calendar-objects from this calendar that have already been fetched
-	calendarObjects: {},
+	calendarObjects: [],
 	// Time-ranges that have already been fetched for this calendar
 	fetchedTimeRanges: [],
 }
@@ -634,7 +634,7 @@ const actions = {
 	 * @returns {Promise<void>}
 	 */
 	async getEventsFromCalendarInTimeRange(context, { calendar, from, to }) {
-		return calendar.dav.findByTimeInTimeRange('VEVENT', from, to)
+		return calendar.dav.findByTypeInTimeRange('VEVENT', from, to)
 			.then((response) => {
 				context.commit('addTimeRange', {
 					calendarId: calendar.id,
@@ -643,23 +643,26 @@ const actions = {
 					lastFetched: getUnixTimestampFromDate(dateFactory()),
 					calendarObjectIds: []
 				})
+				const insertId = context.getters.getLastTimeRangeInsertId
 				context.commit('addFetchedTimeRangeToCalendar', {
 					calendar,
-					fetchedTimeRangeId: context.state.lastTimeRangeInsertId
+					fetchedTimeRangeId: insertId
 				})
 
 				const calendarObjects = []
 				const calendarObjectIds = []
 				for (const r of response) {
 					const calendarObject = new CalendarObject(r.data, calendar.id, r)
-
 					calendarObjects.push(calendarObject)
 					calendarObjectIds.push(calendarObject.id)
 				}
 
 				context.commit('appendCalendarObjects', calendarObjects)
-				context.commit('appendCalendarObjectsToCalendar', calendarObjectIds)
-				context.commit('appendCalendarObjectIdsToTimeFrame', calendarObjectIds)
+				context.commit('appendCalendarObjectsToCalendar', { calendar, calendarObjectIds })
+				context.commit('appendCalendarObjectIdsToTimeFrame', {
+					timeRangeId: insertId,
+					calendarObjectIds
+				})
 
 				return context.state.lastTimeRangeInsertId
 			})

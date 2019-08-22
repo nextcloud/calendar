@@ -21,7 +21,8 @@
  */
 
 import PQueue from 'p-queue'
-import { getParserManager } from 'calendar-js/src'
+import { getParserManager } from 'calendar-js'
+import DateTimeValue from 'calendar-js/src/values/dateTimeValue'
 
 export default class CalendarObject {
 
@@ -30,9 +31,9 @@ export default class CalendarObject {
 	 *
 	 * @param {String} calendarData The raw unparsed calendar-data
 	 * @param {String} calendarId Id of the calendar this calendar-object belongs to
-	 * @param {String} fileType The type of calendar-data, defaults to text/calendar
+	 * @param {VObject} dav The dav object
 	 */
-	constructor(calendarData, calendarId, fileType = 'text/calendar') {
+	constructor(calendarData, calendarId, dav = null) {
 		/**
 		 * Id of the calendar this calendar-object is part of
 		 *
@@ -52,14 +53,7 @@ export default class CalendarObject {
 		 *
 		 * @type {Object}|null
 		 */
-		this.dav = null
-
-		/**
-		 * Type of the calendar-object
-		 *
-		 * @type {String}|null
-		 */
-		this.objectType = null
+		this.dav = dav
 
 		/**
 		 * A queue for sending updates to the server
@@ -71,18 +65,18 @@ export default class CalendarObject {
 
 		/**
 		 * parsed calendar-js object
-		 * @type {null}
+		 * @type {CalendarComponent}
 		 */
 		this.vcalendar = null
 
 		const parserManager = getParserManager()
-		const parser = parserManager.getParserForFileType(fileType)
+		const parser = parserManager.getParserForFileType('text/calendar')
 		parser.parse(calendarData)
 
 		const itemIterator = parser.getItemIterator()
 		const firstVCalendar = itemIterator.next()
 		if (firstVCalendar) {
-			this.vcalendar = firstVCalendar
+			this.vcalendar = firstVCalendar.value
 		}
 	}
 
@@ -108,7 +102,7 @@ export default class CalendarObject {
 		const iterator = this.vcalendar.getVObjectIterator()
 		const firstVObject = iterator.next()
 		if (firstVObject) {
-			return firstVObject.uid
+			return firstVObject.value.uid
 		}
 
 		return null
@@ -123,7 +117,7 @@ export default class CalendarObject {
 		const iterator = this.vcalendar.getVObjectIterator()
 		const firstVObject = iterator.next()
 		if (firstVObject) {
-			return firstVObject.name
+			return firstVObject.value.name
 		}
 
 		return null
@@ -145,6 +139,24 @@ export default class CalendarObject {
 	 */
 	isTodo() {
 		return this.objectType === 'vtodo'
+	}
+
+	/**
+	 *
+	 * @param {Date} start Begin of time-range
+	 * @param {Date} end End of time-range
+	 * @returns {Array}
+	 */
+	getAllObjectsInTimeRange(start, end) {
+		const iterator = this.vcalendar.getVObjectIterator()
+		const firstVObject = iterator.next()
+		if (!firstVObject) {
+			return []
+		}
+
+		const s = DateTimeValue.fromJSDate(start)
+		const e = DateTimeValue.fromJSDate(end)
+		return firstVObject.value.recurrenceManager.getAllOccurrencesBetween(s, e)
 	}
 
 }
