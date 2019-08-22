@@ -87,6 +87,19 @@ export default class CalendarObject {
 	}
 
 	/**
+	 * ID of the calendar-object
+	 *
+	 * @returns {string}
+	 */
+	get id() {
+		if (this.dav) {
+			return btoa(this.dav.url)
+		}
+
+		return 'new'
+	}
+
+	/**
 	 * UID of the calendar-object
 	 *
 	 * @returns {null|String}

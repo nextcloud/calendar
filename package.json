@@ -41,7 +41,6 @@
 		"cdav-library": "github:nextcloud/cdav-library",
 		"debounce": "^1.2.0",
 		"fullcalendar": "^4.0.0-alpha.4",
-		"ical.js": "^1.3.0",
 		"jstz": "^2.1.1",
 		"moment": "^2.24.0",
 		"nextcloud-auth": "0.0.3",

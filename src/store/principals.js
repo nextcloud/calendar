@@ -49,7 +49,7 @@ function padObject(obj) {
  */
 function mapDavToPrincipal(principal) {
 	return {
-		id: principal.url,
+		id: btoa(principal.url),
 		calendarUserType: principal.calendarUserType,
 		emailAddress: principal.email,
 		displayname: principal.displayname,

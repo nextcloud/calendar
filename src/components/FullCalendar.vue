@@ -21,7 +21,7 @@
   -->
 
 <template>
-	<div id="fullcalendar" />
+	<div id="fullcalendar"></div>
 </template>
 
 <script>
@@ -155,6 +155,7 @@ export default {
 		}
 	},
 	mounted: function() {
+		console.debug('FULLCALENDAR::MOUNTED')
 		window.addEventListener('resize', debounce(() => {
 			const windowHeight = window.innerHeight
 			const headerHeight = document.getElementById('header').clientHeight
@@ -169,6 +170,8 @@ export default {
 		this.calendar = new Calendar(this.$el,
 			Object.assign({}, { height }, this.defaultConfig, this.config))
 		this.calendar.render()
+
+		console.debug(this.calendar)
 	},
 	beforeDestroy: () => {
 

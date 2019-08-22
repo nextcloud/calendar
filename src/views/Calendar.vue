@@ -87,10 +87,13 @@ export default {
 
 					// No calendars? Create a new one!
 					if (calendars.length === 0) {
+						this.loadingCalendars = true
 						this.$store.dispatch('appendCalendar', {
 							displayName: t('calendars', 'Personal'),
 							color: randomColor(),
 							order: 0
+						}).then(() => {
+							this.loadingCalendars = false
 						})
 					}
 				})
