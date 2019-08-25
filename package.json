@@ -54,7 +54,7 @@
 		"nextcloud-vue": "^0.12.1",
 		"p-limit": "^2.2.1",
 		"p-queue": "^6.1.1",
-		"uuid": "^3.3.2",
+		"uuid": "^3.3.3",
 		"v-tooltip": "^2.0.2",
 		"vue": "^2.6.10",
 		"vue-click-outside": "^1.0.7",
