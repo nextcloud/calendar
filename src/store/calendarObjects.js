@@ -68,7 +68,18 @@ const mutations = {
 	 * @param {Object} calendarObject Calendar-object to add
 	 */
 	deleteCalendarObject(state, calendarObject) {
-		Vue.set(state.calendarObject, calendarObject.id)
+		Vue.delete(state.calendarObject, calendarObject.id)
+	},
+
+	/**
+	 *
+	 * @param {Object} state The store data
+	 * @param {Object} data destructuring object
+	 * @param {CalendarObject} data.calendarObject Calendar-object to delete
+	 * @param {String} data.newCalendarId Calendar-Id of calendar to move this calendar-object to
+	 */
+	moveCalendarObject(state, { calendarObject, newCalendarId }) {
+		Vue.set(calendarObject, 'calendarId', newCalendarId)
 	}
 }
 
@@ -89,6 +100,99 @@ const getters = {
 	getCalendarObjectById: (state) => (id) => state.calendarObjects[id]
 }
 
-const actions = {}
+const actions = {
+
+	/**
+	 * Moves a calendar-object to a different calendar
+	 *
+	 * @param {Object} context the store mutations
+	 * @param {Object} data destructuring object
+	 * @param {CalendarObject} data.calendarObject Calendar-object to delete
+	 * @param {String} data.newCalendarId Calendar-Id of calendar to move this calendar-object to
+	 * @returns {Promise<void>}
+	 */
+	async moveCalendarObject(context, { calendarObject, newCalendarId }) {
+		if (!calendarObject.dav) {
+			return
+		}
+
+		const oldCalendarId = calendarObject.calendarId
+		const newCalendar = context.getters.getCalendarById(newCalendarId)
+		await calendarObject.dav.move(newCalendar)
+		context.commit('moveCalendarObject', { calendarObject, newCalendarId })
+		context.commit('addCalendarObjectToCalendar', {
+			calendar: {
+				id: calendarObject.calendarId
+			},
+			calendarObjectId: calendarObject.id
+		})
+		context.commit('deleteCalendarObjectFromCalendar', {
+			calendar: {
+				id: oldCalendarId
+			},
+			calendarObjectId: calendarObject.id
+		})
+		context.commit('removeCalendarObjectIdFromAnyTimeRange', {
+			calendarObjectId: calendarObject.id
+		})
+	},
+
+	/**
+	 * Update a calendar-object
+	 *
+	 * @param {Object} context the store mutations
+	 * @param {Object} data destructuring object
+	 * @param {CalendarObject} data.calendarObject Calendar-object to delete
+	 * @returns {Promise<void>}
+	 */
+	async updateCalendarObject(context, { calendarObject }) {
+		if (calendarObject.dav) {
+			calendarObject.dav.data = calendarObject.vcalendar.toICS()
+			return calendarObject.dav.update()
+
+			// TODO - update time-range
+			// TODO - catch conflicts
+		}
+
+		const calendar = context.getters.getCalendarById(calendarObject.id)
+		calendarObject.dav = await calendar.dav.createVObject(calendarObject.vcalendar.toICS())
+
+		context.commit('appendCalendarObject', { calendarObject })
+		context.commit('addCalendarObjectToCalendar', {
+			calendar: {
+				id: calendarObject.calendarId
+			},
+			calendarObjectId: calendarObject.id
+		})
+		// TODO - update time-range
+	},
+
+	/**
+	 * Delete a calendar-object
+	 *
+	 * @param {Object} context the store mutations
+	 * @param {Object} data destructuring object
+	 * @param {CalendarObject} data.calendarObject Calendar-object to delete
+	 * @returns {Promise<void>}
+	 */
+	async deleteCalendarObject(context, { calendarObject }) {
+		// If this calendar-object was not created on the server yet,
+		// no need to send requests to the server
+		if (calendarObject.dav) {
+			await calendarObject.dav.delete()
+		}
+
+		context.commit('deleteCalendarObject', { calendarObject })
+		context.commit('deleteCalendarObjectFromCalendar', {
+			calendar: {
+				id: calendarObject.calendarId
+			},
+			calendarObjectId: calendarObject.id
+		})
+		context.commit('removeCalendarObjectIdFromAnyTimeRange', {
+			calendarObjectId: calendarObject.id
+		})
+	}
+}
 
 export default { state, mutations, getters, actions }

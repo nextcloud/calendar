@@ -106,7 +106,7 @@ const mutations = {
 	 * @param {Number} data.timeRangeId The id of the timerange
 	 * @param {String} data.calendarObjectId The id of the calendar-object to remove
 	 */
-	removeCalendarObjectIdToTimeRange(state, { timeRangeId, calendarObjectId }) {
+	removeCalendarObjectIdFromTimeRange(state, { timeRangeId, calendarObjectId }) {
 		const index = state.fetchedTimeRangesById[timeRangeId]
 			.calendarObjectIds
 			.indexOf(calendarObjectId)
@@ -114,6 +114,26 @@ const mutations = {
 			state.fetchedTimeRangesById[timeRangeId]
 				.calendarObjectIds
 				.slice(index, 1)
+		}
+	},
+
+	/**
+	 * Removes a calendar-object-id from any time-range it may occur in
+	 *
+	 * @param {Object} state The vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {String} data.calendarObjectId The id of the calendar-object to remove
+	 */
+	removeCalendarObjectIdFromAnyTimeRange(state, { calendarObjectId }) {
+		for (const timeRange of state.fetchedTimeRanges) {
+			const index = timeRange
+				.calendarObjectIds
+				.indexOf(calendarObjectId)
+			if (index !== -1) {
+				timeRange
+					.calendarObjectIds
+					.slice(index, 1)
+			}
 		}
 	},
 
