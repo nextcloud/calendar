@@ -27,7 +27,6 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\IRequest;
-use OCP\IUserSession;
 use OCP\IURLGenerator;
 
 class ViewController extends Controller {
@@ -43,23 +42,26 @@ class ViewController extends Controller {
 	private $urlGenerator;
 
 	/**
-	 * @var IUserSession
+	 * @var string
 	 */
-	private $userSession;
+	private $userId;
 
 	/**
 	 * @param string $appName
 	 * @param IRequest $request an instance of the request
-	 * @param IUserSession $userSession
 	 * @param IConfig $config
 	 * @param IURLGenerator $urlGenerator
+	 * @param string $userId
 	 */
-	public function __construct($appName, IRequest $request, IUserSession $userSession,
-								IConfig $config, IURLGenerator $urlGenerator) {
+	public function __construct(string $appName,
+								IRequest $request,
+								IConfig $config,
+								IURLGenerator $urlGenerator,
+								string $userId) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
-		$this->userSession = $userSession;
 		$this->urlGenerator = $urlGenerator;
+		$this->userId = $userId;
 	}
 
 	/**
@@ -69,8 +71,15 @@ class ViewController extends Controller {
 	 * @return TemplateResponse
 	 */
 	public function index():TemplateResponse {
-		\OCP\Util::connectHook('\OCP\Config', 'js', $this, 'addJavaScriptVariablesForIndex');
-		return new TemplateResponse('calendar', 'main');
+		return new TemplateResponse($this->appName, 'main', [
+			'app_version' => $this->config->getAppValue($this->appName, 'installed_version'),
+			'first_run' => $this->config->getUserValue($this->userId, $this->appName, 'firstRun', 'yes'),
+			'initial_view' => $this->config->getUserValue($this->userId, $this->appName, 'currentView', 'month'),
+			'show_weekends' => $this->config->getUserValue($this->userId, $this->appName, 'showWeekends', 'yes'),
+			'show_week_numbers' => $this->config->getUserValue($this->userId, $this->appName, 'showWeekNr', 'no'),
+			'skip_popover' => $this->config->getUserValue($this->userId, $this->appName, 'skipPopover', 'no'),
+			'timezone' => $this->config->getUserValue($this->userId, $this->appName, 'timezone', 'automatic'),
+		]);
 	}
 
 	/**
@@ -112,13 +121,6 @@ class ViewController extends Controller {
 	 * @param array $array
 	 */
 	public function addJavaScriptVariablesForIndex(array $array) {
-		$user = $this->userSession->getUser();
-		if ($user === null) {
-			return;
-		}
-
-		$userId = $user->getUID();
-		$emailAddress = $user->getEMailAddress();
 		$initialView = $this->config->getUserValue($userId, $this->appName, 'currentView', null);
 		$showWeekends = $this->config->getUserValue($userId, $this->appName, 'showWeekends', 'yes');
 		$skipPopover = $this->config->getUserValue($userId, $this->appName, 'skipPopover', 'no');

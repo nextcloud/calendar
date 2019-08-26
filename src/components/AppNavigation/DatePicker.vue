@@ -66,11 +66,11 @@ export default {
 		}
 	},
 	watch: {
-		'$route'(to) {
-			if (to.params.firstday) {
-				this.date = new Date(to.params.firstday)
-			}
-		}
+		// '$route'(to) {
+		// 	if (to.params.firstday) {
+		// 		this.date = new Date(to.params.firstday)
+		// 	}
+		// }
 	},
 	mounted() {
 		this.$el.querySelector('.mx-input').id = 'app-navigation-datepicker-input'

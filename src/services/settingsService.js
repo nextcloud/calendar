@@ -1,5 +1,5 @@
 /**
- * @copyright Copyright (c) 2018 Georg Ehrke
+ * @copyright Copyright (c) 2019 Georg Ehrke
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
@@ -19,30 +19,28 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import { linkTo } from 'nextcloud-router'
 
 /**
- * returns the version string of the calendar app
  *
- * @returns {String}
+ * @param {string} key Key to query for
+ * @param {Type} Type Force casting value to Number, String, Bool, etc.
+ * @returns {mixed}
  */
-export function getAppVersion() {
-	return '1'
+export const getConfigValueFromHiddenInput = (key, Type = null) => {
+	const elem = document.getElementById('config-' + key)
+	if (!elem) {
+		return
+	}
+
+	if (Type) {
+		return new Type(elem.value).valueOf()
+	}
+	return elem.value
 }
 
-/**
- * returns the version string of the nextcloud server
- *
- * @returns {String}
- */
-export function getServerVersion() {
-	return OC.config.versionstring
-}
-
-/**
- * returns the hostname, needed for UID
- *
- * @returns {String}
- */
-export function getHostname() {
-	return window.location.hostname
-}
+export const getLinkToConfig = key => ([
+	linkTo('calendar', 'index.php'),
+	'v1/config',
+	key
+].join('/'))

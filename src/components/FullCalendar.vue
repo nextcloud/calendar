@@ -52,6 +52,14 @@ export default {
 		config: {
 			type: Object,
 			required: true
+		},
+		view: {
+			type: String,
+			required: true
+		},
+		firstDay: {
+			type: String,
+			required: true
 		}
 	},
 	data() {
@@ -145,16 +153,11 @@ export default {
 				}
 			}
 		},
-		'$route'({ params }) {
-			if (params.view !== this.calendar.view.type) {
-				this.calendar.changeView(params.view)
-
-			}
-
-			if (params.firstday !== this.currentDate) {
-				this.calendar.gotoDate(params.firstday)
-				this.currentDate = params.firstday
-			}
+		view(view) {
+			this.calendar.changeView(view)
+		},
+		firstDay(firstDay) {
+			this.calendar.gotoDate(firstDay)
 		}
 	},
 	mounted: function() {
