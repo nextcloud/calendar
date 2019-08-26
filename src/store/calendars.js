@@ -24,106 +24,16 @@
  *
  */
 import Vue from 'vue'
-import defaultColor from '../services/defaultColor'
 import client from '../services/cdav'
 import CalendarObject from '../models/calendarObject'
 import { dateFactory, getUnixTimestampFromDate } from '../services/date'
+import { getDefaultCalendarObject, mapDavCollectionToCalendar } from '../models/calendar'
 // import pLimit from 'p-limit'
-
-const calendarModel = {
-	// Id of the calendar
-	id: '',
-	// Visible display name
-	displayName: '',
-	// Color of the calendar
-	color: '',
-	// Whether or not the calendar is visible in the grid
-	enabled: true,
-	// Whether or not the calendar is loading events at the moment
-	loading: false,
-	// Whether this calendar supports VEvents
-	supportsEvents: true,
-	// Whether this calendar supports VTodos
-	supportsTasks: true,
-	// The principal uri of the owner
-	owner: '',
-	// List of shares
-	shares: [],
-	// Published url
-	publishURL: null,
-	// Internal CalDAV url of this calendar
-	url: '',
-	// Whether this calendar is read-only
-	readOnly: false,
-	// The order of this calendar in the calendar-list
-	order: 0,
-	// Whether or not the calendar is shared with me
-	isSharedWithMe: false,
-	// Whether or not the calendar can be shared by me
-	canBeShared: false,
-	// Whether or not the calendar can be published by me
-	canBePublished: false,
-	// Reference to cdav-lib object
-	dav: false,
-	// All calendar-objects from this calendar that have already been fetched
-	calendarObjects: [],
-	// Time-ranges that have already been fetched for this calendar
-	fetchedTimeRanges: [],
-}
-
-/**
- * map a dav collection to our calendar object model
- *
- * @param {Object} calendar the calendar object from the cdav library
- * @returns {Object}
- */
-function mapDavCollectionToCalendar(calendar) {
-	return {
-		id: btoa(calendar.url),
-		displayName: calendar.displayname,
-		color: calendar.color || defaultColor(),
-		enabled: !!calendar.enabled,
-		supportsEvents: calendar.components.includes('VEVENT'),
-		supportsTasks: calendar.components.includes('VTODO'),
-		owner: calendar.owner,
-		readOnly: !calendar.isWriteable(),
-		order: calendar.order || 0,
-		url: calendar.url,
-		dav: calendar,
-		shares: calendar.shares
-			.filter((sharee) => sharee.href !== client.currentUserPrincipal.principalScheme) // public shares create a share with yourself ... should be fixed in server
-			.map(sharee => Object.assign({}, mapDavShareeToSharee(sharee))),
-		publishURL: calendar.publishURL || null,
-		isSharedWithMe: calendar.owner !== client.currentUserPrincipal.principalUrl,
-		canBeShared: calendar.isShareable(),
-		canBePublished: calendar.isPublishable()
-	}
-}
-
-/**
- * map a dav collection to our calendar object model
- *
- * @param {Object} sharee the sharee object from the cdav library shares
- * @returns {Object}
- */
-function mapDavShareeToSharee(sharee) {
-	const id = btoa(sharee.href)
-	const name = sharee['common-name']
-		? sharee['common-name']
-		: id
-
-	return {
-		displayName: name,
-		id: id,
-		writeable: sharee.access[0].endsWith('read-write'),
-		isGroup: sharee.href.indexOf('principal:principals/groups/') === 0,
-		uri: sharee.href
-	}
-}
 
 const state = {
 	calendars: [],
-	calendarsById: {}
+	calendarsById: {},
+	initialCalendarsLoaded: false
 }
 
 const mutations = {
@@ -136,8 +46,7 @@ const mutations = {
 	 * @param {Object} data.calendar calendar the calendar to add
 	 */
 	addCalendar(state, { calendar }) {
-		// extend the calendar to the default model
-		const object = Object.assign({}, calendarModel, calendar)
+		const object = getDefaultCalendarObject(calendar)
 
 		state.calendars.push(object)
 		Vue.set(state.calendarsById, object.id, object)
@@ -346,6 +255,15 @@ const mutations = {
 	unpublishCalendar(state, { calendar }) {
 		calendar = state.calendars.find(search => search.id === calendar.id)
 		calendar.publishURL = null
+	},
+
+	/**
+	 * Mark initial loading of calendars as complete
+	 *
+	 * @param {Object} state the store data
+	 */
+	initialCalendarsLoaded(state) {
+		state.initialCalendarsLoaded = true
 	}
 }
 
@@ -384,7 +302,14 @@ const getters = {
 		return state.calendars
 			.filter(calendar => calendar.supportsEvents)
 			.filter(calendar => calendar.enabled)
-	}
+	},
+
+	/**
+	 *
+	 * @param {Object} state the store data
+	 * @returns {boolean}
+	 */
+	didCalendarsLoad: (state) => state.initialCalendarsLoaded
 }
 
 const actions = {
@@ -401,6 +326,7 @@ const actions = {
 			commit('addCalendar', { calendar })
 		})
 
+		commit('initialCalendarsLoaded')
 		return state.calendars
 	},
 
@@ -669,40 +595,42 @@ const actions = {
 	},
 
 	/**
-	 * Retrieve the events of the specified calendar
-	 * and commit the results
+	 * Retrieve one object
 	 *
 	 * @param {Object} context the store mutations
 	 * @param {Object} data destructuring object
-	 * @param {Object} data.calendar the calendar to get events from
-	 * @param {Date} data.from the date to start querying events from
-	 * @param {Date} data.to the last date to query events from
-	 * @returns {Promise}
+	 * @param {String} data.objectId Id of the object to fetch
+	 * @returns {Promise<void>}
 	 */
-	async getEventsFromCalendar(context, { calendar, from, to }) {
+	async getEventByObjectId(context, { objectId }) {
+		// TODO - we should still check if the calendar-object is up to date
+		//  - Just send head and compare etags
+		if (context.getters.getCalendarObjectById(objectId)) {
+			return Promise.resolve(true)
+		}
 
-		// TODO
+		// This might throw an exception, but we will leave it up to the methods
+		// calling this action to properly handle it
+		const objectPath = atob(objectId)
+		const lastSlashIndex = objectPath.lastIndexOf('/')
+		const calendarPath = objectPath.substr(0, lastSlashIndex + 1)
+		const objectFileName = objectPath.substr(lastSlashIndex + 1)
 
-		return calendar.dav.findByType('VEVENT')
-			.then((response) => {
-				// We don't want to lose the url information
-				// so we need to parse one by one
-				const events = response.map(item => {
-					let event = new CalendarObject(item.data, calendar)
-					Vue.set(event, 'dav', item)
-					return event
-				})
-				context.commit('appendEventsToCalendar', { calendar, events })
-				context.commit('appendEvents', events)
-				return events
-			})
-			.catch((error) => {
-				// unrecoverable error, if no events were loaded,
-				// remove the calendar
-				// TODO: create a failed calendar state and show that there was an issue?
-				context.commit('deleteCalendar', calendar)
-				console.error(error)
-			})
+		const calendarId = btoa(calendarPath)
+		if (!context.state.calendarsById[calendarId]) {
+			return Promise.reject(new Error(''))
+		}
+
+		const calendar = context.state.calendarsById[calendarId]
+		const vObject = await calendar.dav.find(objectFileName)
+		const calendarObject = new CalendarObject(vObject.data, calendar.id, vObject)
+		context.commit('appendCalendarObject', calendarObject)
+		context.commit('addCalendarObjectToCalendar', {
+			calendar: {
+				id: calendarId
+			},
+			calendarObjectId: calendarObject.id
+		})
 	},
 
 	/**

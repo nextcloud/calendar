@@ -21,7 +21,7 @@
   -->
 
 <template>
-	<div id="fullcalendar"></div>
+	<div id="fullcalendar" />
 </template>
 
 <script>
@@ -72,12 +72,15 @@ export default {
 				selectable: true,
 				selectMirror: true,
 				eventClick: ({ event }) => {
-					const params = this.$route.params
+					const name = this.$store.state.settings.showPopover
+						? 'EditPopoverView'
+						: 'EditSidebarView'
+					const params = Object.assign({}, this.$route.params, {
+						object: event.extendedProps.objectId,
+						recurrenceId: event.extendedProps.recurrenceId,
+					})
 
-					params.object = event.extendedProps.routerParams.object
-					params.recurrenceId = event.extendedProps.routerParams.recurrenceId
-
-					const name = this.$store.state.settings.showPopover ? 'EditPopoverView' : 'EditSidebarView'
+					// if (this.$router.name === name)
 
 					this.$router.push({ name, params })
 				},

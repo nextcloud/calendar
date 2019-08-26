@@ -22,9 +22,7 @@
 import HttpClient from 'nextcloud-axios'
 import { linkTo } from 'nextcloud-router'
 
-function getLinkToConfig() {
-	return linkTo('calendar', 'index.php') + 'v1/config'
-}
+const getLinkToConfig = () => linkTo('calendar', 'index.php') + '/v1/config'
 
 const state = {
 	settings: {

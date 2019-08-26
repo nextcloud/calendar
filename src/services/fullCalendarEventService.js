@@ -42,13 +42,19 @@ export function getFCEventFromEventComponent(calendarObjects, start, end, timezo
 				classNames.push('fc-event-nc-tentative')
 			}
 
+			console.debug(calendarObject)
+
 			fcEvents.push({
-				id: object.id,
+				id: [calendarObject.id, object.id].join('###'),
 				title: object.title,
 				allDay: object.isAllDay(),
 				start: object.startDate.getInTimezone(timezone).jsDate,
 				end: object.endDate.getInTimezone(timezone).jsDate,
-				classNames
+				classNames,
+				extendedProps: {
+					objectId: calendarObject.id,
+					recurrenceId: object.getReferenceRecurrenceId().unixTime,
+				}
 			})
 		}
 	}

@@ -1,29 +1,45 @@
 <template>
-	<div id="app-sidebar">
-		<!--		<h2>-->
-		<!--			<input-->
-		<!--				v-model="event.summary"-->
-		<!--				:readonly="false"-->
-		<!--				:placeholder="t('contacts', 'Summary')"-->
-		<!--				type="text"-->
-		<!--				autocomplete="off"-->
-		<!--				autocorrect="off"-->
-		<!--			>-->
-		<!--		</h2>-->
-		<!--		<calendar-picker :select-calendar="selectCalendar" />-->
-		<!--		<title-timepicker />-->
+	<AppSidebar title="TITLE" subtitle="SUBTITLE"
+		:compact="false">
+		<template v-slot:primary-actions>
+			<calendar-picker />
+			<title-timepicker />
+		</template>
 
-		<!--		&lt;!&ndash; tabs &ndash;&gt;-->
-		<!--		<details-tab />-->
-		<!--		<invitees-tab />-->
-		<!--		<alarm-tab />-->
-		<!--		<repeat-tab />-->
-		<!--		&lt;!&ndash; eventual other apps modules &ndash;&gt;-->
-	</div>
+		<template v-slot:secondary-actions>
+			<ActionLink icon="icon-download" title="Download" href="https://nextcloud.com" />
+		</template>
+
+		<AppSidebarTab name="Details" icon="icon-details" :order="0">
+			This is the details tab
+		</AppSidebarTab>
+		<AppSidebarTab name="Attendees" icon="icon-group" :order="1">
+			This is the attendees tab
+		</AppSidebarTab>
+		<AppSidebarTab name="Reminders" :icon="reminderIcon" :order="2">
+			This is the reminders tab
+		</AppSidebarTab>
+		<AppSidebarTab name="Repeat" icon="icon-repeat" :order="3">
+			This is the repeat tab
+		</AppSidebarTab>
+		<!--		<AppSidebarTab name="Activity" icon="icon-history" :order="4">-->
+		<!--			This is the activity tab-->
+		<!--		</AppSidebarTab>-->
+		<!--		<AppSidebarTab name="Projects" icon="icon-projects" :order="5">-->
+		<!--			This is the projects tab-->
+		<!--		</AppSidebarTab>-->
+	</AppSidebar>
 </template>
 <script>
 
-// import CalendarPicker from '../components/Editor/CalendarPicker'
+import {
+	AppSidebar,
+	AppSidebarTab,
+	ActionLink
+} from 'nextcloud-vue'
+import CalendarPicker from '../components/Editor/CalendarPicker'
+import TitleTimepicker from '../components/Editor/TitleTimepicker'
+import { loadNewEventIntoEditor } from '../services/routerHelper'
 // import TitleTimepicker from '../components/Editor/TitleTimepicker'
 // import DetailsTab from '../components/Editor/DetailsTab'
 // import InviteesTab from '../components/Editor/InviteesTab'
@@ -33,7 +49,11 @@
 export default {
 	name: 'EditSidebar',
 	components: {
-		// CalendarPicker,
+		TitleTimepicker,
+		AppSidebar,
+		AppSidebarTab,
+		ActionLink,
+		CalendarPicker,
 		// TitleTimepicker,
 		// DetailsTab,
 		// InviteesTab,
@@ -42,16 +62,41 @@ export default {
 	},
 	data() {
 		return {
-			event: {
-				summary: '',
-				calendar: null,
-			}
+			calendarObject: null,
+			eventComponent: null
+		}
+	},
+	computed: {
+		reminderIcon() {
+			// Todo: show different icon based on alarm.
+			// If no alarm is set: Show reminder icon without dot
+			// If one or more alarm are set: Show reminder icon with dot
+			return 'icon-reminder'
+		}
+	},
+	watch: {
+		'$route': {
+			handler(newRoute, oldRoute) {
+				if (!loadNewEventIntoEditor(newRoute, oldRoute)) {
+					return
+				}
+
+				const objectId = this.$store.state.route.params.object
+				const recurrenceId = this.$store.state.route.params.recurrenceId
+
+				this.$store.dispatch('getEventByObjectId', { objectId })
+					.then(() => {
+						this.calendarObject = this.$store.getters.getCalendarObjectById(objectId)
+						this.eventComponent = this.calendarObject.getObjectAtRecurrenceId(new Date(recurrenceId * 1000))
+					})
+			},
+			immediate: true,
 		}
 	},
 	methods: {
 		selectCalendar(selectedCalendar) {
 			this.event = selectedCalendar
 		}
-	}
+	},
 }
 </script>

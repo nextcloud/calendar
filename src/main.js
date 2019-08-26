@@ -27,10 +27,9 @@ import router from './router'
 import store from './store'
 import { Multiselect } from 'nextcloud-vue'
 import VueClipboard from 'vue-clipboard2'
+import { sync } from 'vuex-router-sync'
 
 Vue.config.devtools = true
-
-// import { sync } from 'vuex-router-sync'
 
 Vue.use(VueClipboard)
 Vue.component('Multiselect', Multiselect)
@@ -46,7 +45,7 @@ __webpack_nonce__ = btoa(OC.requestToken)
 // eslint-disable-next-line
 __webpack_public_path__ = OC.linkTo('calendar', 'js/')
 
-// sync(store, router)
+sync(store, router)
 
 Vue.prototype.t = t
 Vue.prototype.n = n
