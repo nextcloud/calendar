@@ -68,16 +68,7 @@ export default class CalendarObject {
 		 * @type {CalendarComponent}
 		 */
 		this.vcalendar = null
-
-		const parserManager = getParserManager()
-		const parser = parserManager.getParserForFileType('text/calendar')
-		parser.parse(calendarData)
-
-		const itemIterator = parser.getItemIterator()
-		const firstVCalendar = itemIterator.next().value
-		if (firstVCalendar) {
-			this.vcalendar = firstVCalendar
-		}
+		this.resetToDav(calendarData)
 	}
 
 	/**
@@ -175,6 +166,25 @@ export default class CalendarObject {
 
 		const d = DateTimeValue.fromJSDate(recurrenceId, true)
 		return firstVObject.recurrenceManager.getOccurrenceAtExactly(d)
+	}
+
+	/**
+	 * resets the inter vcalendar to the dav data
+	 *
+	 * @param {String} data Data to reset to
+	 */
+	resetToDav(data = null) {
+		const parserManager = getParserManager()
+		const parser = parserManager.getParserForFileType('text/calendar')
+
+		const calendarData = data || this.dav.data
+		parser.parse(calendarData)
+
+		const itemIterator = parser.getItemIterator()
+		const firstVCalendar = itemIterator.next().value
+		if (firstVCalendar) {
+			this.vcalendar = firstVCalendar
+		}
 	}
 
 }

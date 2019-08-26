@@ -1,6 +1,6 @@
 <template>
-	<AppSidebar title="TITLE" subtitle="SUBTITLE"
-		:compact="false">
+	<AppSidebar title="TITLE" subtitle="SUBTITLE" :compact="false"
+		@close="cancel">
 		<template v-slot:primary-actions>
 			<calendar-picker />
 			<title-timepicker />
@@ -94,6 +94,47 @@ export default {
 		// }
 	},
 	methods: {
+		cancel() {
+			if (this.calendarObject) {
+				this.calendarObject.resetToDav()
+			}
+
+			const name = 'CalendarView'
+			const params = {
+				view: this.$route.params.view,
+				firstday: this.$route.params.firstday
+			}
+			this.$router.push({ name, params })
+		},
+		async save(thisAndAllFuture = false) {
+			if (!this.calendarObject) {
+				return
+			}
+
+			if (this.eventComponent.canCreateRecurrenceExceptions()) {
+				this.eventComponent.createRecurrenceException(thisAndAllFuture)
+			}
+
+			return this.$store.dispatch('updateCalendarObject', {
+				calendarObject: this.calendarObject
+			})
+		},
+		async delete(thisAndAllFuture = false) {
+			if (!this.calendarObject) {
+				return
+			}
+
+			const emptyCalendarObject = this.eventComponent.removeThisOccurrence(thisAndAllFuture)
+			if (emptyCalendarObject) {
+				return this.$store.dispatch('deleteCalendarObject', {
+					calendarObject: this.calendarObject
+				})
+			}
+
+			return this.$store.dispatch('updateCalendarObject', {
+				calendarObject: this.calendarObject
+			})
+		},
 		selectCalendar(selectedCalendar) {
 			this.event = selectedCalendar
 		}
@@ -104,8 +145,14 @@ export default {
 		// called before the route that renders this component is confirmed.
 		// does NOT have access to `this` component instance,
 		// because it has not been created yet when this guard is called!
+
+		next()
 	},
 	beforeRouteUpdate(to, from, next) {
+		if (to.params.object !== from.params.object) {
+			console.debug('OBJECT ID CHANGED - we have to rerender')
+		}
+
 		console.debug(JSON.stringify(to.params))
 		console.debug(JSON.stringify(from.params))
 		// called when the route that renders this component has changed,
@@ -114,6 +161,8 @@ export default {
 		// navigate between `/foo/1` and `/foo/2`, the same `Foo` component instance
 		// will be reused, and this hook will be called when that happens.
 		// has access to `this` component instance.
+
+		next()
 	},
 	beforeRouteLeave(to, from, next) {
 		console.debug(JSON.stringify(to.params))
@@ -121,6 +170,8 @@ export default {
 		// called when the route that renders this component is about to
 		// be navigated away from.
 		// has access to `this` component instance.
+
+		next()
 	}
 }
 </script>
