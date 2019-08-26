@@ -19,20 +19,18 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import Vue from 'vue'
 import HttpClient from 'nextcloud-axios'
-import { linkTo } from 'nextcloud-router'
-
-const getLinkToConfig = () => linkTo('calendar', 'index.php') + '/v1/config'
+import { getLinkToConfig } from '../services/settingsService'
 
 const state = {
 	settings: {
-		emailAddress: oca_calendar.emailAddress || '',
-		firstRun: oca_calendar.firstRun === 'yes',
-		initialView: oca_calendar.initialView || 'month',
-		showPopover: oca_calendar.skipPopover === 'no',
-		showWeekends: oca_calendar.showWeekends === 'yes',
-		showWeekNumbers: oca_calendar.showWeekNumbers === 'yes',
-		timezone: oca_calendar.timezone || 'automatic'
+		appVersion: null,
+		firstRun: null,
+		showWeekends: null,
+		showWeekNumbers: null,
+		skipPopover: null,
+		timezone: null
 	}
 }
 
@@ -70,22 +68,20 @@ const mutations = {
 	 *
 	 * @param {Object} state The Vuex state
 	 * @param {Object} data The destructuring object
-	 * @param {String} data.tzid The new timezone
+	 * @param {String} data.timezoneId The new timezone
 	 */
-	setTimezone(state, { tzid }) {
-		state.settings.timezone = tzid
+	setTimezone(state, { timezoneId }) {
+		state.settings.timezone = timezoneId
 	},
 
 	/**
 	 * Initialize settings
 	 *
-	 * TODO: use nextcloud-initial-state
-	 *
 	 * @param {Object} state The Vuex state
 	 * @param {Object} settings The full settings object
 	 */
 	loadSettingsFromServer(state, settings) {
-		state.settings = settings
+		Vue.set(state, 'settings', settings)
 	}
 }
 
@@ -148,19 +144,33 @@ const actions = {
 	},
 
 	/**
+	 *
+	 * @param {Object} context The Vuex context
+	 * @param {Object} data The destructuring object
+	 * @param {String} data.initialView New view to be used as initial view
+	 * @returns {Promise<void>}
+	 */
+	async setInitialView(context, { initialView }) {
+		await HttpClient.post(getLinkToConfig(''), {
+			key: 'initialView',
+			value: initialView
+		})
+	},
+
+	/**
 	 * Updates the user's timezone
 	 *
 	 * @param {Object} context The Vuex context
 	 * @param {Object} data The destructuring object
-	 * @param {String} data.tzid The new timezone
+	 * @param {String} data.timezoneId The new timezone
 	 * @returns {Promise<void>}
 	 */
-	async setTimezone(context, { tzid }) {
+	async setTimezone(context, { timezoneId }) {
 		await HttpClient.post(getLinkToConfig(), {
 			key: 'timezone',
-			value: tzid
+			value: timezoneId
 		}).then((response) => {
-			context.commit('setTimezone', { tzid })
+			context.commit('setTimezone', { timezoneId })
 		}).catch((error) => {
 			throw error
 		})

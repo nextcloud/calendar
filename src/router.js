@@ -3,8 +3,8 @@ import Router from 'vue-router'
 import Calendar from './views/Calendar'
 import EditSimple from './views/EditSimple'
 import EditSidebar from './views/EditSidebar'
-
 import { dateFactory, getYYYYMMDDFromDate } from './services/date.js'
+import { getConfigValueFromHiddenInput } from './services/settingsService'
 
 Vue.use(Router)
 
@@ -18,7 +18,7 @@ const router = new Router({
 			redirect: {
 				name: 'CalendarView',
 				params: {
-					view: oca_calendar.initialView,
+					view: getConfigValueFromHiddenInput('initial-view') || 'month',
 					firstday: getYYYYMMDDFromDate(dateFactory())
 				},
 			}

@@ -48,13 +48,18 @@ export default {
 			return t('calendar', 'Month')
 		},
 		selectedView() {
-			return this.$route.params.view
+			return this.$store.state.route.params.view
 		}
 	},
 	methods: {
 		view(viewName) {
 			const name = this.$route.name
 			const params = this.$route.params
+
+			// Don't push new route when view didn't change
+			if (params.view === viewName) {
+				return
+			}
 
 			params.view = viewName
 			this.$router.push({ name, params })

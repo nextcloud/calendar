@@ -3,7 +3,8 @@
 		<app-navigation :loading-calendars="loadingCalendars" />
 		<AppContent>
 			<!-- Full calendar -->
-			<full-calendar :events="events" :event-sources="eventSources" :config="config" />
+			<full-calendar :events="events" :event-sources="eventSources" :config="config"
+				:view="view" :firstDay="firstDay" />
 		</AppContent>
 		<!-- Edit modal -->
 		<router-view />
@@ -23,6 +24,9 @@ import { randomColor, generateTextColorFromRGB } from '../services/colorService'
 import moment from 'moment'
 import { dateFactory, getUnixTimestampFromDate } from '../services/date'
 import { getFCEventFromEventComponent } from '../services/fullCalendarEventService'
+import { getConfigValueFromHiddenInput } from '../services/settingsService'
+
+import debounce from 'debounce'
 
 export default {
 	name: 'Calendar',
@@ -89,7 +93,17 @@ export default {
 				weekNumbersWithinDays: true,
 				firstDay: +moment().startOf('week').format('d')
 			}
+		},
+		view() {
+			return this.$store.state.route.params.view
+		},
+		firstDay() {
+			return this.$store.state.route.params.firstday
 		}
+	},
+	beforeRouteUpdate(to, from, next) {
+		next()
+		this.saveNewView(to.params.view)
 	},
 	created() {
 		this.timeFrameCacheExpiryJob = setInterval(() => {
@@ -110,6 +124,15 @@ export default {
 		}, 1000 * 60)
 	},
 	beforeMount() {
+		this.$store.commit('loadSettingsFromServer', {
+			appVersion: getConfigValueFromHiddenInput('app-version', String),
+			firstRun: getConfigValueFromHiddenInput('first-run', Boolean),
+			showWeekends: getConfigValueFromHiddenInput('show-weekends', Boolean),
+			showWeekNumbers: getConfigValueFromHiddenInput('show-week-numbers', Boolean),
+			skipPopover: getConfigValueFromHiddenInput('skip-popover', Boolean),
+			timezone: getConfigValueFromHiddenInput('timezone', String)
+		})
+
 		console.debug(client)
 		// get calendars then get events
 		client.connect({ enableCalDAV: true })
@@ -140,6 +163,11 @@ export default {
 					})
 				}
 			})
+	},
+	methods: {
+		saveNewView: debounce(function(initialView) {
+			this.$store.dispatch('setInitialView', { initialView })
+		}, 5000)
 	}
 }
 </script>

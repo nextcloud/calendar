@@ -39,7 +39,7 @@ import {
 } from 'nextcloud-vue'
 import CalendarPicker from '../components/Editor/CalendarPicker'
 import TitleTimepicker from '../components/Editor/TitleTimepicker'
-import { loadNewEventIntoEditor } from '../services/routerHelper'
+// import { loadNewEventIntoEditor } from '../services/routerHelper'
 // import TitleTimepicker from '../components/Editor/TitleTimepicker'
 // import DetailsTab from '../components/Editor/DetailsTab'
 // import InviteesTab from '../components/Editor/InviteesTab'
@@ -75,28 +75,52 @@ export default {
 		}
 	},
 	watch: {
-		'$route': {
-			handler(newRoute, oldRoute) {
-				if (!loadNewEventIntoEditor(newRoute, oldRoute)) {
-					return
-				}
-
-				const objectId = this.$store.state.route.params.object
-				const recurrenceId = this.$store.state.route.params.recurrenceId
-
-				this.$store.dispatch('getEventByObjectId', { objectId })
-					.then(() => {
-						this.calendarObject = this.$store.getters.getCalendarObjectById(objectId)
-						this.eventComponent = this.calendarObject.getObjectAtRecurrenceId(new Date(recurrenceId * 1000))
-					})
-			},
-			immediate: true,
-		}
+		// '$route': {
+		// 	handler(newRoute, oldRoute) {
+		// 		if (!loadNewEventIntoEditor(newRoute, oldRoute)) {
+		// 			return
+		// 		}
+		//
+		// 		const objectId = this.$store.state.route.params.object
+		// 		const recurrenceId = this.$store.state.route.params.recurrenceId
+		//
+		// 		this.$store.dispatch('getEventByObjectId', { objectId })
+		// 			.then(() => {
+		// 				this.calendarObject = this.$store.getters.getCalendarObjectById(objectId)
+		// 				this.eventComponent = this.calendarObject.getObjectAtRecurrenceId(new Date(recurrenceId * 1000))
+		// 			})
+		// 	},
+		// 	immediate: true,
+		// }
 	},
 	methods: {
 		selectCalendar(selectedCalendar) {
 			this.event = selectedCalendar
 		}
 	},
+	beforeRouteEnter(to, from, next) {
+		console.debug(JSON.stringify(to.params))
+		console.debug(JSON.stringify(from.params))
+		// called before the route that renders this component is confirmed.
+		// does NOT have access to `this` component instance,
+		// because it has not been created yet when this guard is called!
+	},
+	beforeRouteUpdate(to, from, next) {
+		console.debug(JSON.stringify(to.params))
+		console.debug(JSON.stringify(from.params))
+		// called when the route that renders this component has changed,
+		// but this component is reused in the new route.
+		// For example, for a route with dynamic params `/foo/:id`, when we
+		// navigate between `/foo/1` and `/foo/2`, the same `Foo` component instance
+		// will be reused, and this hook will be called when that happens.
+		// has access to `this` component instance.
+	},
+	beforeRouteLeave(to, from, next) {
+		console.debug(JSON.stringify(to.params))
+		console.debug(JSON.stringify(from.params))
+		// called when the route that renders this component is about to
+		// be navigated away from.
+		// has access to `this` component instance.
+	}
 }
 </script>
