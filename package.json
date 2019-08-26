@@ -65,7 +65,7 @@
 		"vuex-router-sync": "^5.0.0"
 	},
 	"browserslist": [
-		"last 2 versions",
+		"> 2% and last 2 versions",
 		"ie >= 11"
 	],
 	"engines": {
