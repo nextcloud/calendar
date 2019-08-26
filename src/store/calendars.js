@@ -309,7 +309,14 @@ const getters = {
 	 * @param {Object} state the store data
 	 * @returns {boolean}
 	 */
-	didCalendarsLoad: (state) => state.initialCalendarsLoaded
+	didCalendarsLoad: (state) => state.initialCalendarsLoaded,
+
+	/**
+	 *
+	 * @param {Object} state the store data
+	 * @returns {function({String}): {Object}}
+	 */
+	getCalendarById: (state) => (calendarId) => state.calendarsById[calendarId]
 }
 
 const actions = {
