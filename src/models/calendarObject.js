@@ -74,9 +74,9 @@ export default class CalendarObject {
 		parser.parse(calendarData)
 
 		const itemIterator = parser.getItemIterator()
-		const firstVCalendar = itemIterator.next()
+		const firstVCalendar = itemIterator.next().value
 		if (firstVCalendar) {
-			this.vcalendar = firstVCalendar.value
+			this.vcalendar = firstVCalendar
 		}
 	}
 
@@ -100,9 +100,9 @@ export default class CalendarObject {
 	 */
 	get uid() {
 		const iterator = this.vcalendar.getVObjectIterator()
-		const firstVObject = iterator.next()
+		const firstVObject = iterator.next().value
 		if (firstVObject) {
-			return firstVObject.value.uid
+			return firstVObject.uid
 		}
 
 		return null
@@ -115,9 +115,9 @@ export default class CalendarObject {
 	 */
 	get objectType() {
 		const iterator = this.vcalendar.getVObjectIterator()
-		const firstVObject = iterator.next()
+		const firstVObject = iterator.next().value
 		if (firstVObject) {
-			return firstVObject.value.name
+			return firstVObject.name
 		}
 
 		return null
@@ -142,6 +142,7 @@ export default class CalendarObject {
 	}
 
 	/**
+	 * Get all recurrence-items in given range
 	 *
 	 * @param {Date} start Begin of time-range
 	 * @param {Date} end End of time-range
@@ -149,14 +150,31 @@ export default class CalendarObject {
 	 */
 	getAllObjectsInTimeRange(start, end) {
 		const iterator = this.vcalendar.getVObjectIterator()
-		const firstVObject = iterator.next()
+		const firstVObject = iterator.next().value
 		if (!firstVObject) {
 			return []
 		}
 
-		const s = DateTimeValue.fromJSDate(start)
-		const e = DateTimeValue.fromJSDate(end)
-		return firstVObject.value.recurrenceManager.getAllOccurrencesBetween(s, e)
+		const s = DateTimeValue.fromJSDate(start, true)
+		const e = DateTimeValue.fromJSDate(end, true)
+		return firstVObject.recurrenceManager.getAllOccurrencesBetween(s, e)
+	}
+
+	/**
+	 * Get recurrence-item at exactly a given recurrence-Id
+	 *
+	 * @param {Date} recurrenceId RecurrenceId to retrieve
+	 * @returns {AbstractRecurringComponent|null}
+	 */
+	getObjectAtRecurrenceId(recurrenceId) {
+		const iterator = this.vcalendar.getVObjectIterator()
+		const firstVObject = iterator.next().value
+		if (!firstVObject) {
+			return null
+		}
+
+		const d = DateTimeValue.fromJSDate(recurrenceId, true)
+		return firstVObject.recurrenceManager.getOccurrenceAtExactly(d)
 	}
 
 }
