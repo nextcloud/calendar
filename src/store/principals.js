@@ -22,45 +22,11 @@
 import Vue from 'vue'
 import client from '../services/cdav.js'
 import logger from '../services/loggerService'
-
-/**
- * Pads on incoming principal object to contain all expected props
- *
- * @param {Object} obj Principal object to pad with default values
- * @returns {Object}
- */
-function padObject(obj) {
-	return Object.assign({}, {
-		id: '',
-		calendarUserType: '',
-		emailAddress: '',
-		displayname: '',
-		userId: '',
-		url: '',
-		dav: false,
-	}, obj)
-}
-
-/**
- * converts a dav principal into a vuex object
- *
- * @param {Object} principal cdav-library Principal object
- * @returns {{emailAddress: *, displayname: *, dav: *, id: *, calendarUserType: *, userId: *, url: *}}
- */
-function mapDavToPrincipal(principal) {
-	return {
-		id: btoa(principal.url),
-		calendarUserType: principal.calendarUserType,
-		emailAddress: principal.email,
-		displayname: principal.displayname,
-		userId: principal.userId,
-		url: principal.principalUrl,
-		dav: principal
-	}
-}
+import { getDefaultPrincipalObject, mapDavToPrincipal } from '../models/principal'
 
 const state = {
 	principals: [],
+	principalsById: {},
 	currentUserPrincipal: null
 }
 
@@ -73,32 +39,61 @@ const mutations = {
 	 * @param {Object} principal The principal to add
 	 */
 	addPrincipal(state, { principal }) {
-		state.principals.push(padObject(principal))
+		const object = getDefaultPrincipalObject(principal)
+
+		if (state.principalsById[object.id]) {
+			return
+		}
+
+		state.principals.push(object)
+		Vue.set(state.principalsById, object.id, object)
 	},
 
 	/**
 	 * Adds the current user principal to the state
 	 *
 	 * @param {Object} state The vuex state
-	 * @param {Object} principal The principal to set as current-user-principal
+	 * @param {Object} data destructuring object
+	 * @param {String} data.principalId principalId of the current-user-principal
 	 */
-	addCurrentUserPrincipal(state, { currentUserPrincipal }) {
-		Vue.set(state, 'currentUserPrincipal', padObject(currentUserPrincipal))
+	setCurrentUserPrincipal(state, { principalId }) {
+		state.currentUserPrincipal = principalId
 	}
 }
 
 const getters = {
 
 	/**
-	 * Gets a principal by it's URL
+	 * Gets a principal object by its url
 	 *
-	 * @param {Object} state The vuex state
+	 * @param {Object} state the store data
 	 * @returns {function({String}): {Object}}
 	 */
-	getPrincipalByUrl: (state) => (url) => {
-		logger.log(state.principals)
-		return state.principals.find((principal) => principal.url === url)
-	}
+	getPrincipalByUrl: (state) => (url) => state.principals.find((principal) => principal.url === url),
+
+	/**
+	 * Gets a principal object by its id
+	 *
+	 * @param {Object} state the store data
+	 * @returns {function({String}): {Object}}
+	 */
+	getPrincipalById: (state) => (id) => state.principalsById['id'],
+
+	/**
+	 * Gets the principal object of the current-user-principal
+	 *
+	 * @param {Object} state the store data
+	 * @returns {{Object}}
+	 */
+	getCurrentUserPrincipal: (state) => state.principalsById[state.currentUserPrincipal],
+
+	/**
+	 * Gets the email-address of the current-user-principal
+	 *
+	 * @param {Object} state the store data
+	 * @returns {String}
+	 */
+	getCurrentUserPrincipalEmail: (state) => state.principalsById[state.currentUserPrincipal].emailAddress,
 }
 
 const actions = {
@@ -111,8 +106,39 @@ const actions = {
 	 * @returns {Promise<void>}
 	 */
 	async fetchPrincipalByUrl(context, url) {
+		// Don't refetch principals we already have
+		if (context.getters.getPrincipalByUrl(url)) {
+			return
+		}
+
 		const principal = await client.findPrincipal(url)
-		context.commit('addPrincipal', { principal: mapDavToPrincipal(principal) })
+		if (!principal) {
+			// TODO - handle error
+			return
+		}
+
+		context.commit('addPrincipal', {
+			principal: mapDavToPrincipal(principal)
+		})
+	},
+
+	/**
+	 * Fetches the current-user-principal
+	 *
+	 * @param {Object} context The vuex context
+	 * @returns {Promise<void>}
+	 */
+	async fetchCurrentUserPrincipal(context) {
+		const currentUserPrincipal = client.currentUserPrincipal
+		if (!currentUserPrincipal) {
+			// TODO - handle error
+			return
+		}
+
+		const principal = mapDavToPrincipal(currentUserPrincipal)
+		context.commit('addPrincipal', { principal })
+		context.commit('setCurrentUserPrincipal', { principalId: principal.id })
+		logger.debug(`Current user principal is ${principal.url}`)
 	}
 }
 
