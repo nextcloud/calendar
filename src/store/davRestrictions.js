@@ -1,9 +1,7 @@
 /**
- * @copyright Copyright (c) 2019 Georg Ehrke
+ * @copyright Copyright (c) 2018 Georg Ehrke
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Thomas Citharel <tcit@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -13,7 +11,7 @@
  * License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * but WITHOUT ANY WARRANTY without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
  *
@@ -22,29 +20,29 @@
  *
  */
 import Vue from 'vue'
-import Vuex from 'vuex'
-import calendarObjects from './calendarObjects'
-import calendars from './calendars.js'
-import davRestrictions from './davRestrictions'
-import fetchedTimeRanges from './fetchedTimeRanges.js'
-import importState from './importState'
-import principals from './principals.js'
-import settings from './settings.js'
 
-Vue.use(Vuex)
+const state = {
+	davRestrictions: {
+		minimumDate: '1970-01-01T00:00:00Z',
+		maximumDate: '2036-12-31T23:59:59Z'
+	}
+}
 
-const mutations = {}
+const mutations = {
 
-export default new Vuex.Store({
-	modules: {
-		calendarObjects,
-		calendars,
-		davRestrictions,
-		fetchedTimeRanges,
-		importState,
-		principals,
-		settings
-	},
+	/**
+	 * Initialize restrictions imposed by CalDAV server
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {Object} davRestrictions The full settings object
+	 */
+	loadDavRestrictionsFromServer(state, davRestrictions) {
+		Vue.set(state, 'davRestrictions', davRestrictions)
+	}
+}
 
-	mutations
-})
+const getters = {}
+
+const actions = {}
+
+export default { state, mutations, getters, actions }

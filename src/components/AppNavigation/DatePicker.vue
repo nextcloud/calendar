@@ -3,9 +3,9 @@
 		<button :aria-label="goBackLabel" :title="goBackLabel" type="button"
 			class="button icon icon-leftarrow" @click="prev()"
 		/>
-		<label for="app-navigation-datepicker-input" class="button datepicker-label">{{ label }}</label>
+		<label for="app-navigation-datepicker-input" class="button datepicker-label">{{ date | formatDate(view) }}</label>
 		<datetime-picker v-model="date" :lang="lang" :first-day-of-week="firstDay"
-			:not-before="min" :not-after="max" @change="selectInDatepicker"
+			:not-before="minimumDate" :not-after="maximumDate" @change="selectInDatepicker"
 		/>
 		<button :aria-label="goForwardLabel" :title="goForwardLabel" type="button"
 			class="button icon icon-rightarrow" @click="next()"
@@ -15,7 +15,7 @@
 
 <script>
 import { DatetimePicker } from 'nextcloud-vue'
-import { dateFactory, getYYYYMMDDFromDate } from '../../services/date.js'
+import { getYYYYMMDDFromDate } from '../../services/date.js'
 import moment from 'moment'
 
 export default {
@@ -23,11 +23,26 @@ export default {
 	components: {
 		DatetimePicker
 	},
+	filters: {
+		formatDate(value, currentView) {
+			switch (currentView) {
+			case 'agendaDay':
+				return moment(value).format('ll')
+
+			case 'agendaWeek':
+				return t('calendar', 'Week {number} of {year}', {
+					number: moment(value).week(),
+					year: moment(value).year()
+				})
+
+			case 'month':
+			default:
+				return moment(value).format('MMMM YYYY')
+			}
+		}
+	},
 	data: function() {
 		return {
-			min: new Date('1970-01-01T00:00:00Z'),
-			max: new Date('2036-12-31T23:59:59Z'),
-			date: dateFactory(),
 			locale: 'en', // this is just during initialization
 			firstDay: window.firstDay + 1, // provided by nextcloud
 			lang: {
@@ -42,35 +57,25 @@ export default {
 		}
 	},
 	computed: {
-		label() {
-			switch (this.$route.params.view) {
-			case 'agendaDay':
-				return moment(this.date).format('ll')
+		date() {
+			return new Date(this.$route.params.firstday || 'now')
+		},
+		minimumDate() {
+			return new Date(this.$store.state.davRestrictions.davRestrictions.minimumDate)
+		},
+		maximumDate() {
 
-			case 'agendaWeek':
-				return t('calendar', 'Week {number} of {year}', {
-					number: moment(this.date).week(),
-					year: moment(this.date).year()
-				})
-
-			case 'month':
-			default:
-				return moment(this.date).format('MMMM YYYY')
-			}
+			return new Date(this.$store.state.davRestrictions.davRestrictions.maximumDate)
 		},
 		goBackLabel() {
 			return t('calendar', 'Go back')
 		},
 		goForwardLabel() {
 			return t('calendar', 'Go forward')
+		},
+		view() {
+			return this.$route.params.view
 		}
-	},
-	watch: {
-		// '$route'(to) {
-		// 	if (to.params.firstday) {
-		// 		this.date = new Date(to.params.firstday)
-		// 	}
-		// }
 	},
 	mounted() {
 		this.$el.querySelector('.mx-input').id = 'app-navigation-datepicker-input'
@@ -138,7 +143,3 @@ export default {
 	}
 }
 </script>
-
-<style scoped>
-
-</style>
