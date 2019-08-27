@@ -1,45 +1,17 @@
 <template>
 	<multiselect :value="selectedTimezone" :options="options" :multiple="false"
 		:group-select="false" :placeholder="placeholder" group-values="regions"
-		group-label="continent" track-by="tzid" label="label"
+		group-label="continent" track-by="timezoneId" label="label"
 		open-direction="above" @input="change"
 	/>
 </template>
 
 <script>
-import getTimezoneManager from '../../services/timezoneDataProviderService'
-
-import detectTimezone from '../../services/timezoneDetectionService'
 import { Multiselect } from 'nextcloud-vue'
-
-const mappedTimezoneData = getTimezoneManager().listAllTimezones().reduce((initial, value) => {
-	if (!value) {
-		console.debug(value)
-		return initial
-	}
-
-	let [continent, name] = value.split('/', 2)
-
-	if (!name) {
-		name = continent
-		continent = 'GLOBAL'
-	}
-
-	initial[continent] = initial[continent] || []
-	initial[continent].push({
-		label: name.split('_').join(' ').replace('St ', 'St. ').split('/').join(' - '),
-		cities: [],
-		tzid: value
-	})
-
-	return initial
-}, {})
-const options = Object.keys(mappedTimezoneData).map((m) => ({
-	continent: m,
-	regions: mappedTimezoneData[m],
-}))
-
-console.debug(options)
+import {
+	getReadableTimezoneName,
+	getSortedTimezoneList
+} from '../../services/timezoneSortingService'
 
 export default {
 	name: 'TimezoneSelect',
@@ -54,35 +26,37 @@ export default {
 		value: {
 			type: String,
 			required: true
-		},
-	},
-	data() {
-		return {
-			options: this.additionalTimezones.concat(options)
 		}
 	},
 	computed: {
 		placeholder() {
 			return t('calendar', 'Type to search timezone')
 		},
-		selectedTimezone() {
-			console.debug('selected timezone ...', this.value)
-			// return this.value
-			return {
-				'continent': t('calendar', 'Automatic'),
-				'regions': [{
-					tzid: 'automatic',
-					cities: [],
-					label: t('calendar', 'Automatic ({detected})', {
-						detected: detectTimezone()
-					})
-				}] }
+		selectedTimezone: {
+			get() {
+				for (const additionalTimezone of this.additionalTimezones) {
+					if (additionalTimezone.timezoneId === this.value) {
+						return additionalTimezone
+					}
+				}
+
+				return {
+					label: getReadableTimezoneName(this.value),
+					timezoneId: this.value
+				}
+			}
+		},
+		options() {
+			return getSortedTimezoneList(this.additionalTimezones)
 		}
 	},
 	methods: {
-		change({ tzid }) {
-			console.debug('emitting change for value ...', tzid)
-			this.$emit('change', tzid)
+		change(newValue) {
+			if (!newValue) {
+				return
+			}
+
+			this.$emit('change', newValue.timezoneId)
 		}
 	}
 }
