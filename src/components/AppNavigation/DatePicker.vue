@@ -5,7 +5,7 @@
 		/>
 		<label for="app-navigation-datepicker-input" class="button datepicker-label">{{ date | formatDate(view) }}</label>
 		<datetime-picker v-model="date" :lang="lang" :first-day-of-week="firstDay"
-			:not-before="minimumDate" :not-after="maximumDate" @change="selectInDatepicker"
+			:not-before="minimumDate" :not-after="maximumDate"
 		/>
 		<button :aria-label="goForwardLabel" :title="goForwardLabel" type="button"
 			class="button icon icon-rightarrow" @click="next()"
@@ -57,14 +57,18 @@ export default {
 		}
 	},
 	computed: {
-		date() {
-			return new Date(this.$route.params.firstday || 'now')
+		date: {
+			get() {
+				return new Date(this.$route.params.firstday || 'now')
+			},
+			set(date) {
+				this.goTo(date)
+			}
 		},
 		minimumDate() {
 			return new Date(this.$store.state.davRestrictions.davRestrictions.minimumDate)
 		},
 		maximumDate() {
-
 			return new Date(this.$store.state.davRestrictions.davRestrictions.maximumDate)
 		},
 		goBackLabel() {
@@ -109,9 +113,6 @@ export default {
 		},
 		next() {
 			this.goTo(this.nav(1))
-		},
-		selectInDatepicker() {
-			this.goTo(this.date)
 		},
 		goTo(date) {
 			const name = this.$route.name
