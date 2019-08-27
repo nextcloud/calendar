@@ -316,7 +316,26 @@ const getters = {
 	 * @param {Object} state the store data
 	 * @returns {function({String}): {Object}}
 	 */
-	getCalendarById: (state) => (calendarId) => state.calendarsById[calendarId]
+	getCalendarById: (state) => (calendarId) => state.calendarsById[calendarId],
+
+	/**
+	 *
+	 * @param {Object} state the store data
+	 * @returns {boolean}
+	 */
+	getBirthdayCalendar: (state) => {
+		for (const calendar of state.calendars) {
+			const url = calendar.url.slice(0, -1)
+			const lastSlash = url.lastIndexOf('/')
+			const uri = url.substr(lastSlash + 1)
+
+			if (uri === 'contact_birthdays') {
+				return calendar
+			}
+		}
+
+		return null
+	}
 }
 
 const actions = {

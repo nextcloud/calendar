@@ -8,8 +8,8 @@
 			<!--</li>-->
 			<li class="settings-fieldset-interior-item settings-fieldset-interior-item-checkbox">
 				<span :class="{hidden: !savingBirthdayCalendar}" class="icon-loading-small" />
-				<input id="app-settings-birthday-calendar-checkbox" :disabled="savingBirthdayCalendar" class="checkbox"
-					type="checkbox"
+				<input id="app-settings-birthday-calendar-checkbox" v-model="birthdayValue" :disabled="savingBirthdayCalendar"
+					class="checkbox" type="checkbox" @change="toggleBirthdayEnabled"
 				>
 				<label for="app-settings-birthday-calendar-checkbox">{{ birthdayCalendarLabel }}</label>
 			</li>
@@ -84,6 +84,12 @@ export default {
 		birthdayCalendarLabel() {
 			return t('calendar', 'Enable birthday calendar')
 		},
+		birthdayValue: {
+			get() {
+				return this.$store.getters.hasBirthdayCalendar
+			},
+			set(v) {}
+		},
 		popoverLabel() {
 			return t('calendar', 'Enable simplified editor')
 		},
@@ -139,6 +145,17 @@ export default {
 	methods: {
 		toggleBirthdayCalendarEnabled() {
 			return null
+		},
+		toggleBirthdayEnabled() {
+			// change to loading status
+			this.savingBirthdayCalendar = true
+			this.$store.dispatch('toggleBirthdayCalendarEnabled').then(() => {
+				this.savingBirthdayCalendar = false
+			}).catch((err) => {
+				console.error(err)
+				OC.Notification.showTemporary(t('calendar', 'Saving updated setting was not successful'))
+				this.savingBirthdayCalendar = false
+			})
 		},
 		togglePopoverEnabled() {
 			// change to loading status
