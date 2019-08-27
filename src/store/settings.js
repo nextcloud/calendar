@@ -21,7 +21,9 @@
  */
 import Vue from 'vue'
 import HttpClient from 'nextcloud-axios'
+import client from '../services/cdav'
 import { getLinkToConfig } from '../services/settingsService'
+import { mapDavCollectionToCalendar } from '../models/calendar'
 
 const state = {
 	settings: {
@@ -90,12 +92,40 @@ const getters = {
 	/**
 	 *
 	 * @param {Object} state The Vuex state
+	 * @param {Object} getters the vuex getters
+	 * @returns {boolean}
+	 */
+	hasBirthdayCalendar: (state, getters) => {
+		return !!getters.getBirthdayCalendar
+	},
+
+	/**
+	 *
+	 * @param {Object} state The Vuex state
 	 * @returns {Object}
 	 */
 	getSettings: (state) => state.settings
 }
 
 const actions = {
+
+	/**
+	 * Updates the user's setting for visibility of birthday calendar
+	 *
+	 * @param {Object} context The Vuex context
+	 * @returns {Promise<void>}
+	 */
+	async toggleBirthdayCalendarEnabled(context) {
+		if (context.getters.hasBirthdayCalendar) {
+			const calendar = context.getters.getBirthdayCalendar
+			return context.dispatch('deleteCalendar', { calendar })
+		} else {
+			await client.calendarHomes[0].enableBirthdayCalendar()
+			const davCalendar = await client.calendarHomes[0].find('contact_birthdays')
+			const calendar = mapDavCollectionToCalendar(davCalendar)
+			context.commit('addCalendar', { calendar })
+		}
+	},
 
 	/**
 	 * Updates the user's setting for visibility of event popover
