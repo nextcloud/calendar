@@ -63,7 +63,9 @@ export default {
 	data() {
 		return {
 			calendarObject: null,
-			eventComponent: null
+			eventComponent: null,
+			isLoading: false,
+			error: false
 		}
 	},
 	computed: {
@@ -140,13 +142,18 @@ export default {
 		}
 	},
 	beforeRouteEnter(to, from, next) {
-		console.debug(JSON.stringify(to.params))
-		console.debug(JSON.stringify(from.params))
-		// called before the route that renders this component is confirmed.
-		// does NOT have access to `this` component instance,
-		// because it has not been created yet when this guard is called!
+		next(vm => {
+			vm.isLoading = true
 
-		next()
+			const objectId = to.params.object
+			const recurrenceId = to.params.recurrenceId
+
+			vm.$store.dispatch('getEventByObjectId', { objectId })
+				.then(() => {
+					vm.calendarObject = vm.$store.getters.getCalendarObjectById(objectId)
+					vm.eventComponent = vm.calendarObject.getObjectAtRecurrenceId(new Date(recurrenceId * 1000))
+				})
+		})
 	},
 	beforeRouteUpdate(to, from, next) {
 		if (to.params.object !== from.params.object) {
