@@ -124,21 +124,15 @@ export default {
 			return t('calendar', 'Copy link')
 		},
 		timezoneValue() {
-			return detectTimezone()
-			// return this.$store.state.settings.timezone
+			return this.$store.getters.getSettings.timezone || 'automatic'
 		},
 		additionalTimezones() {
-			console.debug(t)
-			console.debug(detectTimezone())
 			return [{
-				'continent': t('calendar', 'Automatic'),
-				'regions': [{
-					tzid: 'automatic',
-					cities: [],
-					label: t('calendar', 'Automatic ({detected})', {
-						detected: detectTimezone()
-					})
-				}]
+				continent: t('calendar', 'Automatic'),
+				timezoneId: 'automatic',
+				label: t('calendar', 'Automatic ({detected})', {
+					detected: detectTimezone()
+				})
 			}]
 		}
 	},
@@ -188,9 +182,8 @@ export default {
 
 			this.$copyText(url)
 		},
-		setTimezoneValue(tzid) {
-			return this.$store.dispatch('setTimezone', { tzid }).then(() => {
-				console.debug('foo')
+		setTimezoneValue(timezoneId) {
+			return this.$store.dispatch('setTimezone', { timezoneId }).then(() => {
 			}).catch((err) => {
 				console.error(err)
 				OC.Notification.showTemporary(t('calendar', 'Saving timezone setting was not successful'))

@@ -85,7 +85,15 @@ const mutations = {
 	}
 }
 
-const getters = {}
+const getters = {
+
+	/**
+	 *
+	 * @param {Object} state The Vuex state
+	 * @returns {Object}
+	 */
+	getSettings: (state) => state.settings
+}
 
 const actions = {
 
@@ -166,14 +174,15 @@ const actions = {
 	 * @returns {Promise<void>}
 	 */
 	async setTimezone(context, { timezoneId }) {
-		await HttpClient.post(getLinkToConfig(), {
-			key: 'timezone',
-			value: timezoneId
-		}).then((response) => {
-			context.commit('setTimezone', { timezoneId })
-		}).catch((error) => {
-			throw error
-		})
+		context.commit('setTimezone', { timezoneId })
+		// await HttpClient.post(getLinkToConfig(), {
+		// 	key: 'timezone',
+		// 	value: timezoneId
+		// }).then((response) => {
+		// 	context.commit('setTimezone', { timezoneId })
+		// }).catch((error) => {
+		// 	throw error
+		// })
 	}
 }
 
