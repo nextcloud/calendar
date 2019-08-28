@@ -9,38 +9,42 @@
 			<li class="settings-fieldset-interior-item settings-fieldset-interior-item-checkbox">
 				<span :class="{hidden: !savingBirthdayCalendar}" class="icon-loading-small" />
 				<input id="app-settings-birthday-calendar-checkbox" v-model="birthdayValue" :disabled="savingBirthdayCalendar"
-					class="checkbox" type="checkbox" @change="toggleBirthdayEnabled"
+					class="checkbox" type="checkbox"
 				>
 				<label for="app-settings-birthday-calendar-checkbox">{{ birthdayCalendarLabel }}</label>
 			</li>
 			<li class="settings-fieldset-interior-item settings-fieldset-interior-item-checkbox">
 				<span :class="{hidden: !savingPopover}" class="icon-loading-small" />
 				<input id="app-settings-popover-checkbox" v-model="popoverValue" :disabled="savingPopover"
-					class="checkbox" type="checkbox" @change="togglePopoverEnabled"
+					class="checkbox" type="checkbox"
 				>
-				<label for="app-settings-popover-checkbox">{{ popoverLabel }}</label>
+				<label for="app-settings-popover-checkbox">
+					{{ popoverLabel }}
+				</label>
 			</li>
 			<li class="settings-fieldset-interior-item settings-fieldset-interior-item-checkbox">
 				<span :class="{hidden: !savingWeekend}" class="icon-loading-small" />
 				<input id="app-settings-weekends-checkbox" v-model="weekendValue" :disabled="savingWeekend"
-					class="checkbox" type="checkbox" @change="toggleWeekendsEnabled"
+					class="checkbox" type="checkbox"
 				>
-				<label for="app-settings-weekends-checkbox">{{ weekendLabel }}</label>
+				<label for="app-settings-weekends-checkbox">
+					{{ weekendLabel }}
+				</label>
 			</li>
 			<li class="settings-fieldset-interior-item settings-fieldset-interior-item-checkbox">
 				<span :class="{hidden: !savingWeekNumber}" class="icon-loading-small" />
 				<input id="app-settings-week-number-checkbox" v-model="weekNumberValue" :disabled="savingWeekNumber"
-					class="checkbox" type="checkbox" @change="toggleWeekNumberEnabled"
+					class="checkbox" type="checkbox"
 				>
-				<label for="app-settings-week-number-checkbox">{{ weekNumberLabel }}</label>
+				<label for="app-settings-week-number-checkbox">
+					{{ weekNumberLabel }}
+				</label>
 			</li>
 			<li class="settings-fieldset-interior-item settings-fieldset-interior-item-timezone">
 				<label class="settings-input" for="app-settings-timezone-select">{{ timezoneLabel }}</label>
 				<timezone-select id="app-settings-timezone-select" :additional-timezones="additionalTimezones" :value="timezoneValue"
 					@change="setTimezoneValue"
 				/>
-				<!--<select ng-options="timezone.value as timezone.displayname | timezoneWithoutContinentFilter group by timezone.group for timezone in timezones"-->
-				<!--ng-model="timezone" ng-change="setTimezone()" class="input settings-input"></select>-->
 			</li>
 			<li class="settings-fieldset-interior-item settings-fieldset-interior-item-link">
 				<label class="settings-input">{{ primaryCalDAVLabel }}</label>
@@ -88,34 +92,42 @@ export default {
 			get() {
 				return this.$store.getters.hasBirthdayCalendar
 			},
-			set(v) {}
+			set() {
+				this.toggleBirthdayCalendarEnabled()
+			}
 		},
 		popoverLabel() {
 			return t('calendar', 'Enable simplified editor')
 		},
 		popoverValue: {
 			get() {
-				return this.$store.state.settings.showPopover
+				return this.$store.getters.getSettings.showPopover
 			},
-			set(v) {}
+			set() {
+				this.togglePopoverEnabled()
+			}
 		},
 		weekendLabel() {
 			return t('calendar', 'Show weekends')
 		},
 		weekendValue: {
 			get() {
-				return this.$store.state.settings.showWeekends
+				return this.$store.getters.getSettings.showWeekends
 			},
-			set(v) {}
+			set() {
+				this.toggleWeekendsEnabled()
+			}
 		},
 		weekNumberLabel() {
 			return t('calendar', 'Show week numbers')
 		},
 		weekNumberValue: {
 			get() {
-				return this.$store.state.settings.showWeekNumbers
+				return this.$store.getters.getSettings.showWeekNumbers
 			},
-			set(v) {}
+			set() {
+				this.toggleWeekNumberEnabled()
+			}
 		},
 		timezoneLabel() {
 			return t('calendar', 'Timezone')

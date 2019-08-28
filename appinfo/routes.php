@@ -38,7 +38,7 @@ return [
 		['name' => 'contact#searchAttendee', 'url' => '/v1/autocompletion/attendee', 'verb' => 'POST'],
 		['name' => 'contact#searchLocation', 'url' => '/v1/autocompletion/location', 'verb' => 'POST'],
 		//Settings
-		['name' => 'settings#setConfig', 'url' => '/v1/config', 'verb' => 'POST'],
+		['name' => 'settings#setConfig', 'url' => '/v1/config/{key}', 'verb' => 'POST'],
 		// Tools
 		['name' => 'email#sendEmailPublicLink', 'url' => '/v1/public/sendmail', 'verb' => 'POST'],
 	]

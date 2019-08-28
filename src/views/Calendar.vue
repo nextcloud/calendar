@@ -29,6 +29,8 @@ import { getConfigValueFromHiddenInput } from '../services/settingsService'
 
 import debounce from 'debounce'
 
+import detectTimezone from '../services/timezoneDetectionService'
+
 export default {
 	name: 'Calendar',
 	components: {
@@ -84,9 +86,11 @@ export default {
 		},
 		config() {
 			return {
-				timeZone: 'America/New_York',
-				weekNumbers: this.$store.state.settings.showWeekNumbers,
-				weekends: this.$store.state.settings.showWeekends,
+				timeZone: this.$store.state.settings.settings.timezone === 'automatic'
+					? detectTimezone()
+					: this.$store.state.settings.settings.timezone,
+				weekNumbers: this.$store.state.settings.settings.showWeekNumbers,
+				weekends: this.$store.state.settings.settings.showWeekends,
 				dayNames: dayNames,
 				dayNamesShort: dayNamesMin,
 				monthNames: monthNames,
@@ -126,12 +130,12 @@ export default {
 	},
 	beforeMount() {
 		this.$store.commit('loadSettingsFromServer', {
-			appVersion: getConfigValueFromHiddenInput('app-version', String),
-			firstRun: getConfigValueFromHiddenInput('first-run', Boolean),
-			showWeekends: getConfigValueFromHiddenInput('show-weekends', Boolean),
-			showWeekNumbers: getConfigValueFromHiddenInput('show-week-numbers', Boolean),
-			skipPopover: getConfigValueFromHiddenInput('skip-popover', Boolean),
-			timezone: getConfigValueFromHiddenInput('timezone', String)
+			appVersion: getConfigValueFromHiddenInput('app-version'),
+			firstRun: getConfigValueFromHiddenInput('first-run') === 'true',
+			showWeekends: getConfigValueFromHiddenInput('show-weekends') === 'true',
+			showWeekNumbers: getConfigValueFromHiddenInput('show-week-numbers') === 'true',
+			skipPopover: getConfigValueFromHiddenInput('skip-popover') === 'true',
+			timezone: getConfigValueFromHiddenInput('timezone')
 		})
 
 		console.debug(client)
