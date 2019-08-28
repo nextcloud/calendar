@@ -5,6 +5,7 @@ import EditSimple from './views/EditSimple'
 import EditSidebar from './views/EditSidebar'
 import { dateFactory, getYYYYMMDDFromDate } from './services/date.js'
 import { getConfigValueFromHiddenInput } from './services/settingsService'
+import moment from 'moment'
 
 Vue.use(Router)
 
@@ -73,6 +74,36 @@ const router = new Router({
 			],
 		},
 	],
+})
+
+const originalTitle = document.title
+router.beforeEach((to, from, next) => {
+	if (!to.params.firstday) {
+		next()
+		return
+	}
+
+	const date = new Date(to.params.firstday)
+	const currentView = to.params.view
+
+	switch (currentView) {
+	case 'agendaDay':
+		document.title = moment(date).format('ll') + ' - ' + originalTitle
+		break
+
+	case 'agendaWeek':
+		document.title = t('calendar', 'Week {number} of {year}', {
+			number: moment(date).week(),
+			year: moment(date).year()
+		}) + ' - ' + originalTitle
+		break
+
+	case 'month':
+	default:
+		document.title = moment(date).format('MMMM YYYY') + ' - ' + originalTitle
+	}
+
+	next()
 })
 
 export default router
