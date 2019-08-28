@@ -1,5 +1,5 @@
 <!--
-  - @copyright Copyright (c) 2018 Georg Ehrke <oc.list@georgehrke.com>
+  - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
   -
@@ -22,13 +22,13 @@
 
 <template>
 	<div class="button-group">
-		<button :class="{active: (selectedView === 'agendaDay')}" class="button" @click="view('agendaDay')">
+		<button :class="{active: isAgendaDayViewSelected}" class="button" @click="view('agendaDay')">
 			{{ labelAgendaDay }}
 		</button>
-		<button :class="{active: (selectedView === 'agendaWeek')}" class="button" @click="view('agendaWeek')">
+		<button :class="{active: isAgendaWeekViewSelected}" class="button" @click="view('agendaWeek')">
 			{{ labelAgendaWeek }}
 		</button>
-		<button :class="{active: (selectedView === 'month')}" class="button" @click="view('month')">
+		<button :class="{active: isMonthViewSelected}" class="button" @click="view('month')">
 			{{ labelMonth }}
 		</button>
 	</div>
@@ -41,11 +41,20 @@ export default {
 		labelAgendaDay() {
 			return t('calendar', 'Day')
 		},
+		isAgendaDayViewSelected() {
+			return this.selectedView === 'agendaDay'
+		},
 		labelAgendaWeek() {
 			return t('calendar', 'Week')
 		},
+		isAgendaWeekViewSelected() {
+			return this.selectedView === 'agendaWeek'
+		},
 		labelMonth() {
 			return t('calendar', 'Month')
+		},
+		isMonthViewSelected() {
+			return this.selectedView === 'month'
 		},
 		selectedView() {
 			return this.$store.state.route.params.view
