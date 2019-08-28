@@ -73,7 +73,9 @@ export default {
 	},
 	computed: {
 		title() {
-			return this.isLoading ? 'LOADING' : 'LOADED'
+			return this.isLoading
+				? 'LOADING'
+				: this.eventComponent ? this.eventComponent.title : ''
 		},
 		subtitle() {
 			return this.isLoading ? 'LOADING' : 'LOADED'
