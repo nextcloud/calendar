@@ -20,6 +20,8 @@
  *
  */
 
+import { generateTextColorFromRGB } from './colorService'
+
 /**
  * convert an array of calendar-objects to events
  *
@@ -42,9 +44,7 @@ export function getFCEventFromEventComponent(calendarObjects, start, end, timezo
 				classNames.push('fc-event-nc-tentative')
 			}
 
-			console.debug(calendarObject)
-
-			fcEvents.push({
+			const fcEvent = {
 				id: [calendarObject.id, object.id].join('###'),
 				title: object.title,
 				allDay: object.isAllDay(),
@@ -55,7 +55,14 @@ export function getFCEventFromEventComponent(calendarObjects, start, end, timezo
 					objectId: calendarObject.id,
 					recurrenceId: object.getReferenceRecurrenceId().unixTime,
 				}
-			})
+			}
+
+			if (calendarObject.color) {
+				fcEvent.backgroundColor = calendarObject.color
+				fcEvent.textColor = generateTextColorFromRGB(calendarObject.color)
+			}
+
+			fcEvents.push(fcEvent)
 		}
 	}
 
