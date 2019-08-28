@@ -4,7 +4,7 @@
 	>
 		<template v-slot:primary-actions>
 			<calendar-picker />
-			<title-timepicker />
+			<title-timepicker :eventComponent="eventComponent"/>
 		</template>
 
 		<template v-slot:secondary-actions>
@@ -14,7 +14,18 @@
 		</template>
 
 		<AppSidebarTab name="Details" icon="icon-details" :order="0">
-			This is the details tab
+			<div class="section-wrapper">
+				<input :value="location" type="text" placeholder="t('calendar', 'location')">
+			</div>
+			<div class="section-wrapper">
+				<textarea :value="description" placeholder="t('calendar', 'description')" />
+			</div>
+			<div class="section-wrapper">
+				<input :value="status" type="text" placeholder="t('calendar', 'status')" />
+			</div>
+			<div class="section-wrapper">
+				<input :value="accessClass" type="text" placeholder="t('calendar', 'accessClass')" />
+			</div>
 		</AppSidebarTab>
 		<AppSidebarTab name="Attendees" icon="icon-group" :order="1">
 			This is the attendees tab
@@ -82,6 +93,26 @@ export default {
 		},
 		subtitle() {
 			return this.isLoading ? 'LOADING' : 'LOADED'
+		},
+		location() {
+			return this.isLoading
+				? 'LOADING'
+				: this.eventComponent ? this.eventComponent.location : ''
+		},
+		description() {
+			return this.isLoading
+				? 'LOADING'
+				: this.eventComponent ? this.eventComponent.description : ''
+		},
+		status() {
+			return this.isLoading
+				? 'LOADING'
+				: this.eventComponent ? this.eventComponent.status : ''
+		},
+		accessClass() {
+			return this.isLoading
+				? 'LOADING'
+				: this.eventComponent ? this.eventComponent.accessClass : ''
 		},
 		reminderIcon() {
 			// Todo: show different icon based on alarm.
@@ -243,3 +274,13 @@ export default {
 	}
 }
 </script>
+
+<style>
+
+	.section-wrapper {
+		display: flex;
+		max-width: 100%;
+		margin-top: 10px;
+	}
+
+</style>
