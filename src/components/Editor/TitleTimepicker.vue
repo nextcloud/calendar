@@ -1,5 +1,7 @@
 <template>
 	<div>
+		{{eventComponent.startDate}}
+		{{eventComponent.endDate}} 
 		Start Date/Time
 		End Date/Time
 		All-day checkbox
@@ -11,7 +13,13 @@
 
 <script>
 export default {
-	name: 'TitleTimepicker'
+	name: 'TitleTimepicker',
+	props: {
+		eventComponent: {
+			type: Object,
+			default: false
+		}
+	},
 }
 </script>
 
