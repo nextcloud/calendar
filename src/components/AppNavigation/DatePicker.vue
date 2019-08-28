@@ -1,9 +1,33 @@
+<!--
+  - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
+  -
+  - @author Georg Ehrke <oc.list@georgehrke.com>
+  -
+  - @license GNU AGPL version 3 or any later version
+  -
+  - This program is free software: you can redistribute it and/or modify
+  - it under the terms of the GNU Affero General Public License as
+  - published by the Free Software Foundation, either version 3 of the
+  - License, or (at your option) any later version.
+  -
+  - This program is distributed in the hope that it will be useful,
+  - but WITHOUT ANY WARRANTY; without even the implied warranty of
+  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  - GNU Affero General Public License for more details.
+  -
+  - You should have received a copy of the GNU Affero General Public License
+  - along with this program. If not, see <http://www.gnu.org/licenses/>.
+  -
+  -->
+
 <template>
 	<div class="button-group">
 		<button :aria-label="goBackLabel" :title="goBackLabel" type="button"
 			class="button icon icon-leftarrow" @click="prev()"
 		/>
-		<label for="app-navigation-datepicker-input" class="button datepicker-label">{{ date | formatDate(view) }}</label>
+		<label for="app-navigation-datepicker-input" class="button datepicker-label">
+			{{ date | formatDateRage(view) }}
+		</label>
 		<datetime-picker v-model="date" :lang="lang" :first-day-of-week="firstDay"
 			:not-before="minimumDate" :not-after="maximumDate"
 		/>
@@ -22,24 +46,6 @@ export default {
 	name: 'DatePicker',
 	components: {
 		DatetimePicker
-	},
-	filters: {
-		formatDate(value, currentView) {
-			switch (currentView) {
-			case 'agendaDay':
-				return moment(value).format('ll')
-
-			case 'agendaWeek':
-				return t('calendar', 'Week {number} of {year}', {
-					number: moment(value).week(),
-					year: moment(value).year()
-				})
-
-			case 'month':
-			default:
-				return moment(value).format('MMMM YYYY')
-			}
-		}
 	},
 	data: function() {
 		return {
