@@ -8,7 +8,9 @@
 		</template>
 
 		<template v-slot:secondary-actions>
-			<ActionLink icon="icon-download" title="Download" href="https://nextcloud.com" />
+			<ActionLink v-if="hasDownloadURL" icon="icon-download" title="Download"
+				:href="downloadURL"
+			/>
 		</template>
 
 		<AppSidebarTab name="Details" icon="icon-details" :order="0">
@@ -81,6 +83,16 @@ export default {
 			// If no alarm is set: Show reminder icon without dot
 			// If one or more alarm are set: Show reminder icon with dot
 			return 'icon-reminder'
+		},
+		hasDownloadURL() {
+			if (!this.calendarObject) {
+				return false
+			}
+
+			return !!this.calendarObject.dav
+		},
+		downloadURL() {
+			return this.calendarObject.dav.url + '?export'
 		}
 	},
 	watch: {
