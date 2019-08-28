@@ -73,11 +73,11 @@ class ViewController extends Controller {
 	public function index():TemplateResponse {
 		return new TemplateResponse($this->appName, 'main', [
 			'app_version' => $this->config->getAppValue($this->appName, 'installed_version'),
-			'first_run' => $this->config->getUserValue($this->userId, $this->appName, 'firstRun', 'yes'),
+			'first_run' => $this->config->getUserValue($this->userId, $this->appName, 'firstRun', 'yes') === 'yes',
 			'initial_view' => $this->config->getUserValue($this->userId, $this->appName, 'currentView', 'month'),
-			'show_weekends' => $this->config->getUserValue($this->userId, $this->appName, 'showWeekends', 'yes'),
-			'show_week_numbers' => $this->config->getUserValue($this->userId, $this->appName, 'showWeekNr', 'no'),
-			'skip_popover' => $this->config->getUserValue($this->userId, $this->appName, 'skipPopover', 'no'),
+			'show_weekends' => $this->config->getUserValue($this->userId, $this->appName, 'showWeekends', 'yes') === 'yes',
+			'show_week_numbers' => $this->config->getUserValue($this->userId, $this->appName, 'showWeekNr', 'no') === 'yes',
+			'skip_popover' => $this->config->getUserValue($this->userId, $this->appName, 'skipPopover', 'no') === 'yes',
 			'timezone' => $this->config->getUserValue($this->userId, $this->appName, 'timezone', 'automatic'),
 		]);
 	}

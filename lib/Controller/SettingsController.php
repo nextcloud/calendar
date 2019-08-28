@@ -26,8 +26,12 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http;
 use OCP\IConfig;
 use OCP\IRequest;
-use OCP\IUserSession;
 
+/**
+ * Class SettingsController
+ *
+ * @package OCA\Calendar\Controller
+ */
 class SettingsController extends Controller {
 
 	/**
@@ -43,18 +47,16 @@ class SettingsController extends Controller {
 	/**
 	 * @param string $appName
 	 * @param IRequest $request an instance of the request
-	 * @param IUserSession $userSession
 	 * @param IConfig $config
+	 * @param string $userId
 	 */
-	public function __construct($appName, IRequest $request, IUserSession $userSession,
-								IConfig $config) {
+	public function __construct(string $appName,
+								IRequest $request,
+								IConfig $config,
+								string $userId) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
-
-		$user = $userSession->getUser();
-		if ($user) {
-			$this->userId = $user->getUID();
-		}
+		$this->userId = $userId;
 	}
 
 	/**
@@ -66,7 +68,8 @@ class SettingsController extends Controller {
 	 * @param mixed $value The value to set for given config key
 	 * @return JSONResponse
 	 */
-	public function setConfig(string $key, string $value):JSONResponse {
+	public function setConfig(string $key,
+							  string $value):JSONResponse {
 		switch ($key) {
 			case 'view':
 				return $this->setView($value);

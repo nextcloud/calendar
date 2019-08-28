@@ -22,23 +22,22 @@
 import { linkTo } from 'nextcloud-router'
 
 /**
+ * Reads config value from hidden input field
  *
  * @param {string} key Key to query for
- * @param {Type} Type Force casting value to Number, String, Bool, etc.
- * @returns {mixed}
+ * @returns {String|null}
  */
-export const getConfigValueFromHiddenInput = (key, Type = null) => {
+export const getConfigValueFromHiddenInput = (key) => {
 	const elem = document.getElementById('config-' + key)
-	if (!elem) {
-		return
-	}
-
-	if (Type) {
-		return new Type(elem.value).valueOf()
-	}
-	return elem.value
+	return elem ? elem.value : null
 }
 
+/**
+ * Get URL to modify config-key
+ *
+ * @param {String} key URL of config-key to modify
+ * @returns {string}
+ */
 export const getLinkToConfig = key => ([
 	linkTo('calendar', 'index.php'),
 	'v1/config',

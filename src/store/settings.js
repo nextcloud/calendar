@@ -44,7 +44,7 @@ const mutations = {
 	 * @param {Object} state The Vuex state
 	 */
 	togglePopoverEnabled(state) {
-		state.settings.showPopover = !state.showPopover
+		state.settings.showPopover = !state.settings.showPopover
 	},
 
 	/**
@@ -53,7 +53,7 @@ const mutations = {
 	 * @param {Object} state The Vuex state
 	 */
 	toggleWeekendsEnabled(state) {
-		state.settings.showWeekends = !state.showWeekends
+		state.settings.showWeekends = !state.settings.showWeekends
 	},
 
 	/**
@@ -62,7 +62,7 @@ const mutations = {
 	 * @param {Object} state The Vuex state
 	 */
 	toggleWeekNumberEnabled(state) {
-		state.settings.showWeekNumbers = !state.showWeekNumbers
+		state.settings.showWeekNumbers = !state.settings.showWeekNumbers
 	},
 
 	/**
@@ -83,6 +83,7 @@ const mutations = {
 	 * @param {Object} settings The full settings object
 	 */
 	loadSettingsFromServer(state, settings) {
+		console.debug('Initial settings:', settings)
 		Vue.set(state, 'settings', settings)
 	}
 }
@@ -134,15 +135,15 @@ const actions = {
 	 * @returns {Promise<void>}
 	 */
 	async togglePopoverEnabled(context) {
-		const newState = !context.state.showPopover
-		await HttpClient.post(getLinkToConfig(), {
-			key: 'skipPopover',
-			value: newState ? 'no' : 'yes'
-		}).then((response) => {
-			context.commit('togglePopoverEnabled')
-		}).catch((error) => {
-			throw error
-		})
+		const newState = !context.state.settings.showPopover
+		const value = newState ? 'no' : 'yes'
+
+		await HttpClient.post(getLinkToConfig('skipPopover'), { value })
+			.then((response) => {
+				context.commit('togglePopoverEnabled')
+			}).catch((error) => {
+				throw error
+			})
 	},
 
 	/**
@@ -152,15 +153,15 @@ const actions = {
 	 * @returns {Promise<void>}
 	 */
 	async toggleWeekendsEnabled(context) {
-		const newState = !context.state.showWeekends
-		await HttpClient.post(getLinkToConfig(), {
-			key: 'showWeekends',
-			value: newState ? 'yes' : 'no'
-		}).then((response) => {
-			context.commit('toggleWeekendsEnabled')
-		}).catch((error) => {
-			throw error
-		})
+		const newState = !context.state.settings.showWeekends
+		const value = newState ? 'yes' : 'no'
+
+		await HttpClient.post(getLinkToConfig('showWeekends'), { value })
+			.then((response) => {
+				context.commit('toggleWeekendsEnabled')
+			}).catch((error) => {
+				throw error
+			})
 	},
 
 	/**
@@ -170,15 +171,15 @@ const actions = {
 	 * @returns {Promise<void>}
 	 */
 	async toggleWeekNumberEnabled(context) {
-		const newState = !context.state.showWeekNumbers
-		await HttpClient.post(getLinkToConfig(), {
-			key: 'showWeekNr',
-			value: newState ? 'yes' : 'no'
-		}).then((response) => {
-			context.commit('toggleWeekNumberEnabled')
-		}).catch((error) => {
-			throw error
-		})
+		const newState = !context.state.settings.showWeekNumbers
+		const value = newState ? 'yes' : 'no'
+
+		await HttpClient.post(getLinkToConfig('showWeekNr'), { value })
+			.then((response) => {
+				context.commit('toggleWeekNumberEnabled')
+			}).catch((error) => {
+				throw error
+			})
 	},
 
 	/**
@@ -189,8 +190,7 @@ const actions = {
 	 * @returns {Promise<void>}
 	 */
 	async setInitialView(context, { initialView }) {
-		await HttpClient.post(getLinkToConfig(''), {
-			key: 'initialView',
+		await HttpClient.post(getLinkToConfig('view'), {
 			value: initialView
 		})
 	},
@@ -204,15 +204,13 @@ const actions = {
 	 * @returns {Promise<void>}
 	 */
 	async setTimezone(context, { timezoneId }) {
-		context.commit('setTimezone', { timezoneId })
-		// await HttpClient.post(getLinkToConfig(), {
-		// 	key: 'timezone',
-		// 	value: timezoneId
-		// }).then((response) => {
-		// 	context.commit('setTimezone', { timezoneId })
-		// }).catch((error) => {
-		// 	throw error
-		// })
+		await HttpClient.post(getLinkToConfig('timezone'), {
+			value: timezoneId
+		}).then((response) => {
+			context.commit('setTimezone', { timezoneId })
+		}).catch((error) => {
+			throw error
+		})
 	}
 }
 
