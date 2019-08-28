@@ -1,6 +1,7 @@
 <template>
-	<AppSidebar title="TITLE" subtitle="SUBTITLE" :compact="false"
-		@close="cancel">
+	<AppSidebar :title="title" :subtitle="subtitle" :compact="false"
+		@close="cancel"
+	>
 		<template v-slot:primary-actions>
 			<calendar-picker />
 			<title-timepicker />
@@ -69,6 +70,12 @@ export default {
 		}
 	},
 	computed: {
+		title() {
+			return this.isLoading ? 'LOADING' : 'LOADED'
+		},
+		subtitle() {
+			return this.isLoading ? 'LOADING' : 'LOADED'
+		},
 		reminderIcon() {
 			// Todo: show different icon based on alarm.
 			// If no alarm is set: Show reminder icon without dot
@@ -110,6 +117,12 @@ export default {
 		},
 		async save(thisAndAllFuture = false) {
 			if (!this.calendarObject) {
+				OCP.Toast.error('No calendar-object found')
+				return
+			}
+			// TODO - check if calendar changed
+			if (!this.eventComponent.isDirty()) {
+				OCP.Toast.error('Calendar-data did not change, no need to save')
 				return
 			}
 
@@ -144,6 +157,7 @@ export default {
 	beforeRouteEnter(to, from, next) {
 		next(vm => {
 			vm.isLoading = true
+			OCP.Toast.info('Loading event ...')
 
 			const objectId = to.params.object
 			const recurrenceId = to.params.recurrenceId
@@ -152,12 +166,17 @@ export default {
 				.then(() => {
 					vm.calendarObject = vm.$store.getters.getCalendarObjectById(objectId)
 					vm.eventComponent = vm.calendarObject.getObjectAtRecurrenceId(new Date(recurrenceId * 1000))
+					vm.isLoading = false
+					OCP.Toast.info('Loaded event ...')
 				})
 		})
 	},
 	beforeRouteUpdate(to, from, next) {
-		if (to.params.object !== from.params.object) {
-			console.debug('OBJECT ID CHANGED - we have to rerender')
+		if (to.params.object === from.params.object
+			&& to.params.recurrenceId === from.params.recurrenceId) {
+			OCP.Toast.info('Object did not change, no need to rerender')
+			next()
+			return
 		}
 
 		console.debug(JSON.stringify(to.params))
@@ -172,13 +191,14 @@ export default {
 		next()
 	},
 	beforeRouteLeave(to, from, next) {
-		console.debug(JSON.stringify(to.params))
-		console.debug(JSON.stringify(from.params))
-		// called when the route that renders this component is about to
-		// be navigated away from.
-		// has access to `this` component instance.
-
-		next()
+		OCP.Toast.success('Left route')
+		this.save().then(() => {
+			OCP.Toast.success('Saved event successfully')
+			next()
+		}).catch(() => {
+			OCP.Toast.error('Didn\'t save event')
+			next(false)
+		})
 	}
 }
 </script>
