@@ -179,16 +179,28 @@ export default {
 			return
 		}
 
-		console.debug(JSON.stringify(to.params))
-		console.debug(JSON.stringify(from.params))
-		// called when the route that renders this component has changed,
-		// but this component is reused in the new route.
-		// For example, for a route with dynamic params `/foo/:id`, when we
-		// navigate between `/foo/1` and `/foo/2`, the same `Foo` component instance
-		// will be reused, and this hook will be called when that happens.
-		// has access to `this` component instance.
+		this.isLoading = true
 
-		next()
+		this.save().then(() => {
+			OCP.Toast.success('Saved event successfully')
+
+			const objectId = to.params.object
+			const recurrenceId = to.params.recurrenceId
+
+			this.$store.dispatch('getEventByObjectId', { objectId })
+				.then(() => {
+					this.calendarObject = this.$store.getters.getCalendarObjectById(objectId)
+					this.eventComponent = this.calendarObject.getObjectAtRecurrenceId(new Date(recurrenceId * 1000))
+					this.isLoading = false
+					OCP.Toast.info('Loaded event ...')
+
+					this.isLoading = false
+				})
+			next()
+		}).catch(() => {
+			OCP.Toast.error('Didn\'t save event')
+			next(false)
+		})
 	},
 	beforeRouteLeave(to, from, next) {
 		OCP.Toast.success('Left route')
