@@ -1,5 +1,5 @@
 <!--
-  - @copyright Copyright (c) 2018 Georg Ehrke <oc.list@georgehrke.com>
+  - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
   -
@@ -42,14 +42,16 @@ export default {
 		today() {
 			const name = this.$route.name
 			const params = this.$route.params
-			params.firstday = getYYYYMMDDFromDate(dateFactory())
+			const today = getYYYYMMDDFromDate(dateFactory())
 
+			// Don't push new route when day didn't change
+			if (params.firstday === today) {
+				return
+			}
+
+			params.firstday = today
 			this.$router.push({ name, params })
 		}
 	}
 }
 </script>
-
-<style scoped>
-
-</style>
