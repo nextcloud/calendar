@@ -11,6 +11,7 @@ module.exports = {
 		n: true,
 		OC: true,
 		OCA: true,
+		OCP: true,
 		Vue: true,
 		VueRouter: true,
 		oca_calendar: true,

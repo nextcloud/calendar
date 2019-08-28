@@ -4,10 +4,11 @@
 		<AppContent>
 			<!-- Full calendar -->
 			<full-calendar :events="events" :event-sources="eventSources" :config="config"
-				:view="view" :firstDay="firstDay" />
+				:view="view" :first-day="firstDay"
+			/>
 		</AppContent>
 		<!-- Edit modal -->
-		<router-view />
+		<router-view v-if="!loadingCalendars" />
 	</div>
 </template>
 
@@ -139,8 +140,6 @@ export default {
 			.then(() => this.$store.dispatch('fetchCurrentUserPrincipal'))
 			.then(() => this.$store.dispatch('getCalendars'))
 			.then((calendars) => {
-				this.loadingCalendars = false
-
 				const owners = []
 				calendars.forEach((calendar) => {
 					if (owners.indexOf(calendar.owner) === -1) {
@@ -162,6 +161,8 @@ export default {
 						this.loadingCalendars = false
 					})
 				}
+
+				this.loadingCalendars = false
 			})
 	},
 	methods: {
