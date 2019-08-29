@@ -41,8 +41,10 @@ export const getDefaultCalendarObject = (props = {}) => Object.assign({}, {
 	loading: false,
 	// Whether this calendar supports VEvents
 	supportsEvents: true,
+	// Whether this calendar supports VJournals
+	supportsJournals: false,
 	// Whether this calendar supports VTodos
-	supportsTasks: true,
+	supportsTasks: false,
 	// The principal uri of the owner
 	owner: '',
 	// List of shares
@@ -82,6 +84,7 @@ export function mapDavCollectionToCalendar(calendar) {
 		color: calendar.color || defaultColor(),
 		enabled: !!calendar.enabled,
 		supportsEvents: calendar.components.includes('VEVENT'),
+		supportsJournals: calendar.components.includes('VJOURNAL'),
 		supportsTasks: calendar.components.includes('VTODO'),
 		owner: calendar.owner,
 		readOnly: !calendar.isWriteable(),

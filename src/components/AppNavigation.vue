@@ -16,7 +16,7 @@
 				</button>
 			</div>
 			<div id="app-settings-content">
-				<settings />
+				<settings :loading-calendars="loadingCalendars" />
 			</div>
 		</div>
 	</div>

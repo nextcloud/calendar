@@ -1,15 +1,17 @@
 <template>
 	<multiselect
-		v-model="calendar"
 		label="displayName"
 		track-by="displayName"
-		:select="selectCalendar"
-		:disabled="calendars.length <= 1"
+		:disabled="isDisabled"
 		:options="calendars"
+		:value="calendar"
+		@select="change"
 	/>
 </template>
 <script>
-import { Multiselect } from 'nextcloud-vue'
+import {
+	Multiselect
+} from 'nextcloud-vue'
 
 export default {
 	name: 'CalendarPicker',
@@ -17,19 +19,28 @@ export default {
 		Multiselect
 	},
 	props: {
-		selectCalendar: {
-			type: Function
-		}
-	},
-	data() {
-		return {
-			calendar: null
-		}
-	},
-	computed: {
-		calendars() {
-			return this.$store.getters.sortedCalendars
+		calendar: {
+			type: Object,
+			required: true
+		},
+		calendars: {
+			type: Array,
+			required: true,
 		},
 	},
+	computed: {
+		isDisabled() {
+			return this.calendars.length < 2
+		},
+	},
+	methods: {
+		change(newCalendar) {
+			if (!newCalendar) {
+				return
+			}
+
+			this.$emit('selectCalendar', newCalendar)
+		}
+	}
 }
 </script>
