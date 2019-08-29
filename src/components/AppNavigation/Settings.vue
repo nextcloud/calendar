@@ -1,19 +1,23 @@
 <template>
 	<fieldset class="settings-fieldset">
 		<ul class="settings-fieldset-interior">
-			<!--<li class="settings-fieldset-interior-item settings-fieldset-interior-upload">-->
-			<!--<input type="file" name="file" accept="text/calendar" multiple id="import" />-->
-			<!--<span href="#" class="button settings-upload svg icon-upload" role="button" id="import-button-overlay"><?php p($l->t('Import calendar')); ?></span>-->
-			<!--<span ng-show="!files.length" class="hide"><?php p($l->t('No Calendars selected for import')); ?></span>-->
-			<!--</li>-->
-			<li class="settings-fieldset-interior-item settings-fieldset-interior-item-checkbox">
+			<li v-show="showProgressBar" class="settings-feieldset-interior-item">
+				<import-progress-bar />
+			</li>
+			<import-screen v-if="showImportModal" key="settings-import-screen" :files="files"
+				@cancel-import="cancelImport" @import-calendar="importCalendar"
+			/>
+			<import-upload-button v-show="showUploadButton" key="settings-import-upload" :supported-file-types="['text/calendar']"
+				:is-disabled="loadingCalendars" @change="processFiles"
+			/>
+			<li key="settings-saving-birthday" class="settings-feieldset-interior-item settings-fieldset-interior-item-checkbox">
 				<span :class="{hidden: !savingBirthdayCalendar}" class="icon-loading-small" />
-				<input id="app-settings-birthday-calendar-checkbox" v-model="birthdayValue" :disabled="savingBirthdayCalendar"
+				<input id="app-settings-birthday-calendar-checkbox" v-model="birthdayValue" :disabled="savingBirthdayCalendar || loadingCalendars"
 					class="checkbox" type="checkbox"
 				>
 				<label for="app-settings-birthday-calendar-checkbox">{{ birthdayCalendarLabel }}</label>
 			</li>
-			<li class="settings-fieldset-interior-item settings-fieldset-interior-item-checkbox">
+			<li key="settings-saving-popover" class="settings-fieldset-interior-item settings-fieldset-interior-item-checkbox">
 				<span :class="{hidden: !savingPopover}" class="icon-loading-small" />
 				<input id="app-settings-popover-checkbox" v-model="popoverValue" :disabled="savingPopover"
 					class="checkbox" type="checkbox"
@@ -22,7 +26,7 @@
 					{{ popoverLabel }}
 				</label>
 			</li>
-			<li class="settings-fieldset-interior-item settings-fieldset-interior-item-checkbox">
+			<li key="settings-saving-weekend" class="settings-fieldset-interior-item settings-fieldset-interior-item-checkbox">
 				<span :class="{hidden: !savingWeekend}" class="icon-loading-small" />
 				<input id="app-settings-weekends-checkbox" v-model="weekendValue" :disabled="savingWeekend"
 					class="checkbox" type="checkbox"
@@ -31,7 +35,7 @@
 					{{ weekendLabel }}
 				</label>
 			</li>
-			<li class="settings-fieldset-interior-item settings-fieldset-interior-item-checkbox">
+			<li key="settings-saving-weekend-number" class="settings-fieldset-interior-item settings-fieldset-interior-item-checkbox">
 				<span :class="{hidden: !savingWeekNumber}" class="icon-loading-small" />
 				<input id="app-settings-week-number-checkbox" v-model="weekNumberValue" :disabled="savingWeekNumber"
 					class="checkbox" type="checkbox"
@@ -40,19 +44,19 @@
 					{{ weekNumberLabel }}
 				</label>
 			</li>
-			<li class="settings-fieldset-interior-item settings-fieldset-interior-item-timezone">
+			<li key="settings-saving-timezone" class="settings-fieldset-interior-item settings-fieldset-interior-item-timezone">
 				<label class="settings-input" for="app-settings-timezone-select">{{ timezoneLabel }}</label>
 				<timezone-select id="app-settings-timezone-select" :additional-timezones="additionalTimezones" :value="timezoneValue"
 					@change="setTimezoneValue"
 				/>
 			</li>
-			<li class="settings-fieldset-interior-item settings-fieldset-interior-item-link">
+			<li key="settings-saving-caldav-primary" class="settings-fieldset-interior-item settings-fieldset-interior-item-link">
 				<label class="settings-input">{{ primaryCalDAVLabel }}</label>
 				<button :title="copyLinkLabel" class="icon icon-clippy"
 					@click="copyPrimaryCalDAV"
 				/>
 			</li>
-			<li class="settings-fieldset-interior-item settings-fieldset-interior-item-link">
+			<li key="settings-saving-caldav-macos" class="settings-fieldset-interior-item settings-fieldset-interior-item-link">
 				<label class="settings-label">{{ appleCalDAVLabel }}</label>
 				<button :title="copyLinkLabel" class="icon icon-clippy"
 					@click="copyAppleCalDAV"
@@ -63,22 +67,34 @@
 </template>
 
 <script>
-import client from '../../services/cdav'
+import ImportProgressBar from './ImportProgressBar'
+import ImportScreen from './ImportScreen'
+import ImportUploadButton from './ImportUploadButton'
 import TimezoneSelect from '../Shared/TimezoneSelect'
 
+import client from '../../services/cdav'
 import detectTimezone from '../../services/timezoneDetectionService'
 
 export default {
 	name: 'Settings',
 	components: {
+		ImportProgressBar,
+		ImportScreen,
+		ImportUploadButton,
 		TimezoneSelect
+	},
+	props: {
+		loadingCalendars: {
+			type: Boolean,
+			default: false
+		}
 	},
 	data: function() {
 		return {
 			savingBirthdayCalendar: false,
 			savingPopover: false,
 			savingWeekend: false,
-			savingWeekNumber: false
+			savingWeekNumber: false,
 		}
 	},
 	computed: {
@@ -152,6 +168,18 @@ export default {
 					detected: detectTimezone()
 				})
 			}]
+		},
+		files() {
+			return this.$store.state.importFiles.importFiles
+		},
+		showUploadButton() {
+			return this.$store.state.importState.importState.stage === 'default'
+		},
+		showImportModal() {
+			return this.$store.state.importState.importState.stage === 'processing'
+		},
+		showProgressBar() {
+			return this.$store.state.importState.importState.stage === 'importing'
 		}
 	},
 	methods: {
@@ -217,6 +245,30 @@ export default {
 				console.error(err)
 				OC.Notification.showTemporary(t('calendar', 'Saving timezone setting was not successful'))
 			})
+		},
+		processFiles() {
+			this.$store.commit('changeStage', 'processing')
+		},
+		importCalendar() {
+			this.$store.dispatch('importEventsIntoCalendar').then(() => {
+				const total = this.$store.state.importState.importState.total
+				const accepted = this.$store.state.importState.importState.accepted
+
+				if (total === accepted) {
+					OCP.Toast.success(n('calendar', 'Successfully imported %n event', 'Successfully imported %n events.', total))
+				} else {
+					OCP.Toast.warning(t('calendar', 'Import partially failed. Imported {accepted} out of {total}.', {
+						accepted, total
+					}))
+				}
+
+				// Reset everything
+				this.cancelImport()
+			})
+		},
+		cancelImport() {
+			this.$store.commit('removeAllFiles')
+			this.$store.commit('resetState')
 		}
 	}
 }

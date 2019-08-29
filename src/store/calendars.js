@@ -28,7 +28,8 @@ import client from '../services/cdav'
 import CalendarObject from '../models/calendarObject'
 import { dateFactory, getUnixTimestampFromDate } from '../services/date'
 import { getDefaultCalendarObject, mapDavCollectionToCalendar } from '../models/calendar'
-// import pLimit from 'p-limit'
+import pLimit from 'p-limit'
+import { randomColor } from '../services/colorService'
 
 const state = {
 	calendars: [],
@@ -335,6 +336,30 @@ const getters = {
 		}
 
 		return null
+	},
+
+	/**
+	 *
+	 * @param {Object} state the store data
+	 * @param {Object} getters the store getters
+	 * @returns {function({Boolean}, {Boolean}, {Boolean}): {Object}[]}
+	 */
+	sortedCalendarFilteredByComponents: (state, getters) => (vevent, vjournal, vtodo) => {
+		return getters.sortedCalendars.filter((calendar) => {
+			if (vevent && !calendar.supportsEvents) {
+				return false
+			}
+
+			if (vjournal && !calendar.supportsJournals) {
+				return false
+			}
+
+			if (vtodo && !calendar.supportsTasks) {
+				return false
+			}
+
+			return true
+		})
 	}
 }
 
@@ -660,50 +685,82 @@ const actions = {
 	},
 
 	/**
+	 * Import events into calendar
 	 *
 	 * @param {Object} context the store mutations
-	 * @param {Object} data destructuring object
-	 * @param {String} data.ics The ICS data to import
-	 * @param {Object} data.calendar the calendar to import the ics data into
 	 */
-	async importEventsIntoCalendar(context, { ics, calendar }) {
-		// const events = parseICS(ics, calendar)
-		// context.commit('changeStage', 'importing')
-		//
-		// // max simultaneous requests
-		// const limit = pLimit(3)
-		// const requests = []
-		//
-		// // create the array of requests to send
-		// events.map(async event => {
-		// 	// Get vcard string
-		// 	try {
-		// 		let vData = ICAL.stringify(event.vCard.jCal)
-		// 		// push event to server and use limit
-		// 		requests.push(limit(() => event.calendar.dav.createVObject(vData)
-		// 			.then((response) => {
-		// 				// setting the event dav property
-		// 				Vue.set(event, 'dav', response)
-		//
-		// 				// success, update store
-		// 				context.commit('addEvent', event)
-		// 				context.commit('addEventToCalendar', event)
-		// 				context.commit('incrementAccepted')
-		// 			})
-		// 			.catch((error) => {
-		// 				// error
-		// 				context.commit('incrementDenied')
-		// 				console.error(error)
-		// 			})
-		// 		))
-		// 	} catch (e) {
-		// 		context.commit('incrementDenied')
-		// 	}
-		// })
-		//
-		// Promise.all(requests).then(() => {
-		// 	context.commit('changeStage', 'default')
-		// })
+	async importEventsIntoCalendar(context) {
+		context.commit('changeStage', 'importing')
+
+		// Create a copy
+		const files = context.rootState.importFiles.importFiles.slice()
+
+		let totalCount = 0
+		for (const file of files) {
+			totalCount += file.parser.getItemCount()
+
+			const calendarId = context.rootState.importFiles.importCalendarRelation[file.id]
+			if (calendarId === 'new') {
+				const displayName = file.parser.getName() || t('calendar', 'Imported {filename}', {
+					filename: file.name
+				})
+				const color = file.parser.getColor() || randomColor()
+				const components = []
+				if (file.parser.containsVEvents()) {
+					components.push('VEVENT')
+				}
+				if (file.parser.containsVJournals()) {
+					components.push('VJOURNAL')
+				}
+				if (file.parser.containsVTodos()) {
+					components.push('VTODO')
+				}
+
+				await client.calendarHomes[0].createCalendarCollection(displayName, color, components, 0)
+					.then((response) => {
+						const calendar = mapDavCollectionToCalendar(response)
+						context.commit('addCalendar', { calendar })
+						context.commit('setCalendarForFileId', {
+							fileId: file.id,
+							calendarId: calendar.id
+						})
+					})
+					.catch((error) => { throw error })
+			}
+		}
+
+		context.commit('setTotal', totalCount)
+
+		const limit = pLimit(3)
+		const requests = []
+
+		for (const file of files) {
+			const calendarId = context.rootState.importFiles.importCalendarRelation[file.id]
+			const calendar = context.getters.getCalendarById(calendarId)
+
+			for (const item of file.parser.getItemIterator()) {
+				requests.push(limit(() => {
+					const ics = item.toICS()
+					return calendar.dav.createVObject(ics).then((davObject) => {
+						const calendarObject = new CalendarObject(davObject.data, calendarId, davObject)
+						context.commit('appendCalendarObject', calendarObject)
+						context.commit('addCalendarObjectToCalendar', {
+							calendar,
+							calendarObjectId: calendarObject.id
+						})
+						context.commit('incrementAccepted')
+					}).catch((error) => {
+						// error
+						context.commit('incrementDenied')
+						console.error(error)
+					})
+				}))
+			}
+		}
+
+		return Promise.all(requests).then(() => {
+			context.commit('changeStage', 'default')
+		})
 	},
 }
 

@@ -22,13 +22,12 @@
  *
  */
 
-const store = {
+const state = {
 	importState: {
 		total: 0,
 		accepted: 0,
 		denied: 0,
 		stage: 'default',
-		calendarId: -1
 	}
 }
 
@@ -63,16 +62,6 @@ const mutations = {
 	},
 
 	/**
-	 * Set the calendarId
-	 *
-	 * @param {Object} state the store data
-	 * @param {string} calendarId The Id of the calendar to import into
-	 */
-	setCalendarId(state, calendarId) {
-		state.importState.calendarId = calendarId
-	},
-
-	/**
 	 * Change stage to the indicated one
 	 *
 	 * @param {Object} state the store data
@@ -91,12 +80,11 @@ const mutations = {
 		state.importState.total = 0
 		state.importState.accepted = 0
 		state.importState.denied = 0
-		state.stage = 'default'
-		state.calendarId = -1
+		state.importState.stage = 'default'
 	}
 }
 
 const getters = {}
 const actions = {}
 
-export default { store, mutations, getters, actions }
+export default { state, mutations, getters, actions }
