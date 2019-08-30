@@ -23,7 +23,11 @@ import { randomColor, generateTextColorFromRGB } from '../services/colorService'
 // import fullCalendarEventService from '../services/fullCalendarEventService'
 
 import moment from 'moment'
-import { dateFactory, getUnixTimestampFromDate } from '../services/date'
+import {
+	dateFactory,
+	getUnixTimestampFromDate,
+	getYYYYMMDDFromFirstdayParam
+} from '../services/date'
 import { getFCEventFromEventComponent } from '../services/fullCalendarEventService'
 import { getConfigValueFromHiddenInput } from '../services/settingsService'
 
@@ -103,7 +107,7 @@ export default {
 			return this.$store.state.route.params.view
 		},
 		firstDay() {
-			return this.$store.state.route.params.firstday
+			return getYYYYMMDDFromFirstdayParam(this.$store.state.route.params.firstday)
 		}
 	},
 	beforeRouteUpdate(to, from, next) {

@@ -29,8 +29,6 @@
 </template>
 
 <script>
-import { dateFactory, getYYYYMMDDFromDate } from '../../services/date.js'
-
 export default {
 	name: 'TodayButton',
 	computed: {
@@ -42,14 +40,13 @@ export default {
 		today() {
 			const name = this.$route.name
 			const params = this.$route.params
-			const today = getYYYYMMDDFromDate(dateFactory())
 
 			// Don't push new route when day didn't change
-			if (params.firstday === today) {
+			if (params.firstday === 'now') {
 				return
 			}
 
-			params.firstday = today
+			params.firstday = 'now'
 			this.$router.push({ name, params })
 		}
 	}

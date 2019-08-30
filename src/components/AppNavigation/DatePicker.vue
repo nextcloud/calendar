@@ -39,7 +39,10 @@
 
 <script>
 import { DatetimePicker } from 'nextcloud-vue'
-import { getYYYYMMDDFromDate } from '../../services/date.js'
+import {
+	getYYYYMMDDFromDate,
+	getDateFromFirstdayParam
+} from '../../services/date.js'
 import moment from 'moment'
 
 export default {
@@ -65,7 +68,7 @@ export default {
 	computed: {
 		date: {
 			get() {
-				return new Date(this.$route.params.firstday || 'now')
+				return getDateFromFirstdayParam(this.$route.params.firstday)
 			},
 			set(date) {
 				this.goTo(date)

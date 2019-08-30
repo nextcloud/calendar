@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Calendar from './views/Calendar'
 import EditSimple from './views/EditSimple'
 import EditSidebar from './views/EditSidebar'
-import { dateFactory, getYYYYMMDDFromDate } from './services/date.js'
+import { getDateFromFirstdayParam } from './services/date.js'
 import { getConfigValueFromHiddenInput } from './services/settingsService'
 import moment from 'moment'
 
@@ -20,7 +20,7 @@ const router = new Router({
 				name: 'CalendarView',
 				params: {
 					view: getConfigValueFromHiddenInput('initial-view') || 'month',
-					firstday: getYYYYMMDDFromDate(dateFactory())
+					firstday: 'now'
 				},
 			}
 		},
@@ -83,7 +83,7 @@ router.beforeEach((to, from, next) => {
 		return
 	}
 
-	const date = new Date(to.params.firstday)
+	const date = getDateFromFirstdayParam(to.params.firstday)
 	const currentView = to.params.view
 
 	switch (currentView) {
