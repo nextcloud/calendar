@@ -6,6 +6,7 @@
     "Open »%s«" : "Otvoriť »%s«",
     "Cheers!" : "Pekný deň!",
     "Recipient" : "Prijímateľ",
+    "URL violates local access rules" : "URL porušuje pravidlá lokálneho prístupu",
     "The remote server did not give us access to the calendar (HTTP 404 error)" : "Vzdialený server neposkytol prístup ku kalendáru (HTTP chyba 404)",
     "Too many redirects. Aborting ..." : "Príliš veľa presmerovaní. Ruším ...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "Vzdialený server neposkytol prístup ku kalendáru (HTTP chyba {%s})",
