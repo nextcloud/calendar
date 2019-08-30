@@ -50,3 +50,31 @@ export function getYYYYMMDDFromDate(date) {
 export function getUnixTimestampFromDate(date) {
 	return Math.floor(date.getTime() / 1000)
 }
+
+/**
+ * Gets a Date-object based on the firstday param used in routes
+ *
+ * @param {String} firstDayParam The firstday param from the router
+ * @returns {Date}
+ */
+export function getDateFromFirstdayParam(firstDayParam) {
+	if (firstDayParam === 'now') {
+		return dateFactory()
+	}
+
+	return new Date(firstDayParam)
+}
+
+/**
+ * formats firstday param as YYYYMMDD
+ *
+ * @param {String} firstDayParam The firstday param from the router
+ * @returns {string}
+ */
+export function getYYYYMMDDFromFirstdayParam(firstDayParam) {
+	if (firstDayParam === 'now') {
+		return getYYYYMMDDFromDate(dateFactory())
+	}
+
+	return firstDayParam
+}
