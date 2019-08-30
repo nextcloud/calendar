@@ -65,7 +65,7 @@ export default {
 	data() {
 		return {
 			defaultConfig: {
-				defaultView: 'month',
+				defaultView: this.$route.params.view,
 				editable: true,
 				forceEventDuration: true,
 				header: false,
