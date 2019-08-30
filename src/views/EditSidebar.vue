@@ -4,7 +4,6 @@
 	>
 		<template v-slot:primary-actions>
 			<calendar-picker />
-			<title-timepicker :eventComponent="eventComponent"/>
 		</template>
 
 		<template v-slot:secondary-actions>
@@ -14,17 +13,22 @@
 		</template>
 
 		<AppSidebarTab name="Details" icon="icon-details" :order="0">
+			<title-timepicker :event-component="eventComponent" />
+			<timezonepicker :event-component="eventComponent" />
 			<div class="section-wrapper">
-				<input :value="location" type="text" placeholder="t('calendar', 'location')">
+				<input v-model="location" type="text" placeholder="t('calendar', 'location')">
 			</div>
 			<div class="section-wrapper">
-				<textarea :value="description" placeholder="t('calendar', 'description')" />
+				<textarea v-model="description" placeholder="t('calendar', 'description')" />
 			</div>
 			<div class="section-wrapper">
-				<input :value="status" type="text" placeholder="t('calendar', 'status')" />
+				<Multiselect v-model="status" :options="statusOptions" />
 			</div>
 			<div class="section-wrapper">
-				<input :value="accessClass" type="text" placeholder="t('calendar', 'accessClass')" />
+				<Multiselect v-model="accessClass" :options="accessOptions" />
+			</div>
+			<div class="section-wrapper">
+				<Multiselect v-model="timeTranspararency" :options="timeTranspararencyOptions" />
 			</div>
 		</AppSidebarTab>
 		<AppSidebarTab name="Attendees" icon="icon-group" :order="1">
@@ -49,10 +53,12 @@
 import {
 	AppSidebar,
 	AppSidebarTab,
-	ActionLink
+	ActionLink,
+	Multiselect
 } from 'nextcloud-vue'
 import CalendarPicker from '../components/Editor/CalendarPicker'
 import TitleTimepicker from '../components/Editor/TitleTimepicker'
+import Timezonepicker from '../components/Editor/Timezonepicker'
 
 import detectTimezone from '../services/timezoneDetectionService'
 
@@ -67,10 +73,12 @@ export default {
 	name: 'EditSidebar',
 	components: {
 		TitleTimepicker,
+		Timezonepicker,
 		AppSidebar,
 		AppSidebarTab,
 		ActionLink,
 		CalendarPicker,
+		Multiselect
 		// TitleTimepicker,
 		// DetailsTab,
 		// InviteesTab,
@@ -82,37 +90,82 @@ export default {
 			calendarObject: null,
 			eventComponent: null,
 			isLoading: false,
-			error: false
+			error: false,
+			statusOptions: ['CONFIRMED', 'Tentative', 'Cancelled'],
+			accessOptions: [
+				'When shared show full event',
+				'When shared show only busy',
+				'When shared hide this event'
+			],
+			timeTranspararencyOptions: ['OPAQUE', 'TRANSPARENT']
 		}
 	},
 	computed: {
-		title() {
-			return this.isLoading
-				? 'LOADING'
-				: this.eventComponent ? this.eventComponent.title : ''
+		title: {
+			get() {
+				return this.isLoading
+					? 'LOADING'
+					: this.eventComponent ? this.eventComponent.title : ''
+			},
+			set(newValue) {
+				this.eventComponent.title = newValue
+			}
 		},
-		subtitle() {
-			return this.isLoading ? 'LOADING' : 'LOADED'
+		subtitle: {
+			get() {
+				return this.isLoading ? 'LOADING' : 'LOADED'
+			},
+			set(newValue) {
+
+			}
+
 		},
-		location() {
-			return this.isLoading
-				? 'LOADING'
-				: this.eventComponent ? this.eventComponent.location : ''
+		location: {
+			get() {
+				return this.isLoading
+					? 'LOADING'
+					: this.eventComponent ? this.eventComponent.location : ''
+			},
+			set(newValue) {
+				this.eventComponent.location = newValue
+			}
 		},
-		description() {
-			return this.isLoading
-				? 'LOADING'
-				: this.eventComponent ? this.eventComponent.description : ''
+		description: {
+			get() {
+				return this.isLoading
+					? 'LOADING'
+					: this.eventComponent ? this.eventComponent.description : ''
+			},
+			set(newValue) {
+				this.eventComponent.description = newValue
+			}
+
 		},
-		status() {
-			return this.isLoading
-				? 'LOADING'
-				: this.eventComponent ? this.eventComponent.status : ''
+		status: {
+			get() {
+				return this.isLoading
+					? 'LOADING'
+					: this.eventComponent ? this.eventComponent.status : ''
+			},
+			set(newValue) {
+
+			}
+
 		},
-		accessClass() {
-			return this.isLoading
-				? 'LOADING'
-				: this.eventComponent ? this.eventComponent.accessClass : ''
+		accessClass: {
+			get() {
+				return this.isLoading
+					? 'LOADING'
+					: this.eventComponent ? this.eventComponent.accessClass : ''
+			}
+
+		},
+		timeTranspararency: {
+			get() {
+				return this.isLoading
+					? 'LOADING'
+					: this.eventComponent ? this.eventComponent.timeTranspararency : ''
+			}
 		},
 		reminderIcon() {
 			// Todo: show different icon based on alarm.
