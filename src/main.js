@@ -29,11 +29,13 @@ import { Multiselect } from 'nextcloud-vue'
 import VueClipboard from 'vue-clipboard2'
 import { sync } from 'vuex-router-sync'
 import dateRangeFormatFilter from './filters/dateRangeFormat'
+import VTooltip from 'v-tooltip'
 
 Vue.config.devtools = true
 
 Vue.use(VueClipboard)
 Vue.filter('formatDateRage', dateRangeFormatFilter)
+Vue.use(VTooltip)
 Vue.component('Multiselect', Multiselect)
 
 // CSP config for webpack dynamic chunk loading
