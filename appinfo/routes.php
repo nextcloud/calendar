@@ -26,7 +26,7 @@ return [
 		// User views
 		['name' => 'view#index', 'url' => '/', 'verb' => 'GET'],
 		['name' => 'view#index', 'url' => '/{view}/{timeRange}', 'verb' => 'GET', 'requirements' => ['view' => 'agendaDay|agendaWeek|month'], 'postfix' => 'view.timerange'],
-		['name' => 'view#index', 'url' => '/{view}/{timeRange}/new/{mode}/{recurrenceId}', 'verb' => 'GET', 'requirements' => ['view' => 'agendaDay|agendaWeek|month'], 'postfix' => 'view.timerange.new'],
+		['name' => 'view#index', 'url' => '/{view}/{timeRange}/new/{mode}/{isAllDay}/{dtStart}/{dtEnd}', 'verb' => 'GET', 'requirements' => ['view' => 'agendaDay|agendaWeek|month'], 'postfix' => 'view.timerange.new'],
 		['name' => 'view#index', 'url' => '/{view}/{timeRange}/edit/{mode}/{objectId}/{recurrenceId}', 'verb' => 'GET', 'requirements' => ['view' => 'agendaDay|agendaWeek|month'], 'postfix' => 'view.timerange.edit'],
 		// Public views
 		['name' => 'view#public_index_with_branding', 'url' => '/p/{token}', 'verb' => 'GET'],
