@@ -42,6 +42,9 @@ import {
 } from 'nextcloud-vue'
 import CalendarPicker from '../components/Editor/CalendarPicker'
 import TitleTimepicker from '../components/Editor/TitleTimepicker'
+
+import detectTimezone from '../services/timezoneDetectionService'
+
 // import { loadNewEventIntoEditor } from '../services/routerHelper'
 // import TitleTimepicker from '../components/Editor/TitleTimepicker'
 // import DetailsTab from '../components/Editor/DetailsTab'
@@ -94,27 +97,16 @@ export default {
 			return !!this.calendarObject.dav
 		},
 		downloadURL() {
+			if (!this.calendarObject) {
+				return null
+			}
+
+			if (!this.calendarObject.dav) {
+				return null
+			}
+
 			return this.calendarObject.dav.url + '?export'
 		}
-	},
-	watch: {
-		// '$route': {
-		// 	handler(newRoute, oldRoute) {
-		// 		if (!loadNewEventIntoEditor(newRoute, oldRoute)) {
-		// 			return
-		// 		}
-		//
-		// 		const objectId = this.$store.state.route.params.object
-		// 		const recurrenceId = this.$store.state.route.params.recurrenceId
-		//
-		// 		this.$store.dispatch('getEventByObjectId', { objectId })
-		// 			.then(() => {
-		// 				this.calendarObject = this.$store.getters.getCalendarObjectById(objectId)
-		// 				this.eventComponent = this.calendarObject.getObjectAtRecurrenceId(new Date(recurrenceId * 1000))
-		// 			})
-		// 	},
-		// 	immediate: true,
-		// }
 	},
 	methods: {
 		cancel() {
@@ -140,7 +132,7 @@ export default {
 				return
 			}
 
-			if (this.eventComponent.canCreateRecurrenceExceptions()) {
+			if (this.eventComponent.canCreateRecurrenceExceptions() && this.calendarObject.id !== 'new') {
 				this.eventComponent.createRecurrenceException(thisAndAllFuture)
 			}
 
@@ -169,21 +161,44 @@ export default {
 		}
 	},
 	beforeRouteEnter(to, from, next) {
-		next(vm => {
-			vm.isLoading = true
-			OCP.Toast.info('Loading event ...')
+		if (to.name === 'NewSidebarView') {
+			next(vm => {
+				vm.isLoading = true
 
-			const objectId = to.params.object
-			const recurrenceId = to.params.recurrenceId
+				const isAllDay = (to.params.allDay === '1')
+				const start = to.params.dtstart
+				const end = to.params.dtend
+				const timezoneId = vm.$store.state.settings.settings.timezone === 'automatic'
+					? detectTimezone()
+					: vm.$store.state.settings.settings.timezone
 
-			vm.$store.dispatch('getEventByObjectId', { objectId })
-				.then(() => {
-					vm.calendarObject = vm.$store.getters.getCalendarObjectById(objectId)
-					vm.eventComponent = vm.calendarObject.getObjectAtRecurrenceId(new Date(recurrenceId * 1000))
-					vm.isLoading = false
-					OCP.Toast.info('Loaded event ...')
-				})
-		})
+				vm.$store.dispatch('createNewEvent', { start, end, isAllDay, timezoneId })
+					.then((calendarObject) => {
+						vm.calendarObject = calendarObject
+						vm.eventComponent = vm.calendarObject.getObjectAtRecurrenceId(new Date(start * 1000))
+						vm.isLoading = true
+
+						console.debug(vm.calendarObject)
+						console.debug(vm.eventComponent)
+					})
+			})
+		} else {
+			next(vm => {
+				vm.isLoading = true
+				OCP.Toast.info('Loading event ...')
+
+				const objectId = to.params.object
+				const recurrenceId = to.params.recurrenceId
+
+				vm.$store.dispatch('getEventByObjectId', { objectId })
+					.then(() => {
+						vm.calendarObject = vm.$store.getters.getCalendarObjectById(objectId)
+						vm.eventComponent = vm.calendarObject.getObjectAtRecurrenceId(new Date(recurrenceId * 1000))
+						vm.isLoading = false
+						OCP.Toast.info('Loaded event ...')
+					})
+			})
+		}
 	},
 	beforeRouteUpdate(to, from, next) {
 		if (to.params.object === from.params.object

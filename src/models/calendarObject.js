@@ -23,13 +23,14 @@
 import PQueue from 'p-queue'
 import { getParserManager } from 'calendar-js'
 import DateTimeValue from 'calendar-js/src/values/dateTimeValue'
+import CalendarComponent from 'calendar-js/src/components/calendarComponent'
 
 export default class CalendarObject {
 
 	/**
 	 * Constructor of calendar-object
 	 *
-	 * @param {String} calendarData The raw unparsed calendar-data
+	 * @param {String|CalendarComponent} calendarData The raw unparsed calendar-data
 	 * @param {String} calendarId Id of the calendar this calendar-object belongs to
 	 * @param {VObject} dav The dav object
 	 */
@@ -171,9 +172,18 @@ export default class CalendarObject {
 	/**
 	 * resets the inter vcalendar to the dav data
 	 *
-	 * @param {String} data Data to reset to
+	 * @param {CalendarComponent|String} data Data to reset to
 	 */
 	resetToDav(data = null) {
+		if (data instanceof CalendarComponent) {
+			this.vcalendar = data
+			return
+		}
+
+		if (data === null && this.dav === null) {
+			return
+		}
+
 		const parserManager = getParserManager()
 		const parser = parserManager.getParserForFileType('text/calendar')
 

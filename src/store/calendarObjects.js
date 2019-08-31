@@ -24,6 +24,8 @@
 import Vue from 'vue'
 import CalendarObject from '../models/calendarObject'
 import logger from '../services/loggerService'
+import DateTimeValue from 'calendar-js/src/values/dateTimeValue'
+import { createEvent, getTimezoneManager } from 'calendar-js'
 
 const state = {
 	calendarObjects: {},
@@ -154,7 +156,7 @@ const actions = {
 			// TODO - catch conflicts
 		}
 
-		const calendar = context.getters.getCalendarById(calendarObject.id)
+		const calendar = context.getters.getCalendarById(calendarObject.calendarId)
 		calendarObject.dav = await calendar.dav.createVObject(calendarObject.vcalendar.toICS())
 
 		context.commit('appendCalendarObject', { calendarObject })
@@ -192,6 +194,40 @@ const actions = {
 		context.commit('removeCalendarObjectIdFromAnyTimeRange', {
 			calendarObjectId: calendarObject.id
 		})
+	},
+
+	/**
+	 *
+	 * @param {Object} context the store mutations
+	 * @param {Object} data destructuring object
+	 * @param {Number} data.start Timestamp for start of new event
+	 * @param {Number} data.end Timestamp for end of new event
+	 * @param {String} data.timezoneId asd
+	 * @param {Boolean} data.isAllDay foo
+	 * @returns {Promise<CalendarObject>}
+	 */
+	createNewEvent(context, { start, end, timezoneId, isAllDay }) {
+		const timezoneManager = getTimezoneManager()
+		const timezone = timezoneManager.getTimezoneForId(timezoneId)
+
+		const startDate = new Date(start * 1000)
+		const endDate = new Date(end * 1000)
+
+		let startDateTime = DateTimeValue
+			.fromJSDate(startDate, true)
+			.getInTimezone(timezone)
+		let endDateTime = DateTimeValue
+			.fromJSDate(endDate, true)
+			.getInTimezone(timezone)
+
+		if (isAllDay) {
+			startDateTime.isDate = true
+			endDateTime.isDate = true
+		}
+
+		const calendar = createEvent(startDateTime, endDateTime)
+		const firstCalendar = context.getters.sortedCalendars[0].id
+		return Promise.resolve(new CalendarObject(calendar, firstCalendar))
 	}
 }
 
