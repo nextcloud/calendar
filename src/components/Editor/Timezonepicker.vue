@@ -18,7 +18,7 @@ export default {
 	props: {
 		eventComponent: {
 			type: Object,
-			default: false
+			default: () => {}
 		}
 	},
 	data() {
@@ -29,18 +29,17 @@ export default {
 	},
 	computed: {
 		timeFormat() {
-			// if (this.eventComponent.isAllDay) {
-			if (true) {
-				return 'YYYY-MM-DD'
-			}
+			// if (this.eventComponent.isAllDay()) {
+			// 	return 'YYYY-MM-DD'
+			// }
 
 			return 'YYYY-MM-DD HH:mm'
 		},
 		timeType() {
 			// if (this.eventComponent.isAllDay) {
-			if (true) {
-				return 'date'
-			}
+			// if (true) {
+			// 	return 'date'
+			// }
 
 			return 'datetime'
 		}

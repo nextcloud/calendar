@@ -46,7 +46,7 @@ export function getFCEventFromEventComponent(calendarObjects, start, end, timezo
 
 			const fcEvent = {
 				id: [calendarObject.id, object.id].join('###'),
-				title: object.title,
+				title: object.title || t('calendar', 'Untitled event'),
 				allDay: object.isAllDay(),
 				start: object.startDate.getInTimezone(timezone).jsDate,
 				end: object.endDate.getInTimezone(timezone).jsDate,
