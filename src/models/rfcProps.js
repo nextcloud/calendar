@@ -20,63 +20,85 @@
  *
  */
 
-export const properties = {
+export default {
 	// RFC 5545
 	class: {
+		name: 'accessClass',
 		readableName: t('calendar', 'When shared show'),
-		icon: 'icon-share',
-		options: {
-
-		},
+		icon: 'icon-eye',
+		options: [
+			{ value: 'PUBLIC', label: t('calendar', 'When shared show full event') },
+			{ value: 'CONFIDENTIAL', label: t('calendar', 'When shared show only busy') },
+			{ value: 'PRIVATE', label: t('calendar', 'When shared hide this event') },
+		],
 		multiple: false,
-		default: true,
-		info: t('calendar', '')
+		info: t('calendar', 'The visibility of this event in shared calendars.'),
+		defaultValue: 'PUBLIC'
+	},
+	summary: {
+		name: 'title',
+		readableName: t('calendar', 'Title'),
+		placeholder: t('calendar', 'Enter a title for this event')
+	},
+	location: {
+		name: 'location',
+		readableName: t('calendar', 'Location'),
+		placeholder: t('calendar', 'Add or search for location'),
+		icon: 'icon-address'
 	},
 	description: {
+		name: 'description',
 		readableName: t('calendar', 'Description'),
-		icon: 'icon-text',
-		multiple: false,
-		default: true,
-		info: t('calendar', '')
+		placeholder: t('calendar', 'Add a description for yourself and your attendees'),
+		icon: 'icon-menu',
 	},
 	geo: {
+		name: 'geo',
 		readableName: t('calendar', 'Geographic Position'),
 		icon: 'icon-timezone',
 		multiple: false,
 		default: false,
-		info: t('calendar', '')
+		info: t('calendar', 'The geographical position this events take place at.')
 	},
 	priority: {
 		readableName: t('calendar', 'Priority'),
 		icon: '',
 		multiple: false,
 		default: false,
-		info: t('calendar', ''),
+		info: t('calendar', 'Priority of this event.'),
 		options: [
-			{ value: 7, label: t('calendar', 'low') },
-			{ value: 5, label: t('calendar', 'medium') },
-			{ value: 3, label: t('calendar', 'high') },
+			{ value: 7, label: t('calendar', 'Low') },
+			{ value: 5, label: t('calendar', 'Medium') },
+			{ value: 3, label: t('calendar', 'High') },
 		]
 
 	},
 	status: {
+		name: 'status',
 		readableName: t('calendar', 'Status'),
-		icon: '',
-		multiple: false,
-		default: false,
-		info: t('calendar', '')
-
-	},
-	transp: {
-		readableName: t('calendar', 'Show as'),
-		icon: '',
-		multiple: false,
-		default: false,
-		info: t('calendar', ''),
+		icon: 'icon-checkmark',
 		options: [
-			{ value: 'TRANSPARENT', label: t('calendar', 'free') },
-			{ value: 'OPAQUE', label: t('calendar', 'busy') },
-		]
+			{ value: 'CONFIRMED', label: t('calendar', 'Confirmed') },
+			{ value: 'TENTATIVE', label: t('calendar', 'Tentative') },
+			{ value: 'CANCELLED', label: t('calendar', 'Cancelled') },
+		],
+		multiple: false,
+		default: true,
+		info: t('calendar', 'Confirmation about the overall status of the event.'),
+		defaultValue: 'CONFIRMED'
+	},
+	timeTransparency: {
+		name: 'timeTransparency',
+		readableName: t('calendar', 'Show as'),
+		icon: 'icon-briefcase',
+		multiple: false,
+		default: true,
+		info: t('calendar', 'Take this event into account when calculating free-busy information'),
+		options: [
+			{ value: 'TRANSPARENT', label: t('calendar', 'Free') },
+			{ value: 'OPAQUE', label: t('calendar', 'Busy') },
+		],
+		defaultValue: 'TRANSPARENT'
 	},
 	// url: {
 	// 	readableName: t('calendar', 'URL'),
@@ -113,7 +135,7 @@ export const properties = {
 		icon: '',
 		multiple: false,
 		default: false,
-		info: t('calendar', '')
+		info: t('calendar', 'Special color of this event. Overrides the calendar-color.')
 	},
 	// To be implemented later:
 	// conference: {

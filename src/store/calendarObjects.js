@@ -23,7 +23,7 @@
  */
 import Vue from 'vue'
 import CalendarObject from '../models/calendarObject'
-import logger from '../services/loggerService'
+// import logger from '../services/loggerService'
 import DateTimeValue from 'calendar-js/src/values/dateTimeValue'
 import { createEvent, getTimezoneManager } from 'calendar-js'
 
@@ -41,11 +41,13 @@ const mutations = {
 	 */
 	appendCalendarObjects(state, calendarObjects = []) {
 		for (const calendarObject of calendarObjects) {
-			if (calendarObject instanceof CalendarObject) {
+			if (!state.calendarObjects[calendarObject.id]) {
 				Vue.set(state.calendarObjects, calendarObject.id, calendarObject)
-			} else {
-				logger.error('Invalid calendarObject object')
 			}
+			// if (calendarObject instanceof CalendarObject) {
+			// } else {
+			// 	logger.error('Invalid calendarObject object')
+			// }
 		}
 	},
 
@@ -56,11 +58,13 @@ const mutations = {
 	 * @param {Object} calendarObject Calendar-object to add
 	 */
 	appendCalendarObject(state, calendarObject) {
-		if (calendarObject instanceof CalendarObject) {
+		if (!state.calendarObjects[calendarObject.id]) {
 			Vue.set(state.calendarObjects, calendarObject.id, calendarObject)
-		} else {
-			logger.error('Invalid calendarObject object')
 		}
+		// if (calendarObject instanceof CalendarObject) {
+		// } else {
+		// 	logger.error('Invalid calendarObject object')
+		// }
 	},
 
 	/**
@@ -148,7 +152,7 @@ const actions = {
 	 * @returns {Promise<void>}
 	 */
 	async updateCalendarObject(context, { calendarObject }) {
-		if (calendarObject.dav) {
+		if (calendarObject.existsOnServer()) {
 			calendarObject.dav.data = calendarObject.vcalendar.toICS()
 			return calendarObject.dav.update()
 
@@ -180,7 +184,7 @@ const actions = {
 	async deleteCalendarObject(context, { calendarObject }) {
 		// If this calendar-object was not created on the server yet,
 		// no need to send requests to the server
-		if (calendarObject.dav) {
+		if (calendarObject.existsOnServer()) {
 			await calendarObject.dav.delete()
 		}
 
