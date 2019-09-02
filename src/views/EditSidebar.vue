@@ -37,10 +37,10 @@
 			<ActionLink v-if="hasDownloadURL" icon="icon-download" title="Download"
 				:href="downloadURL"
 			/>
-			<ActionButton v-if="canDelete && !canCreateRecurrenceException" icon="icon-delete" @click="deleteAndLeave">
+			<ActionButton v-if="canDelete && !canCreateRecurrenceException" icon="icon-delete" @click="deleteAndLeave(false)">
 				Delete
 			</ActionButton>
-			<ActionButton v-if="canDelete && canCreateRecurrenceException" icon="icon-delete" @click="deleteAndLeave">
+			<ActionButton v-if="canDelete && canCreateRecurrenceException" icon="icon-delete" @click="deleteAndLeave(false)">
 				Delete this occurrence
 			</ActionButton>
 			<ActionButton v-if="canDelete && canCreateRecurrenceException" icon="icon-delete" @click="deleteAndLeave(true)">
@@ -73,10 +73,10 @@
 		<!--		</AppSidebarTab>-->
 
 		<div class="app-sidebar-button-area-bottom">
-			<button v-if="!canCreateRecurrenceException" class="primary one-option" @click="saveAndLeave">
+			<button v-if="!canCreateRecurrenceException" class="primary one-option" @click="saveAndLeave(false)">
 				{{ updateLabel }}
 			</button>
-			<button v-if="canCreateRecurrenceException" class="primary two-options" @click="saveAndLeave">
+			<button v-if="canCreateRecurrenceException" class="primary two-options" @click="saveAndLeave(false)">
 				Update this occurrence
 			</button>
 			<button v-if="canCreateRecurrenceException" class="two-options" @click="saveAndLeave(true)">
@@ -239,6 +239,7 @@ export default {
 			console.debug('Can create a recurrence exception?', this.eventComponent.canCreateRecurrenceExceptions())
 			if (this.eventComponent.canCreateRecurrenceExceptions() && this.calendarObject.id !== 'new') {
 				console.debug('Creating a recurrence-exception')
+				// TODO - fetch return value, because when using thisAndAllFuture, there is a new event we have to save
 				this.eventComponent.createRecurrenceException(thisAndAllFuture)
 			}
 
