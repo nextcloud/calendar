@@ -78,3 +78,21 @@ export function getYYYYMMDDFromFirstdayParam(firstDayParam) {
 
 	return firstDayParam
 }
+
+/**
+ * Gets a date object based on the given DateTimeValue
+ * Ignores given timezone-information
+ *
+ * @param {DateTimeValue} dateTimeValue Value to get date from
+ * @returns {Date}
+ */
+export function getDateFromDateTimeValue(dateTimeValue) {
+	return new Date(
+		dateTimeValue.year,
+		dateTimeValue.month - 1,
+		dateTimeValue.day,
+		dateTimeValue.hour,
+		dateTimeValue.minute,
+		0
+	)
+}
