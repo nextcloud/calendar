@@ -27,9 +27,7 @@
 				:placeholder="placeholder" :title="readableName" rows="1"
 				@input="changeValue"
 			/>
-			<div v-if="isReadOnly">
-				{{ value }}
-			</div>
+			<div class="fake-input-box" v-if="isReadOnly">{{ readOnlyValue }}</div>
 		</div>
 	</div>
 </template>
@@ -49,6 +47,19 @@ export default {
 	data() {
 		return {
 			value: null
+		}
+	},
+	computed: {
+		readOnlyValue() {
+			if (typeof this.value !== 'string') {
+				return t('calendar', 'Untitled event')
+			}
+
+			if (this.value.trim() === '') {
+				return t('calendar', 'Untitled event')
+			}
+
+			return this.value
 		}
 	},
 	watch: {
@@ -81,11 +92,25 @@ export default {
 <style scoped>
 .property-wrapper,
 .property-input,
+.fake-input-box,
 textarea {
 	width: 100%;
 }
 
-textarea {
+textarea,
+.fake-input-box {
 	font-size: 20px
+}
+
+.fake-input-box {
+	white-space: pre-line;
+	margin: 3px 3px 3px 0;
+	padding: 7px 6px;
+	background-color: var(--color-main-background);
+	color: var(--color-main-text);
+	border: 1px solid var(--color-border-dark);
+	outline: none;
+	border-radius: var(--border-radius);
+	cursor: not-allowed;
 }
 </style>
