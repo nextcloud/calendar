@@ -51,7 +51,7 @@
 		"nextcloud-logger": "0.0.6",
 		"nextcloud-router": "0.0.8",
 		"nextcloud-server": "^0.15.10",
-		"nextcloud-vue": "^0.12.1",
+		"nextcloud-vue": "^0.12.2",
 		"p-limit": "^2.2.1",
 		"p-queue": "^6.1.1",
 		"uuid": "^3.3.3",
