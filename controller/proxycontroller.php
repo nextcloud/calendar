@@ -94,15 +94,38 @@ class ProxyController extends Controller {
 
 			$allowLocalAccess = $this->config->getAppValue('dav', 'webcalAllowLocalAccess', 'no');
 			if ($allowLocalAccess !== 'yes') {
-				$host = parse_url($url, PHP_URL_HOST);
+				$host = strtolower(parse_url($url, PHP_URL_HOST));
 				// remove brackets from IPv6 addresses
 				if (strpos($host, '[') === 0 && substr($host, -1) === ']') {
 					$host = substr($host, 1, -1);
 				}
 
-				if ($host === 'localhost' || substr($host, -6) === '.local' || substr($host, -10) === '.localhost' ||
-					preg_match('/(^127\.)|(^192\.168\.)|(^10\.)|(^172\.1[6-9]\.)|(^172\.2[0-9]\.)|(^172\.3[0-1]\.)|(^::1$)|(^[fF][cCdD])/', $host)) {
-					$this->logger->warning("Subscription $url was not refreshed because it violates local access rules");
+				// Disallow localhost and local network
+				if ($host === 'localhost' || substr($host, -6) === '.local' || substr($host, -10) === '.localhost') {
+					$this->logger->warning("ProxyController: Subscription $url was not refreshed because it violates local access rules");
+
+					$response = new JSONResponse([
+						'message' => $this->l10n->t('URL violates local access rules'),
+						'proxy_code' => 403
+					], Http::STATUS_UNPROCESSABLE_ENTITY);
+
+					return $response;
+				}
+
+				// Disallow hostname only
+				if (substr_count($host, '.') === 0) {
+					$this->logger->warning("ProxyController: Subscription $url was not refreshed because it violates local access rules");
+
+					$response = new JSONResponse([
+						'message' => $this->l10n->t('URL violates local access rules'),
+						'proxy_code' => 403
+					], Http::STATUS_UNPROCESSABLE_ENTITY);
+
+					return $response;
+				}
+
+				if ((bool)filter_var($host, FILTER_VALIDATE_IP) && !filter_var($host, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+					$this->logger->warning("ProxyController: Subscription $url was not refreshed because it violates local access rules");
 
 					$response = new JSONResponse([
 						'message' => $this->l10n->t('URL violates local access rules'),
