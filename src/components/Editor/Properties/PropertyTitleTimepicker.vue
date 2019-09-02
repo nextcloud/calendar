@@ -25,28 +25,32 @@
 <template>
 	<div>
 		<div class="row">
-			<DatetimePicker lang="en" :format="timeFormat" :value="start"
-				:type="timeType" @change="changeStart"
+			<DatetimePicker v-if="!isReadOnly" lang="en" :format="timeFormat"
+				:value="start" :type="timeType" @change="changeStart"
 			/>
+			<div v-if="isReadOnly" class="fake-input-box">{{ start | formatDate(isAllDay) }}</div>
 			<span>
 				{{ toLabel }}
 			</span>
-			<DatetimePicker lang="en" :format="timeFormat" :value="end"
-				:type="timeType" @change="changeEnd"
+			<DatetimePicker v-if="!isReadOnly" lang="en" :format="timeFormat"
+				:value="end" :type="timeType" @change="changeEnd"
 			/>
+			<div v-if="isReadOnly" class="fake-input-box">{{ end | formatDate(isAllDay) }}</div>
 		</div>
 		<div v-if="displayTimezones" class="row">
-			<timezone-select :value="startTimezoneId" @change="changeStartTimezone" />
+			<timezone-select v-if="!isReadOnly" :value="startTimezoneId" @change="changeStartTimezone" />
+			<div v-if="isReadOnly" class="fake-input-box">{{ startTimezoneId | formatTimezone }}</div>
 			<span style="visibility: hidden">
 				{{ toLabel }}
 			</span>
-			<timezone-select :value="endTimezoneId" @change="changeEndTimezone" />
+			<timezone-select v-if="!isReadOnly" :value="endTimezoneId" @change="changeEndTimezone" />
+			<div v-if="isReadOnly" class="fake-input-box">{{ endTimezoneId | formatTimezone }}</div>
 		</div>
 
 		<div class="row-checkboxes">
 			<div>
 				<input id="allDay" v-model="isAllDay" type="checkbox"
-					class="checkbox" :disabled="!canModifyAllDay"
+					class="checkbox" :disabled="!canModifyAllDay || isReadOnly"
 					@change="toggleAllDay"
 				>
 				<label for="allDay" v-tooltip="allDayTooltip">
@@ -72,6 +76,10 @@ import TimezoneSelect from '../../Shared/TimezoneSelect'
 import PropertyMixin from '../../../mixins/PropertyMixin'
 import { getDateFromDateTimeValue } from '../../../services/date'
 import getTimezoneManager from '../../../services/timezoneDataProviderService'
+import {
+	getReadableTimezoneName,
+} from '../../../services/timezoneSortingService'
+import moment from 'moment'
 
 export default {
 	name: 'PropertyTitleTimePicker',
@@ -99,12 +107,34 @@ export default {
 			canModifyAllDay: true
 		}
 	},
+	filters: {
+		formatDate(value, isAllDay) {
+			if (!value) {
+				return ''
+			}
+			if (isAllDay) {
+				return moment(value).format('ll')
+			} else {
+				return moment(value).format('lll')
+			}
+		},
+		formatTimezone(value) {
+			if (!value) {
+				return ''
+			}
+
+			return getReadableTimezoneName(value)
+		}
+	},
 	computed: {
 		allDayLabel() {
 			return t('calendar', 'All day')
 		},
 		allDayTooltip() {
 			if (this.canModifyAllDay) {
+				return null
+			}
+			if (this.isReadOnly) {
 				return null
 			}
 
@@ -273,11 +303,23 @@ export default {
 }
 
 .row > div.mx-datepicker,
-.row > div.multiselect {
+.row > div.multiselect,
+.row > .fake-input-box {
 	flex-grow: 2;
 }
 
 .row > span {
 	margin: 0 10px;
+}
+
+.fake-input-box {
+	margin: 3px 3px 3px 0;
+	padding: 7px 6px;
+	background-color: var(--color-main-background);
+	color: var(--color-main-text);
+	border: 1px solid var(--color-border-dark);
+	outline: none;
+	border-radius: var(--border-radius);
+	cursor: not-allowed;
 }
 </style>

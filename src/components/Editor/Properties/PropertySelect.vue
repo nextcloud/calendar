@@ -24,10 +24,11 @@
 	<div v-if="eventComponentLoaded" class="property-wrapper">
 		<div class="property-icon" :class="icon" :title="readableName" />
 		<div class="property-input">
-			<multiselect v-model="value" :options="options" :searchable="false"
-				:allow-empty="false" :title="readableName" track-by="value"
-				label="label" @select="changeValue"
+			<multiselect v-if="!isReadOnly" v-model="value" :options="options"
+				:searchable="false" :allow-empty="false" :title="readableName"
+				track-by="value" label="label" @select="changeValue"
 			/>
+			<div v-if="isReadOnly" class="fake-input-box">{{ value.label }}</div>
 		</div>
 		<div v-if="hasInfo" v-tooltip="info" class="property-info icon-details" />
 	</div>
@@ -114,5 +115,18 @@ export default {
 .multiselect {
 	width: 100%;
 	margin: 3px 3px 3px 0;
+}
+
+.fake-input-box {
+	white-space: pre-line;
+	width: 100%;
+	margin: 3px 3px 3px 0;
+	padding: 7px 6px;
+	background-color: var(--color-main-background);
+	color: var(--color-main-text);
+	border: 1px solid var(--color-border-dark);
+	outline: none;
+	border-radius: var(--border-radius);
+	cursor: not-allowed;
 }
 </style>

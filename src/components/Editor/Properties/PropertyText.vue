@@ -21,16 +21,14 @@
   -->
 
 <template>
-	<div v-if="eventComponentLoaded" class="property-wrapper">
+	<div v-if="display" class="property-wrapper">
 		<div class="property-icon" :class="icon" :title="readableName" />
 		<div class="property-input">
 			<textarea v-if="!isReadOnly" v-autosize :value="value"
 				:placeholder="placeholder" :title="readableName" rows="1"
 				@input="changeValue"
 			/>
-			<div v-if="isReadOnly">
-				{{ value }}
-			</div>
+			<div class="fake-input-box" v-if="isReadOnly">{{ value }}</div>
 		</div>
 		<div v-if="hasInfo" v-tooltip="info" class="property-info icon-details" />
 	</div>
@@ -51,6 +49,20 @@ export default {
 	data() {
 		return {
 			value: null
+		}
+	},
+	computed: {
+		display() {
+			if (this.isReadOnly) {
+				if (typeof this.value !== 'string') {
+					return false
+				}
+				if (this.value.trim() === '') {
+					return false
+				}
+			}
+
+			return this.eventComponentLoaded
 		}
 	},
 	watch: {
@@ -103,7 +115,20 @@ export default {
 	flex-grow: 2;
 }
 
+.fake-input-box,
 textarea {
 	width: 100%
+}
+
+.fake-input-box {
+	white-space: pre-line;
+	margin: 3px 3px 3px 0;
+	padding: 7px 6px;
+	background-color: var(--color-main-background);
+	color: var(--color-main-text);
+	border: 1px solid var(--color-border-dark);
+	outline: none;
+	border-radius: var(--border-radius);
+	cursor: not-allowed;
 }
 </style>

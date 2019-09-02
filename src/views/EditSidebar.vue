@@ -72,7 +72,7 @@
 		<!--			This is the projects tab-->
 		<!--		</AppSidebarTab>-->
 
-		<div class="app-sidebar-button-area-bottom">
+		<div v-if="!isReadOnly" class="app-sidebar-button-area-bottom">
 			<button v-if="!canCreateRecurrenceException" class="primary one-option" @click="saveAndLeave(false)">
 				{{ updateLabel }}
 			</button>
@@ -166,6 +166,10 @@ export default {
 				return false
 			}
 
+			if (this.isReadOnly) {
+				return false
+			}
+
 			return !!this.calendarObject.dav
 		},
 		canCreateRecurrenceException() {
@@ -193,10 +197,10 @@ export default {
 			return t('calendar', 'Update this and all future')
 		},
 		isReadOnly() {
-			return false
+			return true
 		},
 		calendars() {
-			if (this.isReadOnly) {
+			if (this.isReadOnly && this.calendarObject) {
 				return [
 					this.$store.getters.getCalendarById(this.calendarObject.calendarId)
 				]
@@ -236,6 +240,10 @@ export default {
 				return
 			}
 
+			if (this.isReadOnly) {
+				return true
+			}
+
 			console.debug('Can create a recurrence exception?', this.eventComponent.canCreateRecurrenceExceptions())
 			if (this.eventComponent.canCreateRecurrenceExceptions() && this.calendarObject.id !== 'new') {
 				console.debug('Creating a recurrence-exception')
@@ -255,6 +263,10 @@ export default {
 		async delete(thisAndAllFuture = false) {
 			if (!this.calendarObject) {
 				return
+			}
+
+			if (this.isReadOnly) {
+				return true
 			}
 
 			const emptyCalendarObject = this.eventComponent.removeThisOccurrence(thisAndAllFuture)
