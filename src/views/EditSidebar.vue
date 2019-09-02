@@ -26,11 +26,10 @@
 	<AppSidebar title="" :compact="false" @close="cancel">
 		<template v-slot:primary-actions style="max-height: none !important">
 			<div style="width: 100%">
-				<property-title :event-component="eventComponent" :prop-model="rfcProps.summary" :is-read-only="false" />
-				<calendar-picker :calendars="calendars" :calendar="selectedCalendar" />
-				<!--				<property-timepicker-title :event-component="eventComponent" :is-read-only="false" />-->
-				<!--				<title-timepicker :event-component="eventComponent" />-->
-				<!--				<timezonepicker :event-component="eventComponent" />-->
+				<property-title :event-component="eventComponent" :prop-model="rfcProps.summary" :is-read-only="isReadOnly" />
+				<calendar-picker :calendars="calendars" :calendar="selectedCalendar" is-read-only="isReadOnly" />
+				<property-title-time-picker :event-component="eventComponent" :prop-model="{}" :is-read-only="isReadOnly"
+					:user-timezone="{}" />
 			</div>
 		</template>
 
@@ -50,19 +49,20 @@
 		</template>
 
 		<AppSidebarTab name="Details" icon="icon-details" :order="0">
-			<property-text :event-component="eventComponent" :prop-model="rfcProps.location" :is-read-only="false" />
-			<property-text :event-component="eventComponent" :prop-model="rfcProps.description" :is-read-only="false" />
-			<property-select :event-component="eventComponent" :prop-model="rfcProps.status" :is-read-only="false" />
-			<property-select :event-component="eventComponent" :prop-model="rfcProps.class" :is-read-only="false" />
-			<property-select :event-component="eventComponent" :prop-model="rfcProps.timeTransparency" :is-read-only="false" />
+			<property-text :event-component="eventComponent" :prop-model="rfcProps.location" :is-read-only="isReadOnly" />
+			<property-text :event-component="eventComponent" :prop-model="rfcProps.description" :is-read-only="isReadOnly" />
+			<property-select :event-component="eventComponent" :prop-model="rfcProps.status" :is-read-only="isReadOnly" />
+			<property-select :event-component="eventComponent" :prop-model="rfcProps.class" :is-read-only="isReadOnly" />
+			<property-select :event-component="eventComponent" :prop-model="rfcProps.timeTransparency" :is-read-only="isReadOnly" />
 		</AppSidebarTab>
 		<AppSidebarTab name="Attendees" icon="icon-group" :order="1">
-			This is the attendees tab
+			<invitees-list :event-component="eventComponent" :is-read-only="isReadOnly" />
 		</AppSidebarTab>
 		<AppSidebarTab name="Reminders" :icon="reminderIcon" :order="2">
-			This is the reminders tab
+			<alarm-list :event-component="eventComponent" :is-read-only="isReadOnly" />
 		</AppSidebarTab>
 		<AppSidebarTab name="Repeat" icon="icon-repeat" :order="3">
+			<property-rrule :event-component="eventComponent" :is-read-only="isReadOnly" />
 			This is the repeat tab
 		</AppSidebarTab>
 		<!--		<AppSidebarTab name="Activity" icon="icon-history" :order="4">-->
@@ -86,49 +86,40 @@
 	</AppSidebar>
 </template>
 <script>
-
 import {
 	AppSidebar,
 	AppSidebarTab,
 	ActionLink,
 	ActionButton
 } from 'nextcloud-vue'
-import CalendarPicker from '../components/Editor/CalendarPicker'
-// import TitleTimepicker from '../components/Editor/TitleTimepicker'
-// import Timezonepicker from '../components/Editor/Timezonepicker'
 
-import detectTimezone from '../services/timezoneDetectionService'
-import PropertyText from '../components/Editor/Properties/PropertyText'
+import AlarmList from '../components/Editor/Alarm/AlarmList'
+import CalendarPicker from '../components/Shared/CalendarPicker'
+import InviteesList from '../components/Editor/Invitees/InviteesList'
+import PropertyRrule from '../components/Editor/Properties/PropertyRrule'
 import PropertySelect from '../components/Editor/Properties/PropertySelect'
+import PropertyText from '../components/Editor/Properties/PropertyText'
+import PropertyTitle from '../components/Editor/Properties/PropertyTitle'
+import PropertyTitleTimePicker from '../components/Editor/Properties/PropertyTitleTimePicker'
 
 import rfcProps from '../models/rfcProps'
-import PropertyTitle from '../components/Editor/Properties/PropertyTitle'
-
-// import { loadNewEventIntoEditor } from '../services/routerHelper'
-// import TitleTimepicker from '../components/Editor/TitleTimepicker'
-// import DetailsTab from '../components/Editor/DetailsTab'
-// import InviteesTab from '../components/Editor/InviteesTab'
-// import AlarmTab from '../components/Editor/AlarmTab'
-// import RepeatTab from '../components/Editor/RepeatTab'
+import detectTimezone from '../services/timezoneDetectionService'
 
 export default {
 	name: 'EditSidebar',
 	components: {
-		PropertyTitle,
-		PropertySelect,
-		PropertyText,
-		// TitleTimepicker,
-		// Timezonepicker,
+		AlarmList,
 		AppSidebar,
 		AppSidebarTab,
 		ActionLink,
 		ActionButton,
 		CalendarPicker,
-		// TitleTimepicker,
-		// DetailsTab,
-		// InviteesTab,
-		// AlarmTab,
-		// RepeatTab,
+		InviteesList,
+		PropertyRrule,
+		PropertySelect,
+		PropertyText,
+		PropertyTitle,
+		PropertyTitleTimePicker,
 	},
 	data() {
 		return {

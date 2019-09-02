@@ -26,7 +26,7 @@
 
 <script>
 export default {
-	name: 'AlarmListItem'
+	name: 'AvatarParticipationStatus'
 }
 </script>
 
