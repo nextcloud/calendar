@@ -22,13 +22,13 @@
 
 <template>
 	<div class="button-group">
-		<button :class="{active: isAgendaDayViewSelected}" class="button" @click="view('agendaDay')">
+		<button :class="{active: isAgendaDayViewSelected}" class="button" @click="view('timeGridDay')">
 			{{ labelAgendaDay }}
 		</button>
-		<button :class="{active: isAgendaWeekViewSelected}" class="button" @click="view('agendaWeek')">
+		<button :class="{active: isAgendaWeekViewSelected}" class="button" @click="view('timeGridWeek')">
 			{{ labelAgendaWeek }}
 		</button>
-		<button :class="{active: isMonthViewSelected}" class="button" @click="view('month')">
+		<button :class="{active: isMonthViewSelected}" class="button" @click="view('dayGridMonth')">
 			{{ labelMonth }}
 		</button>
 	</div>
@@ -42,19 +42,19 @@ export default {
 			return t('calendar', 'Day')
 		},
 		isAgendaDayViewSelected() {
-			return this.selectedView === 'agendaDay'
+			return this.selectedView === 'timeGridDay'
 		},
 		labelAgendaWeek() {
 			return t('calendar', 'Week')
 		},
 		isAgendaWeekViewSelected() {
-			return this.selectedView === 'agendaWeek'
+			return this.selectedView === 'timeGridWeek'
 		},
 		labelMonth() {
 			return t('calendar', 'Month')
 		},
 		isMonthViewSelected() {
-			return this.selectedView === 'month'
+			return this.selectedView === 'dayGridMonth'
 		},
 		selectedView() {
 			return this.$store.state.route.params.view

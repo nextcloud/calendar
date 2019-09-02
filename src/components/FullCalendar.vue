@@ -25,8 +25,16 @@
 </template>
 
 <script>
-import { Calendar } from 'fullcalendar'
-import '../../node_modules/fullcalendar/dist/fullcalendar.css'
+import { Calendar } from '@fullcalendar/core'
+import '@fullcalendar/core/main.css'
+import dayGridPlugin from '@fullcalendar/daygrid'
+import '@fullcalendar/daygrid/main.css'
+import interactionPlugin from '@fullcalendar/interaction'
+import listPlugin from '@fullcalendar/list'
+import '@fullcalendar/list/main.css'
+import timeGridPlugin from '@fullcalendar/timegrid'
+import '@fullcalendar/timegrid/main.css'
+
 import debounce from 'debounce'
 import eventAllow from '../fullcalendar/eventAllow'
 import eventDrop from '../fullcalendar/eventDrop'
@@ -180,7 +188,10 @@ export default {
 		const height = windowHeight - headerHeight
 
 		this.calendar = new Calendar(this.$el,
-			Object.assign({}, { height }, this.defaultConfig, this.config))
+			Object.assign({}, {
+				height,
+				plugins: [ dayGridPlugin, interactionPlugin, listPlugin, timeGridPlugin ]
+			}, this.defaultConfig, this.config))
 		this.calendar.render()
 
 		console.debug(this.calendar)
