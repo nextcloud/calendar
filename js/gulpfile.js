@@ -40,8 +40,6 @@ const cssBuildTarget = 'app.scss';
 const cssBuildTargetMin = 'app.min.scss';
 const vendorTarget = 'vendor.js';
 const vendorTargetMin = 'vendor.min.js';
-const vendorIETarget = 'vendor.ie.js';
-const vendorIETargetMin = 'vendor.ie.min.js';
 const vendorCssTarget = 'vendor.css';
 const vendorCssTargetMin = 'vendor.min.css';
 const karmaConfig = __dirname + '/../tests/js/config/karma.js';
@@ -86,10 +84,9 @@ gulp.task('_buildAndMinifyCSSSources', gulpsync.sync(['_buildCSSSources', '_mini
 gulp.task('_buildAndMinifyJavaScriptSources', gulpsync.sync(['_buildJavaScriptSources', '_minifyJavaScriptSources']));
 gulp.task('_buildAndMinifyCSSVendor', gulpsync.sync(['_buildCSSVendor', '_minifyCSSVendor']));
 gulp.task('_buildAndMinifyJavaScriptVendor', gulpsync.sync(['_buildJavaScriptVendor', '_minifyJavaScriptVendor']));
-gulp.task('_buildAndMinifyIEJavaScriptVendor', gulpsync.sync(['_buildIEJavaScriptVendor', '_minifyIEJavaScriptVendor']));
 
 gulp.task('_buildSource', ['_buildAndMinifyCSSSources', '_buildAndMinifyJavaScriptSources']);
-gulp.task('_buildVendor', ['_buildAndMinifyCSSVendor', '_buildAndMinifyJavaScriptVendor', '_buildAndMinifyIEJavaScriptVendor']);
+gulp.task('_buildVendor', ['_buildAndMinifyCSSVendor', '_buildAndMinifyJavaScriptVendor']);
 
 // #############################################################################
 // ################################ SOURCE CSS #################################
@@ -178,25 +175,6 @@ gulp.task('_minifyJavaScriptVendor', () => {
 	return gulp.src([destinationFolder + vendorTarget])
 		.pipe(sourcemaps.init({identityMap: true, largeFile: true}))
 		.pipe(concat(vendorTargetMin))
-		.pipe(strip())
-		.pipe(uglify())
-		.pipe(sourcemaps.write('./', {includeContent: false}))
-		.pipe(gulp.dest(destinationFolder));
-});
-
-// #############################################################################
-// ############################### VENDOR IE JS ################################
-// #############################################################################
-gulp.task('_buildIEJavaScriptVendor', () => {
-	return gulp.src(['node_modules/babel-polyfill/dist/polyfill.js'].concat(vendorSources))
-		.pipe(concat(vendorIETarget))
-		.pipe(gulp.dest(destinationFolder));
-});
-
-gulp.task('_minifyIEJavaScriptVendor', () => {
-	return gulp.src([destinationFolder + vendorIETarget])
-		.pipe(sourcemaps.init({identityMap: true, largeFile: true}))
-		.pipe(concat(vendorIETargetMin))
 		.pipe(strip())
 		.pipe(uglify())
 		.pipe(sourcemaps.write('./', {includeContent: false}))

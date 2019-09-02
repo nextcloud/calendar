@@ -39,15 +39,10 @@ foreach ($styles as $style) {
 	style('calendar', $style);
 }
 
-$scripts = [];
-if ($_['isIE']) {
-	$scripts[] = 'public/vendor.ie.min';
-} else {
-	$scripts[] = 'public/vendor.min';
-}
-
-$scripts[] = 'public/app.min';
-
+$scripts = [
+	'public/vendor.min',
+	'public/app.min'
+];
 
 foreach ($scripts as $script) {
 	script('calendar', $script);
