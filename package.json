@@ -48,7 +48,7 @@
 		"nextcloud-dialogs": "0.0.3",
 		"nextcloud-initial-state": "0.0.1",
 		"nextcloud-l10n": "0.0.2",
-		"nextcloud-logger": "0.0.4",
+		"nextcloud-logger": "0.0.6",
 		"nextcloud-router": "0.0.8",
 		"nextcloud-server": "^0.15.10",
 		"nextcloud-vue": "^0.12.1",
