@@ -33,7 +33,7 @@
     "gulp-strip-css-comments": "^2.0.0",
     "gulp-stylelint": "^8.0.0",
     "gulp-sync": "^0.1.4",
-    "gulp-uglify": "^3.0.0",
+    "gulp-uglify": "^3.0.2",
     "gulp-uglifycss": "^1.1.0",
     "gulp-wrap": "^0.15.0",
     "istanbul": "^0.4.5",
