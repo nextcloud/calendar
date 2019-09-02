@@ -29,7 +29,7 @@
 				<property-title :event-component="eventComponent" :prop-model="rfcProps.summary" :is-read-only="isReadOnly" />
 				<calendar-picker :calendars="calendars" :calendar="selectedCalendar" is-read-only="isReadOnly" />
 				<property-title-time-picker :event-component="eventComponent" :prop-model="{}" :is-read-only="isReadOnly"
-					:user-timezone="{}" />
+					:user-timezone="currentUserTimezone" />
 			</div>
 		</template>
 
@@ -37,13 +37,13 @@
 			<ActionLink v-if="hasDownloadURL" icon="icon-download" title="Download"
 				:href="downloadURL"
 			/>
-			<ActionButton v-if="canDelete && !canCreateRecurrenceException" icon="icon-delete" @click="alert('Delete')">
+			<ActionButton v-if="canDelete && !canCreateRecurrenceException" icon="icon-delete" @click="deleteAndLeave">
 				Delete
 			</ActionButton>
-			<ActionButton v-if="canDelete && canCreateRecurrenceException" icon="icon-delete" @click="alert('Delete')">
+			<ActionButton v-if="canDelete && canCreateRecurrenceException" icon="icon-delete" @click="deleteAndLeave">
 				Delete this occurrence
 			</ActionButton>
-			<ActionButton v-if="canDelete && canCreateRecurrenceException" icon="icon-delete" @click="alert('Delete')">
+			<ActionButton v-if="canDelete && canCreateRecurrenceException" icon="icon-delete" @click="deleteAndLeave(true)">
 				Delete this and all future
 			</ActionButton>
 		</template>
@@ -73,13 +73,13 @@
 		<!--		</AppSidebarTab>-->
 
 		<div class="app-sidebar-button-area-bottom">
-			<button v-if="!canCreateRecurrenceException" class="primary one-option">
+			<button v-if="!canCreateRecurrenceException" class="primary one-option" @click="saveAndLeave">
 				{{ updateLabel }}
 			</button>
-			<button v-if="canCreateRecurrenceException" class="primary two-options">
+			<button v-if="canCreateRecurrenceException" class="primary two-options" @click="saveAndLeave">
 				Update this occurrence
 			</button>
-			<button v-if="canCreateRecurrenceException" class="two-options">
+			<button v-if="canCreateRecurrenceException" class="two-options" @click="saveAndLeave(true)">
 				Update this and all future
 			</button>
 		</div>
@@ -210,6 +210,11 @@ export default {
 			}
 
 			return this.$store.getters.getCalendarById(this.calendarObject.calendarId)
+		},
+		currentUserTimezone() {
+			return this.$store.state.settings.settings.timezone === 'automatic'
+				? detectTimezone()
+				: this.$store.state.settings.settings.timezone
 		}
 	},
 	methods: {
@@ -218,12 +223,7 @@ export default {
 				this.calendarObject.resetToDav()
 			}
 
-			const name = 'CalendarView'
-			const params = {
-				view: this.$route.params.view,
-				firstday: this.$route.params.firstday
-			}
-			this.$router.push({ name, params })
+			this.close()
 		},
 		async save(thisAndAllFuture = false) {
 			if (!this.calendarObject) {
@@ -246,6 +246,11 @@ export default {
 				calendarObject: this.calendarObject
 			})
 		},
+		async saveAndLeave(thisAndAllFuture = false) {
+			this.eventComponent.markDirty()
+			await this.save(thisAndAllFuture)
+			this.close()
+		},
 		async delete(thisAndAllFuture = false) {
 			if (!this.calendarObject) {
 				return
@@ -262,9 +267,21 @@ export default {
 				calendarObject: this.calendarObject
 			})
 		},
+		async deleteAndLeave(thisAndAllFuture = false) {
+			await this.delete(thisAndAllFuture)
+			this.close()
+		},
 		selectCalendar(selectedCalendar) {
 			this.event = selectedCalendar
 		},
+		close() {
+			const name = 'CalendarView'
+			const params = {
+				view: this.$route.params.view,
+				firstday: this.$route.params.firstday
+			}
+			this.$router.push({ name, params })
+		}
 	},
 	beforeRouteEnter(to, from, next) {
 		if (to.name === 'NewSidebarView') {
