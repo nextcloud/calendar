@@ -197,7 +197,16 @@ export default {
 			return t('calendar', 'Update this and all future')
 		},
 		isReadOnly() {
-			return true
+			if (!this.calendarObject) {
+				return true
+			}
+
+			const calendar = this.$store.getters.getCalendarById(this.calendarObject.calendarId)
+			if (!calendar) {
+				return true
+			}
+
+			return calendar.readOnly
 		},
 		calendars() {
 			if (this.isReadOnly && this.calendarObject) {
