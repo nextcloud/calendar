@@ -132,18 +132,18 @@ export default {
 		},
 		nav(dir) {
 			switch (this.$route.params.view) {
-			case 'agendaDay':
+			case 'timeGridDay':
 				return moment(this.date)
 					.add(dir, 'day')
 					.toDate()
 
-			case 'agendaWeek':
+			case 'timeGridWeek':
 				return moment(this.date)
 					.add(dir, 'week')
 					// .startOf('week')
 					.toDate()
 
-			case 'month':
+			case 'dayGridMonth':
 				return moment(this.date)
 					.add(dir, 'month')
 					// .startOf('month')
