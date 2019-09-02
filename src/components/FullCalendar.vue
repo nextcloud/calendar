@@ -40,7 +40,7 @@ import eventAllow from '../fullcalendar/eventAllow'
 import eventDrop from '../fullcalendar/eventDrop'
 import eventResize from '../fullcalendar/eventResize'
 
-import '../fullcalendar/timeZoneImpl'
+import VTimezoneNamedTimezone from '../fullcalendar/vtimezoneNamedTimezoneImpl'
 
 export default {
 	name: 'FullCalendar',
@@ -190,7 +190,7 @@ export default {
 		this.calendar = new Calendar(this.$el,
 			Object.assign({}, {
 				height,
-				plugins: [ dayGridPlugin, interactionPlugin, listPlugin, timeGridPlugin ]
+				plugins: [ dayGridPlugin, interactionPlugin, listPlugin, timeGridPlugin, VTimezoneNamedTimezone ]
 			}, this.defaultConfig, this.config))
 		this.calendar.render()
 

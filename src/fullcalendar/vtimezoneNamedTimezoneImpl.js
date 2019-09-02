@@ -19,7 +19,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { NamedTimeZoneImpl, registerNamedTimeZoneImpl } from 'fullcalendar'
+import {
+	NamedTimeZoneImpl,
+	createPlugin
+} from '@fullcalendar/core'
 import getTimezoneManager from '../services/timezoneDataProviderService'
 
 /**
@@ -34,7 +37,7 @@ class VTimezoneNamedTimezone extends NamedTimeZoneImpl {
 	 * @returns {Number} offset in minutes
 	 */
 	offsetForArray([year, month, day, hour, minute, second]) {
-		const timezone = getTimezoneManager().getTimezoneForId(this.name)
+		const timezone = getTimezoneManager().getTimezoneForId(this.timeZoneName)
 		month += 1
 
 		return timezone.offsetForArray(year, month, day, hour, minute, second) / 60
@@ -47,7 +50,7 @@ class VTimezoneNamedTimezone extends NamedTimeZoneImpl {
 	 * @returns {Number[]}
 	 */
 	timestampToArray(ms) {
-		const timezone = getTimezoneManager().getTimezoneForId(this.name)
+		const timezone = getTimezoneManager().getTimezoneForId(this.timeZoneName)
 		const timestampArray = timezone.timestampToArray(ms)
 		timestampArray[1]--
 
@@ -56,4 +59,6 @@ class VTimezoneNamedTimezone extends NamedTimeZoneImpl {
 
 }
 
-registerNamedTimeZoneImpl('vtimezone-timezone', VTimezoneNamedTimezone)
+export default createPlugin({
+	namedTimeZonedImpl: VTimezoneNamedTimezone
+})
