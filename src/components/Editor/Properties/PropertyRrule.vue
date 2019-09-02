@@ -21,15 +21,11 @@
   -->
 
 <template>
-
+	<div />
 </template>
 
 <script>
 export default {
-	name: 'PropertyDateTime'
+	name: 'PropertyRrule'
 }
 </script>
-
-<style scoped>
-
-</style>

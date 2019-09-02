@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import CalendarPicker from '../../Editor/CalendarPicker'
+import CalendarPicker from '../../Shared/CalendarPicker'
 
 export default {
 	name: 'ImportScreenRow',
