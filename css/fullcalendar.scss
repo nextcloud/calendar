@@ -20,6 +20,18 @@
  *
  */
 
+.fc-event-nc-tentative,
+.fc-event-nc-cancelled {
+	opacity: .5;
+}
+
+.fc-event-nc-cancelled {
+	text-decoration: line-through !important;
+}
+
+
+
+
 
 /* Fullcalendar modifications */
 
