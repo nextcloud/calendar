@@ -54,6 +54,7 @@ export function getFCEventFromEventComponent(calendarObjects, start, end, timezo
 				extendedProps: {
 					objectId: calendarObject.id,
 					recurrenceId: object.getReferenceRecurrenceId().unixTime,
+					canModifyAllDay: object.canModifyAllDay()
 				}
 			}
 

@@ -28,6 +28,9 @@
 import { Calendar } from 'fullcalendar'
 import '../../node_modules/fullcalendar/dist/fullcalendar.css'
 import debounce from 'debounce'
+import eventAllow from '../fullcalendar/eventAllow'
+import eventDrop from '../fullcalendar/eventDrop'
+import eventResize from '../fullcalendar/eventResize'
 
 import '../fullcalendar/timeZoneImpl'
 
@@ -109,7 +112,10 @@ export default {
 					const name = this.$store.state.settings.showPopover ? 'NewPopoverView' : 'NewSidebarView'
 					this.$router.push({ name })
 					console.debug(start, startStr, end, endStr, allDay, jsEvent, view, resource)
-				}
+				},
+				eventAllow,
+				eventDrop: eventDrop(this.$store),
+				eventResize: eventResize(this.$store),
 			},
 			calendar: null,
 			currentDate: null
