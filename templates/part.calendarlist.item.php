@@ -30,8 +30,7 @@
 	  ng-click="triggerEnable(item)"
 	  ng-if="item.displayColorIndicator() && !item.calendar.hasWarnings()"
 	  ng-style="{
-		  'background-color' : item.calendar.enabled == true ? item.calendar.color : 'transparent',
-		  'border': item.calendar.enabled == true ? '1px solid var(--color-border-dark)' : 'none'
+		  'background-color' : item.calendar.enabled == true ? item.calendar.color : 'transparent'
 		}">
 </span>
 <a class="action permanent"
