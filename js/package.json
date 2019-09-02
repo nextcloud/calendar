@@ -47,7 +47,7 @@
     "karma-phantomjs-launcher": "^1.0.4",
     "phantomjs-prebuilt": "^2.1.16",
     "stylelint": "^9.3.0",
-    "stylelint-config-standard": "^18.2.0"
+    "stylelint-config-standard": "^18.3.0"
   },
   "engines": {
     "node": ">=6"
