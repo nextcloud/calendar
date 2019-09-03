@@ -53,6 +53,7 @@ export default function(store) {
 				if (!eventComponent) {
 					console.debug('Recurrence-id not found')
 					revert()
+					return
 				}
 
 				eventComponent.shiftByDuration(deltaDuration, event.allDay, timezone, defaultAllDayDuration, defaultTimedDuration)
