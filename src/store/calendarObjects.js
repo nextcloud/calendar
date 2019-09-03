@@ -118,12 +118,16 @@ const actions = {
 	 * @returns {Promise<void>}
 	 */
 	async moveCalendarObject(context, { calendarObject, newCalendarId }) {
-		if (!calendarObject.dav) {
+		if (!calendarObject.existsOnServer()) {
 			return
 		}
 
 		const oldCalendarId = calendarObject.calendarId
 		const newCalendar = context.getters.getCalendarById(newCalendarId)
+		if (!newCalendar) {
+			return
+		}
+
 		await calendarObject.dav.move(newCalendar)
 		context.commit('moveCalendarObject', { calendarObject, newCalendarId })
 		context.commit('addCalendarObjectToCalendar', {
@@ -162,6 +166,8 @@ const actions = {
 
 		const calendar = context.getters.getCalendarById(calendarObject.calendarId)
 		calendarObject.dav = await calendar.dav.createVObject(calendarObject.vcalendar.toICS())
+
+		console.debug(calendarObject)
 
 		context.commit('appendCalendarObject', { calendarObject })
 		context.commit('addCalendarObjectToCalendar', {
@@ -232,6 +238,42 @@ const actions = {
 		const calendar = createEvent(startDateTime, endDateTime)
 		const firstCalendar = context.getters.sortedCalendars[0].id
 		return Promise.resolve(new CalendarObject(calendar, firstCalendar))
+	},
+
+	/**
+	 *
+	 * @param {Object} context the store mutations
+	 * @param {Object} data destructuring object
+	 * @param {CalendarObject} data.calendarObject Calendar-object to
+	 * @param {Number} data.start Timestamp for start of new event
+	 * @param {Number} data.end Timestamp for end of new event
+	 * @param {String} data.timezoneId asd
+	 * @param {Boolean} data.isAllDay foo
+	 */
+	updateTimeOfNewEvent(context, { calendarObject, start, end, timezoneId, isAllDay }) {
+		const timezoneManager = getTimezoneManager()
+		const timezone = timezoneManager.getTimezoneForId(timezoneId)
+
+		const startDate = new Date(start * 1000)
+		const endDate = new Date(end * 1000)
+
+		let startDateTime = DateTimeValue
+			.fromJSDate(startDate, true)
+			.getInTimezone(timezone)
+		let endDateTime = DateTimeValue
+			.fromJSDate(endDate, true)
+			.getInTimezone(timezone)
+
+		if (isAllDay) {
+			startDateTime.isDate = true
+			endDateTime.isDate = true
+		}
+
+		const eventComponent = calendarObject.vcalendar.getEventIterator().next().value
+		console.debug(eventComponent)
+		eventComponent.startDate = startDateTime
+		eventComponent.endDate = endDateTime
+		eventComponent.undirtify()
 	}
 }
 

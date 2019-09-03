@@ -94,6 +94,10 @@ export default {
 		userTimezone: {
 			Type: String,
 			required: true
+		},
+		startEndDateHash: {
+			Type: String,
+			required: false
 		}
 	},
 	data() {
@@ -168,6 +172,9 @@ export default {
 	},
 	watch: {
 		eventComponent() {
+			this.initValue()
+		},
+		startEndDateHash() {
 			this.initValue()
 		}
 	},
