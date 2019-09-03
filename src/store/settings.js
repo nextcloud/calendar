@@ -24,6 +24,7 @@ import HttpClient from 'nextcloud-axios'
 import client from '../services/cdav'
 import { getLinkToConfig } from '../services/settingsService'
 import { mapDavCollectionToCalendar } from '../models/calendar'
+import detectTimezone from '../services/timezoneDetectionService'
 
 const state = {
 	settings: {
@@ -105,7 +106,16 @@ const getters = {
 	 * @param {Object} state The Vuex state
 	 * @returns {Object}
 	 */
-	getSettings: (state) => state.settings
+	getSettings: (state) => state.settings,
+
+	/**
+	 *
+	 * @param {Object} state The Vuex state
+	 * @returns {String}
+	 */
+	getResolvedTimezone: (state) => state.settings.timezone === 'automatic'
+		? detectTimezone()
+		: state.settings.timezone
 }
 
 const actions = {

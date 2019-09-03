@@ -29,7 +29,7 @@
 				<property-title :event-component="eventComponent" :prop-model="rfcProps.summary" :is-read-only="isReadOnly" />
 				<calendar-picker :calendars="calendars" :calendar="selectedCalendar" is-read-only="isReadOnly" />
 				<property-title-time-picker :event-component="eventComponent" :prop-model="{}" :is-read-only="isReadOnly"
-					:user-timezone="currentUserTimezone" />
+					:user-timezone="currentUserTimezone" :start-end-date-hash="startEndDateHash" />
 			</div>
 		</template>
 
@@ -58,7 +58,7 @@
 		<AppSidebarTab name="Attendees" icon="icon-group" :order="1">
 			<invitees-list :event-component="eventComponent" :is-read-only="isReadOnly" />
 		</AppSidebarTab>
-		<AppSidebarTab name="Reminders" :icon="reminderIcon" :order="2">
+		<AppSidebarTab name="Reminders" icon="icon-reminder" :order="2">
 			<alarm-list :event-component="eventComponent" :is-read-only="isReadOnly" />
 		</AppSidebarTab>
 		<AppSidebarTab name="Repeat" icon="icon-repeat" :order="3">
@@ -103,7 +103,6 @@ import PropertyTitle from '../components/Editor/Properties/PropertyTitle'
 import PropertyTitleTimePicker from '../components/Editor/Properties/PropertyTitleTimePicker'
 
 import rfcProps from '../models/rfcProps'
-import detectTimezone from '../services/timezoneDetectionService'
 
 export default {
 	name: 'EditSidebar',
@@ -127,15 +126,67 @@ export default {
 			eventComponent: null,
 			isLoading: true,
 			error: false,
+			selectedCalendar: {},
+			requiresActionOnLeave: true
 		}
 	},
 	computed: {
-		reminderIcon() {
-			// Todo: show different icon based on alarm.
-			// If no alarm is set: Show reminder icon without dot
-			// If one or more alarm are set: Show reminder icon with dot
-			return 'icon-reminder'
+		// Did the event load without errors?
+		displayDetails() {
+			return !this.isLoading && !this.error
 		},
+		// Is the event read-only or read-write
+		isReadOnly() {
+			if (!this.calendarObject) {
+				return true
+			}
+
+			const calendar = this.$store.getters.getCalendarById(this.calendarObject.calendarId)
+			if (!calendar) {
+				return true
+			}
+
+			return calendar.readOnly
+		},
+		// List of all selectable calendars
+		calendars() {
+			if (this.isReadOnly && this.calendarObject) {
+				return [
+					this.$store.getters.getCalendarById(this.calendarObject.calendarId)
+				]
+			}
+
+			return this.$store.getters.sortedCalendars
+		},
+		// Current timezone of the user
+		currentUserTimezone() {
+			return this.$store.getters.getResolvedTimezone
+		},
+		// Can you delete this event?
+		canDelete() {
+			if (!this.calendarObject) {
+				return false
+			}
+
+			if (this.isReadOnly) {
+				return false
+			}
+
+			return !!this.calendarObject.dav
+		},
+		// Can you create recurrence-exceptions for this event?
+		canCreateRecurrenceException() {
+			if (!this.eventComponent) {
+				return false
+			}
+
+			return this.eventComponent.canCreateRecurrenceExceptions()
+		},
+		// List of all RFC props we can display
+		rfcProps() {
+			return rfcProps
+		},
+		// Download related properties
 		hasDownloadURL() {
 			if (!this.calendarObject) {
 				return false
@@ -154,31 +205,7 @@ export default {
 
 			return this.calendarObject.dav.url + '?export'
 		},
-		displayDetails() {
-			console.debug('display details?', (!this.isLoading && !this.error))
-			return !this.isLoading && !this.error
-		},
-		rfcProps() {
-			return rfcProps
-		},
-		canDelete() {
-			if (!this.calendarObject) {
-				return false
-			}
-
-			if (this.isReadOnly) {
-				return false
-			}
-
-			return !!this.calendarObject.dav
-		},
-		canCreateRecurrenceException() {
-			if (!this.eventComponent) {
-				return false
-			}
-
-			return this.eventComponent.canCreateRecurrenceExceptions()
-		},
+		// Label for the update / save label
 		updateLabel() {
 			if (!this.calendarObject) {
 				return ''
@@ -196,38 +223,16 @@ export default {
 		updateThisAllFuture() {
 			return t('calendar', 'Update this and all future')
 		},
-		isReadOnly() {
-			if (!this.calendarObject) {
-				return true
+		startEndDateHash() {
+			if (this.$route.name !== 'NewSidebarView') {
+				return undefined
 			}
 
-			const calendar = this.$store.getters.getCalendarById(this.calendarObject.calendarId)
-			if (!calendar) {
-				return true
-			}
-
-			return calendar.readOnly
-		},
-		calendars() {
-			if (this.isReadOnly && this.calendarObject) {
-				return [
-					this.$store.getters.getCalendarById(this.calendarObject.calendarId)
-				]
-			}
-
-			return this.$store.getters.sortedCalendars
-		},
-		selectedCalendar() {
-			if (!this.calendarObject) {
-				return {}
-			}
-
-			return this.$store.getters.getCalendarById(this.calendarObject.calendarId)
-		},
-		currentUserTimezone() {
-			return this.$store.state.settings.settings.timezone === 'automatic'
-				? detectTimezone()
-				: this.$store.state.settings.settings.timezone
+			return [
+				this.$route.params.allDay,
+				this.$route.params.dtstart,
+				this.$route.params.dtend,
+			].join('#')
 		}
 	},
 	methods: {
@@ -236,6 +241,7 @@ export default {
 				this.calendarObject.resetToDav()
 			}
 
+			this.requiresActionOnLeave = false
 			this.close()
 		},
 		async save(thisAndAllFuture = false) {
@@ -243,58 +249,63 @@ export default {
 				OCP.Toast.error('No calendar-object found')
 				return
 			}
-			// TODO - check if calendar changed
 			if (!this.eventComponent.isDirty()) {
 				OCP.Toast.error('Calendar-data did not change, no need to save')
 				return
 			}
-
 			if (this.isReadOnly) {
-				return true
+				OCP.Toast.error('Cannot save read-only alarm')
+				return
 			}
 
-			console.debug('Can create a recurrence exception?', this.eventComponent.canCreateRecurrenceExceptions())
 			if (this.eventComponent.canCreateRecurrenceExceptions() && this.calendarObject.id !== 'new') {
-				console.debug('Creating a recurrence-exception')
-				// TODO - fetch return value, because when using thisAndAllFuture, there is a new event we have to save
 				this.eventComponent.createRecurrenceException(thisAndAllFuture)
 			}
 
-			return this.$store.dispatch('updateCalendarObject', {
+			await this.$store.dispatch('updateCalendarObject', {
 				calendarObject: this.calendarObject
 			})
+
+			if (this.selectedCalendar.id !== this.calendarObject.calendarId) {
+				await this.$store.dispatch('moveCalendarObject', {
+					calendarObject: this.calendarObject,
+					newCalendarId: this.selectCalendar.id
+				})
+			}
 		},
 		async saveAndLeave(thisAndAllFuture = false) {
-			this.eventComponent.markDirty()
 			await this.save(thisAndAllFuture)
+			this.requiresActionOnLeave = false
 			this.close()
 		},
 		async delete(thisAndAllFuture = false) {
 			if (!this.calendarObject) {
+				OCP.Toast.error('No calendar-object found')
+				return
+			}
+			if (this.isReadOnly) {
+				OCP.Toast.error('Cannot delete read-only alarm')
 				return
 			}
 
-			if (this.isReadOnly) {
-				return true
-			}
-
-			const emptyCalendarObject = this.eventComponent.removeThisOccurrence(thisAndAllFuture)
-			if (emptyCalendarObject) {
+			const isRecurrenceSetEmpty = this.eventComponent.removeThisOccurrence(thisAndAllFuture)
+			if (isRecurrenceSetEmpty) {
 				return this.$store.dispatch('deleteCalendarObject', {
 					calendarObject: this.calendarObject
 				})
+			} else {
+				return this.$store.dispatch('updateCalendarObject', {
+					calendarObject: this.calendarObject
+				})
 			}
-
-			return this.$store.dispatch('updateCalendarObject', {
-				calendarObject: this.calendarObject
-			})
 		},
 		async deleteAndLeave(thisAndAllFuture = false) {
 			await this.delete(thisAndAllFuture)
+			this.requiresActionOnLeave = false
 			this.close()
 		},
 		selectCalendar(selectedCalendar) {
-			this.event = selectedCalendar
+			this.selectedCalendar = selectedCalendar
 		},
 		close() {
 			const name = 'CalendarView'
@@ -313,75 +324,90 @@ export default {
 				const isAllDay = (to.params.allDay === '1')
 				const start = to.params.dtstart
 				const end = to.params.dtend
-				const timezoneId = vm.$store.state.settings.settings.timezone === 'automatic'
-					? detectTimezone()
-					: vm.$store.state.settings.settings.timezone
+				const timezoneId = vm.$store.getters.getResolvedTimezone
+				const recurrenceIdDate = new Date(start * 1000)
 
 				vm.$store.dispatch('createNewEvent', { start, end, isAllDay, timezoneId })
 					.then((calendarObject) => {
 						vm.calendarObject = calendarObject
-						vm.eventComponent = calendarObject.getObjectAtRecurrenceId(new Date(start * 1000))
+						vm.selectedCalendar = vm.$store.getters.getCalendarById(vm.calendarObject.calendarId)
+						vm.eventComponent = calendarObject.getObjectAtRecurrenceId(recurrenceIdDate)
+
 						vm.isLoading = true
 					})
 			})
 		} else {
 			next(vm => {
 				vm.isLoading = true
-				OCP.Toast.info('Loading event ...')
 
 				const objectId = to.params.object
 				const recurrenceId = to.params.recurrenceId
+				const recurrenceIdDate = new Date(recurrenceId * 1000)
 
 				vm.$store.dispatch('getEventByObjectId', { objectId })
 					.then(() => {
 						vm.calendarObject = vm.$store.getters.getCalendarObjectById(objectId)
-						vm.eventComponent = vm.calendarObject.getObjectAtRecurrenceId(new Date(recurrenceId * 1000))
+						vm.selectedCalendar = vm.$store.getters.getCalendarById(vm.calendarObject.calendarId)
+						vm.eventComponent = vm.calendarObject.getObjectAtRecurrenceId(recurrenceIdDate)
 
 						vm.isLoading = false
-						OCP.Toast.info('Loaded event ...')
 					})
 			})
 		}
 	},
 	beforeRouteUpdate(to, from, next) {
-		if (to.params.object === from.params.object
-			&& to.params.recurrenceId === from.params.recurrenceId) {
-			OCP.Toast.info('Object did not change, no need to rerender')
+		// If we are in the New Event dialog, we want to update the selected time
+		if (to.name === 'NewSidebarView') {
+			const isAllDay = (to.params.allDay === '1')
+			const start = to.params.dtstart
+			const end = to.params.dtend
+			const timezoneId = this.$store.getters.getResolvedTimezone
+
+			this.$store.dispatch('updateTimeOfNewEvent', {
+				calendarObject: this.calendarObject,
+				start,
+				end,
+				isAllDay,
+				timezoneId
+			})
+
+			next()
+		} else {
+			if (to.params.object === from.params.object
+				&& to.params.recurrenceId === from.params.recurrenceId) {
+				next()
+				return
+			}
+
+			this.isLoading = true
+
+			this.save().then(() => {
+				const objectId = to.params.object
+				const recurrenceId = to.params.recurrenceId
+
+				this.$store.dispatch('getEventByObjectId', { objectId })
+					.then(() => {
+						this.calendarObject = this.$store.getters.getCalendarObjectById(objectId)
+						this.selectedCalendar = this.$store.getters.getCalendarById(this.calendarObject.calendarId)
+						this.eventComponent = this.calendarObject.getObjectAtRecurrenceId(new Date(recurrenceId * 1000))
+
+						this.isLoading = false
+					})
+				next()
+			}).catch(() => {
+				next(false)
+			})
+		}
+	},
+	beforeRouteLeave(to, from, next) {
+		if (!this.requiresActionOnLeave) {
 			next()
 			return
 		}
 
-		this.isLoading = true
-
 		this.save().then(() => {
-			OCP.Toast.success('Saved event successfully')
-
-			const objectId = to.params.object
-			const recurrenceId = to.params.recurrenceId
-
-			this.$store.dispatch('getEventByObjectId', { objectId })
-				.then(() => {
-					this.calendarObject = this.$store.getters.getCalendarObjectById(objectId)
-					this.eventComponent = this.calendarObject.getObjectAtRecurrenceId(new Date(recurrenceId * 1000))
-					// this.getEventComponent = () => eventComponent
-					this.isLoading = false
-					OCP.Toast.info('Loaded event ...')
-
-					this.isLoading = false
-				})
 			next()
 		}).catch(() => {
-			OCP.Toast.error('Didn\'t save event')
-			next(false)
-		})
-	},
-	beforeRouteLeave(to, from, next) {
-		OCP.Toast.success('Left route')
-		this.save().then(() => {
-			OCP.Toast.success('Saved event successfully')
-			next()
-		}).catch(() => {
-			OCP.Toast.error('Didn\'t save event')
 			next(false)
 		})
 	}

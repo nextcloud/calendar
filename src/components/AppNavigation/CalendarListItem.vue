@@ -113,9 +113,6 @@ export default {
 			return ''
 		},
 		loadedOwnerPrincipal() {
-			console.debug(this.calendar.owner)
-			console.debug(this.$store.getters.getPrincipalByUrl(this.calendar.owner))
-			console.debug(this.$store.getters.getPrincipalByUrl(this.calendar.owner) !== undefined)
 			return this.$store.getters.getPrincipalByUrl(this.calendar.owner) !== undefined
 		},
 		ownerUserId() {

@@ -49,6 +49,7 @@ export default function(store) {
 				if (!eventComponent) {
 					console.debug('Recurrence-id not found')
 					revert()
+					return
 				}
 
 				if (startDeltaDuration) {

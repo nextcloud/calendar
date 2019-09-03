@@ -119,7 +119,6 @@ export default {
 
 					const name = this.$store.state.settings.showPopover ? 'NewPopoverView' : 'NewSidebarView'
 					this.$router.push({ name })
-					console.debug(start, startStr, end, endStr, allDay, jsEvent, view, resource)
 				},
 				eventAllow,
 				eventDrop: eventDrop(this.$store),
