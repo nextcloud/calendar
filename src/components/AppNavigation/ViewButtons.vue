@@ -63,14 +63,15 @@ export default {
 	methods: {
 		view(viewName) {
 			const name = this.$route.name
-			const params = this.$route.params
+			const params = Object.assign({}, this.$route.params, {
+				view: viewName
+			})
 
 			// Don't push new route when view didn't change
-			if (params.view === viewName) {
+			if (this.$route.params.view === viewName) {
 				return
 			}
 
-			params.view = viewName
 			this.$router.push({ name, params })
 		}
 	}

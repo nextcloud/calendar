@@ -4,6 +4,7 @@
 		<AppContent>
 			<!-- Full calendar -->
 			<FullCalendar
+				ref="fullCalendar"
 				:default-view="defaultView"
 				:editable="true"
 				:force-event-duration="true"
@@ -122,8 +123,17 @@ export default {
 		}
 	},
 	beforeRouteUpdate(to, from, next) {
+		if (to.params.firstday !== from.params.firstday) {
+			let calendarApi = this.$refs.fullCalendar.getApi()
+			calendarApi.gotoDate(getYYYYMMDDFromFirstdayParam(to.params.firstday))
+		}
+		if (to.params.view !== from.params.view) {
+			let calendarApi = this.$refs.fullCalendar.getApi()
+			calendarApi.changeView(to.params.view)
+			this.saveNewView(to.params.view)
+		}
+
 		next()
-		this.saveNewView(to.params.view)
 	},
 	created() {
 		this.timeFrameCacheExpiryJob = setInterval(() => {

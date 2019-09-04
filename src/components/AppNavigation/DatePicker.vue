@@ -125,8 +125,14 @@ export default {
 		},
 		goTo(date) {
 			const name = this.$route.name
-			const params = this.$route.params
-			params.firstday = getYYYYMMDDFromDate(date)
+			const params = Object.assign({}, this.$route.params, {
+				firstday: getYYYYMMDDFromDate(date)
+			})
+
+			// Don't push new route when day didn't change
+			if (this.$route.params.firstday === getYYYYMMDDFromDate(date)) {
+				return
+			}
 
 			this.$router.push({ name, params })
 		},
