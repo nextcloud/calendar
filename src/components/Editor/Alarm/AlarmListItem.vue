@@ -21,15 +21,88 @@
   -->
 
 <template>
-	<div />
+	<div class="reminder-row">
+		<div class="avatar" :class="icon" />
+		<div class="label">
+			{{ alarm | formatAlarm }}
+		</div>
+		<div class="options">
+			<Actions>
+				<ActionButton />
+				<ActionButton />
+			</Actions>
+		</div>
+	</div>
 </template>
 
 <script>
+import {
+	Actions,
+	ActionButton,
+} from 'nextcloud-vue'
+
 export default {
-	name: 'AlarmListItem'
+	name: 'AlarmListItem',
+	props: {
+		alarm: {
+			type: Object,
+			required: true
+		}
+	},
+	components: {
+		Actions,
+		ActionButton
+	},
+	filters: {
+		formatAlarm() {
+
+		}
+	},
+	computed: {
+		icon() {
+			if (this.type === 'AUDIO') {
+				return 'icon-reminder-audio'
+			}
+
+			if (this.type === 'DISPLAY') {
+				return 'icon-reminder'
+			}
+
+			if (this.type === 'EMAIL') {
+				return 'icon-reminder-mail'
+			}
+
+			return 'icon-settings-dark'
+		},
+		type() {
+			return 'AUDIO'
+		}
+	}
 }
 </script>
 
 <style scoped>
+.avatar {
+	width: 32px;
+	height: 32px;
+	background-color: #dbdbdb;
+}
 
+.label {
+	padding: 0 8px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.options {
+	margin-left: auto;
+	display: flex;
+	align-items: center;
+	white-space: nowrap;
+}
+
+.reminder-row {
+	display: flex;
+}
 </style>
