@@ -1,3 +1,7 @@
+## 1.6.6 - 2019-09-05
+### Fixed
+- Falses positives for local access rules [#1277](https://github.com/nextcloud/calendar/issues/1277)
+
 ## 1.6.5 - 2019-04-04
 ### Fixed
 - Buttons not visible in dark theme
