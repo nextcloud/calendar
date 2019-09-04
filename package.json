@@ -41,6 +41,7 @@
 		"@fullcalendar/interaction": "^4.3.0",
 		"@fullcalendar/list": "^4.3.0",
 		"@fullcalendar/timegrid": "^4.3.0",
+		"@fullcalendar/vue": "^4.3.1",
 		"calendar-js": "git+https://github.com/georgehrke/calendar-js.git",
 		"cdav-library": "github:nextcloud/cdav-library",
 		"debounce": "^1.2.0",
