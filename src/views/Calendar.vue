@@ -1,7 +1,7 @@
 <template>
 	<div id="content" class="app-calendar" :class="classNames">
 		<app-navigation :loading-calendars="loadingCalendars" />
-		<AppContent class="fullcalendar-wrapper">
+		<AppContent>
 			<!-- Full calendar -->
 			<FullCalendar
 				ref="fullCalendar"
@@ -233,10 +233,3 @@ export default {
 	}
 }
 </script>
-
-<style>
-.fullcalendar-wrapper {
-	height: 100%;
-	position: relative;
-}
-</style>

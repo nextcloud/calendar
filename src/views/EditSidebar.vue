@@ -29,7 +29,8 @@
 				<property-title :event-component="eventComponent" :prop-model="rfcProps.summary" :is-read-only="isReadOnly" />
 				<calendar-picker :calendars="calendars" :calendar="selectedCalendar" is-read-only="isReadOnly" />
 				<property-title-time-picker :event-component="eventComponent" :prop-model="{}" :is-read-only="isReadOnly"
-					:user-timezone="currentUserTimezone" :start-end-date-hash="startEndDateHash" />
+					:user-timezone="currentUserTimezone" :start-end-date-hash="startEndDateHash"
+				/>
 			</div>
 		</template>
 
