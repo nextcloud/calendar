@@ -236,6 +236,10 @@ const actions = {
 		}
 
 		const calendar = createEvent(startDateTime, endDateTime)
+		for (const vObject of calendar.getVObjectIterator()) {
+			vObject.undirtify()
+		}
+
 		const firstCalendar = context.getters.sortedCalendars[0].id
 		return Promise.resolve(new CalendarObject(calendar, firstCalendar))
 	},
