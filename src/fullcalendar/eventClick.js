@@ -28,14 +28,20 @@
  */
 export default function(store, router) {
 	return function({ event }) {
-		console.debug(event)
 		const name = store.state.settings.showPopover
 			? 'EditPopoverView'
 			: 'EditSidebarView'
 		const params = Object.assign({}, store.state.route.params, {
 			object: event.extendedProps.objectId,
-			recurrenceId: event.extendedProps.recurrenceId,
+			recurrenceId: String(event.extendedProps.recurrenceId),
 		})
+
+		// Don't push new route when day didn't change
+		if (name === store.state.route.name
+			&& params.object === store.state.route.params.object
+			&& params.recurrenceId === store.state.route.params.recurrenceId) {
+			return
+		}
 
 		router.push({ name, params })
 	}

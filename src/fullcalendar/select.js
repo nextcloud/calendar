@@ -33,9 +33,17 @@ export default function(store, router) {
 			: 'NewSidebarView'
 		const params = Object.assign({}, store.state.route.params, {
 			allDay: allDay ? '1' : '0',
-			dtstart: Math.floor(start.getTime() / 1000),
-			dtend: Math.floor(end.getTime() / 1000),
+			dtstart: String(Math.floor(start.getTime() / 1000)),
+			dtend: String(Math.floor(end.getTime() / 1000)),
 		})
+
+		// Don't push new route when day didn't change
+		if (name === store.state.route.name
+			&& params.allDay === store.state.route.params.allDay
+			&& params.dtstart === store.state.route.params.dtstart
+			&& params.dtend === store.state.route.params.dtend) {
+			return
+		}
 
 		router.push({ name, params })
 	}
