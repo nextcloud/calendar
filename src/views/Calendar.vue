@@ -1,14 +1,15 @@
 <template>
-	<div id="content" class="app-calendar">
+	<div id="content" class="app-calendar" :class="classNames">
 		<app-navigation :loading-calendars="loadingCalendars" />
-		<AppContent>
+		<AppContent class="fullcalendar-wrapper">
 			<!-- Full calendar -->
 			<FullCalendar
 				ref="fullCalendar"
 				:default-view="defaultView"
-				:editable="true"
+				:editable="isEditable"
 				:force-event-duration="true"
-				:header="false"
+				:header="showHeader"
+				height="parent"
 				:slot-duration="slotDuration"
 				:week-numbers="showWeekNumbers"
 				:weekends="showWeekends"
@@ -19,7 +20,7 @@
 				:default-date="defaultDate"
 				:locales="locales"
 				:locale="locale"
-				:selectable="true"
+				:selectable="isEditable"
 				:select-mirror="true"
 				@eventClick="eventClick"
 				@eventDrop="eventDrop"
@@ -120,6 +121,28 @@ export default {
 		},
 		locale() {
 			return 'en'
+		},
+		isEditable() {
+			return !this.isPublicShare
+		},
+		isPublicShare() {
+			return false
+		},
+		isEmbedded() {
+			return false
+		},
+		showHeader() {
+			return this.isPublicShare && this.isEmbedded
+		},
+		classNames() {
+			if (this.isEmbedded) {
+				return 'app-calendar-public-embedded'
+			}
+			if (this.isPublicShare) {
+				return 'app-calendar-public'
+			}
+
+			return null
 		}
 	},
 	beforeRouteUpdate(to, from, next) {
@@ -149,8 +172,6 @@ export default {
 					fetchedTimeRangeId: timeRange.id
 				})
 			}
-
-			console.debug('Cleaned timeranges')
 		}, 1000 * 60)
 	},
 	beforeMount() {
@@ -163,7 +184,6 @@ export default {
 			timezone: getConfigValueFromHiddenInput('timezone')
 		})
 
-		console.debug(client)
 		// get calendars then get events
 		client.connect({ enableCalDAV: true })
 			.then(() => this.$store.dispatch('fetchCurrentUserPrincipal'))
@@ -213,3 +233,10 @@ export default {
 	}
 }
 </script>
+
+<style>
+.fullcalendar-wrapper {
+	height: 100%;
+	position: relative;
+}
+</style>
