@@ -3,8 +3,27 @@
 		<app-navigation :loading-calendars="loadingCalendars" />
 		<AppContent>
 			<!-- Full calendar -->
-			<full-calendar :events="events" :event-sources="eventSources" :config="config"
-				:view="view" :first-day="firstDay"
+			<FullCalendar
+				:default-view="defaultView"
+				:editable="true"
+				:force-event-duration="true"
+				:header="false"
+				:slot-duration="slotDuration"
+				:week-numbers="showWeekNumbers"
+				:weekends="showWeekends"
+				:event-sources="eventSources"
+				:plugins="plugins"
+				:time-zone="timezoneId"
+				:event-allow="eventAllow"
+				:default-date="defaultDate"
+				:locales="locales"
+				:locale="locale"
+				:selectable="true"
+				:select-mirror="true"
+				@eventClick="eventClick"
+				@eventDrop="eventDrop"
+				@eventResize="eventResize"
+				@select="select"
 			/>
 		</AppContent>
 		<!-- Edit modal -->
@@ -13,27 +32,40 @@
 </template>
 
 <script>
+import FullCalendar from '@fullcalendar/vue'
+import '@fullcalendar/core/main.css'
+import dayGridPlugin from '@fullcalendar/daygrid'
+import '@fullcalendar/daygrid/main.css'
+import interactionPlugin from '@fullcalendar/interaction'
+import listPlugin from '@fullcalendar/list'
+import '@fullcalendar/list/main.css'
+import timeGridPlugin from '@fullcalendar/timegrid'
+import '@fullcalendar/timegrid/main.css'
+import allLocales from '@fullcalendar/core/locales-all'
+
 import AppNavigation from '../components/AppNavigation.vue'
-import FullCalendar from '../components/FullCalendar.vue'
 import { AppContent } from 'nextcloud-vue'
-
+import { randomColor } from '../services/colorService'
 import client from '../services/cdav.js'
-import getTimezoneManager from '../services/timezoneDataProviderService'
-import { randomColor, generateTextColorFromRGB } from '../services/colorService'
-// import fullCalendarEventService from '../services/fullCalendarEventService'
 
-import moment from 'moment'
+import debounce from 'debounce'
+
 import {
 	dateFactory,
 	getUnixTimestampFromDate,
 	getYYYYMMDDFromFirstdayParam
 } from '../services/date'
-import { getFCEventFromEventComponent } from '../services/fullCalendarEventService'
+
 import { getConfigValueFromHiddenInput } from '../services/settingsService'
 
-import debounce from 'debounce'
+import eventAllow from '../fullcalendar/eventAllow'
+import eventClick from '../fullcalendar/eventClick'
+import eventDrop from '../fullcalendar/eventDrop'
+import eventResize from '../fullcalendar/eventResize'
+import eventSource from '../fullcalendar/eventSource'
+import select from '../fullcalendar/select'
 
-import detectTimezone from '../services/timezoneDetectionService'
+import VTimezoneNamedTimezone from '../fullcalendar/vtimezoneNamedTimezoneImpl'
 
 export default {
 	name: 'Calendar',
@@ -49,65 +81,44 @@ export default {
 		}
 	},
 	computed: {
-		// store getters
-		calendars() {
-			return this.$store.getters.getCalendars
-		},
-		events() {
-			return []
+		defaultView() {
+			return this.$route.params.view
 		},
 		eventSources() {
-			return this.$store.getters.enabledCalendars.map((enabledCalendar) => ({
-				id: enabledCalendar.id,
-				// coloring
-				backgroundColor: enabledCalendar.color,
-				borderColor: enabledCalendar.color,
-				textColor: generateTextColorFromRGB(enabledCalendar.color),
-				// html foo
-				className: enabledCalendar.id,
-				editable: !enabledCalendar.readOnly,
-
-				// events: fullCalendarEventService(enabledCalendar, (...args) => console.error(args)),
-				events: ({ start, startStr, end, endStr, timeZone }, successCallback, failureCallback) => {
-					const timezoneObject = getTimezoneManager().getTimezoneForId(timeZone)
-					const timeRange = this.$store.getters.getTimeRangeForCalendarCoveringRange(enabledCalendar.id, getUnixTimestampFromDate(start), getUnixTimestampFromDate(end))
-					if (!timeRange) {
-						this.$store.dispatch('getEventsFromCalendarInTimeRange', {
-							calendar: enabledCalendar,
-							from: start,
-							to: end
-						}).then(() => {
-							const timeRange = this.$store.getters.getTimeRangeForCalendarCoveringRange(enabledCalendar.id, getUnixTimestampFromDate(start), getUnixTimestampFromDate(end))
-							const calendarObjects = this.$store.getters.getCalendarObjectsByTimeRangeId(timeRange.id)
-							successCallback(getFCEventFromEventComponent(calendarObjects, start, end, timezoneObject))
-						})
-					} else {
-						const calendarObjects = this.$store.getters.getCalendarObjectsByTimeRangeId(timeRange.id)
-						successCallback(getFCEventFromEventComponent(calendarObjects, start, end, timezoneObject))
-					}
-				}
-			}))
+			return this.$store.getters.enabledCalendars.map(eventSource(this.$store))
 		},
-		config() {
-			return {
-				timeZone: this.$store.state.settings.settings.timezone === 'automatic'
-					? detectTimezone()
-					: this.$store.state.settings.settings.timezone,
-				weekNumbers: this.$store.state.settings.settings.showWeekNumbers,
-				weekends: this.$store.state.settings.settings.showWeekends,
-				dayNames: dayNames,
-				dayNamesShort: dayNamesMin,
-				monthNames: monthNames,
-				monthNamesShort: monthNamesShort,
-				weekNumbersWithinDays: true,
-				firstDay: +moment().startOf('week').format('d')
-			}
+		defaultDate() {
+			return getYYYYMMDDFromFirstdayParam(this.$route.params.firstday)
 		},
-		view() {
-			return this.$store.state.route.params.view
+		slotDuration() {
+			return '00:15:00'
 		},
-		firstDay() {
-			return getYYYYMMDDFromFirstdayParam(this.$store.state.route.params.firstday)
+		showWeekNumbers() {
+			return this.$store.state.settings.settings.showWeekNumbers
+		},
+		showWeekends() {
+			return this.$store.state.settings.settings.showWeekends
+		},
+		plugins() {
+			return [
+				dayGridPlugin,
+				interactionPlugin,
+				listPlugin,
+				timeGridPlugin,
+				VTimezoneNamedTimezone
+			]
+		},
+		timezoneId() {
+			return this.$store.getters.getResolvedTimezone
+		},
+		eventAllow() {
+			return eventAllow
+		},
+		locales() {
+			return allLocales
+		},
+		locale() {
+			return 'en'
 		}
 	},
 	beforeRouteUpdate(to, from, next) {
@@ -176,7 +187,19 @@ export default {
 	methods: {
 		saveNewView: debounce(function(initialView) {
 			this.$store.dispatch('setInitialView', { initialView })
-		}, 5000)
+		}, 5000),
+		eventClick(...args) {
+			return eventClick(this.$store, this.$router)(...args)
+		},
+		eventDrop(...args) {
+			return eventDrop(this.$store)(...args)
+		},
+		eventResize(...args) {
+			return eventResize(this.$store)(...args)
+		},
+		select(...args) {
+			return select(this.$store, this.$router)(...args)
+		}
 	}
 }
 </script>
