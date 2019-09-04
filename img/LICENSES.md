@@ -10,6 +10,11 @@
 - License: CC-BY
 - Link: https://thenounproject.com/search/?q=eye&i=428971
 
+# invitees-no-response.svg
+- Created by: [Alena](https://thenounproject.com/joyeyes)
+- License: CC-BY
+- Link: https://thenounproject.com/search/?q=question%20mark&i=1156193
+
 ## repeat.svg
 - Created by: [Brandy Bora](https://thenounproject.com/brandy.bora/)
 - License: CC-BY
