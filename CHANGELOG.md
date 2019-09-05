@@ -1,3 +1,11 @@
+## 1.7.1 - 2019-09-05
+### Fixed
+- Falses positives for local access rules [#1277](https://github.com/nextcloud/calendar/issues/1277)
+- Always show border on calendar item [#1298](https://github.com/nextcloud/calendar/pull/1298)
+- Update link to documentation [#1409](https://github.com/nextcloud/calendar/pull/1409)
+- Don’t ship special build for IE anymore [#1447](https://github.com/nextcloud/calendar/pull/1447)
+
+
 ## 1.7.0 - 2019-03-25
 ### Added
 - Share calendars with circles
