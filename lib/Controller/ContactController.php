@@ -123,4 +123,28 @@ class ContactController extends Controller {
 
 		return $name;
 	}
+
+
+	/**
+	 * @param string $search
+	 * @return JSONResponse
+	 *
+	 * @NoAdminRequired
+	 */
+	public function searchPhoto(string $search):JSONResponse {
+		$result = $this->contacts->search($search, ['EMAIL']);
+
+		foreach ($result as $r) {
+			if (!isset($r['EMAIL'])) {
+				continue;
+			}
+
+			if (!isset($r['PHOTO'])) {
+				continue;
+			}
+			return new JSONResponse( substr(strstr($r['PHOTO'], ':'), 1) );
+		}
+	}
+
+
 }
