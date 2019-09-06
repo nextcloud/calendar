@@ -23,7 +23,6 @@
 <template>
 	<div v-tooltip="tooltip" class="avatar-participation-status-wrapper">
 		<Avatar
-			:disable-menu="true"
 			:disable-tooltip="true"
 			:user="avatarLink"
 		/>

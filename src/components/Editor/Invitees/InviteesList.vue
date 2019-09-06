@@ -23,23 +23,83 @@
 <template>
 	<div>
 		<invitees-list-search />
-		<invitees-list-item v-for="invitee in invitees" :key="invitee.id" :alarm="invitee" />
+		<organizer-list-item :organizer="organizer" />
+		<invitees-list-item
+			v-for="invitee in inviteesWithoutOrganizer"
+			:key="invitee.email"
+			:attendee="invitee"
+			:organizer-display-name="organizerDisplayName"
+			@removeAttendee="removeAttendee"
+		/>
 	</div>
 </template>
 
 <script>
 import InviteesListSearch from './InviteesListSearch'
 import InviteesListItem from './InviteesListItem'
+import OrganizerListItem from './OrganizerListItem'
 
 export default {
 	name: 'InviteesList',
 	components: {
 		InviteesListItem,
-		InviteesListSearch
+		InviteesListSearch,
+		OrganizerListItem
+	},
+	props: {
+		isReadOnly: {
+			type: Boolean,
+			required: true
+		},
+		eventComponent: {
+			validator: prop => typeof prop === 'object' || prop === null,
+			required: true
+		}
 	},
 	data() {
 		return {
-			invitees: []
+			invitees: [],
+			organizer: null
+		}
+	},
+	computed: {
+		inviteesWithoutOrganizer() {
+			if (!this.organizer) {
+				return this.invitees
+			}
+
+			console.debug(this.organizer.email)
+			return this.invitees.filter((i) => i.email !== this.organizer.email)
+		},
+		organizerDisplayName() {
+			if (!this.organizer) {
+				return ''
+			}
+
+			if (this.organizer.commonName) {
+				return this.organizer.commonName
+			}
+
+			if (this.organizer.email.startsWith('mailto:')) {
+				return this.organizer.email.substr(7)
+			}
+
+			return this.organizer.email
+		}
+	},
+	watch: {
+		eventComponent() {
+			this.initValue()
+		}
+	},
+	methods: {
+		initValue() {
+			this.organizer = this.eventComponent.getFirstProperty('organizer')
+			this.invitees = this.eventComponent.getAttendeeList()
+		},
+		removeAttendee(attendee) {
+			this.eventComponent.removeAttendee(attendee)
+			this.invitees = this.eventComponent.getAttendeeList()
 		}
 	}
 }
