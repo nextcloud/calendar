@@ -1,7 +1,7 @@
 /**
  * Calendar App
  *
- * @copyright 2018 Georg Ehrke <oc.list@georgehrke.com>
+ * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
  *
  * @author Georg Ehrke
  *
@@ -35,13 +35,6 @@
 	}
 }
 
-
-
-
-
-
-/* Fullcalendar modifications */
-
 .fc th,
 .fc .fc-axis,
 .fc-day-grid-event .fc-time,
@@ -54,8 +47,8 @@
 }
 
 .fc-basic-view .fc-day-top .fc-week-number {
-	background-color: $color-border;
-	color: $color-main-text;
+	background-color: var(--color-border);
+	color: var(--color-main-text);
 }
 
 .fc-day-number.fc-other-month {
@@ -74,25 +67,14 @@
 
 /* border styles for grid, highlight full-hour horizontal lines */
 
+.fc-unthemed tr th,
 .fc-unthemed tr td {
-	border-top-color: $color-border;
+	border-color: var(--color-border);
+	//border-top-color: var(--color-border-dark);
 }
 
 .fc-unthemed tr:nth-child(even) td {
-	border-top-color: $color-border;
-}
-
-.fc-unthemed th,
-.fc-unthemed td,
-.fc-unthemed thead,
-.fc-unthemed tbody,
-.fc-unthemed .fc-divider,
-.fc-unthemed .fc-row,
-.fc-unthemed .fc-popover {
-	/* fallback, TODO remove when min nc version >=13 */
-	border-color: $color-border;
-	border-left-color: $color-border;
-	border-right-color: $color-border;
+	border-top-color: var(--color-border-dark);
 }
 
 /* properly size events */
@@ -102,36 +84,29 @@
 	padding-left: 3px;
 }
 
-.app-navigation-entry-menu .icon-link {
-	background-size: 16px;
-}
-
 .fc-unthemed td.fc-today {
-	background: #fcf8e3 !important;
+	foo1: $color-main-background;
+	background: mix(#fcf8e3, $color-main-background, 50%) !important;
 }
 
-
-
-#fullcalendar .fc-axis,
-#fullcalendar .fc-day-header {
+.fc-axis,
+.fc-day-header {
 	font-size: 100%;
 	opacity: .5;
 }
 
-#fullcalendar td.fc-day.fc-sat,
-#fullcalendar td.fc-day.fc-sun {
-	background-color: nc-darken($color-main-background, 3%);
+.fc td.fc-day.fc-sat,
+.fc td.fc-day.fc-sun {
+	background-color: var(--color-background-dark);
 }
 
-
-
-#fullcalendar table {
+.fc table {
 	white-space: inherit !important;
 }
 
 .fc-state-highlight.fc-day-number,
-#fullcalendar tbody tr,
-#fullcalendar tbody tr:hover,
-#fullcalendar tbody tr:focus {
+.fc tbody tr,
+.fc tbody tr:hover,
+.fc tbody tr:focus {
 	background: transparent !important;
 }

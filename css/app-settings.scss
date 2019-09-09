@@ -1,8 +1,9 @@
 /**
  * Calendar App
  *
+ * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
+ *
  * @author Georg Ehrke
- * @copyright 2018 Georg Ehrke <oc.list@georgehrke.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -21,58 +22,9 @@
 
 #app-settings {
 
-	.settings-fieldset > .settings-fieldset-interior {
-
-		.settings-fieldset-interior-item-timezone {
-
-			label {
-				display: block;
-			}
-
-			.multiselect {
-				width: calc(100% - 10px);
-			}
-		}
-	}
-
-	#calendar-input-form {
-		display: none;
-	}
-
 	#calendar-input-form-label {
-		background-position-x: 8px;
 		display: block;
 		text-align: center;
+		background-position-x: 8px;
 	}
 }
-
-.modal-container {
-
-	padding: 24px !important;
-	min-width: 50%;
-	overflow: visible !important;
-
-
-	h2, h4 {
-		text-align: center;
-	}
-
-	.import-file-row {
-		display: flex;
-		padding-top: 10px;
-
-		&.import-file-row-header {
-			font-weight: bold;
-		}
-
-		.import-file-row-filename {
-			flex: 2 1 0;
-		}
-
-		.import-file-row-select {
-			flex: 1 1 0;
-		}
-
-	}
-}
-

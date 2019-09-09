@@ -1,10 +1,9 @@
 /**
  * Calendar App
  *
- * @author Raghu Nayyar
+ * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
+ *
  * @author Georg Ehrke
- * @copyright 2016 Raghu Nayyar <hey@raghunayyar.com>
- * @copyright 2016 Georg Ehrke <oc.list@georgehrke.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -20,37 +19,6 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-.pull-left {
-	float: left;
-}
-
-.pull-right {
-	float: right;
-}
-
-.hide {
-	display: none;
-}
-
-.full-width {
-	width: 100%;
-}
-
-.clear-both {
-	clear: both;
-}
-
-.input-with-button-on-right-side {
-	width: 76% !important;
-	float: left;
-	margin-right: 6px !important;
-}
-
-.button-next-to-input {
-	height: 32px;
-	width: 32px;
-}
 
 #emptycontent-container {
 	display: none;

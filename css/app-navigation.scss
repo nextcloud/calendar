@@ -57,8 +57,8 @@
 		}
 
 		.button.active {
-			background-color: $color-primary;
-			color: $color-primary-text;
+			background-color: var(--color-primary);
+			color: var(--color-primary-text);
 		}
 
 		.button:hover,
