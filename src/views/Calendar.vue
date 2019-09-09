@@ -22,6 +22,7 @@
 				:locale="locale"
 				:selectable="isSelectable"
 				:select-mirror="true"
+				:lazy-fetching="false"
 				@eventClick="eventClick"
 				@eventDrop="eventDrop"
 				@eventResize="eventResize"
