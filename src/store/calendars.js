@@ -265,6 +265,28 @@ const mutations = {
 	 */
 	initialCalendarsLoaded(state) {
 		state.initialCalendarsLoaded = true
+	},
+
+	/**
+	 * Mark a calendar as loading
+	 *
+	 * @param {Object} state the store data
+	 * @param {Object} data destructuring object
+	 * @param {Object} data.calendar the calendar to mark as loading
+	 */
+	markCalendarAsLoading(state, { calendar }) {
+		state.calendarsById[calendar.id].loading = true
+	},
+
+	/**
+	 * Mark a calendar as finished loading
+	 *
+	 * @param {Object} state the store data
+	 * @param {Object} data destructuring object
+	 * @param {Object} data.calendar the calendar to mark as finished loading
+	 */
+	markCalendarAsNotLoading(state, { calendar }) {
+		state.calendarsById[calendar.id].loading = false
 	}
 }
 
@@ -611,6 +633,7 @@ const actions = {
 	 * @returns {Promise<void>}
 	 */
 	async getEventsFromCalendarInTimeRange(context, { calendar, from, to }) {
+		context.commit('markCalendarAsLoading', { calendar })
 		return calendar.dav.findByTypeInTimeRange('VEVENT', from, to)
 			.then((response) => {
 				context.commit('addTimeRange', {
@@ -641,6 +664,7 @@ const actions = {
 					calendarObjectIds
 				})
 
+				context.commit('markCalendarAsNotLoading', { calendar })
 				return context.state.lastTimeRangeInsertId
 			})
 	},
