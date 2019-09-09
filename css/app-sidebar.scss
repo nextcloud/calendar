@@ -19,10 +19,10 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-@import 'app-navigation.scss';
-@import 'app-sidebar.scss';
-@import 'app-settings.scss';
-@import 'fullcalendar.scss';
-@import 'icons.scss';
-@import 'print.scss';
-@import 'public.scss';
+
+#app-sidebar {
+
+	.app-sidebar-header__action {
+		max-height: none !important;
+	}
+}
