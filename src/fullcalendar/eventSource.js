@@ -31,7 +31,7 @@ import { getFCEventFromEventComponent } from '../services/fullCalendarEventServi
  */
 export default function(store) {
 	return function(calendar) {
-		return {
+		const source = {
 			id: calendar.id,
 			// coloring
 			backgroundColor: calendar.color,
@@ -39,8 +39,6 @@ export default function(store) {
 			textColor: generateTextColorFromRGB(calendar.color),
 			// html foo
 			className: calendar.id,
-			editable: !calendar.readOnly,
-
 			events: ({ start, end, timeZone }, successCallback, failureCallback) => {
 				const timezoneObject = getTimezoneManager().getTimezoneForId(timeZone)
 				const timeRange = store.getters.getTimeRangeForCalendarCoveringRange(calendar.id, getUnixTimestampFromDate(start), getUnixTimestampFromDate(end))
@@ -60,5 +58,11 @@ export default function(store) {
 				}
 			}
 		}
+
+		if (calendar.isReadOnly) {
+			source.editable = false
+		}
+
+		return source
 	}
 }

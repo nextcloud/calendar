@@ -20,7 +20,7 @@
 				:default-date="defaultDate"
 				:locales="locales"
 				:locale="locale"
-				:selectable="isEditable"
+				:selectable="isSelectable"
 				:select-mirror="true"
 				@eventClick="eventClick"
 				@eventDrop="eventDrop"
@@ -123,6 +123,12 @@ export default {
 			return 'en'
 		},
 		isEditable() {
+			// We do not allow drag and drop when the editor is open.
+			return !this.isPublicShare
+				&& this.$route.name !== 'EditPopoverView'
+				&& this.$route.name !== 'EditSidebarView'
+		},
+		isSelectable() {
 			return !this.isPublicShare
 		},
 		isPublicShare() {
