@@ -84,11 +84,6 @@
 	padding-left: 3px;
 }
 
-.fc-unthemed td.fc-today {
-	foo1: $color-main-background;
-	background: mix(#fcf8e3, $color-main-background, 50%) !important;
-}
-
 .fc-axis,
 .fc-day-header {
 	font-size: 100%;
@@ -114,4 +109,35 @@
 .fc .fc-divider {
 	background: var(--color-border) !important;
 	border-color: var(--color-border) !important;
+}
+
+.fc-today > .fc-day-number {
+	background: var(--color-primary);
+	color: var(--color-primary-text);
+	border-radius: 50%;
+	margin: 3px 3px 0 0;
+	width: 24px;
+	height: 24px;
+	text-align: center;
+	font-weight: bold !important;
+}
+
+.fc-day-header.fc-today {
+	background-color: var(--color-primary) !important;
+	color: var(--color-primary-text);
+	opacity: 1;
+	font-weight: bold !important;
+}
+
+.fc-today.fc-sat:not(.fc-day-header),
+.fc-today.fc-sun:not(.fc-day-header) {
+	background-color: var(--color-background-dark) !important;
+}
+
+.fc-today.fc-mon:not(.fc-day-header),
+.fc-today.fc-tue:not(.fc-day-header),
+.fc-today.fc-wed:not(.fc-day-header),
+.fc-today.fc-thu:not(.fc-day-header),
+.fc-today.fc-fri:not(.fc-day-header) {
+	background-color: var(--color-background) !important;
 }
