@@ -27,6 +27,11 @@ export default {
 			type: Array,
 			required: true,
 		},
+		showCalendarOnSelect: {
+			type: Boolean,
+			required: true,
+			default: false
+		}
 	},
 	computed: {
 		isDisabled() {
@@ -37,6 +42,12 @@ export default {
 		change(newCalendar) {
 			if (!newCalendar) {
 				return
+			}
+
+			if (!newCalendar.enabled) {
+				this.$store.dispatch('toggleCalendarEnabled', {
+					calendar: newCalendar
+				})
 			}
 
 			this.$emit('selectCalendar', newCalendar)

@@ -27,7 +27,8 @@
 		<template v-slot:primary-actions style="max-height: none !important">
 			<div style="width: 100%">
 				<property-title :event-component="eventComponent" :prop-model="rfcProps.summary" :is-read-only="isReadOnly" />
-				<calendar-picker :calendars="calendars" :calendar="selectedCalendar" is-read-only="isReadOnly" />
+				<calendar-picker :calendars="calendars" :calendar="selectedCalendar" is-read-only="isReadOnly"
+					:show-calendar-on-select="true" />
 				<property-title-time-picker :event-component="eventComponent" :prop-model="{}" :is-read-only="isReadOnly"
 					:user-timezone="currentUserTimezone" :start-end-date-hash="startEndDateHash"
 				/>
