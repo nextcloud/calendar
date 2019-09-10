@@ -5,8 +5,20 @@
 		:disabled="isDisabled"
 		:options="calendars"
 		:value="calendar"
-		@select="change"
-	/>
+		@select="change">
+		<template slot="singleLabel" slot-scope="props">
+			<div class="row">
+				<div class="color-indicator" :style="{ backgroundColor: props.option.color }" />
+				<span>{{ props.option.displayName }}</span>
+			</div>
+		</template>
+		<template slot="option" slot-scope="props">
+			<div class="row">
+				<div class="color-indicator" :style="{ backgroundColor: props.option.color }" />
+				<span>{{ props.option.displayName }}</span>
+			</div>
+		</template>
+	</multiselect>
 </template>
 <script>
 import {
@@ -55,3 +67,18 @@ export default {
 	}
 }
 </script>
+
+<style scoped>
+.row {
+	display: flex;
+	align-items: center;
+}
+
+.color-indicator {
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	border: none;
+	margin-right: 8px;
+}
+</style>
