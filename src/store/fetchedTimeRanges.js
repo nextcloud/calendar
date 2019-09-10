@@ -65,7 +65,7 @@ const mutations = {
 		const index = state.fetchedTimeRanges.indexOf(obj)
 
 		if (index !== -1) {
-			state.fetchedTimeRanges.slice(index, 1)
+			state.fetchedTimeRanges.splice(index, 1)
 			Vue.delete(state.fetchedTimeRangesById, timeRangeId)
 		}
 	},
@@ -113,7 +113,7 @@ const mutations = {
 		if (index !== -1) {
 			state.fetchedTimeRangesById[timeRangeId]
 				.calendarObjectIds
-				.slice(index, 1)
+				.splice(index, 1)
 		}
 	},
 
@@ -132,7 +132,7 @@ const mutations = {
 			if (index !== -1) {
 				timeRange
 					.calendarObjectIds
-					.slice(index, 1)
+					.splice(index, 1)
 			}
 		}
 	},
@@ -147,6 +147,47 @@ const mutations = {
 	 */
 	updateTimestampOfLastFetched(state, { timeRangeId, lastFetched }) {
 		state.fetchedTimeRangesById[timeRangeId].lastFetched = lastFetched
+	},
+
+	/**
+	 * Adds a calendar-object-id to all time-ranges of a given caloendar
+	 *
+	 * @param {Object} state The vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {String} data.calendarObjectId The id of the calendar-object
+	 * @param {String} data.calendarId The id of the calendar
+	 */
+	addCalendarObjectIdToAllTimeRangesOfCalendar(state, { calendarObjectId, calendarId }) {
+		for (const timerange of state.fetchedTimeRanges) {
+			if (timerange.calendarId !== calendarId) {
+				continue
+			}
+
+			if (timerange.calendarObjectIds.indexOf(calendarObjectId) === -1) {
+				timerange.calendarObjectIds.push(calendarObjectId)
+			}
+		}
+	},
+
+	/**
+	 * Removes a calendar-object-id to all time-ranges of a given caloendar
+	 *
+	 * @param {Object} state The vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {String} data.calendarObjectId The id of the calendar-object
+	 * @param {String} data.calendarId The id of the calendar
+	 */
+	removeCalendarObjectIdFromAllTimeRangesOfCalendar(state, { calendarObjectId, calendarId }) {
+		for (const timerange of state.fetchedTimeRanges) {
+			if (timerange.calendarId !== calendarId) {
+				continue
+			}
+
+			const index = timerange.calendarObjectIds.indexOf(calendarObjectId)
+			if (index !== -1) {
+				timerange.calendarObjectIds.splice(index, 1)
+			}
+		}
 	}
 }
 

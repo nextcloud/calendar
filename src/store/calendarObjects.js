@@ -167,7 +167,28 @@ const actions = {
 		const calendar = context.getters.getCalendarById(calendarObject.calendarId)
 		calendarObject.dav = await calendar.dav.createVObject(calendarObject.vcalendar.toICS())
 
-		console.debug(calendarObject)
+		context.commit('appendCalendarObject', { calendarObject })
+		context.commit('addCalendarObjectToCalendar', {
+			calendar: {
+				id: calendarObject.calendarId
+			},
+			calendarObjectId: calendarObject.id
+		})
+		// TODO - update time-range
+	},
+
+	/**
+	 *
+	 * @param {Object} context The Vuex context
+	 * @param {Object} data destructuring object
+	 * @param {EventComponent} data.eventComponent EventComponent to store
+	 * @param {String} data.calendarId The calendar-id to store it in
+	 * @returns {Promise<void>}
+	 */
+	async createCalendarObjectFromFork(context, { eventComponent, calendarId }) {
+		const calendar = context.getters.getCalendarById(calendarId)
+		const calendarObject = new CalendarObject(eventComponent.root, calendar.id)
+		calendarObject.dav = await calendar.dav.createVObject(calendarObject.vcalendar.toICS())
 
 		context.commit('appendCalendarObject', { calendarObject })
 		context.commit('addCalendarObjectToCalendar', {
