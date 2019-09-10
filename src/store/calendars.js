@@ -772,6 +772,10 @@ const actions = {
 							calendar,
 							calendarObjectId: calendarObject.id
 						})
+						context.commit('addCalendarObjectIdToAllTimeRangesOfCalendar', {
+							calendarId: calendar.id,
+							calendarObjectId: calendarObject.id
+						})
 						context.commit('incrementAccepted')
 					}).catch((error) => {
 						// error

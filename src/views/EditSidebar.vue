@@ -260,8 +260,9 @@ export default {
 				return
 			}
 
+			let original, fork
 			if (this.eventComponent.canCreateRecurrenceExceptions() && this.calendarObject.id !== 'new') {
-				this.eventComponent.createRecurrenceException(thisAndAllFuture)
+				[original, fork] = this.eventComponent.createRecurrenceException(thisAndAllFuture)
 			}
 
 			await this.$store.dispatch('updateCalendarObject', {
@@ -272,6 +273,14 @@ export default {
 				await this.$store.dispatch('moveCalendarObject', {
 					calendarObject: this.calendarObject,
 					newCalendarId: this.selectCalendar.id
+				})
+			}
+
+			if (thisAndAllFuture && original.root !== fork.root) {
+				await this.$store.dispatch('createCalendarObjectFromFork', {
+					eventComponent: fork,
+					// TODO - replace calendarId with this.selectedCalendar.id
+					calendarId: this.calendarObject.calendarId
 				})
 			}
 		},
