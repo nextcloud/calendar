@@ -110,3 +110,8 @@
 .fc tbody tr:focus {
 	background: transparent !important;
 }
+
+.fc .fc-divider {
+	background: var(--color-border) !important;
+	border-color: var(--color-border) !important;
+}
