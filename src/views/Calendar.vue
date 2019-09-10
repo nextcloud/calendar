@@ -23,6 +23,7 @@
 				:selectable="isSelectable"
 				:select-mirror="true"
 				:lazy-fetching="false"
+				:progressive-event-rendering="true"
 				@eventClick="eventClick"
 				@eventDrop="eventDrop"
 				@eventResize="eventResize"
