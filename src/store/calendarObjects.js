@@ -23,12 +23,13 @@
  */
 import Vue from 'vue'
 import CalendarObject from '../models/calendarObject'
-// import logger from '../services/loggerService'
+import logger from '../services/loggerService'
 import DateTimeValue from 'calendar-js/src/values/dateTimeValue'
 import { createEvent, getTimezoneManager } from 'calendar-js'
 
 const state = {
 	calendarObjects: {},
+	modificationCount: 0,
 }
 
 const mutations = {
@@ -42,12 +43,12 @@ const mutations = {
 	appendCalendarObjects(state, calendarObjects = []) {
 		for (const calendarObject of calendarObjects) {
 			if (!state.calendarObjects[calendarObject.id]) {
-				Vue.set(state.calendarObjects, calendarObject.id, calendarObject)
+				if (calendarObject instanceof CalendarObject) {
+					Vue.set(state.calendarObjects, calendarObject.id, calendarObject)
+				} else {
+					logger.error('Invalid calendarObject object')
+				}
 			}
-			// if (calendarObject instanceof CalendarObject) {
-			// } else {
-			// 	logger.error('Invalid calendarObject object')
-			// }
 		}
 	},
 
@@ -59,12 +60,12 @@ const mutations = {
 	 */
 	appendCalendarObject(state, calendarObject) {
 		if (!state.calendarObjects[calendarObject.id]) {
-			Vue.set(state.calendarObjects, calendarObject.id, calendarObject)
+			if (calendarObject instanceof CalendarObject) {
+				Vue.set(state.calendarObjects, calendarObject.id, calendarObject)
+			} else {
+				logger.error('Invalid calendarObject object')
+			}
 		}
-		// if (calendarObject instanceof CalendarObject) {
-		// } else {
-		// 	logger.error('Invalid calendarObject object')
-		// }
 	},
 
 	/**
@@ -86,6 +87,15 @@ const mutations = {
 	 */
 	moveCalendarObject(state, { calendarObject, newCalendarId }) {
 		Vue.set(calendarObject, 'calendarId', newCalendarId)
+	},
+
+	/**
+	 * Increment the modification count
+	 *
+	 * @param {Object} state The store data
+	 */
+	incrementModificationCount(state) {
+		state.modificationCount++
 	}
 }
 
@@ -145,6 +155,7 @@ const actions = {
 		context.commit('removeCalendarObjectIdFromAnyTimeRange', {
 			calendarObjectId: calendarObject.id
 		})
+		context.commit('incrementModificationCount')
 	},
 
 	/**
@@ -158,23 +169,36 @@ const actions = {
 	async updateCalendarObject(context, { calendarObject }) {
 		if (calendarObject.existsOnServer()) {
 			calendarObject.dav.data = calendarObject.vcalendar.toICS()
-			return calendarObject.dav.update()
+			await calendarObject.dav.update()
 
-			// TODO - update time-range
+			context.commit('addCalendarObjectIdToAllTimeRangesOfCalendar', {
+				calendarId: calendarObject.calendarId,
+				calendarObjectId: calendarObject.id
+			})
+			context.commit('incrementModificationCount')
+
+			return
+
 			// TODO - catch conflicts
 		}
 
 		const calendar = context.getters.getCalendarById(calendarObject.calendarId)
 		calendarObject.dav = await calendar.dav.createVObject(calendarObject.vcalendar.toICS())
 
-		context.commit('appendCalendarObject', { calendarObject })
+		console.debug(calendarObject)
+
+		context.commit('appendCalendarObject', calendarObject)
 		context.commit('addCalendarObjectToCalendar', {
 			calendar: {
 				id: calendarObject.calendarId
 			},
 			calendarObjectId: calendarObject.id
 		})
-		// TODO - update time-range
+		context.commit('addCalendarObjectIdToAllTimeRangesOfCalendar', {
+			calendarId: calendarObject.calendarId,
+			calendarObjectId: calendarObject.id
+		})
+		context.commit('incrementModificationCount')
 	},
 
 	/**
@@ -190,14 +214,18 @@ const actions = {
 		const calendarObject = new CalendarObject(eventComponent.root, calendar.id)
 		calendarObject.dav = await calendar.dav.createVObject(calendarObject.vcalendar.toICS())
 
-		context.commit('appendCalendarObject', { calendarObject })
+		context.commit('appendCalendarObject', calendarObject)
 		context.commit('addCalendarObjectToCalendar', {
 			calendar: {
 				id: calendarObject.calendarId
 			},
 			calendarObjectId: calendarObject.id
 		})
-		// TODO - update time-range
+		context.commit('addCalendarObjectIdToAllTimeRangesOfCalendar', {
+			calendarId: calendar.id,
+			calendarObjectId: calendarObject.id
+		})
+		context.commit('incrementModificationCount')
 	},
 
 	/**
@@ -225,6 +253,7 @@ const actions = {
 		context.commit('removeCalendarObjectIdFromAnyTimeRange', {
 			calendarObjectId: calendarObject.id
 		})
+		context.commit('incrementModificationCount')
 	},
 
 	/**
@@ -295,7 +324,6 @@ const actions = {
 		}
 
 		const eventComponent = calendarObject.vcalendar.getEventIterator().next().value
-		console.debug(eventComponent)
 		eventComponent.startDate = startDateTime
 		eventComponent.endDate = endDateTime
 		eventComponent.undirtify()
