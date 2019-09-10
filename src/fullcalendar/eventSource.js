@@ -19,7 +19,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { generateTextColorFromRGB } from '../services/colorService'
+import {
+	extractRGBFromHexString,
+	generateTextColorFromRGB
+} from '../services/colorService'
 import getTimezoneManager from '../services/timezoneDataProviderService'
 import { getUnixTimestampFromDate } from '../services/date'
 import { getFCEventFromEventComponent } from '../services/fullCalendarEventService'
@@ -31,12 +34,18 @@ import { getFCEventFromEventComponent } from '../services/fullCalendarEventServi
  */
 export default function(store) {
 	return function(calendar) {
+		const {
+			red: colorRed,
+			green: colorGreen,
+			blue: colorBlue
+		} = extractRGBFromHexString(calendar.color)
+
 		const source = {
 			id: calendar.id,
 			// coloring
 			backgroundColor: calendar.color,
 			borderColor: calendar.color,
-			textColor: generateTextColorFromRGB(calendar.color),
+			textColor: generateTextColorFromRGB(colorRed, colorGreen, colorBlue),
 			// html foo
 			className: calendar.id,
 			events: ({ start, end, timeZone }, successCallback, failureCallback) => {
