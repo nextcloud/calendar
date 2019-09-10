@@ -26,14 +26,15 @@ import getTimezoneManager from '../services/timezoneDataProviderService'
  * Returns a function to drop an event at a different position
  *
  * @param {Object} store The Vuex store
+ * @param {Object} fcAPI The fullcalendar api
  * @returns {Function}
  */
-export default function(store) {
+export default function(store, fcAPI) {
 	return function({ event, oldEvent, delta, revert }) {
 		const deltaDuration = getDurationValueFromFullCalendarDuration(delta)
-		const defaultAllDayDuration = getDurationValueFromFullCalendarDuration(this.getOption('defaultAllDayEventDuration'))
-		const defaultTimedDuration = getDurationValueFromFullCalendarDuration(this.getOption('defaultTimedEventDuration'))
-		const timezoneId = this.getOption('timeZone')
+		const defaultAllDayDuration = getDurationValueFromFullCalendarDuration(fcAPI.getOption('defaultAllDayEventDuration'))
+		const defaultTimedDuration = getDurationValueFromFullCalendarDuration(fcAPI.getOption('defaultTimedEventDuration'))
+		const timezoneId = fcAPI.getOption('timeZone')
 		const timezone = getTimezoneManager().getTimezoneForId(timezoneId)
 
 		if (!deltaDuration || !defaultAllDayDuration || !defaultTimedDuration) {

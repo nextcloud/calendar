@@ -151,6 +151,11 @@ export default {
 			}
 
 			return null
+		},
+		modificationCount() {
+			console.debug(this.$store.state.calendarObjects.modificationCount)
+			console.debug(this.$store.state)
+			return this.$store.state.calendarObjects.modificationCount
 		}
 	},
 	beforeRouteUpdate(to, from, next) {
@@ -222,6 +227,12 @@ export default {
 				this.loadingCalendars = false
 			})
 	},
+	watch: {
+		modificationCount: debounce(function() {
+			let calendarApi = this.$refs.fullCalendar.getApi()
+			calendarApi.refetchEvents()
+		}, 50)
+	},
 	methods: {
 		saveNewView: debounce(function(initialView) {
 			this.$store.dispatch('setInitialView', { initialView })
@@ -230,7 +241,7 @@ export default {
 			return eventClick(this.$store, this.$router)(...args)
 		},
 		eventDrop(...args) {
-			return eventDrop(this.$store)(...args)
+			return eventDrop(this.$store, this.$refs.fullCalendar.getApi())(...args)
 		},
 		eventResize(...args) {
 			return eventResize(this.$store)(...args)
