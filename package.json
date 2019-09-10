@@ -35,7 +35,7 @@
 		"test:coverage": "jest --coverage"
 	},
 	"dependencies": {
-		"@babel/polyfill": "^7.4.4",
+		"@babel/polyfill": "^7.6.0",
 		"@fullcalendar/core": "^4.3.1",
 		"@fullcalendar/daygrid": "^4.3.0",
 		"@fullcalendar/interaction": "^4.3.0",
