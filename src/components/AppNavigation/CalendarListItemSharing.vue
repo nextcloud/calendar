@@ -29,6 +29,7 @@
 <script>
 import client from '../../services/cdav'
 import debounce from 'debounce'
+import HttpClient from 'nextcloud-axios'
 
 import CalendarListItemSharingPublishItem from './CalendarListItemSharingPublishItem.vue'
 import CalendarListItemSharingItem from './CalendarListItemSharingItem.vue'
@@ -89,6 +90,7 @@ export default {
 		 * @param {String} query
 		 */
 		findSharee: debounce(async function(query) {
+			let circles = this.loadCircles()
 			this.isLoading = true
 			this.usersOrGroups = []
 			if (query.length > 0) {
@@ -112,7 +114,17 @@ export default {
 				this.inputGiven = false
 				this.isLoading = false
 			}
-		}, 500)
+		}, 500),
+		loadCircles() {
+			const params = new URLSearchParams()
+			params.append('format', 'json')
+			params.append('perPage', 4)
+			params.append('itemType', 0)
+			params.append('itemType', 1)
+			HttpClient.get(OC.linkToOCS('apps/files_sharing/api/v1') + 'sharees', { params }).then((response) => {
+				return response.data.ocs.data.circles
+			})
+		},
 	}
 }
 
