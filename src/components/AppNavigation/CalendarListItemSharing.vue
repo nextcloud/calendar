@@ -90,12 +90,18 @@ export default {
 		 * @param {String} query
 		 */
 		findSharee: debounce(async function(query) {
-			let circles = this.loadCircles()
 			this.isLoading = true
 			this.usersOrGroups = []
 			if (query.length > 0) {
-				const results = await client.principalPropertySearchByDisplayname(query)
-				this.usersOrGroups = results.reduce((list, result) => {
+				
+				const dav = client.principalPropertySearchByDisplayname(query)
+				const circles = this.loadCircles()
+
+				Promise.all([dav, circles]).then(function(results) {
+					let resultDav = results[0]
+					let resultCircles = results[1]
+
+					this.usersOrGroups = resultDav.reduce((list, result) => {
 					if	(['GROUP', 'INDIVIDUAL'].indexOf(result.calendarUserType) > -1) {
 						const isGroup = result.calendarUserType === 'GROUP'
 						list.push({
@@ -107,24 +113,40 @@ export default {
 						})
 					}
 					return list
-				}, [])
+				}, []) 
+
+				let circles = resultCircles.data.ocs.data.circles
+				circles.filter((circle) => {
+					if (circle.label.includes(query)) {
+						this.usersOrGroups.push({
+							user: circle.label,
+							displayName: circle.label,
+							icon: 'icon-circle',
+							uri: '',
+							isGroup: true
+						}) 
+					}
+				})
+
 				this.isLoading = false
-				this.inputGiven = true
+				this.inputGiven = true 
+
+				})
+
 			} else {
 				this.inputGiven = false
 				this.isLoading = false
 			}
 		}, 500),
+
 		loadCircles() {
 			const params = new URLSearchParams()
 			params.append('format', 'json')
 			params.append('perPage', 4)
 			params.append('itemType', 0)
 			params.append('itemType', 1)
-			HttpClient.get(OC.linkToOCS('apps/files_sharing/api/v1') + 'sharees', { params }).then((response) => {
-				return response.data.ocs.data.circles
-			})
-		},
+			return HttpClient.get(OC.linkToOCS('apps/files_sharing/api/v1') + 'sharees', { params })
+		}
 	}
 }
 
