@@ -25,156 +25,6 @@ import { getParserManager } from 'calendar-js'
 import DateTimeValue from 'calendar-js/src/values/dateTimeValue'
 import CalendarComponent from 'calendar-js/src/components/calendarComponent'
 
-// export default function CalendarObject(calendarData, calendarId, dav = null) {
-// 	const context = {
-// 		dav,
-// 		updateQueue: new PQueue({ concurrency: 1 }),
-// 		vcalendar: null
-// 	}
-//
-// 	const iface = {
-// 		calendarId,
-// 		conflict: false,
-// 	}
-//
-// 	Object.defineProperties(iface, {
-// 		id: {
-// 			get() {
-// 				if (context.dav) {
-// 					return btoa(context.dav.url)
-// 				}
-//
-// 				return 'new'
-// 			}
-// 		},
-// 		uid: {
-// 			get() {
-// 				const iterator = context.vcalendar.getVObjectIterator()
-// 				const firstVObject = iterator.next().value
-// 				if (firstVObject) {
-// 					return firstVObject.uid
-// 				}
-//
-// 				return null
-// 			}
-// 		},
-// 		objectType: {
-// 			get() {
-// 				const iterator = context.vcalendar.getVObjectIterator()
-// 				const firstVObject = iterator.next().value
-// 				if (firstVObject) {
-// 					return firstVObject.name
-// 				}
-//
-// 				return null
-// 			}
-// 		},
-// 		dav: {
-// 			get() {
-// 				return context.dav
-// 			}
-// 		},
-// 		vcalendar: {
-// 			get() {
-// 				return context.vcalendar
-// 			}
-// 		}
-// 	})
-//
-// 	/**
-// 	 * Whether or not this calendar-object is an event
-// 	 *
-// 	 * @returns {boolean}
-// 	 */
-// 	iface.isEvent = () => {
-// 		return iface.objectType === 'vevent'
-// 	}
-//
-// 	/**
-// 	 * Whether or not this calendar-object is a task
-// 	 *
-// 	 * @returns {boolean}
-// 	 */
-// 	iface.isTodo = () => {
-// 		return iface.objectType === 'vtodo'
-// 	}
-//
-// 	/**
-// 	 * Get all recurrence-items in given range
-// 	 *
-// 	 * @param {Date} start Begin of time-range
-// 	 * @param {Date} end End of time-range
-// 	 * @returns {Array}
-// 	 */
-// 	iface.getAllObjectsInTimeRange = (start, end) => {
-// 		const iterator = context.vcalendar.getVObjectIterator()
-// 		const firstVObject = iterator.next().value
-// 		if (!firstVObject) {
-// 			return []
-// 		}
-//
-// 		const s = DateTimeValue.fromJSDate(start, true)
-// 		const e = DateTimeValue.fromJSDate(end, true)
-// 		return firstVObject.recurrenceManager.getAllOccurrencesBetween(s, e)
-// 	}
-//
-// 	/**
-// 	 * Get recurrence-item at exactly a given recurrence-Id
-// 	 *
-// 	 * @param {Date} recurrenceId RecurrenceId to retrieve
-// 	 * @returns {AbstractRecurringComponent|null}
-// 	 */
-// 	iface.getObjectAtRecurrenceId = (recurrenceId) => {
-// 		const iterator = context.vcalendar.getVObjectIterator()
-// 		const firstVObject = iterator.next().value
-// 		if (!firstVObject) {
-// 			return null
-// 		}
-//
-// 		const d = DateTimeValue.fromJSDate(recurrenceId, true)
-// 		return firstVObject.recurrenceManager.getOccurrenceAtExactly(d)
-// 	}
-//
-// 	/**
-// 	 * resets the inter vcalendar to the dav data
-// 	 *
-// 	 * @param {CalendarComponent|String} data Data to reset to
-// 	 */
-// 	iface.resetToDav = (data = null) => {
-// 		console.debug('RESET TO DAV CALLED ' + context.dav.url)
-// 		if (data instanceof CalendarComponent) {
-// 			context.vcalendar = data
-// 			return
-// 		}
-//
-// 		if (data === null && context.dav === null) {
-// 			return
-// 		}
-//
-// 		const parserManager = getParserManager()
-// 		const parser = parserManager.getParserForFileType('text/calendar')
-//
-// 		const calendarData = data || context.dav.data
-// 		parser.parse(calendarData)
-//
-// 		const itemIterator = parser.getItemIterator()
-// 		const firstVCalendar = itemIterator.next().value
-// 		if (firstVCalendar) {
-// 			context.vcalendar = firstVCalendar
-// 		}
-// 	}
-//
-// 	iface.existsOnServer = () => {
-// 		return !!context.dav
-// 	}
-//
-// 	iface.resetToDav()
-//
-// 	Object.freeze(iface)
-//
-// 	return iface
-// }
-
 export default class CalendarObject {
 
 	/**
@@ -228,6 +78,17 @@ export default class CalendarObject {
 	 * @returns {string}
 	 */
 	get id() {
+		if (this.dav) {
+			return btoa(this.dav.url)
+		}
+
+		return 'new'
+	}
+
+	/**
+	 * @returns {string}
+	 */
+	getId() {
 		if (this.dav) {
 			return btoa(this.dav.url)
 		}
