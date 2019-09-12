@@ -42,9 +42,9 @@ const mutations = {
 	 */
 	appendCalendarObjects(state, calendarObjects = []) {
 		for (const calendarObject of calendarObjects) {
-			if (!state.calendarObjects[calendarObject.id]) {
+			if (!state.calendarObjects[calendarObject.getId()]) {
 				if (calendarObject instanceof CalendarObject) {
-					Vue.set(state.calendarObjects, calendarObject.id, calendarObject)
+					Vue.set(state.calendarObjects, calendarObject.getId(), calendarObject)
 				} else {
 					logger.error('Invalid calendarObject object')
 				}
@@ -59,9 +59,9 @@ const mutations = {
 	 * @param {Object} calendarObject Calendar-object to add
 	 */
 	appendCalendarObject(state, calendarObject) {
-		if (!state.calendarObjects[calendarObject.id]) {
+		if (!state.calendarObjects[calendarObject.getId()]) {
 			if (calendarObject instanceof CalendarObject) {
-				Vue.set(state.calendarObjects, calendarObject.id, calendarObject)
+				Vue.set(state.calendarObjects, calendarObject.getId(), calendarObject)
 			} else {
 				logger.error('Invalid calendarObject object')
 			}
@@ -72,21 +72,11 @@ const mutations = {
 	 * Removes a calendar-object from the store
 	 *
 	 * @param {Object} state The store data
-	 * @param {Object} calendarObject Calendar-object to add
+	 * @param {Object} data The destructuring object
+	 * @param {Object} data.calendarObject Calendar-object to add
 	 */
-	deleteCalendarObject(state, calendarObject) {
-		Vue.delete(state.calendarObject, calendarObject.id)
-	},
-
-	/**
-	 *
-	 * @param {Object} state The store data
-	 * @param {Object} data destructuring object
-	 * @param {CalendarObject} data.calendarObject Calendar-object to delete
-	 * @param {String} data.newCalendarId Calendar-Id of calendar to move this calendar-object to
-	 */
-	moveCalendarObject(state, { calendarObject, newCalendarId }) {
-		Vue.set(calendarObject, 'calendarId', newCalendarId)
+	deleteCalendarObject(state, { calendarObject }) {
+		Vue.delete(state.calendarObjects, calendarObject.getId())
 	},
 
 	/**
@@ -132,29 +122,56 @@ const actions = {
 			return
 		}
 
+		const oldCalendarObjectId = calendarObject.id
 		const oldCalendarId = calendarObject.calendarId
-		const newCalendar = context.getters.getCalendarById(newCalendarId)
-		if (!newCalendar) {
+
+		console.debug('saved old calendar object information for later')
+
+		if (oldCalendarId === newCalendarId) {
+			logger.error('Old calendar Id and new calendar Id are the same, nothing to move ...')
 			return
 		}
 
-		await calendarObject.dav.move(newCalendar)
-		context.commit('moveCalendarObject', { calendarObject, newCalendarId })
+		const newCalendarObject = context.getters.getCalendarById(newCalendarId)
+		if (!newCalendarObject) {
+			logger.error('Calendar to move to not found, aborting ...')
+			return
+		}
+
+		context.commit('deleteCalendarObject', {
+			calendarObject
+		})
+		await calendarObject.dav.move(newCalendarObject.dav)
+		context.commit('appendCalendarObject', calendarObject)
+
+		console.debug('Performed the real move operation')
+
 		context.commit('addCalendarObjectToCalendar', {
 			calendar: {
-				id: calendarObject.calendarId
+				id: newCalendarId
 			},
 			calendarObjectId: calendarObject.id
 		})
+		context.commit('addCalendarObjectIdToAllTimeRangesOfCalendar', {
+			calendarId: newCalendarId,
+			calendarObjectId: calendarObject.id
+		})
+
+		console.debug('added calendar-object to new calendar')
+
 		context.commit('deleteCalendarObjectFromCalendar', {
 			calendar: {
 				id: oldCalendarId
 			},
-			calendarObjectId: calendarObject.id
+			calendarObjectId: oldCalendarObjectId
 		})
-		context.commit('removeCalendarObjectIdFromAnyTimeRange', {
-			calendarObjectId: calendarObject.id
+		context.commit('removeCalendarObjectIdFromAllTimeRangesOfCalendar', {
+			calendarId: oldCalendarId,
+			calendarObjectId: oldCalendarObjectId
 		})
+
+		console.debug('Removed calendar-object from old calendar')
+
 		context.commit('incrementModificationCount')
 	},
 
@@ -184,8 +201,6 @@ const actions = {
 
 		const calendar = context.getters.getCalendarById(calendarObject.calendarId)
 		calendarObject.dav = await calendar.dav.createVObject(calendarObject.vcalendar.toICS())
-
-		console.debug(calendarObject)
 
 		context.commit('appendCalendarObject', calendarObject)
 		context.commit('addCalendarObjectToCalendar', {
