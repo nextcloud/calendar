@@ -26,4 +26,16 @@ import jstz from 'jstz'
  *
  * @returns {String} Current timezone of user
  */
-export default () => jstz.determine().name()
+export default () => {
+	const determinedTimezone = jstz.determine()
+	if (!determinedTimezone) {
+		return 'UTC'
+	}
+
+	const timezoneName = determinedTimezone.name()
+	if (!timezoneName) {
+		return 'UTC'
+	}
+
+	return timezoneName
+}
