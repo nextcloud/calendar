@@ -19,3 +19,71 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import Vue from 'vue'
+
+const state = {
+	contacts: [],
+	contactByEMail: {}
+}
+
+const mutations = {
+
+	/**
+	 * Append multiple contacts to the store
+	 *
+	 * @param {Object} state The store data
+	 * @param {Array} contacts List of contacts to add
+	 */
+	appendContacts(state, contacts = []) {
+		for (const contact of contacts) {
+			if (state.contacts.indexOf(contact) === -1) {
+				state.contacts.push(contact)
+			}
+
+			for (const email of contact.emails) {
+				Vue.set(state.contactByEMail, email, contact)
+			}
+		}
+	},
+
+	/**
+	 * Append a single contact to the store
+	 *
+	 * @param {Object} state The store data
+	 * @param {Object} contact The contact to append to the store
+	 */
+	appendContact(state, contact) {
+		if (state.contacts.indexOf(contact) === -1) {
+			state.contacts.push(contact)
+		}
+
+		for (const email of contact.emails) {
+			Vue.set(state.contactByEMail, email, contact)
+		}
+	},
+
+	/**
+	 * Removes a single contact from the store
+	 *
+	 * @param {Object} state The store data
+	 * @param {Object} contact The contact to remove from the store
+	 */
+	removeContact(state, contact) {
+		for (const email of contact.email) {
+			if (state.contactByEMail[email] === contact) {
+				Vue.delete(state.contactByEMail, email)
+			}
+		}
+
+		const index = state.contacts.indexOf(contact)
+		if (index !== -1) {
+			state.contacts.splice(index, 1)
+		}
+	}
+}
+
+const getters = {}
+
+const actions = {}
+
+export default { state, mutations, getters, actions }
