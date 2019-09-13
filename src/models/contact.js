@@ -2,8 +2,6 @@
  * @copyright Copyright (c) 2019 Georg Ehrke
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Thomas Citharel <tcit@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -21,34 +19,31 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import Vue from 'vue'
-import Vuex from 'vuex'
-import calendarObjects from './calendarObjects'
-import calendars from './calendars.js'
-import contacts from './contactsStore.js'
-import davRestrictions from './davRestrictions'
-import fetchedTimeRanges from './fetchedTimeRanges.js'
-import importFiles from './importFiles'
-import importState from './importState'
-import principals from './principals.js'
-import settings from './settings.js'
 
-Vue.use(Vuex)
-
-const mutations = {}
-
-export default new Vuex.Store({
-	modules: {
-		calendarObjects,
-		calendars,
-		contacts,
-		davRestrictions,
-		fetchedTimeRanges,
-		importFiles,
-		importState,
-		principals,
-		settings
-	},
-
-	mutations
-})
+/**
+ * Creates a complete contacts-object based on given props
+ *
+ * @param {Object} props Contacts-props already provided
+ * @returns {Object}
+ */
+export const getDefaultContactsObject = (props = {}) => Object.assign({}, {
+	// The name of the contact
+	name: '',
+	// Calendar-user-type of the contact
+	calendarUserType: 'INDIVIDUAL',
+	// Whether or not this is a user
+	isUser: false,
+	// The user-id in case it's a user
+	userId: null,
+	// Whether or not this contact has a photo
+	hasPhoto: false,
+	// The url of the photo
+	photoUrl: null,
+	// Whether or not this contact has an icon
+	// (mostly if the calendar-user-type is not INDIVIDUAL)
+	hasIcon: false,
+	// The name of the class associated with the icon
+	iconClass: null,
+	// List of email addresses
+	emails: []
+}, props)
