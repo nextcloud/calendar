@@ -78,7 +78,7 @@ export const getDefaultCalendarObject = (props = {}) => Object.assign({}, {
  * @returns {Object}
  */
 export function mapDavCollectionToCalendar(calendar) {
-	let color = calendar.color
+	let color = calendar.color || defaultColor()
 	if (color.length === 9) {
 		// Make sure it's #RRGGBB, not #RRGGBBAA
 		color = color.substr(0, 7)
@@ -87,7 +87,7 @@ export function mapDavCollectionToCalendar(calendar) {
 	return {
 		id: btoa(calendar.url),
 		displayName: calendar.displayname,
-		color: color || defaultColor(),
+		color: color,
 		enabled: !!calendar.enabled,
 		supportsEvents: calendar.components.includes('VEVENT'),
 		supportsJournals: calendar.components.includes('VJOURNAL'),

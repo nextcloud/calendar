@@ -153,8 +153,6 @@ export default {
 			return null
 		},
 		modificationCount() {
-			console.debug(this.$store.state.calendarObjects.modificationCount)
-			console.debug(this.$store.state)
 			return this.$store.state.calendarObjects.modificationCount
 		}
 	},
