@@ -109,16 +109,33 @@ export default {
 			return HttpClient.post(linkTo('calendar', 'index.php') + '/v1/autocompletion/attendee', {
 				search: query
 			}).then(({ data }) => {
-				return data.map((result) => {
-					return {
-						calendarUserType: 'INDIVIDUAL',
-						commonName: result.name,
-						email: result.email,
-						isUser: false,
-						avatar: null,
-						dropdownName: result.name || result.email
-					}
-				})
+				return data.reduce((arr, result) => {
+					let hasMultipleEMails = result.emails.length > 1
+
+					result.emails.forEach((email) => {
+						let name;
+						if (result.name && !hasMultipleEMails) {
+							name = result.name
+						} else if (result.name && hasMultipleEMails) {
+							name = `${result.name} (${email})`
+						} else {
+							name = email
+						}
+
+						arr.push({
+							calendarUserType: 'INDIVIDUAL',
+							commonName: name,
+							email: email,
+							isUser: false,
+							avatar: result.photo,
+							language: result.lang,
+							timezoneId: result.tzid,
+							dropdownName: result.name || result.email
+						})
+					})
+
+					return arr
+				}, [])
 			}).catch((e) => {
 				console.debug('ERROR', e)
 				return []
