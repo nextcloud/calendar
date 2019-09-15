@@ -45,5 +45,9 @@ export const getDefaultContactsObject = (props = {}) => Object.assign({}, {
 	// The name of the class associated with the icon
 	iconClass: null,
 	// List of email addresses
-	emails: []
+	emails: [],
+	// Language of the user
+	language: null,
+	// Timezone of the user
+	timezoneId: null
 }, props)
