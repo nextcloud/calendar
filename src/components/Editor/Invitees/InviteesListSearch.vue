@@ -36,12 +36,14 @@
 		@input="addAttendee">
 		<!--		<template slot="singleLabel" slot-scope="props"><img class="option__image" :src="props.option.img" alt="No Man’s Sky"><span class="option__desc"><span class="option__title">{{ props.option.title }}</span></span></template>-->
 		<template slot="singleLabel" slot-scope="props">
-			<Avatar :user="props.option.avatar" :display-name="props.option.dropdownName" />
-			<span class="margin-left: 8px">{{ props.option.dropdownName }}</span>
+			<Avatar v-if="props.option.isUser" :user="props.option.avatar" :display-name="props.option.dropdownName" />
+			<Avatar v-if="!props.option.isUser" :url="props.option.avatar" :display-name="props.option.dropdownName" />
+			<span style="margin-left: 8px">{{ props.option.dropdownName }}</span>
 		</template>
 		<template slot="option" slot-scope="props">
-			<Avatar :user="props.option.avatar" :display-name="props.option.dropdownName" />
-			<span>{{ props.option.dropdownName }}</span>
+			<Avatar v-if="props.option.isUser" :user="props.option.avatar" :display-name="props.option.dropdownName" />
+			<Avatar v-if="!props.option.isUser" :url="props.option.avatar" :display-name="props.option.dropdownName" />
+			<span style="margin-left: 8px">{{ props.option.dropdownName }}</span>
 		</template>
 	</multiselect>
 </template>
@@ -80,7 +82,7 @@ export default {
 	methods: {
 		findAttendees: debounce(async function(query) {
 			this.isLoading = true
-			this.matches = []
+			const matches = []
 
 			if (query.length > 0) {
 				const promises = [
@@ -89,10 +91,8 @@ export default {
 				]
 
 				const [contactsResults, davResults] = await Promise.all(promises)
-				this.matches.push(...contactsResults)
-				this.matches.push(...davResults)
-
-				console.debug(contactsResults, davResults, this.matches)
+				matches.push(...contactsResults)
+				matches.push(...davResults)
 
 				this.isLoading = false
 				this.inputGiven = true
@@ -101,6 +101,7 @@ export default {
 				this.isLoading = false
 			}
 
+			this.matches = matches
 		}, 500),
 		addAttendee() {
 
@@ -113,7 +114,7 @@ export default {
 					let hasMultipleEMails = result.emails.length > 1
 
 					result.emails.forEach((email) => {
-						let name;
+						let name
 						if (result.name && !hasMultipleEMails) {
 							name = result.name
 						} else if (result.name && hasMultipleEMails) {
@@ -124,13 +125,13 @@ export default {
 
 						arr.push({
 							calendarUserType: 'INDIVIDUAL',
-							commonName: name,
+							commonName: result.name,
 							email: email,
 							isUser: false,
 							avatar: result.photo,
 							language: result.lang,
 							timezoneId: result.tzid,
-							dropdownName: result.name || result.email
+							dropdownName: name
 						})
 					})
 
