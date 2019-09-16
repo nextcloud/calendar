@@ -120,6 +120,7 @@
 	height: 24px;
 	text-align: center;
 	font-weight: bold !important;
+	box-sizing: border-box !important;
 }
 
 .fc-day-header.fc-today {
@@ -140,4 +141,10 @@
 .fc-today.fc-thu:not(.fc-day-header),
 .fc-today.fc-fri:not(.fc-day-header) {
 	background-color: var(--color-background) !important;
+}
+
+// The server is setting border-box on everything
+// inside content and that messes up fullcalendar
+.fc * {
+	box-sizing: content-box !important;
 }
