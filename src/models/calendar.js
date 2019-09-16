@@ -84,6 +84,8 @@ export function mapDavCollectionToCalendar(calendar) {
 		color = color.substr(0, 7)
 	}
 
+	let shares = calendar.shares || []
+
 	return {
 		id: btoa(calendar.url),
 		displayName: calendar.displayname,
@@ -97,7 +99,7 @@ export function mapDavCollectionToCalendar(calendar) {
 		order: calendar.order || 0,
 		url: calendar.url,
 		dav: calendar,
-		shares: calendar.shares
+		shares: shares
 			.filter((sharee) => sharee.href !== client.currentUserPrincipal.principalScheme) // public shares create a share with yourself ... should be fixed in server
 			.map(sharee => Object.assign({}, mapDavShareeToSharee(sharee))),
 		publishURL: calendar.publishURL || null,
