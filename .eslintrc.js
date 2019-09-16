@@ -14,7 +14,6 @@ module.exports = {
 		OCP: true,
 		Vue: true,
 		VueRouter: true,
-		oca_calendar: true,
 		dayNames: true,
 		dayNamesMin: true,
 		monthNames: true,
@@ -78,6 +77,9 @@ module.exports = {
 					allowFirstLine: true
 				}
 			}
-		]
+		],
+		"node/no-missing-import": ["error", {
+			"tryExtensions": [".js", ".vue"]
+		}]
 	}
 };
