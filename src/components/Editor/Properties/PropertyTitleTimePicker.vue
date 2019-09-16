@@ -321,12 +321,9 @@ export default {
 
 .fake-input-box {
 	margin: 3px 3px 3px 0;
-	padding: 7px 6px;
+	padding: 8px 7px;
 	background-color: var(--color-main-background);
 	color: var(--color-main-text);
-	border: 1px solid var(--color-border-dark);
 	outline: none;
-	border-radius: var(--border-radius);
-	cursor: not-allowed;
 }
 </style>
