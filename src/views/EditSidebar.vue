@@ -23,12 +23,11 @@
   -->
 
 <template>
-	<AppSidebar title="" :compact="false" @close="cancel">
+	<AppSidebar title="Foo bar" subtitle="in 5 days" :compact="false"
+		@close="cancel"
+		:background="backgroundImage">
 		<template v-slot:primary-actions style="max-height: none !important">
 			<div style="width: 100%">
-				<property-title :event-component="eventComponent" :prop-model="rfcProps.summary" :is-read-only="isReadOnly" />
-				<calendar-picker :calendars="calendars" :calendar="selectedCalendar" is-read-only="isReadOnly"
-					:show-calendar-on-select="true" @selectCalendar="changeCalendar" />
 				<property-title-time-picker :event-component="eventComponent" :prop-model="{}" :is-read-only="isReadOnly"
 					:user-timezone="currentUserTimezone" :start-end-date-hash="startEndDateHash"
 				/>
@@ -51,11 +50,14 @@
 		</template>
 
 		<AppSidebarTab name="Details" icon="icon-details" :order="0">
+			<calendar-picker :calendars="calendars" :calendar="selectedCalendar" is-read-only="isReadOnly"
+				:show-calendar-on-select="true" @selectCalendar="changeCalendar" />
 			<property-text :event-component="eventComponent" :prop-model="rfcProps.location" :is-read-only="isReadOnly" />
 			<property-text :event-component="eventComponent" :prop-model="rfcProps.description" :is-read-only="isReadOnly" />
 			<property-select :event-component="eventComponent" :prop-model="rfcProps.status" :is-read-only="isReadOnly" />
 			<property-select :event-component="eventComponent" :prop-model="rfcProps.class" :is-read-only="isReadOnly" />
 			<property-select :event-component="eventComponent" :prop-model="rfcProps.timeTransparency" :is-read-only="isReadOnly" />
+			<property-title :event-component="eventComponent" :prop-model="rfcProps.summary" :is-read-only="isReadOnly" />
 		</AppSidebarTab>
 		<AppSidebarTab name="Attendees" icon="icon-group" :order="1">
 			<invitees-list :event-component="eventComponent" :is-read-only="isReadOnly" />
@@ -106,6 +108,7 @@ import PropertyTitleTimePicker from '../components/Editor/Properties/PropertyTit
 import Repeat from '../components/Editor/Repeat/Repeat.vue'
 
 import EditorMixin from '../mixins/EditorMixin'
+import { getIllustrationForTitle } from '../services/illustrationProviderService.js'
 
 export default {
 	name: 'EditSidebar',
@@ -137,6 +140,9 @@ export default {
 				this.$route.params.dtstart,
 				this.$route.params.dtend,
 			].join('#')
+		},
+		backgroundImage() {
+			return getIllustrationForTitle('Pizza')
 		}
 	}
 }
