@@ -1,5 +1,19 @@
 {
+    "config": {
+        "platform": {
+            "php": "7.1"
+        }
+    },
+    "require": {
+        "php": ">=7.1"
+    },
     "require-dev": {
-        "phpunit/phpunit": "^6.5"
+        "phpunit/phpunit": "^6.5",
+        "phan/phan": "^2.0"
+    },
+    "scripts": {
+        "lint": "find . -name \\*.php -not -path './vendor/*' -exec php -l \"{}\" \\;",
+        "phan": "phan --allow-polyfill-parser -k .phan/config.php",
+        "test": "phpunit --bootstrap tests/php/unit/bootstrap.php tests/php/unit/ --fail-on-warning"
     }
 }

@@ -9,13 +9,17 @@ source_package_name=$(source_build_directory)/$(app_name)
 appstore_build_directory=$(CURDIR)/build/artifacts/appstore
 appstore_package_name=$(appstore_build_directory)/$(app_name)
 
-all: dev-setup lint build-js-production test
+all: dev-setup lint build-js-production test test-php
 
 # Dev env management
-dev-setup: clean clean-dev npm-init
+dev-setup: clean clean-dev npm-init composer-init
 
 npm-init:
 	npm install
+
+composer-init:
+	composer install --prefer-dist
+	composer update --prefer-dist
 
 npm-update:
 	npm update
@@ -40,6 +44,14 @@ test-watch:
 test-coverage:
 	npm run test:coverage
 
+test-php:
+	phpunit -c phpunit.xml
+	phpunit -c phpunit.integration.xml
+
+test-php-coverage:
+	phpunit -c phpunit.xml --coverage-clover=coverage-unit.xml
+	phpunit -c phpunit.integration.xml --coverage-clover=coverage-integration.xml
+
 # Linting
 lint:
 	npm run lint
@@ -56,8 +68,9 @@ stylelint-fix:
 
 # Cleaning
 clean:
-	rm -f js/calendar.js
-	rm -f js/calendar.js.map
+	rm -f js/contacts.js
+	rm -f js/contacts.js.map
+	rm -Rf js/chunks
 
 clean-dev:
 	rm -rf node_modules
@@ -75,4 +88,5 @@ appstore:
 	$(project_directory)/lib \
 	$(project_directory)/templates \
 	$(project_directory)/js \
-	$(project_directory)/COPYING
+	$(project_directory)/COPYING \
+	$(project_directory)/CHANGELOG.md
