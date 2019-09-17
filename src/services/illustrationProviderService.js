@@ -21,16 +21,23 @@
  */
 import { imagePath } from 'nextcloud-router'
 
+/**
+ * Get an illustration for a given title
+ *
+ * @param {String} title Title to find illustration for
+ * @returns {string} Link to image
+ */
 export const getIllustrationForTitle = (title) => {
 	for (const illustration of data) {
 		for (const str of illustration.strings) {
 			if (title.includes(str)) {
+				// TODO: vary if there are multiple illustrationNames
 				return imagePath('calendar', 'illustrations/' + illustration.illustrationNames[0])
 			}
 		}
 	}
 
-	return null
+	return imagePath('calendar', 'illustrations/calendar')
 }
 
 const data = [{
