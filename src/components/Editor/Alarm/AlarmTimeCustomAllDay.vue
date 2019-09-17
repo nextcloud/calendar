@@ -22,7 +22,7 @@
 <template>
 	<div>
 		<alarm-type-select />
-		<input type="number" />
+		<input type="number">
 		<alarm-time-unit-select />
 		<span>before at</span>
 		<DatetimePicker type="time" />

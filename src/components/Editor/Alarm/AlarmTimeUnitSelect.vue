@@ -56,7 +56,7 @@ export default {
 		}
 	},
 	computed: {
-		options () {
+		options() {
 			const options = []
 
 			if (this.unit === 'seconds') {
@@ -88,12 +88,12 @@ export default {
 
 			return options
 		},
-		selected () {
+		selected() {
 			return this.options.find(o => o.unit === this.unit)
 		}
 	},
 	methods: {
-		select (value) {
+		select(value) {
 			if (!value) {
 				return
 			}

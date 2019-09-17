@@ -70,6 +70,8 @@ export default {
 					type: this.alarmType
 				})
 			}
+
+			return options
 		},
 		selected() {
 			return this.options.find(o => o.type === this.alarmType)
