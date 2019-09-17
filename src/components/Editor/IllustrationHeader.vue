@@ -21,10 +21,12 @@
   -->
 
 <template>
-	<div
-		class="background-image"
-		v-html="coloredSVG"
-	/>
+	<!-- Using v-html won't cause any XSS here, -->
+	<!-- because illustrationUrl comes from a fixed list of SVGs -->
+	<!-- and while color is based on user-input, -->
+	<!-- we use a validator to make sure it's actually a HEX RGB code -->
+	<!-- eslint-disable-next-line vue/no-v-html -->
+	<div class="background-image" v-html="coloredSVG" />
 </template>
 
 <script>
@@ -39,6 +41,7 @@ export default {
 		},
 		color: {
 			type: String,
+			required: true,
 			validator: (s) => /^(#)((?:[A-Fa-f0-9]{3}){1,2})$/.test(s)
 		}
 	},
