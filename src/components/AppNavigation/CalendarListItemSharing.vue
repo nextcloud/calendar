@@ -101,7 +101,21 @@ export default {
 					let resultDav = results[0]
 					let resultCircles = results[1]
 
-					this.usersOrGroups = resultDav.reduce((list, result) => {
+					let listc = []
+					let circleData = resultCircles.data.ocs.data.circles
+					circleData.filter((circle) => {
+						if (circle.label.includes(query)) {
+							listc.push({
+								user: circle.label,
+								displayName: circle.label,
+								icon: 'icon-circle',
+								uri: '',
+								isGroup: true
+							}) 
+						}
+					})
+
+					let listd = resultDav.reduce((list, result) => {
 					if	(['GROUP', 'INDIVIDUAL'].indexOf(result.calendarUserType) > -1) {
 						const isGroup = result.calendarUserType === 'GROUP'
 						list.push({
@@ -113,24 +127,14 @@ export default {
 						})
 					}
 					return list
-				}, []) 
+					}, []) 
 
-				let circles = resultCircles.data.ocs.data.circles
-				circles.filter((circle) => {
-					if (circle.label.includes(query)) {
-						this.usersOrGroups.push({
-							user: circle.label,
-							displayName: circle.label,
-							icon: 'icon-circle',
-							uri: '',
-							isGroup: true
-						}) 
-					}
-				})
-
+				let completeList = listd.concat(listc)
+				
+				return completeList
+				
 				this.isLoading = false
 				this.inputGiven = true 
-
 				})
 
 			} else {
