@@ -30,6 +30,7 @@ use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
@@ -57,6 +58,9 @@ class EmailController extends Controller {
 	/** @var IUserSession */
 	private $userSession;
 
+	/** @var IURLGenerator */
+	private $urlGenerator;
+
 	/**
 	 * EmailController constructor.
 	 *
@@ -67,6 +71,7 @@ class EmailController extends Controller {
 	 * @param IMailer $mailer
 	 * @param IL10N $l10N
 	 * @param Defaults $defaults
+	 * @param IURLGenerator $urlGenerator
 	 */
 	public function __construct(string $appName,
 								IRequest $request,
@@ -74,18 +79,20 @@ class EmailController extends Controller {
 								IConfig $config,
 								IMailer $mailer,
 								IL10N $l10N,
-								Defaults $defaults) {
+								Defaults $defaults,
+								IURLGenerator $urlGenerator) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->userSession = $userSession;
 		$this->mailer = $mailer;
 		$this->l10n = $l10N;
 		$this->defaults = $defaults;
+		$this->urlGenerator = $urlGenerator;
 	}
 
 	/**
 	 * @param string $recipient
-	 * @param string $url
+	 * @param string $token
 	 * @param string $calendarName
 	 * @return JSONResponse
 	 *
@@ -94,7 +101,7 @@ class EmailController extends Controller {
 	 * @NoAdminRequired
 	 */
 	public function sendEmailPublicLink(string $recipient,
-										string $url,
+										string $token,
 										string $calendarName):JSONResponse {
 		$user = $this->userSession->getUser();
 		if (!$user) {
@@ -113,7 +120,7 @@ class EmailController extends Controller {
 		$displayName = $user->getDisplayName();
 		$subject = $this->l10n->t('%s has published the calendar »%s«', [$displayName, $calendarName]);
 
-		$template = $this->createTemplate($subject, $displayName, $calendarName, $url);
+		$template = $this->createTemplate($subject, $displayName, $calendarName, $token);
 		$message = $this->createMessage($fromAddress, [$recipient => $recipient], $template);
 
 		try {
@@ -121,7 +128,7 @@ class EmailController extends Controller {
 		} catch(\Exception $ex) {
 			return new JSONResponse([
 				'message' => $this->l10n->t('Unexpected error sending email. Please contact your administrator.'),
-			]);
+			], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 
 		return new JSONResponse([
@@ -165,13 +172,14 @@ class EmailController extends Controller {
 	 * @param string $subject
 	 * @param string $displayName
 	 * @param string $calendarName
-	 * @param string $url
+	 * @param string $token
 	 * @return IEMailTemplate
 	 */
 	private function createTemplate(string $subject,
 									string $displayName,
 									string $calendarName,
-									string $url):IEMailTemplate {
+									string $token):IEMailTemplate {
+		$url = $this->getURLFromToken($token);
 		$emailTemplate = $this->mailer->createEMailTemplate('calendar.PublicShareNotification', [
 			'displayname' => $displayName,
 			'calendar_name' => $calendarName,
@@ -190,5 +198,17 @@ class EmailController extends Controller {
 		$emailTemplate->addFooter();
 
 		return $emailTemplate;
+	}
+
+	/**
+	 * Get URL from public sharing token
+	 *
+	 * @param string $token
+	 * @return string
+	 */
+	private function getURLFromToken(string $token):string {
+		return $this->urlGenerator->linkToRouteAbsolute('calendar.view.public_index_with_branding', [
+			'token' => $token,
+		]);
 	}
 }
