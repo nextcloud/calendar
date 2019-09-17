@@ -23,15 +23,17 @@
   -->
 
 <template>
-	<AppSidebar title="Foo bar" subtitle="in 5 days" :compact="false"
-		@close="cancel"
-		:background="backgroundImage">
+	<AppSidebar title="Foo bar" subtitle="in 5 days" @close="cancel">
 		<template v-slot:primary-actions style="max-height: none !important">
 			<div style="width: 100%">
 				<property-title-time-picker :event-component="eventComponent" :prop-model="{}" :is-read-only="isReadOnly"
 					:user-timezone="currentUserTimezone" :start-end-date-hash="startEndDateHash"
 				/>
 			</div>
+		</template>
+
+		<template v-slot:header>
+			<IllustrationHeader :color="selectedCalendarColor" :illustration-url="backgroundImage" />
 		</template>
 
 		<template v-slot:secondary-actions>
@@ -109,10 +111,13 @@ import Repeat from '../components/Editor/Repeat/Repeat.vue'
 
 import EditorMixin from '../mixins/EditorMixin'
 import { getIllustrationForTitle } from '../services/illustrationProviderService.js'
+import IllustrationHeader from '../components/Editor/IllustrationHeader.vue'
+import defaultColor from '../services/defaultColor.js'
 
 export default {
 	name: 'EditSidebar',
 	components: {
+		IllustrationHeader,
 		AlarmList,
 		AppSidebar,
 		AppSidebarTab,
@@ -142,13 +147,24 @@ export default {
 			].join('#')
 		},
 		backgroundImage() {
-			return getIllustrationForTitle('Pizza')
+			return getIllustrationForTitle('foo')
+		},
+		selectedCalendarColor() {
+			if (!this.selectedCalendar) {
+				return defaultColor()
+			}
+
+			return this.selectedCalendar.color || defaultColor()
 		}
 	}
 }
 </script>
 
 <style>
+.app-sidebar-header__figure {
+	height: unset !important;
+}
+
 .app-sidebar-button-area-bottom {
 	position: absolute;
 	margin-top: -60px;
