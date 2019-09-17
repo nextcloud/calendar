@@ -48,7 +48,7 @@ export default {
 		},
 	},
 	computed: {
-		options () {
+		options() {
 			return [{
 				'label': t('calendar', 'before'),
 				'type': 'before',
@@ -57,7 +57,7 @@ export default {
 				'type': 'after'
 			}]
 		},
-		selected () {
+		selected() {
 			const type = this.isBefore
 				? 'before'
 				: 'after'
@@ -66,7 +66,7 @@ export default {
 		}
 	},
 	methods: {
-		select (value) {
+		select(value) {
 			if (!value) {
 				return
 			}

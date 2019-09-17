@@ -62,6 +62,8 @@ export default {
 				label: t('calendar', 'Custom'),
 				trigger: 'custom'
 			})
+
+			return options
 		},
 		selected() {
 			return this.options.find(o => o.trigger === this.triggerType)

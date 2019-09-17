@@ -43,19 +43,14 @@ import {
 
 export default {
 	name: 'AlarmListItem',
-	props: {
-		alarm: {
-			type: Object,
-			required: true
-		}
-	},
 	components: {
 		Actions,
 		ActionButton
 	},
-	filters: {
-		formatAlarm() {
-
+	props: {
+		alarm: {
+			type: Object,
+			required: true
 		}
 	},
 	computed: {

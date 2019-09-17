@@ -23,7 +23,7 @@
 <template>
 	<div>
 		<alarm-type-select />
-		<input type="number" />
+		<input type="number">
 		<alarm-time-unit-select />
 		<alarm-time-before-after-select />
 		<alarm-time-start-end-select />

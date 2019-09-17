@@ -48,7 +48,7 @@ export default {
 		},
 	},
 	computed: {
-		options () {
+		options() {
 			return [{
 				'label': t('calendar', 'before'),
 				'related': 'start',
@@ -57,7 +57,7 @@ export default {
 				'related': 'end'
 			}]
 		},
-		selected () {
+		selected() {
 			const type = this.isRelatedToStart
 				? 'start'
 				: 'end'
@@ -66,7 +66,7 @@ export default {
 		}
 	},
 	methods: {
-		select (value) {
+		select(value) {
 			if (!value) {
 				return
 			}
