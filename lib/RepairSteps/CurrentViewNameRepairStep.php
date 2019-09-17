@@ -87,7 +87,7 @@ class CurrentViewNameRepairStep implements IRepairStep {
 				case 'month':
 				default:
 					$this->config->setUserValue($userId, 'calendar', 'currentView', 'dayGridMonth');
-				break;
+					break;
 			}
 		});
 	}
