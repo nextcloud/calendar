@@ -1,8 +1,11 @@
 <?php
 /**
- * @author Thomas Citharel <tcit@tcit.fr>
+ * @author Thomas Citharel
+ * @author Georg Ehrke
  *
- * @copyright Copyright (c) 2016 Thomas Citharel <tcit@tcit.fr>
+ * @copyright 2016 Thomas Citharel <tcit@tcit.fr>
+ * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This code is free software: you can redistribute it and/or modify
@@ -32,6 +35,11 @@ use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Mail\IMessage;
 
+/**
+ * Class EmailController
+ *
+ * @package OCA\Calendar\Controller
+ */
 class EmailController extends Controller {
 
 	/** @var IConfig */

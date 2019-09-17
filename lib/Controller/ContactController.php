@@ -31,7 +31,6 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Contacts\IManager;
 use OCP\IRequest;
-use OCP\IURLGenerator;
 
 /**
  * Class ContactController
@@ -40,16 +39,14 @@ use OCP\IURLGenerator;
  */
 class ContactController extends Controller {
 
-	/**
-	 * API for contacts
-	 *
-	 * @var IManager
-	 */
+	/** @var IManager */
 	private $contactsManager;
 
 	/**
+	 * ContactController constructor.
+	 *
 	 * @param string $appName
-	 * @param IRequest $request an instance of the request
+	 * @param IRequest $request
 	 * @param IManager $contacts
 	 */
 	public function __construct(string $appName,
@@ -60,17 +57,19 @@ class ContactController extends Controller {
 	}
 
 	/**
-	 * @param string $location
+	 * Search for a location based on a contact's name or address
+	 *
+	 * @param string $search Name or address to search for
 	 * @return JSONResponse
 	 *
 	 * @NoAdminRequired
 	 */
-	public function searchLocation(string $location):JSONResponse {
+	public function searchLocation(string $search):JSONResponse {
 		if (!$this->contactsManager->isEnabled()) {
 			return new JSONResponse();
 		}
 
-		$result = $this->contactsManager->search($location, ['FN', 'ADR']);
+		$result = $this->contactsManager->search($search, ['FN', 'ADR']);
 
 		$contacts = [];
 		foreach ($result as $r) {
@@ -109,7 +108,9 @@ class ContactController extends Controller {
 
 
 	/**
-	 * @param string $search
+	 * Search for a contact based on a contact's name or email-address
+	 *
+	 * @param string $search Name or email to search for
 	 * @return JSONResponse
 	 *
 	 * @NoAdminRequired
@@ -172,7 +173,9 @@ class ContactController extends Controller {
 	}
 
 	/**
-	 * @param string $search
+	 * Get a contact's photo based on their email-address
+	 *
+	 * @param string $search Exact email-address to match
 	 * @return JSONResponse
 	 *
 	 * @NoAdminRequired
