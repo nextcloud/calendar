@@ -39,7 +39,7 @@ class Application extends App {
 		$appName = $this->getContainer()->getAppName();
 		$server = $this->getContainer()->getServer();
 
-		$server->getNavigationManager()->add(function() use ($appName, $server) {
+		$server->getNavigationManager()->add(static function() use ($appName, $server) {
 			return [
 				'id' => $appName,
 				'order' => 5,
