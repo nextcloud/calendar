@@ -81,6 +81,8 @@ class EmailController extends Controller {
 	 * @param string $calendarName
 	 * @return JSONResponse
 	 *
+	 * @UserRateThrottle(limit=5, period=100)
+	 *
 	 * @NoAdminRequired
 	 */
 	public function sendEmailPublicLink(string $recipient,
