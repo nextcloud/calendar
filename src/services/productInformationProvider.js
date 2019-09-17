@@ -37,12 +37,3 @@ export function getAppVersion() {
 export function getServerVersion() {
 	return OC.config.versionstring
 }
-
-/**
- * returns the hostname, needed for UID
- *
- * @returns {String}
- */
-export function getHostname() {
-	return window.location.hostname
-}
