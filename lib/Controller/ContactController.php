@@ -48,23 +48,15 @@ class ContactController extends Controller {
 	private $contactsManager;
 
 	/**
-	 * @var IURLGenerator
-	 */
-	private $urlGenerator;
-
-	/**
 	 * @param string $appName
 	 * @param IRequest $request an instance of the request
 	 * @param IManager $contacts
-	 * @param IURLGenerator $urlGenerator
 	 */
 	public function __construct(string $appName,
 								IRequest $request,
-								IManager $contacts,
-								IURLGenerator $urlGenerator) {
+								IManager $contacts) {
 		parent::__construct($appName, $request);
 		$this->contactsManager = $contacts;
-		$this->urlGenerator = $urlGenerator;
 	}
 
 	/**
