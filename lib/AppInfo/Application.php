@@ -3,7 +3,7 @@
  * Calendar App
  *
  * @author Georg Ehrke
- * @copyright 2018 Georg Ehrke <oc.list@georgehrke.com>
+ * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -23,6 +23,11 @@ namespace OCA\Calendar\AppInfo;
 
 use OCP\AppFramework\App;
 
+/**
+ * Class Application
+ *
+ * @package OCA\Calendar\AppInfo
+ */
 class Application extends App {
 
 	/**
@@ -35,7 +40,7 @@ class Application extends App {
 	/**
 	 * register navigation entry
 	 */
-	public function registerNavigation() {
+	public function registerNavigation():void {
 		$appName = $this->getContainer()->getAppName();
 		$server = $this->getContainer()->getServer();
 

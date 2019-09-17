@@ -3,7 +3,7 @@
  * Calendar App
  *
  * @author Georg Ehrke
- * @copyright 2016 Georg Ehrke <oc.list@georgehrke.com>
+ * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -34,19 +34,17 @@ use OCP\IRequest;
  */
 class SettingsController extends Controller {
 
-	/**
-	 * @var IConfig
-	 */
+	/** @var IConfig */
 	private $config;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $userId;
 
 	/**
+	 * SettingsController constructor.
+	 *
 	 * @param string $appName
-	 * @param IRequest $request an instance of the request
+	 * @param IRequest $request
 	 * @param IConfig $config
 	 * @param string $userId
 	 */
@@ -170,7 +168,7 @@ class SettingsController extends Controller {
 	 * @param $value User-selected option whether or not to show week numbers
 	 * @return JSONResponse
 	 */
-	private function setShowWeekNr($value):JSONResponse {
+	private function setShowWeekNr(string $value):JSONResponse {
 		if (!\in_array($value, ['yes', 'no'])) {
 			return new JSONResponse([], Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
@@ -215,7 +213,7 @@ class SettingsController extends Controller {
 	 * @param string $value User-selected option for timezone to display events in
 	 * @return JSONResponse
 	 */
-	private function setTimezone($value):JSONResponse {
+	private function setTimezone(string $value):JSONResponse {
 		try {
 			$this->config->setUserValue(
 				$this->userId,

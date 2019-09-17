@@ -3,9 +3,7 @@
  * Calendar App
  *
  * @author Georg Ehrke
- * @copyright 2018 Georg Ehrke <oc.list@georgehrke.com>
- * @author Raghu Nayyar
- * @copyright 2016 Raghu Nayyar <hey@raghunayyar.com>
+ * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -29,6 +27,11 @@ use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 
+/**
+ * Class ViewController
+ *
+ * @package OCA\Calendar\Controller
+ */
 class ViewController extends Controller {
 
 	/**
@@ -65,6 +68,8 @@ class ViewController extends Controller {
 	}
 
 	/**
+	 * Load the main calendar page
+	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 *
@@ -83,128 +88,68 @@ class ViewController extends Controller {
 	}
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
+	 * Load the public sharing calendar page with branding
 	 *
 	 * @param string $token
-	 *
 	 * @return TemplateResponse
 	 */
 	public function publicIndexWithBranding(string $token):TemplateResponse {
-		$params = $this->getPublicTemplateParameters($token);
-		$params['isEmbedded'] = false;
-
-		return new TemplateResponse('calendar', 'public', $params, 'base');
+		return $this->publicIndex($token, 'public');
 	}
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 * @NoSameSiteCookieRequired
+	 * Load the public sharing calendar page that is to be used for embedding
 	 *
 	 * @param string $token
-	 *
 	 * @return TemplateResponse
 	 */
 	public function publicIndexForEmbedding(string $token):TemplateResponse {
-		$params = $this->getPublicTemplateParameters($token);
-		$params['isEmbedded'] = true;
-
-		$response = new TemplateResponse('calendar', 'main', $params, 'base');
+		$response = $this->publicIndex($token, 'main');
 		$response->addHeader('X-Frame-Options', 'ALLOW');
+
 		return $response;
 	}
 
 	/**
-	 * add parameters to javascript for user sites
-	 *
-	 * @param array $array
-	 */
-	public function addJavaScriptVariablesForIndex(array $array) {
-		$initialView = $this->config->getUserValue($userId, $this->appName, 'currentView', null);
-		$showWeekends = $this->config->getUserValue($userId, $this->appName, 'showWeekends', 'yes');
-		$skipPopover = $this->config->getUserValue($userId, $this->appName, 'skipPopover', 'no');
-		$weekNumbers = $this->config->getUserValue($userId, $this->appName, 'showWeekNr', 'no');
-		$firstRun = $this->config->getUserValue($userId, $this->appName, 'firstRun', null);
-		$timezone = $this->config->getUserValue($userId, $this->appName, 'timezone', 'automatic');
-		$appversion = $this->config->getAppValue($this->appName, 'installed_version');
-
-		// the default view will be saved as soon as a user
-		// opens the calendar app, therefore this is a good
-		// indication if the calendar was used before
-		if ($firstRun === null) {
-			if ($initialView === null) {
-				$firstRun = 'yes';
-			} else {
-				$this->config->setUserValue($userId, $this->appName, 'firstRun', 'no');
-				$firstRun = 'no';
-			}
-		}
-
-		if ($initialView === null) {
-			$initialView = 'month';
-		}
-
-		$array['array']['oca_calendar'] = \json_encode([
-			'emailAddress' => $emailAddress,
-			'firstRun' => $firstRun,
-			'initialView' => $initialView,
-			'showWeekends' => $showWeekends,
-			'skipPopover' => $skipPopover,
-			'timezone' => $timezone,
-			'showWeekNumbers' => $weekNumbers,
-			'versionstring' => $appversion,
-		]);
-	}
-
-	/**
-	 * add parameters to javascript for public sites
-	 *
-	 * @param array $array
-	 */
-	public function addJavaScriptVariablesForPublicIndex($array) {
-		$appversion = $this->config->getAppValue($this->appName, 'installed_version');
-
-		$array['array']['oca_calendar'] = \json_encode([
-			'emailAddress' => '',
-			'firstRun' => 'no',
-			'initialView' => 'month',
-			'showWeekends' => 'yes',
-			'skipPopover' => 'no',
-			'timezone' => 'automatic',
-			'weekNumbers' => 'no',
-			'versionstring' => $appversion,
-		]);
-	}
-
-	/**
-	 * get common parameters for public sites
-	 *
 	 * @param string $token
-	 * @return array
+	 * @param string $baseTemplate
+	 * @return TemplateResponse
 	 */
-	private function getPublicTemplateParameters(string $token):array {
-		$serverProtocol = $this->request->getServerProtocol();
+	private function publicIndex(string $token,
+								 string $baseTemplate):TemplateResponse {
+		return new TemplateResponse($this->appName, $baseTemplate, [
+			'app_version' => $this->config->getAppValue($this->appName, 'installed_version'),
+			'first_run' => false,
+			'initial_view' => 'dayGridMonth',
+			'show_weekends' => true,
+			'show_week_numbers' => false,
+			'skip_popover' => true,
+			'timezone' => 'automatic',
+			'share_url' => $this->getShareURL(),
+			'preview_image' => $this->getPreviewImage(),
+		], 'base');
+	}
 
-		$shareURL = $serverProtocol . '://';
+	/**
+	 * Get the sharing Url
+	 *
+	 * @return string
+	 */
+	private function getShareURL():string {
+		$shareURL = $this->request->getServerProtocol() . '://';
 		$shareURL .= $this->request->getServerHost();
 		$shareURL .= $this->request->getRequestUri();
 
+		return $shareURL;
+	}
+
+	/**
+	 * Get an image for preview when sharing in social media
+	 *
+	 * @return string
+	 */
+	private function getPreviewImage():string {
 		$relativeImagePath = $this->urlGenerator->imagePath('core', 'favicon-touch.png');
-		$previewImage = $this->urlGenerator->getAbsoluteURL($relativeImagePath);
-
-		$remoteBase = $this->urlGenerator->linkTo('', 'remote.php');
-		$remoteBase .= '/dav/public-calendars/' . $token . '?export';
-		$downloadURL = $this->urlGenerator->getAbsoluteURL($remoteBase);
-
-		$webcalURL = (($serverProtocol === 'http') ? 'webcal' : 'webcals') . '://';
-		$webcalURL .= substr($downloadURL, \strlen($serverProtocol) + 3);
-
-		return [
-			'shareURL' => $shareURL,
-			'previewImage' => $previewImage,
-			'webcalURL' => $webcalURL,
-			'downloadURL' => $downloadURL,
-		];
+		return  $this->urlGenerator->getAbsoluteURL($relativeImagePath);
 	}
 }
