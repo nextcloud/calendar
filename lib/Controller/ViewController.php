@@ -71,22 +71,6 @@ class ViewController extends Controller {
 	 * @return TemplateResponse
 	 */
 	public function index():TemplateResponse {
-		// TODO: I'm a hot fix - replace me with a proper migration step
-		$view = $this->config->getUserValue($this->userId, $this->appName, 'currentView', 'dayGridMonth');
-		switch ($view) {
-			case 'month':
-				$this->config->setUserValue($this->userId, $this->appName, 'currentView', 'dayGridMonth');
-				break;
-
-			case 'agendaWeek':
-				$this->config->setUserValue($this->userId, $this->appName, 'currentView', 'timeGridWeek');
-				break;
-
-			case 'agendaDay':
-				$this->config->setUserValue($this->userId, $this->appName, 'currentView', 'timeGridDay');
-				break;
-		}
-
 		return new TemplateResponse($this->appName, 'main', [
 			'app_version' => $this->config->getAppValue($this->appName, 'installed_version'),
 			'first_run' => $this->config->getUserValue($this->userId, $this->appName, 'firstRun', 'yes') === 'yes',
