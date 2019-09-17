@@ -24,6 +24,7 @@
 				:select-mirror="true"
 				:lazy-fetching="false"
 				:progressive-event-rendering="true"
+				:unselect-auto="false"
 				@eventClick="eventClick"
 				@eventDrop="eventDrop"
 				@eventResize="eventResize"
@@ -166,6 +167,15 @@ export default {
 			calendarApi.changeView(to.params.view)
 			this.saveNewView(to.params.view)
 		}
+
+		if ((from.name === 'NewPopoverView' || from.name === 'NewSidebarView')
+			&& to.name !== 'NewPopoverView'
+			&& to.name !== 'NewSidebarView') {
+			let calendarApi = this.$refs.fullCalendar.getApi()
+			calendarApi.unselect()
+		}
+
+		next()
 
 		next()
 	},
