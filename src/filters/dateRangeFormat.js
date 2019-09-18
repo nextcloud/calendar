@@ -22,14 +22,18 @@
 import moment from 'moment'
 
 export default (value, view) => {
-	if (view === 'agendaDay') {
+	switch (view) {
+	case 'timeGridDay':
 		return moment(value).format('ll')
-	} else if (view === 'agendaWeek') {
+
+	case 'timeGridWeek':
 		return t('calendar', 'Week {number} of {year}', {
 			number: moment(value).week(),
 			year: moment(value).year()
 		})
-	} else {
+
+	case 'dayGridMonth':
+	default:
 		return moment(value).format('MMMM YYYY')
 	}
 }
