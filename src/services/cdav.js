@@ -21,11 +21,12 @@
  */
 import DavClient from 'cdav-library'
 import { generateRemoteUrl } from 'nextcloud-router'
+import { getRequestToken } from 'nextcloud-auth'
 
 function xhrProvider() {
 	const headers = {
 		'X-Requested-With': 'XMLHttpRequest',
-		'requesttoken': OC.requestToken
+		'requesttoken': getRequestToken()
 	}
 	const xhr = new XMLHttpRequest()
 	const oldOpen = xhr.open
