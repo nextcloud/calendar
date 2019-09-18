@@ -1,5 +1,5 @@
 /**
- * @copyright Copyright (c) 2018 Georg Ehrke
+ * @copyright Copyright (c) 2019 Georg Ehrke
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
@@ -19,8 +19,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-import { generateTextColorFromRGB } from './colorService'
+import {
+	generateTextColorFromRGB,
+	extractRGBFromHexString
+} from '../services/colorService'
 
 /**
  * convert an array of calendar-objects to events
@@ -31,7 +33,7 @@ import { generateTextColorFromRGB } from './colorService'
  * @param {Timezone} timezone Desired time-zone
  * @returns {Object}[]
  */
-export function getFCEventFromEventComponent(calendarObjects, start, end, timezone) {
+export function eventSourceFunction(calendarObjects, start, end, timezone) {
 	const fcEvents = []
 	for (const calendarObject of calendarObjects) {
 		const allObjectsInTimeRange = calendarObject.getAllObjectsInTimeRange(start, end)
@@ -60,7 +62,8 @@ export function getFCEventFromEventComponent(calendarObjects, start, end, timezo
 
 			if (calendarObject.color) {
 				fcEvent.backgroundColor = calendarObject.color
-				fcEvent.textColor = generateTextColorFromRGB(calendarObject.color)
+				const { red, green, blue } = extractRGBFromHexString(calendarObject.color)
+				fcEvent.textColor = generateTextColorFromRGB(red, green, blue)
 			}
 
 			fcEvents.push(fcEvent)

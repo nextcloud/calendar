@@ -27,7 +27,7 @@ import { linkTo } from 'nextcloud-router'
  * @param {string} key Key to query for
  * @returns {String|null}
  */
-export const getConfigValueFromHiddenInput = (key) => {
+export function getConfigValueFromHiddenInput(key) {
 	const elem = document.getElementById('config-' + key)
 	return elem ? elem.value : null
 }
@@ -38,8 +38,10 @@ export const getConfigValueFromHiddenInput = (key) => {
  * @param {String} key URL of config-key to modify
  * @returns {string}
  */
-export const getLinkToConfig = key => ([
-	linkTo('calendar', 'index.php'),
-	'v1/config',
-	key
-].join('/'))
+export function getLinkToConfig(key) {
+	return [
+		linkTo('calendar', 'index.php'),
+		'v1/config',
+		key
+	].join('/')
+}
