@@ -79,7 +79,7 @@ import getTimezoneManager from '../../../services/timezoneDataProviderService'
 import {
 	getReadableTimezoneName,
 } from '../../../services/timezoneSortingService'
-import moment from 'moment'
+import moment from 'nextcloud-moment'
 
 export default {
 	name: 'PropertyTitleTimePicker',
