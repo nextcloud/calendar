@@ -20,7 +20,7 @@
  *
  */
 import defaultColor from '../services/defaultColor'
-import client from '../services/cdav'
+import client from '../services/caldavService.js'
 
 /**
  * Creates a complete calendar-object based on given props

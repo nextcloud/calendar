@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import client from '../../services/cdav'
+import client from '../../services/caldavService.js'
 import debounce from 'debounce'
 
 import CalendarListItemSharingPublishItem from './CalendarListItemSharingPublishItem.vue'

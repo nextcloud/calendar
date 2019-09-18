@@ -20,7 +20,7 @@
  *
  */
 import Vue from 'vue'
-import client from '../services/cdav.js'
+import client from '../services/caldavService.js'
 import logger from '../services/loggerService'
 import { getDefaultPrincipalObject, mapDavToPrincipal } from '../models/principal'
 

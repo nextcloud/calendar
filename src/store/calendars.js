@@ -24,7 +24,7 @@
  *
  */
 import Vue from 'vue'
-import client from '../services/cdav'
+import client from '../services/caldavService.js'
 import CalendarObject from '../models/calendarObject'
 import { dateFactory, getUnixTimestampFromDate } from '../services/date'
 import { getDefaultCalendarObject, mapDavCollectionToCalendar } from '../models/calendar'
