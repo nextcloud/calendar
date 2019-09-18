@@ -53,7 +53,7 @@ import {
 	Avatar,
 	Multiselect
 } from 'nextcloud-vue'
-import client from '../../../services/cdav'
+import client from '../../../services/caldavService.js'
 import HttpClient from 'nextcloud-axios'
 import debounce from 'debounce'
 import { linkTo } from 'nextcloud-router'

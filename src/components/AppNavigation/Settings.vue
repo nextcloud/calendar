@@ -72,7 +72,7 @@ import ImportScreen from './ImportScreen'
 import ImportUploadButton from './ImportUploadButton'
 import TimezoneSelect from '../Shared/TimezoneSelect'
 
-import client from '../../services/cdav'
+import client from '../../services/caldavService.js'
 import detectTimezone from '../../services/timezoneDetectionService'
 
 export default {

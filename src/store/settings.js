@@ -21,7 +21,7 @@
  */
 import Vue from 'vue'
 import HttpClient from 'nextcloud-axios'
-import client from '../services/cdav'
+import client from '../services/caldavService.js'
 import { getLinkToConfig } from '../services/settingsService'
 import { mapDavCollectionToCalendar } from '../models/calendar'
 import detectTimezone from '../services/timezoneDetectionService'

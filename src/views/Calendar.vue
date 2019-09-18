@@ -51,7 +51,7 @@ import allLocales from '@fullcalendar/core/locales-all'
 import AppNavigation from '../components/AppNavigation.vue'
 import { AppContent } from 'nextcloud-vue'
 import { randomColor } from '../services/colorService'
-import client from '../services/cdav.js'
+import client from '../services/caldavService.js'
 
 import debounce from 'debounce'
 
