@@ -5,7 +5,7 @@ import EditSimple from './views/EditSimple'
 import EditSidebar from './views/EditSidebar'
 import { getDateFromFirstdayParam } from './services/date.js'
 import { getConfigValueFromHiddenInput } from './services/settingsService'
-import moment from 'moment'
+import moment from 'nextcloud-moment'
 
 Vue.use(Router)
 

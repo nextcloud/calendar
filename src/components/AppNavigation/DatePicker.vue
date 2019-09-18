@@ -119,14 +119,6 @@ export default {
 		},
 		view() {
 			return this.$route.params.view
-		},
-		forLink() {
-			console.debug(this.$refs)
-			if (this.$refs.datepicker.popupVisible) {
-				return ''
-			} else {
-				return 'app-navigation-datepicker-input'
-			}
 		}
 	},
 	mounted() {
@@ -189,7 +181,6 @@ export default {
 			this.navigateToDate(newDate)
 		},
 		navigateToDate(date) {
-			console.debug('navigating to date')
 			const name = this.$route.name
 			const params = Object.assign({}, this.$route.params, {
 				firstday: getYYYYMMDDFromDate(date)
