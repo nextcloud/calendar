@@ -1,5 +1,5 @@
 /**
- * @copyright Copyright (c) 2018 Georg Ehrke
+ * @copyright Copyright (c) 2019 Georg Ehrke
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
@@ -20,22 +20,10 @@
  *
  */
 
-/**
- *
- * @param {Object} newRoute The new $router object
- * @param {Object} oldRoute The old $router object
- * @returns {boolean}
- */
-export function loadNewEventIntoEditor(newRoute, oldRoute) {
-	if (!oldRoute) {
-		return true
-	}
-	if (newRoute.params.object !== oldRoute.params.object) {
-		return true
-	}
-	if (newRoute.params.recurrenceId !== oldRoute.params.recurrenceId) {
-		return true
-	}
+describe('fullcalendar/eventClick test suite', () => {
 
-	return false
-}
+	it('should be true', () => {
+		expect(true).toEqual(true)
+	})
+
+})

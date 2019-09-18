@@ -25,7 +25,7 @@ import {
 } from '../services/colorService'
 import getTimezoneManager from '../services/timezoneDataProviderService'
 import { getUnixTimestampFromDate } from '../services/date'
-import { getFCEventFromEventComponent } from '../services/fullCalendarEventService'
+import { eventSourceFunction } from './eventSourceFunction.js'
 
 /**
  *
@@ -59,11 +59,11 @@ export default function(store) {
 					}).then(() => {
 						const timeRange = store.getters.getTimeRangeForCalendarCoveringRange(calendar.id, getUnixTimestampFromDate(start), getUnixTimestampFromDate(end))
 						const calendarObjects = store.getters.getCalendarObjectsByTimeRangeId(timeRange.id)
-						successCallback(getFCEventFromEventComponent(calendarObjects, start, end, timezoneObject))
+						successCallback(eventSourceFunction(calendarObjects, start, end, timezoneObject))
 					})
 				} else {
 					const calendarObjects = store.getters.getCalendarObjectsByTimeRangeId(timeRange.id)
-					successCallback(getFCEventFromEventComponent(calendarObjects, start, end, timezoneObject))
+					successCallback(eventSourceFunction(calendarObjects, start, end, timezoneObject))
 				}
 			}
 		}

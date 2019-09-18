@@ -1,5 +1,5 @@
 /**
- * @copyright Copyright (c) 2018 Georg Ehrke
+ * @copyright Copyright (c) 2019 Georg Ehrke
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *

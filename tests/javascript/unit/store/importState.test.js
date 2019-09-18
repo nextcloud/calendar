@@ -19,30 +19,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import Vue from 'vue'
 
-const state = {
-	davRestrictions: {
-		minimumDate: '1970-01-01T00:00:00Z',
-		maximumDate: '2036-12-31T23:59:59Z'
-	}
-}
+describe('store/importState test suite', () => {
 
-const mutations = {
+	it('should be true', () => {
+		expect(true).toEqual(true)
+	})
 
-	/**
-	 * Initialize restrictions imposed by CalDAV server
-	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} davRestrictions The full settings object
-	 */
-	loadDavRestrictionsFromServer(state, davRestrictions) {
-		Vue.set(state, 'davRestrictions', davRestrictions)
-	}
-}
-
-const getters = {}
-
-const actions = {}
-
-export default { state, mutations, getters, actions }
+})
