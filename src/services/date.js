@@ -19,6 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import moment from 'moment'
 
 /**
  * returns a new Date object
@@ -95,4 +96,22 @@ export function getDateFromDateTimeValue(dateTimeValue) {
 		dateTimeValue.minute,
 		0
 	)
+}
+
+/**
+ * modifies a date
+ *
+ * @param {Date} date Date object to modify
+ * @param {Object} data The destructuring object
+ * @param {Number} data.day Number of days to add
+ * @param {Number} data.week Number of weeks to add
+ * @param {Number} data.month Number of months to add
+ * @returns {Date}
+ */
+export function modifyDate(date, { day = 0, week = 0, month = 0 }) {
+	return moment(date)
+		.add(day, 'day')
+		.add(week, 'week')
+		.add(month, 'month')
+		.toDate()
 }

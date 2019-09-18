@@ -22,28 +22,43 @@
 
 <template>
 	<div class="button-group">
-		<button :aria-label="goBackLabel" :title="goBackLabel" type="button"
-			class="button icon icon-leftarrow" @click="prev()"
+		<button
+			:aria-label="previousLabel"
+			class="button icon icon-leftarrow"
+			:title="previousLabel"
+			type="button"
+			@click="navigateToPreviousTimeRange"
 		/>
 		<label for="app-navigation-datepicker-input" class="button datepicker-label">
-			{{ date | formatDateRage(view) }}
+			{{ selectedDate | formatDateRage(view) }}
 		</label>
-		<datetime-picker v-model="date" :lang="lang" :first-day-of-week="firstDay"
-			:not-before="minimumDate" :not-after="maximumDate"
+		<datetime-picker
+			:first-day-of-week="firstDay"
+			:lang="lang"
+			:not-before="minimumDate"
+			:not-after="maximumDate"
+			:value="selectedDate"
+			@change="navigateToDate"
 		/>
-		<button :aria-label="goForwardLabel" :title="goForwardLabel" type="button"
-			class="button icon icon-rightarrow" @click="next()"
+		<button
+			:aria-label="nextLabel"
+			class="button icon icon-rightarrow"
+			:title="nextLabel"
+			type="button"
+			@click="navigateToNextTimeRange"
 		/>
 	</div>
 </template>
 
 <script>
-import { DatetimePicker } from 'nextcloud-vue'
+import {
+	DatetimePicker
+} from 'nextcloud-vue'
 import {
 	getYYYYMMDDFromDate,
-	getDateFromFirstdayParam
+	getDateFromFirstdayParam,
+	modifyDate
 } from '../../services/date.js'
-import moment from 'moment'
 
 export default {
 	name: 'DatePicker',
@@ -52,6 +67,7 @@ export default {
 	},
 	data: function() {
 		return {
+			isDatepickerOpen: false,
 			locale: 'en', // this is just during initialization
 			firstDay: window.firstDay + 1, // provided by nextcloud
 			lang: {
@@ -66,13 +82,8 @@ export default {
 		}
 	},
 	computed: {
-		date: {
-			get() {
-				return getDateFromFirstdayParam(this.$route.params.firstday)
-			},
-			set(date) {
-				this.goTo(date)
-			}
+		selectedDate() {
+			return getDateFromFirstdayParam(this.$route.params.firstday)
 		},
 		minimumDate() {
 			return new Date(this.$store.state.davRestrictions.davRestrictions.minimumDate)
@@ -80,14 +91,42 @@ export default {
 		maximumDate() {
 			return new Date(this.$store.state.davRestrictions.davRestrictions.maximumDate)
 		},
-		goBackLabel() {
-			return t('calendar', 'Go back')
+		previousLabel() {
+			switch (this.view) {
+			case 'timeGridDay':
+				return t('calendar', 'Previous day')
+
+			case 'timeGridWeek':
+				return t('calendar', 'Previous week')
+
+			case 'dayGridMonth':
+			default:
+				return t('calendar', 'Previous month')
+			}
 		},
-		goForwardLabel() {
-			return t('calendar', 'Go forward')
+		nextLabel() {
+			switch (this.view) {
+			case 'timeGridDay':
+				return t('calendar', 'Next day')
+
+			case 'timeGridWeek':
+				return t('calendar', 'Next week')
+
+			case 'dayGridMonth':
+			default:
+				return t('calendar', 'Next month')
+			}
 		},
 		view() {
 			return this.$route.params.view
+		},
+		forLink() {
+			console.debug(this.$refs)
+			if (this.$refs.datepicker.popupVisible) {
+				return ''
+			} else {
+				return 'app-navigation-datepicker-input'
+			}
 		}
 	},
 	mounted() {
@@ -117,13 +156,40 @@ export default {
 			})
 	},
 	methods: {
-		prev() {
-			this.goTo(this.nav(-1))
+		navigateToPreviousTimeRange() {
+			return this.navigateTimeRangeByFactor(-1)
 		},
-		next() {
-			this.goTo(this.nav(1))
+		navigateToNextTimeRange() {
+			return this.navigateTimeRangeByFactor(1)
 		},
-		goTo(date) {
+		navigateTimeRangeByFactor(factor) {
+			let newDate
+
+			switch (this.$route.params.view) {
+			case 'timeGridDay':
+				newDate = modifyDate(this.selectedDate, {
+					day: factor
+				})
+				break
+
+			case 'timeGridWeek':
+				newDate = modifyDate(this.selectedDate, {
+					week: factor
+				})
+				break
+
+			case 'dayGridMonth':
+			default:
+				newDate = modifyDate(this.selectedDate, {
+					month: factor
+				})
+				break
+			}
+
+			this.navigateToDate(newDate)
+		},
+		navigateToDate(date) {
+			console.debug('navigating to date')
 			const name = this.$route.name
 			const params = Object.assign({}, this.$route.params, {
 				firstday: getYYYYMMDDFromDate(date)
@@ -135,27 +201,7 @@ export default {
 			}
 
 			this.$router.push({ name, params })
-		},
-		nav(dir) {
-			switch (this.$route.params.view) {
-			case 'timeGridDay':
-				return moment(this.date)
-					.add(dir, 'day')
-					.toDate()
-
-			case 'timeGridWeek':
-				return moment(this.date)
-					.add(dir, 'week')
-					// .startOf('week')
-					.toDate()
-
-			case 'dayGridMonth':
-				return moment(this.date)
-					.add(dir, 'month')
-					// .startOf('month')
-					.toDate()
-			}
-		},
+		}
 	}
 }
 </script>
