@@ -21,18 +21,19 @@
 
 import Vue from 'vue'
 import Router from 'vue-router'
+import { linkTo } from 'nextcloud-router'
+
 import Calendar from './views/Calendar'
 import EditSimple from './views/EditSimple'
 import EditSidebar from './views/EditSidebar'
-import { getDateFromFirstdayParam } from './services/date.js'
 import { getConfigValueFromHiddenInput } from './services/settingsService'
-import moment from 'nextcloud-moment'
+import windowTitleService from './services/windowTitleService.js'
 
 Vue.use(Router)
 
 const router = new Router({
 	mode: 'history',
-	base: OC.linkTo('calendar', 'index.php'),
+	base: linkTo('calendar', 'index.php'),
 	routes: [
 		{
 			path: '/',
@@ -68,10 +69,6 @@ const router = new Router({
 			component: Calendar,
 			name: 'CalendarView',
 			children: [
-				// {
-				// 	path: '',
-				// 	name: 'CalendarView',
-				// },
 				{
 					path: '/:view/:firstDay/edit/popover/:object/:recurrenceId',
 					name: 'EditPopoverView',
@@ -97,34 +94,6 @@ const router = new Router({
 	],
 })
 
-const originalTitle = document.title
-router.beforeEach((to, from, next) => {
-	if (!to.params.firstDay) {
-		next()
-		return
-	}
-
-	const date = getDateFromFirstdayParam(to.params.firstDay)
-	const currentView = to.params.view
-
-	switch (currentView) {
-	case 'agendaDay':
-		document.title = moment(date).format('ll') + ' - ' + originalTitle
-		break
-
-	case 'agendaWeek':
-		document.title = t('calendar', 'Week {number} of {year}', {
-			number: moment(date).week(),
-			year: moment(date).year()
-		}) + ' - ' + originalTitle
-		break
-
-	case 'month':
-	default:
-		document.title = moment(date).format('MMMM YYYY') + ' - ' + originalTitle
-	}
-
-	next()
-})
+windowTitleService(router)
 
 export default router
