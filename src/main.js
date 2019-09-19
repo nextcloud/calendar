@@ -1,6 +1,8 @@
 /**
- * @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
+ * @copyright Copyright (c) 2019 Georg Ehrke
+ * @copyright Copyright (c) 2019 John Molakvoæ
  *
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license GNU AGPL version 3 or any later version
@@ -25,9 +27,14 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store'
+import { sync } from 'vuex-router-sync'
+import { getRequestToken } from 'nextcloud-auth'
+import { linkTo } from 'nextcloud-router'
+
+// TODO: remove and use in individual components
+
 import { Multiselect } from 'nextcloud-vue'
 import VueClipboard from 'vue-clipboard2'
-import { sync } from 'vuex-router-sync'
 import dateRangeFormatFilter from './filters/dateRangeFormat'
 import VTooltip from 'v-tooltip'
 
@@ -40,14 +47,14 @@ Vue.component('Multiselect', Multiselect)
 
 // CSP config for webpack dynamic chunk loading
 // eslint-disable-next-line
-__webpack_nonce__ = btoa(OC.requestToken)
+__webpack_nonce__ = btoa(getRequestToken())
 
 // Correct the root of the app for chunk loading
 // OC.linkTo matches the apps folders
 // OC.generateUrl ensure the index.php (or not)
 // We do not want the index.php since we're loading files
 // eslint-disable-next-line
-__webpack_public_path__ = OC.linkTo('calendar', 'js/')
+__webpack_public_path__ = linkTo('calendar', 'js/')
 
 sync(store, router)
 
