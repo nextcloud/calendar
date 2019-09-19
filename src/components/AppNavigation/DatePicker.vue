@@ -87,7 +87,7 @@ export default {
 	},
 	computed: {
 		selectedDate() {
-			return getDateFromFirstdayParam(this.$route.params.firstday)
+			return getDateFromFirstdayParam(this.$route.params.firstDay)
 		},
 		minimumDate() {
 			return new Date(this.$store.state.davRestrictions.davRestrictions.minimumDate)
@@ -187,11 +187,11 @@ export default {
 		navigateToDate(date) {
 			const name = this.$route.name
 			const params = Object.assign({}, this.$route.params, {
-				firstday: getYYYYMMDDFromDate(date)
+				firstDay: getYYYYMMDDFromDate(date)
 			})
 
 			// Don't push new route when day didn't change
-			if (this.$route.params.firstday === getYYYYMMDDFromDate(date)) {
+			if (this.$route.params.firstDay === getYYYYMMDDFromDate(date)) {
 				return
 			}
 

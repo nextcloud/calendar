@@ -114,7 +114,7 @@ export default {
 			return this.$store.getters.enabledCalendars.map(eventSource(this.$store))
 		},
 		defaultDate() {
-			return getYYYYMMDDFromFirstdayParam(this.$route.params.firstday)
+			return getYYYYMMDDFromFirstdayParam(this.$route.params.firstDay)
 		},
 		slotDuration() {
 			return '00:15:00'
@@ -179,9 +179,9 @@ export default {
 		}
 	},
 	beforeRouteUpdate(to, from, next) {
-		if (to.params.firstday !== from.params.firstday) {
+		if (to.params.firstDay !== from.params.firstDay) {
 			let calendarApi = this.$refs.fullCalendar.getApi()
-			calendarApi.gotoDate(getYYYYMMDDFromFirstdayParam(to.params.firstday))
+			calendarApi.gotoDate(getYYYYMMDDFromFirstdayParam(to.params.firstDay))
 		}
 		if (to.params.view !== from.params.view) {
 			let calendarApi = this.$refs.fullCalendar.getApi()

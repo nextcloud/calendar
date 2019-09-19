@@ -40,11 +40,11 @@ export default {
 		today() {
 			const name = this.$route.name
 			const params = Object.assign({}, this.$route.params, {
-				firstday: 'now'
+				firstDay: 'now'
 			})
 
 			// Don't push new route when day didn't change
-			if (this.$route.params.firstday === 'now') {
+			if (this.$route.params.firstDay === 'now') {
 				return
 			}
 
