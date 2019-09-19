@@ -12,7 +12,7 @@ appstore_package_name=$(appstore_build_directory)/$(app_name)
 all: dev-setup lint build-js-production test test-php
 
 # Dev env management
-dev-setup: clean clean-dev npm-init composer-init
+dev-setup: clean clean-dev npm-init
 
 npm-init:
 	npm install
@@ -68,8 +68,8 @@ stylelint-fix:
 
 # Cleaning
 clean:
-	rm -f js/contacts.js
-	rm -f js/contacts.js.map
+	rm -f js/calendar.js
+	rm -f js/calendar.js.map
 	rm -Rf js/chunks
 
 clean-dev:
