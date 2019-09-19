@@ -1,7 +1,7 @@
 const path = require('path')
 const webpack = require('webpack')
 const { VueLoaderPlugin } = require('vue-loader')
-// const StylelintBarePlugin = require('stylelint-bare-webpack-plugin')
+const StyleLintPlugin = require('stylelint-webpack-plugin')
 
 module.exports = {
 	entry: path.join(__dirname, 'src', 'main.js'),
@@ -9,7 +9,7 @@ module.exports = {
 		path: path.resolve(__dirname, './js'),
 		publicPath: '/js/',
 		filename: 'calendar.js',
-		chunkFilename: 'chunks/[name].js'
+		chunkFilename: 'chunks/calendar.[name].[contenthash].js'
 	},
 	module: {
 		rules: [
@@ -32,27 +32,40 @@ module.exports = {
 			},
 			{
 				test: /\.js$/,
-				loader: 'babel-loader',
-				exclude: /node_modules/
+				use: {
+					loader: 'babel-loader',
+					options: {
+						plugins: [
+							'@babel/plugin-syntax-dynamic-import',
+							'@babel/plugin-proposal-object-rest-spread'
+						],
+						presets: ['@babel/preset-env']
+					}
+				},
+				exclude: /node_modules\/(?!(p-limit|p-defer|p-queue|p-try|cdav-library))/
 			},
 			{
 				test: /\.(png|jpg|gif|svg)$/,
-				loader: 'file-loader',
-				options: {
-					name: '[name].[ext]?[hash]'
-				}
+				loader: 'url-loader'
 			}
 		]
 	},
 	plugins: [
 		new VueLoaderPlugin(),
-		// new StyleLintPlugin(),
+		new StyleLintPlugin(),
 		new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-		// new StylelintBarePlugin()
+		new webpack.DefinePlugin({
+			appVersion: JSON.stringify(require('./package.json').version)
+		})
 	],
 	resolve: {
 		alias: {
-			vue$: 'vue/dist/vue.esm.js'
+			Components: path.resolve(__dirname, 'src/components/'),
+			Mixins: path.resolve(__dirname, 'src/mixins/'),
+			Models: path.resolve(__dirname, 'src/models/'),
+			Services: path.resolve(__dirname, 'src/services/'),
+			Store: path.resolve(__dirname, 'src/store/'),
+			Views: path.resolve(__dirname, 'src/views/')
 		},
 		extensions: ['*', '.js', '.vue', '.json']
 	}
