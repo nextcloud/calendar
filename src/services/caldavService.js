@@ -33,12 +33,14 @@ function xhrProvider() {
 
 	// override open() method to add headers
 	xhr.open = function() {
-		var result = oldOpen.apply(this, arguments)
+		const result = oldOpen.apply(this, arguments)
 		for (let name in headers) {
 			xhr.setRequestHeader(name, headers[name])
 		}
+
 		return result
 	}
+
 	OC.registerXHRForErrorProcessing(xhr)
 	return xhr
 }
