@@ -20,7 +20,7 @@
  *
  */
 import dateRangeFormat from '../filters/dateRangeFormat.js'
-import { getDateFromFirstdayParam } from './date.js'
+import { getDateFromFirstdayParam } from './dateService.js'
 
 let originalWindowTitle = document.title
 
