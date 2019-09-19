@@ -29,7 +29,7 @@ import CalendarObject from '../models/calendarObject'
 import { dateFactory, getUnixTimestampFromDate } from '../services/date'
 import { getDefaultCalendarObject, mapDavCollectionToCalendar } from '../models/calendar'
 import pLimit from 'p-limit'
-import { randomColor } from '../services/colorService'
+import { getRandomColor } from '../services/colorService'
 
 const state = {
 	calendars: [],
@@ -728,7 +728,7 @@ const actions = {
 				const displayName = file.parser.getName() || t('calendar', 'Imported {filename}', {
 					filename: file.name
 				})
-				const color = file.parser.getColor() || randomColor()
+				const color = file.parser.getColor() || getRandomColor()
 				const components = []
 				if (file.parser.containsVEvents()) {
 					components.push('VEVENT')

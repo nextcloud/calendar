@@ -19,7 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import defaultColor from '../services/defaultColor'
+import { getDefaultColor } from '../services/colorService.js'
 import client from '../services/caldavService.js'
 
 /**
@@ -34,7 +34,7 @@ export const getDefaultCalendarObject = (props = {}) => Object.assign({}, {
 	// Visible display name
 	displayName: '',
 	// Color of the calendar
-	color: defaultColor(),
+	color: getDefaultColor(),
 	// Whether or not the calendar is visible in the grid
 	enabled: true,
 	// Whether or not the calendar is loading events at the moment
@@ -78,7 +78,7 @@ export const getDefaultCalendarObject = (props = {}) => Object.assign({}, {
  * @returns {Object}
  */
 export function mapDavCollectionToCalendar(calendar) {
-	let color = calendar.color || defaultColor()
+	let color = calendar.color || getDefaultColor()
 	if (color.length === 9) {
 		// Make sure it's #RRGGBB, not #RRGGBBAA
 		color = color.substr(0, 7)

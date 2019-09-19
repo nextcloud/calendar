@@ -71,7 +71,7 @@ import allLocales from '@fullcalendar/core/locales-all'
 
 import AppNavigation from '../components/AppNavigation.vue'
 import { AppContent, Content } from 'nextcloud-vue'
-import { randomColor } from '../services/colorService'
+import { getRandomColor } from '../services/colorService'
 import client from '../services/caldavService.js'
 
 import debounce from 'debounce'
@@ -247,7 +247,7 @@ export default {
 					this.loadingCalendars = true
 					this.$store.dispatch('appendCalendar', {
 						displayName: t('calendars', 'Personal'),
-						color: randomColor(),
+						color: getRandomColor(),
 						order: 0
 					}).then(() => {
 						this.loadingCalendars = false

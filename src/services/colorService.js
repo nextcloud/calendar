@@ -19,26 +19,16 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-/** @type String [] */
-const colors = []
+import convert from 'color-convert'
 
 /**
- * get the appropriate text color to be used on top of an rgb value
+ * Get a text-color that's readable on a given background color
  *
- * @param {Number|String} red decimal value for red
- * @param {Number} green decimal value for green
- * @param {Number} blue decimal value for blue
- * @returns {string}
+ * @param {String} rgbString The hex RGB string to get a text color for
+ * @returns {String} the matching text color
  */
-export function generateTextColorFromRGB(red, green, blue) {
-	if (typeof red === 'string') {
-		const { r, g, b } = extractRGBFromHexString(red)
-		red = r
-		green = g
-		blue = b
-	}
-
+export function generateTextColorForRGBString(rgbString) {
+	const [red, green, blue] = convert.hex.rgb(rgbString.substr(1))
 	const brightness = (((red * 299) + (green * 587) + (blue * 114)) / 1000)
 	return (brightness > 130) ? '#000000' : '#FAFAFA'
 }
@@ -48,94 +38,25 @@ export function generateTextColorFromRGB(red, green, blue) {
  *
  * @returns {String}
  */
-export function randomColor() {
-	if (typeof String.prototype.toRgb === 'function') {
-		const { r, g, b } = Math.random().toString().toRgb()
-		return rgbToHex(r, g, b)
-	} else {
-		return colors[Math.floor(Math.random() * colors.length)]
-	}
+export function getRandomColor() {
+	const red = Math.floor(Math.random() * 256)
+	const green = Math.floor(Math.random() * 256)
+	const blue = Math.floor(Math.random() * 256)
+
+	return '#' + convert.rgb.hex(red, green, blue)
 }
 
 /**
- * extracts decimal rgb values from a hexadecimal string
+ * Gets the default color of the nextcloud instance
  *
- * @param {String} colorString the hex rgb string
- * @returns {{red: Number, green: Number, blue: Number}}
- */
-export function extractRGBFromHexString(colorString) {
-	const fallbackColor = { red: 255, green: 255, blue: 255 }
-	let matchedString
-
-	if (typeof colorString !== 'string') {
-		return fallbackColor
-	}
-
-	switch (colorString.length) {
-	case 4: {
-		matchedString = colorString.match(/^#([0-9a-f]{3})$/i)
-		return (Array.isArray(matchedString) && matchedString[1])
-			? ({
-				red: parseInt(matchedString[1].charAt(0), 16) * 0x11,
-				green: parseInt(matchedString[1].charAt(1), 16) * 0x11,
-				blue: parseInt(matchedString[1].charAt(2), 16) * 0x11
-			})
-			: fallbackColor
-	}
-
-	case 7:
-	case 9: {
-		const regex = new RegExp('^#([0-9a-f]{' + (colorString.length - 1) + '})$', 'i')
-		matchedString = colorString.match(regex)
-		return (Array.isArray(matchedString) && matchedString[1])
-			? ({
-				red: parseInt(matchedString[1].substr(0, 2), 16),
-				green: parseInt(matchedString[1].substr(2, 2), 16),
-				blue: parseInt(matchedString[1].substr(4, 2), 16)
-			})
-			: fallbackColor
-	}
-
-	default:
-		return fallbackColor
-	}
-}
-
-/**
- *
- * @param {String[]|String} red Value from 0 to 255
- * @param {String} green Value from 0 to 255
- * @param {String} blue Value from 0 to 255
  * @returns {string}
  */
-export function rgbToHex(red, green, blue) {
-	if (Array.isArray(red)) {
-		[red, green, blue] = red
+export function getDefaultColor() {
+	const fallback = '#1483C6'
+
+	if (!OCA.Theming) {
+		return fallback
 	}
 
-	return [
-		'#',
-		('0' + parseInt(red, 10).toString(16)).slice(-2),
-		('0' + parseInt(green, 10).toString(16)).slice(-2),
-		('0' + parseInt(blue, 10).toString(16)).slice(-2)
-	].join('')
-}
-
-// initialize default colors
-if (typeof String.prototype.toRgb === 'function') {
-	['15', '9', '4', 'b', '6', '11', '74', 'f', '57'].forEach((hashValue) => {
-		const { r, g, b } = hashValue.toRgb()
-		colors.push(rgbToHex(r, g, b))
-	})
-} else {
-	colors.push(
-		'#31CC7C',
-		'#317CCC',
-		'#FF7A66',
-		'#F1DB50',
-		'#7C31CC',
-		'#CC317C',
-		'#3A3B3D',
-		'#CACBCD'
-	)
+	return OCA.Theming.color || fallback
 }

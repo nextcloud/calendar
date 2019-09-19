@@ -20,8 +20,7 @@
  *
  */
 import {
-	generateTextColorFromRGB,
-	extractRGBFromHexString
+	generateTextColorForRGBString
 } from '../services/colorService'
 
 /**
@@ -62,8 +61,7 @@ export function eventSourceFunction(calendarObjects, start, end, timezone) {
 
 			if (calendarObject.color) {
 				fcEvent.backgroundColor = calendarObject.color
-				const { red, green, blue } = extractRGBFromHexString(calendarObject.color)
-				fcEvent.textColor = generateTextColorFromRGB(red, green, blue)
+				fcEvent.textColor = generateTextColorForRGBString(calendarObject.color)
 			}
 
 			fcEvents.push(fcEvent)
