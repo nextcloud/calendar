@@ -51,7 +51,7 @@
 		"nextcloud-dialogs": "0.0.3",
 		"nextcloud-l10n": "0.1.0",
 		"nextcloud-logger": "0.0.6",
-		"nextcloud-moment": "0.0.9",
+		"nextcloud-moment": "0.0.10",
 		"nextcloud-router": "0.0.9",
 		"nextcloud-vue": "^0.12.3",
 		"p-limit": "^2.2.1",
