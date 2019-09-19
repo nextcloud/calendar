@@ -59,6 +59,7 @@ import {
 	getDateFromFirstdayParam,
 	modifyDate
 } from '../../services/date.js'
+import formatDateRage from '../../filters/dateRangeFormat.js'
 
 export default {
 	name: 'DatePicker',
@@ -80,6 +81,9 @@ export default {
 				}
 			}
 		}
+	},
+	filters: {
+		formatDateRage
 	},
 	computed: {
 		selectedDate() {
