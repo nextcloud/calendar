@@ -30,20 +30,26 @@ import store from './store'
 import { sync } from 'vuex-router-sync'
 import { getRequestToken } from 'nextcloud-auth'
 import { linkTo } from 'nextcloud-router'
-
-// TODO: remove and use in individual components
-
-import { Multiselect } from 'nextcloud-vue'
+import {
+	Actions,
+	DatetimePicker,
+	Multiselect,
+	PopoverMenu,
+	Modal
+} from 'nextcloud-vue'
+import ClickOutside from 'vue-click-outside'
 import VueClipboard from 'vue-clipboard2'
-import dateRangeFormatFilter from './filters/dateRangeFormat'
 import VTooltip from 'v-tooltip'
 
-Vue.config.devtools = true
-
-Vue.use(VueClipboard)
-Vue.filter('formatDateRage', dateRangeFormatFilter)
-Vue.use(VTooltip)
+// register global components
+Vue.component('Actions', Actions)
+Vue.component('DatetimePicker', DatetimePicker)
+Vue.component('Modal', Modal)
 Vue.component('Multiselect', Multiselect)
+Vue.component('PopoverMenu', PopoverMenu)
+Vue.directive('ClickOutside', ClickOutside)
+Vue.directive(VTooltip)
+Vue.use(VueClipboard)
 
 // CSP config for webpack dynamic chunk loading
 // eslint-disable-next-line
