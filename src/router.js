@@ -41,7 +41,7 @@ const router = new Router({
 				name: 'CalendarView',
 				params: {
 					view: getConfigValueFromHiddenInput('initial-view') || 'month',
-					firstday: 'now'
+					firstDay: 'now'
 				},
 			}
 		},
@@ -64,7 +64,7 @@ const router = new Router({
 		// 	}
 		// },
 		{
-			path: '/:view/:firstday',
+			path: '/:view/:firstDay',
 			component: Calendar,
 			name: 'CalendarView',
 			children: [
@@ -73,22 +73,22 @@ const router = new Router({
 				// 	name: 'CalendarView',
 				// },
 				{
-					path: '/:view/:firstday/edit/popover/:object/:recurrenceId',
+					path: '/:view/:firstDay/edit/popover/:object/:recurrenceId',
 					name: 'EditPopoverView',
 					component: EditSimple,
 				},
 				{
-					path: '/:view/:firstday/edit/sidebar/:object/:recurrenceId',
+					path: '/:view/:firstDay/edit/sidebar/:object/:recurrenceId',
 					name: 'EditSidebarView',
 					component: EditSidebar,
 				},
 				{
-					path: '/:view/:firstday/new/popover/:allDay/:dtstart/:dtend',
+					path: '/:view/:firstDay/new/popover/:allDay/:dtstart/:dtend',
 					name: 'NewPopoverView',
 					component: EditSimple,
 				},
 				{
-					path: '/:view/:firstday/new/sidebar/:allDay/:dtstart/:dtend',
+					path: '/:view/:firstDay/new/sidebar/:allDay/:dtstart/:dtend',
 					name: 'NewSidebarView',
 					component: EditSidebar,
 				},
@@ -99,12 +99,12 @@ const router = new Router({
 
 const originalTitle = document.title
 router.beforeEach((to, from, next) => {
-	if (!to.params.firstday) {
+	if (!to.params.firstDay) {
 		next()
 		return
 	}
 
-	const date = getDateFromFirstdayParam(to.params.firstday)
+	const date = getDateFromFirstdayParam(to.params.firstDay)
 	const currentView = to.params.view
 
 	switch (currentView) {

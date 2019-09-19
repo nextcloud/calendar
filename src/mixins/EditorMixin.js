@@ -171,7 +171,7 @@ export default {
 			const name = 'CalendarView'
 			const params = {
 				view: this.$route.params.view,
-				firstday: this.$route.params.firstday
+				firstday: this.$route.params.firstDay
 			}
 
 			this.$router.push({ name, params })
