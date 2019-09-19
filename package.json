@@ -44,6 +44,7 @@
 		"@fullcalendar/vue": "^4.3.1",
 		"calendar-js": "git+https://github.com/georgehrke/calendar-js.git",
 		"cdav-library": "github:nextcloud/cdav-library",
+		"color-convert": "^2.0.1",
 		"debounce": "^1.2.0",
 		"jstz": "^2.1.1",
 		"nextcloud-auth": "0.0.3",

@@ -112,7 +112,7 @@ import Repeat from '../components/Editor/Repeat/Repeat.vue'
 import EditorMixin from '../mixins/EditorMixin'
 import { getIllustrationForTitle } from '../services/illustrationProviderService.js'
 import IllustrationHeader from '../components/Editor/IllustrationHeader.vue'
-import defaultColor from '../services/defaultColor.js'
+import { getDefaultColor } from '../services/colorService.js'
 
 export default {
 	name: 'EditSidebar',
@@ -151,10 +151,10 @@ export default {
 		},
 		selectedCalendarColor() {
 			if (!this.selectedCalendar) {
-				return defaultColor()
+				return getDefaultColor()
 			}
 
-			return this.selectedCalendar.color || defaultColor()
+			return this.selectedCalendar.color || getDefaultColor()
 		}
 	}
 }

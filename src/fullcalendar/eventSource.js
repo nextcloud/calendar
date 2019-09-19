@@ -20,8 +20,7 @@
  *
  */
 import {
-	extractRGBFromHexString,
-	generateTextColorFromRGB
+	generateTextColorForRGBString
 } from '../services/colorService'
 import getTimezoneManager from '../services/timezoneDataProviderService'
 import { getUnixTimestampFromDate } from '../services/date'
@@ -34,18 +33,12 @@ import { eventSourceFunction } from './eventSourceFunction.js'
  */
 export default function(store) {
 	return function(calendar) {
-		const {
-			red: colorRed,
-			green: colorGreen,
-			blue: colorBlue
-		} = extractRGBFromHexString(calendar.color)
-
 		const source = {
 			id: calendar.id,
 			// coloring
 			backgroundColor: calendar.color,
 			borderColor: calendar.color,
-			textColor: generateTextColorFromRGB(colorRed, colorGreen, colorBlue),
+			textColor: generateTextColorForRGBString(calendar.color),
 			// html foo
 			className: calendar.id,
 			events: ({ start, end, timeZone }, successCallback, failureCallback) => {

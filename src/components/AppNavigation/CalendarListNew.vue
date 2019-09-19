@@ -24,7 +24,7 @@
 
 <script>
 import ClickOutside from 'vue-click-outside'
-import { randomColor } from '../../services/colorService'
+import { getRandomColor } from '../../services/colorService'
 
 export default {
 	name: 'CalendarListNew',
@@ -63,7 +63,7 @@ export default {
 		},
 		addCalendar() {
 			this.isCreating = true
-			this.$store.dispatch('appendCalendar', { displayName: this.displayName, color: randomColor() })
+			this.$store.dispatch('appendCalendar', { displayName: this.displayName, color: getRandomColor() })
 				.then(() => {
 					this.displayName = ''
 					this.showForm = false
