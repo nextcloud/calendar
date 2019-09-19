@@ -23,7 +23,7 @@ import {
 	generateTextColorForRGBString
 } from '../services/colorService'
 import getTimezoneManager from '../services/timezoneDataProviderService'
-import { getUnixTimestampFromDate } from '../services/date'
+import { getUnixTimestampFromDate } from '../services/dateService.js'
 import { eventSourceFunction } from './eventSourceFunction.js'
 
 /**

@@ -80,7 +80,7 @@ import {
 	dateFactory,
 	getUnixTimestampFromDate,
 	getYYYYMMDDFromFirstdayParam
-} from '../services/date'
+} from '../services/dateService.js'
 
 import { getConfigValueFromHiddenInput } from '../services/settingsService'
 

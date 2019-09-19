@@ -74,7 +74,7 @@
 import { DatetimePicker } from 'nextcloud-vue'
 import TimezoneSelect from '../../Shared/TimezoneSelect'
 import PropertyMixin from '../../../mixins/PropertyMixin'
-import { getDateFromDateTimeValue } from '../../../services/date'
+import { getDateFromDateTimeValue } from '../../../services/dateService.js'
 import getTimezoneManager from '../../../services/timezoneDataProviderService'
 import {
 	getReadableTimezoneName,
