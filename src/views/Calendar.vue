@@ -20,7 +20,7 @@
   -->
 
 <template>
-	<div id="content" class="app-calendar" :class="classNames">
+	<Content app-name="calendar" :class="classNames">
 		<app-navigation :loading-calendars="loadingCalendars" />
 		<AppContent>
 			<!-- Full calendar -->
@@ -54,7 +54,7 @@
 		</AppContent>
 		<!-- Edit modal -->
 		<router-view v-if="!loadingCalendars" />
-	</div>
+	</Content>
 </template>
 
 <script>
@@ -70,7 +70,7 @@ import '@fullcalendar/timegrid/main.css'
 import allLocales from '@fullcalendar/core/locales-all'
 
 import AppNavigation from '../components/AppNavigation.vue'
-import { AppContent } from 'nextcloud-vue'
+import { AppContent, Content } from 'nextcloud-vue'
 import { randomColor } from '../services/colorService'
 import client from '../services/caldavService.js'
 
@@ -96,6 +96,7 @@ import VTimezoneNamedTimezone from '../fullcalendar/vtimezoneNamedTimezoneImpl'
 export default {
 	name: 'Calendar',
 	components: {
+		Content,
 		AppContent,
 		AppNavigation,
 		FullCalendar
