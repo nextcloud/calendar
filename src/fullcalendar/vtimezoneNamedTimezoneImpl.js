@@ -26,7 +26,7 @@ import {
 import getTimezoneManager from '../services/timezoneDataProviderService'
 
 /**
- * Our own Fullcalendar Timezone implementation based on the VTimezones we ship
+ * Our own FullCalendar Timezone implementation based on the VTimezones we ship
  */
 class VTimezoneNamedTimezone extends NamedTimeZoneImpl {
 
@@ -38,6 +38,8 @@ class VTimezoneNamedTimezone extends NamedTimeZoneImpl {
 	 */
 	offsetForArray([year, month, day, hour, minute, second]) {
 		const timezone = getTimezoneManager().getTimezoneForId(this.timeZoneName)
+		// calendar-js works with natural month numbers,
+		// not the javascript 0-based ones
 		month += 1
 
 		return timezone.offsetForArray(year, month, day, hour, minute, second) / 60
@@ -52,6 +54,8 @@ class VTimezoneNamedTimezone extends NamedTimeZoneImpl {
 	timestampToArray(ms) {
 		const timezone = getTimezoneManager().getTimezoneForId(this.timeZoneName)
 		const timestampArray = timezone.timestampToArray(ms)
+		// calendar-js works with natural month numbers,
+		// not the javascript 0-based ones
 		timestampArray[1]--
 
 		return timestampArray

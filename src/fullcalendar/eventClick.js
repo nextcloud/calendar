@@ -21,6 +21,8 @@
  */
 
 /**
+ * Returns a function for click action on event. This will open the editor.
+ * Either the popover or the sidebar, based on the user's preference.
  *
  * @param {Object} store The Vuex store
  * @param {Object} router The Vue router

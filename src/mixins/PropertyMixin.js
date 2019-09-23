@@ -21,6 +21,12 @@
  */
 import EventComponent from 'calendar-js/src/components/root/eventComponent'
 
+/**
+ * This is a mixin for properties. It contains common Vue stuff, that is
+ * required commonly by all components like the event, read-only-status, etc.
+ *
+ * See inline for more documentation
+ */
 export default {
 	props: {
 		// This is coming from rfcProps

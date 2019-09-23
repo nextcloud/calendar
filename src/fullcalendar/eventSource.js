@@ -27,9 +27,10 @@ import { getUnixTimestampFromDate } from '../services/dateService.js'
 import { eventSourceFunction } from './eventSourceFunction.js'
 
 /**
+ * Returns a function to generate a FullCalendar event-source based on the Vuex calendar model
  *
  * @param {Object} store The Vuex store
- * @returns {function(*): {backgroundColor: *, borderColor: *, editable: boolean, className: *, id: *, textColor: *, events: events}}
+ * @returns {function(*=): {backgroundColor: *, borderColor: *, className: *, id: *, textColor: *, events: events}}
  */
 export default function(store) {
 	return function(calendar) {

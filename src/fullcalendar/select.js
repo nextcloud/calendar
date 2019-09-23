@@ -21,6 +21,9 @@
  */
 
 /**
+ * Provides a function to select a time-range in the calendar-grid.
+ * This will open the new event editor. Based on the user's preference,
+ * either the popover or the sidebar.
  *
  * @param {Object} store The Vuex store
  * @param {Object} router The Vue router
