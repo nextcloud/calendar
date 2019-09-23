@@ -22,6 +22,12 @@
 import rfcProps from '../models/rfcProps'
 import logger from '../services/loggerService'
 
+/**
+ * This is a mixin for the editor. It contains common Vue stuff, that is
+ * required both in the popover as well as the sidebar.
+ *
+ * See inline for more documentation
+ */
 export default {
 	data() {
 		return {
