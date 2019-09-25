@@ -22,18 +22,27 @@
 
 <template>
 	<div class="button-group">
-		<button class="button" @click="today()">
+		<button
+			:aria-label="title"
+			class="button"
+			:title="title"
+			@click="today()">
 			{{ label }}
 		</button>
 	</div>
 </template>
 
 <script>
+import moment from 'nextcloud-moment'
+
 export default {
 	name: 'TodayButton',
 	computed: {
 		label() {
 			return t('calendar', 'Today')
+		},
+		title() {
+			return  moment().format('ll')
 		}
 	},
 	methods: {
