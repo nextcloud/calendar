@@ -89,11 +89,31 @@ export default {
 		 * @param {String} query
 		 */
 		findSharee: debounce(async function(query) {
+			const hiddenPrincipalSchemes = []
+			this.calendar.shares.forEach((share) => {
+				hiddenPrincipalSchemes.push(share.uri)
+			})
+
+			const hiddenUrls = []
+			if (this.$store.getters.getCurrentUserPrincipal) {
+				hiddenUrls.push(this.$store.getters.getCurrentUserPrincipal.url)
+			}
+			if (this.calendar.owner) {
+				hiddenUrls.push(this.calendar.owner)
+			}
+
 			this.isLoading = true
 			this.usersOrGroups = []
 			if (query.length > 0) {
 				const results = await client.principalPropertySearchByDisplayname(query)
 				this.usersOrGroups = results.reduce((list, result) => {
+					if (hiddenPrincipalSchemes.includes(result.principalScheme)) {
+						return list
+					}
+					if (hiddenUrls.includes(result.url)) {
+						return list
+					}
+
 					if	(['GROUP', 'INDIVIDUAL'].indexOf(result.calendarUserType) > -1) {
 						const isGroup = result.calendarUserType === 'GROUP'
 						list.push({
