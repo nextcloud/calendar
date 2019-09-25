@@ -56,8 +56,8 @@
 		</template>
 
 		<AppSidebarTab name="Details" icon="icon-details" :order="0">
-			<calendar-picker v-if="!isLoading" :calendars="calendars" :calendar="selectedCalendar" is-read-only="isReadOnly"
-				:show-calendar-on-select="true" @selectCalendar="changeCalendar" />
+			<calendar-picker v-if="!isLoading" :calendars="calendars" :calendar="selectedCalendar"
+				:is-read-only="isReadOnly" :show-calendar-on-select="true" @selectCalendar="changeCalendar" />
 			<property-text :event-component="eventComponent" :prop-model="rfcProps.location" :is-read-only="isReadOnly" />
 			<property-text :event-component="eventComponent" :prop-model="rfcProps.description" :is-read-only="isReadOnly" />
 			<property-select :event-component="eventComponent" :prop-model="rfcProps.status" :is-read-only="isReadOnly" />

@@ -42,7 +42,7 @@ export default {
 			return t('calendar', 'Today')
 		},
 		title() {
-			return  moment().format('ll')
+			return moment().format('ll')
 		}
 	},
 	methods: {
