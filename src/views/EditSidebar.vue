@@ -23,7 +23,11 @@
   -->
 
 <template>
-	<AppSidebar title="Foo bar" :title-editable="true" subtitle="in 5 days" @close="cancel">
+	<AppSidebar
+		:title="title"
+		:title-editable="true"
+		@close="cancel"
+		@update:title="updateTitle">
 		<template v-slot:primary-actions style="max-height: none !important">
 			<div style="width: 100%">
 				<property-title-time-picker :event-component="eventComponent" :prop-model="{}" :is-read-only="isReadOnly"
@@ -59,7 +63,6 @@
 			<property-select :event-component="eventComponent" :prop-model="rfcProps.status" :is-read-only="isReadOnly" />
 			<property-select :event-component="eventComponent" :prop-model="rfcProps.class" :is-read-only="isReadOnly" />
 			<property-select :event-component="eventComponent" :prop-model="rfcProps.timeTransparency" :is-read-only="isReadOnly" />
-			<property-title :event-component="eventComponent" :prop-model="rfcProps.summary" :is-read-only="isReadOnly" />
 		</AppSidebarTab>
 		<AppSidebarTab name="Attendees" icon="icon-group" :order="1">
 			<invitees-list :event-component="eventComponent" :is-read-only="isReadOnly" />
@@ -105,7 +108,6 @@ import CalendarPicker from '../components/Shared/CalendarPicker'
 import InviteesList from '../components/Editor/Invitees/InviteesList'
 import PropertySelect from '../components/Editor/Properties/PropertySelect'
 import PropertyText from '../components/Editor/Properties/PropertyText'
-import PropertyTitle from '../components/Editor/Properties/PropertyTitle'
 import PropertyTitleTimePicker from '../components/Editor/Properties/PropertyTitleTimePicker'
 import Repeat from '../components/Editor/Repeat/Repeat.vue'
 
@@ -113,6 +115,7 @@ import EditorMixin from '../mixins/EditorMixin'
 import { getIllustrationForTitle } from '../services/illustrationProviderService.js'
 import IllustrationHeader from '../components/Editor/IllustrationHeader.vue'
 import { getDefaultColor } from '../services/colorService.js'
+import moment from 'nextcloud-moment'
 
 export default {
 	name: 'EditSidebar',
@@ -127,7 +130,6 @@ export default {
 		InviteesList,
 		PropertySelect,
 		PropertyText,
-		PropertyTitle,
 		PropertyTitleTimePicker,
 		Repeat,
 	},
@@ -155,6 +157,28 @@ export default {
 			}
 
 			return this.selectedCalendar.color || getDefaultColor()
+		},
+		title() {
+			if (!this.eventComponent) {
+				return ''
+			}
+
+			return this.eventComponent.title
+		},
+		subTitle() {
+			if (!this.eventComponent) {
+				return ''
+			}
+
+			console.debug(moment)
+			console.debug(this.eventComponent.startDate)
+			return moment(this.eventComponent.startDate.jsDate).fromNow()
+			// return 'in 5 days'
+		}
+	},
+	methods: {
+		updateTitle(newTitle) {
+			this.eventComponent.title = newTitle
 		}
 	}
 }
@@ -163,6 +187,10 @@ export default {
 <style>
 .app-sidebar-header__figure {
 	height: unset !important;
+}
+
+.app-sidebar-header__action {
+	margin-top: 0 !important;
 }
 
 .app-sidebar-button-area-bottom {

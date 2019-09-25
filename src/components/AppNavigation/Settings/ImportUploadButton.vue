@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { readFileAsText } from '../../services/readFileAsTextService'
+import { readFileAsText } from '../../../services/readFileAsTextService.js'
 import { getParserManager } from 'calendar-js'
 
 export default {

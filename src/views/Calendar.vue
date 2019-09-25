@@ -69,7 +69,7 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import '@fullcalendar/timegrid/main.css'
 import allLocales from '@fullcalendar/core/locales-all'
 
-import AppNavigation from '../components/AppNavigation.vue'
+import AppNavigation from '../components/AppNavigation/AppNavigation.vue'
 import { AppContent, Content } from 'nextcloud-vue'
 import { getRandomColor } from '../services/colorService'
 import client from '../services/caldavService.js'

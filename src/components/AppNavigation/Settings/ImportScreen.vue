@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import ImportScreenRow from './ImportScreen/ImportScreenRow'
+import ImportScreenRow from './ImportScreen/ImportScreenRow.vue'
 import {
 	Modal
 } from 'nextcloud-vue'
