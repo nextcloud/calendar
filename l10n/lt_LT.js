@@ -159,6 +159,7 @@ OC.L10N.register(
     "File is empty" : "Failas tuščias",
     "File could not be parsed" : "Nepavyko išnagrinėti failo",
     "Import scheduled" : "Importavimas suplanuotas",
+    "Settings & import" : "Nustatymai ir importavimas",
     "Import calendar" : "Importuoti kalendorių",
     "No Calendars selected for import" : "Nepasirinktas kalendorius importavimui",
     "Show week numbers" : "Rodyti savaičių numerius",
