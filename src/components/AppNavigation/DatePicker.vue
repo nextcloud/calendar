@@ -29,15 +29,20 @@
 			type="button"
 			@click="navigateToPreviousTimeRange"
 		/>
-		<label for="app-navigation-datepicker-input" class="button datepicker-label">
+		<label
+			for="app-navigation-datepicker-input"
+			class="button datepicker-label">
 			{{ selectedDate | formatDateRage(view) }}
 		</label>
 		<datetime-picker
 			:first-day-of-week="firstDay"
 			:lang="lang"
+			:clearable="false"
+			:editable="false"
 			:not-before="minimumDate"
 			:not-after="maximumDate"
 			:value="selectedDate"
+			:input-attr="inputItemAttributes"
 			@change="navigateToDate"
 		/>
 		<button
@@ -123,12 +128,14 @@ export default {
 		},
 		view() {
 			return this.$route.params.view
+		},
+		inputItemAttributes() {
+			return {
+				id: 'app-navigation-datepicker-input'
+			}
 		}
 	},
 	mounted() {
-		this.$el.querySelector('.mx-input').id = 'app-navigation-datepicker-input'
-		this.$el.querySelector('.mx-input-wrapper').style.display = 'none'
-
 		// Load the locale
 		// convert format like en_GB to en-gb for `moment.js`
 		let locale = OC.getLocale().replace('_', '-').toLowerCase()
