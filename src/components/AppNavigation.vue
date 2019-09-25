@@ -1,8 +1,10 @@
 <template>
 	<div id="app-navigation">
-		<date-picker />
-		<view-buttons />
-		<today-button />
+		<header class="app-navigation-header">
+			<date-picker />
+			<view-buttons />
+			<today-button />
+		</header>
 
 		<calendar-list :loading-calendars="loadingCalendars" />
 
