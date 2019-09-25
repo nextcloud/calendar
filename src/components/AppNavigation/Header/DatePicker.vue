@@ -63,8 +63,8 @@ import {
 	getYYYYMMDDFromDate,
 	getDateFromFirstdayParam,
 	modifyDate
-} from '../../services/dateService.js'
-import formatDateRage from '../../filters/dateRangeFormat.js'
+} from '../../../services/dateService.js'
+import formatDateRage from '../../../filters/dateRangeFormat.js'
 
 export default {
 	name: 'DatePicker',

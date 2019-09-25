@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import CalendarPicker from '../../Shared/CalendarPicker'
+import CalendarPicker from '../../../Shared/CalendarPicker.vue'
 
 export default {
 	name: 'ImportScreenRow',

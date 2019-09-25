@@ -25,11 +25,11 @@
 </template>
 
 <script>
-import DatePicker from './AppNavigation/DatePicker.vue'
-import ViewButtons from './AppNavigation/ViewButtons.vue'
-import TodayButton from './AppNavigation/TodayButton.vue'
-import CalendarList from './AppNavigation/CalendarList.vue'
-import Settings from './AppNavigation/Settings.vue'
+import DatePicker from './Header/DatePicker.vue'
+import ViewButtons from './Header/ViewButtons.vue'
+import TodayButton from './Header/TodayButton.vue'
+import CalendarList from './List/CalendarList.vue'
+import Settings from './Settings/Settings.vue'
 
 import ClickOutside from 'vue-click-outside'
 

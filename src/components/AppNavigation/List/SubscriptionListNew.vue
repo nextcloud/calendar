@@ -1,12 +1,12 @@
 <template>
 	<li v-click-outside="closeNewCalendarForm" :class="{editing: showForm}" class="new-entity-container">
-		<a id="new-calendar-button" href="#" class="icon-add"
+		<a id="new-subscription-button" href="#" class="icon-add"
 			@click="openDialog"
 		>{{ label }}</a>
 
 		<div class="app-navigation-entry-edit">
 			<form @submit.prevent="addCalendar()">
-				<input id="new-calendar-form-input" v-model="displayName" :placeholder="inputPlaceholder"
+				<input id="new-subscription-form-input" v-model="link" :placeholder="inputPlaceholder"
 					:disabled="isCreating" class="app-navigation-input" type="text"
 					required
 				>
@@ -24,10 +24,10 @@
 
 <script>
 import ClickOutside from 'vue-click-outside'
-import { getRandomColor } from '../../services/colorService'
+import { getRandomColor } from '../../../services/colorService.js'
 
 export default {
-	name: 'CalendarListNew',
+	name: 'SubscriptionListNew',
 	directives: {
 		ClickOutside
 	},
@@ -39,17 +39,17 @@ export default {
 	},
 	data: function() {
 		return {
-			displayName: '',
+			link: '',
 			isCreating: false,
 			showForm: false
 		}
 	},
 	computed: {
 		label() {
-			return t('calendar', 'New Calendar')
+			return t('calendar', 'New Subscription')
 		},
 		inputPlaceholder() {
-			return t('calendar', 'Name of calendar')
+			return t('calendar', 'Link to ical')
 		}
 	},
 	methods: {
@@ -59,11 +59,11 @@ export default {
 			}
 
 			this.showForm = true
-			document.getElementById('new-calendar-form-input').focus()
+			document.getElementById('new-subscription-form-input').focus()
 		},
 		addCalendar() {
 			this.isCreating = true
-			this.$store.dispatch('appendCalendar', { displayName: this.displayName, color: getRandomColor() })
+			this.$store.dispatch('appendSubscription', { displayName: '', color: getRandomColor(), source: this.link })
 				.then(() => {
 					this.displayName = ''
 					this.showForm = false
@@ -76,15 +76,19 @@ export default {
 				})
 		},
 		dismiss() {
-			this.name = ''
+			this.link = ''
 			this.showForm = false
 		},
 		closeNewCalendarForm() {
 			// Close only when input is empty
-			if (this.name === '') {
+			if (this.link === '') {
 				this.showForm = false
 			}
 		}
 	}
 }
 </script>
+
+<style scoped>
+
+</style>

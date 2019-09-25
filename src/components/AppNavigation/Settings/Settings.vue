@@ -67,13 +67,13 @@
 </template>
 
 <script>
-import ImportProgressBar from './ImportProgressBar'
-import ImportScreen from './ImportScreen'
-import ImportUploadButton from './ImportUploadButton'
-import TimezoneSelect from '../Shared/TimezoneSelect'
+import ImportProgressBar from './ImportProgressBar.vue'
+import ImportScreen from './ImportScreen.vue'
+import ImportUploadButton from './ImportUploadButton.vue'
+import TimezoneSelect from '../../Shared/TimezoneSelect.vue'
 
-import client from '../../services/caldavService.js'
-import detectTimezone from '../../services/timezoneDetectionService'
+import client from '../../../services/caldavService.js'
+import detectTimezone from '../../../services/timezoneDetectionService.js'
 
 export default {
 	name: 'Settings',
