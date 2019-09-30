@@ -20,39 +20,37 @@
  *
  */
 
-#app-settings {
+.import-modal {
 
-	#calendar-input-form-label {
-		display: block;
-		text-align: center;
-		background-position-x: 8px;
+	&__title {
+
 	}
 
-	.settings-fieldset-interior-item {
-		padding: 5px 0;
+	&__subtitle {
 
-		.action-checkbox {
-			line-height: unset !important;
+	}
 
-			.action-checkbox__label::before {
-				margin: 0 6px 3px 3px !important;
-			}
+	&__file-list {
+
+	}
+
+	&__actions {
+
+	}
+
+	.import-modal-file-item {
+
+		&--header {
+
 		}
 
-		.action-button {
-			min-height: unset !important;
+		&__filename {
 
-			.action-button__icon {
-				margin: 0 6px 3px 3px !important;
-				height: 14px !important;
-				width: 14px !important;
-				background-position: unset !important;
-			}
+		}
 
-			.action-button__longtext {
-				width: unset !important;
-				padding: 0 !important;
-			}
+		&__calendar-select {
+
 		}
 	}
+
 }

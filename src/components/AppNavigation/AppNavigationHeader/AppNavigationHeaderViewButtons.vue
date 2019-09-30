@@ -23,41 +23,32 @@
 <template>
 	<div class="button-group">
 		<button :class="{active: isAgendaDayViewSelected}" class="button" @click="view('timeGridDay')">
-			{{ labelAgendaDay }}
+			{{ $t('calendar', 'Day') }}
 		</button>
 		<button :class="{active: isAgendaWeekViewSelected}" class="button" @click="view('timeGridWeek')">
-			{{ labelAgendaWeek }}
+			{{ $t('calendar', 'Week') }}
 		</button>
 		<button :class="{active: isMonthViewSelected}" class="button" @click="view('dayGridMonth')">
-			{{ labelMonth }}
+			{{ $t('calendar', 'Month') }}
 		</button>
 	</div>
 </template>
 
 <script>
 export default {
-	name: 'TodayButton',
+	name: 'AppNavigationHeaderViewButtons',
 	computed: {
-		labelAgendaDay() {
-			return t('calendar', 'Day')
-		},
 		isAgendaDayViewSelected() {
 			return this.selectedView === 'timeGridDay'
 		},
-		labelAgendaWeek() {
-			return t('calendar', 'Week')
-		},
 		isAgendaWeekViewSelected() {
 			return this.selectedView === 'timeGridWeek'
-		},
-		labelMonth() {
-			return t('calendar', 'Month')
 		},
 		isMonthViewSelected() {
 			return this.selectedView === 'dayGridMonth'
 		},
 		selectedView() {
-			return this.$store.state.route.params.view
+			return this.$route.params.view
 		}
 	},
 	methods: {

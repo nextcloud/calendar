@@ -23,7 +23,9 @@
  */
 import '@babel/polyfill'
 
+/* eslint-disable import/first */
 import Vue from 'vue'
+Vue.config.devtools = true
 import App from './App'
 import router from './router'
 import store from './store'
@@ -37,9 +39,15 @@ import {
 	PopoverMenu,
 	Modal
 } from 'nextcloud-vue'
+import {
+	translate,
+	translatePlural
+} from 'nextcloud-l10n'
 import ClickOutside from 'vue-click-outside'
 import VueClipboard from 'vue-clipboard2'
 import VTooltip from 'v-tooltip'
+
+VueClipboard.config.autoSetContainer = true
 
 // register global components
 Vue.component('Actions', Actions)
@@ -64,10 +72,13 @@ __webpack_public_path__ = linkTo('calendar', 'js/')
 
 sync(store, router)
 
-Vue.prototype.t = t
-Vue.prototype.n = n
-Vue.prototype.OC = OC
-Vue.prototype.OCA = OCA
+Vue.prototype.$t = translate
+Vue.prototype.$n = translatePlural
+Vue.prototype.$toast = OCP.Toast
+
+// The nextcloud-vue package does currently rely on t and n
+Vue.prototype.t = translate
+Vue.prototype.n = translatePlural
 
 export default new Vue({
 	el: '#content',

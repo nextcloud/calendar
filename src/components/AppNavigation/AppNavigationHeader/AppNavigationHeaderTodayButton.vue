@@ -21,19 +21,40 @@
   -->
 
 <template>
-	<progress :value="progress" :max="maxItems" />
+	<div class="button-group">
+		<button
+			:aria-label="title"
+			class="button"
+			:title="title"
+			@click="today()">
+			{{ $t('calendar', 'Today') }}
+		</button>
+	</div>
 </template>
 
 <script>
+import moment from 'nextcloud-moment'
+
 export default {
-	name: 'ImportProgressBar',
+	name: 'AppNavigationHeaderTodayButton',
 	computed: {
-		progress() {
-			return this.$store.state.importState.importState.accepted
-				+ this.$store.state.importState.importState.denied
-		},
-		maxItems() {
-			return this.$store.state.importState.importState.total
+		title() {
+			return moment().format('ll')
+		}
+	},
+	methods: {
+		today() {
+			const name = this.$route.name
+			const params = Object.assign({}, this.$route.params, {
+				firstDay: 'now'
+			})
+
+			// Don't push new route when day didn't change
+			if (this.$route.params.firstDay === 'now') {
+				return
+			}
+
+			this.$router.push({ name, params })
 		}
 	}
 }

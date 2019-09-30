@@ -67,7 +67,7 @@ import {
 import formatDateRage from '../../../filters/dateRangeFormat.js'
 
 export default {
-	name: 'DatePicker',
+	name: 'AppNavigationHeaderDatePicker',
 	components: {
 		DatetimePicker
 	},
@@ -82,7 +82,7 @@ export default {
 				placeholder: {
 					// this should never be visible in theory
 					// just have something to replace the chinese default
-					date: t('calendar', 'Select date to navigate to')
+					date: this.$t('calendar', 'Select date to navigate to')
 				}
 			}
 		}
@@ -95,35 +95,35 @@ export default {
 			return getDateFromFirstdayParam(this.$route.params.firstDay)
 		},
 		minimumDate() {
-			return new Date(this.$store.state.davRestrictions.davRestrictions.minimumDate)
+			return new Date(this.$store.state.davRestrictions.minimumDate)
 		},
 		maximumDate() {
-			return new Date(this.$store.state.davRestrictions.davRestrictions.maximumDate)
+			return new Date(this.$store.state.davRestrictions.maximumDate)
 		},
 		previousLabel() {
 			switch (this.view) {
 			case 'timeGridDay':
-				return t('calendar', 'Previous day')
+				return this.$t('calendar', 'Previous day')
 
 			case 'timeGridWeek':
-				return t('calendar', 'Previous week')
+				return this.$t('calendar', 'Previous week')
 
 			case 'dayGridMonth':
 			default:
-				return t('calendar', 'Previous month')
+				return this.$t('calendar', 'Previous month')
 			}
 		},
 		nextLabel() {
 			switch (this.view) {
 			case 'timeGridDay':
-				return t('calendar', 'Next day')
+				return this.$t('calendar', 'Next day')
 
 			case 'timeGridWeek':
-				return t('calendar', 'Next week')
+				return this.$t('calendar', 'Next week')
 
 			case 'dayGridMonth':
 			default:
-				return t('calendar', 'Next month')
+				return this.$t('calendar', 'Next month')
 			}
 		},
 		view() {

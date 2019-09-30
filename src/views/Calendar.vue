@@ -21,7 +21,14 @@
 
 <template>
 	<Content app-name="calendar" :class="classNames">
-		<app-navigation :loading-calendars="loadingCalendars" />
+		<AppNavigation>
+			<!-- Date Picker, View Buttons, Today Button -->
+			<AppNavigationHeader />
+			<!-- Calendar / Subscription List -->
+			<CalendarList :loading-calendars="loadingCalendars" />
+			<!-- Settings and import -->
+			<Settings :loading-calendars="loadingCalendars" />
+		</AppNavigation>
 		<AppContent>
 			<!-- Full calendar -->
 			<FullCalendar
@@ -68,34 +75,41 @@ import '@fullcalendar/list/main.css'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import '@fullcalendar/timegrid/main.css'
 import allLocales from '@fullcalendar/core/locales-all'
-
-import AppNavigation from '../components/AppNavigation/AppNavigation.vue'
-import { AppContent, Content } from 'nextcloud-vue'
+import {
+	AppNavigation,
+	AppContent,
+	Content
+} from 'nextcloud-vue'
+import debounce from 'debounce'
 import { getRandomColor } from '../services/colorService'
 import client from '../services/caldavService.js'
-
-import debounce from 'debounce'
-
+import { getConfigValueFromHiddenInput } from '../services/settingsService'
 import {
 	dateFactory,
 	getUnixTimestampFromDate,
 	getYYYYMMDDFromFirstdayParam
 } from '../services/dateService.js'
-
-import { getConfigValueFromHiddenInput } from '../services/settingsService'
-
 import eventAllow from '../fullcalendar/eventAllow'
 import eventClick from '../fullcalendar/eventClick'
 import eventDrop from '../fullcalendar/eventDrop'
 import eventResize from '../fullcalendar/eventResize'
 import eventSource from '../fullcalendar/eventSource'
 import select from '../fullcalendar/select'
-
 import VTimezoneNamedTimezone from '../fullcalendar/vtimezoneNamedTimezoneImpl'
+import AppNavigationHeader from '../components/AppNavigation/AppNavigationHeader.vue'
+import CalendarList from '../components/AppNavigation/CalendarList.vue'
+import Settings from '../components/AppNavigation/Settings.vue'
+import {
+	mapGetters,
+	mapState
+} from 'vuex'
 
 export default {
 	name: 'Calendar',
 	components: {
+		Settings,
+		CalendarList,
+		AppNavigationHeader,
 		Content,
 		AppContent,
 		AppNavigation,
@@ -108,23 +122,27 @@ export default {
 		}
 	},
 	computed: {
+		...mapGetters({
+			timezoneId: 'getResolvedTimezone'
+		}),
+		...mapState({
+			skipPopover: state => state.settings.skipPopover,
+			showWeekends: state => state.settings.showWeekends,
+			showWeekNumbers: state => state.settings.showWeekNumbers,
+			timezone: state => state.settings.timezone,
+			modificationCount: state => state.calendarObjects.modificationCount
+		}),
+		defaultDate() {
+			return getYYYYMMDDFromFirstdayParam(this.$route.params.firstDay)
+		},
 		defaultView() {
 			return this.$route.params.view
 		},
 		eventSources() {
 			return this.$store.getters.enabledCalendars.map(eventSource(this.$store))
 		},
-		defaultDate() {
-			return getYYYYMMDDFromFirstdayParam(this.$route.params.firstDay)
-		},
 		slotDuration() {
 			return '00:15:00'
-		},
-		showWeekNumbers() {
-			return this.$store.state.settings.settings.showWeekNumbers
-		},
-		showWeekends() {
-			return this.$store.state.settings.settings.showWeekends
 		},
 		plugins() {
 			return [
@@ -134,9 +152,6 @@ export default {
 				timeGridPlugin,
 				VTimezoneNamedTimezone
 			]
-		},
-		timezoneId() {
-			return this.$store.getters.getResolvedTimezone
 		},
 		eventAllow() {
 			return eventAllow
@@ -175,9 +190,6 @@ export default {
 
 			return null
 		},
-		modificationCount() {
-			return this.$store.state.calendarObjects.modificationCount
-		}
 	},
 	beforeRouteUpdate(to, from, next) {
 		if (to.params.firstDay !== from.params.firstDay) {
@@ -207,7 +219,9 @@ export default {
 			const timeRanges = this.$store.getters.getAllTimeRangesOlderThan(timestamp)
 
 			for (const timeRange of timeRanges) {
-				this.$store.commit('removeTimeRange', timeRange.id)
+				this.$store.commit('removeTimeRange', {
+					timeRangeId: timeRange.id
+				})
 				this.$store.commit('deleteFetchedTimeRangeFromCalendar', {
 					calendar: {
 						id: timeRange.calendarId
@@ -239,10 +253,13 @@ export default {
 					}
 				})
 				owners.forEach((owner) => {
-					this.$store.dispatch('fetchPrincipalByUrl', owner)
+					this.$store.dispatch('fetchPrincipalByUrl', {
+						url: owner
+					})
 				})
 
 				// No calendars? Create a new one!
+				// TODO: The one that exists might be the birthday calendar
 				if (calendars.length === 0) {
 					this.loadingCalendars = true
 					this.$store.dispatch('appendCalendar', {

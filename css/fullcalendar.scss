@@ -111,6 +111,10 @@
 	border-color: var(--color-border) !important;
 }
 
+.fc-day-number {
+	padding-top: 0 !important;
+}
+
 .fc-today > .fc-day-number {
 	background: var(--color-primary);
 	color: var(--color-primary-text);

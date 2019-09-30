@@ -36,7 +36,8 @@ const mutations = {
 	 * Adds a principal to the state
 	 *
 	 * @param {Object} state The vuex state
-	 * @param {Object} principal The principal to add
+	 * @param {Object} data The destructuring object
+	 * @param {Object} data.principal The principal to add
 	 */
 	addPrincipal(state, { principal }) {
 		const object = getDefaultPrincipalObject(principal)
@@ -77,7 +78,7 @@ const getters = {
 	 * @param {Object} state the store data
 	 * @returns {function({String}): {Object}}
 	 */
-	getPrincipalById: (state) => (id) => state.principalsById['id'],
+	getPrincipalById: (state) => (id) => state.principalsById[id],
 
 	/**
 	 * Gets the principal object of the current-user-principal
@@ -105,7 +106,7 @@ const actions = {
 	 * @param {String} url The URL of the principal
 	 * @returns {Promise<void>}
 	 */
-	async fetchPrincipalByUrl(context, url) {
+	async fetchPrincipalByUrl(context, { url }) {
 		// Don't refetch principals we already have
 		if (context.getters.getPrincipalByUrl(url)) {
 			return

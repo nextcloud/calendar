@@ -47,7 +47,6 @@ export default {
 		},
 		showCalendarOnSelect: {
 			type: Boolean,
-			required: true,
 			default: false
 		},
 	},

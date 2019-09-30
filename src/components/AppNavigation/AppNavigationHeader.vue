@@ -1,6 +1,5 @@
 <!--
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
-  -
   - @author Georg Ehrke <oc.list@georgehrke.com>
   -
   - @license GNU AGPL version 3 or any later version
@@ -21,44 +20,24 @@
   -->
 
 <template>
-	<div class="button-group">
-		<button
-			:aria-label="title"
-			class="button"
-			:title="title"
-			@click="today()">
-			{{ label }}
-		</button>
-	</div>
+	<header class="app-navigation-header">
+		<AppNavigationHeaderDatePicker />
+		<AppNavigationHeaderViewButtons />
+		<AppNavigationHeaderTodayButton />
+	</header>
 </template>
 
 <script>
-import moment from 'nextcloud-moment'
+import AppNavigationHeaderDatePicker from './AppNavigationHeader/AppNavigationHeaderDatePicker.vue'
+import AppNavigationHeaderTodayButton from './AppNavigationHeader/AppNavigationHeaderTodayButton.vue'
+import AppNavigationHeaderViewButtons from './AppNavigationHeader/AppNavigationHeaderViewButtons.vue'
 
 export default {
-	name: 'TodayButton',
-	computed: {
-		label() {
-			return t('calendar', 'Today')
-		},
-		title() {
-			return moment().format('ll')
-		}
-	},
-	methods: {
-		today() {
-			const name = this.$route.name
-			const params = Object.assign({}, this.$route.params, {
-				firstDay: 'now'
-			})
-
-			// Don't push new route when day didn't change
-			if (this.$route.params.firstDay === 'now') {
-				return
-			}
-
-			this.$router.push({ name, params })
-		}
+	name: 'AppNavigationHeader',
+	components: {
+		AppNavigationHeaderDatePicker,
+		AppNavigationHeaderTodayButton,
+		AppNavigationHeaderViewButtons
 	}
 }
 </script>

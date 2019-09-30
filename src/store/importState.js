@@ -23,12 +23,10 @@
  */
 
 const state = {
-	importState: {
-		total: 0,
-		accepted: 0,
-		denied: 0,
-		stage: 'default',
-	}
+	total: 0,
+	accepted: 0,
+	denied: 0,
+	stage: 'default',
 }
 
 const mutations = {
@@ -39,7 +37,7 @@ const mutations = {
 	 * @param {Object} state the store data
 	 */
 	incrementAccepted(state) {
-		state.importState.accepted++
+		state.accepted++
 	},
 
 	/**
@@ -48,7 +46,7 @@ const mutations = {
 	 * @param {Object} state the store data
 	 */
 	incrementDenied(state) {
-		state.importState.denied++
+		state.denied++
 	},
 
 	/**
@@ -58,7 +56,7 @@ const mutations = {
 	 * @param {string} total the total number of calendar-objects to import
 	 */
 	setTotal(state, total) {
-		state.importState.total = total
+		state.total = total
 	},
 
 	/**
@@ -68,7 +66,7 @@ const mutations = {
 	 * @param {string} stage the name of the stage ('default', 'importing', 'parsing', 'done')
 	 */
 	changeStage(state, stage) {
-		state.importState.stage = stage
+		state.stage = stage
 	},
 
 	/**
@@ -77,10 +75,10 @@ const mutations = {
 	 * @param {Object} state the store data
 	 */
 	resetState(state) {
-		state.importState.total = 0
-		state.importState.accepted = 0
-		state.importState.denied = 0
-		state.importState.stage = 'default'
+		state.total = 0
+		state.accepted = 0
+		state.denied = 0
+		state.stage = 'default'
 	}
 }
 
