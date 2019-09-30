@@ -140,6 +140,9 @@ class ProxyController extends Controller {
 			do {
 				$clientResponse = $client->get($queryUrl, [
 					'allow_redirects' => $allow_redirects,
+					'headers' => [
+						'User-Agent' => 'Nextcloud',
+					],
 				]);
 
 				$statusCode = $clientResponse->getStatusCode();
