@@ -21,18 +21,18 @@
   -->
 
 <template>
-	<li class="import-file-row">
-		<div class="import-file-row-filename">
+	<li class="import-modal-file-item">
+		<div class="import-modal-file-item__filename">
 			{{ file.name }}
 		</div>
-		<calendar-picker class="import-file-row-select" :calendar="calendar"
+		<calendar-picker class="import-modal-file-item__calendar-select" :calendar="calendar"
 			:calendars="calendars" @selectCalendar="selectCalendar"
 		/>
 	</li>
 </template>
 
 <script>
-import CalendarPicker from '../../../Shared/CalendarPicker.vue'
+import CalendarPicker from '../../Shared/CalendarPicker.vue'
 
 export default {
 	name: 'ImportScreenRow',
@@ -56,7 +56,7 @@ export default {
 			if (calendarId === 'new') {
 				return {
 					id: 'new',
-					displayName: t('calendar', 'New calendar')
+					displayName: this.$t('calendar', 'New calendar')
 				}
 			}
 
@@ -71,7 +71,7 @@ export default {
 
 			calendars.push({
 				id: 'new',
-				displayName: t('calendar', 'New calendar')
+				displayName: this.$t('calendar', 'New calendar')
 			})
 
 			return calendars

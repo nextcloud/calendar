@@ -58,9 +58,10 @@ const mutations = {
 	 * Removes a fetched time-range from the state
 	 *
 	 * @param {Object} state The vuex state
-	 * @param {Number} timeRangeId Id of time-range to remove
+	 * @param {Object} data The destructuring object
+	 * @param {Number} data.timeRangeId Id of time-range to remove
 	 */
-	removeTimeRange(state, timeRangeId) {
+	removeTimeRange(state, { timeRangeId }) {
 		const obj = state.fetchedTimeRangesById[timeRangeId]
 		const index = state.fetchedTimeRanges.indexOf(obj)
 

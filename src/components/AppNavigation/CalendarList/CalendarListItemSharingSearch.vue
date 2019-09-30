@@ -1,5 +1,26 @@
+<!--
+  - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
+  - @author Georg Ehrke <oc.list@georgehrke.com>
+  -
+  - @license GNU AGPL version 3 or any later version
+  -
+  - This program is free software: you can redistribute it and/or modify
+  - it under the terms of the GNU Affero General Public License as
+  - published by the Free Software Foundation, either version 3 of the
+  - License, or (at your option) any later version.
+  -
+  - This program is distributed in the hope that it will be useful,
+  - but WITHOUT ANY WARRANTY; without even the implied warranty of
+  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  - GNU Affero General Public License for more details.
+  -
+  - You should have received a copy of the GNU Affero General Public License
+  - along with this program. If not, see <http://www.gnu.org/licenses/>.
+  -
+  -->
+
 <template>
-	<div class="sharing-section">
+	<li class="app-navigation-entry__multiselect">
 		<multiselect
 			id="users-groups-search"
 			:options="usersOrGroups"
@@ -7,46 +28,29 @@
 			:internal-search="false"
 			:max-height="600"
 			:show-no-results="true"
-			:placeholder="placeholder"
+			:placeholder="$t('calendar', 'Share with users or groups')"
 			:class="{ 'showContent': inputGiven, 'icon-loading': isLoading }"
 			:user-select="true"
 			open-direction="bottom"
 			track-by="user"
 			label="user"
 			@search-change="findSharee"
-			@input="shareCalendar"
-		/>
-		<!-- list of user or groups addressbook is shared with -->
-		<ul v-if="calendar.shares.length > 0 || calendar.canBePublished" class="shareWithList">
-			<calendar-list-item-sharing-publish-item :calendar="calendar " />
-			<calendar-list-item-sharing-item v-for="sharee in calendar.shares" :key="sharee.uri"
-				:sharee="sharee" :calendar="calendar"
-			/>
-		</ul>
-	</div>
+			@input="shareCalendar">
+			<span slot="noResult">{{ $t('calendar', 'No users or groups') }}</span>
+		</multiselect>
+	</li>
 </template>
 
 <script>
 import client from '../../../services/caldavService.js'
 import debounce from 'debounce'
 
-import CalendarListItemSharingPublishItem from './CalendarListItemSharingPublishItem.vue'
-import CalendarListItemSharingItem from './CalendarListItemSharingItem.vue'
-import { Multiselect } from 'nextcloud-vue'
-
 export default {
-	name: 'CalendarListItemSharing',
-	components: {
-		CalendarListItemSharingItem,
-		CalendarListItemSharingPublishItem,
-		Multiselect
-	},
+	name: 'CalendarListItemSharingSearch',
 	props: {
 		calendar: {
 			type: Object,
-			default() {
-				return {}
-			}
+			required: true
 		},
 	},
 	data() {
@@ -56,18 +60,6 @@ export default {
 			usersOrGroups: []
 		}
 	},
-	computed: {
-		placeholder() {
-			return t('calendar', 'Share with users or groups')
-		},
-		noResult() {
-			return t('calendar', 'No users or groups')
-		}
-	},
-	// mounted() {
-	// 	// This ensures that the multiselect input is in focus as soon as the user clicks share
-	// 	document.getElementById('users-groups-search').focus()
-	// },
 	methods: {
 		/**
 		 * Share calendar
@@ -79,8 +71,13 @@ export default {
 		 * @param {Boolean} data.isGroup is this a group ?
 		 */
 		shareCalendar({ user, displayName, uri, isGroup }) {
-			const calendar = this.calendar
-			this.$store.dispatch('shareCalendar', { calendar, user, displayName, uri, isGroup })
+			this.$store.dispatch('shareCalendar', {
+				calendar: this.calendar,
+				user,
+				displayName,
+				uri,
+				isGroup
+			})
 		},
 
 		/**
@@ -135,5 +132,4 @@ export default {
 		}, 500)
 	}
 }
-
 </script>

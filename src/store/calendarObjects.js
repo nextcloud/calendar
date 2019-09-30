@@ -38,9 +38,10 @@ const mutations = {
 	 * Adds an array of calendar-objects to the store
 	 *
 	 * @param {Object} state The store data
-	 * @param {Object[]} calendarObjects Calendar-objects to add
+	 * @param {Object} data The destructuring object
+	 * @param {Object[]} data.calendarObjects Calendar-objects to add
 	 */
-	appendCalendarObjects(state, calendarObjects = []) {
+	appendCalendarObjects(state, { calendarObjects = [] }) {
 		for (const calendarObject of calendarObjects) {
 			if (!state.calendarObjects[calendarObject.getId()]) {
 				if (calendarObject instanceof CalendarObject) {
@@ -56,9 +57,10 @@ const mutations = {
 	 * Adds one calendar-object to the store
 	 *
 	 * @param {Object} state The store data
-	 * @param {Object} calendarObject Calendar-object to add
+	 * @param {Object} data The destructuring object
+	 * @param {Object} data.calendarObject Calendar-object to add
 	 */
-	appendCalendarObject(state, calendarObject) {
+	appendCalendarObject(state, { calendarObject }) {
 		if (!state.calendarObjects[calendarObject.getId()]) {
 			if (calendarObject instanceof CalendarObject) {
 				Vue.set(state.calendarObjects, calendarObject.getId(), calendarObject)
@@ -73,14 +75,14 @@ const mutations = {
 	 *
 	 * @param {Object} state The store data
 	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObject Calendar-object to add
+	 * @param {Object} data.calendarObject Calendar-object to delete
 	 */
 	deleteCalendarObject(state, { calendarObject }) {
 		Vue.delete(state.calendarObjects, calendarObject.getId())
 	},
 
 	/**
-	 * Increment the modification count
+	 * Increments the modification count
 	 *
 	 * @param {Object} state The store data
 	 */
@@ -92,16 +94,10 @@ const mutations = {
 const getters = {
 
 	/**
+	 * Gets a calendar-object based on its id
 	 *
 	 * @param {Object} state The store data
-	 * @returns {CalendarObject[]}
-	 */
-	getCalendarObjects: (state) => state.calendarObjects,
-
-	/**
-	 *
-	 * @param {Object} state The store data
-	 * @returns {function({Number}): CalendarObject}
+	 * @returns {function({String}): CalendarObject}
 	 */
 	getCalendarObjectById: (state) => (id) => state.calendarObjects[id]
 }
@@ -125,8 +121,6 @@ const actions = {
 		const oldCalendarObjectId = calendarObject.id
 		const oldCalendarId = calendarObject.calendarId
 
-		console.debug('saved old calendar object information for later')
-
 		if (oldCalendarId === newCalendarId) {
 			logger.error('Old calendar Id and new calendar Id are the same, nothing to move ...')
 			return
@@ -142,9 +136,7 @@ const actions = {
 			calendarObject
 		})
 		await calendarObject.dav.move(newCalendarObject.dav)
-		context.commit('appendCalendarObject', calendarObject)
-
-		console.debug('Performed the real move operation')
+		context.commit('appendCalendarObject', { calendarObject })
 
 		context.commit('addCalendarObjectToCalendar', {
 			calendar: {
@@ -157,8 +149,6 @@ const actions = {
 			calendarObjectId: calendarObject.id
 		})
 
-		console.debug('added calendar-object to new calendar')
-
 		context.commit('deleteCalendarObjectFromCalendar', {
 			calendar: {
 				id: oldCalendarId
@@ -170,13 +160,11 @@ const actions = {
 			calendarObjectId: oldCalendarObjectId
 		})
 
-		console.debug('Removed calendar-object from old calendar')
-
 		context.commit('incrementModificationCount')
 	},
 
 	/**
-	 * Update a calendar-object
+	 * Updates a calendar-object
 	 *
 	 * @param {Object} context the store mutations
 	 * @param {Object} data destructuring object
@@ -202,7 +190,7 @@ const actions = {
 		const calendar = context.getters.getCalendarById(calendarObject.calendarId)
 		calendarObject.dav = await calendar.dav.createVObject(calendarObject.vcalendar.toICS())
 
-		context.commit('appendCalendarObject', calendarObject)
+		context.commit('appendCalendarObject', { calendarObject })
 		context.commit('addCalendarObjectToCalendar', {
 			calendar: {
 				id: calendarObject.calendarId
@@ -217,6 +205,7 @@ const actions = {
 	},
 
 	/**
+	 * Creates a new calendar-object from an recurrence-exception fork
 	 *
 	 * @param {Object} context The Vuex context
 	 * @param {Object} data destructuring object
@@ -229,7 +218,7 @@ const actions = {
 		const calendarObject = new CalendarObject(eventComponent.root, calendar.id)
 		calendarObject.dav = await calendar.dav.createVObject(calendarObject.vcalendar.toICS())
 
-		context.commit('appendCalendarObject', calendarObject)
+		context.commit('appendCalendarObject', { calendarObject })
 		context.commit('addCalendarObjectToCalendar', {
 			calendar: {
 				id: calendarObject.calendarId
@@ -244,7 +233,7 @@ const actions = {
 	},
 
 	/**
-	 * Delete a calendar-object
+	 * Deletes a calendar-object
 	 *
 	 * @param {Object} context the store mutations
 	 * @param {Object} data destructuring object
@@ -272,6 +261,7 @@ const actions = {
 	},
 
 	/**
+	 * Creates a new calendar object based on start, end, timezone and isAllDay
 	 *
 	 * @param {Object} context the store mutations
 	 * @param {Object} data destructuring object
@@ -310,6 +300,7 @@ const actions = {
 	},
 
 	/**
+	 * Updates the time of the new calendar object
 	 *
 	 * @param {Object} context the store mutations
 	 * @param {Object} data destructuring object
@@ -339,9 +330,14 @@ const actions = {
 		}
 
 		const eventComponent = calendarObject.vcalendar.getEventIterator().next().value
+		const isDirty = eventComponent.isDirty()
+
 		eventComponent.startDate = startDateTime
 		eventComponent.endDate = endDateTime
-		eventComponent.undirtify()
+
+		if (!isDirty) {
+			eventComponent.undirtify()
+		}
 	}
 }
 

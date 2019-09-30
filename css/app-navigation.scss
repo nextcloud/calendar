@@ -99,98 +99,181 @@
 		}
 	}
 
-	ul {
+	button.icon-share {
+		opacity: 0.3 !important;
+	}
 
-		// New Calendar / New Subscription
-		> li.new-entity-container {
+	button.icon-shared,
+	button.icon-public {
+		opacity: 0.7 !important;
+	}
 
-			div.app-navigation-entry-edit {
-				padding-left: 5px !important;
-			}
+	span.shared-label {
+		margin-left: -12px;
+	}
 
-			input:not([type='text']):last-child {
-				border-top-right-radius: 3px;
-				border-bottom-right-radius: 3px;
-			}
+	button.icon-share:active,
+	button.icon-share:focus,
+	button.icon-share:hover,
+	button.icon-shared:active,
+	button.icon-shared:focus,
+	button.icon-shared:hover,
+	button.icon-public:active,
+	button.icon-public:focus,
+	button.icon-public:hover {
+		opacity: 1 !important;
+	}
 
-			span.icon-loading-small {
-				position: absolute;
-				margin-top: 14px;
-				margin-left: calc(50% - 36px);
-			}
+	#calendars-list {
+		display: block !important;
+	}
+
+	li.app-navigation-loading-placeholder-entry {
+		div.icon.icon-loading {
+			min-height: 44px;
+		}
+	}
+
+	.app-navigation-entry.deleted {
+		.app-navigation-entry__title {
+			text-decoration: line-through;
+		}
+	}
+
+	.app-navigation-entry.open-sharing {
+		box-shadow: inset 4px 0 var(--color-primary) !important;
+	}
+
+	.app-navigation-entry.disabled {
+		.app-navigation-entry__title {
+			color: var(--color-text-lighter) !important;
+		}
+	}
+
+	.app-navigation-entry .app-navigation-entry__children .app-navigation-entry {
+		padding-left: 0 !important;
+
+		.avatar {
+			width: 32px;
+			height: 32px;
+			background-color: #DBDBDB;
 		}
 
+		.avatar.published {
+			background-color: var(--color-primary);
+		}
+	}
+
+	.app-navigation-entry__multiselect {
+		padding-left: 8px;
+	}
+
+	.app-navigation-entry__icon-bullet-disabled {
+		display: block;
+		// there is 2 margins
+		padding: 15px;
+		div {
+			border: 1px solid var(--color-border-dark);
+			width: 15px;
+			height: 15px;
+			cursor: pointer;
+			transition: background 100ms ease-in-out;
+			border-radius: 50%;
+		}
+	}
+
+	ul {
+
+		//// New Calendar / New Subscription
+		//> li.new-entity-container {
+		//
+		//	div.app-navigation-entry-edit {
+		//		padding-left: 5px !important;
+		//	}
+		//
+		//	input:not([type='text']):last-child {
+		//		border-top-right-radius: 3px;
+		//		border-bottom-right-radius: 3px;
+		//	}
+		//
+		//	span.icon-loading-small {
+		//		position: absolute;
+		//		margin-top: 14px;
+		//		margin-left: calc(50% - 36px);
+		//	}
+		//}
+
 		// Calendar list items / Subscription list items
-		> li.app-navigation-list-item {
+		> li.app-navigation-entry {
 
-			&.enabled {
-				> a {
-					opacity: 1;
-				}
+			//&.enabled {
+			//	> a {
+			//		opacity: 1;
+			//	}
+			//
+			//	> .app-navigation-entry-bullet {
+			//		border: 1px solid var(--color-border-dark)
+			//	}
+			//}
 
-				> .app-navigation-entry-bullet {
-					border: 1px solid var(--color-border-dark)
-				}
-			}
+			//&.icon.icon-loading {
+			//	margin-top: 22px;
+			//	margin-bottom: 44px;
+			//}
+			//
+			//&.separator {
+			//	height: 44px;
+			//}
 
-			&.icon.icon-loading {
-				margin-top: 22px;
-				margin-bottom: 44px;
-			}
-
-			&.separator {
-				height: 44px;
-			}
-
-			li.app-navigation-entry-utils-menu-button {
-
-				&.has-owner-avatar {
-					display: flex;
-					width: 60px !important;
-
-					.avatardiv {
-						margin: 6px 0;
-
-						.popovermenu {
-							> ul > li {
-								width: auto !important;
-							}
-						}
-					}
-				}
-
-				&.has-shared-label {
-					display: flex;
-					width: auto !important;
-
-					a.shared-label {
-						margin-top: 13px;
-
-						&:hover,
-						&:focus {
-							box-shadow: none;
-						}
-					}
-
-				}
-
-				button.icon-public,
-				button.icon-shared {
-					opacity: 1 !important;
-				}
-
-				button:hover,
-				button:focus {
-					opacity: 1 !important;
-				}
-
-			}
+			//li.app-navigation-entry-utils-menu-button {
+			//
+			//	&.has-owner-avatar {
+			//		display: flex;
+			//		width: 60px !important;
+			//
+			//		.avatardiv {
+			//			margin: 6px 0;
+			//
+			//			.popovermenu {
+			//				> ul > li {
+			//					width: auto !important;
+			//				}
+			//			}
+			//		}
+			//	}
+			//
+			//	&.has-shared-label {
+			//		display: flex;
+			//		width: auto !important;
+			//
+			//		a.shared-label {
+			//			margin-top: 13px;
+			//
+			//			&:hover,
+			//			&:focus {
+			//				box-shadow: none;
+			//			}
+			//		}
+			//
+			//	}
+			//
+			//	button.icon-public,
+			//	button.icon-shared {
+			//		opacity: 1 !important;
+			//	}
+			//
+			//	button:hover,
+			//	button:focus {
+			//		opacity: 1 !important;
+			//	}
+			//
+			//}
 
 			div.sharing-section {
-				box-shadow: inset 4px 0 var(--color-primary);
-				padding-left: 12px;
-				padding-right: 12px;
-				width: 100%;
+				//box-shadow: inset 4px 0 var(--color-primary);
+				//padding-left: 12px;
+				//padding-right: 12px;
+				//width: 100%;
 
 				div.multiselect {
 					width: calc(100% - 14px);
@@ -215,15 +298,7 @@
 						align-items: center;
 						position: relative;
 
-						.avatar {
-							width: 32px;
-							height: 32px;
-							background-color: #DBDBDB;
-						}
 
-						.avatar.published {
-							background-color: var(--color-primary);
-						}
 
 						.username {
 							padding: 0 8px;
@@ -266,9 +341,9 @@
 			}
 		}
 
-		li.spacer {
-			box-shadow: none !important;
-		}
+		//li.spacer {
+		//	box-shadow: none !important;
+		//}
 	}
 
 	#app-settings {

@@ -19,7 +19,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import Vue from 'vue'
 import HttpClient from 'nextcloud-axios'
 import client from '../services/caldavService.js'
 import { getLinkToConfig } from '../services/settingsService'
@@ -27,14 +26,12 @@ import { mapDavCollectionToCalendar } from '../models/calendar'
 import detectTimezone from '../services/timezoneDetectionService'
 
 const state = {
-	settings: {
-		appVersion: null,
-		firstRun: null,
-		showWeekends: null,
-		showWeekNumbers: null,
-		skipPopover: null,
-		timezone: null
-	}
+	appVersion: null,
+	firstRun: null,
+	showWeekends: null,
+	showWeekNumbers: null,
+	skipPopover: null,
+	timezone: null
 }
 
 const mutations = {
@@ -45,7 +42,7 @@ const mutations = {
 	 * @param {Object} state The Vuex state
 	 */
 	togglePopoverEnabled(state) {
-		state.settings.showPopover = !state.settings.showPopover
+		state.showPopover = !state.showPopover
 	},
 
 	/**
@@ -54,7 +51,7 @@ const mutations = {
 	 * @param {Object} state The Vuex state
 	 */
 	toggleWeekendsEnabled(state) {
-		state.settings.showWeekends = !state.settings.showWeekends
+		state.showWeekends = !state.showWeekends
 	},
 
 	/**
@@ -63,7 +60,7 @@ const mutations = {
 	 * @param {Object} state The Vuex state
 	 */
 	toggleWeekNumberEnabled(state) {
-		state.settings.showWeekNumbers = !state.settings.showWeekNumbers
+		state.showWeekNumbers = !state.showWeekNumbers
 	},
 
 	/**
@@ -74,7 +71,7 @@ const mutations = {
 	 * @param {String} data.timezoneId The new timezone
 	 */
 	setTimezone(state, { timezoneId }) {
-		state.settings.timezone = timezoneId
+		state.timezone = timezoneId
 	},
 
 	/**
@@ -85,13 +82,20 @@ const mutations = {
 	 */
 	loadSettingsFromServer(state, settings) {
 		console.debug('Initial settings:', settings)
-		Vue.set(state, 'settings', settings)
+
+		state.appVersion = settings.appVersion
+		state.firstRun = settings.firstRun
+		state.showWeekNumbers = settings.showWeekNumbers
+		state.showWeekends = settings.showWeekends
+		state.skipPopover = settings.skipPopover
+		state.timezone = settings.timezone
 	}
 }
 
 const getters = {
 
 	/**
+	 * Whether or not a birthday calendar exists
 	 *
 	 * @param {Object} state The Vuex state
 	 * @param {Object} getters the vuex getters
@@ -102,20 +106,16 @@ const getters = {
 	},
 
 	/**
-	 *
-	 * @param {Object} state The Vuex state
-	 * @returns {Object}
-	 */
-	getSettings: (state) => state.settings,
-
-	/**
+	 * Gets the resolved timezone.
+	 * If the timezone is set to automatic, it returns the user's current timezone
+	 * Otherwise, it returns the Olsen timezone stored
 	 *
 	 * @param {Object} state The Vuex state
 	 * @returns {String}
 	 */
-	getResolvedTimezone: (state) => state.settings.timezone === 'automatic'
+	getResolvedTimezone: (state) => state.timezone === 'automatic'
 		? detectTimezone()
-		: state.settings.timezone
+		: state.timezone
 }
 
 const actions = {
@@ -145,7 +145,7 @@ const actions = {
 	 * @returns {Promise<void>}
 	 */
 	async togglePopoverEnabled(context) {
-		const newState = !context.state.settings.showPopover
+		const newState = !context.state.showPopover
 		const value = newState ? 'no' : 'yes'
 
 		await HttpClient.post(getLinkToConfig('skipPopover'), { value })
@@ -163,7 +163,7 @@ const actions = {
 	 * @returns {Promise<void>}
 	 */
 	async toggleWeekendsEnabled(context) {
-		const newState = !context.state.settings.showWeekends
+		const newState = !context.state.showWeekends
 		const value = newState ? 'yes' : 'no'
 
 		await HttpClient.post(getLinkToConfig('showWeekends'), { value })
@@ -181,7 +181,7 @@ const actions = {
 	 * @returns {Promise<void>}
 	 */
 	async toggleWeekNumberEnabled(context) {
-		const newState = !context.state.settings.showWeekNumbers
+		const newState = !context.state.showWeekNumbers
 		const value = newState ? 'yes' : 'no'
 
 		await HttpClient.post(getLinkToConfig('showWeekNr'), { value })
@@ -193,6 +193,8 @@ const actions = {
 	},
 
 	/**
+	 * Updates the view to be used as initial view when opening
+	 * the calendar app again
 	 *
 	 * @param {Object} context The Vuex context
 	 * @param {Object} data The destructuring object
@@ -214,6 +216,10 @@ const actions = {
 	 * @returns {Promise<void>}
 	 */
 	async setTimezone(context, { timezoneId }) {
+		if (context.state.timezone === timezoneId) {
+			return
+		}
+
 		await HttpClient.post(getLinkToConfig('timezone'), {
 			value: timezoneId
 		}).then((response) => {

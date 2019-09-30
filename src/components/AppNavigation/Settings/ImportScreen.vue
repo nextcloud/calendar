@@ -21,31 +21,40 @@
   -->
 
 <template>
-	<modal @close="cancelImport">
-		<h2>{{ importLabel }}</h2>
-		<h4>Please select a calendar to import into ...</h4>
-		<transition-group name="file-list" tag="ul">
-			<li :key="'file-list-header-bar'" class="import-file-row import-file-row-header">
-				<div class="import-file-row-filename">
-					{{ fileNameLabel }}
+	<modal class="import-modal" @close="cancelImport">
+		<h2 class="import-modal__title">
+			{{ $t('calendar', 'Import calendars') }}
+		</h2>
+		<h4 class="import-modal__subtitle">
+			{{ $t('calendar', 'Please select a calendar to import into ...') }}
+		</h4>
+
+		<transition-group class="import-modal__file-list" tag="ul">
+			<li :key="headerRowKey" class="import-modal-file-item import-modal-file-item--header">
+				<div class="import-modal-file-item__filename">
+					{{ $t('calendar', 'Filename') }}
 				</div>
-				<div class="import-file-row-select">
-					{{ calendarLabel }}
+				<div class="import-modal-file-item__calendar-select">
+					{{ $t('calendar', 'Calendar to import into') }}
 				</div>
 			</li>
 			<import-screen-row v-for="(file, index) in files" :key="`import-file-${index}`" :file="file" />
 		</transition-group>
-		<button @click="cancelImport">
-			Cancel
-		</button>
-		<button class="primary" @click="importCalendar">
-			Import
-		</button>
+
+		<div class="import-modal__actions">
+			<button @click="cancelImport">
+				{{ $t('calendar', 'Cancel' )}}
+				Cancel
+			</button>
+			<button class="primary" @click="importCalendar">
+				{{ $n('calendar', 'Import calendar', 'Import calendars', files.length) }}
+			</button>
+		</div>
 	</modal>
 </template>
 
 <script>
-import ImportScreenRow from './ImportScreen/ImportScreenRow.vue'
+import ImportScreenRow from './ImportScreenRow.vue'
 import {
 	Modal
 } from 'nextcloud-vue'
@@ -63,17 +72,8 @@ export default {
 		},
 	},
 	computed: {
-		importLabel() {
-			return t('calendar', 'Import calendars')
-		},
-		fileNameLabel() {
-			return t('calendar', 'Filename')
-		},
-		calendarLabel() {
-			return t('calendar', 'Calendar to import into')
-		},
-		canBeClosed() {
-			return true
+		headerRowKey() {
+			return this._uid + '-header-row'
 		}
 	},
 	methods: {

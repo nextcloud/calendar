@@ -1,13 +1,23 @@
 <template>
-	<multiselect :value="selectedTimezone" :options="options" :multiple="false"
-		:group-select="false" :placeholder="placeholder" group-values="regions"
-		group-label="continent" track-by="timezoneId" label="label"
-		open-direction="above" @input="change"
+	<multiselect
+		:value="selectedTimezone"
+		:options="options"
+		:multiple="false"
+		:group-select="false"
+		:placeholder="placeholder"
+		group-values="regions"
+		group-label="continent"
+		track-by="timezoneId"
+		label="label"
+		open-direction="above"
+		@input="change"
 	/>
 </template>
 
 <script>
-import { Multiselect } from 'nextcloud-vue'
+import {
+	Multiselect
+} from 'nextcloud-vue'
 import {
 	getReadableTimezoneName,
 	getSortedTimezoneList

@@ -32,9 +32,10 @@ const mutations = {
 	 * Append multiple contacts to the store
 	 *
 	 * @param {Object} state The store data
-	 * @param {Array} contacts List of contacts to add
+	 * @param {Object} data The destructuring object
+	 * @param {Object[]} data.contacts List of contacts to add
 	 */
-	appendContacts(state, contacts = []) {
+	appendContacts(state, { contacts = [] }) {
 		for (const contact of contacts) {
 			if (state.contacts.indexOf(contact) === -1) {
 				state.contacts.push(contact)
@@ -50,9 +51,10 @@ const mutations = {
 	 * Append a single contact to the store
 	 *
 	 * @param {Object} state The store data
-	 * @param {Object} contact The contact to append to the store
+	 * @param {Object} data The destructuring object
+	 * @param {Object} data.contact The contact to append to the store
 	 */
-	appendContact(state, contact) {
+	appendContact(state, { contact }) {
 		if (state.contacts.indexOf(contact) === -1) {
 			state.contacts.push(contact)
 		}
@@ -66,9 +68,10 @@ const mutations = {
 	 * Removes a single contact from the store
 	 *
 	 * @param {Object} state The store data
-	 * @param {Object} contact The contact to remove from the store
+	 * @param {Object} data The destructuring object
+	 * @param {Object} data.contact The contact to remove from the store
 	 */
-	removeContact(state, contact) {
+	removeContact(state, { contact }) {
 		for (const email of contact.email) {
 			if (state.contactByEMail[email] === contact) {
 				Vue.delete(state.contactByEMail, email)

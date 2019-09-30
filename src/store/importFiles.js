@@ -63,9 +63,10 @@ const mutations = {
 	 * Removes one file from state
 	 *
 	 * @param {Object} state The vuex state
-	 * @param {Number} fileId Id of the file to remove
+	 * @param {Object} data The destructuring object
+	 * @param {Number} data.fileId Id of the file to remove
 	 */
-	removeFile(state, fileId) {
+	removeFile(state, { fileId }) {
 		const object = state.importFilesById[fileId]
 		const index = state.importFiles.indexOf(object)
 

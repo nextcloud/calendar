@@ -21,7 +21,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+/* eslint-disable import/first */
 import Vue from 'vue'
+Vue.config.devtools = true
+
 import Vuex from 'vuex'
 import calendarObjects from './calendarObjects'
 import calendars from './calendars.js'
@@ -35,8 +38,6 @@ import settings from './settings.js'
 
 Vue.use(Vuex)
 
-const mutations = {}
-
 export default new Vuex.Store({
 	modules: {
 		calendarObjects,
@@ -49,6 +50,6 @@ export default new Vuex.Store({
 		principals,
 		settings
 	},
-
-	mutations
+	// // Throw errors when the state is edited outside of mutations
+	// strict: true
 })

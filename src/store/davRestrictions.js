@@ -19,13 +19,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import Vue from 'vue'
-
 const state = {
-	davRestrictions: {
-		minimumDate: '1970-01-01T00:00:00Z',
-		maximumDate: '2036-12-31T23:59:59Z'
-	}
+	minimumDate: '1970-01-01T00:00:00Z',
+	maximumDate: '2036-12-31T23:59:59Z'
 }
 
 const mutations = {
@@ -37,7 +33,8 @@ const mutations = {
 	 * @param {Object} davRestrictions The full settings object
 	 */
 	loadDavRestrictionsFromServer(state, davRestrictions) {
-		Vue.set(state, 'davRestrictions', davRestrictions)
+		state.minimumDate = davRestrictions.minimumDate
+		state.maximumDate = davRestrictions.maximumDate
 	}
 }
 

@@ -40,7 +40,7 @@ const state = {
 const mutations = {
 
 	/**
-	 * Add calendar into state
+	 * Adds calendar into state
 	 *
 	 * @param {Object} state the store data
 	 * @param {Object} data destructuring object
@@ -54,7 +54,7 @@ const mutations = {
 	},
 
 	/**
-	 * Delete calendar
+	 * Deletes a calendar
 	 *
 	 * @param {Object} state the store data
 	 * @param {Object} data destructuring object
@@ -66,7 +66,8 @@ const mutations = {
 	},
 
 	/**
-	 * Toggle whether a calendar is Enabled
+	 * Toggles a calendar's visibility
+	 *
 	 * @param {Object} state the store mutations
 	 * @param {Object} data destructuring object
 	 * @param {Object} data.calendar the calendar to toggle
@@ -76,7 +77,8 @@ const mutations = {
 	},
 
 	/**
-	 * Rename a calendar
+	 * Renames a calendar
+	 *
 	 * @param {Object} state the store mutations
 	 * @param {Object} data destructuring object
 	 * @param {Object} data.calendar the calendar to rename
@@ -87,7 +89,8 @@ const mutations = {
 	},
 
 	/**
-	 * Change calendar's color
+	 * Changes calendar's color
+	 *
 	 * @param {Object} state the store mutations
 	 * @param {Object} data destructuring object
 	 * @param {Object} data.calendar the calendar to rename
@@ -98,7 +101,8 @@ const mutations = {
 	},
 
 	/**
-	 * Change calendar's order
+	 * Changes calendar's order
+	 *
 	 * @param {Object} state the store mutations
 	 * @param {Object} data destructuring object
 	 * @param {Object} data.calendar the calendar to rename
@@ -109,7 +113,7 @@ const mutations = {
 	},
 
 	/**
-	 * Add multiple calendar-objects to calendar
+	 * Adds multiple calendar-objects to calendar
 	 *
 	 * @param {Object} state the store mutations
 	 * @param {Object} data destructuring object
@@ -125,7 +129,7 @@ const mutations = {
 	},
 
 	/**
-	 * Add calendar-object to calendar
+	 * Adds calendar-object to calendar
 	 *
 	 * @param {Object} state the store mutations
 	 * @param {Object} data destructuring object
@@ -139,7 +143,7 @@ const mutations = {
 	},
 
 	/**
-	 * Remove calendar-object from calendar
+	 * Removes calendar-object from calendar
 	 *
 	 * @param {Object} state the store mutations
 	 * @param {Object} data destructuring object
@@ -155,7 +159,7 @@ const mutations = {
 	},
 
 	/**
-	 * Add fetched time-range to calendar
+	 * Adds fetched time-range to calendar
 	 *
 	 * @param {Object} state the store mutations
 	 * @param {Object} data destructuring object
@@ -168,7 +172,7 @@ const mutations = {
 	},
 
 	/**
-	 * Remove fetched time-range from calendar
+	 * Removes fetched time-range from calendar
 	 *
 	 * @param {Object} state the store mutations
 	 * @param {Object} data destructuring object
@@ -184,7 +188,7 @@ const mutations = {
 	},
 
 	/**
-	 * Share calendar with a user or group
+	 * Shares calendar with a user or group
 	 *
 	 * @param {Object} state the store data
 	 * @param {Object} data destructuring object
@@ -206,7 +210,7 @@ const mutations = {
 	},
 
 	/**
-	 * Remove Sharee from calendar shares list
+	 * Removes Sharee from calendar shares list
 	 *
 	 * @param {Object} state the store data
 	 * @param {Object} data destructuring object
@@ -220,7 +224,7 @@ const mutations = {
 	},
 
 	/**
-	 * Toggle sharee's writable permission
+	 * Toggles sharee's writable permission
 	 *
 	 * @param {Object} state the store data
 	 * @param {Object} data destructuring object
@@ -234,7 +238,7 @@ const mutations = {
 	},
 
 	/**
-	 * Publish a calendar calendar
+	 * Publishes a calendar calendar
 	 *
 	 * @param {Object} state the store data
 	 * @param {Object} data destructuring object
@@ -247,7 +251,7 @@ const mutations = {
 	},
 
 	/**
-	 * Unpublish a calendar
+	 * Unpublishes a calendar
 	 *
 	 * @param {Object} state the store data
 	 * @param {Object} data destructuring object
@@ -259,7 +263,7 @@ const mutations = {
 	},
 
 	/**
-	 * Mark initial loading of calendars as complete
+	 * Marks initial loading of calendars as complete
 	 *
 	 * @param {Object} state the store data
 	 */
@@ -268,7 +272,7 @@ const mutations = {
 	},
 
 	/**
-	 * Mark a calendar as loading
+	 * Marks a calendar as loading
 	 *
 	 * @param {Object} state the store data
 	 * @param {Object} data destructuring object
@@ -279,7 +283,7 @@ const mutations = {
 	},
 
 	/**
-	 * Mark a calendar as finished loading
+	 * Marks a calendar as finished loading
 	 *
 	 * @param {Object} state the store data
 	 * @param {Object} data destructuring object
@@ -293,6 +297,19 @@ const mutations = {
 const getters = {
 
 	/**
+	 * List of sorted calendars and subscriptions
+	 *
+	 * @param {Object} state the store data
+	 * @returns {Array}
+	 */
+	sortedCalendarsSubscriptions(state) {
+		return state.calendars
+			.filter(calendar => calendar.supportsEvents)
+			.sort((a, b) => a.order - b.order)
+	},
+
+	/**
+	 * List of sorted calendars
 	 *
 	 * @param {Object} state the store data
 	 * @returns {Array}
@@ -305,6 +322,7 @@ const getters = {
 	},
 
 	/**
+	 * List of sorted subscriptions
 	 *
 	 * @param {Object} state the store data
 	 * @returns {Array}
@@ -317,6 +335,7 @@ const getters = {
 	},
 
 	/**
+	 * List of enabled calendars and subscriptions
 	 *
 	 * @param {Object} state the store data
 	 * @returns {Array}
@@ -328,13 +347,7 @@ const getters = {
 	},
 
 	/**
-	 *
-	 * @param {Object} state the store data
-	 * @returns {boolean}
-	 */
-	didCalendarsLoad: (state) => state.initialCalendarsLoaded,
-
-	/**
+	 * Gets a calendar by it's Id
 	 *
 	 * @param {Object} state the store data
 	 * @returns {function({String}): {Object}}
@@ -342,9 +355,10 @@ const getters = {
 	getCalendarById: (state) => (calendarId) => state.calendarsById[calendarId],
 
 	/**
+	 * Gets the contact's birthday calendar or null
 	 *
 	 * @param {Object} state the store data
-	 * @returns {boolean}
+	 * @returns {Object|null}
 	 */
 	getBirthdayCalendar: (state) => {
 		for (const calendar of state.calendars) {
@@ -467,10 +481,17 @@ const actions = {
 	 * @returns {Promise}
 	 */
 	async toggleCalendarEnabled(context, { calendar }) {
+		context.commit('markCalendarAsLoading', { calendar })
 		calendar.dav.enabled = !calendar.dav.enabled
 		return calendar.dav.update()
-			.then((response) => context.commit('toggleCalendarEnabled', { calendar }))
-			.catch((error) => { throw error })
+			.then((response) => {
+				context.commit('markCalendarAsNotLoading', { calendar })
+				context.commit('toggleCalendarEnabled', { calendar })
+			})
+			.catch((error) => {
+				context.commit('markCalendarAsNotLoading', { calendar })
+				throw error
+			})
 	},
 
 	/**
@@ -657,7 +678,7 @@ const actions = {
 					calendarObjectIds.push(calendarObject.id)
 				}
 
-				context.commit('appendCalendarObjects', calendarObjects)
+				context.commit('appendCalendarObjects', { calendarObjects })
 				context.commit('appendCalendarObjectsToCalendar', { calendar, calendarObjectIds })
 				context.commit('appendCalendarObjectIdsToTimeFrame', {
 					timeRangeId: insertId,
@@ -699,7 +720,7 @@ const actions = {
 		const calendar = context.state.calendarsById[calendarId]
 		const vObject = await calendar.dav.find(objectFileName)
 		const calendarObject = new CalendarObject(vObject.data, calendar.id, vObject)
-		context.commit('appendCalendarObject', calendarObject)
+		context.commit('appendCalendarObject', { calendarObject })
 		context.commit('addCalendarObjectToCalendar', {
 			calendar: {
 				id: calendarId
@@ -767,7 +788,7 @@ const actions = {
 					const ics = item.toICS()
 					return calendar.dav.createVObject(ics).then((davObject) => {
 						const calendarObject = new CalendarObject(davObject.data, calendarId, davObject)
-						context.commit('appendCalendarObject', calendarObject)
+						context.commit('appendCalendarObject', { calendarObject })
 						context.commit('addCalendarObjectToCalendar', {
 							calendar,
 							calendarObjectId: calendarObject.id
