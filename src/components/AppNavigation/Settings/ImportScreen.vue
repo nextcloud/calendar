@@ -21,7 +21,7 @@
   -->
 
 <template>
-	<modal class="import-modal" @close="cancelImport">
+	<modal class="import-modal" size="large" @close="cancelImport">
 		<h2 class="import-modal__title">
 			{{ $t('calendar', 'Import calendars') }}
 		</h2>
@@ -44,7 +44,6 @@
 		<div class="import-modal__actions">
 			<button @click="cancelImport">
 				{{ $t('calendar', 'Cancel' )}}
-				Cancel
 			</button>
 			<button class="primary" @click="importCalendar">
 				{{ $n('calendar', 'Import calendar', 'Import calendars', files.length) }}

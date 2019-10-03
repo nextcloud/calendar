@@ -21,36 +21,31 @@
  */
 
 .import-modal {
+	.modal-container {
+		padding: 24px !important;
+		min-width: 50%;
+		overflow: visible !important;
 
-	&__title {
-
-	}
-
-	&__subtitle {
-
-	}
-
-	&__file-list {
-
-	}
-
-	&__actions {
-
-	}
-
-	.import-modal-file-item {
-
-		&--header {
-
+		.import-modal__title,
+		.import-modal__subtitle {
+			text-align: center;
 		}
 
-		&__filename {
+		.import-modal-file-item {
+			display: flex;
+			padding-top: 10px;
 
-		}
+			&--header {
+				font-weight: bold;
+			}
 
-		&__calendar-select {
+			&__filename {
+				flex: 2 1 0;
+			}
 
+			&__calendar-select {
+				flex: 1 1 0;
+			}
 		}
 	}
-
 }
