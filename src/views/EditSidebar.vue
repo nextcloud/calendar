@@ -26,6 +26,7 @@
 	<AppSidebar
 		:title="title"
 		:title-editable="true"
+		:subtitle="subTitle"
 		@close="cancel"
 		@update:title="updateTitle">
 		<template v-slot:primary-actions style="max-height: none !important">
@@ -170,10 +171,9 @@ export default {
 				return ''
 			}
 
-			console.debug(moment)
-			console.debug(this.eventComponent.startDate)
+			// This is hardcoded for now till https://github.com/ChristophWurst/nextcloud-moment/issues/31 is fixed
+			moment.locale('en')
 			return moment(this.eventComponent.startDate.jsDate).fromNow()
-			// return 'in 5 days'
 		}
 	},
 	methods: {
