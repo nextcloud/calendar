@@ -143,6 +143,7 @@ export default {
 		 * @param {Event} event The change-event of the input-field
 		 */
 		async processFiles(event) {
+			console.debug('user changed files')
 			this.$store.commit('changeStage', 'processing')
 			let addedFiles = false
 
