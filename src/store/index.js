@@ -26,6 +26,7 @@ import Vue from 'vue'
 Vue.config.devtools = true
 
 import Vuex from 'vuex'
+import calendarObjectInstance from './calendarObjectInstance'
 import calendarObjects from './calendarObjects'
 import calendars from './calendars.js'
 import contacts from './contacts.js'
@@ -40,6 +41,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
 	modules: {
+		calendarObjectInstance,
 		calendarObjects,
 		calendars,
 		contacts,
