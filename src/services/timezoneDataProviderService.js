@@ -21,7 +21,7 @@
  */
 import tzData from '../../timezones/zones.json'
 import { getTimezoneManager } from 'calendar-js'
-import logger from './loggerService'
+import logger from '../utils/logger.js'
 
 const timezoneManager = getTimezoneManager()
 let initialized = false

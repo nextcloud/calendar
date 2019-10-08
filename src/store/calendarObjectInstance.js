@@ -23,7 +23,7 @@ import Vue from 'vue'
 import getTimezoneManager from '../services/timezoneDataProviderService'
 import {
 	getDateFromDateTimeValue
-} from '../services/dateService.js'
+} from '../utils/date.js'
 import DurationValue from 'calendar-js/src/values/durationValue.js'
 import AttendeeProperty from 'calendar-js/src/properties/attendeeProperty.js'
 

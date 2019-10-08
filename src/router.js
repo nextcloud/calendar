@@ -26,7 +26,7 @@ import { linkTo } from 'nextcloud-router'
 import Calendar from './views/Calendar'
 import EditSimple from './views/EditSimple'
 import EditSidebar from './views/EditSidebar'
-import { getConfigValueFromHiddenInput } from './services/settingsService'
+import { getConfigValueFromHiddenInput } from './utils/settings.js'
 import windowTitleService from './services/windowTitleService.js'
 
 Vue.use(Router)

@@ -23,7 +23,7 @@
  */
 import Vue from 'vue'
 import CalendarObject from '../models/calendarObject'
-import logger from '../services/loggerService'
+import logger from '../utils/logger.js'
 import DateTimeValue from 'calendar-js/src/values/dateTimeValue'
 import { createEvent, getTimezoneManager } from 'calendar-js'
 

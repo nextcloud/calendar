@@ -21,7 +21,7 @@
  */
 import Vue from 'vue'
 import client from '../services/caldavService.js'
-import logger from '../services/loggerService'
+import logger from '../utils/logger.js'
 import { getDefaultPrincipalObject, mapDavToPrincipal } from '../models/principal'
 
 const state = {

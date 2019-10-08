@@ -21,7 +21,7 @@ import {
 import {
 	getReadableTimezoneName,
 	getSortedTimezoneList
-} from '../../services/timezoneSortingService'
+} from '../../utils/timezone.js'
 
 export default {
 	name: 'TimezoneSelect',

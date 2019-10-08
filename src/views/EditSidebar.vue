@@ -189,18 +189,6 @@
 		<!--<AppSidebarTab :name="$t('calendar', 'Projects')" icon="icon-projects" :order="5">-->
 		<!--	This is the projects tab-->
 		<!--</AppSidebarTab>-->
-
-		<!--		<div v-if="!isReadOnly" class="app-sidebar-button-area-bottom">-->
-		<!--			<button v-if="!canCreateRecurrenceException" class="primary one-option" @click="saveAndLeave(false)">-->
-		<!--				{{ updateLabel }}-->
-		<!--			</button>-->
-		<!--			<button v-if="canCreateRecurrenceException" class="primary two-options" @click="saveAndLeave(false)">-->
-		<!--				{{ $t('calendar', 'Update this occurrence') }}-->
-		<!--			</button>-->
-		<!--			<button v-if="canCreateRecurrenceException" class="two-options" @click="saveAndLeave(true)">-->
-		<!--				{{ $t('calendar', 'Update this and all future') }}-->
-		<!--			</button>-->
-		<!--		</div>-->
 	</AppSidebar>
 </template>
 <script>
@@ -221,9 +209,9 @@ import PropertyTitleTimePicker from '../components/Editor/Properties/PropertyTit
 import Repeat from '../components/Editor/Repeat/Repeat.vue'
 
 import EditorMixin from '../mixins/EditorMixin'
-import { getIllustrationForTitle } from '../services/illustrationProviderService.js'
+import { getIllustrationForTitle } from '../utils/illustration.js'
 import IllustrationHeader from '../components/Editor/IllustrationHeader.vue'
-import { getDefaultColor } from '../services/colorService.js'
+import { getDefaultColor } from '../utils/color.js'
 import moment from 'nextcloud-moment'
 
 export default {
@@ -246,19 +234,8 @@ export default {
 		EditorMixin
 	],
 	computed: {
-		startEndDateHash() {
-			if (this.$route.name !== 'NewSidebarView') {
-				return undefined
-			}
-
-			return [
-				this.$route.params.allDay,
-				this.$route.params.dtstart,
-				this.$route.params.dtend,
-			].join('#')
-		},
 		backgroundImage() {
-			return getIllustrationForTitle('foo')
+			return getIllustrationForTitle(this.title)
 		},
 		selectedCalendarColor() {
 			if (!this.selectedCalendar) {

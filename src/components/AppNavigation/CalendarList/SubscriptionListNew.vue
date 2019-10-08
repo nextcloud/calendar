@@ -44,7 +44,7 @@ import {
 	ActionInput
 } from 'nextcloud-vue'
 import ClickOutside from 'vue-click-outside'
-import { getRandomColor } from '../../../services/colorService.js'
+import { getRandomColor } from '../../../utils/color.js'
 
 export default {
 	name: 'SubscriptionListNew',

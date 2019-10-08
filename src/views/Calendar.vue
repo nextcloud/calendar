@@ -81,14 +81,14 @@ import {
 	Content
 } from 'nextcloud-vue'
 import debounce from 'debounce'
-import { getRandomColor } from '../services/colorService'
+import { getRandomColor } from '../utils/color.js'
 import client from '../services/caldavService.js'
-import { getConfigValueFromHiddenInput } from '../services/settingsService'
+import { getConfigValueFromHiddenInput } from '../utils/settings.js'
 import {
 	dateFactory,
 	getUnixTimestampFromDate,
 	getYYYYMMDDFromFirstdayParam
-} from '../services/dateService.js'
+} from '../utils/date.js'
 import eventAllow from '../fullcalendar/eventAllow'
 import eventClick from '../fullcalendar/eventClick'
 import eventDrop from '../fullcalendar/eventDrop'

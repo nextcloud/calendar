@@ -19,7 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { getDefaultColor } from '../services/colorService.js'
+import { getDefaultColor } from '../utils/color.js'
 import client from '../services/caldavService.js'
 
 /**

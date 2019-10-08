@@ -26,10 +26,10 @@
 import Vue from 'vue'
 import client from '../services/caldavService.js'
 import CalendarObject from '../models/calendarObject'
-import { dateFactory, getUnixTimestampFromDate } from '../services/dateService.js'
+import { dateFactory, getUnixTimestampFromDate } from '../utils/date.js'
 import { getDefaultCalendarObject, mapDavCollectionToCalendar } from '../models/calendar'
 import pLimit from 'p-limit'
-import { getRandomColor } from '../services/colorService'
+import { getRandomColor } from '../utils/color.js'
 
 const state = {
 	calendars: [],
