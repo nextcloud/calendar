@@ -26,7 +26,7 @@
 			:attendee-is-organizer="false"
 			:is-viewed-by-organizer="isViewedByOrganizer"
 			:avatar-link="avatarLink"
-			:participation-status="partStat"
+			:participation-status="attendee.participationStatus"
 			:organizer-display-name="organizerDisplayName"
 			:common-name="commonName"
 		/>
@@ -35,11 +35,36 @@
 		</div>
 		<div class="attendee-actions">
 			<Actions v-if="isViewedByOrganizer">
-				<ActionCheckbox :checked="rsvp" @change="toggleRSVP">{{ sendEMailLabel }}</ActionCheckbox>
-				<ActionCheckbox :checked="isRequiredParticipant" @check="changeRole('REQ-PARTICIPANT')" @uncheck="uncheckRole('REQ-PARTICIPANT')">{{ requiredParticipantLabel }}</ActionCheckbox>
-				<ActionCheckbox :checked="isOptionalParticipant" @check="changeRole('OPT-PARTICIPANT')" @uncheck="uncheckRole('OPT-PARTICIPANT')">{{ optionalParticipantLabel }}</ActionCheckbox>
-				<ActionCheckbox :checked="isNonParticipant" @check="changeRole('NON-PARTICIPANT')" @uncheck="uncheckRole('NON-PARTICIPANT')">{{ nonParticipantLabel }}</ActionCheckbox>
-				<ActionButton icon="icon-delete" @click="removeAttendee">{{ removeLabel }}</ActionButton>
+				<ActionCheckbox
+					:checked="attendee.rsvp"
+					@change="toggleRSVP">
+					{{ $t('calendar', 'Send e-mail') }}
+				</ActionCheckbox>
+
+				<ActionRadio
+					:name="radioName"
+					:checked="isRequiredParticipant"
+					@check="changeRole('REQ-PARTICIPANT')">
+					{{ $t('calendar', 'Required participant') }}
+				</ActionRadio>
+				<ActionRadio
+					:name="radioName"
+					:checked="isOptionalParticipant"
+					@check="changeRole('OPT-PARTICIPANT')">
+					{{ $t('calendar', 'Optional participant') }}
+				</ActionRadio>
+				<ActionRadio
+					:name="radioName"
+					:checked="isNonParticipant"
+					@check="changeRole('NON-PARTICIPANT')">
+					{{ $t('calendar', 'Non-participant') }}
+				</ActionRadio>
+
+				<ActionButton
+					icon="icon-delete"
+					@click="removeAttendee">
+					{{ $t('calendar', 'Remove attendee') }}
+				</ActionButton>
 			</Actions>
 		</div>
 	</div>
@@ -50,7 +75,8 @@ import AvatarParticipationStatus from './AvatarParticipationStatus'
 import {
 	Actions,
 	ActionCheckbox,
-	ActionButton
+	ActionButton,
+	ActionRadio
 } from 'nextcloud-vue'
 
 export default {
@@ -59,6 +85,7 @@ export default {
 		AvatarParticipationStatus,
 		ActionButton,
 		ActionCheckbox,
+		ActionRadio,
 		Actions
 	},
 	props: {
@@ -69,30 +96,11 @@ export default {
 		organizerDisplayName: {
 			type: String,
 			required: true
-		}
-	},
-	data() {
-		return {
-			cn: null,
-			partStat: '',
-			role: '',
-			rsvp: false,
-			uri: '',
-		}
-	},
-	watch: {
-		attendee: {
-			handler(newAttendee, oldAttendee) {
-				if (oldAttendee) {
-					oldAttendee.unsubscribe(this.handler)
-				}
-
-				this.handler = () => this.updateValuesFromAttendee()
-				newAttendee.subscribe(this.handler)
-				this.handler()
-			},
-			immediate: true
-		}
+		},
+		isReadOnly: {
+			type: Boolean,
+			required: true
+		},
 	},
 	computed: {
 		avatarLink() {
@@ -100,69 +108,58 @@ export default {
 			return this.commonName
 		},
 		commonName() {
-			if (this.cn) {
-				return this.cn
+			if (this.attendee.commonName) {
+				return this.attendee.commonName
 			}
 
-			if (this.uri && this.uri.startsWith('mailto:')) {
-				return this.uri.substr(7)
+			if (this.attendee.uri && this.attendee.uri.startsWith('mailto:')) {
+				return this.attendee.uri.substr(7)
 			}
 
-			return this.uri
+			return this.attendee.uri
 		},
-		sendEMailLabel() {
-			return t('calendar', 'Send e-mail')
+		radioName() {
+			return this._uid + '-role-radio-input-group'
 		},
 		isRequiredParticipant() {
-			return this.role === 'REQ-PARTICIPANT'
-		},
-		requiredParticipantLabel() {
-			return t('calendar', 'Required participant')
+			return this.attendee.role === 'REQ-PARTICIPANT'
 		},
 		isOptionalParticipant() {
-			return this.role === 'OPT-PARTICIPANT'
-		},
-		optionalParticipantLabel() {
-			return t('calendar', 'Optional participant')
+			return this.attendee.role === 'OPT-PARTICIPANT'
 		},
 		isNonParticipant() {
-			return this.role === 'NON-PARTICIPANT'
-		},
-		nonParticipantLabel() {
-			return t('calendar', 'Non-participant')
-		},
-		removeLabel() {
-			return t('calendar', 'Remove attendee')
+			return this.attendee.role === 'NON-PARTICIPANT'
 		},
 		isViewedByOrganizer() {
-			return true
+			// TODO: check if also viewed by organizer
+			return !this.isReadOnly
 		},
 	},
 	methods: {
+		/**
+		 * Toggles the RSVP flag of the attendee
+		 */
 		toggleRSVP() {
-			this.attendee.rsvp = !this.rsvp
-			this.rsvp = !this.rsvp
-		},
-		changeRole(newRole) {
-			this.attendee.role = newRole
-			this.role = newRole
-		},
-		uncheckRole(oldRole) {
-			this.role = ''
-			this.$nextTick(() => {
-				this.role = oldRole
+			this.$store.commit('toggleAttendeeRSVP', {
+				attendee: this.attendee
 			})
 		},
+		/**
+		 * Updates the role of the attendee
+		 *
+		 * @param {String} role The new role of the attendee
+		 */
+		changeRole(role) {
+			this.$store.commit('changeAttendeesRole', {
+				attendee: this.attendee,
+				role
+			})
+		},
+		/**
+		 * Removes an attendee from the event
+		 */
 		removeAttendee() {
 			this.$emit('removeAttendee', this.attendee)
-		},
-		updateValuesFromAttendee() {
-			this.cn = this.attendee.commonName
-			this.partStat = this.attendee.participationStatus
-			this.role = this.attendee.role
-			this.rsvp = this.attendee.rsvp
-			this.uri = this.attendee.email
-			this.$forceUpdate()
 		}
 	}
 }

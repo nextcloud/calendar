@@ -67,7 +67,7 @@
 			</ActionButton>
 		</template>
 
-		<AppSidebarTab name="Details" icon="icon-details" :order="0">
+		<AppSidebarTab :name="$t('calendar', 'Details')" icon="icon-details" :order="0">
 			<property-calendar-picker
 				:calendars="calendars"
 				:calendar="selectedCalendar"
@@ -101,23 +101,26 @@
 				:value="timeTransparency"
 				@update:value="updateTimeTransparency" />
 		</AppSidebarTab>
-		<AppSidebarTab name="Attendees" icon="icon-group" :order="1">
-			<invitees-list :event-component="eventComponent" :is-read-only="isReadOnly" />
+		<AppSidebarTab :name="$t('calendar', 'Attendees')" icon="icon-group" :order="1">
+			<invitees-list
+				v-if="!isLoading"
+				:calendar-object-instance="calendarObjectInstance"
+				:is-read-only="isReadOnly" />
 		</AppSidebarTab>
-		<AppSidebarTab name="Reminders" icon="icon-reminder" :order="2">
+		<AppSidebarTab :name="$t('calendar', 'Reminders')" icon="icon-reminder" :order="2">
 			<alarm-list :event-component="eventComponent" :is-read-only="isReadOnly" />
 		</AppSidebarTab>
-		<AppSidebarTab name="Repeat" icon="icon-repeat" :order="3">
+		<AppSidebarTab :name="$t('calendar', 'Repeat')" icon="icon-repeat" :order="3">
 			<!-- TODO: If not editing the master item, force updating this and all future   -->
 			<!-- TODO: You can't edit recurrence-rule of no-range recurrence-exception -->
 			<repeat :event-component="eventComponent" :is-read-only="isReadOnly" :is-editing-master-item="false" />
 		</AppSidebarTab>
-		<!--		<AppSidebarTab name="Activity" icon="icon-history" :order="4">-->
-		<!--			This is the activity tab-->
-		<!--		</AppSidebarTab>-->
-		<!--		<AppSidebarTab name="Projects" icon="icon-projects" :order="5">-->
-		<!--			This is the projects tab-->
-		<!--		</AppSidebarTab>-->
+		<!--<AppSidebarTab :name="$t('calendar', 'Activity')" icon="icon-history" :order="4">-->
+		<!--	This is the activity tab-->
+		<!--</AppSidebarTab>-->
+		<!--<AppSidebarTab :name="$t('calendar', 'Projects')" icon="icon-projects" :order="5">-->
+		<!--	This is the projects tab-->
+		<!--</AppSidebarTab>-->
 
 		<div v-if="!isReadOnly" class="app-sidebar-button-area-bottom">
 			<button v-if="!canCreateRecurrenceException" class="primary one-option" @click="saveAndLeave(false)">

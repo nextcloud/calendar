@@ -22,15 +22,23 @@
 
 <template>
 	<div>
-		<invitees-list-search />
-		<organizer-list-item :organizer="organizer" />
+		<invitees-list-search
+			v-if="!isReadOnly"
+			@addAttendee="addAttendee" />
+		<organizer-list-item
+			v-if="hasOrganizer"
+			:is-read-only="isReadOnly"
+			:organizer="calendarObjectInstance.organizer" />
 		<invitees-list-item
 			v-for="invitee in inviteesWithoutOrganizer"
 			:key="invitee.email"
 			:attendee="invitee"
+			:is-read-only="isReadOnly"
 			:organizer-display-name="organizerDisplayName"
 			@removeAttendee="removeAttendee"
 		/>
+		<no-invitees-view
+			v-if="isListEmpty" />
 	</div>
 </template>
 
@@ -38,10 +46,12 @@
 import InviteesListSearch from './InviteesListSearch'
 import InviteesListItem from './InviteesListItem'
 import OrganizerListItem from './OrganizerListItem'
+import NoInviteesView from './NoInviteesView.vue'
 
 export default {
 	name: 'InviteesList',
 	components: {
+		NoInviteesView,
 		InviteesListItem,
 		InviteesListSearch,
 		OrganizerListItem
@@ -51,60 +61,76 @@ export default {
 			type: Boolean,
 			required: true
 		},
-		eventComponent: {
-			validator: prop => typeof prop === 'object' || prop === null,
+		calendarObjectInstance: {
+			type: Object,
 			required: true
-		}
-	},
-	data() {
-		return {
-			invitees: [],
-			organizer: null
-		}
+		},
 	},
 	computed: {
 		inviteesWithoutOrganizer() {
-			if (!this.organizer) {
-				return this.invitees
+			if (!this.calendarObjectInstance.organizer) {
+				return this.calendarObjectInstance.attendees
 			}
 
-			console.debug(this.organizer.email)
-			return this.invitees.filter((i) => i.email !== this.organizer.email)
+			return this.calendarObjectInstance.attendees
+				.filter(attendee => attendee.uri !== this.calendarObjectInstance.organizer.uri)
+		},
+		hasOrganizer() {
+			return this.calendarObjectInstance.organizer !== null
 		},
 		organizerDisplayName() {
-			if (!this.organizer) {
+			if (!this.calendarObjectInstance.organizer) {
 				return ''
 			}
 
-			if (this.organizer.commonName) {
-				return this.organizer.commonName
+			if (this.calendarObjectInstance.organizer.commonName) {
+				return this.calendarObjectInstance.organizer.commonName
 			}
 
-			if (this.organizer.email.startsWith('mailto:')) {
-				return this.organizer.email.substr(7)
+			if (this.calendarObjectInstance.organizer.uri.startsWith('mailto:')) {
+				return this.calendarObjectInstance.organizer.uri.substr(7)
 			}
 
-			return this.organizer.email
-		}
-	},
-	watch: {
-		eventComponent() {
-			this.initValue()
+			return this.calendarObjectInstance.organizer.uri
+		},
+		isListEmpty() {
+			return this.calendarObjectInstance.organizer === null
+				&& this.calendarObjectInstance.attendees.length === 0
 		}
 	},
 	methods: {
-		initValue() {
-			this.organizer = this.eventComponent.getFirstProperty('organizer')
-			this.invitees = this.eventComponent.getAttendeeList()
+		addAttendee({ commonName, email, calendarUserType, language, timezoneId }) {
+			this.$store.commit('addAttendee', {
+				calendarObjectInstance: this.calendarObjectInstance,
+				commonName,
+				uri: email,
+				calendarUserType,
+				participationStatus: 'NEEDS-ACTION',
+				role: 'REQ-PARTICIPANT',
+				rsvp: true,
+				language,
+				timezoneId
+			})
+
+			if (!this.hasOrganizer) {
+				const principal = this.$store.getters.getCurrentUserPrincipal
+				if (!principal) {
+					return
+				}
+
+				this.$store.commit('setOrganizer', {
+					calendarObjectInstance: this.calendarObjectInstance,
+					commonName: principal.displayname,
+					email: principal.emailAddress
+				})
+			}
 		},
 		removeAttendee(attendee) {
-			this.eventComponent.removeAttendee(attendee)
-			this.invitees = this.eventComponent.getAttendeeList()
+			this.$store.commit('removeAttendee', {
+				calendarObjectInstance: this.calendarObjectInstance,
+				attendee
+			})
 		}
 	}
 }
 </script>
-
-<style scoped>
-
-</style>

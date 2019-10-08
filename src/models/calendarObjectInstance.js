@@ -139,7 +139,7 @@ export const mapEventComponentToCalendarObjectInstanceObject = (eventComponent) 
 	if (eventComponent.organizer) {
 		const organizerProperty = eventComponent.getFirstProperty('ORGANIZER')
 		calendarObjectInstanceObject.organizer = {
-			name: organizerProperty.name,
+			commonName: organizerProperty.commonName,
 			uri: organizerProperty.email
 		}
 	}

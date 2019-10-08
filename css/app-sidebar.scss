@@ -25,4 +25,21 @@
 	.app-sidebar-header__action {
 		max-height: none !important;
 	}
+
+	.editor-invitee-list-empty-message {
+		margin-top: 20px;
+
+		&__icon {
+			background-size: 50px;
+			height: 50px;
+			width: 50px;
+			margin: 0 auto;
+			opacity: .5;
+		}
+
+		&__caption {
+			text-align: center;
+			color: var(--color-text-lighter);
+		}
+	}
 }
