@@ -46,6 +46,8 @@
 				@updateEndDate="updateEndDate"
 				@updateEndTimezone="updateEndTimezone"
 				@toggleAllDay="toggleAllDay" />
+			<property-title-time-picker-loading-placeholder
+				v-if="isLoading" />
 		</template>
 
 		<template v-slot:header>
@@ -72,7 +74,12 @@
 			icon="icon-details"
 			:name="$t('calendar', 'Details')"
 			:order="0">
-			<div class="app-sidebar-tab__content">
+			<div v-if="isLoading" class="app-sidebar-tab__loading">
+				<div class="app-sidebar-tab-loading-indicator">
+					<div class="icon icon-loading app-sidebar-tab-loading-indicator__icon" />
+				</div>
+			</div>
+			<div v-if="!isLoading" class="app-sidebar-tab__content">
 				<property-calendar-picker
 					:calendars="calendars"
 					:calendar="selectedCalendar"
@@ -123,7 +130,12 @@
 			icon="icon-group"
 			:name="$t('calendar', 'Attendees')"
 			:order="1">
-			<div class="app-sidebar-tab__content">
+			<div v-if="isLoading" class="app-sidebar-tab__loading">
+				<div class="app-sidebar-tab-loading-indicator">
+					<div class="icon icon-loading app-sidebar-tab-loading-indicator__icon" />
+				</div>
+			</div>
+			<div v-if="!isLoading" class="app-sidebar-tab__content">
 				<invitees-list
 					v-if="!isLoading"
 					:calendar-object-instance="calendarObjectInstance"
@@ -146,7 +158,12 @@
 			icon="icon-reminder"
 			:name="$t('calendar', 'Reminders')"
 			:order="2">
-			<div class="app-sidebar-tab__content">
+			<div v-if="isLoading" class="app-sidebar-tab__loading">
+				<div class="app-sidebar-tab-loading-indicator">
+					<div class="icon icon-loading app-sidebar-tab-loading-indicator__icon" />
+				</div>
+			</div>
+			<div v-if="!isLoading" class="app-sidebar-tab__content">
 				<alarm-list :event-component="eventComponent" :is-read-only="isReadOnly" />
 			</div>
 			<div v-if="!isReadOnly" class="app-sidebar-tab__buttons">
@@ -166,7 +183,12 @@
 			icon="icon-repeat"
 			:name="$t('calendar', 'Repeat')"
 			:order="3">
-			<div class="app-sidebar-tab__content">
+			<div v-if="isLoading" class="app-sidebar-tab__loading">
+				<div class="app-sidebar-tab-loading-indicator">
+					<div class="icon icon-loading app-sidebar-tab-loading-indicator__icon" />
+				</div>
+			</div>
+			<div v-if="!isLoading" class="app-sidebar-tab__content">
 				<!-- TODO: If not editing the master item, force updating this and all future   -->
 				<!-- TODO: You can't edit recurrence-rule of no-range recurrence-exception -->
 				<repeat :event-component="eventComponent" :is-read-only="isReadOnly" :is-editing-master-item="false" />
@@ -213,10 +235,13 @@ import { getIllustrationForTitle } from '../utils/illustration.js'
 import IllustrationHeader from '../components/Editor/IllustrationHeader.vue'
 import { getDefaultColor } from '../utils/color.js'
 import moment from 'nextcloud-moment'
+import PropertyTitleTimePickerLoadingPlaceholder
+	from '../components/Editor/Properties/PropertyTitleTimePickerLoadingPlaceholder.vue'
 
 export default {
 	name: 'EditSidebar',
 	components: {
+		PropertyTitleTimePickerLoadingPlaceholder,
 		IllustrationHeader,
 		AlarmList,
 		AppSidebar,
