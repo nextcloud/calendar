@@ -43,13 +43,13 @@ export default {
 	location: {
 		name: 'location',
 		readableName: t('calendar', 'Location'),
-		placeholder: t('calendar', 'Add or search for location'),
+		placeholder: t('calendar', 'Add a location'),
 		icon: 'icon-address'
 	},
 	description: {
 		name: 'description',
 		readableName: t('calendar', 'Description'),
-		placeholder: t('calendar', 'Add a description for yourself and your attendees'),
+		placeholder: t('calendar', 'Add a description'),
 		icon: 'icon-menu',
 	},
 	geo: {
