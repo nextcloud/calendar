@@ -21,10 +21,10 @@
   -->
 
 <template>
-	<div class="editor-invitee-list-empty-message">
-		<div class="icon icon-group editor-invitee-list-empty-message__icon" />
-		<div class="editor-invitee-list-empty-message__caption">
-			{{ $t('calendar', 'This event does not have any attendees') }}
+	<div class="editor-reminders-list-empty-message">
+		<div class="icon icon-group editor-reminders-list-empty-message__icon" />
+		<div class="editor-reminders-list-empty-message__caption">
+			{{ $t('calendar', 'This event does not have any attendees.') }}
 		</div>
 	</div>
 </template>

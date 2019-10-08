@@ -21,35 +21,16 @@
   -->
 
 <template>
-	<div>
-		<alarm-list-item v-for="alarm in alarms" :key="alarm.id" :alarm="alarm" />
-		<alarm-list-new />
-		<no-alarm-view
-			v-if="isListEmpty" />
+	<div class="editor-invitee-list-empty-message">
+		<div class="icon icon-reminder editor-invitee-list-empty-message__icon" />
+		<div class="editor-invitee-list-empty-message__caption">
+			{{ $t('calendar', 'This event does not have any reminders.') }}
+		</div>
 	</div>
 </template>
 
 <script>
-import AlarmListNew from './AlarmListNew'
-import AlarmListItem from './AlarmListItem'
-import NoAlarmView from './NoAlarmView.vue'
-
 export default {
-	name: 'AlarmList',
-	components: {
-		NoAlarmView,
-		AlarmListItem,
-		AlarmListNew
-	},
-	data() {
-		return {
-			alarms: []
-		}
-	},
-	computed: {
-		isListEmpty() {
-			return this.alarms.length === 0
-		}
-	}
+	name: 'NoAlarmView'
 }
 </script>
