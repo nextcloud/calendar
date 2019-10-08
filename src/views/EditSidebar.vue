@@ -24,7 +24,7 @@
 
 <template>
 	<AppSidebar
-		:title="title || ''"
+		:title="title"
 		:title-editable="!isReadOnly"
 		:title-placeholder="$t('calendar', 'Untitled event')"
 		:subtitle="subTitle"
@@ -67,53 +67,121 @@
 			</ActionButton>
 		</template>
 
-		<AppSidebarTab :name="$t('calendar', 'Details')" icon="icon-details" :order="0">
-			<property-calendar-picker
-				:calendars="calendars"
-				:calendar="selectedCalendar"
-				:is-read-only="isReadOnly"
-				@selectCalendar="changeCalendar" />
+		<AppSidebarTab
+			class="app-sidebar-tab"
+			icon="icon-details"
+			:name="$t('calendar', 'Details')"
+			:order="0">
+			<div class="app-sidebar-tab__content">
+				<property-calendar-picker
+					:calendars="calendars"
+					:calendar="selectedCalendar"
+					:is-read-only="isReadOnly"
+					@selectCalendar="changeCalendar" />
 
-			<property-text
-				:is-read-only="isReadOnly"
-				:prop-model="rfcProps.location"
-				:value="location"
-				@update:value="updateLocation" />
-			<property-text
-				:is-read-only="isReadOnly"
-				:prop-model="rfcProps.description"
-				:value="description"
-				@update:value="updateDescription" />
+				<property-text
+					:is-read-only="isReadOnly"
+					:prop-model="rfcProps.location"
+					:value="location"
+					@update:value="updateLocation" />
+				<property-text
+					:is-read-only="isReadOnly"
+					:prop-model="rfcProps.description"
+					:value="description"
+					@update:value="updateDescription" />
 
-			<property-select
-				:is-read-only="isReadOnly"
-				:prop-model="rfcProps.status"
-				:value="status"
-				@update:value="updateStatus" />
-			<property-select
-				:is-read-only="isReadOnly"
-				:prop-model="rfcProps.class"
-				:value="accessClass"
-				@update:value="updateAccessClass" />
-			<property-select
-				:is-read-only="isReadOnly"
-				:prop-model="rfcProps.timeTransparency"
-				:value="timeTransparency"
-				@update:value="updateTimeTransparency" />
+				<property-select
+					:is-read-only="isReadOnly"
+					:prop-model="rfcProps.status"
+					:value="status"
+					@update:value="updateStatus" />
+				<property-select
+					:is-read-only="isReadOnly"
+					:prop-model="rfcProps.class"
+					:value="accessClass"
+					@update:value="updateAccessClass" />
+				<property-select
+					:is-read-only="isReadOnly"
+					:prop-model="rfcProps.timeTransparency"
+					:value="timeTransparency"
+					@update:value="updateTimeTransparency" />
+			</div>
+			<div v-if="!isReadOnly" class="app-sidebar-tab__buttons">
+				<button v-if="!canCreateRecurrenceException" class="primary" @click="saveAndLeave(false)">
+					{{ updateLabel }}
+				</button>
+				<button v-if="canCreateRecurrenceException" class="primary" @click="saveAndLeave(false)">
+					{{ $t('calendar', 'Update this occurrence') }}
+				</button>
+				<button v-if="canCreateRecurrenceException" @click="saveAndLeave(true)">
+					{{ $t('calendar', 'Update this and all future') }}
+				</button>
+			</div>
 		</AppSidebarTab>
-		<AppSidebarTab :name="$t('calendar', 'Attendees')" icon="icon-group" :order="1">
-			<invitees-list
-				v-if="!isLoading"
-				:calendar-object-instance="calendarObjectInstance"
-				:is-read-only="isReadOnly" />
+		<AppSidebarTab
+			class="app-sidebar-tab"
+			icon="icon-group"
+			:name="$t('calendar', 'Attendees')"
+			:order="1">
+			<div class="app-sidebar-tab__content">
+				<invitees-list
+					v-if="!isLoading"
+					:calendar-object-instance="calendarObjectInstance"
+					:is-read-only="isReadOnly" />
+			</div>
+			<div v-if="!isReadOnly" class="app-sidebar-tab__buttons">
+				<button v-if="!canCreateRecurrenceException" class="primary" @click="saveAndLeave(false)">
+					{{ updateLabel }}
+				</button>
+				<button v-if="canCreateRecurrenceException" class="primary" @click="saveAndLeave(false)">
+					{{ $t('calendar', 'Update this occurrence') }}
+				</button>
+				<button v-if="canCreateRecurrenceException" @click="saveAndLeave(true)">
+					{{ $t('calendar', 'Update this and all future') }}
+				</button>
+			</div>
 		</AppSidebarTab>
-		<AppSidebarTab :name="$t('calendar', 'Reminders')" icon="icon-reminder" :order="2">
-			<alarm-list :event-component="eventComponent" :is-read-only="isReadOnly" />
+		<AppSidebarTab
+			class="app-sidebar-tab"
+			icon="icon-reminder"
+			:name="$t('calendar', 'Reminders')"
+			:order="2">
+			<div class="app-sidebar-tab__content">
+				<alarm-list :event-component="eventComponent" :is-read-only="isReadOnly" />
+			</div>
+			<div v-if="!isReadOnly" class="app-sidebar-tab__buttons">
+				<button v-if="!canCreateRecurrenceException" class="primary" @click="saveAndLeave(false)">
+					{{ updateLabel }}
+				</button>
+				<button v-if="canCreateRecurrenceException" class="primary" @click="saveAndLeave(false)">
+					{{ $t('calendar', 'Update this occurrence') }}
+				</button>
+				<button v-if="canCreateRecurrenceException" @click="saveAndLeave(true)">
+					{{ $t('calendar', 'Update this and all future') }}
+				</button>
+			</div>
 		</AppSidebarTab>
-		<AppSidebarTab :name="$t('calendar', 'Repeat')" icon="icon-repeat" :order="3">
-			<!-- TODO: If not editing the master item, force updating this and all future   -->
-			<!-- TODO: You can't edit recurrence-rule of no-range recurrence-exception -->
-			<repeat :event-component="eventComponent" :is-read-only="isReadOnly" :is-editing-master-item="false" />
+		<AppSidebarTab
+			class="app-sidebar-tab"
+			icon="icon-repeat"
+			:name="$t('calendar', 'Repeat')"
+			:order="3">
+			<div class="app-sidebar-tab__content">
+				<!-- TODO: If not editing the master item, force updating this and all future   -->
+				<!-- TODO: You can't edit recurrence-rule of no-range recurrence-exception -->
+				<repeat :event-component="eventComponent" :is-read-only="isReadOnly" :is-editing-master-item="false" />
+			</div>
+			<div v-if="!isReadOnly" class="app-sidebar-tab__buttons">
+				<button v-if="!canCreateRecurrenceException" class="primary" @click="saveAndLeave(false)">
+					{{ updateLabel }}
+				</button>
+				<button v-if="canCreateRecurrenceException" class="primary" @click="saveAndLeave(false)">
+					{{ $t('calendar', 'Update this occurrence') }}
+				</button>
+				<button v-if="canCreateRecurrenceException" @click="saveAndLeave(true)">
+					{{ $t('calendar', 'Update this and all future') }}
+				</button>
+			</div>
 		</AppSidebarTab>
 		<!--<AppSidebarTab :name="$t('calendar', 'Activity')" icon="icon-history" :order="4">-->
 		<!--	This is the activity tab-->
@@ -122,17 +190,17 @@
 		<!--	This is the projects tab-->
 		<!--</AppSidebarTab>-->
 
-		<div v-if="!isReadOnly" class="app-sidebar-button-area-bottom">
-			<button v-if="!canCreateRecurrenceException" class="primary one-option" @click="saveAndLeave(false)">
-				{{ updateLabel }}
-			</button>
-			<button v-if="canCreateRecurrenceException" class="primary two-options" @click="saveAndLeave(false)">
-				{{ $t('calendar', 'Update this occurrence') }}
-			</button>
-			<button v-if="canCreateRecurrenceException" class="two-options" @click="saveAndLeave(true)">
-				{{ $t('calendar', 'Update this and all future') }}
-			</button>
-		</div>
+		<!--		<div v-if="!isReadOnly" class="app-sidebar-button-area-bottom">-->
+		<!--			<button v-if="!canCreateRecurrenceException" class="primary one-option" @click="saveAndLeave(false)">-->
+		<!--				{{ updateLabel }}-->
+		<!--			</button>-->
+		<!--			<button v-if="canCreateRecurrenceException" class="primary two-options" @click="saveAndLeave(false)">-->
+		<!--				{{ $t('calendar', 'Update this occurrence') }}-->
+		<!--			</button>-->
+		<!--			<button v-if="canCreateRecurrenceException" class="two-options" @click="saveAndLeave(true)">-->
+		<!--				{{ $t('calendar', 'Update this and all future') }}-->
+		<!--			</button>-->
+		<!--		</div>-->
 	</AppSidebar>
 </template>
 <script>
@@ -204,7 +272,7 @@ export default {
 				return ''
 			}
 
-			return this.calendarObjectInstance.title
+			return this.calendarObjectInstance.title || ''
 		},
 		subTitle() {
 			if (!this.calendarObjectInstance) {
@@ -282,14 +350,6 @@ export default {
 
 .app-sidebar-header__action {
 	margin-top: 0 !important;
-}
-
-.app-sidebar-button-area-bottom {
-	position: absolute;
-	margin-top: -60px;
-	display: flex !important;
-	width: 100%;
-	padding: 10px;
 }
 
 button.one-option {

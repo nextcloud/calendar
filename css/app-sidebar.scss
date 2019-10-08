@@ -43,4 +43,23 @@
 			color: var(--color-text-lighter);
 		}
 	}
+
+	.editor-reminders-list-new-button {
+		width: 100%;
+		background-position-x: 8px;
+	}
+
+	.app-sidebar-tab {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+
+		&__buttons {
+			padding-top: 14px;
+
+			button {
+				width: 100%;
+			}
+		}
+	}
 }
