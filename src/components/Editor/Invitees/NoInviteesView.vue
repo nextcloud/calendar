@@ -21,15 +21,16 @@
   -->
 
 <template>
-	<div />
+	<div class="editor-invitee-list-empty-message">
+		<div class="icon icon-group editor-invitee-list-empty-message__icon" />
+		<div class="editor-invitee-list-empty-message__caption">
+			{{ $t('calendar', 'This event does not have any attendees') }}
+		</div>
+	</div>
 </template>
 
 <script>
 export default {
-	name: 'InviteesListSearchTemplate'
+	name: 'NoInviteesView'
 }
 </script>
-
-<style scoped>
-
-</style>

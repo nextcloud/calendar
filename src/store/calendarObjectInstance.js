@@ -369,9 +369,10 @@ const mutations = {
 	 * @param {Object} data.attendee The attendee object
 	 * @param {Boolean} data.rsvp New RSVP value
 	 */
-	changeAttendeesRSVP(state, { attendee, rsvp }) {
-		attendee.attendeeProperty.rsvp = rsvp
-		attendee.rsvp = rsvp
+	toggleAttendeeRSVP(state, { attendee }) {
+		const oldRSVP = attendee.attendeeProperty.rsvp
+		attendee.attendeeProperty.rsvp = !oldRSVP
+		attendee.rsvp = !oldRSVP
 	},
 
 	/**
@@ -380,13 +381,13 @@ const mutations = {
 	 * @param {Object} state The Vuex state
 	 * @param {Object} data The destructuring object
 	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {String=} data.name Displayname of organizer
+	 * @param {String=} data.commonName Displayname of organizer
 	 * @param {String} data.email Email-address of organizer
 	 */
-	setOrganizer(state, { calendarObjectInstance, name = null, email }) {
-		calendarObjectInstance.eventComponent.setOrganizerFromNameAndEMail(name, email)
+	setOrganizer(state, { calendarObjectInstance, commonName = null, email }) {
+		calendarObjectInstance.eventComponent.setOrganizerFromNameAndEMail(commonName, email)
 		Vue.set(calendarObjectInstance, 'organizer', {})
-		Vue.set(calendarObjectInstance.organizer, 'name', name)
+		Vue.set(calendarObjectInstance.organizer, 'commonName', commonName)
 		Vue.set(calendarObjectInstance.organizer, 'uri', email)
 	},
 

@@ -33,7 +33,7 @@
 		track-by="email"
 		label="dropdownName"
 		@search-change="findAttendees"
-		@input="addAttendee">
+		@select="addAttendee">
 		<!--		<template slot="singleLabel" slot-scope="props"><img class="option__image" :src="props.option.img" alt="No Man’s Sky"><span class="option__desc"><span class="option__title">{{ props.option.title }}</span></span></template>-->
 		<template slot="singleLabel" slot-scope="props">
 			<Avatar v-if="props.option.isUser" :user="props.option.avatar" :display-name="props.option.dropdownName" />
@@ -103,8 +103,8 @@ export default {
 
 			this.matches = matches
 		}, 500),
-		addAttendee() {
-
+		addAttendee(selectedValue) {
+			this.$emit('addAttendee', selectedValue)
 		},
 		async findAttendeesFromContactsAPI(query) {
 			return HttpClient.post(linkTo('calendar', 'index.php') + '/v1/autocompletion/attendee', {
@@ -174,7 +174,3 @@ export default {
 	}
 }
 </script>
-
-<style scoped>
-
-</style>

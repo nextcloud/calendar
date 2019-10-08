@@ -34,7 +34,7 @@
 			{{ commonName }}
 		</div>
 		<div class="organizer-hint">
-			{{ organizerHint }}
+			{{ $t('calendar', '(organizer)') }}
 		</div>
 	</div>
 </template>
@@ -49,63 +49,33 @@ export default {
 	},
 	props: {
 		organizer: {
+			type: Object,
 			required: true,
-			validator: (p) => (typeof p === 'object' || p === null)
-		}
-	},
-	data() {
-		return {
-			cn: null,
-			uri: ''
-		}
-	},
-	watch: {
-		organizer: {
-			handler(newOrganizer, oldOrganizer) {
-				if (oldOrganizer) {
-					oldOrganizer.unsubscribe(this.handler)
-				}
-
-				if (newOrganizer) {
-					this.handler = () => this.updateValuesFromOrganizer()
-					newOrganizer.subscribe(this.handler)
-					this.handler()
-				}
-			},
-			immediate: true
-		}
+		},
+		isReadOnly: {
+			type: Boolean,
+			required: true
+		},
 	},
 	computed: {
 		avatarLink() {
 			// return this.$store.getters.getAvatarForContact(this.uri) || this.commonName
-			return this.commonName
+			return this.organizer.commonName
 		},
 		commonName() {
-			if (this.cn) {
-				return this.cn
+			if (this.organizer.commonName) {
+				return this.organizer.commonName
 			}
 
-			if (this.uri && this.uri.startsWith('mailto:')) {
-				return this.uri.substr(7)
+			if (this.organizer.uri && this.organizer.uri.startsWith('mailto:')) {
+				return this.organizer.uri.substr(7)
 			}
 
-			return this.uri
+			return this.organizer.uri
 		},
 		isViewedByOrganizer() {
 			return true
 		},
-		organizerHint() {
-			return t('calendar', '(organizer)')
-		},
-	},
-	methods: {
-		updateValuesFromOrganizer() {
-			setTimeout(() => {
-				console.debug('Settings values')
-				this.cn = this.organizer.commonName
-				this.uri = this.organizer.email
-			}, 50)
-		}
 	}
 }
 </script>
