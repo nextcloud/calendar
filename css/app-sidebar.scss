@@ -26,7 +26,8 @@
 		max-height: none !important;
 	}
 
-	.editor-invitee-list-empty-message {
+	.editor-invitee-list-empty-message,
+	.editor-reminders-list-empty-message {
 		margin-top: 20px;
 
 		&__icon {
