@@ -56,7 +56,7 @@ Vue.component('Modal', Modal)
 Vue.component('Multiselect', Multiselect)
 Vue.component('PopoverMenu', PopoverMenu)
 Vue.directive('ClickOutside', ClickOutside)
-Vue.directive(VTooltip)
+Vue.use(VTooltip)
 Vue.use(VueClipboard)
 
 // CSP config for webpack dynamic chunk loading

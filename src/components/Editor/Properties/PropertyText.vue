@@ -26,7 +26,7 @@
 		<div class="property-input">
 			<textarea v-if="!isReadOnly" v-autosize :value="value"
 				:placeholder="placeholder" :title="readableName" rows="1"
-				@input="changeValue"
+				@input.prevent.stop="changeValue"
 			/>
 			<div class="fake-input-box" v-if="isReadOnly">{{ value }}</div>
 		</div>
@@ -46,11 +46,6 @@ export default {
 	mixins: [
 		PropertyMixin
 	],
-	data() {
-		return {
-			value: null
-		}
-	},
 	computed: {
 		display() {
 			if (this.isReadOnly) {
@@ -62,32 +57,13 @@ export default {
 				}
 			}
 
-			return this.eventComponentLoaded
+			return true
 		}
-	},
-	watch: {
-		eventComponent() {
-			this.initValue()
-		}
-	},
-	created() {
-		this.initValue()
 	},
 	methods: {
 		changeValue(event) {
-			if (!this.eventComponentLoaded) {
-				return
-			}
-
-			this.eventComponent[this.propModel.name] = event.target.value
+			this.$emit('update:value', event.target.value)
 		},
-		initValue() {
-			if (!this.eventComponentLoaded) {
-				return
-			}
-
-			this.value = this.eventComponent[this.propModel.name]
-		}
 	}
 }
 </script>

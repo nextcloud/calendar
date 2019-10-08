@@ -24,17 +24,28 @@
 
 <template>
 	<AppSidebar
-		:title="title"
-		:title-editable="true"
+		:title="title || ''"
+		:title-editable="!isReadOnly"
+		:title-placeholder="$t('calendar', 'Untitled event')"
 		:subtitle="subTitle"
 		@close="cancel"
 		@update:title="updateTitle">
 		<template v-slot:primary-actions style="max-height: none !important">
-			<div style="width: 100%">
-				<property-title-time-picker :event-component="eventComponent" :prop-model="{}" :is-read-only="isReadOnly"
-					:user-timezone="currentUserTimezone" :start-end-date-hash="startEndDateHash"
-				/>
-			</div>
+			<property-title-time-picker
+				v-if="!isLoading"
+				:start-date="startDate"
+				:start-timezone="startTimezone"
+				:end-date="endDate"
+				:end-timezone="endTimezone"
+				:is-all-day="isAllDay"
+				:is-read-only="isReadOnly"
+				:can-modify-all-day="canModifyAllDay"
+				:user-timezone="currentUserTimezone"
+				@updateStartDate="updateStartDate"
+				@updateStartTimezone="updateStartTimezone"
+				@updateEndDate="updateEndDate"
+				@updateEndTimezone="updateEndTimezone"
+				@toggleAllDay="toggleAllDay" />
 		</template>
 
 		<template v-slot:header>
@@ -42,28 +53,53 @@
 		</template>
 
 		<template v-slot:secondary-actions>
-			<ActionLink v-if="hasDownloadURL" icon="icon-download" title="Download"
+			<ActionLink v-if="hasDownloadURL" icon="icon-download" :title="$t('calendar', 'Download')"
 				:href="downloadURL"
 			/>
 			<ActionButton v-if="canDelete && !canCreateRecurrenceException" icon="icon-delete" @click="deleteAndLeave(false)">
-				Delete
+				{{ $t('calendar', 'Delete') }}
 			</ActionButton>
 			<ActionButton v-if="canDelete && canCreateRecurrenceException" icon="icon-delete" @click="deleteAndLeave(false)">
-				Delete this occurrence
+				{{ $t('calendar', 'Delete this occurrence') }}
 			</ActionButton>
 			<ActionButton v-if="canDelete && canCreateRecurrenceException" icon="icon-delete" @click="deleteAndLeave(true)">
-				Delete this and all future
+				{{ $t('calendar', 'Delete this and all future') }}
 			</ActionButton>
 		</template>
 
 		<AppSidebarTab name="Details" icon="icon-details" :order="0">
-			<calendar-picker v-if="!isLoading" :calendars="calendars" :calendar="selectedCalendar"
-				:is-read-only="isReadOnly" :show-calendar-on-select="true" @selectCalendar="changeCalendar" />
-			<property-text :event-component="eventComponent" :prop-model="rfcProps.location" :is-read-only="isReadOnly" />
-			<property-text :event-component="eventComponent" :prop-model="rfcProps.description" :is-read-only="isReadOnly" />
-			<property-select :event-component="eventComponent" :prop-model="rfcProps.status" :is-read-only="isReadOnly" />
-			<property-select :event-component="eventComponent" :prop-model="rfcProps.class" :is-read-only="isReadOnly" />
-			<property-select :event-component="eventComponent" :prop-model="rfcProps.timeTransparency" :is-read-only="isReadOnly" />
+			<property-calendar-picker
+				:calendars="calendars"
+				:calendar="selectedCalendar"
+				:is-read-only="isReadOnly"
+				@selectCalendar="changeCalendar" />
+
+			<property-text
+				:is-read-only="isReadOnly"
+				:prop-model="rfcProps.location"
+				:value="location"
+				@update:value="updateLocation" />
+			<property-text
+				:is-read-only="isReadOnly"
+				:prop-model="rfcProps.description"
+				:value="description"
+				@update:value="updateDescription" />
+
+			<property-select
+				:is-read-only="isReadOnly"
+				:prop-model="rfcProps.status"
+				:value="status"
+				@update:value="updateStatus" />
+			<property-select
+				:is-read-only="isReadOnly"
+				:prop-model="rfcProps.class"
+				:value="accessClass"
+				@update:value="updateAccessClass" />
+			<property-select
+				:is-read-only="isReadOnly"
+				:prop-model="rfcProps.timeTransparency"
+				:value="timeTransparency"
+				@update:value="updateTimeTransparency" />
 		</AppSidebarTab>
 		<AppSidebarTab name="Attendees" icon="icon-group" :order="1">
 			<invitees-list :event-component="eventComponent" :is-read-only="isReadOnly" />
@@ -88,10 +124,10 @@
 				{{ updateLabel }}
 			</button>
 			<button v-if="canCreateRecurrenceException" class="primary two-options" @click="saveAndLeave(false)">
-				Update this occurrence
+				{{ $t('calendar', 'Update this occurrence') }}
 			</button>
 			<button v-if="canCreateRecurrenceException" class="two-options" @click="saveAndLeave(true)">
-				Update this and all future
+				{{ $t('calendar', 'Update this and all future') }}
 			</button>
 		</div>
 	</AppSidebar>
@@ -105,8 +141,9 @@ import {
 } from 'nextcloud-vue'
 
 import AlarmList from '../components/Editor/Alarm/AlarmList'
-import CalendarPicker from '../components/Shared/CalendarPicker'
+
 import InviteesList from '../components/Editor/Invitees/InviteesList'
+import PropertyCalendarPicker from '../components/Editor/Properties/PropertyCalendarPicker'
 import PropertySelect from '../components/Editor/Properties/PropertySelect'
 import PropertyText from '../components/Editor/Properties/PropertyText'
 import PropertyTitleTimePicker from '../components/Editor/Properties/PropertyTitleTimePicker'
@@ -127,8 +164,8 @@ export default {
 		AppSidebarTab,
 		ActionLink,
 		ActionButton,
-		CalendarPicker,
 		InviteesList,
+		PropertyCalendarPicker,
 		PropertySelect,
 		PropertyText,
 		PropertyTitleTimePicker,
@@ -164,22 +201,73 @@ export default {
 				return ''
 			}
 
-			return this.eventComponent.title
+			return this.calendarObjectInstance.title
 		},
 		subTitle() {
-			if (!this.eventComponent) {
+			if (!this.calendarObjectInstance) {
 				return ''
 			}
 
 			// This is hardcoded for now till https://github.com/ChristophWurst/nextcloud-moment/issues/31 is fixed
 			moment.locale('en')
-			return moment(this.eventComponent.startDate.jsDate).fromNow()
+			return moment(this.calendarObjectInstance.startDate).fromNow()
+		},
+		accessClass() {
+			if (!this.calendarObjectInstance) {
+				return null
+			}
+
+			return this.calendarObjectInstance.accessClass
+		},
+		status() {
+			if (!this.calendarObjectInstance) {
+				return null
+			}
+
+			return this.calendarObjectInstance.status
+		},
+		timeTransparency() {
+			if (!this.calendarObjectInstance) {
+				return null
+			}
+
+			return this.calendarObjectInstance.timeTransparency
 		}
 	},
 	methods: {
-		updateTitle(newTitle) {
-			this.eventComponent.title = newTitle
-		}
+		/**
+		 * Updates the access-class of this event
+		 *
+		 * @param {String} accessClass The new access class
+		 */
+		updateAccessClass(accessClass) {
+			this.$store.commit('changeAccessClass', {
+				calendarObjectInstance: this.calendarObjectInstance,
+				accessClass
+			})
+		},
+		/**
+		 * Updates the status of the event
+		 *
+		 * @param {String} status The new status
+		 */
+		updateStatus(status) {
+			this.$store.commit('changeStatus', {
+				calendarObjectInstance: this.calendarObjectInstance,
+				status
+			})
+		},
+		/**
+		 * Updates the time-transparency of the event
+		 *
+		 * @param {String} timeTransparency The new time-transparency
+		 */
+		updateTimeTransparency(timeTransparency) {
+			this.$store.commit('changeTimeTransparency', {
+				calendarObjectInstance: this.calendarObjectInstance,
+				timeTransparency
+			})
+		},
 	}
 }
 </script>

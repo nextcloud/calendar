@@ -68,6 +68,8 @@ export const getDefaultCalendarObjectInstanceObject = (props = {}) => Object.ass
 	customColor: null,
 	// Categories
 	categories: [],
+	// Wether or not the user is allowed to toggle the all-day checkbox
+	canModifyAllDay: true,
 	// The real event-component coming from calendar-js
 	eventComponent: null,
 }, props)
@@ -91,16 +93,17 @@ export const mapEventComponentToCalendarObjectInstanceObject = (eventComponent) 
 		alarms: [],
 		categories: [],
 		organizer: null,
+		canModifyAllDay: eventComponent.canModifyAllDay(),
 		eventComponent
 	}
 
 	// The end date of an event is non-inclusive. This is rather intuitive for timed-events, but very unintuitive for all-day events.
 	// That's why, when an events is from 2019-10-03 to 2019-10-04, we will show 2019-10-03 to 2019-10-03 in the editor.
-	calendarObjectInstanceObject.isAllDay = eventComponent.isAllDay
+	calendarObjectInstanceObject.isAllDay = eventComponent.isAllDay()
 	calendarObjectInstanceObject.startDate = getDateFromDateTimeValue(eventComponent.startDate)
 	calendarObjectInstanceObject.startTimezoneId = eventComponent.startDate.timezoneId
 
-	if (eventComponent.isAllDay) {
+	if (eventComponent.isAllDay()) {
 		const endDate = eventComponent.endDate.clone()
 		endDate.addDuration(DurationValue.fromSeconds(-1 * 60 * 60 * 24))
 		calendarObjectInstanceObject.endDate = getDateFromDateTimeValue(endDate)

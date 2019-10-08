@@ -21,6 +21,7 @@
  */
 import rfcProps from '../models/rfcProps'
 import logger from '../services/loggerService'
+import { mapEventComponentToCalendarObjectInstanceObject } from '../models/calendarObjectInstance.js'
 
 /**
  * This is a mixin for the editor. It contains common Vue stuff, that is
@@ -35,6 +36,8 @@ export default {
 			calendarObject: null,
 			// The event component representing the open event
 			eventComponent: null,
+			// The calendar object instance object derived from the eventComponent
+			calendarObjectInstance: null,
 			// Indicator whether or not the event is currently loading
 			isLoading: true,
 			// Stores error if any occurred
@@ -139,12 +142,62 @@ export default {
 
 			return t('calendar', 'Update')
 		},
-		updateOnlyThis() {
-			return t('calendar', 'Update this occurrence')
+		location() {
+			if (!this.calendarObjectInstance) {
+				return null
+			}
+
+			return this.calendarObjectInstance.location
 		},
-		updateThisAllFuture() {
-			return t('calendar', 'Update this and all future')
+		description() {
+			if (!this.calendarObjectInstance) {
+				return null
+			}
+
+			return this.calendarObjectInstance.description
 		},
+		startDate() {
+			if (!this.calendarObjectInstance) {
+				return null
+			}
+
+			return this.calendarObjectInstance.startDate
+		},
+		startTimezone() {
+			if (!this.calendarObjectInstance) {
+				return null
+			}
+
+			return this.calendarObjectInstance.startTimezoneId
+		},
+		endDate() {
+			if (!this.calendarObjectInstance) {
+				return null
+			}
+
+			return this.calendarObjectInstance.endDate
+		},
+		endTimezone() {
+			if (!this.calendarObjectInstance) {
+				return null
+			}
+
+			return this.calendarObjectInstance.endTimezoneId
+		},
+		isAllDay() {
+			if (!this.calendarObjectInstance) {
+				return null
+			}
+
+			return this.calendarObjectInstance.isAllDay
+		},
+		canModifyAllDay() {
+			if (!this.calendarObjectInstance) {
+				return false
+			}
+
+			return this.calendarObjectInstance.canModifyAllDay
+		}
 	},
 	methods: {
 		/**
@@ -288,6 +341,100 @@ export default {
 			this.requiresActionOnRouteLeave = false
 			this.closeEditor()
 		},
+		/**
+		 * Updates the title of this event
+		 *
+		 * @param {String} title New title
+		 */
+		updateTitle(title) {
+			this.$store.commit('changeTitle', {
+				calendarObjectInstance: this.calendarObjectInstance,
+				title
+			})
+		},
+		/**
+		 * Updates the description of this event
+		 *
+		 * @param {String} description New description
+		 */
+		updateDescription(description) {
+			this.$store.commit('changeDescription', {
+				calendarObjectInstance: this.calendarObjectInstance,
+				description
+			})
+		},
+		/**
+		 * Updates the location of this event
+		 *
+		 * @param {String} location New location
+		 */
+		updateLocation(location) {
+			this.$store.commit('changeLocation', {
+				calendarObjectInstance: this.calendarObjectInstance,
+				location
+			})
+		},
+		/**
+		 * Updates the start date of this event
+		 *
+		 * @param {Date} startDate New start date
+		 */
+		updateStartDate(startDate) {
+			this.$store.commit('changeStartDate', {
+				calendarObjectInstance: this.calendarObjectInstance,
+				startDate
+			})
+		},
+		/**
+		 * Updates the timezone of this event's start date
+		 *
+		 * @param {String} startTimezone New start timezone
+		 */
+		updateStartTimezone(startTimezone) {
+			if (!startTimezone) {
+				return
+			}
+
+			this.$store.dispatch('changeStartTimezone', {
+				calendarObjectInstance: this.calendarObjectInstance,
+				startTimezone
+			})
+		},
+		/**
+		 * Updates the end date of this event
+		 *
+		 * @param {Date} endDate New end date
+		 */
+		updateEndDate(endDate) {
+			console.debug('updating end date ...', endDate)
+			this.$store.commit('changeEndDate', {
+				calendarObjectInstance: this.calendarObjectInstance,
+				endDate
+			})
+		},
+		/**
+		 * Updates the timezone of this event's end date
+		 *
+		 * @param {String} endTimezone New end timezone
+		 */
+		updateEndTimezone(endTimezone) {
+			if (!endTimezone) {
+				return
+			}
+
+			this.$store.dispatch('changeEndTimezone', {
+				calendarObjectInstance: this.calendarObjectInstance,
+				endTimezone
+			})
+		},
+		/**
+		 * Toggles the event between all-day and timed
+		 */
+		toggleAllDay() {
+			this.$store.commit('toggleAllDay', {
+				calendarObjectInstance: this.calendarObjectInstance
+			})
+		}
 	},
 	/**
 	 * This is executed before entering the Editor routes
@@ -316,6 +463,7 @@ export default {
 						vm.calendarObject = calendarObject
 						vm.calendarId = calendarObject.calendarId
 						vm.eventComponent = calendarObject.getObjectAtRecurrenceId(recurrenceIdDate)
+						vm.calendarObjectInstance = mapEventComponentToCalendarObjectInstanceObject(vm.eventComponent)
 
 						vm.isLoading = false
 					})
@@ -337,6 +485,7 @@ export default {
 						vm.calendarObject = vm.$store.getters.getCalendarObjectById(objectId)
 						vm.calendarId = vm.calendarObject.calendarId
 						vm.eventComponent = vm.calendarObject.getObjectAtRecurrenceId(recurrenceIdDate)
+						vm.calendarObjectInstance = mapEventComponentToCalendarObjectInstanceObject(vm.eventComponent)
 
 						vm.isLoading = false
 					})
@@ -404,6 +553,7 @@ export default {
 						this.calendarObject = this.$store.getters.getCalendarObjectById(objectId)
 						this.calendarId = this.calendarObject.calendarId
 						this.eventComponent = this.calendarObject.getObjectAtRecurrenceId(new Date(recurrenceId * 1000))
+						this.calendarObjectInstance = mapEventComponentToCalendarObjectInstanceObject(this.eventComponent)
 
 						this.isLoading = false
 					})

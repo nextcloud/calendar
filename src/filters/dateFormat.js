@@ -19,43 +19,22 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import moment from 'nextcloud-moment'
 
 /**
- * This is a mixin for properties. It contains common Vue stuff, that is
- * required commonly by all components like the event, read-only-status, etc.
+ * Formats a date object
  *
- * See inline for more documentation
+ * @param {Date} value The date object to format
+ * @param {Boolean} isAllDay Whether or not to display only the date part
+ * @returns {string}
  */
-export default {
-	props: {
-		// This is coming from rfcProps
-		propModel: {
-			type: Object,
-			required: true
-		},
-		isReadOnly: {
-			type: Boolean,
-			required: true
-		},
-		value: {
-			required: true
-		},
-	},
-	computed: {
-		icon() {
-			return this.propModel.icon || ''
-		},
-		placeholder() {
-			return this.propModel.placeholder || ''
-		},
-		info() {
-			return this.propModel.info || ''
-		},
-		readableName() {
-			return this.propModel.readableName || ''
-		},
-		hasInfo() {
-			return this.propModel.info !== undefined
-		}
+export default (value, isAllDay) => {
+	if (!value) {
+		return ''
+	}
+	if (isAllDay) {
+		return moment(value).format('ll')
+	} else {
+		return moment(value).format('lll')
 	}
 }

@@ -25,26 +25,38 @@
 <template>
 	<div>
 		<div class="row">
-			<DatetimePicker v-if="!isReadOnly" lang="en" :format="timeFormat"
-				:value="start" :type="timeType" @change="changeStart"
-			/>
-			<div v-if="isReadOnly" class="fake-input-box">{{ start | formatDate(isAllDay) }}</div>
+			<DatetimePicker
+				v-if="!isReadOnly"
+				lang="en"
+				:format="timeFormat"
+				:value="startDate"
+				:type="timeType"
+				@change="changeStart" />
+			<div v-if="isReadOnly" class="fake-input-box">
+				{{ startDate | formatDate(isAllDay) }}
+			</div>
 			<span>
 				{{ toLabel }}
 			</span>
-			<DatetimePicker v-if="!isReadOnly" lang="en" :format="timeFormat"
-				:value="end" :type="timeType" @change="changeEnd"
-			/>
-			<div v-if="isReadOnly" class="fake-input-box">{{ end | formatDate(isAllDay) }}</div>
+			<DatetimePicker
+				v-if="!isReadOnly"
+				lang="en"
+				:format="timeFormat"
+				:value="endDate"
+				:type="timeType"
+				@change="changeEnd" />
+			<div v-if="isReadOnly" class="fake-input-box">
+				{{ endDate | formatDate(isAllDay) }}
+			</div>
 		</div>
 		<div v-if="displayTimezones" class="row">
-			<timezone-select v-if="!isReadOnly" :value="startTimezoneId" @change="changeStartTimezone" />
-			<div v-if="isReadOnly" class="fake-input-box">{{ startTimezoneId | formatTimezone }}</div>
+			<timezone-select v-if="!isReadOnly" :value="startTimezone" @change="changeStartTimezone" />
+			<div v-if="isReadOnly" class="fake-input-box">{{ startTimezone | formatTimezone }}</div>
 			<span style="visibility: hidden">
 				{{ toLabel }}
 			</span>
-			<timezone-select v-if="!isReadOnly" :value="endTimezoneId" @change="changeEndTimezone" />
-			<div v-if="isReadOnly" class="fake-input-box">{{ endTimezoneId | formatTimezone }}</div>
+			<timezone-select v-if="!isReadOnly" :value="endTimezone" @change="changeEndTimezone" />
+			<div v-if="isReadOnly" class="fake-input-box">{{ endTimezone | formatTimezone }}</div>
 		</div>
 
 		<div class="row-checkboxes">
@@ -57,15 +69,6 @@
 					{{ allDayLabel }}
 				</label>
 			</div>
-
-			<div>
-				<input id="showTimezones" v-model="showTimezones" type="checkbox"
-					class="hidden"
-				>
-				<label v-if="!isAllDay" for="showTimezones">
-					{{ showTimezonesLabel }}
-				</label>
-			</div>
 		</div>
 	</div>
 </template>
@@ -73,9 +76,6 @@
 <script>
 import { DatetimePicker } from 'nextcloud-vue'
 import TimezoneSelect from '../../Shared/TimezoneSelect'
-import PropertyMixin from '../../../mixins/PropertyMixin'
-import { getDateFromDateTimeValue } from '../../../services/dateService.js'
-import getTimezoneManager from '../../../services/timezoneDataProviderService'
 import {
 	getReadableTimezoneName,
 } from '../../../services/timezoneSortingService'
@@ -87,28 +87,43 @@ export default {
 		DatetimePicker,
 		TimezoneSelect
 	},
-	mixins: [
-		PropertyMixin
-	],
 	props: {
+		isReadOnly: {
+			type: Boolean,
+			required: true
+		},
+		startDate: {
+			type: Date,
+			required: true
+		},
+		startTimezone: {
+			type: String,
+			required: true
+		},
+		endDate: {
+			type: Date,
+			required: true
+		},
+		endTimezone: {
+			type: String,
+			required: true
+		},
+		isAllDay: {
+			type: Boolean,
+			required: true
+		},
+		canModifyAllDay: {
+			type: Boolean,
+			required: true
+		},
 		userTimezone: {
 			Type: String,
 			required: true
-		},
-		startEndDateHash: {
-			Type: String,
-			required: false
 		}
 	},
 	data() {
 		return {
-			start: null,
-			startTimezoneId: 'Europe/Berlin',
-			end: null,
-			endTimezoneId: 'Europe/Berlin',
-			isAllDay: false,
-			showTimezones: false,
-			canModifyAllDay: true
+			showTimezones: false
 		}
 	},
 	filters: {
@@ -170,51 +185,12 @@ export default {
 			return !this.isAllDay && this.showTimezones
 		},
 	},
-	watch: {
-		eventComponent() {
-			this.initValue()
-		},
-		startEndDateHash() {
-			this.initValue()
-		}
-	},
-	created() {
-		this.initValue()
-	},
 	methods: {
 		changeStart(value) {
-			this.eventComponent.startDate.year = value.getFullYear()
-			this.eventComponent.startDate.month = value.getMonth() + 1
-			this.eventComponent.startDate.day = value.getDate()
-			this.eventComponent.startDate.hour = value.getHours()
-			this.eventComponent.startDate.minute = value.getMinutes()
-			this.eventComponent.startDate.second = 0
-
-			// Do not allow end to be earlier than start
-			if (this.eventComponent.endDate.compare(this.eventComponent.startDate) === -1) {
-				const timezone = getTimezoneManager().getTimezoneForId(this.eventComponent.endDate.timezoneId)
-				this.eventComponent.endDate = this.eventComponent.startDate.getInTimezone(timezone)
-				this.end = getDateFromDateTimeValue(this.eventComponent.endDate)
-			}
-
-			this.start = value
+			this.$emit('updateStartDate', value)
 		},
 		changeEnd(value) {
-			this.eventComponent.endDate.year = value.getFullYear()
-			this.eventComponent.endDate.month = value.getMonth() + 1
-			this.eventComponent.endDate.day = value.getDate()
-			this.eventComponent.endDate.hour = value.getHours()
-			this.eventComponent.endDate.minute = value.getMinutes()
-			this.eventComponent.endDate.second = 0
-
-			// Do not allow end to be earlier than start
-			if (this.eventComponent.endDate.compare(this.eventComponent.startDate) === -1) {
-				const timezone = getTimezoneManager().getTimezoneForId(this.eventComponent.startDate.timezoneId)
-				this.eventComponent.startDate = this.eventComponent.endDate.getInTimezone(timezone)
-				this.start = getDateFromDateTimeValue(this.eventComponent.startDate)
-			}
-
-			this.end = value
+			this.$emit('updateEndDate', value)
 		},
 		changeStartTimezone(value) {
 			// If the value didn't change, value is null
@@ -222,20 +198,7 @@ export default {
 				return
 			}
 
-			const timezone = getTimezoneManager().getTimezoneForId(value)
-			this.eventComponent.startDate.replaceTimezone(timezone)
-			this.startTimezoneId = value
-
-			// Either both are floating or both have a timezone, but obviously
-			// it can't be mixed
-			if (value === 'floating' || this.endTimezoneId === 'floating') {
-				this.eventComponent.endDate.replaceTimezone(timezone)
-				this.endTimezoneId = value
-			}
-
-			// Simulate a change of the start time to trigger the comparison
-			// of start and end and trigger an update of end if necessary
-			this.changeStart(this.start)
+			this.$emit('updateStartTimezone', value)
 		},
 		changeEndTimezone(value) {
 			// If the value didn't change, value is null
@@ -243,52 +206,14 @@ export default {
 				return
 			}
 
-			const timezone = getTimezoneManager().getTimezoneForId(value)
-			this.eventComponent.endDate.replaceTimezone(timezone)
-			this.endTimezoneId = value
-
-			// Either both are floating or both have a timezone, but obviously
-			// it can't be mixed
-			if (value === 'floating' || this.startTimezoneId === 'floating') {
-				this.eventComponent.startDate.replaceTimezone(timezone)
-				this.startTimezoneId = value
-			}
-
-			// Simulate a change of the end time to trigger the comparison
-			// of start and end and trigger an update of end if necessary
-			this.changeEnd(this.end)
+			this.$emit('updateEndTimezone', value)
 		},
 		toggleAllDay() {
 			if (!this.canModifyAllDay) {
 				return
 			}
 
-			const isAllDay = this.eventComponent.isAllDay()
-			this.eventComponent.startDate.isDate = !isAllDay
-			this.eventComponent.endDate.isDate = !isAllDay
-			this.isAllDay = this.eventComponent.isAllDay()
-			this.showTimezones = false
-		},
-		initValue() {
-			if (!this.eventComponentLoaded) {
-				return
-			}
-
-			this.isAllDay = this.eventComponent.isAllDay()
-			this.start = getDateFromDateTimeValue(this.eventComponent.startDate)
-			this.startTimezoneId = this.eventComponent.startDate.timezoneId
-			this.end = getDateFromDateTimeValue(this.eventComponent.endDate)
-			this.endTimezoneId = this.eventComponent.endDate.timezoneId
-			this.canModifyAllDay = this.eventComponent.canModifyAllDay()
-
-			if (!this.isAllDay) {
-				// Automatically show timezone select if:
-				//  - start and end timezone are different
-				//  - selected timezone is different from current-user-timezone
-				if (this.startTimezoneId !== this.endTimezoneId || this.startTimezoneId !== this.userTimezone) {
-					this.showTimezones = true
-				}
-			}
+			this.$emit('toggleAllDay')
 		}
 	}
 }
