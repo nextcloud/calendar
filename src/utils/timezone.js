@@ -19,11 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import getTimezoneManager from './timezoneDataProviderService'
-
-const sortedList = []
-const sortedByContinent = {}
-let initialized = false
+import getTimezoneManager from '../services/timezoneDataProviderService.js'
 
 /**
  *
@@ -31,9 +27,8 @@ let initialized = false
  * @returns {[]}
  */
 export function getSortedTimezoneList(additionalTimezones = []) {
-	if (initialized) {
-		return sortedList
-	}
+	const sortedByContinent = {}
+	const sortedList = []
 
 	for (const additionalTimezone of additionalTimezones) {
 		const { continent, label, timezoneId } = additionalTimezone
@@ -80,7 +75,6 @@ export function getSortedTimezoneList(additionalTimezones = []) {
 		sortedList.push(sortedByContinent[continent])
 	}
 
-	initialized = true
 	return sortedList
 }
 

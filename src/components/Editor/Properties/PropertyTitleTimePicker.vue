@@ -78,7 +78,7 @@ import { DatetimePicker } from 'nextcloud-vue'
 import TimezoneSelect from '../../Shared/TimezoneSelect'
 import {
 	getReadableTimezoneName,
-} from '../../../services/timezoneSortingService'
+} from '../../../utils/timezone.js'
 import moment from 'nextcloud-moment'
 
 export default {

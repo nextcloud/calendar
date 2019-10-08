@@ -21,7 +21,7 @@
  */
 import {
 	generateTextColorForRGBString
-} from '../services/colorService'
+} from '../utils/color.js'
 
 /**
  * convert an array of calendar-objects to events

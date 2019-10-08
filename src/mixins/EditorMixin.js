@@ -20,7 +20,7 @@
  *
  */
 import rfcProps from '../models/rfcProps'
-import logger from '../services/loggerService'
+import logger from '../utils/logger.js'
 import { mapEventComponentToCalendarObjectInstanceObject } from '../models/calendarObjectInstance.js'
 
 /**

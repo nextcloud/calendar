@@ -21,7 +21,9 @@
   -->
 
 <template>
-	<div />
+	<button class="editor-reminders-list-new-button icon-add">
+		{{ $t('calendar', 'Add reminder') }}
+	</button>
 </template>
 
 <script>
@@ -29,7 +31,3 @@ export default {
 	name: 'AlarmListNew'
 }
 </script>
-
-<style scoped>
-
-</style>

@@ -63,7 +63,7 @@ import {
 	getYYYYMMDDFromDate,
 	getDateFromFirstdayParam,
 	modifyDate
-} from '../../../services/dateService.js'
+} from '../../../utils/date.js'
 import formatDateRage from '../../../filters/dateRangeFormat.js'
 
 export default {
