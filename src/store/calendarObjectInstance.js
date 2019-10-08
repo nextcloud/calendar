@@ -115,6 +115,11 @@ const mutations = {
 	 * @param {Date} data.endDate New end date to set
 	 */
 	changeEndDate(state, { calendarObjectInstance, endDate }) {
+		// If the event is using DURATION, endDate is dynamically generated.
+		// In order to alter it, we need to explicitly set DTEND
+		const endDateObject = calendarObjectInstance.eventComponent.endDate
+		calendarObjectInstance.eventComponent.endDate = endDateObject
+
 		calendarObjectInstance.eventComponent.endDate.year = endDate.getFullYear()
 		calendarObjectInstance.eventComponent.endDate.month = endDate.getMonth() + 1
 		calendarObjectInstance.eventComponent.endDate.day = endDate.getDate()
@@ -129,19 +134,21 @@ const mutations = {
 		if (isAllDay) {
 			if (endDateObj.compare(startDateObj) === -1) {
 				const timezone = getTimezoneManager().getTimezoneForId(startDateObj.timezoneId)
-				calendarObjectInstance.eventComponent.endDate
-					= calendarObjectInstance.eventComponent.startDate.getInTimezone(timezone)
-				calendarObjectInstance.endDate = getDateFromDateTimeValue(calendarObjectInstance.eventComponent.startDate)
+				calendarObjectInstance.eventComponent.startDate
+					= calendarObjectInstance.eventComponent.endDate.getInTimezone(timezone)
+				calendarObjectInstance.startDate = getDateFromDateTimeValue(calendarObjectInstance.eventComponent.startDate)
 				calendarObjectInstance.eventComponent.endDate.addDuration(DurationValue.fromSeconds(60 * 60 * 24))
 			}
 		} else {
 			if (endDateObj.compare(startDateObj) === -1) {
 				const timezone = getTimezoneManager().getTimezoneForId(startDateObj.timezoneId)
-				calendarObjectInstance.eventComponent.startDateObj
-					= calendarObjectInstance.eventComponent.startDate.getInTimezone(timezone)
-				calendarObjectInstance.startDateObj = getDateFromDateTimeValue(calendarObjectInstance.eventComponent.startDate)
+				calendarObjectInstance.eventComponent.startDate
+					= calendarObjectInstance.eventComponent.endDate.getInTimezone(timezone)
+				calendarObjectInstance.startDate = getDateFromDateTimeValue(calendarObjectInstance.eventComponent.startDate)
 			}
 		}
+
+		calendarObjectInstance.endDate = endDate
 	},
 
 	/**

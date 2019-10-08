@@ -21,14 +21,20 @@
   -->
 
 <template>
-	<div v-if="eventComponentLoaded" class="property-wrapper">
+	<div v-if="display" class="property-wrapper">
 		<div class="property-icon" :class="icon" :title="readableName" />
 		<div class="property-input">
-			<multiselect v-if="!isReadOnly" v-model="value" :options="options"
-				:searchable="false" :allow-empty="false" :title="readableName"
-				track-by="value" label="label" @select="changeValue"
-			/>
-			<div v-if="isReadOnly" class="fake-input-box">{{ value.label }}</div>
+			<multiselect
+				v-if="!isReadOnly"
+				:options="options"
+				:searchable="false"
+				:allow-empty="false"
+				:title="readableName"
+				:value="selectedValue"
+				track-by="value"
+				label="label"
+				@select="changeValue" />
+			<div v-if="isReadOnly" class="fake-input-box">{{ selectedValue.label }}</div>
 		</div>
 		<div v-if="hasInfo" v-tooltip="info" class="property-info icon-details" />
 	</div>
@@ -38,27 +44,21 @@
 import PropertyMixin from '../../../mixins/PropertyMixin'
 
 export default {
-	name: 'PropertyText',
+	name: 'PropertySelect',
 	mixins: [
 		PropertyMixin
 	],
-	data() {
-		return {
-			value: null
-		}
-	},
 	computed: {
+		display() {
+			return true
+		},
 		options() {
 			return this.propModel.options
+		},
+		selectedValue() {
+			const value = this.value || this.propModel.defaultValue
+			return this.options.find((option) => option.value === value)
 		}
-	},
-	watch: {
-		eventComponent() {
-			this.initValue()
-		}
-	},
-	created() {
-		this.initValue()
 	},
 	methods: {
 		changeValue(selectedOption) {
@@ -66,15 +66,7 @@ export default {
 				return
 			}
 
-			this.eventComponent[this.propModel.name] = selectedOption.value
-		},
-		initValue() {
-			if (!this.eventComponent) {
-				return
-			}
-
-			const value = this.eventComponent[this.propModel.name] || this.propModel.defaultValue
-			this.value = this.options.find((option) => option.value === value)
+			this.$emit('update:value', selectedOption)
 		}
 	},
 }
