@@ -19,8 +19,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { imagePath } from 'nextcloud-router'
-import { translate } from 'nextcloud-l10n'
+import { imagePath } from '@nextcloud/router'
+import { translate } from '@nextcloud/l10n'
 
 /**
  * Get an illustration for a given title

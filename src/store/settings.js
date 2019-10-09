@@ -19,7 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import HttpClient from 'nextcloud-axios'
+import HttpClient from '@nextcloud/axios'
 import client from '../services/caldavService.js'
 import { getLinkToConfig } from '../utils/settings.js'
 import { mapDavCollectionToCalendar } from '../models/calendar'

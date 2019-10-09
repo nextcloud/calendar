@@ -30,7 +30,7 @@ import { dateFactory, getUnixTimestampFromDate } from '../utils/date.js'
 import { getDefaultCalendarObject, mapDavCollectionToCalendar } from '../models/calendar'
 import pLimit from 'p-limit'
 import { getRandomColor } from '../utils/color.js'
-import { translate } from 'nextcloud-l10n'
+import { translate } from '@nextcloud/l10n'
 
 const state = {
 	calendars: [],

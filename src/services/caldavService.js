@@ -20,8 +20,8 @@
  *
  */
 import DavClient from 'cdav-library'
-import { generateRemoteUrl } from 'nextcloud-router'
-import { getRequestToken } from 'nextcloud-auth'
+import { generateRemoteUrl } from '@nextcloud/router'
+import { getRequestToken } from '@nextcloud/auth'
 
 function xhrProvider() {
 	const headers = {

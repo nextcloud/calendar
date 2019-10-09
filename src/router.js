@@ -21,7 +21,7 @@
 
 import Vue from 'vue'
 import Router from 'vue-router'
-import { linkTo } from 'nextcloud-router'
+import { linkTo } from '@nextcloud/router'
 
 import Calendar from './views/Calendar'
 import EditSimple from './views/EditSimple'

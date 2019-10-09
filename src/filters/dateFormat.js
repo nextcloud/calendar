@@ -19,7 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import moment from 'nextcloud-moment'
+import moment from '@nextcloud/moment'
 
 /**
  * Formats a date object

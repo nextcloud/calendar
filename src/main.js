@@ -30,8 +30,8 @@ import App from './App'
 import router from './router'
 import store from './store'
 import { sync } from 'vuex-router-sync'
-import { getRequestToken } from 'nextcloud-auth'
-import { linkTo } from 'nextcloud-router'
+import { getRequestToken } from '@nextcloud/auth'
+import { linkTo } from '@nextcloud/router'
 import {
 	Actions,
 	DatetimePicker,
@@ -42,7 +42,7 @@ import {
 import {
 	translate,
 	translatePlural
-} from 'nextcloud-l10n'
+} from '@nextcloud/l10n'
 import ClickOutside from 'vue-click-outside'
 import VueClipboard from 'vue-clipboard2'
 import VTooltip from 'v-tooltip'

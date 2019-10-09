@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import moment from 'nextcloud-moment'
+import moment from '@nextcloud/moment'
 
 export default {
 	name: 'AppNavigationHeaderTodayButton',
