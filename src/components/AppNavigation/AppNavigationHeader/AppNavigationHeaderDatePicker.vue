@@ -65,6 +65,7 @@ import {
 	modifyDate
 } from '../../../utils/date.js'
 import formatDateRage from '../../../filters/dateRangeFormat.js'
+import { getLocale } from 'nextcloud-l10n'
 
 export default {
 	name: 'AppNavigationHeaderDatePicker',
@@ -138,7 +139,7 @@ export default {
 	mounted() {
 		// Load the locale
 		// convert format like en_GB to en-gb for `moment.js`
-		let locale = OC.getLocale().replace('_', '-').toLowerCase()
+		let locale = getLocale().replace('_', '-').toLowerCase()
 		// default load e.g. fr-fr
 		import('moment/locale/' + this.locale)
 			.then(() => {

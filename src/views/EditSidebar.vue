@@ -264,10 +264,10 @@ export default {
 		},
 		selectedCalendarColor() {
 			if (!this.selectedCalendar) {
-				return getDefaultColor()
+				return getDefaultColor() // TODO: use uid2Color instead
 			}
 
-			return this.selectedCalendar.color || getDefaultColor()
+			return this.selectedCalendar.color || getDefaultColor() // TODO: use uid2Color instead
 		},
 		title() {
 			if (!this.eventComponent) {

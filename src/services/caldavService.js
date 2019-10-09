@@ -41,7 +41,7 @@ function xhrProvider() {
 		return result
 	}
 
-	OC.registerXHRForErrorProcessing(xhr)
+	OC.registerXHRForErrorProcessing(xhr) // eslint-disable-line no-undef
 	return xhr
 }
 

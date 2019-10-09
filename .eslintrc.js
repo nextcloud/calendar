@@ -7,11 +7,6 @@ module.exports = {
 		jest: true
 	},
 	globals: {
-		OC: true,
-		OCA: true,
-		OCP: true,
-		Vue: true,
-		VueRouter: true,
 		dayNames: true,
 		dayNamesMin: true,
 		monthNames: true,
