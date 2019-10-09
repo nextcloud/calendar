@@ -74,7 +74,7 @@ sync(store, router)
 
 Vue.prototype.$t = translate
 Vue.prototype.$n = translatePlural
-Vue.prototype.$toast = OCP.Toast
+Vue.prototype.$toast = OCP.Toast // eslint-disable-line no-undef
 
 // The nextcloud-vue package does currently rely on t and n
 Vue.prototype.t = translate

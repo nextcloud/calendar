@@ -50,13 +50,8 @@ export function getRandomColor() {
  * Gets the default color of the nextcloud instance
  *
  * @returns {string}
+ * @deprecated
  */
 export function getDefaultColor() {
-	const fallback = '#1483C6'
-
-	if (!OCA.Theming) {
-		return fallback
-	}
-
-	return OCA.Theming.color || fallback
+	return '#1483C6'
 }

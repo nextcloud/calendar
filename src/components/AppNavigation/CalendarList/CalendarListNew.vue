@@ -103,7 +103,7 @@ export default {
 				})
 				.catch((error) => {
 					console.error(error)
-					OC.Notification.showTemporary(this.$t('calendar', 'An error occurred, unable to create the calendar.'))
+					this.$toast.error(this.$t('calendar', 'An error occurred, unable to create the calendar.'))
 					this.isCreating = false
 				})
 		},

@@ -34,7 +34,7 @@ export const getDefaultCalendarObject = (props = {}) => Object.assign({}, {
 	// Visible display name
 	displayName: '',
 	// Color of the calendar
-	color: getDefaultColor(),
+	color: getDefaultColor(), // TODO: use uid2Color instead
 	// Whether or not the calendar is visible in the grid
 	enabled: true,
 	// Whether or not the calendar is loading events at the moment
@@ -78,7 +78,7 @@ export const getDefaultCalendarObject = (props = {}) => Object.assign({}, {
  * @returns {Object}
  */
 export function mapDavCollectionToCalendar(calendar) {
-	let color = calendar.color || getDefaultColor()
+	let color = calendar.color || getDefaultColor() // TODO: use uid2Color instead
 	if (color.length === 9) {
 		// Make sure it's #RRGGBB, not #RRGGBBAA
 		color = color.substr(0, 7)

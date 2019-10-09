@@ -334,7 +334,7 @@ export default {
 				this.unpublishingCalendar = false
 			}).catch((e) => {
 				this.unpublishingCalendar = false
-				OC.Notification.showTemporary(this.$t('calendar', 'Unpublishing calendar failed'))
+				this.$toast.error(this.$t('calendar', 'Unpublishing calendar failed'))
 			})
 		}
 
