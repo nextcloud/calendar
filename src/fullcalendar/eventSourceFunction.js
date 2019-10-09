@@ -22,6 +22,7 @@
 import {
 	generateTextColorForRGBString
 } from '../utils/color.js'
+import { translate } from 'nextcloud-l10n'
 
 /**
  * convert an array of calendar-objects to events
@@ -47,7 +48,7 @@ export function eventSourceFunction(calendarObjects, start, end, timezone) {
 
 			const fcEvent = {
 				id: [calendarObject.id, object.id].join('###'),
-				title: object.title || t('calendar', 'Untitled event'),
+				title: object.title || translate('calendar', 'Untitled event'),
 				allDay: object.isAllDay(),
 				start: object.startDate.getInTimezone(timezone).jsDate,
 				end: object.endDate.getInTimezone(timezone).jsDate,

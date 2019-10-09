@@ -50,16 +50,16 @@ export default {
 	computed: {
 		options() {
 			const options = [{
-				'label': t('calendar', 'Notification'),
+				'label': this.$t('calendar', 'Notification'),
 				'type': 'DISPLAY'
 			}, {
-				'label': t('calendar', 'E-Mail'),
+				'label': this.$t('calendar', 'E-Mail'),
 				'type': 'EMAIL'
 			}]
 
 			if (this.alarmType === 'AUDIO') {
 				options.push({
-					label: t('calendar', 'Audio notification'),
+					label: this.$t('calendar', 'Audio notification'),
 					type: 'AUDIO'
 				})
 			}

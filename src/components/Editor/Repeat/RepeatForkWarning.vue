@@ -29,7 +29,7 @@ export default {
 	name: 'RepeatForkWarning',
 	computed: {
 		forkWarningLabel() {
-			return t('calendar', 'Your change will only apply to all future occurrences of the event.')
+			return this.$t('calendar', 'Your change will only apply to all future occurrences of the event.')
 		}
 	}
 }

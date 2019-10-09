@@ -50,10 +50,10 @@ export default {
 	computed: {
 		options() {
 			return [{
-				'label': t('calendar', 'before'),
+				'label': this.$t('calendar', 'before'),
 				'type': 'before',
 			}, {
-				'label': t('calendar', 'after'),
+				'label': this.$t('calendar', 'after'),
 				'type': 'after'
 			}]
 		},

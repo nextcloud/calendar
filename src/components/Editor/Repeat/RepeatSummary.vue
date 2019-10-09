@@ -32,7 +32,7 @@ export default {
 	name: 'RepeatSummary',
 	computed: {
 		summaryLabel() {
-			return t('calendar', 'Summary')
+			return this.$t('calendar', 'Summary')
 		},
 		summary() {
 			return ''

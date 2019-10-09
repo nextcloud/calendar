@@ -73,46 +73,46 @@ export default {
 			}
 
 			if (this.participationStatus === 'ACCEPTED' && this.isViewedByOrganizer) {
-				return t('calendar', '{name} accepted your invitation.', {
+				return this.$t('calendar', '{name} accepted your invitation.', {
 					name: this.commonName
 				})
 			}
 			if (this.participationStatus === 'ACCEPTED' && !this.isViewedByOrganizer) {
-				return t('calendar', '{name} accepted {organizerName}\'s invitation.', {
+				return this.$t('calendar', '{name} accepted {organizerName}\'s invitation.', {
 					name: this.commonName,
 					organizerName: this.organizerDisplayName
 				})
 			}
 
 			if (this.participationStatus === 'DECLINED' && this.isViewedByOrganizer) {
-				return t('calendar', '{name} declined your invitation.', {
+				return this.$t('calendar', '{name} declined your invitation.', {
 					name: this.commonName
 				})
 			}
 			if (this.participationStatus === 'DECLINED' && !this.isViewedByOrganizer) {
-				return t('calendar', '{name} declined {organizerName}\'s invitation.', {
+				return this.$t('calendar', '{name} declined {organizerName}\'s invitation.', {
 					name: this.commonName,
 					organizerName: this.organizerDisplayName
 				})
 			}
 
 			if (this.participationStatus === 'DELEGATED') {
-				return t('calendar', '{name} has delegated their invitation.', {
+				return this.$t('calendar', '{name} has delegated their invitation.', {
 					name: this.commonName
 				})
 			}
 			if (this.participationStatus === 'TENTATIVE') {
-				return t('calendar', '{name} marked their participation as tentative.', {
+				return this.$t('calendar', '{name} marked their participation as tentative.', {
 					name: this.commonName
 				})
 			}
 
 			if (this.isViewedByOrganizer) {
-				return t('calendar', '{name} did not respond to your invitation yet.', {
+				return this.$t('calendar', '{name} did not respond to your invitation yet.', {
 					name: this.commonName
 				})
 			} else {
-				return t('calendar', '{name} did not respond to {organizerName}\'s invitation yet.', {
+				return this.$t('calendar', '{name} did not respond to {organizerName}\'s invitation yet.', {
 					name: this.commonName,
 					organizerName: this.organizerDisplayName
 				})

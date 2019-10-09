@@ -40,7 +40,7 @@ export default {
 	},
 	computed: {
 		placeholder() {
-			return t('calendar', 'Type to search timezone')
+			return this.$t('calendar', 'Type to search timezone')
 		},
 		selectedTimezone: {
 			get() {

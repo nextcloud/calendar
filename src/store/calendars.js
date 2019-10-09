@@ -30,6 +30,7 @@ import { dateFactory, getUnixTimestampFromDate } from '../utils/date.js'
 import { getDefaultCalendarObject, mapDavCollectionToCalendar } from '../models/calendar'
 import pLimit from 'p-limit'
 import { getRandomColor } from '../utils/color.js'
+import { translate } from 'nextcloud-l10n'
 
 const state = {
 	calendars: [],
@@ -746,7 +747,7 @@ const actions = {
 
 			const calendarId = context.rootState.importFiles.importCalendarRelation[file.id]
 			if (calendarId === 'new') {
-				const displayName = file.parser.getName() || t('calendar', 'Imported {filename}', {
+				const displayName = file.parser.getName() || translate('calendar', 'Imported {filename}', {
 					filename: file.name
 				})
 				const color = file.parser.getColor() || getRandomColor()

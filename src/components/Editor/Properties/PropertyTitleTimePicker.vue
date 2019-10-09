@@ -147,7 +147,7 @@ export default {
 	},
 	computed: {
 		allDayLabel() {
-			return t('calendar', 'All day')
+			return this.$t('calendar', 'All day')
 		},
 		allDayTooltip() {
 			if (this.canModifyAllDay) {
@@ -157,15 +157,15 @@ export default {
 				return null
 			}
 
-			return t('calendar', 'Can not modify all-day setting for events that are part of a recurrence-set.')
+			return this.$t('calendar', 'Can not modify all-day setting for events that are part of a recurrence-set.')
 		},
 		showTimezonesLabel() {
 			return this.showTimezones
-				? t('calendar', 'Hide timezones')
-				: t('canledar', 'Show timezones')
+				? this.$t('calendar', 'Hide timezones')
+				: this.$t('canledar', 'Show timezones')
 		},
 		toLabel() {
-			return t('calendar', 'to')
+			return this.$t('calendar', 'to')
 		},
 		timeFormat() {
 			if (this.isAllDay) {
