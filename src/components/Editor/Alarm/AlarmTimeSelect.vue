@@ -59,7 +59,7 @@ export default {
 				: defaultAlarms.timedEvents
 
 			options.push({
-				label: t('calendar', 'Custom'),
+				label: this.$t('calendar', 'Custom'),
 				trigger: 'custom'
 			})
 

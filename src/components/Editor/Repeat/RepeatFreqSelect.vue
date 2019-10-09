@@ -54,19 +54,19 @@ export default {
 	computed: {
 		options() {
 			return [{
-				'label': t('calendar', 'never'),
+				'label': this.$t('calendar', 'never'),
 				'freq': 'NONE'
 			}, {
-				'label': n('calendar', 'day', 'days', this.count),
+				'label': this.$n('calendar', 'day', 'days', this.count),
 				'freq': 'DAILY'
 			}, {
-				'label': n('calendar', 'week', 'weeks', this.count),
+				'label': this.$n('calendar', 'week', 'weeks', this.count),
 				'freq': 'WEEKLY'
 			}, {
-				'label': n('calendar', 'month', 'months', this.count),
+				'label': this.$n('calendar', 'month', 'months', this.count),
 				'freq': 'MONTHLY'
 			}, {
-				'label': n('calendar', 'year', 'years', this.count),
+				'label': this.$n('calendar', 'year', 'years', this.count),
 				'freq': 'YEARLY'
 			}]
 		},

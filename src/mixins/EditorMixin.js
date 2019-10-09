@@ -137,10 +137,10 @@ export default {
 			}
 
 			if (!this.calendarObject.dav) {
-				return t('calendar', 'Save')
+				return this.$t('calendar', 'Save')
 			}
 
-			return t('calendar', 'Update')
+			return this.$t('calendar', 'Update')
 		},
 		location() {
 			if (!this.calendarObjectInstance) {

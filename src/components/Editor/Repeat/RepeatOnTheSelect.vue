@@ -73,15 +73,15 @@ export default {
 				value: 'SU',
 				isBySetPos: false
 			}, {
-				label: t('calendar', 'day'),
+				label: this.$t('calendar', 'day'),
 				value: 'SU,MO,TU,WE,TH,FR,SA',
 				isBySetPos: true
 			}, {
-				label: t('calendar', 'weekday'),
+				label: this.$t('calendar', 'weekday'),
 				value: 'MO,TU,WE,TH,FR',
 				isBySetPos: true
 			}, {
-				label: t('calendar', 'weekend day'),
+				label: this.$t('calendar', 'weekend day'),
 				value: 'SU,SA',
 				isBySetPos: true
 			}]

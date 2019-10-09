@@ -263,7 +263,7 @@ export default {
 				if (calendars.length === 0) {
 					this.loadingCalendars = true
 					this.$store.dispatch('appendCalendar', {
-						displayName: t('calendars', 'Personal'),
+						displayName: this.$t('calendars', 'Personal'),
 						color: getRandomColor(),
 						order: 0
 					}).then(() => {

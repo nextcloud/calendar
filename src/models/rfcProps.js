@@ -19,127 +19,128 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import { translate } from 'nextcloud-l10n'
 
 export default {
 	// RFC 5545
 	class: {
 		name: 'accessClass',
-		readableName: t('calendar', 'When shared show'),
+		readableName: translate('calendar', 'When shared show'),
 		icon: 'icon-eye',
 		options: [
-			{ value: 'PUBLIC', label: t('calendar', 'When shared show full event') },
-			{ value: 'CONFIDENTIAL', label: t('calendar', 'When shared show only busy') },
-			{ value: 'PRIVATE', label: t('calendar', 'When shared hide this event') },
+			{ value: 'PUBLIC', label: translate('calendar', 'When shared show full event') },
+			{ value: 'CONFIDENTIAL', label: translate('calendar', 'When shared show only busy') },
+			{ value: 'PRIVATE', label: translate('calendar', 'When shared hide this event') },
 		],
 		multiple: false,
-		info: t('calendar', 'The visibility of this event in shared calendars.'),
+		info: translate('calendar', 'The visibility of this event in shared calendars.'),
 		defaultValue: 'PUBLIC'
 	},
 	summary: {
 		name: 'title',
-		readableName: t('calendar', 'Title'),
-		placeholder: t('calendar', 'Enter a title for this event')
+		readableName: translate('calendar', 'Title'),
+		placeholder: translate('calendar', 'Enter a title for this event')
 	},
 	location: {
 		name: 'location',
-		readableName: t('calendar', 'Location'),
-		placeholder: t('calendar', 'Add a location'),
+		readableName: translate('calendar', 'Location'),
+		placeholder: translate('calendar', 'Add a location'),
 		icon: 'icon-address'
 	},
 	description: {
 		name: 'description',
-		readableName: t('calendar', 'Description'),
-		placeholder: t('calendar', 'Add a description'),
+		readableName: translate('calendar', 'Description'),
+		placeholder: translate('calendar', 'Add a description'),
 		icon: 'icon-menu',
 	},
 	geo: {
 		name: 'geo',
-		readableName: t('calendar', 'Geographic Position'),
+		readableName: translate('calendar', 'Geographic Position'),
 		icon: 'icon-timezone',
 		multiple: false,
 		default: false,
-		info: t('calendar', 'The geographical position this events take place at.')
+		info: translate('calendar', 'The geographical position this events take place at.')
 	},
 	priority: {
-		readableName: t('calendar', 'Priority'),
+		readableName: translate('calendar', 'Priority'),
 		icon: '',
 		multiple: false,
 		default: false,
-		info: t('calendar', 'Priority of this event.'),
+		info: translate('calendar', 'Priority of this event.'),
 		options: [
-			{ value: 7, label: t('calendar', 'Low') },
-			{ value: 5, label: t('calendar', 'Medium') },
-			{ value: 3, label: t('calendar', 'High') },
+			{ value: 7, label: translate('calendar', 'Low') },
+			{ value: 5, label: translate('calendar', 'Medium') },
+			{ value: 3, label: translate('calendar', 'High') },
 		]
 
 	},
 	status: {
 		name: 'status',
-		readableName: t('calendar', 'Status'),
+		readableName: translate('calendar', 'Status'),
 		icon: 'icon-checkmark',
 		options: [
-			{ value: 'CONFIRMED', label: t('calendar', 'Confirmed') },
-			{ value: 'TENTATIVE', label: t('calendar', 'Tentative') },
-			{ value: 'CANCELLED', label: t('calendar', 'Cancelled') },
+			{ value: 'CONFIRMED', label: translate('calendar', 'Confirmed') },
+			{ value: 'TENTATIVE', label: translate('calendar', 'Tentative') },
+			{ value: 'CANCELLED', label: translate('calendar', 'Cancelled') },
 		],
 		multiple: false,
 		default: true,
-		info: t('calendar', 'Confirmation about the overall status of the event.'),
+		info: translate('calendar', 'Confirmation about the overall status of the event.'),
 		defaultValue: 'CONFIRMED'
 	},
 	timeTransparency: {
 		name: 'timeTransparency',
-		readableName: t('calendar', 'Show as'),
+		readableName: translate('calendar', 'Show as'),
 		icon: 'icon-briefcase',
 		multiple: false,
 		default: true,
-		info: t('calendar', 'Take this event into account when calculating free-busy information'),
+		info: translate('calendar', 'Take this event into account when calculating free-busy information'),
 		options: [
-			{ value: 'TRANSPARENT', label: t('calendar', 'Free') },
-			{ value: 'OPAQUE', label: t('calendar', 'Busy') },
+			{ value: 'TRANSPARENT', label: translate('calendar', 'Free') },
+			{ value: 'OPAQUE', label: translate('calendar', 'Busy') },
 		],
 		defaultValue: 'TRANSPARENT'
 	},
 	// url: {
-	// 	readableName: t('calendar', 'URL'),
+	// 	readableName: translate('calendar', 'URL'),
 	// 	icon: '',
 	// 	multiple: false,
 	// 	default: false,
-	// 	info: t('calendar', '')
+	// 	info: translate('calendar', '')
 	// },
 	// To be implemented later:
 	// attach: {
-	// 	readableName: t('calendar', 'Attachments'),
+	// 	readableName: translate('calendar', 'Attachments'),
 	// 	multiple: true,
 	//
 	// },
 	categories: {
-		readableName: t('calendar', 'Categories'),
+		readableName: translate('calendar', 'Categories'),
 		icon: '',
 		multiple: true,
 		default: true,
-		info: t('calendar', '')
+		info: translate('calendar', '')
 
 	},
 	resources: {
-		readableName: t('calendar', 'Additional resources'),
+		readableName: translate('calendar', 'Additional resources'),
 		icon: '',
 		multiple: true,
 		default: false,
-		info: t('calendar', '')
+		info: translate('calendar', '')
 
 	},
 	// RFC 7986
 	color: {
-		readableName: t('calendar', 'Custom color'),
+		readableName: translate('calendar', 'Custom color'),
 		icon: '',
 		multiple: false,
 		default: false,
-		info: t('calendar', 'Special color of this event. Overrides the calendar-color.')
+		info: translate('calendar', 'Special color of this event. Overrides the calendar-color.')
 	},
 	// To be implemented later:
 	// conference: {
-	// 	readableName: t('calendar', 'Conference system'),
+	// 	readableName: translate('calendar', 'Conference system'),
 	// 	icon: '',
 	// 	multiple: false,
 	// },

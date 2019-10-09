@@ -80,28 +80,28 @@ export default {
 	},
 	computed: {
 		endRepeatLabel() {
-			return t('calendar', 'End repeat ...')
+			return this.$t('calendar', 'End repeat ...')
 		},
 		isNeverSelected() {
 			return this.count === null && this.until === null
 		},
 		neverLabel() {
-			return t('calendar', 'Never')
+			return this.$t('calendar', 'Never')
 		},
 		isOnSelected() {
 			return this.until !== null
 		},
 		onLabel() {
-			return t('calendar', 'On')
+			return this.$t('calendar', 'On')
 		},
 		isAfterSelected() {
 			return this.count !== null
 		},
 		afterLabel() {
-			return t('calendar', 'After')
+			return this.$t('calendar', 'After')
 		},
 		occurrencesLabel() {
-			return n('calendar', 'count', 'counts', this.count)
+			return this.$n('calendar', 'count', 'counts', this.count)
 		},
 		maxCount() {
 			// This is also the limit that we currently enforce in the server,

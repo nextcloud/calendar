@@ -45,25 +45,25 @@ export default {
 	computed: {
 		options() {
 			return [{
-				label: t('calendar', 'first'),
+				label: this.$t('calendar', 'first'),
 				value: 1
 			}, {
-				label: t('calendar', 'second'),
+				label: this.$t('calendar', 'second'),
 				value: 2
 			}, {
-				label: t('calendar', 'third'),
+				label: this.$t('calendar', 'third'),
 				value: 3
 			}, {
-				label: t('calendar', 'fourth'),
+				label: this.$t('calendar', 'fourth'),
 				value: 4
 			}, {
-				label: t('calendar', 'fifth'),
+				label: this.$t('calendar', 'fifth'),
 				value: 5
 			}, {
-				label: t('calendar', 'second to last'),
+				label: this.$t('calendar', 'second to last'),
 				value: -2
 			}, {
-				label: t('calendar', 'last'),
+				label: this.$t('calendar', 'last'),
 				value: -1
 			}]
 		},
