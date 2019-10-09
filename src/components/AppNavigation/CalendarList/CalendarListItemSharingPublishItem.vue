@@ -138,7 +138,7 @@ import ClickOutside from 'vue-click-outside'
 import {
 	generateRemoteUrl,
 	linkTo
-} from 'nextcloud-router'
+} from '@nextcloud/router'
 
 export default {
 	name: 'CalendarListItemSharingPublishItem',

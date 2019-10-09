@@ -54,9 +54,9 @@ import {
 	Multiselect
 } from 'nextcloud-vue'
 import client from '../../../services/caldavService.js'
-import HttpClient from 'nextcloud-axios'
+import HttpClient from '@nextcloud/axios'
 import debounce from 'debounce'
-import { linkTo } from 'nextcloud-router'
+import { linkTo } from '@nextcloud/router'
 
 export default {
 	name: 'InviteesListSearch',

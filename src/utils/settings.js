@@ -19,7 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { linkTo } from 'nextcloud-router'
+import { linkTo } from '@nextcloud/router'
 
 /**
  * Reads config value from hidden input field

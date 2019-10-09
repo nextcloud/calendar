@@ -19,7 +19,7 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { translate } from 'nextcloud-l10n'
+import { translate } from '@nextcloud/l10n'
 
 export default {
 	allDayEvents: [

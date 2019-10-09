@@ -22,7 +22,7 @@
 import {
 	generateTextColorForRGBString
 } from '../utils/color.js'
-import { translate } from 'nextcloud-l10n'
+import { translate } from '@nextcloud/l10n'
 
 /**
  * convert an array of calendar-objects to events

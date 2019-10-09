@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import HttpClient from 'nextcloud-axios'
+import HttpClient from '@nextcloud/axios'
 
 export default {
 	name: 'IllustrationHeader',

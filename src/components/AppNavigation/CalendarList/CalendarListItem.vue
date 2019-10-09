@@ -144,7 +144,7 @@ import {
 import ClickOutside from 'vue-click-outside'
 import {
 	generateRemoteUrl
-} from 'nextcloud-router'
+} from '@nextcloud/router'
 
 import AppNavigationDisabledCalendarIconBullet from './AppNavigationDisabledCalendarIconBullet.vue'
 import CalendarListItemSharingSearch from './CalendarListItemSharingSearch.vue'

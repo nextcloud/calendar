@@ -19,8 +19,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import moment from 'nextcloud-moment'
-import { translate } from 'nextcloud-l10n'
+import moment from '@nextcloud/moment'
+import { translate } from '@nextcloud/l10n'
 
 export default (value, view) => {
 	switch (view) {

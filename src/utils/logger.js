@@ -19,8 +19,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { getLoggerBuilder } from 'nextcloud-logger'
-import { getCurrentUser } from 'nextcloud-auth'
+import { getLoggerBuilder } from '@nextcloud/logger'
+import { getCurrentUser } from '@nextcloud/auth'
 
 const builder = getLoggerBuilder()
 const user = getCurrentUser()

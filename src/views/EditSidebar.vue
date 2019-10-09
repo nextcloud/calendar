@@ -234,7 +234,7 @@ import EditorMixin from '../mixins/EditorMixin'
 import { getIllustrationForTitle } from '../utils/illustration.js'
 import IllustrationHeader from '../components/Editor/IllustrationHeader.vue'
 import { getDefaultColor } from '../utils/color.js'
-import moment from 'nextcloud-moment'
+import moment from '@nextcloud/moment'
 import PropertyTitleTimePickerLoadingPlaceholder
 	from '../components/Editor/Properties/PropertyTitleTimePickerLoadingPlaceholder.vue'
 

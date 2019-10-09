@@ -65,7 +65,7 @@ import {
 	modifyDate
 } from '../../../utils/date.js'
 import formatDateRage from '../../../filters/dateRangeFormat.js'
-import { getLocale } from 'nextcloud-l10n'
+import { getLocale } from '@nextcloud/l10n'
 
 export default {
 	name: 'AppNavigationHeaderDatePicker',

@@ -70,7 +70,7 @@ import {
 } from 'nextcloud-vue'
 import {
 	generateRemoteUrl
-} from 'nextcloud-router'
+} from '@nextcloud/router'
 import {
 	mapGetters,
 	mapState
