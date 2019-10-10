@@ -25,57 +25,57 @@ export default {
 	allDayEvents: [
 		{
 			label: translate('calendar', 'On the day of the event at 9am'),
-			trigger: 'P9H'
+			trigger: 9 * 60 * 60
 		},
 		{
 			label: translate('calendar', '1 day before at 9am'),
-			trigger: '-P15H'
+			trigger: -15 * 60 * 60
 		},
 		{
 			label: translate('calendar', '2 days before at 9am'),
-			trigger: '-P39H'
+			trigger: -39 * 60 * 60
 		},
 		{
 			label: translate('calendar', '1 week before at 9am'),
-			trigger: '-P153H'
+			trigger: -153 * 60 * 60
 		}
 	],
 	timedEvents: [
 		{
 			label: translate('calendar', 'At the time of the event'),
-			trigger: 'P0D'
+			trigger: 0
 		},
 		{
 			label: translate('calendar', '5 minutes before'),
-			trigger: '-P5M'
+			trigger: -5 * 60
 		},
 		{
 			label: translate('calendar', '10 minutes before'),
-			trigger: '-P10M'
+			trigger: -10 * 60
 		},
 		{
 			label: translate('calendar', '15 minutes before'),
-			trigger: '-P15M'
+			trigger: -15 * 60
 		},
 		{
 			label: translate('calendar', '30 minutes before'),
-			trigger: '-P30M'
+			trigger: -30 * 60
 		},
 		{
 			label: translate('calendar', '1 hour before'),
-			trigger: '-P1H'
+			trigger: -1 * 60 * 60
 		},
 		{
 			label: translate('calendar', '2 hours before'),
-			trigger: '-P2H'
+			trigger: -2 * 60 * 60
 		},
 		{
 			label: translate('calendar', '1 day before'),
-			trigger: '-P1D'
+			trigger: -1 * 24 * 60 * 60
 		},
 		{
 			label: translate('calendar', '2 days before'),
-			trigger: '-P2D'
+			trigger: -2 * 24 * 60 * 60
 		}
 	]
 }
