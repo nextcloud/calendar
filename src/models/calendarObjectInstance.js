@@ -52,7 +52,17 @@ export const getDefaultCalendarObjectInstanceObject = (props = {}) => Object.ass
 	// Whether or not to block this event in Free-Busy reports (TRANSPARENT, OPAQUE)
 	timeTransparency: null,
 	// The recurrence rule of this event. We only support one recurrence-rule
-	recurrenceRule: {},
+	recurrenceRule: {
+		freq: null,
+		interval: 1,
+		count: null,
+		until: null,
+		byDay: [],
+		byMonth: [],
+		byMonthDay: [],
+		bySetPosition: null,
+		isUnsupported: false
+	},
 	// Attendees of this event
 	attendees: [],
 	// Organizer of the event
@@ -78,7 +88,7 @@ export const getDefaultCalendarObjectInstanceObject = (props = {}) => Object.ass
  * Map an EventComponent from calendar-js to our calendar object instance object
  *
  * @param {EventComponent} eventComponent The EventComponent object to map to an object
- * @returns {{color: *, attendees: [], timeTransparency: *, alarms: [], description: *, location: *, eventComponent: *, categories: [], title: *, accessClass: *, status: *}}
+ * @returns {{color: *, canModifyAllDay: *, timeTransparency: *, description: *, location: *, eventComponent: *, title: *, accessClass: *, status: *}}
  */
 export const mapEventComponentToCalendarObjectInstanceObject = (eventComponent) => {
 	const calendarObjectInstanceObject = {
@@ -89,10 +99,6 @@ export const mapEventComponentToCalendarObjectInstanceObject = (eventComponent) 
 		status: eventComponent.status,
 		timeTransparency: eventComponent.timeTransparency,
 		color: eventComponent.color,
-		attendees: [],
-		alarms: [],
-		categories: [],
-		organizer: null,
 		canModifyAllDay: eventComponent.canModifyAllDay(),
 		eventComponent
 	}
@@ -112,8 +118,140 @@ export const mapEventComponentToCalendarObjectInstanceObject = (eventComponent) 
 	}
 	calendarObjectInstanceObject.endTimezoneId = eventComponent.endDate.timezoneId
 
+	calendarObjectInstanceObject.categories = getCategoriesFromEventComponent(eventComponent)
+	calendarObjectInstanceObject.organizer = getOrganizerFromEventComponent(eventComponent)
+	calendarObjectInstanceObject.recurrenceRule = getRecurrenceRuleFromEventComponent(eventComponent)
+	calendarObjectInstanceObject.hasMultipleRecurrenceRules
+		= Array.from(eventComponent.getPropertyIterator('RRULE')).length > 1
+	calendarObjectInstanceObject.attendees = getAttendeesFromEventComponent(eventComponent)
+	calendarObjectInstanceObject.alarms = getAlarmsFromEventComponent(eventComponent)
+
+	return calendarObjectInstanceObject
+}
+
+/**
+ * Gets the organizer from the event component
+ *
+ * @param {EventComponent} eventComponent The event-component representing the instance
+ * @returns {null|{commonName: *, uri: *}}
+ */
+function getOrganizerFromEventComponent(eventComponent) {
+	if (eventComponent.organizer) {
+		const organizerProperty = eventComponent.getFirstProperty('ORGANIZER')
+		return {
+			commonName: organizerProperty.commonName,
+			uri: organizerProperty.email
+		}
+	}
+
+	return null
+}
+
+/**
+ * Gets all categories (without a language tag) from the event component
+ *
+ * @param {EventComponent} eventComponent The event-component representing the instance
+ * @returns {String[]}
+ */
+function getCategoriesFromEventComponent(eventComponent) {
+	return Array.from(eventComponent.getCategoryIterator())
+}
+
+/**
+ * Gets the first recurrence rule from the event component
+ *
+ * @param {EventComponent} eventComponent The event-component representing the instance
+ * @returns {{byMonth: [], freq: null, count: null, byDay: [], interval: number, until: null, bySetPosition: null, byMonthDay: []}|{byMonth: *, freq: *, count: *, byDay: *, interval: *, until: *, bySetPosition: *, byMonthDay: *}}
+ */
+function getRecurrenceRuleFromEventComponent(eventComponent) {
+	/** @type {RecurValue} */
+	const recurrenceRule = eventComponent.getFirstPropertyFirstValue('RRULE')
+	if (recurrenceRule) {
+		const component = {
+			freq: recurrenceRule.frequency,
+			interval: recurrenceRule.interval || 1,
+			count: recurrenceRule.count,
+			until: null,
+			byDay: [],
+			byMonth: [],
+			byMonthDay: [],
+			bySetPosition: null,
+			isUnsupported: false,
+			recurrenceRuleValue: recurrenceRule
+		}
+
+		if (recurrenceRule.until) {
+			component.until = recurrenceRule.until.jsDate
+		}
+
+		switch (component.freq) {
+		case 'DAILY':
+			getRecurrenceComponentFromDailyRule(recurrenceRule, component)
+			break
+
+		case 'WEEKLY':
+			getRecurrenceComponentFromWeeklyRule(recurrenceRule, component, eventComponent)
+			break
+
+		case 'MONTHLY':
+			getRecurrenceComponentFromMonthlyRule(recurrenceRule, component, eventComponent)
+			break
+
+		case 'YEARLY':
+			getRecurrenceComponentFromYearlyRule(recurrenceRule, component, eventComponent)
+			break
+
+		default:
+			component.isUnsupported = true
+			break
+		}
+
+		return component
+	}
+
+	return {
+		freq: 'NONE',
+		interval: 1,
+		count: null,
+		until: null,
+		byDay: [],
+		byMonth: [],
+		byMonthDay: [],
+		bySetPosition: null,
+		isUnsupported: false,
+		recurrenceRuleValue: null
+	}
+}
+
+/**
+ * Checks if the recurrence-rule contains any of the given components
+ *
+ * @param {RecurValue} recurrenceRule The recurrence-rule value to check for the given components
+ * @param {String[]} components List of components to check for
+ * @returns {Boolean}
+ */
+function containsRecurrenceComponent(recurrenceRule, components) {
+	for (const component of components) {
+		const componentValue = recurrenceRule.getComponent(component)
+		if (componentValue.length > 0) {
+			return true
+		}
+	}
+
+	return false
+}
+
+/**
+ * Gets all attendees from the event component
+ *
+ * @param {EventComponent} eventComponent The event-component representing the instance
+ * @returns {[]}
+ */
+function getAttendeesFromEventComponent(eventComponent) {
+	const attendees = []
+
 	for (const attendee of eventComponent.getAttendeeIterator()) {
-		calendarObjectInstanceObject.attendees.push({
+		attendees.push({
 			commonName: attendee.commonName,
 			participationStatus: attendee.participationStatus,
 			role: attendee.role,
@@ -123,26 +261,380 @@ export const mapEventComponentToCalendarObjectInstanceObject = (eventComponent) 
 		})
 	}
 
+	return attendees
+}
+
+/**
+ * Get all alarms from the event Component
+ *
+ * @param {EventComponent} eventComponent The event-component representing the instance
+ * @returns {[]}
+ */
+function getAlarmsFromEventComponent(eventComponent) {
+	const alarms = []
+
 	for (const alarm of eventComponent.getAlarmIterator()) {
-		calendarObjectInstanceObject.alarms.push({
+		alarms.push({
 			type: alarm.action,
+			relativeTrigger: null,
+			absoluteTrigger: null,
+			isRelative: false,
 			// triggerDate:
 			// isRelative: alarm.trigger.isRelative()
 			alarmComponent: alarm
 		})
 	}
 
-	for (const category of eventComponent.getCategoryIterator()) {
-		calendarObjectInstanceObject.categories.push(category)
+	return alarms
+}
+
+/**
+ * Gets the string-representation of the weekday of a given date-time-value
+ *
+ * @param {DateTimeValue} dateTimeValue The date to get the weekday of
+ * @returns {string}
+ */
+function getWeekDayFromDateTimeValue(dateTimeValue) {
+	const jsDate = dateTimeValue.jsDate
+
+	switch (jsDate.getDay()) {
+	case 0:
+		return 'SU'
+	case 1:
+		return 'MO'
+	case 2:
+		return 'TU'
+	case 3:
+		return 'WE'
+	case 4:
+		return 'TH'
+	case 5:
+		return 'FR'
+	case 6:
+		return 'SA'
+	default:
+		return 'MO'
+	}
+}
+
+/**
+ * Get all numbers between start and end as strings
+ *
+ * @param {Number} start Lower end of range
+ * @param {Number} end Upper end of range
+ * @returns {string[]}
+ */
+function getRangeAsStrings(start, end) {
+	return Array
+		.apply(null, Array((end - start) + 1))
+		.map((_, n) => n + start)
+		.map((s) => s.toString())
+}
+
+/**
+ * Extracts the recurrence component from a daily recurrence rule
+ *
+ * @param {RecurValue} recurrenceRule The RecurValue to extract data from
+ * @param {Object} recurrenceComponent The recurrence component to write data into
+ */
+function getRecurrenceComponentFromDailyRule(recurrenceRule, recurrenceComponent) {
+	/**
+	 * # Daily
+	 *
+	 * The Nextcloud-editor does not support any BY-parts for the daily rule, hence
+	 * we will mark any DAILY rule with BY-parts as unsupported.
+	 */
+	const forbiddenComponents = [
+		'BYSECOND',
+		'BYMINUTE',
+		'BYHOUR',
+		'BYDAY',
+		'BYMONTHDAY',
+		'BYYEARDAY',
+		'BYWEEKNO',
+		'BYMONTH',
+		'BYSETPOS'
+	]
+
+	if (containsRecurrenceComponent(recurrenceRule, forbiddenComponents)) {
+		recurrenceComponent.isUnsupported = true
+	}
+}
+
+/**
+ * Extracts the recurrence component from a weekly recurrence rule
+ *
+ * @param {RecurValue} recurrenceRule The RecurValue to extract data from
+ * @param {Object} recurrenceComponent The recurrence component to write data into
+ * @param {EventComponent} eventComponent The event component needed for default values
+ */
+function getRecurrenceComponentFromWeeklyRule(recurrenceRule, recurrenceComponent, eventComponent) {
+	/**
+	 * # Weekly
+	 *
+	 * The Nextcloud-editor only supports BYDAY in order to expand the weekly rule.
+	 * It does not support other BY-parts like BYSETPOS or BYMONTH
+	 *
+	 * As defined by RFC 5545, the individual BYDAY components may not be preceded
+	 * by a positive or negative integer.
+	 */
+	const forbiddenComponents = [
+		'BYSECOND',
+		'BYMINUTE',
+		'BYHOUR',
+		'BYMONTHDAY',
+		'BYYEARDAY',
+		'BYWEEKNO',
+		'BYMONTH',
+		'BYSETPOS'
+	]
+
+	if (containsRecurrenceComponent(recurrenceRule, forbiddenComponents)) {
+		recurrenceComponent.isUnsupported = true
 	}
 
-	if (eventComponent.organizer) {
-		const organizerProperty = eventComponent.getFirstProperty('ORGANIZER')
-		calendarObjectInstanceObject.organizer = {
-			commonName: organizerProperty.commonName,
-			uri: organizerProperty.email
+	recurrenceComponent.byDay = recurrenceRule.getComponent('BYDAY')
+		.filter((weekDay) => ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'].includes(weekDay))
+
+	// If the BYDAY is empty, add the day that the event occurs in
+	// E.g. if the event is on a Wednesday, automatically set BYDAY:WE
+	if (recurrenceComponent.byDay.length === 0) {
+		recurrenceComponent.byDay.push(getWeekDayFromDateTimeValue(eventComponent.startDate))
+	}
+}
+
+/**
+ * Extracts the recurrence component from a monthly recurrence rule
+ *
+ * @param {RecurValue} recurrenceRule The RecurValue to extract data from
+ * @param {Object} recurrenceComponent The recurrence component to write data into
+ * @param {EventComponent} eventComponent The event component needed for default values
+ */
+function getRecurrenceComponentFromMonthlyRule(recurrenceRule, recurrenceComponent, eventComponent) {
+	/**
+	 * # Monthly
+	 *
+	 * The Nextcloud-editor only supports BYMONTHDAY, BYDAY, BYSETPOS in order to expand the monthly rule.
+	 * It supports either BYMONTHDAY or the combination of BYDAY and BYSETPOS. They have to be used exclusively
+	 * and cannot be combined.
+	 *
+	 * It does not support other BY-parts like BYMONTH
+	 *
+	 * For monthly recurrence-rules, BYDAY components are allowed to be preceded by positive or negative integers.
+	 * The Nextcloud-editor supports at most one BYDAY component with an integer.
+	 * If it's presented with such a BYDAY component, it will internally be converted to BYDAY without integer and BYSETPOS.
+	 * e.g.
+	 * BYDAY=3WE => BYDAY=WE,BYSETPOS=3
+	 *
+	 * BYSETPOS is limited to -2, -1, 1, 2, 3, 4, 5
+	 * Other values are not supported
+	 *
+	 * BYDAY is limited to "MO", "TU", "WE", "TH", "FR", "SA", "SU",
+	 * "MO,TU,WE,TH,FR,SA,SU", "MO,TU,WE,TH,FR", "SA,SU"
+	 *
+	 * BYMONYHDAY is limited to "1", "2", ..., "31"
+	 */
+	const forbiddenComponents = [
+		'BYSECOND',
+		'BYMINUTE',
+		'BYHOUR',
+		'BYYEARDAY',
+		'BYWEEKNO',
+		'BYMONTH'
+	]
+
+	if (containsRecurrenceComponent(recurrenceRule, forbiddenComponents)) {
+		recurrenceComponent.isUnsupported = true
+	}
+
+	if (containsRecurrenceComponent(recurrenceRule, ['BYMONYHDAY'])) {
+		if (containsRecurrenceComponent(recurrenceRule, ['BYDAY', 'BYSETPOS'])) {
+			recurrenceComponent.isUnsupported = true
+		}
+
+		const allowedValues = getRangeAsStrings(1, 31)
+		const byMonthDayComponent = recurrenceRule.getComponent('BYMONYHDAY')
+		recurrenceComponent.byMonthDay = byMonthDayComponent.filter((day) =>
+			allowedValues.includes(day))
+
+		if (byMonthDayComponent.length !== recurrenceComponent.byMonthDay.length) {
+			recurrenceComponent.isUnsupported = true
+		}
+	// TODO: the following is duplicate code, the same as in the yearly function.
+	} else if (containsRecurrenceComponent(recurrenceRule, ['BYDAY']) && containsRecurrenceComponent(recurrenceRule, ['BYSETPOS'])) {
+		if (isAllowedByDay(recurrenceRule.getComponent('BYDAY'))) {
+			recurrenceComponent.byDay = recurrenceRule.getComponent('BYDAY')
+		} else {
+			recurrenceComponent.byDay = ['MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU']
+			recurrenceComponent.isUnsupported = true
+		}
+
+		if (isAllowedBySetPos(recurrenceRule.getComponent('BYSETPOS'))) {
+			recurrenceComponent.bySetPosition = recurrenceRule.getComponent('BYSETPOS')
+		} else {
+			recurrenceComponent.bySetPosition = 1
+			recurrenceComponent.isUnsupported = true
+		}
+	} else if (containsRecurrenceComponent(recurrenceRule, ['BYDAY'])) {
+		const byDayArray = recurrenceRule.getComponent('BYDAY')
+
+		if (byDayArray.length > 1) {
+			recurrenceComponent.byMonthDay.push(eventComponent.startDate.day.toString())
+			recurrenceComponent.isUnsupported = true
+		} else {
+			const firstElement = byDayArray[0]
+
+			const match = /^(-?\d)([A-Z]){2}$/.exec(firstElement)
+			if (match) {
+				const bySetPosition = match[1]
+				const byDay = match[2]
+
+				if (isAllowedBySetPos(bySetPosition)) {
+					recurrenceComponent.byDay = [byDay]
+					recurrenceComponent.bySetPosition = bySetPosition
+				} else {
+					recurrenceComponent.byDay = [byDay]
+					recurrenceComponent.bySetPosition = 1
+					recurrenceComponent.isUnsupported = true
+				}
+			} else {
+				recurrenceComponent.byMonthDay.push(eventComponent.startDate.day.toString())
+				recurrenceComponent.isUnsupported = true
+			}
+		}
+	} else {
+		// If none of the previous rules are present, automatically set a BYMONTHDAY
+		recurrenceComponent.byMonthDay.push(eventComponent.startDate.day.toString())
+	}
+}
+
+/**
+ * Extracts the recurrence component from a yearly recurrence rule
+ *
+ * @param {RecurValue} recurrenceRule The RecurValue to extract data from
+ * @param {Object} recurrenceComponent The recurrence component to write data into
+ * @param {EventComponent} eventComponent The event component needed for default values
+ */
+function getRecurrenceComponentFromYearlyRule(recurrenceRule, recurrenceComponent, eventComponent) {
+	/**
+	 * # YEARLY
+	 *
+	 * The Nextcloud-editor only supports BYMONTH, BYDAY, BYSETPOS in order to expand the monthly rule.
+	 *
+	 *
+	 *
+	 *
+	 *
+	 *
+	 * BYSETPOS is limited to -2, -1, 1, 2, 3, 4, 5
+	 * Other values are not supported
+	 *
+	 * BYDAY is limited to "MO", "TU", "WE", "TH", "FR", "SA", "SU",
+	 * "MO,TU,WE,TH,FR,SA,SU", "MO,TU,WE,TH,FR", "SA,SU"
+	 */
+	const forbiddenComponents = [
+		'BYSECOND',
+		'BYMINUTE',
+		'BYHOUR',
+		'BYMONTHDAY',
+		'BYYEARDAY',
+		'BYWEEKNO'
+	]
+
+	if (containsRecurrenceComponent(recurrenceRule, forbiddenComponents)) {
+		recurrenceComponent.isUnsupported = true
+	}
+
+	if (containsRecurrenceComponent(recurrenceRule, ['BYMONTH'])) {
+		recurrenceComponent.byMonth = recurrenceRule.getComponent('BYMONTH')
+	} else {
+		recurrenceComponent.byMonth.push(eventComponent.startDate.month.toString())
+	}
+
+	// TODO: the following is duplicate code, the same as in the month function.
+	if (containsRecurrenceComponent(recurrenceRule, ['BYDAY']) && containsRecurrenceComponent(recurrenceRule, ['BYSETPOS'])) {
+		if (isAllowedByDay(recurrenceRule.getComponent('BYDAY'))) {
+			recurrenceComponent.byDay = recurrenceRule.getComponent('BYDAY')
+		} else {
+			recurrenceComponent.byDay = ['MO', 'TU', 'W E', 'TH', 'FR', 'SA', 'SU']
+			recurrenceComponent.isUnsupported = true
+		}
+
+		if (isAllowedBySetPos(recurrenceRule.getComponent('BYSETPOS'))) {
+			recurrenceComponent.bySetPosition = recurrenceRule.getComponent('BYSETPOS')
+		} else {
+			recurrenceComponent.bySetPosition = 1
+			recurrenceComponent.isUnsupported = true
+		}
+	} else if (containsRecurrenceComponent(recurrenceRule, ['BYDAY'])) {
+		const byDayArray = recurrenceRule.getComponent('BYDAY')
+
+		if (byDayArray.length > 1) {
+			recurrenceComponent.byMonthDay.push(eventComponent.startDate.day.toString())
+			recurrenceComponent.isUnsupported = true
+		} else {
+			const firstElement = byDayArray[0]
+
+			const match = /^(-?\d)([A-Z]){2}$/.exec(firstElement)
+			if (match) {
+				const bySetPosition = match[1]
+				const byDay = match[2]
+
+				if (isAllowedBySetPos(bySetPosition)) {
+					recurrenceComponent.byDay = [byDay]
+					recurrenceComponent.bySetPosition = bySetPosition
+				} else {
+					recurrenceComponent.byDay = [byDay]
+					recurrenceComponent.bySetPosition = 1
+					recurrenceComponent.isUnsupported = true
+				}
+			} else {
+				recurrenceComponent.byMonthDay.push(eventComponent.startDate.day.toString())
+				recurrenceComponent.isUnsupported = true
+			}
 		}
 	}
+}
 
-	return calendarObjectInstanceObject
+/**
+ * Checks if the given parameter is a supported BYDAY value
+ *
+ * @param {String[]} byDay The byDay component to check
+ * @returns {Boolean}
+ */
+function isAllowedByDay(byDay) {
+	const allowedByDay = [
+		'MO',
+		'TU',
+		'WE',
+		'TH',
+		'FR',
+		'SA',
+		'SU',
+		'FR,MO,SA,SU,TH,TU,WE',
+		'FR,MO,TH,TU,WE',
+		'SA,SU'
+	]
+
+	return allowedByDay.includes(byDay.sort().join(','))
+}
+
+/**
+ * Checks if the given parameter is a supported BYSETPOS value
+ *
+ * @param {String} bySetPos The bySetPos component to check
+ * @returns {Boolean}
+ */
+function isAllowedBySetPos(bySetPos) {
+	const allowedBySetPos = [
+		'-2',
+		'-1',
+		'1',
+		'2',
+		'3',
+		'4',
+		'5'
+	]
+
+	return allowedBySetPos.includes(bySetPos.toString())
 }
