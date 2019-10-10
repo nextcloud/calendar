@@ -37,6 +37,7 @@ export function generateTextColorForRGBString(rgbString) {
  * returns a random color
  *
  * @returns {String}
+ * @deprecated
  */
 export function getRandomColor() {
 	const red = Math.floor(Math.random() * 256)

@@ -108,7 +108,7 @@ export default {
 				return
 			}
 
-			this.$store.dispatch('appendSubscription', { displayName: hostname, color: getRandomColor(), source: link })
+			this.$store.dispatch('appendSubscription', { displayName: hostname, color: getRandomColor(), source: link }) // TODO - use uid2color
 				.then(() => {
 					this.displayName = ''
 					this.showForm = false

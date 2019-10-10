@@ -95,7 +95,7 @@ export default {
 			this.name = displayName
 			this.isCreating = true
 
-			this.$store.dispatch('appendCalendar', { displayName, color: getRandomColor() })
+			this.$store.dispatch('appendCalendar', { displayName, color: getRandomColor() }) // TODO - use uid2color
 				.then(() => {
 					this.showForm = false
 					this.isCreating = false
