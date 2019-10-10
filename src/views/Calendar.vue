@@ -264,7 +264,7 @@ export default {
 					this.loadingCalendars = true
 					this.$store.dispatch('appendCalendar', {
 						displayName: this.$t('calendars', 'Personal'),
-						color: getRandomColor(),
+						color: getRandomColor(), // TODO - use uid2color
 						order: 0
 					}).then(() => {
 						this.loadingCalendars = false

@@ -750,7 +750,7 @@ const actions = {
 				const displayName = file.parser.getName() || translate('calendar', 'Imported {filename}', {
 					filename: file.name
 				})
-				const color = file.parser.getColor() || getRandomColor()
+				const color = file.parser.getColor() || getRandomColor() // TODO - use uid2color
 				const components = []
 				if (file.parser.containsVEvents()) {
 					components.push('VEVENT')
