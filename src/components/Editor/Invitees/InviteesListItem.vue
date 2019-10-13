@@ -43,6 +43,12 @@
 
 				<ActionRadio
 					:name="radioName"
+					:checked="isChair"
+					@check="changeRole('CHAIR')">
+					{{ $t('calendar', 'Chairperson') }}
+				</ActionRadio>
+				<ActionRadio
+					:name="radioName"
 					:checked="isRequiredParticipant"
 					@check="changeRole('REQ-PARTICIPANT')">
 					{{ $t('calendar', 'Required participant') }}
@@ -120,6 +126,9 @@ export default {
 		},
 		radioName() {
 			return this._uid + '-role-radio-input-group'
+		},
+		isChair() {
+			return this.attendee.role === 'CHAIR'
 		},
 		isRequiredParticipant() {
 			return this.attendee.role === 'REQ-PARTICIPANT'
