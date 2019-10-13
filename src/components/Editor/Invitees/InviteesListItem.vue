@@ -44,25 +44,25 @@
 				<ActionRadio
 					:name="radioName"
 					:checked="isChair"
-					@check="changeRole('CHAIR')">
+					@change="changeRole('CHAIR')">
 					{{ $t('calendar', 'Chairperson') }}
 				</ActionRadio>
 				<ActionRadio
 					:name="radioName"
 					:checked="isRequiredParticipant"
-					@check="changeRole('REQ-PARTICIPANT')">
+					@change="changeRole('REQ-PARTICIPANT')">
 					{{ $t('calendar', 'Required participant') }}
 				</ActionRadio>
 				<ActionRadio
 					:name="radioName"
 					:checked="isOptionalParticipant"
-					@check="changeRole('OPT-PARTICIPANT')">
+					@change="changeRole('OPT-PARTICIPANT')">
 					{{ $t('calendar', 'Optional participant') }}
 				</ActionRadio>
 				<ActionRadio
 					:name="radioName"
 					:checked="isNonParticipant"
-					@check="changeRole('NON-PARTICIPANT')">
+					@change="changeRole('NON-PARTICIPANT')">
 					{{ $t('calendar', 'Non-participant') }}
 				</ActionRadio>
 
