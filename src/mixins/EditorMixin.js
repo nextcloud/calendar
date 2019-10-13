@@ -279,13 +279,15 @@ export default {
 				return
 			}
 
+			const isNewEvent = this.calendarObject.id === 'new'
+
 			if (this.forceThisAndAllFuture) {
 				thisAndAllFuture = true
 			}
 
 			if (this.eventComponent.isDirty()) {
 				let original, fork
-				if (this.eventComponent.canCreateRecurrenceExceptions() && this.calendarObject.id !== 'new') {
+				if (this.eventComponent.canCreateRecurrenceExceptions() && !isNewEvent) {
 					[original, fork] = this.eventComponent.createRecurrenceException(thisAndAllFuture)
 				}
 
@@ -293,7 +295,7 @@ export default {
 					calendarObject: this.calendarObject
 				})
 
-				if (this.calendarObject.id !== 'new' && thisAndAllFuture && original.root !== fork.root) {
+				if (!isNewEvent && thisAndAllFuture && original.root !== fork.root) {
 					await this.$store.dispatch('createCalendarObjectFromFork', {
 						eventComponent: fork,
 						calendarId: this.calendarId
