@@ -75,11 +75,7 @@ export default {
 	},
 	methods: {
 		changeFrequency(value) {
-			if (value === 'NONE') {
-				this.$emit('removeRepeat')
-			} else {
-				this.$emit('changeFrequency', value)
-			}
+			this.$emit('changeFrequency', value)
 		},
 		/**
 		 *

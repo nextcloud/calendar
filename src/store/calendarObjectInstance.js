@@ -30,6 +30,7 @@ import DateTimeValue from 'calendar-js/src/values/dateTimeValue.js'
 import RecurValue from 'calendar-js/src/values/recurValue.js'
 import Property from 'calendar-js/src/properties/property.js'
 import { getBySetPositionAndBySetFromDate, getWeekDayFromDate } from '../utils/recurrence.js'
+import { getDefaultCalendarObjectInstanceObject } from '../models/calendarObjectInstance.js'
 
 const state = {}
 
@@ -856,8 +857,13 @@ const mutations = {
 	 * @param {Object} data.recurrenceRule The recurrenceRule object to modify
 	 */
 	removeRecurrenceRuleFromCalendarObjectInstance(state, { calendarObjectInstance, recurrenceRule }) {
-		console.debug(calendarObjectInstance)
-		console.debug(recurrenceRule)
+		if (recurrenceRule.recurrenceRuleValue) {
+			calendarObjectInstance.eventComponent.deleteAllProperties('RRULE')
+			Vue.set(calendarObjectInstance, 'recurrenceRule', getDefaultCalendarObjectInstanceObject().recurrenceRule)
+
+			console.debug(calendarObjectInstance)
+			console.debug(recurrenceRule)
+		}
 	},
 
 	/**
@@ -968,6 +974,7 @@ const actions = {
 
 			console.debug(`changed from none to ${frequency}`)
 		} else if (recurrenceRule.frequency !== 'NONE' && frequency === 'NONE') {
+			console.debug('calling removeRecurrenceRuleFromCalendarObjectInstance')
 			// Remove the recurrence-rule
 			commit('removeRecurrenceRuleFromCalendarObjectInstance', { calendarObjectInstance, recurrenceRule })
 		} else {

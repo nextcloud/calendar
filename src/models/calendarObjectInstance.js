@@ -54,7 +54,7 @@ export const getDefaultCalendarObjectInstanceObject = (props = {}) => Object.ass
 	timeTransparency: null,
 	// The recurrence rule of this event. We only support one recurrence-rule
 	recurrenceRule: {
-		frequency: null,
+		frequency: 'NONE',
 		interval: 1,
 		count: null,
 		until: null,
