@@ -302,41 +302,55 @@ const actions = {
 	/**
 	 * Updates the time of the new calendar object
 	 *
-	 * @param {Object} context the store mutations
-	 * @param {Object} data destructuring object
-	 * @param {CalendarObject} data.calendarObject Calendar-object to
-	 * @param {Number} data.start Timestamp for start of new event
-	 * @param {Number} data.end Timestamp for end of new event
-	 * @param {String} data.timezoneId asd
-	 * @param {Boolean} data.isAllDay foo
+	 * @param {Object} data The destructuring object for Vuex
+	 * @param {Function} data.commit The Vuex commit function
+	 * @param {Function} data.dispatch The Vuex dispatch function
+	 * @param {Object} data2 destructuring object
+	 * @param {CalendarObject} data2.calendarObjectInstance Calendar-object to
+	 * @param {Number} data2.start Timestamp for start of new event
+	 * @param {Number} data2.end Timestamp for end of new event
+	 * @param {String} data2.timezoneId asd
+	 * @param {Boolean} data2.isAllDay foo
 	 */
-	updateTimeOfNewEvent(context, { calendarObject, start, end, timezoneId, isAllDay }) {
-		const timezoneManager = getTimezoneManager()
-		const timezone = timezoneManager.getTimezoneForId(timezoneId)
-
+	updateTimeOfNewEvent({ commit, dispatch }, { calendarObjectInstance, start, end, timezoneId, isAllDay }) {
+		const isDirty = calendarObjectInstance.eventComponent.isDirty()
 		const startDate = new Date(start * 1000)
 		const endDate = new Date(end * 1000)
 
-		let startDateTime = DateTimeValue
-			.fromJSDate(startDate, true)
-			.getInTimezone(timezone)
-		let endDateTime = DateTimeValue
-			.fromJSDate(endDate, true)
-			.getInTimezone(timezone)
-
-		if (isAllDay) {
-			startDateTime.isDate = true
-			endDateTime.isDate = true
+		if (calendarObjectInstance.isAllDay !== isAllDay) {
+			commit('toggleAllDay', { calendarObjectInstance })
 		}
 
-		const eventComponent = calendarObject.vcalendar.getEventIterator().next().value
-		const isDirty = eventComponent.isDirty()
+		dispatch('changeStartTimezone', {
+			calendarObjectInstance,
+			startTimezone: timezoneId
+		})
+		dispatch('changeEndTimezone', {
+			calendarObjectInstance,
+			endTimezone: timezoneId
+		})
 
-		eventComponent.startDate = startDateTime
-		eventComponent.endDate = endDateTime
+		commit('changeStartDate', {
+			calendarObjectInstance,
+			startDate
+		})
+
+		if (isAllDay) {
+			// The full-calendar end date is exclusive, but the end-date
+			// that changeEndDate expects is inclusive, so we have to deduct one day.
+			commit('changeEndDate', {
+				calendarObjectInstance,
+				endDate: new Date(endDate.getTime() - 24 * 60 * 60 * 1000)
+			})
+		} else {
+			commit('changeEndDate', {
+				calendarObjectInstance,
+				endDate
+			})
+		}
 
 		if (!isDirty) {
-			eventComponent.undirtify()
+			calendarObjectInstance.eventComponent.undirtify()
 		}
 	}
 }

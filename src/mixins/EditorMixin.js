@@ -539,7 +539,7 @@ export default {
 			const timezoneId = this.$store.getters.getResolvedTimezone
 
 			this.$store.dispatch('updateTimeOfNewEvent', {
-				calendarObject: this.calendarObject,
+				calendarObjectInstance: this.calendarObjectInstance,
 				start,
 				end,
 				isAllDay,

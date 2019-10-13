@@ -925,7 +925,7 @@ const actions = {
 	 * @param {Object} data2.calendarObjectInstance The calendarObjectInstance object
 	 * @param {String} data2.endTimezone New timezone to set for end
 	 */
-	endDateTimezone({ commit }, { calendarObjectInstance, endTimezone }) {
+	changeEndTimezone({ commit }, { calendarObjectInstance, endTimezone }) {
 		commit('changeEndTimezone', { calendarObjectInstance, endTimezone })
 
 		// Simulate a change of the end time to trigger the comparison
