@@ -24,6 +24,7 @@
 	<div>
 		<invitees-list-search
 			v-if="!isReadOnly"
+			:already-invited-emails="alreadyInvitedEmails"
 			@addAttendee="addAttendee" />
 		<organizer-list-item
 			v-if="hasOrganizer"
@@ -96,6 +97,22 @@ export default {
 		isListEmpty() {
 			return this.calendarObjectInstance.organizer === null
 				&& this.calendarObjectInstance.attendees.length === 0
+		},
+		alreadyInvitedEmails() {
+			const emails = this.calendarObjectInstance.attendees.map(attendee => {
+				if (attendee.uri.startsWith('mailto:')) {
+					return attendee.uri.substr(7)
+				}
+
+				return attendee.uri
+			})
+
+			const principal = this.$store.getters.getCurrentUserPrincipal
+			if (principal) {
+				emails.push(principal.emailAddress)
+			}
+
+			return emails
 		}
 	},
 	methods: {

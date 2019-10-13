@@ -64,6 +64,12 @@ export default {
 		Avatar,
 		Multiselect
 	},
+	props: {
+		alreadyInvitedEmails: {
+			type: Array,
+			required: true
+		}
+	},
 	data() {
 		return {
 			isLoading: false,
@@ -123,6 +129,10 @@ export default {
 							name = email
 						}
 
+						if (this.alreadyInvitedEmails.includes(email)) {
+							return
+						}
+
 						arr.push({
 							calendarUserType: 'INDIVIDUAL',
 							commonName: result.name,
@@ -147,6 +157,10 @@ export default {
 				return results.filter((principal) => {
 					if (!principal.email) {
 						return false
+					}
+
+					if (this.alreadyInvitedEmails.includes(principal.email)) {
+						return
 					}
 
 					// We do not support GROUPS for now
