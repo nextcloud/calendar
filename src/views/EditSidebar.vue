@@ -113,17 +113,14 @@
 					:value="timeTransparency"
 					@update:value="updateTimeTransparency" />
 			</div>
-			<div v-if="!isReadOnly" class="app-sidebar-tab__buttons">
-				<button v-if="!canCreateRecurrenceException" class="primary" @click="saveAndLeave(false)">
-					{{ updateLabel }}
-				</button>
-				<button v-if="canCreateRecurrenceException" class="primary" @click="saveAndLeave(false)">
-					{{ $t('calendar', 'Update this occurrence') }}
-				</button>
-				<button v-if="canCreateRecurrenceException" @click="saveAndLeave(true)">
-					{{ $t('calendar', 'Update this and all future') }}
-				</button>
-			</div>
+			<save-buttons
+				v-if="!isReadOnly"
+				class="app-sidebar-tab__buttons"
+				:can-create-recurrence-exception="canCreateRecurrenceException"
+				:is-new="isNew"
+				:force-this-and-all-future="forceThisAndAllFuture"
+				@saveThisOnly="saveAndLeave(false)"
+				@saveThisAndAllFuture="saveAndLeave(true)" />
 		</AppSidebarTab>
 		<AppSidebarTab
 			class="app-sidebar-tab"
@@ -141,17 +138,14 @@
 					:calendar-object-instance="calendarObjectInstance"
 					:is-read-only="isReadOnly" />
 			</div>
-			<div v-if="!isReadOnly" class="app-sidebar-tab__buttons">
-				<button v-if="!canCreateRecurrenceException" class="primary" @click="saveAndLeave(false)">
-					{{ updateLabel }}
-				</button>
-				<button v-if="canCreateRecurrenceException" class="primary" @click="saveAndLeave(false)">
-					{{ $t('calendar', 'Update this occurrence') }}
-				</button>
-				<button v-if="canCreateRecurrenceException" @click="saveAndLeave(true)">
-					{{ $t('calendar', 'Update this and all future') }}
-				</button>
-			</div>
+			<save-buttons
+				v-if="!isReadOnly"
+				class="app-sidebar-tab__buttons"
+				:can-create-recurrence-exception="canCreateRecurrenceException"
+				:is-new="isNew"
+				:force-this-and-all-future="forceThisAndAllFuture"
+				@saveThisOnly="saveAndLeave(false)"
+				@saveThisAndAllFuture="saveAndLeave(true)" />
 		</AppSidebarTab>
 		<AppSidebarTab
 			class="app-sidebar-tab"
@@ -166,17 +160,14 @@
 			<div v-if="!isLoading" class="app-sidebar-tab__content">
 				<alarm-list :event-component="eventComponent" :is-read-only="isReadOnly" />
 			</div>
-			<div v-if="!isReadOnly" class="app-sidebar-tab__buttons">
-				<button v-if="!canCreateRecurrenceException" class="primary" @click="saveAndLeave(false)">
-					{{ updateLabel }}
-				</button>
-				<button v-if="canCreateRecurrenceException" class="primary" @click="saveAndLeave(false)">
-					{{ $t('calendar', 'Update this occurrence') }}
-				</button>
-				<button v-if="canCreateRecurrenceException" @click="saveAndLeave(true)">
-					{{ $t('calendar', 'Update this and all future') }}
-				</button>
-			</div>
+			<save-buttons
+				v-if="!isReadOnly"
+				class="app-sidebar-tab__buttons"
+				:can-create-recurrence-exception="canCreateRecurrenceException"
+				:is-new="isNew"
+				:force-this-and-all-future="forceThisAndAllFuture"
+				@saveThisOnly="saveAndLeave(false)"
+				@saveThisAndAllFuture="saveAndLeave(true)" />
 		</AppSidebarTab>
 		<AppSidebarTab
 			class="app-sidebar-tab"
@@ -199,17 +190,14 @@
 					:is-recurrence-exception="isRecurrenceException"
 					@forceThisAndAllFuture="forceModifyingFuture" />
 			</div>
-			<div v-if="!isReadOnly" class="app-sidebar-tab__buttons">
-				<button v-if="!canCreateRecurrenceException" class="primary" @click="saveAndLeave(false)">
-					{{ updateLabel }}
-				</button>
-				<button v-if="canCreateRecurrenceException" class="primary" @click="saveAndLeave(false)">
-					{{ $t('calendar', 'Update this occurrence') }}
-				</button>
-				<button v-if="canCreateRecurrenceException" @click="saveAndLeave(true)">
-					{{ $t('calendar', 'Update this and all future') }}
-				</button>
-			</div>
+			<save-buttons
+				v-if="!isReadOnly"
+				class="app-sidebar-tab__buttons"
+				:can-create-recurrence-exception="canCreateRecurrenceException"
+				:is-new="isNew"
+				:force-this-and-all-future="forceThisAndAllFuture"
+				@saveThisOnly="saveAndLeave(false)"
+				@saveThisAndAllFuture="saveAndLeave(true)" />
 		</AppSidebarTab>
 		<!--<AppSidebarTab :name="$t('calendar', 'Activity')" icon="icon-history" :order="4">-->
 		<!--	This is the activity tab-->
@@ -243,10 +231,12 @@ import { getDefaultColor } from '../utils/color.js'
 import moment from '@nextcloud/moment'
 import PropertyTitleTimePickerLoadingPlaceholder
 	from '../components/Editor/Properties/PropertyTitleTimePickerLoadingPlaceholder.vue'
+import SaveButtons from '../components/Editor/SaveButtons.vue'
 
 export default {
 	name: 'EditSidebar',
 	components: {
+		SaveButtons,
 		PropertyTitleTimePickerLoadingPlaceholder,
 		IllustrationHeader,
 		AlarmList,

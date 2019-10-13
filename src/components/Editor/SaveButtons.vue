@@ -20,3 +20,73 @@
   -
   -->
 
+<template>
+	<div>
+		<button
+			v-if="showSaveButton"
+			class="primary"
+			@click="saveThisOnly">
+			{{ $t('calendar', 'Save') }}
+		</button>
+		<button
+			v-if="shoUpdateButton"
+			class="primary"
+			@click="saveThisOnly">
+			{{ $t('calendar', 'Update') }}
+		</button>
+		<button
+			v-if="showUpdateOnlyThisButton"
+			class="primary"
+			@click="saveThisOnly">
+			{{ $t('calendar', 'Update this occurrence') }}
+		</button>
+		<button
+			v-if="showUpdateThisAndFutureButton"
+			:class="{ primary: forceThisAndAllFuture}"
+			@click="saveThisAndAllFuture">
+			{{ $t('calendar', 'Update this and all future') }}
+		</button>
+	</div>
+</template>
+
+<script>
+export default {
+	name: 'SaveButtons',
+	props: {
+		canCreateRecurrenceException: {
+			type: Boolean,
+			required: true
+		},
+		isNew: {
+			type: Boolean,
+			required: true
+		},
+		forceThisAndAllFuture: {
+			type: Boolean,
+			required: true
+		}
+	},
+	computed: {
+		showSaveButton() {
+			return this.isNew && !this.canCreateRecurrenceException
+		},
+		shoUpdateButton() {
+			return !this.isNew && !this.canCreateRecurrenceException
+		},
+		showUpdateOnlyThisButton() {
+			return this.canCreateRecurrenceException && !this.forceThisAndAllFuture
+		},
+		showUpdateThisAndFutureButton() {
+			return this.canCreateRecurrenceException
+		},
+	},
+	methods: {
+		saveThisOnly() {
+			this.$emit('saveThisOnly')
+		},
+		saveThisAndAllFuture() {
+			this.$emit('saveThisAndAllFuture')
+		}
+	}
+}
+</script>

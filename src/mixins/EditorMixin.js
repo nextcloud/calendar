@@ -146,6 +146,17 @@ export default {
 
 			return this.$t('calendar', 'Update')
 		},
+		isNew() {
+			if (!this.calendarObject) {
+				return true
+			}
+
+			if (!this.calendarObject.dav) {
+				return true
+			}
+
+			return false
+		},
 		location() {
 			if (!this.calendarObjectInstance) {
 				return null
@@ -282,7 +293,7 @@ export default {
 					calendarObject: this.calendarObject
 				})
 
-				if (thisAndAllFuture && original.root !== fork.root) {
+				if (this.calendarObject.id !== 'new' && thisAndAllFuture && original.root !== fork.root) {
 					await this.$store.dispatch('createCalendarObjectFromFork', {
 						eventComponent: fork,
 						calendarId: this.calendarId
