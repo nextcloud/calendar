@@ -53,7 +53,7 @@
 		"color-convert": "^2.0.1",
 		"debounce": "^1.2.0",
 		"jstz": "^2.1.1",
-		"nextcloud-vue": "^0.12.4",
+		"nextcloud-vue": "^0.12.6",
 		"p-limit": "^2.2.1",
 		"p-queue": "^6.1.1",
 		"uuid": "^3.3.3",
