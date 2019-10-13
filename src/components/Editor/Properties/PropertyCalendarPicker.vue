@@ -30,7 +30,12 @@
 				:calendars="calendars"
 				:show-calendar-on-select="true"
 				@selectCalendar="selectCalendar" />
-			<div v-if="isReadOnly" class="fake-input-box">Implement me</div>
+			<div v-if="isReadOnly" class="fake-input-box row">
+				<div class="color-indicator" :style="{ backgroundColor: avatarEnabledCalendar.color }" />
+				<span>{{ avatarEnabledCalendar.displayName }}</span>
+				<Avatar v-if="avatarEnabledCalendar.isSharedWithMe" :disable-menu="true" :disable-tooltip="true"
+					:user="avatarEnabledCalendar.userId" :display-name="avatarEnabledCalendar.userDisplayName" :size="18" />
+			</div>
 		</div>
 	</div>
 </template>
@@ -59,7 +64,19 @@ export default {
 	computed: {
 		display() {
 			return this.calendar !== undefined
-		}
+		},
+		avatarEnabledCalendar() {
+			const principal = this.$store.getters.getPrincipalByUrl(this.calendar.owner)
+
+			if (!principal) {
+				return this.calendar
+			}
+
+			return Object.assign({}, this.calendar, {
+				userId: principal.userId,
+				userDisplayName: principal.displayname
+			})
+		},
 	},
 	methods: {
 		selectCalendar(value) {
@@ -70,48 +87,66 @@ export default {
 </script>
 
 <style scoped>
-	.property-wrapper {
-		display: flex;
-		width: 100%;
-		align-items: flex-start;
-		min-height: 46px;
-	}
+.property-wrapper {
+	display: flex;
+	width: 100%;
+	align-items: flex-start;
+	min-height: 46px;
+}
 
-	.property-icon,
-	.property-info {
-		height: 34px;
-		width: 34px;
-		margin-top: 3px;
-	}
+.property-icon,
+.property-info {
+	height: 34px;
+	width: 34px;
+	margin-top: 3px;
+}
 
-	.property-icon {
-		margin-left: -5px;
-		margin-right: 5px;
-	}
+.property-icon {
+	margin-left: -5px;
+	margin-right: 5px;
+}
 
-	.property-info {
-		opacity: .5;
-	}
+.property-info {
+	opacity: .5;
+}
 
-	.property-info:hover {
-		opacity: 1
-	}
+.property-info:hover {
+	opacity: 1
+}
 
-	.property-input {
-		flex-grow: 2;
-	}
+.property-input {
+	flex-grow: 2;
+}
 
-	.multiselect {
-		width: 100%;
-		margin: 3px 3px 3px 0;
-	}
+.multiselect {
+	width: 100%;
+	margin: 3px 3px 3px 0;
+}
 
-	.fake-input-box {
-		white-space: pre-line;
-		margin: 3px 3px 3px 0;
-		padding: 8px 7px;
-		background-color: var(--color-main-background);
-		color: var(--color-main-text);
-		outline: none;
-	}
+.fake-input-box {
+	white-space: pre-line;
+	margin: 3px 3px 3px 0;
+	padding: 8px 7px;
+	background-color: var(--color-main-background);
+	color: var(--color-main-text);
+	outline: none;
+}
+
+.row {
+	width: 100%;
+	display: flex;
+	align-items: center;
+}
+
+.color-indicator {
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	border: none;
+	margin-right: 8px;
+}
+
+.row .avatardiv {
+	margin-left: auto;
+}
 </style>
