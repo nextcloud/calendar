@@ -26,6 +26,10 @@ import {
 } from '../utils/date.js'
 import DurationValue from 'calendar-js/src/values/durationValue.js'
 import AttendeeProperty from 'calendar-js/src/properties/attendeeProperty.js'
+import DateTimeValue from 'calendar-js/src/values/dateTimeValue.js'
+import RecurValue from 'calendar-js/src/values/recurValue.js'
+import Property from 'calendar-js/src/properties/property.js'
+import { getBySetPositionAndBySetFromDate, getWeekDayFromDate } from '../utils/recurrence.js'
 
 const state = {}
 
@@ -419,6 +423,466 @@ const mutations = {
 		if (index !== -1) {
 			calendarObjectInstance.categories.splice(index, 1)
 		}
+	},
+
+	/**
+	 * Change the interval of the recurrence-rule
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {Object} data.recurrenceRule The recurrenceRule object to modify
+	 * @param {String} data.interval The new interval to set
+	 */
+	changeRecurrenceInterval(state, { calendarObjectInstance, recurrenceRule, interval }) {
+		if (recurrenceRule.recurrenceRuleValue) {
+			recurrenceRule.recurrenceRuleValue.interval = interval
+			recurrenceRule.interval = interval
+
+			console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
+		}
+	},
+
+	/**
+	 * Change the frequency of the recurrence-rule
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {Object} data.recurrenceRule The recurrenceRule object to modify
+	 * @param {String} data.frequency The new frequency to set
+	 */
+	changeRecurrenceFrequency(state, { calendarObjectInstance, recurrenceRule, frequency }) {
+		if (recurrenceRule.recurrenceRuleValue) {
+			recurrenceRule.recurrenceRuleValue.frequency = frequency
+			recurrenceRule.frequency = frequency
+
+			console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
+		}
+	},
+
+	/**
+	 * Change the count limit of the recurrence-rule
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {Object} data.recurrenceRule The recurrenceRule object to modify
+	 * @param {String} data.count The new count to set
+	 */
+	changeRecurrenceCount(state, { calendarObjectInstance, recurrenceRule, count }) {
+		if (recurrenceRule.recurrenceRuleValue) {
+			recurrenceRule.recurrenceRuleValue.count = count
+			recurrenceRule.count = count
+			recurrenceRule.until = null
+
+			console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
+		}
+	},
+
+	/**
+	 * Change the until limit of the recurrence-rule
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {Object} data.recurrenceRule The recurrenceRule object to modify
+	 * @param {Date} data.until The new until to set
+	 */
+	changeRecurrenceUntil(state, { calendarObjectInstance, recurrenceRule, until }) {
+		if (recurrenceRule.recurrenceRuleValue) {
+
+			recurrenceRule.recurrenceRuleValue.until = DateTimeValue.fromJSDate(until)
+			recurrenceRule.until = until
+			recurrenceRule.count = null
+
+			console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
+		}
+	},
+
+	/**
+	 * Changes the recurrence-rule to never end
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {Object} data.recurrenceRule The recurrenceRule object to modify
+	 */
+	changeRecurrenceToInfinite(state, { calendarObjectInstance, recurrenceRule }) {
+		if (recurrenceRule.recurrenceRuleValue) {
+			recurrenceRule.recurrenceRuleValue.setToInfinite()
+			recurrenceRule.until = null
+			recurrenceRule.count = null
+
+			console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
+		}
+	},
+
+	/**
+	 * Reset the By-parts of the recurrence rule
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {Object} data.recurrenceRule The recurrenceRule object to modify
+	 */
+	resetRecurrenceByParts(state, { calendarObjectInstance, recurrenceRule }) {
+		if (recurrenceRule.recurrenceRuleValue) {
+			const parts = [
+				'BYSECOND',
+				'BYMINUTE',
+				'BYHOUR',
+				'BYDAY',
+				'BYMONTHDAY',
+				'BYYEARDAY',
+				'BYWEEKNO',
+				'BYMONTH',
+				'BYSETPOS'
+			]
+
+			for (const part of parts) {
+				recurrenceRule.recurrenceRuleValue.setComponent(part, [])
+			}
+
+			Vue.set(recurrenceRule, 'byDay', [])
+			Vue.set(recurrenceRule, 'byMonth', [])
+			Vue.set(recurrenceRule, 'byMonthDay', [])
+			Vue.set(recurrenceRule, 'bySetPosition', null)
+
+			console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
+		}
+	},
+
+	/**
+	 * Reset the By-parts of the recurrence rule
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {Object} data.recurrenceRule The recurrenceRule object to modify
+	 */
+	setDefaultRecurrenceByPartsForWeekly(state, { calendarObjectInstance, recurrenceRule }) {
+		if (recurrenceRule.recurrenceRuleValue) {
+			const byDay = getWeekDayFromDate(calendarObjectInstance.startDate)
+			recurrenceRule.recurrenceRuleValue.setComponent('BYDAY', [byDay])
+			recurrenceRule.byDay.push(byDay)
+
+			console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
+		}
+	},
+
+	/**
+	 * Reset the By-parts of the recurrence rule
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {Object} data.recurrenceRule The recurrenceRule object to modify
+	 */
+	setDefaultRecurrenceByPartsForMonthly(state, { calendarObjectInstance, recurrenceRule }) {
+		if (recurrenceRule.recurrenceRuleValue) {
+			const byMonthDay = calendarObjectInstance.startDate.getDate().toString()
+			recurrenceRule.recurrenceRuleValue.setComponent('BYMONTHDAY', [byMonthDay])
+			recurrenceRule.byMonthDay.push(byMonthDay)
+
+			console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
+		}
+	},
+
+	/**
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {Object} data.recurrenceRule The recurrenceRule object to modify
+	 */
+	setDefaultRecurrenceByPartsForMonthlyBySetPosition(state, { calendarObjectInstance, recurrenceRule }) {
+		if (recurrenceRule.recurrenceRuleValue) {
+			const {
+				byDay,
+				bySetPosition
+			} = getBySetPositionAndBySetFromDate(calendarObjectInstance.startDate)
+			recurrenceRule.recurrenceRuleValue.setComponent('BYDAY', [byDay])
+			recurrenceRule.recurrenceRuleValue.setComponent('BYSETPOS', [bySetPosition])
+
+			recurrenceRule.byDay.push(byDay)
+			recurrenceRule.bySetPosition = bySetPosition
+
+			console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
+		}
+	},
+
+	/**
+	 * Reset the By-parts of the recurrence rule
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {Object} data.recurrenceRule The recurrenceRule object to modify
+	 */
+	setDefaultRecurrenceByPartsForYearly(state, { calendarObjectInstance, recurrenceRule }) {
+		if (recurrenceRule.recurrenceRuleValue) {
+			const byMonth = calendarObjectInstance.startDate.getMonth() + 1 // Javascript months are zero-based
+			recurrenceRule.recurrenceRuleValue.setComponent('BYMONTH', [byMonth])
+			recurrenceRule.byMonth.push(byMonth)
+
+			console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
+		}
+	},
+
+	/**
+	 * Change the until limit of the recurrence-rule
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {Object} data.recurrenceRule The recurrenceRule object to modify
+	 * @param {String} data.byDay The new until to set
+	 */
+	addByDayToRecurrenceRule(state, { calendarObjectInstance, recurrenceRule, byDay }) {
+		if (recurrenceRule.recurrenceRuleValue) {
+			const byDayList = recurrenceRule.recurrenceRuleValue.getComponent('BYDAY')
+			const index = byDayList.indexOf(byDay)
+			if (index === -1) {
+				byDayList.push(byDay)
+				recurrenceRule.recurrenceRuleValue.setComponent('BYDAY', byDayList)
+			}
+
+			const index2 = recurrenceRule.byDay.indexOf(byDay)
+			if (index2 === -1) {
+				recurrenceRule.byDay.push(byDay)
+			}
+
+			console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
+		}
+	},
+
+	/**
+	 * Change the until limit of the recurrence-rule
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {Object} data.recurrenceRule The recurrenceRule object to modify
+	 * @param {String} data.byDay The new until to set
+	 */
+	removeByDayFromRecurrenceRule(state, { calendarObjectInstance, recurrenceRule, byDay }) {
+		if (recurrenceRule.recurrenceRuleValue) {
+			const byDayList = recurrenceRule.recurrenceRuleValue.getComponent('BYDAY')
+			const index = byDayList.indexOf(byDay)
+			if (index !== -1) {
+				byDayList.splice(index, 1)
+				recurrenceRule.recurrenceRuleValue.setComponent('BYDAY', byDayList)
+			}
+
+			const index2 = recurrenceRule.byDay.indexOf(byDay)
+			if (index2 !== -1) {
+				recurrenceRule.byDay.splice(index2, 1)
+			}
+
+			console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
+		}
+	},
+
+	/**
+	 * Change the until limit of the recurrence-rule
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {Object} data.recurrenceRule The recurrenceRule object to modify
+	 * @param {String} data.byMonthDay The new until to set
+	 */
+	addByMonthDayToRecurrenceRule(state, { calendarObjectInstance, recurrenceRule, byMonthDay }) {
+		if (recurrenceRule.recurrenceRuleValue) {
+			const byMonthDayList = recurrenceRule.recurrenceRuleValue.getComponent('BYMONTHDAY')
+			const index = byMonthDayList.indexOf(byMonthDay)
+			if (index === -1) {
+				byMonthDayList.push(byMonthDay)
+				recurrenceRule.recurrenceRuleValue.setComponent('BYMONTHDAY', byMonthDayList)
+			}
+
+			const index2 = recurrenceRule.byMonthDay.indexOf(byMonthDay)
+			if (index2 === -1) {
+				recurrenceRule.byMonthDay.push(byMonthDay)
+			}
+
+			console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
+		}
+	},
+
+	/**
+	 * Change the until limit of the recurrence-rule
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {Object} data.recurrenceRule The recurrenceRule object to modify
+	 * @param {String} data.byMonthDay The new until to set
+	 */
+	removeByMonthDayFromRecurrenceRule(state, { calendarObjectInstance, recurrenceRule, byMonthDay }) {
+		if (recurrenceRule.recurrenceRuleValue) {
+			const byMonthDayList = recurrenceRule.recurrenceRuleValue.getComponent('BYMONTHDAY')
+			const index = byMonthDayList.indexOf(byMonthDay)
+			if (index !== -1) {
+				byMonthDayList.splice(index, 1)
+				recurrenceRule.recurrenceRuleValue.setComponent('BYMONTHDAY', byMonthDayList)
+			}
+
+			const index2 = recurrenceRule.byMonthDay.indexOf(byMonthDay)
+			if (index2 !== -1) {
+				recurrenceRule.byMonthDay.splice(index2, 1)
+			}
+
+			console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
+		}
+	},
+
+	/**
+	 * Change the until limit of the recurrence-rule
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {Object} data.recurrenceRule The recurrenceRule object to modify
+	 * @param {String} data.byMonth The new until to set
+	 */
+	addByMonthToRecurrenceRule(state, { calendarObjectInstance, recurrenceRule, byMonth }) {
+		if (recurrenceRule.recurrenceRuleValue) {
+			console.debug('addByMonthToRecurrenceRule', byMonth)
+
+			const byMonthList = recurrenceRule.recurrenceRuleValue.getComponent('BYMONTH')
+			const index = byMonthList.indexOf(byMonth)
+			if (index === -1) {
+				byMonthList.push(byMonth)
+				recurrenceRule.recurrenceRuleValue.setComponent('BYMONTH', byMonthList)
+			}
+
+			const index2 = recurrenceRule.byMonth.indexOf(byMonth)
+			if (index2 === -1) {
+				recurrenceRule.byMonth.push(byMonth)
+			}
+
+			console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
+		}
+	},
+
+	/**
+	 * Change the until limit of the recurrence-rule
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {Object} data.recurrenceRule The recurrenceRule object to modify
+	 * @param {String} data.byMonth The new until to set
+	 */
+	removeByMonthFromRecurrenceRule(state, { calendarObjectInstance, recurrenceRule, byMonth }) {
+		if (recurrenceRule.recurrenceRuleValue) {
+			console.debug('removeByMonthFromRecurrenceRule', byMonth)
+
+			const byMonthList = recurrenceRule.recurrenceRuleValue.getComponent('BYMONTH')
+			const index = byMonthList.indexOf(byMonth)
+			if (index !== -1) {
+				byMonthList.splice(index, 1)
+				recurrenceRule.recurrenceRuleValue.setComponent('BYMONTH', byMonthList)
+			}
+
+			const index2 = recurrenceRule.byMonth.indexOf(byMonth)
+			if (index2 !== -1) {
+				recurrenceRule.byMonth.splice(index2, 1)
+			}
+
+			console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
+		}
+	},
+
+	/**
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {Object} data.recurrenceRule The recurrenceRule object to modify
+	 * @param {String[]} data.byDay The new until to set
+	 */
+	changeRecurrenceByDay(state, { calendarObjectInstance, recurrenceRule, byDay }) {
+		if (recurrenceRule.recurrenceRuleValue) {
+			recurrenceRule.recurrenceRuleValue.setComponent('BYDAY', byDay)
+			Vue.set(recurrenceRule, 'byDay', byDay)
+
+			console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
+		}
+	},
+
+	/**
+	 * Change the until limit of the recurrence-rule
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {Object} data.recurrenceRule The recurrenceRule object to modify
+	 * @param {String} data.bySetPosition The new until to set
+	 */
+	changeRecurrenceBySetPosition(state, { calendarObjectInstance, recurrenceRule, bySetPosition }) {
+		if (recurrenceRule.recurrenceRuleValue) {
+			recurrenceRule.recurrenceRuleValue.setComponent('BYSETPOS', [bySetPosition])
+			Vue.set(recurrenceRule, 'bySetPosition', bySetPosition)
+
+			console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
+		}
+	},
+
+	/**
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {Object} data.recurrenceRule The recurrenceRule object to modify
+	 */
+	unsetRecurrenceBySetPosition(state, { calendarObjectInstance, recurrenceRule }) {
+		if (recurrenceRule.recurrenceRuleValue) {
+			recurrenceRule.recurrenceRuleValue.setComponent('BYSETPOS', [])
+			Vue.set(recurrenceRule, 'bySetPosition', null)
+
+			console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
+		}
+	},
+
+	/**
+	 * Remove the recurrence-rule from the calendarObjectInstance
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {Object} data.recurrenceRule The recurrenceRule object to modify
+	 */
+	removeRecurrenceRuleFromCalendarObjectInstance(state, { calendarObjectInstance, recurrenceRule }) {
+		console.debug(calendarObjectInstance)
+		console.debug(recurrenceRule)
+	},
+
+	/**
+	 * Add a new recurrence-rule to the calendarObjectInstance
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
+	 */
+	addRecurrenceRuleFromCalendarObjectInstance(state, { calendarObjectInstance }) {
+		const recurrenceValue = RecurValue.fromData({})
+		const recurrenceProperty = new Property('RRULE', recurrenceValue)
+		calendarObjectInstance.eventComponent.addProperty(recurrenceProperty)
+		calendarObjectInstance.recurrenceRule.recurrenceRuleValue = recurrenceValue
+	},
+
+	/**
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {Object} data.recurrenceRule The recurrenceRule object to modify
+	 */
+	markRecurrenceRuleAsSupported(state, { calendarObjectInstance, recurrenceRule }) {
+		recurrenceRule.isUnsupported = false
 	}
 }
 
@@ -464,7 +928,235 @@ const actions = {
 			calendarObjectInstance,
 			endDate: calendarObjectInstance.endDate
 		})
+	},
+
+	/**
+	 *
+	 * @param {Object} data The destructuring object for Vuex
+	 * @param {Function} data.commit The Vuex commit function
+	 * @param {Function} data.dispatch The Vuex dispatch function
+	 * @param {Object} data2 The destructuring object for data
+	 * @param {Object} data2.calendarObjectInstance The calendarObjectInstance object
+	 * @param {Object} data2.recurrenceRule The recurrenceRule object to modify
+	 * @param {String} data2.frequency The new frequency to set
+	 */
+	changeRecurrenceFrequency({ commit, dispatch }, { calendarObjectInstance, recurrenceRule, frequency }) {
+
+		console.debug(calendarObjectInstance)
+		console.debug(recurrenceRule)
+		console.debug(frequency)
+
+		if (recurrenceRule.frequency === 'NONE' && frequency !== 'NONE') {
+			// Add a new recurrence-rule
+			commit('addRecurrenceRuleFromCalendarObjectInstance', { calendarObjectInstance })
+			commit('resetRecurrenceByParts', { calendarObjectInstance, recurrenceRule })
+			commit('changeRecurrenceFrequency', {
+				calendarObjectInstance,
+				recurrenceRule: calendarObjectInstance.recurrenceRule,
+				frequency
+			})
+			commit('changeRecurrenceInterval', {
+				calendarObjectInstance,
+				recurrenceRule: calendarObjectInstance.recurrenceRule,
+				interval: 1
+			})
+			commit('changeRecurrenceToInfinite', {
+				calendarObjectInstance,
+				recurrenceRule: calendarObjectInstance.recurrenceRule,
+			})
+			dispatch('setDefaultRecurrenceByParts', { calendarObjectInstance, recurrenceRule, frequency })
+
+			console.debug(`changed from none to ${frequency}`)
+		} else if (recurrenceRule.frequency !== 'NONE' && frequency === 'NONE') {
+			// Remove the recurrence-rule
+			commit('removeRecurrenceRuleFromCalendarObjectInstance', { calendarObjectInstance, recurrenceRule })
+		} else {
+			// Change frequency of existing recurrence-rule
+			commit('resetRecurrenceByParts', { calendarObjectInstance, recurrenceRule })
+			commit('changeRecurrenceFrequency', {
+				calendarObjectInstance,
+				recurrenceRule: calendarObjectInstance.recurrenceRule,
+				frequency
+			})
+			dispatch('setDefaultRecurrenceByParts', { calendarObjectInstance, recurrenceRule, frequency })
+		}
+	},
+
+	/**
+	 *
+	 * @param {Object} data The destructuring object for Vuex
+	 * @param {Function} data.commit The Vuex commit function
+	 * @param {Object} data2 The destructuring object for data
+	 * @param {Object} data2.calendarObjectInstance The calendarObjectInstance object
+	 * @param {Object} data2.recurrenceRule The recurrenceRule object to modify
+	 * @param {String} data2.frequency The new frequency to set
+	 */
+	setDefaultRecurrenceByParts({ commit }, { calendarObjectInstance, recurrenceRule, frequency }) {
+		switch (frequency) {
+		case 'WEEKLY':
+			commit('setDefaultRecurrenceByPartsForWeekly', { calendarObjectInstance, recurrenceRule })
+			break
+
+		case 'MONTHLY':
+			commit('setDefaultRecurrenceByPartsForMonthly', { calendarObjectInstance, recurrenceRule })
+			break
+
+		case 'YEARLY':
+			commit('setDefaultRecurrenceByPartsForYearly', { calendarObjectInstance, recurrenceRule })
+			break
+		}
+	},
+
+	/**
+	 *
+	 * @param {Object} data The destructuring object for Vuex
+	 * @param {Function} data.commit The Vuex commit function
+	 * @param {Object} data2 The destructuring object for data
+	 * @param {Object} data2.calendarObjectInstance The calendarObjectInstance object
+	 * @param {Object} data2.recurrenceRule The recurrenceRule object to modify
+	 */
+	setRecurrenceToInfinite({ commit }, { calendarObjectInstance, recurrenceRule }) {
+		commit('changeRecurrenceToInfinite', {
+			calendarObjectInstance,
+			recurrenceRule
+		})
+	},
+
+	/**
+	 *
+	 * @param {Object} data The destructuring object for Vuex
+	 * @param {Function} data.commit The Vuex commit function
+	 * @param {Object} data2 The destructuring object for data
+	 * @param {Object} data2.calendarObjectInstance The calendarObjectInstance object
+	 * @param {Object} data2.recurrenceRule The recurrenceRule object to modify
+	 */
+	changeMonthlyRecurrenceFromByDayToBySetPosition({ commit }, { calendarObjectInstance, recurrenceRule }) {
+		console.debug('changeMonthlyRecurrenceFromByDayToBySetPosition')
+		commit('resetRecurrenceByParts', { calendarObjectInstance, recurrenceRule })
+		commit('setDefaultRecurrenceByPartsForMonthlyBySetPosition', { calendarObjectInstance, recurrenceRule })
+	},
+
+	/**
+	 *
+	 * @param {Object} data The destructuring object for Vuex
+	 * @param {Function} data.commit The Vuex commit function
+	 * @param {Object} data2 The destructuring object for data
+	 * @param {Object} data2.calendarObjectInstance The calendarObjectInstance object
+	 * @param {Object} data2.recurrenceRule The recurrenceRule object to modify
+	 */
+	changeMonthlyRecurrenceFromBySetPositionToByDay({ commit }, { calendarObjectInstance, recurrenceRule }) {
+		console.debug('changeMonthlyRecurrenceFromBySetPositionToByDay')
+		commit('resetRecurrenceByParts', { calendarObjectInstance, recurrenceRule })
+		commit('setDefaultRecurrenceByPartsForMonthly', { calendarObjectInstance, recurrenceRule })
+	},
+
+	/**
+	 *
+	 * @param {Object} data The destructuring object for Vuex
+	 * @param {Function} data.commit The Vuex commit function
+	 * @param {Object} data2 The destructuring object for data
+	 * @param {Object} data2.calendarObjectInstance The calendarObjectInstance object
+	 * @param {Object} data2.recurrenceRule The recurrenceRule object to modify
+	 */
+	enableYearlyRecurrenceBySetPosition({ commit }, { calendarObjectInstance, recurrenceRule }) {
+		commit('setDefaultRecurrenceByPartsForMonthlyBySetPosition', {
+			calendarObjectInstance,
+			recurrenceRule
+		})
+	},
+
+	/**
+	 *
+	 * @param {Object} data The destructuring object for Vuex
+	 * @param {Function} data.commit The Vuex commit function
+	 * @param {Object} data2 The destructuring object for data
+	 * @param {Object} data2.calendarObjectInstance The calendarObjectInstance object
+	 * @param {Object} data2.recurrenceRule The recurrenceRule object to modify
+	 */
+	disableYearlyRecurrenceBySetPosition({ commit }, { calendarObjectInstance, recurrenceRule }) {
+		commit('changeRecurrenceByDay', {
+			calendarObjectInstance,
+			recurrenceRule,
+			byDay: []
+		})
+		commit('unsetRecurrenceBySetPosition', {
+			calendarObjectInstance,
+			recurrenceRule
+		})
+	},
+
+	/**
+	 *
+	 * @param {Object} data The destructuring object for Vuex
+	 * @param {Function} data.commit The Vuex commit function
+	 * @param {Object} data2 The destructuring object for data
+	 * @param {Object} data2.calendarObjectInstance The calendarObjectInstance object
+	 * @param {Object} data2.recurrenceRule The recurrenceRule object to modify
+	 */
+	enableRecurrenceLimitByUntil({ commit }, { calendarObjectInstance, recurrenceRule }) {
+		let until
+		switch (recurrenceRule.frequency) {
+		// Defaults to 7 days
+		case 'DAILY':
+			until = new Date(calendarObjectInstance.startDate.getTime() + 7 * 24 * 60 * 60 * 1000)
+			break
+
+		// Defaults to 4 weeks
+		case 'WEEKLY':
+			until = new Date(calendarObjectInstance.startDate.getTime() + 4 * 7 * 24 * 60 * 60 * 1000)
+			break
+
+		// Defaults to 10 year
+		case 'YEARLY':
+			until = new Date(
+				calendarObjectInstance.startDate.getFullYear() + 10,
+				calendarObjectInstance.startDate.getMonth(),
+				calendarObjectInstance.startDate.getDate(),
+				23,
+				59,
+				59
+			)
+			break
+
+		// Defaults to 12 months
+		case 'MONTHLY':
+		default:
+			until = new Date(
+				calendarObjectInstance.startDate.getFullYear() + 1,
+				calendarObjectInstance.startDate.getMonth(),
+				calendarObjectInstance.startDate.getDate(),
+				23,
+				59,
+				59
+			)
+			break
+		}
+
+		commit('changeRecurrenceToInfinite', { calendarObjectInstance, recurrenceRule })
+		commit('changeRecurrenceUntil', {
+			calendarObjectInstance,
+			recurrenceRule,
+			until
+		})
+	},
+
+	/**
+	 *
+	 * @param {Object} data The destructuring object for Vuex
+	 * @param {Function} data.commit The Vuex commit function
+	 * @param {Object} data2 The destructuring object for data
+	 * @param {Object} data2.calendarObjectInstance The calendarObjectInstance object
+	 * @param {Object} data2.recurrenceRule The recurrenceRule object to modify
+	 */
+	enableRecurrenceLimitByCount({ commit }, { calendarObjectInstance, recurrenceRule }) {
+		commit('changeRecurrenceToInfinite', { calendarObjectInstance, recurrenceRule })
+		commit('changeRecurrenceCount', {
+			calendarObjectInstance,
+			recurrenceRule,
+			count: 2 // Default value is two
+		})
 	}
+
 }
 
 export default { state, mutations, getters, actions }

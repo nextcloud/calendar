@@ -21,31 +21,44 @@
   -->
 
 <template>
-	<div>
-		<div>
-			<input id="repeat-freq-monthly-options-select-by-month-of-day"
-				v-model="selectByMonthOfDay" type="checkbox" class="checkbox">
-			<label for="repeat-freq-monthly-options-select-by-month-of-day">By day of month</label>
-			<div class="grid">
-				<div
+	<div class="repeat-option-set repeat-option-set--monthly">
+		<div class="repeat-option-set-section">
+			<ActionRadio
+				class="repeat-option-set-section__title"
+				:name="radioInputId"
+				:checked="byMonthDayEnabled"
+				@change="enableByMonthDay">
+				{{ $t('calendar', 'By day of the month') }}
+			</ActionRadio>
+			<div class="repeat-option-set-section__grid">
+				<button
 					v-for="option in byMonthDayOptions"
 					:key="option.value"
-					class="grid-item"
-					:class="{ selected: option.selected }"
+					class="repeat-option-set-section-grid-item"
+					:class="{ primary: option.selected }"
+					:disabled="!byMonthDayEnabled"
 					@click="toggleByMonthDay(option.value)"
 				>
 					{{ option.label }}
-				</div>
+				</button>
 			</div>
 		</div>
-		<div style="margin-top: 20px">
-			<input id="repeat-freq-monthly-options-select-by-set-pos"
-				v-model="selectBySetPos" type="checkbox" class="checkbox">
-			<label for="repeat-freq-monthly-options-select-by-set-pos">On the</label>
-			<div style="display: flex">
-				<repeat-first-last-select />
-				<repeat-on-the-select />
-			</div>
+		<div class="repeat-option-set-section repeat-option-set-section--on-the-select">
+			<ActionRadio
+				class="repeat-option-set-section__title"
+				:name="radioInputId"
+				:checked="!byMonthDayEnabled"
+				@change="enableBySetPosition">
+				{{ $t('calendar', 'On the') }}
+			</ActionRadio>
+			<repeat-first-last-select
+				:by-set-position="bySetPosition"
+				:disabled="byMonthDayEnabled"
+				@change="changeBySetPosition" />
+			<repeat-on-the-select
+				:by-day="byDay"
+				:disabled="byMonthDayEnabled"
+				@change="changeByDay" />
 		</div>
 	</div>
 </template>
@@ -53,35 +66,42 @@
 <script>
 import RepeatFirstLastSelect from './RepeatFirstLastSelect.vue'
 import RepeatOnTheSelect from './RepeatOnTheSelect.vue'
+import { ActionRadio } from 'nextcloud-vue'
 
 export default {
 	name: 'RepeatFreqMonthlyOptions',
 	components: {
 		RepeatOnTheSelect,
-		RepeatFirstLastSelect
+		RepeatFirstLastSelect,
+		ActionRadio
 	},
 	props: {
+		/**
+		 *
+		 */
 		byDay: {
 			type: Array,
 			required: true
 		},
+		/**
+		 *
+		 */
 		byMonthDay: {
 			type: Array,
 			required: true,
 		},
+		/**
+		 *
+		 */
 		bySetPosition: {
 			type: Number,
-			required: true,
 			default: null
 		}
 	},
-	data() {
-		return {
-			selectByMonthOfDay: true,
-			selectBySetPos: false
-		}
-	},
 	computed: {
+		/**
+		 * @returns {Object[]}
+		 */
 		byMonthDayOptions() {
 			const options = []
 
@@ -94,44 +114,54 @@ export default {
 			}
 
 			return options
+		},
+		/**
+		 * @returns {Boolean}
+		 */
+		byMonthDayEnabled() {
+			return this.byMonthDay.length > 0
+		},
+		/**
+		 * @returns {String}
+		 */
+		radioInputId() {
+			return this._uid + '-radio-select'
 		}
 	},
 	methods: {
-		toggleByMonthDay(day) {
-			if (this.byMonthDay.indexOf(day) === -1) {
-				this.$emit('addByMonthDay', day)
+		/**
+		 *
+		 * @param {String} byMonthDay The month-day to toggle
+		 */
+		toggleByMonthDay(byMonthDay) {
+			if (this.byMonthDay.indexOf(byMonthDay) === -1) {
+				this.$emit('addByMonthDay', byMonthDay)
 			} else {
 				if (this.byMonthDay.length > 1) {
-					this.$emit('removeByMonthDay', day)
+					this.$emit('removeByMonthDay', byMonthDay)
 				}
 			}
+		},
+		enableByMonthDay() {
+			if (this.byMonthDayEnabled) {
+				return
+			}
+
+			this.$emit('changeToByDay')
+		},
+		enableBySetPosition() {
+			if (!this.byMonthDayEnabled) {
+				return
+			}
+
+			this.$emit('changeToBySetPosition')
+		},
+		changeByDay(value) {
+			this.$emit('changeByDay', value)
+		},
+		changeBySetPosition(value) {
+			this.$emit('changeBySetPosition', value)
 		}
 	}
 }
 </script>
-
-<style scoped>
-.grid {
-	display: grid;
-	grid-gap: 0;
-	grid-template-columns: repeat(7, auto);
-}
-
-.grid-item {
-	padding: 8px;
-	border: 1px solid var(--color-border-dark);
-	text-align: center;
-	background-color: var(--color-background-dark);
-	color: var(--color-text-lighter);
-}
-
-.grid-item.selected {
-	background-color: var(--color-primary-element);
-	border-color: var(--color-primary-element);
-	color: var(--color-primary-text);
-}
-
-.multiselect {
-	width: 50% !important;
-}
-</style>

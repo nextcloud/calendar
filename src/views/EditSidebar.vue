@@ -191,7 +191,13 @@
 			<div v-if="!isLoading" class="app-sidebar-tab__content">
 				<!-- TODO: If not editing the master item, force updating this and all future   -->
 				<!-- TODO: You can't edit recurrence-rule of no-range recurrence-exception -->
-				<repeat :event-component="eventComponent" :is-read-only="isReadOnly" :is-editing-master-item="false" />
+				<repeat
+					:calendar-object-instance="calendarObjectInstance"
+					:recurrence-rule="calendarObjectInstance.recurrenceRule"
+					:is-read-only="isReadOnly"
+					:is-editing-master-item="isEditingMasterItem"
+					:is-recurrence-exception="isRecurrenceException"
+					@forceThisAndAllFuture="forceModifyingFuture" />
 			</div>
 			<div v-if="!isReadOnly" class="app-sidebar-tab__buttons">
 				<button v-if="!canCreateRecurrenceException" class="primary" @click="saveAndLeave(false)">

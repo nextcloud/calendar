@@ -25,6 +25,8 @@
 		:allow-empty="false"
 		:options="options"
 		:value="selected"
+		:disabled="disabled"
+		:placeholder="$t('calendar', 'first')"
 		track-by="value"
 		label="label"
 		@select="select"
@@ -40,7 +42,20 @@ export default {
 		Multiselect
 	},
 	props: {
-
+		/**
+		 *
+		 */
+		bySetPosition: {
+			type: Number,
+			default: null
+		},
+		/**
+		 *
+		 */
+		disabled: {
+			type: Boolean,
+			required: true
+		}
 	},
 	computed: {
 		options() {
@@ -68,7 +83,7 @@ export default {
 			}]
 		},
 		selected() {
-			return this.options.find(o => o.value === 1)
+			return this.options.find(option => option.value === this.bySetPosition)
 		}
 	},
 	methods: {
@@ -77,7 +92,9 @@ export default {
 				return
 			}
 
-			this.$emit('change', value)
+			console.debug(value)
+
+			this.$emit('change', value.value)
 		}
 	}
 }

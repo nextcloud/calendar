@@ -25,6 +25,8 @@
 		:allow-empty="false"
 		:options="options"
 		:value="selected"
+		:disabled="disabled"
+		:placeholder="$t('calendar', 'Monday')"
 		track-by="value"
 		label="label"
 		@select="select"
@@ -33,6 +35,7 @@
 
 <script>
 import { Multiselect } from 'nextcloud-vue'
+import { getDayNames } from '@nextcloud/l10n'
 
 export default {
 	name: 'RepeatOnTheSelect',
@@ -40,54 +43,56 @@ export default {
 		Multiselect
 	},
 	props: {
-
+		/**
+		 *
+		 */
+		byDay: {
+			type: Array,
+			required: true
+		},
+		disabled: {
+			type: Boolean,
+			required: true
+		}
 	},
 	computed: {
 		options() {
+			const dayNames = getDayNames()
+
 			return [{
 				label: dayNames[1],
-				value: 'MO',
-				isBySetPos: false
+				value: ['MO'],
 			}, {
 				label: dayNames[2],
-				value: 'TU',
-				isBySetPos: false
+				value: ['TU'],
 			}, {
 				label: dayNames[3],
-				value: 'WE',
-				isBySetPos: false
+				value: ['WE'],
 			}, {
 				label: dayNames[4],
-				value: 'TH',
-				isBySetPos: false
+				value: ['TH'],
 			}, {
 				label: dayNames[5],
-				value: 'FR',
-				isBySetPos: false
+				value: ['FR'],
 			}, {
 				label: dayNames[6],
-				value: 'SA',
-				isBySetPos: false
+				value: ['SA'],
 			}, {
 				label: dayNames[0],
-				value: 'SU',
-				isBySetPos: false
+				value: ['SU'],
 			}, {
 				label: this.$t('calendar', 'day'),
-				value: 'SU,MO,TU,WE,TH,FR,SA',
-				isBySetPos: true
+				value: ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'],
 			}, {
 				label: this.$t('calendar', 'weekday'),
-				value: 'MO,TU,WE,TH,FR',
-				isBySetPos: true
+				value: ['MO', 'TU', 'WE', 'TH', 'FR'],
 			}, {
 				label: this.$t('calendar', 'weekend day'),
-				value: 'SU,SA',
-				isBySetPos: true
+				value: ['SU', 'SA'],
 			}]
 		},
 		selected() {
-			return this.options.find((o) => o.value === 'SU,MO,TU,WE,TH,FR,SA')
+			return this.options.find(option => option.value.slice().sort().join(',') === this.byDay.slice().sort().join(','))
 		}
 	},
 	methods: {
@@ -96,7 +101,7 @@ export default {
 				return
 			}
 
-			this.$emit('change', value)
+			this.$emit('change', value.value)
 		}
 	}
 }

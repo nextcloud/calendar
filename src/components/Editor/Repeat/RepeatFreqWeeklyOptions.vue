@@ -21,23 +21,27 @@
   -->
 
 <template>
-	<div>
-		<span style="font-weight: bold">on</span>
-		<div class="grid">
-			<div
+	<div class="repeat-option-set repeat-option-set--weekly">
+		<span class="repeat-option-set-section__title">
+			{{ $t('calendar', 'on') }}
+		</span>
+		<div class="repeat-option-set-section__grid">
+			<button
 				v-for="option in options"
 				:key="option.value"
-				class="grid-item"
-				:class="{ selected: option.selected }"
+				class="repeat-option-set-section-grid-item"
+				:class="{ primary: option.selected }"
 				@click="toggleByDay(option.value)"
 			>
 				{{ option.label }}
-			</div>
+			</button>
 		</div>
 	</div>
 </template>
 
 <script>
+import { getDayNamesMin } from '@nextcloud/l10n'
+
 export default {
 	name: 'RepeatFreqWeeklyOptions',
 	props: {
@@ -48,34 +52,36 @@ export default {
 	},
 	computed: {
 		options() {
+			const dayNamesMin = getDayNamesMin()
+
 			return [{
 				label: dayNamesMin[1],
 				value: 'MO',
-				selected: this.byDay.indexOf('MO') !== -1
+				selected: this.byDay.includes('MO')
 			}, {
 				label: dayNamesMin[2],
 				value: 'TU',
-				selected: this.byDay.indexOf('TU') !== -1
+				selected: this.byDay.includes('TU')
 			}, {
 				label: dayNamesMin[3],
 				value: 'WE',
-				selected: this.byDay.indexOf('WE') !== -1
+				selected: this.byDay.includes('WE')
 			}, {
 				label: dayNamesMin[4],
 				value: 'TH',
-				selected: this.byDay.indexOf('TH') !== -1
+				selected: this.byDay.includes('TH')
 			}, {
 				label: dayNamesMin[5],
 				value: 'FR',
-				selected: this.byDay.indexOf('FR') !== -1
+				selected: this.byDay.includes('FR')
 			}, {
 				label: dayNamesMin[6],
 				value: 'SA',
-				selected: this.byDay.indexOf('SA') !== -1
+				selected: this.byDay.includes('SA')
 			}, {
 				label: dayNamesMin[0],
 				value: 'SU',
-				selected: this.byDay.indexOf('SU') !== -1
+				selected: this.byDay.includes('SU')
 			}]
 		}
 	},
@@ -88,7 +94,7 @@ export default {
 					this.$emit('removeByDay', day)
 				}
 			}
-		}
+		},
 	}
 }
 </script>
@@ -104,13 +110,7 @@ export default {
 	padding: 8px;
 	border: 1px solid var(--color-border-dark);
 	text-align: center;
-	background-color: var(--color-background-dark);
-	color: var(--color-text-lighter);
-}
-
-.grid-item.selected {
-	background-color: var(--color-primary-element);
-	border-color: var(--color-primary-element);
-	color: var(--color-primary-text);
+	margin: 0;
+	border-radius: 0;
 }
 </style>

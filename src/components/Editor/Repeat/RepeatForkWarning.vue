@@ -21,16 +21,16 @@
   -->
 
 <template>
-	<div>{{ forkWarningLabel }}</div>
+	<div class="repeat-option-warning">
+		<div class="repeat-option-warning__icon icon icon-info" />
+		<strong class="repeat-option-warning__info">
+			{{ $t('calendar', 'Changes to the recurrence-rule will only apply to this and all future occurrences.') }}
+		</strong>
+	</div>
 </template>
 
 <script>
 export default {
-	name: 'RepeatForkWarning',
-	computed: {
-		forkWarningLabel() {
-			return this.$t('calendar', 'Your change will only apply to all future occurrences of the event.')
-		}
-	}
+	name: 'RepeatForkWarning'
 }
 </script>

@@ -21,14 +21,16 @@
   -->
 
 <template>
-	<div>
-		<h2>{{ $t('calendar', 'Summary') }}</h2>
-		<span>{{ $t('calendar', 'This event does not repeat.') }}</span>
+	<div class="repeat-option-warning">
+		<div class="repeat-option-warning__icon icon icon-info" />
+		<strong class="repeat-option-warning__info">
+			{{ $t('calendar', 'The recurrence definition of this event is not fully supported by Nextcloud. If you edit the recurrence-options, certain recurrences may be lost.') }}
+		</strong>
 	</div>
 </template>
 
 <script>
 export default {
-	name: 'RepeatSummary'
+	name: 'RepeatUnsupportedWarning'
 }
 </script>

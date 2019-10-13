@@ -21,8 +21,8 @@
   -->
 
 <template>
-	<div class="row">
-		<span class="repeatLabel">
+	<div class="repeat-option-set repeat-option-set--interval-freq">
+		<span class="repeat-option-set__label">
 			{{ repeatEveryLabel }}
 		</span>
 		<input
@@ -31,7 +31,8 @@
 			type="number"
 			min="1"
 			max="366"
-			v-model="interval"
+			:value="interval"
+			@input="changeInterval"
 		>
 		<repeat-freq-select
 			:freq="frequency"
@@ -56,12 +57,12 @@ export default {
 		},
 		interval: {
 			type: Number,
-			required: true,
-			default: 1
+			required: true
 		}
 	},
 	computed: {
 		repeatEveryLabel() {
+			console.debug(this.frequency)
 			if (this.frequency === 'NONE') {
 				return this.$t('calendar', 'Repeat')
 			}
@@ -79,28 +80,20 @@ export default {
 			} else {
 				this.$emit('changeFrequency', value)
 			}
+		},
+		/**
+		 *
+		 * @param {Event} event The Input-event triggered when modifying the input
+		 */
+		changeInterval(event) {
+			const minimumValue = parseInt(event.target.min, 10)
+			const maximumValue = parseInt(event.target.max, 10)
+			const selectedValue = parseInt(event.target.value, 10)
+
+			if (selectedValue >= minimumValue && selectedValue <= maximumValue) {
+				this.$emit('changeInterval', selectedValue)
+			}
 		}
 	}
 }
 </script>
-
-<style scoped>
-.row {
-	display: flex;
-	align-items: center;
-}
-
-.repeatLabel {
-	font-weight: bold;
-	margin-right: auto;
-}
-
-.intervalInput {
-	width: 15%;
-}
-
-div.multiselect.multiselect--single {
-	width: 30% !important;
-}
-
-</style>

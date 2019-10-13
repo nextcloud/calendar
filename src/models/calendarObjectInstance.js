@@ -21,6 +21,7 @@
  */
 import { getDateFromDateTimeValue } from '../utils/date.js'
 import DurationValue from 'calendar-js/src/values/durationValue.js'
+import { getWeekDayFromDate } from '../utils/recurrence.js'
 
 /**
  * Creates a complete calendar-object-instance-object based on given props
@@ -53,7 +54,7 @@ export const getDefaultCalendarObjectInstanceObject = (props = {}) => Object.ass
 	timeTransparency: null,
 	// The recurrence rule of this event. We only support one recurrence-rule
 	recurrenceRule: {
-		freq: null,
+		frequency: null,
 		interval: 1,
 		count: null,
 		until: null,
@@ -61,7 +62,8 @@ export const getDefaultCalendarObjectInstanceObject = (props = {}) => Object.ass
 		byMonth: [],
 		byMonthDay: [],
 		bySetPosition: null,
-		isUnsupported: false
+		isUnsupported: false,
+		recurrenceRuleValue: null
 	},
 	// Attendees of this event
 	attendees: [],
@@ -161,15 +163,15 @@ function getCategoriesFromEventComponent(eventComponent) {
  * Gets the first recurrence rule from the event component
  *
  * @param {EventComponent} eventComponent The event-component representing the instance
- * @returns {{byMonth: [], freq: null, count: null, byDay: [], interval: number, until: null, bySetPosition: null, byMonthDay: []}|{byMonth: *, freq: *, count: *, byDay: *, interval: *, until: *, bySetPosition: *, byMonthDay: *}}
+ * @returns {{byMonth: [], frequency: null, count: null, byDay: [], interval: number, until: null, bySetPosition: null, byMonthDay: []}|{byMonth: *, frequency: *, count: *, byDay: *, interval: *, until: *, bySetPosition: *, byMonthDay: *}}
  */
 function getRecurrenceRuleFromEventComponent(eventComponent) {
 	/** @type {RecurValue} */
 	const recurrenceRule = eventComponent.getFirstPropertyFirstValue('RRULE')
 	if (recurrenceRule) {
 		const component = {
-			freq: recurrenceRule.frequency,
-			interval: recurrenceRule.interval || 1,
+			frequency: recurrenceRule.frequency,
+			interval: parseInt(recurrenceRule.interval, 10) || 1,
 			count: recurrenceRule.count,
 			until: null,
 			byDay: [],
@@ -184,7 +186,7 @@ function getRecurrenceRuleFromEventComponent(eventComponent) {
 			component.until = recurrenceRule.until.jsDate
 		}
 
-		switch (component.freq) {
+		switch (component.frequency) {
 		case 'DAILY':
 			getRecurrenceComponentFromDailyRule(recurrenceRule, component)
 			break
@@ -210,7 +212,7 @@ function getRecurrenceRuleFromEventComponent(eventComponent) {
 	}
 
 	return {
-		freq: 'NONE',
+		frequency: 'NONE',
 		interval: 1,
 		count: null,
 		until: null,
@@ -286,35 +288,6 @@ function getAlarmsFromEventComponent(eventComponent) {
 	}
 
 	return alarms
-}
-
-/**
- * Gets the string-representation of the weekday of a given date-time-value
- *
- * @param {DateTimeValue} dateTimeValue The date to get the weekday of
- * @returns {string}
- */
-function getWeekDayFromDateTimeValue(dateTimeValue) {
-	const jsDate = dateTimeValue.jsDate
-
-	switch (jsDate.getDay()) {
-	case 0:
-		return 'SU'
-	case 1:
-		return 'MO'
-	case 2:
-		return 'TU'
-	case 3:
-		return 'WE'
-	case 4:
-		return 'TH'
-	case 5:
-		return 'FR'
-	case 6:
-		return 'SA'
-	default:
-		return 'MO'
-	}
 }
 
 /**
@@ -399,7 +372,7 @@ function getRecurrenceComponentFromWeeklyRule(recurrenceRule, recurrenceComponen
 	// If the BYDAY is empty, add the day that the event occurs in
 	// E.g. if the event is on a Wednesday, automatically set BYDAY:WE
 	if (recurrenceComponent.byDay.length === 0) {
-		recurrenceComponent.byDay.push(getWeekDayFromDateTimeValue(eventComponent.startDate))
+		recurrenceComponent.byDay.push(getWeekDayFromDate(eventComponent.startDate.jsDate))
 	}
 }
 
@@ -469,6 +442,7 @@ function getRecurrenceComponentFromMonthlyRule(recurrenceRule, recurrenceCompone
 			recurrenceComponent.isUnsupported = true
 		}
 
+		// TODO - BYSETPOS is an array, we only allow one value
 		if (isAllowedBySetPos(recurrenceRule.getComponent('BYSETPOS'))) {
 			recurrenceComponent.bySetPosition = recurrenceRule.getComponent('BYSETPOS')
 		} else {
@@ -560,6 +534,7 @@ function getRecurrenceComponentFromYearlyRule(recurrenceRule, recurrenceComponen
 			recurrenceComponent.isUnsupported = true
 		}
 
+		// TODO - BYSETPOS is an array, we only allow one value
 		if (isAllowedBySetPos(recurrenceRule.getComponent('BYSETPOS'))) {
 			recurrenceComponent.bySetPosition = recurrenceRule.getComponent('BYSETPOS')
 		} else {
@@ -616,7 +591,7 @@ function isAllowedByDay(byDay) {
 		'SA,SU'
 	]
 
-	return allowedByDay.includes(byDay.sort().join(','))
+	return allowedByDay.includes(byDay.slice().sort().join(','))
 }
 
 /**

@@ -20,15 +20,3 @@
   -
   -->
 
-<template>
-	<div>
-		<h2>{{ $t('calendar', 'Summary') }}</h2>
-		<span>{{ $t('calendar', 'This event does not repeat.') }}</span>
-	</div>
-</template>
-
-<script>
-export default {
-	name: 'RepeatSummary'
-}
-</script>

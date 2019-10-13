@@ -21,14 +21,16 @@
   -->
 
 <template>
-	<div>
-		<h2>{{ $t('calendar', 'Summary') }}</h2>
-		<span>{{ $t('calendar', 'This event does not repeat.') }}</span>
+	<div class="repeat-option-warning">
+		<div class="repeat-option-warning__icon icon icon-info" />
+		<strong class="repeat-option-warning__info">
+			{{ $t('calendar', 'This event is the recurrence-exception of a recurrence-set. You can not add a recurrence-rule to it.') }}
+		</strong>
 	</div>
 </template>
 
 <script>
 export default {
-	name: 'RepeatSummary'
+	name: 'RepeatExceptionWarning'
 }
 </script>

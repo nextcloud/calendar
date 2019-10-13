@@ -48,7 +48,11 @@ export default {
 			requiresActionOnRouteLeave: true,
 			// Whether or not the this and all future option will be forced
 			// This is the case when editing the recurrence-rule of an existing recurring event
-			forceThisAndAllFuture: false
+			forceThisAndAllFuture: false,
+			// Whether or not the master item is being edited
+			isEditingMasterItem: false,
+			// Whether or not it is a recurrence-exception
+			isRecurrenceException: false
 		}
 	},
 	computed: {
@@ -486,6 +490,8 @@ export default {
 						vm.calendarId = vm.calendarObject.calendarId
 						vm.eventComponent = vm.calendarObject.getObjectAtRecurrenceId(recurrenceIdDate)
 						vm.calendarObjectInstance = mapEventComponentToCalendarObjectInstanceObject(vm.eventComponent)
+						vm.isEditingMasterItem = vm.eventComponent.isMasterItem()
+						vm.isRecurrenceException = vm.eventComponent.isRecurrenceException()
 
 						vm.isLoading = false
 					})
@@ -554,6 +560,8 @@ export default {
 						this.calendarId = this.calendarObject.calendarId
 						this.eventComponent = this.calendarObject.getObjectAtRecurrenceId(new Date(recurrenceId * 1000))
 						this.calendarObjectInstance = mapEventComponentToCalendarObjectInstanceObject(this.eventComponent)
+						this.isEditingMasterItem = this.eventComponent.isMasterItem()
+						this.isRecurrenceException = this.eventComponent.isRecurrenceException()
 
 						this.isLoading = false
 					})
