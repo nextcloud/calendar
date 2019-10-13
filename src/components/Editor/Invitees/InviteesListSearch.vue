@@ -100,6 +100,25 @@ export default {
 				matches.push(...contactsResults)
 				matches.push(...davResults)
 
+				// Source of the Regex: https://stackoverflow.com/a/46181
+				// eslint-disable-next-line
+				const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+				if (emailRegex.test(query)) {
+					const alreadyInList = matches.find((attendee) => attendee.email === query)
+					if (!alreadyInList) {
+						matches.unshift({
+							calendarUserType: 'INDIVIDUAL',
+							commonName: null,
+							email: query,
+							isUser: false,
+							avatar: null,
+							language: null,
+							timezoneId: null,
+							dropdownName: query
+						})
+					}
+				}
+
 				this.isLoading = false
 				this.inputGiven = true
 			} else {
