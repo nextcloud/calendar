@@ -397,6 +397,7 @@ export default {
 		 * @param {Date} startDate New start date
 		 */
 		updateStartDate(startDate) {
+			console.debug('updating start date ...', startDate)
 			this.$store.commit('changeStartDate', {
 				calendarObjectInstance: this.calendarObjectInstance,
 				startDate

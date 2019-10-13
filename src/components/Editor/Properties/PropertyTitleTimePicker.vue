@@ -23,58 +23,139 @@
   -->
 
 <template>
-	<div>
-		<div class="row">
+	<div class="property-title-time-picker">
+		<div
+			v-if="!isReadOnly"
+			class="property-title-time-picker__time-pickers">
 			<DatetimePicker
 				v-if="!isReadOnly"
 				lang="en"
-				:format="timeFormat"
+				:format="startDateFormat"
 				:value="startDate"
 				:type="timeType"
-				@change="changeStart" />
-			<div v-if="isReadOnly" class="fake-input-box">
-				{{ startDate | formatDate(isAllDay) }}
-			</div>
-			<span>
-				{{ toLabel }}
-			</span>
+				@change="changeStart">
+				<template v-if="!isAllDay" slot="calendar-icon">
+					<button
+						class="datetime-picker-inline-icon icon icon-timezone"
+						@click.stop.prevent="showTimezonePickerForStartDate" />
+					<Popover
+						:open.sync="showStartTimezone"
+						open-class="timezone-popover-wrapper">
+						<div class="timezone-popover-wrapper__title">
+							<strong>
+								{{ $t('calendar', 'Please select a timezone for the start-date:') }}
+							</strong>
+						</div>
+						<timezone-select
+							v-if="!isReadOnly"
+							class="timezone-popover-wrapper__timezone-select"
+							:value="startTimezone"
+							@change="changeStartTimezone" />
+					</Popover>
+				</template>
+			</DatetimePicker>
+
 			<DatetimePicker
 				v-if="!isReadOnly"
 				lang="en"
-				:format="timeFormat"
+				:format="endDateFormat"
 				:value="endDate"
 				:type="timeType"
-				@change="changeEnd" />
-			<div v-if="isReadOnly" class="fake-input-box">
-				{{ endDate | formatDate(isAllDay) }}
-			</div>
+				@change="changeEnd">
+				<template v-if="!isAllDay" slot="calendar-icon">
+					<button
+						class="datetime-picker-inline-icon icon icon-timezone"
+						@click.stop.prevent="showTimezonePickerForEndDate" />
+					<Popover
+						:open.sync="showEndTimezone"
+						open-class="timezone-popover-wrapper">
+						<div class="timezone-popover-wrapper__title">
+							<strong>
+								{{ $t('calendar', 'Please select a timezone for the end-date:') }}
+							</strong>
+						</div>
+						<timezone-select
+							v-if="!isReadOnly"
+							class="timezone-popover-wrapper__timezone-select"
+							:value="endTimezone"
+							@change="changeEndTimezone" />
+					</Popover>
+				</template>
+			</DatetimePicker>
 		</div>
-		<div v-if="displayTimezones" class="row">
-			<timezone-select v-if="!isReadOnly" :value="startTimezone" @change="changeStartTimezone" />
-			<div v-if="isReadOnly" class="fake-input-box">{{ startTimezone | formatTimezone }}</div>
-			<span style="visibility: hidden">
-				{{ toLabel }}
-			</span>
-			<timezone-select v-if="!isReadOnly" :value="endTimezone" @change="changeEndTimezone" />
-			<div v-if="isReadOnly" class="fake-input-box">{{ endTimezone | formatTimezone }}</div>
+		<div
+			v-if="isReadOnly"
+			class="property-title-time-picker__time-pickers">
+			TODO
 		</div>
 
-		<div class="row-checkboxes">
-			<div>
-				<input id="allDay" v-model="isAllDay" type="checkbox"
-					class="checkbox" :disabled="!canModifyAllDay || isReadOnly"
-					@change="toggleAllDay"
-				>
-				<label for="allDay" v-tooltip="allDayTooltip">
-					{{ allDayLabel }}
-				</label>
-			</div>
+		<div class="property-title-time-picker__all-day">
+			<input
+				id="allDay"
+				:checked="isAllDay"
+				type="checkbox"
+				class="checkbox"
+				:disabled="!canModifyAllDay || isReadOnly"
+				@change="toggleAllDay">
+			<label
+				for="allDay"
+				v-tooltip="allDayTooltip">
+				{{ $t('calendar', 'All day') }}
+			</label>
 		</div>
+		<!--<div class="row">-->
+		<!--	<DatetimePicker-->
+		<!--		v-if="!isReadOnly"-->
+		<!--		lang="en"-->
+		<!--		:format="timeFormat"-->
+		<!--		:value="startDate"-->
+		<!--		:type="timeType"-->
+		<!--		@change="changeStart">-->
+		<!--		<template slot="calendar-icon">-->
+		<!--			<div class="icon icon-timezone" @click.stop.prevent="showTimezoneOfStartDate" />-->
+		<!--			<Popover :open="showStartTimezone" open-class="timezone-popover-wrapper" @update:open="updateShowStartTimezone">-->
+		<!--				<h3>Please select a timezone</h3>-->
+		<!--				<timezone-select v-if="!isReadOnly" :value="startTimezone" @change="changeStartTimezone" />-->
+		<!--			</Popover>-->
+		<!--		</template>-->
+		<!--	</DatetimePicker>-->
+		<!--	<div v-if="isReadOnly" class="fake-input-box">-->
+		<!--		{{ startDate | formatDate(isAllDay) }}-->
+		<!--	</div>-->
+		<!--	<span>-->
+		<!--		{{ toLabel }}-->
+		<!--	</span>-->
+		<!--	<DatetimePicker-->
+		<!--		v-if="!isReadOnly"-->
+		<!--		lang="en"-->
+		<!--		:format="timeFormat"-->
+		<!--		:value="endDate"-->
+		<!--		:type="timeType"-->
+		<!--		@change="changeEnd" />-->
+		<!--	<div v-if="isReadOnly" class="fake-input-box">-->
+		<!--		{{ endDate | formatDate(isAllDay) }}-->
+		<!--	</div>-->
+		<!--</div>-->
+		<!--<div v-if="displayTimezones" class="row">-->
+		<!--	<timezone-select v-if="!isReadOnly" :value="startTimezone" @change="changeStartTimezone" />-->
+		<!--	<div v-if="isReadOnly" class="fake-input-box">{{ startTimezone | formatTimezone }}</div>-->
+		<!--	<span style="visibility: hidden">-->
+		<!--		{{ toLabel }}-->
+		<!--	</span>-->
+		<!--	<timezone-select v-if="!isReadOnly" :value="endTimezone" @change="changeEndTimezone" />-->
+		<!--	<div v-if="isReadOnly" class="fake-input-box">{{ endTimezone | formatTimezone }}</div>-->
+		<!--</div>-->
+
+		<!--<div class="row-checkboxes">-->
+		<!--	<div>-->
+
+		<!--	</div>-->
+		<!--</div>-->
 	</div>
 </template>
 
 <script>
-import { DatetimePicker } from 'nextcloud-vue'
+import { DatetimePicker, Popover } from 'nextcloud-vue'
 import TimezoneSelect from '../../Shared/TimezoneSelect'
 import {
 	getReadableTimezoneName,
@@ -85,37 +166,64 @@ export default {
 	name: 'PropertyTitleTimePicker',
 	components: {
 		DatetimePicker,
-		TimezoneSelect
+		TimezoneSelect,
+		Popover
 	},
 	props: {
+		/**
+		 * Whether or not the editor is viewed in read-only
+		 */
 		isReadOnly: {
 			type: Boolean,
 			required: true
 		},
+		/**
+		 * Start date of the event
+		 */
 		startDate: {
 			type: Date,
 			required: true
 		},
+		/**
+		 * Timezone of the start date
+		 */
 		startTimezone: {
 			type: String,
 			required: true
 		},
+		/**
+		 * End date of the event
+		 */
 		endDate: {
 			type: Date,
 			required: true
 		},
+		/**
+		 * Timezone of the end date
+		 */
 		endTimezone: {
 			type: String,
 			required: true
 		},
+		/**
+		 * Whether or not the event is all-day
+		 */
 		isAllDay: {
 			type: Boolean,
 			required: true
 		},
+		/**
+		 * Whether or not the user can toggle the all-day property
+		 * This is set to false, whenever this event is part of a recurrence-set
+		 */
 		canModifyAllDay: {
 			type: Boolean,
 			required: true
 		},
+		/**
+		 * The current timezone of the user
+		 * This is used to highlight if the event is in a different timezone
+		 */
 		userTimezone: {
 			Type: String,
 			required: true
@@ -123,7 +231,8 @@ export default {
 	},
 	data() {
 		return {
-			showTimezones: false
+			showStartTimezone: false,
+			showEndTimezone: false
 		}
 	},
 	filters: {
@@ -146,9 +255,13 @@ export default {
 		}
 	},
 	computed: {
-		allDayLabel() {
-			return this.$t('calendar', 'All day')
-		},
+		/**
+		 * Tooltip for the All-day checkbox.
+		 * If the all-day checkbox is disabled, this tooltip gives an explanation to the user
+		 * why it is disabled
+		 *
+		 * @returns {string|null}
+		 */
 		allDayTooltip() {
 			if (this.canModifyAllDay) {
 				return null
@@ -159,21 +272,63 @@ export default {
 
 			return this.$t('calendar', 'Can not modify all-day setting for events that are part of a recurrence-set.')
 		},
-		showTimezonesLabel() {
-			return this.showTimezones
-				? this.$t('calendar', 'Hide timezones')
-				: this.$t('canledar', 'Show timezones')
-		},
-		toLabel() {
-			return this.$t('calendar', 'to')
-		},
-		timeFormat() {
+		/**
+		 * Format of start date
+		 *
+		 * @returns {string}
+		 */
+		startDateFormat() {
+			const parts = [
+				'[',
+				this.$t('calendar', 'from'),
+				'] ',
+				moment.localeData().longDateFormat('L')
+			]
+
 			if (this.isAllDay) {
-				return 'YYYY-MM-DD'
+				return parts.join('')
 			}
 
-			return 'YYYY-MM-DD HH:mm'
+			parts.push(
+				' [',
+				this.$t('calendar', 'at'),
+				'] ',
+				moment.localeData().longDateFormat('LT')
+			)
+
+			return parts.join('')
 		},
+		/**
+		 * Format of end date
+		 *
+		 * @returns {string}
+		 */
+		endDateFormat() {
+			const parts = [
+				'[',
+				this.$t('calendar', 'to'),
+				'] ',
+				moment.localeData().longDateFormat('L')
+			]
+
+			if (this.isAllDay) {
+				return parts.join('')
+			}
+
+			parts.push(
+				' [',
+				this.$t('calendar', 'at'),
+				'] ',
+				moment.localeData().longDateFormat('LT')
+			)
+
+			return parts.join('')
+		},
+		/**
+		 * Type of date-picker to open
+		 *
+		 * @returns {string}
+		 */
 		timeType() {
 			if (this.isAllDay) {
 				return 'date'
@@ -181,17 +336,21 @@ export default {
 
 			return 'datetime'
 		},
-		displayTimezones() {
-			return !this.isAllDay && this.showTimezones
-		},
 	},
 	methods: {
+		/**
+		 * Update the start date
+		 *
+		 * @param {Date} value The new start date
+		 */
 		changeStart(value) {
 			this.$emit('updateStartDate', value)
 		},
-		changeEnd(value) {
-			this.$emit('updateEndDate', value)
-		},
+		/**
+		 * Updates the timezone of the start date
+		 *
+		 * @param {String} value The new start timezone
+		 */
 		changeStartTimezone(value) {
 			// If the value didn't change, value is null
 			if (!value) {
@@ -200,6 +359,27 @@ export default {
 
 			this.$emit('updateStartTimezone', value)
 		},
+		/**
+		 * Opens the dialog to pick the timezone for the start date
+		 */
+		showTimezonePickerForStartDate() {
+			this.showStartTimezone = true
+
+			// TODO - autofocus the timezone-picker
+		},
+		/**
+		 * Update the end date
+		 *
+		 * @param {Date} value The new end date
+		 */
+		changeEnd(value) {
+			this.$emit('updateEndDate', value)
+		},
+		/**
+		 * Updates the timezone of the end date
+		 *
+		 * @param {String} value The new end timezone
+		 */
 		changeEndTimezone(value) {
 			// If the value didn't change, value is null
 			if (!value) {
@@ -208,6 +388,17 @@ export default {
 
 			this.$emit('updateEndTimezone', value)
 		},
+		/**
+		 * Opens the dialog to pick the timezone for the end date
+		 */
+		showTimezonePickerForEndDate() {
+			this.showEndTimezone = true
+
+			// TODO - autofocus the timezone-picker
+		},
+		/**
+		 * Toggles the all-day state of an event
+		 */
 		toggleAllDay() {
 			if (!this.canModifyAllDay) {
 				return
@@ -220,20 +411,6 @@ export default {
 </script>
 
 <style scoped>
-.row,
-.row-checkboxes {
-	display: flex;
-}
-
-.row {
-	align-items: center;
-}
-
-.row-checkboxes {
-	align-items: center;
-	justify-content: space-between;
-}
-
 .row > div.mx-datepicker,
 .row > div.multiselect,
 .row > .fake-input-box {
@@ -251,4 +428,5 @@ export default {
 	color: var(--color-main-text);
 	outline: none;
 }
+
 </style>

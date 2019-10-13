@@ -195,4 +195,58 @@
 			text-align: center;
 		}
 	}
+
+	.property-title-time-picker {
+		width: 100%;
+
+		&__time-pickers,
+		&__all-day {
+			display: flex;
+			align-items: center;
+		}
+
+		&__time-pickers {
+			justify-content: space-between;
+
+			.mx-datepicker {
+				width: 49%;
+			}
+		}
+
+		&__all-day {
+			justify-content: flex-start;
+		}
+
+		.datetime-picker-inline-icon {
+			margin-top: 6px;
+			opacity: .5;
+			border: none;
+			background-color: transparent;
+			border-radius: 0;
+			padding: 6px !important;
+
+			&.different-timezone {
+				opacity: .7;
+			}
+
+			&:focus,
+			&:hover {
+				opacity: 1;
+			}
+		}
+	}
+}
+
+.timezone-popover-wrapper {
+	.tooltip-inner.popover-inner {
+		padding: 20px;
+	}
+
+	&__title {
+		margin-bottom: 8px;
+	}
+
+	&__timezone-select {
+		min-width: 200px;
+	}
 }
