@@ -55,7 +55,7 @@
 		"jstz": "^2.1.1",
 		"nextcloud-vue": "^0.12.6",
 		"p-limit": "^2.2.1",
-		"p-queue": "^6.1.1",
+		"p-queue": "^6.2.0",
 		"uuid": "^3.3.3",
 		"v-autosize": "^1.0.3",
 		"v-tooltip": "^2.0.2",
