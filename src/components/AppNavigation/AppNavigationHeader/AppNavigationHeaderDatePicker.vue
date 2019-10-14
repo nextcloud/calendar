@@ -29,11 +29,13 @@
 			type="button"
 			@click="navigateToPreviousTimeRange"
 		/>
-		<label
-			for="app-navigation-datepicker-input"
-			class="button datepicker-label">
+		<button
+			class="button datepicker-label"
+			@click.stop.prevent="toggleDatepicker"
+			@mousedown.stop.prevent="doNothing"
+			@mouseup.stop.prevent="doNothing">
 			{{ selectedDate | formatDateRage(view) }}
-		</label>
+		</button>
 		<datetime-picker
 			:first-day-of-week="firstDay"
 			:lang="lang"
@@ -43,6 +45,7 @@
 			:not-after="maximumDate"
 			:value="selectedDate"
 			:input-attr="inputItemAttributes"
+			ref="datepicker"
 			@change="navigateToDate"
 		/>
 		<button
@@ -204,6 +207,17 @@ export default {
 			}
 
 			this.$router.push({ name, params })
+		},
+		toggleDatepicker(event) {
+			// This is not exactly the recommended approach,
+			// but Datepicker does not expose the open property yet.
+			// Version 3 will
+			this.$refs.datepicker.$children[0].popupVisible
+				= !this.$refs.datepicker.$children[0].popupVisible
+		},
+		doNothing() {
+			// This function does nothing in itself,
+			// it only captures and prevents the mousedown and mouseup of vue2-datepicker
 		}
 	}
 }
