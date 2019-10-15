@@ -21,15 +21,131 @@
   -->
 
 <template>
-	<div class="reminder-row">
-		<div class="avatar" :class="icon" />
-		<div class="label">
-			{{ alarm | formatAlarm }}
+	<!-- Yes, technically an alarm is a component, not a property, but for the matter of CSS names it really doesn't matter -->
+	<div
+		class="property-alarm-item"
+		v-click-outside="closeAlarmEditor">
+		<div class="property-alarm-item__icon">
+			<div class="icon" :class="icon" />
 		</div>
-		<div class="options">
+		<div
+			v-if="!isEditing"
+			class="property-alarm-item__label">
+			{{ alarm | formatAlarm(isAllDay, currentUserTimezone) }}
+		</div>
+		<div
+			v-if="isEditing && isRelativeAlarm && !isAllDay"
+			class="property-alarm-item__edit property-alarm-item__edit--timed">
+			<input
+				type="number"
+				min="0"
+				max="3600"
+				:value="alarm.relativeAmountTimed"
+				@input="changeRelativeAmountTimed"
+			>
+			<alarm-time-unit-select
+				:is-all-day="isAllDay"
+				:count="alarm.relativeAmountTimed"
+				:unit="alarm.relativeUnitTimed"
+				:disabled="false"
+				@change="changeRelativeUnitTimed" />
+		</div>
+		<div
+			v-if="isEditing && isRelativeAlarm && isAllDay"
+			class="property-alarm-item__edit property-alarm-item__edit--all-day">
+			<div>
+				<input
+					type="number"
+					min="0"
+					max="3600"
+					:value="alarm.relativeAmountAllDay"
+					@input="changeRelativeAmountAllDay"
+				>
+				<alarm-time-unit-select
+					:is-all-day="isAllDay"
+					:count="alarm.relativeAmountAllDay"
+					:unit="alarm.relativeUnitAllDay"
+					:disabled="false"
+					@change="changeRelativeUnitAllDay" />
+			</div>
+			<span>
+				{{ $t('calendar', 'before at') }}
+			</span>
+			<DatetimePicker
+				lang="en"
+				:format="timeFormat"
+				type="time"
+				:value="relativeAllDayDate"
+				@change="changeRelativeHourMinuteAllDay" />
+		</div>
+		<div
+			v-if="isEditing && isAbsoluteAlarm"
+			class="property-alarm-item__edit property-alarm-item__edit--absolute">
+			<DatetimePicker
+				lang="en"
+				:format="absoluteDateFormat"
+				type="datetime"
+				:value="alarm.absoluteDate"
+				@change="changeAbsoluteDate" />
+		</div>
+		<div class="property-alarm-item__options">
 			<Actions>
-				<ActionButton />
-				<ActionButton />
+				<ActionButton
+					v-if="canEdit"
+					icon="icon-edit"
+					@click="editAlarm">
+					{{ $t('calendar', 'Edit reminder') }}
+				</ActionButton>
+
+				<ActionRadio
+					v-if="isEditing"
+					:name="alarmTypeName"
+					:checked="isAlarmTypeDisplay"
+					@change="changeType('DISPLAY')">
+					{{ $t('calendar', 'Notification') }}
+				</ActionRadio>
+				<ActionRadio
+					v-if="isEditing"
+					:name="alarmTypeName"
+					:checked="isAlarmTypeEmail"
+					@change="changeType('EMAIL')">
+					{{ $t('calendar', 'Email') }}
+				</ActionRadio>
+				<ActionRadio
+					v-if="isEditing && isAlarmTypeAudio"
+					:name="alarmTypeName"
+					:checked="isAlarmTypeAudio"
+					@change="changeType('AUDIO')">
+					{{ $t('calendar', 'Audio notification') }}
+				</ActionRadio>
+				<ActionRadio
+					v-if="isEditing && isAlarmTypeOther"
+					:name="alarmTypeName"
+					:checked="isAlarmTypeOther"
+					@change="changeType(alarm.type)">
+					{{ $t('calendar', 'Other notification') }}
+				</ActionRadio>
+
+				<ActionRadio
+					v-if="isEditing"
+					:name="alarmTriggerName"
+					:checked="isRelativeAlarm"
+					@change="switchToRelativeAlarm">
+					{{ $t('calendar', 'Relative to event') }}
+				</ActionRadio>
+				<ActionRadio
+					v-if="isEditing"
+					:name="alarmTriggerName"
+					:checked="isAbsoluteAlarm"
+					@change="switchToAbsoluteAlarm">
+					{{ $t('calendar', 'On date') }}
+				</ActionRadio>
+
+				<ActionButton
+					icon="icon-delete"
+					@click="removeAlarm">
+					{{ $t('calendar', 'Remove reminder') }}
+				</ActionButton>
 			</Actions>
 		</div>
 	</div>
@@ -39,65 +155,267 @@
 import {
 	Actions,
 	ActionButton,
+	ActionRadio
 } from 'nextcloud-vue'
+import ClickOutside from 'vue-click-outside'
+import formatAlarm from '../../../filters/alarmFormat.js'
+import AlarmTimeUnitSelect from './AlarmTimeUnitSelect.vue'
+import moment from '@nextcloud/moment'
 
 export default {
 	name: 'AlarmListItem',
 	components: {
+		AlarmTimeUnitSelect,
 		Actions,
-		ActionButton
+		ActionButton,
+		ActionRadio
+	},
+	directives: {
+		ClickOutside
+	},
+	filters: {
+		formatAlarm
 	},
 	props: {
 		alarm: {
 			type: Object,
 			required: true
+		},
+		calendarObjectInstance: {
+			type: Object,
+			required: true
+		},
+		isReadOnly: {
+			type: Boolean,
+			required: true
+		}
+	},
+	data() {
+		return {
+			isEditing: false
 		}
 	},
 	computed: {
-		icon() {
-			if (this.type === 'AUDIO') {
-				return 'icon-reminder-audio'
-			}
-
-			if (this.type === 'DISPLAY') {
-				return 'icon-reminder'
-			}
-
-			if (this.type === 'EMAIL') {
-				return 'icon-reminder-mail'
-			}
-
-			return 'icon-settings-dark'
+		canEdit() {
+			// You can't edit if:
+			// Trigger is related to end
+			// Trigger is timed and > 0
+			// Trigger is all day and bigger >= 86.400
+			return true
 		},
-		type() {
-			return 'AUDIO'
+		alarmTypeName() {
+			return this._uid + '-radio-type-name'
+		},
+		alarmTriggerName() {
+			return this._uid + '-radio-trigger-name'
+		},
+		isAlarmTypeDisplay() {
+			return this.alarm.type === 'DISPLAY'
+		},
+		isAlarmTypeEmail() {
+			return this.alarm.type === 'EMAIL'
+		},
+		isAlarmTypeAudio() {
+			return this.alarm.type === 'AUDIO'
+		},
+		isAlarmTypeOther() {
+			return !['AUDIO', 'DISPLAY', 'EMAIL'].includes(this.alarm.type)
+		},
+		isRelativeAlarm() {
+			return this.alarm.relativeTrigger !== null
+		},
+		isAbsoluteAlarm() {
+			return !this.isRelativeAlarm
+		},
+		icon() {
+			switch (this.alarm.type) {
+			case 'AUDIO':
+				return 'icon-reminder-audio'
+
+			case 'DISPLAY':
+				return 'icon-reminder'
+
+			case 'EMAIL':
+				return 'icon-reminder-mail'
+
+			default:
+				return 'icon-settings-dark'
+			}
+		},
+		currentUserTimezone() {
+			return this.$store.getters.getResolvedTimezone
+		},
+		isAllDay() {
+			return this.calendarObjectInstance.isAllDay
+		},
+		relativeAllDayDate() {
+			const date = new Date()
+			date.setHours(this.alarm.relativeHoursAllDay)
+			date.setMinutes(this.alarm.relativeMinutesAllDay)
+
+			return date
+		},
+		timeFormat() {
+			return moment.localeData().longDateFormat('LT')
+		},
+		absoluteDateFormat() {
+			return [
+				'[',
+				this.$t('calendar', 'on'),
+				'] ',
+				moment.localeData().longDateFormat('L'),
+				' [',
+				this.$t('calendar', 'at'),
+				'] ',
+				moment.localeData().longDateFormat('LT')
+			].join('')
+		}
+	},
+	methods: {
+		/**
+		 * This method enables the editing mode
+		 */
+		editAlarm() {
+			this.isEditing = true
+		},
+		/**
+		 * This method closes the editing mode again
+		 */
+		closeAlarmEditor() {
+			this.isEditing = false
+		},
+		/**
+		 * Changes the type of the reminder
+		 *
+		 * @param {String} type The new type of the notification
+		 */
+		changeType(type) {
+			this.$store.commit('changeAlarmType', {
+				calendarObjectInstance: this.calendarObjectInstance,
+				alarm: this.alarm,
+				type
+			})
+		},
+		/**
+		 * Switches from absolute to relative alarm
+		 */
+		switchToRelativeAlarm() {
+			if (this.isRelativeAlarm) {
+				return
+			}
+
+			this.$store.dispatch('changeAlarmFromAbsoluteToRelative', {
+				calendarObjectInstance: this.calendarObjectInstance,
+				alarm: this.alarm
+			})
+		},
+		/**
+		 * Switches from relative to absolute alarm
+		 */
+		switchToAbsoluteAlarm() {
+			if (this.isAbsoluteAlarm) {
+				return
+			}
+
+			this.$store.dispatch('changeAlarmFromRelativeToAbsolute', {
+				calendarObjectInstance: this.calendarObjectInstance,
+				alarm: this.alarm
+			})
+		},
+		/**
+		 * This method emits the removeAlarm event
+		 */
+		removeAlarm() {
+			this.$emit('removeAlarm', this.alarm)
+		},
+		/**
+		 * changes the relative amount entered in timed mode
+		 *
+		 * @param {Event} event The Input-event triggered when modifying the input
+		 */
+		changeRelativeAmountTimed(event) {
+			const minimumValue = parseInt(event.target.min, 10)
+			const maximumValue = parseInt(event.target.max, 10)
+			const selectedValue = parseInt(event.target.value, 10)
+
+			if (selectedValue >= minimumValue && selectedValue <= maximumValue) {
+				this.$store.dispatch('changeAlarmAmountTimed', {
+					calendarObjectInstance: this.calendarObjectInstance,
+					alarm: this.alarm,
+					amount: selectedValue
+				})
+			}
+		},
+		/**
+		 * changes the relative unit entered in timed mode
+		 *
+		 * @param {String} unit The new unit
+		 */
+		changeRelativeUnitTimed(unit) {
+			this.$store.dispatch('changeAlarmUnitTimed', {
+				calendarObjectInstance: this.calendarObjectInstance,
+				alarm: this.alarm,
+				unit
+			})
+		},
+		/**
+		 * changes the relative amount entered in all-day
+		 *
+		 * @param {Event} event The Input-event triggered when modifying the input
+		 */
+		changeRelativeAmountAllDay(event) {
+			const minimumValue = parseInt(event.target.min, 10)
+			const maximumValue = parseInt(event.target.max, 10)
+			const selectedValue = parseInt(event.target.value, 10)
+
+			if (selectedValue >= minimumValue && selectedValue <= maximumValue) {
+				this.$store.dispatch('changeAlarmAmountAllDay', {
+					calendarObjectInstance: this.calendarObjectInstance,
+					alarm: this.alarm,
+					amount: selectedValue
+				})
+			}
+		},
+		/**
+		 * changes the relative unit entered in all-day mode
+		 *
+		 * @param {String} unit The new unit
+		 */
+		changeRelativeUnitAllDay(unit) {
+			this.$store.dispatch('changeAlarmUnitAllDay', {
+				calendarObjectInstance: this.calendarObjectInstance,
+				alarm: this.alarm,
+				unit
+			})
+		},
+		/**
+		 * Changes the time entered in all-day mode
+		 *
+		 * @param {Date} date The new date object containing hours and minutes
+		 */
+		changeRelativeHourMinuteAllDay(date) {
+			const hours = date.getHours()
+			const minutes = date.getMinutes()
+
+			this.$store.dispatch('changeAlarmHoursMinutesAllDay', {
+				calendarObjectInstance: this.calendarObjectInstance,
+				alarm: this.alarm,
+				hours,
+				minutes
+			})
+		},
+		/**
+		 * Changes the date of the absolute alarm
+		 *
+		 * @param {Date} date The new date of the alarm
+		 */
+		changeAbsoluteDate(date) {
+			this.$store.commit('changeAlarmAbsoluteDate', {
+				calendarObjectInstance: this.calendarObjectInstance,
+				alarm: this.alarm,
+				date
+			})
 		}
 	}
 }
 </script>
-
-<style scoped>
-.avatar {
-	width: 32px;
-	height: 32px;
-	background-color: #dbdbdb;
-}
-
-.label {
-	padding: 0 8px;
-	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-}
-
-.options {
-	margin-left: auto;
-	display: flex;
-	align-items: center;
-	white-space: nowrap;
-}
-
-.reminder-row {
-	display: flex;
-}
-</style>

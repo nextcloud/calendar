@@ -30,7 +30,15 @@ import DateTimeValue from 'calendar-js/src/values/dateTimeValue.js'
 import RecurValue from 'calendar-js/src/values/recurValue.js'
 import Property from 'calendar-js/src/properties/property.js'
 import { getBySetPositionAndBySetFromDate, getWeekDayFromDate } from '../utils/recurrence.js'
-import { getDefaultCalendarObjectInstanceObject } from '../models/calendarObjectInstance.js'
+import {
+	getAlarmFromAlarmComponent,
+	getDefaultCalendarObjectInstanceObject
+} from '../models/calendarObjectInstance.js'
+import {
+	getAmountAndUnitForTimedEvents,
+	getAmountHoursMinutesAndUnitForAllDayEvents,
+	getTotalSecondsFromAmountAndUnitForTimedEvents, getTotalSecondsFromAmountHourMinutesAndUnitForAllDayEvents
+} from '../utils/alarms.js'
 
 const state = {}
 
@@ -889,6 +897,327 @@ const mutations = {
 	 */
 	markRecurrenceRuleAsSupported(state, { calendarObjectInstance, recurrenceRule }) {
 		recurrenceRule.isUnsupported = false
+	},
+
+	/**
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {Object} data.alarm The alarm object
+	 * @param {String} data.type New type of alarm
+	 */
+	changeAlarmType(state, { calendarObjectInstance, alarm, type }) {
+		if (alarm.alarmComponent) {
+			alarm.alarmComponent.action = type
+			alarm.type = type
+
+			console.debug(alarm.alarmComponent.toICALJs().toString())
+		}
+	},
+
+	/**
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {Object} data.alarm The alarm object
+	 * @param {Number} data.amount New amount of timed event
+	 */
+	changeAlarmAmountTimed(state, { calendarObjectInstance, alarm, amount }) {
+		if (alarm.alarmComponent) {
+			alarm.alarmComponent.trigger.value.totalSeconds
+				= getTotalSecondsFromAmountAndUnitForTimedEvents(amount, alarm.relativeUnitTimed, alarm.relativeIsBefore)
+
+			alarm.relativeAmountTimed = amount
+			alarm.relativeTrigger = alarm.alarmComponent.trigger.value.totalSeconds
+
+			console.debug(alarm.alarmComponent.toICALJs().toString())
+		}
+
+	},
+
+	/**
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {Object} data.alarm The alarm object
+	 * @param {String} data.unit New unit of timed event
+	 */
+	changeAlarmUnitTimed(state, { calendarObjectInstance, alarm, unit }) {
+		if (alarm.alarmComponent) {
+			alarm.alarmComponent.trigger.value.totalSeconds
+				= getTotalSecondsFromAmountAndUnitForTimedEvents(alarm.relativeAmountTimed, unit, alarm.relativeIsBefore)
+
+			alarm.relativeUnitTimed = unit
+			alarm.relativeTrigger = alarm.alarmComponent.trigger.value.totalSeconds
+
+			console.debug(alarm.alarmComponent.toICALJs().toString())
+		}
+	},
+
+	/**
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {Object} data.alarm The alarm object
+	 * @param {Number} data.amount New amount of all-day event
+	 */
+	changeAlarmAmountAllDay(state, { calendarObjectInstance, alarm, amount }) {
+		if (alarm.alarmComponent) {
+			alarm.alarmComponent.trigger.value.totalSeconds
+				= getTotalSecondsFromAmountHourMinutesAndUnitForAllDayEvents(amount,
+					alarm.relativeHoursAllDay, alarm.relativeMinutesAllDay, alarm.relativeUnitAllDay)
+
+			alarm.relativeAmountAllDay = amount
+			alarm.relativeTrigger = alarm.alarmComponent.trigger.value.totalSeconds
+
+			console.debug(alarm.alarmComponent.toICALJs().toString())
+		}
+	},
+
+	/**
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {Object} data.alarm The alarm object
+	 * @param {String} data.unit New Unit of all-day event
+	 */
+	changeAlarmUnitAllDay(state, { calendarObjectInstance, alarm, unit }) {
+		if (alarm.alarmComponent) {
+			alarm.alarmComponent.trigger.value.totalSeconds
+				= getTotalSecondsFromAmountHourMinutesAndUnitForAllDayEvents(alarm.relativeAmountAllDay,
+					alarm.relativeHoursAllDay, alarm.relativeMinutesAllDay, unit)
+
+			alarm.relativeUnitAllDay = unit
+			alarm.relativeTrigger = alarm.alarmComponent.trigger.value.totalSeconds
+
+			console.debug(alarm.alarmComponent.toICALJs().toString())
+		}
+	},
+
+	/**
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {Object} data.alarm The alarm object
+	 * @param {Number} data.hours New Hour
+	 * @param {Number} data.minutes New Minutes
+	 */
+	changeAlarmHoursMinutesAllDay(state, { calendarObjectInstance, alarm, hours, minutes }) {
+		if (alarm.alarmComponent) {
+			alarm.alarmComponent.trigger.value.totalSeconds
+				= getTotalSecondsFromAmountHourMinutesAndUnitForAllDayEvents(alarm.relativeAmountAllDay,
+					hours, minutes, alarm.relativeUnitAllDay)
+
+			alarm.relativeHoursAllDay = hours
+			alarm.relativeMinutesAllDay = minutes
+			alarm.relativeTrigger = alarm.alarmComponent.trigger.value.totalSeconds
+
+			console.debug(alarm.alarmComponent.toICALJs().toString())
+		}
+	},
+
+	/**
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {Object} data.alarm The alarm object
+	 * @param {Date} data.date New date object
+	 */
+	changeAlarmAbsoluteDate(state, { calendarObjectInstance, alarm, date }) {
+		if (alarm.alarmComponent) {
+			alarm.alarmComponent.trigger.value.year = date.getFullYear()
+			alarm.alarmComponent.trigger.value.month = date.getMonth() + 1
+			alarm.alarmComponent.trigger.value.day = date.getDate()
+			alarm.alarmComponent.trigger.value.hour = date.getHours()
+			alarm.alarmComponent.trigger.value.minute = date.getMinutes()
+			alarm.alarmComponent.trigger.value.second = 0
+
+			alarm.absoluteDate = date
+
+			console.debug(alarm.alarmComponent.toICALJs().toString())
+		}
+	},
+
+	/**
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {Object} data.alarm The alarm object
+	 * @param {String} data.timezoneId New timezoneId
+	 */
+	changeAlarmAbsoluteTimezoneId(state, { calendarObjectInstance, alarm, timezoneId }) {
+		if (alarm.alarmComponent) {
+			const timezone = getTimezoneManager().getTimezoneForId(timezoneId)
+			alarm.alarmComponent.trigger.value.replaceTimezone(timezone)
+
+			alarm.absoluteTimezoneId = timezoneId
+
+			console.debug(alarm.alarmComponent.toICALJs().toString())
+		}
+	},
+
+	/**
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {Object} data.alarm The alarm object
+	 */
+	changeAlarmFromRelativeToAbsolute(state, { calendarObjectInstance, alarm }) {
+		if (alarm.alarmComponent) {
+			const triggerDateTime = calendarObjectInstance.eventComponent.startDate.clone()
+			triggerDateTime.addDuration(alarm.alarmComponent.trigger.value)
+
+			alarm.alarmComponent.setTriggerFromAbsolute(triggerDateTime)
+
+			alarm.absoluteDate = getDateFromDateTimeValue(alarm.alarmComponent.trigger.value)
+			alarm.absoluteTimezoneId = alarm.alarmComponent.trigger.value.timezoneId
+
+			console.debug(alarm.alarmComponent.toICALJs().toString())
+		}
+	},
+
+	/**
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {Object} data.alarm The alarm object
+	 */
+	changeAlarmFromAbsoluteToRelative(state, { calendarObjectInstance, alarm }) {
+		if (alarm.alarmComponent) {
+
+			console.debug(calendarObjectInstance.eventComponent.startDate)
+			console.debug(alarm.alarmComponent.trigger.value)
+
+			const duration = calendarObjectInstance.eventComponent.startDate
+				.subtractDateWithTimezone(alarm.alarmComponent.trigger.value)
+
+			alarm.alarmComponent.setTriggerFromRelative(duration)
+
+			alarm.relativeIsBefore = alarm.alarmComponent.trigger.value.isNegative
+			alarm.relativeIsRelatedToStart = true
+
+			alarm.relativeTrigger = duration.totalSeconds
+
+			console.debug(alarm.alarmComponent.toICALJs().toString())
+		}
+	},
+
+	/**
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {Object} data.alarm The alarm object
+	 */
+	resetAlarmRelativeParts(state, { alarm }) {
+		alarm.relativeIsBefore = null
+		alarm.relativeIsRelatedToStart = null
+		alarm.relativeUnitTimed = null
+		alarm.relativeAmountTimed = null
+		alarm.relativeUnitAllDay = null
+		alarm.relativeAmountAllDay = null
+		alarm.relativeHoursAllDay = null
+		alarm.relativeMinutesAllDay = null
+		alarm.relativeTrigger = null
+	},
+
+	/**
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {Object} data.alarm The alarm object
+	 */
+	resetAlarmAbsoluteParts(state, { alarm }) {
+		alarm.absoluteDate = null
+		alarm.absoluteTimezoneId = null
+	},
+
+	/**
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {Object} data.alarm The alarm object
+	 */
+	updateAlarmAllDayParts(state, { calendarObjectInstance, alarm }) {
+		if (alarm.alarmComponent) {
+			const totalSeconds = alarm.alarmComponent.trigger.value.totalSeconds
+			const allDayParts = getAmountHoursMinutesAndUnitForAllDayEvents(totalSeconds)
+
+			alarm.relativeUnitAllDay = allDayParts.unit
+			alarm.relativeAmountAllDay = allDayParts.amount
+			alarm.relativeHoursAllDay = allDayParts.hours
+			alarm.relativeMinutesAllDay = allDayParts.minutes
+		}
+	},
+
+	/**
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {Object} data.alarm The alarm object
+	 */
+	updateAlarmTimedParts(state, { calendarObjectInstance, alarm }) {
+		if (alarm.alarmComponent) {
+			const totalSeconds = alarm.alarmComponent.trigger.value.totalSeconds
+			const timedParts = getAmountAndUnitForTimedEvents(totalSeconds)
+
+			alarm.relativeUnitTimed = timedParts.unit
+			alarm.relativeAmountTimed = timedParts.amount
+
+			console.debug(alarm.alarmComponent.toICALJs().toString())
+		}
+	},
+
+	/**
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {String} data.type Type of alarm
+	 * @param {Number} data.totalSeconds Total amount of seconds for new alarm
+	 */
+	addAlarmToCalendarObjectInstance(state, { calendarObjectInstance, type, totalSeconds }) {
+		if (calendarObjectInstance.eventComponent) {
+			const eventComponent = calendarObjectInstance.eventComponent
+
+			const duration = DurationValue.fromSeconds(totalSeconds)
+			const alarmComponent = eventComponent.addRelativeAlarm(type, duration)
+
+			const alarmObject = getAlarmFromAlarmComponent(alarmComponent)
+
+			calendarObjectInstance.alarms.push(alarmObject)
+
+			console.debug(alarmObject.alarmComponent.toICALJs().toString())
+		}
+	},
+
+	/**
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {Object} data.alarm The alarm object
+	 */
+	removeAlarmFromCalendarObjectInstance(state, { calendarObjectInstance, alarm }) {
+		if (alarm.alarmComponent) {
+			calendarObjectInstance.eventComponent.removeAlarm(alarm.alarmComponent)
+
+			const index = calendarObjectInstance.alarms.indexOf(alarm)
+			if (index !== -1) {
+				calendarObjectInstance.alarms.splice(index, 1)
+			}
+		}
 	}
 }
 
@@ -1162,6 +1491,43 @@ const actions = {
 			recurrenceRule,
 			count: 2 // Default value is two
 		})
+	},
+
+	changeAlarmAmountTimed({ commit }, { calendarObjectInstance, alarm, amount }) {
+		commit('changeAlarmAmountTimed', { calendarObjectInstance, alarm, amount })
+		commit('updateAlarmAllDayParts', { calendarObjectInstance, alarm })
+	},
+
+	changeAlarmUnitTimed({ commit }, { calendarObjectInstance, alarm, unit }) {
+		commit('changeAlarmUnitTimed', { calendarObjectInstance, alarm, unit })
+		commit('updateAlarmAllDayParts', { calendarObjectInstance, alarm })
+	},
+
+	changeAlarmAmountAllDay({ commit }, { calendarObjectInstance, alarm, amount }) {
+		commit('changeAlarmAmountAllDay', { calendarObjectInstance, alarm, amount })
+		commit('updateAlarmTimedParts', { calendarObjectInstance, alarm })
+	},
+
+	changeAlarmUnitAllDay({ commit }, { calendarObjectInstance, alarm, unit }) {
+		commit('changeAlarmUnitAllDay', { calendarObjectInstance, alarm, unit })
+		commit('updateAlarmTimedParts', { calendarObjectInstance, alarm })
+	},
+
+	changeAlarmHoursMinutesAllDay({ commit }, { calendarObjectInstance, alarm, hours, minutes }) {
+		commit('changeAlarmHoursMinutesAllDay', { calendarObjectInstance, alarm, hours, minutes })
+		commit('updateAlarmTimedParts', { calendarObjectInstance, alarm })
+	},
+
+	changeAlarmFromRelativeToAbsolute({ commit }, { calendarObjectInstance, alarm }) {
+		commit('changeAlarmFromRelativeToAbsolute', { calendarObjectInstance, alarm })
+		commit('resetAlarmRelativeParts', { alarm })
+	},
+
+	changeAlarmFromAbsoluteToRelative({ commit }, { calendarObjectInstance, alarm }) {
+		commit('changeAlarmFromAbsoluteToRelative', { calendarObjectInstance, alarm })
+		commit('updateAlarmAllDayParts', { calendarObjectInstance, alarm })
+		commit('updateAlarmTimedParts', { calendarObjectInstance, alarm })
+		commit('resetAlarmAbsoluteParts', { alarm })
 	}
 
 }

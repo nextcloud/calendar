@@ -158,7 +158,9 @@
 				</div>
 			</div>
 			<div v-if="!isLoading" class="app-sidebar-tab__content">
-				<alarm-list :event-component="eventComponent" :is-read-only="isReadOnly" />
+				<alarm-list
+					:calendar-object-instance="calendarObjectInstance"
+					:is-read-only="isReadOnly" />
 			</div>
 			<save-buttons
 				v-if="!isReadOnly"

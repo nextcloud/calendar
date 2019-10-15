@@ -235,6 +235,79 @@
 			}
 		}
 	}
+
+	.property-alarm-item {
+		display: flex;
+		align-items: center;
+
+		&__icon {
+			width: 32px;
+			height: 32px;
+			background-color: var(--color-border-dark);
+			border-radius: 50%;
+
+			.icon {
+				opacity: .7;
+				height: 32px;
+				width: 32px;
+				background-size: 20px;
+			}
+		}
+
+		&__label {
+			padding: 0 8px;
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+		}
+
+		&__options {
+			margin-left: auto;
+			display: flex;
+			align-items: center;
+			white-space: nowrap;
+		}
+
+		&__edit {
+			padding: 0 8px;
+			display: flex;
+			align-items: center;
+			width: 100%;
+
+			input[type=number] {
+				width: 4em;
+			}
+
+			&--timed {
+				.multiselect {
+					width: 100%;
+				}
+			}
+
+			&--all-day {
+				justify-content: space-between;
+
+				.multiselect {
+					width: unset !important; // TODO - remove
+					min-width: 8em !important;
+				}
+
+				.before-at-label {
+					margin: 0 auto;
+				}
+
+				.mx-datepicker {
+					width: 8em !important;
+				}
+			}
+
+			&--absolute {
+				.mx-datepicker {
+					width: 100% !important;
+				}
+			}
+		}
+	}
 }
 
 .timezone-popover-wrapper {

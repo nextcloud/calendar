@@ -25,6 +25,7 @@
 		:allow-empty="false"
 		:options="options"
 		:value="selected"
+		:disabled="disabled"
 		track-by="type"
 		label="label"
 		@select="select"
@@ -45,15 +46,26 @@ export default {
 		alarmType: {
 			type: String,
 			required: true
+		},
+		disabled: {
+			type: Boolean,
+			required: true
 		}
 	},
 	computed: {
 		options() {
+			/**
+			 * This returns a list of options for the type select.
+			 * By default, we only offer DISPLAY AND EMAIL.
+			 * If necessary, we also display other Audio or Other
+			 *
+			 * @returns {Object[]}
+			 */
 			const options = [{
 				'label': this.$t('calendar', 'Notification'),
 				'type': 'DISPLAY'
 			}, {
-				'label': this.$t('calendar', 'E-Mail'),
+				'label': this.$t('calendar', 'Email'),
 				'type': 'EMAIL'
 			}]
 
@@ -66,18 +78,28 @@ export default {
 
 			if (['AUDIO', 'DISPLAY', 'EMAIL'].indexOf(this.alarmType) === -1) {
 				options.push({
-					label: this.alarmType, // TODO - XSS?
+					label: this.$t('calendar', 'Other'),
 					type: this.alarmType
 				})
 			}
 
 			return options
 		},
+		/**
+		 * This is the selected option
+		 *
+		 * @returns {Object}
+		 */
 		selected() {
 			return this.options.find(o => o.type === this.alarmType)
 		}
 	},
 	methods: {
+		/**
+		 * This triggers the change event when the user selected a new notification type
+		 *
+		 * @param {Object} value
+		 */
 		select(value) {
 			if (!value) {
 				return

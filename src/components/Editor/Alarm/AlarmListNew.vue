@@ -21,13 +21,23 @@
   -->
 
 <template>
-	<button class="editor-reminders-list-new-button icon-add">
+	<button
+		class="editor-reminders-list-new-button icon-add"
+		@click="addReminder">
 		{{ $t('calendar', 'Add reminder') }}
 	</button>
 </template>
 
 <script>
 export default {
-	name: 'AlarmListNew'
+	name: 'AlarmListNew',
+	methods: {
+		/**
+		 * This emits the add alarm event
+		 */
+		addReminder() {
+			this.$emit('addAlarm')
+		}
+	}
 }
 </script>

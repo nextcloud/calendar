@@ -25,6 +25,7 @@
 		:allow-empty="false"
 		:options="options"
 		:value="selected"
+		:disabled="disabled"
 		track-by="unit"
 		label="label"
 		@select="select"
@@ -53,9 +54,21 @@ export default {
 		count: {
 			type: Number,
 			required: true
+		},
+		disabled: {
+			type: Boolean,
+			required: true
 		}
 	},
 	computed: {
+		/**
+		 * This returns a list of options for the unit select.
+		 * We offer seconds only when we have to, not by default
+		 *
+		 * In All-day mode, we only offer days and weeks.
+		 *
+		 * @returns {Object[]}
+		 */
 		options() {
 			const options = []
 
@@ -88,11 +101,21 @@ export default {
 
 			return options
 		},
+		/**
+		 * This is the selected option
+		 *
+		 * @returns {Object}
+		 */
 		selected() {
 			return this.options.find(o => o.unit === this.unit)
 		}
 	},
 	methods: {
+		/**
+		 * This triggers the change event when the user selected a new unit
+		 *
+		 * @param {Object} value The selected option
+		 */
 		select(value) {
 			if (!value) {
 				return

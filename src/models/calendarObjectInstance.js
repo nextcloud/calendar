@@ -22,6 +22,7 @@
 import { getDateFromDateTimeValue } from '../utils/date.js'
 import DurationValue from 'calendar-js/src/values/durationValue.js'
 import { getWeekDayFromDate } from '../utils/recurrence.js'
+import { getAmountAndUnitForTimedEvents, getAmountHoursMinutesAndUnitForAllDayEvents } from '../utils/alarms.js'
 
 /**
  * Creates a complete calendar-object-instance-object based on given props
@@ -276,15 +277,7 @@ function getAlarmsFromEventComponent(eventComponent) {
 	const alarms = []
 
 	for (const alarm of eventComponent.getAlarmIterator()) {
-		alarms.push({
-			type: alarm.action,
-			relativeTrigger: null,
-			absoluteTrigger: null,
-			isRelative: false,
-			// triggerDate:
-			// isRelative: alarm.trigger.isRelative()
-			alarmComponent: alarm
-		})
+		alarms.push(getAlarmFromAlarmComponent(alarm))
 	}
 
 	return alarms
@@ -612,4 +605,64 @@ function isAllowedBySetPos(bySetPos) {
 	]
 
 	return allowedBySetPos.includes(bySetPos.toString())
+}
+
+/**
+ *
+ * @param {Object} alarm The alarm to set / update
+ * @param {AlarmComponent} alarmComponent The alarm component to read from
+ */
+export function updateAlarmFromAlarmComponent(alarm, alarmComponent) {
+	alarm.type = alarmComponent.action
+	alarm.isRelative = alarmComponent.trigger.isRelative()
+
+	alarm.absoluteDate = null
+	alarm.absoluteTimezoneId = null
+
+	alarm.relativeIsBefore = null
+	alarm.relativeIsRelatedToStart = null
+
+	alarm.relativeUnitTimed = null
+	alarm.relativeAmountTimed = null
+
+	alarm.relativeUnitAllDay = null
+	alarm.relativeAmountAllDay = null
+	alarm.relativeHoursAllDay = null
+	alarm.relativeMinutesAllDay = null
+
+	alarm.relativeTrigger = null
+
+	alarm.alarmComponent = alarmComponent
+
+	if (alarm.isRelative) {
+		alarm.relativeIsBefore = alarmComponent.trigger.value.isNegative
+		alarm.relativeIsRelatedToStart = alarmComponent.trigger.related === 'START'
+
+		const timedData = getAmountAndUnitForTimedEvents(alarmComponent.trigger.value.totalSeconds)
+		alarm.relativeAmountTimed = timedData.amount
+		alarm.relativeUnitTimed = timedData.unit
+
+		const allDayData = getAmountHoursMinutesAndUnitForAllDayEvents(alarmComponent.trigger.value.totalSeconds)
+		alarm.relativeUnitAllDay = allDayData.unit
+		alarm.relativeAmountAllDay = allDayData.amount
+		alarm.relativeHoursAllDay = allDayData.hours
+		alarm.relativeMinutesAllDay = allDayData.minutes
+
+		alarm.relativeTrigger = alarmComponent.trigger.value.totalSeconds
+	} else {
+		alarm.absoluteDate = getDateFromDateTimeValue(alarmComponent.trigger.value)
+		alarm.absoluteTimezoneId = alarmComponent.trigger.value.timezoneId
+	}
+}
+
+/**
+ *
+ * @param {AlarmComponent} alarmComponent The alarm component to read from
+ * @returns {Object}
+ */
+export function getAlarmFromAlarmComponent(alarmComponent) {
+	const alarmObject = {}
+	updateAlarmFromAlarmComponent(alarmObject, alarmComponent)
+
+	return alarmObject
 }

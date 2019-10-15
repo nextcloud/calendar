@@ -21,9 +21,16 @@
   -->
 
 <template>
-	<div>
-		<alarm-list-item v-for="alarm in alarms" :key="alarm.id" :alarm="alarm" />
-		<alarm-list-new />
+	<div class="property-alarm-list">
+		<alarm-list-item
+			v-for="(alarm, index) in alarms"
+			:key="index"
+			:alarm="alarm"
+			:calendar-object-instance="calendarObjectInstance"
+			:is-read-only="isReadOnly"
+			@removeAlarm="removeAlarm" />
+		<alarm-list-new
+			@addAlarm="addAlarm" />
 		<no-alarm-view
 			v-if="isListEmpty" />
 	</div>
@@ -33,6 +40,7 @@
 import AlarmListNew from './AlarmListNew'
 import AlarmListItem from './AlarmListItem'
 import NoAlarmView from './NoAlarmView.vue'
+import getDefaultAlarms from '../../../defaults/defaultAlarmProvider.js'
 
 export default {
 	name: 'AlarmList',
@@ -41,14 +49,66 @@ export default {
 		AlarmListItem,
 		AlarmListNew
 	},
-	data() {
-		return {
-			alarms: []
-		}
+	props: {
+		isReadOnly: {
+			type: Boolean,
+			required: true
+		},
+		calendarObjectInstance: {
+			type: Object,
+			required: true
+		},
 	},
 	computed: {
+		alarms() {
+			return this.calendarObjectInstance.alarms
+		},
+		alarmTriggerList() {
+			return this.calendarObjectInstance.alarms.map(alarm => {
+				return alarm.relativeTrigger
+			})
+		},
 		isListEmpty() {
 			return this.alarms.length === 0
+		}
+	},
+	methods: {
+		/**
+		 * Adds another of the default alarms to the event
+		 */
+		addAlarm() {
+			const defaultAlarms = getDefaultAlarms(this.calendarObjectInstance.isAllDay)
+
+			for (const totalSeconds of defaultAlarms) {
+				if (this.alarmTriggerList.includes(totalSeconds)) {
+					continue
+				}
+
+				this.$store.commit('addAlarmToCalendarObjectInstance', {
+					calendarObjectInstance: this.calendarObjectInstance,
+					type: 'DISPLAY',
+					totalSeconds
+				})
+				return
+			}
+
+			// Just use the last value as fallback
+			this.$store.commit('addAlarmToCalendarObjectInstance', {
+				calendarObjectInstance: this.calendarObjectInstance,
+				type: 'DISPLAY',
+				totalSeconds: defaultAlarms[defaultAlarms.length - 1]
+			})
+		},
+		/**
+		 * Removes an alarm from this event
+		 *
+		 * @param {Object} alarm The alarm object
+		 */
+		removeAlarm(alarm) {
+			this.$store.commit('removeAlarmFromCalendarObjectInstance', {
+				calendarObjectInstance: this.calendarObjectInstance,
+				alarm
+			})
 		}
 	}
 }
