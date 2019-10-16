@@ -342,25 +342,3 @@ export default {
 	}
 }
 </script>
-
-<style>
-.app-sidebar-header__figure {
-	height: unset !important;
-}
-
-.app-sidebar-header__action {
-	margin-top: 0 !important;
-}
-
-button.one-option {
-	width: 100%
-}
-
-button.two-options {
-	width: 50%
-}
-
-.multiselect {
-	width: 100%;
-}
-</style>

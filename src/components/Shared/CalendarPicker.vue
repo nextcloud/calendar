@@ -3,37 +3,27 @@
 		label="displayName"
 		track-by="displayName"
 		:disabled="isDisabled"
-		:options="avatarEnabledCalendars"
-		:value="avatarEnabledCalendar"
+		:options="calendars"
+		:value="calendar"
 		@select="change">
-		<template slot="singleLabel" slot-scope="props">
-			<div class="row">
-				<div class="color-indicator" :style="{ backgroundColor: props.option.color }" />
-				<span>{{ props.option.displayName }}</span>
-				<Avatar v-if="props.option.isSharedWithMe" :disable-menu="true" :disable-tooltip="true"
-					:user="props.option.userId" :display-name="props.option.userDisplayName" :size="18" />
-			</div>
+		<template slot="singleLabel" slot-scope="scope">
+			<CalendarPickerOption v-bind="scope.option" />
 		</template>
-		<template slot="option" slot-scope="props">
-			<div class="row">
-				<div class="color-indicator" :style="{ backgroundColor: props.option.color }" />
-				<span>{{ props.option.displayName }}</span>
-				<Avatar v-if="props.option.isSharedWithMe" :disable-menu="true" :disable-tooltip="true"
-					:user="props.option.userId" :display-name="props.option.userDisplayName" :size="18" />
-			</div>
+		<template slot="option" slot-scope="scope">
+			<CalendarPickerOption v-bind="scope.option" />
 		</template>
 	</multiselect>
 </template>
 <script>
 import {
-	Avatar,
 	Multiselect
 } from '@nextcloud/vue'
+import CalendarPickerOption from './CalendarPickerOption.vue'
 
 export default {
 	name: 'CalendarPicker',
 	components: {
-		Avatar,
+		CalendarPickerOption,
 		Multiselect
 	},
 	props: {
@@ -51,32 +41,6 @@ export default {
 		},
 	},
 	computed: {
-		avatarEnabledCalendar() {
-			const principal = this.$store.getters.getPrincipalByUrl(this.calendar.owner)
-
-			if (!principal) {
-				return this.calendar
-			}
-
-			return Object.assign({}, this.calendar, {
-				userId: principal.userId,
-				userDisplayName: principal.displayname
-			})
-		},
-		avatarEnabledCalendars() {
-			return this.calendars.map((calendar) => {
-				const principal = this.$store.getters.getPrincipalByUrl(calendar.owner)
-
-				if (!principal) {
-					return calendar
-				}
-
-				return Object.assign({}, calendar, {
-					userId: principal.userId,
-					userDisplayName: principal.displayname
-				})
-			})
-		},
 		isDisabled() {
 			return this.calendars.length < 2
 		},
@@ -98,23 +62,3 @@ export default {
 	}
 }
 </script>
-
-<style scoped>
-.row {
-	width: 100%;
-	display: flex;
-	align-items: center;
-}
-
-.color-indicator {
-	width: 12px;
-	height: 12px;
-	border-radius: 50%;
-	border: none;
-	margin-right: 8px;
-}
-
-.row .avatardiv {
-	margin-left: auto;
-}
-</style>

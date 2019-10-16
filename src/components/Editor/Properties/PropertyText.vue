@@ -21,16 +21,30 @@
   -->
 
 <template>
-	<div v-if="display" class="property-wrapper">
-		<div class="property-icon" :class="icon" :title="readableName" />
-		<div class="property-input">
-			<textarea v-if="!isReadOnly" v-autosize :value="value"
-				:placeholder="placeholder" :title="readableName" rows="1"
-				@input.prevent.stop="changeValue"
-			/>
-			<div class="fake-input-box" v-if="isReadOnly">{{ value }}</div>
+	<div v-if="display" class="property-text">
+		<div
+			class="property-text__icon"
+			:class="icon"
+			:title="readableName" />
+
+		<div
+			class="property-text__input"
+			:class="{ 'property-text__input--readonly': isReadOnly }">
+			<textarea
+				v-if="!isReadOnly"
+				v-autosize
+				:placeholder="placeholder"
+				rows="1"
+				:title="readableName"
+				:value="value"
+				@input.prevent.stop="changeValue" />
+			<div v-else>{{ value }}</div>
 		</div>
-		<div v-if="hasInfo" v-tooltip="info" class="property-info icon-details" />
+
+		<div
+			v-if="hasInfo"
+			v-tooltip="info"
+			class="property-text__info icon-details" />
 	</div>
 </template>
 
@@ -67,41 +81,3 @@ export default {
 	}
 }
 </script>
-
-<style scoped>
-.property-wrapper {
-	display: flex;
-	width: 100%;
-	align-items: flex-start;
-}
-
-.property-icon,
-.property-info {
-	height: 34px;
-	width: 34px;
-	margin-top: 3px;
-}
-
-.property-icon {
-	margin-left: -5px;
-	margin-right: 5px;
-}
-
-.property-input {
-	flex-grow: 2;
-}
-
-.fake-input-box,
-textarea {
-	width: 100%
-}
-
-.fake-input-box {
-	white-space: pre-line;
-	margin: 3px 3px 3px 0;
-	padding: 8px 7px;
-	background-color: var(--color-main-background);
-	color: var(--color-main-text);
-	outline: none;
-}
-</style>

@@ -98,19 +98,3 @@ export default {
 	}
 }
 </script>
-
-<style scoped>
-.grid {
-	display: grid;
-	grid-gap: 0;
-	grid-template-columns: repeat(7, auto);
-}
-
-.grid-item {
-	padding: 8px;
-	border: 1px solid var(--color-border-dark);
-	text-align: center;
-	margin: 0;
-	border-radius: 0;
-}
-</style>

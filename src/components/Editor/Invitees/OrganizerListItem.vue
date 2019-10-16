@@ -21,7 +21,7 @@
   -->
 
 <template>
-	<div class="organizer-row">
+	<div class="invitees-list-item">
 		<avatar-participation-status
 			:attendee-is-organizer="true"
 			:avatar-link="avatarLink"
@@ -30,10 +30,10 @@
 			:organizer-display-name="commonName"
 			participation-status="ACCEPTED"
 		/>
-		<div class="displayname">
+		<div class="invitees-list-item__displayname">
 			{{ commonName }}
 		</div>
-		<div class="organizer-hint">
+		<div class="invitees-list-item__organizer-hint">
 			{{ $t('calendar', '(organizer)') }}
 		</div>
 	</div>
@@ -79,19 +79,3 @@ export default {
 	}
 }
 </script>
-
-<style>
-.organizer-row {
-	display: flex;
-	align-items: center;
-}
-
-.displayname {
-	margin-left: 8px;
-}
-
-.organizer-hint {
-	color: var(--color-text-maxcontrast);
-	font-weight: 300;
-}
-</style>

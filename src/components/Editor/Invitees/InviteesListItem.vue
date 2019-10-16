@@ -21,7 +21,7 @@
   -->
 
 <template>
-	<div class="invitee-row">
+	<div class="invitees-list-item">
 		<avatar-participation-status
 			:attendee-is-organizer="false"
 			:is-viewed-by-organizer="isViewedByOrganizer"
@@ -30,10 +30,10 @@
 			:organizer-display-name="organizerDisplayName"
 			:common-name="commonName"
 		/>
-		<div class="displayname">
+		<div class="invitees-list-item__displayname">
 			{{ commonName }}
 		</div>
-		<div class="attendee-actions">
+		<div class="invitees-list-item__actions">
 			<Actions v-if="isViewedByOrganizer">
 				<ActionCheckbox
 					:checked="attendee.rsvp"
@@ -173,18 +173,3 @@ export default {
 	}
 }
 </script>
-
-<style scoped>
-.invitee-row{
-	display: flex;
-	align-items: center;
-}
-
-.displayname {
-	margin-left: 8px;
-}
-
-.attendee-actions {
-	margin-left: auto;
-}
-</style>

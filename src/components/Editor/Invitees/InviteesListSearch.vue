@@ -22,6 +22,7 @@
 
 <template>
 	<multiselect
+		class="invitees-search"
 		:options="matches"
 		:searchable="true"
 		:internal-search="false"

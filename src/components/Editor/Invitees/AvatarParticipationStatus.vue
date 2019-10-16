@@ -21,12 +21,12 @@
   -->
 
 <template>
-	<div v-tooltip="tooltip" class="avatar-participation-status-wrapper">
+	<div v-tooltip="tooltip" class="avatar-participation-status">
 		<Avatar
 			:disable-tooltip="true"
 			:user="avatarLink"
 		/>
-		<div class="participation-status" :class="className" />
+		<div class="avatar-participation-status__indicator" :class="className" />
 	</div>
 </template>
 
@@ -137,39 +137,3 @@ export default {
 	}
 }
 </script>
-
-<style scoped>
-.avatar-participation-status-wrapper {
-	position: relative;
-	height: 38px;
-	width: 38px;
-}
-
-.participation-status {
-	position: absolute;
-	bottom: 0;
-	right: 0;
-	background-size: 10px;
-	height: 15px;
-	width: 15px;
-	box-shadow: 0 0 3px grey;
-	border-radius: 50%;
-}
-
-.participation-status.accepted {
-	background-color: #2fb130;
-}
-
-.participation-status.declined {
-	background-color: #ff0000;
-}
-
-.participation-status.tentative {
-	background-color: #ffa704;
-}
-
-.participation-status.delegated,
-.participation-status.no-response {
-	background-color: grey;
-}
-</style>

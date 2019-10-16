@@ -21,9 +21,15 @@
   -->
 
 <template>
-	<div v-if="display" class="property-wrapper">
-		<div class="property-icon" :class="icon" :title="readableName" />
-		<div class="property-input">
+	<div v-if="display" class="property-select">
+		<div
+			class="property-select__icon"
+			:class="icon"
+			:title="readableName" />
+
+		<div
+			class="property-select__input"
+			:class="{ 'property-select__input--readonly': isReadOnly }">
 			<multiselect
 				v-if="!isReadOnly"
 				:options="options"
@@ -34,9 +40,13 @@
 				track-by="value"
 				label="label"
 				@select="changeValue" />
-			<div v-if="isReadOnly" class="fake-input-box">{{ selectedValue.label }}</div>
+			<div v-else>{{ selectedValue.label }}</div>
 		</div>
-		<div v-if="hasInfo" v-tooltip="info" class="property-info icon-details" />
+
+		<div
+			v-if="hasInfo"
+			v-tooltip="info"
+			class="property-select__info icon-details" />
 	</div>
 </template>
 
@@ -73,50 +83,3 @@ export default {
 	},
 }
 </script>
-
-<style scoped>
-.property-wrapper {
-	display: flex;
-	width: 100%;
-	align-items: flex-start;
-	min-height: 46px;
-}
-
-.property-icon,
-.property-info {
-	height: 34px;
-	width: 34px;
-	margin-top: 3px;
-}
-
-.property-icon {
-	margin-left: -5px;
-	margin-right: 5px;
-}
-
-.property-info {
-	opacity: .5;
-}
-
-.property-info:hover {
-	opacity: 1
-}
-
-.property-input {
-	flex-grow: 2;
-}
-
-.multiselect {
-	width: 100%;
-	margin: 3px 3px 3px 0;
-}
-
-.fake-input-box {
-	white-space: pre-line;
-	margin: 3px 3px 3px 0;
-	padding: 8px 7px;
-	background-color: var(--color-main-background);
-	color: var(--color-main-text);
-	outline: none;
-}
-</style>
