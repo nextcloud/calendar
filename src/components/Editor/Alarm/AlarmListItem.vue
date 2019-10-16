@@ -197,10 +197,24 @@ export default {
 	},
 	computed: {
 		canEdit() {
-			// You can't edit if:
-			// Trigger is related to end
-			// Trigger is timed and > 0
-			// Trigger is all day and bigger >= 86.400
+			// We don't allow editing when the alarm is
+			// related to the event's end
+			if (!this.alarm.relativeIsRelatedToStart) {
+				return false
+			}
+
+			// We don't allow editing when this event is timed
+			// and the trigger time is positive
+			if (!this.isAllDay && this.alarm.relativeTrigger > 0) {
+				return false
+			}
+
+			// We don't allow editing when this event is all-day
+			// and the trigger time is bigger than one day
+			if (this.isAllDay && this.alarm.relativeTrigger > 86400) {
+				return false
+			}
+
 			return true
 		},
 		alarmTypeName() {
