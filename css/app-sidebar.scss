@@ -308,6 +308,30 @@
 			}
 		}
 	}
+
+	.invitees-search-list-item {
+		display: flex;
+		align-items: center;
+
+		&__label {
+			width: 100%;
+			padding: 0 8px;
+
+			&--with-multiple-email,
+			&--single-email {
+				div:nth-child(1) {
+					color: var(--color-main-text)
+				}
+			}
+
+			&--with-multiple-email {
+				div:nth-child(2) {
+					color: var(--color-text-lighter);
+					line-height: 1;
+				}
+			}
+		}
+	}
 }
 
 .timezone-popover-wrapper {

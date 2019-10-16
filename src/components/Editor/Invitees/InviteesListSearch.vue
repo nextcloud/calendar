@@ -36,14 +36,42 @@
 		@select="addAttendee">
 		<!--		<template slot="singleLabel" slot-scope="props"><img class="option__image" :src="props.option.img" alt="No Man’s Sky"><span class="option__desc"><span class="option__title">{{ props.option.title }}</span></span></template>-->
 		<template slot="singleLabel" slot-scope="props">
-			<Avatar v-if="props.option.isUser" :user="props.option.avatar" :display-name="props.option.dropdownName" />
-			<Avatar v-if="!props.option.isUser" :url="props.option.avatar" :display-name="props.option.dropdownName" />
-			<span style="margin-left: 8px">{{ props.option.dropdownName }}</span>
+			<div class="invitees-search-list-item">
+				<Avatar v-if="props.option.isUser" :user="props.option.avatar" :display-name="props.option.dropdownName" />
+				<Avatar v-if="!props.option.isUser" :url="props.option.avatar" :display-name="props.option.dropdownName" />
+				<div v-if="props.option.hasMultipleEMails" class="invitees-search-list-item__label invitees-search-list-item__label--with-displayname">
+					<div>
+						{{ props.option.commonName }}
+					</div>
+					<div>
+						{{ props.option.email }}
+					</div>
+				</div>
+				<div v-else class="invitees-search-list-item__label invitees-search-list-item__label--single-email">
+					<div>
+						{{ props.option.dropdownName }}
+					</div>
+				</div>
+			</div>
 		</template>
 		<template slot="option" slot-scope="props">
-			<Avatar v-if="props.option.isUser" :user="props.option.avatar" :display-name="props.option.dropdownName" />
-			<Avatar v-if="!props.option.isUser" :url="props.option.avatar" :display-name="props.option.dropdownName" />
-			<span style="margin-left: 8px">{{ props.option.dropdownName }}</span>
+			<div class="invitees-search-list-item">
+				<Avatar v-if="props.option.isUser" :user="props.option.avatar" :display-name="props.option.dropdownName" />
+				<Avatar v-if="!props.option.isUser" :url="props.option.avatar" :display-name="props.option.dropdownName" />
+				<div v-if="props.option.hasMultipleEMails" class="invitees-search-list-item__label invitees-search-list-item__label--with-multiple-email">
+					<div>
+						{{ props.option.commonName }}
+					</div>
+					<div>
+						{{ props.option.email }}
+					</div>
+				</div>
+				<div v-else class="invitees-search-list-item__label invitees-search-list-item__label--single-email">
+					<div>
+						{{ props.option.dropdownName }}
+					</div>
+				</div>
+			</div>
 		</template>
 	</multiselect>
 </template>
@@ -114,6 +142,7 @@ export default {
 							avatar: null,
 							language: null,
 							timezoneId: null,
+							hasMultipleEMails: false,
 							dropdownName: query
 						})
 					}
@@ -160,6 +189,7 @@ export default {
 							avatar: result.photo,
 							language: result.lang,
 							timezoneId: result.tzid,
+							hasMultipleEMails,
 							dropdownName: name
 						})
 					})
@@ -196,6 +226,7 @@ export default {
 						lang: null,
 						isUser: principal.calendarUserType === 'INDIVIDUAL',
 						avatar: principal.userId,
+						hasMultipleEMails: false,
 						dropdownName: principal.displayname || principal.email
 					}
 				})
