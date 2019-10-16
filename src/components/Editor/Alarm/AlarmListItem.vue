@@ -127,14 +127,14 @@
 				</ActionRadio>
 
 				<ActionRadio
-					v-if="isEditing"
+					v-if="isEditing && !isRecurring"
 					:name="alarmTriggerName"
 					:checked="isRelativeAlarm"
 					@change="switchToRelativeAlarm">
 					{{ $t('calendar', 'Relative to event') }}
 				</ActionRadio>
 				<ActionRadio
-					v-if="isEditing"
+					v-if="isEditing && !isRecurring"
 					:name="alarmTriggerName"
 					:checked="isAbsoluteAlarm"
 					@change="switchToAbsoluteAlarm">
@@ -261,6 +261,9 @@ export default {
 		},
 		isAllDay() {
 			return this.calendarObjectInstance.isAllDay
+		},
+		isRecurring() {
+			return this.calendarObjectInstance.recurrenceRule.frequency !== 'NONE'
 		},
 		relativeAllDayDate() {
 			const date = new Date()
