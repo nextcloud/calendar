@@ -133,7 +133,7 @@ import {
 	ActionInput,
 	ActionText,
 	AppNavigationItem
-} from 'nextcloud-vue'
+} from '@nextcloud/vue'
 import ClickOutside from 'vue-click-outside'
 import {
 	generateRemoteUrl,

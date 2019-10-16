@@ -38,7 +38,7 @@ import {
 	Multiselect,
 	PopoverMenu,
 	Modal
-} from 'nextcloud-vue'
+} from '@nextcloud/vue'
 import {
 	translate,
 	translatePlural

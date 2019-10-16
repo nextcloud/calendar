@@ -42,7 +42,7 @@
 import {
 	AppNavigationItem,
 	ActionInput
-} from 'nextcloud-vue'
+} from '@nextcloud/vue'
 import ClickOutside from 'vue-click-outside'
 import { getRandomColor } from '../../../utils/color.js'
 

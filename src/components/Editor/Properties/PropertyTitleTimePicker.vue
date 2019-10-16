@@ -155,7 +155,7 @@
 </template>
 
 <script>
-import { DatetimePicker, Popover } from 'nextcloud-vue'
+import { DatetimePicker, Popover } from '@nextcloud/vue'
 import TimezoneSelect from '../../Shared/TimezoneSelect'
 import {
 	getReadableTimezoneName,

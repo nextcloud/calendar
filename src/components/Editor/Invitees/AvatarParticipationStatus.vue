@@ -33,7 +33,7 @@
 <script>
 import {
 	Avatar
-} from 'nextcloud-vue'
+} from '@nextcloud/vue'
 
 export default {
 	name: 'AvatarParticipationStatus',

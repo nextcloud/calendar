@@ -61,7 +61,7 @@
 <script>
 import {
 	DatetimePicker
-} from 'nextcloud-vue'
+} from '@nextcloud/vue'
 import {
 	getYYYYMMDDFromDate,
 	getDateFromFirstdayParam,

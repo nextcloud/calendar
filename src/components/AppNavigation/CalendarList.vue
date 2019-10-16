@@ -43,7 +43,7 @@
 <script>
 import {
 	AppNavigationSpacer
-} from 'nextcloud-vue'
+} from '@nextcloud/vue'
 import {
 	mapGetters
 } from 'vuex'

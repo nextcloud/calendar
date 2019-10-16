@@ -35,7 +35,7 @@
 <script>
 import {
 	Multiselect
-} from 'nextcloud-vue'
+} from '@nextcloud/vue'
 
 export default {
 	name: 'AlarmTimeUnitSelect',

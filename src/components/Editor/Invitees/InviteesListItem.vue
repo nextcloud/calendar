@@ -83,7 +83,7 @@ import {
 	ActionCheckbox,
 	ActionButton,
 	ActionRadio
-} from 'nextcloud-vue'
+} from '@nextcloud/vue'
 
 export default {
 	name: 'InviteesListItem',

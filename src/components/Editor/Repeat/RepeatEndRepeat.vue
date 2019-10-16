@@ -63,7 +63,7 @@
 import {
 	DatetimePicker,
 	Multiselect
-} from 'nextcloud-vue'
+} from '@nextcloud/vue'
 
 export default {
 	name: 'RepeatEndRepeat',

@@ -67,7 +67,7 @@ import {
 	ActionButton,
 	ActionCheckbox,
 	AppNavigationSettings
-} from 'nextcloud-vue'
+} from '@nextcloud/vue'
 import {
 	generateRemoteUrl
 } from '@nextcloud/router'

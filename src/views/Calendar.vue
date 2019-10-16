@@ -79,7 +79,7 @@ import {
 	AppNavigation,
 	AppContent,
 	Content
-} from 'nextcloud-vue'
+} from '@nextcloud/vue'
 import debounce from 'debounce'
 import { getRandomColor } from '../utils/color.js'
 import client from '../services/caldavService.js'

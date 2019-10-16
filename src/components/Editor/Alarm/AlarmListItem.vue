@@ -156,7 +156,7 @@ import {
 	Actions,
 	ActionButton,
 	ActionRadio
-} from 'nextcloud-vue'
+} from '@nextcloud/vue'
 import ClickOutside from 'vue-click-outside'
 import formatAlarm from '../../../filters/alarmFormat.js'
 import AlarmTimeUnitSelect from './AlarmTimeUnitSelect.vue'

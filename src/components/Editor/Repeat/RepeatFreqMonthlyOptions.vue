@@ -66,7 +66,7 @@
 <script>
 import RepeatFirstLastSelect from './RepeatFirstLastSelect.vue'
 import RepeatOnTheSelect from './RepeatOnTheSelect.vue'
-import { ActionRadio } from 'nextcloud-vue'
+import { ActionRadio } from '@nextcloud/vue'
 
 export default {
 	name: 'RepeatFreqMonthlyOptions',

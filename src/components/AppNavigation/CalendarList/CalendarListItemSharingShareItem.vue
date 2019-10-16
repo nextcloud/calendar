@@ -55,7 +55,7 @@ import {
 	ActionCheckbox,
 	AppNavigationItem,
 	Avatar
-} from 'nextcloud-vue'
+} from '@nextcloud/vue'
 
 export default {
 	name: 'CalendarLisItemSharingShareItem',

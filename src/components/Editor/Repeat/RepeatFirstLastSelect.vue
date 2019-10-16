@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { Multiselect } from 'nextcloud-vue'
+import { Multiselect } from '@nextcloud/vue'
 
 export default {
 	name: 'RepeatFirstLastSelect',

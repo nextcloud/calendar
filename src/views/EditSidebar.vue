@@ -215,7 +215,7 @@ import {
 	AppSidebarTab,
 	ActionLink,
 	ActionButton
-} from 'nextcloud-vue'
+} from '@nextcloud/vue'
 
 import AlarmList from '../components/Editor/Alarm/AlarmList'
 
