@@ -117,15 +117,20 @@ export function mapDavCollectionToCalendar(calendar) {
  */
 export function mapDavShareeToSharee(sharee) {
 	const id = btoa(sharee.href)
-	const name = sharee['common-name']
+	let name = sharee['common-name']
 		? sharee['common-name']
-		: id
+		: sharee.href
+
+	if (sharee.href.startsWith('principal:principals/groups/') && name === sharee.href) {
+		name = sharee.href.substr(28)
+	}
 
 	return {
 		displayName: name,
 		id: id,
 		writeable: sharee.access[0].endsWith('read-write'),
 		isGroup: sharee.href.indexOf('principal:principals/groups/') === 0,
+		isCircle: sharee.href.indexOf('principal:principals/circles/') === 0,
 		uri: sharee.href
 	}
 }

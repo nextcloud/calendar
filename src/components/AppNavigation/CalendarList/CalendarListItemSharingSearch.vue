@@ -1,6 +1,9 @@
 <!--
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
+  - @copyright Copyright (c) 2019 Jakob Röhrl <jakob.roehrl@web.de>
+  -
   - @author Georg Ehrke <oc.list@georgehrke.com>
+  - @author Jakob Röhrl <jakob.roehrl@web.de>
   -
   - @license GNU AGPL version 3 or any later version
   -
@@ -35,7 +38,7 @@
 			track-by="user"
 			label="user"
 			@search-change="findSharee"
-			@input="shareCalendar">
+			@change="shareCalendar">
 			<span slot="noResult">{{ $t('calendar', 'No users or groups') }}</span>
 		</multiselect>
 	</li>
@@ -43,7 +46,9 @@
 
 <script>
 import client from '../../../services/caldavService.js'
+import HttpClient from '@nextcloud/axios'
 import debounce from 'debounce'
+import { generateOcsUrl } from '@nextcloud/router'
 
 export default {
 	name: 'CalendarListItemSharingSearch',
@@ -69,14 +74,16 @@ export default {
 		 * @param {string} data.displayName the displayName
 		 * @param {string} data.uri the sharing principalScheme uri
 		 * @param {Boolean} data.isGroup is this a group ?
+		 * @param {Boolean} data.isCircle is this a circle-group ?
 		 */
-		shareCalendar({ user, displayName, uri, isGroup }) {
+		shareCalendar({ user, displayName, uri, isGroup, isCircle }) {
 			this.$store.dispatch('shareCalendar', {
 				calendar: this.calendar,
 				user,
 				displayName,
 				uri,
-				isGroup
+				isGroup,
+				isCircle
 			})
 		},
 
@@ -87,11 +94,10 @@ export default {
 		 */
 		findSharee: debounce(async function(query) {
 			const hiddenPrincipalSchemes = []
+			const hiddenUrls = []
 			this.calendar.shares.forEach((share) => {
 				hiddenPrincipalSchemes.push(share.uri)
 			})
-
-			const hiddenUrls = []
 			if (this.$store.getters.getCurrentUserPrincipal) {
 				hiddenUrls.push(this.$store.getters.getCurrentUserPrincipal.url)
 			}
@@ -101,35 +107,100 @@ export default {
 
 			this.isLoading = true
 			this.usersOrGroups = []
-			if (query.length > 0) {
-				const results = await client.principalPropertySearchByDisplayname(query)
-				this.usersOrGroups = results.reduce((list, result) => {
-					if (hiddenPrincipalSchemes.includes(result.principalScheme)) {
-						return list
-					}
-					if (hiddenUrls.includes(result.url)) {
-						return list
-					}
 
-					if	(['GROUP', 'INDIVIDUAL'].indexOf(result.calendarUserType) > -1) {
+			if (query.length > 0) {
+				const davPromise = this.findShareesFromDav(query, hiddenPrincipalSchemes, hiddenUrls)
+				const ocsPromise = this.findShareesFromCircles(query, hiddenPrincipalSchemes, hiddenUrls)
+
+				return Promise.all([davPromise, ocsPromise]).then(([davResults, ocsResults]) => {
+					this.usersOrGroups = [
+						...davResults,
+						...ocsResults
+					]
+
+					this.isLoading = false
+					this.inputGiven = true
+				})
+			} else {
+				this.inputGiven = false
+				this.isLoading = false
+			}
+		}, 500),
+		/**
+		 *
+		 * @param {String} query The search query
+		 * @param {String[]} hiddenPrincipals A list of principals to exclude from search results
+		 * @param {String[]} hiddenUrls A list of urls to exclude from search results
+		 * @returns {Promise<Object[]>}
+		 */
+		async findShareesFromDav(query, hiddenPrincipals, hiddenUrls) {
+			return client.principalPropertySearchByDisplayname(query)
+				.then(results => {
+					return results.reduce((list, result) => {
+						if (hiddenPrincipals.includes(result.principalScheme)) {
+							return list
+						}
+						if (hiddenUrls.includes(result.url)) {
+							return list
+						}
+
+						// Don't show resources and rooms
+						if (!['GROUP', 'INDIVIDUAL'].includes(result.calendarUserType)) {
+							return list
+						}
+
 						const isGroup = result.calendarUserType === 'GROUP'
 						list.push({
 							user: result[isGroup ? 'groupId' : 'userId'],
 							displayName: result.displayname,
 							icon: isGroup ? 'icon-group' : 'icon-user',
 							uri: result.principalScheme,
-							isGroup
+							isGroup,
+							isCircle: false,
+							isNoUser: isGroup,
+							search: query
 						})
-					}
-					return list
-				}, [])
-				this.isLoading = false
-				this.inputGiven = true
-			} else {
-				this.inputGiven = false
-				this.isLoading = false
-			}
-		}, 500)
+						return list
+					}, [])
+				})
+		},
+		/**
+		 *
+		 * @param {String} query The search query
+		 * @param {String[]} hiddenPrincipals A list of principals to exclude from search results
+		 * @param {String[]} hiddenUrls A list of urls to exclude from search results
+		 * @returns {Promise<Object[]>}
+		 */
+		async findShareesFromCircles(query, hiddenPrincipals, hiddenUrls) {
+			return HttpClient.get(generateOcsUrl('apps/files_sharing/api/v1') + 'sharees', {
+				params: {
+					format: 'json',
+					search: query,
+					perPage: 200,
+					itemType: 'principals'
+				}
+			})
+				.catch(() => [])
+				.then(results => results.data.ocs.data.circles)
+				.then(circles => {
+					return circles.filter((circle) => {
+						return !hiddenPrincipals.includes('principal:principals/circles/' + circle.value.shareWith)
+					})
+				})
+				.then(circles => {
+					return circles.map(circle => ({
+						user: circle.label,
+						displayName: circle.label,
+						icon: 'icon-circle',
+						uri: 'principal:principals/circles/' + circle.value.shareWith,
+						isGroup: false,
+						isCircle: true,
+						isNoUser: true,
+						search: query
+					}))
+				})
+
+		}
 	}
 }
 </script>

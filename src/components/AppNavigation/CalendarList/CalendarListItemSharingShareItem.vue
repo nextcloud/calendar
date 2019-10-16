@@ -25,6 +25,7 @@
 
 		<template slot="icon">
 			<div v-if="sharee.isGroup" class="avatar icon-group" />
+			<div v-else-if="sharee.isCircle" class="avatar icon-circle" />
 			<Avatar v-else :user="sharee.id" :display-name="sharee.displayName" />
 		</template>
 

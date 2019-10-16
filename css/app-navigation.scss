@@ -156,7 +156,8 @@
 		.avatar {
 			width: 32px;
 			height: 32px;
-			background-color: #DBDBDB;
+			background-color: var(--color-border-dark);
+			background-size: 16px;
 		}
 
 		.avatar.published {

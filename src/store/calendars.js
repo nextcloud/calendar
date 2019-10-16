@@ -199,12 +199,13 @@ const mutations = {
 	 * @param {string} data.uri the sharing principalScheme uri
 	 * @param {Boolean} data.isGroup is this a group ?
 	 */
-	shareCalendar(state, { calendar, user, displayName, uri, isGroup }) {
+	shareCalendar(state, { calendar, user, displayName, uri, isGroup, isCircle }) {
 		const newSharee = {
 			displayName,
 			id: user,
 			writeable: false,
 			isGroup,
+			isCircle,
 			uri
 		}
 		state.calendarsById[calendar.id].shares.push(newSharee)
@@ -567,11 +568,11 @@ const actions = {
 	 * @param {string} data.uri the sharing principalScheme uri
 	 * @param {Boolean} data.isGroup is this a group ?
 	 */
-	async shareCalendar(context, { calendar, user, displayName, uri, isGroup }) {
+	async shareCalendar(context, { calendar, user, displayName, uri, isGroup, isCircle }) {
 		// Share calendar with entered group or user
 		try {
 			await calendar.dav.share(uri)
-			context.commit('shareCalendar', { calendar, user, displayName, uri, isGroup })
+			context.commit('shareCalendar', { calendar, user, displayName, uri, isGroup, isCircle })
 		} catch (error) {
 			throw error
 		}
