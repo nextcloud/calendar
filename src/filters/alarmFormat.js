@@ -31,8 +31,6 @@ import moment from '@nextcloud/moment'
  * @returns {String}
  */
 export default (alarm, isAllDay, currentUserTimezone) => {
-	console.debug(alarm, isAllDay, currentUserTimezone)
-
 	if (alarm.relativeTrigger !== null) {
 		// relative trigger
 		const time = moment.duration(Math.abs(alarm.relativeTrigger), 'seconds').humanize()

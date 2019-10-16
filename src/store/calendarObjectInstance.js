@@ -202,6 +202,13 @@ const mutations = {
 		calendarObjectInstance.eventComponent.startDate.isDate = !isAllDay
 		calendarObjectInstance.eventComponent.endDate.isDate = !isAllDay
 		calendarObjectInstance.isAllDay = calendarObjectInstance.eventComponent.isAllDay()
+
+		// isAllDay = old value
+		if (isAllDay) {
+			calendarObjectInstance.eventComponent.endDate.addDuration(DurationValue.fromSeconds(-1 * 60 * 60 * 24))
+		} else {
+			calendarObjectInstance.eventComponent.endDate.addDuration(DurationValue.fromSeconds(60 * 60 * 24))
+		}
 	},
 
 	/**
