@@ -88,7 +88,9 @@
 				:value="alarm.absoluteDate"
 				@change="changeAbsoluteDate" />
 		</div>
-		<div class="property-alarm-item__options">
+		<div
+			v-if="!isReadOnly"
+			class="property-alarm-item__options">
 			<Actions>
 				<ActionButton
 					v-if="canEdit"

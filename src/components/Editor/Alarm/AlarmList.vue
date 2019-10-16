@@ -30,6 +30,7 @@
 			:is-read-only="isReadOnly"
 			@removeAlarm="removeAlarm" />
 		<alarm-list-new
+			v-if="!isReadOnly"
 			@addAlarm="addAlarm" />
 		<no-alarm-view
 			v-if="isListEmpty" />

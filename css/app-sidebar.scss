@@ -244,6 +244,7 @@
 	.property-alarm-item {
 		display: flex;
 		align-items: center;
+		min-height: 44px;
 
 		&__icon {
 			width: 32px;
@@ -345,6 +346,7 @@
 	.invitees-list-item {
 		display: flex;
 		align-items: center;
+		min-height: 44px;
 
 		&__displayname {
 			margin-left: 8px;
