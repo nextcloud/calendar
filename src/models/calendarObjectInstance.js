@@ -435,9 +435,9 @@ function getRecurrenceComponentFromMonthlyRule(recurrenceRule, recurrenceCompone
 			recurrenceComponent.isUnsupported = true
 		}
 
-		// TODO - BYSETPOS is an array, we only allow one value
-		if (isAllowedBySetPos(recurrenceRule.getComponent('BYSETPOS'))) {
-			recurrenceComponent.bySetPosition = recurrenceRule.getComponent('BYSETPOS')
+		const setPositionArray = recurrenceRule.getComponent('BYSETPOS')
+		if (setPositionArray.length === 1 && isAllowedBySetPos(setPositionArray[0])) {
+			recurrenceComponent.bySetPosition = setPositionArray[0]
 		} else {
 			recurrenceComponent.bySetPosition = 1
 			recurrenceComponent.isUnsupported = true
@@ -527,9 +527,9 @@ function getRecurrenceComponentFromYearlyRule(recurrenceRule, recurrenceComponen
 			recurrenceComponent.isUnsupported = true
 		}
 
-		// TODO - BYSETPOS is an array, we only allow one value
-		if (isAllowedBySetPos(recurrenceRule.getComponent('BYSETPOS'))) {
-			recurrenceComponent.bySetPosition = recurrenceRule.getComponent('BYSETPOS')
+		const setPositionArray = recurrenceRule.getComponent('BYSETPOS')
+		if (setPositionArray.length === 1 && isAllowedBySetPos(setPositionArray[0])) {
+			recurrenceComponent.bySetPosition = setPositionArray[0]
 		} else {
 			recurrenceComponent.bySetPosition = 1
 			recurrenceComponent.isUnsupported = true
