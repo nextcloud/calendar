@@ -258,9 +258,12 @@ export default {
 					})
 				})
 
-				// No calendars? Create a new one!
-				// TODO: The one that exists might be the birthday calendar
-				if (calendars.length === 0) {
+				const writeableCalendarIndex = calendars.findIndex((calendar) => {
+					return !calendar.readOnly
+				})
+
+				// No writeable calendars? Create a new one!
+				if (writeableCalendarIndex === -1) {
 					this.loadingCalendars = true
 					this.$store.dispatch('appendCalendar', {
 						displayName: this.$t('calendars', 'Personal'),
