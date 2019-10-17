@@ -30,9 +30,9 @@
  */
 export default function(store, router) {
 	return function({ event }) {
-		const name = store.state.settings.showPopover
-			? 'EditPopoverView'
-			: 'EditSidebarView'
+		const name = store.state.settings.skipPopover
+			? 'EditSidebarView'
+			: 'EditPopoverView'
 		const params = Object.assign({}, store.state.route.params, {
 			object: event.extendedProps.objectId,
 			recurrenceId: String(event.extendedProps.recurrenceId),

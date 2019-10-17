@@ -23,6 +23,11 @@
 <template>
 	<div>
 		<button
+			v-if="showMoreButton"
+			@click="showMore">
+			{{ $t('calendar', 'More') }}
+		</button>
+		<button
 			v-if="showSaveButton"
 			class="primary"
 			@click="saveThisOnly">
@@ -64,6 +69,10 @@ export default {
 		forceThisAndAllFuture: {
 			type: Boolean,
 			required: true
+		},
+		showMoreButton: {
+			type: Boolean,
+			default: false
 		}
 	},
 	computed: {
@@ -86,6 +95,9 @@ export default {
 		},
 		saveThisAndAllFuture() {
 			this.$emit('saveThisAndAllFuture')
+		},
+		showMore() {
+			this.$emit('showMore')
 		}
 	}
 }

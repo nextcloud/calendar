@@ -56,6 +56,7 @@
 				@eventClick="eventClick"
 				@eventDrop="eventDrop"
 				@eventResize="eventResize"
+				@eventRender="eventRender"
 				@select="select"
 			/>
 		</AppContent>
@@ -103,6 +104,7 @@ import {
 	mapGetters,
 	mapState
 } from 'vuex'
+import eventRender from '../fullcalendar/eventRender.js'
 
 export default {
 	name: 'Calendar',
@@ -298,6 +300,9 @@ export default {
 		},
 		select(...args) {
 			return select(this.$store, this.$router)(...args)
+		},
+		eventRender(...args) {
+			return eventRender(...args)
 		}
 	}
 }

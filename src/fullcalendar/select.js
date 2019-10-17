@@ -31,9 +31,9 @@
  */
 export default function(store, router) {
 	return function({ start, end, allDay }) {
-		const name = store.state.settings.showPopover
-			? 'NewPopoverView'
-			: 'NewSidebarView'
+		const name = store.state.settings.skipPopover
+			? 'NewSidebarView'
+			: 'NewPopoverView'
 		const params = Object.assign({}, store.state.route.params, {
 			allDay: allDay ? '1' : '0',
 			dtstart: String(Math.floor(start.getTime() / 1000)),

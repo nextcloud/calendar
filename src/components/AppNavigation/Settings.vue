@@ -32,7 +32,7 @@
 			</ActionCheckbox>
 			<ActionCheckbox
 				class="settings-fieldset-interior-item"
-				:checked="skipPopover"
+				:checked="showPopover"
 				:disabled="savingPopover"
 				@update:checked="togglePopoverEnabled">
 				{{ $t('calendar', 'Enable simplified editor') }}
@@ -109,7 +109,7 @@ export default {
 			birthdayCalendar: 'hasBirthdayCalendar'
 		}),
 		...mapState({
-			skipPopover: state => state.settings.skipPopover,
+			showPopover: state => !state.settings.skipPopover,
 			showWeekends: state => state.settings.showWeekends,
 			showWeekNumbers: state => state.settings.showWeekNumbers,
 			timezone: state => state.settings.timezone,

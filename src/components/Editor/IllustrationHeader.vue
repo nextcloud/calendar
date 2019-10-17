@@ -26,7 +26,7 @@
 	<!-- and while color is based on user-input, -->
 	<!-- we use a validator to make sure it's actually a HEX RGB code -->
 	<!-- eslint-disable-next-line vue/no-v-html -->
-	<div class="background-image" v-html="coloredSVG" />
+	<div class="illustration-header" v-html="coloredSVG" />
 </template>
 
 <script>
@@ -78,17 +78,3 @@ export default {
 	}
 }
 </script>
-
-<style>
-.background-image {
-	max-height: 150px;
-	height: 150px;
-	width: 100%;
-}
-
-.background-image svg {
-	width: 100%;
-	height: 150px;
-	padding: 8px 8px 0 8px;
-}
-</style>

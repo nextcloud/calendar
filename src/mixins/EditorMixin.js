@@ -22,6 +22,8 @@
 import rfcProps from '../models/rfcProps'
 import logger from '../utils/logger.js'
 import { mapEventComponentToCalendarObjectInstanceObject } from '../models/calendarObjectInstance.js'
+import { getDefaultColor } from '../utils/color.js'
+import { getIllustrationForTitle } from '../utils/illustration.js'
 
 /**
  * This is a mixin for the editor. It contains common Vue stuff, that is
@@ -56,6 +58,24 @@ export default {
 		}
 	},
 	computed: {
+		backgroundImage() {
+			return getIllustrationForTitle(this.title)
+		},
+		selectedCalendarColor() {
+			if (!this.selectedCalendar) {
+				return getDefaultColor() // TODO: use uid2Color instead
+			}
+
+			return this.selectedCalendar.color || getDefaultColor() // TODO: use uid2Color instead
+		},
+		title() {
+			if (!this.eventComponent) {
+				return ''
+			}
+
+			return this.calendarObjectInstance.title || ''
+		},
+
 		// Did the event load without errors?
 		displayDetails() {
 			return !this.isLoading && !this.error
@@ -133,18 +153,6 @@ export default {
 			}
 
 			return this.calendarObject.dav.url + '?export'
-		},
-		// Label for the update / save label
-		updateLabel() {
-			if (!this.calendarObject) {
-				return ''
-			}
-
-			if (!this.calendarObject.dav) {
-				return this.$t('calendar', 'Save')
-			}
-
-			return this.$t('calendar', 'Update')
 		},
 		isNew() {
 			if (!this.calendarObject) {
@@ -522,6 +530,7 @@ export default {
 	 * @param {Function} next Function to be called when ready to load the next view
 	 */
 	beforeRouteUpdate(to, from, next) {
+		console.debug('I\'m beforeRouteUpdate inside mixin')
 		// If we are in the New Event dialog, we want to update the selected time
 		if (to.name === 'NewSidebarView' || to.name === 'NewPopoverView') {
 			// If allDay, dtstart and dtend are the same there is no need to update.

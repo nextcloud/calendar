@@ -227,9 +227,7 @@ import PropertyTitleTimePicker from '../components/Editor/Properties/PropertyTit
 import Repeat from '../components/Editor/Repeat/Repeat.vue'
 
 import EditorMixin from '../mixins/EditorMixin'
-import { getIllustrationForTitle } from '../utils/illustration.js'
 import IllustrationHeader from '../components/Editor/IllustrationHeader.vue'
-import { getDefaultColor } from '../utils/color.js'
 import moment from '@nextcloud/moment'
 import PropertyTitleTimePickerLoadingPlaceholder
 	from '../components/Editor/Properties/PropertyTitleTimePickerLoadingPlaceholder.vue'
@@ -257,23 +255,6 @@ export default {
 		EditorMixin
 	],
 	computed: {
-		backgroundImage() {
-			return getIllustrationForTitle(this.title)
-		},
-		selectedCalendarColor() {
-			if (!this.selectedCalendar) {
-				return getDefaultColor() // TODO: use uid2Color instead
-			}
-
-			return this.selectedCalendar.color || getDefaultColor() // TODO: use uid2Color instead
-		},
-		title() {
-			if (!this.eventComponent) {
-				return ''
-			}
-
-			return this.calendarObjectInstance.title || ''
-		},
 		subTitle() {
 			if (!this.calendarObjectInstance) {
 				return ''

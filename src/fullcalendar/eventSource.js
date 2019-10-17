@@ -41,7 +41,6 @@ export default function(store) {
 			borderColor: calendar.color,
 			textColor: generateTextColorForRGBString(calendar.color),
 			// html foo
-			className: calendar.id,
 			events: ({ start, end, timeZone }, successCallback, failureCallback) => {
 				const timezoneObject = getTimezoneManager().getTimezoneForId(timeZone)
 				const timeRange = store.getters.getTimeRangeForCalendarCoveringRange(calendar.id, getUnixTimestampFromDate(start), getUnixTimestampFromDate(end))

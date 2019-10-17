@@ -42,7 +42,7 @@ const mutations = {
 	 * @param {Object} state The Vuex state
 	 */
 	togglePopoverEnabled(state) {
-		state.showPopover = !state.showPopover
+		state.skipPopover = !state.skipPopover
 	},
 
 	/**
@@ -145,7 +145,7 @@ const actions = {
 	 * @returns {Promise<void>}
 	 */
 	async togglePopoverEnabled(context) {
-		const newState = !context.state.showPopover
+		const newState = !context.state.skipPopover
 		const value = newState ? 'no' : 'yes'
 
 		await HttpClient.post(getLinkToConfig('skipPopover'), { value })

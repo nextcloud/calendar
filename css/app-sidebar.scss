@@ -20,7 +20,8 @@
  *
  */
 
-#app-sidebar {
+#app-sidebar,
+.event-popover .popover-inner {
 
 	.app-sidebar-header__figure {
 		height: unset !important;
@@ -397,7 +398,8 @@
 	}
 
 	.property-text,
-	.property-select {
+	.property-select,
+	.property-title {
 		display: flex;
 		width: 100%;
 		align-items: flex-start;
@@ -426,6 +428,7 @@
 			flex-grow: 2;
 
 			textarea,
+			input,
 			div.multiselect {
 				width: 100%
 			}
@@ -452,6 +455,13 @@
 		}
 	}
 
+	.property-title {
+		&__input,
+		&__input input {
+			font-size: 20px;
+		}
+	}
+
 	.calendar-picker-option {
 		width: 100%;
 		display: flex;
@@ -469,6 +479,18 @@
 			margin-left: auto;
 		}
 	}
+
+	.illustration-header {
+		max-height: 150px;
+		height: 150px;
+		width: 100%;
+	}
+
+	.illustration-header svg {
+		width: 100%;
+		height: 150px;
+		padding: 8px 8px 0 8px;
+	}
 }
 
 .timezone-popover-wrapper {
@@ -482,5 +504,71 @@
 
 	&__timezone-select {
 		min-width: 200px;
+	}
+}
+
+.event-popover {
+	.popover-inner {
+		text-align: left;
+		max-width: 450px;
+		width: 450px;
+
+		.illustration-header {
+			height: 100px;
+			overflow: hidden;
+			margin-bottom: 5px;
+			background-color: var(--color-background-dark);
+			// There is probably a more elegant solution for this
+			margin-top: -5px;
+			margin-left: -8px;
+			width: 466px;
+			border-top-left-radius: var(--border-radius);
+			border-top-right-radius: var(--border-radius);
+		}
+
+		.popover-inner {
+			max-width: unset !important;
+		}
+
+		.property-title-time-picker {
+			margin-bottom: 12px;
+		}
+
+		.event-popover__buttons {
+			margin-top: 8px;
+			display: flex;
+
+			button {
+				width: 100%;
+			}
+		}
+
+		.event-popover__close-action {
+			position: absolute !important;
+			width: 44px !important;
+			height: 44px !important;
+			top: 0 !important;
+			right: 0 !important;
+			z-index: 100 !important;
+			opacity: .7 !important;
+			border-radius: 22px !important;
+		}
+
+		.popover-loading-indicator {
+			width: 100%;
+
+			&__icon {
+				margin: 0 auto;
+				height: 62px;
+				width: 62px;
+				background-size: 62px;
+			}
+		}
+	}
+}
+
+.event-popover.tooltip[x-placement^='bottom'] {
+	.popover-arrow {
+		border-bottom-color: var(--color-background-dark);
 	}
 }
