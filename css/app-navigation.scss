@@ -183,6 +183,16 @@
 		}
 	}
 
+	.app-navigation-entry__utils {
+		.action-checkbox__label {
+			padding-right: 0 !important;
+		}
+
+		.action-checkbox__label::before {
+			margin: 0 4px 0 !important;
+		}
+	}
+
 	ul {
 
 		//// New Calendar / New Subscription
