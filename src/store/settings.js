@@ -24,6 +24,7 @@ import client from '../services/caldavService.js'
 import { getLinkToConfig } from '../utils/settings.js'
 import { mapDavCollectionToCalendar } from '../models/calendar'
 import detectTimezone from '../services/timezoneDetectionService'
+import { setConfig } from 'calendar-js'
 
 const state = {
 	appVersion: null,
@@ -227,6 +228,21 @@ const actions = {
 		}).catch((error) => {
 			throw error
 		})
+	},
+
+	/**
+	 * Initializes the calendar-js configuration
+	 *
+	 * @param {Object} vuex The Vuex destructuring object
+	 * @param {Object} vuex.state The Vuex state
+	 */
+	initializeCalendarJsConfig({ state }) {
+		setConfig('PRODID', `-//IDN nextcloud.com//Calendar app ${state.appVersion}//EN`)
+		setConfig('component-list-significant-change', [
+			'SUMMARY',
+			'LOCATION',
+			'DESCRIPTION'
+		])
 	}
 }
 

@@ -259,6 +259,7 @@ export default {
 			skipPopover: getConfigValueFromHiddenInput('skip-popover') === 'true',
 			timezone: getConfigValueFromHiddenInput('timezone')
 		})
+		this.$store.dispatch('initializeCalendarJsConfig')
 
 		if (this.$route.name.startsWith('Public') || this.$route.name.startsWith('Embed')) {
 			client._createPublicCalendarHome()
