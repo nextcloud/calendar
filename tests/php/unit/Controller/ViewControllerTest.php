@@ -24,7 +24,6 @@ namespace OCA\Calendar\Controller;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\IRequest;
-use OCP\IURLGenerator;
 use Test\TestCase;
 
 class ViewControllerTest extends TestCase {
@@ -38,9 +37,6 @@ class ViewControllerTest extends TestCase {
 	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	private $config;
 
-	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
-	private $urlGenerator;
-
 	/** @var string */
 	private $userId;
 
@@ -51,11 +47,10 @@ class ViewControllerTest extends TestCase {
 		$this->appName = 'calendar';
 		$this->request = $this->createMock(IRequest::class);
 		$this->config = $this->createMock(IConfig::class);
-		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->userId = 'user123';
 
 		$this->controller = new ViewController($this->appName, $this->request,
-			$this->config, $this->urlGenerator, $this->userId);
+			$this->config, $this->userId);
 	}
 
 	public function testIndex():void {
@@ -101,98 +96,6 @@ class ViewControllerTest extends TestCase {
 			'timezone' => 'Europe/Berlin',
 		], $response->getParams());
 		$this->assertEquals('user', $response->getRenderAs());
-		$this->assertEquals('main', $response->getTemplateName());
-	}
-
-	public function testPublicIndexWithBranding():void {
-		$this->config->expects($this->at(0))
-			->method('getAppValue')
-			->with('calendar', 'installed_version')
-			->willReturn('1.0.0');
-
-		$this->request->expects($this->at(0))
-			->method('getServerProtocol')
-			->with()
-			->willReturn('protocol');
-		$this->request->expects($this->at(1))
-			->method('getServerHost')
-			->with()
-			->willReturn('host123');
-		$this->request->expects($this->at(2))
-			->method('getRequestUri')
-			->with()
-			->willReturn('/456');
-
-		$this->urlGenerator->expects($this->at(0))
-			->method('imagePath')
-			->with('core', 'favicon-touch.png')
-			->willReturn('imagePath456');
-		$this->urlGenerator->expects($this->at(1))
-			->method('getAbsoluteURL')
-			->with('imagePath456')
-			->willReturn('absoluteImagePath456');
-
-		$response = $this->controller->publicIndexWithBranding('');
-
-		$this->assertInstanceOf(TemplateResponse::class, $response);
-		$this->assertEquals([
-			'app_version' => '1.0.0',
-			'first_run' => false,
-			'initial_view' => 'dayGridMonth',
-			'show_weekends' => true,
-			'show_week_numbers' => false,
-			'skip_popover' => true,
-			'timezone' => 'automatic',
-			'share_url' => 'protocol://host123/456',
- 			'preview_image' => 'absoluteImagePath456'
-		], $response->getParams());
-		$this->assertEquals('base', $response->getRenderAs());
-		$this->assertEquals('public', $response->getTemplateName());
-	}
-
-	public function testPublicIndexForEmbedding():void {
-		$this->config->expects($this->at(0))
-			->method('getAppValue')
-			->with('calendar', 'installed_version')
-			->willReturn('1.0.0');
-
-		$this->request->expects($this->at(0))
-			->method('getServerProtocol')
-			->with()
-			->willReturn('protocol');
-		$this->request->expects($this->at(1))
-			->method('getServerHost')
-			->with()
-			->willReturn('host123');
-		$this->request->expects($this->at(2))
-			->method('getRequestUri')
-			->with()
-			->willReturn('/456');
-
-		$this->urlGenerator->expects($this->at(0))
-			->method('imagePath')
-			->with('core', 'favicon-touch.png')
-			->willReturn('imagePath456');
-		$this->urlGenerator->expects($this->at(1))
-			->method('getAbsoluteURL')
-			->with('imagePath456')
-			->willReturn('absoluteImagePath456');
-
-		$response = $this->controller->publicIndexForEmbedding('');
-
-		$this->assertInstanceOf(TemplateResponse::class, $response);
-		$this->assertEquals([
-			'app_version' => '1.0.0',
-			'first_run' => false,
-			'initial_view' => 'dayGridMonth',
-			'show_weekends' => true,
-			'show_week_numbers' => false,
-			'skip_popover' => true,
-			'timezone' => 'automatic',
-			'share_url' => 'protocol://host123/456',
-			'preview_image' => 'absoluteImagePath456'
-		], $response->getParams());
-		$this->assertEquals('base', $response->getRenderAs());
 		$this->assertEquals('main', $response->getTemplateName());
 	}
 }

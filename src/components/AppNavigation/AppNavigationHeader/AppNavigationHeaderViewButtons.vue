@@ -21,14 +21,14 @@
   -->
 
 <template>
-	<div class="button-group">
-		<button :class="{active: isAgendaDayViewSelected}" class="button" @click="view('timeGridDay')">
+	<div class="view-button-section">
+		<button :class="{primary: isAgendaDayViewSelected}" class="button" @click="view('timeGridDay')">
 			{{ $t('calendar', 'Day') }}
 		</button>
-		<button :class="{active: isAgendaWeekViewSelected}" class="button" @click="view('timeGridWeek')">
+		<button :class="{primary: isAgendaWeekViewSelected}" class="button" @click="view('timeGridWeek')">
 			{{ $t('calendar', 'Week') }}
 		</button>
-		<button :class="{active: isMonthViewSelected}" class="button" @click="view('dayGridMonth')">
+		<button :class="{primary: isMonthViewSelected}" class="button" @click="view('dayGridMonth')">
 			{{ $t('calendar', 'Month') }}
 		</button>
 	</div>

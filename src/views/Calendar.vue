@@ -21,14 +21,19 @@
 
 <template>
 	<Content app-name="calendar" :class="classNames">
-		<AppNavigation>
+		<AppNavigation v-if="!isEmbedded">
 			<!-- Date Picker, View Buttons, Today Button -->
 			<AppNavigationHeader />
 			<!-- Calendar / Subscription List -->
-			<CalendarList :loading-calendars="loadingCalendars" />
+			<CalendarList
+				:is-public="!isAuthenticatedUser"
+				:loading-calendars="loadingCalendars" />
 			<!-- Settings and import -->
-			<Settings :loading-calendars="loadingCalendars" />
+			<Settings
+				v-if="isAuthenticatedUser"
+				:loading-calendars="loadingCalendars" />
 		</AppNavigation>
+		<EmbedTopNavigation v-if="isEmbedded" />
 		<AppContent>
 			<!-- Full calendar -->
 			<FullCalendar
@@ -59,6 +64,9 @@
 				@eventRender="eventRender"
 				@select="select"
 			/>
+
+			<EmptyCalendar
+				v-if="showEmptyCalendarScreen" />
 		</AppContent>
 		<!-- Edit modal -->
 		<router-view v-if="!loadingCalendars" />
@@ -105,10 +113,14 @@ import {
 	mapState
 } from 'vuex'
 import eventRender from '../fullcalendar/eventRender.js'
+import EmbedTopNavigation from '../components/AppNavigation/EmbedTopNavigation.vue'
+import EmptyCalendar from '../components/EmptyCalendar.vue'
 
 export default {
 	name: 'Calendar',
 	components: {
+		EmptyCalendar,
+		EmbedTopNavigation,
 		Settings,
 		CalendarList,
 		AppNavigationHeader,
@@ -120,7 +132,8 @@ export default {
 	data() {
 		return {
 			loadingCalendars: true,
-			timeFrameCacheExpiryJob: null
+			timeFrameCacheExpiryJob: null,
+			showEmptyCalendarScreen: false
 		}
 	},
 	computed: {
@@ -167,17 +180,21 @@ export default {
 		isEditable() {
 			// We do not allow drag and drop when the editor is open.
 			return !this.isPublicShare
+				&& !this.isEmbedded
 				&& this.$route.name !== 'EditPopoverView'
 				&& this.$route.name !== 'EditSidebarView'
 		},
 		isSelectable() {
 			return !this.isPublicShare
 		},
+		isAuthenticatedUser() {
+			return !this.isPublicShare && !this.isEmbedded
+		},
 		isPublicShare() {
-			return false
+			return this.$route.name.startsWith('Public')
 		},
 		isEmbedded() {
-			return false
+			return this.$route.name.startsWith('Embed')
 		},
 		showHeader() {
 			return this.isPublicShare && this.isEmbedded
@@ -243,41 +260,54 @@ export default {
 			timezone: getConfigValueFromHiddenInput('timezone')
 		})
 
-		// get calendars then get events
-		client.connect({ enableCalDAV: true })
-			.then(() => this.$store.dispatch('fetchCurrentUserPrincipal'))
-			.then(() => this.$store.dispatch('getCalendars'))
-			.then((calendars) => {
-				const owners = []
-				calendars.forEach((calendar) => {
-					if (owners.indexOf(calendar.owner) === -1) {
-						owners.push(calendar.owner)
+		if (this.$route.name.startsWith('Public') || this.$route.name.startsWith('Embed')) {
+			client._createPublicCalendarHome()
+			const tokens = this.$route.params.tokens.split('-')
+			this.$store.dispatch('getPublicCalendars', { tokens })
+				.then((calendars) => {
+					this.loadingCalendars = false
+
+					if (calendars.length === 0) {
+						this.showEmptyCalendarScreen = true
 					}
 				})
-				owners.forEach((owner) => {
-					this.$store.dispatch('fetchPrincipalByUrl', {
-						url: owner
+		} else {
+			// get calendars then get events
+			client.connect({ enableCalDAV: true })
+				.then(() => this.$store.dispatch('fetchCurrentUserPrincipal'))
+				.then(() => this.$store.dispatch('getCalendars'))
+				.then((calendars) => {
+					const owners = []
+					calendars.forEach((calendar) => {
+						if (owners.indexOf(calendar.owner) === -1) {
+							owners.push(calendar.owner)
+						}
 					})
-				})
-
-				const writeableCalendarIndex = calendars.findIndex((calendar) => {
-					return !calendar.readOnly
-				})
-
-				// No writeable calendars? Create a new one!
-				if (writeableCalendarIndex === -1) {
-					this.loadingCalendars = true
-					this.$store.dispatch('appendCalendar', {
-						displayName: this.$t('calendars', 'Personal'),
-						color: getRandomColor(), // TODO - use uid2color
-						order: 0
-					}).then(() => {
-						this.loadingCalendars = false
+					owners.forEach((owner) => {
+						this.$store.dispatch('fetchPrincipalByUrl', {
+							url: owner
+						})
 					})
-				}
 
-				this.loadingCalendars = false
-			})
+					const writeableCalendarIndex = calendars.findIndex((calendar) => {
+						return !calendar.readOnly
+					})
+
+					// No writeable calendars? Create a new one!
+					if (writeableCalendarIndex === -1) {
+						this.loadingCalendars = true
+						this.$store.dispatch('appendCalendar', {
+							displayName: this.$t('calendars', 'Personal'),
+							color: getRandomColor(), // TODO - use uid2color
+							order: 0
+						}).then(() => {
+							this.loadingCalendars = false
+						})
+					}
+
+					this.loadingCalendars = false
+				})
+		}
 	},
 	watch: {
 		modificationCount: debounce(function() {
@@ -287,10 +317,12 @@ export default {
 	},
 	methods: {
 		saveNewView: debounce(function(initialView) {
-			this.$store.dispatch('setInitialView', { initialView })
+			if (this.isAuthenticatedUser) {
+				this.$store.dispatch('setInitialView', { initialView })
+			}
 		}, 5000),
 		eventClick(...args) {
-			return eventClick(this.$store, this.$router)(...args)
+			return eventClick(this.$store, this.$router, this.$route)(...args)
 		},
 		eventDrop(...args) {
 			return eventDrop(this.$store, this.$refs.fullCalendar.getApi())(...args)

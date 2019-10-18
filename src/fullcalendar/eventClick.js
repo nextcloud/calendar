@@ -19,6 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import { getPrefixedRoute } from '../utils/router'
 
 /**
  * Returns a function for click action on event. This will open the editor.
@@ -26,13 +27,16 @@
  *
  * @param {Object} store The Vuex store
  * @param {Object} router The Vue router
+ * @param {Object} route The current Vue route
  * @returns {Function}
  */
-export default function(store, router) {
+export default function(store, router, route) {
 	return function({ event }) {
-		const name = store.state.settings.skipPopover
+		const desiredRoute = store.state.settings.skipPopover
 			? 'EditSidebarView'
 			: 'EditPopoverView'
+
+		const name = getPrefixedRoute(route.name, desiredRoute)
 		const params = Object.assign({}, store.state.route.params, {
 			object: event.extendedProps.objectId,
 			recurrenceId: String(event.extendedProps.recurrenceId),

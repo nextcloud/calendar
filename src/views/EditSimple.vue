@@ -111,6 +111,7 @@ import PropertyCalendarPicker from '../components/Editor/Properties/PropertyCale
 import PropertyText from '../components/Editor/Properties/PropertyText.vue'
 import SaveButtons from '../components/Editor/SaveButtons.vue'
 import PopoverLoadingIndicator from '../components/Popover/PopoverLoadingIndicator.vue'
+import { getPrefixedRoute } from '../utils/router.js'
 
 export default {
 	name: 'EditSimple',
@@ -169,10 +170,13 @@ export default {
 			this.requiresActionOnRouteLeave = false
 
 			const params = Object.assign({}, this.$route.params)
-			if (this.$route.name === 'EditPopoverView') {
-				this.$router.push({ name: 'EditSidebarView', params })
-			} else {
+			if (this.$route.name === 'NewSidebarView') {
 				this.$router.push({ name: 'NewSidebarView', params })
+			} else {
+				this.$router.push({
+					name: getPrefixedRoute(this.$route.name, 'EditSidebarView'),
+					params
+				})
 			}
 		},
 		getDomElementForPopover(isNew, route) {

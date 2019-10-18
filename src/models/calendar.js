@@ -86,6 +86,8 @@ export function mapDavCollectionToCalendar(calendar) {
 
 	let shares = calendar.shares || []
 
+	const currentUserPrincipal = client.currentUserPrincipal || {}
+
 	return {
 		id: btoa(calendar.url),
 		displayName: calendar.displayname,
@@ -100,10 +102,10 @@ export function mapDavCollectionToCalendar(calendar) {
 		url: calendar.url,
 		dav: calendar,
 		shares: shares
-			.filter((sharee) => sharee.href !== client.currentUserPrincipal.principalScheme) // public shares create a share with yourself ... should be fixed in server
+			.filter((sharee) => sharee.href !== currentUserPrincipal.principalScheme) // public shares create a share with yourself ... should be fixed in server
 			.map(sharee => Object.assign({}, mapDavShareeToSharee(sharee))),
 		publishURL: calendar.publishURL || null,
-		isSharedWithMe: calendar.owner !== client.currentUserPrincipal.principalUrl,
+		isSharedWithMe: calendar.owner !== currentUserPrincipal.principalUrl,
 		canBeShared: calendar.isShareable(),
 		canBePublished: calendar.isPublishable()
 	}

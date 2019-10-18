@@ -21,22 +21,23 @@
   -->
 
 <template>
-	<div class="button-group">
+	<div class="datepicker-button-section">
 		<button
 			:aria-label="previousLabel"
-			class="button icon icon-leftarrow"
+			class="datepicker-button-section__previous button icon icon-leftarrow"
 			:title="previousLabel"
 			type="button"
 			@click="navigateToPreviousTimeRange"
 		/>
 		<button
-			class="button datepicker-label"
+			class="datepicker-button-section__datepicker-label button datepicker-label"
 			@click.stop.prevent="toggleDatepicker"
 			@mousedown.stop.prevent="doNothing"
 			@mouseup.stop.prevent="doNothing">
 			{{ selectedDate | formatDateRage(view) }}
 		</button>
 		<datetime-picker
+			class="datepicker-button-section__datepicker"
 			:first-day-of-week="firstDay"
 			:lang="lang"
 			:clearable="false"
@@ -50,7 +51,7 @@
 		/>
 		<button
 			:aria-label="nextLabel"
-			class="button icon icon-rightarrow"
+			class="datepicker-button-section__next button icon icon-rightarrow"
 			:title="nextLabel"
 			type="button"
 			@click="navigateToNextTimeRange"

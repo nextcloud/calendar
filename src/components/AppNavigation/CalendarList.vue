@@ -20,8 +20,10 @@
   -->
 
 <template>
-	<transition-group id="calendars-list" name="list" tag="ul">
-		<calendar-list-new :key="newCalendarKey" :disabled="loadingCalendars" />
+	<transition-group v-if="!isPublic" id="calendars-list" name="list"
+		tag="ul">
+		<calendar-list-new
+			:key="newCalendarKey" :disabled="loadingCalendars" />
 		<calendar-list-item-loading-placeholder v-if="loadingCalendars" :key="loadingKeyCalendars" />
 		<calendar-list-item
 			v-for="calendar in calendars"
@@ -38,6 +40,14 @@
 			:key="calendar.id"
 			:calendar="calendar" />
 	</transition-group>
+	<transition-group v-else id="calendars-list" name="list"
+		tag="ul">
+		<calendar-list-item-loading-placeholder v-if="loadingCalendars" :key="loadingKeySubscriptions" />
+		<public-calendar-list-item
+			v-for="calendar in subscriptions"
+			:key="calendar.id"
+			:calendar="calendar" />
+	</transition-group>
 </template>
 
 <script>
@@ -48,6 +58,7 @@ import {
 	mapGetters
 } from 'vuex'
 import CalendarListItem from './CalendarList/CalendarListItem.vue'
+import PublicCalendarListItem from './CalendarList/PublicCalendarListItem.vue'
 import CalendarListItemLoadingPlaceholder from './CalendarList/CalendarListItemLoadingPlaceholder.vue'
 import CalendarListNew from './CalendarList/CalendarListNew.vue'
 import SubscriptionListNew from './CalendarList/SubscriptionListNew.vue'
@@ -59,9 +70,14 @@ export default {
 		CalendarListItem,
 		CalendarListItemLoadingPlaceholder,
 		CalendarListNew,
-		SubscriptionListNew
+		SubscriptionListNew,
+		PublicCalendarListItem
 	},
 	props: {
+		isPublic: {
+			type: Boolean,
+			required: true
+		},
 		loadingCalendars: {
 			type: Boolean,
 			default: false

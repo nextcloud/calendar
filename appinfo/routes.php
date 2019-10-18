@@ -29,10 +29,14 @@ return [
 		['name' => 'view#index', 'url' => '/{view}/{timeRange}/new/{mode}/{isAllDay}/{dtStart}/{dtEnd}', 'verb' => 'GET', 'requirements' => ['view' => 'timeGridDay|timeGridWeek|dayGridMonth'], 'postfix' => 'view.timerange.new'],
 		['name' => 'view#index', 'url' => '/{view}/{timeRange}/edit/{mode}/{objectId}/{recurrenceId}', 'verb' => 'GET', 'requirements' => ['view' => 'timeGridDay|timeGridWeek|dayGridMonth'], 'postfix' => 'view.timerange.edit'],
 		// Public views
-		['name' => 'view#public_index_with_branding', 'url' => '/p/{token}', 'verb' => 'GET'],
-		['name' => 'view#public_index_with_branding', 'url' => '/p/{token}/{fancyName}', 'verb' => 'GET', 'postfix' => 'fancy.name'],
-		['name' => 'view#public_index_for_embedding', 'url' => '/embed/{token}', 'verb' => 'GET'],
-		['name' => 'view#public_index_for_embedding', 'url' => '/public/{token}', 'verb' => 'GET', 'postfix' => 'legacy'],
+		['name' => 'publicView#public_index_with_branding', 'url' => '/p/{token}', 'verb' => 'GET'],
+		['name' => 'publicView#public_index_with_branding', 'url' => '/p/{token}/{view}/{timeRange}', 'verb' => 'GET', 'postfix' => 'publicview.timerange'],
+		['name' => 'publicView#public_index_with_branding', 'url' => '/p/{token}/{view}/{timeRange}/view/{mode}/{objectId}/{recurrenceId}', 'verb' => 'GET', 'postfix' => 'publicview.timerange.view'],
+		['name' => 'publicView#public_index_with_branding', 'url' => '/p/{token}/{fancyName}', 'verb' => 'GET', 'postfix' => 'fancy.name'],
+		['name' => 'publicView#public_index_for_embedding', 'url' => '/embed/{token}', 'verb' => 'GET'],
+		['name' => 'publicView#public_index_for_embedding', 'url' => '/embed/{token}/{view}/{timeRange}', 'verb' => 'GET', 'postfix' => 'publicview.timerange.embed'],
+		['name' => 'publicView#public_index_for_embedding', 'url' => '/embed/{token}/{view}/{timeRange}/view/{mode}/{objectId}/{recurrenceId}', 'verb' => 'GET', 'postfix' => 'publicview.timerange.view.embed'],
+		['name' => 'publicView#public_index_for_embedding', 'url' => '/public/{token}', 'verb' => 'GET', 'postfix' => 'legacy'],
 		// Autocompletion
 		['name' => 'contact#searchAttendee', 'url' => '/v1/autocompletion/attendee', 'verb' => 'POST'],
 		['name' => 'contact#searchLocation', 'url' => '/v1/autocompletion/location', 'verb' => 'POST'],

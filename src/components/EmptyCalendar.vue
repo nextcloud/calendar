@@ -21,41 +21,23 @@
   -->
 
 <template>
-	<div class="today-button-section">
-		<button
-			:aria-label="title"
-			class="button"
-			:title="title"
-			@click="today()">
-			{{ $t('calendar', 'Today') }}
-		</button>
+	<div class="empty-calendar-screen">
+		<div class="empty-calendar-screen__icon">
+			<div class="icon icon-calendar-dark" />
+		</div>
+		<div class="empty-calendar-screen__message">
+			<h2>
+				{{ $t('calendar', 'Public calendar does not exist') }}
+			</h2>
+			<p>
+				{{ $t('calendar', 'Maybe the share was deleted or has expired?' )}}
+			</p>
+		</div>
 	</div>
 </template>
 
 <script>
-import moment from '@nextcloud/moment'
-
 export default {
-	name: 'AppNavigationHeaderTodayButton',
-	computed: {
-		title() {
-			return moment().format('ll')
-		}
-	},
-	methods: {
-		today() {
-			const name = this.$route.name
-			const params = Object.assign({}, this.$route.params, {
-				firstDay: 'now'
-			})
-
-			// Don't push new route when day didn't change
-			if (this.$route.params.firstDay === 'now') {
-				return
-			}
-
-			this.$router.push({ name, params })
-		}
-	}
+	name: 'EmptyCalendar'
 }
 </script>

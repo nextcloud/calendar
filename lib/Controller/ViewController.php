@@ -40,11 +40,6 @@ class ViewController extends Controller {
 	private $config;
 
 	/**
-	 * @var IURLGenerator
-	 */
-	private $urlGenerator;
-
-	/**
 	 * @var string
 	 */
 	private $userId;
@@ -53,17 +48,14 @@ class ViewController extends Controller {
 	 * @param string $appName
 	 * @param IRequest $request an instance of the request
 	 * @param IConfig $config
-	 * @param IURLGenerator $urlGenerator
 	 * @param string $userId
 	 */
 	public function __construct(string $appName,
 								IRequest $request,
 								IConfig $config,
-								IURLGenerator $urlGenerator,
 								string $userId) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
-		$this->urlGenerator = $urlGenerator;
 		$this->userId = $userId;
 	}
 
@@ -85,71 +77,5 @@ class ViewController extends Controller {
 			'skip_popover' => $this->config->getUserValue($this->userId, $this->appName, 'skipPopover', 'no') === 'yes',
 			'timezone' => $this->config->getUserValue($this->userId, $this->appName, 'timezone', 'automatic'),
 		]);
-	}
-
-	/**
-	 * Load the public sharing calendar page with branding
-	 *
-	 * @param string $token
-	 * @return TemplateResponse
-	 */
-	public function publicIndexWithBranding(string $token):TemplateResponse {
-		return $this->publicIndex($token, 'public');
-	}
-
-	/**
-	 * Load the public sharing calendar page that is to be used for embedding
-	 *
-	 * @param string $token
-	 * @return TemplateResponse
-	 */
-	public function publicIndexForEmbedding(string $token):TemplateResponse {
-		$response = $this->publicIndex($token, 'main');
-		$response->addHeader('X-Frame-Options', 'ALLOW');
-
-		return $response;
-	}
-
-	/**
-	 * @param string $token
-	 * @param string $baseTemplate
-	 * @return TemplateResponse
-	 */
-	private function publicIndex(string $token,
-								 string $baseTemplate):TemplateResponse {
-		return new TemplateResponse($this->appName, $baseTemplate, [
-			'app_version' => $this->config->getAppValue($this->appName, 'installed_version'),
-			'first_run' => false,
-			'initial_view' => 'dayGridMonth',
-			'show_weekends' => true,
-			'show_week_numbers' => false,
-			'skip_popover' => true,
-			'timezone' => 'automatic',
-			'share_url' => $this->getShareURL(),
-			'preview_image' => $this->getPreviewImage(),
-		], 'base');
-	}
-
-	/**
-	 * Get the sharing Url
-	 *
-	 * @return string
-	 */
-	private function getShareURL():string {
-		$shareURL = $this->request->getServerProtocol() . '://';
-		$shareURL .= $this->request->getServerHost();
-		$shareURL .= $this->request->getRequestUri();
-
-		return $shareURL;
-	}
-
-	/**
-	 * Get an image for preview when sharing in social media
-	 *
-	 * @return string
-	 */
-	private function getPreviewImage():string {
-		$relativeImagePath = $this->urlGenerator->imagePath('core', 'favicon-touch.png');
-		return  $this->urlGenerator->getAbsoluteURL($relativeImagePath);
 	}
 }

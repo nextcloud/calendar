@@ -26,8 +26,8 @@ import { linkTo } from '@nextcloud/router'
 import Calendar from './views/Calendar'
 import EditSimple from './views/EditSimple'
 import EditSidebar from './views/EditSidebar'
-import { getConfigValueFromHiddenInput } from './utils/settings.js'
 import windowTitleService from './services/windowTitleService.js'
+import { getInitialView } from './utils/router.js'
 
 Vue.use(Router)
 
@@ -36,34 +36,69 @@ const router = new Router({
 	base: linkTo('calendar', 'index.php'),
 	routes: [
 		{
-			path: '/',
-			name: 'Root',
-			redirect: {
-				name: 'CalendarView',
-				params: {
-					view: getConfigValueFromHiddenInput('initial-view') || 'month',
-					firstDay: 'now'
+			path: '/p/:tokens/:view/:firstDay',
+			component: Calendar,
+			name: 'PublicCalendarView',
+			children: [
+				{
+					path: '/p/:tokens/:view/:firstDay/view/popover/:object/:recurrenceId',
+					name: 'PublicEditPopoverView',
+					component: EditSimple,
 				},
-			}
+				{
+					path: '/p/:tokens/:view/:firstDay/view/sidebar/:object/:recurrenceId',
+					name: 'PublicEditSidebarView',
+					component: EditSidebar,
+				},
+			]
 		},
-		// {
-		// 	// This route can be used in order to link to events without knowing it's date
-		// 	path: '/edit/:object',
-		//	name: 'EditNoDateNoRecurrenceId',
-		// 	redirect: {
-		// 		name: 'Edit',
-		//
-		// 	}
-		// },
-		// {
-		// 	// This route can be used in order to link to events without knowing it's date
-		// 	path: '/edit/:object/:recurrenceId',
-		// 	name: 'EditNoDate',
-		// 	redirect: {
-		// 		name: 'Edit',
-		//
-		// 	}
-		// },
+		{
+			path: '/embed/:tokens/:view/:firstDay',
+			component: Calendar,
+			name: 'EmbedCalendarView',
+			children: [
+				{
+					path: '/embed/:tokens/:view/:firstDay/view/popover/:object/:recurrenceId',
+					name: 'EmbedEditPopoverView',
+					component: EditSimple,
+				},
+				{
+					path: '/embed/:tokens/:view/:firstDay/view/sidebar/:object/:recurrenceId',
+					name: 'EmbedEditSidebarView',
+					component: EditSidebar,
+				},
+			]
+		},
+		/**
+		 * This route is the root-view that does not contain any parameters so far.
+		 * Users usually access it by clicking the calendar-icon in the navigation bar.
+		 *
+		 * It automatically redirects you to the calendar view, showing the current month
+		 * in the user's preferred view.
+		 */
+		{
+			path: '/',
+			redirect: `/${getInitialView()}/now`,
+		},
+		{
+			path: '/p/:tokens/:fancyName?',
+			redirect: `/p/:tokens/${getInitialView()}/now`,
+		},
+		{
+			path: '/public/:tokens/:fancyName?',
+			redirect: `/p/:tokens/${getInitialView()}/now`,
+		},
+		{
+			path: '/embed/:tokens',
+			redirect: `/embed/:tokens/${getInitialView()}/now`,
+		},
+		/**
+		 * This is the main route that contains the current view and viewed day
+		 * It has to be last, so that other routes starting with /p/, etc. match first
+		 *
+		 *
+		 *
+		 */
 		{
 			path: '/:view/:firstDay',
 			component: Calendar,
@@ -97,3 +132,23 @@ const router = new Router({
 windowTitleService(router)
 
 export default router
+
+//
+// {
+// 	// This route can be used in order to link to events without knowing it's date
+// 	path: '/edit/:object',
+//	name: 'EditNoDateNoRecurrenceId',
+// 	redirect: {
+// 		name: 'Edit',
+//
+// 	}
+// },
+// {
+// 	// This route can be used in order to link to events without knowing it's date
+// 	path: '/edit/:object/:recurrenceId',
+// 	name: 'EditNoDate',
+// 	redirect: {
+// 		name: 'Edit',
+//
+// 	}
+// },

@@ -24,81 +24,72 @@
  *
  */
 
-#app-navigation {
+.datepicker-button-section,
+.today-button-section,
+.view-button-section {
+	display: flex;
+	margin-left: 3px;
+	margin-right: 3px;
 
-	// This is used for the Datepicker, the view buttons and the today button
-	.button-group {
-		display: flex;
-		margin: 0 5px;
-		width: calc(100% - 10px);
+	.button {
+		// this border-radius affects the button in the middle of the group
+		// for the rounded corner buttons on the sides, see further below
+		border-radius: 0;
+		font-weight: normal;
+		margin: 3px -1px 3px 0;
+		padding: 8px;
+		flex-grow: 1;
+	}
 
-		&:first-of-type {
-			margin-top: 3px;
-		}
+	.button:first-child:not(:only-of-type) {
+		border-radius: var(--border-radius) 0 0 var(--border-radius);
+	}
 
-		.button {
-			// this border-radius affects the button in the middle of the group
-			// for the rounded corner buttons on the sides, see further below
-			border-radius: 0;
-			font-weight: normal;
-			margin: 3px -1px 3px 0;
-			padding: 8px;
-			flex-grow: 1;
-		}
+	.button:last-child:not(:only-of-type) {
+		border-radius: 0 var(--border-radius) var(--border-radius) 0;
+	}
 
-		.button.datepicker-label {
-			flex-grow: 4;
-			text-align: center;
-		}
+	.button:not(:only-of-type):not(:first-child):not(:last-child) {
+		border-radius: 0;
+	}
 
-		.button.icon.icon-leftarrow,
-		.button.icon.icon-rightarrow {
-			background-size: 10px;
-		}
+	.button:only-child {
+		border-radius: var(--border-radius);
+	}
 
-		.button.active {
-			background-color: var(--color-primary);
-			color: var(--color-primary-text);
-		}
+	.button:hover,
+	.button:focus,
+	.button.active {
+		z-index: 50;
+	}
+}
 
-		.button:hover,
-		.button:focus,
-		.button.active {
-			z-index: 50;
-		}
+.datepicker-button-section {
+	&__datepicker-label {
+		flex-grow: 4 !important;
+		text-align: center;
+	}
 
-		.button:only-child {
-			border-radius: 3px;
-		}
-
-		.button:last-child {
-			margin-right: 0;
-		}
-
-		.button:first-child:not(:only-of-type) {
-			border-radius: 3px 0 0 3px;
-		}
-
-		.button:last-child:not(:only-of-type) {
-			border-radius: 0 3px 3px 0;
-		}
-
-		.button:not(:only-of-type):not(:first-child):not(:last-child) {
-			border-radius: 0;
-		}
-
-		.mx-datepicker {
-			margin-left: 50%;
-			margin-top: 48px;
-			position: absolute;
-			width: 0;
-		}
+	&__datepicker {
+		margin-left: 50%;
+		margin-top: 48px;
+		position: absolute !important;
+		width: 0 !important;
 
 		.mx-input-wrapper {
 			display: none !important;
 		}
 	}
 
+	&__previous,
+	&__next {
+		background-size: 10px;
+		flex-grow: 0 !important;
+		width: 34px;
+	}
+}
+
+#app-navigation {
 	button.icon-share {
 		opacity: 0.3 !important;
 	}
@@ -195,90 +186,8 @@
 
 	ul {
 
-		//// New Calendar / New Subscription
-		//> li.new-entity-container {
-		//
-		//	div.app-navigation-entry-edit {
-		//		padding-left: 5px !important;
-		//	}
-		//
-		//	input:not([type='text']):last-child {
-		//		border-top-right-radius: 3px;
-		//		border-bottom-right-radius: 3px;
-		//	}
-		//
-		//	span.icon-loading-small {
-		//		position: absolute;
-		//		margin-top: 14px;
-		//		margin-left: calc(50% - 36px);
-		//	}
-		//}
-
 		// Calendar list items / Subscription list items
 		> li.app-navigation-entry {
-
-			//&.enabled {
-			//	> a {
-			//		opacity: 1;
-			//	}
-			//
-			//	> .app-navigation-entry-bullet {
-			//		border: 1px solid var(--color-border-dark)
-			//	}
-			//}
-
-			//&.icon.icon-loading {
-			//	margin-top: 22px;
-			//	margin-bottom: 44px;
-			//}
-			//
-			//&.separator {
-			//	height: 44px;
-			//}
-
-			//li.app-navigation-entry-utils-menu-button {
-			//
-			//	&.has-owner-avatar {
-			//		display: flex;
-			//		width: 60px !important;
-			//
-			//		.avatardiv {
-			//			margin: 6px 0;
-			//
-			//			.popovermenu {
-			//				> ul > li {
-			//					width: auto !important;
-			//				}
-			//			}
-			//		}
-			//	}
-			//
-			//	&.has-shared-label {
-			//		display: flex;
-			//		width: auto !important;
-			//
-			//		a.shared-label {
-			//			margin-top: 13px;
-			//
-			//			&:hover,
-			//			&:focus {
-			//				box-shadow: none;
-			//			}
-			//		}
-			//
-			//	}
-			//
-			//	button.icon-public,
-			//	button.icon-shared {
-			//		opacity: 1 !important;
-			//	}
-			//
-			//	button:hover,
-			//	button:focus {
-			//		opacity: 1 !important;
-			//	}
-			//
-			//}
 
 			div.sharing-section {
 				//box-shadow: inset 4px 0 var(--color-primary);
@@ -351,10 +260,6 @@
 				}
 			}
 		}
-
-		//li.spacer {
-		//	box-shadow: none !important;
-		//}
 	}
 
 	#app-settings {

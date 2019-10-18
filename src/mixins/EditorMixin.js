@@ -24,6 +24,7 @@ import logger from '../utils/logger.js'
 import { mapEventComponentToCalendarObjectInstanceObject } from '../models/calendarObjectInstance.js'
 import { getDefaultColor } from '../utils/color.js'
 import { getIllustrationForTitle } from '../utils/illustration.js'
+import { getPrefixedRoute } from '../utils/router.js'
 
 /**
  * This is a mixin for the editor. It contains common Vue stuff, that is
@@ -250,13 +251,14 @@ export default {
 		 * Closes the editor and returns to normal calendar-view
 		 */
 		closeEditor() {
-			const name = 'CalendarView'
-			const params = {
-				view: this.$route.params.view,
-				firstday: this.$route.params.firstDay
-			}
+			const params = Object.assign({}, this.$store.state.route.params)
+			delete params.object
+			delete params.recurrenceId
 
-			this.$router.push({ name, params })
+			this.$router.push({
+				name: getPrefixedRoute(this.$store.state.route.name, 'CalendarView'),
+				params
+			})
 		},
 		/**
 		 * Resets the calendar-object back to it's original state and closes the editor

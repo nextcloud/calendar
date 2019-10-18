@@ -420,6 +420,46 @@ const actions = {
 	},
 
 	/**
+	 *
+	 * @param {Object} vuex The destructuring object for vuex
+	 * @param {Function} vuex.commit The Vuex commit function
+	 * @param {Object} vuex.state The Vuex state Object
+	 * @param {Object} data The data destructuring object
+	 * @param {String[]} data.tokens The tokens to load
+	 * @returns {Promise<Object[]>}
+	 */
+	async getPublicCalendars({ commit, state }, { tokens }) {
+		const findPromises = []
+
+		for (const token of tokens) {
+			const promise = client.publicCalendarHome
+				.find(token)
+				.catch(() => null) // Catch outdated tokens
+
+			findPromises.push(promise)
+		}
+
+		return Promise.all(findPromises)
+			.then(calendars => calendars.filter(calendar => calendar !== null))
+			.then(calendars => {
+				calendars = calendars.map((calendar) => {
+					calendar.enabled = true
+					calendar.readOnly = true
+
+					return calendar
+				})
+
+				calendars.map(mapDavCollectionToCalendar).forEach(calendar => {
+					commit('addCalendar', { calendar })
+				})
+
+				commit('initialCalendarsLoaded')
+
+				return calendars
+			})
+	},
+
+	/**
 	 * Append a new calendar to array of existing calendars
 	 *
 	 * @param {Object} context the store mutations
