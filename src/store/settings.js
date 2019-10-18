@@ -147,7 +147,7 @@ const actions = {
 	 */
 	async togglePopoverEnabled(context) {
 		const newState = !context.state.skipPopover
-		const value = newState ? 'no' : 'yes'
+		const value = newState ? 'yes' : 'no'
 
 		await HttpClient.post(getLinkToConfig('skipPopover'), { value })
 			.then((response) => {
