@@ -37,6 +37,7 @@
 				<template v-if="!isAllDay" slot="calendar-icon">
 					<button
 						class="datetime-picker-inline-icon icon icon-timezone"
+						:class="{ 'datetime-picker-inline-icon--highlighted': highlightStartTimezone }"
 						@click.stop.prevent="showTimezonePickerForStartDate" />
 					<Popover
 						:open.sync="showStartTimezone"
@@ -65,6 +66,7 @@
 				<template v-if="!isAllDay" slot="calendar-icon">
 					<button
 						class="datetime-picker-inline-icon icon icon-timezone"
+						:class="{ 'datetime-picker-inline-icon--highlighted': highlightEndTimezone }"
 						@click.stop.prevent="showTimezonePickerForEndDate" />
 					<Popover
 						:open.sync="showEndTimezone"
@@ -85,8 +87,27 @@
 		</div>
 		<div
 			v-if="isReadOnly"
-			class="property-title-time-picker__time-pickers">
-			TODO
+			class="property-title-time-picker__time-pickers property-title-time-picker__time-pickers--readonly">
+			<div class="property-title-time-picker-read-only-wrapper">
+				<div class="property-title-time-picker-read-only-wrapper__label">
+					{{ formattedStart }}
+				</div>
+				<div
+					v-if="!isAllDay"
+					class="property-title-time-picker-read-only-wrapper__icon icon icon-timezone"
+					:class="{ 'property-title-time-picker-read-only-wrapper__icon--highlighted': highlightStartTimezone } "
+					v-tooltip="startTimezone" />
+			</div>
+			<div class="property-title-time-picker-read-only-wrapper">
+				<div class="property-title-time-picker-read-only-wrapper__label">
+					{{ formattedEnd }}
+				</div>
+				<div
+					v-if="!isAllDay"
+					class="property-title-time-picker-read-only-wrapper__icon icon icon-timezone"
+					:class="{ 'property-title-time-picker-read-only-wrapper__icon--highlighted': highlightEndTimezone }"
+					v-tooltip="endTimezone" />
+			</div>
 		</div>
 
 		<div class="property-title-time-picker__all-day">
@@ -103,54 +124,6 @@
 				{{ $t('calendar', 'All day') }}
 			</label>
 		</div>
-		<!--<div class="row">-->
-		<!--	<DatetimePicker-->
-		<!--		v-if="!isReadOnly"-->
-		<!--		lang="en"-->
-		<!--		:format="timeFormat"-->
-		<!--		:value="startDate"-->
-		<!--		:type="timeType"-->
-		<!--		@change="changeStart">-->
-		<!--		<template slot="calendar-icon">-->
-		<!--			<div class="icon icon-timezone" @click.stop.prevent="showTimezoneOfStartDate" />-->
-		<!--			<Popover :open="showStartTimezone" open-class="timezone-popover-wrapper" @update:open="updateShowStartTimezone">-->
-		<!--				<h3>Please select a timezone</h3>-->
-		<!--				<timezone-select v-if="!isReadOnly" :value="startTimezone" @change="changeStartTimezone" />-->
-		<!--			</Popover>-->
-		<!--		</template>-->
-		<!--	</DatetimePicker>-->
-		<!--	<div v-if="isReadOnly" class="fake-input-box">-->
-		<!--		{{ startDate | formatDate(isAllDay) }}-->
-		<!--	</div>-->
-		<!--	<span>-->
-		<!--		{{ toLabel }}-->
-		<!--	</span>-->
-		<!--	<DatetimePicker-->
-		<!--		v-if="!isReadOnly"-->
-		<!--		lang="en"-->
-		<!--		:format="timeFormat"-->
-		<!--		:value="endDate"-->
-		<!--		:type="timeType"-->
-		<!--		@change="changeEnd" />-->
-		<!--	<div v-if="isReadOnly" class="fake-input-box">-->
-		<!--		{{ endDate | formatDate(isAllDay) }}-->
-		<!--	</div>-->
-		<!--</div>-->
-		<!--<div v-if="displayTimezones" class="row">-->
-		<!--	<timezone-select v-if="!isReadOnly" :value="startTimezone" @change="changeStartTimezone" />-->
-		<!--	<div v-if="isReadOnly" class="fake-input-box">{{ startTimezone | formatTimezone }}</div>-->
-		<!--	<span style="visibility: hidden">-->
-		<!--		{{ toLabel }}-->
-		<!--	</span>-->
-		<!--	<timezone-select v-if="!isReadOnly" :value="endTimezone" @change="changeEndTimezone" />-->
-		<!--	<div v-if="isReadOnly" class="fake-input-box">{{ endTimezone | formatTimezone }}</div>-->
-		<!--</div>-->
-
-		<!--<div class="row-checkboxes">-->
-		<!--	<div>-->
-
-		<!--	</div>-->
-		<!--</div>-->
 	</div>
 </template>
 
@@ -336,6 +309,51 @@ export default {
 
 			return 'datetime'
 		},
+		/**
+		 *
+		 * @returns {String}
+		 */
+		formattedStart() {
+			if (this.isAllDay) {
+				return this.$t('calendar', 'from {startDate}', {
+					startDate: moment(this.startDate).format('L'),
+					endDate: moment(this.endDate).format('L')
+				})
+			}
+
+			return this.$t('calendar', 'from {startDate} at {startTime}', {
+				startDate: moment(this.startDate).format('L'),
+				startTime: moment(this.startDate).format('LT')
+			})
+		},
+		/**
+		 *
+		 * @returns {String}
+		 */
+		formattedEnd() {
+			if (this.isAllDay) {
+				return this.$t('calendar', 'to {endDate}', {
+					endDate: moment(this.endDate).format('L')
+				})
+			}
+
+			return this.$t('calendar', 'to {endDate} at {endTime}', {
+				endDate: moment(this.endDate).format('L'),
+				endTime: moment(this.endDate).format('LT')
+			})
+		},
+		/**
+		 * @returns {Boolean}
+		 */
+		highlightStartTimezone() {
+			return this.startTimezone !== this.userTimezone
+		},
+		/**
+		 * @returns {Boolean}
+		 */
+		highlightEndTimezone() {
+			return this.endTimezone !== this.userTimezone
+		}
 	},
 	methods: {
 		/**
@@ -409,24 +427,3 @@ export default {
 	}
 }
 </script>
-
-<style scoped>
-.row > div.mx-datepicker,
-.row > div.multiselect,
-.row > .fake-input-box {
-	flex-grow: 2;
-}
-
-.row > span {
-	margin: 0 10px;
-}
-
-.fake-input-box {
-	margin: 3px 3px 3px 0;
-	padding: 8px 7px;
-	background-color: var(--color-main-background);
-	color: var(--color-main-text);
-	outline: none;
-}
-
-</style>

@@ -217,6 +217,35 @@
 			.mx-datepicker {
 				width: 49%;
 			}
+
+			&--readonly {
+				.property-title-time-picker-read-only-wrapper {
+					display: flex;
+					align-items: center;
+					width: 50%;
+					margin: 3px 3px 3px 0;
+					padding: 8px 7px;
+					background-color: var(--color-main-background);
+					color: var(--color-main-text);
+					outline: none;
+
+					&__icon {
+						margin-left: 8px;
+						height: 16px;
+						width: 16px;
+						opacity: .3;
+
+						&--highlighted {
+							opacity: .7;
+						}
+
+						&:focus,
+						&:hover {
+							opacity: 1;
+						}
+					}
+				}
+			}
 		}
 
 		&__all-day {
@@ -225,13 +254,13 @@
 
 		.datetime-picker-inline-icon {
 			margin-top: 6px;
-			opacity: .5;
+			opacity: .3;
 			border: none;
 			background-color: transparent;
 			border-radius: 0;
 			padding: 6px !important;
 
-			&.different-timezone {
+			&--highlighted {
 				opacity: .7;
 			}
 
