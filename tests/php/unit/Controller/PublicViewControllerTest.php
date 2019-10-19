@@ -96,8 +96,8 @@ class PublicViewControllerTest extends TestCase {
 			'share_url' => 'protocol://host123/456',
 			'preview_image' => 'absoluteImagePath456'
 		], $response->getParams());
-		$this->assertEquals('base', $response->getRenderAs());
-		$this->assertEquals('public', $response->getTemplateName());
+		$this->assertEquals('public', $response->getRenderAs());
+		$this->assertEquals('main', $response->getTemplateName());
 	}
 
 	public function testPublicIndexForEmbedding():void {
