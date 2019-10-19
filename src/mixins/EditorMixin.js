@@ -374,6 +374,10 @@ export default {
 		 * @param {String} title New title
 		 */
 		updateTitle(title) {
+			if (title.trim() === '') {
+				title = null
+			}
+
 			this.$store.commit('changeTitle', {
 				calendarObjectInstance: this.calendarObjectInstance,
 				title

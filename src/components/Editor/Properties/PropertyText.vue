@@ -76,7 +76,11 @@ export default {
 	},
 	methods: {
 		changeValue(event) {
-			this.$emit('update:value', event.target.value)
+			if (event.target.value.trim() === '') {
+				this.$emit('update:value', null)
+			} else {
+				this.$emit('update:value', event.target.value)
+			}
 		},
 	}
 }
