@@ -24,13 +24,16 @@
 	<div class="property-title">
 		<div
 			class="property-title__input"
-			:class="{ 'property-title__input--readonly': isReadOnly }">
+			:class="{ 'property-title__input--readonly': isReadOnly }"
+		>
 			<input
 				v-if="!isReadOnly"
 				type="text"
 				:placeholder="$t('calendar', 'Untitled event')"
 				:value="value"
-				@input.prevent.stop="changeValue" />
+				@input.prevent.stop="changeValue"
+			>
+			<!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
 			<div v-else>{{ value }}</div>
 		</div>
 	</div>
@@ -45,7 +48,8 @@ export default {
 			required: true
 		},
 		value: {
-			required: true
+			type: String,
+			default: ''
 		},
 	},
 	methods: {

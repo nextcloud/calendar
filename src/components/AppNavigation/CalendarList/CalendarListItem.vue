@@ -21,22 +21,25 @@
 
 <template>
 	<AppNavigationItem
+		v-click-outside="closeShareMenu"
 		:loading="calendar.loading"
 		:title="calendar.displayName || $t('calendar', 'Untitled calendar')"
+		:class="{deleted: !!deleteTimeout, disabled: !calendar.enabled, 'open-sharing': shareMenuOpen}"
 		@click.prevent.stop="toggleEnabled"
-		v-click-outside="closeShareMenu"
-		:class="{deleted: !!deleteTimeout, disabled: !calendar.enabled, 'open-sharing': shareMenuOpen}">
+	>
 		<AppNavigationIconBullet
 			v-if="calendar.enabled"
 			slot="icon"
 			:color="calendar.color"
-			@click.prevent.stop="toggleEnabled" />
+			@click.prevent.stop="toggleEnabled"
+		/>
 		<AppNavigationDisabledCalendarIconBullet
 			v-if="!calendar.enabled"
 			slot="icon"
-			@click.prevent.stop="toggleEnabled" />
+			@click.prevent.stop="toggleEnabled"
+		/>
 
-		<template slot="counter" v-if="!deleteTimeout">
+		<template v-if="!deleteTimeout" slot="counter">
 			<Actions v-if="showSharingIcon">
 				<ActionButton :icon="sharingIconClass" @click="toggleShareMenu" />
 			</Actions>
@@ -47,27 +50,31 @@
 			<div v-if="isSharedWithMe && !loadedOwnerPrincipal" class="icon icon-loading" />
 		</template>
 
-		<template slot="actions" v-if="!deleteTimeout">
+		<template v-if="!deleteTimeout" slot="actions">
 			<ActionButton
 				v-if="showRenameLabel"
 				icon="icon-rename"
-				@click.prevent.stop="openRenameInput">
+				@click.prevent.stop="openRenameInput"
+			>
 				{{ $t('calendar', 'Edit name') }}
 			</ActionButton>
 			<ActionInput
 				v-if="showRenameInput"
 				icon="icon-rename"
 				:value="calendar.displayName"
-				@submit.prevent.stop="saveRenameInput" />
+				@submit.prevent.stop="saveRenameInput"
+			/>
 			<ActionText
 				v-if="showRenameSaving"
-				icon="icon-loading-small">
+				icon="icon-loading-small"
+			>
 				{{ $t('calendar', 'Saving name ...') }}
 			</ActionText>
 			<ActionButton
 				v-if="showColorLabel"
 				icon="icon-rename"
-				@click.prevent.stop="openColorInput">
+				@click.prevent.stop="openColorInput"
+			>
 				{{ $t('calendar', 'Edit color') }}
 			</ActionButton>
 			<ActionInput
@@ -75,57 +82,66 @@
 				icon="icon-rename"
 				:value="calendar.color"
 				type="color"
-				@submit.prevent.stop="saveColorInput" />
+				@submit.prevent.stop="saveColorInput"
+			/>
 			<ActionText
 				v-if="showColorSaving"
-				icon="icon-loading-small">
+				icon="icon-loading-small"
+			>
 				{{ $t('calendar', 'Saving color ...') }}
 			</ActionText>
 			<ActionButton
 				icon="icon-clippy"
-				@click.stop.prevent="copyLink">
+				@click.stop.prevent="copyLink"
+			>
 				{{ $t('calendar', 'Copy private link') }}
 			</ActionButton>
 			<ActionLink
 				icon="icon-download"
 				target="_blank"
 				:href="downloadUrl"
-				:title="$t('calendar', 'Download')" />
+				:title="$t('calendar', 'Download')"
+			/>
 			<ActionButton
 				v-if="calendar.isSharedWithMe"
 				icon="icon-delete"
-				@click.prevent.stop="deleteCalendar">
+				@click.prevent.stop="deleteCalendar"
+			>
 				{{ $t('calendar', 'Unshare from me') }}
 			</ActionButton>
 			<ActionButton
 				v-if="!calendar.isSharedWithMe"
 				icon="icon-delete"
-				@click.prevent.stop="deleteCalendar">
+				@click.prevent.stop="deleteCalendar"
+			>
 				{{ $t('calendar', 'Delete') }}
 			</ActionButton>
 		</template>
 
-		<template slot="actions" v-if="!!deleteTimeout">
+		<template v-if="!!deleteTimeout" slot="actions">
 			<ActionButton
 				v-if="calendar.isSharedWithMe"
 				icon="icon-history"
-				@click.prevent.stop="cancelDeleteCalendar">
+				@click.prevent.stop="cancelDeleteCalendar"
+			>
 				{{ $n('calendar', 'Unsharing the calendar in {countdown} second', 'Unsharing the calendar in {countdown} seconds', countdown, { countdown }) }}
 			</ActionButton>
 			<ActionButton
 				v-if="!calendar.isSharedWithMe"
 				icon="icon-history"
-				@click.prevent.stop="cancelDeleteCalendar">
+				@click.prevent.stop="cancelDeleteCalendar"
+			>
 				{{ $n('calendar', 'Deleting the calendar in {countdown} second', 'Deleting the calendar in {countdown} seconds', countdown, { countdown }) }}
 			</ActionButton>
 		</template>
 
-		<template  v-if="!deleteTimeout">
-			<div class="sharing-section" v-show="shareMenuOpen">
+		<template v-if="!deleteTimeout">
+			<div v-show="shareMenuOpen" class="sharing-section">
 				<calendar-list-item-sharing-search v-if="calendar.canBeShared" :calendar="calendar" />
 				<calendar-list-item-sharing-publish-item v-if="calendar.canBePublished" :calendar="calendar" />
-				<calendar-list-item-sharing-share-item v-for="sharee in calendar.shares" :key="sharee.uri" v-show="shareMenuOpen"
-					:sharee="sharee" :calendar="calendar" />
+				<calendar-list-item-sharing-share-item v-for="sharee in calendar.shares" v-show="shareMenuOpen" :key="sharee.uri"
+					:sharee="sharee" :calendar="calendar"
+				/>
 			</div>
 		</template>
 	</AppNavigationItem>

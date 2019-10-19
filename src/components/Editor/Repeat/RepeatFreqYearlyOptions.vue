@@ -39,17 +39,20 @@
 			<ActionCheckbox
 				class="repeat-option-set-section__title"
 				:checked="isBySetPositionEnabled"
-				@change="toggleBySetPosition">
+				@change="toggleBySetPosition"
+			>
 				{{ $t('calendar', 'On the') }}
 			</ActionCheckbox>
 			<repeat-first-last-select
 				:by-set-position="bySetPosition"
 				:disabled="!isBySetPositionEnabled"
-				@change="changeBySetPosition" />
+				@change="changeBySetPosition"
+			/>
 			<repeat-on-the-select
 				:by-day="byDay"
 				:disabled="!isBySetPositionEnabled"
-				@change="changeByDay" />
+				@change="changeByDay"
+			/>
 		</div>
 	</div>
 </template>

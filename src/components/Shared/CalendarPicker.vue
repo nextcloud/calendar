@@ -5,7 +5,8 @@
 		:disabled="isDisabled"
 		:options="calendars"
 		:value="calendar"
-		@select="change">
+		@select="change"
+	>
 		<template slot="singleLabel" slot-scope="scope">
 			<CalendarPickerOption v-bind="scope.option" />
 		</template>

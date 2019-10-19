@@ -37,38 +37,44 @@
 			<Actions v-if="isViewedByOrganizer">
 				<ActionCheckbox
 					:checked="attendee.rsvp"
-					@change="toggleRSVP">
+					@change="toggleRSVP"
+				>
 					{{ $t('calendar', 'Send e-mail') }}
 				</ActionCheckbox>
 
 				<ActionRadio
 					:name="radioName"
 					:checked="isChair"
-					@change="changeRole('CHAIR')">
+					@change="changeRole('CHAIR')"
+				>
 					{{ $t('calendar', 'Chairperson') }}
 				</ActionRadio>
 				<ActionRadio
 					:name="radioName"
 					:checked="isRequiredParticipant"
-					@change="changeRole('REQ-PARTICIPANT')">
+					@change="changeRole('REQ-PARTICIPANT')"
+				>
 					{{ $t('calendar', 'Required participant') }}
 				</ActionRadio>
 				<ActionRadio
 					:name="radioName"
 					:checked="isOptionalParticipant"
-					@change="changeRole('OPT-PARTICIPANT')">
+					@change="changeRole('OPT-PARTICIPANT')"
+				>
 					{{ $t('calendar', 'Optional participant') }}
 				</ActionRadio>
 				<ActionRadio
 					:name="radioName"
 					:checked="isNonParticipant"
-					@change="changeRole('NON-PARTICIPANT')">
+					@change="changeRole('NON-PARTICIPANT')"
+				>
 					{{ $t('calendar', 'Non-participant') }}
 				</ActionRadio>
 
 				<ActionButton
 					icon="icon-delete"
-					@click="removeAttendee">
+					@click="removeAttendee"
+				>
 					{{ $t('calendar', 'Remove attendee') }}
 				</ActionButton>
 			</Actions>

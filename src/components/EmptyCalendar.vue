@@ -30,7 +30,7 @@
 				{{ $t('calendar', 'Public calendar does not exist') }}
 			</h2>
 			<p>
-				{{ $t('calendar', 'Maybe the share was deleted or has expired?' )}}
+				{{ $t('calendar', 'Maybe the share was deleted or has expired?' ) }}
 			</p>
 		</div>
 	</div>

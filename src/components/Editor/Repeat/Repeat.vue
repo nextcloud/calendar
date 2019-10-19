@@ -27,12 +27,14 @@
 			:frequency="recurrenceRule.frequency"
 			:interval="recurrenceRule.interval"
 			@changeInterval="changeInterval"
-			@changeFrequency="changeFrequency" />
+			@changeFrequency="changeFrequency"
+		/>
 		<repeat-freq-weekly-options
 			v-if="isFreqWeekly && !isRecurrenceException"
 			:by-day="recurrenceRule.byDay"
 			@addByDay="addByDay"
-			@removeByDay="removeByDay" />
+			@removeByDay="removeByDay"
+		/>
 		<repeat-freq-monthly-options
 			v-if="isFreqMonthly && !isRecurrenceException"
 			:by-day="recurrenceRule.byDay"
@@ -81,9 +83,11 @@
 		<!--	:count="repeatCount"-->
 		<!--/>-->
 		<repeat-unsupported-warning
-			v-if="recurrenceRule.isUnsupported && !isRecurrenceException" />
+			v-if="recurrenceRule.isUnsupported && !isRecurrenceException"
+		/>
 		<repeat-exception-warning
-			v-if="isRecurrenceException" />
+			v-if="isRecurrenceException"
+		/>
 	</div>
 </template>
 

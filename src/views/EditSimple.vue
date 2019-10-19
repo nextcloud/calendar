@@ -27,17 +27,20 @@
 		:placement="placement"
 		boundaries-element="#app-content"
 		open-class="event-popover"
-		trigger="manual">
-
+		trigger="manual"
+	>
 		<PopoverLoadingIndicator
-			v-if="isLoading" />
+			v-if="isLoading"
+		/>
 
 		<Actions
 			v-if="!isLoading"
-			class="event-popover__close-action">
+			class="event-popover__close-action"
+		>
 			<ActionButton
 				icon="icon-close"
-				@click="cancel">
+				@click="cancel"
+			>
 				{{ $t('calendar', 'Close') }}
 			</ActionButton>
 		</Actions>
@@ -45,13 +48,15 @@
 		<IllustrationHeader
 			v-if="!isLoading"
 			:color="selectedCalendarColor"
-			:illustration-url="backgroundImage" />
+			:illustration-url="backgroundImage"
+		/>
 
 		<PropertyTitle
 			v-if="!isLoading"
 			:value="title"
 			:is-read-only="isReadOnly"
-			@update:value="updateTitle" />
+			@update:value="updateTitle"
+		/>
 
 		<property-title-time-picker
 			v-if="!isLoading"
@@ -67,27 +72,31 @@
 			@updateStartTimezone="updateStartTimezone"
 			@updateEndDate="updateEndDate"
 			@updateEndTimezone="updateEndTimezone"
-			@toggleAllDay="toggleAllDay" />
+			@toggleAllDay="toggleAllDay"
+		/>
 
 		<property-calendar-picker
 			v-if="!isLoading"
 			:calendars="calendars"
 			:calendar="selectedCalendar"
 			:is-read-only="isReadOnly"
-			@selectCalendar="changeCalendar" />
+			@selectCalendar="changeCalendar"
+		/>
 
 		<property-text
 			v-if="!isLoading && hasLocation"
 			:is-read-only="isReadOnly"
 			:prop-model="rfcProps.location"
 			:value="location"
-			@update:value="updateLocation" />
+			@update:value="updateLocation"
+		/>
 		<property-text
 			v-if="!isLoading && hasDescription"
 			:is-read-only="isReadOnly"
 			:prop-model="rfcProps.description"
 			:value="description"
-			@update:value="updateDescription" />
+			@update:value="updateDescription"
+		/>
 
 		<save-buttons
 			v-if="!isReadOnly"
@@ -98,7 +107,8 @@
 			:show-more-button="true"
 			@saveThisOnly="saveAndLeave(false)"
 			@saveThisAndAllFuture="saveAndLeave(true)"
-			@showMore="showMore" />
+			@showMore="showMore"
+		/>
 	</Popover>
 </template>
 <script>
@@ -138,6 +148,17 @@ export default {
 			hasDescription: false
 		}
 	},
+	watch: {
+		eventComponent() {
+			const isNew = this.$route.name === 'NewPopoverView'
+			this.$refs.popover
+				.$children[0]
+				.$refs.trigger = this.getDomElementForPopover(isNew, this.$route)
+			this.$refs.popover
+				.$children[0]
+				.$_restartPopper()
+		}
+	},
 	mounted() {
 		this.$nextTick(() => {
 			const isNew = this.$route.name === 'NewPopoverView'
@@ -152,17 +173,6 @@ export default {
 				.$refs.trigger = this.getDomElementForPopover(isNew, this.$route)
 			this.isOpen = true
 		})
-	},
-	watch: {
-		eventComponent() {
-			const isNew = this.$route.name === 'NewPopoverView'
-			this.$refs.popover
-				.$children[0]
-				.$refs.trigger = this.getDomElementForPopover(isNew, this.$route)
-			this.$refs.popover
-				.$children[0]
-				.$_restartPopper()
-		}
 	},
 	methods: {
 		showMore() {

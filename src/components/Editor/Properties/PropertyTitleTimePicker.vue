@@ -26,22 +26,26 @@
 	<div class="property-title-time-picker">
 		<div
 			v-if="!isReadOnly"
-			class="property-title-time-picker__time-pickers">
+			class="property-title-time-picker__time-pickers"
+		>
 			<DatetimePicker
 				v-if="!isReadOnly"
 				lang="en"
 				:format="startDateFormat"
 				:value="startDate"
 				:type="timeType"
-				@change="changeStart">
+				@change="changeStart"
+			>
 				<template v-if="!isAllDay" slot="calendar-icon">
 					<button
 						class="datetime-picker-inline-icon icon icon-timezone"
 						:class="{ 'datetime-picker-inline-icon--highlighted': highlightStartTimezone }"
-						@click.stop.prevent="showTimezonePickerForStartDate" />
+						@click.stop.prevent="showTimezonePickerForStartDate"
+					/>
 					<Popover
 						:open.sync="showStartTimezone"
-						open-class="timezone-popover-wrapper">
+						open-class="timezone-popover-wrapper"
+					>
 						<div class="timezone-popover-wrapper__title">
 							<strong>
 								{{ $t('calendar', 'Please select a timezone for the start-date:') }}
@@ -51,7 +55,8 @@
 							v-if="!isReadOnly"
 							class="timezone-popover-wrapper__timezone-select"
 							:value="startTimezone"
-							@change="changeStartTimezone" />
+							@change="changeStartTimezone"
+						/>
 					</Popover>
 				</template>
 			</DatetimePicker>
@@ -62,15 +67,18 @@
 				:format="endDateFormat"
 				:value="endDate"
 				:type="timeType"
-				@change="changeEnd">
+				@change="changeEnd"
+			>
 				<template v-if="!isAllDay" slot="calendar-icon">
 					<button
 						class="datetime-picker-inline-icon icon icon-timezone"
 						:class="{ 'datetime-picker-inline-icon--highlighted': highlightEndTimezone }"
-						@click.stop.prevent="showTimezonePickerForEndDate" />
+						@click.stop.prevent="showTimezonePickerForEndDate"
+					/>
 					<Popover
 						:open.sync="showEndTimezone"
-						open-class="timezone-popover-wrapper">
+						open-class="timezone-popover-wrapper"
+					>
 						<div class="timezone-popover-wrapper__title">
 							<strong>
 								{{ $t('calendar', 'Please select a timezone for the end-date:') }}
@@ -80,23 +88,26 @@
 							v-if="!isReadOnly"
 							class="timezone-popover-wrapper__timezone-select"
 							:value="endTimezone"
-							@change="changeEndTimezone" />
+							@change="changeEndTimezone"
+						/>
 					</Popover>
 				</template>
 			</DatetimePicker>
 		</div>
 		<div
 			v-if="isReadOnly"
-			class="property-title-time-picker__time-pickers property-title-time-picker__time-pickers--readonly">
+			class="property-title-time-picker__time-pickers property-title-time-picker__time-pickers--readonly"
+		>
 			<div class="property-title-time-picker-read-only-wrapper">
 				<div class="property-title-time-picker-read-only-wrapper__label">
 					{{ formattedStart }}
 				</div>
 				<div
 					v-if="!isAllDay"
+					v-tooltip="startTimezone"
 					class="property-title-time-picker-read-only-wrapper__icon icon icon-timezone"
 					:class="{ 'property-title-time-picker-read-only-wrapper__icon--highlighted': highlightStartTimezone } "
-					v-tooltip="startTimezone" />
+				/>
 			</div>
 			<div class="property-title-time-picker-read-only-wrapper">
 				<div class="property-title-time-picker-read-only-wrapper__label">
@@ -104,9 +115,10 @@
 				</div>
 				<div
 					v-if="!isAllDay"
+					v-tooltip="endTimezone"
 					class="property-title-time-picker-read-only-wrapper__icon icon icon-timezone"
 					:class="{ 'property-title-time-picker-read-only-wrapper__icon--highlighted': highlightEndTimezone }"
-					v-tooltip="endTimezone" />
+				/>
 			</div>
 		</div>
 
@@ -117,10 +129,12 @@
 				type="checkbox"
 				class="checkbox"
 				:disabled="!canModifyAllDay || isReadOnly"
-				@change="toggleAllDay">
+				@change="toggleAllDay"
+			>
 			<label
+				v-tooltip="allDayTooltip"
 				for="allDay"
-				v-tooltip="allDayTooltip">
+			>
 				{{ $t('calendar', 'All day') }}
 			</label>
 		</div>
@@ -141,6 +155,25 @@ export default {
 		DatetimePicker,
 		TimezoneSelect,
 		Popover
+	},
+	filters: {
+		formatDate(value, isAllDay) {
+			if (!value) {
+				return ''
+			}
+			if (isAllDay) {
+				return moment(value).format('ll')
+			} else {
+				return moment(value).format('lll')
+			}
+		},
+		formatTimezone(value) {
+			if (!value) {
+				return ''
+			}
+
+			return getReadableTimezoneName(value)
+		}
 	},
 	props: {
 		/**
@@ -198,7 +231,7 @@ export default {
 		 * This is used to highlight if the event is in a different timezone
 		 */
 		userTimezone: {
-			Type: String,
+			type: String,
 			required: true
 		}
 	},
@@ -206,25 +239,6 @@ export default {
 		return {
 			showStartTimezone: false,
 			showEndTimezone: false
-		}
-	},
-	filters: {
-		formatDate(value, isAllDay) {
-			if (!value) {
-				return ''
-			}
-			if (isAllDay) {
-				return moment(value).format('ll')
-			} else {
-				return moment(value).format('lll')
-			}
-		},
-		formatTimezone(value) {
-			if (!value) {
-				return ''
-			}
-
-			return getReadableTimezoneName(value)
 		}
 	},
 	computed: {

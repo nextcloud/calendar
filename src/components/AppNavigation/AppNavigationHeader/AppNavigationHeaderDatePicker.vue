@@ -33,10 +33,12 @@
 			class="datepicker-button-section__datepicker-label button datepicker-label"
 			@click.stop.prevent="toggleDatepicker"
 			@mousedown.stop.prevent="doNothing"
-			@mouseup.stop.prevent="doNothing">
+			@mouseup.stop.prevent="doNothing"
+		>
 			{{ selectedDate | formatDateRage(view) }}
 		</button>
 		<datetime-picker
+			ref="datepicker"
 			class="datepicker-button-section__datepicker"
 			:first-day-of-week="firstDay"
 			:lang="lang"
@@ -46,7 +48,6 @@
 			:not-after="maximumDate"
 			:value="selectedDate"
 			:input-attr="inputItemAttributes"
-			ref="datepicker"
 			@change="navigateToDate"
 		/>
 		<button
@@ -76,6 +77,9 @@ export default {
 	components: {
 		DatetimePicker
 	},
+	filters: {
+		formatDateRage
+	},
 	data: function() {
 		return {
 			isDatepickerOpen: false,
@@ -91,9 +95,6 @@ export default {
 				}
 			}
 		}
-	},
-	filters: {
-		formatDateRage
 	},
 	computed: {
 		selectedDate() {

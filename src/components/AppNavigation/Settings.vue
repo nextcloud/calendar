@@ -27,28 +27,32 @@
 				class="settings-fieldset-interior-item"
 				:checked="birthdayCalendar"
 				:disabled="isBirthdayCalendarDisabled"
-				@update:checked="toggleBirthdayEnabled">
+				@update:checked="toggleBirthdayEnabled"
+			>
 				{{ $t('calendar', 'Enable birthday calendar') }}
 			</ActionCheckbox>
 			<ActionCheckbox
 				class="settings-fieldset-interior-item"
 				:checked="showPopover"
 				:disabled="savingPopover"
-				@update:checked="togglePopoverEnabled">
+				@update:checked="togglePopoverEnabled"
+			>
 				{{ $t('calendar', 'Enable simplified editor') }}
 			</ActionCheckbox>
 			<ActionCheckbox
 				class="settings-fieldset-interior-item"
 				:checked="showWeekends"
 				:disabled="savingWeekend"
-				@update:checked="toggleWeekendsEnabled">
+				@update:checked="toggleWeekendsEnabled"
+			>
 				{{ $t('calendar', 'Show weekends') }}
 			</ActionCheckbox>
 			<ActionCheckbox
 				class="settings-fieldset-interior-item"
 				:checked="showWeekNumbers"
 				:disabled="savingWeekNumber"
-				@update:checked="toggleWeekNumberEnabled">
+				@update:checked="toggleWeekNumberEnabled"
+			>
 				{{ $t('calendar', 'Show week numbers') }}
 			</ActionCheckbox>
 			<SettingsTimezoneSelect :is-disabled="loadingCalendars" />

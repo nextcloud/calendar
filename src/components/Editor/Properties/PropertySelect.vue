@@ -25,11 +25,13 @@
 		<div
 			class="property-select__icon"
 			:class="icon"
-			:title="readableName" />
+			:title="readableName"
+		/>
 
 		<div
 			class="property-select__input"
-			:class="{ 'property-select__input--readonly': isReadOnly }">
+			:class="{ 'property-select__input--readonly': isReadOnly }"
+		>
 			<multiselect
 				v-if="!isReadOnly"
 				:options="options"
@@ -39,14 +41,17 @@
 				:value="selectedValue"
 				track-by="value"
 				label="label"
-				@select="changeValue" />
+				@select="changeValue"
+			/>
+			<!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
 			<div v-else>{{ selectedValue.label }}</div>
 		</div>
 
 		<div
 			v-if="hasInfo"
 			v-tooltip="info"
-			class="property-select__info icon-details" />
+			class="property-select__info icon-details"
+		/>
 	</div>
 </template>
 

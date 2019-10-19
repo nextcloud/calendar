@@ -21,32 +21,39 @@
 
 <template>
 	<transition-group v-if="!isPublic" id="calendars-list" name="list"
-		tag="ul">
+		tag="ul"
+	>
 		<calendar-list-new
-			:key="newCalendarKey" :disabled="loadingCalendars" />
+			:key="newCalendarKey" :disabled="loadingCalendars"
+		/>
 		<calendar-list-item-loading-placeholder v-if="loadingCalendars" :key="loadingKeyCalendars" />
 		<calendar-list-item
 			v-for="calendar in calendars"
 			:key="calendar.id"
-			:calendar="calendar" />
+			:calendar="calendar"
+		/>
 
 		<AppNavigationSpacer
-			:key="spacerKey" />
+			:key="spacerKey"
+		/>
 
 		<subscription-list-new :key="newSubscriptionKey" :disabled="loadingCalendars" />
 		<calendar-list-item-loading-placeholder v-if="loadingCalendars" :key="loadingKeySubscriptions" />
 		<calendar-list-item
 			v-for="calendar in subscriptions"
 			:key="calendar.id"
-			:calendar="calendar" />
+			:calendar="calendar"
+		/>
 	</transition-group>
 	<transition-group v-else id="calendars-list" name="list"
-		tag="ul">
+		tag="ul"
+	>
 		<calendar-list-item-loading-placeholder v-if="loadingCalendars" :key="loadingKeySubscriptions" />
 		<public-calendar-list-item
 			v-for="calendar in subscriptions"
 			:key="calendar.id"
-			:calendar="calendar" />
+			:calendar="calendar"
+		/>
 	</transition-group>
 </template>
 

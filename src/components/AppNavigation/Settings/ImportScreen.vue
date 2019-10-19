@@ -43,7 +43,7 @@
 
 		<div class="import-modal__actions">
 			<button @click="cancelImport">
-				{{ $t('calendar', 'Cancel' )}}
+				{{ $t('calendar', 'Cancel' ) }}
 			</button>
 			<button class="primary" @click="importCalendar">
 				{{ $n('calendar', 'Import calendar', 'Import calendars', files.length) }}

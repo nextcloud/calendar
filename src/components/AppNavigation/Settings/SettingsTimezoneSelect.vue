@@ -24,7 +24,8 @@
 		<timezone-select
 			:additional-timezones="additionalTimezones"
 			:value="timezone"
-			@change="setTimezoneValue" />
+			@change="setTimezoneValue"
+		/>
 	</li>
 </template>
 

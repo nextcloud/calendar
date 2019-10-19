@@ -35,16 +35,17 @@
 			@select="changeEndType"
 		/>
 		<DatetimePicker
-			class="repeat-option-end__until"
 			v-if="isUntil"
+			class="repeat-option-end__until"
 			:not-before="minimumDate"
 			:not-after="maximumDate"
 			:value="until"
 			type="date"
-			@change="changeUntil" />
+			@change="changeUntil"
+		/>
 		<input
-			class="repeat-option-end__count"
 			v-if="isCount"
+			class="repeat-option-end__count"
 			type="number"
 			min="1"
 			max="3500"
@@ -53,7 +54,8 @@
 		>
 		<span
 			v-if="isCount"
-			class="repeat-option-end__count">
+			class="repeat-option-end__count"
+		>
 			{{ occurrencesLabel }}
 		</span>
 	</div>

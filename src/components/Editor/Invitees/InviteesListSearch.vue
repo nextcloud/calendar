@@ -34,7 +34,8 @@
 		track-by="email"
 		label="dropdownName"
 		@search-change="findAttendees"
-		@select="addAttendee">
+		@select="addAttendee"
+	>
 		<!--		<template slot="singleLabel" slot-scope="props"><img class="option__image" :src="props.option.img" alt="No Man’s Sky"><span class="option__desc"><span class="option__title">{{ props.option.title }}</span></span></template>-->
 		<template slot="singleLabel" slot-scope="props">
 			<div class="invitees-search-list-item">

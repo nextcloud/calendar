@@ -27,11 +27,13 @@
 			<!-- Calendar / Subscription List -->
 			<CalendarList
 				:is-public="!isAuthenticatedUser"
-				:loading-calendars="loadingCalendars" />
+				:loading-calendars="loadingCalendars"
+			/>
 			<!-- Settings and import -->
 			<Settings
 				v-if="isAuthenticatedUser"
-				:loading-calendars="loadingCalendars" />
+				:loading-calendars="loadingCalendars"
+			/>
 		</AppNavigation>
 		<EmbedTopNavigation v-if="isEmbedded" />
 		<AppContent>
@@ -66,7 +68,8 @@
 			/>
 
 			<EmptyCalendar
-				v-if="showEmptyCalendarScreen" />
+				v-if="showEmptyCalendarScreen"
+			/>
 		</AppContent>
 		<!-- Edit modal -->
 		<router-view v-if="!loadingCalendars" />
@@ -232,6 +235,12 @@ export default {
 
 		next()
 	},
+	watch: {
+		modificationCount: debounce(function() {
+			let calendarApi = this.$refs.fullCalendar.getApi()
+			calendarApi.refetchEvents()
+		}, 50)
+	},
 	created() {
 		this.timeFrameCacheExpiryJob = setInterval(() => {
 			const timestamp = (getUnixTimestampFromDate(dateFactory()) - 60 * 10)
@@ -309,12 +318,6 @@ export default {
 					this.loadingCalendars = false
 				})
 		}
-	},
-	watch: {
-		modificationCount: debounce(function() {
-			let calendarApi = this.$refs.fullCalendar.getApi()
-			calendarApi.refetchEvents()
-		}, 50)
 	},
 	methods: {
 		saveNewView: debounce(function(initialView) {

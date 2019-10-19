@@ -25,11 +25,13 @@
 		<invitees-list-search
 			v-if="!isReadOnly"
 			:already-invited-emails="alreadyInvitedEmails"
-			@addAttendee="addAttendee" />
+			@addAttendee="addAttendee"
+		/>
 		<organizer-list-item
 			v-if="hasOrganizer"
 			:is-read-only="isReadOnly"
-			:organizer="calendarObjectInstance.organizer" />
+			:organizer="calendarObjectInstance.organizer"
+		/>
 		<invitees-list-item
 			v-for="invitee in inviteesWithoutOrganizer"
 			:key="invitee.email"
@@ -39,7 +41,8 @@
 			@removeAttendee="removeAttendee"
 		/>
 		<no-invitees-view
-			v-if="isListEmpty" />
+			v-if="isListEmpty"
+		/>
 	</div>
 </template>
 

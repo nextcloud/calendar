@@ -24,31 +24,36 @@
 	<div>
 		<button
 			v-if="showMoreButton"
-			@click="showMore">
+			@click="showMore"
+		>
 			{{ $t('calendar', 'More') }}
 		</button>
 		<button
 			v-if="showSaveButton"
 			class="primary"
-			@click="saveThisOnly">
+			@click="saveThisOnly"
+		>
 			{{ $t('calendar', 'Save') }}
 		</button>
 		<button
 			v-if="shoUpdateButton"
 			class="primary"
-			@click="saveThisOnly">
+			@click="saveThisOnly"
+		>
 			{{ $t('calendar', 'Update') }}
 		</button>
 		<button
 			v-if="showUpdateOnlyThisButton"
 			class="primary"
-			@click="saveThisOnly">
+			@click="saveThisOnly"
+		>
 			{{ $t('calendar', 'Update this occurrence') }}
 		</button>
 		<button
 			v-if="showUpdateThisAndFutureButton"
 			:class="{ primary: forceThisAndAllFuture}"
-			@click="saveThisAndAllFuture">
+			@click="saveThisAndAllFuture"
+		>
 			{{ $t('calendar', 'Update this and all future') }}
 		</button>
 	</div>

@@ -1,5 +1,5 @@
 <template>
-	<header role="banner" id="embed-header">
+	<header id="embed-header" role="banner">
 		<div class="embed-header__date-section">
 			<AppNavigationHeaderDatePicker />
 			<AppNavigationHeaderTodayButton />
@@ -16,14 +16,16 @@
 					icon="icon-download"
 					target="_blank"
 					:href="calendar.url + '?export'"
-					:title="$t('calendar', 'Download {name}', { name: calendar.displayName || $t('calendar', 'Untitled calendar') })" />
+					:title="$t('calendar', 'Download {name}', { name: calendar.displayName || $t('calendar', 'Untitled calendar') })"
+				/>
 			</Actions>
 			<Actions default-icon="icon-calendar-dark">
 				<ActionButton
 					v-for="calendar in subscriptions"
 					:key="calendar.id"
 					icon="icon-calendar-dark"
-					@click.prevent.stop="copySubscriptionLink(calendar)">
+					@click.prevent.stop="copySubscriptionLink(calendar)"
+				>
 					{{ $t('calendar', 'Subscribe to {name}', { name: calendar.displayName || $t('calendar', 'Untitled calendar') }) }}
 				</ActionButton>
 			</Actions>

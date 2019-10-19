@@ -38,7 +38,8 @@
 			track-by="user"
 			label="user"
 			@search-change="findSharee"
-			@change="shareCalendar">
+			@change="shareCalendar"
+		>
 			<span slot="noResult">{{ $t('calendar', 'No users or groups') }}</span>
 		</multiselect>
 	</li>

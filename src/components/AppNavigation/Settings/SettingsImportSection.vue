@@ -24,7 +24,8 @@
 		<progress
 			class="settings-fieldset-interior-item__progressbar"
 			:value="imported"
-			:max="total" />
+			:max="total"
+		/>
 	</li>
 	<li v-else class="settings-fieldset-interior-item">
 		<label class="settings-fieldset-interior-item__import-button button icon icon-upload" :for="inputUid">
@@ -37,13 +38,15 @@
 			:accept="supportedFileTypes"
 			:disabled="disableImport"
 			multiple
-			@change="processFiles" />
+			@change="processFiles"
+		>
 
 		<import-screen
 			v-if="showImportModal"
 			:files="files"
 			@cancel-import="cancelImport"
-			@import-calendar="importCalendar" />
+			@import-calendar="importCalendar"
+		/>
 	</li>
 </template>
 

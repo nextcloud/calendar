@@ -23,7 +23,8 @@
 <template>
 	<button
 		class="editor-reminders-list-new-button icon-add"
-		@click="addReminder">
+		@click="addReminder"
+	>
 		{{ $t('calendar', 'Add reminder') }}
 	</button>
 </template>
