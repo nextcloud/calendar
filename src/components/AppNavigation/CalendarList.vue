@@ -20,40 +20,38 @@
   -->
 
 <template>
-	<transition-group v-if="!isPublic" id="calendars-list" name="list"
-		tag="ul"
-	>
-		<calendar-list-new
-			:key="newCalendarKey" :disabled="loadingCalendars"
-		/>
-		<calendar-list-item-loading-placeholder v-if="loadingCalendars" :key="loadingKeyCalendars" />
-		<calendar-list-item
+	<transition-group v-if="!isPublic"
+		id="calendars-list"
+		name="list"
+		tag="ul">
+		<CalendarListNew
+			:key="newCalendarKey"
+			:disabled="loadingCalendars" />
+		<CalendarListItemLoadingPlaceholder v-if="loadingCalendars" :key="loadingKeyCalendars" />
+		<CalendarListItem
 			v-for="calendar in calendars"
 			:key="calendar.id"
-			:calendar="calendar"
-		/>
+			:calendar="calendar" />
 
 		<AppNavigationSpacer
-			:key="spacerKey"
-		/>
+			:key="spacerKey" />
 
-		<subscription-list-new :key="newSubscriptionKey" :disabled="loadingCalendars" />
-		<calendar-list-item-loading-placeholder v-if="loadingCalendars" :key="loadingKeySubscriptions" />
-		<calendar-list-item
+		<SubscriptionListNew :key="newSubscriptionKey" :disabled="loadingCalendars" />
+		<CalendarListItemLoadingPlaceholder v-if="loadingCalendars" :key="loadingKeySubscriptions" />
+		<CalendarListItem
 			v-for="calendar in subscriptions"
 			:key="calendar.id"
-			:calendar="calendar"
-		/>
+			:calendar="calendar" />
 	</transition-group>
-	<transition-group v-else id="calendars-list" name="list"
-		tag="ul"
-	>
-		<calendar-list-item-loading-placeholder v-if="loadingCalendars" :key="loadingKeySubscriptions" />
-		<public-calendar-list-item
+	<transition-group v-else
+		id="calendars-list"
+		name="list"
+		tag="ul">
+		<CalendarListItemLoadingPlaceholder v-if="loadingCalendars" :key="loadingKeySubscriptions" />
+		<PublicCalendarListItem
 			v-for="calendar in subscriptions"
 			:key="calendar.id"
-			:calendar="calendar"
-		/>
+			:calendar="calendar" />
 	</transition-group>
 </template>
 

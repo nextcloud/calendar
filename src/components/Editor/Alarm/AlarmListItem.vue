@@ -24,55 +24,47 @@
 	<!-- Yes, technically an alarm is a component, not a property, but for the matter of CSS names it really doesn't matter -->
 	<div
 		v-click-outside="closeAlarmEditor"
-		class="property-alarm-item"
-	>
+		class="property-alarm-item">
 		<div class="property-alarm-item__icon">
 			<div class="icon" :class="icon" />
 		</div>
 		<div
 			v-if="!isEditing"
-			class="property-alarm-item__label"
-		>
+			class="property-alarm-item__label">
 			{{ alarm | formatAlarm(isAllDay, currentUserTimezone) }}
 		</div>
 		<div
 			v-if="isEditing && isRelativeAlarm && !isAllDay"
-			class="property-alarm-item__edit property-alarm-item__edit--timed"
-		>
+			class="property-alarm-item__edit property-alarm-item__edit--timed">
 			<input
 				type="number"
 				min="0"
 				max="3600"
 				:value="alarm.relativeAmountTimed"
-				@input="changeRelativeAmountTimed"
-			>
-			<alarm-time-unit-select
+				@input="changeRelativeAmountTimed">
+			<AlarmTimeUnitSelect
 				:is-all-day="isAllDay"
 				:count="alarm.relativeAmountTimed"
 				:unit="alarm.relativeUnitTimed"
 				:disabled="false"
-				@change="changeRelativeUnitTimed"
-			/>
+				@change="changeRelativeUnitTimed" />
 		</div>
 		<div
 			v-if="isEditing && isRelativeAlarm && isAllDay"
-			class="property-alarm-item__edit property-alarm-item__edit--all-day"
-		>
+			class="property-alarm-item__edit property-alarm-item__edit--all-day">
 			<div>
 				<input
 					type="number"
 					min="0"
 					max="3600"
 					:value="alarm.relativeAmountAllDay"
-					@input="changeRelativeAmountAllDay"
-				>
-				<alarm-time-unit-select
+					@input="changeRelativeAmountAllDay">
+				<AlarmTimeUnitSelect
 					:is-all-day="isAllDay"
 					:count="alarm.relativeAmountAllDay"
 					:unit="alarm.relativeUnitAllDay"
 					:disabled="false"
-					@change="changeRelativeUnitAllDay"
-				/>
+					@change="changeRelativeUnitAllDay" />
 			</div>
 			<span>
 				{{ $t('calendar', 'before at') }}
@@ -82,31 +74,26 @@
 				:format="timeFormat"
 				type="time"
 				:value="relativeAllDayDate"
-				@change="changeRelativeHourMinuteAllDay"
-			/>
+				@change="changeRelativeHourMinuteAllDay" />
 		</div>
 		<div
 			v-if="isEditing && isAbsoluteAlarm"
-			class="property-alarm-item__edit property-alarm-item__edit--absolute"
-		>
+			class="property-alarm-item__edit property-alarm-item__edit--absolute">
 			<DatetimePicker
 				lang="en"
 				:format="absoluteDateFormat"
 				type="datetime"
 				:value="alarm.absoluteDate"
-				@change="changeAbsoluteDate"
-			/>
+				@change="changeAbsoluteDate" />
 		</div>
 		<div
 			v-if="!isReadOnly"
-			class="property-alarm-item__options"
-		>
+			class="property-alarm-item__options">
 			<Actions>
 				<ActionButton
 					v-if="canEdit"
 					icon="icon-edit"
-					@click="editAlarm"
-				>
+					@click="editAlarm">
 					{{ $t('calendar', 'Edit reminder') }}
 				</ActionButton>
 
@@ -114,32 +101,28 @@
 					v-if="isEditing"
 					:name="alarmTypeName"
 					:checked="isAlarmTypeDisplay"
-					@change="changeType('DISPLAY')"
-				>
+					@change="changeType('DISPLAY')">
 					{{ $t('calendar', 'Notification') }}
 				</ActionRadio>
 				<ActionRadio
 					v-if="isEditing"
 					:name="alarmTypeName"
 					:checked="isAlarmTypeEmail"
-					@change="changeType('EMAIL')"
-				>
+					@change="changeType('EMAIL')">
 					{{ $t('calendar', 'Email') }}
 				</ActionRadio>
 				<ActionRadio
 					v-if="isEditing && isAlarmTypeAudio"
 					:name="alarmTypeName"
 					:checked="isAlarmTypeAudio"
-					@change="changeType('AUDIO')"
-				>
+					@change="changeType('AUDIO')">
 					{{ $t('calendar', 'Audio notification') }}
 				</ActionRadio>
 				<ActionRadio
 					v-if="isEditing && isAlarmTypeOther"
 					:name="alarmTypeName"
 					:checked="isAlarmTypeOther"
-					@change="changeType(alarm.type)"
-				>
+					@change="changeType(alarm.type)">
 					{{ $t('calendar', 'Other notification') }}
 				</ActionRadio>
 
@@ -147,23 +130,20 @@
 					v-if="isEditing && !isRecurring"
 					:name="alarmTriggerName"
 					:checked="isRelativeAlarm"
-					@change="switchToRelativeAlarm"
-				>
+					@change="switchToRelativeAlarm">
 					{{ $t('calendar', 'Relative to event') }}
 				</ActionRadio>
 				<ActionRadio
 					v-if="isEditing && !isRecurring"
 					:name="alarmTriggerName"
 					:checked="isAbsoluteAlarm"
-					@change="switchToAbsoluteAlarm"
-				>
+					@change="switchToAbsoluteAlarm">
 					{{ $t('calendar', 'On date') }}
 				</ActionRadio>
 
 				<ActionButton
 					icon="icon-delete"
-					@click="removeAlarm"
-				>
+					@click="removeAlarm">
 					{{ $t('calendar', 'Remove reminder') }}
 				</ActionButton>
 			</Actions>

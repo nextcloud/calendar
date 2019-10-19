@@ -32,13 +32,11 @@
 			min="1"
 			max="366"
 			:value="interval"
-			@input="changeInterval"
-		>
-		<repeat-freq-select
+			@input="changeInterval">
+		<RepeatFreqSelect
 			:freq="frequency"
 			:count="interval"
-			@change="changeFrequency"
-		/>
+			@change="changeFrequency" />
 	</div>
 </template>
 

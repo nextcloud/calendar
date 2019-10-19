@@ -24,8 +24,7 @@
 	<div class="calendar-picker-option">
 		<div
 			class="calendar-picker-option__color-indicator"
-			:style="{ backgroundColor: color }"
-		/>
+			:style="{ backgroundColor: color }" />
 
 		<span>
 			{{ displayName }}
@@ -38,8 +37,7 @@
 			:disable-tooltip="true"
 			:user="userId"
 			:display-name="userDisplayName"
-			:size="18"
-		/>
+			:size="18" />
 	</div>
 </template>
 

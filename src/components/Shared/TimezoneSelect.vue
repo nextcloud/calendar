@@ -1,5 +1,5 @@
 <template>
-	<multiselect
+	<Multiselect
 		:value="selectedTimezone"
 		:options="options"
 		:multiple="false"
@@ -10,8 +10,7 @@
 		track-by="timezoneId"
 		label="label"
 		open-direction="above"
-		@input="change"
-	/>
+		@input="change" />
 </template>
 
 <script>

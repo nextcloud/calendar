@@ -27,8 +27,7 @@
 		:value="selected"
 		track-by="freq"
 		label="label"
-		@select="select"
-	/>
+		@select="select" />
 </template>
 
 <script>

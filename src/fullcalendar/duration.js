@@ -156,7 +156,7 @@ function getDurationValueFromFullCalendarDurationEncodedAsString(fcDuration) {
 
 		return DurationValue.fromData({
 			hours: parseInt(hours, 10),
-			minutes: parseInt(minutes, 10),
+			minutes: parseInt(minutes, 10)
 		})
 	}
 

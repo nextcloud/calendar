@@ -31,8 +31,7 @@
 				:key="option.value"
 				class="repeat-option-set-section-grid-item"
 				:class="{ primary: option.selected }"
-				@click="toggleByDay(option.value)"
-			>
+				@click="toggleByDay(option.value)">
 				{{ option.label }}
 			</button>
 		</div>
@@ -94,7 +93,7 @@ export default {
 					this.$emit('removeByDay', day)
 				}
 			}
-		},
+		}
 	}
 }
 </script>

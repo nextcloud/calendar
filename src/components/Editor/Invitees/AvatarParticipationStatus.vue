@@ -24,8 +24,7 @@
 	<div v-tooltip="tooltip" class="avatar-participation-status">
 		<Avatar
 			:disable-tooltip="true"
-			:user="avatarLink"
-		/>
+			:user="avatarLink" />
 		<div class="avatar-participation-status__indicator" :class="className" />
 	</div>
 </template>

@@ -29,10 +29,9 @@
 		:title-placeholder="$t('calendar', 'Untitled event')"
 		:subtitle="subTitle"
 		@close="cancel"
-		@update:title="updateTitle"
-	>
+		@update:title="updateTitle">
 		<template v-slot:primary-actions style="max-height: none !important">
-			<property-title-time-picker
+			<PropertyTitleTimePicker
 				v-if="!isLoading"
 				:start-date="startDate"
 				:start-timezone="startTimezone"
@@ -46,11 +45,9 @@
 				@updateStartTimezone="updateStartTimezone"
 				@updateEndDate="updateEndDate"
 				@updateEndTimezone="updateEndTimezone"
-				@toggleAllDay="toggleAllDay"
-			/>
-			<property-title-time-picker-loading-placeholder
-				v-if="isLoading"
-			/>
+				@toggleAllDay="toggleAllDay" />
+			<PropertyTitleTimePickerLoadingPlaceholder
+				v-if="isLoading" />
 		</template>
 
 		<template v-slot:header>
@@ -58,9 +55,10 @@
 		</template>
 
 		<template v-slot:secondary-actions>
-			<ActionLink v-if="hasDownloadURL" icon="icon-download" :title="$t('calendar', 'Download')"
-				:href="downloadURL"
-			/>
+			<ActionLink v-if="hasDownloadURL"
+				icon="icon-download"
+				:title="$t('calendar', 'Download')"
+				:href="downloadURL" />
 			<ActionButton v-if="canDelete && !canCreateRecurrenceException" icon="icon-delete" @click="deleteAndLeave(false)">
 				{{ $t('calendar', 'Delete') }}
 			</ActionButton>
@@ -76,124 +74,109 @@
 			class="app-sidebar-tab"
 			icon="icon-details"
 			:name="$t('calendar', 'Details')"
-			:order="0"
-		>
+			:order="0">
 			<div v-if="isLoading" class="app-sidebar-tab__loading">
 				<div class="app-sidebar-tab-loading-indicator">
 					<div class="icon icon-loading app-sidebar-tab-loading-indicator__icon" />
 				</div>
 			</div>
 			<div v-if="!isLoading" class="app-sidebar-tab__content">
-				<property-calendar-picker
+				<PropertyCalendarPicker
 					:calendars="calendars"
 					:calendar="selectedCalendar"
 					:is-read-only="isReadOnly"
-					@selectCalendar="changeCalendar"
-				/>
+					@selectCalendar="changeCalendar" />
 
-				<property-text
+				<PropertyText
 					:is-read-only="isReadOnly"
 					:prop-model="rfcProps.location"
 					:value="location"
-					@update:value="updateLocation"
-				/>
-				<property-text
+					@update:value="updateLocation" />
+				<PropertyText
 					:is-read-only="isReadOnly"
 					:prop-model="rfcProps.description"
 					:value="description"
-					@update:value="updateDescription"
-				/>
+					@update:value="updateDescription" />
 
-				<property-select
+				<PropertySelect
 					:is-read-only="isReadOnly"
 					:prop-model="rfcProps.status"
 					:value="status"
-					@update:value="updateStatus"
-				/>
-				<property-select
+					@update:value="updateStatus" />
+				<PropertySelect
 					:is-read-only="isReadOnly"
 					:prop-model="rfcProps.class"
 					:value="accessClass"
-					@update:value="updateAccessClass"
-				/>
-				<property-select
+					@update:value="updateAccessClass" />
+				<PropertySelect
 					:is-read-only="isReadOnly"
 					:prop-model="rfcProps.timeTransparency"
 					:value="timeTransparency"
-					@update:value="updateTimeTransparency"
-				/>
+					@update:value="updateTimeTransparency" />
 			</div>
-			<save-buttons
+			<SaveButtons
 				v-if="!isReadOnly"
 				class="app-sidebar-tab__buttons"
 				:can-create-recurrence-exception="canCreateRecurrenceException"
 				:is-new="isNew"
 				:force-this-and-all-future="forceThisAndAllFuture"
 				@saveThisOnly="saveAndLeave(false)"
-				@saveThisAndAllFuture="saveAndLeave(true)"
-			/>
+				@saveThisAndAllFuture="saveAndLeave(true)" />
 		</AppSidebarTab>
 		<AppSidebarTab
 			class="app-sidebar-tab"
 			icon="icon-group"
 			:name="$t('calendar', 'Attendees')"
-			:order="1"
-		>
+			:order="1">
 			<div v-if="isLoading" class="app-sidebar-tab__loading">
 				<div class="app-sidebar-tab-loading-indicator">
 					<div class="icon icon-loading app-sidebar-tab-loading-indicator__icon" />
 				</div>
 			</div>
 			<div v-if="!isLoading" class="app-sidebar-tab__content">
-				<invitees-list
+				<InviteesList
 					v-if="!isLoading"
 					:calendar-object-instance="calendarObjectInstance"
-					:is-read-only="isReadOnly"
-				/>
+					:is-read-only="isReadOnly" />
 			</div>
-			<save-buttons
+			<SaveButtons
 				v-if="!isReadOnly"
 				class="app-sidebar-tab__buttons"
 				:can-create-recurrence-exception="canCreateRecurrenceException"
 				:is-new="isNew"
 				:force-this-and-all-future="forceThisAndAllFuture"
 				@saveThisOnly="saveAndLeave(false)"
-				@saveThisAndAllFuture="saveAndLeave(true)"
-			/>
+				@saveThisAndAllFuture="saveAndLeave(true)" />
 		</AppSidebarTab>
 		<AppSidebarTab
 			class="app-sidebar-tab"
 			icon="icon-reminder"
 			:name="$t('calendar', 'Reminders')"
-			:order="2"
-		>
+			:order="2">
 			<div v-if="isLoading" class="app-sidebar-tab__loading">
 				<div class="app-sidebar-tab-loading-indicator">
 					<div class="icon icon-loading app-sidebar-tab-loading-indicator__icon" />
 				</div>
 			</div>
 			<div v-if="!isLoading" class="app-sidebar-tab__content">
-				<alarm-list
+				<AlarmList
 					:calendar-object-instance="calendarObjectInstance"
-					:is-read-only="isReadOnly"
-				/>
+					:is-read-only="isReadOnly" />
 			</div>
-			<save-buttons
+			<SaveButtons
 				v-if="!isReadOnly"
 				class="app-sidebar-tab__buttons"
 				:can-create-recurrence-exception="canCreateRecurrenceException"
 				:is-new="isNew"
 				:force-this-and-all-future="forceThisAndAllFuture"
 				@saveThisOnly="saveAndLeave(false)"
-				@saveThisAndAllFuture="saveAndLeave(true)"
-			/>
+				@saveThisAndAllFuture="saveAndLeave(true)" />
 		</AppSidebarTab>
 		<AppSidebarTab
 			class="app-sidebar-tab"
 			icon="icon-repeat"
 			:name="$t('calendar', 'Repeat')"
-			:order="3"
-		>
+			:order="3">
 			<div v-if="isLoading" class="app-sidebar-tab__loading">
 				<div class="app-sidebar-tab-loading-indicator">
 					<div class="icon icon-loading app-sidebar-tab-loading-indicator__icon" />
@@ -202,24 +185,22 @@
 			<div v-if="!isLoading" class="app-sidebar-tab__content">
 				<!-- TODO: If not editing the master item, force updating this and all future   -->
 				<!-- TODO: You can't edit recurrence-rule of no-range recurrence-exception -->
-				<repeat
+				<Repeat
 					:calendar-object-instance="calendarObjectInstance"
 					:recurrence-rule="calendarObjectInstance.recurrenceRule"
 					:is-read-only="isReadOnly"
 					:is-editing-master-item="isEditingMasterItem"
 					:is-recurrence-exception="isRecurrenceException"
-					@forceThisAndAllFuture="forceModifyingFuture"
-				/>
+					@forceThisAndAllFuture="forceModifyingFuture" />
 			</div>
-			<save-buttons
+			<SaveButtons
 				v-if="!isReadOnly"
 				class="app-sidebar-tab__buttons"
 				:can-create-recurrence-exception="canCreateRecurrenceException"
 				:is-new="isNew"
 				:force-this-and-all-future="forceThisAndAllFuture"
 				@saveThisOnly="saveAndLeave(false)"
-				@saveThisAndAllFuture="saveAndLeave(true)"
-			/>
+				@saveThisAndAllFuture="saveAndLeave(true)" />
 		</AppSidebarTab>
 		<!--<AppSidebarTab :name="$t('calendar', 'Activity')" icon="icon-history" :order="4">-->
 		<!--	This is the activity tab-->
@@ -269,7 +250,7 @@ export default {
 		PropertySelect,
 		PropertyText,
 		PropertyTitleTimePicker,
-		Repeat,
+		Repeat
 	},
 	mixins: [
 		EditorMixin
@@ -339,7 +320,7 @@ export default {
 				calendarObjectInstance: this.calendarObjectInstance,
 				timeTransparency
 			})
-		},
+		}
 	}
 }
 </script>

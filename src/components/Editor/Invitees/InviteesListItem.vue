@@ -22,14 +22,13 @@
 
 <template>
 	<div class="invitees-list-item">
-		<avatar-participation-status
+		<AvatarParticipationStatus
 			:attendee-is-organizer="false"
 			:is-viewed-by-organizer="isViewedByOrganizer"
 			:avatar-link="avatarLink"
 			:participation-status="attendee.participationStatus"
 			:organizer-display-name="organizerDisplayName"
-			:common-name="commonName"
-		/>
+			:common-name="commonName" />
 		<div class="invitees-list-item__displayname">
 			{{ commonName }}
 		</div>
@@ -37,44 +36,38 @@
 			<Actions v-if="isViewedByOrganizer">
 				<ActionCheckbox
 					:checked="attendee.rsvp"
-					@change="toggleRSVP"
-				>
+					@change="toggleRSVP">
 					{{ $t('calendar', 'Send e-mail') }}
 				</ActionCheckbox>
 
 				<ActionRadio
 					:name="radioName"
 					:checked="isChair"
-					@change="changeRole('CHAIR')"
-				>
+					@change="changeRole('CHAIR')">
 					{{ $t('calendar', 'Chairperson') }}
 				</ActionRadio>
 				<ActionRadio
 					:name="radioName"
 					:checked="isRequiredParticipant"
-					@change="changeRole('REQ-PARTICIPANT')"
-				>
+					@change="changeRole('REQ-PARTICIPANT')">
 					{{ $t('calendar', 'Required participant') }}
 				</ActionRadio>
 				<ActionRadio
 					:name="radioName"
 					:checked="isOptionalParticipant"
-					@change="changeRole('OPT-PARTICIPANT')"
-				>
+					@change="changeRole('OPT-PARTICIPANT')">
 					{{ $t('calendar', 'Optional participant') }}
 				</ActionRadio>
 				<ActionRadio
 					:name="radioName"
 					:checked="isNonParticipant"
-					@change="changeRole('NON-PARTICIPANT')"
-				>
+					@change="changeRole('NON-PARTICIPANT')">
 					{{ $t('calendar', 'Non-participant') }}
 				</ActionRadio>
 
 				<ActionButton
 					icon="icon-delete"
-					@click="removeAttendee"
-				>
+					@click="removeAttendee">
 					{{ $t('calendar', 'Remove attendee') }}
 				</ActionButton>
 			</Actions>
@@ -112,7 +105,7 @@ export default {
 		isReadOnly: {
 			type: Boolean,
 			required: true
-		},
+		}
 	},
 	computed: {
 		avatarLink() {
@@ -148,7 +141,7 @@ export default {
 		isViewedByOrganizer() {
 			// TODO: check if also viewed by organizer
 			return !this.isReadOnly
-		},
+		}
 	},
 	methods: {
 		/**

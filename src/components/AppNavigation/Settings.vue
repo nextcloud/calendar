@@ -27,32 +27,28 @@
 				class="settings-fieldset-interior-item"
 				:checked="birthdayCalendar"
 				:disabled="isBirthdayCalendarDisabled"
-				@update:checked="toggleBirthdayEnabled"
-			>
+				@update:checked="toggleBirthdayEnabled">
 				{{ $t('calendar', 'Enable birthday calendar') }}
 			</ActionCheckbox>
 			<ActionCheckbox
 				class="settings-fieldset-interior-item"
 				:checked="showPopover"
 				:disabled="savingPopover"
-				@update:checked="togglePopoverEnabled"
-			>
+				@update:checked="togglePopoverEnabled">
 				{{ $t('calendar', 'Enable simplified editor') }}
 			</ActionCheckbox>
 			<ActionCheckbox
 				class="settings-fieldset-interior-item"
 				:checked="showWeekends"
 				:disabled="savingWeekend"
-				@update:checked="toggleWeekendsEnabled"
-			>
+				@update:checked="toggleWeekendsEnabled">
 				{{ $t('calendar', 'Show weekends') }}
 			</ActionCheckbox>
 			<ActionCheckbox
 				class="settings-fieldset-interior-item"
 				:checked="showWeekNumbers"
 				:disabled="savingWeekNumber"
-				@update:checked="toggleWeekNumberEnabled"
-			>
+				@update:checked="toggleWeekNumberEnabled">
 				{{ $t('calendar', 'Show week numbers') }}
 			</ActionCheckbox>
 			<SettingsTimezoneSelect :is-disabled="loadingCalendars" />
@@ -105,7 +101,7 @@ export default {
 			savingBirthdayCalendar: false,
 			savingPopover: false,
 			savingWeekend: false,
-			savingWeekNumber: false,
+			savingWeekNumber: false
 		}
 	},
 	computed: {
@@ -116,7 +112,7 @@ export default {
 			showPopover: state => !state.settings.skipPopover,
 			showWeekends: state => state.settings.showWeekends,
 			showWeekNumbers: state => state.settings.showWeekNumbers,
-			timezone: state => state.settings.timezone,
+			timezone: state => state.settings.timezone
 		}),
 		isBirthdayCalendarDisabled() {
 			return this.savingBirthdayCalendar || this.loadingCalendars
@@ -202,7 +198,7 @@ export default {
 			this.$copyText(url)
 				.then(e => this.$toast.success(this.$t('calendar', 'CalDAV link copied to clipboard.')))
 				.catch(e => this.$toast.error(this.$t('calendar', 'CalDAV link could not be copied to clipboard.')))
-		},
+		}
 	}
 }
 </script>

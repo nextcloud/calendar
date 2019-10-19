@@ -43,13 +43,13 @@ const router = new Router({
 				{
 					path: '/p/:tokens/:view/:firstDay/view/popover/:object/:recurrenceId',
 					name: 'PublicEditPopoverView',
-					component: EditSimple,
+					component: EditSimple
 				},
 				{
 					path: '/p/:tokens/:view/:firstDay/view/sidebar/:object/:recurrenceId',
 					name: 'PublicEditSidebarView',
-					component: EditSidebar,
-				},
+					component: EditSidebar
+				}
 			]
 		},
 		{
@@ -60,13 +60,13 @@ const router = new Router({
 				{
 					path: '/embed/:tokens/:view/:firstDay/view/popover/:object/:recurrenceId',
 					name: 'EmbedEditPopoverView',
-					component: EditSimple,
+					component: EditSimple
 				},
 				{
 					path: '/embed/:tokens/:view/:firstDay/view/sidebar/:object/:recurrenceId',
 					name: 'EmbedEditSidebarView',
-					component: EditSidebar,
-				},
+					component: EditSidebar
+				}
 			]
 		},
 		/**
@@ -78,19 +78,19 @@ const router = new Router({
 		 */
 		{
 			path: '/',
-			redirect: `/${getInitialView()}/now`,
+			redirect: `/${getInitialView()}/now`
 		},
 		{
 			path: '/p/:tokens/:fancyName?',
-			redirect: `/p/:tokens/${getInitialView()}/now`,
+			redirect: `/p/:tokens/${getInitialView()}/now`
 		},
 		{
 			path: '/public/:tokens/:fancyName?',
-			redirect: `/p/:tokens/${getInitialView()}/now`,
+			redirect: `/p/:tokens/${getInitialView()}/now`
 		},
 		{
 			path: '/embed/:tokens',
-			redirect: `/embed/:tokens/${getInitialView()}/now`,
+			redirect: `/embed/:tokens/${getInitialView()}/now`
 		},
 		/**
 		 * This is the main route that contains the current view and viewed day
@@ -107,26 +107,26 @@ const router = new Router({
 				{
 					path: '/:view/:firstDay/edit/popover/:object/:recurrenceId',
 					name: 'EditPopoverView',
-					component: EditSimple,
+					component: EditSimple
 				},
 				{
 					path: '/:view/:firstDay/edit/sidebar/:object/:recurrenceId',
 					name: 'EditSidebarView',
-					component: EditSidebar,
+					component: EditSidebar
 				},
 				{
 					path: '/:view/:firstDay/new/popover/:allDay/:dtstart/:dtend',
 					name: 'NewPopoverView',
-					component: EditSimple,
+					component: EditSimple
 				},
 				{
 					path: '/:view/:firstDay/new/sidebar/:allDay/:dtstart/:dtend',
 					name: 'NewSidebarView',
-					component: EditSidebar,
-				},
-			],
-		},
-	],
+					component: EditSidebar
+				}
+			]
+		}
+	]
 })
 
 windowTitleService(router)

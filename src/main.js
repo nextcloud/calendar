@@ -23,38 +23,19 @@
  */
 import '@babel/polyfill'
 
-/* eslint-disable import/first */
 import Vue from 'vue'
-Vue.config.devtools = true
 import App from './App'
 import router from './router'
 import store from './store'
 import { sync } from 'vuex-router-sync'
 import { getRequestToken } from '@nextcloud/auth'
 import { linkTo } from '@nextcloud/router'
-import {
-	Actions,
-	DatetimePicker,
-	Multiselect,
-	PopoverMenu,
-	Modal
-} from '@nextcloud/vue'
-import {
-	translate,
-	translatePlural
-} from '@nextcloud/l10n'
+import { translate, translatePlural } from '@nextcloud/l10n'
 import ClickOutside from 'vue-click-outside'
 import VueClipboard from 'vue-clipboard2'
 import VTooltip from 'v-tooltip'
 
-VueClipboard.config.autoSetContainer = true
-
 // register global components
-Vue.component('Actions', Actions)
-Vue.component('DatetimePicker', DatetimePicker)
-Vue.component('Modal', Modal)
-Vue.component('Multiselect', Multiselect)
-Vue.component('PopoverMenu', PopoverMenu)
 Vue.directive('ClickOutside', ClickOutside)
 Vue.use(VTooltip)
 Vue.use(VueClipboard)

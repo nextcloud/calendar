@@ -26,8 +26,7 @@
 			:aria-label="title"
 			class="button"
 			:title="title"
-			@click="today()"
-		>
+			@click="today()">
 			{{ $t('calendar', 'Today') }}
 		</button>
 	</div>

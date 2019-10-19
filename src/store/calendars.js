@@ -852,7 +852,7 @@ const actions = {
 		return Promise.all(requests).then(() => {
 			context.commit('changeStage', 'default')
 		})
-	},
+	}
 }
 
 export default { state, mutations, getters, actions }

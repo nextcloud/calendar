@@ -29,8 +29,7 @@
 					:key="option.value"
 					class="repeat-option-set-section-grid-item"
 					:class="{ primary: option.selected }"
-					@click="toggleByMonth(option.value)"
-				>
+					@click="toggleByMonth(option.value)">
 					{{ option.label }}
 				</button>
 			</div>
@@ -39,20 +38,17 @@
 			<ActionCheckbox
 				class="repeat-option-set-section__title"
 				:checked="isBySetPositionEnabled"
-				@change="toggleBySetPosition"
-			>
+				@change="toggleBySetPosition">
 				{{ $t('calendar', 'On the') }}
 			</ActionCheckbox>
-			<repeat-first-last-select
+			<RepeatFirstLastSelect
 				:by-set-position="bySetPosition"
 				:disabled="!isBySetPositionEnabled"
-				@change="changeBySetPosition"
-			/>
-			<repeat-on-the-select
+				@change="changeBySetPosition" />
+			<RepeatOnTheSelect
 				:by-day="byDay"
 				:disabled="!isBySetPositionEnabled"
-				@change="changeByDay"
-			/>
+				@change="changeByDay" />
 		</div>
 	</div>
 </template>
@@ -84,7 +80,7 @@ export default {
 		 */
 		byMonth: {
 			type: Array,
-			required: true,
+			required: true
 		},
 		/**
 		 *

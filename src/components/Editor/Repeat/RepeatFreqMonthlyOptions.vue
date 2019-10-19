@@ -27,8 +27,7 @@
 				class="repeat-option-set-section__title"
 				:name="radioInputId"
 				:checked="byMonthDayEnabled"
-				@change="enableByMonthDay"
-			>
+				@change="enableByMonthDay">
 				{{ $t('calendar', 'By day of the month') }}
 			</ActionRadio>
 			<div class="repeat-option-set-section__grid">
@@ -38,8 +37,7 @@
 					class="repeat-option-set-section-grid-item"
 					:class="{ primary: option.selected }"
 					:disabled="!byMonthDayEnabled"
-					@click="toggleByMonthDay(option.value)"
-				>
+					@click="toggleByMonthDay(option.value)">
 					{{ option.label }}
 				</button>
 			</div>
@@ -49,20 +47,17 @@
 				class="repeat-option-set-section__title"
 				:name="radioInputId"
 				:checked="!byMonthDayEnabled"
-				@change="enableBySetPosition"
-			>
+				@change="enableBySetPosition">
 				{{ $t('calendar', 'On the') }}
 			</ActionRadio>
-			<repeat-first-last-select
+			<RepeatFirstLastSelect
 				:by-set-position="bySetPosition"
 				:disabled="byMonthDayEnabled"
-				@change="changeBySetPosition"
-			/>
-			<repeat-on-the-select
+				@change="changeBySetPosition" />
+			<RepeatOnTheSelect
 				:by-day="byDay"
 				:disabled="byMonthDayEnabled"
-				@change="changeByDay"
-			/>
+				@change="changeByDay" />
 		</div>
 	</div>
 </template>
@@ -92,7 +87,7 @@ export default {
 		 */
 		byMonthDay: {
 			type: Array,
-			required: true,
+			required: true
 		},
 		/**
 		 *

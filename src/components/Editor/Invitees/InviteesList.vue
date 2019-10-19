@@ -22,27 +22,23 @@
 
 <template>
 	<div>
-		<invitees-list-search
+		<InviteesListSearch
 			v-if="!isReadOnly"
 			:already-invited-emails="alreadyInvitedEmails"
-			@addAttendee="addAttendee"
-		/>
-		<organizer-list-item
+			@addAttendee="addAttendee" />
+		<OrganizerListItem
 			v-if="hasOrganizer"
 			:is-read-only="isReadOnly"
-			:organizer="calendarObjectInstance.organizer"
-		/>
-		<invitees-list-item
+			:organizer="calendarObjectInstance.organizer" />
+		<InviteesListItem
 			v-for="invitee in inviteesWithoutOrganizer"
 			:key="invitee.email"
 			:attendee="invitee"
 			:is-read-only="isReadOnly"
 			:organizer-display-name="organizerDisplayName"
-			@removeAttendee="removeAttendee"
-		/>
-		<no-invitees-view
-			v-if="isListEmpty"
-		/>
+			@removeAttendee="removeAttendee" />
+		<NoInviteesView
+			v-if="isListEmpty" />
 	</div>
 </template>
 
@@ -68,7 +64,7 @@ export default {
 		calendarObjectInstance: {
 			type: Object,
 			required: true
-		},
+		}
 	},
 	computed: {
 		inviteesWithoutOrganizer() {

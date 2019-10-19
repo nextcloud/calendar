@@ -24,7 +24,7 @@
 
 <template>
 	<li class="app-navigation-entry__multiselect">
-		<multiselect
+		<Multiselect
 			id="users-groups-search"
 			:options="usersOrGroups"
 			:searchable="true"
@@ -38,10 +38,9 @@
 			track-by="user"
 			label="user"
 			@search-change="findSharee"
-			@change="shareCalendar"
-		>
+			@change="shareCalendar">
 			<span slot="noResult">{{ $t('calendar', 'No users or groups') }}</span>
-		</multiselect>
+		</Multiselect>
 	</li>
 </template>
 
@@ -50,14 +49,18 @@ import client from '../../../services/caldavService.js'
 import HttpClient from '@nextcloud/axios'
 import debounce from 'debounce'
 import { generateOcsUrl } from '@nextcloud/router'
+import { Multiselect } from '@nextcloud/vue'
 
 export default {
 	name: 'CalendarListItemSharingSearch',
+	components: {
+		Multiselect
+	},
 	props: {
 		calendar: {
 			type: Object,
 			required: true
-		},
+		}
 	},
 	data() {
 		return {

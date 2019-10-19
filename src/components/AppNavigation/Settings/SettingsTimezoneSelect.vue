@@ -21,11 +21,10 @@
 
 <template>
 	<li class="settings-fieldset-interior-item settings-fieldset-interior-item--timezone">
-		<timezone-select
+		<TimezoneSelect
 			:additional-timezones="additionalTimezones"
 			:value="timezone"
-			@change="setTimezoneValue"
-		/>
+			@change="setTimezoneValue" />
 	</li>
 </template>
 
@@ -65,7 +64,7 @@ export default {
 					detected: detectTimezone()
 				})
 			}]
-		},
+		}
 	},
 	methods: {
 		/**
@@ -79,7 +78,7 @@ export default {
 					console.error(error)
 					this.$toast(this.$t('calendar', 'New setting was not saved successfully.'))
 				})
-		},
+		}
 	}
 }
 </script>

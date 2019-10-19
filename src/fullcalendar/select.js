@@ -37,7 +37,7 @@ export default function(store, router) {
 		const params = Object.assign({}, store.state.route.params, {
 			allDay: allDay ? '1' : '0',
 			dtstart: String(Math.floor(start.getTime() / 1000)),
-			dtend: String(Math.floor(end.getTime() / 1000)),
+			dtend: String(Math.floor(end.getTime() / 1000))
 		})
 
 		// Don't push new route when day didn't change

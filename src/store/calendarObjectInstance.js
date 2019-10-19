@@ -1302,7 +1302,7 @@ const actions = {
 			})
 			commit('changeRecurrenceToInfinite', {
 				calendarObjectInstance,
-				recurrenceRule: calendarObjectInstance.recurrenceRule,
+				recurrenceRule: calendarObjectInstance.recurrenceRule
 			})
 			dispatch('setDefaultRecurrenceByParts', { calendarObjectInstance, recurrenceRule, frequency })
 

@@ -25,14 +25,16 @@
 		<div class="import-modal-file-item__filename">
 			{{ file.name }}
 		</div>
-		<calendar-picker class="import-modal-file-item__calendar-select" :calendar="calendar"
-			:calendars="calendars" @selectCalendar="selectCalendar"
-		/>
+		<CalendarPicker class="import-modal-file-item__calendar-select"
+			:calendar="calendar"
+			:calendars="calendars"
+			@selectCalendar="selectCalendar" />
 	</li>
 </template>
 
 <script>
 import CalendarPicker from '../../Shared/CalendarPicker.vue'
+import { getDefaultColor } from '../../../utils/color.js'
 
 export default {
 	name: 'ImportScreenRow',
@@ -56,7 +58,10 @@ export default {
 			if (calendarId === 'new') {
 				return {
 					id: 'new',
-					displayName: this.$t('calendar', 'New calendar')
+					displayName: this.$t('calendar', 'New calendar'),
+					isSharedWithMe: false,
+					color: getDefaultColor(), // TODO - use uid2color instead
+					owner: this.$store.getters.getCurrentUserPrincipal.url
 				}
 			}
 
@@ -71,7 +76,10 @@ export default {
 
 			calendars.push({
 				id: 'new',
-				displayName: this.$t('calendar', 'New calendar')
+				displayName: this.$t('calendar', 'New calendar'),
+				isSharedWithMe: false,
+				color: getDefaultColor(), // TODO - use uid2color instead
+				owner: this.$store.getters.getCurrentUserPrincipal.url
 			})
 
 			return calendars

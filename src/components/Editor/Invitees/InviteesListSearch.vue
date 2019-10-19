@@ -21,7 +21,7 @@
   -->
 
 <template>
-	<multiselect
+	<Multiselect
 		class="invitees-search"
 		:options="matches"
 		:searchable="true"
@@ -34,8 +34,7 @@
 		track-by="email"
 		label="dropdownName"
 		@search-change="findAttendees"
-		@select="addAttendee"
-	>
+		@select="addAttendee">
 		<!--		<template slot="singleLabel" slot-scope="props"><img class="option__image" :src="props.option.img" alt="No Man’s Sky"><span class="option__desc"><span class="option__title">{{ props.option.title }}</span></span></template>-->
 		<template slot="singleLabel" slot-scope="props">
 			<div class="invitees-search-list-item">
@@ -75,7 +74,7 @@
 				</div>
 			</div>
 		</template>
-	</multiselect>
+	</Multiselect>
 </template>
 
 <script>
@@ -123,7 +122,7 @@ export default {
 			if (query.length > 0) {
 				const promises = [
 					this.findAttendeesFromContactsAPI(query),
-					this.findAttendeesFromDAV(query),
+					this.findAttendeesFromDAV(query)
 				]
 
 				const [contactsResults, davResults] = await Promise.all(promises)

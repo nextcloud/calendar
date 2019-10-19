@@ -97,7 +97,7 @@ const mutations = {
 		Vue.set(state, 'importFiles', [])
 		Vue.set(state, 'importFilesById', {})
 		Vue.set(state, 'importCalendarRelation', {})
-	},
+	}
 }
 
 const getters = {}

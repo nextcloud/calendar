@@ -84,7 +84,7 @@ export const getDefaultCalendarObjectInstanceObject = (props = {}) => Object.ass
 	// Wether or not the user is allowed to toggle the all-day checkbox
 	canModifyAllDay: true,
 	// The real event-component coming from calendar-js
-	eventComponent: null,
+	eventComponent: null
 }, props)
 
 /**

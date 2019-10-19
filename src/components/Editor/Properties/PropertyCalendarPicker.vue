@@ -24,28 +24,24 @@
 	<div v-if="display" class="property-select">
 		<div
 			class="property-select__icon icon-calendar-dark"
-			:title="$t('calendar', 'Calendar')"
-		/>
+			:title="$t('calendar', 'Calendar')" />
 
 		<div
 			class="property-select__input"
-			:class="{ 'property-select__input--readonly-calendar-picker': isReadOnly }"
-		>
-			<calendar-picker
+			:class="{ 'property-select__input--readonly-calendar-picker': isReadOnly }">
+			<CalendarPicker
 				v-if="!isReadOnly"
 				:calendar="calendar"
 				:calendars="calendars"
 				:show-calendar-on-select="true"
-				@selectCalendar="selectCalendar"
-			/>
+				@selectCalendar="selectCalendar" />
 
-			<calendar-picker-option
+			<CalendarPickerOption
 				v-else
 				:color="calendar.color"
 				:display-name="calendar.displayName"
 				:is-shared-with-me="calendar.isSharedWithMe"
-				:owner="calendar.owner"
-			/>
+				:owner="calendar.owner" />
 		</div>
 	</div>
 </template>
@@ -67,17 +63,17 @@ export default {
 		},
 		calendars: {
 			type: Array,
-			required: true,
+			required: true
 		},
 		isReadOnly: {
 			type: Boolean,
 			required: true
-		},
+		}
 	},
 	computed: {
 		display() {
 			return this.calendar !== undefined
-		},
+		}
 	},
 	methods: {
 		selectCalendar(value) {

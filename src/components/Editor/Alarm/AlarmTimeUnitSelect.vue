@@ -28,8 +28,7 @@
 		:disabled="disabled"
 		track-by="unit"
 		label="label"
-		@select="select"
-	/>
+		@select="select" />
 </template>
 
 <script>

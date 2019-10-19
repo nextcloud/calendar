@@ -27,13 +27,11 @@
 			<!-- Calendar / Subscription List -->
 			<CalendarList
 				:is-public="!isAuthenticatedUser"
-				:loading-calendars="loadingCalendars"
-			/>
+				:loading-calendars="loadingCalendars" />
 			<!-- Settings and import -->
 			<Settings
 				v-if="isAuthenticatedUser"
-				:loading-calendars="loadingCalendars"
-			/>
+				:loading-calendars="loadingCalendars" />
 		</AppNavigation>
 		<EmbedTopNavigation v-if="isEmbedded" />
 		<AppContent>
@@ -64,12 +62,10 @@
 				@eventDrop="eventDrop"
 				@eventResize="eventResize"
 				@eventRender="eventRender"
-				@select="select"
-			/>
+				@select="select" />
 
 			<EmptyCalendar
-				v-if="showEmptyCalendarScreen"
-			/>
+				v-if="showEmptyCalendarScreen" />
 		</AppContent>
 		<!-- Edit modal -->
 		<router-view v-if="!loadingCalendars" />
@@ -211,7 +207,7 @@ export default {
 			}
 
 			return null
-		},
+		}
 	},
 	beforeRouteUpdate(to, from, next) {
 		if (to.params.firstDay !== from.params.firstDay) {

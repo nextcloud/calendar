@@ -22,14 +22,13 @@
 
 <template>
 	<div class="invitees-list-item">
-		<avatar-participation-status
+		<AvatarParticipationStatus
 			:attendee-is-organizer="true"
 			:avatar-link="avatarLink"
 			:is-viewed-by-organizer="isViewedByOrganizer"
 			:common-name="commonName"
 			:organizer-display-name="commonName"
-			participation-status="ACCEPTED"
-		/>
+			participation-status="ACCEPTED" />
 		<div class="invitees-list-item__displayname">
 			{{ commonName }}
 		</div>
@@ -50,12 +49,12 @@ export default {
 	props: {
 		organizer: {
 			type: Object,
-			required: true,
+			required: true
 		},
 		isReadOnly: {
 			type: Boolean,
 			required: true
-		},
+		}
 	},
 	computed: {
 		avatarLink() {
@@ -75,7 +74,7 @@ export default {
 		},
 		isViewedByOrganizer() {
 			return true
-		},
+		}
 	}
 }
 </script>

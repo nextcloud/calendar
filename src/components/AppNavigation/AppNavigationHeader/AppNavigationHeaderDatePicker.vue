@@ -27,17 +27,15 @@
 			class="datepicker-button-section__previous button icon icon-leftarrow"
 			:title="previousLabel"
 			type="button"
-			@click="navigateToPreviousTimeRange"
-		/>
+			@click="navigateToPreviousTimeRange" />
 		<button
 			class="datepicker-button-section__datepicker-label button datepicker-label"
 			@click.stop.prevent="toggleDatepicker"
 			@mousedown.stop.prevent="doNothing"
-			@mouseup.stop.prevent="doNothing"
-		>
+			@mouseup.stop.prevent="doNothing">
 			{{ selectedDate | formatDateRage(view) }}
 		</button>
-		<datetime-picker
+		<DatetimePicker
 			ref="datepicker"
 			class="datepicker-button-section__datepicker"
 			:first-day-of-week="firstDay"
@@ -48,15 +46,13 @@
 			:not-after="maximumDate"
 			:value="selectedDate"
 			:input-attr="inputItemAttributes"
-			@change="navigateToDate"
-		/>
+			@change="navigateToDate" />
 		<button
 			:aria-label="nextLabel"
 			class="datepicker-button-section__next button icon icon-rightarrow"
 			:title="nextLabel"
 			type="button"
-			@click="navigateToNextTimeRange"
-		/>
+			@click="navigateToNextTimeRange" />
 	</div>
 </template>
 

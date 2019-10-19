@@ -22,8 +22,7 @@
 <template>
 	<AppNavigationItem
 		:title="$t('calendar', 'Share link')"
-		:menu-open.sync="menuOpen"
-	>
+		:menu-open.sync="menuOpen">
 		<template slot="icon">
 			<div :class="{published: isPublished, 'icon-public': !isPublished, 'icon-public-white': isPublished}" class="avatar" />
 		</template>
@@ -32,15 +31,13 @@
 			<ActionButton
 				v-if="!publishingCalendar"
 				icon="icon-add"
-				@click.prevent.stop="publishCalendar"
-			>
+				@click.prevent.stop="publishCalendar">
 				{{ $t('calendar', 'Publish calendar') }}
 			</ActionButton>
 			<ActionButton
 				v-if="publishingCalendar"
 				icon="icon-loading-small"
-				:disabled="true"
-			>
+				:disabled="true">
 				{{ $t('calendar', 'Publishing calendar') }}
 			</ActionButton>
 		</template>
@@ -49,8 +46,7 @@
 			<Actions>
 				<ActionButton
 					icon="icon-clippy"
-					@click.prevent.stop="copyPublicLink"
-				>
+					@click.prevent.stop="copyPublicLink">
 					{{ $t('calendar', 'Copy public link') }}
 				</ActionButton>
 			</Actions>
@@ -59,85 +55,72 @@
 			<ActionButton
 				v-if="showEMailLabel"
 				icon="icon-mail"
-				@click.prevent.stop="openEMailLinkInput"
-			>
+				@click.prevent.stop="openEMailLinkInput">
 				{{ $t('calendar', 'Send link to calendar via email') }}
 			</ActionButton>
 			<ActionInput
 				v-if="showEMailInput"
 				icon="icon-mail"
-				@submit.prevent.stop="sendLinkViaEMail"
-			/>
+				@submit.prevent.stop="sendLinkViaEMail" />
 			<ActionText
 				v-if="showEMailSending"
-				icon="icon-loading-small"
-			>
+				icon="icon-loading-small">
 				{{ $t('calendar', 'Sending email ...') }}
 			</ActionText>
 
 			<ActionButton
 				v-if="showCopySubscriptionLinkLabel"
 				icon="icon-calendar-dark"
-				@click.prevent.stop="copySubscriptionLink"
-			>
+				@click.prevent.stop="copySubscriptionLink">
 				{{ $t('calendar', 'Copy subscription link') }}
 			</ActionButton>
 			<ActionText
 				v-if="showCopySubscriptionLinkSpinner"
-				icon="icon-loading-small"
-			>
+				icon="icon-loading-small">
 				{{ $t('calendar', 'Copying link ...') }}
 			</ActionText>
 			<ActionText
 				v-if="showCopySubscriptionLinkSuccess"
-				icon="icon-calendar-dark"
-			>
+				icon="icon-calendar-dark">
 				{{ $t('calendar', 'Copied link') }}
 			</ActionText>
 			<ActionText
 				v-if="showCopySubscriptionLinkError"
-				icon="icon-calendar-dark"
-			>
+				icon="icon-calendar-dark">
 				{{ $t('calendar', 'Could not copy link') }}
 			</ActionText>
 
 			<ActionButton
 				v-if="showCopyEmbedCodeLinkLabel"
 				icon="icon-embed"
-				@click.prevent.stop="copyEmbedCode"
-			>
+				@click.prevent.stop="copyEmbedCode">
 				{{ $t('calendar', 'Copy embedding code') }}
 			</ActionButton>
 			<ActionText
 				v-if="showCopyEmbedCodeLinkSpinner"
-				icon="icon-loading-small"
-			>
+				icon="icon-loading-small">
 				{{ $t('calendar', 'Copying code ...') }}
 			</ActionText>
 			<ActionText
 				v-if="showCopyEmbedCodeLinkSuccess"
-				icon="icon-embed"
-			>
+				icon="icon-embed">
 				{{ $t('calendar', 'Copied code') }}
 			</ActionText>
 			<ActionText
 				v-if="showCopyEmbedCodeLinkError"
-				icon="icon-embed"
-			>
+				icon="icon-embed">
 				{{ $t('calendar', 'Could not copy code') }}
 			</ActionText>
 
 			<ActionButton
 				v-if="!unpublishingCalendar"
 				icon="icon-delete"
-				@click.prevent.stop="unpublishCalendar"
-			>
+				@click.prevent.stop="unpublishCalendar">
 				{{ $t('calendar', 'Delete share link') }}
 			</ActionButton>
 			<ActionText
 				v-if="unpublishingCalendar"
-				icon="icon-loading-small"
-			>
+				icon="icon-loading-small">
 				{{ $t('calendar', 'Deleting share link ...') }}
 			</ActionText>
 		</template>
@@ -146,6 +129,7 @@
 
 <script>
 import {
+	Actions,
 	ActionButton,
 	ActionInput,
 	ActionText,
@@ -160,6 +144,7 @@ import {
 export default {
 	name: 'CalendarListItemSharingPublishItem',
 	components: {
+		Actions,
 		ActionButton,
 		ActionInput,
 		ActionText,
@@ -198,13 +183,13 @@ export default {
 			// delete public link
 			unpublishingCalendar: false,
 			// Status of actions menu:
-			menuOpen: false,
+			menuOpen: false
 		}
 	},
 	computed: {
 		isPublished() {
 			return this.calendar.publishURL !== null
-		},
+		}
 	},
 	methods: {
 		publishCalendar() {

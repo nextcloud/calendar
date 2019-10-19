@@ -22,21 +22,18 @@
 
 <template>
 	<div class="property-alarm-list">
-		<alarm-list-item
+		<AlarmListItem
 			v-for="(alarm, index) in alarms"
 			:key="index"
 			:alarm="alarm"
 			:calendar-object-instance="calendarObjectInstance"
 			:is-read-only="isReadOnly"
-			@removeAlarm="removeAlarm"
-		/>
-		<alarm-list-new
+			@removeAlarm="removeAlarm" />
+		<AlarmListNew
 			v-if="!isReadOnly"
-			@addAlarm="addAlarm"
-		/>
-		<no-alarm-view
-			v-if="isListEmpty"
-		/>
+			@addAlarm="addAlarm" />
+		<NoAlarmView
+			v-if="isListEmpty" />
 	</div>
 </template>
 
@@ -61,7 +58,7 @@ export default {
 		calendarObjectInstance: {
 			type: Object,
 			required: true
-		},
+		}
 	},
 	computed: {
 		alarms() {

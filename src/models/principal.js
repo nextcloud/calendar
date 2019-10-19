@@ -40,7 +40,7 @@ export const getDefaultPrincipalObject = (props) => Object.assign({}, {
 	// url to the DAV-principal-resource
 	url: '',
 	// The cdav-library object
-	dav: false,
+	dav: false
 }, props)
 
 /**

@@ -22,20 +22,18 @@
 
 <template>
 	<div>
-		<repeat-freq-interval
+		<RepeatFreqInterval
 			v-if="!isRecurrenceException"
 			:frequency="recurrenceRule.frequency"
 			:interval="recurrenceRule.interval"
 			@changeInterval="changeInterval"
-			@changeFrequency="changeFrequency"
-		/>
-		<repeat-freq-weekly-options
+			@changeFrequency="changeFrequency" />
+		<RepeatFreqWeeklyOptions
 			v-if="isFreqWeekly && !isRecurrenceException"
 			:by-day="recurrenceRule.byDay"
 			@addByDay="addByDay"
-			@removeByDay="removeByDay"
-		/>
-		<repeat-freq-monthly-options
+			@removeByDay="removeByDay" />
+		<RepeatFreqMonthlyOptions
 			v-if="isFreqMonthly && !isRecurrenceException"
 			:by-day="recurrenceRule.byDay"
 			:by-month-day="recurrenceRule.byMonthDay"
@@ -45,9 +43,8 @@
 			@changeByDay="setByDay"
 			@changeBySetPosition="setBySetPosition"
 			@changeToBySetPosition="changeToBySetPositionMonthly"
-			@changeToByDay="changeToByDayMonthly"
-		/>
-		<repeat-freq-yearly-options
+			@changeToByDay="changeToByDayMonthly" />
+		<RepeatFreqYearlyOptions
 			v-if="isFreqYearly && !isRecurrenceException"
 			:by-day="recurrenceRule.byDay"
 			:by-month="recurrenceRule.byMonth"
@@ -57,9 +54,8 @@
 			@addByMonth="addByMonth"
 			@removeByMonth="removeByMonth"
 			@enableBySetPosition="enableBySetPositionYearly"
-			@disableBySetPosition="disableBySetPositionYearly"
-		/>
-		<repeat-end-repeat
+			@disableBySetPosition="disableBySetPositionYearly" />
+		<RepeatEndRepeat
 			v-if="isRepeating && !isRecurrenceException"
 			:calendar-object-instance="calendarObjectInstance"
 			:until="recurrenceRule.until"
@@ -68,8 +64,7 @@
 			@setUntil="setUntil"
 			@setCount="setCount"
 			@changeToCount="changeToCount"
-			@changeToUntil="changeToUntil"
-		/>
+			@changeToUntil="changeToUntil" />
 		<!-- The repeat summary is definitely something I want in the future, but let's implement it later -->
 		<!--<repeat-summary-->
 		<!--	v-if="true"-->
@@ -82,12 +77,10 @@
 		<!--	:until="repeatUntil"-->
 		<!--	:count="repeatCount"-->
 		<!--/>-->
-		<repeat-unsupported-warning
-			v-if="recurrenceRule.isUnsupported && !isRecurrenceException"
-		/>
-		<repeat-exception-warning
-			v-if="isRecurrenceException"
-		/>
+		<RepeatUnsupportedWarning
+			v-if="recurrenceRule.isUnsupported && !isRecurrenceException" />
+		<RepeatExceptionWarning
+			v-if="isRecurrenceException" />
 	</div>
 </template>
 
@@ -124,7 +117,7 @@ export default {
 		 */
 		recurrenceRule: {
 			type: Object,
-			required: true,
+			required: true
 		},
 		/**
 		 * Whether or not the event is read-only
@@ -425,7 +418,7 @@ export default {
 			if (this.recurrenceRule.isUnsupported) {
 				this.$store.commit('markRecurrenceRuleAsSupported', {
 					calendarObjectInstance: this.calendarObjectInstance,
-					recurrenceRule: this.recurrenceRule,
+					recurrenceRule: this.recurrenceRule
 				})
 			}
 

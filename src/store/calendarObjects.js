@@ -29,7 +29,7 @@ import { createEvent, getTimezoneManager } from 'calendar-js'
 
 const state = {
 	calendarObjects: {},
-	modificationCount: 0,
+	modificationCount: 0
 }
 
 const mutations = {

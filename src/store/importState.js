@@ -26,7 +26,7 @@ const state = {
 	total: 0,
 	accepted: 0,
 	denied: 0,
-	stage: 'default',
+	stage: 'default'
 }
 
 const mutations = {

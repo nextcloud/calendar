@@ -29,8 +29,7 @@
 		:placeholder="$t('calendar', 'Monday')"
 		track-by="value"
 		label="label"
-		@select="select"
-	/>
+		@select="select" />
 </template>
 
 <script>
@@ -61,34 +60,34 @@ export default {
 
 			return [{
 				label: dayNames[1],
-				value: ['MO'],
+				value: ['MO']
 			}, {
 				label: dayNames[2],
-				value: ['TU'],
+				value: ['TU']
 			}, {
 				label: dayNames[3],
-				value: ['WE'],
+				value: ['WE']
 			}, {
 				label: dayNames[4],
-				value: ['TH'],
+				value: ['TH']
 			}, {
 				label: dayNames[5],
-				value: ['FR'],
+				value: ['FR']
 			}, {
 				label: dayNames[6],
-				value: ['SA'],
+				value: ['SA']
 			}, {
 				label: dayNames[0],
-				value: ['SU'],
+				value: ['SU']
 			}, {
 				label: this.$t('calendar', 'day'),
-				value: ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'],
+				value: ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA']
 			}, {
 				label: this.$t('calendar', 'weekday'),
-				value: ['MO', 'TU', 'WE', 'TH', 'FR'],
+				value: ['MO', 'TU', 'WE', 'TH', 'FR']
 			}, {
 				label: this.$t('calendar', 'weekend day'),
-				value: ['SU', 'SA'],
+				value: ['SU', 'SA']
 			}]
 		},
 		selected() {

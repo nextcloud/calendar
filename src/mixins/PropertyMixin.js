@@ -39,7 +39,7 @@ export default {
 		},
 		value: {
 			required: true
-		},
+		}
 	},
 	computed: {
 		icon() {

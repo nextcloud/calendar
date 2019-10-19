@@ -30,7 +30,7 @@ export default {
 		options: [
 			{ value: 'PUBLIC', label: translate('calendar', 'When shared show full event') },
 			{ value: 'CONFIDENTIAL', label: translate('calendar', 'When shared show only busy') },
-			{ value: 'PRIVATE', label: translate('calendar', 'When shared hide this event') },
+			{ value: 'PRIVATE', label: translate('calendar', 'When shared hide this event') }
 		],
 		multiple: false,
 		info: translate('calendar', 'The visibility of this event in shared calendars.'),
@@ -51,7 +51,7 @@ export default {
 		name: 'description',
 		readableName: translate('calendar', 'Description'),
 		placeholder: translate('calendar', 'Add a description'),
-		icon: 'icon-menu',
+		icon: 'icon-menu'
 	},
 	geo: {
 		name: 'geo',
@@ -70,7 +70,7 @@ export default {
 		options: [
 			{ value: 7, label: translate('calendar', 'Low') },
 			{ value: 5, label: translate('calendar', 'Medium') },
-			{ value: 3, label: translate('calendar', 'High') },
+			{ value: 3, label: translate('calendar', 'High') }
 		]
 
 	},
@@ -81,7 +81,7 @@ export default {
 		options: [
 			{ value: 'CONFIRMED', label: translate('calendar', 'Confirmed') },
 			{ value: 'TENTATIVE', label: translate('calendar', 'Tentative') },
-			{ value: 'CANCELLED', label: translate('calendar', 'Cancelled') },
+			{ value: 'CANCELLED', label: translate('calendar', 'Cancelled') }
 		],
 		multiple: false,
 		default: true,
@@ -97,7 +97,7 @@ export default {
 		info: translate('calendar', 'Take this event into account when calculating free-busy information'),
 		options: [
 			{ value: 'TRANSPARENT', label: translate('calendar', 'Free') },
-			{ value: 'OPAQUE', label: translate('calendar', 'Busy') },
+			{ value: 'OPAQUE', label: translate('calendar', 'Busy') }
 		],
 		defaultValue: 'TRANSPARENT'
 	},
@@ -137,7 +137,7 @@ export default {
 		multiple: false,
 		default: false,
 		info: translate('calendar', 'Special color of this event. Overrides the calendar-color.')
-	},
+	}
 	// To be implemented later:
 	// conference: {
 	// 	readableName: translate('calendar', 'Conference system'),

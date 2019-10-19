@@ -25,13 +25,11 @@
 		<div
 			class="property-text__icon"
 			:class="icon"
-			:title="readableName"
-		/>
+			:title="readableName" />
 
 		<div
 			class="property-text__input"
-			:class="{ 'property-text__input--readonly': isReadOnly }"
-		>
+			:class="{ 'property-text__input--readonly': isReadOnly }">
 			<textarea
 				v-if="!isReadOnly"
 				v-autosize
@@ -39,8 +37,7 @@
 				rows="1"
 				:title="readableName"
 				:value="value"
-				@input.prevent.stop="changeValue"
-			/>
+				@input.prevent.stop="changeValue" />
 			<!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
 			<div v-else>{{ value }}</div>
 		</div>
@@ -48,8 +45,7 @@
 		<div
 			v-if="hasInfo"
 			v-tooltip="info"
-			class="property-text__info icon-details"
-		/>
+			class="property-text__info icon-details" />
 	</div>
 </template>
 
@@ -86,7 +82,7 @@ export default {
 			} else {
 				this.$emit('update:value', event.target.value)
 			}
-		},
+		}
 	}
 }
 </script>

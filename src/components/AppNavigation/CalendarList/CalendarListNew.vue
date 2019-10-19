@@ -25,8 +25,7 @@
 		icon="icon-add"
 		:class="{disabled: disabled}"
 		:title="$t('calendar', 'New calendar')"
-		@click.prevent.stop="openDialog"
-	/>
+		@click.prevent.stop="openDialog" />
 
 	<ActionInput
 		v-else
@@ -34,8 +33,7 @@
 		:icon="inputIcon"
 		:value="name"
 		:disabled="isCreating"
-		@submit.prevent.stop="addCalendar"
-	>
+		@submit.prevent.stop="addCalendar">
 		{{ $t('calendar', 'Name of calendar') }}
 	</ActionInput>
 </template>
@@ -67,7 +65,7 @@ export default {
 		return {
 			isCreating: false,
 			showForm: false,
-			name: '',
+			name: ''
 		}
 	},
 	computed: {

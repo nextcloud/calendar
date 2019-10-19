@@ -51,7 +51,7 @@ export default new Vuex.Store({
 		importState,
 		principals,
 		settings
-	},
+	}
 	// // Throw errors when the state is edited outside of mutations
 	// strict: true
 })

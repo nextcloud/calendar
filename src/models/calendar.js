@@ -68,7 +68,7 @@ export const getDefaultCalendarObject = (props = {}) => Object.assign({}, {
 	// All calendar-objects from this calendar that have already been fetched
 	calendarObjects: [],
 	// Time-ranges that have already been fetched for this calendar
-	fetchedTimeRanges: [],
+	fetchedTimeRanges: []
 }, props)
 
 /**

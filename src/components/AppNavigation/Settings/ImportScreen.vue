@@ -21,7 +21,7 @@
   -->
 
 <template>
-	<modal class="import-modal" size="large" @close="cancelImport">
+	<Modal class="import-modal" size="large" @close="cancelImport">
 		<h2 class="import-modal__title">
 			{{ $t('calendar', 'Import calendars') }}
 		</h2>
@@ -38,7 +38,7 @@
 					{{ $t('calendar', 'Calendar to import into') }}
 				</div>
 			</li>
-			<import-screen-row v-for="(file, index) in files" :key="`import-file-${index}`" :file="file" />
+			<ImportScreenRow v-for="(file, index) in files" :key="`import-file-${index}`" :file="file" />
 		</transition-group>
 
 		<div class="import-modal__actions">
@@ -49,7 +49,7 @@
 				{{ $n('calendar', 'Import calendar', 'Import calendars', files.length) }}
 			</button>
 		</div>
-	</modal>
+	</Modal>
 </template>
 
 <script>
@@ -68,7 +68,7 @@ export default {
 		files: {
 			type: Array,
 			required: true
-		},
+		}
 	},
 	computed: {
 		headerRowKey() {

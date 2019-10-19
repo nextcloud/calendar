@@ -29,8 +29,7 @@
 		:placeholder="$t('calendar', 'first')"
 		track-by="value"
 		label="label"
-		@select="select"
-	/>
+		@select="select" />
 </template>
 
 <script>

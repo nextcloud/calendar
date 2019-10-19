@@ -23,7 +23,7 @@
 <template>
 	<div class="repeat-option-set repeat-option-set--end">
 		<span class="repeat-option-end__label">{{ $t('calendar', 'End repeat') }}</span>
-		<multiselect
+		<Multiselect
 			class="repeat-option-end__end-type-select"
 			:options="options"
 			:searchable="false"
@@ -32,8 +32,7 @@
 			:value="selectedOption"
 			track-by="value"
 			label="label"
-			@select="changeEndType"
-		/>
+			@select="changeEndType" />
 		<DatetimePicker
 			v-if="isUntil"
 			class="repeat-option-end__until"
@@ -41,8 +40,7 @@
 			:not-after="maximumDate"
 			:value="until"
 			type="date"
-			@change="changeUntil"
-		/>
+			@change="changeUntil" />
 		<input
 			v-if="isCount"
 			class="repeat-option-end__count"
@@ -50,12 +48,10 @@
 			min="1"
 			max="3500"
 			:value="count"
-			@input="changeCount"
-		>
+			@input="changeCount">
 		<span
 			v-if="isCount"
-			class="repeat-option-end__count"
-		>
+			class="repeat-option-end__count">
 			{{ occurrencesLabel }}
 		</span>
 	</div>

@@ -25,8 +25,7 @@
 		icon="icon-add"
 		:class="{disabled: disabled}"
 		:title="$t('calendar', 'New subscription')"
-		@click.prevent.stop="openDialog"
-	/>
+		@click.prevent.stop="openDialog" />
 
 	<ActionInput
 		v-else
@@ -34,8 +33,7 @@
 		:icon="inputIcon"
 		:value="link"
 		:disabled="isCreating"
-		@submit.prevent.stop="addCalendar"
-	>
+		@submit.prevent.stop="addCalendar">
 		{{ $t('calendar', 'Link to iCal') }}
 	</ActionInput>
 </template>

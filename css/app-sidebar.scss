@@ -491,24 +491,6 @@
 		}
 	}
 
-	.calendar-picker-option {
-		width: 100%;
-		display: flex;
-		align-items: center;
-
-		&__color-indicator {
-			width: 12px;
-			height: 12px;
-			border-radius: 50%;
-			border: none;
-			margin-right: 8px;
-		}
-
-		&__avatar {
-			margin-left: auto;
-		}
-	}
-
 	.illustration-header {
 		max-height: 150px;
 		height: 150px;
@@ -599,5 +581,23 @@
 .event-popover.tooltip[x-placement^='bottom'] {
 	.popover-arrow {
 		border-bottom-color: var(--color-background-dark);
+	}
+}
+
+.calendar-picker-option {
+	width: 100%;
+	display: flex;
+	align-items: center;
+
+	&__color-indicator {
+		width: 12px;
+		height: 12px;
+		border-radius: 50%;
+		border: none;
+		margin-right: 8px;
+	}
+
+	&__avatar {
+		margin-left: auto;
 	}
 }

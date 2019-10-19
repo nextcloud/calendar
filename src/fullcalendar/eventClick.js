@@ -39,7 +39,7 @@ export default function(store, router, route) {
 		const name = getPrefixedRoute(route.name, desiredRoute)
 		const params = Object.assign({}, store.state.route.params, {
 			object: event.extendedProps.objectId,
-			recurrenceId: String(event.extendedProps.recurrenceId),
+			recurrenceId: String(event.extendedProps.recurrenceId)
 		})
 
 		// Don't push new route when day didn't change

@@ -25,14 +25,12 @@
 		<div
 			class="property-select__icon"
 			:class="icon"
-			:title="readableName"
-		/>
+			:title="readableName" />
 
 		<div
 			class="property-select__input"
-			:class="{ 'property-select__input--readonly': isReadOnly }"
-		>
-			<multiselect
+			:class="{ 'property-select__input--readonly': isReadOnly }">
+			<Multiselect
 				v-if="!isReadOnly"
 				:options="options"
 				:searchable="false"
@@ -41,8 +39,7 @@
 				:value="selectedValue"
 				track-by="value"
 				label="label"
-				@select="changeValue"
-			/>
+				@select="changeValue" />
 			<!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
 			<div v-else>{{ selectedValue.label }}</div>
 		</div>
@@ -50,16 +47,19 @@
 		<div
 			v-if="hasInfo"
 			v-tooltip="info"
-			class="property-select__info icon-details"
-		/>
+			class="property-select__info icon-details" />
 	</div>
 </template>
 
 <script>
 import PropertyMixin from '../../../mixins/PropertyMixin'
+import { Multiselect } from '@nextcloud/vue'
 
 export default {
 	name: 'PropertySelect',
+	components: {
+		Multiselect
+	},
 	mixins: [
 		PropertyMixin
 	],
@@ -85,6 +85,6 @@ export default {
 
 			this.$emit('update:value', selectedOption)
 		}
-	},
+	}
 }
 </script>

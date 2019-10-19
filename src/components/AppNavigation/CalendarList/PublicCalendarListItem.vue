@@ -24,48 +24,41 @@
 		:loading="calendar.loading"
 		:title="calendar.displayName || $t('calendar', 'Untitled calendar')"
 		:menu-open.sync="menuOpen"
-		@click.prevent.stop="toggleEnabled"
-	>
+		@click.prevent.stop="toggleEnabled">
 		<AppNavigationIconBullet
 			v-if="calendar.enabled"
 			slot="icon"
 			:color="calendar.color"
-			@click.prevent.stop="toggleEnabled"
-		/>
+			@click.prevent.stop="toggleEnabled" />
 
 		<template slot="counter">
 			<Avatar
 				:user="owner"
 				:is-guest="true"
 				:disable-tooltip="true"
-				:disable-menu="true"
-			/>
+				:disable-menu="true" />
 		</template>
 
 		<template slot="actions">
 			<ActionButton
 				v-if="showCopySubscriptionLinkLabel"
 				icon="icon-calendar-dark"
-				@click.prevent.stop="copySubscriptionLink"
-			>
+				@click.prevent.stop="copySubscriptionLink">
 				{{ $t('calendar', 'Copy subscription link') }}
 			</ActionButton>
 			<ActionText
 				v-if="showCopySubscriptionLinkSpinner"
-				icon="icon-loading-small"
-			>
+				icon="icon-loading-small">
 				{{ $t('calendar', 'Copying link ...') }}
 			</ActionText>
 			<ActionText
 				v-if="showCopySubscriptionLinkSuccess"
-				icon="icon-calendar-dark"
-			>
+				icon="icon-calendar-dark">
 				{{ $t('calendar', 'Copied link') }}
 			</ActionText>
 			<ActionText
 				v-if="showCopySubscriptionLinkError"
-				icon="icon-calendar-dark"
-			>
+				icon="icon-calendar-dark">
 				{{ $t('calendar', 'Could not copy link') }}
 			</ActionText>
 
@@ -73,8 +66,7 @@
 				icon="icon-download"
 				target="_blank"
 				:href="downloadUrl"
-				:title="$t('calendar', 'Download')"
-			/>
+				:title="$t('calendar', 'Download')" />
 		</template>
 	</AppNavigationItem>
 </template>
@@ -100,7 +92,7 @@ export default {
 		ActionLink,
 		ActionText,
 		AppNavigationIconBullet,
-		AppNavigationItem,
+		AppNavigationItem
 	},
 	props: {
 		calendar: {
@@ -146,7 +138,7 @@ export default {
 			}
 
 			return userId
-		},
+		}
 	},
 	methods: {
 		copySubscriptionLink() {

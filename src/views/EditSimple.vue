@@ -27,20 +27,16 @@
 		:placement="placement"
 		boundaries-element="#app-content"
 		open-class="event-popover"
-		trigger="manual"
-	>
+		trigger="manual">
 		<PopoverLoadingIndicator
-			v-if="isLoading"
-		/>
+			v-if="isLoading" />
 
 		<Actions
 			v-if="!isLoading"
-			class="event-popover__close-action"
-		>
+			class="event-popover__close-action">
 			<ActionButton
 				icon="icon-close"
-				@click="cancel"
-			>
+				@click="cancel">
 				{{ $t('calendar', 'Close') }}
 			</ActionButton>
 		</Actions>
@@ -48,17 +44,15 @@
 		<IllustrationHeader
 			v-if="!isLoading"
 			:color="selectedCalendarColor"
-			:illustration-url="backgroundImage"
-		/>
+			:illustration-url="backgroundImage" />
 
 		<PropertyTitle
 			v-if="!isLoading"
 			:value="title"
 			:is-read-only="isReadOnly"
-			@update:value="updateTitle"
-		/>
+			@update:value="updateTitle" />
 
-		<property-title-time-picker
+		<PropertyTitleTimePicker
 			v-if="!isLoading"
 			:start-date="startDate"
 			:start-timezone="startTimezone"
@@ -72,33 +66,29 @@
 			@updateStartTimezone="updateStartTimezone"
 			@updateEndDate="updateEndDate"
 			@updateEndTimezone="updateEndTimezone"
-			@toggleAllDay="toggleAllDay"
-		/>
+			@toggleAllDay="toggleAllDay" />
 
-		<property-calendar-picker
+		<PropertyCalendarPicker
 			v-if="!isLoading"
 			:calendars="calendars"
 			:calendar="selectedCalendar"
 			:is-read-only="isReadOnly"
-			@selectCalendar="changeCalendar"
-		/>
+			@selectCalendar="changeCalendar" />
 
-		<property-text
+		<PropertyText
 			v-if="!isLoading && hasLocation"
 			:is-read-only="isReadOnly"
 			:prop-model="rfcProps.location"
 			:value="location"
-			@update:value="updateLocation"
-		/>
-		<property-text
+			@update:value="updateLocation" />
+		<PropertyText
 			v-if="!isLoading && hasDescription"
 			:is-read-only="isReadOnly"
 			:prop-model="rfcProps.description"
 			:value="description"
-			@update:value="updateDescription"
-		/>
+			@update:value="updateDescription" />
 
-		<save-buttons
+		<SaveButtons
 			v-if="!isReadOnly"
 			class="event-popover__buttons"
 			:can-create-recurrence-exception="canCreateRecurrenceException"
@@ -107,8 +97,7 @@
 			:show-more-button="true"
 			@saveThisOnly="saveAndLeave(false)"
 			@saveThisAndAllFuture="saveAndLeave(true)"
-			@showMore="showMore"
-		/>
+			@showMore="showMore" />
 	</Popover>
 </template>
 <script>

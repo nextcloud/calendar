@@ -21,8 +21,7 @@
 
 <template>
 	<AppNavigationItem
-		:title="sharee.displayName"
-	>
+		:title="sharee.displayName">
 		<template slot="icon">
 			<div v-if="sharee.isGroup" class="avatar icon-group" />
 			<div v-else-if="sharee.isCircle" class="avatar icon-circle" />
@@ -33,8 +32,7 @@
 			<ActionCheckbox
 				:disabled="updatingSharee"
 				:checked="sharee.writeable"
-				@update:checked="updatePermission"
-			>
+				@update:checked="updatePermission">
 				{{ $t('calendar', 'can edit') }}
 			</ActionCheckbox>
 		</template>
@@ -43,8 +41,7 @@
 			<ActionButton
 				icon="icon-delete"
 				:disabled="updatingSharee"
-				@click.prevent.stop="unshare"
-			>
+				@click.prevent.stop="unshare">
 				{{ $t('calendar', 'Unshare with {displayName}', { displayName: sharee.displayName }) }}
 			</ActionButton>
 		</template>
@@ -60,7 +57,7 @@ import {
 } from '@nextcloud/vue'
 
 export default {
-	name: 'CalendarLisItemSharingShareItem',
+	name: 'CalendarListItemSharingShareItem',
 	components: {
 		ActionButton,
 		ActionCheckbox,
@@ -79,7 +76,7 @@ export default {
 	},
 	data() {
 		return {
-			updatingSharee: false,
+			updatingSharee: false
 		}
 	},
 	computed: {
