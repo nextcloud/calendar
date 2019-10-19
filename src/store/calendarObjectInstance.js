@@ -196,8 +196,6 @@ const mutations = {
 			return
 		}
 
-		// TODO - also make sure dtend is the exclusive end
-
 		const isAllDay = calendarObjectInstance.eventComponent.isAllDay()
 		calendarObjectInstance.eventComponent.startDate.isDate = !isAllDay
 		calendarObjectInstance.eventComponent.endDate.isDate = !isAllDay
@@ -1535,6 +1533,17 @@ const actions = {
 		commit('updateAlarmAllDayParts', { calendarObjectInstance, alarm })
 		commit('updateAlarmTimedParts', { calendarObjectInstance, alarm })
 		commit('resetAlarmAbsoluteParts', { alarm })
+	},
+
+	toggleAllDay({ commit, getters }, { calendarObjectInstance }) {
+		commit('toggleAllDay', { calendarObjectInstance })
+
+		if (!calendarObjectInstance.isAllDay) {
+			if (calendarObjectInstance.startTimezoneId === 'floating') {
+				const startTimezone = getters.getResolvedTimezone
+				commit('changeStartTimezone', { calendarObjectInstance, startTimezone })
+			}
+		}
 	}
 
 }

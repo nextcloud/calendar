@@ -459,7 +459,7 @@ export default {
 		 * Toggles the event between all-day and timed
 		 */
 		toggleAllDay() {
-			this.$store.commit('toggleAllDay', {
+			this.$store.dispatch('toggleAllDay', {
 				calendarObjectInstance: this.calendarObjectInstance
 			})
 		}
