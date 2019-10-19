@@ -31,6 +31,7 @@
 
 <script>
 import HttpClient from '@nextcloud/axios'
+import { getDefaultColor } from '../../utils/color.js'
 
 export default {
 	name: 'IllustrationHeader',
@@ -52,8 +53,13 @@ export default {
 	},
 	computed: {
 		coloredSVG() {
+			let color = this.color
+			if (!/^(#)((?:[A-Fa-f0-9]{3}){1,2})$/.test(color)) {
+				color = getDefaultColor() // TODO - use uid2Color instead
+			}
+
 			return this.svg
-				.replace(/#6c63ff/g, this.color)
+				.replace(/#6c63ff/g, color)
 				.replace(/height="(\d)*(.(\d)*)?"/i, '')
 				.replace(/width="(\d)*(.(\d)*)?"/i, '')
 		}
