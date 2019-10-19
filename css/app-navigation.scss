@@ -1,0 +1,272 @@
+/**
+ * Calendar App
+ *
+ * @copyright 2016 Raghu Nayyar <hey@raghunayyar.com>
+ * @copyright 2018 Georg Ehrke <oc.list@georgehrke.com>
+ * @copyright 2017 John Molakvoæ <skjnldsv@protonmail.com>
+ *
+ * @author Raghu Nayyar
+ * @author Georg Ehrke
+ * @author John Molakvoæ
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+.datepicker-button-section,
+.today-button-section,
+.view-button-section {
+	display: flex;
+	margin-left: 3px;
+	margin-right: 3px;
+
+	.button {
+		// this border-radius affects the button in the middle of the group
+		// for the rounded corner buttons on the sides, see further below
+		border-radius: 0;
+		font-weight: normal;
+		margin: 3px -1px 3px 0;
+		padding: 8px;
+		flex-grow: 1;
+	}
+
+	.button:first-child:not(:only-of-type) {
+		border-radius: var(--border-radius) 0 0 var(--border-radius);
+	}
+
+	.button:last-child:not(:only-of-type) {
+		border-radius: 0 var(--border-radius) var(--border-radius) 0;
+	}
+
+	.button:not(:only-of-type):not(:first-child):not(:last-child) {
+		border-radius: 0;
+	}
+
+	.button:only-child {
+		border-radius: var(--border-radius);
+	}
+
+	.button:hover,
+	.button:focus,
+	.button.active {
+		z-index: 50;
+	}
+}
+
+.datepicker-button-section {
+	&__datepicker-label {
+		flex-grow: 4 !important;
+		text-align: center;
+	}
+
+	&__datepicker {
+		margin-left: 50%;
+		margin-top: 48px;
+		position: absolute !important;
+		width: 0 !important;
+
+		.mx-input-wrapper {
+			display: none !important;
+		}
+	}
+
+	&__previous,
+	&__next {
+		background-size: 10px;
+		flex-grow: 0 !important;
+		width: 34px;
+	}
+}
+
+#app-navigation {
+	button.icon-share {
+		opacity: 0.3 !important;
+	}
+
+	button.icon-shared,
+	button.icon-public {
+		opacity: 0.7 !important;
+	}
+
+	span.shared-label {
+		margin-left: -12px;
+	}
+
+	button.icon-share:active,
+	button.icon-share:focus,
+	button.icon-share:hover,
+	button.icon-shared:active,
+	button.icon-shared:focus,
+	button.icon-shared:hover,
+	button.icon-public:active,
+	button.icon-public:focus,
+	button.icon-public:hover {
+		opacity: 1 !important;
+	}
+
+	#calendars-list {
+		display: block !important;
+	}
+
+	li.app-navigation-loading-placeholder-entry {
+		div.icon.icon-loading {
+			min-height: 44px;
+		}
+	}
+
+	.app-navigation-entry.deleted {
+		.app-navigation-entry__title {
+			text-decoration: line-through;
+		}
+	}
+
+	.app-navigation-entry.open-sharing {
+		box-shadow: inset 4px 0 var(--color-primary) !important;
+	}
+
+	.app-navigation-entry.disabled {
+		.app-navigation-entry__title {
+			color: var(--color-text-lighter) !important;
+		}
+	}
+
+	.app-navigation-entry .app-navigation-entry__children .app-navigation-entry {
+		padding-left: 0 !important;
+
+		.avatar {
+			width: 32px;
+			height: 32px;
+			background-color: var(--color-border-dark);
+			background-size: 16px;
+		}
+
+		.avatar.published {
+			background-color: var(--color-primary);
+		}
+	}
+
+	.app-navigation-entry__multiselect {
+		padding-left: 8px;
+	}
+
+	.app-navigation-entry__icon-bullet-disabled {
+		display: block;
+		// there is 2 margins
+		padding: 15px;
+		div {
+			border: 1px solid var(--color-border-dark);
+			width: 15px;
+			height: 15px;
+			cursor: pointer;
+			transition: background 100ms ease-in-out;
+			border-radius: 50%;
+		}
+	}
+
+	.app-navigation-entry__utils {
+		.action-checkbox__label {
+			padding-right: 0 !important;
+		}
+
+		.action-checkbox__label::before {
+			margin: 0 4px 0 !important;
+		}
+	}
+
+	ul {
+
+		// Calendar list items / Subscription list items
+		> li.app-navigation-entry {
+
+			div.sharing-section {
+				//box-shadow: inset 4px 0 var(--color-primary);
+				//padding-left: 12px;
+				//padding-right: 12px;
+				//width: 100%;
+
+				div.multiselect {
+					width: calc(100% - 14px);
+					max-width: none;
+					z-index: 105;
+				}
+
+				.oneline {
+					white-space: nowrap;
+					position: relative;
+				}
+
+				.shareWithList {
+					list-style-type: none;
+					display: flex;
+					flex-direction: column;
+
+					> li {
+						height: 44px;
+						white-space: normal;
+						display: inline-flex;
+						align-items: center;
+						position: relative;
+
+
+
+						.username {
+							padding: 0 8px;
+							overflow: hidden;
+							white-space: nowrap;
+							text-overflow: ellipsis;
+						}
+
+						> .sharingOptionsGroup {
+							margin-left: auto;
+							display: flex;
+							align-items: center;
+							white-space: nowrap;
+
+							> a:hover,
+							> a:focus,
+							> .share-menu > a:hover,
+							> .share-menu > a:focus {
+								box-shadow: none !important;
+								opacity: 1 !important;
+							}
+
+							> .icon:not(.hidden),
+							> .share-menu .icon:not(.hidden){
+								padding: 14px;
+								height: 44px;
+								width: 44px;
+								opacity: 0.5;
+								display: block;
+								cursor: pointer;
+							}
+
+							> .share-menu {
+								position: relative;
+								display: block;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	#app-settings {
+
+		#app-settings-content {
+			overflow-y: visible !important;
+		}
+
+	}
+}

@@ -1,98 +1,106 @@
-dist: trusty
 sudo: required
+dist: trusty
 language: php
 php:
   - 7.1
   - 7.2
   - 7.3
-services:
-  - mysql
-  - postgresql
 
 addons:
+  apt:
+    packages:
+    - mysql-server-5.6
+    - mysql-client-core-5.6
+    - mysql-client-5.6
+    - libxml2-utils
   firefox: "latest"
 
 branches:
   only:
     - master
+    - vue
 
 env:
   global:
-    - CORE_BRANCH=master
-    - NIGHTLY=false
-  matrix:
     - DB=mysql
+    - CORE_BRANCH=master
+    - PHP_COVERAGE=FALSE
+    - TEST_SUITE=TEST-PHP
 
 matrix:
   include:
+    - php: 7.3
+      env: "TEST_SUITE=PACKAGE"
+    - php: 7.3
+      env: "TEST_SUITE=LINT-PHP"
+    - php: 7.3
+      env: "TEST_SUITE=TEST-JS"
+    - php: 7.3
+      env: "CORE_BRANCH=stable17"
     - php: 7.2
-      env: DB=sqlite
-    - php: 7.2
-      env: DB=pgsql
-    - php: 7.0
-      env: "DB=mysql CORE_BRANCH=stable14"
+      env: "CORE_BRANCH=stable17"
+    - php: 7.1
+      env: "CORE_BRANCH=stable17"
   fast_finish: true
-
-
-before_install:
-  # we spawn in /home/travis/build/nextcloud/calendar
-  # go to /home/travis/build/
-  - cd ../../
-  - wget https://phar.phpunit.de/phpunit-5.7.phar
-  - chmod +x phpunit-5.7.phar
-  - mkdir bin
-  - sudo mv phpunit-5.7.phar bin/phpunit
-  - export PATH="$PWD/bin:$PATH"
-  - phpunit --version
-  # get a newer node.js version
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
-  - nvm install 10
-  - npm install -g npm@latest
-  # install server
-  - cd nextcloud
-  - git clone https://github.com/nextcloud/core.git --recursive --depth 1 -b $CORE_BRANCH nextcloud
-  - mv calendar nextcloud/apps/
-  - cd nextcloud
 
 cache:
   directories:
-  - $HOME/.cache/yarn
+    - "$HOME/.composer/cache/files"
+    - "$HOME/.npm"
 
-before_script:
-  # Repo for Yarn
-  - sudo apt-key adv --fetch-keys http://dl.yarnpkg.com/debian/pubkey.gpg
-  - echo "deb http://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-  - sudo apt-get update -qq
-  - sudo apt-get install -y -qq yarn
-  # Setup Postgres if applicable
-  - if [[ "$DB" == 'pgsql' ]]; then psql -c 'create database oc_autotest;' -U postgres; fi
-  - if [[ "$DB" == 'pgsql' ]]; then psql -c "create user oc_autotest with password '';" -U postgres; fi
-  - if [[ "$DB" == 'pgsql' ]]; then psql -c 'grant all privileges on database oc_autotest to oc_autotest;' -U postgres; fi
+before_install:
+  - php --info
   # Setup MySQL if applicable
   - if [[ "$DB" == 'mysql' ]]; then mysql -u root -e 'create database oc_autotest;'; fi
   - if [[ "$DB" == 'mysql' ]]; then mysql -u root -e "CREATE USER 'oc_autotest'@'localhost' IDENTIFIED BY '';"; fi
   - if [[ "$DB" == 'mysql' ]]; then mysql -u root -e "grant all on oc_autotest.* to 'oc_autotest'@'localhost';"; fi
-  # fill nextcloud with default configs and enable calendar
-  - mkdir data
-  - ./occ maintenance:install --database-name oc_autotest --database-user oc_autotest --admin-user admin --admin-pass admin --database $DB --database-pass=''
-  - ./occ app:enable calendar
-  - ./occ app:check-code calendar
-  - php -S localhost:8080 &
-  - cd apps/calendar
+  # set up nextcloud
+  - composer self-update
+  - sh -c "if [ '$TEST_SUITE' = 'TEST-PHP' ]; then make composer-init; fi"
+  - cd ..
+  - git clone https://github.com/nextcloud/server.git --recursive --depth 1 -b $CORE_BRANCH core
+  - mv calendar core/apps/
+
+before_script:
+  - sh -c "if [ '$TEST_SUITE' = 'TEST-PHP' ]; then php -f core/occ maintenance:install --database-name oc_autotest --database-user oc_autotest --admin-user admin --admin-pass admin --database $DB --database-pass=''; fi"
+
+  # Set up app
+  - sh -c "if [ '$TEST_SUITE' = 'TEST-PHP' ]; then php -f core/occ app:enable calendar; fi"
+  # Enable app twice to check occ errors of registered commands
+  - sh -c "if [ '$TEST_SUITE' = 'TEST-PHP' ]; then php -f core/occ app:enable calendar; fi"
+  - cd core/apps/calendar
+  - sh -c "if [ '$TEST_SUITE' = 'TEST-JS' ]; then npm install -g npm@latest; fi"
+  - sh -c "if [ '$TEST_SUITE' = 'TEST-JS' ]; then make dev-setup; fi"
+
+  # XDebug is only needed if we report coverage -> speeds up other builds
+  - if [[ "$PHP_COVERAGE" = "FALSE" ]]; then phpenv config-rm xdebug.ini; fi
 
 script:
-  - make
-  - make composer || true
-  - make test
-  - make dist
-  # Upload nightly
-  - if [[ "$NIGHTLY" = "TRUE" ]]; then curl --ftp-create-dirs -T build/artifacts/appstore/calendar.tar.gz -u $FTP_LOGIN:$FTP_PW ftp://upload.portknox.de/htdocs/calendar/nextcloud_calendar_nightly_build_$(date +%Y-%m-%d).tar.gz; fi
+  # Check info.xml schema validity
+  - wget https://apps.nextcloud.com/schema/apps/info.xsd
+  - xmllint appinfo/info.xml --schema info.xsd --noout
+  - rm info.xsd
 
-after_success:
-  - wget https://scrutinizer-ci.com/ocular.phar
-  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
-  - cat ./coverage/*/lcov.info | ./js/node_modules/coveralls/bin/coveralls.js
+  # Check PHP syntax errors
+  - sh -c "if [ '$TEST_SUITE' = 'LINT-PHP' ]; then composer run lint; fi"
 
-after_failure:
-  - cat ../../data/nextcloud.log
+  # Run server's app code checker
+  - sh -c "if [ '$TEST_SUITE' = 'LINT-PHP' ]; then php ../../occ app:check-code calendar; fi"
+
+  # Run JS tests
+  - sh -c "if [ '$TEST_SUITE' = 'TEST-JS' ]; then npm test --passWithNoTests; fi"
+
+  # Run JS lint
+  - sh -c "if [ '$TEST_SUITE' = 'TEST-JS' ]; then npm run lint; fi"
+
+  # Run PHP tests
+  - sh -c "if [ '$TEST_SUITE' = 'TEST-PHP' ]; then composer run test; fi"
+  - if [[ "$PHP_COVERAGE" = "TRUE" ]]; then wget https://scrutinizer-ci.com/ocular.phar;
+    fi
+  - if [[ "$PHP_COVERAGE" = "TRUE" ]]; then php ocular.phar code-coverage:upload --format=php-clover
+    tests/clover.xml; fi
+
+  # Test packaging
+  - if [[ "$TEST_SUITE" = "PACKAGE" ]]; then make dev-setup; fi
+  - if [[ "$TEST_SUITE" = "PACKAGE" ]]; then make build-js-production; fi
+  - if [[ "$TEST_SUITE" = "PACKAGE" ]]; then make appstore; fi

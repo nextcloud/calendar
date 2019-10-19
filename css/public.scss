@@ -1,0 +1,98 @@
+/**
+ * Calendar App
+ *
+ * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
+ *
+ * @author Georg Ehrke
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+#emptycontent-container #emptycontent {
+	color: #a9a9a9 !important;
+}
+
+#body-public #content {
+	min-height: 100% !important;
+}
+
+#content.app-calendar.app-calendar-public-embedded {
+	#embed-header {
+		position: fixed;
+		top: 0;
+		left: 0;
+		height: 44px;
+		width: 100%;
+		box-sizing: border-box;
+		background-color: var(--color-main-background);
+		border-bottom: 1px solid var(--color-border);
+		overflow: visible;
+		z-index: 2000;
+		display: flex;
+		justify-content: space-between;
+
+		.embed-header__date-section,
+		.embed-header__share-section {
+			display: flex;
+		}
+
+		.view-button-section {
+			.button {
+				min-width: 75px;
+			}
+		}
+
+		.datepicker-button-section {
+			&__datepicker-label {
+				min-width: 150px;
+			}
+		}
+	}
+
+	#app-content {
+		margin-top: 44px
+		//position: absolute !important;
+		//top: 44px;
+		//left: 0;
+		//right: 0;
+		//bottom: 0;
+		//min-height: unset !important;
+	}
+}
+
+.empty-calendar-screen {
+	background: rgba($color-main-background, .75);
+	position: absolute;
+	top: 0;
+	height: 100%;
+	width: 100%;
+	z-index: 5000;
+	padding-top: 10%;
+
+	&__icon {
+		.icon {
+			height: 64px;
+			margin: 0 auto;
+			width: 64px;
+			background-size: 64px;
+			opacity: 0.55;
+		}
+	}
+
+	&__message {
+		text-align: center;
+		margin-top: 25px;
+	}
+}

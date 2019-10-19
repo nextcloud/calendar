@@ -1,0 +1,154 @@
+/**
+ * Calendar App
+ *
+ * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
+ *
+ * @author Georg Ehrke
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+.fc-event-nc-tentative,
+.fc-event-nc-cancelled {
+	opacity: .5;
+}
+
+.fc-event-nc-cancelled {
+	text-decoration: line-through !important;
+}
+
+.fc-view.fc-timeGridDay-view {
+	.fc-today {
+		background: var(--color-main-background) !important;
+	}
+}
+
+.fc th,
+.fc .fc-axis,
+.fc-day-grid-event .fc-time,
+.fc-ltr .fc-basic-view .fc-day-number,
+.fc-ltr .fc-basic-view .fc-week-number,
+.fc-time-grid-event .fc-time {
+	opacity: .8;
+	font-size: 80%;
+	font-weight: normal;
+}
+
+.fc-basic-view .fc-day-top .fc-week-number {
+	background-color: var(--color-border);
+	color: var(--color-main-text);
+}
+
+.fc-day-number.fc-other-month {
+	opacity: .1 !important;
+}
+
+.fc td.fc-widget-header {
+	border-top: none;
+}
+
+.fc th,
+.fc td {
+	border-left: none;
+	border-bottom: none;
+}
+
+/* border styles for grid, highlight full-hour horizontal lines */
+
+.fc-unthemed tr th,
+.fc-unthemed tr td {
+	border-color: var(--color-border);
+	//border-top-color: var(--color-border-dark);
+}
+
+.fc-unthemed tr:nth-child(even) td {
+	border-top-color: var(--color-border-dark);
+}
+
+/* properly size events */
+.fc-event {
+	font-size: 13px;
+	line-height: initial;
+	padding-left: 3px;
+}
+
+.fc-axis,
+.fc-day-header {
+	font-size: 100%;
+	opacity: .5;
+}
+
+.fc td.fc-day.fc-sat,
+.fc td.fc-day.fc-sun {
+	background-color: var(--color-background-dark);
+}
+
+.fc table {
+	white-space: inherit !important;
+}
+
+.fc-state-highlight.fc-day-number,
+.fc tbody tr,
+.fc tbody tr:hover,
+.fc tbody tr:focus {
+	background: transparent !important;
+}
+
+.fc .fc-divider {
+	background: var(--color-border) !important;
+	border-color: var(--color-border) !important;
+}
+
+.fc-day-number {
+	padding-top: 0 !important;
+}
+
+.fc-today > .fc-day-number {
+	background: var(--color-primary);
+	color: var(--color-primary-text);
+	border-radius: 50%;
+	margin: 3px 3px 0 0;
+	width: 24px;
+	height: 24px;
+	text-align: center;
+	font-weight: bold !important;
+	box-sizing: border-box !important;
+}
+
+.fc-day-header.fc-today {
+	background-color: var(--color-primary) !important;
+	color: var(--color-primary-text);
+	opacity: 1;
+	font-weight: bold !important;
+}
+
+.fc-today.fc-sat:not(.fc-day-header),
+.fc-today.fc-sun:not(.fc-day-header) {
+	background-color: var(--color-background-dark) !important;
+}
+
+.fc-today.fc-mon:not(.fc-day-header),
+.fc-today.fc-tue:not(.fc-day-header),
+.fc-today.fc-wed:not(.fc-day-header),
+.fc-today.fc-thu:not(.fc-day-header),
+.fc-today.fc-fri:not(.fc-day-header) {
+	background-color: var(--color-background) !important;
+}
+
+// The server is setting border-box on everything
+// inside content and that messes up fullcalendar
+.fc * {
+	box-sizing: content-box !important;
+}

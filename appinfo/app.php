@@ -3,7 +3,7 @@
  * Calendar App
  *
  * @author Georg Ehrke
- * @copyright 2016 Georg Ehrke <oc.list@georgehrke.com>
+ * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE

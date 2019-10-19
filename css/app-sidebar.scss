@@ -1,0 +1,603 @@
+/**
+ * Calendar App
+ *
+ * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
+ *
+ * @author Georg Ehrke
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+#app-sidebar,
+.event-popover .popover-inner {
+
+	.app-sidebar-header__figure {
+		height: unset !important;
+	}
+
+	.app-sidebar-header__action {
+		margin-top: 0 !important;
+		max-height: none !important;
+	}
+
+	.editor-invitee-list-empty-message,
+	.editor-reminders-list-empty-message {
+		margin-top: 20px;
+
+		&__icon {
+			background-size: 50px;
+			height: 50px;
+			width: 50px;
+			margin: 0 auto;
+			opacity: .5;
+		}
+
+		&__caption {
+			text-align: center;
+			color: var(--color-text-lighter);
+		}
+	}
+
+	.editor-reminders-list-new-button {
+		width: 100%;
+		background-position-x: 8px;
+	}
+
+	.app-sidebar-tab {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+
+		&__buttons {
+			padding-top: 14px;
+
+			button {
+				width: 100%;
+			}
+		}
+	}
+
+	.property-title-time-picker-loading-placeholder {
+		width: 100%;
+
+		&__icon {
+			margin: 0 auto;
+			height: 62px;
+			width: 62px;
+			background-size: 62px;
+		}
+	}
+
+	.app-sidebar-tab-loading-indicator {
+		width: 100%;
+		margin-top: 20px;
+
+		&__icon {
+			margin: 0 auto;
+			height: 44px;
+			width: 44px;
+			background-size: 44px;
+		}
+	}
+
+	.repeat-option-set {
+		.repeat-option-set-section {
+			&:not(:first-of-type) {
+				margin-top: 20px
+			}
+
+			&--on-the-select {
+				display: flex;
+				align-items: center;
+
+				.multiselect {
+					width: 100%;
+					min-width: 75px !important; // Set a lower min-width
+				}
+			}
+
+			&__title {
+				list-style: none;
+			}
+
+			&__grid {
+				display: grid;
+				grid-gap: 0;
+
+				.repeat-option-set-section-grid-item {
+					padding: 8px;
+					border: 1px solid var(--color-border-dark);
+					text-align: center;
+					margin: 0;
+					border-radius: 0;
+				}
+			}
+		}
+
+		&--weekly,
+		&--monthly {
+			.repeat-option-set-section {
+				&__grid {
+					grid-template-columns: repeat(7, auto);
+				}
+			}
+		}
+
+		&--yearly {
+			.repeat-option-set-section {
+				&__grid {
+					grid-template-columns: repeat(4, auto);
+				}
+			}
+		}
+
+		&--interval-freq {
+			display: flex;
+			align-items: center;
+
+			.multiselect,
+			input[type=number] {
+				min-width: 75px;
+				width: 25%;
+			}
+		}
+
+		&--end {
+			margin-top: 20px;
+			display: flex;
+			align-items: center;
+
+			.repeat-option-end {
+				&__label,
+				&__end-type-select {
+					display: block;
+					min-width: 75px;
+					width: 25%;
+				}
+
+				&__until {
+					min-width: 75px;
+					width: 50%
+				}
+
+				&__count {
+					min-width: 75px;
+					width: 25%;
+				}
+			}
+		}
+
+		&__label {
+			margin-right: auto;
+		}
+	}
+
+	.repeat-option-warning {
+		display: flex;
+		align-items: center;
+		margin-top: 20px;
+
+		&__icon {
+			height: 32px;
+			width: 32px;
+			min-width: 32px;
+			min-height: 32px;
+			background-size: 32px;
+		}
+
+		&__info {
+			text-align: center;
+		}
+	}
+
+	.property-title-time-picker {
+		width: 100%;
+
+		&__time-pickers,
+		&__all-day {
+			display: flex;
+			align-items: center;
+		}
+
+		&__time-pickers {
+			justify-content: space-between;
+
+			.mx-datepicker {
+				width: 49%;
+			}
+
+			&--readonly {
+				.property-title-time-picker-read-only-wrapper {
+					display: flex;
+					align-items: center;
+					width: 50%;
+					margin: 3px 3px 3px 0;
+					padding: 8px 7px;
+					background-color: var(--color-main-background);
+					color: var(--color-main-text);
+					outline: none;
+
+					&__icon {
+						margin-left: 8px;
+						height: 16px;
+						width: 16px;
+						opacity: .3;
+
+						&--highlighted {
+							opacity: .7;
+						}
+
+						&:focus,
+						&:hover {
+							opacity: 1;
+						}
+					}
+				}
+			}
+		}
+
+		&__all-day {
+			justify-content: flex-start;
+		}
+
+		.datetime-picker-inline-icon {
+			margin-top: 6px;
+			opacity: .3;
+			border: none;
+			background-color: transparent;
+			border-radius: 0;
+			padding: 6px !important;
+
+			&--highlighted {
+				opacity: .7;
+			}
+
+			&:focus,
+			&:hover {
+				opacity: 1;
+			}
+		}
+	}
+
+	.property-alarm-item {
+		display: flex;
+		align-items: center;
+		min-height: 44px;
+
+		&__icon {
+			width: 32px;
+			height: 32px;
+			background-color: var(--color-border-dark);
+			border-radius: 50%;
+
+			.icon {
+				opacity: .7;
+				height: 32px;
+				width: 32px;
+				background-size: 20px;
+			}
+		}
+
+		&__label {
+			padding: 0 8px;
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+		}
+
+		&__options {
+			margin-left: auto;
+			display: flex;
+			align-items: center;
+			white-space: nowrap;
+		}
+
+		&__edit {
+			padding: 0 8px;
+			display: flex;
+			align-items: center;
+			width: 100%;
+
+			input[type=number] {
+				width: 4em;
+			}
+
+			&--timed {
+				.multiselect {
+					width: 100%;
+				}
+			}
+
+			&--all-day {
+				justify-content: space-between;
+
+				.multiselect {
+					width: unset !important; // TODO - remove
+					min-width: 8em !important;
+				}
+
+				.before-at-label {
+					margin: 0 auto;
+				}
+
+				.mx-datepicker {
+					width: 8em !important;
+				}
+			}
+
+			&--absolute {
+				.mx-datepicker {
+					width: 100% !important;
+				}
+			}
+		}
+	}
+
+	.invitees-search {
+		width: 100%;
+
+		.invitees-search-list-item {
+			display: flex;
+			align-items: center;
+
+			&__label {
+				width: 100%;
+				padding: 0 8px;
+
+				&--with-multiple-email,
+				&--single-email {
+					div:nth-child(1) {
+						color: var(--color-main-text)
+					}
+				}
+
+				&--with-multiple-email {
+					div:nth-child(2) {
+						color: var(--color-text-lighter);
+						line-height: 1;
+					}
+				}
+			}
+		}
+	}
+
+	.invitees-list-item {
+		display: flex;
+		align-items: center;
+		min-height: 44px;
+
+		&__displayname {
+			margin-left: 8px;
+		}
+
+		&__actions {
+			margin-left: auto;
+		}
+
+		&__organizer-hint {
+			color: var(--color-text-maxcontrast);
+			font-weight: 300;
+		}
+	}
+
+	.avatar-participation-status {
+		position: relative;
+		height: 38px;
+		width: 38px;
+
+		&__indicator {
+			position: absolute;
+			bottom: 0;
+			right: 0;
+			background-size: 10px;
+			height: 15px;
+			width: 15px;
+			box-shadow: 0 0 3px grey;
+			border-radius: 50%;
+		}
+
+		&__indicator.accepted {
+			background-color: #2fb130;
+		}
+
+		&__indicator.declined {
+			background-color: #ff0000;
+		}
+
+		&__indicator.tentative {
+			background-color: #ffa704;
+		}
+
+		&__indicator.delegated,
+		&__indicator.no-response {
+			background-color: grey;
+		}
+	}
+
+	.property-text,
+	.property-select,
+	.property-title {
+		display: flex;
+		width: 100%;
+		align-items: flex-start;
+
+		&__icon,
+		&__info {
+			height: 34px;
+			width: 34px;
+			margin-top: 5px;
+		}
+
+		&__info {
+			opacity: .5;
+		}
+
+		&__info:hover {
+			opacity: 1;
+		}
+
+		&__icon {
+			margin-left: -5px;
+			margin-right: 5px;
+		}
+
+		&__input {
+			flex-grow: 2;
+
+			textarea,
+			input,
+			div.multiselect {
+				width: 100%
+			}
+
+			&--readonly {
+				div {
+					width: 100%;
+					white-space: pre-line;
+					margin: 3px 3px 3px 0;
+					padding: 8px 7px;
+					background-color: var(--color-main-background);
+					color: var(--color-main-text);
+					outline: none;
+				}
+			}
+
+			&--readonly-calendar-picker {
+
+				div.calendar-picker-option {
+					margin: 3px 3px 3px 0;
+					padding: 8px 7px;
+				}
+			}
+		}
+	}
+
+	.property-title {
+		&__input,
+		&__input input {
+			font-size: 20px;
+		}
+	}
+
+	.illustration-header {
+		max-height: 150px;
+		height: 150px;
+		width: 100%;
+	}
+
+	.illustration-header svg {
+		width: 100%;
+		height: 150px;
+		padding: 8px 8px 0 8px;
+	}
+}
+
+.timezone-popover-wrapper {
+	.tooltip-inner.popover-inner {
+		padding: 20px;
+	}
+
+	&__title {
+		margin-bottom: 8px;
+	}
+
+	&__timezone-select {
+		min-width: 200px;
+	}
+}
+
+.event-popover {
+	.popover-inner {
+		text-align: left;
+		max-width: 450px;
+		width: 450px;
+
+		.illustration-header {
+			height: 100px;
+			overflow: hidden;
+			margin-bottom: 5px;
+			background-color: var(--color-background-dark);
+			// There is probably a more elegant solution for this
+			margin-top: -5px;
+			margin-left: -8px;
+			width: 466px;
+			border-top-left-radius: var(--border-radius);
+			border-top-right-radius: var(--border-radius);
+		}
+
+		.popover-inner {
+			max-width: unset !important;
+		}
+
+		.property-title-time-picker {
+			margin-bottom: 12px;
+		}
+
+		.event-popover__buttons {
+			margin-top: 8px;
+			display: flex;
+
+			button {
+				width: 100%;
+			}
+		}
+
+		.event-popover__close-action {
+			position: absolute !important;
+			width: 44px !important;
+			height: 44px !important;
+			top: 0 !important;
+			right: 0 !important;
+			z-index: 100 !important;
+			opacity: .7 !important;
+			border-radius: 22px !important;
+		}
+
+		.popover-loading-indicator {
+			width: 100%;
+
+			&__icon {
+				margin: 0 auto;
+				height: 62px;
+				width: 62px;
+				background-size: 62px;
+			}
+		}
+	}
+}
+
+.event-popover.tooltip[x-placement^='bottom'] {
+	.popover-arrow {
+		border-bottom-color: var(--color-background-dark);
+	}
+}
+
+.calendar-picker-option {
+	width: 100%;
+	display: flex;
+	align-items: center;
+
+	&__color-indicator {
+		width: 12px;
+		height: 12px;
+		border-radius: 50%;
+		border: none;
+		margin-right: 8px;
+	}
+
+	&__avatar {
+		margin-left: auto;
+	}
+}
