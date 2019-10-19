@@ -21,12 +21,14 @@
   -->
 
 <template>
-	<!-- Using v-html won't cause any XSS here, -->
-	<!-- because illustrationUrl comes from a fixed list of SVGs -->
-	<!-- and while color is based on user-input, -->
-	<!-- we use a validator to make sure it's actually a HEX RGB code -->
-	<!-- eslint-disable-next-line vue/no-v-html -->
-	<div class="illustration-header" v-html="coloredSVG" />
+	<transition name="fade" mode="out-in">
+		<!-- Using v-html won't cause any XSS here, -->
+		<!-- because illustrationUrl comes from a fixed list of SVGs -->
+		<!-- and while color is based on user-input, -->
+		<!-- we use a validator to make sure it's actually a HEX RGB code -->
+		<!-- eslint-disable-next-line vue/no-v-html -->
+		<div :key="illustrationUrl" class="illustration-header" v-html="coloredSVG" />
+	</transition>
 </template>
 
 <script>
@@ -84,3 +86,13 @@ export default {
 	}
 }
 </script>
+
+<style lang="scss" scoped>
+	.fade-enter-active, .fade-leave-active {
+		transition: opacity .3s;
+	}
+
+	.fade-enter, .fade-leave-to {
+		opacity: 0;
+	}
+</style>
