@@ -459,6 +459,7 @@
 
 	.property-text,
 	.property-select,
+	.property-select-multiple,
 	.property-title {
 		display: flex;
 		width: 100%;
@@ -510,6 +511,31 @@
 				div.calendar-picker-option {
 					margin: 3px 3px 3px 0;
 					padding: 8px 7px;
+				}
+			}
+		}
+	}
+
+	.property-select-multiple {
+		.property-select-multiple__input.property-select-multiple__input--readonly {
+			width: 100%;
+
+			.property-select-multiple-colored-tag-wrapper {
+				align-items: center;
+				overflow: hidden;
+				max-width: 100%;
+				position: relative;
+				padding: 3px 5px;
+
+				.multiselect__tag {
+					line-height: 20px;
+					padding: 1px 5px;
+					background-image: none;
+					display: inline-flex;
+					align-items: center;
+					border-radius: 3px;
+					max-width: fit-content;
+					margin: 3px;
 				}
 			}
 		}
@@ -630,5 +656,19 @@
 
 	&__avatar {
 		margin-left: auto;
+	}
+}
+
+.property-select-multiple-colored-tag {
+	width: 100%;
+	display: flex;
+	align-items: center;
+
+	&__color-indicator {
+		width: 12px;
+		height: 12px;
+		border-radius: 50%;
+		border: none;
+		margin-right: 8px;
 	}
 }

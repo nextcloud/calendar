@@ -29,6 +29,19 @@ import convert from 'color-convert'
  */
 export function generateTextColorForRGBString(rgbString) {
 	const [red, green, blue] = convert.hex.rgb(rgbString.substr(1))
+	return generateTextColorForRGB({ red, green, blue })
+}
+
+/**
+ * Get a text-color that's readable on a given background color
+ *
+ * @param {Object} data The destructuring object
+ * @param {number} data.red Red part of the RGB
+ * @param {number} data.green Green part of the RGB
+ * @param {number} data.blue Blue part of the RGB
+ * @returns {string}
+ */
+export function generateTextColorForRGB({ red, green, blue }) {
 	const brightness = (((red * 299) + (green * 587) + (blue * 114)) / 1000)
 	return (brightness > 130) ? '#000000' : '#FAFAFA'
 }

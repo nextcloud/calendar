@@ -114,6 +114,14 @@
 					:prop-model="rfcProps.timeTransparency"
 					:value="timeTransparency"
 					@update:value="updateTimeTransparency" />
+
+				<PropertySelectMultiple
+					:colored-options="true"
+					:is-read-only="isReadOnly"
+					:prop-model="rfcProps.categories"
+					:value="categories"
+					@addSingleValue="addCategory"
+					@removeSingleValue="removeCategory" />
 			</div>
 			<SaveButtons
 				v-if="!isLoading && !isReadOnly"
@@ -234,10 +242,12 @@ import moment from '@nextcloud/moment'
 import PropertyTitleTimePickerLoadingPlaceholder
 	from '../components/Editor/Properties/PropertyTitleTimePickerLoadingPlaceholder.vue'
 import SaveButtons from '../components/Editor/SaveButtons.vue'
+import PropertySelectMultiple from '../components/Editor/Properties/PropertySelectMultiple.vue'
 
 export default {
 	name: 'EditSidebar',
 	components: {
+		PropertySelectMultiple,
 		SaveButtons,
 		PropertyTitleTimePickerLoadingPlaceholder,
 		IllustrationHeader,
@@ -286,6 +296,13 @@ export default {
 			}
 
 			return this.calendarObjectInstance.timeTransparency
+		},
+		categories() {
+			if (!this.calendarObjectInstance) {
+				return []
+			}
+
+			return this.calendarObjectInstance.categories
 		}
 	},
 	methods: {
@@ -320,6 +337,28 @@ export default {
 			this.$store.commit('changeTimeTransparency', {
 				calendarObjectInstance: this.calendarObjectInstance,
 				timeTransparency
+			})
+		},
+		/**
+		 * Adds a category to the event
+		 *
+		 * @param {String} category Category to add
+		 */
+		addCategory(category) {
+			this.$store.commit('addCategory', {
+				calendarObjectInstance: this.calendarObjectInstance,
+				category
+			})
+		},
+		/**
+		 * Removes a category from the event
+		 *
+		 * @param {String} category Category to remove
+		 */
+		removeCategory(category) {
+			this.$store.commit('removeCategory', {
+				calendarObjectInstance: this.calendarObjectInstance,
+				category
 			})
 		}
 	}
