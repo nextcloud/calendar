@@ -184,7 +184,7 @@ export default {
 				&& this.$route.name !== 'EditSidebarView'
 		},
 		isSelectable() {
-			return !this.isPublicShare
+			return !this.isPublicShare && !this.isEmbedded
 		},
 		isAuthenticatedUser() {
 			return !this.isPublicShare && !this.isEmbedded
