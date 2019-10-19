@@ -562,4 +562,13 @@ const data = [{
 	illustrationNames: [
 		'dinner'
 	]
+}, {
+	strings: [
+		'Date',
+		// TRANSLATORS This string is used for matching the event title to an illustration - Date as in romantic Date
+		translate('calendar', 'Date')
+	],
+	illustrationNames: [
+		'date'
+	]
 }]
