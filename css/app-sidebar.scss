@@ -255,6 +255,20 @@
 			}
 		}
 
+		@media screen and (max-width: 1500px) {
+			&__time-pickers {
+				display: block;
+			}
+
+			.mx-datepicker {
+				width: 100%;
+			}
+
+			.property-title-time-picker-read-only-wrapper {
+				width: 100%;
+			}
+		}
+
 		&__all-day {
 			justify-content: flex-start;
 		}
