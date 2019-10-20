@@ -23,7 +23,7 @@
 <template>
 	<div>
 		<InviteesListSearch
-			v-if="!isReadOnly"
+			v-if="!isReadOnly && hasUserEmailAddress"
 			:already-invited-emails="alreadyInvitedEmails"
 			@addAttendee="addAttendee" />
 		<OrganizerListItem
@@ -38,7 +38,11 @@
 			:organizer-display-name="organizerDisplayName"
 			@removeAttendee="removeAttendee" />
 		<NoInviteesView
-			v-if="isListEmpty" />
+			v-if="isReadOnly && isListEmpty" />
+		<NoInviteesView
+			v-if="!isReadOnly && isListEmpty && hasUserEmailAddress" />
+		<OrganizerNoEmailError
+			v-if="!isReadOnly && isListEmpty && !hasUserEmailAddress" />
 	</div>
 </template>
 
@@ -47,10 +51,12 @@ import InviteesListSearch from './InviteesListSearch'
 import InviteesListItem from './InviteesListItem'
 import OrganizerListItem from './OrganizerListItem'
 import NoInviteesView from './NoInviteesView.vue'
+import OrganizerNoEmailError from './OrganizerNoEmailError.vue'
 
 export default {
 	name: 'InviteesList',
 	components: {
+		OrganizerNoEmailError,
 		NoInviteesView,
 		InviteesListItem,
 		InviteesListSearch,
@@ -112,6 +118,14 @@ export default {
 			}
 
 			return emails
+		},
+		hasUserEmailAddress() {
+			const principal = this.$store.getters.getCurrentUserPrincipal
+			if (!principal) {
+				return false
+			}
+
+			return !!principal.emailAddress
 		}
 	},
 	methods: {
