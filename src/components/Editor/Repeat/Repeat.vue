@@ -23,18 +23,18 @@
 <template>
 	<div>
 		<RepeatFreqInterval
-			v-if="!isRecurrenceException"
+			v-if="!isRecurrenceException && !isReadOnly"
 			:frequency="recurrenceRule.frequency"
 			:interval="recurrenceRule.interval"
 			@changeInterval="changeInterval"
 			@changeFrequency="changeFrequency" />
 		<RepeatFreqWeeklyOptions
-			v-if="isFreqWeekly && !isRecurrenceException"
+			v-if="isFreqWeekly && !isRecurrenceException && !isReadOnly"
 			:by-day="recurrenceRule.byDay"
 			@addByDay="addByDay"
 			@removeByDay="removeByDay" />
 		<RepeatFreqMonthlyOptions
-			v-if="isFreqMonthly && !isRecurrenceException"
+			v-if="isFreqMonthly && !isRecurrenceException && !isReadOnly"
 			:by-day="recurrenceRule.byDay"
 			:by-month-day="recurrenceRule.byMonthDay"
 			:by-set-position="recurrenceRule.bySetPosition"
@@ -45,7 +45,7 @@
 			@changeToBySetPosition="changeToBySetPositionMonthly"
 			@changeToByDay="changeToByDayMonthly" />
 		<RepeatFreqYearlyOptions
-			v-if="isFreqYearly && !isRecurrenceException"
+			v-if="isFreqYearly && !isRecurrenceException && !isReadOnly"
 			:by-day="recurrenceRule.byDay"
 			:by-month="recurrenceRule.byMonth"
 			:by-set-position="recurrenceRule.bySetPosition"
@@ -56,7 +56,7 @@
 			@enableBySetPosition="enableBySetPositionYearly"
 			@disableBySetPosition="disableBySetPositionYearly" />
 		<RepeatEndRepeat
-			v-if="isRepeating && !isRecurrenceException"
+			v-if="isRepeating && !isRecurrenceException && !isReadOnly"
 			:calendar-object-instance="calendarObjectInstance"
 			:until="recurrenceRule.until"
 			:count="recurrenceRule.count"
@@ -65,18 +65,26 @@
 			@setCount="setCount"
 			@changeToCount="changeToCount"
 			@changeToUntil="changeToUntil" />
-		<!-- The repeat summary is definitely something I want in the future, but let's implement it later -->
-		<!--<repeat-summary-->
-		<!--	v-if="true"-->
-		<!--	:frequency="frequency"-->
-		<!--	:interval="interval"-->
-		<!--	:by-day="byDay"-->
-		<!--	:by-month="byMonth"-->
-		<!--	:by-month-day="byMonthDay"-->
-		<!--	:by-set-position="bySetPosition"-->
-		<!--	:until="repeatUntil"-->
-		<!--	:count="repeatCount"-->
-		<!--/>-->
+		<RepeatSummary
+			v-if="!isReadOnly"
+			:frequency="recurrenceRule.frequency"
+			:interval="recurrenceRule.interval"
+			:by-day="recurrenceRule.byDay"
+			:by-month="recurrenceRule.byMonth"
+			:by-month-day="recurrenceRule.byMonthDay"
+			:by-set-position="recurrenceRule.bySetPosition"
+			:until="recurrenceRule.until"
+			:count="recurrenceRule.count" />
+		<RepeatSummaryReadOnly
+			v-if="isReadOnly"
+			:frequency="recurrenceRule.frequency"
+			:interval="recurrenceRule.interval"
+			:by-day="recurrenceRule.byDay"
+			:by-month="recurrenceRule.byMonth"
+			:by-month-day="recurrenceRule.byMonthDay"
+			:by-set-position="recurrenceRule.bySetPosition"
+			:until="recurrenceRule.until"
+			:count="recurrenceRule.count" />
 		<RepeatUnsupportedWarning
 			v-if="recurrenceRule.isUnsupported && !isRecurrenceException" />
 		<RepeatExceptionWarning
@@ -92,10 +100,14 @@ import RepeatFreqYearlyOptions from './RepeatFreqYearlyOptions.vue'
 import RepeatFreqInterval from './RepeatFreqInterval.vue'
 import RepeatUnsupportedWarning from './RepeatUnsupportedWarning.vue'
 import RepeatExceptionWarning from './RepeatExceptionWarning.vue'
+import RepeatSummary from './RepeatSummary.vue'
+import RepeatSummaryReadOnly from './RepeatSummaryReadOnly.vue'
 
 export default {
 	name: 'Repeat',
 	components: {
+		RepeatSummary,
+		RepeatSummaryReadOnly,
 		RepeatExceptionWarning,
 		RepeatFreqInterval,
 		RepeatFreqYearlyOptions,
