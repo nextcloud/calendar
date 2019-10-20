@@ -28,13 +28,18 @@ import { getPrefixedRoute } from '../utils/router'
  * @param {Object} store The Vuex store
  * @param {Object} router The Vue router
  * @param {Object} route The current Vue route
+ * @param {Window} window The window object
  * @returns {Function}
  */
-export default function(store, router, route) {
+export default function(store, router, route, window) {
 	return function({ event }) {
-		const desiredRoute = store.state.settings.skipPopover
+		let desiredRoute = store.state.settings.skipPopover
 			? 'EditSidebarView'
 			: 'EditPopoverView'
+
+		if (window.innerWidth <= 768 && desiredRoute === 'EditPopoverView') {
+			desiredRoute = 'EditSidebarView'
+		}
 
 		const name = getPrefixedRoute(route.name, desiredRoute)
 		const params = Object.assign({}, store.state.route.params, {

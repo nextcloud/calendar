@@ -322,7 +322,7 @@ export default {
 			}
 		}, 5000),
 		eventClick(...args) {
-			return eventClick(this.$store, this.$router, this.$route)(...args)
+			return eventClick(this.$store, this.$router, this.$route, window)(...args)
 		},
 		eventDrop(...args) {
 			return eventDrop(this.$store, this.$refs.fullCalendar.getApi())(...args)
