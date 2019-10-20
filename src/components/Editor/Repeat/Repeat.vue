@@ -65,18 +65,16 @@
 			@setCount="setCount"
 			@changeToCount="changeToCount"
 			@changeToUntil="changeToUntil" />
-		<!-- The repeat summary is definitely something I want in the future, but let's implement it later -->
-		<!--<repeat-summary-->
-		<!--	v-if="true"-->
-		<!--	:frequency="frequency"-->
-		<!--	:interval="interval"-->
-		<!--	:by-day="byDay"-->
-		<!--	:by-month="byMonth"-->
-		<!--	:by-month-day="byMonthDay"-->
-		<!--	:by-set-position="bySetPosition"-->
-		<!--	:until="repeatUntil"-->
-		<!--	:count="repeatCount"-->
-		<!--/>-->
+		<RepeatSummary
+			v-if="true"
+			:frequency="recurrenceRule.frequency"
+			:interval="recurrenceRule.interval"
+			:by-day="recurrenceRule.byDay"
+			:by-month="recurrenceRule.byMonth"
+			:by-month-day="recurrenceRule.byMonthDay"
+			:by-set-position="recurrenceRule.bySetPosition"
+			:until="recurrenceRule.until"
+			:count="recurrenceRule.count" />
 		<RepeatUnsupportedWarning
 			v-if="recurrenceRule.isUnsupported && !isRecurrenceException" />
 		<RepeatExceptionWarning
@@ -92,10 +90,12 @@ import RepeatFreqYearlyOptions from './RepeatFreqYearlyOptions.vue'
 import RepeatFreqInterval from './RepeatFreqInterval.vue'
 import RepeatUnsupportedWarning from './RepeatUnsupportedWarning.vue'
 import RepeatExceptionWarning from './RepeatExceptionWarning.vue'
+import RepeatSummary from './RepeatSummary.vue'
 
 export default {
 	name: 'Repeat',
 	components: {
+		RepeatSummary,
 		RepeatExceptionWarning,
 		RepeatFreqInterval,
 		RepeatFreqYearlyOptions,

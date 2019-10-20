@@ -179,6 +179,12 @@
 			}
 		}
 
+		&--summary {
+			display: flex;
+			justify-content: space-between;
+			line-height: 34px;
+		}
+
 		&__label {
 			margin-right: auto;
 		}
