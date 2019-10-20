@@ -117,8 +117,10 @@ export default {
 			if (!this.calendarObject) {
 				return false
 			}
-
 			if (this.isReadOnly) {
+				return false
+			}
+			if (this.isLoading) {
 				return false
 			}
 
@@ -139,6 +141,9 @@ export default {
 		// Download related properties
 		hasDownloadURL() {
 			if (!this.calendarObject) {
+				return false
+			}
+			if (this.isLoading) {
 				return false
 			}
 
@@ -264,6 +269,10 @@ export default {
 		 * Resets the calendar-object back to it's original state and closes the editor
 		 */
 		cancel() {
+			if (this.isLoading) {
+				return
+			}
+
 			if (!this.calendarObject) {
 				logger.error('Calendar-object not found')
 				this.closeEditor()
@@ -296,6 +305,8 @@ export default {
 			}
 
 			if (this.eventComponent.isDirty()) {
+				this.isLoading = true
+
 				let original, fork
 				if (this.eventComponent.canCreateRecurrenceExceptions() && !isNewEvent) {
 					[original, fork] = this.eventComponent.createRecurrenceException(thisAndAllFuture)
@@ -314,11 +325,15 @@ export default {
 			}
 
 			if (this.calendarId !== this.calendarObject.calendarId) {
+				this.isLoading = true
+
 				await this.$store.dispatch('moveCalendarObject', {
 					calendarObject: this.calendarObject,
 					newCalendarId: this.calendarId
 				})
 			}
+
+			this.isLoading = false
 		},
 		/**
 		 * Saves a calendar-object and closes the editor
@@ -346,6 +361,8 @@ export default {
 				return
 			}
 
+			this.isLoading = true
+
 			const isRecurrenceSetEmpty = this.eventComponent.removeThisOccurrence(thisAndAllFuture)
 			if (isRecurrenceSetEmpty) {
 				await this.$store.dispatch('deleteCalendarObject', {
@@ -356,6 +373,8 @@ export default {
 					calendarObject: this.calendarObject
 				})
 			}
+
+			this.isLoading = false
 		},
 		/**
 		 * Deletes a calendar-object and closes the editor
