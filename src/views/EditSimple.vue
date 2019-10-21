@@ -169,7 +169,7 @@ export default {
 			this.requiresActionOnRouteLeave = false
 
 			const params = Object.assign({}, this.$route.params)
-			if (this.$route.name === 'NewSidebarView') {
+			if (this.$route.name === 'NewPopoverView') {
 				this.$router.push({ name: 'NewSidebarView', params })
 			} else {
 				this.$router.push({
