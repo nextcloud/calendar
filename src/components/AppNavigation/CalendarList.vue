@@ -24,30 +24,22 @@
 		id="calendars-list"
 		name="list"
 		tag="ul">
-		<CalendarListNew
-			:key="newCalendarKey"
-			:disabled="loadingCalendars" />
+		<AppNavigationSpacer :key="spacerKey" />
 		<CalendarListItemLoadingPlaceholder v-if="loadingCalendars" :key="loadingKeyCalendars" />
 		<CalendarListItem
-			v-for="calendar in calendars"
+			v-for="calendar in allCalendars"
 			:key="calendar.id"
 			:calendar="calendar" />
-
-		<AppNavigationSpacer
-			:key="spacerKey" />
-
-		<SubscriptionListNew :key="newSubscriptionKey" :disabled="loadingCalendars" />
-		<CalendarListItemLoadingPlaceholder v-if="loadingCalendars" :key="loadingKeySubscriptions" />
-		<CalendarListItem
-			v-for="calendar in subscriptions"
-			:key="calendar.id"
-			:calendar="calendar" />
+		<CalendarListNew
+			v-if="!loadingCalendars"
+			:key="newCalendarKey"
+			:disabled="loadingCalendars" />
 	</transition-group>
 	<transition-group v-else
 		id="calendars-list"
 		name="list"
 		tag="ul">
-		<CalendarListItemLoadingPlaceholder v-if="loadingCalendars" :key="loadingKeySubscriptions" />
+		<CalendarListItemLoadingPlaceholder v-if="loadingCalendars" :key="loadingKeyCalendars" />
 		<PublicCalendarListItem
 			v-for="calendar in subscriptions"
 			:key="calendar.id"
@@ -57,25 +49,21 @@
 
 <script>
 import {
-	AppNavigationSpacer
-} from '@nextcloud/vue'
-import {
 	mapGetters
 } from 'vuex'
+import { AppNavigationSpacer } from '@nextcloud/vue'
+import CalendarListNew from './CalendarList/CalendarListNew.vue'
 import CalendarListItem from './CalendarList/CalendarListItem.vue'
 import PublicCalendarListItem from './CalendarList/PublicCalendarListItem.vue'
 import CalendarListItemLoadingPlaceholder from './CalendarList/CalendarListItemLoadingPlaceholder.vue'
-import CalendarListNew from './CalendarList/CalendarListNew.vue'
-import SubscriptionListNew from './CalendarList/SubscriptionListNew.vue'
 
 export default {
 	name: 'CalendarList',
 	components: {
 		AppNavigationSpacer,
+		CalendarListNew,
 		CalendarListItem,
 		CalendarListItemLoadingPlaceholder,
-		CalendarListNew,
-		SubscriptionListNew,
 		PublicCalendarListItem
 	},
 	props: {
@@ -90,7 +78,7 @@ export default {
 	},
 	computed: {
 		...mapGetters({
-			calendars: 'sortedCalendars',
+			allCalendars: 'sortedCalendarsSubscriptions',
 			subscriptions: 'sortedSubscriptions'
 		}),
 		newCalendarKey() {
@@ -98,12 +86,6 @@ export default {
 		},
 		loadingKeyCalendars() {
 			return this._uid + '-loading-placeholder-calendars'
-		},
-		loadingKeySubscriptions() {
-			return this._uid + '-loading-placeholder-subscriptions'
-		},
-		newSubscriptionKey() {
-			return this._uid + '-new-subscription'
 		},
 		spacerKey() {
 			return this._uid + '-spacer'
