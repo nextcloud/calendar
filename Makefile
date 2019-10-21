@@ -68,9 +68,7 @@ stylelint-fix:
 
 # Cleaning
 clean:
-	rm -f js/calendar.js
-	rm -f js/calendar.js.map
-	rm -Rf js/chunks
+	rm -rf js
 
 clean-dev:
 	rm -rf node_modules
