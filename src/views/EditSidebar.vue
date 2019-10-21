@@ -115,7 +115,7 @@
 					@update:value="updateTimeTransparency" />
 			</div>
 			<SaveButtons
-				v-if="!isReadOnly"
+				v-if="!isLoading && !isReadOnly"
 				class="app-sidebar-tab__buttons"
 				:can-create-recurrence-exception="canCreateRecurrenceException"
 				:is-new="isNew"
@@ -140,7 +140,7 @@
 					:is-read-only="isReadOnly" />
 			</div>
 			<SaveButtons
-				v-if="!isReadOnly"
+				v-if="!isLoading && !isReadOnly"
 				class="app-sidebar-tab__buttons"
 				:can-create-recurrence-exception="canCreateRecurrenceException"
 				:is-new="isNew"
@@ -164,7 +164,7 @@
 					:is-read-only="isReadOnly" />
 			</div>
 			<SaveButtons
-				v-if="!isReadOnly"
+				v-if="!isLoading && !isReadOnly"
 				class="app-sidebar-tab__buttons"
 				:can-create-recurrence-exception="canCreateRecurrenceException"
 				:is-new="isNew"
@@ -194,7 +194,7 @@
 					@forceThisAndAllFuture="forceModifyingFuture" />
 			</div>
 			<SaveButtons
-				v-if="!isReadOnly"
+				v-if="!isLoading && !isReadOnly"
 				class="app-sidebar-tab__buttons"
 				:can-create-recurrence-exception="canCreateRecurrenceException"
 				:is-new="isNew"

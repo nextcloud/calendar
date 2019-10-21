@@ -89,7 +89,7 @@
 			@update:value="updateDescription" />
 
 		<SaveButtons
-			v-if="!isReadOnly"
+			v-if="!isLoading && !isReadOnly"
 			class="event-popover__buttons"
 			:can-create-recurrence-exception="canCreateRecurrenceException"
 			:is-new="isNew"
