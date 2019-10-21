@@ -34,6 +34,7 @@
 
 	.editor-invitee-list-empty-message,
 	.editor-reminders-list-empty-message,
+	.editor-invitee-list-no-email-configured-message,
 	.repeat-option-set-summary-read-only {
 		margin-top: 20px;
 
@@ -46,8 +47,17 @@
 		}
 
 		&__caption {
+			margin-top: 8px;
 			text-align: center;
 			color: var(--color-text-lighter);
+		}
+	}
+
+	.editor-invitee-list-no-email-configured-message {
+		&__icon {
+			font-size: 50px;
+			line-height: 1em;
+			user-select: none;
 		}
 	}
 

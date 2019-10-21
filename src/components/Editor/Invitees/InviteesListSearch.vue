@@ -137,7 +137,7 @@ export default {
 					if (!alreadyInList) {
 						matches.unshift({
 							calendarUserType: 'INDIVIDUAL',
-							commonName: null,
+							commonName: query,
 							email: query,
 							isUser: false,
 							avatar: null,
