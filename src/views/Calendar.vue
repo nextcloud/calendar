@@ -62,6 +62,10 @@
 				@eventDrop="eventDrop"
 				@eventResize="eventResize"
 				@eventRender="eventRender"
+				@eventPositioned="eventPositioned"
+				@eventDestroy="eventDestroy"
+				@datesRender="datesRender"
+				@datesDestroy="datesDestroy"
 				@select="select" />
 
 			<EmptyCalendar
@@ -114,6 +118,7 @@ import {
 import eventRender from '../fullcalendar/eventRender.js'
 import EmbedTopNavigation from '../components/AppNavigation/EmbedTopNavigation.vue'
 import EmptyCalendar from '../components/EmptyCalendar.vue'
+import { emit } from '@nextcloud/event-bus'
 
 export default {
 	name: 'Calendar',
@@ -360,7 +365,20 @@ export default {
 			return select(this.$store, this.$router, window)(...args)
 		},
 		eventRender(...args) {
-			return eventRender(...args)
+			eventRender(...args)
+			emit('calendar-fullcalendar-event-render', ...args)
+		},
+		eventPositioned(...args) {
+			emit('calendar-fullcalendar-event-positioned', ...args)
+		},
+		eventDestroy(...args) {
+			emit('calendar-fullcalendar-event-destroy', ...args)
+		},
+		datesRender(...args) {
+			emit('calendar-fullcalendar-dates-render', ...args)
+		},
+		datesDestroy(...args) {
+			emit('calendar-fullcalendar-dates-destroy', ...args)
 		}
 	}
 }
