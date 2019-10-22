@@ -21,7 +21,7 @@
 
 import Vue from 'vue'
 import Router from 'vue-router'
-import { linkTo } from '@nextcloud/router'
+import { generateUrl } from '@nextcloud/router'
 
 import Calendar from './views/Calendar'
 import EditSimple from './views/EditSimple'
@@ -33,7 +33,7 @@ Vue.use(Router)
 
 const router = new Router({
 	mode: 'history',
-	base: linkTo('calendar', 'index.php'),
+	base: generateUrl('/apps/calendar'),
 	routes: [
 		{
 			path: '/p/:tokens/:view/:firstDay',
