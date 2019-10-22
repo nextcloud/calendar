@@ -210,6 +210,25 @@ const mutations = {
 	},
 
 	/**
+	 * Changes the time of a timed event to the default values
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
+	 */
+	changeTimeToDefaultForTimedEvents(state, { calendarObjectInstance }) {
+		const startDate = calendarObjectInstance.eventComponent.startDate
+		const endDate = calendarObjectInstance.eventComponent.endDate
+		if (startDate.hour === 0 && startDate.minute === 0 && endDate.hour === 0 && endDate.minute === 0) {
+			startDate.hour = 10
+			endDate.hour = 11
+
+			calendarObjectInstance.startDate = getDateFromDateTimeValue(startDate)
+			calendarObjectInstance.endDate = getDateFromDateTimeValue(endDate)
+		}
+	},
+
+	/**
 	 * Change the location of an event
 	 *
 	 * @param {Object} state The Vuex state
@@ -1543,6 +1562,8 @@ const actions = {
 				const startTimezone = getters.getResolvedTimezone
 				commit('changeStartTimezone', { calendarObjectInstance, startTimezone })
 			}
+
+			commit('changeTimeToDefaultForTimedEvents', { calendarObjectInstance })
 		}
 	}
 
