@@ -26,18 +26,50 @@ import { translate } from '@nextcloud/l10n'
  * Get an illustration for a given title
  *
  * @param {String} title Title to find illustration for
+ * @param {String[]=} categories A list of categories
  * @returns {string} Link to image
  */
-export const getIllustrationForTitle = (title) => {
+export const getIllustrationForTitle = (title, categories = []) => {
+	const titleIllustration = findIllustrationForString(title)
+	if (titleIllustration) {
+		return titleIllustration
+	}
+
+	for (const category of categories) {
+		const categoryMatch = findIllustrationForString(category)
+		if (categoryMatch) {
+			return categoryMatch
+		}
+	}
+
+	return getDefaultIllustration()
+}
+
+/**
+ * Find an matching illustration for a given string
+ *
+ * @param {String} str The string to find a matching illustration for
+ * @returns {string|null}
+ */
+function findIllustrationForString(str) {
 	for (const illustration of data) {
-		for (const str of illustration.strings) {
-			if (title.toLowerCase().includes(str.toLowerCase())) {
+		for (const illustrationString of illustration.strings) {
+			if (str.toLowerCase().includes(illustrationString.toLowerCase())) {
 				// TODO: vary if there are multiple illustrationNames
 				return imagePath('calendar', 'illustrations/' + illustration.illustrationNames[0])
 			}
 		}
 	}
 
+	return null
+}
+
+/**
+ * This function returns the default illustration in case there was no match
+ *
+ * @returns {string}
+ */
+function getDefaultIllustration() {
 	return imagePath('calendar', 'illustrations/no_data')
 }
 
