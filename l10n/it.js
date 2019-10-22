@@ -33,7 +33,6 @@ OC.L10N.register(
     "Details" : "Dettagli",
     "Attendees" : "Partecipanti",
     "Reminders" : "Promemoria",
-    "Close" : "Chiudi",
-    "Subscribe" : "Sottoscrivi"
+    "Close" : "Chiudi"
 },
 "nplurals=2; plural=(n != 1);");

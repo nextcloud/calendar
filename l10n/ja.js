@@ -33,7 +33,6 @@ OC.L10N.register(
     "Details" : "詳細",
     "Attendees" : "参加者",
     "Reminders" : "リマインダー",
-    "Close" : "閉じる",
-    "Subscribe" : "購読"
+    "Close" : "閉じる"
 },
 "nplurals=1; plural=0;");

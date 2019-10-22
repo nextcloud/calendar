@@ -31,7 +31,6 @@
     "Details" : "Nánar",
     "Attendees" : "Þáttakendur",
     "Reminders" : "Áminningar",
-    "Close" : "Loka",
-    "Subscribe" : "Gerast áskrifandi"
+    "Close" : "Loka"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

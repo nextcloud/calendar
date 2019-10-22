@@ -163,6 +163,22 @@
     "weekday" : "día da semana",
     "weekend day" : "día da fin de semana",
     "Summary" : "Resumo",
+    "Does not repeat" : "Non repetir",
+    "Daily" : "Cada día",
+    "Weekly" : "Cada semana",
+    "Monthly" : "Cada mes",
+    "Yearly" : "Cada ano",
+    "on the {ordinalNumber} {byDaySet}" : "o {ordinalNumber} {byDaySet}",
+    "in {monthNames}" : "en {monthNames}",
+    "in {monthNames} on the {ordinalNumber} {byDaySet}" : "en {monthNames} no {ordinalNumber} {byDaySet}",
+    ", until {untilDate}" : "ata {untilDate}",
+    "_Every %n day_::_Every %n days_" : ["Cada día","Cada %n días"],
+    "_Every %n week_::_Every %n weeks_" : ["Cada semana","Cada %n semanas"],
+    "_Every %n month_::_Every %n months_" : ["Cada mes","Cada %n meses"],
+    "_Every %n year_::_Every %n years_" : ["Cada ano","Cada %n anos"],
+    "_on {weekday}_::_on {weekdays}_" : ["o {weekday}","os {weekdays}"],
+    "_on day {dayOfMonthList}_::_on days {dayOfMonthList}_" : ["o día {dayOfMonthList}","os días {dayOfMonthList}"],
+    "_, %n time_::_, %n times_" : [", %n vez",", %n veces"],
     "The recurrence definition of this event is not fully supported by Nextcloud. If you edit the recurrence-options, certain recurrences may be lost." : "Nextcloud non é totalmente compatíbel coa definición de recorrencia deste evento. Se edita as opcións de recorrencia, pódense perder certas recorrencias.",
     "More" : "Máis",
     "Save" : "Gardar",
@@ -182,7 +198,6 @@
     "Projects" : "Proxectos",
     "Close" : "Pechar",
     "Subscribe to {name}" : "Subscribirse a {name}",
-    "Download {name}" : "Descargar {name}",
-    "Subscribe" : "Subscribirse"
+    "Download {name}" : "Descargar {name}"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

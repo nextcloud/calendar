@@ -145,7 +145,6 @@
     "Projects" : "Projekt",
     "Close" : "Stäng",
     "Subscribe to {name}" : "Prenumerera på {name}",
-    "Download {name}" : "Ladda ner {name}",
-    "Subscribe" : "Prenumerera"
+    "Download {name}" : "Ladda ner {name}"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

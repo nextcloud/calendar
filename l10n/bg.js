@@ -33,7 +33,6 @@ OC.L10N.register(
     "Details" : "Подробности",
     "Attendees" : "Участници",
     "Reminders" : "Напомняне",
-    "Close" : "Затвори",
-    "Subscribe" : "Абонирай ме"
+    "Close" : "Затвори"
 },
 "nplurals=2; plural=(n != 1);");

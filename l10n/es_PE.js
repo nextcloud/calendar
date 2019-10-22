@@ -31,7 +31,6 @@ OC.L10N.register(
     "Details" : "Detalles",
     "Attendees" : "Asistentes",
     "Reminders" : "Recordatorios",
-    "Close" : "Cerrar",
-    "Subscribe" : "Suscríbete"
+    "Close" : "Cerrar"
 },
 "nplurals=2; plural=(n != 1);");

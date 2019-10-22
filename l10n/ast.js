@@ -27,7 +27,6 @@ OC.L10N.register(
     "Details" : "Detalles",
     "Attendees" : "Asistentes",
     "Reminders" : "Recordatorios",
-    "Close" : "Zarrar",
-    "Subscribe" : "Soscribise"
+    "Close" : "Zarrar"
 },
 "nplurals=2; plural=(n != 1);");

@@ -33,7 +33,6 @@ OC.L10N.register(
     "Details" : "Detalls",
     "Attendees" : "Assistents",
     "Reminders" : "Recordatoris",
-    "Close" : "Tanca",
-    "Subscribe" : "Subscriu-m'hi"
+    "Close" : "Tanca"
 },
 "nplurals=2; plural=(n != 1);");

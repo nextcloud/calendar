@@ -31,7 +31,6 @@ OC.L10N.register(
     "Details" : "Üksikasjad",
     "Attendees" : "Osalejad",
     "Reminders" : "Meelespead",
-    "Close" : "Sulge",
-    "Subscribe" : "Telli"
+    "Close" : "Sulge"
 },
 "nplurals=2; plural=(n != 1);");

@@ -30,7 +30,6 @@ OC.L10N.register(
     "Details" : "Details",
     "Attendees" : "Bywoners",
     "Reminders" : "Herinneringe",
-    "Close" : "Sluit",
-    "Subscribe" : "Teken in"
+    "Close" : "Sluit"
 },
 "nplurals=2; plural=(n != 1);");

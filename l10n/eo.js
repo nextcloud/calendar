@@ -33,7 +33,6 @@ OC.L10N.register(
     "Details" : "Detaloj",
     "Attendees" : "Ĉeestontoj",
     "Reminders" : "Memorigoj",
-    "Close" : "Fermi",
-    "Subscribe" : "Aboni"
+    "Close" : "Fermi"
 },
 "nplurals=2; plural=(n != 1);");

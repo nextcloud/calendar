@@ -33,7 +33,6 @@ OC.L10N.register(
     "Details" : "Részletek",
     "Attendees" : "Résztvevők",
     "Reminders" : "Emlékeztetők",
-    "Close" : "Bezárás",
-    "Subscribe" : "Feliratkozás"
+    "Close" : "Bezárás"
 },
 "nplurals=2; plural=(n != 1);");

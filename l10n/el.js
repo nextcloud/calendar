@@ -32,7 +32,6 @@ OC.L10N.register(
     "Details" : "Λεπτομέρειες",
     "Attendees" : "Συμμετέχοντες",
     "Reminders" : "Υπενθυμίσεις",
-    "Close" : "Κλείσιμο",
-    "Subscribe" : "Εγγραφή"
+    "Close" : "Κλείσιμο"
 },
 "nplurals=2; plural=(n != 1);");

@@ -31,7 +31,6 @@ OC.L10N.register(
     "Details" : "Detajet",
     "Attendees" : "Pjesëmarrës",
     "Reminders" : "Kujtues",
-    "Close" : "Mbylle",
-    "Subscribe" : "Abonohu"
+    "Close" : "Mbylle"
 },
 "nplurals=2; plural=(n != 1);");

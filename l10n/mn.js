@@ -31,7 +31,6 @@ OC.L10N.register(
     "Details" : "Дэлгэрэнгүй",
     "Attendees" : "Оролцогчид",
     "Reminders" : "Сануулагууд",
-    "Close" : "Хаах",
-    "Subscribe" : "Захиалах"
+    "Close" : "Хаах"
 },
 "nplurals=2; plural=(n != 1);");

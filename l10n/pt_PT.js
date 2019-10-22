@@ -31,7 +31,6 @@ OC.L10N.register(
     "Details" : "Detalhes",
     "Attendees" : "Participantes",
     "Reminders" : "Lembretes",
-    "Close" : "Fechar",
-    "Subscribe" : "Subscrever"
+    "Close" : "Fechar"
 },
 "nplurals=2; plural=(n != 1);");

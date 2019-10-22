@@ -33,7 +33,6 @@ OC.L10N.register(
     "Details" : "Chi tiết",
     "Attendees" : "Người tham gia",
     "Reminders" : "Nhắc nhở",
-    "Close" : "Đóng",
-    "Subscribe" : "Theo dõi"
+    "Close" : "Đóng"
 },
 "nplurals=1; plural=0;");

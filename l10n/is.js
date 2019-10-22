@@ -33,7 +33,6 @@ OC.L10N.register(
     "Details" : "Nánar",
     "Attendees" : "Þáttakendur",
     "Reminders" : "Áminningar",
-    "Close" : "Loka",
-    "Subscribe" : "Gerast áskrifandi"
+    "Close" : "Loka"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

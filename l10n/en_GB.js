@@ -33,7 +33,6 @@ OC.L10N.register(
     "Details" : "Details",
     "Attendees" : "Attendees",
     "Reminders" : "Reminders",
-    "Close" : "Close",
-    "Subscribe" : "Subscribe"
+    "Close" : "Close"
 },
 "nplurals=2; plural=(n != 1);");

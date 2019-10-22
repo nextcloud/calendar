@@ -33,7 +33,6 @@ OC.L10N.register(
     "Details" : "细节",
     "Attendees" : "参加者",
     "Reminders" : "提醒",
-    "Close" : "关闭",
-    "Subscribe" : "订阅"
+    "Close" : "关闭"
 },
 "nplurals=1; plural=0;");

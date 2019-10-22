@@ -147,7 +147,6 @@ OC.L10N.register(
     "Projects" : "Projekt",
     "Close" : "Stäng",
     "Subscribe to {name}" : "Prenumerera på {name}",
-    "Download {name}" : "Ladda ner {name}",
-    "Subscribe" : "Prenumerera"
+    "Download {name}" : "Ladda ner {name}"
 },
 "nplurals=2; plural=(n != 1);");

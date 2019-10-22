@@ -33,7 +33,6 @@ OC.L10N.register(
     "Details" : "Xehetasunak",
     "Attendees" : "Partaideak",
     "Reminders" : "Oroigarriak",
-    "Close" : "Itxi",
-    "Subscribe" : "Harpidetu"
+    "Close" : "Itxi"
 },
 "nplurals=2; plural=(n != 1);");

@@ -31,7 +31,6 @@ OC.L10N.register(
     "Details" : "დეტლაები",
     "Attendees" : "დამსწრეები",
     "Reminders" : "შემახსენებლები",
-    "Close" : "დახურვა",
-    "Subscribe" : "გამოწერა"
+    "Close" : "დახურვა"
 },
 "nplurals=2; plural=(n!=1);");

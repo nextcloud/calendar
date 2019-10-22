@@ -33,7 +33,6 @@ OC.L10N.register(
     "Details" : "Detaljer",
     "Attendees" : "Deltakere",
     "Reminders" : "Varsler",
-    "Close" : "Lukk",
-    "Subscribe" : "Abonner"
+    "Close" : "Lukk"
 },
 "nplurals=2; plural=(n != 1);");

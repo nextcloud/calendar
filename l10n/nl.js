@@ -33,7 +33,6 @@ OC.L10N.register(
     "Details" : "Details",
     "Attendees" : "Deelnemers",
     "Reminders" : "Herinneringen",
-    "Close" : "Sluiten",
-    "Subscribe" : "Abonneren"
+    "Close" : "Sluiten"
 },
 "nplurals=2; plural=(n != 1);");

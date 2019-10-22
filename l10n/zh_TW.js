@@ -32,7 +32,6 @@ OC.L10N.register(
     "Details" : "詳細資料",
     "Attendees" : "出席者",
     "Reminders" : "提醒",
-    "Close" : " 關閉",
-    "Subscribe" : "訂閱"
+    "Close" : " 關閉"
 },
 "nplurals=1; plural=0;");
