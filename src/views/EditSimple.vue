@@ -146,6 +146,17 @@ export default {
 			this.$refs.popover
 				.$children[0]
 				.$_restartPopper()
+		},
+		calendarObjectInstance() {
+			this.hasLocation = false
+			this.hasDescription = false
+
+			if (typeof this.calendarObjectInstance.location === 'string' && this.calendarObjectInstance.location.trim() !== '') {
+				this.hasLocation = true
+			}
+			if (typeof this.calendarObjectInstance.description === 'string' && this.calendarObjectInstance.description.trim() !== '') {
+				this.hasDescription = true
+			}
 		}
 	},
 	mounted() {
