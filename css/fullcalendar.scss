@@ -147,6 +147,25 @@
 	background-color: var(--color-background) !important;
 }
 
+.fc-sat,
+.fc-sun {
+	.fc-week-number {
+		background-color: var(--color-background-darker) !important;
+		color: var(--color-text-maxcontrast) !important;
+	}
+}
+
+.fc-mon,
+.fc-tue,
+.fc-wed,
+.fc-thu,
+.fc-fri {
+	.fc-week-number {
+		background-color: var(--color-background-dark) !important;
+		color: var(--color-text-maxcontrast) !important;
+	}
+}
+
 // The server is setting border-box on everything
 // inside content and that messes up fullcalendar
 .fc * {
