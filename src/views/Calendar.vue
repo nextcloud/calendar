@@ -331,7 +331,7 @@ export default {
 			return eventResize(this.$store)(...args)
 		},
 		select(...args) {
-			return select(this.$store, this.$router)(...args)
+			return select(this.$store, this.$router, window)(...args)
 		},
 		eventRender(...args) {
 			return eventRender(...args)

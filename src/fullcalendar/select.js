@@ -27,13 +27,19 @@
  *
  * @param {Object} store The Vuex store
  * @param {Object} router The Vue router
+ * @param {Window} window The window object
  * @returns {Function}
  */
-export default function(store, router) {
+export default function(store, router, window) {
 	return function({ start, end, allDay }) {
-		const name = store.state.settings.skipPopover
+		let name = store.state.settings.skipPopover
 			? 'NewSidebarView'
 			: 'NewPopoverView'
+
+		if (window.innerWidth <= 768 && name === 'NewPopoverView') {
+			name = 'NewSidebarView'
+		}
+
 		const params = Object.assign({}, store.state.route.params, {
 			allDay: allDay ? '1' : '0',
 			dtstart: String(Math.floor(start.getTime() / 1000)),
