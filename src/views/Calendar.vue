@@ -315,6 +315,14 @@ export default {
 				})
 		}
 	},
+	mounted() {
+		if (this.timezone === 'automatic' && this.timezoneId === 'UTC') {
+			const { toastElement }
+				= this.$toast.warning(this.$t('calendar', 'The automatic timezone detection determined your timezone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your timezone manually in the calendar settings.'), { timeout: 60 })
+
+			toastElement.classList.add('toast-calendar-multiline')
+		}
+	},
 	methods: {
 		saveNewView: debounce(function(initialView) {
 			if (this.isAuthenticatedUser) {

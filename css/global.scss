@@ -19,12 +19,7 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-@import 'app-navigation.scss';
-@import 'app-sidebar.scss';
-@import 'app-settings.scss';
-@import 'fullcalendar.scss';
-@import 'global.scss';
-@import 'icons.scss';
-@import 'import.scss';
-@import 'print.scss';
-@import 'public.scss';
+
+.toast-calendar-multiline {
+	white-space: pre-wrap;
+}
