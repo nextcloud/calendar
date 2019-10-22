@@ -15,8 +15,9 @@
 					:key="calendar.id"
 					icon="icon-download"
 					target="_blank"
-					:href="calendar.url + '?export'"
-					:title="$t('calendar', 'Download {name}', { name: calendar.displayName || $t('calendar', 'Untitled calendar') })" />
+					:href="calendar.url + '?export'">
+					{{ $t('calendar', 'Download {name}', { name: calendar.displayName || $t('calendar', 'Untitled calendar') }) }}
+				</ActionLink>
 			</Actions>
 			<Actions default-icon="icon-calendar-dark">
 				<ActionButton

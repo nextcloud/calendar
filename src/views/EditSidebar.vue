@@ -57,8 +57,9 @@
 		<template v-slot:secondary-actions>
 			<ActionLink v-if="hasDownloadURL"
 				icon="icon-download"
-				:title="$t('calendar', 'Download')"
-				:href="downloadURL" />
+				:href="downloadURL">
+				{{ $t('calendar', 'Download') }}
+			</ActionLink>
 			<ActionButton v-if="canDelete && !canCreateRecurrenceException" icon="icon-delete" @click="deleteAndLeave(false)">
 				{{ $t('calendar', 'Delete') }}
 			</ActionButton>

@@ -89,8 +89,9 @@
 			<ActionLink
 				icon="icon-download"
 				target="_blank"
-				:href="downloadUrl"
-				:title="$t('calendar', 'Download')" />
+				:href="downloadUrl">
+				{{ $t('calendar', 'Download') }}
+			</ActionLink>
 			<ActionButton
 				v-if="calendar.isSharedWithMe"
 				icon="icon-delete"
