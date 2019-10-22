@@ -26,6 +26,7 @@ env:
     - CORE_BRANCH=master
     - PHP_COVERAGE=FALSE
     - TEST_SUITE=TEST-PHP
+    - NIGHTLY=FALSE
 
 matrix:
   include:
@@ -104,3 +105,6 @@ script:
   - if [[ "$TEST_SUITE" = "PACKAGE" ]]; then make dev-setup; fi
   - if [[ "$TEST_SUITE" = "PACKAGE" ]]; then make build-js-production; fi
   - if [[ "$TEST_SUITE" = "PACKAGE" ]]; then make appstore; fi
+
+after_success:
+  - if [[ "$NIGHTLY" = "TRUE" ]] && [[ "$TEST_SUITE" = "PACKAGE" ]]; then curl --ftp-create-dirs -T build/artifacts/appstore/calendar.tar.gz -u $FTP_LOGIN:$FTP_PW ftp://144.76.174.90/htdocs/calendar/calendar.tar.gz; fi
