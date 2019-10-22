@@ -132,6 +132,8 @@ export default {
 		return {
 			loadingCalendars: true,
 			timeFrameCacheExpiryJob: null,
+			updateTodayJob: null,
+			updateTodayJobPreviousDate: null,
 			showEmptyCalendarScreen: false
 		}
 	},
@@ -254,6 +256,22 @@ export default {
 				})
 			}
 		}, 1000 * 60)
+
+		this.updateTodayJob = setInterval(() => {
+			const newDate = getYYYYMMDDFromFirstdayParam('now')
+
+			if (this.updateTodayJobPreviousDate === null) {
+				this.updateTodayJobPreviousDate = newDate
+				return
+			}
+
+			if (this.updateTodayJobPreviousDate !== newDate) {
+				this.updateTodayJobPreviousDate = newDate
+
+				const calendarApi = this.$refs.fullCalendar.getApi()
+				calendarApi.render()
+			}
+		}, 1000)
 	},
 	beforeMount() {
 		this.$store.commit('loadSettingsFromServer', {
