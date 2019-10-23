@@ -1,6 +1,5 @@
 <!--
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
-  -
   - @author Georg Ehrke <oc.list@georgehrke.com>
   -
   - @license GNU AGPL version 3 or any later version
@@ -21,38 +20,45 @@
   -->
 
 <template>
-	<div class="view-button-section">
-		<button :class="{primary: isAgendaDayViewSelected}" class="button" @click="view('timeGridDay')">
-			{{ $t('calendar', 'Day') }}
-		</button>
-		<button :class="{primary: isAgendaWeekViewSelected}" class="button" @click="view('timeGridWeek')">
-			{{ $t('calendar', 'Week') }}
-		</button>
-		<button :class="{primary: isMonthViewSelected}" class="button" @click="view('dayGridMonth')">
-			{{ $t('calendar', 'Month') }}
-		</button>
-	</div>
+	<Actions default-icon="icon-toggle-pictures" menu-align="right">
+		<ActionButton
+			v-for="view in views"
+			:key="view.id"
+			:icon="view.icon"
+			@click="selectView(view.id)">
+			{{ view.label }}
+		</ActionButton>
+	</Actions>
 </template>
 
 <script>
+import { Actions, ActionButton } from '@nextcloud/vue'
+
 export default {
-	name: 'AppNavigationHeaderViewButtons',
+	name: 'AppNavigationHeaderViewMenu',
+	components: {
+		Actions,
+		ActionButton
+	},
 	computed: {
-		isAgendaDayViewSelected() {
-			return this.selectedView === 'timeGridDay'
-		},
-		isAgendaWeekViewSelected() {
-			return this.selectedView === 'timeGridWeek'
-		},
-		isMonthViewSelected() {
-			return this.selectedView === 'dayGridMonth'
-		},
-		selectedView() {
-			return this.$route.params.view
+		views() {
+			return [{
+				id: 'timeGridDay',
+				icon: 'icon-view-day',
+				label: this.$t('calendar', 'Day')
+			}, {
+				id: 'timeGridWeek',
+				icon: 'icon-view-week',
+				label: this.$t('calendar', 'Week')
+			}, {
+				id: 'dayGridMonth',
+				icon: 'icon-view-module',
+				label: this.$t('calendar', 'Month')
+			}]
 		}
 	},
 	methods: {
-		view(viewName) {
+		selectView(viewName) {
 			const name = this.$route.name
 			const params = Object.assign({}, this.$route.params, {
 				view: viewName

@@ -21,20 +21,22 @@
   -->
 
 <template>
-	<button
-		:aria-label="title"
-		class="button today"
-		:title="title"
-		@click="today()">
-		{{ $t('calendar', 'Today') }}
-	</button>
+	<div class="today-button-section">
+		<button
+			:aria-label="title"
+			class="button"
+			:title="title"
+			@click="today()">
+			{{ $t('calendar', 'Today') }}
+		</button>
+	</div>
 </template>
 
 <script>
 import moment from '@nextcloud/moment'
 
 export default {
-	name: 'AppNavigationHeaderTodayButton',
+	name: 'EmbedHeaderTodayButton',
 	computed: {
 		title() {
 			return moment().format('ll')
