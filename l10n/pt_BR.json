@@ -128,6 +128,7 @@
     "No match found" : "Nenhuma correspondência encontrada",
     "This event does not have any attendees." : "Este evento não tem nenhum participante.",
     "(organizer)" : "(organizador)",
+    "Please configure your email-address in the personal settings. It is necessary to send out invitations and handle responses of your invitees." : "Configure seu endereço de e-mail nas configurações pessoais. Isso é necessário para enviar convites ou respondê-los.",
     "Untitled event" : "Evento sem título",
     "Please select a timezone for the start-date:" : "Selecione um fuso horário para a data inicial:",
     "Please select a timezone for the end-date:" : "Selecione um fuso horário para a data de término:",
