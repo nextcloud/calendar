@@ -26,7 +26,7 @@
 	<AppSidebar
 		:title="title"
 		:title-editable="!isReadOnly && !isLoading"
-		:title-placeholder="$t('calendar', 'Untitled event')"
+		:title-placeholder="$t('calendar', 'Event title')"
 		:subtitle="subTitle"
 		@close="cancel"
 		@update:title="updateTitle">
