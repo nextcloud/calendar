@@ -44,8 +44,8 @@ import {
 import { generateRemoteUrl } from '@nextcloud/router'
 
 import AppNavigationHeaderDatePicker from './AppNavigationHeader/AppNavigationHeaderDatePicker.vue'
-import AppNavigationHeaderTodayButton from './AppNavigationHeader/AppNavigationHeaderTodayButton.vue'
-import AppNavigationHeaderViewButtons from './AppNavigationHeader/AppNavigationHeaderViewButtons.vue'
+import AppNavigationHeaderTodayButton from './EmbedHeader/EmbedHeaderTodayButton.vue'
+import AppNavigationHeaderViewButtons from './EmbedHeader/EmbedHeaderViewButtons.vue'
 
 export default {
 	name: 'EmbedTopNavigation',

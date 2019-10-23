@@ -21,45 +21,36 @@
   -->
 
 <template>
-	<div class="view-button-section">
-		<button :class="{primary: isAgendaDayViewSelected}" class="button" @click="view('timeGridDay')">
-			{{ $t('calendar', 'Day') }}
-		</button>
-		<button :class="{primary: isAgendaWeekViewSelected}" class="button" @click="view('timeGridWeek')">
-			{{ $t('calendar', 'Week') }}
-		</button>
-		<button :class="{primary: isMonthViewSelected}" class="button" @click="view('dayGridMonth')">
-			{{ $t('calendar', 'Month') }}
+	<div class="today-button-section">
+		<button
+			:aria-label="title"
+			class="button"
+			:title="title"
+			@click="today()">
+			{{ $t('calendar', 'Today') }}
 		</button>
 	</div>
 </template>
 
 <script>
+import moment from '@nextcloud/moment'
+
 export default {
-	name: 'AppNavigationHeaderViewButtons',
+	name: 'EmbedHeaderTodayButton',
 	computed: {
-		isAgendaDayViewSelected() {
-			return this.selectedView === 'timeGridDay'
-		},
-		isAgendaWeekViewSelected() {
-			return this.selectedView === 'timeGridWeek'
-		},
-		isMonthViewSelected() {
-			return this.selectedView === 'dayGridMonth'
-		},
-		selectedView() {
-			return this.$route.params.view
+		title() {
+			return moment().format('ll')
 		}
 	},
 	methods: {
-		view(viewName) {
+		today() {
 			const name = this.$route.name
 			const params = Object.assign({}, this.$route.params, {
-				view: viewName
+				firstDay: 'now'
 			})
 
-			// Don't push new route when view didn't change
-			if (this.$route.params.view === viewName) {
+			// Don't push new route when day didn't change
+			if (this.$route.params.firstDay === 'now') {
 				return
 			}
 

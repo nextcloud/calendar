@@ -22,22 +22,27 @@
 <template>
 	<header class="app-navigation-header">
 		<AppNavigationHeaderDatePicker />
-		<AppNavigationHeaderViewButtons />
-		<AppNavigationHeaderTodayButton />
+		<div class="new-event-today-view-section">
+			<AppNavigationHeaderNewEvent />
+			<AppNavigationHeaderTodayButton />
+			<AppNavigationHeaderViewMenu />
+		</div>
 	</header>
 </template>
 
 <script>
 import AppNavigationHeaderDatePicker from './AppNavigationHeader/AppNavigationHeaderDatePicker.vue'
 import AppNavigationHeaderTodayButton from './AppNavigationHeader/AppNavigationHeaderTodayButton.vue'
-import AppNavigationHeaderViewButtons from './AppNavigationHeader/AppNavigationHeaderViewButtons.vue'
+import AppNavigationHeaderNewEvent from './AppNavigationHeader/AppNavigationHeaderNewEvent.vue'
+import AppNavigationHeaderViewMenu from './AppNavigationHeader/AppNavigationHeaderViewMenu.vue'
 
 export default {
 	name: 'AppNavigationHeader',
 	components: {
 		AppNavigationHeaderDatePicker,
 		AppNavigationHeaderTodayButton,
-		AppNavigationHeaderViewButtons
+		AppNavigationHeaderNewEvent,
+		AppNavigationHeaderViewMenu
 	}
 }
 </script>

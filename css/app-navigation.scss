@@ -42,11 +42,11 @@
 	}
 
 	.button:first-child:not(:only-of-type) {
-		border-radius: var(--border-radius) 0 0 var(--border-radius);
+		border-radius: var(--border-radius-pill) 0 0 var(--border-radius-pill);
 	}
 
 	.button:last-child:not(:only-of-type) {
-		border-radius: 0 var(--border-radius) var(--border-radius) 0;
+		border-radius: 0 var(--border-radius-pill) var(--border-radius-pill) 0;
 	}
 
 	.button:not(:only-of-type):not(:first-child):not(:last-child) {
@@ -54,7 +54,7 @@
 	}
 
 	.button:only-child {
-		border-radius: var(--border-radius);
+		border-radius: var(--border-radius-pill);
 	}
 
 	.button:hover,
@@ -86,6 +86,28 @@
 		background-size: 10px;
 		flex-grow: 0 !important;
 		width: 34px;
+	}
+}
+
+.app-navigation-header {
+	padding: 3px 3px 0 3px;
+}
+
+.new-event-today-view-section {
+	display: flex;
+	margin-left: 3px;
+	margin-right: 3px;
+
+	.new-event {
+		flex-grow: 5;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+	}
+
+	.today {
+		flex-grow: 1;
+		font-weight: normal !important;
 	}
 }
 

@@ -1,6 +1,5 @@
 <!--
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
-  -
   - @author Georg Ehrke <oc.list@georgehrke.com>
   -
   - @license GNU AGPL version 3 or any later version
@@ -21,34 +20,61 @@
   -->
 
 <template>
-	<button
-		:aria-label="title"
-		class="button today"
-		:title="title"
-		@click="today()">
-		{{ $t('calendar', 'Today') }}
-	</button>
+	<Actions :default-icon="defaultIcon" menu-align="right">
+		<ActionButton
+			v-for="view in views"
+			:key="view.id"
+			:icon="view.icon"
+			@click="selectView(view.id)">
+			{{ view.label }}
+		</ActionButton>
+	</Actions>
 </template>
 
 <script>
-import moment from '@nextcloud/moment'
+import { Actions, ActionButton } from '@nextcloud/vue'
 
 export default {
-	name: 'AppNavigationHeaderTodayButton',
+	name: 'AppNavigationHeaderViewMenu',
+	components: {
+		Actions,
+		ActionButton
+	},
 	computed: {
-		title() {
-			return moment().format('ll')
+		views() {
+			return [{
+				id: 'timeGridDay',
+				icon: 'icon-view-day',
+				label: this.$t('calendar', 'Day')
+			}, {
+				id: 'timeGridWeek',
+				icon: 'icon-view-week',
+				label: this.$t('calendar', 'Week')
+			}, {
+				id: 'dayGridMonth',
+				icon: 'icon-view-module',
+				label: this.$t('calendar', 'Month')
+			}]
+		},
+		defaultIcon() {
+			for (const view of this.views) {
+				if (view.id === this.$route.params.view) {
+					return view.icon
+				}
+			}
+
+			return 'icon-toggle-pictures'
 		}
 	},
 	methods: {
-		today() {
+		selectView(viewName) {
 			const name = this.$route.name
 			const params = Object.assign({}, this.$route.params, {
-				firstDay: 'now'
+				view: viewName
 			})
 
-			// Don't push new route when day didn't change
-			if (this.$route.params.firstDay === 'now') {
+			// Don't push new route when view didn't change
+			if (this.$route.params.view === viewName) {
 				return
 			}
 
