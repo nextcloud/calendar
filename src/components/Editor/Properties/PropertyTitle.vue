@@ -28,7 +28,7 @@
 			<input
 				v-if="!isReadOnly"
 				type="text"
-				:placeholder="$t('calendar', 'Untitled event')"
+				:placeholder="$t('calendar', 'Event title')"
 				:value="value"
 				@input.prevent.stop="changeValue">
 			<!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
