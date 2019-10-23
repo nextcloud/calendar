@@ -20,7 +20,7 @@
   -->
 
 <template>
-	<Actions default-icon="icon-toggle-pictures" menu-align="right">
+	<Actions :default-icon="defaultIcon" menu-align="right">
 		<ActionButton
 			v-for="view in views"
 			:key="view.id"
@@ -55,6 +55,15 @@ export default {
 				icon: 'icon-view-module',
 				label: this.$t('calendar', 'Month')
 			}]
+		},
+		defaultIcon() {
+			for (const view of this.views) {
+				if (view.id === this.$route.params.view) {
+					return view.icon
+				}
+			}
+
+			return 'icon-toggle-pictures'
 		}
 	},
 	methods: {

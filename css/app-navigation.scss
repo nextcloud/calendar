@@ -100,6 +100,9 @@
 
 	.new-event {
 		flex-grow: 5;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
 	}
 
 	.today {
