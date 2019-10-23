@@ -53,6 +53,7 @@
 				:default-date="defaultDate"
 				:locales="locales"
 				:locale="locale"
+				:first-day="firstDay"
 				:selectable="isSelectable"
 				:select-mirror="true"
 				:lazy-fetching="false"
@@ -82,7 +83,6 @@ import listPlugin from '@fullcalendar/list'
 import '@fullcalendar/list/main.css'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import '@fullcalendar/timegrid/main.css'
-import allLocales from '@fullcalendar/core/locales-all'
 import {
 	AppNavigation,
 	AppContent,
@@ -114,6 +114,7 @@ import {
 import eventRender from '../fullcalendar/eventRender.js'
 import EmbedTopNavigation from '../components/AppNavigation/EmbedTopNavigation.vue'
 import EmptyCalendar from '../components/EmptyCalendar.vue'
+import { getLocale } from '@nextcloud/l10n'
 
 export default {
 	name: 'Calendar',
@@ -134,7 +135,10 @@ export default {
 			timeFrameCacheExpiryJob: null,
 			updateTodayJob: null,
 			updateTodayJobPreviousDate: null,
-			showEmptyCalendarScreen: false
+			showEmptyCalendarScreen: false,
+			locale: 'en',
+			locales: [],
+			firstDay: 0
 		}
 	},
 	computed: {
@@ -171,12 +175,6 @@ export default {
 		},
 		eventAllow() {
 			return eventAllow
-		},
-		locales() {
-			return allLocales
-		},
-		locale() {
-			return 'en'
 		},
 		isEditable() {
 			// We do not allow drag and drop when the editor is open.
@@ -333,12 +331,33 @@ export default {
 				})
 		}
 	},
-	mounted() {
+	async mounted() {
 		if (this.timezone === 'automatic' && this.timezoneId === 'UTC') {
 			const { toastElement }
 				= this.$toast.warning(this.$t('calendar', 'The automatic timezone detection determined your timezone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your timezone manually in the calendar settings.'), { timeout: 60 })
 
 			toastElement.classList.add('toast-calendar-multiline')
+		}
+
+		let locale = getLocale().replace('_', '-').toLowerCase()
+		try {
+			// try to load the default locale first
+			const fcLocale = await import('@fullcalendar/core/locales/' + locale)
+			this.locales.push(fcLocale)
+			// We have to update firstDay manually till https://github.com/fullcalendar/fullcalendar-vue/issues/36 is fixed
+			this.firstDay = fcLocale.week.dow
+			this.locale = locale
+		} catch (e) {
+			try {
+				locale = locale.split('-')[0]
+				const fcLocale = await import('@fullcalendar/core/locales/' + locale)
+				this.locales.push(fcLocale)
+				// We have to update firstDay manually till https://github.com/fullcalendar/fullcalendar-vue/issues/36 is fixed
+				this.firstDay = fcLocale.week.dow
+				this.locale = locale
+			} catch (e) {
+				locale = 'en'
+			}
 		}
 	},
 	methods: {
