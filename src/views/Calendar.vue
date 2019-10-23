@@ -59,6 +59,7 @@
 				:lazy-fetching="false"
 				:progressive-event-rendering="true"
 				:unselect-auto="false"
+				:week-numbers-within-days="true"
 				@eventClick="eventClick"
 				@eventDrop="eventDrop"
 				@eventResize="eventResize"
