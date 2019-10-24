@@ -31,6 +31,9 @@ import { getDefaultCalendarObject, mapDavCollectionToCalendar } from '../models/
 import pLimit from 'p-limit'
 import { uidToHexColor } from '../utils/color.js'
 import { translate } from '@nextcloud/l10n'
+import getTimezoneManager from '../services/timezoneDataProviderService.js'
+import Timezone from 'calendar-js/src/timezones/timezone.js'
+import CalendarComponent from 'calendar-js/src/components/calendarComponent.js'
 
 const state = {
 	calendars: [],
@@ -460,10 +463,24 @@ const actions = {
 	 * @param {Object} data.displayName The name of the new calendar
 	 * @param {Object} data.color The color of the new calendar
 	 * @param {Object} data.order The order of the new calendar
+	 * @param {String[]=} data.components The supported components of the calendar
+	 * @param {String=} data.timezone The timezoneId
 	 * @returns {Promise}
 	 */
-	async appendCalendar(context, { displayName, color, order }) {
-		return client.calendarHomes[0].createCalendarCollection(displayName, color, ['VEVENT'], order)
+	async appendCalendar(context, { displayName, color, order, components = ['VEVENT'], timezone = null }) {
+		if (timezone === null) {
+			timezone = context.getters.getResolvedTimezone
+		}
+
+		let timezoneIcs = null
+		const timezoneObject = getTimezoneManager().getTimezoneForId(timezone)
+		if (timezoneObject !== Timezone.utc && timezoneObject !== Timezone.floating) {
+			const calendar = CalendarComponent.fromEmpty()
+			calendar.addComponent(timezoneObject.toTimezoneComponent())
+			timezoneIcs = calendar.toICS(false)
+		}
+
+		return client.calendarHomes[0].createCalendarCollection(displayName, color, components, order, timezoneIcs)
 			.then((response) => {
 				const calendar = mapDavCollectionToCalendar(response, context.getters.getCurrentUserPrincipal)
 				context.commit('addCalendar', { calendar })
