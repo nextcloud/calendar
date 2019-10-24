@@ -100,7 +100,6 @@ OC.L10N.register(
     "No match found" : "Ingen träff",
     "This event does not have any attendees." : "Den här händelsen har inga deltagare.",
     "(organizer)" : "(arrangör)",
-    "Untitled event" : "Namnlös händelse",
     "All day" : "Heldag",
     "from" : "från",
     "to" : "till",

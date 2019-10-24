@@ -131,7 +131,6 @@ OC.L10N.register(
     "This event does not have any attendees." : "Bu etkinliğin herhangi bir katılımcısı yok.",
     "(organizer)" : "(düzenleyen)",
     "Please configure your email-address in the personal settings. It is necessary to send out invitations and handle responses of your invitees." : "Lütfen kişisel ayarlar bölümünden çağrıları göndermek ve çağrı gönderilen kişilerden gelen yanıtları işlemek için gereken e-posta adresini yapılandırın.",
-    "Untitled event" : "Adsız etkinlik",
     "Please select a timezone for the start-date:" : "Lütfen başlangıç tarihinin saat dilimini seçin:",
     "Please select a timezone for the end-date:" : "Lütfen bitiş tarihinin saat dilimini seçin:",
     "All day" : "Tüm gün",

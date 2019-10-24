@@ -103,7 +103,6 @@ OC.L10N.register(
     "No match found" : "Ei tuloksia",
     "This event does not have any attendees." : "Tällä tapahtumalla ei ole yhtäkään osallistujaa.",
     "(organizer)" : "(järjestäjä)",
-    "Untitled event" : "Nimetön tapahtuma",
     "All day" : "Koko päivä",
     "from" : "alkaen",
     "to" : "päättyen",
