@@ -27,63 +27,25 @@
 		<div
 			v-if="!isReadOnly"
 			class="property-title-time-picker__time-pickers">
-			<DatetimePicker
-				v-if="!isReadOnly"
-				lang="en"
-				:format="startDateFormat"
-				:value="startDate"
-				:type="timeType"
-				@change="changeStart">
-				<template v-if="!isAllDay" slot="calendar-icon">
-					<button
-						class="datetime-picker-inline-icon icon icon-timezone"
-						:class="{ 'datetime-picker-inline-icon--highlighted': highlightStartTimezone }"
-						@click.stop.prevent="showTimezonePickerForStartDate" />
-					<Popover
-						:open.sync="showStartTimezone"
-						open-class="timezone-popover-wrapper">
-						<div class="timezone-popover-wrapper__title">
-							<strong>
-								{{ $t('calendar', 'Please select a timezone for the start-date:') }}
-							</strong>
-						</div>
-						<TimezoneSelect
-							v-if="!isReadOnly"
-							class="timezone-popover-wrapper__timezone-select"
-							:value="startTimezone"
-							@change="changeStartTimezone" />
-					</Popover>
-				</template>
-			</DatetimePicker>
+			<DatePicker
+				:date="startDate"
+				:has-timezone="true"
+				:timezone-id="startTimezone"
+				prefix="from"
+				:is-all-day="isAllDay"
+				:user-timezone-id="userTimezone"
+				@change="changeStart"
+				@changeTimezone="changeStartTimezone" />
 
-			<DatetimePicker
-				v-if="!isReadOnly"
-				lang="en"
-				:format="endDateFormat"
-				:value="endDate"
-				:type="timeType"
-				@change="changeEnd">
-				<template v-if="!isAllDay" slot="calendar-icon">
-					<button
-						class="datetime-picker-inline-icon icon icon-timezone"
-						:class="{ 'datetime-picker-inline-icon--highlighted': highlightEndTimezone }"
-						@click.stop.prevent="showTimezonePickerForEndDate" />
-					<Popover
-						:open.sync="showEndTimezone"
-						open-class="timezone-popover-wrapper">
-						<div class="timezone-popover-wrapper__title">
-							<strong>
-								{{ $t('calendar', 'Please select a timezone for the end-date:') }}
-							</strong>
-						</div>
-						<TimezoneSelect
-							v-if="!isReadOnly"
-							class="timezone-popover-wrapper__timezone-select"
-							:value="endTimezone"
-							@change="changeEndTimezone" />
-					</Popover>
-				</template>
-			</DatetimePicker>
+			<DatePicker
+				:date="endDate"
+				:has-timezone="true"
+				:timezone-id="endTimezone"
+				prefix="to"
+				:is-all-day="isAllDay"
+				:user-timezone-id="userTimezone"
+				@change="changeEnd"
+				@changeTimezone="changeEndTimezone" />
 		</div>
 		<div
 			v-if="isReadOnly"
@@ -128,16 +90,13 @@
 </template>
 
 <script>
-import { DatetimePicker, Popover } from '@nextcloud/vue'
-import TimezoneSelect from '../../Shared/TimezoneSelect'
 import moment from '@nextcloud/moment'
+import DatePicker from '../../Shared/DatePicker.vue'
 
 export default {
 	name: 'PropertyTitleTimePicker',
 	components: {
-		DatetimePicker,
-		TimezoneSelect,
-		Popover
+		DatePicker
 	},
 	props: {
 		/**
