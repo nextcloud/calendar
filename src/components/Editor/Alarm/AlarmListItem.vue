@@ -69,21 +69,17 @@
 			<span>
 				{{ $t('calendar', 'before at') }}
 			</span>
-			<DatetimePicker
-				lang="en"
-				:format="timeFormat"
-				type="time"
-				:value="relativeAllDayDate"
+			<TimePicker
+				:date="relativeAllDayDate"
 				@change="changeRelativeHourMinuteAllDay" />
 		</div>
 		<div
 			v-if="isEditing && isAbsoluteAlarm"
 			class="property-alarm-item__edit property-alarm-item__edit--absolute">
-			<DatetimePicker
-				lang="en"
-				:format="absoluteDateFormat"
-				type="datetime"
-				:value="alarm.absoluteDate"
+			<DatePicker
+				prefix="on"
+				:date="alarm.absoluteDate"
+				:is-all-day="false"
 				@change="changeAbsoluteDate" />
 		</div>
 		<div
@@ -161,10 +157,14 @@ import ClickOutside from 'vue-click-outside'
 import formatAlarm from '../../../filters/alarmFormat.js'
 import AlarmTimeUnitSelect from './AlarmTimeUnitSelect.vue'
 import moment from '@nextcloud/moment'
+import TimePicker from '../../Shared/TimePicker.vue'
+import DatePicker from '../../Shared/DatePicker.vue'
 
 export default {
 	name: 'AlarmListItem',
 	components: {
+		DatePicker,
+		TimePicker,
 		AlarmTimeUnitSelect,
 		Actions,
 		ActionButton,

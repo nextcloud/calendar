@@ -35,17 +35,11 @@
 			@mouseup.stop.prevent="doNothing">
 			{{ selectedDate | formatDateRage(view) }}
 		</button>
-		<DatetimePicker
+		<DatePicker
 			ref="datepicker"
 			class="datepicker-button-section__datepicker"
-			:first-day-of-week="firstDay"
-			:lang="lang"
-			:clearable="false"
-			:editable="false"
-			:not-before="minimumDate"
-			:not-after="maximumDate"
-			:value="selectedDate"
-			:input-attr="inputItemAttributes"
+			:date="selectedDate"
+			:is-all-day="true"
 			@change="navigateToDate" />
 		<button
 			:aria-label="nextLabel"
@@ -58,49 +52,29 @@
 
 <script>
 import {
-	DatetimePicker
-} from '@nextcloud/vue'
-import {
 	getYYYYMMDDFromDate,
 	getDateFromFirstdayParam,
 	modifyDate
 } from '../../../utils/date.js'
 import formatDateRage from '../../../filters/dateRangeFormat.js'
-import { getLocale } from '@nextcloud/l10n'
+import DatePicker from '../../Shared/DatePicker.vue'
 
 export default {
 	name: 'AppNavigationHeaderDatePicker',
 	components: {
-		DatetimePicker
+		DatePicker
 	},
 	filters: {
 		formatDateRage
 	},
 	data: function() {
 		return {
-			isDatepickerOpen: false,
-			locale: 'en', // this is just during initialization
-			firstDay: window.firstDay + 1, // provided by nextcloud
-			lang: {
-				days: window.dayNamesShort, // provided by nextcloud
-				months: window.monthNamesShort, // provided by nextcloud
-				placeholder: {
-					// this should never be visible in theory
-					// just have something to replace the chinese default
-					date: this.$t('calendar', 'Select date to navigate to')
-				}
-			}
+			isDatepickerOpen: false
 		}
 	},
 	computed: {
 		selectedDate() {
 			return getDateFromFirstdayParam(this.$route.params.firstDay)
-		},
-		minimumDate() {
-			return new Date(this.$store.state.davRestrictions.minimumDate)
-		},
-		maximumDate() {
-			return new Date(this.$store.state.davRestrictions.maximumDate)
 		},
 		previousLabel() {
 			switch (this.view) {
@@ -130,35 +104,7 @@ export default {
 		},
 		view() {
 			return this.$route.params.view
-		},
-		inputItemAttributes() {
-			return {
-				id: 'app-navigation-datepicker-input'
-			}
 		}
-	},
-	mounted() {
-		// Load the locale
-		// convert format like en_GB to en-gb for `moment.js`
-		let locale = getLocale().replace('_', '-').toLowerCase()
-		// default load e.g. fr-fr
-		import('moment/locale/' + this.locale)
-			.then(() => {
-				// force locale change to update
-				// the component once done loading
-				this.locale = locale
-			})
-			.catch(() => {
-				// failure: fallback to fr
-				import('moment/locale/' + locale.split('-')[0])
-					.then(() => {
-						this.locale = locale.split('-')[0]
-					})
-					.catch(() => {
-						// failure, fallback to english
-						this.locale = 'en'
-					})
-			})
 	},
 	methods: {
 		navigateToPreviousTimeRange() {
@@ -210,8 +156,8 @@ export default {
 			// This is not exactly the recommended approach,
 			// but Datepicker does not expose the open property yet.
 			// Version 3 will
-			this.$refs.datepicker.$children[0].popupVisible
-				= !this.$refs.datepicker.$children[0].popupVisible
+			this.$refs.datepicker.$children[0].$children[0].popupVisible
+				= !this.$refs.datepicker.$children[0].$children[0].popupVisible
 		},
 		doNothing() {
 			// This function does nothing in itself,
