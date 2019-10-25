@@ -206,6 +206,27 @@
 		}
 	}
 
+	.app-navigation-entry-new-calendar {
+		.app-navigation-entry__title {
+			color: var(--color-text-maxcontrast) !important;
+		}
+
+		&:hover,
+		&--open {
+			.app-navigation-entry__title {
+				color: var(--color-text-light) !important;
+			}
+		}
+
+		.action-item:not(.action-item--open) {
+			.action-item__menutoggle:not(:hover):not(:focus):not(:active) {
+				opacity: .5;
+			}
+		}
+
+	}
+
+
 	ul {
 
 		// Calendar list items / Subscription list items

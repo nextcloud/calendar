@@ -39,3 +39,13 @@
 - Created by: Google
 - License: Apache License version 2.0
 - Link: https://material.io/resources/icons/?search=view_&icon=view_week&style=baseline
+
+## new-calendar.svg
+- Created by: Austin Andrews
+- License: Apache License version 2.0
+- Link: https://materialdesignicons.com/icon/calendar-blank
+
+## new-calendar-with-task-list.svg
+- Created by: Google
+- License: Apache License version 2.0
+- Link: https://materialdesignicons.com/icon/calendar-check

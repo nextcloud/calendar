@@ -21,95 +21,259 @@
 
 <template>
 	<AppNavigationItem
-		v-if="!showForm"
-		icon="icon-add"
-		:class="{disabled: disabled}"
-		:title="$t('calendar', 'New calendar')"
-		@click.prevent.stop="openDialog" />
+		class="app-navigation-entry-new-calendar"
+		:class="{'app-navigation-entry-new-calendar--open': isOpen}"
+		:title="$t('calendar', '+ New calendar')"
+		:menu-open.sync="isOpen"
+		menu-icon="icon-add"
+		@click.prevent.stop="toggleDialog">
+		<template slot="actions">
+			<ActionButton
+				v-if="showCreateCalendarLabel"
+				icon="icon-new-calendar"
+				@click.prevent.stop="openCreateCalendarInput">
+				{{ $t('calendar', 'New calendar') }}
+			</ActionButton>
+			<ActionInput
+				v-if="showCreateCalendarInput"
+				icon="icon-new-calendar"
+				@submit.prevent.stop="createNewCalendar" />
+			<ActionText
+				v-if="showCreateCalendarSaving"
+				icon="icon-loading-small">
+				{{ $t('calendar', 'Creating calendar ...') }}
+			</ActionText>
 
-	<ActionInput
-		v-else
-		v-click-outside="closeNewCalendarForm"
-		:icon="inputIcon"
-		:value="name"
-		:disabled="isCreating"
-		@submit.prevent.stop="addCalendar">
-		{{ $t('calendar', 'Name of calendar') }}
-	</ActionInput>
+			<ActionButton
+				v-if="showCreateCalendarTaskListLabel"
+				icon="icon-new-calendar-with-task-list"
+				@click.prevent.stop="openCreateCalendarTaskListInput">
+				{{ $t('calendar', 'New calendar with task list') }}
+			</ActionButton>
+			<ActionInput
+				v-if="showCreateCalendarTaskListInput"
+				icon="icon-new-calendar-with-task-list"
+				@submit.prevent.stop="createNewCalendarTaskList" />
+			<ActionText
+				v-if="showCreateCalendarTaskListSaving"
+				icon="icon-loading-small">
+				{{ $t('calendar', 'Creating calendar ...') }}
+			</ActionText>
+
+			<ActionButton
+				v-if="showCreateSubscriptionLabel"
+				icon="icon-public"
+				@click.prevent.stop="openCreateSubscriptionInput">
+				{{ $t('calendar', 'New subscription from link') }}
+			</ActionButton>
+			<ActionInput
+				v-if="showCreateSubscriptionInput"
+				icon="icon-public"
+				@submit.prevent.stop="createNewSubscription" />
+			<ActionText
+				v-if="showCreateSubscriptionSaving"
+				icon="icon-loading-small">
+				{{ $t('calendar', 'Creating subscription ...') }}
+			</ActionText>
+		</template>
+	</AppNavigationItem>
 </template>
 
 <script>
-import {
-	AppNavigationItem,
-	ActionInput
-} from '@nextcloud/vue'
-import ClickOutside from 'vue-click-outside'
+import { ActionButton } from '@nextcloud/vue/dist/Components/ActionButton'
+import { ActionInput } from '@nextcloud/vue/dist/Components/ActionInput'
+import { ActionText } from '@nextcloud/vue/dist/Components/ActionText'
+import { AppNavigationItem } from '@nextcloud/vue/dist/Components/AppNavigationItem'
+
 import { getRandomColor } from '../../../utils/color.js'
 
 export default {
 	name: 'CalendarListNew',
 	components: {
-		AppNavigationItem,
-		ActionInput
-	},
-	directives: {
-		ClickOutside
-	},
-	props: {
-		disabled: {
-			type: Boolean,
-			default: false
-		}
+		ActionButton,
+		ActionInput,
+		ActionText,
+		AppNavigationItem
 	},
 	data: function() {
 		return {
-			isCreating: false,
-			showForm: false,
-			name: ''
+			// Open state
+			isOpen: false,
+			// New calendar
+			showCreateCalendarLabel: true,
+			showCreateCalendarInput: false,
+			showCreateCalendarSaving: false,
+			// New calendar with task list
+			showCreateCalendarTaskListLabel: true,
+			showCreateCalendarTaskListInput: false,
+			showCreateCalendarTaskListSaving: false,
+			// New subscription
+			showCreateSubscriptionLabel: true,
+			showCreateSubscriptionInput: false,
+			showCreateSubscriptionSaving: false
 		}
 	},
-	computed: {
-		inputIcon() {
-			if (this.isCreating) {
-				return 'icon-loading-small'
+	watch: {
+		isOpen() {
+			if (this.isOpen) {
+				return
 			}
 
-			return 'icon-add'
+			this.closeMenu()
 		}
 	},
 	methods: {
-		openDialog() {
-			if (this.disabled) {
-				return false
-			}
-
-			this.showForm = true
-			this.$nextTick(() => {
-				this.$el.querySelector('input[type=text]').focus()
-			})
+		/**
+		 * Opens the Actions menu when clicking on the main item label
+		 */
+		toggleDialog() {
+			this.isOpen = !this.isOpen
 		},
-		addCalendar(event) {
+		/**
+		 * Opens the create calendar input
+		 */
+		openCreateCalendarInput() {
+			this.showCreateCalendarLabel = false
+			this.showCreateCalendarInput = true
+			this.showCreateCalendarSaving = false
+
+			this.showCreateCalendarTaskListLabel = true
+			this.showCreateCalendarTaskListInput = false
+
+			this.showCreateSubscriptionLabel = true
+			this.showCreateSubscriptionInput = false
+		},
+		/**
+		 * Opens the create calendar with task list input
+		 */
+		openCreateCalendarTaskListInput() {
+			this.showCreateCalendarTaskListLabel = false
+			this.showCreateCalendarTaskListInput = true
+			this.showCreateCalendarTaskListSaving = false
+
+			this.showCreateCalendarLabel = true
+			this.showCreateCalendarInput = false
+
+			this.showCreateSubscriptionLabel = true
+			this.showCreateSubscriptionInput = false
+		},
+		/**
+		 * Opens the create subscription input
+		 */
+		openCreateSubscriptionInput() {
+			this.showCreateSubscriptionLabel = false
+			this.showCreateSubscriptionInput = true
+			this.showCreateSubscriptionSaving = false
+
+			this.showCreateCalendarLabel = true
+			this.showCreateCalendarInput = false
+
+			this.showCreateCalendarTaskListLabel = true
+			this.showCreateCalendarTaskListInput = false
+		},
+		/**
+		 * Creates a new calendar
+		 *
+		 * @param {Event} event The submit event
+		 */
+		async createNewCalendar(event) {
+			this.showCreateCalendarInput = false
+			this.showCreateCalendarSaving = true
+
 			const displayName = event.target.querySelector('input[type=text]').value
 
-			// Keep displayname visible while saving
-			this.name = displayName
-			this.isCreating = true
-
-			this.$store.dispatch('appendCalendar', { displayName, color: getRandomColor() }) // TODO - use uid2color
-				.then(() => {
-					this.showForm = false
-					this.isCreating = false
-					this.name = ''
+			try {
+				await this.$store.dispatch('appendCalendar', {
+					displayName,
+					color: getRandomColor() // TODO - use uid2color
 				})
-				.catch((error) => {
-					console.error(error)
-					this.$toast.error(this.$t('calendar', 'An error occurred, unable to create the calendar.'))
-					this.isCreating = false
-				})
+			} catch (error) {
+				console.debug(error)
+				this.$toast.error(this.$t('calendar', 'An error occurred, unable to create the calendar.'))
+			} finally {
+				this.showCreateCalendarSaving = false
+				this.showCreateCalendarLabel = true
+				this.isOpen = false
+				this.closeMenu()
+			}
 		},
-		closeNewCalendarForm() {
-			this.showForm = false
-			this.name = ''
+		/**
+		 * Creates a new calendar with task list
+		 *
+		 * @param {Event} event The submit event
+		 */
+		async createNewCalendarTaskList(event) {
+			this.showCreateCalendarTaskListInput = false
+			this.showCreateCalendarTaskListSaving = true
+
+			const displayName = event.target.querySelector('input[type=text]').value
+
+			try {
+				await this.$store.dispatch('appendCalendar', {
+					displayName,
+					color: getRandomColor(), // TODO - uid2color
+					components: ['VEVENT', 'VTODO']
+				})
+			} catch (error) {
+				console.debug(error)
+				this.$toast.error(this.$t('calendar', 'An error occurred, unable to create the calendar.'))
+			} finally {
+				this.showCreateCalendarTaskListSaving = false
+				this.showCreateCalendarTaskListLabel = true
+				this.isOpen = false
+				this.closeMenu()
+			}
+		},
+		/**
+		 * Creates a new subscription
+		 *
+		 * @param {Event} event The submit event
+		 */
+		async createNewSubscription(event) {
+			this.showCreateSubscriptionInput = false
+			this.showCreateSubscriptionSaving = true
+
+			const link = event.target.querySelector('input[type=text]').value
+			let url
+			let hostname
+			try {
+				url = new URL(link)
+				hostname = url.hostname
+			} catch (error) {
+				console.error(error)
+				this.$toast.error(this.$t('calendar', 'Please enter a valid link (starting with http://, https://, webcal://, or webcals://)'))
+				return
+			}
+
+			try {
+				await this.$store.dispatch('appendSubscription', {
+					displayName: hostname,
+					color: getRandomColor(), // TODO - uid2color
+					source: link
+				})
+			} catch (error) {
+				console.debug(error)
+				this.$toast.error(this.$t('calendar', 'An error occurred, unable to create the calendar.'))
+			} finally {
+				this.showCreateSubscriptionSaving = false
+				this.showCreateSubscriptionLabel = true
+				this.isOpen = false
+				this.closeMenu()
+			}
+		},
+		/**
+		 * This resets the actions on close of menu
+		 */
+		closeMenu() {
+			this.showCreateCalendarLabel = true
+			this.showCreateCalendarInput = false
+			this.showCreateCalendarSaving = false
+			this.showCreateCalendarTaskListLabel = true
+			this.showCreateCalendarTaskListInput = false
+			this.showCreateCalendarTaskListSaving = false
+			this.showCreateSubscriptionLabel = true
+			this.showCreateSubscriptionInput = false
+			this.showCreateSubscriptionSaving = false
 		}
 	}
 }
