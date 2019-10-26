@@ -81,9 +81,7 @@ export default {
 				return
 			}
 
-			console.debug(selectedOption)
-
-			this.$emit('update:value', selectedOption)
+			this.$emit('update:value', selectedOption.value)
 		}
 	}
 }
