@@ -20,6 +20,7 @@
  *
  */
 import { translate } from '@nextcloud/l10n'
+import getDefaultCategories from '../defaults/defaultCategories.js'
 
 export default {
 	// RFC 5545
@@ -116,11 +117,13 @@ export default {
 	// },
 	categories: {
 		readableName: translate('calendar', 'Categories'),
-		icon: '',
+		icon: 'icon-tag',
 		multiple: true,
 		default: true,
-		info: translate('calendar', '')
-
+		info: translate('calendar', 'Categories help you to structure and organize your events'),
+		placeholder: translate('calendar', 'Search or add categories'),
+		tagPlaceholder: translate('calendar', 'Add this as a new category'),
+		options: getDefaultCategories()
 	},
 	resources: {
 		readableName: translate('calendar', 'Additional resources'),

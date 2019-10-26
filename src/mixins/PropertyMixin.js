@@ -48,6 +48,9 @@ export default {
 		placeholder() {
 			return this.propModel.placeholder || ''
 		},
+		tagPlaceholder() {
+			return this.propModel.tagPlaceholder || ''
+		},
 		info() {
 			return this.propModel.info || ''
 		},
