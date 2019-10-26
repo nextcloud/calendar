@@ -23,7 +23,7 @@
 	<header class="app-navigation-header">
 		<AppNavigationHeaderDatePicker />
 		<div class="new-event-today-view-section">
-			<AppNavigationHeaderNewEvent />
+			<AppNavigationHeaderNewEvent v-if="!isPublic" />
 			<AppNavigationHeaderTodayButton />
 			<AppNavigationHeaderViewMenu />
 		</div>
@@ -43,6 +43,12 @@ export default {
 		AppNavigationHeaderTodayButton,
 		AppNavigationHeaderNewEvent,
 		AppNavigationHeaderViewMenu
+	},
+	props: {
+		isPublic: {
+			type: Boolean,
+			required: true
+		}
 	}
 }
 </script>

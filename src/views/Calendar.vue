@@ -23,7 +23,7 @@
 	<Content app-name="calendar" :class="classNames">
 		<AppNavigation v-if="!isEmbedded">
 			<!-- Date Picker, View Buttons, Today Button -->
-			<AppNavigationHeader />
+			<AppNavigationHeader :is-public="!isAuthenticatedUser" />
 			<!-- Calendar / Subscription List -->
 			<CalendarList
 				:is-public="!isAuthenticatedUser"
