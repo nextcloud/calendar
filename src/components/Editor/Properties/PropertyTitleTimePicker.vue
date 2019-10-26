@@ -72,13 +72,13 @@
 			</div>
 		</div>
 
-		<div class="property-title-time-picker__all-day">
+		<div v-if="!isReadOnly" class="property-title-time-picker__all-day">
 			<input
 				id="allDay"
 				:checked="isAllDay"
 				type="checkbox"
 				class="checkbox"
-				:disabled="!canModifyAllDay || isReadOnly"
+				:disabled="!canModifyAllDay"
 				@change="toggleAllDay">
 			<label
 				v-tooltip="allDayTooltip"
