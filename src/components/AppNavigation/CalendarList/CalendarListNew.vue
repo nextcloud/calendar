@@ -85,7 +85,7 @@ import { ActionInput } from '@nextcloud/vue/dist/Components/ActionInput'
 import { ActionText } from '@nextcloud/vue/dist/Components/ActionText'
 import { AppNavigationItem } from '@nextcloud/vue/dist/Components/AppNavigationItem'
 
-import { getRandomColor } from '../../../utils/color.js'
+import { uidToHexColor } from '../../../utils/color.js'
 
 export default {
 	name: 'CalendarListNew',
@@ -185,7 +185,7 @@ export default {
 			try {
 				await this.$store.dispatch('appendCalendar', {
 					displayName,
-					color: getRandomColor() // TODO - use uid2color
+					color: uidToHexColor(displayName)
 				})
 			} catch (error) {
 				console.debug(error)
@@ -211,7 +211,7 @@ export default {
 			try {
 				await this.$store.dispatch('appendCalendar', {
 					displayName,
-					color: getRandomColor(), // TODO - uid2color
+					color: uidToHexColor(displayName),
 					components: ['VEVENT', 'VTODO']
 				})
 			} catch (error) {
@@ -248,7 +248,7 @@ export default {
 			try {
 				await this.$store.dispatch('appendSubscription', {
 					displayName: hostname,
-					color: getRandomColor(), // TODO - uid2color
+					color: uidToHexColor(link),
 					source: link
 				})
 			} catch (error) {

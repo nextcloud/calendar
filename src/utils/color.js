@@ -20,6 +20,7 @@
  *
  */
 import convert from 'color-convert'
+import { uidToColor } from './uidToColor.js'
 
 /**
  * Get a text-color that's readable on a given background color
@@ -47,25 +48,12 @@ export function generateTextColorForRGB({ red, green, blue }) {
 }
 
 /**
- * returns a random color
+ * Generates a rgb-hex color based on a string
  *
- * @returns {String}
- * @deprecated
+ * @param {String} uid The string to generate a color from
+ * @returns {string} The RGB HEX color
  */
-export function getRandomColor() {
-	const red = Math.floor(Math.random() * 256)
-	const green = Math.floor(Math.random() * 256)
-	const blue = Math.floor(Math.random() * 256)
-
-	return '#' + convert.rgb.hex(red, green, blue)
-}
-
-/**
- * Gets the default color of the nextcloud instance
- *
- * @returns {string}
- * @deprecated
- */
-export function getDefaultColor() {
-	return '#1483C6'
+export function uidToHexColor(uid) {
+	const color = uidToColor(uid)
+	return '#' + convert.rgb.hex(color.r, color.g, color.b)
 }

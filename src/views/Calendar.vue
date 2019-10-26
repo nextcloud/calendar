@@ -90,7 +90,7 @@ import {
 	Content
 } from '@nextcloud/vue'
 import debounce from 'debounce'
-import { getRandomColor } from '../utils/color.js'
+import { uidToHexColor } from '../utils/color.js'
 import client from '../services/caldavService.js'
 import { getConfigValueFromHiddenInput } from '../utils/settings.js'
 import {
@@ -321,7 +321,7 @@ export default {
 						this.loadingCalendars = true
 						this.$store.dispatch('appendCalendar', {
 							displayName: this.$t('calendars', 'Personal'),
-							color: getRandomColor(), // TODO - use uid2color
+							color: uidToHexColor(this.$t('calendars', 'Personal')),
 							order: 0
 						}).then(() => {
 							this.loadingCalendars = false

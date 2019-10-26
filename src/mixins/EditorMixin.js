@@ -22,7 +22,6 @@
 import rfcProps from '../models/rfcProps'
 import logger from '../utils/logger.js'
 import { mapEventComponentToCalendarObjectInstanceObject } from '../models/calendarObjectInstance.js'
-import { getDefaultColor } from '../utils/color.js'
 import { getIllustrationForTitle } from '../utils/illustration.js'
 import { getPrefixedRoute } from '../utils/router.js'
 
@@ -64,10 +63,10 @@ export default {
 		},
 		selectedCalendarColor() {
 			if (!this.selectedCalendar) {
-				return getDefaultColor() // TODO: use uid2Color instead
+				return ''
 			}
 
-			return this.selectedCalendar.color || getDefaultColor() // TODO: use uid2Color instead
+			return this.selectedCalendar.color
 		},
 		title() {
 			if (!this.eventComponent) {

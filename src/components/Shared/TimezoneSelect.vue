@@ -21,6 +21,7 @@ import {
 	getReadableTimezoneName,
 	getSortedTimezoneList
 } from '../../utils/timezone.js'
+import getTimezoneManager from '../../services/timezoneDataProviderService.js'
 
 export default {
 	name: 'TimezoneSelect',
@@ -56,7 +57,8 @@ export default {
 			}
 		},
 		options() {
-			return getSortedTimezoneList(this.additionalTimezones)
+			const timezoneManager = getTimezoneManager()
+			return getSortedTimezoneList(timezoneManager.listAllTimezones(), this.additionalTimezones)
 		}
 	},
 	methods: {

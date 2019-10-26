@@ -595,3 +595,5 @@ const data = [{
 		'dinner'
 	]
 }]
+
+export default getIllustrationForTitle
