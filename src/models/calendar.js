@@ -19,7 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { getDefaultColor } from '../utils/color.js'
+import { uidToHexColor } from '../utils/color.js'
 import client from '../services/caldavService.js'
 
 /**
@@ -34,7 +34,7 @@ export const getDefaultCalendarObject = (props = {}) => Object.assign({}, {
 	// Visible display name
 	displayName: '',
 	// Color of the calendar
-	color: getDefaultColor(), // TODO: use uid2Color instead
+	color: uidToHexColor(''),
 	// Whether or not the calendar is visible in the grid
 	enabled: true,
 	// Whether or not the calendar is loading events at the moment
@@ -78,7 +78,7 @@ export const getDefaultCalendarObject = (props = {}) => Object.assign({}, {
  * @returns {Object}
  */
 export function mapDavCollectionToCalendar(calendar) {
-	let color = calendar.color || getDefaultColor() // TODO: use uid2Color instead
+	let color = calendar.color || uidToHexColor(calendar.displayname)
 	if (color.length === 9) {
 		// Make sure it's #RRGGBB, not #RRGGBBAA
 		color = color.substr(0, 7)

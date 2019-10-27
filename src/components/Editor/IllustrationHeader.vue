@@ -33,7 +33,7 @@
 
 <script>
 import HttpClient from '@nextcloud/axios'
-import { getDefaultColor } from '../../utils/color.js'
+import { uidToHexColor } from '../../utils/color.js'
 
 export default {
 	name: 'IllustrationHeader',
@@ -57,7 +57,11 @@ export default {
 		coloredSVG() {
 			let color = this.color
 			if (!/^(#)((?:[A-Fa-f0-9]{3}){1,2})$/.test(color)) {
-				color = getDefaultColor() // TODO - use uid2Color instead
+				color = uidToHexColor(color)
+			}
+
+			if (!color.startsWith('#')) {
+				color = '#' + color
 			}
 
 			return this.svg

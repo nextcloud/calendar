@@ -19,16 +19,36 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import getTimezoneManager from '../services/timezoneDataProviderService.js'
+import { translate } from '@nextcloud/l10n'
 
 /**
  *
+ * @param {String[]} timezoneList List of Olsen timezones
  * @param {Array} additionalTimezones List of additional timezones
  * @returns {[]}
  */
-export function getSortedTimezoneList(additionalTimezones = []) {
+export function getSortedTimezoneList(timezoneList = [], additionalTimezones = []) {
 	const sortedByContinent = {}
 	const sortedList = []
+
+	for (const timezoneId of timezoneList) {
+		let [continent, name] = timezoneId.split('/', 2)
+		if (!name) {
+			name = continent
+			continent = translate('calendar', 'Global')
+		}
+
+		sortedByContinent[continent] = sortedByContinent[continent] || {
+			continent,
+			regions: []
+		}
+
+		sortedByContinent[continent].regions.push({
+			label: getReadableTimezoneName(name),
+			cities: [],
+			timezoneId
+		})
+	}
 
 	for (const additionalTimezone of additionalTimezones) {
 		const { continent, label, timezoneId } = additionalTimezone
@@ -45,35 +65,29 @@ export function getSortedTimezoneList(additionalTimezones = []) {
 		})
 	}
 
-	const timezoneManager = getTimezoneManager()
-	const timezoneList = timezoneManager.listAllTimezones()
-
-	for (const timezoneId of timezoneList) {
-		let [continent, name] = timezoneId.split('/', 2)
-		if (!name) {
-			name = continent
-			continent = 'Global' // TODO - translate
-		}
-
-		sortedByContinent[continent] = sortedByContinent[continent] || {
-			continent,
-			regions: []
-		}
-
-		sortedByContinent[continent].regions.push({
-			label: getReadableTimezoneName(name),
-			cities: [],
-			timezoneId
-		})
-	}
-
 	for (const continent in sortedByContinent) {
 		if (!Object.prototype.hasOwnProperty.call(sortedByContinent, continent)) {
 			continue
 		}
 
+		sortedByContinent[continent].regions.sort((a, b) => {
+			if (a.label < b.label) {
+				return -1
+			}
+
+			return 1
+		})
 		sortedList.push(sortedByContinent[continent])
 	}
+
+	// Sort continents by name
+	sortedList.sort((a, b) => {
+		if (a.continent < b.continent) {
+			return -1
+		}
+
+		return 1
+	})
 
 	return sortedList
 }

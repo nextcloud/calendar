@@ -29,7 +29,7 @@ import CalendarObject from '../models/calendarObject'
 import { dateFactory, getUnixTimestampFromDate } from '../utils/date.js'
 import { getDefaultCalendarObject, mapDavCollectionToCalendar } from '../models/calendar'
 import pLimit from 'p-limit'
-import { getRandomColor } from '../utils/color.js'
+import { uidToHexColor } from '../utils/color.js'
 import { translate } from '@nextcloud/l10n'
 
 const state = {
@@ -791,7 +791,7 @@ const actions = {
 				const displayName = file.parser.getName() || translate('calendar', 'Imported {filename}', {
 					filename: file.name
 				})
-				const color = file.parser.getColor() || getRandomColor() // TODO - use uid2color
+				const color = file.parser.getColor() || uidToHexColor(displayName)
 				const components = []
 				if (file.parser.containsVEvents()) {
 					components.push('VEVENT')

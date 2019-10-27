@@ -34,7 +34,7 @@
 
 <script>
 import CalendarPicker from '../../Shared/CalendarPicker.vue'
-import { getDefaultColor } from '../../../utils/color.js'
+import { uidToHexColor } from '../../../utils/color.js'
 
 export default {
 	name: 'ImportScreenRow',
@@ -60,7 +60,7 @@ export default {
 					id: 'new',
 					displayName: this.$t('calendar', 'New calendar'),
 					isSharedWithMe: false,
-					color: getDefaultColor(), // TODO - use uid2color instead
+					color: uidToHexColor(this.$t('calendar', 'New calendar')),
 					owner: this.$store.getters.getCurrentUserPrincipal.url
 				}
 			}
@@ -78,7 +78,7 @@ export default {
 				id: 'new',
 				displayName: this.$t('calendar', 'New calendar'),
 				isSharedWithMe: false,
-				color: getDefaultColor(), // TODO - use uid2color instead
+				color: uidToHexColor(this.$t('calendar', 'New calendar')),
 				owner: this.$store.getters.getCurrentUserPrincipal.url
 			})
 

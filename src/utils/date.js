@@ -19,7 +19,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import moment from '@nextcloud/moment'
 
 /**
  * returns a new Date object
@@ -94,6 +93,7 @@ export function getDateFromDateTimeValue(dateTimeValue) {
 		dateTimeValue.day,
 		dateTimeValue.hour,
 		dateTimeValue.minute,
+		0,
 		0
 	)
 }
@@ -109,9 +109,10 @@ export function getDateFromDateTimeValue(dateTimeValue) {
  * @returns {Date}
  */
 export function modifyDate(date, { day = 0, week = 0, month = 0 }) {
-	return moment(date)
-		.add(day, 'day')
-		.add(week, 'week')
-		.add(month, 'month')
-		.toDate()
+	date = new Date(date.getTime())
+	date.setDate(date.getDate() + day)
+	date.setDate(date.getDate() + week * 7)
+	date.setMonth(date.getMonth() + month)
+
+	return date
 }

@@ -63,6 +63,6 @@ export function getWeekDayFromDate(jsDate) {
 	case 6:
 		return 'SA'
 	default:
-		return 'MO'
+		throw TypeError('Invalid date-object given')
 	}
 }
