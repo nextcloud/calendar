@@ -24,8 +24,7 @@ import getDefaultCategories from '../defaults/defaultCategories.js'
 
 export default {
 	// RFC 5545
-	class: {
-		name: 'accessClass',
+	accessClass: {
 		readableName: translate('calendar', 'When shared show'),
 		icon: 'icon-eye',
 		options: [
@@ -36,11 +35,6 @@ export default {
 		multiple: false,
 		info: translate('calendar', 'The visibility of this event in shared calendars.'),
 		defaultValue: 'PUBLIC'
-	},
-	summary: {
-		name: 'title',
-		readableName: translate('calendar', 'Title'),
-		placeholder: translate('calendar', 'Enter a title for this event')
 	},
 	location: {
 		name: 'location',

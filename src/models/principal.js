@@ -35,6 +35,8 @@ export const getDefaultPrincipalObject = (props) => Object.assign({}, {
 	emailAddress: '',
 	// The principals display-name
 	displayname: '',
+	// principalScheme
+	principalScheme: '',
 	// The internal user-id in case it is of type INDIVIDUAL and a user
 	userId: '',
 	// url to the DAV-principal-resource
@@ -53,6 +55,7 @@ export function mapDavToPrincipal(principal) {
 	return {
 		id: btoa(principal.url),
 		calendarUserType: principal.calendarUserType,
+		principalScheme: principal.principalScheme,
 		emailAddress: principal.email,
 		displayname: principal.displayname,
 		userId: principal.userId,

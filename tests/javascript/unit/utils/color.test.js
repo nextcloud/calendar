@@ -22,7 +22,8 @@
 import {
 	generateTextColorForRGBString,
 	generateTextColorForRGB,
-	uidToHexColor
+	uidToHexColor,
+	detectColor
 } from '../../../../src/utils/color.js'
 
 describe('utils/color test suite', () => {
@@ -44,5 +45,13 @@ describe('utils/color test suite', () => {
 	it('should provide a HEX string for a UID', () => {
 		expect(uidToHexColor('uid123')).toEqual('#C98879')
 		expect(uidToHexColor('')).toEqual('#0082C9')
+	})
+
+	it('should detect the color of a color string', () => {
+		expect(detectColor('#ffff00')).toEqual('#ffff00')
+		expect(detectColor('ffff00')).toEqual('#ffff00')
+		expect(detectColor('#ffff00AB')).toEqual('#ffff00')
+		expect(detectColor('ffff00AB')).toEqual('#ffff00')
+		expect(detectColor('undefined-color')).toEqual(false)
 	})
 })

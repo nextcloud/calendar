@@ -409,9 +409,9 @@ const actions = {
 	 * @param {Object} context the store mutations
 	 * @returns {Promise<Array>} the calendars
 	 */
-	async getCalendars({ commit, state }) {
+	async getCalendars({ commit, state, getters }) {
 		const calendars = await client.calendarHomes[0].findAllCalendars()
-		calendars.map(mapDavCollectionToCalendar).forEach(calendar => {
+		calendars.map((calendar) => mapDavCollectionToCalendar(calendar, getters.getCurrentUserPrincipal)).forEach(calendar => {
 			commit('addCalendar', { calendar })
 		})
 
@@ -428,7 +428,7 @@ const actions = {
 	 * @param {String[]} data.tokens The tokens to load
 	 * @returns {Promise<Object[]>}
 	 */
-	async getPublicCalendars({ commit, state }, { tokens }) {
+	async getPublicCalendars({ commit, state, getters }, { tokens }) {
 		const findPromises = []
 
 		for (const token of tokens) {
@@ -442,14 +442,7 @@ const actions = {
 		return Promise.all(findPromises)
 			.then(calendars => calendars.filter(calendar => calendar !== null))
 			.then(calendars => {
-				calendars = calendars.map((calendar) => {
-					calendar.enabled = true
-					calendar.readOnly = true
-
-					return calendar
-				})
-
-				calendars.map(mapDavCollectionToCalendar).forEach(calendar => {
+				calendars.map((calendar) => mapDavCollectionToCalendar(calendar)).forEach(calendar => {
 					commit('addCalendar', { calendar })
 				})
 
@@ -472,7 +465,7 @@ const actions = {
 	async appendCalendar(context, { displayName, color, order }) {
 		return client.calendarHomes[0].createCalendarCollection(displayName, color, ['VEVENT'], order)
 			.then((response) => {
-				const calendar = mapDavCollectionToCalendar(response)
+				const calendar = mapDavCollectionToCalendar(response, context.getters.getCurrentUserPrincipal)
 				context.commit('addCalendar', { calendar })
 			})
 			.catch((error) => { throw error })
@@ -492,7 +485,7 @@ const actions = {
 	async appendSubscription(context, { displayName, color, order, source }) {
 		return client.calendarHomes[0].createSubscribedCollection(displayName, color, source, order)
 			.then((response) => {
-				const calendar = mapDavCollectionToCalendar(response)
+				const calendar = mapDavCollectionToCalendar(response, context.getters.getCurrentUserPrincipal)
 				context.commit('addCalendar', { calendar })
 			})
 			.catch((error) => { throw error })
@@ -805,7 +798,7 @@ const actions = {
 
 				await client.calendarHomes[0].createCalendarCollection(displayName, color, components, 0)
 					.then((response) => {
-						const calendar = mapDavCollectionToCalendar(response)
+						const calendar = mapDavCollectionToCalendar(response, context.getters.getCurrentUserPrincipal)
 						context.commit('addCalendar', { calendar })
 						context.commit('setCalendarForFileId', {
 							fileId: file.id,
