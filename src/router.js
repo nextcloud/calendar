@@ -92,6 +92,14 @@ const router = new Router({
 			path: '/embed/:tokens',
 			redirect: `/embed/:tokens/${getInitialView()}/now`,
 		},
+		{
+			path: '/edit/:object',
+			redirect: '/${getInitialView()}/now/edit/sidebar/:object/next'
+		},
+		{
+			path: '/edit/:object/:recurrenceId',
+			redirect: '/${getInitialView()}/now/edit/sidebar/:object/:recurrenceId'
+		},
 		/**
 		 * This is the main route that contains the current view and viewed day
 		 * It has to be last, so that other routes starting with /p/, etc. match first
