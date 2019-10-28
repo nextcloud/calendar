@@ -66,6 +66,7 @@ export default {
 
 			return this.svg
 				.replace(/#6c63ff/g, color)
+				.replace(/<title>[\w\d\s-]*<\/title>/i, '')
 				.replace(/height="(\d)*(.(\d)*)?"/i, '')
 				.replace(/width="(\d)*(.(\d)*)?"/i, '')
 		}
