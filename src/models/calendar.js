@@ -46,6 +46,8 @@ export const getDefaultCalendarObject = (props = {}) => Object.assign({}, {
 	supportsTasks: false,
 	// The principal uri of the owner
 	owner: '',
+	// Timezone set for this calendar
+	timezone: null,
 	// List of shares
 	shares: [],
 	// Published url
@@ -99,6 +101,7 @@ export function mapDavCollectionToCalendar(calendar, currentUserPrincipal) {
 	const order = calendar.order || 0
 	const url = calendar.url
 	const publishURL = calendar.publishURL || null
+	const timezone = calendar.timezone || null
 
 	let isSharedWithMe = false
 	if (!currentUserPrincipal) {
@@ -152,6 +155,7 @@ export function mapDavCollectionToCalendar(calendar, currentUserPrincipal) {
 		canBeShared,
 		canBePublished,
 		shares,
+		timezone,
 		dav: calendar
 	}
 }

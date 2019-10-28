@@ -40,6 +40,7 @@ describe('models/calendar test suite', () => {
 			owner: '',
 			shares: [],
 			publishURL: null,
+			timezone: null,
 			url: '',
 			readOnly: false,
 			order: 0,
@@ -69,6 +70,7 @@ describe('models/calendar test suite', () => {
 			owner: '',
 			shares: [],
 			publishURL: null,
+			timezone: null,
 			url: '',
 			readOnly: false,
 			order: 0,
@@ -93,7 +95,8 @@ describe('models/calendar test suite', () => {
 			isPublishable: () => true,
 			order: undefined,
 			publishURL: undefined,
-			enabled: true
+			enabled: true,
+			timezone: 'BEGIN:VCALENDAR...END:VCALENDAR',
 		}
 
 		expect(mapDavCollectionToCalendar(cdavObject, {
@@ -115,6 +118,7 @@ describe('models/calendar test suite', () => {
 			supportsJournals: false,
 			supportsTasks: false,
 			isSharedWithMe: false,
+			timezone: 'BEGIN:VCALENDAR...END:VCALENDAR',
 			url: '/foo/bar'
 		})
 	})
@@ -131,6 +135,7 @@ describe('models/calendar test suite', () => {
 			isPublishable: () => true,
 			order: undefined,
 			publishURL: undefined,
+			timezone: 'BEGIN:VCALENDAR...END:VCALENDAR',
 			enabled: false
 		}
 
@@ -153,6 +158,7 @@ describe('models/calendar test suite', () => {
 			supportsJournals: false,
 			supportsTasks: false,
 			isSharedWithMe: false,
+			timezone: 'BEGIN:VCALENDAR...END:VCALENDAR',
 			url: '/foo/bar'
 		})
 	})
@@ -191,6 +197,7 @@ describe('models/calendar test suite', () => {
 			supportsJournals: false,
 			supportsTasks: false,
 			isSharedWithMe: false,
+			timezone: null,
 			url: '/foo/bar'
 		})
 	})
@@ -229,6 +236,7 @@ describe('models/calendar test suite', () => {
 			supportsJournals: false,
 			supportsTasks: false,
 			isSharedWithMe: true,
+			timezone: null,
 			url: '/foo/bar'
 		})
 	})
@@ -267,6 +275,7 @@ describe('models/calendar test suite', () => {
 			supportsJournals: false,
 			supportsTasks: false,
 			isSharedWithMe: false,
+			timezone: null,
 			url: '/foo/bar'
 		})
 	})
@@ -305,6 +314,7 @@ describe('models/calendar test suite', () => {
 			supportsJournals: false,
 			supportsTasks: false,
 			isSharedWithMe: false,
+			timezone: null,
 			url: '/foo/bar'
 		})
 	})
@@ -343,6 +353,7 @@ describe('models/calendar test suite', () => {
 			supportsJournals: false,
 			supportsTasks: false,
 			isSharedWithMe: false,
+			timezone: null,
 			url: '/foo/bar'
 		})
 	})
@@ -381,6 +392,7 @@ describe('models/calendar test suite', () => {
 			supportsJournals: false,
 			supportsTasks: false,
 			isSharedWithMe: false,
+			timezone: null,
 			url: '/foo/bar'
 		})
 	})
@@ -490,6 +502,7 @@ describe('models/calendar test suite', () => {
 			supportsJournals: false,
 			supportsTasks: false,
 			isSharedWithMe: false,
+			timezone: null,
 			url: '/foo/bar'
 		})
 	})
@@ -568,6 +581,7 @@ describe('models/calendar test suite', () => {
 			supportsJournals: false,
 			supportsTasks: false,
 			isSharedWithMe: true,
+			timezone: null,
 			url: '/foo/bar'
 		})
 	})
