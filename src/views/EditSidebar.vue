@@ -106,7 +106,7 @@
 					@update:value="updateStatus" />
 				<PropertySelect
 					:is-read-only="isReadOnly"
-					:prop-model="rfcProps.class"
+					:prop-model="rfcProps.accessClass"
 					:value="accessClass"
 					@update:value="updateAccessClass" />
 				<PropertySelect

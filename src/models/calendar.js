@@ -19,8 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { uidToHexColor } from '../utils/color.js'
-import client from '../services/caldavService.js'
+import { detectColor, uidToHexColor } from '../utils/color.js'
 
 /**
  * Creates a complete calendar-object based on given props
@@ -75,39 +74,85 @@ export const getDefaultCalendarObject = (props = {}) => Object.assign({}, {
  * Map a dav collection to our calendar object model
  *
  * @param {Object} calendar The calendar object from the cdav library
+ * @param {Object=} currentUserPrincipal The principal model of the current user principal
  * @returns {Object}
  */
-export function mapDavCollectionToCalendar(calendar) {
-	let color = calendar.color || uidToHexColor(calendar.displayname)
-	if (color.length === 9) {
-		// Make sure it's #RRGGBB, not #RRGGBBAA
-		color = color.substr(0, 7)
+export function mapDavCollectionToCalendar(calendar, currentUserPrincipal) {
+	const id = btoa(calendar.url)
+	const displayName = calendar.displayname
+
+	// calendar.color can be set to anything on the server,
+	// so make sure it's something that remotely looks like a color
+	let color = detectColor(calendar.color)
+	if (!color) {
+		// As fallback if we don't know what color that is supposed to be
+		color = uidToHexColor(displayName)
 	}
 
-	let shares = calendar.shares || []
+	const supportsEvents = calendar.components.includes('VEVENT')
+	const supportsJournals = calendar.components.includes('VJOURNAL')
+	const supportsTasks = calendar.components.includes('VTODO')
+	const owner = calendar.owner
+	const readOnly = !calendar.isWriteable()
+	const canBeShared = calendar.isShareable()
+	const canBePublished = calendar.isPublishable()
+	const order = calendar.order || 0
+	const url = calendar.url
+	const publishURL = calendar.publishURL || null
 
-	const currentUserPrincipal = client.currentUserPrincipal || {}
+	let isSharedWithMe = false
+	if (!currentUserPrincipal) {
+		// If the user is not authenticated, the calendar
+		// will always be marked as shared with them
+		isSharedWithMe = true
+	} else {
+		isSharedWithMe = (owner !== currentUserPrincipal.url)
+	}
+
+	let enabled
+	if (!currentUserPrincipal) {
+		// If the user is not authenticated,
+		// always enable the calendar
+		enabled = true
+	} else if (typeof calendar.enabled === 'boolean') {
+		// If calendar-enabled is set, we will just take that
+		enabled = calendar.enabled
+	} else {
+		// If there is no calendar-enabled,
+		// we will display the calendar by default if it's owned by the user
+		// or hide it by default it it's just shared with them
+		enabled = !isSharedWithMe
+	}
+
+	let shares = []
+	if (!!currentUserPrincipal && Array.isArray(calendar.shares)) {
+		for (const share of calendar.shares) {
+			if (share.href === currentUserPrincipal.principalScheme) {
+				continue
+			}
+
+			shares.push(mapDavShareeToSharee(share))
+		}
+	}
 
 	return {
-		id: btoa(calendar.url),
-		displayName: calendar.displayname,
-		color: color,
-		enabled: !!calendar.enabled,
-		supportsEvents: calendar.components.includes('VEVENT'),
-		supportsJournals: calendar.components.includes('VJOURNAL'),
-		supportsTasks: calendar.components.includes('VTODO'),
-		owner: calendar.owner,
-		readOnly: !calendar.isWriteable(),
-		order: calendar.order || 0,
-		url: calendar.url,
-		dav: calendar,
-		shares: shares
-			.filter((sharee) => sharee.href !== currentUserPrincipal.principalScheme) // public shares create a share with yourself ... should be fixed in server
-			.map(sharee => Object.assign({}, mapDavShareeToSharee(sharee))),
-		publishURL: calendar.publishURL || null,
-		isSharedWithMe: calendar.owner !== currentUserPrincipal.principalUrl,
-		canBeShared: calendar.isShareable(),
-		canBePublished: calendar.isPublishable()
+		id,
+		displayName,
+		color,
+		order,
+		url,
+		enabled,
+		supportsEvents,
+		supportsJournals,
+		supportsTasks,
+		isSharedWithMe,
+		owner,
+		readOnly,
+		publishURL,
+		canBeShared,
+		canBePublished,
+		shares,
+		dav: calendar
 	}
 }
 
@@ -119,20 +164,31 @@ export function mapDavCollectionToCalendar(calendar) {
  */
 export function mapDavShareeToSharee(sharee) {
 	const id = btoa(sharee.href)
-	let name = sharee['common-name']
-		? sharee['common-name']
-		: sharee.href
 
-	if (sharee.href.startsWith('principal:principals/groups/') && name === sharee.href) {
-		name = sharee.href.substr(28)
+	let displayName
+	if (sharee['common-name']) {
+		displayName = sharee['common-name']
+	} else {
+		if (sharee.href.startsWith('principal:principals/groups/')) {
+			displayName = sharee.href.substr(28)
+		} else if (sharee.href.startsWith('principal:principals/users/')) {
+			displayName = sharee.href.substr(27)
+		} else {
+			displayName = sharee.href
+		}
 	}
 
+	const writeable = sharee.access[0].endsWith('read-write')
+	const isGroup = sharee.href.indexOf('principal:principals/groups/') === 0
+	const isCircle = sharee.href.indexOf('principal:principals/circles/') === 0
+	const uri = sharee.href
+
 	return {
-		displayName: name,
-		id: id,
-		writeable: sharee.access[0].endsWith('read-write'),
-		isGroup: sharee.href.indexOf('principal:principals/groups/') === 0,
-		isCircle: sharee.href.indexOf('principal:principals/circles/') === 0,
-		uri: sharee.href
+		id,
+		displayName,
+		writeable,
+		isGroup,
+		isCircle,
+		uri
 	}
 }

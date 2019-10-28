@@ -19,11 +19,18 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import rfcProps from '../../../../src/models/rfcProps.js'
+
+jest.mock('@nextcloud/l10n')
 
 describe('models/rfcProps test suite', () => {
 
-	it('should be true', () => {
-		expect(true).toEqual(true)
+	it('should provide property info for access class', () => {
+		expect(rfcProps.accessClass).toEqual(expect.any(Object))
+
+		expect(rfcProps.accessClass.readableName).toEqual('TRANSLATED:When shared show')
+		expect(rfcProps.accessClass.icon).toEqual('icon-eye')
+		expect(rfcProps.accessClass.options[0].value)
 	})
 
 })
