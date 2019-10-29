@@ -23,6 +23,8 @@ import { translate as t } from '@nextcloud/l10n'
 import {
 	hexToRGB,
 	isLight,
+	generateTextColorForHex,
+	getHexForColorName
 } from '../utils/color.js'
 import logger from '../utils/logger.js'
 
@@ -90,10 +92,13 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 				},
 			}
 
-			// if (object.color) {
-			// fcEvent.backgroundColor = object.color
-			// fcEvent.textColor = generateTextColorForRGBString(object.color)
-			// }
+			if (calendarObject.color) {
+				const customColor = getHexForColorName(calendarObject.color)
+				if (customColor) {
+					fcEvent.backgroundColor = customColor
+					fcEvent.textColor = generateTextColorForHex(customColor)
+				}
+			}
 
 			fcEvents.push(fcEvent)
 		}

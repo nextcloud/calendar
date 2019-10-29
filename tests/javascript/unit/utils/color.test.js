@@ -25,7 +25,9 @@ import {
 	hexToRGB,
 	isLight,
 	uidToHexColor,
-	detectColor
+	detectColor,
+	getHexForColorName,
+	getClosestCSS3ColorNameForHex
 } from '../../../../src/utils/color.js'
 
 describe('utils/color test suite', () => {
@@ -64,5 +66,17 @@ describe('utils/color test suite', () => {
 		expect(detectColor('#ffff00AB')).toEqual('#ffff00')
 		expect(detectColor('ffff00AB')).toEqual('#ffff00')
 		expect(detectColor('undefined-color')).toEqual(false)
+	})
+
+	it('should get a hex code for a color-name', () => {
+		expect(getHexForColorName('chocolate')).toEqual('#d2691e')
+		expect(getHexForColorName('darkblue')).toEqual('#00008b')
+		expect(getHexForColorName('foo')).toEqual(null)
+	})
+
+	it('should get the closest css color name for a given hex code', () => {
+		expect(getClosestCSS3ColorNameForHex('#d2691e')).toEqual('chocolate')
+		expect(getClosestCSS3ColorNameForHex('#d2699f')).toEqual('palevioletred')
+		expect(getClosestCSS3ColorNameForHex('#ff0000')).toEqual('red')
 	})
 })
