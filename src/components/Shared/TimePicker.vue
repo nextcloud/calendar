@@ -40,17 +40,17 @@ import loadMomentLocalization from '../../utils/moment.js'
 export default {
 	name: 'TimePicker',
 	components: {
-		DatetimePicker
+		DatetimePicker,
 	},
 	props: {
 		date: {
 			type: Date,
-			required: true
-		}
+			required: true,
+		},
 	},
 	data() {
 		return {
-			locale: 'en'
+			locale: 'en',
 		}
 	},
 	computed: {
@@ -61,7 +61,7 @@ export default {
 		 */
 		format() {
 			return moment.localeData(this.locale).longDateFormat('LT')
-		}
+		},
 	},
 	async mounted() {
 		this.locale = await loadMomentLocalization()
@@ -74,7 +74,7 @@ export default {
 		 */
 		change(date) {
 			this.$emit('change', date)
-		}
-	}
+		},
+	},
 }
 </script>

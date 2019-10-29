@@ -50,12 +50,12 @@ export default async function loadMomentLocalization() {
 			L: moment.localeData(realLocale).longDateFormat('L'),
 			LL: moment.localeData(realLocale).longDateFormat('LL'),
 			LLL: moment.localeData(realLocale).longDateFormat('LLL'),
-			LLLL: moment.localeData(realLocale).longDateFormat('LLLL')
+			LLLL: moment.localeData(realLocale).longDateFormat('LLLL'),
 		},
 		week: {
 			dow: moment.localeData(realLocale).firstDayOfWeek(),
-			doy: moment.localeData(realLocale).firstDayOfYear()
-		}
+			doy: moment.localeData(realLocale).firstDayOfYear(),
+		},
 	})
 
 	return name

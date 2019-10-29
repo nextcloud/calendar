@@ -36,7 +36,7 @@ export function getBySetPositionAndBySetFromDate(jsDate) {
 
 	return {
 		byDay,
-		bySetPosition
+		bySetPosition,
 	}
 }
 

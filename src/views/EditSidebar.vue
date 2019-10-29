@@ -212,10 +212,10 @@
 				@saveThisAndAllFuture="saveAndLeave(true)" />
 		</AppSidebarTab>
 		<!--<AppSidebarTab :name="$t('calendar', 'Activity')" icon="icon-history" :order="4">-->
-		<!--	This is the activity tab-->
+		<!--This is the activity tab-->
 		<!--</AppSidebarTab>-->
 		<!--<AppSidebarTab :name="$t('calendar', 'Projects')" icon="icon-projects" :order="5">-->
-		<!--	This is the projects tab-->
+		<!--This is the projects tab-->
 		<!--</AppSidebarTab>-->
 	</AppSidebar>
 </template>
@@ -224,7 +224,7 @@ import {
 	AppSidebar,
 	AppSidebarTab,
 	ActionLink,
-	ActionButton
+	ActionButton,
 } from '@nextcloud/vue'
 
 import AlarmList from '../components/Editor/Alarm/AlarmList'
@@ -261,10 +261,10 @@ export default {
 		PropertySelect,
 		PropertyText,
 		PropertyTitleTimePicker,
-		Repeat
+		Repeat,
 	},
 	mixins: [
-		EditorMixin
+		EditorMixin,
 	],
 	computed: {
 		subTitle() {
@@ -303,7 +303,7 @@ export default {
 			}
 
 			return this.calendarObjectInstance.categories
-		}
+		},
 	},
 	methods: {
 		/**
@@ -314,7 +314,7 @@ export default {
 		updateAccessClass(accessClass) {
 			this.$store.commit('changeAccessClass', {
 				calendarObjectInstance: this.calendarObjectInstance,
-				accessClass
+				accessClass,
 			})
 		},
 		/**
@@ -325,7 +325,7 @@ export default {
 		updateStatus(status) {
 			this.$store.commit('changeStatus', {
 				calendarObjectInstance: this.calendarObjectInstance,
-				status
+				status,
 			})
 		},
 		/**
@@ -336,7 +336,7 @@ export default {
 		updateTimeTransparency(timeTransparency) {
 			this.$store.commit('changeTimeTransparency', {
 				calendarObjectInstance: this.calendarObjectInstance,
-				timeTransparency
+				timeTransparency,
 			})
 		},
 		/**
@@ -347,7 +347,7 @@ export default {
 		addCategory(category) {
 			this.$store.commit('addCategory', {
 				calendarObjectInstance: this.calendarObjectInstance,
-				category
+				category,
 			})
 		},
 		/**
@@ -358,9 +358,9 @@ export default {
 		removeCategory(category) {
 			this.$store.commit('removeCategory', {
 				calendarObjectInstance: this.calendarObjectInstance,
-				category
+				category,
 			})
-		}
-	}
+		},
+	},
 }
 </script>

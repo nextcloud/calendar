@@ -42,13 +42,13 @@ export default {
 		AppNavigationHeaderDatePicker,
 		AppNavigationHeaderTodayButton,
 		AppNavigationHeaderNewEvent,
-		AppNavigationHeaderViewMenu
+		AppNavigationHeaderViewMenu,
 	},
 	props: {
 		isPublic: {
 			type: Boolean,
-			required: true
-		}
-	}
+			required: true,
+		},
+	},
 }
 </script>

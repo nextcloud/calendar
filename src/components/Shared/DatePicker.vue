@@ -70,41 +70,41 @@ export default {
 	components: {
 		DatetimePicker,
 		Popover,
-		TimezoneSelect
+		TimezoneSelect,
 	},
 	props: {
 		date: {
 			type: Date,
-			required: true
+			required: true,
 		},
 		hasTimezone: {
 			type: Boolean,
-			default: false
+			default: false,
 		},
 		timezoneId: {
 			type: String,
-			default: null
+			default: null,
 		},
 		prefix: {
 			type: String,
-			default: null
+			default: null,
 		},
 		isAllDay: {
 			type: Boolean,
-			required: true
+			required: true,
 		},
 		userTimezoneId: {
 			type: String,
-			default: null
+			default: null,
 		},
 		min: {
 			type: Date,
-			default: null
+			default: null,
 		},
 		max: {
 			type: Date,
-			default: null
-		}
+			default: null,
+		},
 	},
 	data() {
 		return {
@@ -113,11 +113,11 @@ export default {
 				days: getDayNamesShort(),
 				months: getMonthNamesShort(),
 				placeholder: {
-					date: t('calendar', 'Select Date')
-				}
+					date: t('calendar', 'Select Date'),
+				},
 			},
 			firstDay: getFirstDay() === 0 ? 7 : getFirstDay(),
-			showTimezonePopover: false
+			showTimezonePopover: false,
 		}
 	},
 	computed: {
@@ -207,7 +207,7 @@ export default {
 		 */
 		maximumDate() {
 			return this.max || new Date(this.$store.state.davRestrictions.maximumDate)
-		}
+		},
 	},
 	async mounted() {
 		this.locale = await loadMomentLocalization()
@@ -234,7 +234,7 @@ export default {
 		 */
 		toggleTimezonePopover() {
 			this.showTimezonePopover = !this.showTimezonePopover
-		}
-	}
+		},
+	},
 }
 </script>

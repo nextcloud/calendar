@@ -38,6 +38,6 @@
 
 <script>
 export default {
-	name: 'EmptyCalendar'
+	name: 'EmptyCalendar',
 }
 </script>

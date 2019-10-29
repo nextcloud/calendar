@@ -46,8 +46,8 @@ export default {
 	props: {
 		byDay: {
 			type: Array,
-			required: true
-		}
+			required: true,
+		},
 	},
 	computed: {
 		options() {
@@ -56,33 +56,33 @@ export default {
 			return [{
 				label: dayNamesMin[1],
 				value: 'MO',
-				selected: this.byDay.includes('MO')
+				selected: this.byDay.includes('MO'),
 			}, {
 				label: dayNamesMin[2],
 				value: 'TU',
-				selected: this.byDay.includes('TU')
+				selected: this.byDay.includes('TU'),
 			}, {
 				label: dayNamesMin[3],
 				value: 'WE',
-				selected: this.byDay.includes('WE')
+				selected: this.byDay.includes('WE'),
 			}, {
 				label: dayNamesMin[4],
 				value: 'TH',
-				selected: this.byDay.includes('TH')
+				selected: this.byDay.includes('TH'),
 			}, {
 				label: dayNamesMin[5],
 				value: 'FR',
-				selected: this.byDay.includes('FR')
+				selected: this.byDay.includes('FR'),
 			}, {
 				label: dayNamesMin[6],
 				value: 'SA',
-				selected: this.byDay.includes('SA')
+				selected: this.byDay.includes('SA'),
 			}, {
 				label: dayNamesMin[0],
 				value: 'SU',
-				selected: this.byDay.includes('SU')
+				selected: this.byDay.includes('SU'),
 			}]
-		}
+		},
 	},
 	methods: {
 		toggleByDay(day) {
@@ -93,7 +93,7 @@ export default {
 					this.$emit('removeByDay', day)
 				}
 			}
-		}
-	}
+		},
+	},
 }
 </script>

@@ -49,7 +49,7 @@
 
 <script>
 import {
-	mapState
+	mapState,
 } from 'vuex'
 import { getParserManager } from 'calendar-js'
 import ImportScreen from './ImportScreen.vue'
@@ -58,13 +58,13 @@ import { readFileAsText } from '../../../services/readFileAsTextService.js'
 export default {
 	name: 'SettingsImportSection',
 	components: {
-		ImportScreen
+		ImportScreen,
 	},
 	props: {
 		isDisabled: {
 			type: Boolean,
-			required: true
-		}
+			required: true,
+		},
 	},
 	computed: {
 		...mapState({
@@ -72,7 +72,7 @@ export default {
 			stage: state => state.importState.stage,
 			total: state => state.importState.total,
 			accepted: state => state.importState.accepted,
-			denied: state => state.importState.denied
+			denied: state => state.importState.denied,
 		}),
 		/**
 		 * Total amount of processed calendar-objects, either accepted or failed
@@ -134,7 +134,7 @@ export default {
 		 */
 		disableImport() {
 			return this.isDisabled || !this.allowUploadOfFiles
-		}
+		},
 	},
 	methods: {
 		/**
@@ -166,7 +166,7 @@ export default {
 				const parser = getParserManager().getParserForFileType(type, {
 					extractGlobalProperties: true,
 					includeTimezones: true,
-					removeRSVPForAttendees: true
+					removeRSVPForAttendees: true,
 				})
 				parser.parse(contents)
 
@@ -176,7 +176,7 @@ export default {
 					name,
 					size,
 					type,
-					parser
+					parser,
 				})
 				addedFiles = true
 			}
@@ -200,7 +200,7 @@ export default {
 				} else {
 					this.$toast.warning(this.$t('calendar', 'Import partially failed. Imported {accepted} out of {total}.', {
 						accepted: this.accepted,
-						total: this.total
+						total: this.total,
 					}))
 				}
 
@@ -214,7 +214,7 @@ export default {
 		cancelImport() {
 			this.$store.commit('removeAllFiles')
 			this.$store.commit('resetState')
-		}
-	}
+		},
+	},
 }
 </script>

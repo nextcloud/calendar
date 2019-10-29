@@ -39,13 +39,13 @@ import { uidToHexColor } from '../../../utils/color.js'
 export default {
 	name: 'ImportScreenRow',
 	components: {
-		CalendarPicker
+		CalendarPicker,
 	},
 	props: {
 		file: {
 			type: Object,
-			required: true
-		}
+			required: true,
+		},
 	},
 	computed: {
 		calendar() {
@@ -61,7 +61,7 @@ export default {
 					displayName: this.$t('calendar', 'New calendar'),
 					isSharedWithMe: false,
 					color: uidToHexColor(this.$t('calendar', 'New calendar')),
-					owner: this.$store.getters.getCurrentUserPrincipal.url
+					owner: this.$store.getters.getCurrentUserPrincipal.url,
 				}
 			}
 
@@ -79,25 +79,25 @@ export default {
 				displayName: this.$t('calendar', 'New calendar'),
 				isSharedWithMe: false,
 				color: uidToHexColor(this.$t('calendar', 'New calendar')),
-				owner: this.$store.getters.getCurrentUserPrincipal.url
+				owner: this.$store.getters.getCurrentUserPrincipal.url,
 			})
 
 			return calendars
-		}
+		},
 	},
 	methods: {
 		selectCalendar(newCalendar) {
 			this.$store.commit('setCalendarForFileId', {
 				fileId: this.file.id,
-				calendarId: newCalendar.id
+				calendarId: newCalendar.id,
 			})
 		},
 		setDefaultCalendarId() {
 			this.$store.commit('setCalendarForFileId', {
 				fileId: this.file.id,
-				calendarId: this.calendars[0].id
+				calendarId: this.calendars[0].id,
 			})
-		}
-	}
+		},
+	},
 }
 </script>

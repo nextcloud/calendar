@@ -63,38 +63,38 @@ export function getAmountAndUnitForTimedEvents(totalSeconds) {
 	if (totalSeconds === 0) {
 		return {
 			amount: 0,
-			unit: 'minutes'
+			unit: 'minutes',
 		}
 	}
 
 	if (totalSeconds % (7 * 24 * 60 * 60) === 0) {
 		return {
 			amount: totalSeconds / (7 * 24 * 60 * 60),
-			unit: 'weeks'
+			unit: 'weeks',
 		}
 	}
 	if (totalSeconds % (24 * 60 * 60) === 0) {
 		return {
 			amount: totalSeconds / (24 * 60 * 60),
-			unit: 'days'
+			unit: 'days',
 		}
 	}
 	if (totalSeconds % (60 * 60) === 0) {
 		return {
 			amount: totalSeconds / (60 * 60),
-			unit: 'hours'
+			unit: 'hours',
 		}
 	}
 	if (totalSeconds % (60) === 0) {
 		return {
 			amount: totalSeconds / (60),
-			unit: 'minutes'
+			unit: 'minutes',
 		}
 	}
 
 	return {
 		amount: totalSeconds,
-		unit: 'seconds'
+		unit: 'seconds',
 	}
 }
 
@@ -161,7 +161,7 @@ export function getAmountHoursMinutesAndUnitForAllDayEvents(totalSeconds) {
 		amount,
 		unit,
 		hours,
-		minutes
+		minutes,
 	}
 }
 

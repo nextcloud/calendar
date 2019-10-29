@@ -64,7 +64,7 @@ export default function(store) {
 				}
 
 				return store.dispatch('updateCalendarObject', {
-					calendarObject
+					calendarObject,
 				})
 			})
 			.catch((err) => {

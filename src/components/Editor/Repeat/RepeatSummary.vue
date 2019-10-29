@@ -39,57 +39,57 @@ export default {
 		 */
 		frequency: {
 			type: String,
-			required: true
+			required: true,
 		},
 		/**
 		 *
 		 */
 		interval: {
 			type: Number,
-			required: true
+			required: true,
 		},
 		/**
 		 *
 		 */
 		byDay: {
 			type: Array,
-			required: true
+			required: true,
 		},
 		/**
 		 *
 		 */
 		byMonth: {
 			type: Array,
-			required: true
+			required: true,
 		},
 		/**
 		 *
 		 */
 		byMonthDay: {
 			type: Array,
-			required: true
+			required: true,
 		},
 		/**
 		 *
 		 */
 		bySetPosition: {
 			type: Number,
-			default: null
+			default: null,
 		},
 		/**
 		 *
 		 */
 		count: {
 			type: Number,
-			default: null
+			default: null,
 		},
 		/**
 		 *
 		 */
 		until: {
 			type: Date,
-			default: null
-		}
+			default: null,
+		},
 	},
 	computed: {
 		summary() {
@@ -142,14 +142,14 @@ export default {
 
 				limitPart = this.$n('calendar', 'on {weekday}', 'on {weekdays}', this.byDay.length, {
 					weekday: formattedDays,
-					weekdays: formattedDays
+					weekdays: formattedDays,
 				})
 			} else if (this.frequency === 'MONTHLY') {
 				if (this.byMonthDay.length !== 0) {
 					const dayOfMonthList = this.byMonthDay.join(', ')
 
 					limitPart = this.$n('calendar', 'on day {dayOfMonthList}', 'on days {dayOfMonthList}', this.byMonthDay.length, {
-						dayOfMonthList
+						dayOfMonthList,
 					})
 				} else {
 					const ordinalNumber = this.getTranslatedOrdinalNumber(this.bySetPosition)
@@ -157,7 +157,7 @@ export default {
 
 					limitPart = this.$t('calendar', 'on the {ordinalNumber} {byDaySet}', {
 						ordinalNumber,
-						byDaySet
+						byDaySet,
 					})
 				}
 			} else if (this.frequency === 'YEARLY') {
@@ -165,7 +165,7 @@ export default {
 
 				if (this.byDay.length === 0) {
 					limitPart = this.$t('calendar', 'in {monthNames}', {
-						monthNames
+						monthNames,
 					})
 				} else {
 					const ordinalNumber = this.getTranslatedOrdinalNumber(this.bySetPosition)
@@ -174,17 +174,17 @@ export default {
 					limitPart = this.$t('calendar', 'in {monthNames} on the {ordinalNumber} {byDaySet}', {
 						monthNames,
 						ordinalNumber,
-						byDaySet
+						byDaySet,
 					})
 				}
 			}
 
 			let endPart = ''
 			if (this.until !== null) {
-				let untilDate = moment(this.until).format('L')
+				const untilDate = moment(this.until).format('L')
 
 				endPart = this.$t('calendar', ', until {untilDate}', {
-					untilDate
+					untilDate,
 				})
 			} else if (this.count !== null) {
 				endPart = this.$n('calendar', ', %n time', ', %n times', this.count)
@@ -193,9 +193,9 @@ export default {
 			return [
 				freqPart,
 				limitPart,
-				endPart
+				endPart,
 			].join(' ').trim()
-		}
+		},
 	},
 	methods: {
 		/**
@@ -284,7 +284,7 @@ export default {
 			}
 
 			return monthNames.join(', ')
-		}
-	}
+		},
+	},
 }
 </script>

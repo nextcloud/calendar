@@ -54,19 +54,19 @@ import { Multiselect } from '@nextcloud/vue'
 export default {
 	name: 'CalendarListItemSharingSearch',
 	components: {
-		Multiselect
+		Multiselect,
 	},
 	props: {
 		calendar: {
 			type: Object,
-			required: true
-		}
+			required: true,
+		},
 	},
 	data() {
 		return {
 			isLoading: false,
 			inputGiven: false,
-			usersOrGroups: []
+			usersOrGroups: [],
 		}
 	},
 	methods: {
@@ -87,7 +87,7 @@ export default {
 				displayName,
 				uri,
 				isGroup,
-				isCircle
+				isCircle,
 			})
 		},
 
@@ -119,7 +119,7 @@ export default {
 				return Promise.all([davPromise, ocsPromise]).then(([davResults, ocsResults]) => {
 					this.usersOrGroups = [
 						...davResults,
-						...ocsResults
+						...ocsResults,
 					]
 
 					this.isLoading = false
@@ -162,7 +162,7 @@ export default {
 							isGroup,
 							isCircle: false,
 							isNoUser: isGroup,
-							search: query
+							search: query,
 						})
 						return list
 					}, [])
@@ -181,8 +181,8 @@ export default {
 					format: 'json',
 					search: query,
 					perPage: 200,
-					itemType: 'principals'
-				}
+					itemType: 'principals',
+				},
 			})
 				.catch(() => [])
 				.then(results => results.data.ocs.data.circles)
@@ -200,11 +200,11 @@ export default {
 						isGroup: false,
 						isCircle: true,
 						isNoUser: true,
-						search: query
+						search: query,
 					}))
 				})
 
-		}
-	}
+		},
+	},
 }
 </script>

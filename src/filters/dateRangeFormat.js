@@ -30,7 +30,7 @@ export default (value, view) => {
 	case 'timeGridWeek':
 		return translate('calendar', 'Week {number} of {year}', {
 			number: moment(value).week(),
-			year: moment(value).year()
+			year: moment(value).year(),
 		})
 
 	case 'dayGridMonth':

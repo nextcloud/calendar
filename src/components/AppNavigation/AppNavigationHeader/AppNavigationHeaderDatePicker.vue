@@ -54,7 +54,7 @@
 import {
 	getYYYYMMDDFromDate,
 	getDateFromFirstdayParam,
-	modifyDate
+	modifyDate,
 } from '../../../utils/date.js'
 import formatDateRage from '../../../filters/dateRangeFormat.js'
 import DatePicker from '../../Shared/DatePicker.vue'
@@ -62,14 +62,14 @@ import DatePicker from '../../Shared/DatePicker.vue'
 export default {
 	name: 'AppNavigationHeaderDatePicker',
 	components: {
-		DatePicker
+		DatePicker,
 	},
 	filters: {
-		formatDateRage
+		formatDateRage,
 	},
 	data: function() {
 		return {
-			isDatepickerOpen: false
+			isDatepickerOpen: false,
 		}
 	},
 	computed: {
@@ -104,7 +104,7 @@ export default {
 		},
 		view() {
 			return this.$route.params.view
-		}
+		},
 	},
 	methods: {
 		navigateToPreviousTimeRange() {
@@ -119,20 +119,20 @@ export default {
 			switch (this.$route.params.view) {
 			case 'timeGridDay':
 				newDate = modifyDate(this.selectedDate, {
-					day: factor
+					day: factor,
 				})
 				break
 
 			case 'timeGridWeek':
 				newDate = modifyDate(this.selectedDate, {
-					week: factor
+					week: factor,
 				})
 				break
 
 			case 'dayGridMonth':
 			default:
 				newDate = modifyDate(this.selectedDate, {
-					month: factor
+					month: factor,
 				})
 				break
 			}
@@ -142,7 +142,7 @@ export default {
 		navigateToDate(date) {
 			const name = this.$route.name
 			const params = Object.assign({}, this.$route.params, {
-				firstDay: getYYYYMMDDFromDate(date)
+				firstDay: getYYYYMMDDFromDate(date),
 			})
 
 			// Don't push new route when day didn't change
@@ -162,7 +162,7 @@ export default {
 		doNothing() {
 			// This function does nothing in itself,
 			// it only captures and prevents the mousedown and mouseup of vue2-datepicker
-		}
-	}
+		},
+	},
 }
 </script>

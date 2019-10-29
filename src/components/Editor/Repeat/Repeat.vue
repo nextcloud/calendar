@@ -114,7 +114,7 @@ export default {
 		RepeatFreqMonthlyOptions,
 		RepeatFreqWeeklyOptions,
 		RepeatEndRepeat,
-		RepeatUnsupportedWarning
+		RepeatUnsupportedWarning,
 	},
 	props: {
 		/**
@@ -122,21 +122,21 @@ export default {
 		 */
 		calendarObjectInstance: {
 			type: Object,
-			required: true
+			required: true,
 		},
 		/**
 		 * The recurrence-rule to display
 		 */
 		recurrenceRule: {
 			type: Object,
-			required: true
+			required: true,
 		},
 		/**
 		 * Whether or not the event is read-only
 		 */
 		isReadOnly: {
 			type: Boolean,
-			required: true
+			required: true,
 		},
 		/**
 		 * Whether or not the user is editing the master-item
@@ -145,7 +145,7 @@ export default {
 		 */
 		isEditingMasterItem: {
 			type: Boolean,
-			required: true
+			required: true,
 		},
 		/**
 		 * Whether or not this instance of the event is a recurrence-exception.
@@ -153,8 +153,8 @@ export default {
 		 */
 		isRecurrenceException: {
 			type: Boolean,
-			required: true
-		}
+			required: true,
+		},
 	},
 	computed: {
 		/**
@@ -188,7 +188,7 @@ export default {
 		 */
 		isFreqYearly() {
 			return this.recurrenceRule.frequency === 'YEARLY'
-		}
+		},
 	},
 	methods: {
 		/**
@@ -200,7 +200,7 @@ export default {
 			this.$store.commit('changeRecurrenceInterval', {
 				calendarObjectInstance: this.calendarObjectInstance,
 				recurrenceRule: this.recurrenceRule,
-				interval
+				interval,
 			})
 			this.modified()
 		},
@@ -213,7 +213,7 @@ export default {
 			this.$store.dispatch('changeRecurrenceFrequency', {
 				calendarObjectInstance: this.calendarObjectInstance,
 				recurrenceRule: this.recurrenceRule,
-				frequency
+				frequency,
 			})
 			this.modified()
 		},
@@ -226,7 +226,7 @@ export default {
 			this.$store.commit('addByDayToRecurrenceRule', {
 				calendarObjectInstance: this.calendarObjectInstance,
 				recurrenceRule: this.recurrenceRule,
-				byDay
+				byDay,
 			})
 			this.modified()
 		},
@@ -239,7 +239,7 @@ export default {
 			this.$store.commit('removeByDayFromRecurrenceRule', {
 				calendarObjectInstance: this.calendarObjectInstance,
 				recurrenceRule: this.recurrenceRule,
-				byDay
+				byDay,
 			})
 			this.modified()
 		},
@@ -252,7 +252,7 @@ export default {
 			this.$store.commit('addByMonthDayToRecurrenceRule', {
 				calendarObjectInstance: this.calendarObjectInstance,
 				recurrenceRule: this.recurrenceRule,
-				byMonthDay
+				byMonthDay,
 			})
 			this.modified()
 		},
@@ -265,7 +265,7 @@ export default {
 			this.$store.commit('removeByMonthDayFromRecurrenceRule', {
 				calendarObjectInstance: this.calendarObjectInstance,
 				recurrenceRule: this.recurrenceRule,
-				byMonthDay
+				byMonthDay,
 			})
 			this.modified()
 		},
@@ -278,7 +278,7 @@ export default {
 			this.$store.commit('addByMonthToRecurrenceRule', {
 				calendarObjectInstance: this.calendarObjectInstance,
 				recurrenceRule: this.recurrenceRule,
-				byMonth
+				byMonth,
 			})
 			this.modified()
 		},
@@ -291,7 +291,7 @@ export default {
 			this.$store.commit('removeByMonthFromRecurrenceRule', {
 				calendarObjectInstance: this.calendarObjectInstance,
 				recurrenceRule: this.recurrenceRule,
-				byMonth
+				byMonth,
 			})
 			this.modified()
 		},
@@ -304,7 +304,7 @@ export default {
 			this.$store.commit('changeRecurrenceByDay', {
 				calendarObjectInstance: this.calendarObjectInstance,
 				recurrenceRule: this.recurrenceRule,
-				byDay
+				byDay,
 			})
 			this.modified()
 		},
@@ -319,7 +319,7 @@ export default {
 			this.$store.commit('changeRecurrenceBySetPosition', {
 				calendarObjectInstance: this.calendarObjectInstance,
 				recurrenceRule: this.recurrenceRule,
-				bySetPosition
+				bySetPosition,
 			})
 			this.modified()
 		},
@@ -330,7 +330,7 @@ export default {
 		changeToBySetPositionMonthly() {
 			this.$store.dispatch('changeMonthlyRecurrenceFromByDayToBySetPosition', {
 				calendarObjectInstance: this.calendarObjectInstance,
-				recurrenceRule: this.recurrenceRule
+				recurrenceRule: this.recurrenceRule,
 			})
 			this.modified()
 		},
@@ -341,7 +341,7 @@ export default {
 		changeToByDayMonthly() {
 			this.$store.dispatch('changeMonthlyRecurrenceFromBySetPositionToByDay', {
 				calendarObjectInstance: this.calendarObjectInstance,
-				recurrenceRule: this.recurrenceRule
+				recurrenceRule: this.recurrenceRule,
 			})
 			this.modified()
 		},
@@ -351,7 +351,7 @@ export default {
 		enableBySetPositionYearly() {
 			this.$store.dispatch('enableYearlyRecurrenceBySetPosition', {
 				calendarObjectInstance: this.calendarObjectInstance,
-				recurrenceRule: this.recurrenceRule
+				recurrenceRule: this.recurrenceRule,
 			})
 			this.modified()
 		},
@@ -361,7 +361,7 @@ export default {
 		disableBySetPositionYearly() {
 			this.$store.dispatch('disableYearlyRecurrenceBySetPosition', {
 				calendarObjectInstance: this.calendarObjectInstance,
-				recurrenceRule: this.recurrenceRule
+				recurrenceRule: this.recurrenceRule,
 			})
 			this.modified()
 		},
@@ -371,7 +371,7 @@ export default {
 		setInfinite() {
 			this.$store.dispatch('setRecurrenceToInfinite', {
 				calendarObjectInstance: this.calendarObjectInstance,
-				recurrenceRule: this.recurrenceRule
+				recurrenceRule: this.recurrenceRule,
 			})
 			this.modified()
 		},
@@ -381,7 +381,7 @@ export default {
 		changeToUntil() {
 			this.$store.dispatch('enableRecurrenceLimitByUntil', {
 				calendarObjectInstance: this.calendarObjectInstance,
-				recurrenceRule: this.recurrenceRule
+				recurrenceRule: this.recurrenceRule,
 			})
 			this.modified()
 		},
@@ -396,7 +396,7 @@ export default {
 			this.$store.commit('changeRecurrenceUntil', {
 				calendarObjectInstance: this.calendarObjectInstance,
 				recurrenceRule: this.recurrenceRule,
-				until
+				until,
 			})
 			this.modified()
 		},
@@ -406,7 +406,7 @@ export default {
 		changeToCount() {
 			this.$store.dispatch('enableRecurrenceLimitByCount', {
 				calendarObjectInstance: this.calendarObjectInstance,
-				recurrenceRule: this.recurrenceRule
+				recurrenceRule: this.recurrenceRule,
 			})
 			this.modified()
 		},
@@ -419,7 +419,7 @@ export default {
 			this.$store.commit('changeRecurrenceCount', {
 				calendarObjectInstance: this.calendarObjectInstance,
 				recurrenceRule: this.recurrenceRule,
-				count
+				count,
 			})
 			this.modified()
 		},
@@ -430,14 +430,14 @@ export default {
 			if (this.recurrenceRule.isUnsupported) {
 				this.$store.commit('markRecurrenceRuleAsSupported', {
 					calendarObjectInstance: this.calendarObjectInstance,
-					recurrenceRule: this.recurrenceRule
+					recurrenceRule: this.recurrenceRule,
 				})
 			}
 
 			if (!this.isEditingMasterItem) {
 				this.$emit('forceThisAndAllFuture')
 			}
-		}
-	}
+		},
+	},
 }
 </script>

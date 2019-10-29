@@ -52,7 +52,7 @@ export default {
 			const params = Object.assign({}, this.$store.state.route.params, {
 				allDay: '0',
 				dtstart: String(Math.floor(start.getTime() / 1000)),
-				dtend: String(Math.floor(end.getTime() / 1000))
+				dtend: String(Math.floor(end.getTime() / 1000)),
 			})
 
 			// Don't push new route when day didn't change
@@ -64,7 +64,7 @@ export default {
 			}
 
 			this.$router.push({ name, params })
-		}
-	}
+		},
+	},
 }
 </script>

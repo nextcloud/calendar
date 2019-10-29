@@ -144,11 +144,11 @@ import {
 	ActionLink,
 	ActionText,
 	AppNavigationIconBullet,
-	AppNavigationItem
+	AppNavigationItem,
 } from '@nextcloud/vue'
 import ClickOutside from 'vue-click-outside'
 import {
-	generateRemoteUrl
+	generateRemoteUrl,
 } from '@nextcloud/router'
 
 import AppNavigationDisabledCalendarIconBullet from './AppNavigationDisabledCalendarIconBullet.vue'
@@ -170,16 +170,16 @@ export default {
 		AppNavigationItem,
 		CalendarListItemSharingSearch,
 		CalendarListItemSharingPublishItem,
-		CalendarListItemSharingShareItem
+		CalendarListItemSharingShareItem,
 	},
 	directives: {
-		ClickOutside
+		ClickOutside,
 	},
 	props: {
 		calendar: {
 			type: Object,
-			required: true
-		}
+			required: true,
+		},
 	},
 	data: function() {
 		return {
@@ -196,7 +196,7 @@ export default {
 			// Deleting
 			deleteInterval: null,
 			deleteTimeout: null,
-			countdown: 7
+			countdown: 7,
 		}
 	},
 	computed: {
@@ -307,7 +307,7 @@ export default {
 			}
 
 			return ''
-		}
+		},
 	},
 	methods: {
 		/**
@@ -424,7 +424,7 @@ export default {
 			const newName = event.target.querySelector('input[type=text]').value
 			this.$store.dispatch('renameCalendar', {
 				calendar: this.calendar,
-				newName
+				newName,
 			})
 				.then(() => {
 					this.showRenameLabel = true
@@ -465,7 +465,7 @@ export default {
 			const newColor = event.target.querySelector('input[type=color]').value
 			this.$store.dispatch('changeCalendarColor', {
 				calendar: this.calendar,
-				newColor
+				newColor,
 			})
 				.then(() => {
 					this.showColorLabel = true
@@ -480,7 +480,7 @@ export default {
 					this.showColorInput = true
 					this.showColorSaving = false
 				})
-		}
-	}
+		},
+	},
 }
 </script>

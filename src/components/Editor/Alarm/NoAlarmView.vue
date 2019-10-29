@@ -31,6 +31,6 @@
 
 <script>
 export default {
-	name: 'NoAlarmView'
+	name: 'NoAlarmView',
 }
 </script>

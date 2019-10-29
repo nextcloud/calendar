@@ -133,12 +133,12 @@ import {
 	ActionButton,
 	ActionInput,
 	ActionText,
-	AppNavigationItem
+	AppNavigationItem,
 } from '@nextcloud/vue'
 import ClickOutside from 'vue-click-outside'
 import {
 	generateRemoteUrl,
-	linkTo
+	linkTo,
 } from '@nextcloud/router'
 
 export default {
@@ -148,16 +148,16 @@ export default {
 		ActionButton,
 		ActionInput,
 		ActionText,
-		AppNavigationItem
+		AppNavigationItem,
 	},
 	directives: {
-		ClickOutside
+		ClickOutside,
 	},
 	props: {
 		calendar: {
 			type: Object,
-			required: true
-		}
+			required: true,
+		},
 	},
 	data() {
 		return {
@@ -183,13 +183,13 @@ export default {
 			// delete public link
 			unpublishingCalendar: false,
 			// Status of actions menu:
-			menuOpen: false
+			menuOpen: false,
 		}
 	},
 	computed: {
 		isPublished() {
 			return this.calendar.publishURL !== null
-		}
+		},
 	},
 	methods: {
 		publishCalendar() {
@@ -338,8 +338,8 @@ export default {
 				this.unpublishingCalendar = false
 				this.$toast.error(this.$t('calendar', 'Unpublishing calendar failed'))
 			})
-		}
+		},
 
-	}
+	},
 }
 </script>

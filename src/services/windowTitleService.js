@@ -22,7 +22,7 @@
 import dateRangeFormat from '../filters/dateRangeFormat.js'
 import { getDateFromFirstdayParam } from '../utils/date.js'
 
-let originalWindowTitle = document.title
+const originalWindowTitle = document.title
 
 /**
  * This function listens to the router and
@@ -43,7 +43,7 @@ export default function(router) {
 		const title = dateRangeFormat(date, currentView)
 		document.title = [
 			title,
-			originalWindowTitle
+			originalWindowTitle,
 		].join(' - ')
 
 		next()

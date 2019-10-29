@@ -151,7 +151,7 @@
 import {
 	Actions,
 	ActionButton,
-	ActionRadio
+	ActionRadio,
 } from '@nextcloud/vue'
 import ClickOutside from 'vue-click-outside'
 import formatAlarm from '../../../filters/alarmFormat.js'
@@ -168,31 +168,31 @@ export default {
 		AlarmTimeUnitSelect,
 		Actions,
 		ActionButton,
-		ActionRadio
+		ActionRadio,
 	},
 	directives: {
-		ClickOutside
+		ClickOutside,
 	},
 	filters: {
-		formatAlarm
+		formatAlarm,
 	},
 	props: {
 		alarm: {
 			type: Object,
-			required: true
+			required: true,
 		},
 		calendarObjectInstance: {
 			type: Object,
-			required: true
+			required: true,
 		},
 		isReadOnly: {
 			type: Boolean,
-			required: true
-		}
+			required: true,
+		},
 	},
 	data() {
 		return {
-			isEditing: false
+			isEditing: false,
 		}
 	},
 	computed: {
@@ -284,9 +284,9 @@ export default {
 				' [',
 				this.$t('calendar', 'at'),
 				'] ',
-				moment.localeData().longDateFormat('LT')
+				moment.localeData().longDateFormat('LT'),
 			].join('')
-		}
+		},
 	},
 	methods: {
 		/**
@@ -310,7 +310,7 @@ export default {
 			this.$store.commit('changeAlarmType', {
 				calendarObjectInstance: this.calendarObjectInstance,
 				alarm: this.alarm,
-				type
+				type,
 			})
 		},
 		/**
@@ -323,7 +323,7 @@ export default {
 
 			this.$store.dispatch('changeAlarmFromAbsoluteToRelative', {
 				calendarObjectInstance: this.calendarObjectInstance,
-				alarm: this.alarm
+				alarm: this.alarm,
 			})
 		},
 		/**
@@ -336,7 +336,7 @@ export default {
 
 			this.$store.dispatch('changeAlarmFromRelativeToAbsolute', {
 				calendarObjectInstance: this.calendarObjectInstance,
-				alarm: this.alarm
+				alarm: this.alarm,
 			})
 		},
 		/**
@@ -359,7 +359,7 @@ export default {
 				this.$store.dispatch('changeAlarmAmountTimed', {
 					calendarObjectInstance: this.calendarObjectInstance,
 					alarm: this.alarm,
-					amount: selectedValue
+					amount: selectedValue,
 				})
 			}
 		},
@@ -372,7 +372,7 @@ export default {
 			this.$store.dispatch('changeAlarmUnitTimed', {
 				calendarObjectInstance: this.calendarObjectInstance,
 				alarm: this.alarm,
-				unit
+				unit,
 			})
 		},
 		/**
@@ -389,7 +389,7 @@ export default {
 				this.$store.dispatch('changeAlarmAmountAllDay', {
 					calendarObjectInstance: this.calendarObjectInstance,
 					alarm: this.alarm,
-					amount: selectedValue
+					amount: selectedValue,
 				})
 			}
 		},
@@ -402,7 +402,7 @@ export default {
 			this.$store.dispatch('changeAlarmUnitAllDay', {
 				calendarObjectInstance: this.calendarObjectInstance,
 				alarm: this.alarm,
-				unit
+				unit,
 			})
 		},
 		/**
@@ -418,7 +418,7 @@ export default {
 				calendarObjectInstance: this.calendarObjectInstance,
 				alarm: this.alarm,
 				hours,
-				minutes
+				minutes,
 			})
 		},
 		/**
@@ -430,9 +430,9 @@ export default {
 			this.$store.commit('changeAlarmAbsoluteDate', {
 				calendarObjectInstance: this.calendarObjectInstance,
 				alarm: this.alarm,
-				date
+				date,
 			})
-		}
-	}
+		},
+	},
 }
 </script>

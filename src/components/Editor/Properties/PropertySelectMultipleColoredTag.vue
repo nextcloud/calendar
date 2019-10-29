@@ -35,16 +35,16 @@ export default {
 	props: {
 		option: {
 			type: String,
-			required: true
+			required: true,
 		},
 		search: {
 			type: String,
-			default: undefined
+			default: undefined,
 		},
 		remove: {
 			type: Function,
-			default: () => {}
-		}
+			default: () => {},
+		},
 	},
 	computed: {
 		colorObject() {
@@ -63,9 +63,9 @@ export default {
 			return generateTextColorForRGB({
 				red: color.r,
 				green: color.g,
-				blue: color.b
+				blue: color.b,
 			})
-		}
-	}
+		},
+	},
 }
 </script>

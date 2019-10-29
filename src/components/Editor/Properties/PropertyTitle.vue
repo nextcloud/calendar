@@ -43,17 +43,17 @@ export default {
 	props: {
 		isReadOnly: {
 			type: Boolean,
-			required: true
+			required: true,
 		},
 		value: {
 			type: String,
-			default: ''
-		}
+			default: '',
+		},
 	},
 	methods: {
 		changeValue(event) {
 			this.$emit('update:value', event.target.value)
-		}
-	}
+		},
+	},
 }
 </script>

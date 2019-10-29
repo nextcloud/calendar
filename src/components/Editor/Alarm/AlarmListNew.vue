@@ -37,7 +37,7 @@ export default {
 		 */
 		addReminder() {
 			this.$emit('addAlarm')
-		}
-	}
+		},
+	},
 }
 </script>

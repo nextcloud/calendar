@@ -40,13 +40,13 @@ export function getSortedTimezoneList(timezoneList = [], additionalTimezones = [
 
 		sortedByContinent[continent] = sortedByContinent[continent] || {
 			continent,
-			regions: []
+			regions: [],
 		}
 
 		sortedByContinent[continent].regions.push({
 			label: getReadableTimezoneName(name),
 			cities: [],
-			timezoneId
+			timezoneId,
 		})
 	}
 
@@ -55,13 +55,13 @@ export function getSortedTimezoneList(timezoneList = [], additionalTimezones = [
 
 		sortedByContinent[continent] = sortedByContinent[continent] || {
 			continent,
-			regions: []
+			regions: [],
 		}
 
 		sortedByContinent[continent].regions.push({
 			label: label,
 			cities: [],
-			timezoneId
+			timezoneId,
 		})
 	}
 

@@ -20,7 +20,7 @@
  *
  */
 import {
-	generateTextColorForRGBString
+	generateTextColorForRGBString,
 } from '../utils/color.js'
 import { translate } from '@nextcloud/l10n'
 
@@ -56,8 +56,8 @@ export function eventSourceFunction(calendarObjects, start, end, timezone) {
 				extendedProps: {
 					objectId: calendarObject.id,
 					recurrenceId: object.getReferenceRecurrenceId().unixTime,
-					canModifyAllDay: object.canModifyAllDay()
-				}
+					canModifyAllDay: object.canModifyAllDay(),
+				},
 			}
 
 			if (calendarObject.color) {

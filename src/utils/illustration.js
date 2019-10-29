@@ -83,13 +83,13 @@ const data = [{
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		translate('calendar', 'Relaxing'),
 		// TRANSLATORS This string is used for matching the event title to an illustration
-		translate('calendar', 'Relax')
+		translate('calendar', 'Relax'),
 	],
 	illustrationNames: [
 		'relaxation',
 		'meditation',
-		'a_moment_to_relax'
-	]
+		'a_moment_to_relax',
+	],
 }, {
 	strings: [
 		'Presentation',
@@ -97,12 +97,12 @@ const data = [{
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		translate('calendar', 'Presentation'),
 		// TRANSLATORS This string is used for matching the event title to an illustration
-		translate('calendar', 'Present')
+		translate('calendar', 'Present'),
 	],
 	illustrationNames: [
 		'presentation',
-		'business_plan'
-	]
+		'business_plan',
+	],
 }, {
 	strings: [
 		'Camping',
@@ -110,12 +110,12 @@ const data = [{
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		translate('calendar', 'Camping'),
 		// TRANSLATORS This string is used for matching the event title to an illustration
-		translate('calendar', 'Camp')
+		translate('calendar', 'Camp'),
 	],
 	illustrationNames: [
 		'camping',
-		'into_the_night'
-	]
+		'into_the_night',
+	],
 }, {
 	strings: [
 		'Movie',
@@ -123,39 +123,39 @@ const data = [{
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		translate('calendar', 'Movie'),
 		// TRANSLATORS This string is used for matching the event title to an illustration
-		translate('calendar', 'Cinema')
+		translate('calendar', 'Cinema'),
 	],
 	illustrationNames: [
-		'movie_night'
-	]
+		'movie_night',
+	],
 }, {
 	strings: [
 		'Graduation',
 		// TRANSLATORS This string is used for matching the event title to an illustration
-		translate('calendar', 'Graduation')
+		translate('calendar', 'Graduation'),
 	],
 	illustrationNames: [
-		'graduation'
-	]
+		'graduation',
+	],
 }, {
 	strings: [
 		'Brainstorm',
 		// TRANSLATORS This string is used for matching the event title to an illustration
-		translate('calendar', 'Brainstorm')
+		translate('calendar', 'Brainstorm'),
 	],
 	illustrationNames: [
-		'creation_process'
-	]
+		'creation_process',
+	],
 }, {
 	strings: [
 		'Baseball',
 		// TRANSLATORS This string is used for matching the event title to an illustration
-		translate('calendar', 'Baseball')
+		translate('calendar', 'Baseball'),
 	],
 	illustrationNames: [
 		'home_run',
-		'greek_freak'
-	]
+		'greek_freak',
+	],
 }, {
 	strings: [
 		'Meeting',
@@ -163,20 +163,20 @@ const data = [{
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		translate('calendar', 'Meeting'),
 		// TRANSLATORS This string is used for matching the event title to an illustration
-		translate('calendar', 'Meet')
+		translate('calendar', 'Meet'),
 	],
 	illustrationNames: [
-		'meeting'
-	]
+		'meeting',
+	],
 }, {
 	strings: [
 		'Office',
 		// TRANSLATORS This string is used for matching the event title to an illustration
-		translate('calendar', 'Office')
+		translate('calendar', 'Office'),
 	],
 	illustrationNames: [
-		'in_the_office'
-	]
+		'in_the_office',
+	],
 }, {
 	strings: [
 		'Party',
@@ -184,20 +184,20 @@ const data = [{
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		translate('calendar', 'Party'),
 		// TRANSLATORS This string is used for matching the event title to an illustration
-		translate('calendar', 'Celebration')
+		translate('calendar', 'Celebration'),
 	],
 	illustrationNames: [
-		'celebration'
-	]
+		'celebration',
+	],
 }, {
 	strings: [
 		'Mail',
 		// TRANSLATORS This string is used for matching the event title to an illustration
-		translate('calendar', 'Mail')
+		translate('calendar', 'Mail'),
 	],
 	illustrationNames: [
-		'newsletter'
-	]
+		'newsletter',
+	],
 }, {
 	strings: [
 		'Soccer',
@@ -205,11 +205,11 @@ const data = [{
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		translate('calendar', 'Soccer'),
 		// TRANSLATORS This string is used for matching the event title to an illustration
-		translate('calendar', 'Football')
+		translate('calendar', 'Football'),
 	],
 	illustrationNames: [
-		'goal'
-	]
+		'goal',
+	],
 }, {
 	strings: [
 		'Gaming',
@@ -220,21 +220,21 @@ const data = [{
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		translate('calendar', 'Play'),
 		// TRANSLATORS This string is used for matching the event title to an illustration
-		translate('calendar', 'Game')
+		translate('calendar', 'Game'),
 	],
 	illustrationNames: [
 		'gaming',
-		'old_day'
-	]
+		'old_day',
+	],
 }, {
 	strings: [
 		'Drive',
 		// TRANSLATORS This string is used for matching the event title to an illustration
-		translate('calendar', 'Drive')
+		translate('calendar', 'Drive'),
 	],
 	illustrationNames: [
-		'electric_car'
-	]
+		'electric_car',
+	],
 }, {
 	strings: [
 		'Bicycle',
@@ -245,39 +245,39 @@ const data = [{
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		translate('calendar', 'Cycle'),
 		// TRANSLATORS This string is used for matching the event title to an illustration
-		translate('calendar', 'Biking')
+		translate('calendar', 'Biking'),
 	],
 	illustrationNames: [
 		'bicycle',
-		'biking'
-	]
+		'biking',
+	],
 }, {
 	strings: [
 		'Podcast',
 		// TRANSLATORS This string is used for matching the event title to an illustration
-		translate('calendar', 'Podcast')
+		translate('calendar', 'Podcast'),
 	],
 	illustrationNames: [
-		'podcast'
-	]
+		'podcast',
+	],
 }, {
 	strings: [
 		'Basketball',
 		// TRANSLATORS This string is used for matching the event title to an illustration
-		translate('calendar', 'Basketball')
+		translate('calendar', 'Basketball'),
 	],
 	illustrationNames: [
-		'basketball'
-	]
+		'basketball',
+	],
 }, {
 	strings: [
 		'Fishing',
 		// TRANSLATORS This string is used for matching the event title to an illustration
-		translate('calendar', 'Fishing')
+		translate('calendar', 'Fishing'),
 	],
 	illustrationNames: [
-		'fishing'
-	]
+		'fishing',
+	],
 }, {
 	strings: [
 		'Hiking',
@@ -285,12 +285,12 @@ const data = [{
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		translate('calendar', 'Hiking'),
 		// TRANSLATORS This string is used for matching the event title to an illustration
-		translate('calendar', 'Hike')
+		translate('calendar', 'Hike'),
 	],
 	illustrationNames: [
 		'exploring',
-		'hiking'
-	]
+		'hiking',
+	],
 }, {
 	strings: [
 		'Art',
@@ -301,38 +301,38 @@ const data = [{
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		translate('calendar', 'Exhibition'),
 		// TRANSLATORS This string is used for matching the event title to an illustration
-		translate('calendar', 'Museum')
+		translate('calendar', 'Museum'),
 	],
 	illustrationNames: [
-		'art_lover'
-	]
+		'art_lover',
+	],
 }, {
 	strings: [
 		'Pilates',
 		// TRANSLATORS This string is used for matching the event title to an illustration
-		translate('calendar', 'Pilates')
+		translate('calendar', 'Pilates'),
 	],
 	illustrationNames: [
-		'pilates'
-	]
+		'pilates',
+	],
 }, {
 	strings: [
 		'Park',
 		// TRANSLATORS This string is used for matching the event title to an illustration
-		translate('calendar', 'Park')
+		translate('calendar', 'Park'),
 	],
 	illustrationNames: [
-		'a_day_at_the_park'
-	]
+		'a_day_at_the_park',
+	],
 }, {
 	strings: [
 		'Studying',
 		// TRANSLATORS This string is used for matching the event title to an illustration
-		translate('calendar', 'Studying')
+		translate('calendar', 'Studying'),
 	],
 	illustrationNames: [
-		'studying'
-	]
+		'studying',
+	],
 }, {
 	strings: [
 		'Doctor',
@@ -340,21 +340,21 @@ const data = [{
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		translate('calendar', 'Doctor'),
 		// TRANSLATORS This string is used for matching the event title to an illustration
-		translate('calendar', 'Health')
+		translate('calendar', 'Health'),
 	],
 	illustrationNames: [
 		'doctors',
-		'medicine'
-	]
+		'medicine',
+	],
 }, {
 	strings: [
 		'Interview',
 		// TRANSLATORS This string is used for matching the event title to an illustration
-		translate('calendar', 'Interview')
+		translate('calendar', 'Interview'),
 	],
 	illustrationNames: [
-		'interview'
-	]
+		'interview',
+	],
 }, {
 	strings: [
 		'Training',
@@ -371,12 +371,12 @@ const data = [{
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		translate('calendar', 'Work out'),
 		// TRANSLATORS This string is used for matching the event title to an illustration
-		translate('calendar', 'Working out')
+		translate('calendar', 'Working out'),
 	],
 	illustrationNames: [
 		'personal_trainer',
-		'working_out'
-	]
+		'working_out',
+	],
 }, {
 	strings: [
 		'Barber',
@@ -384,29 +384,29 @@ const data = [{
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		translate('calendar', 'Barber'),
 		// TRANSLATORS This string is used for matching the event title to an illustration
-		translate('calendar', 'Haircut')
+		translate('calendar', 'Haircut'),
 	],
 	illustrationNames: [
-		'barber'
-	]
+		'barber',
+	],
 }, {
 	strings: [
 		'Exam',
 		// TRANSLATORS This string is used for matching the event title to an illustration
-		translate('calendar', 'Exam')
+		translate('calendar', 'Exam'),
 	],
 	illustrationNames: [
-		'exams'
-	]
+		'exams',
+	],
 }, {
 	strings: [
 		'Working',
 		// TRANSLATORS This string is used for matching the event title to an illustration
-		translate('calendar', 'Working')
+		translate('calendar', 'Working'),
 	],
 	illustrationNames: [
-		'working_remotely'
-	]
+		'working_remotely',
+	],
 }, {
 	strings: [
 		'New Years Eve',
@@ -417,11 +417,11 @@ const data = [{
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		translate('calendar', 'NYE'),
 		// TRANSLATORS This string is used for matching the event title to an illustration
-		translate('calendar', 'Fireworks')
+		translate('calendar', 'Fireworks'),
 	],
 	illustrationNames: [
-		'fireworks'
-	]
+		'fireworks',
+	],
 }, {
 	strings: [
 		'Running',
@@ -432,11 +432,11 @@ const data = [{
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		translate('calendar', 'Go for a run'),
 		// TRANSLATORS This string is used for matching the event title to an illustration
-		translate('calendar', 'Marathon')
+		translate('calendar', 'Marathon'),
 	],
 	illustrationNames: [
-		'finish_line_katerina_limpitsouni'
-	]
+		'finish_line_katerina_limpitsouni',
+	],
 }, {
 	strings: [
 		'Call',
@@ -444,38 +444,38 @@ const data = [{
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		translate('calendar', 'Call'),
 		// TRANSLATORS This string is used for matching the event title to an illustration
-		translate('calendar', 'Calling')
+		translate('calendar', 'Calling'),
 	],
 	illustrationNames: [
-		'calling'
-	]
+		'calling',
+	],
 }, {
 	strings: [
 		'Christmas',
 		// TRANSLATORS This string is used for matching the event title to an illustration
-		translate('calendar', 'Christmas')
+		translate('calendar', 'Christmas'),
 	],
 	illustrationNames: [
-		'christmas_tree'
-	]
+		'christmas_tree',
+	],
 }, {
 	strings: [
 		'Conference',
 		// TRANSLATORS This string is used for matching the event title to an illustration
-		translate('calendar', 'Conference')
+		translate('calendar', 'Conference'),
 	],
 	illustrationNames: [
-		'conference_speaker'
-	]
+		'conference_speaker',
+	],
 }, {
 	strings: [
 		'Pizza',
 		// TRANSLATORS This string is used for matching the event title to an illustration
-		translate('calendar', 'Pizza')
+		translate('calendar', 'Pizza'),
 	],
 	illustrationNames: [
-		'pizza_sharing'
-	]
+		'pizza_sharing',
+	],
 }, {
 	strings: [
 		'Travelling',
@@ -483,31 +483,31 @@ const data = [{
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		translate('calendar', 'Travelling'),
 		// TRANSLATORS This string is used for matching the event title to an illustration
-		translate('calendar', 'Travel')
+		translate('calendar', 'Travel'),
 	],
 	illustrationNames: [
 		'travelers',
 		'adventure',
-		'travel_plans'
-	]
+		'travel_plans',
+	],
 }, {
 	strings: [
 		'Journey',
 		// TRANSLATORS This string is used for matching the event title to an illustration
-		translate('calendar', 'Journey')
+		translate('calendar', 'Journey'),
 	],
 	illustrationNames: [
-		'journey'
-	]
+		'journey',
+	],
 }, {
 	strings: [
 		'Collaborate',
 		// TRANSLATORS This string is used for matching the event title to an illustration
-		translate('calendar', 'Collaborate')
+		translate('calendar', 'Collaborate'),
 	],
 	illustrationNames: [
-		'collab'
-	]
+		'collab',
+	],
 }, {
 	strings: [
 		'Lecture',
@@ -515,21 +515,21 @@ const data = [{
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		translate('calendar', 'Lecture'),
 		// TRANSLATORS This string is used for matching the event title to an illustration
-		translate('calendar', 'Seminar')
+		translate('calendar', 'Seminar'),
 	],
 	illustrationNames: [
-		'professor'
-	]
+		'professor',
+	],
 }, {
 	strings: [
 		'Photograph',
 		// TRANSLATORS This string is used for matching the event title to an illustration
-		translate('calendar', 'Photograph')
+		translate('calendar', 'Photograph'),
 	],
 	illustrationNames: [
 		'camera',
-		'photo_session'
-	]
+		'photo_session',
+	],
 }, {
 	strings: [
 		'Party',
@@ -540,21 +540,21 @@ const data = [{
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		translate('calendar', 'Celebration'),
 		// TRANSLATORS This string is used for matching the event title to an illustration
-		translate('calendar', 'Celebrate')
+		translate('calendar', 'Celebrate'),
 	],
 	illustrationNames: [
-		'party'
-	]
+		'party',
+	],
 }, {
 	strings: [
 		'Shopping',
 		// TRANSLATORS This string is used for matching the event title to an illustration
-		translate('calendar', 'Shopping')
+		translate('calendar', 'Shopping'),
 	],
 	illustrationNames: [
 		'empty_cart',
-		'window_shopping'
-	]
+		'window_shopping',
+	],
 }, {
 	strings: [
 		'Skate',
@@ -562,38 +562,38 @@ const data = [{
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		translate('calendar', 'Skate'),
 		// TRANSLATORS This string is used for matching the event title to an illustration
-		translate('calendar', 'Skateboard')
+		translate('calendar', 'Skateboard'),
 	],
 	illustrationNames: [
-		'skateboard'
-	]
+		'skateboard',
+	],
 }, {
 	strings: [
 		'Wine tasting',
 		// TRANSLATORS This string is used for matching the event title to an illustration
-		translate('calendar', 'Wine tasting')
+		translate('calendar', 'Wine tasting'),
 	],
 	illustrationNames: [
-		'wine_tasting'
-	]
+		'wine_tasting',
+	],
 }, {
 	strings: [
 		'Golf',
 		// TRANSLATORS This string is used for matching the event title to an illustration
-		translate('calendar', 'Golf')
+		translate('calendar', 'Golf'),
 	],
 	illustrationNames: [
-		'golf'
-	]
+		'golf',
+	],
 }, {
 	strings: [
 		'Dinner',
 		// TRANSLATORS This string is used for matching the event title to an illustration
-		translate('calendar', 'Dinner')
+		translate('calendar', 'Dinner'),
 	],
 	illustrationNames: [
-		'dinner'
-	]
+		'dinner',
+	],
 }]
 
 export default getIllustrationForTitle

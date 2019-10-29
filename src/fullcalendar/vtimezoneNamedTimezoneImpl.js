@@ -21,7 +21,7 @@
  */
 import {
 	NamedTimeZoneImpl,
-	createPlugin
+	createPlugin,
 } from '@fullcalendar/core'
 import getTimezoneManager from '../services/timezoneDataProviderService'
 
@@ -64,5 +64,5 @@ class VTimezoneNamedTimezone extends NamedTimeZoneImpl {
 }
 
 export default createPlugin({
-	namedTimeZonedImpl: VTimezoneNamedTimezone
+	namedTimeZonedImpl: VTimezoneNamedTimezone,
 })

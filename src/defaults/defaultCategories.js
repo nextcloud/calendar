@@ -38,6 +38,6 @@ export default () => {
 		translate('calendar', 'Sick day'),
 		translate('calendar', 'Special occasion'),
 		translate('calendar', 'Travel'),
-		translate('calendar', 'Vacation')
+		translate('calendar', 'Vacation'),
 	]
 }

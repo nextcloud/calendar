@@ -27,6 +27,6 @@
 
 <script>
 export default {
-	name: 'CalendarListItemLoadingPlaceholder'
+	name: 'CalendarListItemLoadingPlaceholder',
 }
 </script>

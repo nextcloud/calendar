@@ -34,6 +34,6 @@ import RepeatSummary from './RepeatSummary.vue'
 
 export default {
 	name: 'RepeatSummaryReadOnly',
-	extends: RepeatSummary
+	extends: RepeatSummary,
 }
 </script>

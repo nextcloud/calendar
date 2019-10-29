@@ -51,19 +51,19 @@ export default (alarm, isAllDay, currentUserTimezone) => {
 						'%n day before the event at {formattedHourMinute}',
 						'%n days before the event at {formattedHourMinute}',
 						alarm.relativeAmountAllDay, {
-							formattedHourMinute
+							formattedHourMinute,
 						})
 				} else {
 					return translatePlural('calendar',
 						'%n week before the event at {formattedHourMinute}',
 						'%n weeks before the event at {formattedHourMinute}',
 						alarm.relativeAmountAllDay, {
-							formattedHourMinute
+							formattedHourMinute,
 						})
 				}
 			}
 			return translate('calendar', 'on the day of the event at {formattedHourMinute}', {
-				formattedHourMinute
+				formattedHourMinute,
 			})
 		} else {
 			// Alarms at the event's start or end
@@ -93,12 +93,12 @@ export default (alarm, isAllDay, currentUserTimezone) => {
 		// absolute trigger
 		if (currentUserTimezone === alarm.absoluteTimezoneId) {
 			return translate('calendar', 'on {time}', {
-				time: moment(alarm.absoluteDate).format('LLLL')
+				time: moment(alarm.absoluteDate).format('LLLL'),
 			})
 		} else {
 			return translate('calendar', 'on {time} {timezoneId}', {
 				time: moment(alarm.absoluteDate).format('LLLL'),
-				timezoneId: alarm.absoluteTimezoneId
+				timezoneId: alarm.absoluteTimezoneId,
 			})
 		}
 	}

@@ -27,7 +27,7 @@ const state = {
 	lastFileInsertId: -1,
 	importFiles: [],
 	importFilesById: {},
-	importCalendarRelation: {}
+	importCalendarRelation: {},
 }
 
 const mutations = {
@@ -52,7 +52,7 @@ const mutations = {
 			name,
 			parser,
 			size,
-			type
+			type,
 		}
 
 		state.importFiles.push(file)
@@ -97,7 +97,7 @@ const mutations = {
 		Vue.set(state, 'importFiles', [])
 		Vue.set(state, 'importFilesById', {})
 		Vue.set(state, 'importCalendarRelation', {})
-	}
+	},
 }
 
 const getters = {}

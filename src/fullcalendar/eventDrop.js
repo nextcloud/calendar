@@ -63,7 +63,7 @@ export default function(store, fcAPI) {
 				}
 
 				return store.dispatch('updateCalendarObject', {
-					calendarObject
+					calendarObject,
 				})
 			})
 			.catch((err) => {

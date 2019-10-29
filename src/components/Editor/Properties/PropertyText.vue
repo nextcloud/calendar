@@ -56,10 +56,10 @@ import PropertyMixin from '../../../mixins/PropertyMixin'
 export default {
 	name: 'PropertyText',
 	directives: {
-		autosize
+		autosize,
 	},
 	mixins: [
-		PropertyMixin
+		PropertyMixin,
 	],
 	computed: {
 		display() {
@@ -73,7 +73,7 @@ export default {
 			}
 
 			return true
-		}
+		},
 	},
 	methods: {
 		changeValue(event) {
@@ -82,7 +82,7 @@ export default {
 			} else {
 				this.$emit('update:value', event.target.value)
 			}
-		}
-	}
+		},
+	},
 }
 </script>

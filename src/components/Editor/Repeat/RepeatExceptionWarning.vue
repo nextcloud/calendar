@@ -31,6 +31,6 @@
 
 <script>
 export default {
-	name: 'RepeatExceptionWarning'
+	name: 'RepeatExceptionWarning',
 }
 </script>

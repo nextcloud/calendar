@@ -44,17 +44,17 @@ import AvatarParticipationStatus from './AvatarParticipationStatus'
 export default {
 	name: 'OrganizerListItem',
 	components: {
-		AvatarParticipationStatus
+		AvatarParticipationStatus,
 	},
 	props: {
 		organizer: {
 			type: Object,
-			required: true
+			required: true,
 		},
 		isReadOnly: {
 			type: Boolean,
-			required: true
-		}
+			required: true,
+		},
 	},
 	computed: {
 		avatarLink() {
@@ -74,7 +74,7 @@ export default {
 		},
 		isViewedByOrganizer() {
 			return true
-		}
-	}
+		},
+	},
 }
 </script>

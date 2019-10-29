@@ -31,6 +31,6 @@
 
 <script>
 export default {
-	name: 'NoInviteesView'
+	name: 'NoInviteesView',
 }
 </script>

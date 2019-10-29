@@ -124,17 +124,17 @@ export default {
 		IllustrationHeader,
 		Popover,
 		Actions,
-		ActionButton
+		ActionButton,
 	},
 	mixins: [
-		EditorMixin
+		EditorMixin,
 	],
 	data() {
 		return {
 			placement: 'auto',
 			isOpen: false,
 			hasLocation: false,
-			hasDescription: false
+			hasDescription: false,
 		}
 	},
 	watch: {
@@ -157,7 +157,7 @@ export default {
 			if (typeof this.calendarObjectInstance.description === 'string' && this.calendarObjectInstance.description.trim() !== '') {
 				this.hasDescription = true
 			}
-		}
+		},
 	},
 	mounted() {
 		this.$nextTick(() => {
@@ -185,7 +185,7 @@ export default {
 			} else {
 				this.$router.push({
 					name: getPrefixedRoute(this.$route.name, 'EditSidebarView'),
-					params
+					params,
 				})
 			}
 		},
@@ -214,7 +214,7 @@ export default {
 			}
 
 			return matchingDomObject
-		}
+		},
 	},
 	beforeRouteUpdate(to, from, next) {
 		const isNew = to.name === 'NewPopoverView'
@@ -226,6 +226,6 @@ export default {
 			.$_restartPopper()
 
 		next()
-	}
+	},
 }
 </script>

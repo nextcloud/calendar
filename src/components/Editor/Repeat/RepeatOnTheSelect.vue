@@ -39,7 +39,7 @@ import { getDayNames } from '@nextcloud/l10n'
 export default {
 	name: 'RepeatOnTheSelect',
 	components: {
-		Multiselect
+		Multiselect,
 	},
 	props: {
 		/**
@@ -47,12 +47,12 @@ export default {
 		 */
 		byDay: {
 			type: Array,
-			required: true
+			required: true,
 		},
 		disabled: {
 			type: Boolean,
-			required: true
-		}
+			required: true,
+		},
 	},
 	computed: {
 		options() {
@@ -60,39 +60,39 @@ export default {
 
 			return [{
 				label: dayNames[1],
-				value: ['MO']
+				value: ['MO'],
 			}, {
 				label: dayNames[2],
-				value: ['TU']
+				value: ['TU'],
 			}, {
 				label: dayNames[3],
-				value: ['WE']
+				value: ['WE'],
 			}, {
 				label: dayNames[4],
-				value: ['TH']
+				value: ['TH'],
 			}, {
 				label: dayNames[5],
-				value: ['FR']
+				value: ['FR'],
 			}, {
 				label: dayNames[6],
-				value: ['SA']
+				value: ['SA'],
 			}, {
 				label: dayNames[0],
-				value: ['SU']
+				value: ['SU'],
 			}, {
 				label: this.$t('calendar', 'day'),
-				value: ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA']
+				value: ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'],
 			}, {
 				label: this.$t('calendar', 'weekday'),
-				value: ['MO', 'TU', 'WE', 'TH', 'FR']
+				value: ['MO', 'TU', 'WE', 'TH', 'FR'],
 			}, {
 				label: this.$t('calendar', 'weekend day'),
-				value: ['SU', 'SA']
+				value: ['SU', 'SA'],
 			}]
 		},
 		selected() {
 			return this.options.find(option => option.value.slice().sort().join(',') === this.byDay.slice().sort().join(','))
-		}
+		},
 	},
 	methods: {
 		select(value) {
@@ -101,7 +101,7 @@ export default {
 			}
 
 			this.$emit('change', value.value)
-		}
-	}
+		},
+	},
 }
 </script>

@@ -29,7 +29,7 @@ import { createEvent, getTimezoneManager } from 'calendar-js'
 
 const state = {
 	calendarObjects: {},
-	modificationCount: 0
+	modificationCount: 0,
 }
 
 const mutations = {
@@ -88,7 +88,7 @@ const mutations = {
 	 */
 	incrementModificationCount(state) {
 		state.modificationCount++
-	}
+	},
 }
 
 const getters = {
@@ -99,7 +99,7 @@ const getters = {
 	 * @param {Object} state The store data
 	 * @returns {function({String}): CalendarObject}
 	 */
-	getCalendarObjectById: (state) => (id) => state.calendarObjects[id]
+	getCalendarObjectById: (state) => (id) => state.calendarObjects[id],
 }
 
 const actions = {
@@ -133,31 +133,31 @@ const actions = {
 		}
 
 		context.commit('deleteCalendarObject', {
-			calendarObject
+			calendarObject,
 		})
 		await calendarObject.dav.move(newCalendarObject.dav)
 		context.commit('appendCalendarObject', { calendarObject })
 
 		context.commit('addCalendarObjectToCalendar', {
 			calendar: {
-				id: newCalendarId
+				id: newCalendarId,
 			},
-			calendarObjectId: calendarObject.id
+			calendarObjectId: calendarObject.id,
 		})
 		context.commit('addCalendarObjectIdToAllTimeRangesOfCalendar', {
 			calendarId: newCalendarId,
-			calendarObjectId: calendarObject.id
+			calendarObjectId: calendarObject.id,
 		})
 
 		context.commit('deleteCalendarObjectFromCalendar', {
 			calendar: {
-				id: oldCalendarId
+				id: oldCalendarId,
 			},
-			calendarObjectId: oldCalendarObjectId
+			calendarObjectId: oldCalendarObjectId,
 		})
 		context.commit('removeCalendarObjectIdFromAllTimeRangesOfCalendar', {
 			calendarId: oldCalendarId,
-			calendarObjectId: oldCalendarObjectId
+			calendarObjectId: oldCalendarObjectId,
 		})
 
 		context.commit('incrementModificationCount')
@@ -178,7 +178,7 @@ const actions = {
 
 			context.commit('addCalendarObjectIdToAllTimeRangesOfCalendar', {
 				calendarId: calendarObject.calendarId,
-				calendarObjectId: calendarObject.id
+				calendarObjectId: calendarObject.id,
 			})
 			context.commit('incrementModificationCount')
 
@@ -193,13 +193,13 @@ const actions = {
 		context.commit('appendCalendarObject', { calendarObject })
 		context.commit('addCalendarObjectToCalendar', {
 			calendar: {
-				id: calendarObject.calendarId
+				id: calendarObject.calendarId,
 			},
-			calendarObjectId: calendarObject.id
+			calendarObjectId: calendarObject.id,
 		})
 		context.commit('addCalendarObjectIdToAllTimeRangesOfCalendar', {
 			calendarId: calendarObject.calendarId,
-			calendarObjectId: calendarObject.id
+			calendarObjectId: calendarObject.id,
 		})
 		context.commit('incrementModificationCount')
 	},
@@ -221,13 +221,13 @@ const actions = {
 		context.commit('appendCalendarObject', { calendarObject })
 		context.commit('addCalendarObjectToCalendar', {
 			calendar: {
-				id: calendarObject.calendarId
+				id: calendarObject.calendarId,
 			},
-			calendarObjectId: calendarObject.id
+			calendarObjectId: calendarObject.id,
 		})
 		context.commit('addCalendarObjectIdToAllTimeRangesOfCalendar', {
 			calendarId: calendar.id,
-			calendarObjectId: calendarObject.id
+			calendarObjectId: calendarObject.id,
 		})
 		context.commit('incrementModificationCount')
 	},
@@ -250,12 +250,12 @@ const actions = {
 		context.commit('deleteCalendarObject', { calendarObject })
 		context.commit('deleteCalendarObjectFromCalendar', {
 			calendar: {
-				id: calendarObject.calendarId
+				id: calendarObject.calendarId,
 			},
-			calendarObjectId: calendarObject.id
+			calendarObjectId: calendarObject.id,
 		})
 		context.commit('removeCalendarObjectIdFromAnyTimeRange', {
-			calendarObjectId: calendarObject.id
+			calendarObjectId: calendarObject.id,
 		})
 		context.commit('incrementModificationCount')
 	},
@@ -278,10 +278,10 @@ const actions = {
 		const startDate = new Date(start * 1000)
 		const endDate = new Date(end * 1000)
 
-		let startDateTime = DateTimeValue
+		const startDateTime = DateTimeValue
 			.fromJSDate(startDate, true)
 			.getInTimezone(timezone)
-		let endDateTime = DateTimeValue
+		const endDateTime = DateTimeValue
 			.fromJSDate(endDate, true)
 			.getInTimezone(timezone)
 
@@ -323,16 +323,16 @@ const actions = {
 
 		dispatch('changeStartTimezone', {
 			calendarObjectInstance,
-			startTimezone: timezoneId
+			startTimezone: timezoneId,
 		})
 		dispatch('changeEndTimezone', {
 			calendarObjectInstance,
-			endTimezone: timezoneId
+			endTimezone: timezoneId,
 		})
 
 		commit('changeStartDate', {
 			calendarObjectInstance,
-			startDate
+			startDate,
 		})
 
 		if (isAllDay) {
@@ -340,19 +340,19 @@ const actions = {
 			// that changeEndDate expects is inclusive, so we have to deduct one day.
 			commit('changeEndDate', {
 				calendarObjectInstance,
-				endDate: new Date(endDate.getTime() - 24 * 60 * 60 * 1000)
+				endDate: new Date(endDate.getTime() - 24 * 60 * 60 * 1000),
 			})
 		} else {
 			commit('changeEndDate', {
 				calendarObjectInstance,
-				endDate
+				endDate,
 			})
 		}
 
 		if (!isDirty) {
 			calendarObjectInstance.eventComponent.undirtify()
 		}
-	}
+	},
 }
 
 export default { state, mutations, getters, actions }

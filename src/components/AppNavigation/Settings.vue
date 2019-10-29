@@ -66,14 +66,14 @@
 import {
 	ActionButton,
 	ActionCheckbox,
-	AppNavigationSettings
+	AppNavigationSettings,
 } from '@nextcloud/vue'
 import {
-	generateRemoteUrl
+	generateRemoteUrl,
 } from '@nextcloud/router'
 import {
 	mapGetters,
-	mapState
+	mapState,
 } from 'vuex'
 
 import SettingsImportSection from './Settings/SettingsImportSection.vue'
@@ -88,31 +88,31 @@ export default {
 		ActionCheckbox,
 		AppNavigationSettings,
 		SettingsImportSection,
-		SettingsTimezoneSelect
+		SettingsTimezoneSelect,
 	},
 	props: {
 		loadingCalendars: {
 			type: Boolean,
-			default: false
-		}
+			default: false,
+		},
 	},
 	data: function() {
 		return {
 			savingBirthdayCalendar: false,
 			savingPopover: false,
 			savingWeekend: false,
-			savingWeekNumber: false
+			savingWeekNumber: false,
 		}
 	},
 	computed: {
 		...mapGetters({
-			birthdayCalendar: 'hasBirthdayCalendar'
+			birthdayCalendar: 'hasBirthdayCalendar',
 		}),
 		...mapState({
 			showPopover: state => !state.settings.skipPopover,
 			showWeekends: state => state.settings.showWeekends,
 			showWeekNumbers: state => state.settings.showWeekNumbers,
-			timezone: state => state.settings.timezone
+			timezone: state => state.settings.timezone,
 		}),
 		isBirthdayCalendarDisabled() {
 			return this.savingBirthdayCalendar || this.loadingCalendars
@@ -128,7 +128,7 @@ export default {
 		},
 		showProgressBar() {
 			return this.$store.state.importState.importState.stage === 'importing'
-		}
+		},
 	},
 	methods: {
 		toggleBirthdayEnabled() {
@@ -198,7 +198,7 @@ export default {
 			this.$copyText(url)
 				.then(e => this.$toast.success(this.$t('calendar', 'CalDAV link copied to clipboard.')))
 				.catch(e => this.$toast.error(this.$t('calendar', 'CalDAV link could not be copied to clipboard.')))
-		}
-	}
+		},
+	},
 }
 </script>

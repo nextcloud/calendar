@@ -50,8 +50,8 @@ export default new Vuex.Store({
 		importFiles,
 		importState,
 		principals,
-		settings
-	}
+		settings,
+	},
 	// // Throw errors when the state is edited outside of mutations
 	// strict: true
 })

@@ -30,7 +30,7 @@
 
 <script>
 import {
-	mapState
+	mapState,
 } from 'vuex'
 
 import TimezoneSelect from '../../Shared/TimezoneSelect.vue'
@@ -39,17 +39,17 @@ import detectTimezone from '../../../services/timezoneDetectionService.js'
 export default {
 	name: 'SettingsTimezoneSelect',
 	components: {
-		TimezoneSelect
+		TimezoneSelect,
 	},
 	props: {
 		isDisabled: {
 			type: Boolean,
-			required: true
-		}
+			required: true,
+		},
 	},
 	computed: {
 		...mapState({
-			timezone: state => (state.settings.timezone || 'automatic')
+			timezone: state => (state.settings.timezone || 'automatic'),
 		}),
 		/**
 		 * Offer "Automatic" as an additional timezone
@@ -61,10 +61,10 @@ export default {
 				continent: this.$t('calendar', 'Automatic'),
 				timezoneId: 'automatic',
 				label: this.$t('calendar', 'Automatic ({detected})', {
-					detected: detectTimezone()
-				})
+					detected: detectTimezone(),
+				}),
 			}]
-		}
+		},
 	},
 	methods: {
 		/**
@@ -78,7 +78,7 @@ export default {
 					console.error(error)
 					this.$toast(this.$t('calendar', 'New setting was not saved successfully.'))
 				})
-		}
-	}
+		},
+	},
 }
 </script>

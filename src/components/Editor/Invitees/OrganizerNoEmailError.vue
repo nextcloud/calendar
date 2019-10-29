@@ -33,6 +33,6 @@
 
 <script>
 export default {
-	name: 'OrganizerNoEmailError'
+	name: 'OrganizerNoEmailError',
 }
 </script>

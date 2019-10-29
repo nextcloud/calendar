@@ -16,7 +16,7 @@
 </template>
 <script>
 import {
-	Multiselect
+	Multiselect,
 } from '@nextcloud/vue'
 import CalendarPickerOption from './CalendarPickerOption.vue'
 
@@ -24,26 +24,26 @@ export default {
 	name: 'CalendarPicker',
 	components: {
 		CalendarPickerOption,
-		Multiselect
+		Multiselect,
 	},
 	props: {
 		calendar: {
 			type: Object,
-			required: true
+			required: true,
 		},
 		calendars: {
 			type: Array,
-			required: true
+			required: true,
 		},
 		showCalendarOnSelect: {
 			type: Boolean,
-			default: false
-		}
+			default: false,
+		},
 	},
 	computed: {
 		isDisabled() {
 			return this.calendars.length < 2
-		}
+		},
 	},
 	methods: {
 		change(newCalendar) {
@@ -53,12 +53,12 @@ export default {
 
 			if (!newCalendar.enabled) {
 				this.$store.dispatch('toggleCalendarEnabled', {
-					calendar: newCalendar
+					calendar: newCalendar,
 				})
 			}
 
 			this.$emit('selectCalendar', newCalendar)
-		}
-	}
+		},
+	},
 }
 </script>

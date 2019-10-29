@@ -36,10 +36,10 @@
 import {
 	Actions,
 	ActionButton,
-	ActionLink
+	ActionLink,
 } from '@nextcloud/vue'
 import {
-	mapGetters
+	mapGetters,
 } from 'vuex'
 import { generateRemoteUrl } from '@nextcloud/router'
 
@@ -55,17 +55,17 @@ export default {
 		AppNavigationHeaderViewButtons,
 		Actions,
 		ActionButton,
-		ActionLink
+		ActionLink,
 	},
 	computed: {
 		...mapGetters({
-			subscriptions: 'sortedSubscriptions'
-		})
+			subscriptions: 'sortedSubscriptions',
+		}),
 	},
 	methods: {
 		copySubscriptionLink(calendar) {
 			const rootURL = generateRemoteUrl('dav')
-			let url = new URL(calendar.url + '?export', rootURL)
+			const url = new URL(calendar.url + '?export', rootURL)
 
 			if (url.protocol === 'http:') {
 				url.protocol = 'webcal:'
@@ -82,7 +82,7 @@ export default {
 				.catch(e => {
 					this.$toast.error(this.$t('calendar', 'Calendar link could not be copied to clipboard.'))
 				})
-		}
-	}
+		},
+	},
 }
 </script>

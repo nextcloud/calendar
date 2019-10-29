@@ -47,25 +47,25 @@ import { Avatar } from '@nextcloud/vue'
 export default {
 	name: 'CalendarPickerOption',
 	components: {
-		Avatar
+		Avatar,
 	},
 	props: {
 		color: {
 			type: String,
-			required: true
+			required: true,
 		},
 		displayName: {
 			type: String,
-			required: true
+			required: true,
 		},
 		owner: {
 			type: String,
-			required: true
+			required: true,
 		},
 		isSharedWithMe: {
 			type: Boolean,
-			required: true
-		}
+			required: true,
+		},
 	},
 	computed: {
 		/**
@@ -99,7 +99,7 @@ export default {
 			}
 
 			return null
-		}
-	}
+		},
+	},
 }
 </script>

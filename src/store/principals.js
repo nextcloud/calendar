@@ -27,7 +27,7 @@ import { getDefaultPrincipalObject, mapDavToPrincipal } from '../models/principa
 const state = {
 	principals: [],
 	principalsById: {},
-	currentUserPrincipal: null
+	currentUserPrincipal: null,
 }
 
 const mutations = {
@@ -59,7 +59,7 @@ const mutations = {
 	 */
 	setCurrentUserPrincipal(state, { principalId }) {
 		state.currentUserPrincipal = principalId
-	}
+	},
 }
 
 const getters = {
@@ -94,7 +94,7 @@ const getters = {
 	 * @param {Object} state the store data
 	 * @returns {String}
 	 */
-	getCurrentUserPrincipalEmail: (state) => state.principalsById[state.currentUserPrincipal].emailAddress
+	getCurrentUserPrincipalEmail: (state) => state.principalsById[state.currentUserPrincipal].emailAddress,
 }
 
 const actions = {
@@ -119,7 +119,7 @@ const actions = {
 		}
 
 		context.commit('addPrincipal', {
-			principal: mapDavToPrincipal(principal)
+			principal: mapDavToPrincipal(principal),
 		})
 	},
 
@@ -140,7 +140,7 @@ const actions = {
 		context.commit('addPrincipal', { principal })
 		context.commit('setCurrentUserPrincipal', { principalId: principal.id })
 		logger.debug(`Current user principal is ${principal.url}`)
-	}
+	},
 }
 
 export default { state, mutations, getters, actions }

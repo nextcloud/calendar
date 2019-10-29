@@ -31,6 +31,6 @@
 
 <script>
 export default {
-	name: 'RepeatUnsupportedWarning'
+	name: 'RepeatUnsupportedWarning',
 }
 </script>

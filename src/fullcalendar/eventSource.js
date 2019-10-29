@@ -20,7 +20,7 @@
  *
  */
 import {
-	generateTextColorForRGBString
+	generateTextColorForRGBString,
 } from '../utils/color.js'
 import getTimezoneManager from '../services/timezoneDataProviderService'
 import { getUnixTimestampFromDate } from '../utils/date.js'
@@ -48,7 +48,7 @@ export default function(store) {
 					store.dispatch('getEventsFromCalendarInTimeRange', {
 						calendar: calendar,
 						from: start,
-						to: end
+						to: end,
 					}).then(() => {
 						const timeRange = store.getters.getTimeRangeForCalendarCoveringRange(calendar.id, getUnixTimestampFromDate(start), getUnixTimestampFromDate(end))
 						const calendarObjects = store.getters.getCalendarObjectsByTimeRangeId(timeRange.id)
@@ -58,7 +58,7 @@ export default function(store) {
 					const calendarObjects = store.getters.getCalendarObjectsByTimeRangeId(timeRange.id)
 					successCallback(eventSourceFunction(calendarObjects, start, end, timezoneObject))
 				}
-			}
+			},
 		}
 
 		if (calendar.isReadOnly) {

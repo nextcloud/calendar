@@ -31,39 +31,39 @@
 
 <script>
 import {
-	Avatar
+	Avatar,
 } from '@nextcloud/vue'
 
 export default {
 	name: 'AvatarParticipationStatus',
 	components: {
-		Avatar
+		Avatar,
 	},
 	props: {
 		avatarLink: {
 			type: String,
-			required: true
+			required: true,
 		},
 		participationStatus: {
 			type: String,
-			required: true
+			required: true,
 		},
 		commonName: {
 			type: String,
-			required: true
+			required: true,
 		},
 		isViewedByOrganizer: {
 			type: Boolean,
-			required: true
+			required: true,
 		},
 		attendeeIsOrganizer: {
 			type: Boolean,
-			required: true
+			required: true,
 		},
 		organizerDisplayName: {
 			type: String,
-			required: true
-		}
+			required: true,
+		},
 	},
 	computed: {
 		tooltip() {
@@ -73,47 +73,47 @@ export default {
 
 			if (this.participationStatus === 'ACCEPTED' && this.isViewedByOrganizer) {
 				return this.$t('calendar', '{name} accepted your invitation.', {
-					name: this.commonName
+					name: this.commonName,
 				})
 			}
 			if (this.participationStatus === 'ACCEPTED' && !this.isViewedByOrganizer) {
 				return this.$t('calendar', '{name} accepted {organizerName}\'s invitation.', {
 					name: this.commonName,
-					organizerName: this.organizerDisplayName
+					organizerName: this.organizerDisplayName,
 				})
 			}
 
 			if (this.participationStatus === 'DECLINED' && this.isViewedByOrganizer) {
 				return this.$t('calendar', '{name} declined your invitation.', {
-					name: this.commonName
+					name: this.commonName,
 				})
 			}
 			if (this.participationStatus === 'DECLINED' && !this.isViewedByOrganizer) {
 				return this.$t('calendar', '{name} declined {organizerName}\'s invitation.', {
 					name: this.commonName,
-					organizerName: this.organizerDisplayName
+					organizerName: this.organizerDisplayName,
 				})
 			}
 
 			if (this.participationStatus === 'DELEGATED') {
 				return this.$t('calendar', '{name} has delegated their invitation.', {
-					name: this.commonName
+					name: this.commonName,
 				})
 			}
 			if (this.participationStatus === 'TENTATIVE') {
 				return this.$t('calendar', '{name} marked their participation as tentative.', {
-					name: this.commonName
+					name: this.commonName,
 				})
 			}
 
 			if (this.isViewedByOrganizer) {
 				return this.$t('calendar', '{name} did not respond to your invitation yet.', {
-					name: this.commonName
+					name: this.commonName,
 				})
 			} else {
 				return this.$t('calendar', '{name} did not respond to {organizerName}\'s invitation yet.', {
 					name: this.commonName,
-					organizerName: this.organizerDisplayName
+					organizerName: this.organizerDisplayName,
 				})
 			}
 		},
@@ -132,7 +132,7 @@ export default {
 			}
 
 			return ['no-response', 'icon', 'icon-invitees-no-response-white']
-		}
-	}
+		},
+	},
 }
 </script>

@@ -81,7 +81,7 @@ import {
 	Actions,
 	ActionCheckbox,
 	ActionButton,
-	ActionRadio
+	ActionRadio,
 } from '@nextcloud/vue'
 
 export default {
@@ -91,21 +91,21 @@ export default {
 		ActionButton,
 		ActionCheckbox,
 		ActionRadio,
-		Actions
+		Actions,
 	},
 	props: {
 		attendee: {
 			type: Object,
-			required: true
+			required: true,
 		},
 		organizerDisplayName: {
 			type: String,
-			required: true
+			required: true,
 		},
 		isReadOnly: {
 			type: Boolean,
-			required: true
-		}
+			required: true,
+		},
 	},
 	computed: {
 		avatarLink() {
@@ -141,7 +141,7 @@ export default {
 		isViewedByOrganizer() {
 			// TODO: check if also viewed by organizer
 			return !this.isReadOnly
-		}
+		},
 	},
 	methods: {
 		/**
@@ -149,7 +149,7 @@ export default {
 		 */
 		toggleRSVP() {
 			this.$store.commit('toggleAttendeeRSVP', {
-				attendee: this.attendee
+				attendee: this.attendee,
 			})
 		},
 		/**
@@ -160,7 +160,7 @@ export default {
 		changeRole(role) {
 			this.$store.commit('changeAttendeesRole', {
 				attendee: this.attendee,
-				role
+				role,
 			})
 		},
 		/**
@@ -168,7 +168,7 @@ export default {
 		 */
 		removeAttendee() {
 			this.$emit('removeAttendee', this.attendee)
-		}
-	}
+		},
+	},
 }
 </script>

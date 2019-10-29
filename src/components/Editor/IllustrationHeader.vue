@@ -40,17 +40,17 @@ export default {
 	props: {
 		illustrationUrl: {
 			type: String,
-			required: true
+			required: true,
 		},
 		color: {
 			type: String,
 			required: true,
-			validator: (s) => /^(#)((?:[A-Fa-f0-9]{3}){1,2})$/.test(s)
-		}
+			validator: (s) => /^(#)((?:[A-Fa-f0-9]{3}){1,2})$/.test(s),
+		},
 	},
 	data() {
 		return {
-			svg: ''
+			svg: '',
 		}
 	},
 	computed: {
@@ -69,7 +69,7 @@ export default {
 				.replace(/<title>[\w\d\s-]*<\/title>/i, '')
 				.replace(/height="(\d)*(.(\d)*)?"/i, '')
 				.replace(/width="(\d)*(.(\d)*)?"/i, '')
-		}
+		},
 	},
 	watch: {
 		illustrationUrl: {
@@ -86,9 +86,9 @@ export default {
 						this.svg = ''
 					})
 			},
-			immediate: true
-		}
-	}
+			immediate: true,
+		},
+	},
 }
 </script>
 

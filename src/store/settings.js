@@ -32,7 +32,7 @@ const state = {
 	showWeekends: null,
 	showWeekNumbers: null,
 	skipPopover: null,
-	timezone: null
+	timezone: null,
 }
 
 const mutations = {
@@ -90,7 +90,7 @@ const mutations = {
 		state.showWeekends = settings.showWeekends
 		state.skipPopover = settings.skipPopover
 		state.timezone = settings.timezone
-	}
+	},
 }
 
 const getters = {
@@ -116,7 +116,7 @@ const getters = {
 	 */
 	getResolvedTimezone: (state) => state.timezone === 'automatic'
 		? detectTimezone()
-		: state.timezone
+		: state.timezone,
 }
 
 const actions = {
@@ -204,7 +204,7 @@ const actions = {
 	 */
 	async setInitialView(context, { initialView }) {
 		await HttpClient.post(getLinkToConfig('view'), {
-			value: initialView
+			value: initialView,
 		})
 	},
 
@@ -222,7 +222,7 @@ const actions = {
 		}
 
 		await HttpClient.post(getLinkToConfig('timezone'), {
-			value: timezoneId
+			value: timezoneId,
 		}).then((response) => {
 			context.commit('setTimezone', { timezoneId })
 		}).catch((error) => {
@@ -241,9 +241,9 @@ const actions = {
 		setConfig('component-list-significant-change', [
 			'SUMMARY',
 			'LOCATION',
-			'DESCRIPTION'
+			'DESCRIPTION',
 		])
-	}
+	},
 }
 
 export default { state, mutations, getters, actions }

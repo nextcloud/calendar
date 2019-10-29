@@ -49,7 +49,7 @@
 
 <script>
 import {
-	mapGetters
+	mapGetters,
 } from 'vuex'
 import { AppNavigationSpacer } from '@nextcloud/vue'
 import CalendarListNew from './CalendarList/CalendarListNew.vue'
@@ -64,22 +64,22 @@ export default {
 		CalendarListNew,
 		CalendarListItem,
 		CalendarListItemLoadingPlaceholder,
-		PublicCalendarListItem
+		PublicCalendarListItem,
 	},
 	props: {
 		isPublic: {
 			type: Boolean,
-			required: true
+			required: true,
 		},
 		loadingCalendars: {
 			type: Boolean,
-			default: false
-		}
+			default: false,
+		},
 	},
 	computed: {
 		...mapGetters({
 			allCalendars: 'sortedCalendarsSubscriptions',
-			subscriptions: 'sortedSubscriptions'
+			subscriptions: 'sortedSubscriptions',
 		}),
 		newCalendarKey() {
 			return this._uid + '-new-calendar'
@@ -89,7 +89,7 @@ export default {
 		},
 		spacerKey() {
 			return this._uid + '-spacer'
-		}
-	}
+		},
+	},
 }
 </script>

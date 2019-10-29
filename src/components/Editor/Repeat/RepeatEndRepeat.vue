@@ -59,14 +59,14 @@
 <script>
 import DatePicker from '../../Shared/DatePicker.vue'
 import {
-	Multiselect
+	Multiselect,
 } from '@nextcloud/vue'
 
 export default {
 	name: 'RepeatEndRepeat',
 	components: {
 		DatePicker,
-		Multiselect
+		Multiselect,
 	},
 	props: {
 		/**
@@ -74,16 +74,16 @@ export default {
 		 */
 		calendarObjectInstance: {
 			type: Object,
-			required: true
+			required: true,
 		},
 		count: {
 			type: Number,
-			default: null
+			default: null,
 		},
 		until: {
 			type: Date,
-			default: null
-		}
+			default: null,
+		},
 	},
 	computed: {
 		/**
@@ -134,13 +134,13 @@ export default {
 		options() {
 			return [{
 				label: this.$t('calendar', 'never'),
-				value: 'never'
+				value: 'never',
 			}, {
 				label: this.$t('calendar', 'on date'),
-				value: 'until'
+				value: 'until',
 			}, {
 				label: this.$t('calendar', 'after'),
-				value: 'count'
+				value: 'count',
 			}]
 		},
 		/**
@@ -156,7 +156,7 @@ export default {
 			} else {
 				return this.options.find(option => option.value === 'never')
 			}
-		}
+		},
 	},
 	methods: {
 		/**
@@ -206,7 +206,7 @@ export default {
 			if (selectedValue >= minimumValue && selectedValue <= maximumValue) {
 				this.$emit('setCount', selectedValue)
 			}
-		}
-	}
+		},
+	},
 }
 </script>

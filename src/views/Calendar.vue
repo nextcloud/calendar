@@ -87,7 +87,7 @@ import '@fullcalendar/timegrid/main.css'
 import {
 	AppNavigation,
 	AppContent,
-	Content
+	Content,
 } from '@nextcloud/vue'
 import debounce from 'debounce'
 import { uidToHexColor } from '../utils/color.js'
@@ -96,7 +96,7 @@ import { getConfigValueFromHiddenInput } from '../utils/settings.js'
 import {
 	dateFactory,
 	getUnixTimestampFromDate,
-	getYYYYMMDDFromFirstdayParam
+	getYYYYMMDDFromFirstdayParam,
 } from '../utils/date.js'
 import eventAllow from '../fullcalendar/eventAllow'
 import eventClick from '../fullcalendar/eventClick'
@@ -110,7 +110,7 @@ import CalendarList from '../components/AppNavigation/CalendarList.vue'
 import Settings from '../components/AppNavigation/Settings.vue'
 import {
 	mapGetters,
-	mapState
+	mapState,
 } from 'vuex'
 import eventRender from '../fullcalendar/eventRender.js'
 import EmbedTopNavigation from '../components/AppNavigation/EmbedTopNavigation.vue'
@@ -128,7 +128,7 @@ export default {
 		Content,
 		AppContent,
 		AppNavigation,
-		FullCalendar
+		FullCalendar,
 	},
 	data() {
 		return {
@@ -139,19 +139,19 @@ export default {
 			showEmptyCalendarScreen: false,
 			locale: 'en',
 			locales: [],
-			firstDay: 0
+			firstDay: 0,
 		}
 	},
 	computed: {
 		...mapGetters({
-			timezoneId: 'getResolvedTimezone'
+			timezoneId: 'getResolvedTimezone',
 		}),
 		...mapState({
 			skipPopover: state => state.settings.skipPopover,
 			showWeekends: state => state.settings.showWeekends,
 			showWeekNumbers: state => state.settings.showWeekNumbers,
 			timezone: state => state.settings.timezone,
-			modificationCount: state => state.calendarObjects.modificationCount
+			modificationCount: state => state.calendarObjects.modificationCount,
 		}),
 		defaultDate() {
 			return getYYYYMMDDFromFirstdayParam(this.$route.params.firstDay)
@@ -171,7 +171,7 @@ export default {
 				interactionPlugin,
 				listPlugin,
 				timeGridPlugin,
-				VTimezoneNamedTimezone
+				VTimezoneNamedTimezone,
 			]
 		},
 		eventAllow() {
@@ -208,15 +208,15 @@ export default {
 			}
 
 			return null
-		}
+		},
 	},
 	beforeRouteUpdate(to, from, next) {
 		if (to.params.firstDay !== from.params.firstDay) {
-			let calendarApi = this.$refs.fullCalendar.getApi()
+			const calendarApi = this.$refs.fullCalendar.getApi()
 			calendarApi.gotoDate(getYYYYMMDDFromFirstdayParam(to.params.firstDay))
 		}
 		if (to.params.view !== from.params.view) {
-			let calendarApi = this.$refs.fullCalendar.getApi()
+			const calendarApi = this.$refs.fullCalendar.getApi()
 			calendarApi.changeView(to.params.view)
 			this.saveNewView(to.params.view)
 		}
@@ -224,7 +224,7 @@ export default {
 		if ((from.name === 'NewPopoverView' || from.name === 'NewSidebarView')
 			&& to.name !== 'NewPopoverView'
 			&& to.name !== 'NewSidebarView') {
-			let calendarApi = this.$refs.fullCalendar.getApi()
+			const calendarApi = this.$refs.fullCalendar.getApi()
 			calendarApi.unselect()
 		}
 
@@ -234,9 +234,9 @@ export default {
 	},
 	watch: {
 		modificationCount: debounce(function() {
-			let calendarApi = this.$refs.fullCalendar.getApi()
+			const calendarApi = this.$refs.fullCalendar.getApi()
 			calendarApi.refetchEvents()
-		}, 50)
+		}, 50),
 	},
 	created() {
 		this.timeFrameCacheExpiryJob = setInterval(() => {
@@ -245,13 +245,13 @@ export default {
 
 			for (const timeRange of timeRanges) {
 				this.$store.commit('removeTimeRange', {
-					timeRangeId: timeRange.id
+					timeRangeId: timeRange.id,
 				})
 				this.$store.commit('deleteFetchedTimeRangeFromCalendar', {
 					calendar: {
-						id: timeRange.calendarId
+						id: timeRange.calendarId,
 					},
-					fetchedTimeRangeId: timeRange.id
+					fetchedTimeRangeId: timeRange.id,
 				})
 			}
 		}, 1000 * 60)
@@ -279,7 +279,7 @@ export default {
 			showWeekends: getConfigValueFromHiddenInput('show-weekends') === 'true',
 			showWeekNumbers: getConfigValueFromHiddenInput('show-week-numbers') === 'true',
 			skipPopover: getConfigValueFromHiddenInput('skip-popover') === 'true',
-			timezone: getConfigValueFromHiddenInput('timezone')
+			timezone: getConfigValueFromHiddenInput('timezone'),
 		})
 		this.$store.dispatch('initializeCalendarJsConfig')
 
@@ -308,7 +308,7 @@ export default {
 					})
 					owners.forEach((owner) => {
 						this.$store.dispatch('fetchPrincipalByUrl', {
-							url: owner
+							url: owner,
 						})
 					})
 
@@ -322,7 +322,7 @@ export default {
 						this.$store.dispatch('appendCalendar', {
 							displayName: this.$t('calendars', 'Personal'),
 							color: uidToHexColor(this.$t('calendars', 'Personal')),
-							order: 0
+							order: 0,
 						}).then(() => {
 							this.loadingCalendars = false
 						})
@@ -381,7 +381,7 @@ export default {
 		},
 		eventRender(...args) {
 			return eventRender(...args)
-		}
-	}
+		},
+	},
 }
 </script>

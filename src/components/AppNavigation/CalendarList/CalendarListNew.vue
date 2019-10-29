@@ -93,7 +93,7 @@ export default {
 		ActionButton,
 		ActionInput,
 		ActionText,
-		AppNavigationItem
+		AppNavigationItem,
 	},
 	data: function() {
 		return {
@@ -110,7 +110,7 @@ export default {
 			// New subscription
 			showCreateSubscriptionLabel: true,
 			showCreateSubscriptionInput: false,
-			showCreateSubscriptionSaving: false
+			showCreateSubscriptionSaving: false,
 		}
 	},
 	watch: {
@@ -120,7 +120,7 @@ export default {
 			}
 
 			this.closeMenu()
-		}
+		},
 	},
 	methods: {
 		/**
@@ -185,7 +185,7 @@ export default {
 			try {
 				await this.$store.dispatch('appendCalendar', {
 					displayName,
-					color: uidToHexColor(displayName)
+					color: uidToHexColor(displayName),
 				})
 			} catch (error) {
 				console.debug(error)
@@ -212,7 +212,7 @@ export default {
 				await this.$store.dispatch('appendCalendar', {
 					displayName,
 					color: uidToHexColor(displayName),
-					components: ['VEVENT', 'VTODO']
+					components: ['VEVENT', 'VTODO'],
 				})
 			} catch (error) {
 				console.debug(error)
@@ -249,7 +249,7 @@ export default {
 				await this.$store.dispatch('appendSubscription', {
 					displayName: hostname,
 					color: uidToHexColor(link),
-					source: link
+					source: link,
 				})
 			} catch (error) {
 				console.debug(error)
@@ -274,7 +274,7 @@ export default {
 			this.showCreateSubscriptionLabel = true
 			this.showCreateSubscriptionInput = false
 			this.showCreateSubscriptionSaving = false
-		}
-	}
+		},
+	},
 }
 </script>

@@ -32,46 +32,46 @@
 
 <script>
 import {
-	Multiselect
+	Multiselect,
 } from '@nextcloud/vue'
 
 export default {
 	name: 'RepeatFreqSelect',
 	components: {
-		Multiselect
+		Multiselect,
 	},
 	props: {
 		freq: {
 			type: String,
-			required: true
+			required: true,
 		},
 		count: {
 			type: Number,
-			required: true
-		}
+			required: true,
+		},
 	},
 	computed: {
 		options() {
 			return [{
 				'label': this.$t('calendar', 'never'),
-				'freq': 'NONE'
+				'freq': 'NONE',
 			}, {
 				'label': this.$n('calendar', 'day', 'days', this.count),
-				'freq': 'DAILY'
+				'freq': 'DAILY',
 			}, {
 				'label': this.$n('calendar', 'week', 'weeks', this.count),
-				'freq': 'WEEKLY'
+				'freq': 'WEEKLY',
 			}, {
 				'label': this.$n('calendar', 'month', 'months', this.count),
-				'freq': 'MONTHLY'
+				'freq': 'MONTHLY',
 			}, {
 				'label': this.$n('calendar', 'year', 'years', this.count),
-				'freq': 'YEARLY'
+				'freq': 'YEARLY',
 			}]
 		},
 		selected() {
 			return this.options.find(o => o.freq === this.freq)
-		}
+		},
 	},
 	methods: {
 		select(value) {
@@ -80,7 +80,7 @@ export default {
 			}
 
 			this.$emit('change', value.freq)
-		}
-	}
+		},
+	},
 }
 </script>
