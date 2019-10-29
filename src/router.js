@@ -94,11 +94,11 @@ const router = new Router({
 		},
 		{
 			path: '/edit/:object',
-			redirect: '/${getInitialView()}/now/edit/sidebar/:object/next'
+			redirect: `/${getInitialView()}/now/edit/sidebar/:object/next`,
 		},
 		{
 			path: '/edit/:object/:recurrenceId',
-			redirect: '/${getInitialView()}/now/edit/sidebar/:object/:recurrenceId'
+			redirect: `/${getInitialView()}/now/edit/sidebar/:object/:recurrenceId`,
 		},
 		/**
 		 * This is the main route that contains the current view and viewed day

@@ -25,6 +25,9 @@ import { getParserManager } from 'calendar-js'
 import DateTimeValue from 'calendar-js/src/values/dateTimeValue'
 import CalendarComponent from 'calendar-js/src/components/calendarComponent'
 
+/**
+ * This model represents exactly
+ */
 export default class CalendarObject {
 
 	/**
@@ -161,6 +164,25 @@ export default class CalendarObject {
 		const s = DateTimeValue.fromJSDate(start, true)
 		const e = DateTimeValue.fromJSDate(end, true)
 		return firstVObject.recurrenceManager.getAllOccurrencesBetween(s, e)
+	}
+
+	/**
+	 * Get recurrence-item closest to the given recurrence-Id
+	 * This is either the one next in the future or if none exist,
+	 * the one closest in the past
+	 *
+	 * @param {Date} closeTo The time to get the
+	 * @returns {AbstractRecurringComponent|null}
+	 */
+	getClosestRecurrence(closeTo) {
+		const iterator = this.vcalendar.getVObjectIterator()
+		const firstVObject = iterator.next().value
+		if (!firstVObject) {
+			return null
+		}
+
+		const d = DateTimeValue.fromJSDate(closeTo, true)
+		return firstVObject.recurrenceManager.getClosestOccurrence(d)
 	}
 
 	/**

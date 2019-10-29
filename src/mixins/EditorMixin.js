@@ -24,6 +24,8 @@ import logger from '../utils/logger.js'
 import { mapEventComponentToCalendarObjectInstanceObject } from '../models/calendarObjectInstance.js'
 import { getIllustrationForTitle } from '../utils/illustration.js'
 import { getPrefixedRoute } from '../utils/router.js'
+import { dateFactory } from '../utils/date.js'
+import { uidToHexColor } from '../utils/color.js'
 
 /**
  * This is a mixin for the editor. It contains common Vue stuff, that is
@@ -58,16 +60,11 @@ export default {
 		}
 	},
 	computed: {
-		backgroundImage() {
-			return getIllustrationForTitle(this.title)
-		},
-		selectedCalendarColor() {
-			if (!this.selectedCalendar) {
-				return ''
-			}
-
-			return this.selectedCalendar.color
-		},
+		/**
+		 * Returns the events title or an empty string if the event is still loading
+		 *
+		 * @returns {string}
+		 */
 		title() {
 			if (!this.eventComponent) {
 				return ''
@@ -75,12 +72,141 @@ export default {
 
 			return this.calendarObjectInstance.title || ''
 		},
+		/**
+		 * Returns the location or null if the event is still loading
+		 *
+		 * @returns {string|null}
+		 */
+		location() {
+			if (!this.calendarObjectInstance) {
+				return null
+			}
 
-		// Did the event load without errors?
+			return this.calendarObjectInstance.location
+		},
+		/**
+		 * Returns the description or null if the event is still loading
+		 *
+		 * @returns {string|null}
+		 */
+		description() {
+			if (!this.calendarObjectInstance) {
+				return null
+			}
+
+			return this.calendarObjectInstance.description
+		},
+		/**
+		 * Returns the start-date (without timezone) or null if the event is still loading
+		 *
+		 * @returns {Date|null}
+		 */
+		startDate() {
+			if (!this.calendarObjectInstance) {
+				return null
+			}
+
+			return this.calendarObjectInstance.startDate
+		},
+		/**
+		 * Returns the timezone of the event's start-date or null if the event is still loading
+		 *
+		 * @returns {string|null}
+		 */
+		startTimezone() {
+			if (!this.calendarObjectInstance) {
+				return null
+			}
+
+			return this.calendarObjectInstance.startTimezoneId
+		},
+		/**
+		 * Returns the end-date (without timezone) or null if the event is still loading
+		 *
+		 * @returns {Date|null}
+		 */
+		endDate() {
+			if (!this.calendarObjectInstance) {
+				return null
+			}
+
+			return this.calendarObjectInstance.endDate
+		},
+		/**
+		 * Returns the timezone of the event's end-date or null if the event is still loading
+		 *
+		 * @returns {string|null}
+		 */
+		endTimezone() {
+			if (!this.calendarObjectInstance) {
+				return null
+			}
+
+			return this.calendarObjectInstance.endTimezoneId
+		},
+		/**
+		 * Returns whether or not the event is all-day or null if the event is still loading
+		 *
+		 * @returns {boolean|null}
+		 */
+		isAllDay() {
+			if (!this.calendarObjectInstance) {
+				return null
+			}
+
+			return this.calendarObjectInstance.isAllDay
+		},
+		/**
+		 * Returns whether or not the user is allowed to modify the all-day setting
+		 *
+		 * @returns {boolean}
+		 */
+		canModifyAllDay() {
+			if (!this.calendarObjectInstance) {
+				return false
+			}
+
+			return this.calendarObjectInstance.canModifyAllDay
+		},
+		/**
+		 * Returns an illustration matching this event's title
+		 *
+		 * @returns {string}
+		 */
+		backgroundImage() {
+			return getIllustrationForTitle(this.title)
+		},
+		/**
+		 * Returns the color of the calendar selected by the user
+		 * This is used to color illustration
+		 *
+		 * @returns {string|*}
+		 */
+		selectedCalendarColor() {
+			if (!this.selectedCalendar) {
+				const calendars = this.$store.getters.sortedCalendars
+				if (calendars.length > 0) {
+					return calendars[0].color
+				}
+
+				return uidToHexColor('')
+			}
+
+			return this.selectedCalendar.color
+		},
+		/**
+		 * Returns whether or not to display event details
+		 *
+		 * @returns {boolean}
+		 */
 		displayDetails() {
 			return !this.isLoading && !this.error
 		},
-		// Is the event read-only or read-write
+		/**
+		 * Returns whether or not to allow editing the event
+		 *
+		 * @returns {boolean}
+		 */
 		isReadOnly() {
 			if (!this.calendarObject) {
 				return true
@@ -93,7 +219,11 @@ export default {
 
 			return calendar.readOnly
 		},
-		// List of all selectable calendars
+		/**
+		 * Returns all calendars selectable by the user
+		 *
+		 * @returns {Object[]}
+		 */
 		calendars() {
 			if (this.isReadOnly && this.calendarObject) {
 				return [
@@ -103,15 +233,28 @@ export default {
 
 			return this.$store.getters.sortedCalendars
 		},
-		// Get the selected calendar as calendar-object
+		/**
+		 * Returns the object of the selected calendar
+		 *
+		 * @returns {Object}
+		 */
 		selectedCalendar() {
 			return this.$store.getters.getCalendarById(this.calendarId)
 		},
-		// Current timezone of the user
+		/**
+		 * Returns the preferred timezone of the user.
+		 * If the timezone is set to automatic, it returns the detected one
+		 *
+		 * @returns {string}
+		 */
 		currentUserTimezone() {
 			return this.$store.getters.getResolvedTimezone
 		},
-		// Can you delete this event?
+		/**
+		 * Returns whether or not the user is allowed to delete this event
+		 *
+		 * @returns {boolean}
+		 */
 		canDelete() {
 			if (!this.calendarObject) {
 				return false
@@ -125,7 +268,11 @@ export default {
 
 			return this.calendarObject.existsOnServer()
 		},
-		// Can you create recurrence-exceptions for this event?
+		/**
+		 * Returns whether or not the user is allowed to create recurrence exceptions for this event
+		 *
+		 * @returns {boolean}
+		 */
 		canCreateRecurrenceException() {
 			if (!this.eventComponent) {
 				return false
@@ -133,11 +280,20 @@ export default {
 
 			return this.eventComponent.canCreateRecurrenceExceptions()
 		},
-		// List of all RFC props we can display
+		/**
+		 * Returns a an object with properties from RFCs including
+		 * their displayName, a description, options, etc.
+		 *
+		 * @returns {{geo, color, timeTransparency, description, resources, location, categories, accessClass, priority, status}}
+		 */
 		rfcProps() {
 			return rfcProps
 		},
-		// Download related properties
+		/**
+		 * Returns whether or not this event can be downloaded from the server
+		 *
+		 * @returns {boolean}
+		 */
 		hasDownloadURL() {
 			if (!this.calendarObject) {
 				return false
@@ -148,6 +304,11 @@ export default {
 
 			return this.calendarObject.existsOnServer()
 		},
+		/**
+		 * Returns the download url as a string or null if event is loading or does not exist on the server (yet)
+		 *
+		 * @returns {string|null}
+		 */
 		downloadURL() {
 			if (!this.calendarObject) {
 				return null
@@ -159,6 +320,11 @@ export default {
 
 			return this.calendarObject.dav.url + '?export'
 		},
+		/**
+		 * Returns whether or not this is a new event
+		 *
+		 * @returns {boolean}
+		 */
 		isNew() {
 			if (!this.calendarObject) {
 				return true
@@ -169,62 +335,6 @@ export default {
 			}
 
 			return false
-		},
-		location() {
-			if (!this.calendarObjectInstance) {
-				return null
-			}
-
-			return this.calendarObjectInstance.location
-		},
-		description() {
-			if (!this.calendarObjectInstance) {
-				return null
-			}
-
-			return this.calendarObjectInstance.description
-		},
-		startDate() {
-			if (!this.calendarObjectInstance) {
-				return null
-			}
-
-			return this.calendarObjectInstance.startDate
-		},
-		startTimezone() {
-			if (!this.calendarObjectInstance) {
-				return null
-			}
-
-			return this.calendarObjectInstance.startTimezoneId
-		},
-		endDate() {
-			if (!this.calendarObjectInstance) {
-				return null
-			}
-
-			return this.calendarObjectInstance.endDate
-		},
-		endTimezone() {
-			if (!this.calendarObjectInstance) {
-				return null
-			}
-
-			return this.calendarObjectInstance.endTimezoneId
-		},
-		isAllDay() {
-			if (!this.calendarObjectInstance) {
-				return null
-			}
-
-			return this.calendarObjectInstance.isAllDay
-		},
-		canModifyAllDay() {
-			if (!this.calendarObjectInstance) {
-				return false
-			}
-
-			return this.calendarObjectInstance.canModifyAllDay
 		},
 	},
 	methods: {
@@ -429,7 +539,6 @@ export default {
 		 * @param {Date} startDate New start date
 		 */
 		updateStartDate(startDate) {
-			console.debug('updating start date ...', startDate)
 			this.$store.commit('changeStartDate', {
 				calendarObjectInstance: this.calendarObjectInstance,
 				startDate,
@@ -456,7 +565,6 @@ export default {
 		 * @param {Date} endDate New end date
 		 */
 		updateEndDate(endDate) {
-			console.debug('updating end date ...', endDate)
 			this.$store.commit('changeEndDate', {
 				calendarObjectInstance: this.calendarObjectInstance,
 				endDate,
@@ -528,18 +636,32 @@ export default {
 
 				const objectId = to.params.object
 				const recurrenceId = to.params.recurrenceId
-				const recurrenceIdDate = new Date(recurrenceId * 1000)
 
 				vm.$store.dispatch('getEventByObjectId', { objectId })
 					.then(() => {
 						vm.calendarObject = vm.$store.getters.getCalendarObjectById(objectId)
 						vm.calendarId = vm.calendarObject.calendarId
-						vm.eventComponent = vm.calendarObject.getObjectAtRecurrenceId(recurrenceIdDate)
+
+						if (recurrenceId === 'next') {
+							const recurrenceIdDate = dateFactory()
+							vm.eventComponent = vm.calendarObject.getClosestRecurrence(recurrenceIdDate)
+						} else {
+							const recurrenceIdDate = new Date(recurrenceId * 1000)
+							vm.eventComponent = vm.calendarObject.getObjectAtRecurrenceId(recurrenceIdDate)
+						}
+
 						vm.calendarObjectInstance = mapEventComponentToCalendarObjectInstanceObject(vm.eventComponent)
 						vm.isEditingMasterItem = vm.eventComponent.isMasterItem()
 						vm.isRecurrenceException = vm.eventComponent.isRecurrenceException()
 
 						vm.isLoading = false
+
+						if (recurrenceId === 'next') {
+							const params = Object.assign({}, vm.$route.params, {
+								recurrenceId: vm.eventComponent.getReferenceRecurrenceId().unixTime,
+							})
+							vm.$router.replace({ name: vm.$route.name, params })
+						}
 					})
 			})
 		}
@@ -554,7 +676,6 @@ export default {
 	 * @param {Function} next Function to be called when ready to load the next view
 	 */
 	beforeRouteUpdate(to, from, next) {
-		console.debug('I\'m beforeRouteUpdate inside mixin')
 		// If we are in the New Event dialog, we want to update the selected time
 		if (to.name === 'NewSidebarView' || to.name === 'NewPopoverView') {
 			// If allDay, dtstart and dtend are the same there is no need to update.
@@ -605,12 +726,27 @@ export default {
 					.then(() => {
 						this.calendarObject = this.$store.getters.getCalendarObjectById(objectId)
 						this.calendarId = this.calendarObject.calendarId
-						this.eventComponent = this.calendarObject.getObjectAtRecurrenceId(new Date(recurrenceId * 1000))
+
+						if (recurrenceId === 'next') {
+							const recurrenceIdDate = dateFactory()
+							this.eventComponent = this.calendarObject.getClosestRecurrence(recurrenceIdDate)
+						} else {
+							const recurrenceIdDate = new Date(recurrenceId * 1000)
+							this.eventComponent = this.calendarObject.getObjectAtRecurrenceId(recurrenceIdDate)
+						}
+
 						this.calendarObjectInstance = mapEventComponentToCalendarObjectInstanceObject(this.eventComponent)
 						this.isEditingMasterItem = this.eventComponent.isMasterItem()
 						this.isRecurrenceException = this.eventComponent.isRecurrenceException()
 
 						this.isLoading = false
+
+						if (recurrenceId === 'next') {
+							const params = Object.assign({}, this.$route.params, {
+								recurrenceId: this.eventComponent.getReferenceRecurrenceId().unixTime,
+							})
+							this.$router.replace({ name: this.$route.name, params })
+						}
 					})
 				next()
 			}).catch(() => {
