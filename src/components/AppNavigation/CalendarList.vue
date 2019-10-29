@@ -34,6 +34,11 @@
 			v-if="!loadingCalendars"
 			:key="newCalendarKey"
 			:disabled="loadingCalendars" />
+
+		<AppNavigationItem
+			:key="inboxKey"
+			:pinned="true"
+			:title="$t('calendar', 'Scheduling inbox')" />
 	</transition-group>
 	<transition-group v-else
 		id="calendars-list"
@@ -51,7 +56,7 @@
 import {
 	mapGetters
 } from 'vuex'
-import { AppNavigationSpacer } from '@nextcloud/vue'
+import { AppNavigationSpacer, AppNavigationItem } from '@nextcloud/vue'
 import CalendarListNew from './CalendarList/CalendarListNew.vue'
 import CalendarListItem from './CalendarList/CalendarListItem.vue'
 import PublicCalendarListItem from './CalendarList/PublicCalendarListItem.vue'
@@ -61,6 +66,7 @@ export default {
 	name: 'CalendarList',
 	components: {
 		AppNavigationSpacer,
+		AppNavigationItem,
 		CalendarListNew,
 		CalendarListItem,
 		CalendarListItemLoadingPlaceholder,
@@ -89,6 +95,9 @@ export default {
 		},
 		spacerKey() {
 			return this._uid + '-spacer'
+		},
+		inboxKey() {
+			return this._uid + '-inbox'
 		}
 	}
 }
