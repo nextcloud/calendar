@@ -53,7 +53,7 @@ import {
 	ActionButton,
 	ActionCheckbox,
 	AppNavigationItem,
-	Avatar
+	Avatar,
 } from '@nextcloud/vue'
 
 export default {
@@ -62,27 +62,27 @@ export default {
 		ActionButton,
 		ActionCheckbox,
 		AppNavigationItem,
-		Avatar
+		Avatar,
 	},
 	props: {
 		calendar: {
 			type: Object,
-			required: true
+			required: true,
 		},
 		sharee: {
 			type: Object,
-			required: true
-		}
+			required: true,
+		},
 	},
 	data() {
 		return {
-			updatingSharee: false
+			updatingSharee: false,
 		}
 	},
 	computed: {
 		uid() {
 			return this._uid
-		}
+		},
 	},
 	methods: {
 		/**
@@ -120,7 +120,7 @@ export default {
 
 					this.updatingSharee = false
 				})
-		}
-	}
+		},
+	},
 }
 </script>

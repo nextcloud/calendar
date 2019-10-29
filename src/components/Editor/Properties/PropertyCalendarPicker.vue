@@ -54,31 +54,31 @@ export default {
 	name: 'PropertyCalendarPicker',
 	components: {
 		CalendarPickerOption,
-		CalendarPicker
+		CalendarPicker,
 	},
 	props: {
 		calendar: {
 			type: Object,
-			default: undefined
+			default: undefined,
 		},
 		calendars: {
 			type: Array,
-			required: true
+			required: true,
 		},
 		isReadOnly: {
 			type: Boolean,
-			required: true
-		}
+			required: true,
+		},
 	},
 	computed: {
 		display() {
 			return this.calendar !== undefined
-		}
+		},
 	},
 	methods: {
 		selectCalendar(value) {
 			this.$emit('selectCalendar', value)
-		}
-	}
+		},
+	},
 }
 </script>

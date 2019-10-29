@@ -60,20 +60,20 @@ export default {
 	props: {
 		canCreateRecurrenceException: {
 			type: Boolean,
-			required: true
+			required: true,
 		},
 		isNew: {
 			type: Boolean,
-			required: true
+			required: true,
 		},
 		forceThisAndAllFuture: {
 			type: Boolean,
-			required: true
+			required: true,
 		},
 		showMoreButton: {
 			type: Boolean,
-			default: false
-		}
+			default: false,
+		},
 	},
 	computed: {
 		showSaveButton() {
@@ -87,7 +87,7 @@ export default {
 		},
 		showUpdateThisAndFutureButton() {
 			return this.canCreateRecurrenceException
-		}
+		},
 	},
 	methods: {
 		saveThisOnly() {
@@ -98,7 +98,7 @@ export default {
 		},
 		showMore() {
 			this.$emit('showMore')
-		}
-	}
+		},
+	},
 }
 </script>

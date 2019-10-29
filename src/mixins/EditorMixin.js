@@ -54,7 +54,7 @@ export default {
 			// Whether or not the master item is being edited
 			isEditingMasterItem: false,
 			// Whether or not it is a recurrence-exception
-			isRecurrenceException: false
+			isRecurrenceException: false,
 		}
 	},
 	computed: {
@@ -97,7 +97,7 @@ export default {
 		calendars() {
 			if (this.isReadOnly && this.calendarObject) {
 				return [
-					this.$store.getters.getCalendarById(this.calendarObject.calendarId)
+					this.$store.getters.getCalendarById(this.calendarObject.calendarId),
 				]
 			}
 
@@ -225,7 +225,7 @@ export default {
 			}
 
 			return this.calendarObjectInstance.canModifyAllDay
-		}
+		},
 	},
 	methods: {
 		/**
@@ -261,7 +261,7 @@ export default {
 
 			this.$router.push({
 				name: getPrefixedRoute(this.$store.state.route.name, 'CalendarView'),
-				params
+				params,
 			})
 		},
 		/**
@@ -312,13 +312,13 @@ export default {
 				}
 
 				await this.$store.dispatch('updateCalendarObject', {
-					calendarObject: this.calendarObject
+					calendarObject: this.calendarObject,
 				})
 
 				if (!isNewEvent && thisAndAllFuture && original.root !== fork.root) {
 					await this.$store.dispatch('createCalendarObjectFromFork', {
 						eventComponent: fork,
-						calendarId: this.calendarId
+						calendarId: this.calendarId,
 					})
 				}
 			}
@@ -328,7 +328,7 @@ export default {
 
 				await this.$store.dispatch('moveCalendarObject', {
 					calendarObject: this.calendarObject,
-					newCalendarId: this.calendarId
+					newCalendarId: this.calendarId,
 				})
 			}
 
@@ -365,11 +365,11 @@ export default {
 			const isRecurrenceSetEmpty = this.eventComponent.removeThisOccurrence(thisAndAllFuture)
 			if (isRecurrenceSetEmpty) {
 				await this.$store.dispatch('deleteCalendarObject', {
-					calendarObject: this.calendarObject
+					calendarObject: this.calendarObject,
 				})
 			} else {
 				await this.$store.dispatch('updateCalendarObject', {
-					calendarObject: this.calendarObject
+					calendarObject: this.calendarObject,
 				})
 			}
 
@@ -398,7 +398,7 @@ export default {
 
 			this.$store.commit('changeTitle', {
 				calendarObjectInstance: this.calendarObjectInstance,
-				title
+				title,
 			})
 		},
 		/**
@@ -409,7 +409,7 @@ export default {
 		updateDescription(description) {
 			this.$store.commit('changeDescription', {
 				calendarObjectInstance: this.calendarObjectInstance,
-				description
+				description,
 			})
 		},
 		/**
@@ -420,7 +420,7 @@ export default {
 		updateLocation(location) {
 			this.$store.commit('changeLocation', {
 				calendarObjectInstance: this.calendarObjectInstance,
-				location
+				location,
 			})
 		},
 		/**
@@ -432,7 +432,7 @@ export default {
 			console.debug('updating start date ...', startDate)
 			this.$store.commit('changeStartDate', {
 				calendarObjectInstance: this.calendarObjectInstance,
-				startDate
+				startDate,
 			})
 		},
 		/**
@@ -447,7 +447,7 @@ export default {
 
 			this.$store.dispatch('changeStartTimezone', {
 				calendarObjectInstance: this.calendarObjectInstance,
-				startTimezone
+				startTimezone,
 			})
 		},
 		/**
@@ -459,7 +459,7 @@ export default {
 			console.debug('updating end date ...', endDate)
 			this.$store.commit('changeEndDate', {
 				calendarObjectInstance: this.calendarObjectInstance,
-				endDate
+				endDate,
 			})
 		},
 		/**
@@ -474,7 +474,7 @@ export default {
 
 			this.$store.dispatch('changeEndTimezone', {
 				calendarObjectInstance: this.calendarObjectInstance,
-				endTimezone
+				endTimezone,
 			})
 		},
 		/**
@@ -482,9 +482,9 @@ export default {
 		 */
 		toggleAllDay() {
 			this.$store.dispatch('toggleAllDay', {
-				calendarObjectInstance: this.calendarObjectInstance
+				calendarObjectInstance: this.calendarObjectInstance,
 			})
-		}
+		},
 	},
 	/**
 	 * This is executed before entering the Editor routes
@@ -576,7 +576,7 @@ export default {
 				start,
 				end,
 				isAllDay,
-				timezoneId
+				timezoneId,
 			})
 
 			next()
@@ -639,5 +639,5 @@ export default {
 			// TODO - show proper error message
 			next(false)
 		})
-	}
+	},
 }

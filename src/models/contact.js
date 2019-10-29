@@ -49,5 +49,5 @@ export const getDefaultContactsObject = (props = {}) => Object.assign({}, {
 	// Language of the user
 	language: null,
 	// Timezone of the user
-	timezoneId: null
+	timezoneId: null,
 }, props)

@@ -79,10 +79,10 @@ import {
 	ActionLink,
 	ActionText,
 	AppNavigationIconBullet,
-	AppNavigationItem
+	AppNavigationItem,
 } from '@nextcloud/vue'
 import {
-	generateRemoteUrl
+	generateRemoteUrl,
 } from '@nextcloud/router'
 
 export default {
@@ -93,13 +93,13 @@ export default {
 		ActionLink,
 		ActionText,
 		AppNavigationIconBullet,
-		AppNavigationItem
+		AppNavigationItem,
 	},
 	props: {
 		calendar: {
 			type: Object,
-			required: true
-		}
+			required: true,
+		},
 	},
 	data: function() {
 		return {
@@ -109,7 +109,7 @@ export default {
 			showCopySubscriptionLinkSuccess: false,
 			showCopySubscriptionLinkError: false,
 			// Status of actions menu:
-			menuOpen: false
+			menuOpen: false,
 		}
 	},
 	computed: {
@@ -133,13 +133,13 @@ export default {
 			}
 
 			// 'dav/principals/users/'.length => 21
-			let userId = this.calendar.owner.substr(lastIndex + 21)
+			const userId = this.calendar.owner.substr(lastIndex + 21)
 			if (userId.endsWith('/')) {
 				return userId.slice(0, -1)
 			}
 
 			return userId
-		}
+		},
 	},
 	methods: {
 		copySubscriptionLink() {
@@ -150,7 +150,7 @@ export default {
 			this.showCopySubscriptionLinkError = false
 
 			const rootURL = generateRemoteUrl('dav')
-			let url = new URL(this.calendar.url + '?export', rootURL)
+			const url = new URL(this.calendar.url + '?export', rootURL)
 
 			if (url.protocol === 'http:') {
 				url.protocol = 'webcal:'
@@ -189,9 +189,9 @@ export default {
 		},
 		toggleEnabled() {
 			this.$store.commit('toggleCalendarEnabled', {
-				calendar: this.calendar
+				calendar: this.calendar,
 			})
-		}
-	}
+		},
+	},
 }
 </script>

@@ -26,7 +26,7 @@ import { getRequestToken } from '@nextcloud/auth'
 function xhrProvider() {
 	const headers = {
 		'X-Requested-With': 'XMLHttpRequest',
-		'requesttoken': getRequestToken()
+		'requesttoken': getRequestToken(),
 	}
 	const xhr = new XMLHttpRequest()
 	const oldOpen = xhr.open
@@ -34,7 +34,7 @@ function xhrProvider() {
 	// override open() method to add headers
 	xhr.open = function() {
 		const result = oldOpen.apply(this, arguments)
-		for (let name in headers) {
+		for (const name in headers) {
 			xhr.setRequestHeader(name, headers[name])
 		}
 
@@ -46,5 +46,5 @@ function xhrProvider() {
 }
 
 export default new DavClient({
-	rootUrl: generateRemoteUrl('dav')
+	rootUrl: generateRemoteUrl('dav'),
 }, xhrProvider)

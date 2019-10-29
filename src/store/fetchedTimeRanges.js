@@ -24,7 +24,7 @@ import Vue from 'vue'
 const state = {
 	lastTimeRangeInsertId: -1,
 	fetchedTimeRanges: [],
-	fetchedTimeRangesById: {}
+	fetchedTimeRangesById: {},
 }
 
 const mutations = {
@@ -47,7 +47,7 @@ const mutations = {
 			from,
 			to,
 			lastFetched,
-			calendarObjectIds
+			calendarObjectIds,
 		}
 
 		state.fetchedTimeRanges.push(fetchedTimeRange)
@@ -189,7 +189,7 @@ const mutations = {
 				timerange.calendarObjectIds.splice(index, 1)
 			}
 		}
-	}
+	},
 }
 
 const getters = {
@@ -245,7 +245,7 @@ const getters = {
 		return state.fetchedTimeRangesById[timeRangeId].calendarObjectIds.map((calendarObjectId) => {
 			return getters.getCalendarObjectById(calendarObjectId)
 		})
-	}
+	},
 }
 
 const actions = {}

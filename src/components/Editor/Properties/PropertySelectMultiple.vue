@@ -78,16 +78,16 @@ export default {
 	components: {
 		PropertySelectMultipleColoredOption,
 		PropertySelectMultipleColoredTag,
-		Multiselect
+		Multiselect,
 	},
 	mixins: [
-		PropertyMixin
+		PropertyMixin,
 	],
 	props: {
 		coloredOptions: {
 			type: Boolean,
-			default: false
-		}
+			default: false,
+		},
 	},
 	computed: {
 		display() {
@@ -95,7 +95,7 @@ export default {
 		},
 		options() {
 			return this.propModel.options
-		}
+		},
 	},
 	methods: {
 		selectValue(value) {
@@ -111,7 +111,7 @@ export default {
 			}
 
 			this.$emit('removeSingleValue', value)
-		}
-	}
+		},
+	},
 }
 </script>

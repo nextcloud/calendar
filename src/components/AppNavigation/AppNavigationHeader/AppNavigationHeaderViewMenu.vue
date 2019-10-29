@@ -38,22 +38,22 @@ export default {
 	name: 'AppNavigationHeaderViewMenu',
 	components: {
 		Actions,
-		ActionButton
+		ActionButton,
 	},
 	computed: {
 		views() {
 			return [{
 				id: 'timeGridDay',
 				icon: 'icon-view-day',
-				label: this.$t('calendar', 'Day')
+				label: this.$t('calendar', 'Day'),
 			}, {
 				id: 'timeGridWeek',
 				icon: 'icon-view-week',
-				label: this.$t('calendar', 'Week')
+				label: this.$t('calendar', 'Week'),
 			}, {
 				id: 'dayGridMonth',
 				icon: 'icon-view-module',
-				label: this.$t('calendar', 'Month')
+				label: this.$t('calendar', 'Month'),
 			}]
 		},
 		defaultIcon() {
@@ -64,13 +64,13 @@ export default {
 			}
 
 			return 'icon-toggle-pictures'
-		}
+		},
 	},
 	methods: {
 		selectView(viewName) {
 			const name = this.$route.name
 			const params = Object.assign({}, this.$route.params, {
-				view: viewName
+				view: viewName,
 			})
 
 			// Don't push new route when view didn't change
@@ -79,7 +79,7 @@ export default {
 			}
 
 			this.$router.push({ name, params })
-		}
-	}
+		},
+	},
 }
 </script>

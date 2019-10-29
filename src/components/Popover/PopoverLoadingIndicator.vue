@@ -28,6 +28,6 @@
 
 <script>
 export default {
-	name: 'PopoverLoadingIndicator'
+	name: 'PopoverLoadingIndicator',
 }
 </script>

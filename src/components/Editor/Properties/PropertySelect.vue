@@ -58,10 +58,10 @@ import { Multiselect } from '@nextcloud/vue'
 export default {
 	name: 'PropertySelect',
 	components: {
-		Multiselect
+		Multiselect,
 	},
 	mixins: [
-		PropertyMixin
+		PropertyMixin,
 	],
 	computed: {
 		display() {
@@ -73,7 +73,7 @@ export default {
 		selectedValue() {
 			const value = this.value || this.propModel.defaultValue
 			return this.options.find((option) => option.value === value)
-		}
+		},
 	},
 	methods: {
 		changeValue(selectedOption) {
@@ -82,7 +82,7 @@ export default {
 			}
 
 			this.$emit('update:value', selectedOption.value)
-		}
-	}
+		},
+	},
 }
 </script>

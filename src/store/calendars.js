@@ -38,7 +38,7 @@ import CalendarComponent from 'calendar-js/src/components/calendarComponent.js'
 const state = {
 	calendars: [],
 	calendarsById: {},
-	initialCalendarsLoaded: false
+	initialCalendarsLoaded: false,
 }
 
 const mutations = {
@@ -209,7 +209,7 @@ const mutations = {
 			writeable: false,
 			isGroup,
 			isCircle,
-			uri
+			uri,
 		}
 		state.calendarsById[calendar.id].shares.push(newSharee)
 	},
@@ -224,7 +224,7 @@ const mutations = {
 	 */
 	unshareCalendar(state, { calendar, uri }) {
 		calendar = state.calendars.find(search => search.id === calendar.id)
-		let shareIndex = calendar.shares.findIndex(sharee => sharee.uri === uri)
+		const shareIndex = calendar.shares.findIndex(sharee => sharee.uri === uri)
 		calendar.shares.splice(shareIndex, 1)
 	},
 
@@ -238,7 +238,7 @@ const mutations = {
 	 */
 	toggleCalendarShareWritable(state, { calendar, uri }) {
 		calendar = state.calendars.find(search => search.id === calendar.id)
-		let sharee = calendar.shares.find(sharee => sharee.uri === uri)
+		const sharee = calendar.shares.find(sharee => sharee.uri === uri)
 		sharee.writeable = !sharee.writeable
 	},
 
@@ -296,7 +296,7 @@ const mutations = {
 	 */
 	markCalendarAsNotLoading(state, { calendar }) {
 		state.calendarsById[calendar.id].loading = false
-	}
+	},
 }
 
 const getters = {
@@ -401,7 +401,7 @@ const getters = {
 
 			return true
 		})
-	}
+	},
 }
 
 const actions = {
@@ -714,12 +714,12 @@ const actions = {
 					from: getUnixTimestampFromDate(from),
 					to: getUnixTimestampFromDate(to),
 					lastFetched: getUnixTimestampFromDate(dateFactory()),
-					calendarObjectIds: []
+					calendarObjectIds: [],
 				})
 				const insertId = context.getters.getLastTimeRangeInsertId
 				context.commit('addFetchedTimeRangeToCalendar', {
 					calendar,
-					fetchedTimeRangeId: insertId
+					fetchedTimeRangeId: insertId,
 				})
 
 				const calendarObjects = []
@@ -734,7 +734,7 @@ const actions = {
 				context.commit('appendCalendarObjectsToCalendar', { calendar, calendarObjectIds })
 				context.commit('appendCalendarObjectIdsToTimeFrame', {
 					timeRangeId: insertId,
-					calendarObjectIds
+					calendarObjectIds,
 				})
 
 				context.commit('markCalendarAsNotLoading', { calendar })
@@ -775,9 +775,9 @@ const actions = {
 		context.commit('appendCalendarObject', { calendarObject })
 		context.commit('addCalendarObjectToCalendar', {
 			calendar: {
-				id: calendarId
+				id: calendarId,
 			},
-			calendarObjectId: calendarObject.id
+			calendarObjectId: calendarObject.id,
 		})
 	},
 
@@ -799,7 +799,7 @@ const actions = {
 			const calendarId = context.rootState.importFiles.importCalendarRelation[file.id]
 			if (calendarId === 'new') {
 				const displayName = file.parser.getName() || translate('calendar', 'Imported {filename}', {
-					filename: file.name
+					filename: file.name,
 				})
 				const color = file.parser.getColor() || uidToHexColor(displayName)
 				const components = []
@@ -819,7 +819,7 @@ const actions = {
 						context.commit('addCalendar', { calendar })
 						context.commit('setCalendarForFileId', {
 							fileId: file.id,
-							calendarId: calendar.id
+							calendarId: calendar.id,
 						})
 					})
 					.catch((error) => { throw error })
@@ -843,11 +843,11 @@ const actions = {
 						context.commit('appendCalendarObject', { calendarObject })
 						context.commit('addCalendarObjectToCalendar', {
 							calendar,
-							calendarObjectId: calendarObject.id
+							calendarObjectId: calendarObject.id,
 						})
 						context.commit('addCalendarObjectIdToAllTimeRangesOfCalendar', {
 							calendarId: calendar.id,
-							calendarObjectId: calendarObject.id
+							calendarObjectId: calendarObject.id,
 						})
 						context.commit('incrementAccepted')
 					}).catch((error) => {
@@ -862,7 +862,7 @@ const actions = {
 		return Promise.all(requests).then(() => {
 			context.commit('changeStage', 'default')
 		})
-	}
+	},
 }
 
 export default { state, mutations, getters, actions }

@@ -65,7 +65,7 @@ export default {
 	components: {
 		ActionCheckbox,
 		RepeatFirstLastSelect,
-		RepeatOnTheSelect
+		RepeatOnTheSelect,
 	},
 	props: {
 		/**
@@ -73,22 +73,22 @@ export default {
 		 */
 		byDay: {
 			type: Array,
-			required: true
+			required: true,
 		},
 		/**
 		 *
 		 */
 		byMonth: {
 			type: Array,
-			required: true
+			required: true,
 		},
 		/**
 		 *
 		 */
 		bySetPosition: {
 			type: Number,
-			default: null
-		}
+			default: null,
+		},
 	},
 	computed: {
 		options() {
@@ -99,51 +99,51 @@ export default {
 			return [{
 				label: monthNamesShort[0],
 				value: 1,
-				selected: this.byMonth.includes(1)
+				selected: this.byMonth.includes(1),
 			}, {
 				label: monthNamesShort[1],
 				value: 2,
-				selected: this.byMonth.includes(2)
+				selected: this.byMonth.includes(2),
 			}, {
 				label: monthNamesShort[2],
 				value: 3,
-				selected: this.byMonth.includes(3)
+				selected: this.byMonth.includes(3),
 			}, {
 				label: monthNamesShort[3],
 				value: 4,
-				selected: this.byMonth.includes(4)
+				selected: this.byMonth.includes(4),
 			}, {
 				label: monthNamesShort[4],
 				value: 5,
-				selected: this.byMonth.includes(5)
+				selected: this.byMonth.includes(5),
 			}, {
 				label: monthNamesShort[5],
 				value: 6,
-				selected: this.byMonth.includes(6)
+				selected: this.byMonth.includes(6),
 			}, {
 				label: monthNamesShort[6],
 				value: 7,
-				selected: this.byMonth.includes(7)
+				selected: this.byMonth.includes(7),
 			}, {
 				label: monthNamesShort[7],
 				value: 8,
-				selected: this.byMonth.includes(8)
+				selected: this.byMonth.includes(8),
 			}, {
 				label: monthNamesShort[8],
 				value: 9,
-				selected: this.byMonth.includes(9)
+				selected: this.byMonth.includes(9),
 			}, {
 				label: monthNamesShort[9],
 				value: 10,
-				selected: this.byMonth.includes(10)
+				selected: this.byMonth.includes(10),
 			}, {
 				label: monthNamesShort[10],
 				value: 11,
-				selected: this.byMonth.includes(11)
+				selected: this.byMonth.includes(11),
 			}, {
 				label: monthNamesShort[11],
 				value: 12,
-				selected: this.byMonth.includes(12)
+				selected: this.byMonth.includes(12),
 			}]
 		},
 		/**
@@ -153,7 +153,7 @@ export default {
 		 */
 		isBySetPositionEnabled() {
 			return this.bySetPosition !== null
-		}
+		},
 	},
 	methods: {
 
@@ -185,7 +185,7 @@ export default {
 		},
 		changeBySetPosition(value) {
 			this.$emit('changeBySetPosition', value)
-		}
-	}
+		},
+	},
 }
 </script>

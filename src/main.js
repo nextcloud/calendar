@@ -65,5 +65,5 @@ export default new Vue({
 	el: '#content',
 	router,
 	store,
-	render: h => h(App)
+	render: h => h(App),
 })

@@ -49,13 +49,13 @@ export default {
 		},
 		selectedView() {
 			return this.$route.params.view
-		}
+		},
 	},
 	methods: {
 		view(viewName) {
 			const name = this.$route.name
 			const params = Object.assign({}, this.$route.params, {
-				view: viewName
+				view: viewName,
 			})
 
 			// Don't push new route when view didn't change
@@ -64,7 +64,7 @@ export default {
 			}
 
 			this.$router.push({ name, params })
-		}
-	}
+		},
+	},
 }
 </script>

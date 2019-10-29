@@ -35,8 +35,8 @@ export default {
 	props: {
 		option: {
 			type: String,
-			required: true
-		}
+			required: true,
+		},
 	},
 	computed: {
 		colorObject() {
@@ -45,7 +45,7 @@ export default {
 		color() {
 			const color = this.colorObject
 			return `rgb(${color.r},${color.g},${color.b})`
-		}
-	}
+		},
+	},
 }
 </script>

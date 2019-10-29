@@ -23,7 +23,7 @@ import Vue from 'vue'
 
 const state = {
 	contacts: [],
-	contactByEMail: {}
+	contactByEMail: {},
 }
 
 const mutations = {
@@ -82,7 +82,7 @@ const mutations = {
 		if (index !== -1) {
 			state.contacts.splice(index, 1)
 		}
-	}
+	},
 }
 
 const getters = {}

@@ -22,7 +22,7 @@
 import Vue from 'vue'
 import getTimezoneManager from '../services/timezoneDataProviderService'
 import {
-	getDateFromDateTimeValue
+	getDateFromDateTimeValue,
 } from '../utils/date.js'
 import DurationValue from 'calendar-js/src/values/durationValue.js'
 import AttendeeProperty from 'calendar-js/src/properties/attendeeProperty.js'
@@ -32,12 +32,12 @@ import Property from 'calendar-js/src/properties/property.js'
 import { getBySetPositionAndBySetFromDate, getWeekDayFromDate } from '../utils/recurrence.js'
 import {
 	getAlarmFromAlarmComponent,
-	getDefaultCalendarObjectInstanceObject
+	getDefaultCalendarObjectInstanceObject,
 } from '../models/calendarObjectInstance.js'
 import {
 	getAmountAndUnitForTimedEvents,
 	getAmountHoursMinutesAndUnitForAllDayEvents,
-	getTotalSecondsFromAmountAndUnitForTimedEvents, getTotalSecondsFromAmountHourMinutesAndUnitForAllDayEvents
+	getTotalSecondsFromAmountAndUnitForTimedEvents, getTotalSecondsFromAmountHourMinutesAndUnitForAllDayEvents,
 } from '../utils/alarms.js'
 
 const state = {}
@@ -351,7 +351,7 @@ const mutations = {
 			role,
 			rsvp,
 			uri,
-			attendeeProperty: attendee
+			attendeeProperty: attendee,
 		})
 	},
 
@@ -570,7 +570,7 @@ const mutations = {
 				'BYYEARDAY',
 				'BYWEEKNO',
 				'BYMONTH',
-				'BYSETPOS'
+				'BYSETPOS',
 			]
 
 			for (const part of parts) {
@@ -633,7 +633,7 @@ const mutations = {
 		if (recurrenceRule.recurrenceRuleValue) {
 			const {
 				byDay,
-				bySetPosition
+				bySetPosition,
 			} = getBySetPositionAndBySetFromDate(calendarObjectInstance.startDate)
 			recurrenceRule.recurrenceRuleValue.setComponent('BYDAY', [byDay])
 			recurrenceRule.recurrenceRuleValue.setComponent('BYSETPOS', [bySetPosition])
@@ -1242,7 +1242,7 @@ const mutations = {
 				calendarObjectInstance.alarms.splice(index, 1)
 			}
 		}
-	}
+	},
 }
 
 const getters = {}
@@ -1265,7 +1265,7 @@ const actions = {
 		// of start and end and trigger an update of end if necessary
 		commit('changeStartDate', {
 			calendarObjectInstance,
-			startDate: calendarObjectInstance.startDate
+			startDate: calendarObjectInstance.startDate,
 		})
 	},
 
@@ -1285,7 +1285,7 @@ const actions = {
 		// of start and end and trigger an update of start if necessary
 		commit('changeEndDate', {
 			calendarObjectInstance,
-			endDate: calendarObjectInstance.endDate
+			endDate: calendarObjectInstance.endDate,
 		})
 	},
 
@@ -1312,16 +1312,16 @@ const actions = {
 			commit('changeRecurrenceFrequency', {
 				calendarObjectInstance,
 				recurrenceRule: calendarObjectInstance.recurrenceRule,
-				frequency
+				frequency,
 			})
 			commit('changeRecurrenceInterval', {
 				calendarObjectInstance,
 				recurrenceRule: calendarObjectInstance.recurrenceRule,
-				interval: 1
+				interval: 1,
 			})
 			commit('changeRecurrenceToInfinite', {
 				calendarObjectInstance,
-				recurrenceRule: calendarObjectInstance.recurrenceRule
+				recurrenceRule: calendarObjectInstance.recurrenceRule,
 			})
 			dispatch('setDefaultRecurrenceByParts', { calendarObjectInstance, recurrenceRule, frequency })
 
@@ -1336,7 +1336,7 @@ const actions = {
 			commit('changeRecurrenceFrequency', {
 				calendarObjectInstance,
 				recurrenceRule: calendarObjectInstance.recurrenceRule,
-				frequency
+				frequency,
 			})
 			dispatch('setDefaultRecurrenceByParts', { calendarObjectInstance, recurrenceRule, frequency })
 		}
@@ -1378,7 +1378,7 @@ const actions = {
 	setRecurrenceToInfinite({ commit }, { calendarObjectInstance, recurrenceRule }) {
 		commit('changeRecurrenceToInfinite', {
 			calendarObjectInstance,
-			recurrenceRule
+			recurrenceRule,
 		})
 	},
 
@@ -1421,7 +1421,7 @@ const actions = {
 	enableYearlyRecurrenceBySetPosition({ commit }, { calendarObjectInstance, recurrenceRule }) {
 		commit('setDefaultRecurrenceByPartsForMonthlyBySetPosition', {
 			calendarObjectInstance,
-			recurrenceRule
+			recurrenceRule,
 		})
 	},
 
@@ -1437,11 +1437,11 @@ const actions = {
 		commit('changeRecurrenceByDay', {
 			calendarObjectInstance,
 			recurrenceRule,
-			byDay: []
+			byDay: [],
 		})
 		commit('unsetRecurrenceBySetPosition', {
 			calendarObjectInstance,
-			recurrenceRule
+			recurrenceRule,
 		})
 	},
 
@@ -1496,7 +1496,7 @@ const actions = {
 		commit('changeRecurrenceUntil', {
 			calendarObjectInstance,
 			recurrenceRule,
-			until
+			until,
 		})
 	},
 
@@ -1513,7 +1513,7 @@ const actions = {
 		commit('changeRecurrenceCount', {
 			calendarObjectInstance,
 			recurrenceRule,
-			count: 2 // Default value is two
+			count: 2, // Default value is two
 		})
 	},
 
@@ -1565,7 +1565,7 @@ const actions = {
 
 			commit('changeTimeToDefaultForTimedEvents', { calendarObjectInstance })
 		}
-	}
+	},
 
 }
 

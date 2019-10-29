@@ -46,17 +46,17 @@ import RepeatFreqSelect from './RepeatFreqSelect.vue'
 export default {
 	name: 'RepeatFreqInterval',
 	components: {
-		RepeatFreqSelect
+		RepeatFreqSelect,
 	},
 	props: {
 		frequency: {
 			type: String,
-			required: true
+			required: true,
 		},
 		interval: {
 			type: Number,
-			required: true
-		}
+			required: true,
+		},
 	},
 	computed: {
 		repeatEveryLabel() {
@@ -69,7 +69,7 @@ export default {
 		},
 		isIntervalDisabled() {
 			return this.frequency === 'NONE'
-		}
+		},
 	},
 	methods: {
 		changeFrequency(value) {
@@ -87,7 +87,7 @@ export default {
 			if (selectedValue >= minimumValue && selectedValue <= maximumValue) {
 				this.$emit('changeInterval', selectedValue)
 			}
-		}
-	}
+		},
+	},
 }
 </script>

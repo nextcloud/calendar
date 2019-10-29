@@ -35,7 +35,7 @@ export default {
 		 */
 		propModel: {
 			type: Object,
-			required: true
+			required: true,
 		},
 		/**
 		 * An indicator whether or not the event is being viewed
@@ -43,15 +43,15 @@ export default {
 		 */
 		isReadOnly: {
 			type: Boolean,
-			required: true
+			required: true,
 		},
 		/**
 		 * The value to be displayed inside the property.
 		 * The type varies from property to property.
 		 */
 		value: {
-			required: true
-		}
+			required: true,
+		},
 	},
 	computed: {
 		/**
@@ -109,6 +109,6 @@ export default {
 		 */
 		hasInfo() {
 			return this.propModel.info !== undefined && !this.isReadOnly
-		}
-	}
+		},
+	},
 }

@@ -55,25 +55,25 @@
 <script>
 import ImportScreenRow from './ImportScreenRow.vue'
 import {
-	Modal
+	Modal,
 } from '@nextcloud/vue'
 
 export default {
 	name: 'ImportScreen',
 	components: {
 		ImportScreenRow,
-		Modal
+		Modal,
 	},
 	props: {
 		files: {
 			type: Array,
-			required: true
-		}
+			required: true,
+		},
 	},
 	computed: {
 		headerRowKey() {
 			return this._uid + '-header-row'
-		}
+		},
 	},
 	methods: {
 		importCalendar() {
@@ -81,7 +81,7 @@ export default {
 		},
 		cancelImport() {
 			this.$emit('cancel-import')
-		}
-	}
+		},
+	},
 }
 </script>

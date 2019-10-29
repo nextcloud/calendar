@@ -28,6 +28,6 @@
 
 <script>
 export default {
-	name: 'PropertyTitleTimePickerLoadingPlaceholder'
+	name: 'PropertyTitleTimePickerLoadingPlaceholder',
 }
 </script>

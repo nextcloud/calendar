@@ -35,7 +35,7 @@
 		label="dropdownName"
 		@search-change="findAttendees"
 		@select="addAttendee">
-		<!--		<template slot="singleLabel" slot-scope="props"><img class="option__image" :src="props.option.img" alt="No Man’s Sky"><span class="option__desc"><span class="option__title">{{ props.option.title }}</span></span></template>-->
+		<!--<template slot="singleLabel" slot-scope="props"><img class="option__image" :src="props.option.img" alt="No Man’s Sky"><span class="option__desc"><span class="option__title">{{ props.option.title }}</span></span></template>-->
 		<template slot="singleLabel" slot-scope="props">
 			<div class="invitees-search-list-item">
 				<Avatar v-if="props.option.isUser" :user="props.option.avatar" :display-name="props.option.dropdownName" />
@@ -80,7 +80,7 @@
 <script>
 import {
 	Avatar,
-	Multiselect
+	Multiselect,
 } from '@nextcloud/vue'
 import client from '../../../services/caldavService.js'
 import HttpClient from '@nextcloud/axios'
@@ -91,19 +91,19 @@ export default {
 	name: 'InviteesListSearch',
 	components: {
 		Avatar,
-		Multiselect
+		Multiselect,
 	},
 	props: {
 		alreadyInvitedEmails: {
 			type: Array,
-			required: true
-		}
+			required: true,
+		},
 	},
 	data() {
 		return {
 			isLoading: false,
 			inputGiven: false,
-			matches: []
+			matches: [],
 		}
 	},
 	computed: {
@@ -112,7 +112,7 @@ export default {
 		},
 		noResult() {
 			return this.$t('calendar', 'No match found')
-		}
+		},
 	},
 	methods: {
 		findAttendees: debounce(async function(query) {
@@ -122,7 +122,7 @@ export default {
 			if (query.length > 0) {
 				const promises = [
 					this.findAttendeesFromContactsAPI(query),
-					this.findAttendeesFromDAV(query)
+					this.findAttendeesFromDAV(query),
 				]
 
 				const [contactsResults, davResults] = await Promise.all(promises)
@@ -144,7 +144,7 @@ export default {
 							language: null,
 							timezoneId: null,
 							hasMultipleEMails: false,
-							dropdownName: query
+							dropdownName: query,
 						})
 					}
 				}
@@ -163,10 +163,10 @@ export default {
 		},
 		async findAttendeesFromContactsAPI(query) {
 			return HttpClient.post(linkTo('calendar', 'index.php') + '/v1/autocompletion/attendee', {
-				search: query
+				search: query,
 			}).then(({ data }) => {
 				return data.reduce((arr, result) => {
-					let hasMultipleEMails = result.emails.length > 1
+					const hasMultipleEMails = result.emails.length > 1
 
 					result.emails.forEach((email) => {
 						let name
@@ -191,7 +191,7 @@ export default {
 							language: result.lang,
 							timezoneId: result.tzid,
 							hasMultipleEMails,
-							dropdownName: name
+							dropdownName: name,
 						})
 					})
 
@@ -228,14 +228,14 @@ export default {
 						isUser: principal.calendarUserType === 'INDIVIDUAL',
 						avatar: principal.userId,
 						hasMultipleEMails: false,
-						dropdownName: principal.displayname || principal.email
+						dropdownName: principal.displayname || principal.email,
 					}
 				})
 			}).catch((e) => {
 				console.debug('ERROR', e)
 				return []
 			})
-		}
-	}
+		},
+	},
 }
 </script>

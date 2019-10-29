@@ -40,13 +40,13 @@ export default {
 	computed: {
 		title() {
 			return moment().format('ll')
-		}
+		},
 	},
 	methods: {
 		today() {
 			const name = this.$route.name
 			const params = Object.assign({}, this.$route.params, {
-				firstDay: 'now'
+				firstDay: 'now',
 			})
 
 			// Don't push new route when day didn't change
@@ -55,7 +55,7 @@ export default {
 			}
 
 			this.$router.push({ name, params })
-		}
-	}
+		},
+	},
 }
 </script>

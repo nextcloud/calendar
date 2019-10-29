@@ -69,7 +69,7 @@ export const getDefaultCalendarObject = (props = {}) => Object.assign({}, {
 	// All calendar-objects from this calendar that have already been fetched
 	calendarObjects: [],
 	// Time-ranges that have already been fetched for this calendar
-	fetchedTimeRanges: []
+	fetchedTimeRanges: [],
 }, props)
 
 /**
@@ -127,7 +127,7 @@ export function mapDavCollectionToCalendar(calendar, currentUserPrincipal) {
 		enabled = !isSharedWithMe
 	}
 
-	let shares = []
+	const shares = []
 	if (!!currentUserPrincipal && Array.isArray(calendar.shares)) {
 		for (const share of calendar.shares) {
 			if (share.href === currentUserPrincipal.principalScheme) {
@@ -156,7 +156,7 @@ export function mapDavCollectionToCalendar(calendar, currentUserPrincipal) {
 		canBePublished,
 		shares,
 		timezone,
-		dav: calendar
+		dav: calendar,
 	}
 }
 
@@ -193,6 +193,6 @@ export function mapDavShareeToSharee(sharee) {
 		writeable,
 		isGroup,
 		isCircle,
-		uri
+		uri,
 	}
 }

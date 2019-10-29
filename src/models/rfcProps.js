@@ -30,23 +30,23 @@ export default {
 		options: [
 			{ value: 'PUBLIC', label: translate('calendar', 'When shared show full event') },
 			{ value: 'CONFIDENTIAL', label: translate('calendar', 'When shared show only busy') },
-			{ value: 'PRIVATE', label: translate('calendar', 'When shared hide this event') }
+			{ value: 'PRIVATE', label: translate('calendar', 'When shared hide this event') },
 		],
 		multiple: false,
 		info: translate('calendar', 'The visibility of this event in shared calendars.'),
-		defaultValue: 'PUBLIC'
+		defaultValue: 'PUBLIC',
 	},
 	location: {
 		name: 'location',
 		readableName: translate('calendar', 'Location'),
 		placeholder: translate('calendar', 'Add a location'),
-		icon: 'icon-address'
+		icon: 'icon-address',
 	},
 	description: {
 		name: 'description',
 		readableName: translate('calendar', 'Description'),
 		placeholder: translate('calendar', 'Add a description'),
-		icon: 'icon-menu'
+		icon: 'icon-menu',
 	},
 	geo: {
 		name: 'geo',
@@ -54,7 +54,7 @@ export default {
 		icon: 'icon-timezone',
 		multiple: false,
 		default: false,
-		info: translate('calendar', 'The geographical position this events take place at.')
+		info: translate('calendar', 'The geographical position this events take place at.'),
 	},
 	priority: {
 		readableName: translate('calendar', 'Priority'),
@@ -65,8 +65,8 @@ export default {
 		options: [
 			{ value: 7, label: translate('calendar', 'Low') },
 			{ value: 5, label: translate('calendar', 'Medium') },
-			{ value: 3, label: translate('calendar', 'High') }
-		]
+			{ value: 3, label: translate('calendar', 'High') },
+		],
 
 	},
 	status: {
@@ -76,12 +76,12 @@ export default {
 		options: [
 			{ value: 'CONFIRMED', label: translate('calendar', 'Confirmed') },
 			{ value: 'TENTATIVE', label: translate('calendar', 'Tentative') },
-			{ value: 'CANCELLED', label: translate('calendar', 'Cancelled') }
+			{ value: 'CANCELLED', label: translate('calendar', 'Cancelled') },
 		],
 		multiple: false,
 		default: true,
 		info: translate('calendar', 'Confirmation about the overall status of the event.'),
-		defaultValue: 'CONFIRMED'
+		defaultValue: 'CONFIRMED',
 	},
 	timeTransparency: {
 		name: 'timeTransparency',
@@ -92,22 +92,21 @@ export default {
 		info: translate('calendar', 'Take this event into account when calculating free-busy information'),
 		options: [
 			{ value: 'TRANSPARENT', label: translate('calendar', 'Free') },
-			{ value: 'OPAQUE', label: translate('calendar', 'Busy') }
+			{ value: 'OPAQUE', label: translate('calendar', 'Busy') },
 		],
-		defaultValue: 'TRANSPARENT'
+		defaultValue: 'TRANSPARENT',
 	},
 	// url: {
-	// 	readableName: translate('calendar', 'URL'),
-	// 	icon: '',
-	// 	multiple: false,
-	// 	default: false,
-	// 	info: translate('calendar', '')
+	// readableName: translate('calendar', 'URL'),
+	// icon: '',
+	// multiple: false,
+	// default: false,
+	// info: translate('calendar', '')
 	// },
 	// To be implemented later:
 	// attach: {
-	// 	readableName: translate('calendar', 'Attachments'),
-	// 	multiple: true,
-	//
+	// readableName: translate('calendar', 'Attachments'),
+	// multiple: true,
 	// },
 	categories: {
 		readableName: translate('calendar', 'Categories'),
@@ -117,14 +116,14 @@ export default {
 		info: translate('calendar', 'Categories help you to structure and organize your events'),
 		placeholder: translate('calendar', 'Search or add categories'),
 		tagPlaceholder: translate('calendar', 'Add this as a new category'),
-		options: getDefaultCategories()
+		options: getDefaultCategories(),
 	},
 	resources: {
 		readableName: translate('calendar', 'Additional resources'),
 		icon: '',
 		multiple: true,
 		default: false,
-		info: translate('calendar', '')
+		info: translate('calendar', ''),
 
 	},
 	// RFC 7986
@@ -133,12 +132,12 @@ export default {
 		icon: '',
 		multiple: false,
 		default: false,
-		info: translate('calendar', 'Special color of this event. Overrides the calendar-color.')
-	}
+		info: translate('calendar', 'Special color of this event. Overrides the calendar-color.'),
+	},
 	// To be implemented later:
 	// conference: {
-	// 	readableName: translate('calendar', 'Conference system'),
-	// 	icon: '',
-	// 	multiple: false,
+	// readableName: translate('calendar', 'Conference system'),
+	// icon: '',
+	// multiple: false,
 	// },
 }

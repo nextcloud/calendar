@@ -72,7 +72,7 @@ export default {
 	components: {
 		RepeatOnTheSelect,
 		RepeatFirstLastSelect,
-		ActionRadio
+		ActionRadio,
 	},
 	props: {
 		/**
@@ -80,22 +80,22 @@ export default {
 		 */
 		byDay: {
 			type: Array,
-			required: true
+			required: true,
 		},
 		/**
 		 *
 		 */
 		byMonthDay: {
 			type: Array,
-			required: true
+			required: true,
 		},
 		/**
 		 *
 		 */
 		bySetPosition: {
 			type: Number,
-			default: null
-		}
+			default: null,
+		},
 	},
 	computed: {
 		/**
@@ -108,7 +108,7 @@ export default {
 				options.push({
 					label: i,
 					value: String(i),
-					selected: this.byMonthDay.indexOf(String(i)) !== -1
+					selected: this.byMonthDay.indexOf(String(i)) !== -1,
 				})
 			}
 
@@ -125,7 +125,7 @@ export default {
 		 */
 		radioInputId() {
 			return this._uid + '-radio-select'
-		}
+		},
 	},
 	methods: {
 		/**
@@ -160,7 +160,7 @@ export default {
 		},
 		changeBySetPosition(value) {
 			this.$emit('changeBySetPosition', value)
-		}
-	}
+		},
+	},
 }
 </script>

@@ -96,7 +96,7 @@ import DatePicker from '../../Shared/DatePicker.vue'
 export default {
 	name: 'PropertyTitleTimePicker',
 	components: {
-		DatePicker
+		DatePicker,
 	},
 	props: {
 		/**
@@ -104,42 +104,42 @@ export default {
 		 */
 		isReadOnly: {
 			type: Boolean,
-			required: true
+			required: true,
 		},
 		/**
 		 * Start date of the event
 		 */
 		startDate: {
 			type: Date,
-			required: true
+			required: true,
 		},
 		/**
 		 * Timezone of the start date
 		 */
 		startTimezone: {
 			type: String,
-			required: true
+			required: true,
 		},
 		/**
 		 * End date of the event
 		 */
 		endDate: {
 			type: Date,
-			required: true
+			required: true,
 		},
 		/**
 		 * Timezone of the end date
 		 */
 		endTimezone: {
 			type: String,
-			required: true
+			required: true,
 		},
 		/**
 		 * Whether or not the event is all-day
 		 */
 		isAllDay: {
 			type: Boolean,
-			required: true
+			required: true,
 		},
 		/**
 		 * Whether or not the user can toggle the all-day property
@@ -147,7 +147,7 @@ export default {
 		 */
 		canModifyAllDay: {
 			type: Boolean,
-			required: true
+			required: true,
 		},
 		/**
 		 * The current timezone of the user
@@ -155,13 +155,13 @@ export default {
 		 */
 		userTimezone: {
 			type: String,
-			required: true
-		}
+			required: true,
+		},
 	},
 	data() {
 		return {
 			showStartTimezone: false,
-			showEndTimezone: false
+			showEndTimezone: false,
 		}
 	},
 	computed: {
@@ -192,7 +192,7 @@ export default {
 				'[',
 				this.$t('calendar', 'from'),
 				'] ',
-				moment.localeData().longDateFormat('L')
+				moment.localeData().longDateFormat('L'),
 			]
 
 			if (this.isAllDay) {
@@ -218,7 +218,7 @@ export default {
 				'[',
 				this.$t('calendar', 'to'),
 				'] ',
-				moment.localeData().longDateFormat('L')
+				moment.localeData().longDateFormat('L'),
 			]
 
 			if (this.isAllDay) {
@@ -254,13 +254,13 @@ export default {
 			if (this.isAllDay) {
 				return this.$t('calendar', 'from {startDate}', {
 					startDate: moment(this.startDate).format('L'),
-					endDate: moment(this.endDate).format('L')
+					endDate: moment(this.endDate).format('L'),
 				})
 			}
 
 			return this.$t('calendar', 'from {startDate} at {startTime}', {
 				startDate: moment(this.startDate).format('L'),
-				startTime: moment(this.startDate).format('LT')
+				startTime: moment(this.startDate).format('LT'),
 			})
 		},
 		/**
@@ -270,13 +270,13 @@ export default {
 		formattedEnd() {
 			if (this.isAllDay) {
 				return this.$t('calendar', 'to {endDate}', {
-					endDate: moment(this.endDate).format('L')
+					endDate: moment(this.endDate).format('L'),
 				})
 			}
 
 			return this.$t('calendar', 'to {endDate} at {endTime}', {
 				endDate: moment(this.endDate).format('L'),
-				endTime: moment(this.endDate).format('LT')
+				endTime: moment(this.endDate).format('LT'),
 			})
 		},
 		/**
@@ -290,7 +290,7 @@ export default {
 		 */
 		highlightEndTimezone() {
 			return this.endTimezone !== this.userTimezone
-		}
+		},
 	},
 	methods: {
 		/**
@@ -360,7 +360,7 @@ export default {
 			}
 
 			this.$emit('toggleAllDay')
-		}
-	}
+		},
+	},
 }
 </script>

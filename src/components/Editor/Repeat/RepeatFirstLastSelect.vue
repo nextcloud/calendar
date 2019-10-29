@@ -38,7 +38,7 @@ import { Multiselect } from '@nextcloud/vue'
 export default {
 	name: 'RepeatFirstLastSelect',
 	components: {
-		Multiselect
+		Multiselect,
 	},
 	props: {
 		/**
@@ -46,44 +46,44 @@ export default {
 		 */
 		bySetPosition: {
 			type: Number,
-			default: null
+			default: null,
 		},
 		/**
 		 *
 		 */
 		disabled: {
 			type: Boolean,
-			required: true
-		}
+			required: true,
+		},
 	},
 	computed: {
 		options() {
 			return [{
 				label: this.$t('calendar', 'first'),
-				value: 1
+				value: 1,
 			}, {
 				label: this.$t('calendar', 'second'),
-				value: 2
+				value: 2,
 			}, {
 				label: this.$t('calendar', 'third'),
-				value: 3
+				value: 3,
 			}, {
 				label: this.$t('calendar', 'fourth'),
-				value: 4
+				value: 4,
 			}, {
 				label: this.$t('calendar', 'fifth'),
-				value: 5
+				value: 5,
 			}, {
 				label: this.$t('calendar', 'second to last'),
-				value: -2
+				value: -2,
 			}, {
 				label: this.$t('calendar', 'last'),
-				value: -1
+				value: -1,
 			}]
 		},
 		selected() {
 			return this.options.find(option => option.value === this.bySetPosition)
-		}
+		},
 	},
 	methods: {
 		select(value) {
@@ -94,7 +94,7 @@ export default {
 			console.debug(value)
 
 			this.$emit('change', value.value)
-		}
-	}
+		},
+	},
 }
 </script>

@@ -64,7 +64,7 @@ export const getDefaultCalendarObjectInstanceObject = (props = {}) => Object.ass
 		byMonthDay: [],
 		bySetPosition: null,
 		isUnsupported: false,
-		recurrenceRuleValue: null
+		recurrenceRuleValue: null,
 	},
 	// Attendees of this event
 	attendees: [],
@@ -73,7 +73,7 @@ export const getDefaultCalendarObjectInstanceObject = (props = {}) => Object.ass
 		// name of the organizer
 		name: null,
 		// email of the organzier:
-		uri: null
+		uri: null,
 	},
 	// Alarm of the event
 	alarms: [],
@@ -84,7 +84,7 @@ export const getDefaultCalendarObjectInstanceObject = (props = {}) => Object.ass
 	// Wether or not the user is allowed to toggle the all-day checkbox
 	canModifyAllDay: true,
 	// The real event-component coming from calendar-js
-	eventComponent: null
+	eventComponent: null,
 }, props)
 
 /**
@@ -103,7 +103,7 @@ export const mapEventComponentToCalendarObjectInstanceObject = (eventComponent) 
 		timeTransparency: eventComponent.timeTransparency,
 		color: eventComponent.color,
 		canModifyAllDay: eventComponent.canModifyAllDay(),
-		eventComponent
+		eventComponent,
 	}
 
 	// The end date of an event is non-inclusive. This is rather intuitive for timed-events, but very unintuitive for all-day events.
@@ -143,7 +143,7 @@ function getOrganizerFromEventComponent(eventComponent) {
 		const organizerProperty = eventComponent.getFirstProperty('ORGANIZER')
 		return {
 			commonName: organizerProperty.commonName,
-			uri: organizerProperty.email
+			uri: organizerProperty.email,
 		}
 	}
 
@@ -180,7 +180,7 @@ function getRecurrenceRuleFromEventComponent(eventComponent) {
 			byMonthDay: [],
 			bySetPosition: null,
 			isUnsupported: false,
-			recurrenceRuleValue: recurrenceRule
+			recurrenceRuleValue: recurrenceRule,
 		}
 
 		if (recurrenceRule.until) {
@@ -222,7 +222,7 @@ function getRecurrenceRuleFromEventComponent(eventComponent) {
 		byMonthDay: [],
 		bySetPosition: null,
 		isUnsupported: false,
-		recurrenceRuleValue: null
+		recurrenceRuleValue: null,
 	}
 }
 
@@ -260,7 +260,7 @@ function getAttendeesFromEventComponent(eventComponent) {
 			role: attendee.role,
 			rsvp: attendee.rsvp,
 			uri: attendee.email,
-			attendeeProperty: attendee
+			attendeeProperty: attendee,
 		})
 	}
 
@@ -319,7 +319,7 @@ function getRecurrenceComponentFromDailyRule(recurrenceRule, recurrenceComponent
 		'BYYEARDAY',
 		'BYWEEKNO',
 		'BYMONTH',
-		'BYSETPOS'
+		'BYSETPOS',
 	]
 
 	if (containsRecurrenceComponent(recurrenceRule, forbiddenComponents)) {
@@ -352,7 +352,7 @@ function getRecurrenceComponentFromWeeklyRule(recurrenceRule, recurrenceComponen
 		'BYYEARDAY',
 		'BYWEEKNO',
 		'BYMONTH',
-		'BYSETPOS'
+		'BYSETPOS',
 	]
 
 	if (containsRecurrenceComponent(recurrenceRule, forbiddenComponents)) {
@@ -406,7 +406,7 @@ function getRecurrenceComponentFromMonthlyRule(recurrenceRule, recurrenceCompone
 		'BYHOUR',
 		'BYYEARDAY',
 		'BYWEEKNO',
-		'BYMONTH'
+		'BYMONTH',
 	]
 
 	if (containsRecurrenceComponent(recurrenceRule, forbiddenComponents)) {
@@ -505,7 +505,7 @@ function getRecurrenceComponentFromYearlyRule(recurrenceRule, recurrenceComponen
 		'BYHOUR',
 		'BYMONTHDAY',
 		'BYYEARDAY',
-		'BYWEEKNO'
+		'BYWEEKNO',
 	]
 
 	if (containsRecurrenceComponent(recurrenceRule, forbiddenComponents)) {
@@ -581,7 +581,7 @@ function isAllowedByDay(byDay) {
 		'SU',
 		'FR,MO,SA,SU,TH,TU,WE',
 		'FR,MO,TH,TU,WE',
-		'SA,SU'
+		'SA,SU',
 	]
 
 	return allowedByDay.includes(byDay.slice().sort().join(','))
@@ -601,7 +601,7 @@ function isAllowedBySetPos(bySetPos) {
 		'2',
 		'3',
 		'4',
-		'5'
+		'5',
 	]
 
 	return allowedBySetPos.includes(bySetPos.toString())

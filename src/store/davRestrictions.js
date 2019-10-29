@@ -21,7 +21,7 @@
  */
 const state = {
 	minimumDate: '1970-01-01T00:00:00Z',
-	maximumDate: '2036-12-31T23:59:59Z'
+	maximumDate: '2036-12-31T23:59:59Z',
 }
 
 const mutations = {
@@ -35,7 +35,7 @@ const mutations = {
 	loadDavRestrictionsFromServer(state, davRestrictions) {
 		state.minimumDate = davRestrictions.minimumDate
 		state.maximumDate = davRestrictions.maximumDate
-	}
+	},
 }
 
 const getters = {}

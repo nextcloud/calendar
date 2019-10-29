@@ -15,28 +15,28 @@
 
 <script>
 import {
-	Multiselect
+	Multiselect,
 } from '@nextcloud/vue'
 import {
 	getReadableTimezoneName,
-	getSortedTimezoneList
+	getSortedTimezoneList,
 } from '../../utils/timezone.js'
 import getTimezoneManager from '../../services/timezoneDataProviderService.js'
 
 export default {
 	name: 'TimezoneSelect',
 	components: {
-		Multiselect
+		Multiselect,
 	},
 	props: {
 		additionalTimezones: {
 			type: Array,
-			default: () => []
+			default: () => [],
 		},
 		value: {
 			type: String,
-			required: true
-		}
+			required: true,
+		},
 	},
 	computed: {
 		placeholder() {
@@ -52,14 +52,14 @@ export default {
 
 				return {
 					label: getReadableTimezoneName(this.value),
-					timezoneId: this.value
+					timezoneId: this.value,
 				}
-			}
+			},
 		},
 		options() {
 			const timezoneManager = getTimezoneManager()
 			return getSortedTimezoneList(timezoneManager.listAllTimezones(), this.additionalTimezones)
-		}
+		},
 	},
 	methods: {
 		change(newValue) {
@@ -68,7 +68,7 @@ export default {
 			}
 
 			this.$emit('change', newValue.timezoneId)
-		}
-	}
+		},
+	},
 }
 </script>

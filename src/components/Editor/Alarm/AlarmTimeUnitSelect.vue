@@ -33,31 +33,31 @@
 
 <script>
 import {
-	Multiselect
+	Multiselect,
 } from '@nextcloud/vue'
 
 export default {
 	name: 'AlarmTimeUnitSelect',
 	components: {
-		Multiselect
+		Multiselect,
 	},
 	props: {
 		unit: {
 			type: String,
-			required: true
+			required: true,
 		},
 		isAllDay: {
 			type: Boolean,
-			required: true
+			required: true,
 		},
 		count: {
 			type: Number,
-			required: true
+			required: true,
 		},
 		disabled: {
 			type: Boolean,
-			required: true
-		}
+			required: true,
+		},
 	},
 	computed: {
 		/**
@@ -74,28 +74,28 @@ export default {
 			if (this.unit === 'seconds') {
 				options.push({
 					'label': this.$n('calendar', 'second', 'seconds', this.count),
-					'unit': 'seconds'
+					'unit': 'seconds',
 				})
 			}
 
 			if (!this.isAllDay || ['minutes', 'hours'].indexOf(this.unit) !== -1) {
 				options.push({
 					'label': this.$n('calendar', 'minute', 'minutes', this.count),
-					'unit': 'minutes'
+					'unit': 'minutes',
 				})
 				options.push({
 					'label': this.$n('calendar', 'hour', 'hours', this.count),
-					'unit': 'hours'
+					'unit': 'hours',
 				})
 			}
 
 			options.push({
 				'label': this.$n('calendar', 'day', 'days', this.count),
-				'unit': 'days'
+				'unit': 'days',
 			})
 			options.push({
 				'label': this.$n('calendar', 'week', 'weeks', this.count),
-				'unit': 'weeks'
+				'unit': 'weeks',
 			})
 
 			return options
@@ -107,7 +107,7 @@ export default {
 		 */
 		selected() {
 			return this.options.find(o => o.unit === this.unit)
-		}
+		},
 	},
 	methods: {
 		/**
@@ -121,7 +121,7 @@ export default {
 			}
 
 			this.$emit('change', value.unit)
-		}
-	}
+		},
+	},
 }
 </script>

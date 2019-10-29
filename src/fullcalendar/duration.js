@@ -51,7 +51,7 @@ export function getDurationValueFromFullCalendarDuration(fcDuration) {
  */
 export function getFullCalendarDurationFromDurationValue(durationValue) {
 	return {
-		seconds: durationValue.totalSeconds
+		seconds: durationValue.totalSeconds,
 	}
 }
 
@@ -69,47 +69,47 @@ function getDurationValueFromFullCalendarDurationEncodedAsObject(fcDuration) {
 	const durations = []
 	if (fcDuration.days) {
 		durations.push(DurationValue.fromData({
-			days: fcDuration.days
+			days: fcDuration.days,
 		}))
 	}
 	if (fcDuration.day) {
 		durations.push(DurationValue.fromData({
-			days: fcDuration.day
+			days: fcDuration.day,
 		}))
 	}
 	if (fcDuration.minutes) {
 		durations.push(DurationValue.fromData({
-			minutes: fcDuration.minutes
+			minutes: fcDuration.minutes,
 		}))
 	}
 	if (fcDuration.minute) {
 		durations.push(DurationValue.fromData({
-			minutes: fcDuration.minute
+			minutes: fcDuration.minute,
 		}))
 	}
 	if (fcDuration.seconds) {
 		durations.push(DurationValue.fromData({
-			seconds: fcDuration.seconds
+			seconds: fcDuration.seconds,
 		}))
 	}
 	if (fcDuration.second) {
 		durations.push(DurationValue.fromData({
-			seconds: fcDuration.second
+			seconds: fcDuration.second,
 		}))
 	}
 	if (fcDuration.milliseconds) {
 		durations.push(DurationValue.fromData({
-			seconds: Math.floor(fcDuration.milliseconds / 1000)
+			seconds: Math.floor(fcDuration.milliseconds / 1000),
 		}))
 	}
 	if (fcDuration.millisecond) {
 		durations.push(DurationValue.fromData({
-			seconds: Math.floor(fcDuration.millisecond / 1000)
+			seconds: Math.floor(fcDuration.millisecond / 1000),
 		}))
 	}
 	if (fcDuration.ms) {
 		durations.push(DurationValue.fromData({
-			seconds: Math.floor(fcDuration.ms / 1000)
+			seconds: Math.floor(fcDuration.ms / 1000),
 		}))
 	}
 
@@ -135,7 +135,7 @@ function getDurationValueFromFullCalendarDurationEncodedAsString(fcDuration) {
 		return DurationValue.fromData({
 			hours: parseInt(hours, 10),
 			minutes: parseInt(minutes, 10),
-			seconds: parseInt(seconds, 10)
+			seconds: parseInt(seconds, 10),
 		})
 	}
 
@@ -146,7 +146,7 @@ function getDurationValueFromFullCalendarDurationEncodedAsString(fcDuration) {
 		return DurationValue.fromData({
 			hours: parseInt(hours, 10),
 			minutes: parseInt(minutes, 10),
-			seconds: parseInt(seconds, 10)
+			seconds: parseInt(seconds, 10),
 		})
 	}
 
@@ -156,7 +156,7 @@ function getDurationValueFromFullCalendarDurationEncodedAsString(fcDuration) {
 
 		return DurationValue.fromData({
 			hours: parseInt(hours, 10),
-			minutes: parseInt(minutes, 10)
+			minutes: parseInt(minutes, 10),
 		})
 	}
 

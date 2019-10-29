@@ -60,17 +60,17 @@ export default {
 		NoInviteesView,
 		InviteesListItem,
 		InviteesListSearch,
-		OrganizerListItem
+		OrganizerListItem,
 	},
 	props: {
 		isReadOnly: {
 			type: Boolean,
-			required: true
+			required: true,
 		},
 		calendarObjectInstance: {
 			type: Object,
-			required: true
-		}
+			required: true,
+		},
 	},
 	computed: {
 		inviteesWithoutOrganizer() {
@@ -126,7 +126,7 @@ export default {
 			}
 
 			return !!principal.emailAddress
-		}
+		},
 	},
 	methods: {
 		addAttendee({ commonName, email, calendarUserType, language, timezoneId }) {
@@ -139,7 +139,7 @@ export default {
 				role: 'REQ-PARTICIPANT',
 				rsvp: true,
 				language,
-				timezoneId
+				timezoneId,
 			})
 
 			if (!this.hasOrganizer) {
@@ -151,16 +151,16 @@ export default {
 				this.$store.commit('setOrganizer', {
 					calendarObjectInstance: this.calendarObjectInstance,
 					commonName: principal.displayname,
-					email: principal.emailAddress
+					email: principal.emailAddress,
 				})
 			}
 		},
 		removeAttendee(attendee) {
 			this.$store.commit('removeAttendee', {
 				calendarObjectInstance: this.calendarObjectInstance,
-				attendee
+				attendee,
 			})
-		}
-	}
+		},
+	},
 }
 </script>

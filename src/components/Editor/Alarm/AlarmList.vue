@@ -48,17 +48,17 @@ export default {
 	components: {
 		NoAlarmView,
 		AlarmListItem,
-		AlarmListNew
+		AlarmListNew,
 	},
 	props: {
 		isReadOnly: {
 			type: Boolean,
-			required: true
+			required: true,
 		},
 		calendarObjectInstance: {
 			type: Object,
-			required: true
-		}
+			required: true,
+		},
 	},
 	computed: {
 		alarms() {
@@ -71,7 +71,7 @@ export default {
 		},
 		isListEmpty() {
 			return this.alarms.length === 0
-		}
+		},
 	},
 	methods: {
 		/**
@@ -88,7 +88,7 @@ export default {
 				this.$store.commit('addAlarmToCalendarObjectInstance', {
 					calendarObjectInstance: this.calendarObjectInstance,
 					type: 'DISPLAY',
-					totalSeconds
+					totalSeconds,
 				})
 				return
 			}
@@ -97,7 +97,7 @@ export default {
 			this.$store.commit('addAlarmToCalendarObjectInstance', {
 				calendarObjectInstance: this.calendarObjectInstance,
 				type: 'DISPLAY',
-				totalSeconds: defaultAlarms[defaultAlarms.length - 1]
+				totalSeconds: defaultAlarms[defaultAlarms.length - 1],
 			})
 		},
 		/**
@@ -108,9 +108,9 @@ export default {
 		removeAlarm(alarm) {
 			this.$store.commit('removeAlarmFromCalendarObjectInstance', {
 				calendarObjectInstance: this.calendarObjectInstance,
-				alarm
+				alarm,
 			})
-		}
-	}
+		},
+	},
 }
 </script>

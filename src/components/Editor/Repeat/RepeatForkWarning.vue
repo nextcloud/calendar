@@ -31,6 +31,6 @@
 
 <script>
 export default {
-	name: 'RepeatForkWarning'
+	name: 'RepeatForkWarning',
 }
 </script>
