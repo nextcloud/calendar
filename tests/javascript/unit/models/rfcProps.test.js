@@ -30,7 +30,65 @@ describe('models/rfcProps test suite', () => {
 
 		expect(rfcProps.accessClass.readableName).toEqual('TRANSLATED:When shared show')
 		expect(rfcProps.accessClass.icon).toEqual('icon-eye')
-		expect(rfcProps.accessClass.options[0].value)
+		expect(rfcProps.accessClass.multiple).toEqual(false)
+		expect(rfcProps.accessClass.info).toEqual('TRANSLATED:The visibility of this event in shared calendars.')
+		expect(rfcProps.accessClass.defaultValue).toEqual('PUBLIC')
+	})
+
+	it('should provide property info for location', () => {
+		expect(rfcProps.location).toEqual(expect.any(Object))
+
+		expect(rfcProps.location.readableName).toEqual('TRANSLATED:Location')
+		expect(rfcProps.location.placeholder).toEqual('TRANSLATED:Add a location')
+		expect(rfcProps.location.icon).toEqual('icon-address')
+	})
+
+	it('should provide property info for description', () => {
+		expect(rfcProps.description).toEqual(expect.any(Object))
+
+		expect(rfcProps.description.readableName).toEqual('TRANSLATED:Description')
+		expect(rfcProps.description.placeholder).toEqual('TRANSLATED:Add a description')
+		expect(rfcProps.description.icon).toEqual('icon-menu')
+	})
+
+	it('should provide property info for status', () => {
+		expect(rfcProps.status).toEqual(expect.any(Object))
+
+		expect(rfcProps.status.readableName).toEqual('TRANSLATED:Status')
+		expect(rfcProps.status.icon).toEqual('icon-checkmark')
+		expect(rfcProps.status.multiple).toEqual(false)
+		expect(rfcProps.status.info).toEqual('TRANSLATED:Confirmation about the overall status of the event.')
+		expect(rfcProps.status.defaultValue).toEqual('CONFIRMED')
+	})
+
+	it('should provide property info for timeTransparency', () => {
+		expect(rfcProps.timeTransparency).toEqual(expect.any(Object))
+
+		expect(rfcProps.timeTransparency.readableName).toEqual('TRANSLATED:Show as')
+		expect(rfcProps.timeTransparency.icon).toEqual('icon-briefcase')
+		expect(rfcProps.timeTransparency.multiple).toEqual(false)
+		expect(rfcProps.timeTransparency.info).toEqual('TRANSLATED:Take this event into account when calculating free-busy information.')
+		expect(rfcProps.timeTransparency.defaultValue).toEqual('TRANSPARENT')
+	})
+
+	it('should provide property info for categories', () => {
+		expect(rfcProps.categories).toEqual(expect.any(Object))
+
+		expect(rfcProps.categories.readableName).toEqual('TRANSLATED:Categories')
+		expect(rfcProps.categories.icon).toEqual('icon-tag')
+		expect(rfcProps.categories.multiple).toEqual(true)
+		expect(rfcProps.categories.info).toEqual('TRANSLATED:Categories help you to structure and organize your events.')
+		expect(rfcProps.categories.placeholder).toEqual('TRANSLATED:Search or add categories')
+		expect(rfcProps.categories.tagPlaceholder).toEqual('TRANSLATED:Add this as a new category')
+	})
+
+	it('should provide property info for color', () => {
+		expect(rfcProps.color).toEqual(expect.any(Object))
+
+		expect(rfcProps.color.readableName).toEqual('TRANSLATED:Custom color')
+		expect(rfcProps.color.multiple).toEqual(false)
+		expect(rfcProps.color.icon).toEqual('icon-color-picker')
+		expect(rfcProps.color.info).toEqual('TRANSLATED:Special color of this event. Overrides the calendar-color.')
 	})
 
 })

@@ -19,125 +19,89 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { translate } from '@nextcloud/l10n'
+import { translate as t } from '@nextcloud/l10n'
 import getDefaultCategories from '../defaults/defaultCategories.js'
 
 export default {
-	// RFC 5545
+	/**
+	 * https://tools.ietf.org/html/rfc5545#section-3.8.1.3
+	 */
 	accessClass: {
-		readableName: translate('calendar', 'When shared show'),
+		readableName: t('calendar', 'When shared show'),
 		icon: 'icon-eye',
 		options: [
-			{ value: 'PUBLIC', label: translate('calendar', 'When shared show full event') },
-			{ value: 'CONFIDENTIAL', label: translate('calendar', 'When shared show only busy') },
-			{ value: 'PRIVATE', label: translate('calendar', 'When shared hide this event') },
+			{ value: 'PUBLIC', label: t('calendar', 'When shared show full event') },
+			{ value: 'CONFIDENTIAL', label: t('calendar', 'When shared show only busy') },
+			{ value: 'PRIVATE', label: t('calendar', 'When shared hide this event') },
 		],
 		multiple: false,
-		info: translate('calendar', 'The visibility of this event in shared calendars.'),
+		info: t('calendar', 'The visibility of this event in shared calendars.'),
 		defaultValue: 'PUBLIC',
 	},
+	/**
+	 * https://tools.ietf.org/html/rfc5545#section-3.8.1.7
+	 */
 	location: {
-		name: 'location',
-		readableName: translate('calendar', 'Location'),
-		placeholder: translate('calendar', 'Add a location'),
+		readableName: t('calendar', 'Location'),
+		placeholder: t('calendar', 'Add a location'),
 		icon: 'icon-address',
 	},
+	/**
+	 * https://tools.ietf.org/html/rfc5545#section-3.8.1.5
+	 */
 	description: {
-		name: 'description',
-		readableName: translate('calendar', 'Description'),
-		placeholder: translate('calendar', 'Add a description'),
+		readableName: t('calendar', 'Description'),
+		placeholder: t('calendar', 'Add a description'),
 		icon: 'icon-menu',
 	},
-	geo: {
-		name: 'geo',
-		readableName: translate('calendar', 'Geographic Position'),
-		icon: 'icon-timezone',
-		multiple: false,
-		default: false,
-		info: translate('calendar', 'The geographical position this events take place at.'),
-	},
-	priority: {
-		readableName: translate('calendar', 'Priority'),
-		icon: '',
-		multiple: false,
-		default: false,
-		info: translate('calendar', 'Priority of this event.'),
-		options: [
-			{ value: 7, label: translate('calendar', 'Low') },
-			{ value: 5, label: translate('calendar', 'Medium') },
-			{ value: 3, label: translate('calendar', 'High') },
-		],
-
-	},
+	/**
+	 * https://tools.ietf.org/html/rfc5545#section-3.8.1.11
+	 */
 	status: {
-		name: 'status',
-		readableName: translate('calendar', 'Status'),
+		readableName: t('calendar', 'Status'),
 		icon: 'icon-checkmark',
 		options: [
-			{ value: 'CONFIRMED', label: translate('calendar', 'Confirmed') },
-			{ value: 'TENTATIVE', label: translate('calendar', 'Tentative') },
-			{ value: 'CANCELLED', label: translate('calendar', 'Cancelled') },
+			{ value: 'CONFIRMED', label: t('calendar', 'Confirmed') },
+			{ value: 'TENTATIVE', label: t('calendar', 'Tentative') },
+			{ value: 'CANCELLED', label: t('calendar', 'Cancelled') },
 		],
 		multiple: false,
-		default: true,
-		info: translate('calendar', 'Confirmation about the overall status of the event.'),
+		info: t('calendar', 'Confirmation about the overall status of the event.'),
 		defaultValue: 'CONFIRMED',
 	},
+	/**
+	 * https://tools.ietf.org/html/rfc5545#section-3.8.2.7
+	 */
 	timeTransparency: {
-		name: 'timeTransparency',
-		readableName: translate('calendar', 'Show as'),
+		readableName: t('calendar', 'Show as'),
 		icon: 'icon-briefcase',
 		multiple: false,
-		default: true,
-		info: translate('calendar', 'Take this event into account when calculating free-busy information'),
+		info: t('calendar', 'Take this event into account when calculating free-busy information.'),
 		options: [
-			{ value: 'TRANSPARENT', label: translate('calendar', 'Free') },
-			{ value: 'OPAQUE', label: translate('calendar', 'Busy') },
+			{ value: 'TRANSPARENT', label: t('calendar', 'Free') },
+			{ value: 'OPAQUE', label: t('calendar', 'Busy') },
 		],
 		defaultValue: 'TRANSPARENT',
 	},
-	// url: {
-	// readableName: translate('calendar', 'URL'),
-	// icon: '',
-	// multiple: false,
-	// default: false,
-	// info: translate('calendar', '')
-	// },
-	// To be implemented later:
-	// attach: {
-	// readableName: translate('calendar', 'Attachments'),
-	// multiple: true,
-	// },
+	/**
+	 * https://tools.ietf.org/html/rfc5545#section-3.8.1.2
+	 */
 	categories: {
-		readableName: translate('calendar', 'Categories'),
+		readableName: t('calendar', 'Categories'),
 		icon: 'icon-tag',
 		multiple: true,
-		default: true,
-		info: translate('calendar', 'Categories help you to structure and organize your events'),
-		placeholder: translate('calendar', 'Search or add categories'),
-		tagPlaceholder: translate('calendar', 'Add this as a new category'),
+		info: t('calendar', 'Categories help you to structure and organize your events.'),
+		placeholder: t('calendar', 'Search or add categories'),
+		tagPlaceholder: t('calendar', 'Add this as a new category'),
 		options: getDefaultCategories(),
 	},
-	resources: {
-		readableName: translate('calendar', 'Additional resources'),
-		icon: '',
-		multiple: true,
-		default: false,
-		info: translate('calendar', ''),
-
-	},
-	// RFC 7986
+	/**
+	 * https://tools.ietf.org/html/rfc7986#section-5.9
+	 */
 	color: {
-		readableName: translate('calendar', 'Custom color'),
-		icon: '',
+		readableName: t('calendar', 'Custom color'),
+		icon: 'icon-color-picker',
 		multiple: false,
-		default: false,
-		info: translate('calendar', 'Special color of this event. Overrides the calendar-color.'),
+		info: t('calendar', 'Special color of this event. Overrides the calendar-color.'),
 	},
-	// To be implemented later:
-	// conference: {
-	// readableName: translate('calendar', 'Conference system'),
-	// icon: '',
-	// multiple: false,
-	// },
 }
