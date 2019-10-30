@@ -31,15 +31,22 @@
 		<PopoverLoadingIndicator
 			v-if="isLoading" />
 
-		<Actions
-			v-if="!isLoading"
-			class="event-popover__close-action">
-			<ActionButton
-				icon="icon-close"
-				@click="cancel">
-				{{ $t('calendar', 'Close') }}
-			</ActionButton>
-		</Actions>
+		<div class="event-popover__top-right-actions">
+			<Actions v-if="!isLoading && isReadOnly">
+				<ActionButton
+					icon="icon-fullscreen"
+					@click="showMore">
+					{{ $t('calendar', 'Show more details') }}
+				</ActionButton>
+			</Actions>
+			<Actions v-if="!isLoading">
+				<ActionButton
+					icon="icon-close"
+					@click="cancel">
+					{{ $t('calendar', 'Close') }}
+				</ActionButton>
+			</Actions>
+		</div>
 
 		<IllustrationHeader
 			v-if="!isLoading"
