@@ -611,15 +611,18 @@
 			}
 		}
 
-		.event-popover__close-action {
+		.event-popover__top-right-actions {
 			position: absolute !important;
-			width: 44px !important;
-			height: 44px !important;
 			top: 0 !important;
 			right: 0 !important;
 			z-index: 100 !important;
 			opacity: .7 !important;
 			border-radius: 22px !important;
+
+			.action-item.action-item--single {
+				width: 44px !important;
+				height: 44px !important;
+			}
 		}
 
 		.popover-loading-indicator {
