@@ -19,25 +19,25 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { translate } from '@nextcloud/l10n'
+import { translate as t } from '@nextcloud/l10n'
 
 export default () => {
 	// This list was taken from https://tools.ietf.org/html/rfc5545#section-5
 	return [
-		translate('calendar', 'Anniversary'),
-		translate('calendar', 'Appointment'),
-		translate('calendar', 'Business'),
-		translate('calendar', 'Education'),
-		translate('calendar', 'Holiday'),
-		translate('calendar', 'Meeting'),
-		translate('calendar', 'Miscellaneous'),
-		translate('calendar', 'Non-working hours'),
-		translate('calendar', 'Not in office'),
-		translate('calendar', 'Personal'),
-		translate('calendar', 'Phone call'),
-		translate('calendar', 'Sick day'),
-		translate('calendar', 'Special occasion'),
-		translate('calendar', 'Travel'),
-		translate('calendar', 'Vacation'),
+		t('calendar', 'Anniversary'),
+		t('calendar', 'Appointment'),
+		t('calendar', 'Business'),
+		t('calendar', 'Education'),
+		t('calendar', 'Holiday'),
+		t('calendar', 'Meeting'),
+		t('calendar', 'Miscellaneous'),
+		t('calendar', 'Non-working hours'),
+		t('calendar', 'Not in office'),
+		t('calendar', 'Personal'),
+		t('calendar', 'Phone call'),
+		t('calendar', 'Sick day'),
+		t('calendar', 'Special occasion'),
+		t('calendar', 'Travel'),
+		t('calendar', 'Vacation'),
 	]
 }
