@@ -26,15 +26,11 @@
 		:title="calendar.displayName || $t('calendar', 'Untitled calendar')"
 		:class="{deleted: !!deleteTimeout, disabled: !calendar.enabled, 'open-sharing': shareMenuOpen}"
 		@click.prevent.stop="toggleEnabled">
-		<AppNavigationIconBullet
-			v-if="calendar.enabled"
+		<AppNavigationColoredCheckbox
 			slot="icon"
+			:enabled="calendar.enabled"
 			:color="calendar.color"
-			@click.prevent.stop="toggleEnabled" />
-		<AppNavigationDisabledCalendarIconBullet
-			v-if="!calendar.enabled"
-			slot="icon"
-			@click.prevent.stop="toggleEnabled" />
+			@click="toggleEnabled" />
 
 		<template v-if="!deleteTimeout" slot="counter">
 			<Actions v-if="showSharingIcon">
@@ -143,7 +139,6 @@ import {
 	ActionInput,
 	ActionLink,
 	ActionText,
-	AppNavigationIconBullet,
 	AppNavigationItem,
 } from '@nextcloud/vue'
 import ClickOutside from 'vue-click-outside'
@@ -151,22 +146,21 @@ import {
 	generateRemoteUrl,
 } from '@nextcloud/router'
 
-import AppNavigationDisabledCalendarIconBullet from './AppNavigationDisabledCalendarIconBullet.vue'
 import CalendarListItemSharingSearch from './CalendarListItemSharingSearch.vue'
 import CalendarListItemSharingPublishItem from './CalendarListItemSharingPublishItem.vue'
 import CalendarListItemSharingShareItem from './CalendarListItemSharingShareItem.vue'
+import AppNavigationColoredCheckbox from './AppNavigationColoredCheckbox.vue'
 
 export default {
 	name: 'CalendarListItem',
 	components: {
+		AppNavigationColoredCheckbox,
 		Avatar,
 		Actions,
 		ActionButton,
 		ActionInput,
 		ActionLink,
 		ActionText,
-		AppNavigationDisabledCalendarIconBullet,
-		AppNavigationIconBullet,
 		AppNavigationItem,
 		CalendarListItemSharingSearch,
 		CalendarListItemSharingPublishItem,
