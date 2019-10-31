@@ -164,7 +164,7 @@ OC.L10N.register(
     "_year_::_years_" : ["anno","anni"],
     "Monday" : "Lunedì",
     "weekday" : "giorno feriale",
-    "weekend day" : "giorno festivo",
+    "weekend day" : "giorno del fine settimana",
     "Summary" : "Riepilogo",
     "Does not repeat" : "Non ripete",
     "Daily" : "Quotidianamente",
