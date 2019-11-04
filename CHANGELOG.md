@@ -1,3 +1,47 @@
+## 2.0.0 beta2 - 2019-11-04
+### Added
+- Consider categories for illustrations if title doesn't match any illustration
+  [#1509](https://github.com/nextcloud/calendar/issues/1509)
+- Update Today in calendar-view on day-change
+  [#678](https://github.com/nextcloud/calendar/issues/678)
+- Show warning when detected timezone is UTC
+  [#711](https://github.com/nextcloud/calendar/issues/711)
+- Allow to edit location and description in popover editor, if already set
+  [#680](https://github.com/nextcloud/calendar/issues/680)
+- Better default times when switching from all-day to timed event
+  [#532](https://github.com/nextcloud/calendar/issues/532)
+- Nicer integration of week-number into calendar-view
+  [#1571](https://github.com/nextcloud/calendar/issues/1571)
+- Simpler design for upper part of app navigation
+  [#1021](https://github.com/nextcloud/calendar/issues/1021)
+- Merged calendar-list and subscription list
+- Categories
+  [#107](https://github.com/nextcloud/calendar/issues/107)
+- Hide property info in read-only mode
+  [#1585](https://github.com/nextcloud/calendar/issues/1585)
+- Do not show all-day checkbox in read-only mode
+  [#1589](https://github.com/nextcloud/calendar/issues/1589)
+- Add timezone at creation of calendar
+  [#223](https://github.com/nextcloud/calendar/issues/223)
+- Allow to link to event
+  [#21](https://github.com/nextcloud/calendar/issues/21)
+
+### Fixed
+- Respect the user's locale
+  [#1569](https://github.com/nextcloud/calendar/issues/1569)
+- Mixup of locale and language
+  [#920](https://github.com/nextcloud/calendar/issues/920)
+- Error when selecting visibility in Editor
+  [#1591](https://github.com/nextcloud/calendar/issues/1591)
+- Show private calendars by default if no visibility is set
+  [#1588](https://github.com/nextcloud/calendar/issues/1588)
+- Remove title tag from illustration svg
+  [#1593](https://github.com/nextcloud/calendar/issues/1593)
+- Show more button in upper right corner in popover for read-only events
+  [#1592](https://github.com/nextcloud/calendar/issues/1592)
+- Event details are not transferred from popover to sidebar
+  [#1590](https://github.com/nextcloud/calendar/issues/1590)
+
 ## 2.0.0 beta1 - 2019-10-21
 
 Version 2.0 of the calendar has been fully rewritten with a different technology, switching from the legacy AngularJS framework to Vue.js. Nextcloud is using more and more Vue.js throughout apps and server, which makes it easy to use common components everywhere. This allows faster development and a more coherent experience in all of Nextcloud.
