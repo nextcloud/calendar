@@ -57,6 +57,7 @@
 				:selectable="isSelectable"
 				:select-mirror="true"
 				:lazy-fetching="false"
+				:now-indicator="true"
 				:progressive-event-rendering="true"
 				:unselect-auto="false"
 				:week-numbers-within-days="true"
