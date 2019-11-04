@@ -32,7 +32,7 @@ import Property from 'calendar-js/src/properties/property.js'
 import { getBySetPositionAndBySetFromDate, getWeekDayFromDate } from '../utils/recurrence.js'
 import {
 	getAlarmFromAlarmComponent,
-	getDefaultCalendarObjectInstanceObject,
+	getDefaultCalendarObjectInstanceObject, mapEventComponentToCalendarObjectInstanceObject,
 } from '../models/calendarObjectInstance.js'
 import {
 	getAmountAndUnitForTimedEvents,
@@ -40,9 +40,63 @@ import {
 	getTotalSecondsFromAmountAndUnitForTimedEvents, getTotalSecondsFromAmountHourMinutesAndUnitForAllDayEvents,
 } from '../utils/alarms.js'
 
-const state = {}
+const state = {
+	isNew: null,
+	calendarObject: null,
+	calendarObjectInstance: null,
+	existingEvent: {
+		objectId: null,
+		recurrenceId: null,
+	},
+}
 
 const mutations = {
+
+	/**
+	 * Set a calendar-object-instance that will be opened in the editor (existing event)
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {Object} data.calendarObject The calendar-object currently being edited
+	 * @param {Object} data.calendarObjectInstance The calendar-object-instance currently being edited
+	 * @param {String} data.objectId The objectId of the calendar-object
+	 * @param {number} data.recurrenceId The recurrence-id of the calendar-object-instance
+	 */
+	setCalendarObjectInstanceForExistingEvent(state, { calendarObject, calendarObjectInstance, objectId, recurrenceId }) {
+		state.isNew = false
+		state.calendarObject = calendarObject
+		state.calendarObjectInstance = calendarObjectInstance
+		state.existingEvent.objectId = objectId
+		state.existingEvent.recurrenceId = recurrenceId
+	},
+
+	/**
+	 * Set a calendar-object-instance that will be opened in the editor (new event)
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {Object} data.calendarObject The calendar-object currently being created
+	 * @param {Object} data.calendarObjectInstance The calendar-object-instance currently being crated
+	 */
+	setCalendarObjectInstanceForNewEvent(state, { calendarObject, calendarObjectInstance }) {
+		state.isNew = true
+		state.calendarObject = calendarObject
+		state.calendarObjectInstance = calendarObjectInstance
+		state.existingEvent.objectId = null
+		state.existingEvent.recurrenceId = null
+	},
+
+	/**
+	 *
+	 * @param {Object} state The Vuex state
+	 */
+	resetCalendarObjectInstanceObjectIdAndRecurrenceId(state) {
+		state.isNew = false
+		state.calendarObject = null
+		state.calendarObjectInstance = null
+		state.existingEvent.objectId = null
+		state.existingEvent.recurrenceId = null
+	},
 
 	/**
 	 * Change the title of the event
@@ -1248,6 +1302,225 @@ const mutations = {
 const getters = {}
 
 const actions = {
+
+	/**
+	 * Returns the closest existing recurrence-id of a calendar-object
+	 * close to the given date.
+	 * This is either the next occurrence in the future or
+	 * in case there are no more future occurrences the closest
+	 * occurrence in the past
+	 *
+	 * @param {Object} vuex The vuex destructuring object
+	 * @param {Object} vuex.state The Vuex state
+	 * @param {Function} vuex.dispatch The Vuex dispatch function
+	 * @param {Function} vuex.commit The Vuex commit function
+	 * @param {Object} data The destructuring object
+	 * @param {String} data.objectId The objectId of the calendar-object to edit
+	 * @param {Date} data.closeToDate The date to get a close occurrence to
+	 * @returns {Promise<Number>}
+	 */
+	async resolveClosestRecurrenceIdForCalendarObject({ state, dispatch, commit }, { objectId, closeToDate }) {
+		const calendarObject = await dispatch('getEventByObjectId', { objectId })
+		const eventComponent = calendarObject.getClosestRecurrence(closeToDate)
+
+		return eventComponent.getReferenceRecurrenceId().unixTime
+	},
+
+	/**
+	 * Gets the calendar-object and calendar-object-instance
+	 * for a given objectId and recurrenceId.
+	 *
+	 * If the recurrenceId does not represent a valid instance,
+	 * an error will be thrown.
+	 *
+	 * @param {Object} vuex The vuex destructuring object
+	 * @param {Object} vuex.state The Vuex state
+	 * @param {Function} vuex.dispatch The Vuex dispatch function
+	 * @param {Function} vuex.commit The Vuex commit function
+	 * @param {Object} data The destructuring object
+	 * @param {String} data.objectId The objectId of the calendar-object to edit
+	 * @param {Number} data.recurrenceId The recurrence-id to edit
+	 * @returns {Promise<{calendarObject: Object, calendarObjectInstance: Object}>}
+	 */
+	async getCalendarObjectInstanceByObjectIdAndRecurrenceId({ state, dispatch, commit }, { objectId, recurrenceId }) {
+		if (state.existingEvent.objectId === objectId && state.existingEvent.recurrenceId === recurrenceId) {
+			return Promise.resolve({
+				calendarObject: state.calendarObject,
+				calendarObjectInstance: state.calendarObjectInstance,
+			})
+		}
+
+		const recurrenceIdDate = new Date(recurrenceId * 1000)
+		const calendarObject = await dispatch('getEventByObjectId', { objectId })
+		const eventComponent = calendarObject.getObjectAtRecurrenceId(recurrenceIdDate)
+		if (eventComponent === null) {
+			throw new Error('Not a valid recurrence-id')
+		}
+
+		const calendarObjectInstance = mapEventComponentToCalendarObjectInstanceObject(eventComponent)
+		commit('setCalendarObjectInstanceForExistingEvent', {
+			calendarObject,
+			calendarObjectInstance,
+			objectId,
+			recurrenceId,
+		})
+
+		return {
+			calendarObject,
+			calendarObjectInstance,
+		}
+	},
+
+	/**
+	 * Gets the new calendar-object-instance.
+	 *
+	 * @param {Object} vuex The vuex destructuring object
+	 * @param {Object} vuex.state The Vuex state
+	 * @param {Function} vuex.dispatch The Vuex dispatch function
+	 * @param {Function} vuex.commit The Vuex commit function
+	 * @param {Object} data The destructuring object
+	 * @param {Boolean} data.isAllDay Whether or not the new event is supposed to be all-day
+	 * @param {Number} data.start The start of the new event (unixtime)
+	 * @param {Number} data.end The end of the new event (unixtime)
+	 * @param {String} data.timezoneId The timezoneId of the new event
+	 * @returns {Promise<{calendarObject: Object, calendarObjectInstance: Object}>}
+	 */
+	async getCalendarObjectInstanceForNewEvent({ state, dispatch, commit }, { isAllDay, start, end, timezoneId }) {
+		if (state.isNew === true) {
+			return Promise.resolve({
+				calendarObject: state.calendarObject,
+				calendarObjectInstance: state.calendarObjectInstance,
+			})
+		}
+
+		const calendarObject = await dispatch('createNewEvent', { start, end, isAllDay, timezoneId })
+		const startDate = new Date(start * 1000)
+		const eventComponent = calendarObject.getObjectAtRecurrenceId(startDate)
+		const calendarObjectInstance = mapEventComponentToCalendarObjectInstanceObject(eventComponent)
+
+		commit('setCalendarObjectInstanceForNewEvent', {
+			calendarObject,
+			calendarObjectInstance,
+		})
+
+		return {
+			calendarObject,
+			calendarObjectInstance,
+		}
+	},
+
+	/**
+	 * Updates the existing calendar-object-instance.
+	 *
+	 * @param {Object} vuex The vuex destructuring object
+	 * @param {Object} vuex.state The Vuex state
+	 * @param {Function} vuex.dispatch The Vuex dispatch function
+	 * @param {Function} vuex.commit The Vuex commit function
+	 * @param {Object} data The destructuring object
+	 * @param {Boolean} data.isAllDay Whether or not the new event is supposed to be all-day
+	 * @param {Number} data.start The start of the new event (unixtime)
+	 * @param {Number} data.end The end of the new event (unixtime)
+	 * @param {String} data.timezoneId The timezoneId of the new event
+	 * @returns {Promise<{calendarObject: Object, calendarObjectInstance: Object}>}
+	 */
+	async updateCalendarObjectInstanceForNewEvent({ state, dispatch, commit }, { isAllDay, start, end, timezoneId }) {
+		await dispatch('updateTimeOfNewEvent', {
+			calendarObjectInstance: state.calendarObjectInstance,
+			start,
+			end,
+			isAllDay,
+			timezoneId,
+		})
+		commit('setCalendarObjectInstanceForNewEvent', {
+			calendarObject: state.calendarObject,
+			calendarObjectInstance: state.calendarObjectInstance,
+		})
+
+		return {
+			calendarObject: state.calendarObject,
+			calendarObjectInstance: state.calendarObjectInstance,
+		}
+	},
+
+	/**
+	 * Saves changes made to a single calendar-object-instance
+	 *
+	 * @param {Object} vuex The vuex destructuring object
+	 * @param {Object} vuex.state The Vuex state
+	 * @param {Function} vuex.dispatch The Vuex dispatch function
+	 * @param {Function} vuex.commit The Vuex commit function
+	 * @param {Object} data The destructuring object
+	 * @param {Boolean} data.thisAndAllFuture Whether or not to save changes for all future occurrences or just this one
+	 * @param {String} data.calendarId The new calendar-id to store it in
+	 * @returns {Promise<void>}
+	 */
+	async saveCalendarObjectInstance({ state, dispatch, commit }, { thisAndAllFuture, calendarId }) {
+		const eventComponent = state.calendarObjectInstance.eventComponent
+		const calendarObject = state.calendarObject
+		const isNewEvent = calendarObject.id === 'new'
+
+		if (eventComponent.isDirty()) {
+			let original, fork
+			if (eventComponent.canCreateRecurrenceExceptions() && !isNewEvent) {
+				[original, fork] = eventComponent.createRecurrenceException(thisAndAllFuture)
+			}
+
+			await dispatch('updateCalendarObject', { calendarObject })
+
+			if (!isNewEvent && thisAndAllFuture && original.root !== fork.root) {
+				await dispatch('createCalendarObjectFromFork', {
+					eventComponent: fork,
+					calendarId: calendarId,
+				})
+			}
+		}
+
+		if (calendarId !== state.calendarObject.calendarId) {
+			await dispatch('moveCalendarObject', {
+				calendarObject,
+				newCalendarId: calendarId,
+			})
+		}
+	},
+
+	/**
+	 * Deletes a calendar-object-instance
+	 *
+	 * @param {Object} vuex The vuex destructuring object
+	 * @param {Object} vuex.state The Vuex state
+	 * @param {Function} vuex.dispatch The Vuex dispatch function
+	 * @param {Function} vuex.commit The Vuex commit function
+	 * @param {Object} data The destructuring object
+	 * @param {Boolean} data.thisAndAllFuture Whether or not to delete all future occurrences or just this one
+	 * @returns {Promise<void>}
+	 */
+	async deleteCalendarObjectInstance({ state, dispatch, commit }, { thisAndAllFuture }) {
+		const eventComponent = state.calendarObjectInstance.eventComponent
+		const isRecurrenceSetEmpty = eventComponent.removeThisOccurrence(thisAndAllFuture)
+		const calendarObject = state.calendarObject
+
+		if (isRecurrenceSetEmpty) {
+			await dispatch('deleteCalendarObject', { calendarObject })
+		} else {
+			await dispatch('updateCalendarObject', { calendarObject })
+		}
+	},
+
+	/**
+	 * Resets a calendar-object-instance to it's original data and
+	 * removes all data from the calendar-object-instance store
+	 *
+	 * @param {Object} vuex The vuex destructuring object
+	 * @param {Object} vuex.state The Vuex state
+	 * @param {Function} vuex.dispatch The Vuex dispatch function
+	 * @param {Function} vuex.commit The Vuex commit function
+	 * @returns {Promise<void>}
+	 */
+	async resetCalendarObjectInstance({ state, commit }) {
+		if (state.calendarObject) {
+			state.calendarObject.resetToDav()
+		}
+	},
 
 	/**
 	 * Change the timezone of the event's start

@@ -21,11 +21,11 @@
  */
 import rfcProps from '../models/rfcProps'
 import logger from '../utils/logger.js'
-import { mapEventComponentToCalendarObjectInstanceObject } from '../models/calendarObjectInstance.js'
 import { getIllustrationForTitle } from '../utils/illustration.js'
 import { getPrefixedRoute } from '../utils/router.js'
 import { dateFactory } from '../utils/date.js'
 import { uidToHexColor } from '../utils/color.js'
+import { mapState } from 'vuex'
 
 /**
  * This is a mixin for the editor. It contains common Vue stuff, that is
@@ -36,12 +36,6 @@ import { uidToHexColor } from '../utils/color.js'
 export default {
 	data() {
 		return {
-			// The calendar object from the Vuex store
-			calendarObject: null,
-			// The event component representing the open event
-			eventComponent: null,
-			// The calendar object instance object derived from the eventComponent
-			calendarObjectInstance: null,
 			// Indicator whether or not the event is currently loading
 			isLoading: true,
 			// Stores error if any occurred
@@ -60,6 +54,13 @@ export default {
 		}
 	},
 	computed: {
+		...mapState({
+			calendarObject: (state) => state.calendarObjectInstance.calendarObject || null,
+			calendarObjectInstance: (state) => state.calendarObjectInstance.calendarObjectInstance || null,
+		}),
+		eventComponent() {
+			return this.calendarObjectInstance ? this.calendarObjectInstance.eventComponent : null
+		},
 		/**
 		 * Returns the events title or an empty string if the event is still loading
 		 *
@@ -373,11 +374,12 @@ export default {
 				name: getPrefixedRoute(this.$store.state.route.name, 'CalendarView'),
 				params,
 			})
+			this.$store.commit('resetCalendarObjectInstanceObjectIdAndRecurrenceId')
 		},
 		/**
 		 * Resets the calendar-object back to it's original state and closes the editor
 		 */
-		cancel() {
+		async cancel() {
 			if (this.isLoading) {
 				return
 			}
@@ -388,7 +390,7 @@ export default {
 				return
 			}
 
-			this.calendarObject.resetToDav()
+			await this.$store.dispatch('resetCalendarObjectInstance')
 			this.requiresActionOnRouteLeave = false
 			this.closeEditor()
 		},
@@ -406,42 +408,15 @@ export default {
 			if (this.isReadOnly) {
 				return
 			}
-
-			const isNewEvent = this.calendarObject.id === 'new'
-
 			if (this.forceThisAndAllFuture) {
 				thisAndAllFuture = true
 			}
 
-			if (this.eventComponent.isDirty()) {
-				this.isLoading = true
-
-				let original, fork
-				if (this.eventComponent.canCreateRecurrenceExceptions() && !isNewEvent) {
-					[original, fork] = this.eventComponent.createRecurrenceException(thisAndAllFuture)
-				}
-
-				await this.$store.dispatch('updateCalendarObject', {
-					calendarObject: this.calendarObject,
-				})
-
-				if (!isNewEvent && thisAndAllFuture && original.root !== fork.root) {
-					await this.$store.dispatch('createCalendarObjectFromFork', {
-						eventComponent: fork,
-						calendarId: this.calendarId,
-					})
-				}
-			}
-
-			if (this.calendarId !== this.calendarObject.calendarId) {
-				this.isLoading = true
-
-				await this.$store.dispatch('moveCalendarObject', {
-					calendarObject: this.calendarObject,
-					newCalendarId: this.calendarId,
-				})
-			}
-
+			this.isLoading = true
+			await this.$store.dispatch('saveCalendarObjectInstance', {
+				thisAndAllFuture,
+				calendarId: this.calendarId,
+			})
 			this.isLoading = false
 		},
 		/**
@@ -471,18 +446,7 @@ export default {
 			}
 
 			this.isLoading = true
-
-			const isRecurrenceSetEmpty = this.eventComponent.removeThisOccurrence(thisAndAllFuture)
-			if (isRecurrenceSetEmpty) {
-				await this.$store.dispatch('deleteCalendarObject', {
-					calendarObject: this.calendarObject,
-				})
-			} else {
-				await this.$store.dispatch('updateCalendarObject', {
-					calendarObject: this.calendarObject,
-				})
-			}
-
+			await this.$store.dispatch('deleteCalendarObjectInstance', { thisAndAllFuture })
 			this.isLoading = false
 		},
 		/**
@@ -593,6 +557,18 @@ export default {
 				calendarObjectInstance: this.calendarObjectInstance,
 			})
 		},
+		/**
+		 * Resets the internal state after changing the viewed calendar-object
+		 */
+		resetState() {
+			this.isLoading = true
+			this.error = false
+			this.calendarId = null
+			this.requiresActionOnRouteLeave = true
+			this.forceThisAndAllFuture = false
+			this.isEditingMasterItem = false
+			this.isRecurrenceException = false
+		},
 	},
 	/**
 	 * This is executed before entering the Editor routes
@@ -604,64 +580,52 @@ export default {
 	beforeRouteEnter(to, from, next) {
 		if (to.name === 'NewSidebarView' || to.name === 'NewPopoverView') {
 			next(vm => {
-				vm.isLoading = true
-				vm.error = false
-				vm.calendarId = null
-				vm.requiresActionOnRouteLeave = true
-				vm.forceThisAndAllFuture = false
+				vm.resetState()
 
 				const isAllDay = (to.params.allDay === '1')
-				const start = to.params.dtstart
-				const end = to.params.dtend
+				const start = parseInt(to.params.dtstart, 10)
+				const end = parseInt(to.params.dtend, 10)
 				const timezoneId = vm.$store.getters.getResolvedTimezone
-				const recurrenceIdDate = new Date(start * 1000)
-
-				vm.$store.dispatch('createNewEvent', { start, end, isAllDay, timezoneId })
-					.then((calendarObject) => {
-						vm.calendarObject = calendarObject
+				vm.$store.dispatch('getCalendarObjectInstanceForNewEvent', { isAllDay, start, end, timezoneId })
+					.then(({ calendarObject }) => {
 						vm.calendarId = calendarObject.calendarId
-						vm.eventComponent = calendarObject.getObjectAtRecurrenceId(recurrenceIdDate)
-						vm.calendarObjectInstance = mapEventComponentToCalendarObjectInstanceObject(vm.eventComponent)
-
+					})
+					.catch(() => {
+						vm.error = true
+					})
+					.finally(() => {
 						vm.isLoading = false
 					})
 			})
 		} else {
 			next(vm => {
-				vm.isLoading = true
-				vm.error = false
-				vm.calendarId = null
-				vm.requiresActionOnRouteLeave = true
-				vm.forceThisAndAllFuture = false
-
+				vm.resetState()
 				const objectId = to.params.object
 				const recurrenceId = to.params.recurrenceId
 
-				vm.$store.dispatch('getEventByObjectId', { objectId })
-					.then(() => {
-						vm.calendarObject = vm.$store.getters.getCalendarObjectById(objectId)
-						vm.calendarId = vm.calendarObject.calendarId
+				if (recurrenceId === 'next') {
+					const closeToDate = dateFactory()
+					// TODO: can we replace this by simply returning the new route since we are inside next()
+					// Probably not though, because it's async
+					vm.$store.dispatch('resolveClosestRecurrenceIdForCalendarObject', { objectId, closeToDate })
+						.then(recurrenceId => {
+							const params = Object.assign({}, vm.$route.params, { recurrenceId })
+							vm.$router.replace({ name: vm.$route.name, params })
+						})
+					return
+				}
 
-						if (recurrenceId === 'next') {
-							const recurrenceIdDate = dateFactory()
-							vm.eventComponent = vm.calendarObject.getClosestRecurrence(recurrenceIdDate)
-						} else {
-							const recurrenceIdDate = new Date(recurrenceId * 1000)
-							vm.eventComponent = vm.calendarObject.getObjectAtRecurrenceId(recurrenceIdDate)
-						}
-
-						vm.calendarObjectInstance = mapEventComponentToCalendarObjectInstanceObject(vm.eventComponent)
+				vm.$store.dispatch('getCalendarObjectInstanceByObjectIdAndRecurrenceId', { objectId, recurrenceId })
+					.then(({ calendarObject }) => {
+						vm.calendarId = calendarObject.calendarId
 						vm.isEditingMasterItem = vm.eventComponent.isMasterItem()
 						vm.isRecurrenceException = vm.eventComponent.isRecurrenceException()
-
+					})
+					.catch(() => {
+						vm.error = true
+					})
+					.finally(() => {
 						vm.isLoading = false
-
-						if (recurrenceId === 'next') {
-							const params = Object.assign({}, vm.$route.params, {
-								recurrenceId: vm.eventComponent.getReferenceRecurrenceId().unixTime,
-							})
-							vm.$router.replace({ name: vm.$route.name, params })
-						}
 					})
 			})
 		}
@@ -691,16 +655,8 @@ export default {
 			const start = to.params.dtstart
 			const end = to.params.dtend
 			const timezoneId = this.$store.getters.getResolvedTimezone
-
-			this.$store.dispatch('updateTimeOfNewEvent', {
-				calendarObjectInstance: this.calendarObjectInstance,
-				start,
-				end,
-				isAllDay,
-				timezoneId,
-			})
-
-			next()
+			this.$store.dispatch('updateCalendarObjectInstanceForNewEvent', { isAllDay, start, end, timezoneId })
+				.then(() => next())
 		} else {
 			// If both the objectId and recurrenceId remained the same
 			// there is no need to update. This is usally the case when navigating
@@ -714,41 +670,33 @@ export default {
 			this.isLoading = true
 
 			this.save().then(() => {
-				this.error = false
-				this.calendarId = null
-				this.requiresActionOnRouteLeave = true
-				this.forceThisAndAllFuture = false
+				this.resetState()
 
 				const objectId = to.params.object
 				const recurrenceId = to.params.recurrenceId
+				if (recurrenceId === 'next') {
+					const closeToDate = dateFactory()
+					this.$store.dispatch('resolveClosestRecurrenceIdForCalendarObject', { objectId, closeToDate })
+						.then(recurrenceId => {
+							const params = Object.assign({}, this.$route.params, { recurrenceId })
+							next({ name: this.$route.name, params })
+						})
+					return
+				}
 
-				this.$store.dispatch('getEventByObjectId', { objectId })
-					.then(() => {
-						this.calendarObject = this.$store.getters.getCalendarObjectById(objectId)
-						this.calendarId = this.calendarObject.calendarId
-
-						if (recurrenceId === 'next') {
-							const recurrenceIdDate = dateFactory()
-							this.eventComponent = this.calendarObject.getClosestRecurrence(recurrenceIdDate)
-						} else {
-							const recurrenceIdDate = new Date(recurrenceId * 1000)
-							this.eventComponent = this.calendarObject.getObjectAtRecurrenceId(recurrenceIdDate)
-						}
-
-						this.calendarObjectInstance = mapEventComponentToCalendarObjectInstanceObject(this.eventComponent)
+				this.$store.dispatch('getCalendarObjectInstanceByObjectIdAndRecurrenceId', { objectId, recurrenceId })
+					.then(({ calendarObject }) => {
+						this.calendarId = calendarObject.calendarId
 						this.isEditingMasterItem = this.eventComponent.isMasterItem()
 						this.isRecurrenceException = this.eventComponent.isRecurrenceException()
-
-						this.isLoading = false
-
-						if (recurrenceId === 'next') {
-							const params = Object.assign({}, this.$route.params, {
-								recurrenceId: this.eventComponent.getReferenceRecurrenceId().unixTime,
-							})
-							this.$router.replace({ name: this.$route.name, params })
-						}
 					})
-				next()
+					.catch(() => {
+						this.error = true
+					})
+					.finally(() => {
+						this.isLoading = false
+						next()
+					})
 			}).catch(() => {
 				next(false)
 			})

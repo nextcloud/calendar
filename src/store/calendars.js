@@ -748,13 +748,13 @@ const actions = {
 	 * @param {Object} context the store mutations
 	 * @param {Object} data destructuring object
 	 * @param {String} data.objectId Id of the object to fetch
-	 * @returns {Promise<void>}
+	 * @returns {Promise<CalendarObject>}
 	 */
 	async getEventByObjectId(context, { objectId }) {
 		// TODO - we should still check if the calendar-object is up to date
 		//  - Just send head and compare etags
 		if (context.getters.getCalendarObjectById(objectId)) {
-			return Promise.resolve(true)
+			return Promise.resolve(context.getters.getCalendarObjectById(objectId))
 		}
 
 		// This might throw an exception, but we will leave it up to the methods
@@ -779,6 +779,8 @@ const actions = {
 			},
 			calendarObjectId: calendarObject.id,
 		})
+
+		return calendarObject
 	},
 
 	/**
