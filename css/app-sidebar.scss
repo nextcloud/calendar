@@ -516,6 +516,14 @@
 		}
 	}
 
+	.property-text {
+		&__input {
+			textarea {
+				resize: none;
+			}
+		}
+	}
+
 	.property-select-multiple {
 		.property-select-multiple__input.property-select-multiple__input--readonly {
 			width: 100%;
