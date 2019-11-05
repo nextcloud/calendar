@@ -15,15 +15,22 @@ Otherwise manual corrections will get dropped when pushing the update.
 
 """
 
+from __future__ import absolute_import
+
 import argparse, ftplib, json, os, os.path, re, shutil, subprocess, sys, tarfile, tempfile
 from collections import OrderedDict
+from datetime import date, timedelta
+
+# Keep timezone changes from this date onwards. If the zones.json file is becoming
+# too large, consider changing to a later date.
+HISTORY_CUTOFF = 20180101
+FUTURE_CUTOFF = 20221231
 
 
 class TimezoneUpdater(object):
     """ Timezone updater class, use the run method to do everything automatically"""
-    def __init__(self, tzdata_path, zoneinfo_path, zoneinfo_pure_path):
+    def __init__(self, tzdata_path, zoneinfo_pure_path):
         self.tzdata_path = tzdata_path
-        self.zoneinfo_path = zoneinfo_path
         self.zoneinfo_pure_path = zoneinfo_pure_path
 
     def download_tzdata(self):
@@ -44,25 +51,18 @@ class TimezoneUpdater(object):
     def get_tzdata_version(self):
         """Extract version number of tzdata files."""
         version = None
-        with open(os.path.join(self.tzdata_path, "Makefile"), "r") as makefile:
-            for line in makefile:
-                match = re.search(r"VERSION=\s*(\w+)", line)
+        with open(os.path.join(self.tzdata_path, "version"), "r") as versionfile:
+            for line in versionfile:
+                match = re.match(r"\w+", line)
                 if match is not None:
-                    version = "2." + match.group(1)
+                    version = "2." + match.group(0)
                     break
         return version
 
     def run_vzic(self, vzic_path):
         """Use vzic to create ICS versions of the data."""
 
-        # Use `vzic` to create 'pure' and 'non-pure' zone files.
-        sys.stderr.write("Exporting zone info to %s\n" % self.zoneinfo_path)
-        subprocess.check_call([
-            vzic_path,
-            "--olson-dir", self.tzdata_path,
-            "--output-dir", self.zoneinfo_path
-        ], stdout=sys.stderr)
-
+        # Use `vzic` to create zone files.
         sys.stderr.write("Exporting pure zone info to %s\n" % self.zoneinfo_pure_path)
         subprocess.check_call([
             vzic_path,
@@ -85,7 +85,7 @@ class TimezoneUpdater(object):
     def read_zones_tab(self):
         """Read zones.tab for latitude and longitude data."""
         lat_long_data = {}
-        with open(os.path.join(self.zoneinfo_path, "zones.tab"), "r") as tab:
+        with open(os.path.join(self.zoneinfo_pure_path, "zones.tab"), "r") as tab:
             for line in tab:
                 if len(line) < 19:
                     sys.stderr.write("Line in zones.tab not long enough: %s\n" % line.strip())
@@ -97,40 +97,137 @@ class TimezoneUpdater(object):
         return lat_long_data
 
     def read_ics(self, filename, lat_long_data):
-        """Read a single zone's ICS files.
-
-        We keep only the lines we want, and we use the pure version of RRULE if
-        the versions differ. See Asia/Jerusalem for an example."""
-        with open(os.path.join(self.zoneinfo_path, filename), "r") as zone:
-            zoneinfo = zone.readlines()
-
+        """Read a single zone's ICS files."""
         with open(os.path.join(self.zoneinfo_pure_path, filename), "r") as zone:
             zoneinfo_pure = zone.readlines()
 
-        ics_data = []
-        for i in range(0, len(zoneinfo)):
-            line = zoneinfo[i]
-            key = line[:line.find(":")]
+        # Loop through the lines of the file, splitting it into components.
+        components = []
+        current_component = None
+        for i in range(0, len(zoneinfo_pure)):
+            line = zoneinfo_pure[i].rstrip()
+            [key, value] = line.split(":", 1)
 
-            if key == "BEGIN":
-                if line != "BEGIN:VCALENDAR\r\n":
-                    ics_data.append(line)
-            elif key == "END":
-                if line != "END:VCALENDAR\r\n":
-                    ics_data.append(line)
-            elif key in ("TZID", "TZOFFSETFROM", "TZOFFSETTO", "TZNAME", "DTSTART"):
-                ics_data.append(line)
-            elif key == "RRULE":
-                if line == zoneinfo_pure[i]:
-                    ics_data.append(line)
+            if line in ["BEGIN:STANDARD", "BEGIN:DAYLIGHT"]:
+                current_component = {"line": i, "type": value}
+
+            elif line in ["END:STANDARD", "END:DAYLIGHT"]:
+                components.append(current_component)
+                current_component = None
+
+            elif current_component:
+                if key == "RDATE":
+                    if "rdates" not in current_component:
+                        current_component["rdates"] = []
+                    current_component["rdates"].append(value)
                 else:
-                    sys.stderr.write("Using pure version of %s\n" % filename[:-4])
-                    ics_data.append(zoneinfo_pure[i])
+                    current_component[key] = value
+
+        # Create a copy of each component for every date that it started.
+        # Later, we'll sort them into order of starting date.
+        components_by_start_date = {}
+        for component in components:
+            max_rdate = int(component["DTSTART"][0:8])
+            components_by_start_date[max_rdate] = component
+            if "rdates" in component:
+                for rdate in component["rdates"]:
+                    rdate = int(rdate[0:8])
+                    max_rdate = max(rdate, max_rdate)
+                    components_by_start_date[rdate] = component
+                component["valid_rdates"] = filter(
+                    lambda rd: FUTURE_CUTOFF >= int(rd[0:8]) >= HISTORY_CUTOFF,
+                    component["rdates"]
+                )
+            component["max_date"] = max_rdate
+
+        # Sort, and keep only the components in use since the cutoff date.
+        kept_components = []
+        finished = False
+        for key in sorted(components_by_start_date.keys(), reverse=True):
+            if key > FUTURE_CUTOFF:
+                continue
+            component = components_by_start_date[key]
+            if finished and "RRULE" not in component:
+                continue
+            if "used" in component:
+                continue
+            component["used"] = True
+            kept_components.append(component)
+            if key <= HISTORY_CUTOFF:
+                finished = True
+
+        for i in range(len(kept_components)):
+            component = kept_components[i]
+            last = i == len(kept_components) - 1
+            # In this block of code, we attempt to match what vzic does when
+            # creating "Outlook-compatible" timezone files. This is to minimize
+            # changes in our zones.json file. And to be more Outlook-compatible.
+            if int(component["DTSTART"][0:8]) < HISTORY_CUTOFF:
+                if not last and "valid_rdates" in component and len(component["valid_rdates"]) > 0:
+                    component["DTSTART"] = component["valid_rdates"][0]
+                    continue
+
+                # Change the start date to what it would've been in 1970.
+                start_date = "19700101"
+                start_time = "T000000"
+
+                if "RRULE" in component:
+                    rrule = dict(part.split("=") for part in component["RRULE"].split(";"))
+                    bymonth = int(rrule["BYMONTH"])
+                    weekday = rrule["BYDAY"].lstrip("-012345")
+                    weekday_index = ["MO", "TU", "WE", "TH", "FR", "SA", "SU"].index(weekday)
+
+                    if "BYMONTHDAY" in rrule:
+                        bymonthday = list(int(d) for d in rrule["BYMONTHDAY"].split(","))
+                        for day in bymonthday:
+                            test_day = date(1970, bymonth, day)
+                            if test_day.weekday() == weekday_index:
+                                start_date = test_day.strftime("%Y%m%d")
+                                start_time = component["DTSTART"][8:]
+                                break
+                    elif "BYDAY" in rrule:
+                        which_weekday = int(rrule["BYDAY"].rstrip("AEFHMORSTUW"))
+                        days_matching = [0]
+                        test_day = date(1970, bymonth, 1)
+                        while test_day.month == bymonth:
+                            if test_day.weekday() == weekday_index:
+                                days_matching.append(test_day)
+                            test_day = test_day + timedelta(days=1)
+                        start_date = days_matching[which_weekday].strftime("%Y%m%d")
+                        start_time = component["DTSTART"][8:]
+
+                component["DTSTART"] = start_date + start_time
+
+        # Sort the components back into the order they appeared in the original file.
+        # This is to minimize changes in our zones.json file.
+        kept_components.sort(key=lambda b: b["line"])
+
+        zone_name = filename[:-4]
+        ics = []
+        for component in kept_components:
+            ics_lines = []
+            ics_lines.append("BEGIN:%s" % component["type"])
+            if len(kept_components) == 1 or len(component["TZOFFSETFROM"]) != 5:
+                ics_lines.append("TZOFFSETFROM:%s" % component["TZOFFSETTO"])
+            else:
+                ics_lines.append("TZOFFSETFROM:%s" % component["TZOFFSETFROM"])
+            ics_lines.append("TZOFFSETTO:%s" % component["TZOFFSETTO"])
+
+            if "TZNAME" in component:
+                ics_lines.append("TZNAME:%s" % component["TZNAME"])
+            ics_lines.append("DTSTART:%s" % component["DTSTART"])
+            if "RRULE" in component:
+                ics_lines.append("RRULE:%s" % component["RRULE"])
+            elif len(kept_components) > 1 and "valid_rdates" in component:
+                for rdate in component["valid_rdates"]:
+                    ics_lines.append("RDATE:%s" % rdate)
+
+            ics_lines.append("END:%s" % component["type"])
+            ics.append("\r\n".join(ics_lines))
 
         zone_data = {
-            "ics": "".join(ics_data).rstrip()
+            "ics": ics,
         }
-        zone_name = filename[:-4]
         if zone_name in lat_long_data:
             zone_data["latitude"] = lat_long_data[zone_name][0]
             zone_data["longitude"] = lat_long_data[zone_name][1]
@@ -144,6 +241,8 @@ class TimezoneUpdater(object):
 
         zones = {}
         for entry in os.listdir(path):
+            if entry == "Etc":
+                continue
             fullpath = os.path.join(path, entry)
             if os.path.isdir(fullpath):
                 zones.update(self.read_dir(fullpath, process_zone, os.path.join(prefix, entry)))
@@ -219,7 +318,7 @@ class TimezoneUpdater(object):
         self.run_vzic(vzic_path)
         lat_long_data = self.read_zones_tab()
 
-        newzones = self.read_dir(self.zoneinfo_path,
+        newzones = self.read_dir(self.zoneinfo_pure_path,
                                  lambda fn: self.read_ics(fn, lat_long_data))
 
         newaliases = self.link_removed_zones(zonesjson["zones"], newzones, links)
@@ -307,14 +406,12 @@ def main():
     # A test data update must occur before the zones.json file gets updated to have meaningful data
     create_test_data(json_file)
 
-    zoneinfo_path = tempfile.mkdtemp(prefix="zones")
     zoneinfo_pure_path = tempfile.mkdtemp(prefix="zones")
 
-    updater = TimezoneUpdater(args.tzdata_path, zoneinfo_path, zoneinfo_pure_path)
+    updater = TimezoneUpdater(args.tzdata_path, zoneinfo_pure_path)
     updater.run(json_file, tzprops_file, args.vzic_path)
 
     # Clean up.
-    shutil.rmtree(zoneinfo_path)
     shutil.rmtree(zoneinfo_pure_path)
 
 if __name__ == "__main__":
