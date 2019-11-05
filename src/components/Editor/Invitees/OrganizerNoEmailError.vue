@@ -25,14 +25,31 @@
 		<div class="editor-invitee-list-no-email-configured-message__icon">
 			@
 		</div>
-		<div class="editor-invitee-list-no-email-configured-message__caption">
-			{{ $t('calendar', 'Please configure your email-address in the personal settings. It is necessary to send out invitations and handle responses of your invitees.') }}
-		</div>
+		<!-- Using v-html won't cause any XSS here, -->
+		<!-- because: -->
+		<!--  - t is escaping the translated string -->
+		<!--  - the replaceables [linkopen] and [linkclose] do not contain any user input -->
+		<!-- eslint-disable-next-line vue/no-v-html -->
+		<div class="editor-invitee-list-no-email-configured-message__caption" v-html="htmlCaption" />
 	</div>
 </template>
 
 <script>
+import { generateUrl } from '@nextcloud/router'
+
 export default {
 	name: 'OrganizerNoEmailError',
+	computed: {
+		/**
+		 * This returns the caption of the warning message, including a link to the personal settings
+		 *
+		 * @returns {string}
+		 */
+		htmlCaption() {
+			return this.$t('calendar', 'To send out invitations and handle responses,  [linkopen]add your email address in personal settings[linkclose].')
+				.replace('[linkopen]', `<a target="_blank" href="${generateUrl('settings/user')}">`)
+				.replace('[linkclose]', '</a>')
+		},
+	},
 }
 </script>
