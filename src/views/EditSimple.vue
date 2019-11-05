@@ -76,7 +76,7 @@
 			@toggleAllDay="toggleAllDay" />
 
 		<PropertyCalendarPicker
-			v-if="!isLoading"
+			v-if="!isLoading && showCalendarPicker"
 			:calendars="calendars"
 			:calendar="selectedCalendar"
 			:is-read-only="isReadOnly"

@@ -243,6 +243,19 @@ export default {
 			return this.$store.getters.getCalendarById(this.calendarId)
 		},
 		/**
+		 * Returns whether or not to display the calendar-picker
+		 *
+		 * @returns {boolean}
+		 */
+		showCalendarPicker() {
+			// Always show the calendar's name when we are in a read-only calendar
+			if (this.isReadOnly) {
+				return true
+			}
+
+			return this.$store.getters.sortedCalendars.length > 1
+		},
+		/**
 		 * Returns the preferred timezone of the user.
 		 * If the timezone is set to automatic, it returns the detected one
 		 *
