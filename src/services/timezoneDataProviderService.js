@@ -48,7 +48,12 @@ function initialize() {
 
 	for (const tzid in tzData.zones) {
 		if (Object.prototype.hasOwnProperty.call(tzData.zones, [tzid])) {
-			timezoneManager.registerTimezoneFromICS(tzid, tzData.zones[tzid].ics)
+			const ics = [
+				'BEGIN:VTIMEZONE',
+				...tzData.zones[tzid].ics,
+				'END:VTIMEZONE',
+			].join('\r\n')
+			timezoneManager.registerTimezoneFromICS(tzid, ics)
 		}
 	}
 
