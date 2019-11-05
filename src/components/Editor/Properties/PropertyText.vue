@@ -34,7 +34,7 @@
 				v-if="!isReadOnly"
 				v-autosize
 				:placeholder="placeholder"
-				rows="1"
+				:rows="rows"
 				:title="readableName"
 				:value="value"
 				@input.prevent.stop="changeValue" />
@@ -73,6 +73,15 @@ export default {
 			}
 
 			return true
+		},
+		/**
+		 * Returns the default number of rows for a textarea.
+		 * This is used to give the description field an automatic size 2 rows
+		 *
+		 * @returns {number}
+		 */
+		rows() {
+			return this.propModel.defaultNumberOfRows || 1
 		},
 	},
 	methods: {
