@@ -35,7 +35,6 @@
 		"test:coverage": "jest --coverage"
 	},
 	"dependencies": {
-		"@babel/polyfill": "^7.6.0",
 		"@fullcalendar/core": "^4.3.1",
 		"@fullcalendar/daygrid": "^4.3.0",
 		"@fullcalendar/interaction": "^4.3.0",
@@ -52,6 +51,7 @@
 		"calendar-js": "git+https://github.com/georgehrke/calendar-js.git",
 		"cdav-library": "github:nextcloud/cdav-library",
 		"color-convert": "^2.0.1",
+		"core-js": "^3.3.6",
 		"debounce": "^1.2.0",
 		"jstz": "^2.1.1",
 		"md5": "^2.2.1",
