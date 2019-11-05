@@ -33,12 +33,12 @@
 		:not-after="maximumDate"
 		@change="change">
 		<template
-			v-if="displayTimezoneIcon"
 			slot="calendar-icon">
 			<button
-				class="datetime-picker-inline-icon icon icon-timezone"
-				:class="{ 'datetime-picker-inline-icon--highlighted': highlightTimezone }"
-				@click.stop.prevent="toggleTimezonePopover" />
+				class="datetime-picker-inline-icon icon"
+				:class="{'icon-timezone': !isAllDay, 'icon-new-calendar': isAllDay, 'datetime-picker-inline-icon--highlighted': highlightTimezone}"
+				@click.stop.prevent="toggleTimezonePopover"
+				@mousedown.stop.prevent="() => {}" />
 			<Popover
 				:open.sync="showTimezonePopover"
 				open-class="timezone-popover-wrapper">
@@ -122,15 +122,6 @@ export default {
 	},
 	computed: {
 		/**
-		 * Whether or not to display the timezone icon
-		 * and allow the user to pick a different timezone
-		 *
-		 * @returns {Boolean}
-		 */
-		displayTimezoneIcon() {
-			return !this.isAllDay && this.timezoneId !== null
-		},
-		/**
 		 * Whether or not to highlight the timezone-icon.
 		 * The icon is highlighted when the selected timezone
 		 * does not equal the current user's timezone
@@ -138,6 +129,10 @@ export default {
 		 * @returns {Boolean}
 		 */
 		highlightTimezone() {
+			if (this.isAllDay) {
+				return true
+			}
+
 			return this.timezoneId !== this.userTimezoneId
 		},
 		/**
@@ -233,6 +228,10 @@ export default {
 		 * Toggles the visibility of the timezone popover
 		 */
 		toggleTimezonePopover() {
+			if (this.isAllDay) {
+				return
+			}
+
 			this.showTimezonePopover = !this.showTimezonePopover
 		},
 	},
