@@ -53,6 +53,7 @@ export default {
 		readableName: t('calendar', 'Description'),
 		placeholder: t('calendar', 'Add a description'),
 		icon: 'icon-menu',
+		defaultNumberOfRows: 2,
 	},
 	/**
 	 * https://tools.ietf.org/html/rfc5545#section-3.8.1.11

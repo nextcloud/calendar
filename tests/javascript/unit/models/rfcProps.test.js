@@ -41,6 +41,7 @@ describe('models/rfcProps test suite', () => {
 		expect(rfcProps.location.readableName).toEqual('TRANSLATED:Location')
 		expect(rfcProps.location.placeholder).toEqual('TRANSLATED:Add a location')
 		expect(rfcProps.location.icon).toEqual('icon-address')
+		expect(rfcProps.location.defaultNumberOfRows).toEqual(undefined)
 	})
 
 	it('should provide property info for description', () => {
@@ -49,6 +50,7 @@ describe('models/rfcProps test suite', () => {
 		expect(rfcProps.description.readableName).toEqual('TRANSLATED:Description')
 		expect(rfcProps.description.placeholder).toEqual('TRANSLATED:Add a description')
 		expect(rfcProps.description.icon).toEqual('icon-menu')
+		expect(rfcProps.description.defaultNumberOfRows).toEqual(2)
 	})
 
 	it('should provide property info for status', () => {
