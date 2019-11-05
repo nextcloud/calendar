@@ -19,6 +19,8 @@ OC.L10N.register(
     "Download" : "下載",
     "Delete" : "刪除",
     "Share link" : "分享連結",
+    "Copying link ..." : "正在複製連結 ...",
+    "Deleting share link ..." : "正在刪除共享連結 ...",
     "can edit" : "可編輯",
     "New calendar" : "新日曆",
     "Cancel" : "取消",
