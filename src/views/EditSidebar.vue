@@ -83,6 +83,7 @@
 			</div>
 			<div v-if="!isLoading" class="app-sidebar-tab__content">
 				<PropertyCalendarPicker
+					v-if="showCalendarPicker"
 					:calendars="calendars"
 					:calendar="selectedCalendar"
 					:is-read-only="isReadOnly"
