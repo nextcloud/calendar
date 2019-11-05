@@ -21,7 +21,7 @@
   -->
 
 <template>
-	<div class="repeat-option-set repeat-option-set--summary">
+	<div v-if="display" class="repeat-option-set repeat-option-set--summary">
 		<span class="repeat-option-set-summary__label">{{ $t('calendar', 'Summary') }}:</span>
 		<span class="repeat-option-set-summary__summary">{{ summary }}</span>
 	</div>
@@ -92,7 +92,18 @@ export default {
 		},
 	},
 	computed: {
+		/**
+		 * Returns whether or not to display the summary.
+		 * We do not want to show it if it doesn't repeat
+		 *
+		 * @returns {boolean}
+		 */
+		display() {
+			return this.frequency !== 'NONE'
+		},
 		summary() {
+			// Do not remove this if, because it is still used by RepeatSummaryReadOnly.vue
+			// Ideally we would outsource this into a filter
 			if (this.frequency === 'NONE') {
 				return this.$t('calendar', 'Does not repeat')
 			}
