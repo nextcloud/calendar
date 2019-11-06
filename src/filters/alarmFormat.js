@@ -20,7 +20,7 @@
  *
  */
 
-import { translate, translatePlural } from '@nextcloud/l10n'
+import { translate as t, translatePlural as n } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
 
 /**
@@ -42,19 +42,19 @@ export default (alarm, isAllDay, currentUserTimezone) => {
 			const formattedHourMinute = moment(date).format('LT')
 
 			if (alarm.relativeTrigger === 0) {
-				return translate('calendar', 'Midnight on the day the event starts')
+				return t('calendar', 'Midnight on the day the event starts')
 			}
 
 			if (alarm.relativeTrigger < 0) {
 				if (alarm.relativeUnitAllDay === 'days') {
-					return translatePlural('calendar',
+					return n('calendar',
 						'%n day before the event at {formattedHourMinute}',
 						'%n days before the event at {formattedHourMinute}',
 						alarm.relativeAmountAllDay, {
 							formattedHourMinute,
 						})
 				} else {
-					return translatePlural('calendar',
+					return n('calendar',
 						'%n week before the event at {formattedHourMinute}',
 						'%n weeks before the event at {formattedHourMinute}',
 						alarm.relativeAmountAllDay, {
@@ -62,41 +62,41 @@ export default (alarm, isAllDay, currentUserTimezone) => {
 						})
 				}
 			}
-			return translate('calendar', 'on the day of the event at {formattedHourMinute}', {
+			return t('calendar', 'on the day of the event at {formattedHourMinute}', {
 				formattedHourMinute,
 			})
 		} else {
 			// Alarms at the event's start or end
 			if (alarm.relativeTrigger === 0) {
 				if (alarm.relativeIsRelatedToStart) {
-					return translate('calendar', 'at the event\'s start')
+					return t('calendar', 'at the event\'s start')
 				} else {
-					return translate('calendar', 'at the event\'s end')
+					return t('calendar', 'at the event\'s end')
 				}
 			}
 
 			if (alarm.relativeTrigger < 0) {
 				if (alarm.relativeIsRelatedToStart) {
-					return translate('calendar', '{time} before the event starts', { time })
+					return t('calendar', '{time} before the event starts', { time })
 				} else {
-					return translate('calendar', '{time} before the event ends', { time })
+					return t('calendar', '{time} before the event ends', { time })
 				}
 			}
 
 			if (alarm.relativeIsRelatedToStart) {
-				return translate('calendar', '{time} after the event starts', { time })
+				return t('calendar', '{time} after the event starts', { time })
 			} else {
-				return translate('calendar', '{time} after the event ends', { time })
+				return t('calendar', '{time} after the event ends', { time })
 			}
 		}
 	} else {
 		// absolute trigger
 		if (currentUserTimezone === alarm.absoluteTimezoneId) {
-			return translate('calendar', 'on {time}', {
+			return t('calendar', 'on {time}', {
 				time: moment(alarm.absoluteDate).format('LLLL'),
 			})
 		} else {
-			return translate('calendar', 'on {time} {timezoneId}', {
+			return t('calendar', 'on {time} {timezoneId}', {
 				time: moment(alarm.absoluteDate).format('LLLL'),
 				timezoneId: alarm.absoluteTimezoneId,
 			})

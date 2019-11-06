@@ -30,7 +30,7 @@ import { dateFactory, getUnixTimestampFromDate } from '../utils/date.js'
 import { getDefaultCalendarObject, mapDavCollectionToCalendar } from '../models/calendar'
 import pLimit from 'p-limit'
 import { uidToHexColor } from '../utils/color.js'
-import { translate } from '@nextcloud/l10n'
+import { translate as t } from '@nextcloud/l10n'
 import getTimezoneManager from '../services/timezoneDataProviderService.js'
 import Timezone from 'calendar-js/src/timezones/timezone.js'
 import CalendarComponent from 'calendar-js/src/components/calendarComponent.js'
@@ -800,7 +800,7 @@ const actions = {
 
 			const calendarId = context.rootState.importFiles.importCalendarRelation[file.id]
 			if (calendarId === 'new') {
-				const displayName = file.parser.getName() || translate('calendar', 'Imported {filename}', {
+				const displayName = file.parser.getName() || t('calendar', 'Imported {filename}', {
 					filename: file.name,
 				})
 				const color = file.parser.getColor() || uidToHexColor(displayName)

@@ -19,7 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { translate } from '@nextcloud/l10n'
+import { translate as t } from '@nextcloud/l10n'
 
 /**
  *
@@ -35,7 +35,8 @@ export function getSortedTimezoneList(timezoneList = [], additionalTimezones = [
 		let [continent, name] = timezoneId.split('/', 2)
 		if (!name) {
 			name = continent
-			continent = translate('calendar', 'Global')
+			// TRANSLATORS This refers to global timezones in the timezone picker
+			continent = t('calendar', 'Global')
 		}
 
 		sortedByContinent[continent] = sortedByContinent[continent] || {

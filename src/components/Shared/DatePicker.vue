@@ -59,7 +59,7 @@
 <script>
 import { DatetimePicker } from '@nextcloud/vue/dist/Components/DatetimePicker'
 import { Popover } from '@nextcloud/vue/dist/Components/Popover'
-import { translate, getDayNamesShort, getMonthNamesShort, getFirstDay } from '@nextcloud/l10n'
+import { getDayNamesShort, getMonthNamesShort, getFirstDay } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
 
 import TimezoneSelect from './TimezoneSelect'
@@ -113,7 +113,7 @@ export default {
 				days: getDayNamesShort(),
 				months: getMonthNamesShort(),
 				placeholder: {
-					date: t('calendar', 'Select Date'),
+					date: this.$t('calendar', 'Select Date'),
 				},
 			},
 			firstDay: getFirstDay() === 0 ? 7 : getFirstDay(),
@@ -147,13 +147,13 @@ export default {
 			if (this.isAllDay) {
 				switch (this.prefix) {
 				case 'from':
-					return translate('calendar', '[from] {dateFormat}', { dateFormat })
+					return this.$t('calendar', '[from] {dateFormat}', { dateFormat })
 
 				case 'to':
-					return translate('calendar', '[to] {dateFormat}', { dateFormat })
+					return this.$t('calendar', '[to] {dateFormat}', { dateFormat })
 
 				case 'on':
-					return translate('calendar', '[on] {dateFormat}', { dateFormat })
+					return this.$t('calendar', '[on] {dateFormat}', { dateFormat })
 
 				default:
 					return dateFormat
@@ -161,16 +161,16 @@ export default {
 			} else {
 				switch (this.prefix) {
 				case 'from':
-					return translate('calendar', '[from] {dateFormat} [at] {timeFormat}', { dateFormat, timeFormat })
+					return this.$t('calendar', '[from] {dateFormat} [at] {timeFormat}', { dateFormat, timeFormat })
 
 				case 'to':
-					return translate('calendar', '[to] {dateFormat} [at] {timeFormat}', { dateFormat, timeFormat })
+					return this.$t('calendar', '[to] {dateFormat} [at] {timeFormat}', { dateFormat, timeFormat })
 
 				case 'on':
-					return translate('calendar', '[on] {dateFormat} [at] {timeFormat}', { dateFormat, timeFormat })
+					return this.$t('calendar', '[on] {dateFormat} [at] {timeFormat}', { dateFormat, timeFormat })
 
 				default:
-					return translate('calendar', '{dateFormat} [at] {timeFormat}', { dateFormat, timeFormat })
+					return this.$t('calendar', '{dateFormat} [at] {timeFormat}', { dateFormat, timeFormat })
 				}
 			}
 		},
