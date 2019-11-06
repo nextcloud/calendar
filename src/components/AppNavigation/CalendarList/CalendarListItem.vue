@@ -331,18 +331,18 @@ export default {
 					this.countdown = 0
 				}
 			}, 1000)
-			this.deleteTimeout = setTimeout(() => {
-				this.$store.dispatch('deleteCalendar', { calendar: this.calendar })
-					.catch((error) => {
-						this.$toast.error(this.$t('calendar', 'An error occurred, unable to delete the calendar.'))
-						console.error(error)
-					})
-					.then(() => {
-						clearInterval(this.deleteInterval)
-						this.deleteTimeout = null
-						this.deleteInterval = null
-						this.countdown = 7
-					})
+			this.deleteTimeout = setTimeout(async() => {
+				try {
+					await this.$store.dispatch('deleteCalendar', { calendar: this.calendar })
+				} catch (error) {
+					this.$toast.error(this.$t('calendar', 'An error occurred, unable to delete the calendar.'))
+					console.error(error)
+				} finally {
+					clearInterval(this.deleteInterval)
+					this.deleteTimeout = null
+					this.deleteInterval = null
+					this.countdown = 7
+				}
 			}, 7000)
 		},
 		/**
@@ -389,15 +389,19 @@ export default {
 		 * Copies the private calendar link
 		 * to be used with clients like Thunderbird
 		 */
-		copyLink() {
+		async copyLink() {
 			const rootUrl = generateRemoteUrl('dav')
 			const url = new URL(this.calendar.url, rootUrl)
 
 			// TODO - use menuOpen to keep it open instead of toast
 
-			this.$copyText(url)
-				.then(e => this.$toast.success(this.$t('calendar', 'Calendar link copied to clipboard.')))
-				.catch(e => this.$toast.error(this.$t('calendar', 'Calendar link could not be copied to clipboard.')))
+			try {
+				await this.$copyText(url)
+				this.$toast.success(this.$t('calendar', 'Calendar link copied to clipboard.'))
+			} catch (error) {
+				console.debug(error)
+				this.$toast.error(this.$t('calendar', 'Calendar link could not be copied to clipboard.'))
+			}
 		},
 		/**
 		 * Opens the input-field to rename the calendar
@@ -417,28 +421,27 @@ export default {
 		 *
 		 * @param {Event} event The submit event
 		 */
-		saveRenameInput(event) {
+		async saveRenameInput(event) {
 			this.showRenameInput = false
 			this.showRenameSaving = true
 
 			const newName = event.target.querySelector('input[type=text]').value
-			this.$store.dispatch('renameCalendar', {
-				calendar: this.calendar,
-				newName,
-			})
-				.then(() => {
-					this.showRenameLabel = true
-					this.showRenameInput = false
-					this.showRenameSaving = false
+			try {
+				await this.$store.dispatch('renameCalendar', {
+					calendar: this.calendar,
+					newName,
 				})
-				.catch((error) => {
-					this.$toast(this.$t('calendar', 'An error occurred, unable to rename the calendar.'))
-					console.error(error)
+				this.showRenameLabel = true
+				this.showRenameInput = false
+				this.showRenameSaving = false
+			} catch (error) {
+				this.$toast(this.$t('calendar', 'An error occurred, unable to rename the calendar.'))
+				console.error(error)
 
-					this.showRenameLabel = false
-					this.showRenameInput = true
-					this.showRenameSaving = false
-				})
+				this.showRenameLabel = false
+				this.showRenameInput = true
+				this.showRenameSaving = false
+			}
 		},
 		/**
 		 * Opens the color-picker
@@ -458,28 +461,27 @@ export default {
 		 *
 		 * @param {Event} event The submit event
 		 */
-		saveColorInput(event) {
+		async saveColorInput(event) {
 			this.showColorInput = false
 			this.showColorSaving = true
 
 			const newColor = event.target.querySelector('input[type=color]').value
-			this.$store.dispatch('changeCalendarColor', {
-				calendar: this.calendar,
-				newColor,
-			})
-				.then(() => {
-					this.showColorLabel = true
-					this.showColorInput = false
-					this.showColorSaving = false
+			try {
+				await this.$store.dispatch('changeCalendarColor', {
+					calendar: this.calendar,
+					newColor,
 				})
-				.catch((error) => {
-					this.$toast(this.$t('calendar', 'An error occurred, unable to change the calendar\'s color.'))
-					console.error(error)
+				this.showColorLabel = true
+				this.showColorInput = false
+				this.showColorSaving = false
+			} catch (error) {
+				this.$toast(this.$t('calendar', 'An error occurred, unable to change the calendar\'s color.'))
+				console.error(error)
 
-					this.showColorLabel = false
-					this.showColorInput = true
-					this.showColorSaving = false
-				})
+				this.showColorLabel = false
+				this.showColorInput = true
+				this.showColorSaving = false
+			}
 		},
 	},
 }

@@ -142,7 +142,7 @@ export default {
 		},
 	},
 	methods: {
-		copySubscriptionLink() {
+		async copySubscriptionLink() {
 			this.menuOpen = true
 			this.showCopySubscriptionLinkLabel = false
 			this.showCopySubscriptionLinkSpinner = true
@@ -160,32 +160,32 @@ export default {
 			}
 
 			// copy link for calendar to clipboard
-			this.$copyText(url)
-				.then(e => {
-					this.menuOpen = true
-					this.showCopySubscriptionLinkLabel = false
-					this.showCopySubscriptionLinkSpinner = false
-					this.showCopySubscriptionLinkSuccess = true
-					this.showCopySubscriptionLinkError = false
+			try {
+				await this.$copyText(url)
+				this.menuOpen = true
+				this.showCopySubscriptionLinkLabel = false
+				this.showCopySubscriptionLinkSpinner = false
+				this.showCopySubscriptionLinkSuccess = true
+				this.showCopySubscriptionLinkError = false
 
-					this.$toast.success(this.$t('calendar', 'Calendar link copied to clipboard.'))
-				})
-				.catch(e => {
-					this.menuOpen = true
-					this.showCopySubscriptionLinkLabel = false
+				this.$toast.success(this.$t('calendar', 'Calendar link copied to clipboard.'))
+			} catch (error) {
+				console.debug(error)
+				this.menuOpen = true
+				this.showCopySubscriptionLinkLabel = false
+				this.showCopySubscriptionLinkSpinner = false
+				this.showCopySubscriptionLinkSuccess = false
+				this.showCopySubscriptionLinkError = true
+
+				this.$toast.error(this.$t('calendar', 'Calendar link could not be copied to clipboard.'))
+			} finally {
+				setTimeout(() => {
+					this.showCopySubscriptionLinkLabel = true
 					this.showCopySubscriptionLinkSpinner = false
 					this.showCopySubscriptionLinkSuccess = false
-					this.showCopySubscriptionLinkError = true
-
-					this.$toast.error(this.$t('calendar', 'Calendar link could not be copied to clipboard.'))
-				}).then(() => {
-					setTimeout(() => {
-						this.showCopySubscriptionLinkLabel = true
-						this.showCopySubscriptionLinkSpinner = false
-						this.showCopySubscriptionLinkSuccess = false
-						this.showCopySubscriptionLinkError = false
-					}, 2000)
-				})
+					this.showCopySubscriptionLinkError = false
+				}, 2000)
+			}
 		},
 		toggleEnabled() {
 			this.$store.commit('toggleCalendarEnabled', {

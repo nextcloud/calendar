@@ -192,18 +192,17 @@ export default {
 		},
 	},
 	methods: {
-		publishCalendar() {
+		async publishCalendar() {
 			this.publishingCalendar = true
 
-			this.$store.dispatch('publishCalendar', { calendar: this.calendar })
-				.then(() => {
-					this.publishingCalendar = false
-				})
-				.catch((error) => {
-					console.debug(error)
-					this.$toast.error(this.$t('calendar', 'An error occurred, unable to publish calendar.'))
-					this.publishingCalendar = false
-				})
+			try {
+				await this.$store.dispatch('publishCalendar', { calendar: this.calendar })
+			} catch (error) {
+				console.debug(error)
+				this.$toast.error(this.$t('calendar', 'An error occurred, unable to publish calendar.'))
+			} finally {
+				this.publishingCalendar = false
+			}
 		},
 		openEMailLinkInput() {
 			this.showEMailLabel = false
@@ -226,7 +225,7 @@ export default {
 			// const value = event.target.querySelector('input[type=text]').value
 			// console.debug(value)
 		},
-		copyPublicLink() {
+		async copyPublicLink() {
 			this.showCopyPublicLinkLabel = false
 			this.showCopyPublicLinkSpinner = true
 
@@ -235,21 +234,18 @@ export default {
 			const url = new URL(linkTo('calendar', 'index.php') + '/p/' + token, rootURL)
 
 			// copy link for calendar to clipboard
-			this.$copyText(url)
-				.then(e => {
-					this.showCopyPublicLinkLabel = true
-					this.showCopyPublicLinkSpinner = false
-
-					this.$toast.success(this.$t('calendar', 'Calendar link copied to clipboard.'))
-				})
-				.catch(e => {
-					this.showCopyPublicLinkLabel = true
-					this.showCopyPublicLinkSpinner = false
-
-					this.$toast.error(this.$t('calendar', 'Calendar link could not be copied to clipboard.'))
-				})
+			try {
+				await this.$copyText(url)
+				this.$toast.success(this.$t('calendar', 'Calendar link copied to clipboard.'))
+			} catch (error) {
+				console.debug(error)
+				this.$toast.error(this.$t('calendar', 'Calendar link could not be copied to clipboard.'))
+			} finally {
+				this.showCopyPublicLinkLabel = true
+				this.showCopyPublicLinkSpinner = false
+			}
 		},
-		copySubscriptionLink() {
+		async copySubscriptionLink() {
 			this.menuOpen = true
 			this.showCopySubscriptionLinkLabel = false
 			this.showCopySubscriptionLinkSpinner = true
@@ -260,34 +256,34 @@ export default {
 			const url = new URL(this.calendar.publishURL + '?export', rootURL)
 
 			// copy link for calendar to clipboard
-			this.$copyText(url)
-				.then(e => {
-					this.menuOpen = true
-					this.showCopySubscriptionLinkLabel = false
-					this.showCopySubscriptionLinkSpinner = false
-					this.showCopySubscriptionLinkSuccess = true
-					this.showCopySubscriptionLinkError = false
+			try {
+				await this.$copyText(url)
+				this.menuOpen = true
+				this.showCopySubscriptionLinkLabel = false
+				this.showCopySubscriptionLinkSpinner = false
+				this.showCopySubscriptionLinkSuccess = true
+				this.showCopySubscriptionLinkError = false
 
-					this.$toast.success(this.$t('calendar', 'Calendar link copied to clipboard.'))
-				})
-				.catch(e => {
-					this.menuOpen = true
-					this.showCopySubscriptionLinkLabel = false
+				this.$toast.success(this.$t('calendar', 'Calendar link copied to clipboard.'))
+			} catch (error) {
+				console.debug(error)
+				this.menuOpen = true
+				this.showCopySubscriptionLinkLabel = false
+				this.showCopySubscriptionLinkSpinner = false
+				this.showCopySubscriptionLinkSuccess = false
+				this.showCopySubscriptionLinkError = true
+
+				this.$toast.error(this.$t('calendar', 'Calendar link could not be copied to clipboard.'))
+			} finally {
+				setTimeout(() => {
+					this.showCopySubscriptionLinkLabel = true
 					this.showCopySubscriptionLinkSpinner = false
 					this.showCopySubscriptionLinkSuccess = false
-					this.showCopySubscriptionLinkError = true
-
-					this.$toast.error(this.$t('calendar', 'Calendar link could not be copied to clipboard.'))
-				}).then(() => {
-					setTimeout(() => {
-						this.showCopySubscriptionLinkLabel = true
-						this.showCopySubscriptionLinkSpinner = false
-						this.showCopySubscriptionLinkSuccess = false
-						this.showCopySubscriptionLinkError = false
-					}, 2000)
-				})
+					this.showCopySubscriptionLinkError = false
+				}, 2000)
+			}
 		},
-		copyEmbedCode() {
+		async copyEmbedCode() {
 			this.menuOpen = true
 			this.showCopyEmbedCodeLinkLabel = false
 			this.showCopyEmbedCodeLinkSpinner = true
@@ -301,43 +297,45 @@ export default {
 			const code = '<iframe width="400" height="215" src="' + url + '"></iframe>'
 
 			// copy link for calendar to clipboard
-			this.$copyText(code)
-				.then(e => {
-					this.menuOpen = true
-					this.showCopyEmbedCodeLinkLabel = false
-					this.showCopyEmbedCodeLinkSpinner = false
-					this.showCopyEmbedCodeLinkSuccess = true
-					this.showCopyEmbedCodeLinkError = false
+			try {
+				await this.$copyText(code)
+				this.menuOpen = true
+				this.showCopyEmbedCodeLinkLabel = false
+				this.showCopyEmbedCodeLinkSpinner = false
+				this.showCopyEmbedCodeLinkSuccess = true
+				this.showCopyEmbedCodeLinkError = false
 
-					this.$toast.success(this.$t('calendar', 'Embed code copied to clipboard.'))
-				})
-				.catch(e => {
-					this.menuOpen = true
-					this.showCopyEmbedCodeLinkLabel = false
+				this.$toast.success(this.$t('calendar', 'Embed code copied to clipboard.'))
+			} catch (error) {
+				console.debug(error)
+				this.menuOpen = true
+				this.showCopyEmbedCodeLinkLabel = false
+				this.showCopyEmbedCodeLinkSpinner = false
+				this.showCopyEmbedCodeLinkSuccess = false
+				this.showCopyEmbedCodeLinkError = true
+
+				this.$toast.error(this.$t('calendar', 'Embed code could not be copied to clipboard.'))
+			} finally {
+				setTimeout(() => {
+					this.showCopyEmbedCodeLinkLabel = true
 					this.showCopyEmbedCodeLinkSpinner = false
 					this.showCopyEmbedCodeLinkSuccess = false
-					this.showCopyEmbedCodeLinkError = true
-
-					this.$toast.error(this.$t('calendar', 'Embed code could not be copied to clipboard.'))
-				}).then(() => {
-					setTimeout(() => {
-						this.showCopyEmbedCodeLinkLabel = true
-						this.showCopyEmbedCodeLinkSpinner = false
-						this.showCopyEmbedCodeLinkSuccess = false
-						this.showCopyEmbedCodeLinkError = false
-					}, 2000)
-				})
+					this.showCopyEmbedCodeLinkError = false
+				}, 2000)
+			}
 		},
-		unpublishCalendar() {
+		async unpublishCalendar() {
 			this.unpublishingCalendar = true
 
 			const calendar = this.calendar
-			this.$store.dispatch('unpublishCalendar', { calendar }).then(() => {
+			try {
+				await this.$store.dispatch('unpublishCalendar', { calendar })
 				this.unpublishingCalendar = false
-			}).catch((e) => {
+			} catch (error) {
+				console.debug(error)
 				this.unpublishingCalendar = false
 				this.$toast.error(this.$t('calendar', 'Unpublishing calendar failed'))
-			})
+			}
 		},
 
 	},

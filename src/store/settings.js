@@ -150,11 +150,7 @@ const actions = {
 		const value = newState ? 'yes' : 'no'
 
 		await HttpClient.post(getLinkToConfig('skipPopover'), { value })
-			.then((response) => {
-				context.commit('togglePopoverEnabled')
-			}).catch((error) => {
-				throw error
-			})
+		context.commit('togglePopoverEnabled')
 	},
 
 	/**
@@ -168,11 +164,7 @@ const actions = {
 		const value = newState ? 'yes' : 'no'
 
 		await HttpClient.post(getLinkToConfig('showWeekends'), { value })
-			.then((response) => {
-				context.commit('toggleWeekendsEnabled')
-			}).catch((error) => {
-				throw error
-			})
+		context.commit('toggleWeekendsEnabled')
 	},
 
 	/**
@@ -186,11 +178,7 @@ const actions = {
 		const value = newState ? 'yes' : 'no'
 
 		await HttpClient.post(getLinkToConfig('showWeekNr'), { value })
-			.then((response) => {
-				context.commit('toggleWeekNumberEnabled')
-			}).catch((error) => {
-				throw error
-			})
+		context.commit('toggleWeekNumberEnabled')
 	},
 
 	/**
@@ -223,11 +211,8 @@ const actions = {
 
 		await HttpClient.post(getLinkToConfig('timezone'), {
 			value: timezoneId,
-		}).then((response) => {
-			context.commit('setTimezone', { timezoneId })
-		}).catch((error) => {
-			throw error
 		})
+		context.commit('setTimezone', { timezoneId })
 	},
 
 	/**

@@ -590,28 +590,28 @@ export default {
 	 * @param {Object} from The route coming from
 	 * @param {Function} next Function to be called when ready to load the next view
 	 */
-	beforeRouteEnter(to, from, next) {
+	async beforeRouteEnter(to, from, next) {
 		if (to.name === 'NewSidebarView' || to.name === 'NewPopoverView') {
-			next(vm => {
+			next(async vm => {
 				vm.resetState()
 
 				const isAllDay = (to.params.allDay === '1')
 				const start = parseInt(to.params.dtstart, 10)
 				const end = parseInt(to.params.dtend, 10)
 				const timezoneId = vm.$store.getters.getResolvedTimezone
-				vm.$store.dispatch('getCalendarObjectInstanceForNewEvent', { isAllDay, start, end, timezoneId })
-					.then(({ calendarObject }) => {
-						vm.calendarId = calendarObject.calendarId
-					})
-					.catch(() => {
-						vm.error = true
-					})
-					.finally(() => {
-						vm.isLoading = false
-					})
+
+				try {
+					const calendarObject = await vm.$store.dispatch('getCalendarObjectInstanceForNewEvent', { isAllDay, start, end, timezoneId })
+					vm.calendarId = calendarObject.calendarId
+				} catch (error) {
+					console.debug(error)
+					vm.error = true
+				} finally {
+					vm.isLoading = false
+				}
 			})
 		} else {
-			next(vm => {
+			next(async vm => {
 				vm.resetState()
 				const objectId = to.params.object
 				const recurrenceId = to.params.recurrenceId
@@ -620,26 +620,22 @@ export default {
 					const closeToDate = dateFactory()
 					// TODO: can we replace this by simply returning the new route since we are inside next()
 					// Probably not though, because it's async
-					vm.$store.dispatch('resolveClosestRecurrenceIdForCalendarObject', { objectId, closeToDate })
-						.then(recurrenceId => {
-							const params = Object.assign({}, vm.$route.params, { recurrenceId })
-							vm.$router.replace({ name: vm.$route.name, params })
-						})
-					return
+					const recurrenceId = await vm.$store.dispatch('resolveClosestRecurrenceIdForCalendarObject', { objectId, closeToDate })
+					const params = Object.assign({}, vm.$route.params, { recurrenceId })
+					vm.$router.replace({ name: vm.$route.name, params })
 				}
 
-				vm.$store.dispatch('getCalendarObjectInstanceByObjectIdAndRecurrenceId', { objectId, recurrenceId })
-					.then(({ calendarObject }) => {
-						vm.calendarId = calendarObject.calendarId
-						vm.isEditingMasterItem = vm.eventComponent.isMasterItem()
-						vm.isRecurrenceException = vm.eventComponent.isRecurrenceException()
-					})
-					.catch(() => {
-						vm.error = true
-					})
-					.finally(() => {
-						vm.isLoading = false
-					})
+				try {
+					const calendarObject = await vm.$store.dispatch('getCalendarObjectInstanceByObjectIdAndRecurrenceId', { objectId, recurrenceId })
+					vm.calendarId = calendarObject.calendarId
+					vm.isEditingMasterItem = vm.eventComponent.isMasterItem()
+					vm.isRecurrenceException = vm.eventComponent.isRecurrenceException()
+				} catch (error) {
+					console.debug(error)
+					vm.error = true
+				} finally {
+					vm.isLoading = false
+				}
 			})
 		}
 	},
@@ -652,7 +648,7 @@ export default {
 	 * @param {Object} from The route coming from
 	 * @param {Function} next Function to be called when ready to load the next view
 	 */
-	beforeRouteUpdate(to, from, next) {
+	async beforeRouteUpdate(to, from, next) {
 		// If we are in the New Event dialog, we want to update the selected time
 		if (to.name === 'NewSidebarView' || to.name === 'NewPopoverView') {
 			// If allDay, dtstart and dtend are the same there is no need to update.
@@ -668,8 +664,9 @@ export default {
 			const start = to.params.dtstart
 			const end = to.params.dtend
 			const timezoneId = this.$store.getters.getResolvedTimezone
-			this.$store.dispatch('updateCalendarObjectInstanceForNewEvent', { isAllDay, start, end, timezoneId })
-				.then(() => next())
+
+			await this.$store.dispatch('updateCalendarObjectInstanceForNewEvent', { isAllDay, start, end, timezoneId })
+			next()
 		} else {
 			// If both the objectId and recurrenceId remained the same
 			// there is no need to update. This is usally the case when navigating
@@ -682,37 +679,37 @@ export default {
 
 			this.isLoading = true
 
-			this.save().then(() => {
-				this.resetState()
-
-				const objectId = to.params.object
-				const recurrenceId = to.params.recurrenceId
-				if (recurrenceId === 'next') {
-					const closeToDate = dateFactory()
-					this.$store.dispatch('resolveClosestRecurrenceIdForCalendarObject', { objectId, closeToDate })
-						.then(recurrenceId => {
-							const params = Object.assign({}, this.$route.params, { recurrenceId })
-							next({ name: this.$route.name, params })
-						})
-					return
-				}
-
-				this.$store.dispatch('getCalendarObjectInstanceByObjectIdAndRecurrenceId', { objectId, recurrenceId })
-					.then(({ calendarObject }) => {
-						this.calendarId = calendarObject.calendarId
-						this.isEditingMasterItem = this.eventComponent.isMasterItem()
-						this.isRecurrenceException = this.eventComponent.isRecurrenceException()
-					})
-					.catch(() => {
-						this.error = true
-					})
-					.finally(() => {
-						this.isLoading = false
-						next()
-					})
-			}).catch(() => {
+			try {
+				await this.save()
+			} catch (error) {
+				console.debug(error)
 				next(false)
-			})
+				return
+			}
+
+			this.resetState()
+			const objectId = to.params.object
+			const recurrenceId = to.params.recurrenceId
+			if (recurrenceId === 'next') {
+				const closeToDate = dateFactory()
+				const recurrenceId = await this.$store.dispatch('resolveClosestRecurrenceIdForCalendarObject', { objectId, closeToDate })
+				const params = Object.assign({}, this.$route.params, { recurrenceId })
+				next({ name: this.$route.name, params })
+				return
+			}
+
+			try {
+				const calendarObject = this.$store.dispatch('getCalendarObjectInstanceByObjectIdAndRecurrenceId', { objectId, recurrenceId })
+				this.calendarId = calendarObject.calendarId
+				this.isEditingMasterItem = this.eventComponent.isMasterItem()
+				this.isRecurrenceException = this.eventComponent.isRecurrenceException()
+			} catch (error) {
+				console.debug(error)
+				this.error = true
+			} finally {
+				this.isLoading = false
+				next()
+			}
 		}
 	},
 	/**
@@ -722,7 +719,7 @@ export default {
 	 * @param {Object} from The route coming from
 	 * @param {Function} next Function to be called when ready to load the next view
 	 */
-	beforeRouteLeave(to, from, next) {
+	async beforeRouteLeave(to, from, next) {
 		// requiresActionOnRouteLeave is false when an action like deleting / saving / cancelling was already taken.
 		// The responsibility of this method is to automatically save the event when the user clicks outside the editor
 		if (!this.requiresActionOnRouteLeave) {
@@ -730,11 +727,12 @@ export default {
 			return
 		}
 
-		this.save().then(() => {
+		try {
+			await this.save()
 			next()
-		}).catch(() => {
-			// TODO - show proper error message
+		} catch (error) {
+			console.debug(error)
 			next(false)
-		})
+		}
 	},
 }

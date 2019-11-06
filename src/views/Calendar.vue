@@ -273,7 +273,7 @@ export default {
 			}
 		}, 1000)
 	},
-	beforeMount() {
+	async beforeMount() {
 		this.$store.commit('loadSettingsFromServer', {
 			appVersion: getConfigValueFromHiddenInput('app-version'),
 			firstRun: getConfigValueFromHiddenInput('first-run') === 'true',
@@ -287,50 +287,43 @@ export default {
 		if (this.$route.name.startsWith('Public') || this.$route.name.startsWith('Embed')) {
 			client._createPublicCalendarHome()
 			const tokens = this.$route.params.tokens.split('-')
-			this.$store.dispatch('getPublicCalendars', { tokens })
-				.then((calendars) => {
-					this.loadingCalendars = false
+			const calendars = await this.$store.dispatch('getPublicCalendars', { tokens })
+			this.loadingCalendars = false
 
-					if (calendars.length === 0) {
-						this.showEmptyCalendarScreen = true
-					}
-				})
+			if (calendars.length === 0) {
+				this.showEmptyCalendarScreen = true
+			}
 		} else {
-			// get calendars then get events
-			client.connect({ enableCalDAV: true })
-				.then(() => this.$store.dispatch('fetchCurrentUserPrincipal'))
-				.then(() => this.$store.dispatch('getCalendars'))
-				.then((calendars) => {
-					const owners = []
-					calendars.forEach((calendar) => {
-						if (owners.indexOf(calendar.owner) === -1) {
-							owners.push(calendar.owner)
-						}
-					})
-					owners.forEach((owner) => {
-						this.$store.dispatch('fetchPrincipalByUrl', {
-							url: owner,
-						})
-					})
-
-					const writeableCalendarIndex = calendars.findIndex((calendar) => {
-						return !calendar.readOnly
-					})
-
-					// No writeable calendars? Create a new one!
-					if (writeableCalendarIndex === -1) {
-						this.loadingCalendars = true
-						this.$store.dispatch('appendCalendar', {
-							displayName: this.$t('calendars', 'Personal'),
-							color: uidToHexColor(this.$t('calendars', 'Personal')),
-							order: 0,
-						}).then(() => {
-							this.loadingCalendars = false
-						})
-					}
-
-					this.loadingCalendars = false
+			await client.connect({ enableCalDAV: true })
+			await this.$store.dispatch('fetchCurrentUserPrincipal')
+			const calendars = await this.$store.dispatch('getCalendars')
+			const owners = []
+			calendars.forEach((calendar) => {
+				if (owners.indexOf(calendar.owner) === -1) {
+					owners.push(calendar.owner)
+				}
+			})
+			owners.forEach((owner) => {
+				this.$store.dispatch('fetchPrincipalByUrl', {
+					url: owner,
 				})
+			})
+
+			const writeableCalendarIndex = calendars.findIndex((calendar) => {
+				return !calendar.readOnly
+			})
+
+			// No writeable calendars? Create a new one!
+			if (writeableCalendarIndex === -1) {
+				this.loadingCalendars = true
+				await this.$store.dispatch('appendCalendar', {
+					displayName: this.$t('calendars', 'Personal'),
+					color: uidToHexColor(this.$t('calendars', 'Personal')),
+					order: 0,
+				})
+			}
+
+			this.loadingCalendars = false
 		}
 	},
 	async mounted() {

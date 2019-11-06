@@ -116,15 +116,14 @@ export default {
 				const davPromise = this.findShareesFromDav(query, hiddenPrincipalSchemes, hiddenUrls)
 				const ocsPromise = this.findShareesFromCircles(query, hiddenPrincipalSchemes, hiddenUrls)
 
-				return Promise.all([davPromise, ocsPromise]).then(([davResults, ocsResults]) => {
-					this.usersOrGroups = [
-						...davResults,
-						...ocsResults,
-					]
+				const [davResults, ocsResults] = await Promise.all([davPromise, ocsPromise])
+				this.usersOrGroups = [
+					...davResults,
+					...ocsResults,
+				]
 
-					this.isLoading = false
-					this.inputGiven = true
-				})
+				this.isLoading = false
+				this.inputGiven = true
 			} else {
 				this.inputGiven = false
 				this.isLoading = false
@@ -138,35 +137,39 @@ export default {
 		 * @returns {Promise<Object[]>}
 		 */
 		async findShareesFromDav(query, hiddenPrincipals, hiddenUrls) {
-			return client.principalPropertySearchByDisplayname(query)
-				.then(results => {
-					return results.reduce((list, result) => {
-						if (hiddenPrincipals.includes(result.principalScheme)) {
-							return list
-						}
-						if (hiddenUrls.includes(result.url)) {
-							return list
-						}
+			let results
+			try {
+				results = await client.principalPropertySearchByDisplayname(query)
+			} catch (error) {
+				return []
+			}
 
-						// Don't show resources and rooms
-						if (!['GROUP', 'INDIVIDUAL'].includes(result.calendarUserType)) {
-							return list
-						}
+			return results.reduce((list, result) => {
+				if (hiddenPrincipals.includes(result.principalScheme)) {
+					return list
+				}
+				if (hiddenUrls.includes(result.url)) {
+					return list
+				}
 
-						const isGroup = result.calendarUserType === 'GROUP'
-						list.push({
-							user: result[isGroup ? 'groupId' : 'userId'],
-							displayName: result.displayname,
-							icon: isGroup ? 'icon-group' : 'icon-user',
-							uri: result.principalScheme,
-							isGroup,
-							isCircle: false,
-							isNoUser: isGroup,
-							search: query,
-						})
-						return list
-					}, [])
+				// Don't show resources and rooms
+				if (!['GROUP', 'INDIVIDUAL'].includes(result.calendarUserType)) {
+					return list
+				}
+
+				const isGroup = result.calendarUserType === 'GROUP'
+				list.push({
+					user: result[isGroup ? 'groupId' : 'userId'],
+					displayName: result.displayname,
+					icon: isGroup ? 'icon-group' : 'icon-user',
+					uri: result.principalScheme,
+					isGroup,
+					isCircle: false,
+					isNoUser: isGroup,
+					search: query,
 				})
+				return list
+			}, [])
 		},
 		/**
 		 *
@@ -176,34 +179,33 @@ export default {
 		 * @returns {Promise<Object[]>}
 		 */
 		async findShareesFromCircles(query, hiddenPrincipals, hiddenUrls) {
-			return HttpClient.get(generateOcsUrl('apps/files_sharing/api/v1') + 'sharees', {
-				params: {
-					format: 'json',
-					search: query,
-					perPage: 200,
-					itemType: 'principals',
-				},
-			})
-				.catch(() => [])
-				.then(results => results.data.ocs.data.circles)
-				.then(circles => {
-					return circles.filter((circle) => {
-						return !hiddenPrincipals.includes('principal:principals/circles/' + circle.value.shareWith)
-					})
-				})
-				.then(circles => {
-					return circles.map(circle => ({
-						user: circle.label,
-						displayName: circle.label,
-						icon: 'icon-circle',
-						uri: 'principal:principals/circles/' + circle.value.shareWith,
-						isGroup: false,
-						isCircle: true,
-						isNoUser: true,
+			let results
+			try {
+				results = await HttpClient.get(generateOcsUrl('apps/files_sharing/api/v1') + 'sharees', {
+					params: {
+						format: 'json',
 						search: query,
-					}))
+						perPage: 200,
+						itemType: 'principals',
+					},
 				})
+			} catch (error) {
+				return []
+			}
 
+			const circles = results.data.ocs.data.circles
+			return circles.filter((circle) => {
+				return !hiddenPrincipals.includes('principal:principals/circles/' + circle.value.shareWith)
+			}).map(circle => ({
+				user: circle.label,
+				displayName: circle.label,
+				icon: 'icon-circle',
+				uri: 'principal:principals/circles/' + circle.value.shareWith,
+				isGroup: false,
+				isCircle: true,
+				isNoUser: true,
+				search: query,
+			}))
 		},
 	},
 }

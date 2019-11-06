@@ -442,17 +442,23 @@ const actions = {
 			findPromises.push(promise)
 		}
 
-		return Promise.all(findPromises)
-			.then(calendars => calendars.filter(calendar => calendar !== null))
-			.then(calendars => {
-				calendars.map((calendar) => mapDavCollectionToCalendar(calendar)).forEach(calendar => {
-					commit('addCalendar', { calendar })
-				})
+		const calendars = await Promise.all(findPromises)
+		const existingCalendars = []
+		for (const calendar of calendars) {
+			if (calendar !== null) {
+				existingCalendars.push(calendar)
+			}
+		}
 
-				commit('initialCalendarsLoaded')
+		const calendarObjects = []
+		for (const davCalendar of existingCalendars) {
+			const calendar = mapDavCollectionToCalendar(davCalendar)
+			commit('addCalendar', { calendar })
+			calendarObjects.push(calendar)
+		}
 
-				return calendars
-			})
+		commit('initialCalendarsLoaded')
+		return calendarObjects
 	},
 
 	/**
@@ -480,12 +486,9 @@ const actions = {
 			timezoneIcs = calendar.toICS(false)
 		}
 
-		return client.calendarHomes[0].createCalendarCollection(displayName, color, components, order, timezoneIcs)
-			.then((response) => {
-				const calendar = mapDavCollectionToCalendar(response, context.getters.getCurrentUserPrincipal)
-				context.commit('addCalendar', { calendar })
-			})
-			.catch((error) => { throw error })
+		const response = await client.calendarHomes[0].createCalendarCollection(displayName, color, components, order, timezoneIcs)
+		const calendar = mapDavCollectionToCalendar(response, context.getters.getCurrentUserPrincipal)
+		context.commit('addCalendar', { calendar })
 	},
 
 	/**
@@ -500,12 +503,9 @@ const actions = {
 	 * @returns {Promise}
 	 */
 	async appendSubscription(context, { displayName, color, order, source }) {
-		return client.calendarHomes[0].createSubscribedCollection(displayName, color, source, order)
-			.then((response) => {
-				const calendar = mapDavCollectionToCalendar(response, context.getters.getCurrentUserPrincipal)
-				context.commit('addCalendar', { calendar })
-			})
-			.catch((error) => { throw error })
+		const response = await client.calendarHomes[0].createSubscribedCollection(displayName, color, source, order)
+		const calendar = mapDavCollectionToCalendar(response, context.getters.getCurrentUserPrincipal)
+		context.commit('addCalendar', { calendar })
 	},
 
 	/**
@@ -517,11 +517,8 @@ const actions = {
 	 * @returns {Promise}
 	 */
 	async deleteCalendar(context, { calendar }) {
-		return calendar.dav.delete()
-			.then((response) => {
-				context.commit('deleteCalendar', { calendar })
-			})
-			.catch((error) => { throw error })
+		await calendar.dav.delete()
+		context.commit('deleteCalendar', { calendar })
 	},
 
 	/**
@@ -535,15 +532,15 @@ const actions = {
 	async toggleCalendarEnabled(context, { calendar }) {
 		context.commit('markCalendarAsLoading', { calendar })
 		calendar.dav.enabled = !calendar.dav.enabled
-		return calendar.dav.update()
-			.then((response) => {
-				context.commit('markCalendarAsNotLoading', { calendar })
-				context.commit('toggleCalendarEnabled', { calendar })
-			})
-			.catch((error) => {
-				context.commit('markCalendarAsNotLoading', { calendar })
-				throw error
-			})
+
+		try {
+			await calendar.dav.update()
+			context.commit('markCalendarAsNotLoading', { calendar })
+			context.commit('toggleCalendarEnabled', { calendar })
+		} catch (error) {
+			context.commit('markCalendarAsNotLoading', { calendar })
+			throw error
+		}
 	},
 
 	/**
@@ -557,9 +554,9 @@ const actions = {
 	 */
 	async renameCalendar(context, { calendar, newName }) {
 		calendar.dav.displayname = newName
-		return calendar.dav.update()
-			.then((response) => context.commit('renameCalendar', { calendar, newName }))
-			.catch((error) => { throw error })
+
+		await calendar.dav.update()
+		context.commit('renameCalendar', { calendar, newName })
 	},
 
 	/**
@@ -573,9 +570,9 @@ const actions = {
 	 */
 	async changeCalendarColor(context, { calendar, newColor }) {
 		calendar.dav.color = newColor
-		return calendar.dav.update()
-			.then((response) => context.commit('changeCalendarColor', { calendar, newColor }))
-			.catch((error) => { throw error })
+
+		await calendar.dav.update()
+		context.commit('changeCalendarColor', { calendar, newColor })
 	},
 
 	/**
@@ -589,9 +586,9 @@ const actions = {
 	 */
 	async changeCalendarOrder(context, { calendar, newOrder }) {
 		calendar.dav.order = newOrder
-		return calendar.dav.update()
-			.then((response) => context.commit('changeCalendarOrder', { calendar, newOrder }))
-			.catch((error) => { throw error })
+
+		await calendar.dav.update()
+		context.commit('changeCalendarOrder', { calendar, newOrder })
 	},
 
 	/**
@@ -620,12 +617,8 @@ const actions = {
 	 */
 	async shareCalendar(context, { calendar, user, displayName, uri, isGroup, isCircle }) {
 		// Share calendar with entered group or user
-		try {
-			await calendar.dav.share(uri)
-			context.commit('shareCalendar', { calendar, user, displayName, uri, isGroup, isCircle })
-		} catch (error) {
-			throw error
-		}
+		await calendar.dav.share(uri)
+		context.commit('shareCalendar', { calendar, user, displayName, uri, isGroup, isCircle })
 	},
 
 	/**
@@ -637,13 +630,9 @@ const actions = {
 	 * @param {string} data.uri the sharing principalScheme uri
 	 */
 	async toggleCalendarShareWritable(context, { calendar, uri }) {
-		try {
-			const sharee = calendar.shares.find(sharee => sharee.uri === uri)
-			await calendar.dav.share(uri, !sharee.writeable)
-			context.commit('toggleCalendarShareWritable', { calendar, uri })
-		} catch (error) {
-			throw error
-		}
+		const sharee = calendar.shares.find(sharee => sharee.uri === uri)
+		await calendar.dav.share(uri, !sharee.writeable)
+		context.commit('toggleCalendarShareWritable', { calendar, uri })
 	},
 
 	/**
@@ -655,12 +644,8 @@ const actions = {
 	 * @param {string} data.uri the sharing principalScheme uri
 	 */
 	async unshareCalendar(context, { calendar, uri }) {
-		try {
-			await calendar.dav.unshare(uri)
-			context.commit('unshareCalendar', { calendar, uri })
-		} catch (error) {
-			throw error
-		}
+		await calendar.dav.unshare(uri)
+		context.commit('unshareCalendar', { calendar, uri })
 	},
 
 	/**
@@ -672,12 +657,9 @@ const actions = {
 	 * @returns {Promise<void>}
 	 */
 	async publishCalendar(context, { calendar }) {
-		return calendar.dav.publish()
-			.then((response) => {
-				const publishURL = calendar.dav.publishURL
-				context.commit('publishCalendar', { calendar, publishURL })
-			})
-			.catch((error) => { throw error })
+		await calendar.dav.publish()
+		const publishURL = calendar.dav.publishURL
+		context.commit('publishCalendar', { calendar, publishURL })
 	},
 
 	/**
@@ -689,9 +671,8 @@ const actions = {
 	 * @returns {Promise<void>}
 	 */
 	async unpublishCalendar(context, { calendar }) {
-		return calendar.dav.unpublish()
-			.then((response) => context.commit('unpublishCalendar', { calendar }))
-			.catch((error) => { throw error })
+		await calendar.dav.unpublish()
+		context.commit('unpublishCalendar', { calendar })
 	},
 
 	/**
@@ -707,39 +688,38 @@ const actions = {
 	 */
 	async getEventsFromCalendarInTimeRange(context, { calendar, from, to }) {
 		context.commit('markCalendarAsLoading', { calendar })
-		return calendar.dav.findByTypeInTimeRange('VEVENT', from, to)
-			.then((response) => {
-				context.commit('addTimeRange', {
-					calendarId: calendar.id,
-					from: getUnixTimestampFromDate(from),
-					to: getUnixTimestampFromDate(to),
-					lastFetched: getUnixTimestampFromDate(dateFactory()),
-					calendarObjectIds: [],
-				})
-				const insertId = context.getters.getLastTimeRangeInsertId
-				context.commit('addFetchedTimeRangeToCalendar', {
-					calendar,
-					fetchedTimeRangeId: insertId,
-				})
 
-				const calendarObjects = []
-				const calendarObjectIds = []
-				for (const r of response) {
-					const calendarObject = new CalendarObject(r.data, calendar.id, r)
-					calendarObjects.push(calendarObject)
-					calendarObjectIds.push(calendarObject.id)
-				}
+		const response = await calendar.dav.findByTypeInTimeRange('VEVENT', from, to)
+		context.commit('addTimeRange', {
+			calendarId: calendar.id,
+			from: getUnixTimestampFromDate(from),
+			to: getUnixTimestampFromDate(to),
+			lastFetched: getUnixTimestampFromDate(dateFactory()),
+			calendarObjectIds: [],
+		})
+		const insertId = context.getters.getLastTimeRangeInsertId
+		context.commit('addFetchedTimeRangeToCalendar', {
+			calendar,
+			fetchedTimeRangeId: insertId,
+		})
 
-				context.commit('appendCalendarObjects', { calendarObjects })
-				context.commit('appendCalendarObjectsToCalendar', { calendar, calendarObjectIds })
-				context.commit('appendCalendarObjectIdsToTimeFrame', {
-					timeRangeId: insertId,
-					calendarObjectIds,
-				})
+		const calendarObjects = []
+		const calendarObjectIds = []
+		for (const r of response) {
+			const calendarObject = new CalendarObject(r.data, calendar.id, r)
+			calendarObjects.push(calendarObject)
+			calendarObjectIds.push(calendarObject.id)
+		}
 
-				context.commit('markCalendarAsNotLoading', { calendar })
-				return context.state.lastTimeRangeInsertId
-			})
+		context.commit('appendCalendarObjects', { calendarObjects })
+		context.commit('appendCalendarObjectsToCalendar', { calendar, calendarObjectIds })
+		context.commit('appendCalendarObjectIdsToTimeFrame', {
+			timeRangeId: insertId,
+			calendarObjectIds,
+		})
+
+		context.commit('markCalendarAsNotLoading', { calendar })
+		return context.state.lastTimeRangeInsertId
 	},
 
 	/**
@@ -815,16 +795,17 @@ const actions = {
 					components.push('VTODO')
 				}
 
-				await client.calendarHomes[0].createCalendarCollection(displayName, color, components, 0)
-					.then((response) => {
-						const calendar = mapDavCollectionToCalendar(response, context.getters.getCurrentUserPrincipal)
-						context.commit('addCalendar', { calendar })
-						context.commit('setCalendarForFileId', {
-							fileId: file.id,
-							calendarId: calendar.id,
-						})
+				try {
+					const response = await client.calendarHomes[0].createCalendarCollection(displayName, color, components, 0)
+					const calendar = mapDavCollectionToCalendar(response, context.getters.getCurrentUserPrincipal)
+					context.commit('addCalendar', { calendar })
+					context.commit('setCalendarForFileId', {
+						fileId: file.id,
+						calendarId: calendar.id,
 					})
-					.catch((error) => { throw error })
+				} catch (error) {
+					throw error
+				}
 			}
 		}
 
@@ -838,32 +819,35 @@ const actions = {
 			const calendar = context.getters.getCalendarById(calendarId)
 
 			for (const item of file.parser.getItemIterator()) {
-				requests.push(limit(() => {
+				requests.push(limit(async() => {
 					const ics = item.toICS()
-					return calendar.dav.createVObject(ics).then((davObject) => {
-						const calendarObject = new CalendarObject(davObject.data, calendarId, davObject)
-						context.commit('appendCalendarObject', { calendarObject })
-						context.commit('addCalendarObjectToCalendar', {
-							calendar,
-							calendarObjectId: calendarObject.id,
-						})
-						context.commit('addCalendarObjectIdToAllTimeRangesOfCalendar', {
-							calendarId: calendar.id,
-							calendarObjectId: calendarObject.id,
-						})
-						context.commit('incrementAccepted')
-					}).catch((error) => {
-						// error
+
+					let davObject
+					try {
+						davObject = await calendar.dav.createVObject(ics)
+					} catch (error) {
 						context.commit('incrementDenied')
 						console.error(error)
+						return
+					}
+
+					const calendarObject = new CalendarObject(davObject.data, calendarId, davObject)
+					context.commit('appendCalendarObject', { calendarObject })
+					context.commit('addCalendarObjectToCalendar', {
+						calendar,
+						calendarObjectId: calendarObject.id,
 					})
+					context.commit('addCalendarObjectIdToAllTimeRangesOfCalendar', {
+						calendarId: calendar.id,
+						calendarObjectId: calendarObject.id,
+					})
+					context.commit('incrementAccepted')
 				}))
 			}
 		}
 
-		return Promise.all(requests).then(() => {
-			context.commit('changeStage', 'default')
-		})
+		await Promise.all(requests)
+		context.commit('changeStage', 'default')
 	},
 }
 

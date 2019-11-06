@@ -41,19 +41,19 @@ export default function(store) {
 			borderColor: calendar.color,
 			textColor: generateTextColorForRGBString(calendar.color),
 			// html foo
-			events: ({ start, end, timeZone }, successCallback, failureCallback) => {
+			events: async({ start, end, timeZone }, successCallback, failureCallback) => {
 				const timezoneObject = getTimezoneManager().getTimezoneForId(timeZone)
 				const timeRange = store.getters.getTimeRangeForCalendarCoveringRange(calendar.id, getUnixTimestampFromDate(start), getUnixTimestampFromDate(end))
 				if (!timeRange) {
-					store.dispatch('getEventsFromCalendarInTimeRange', {
+					await store.dispatch('getEventsFromCalendarInTimeRange', {
 						calendar: calendar,
 						from: start,
 						to: end,
-					}).then(() => {
-						const timeRange = store.getters.getTimeRangeForCalendarCoveringRange(calendar.id, getUnixTimestampFromDate(start), getUnixTimestampFromDate(end))
-						const calendarObjects = store.getters.getCalendarObjectsByTimeRangeId(timeRange.id)
-						successCallback(eventSourceFunction(calendarObjects, start, end, timezoneObject))
 					})
+
+					const timeRange = store.getters.getTimeRangeForCalendarCoveringRange(calendar.id, getUnixTimestampFromDate(start), getUnixTimestampFromDate(end))
+					const calendarObjects = store.getters.getCalendarObjectsByTimeRangeId(timeRange.id)
+					successCallback(eventSourceFunction(calendarObjects, start, end, timezoneObject))
 				} else {
 					const calendarObjects = store.getters.getCalendarObjectsByTimeRangeId(timeRange.id)
 					successCallback(eventSourceFunction(calendarObjects, start, end, timezoneObject))

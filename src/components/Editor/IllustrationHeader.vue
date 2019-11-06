@@ -73,18 +73,18 @@ export default {
 	},
 	watch: {
 		illustrationUrl: {
-			handler(newUrl, oldUrl) {
+			async handler(newUrl, oldUrl) {
 				if (oldUrl === newUrl) {
 					return
 				}
 
-				HttpClient.get(newUrl)
-					.then((response) => {
-						this.svg = response.data
-					})
-					.catch(() => {
-						this.svg = ''
-					})
+				try {
+					const response = await HttpClient.get(newUrl)
+					this.svg = response.data
+				} catch (error) {
+					console.debug(error)
+					this.svg = ''
+				}
 			},
 			immediate: true,
 		},

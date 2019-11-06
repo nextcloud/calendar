@@ -131,73 +131,85 @@ export default {
 		},
 	},
 	methods: {
-		toggleBirthdayEnabled() {
+		async toggleBirthdayEnabled() {
 			// change to loading status
 			this.savingBirthdayCalendar = true
-			this.$store.dispatch('toggleBirthdayCalendarEnabled').then(() => {
+			try {
+				await this.$store.dispatch('toggleBirthdayCalendarEnabled')
 				this.savingBirthdayCalendar = false
-			}).catch((err) => {
-				console.error(err)
+			} catch (error) {
+				console.error(error)
 				this.$toast.error(this.$t('calendar', 'New setting was not saved successfully.'))
 				this.savingBirthdayCalendar = false
-			})
+			}
 		},
-		togglePopoverEnabled() {
+		async togglePopoverEnabled() {
 			// change to loading status
 			this.savingPopover = true
-			this.$store.dispatch('togglePopoverEnabled').then(() => {
+			try {
+				await this.$store.dispatch('togglePopoverEnabled')
 				this.savingPopover = false
-			}).catch((err) => {
-				console.error(err)
+			} catch (error) {
+				console.error(error)
 				this.$toast.error(this.$t('calendar', 'New setting was not saved successfully.'))
 				this.savingPopover = false
-			})
+			}
 		},
-		toggleWeekendsEnabled() {
+		async toggleWeekendsEnabled() {
 			// change to loading status
 			this.savingWeekend = true
-			this.$store.dispatch('toggleWeekendsEnabled').then(() => {
+			try {
+				await this.$store.dispatch('toggleWeekendsEnabled')
 				this.savingWeekend = false
-			}).catch((err) => {
-				console.error(err)
+			} catch (error) {
+				console.error(error)
 				this.$toast.error(this.$t('calendar', 'New setting was not saved successfully.'))
 				this.savingWeekend = false
-			})
+			}
 		},
 		/**
 		 * Toggles the setting for "Show week number"
 		 */
-		toggleWeekNumberEnabled() {
+		async toggleWeekNumberEnabled() {
 			// change to loading status
 			this.savingWeekNumber = true
-			this.$store.dispatch('toggleWeekNumberEnabled').then(() => {
+			try {
+				await this.$store.dispatch('toggleWeekNumberEnabled')
 				this.savingWeekNumber = false
-			}).catch((err) => {
-				console.error(err)
+			} catch (error) {
+				console.error(error)
 				this.$toast.error(this.$t('calendar', 'New setting was not saved successfully.'))
 				this.savingWeekNumber = false
-			})
+			}
 		},
 		/**
 		 * Copies the primary CalDAV url to the user's clipboard.
 		 */
-		copyPrimaryCalDAV() {
-			this.$copyText(generateRemoteUrl('dav'))
-				.then(e => this.$toast.success(this.$t('calendar', 'CalDAV link copied to clipboard.')))
-				.catch(e => this.$toast.error(this.$t('calendar', 'CalDAV link could not be copied to clipboard.')))
+		async copyPrimaryCalDAV() {
+			try {
+				await this.$copyText(generateRemoteUrl('dav'))
+				this.$toast.success(this.$t('calendar', 'CalDAV link copied to clipboard.'))
+			} catch (error) {
+				console.debug(error)
+				this.$toast.error(this.$t('calendar', 'CalDAV link could not be copied to clipboard.'))
+			}
 
 		},
 		/**
 		 * Copies the macOS / iOS specific CalDAV url to the user's clipboard.
 		 * This url is user-specific.
 		 */
-		copyAppleCalDAV() {
+		async copyAppleCalDAV() {
 			const rootURL = generateRemoteUrl('dav')
 			const url = new URL(client.currentUserPrincipal.principalUrl, rootURL)
 
-			this.$copyText(url)
-				.then(e => this.$toast.success(this.$t('calendar', 'CalDAV link copied to clipboard.')))
-				.catch(e => this.$toast.error(this.$t('calendar', 'CalDAV link could not be copied to clipboard.')))
+			try {
+				await this.$copyText(url)
+				this.$toast.success(this.$t('calendar', 'CalDAV link copied to clipboard.'))
+			} catch (error) {
+				console.debug(error)
+				this.$toast.error(this.$t('calendar', 'CalDAV link could not be copied to clipboard.'))
+			}
 		},
 	},
 }

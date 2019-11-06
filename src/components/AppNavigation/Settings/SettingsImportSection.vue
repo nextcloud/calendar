@@ -193,20 +193,19 @@ export default {
 		 * Import all events into the calendars
 		 * This will show
 		 */
-		importCalendar() {
-			this.$store.dispatch('importEventsIntoCalendar').then(() => {
-				if (this.total === this.accepted) {
-					this.$toast.success(this.$n('calendar', 'Successfully imported %n event', 'Successfully imported %n events.', this.total))
-				} else {
-					this.$toast.warning(this.$t('calendar', 'Import partially failed. Imported {accepted} out of {total}.', {
-						accepted: this.accepted,
-						total: this.total,
-					}))
-				}
+		async importCalendar() {
+			await this.$store.dispatch('importEventsIntoCalendar')
 
-				this.$store.commit('removeAllFiles')
-				this.$store.commit('resetState')
-			})
+			if (this.total === this.accepted) {
+				this.$toast.success(this.$n('calendar', 'Successfully imported %n event', 'Successfully imported %n events.', this.total))
+			} else {
+				this.$toast.warning(this.$t('calendar', 'Import partially failed. Imported {accepted} out of {total}.', {
+					accepted: this.accepted,
+					total: this.total,
+				}))
+			}
+			this.$store.commit('removeAllFiles')
+			this.$store.commit('resetState')
 		},
 		/**
 		 * Resets the import sate
