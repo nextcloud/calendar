@@ -20,7 +20,7 @@
  *
  */
 import moment from '@nextcloud/moment'
-import { translate } from '@nextcloud/l10n'
+import { translate as t } from '@nextcloud/l10n'
 
 export default (value, view) => {
 	switch (view) {
@@ -28,7 +28,7 @@ export default (value, view) => {
 		return moment(value).format('ll')
 
 	case 'timeGridWeek':
-		return translate('calendar', 'Week {number} of {year}', {
+		return t('calendar', 'Week {number} of {year}', {
 			number: moment(value).week(),
 			year: moment(value).year(),
 		})
