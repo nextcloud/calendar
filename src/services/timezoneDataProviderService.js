@@ -50,6 +50,7 @@ function initialize() {
 		if (Object.prototype.hasOwnProperty.call(tzData.zones, [tzid])) {
 			const ics = [
 				'BEGIN:VTIMEZONE',
+				'TZID:' + tzid,
 				...tzData.zones[tzid].ics,
 				'END:VTIMEZONE',
 			].join('\r\n')
