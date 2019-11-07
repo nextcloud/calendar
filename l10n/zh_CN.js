@@ -113,7 +113,6 @@ OC.L10N.register(
     "_hour_::_hours_" : ["小时"],
     "_day_::_days_" : ["天"],
     "_week_::_weeks_" : ["周"],
-    "This event does not have any reminders." : "此事件没有任何提醒。",
     "{name} accepted your invitation." : "{name}接受了您的邀请。",
     "{name} accepted {organizerName}'s invitation." : "{name}接受了{organizerName}的邀请。",
     "{name} declined your invitation." : "{name}拒绝了您的邀请。",
@@ -130,9 +129,7 @@ OC.L10N.register(
     "Remove attendee" : "移除参加者",
     "Search for e-mails, users, contacts, resources or rooms" : "查找邮件、用户、联系人、资源或聊天室",
     "No match found" : "未找到匹配项",
-    "This event does not have any attendees." : "此事件没有任何参加者。",
     "(organizer)" : "（组织者）",
-    "Please configure your email-address in the personal settings. It is necessary to send out invitations and handle responses of your invitees." : "请在个人设置中设置您的邮箱地址。这对发送邀请以及处理您受邀人的回复来说是必要的。",
     "Event title" : "事件标题",
     "All day" : "全天",
     "Can not modify all-day setting for events that are part of a recurrence-set." : "如果事件是循环事件集的一部分，则无法修改此事件的全天设置",
@@ -204,6 +201,7 @@ OC.L10N.register(
     "Projects" : "项目",
     "Close" : "关闭",
     "Subscribe to {name}" : "订阅{name}",
-    "Download {name}" : "下载{name}"
+    "Download {name}" : "下载{name}",
+    "Busy" : "忙碌"
 },
 "nplurals=1; plural=0;");
