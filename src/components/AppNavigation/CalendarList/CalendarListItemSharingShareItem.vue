@@ -92,16 +92,18 @@ export default {
 		 */
 		async unshare() {
 			this.updatingSharee = true
-			this.$store.dispatch('unshareCalendar', { calendar: this.calendar, uri: this.sharee.uri })
-				.then(() => {
-					this.updatingSharee = false
+			try {
+				await this.$store.dispatch('unshareCalendar', {
+					calendar: this.calendar,
+					uri: this.sharee.uri,
 				})
-				.catch((error) => {
-					console.error(error)
-					this.$toast(this.$t('calendar', 'An error occurred, unable to change the unshare the calendar.'))
+				this.updatingSharee = false
+			} catch (error) {
+				console.error(error)
+				this.$toast(this.$t('calendar', 'An error occurred, unable to change the unshare the calendar.'))
 
-					this.updatingSharee = false
-				})
+				this.updatingSharee = false
+			}
 		},
 		/**
 		 * Toggles the write-permission of the share
@@ -110,16 +112,18 @@ export default {
 		 */
 		async updatePermission() {
 			this.updatingSharee = true
-			this.$store.dispatch('toggleCalendarShareWritable', { calendar: this.calendar, uri: this.sharee.uri })
-				.then(() => {
-					this.updatingSharee = false
+			try {
+				await this.$store.dispatch('toggleCalendarShareWritable', {
+					calendar: this.calendar,
+					uri: this.sharee.uri,
 				})
-				.catch((error) => {
-					console.error(error)
-					this.$toast(this.$t('calendar', 'An error occurred, unable to change the permission of the share.'))
+				this.updatingSharee = false
+			} catch (error) {
+				console.error(error)
+				this.$toast(this.$t('calendar', 'An error occurred, unable to change the permission of the share.'))
 
-					this.updatingSharee = false
-				})
+				this.updatingSharee = false
+			}
 		},
 	},
 }

@@ -63,7 +63,7 @@ export default {
 		}),
 	},
 	methods: {
-		copySubscriptionLink(calendar) {
+		async copySubscriptionLink(calendar) {
 			const rootURL = generateRemoteUrl('dav')
 			const url = new URL(calendar.url + '?export', rootURL)
 
@@ -75,13 +75,13 @@ export default {
 			}
 
 			// copy link for calendar to clipboard
-			this.$copyText(url)
-				.then(e => {
-					this.$toast.success(this.$t('calendar', 'Calendar link copied to clipboard.'))
-				})
-				.catch(e => {
-					this.$toast.error(this.$t('calendar', 'Calendar link could not be copied to clipboard.'))
-				})
+			try {
+				await this.$copyText(url)
+				this.$toast.success(this.$t('calendar', 'Calendar link copied to clipboard.'))
+			} catch (error) {
+				console.debug(error)
+				this.$toast.error(this.$t('calendar', 'Calendar link could not be copied to clipboard.'))
+			}
 		},
 	},
 }

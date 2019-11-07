@@ -162,78 +162,86 @@ export default {
 			this.$emit('addAttendee', selectedValue)
 		},
 		async findAttendeesFromContactsAPI(query) {
-			return HttpClient.post(linkTo('calendar', 'index.php') + '/v1/autocompletion/attendee', {
-				search: query,
-			}).then(({ data }) => {
-				return data.reduce((arr, result) => {
-					const hasMultipleEMails = result.emails.length > 1
+			let response
 
-					result.emails.forEach((email) => {
-						let name
-						if (result.name && !hasMultipleEMails) {
-							name = result.name
-						} else if (result.name && hasMultipleEMails) {
-							name = `${result.name} (${email})`
-						} else {
-							name = email
-						}
-
-						if (this.alreadyInvitedEmails.includes(email)) {
-							return
-						}
-
-						arr.push({
-							calendarUserType: 'INDIVIDUAL',
-							commonName: result.name,
-							email: email,
-							isUser: false,
-							avatar: result.photo,
-							language: result.lang,
-							timezoneId: result.tzid,
-							hasMultipleEMails,
-							dropdownName: name,
-						})
-					})
-
-					return arr
-				}, [])
-			}).catch((e) => {
-				console.debug('ERROR', e)
+			try {
+				response = await HttpClient.post(linkTo('calendar', 'index.php') + '/v1/autocompletion/attendee', {
+					search: query,
+				})
+			} catch (error) {
+				console.debug(error)
 				return []
-			})
-		},
-		async findAttendeesFromDAV(query) {
-			return client.principalPropertySearchByDisplayname(query).then((results) => {
-				return results.filter((principal) => {
-					if (!principal.email) {
-						return false
+			}
+
+			const data = response.data
+			return data.reduce((arr, result) => {
+				const hasMultipleEMails = result.emails.length > 1
+
+				result.emails.forEach((email) => {
+					let name
+					if (result.name && !hasMultipleEMails) {
+						name = result.name
+					} else if (result.name && hasMultipleEMails) {
+						name = `${result.name} (${email})`
+					} else {
+						name = email
 					}
 
-					if (this.alreadyInvitedEmails.includes(principal.email)) {
+					if (this.alreadyInvitedEmails.includes(email)) {
 						return
 					}
 
-					// We do not support GROUPS for now
-					if (principal.calendarUserType === 'GROUP') {
-						return false
-					}
-
-					return true
-				}).map((principal) => {
-					return {
-						commonName: principal.displayname,
-						calendarUserType: principal.calendarUserType,
-						email: principal.email,
-						lang: null,
-						isUser: principal.calendarUserType === 'INDIVIDUAL',
-						avatar: principal.userId,
-						hasMultipleEMails: false,
-						dropdownName: principal.displayname || principal.email,
-					}
+					arr.push({
+						calendarUserType: 'INDIVIDUAL',
+						commonName: result.name,
+						email: email,
+						isUser: false,
+						avatar: result.photo,
+						language: result.lang,
+						timezoneId: result.tzid,
+						hasMultipleEMails,
+						dropdownName: name,
+					})
 				})
-			}).catch((e) => {
-				console.debug('ERROR', e)
+
+				return arr
+			}, [])
+		},
+		async findAttendeesFromDAV(query) {
+			let results
+			try {
+				results = await client.principalPropertySearchByDisplayname(query)
+			} catch (error) {
+				console.debug(error)
 				return []
+			}
+
+			return results.filter((principal) => {
+				if (!principal.email) {
+					return false
+				}
+
+				if (this.alreadyInvitedEmails.includes(principal.email)) {
+					return
+				}
+
+				// We do not support GROUPS for now
+				if (principal.calendarUserType === 'GROUP') {
+					return false
+				}
+
+				return true
+			}).map((principal) => {
+				return {
+					commonName: principal.displayname,
+					calendarUserType: principal.calendarUserType,
+					email: principal.email,
+					lang: null,
+					isUser: principal.calendarUserType === 'INDIVIDUAL',
+					avatar: principal.userId,
+					hasMultipleEMails: false,
+					dropdownName: principal.displayname || principal.email,
+				}
 			})
 		},
 	},

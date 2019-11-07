@@ -28,7 +28,7 @@ import { getDurationValueFromFullCalendarDuration } from './duration'
  * @returns {Function}
  */
 export default function(store) {
-	return function({ event, prevEvent, startDelta, endDelta, revert }) {
+	return async function({ event, prevEvent, startDelta, endDelta, revert }) {
 		const startDeltaDuration = getDurationValueFromFullCalendarDuration(startDelta)
 		const endDeltaDuration = getDurationValueFromFullCalendarDuration(endDelta)
 
@@ -41,35 +41,36 @@ export default function(store) {
 		const recurrenceId = event.extendedProps.recurrenceId
 		const recurrenceIdDate = new Date(recurrenceId * 1000)
 
-		return store.dispatch('getEventByObjectId', { objectId })
-			.then(() => {
-				const calendarObject = store.getters.getCalendarObjectById(objectId)
-				const eventComponent = calendarObject.getObjectAtRecurrenceId(recurrenceIdDate)
+		try {
+			await store.dispatch('getEventByObjectId', { objectId })
+		} catch (error) {
+			console.debug(error)
+			revert()
+			return
+		}
 
-				if (!eventComponent) {
-					console.debug('Recurrence-id not found')
-					revert()
-					return
-				}
+		const calendarObject = store.getters.getCalendarObjectById(objectId)
+		const eventComponent = calendarObject.getObjectAtRecurrenceId(recurrenceIdDate)
 
-				if (startDeltaDuration) {
-					eventComponent.addDurationToStart(startDeltaDuration)
-				}
-				if (endDeltaDuration) {
-					eventComponent.addDurationToEnd(endDeltaDuration)
-				}
+		if (!eventComponent) {
+			console.debug('Recurrence-id not found')
+			revert()
+			return
+		}
 
-				if (eventComponent.canCreateRecurrenceExceptions()) {
-					eventComponent.createRecurrenceException()
-				}
+		if (startDeltaDuration) {
+			eventComponent.addDurationToStart(startDeltaDuration)
+		}
+		if (endDeltaDuration) {
+			eventComponent.addDurationToEnd(endDeltaDuration)
+		}
 
-				return store.dispatch('updateCalendarObject', {
-					calendarObject,
-				})
-			})
-			.catch((err) => {
-				console.debug(err)
-				revert()
-			})
+		if (eventComponent.canCreateRecurrenceExceptions()) {
+			eventComponent.createRecurrenceException()
+		}
+
+		await store.dispatch('updateCalendarObject', {
+			calendarObject,
+		})
 	}
 }
