@@ -19,7 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import rfcProps from '../models/rfcProps'
+import { getRFCProperties } from '../models/rfcProps'
 import logger from '../utils/logger.js'
 import { getIllustrationForTitle } from '../utils/illustration.js'
 import { getPrefixedRoute } from '../utils/router.js'
@@ -301,7 +301,7 @@ export default {
 		 * @returns {{geo, color, timeTransparency, description, resources, location, categories, accessClass, priority, status}}
 		 */
 		rfcProps() {
-			return rfcProps
+			return getRFCProperties()
 		},
 		/**
 		 * Returns whether or not this event can be downloaded from the server

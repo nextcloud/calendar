@@ -42,7 +42,7 @@ module.exports = {
 						presets: ['@babel/preset-env']
 					}
 				},
-				exclude: /node_modules\/(?!(p-limit|p-defer|p-queue|p-try|cdav-library))/
+				exclude: /node_modules\/(?!(p-limit|p-defer|p-queue|p-try|cdav-library|calendar-js))/
 			},
 			{
 				test: /\.(png|jpg|gif|svg)$/,

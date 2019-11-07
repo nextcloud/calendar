@@ -21,6 +21,8 @@
  */
 
 /**
+ * Adds data to the html element representing the event in the fullcalendar grid.
+ * This is used to later on position the popover
  *
  * @param {Object} data The destructuring object
  * @param {EventApi} event The fullcalendar event object

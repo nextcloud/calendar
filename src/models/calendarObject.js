@@ -20,13 +20,15 @@
  *
  */
 
-import PQueue from 'p-queue'
 import { getParserManager } from 'calendar-js'
 import DateTimeValue from 'calendar-js/src/values/dateTimeValue'
 import CalendarComponent from 'calendar-js/src/components/calendarComponent'
 
 /**
  * This model represents exactly
+ *
+ * TODO: this should not be a class, but a simple object
+ * TODO: all methods should be converted to vuex commits
  */
 export default class CalendarObject {
 
@@ -58,14 +60,6 @@ export default class CalendarObject {
 		 * @type {Object}|null
 		 */
 		this.dav = dav
-
-		/**
-		 * A queue for sending updates to the server
-		 * aiming to prevent race-conditions
-		 *
-		 * @type {Object}
-		 */
-		this.updateQueue = new PQueue({ concurrency: 1 })
 
 		/**
 		 * parsed calendar-js object

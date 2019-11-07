@@ -28,7 +28,7 @@ import { getDurationValueFromFullCalendarDuration } from './duration'
  * @returns {Function}
  */
 export default function(store) {
-	return async function({ event, prevEvent, startDelta, endDelta, revert }) {
+	return async function({ event, startDelta, endDelta, revert }) {
 		const startDeltaDuration = getDurationValueFromFullCalendarDuration(startDelta)
 		const endDeltaDuration = getDurationValueFromFullCalendarDuration(endDelta)
 
@@ -41,17 +41,16 @@ export default function(store) {
 		const recurrenceId = event.extendedProps.recurrenceId
 		const recurrenceIdDate = new Date(recurrenceId * 1000)
 
+		let calendarObject
 		try {
-			await store.dispatch('getEventByObjectId', { objectId })
+			calendarObject = await store.dispatch('getEventByObjectId', { objectId })
 		} catch (error) {
 			console.debug(error)
 			revert()
 			return
 		}
 
-		const calendarObject = store.getters.getCalendarObjectById(objectId)
 		const eventComponent = calendarObject.getObjectAtRecurrenceId(recurrenceIdDate)
-
 		if (!eventComponent) {
 			console.debug('Recurrence-id not found')
 			revert()
@@ -69,8 +68,14 @@ export default function(store) {
 			eventComponent.createRecurrenceException()
 		}
 
-		await store.dispatch('updateCalendarObject', {
-			calendarObject,
-		})
+		try {
+			await store.dispatch('updateCalendarObject', {
+				calendarObject,
+			})
+		} catch (error) {
+			calendarObject.resetToDav()
+			console.debug(error)
+			revert()
+		}
 	}
 }

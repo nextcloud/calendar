@@ -27,10 +27,11 @@
  *
  * @param {Object} store The Vuex store
  * @param {Object} router The Vue router
+ * @param {Object} route The Vue route
  * @param {Window} window The window object
  * @returns {Function}
  */
-export default function(store, router, window) {
+export default function(store, router, route, window) {
 	return function({ start, end, allDay }) {
 		let name = store.state.settings.skipPopover
 			? 'NewSidebarView'
@@ -40,17 +41,20 @@ export default function(store, router, window) {
 			name = 'NewSidebarView'
 		}
 
-		const params = Object.assign({}, store.state.route.params, {
+		// If we are already in a new event view, don't change it
+		if (['NewSidebarView', 'NewPopoverView'].includes(route.name)) {
+			name = route.name
+		}
+
+		const params = Object.assign({}, route.params, {
 			allDay: allDay ? '1' : '0',
 			dtstart: String(Math.floor(start.getTime() / 1000)),
 			dtend: String(Math.floor(end.getTime() / 1000)),
 		})
 
 		// Don't push new route when day didn't change
-		if (name === store.state.route.name
-			&& params.allDay === store.state.route.params.allDay
-			&& params.dtstart === store.state.route.params.dtstart
-			&& params.dtend === store.state.route.params.dtend) {
+		if (name === route.name && params.allDay === route.params.allDay
+			&& params.dtstart === route.params.dtstart && params.dtend === route.params.dtend) {
 			return
 		}
 

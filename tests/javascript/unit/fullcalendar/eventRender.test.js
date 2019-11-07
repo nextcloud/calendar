@@ -19,11 +19,23 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import eventRender from "../../../../src/fullcalendar/eventRender.js";
 
-describe('services/settingsService test suite', () => {
+describe('fullcalendar/eventRender test suite', () => {
 
-	it('should be true', () => {
-		expect(true).toEqual(true)
+	it('should add extended properties from the event to the dataset of the dom element', () => {
+		const el = document.createElement('div')
+		const event = {
+			extendedProps: {
+				objectId: 'object123',
+				recurrenceId: 'recurrence456',
+			},
+		}
+
+		eventRender({ event, el })
+
+		expect(el.dataset.objectId).toEqual('object123')
+		expect(el.dataset.recurrenceId).toEqual('recurrence456')
 	})
 
 })

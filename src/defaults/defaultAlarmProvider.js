@@ -20,7 +20,7 @@
  *
  */
 
-export default function getDefaultAlarms(allDay = false) {
+export function getDefaultAlarms(allDay = false) {
 	if (allDay) {
 		return [
 			9 * 60 * 60, // On the day of the event at 9am
@@ -42,3 +42,5 @@ export default function getDefaultAlarms(allDay = false) {
 		]
 	}
 }
+
+export default getDefaultAlarms

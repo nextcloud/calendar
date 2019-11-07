@@ -20,7 +20,7 @@
  *
  */
 
-describe('services/illustrationProviderService test suite', () => {
+describe('models/calendarOje test suite', () => {
 
 	it('should be true', () => {
 		expect(true).toEqual(true)

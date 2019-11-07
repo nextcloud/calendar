@@ -21,7 +21,7 @@
  */
 import { translate as t } from '@nextcloud/l10n'
 
-export default () => {
+export function getDefaultCategories() {
 	// This list was taken from https://tools.ietf.org/html/rfc5545#section-5
 	return [
 		t('calendar', 'Anniversary'),
@@ -41,3 +41,5 @@ export default () => {
 		t('calendar', 'Vacation'),
 	]
 }
+
+export default getDefaultCategories

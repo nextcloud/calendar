@@ -19,14 +19,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import {
-	getConfigValueFromHiddenInput,
-	getLinkToConfig
-} from '../../../../src/utils/settings.js'
-
+import { getConfigValueFromHiddenInput, getLinkToConfig } from '../../../../src/utils/settings.js'
+import { linkTo } from '@nextcloud/router'
 jest.mock('@nextcloud/router')
 
 describe('utils/settings test suite', () => {
+
+	beforeEach(() => {
+		linkTo.mockClear()
+	})
 
 	it('should read a config value from DOM', () => {
 		document.body.innerHTML = `
@@ -40,7 +41,13 @@ describe('utils/settings test suite', () => {
 	})
 
 	it('should generate a link to the config api', () => {
-		expect(getLinkToConfig('view')).toEqual('linkTo###calendar###index.php/v1/config/view')
-		expect(getLinkToConfig('weekends')).toEqual('linkTo###calendar###index.php/v1/config/weekends')
+		linkTo.mockImplementation(() => 'baseurl:')
+
+		expect(getLinkToConfig('view')).toEqual('baseurl:/v1/config/view')
+		expect(getLinkToConfig('weekends')).toEqual('baseurl:/v1/config/weekends')
+
+		expect(linkTo).toHaveBeenCalledTimes(2)
+		expect(linkTo).toHaveBeenNthCalledWith(1, 'calendar', 'index.php')
+		expect(linkTo).toHaveBeenNthCalledWith(2, 'calendar', 'index.php')
 	})
 })
