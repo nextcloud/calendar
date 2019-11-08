@@ -16,6 +16,8 @@
     "Shared" : "Bendrinamas",
     "Download" : "Atsisiųsti",
     "Delete" : "Ištrinti",
+    "Calendar link copied to clipboard." : "Kalendoriaus nuoroda nukopijuota į iškarpinę.",
+    "Calendar link could not be copied to clipboard." : "Kalendoriaus nuorodos nepavyko nukopijuoti į iškarpinę.",
     "Share link" : "Dalinimosi nuoroda",
     "can edit" : "gali redaguoti",
     "New calendar" : "Naujas kalendorius",
@@ -25,17 +27,22 @@
     "Filename" : "Failo pavadinimas",
     "Cancel" : "Atsisakyti",
     "Settings & import" : "Nustatymai ir importavimas",
+    "Show weekends" : "Rodyti savaitgalius",
     "Show week numbers" : "Rodyti savaičių numerius",
     "Email" : "Elektroninis laiškas",
+    "Chairperson" : "Pirmininkas",
     "from" : "iš",
     "to" : "į",
     "never" : "niekada",
     "after" : "po",
     "Repeat" : "Kartoti",
     "More" : "Daugiau",
+    "Save" : "Įrašyti",
     "Update" : "Atnaujinti",
     "Details" : "Išsamiau",
     "Reminders" : "Priminimai",
-    "Close" : "Užverti"
+    "Close" : "Užverti",
+    "Fireworks" : "Fejerverkai",
+    "Pizza" : "Pica"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }
