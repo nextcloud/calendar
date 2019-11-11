@@ -26,7 +26,7 @@
 			{{ $t('calendar', 'Import calendars') }}
 		</h2>
 		<h4 class="import-modal__subtitle">
-			{{ $t('calendar', 'Please select a calendar to import into ...') }}
+			{{ $t('calendar', 'Please select a calendar to import into …') }}
 		</h4>
 
 		<transition-group class="import-modal__file-list" tag="ul">
