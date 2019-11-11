@@ -113,7 +113,7 @@
 		"webpack-merge": "^4.2.2"
 	},
 	"optionalDependencies": {
-		"fsevents": "^2.1.1"
+		"fsevents": "^2.1.2"
 	},
 	"jest": {
 		"moduleFileExtensions": [
