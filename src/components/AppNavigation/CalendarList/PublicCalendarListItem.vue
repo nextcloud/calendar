@@ -49,7 +49,7 @@
 			<ActionText
 				v-if="showCopySubscriptionLinkSpinner"
 				icon="icon-loading-small">
-				{{ $t('calendar', 'Copying link …') }}
+				{{ $t('calendar', 'Copying link …') }}
 			</ActionText>
 			<ActionText
 				v-if="showCopySubscriptionLinkSuccess"

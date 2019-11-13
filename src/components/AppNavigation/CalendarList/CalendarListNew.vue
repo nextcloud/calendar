@@ -41,7 +41,7 @@
 			<ActionText
 				v-if="showCreateCalendarSaving"
 				icon="icon-loading-small">
-				{{ $t('calendar', 'Creating calendar …') }}
+				{{ $t('calendar', 'Creating calendar …') }}
 			</ActionText>
 
 			<ActionButton
@@ -57,7 +57,7 @@
 			<ActionText
 				v-if="showCreateCalendarTaskListSaving"
 				icon="icon-loading-small">
-				{{ $t('calendar', 'Creating calendar …') }}
+				{{ $t('calendar', 'Creating calendar …') }}
 			</ActionText>
 
 			<ActionButton
@@ -73,7 +73,7 @@
 			<ActionText
 				v-if="showCreateSubscriptionSaving"
 				icon="icon-loading-small">
-				{{ $t('calendar', 'Creating subscription …') }}
+				{{ $t('calendar', 'Creating subscription …') }}
 			</ActionText>
 		</template>
 	</AppNavigationItem>

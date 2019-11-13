@@ -62,7 +62,7 @@
 			<ActionText
 				v-if="showRenameSaving"
 				icon="icon-loading-small">
-				{{ $t('calendar', 'Saving name …') }}
+				{{ $t('calendar', 'Saving name …') }}
 			</ActionText>
 			<ActionButton
 				v-if="showColorLabel"
@@ -79,7 +79,7 @@
 			<ActionText
 				v-if="showColorSaving"
 				icon="icon-loading-small">
-				{{ $t('calendar', 'Saving color …') }}
+				{{ $t('calendar', 'Saving color …') }}
 			</ActionText>
 			<ActionButton
 				icon="icon-clippy"
