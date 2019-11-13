@@ -65,7 +65,7 @@
 			<ActionText
 				v-if="showEMailSending"
 				icon="icon-loading-small">
-				{{ $t('calendar', 'Sending email ...') }}
+				{{ $t('calendar', 'Sending email …') }}
 			</ActionText>
 
 			<ActionButton
