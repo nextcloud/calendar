@@ -99,7 +99,7 @@
 			<ActionText
 				v-if="showCopyEmbedCodeLinkSpinner"
 				icon="icon-loading-small">
-				{{ $t('calendar', 'Copying code ...') }}
+				{{ $t('calendar', 'Copying code …') }}
 			</ActionText>
 			<ActionText
 				v-if="showCopyEmbedCodeLinkSuccess"
@@ -121,7 +121,7 @@
 			<ActionText
 				v-if="unpublishingCalendar"
 				icon="icon-loading-small">
-				{{ $t('calendar', 'Deleting share link ...') }}
+				{{ $t('calendar', 'Deleting share link …') }}
 			</ActionText>
 		</template>
 	</AppNavigationItem>
