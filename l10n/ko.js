@@ -59,6 +59,7 @@ OC.L10N.register(
     "Repeat" : "반복",
     "More" : "더 보기",
     "Update" : "업데이트",
+    "Type to search timezone" : "시간대를 찾기 위해 입력하세요.",
     "Details" : "자세한 정보",
     "Attendees" : "참석자",
     "Reminders" : "알림",
