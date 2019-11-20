@@ -67,24 +67,10 @@
 			@changeToUntil="changeToUntil" />
 		<RepeatSummary
 			v-if="!isReadOnly"
-			:frequency="recurrenceRule.frequency"
-			:interval="recurrenceRule.interval"
-			:by-day="recurrenceRule.byDay"
-			:by-month="recurrenceRule.byMonth"
-			:by-month-day="recurrenceRule.byMonthDay"
-			:by-set-position="recurrenceRule.bySetPosition"
-			:until="recurrenceRule.until"
-			:count="recurrenceRule.count" />
+			:recurrence-rule="recurrenceRule" />
 		<RepeatSummaryReadOnly
 			v-if="isReadOnly"
-			:frequency="recurrenceRule.frequency"
-			:interval="recurrenceRule.interval"
-			:by-day="recurrenceRule.byDay"
-			:by-month="recurrenceRule.byMonth"
-			:by-month-day="recurrenceRule.byMonthDay"
-			:by-set-position="recurrenceRule.bySetPosition"
-			:until="recurrenceRule.until"
-			:count="recurrenceRule.count" />
+			:recurrence-rule="recurrenceRule" />
 		<RepeatUnsupportedWarning
 			v-if="recurrenceRule.isUnsupported && !isRecurrenceException" />
 		<RepeatExceptionWarning

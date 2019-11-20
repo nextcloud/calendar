@@ -24,16 +24,33 @@
 	<div class="repeat-option-set repeat-option-set-summary-read-only">
 		<div class="repeat-option-set-summary-read-only__icon icon icon-repeat" />
 		<div class="repeat-option-set-summary-read-only__caption">
-			{{ summary }}
+			{{ recurrenceRule | formatRecurrenceRule(locale) }}
 		</div>
 	</div>
 </template>
 
 <script>
-import RepeatSummary from './RepeatSummary.vue'
+import { mapState } from 'vuex'
+import formatRecurrenceRule from '../../../filters/recurrenceRuleFormat.js'
 
 export default {
 	name: 'RepeatSummaryReadOnly',
-	extends: RepeatSummary,
+	filters: {
+		formatRecurrenceRule,
+	},
+	props: {
+		/**
+		 * The recurrence-rule object as defined on the eventComponent
+		 */
+		recurrenceRule: {
+			type: Object,
+			required: true,
+		},
+	},
+	computed: {
+		...mapState({
+			locale: (state) => state.settings.momentLocale,
+		}),
+	},
 }
 </script>

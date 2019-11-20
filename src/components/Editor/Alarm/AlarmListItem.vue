@@ -31,7 +31,7 @@
 		<div
 			v-if="!isEditing"
 			class="property-alarm-item__label">
-			{{ alarm | formatAlarm(isAllDay, currentUserTimezone) }}
+			{{ alarm | formatAlarm(isAllDay, currentUserTimezone, locale) }}
 		</div>
 		<div
 			v-if="isEditing && isRelativeAlarm && !isAllDay"
@@ -153,6 +153,7 @@ import {
 	ActionButton,
 	ActionRadio,
 } from '@nextcloud/vue'
+import { mapState } from 'vuex'
 import ClickOutside from 'vue-click-outside'
 import formatAlarm from '../../../filters/alarmFormat.js'
 import AlarmTimeUnitSelect from './AlarmTimeUnitSelect.vue'
@@ -196,6 +197,9 @@ export default {
 		}
 	},
 	computed: {
+		...mapState({
+			locale: (state) => state.settings.momentLocale,
+		}),
 		canEdit() {
 			// We don't allow editing when the alarm is
 			// related to the event's end
