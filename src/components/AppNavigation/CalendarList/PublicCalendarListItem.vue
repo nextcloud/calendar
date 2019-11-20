@@ -49,7 +49,8 @@
 			<ActionText
 				v-if="showCopySubscriptionLinkSpinner"
 				icon="icon-loading-small">
-				{{ $t('calendar', 'Copying link ...') }}
+				<!-- eslint-disable-next-line no-irregular-whitespace -->
+				{{ $t('calendar', 'Copying link …') }}
 			</ActionText>
 			<ActionText
 				v-if="showCopySubscriptionLinkSuccess"

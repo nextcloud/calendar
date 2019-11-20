@@ -65,7 +65,8 @@
 			<ActionText
 				v-if="showEMailSending"
 				icon="icon-loading-small">
-				{{ $t('calendar', 'Sending email ...') }}
+				<!-- eslint-disable-next-line no-irregular-whitespace -->
+				{{ $t('calendar', 'Sending email …') }}
 			</ActionText>
 
 			<ActionButton
@@ -77,7 +78,8 @@
 			<ActionText
 				v-if="showCopySubscriptionLinkSpinner"
 				icon="icon-loading-small">
-				{{ $t('calendar', 'Copying link …') }}
+				<!-- eslint-disable-next-line no-irregular-whitespace -->
+				{{ $t('calendar', 'Copying link …') }}
 			</ActionText>
 			<ActionText
 				v-if="showCopySubscriptionLinkSuccess"
@@ -99,7 +101,8 @@
 			<ActionText
 				v-if="showCopyEmbedCodeLinkSpinner"
 				icon="icon-loading-small">
-				{{ $t('calendar', 'Copying code ...') }}
+				<!-- eslint-disable-next-line no-irregular-whitespace -->
+				{{ $t('calendar', 'Copying code …') }}
 			</ActionText>
 			<ActionText
 				v-if="showCopyEmbedCodeLinkSuccess"
@@ -121,7 +124,8 @@
 			<ActionText
 				v-if="unpublishingCalendar"
 				icon="icon-loading-small">
-				{{ $t('calendar', 'Deleting share link ...') }}
+				<!-- eslint-disable-next-line no-irregular-whitespace -->
+				{{ $t('calendar', 'Deleting share link …') }}
 			</ActionText>
 		</template>
 	</AppNavigationItem>

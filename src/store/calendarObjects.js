@@ -122,13 +122,13 @@ const actions = {
 		const oldCalendarId = calendarObject.calendarId
 
 		if (oldCalendarId === newCalendarId) {
-			logger.error('Old calendar Id and new calendar Id are the same, nothing to move ...')
+			logger.error('Old calendar Id and new calendar Id are the same, nothing to move …')
 			return
 		}
 
 		const newCalendarObject = context.getters.getCalendarById(newCalendarId)
 		if (!newCalendarObject) {
-			logger.error('Calendar to move to not found, aborting ...')
+			logger.error('Calendar to move to not found, aborting …')
 			return
 		}
 
