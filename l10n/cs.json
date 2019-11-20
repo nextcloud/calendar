@@ -79,7 +79,7 @@
     "Please select a calendar to import into …" : "Vyberte do kterého kalendáře importovat",
     "Filename" : "Soubor",
     "Calendar to import into" : "Kalendář do kterého importovat",
-    "Cancel" : "Zrušit",
+    "Cancel" : "Storno",
     "_Import calendar_::_Import calendars_" : ["Importovat kalendář","Importovat kalendáře","Importovat kalendáře","Importovat kalendáře"],
     "Import partially failed. Imported {accepted} out of {total}." : "Import se z části nezdařil. Importováno {accepted} z {total}.",
     "_Successfully imported %n event_::_Successfully imported %n events._" : ["%n kalendář úspěšně naimportován","%n kalendáře úspěšně naimportovány","%n kalendářů úspěšně naimportováno","%n kalendáře úspěšně naimportovány"],
