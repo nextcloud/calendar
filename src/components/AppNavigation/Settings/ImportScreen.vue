@@ -26,6 +26,7 @@
 			{{ $t('calendar', 'Import calendars') }}
 		</h2>
 		<h4 class="import-modal__subtitle">
+			<!-- eslint-disable-next-line no-irregular-whitespace -->
 			{{ $t('calendar', 'Please select a calendar to import into …') }}
 		</h4>
 

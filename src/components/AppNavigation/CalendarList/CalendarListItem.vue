@@ -62,6 +62,7 @@
 			<ActionText
 				v-if="showRenameSaving"
 				icon="icon-loading-small">
+				<!-- eslint-disable-next-line no-irregular-whitespace -->
 				{{ $t('calendar', 'Saving name …') }}
 			</ActionText>
 			<ActionButton
@@ -79,6 +80,7 @@
 			<ActionText
 				v-if="showColorSaving"
 				icon="icon-loading-small">
+				<!-- eslint-disable-next-line no-irregular-whitespace -->
 				{{ $t('calendar', 'Saving color …') }}
 			</ActionText>
 			<ActionButton

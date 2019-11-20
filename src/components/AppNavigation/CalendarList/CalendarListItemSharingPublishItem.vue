@@ -65,6 +65,7 @@
 			<ActionText
 				v-if="showEMailSending"
 				icon="icon-loading-small">
+				<!-- eslint-disable-next-line no-irregular-whitespace -->
 				{{ $t('calendar', 'Sending email …') }}
 			</ActionText>
 
@@ -77,6 +78,7 @@
 			<ActionText
 				v-if="showCopySubscriptionLinkSpinner"
 				icon="icon-loading-small">
+				<!-- eslint-disable-next-line no-irregular-whitespace -->
 				{{ $t('calendar', 'Copying link …') }}
 			</ActionText>
 			<ActionText
@@ -99,6 +101,7 @@
 			<ActionText
 				v-if="showCopyEmbedCodeLinkSpinner"
 				icon="icon-loading-small">
+				<!-- eslint-disable-next-line no-irregular-whitespace -->
 				{{ $t('calendar', 'Copying code …') }}
 			</ActionText>
 			<ActionText
@@ -121,6 +124,7 @@
 			<ActionText
 				v-if="unpublishingCalendar"
 				icon="icon-loading-small">
+				<!-- eslint-disable-next-line no-irregular-whitespace -->
 				{{ $t('calendar', 'Deleting share link …') }}
 			</ActionText>
 		</template>

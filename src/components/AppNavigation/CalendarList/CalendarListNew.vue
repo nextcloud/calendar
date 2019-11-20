@@ -41,6 +41,7 @@
 			<ActionText
 				v-if="showCreateCalendarSaving"
 				icon="icon-loading-small">
+				<!-- eslint-disable-next-line no-irregular-whitespace -->
 				{{ $t('calendar', 'Creating calendar …') }}
 			</ActionText>
 
@@ -57,6 +58,7 @@
 			<ActionText
 				v-if="showCreateCalendarTaskListSaving"
 				icon="icon-loading-small">
+				<!-- eslint-disable-next-line no-irregular-whitespace -->
 				{{ $t('calendar', 'Creating calendar …') }}
 			</ActionText>
 
@@ -73,6 +75,7 @@
 			<ActionText
 				v-if="showCreateSubscriptionSaving"
 				icon="icon-loading-small">
+				<!-- eslint-disable-next-line no-irregular-whitespace -->
 				{{ $t('calendar', 'Creating subscription …') }}
 			</ActionText>
 		</template>
