@@ -18,7 +18,6 @@ OC.L10N.register(
     "Share link" : "Διαμοιρασμός συνδέσμου",
     "can edit" : "δυνατότητα επεξεργασίας",
     "New calendar" : "Νέο ημερολόγιο",
-    "Copying link ..." : "Αντιγραφή συνδέσμου σε εξέλιξη …",
     "Cancel" : "Άκυρο",
     "Settings & import" : "Ρυθμίσεις & εισαγωγή",
     "Show week numbers" : "Εμφάνιση αριθμού εβδομάδας",
