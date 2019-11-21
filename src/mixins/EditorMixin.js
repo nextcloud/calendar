@@ -601,8 +601,8 @@ export default {
 				const timezoneId = vm.$store.getters.getResolvedTimezone
 
 				try {
-					const calendarObject = await vm.$store.dispatch('getCalendarObjectInstanceForNewEvent', { isAllDay, start, end, timezoneId })
-					vm.calendarId = calendarObject.calendarId
+					await vm.$store.dispatch('getCalendarObjectInstanceForNewEvent', { isAllDay, start, end, timezoneId })
+					vm.calendarId = vm.calendarObject.calendarId
 				} catch (error) {
 					console.debug(error)
 					vm.error = true
@@ -626,8 +626,8 @@ export default {
 				}
 
 				try {
-					const calendarObject = await vm.$store.dispatch('getCalendarObjectInstanceByObjectIdAndRecurrenceId', { objectId, recurrenceId })
-					vm.calendarId = calendarObject.calendarId
+					await vm.$store.dispatch('getCalendarObjectInstanceByObjectIdAndRecurrenceId', { objectId, recurrenceId })
+					vm.calendarId = vm.calendarObject.calendarId
 					vm.isEditingMasterItem = vm.eventComponent.isMasterItem()
 					vm.isRecurrenceException = vm.eventComponent.isRecurrenceException()
 				} catch (error) {
@@ -699,8 +699,8 @@ export default {
 			}
 
 			try {
-				const calendarObject = this.$store.dispatch('getCalendarObjectInstanceByObjectIdAndRecurrenceId', { objectId, recurrenceId })
-				this.calendarId = calendarObject.calendarId
+				await this.$store.dispatch('getCalendarObjectInstanceByObjectIdAndRecurrenceId', { objectId, recurrenceId })
+				this.calendarId = this.calendarObject.calendarId
 				this.isEditingMasterItem = this.eventComponent.isMasterItem()
 				this.isRecurrenceException = this.eventComponent.isRecurrenceException()
 			} catch (error) {
