@@ -35,17 +35,17 @@ import moment from '@nextcloud/moment'
 export default (alarm, isAllDay, currentUserTimezone, locale) => {
 	if (alarm.relativeTrigger !== null) {
 		// relative trigger
-		const time = moment.duration(Math.abs(alarm.relativeTrigger), 'seconds').locale(locale).humanize()
-
 		if (isAllDay && alarm.relativeIsRelatedToStart && alarm.relativeTrigger < 86400) {
-			const date = new Date()
-			date.setHours(alarm.relativeHoursAllDay)
-			date.setMinutes(alarm.relativeMinutesAllDay)
-			const formattedHourMinute = moment(date).locale(locale).format('LT')
-
 			if (alarm.relativeTrigger === 0) {
 				return t('calendar', 'Midnight on the day the event starts')
 			}
+
+			const date = new Date()
+			date.setHours(alarm.relativeHoursAllDay)
+			date.setMinutes(alarm.relativeMinutesAllDay)
+			date.setSeconds(0)
+			date.setMilliseconds(0)
+			const formattedHourMinute = moment(date).locale(locale).format('LT')
 
 			if (alarm.relativeTrigger < 0) {
 				if (alarm.relativeUnitAllDay === 'days') {
@@ -77,6 +77,8 @@ export default (alarm, isAllDay, currentUserTimezone, locale) => {
 				}
 			}
 
+			const time = moment.duration(Math.abs(alarm.relativeTrigger), 'seconds').locale(locale).humanize()
+
 			if (alarm.relativeTrigger < 0) {
 				if (alarm.relativeIsRelatedToStart) {
 					return t('calendar', '{time} before the event starts', { time })
@@ -98,7 +100,7 @@ export default (alarm, isAllDay, currentUserTimezone, locale) => {
 				time: moment(alarm.absoluteDate).locale(locale).format('LLLL'),
 			})
 		} else {
-			return t('calendar', 'on {time} {timezoneId}', {
+			return t('calendar', 'on {time} ({timezoneId})', {
 				time: moment(alarm.absoluteDate).locale(locale).format('LLLL'),
 				timezoneId: alarm.absoluteTimezoneId,
 			})
