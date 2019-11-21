@@ -719,7 +719,7 @@ const actions = {
 		})
 
 		context.commit('markCalendarAsNotLoading', { calendar })
-		return context.state.lastTimeRangeInsertId
+		return context.rootState.fetchedTimeRanges.lastTimeRangeInsertId
 	},
 
 	/**
