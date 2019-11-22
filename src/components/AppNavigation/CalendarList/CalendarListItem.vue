@@ -40,9 +40,6 @@
 			<Actions v-if="showSharingIcon">
 				<ActionButton :icon="sharingIconClass" @click="toggleShareMenu" />
 			</Actions>
-			<span v-if="isSharedOrPublished" class="shared-label" @click.prevent.stop="toggleShareMenu">
-				{{ $t('calendar', 'Shared') }}
-			</span>
 			<Avatar v-if="isSharedWithMe && loadedOwnerPrincipal" :user="ownerUserId" :display-name="ownerDisplayname" />
 			<div v-if="isSharedWithMe && !loadedOwnerPrincipal" class="icon icon-loading" />
 		</template>
