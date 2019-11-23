@@ -61,9 +61,9 @@ import { DatetimePicker } from '@nextcloud/vue/dist/Components/DatetimePicker'
 import { Popover } from '@nextcloud/vue/dist/Components/Popover'
 import { getDayNamesShort, getMonthNamesShort, getFirstDay } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
+import { mapState } from 'vuex'
 
 import TimezoneSelect from './TimezoneSelect'
-import loadMomentLocalization from '../../utils/moment.js'
 
 export default {
 	name: 'DatePicker',
@@ -83,7 +83,7 @@ export default {
 		},
 		timezoneId: {
 			type: String,
-			default: null,
+			default: 'floating',
 		},
 		prefix: {
 			type: String,
@@ -108,7 +108,6 @@ export default {
 	},
 	data() {
 		return {
-			locale: 'en',
 			lang: {
 				days: getDayNamesShort(),
 				months: getMonthNamesShort(),
@@ -121,6 +120,9 @@ export default {
 		}
 	},
 	computed: {
+		...mapState({
+			locale: (state) => state.settings.momentLocale,
+		}),
 		/**
 		 * Whether or not to highlight the timezone-icon.
 		 * The icon is highlighted when the selected timezone
@@ -203,9 +205,6 @@ export default {
 		maximumDate() {
 			return this.max || new Date(this.$store.state.davRestrictions.maximumDate)
 		},
-	},
-	async mounted() {
-		this.locale = await loadMomentLocalization()
 	},
 	methods: {
 		/**

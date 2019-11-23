@@ -26,15 +26,13 @@ import moment from '@nextcloud/moment'
  *
  * @param {Date} value The date object to format
  * @param {Boolean} isAllDay Whether or not to display only the date part
+ * @param {String} locale The locale to format it in
  * @returns {string}
  */
-export default (value, isAllDay) => {
-	if (!value) {
-		return ''
-	}
+export default (value, isAllDay, locale) => {
 	if (isAllDay) {
-		return moment(value).format('ll')
+		return moment(value).locale(locale).format('ll')
 	} else {
-		return moment(value).format('lll')
+		return moment(value).locale(locale).format('lll')
 	}
 }

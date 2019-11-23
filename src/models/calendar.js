@@ -172,14 +172,12 @@ export function mapDavShareeToSharee(sharee) {
 	let displayName
 	if (sharee['common-name']) {
 		displayName = sharee['common-name']
+	} else if (sharee.href.startsWith('principal:principals/groups/')) {
+		displayName = sharee.href.substr(28)
+	} else if (sharee.href.startsWith('principal:principals/users/')) {
+		displayName = sharee.href.substr(27)
 	} else {
-		if (sharee.href.startsWith('principal:principals/groups/')) {
-			displayName = sharee.href.substr(28)
-		} else if (sharee.href.startsWith('principal:principals/users/')) {
-			displayName = sharee.href.substr(27)
-		} else {
-			displayName = sharee.href
-		}
+		displayName = sharee.href
 	}
 
 	const writeable = sharee.access[0].endsWith('read-write')

@@ -20,14 +20,28 @@
  *
  */
 import getIllustrationForTitle from "../../../../src/utils/illustration.js";
+import { imagePath } from '@nextcloud/router'
+jest.mock('@nextcloud/router')
 
 describe('utils/illustration test suite', () => {
 
+	beforeEach(() => {
+		imagePath.mockClear()
+	})
+
 	it('should return a matching illustration', () => {
+		imagePath.mockImplementation((app, image) => 'imagePath###' + app + '###' + image)
+
 		expect(getIllustrationForTitle('Watch movie with Jane')).toEqual('imagePath###calendar###illustrations/movie_night')
 		expect(getIllustrationForTitle('Take time to relax')).toEqual('imagePath###calendar###illustrations/relaxation')
 		expect(getIllustrationForTitle('Give presentation about calendar')).toEqual('imagePath###calendar###illustrations/presentation')
 
 		expect(getIllustrationForTitle('ABC', ['Watch',  'movie'])).toEqual('imagePath###calendar###illustrations/movie_night')
+
+		expect(imagePath).toHaveBeenCalledTimes(4)
+		expect(imagePath).toHaveBeenNthCalledWith(1, 'calendar', 'illustrations/movie_night')
+		expect(imagePath).toHaveBeenNthCalledWith(2, 'calendar', 'illustrations/relaxation')
+		expect(imagePath).toHaveBeenNthCalledWith(3, 'calendar', 'illustrations/presentation')
+		expect(imagePath).toHaveBeenNthCalledWith(4, 'calendar', 'illustrations/movie_night')
 	})
 })

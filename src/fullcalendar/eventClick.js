@@ -42,15 +42,15 @@ export default function(store, router, route, window) {
 		}
 
 		const name = getPrefixedRoute(route.name, desiredRoute)
-		const params = Object.assign({}, store.state.route.params, {
+		const params = Object.assign({}, route.params, {
 			object: event.extendedProps.objectId,
 			recurrenceId: String(event.extendedProps.recurrenceId),
 		})
 
 		// Don't push new route when day didn't change
-		if (name === store.state.route.name
-			&& params.object === store.state.route.params.object
-			&& params.recurrenceId === store.state.route.params.recurrenceId) {
+		if ((getPrefixedRoute(route.name, 'EditPopoverView') === route.name || getPrefixedRoute(route.name, 'EditSidebarView') === route.name)
+			&& params.object === route.params.object
+			&& params.recurrenceId === route.params.recurrenceId) {
 			return
 		}
 

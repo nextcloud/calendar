@@ -48,7 +48,7 @@ class VTimezoneNamedTimezone extends NamedTimeZoneImpl {
 	/**
 	 * returns parameters for Date object in this timezone based on given timestamp
 	 *
-	 * @param {Number[]} ms Timestamp in milliseconds
+	 * @param {Number} ms Timestamp in milliseconds
 	 * @returns {Number[]}
 	 */
 	timestampToArray(ms) {

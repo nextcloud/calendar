@@ -72,7 +72,7 @@ export const getDefaultCalendarObjectInstanceObject = (props = {}) => Object.ass
 	organizer: {
 		// name of the organizer
 		name: null,
-		// email of the organzier:
+		// email of the organizer
 		uri: null,
 	},
 	// Alarm of the event
@@ -81,7 +81,7 @@ export const getDefaultCalendarObjectInstanceObject = (props = {}) => Object.ass
 	customColor: null,
 	// Categories
 	categories: [],
-	// Wether or not the user is allowed to toggle the all-day checkbox
+	// Whether or not the user is allowed to toggle the all-day checkbox
 	canModifyAllDay: true,
 	// The real event-component coming from calendar-js
 	eventComponent: null,

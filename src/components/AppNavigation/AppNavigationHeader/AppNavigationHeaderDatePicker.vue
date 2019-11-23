@@ -33,7 +33,7 @@
 			@click.stop.prevent="toggleDatepicker"
 			@mousedown.stop.prevent="doNothing"
 			@mouseup.stop.prevent="doNothing">
-			{{ selectedDate | formatDateRage(view) }}
+			{{ selectedDate | formatDateRage(view, locale) }}
 		</button>
 		<DatePicker
 			ref="datepicker"
@@ -56,6 +56,7 @@ import {
 	getDateFromFirstdayParam,
 	modifyDate,
 } from '../../../utils/date.js'
+import { mapState } from 'vuex'
 import formatDateRage from '../../../filters/dateRangeFormat.js'
 import DatePicker from '../../Shared/DatePicker.vue'
 
@@ -73,6 +74,9 @@ export default {
 		}
 	},
 	computed: {
+		...mapState({
+			locale: (state) => state.settings.momentLocale,
+		}),
 		selectedDate() {
 			return getDateFromFirstdayParam(this.$route.params.firstDay)
 		},

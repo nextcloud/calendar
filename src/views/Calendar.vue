@@ -52,7 +52,7 @@
 				:event-allow="eventAllow"
 				:default-date="defaultDate"
 				:locales="locales"
-				:locale="locale"
+				:locale="fullCalendarLocale"
 				:first-day="firstDay"
 				:selectable="isSelectable"
 				:select-mirror="true"
@@ -117,6 +117,7 @@ import eventRender from '../fullcalendar/eventRender.js'
 import EmbedTopNavigation from '../components/AppNavigation/EmbedTopNavigation.vue'
 import EmptyCalendar from '../components/EmptyCalendar.vue'
 import { getLocale } from '@nextcloud/l10n'
+import loadMomentLocalization from '../utils/moment.js'
 
 export default {
 	name: 'Calendar',
@@ -138,7 +139,7 @@ export default {
 			updateTodayJob: null,
 			updateTodayJobPreviousDate: null,
 			showEmptyCalendarScreen: false,
-			locale: 'en',
+			fullCalendarLocale: 'en',
 			locales: [],
 			firstDay: 0,
 		}
@@ -334,26 +335,8 @@ export default {
 			toastElement.classList.add('toast-calendar-multiline')
 		}
 
-		let locale = getLocale().replace('_', '-').toLowerCase()
-		try {
-			// try to load the default locale first
-			const fcLocale = await import('@fullcalendar/core/locales/' + locale)
-			this.locales.push(fcLocale)
-			// We have to update firstDay manually till https://github.com/fullcalendar/fullcalendar-vue/issues/36 is fixed
-			this.firstDay = fcLocale.week.dow
-			this.locale = locale
-		} catch (e) {
-			try {
-				locale = locale.split('-')[0]
-				const fcLocale = await import('@fullcalendar/core/locales/' + locale)
-				this.locales.push(fcLocale)
-				// We have to update firstDay manually till https://github.com/fullcalendar/fullcalendar-vue/issues/36 is fixed
-				this.firstDay = fcLocale.week.dow
-				this.locale = locale
-			} catch (e) {
-				locale = 'en'
-			}
-		}
+		this.loadFullCalendarLocale()
+		this.loadMomentLocale()
 	},
 	methods: {
 		saveNewView: debounce(function(initialView) {
@@ -371,10 +354,46 @@ export default {
 			return eventResize(this.$store)(...args)
 		},
 		select(...args) {
-			return select(this.$store, this.$router, window)(...args)
+			return select(this.$store, this.$router, this.$route, window)(...args)
 		},
 		eventRender(...args) {
 			return eventRender(...args)
+		},
+		/**
+		 * Loads the locale data for full-calendar
+		 *
+		 * @returns {Promise<void>}
+		 */
+		async loadFullCalendarLocale() {
+			let locale = getLocale().replace('_', '-').toLowerCase()
+			try {
+				// try to load the default locale first
+				const fcLocale = await import('@fullcalendar/core/locales/' + locale)
+				this.locales.push(fcLocale)
+				// We have to update firstDay manually till https://github.com/fullcalendar/fullcalendar-vue/issues/36 is fixed
+				this.firstDay = fcLocale.week.dow
+				this.fullCalendarLocale = locale
+			} catch (e) {
+				try {
+					locale = locale.split('-')[0]
+					const fcLocale = await import('@fullcalendar/core/locales/' + locale)
+					this.locales.push(fcLocale)
+					// We have to update firstDay manually till https://github.com/fullcalendar/fullcalendar-vue/issues/36 is fixed
+					this.firstDay = fcLocale.week.dow
+					this.fullCalendarLocale = locale
+				} catch (e) {
+					console.debug('falling back to english locale')
+				}
+			}
+		},
+		/**
+		 * Loads the locale data for moment.js
+		 *
+		 * @returns {Promise<void>}
+		 */
+		async loadMomentLocale() {
+			const momentLocale = await loadMomentLocalization()
+			this.$store.commit('setMomentLocale', momentLocale)
 		},
 	},
 }

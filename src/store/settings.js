@@ -29,6 +29,7 @@ import { setConfig } from 'calendar-js'
 const state = {
 	appVersion: null,
 	firstRun: null,
+	momentLocale: 'en',
 	showWeekends: null,
 	showWeekNumbers: null,
 	skipPopover: null,
@@ -90,6 +91,16 @@ const mutations = {
 		state.showWeekends = settings.showWeekends
 		state.skipPopover = settings.skipPopover
 		state.timezone = settings.timezone
+	},
+
+	/**
+	 * Sets the name of the moment.js locale to be used
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {String} locale The moment.js locale to be used
+	 */
+	setMomentLocale(state, locale) {
+		state.momentLocale = locale
 	},
 }
 

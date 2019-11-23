@@ -45,14 +45,19 @@ export default function(store) {
 				const timezoneObject = getTimezoneManager().getTimezoneForId(timeZone)
 				const timeRange = store.getters.getTimeRangeForCalendarCoveringRange(calendar.id, getUnixTimestampFromDate(start), getUnixTimestampFromDate(end))
 				if (!timeRange) {
-					await store.dispatch('getEventsFromCalendarInTimeRange', {
-						calendar: calendar,
-						from: start,
-						to: end,
-					})
+					let timeRangeId
+					try {
+						timeRangeId = await store.dispatch('getEventsFromCalendarInTimeRange', {
+							calendar: calendar,
+							from: start,
+							to: end,
+						})
+					} catch (error) {
+						failureCallback(error)
+						return
+					}
 
-					const timeRange = store.getters.getTimeRangeForCalendarCoveringRange(calendar.id, getUnixTimestampFromDate(start), getUnixTimestampFromDate(end))
-					const calendarObjects = store.getters.getCalendarObjectsByTimeRangeId(timeRange.id)
+					const calendarObjects = store.getters.getCalendarObjectsByTimeRangeId(timeRangeId)
 					successCallback(eventSourceFunction(calendarObjects, start, end, timezoneObject))
 				} else {
 					const calendarObjects = store.getters.getCalendarObjectsByTimeRangeId(timeRange.id)

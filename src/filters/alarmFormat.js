@@ -24,26 +24,28 @@ import { translate as t, translatePlural as n } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
 
 /**
+ * Formats an alarm
  *
  * @param {Object} alarm The alarm object to format
  * @param {Boolean} isAllDay Whether or not the event is all-day
  * @param {String} currentUserTimezone The current timezone of the user
+ * @param {String} locale The locale to format it in
  * @returns {String}
  */
-export default (alarm, isAllDay, currentUserTimezone) => {
+export default (alarm, isAllDay, currentUserTimezone, locale) => {
 	if (alarm.relativeTrigger !== null) {
 		// relative trigger
-		const time = moment.duration(Math.abs(alarm.relativeTrigger), 'seconds').humanize()
-
 		if (isAllDay && alarm.relativeIsRelatedToStart && alarm.relativeTrigger < 86400) {
-			const date = new Date()
-			date.setHours(alarm.relativeHoursAllDay)
-			date.setMinutes(alarm.relativeMinutesAllDay)
-			const formattedHourMinute = moment(date).format('LT')
-
 			if (alarm.relativeTrigger === 0) {
 				return t('calendar', 'Midnight on the day the event starts')
 			}
+
+			const date = new Date()
+			date.setHours(alarm.relativeHoursAllDay)
+			date.setMinutes(alarm.relativeMinutesAllDay)
+			date.setSeconds(0)
+			date.setMilliseconds(0)
+			const formattedHourMinute = moment(date).locale(locale).format('LT')
 
 			if (alarm.relativeTrigger < 0) {
 				if (alarm.relativeUnitAllDay === 'days') {
@@ -75,6 +77,8 @@ export default (alarm, isAllDay, currentUserTimezone) => {
 				}
 			}
 
+			const time = moment.duration(Math.abs(alarm.relativeTrigger), 'seconds').locale(locale).humanize()
+
 			if (alarm.relativeTrigger < 0) {
 				if (alarm.relativeIsRelatedToStart) {
 					return t('calendar', '{time} before the event starts', { time })
@@ -93,11 +97,11 @@ export default (alarm, isAllDay, currentUserTimezone) => {
 		// absolute trigger
 		if (currentUserTimezone === alarm.absoluteTimezoneId) {
 			return t('calendar', 'on {time}', {
-				time: moment(alarm.absoluteDate).format('LLLL'),
+				time: moment(alarm.absoluteDate).locale(locale).format('LLLL'),
 			})
 		} else {
-			return t('calendar', 'on {time} {timezoneId}', {
-				time: moment(alarm.absoluteDate).format('LLLL'),
+			return t('calendar', 'on {time} ({timezoneId})', {
+				time: moment(alarm.absoluteDate).locale(locale).format('LLLL'),
 				timezoneId: alarm.absoluteTimezoneId,
 			})
 		}

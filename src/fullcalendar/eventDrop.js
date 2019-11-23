@@ -30,7 +30,7 @@ import getTimezoneManager from '../services/timezoneDataProviderService'
  * @returns {Function}
  */
 export default function(store, fcAPI) {
-	return async function({ event, oldEvent, delta, revert }) {
+	return async function({ event, delta, revert }) {
 		const deltaDuration = getDurationValueFromFullCalendarDuration(delta)
 		const defaultAllDayDuration = getDurationValueFromFullCalendarDuration(fcAPI.getOption('defaultAllDayEventDuration'))
 		const defaultTimedDuration = getDurationValueFromFullCalendarDuration(fcAPI.getOption('defaultTimedEventDuration'))
@@ -46,30 +46,44 @@ export default function(store, fcAPI) {
 		const recurrenceId = event.extendedProps.recurrenceId
 		const recurrenceIdDate = new Date(recurrenceId * 1000)
 
+		let calendarObject
 		try {
-			await store.dispatch('getEventByObjectId', { objectId })
+			calendarObject = await store.dispatch('getEventByObjectId', { objectId })
 		} catch (error) {
 			console.debug(error)
 			revert()
 			return
 		}
 
-		const calendarObject = store.getters.getCalendarObjectById(objectId)
 		const eventComponent = calendarObject.getObjectAtRecurrenceId(recurrenceIdDate)
-
 		if (!eventComponent) {
 			console.debug('Recurrence-id not found')
 			revert()
 			return
 		}
 
-		eventComponent.shiftByDuration(deltaDuration, event.allDay, timezone, defaultAllDayDuration, defaultTimedDuration)
+		try {
+			// shiftByDuration may throw exceptions in certain cases
+			eventComponent.shiftByDuration(deltaDuration, event.allDay, timezone, defaultAllDayDuration, defaultTimedDuration)
+		} catch (error) {
+			calendarObject.resetToDav()
+			console.debug(error)
+			revert()
+			return
+		}
+
 		if (eventComponent.canCreateRecurrenceExceptions()) {
 			eventComponent.createRecurrenceException()
 		}
 
-		await store.dispatch('updateCalendarObject', {
-			calendarObject,
-		})
+		try {
+			await store.dispatch('updateCalendarObject', {
+				calendarObject,
+			})
+		} catch (error) {
+			calendarObject.resetToDav()
+			console.debug(error)
+			revert()
+		}
 	}
 }

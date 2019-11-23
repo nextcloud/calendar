@@ -40,7 +40,7 @@ export default function(router) {
 		const date = getDateFromFirstdayParam(to.params.firstDay)
 		const currentView = to.params.view
 
-		const title = dateRangeFormat(date, currentView)
+		const title = dateRangeFormat(date, currentView, 'en')
 		document.title = [
 			title,
 			originalWindowTitle,

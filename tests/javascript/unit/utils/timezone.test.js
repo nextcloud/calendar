@@ -23,12 +23,20 @@ import {
 	getSortedTimezoneList,
 	getReadableTimezoneName
 } from '../../../../src/utils/timezone.js'
+import { translate } from '@nextcloud/l10n'
 
 jest.mock('@nextcloud/l10n')
 
 describe('utils/timezone test suite', () => {
 
+	beforeEach(() => {
+		translate.mockClear()
+	})
+
 	it('should sort a timezone list', () => {
+		translate
+			.mockImplementation((app, str) => str)
+
 		const sorted = getSortedTimezoneList([
 			'Europe/Berlin',
 			'Europe/Amsterdam',
@@ -43,7 +51,7 @@ describe('utils/timezone test suite', () => {
 			label: 'ABC',
 			timezoneId: 'id123'
 		}, {
-			continent: 'TRANSLATED:Global',
+			continent: 'Global',
 			label: 'DEF',
 			timezoneId: 'id456'
 		}])
@@ -82,7 +90,7 @@ describe('utils/timezone test suite', () => {
 			timezoneId: 'id123'
 		}])
 
-		expect(sorted[3].continent).toEqual('TRANSLATED:Global')
+		expect(sorted[3].continent).toEqual('Global')
 		expect(sorted[3].regions).toEqual([{
 			cities: [],
 			label: 'DEF',
@@ -100,6 +108,11 @@ describe('utils/timezone test suite', () => {
 			label: 'Z',
 			timezoneId: 'Z'
 		}])
+
+		expect(translate).toHaveBeenCalledTimes(3)
+		expect(translate).toHaveBeenNthCalledWith(1, 'calendar', 'Global')
+		expect(translate).toHaveBeenNthCalledWith(2, 'calendar', 'Global')
+		expect(translate).toHaveBeenNthCalledWith(3, 'calendar', 'Global')
 	})
 
 	it ('should get a readable timezone name', () => {

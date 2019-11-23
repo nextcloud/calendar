@@ -19,10 +19,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import {
-	generateTextColorForRGBString,
-} from '../utils/color.js'
 import { translate as t } from '@nextcloud/l10n'
+import logger from '../utils/logger.js'
 
 /**
  * convert an array of calendar-objects to events
@@ -36,7 +34,14 @@ import { translate as t } from '@nextcloud/l10n'
 export function eventSourceFunction(calendarObjects, start, end, timezone) {
 	const fcEvents = []
 	for (const calendarObject of calendarObjects) {
-		const allObjectsInTimeRange = calendarObject.getAllObjectsInTimeRange(start, end)
+		let allObjectsInTimeRange
+		try {
+			allObjectsInTimeRange = calendarObject.getAllObjectsInTimeRange(start, end)
+		} catch (error) {
+			logger.error(error.message)
+			continue
+		}
+
 		for (const object of allObjectsInTimeRange) {
 			const classNames = []
 
@@ -60,10 +65,10 @@ export function eventSourceFunction(calendarObjects, start, end, timezone) {
 				},
 			}
 
-			if (calendarObject.color) {
-				fcEvent.backgroundColor = calendarObject.color
-				fcEvent.textColor = generateTextColorForRGBString(calendarObject.color)
-			}
+			// if (object.color) {
+			// fcEvent.backgroundColor = object.color
+			// fcEvent.textColor = generateTextColorForRGBString(object.color)
+			// }
 
 			fcEvents.push(fcEvent)
 		}

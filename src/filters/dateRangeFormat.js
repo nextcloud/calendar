@@ -22,19 +22,27 @@
 import moment from '@nextcloud/moment'
 import { translate as t } from '@nextcloud/l10n'
 
-export default (value, view) => {
+/**
+ * Formats a date-range depending on the user's current view
+ *
+ * @param {String|Date} value The date to format
+ * @param {String} view The current view of the user
+ * @param {String} locale Which locale to format it in
+ * @returns {string}
+ */
+export default (value, view, locale) => {
 	switch (view) {
 	case 'timeGridDay':
-		return moment(value).format('ll')
+		return moment(value).locale(locale).format('ll')
 
 	case 'timeGridWeek':
 		return t('calendar', 'Week {number} of {year}', {
-			number: moment(value).week(),
-			year: moment(value).year(),
+			number: moment(value).locale(locale).week(),
+			year: moment(value).locale(locale).weekYear(),
 		})
 
 	case 'dayGridMonth':
 	default:
-		return moment(value).format('MMMM YYYY')
+		return moment(value).locale(locale).format('MMMM YYYY')
 	}
 }
