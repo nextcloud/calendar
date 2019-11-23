@@ -7,7 +7,6 @@ OC.L10N.register(
     "Day" : "يوم",
     "Week" : "أسبوع",
     "Month" : "شهر",
-    "Shared" : "مشارك",
     "Download" : "تنزيل",
     "Delete" : "حذف ",
     "Share link" : "رابط المشاركة",

@@ -24,7 +24,6 @@ OC.L10N.register(
     "Week" : "Teden",
     "Month" : "Mesec",
     "Untitled calendar" : "Neimenovan koledar",
-    "Shared" : "V souporabi",
     "Edit name" : "Uredi ime",
     "Saving name …" : "Shranjevanje imena ...",
     "Edit color" : "Uredi barvo",

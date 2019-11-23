@@ -6,7 +6,6 @@ OC.L10N.register(
     "Day" : "日",
     "Week" : "星期",
     "Month" : "月",
-    "Shared" : "已分享",
     "Download" : "下載",
     "Delete" : "刪除",
     "can edit" : "可編輯",

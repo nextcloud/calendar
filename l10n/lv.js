@@ -13,7 +13,6 @@ OC.L10N.register(
     "Day" : "Diena",
     "Week" : "Nedēļa",
     "Month" : "Mēnesis",
-    "Shared" : "Koplietots",
     "Download" : "Lejupielādēt",
     "Delete" : "Dzēst",
     "Share link" : "Koplietot saiti",

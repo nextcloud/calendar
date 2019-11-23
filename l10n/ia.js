@@ -8,7 +8,6 @@ OC.L10N.register(
     "Day" : "Die",
     "Week" : "Septimana",
     "Month" : "Mense",
-    "Shared" : "Compartite",
     "Download" : "Discargar",
     "Delete" : "Deler",
     "Share link" : "Compartir ligamine",

@@ -6,7 +6,6 @@ OC.L10N.register(
     "Day" : "দিবস",
     "Week" : "সপ্তাহ",
     "Month" : "মাস",
-    "Shared" : "ভাগাভাগিকৃত",
     "Download" : "ডাউনলোড",
     "Delete" : "মুছে",
     "can edit" : "সম্পাদনা করতে পারবেন",

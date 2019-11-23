@@ -13,7 +13,6 @@ OC.L10N.register(
     "Day" : "Tago",
     "Week" : "Semajno",
     "Month" : "Monato",
-    "Shared" : "Kunhavata",
     "Download" : "Elŝuti",
     "Delete" : "Forigi",
     "Share link" : "Kunhavigi ligilon",

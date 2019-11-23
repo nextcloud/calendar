@@ -7,7 +7,6 @@ OC.L10N.register(
     "Day" : "روز",
     "Week" : "هفته",
     "Month" : "ماه",
-    "Shared" : "اشتراک گذاشته شده",
     "Download" : "دانلود",
     "Delete" : "حذف",
     "can edit" : "می توان ویرایش کرد",

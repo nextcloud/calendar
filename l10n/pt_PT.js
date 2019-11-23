@@ -11,7 +11,6 @@ OC.L10N.register(
     "Day" : "Dia",
     "Week" : "Semana",
     "Month" : "Mês",
-    "Shared" : "Partilhado",
     "Download" : "Transferir",
     "Delete" : "Eliminar",
     "Share link" : "Partilhar hiperligação",

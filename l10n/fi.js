@@ -20,7 +20,6 @@ OC.L10N.register(
     "Week" : "Viikko",
     "Month" : "Kuukausi",
     "Untitled calendar" : "Nimetön kalenteri",
-    "Shared" : "Jaettu",
     "Edit name" : "Muokkaa nimeä",
     "Edit color" : "Muokkaa väriä",
     "Copy private link" : "Kopioi yksityinen linkki",

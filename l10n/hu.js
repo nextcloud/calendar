@@ -13,7 +13,6 @@ OC.L10N.register(
     "Day" : "Nap",
     "Week" : "Hét",
     "Month" : "Hónap",
-    "Shared" : "Megosztott",
     "Download" : "Letöltés",
     "Delete" : "Törlés",
     "Share link" : "Megosztás hivatkozással",

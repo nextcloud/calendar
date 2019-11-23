@@ -23,7 +23,6 @@ OC.L10N.register(
     "Week" : "Uke",
     "Month" : "Måned",
     "Untitled calendar" : "Kalender uten tittel",
-    "Shared" : "Delt",
     "Edit name" : "Rediger navn",
     "Edit color" : "Rediger farge",
     "Copy private link" : "Kopier privat lenke",

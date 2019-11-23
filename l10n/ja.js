@@ -20,7 +20,6 @@ OC.L10N.register(
     "Day" : "日",
     "Week" : "週",
     "Month" : "月",
-    "Shared" : "共有中",
     "Edit name" : "名前を編集",
     "Download" : "ダウンロード",
     "Delete" : "削除",

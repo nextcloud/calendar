@@ -13,7 +13,6 @@ OC.L10N.register(
     "Day" : "Eguna",
     "Week" : "Astea",
     "Month" : "Hilabetea",
-    "Shared" : "Elkarbanatuta",
     "Download" : "Deskargatu",
     "Delete" : "Ezabatu",
     "Share link" : "Partekatu esteka",

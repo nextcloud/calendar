@@ -6,7 +6,6 @@ OC.L10N.register(
     "Day" : "Jorn",
     "Week" : "Aquesta setmana",
     "Month" : "Mes",
-    "Shared" : "Partejat",
     "Download" : "Telecargar",
     "Delete" : "Suprimir",
     "can edit" : "pòt modificar",

@@ -10,7 +10,6 @@ OC.L10N.register(
     "Day" : "יום",
     "Week" : "שבוע",
     "Month" : "חודש",
-    "Shared" : "שותף",
     "Download" : "הורדה",
     "Delete" : "מחיקה",
     "Share link" : "שיתוף קישור",

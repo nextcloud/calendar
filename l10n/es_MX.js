@@ -13,7 +13,6 @@ OC.L10N.register(
     "Day" : "Día",
     "Week" : "Semana",
     "Month" : "Mes",
-    "Shared" : "Compartido",
     "Download" : "Descargar",
     "Delete" : "Borrar",
     "Share link" : "Compartir liga",

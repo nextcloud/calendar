@@ -11,7 +11,6 @@ OC.L10N.register(
     "Day" : "დღე",
     "Week" : "კვირა",
     "Month" : "თვე",
-    "Shared" : "გაზიარებული",
     "Download" : "ჩამოტვირთვა",
     "Delete" : "წაშლა",
     "Share link" : "ბმულის გაზიარება",

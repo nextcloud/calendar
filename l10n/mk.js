@@ -14,7 +14,6 @@ OC.L10N.register(
     "Week" : "Недела",
     "Month" : "Месец",
     "Untitled calendar" : "Насловен календар",
-    "Shared" : "Споделен",
     "Edit name" : "Уреди име",
     "Edit color" : "Уреди бои",
     "Copy private link" : "Копирај приватен линк",

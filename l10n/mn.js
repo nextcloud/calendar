@@ -11,7 +11,6 @@ OC.L10N.register(
     "Day" : "Өдөр",
     "Week" : "Долоо хоног",
     "Month" : "Сар",
-    "Shared" : "Түгээсэн",
     "Download" : "Татаж авах",
     "Delete" : "Устгах",
     "Share link" : "Холбоос хуваалцах",

@@ -13,7 +13,6 @@ OC.L10N.register(
     "Day" : "Dagur",
     "Week" : "Vika",
     "Month" : "Mánuður",
-    "Shared" : "Deilt",
     "Download" : "Sækja",
     "Delete" : "Eyða",
     "Share link" : "Deila tengli",

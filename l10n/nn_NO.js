@@ -11,7 +11,6 @@ OC.L10N.register(
     "Day" : "Dag",
     "Week" : "Veke",
     "Month" : "Månad",
-    "Shared" : "Delt",
     "Download" : "Last ned",
     "Delete" : "Slett",
     "can edit" : "kan endra",

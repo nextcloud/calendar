@@ -6,7 +6,6 @@ OC.L10N.register(
     "Day" : "Dan",
     "Week" : "Sedmica",
     "Month" : "Mjesec",
-    "Shared" : "Podijeljen",
     "Download" : "Preuzmi",
     "Delete" : "Obriši",
     "can edit" : "mogu mijenjati",

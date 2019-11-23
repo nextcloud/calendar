@@ -25,7 +25,6 @@ OC.L10N.register(
     "Week" : "Savaitė",
     "Month" : "Mėnuo",
     "Untitled calendar" : "Kalendorius be pavadinimo",
-    "Shared" : "Bendrinamas",
     "Saving color …" : "Įrašoma spalva…",
     "Download" : "Atsisiųsti",
     "Delete" : "Ištrinti",

@@ -25,7 +25,6 @@ OC.L10N.register(
     "Week" : "Hafta",
     "Month" : "Ay",
     "Untitled calendar" : "Başlıksız takvim",
-    "Shared" : "Paylaşılan",
     "Edit name" : "Adı düzenle",
     "Saving name …" : "Ad kaydediliyor …",
     "Edit color" : "Rengi düzenle",

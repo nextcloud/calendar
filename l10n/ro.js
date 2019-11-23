@@ -12,7 +12,6 @@ OC.L10N.register(
     "Day" : "Zi",
     "Week" : "Săptămâna",
     "Month" : "Luna",
-    "Shared" : "Partajat",
     "Download" : "Descarcă",
     "Delete" : "Șterge",
     "Share link" : "Partajază legătură",

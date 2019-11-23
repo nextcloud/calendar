@@ -25,7 +25,6 @@ OC.L10N.register(
     "Week" : "Týden",
     "Month" : "Měsíc",
     "Untitled calendar" : "Nenazvaný kalendář",
-    "Shared" : "Sdílené",
     "Edit name" : "Upravit název",
     "Saving name …" : "Ukládání názvu …",
     "Edit color" : "Upravit barvu",

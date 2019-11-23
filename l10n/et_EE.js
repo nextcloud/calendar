@@ -11,7 +11,6 @@ OC.L10N.register(
     "Day" : "Päev",
     "Week" : "Nädal",
     "Month" : "Kuu",
-    "Shared" : "Jagatud",
     "Download" : "Lae alla",
     "Delete" : "Kustuta",
     "Share link" : "Jaga link",

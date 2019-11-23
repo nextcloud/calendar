@@ -6,7 +6,6 @@ OC.L10N.register(
     "Day" : "วัน",
     "Week" : "สัปดาห์",
     "Month" : "เดือน",
-    "Shared" : "แชร์แล้ว",
     "Download" : "ดาวน์โหลด",
     "Delete" : "ลบ",
     "can edit" : "สามารถแก้ไข",

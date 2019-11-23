@@ -13,7 +13,6 @@ OC.L10N.register(
     "Day" : "Ngày",
     "Week" : "Tuần",
     "Month" : "Tháng",
-    "Shared" : "Được chia sẻ",
     "Download" : "Tải về",
     "Delete" : "Xóa",
     "Share link" : "Liên kết chia sẽ",

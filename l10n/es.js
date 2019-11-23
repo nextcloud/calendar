@@ -25,7 +25,6 @@ OC.L10N.register(
     "Week" : "Semana",
     "Month" : "Mes",
     "Untitled calendar" : "calendario sin título",
-    "Shared" : "Compartido",
     "Edit name" : "Editar el nombre",
     "Edit color" : "Editar color",
     "Copy private link" : "Copiar enlace privado",

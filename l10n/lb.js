@@ -6,7 +6,6 @@ OC.L10N.register(
     "Day" : "Dag",
     "Week" : "Woch",
     "Month" : "Mount",
-    "Shared" : "Gedeelt",
     "Download" : "Eroflueden",
     "Delete" : "Läschen",
     "can edit" : "kann änneren",

@@ -11,7 +11,6 @@ OC.L10N.register(
     "Day" : "Hari",
     "Week" : "Minggu",
     "Month" : "Bulan",
-    "Shared" : "Dibagikan",
     "Download" : "Unduh",
     "Delete" : "Hapus",
     "can edit" : "dapat disunting",

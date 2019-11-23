@@ -13,7 +13,6 @@ OC.L10N.register(
     "Day" : "Dag",
     "Week" : "Uge",
     "Month" : "Måned",
-    "Shared" : "Delt",
     "Download" : "Hent",
     "Delete" : "Slet",
     "Share link" : "Del link",

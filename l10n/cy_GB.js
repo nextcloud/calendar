@@ -13,7 +13,6 @@ OC.L10N.register(
     "Day" : "Diwrnod",
     "Week" : "Wythnos",
     "Month" : "Mis",
-    "Shared" : "Rhannwyd",
     "Download" : "Llwytho i lawr",
     "Delete" : "Dileu",
     "Share link" : "Rhannu dolen",

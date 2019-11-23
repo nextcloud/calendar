@@ -25,7 +25,6 @@ OC.L10N.register(
     "Week" : "Vecka",
     "Month" : "Månad",
     "Untitled calendar" : "Namnlös kalender",
-    "Shared" : "Delat",
     "Edit name" : "Ändra namn",
     "Edit color" : "Ändra färg",
     "Copy private link" : "Kopiera privat länk",

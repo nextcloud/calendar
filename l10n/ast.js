@@ -9,7 +9,6 @@ OC.L10N.register(
     "Day" : "Día",
     "Week" : "Selmana",
     "Month" : "Mes",
-    "Shared" : "Compartíu",
     "Download" : "Baxar",
     "Delete" : "Desaniciar",
     "can edit" : "pue editar",

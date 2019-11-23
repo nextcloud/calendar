@@ -21,7 +21,6 @@ OC.L10N.register(
     "Week" : "Týždeň",
     "Month" : "Mesiac",
     "Untitled calendar" : "Kalendár bez názvu",
-    "Shared" : "Sprístupnené",
     "Edit name" : "Upraviť názov",
     "Edit color" : "Upraviť farbu",
     "Copy private link" : "Kopírovať privátny odkaz",
