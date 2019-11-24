@@ -98,10 +98,6 @@ OC.L10N.register(
     "Repeat" : "Kertaa",
     "Monday" : "Maanantai",
     "Summary" : "Yhteenveto",
-    "Daily" : "Päivittäin",
-    "Weekly" : "Viikottain",
-    "Monthly" : "Kuukausittain",
-    "Yearly" : "Vuosittain",
     "More" : "Lisää",
     "Save" : "Tallenna",
     "Update" : "Päivitä",
@@ -114,6 +110,10 @@ OC.L10N.register(
     "Projects" : "Projektit",
     "Close" : "Sulje",
     "Subscribe to {name}" : "Tilaa {name}",
-    "Download {name}" : "Lataa {name}"
+    "Download {name}" : "Lataa {name}",
+    "Daily" : "Päivittäin",
+    "Weekly" : "Viikottain",
+    "Monthly" : "Kuukausittain",
+    "Yearly" : "Vuosittain"
 },
 "nplurals=2; plural=(n != 1);");
