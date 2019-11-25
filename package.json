@@ -94,7 +94,7 @@
 		"eslint-plugin-promise": "^4.2.1",
 		"eslint-plugin-standard": "^4.0.1",
 		"eslint-plugin-vue": "^5.2.3",
-		"file-loader": "^4.2.0",
+		"file-loader": "^4.3.0",
 		"jest": "^24.9.0",
 		"jest-serializer-vue": "^2.0.2",
 		"node-sass": "^4.13.0",
