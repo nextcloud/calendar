@@ -98,6 +98,7 @@ OC.L10N.register(
     "_Every %n week_::_Every %n weeks_" : ["Kas %n savaitę","Kas %n savaites","Kas %n savaičių","Kas %n savaitę"],
     "_Every %n month_::_Every %n months_" : ["Kas %n mėnesį","Kas %n mėnesius","Kas %n mėnesių","Kas %n mėnesį"],
     "_Every %n year_::_Every %n years_" : ["Kas %n metus","Kas %n metus","Kas %n metų","Kas %n metus"],
+    "_%n time_::_%n times_" : ["%n kartą","%n kartus","%n kartų","%n kartą"],
     "Untitled event" : "Įvykis be pavadinimo",
     "The visibility of this event in shared calendars." : "Šio įvykio matomumas bendrinamuose kalendoriuose.",
     "Location" : "Vieta",
