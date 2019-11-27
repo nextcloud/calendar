@@ -51,7 +51,7 @@
 		"calendar-js": "git+https://github.com/georgehrke/calendar-js.git",
 		"cdav-library": "github:nextcloud/cdav-library",
 		"color-convert": "^2.0.1",
-		"core-js": "^3.4.2",
+		"core-js": "^3.4.4",
 		"debounce": "^1.2.0",
 		"jstz": "^2.1.1",
 		"md5": "^2.2.1",
