@@ -2,9 +2,9 @@ sudo: required
 dist: trusty
 language: php
 php:
-  - 7.1
   - 7.2
   - 7.3
+  - 7.4snapshot
 
 addons:
   apt:
@@ -13,7 +13,6 @@ addons:
     - mysql-client-core-5.6
     - mysql-client-5.6
     - libxml2-utils
-  firefox: "latest"
 
 branches:
   only:
@@ -29,17 +28,15 @@ env:
 
 matrix:
   include:
-    - php: 7.3
+    - php: 7.4snapshot
       env: "TEST_SUITE=PACKAGE"
-    - php: 7.3
+    - php: 7.4snapshot
       env: "TEST_SUITE=LINT-PHP"
-    - php: 7.3
+    - php: 7.4snapshot
       env: "TEST_SUITE=TEST-JS"
     - php: 7.3
       env: "CORE_BRANCH=stable17"
     - php: 7.2
-      env: "CORE_BRANCH=stable17"
-    - php: 7.1
       env: "CORE_BRANCH=stable17"
   fast_finish: true
 
@@ -73,7 +70,7 @@ before_script:
   - sh -c "if [ '$TEST_SUITE' = 'TEST-JS' ]; then make dev-setup; fi"
 
   # XDebug is only needed if we report coverage -> speeds up other builds
-  - if [[ "$PHP_COVERAGE" = "FALSE" ]]; then phpenv config-rm xdebug.ini; fi
+  - if [[ "$PHP_COVERAGE" = "FALSE" ]]; then phpenv config-rm xdebug.ini || true; fi
 
 script:
   # Check info.xml schema validity

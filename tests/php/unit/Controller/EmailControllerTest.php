@@ -33,7 +33,7 @@ use OCP\IUserSession;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Mail\IMessage;
-use Test\TestCase;
+use ChristophWurst\Nextcloud\Testing\TestCase;
 
 class EmailControllerTest extends TestCase {
 

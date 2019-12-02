@@ -25,7 +25,7 @@ namespace OCA\Calendar\Controller;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\IRequest;
-use Test\TestCase;
+use ChristophWurst\Nextcloud\Testing\TestCase;
 
 class ViewControllerTest extends TestCase {
 
