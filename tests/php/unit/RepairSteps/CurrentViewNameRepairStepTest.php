@@ -26,7 +26,7 @@ use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Migration\IOutput;
-use Test\TestCase;
+use ChristophWurst\Nextcloud\Testing\TestCase;
 
 class CurrentViewNameRepairStepTest extends TestCase {
 

@@ -25,7 +25,7 @@ namespace OCA\Calendar\Controller;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Contacts\IManager;
 use OCP\IRequest;
-use Test\TestCase;
+use ChristophWurst\Nextcloud\Testing\TestCase;
 
 class ContactControllerTest extends TestCase {
 

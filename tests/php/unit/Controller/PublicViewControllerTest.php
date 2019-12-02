@@ -26,7 +26,7 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IURLGenerator;
-use Test\TestCase;
+use ChristophWurst\Nextcloud\Testing\TestCase;
 
 class PublicViewControllerTest extends TestCase {
 

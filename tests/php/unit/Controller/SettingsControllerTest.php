@@ -24,7 +24,7 @@ namespace OCA\Calendar\Controller;
 
 use OCP\IConfig;
 use OCP\IRequest;
-use Test\TestCase;
+use ChristophWurst\Nextcloud\Testing\TestCase;
 
 class SettingsControllerTest extends TestCase {
 
