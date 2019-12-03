@@ -61,7 +61,9 @@
 			<ActionInput
 				v-if="showEMailInput"
 				icon="icon-mail"
-				@submit.prevent.stop="sendLinkViaEMail" />
+				@submit.prevent.stop="sendLinkViaEMail">
+				{{ $t('calendar', 'Enter one address') }}
+			</ActionInput>
 			<ActionText
 				v-if="showEMailSending"
 				icon="icon-loading-small">
@@ -144,6 +146,7 @@ import {
 	generateRemoteUrl,
 	linkTo,
 } from '@nextcloud/router'
+import HttpClient from '@nextcloud/axios'
 
 export default {
 	name: 'CalendarListItemSharingPublishItem',
@@ -213,21 +216,30 @@ export default {
 			this.showEMailInput = true
 			this.showEMailSending = false
 		},
-		sendLinkViaEMail(event) {
+		async sendLinkViaEMail(event) {
 			this.showEMailLabel = false
 			this.showEMailInput = false
 			this.showEMailSending = true
 
-			// const emailAddress = event.target.querySelector('input[type=text]').value
-			//
-			// // HttpClient.post
-			// event.stopPropagation()
-			//
-			// this.sendingEMailLink = true
-			// this.showEMailLinkInput = false
-			//
-			// const value = event.target.querySelector('input[type=text]').value
-			// console.debug(value)
+			const emailAddress = event.target.querySelector('input[type=text]').value
+			try {
+				const url = [
+					linkTo('calendar', 'index.php'),
+					'v1/public/sendmail',
+				].join('/')
+				await HttpClient.post(url, {
+					recipient: emailAddress,
+					token: this.calendar.publishURL.split('/').slice(-1)[0],
+					calendarName: this.calendar.displayName,
+				})
+			} catch (error) {
+				console.error(error)
+				this.$toast.error(this.$t('calendar', 'An error occurred, unable to send email.'))
+			} finally {
+				this.showEMailLabel = true
+				this.showEMailInput = false
+				this.showEMailSending = false
+			}
 		},
 		async copyPublicLink() {
 			this.showCopyPublicLinkLabel = false
