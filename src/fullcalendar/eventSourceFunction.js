@@ -26,12 +26,13 @@ import logger from '../utils/logger.js'
  * convert an array of calendar-objects to events
  *
  * @param {CalendarObject[]} calendarObjects Array of calendar-objects to turn into fc events
+ * @param {Object} calendar The calendar object
  * @param {Date} start Start of time-range
  * @param {Date} end End of time-range
  * @param {Timezone} timezone Desired time-zone
  * @returns {Object}[]
  */
-export function eventSourceFunction(calendarObjects, start, end, timezone) {
+export function eventSourceFunction(calendarObjects, calendar, start, end, timezone) {
 	const fcEvents = []
 	for (const calendarObject of calendarObjects) {
 		let allObjectsInTimeRange
@@ -62,6 +63,9 @@ export function eventSourceFunction(calendarObjects, start, end, timezone) {
 					objectId: calendarObject.id,
 					recurrenceId: object.getReferenceRecurrenceId().unixTime,
 					canModifyAllDay: object.canModifyAllDay(),
+					calendarOrder: calendar.order,
+					calendarName: calendar.displayName,
+					calendarId: calendar.id,
 				},
 			}
 

@@ -58,10 +58,10 @@ export default function(store) {
 					}
 
 					const calendarObjects = store.getters.getCalendarObjectsByTimeRangeId(timeRangeId)
-					successCallback(eventSourceFunction(calendarObjects, start, end, timezoneObject))
+					successCallback(eventSourceFunction(calendarObjects, calendar, start, end, timezoneObject))
 				} else {
 					const calendarObjects = store.getters.getCalendarObjectsByTimeRangeId(timeRange.id)
-					successCallback(eventSourceFunction(calendarObjects, start, end, timezoneObject))
+					successCallback(eventSourceFunction(calendarObjects, calendar, start, end, timezoneObject))
 				}
 			},
 		}

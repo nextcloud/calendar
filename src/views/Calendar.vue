@@ -47,6 +47,7 @@
 				:week-numbers="showWeekNumbers"
 				:weekends="showWeekends"
 				:event-sources="eventSources"
+				:event-order="eventOrder"
 				:plugins="plugins"
 				:time-zone="timezoneId"
 				:event-allow="eventAllow"
@@ -102,6 +103,7 @@ import {
 import eventAllow from '../fullcalendar/eventAllow'
 import eventClick from '../fullcalendar/eventClick'
 import eventDrop from '../fullcalendar/eventDrop'
+import eventOrder from '../fullcalendar/eventOrder'
 import eventResize from '../fullcalendar/eventResize'
 import eventSource from '../fullcalendar/eventSource'
 import select from '../fullcalendar/select'
@@ -210,6 +212,9 @@ export default {
 			}
 
 			return null
+		},
+		eventOrder() {
+			return ['start', '-duration', 'allDay', eventOrder]
 		},
 	},
 	beforeRouteUpdate(to, from, next) {
