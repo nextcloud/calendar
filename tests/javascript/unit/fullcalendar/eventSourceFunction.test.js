@@ -143,7 +143,11 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 		const start = new Date(Date.UTC(2019, 0, 1, 0, 0, 0, 0))
 		const end = new Date(Date.UTC(2019, 0, 31, 59, 59, 59, 999))
 		const timezone = { calendarJsTimezone: true, tzid: 'America/New_York' }
-		const result = eventSourceFunction(calendarObjects, start, end, timezone)
+		const result = eventSourceFunction(calendarObjects, {
+			order: 1337,
+			displayName: 'Calendar displayname',
+			id: 'Calendar id 456',
+		}, start, end, timezone)
 
 		expect(result).toEqual([
 			{
@@ -153,7 +157,14 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 				start: 'js-date-1-1-start',
 				end: 'js-date-1-1-end',
 				classNames: [],
-				extendedProps: { objectId: '1', recurrenceId: 123, canModifyAllDay: false }
+				extendedProps: {
+					objectId: '1',
+					recurrenceId: 123,
+					canModifyAllDay: false,
+					calendarId: 'Calendar id 456',
+					calendarName: 'Calendar displayname',
+					calendarOrder: 1337,
+				}
 			},
 			{
 				id: '1###1-2',
@@ -162,7 +173,14 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 				start: 'js-date-1-2-start',
 				end: 'js-date-1-2-end',
 				classNames: [ 'fc-event-nc-cancelled' ],
-				extendedProps: { objectId: '1', recurrenceId: 456, canModifyAllDay: false }
+				extendedProps: {
+					objectId: '1',
+					recurrenceId: 456,
+					canModifyAllDay: false,
+					calendarId: 'Calendar id 456',
+					calendarName: 'Calendar displayname',
+					calendarOrder: 1337,
+				}
 			},
 			{
 				id: '1###1-3',
@@ -171,7 +189,14 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 				start: 'js-date-1-3-start',
 				end: 'js-date-1-3-end',
 				classNames: [ 'fc-event-nc-tentative' ],
-				extendedProps: { objectId: '1', recurrenceId: 789, canModifyAllDay: false }
+				extendedProps: {
+					objectId: '1',
+					recurrenceId: 789,
+					canModifyAllDay: false,
+					calendarId: 'Calendar id 456',
+					calendarName: 'Calendar displayname',
+					calendarOrder: 1337,
+				}
 			},
 			{
 				id: '2###2-1',
@@ -180,7 +205,14 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 				start: 'js-date-2-1-start',
 				end: 'js-date-2-1-end',
 				classNames: [],
-				extendedProps: { objectId: '2', recurrenceId: 101, canModifyAllDay: true }
+				extendedProps: {
+					objectId: '2',
+					recurrenceId: 101,
+					canModifyAllDay: true,
+					calendarId: 'Calendar id 456',
+					calendarName: 'Calendar displayname',
+					calendarOrder: 1337,
+				}
 			},
 			{
 				id: '4###3-1',
@@ -189,7 +221,14 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 				start: 'js-date-3-1-start',
 				end: 'js-date-3-1-end',
 				classNames: [],
-				extendedProps: { objectId: '4', recurrenceId: 303, canModifyAllDay: true }
+				extendedProps: {
+					objectId: '4',
+					recurrenceId: 303,
+					canModifyAllDay: true,
+					calendarId: 'Calendar id 456',
+					calendarName: 'Calendar displayname',
+					calendarOrder: 1337,
+				}
 			}
 		])
 
