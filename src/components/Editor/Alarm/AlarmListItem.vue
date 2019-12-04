@@ -86,56 +86,64 @@
 			v-if="!isReadOnly"
 			class="property-alarm-item__options">
 			<Actions>
-				<ActionButton
-					v-if="canEdit"
-					icon="icon-edit"
-					@click="editAlarm">
-					{{ $t('calendar', 'Edit reminder') }}
-				</ActionButton>
-
 				<ActionRadio
-					v-if="isEditing"
 					:name="alarmTypeName"
 					:checked="isAlarmTypeDisplay"
 					@change="changeType('DISPLAY')">
 					{{ $t('calendar', 'Notification') }}
 				</ActionRadio>
 				<ActionRadio
-					v-if="isEditing"
 					:name="alarmTypeName"
 					:checked="isAlarmTypeEmail"
 					@change="changeType('EMAIL')">
 					{{ $t('calendar', 'Email') }}
 				</ActionRadio>
 				<ActionRadio
-					v-if="isEditing && isAlarmTypeAudio"
+					v-if="isAlarmTypeAudio"
 					:name="alarmTypeName"
 					:checked="isAlarmTypeAudio"
 					@change="changeType('AUDIO')">
 					{{ $t('calendar', 'Audio notification') }}
 				</ActionRadio>
 				<ActionRadio
-					v-if="isEditing && isAlarmTypeOther"
+					v-if="isAlarmTypeOther"
 					:name="alarmTypeName"
 					:checked="isAlarmTypeOther"
 					@change="changeType(alarm.type)">
 					{{ $t('calendar', 'Other notification') }}
 				</ActionRadio>
 
+				<ActionSeparator />
+
 				<ActionRadio
-					v-if="isEditing && !isRecurring"
+					v-if="!isRecurring"
 					:name="alarmTriggerName"
 					:checked="isRelativeAlarm"
 					@change="switchToRelativeAlarm">
 					{{ $t('calendar', 'Relative to event') }}
 				</ActionRadio>
 				<ActionRadio
-					v-if="isEditing && !isRecurring"
+					v-if="!isRecurring"
 					:name="alarmTriggerName"
 					:checked="isAbsoluteAlarm"
 					@change="switchToAbsoluteAlarm">
 					{{ $t('calendar', 'On date') }}
 				</ActionRadio>
+
+				<ActionSeparator />
+
+				<ActionButton
+					v-if="canEdit && !isEditing"
+					icon="icon-edit"
+					@click="toggleEditAlarm">
+					{{ $t('calendar', 'Edit time') }}
+				</ActionButton>
+				<ActionButton
+					v-if="canEdit && isEditing"
+					icon="icon-checkmark"
+					@click="toggleEditAlarm">
+					{{ $t('calendar', 'Save time') }}
+				</ActionButton>
 
 				<ActionButton
 					icon="icon-delete"
@@ -152,6 +160,7 @@ import {
 	Actions,
 	ActionButton,
 	ActionRadio,
+	ActionSeparator,
 } from '@nextcloud/vue'
 import { mapState } from 'vuex'
 import ClickOutside from 'vue-click-outside'
@@ -170,6 +179,7 @@ export default {
 		Actions,
 		ActionButton,
 		ActionRadio,
+		ActionSeparator,
 	},
 	directives: {
 		ClickOutside,
@@ -296,8 +306,8 @@ export default {
 		/**
 		 * This method enables the editing mode
 		 */
-		editAlarm() {
-			this.isEditing = true
+		toggleEditAlarm() {
+			this.isEditing = !this.isEditing
 		},
 		/**
 		 * This method closes the editing mode again
