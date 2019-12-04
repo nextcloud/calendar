@@ -96,7 +96,6 @@ OC.L10N.register(
     "CalDAV link copied to clipboard." : "Link CalDAV copiado para a área de transferência.",
     "CalDAV link could not be copied to clipboard." : "Link CalDAV não copiado para a área de transferência.",
     "before at" : "antes das",
-    "Edit reminder" : "Editar lembrete",
     "Notification" : "Notificação",
     "Email" : "E-mail",
     "Audio notification" : "Notificação de áudio",

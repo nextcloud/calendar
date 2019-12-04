@@ -83,7 +83,6 @@ OC.L10N.register(
     "CalDAV link copied to clipboard." : "Odkaz CalDAV skopírovaný do schránky.",
     "CalDAV link could not be copied to clipboard." : "Odkaz CalDAV nebolo možné skopírovať do schránky.",
     "before at" : "pred o",
-    "Edit reminder" : "Upraviť pripomienku",
     "Notification" : "Hlásenie",
     "Email" : "E-mail",
     "Audio notification" : "Hlasový oznam",

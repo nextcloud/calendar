@@ -96,7 +96,6 @@ OC.L10N.register(
     "CalDAV link copied to clipboard." : "CalDAV bağlantısı panoya kopyalandı.",
     "CalDAV link could not be copied to clipboard." : "CalDAV bağlantısı panoya kopyalanamadı.",
     "before at" : "şundan önce",
-    "Edit reminder" : "Anımsatıcıyı düzenle",
     "Notification" : "Bildirim",
     "Email" : "E-posta",
     "Audio notification" : "Sesli bildirim",

@@ -91,7 +91,6 @@ OC.L10N.register(
     "CalDAV link copied to clipboard." : "Poveznica kalendara CalDAV kopirana je u međuspremnik.",
     "CalDAV link could not be copied to clipboard." : "Poveznica kalendara CalDAV nije kopirana u međuspremnik.",
     "before at" : "prije u",
-    "Edit reminder" : "Uredi podsjetnik",
     "Notification" : "Obavijest",
     "Email" : "E-pošta",
     "Audio notification" : "Zvučna obavijest",

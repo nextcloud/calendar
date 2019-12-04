@@ -67,7 +67,6 @@ OC.L10N.register(
     "Copy iOS/macOS CalDAV address" : "Kopioi iOS:in/macOS:n CalDAV-osoite",
     "CalDAV link copied to clipboard." : "CalDAV-linkki kopioitu leikepöydälle.",
     "CalDAV link could not be copied to clipboard." : "CalDAV-linkkiä ei voitu kopioida leikepöydälle.",
-    "Edit reminder" : "Muokkaa muistutusta",
     "Notification" : "Ilmoitus",
     "Email" : "Sähköposti",
     "Audio notification" : "Ääni-ilmoitus",
