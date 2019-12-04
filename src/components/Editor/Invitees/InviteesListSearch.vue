@@ -28,6 +28,7 @@
 		:internal-search="false"
 		:max-height="600"
 		:show-no-results="true"
+		:show-no-options="false"
 		:placeholder="placeholder"
 		:class="{ 'showContent': inputGiven, 'icon-loading': isLoading }"
 		open-direction="bottom"
