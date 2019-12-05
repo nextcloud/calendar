@@ -21,22 +21,85 @@
   -->
 
 <template>
-	<button
-		class="editor-reminders-list-new-button icon-add"
-		@click="addReminder">
-		{{ $t('calendar', 'Add reminder') }}
-	</button>
+	<Multiselect
+		class="property-alarm-new"
+		track-by="value"
+		label="label"
+		:placeholder="$t('calendar', '+ Add reminder')"
+		:options="options"
+		:searchable="false"
+		@select="addReminderFromSelect" />
 </template>
 
 <script>
+import { Multiselect } from '@nextcloud/vue'
+import { mapState } from 'vuex'
+import getDefaultAlarms from '../../../defaults/defaultAlarmProvider.js'
+import {
+	getAmountAndUnitForTimedEvents,
+	getAmountHoursMinutesAndUnitForAllDayEvents,
+} from '../../../utils/alarms.js'
+import alarmFormat from '../../../filters/alarmFormat.js'
+
 export default {
 	name: 'AlarmListNew',
+	components: {
+		Multiselect,
+	},
+	props: {
+		isAllDay: {
+			type: Boolean,
+			required: true,
+		},
+	},
+	computed: {
+		...mapState({
+			locale: (state) => state.settings.momentLocale,
+		}),
+		currentUserTimezone() {
+			return this.$store.getters.getResolvedTimezone
+		},
+		options() {
+			return getDefaultAlarms(this.isAllDay).map((defaultAlarm) => {
+				const alarmObject = this.getAlarmObjectFromTriggerTime(defaultAlarm)
+
+				return {
+					value: defaultAlarm,
+					label: alarmFormat(alarmObject, this.isAllDay, this.currentUserTimezone, this.locale),
+				}
+			})
+		},
+	},
 	methods: {
 		/**
 		 * This emits the add alarm event
 		 */
-		addReminder() {
-			this.$emit('addAlarm')
+		addReminderFromSelect({ value }) {
+			this.$emit('addAlarm', value)
+		},
+		/**
+		 *
+		 * @param {Number} time Total amount of seconds for the trigger
+		 * @returns {Object} The alarm object
+		 */
+		getAlarmObjectFromTriggerTime(time) {
+			const timedData = getAmountAndUnitForTimedEvents(time)
+			const allDayData = getAmountHoursMinutesAndUnitForAllDayEvents(time)
+
+			return {
+				isRelative: true,
+				absoluteDate: null,
+				absoluteTimezoneId: null,
+				relativeIsBefore: time < 0,
+				relativeIsRelatedToStart: true,
+				relativeUnitTimed: timedData.unit,
+				relativeAmountTimed: timedData.amount,
+				relativeUnitAllDay: allDayData.unit,
+				relativeAmountAllDay: allDayData.amount,
+				relativeHoursAllDay: allDayData.hours,
+				relativeMinutesAllDay: allDayData.minutes,
+				relativeTrigger: time,
+			}
 		},
 	},
 }
