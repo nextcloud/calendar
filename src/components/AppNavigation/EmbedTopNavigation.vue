@@ -33,11 +33,9 @@
 </template>
 
 <script>
-import {
-	Actions,
-	ActionButton,
-	ActionLink,
-} from '@nextcloud/vue'
+import { Actions } from '@nextcloud/vue/dist/Components/Actions'
+import { ActionButton } from '@nextcloud/vue/dist/Components/ActionButton'
+import { ActionLink } from '@nextcloud/vue/dist/Components/ActionLink'
 import {
 	mapGetters,
 } from 'vuex'

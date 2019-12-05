@@ -58,9 +58,7 @@
 
 <script>
 import DatePicker from '../../Shared/DatePicker.vue'
-import {
-	Multiselect,
-} from '@nextcloud/vue'
+import { Multiselect } from '@nextcloud/vue/dist/Components/Multiselect'
 
 export default {
 	name: 'RepeatEndRepeat',
