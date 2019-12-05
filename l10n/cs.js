@@ -104,6 +104,8 @@ OC.L10N.register(
     "Other notification" : "Ostatní oznámení",
     "Relative to event" : "Vztaženo k události",
     "On date" : "Dne",
+    "Edit time" : "Okamžik úpravy",
+    "Save time" : "Okamžik uložení",
     "Remove reminder" : "Odebrat připomínku",
     "on" : "v",
     "at" : "na",
