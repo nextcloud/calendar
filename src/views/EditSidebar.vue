@@ -221,12 +221,10 @@
 	</AppSidebar>
 </template>
 <script>
-import {
-	AppSidebar,
-	AppSidebarTab,
-	ActionLink,
-	ActionButton,
-} from '@nextcloud/vue'
+import { AppSidebar } from '@nextcloud/vue/dist/Components/AppSidebar'
+import { AppSidebarTab } from '@nextcloud/vue/dist/Components/AppSidebarTab'
+import { ActionLink } from '@nextcloud/vue/dist/Components/ActionLink'
+import { ActionButton } from '@nextcloud/vue/dist/Components/ActionButton'
 
 import AlarmList from '../components/Editor/Alarm/AlarmList'
 

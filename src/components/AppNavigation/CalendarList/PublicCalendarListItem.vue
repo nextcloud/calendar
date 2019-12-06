@@ -74,14 +74,12 @@
 </template>
 
 <script>
-import {
-	Avatar,
-	ActionButton,
-	ActionLink,
-	ActionText,
-	AppNavigationIconBullet,
-	AppNavigationItem,
-} from '@nextcloud/vue'
+import { Avatar } from '@nextcloud/vue/dist/Components/Avatar'
+import { ActionButton } from '@nextcloud/vue/dist/Components/ActionButton'
+import { ActionLink } from '@nextcloud/vue/dist/Components/ActionLink'
+import { ActionText } from '@nextcloud/vue/dist/Components/ActionText'
+import { AppNavigationIconBullet } from '@nextcloud/vue/dist/Components/AppNavigationIconBullet'
+import { AppNavigationItem } from '@nextcloud/vue/dist/Components/AppNavigationItem'
 import {
 	generateRemoteUrl,
 } from '@nextcloud/router'

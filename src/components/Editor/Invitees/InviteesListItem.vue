@@ -77,12 +77,10 @@
 
 <script>
 import AvatarParticipationStatus from './AvatarParticipationStatus'
-import {
-	Actions,
-	ActionCheckbox,
-	ActionButton,
-	ActionRadio,
-} from '@nextcloud/vue'
+import { Actions } from '@nextcloud/vue/dist/Components/Actions'
+import { ActionButton } from '@nextcloud/vue/dist/Components/ActionButton'
+import { ActionRadio } from '@nextcloud/vue/dist/Components/ActionRadio'
+import { ActionCheckbox } from '@nextcloud/vue/dist/Components/ActionCheckbox'
 
 export default {
 	name: 'InviteesListItem',

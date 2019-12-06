@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { Multiselect } from '@nextcloud/vue'
+import { Multiselect } from '@nextcloud/vue/dist/Components/Multiselect'
 import { getDayNames } from '@nextcloud/l10n'
 
 export default {

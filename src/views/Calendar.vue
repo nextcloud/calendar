@@ -89,11 +89,9 @@ import listPlugin from '@fullcalendar/list'
 import '@fullcalendar/list/main.css'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import '@fullcalendar/timegrid/main.css'
-import {
-	AppNavigation,
-	AppContent,
-	Content,
-} from '@nextcloud/vue'
+import { AppNavigation } from '@nextcloud/vue/dist/Components/AppNavigation'
+import { AppContent } from '@nextcloud/vue/dist/Components/AppContent'
+import { Content } from '@nextcloud/vue/dist/Components/Content'
 import debounce from 'debounce'
 import { uidToHexColor } from '../utils/color.js'
 import client from '../services/caldavService.js'

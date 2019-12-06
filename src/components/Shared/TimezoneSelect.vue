@@ -14,9 +14,7 @@
 </template>
 
 <script>
-import {
-	Multiselect,
-} from '@nextcloud/vue'
+import { Multiselect } from '@nextcloud/vue/dist/Components/Multiselect'
 import {
 	getReadableTimezoneName,
 	getSortedTimezoneList,

@@ -53,7 +53,7 @@
 
 <script>
 import PropertyMixin from '../../../mixins/PropertyMixin'
-import { Multiselect } from '@nextcloud/vue'
+import { Multiselect } from '@nextcloud/vue/dist/Components/Multiselect'
 
 export default {
 	name: 'PropertySelect',

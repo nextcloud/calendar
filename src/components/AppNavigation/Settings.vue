@@ -63,11 +63,9 @@
 </template>
 
 <script>
-import {
-	ActionButton,
-	ActionCheckbox,
-	AppNavigationSettings,
-} from '@nextcloud/vue'
+import { ActionButton } from '@nextcloud/vue/dist/Components/ActionButton'
+import { ActionCheckbox } from '@nextcloud/vue/dist/Components/ActionCheckbox'
+import { AppNavigationSettings } from '@nextcloud/vue/dist/Components/AppNavigationSettings'
 import {
 	generateRemoteUrl,
 } from '@nextcloud/router'

@@ -45,11 +45,11 @@
 </template>
 
 <script>
+import { Multiselect } from '@nextcloud/vue/dist/Components/Multiselect'
 import client from '../../../services/caldavService.js'
 import HttpClient from '@nextcloud/axios'
 import debounce from 'debounce'
 import { generateOcsUrl } from '@nextcloud/router'
-import { Multiselect } from '@nextcloud/vue'
 
 export default {
 	name: 'CalendarListItemSharingSearch',

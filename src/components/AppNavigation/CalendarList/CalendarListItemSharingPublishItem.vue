@@ -134,13 +134,11 @@
 </template>
 
 <script>
-import {
-	Actions,
-	ActionButton,
-	ActionInput,
-	ActionText,
-	AppNavigationItem,
-} from '@nextcloud/vue'
+import { Actions } from '@nextcloud/vue/dist/Components/Actions'
+import { ActionButton } from '@nextcloud/vue/dist/Components/ActionButton'
+import { ActionInput } from '@nextcloud/vue/dist/Components/ActionInput'
+import { ActionText } from '@nextcloud/vue/dist/Components/ActionText'
+import { AppNavigationItem } from '@nextcloud/vue/dist/Components/AppNavigationItem'
 import ClickOutside from 'vue-click-outside'
 import {
 	generateRemoteUrl,

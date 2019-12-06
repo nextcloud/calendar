@@ -51,7 +51,7 @@
 import {
 	mapGetters,
 } from 'vuex'
-import { AppNavigationSpacer } from '@nextcloud/vue'
+import { AppNavigationSpacer } from '@nextcloud/vue/dist/Components/AppNavigationSpacer'
 import CalendarListNew from './CalendarList/CalendarListNew.vue'
 import CalendarListItem from './CalendarList/CalendarListItem.vue'
 import PublicCalendarListItem from './CalendarList/PublicCalendarListItem.vue'
