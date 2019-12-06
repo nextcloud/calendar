@@ -58,6 +58,9 @@
 				:selectable="isSelectable"
 				:select-mirror="true"
 				:lazy-fetching="false"
+				:nav-links="true"
+				:nav-link-day-click="navLinkDayClick"
+				:nav-link-week-click="navLinkWeekClick"
 				:now-indicator="true"
 				:progressive-event-rendering="true"
 				:unselect-auto="false"
@@ -106,6 +109,8 @@ import eventDrop from '../fullcalendar/eventDrop'
 import eventOrder from '../fullcalendar/eventOrder'
 import eventResize from '../fullcalendar/eventResize'
 import eventSource from '../fullcalendar/eventSource'
+import navLinkDayClick from '../fullcalendar/navLinkDayClick.js'
+import navLinkWeekClick from '../fullcalendar/navLinkWeekClick'
 import select from '../fullcalendar/select'
 import VTimezoneNamedTimezone from '../fullcalendar/vtimezoneNamedTimezoneImpl'
 import AppNavigationHeader from '../components/AppNavigation/AppNavigationHeader.vue'
@@ -363,6 +368,12 @@ export default {
 		},
 		eventRender(...args) {
 			return eventRender(...args)
+		},
+		navLinkDayClick(...args) {
+			return navLinkDayClick(this.$router, this.$route)(...args)
+		},
+		navLinkWeekClick(...args) {
+			return navLinkWeekClick(this.$router, this.$route)(...args)
 		},
 		/**
 		 * Loads the locale data for full-calendar
