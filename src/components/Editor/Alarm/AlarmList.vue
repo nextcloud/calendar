@@ -31,6 +31,7 @@
 			@removeAlarm="removeAlarm" />
 		<AlarmListNew
 			v-if="!isReadOnly"
+			:is-all-day="calendarObjectInstance.isAllDay"
 			@addAlarm="addAlarm" />
 		<NoAlarmView
 			v-if="isListEmpty" />
@@ -41,7 +42,6 @@
 import AlarmListNew from './AlarmListNew'
 import AlarmListItem from './AlarmListItem'
 import NoAlarmView from './NoAlarmView.vue'
-import getDefaultAlarms from '../../../defaults/defaultAlarmProvider.js'
 
 export default {
 	name: 'AlarmList',
@@ -64,11 +64,6 @@ export default {
 		alarms() {
 			return this.calendarObjectInstance.alarms
 		},
-		alarmTriggerList() {
-			return this.calendarObjectInstance.alarms.map(alarm => {
-				return alarm.relativeTrigger
-			})
-		},
 		isListEmpty() {
 			return this.alarms.length === 0
 		},
@@ -76,28 +71,14 @@ export default {
 	methods: {
 		/**
 		 * Adds another of the default alarms to the event
+		 *
+		 * @param {Number} totalSeconds Amount of seconds for the alarm
 		 */
-		addAlarm() {
-			const defaultAlarms = getDefaultAlarms(this.calendarObjectInstance.isAllDay)
-
-			for (const totalSeconds of defaultAlarms) {
-				if (this.alarmTriggerList.includes(totalSeconds)) {
-					continue
-				}
-
-				this.$store.commit('addAlarmToCalendarObjectInstance', {
-					calendarObjectInstance: this.calendarObjectInstance,
-					type: 'DISPLAY',
-					totalSeconds,
-				})
-				return
-			}
-
-			// Just use the last value as fallback
+		addAlarm(totalSeconds) {
 			this.$store.commit('addAlarmToCalendarObjectInstance', {
 				calendarObjectInstance: this.calendarObjectInstance,
 				type: 'DISPLAY',
-				totalSeconds: defaultAlarms[defaultAlarms.length - 1],
+				totalSeconds,
 			})
 		},
 		/**
