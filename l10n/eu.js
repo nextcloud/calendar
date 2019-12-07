@@ -107,7 +107,6 @@ OC.L10N.register(
     "Remove reminder" : "Kendu abisua",
     "on" : "noiz",
     "at" : "non",
-    "Add reminder" : "Gehitu abisua",
     "_second_::_seconds_" : ["segundo","segundo"],
     "_minute_::_minutes_" : ["minutu","minutu"],
     "_hour_::_hours_" : ["ordu","ordu"],

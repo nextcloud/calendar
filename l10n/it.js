@@ -109,7 +109,6 @@ OC.L10N.register(
     "Remove reminder" : "Rimuovi promemoria",
     "on" : "il",
     "at" : "alle",
-    "Add reminder" : "Aggiungi promemoria",
     "_second_::_seconds_" : ["secondo","secondi"],
     "_minute_::_minutes_" : ["minuto","minuti"],
     "_hour_::_hours_" : ["ora","ore"],

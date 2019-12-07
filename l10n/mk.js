@@ -42,7 +42,6 @@ OC.L10N.register(
     "Cancel" : "Откажи",
     "Automatic" : "Автоматски",
     "Email" : "Е-пошта",
-    "Add reminder" : "Додади потсетник",
     "_second_::_seconds_" : ["секунда","секунди"],
     "_minute_::_minutes_" : ["минута","минути"],
     "_hour_::_hours_" : ["час","часа"],

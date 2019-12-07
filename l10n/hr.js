@@ -100,7 +100,6 @@ OC.L10N.register(
     "Remove reminder" : "Ukloni podsjetnik",
     "on" : "na",
     "at" : "u",
-    "Add reminder" : "Dodaj podsjetnik",
     "No reminders yet" : "Još nema podsjetnika",
     "{name} accepted your invitation." : "{name} je prihvatio vaš poziv.",
     "{name} accepted {organizerName}'s invitation." : "{name} je prihvatio poziv {organizerName}.",

@@ -104,7 +104,6 @@ OC.L10N.register(
     "Remove reminder" : "Radera påminnelse",
     "on" : "på",
     "at" : "kl",
-    "Add reminder" : "Lägg till påminnelse",
     "_second_::_seconds_" : ["sekund","sekunder"],
     "_minute_::_minutes_" : ["minut","minuter"],
     "_hour_::_hours_" : ["timme","timmar"],

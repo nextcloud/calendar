@@ -72,7 +72,6 @@ OC.L10N.register(
     "Audio notification" : "Ääni-ilmoitus",
     "Other notification" : "Muu ilmoitus",
     "Remove reminder" : "Poista muistutus",
-    "Add reminder" : "Lisää muistutus",
     "_second_::_seconds_" : ["sekunti","sekuntia"],
     "_minute_::_minutes_" : ["minuutti","minuuttia"],
     "_hour_::_hours_" : ["tunti","tuntia"],

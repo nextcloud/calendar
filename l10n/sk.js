@@ -89,7 +89,6 @@ OC.L10N.register(
     "Other notification" : "Ostatné hlásenia",
     "Relative to event" : "Prislúchajúci k udalosti",
     "Remove reminder" : "Odstrániť pripomienku",
-    "Add reminder" : "Pridať pripomienku",
     "_second_::_seconds_" : ["sekunda","sekundy","sekúnd","sekúnd"],
     "_minute_::_minutes_" : ["minúta","minúty","minút","minút"],
     "_hour_::_hours_" : ["hodina","hodiny","hodín","hodín"],

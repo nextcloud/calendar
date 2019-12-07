@@ -79,7 +79,6 @@ OC.L10N.register(
     "On date" : "På dato",
     "Remove reminder" : "Fjern påminnelse",
     "on" : "på",
-    "Add reminder" : "Legg til påminnelse",
     "_second_::_seconds_" : ["sekund","sekunder"],
     "_minute_::_minutes_" : ["minutt","minutter"],
     "_hour_::_hours_" : ["time","timer"],

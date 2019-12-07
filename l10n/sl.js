@@ -62,7 +62,6 @@ OC.L10N.register(
     "Audio notification" : "Zvočno obvestilo",
     "Other notification" : "Drugo obvestilo",
     "Remove reminder" : "Odstrani opomnik",
-    "Add reminder" : "Dodaj opomnik",
     "_second_::_seconds_" : ["sekunda","sekundi","sekunde","sekund"],
     "_minute_::_minutes_" : ["minuta","minuti","minute","minut"],
     "_hour_::_hours_" : ["ura","uri","ure","ur"],

@@ -76,7 +76,6 @@ OC.L10N.register(
     "Edit time" : "Taisyti laiką",
     "Save time" : "Įrašyti laiką",
     "Remove reminder" : "Šalinti priminimą",
-    "Add reminder" : "Pridėti priminimą",
     "No reminders yet" : "Kol kas priminimų nėra",
     "{name} accepted your invitation." : "{name} priėmė jūsų pakvietimą.",
     "{name} declined your invitation." : "{name} atmetė jūsų pakvietimą.",
