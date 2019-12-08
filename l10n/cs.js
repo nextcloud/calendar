@@ -109,6 +109,7 @@ OC.L10N.register(
     "Remove reminder" : "Odebrat připomínku",
     "on" : "v",
     "at" : "na",
+    "+ Add reminder" : "+ Přidat připomínku",
     "_second_::_seconds_" : ["sekunda","sekundy","sekund","sekundy"],
     "_minute_::_minutes_" : ["minuta","minuty","minut","minuty"],
     "_hour_::_hours_" : ["hodina","hodiny","hodin","hodiny"],

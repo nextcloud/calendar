@@ -109,6 +109,7 @@ OC.L10N.register(
     "Remove reminder" : "Anımsatıcıyı kaldır",
     "on" : "şu gün",
     "at" : "şu saatte",
+    "+ Add reminder" : "+ Anımsatıcı ekle",
     "_second_::_seconds_" : ["saniye","saniye"],
     "_minute_::_minutes_" : ["dakika","dakika"],
     "_hour_::_hours_" : ["saat","saat"],

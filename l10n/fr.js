@@ -109,6 +109,7 @@ OC.L10N.register(
     "Remove reminder" : "Supprimer le rappel",
     "on" : "le",
     "at" : "à",
+    "+ Add reminder" : "+ Ajouter un rappel",
     "_second_::_seconds_" : ["seconde","secondes"],
     "_minute_::_minutes_" : ["minute","minutes"],
     "_hour_::_hours_" : ["heure","heures"],
