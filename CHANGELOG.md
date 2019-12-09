@@ -1,3 +1,38 @@
+## 2.0.0 beta3 - 2019-12-09
+### Fixed
+- Hide the resize handler of textareas, whenever we use autosize
+  [#1629](https://github.com/nextcloud/calendar/pull/1629)
+- Give the description field a default height of two rows
+  [#1630](https://github.com/nextcloud/calendar/pull/1630)
+- Hide calendar-picker if user has only one writable calendar
+  [#1631](https://github.com/nextcloud/calendar/pull/1631)
+- Do not show recurrence-summary, when the event is not repeating
+  [#1632](https://github.com/nextcloud/calendar/pull/1632)
+- Update timezone-database to 2019c
+  [#1635](https://github.com/nextcloud/calendar/pull/1635)
+- Replace with @babel/polyfill with core-js
+  [#1634](https://github.com/nextcloud/calendar/pull/1634)
+- Fix delay when toggling the all-day checkbox
+  [#1637](https://github.com/nextcloud/calendar/pull/1637)
+- Fixed missing translatable strings
+  [#1639](https://github.com/nextcloud/calendar/pull/1639)
+- Promise-related error in Firefox (catch is not a function)
+  [#1633](https://github.com/nextcloud/calendar/issues/1633)
+- Shared calendar entry to crowded in the navigation
+  [#1655](https://github.com/nextcloud/calendar/issues/1655)
+- Sharing published link via email doesn't work
+  [#1640](https://github.com/nextcloud/calendar/issues/1640)
+- Order All-day events by calendar 
+  [#760](https://github.com/nextcloud/calendar/issues/769)
+- Restructure menu for reminders
+  [#1638](https://github.com/nextcloud/calendar/pull/1638)
+- Do not show Empty message when clicking the search attendee multiselect
+  [#1699](https://github.com/nextcloud/calendar/pull/1699)
+- use FullCalendar navLinks
+  [#796](https://github.com/nextcloud/calendar/issues/796)
+- Replace New Reminder button with Multiselect to allow easier selection of alarm
+  [#1701](https://github.com/nextcloud/calendar/pull/1701)
+
 ## 2.0.0 beta2 - 2019-11-04
 ### Added
 - Consider categories for illustrations if title doesn't match any illustration
