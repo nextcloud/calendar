@@ -107,6 +107,7 @@
     "Remove reminder" : "移除提醒",
     "on" : "于",
     "at" : "在",
+    "+ Add reminder" : "+ 添加提醒",
     "_second_::_seconds_" : ["秒"],
     "_minute_::_minutes_" : ["分钟"],
     "_hour_::_hours_" : ["小时"],

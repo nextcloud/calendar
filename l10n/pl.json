@@ -107,6 +107,7 @@
     "Remove reminder" : "Usuń przypomnienie",
     "on" : "o",
     "at" : "o",
+    "+ Add reminder" : "+ Dodaj przypomnienie",
     "_second_::_seconds_" : ["sekunda","sekundy","sekund","sekundy"],
     "_minute_::_minutes_" : ["minuta","minuty","minut","minuty"],
     "_hour_::_hours_" : ["godzina","godziny","godzin","godziny"],
