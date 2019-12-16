@@ -144,6 +144,7 @@ function getOrganizerFromEventComponent(eventComponent) {
 		return {
 			commonName: organizerProperty.commonName,
 			uri: organizerProperty.email,
+			attendeeProperty: organizerProperty,
 		}
 	}
 

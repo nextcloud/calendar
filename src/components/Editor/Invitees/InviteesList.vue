@@ -43,6 +43,17 @@
 			v-if="!isReadOnly && isListEmpty && hasUserEmailAddress" />
 		<OrganizerNoEmailError
 			v-if="!isReadOnly && isListEmpty && !hasUserEmailAddress" />
+
+		<button v-if="!isReadOnly" :disabled="isListEmpty" @click="openFreeBusy">
+			{{ $t('calendar', 'Show busy times') }}
+		</button>
+		<FreeBusy
+			v-if="showFreeBusyModel"
+			:attendees="calendarObjectInstance.attendees"
+			:organizer="calendarObjectInstance.organizer"
+			:start-date="calendarObjectInstance.startDate"
+			:end-date="calendarObjectInstance.endDate"
+			@close="closeFreeBusy" />
 	</div>
 </template>
 
@@ -52,10 +63,12 @@ import InviteesListItem from './InviteesListItem'
 import OrganizerListItem from './OrganizerListItem'
 import NoInviteesView from './NoInviteesView.vue'
 import OrganizerNoEmailError from './OrganizerNoEmailError.vue'
+import FreeBusy from '../FreeBusy/FreeBusy.vue'
 
 export default {
 	name: 'InviteesList',
 	components: {
+		FreeBusy,
 		OrganizerNoEmailError,
 		NoInviteesView,
 		InviteesListItem,
@@ -71,6 +84,11 @@ export default {
 			type: Object,
 			required: true,
 		},
+	},
+	data() {
+		return {
+			showFreeBusyModel: false,
+		}
 	},
 	computed: {
 		inviteesWithoutOrganizer() {
@@ -160,6 +178,12 @@ export default {
 				calendarObjectInstance: this.calendarObjectInstance,
 				attendee,
 			})
+		},
+		openFreeBusy() {
+			this.showFreeBusyModel = true
+		},
+		closeFreeBusy() {
+			this.showFreeBusyModel = false
 		},
 	},
 }
