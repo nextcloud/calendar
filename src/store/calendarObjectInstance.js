@@ -480,6 +480,7 @@ const mutations = {
 		Vue.set(calendarObjectInstance, 'organizer', {})
 		Vue.set(calendarObjectInstance.organizer, 'commonName', commonName)
 		Vue.set(calendarObjectInstance.organizer, 'uri', email)
+		Vue.set(calendarObjectInstance.organizer, 'attendeeProperty', calendarObjectInstance.eventComponent.getFirstProperty('ORGANIZER'))
 	},
 
 	/**
