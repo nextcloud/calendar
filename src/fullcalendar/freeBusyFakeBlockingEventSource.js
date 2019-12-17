@@ -39,6 +39,7 @@ export default function(id, resources, eventStart, eventEnd) {
 		durationEditable: false,
 		resourceEditable: false,
 		events: async({ start, end, timeZone }, successCallback, failureCallback) => {
+
 			if (resources.length === 1) {
 				successCallback([{
 					id: Math.random().toString(36).substring(7),

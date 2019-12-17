@@ -43,23 +43,31 @@
 			v-if="!isReadOnly && isListEmpty && hasUserEmailAddress" />
 		<OrganizerNoEmailError
 			v-if="!isReadOnly && isListEmpty && !hasUserEmailAddress" />
-		<button
-			v-if="isCreateTalkRoomButtonVisible"
-			:disabled="isCreateTalkRoomButtonDisabled"
-			@click="createTalkRoom">
-			{{ $t('calendar', 'Create Talk room for this event') }}
-		</button>
 
-		<button v-if="!isReadOnly" :disabled="isListEmpty" @click="openFreeBusy">
-			{{ $t('calendar', 'Show busy times') }}
-		</button>
-		<FreeBusy
-			v-if="showFreeBusyModel"
-			:attendees="calendarObjectInstance.attendees"
-			:organizer="calendarObjectInstance.organizer"
-			:start-date="calendarObjectInstance.startDate"
-			:end-date="calendarObjectInstance.endDate"
-			@close="closeFreeBusy" />
+		<div style="width: 100%; display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
+			<button
+				v-if="isCreateTalkRoomButtonVisible"
+				:disabled="isCreateTalkRoomButtonDisabled"
+				style="flex-grow: 1;"
+				@click="createTalkRoom">
+				{{ $t('calendar', 'Create Talk room for this event') }}
+			</button>
+
+			<button
+				v-if="!isReadOnly"
+				:disabled="isListEmpty"
+				style="flex-grow: 1;"
+				@click="openFreeBusy">
+				{{ $t('calendar', 'Show busy times') }}
+			</button>
+			<FreeBusy
+				v-if="showFreeBusyModel"
+				:attendees="calendarObjectInstance.attendees"
+				:organizer="calendarObjectInstance.organizer"
+				:start-date="calendarObjectInstance.startDate"
+				:end-date="calendarObjectInstance.endDate"
+				@close="closeFreeBusy" />
+		</div>
 	</div>
 </template>
 

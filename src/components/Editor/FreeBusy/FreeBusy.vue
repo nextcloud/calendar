@@ -45,7 +45,6 @@
 				:first-day="firstDay"
 				scroll-time="06:00:00"
 				:force-event-duration="false"
-				:progressive-event-rendering="true"
 				:resource-label-text="$t('calendar', 'Attendees, Resources and Rooms')"
 				scheduler-license-key="GPL-My-Project-Is-Open-Source"
 				@loading="loading" />
