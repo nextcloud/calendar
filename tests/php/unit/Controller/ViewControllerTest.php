@@ -22,6 +22,7 @@ declare(strict_types=1);
  */
 namespace OCA\Calendar\Controller;
 
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\IRequest;
@@ -35,6 +36,9 @@ class ViewControllerTest extends TestCase {
 	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
 	private $request;
 
+	/** @var IAppManager|\PHPUnit_Framework_MockObject_MockObject */
+	private $appManager;
+
 	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	private $config;
 
@@ -47,11 +51,12 @@ class ViewControllerTest extends TestCase {
 	protected function setUp():void {
 		$this->appName = 'calendar';
 		$this->request = $this->createMock(IRequest::class);
+		$this->appManager = $this->createMock(IAppManager::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->userId = 'user123';
 
 		$this->controller = new ViewController($this->appName, $this->request,
-			$this->config, $this->userId);
+			$this->config, $this->appManager, $this->userId);
 	}
 
 	public function testIndex():void {
@@ -83,6 +88,10 @@ class ViewControllerTest extends TestCase {
 			->method('getUserValue')
 			->with('user123', 'calendar', 'timezone', 'automatic')
 			->willReturn('Europe/Berlin');
+		$this->appManager->expects($this->at(0))
+			->method('isEnabledForUser')
+			->with('spreed')
+			->willReturn(true);
 
 		$response = $this->controller->index();
 
@@ -94,6 +103,7 @@ class ViewControllerTest extends TestCase {
 			'show_weekends' => true,
 			'show_week_numbers' => true,
 			'skip_popover' => true,
+			'talk_enabled' => true,
 			'timezone' => 'Europe/Berlin',
 		], $response->getParams());
 		$this->assertEquals('user', $response->getRenderAs());
