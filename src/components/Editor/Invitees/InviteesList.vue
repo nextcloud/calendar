@@ -43,6 +43,12 @@
 			v-if="!isReadOnly && isListEmpty && hasUserEmailAddress" />
 		<OrganizerNoEmailError
 			v-if="!isReadOnly && isListEmpty && !hasUserEmailAddress" />
+		<button
+			v-if="isCreateTalkRoomButtonVisible"
+			:disabled="isCreateTalkRoomButtonDisabled"
+			@click="createTalkRoom">
+			{{ $t('calendar', 'Create Talk room for this event') }}
+		</button>
 
 		<button v-if="!isReadOnly" :disabled="isListEmpty" @click="openFreeBusy">
 			{{ $t('calendar', 'Show busy times') }}
@@ -58,11 +64,13 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import InviteesListSearch from './InviteesListSearch'
 import InviteesListItem from './InviteesListItem'
 import OrganizerListItem from './OrganizerListItem'
 import NoInviteesView from './NoInviteesView.vue'
 import OrganizerNoEmailError from './OrganizerNoEmailError.vue'
+import { createTalkRoom, doesDescriptionContainTalkLink } from '../../../services/talkService.js'
 import FreeBusy from '../FreeBusy/FreeBusy.vue'
 
 export default {
@@ -87,10 +95,14 @@ export default {
 	},
 	data() {
 		return {
+			creatingTalkRoom: false,
 			showFreeBusyModel: false,
 		}
 	},
 	computed: {
+		...mapState({
+			talkEnabled: state => state.settings.talkEnabled,
+		}),
 		inviteesWithoutOrganizer() {
 			if (!this.calendarObjectInstance.organizer) {
 				return this.calendarObjectInstance.attendees
@@ -145,6 +157,20 @@ export default {
 
 			return !!principal.emailAddress
 		},
+		isCreateTalkRoomButtonVisible() {
+			return this.talkEnabled
+		},
+		isCreateTalkRoomButtonDisabled() {
+			if (this.creatingTalkRoom) {
+				return true
+			}
+
+			if (doesDescriptionContainTalkLink(this.calendarObjectInstance.description)) {
+				return true
+			}
+
+			return false
+		},
 	},
 	methods: {
 		addAttendee({ commonName, email, calendarUserType, language, timezoneId }) {
@@ -184,6 +210,30 @@ export default {
 		},
 		closeFreeBusy() {
 			this.showFreeBusyModel = false
+		},
+		async createTalkRoom() {
+			try {
+				this.creatingTalkRoom = true
+				const url = await createTalkRoom(this.calendarObjectInstance.title)
+
+				let newDescription
+				if (!this.calendarObjectInstance.description) {
+					newDescription = url
+				} else {
+					newDescription = this.calendarObjectInstance.description + '\r\n\r\n' + url
+				}
+
+				this.$store.commit('changeDescription', {
+					calendarObjectInstance: this.calendarObjectInstance,
+					description: newDescription,
+				})
+
+				this.$toast.success(this.$t('calendar', 'Successfully appended link to talk room to description.'))
+			} catch (error) {
+				this.$toast.error(this.$t('calendar', 'Error creating Talk room'))
+			} finally {
+				this.creatingTalkRoom = false
+			}
 		},
 	},
 }

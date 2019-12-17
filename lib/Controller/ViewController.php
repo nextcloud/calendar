@@ -22,11 +22,13 @@ declare(strict_types=1);
  */
 namespace OCA\Calendar\Controller;
 
+use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IURLGenerator;
+use OCP\Notification\IApp;
 
 /**
  * Class ViewController
@@ -46,18 +48,26 @@ class ViewController extends Controller {
 	private $userId;
 
 	/**
+	 * @var IAppManager
+	 */
+	private $appManager;
+
+	/**
 	 * @param string $appName
 	 * @param IRequest $request an instance of the request
+	 * @param IAppManager $appManager
 	 * @param IConfig $config
 	 * @param string $userId
 	 */
 	public function __construct(string $appName,
 								IRequest $request,
 								IConfig $config,
+								IAppManager $appManager,
 								string $userId) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->userId = $userId;
+		$this->appManager = $appManager;
 	}
 
 	/**
@@ -76,6 +86,7 @@ class ViewController extends Controller {
 			'show_weekends' => $this->config->getUserValue($this->userId, $this->appName, 'showWeekends', 'yes') === 'yes',
 			'show_week_numbers' => $this->config->getUserValue($this->userId, $this->appName, 'showWeekNr', 'no') === 'yes',
 			'skip_popover' => $this->config->getUserValue($this->userId, $this->appName, 'skipPopover', 'no') === 'yes',
+			'talk_enabled' => $this->appManager->isEnabledForUser('spreed'),
 			'timezone' => $this->config->getUserValue($this->userId, $this->appName, 'timezone', 'automatic'),
 		]);
 	}

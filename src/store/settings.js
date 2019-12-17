@@ -33,6 +33,7 @@ const state = {
 	showWeekends: null,
 	showWeekNumbers: null,
 	skipPopover: null,
+	talkEnabled: false,
 	timezone: null,
 }
 
@@ -90,6 +91,7 @@ const mutations = {
 		state.showWeekNumbers = settings.showWeekNumbers
 		state.showWeekends = settings.showWeekends
 		state.skipPopover = settings.skipPopover
+		state.talkEnabled = settings.talkEnabled
 		state.timezone = settings.timezone
 	},
 
