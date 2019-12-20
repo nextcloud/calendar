@@ -105,6 +105,7 @@ OC.L10N.register(
     "Relative to event" : "Relativo al evento",
     "On date" : "en fecha",
     "Edit time" : "Hora de edición",
+    "Save time" : "Guardar hora",
     "Remove reminder" : "Eliminar recordatorio",
     "on" : "activo",
     "at" : "a",
