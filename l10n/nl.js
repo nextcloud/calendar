@@ -186,6 +186,7 @@ OC.L10N.register(
     "Special occasion" : "Bijzondere gelegenheid",
     "Travel" : "Reizen",
     "Vacation" : "Vakantie",
+    "Week {number} of {year}" : "Week {number} van {year}",
     "Does not repeat" : "Niet herhalen",
     "Daily" : "Dagelijks",
     "Weekly" : "Wekelijks",
@@ -200,6 +201,7 @@ OC.L10N.register(
     "on the {ordinalNumber} {byDaySet}" : "op de {ordinalNumber} {byDaySet}",
     "in {monthNames}" : "in {monthNames}",
     "in {monthNames} on the {ordinalNumber} {byDaySet}" : "in {monthNames} op de {ordinalNumber} {byDaySet}",
+    "Untitled event" : "Afspraken zonder naam",
     "When shared show" : "Wanneer gedeeld toon",
     "When shared show full event" : "Wanneer gedeeld, toon gehele afspraak",
     "When shared show only busy" : "Wanneer gedeeld, toon enkel onbeschikbaarheid",
@@ -224,9 +226,13 @@ OC.L10N.register(
     "Add this as a new category" : "Voeg dit toe als een nieuwe categorie",
     "Custom color" : "Kleur op maat",
     "Special color of this event. Overrides the calendar-color." : "Bijzondere kleur van deze afspraak. Overschrijft de agenda kleur.",
+    "Presentation" : "Presentatie",
     "Present" : "Aanwezig",
+    "Cinema" : "Bioscoop",
     "Office" : "Kantoor",
+    "Mail" : "E-mail",
     "Soccer" : "Voetbal",
+    "Play" : "Lezen",
     "Bicycle" : "Fiets",
     "Exhibition" : "Tentoonstelling",
     "Interview" : "Interview",
@@ -241,6 +247,7 @@ OC.L10N.register(
     "Lecture" : "Lezing",
     "Seminar" : "Seminarie",
     "Celebrate" : "Vieren",
-    "Wine tasting" : "Wijnproeverij"
+    "Wine tasting" : "Wijnproeverij",
+    "Global" : "Globaal"
 },
 "nplurals=2; plural=(n != 1);");

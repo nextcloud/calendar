@@ -130,6 +130,7 @@ OC.L10N.register(
     "_time_::_times_" : ["karto","kartų","kartų","karto"],
     "Repeat" : "Kartoti",
     "Repeat every" : "Kartoti kas",
+    "Monday" : "Pirmadienis",
     "Summary" : "Santrauka",
     "More" : "Daugiau",
     "Save" : "Įrašyti",
@@ -208,6 +209,7 @@ OC.L10N.register(
     "Custom color" : "Tinkinta spalva",
     "Special color of this event. Overrides the calendar-color." : "Speciali šio įvykio spalva. Nustelbia kalendoriaus spalvą.",
     "Imported {filename}" : "Importuotas {filename}",
+    "Presentation" : "Pateiktis",
     "Camping" : "Stovyklavimas",
     "Camp" : "Stovykla",
     "Movie" : "Filmas",
@@ -216,6 +218,8 @@ OC.L10N.register(
     "Meet" : "Susitikimas",
     "Party" : "Vakarėlis",
     "Celebration" : "Šventė",
+    "Mail" : "Paštas",
+    "Play" : "Groti",
     "Game" : "Žaidimas",
     "Podcast" : "Tinklalaidė",
     "Basketball" : "Krepšinis",
@@ -233,6 +237,7 @@ OC.L10N.register(
     "Lecture" : "Paskaita",
     "Seminar" : "Seminaras",
     "Golf" : "Golfas",
-    "Dinner" : "Pietūs"
+    "Dinner" : "Pietūs",
+    "Global" : "Visuotinis"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

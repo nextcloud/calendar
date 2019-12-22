@@ -87,6 +87,7 @@ OC.L10N.register(
     "Copy iOS/macOS CalDAV address" : "Afrita iOS/macOS CalDAV-vistfang ",
     "CalDAV link copied to clipboard." : "CalDAV-tengill afritaður á klippispjald.",
     "CalDAV link could not be copied to clipboard." : "Ekki var hægt að afrita CalDAV-tengil á klippispjald.",
+    "Notification" : "Tilkynning",
     "Email" : "Tölvupóstur",
     "Edit time" : "Breyta tíma",
     "Save time" : "Vista tíma",

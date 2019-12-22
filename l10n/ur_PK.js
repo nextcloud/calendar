@@ -1,0 +1,26 @@
+OC.L10N.register(
+    "calendar",
+    {
+    "Calendar" : "کیلنڈر",
+    "Cheers!" : "واہ!",
+    "Today" : "آج",
+    "Week" : "ہفتہ",
+    "Month" : "ماہ",
+    "Download" : "ڈاؤن لوڈ",
+    "Delete" : "حذف کریں",
+    "Share link" : "اشتراک لنک",
+    "can edit" : "تبدیل کر سکے ھیں",
+    "New calendar" : "جدید کیلنڈر",
+    "Cancel" : "منسوخ کریں",
+    "Email" : "email",
+    "never" : "never",
+    "Repeat" : "دہرایں",
+    "Monday" : "سوموار",
+    "More" : "مزید",
+    "Save" : "حفظ",
+    "Personal" : "شخصی",
+    "Close" : "بند ",
+    "Location" : "مقام",
+    "Description" : "تصریح"
+},
+"nplurals=2; plural=(n != 1);");

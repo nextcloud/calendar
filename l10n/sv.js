@@ -205,6 +205,7 @@ OC.L10N.register(
     "Travel" : "Resa",
     "Vacation" : "Semester",
     "Midnight on the day the event starts" : "Midnatt den dagen evenemanget börjar",
+    "Week {number} of {year}" : "Vecka {number} år {year}",
     "Does not repeat" : "Upprepar inte",
     "Daily" : "Dagligen",
     "Weekly" : "Varje vecka",
@@ -219,6 +220,7 @@ OC.L10N.register(
     "on the {ordinalNumber} {byDaySet}" : "på den {ordinalNumber} {byDaySet}",
     "in {monthNames}" : "i {monthNames}",
     "in {monthNames} on the {ordinalNumber} {byDaySet}" : "i {monthNames} på den {ordinalNumber} {byDaySet}",
+    "Untitled event" : "Namnlös händelse",
     "When shared show" : "Visa om delad",
     "When shared show full event" : "Om delad, visa hela händelsen",
     "When shared show only busy" : "Om delad, visa endast upptagen",
@@ -243,6 +245,12 @@ OC.L10N.register(
     "Custom color" : "Anpassad färg",
     "Special color of this event. Overrides the calendar-color." : "Anpassad färg på denna händelse. Åsidosätter kalenderfärgen.",
     "Meditation" : "Meditation",
-    "Presentation" : "Presentation"
+    "Presentation" : "Presentation",
+    "Movie" : "Film",
+    "Cinema" : "Bio",
+    "Office" : "Kontor",
+    "Mail" : "E-post",
+    "Play" : "Spela",
+    "Global" : "Global"
 },
 "nplurals=2; plural=(n != 1);");
