@@ -130,6 +130,7 @@ OC.L10N.register(
     "Categories" : "Kategorije",
     "Add this as a new category" : "Dodaj kot novo kategorijo",
     "Presentation" : "Predstavitev",
+    "Movie" : "Video",
     "Cinema" : "Kino",
     "Office" : "Pisarna",
     "Mail" : "Pošta",
