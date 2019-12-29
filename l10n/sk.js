@@ -149,6 +149,7 @@ OC.L10N.register(
     "Busy" : "Zaneprázdnený",
     "Categories" : "Kategórie",
     "Add this as a new category" : "Pridať ako novú kategóriu",
+    "Movie" : "Film",
     "Mail" : "Pošta",
     "Play" : "Prehrať",
     "Global" : "Globálne"
