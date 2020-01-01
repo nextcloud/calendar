@@ -20,6 +20,10 @@
  *
  */
 import { translate as t } from '@nextcloud/l10n'
+import {
+	hexToRGB,
+	isLight,
+} from '../utils/color.js'
 import logger from '../utils/logger.js'
 
 /**
@@ -52,6 +56,10 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 				classNames.push('fc-event-nc-tentative')
 			}
 
+			if (object.hasComponent('VALARM')) {
+				classNames.push('fc-event-nc-alarms')
+			}
+
 			const fcEvent = {
 				id: [calendarObject.id, object.id].join('###'),
 				title: object.title || t('calendar', 'Untitled event'),
@@ -66,6 +74,7 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 					calendarOrder: calendar.order,
 					calendarName: calendar.displayName,
 					calendarId: calendar.id,
+					darkText: isLight(hexToRGB(calendar.color)),
 				},
 			}
 

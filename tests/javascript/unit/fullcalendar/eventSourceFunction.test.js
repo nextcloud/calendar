@@ -49,6 +49,7 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 					jsDate: 'js-date-1-1-end'
 				})
 			},
+			hasComponent: jest.fn().mockReturnValue(false),
 		}, {
 			id: '1-2',
 			status: 'CANCELLED',
@@ -65,6 +66,7 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 					jsDate: 'js-date-1-2-end'
 				})
 			},
+			hasComponent: jest.fn().mockReturnValue(false),
 		}, {
 			id: '1-3',
 			status: 'TENTATIVE',
@@ -81,6 +83,7 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 					jsDate: 'js-date-1-3-end'
 				})
 			},
+			hasComponent: jest.fn().mockReturnValue(true),
 		}]
 		const eventComponentSet2 = [{
 			id: '2-1',
@@ -98,6 +101,7 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 					jsDate: 'js-date-2-1-end'
 				})
 			},
+			hasComponent: jest.fn().mockReturnValue(false),
 		}]
 		const eventComponentSet4 = [{
 			id: '3-1',
@@ -115,6 +119,7 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 					jsDate: 'js-date-3-1-end'
 				})
 			},
+			hasComponent: jest.fn().mockReturnValue(false),
 		}]
 
 		const calendarObjects = [{
@@ -133,7 +138,7 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 			getAllObjectsInTimeRange: jest.fn()
 				.mockImplementationOnce(() => {
 					throw new Error('Error while getting all objects in time-range')
-				})
+				}),
 		}, {
 			calendarObject: true,
 			id: '4',
@@ -164,6 +169,7 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 					calendarId: 'Calendar id 456',
 					calendarName: 'Calendar displayname',
 					calendarOrder: 1337,
+					darkText: false,
 				}
 			},
 			{
@@ -180,6 +186,7 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 					calendarId: 'Calendar id 456',
 					calendarName: 'Calendar displayname',
 					calendarOrder: 1337,
+					darkText: false,
 				}
 			},
 			{
@@ -188,7 +195,7 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 				allDay: false,
 				start: 'js-date-1-3-start',
 				end: 'js-date-1-3-end',
-				classNames: [ 'fc-event-nc-tentative' ],
+				classNames: [ 'fc-event-nc-tentative', 'fc-event-nc-alarms' ],
 				extendedProps: {
 					objectId: '1',
 					recurrenceId: 789,
@@ -196,6 +203,7 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 					calendarId: 'Calendar id 456',
 					calendarName: 'Calendar displayname',
 					calendarOrder: 1337,
+					darkText: false,
 				}
 			},
 			{
@@ -212,6 +220,7 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 					calendarId: 'Calendar id 456',
 					calendarName: 'Calendar displayname',
 					calendarOrder: 1337,
+					darkText: false,
 				}
 			},
 			{
@@ -228,6 +237,7 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 					calendarId: 'Calendar id 456',
 					calendarName: 'Calendar displayname',
 					calendarOrder: 1337,
+					darkText: false,
 				}
 			}
 		])

@@ -21,7 +21,7 @@
  */
 import eventSource from "../../../../src/fullcalendar/eventSource.js";
 
-import { generateTextColorForRGBString } from '../../../../src/utils/color.js'
+import { generateTextColorForHex } from '../../../../src/utils/color.js'
 import getTimezoneManager from '../../../../src/services/timezoneDataProviderService'
 import { getUnixTimestampFromDate } from '../../../../src/utils/date.js'
 import { eventSourceFunction } from '../../../../src/fullcalendar/eventSourceFunction.js'
@@ -34,7 +34,7 @@ jest.mock('../../../../src/fullcalendar/eventSourceFunction.js')
 describe('fullcalendar/eventSource test suite', () => {
 
 	beforeEach(() => {
-		generateTextColorForRGBString.mockClear()
+		generateTextColorForHex.mockClear()
 		getTimezoneManager.mockClear()
 		getUnixTimestampFromDate.mockClear()
 		eventSourceFunction.mockClear()
@@ -48,7 +48,7 @@ describe('fullcalendar/eventSource test suite', () => {
 			isReadOnly: false
 		}
 
-		generateTextColorForRGBString
+		generateTextColorForHex
 			.mockReturnValue('#00ff00')
 
 		const eventSourceFunction = eventSource(store)
@@ -60,8 +60,8 @@ describe('fullcalendar/eventSource test suite', () => {
 			events: expect.any(Function)
 		})
 
-		expect(generateTextColorForRGBString).toHaveBeenCalledTimes(1)
-		expect(generateTextColorForRGBString).toHaveBeenNthCalledWith(1, '#ff00ff')
+		expect(generateTextColorForHex).toHaveBeenCalledTimes(1)
+		expect(generateTextColorForHex).toHaveBeenNthCalledWith(1, '#ff00ff')
 	})
 
 	it('should provide an eventSource for a given read-only calendar', () => {
@@ -72,7 +72,7 @@ describe('fullcalendar/eventSource test suite', () => {
 			isReadOnly: true
 		}
 
-		generateTextColorForRGBString
+		generateTextColorForHex
 			.mockReturnValue('#00ff00')
 
 		const eventSourceFunction = eventSource(store)
@@ -85,8 +85,8 @@ describe('fullcalendar/eventSource test suite', () => {
 			editable: false
 		})
 
-		expect(generateTextColorForRGBString).toHaveBeenCalledTimes(1)
-		expect(generateTextColorForRGBString).toHaveBeenNthCalledWith(1, '#ff00ff')
+		expect(generateTextColorForHex).toHaveBeenCalledTimes(1)
+		expect(generateTextColorForHex).toHaveBeenNthCalledWith(1, '#ff00ff')
 	})
 
 	it('should provide an eventSource function to provide events - fetch new timerange', async () => {
@@ -118,7 +118,7 @@ describe('fullcalendar/eventSource test suite', () => {
 			.mockReturnValueOnce(1234)
 			.mockReturnValueOnce(5678)
 
-		generateTextColorForRGBString
+		generateTextColorForHex
 			.mockReturnValue('#00ff00')
 
 		eventSourceFunction
@@ -188,7 +188,7 @@ describe('fullcalendar/eventSource test suite', () => {
 			.mockReturnValueOnce(1234)
 			.mockReturnValueOnce(5678)
 
-		generateTextColorForRGBString
+		generateTextColorForHex
 			.mockReturnValue('#00ff00')
 
 		eventSourceFunction
@@ -253,7 +253,7 @@ describe('fullcalendar/eventSource test suite', () => {
 			.mockReturnValueOnce(1234)
 			.mockReturnValueOnce(5678)
 
-		generateTextColorForRGBString
+		generateTextColorForHex
 			.mockReturnValue('#00ff00')
 
 		eventSourceFunction
