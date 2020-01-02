@@ -113,6 +113,7 @@
     "{name} accepted {organizerName}'s invitation." : "{name} heeft {organizerName}'s uitnodiging geaccepteerd.",
     "{name} declined your invitation." : "{name} heeft je uitnodiging afgewezen.",
     "{name} declined {organizerName}'s invitation." : "{name} heeft {organizerName}'s uitnodiging afgewezen.",
+    "{name} has delegated their invitation." : "{name} heeft de uitnodiging doorgestuurd.",
     "{name} marked their participation as tentative." : "{name} heeft de deelname op voorlopig gezet.",
     "{name} did not respond to your invitation yet." : "{name} heeft nog niet op je uitnodiging gereageerd.",
     "{name} did not respond to {organizerName}'s invitation yet." : "{name} heeft nog niet op {organizerName}'s uitnodiging gereageerd.",
