@@ -43,7 +43,7 @@
 		"@fullcalendar/vue": "^4.3.1",
 		"@nextcloud/auth": "^0.3.1",
 		"@nextcloud/axios": "^1.1.0",
-		"@nextcloud/l10n": "^0.2.1",
+		"@nextcloud/l10n": "^1.0.0",
 		"@nextcloud/logger": "^0.1.0",
 		"@nextcloud/moment": "^1.0.0",
 		"@nextcloud/router": "^1.0.0",
