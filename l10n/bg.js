@@ -25,6 +25,7 @@ OC.L10N.register(
     "Edit name" : "Редактирай името",
     "Saving name …" : "Запазване...",
     "Edit color" : "Смени цвета",
+    "Copy private link" : "Копирай скритата връзка",
     "Download" : "Изтегляне",
     "Delete" : "Изтриване",
     "Calendar link copied to clipboard." : "Копирано в клипборда",
