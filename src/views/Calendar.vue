@@ -289,6 +289,7 @@ export default {
 			showWeekends: getConfigValueFromHiddenInput('show-weekends') === 'true',
 			showWeekNumbers: getConfigValueFromHiddenInput('show-week-numbers') === 'true',
 			skipPopover: getConfigValueFromHiddenInput('skip-popover') === 'true',
+			talkEnabled: getConfigValueFromHiddenInput('talk-enabled') === 'true',
 			timezone: getConfigValueFromHiddenInput('timezone'),
 		})
 		this.$store.dispatch('initializeCalendarJsConfig')
