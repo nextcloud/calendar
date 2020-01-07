@@ -83,6 +83,7 @@ OC.L10N.register(
     "Settings & import" : "Параметри & импорт",
     "Enable birthday calendar" : "Овозможи календар со родендени",
     "Show weekends" : "Прикажи викенди",
+    "before at" : "пред",
     "Notification" : "Известување",
     "Email" : "Е-пошта",
     "Audio notification" : "Аудио известување",
