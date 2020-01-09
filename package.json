@@ -47,7 +47,7 @@
 		"@nextcloud/logger": "^0.1.0",
 		"@nextcloud/moment": "^1.0.0",
 		"@nextcloud/router": "^1.0.0",
-		"@nextcloud/vue": "^1.2.2",
+		"@nextcloud/vue": "^1.2.4",
 		"calendar-js": "git+https://github.com/georgehrke/calendar-js.git",
 		"cdav-library": "github:nextcloud/cdav-library",
 		"color-convert": "^2.0.1",
