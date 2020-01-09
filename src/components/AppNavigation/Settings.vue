@@ -20,7 +20,7 @@
   -->
 
 <template>
-	<AppNavigationSettings :title="$t('calendar', 'Settings & import')">
+	<AppNavigationSettings :title="settingsTitle">
 		<ul class="settings-fieldset-interior">
 			<SettingsImportSection :is-disabled="loadingCalendars" />
 			<ActionCheckbox
@@ -126,6 +126,9 @@ export default {
 		},
 		showProgressBar() {
 			return this.$store.state.importState.importState.stage === 'importing'
+		},
+		settingsTitle() {
+			return this.$t('calendar', 'Settings & import').replace(/&amp;/g, '&')
 		},
 	},
 	methods: {
