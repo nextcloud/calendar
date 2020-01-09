@@ -1,6 +1,12 @@
+## 1.7.2 - 2020-01-10
+### Fixed
+- Updated Translations
+- Updated Dependencies
+- Better support for IPv6 in ProxyController [#1767](https://github.com/nextcloud/calendar/pull/1767)
+
 ## 1.7.1 - 2019-09-05
 ### Fixed
-- Falses positives for local access rules [#1277](https://github.com/nextcloud/calendar/issues/1277)
+- False positives for local access rules [#1277](https://github.com/nextcloud/calendar/issues/1277)
 - Always show border on calendar item [#1298](https://github.com/nextcloud/calendar/pull/1298)
 - Update link to documentation [#1409](https://github.com/nextcloud/calendar/pull/1409)
 - Don’t ship special build for IE anymore [#1447](https://github.com/nextcloud/calendar/pull/1447)
