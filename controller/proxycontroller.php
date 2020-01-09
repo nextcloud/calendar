@@ -134,6 +134,23 @@ class ProxyController extends Controller {
 
 					return $response;
 				}
+
+				// Also check for IPv6 IPv4 nesting, because that's not covered by filter_var
+				if ((bool)filter_var($host, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) && substr_count($host, '.') > 0) {
+					$delimiter = strrpos($host, ':'); // Get last colon
+					$ipv4Address = substr($host, $delimiter + 1);
+
+					if (!filter_var($ipv4Address, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+						$this->logger->warning("ProxyController: Subscription $url was not refreshed because it violates local access rules");
+
+						$response = new JSONResponse([
+							'message' => $this->l10n->t('URL violates local access rules'),
+							'proxy_code' => 403
+						], Http::STATUS_UNPROCESSABLE_ENTITY);
+
+						return $response;
+					}
+				}
 			}
 
 			// try to find a chain of 301s
