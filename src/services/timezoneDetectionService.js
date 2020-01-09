@@ -27,6 +27,13 @@ import jstz from 'jstz'
  * @returns {String} Current timezone of user
  */
 export default () => {
+	if (window.Intl && typeof window.Intl === 'object') {
+		const { timeZone } = Intl.DateTimeFormat().resolvedOptions()
+		if (timeZone) {
+			return timeZone
+		}
+	}
+
 	const determinedTimezone = jstz.determine()
 	if (!determinedTimezone) {
 		return 'UTC'
