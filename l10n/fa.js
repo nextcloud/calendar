@@ -14,6 +14,7 @@ OC.L10N.register(
     "Share with users or groups" : "اشتراک گذاری با کاربران یا گروه ها ...",
     "can edit" : "می توان ویرایش کرد",
     "New calendar" : "تقویم جدید",
+    "Filename" : "نام فایل",
     "Cancel" : "منصرف شدن",
     "Email" : "ایمیل",
     "from" : "از",
