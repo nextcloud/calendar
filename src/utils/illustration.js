@@ -171,8 +171,11 @@ const data = [{
 }, {
 	strings: [
 		'Office',
+		'Contributor week',
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		t('calendar', 'Office'),
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Contributor week'),
 	],
 	illustrationNames: [
 		'in_the_office',
@@ -337,10 +340,13 @@ const data = [{
 	strings: [
 		'Doctor',
 		'Health',
+		'Dentist',
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		t('calendar', 'Doctor'),
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		t('calendar', 'Health'),
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Dentist'),
 	],
 	illustrationNames: [
 		'doctors',
@@ -358,12 +364,15 @@ const data = [{
 }, {
 	strings: [
 		'Training',
+		'Practice',
 		'Sports',
 		'Exercise',
 		'Work out',
 		'Working out',
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		t('calendar', 'Training'),
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Practice'),
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		t('calendar', 'Sports'),
 		// TRANSLATORS This string is used for matching the event title to an illustration
