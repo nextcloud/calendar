@@ -56,6 +56,7 @@ OC.L10N.register(
     "Tentative" : "Tentativo",
     "Cancelled" : "Cancelado",
     "Categories" : "Categoría",
+    "Movie" : "Película",
     "Mail" : "Correo Electrónico",
     "Play" : "Reproducir",
     "Global" : "Global"

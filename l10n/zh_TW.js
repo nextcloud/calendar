@@ -65,6 +65,7 @@ OC.L10N.register(
     "Cinema" : "電影院",
     "Mail" : "電子郵件",
     "Play" : "播放",
+    "Dentist" : "牙醫",
     "Global" : "全球"
 },
 "nplurals=1; plural=0;");

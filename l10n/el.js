@@ -193,6 +193,7 @@ OC.L10N.register(
     "Museum" : "Μουσείο",
     "Doctor" : "Ιατρός",
     "Health" : "Υγεία",
+    "Dentist" : "Οδοντίατρος",
     "Interview" : "Συνέντευξη",
     "Barber" : "Μπαρμπέρης",
     "Exam" : "Εξετάσεις",

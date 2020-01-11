@@ -311,6 +311,7 @@ OC.L10N.register(
     "Studying" : "学习中",
     "Doctor" : "医生",
     "Health" : "健康",
+    "Dentist" : "牙医",
     "Interview" : "面试",
     "Training" : "训练",
     "Sports" : "体育",

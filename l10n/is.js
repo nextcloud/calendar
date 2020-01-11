@@ -247,6 +247,7 @@ OC.L10N.register(
     "Studying" : "Lærdómur",
     "Doctor" : "Læknir",
     "Health" : "Heilsa",
+    "Dentist" : "Tannlæknir",
     "Interview" : "Viðtal",
     "Training" : "Þjálfun",
     "Sports" : "Íþróttir",

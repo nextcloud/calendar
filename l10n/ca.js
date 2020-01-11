@@ -90,6 +90,7 @@ OC.L10N.register(
     "Cinema" : "Sala de cinema",
     "Mail" : "Correu electrònic",
     "Play" : "Reprodueix",
+    "Dentist" : "Dentista",
     "Global" : "Global"
 },
 "nplurals=2; plural=(n != 1);");

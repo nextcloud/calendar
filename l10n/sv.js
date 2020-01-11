@@ -252,6 +252,7 @@ OC.L10N.register(
     "Office" : "Kontor",
     "Mail" : "E-post",
     "Play" : "Spela",
+    "Dentist" : "Tandläkare",
     "Global" : "Global"
 },
 "nplurals=2; plural=(n != 1);");

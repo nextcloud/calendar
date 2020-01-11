@@ -94,6 +94,7 @@ OC.L10N.register(
     "Cinema" : "Кино",
     "Mail" : "Поща",
     "Play" : "Пусни",
+    "Dentist" : "Зъболекар",
     "Global" : "Глобални"
 },
 "nplurals=2; plural=(n != 1);");

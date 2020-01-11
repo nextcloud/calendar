@@ -135,6 +135,7 @@ OC.L10N.register(
     "Office" : "Toimisto",
     "Mail" : "Sähköposti",
     "Play" : "Toista",
+    "Dentist" : "Hammaslääkäri",
     "Global" : "Julkinen"
 },
 "nplurals=2; plural=(n != 1);");

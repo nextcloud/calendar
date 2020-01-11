@@ -250,6 +250,7 @@
     "Office" : "Kontor",
     "Mail" : "E-post",
     "Play" : "Spela",
+    "Dentist" : "Tandläkare",
     "Global" : "Global"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

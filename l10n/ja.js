@@ -235,6 +235,7 @@ OC.L10N.register(
     "Studying" : "勉強",
     "Doctor" : "病院",
     "Health" : "診断",
+    "Dentist" : "歯医者",
     "Interview" : "インタビュー",
     "Training" : "トレーニング",
     "Sports" : "スポーツ",

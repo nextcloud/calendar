@@ -87,6 +87,7 @@ OC.L10N.register(
     "Cinema" : "Mozi",
     "Mail" : "Levél",
     "Play" : "Lejátszás",
+    "Dentist" : "Fogorvos",
     "Global" : "Globális"
 },
 "nplurals=2; plural=(n != 1);");

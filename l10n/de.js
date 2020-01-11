@@ -311,6 +311,7 @@ OC.L10N.register(
     "Studying" : "Studieren",
     "Doctor" : "Arzt",
     "Health" : "Gesundheit",
+    "Dentist" : "Zahnarzt",
     "Interview" : "Interview",
     "Training" : "Training",
     "Sports" : "Sport",
