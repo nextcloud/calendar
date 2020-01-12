@@ -314,6 +314,7 @@ OC.L10N.register(
     "Dentist" : "Dentista",
     "Interview" : "Intervista",
     "Training" : "Allenamento",
+    "Practice" : "Esercitazione",
     "Sports" : "Sport",
     "Exercise" : "Esercizio",
     "Work out" : "Allenarsi",
