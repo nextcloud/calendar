@@ -43,12 +43,26 @@
 			v-if="!isReadOnly && isListEmpty && hasUserEmailAddress" />
 		<OrganizerNoEmailError
 			v-if="!isReadOnly && isListEmpty && !hasUserEmailAddress" />
-		<button
-			v-if="isCreateTalkRoomButtonVisible"
-			:disabled="isCreateTalkRoomButtonDisabled"
-			@click="createTalkRoom">
-			{{ $t('calendar', 'Create Talk room for this event') }}
-		</button>
+
+		<div class="invitees-list-button-group">
+			<button
+				v-if="isCreateTalkRoomButtonVisible"
+				:disabled="isCreateTalkRoomButtonDisabled"
+				@click="createTalkRoom">
+				{{ $t('calendar', 'Create Talk room for this event') }}
+			</button>
+
+			<button v-if="!isReadOnly" :disabled="isListEmpty" @click="openFreeBusy">
+				{{ $t('calendar', 'Show busy times') }}
+			</button>
+			<FreeBusy
+				v-if="showFreeBusyModel"
+				:attendees="calendarObjectInstance.attendees"
+				:organizer="calendarObjectInstance.organizer"
+				:start-date="calendarObjectInstance.startDate"
+				:end-date="calendarObjectInstance.endDate"
+				@close="closeFreeBusy" />
+		</div>
 	</div>
 </template>
 
@@ -60,10 +74,12 @@ import OrganizerListItem from './OrganizerListItem'
 import NoInviteesView from './NoInviteesView.vue'
 import OrganizerNoEmailError from './OrganizerNoEmailError.vue'
 import { createTalkRoom, doesDescriptionContainTalkLink } from '../../../services/talkService.js'
+import FreeBusy from '../FreeBusy/FreeBusy.vue'
 
 export default {
 	name: 'InviteesList',
 	components: {
+		FreeBusy,
 		OrganizerNoEmailError,
 		NoInviteesView,
 		InviteesListItem,
@@ -83,6 +99,7 @@ export default {
 	data() {
 		return {
 			creatingTalkRoom: false,
+			showFreeBusyModel: false,
 		}
 	},
 	computed: {
@@ -190,6 +207,12 @@ export default {
 				calendarObjectInstance: this.calendarObjectInstance,
 				attendee,
 			})
+		},
+		openFreeBusy() {
+			this.showFreeBusyModel = true
+		},
+		closeFreeBusy() {
+			this.showFreeBusyModel = false
 		},
 		async createTalkRoom() {
 			const NEW_LINE = '\r\n'
