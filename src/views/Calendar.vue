@@ -1,5 +1,5 @@
 <!--
-  - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
+  - @copyright Copyright (c) 2020 Georg Ehrke <oc.list@georgehrke.com>
   - @author Georg Ehrke <oc.list@georgehrke.com>
   -
   - @license GNU AGPL version 3 or any later version
@@ -51,6 +51,8 @@
 				:plugins="plugins"
 				:time-zone="timezoneId"
 				:event-allow="eventAllow"
+				:event-limit="true"
+				:event-limit-text="eventLimitText"
 				:default-date="defaultDate"
 				:locales="locales"
 				:locale="fullCalendarLocale"
@@ -123,6 +125,7 @@ import EmbedTopNavigation from '../components/AppNavigation/EmbedTopNavigation.v
 import EmptyCalendar from '../components/EmptyCalendar.vue'
 import { getLocale } from '@nextcloud/l10n'
 import loadMomentLocalization from '../utils/moment.js'
+import eventLimitText from '../fullcalendar/eventLimitText.js'
 
 export default {
 	name: 'Calendar',
@@ -373,6 +376,9 @@ export default {
 		},
 		navLinkWeekClick(...args) {
 			return navLinkWeekClick(this.$router, this.$route)(...args)
+		},
+		eventLimitText(...args) {
+			return eventLimitText(...args)
 		},
 		/**
 		 * Loads the locale data for full-calendar
