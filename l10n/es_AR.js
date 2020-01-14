@@ -24,6 +24,7 @@ OC.L10N.register(
     "Settings & import" : "Configuraciones & importar",
     "Notification" : "Notificación",
     "Email" : "Correo electrónico",
+    "Unknown" : "Desconocido",
     "All day" : "Todo el día",
     "from" : "de",
     "to" : "para",

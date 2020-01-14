@@ -23,6 +23,7 @@ OC.L10N.register(
     "Settings & import" : "Тохиргоо, импорт",
     "Notification" : "Мэдэгдэл",
     "Email" : "Цахим шуудан",
+    "Unknown" : "Үл танигдах зүйл",
     "from" : "Эхлэх нь",
     "to" : "Дуусах нь",
     "never" : "хэзээ ч үгүй",

@@ -16,6 +16,7 @@ OC.L10N.register(
     "Cancel" : "ยกเลิก",
     "Automatic" : "อัตโนมัติ",
     "Email" : "อีเมล",
+    "Unknown" : "ไม่ทราบ",
     "from" : "จาก",
     "to" : "ถึง",
     "never" : "ไม่ต้องเลย",

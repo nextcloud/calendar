@@ -27,6 +27,7 @@ OC.L10N.register(
     "Show week numbers" : "הצגת מספרי שבועות",
     "Settings & import" : "הגדרות וייבוא",
     "Email" : "דוא״ל",
+    "Unknown" : "לא ידוע",
     "All day" : "כל היום",
     "from" : "מאת",
     "to" : "אל",

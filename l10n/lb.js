@@ -16,6 +16,7 @@ OC.L10N.register(
     "Cancel" : "Ofbriechen",
     "Automatic" : "Automatesch",
     "Email" : "Email",
+    "Unknown" : "Onbekannt",
     "from" : "vun",
     "to" : "bis",
     "never" : "Ni",

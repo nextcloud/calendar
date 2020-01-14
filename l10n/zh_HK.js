@@ -15,6 +15,7 @@ OC.L10N.register(
     "Cancel" : "取消",
     "Automatic" : "自動",
     "Email" : "電郵",
+    "Unknown" : "未知",
     "from" : "由",
     "to" : "至",
     "never" : "永不",

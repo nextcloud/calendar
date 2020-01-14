@@ -21,6 +21,7 @@ OC.L10N.register(
     "Cancel" : "Batal",
     "Automatic" : "Otomatis",
     "Email" : "Surel",
+    "Unknown" : "Tidak diketahui",
     "from" : "dari",
     "to" : "untuk",
     "never" : "tidak pernah",

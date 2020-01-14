@@ -24,6 +24,7 @@ OC.L10N.register(
     "Show week numbers" : "Hiển thị số tuần",
     "Settings & import" : "Thiết lập & Nhập vào",
     "Email" : "Thư điện tử",
+    "Unknown" : "Không xác định",
     "from" : "từ",
     "to" : "đến",
     "never" : "không thay đổi",

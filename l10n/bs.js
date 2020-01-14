@@ -14,6 +14,8 @@ OC.L10N.register(
     "New calendar" : "Novi kalendar",
     "Cancel" : "Odustani",
     "Email" : "E-pošta",
+    "Busy" : "Zauzet",
+    "Unknown" : "Nepoznato",
     "from" : "od",
     "to" : "do",
     "never" : "nikad",
@@ -31,7 +33,6 @@ OC.L10N.register(
     "Location" : "Lokacija",
     "Description" : "Opis",
     "Status" : "Status",
-    "Busy" : "Zauzet",
     "Mail" : "E-Pošta",
     "Play" : "Play"
 },

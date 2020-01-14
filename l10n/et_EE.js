@@ -23,6 +23,7 @@ OC.L10N.register(
     "Show week numbers" : "Näita nädalanumberid",
     "Settings & import" : "Sätted & importimine",
     "Email" : "Epost",
+    "Unknown" : "Teadmata",
     "All day" : "Kogu päev",
     "from" : "alates",
     "to" : "kuni",

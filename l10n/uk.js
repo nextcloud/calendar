@@ -21,6 +21,7 @@ OC.L10N.register(
     "Automatic" : "Автоматично",
     "Show week numbers" : "Показувати номери тижнів",
     "Email" : "Email",
+    "Unknown" : "Невідомо",
     "All day" : "Всі дні",
     "from" : "З",
     "to" : "в",

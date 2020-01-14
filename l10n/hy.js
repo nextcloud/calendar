@@ -14,6 +14,7 @@ OC.L10N.register(
     "can edit" : "կարող է խմբագրել",
     "Cancel" : "Չեղարկել",
     "Email" : "Էլ․փոստ",
+    "Unknown" : "Անհայտ",
     "never" : "երբեք",
     "after" : "հետո",
     "Repeat" : "Կրկնել",

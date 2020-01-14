@@ -24,6 +24,7 @@ OC.L10N.register(
     "Settings & import" : "პარამეტრები და იმპორტი",
     "Notification" : "შეტყობინება",
     "Email" : "ელ-ფოსტა",
+    "Unknown" : "ამოუცნობი",
     "All day" : "მთელი დღე",
     "from" : "დან",
     "to" : "ვის",

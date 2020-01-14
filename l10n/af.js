@@ -25,6 +25,7 @@ OC.L10N.register(
     "Show week numbers" : "Toon weeknommers",
     "Notification" : "Kennisgewing",
     "Email" : "E-pos",
+    "Unknown" : "Onbekend",
     "All day" : "Heeldag",
     "from" : "van",
     "to" : "aan",

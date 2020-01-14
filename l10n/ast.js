@@ -23,6 +23,7 @@ OC.L10N.register(
     "Settings & import" : "Axustes ya importación",
     "Notification" : "Avisu",
     "Email" : "email",
+    "Unknown" : "Desconozse",
     "All day" : "Tol día",
     "from" : "Dende",
     "to" : "hasta",

@@ -18,6 +18,7 @@ OC.L10N.register(
     "New calendar" : "Ny kalender",
     "Cancel" : "Avbryt",
     "Email" : "E-post",
+    "Unknown" : "Ukjend",
     "from" : "frå",
     "to" : "til",
     "never" : "aldri",

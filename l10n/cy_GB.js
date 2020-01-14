@@ -24,6 +24,7 @@ OC.L10N.register(
     "Show week numbers" : "Dangos rhifau wythnosau",
     "Settings & import" : "Gosodiadau a mewnforio",
     "Email" : "E-bost",
+    "Unknown" : "Anhysbys",
     "from" : "oddi wrth",
     "to" : "at",
     "never" : "byth",

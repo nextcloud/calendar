@@ -24,6 +24,7 @@ OC.L10N.register(
     "Settings & import" : "Konfigurimet dhe importi",
     "Notification" : "Njoftim",
     "Email" : "Emaili",
+    "Unknown" : "I/E panjohur",
     "All day" : "Gjithë ditën",
     "from" : "nga",
     "to" : "për",

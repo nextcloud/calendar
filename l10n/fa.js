@@ -68,6 +68,7 @@ OC.L10N.register(
     "Filename" : "نام فایل",
     "Cancel" : "منصرف شدن",
     "Email" : "ایمیل",
+    "Unknown" : "نامشخص",
     "from" : "از",
     "to" : "به",
     "never" : "هرگز",
@@ -88,6 +89,7 @@ OC.L10N.register(
     "Location" : "محل",
     "Description" : "توضیحات",
     "Cancelled" : "لغو شده",
+    "Movie" : "فیلم",
     "Mail" : "ایمیل",
     "Play" : "پخش کردن",
     "Global" : "عمومی"
