@@ -63,7 +63,7 @@ class ViewController extends Controller {
 								IRequest $request,
 								IConfig $config,
 								IAppManager $appManager,
-								string $userId) {
+								?string $userId) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->userId = $userId;
