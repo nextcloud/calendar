@@ -171,3 +171,24 @@
 .fc * {
 	box-sizing: content-box !important;
 }
+
+// Reminder icon on events with alarms set
+.fc-event-nc-alarms {
+	.icon-event-reminder {
+		background-color: inherit;
+		background-position: right;
+		position: absolute;
+		top: 0;
+		right: 0;
+		&--light {
+			@include icon-color('reminder', 'calendar', '#fffffe', 1);
+		}
+		&--dark {
+			@include icon-color('reminder', 'calendar', '#000001', 1);
+		}
+	}
+}
+
+.fc-content {
+	background-color: inherit;
+}

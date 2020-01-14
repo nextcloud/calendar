@@ -29,6 +29,16 @@
  * @param {Node} el The HTML element
  */
 export default function({ event, el }) {
+	if (el.classList.contains('fc-event-nc-alarms')) {
+		const notificationIcon = document.createElement('span')
+		notificationIcon.classList.add('icon-event-reminder')
+		if (event.extendedProps.darkText) {
+			notificationIcon.classList.add('icon-event-reminder--dark')
+		} else {
+			notificationIcon.classList.add('icon-event-reminder--light')
+		}
+		el.firstChild.appendChild(notificationIcon)
+	}
 	el.dataset.objectId = event.extendedProps.objectId
 	el.dataset.recurrenceId = event.extendedProps.recurrenceId
 }

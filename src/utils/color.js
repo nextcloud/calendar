@@ -23,14 +23,27 @@ import convert from 'color-convert'
 import { uidToColor } from './uidToColor.js'
 
 /**
+ * Detect if a color is light or dark
+ *
+ * @param {Object} data The destructuring object
+ * @param {number} data.red Red part of the RGB
+ * @param {number} data.green Green part of the RGB
+ * @param {number} data.blue Blue part of the RGB
+ * @returns {boolean} true if color is light, false if color is dark
+ */
+export function isLight({ red, green, blue }) {
+	const brightness = (((red * 299) + (green * 587) + (blue * 114)) / 1000)
+	return (brightness > 130)
+}
+
+/**
  * Get a text-color that's readable on a given background color
  *
- * @param {String} rgbString The hex RGB string to get a text color for
+ * @param {String} hexColor The hex color to get a text color for
  * @returns {String} the matching text color
  */
-export function generateTextColorForRGBString(rgbString) {
-	const [red, green, blue] = convert.hex.rgb(rgbString.substr(1))
-	return generateTextColorForRGB({ red, green, blue })
+export function generateTextColorForHex(hexColor) {
+	return generateTextColorForRGB(hexToRGB(hexColor))
 }
 
 /**
@@ -43,15 +56,28 @@ export function generateTextColorForRGBString(rgbString) {
  * @returns {string}
  */
 export function generateTextColorForRGB({ red, green, blue }) {
-	const brightness = (((red * 299) + (green * 587) + (blue * 114)) / 1000)
-	return (brightness > 130) ? '#000000' : '#FAFAFA'
+	return isLight({ red, green, blue }) ? '#000000' : '#FAFAFA'
 }
 
 /**
- * Generates a rgb-hex color based on a string
+ * Convert hex string to RGB
+ *
+ * @param {String} hexColor The hex color to convert
+ * @returns {String} the RGB result
+ */
+export function hexToRGB(hexColor) {
+	if (hexColor == null) {
+		return { red: 0, green: 0, blue: 0 }
+	}
+	const [red, green, blue] = convert.hex.rgb(hexColor.substr(1))
+	return { red, green, blue }
+}
+
+/**
+ * Generates a hex color based on RGB string
  *
  * @param {String} uid The string to generate a color from
- * @returns {string} The RGB HEX color
+ * @returns {string} The hex color
  */
 export function uidToHexColor(uid) {
 	const color = uidToColor(uid)
@@ -76,4 +102,5 @@ export function detectColor(color) {
 	}
 
 	return false
+
 }
