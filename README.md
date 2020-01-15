@@ -11,13 +11,15 @@
 
 * :rocket: **Integration with other Nextcloud apps!** Currently Contacts and Circles – more to come.
 * :globe_with_meridians: **WebCal Support!** Want to see your favorite team's matchdays in your calendar? No problem!
-* :raising_hand: **Attendees!** Invite people to your events.
+* :raising_hand: **Attendees!** Invite people to your events
+* :watch: **Free/Busy:** See when your attendees are available to meet
 * :alarm_clock: **Reminders!** Get alarms for events inside your browser and via email.
 * :see_no_evil: **We’re not reinventing the wheel!** Based on the great [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries.
 
 And in the works for the [coming versions](https://github.com/nextcloud/calendar/milestones/):
 * :mag: Search for events ([#8](https://github.com/nextcloud/calendar/issues/8))
-* :watch: See when other attendees are free ([#39](https://github.com/nextcloud/calendar/issues/39))
+* :heavy_minus_sign: List view ([#402](https://github.com/nextcloud/calendar/issues/402))
+* :ballot_box_with_check: Show tasks with a due date ([#28](https://github.com/nextcloud/calendar/issues/28))
 
 ## :hammer_and_wrench: Installation
 
