@@ -27,8 +27,6 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\IRequest;
-use OCP\IURLGenerator;
-use OCP\Notification\IApp;
 
 /**
  * Class ViewController
@@ -79,15 +77,21 @@ class ViewController extends Controller {
 	 * @return TemplateResponse
 	 */
 	public function index():TemplateResponse {
+		$defaultInitialView = $this->config->getAppValue($this->appName, 'currentView', 'dayGridMonth');
+		$defaultShowWeekends = $this->config->getAppValue($this->appName, 'showWeekends', 'yes');
+		$defaultWeekNumbers = $this->config->getAppValue($this->appName, 'showWeekNr', 'no');
+		$defaultSkipPopover = $this->config->getAppValue($this->appName, 'skipPopover', 'no');
+		$defaultTimezone = $this->config->getAppValue($this->appName, 'timezone', 'automatic');
+
 		return new TemplateResponse($this->appName, 'main', [
 			'app_version' => $this->config->getAppValue($this->appName, 'installed_version'),
 			'first_run' => $this->config->getUserValue($this->userId, $this->appName, 'firstRun', 'yes') === 'yes',
-			'initial_view' => $this->config->getUserValue($this->userId, $this->appName, 'currentView', 'dayGridMonth'),
-			'show_weekends' => $this->config->getUserValue($this->userId, $this->appName, 'showWeekends', 'yes') === 'yes',
-			'show_week_numbers' => $this->config->getUserValue($this->userId, $this->appName, 'showWeekNr', 'no') === 'yes',
-			'skip_popover' => $this->config->getUserValue($this->userId, $this->appName, 'skipPopover', 'no') === 'yes',
+			'initial_view' => $this->config->getUserValue($this->userId, $this->appName, 'currentView', $defaultInitialView),
+			'show_weekends' => $this->config->getUserValue($this->userId, $this->appName, 'showWeekends', $defaultShowWeekends) === 'yes',
+			'show_week_numbers' => $this->config->getUserValue($this->userId, $this->appName, 'showWeekNr', $defaultWeekNumbers) === 'yes',
+			'skip_popover' => $this->config->getUserValue($this->userId, $this->appName, 'skipPopover', $defaultSkipPopover) === 'yes',
 			'talk_enabled' => $this->appManager->isEnabledForUser('spreed'),
-			'timezone' => $this->config->getUserValue($this->userId, $this->appName, 'timezone', 'automatic'),
+			'timezone' => $this->config->getUserValue($this->userId, $this->appName, 'timezone', $defaultTimezone),
 		]);
 	}
 }
