@@ -7,6 +7,7 @@ OC.L10N.register(
     "Unexpected error sending email. Please contact your administrator." : "خطای غیر منتظره در ارسال ایمیل. لطفا با مدیر خود تماس بگیرید.",
     "Successfully sent email to " : "ایمیل با موفقیت ارسال شد",
     "Hello," : "سلام،",
+    "Open »%s«" : "باز کن »%s«",
     "Cheers!" : "سلامتی!",
     "A Calendar app for Nextcloud" : "یک برنامه تقویم برای نکست کلود",
     "Previous day" : "روز قبل",

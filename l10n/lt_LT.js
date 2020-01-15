@@ -187,6 +187,7 @@ OC.L10N.register(
     "_on {weekday}_::_on {weekdays}_" : ["ties {weekday}","ties {weekdays}","ties {weekdays}","ties {weekdays}"],
     "until {untilDate}" : "iki {untilDate}",
     "_%n time_::_%n times_" : ["%n kartą","%n kartus","%n kartų","%n kartą"],
+    "_+%n more_::_+%n more_" : ["+ dar %n","+ dar %n","+ dar %n","+ dar %n"],
     "Untitled event" : "Įvykis be pavadinimo",
     "When shared show" : "Bendrinant rodyti",
     "When shared show full event" : "Bendrinant, rodyti visą įvykio informaciją",

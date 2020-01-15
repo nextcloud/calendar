@@ -15,6 +15,7 @@ OC.L10N.register(
     "Cancel" : "Anullar",
     "Automatic" : "Automatic",
     "Email" : "Adreça corrièl",
+    "Unknown" : "Desconegut",
     "from" : "de",
     "to" : "a",
     "never" : "pas jamai",

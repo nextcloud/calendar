@@ -25,6 +25,7 @@ OC.L10N.register(
     "Show week numbers" : "Afișați numerele săptămânilor",
     "Settings & import" : "Setări și import",
     "Email" : "Email",
+    "Unknown" : "Necunoscut",
     "from" : "de la",
     "to" : "către",
     "never" : "niciodată",
