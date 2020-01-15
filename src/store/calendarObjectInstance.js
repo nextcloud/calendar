@@ -204,8 +204,10 @@ const mutations = {
 				calendarObjectInstance.eventComponent.startDate
 					= calendarObjectInstance.eventComponent.endDate.getInTimezone(timezone)
 				calendarObjectInstance.startDate = getDateFromDateTimeValue(calendarObjectInstance.eventComponent.startDate)
-				calendarObjectInstance.eventComponent.endDate.addDuration(DurationValue.fromSeconds(60 * 60 * 24))
 			}
+
+			// endDate is inclusive, but DTEND needs to be exclusive, so always add one day
+			calendarObjectInstance.eventComponent.endDate.addDuration(DurationValue.fromSeconds(60 * 60 * 24))
 		} else {
 			if (endDateObj.compare(startDateObj) === -1) {
 				const timezone = getTimezoneManager().getTimezoneForId(startDateObj.timezoneId)
