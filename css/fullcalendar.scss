@@ -99,6 +99,10 @@
 	white-space: inherit !important;
 }
 
+.fc .fc-today {
+	opacity: 1;
+}
+
 .fc-state-highlight.fc-day-number,
 .fc tbody tr,
 .fc tbody tr:hover,
@@ -128,10 +132,13 @@
 }
 
 .fc-day-header.fc-today {
-	background-color: var(--color-primary) !important;
-	color: var(--color-primary-text);
-	opacity: 1;
-	font-weight: bold !important;
+	> a, span {
+		background-color: var(--color-primary);
+		border-radius: var(--border-radius-pill);
+		padding: 2px 6px;
+		color: var(--color-primary-text);
+		font-weight: bold;
+	}
 }
 
 .fc-today.fc-sat:not(.fc-day-header),
