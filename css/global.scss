@@ -23,3 +23,9 @@
 .toast-calendar-multiline {
 	white-space: pre-wrap;
 }
+
+#content.app-calendar {
+	> div#app-content {
+		overflow-x: hidden;
+	}
+}
