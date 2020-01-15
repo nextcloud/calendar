@@ -1,3 +1,40 @@
+## 2.0.0 RC1 - 2020-01-15
+### Fixed
+- Hide horizontal scrollbar in Firefox
+  [#1809](https://github.com/nextcloud/calendar/pull/1809)
+- Cannot enter minutes off slot
+  [#1756](https://github.com/nextcloud/calendar/issues/1756)
+- Fix downsizing calendar-grid when making window smaller
+  [#1806](https://github.com/nextcloud/calendar/pull/1806)
+- Always make all-day DTEND exclusive
+  [#1810](https://github.com/nextcloud/calendar/pull/1810)
+- Convert eventRenderer from event to property
+  [#1807](https://github.com/nextcloud/calendar/pull/1807)
+- Fix opening calendar when not logged in
+  [#1803](https://github.com/nextcloud/calendar/pull/1803)
+- Style of today indicator in agendaDay and agendaWeek
+  [#1804](https://github.com/nextcloud/calendar/issues/1804)
+- Fix double-escape of ampersand of settings title
+  [#1760](https://github.com/nextcloud/calendar/pull/1760)
+
+### Added
+- Editing event-time without punctuation
+  [#1621](https://github.com/nextcloud/calendar/issues/1621)
+- Allow entering incomplete time-values
+  [#1144](https://github.com/nextcloud/calendar/issues/1144)
+- Add reminder icon to events with an alarm
+  [#1197](https://github.com/nextcloud/calendar/issues/1197)
+- Free/Busy UI
+  [#1731](https://github.com/nextcloud/calendar/pull/1731)
+- Event-limit in calendar-grid
+  [#1800](https://github.com/nextcloud/calendar/pull/1800)
+- Add more illustration keywords
+  [#1780](https://github.com/nextcloud/calendar/pull/1780)
+- Create talk rooms from event editor
+  [#1732](https://github.com/nextcloud/calendar/pull/1732)
+-  Allow to provide defaults for user-settings
+  [#1787](https://github.com/nextcloud/calendar/issues/1787)
+
 ## 2.0.0 beta3 - 2019-12-09
 ### Fixed
 - Hide the resize handler of textareas, whenever we use autosize
