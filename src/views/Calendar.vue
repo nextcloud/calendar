@@ -67,10 +67,10 @@
 				:progressive-event-rendering="true"
 				:unselect-auto="false"
 				:week-numbers-within-days="true"
+				:event-render="eventRender"
 				@eventClick="eventClick"
 				@eventDrop="eventDrop"
 				@eventResize="eventResize"
-				@eventRender="eventRender"
 				@select="select" />
 
 			<EmptyCalendar
