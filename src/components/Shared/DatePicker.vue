@@ -117,6 +117,10 @@ export default {
 			},
 			firstDay: getFirstDay() === 0 ? 7 : getFirstDay(),
 			showTimezonePopover: false,
+			format: {
+				stringify: this.stringify,
+				parse: this.parse,
+			},
 		}
 	},
 	computed: {
@@ -136,45 +140,6 @@ export default {
 			}
 
 			return this.timezoneId !== this.userTimezoneId
-		},
-		/**
-		 * Formats the date string
-		 *
-		 * @returns {String}
-		 */
-		format() {
-			const dateFormat = moment.localeData(this.locale).longDateFormat('L')
-			const timeFormat = moment.localeData(this.locale).longDateFormat('LT')
-
-			if (this.isAllDay) {
-				switch (this.prefix) {
-				case 'from':
-					return this.$t('calendar', '[from] {dateFormat}', { dateFormat })
-
-				case 'to':
-					return this.$t('calendar', '[to] {dateFormat}', { dateFormat })
-
-				case 'on':
-					return this.$t('calendar', '[on] {dateFormat}', { dateFormat })
-
-				default:
-					return dateFormat
-				}
-			} else {
-				switch (this.prefix) {
-				case 'from':
-					return this.$t('calendar', '[from] {dateFormat} [at] {timeFormat}', { dateFormat, timeFormat })
-
-				case 'to':
-					return this.$t('calendar', '[to] {dateFormat} [at] {timeFormat}', { dateFormat, timeFormat })
-
-				case 'on':
-					return this.$t('calendar', '[on] {dateFormat} [at] {timeFormat}', { dateFormat, timeFormat })
-
-				default:
-					return this.$t('calendar', '{dateFormat} [at] {timeFormat}', { dateFormat, timeFormat })
-				}
-			}
 		},
 		/**
 		 * Type of the DatePicker.
@@ -232,6 +197,136 @@ export default {
 			}
 
 			this.showTimezonePopover = !this.showTimezonePopover
+		},
+		/**
+		 * Formats the date string
+		 *
+		 * @param {Date} date The date for format
+		 * @returns {String}
+		 */
+		stringify(date) {
+			const formattedDate = moment(date).locale(this.locale).format('L')
+			const formattedTime = moment(date).locale(this.locale).format('LT')
+
+			if (this.isAllDay) {
+				switch (this.prefix) {
+				case 'from':
+					return this.$t('calendar', 'from {formattedDate}', { formattedDate })
+
+				case 'to':
+					return this.$t('calendar', 'to {formattedDate}', { formattedDate })
+
+				case 'on':
+					return this.$t('calendar', 'on {formattedDate}', { formattedDate })
+
+				default:
+					return formattedDate
+				}
+			} else {
+				switch (this.prefix) {
+				case 'from':
+					return this.$t('calendar', 'from {formattedDate} at {formattedTime}', { formattedDate, formattedTime })
+
+				case 'to':
+					return this.$t('calendar', 'to {formattedDate} at {formattedTime}', { formattedDate, formattedTime })
+
+				case 'on':
+					return this.$t('calendar', 'on {formattedDate} at {formattedTime}', { formattedDate, formattedTime })
+
+				default:
+					return this.$t('calendar', '{formattedDate} at {formattedTime}', { formattedDate, formattedTime })
+				}
+			}
+		},
+		/**
+		 * Parses the user input from the input field
+		 *
+		 * @param {String} value The user-input to be parsed
+		 * @returns {Date}
+		 */
+		parse(value) {
+			if (this.isAllDay) {
+				let format
+
+				switch (this.prefix) {
+				case 'from':
+					format = this.$t('calendar', 'from {formattedDate}')
+					break
+
+				case 'to':
+					format = this.$t('calendar', 'to {formattedDate}')
+					break
+
+				case 'on':
+					format = this.$t('calendar', 'on {formattedDate}')
+					break
+
+				default:
+					format = '{formattedDate}'
+					break
+				}
+
+				const regexString = format
+					.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
+					.replace(/(?:^|\\})([^{}]+)(?:$|\\{)/g, (fullMatch, groupMatch) => {
+						return fullMatch.replace(groupMatch, '(?:' + groupMatch + ')?')
+					})
+					.replace('\\{formattedDate\\}', '(.*)')
+				const regex = new RegExp(regexString)
+				const matches = value.match(regex)
+
+				if (!matches) {
+					this.$toast.error(this.$t('calendar', 'Please enter a valid date'))
+					// Just return the previous date
+					return this.date
+				}
+
+				return moment(matches[1], 'L', this.locale).toDate()
+			} else {
+				let format
+
+				switch (this.prefix) {
+				case 'from':
+					format = this.$t('calendar', 'from {formattedDate} at {formattedTime}')
+					break
+
+				case 'to':
+					format = this.$t('calendar', 'to {formattedDate} at {formattedTime}')
+					break
+
+				case 'on':
+					format = this.$t('calendar', 'on {formattedDate} at {formattedTime}')
+					break
+
+				default:
+					format = this.$t('calendar', '{formattedDate} at {formattedTime}')
+					break
+				}
+
+				const escapedFormat = format
+					.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
+					.replace(/(?:^|\\})([^{}]+)(?:$|\\{)/g, (fullMatch, groupMatch) => {
+						return fullMatch.replace(groupMatch, '(?:' + groupMatch + ')?')
+					})
+				const dateRegexString = escapedFormat
+					.replace('\\{formattedDate\\}', '(.*)')
+					.replace('\\{formattedTime\\}', '.*')
+				const dateRegex = new RegExp(dateRegexString)
+				const timeRegexString = escapedFormat
+					.replace('\\{formattedDate\\}', '.*')
+					.replace('\\{formattedTime\\}', '(.*)')
+				const timeRegex = new RegExp(timeRegexString)
+				const dateMatches = value.match(dateRegex)
+				const timeMatches = value.match(timeRegex)
+
+				if (!dateMatches || !timeMatches) {
+					this.$toast.error(this.$t('calendar', 'Please enter a valid date and time'))
+					// Just return the previous date
+					return this.date
+				}
+
+				return moment(dateMatches[1] + ' ' + timeMatches[1], 'L LT', this.locale).toDate()
+			}
 		},
 	},
 }

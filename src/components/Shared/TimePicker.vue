@@ -22,7 +22,8 @@
 
 <template>
 	<DatetimePicker
-		:lang="en"
+		:lang="lang"
+		:first-day-of-week="firstDay"
 		:format="format"
 		:value="date"
 		type="time"
@@ -34,8 +35,8 @@
 <script>
 import { DatetimePicker } from '@nextcloud/vue/dist/Components/DatetimePicker'
 import moment from '@nextcloud/moment'
-
-import loadMomentLocalization from '../../utils/moment.js'
+import { mapState } from 'vuex'
+import { getDayNamesShort, getFirstDay, getMonthNamesShort } from '@nextcloud/l10n'
 
 export default {
 	name: 'TimePicker',
@@ -50,21 +51,24 @@ export default {
 	},
 	data() {
 		return {
-			locale: 'en',
+			lang: {
+				days: getDayNamesShort(),
+				months: getMonthNamesShort(),
+				placeholder: {
+					date: this.$t('calendar', 'Select Date'),
+				},
+			},
+			firstDay: getFirstDay() === 0 ? 7 : getFirstDay(),
+			format: {
+				stringify: this.stringify,
+				parse: this.parse,
+			},
 		}
 	},
 	computed: {
-		/**
-		 * Formats the date string
-		 *
-		 * @returns {String}
-		 */
-		format() {
-			return moment.localeData(this.locale).longDateFormat('LT')
-		},
-	},
-	async mounted() {
-		this.locale = await loadMomentLocalization()
+		...mapState({
+			locale: (state) => state.settings.momentLocale,
+		}),
 	},
 	methods: {
 		/**
@@ -74,6 +78,24 @@ export default {
 		 */
 		change(date) {
 			this.$emit('change', date)
+		},
+		/**
+		 * Formats the date string
+		 *
+		 * @param {Date} date The date for format
+		 * @returns {String}
+		 */
+		stringify(date) {
+			return moment(date).locale(this.locale).format('LT')
+		},
+		/**
+		 * Parses the user input from the input field
+		 *
+		 * @param {String} value The user-input to be parsed
+		 * @returns {Date}
+		 */
+		parse(value) {
+			return moment(value, 'LT', this.locale).toDate()
 		},
 	},
 }
