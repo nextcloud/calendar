@@ -42,7 +42,7 @@
 				:editable="isEditable"
 				:force-event-duration="true"
 				:header="showHeader"
-				height="parent"
+				:height="windowResize"
 				:slot-duration="slotDuration"
 				:week-numbers="showWeekNumbers"
 				:weekends="showWeekends"
@@ -126,6 +126,7 @@ import EmptyCalendar from '../components/EmptyCalendar.vue'
 import { getLocale } from '@nextcloud/l10n'
 import loadMomentLocalization from '../utils/moment.js'
 import eventLimitText from '../fullcalendar/eventLimitText.js'
+import windowResize from '../fullcalendar/windowResize.js'
 
 export default {
 	name: 'Calendar',
@@ -379,6 +380,9 @@ export default {
 		},
 		eventLimitText(...args) {
 			return eventLimitText(...args)
+		},
+		windowResize(...args) {
+			return windowResize(window, document.querySelector('#header'))(...args)
 		},
 		/**
 		 * Loads the locale data for full-calendar
