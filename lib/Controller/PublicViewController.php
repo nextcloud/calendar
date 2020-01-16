@@ -97,15 +97,21 @@ class PublicViewController extends Controller {
 	 */
 	private function publicIndex(string $token,
 								 string $renderAs):TemplateResponse {
+		$defaultInitialView = $this->config->getAppValue($this->appName, 'currentView', 'dayGridMonth');
+		$defaultShowWeekends = $this->config->getAppValue($this->appName, 'showWeekends', 'yes');
+		$defaultWeekNumbers = $this->config->getAppValue($this->appName, 'showWeekNr', 'no');
+		$defaultSkipPopover = $this->config->getAppValue($this->appName, 'skipPopover', 'yes');
+		$defaultTimezone = $this->config->getAppValue($this->appName, 'timezone', 'automatic');
+
 		return new TemplateResponse($this->appName, 'main', [
 			'app_version' => $this->config->getAppValue($this->appName, 'installed_version'),
 			'first_run' => false,
-			'initial_view' => 'dayGridMonth',
-			'show_weekends' => true,
-			'show_week_numbers' => false,
-			'skip_popover' => true,
+			'initial_view' => $defaultInitialView,
+			'show_weekends' => ($defaultShowWeekends === 'yes'),
+			'show_week_numbers' => ($defaultWeekNumbers === 'yes'),
+			'skip_popover' => ($defaultSkipPopover === 'yes'),
 			'talk_enabled' => false,
-			'timezone' => 'automatic',
+			'timezone' => $defaultTimezone,
 			'share_url' => $this->getShareURL(),
 			'preview_image' => $this->getPreviewImage(),
 		], $renderAs);
