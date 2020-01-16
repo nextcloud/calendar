@@ -104,6 +104,7 @@ class PublicViewController extends Controller {
 			'show_weekends' => true,
 			'show_week_numbers' => false,
 			'skip_popover' => true,
+			'talk_enabled' => false,
 			'timezone' => 'automatic',
 			'share_url' => $this->getShareURL(),
 			'preview_image' => $this->getPreviewImage(),

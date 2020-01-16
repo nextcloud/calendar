@@ -93,6 +93,7 @@ class PublicViewControllerTest extends TestCase {
 			'show_weekends' => true,
 			'show_week_numbers' => false,
 			'skip_popover' => true,
+			'talk_enabled' => false,
 			'timezone' => 'automatic',
 			'share_url' => 'protocol://host123/456',
 			'preview_image' => 'absoluteImagePath456'
@@ -139,6 +140,7 @@ class PublicViewControllerTest extends TestCase {
 			'show_weekends' => true,
 			'show_week_numbers' => false,
 			'skip_popover' => true,
+			'talk_enabled' => false,
 			'timezone' => 'automatic',
 			'share_url' => 'protocol://host123/456',
 			'preview_image' => 'absoluteImagePath456'
