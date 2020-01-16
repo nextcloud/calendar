@@ -1,3 +1,12 @@
+## 2.0.0 - 2020-01-17
+### Fixed
+- Do not include index.php in the url of sharing links if url rewrite is enabled
+  [#1821](https://github.com/nextcloud/calendar/pull/1821)
+- Fix PHP warning when accessing public / embedded routes
+  [#1822](https://github.com/nextcloud/calendar/pull/1822)
+- Include index.php in router base if necessary despite url rewrite enabled
+  [#1823](https://github.com/nextcloud/calendar/pull/1823)
+
 ## 2.0.0 RC1 - 2020-01-15
 ### Fixed
 - Hide horizontal scrollbar in Firefox
