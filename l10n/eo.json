@@ -6,7 +6,6 @@
     "Open »%s«" : "Malfermi „%s“",
     "Cheers!" : "Ĝis!",
     "A Calendar app for Nextcloud" : "Aplikaĵo pri kalendaro por Nextcloud",
-    "The Calendar app is a user interface for Nextcloud's CalDAV server. Easily sync events from various devices with your Nextcloud and edit them online.\n\n* 🚀 **Integration with other Nextcloud apps!** Currently Contacts - more to come.\n* 🌐 **WebCal Support!** Want to see your favorite team’s matchdays in your calendar? No problem!\n* 🙋 **Attendees!** Invite people to your events.\n* 🙈 **We’re not reinventing the wheel!** Based on the great [davclient.js](https://github.com/evert/davclient.js), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries." : "Kalendaro estas grafika fasado por la CalDAV-servilo provizita de Nextcloud. Facile sinkronigu okazaĵojn el diversaj aparatoj al via Nextcloud kaj modifu ilin rete.\n\n* 🚀 **Kunlaboro kun aliaj Nextcloud-aplikaĵoj!** Ĉi-momente Kontaktaro, pli venonte.\n* 🌐 **WebCal-subteno!** Ĉu vi volas vidi la parti-tagojn de viaj plej ŝatataj teamoj en via kalendaro? Neniu problemo!\n* 🙋 **Ĉeestantoj!** Inviti homojn al viaj okazaĵoj.\n* 🙈 **Ni ne reinventis la radon** Ni uzis la bonegajn bibliotekojn [davclient.js](https://github.com/evert/davclient.js), [ical.js](https://github.com/mozilla-comm/ical.js) kaj [fullcalendar](https://github.com/fullcalendar/fullcalendar).",
     "Today" : "Hodiaŭ",
     "Day" : "Tago",
     "Week" : "Semajno",

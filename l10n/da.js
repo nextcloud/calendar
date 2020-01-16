@@ -8,7 +8,6 @@ OC.L10N.register(
     "Open »%s«" : "Åbn »%s«",
     "Cheers!" : "Hav en fortsat god dag.",
     "A Calendar app for Nextcloud" : "En kalender-app til Nextcloud",
-    "The Calendar app is a user interface for Nextcloud's CalDAV server. Easily sync events from various devices with your Nextcloud and edit them online.\n\n* 🚀 **Integration with other Nextcloud apps!** Currently Contacts - more to come.\n* 🌐 **WebCal Support!** Want to see your favorite team’s matchdays in your calendar? No problem!\n* 🙋 **Attendees!** Invite people to your events.\n* 🙈 **We’re not reinventing the wheel!** Based on the great [davclient.js](https://github.com/evert/davclient.js), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries." : "Kalender-appen er brugerfladen for Nextclouds CalDAV-server. Synkroniser ubesværet begivenheder på tværs af enheder med Nextcloud og rediger dem online.\n\n* 🚀 **Integration med andre Nextcloud-apps!** Indtil videre Kontakt-app'en - flere på vej.\n* 🌐 **WebCal-understøttelse!** Vil du se dit favoritholds kampe i kalenderen? Intet problem!\n* 🙋 **Deltagere!** Inviter andre til dine begivenheder.\n* 🙈 **Vi genopfinder ikke hjulet!** Baseret på de fantastiske [davclient.js](https://github.com/evert/davclient.js), [ical.js](https://github.com/mozilla-comm/ical.js) og [fullcalendar](https://github.com/fullcalendar/fullcalendar)-systemer.",
     "Today" : "I dag",
     "Day" : "Dag",
     "Week" : "Uge",

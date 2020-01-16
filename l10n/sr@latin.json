@@ -1,0 +1,27 @@
+{ "translations": {
+    "Cheers!" : "U zdravlje!",
+    "Today" : "Today",
+    "Download" : "Preuzmi",
+    "Delete" : "Delete",
+    "Share link" : "Veza deljenja",
+    "can edit" : "može da menja",
+    "Filename" : "Ime fajla",
+    "Cancel" : "Cancel",
+    "Email" : "email",
+    "Unknown" : "Nepoznato",
+    "never" : "never",
+    "Monday" : "Ponedeljak",
+    "More" : "More",
+    "Save" : "Save",
+    "Update" : "Ažuriraj",
+    "Details" : "Detalji",
+    "Activity" : "Активност",
+    "Close" : "Zatvori",
+    "Daily" : "дневно",
+    "Weekly" : "недељно",
+    "Description" : "Opis",
+    "Cancelled" : "Otkazano",
+    "Movie" : "Film",
+    "Mail" : "Pošta"
+},"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
+}
