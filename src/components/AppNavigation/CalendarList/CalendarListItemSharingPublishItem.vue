@@ -142,6 +142,7 @@ import { AppNavigationItem } from '@nextcloud/vue/dist/Components/AppNavigationI
 import ClickOutside from 'vue-click-outside'
 import {
 	generateRemoteUrl,
+	generateUrl,
 	linkTo,
 } from '@nextcloud/router'
 import HttpClient from '@nextcloud/axios'
@@ -245,7 +246,7 @@ export default {
 
 			const rootURL = generateRemoteUrl('dav')
 			const token = this.calendar.publishURL.split('/').slice(-1)[0]
-			const url = new URL(linkTo('calendar', 'index.php') + '/p/' + token, rootURL)
+			const url = new URL(generateUrl('apps/calendar') + '/p/' + token, rootURL)
 
 			// copy link for calendar to clipboard
 			try {
@@ -306,7 +307,7 @@ export default {
 
 			const rootURL = generateRemoteUrl('dav')
 			const token = this.calendar.publishURL.split('/').slice(-1)[0]
-			const url = new URL(linkTo('calendar', 'index.php') + '/e/' + token, rootURL)
+			const url = new URL(generateUrl('apps/calendar') + '/e/' + token, rootURL)
 
 			const code = '<iframe width="400" height="215" src="' + url + '"></iframe>'
 
