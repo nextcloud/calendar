@@ -58,6 +58,27 @@ class PublicViewControllerTest extends TestCase {
 	public function testPublicIndexWithBranding():void {
 		$this->config->expects($this->at(0))
 			->method('getAppValue')
+			->with('calendar', 'currentView', 'dayGridMonth')
+			->willReturn('defaultCurrentView');
+		$this->config->expects($this->at(1))
+			->method('getAppValue')
+			->with('calendar', 'showWeekends', 'yes')
+			->willReturn('no');
+		$this->config->expects($this->at(2))
+			->method('getAppValue')
+			->with('calendar', 'showWeekNr', 'no')
+			->willReturn('yes');
+		$this->config->expects($this->at(3))
+			->method('getAppValue')
+			->with('calendar', 'skipPopover', 'yes')
+			->willReturn('yes');
+		$this->config->expects($this->at(4))
+			->method('getAppValue')
+			->with('calendar', 'timezone', 'automatic')
+			->willReturn('defaultTimezone');
+
+		$this->config->expects($this->at(5))
+			->method('getAppValue')
 			->with('calendar', 'installed_version')
 			->willReturn('1.0.0');
 
@@ -89,11 +110,12 @@ class PublicViewControllerTest extends TestCase {
 		$this->assertEquals([
 			'app_version' => '1.0.0',
 			'first_run' => false,
-			'initial_view' => 'dayGridMonth',
-			'show_weekends' => true,
-			'show_week_numbers' => false,
+			'initial_view' => 'defaultCurrentView',
+			'show_weekends' => false,
+			'show_week_numbers' => true,
 			'skip_popover' => true,
-			'timezone' => 'automatic',
+			'talk_enabled' => false,
+			'timezone' => 'defaultTimezone',
 			'share_url' => 'protocol://host123/456',
 			'preview_image' => 'absoluteImagePath456'
 		], $response->getParams());
@@ -103,6 +125,27 @@ class PublicViewControllerTest extends TestCase {
 
 	public function testPublicIndexForEmbedding():void {
 		$this->config->expects($this->at(0))
+			->method('getAppValue')
+			->with('calendar', 'currentView', 'dayGridMonth')
+			->willReturn('defaultCurrentView');
+		$this->config->expects($this->at(1))
+			->method('getAppValue')
+			->with('calendar', 'showWeekends', 'yes')
+			->willReturn('no');
+		$this->config->expects($this->at(2))
+			->method('getAppValue')
+			->with('calendar', 'showWeekNr', 'no')
+			->willReturn('yes');
+		$this->config->expects($this->at(3))
+			->method('getAppValue')
+			->with('calendar', 'skipPopover', 'yes')
+			->willReturn('yes');
+		$this->config->expects($this->at(4))
+			->method('getAppValue')
+			->with('calendar', 'timezone', 'automatic')
+			->willReturn('defaultTimezone');
+
+		$this->config->expects($this->at(5))
 			->method('getAppValue')
 			->with('calendar', 'installed_version')
 			->willReturn('1.0.0');
@@ -135,11 +178,12 @@ class PublicViewControllerTest extends TestCase {
 		$this->assertEquals([
 			'app_version' => '1.0.0',
 			'first_run' => false,
-			'initial_view' => 'dayGridMonth',
-			'show_weekends' => true,
-			'show_week_numbers' => false,
+			'initial_view' => 'defaultCurrentView',
+			'show_weekends' => false,
+			'show_week_numbers' => true,
 			'skip_popover' => true,
-			'timezone' => 'automatic',
+			'talk_enabled' => false,
+			'timezone' => 'defaultTimezone',
 			'share_url' => 'protocol://host123/456',
 			'preview_image' => 'absoluteImagePath456'
 		], $response->getParams());
