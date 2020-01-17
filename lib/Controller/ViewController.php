@@ -86,12 +86,34 @@ class ViewController extends Controller {
 		return new TemplateResponse($this->appName, 'main', [
 			'app_version' => $this->config->getAppValue($this->appName, 'installed_version'),
 			'first_run' => $this->config->getUserValue($this->userId, $this->appName, 'firstRun', 'yes') === 'yes',
-			'initial_view' => $this->config->getUserValue($this->userId, $this->appName, 'currentView', $defaultInitialView),
+			'initial_view' => $this->getView($this->config->getUserValue($this->userId, $this->appName, 'currentView', $defaultInitialView)),
 			'show_weekends' => $this->config->getUserValue($this->userId, $this->appName, 'showWeekends', $defaultShowWeekends) === 'yes',
 			'show_week_numbers' => $this->config->getUserValue($this->userId, $this->appName, 'showWeekNr', $defaultWeekNumbers) === 'yes',
 			'skip_popover' => $this->config->getUserValue($this->userId, $this->appName, 'skipPopover', $defaultSkipPopover) === 'yes',
 			'talk_enabled' => $this->appManager->isEnabledForUser('spreed'),
 			'timezone' => $this->config->getUserValue($this->userId, $this->appName, 'timezone', $defaultTimezone),
 		]);
+	}
+
+	/**
+	 * Makes sure we don't use the old views anymore
+	 *
+	 * @param string $view
+	 * @return string
+	 */
+	private function getView(string $view): string {
+		switch ($view) {
+			case 'agendaDay':
+				return 'timeGridDay';
+
+			case 'agendaWeek':
+				return 'timeGridWeek';
+
+			case 'month':
+				return 'dayGridMonth';
+
+			default:
+				return $view;
+		}
 	}
 }
