@@ -35,7 +35,7 @@ describe('utils/router test suite', () => {
 			.mockReturnValueOnce(null)
 
 		expect(getInitialView()).toEqual('dayGridView')
-		expect(getInitialView()).toEqual('month')
+		expect(getInitialView()).toEqual('dayGridMonth')
 
 		expect(settingsUtil.getConfigValueFromHiddenInput.mock.calls.length).toEqual(2)
 		expect(settingsUtil.getConfigValueFromHiddenInput.mock.calls[0]).toEqual(['initial-view'])

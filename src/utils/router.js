@@ -27,7 +27,7 @@ import { getConfigValueFromHiddenInput } from './settings.js'
  * @returns {String}
  */
 export function getInitialView() {
-	return getConfigValueFromHiddenInput('initial-view') || 'month'
+	return getConfigValueFromHiddenInput('initial-view') || 'dayGridMonth'
 }
 
 /**
