@@ -35,7 +35,7 @@ OC.L10N.register(
     "Delete" : "Usuń",
     "An error occurred, unable to change visibility of the calendar." : "Wystąpił błąd, nie można zmienić widoczności kalendarza.",
     "An error occurred, unable to delete the calendar." : "Wystąpił błąd, nie można usunąć kalendarza.",
-    "Calendar link copied to clipboard." : "Link do kalendarza został skopiowany do schowka.",
+    "Calendar link copied to clipboard." : "Link do kalendarza skopiowany do schowka.",
     "Calendar link could not be copied to clipboard." : "Nie można skopiować linku kalendarza do schowka.",
     "An error occurred, unable to rename the calendar." : "Wystąpił błąd, nie można zmienić nazwy kalendarza.",
     "An error occurred, unable to change the calendar's color." : "Wystąpił błąd, nie można zmienić koloru kalendarza.",
