@@ -130,4 +130,96 @@ class ViewControllerTest extends TestCase {
 		$this->assertEquals('user', $response->getRenderAs());
 		$this->assertEquals('main', $response->getTemplateName());
 	}
+
+	/**
+	 * @dataProvider viewFixDataProvider
+	 *
+	 * @param string $savedView
+	 * @param string $expectedView
+	 */
+	public function testIndexViewFix(string $savedView, string $expectedView):void {
+		$this->config->expects($this->at(0))
+			->method('getAppValue')
+			->with('calendar', 'currentView', 'dayGridMonth')
+			->willReturn('defaultCurrentView');
+		$this->config->expects($this->at(1))
+			->method('getAppValue')
+			->with('calendar', 'showWeekends', 'yes')
+			->willReturn('defaultShowWeekends');
+		$this->config->expects($this->at(2))
+			->method('getAppValue')
+			->with('calendar', 'showWeekNr', 'no')
+			->willReturn('defaultShowWeekNr');
+		$this->config->expects($this->at(3))
+			->method('getAppValue')
+			->with('calendar', 'skipPopover', 'no')
+			->willReturn('defaultSkipPopover');
+		$this->config->expects($this->at(4))
+			->method('getAppValue')
+			->with('calendar', 'timezone', 'automatic')
+			->willReturn('defaultTimezone');
+
+		$this->config->expects($this->at(5))
+			->method('getAppValue')
+			->with('calendar', 'installed_version')
+			->willReturn('1.0.0');
+		$this->config->expects($this->at(6))
+			->method('getUserValue')
+			->with('user123', 'calendar', 'firstRun', 'yes')
+			->willReturn('yes');
+		$this->config->expects($this->at(7))
+			->method('getUserValue')
+			->with('user123', 'calendar', 'currentView', 'defaultCurrentView')
+			->willReturn($savedView);
+		$this->config->expects($this->at(8))
+			->method('getUserValue')
+			->with('user123', 'calendar', 'showWeekends', 'defaultShowWeekends')
+			->willReturn('yes');
+		$this->config->expects($this->at(9))
+			->method('getUserValue')
+			->with('user123', 'calendar', 'showWeekNr', 'defaultShowWeekNr')
+			->willReturn('yes');
+		$this->config->expects($this->at(10))
+			->method('getUserValue')
+			->with('user123', 'calendar', 'skipPopover', 'defaultSkipPopover')
+			->willReturn('yes');
+		$this->config->expects($this->at(11))
+			->method('getUserValue')
+			->with('user123', 'calendar', 'timezone', 'defaultTimezone')
+			->willReturn('Europe/Berlin');
+		$this->appManager->expects($this->at(0))
+			->method('isEnabledForUser')
+			->with('spreed')
+			->willReturn(true);
+
+		$response = $this->controller->index();
+
+		$this->assertInstanceOf(TemplateResponse::class, $response);
+		$this->assertEquals([
+			'app_version' => '1.0.0',
+			'first_run' => true,
+			'initial_view' => $expectedView,
+			'show_weekends' => true,
+			'show_week_numbers' => true,
+			'skip_popover' => true,
+			'talk_enabled' => true,
+			'timezone' => 'Europe/Berlin',
+		], $response->getParams());
+		$this->assertEquals('user', $response->getRenderAs());
+		$this->assertEquals('main', $response->getTemplateName());
+	}
+
+	/**
+	 * @return array
+	 */
+	public function viewFixDataProvider(): array {
+		return [
+			['agendaDay', 'timeGridDay'],
+			['timeGridDay', 'timeGridDay'],
+			['agendaWeek', 'timeGridWeek'],
+			['timeGridWeek', 'timeGridWeek'],
+			['month', 'dayGridMonth'],
+			['dayGridMonth', 'dayGridMonth'],
+		];
+	}
 }
