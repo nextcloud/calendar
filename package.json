@@ -101,7 +101,7 @@
 		"node-sass": "^4.13.1",
 		"prettier-eslint": "^9.0.1",
 		"regenerator-runtime": "^0.13.3",
-		"sass-loader": "^8.0.1",
+		"sass-loader": "^8.0.2",
 		"stylelint": "^12.0.1",
 		"stylelint-bare-webpack-plugin": "^2.0.0",
 		"stylelint-config-recommended-scss": "^4.1.0",
