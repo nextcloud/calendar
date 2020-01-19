@@ -68,6 +68,7 @@ OC.L10N.register(
     "New calendar with task list" : "تقویم جدید با لیست کارها",
     "Filename" : "نام فایل",
     "Cancel" : "منصرف شدن",
+    "Notification" : "اطلاع",
     "Email" : "ایمیل",
     "Unknown" : "نامشخص",
     "from" : "از",
