@@ -95,7 +95,17 @@ export default {
 			return !(this.isReadOnly && this.value.length === 0)
 		},
 		options() {
-			return this.propModel.options.slice().sort((a, b) => a.localeCompare(b, getLocale().replace('_', '-'), { sensitivity: 'base' }))
+			const options = this.propModel.options.slice()
+			for (const value of (this.value || [])) {
+				if (options.includes(value)) {
+					continue
+				}
+
+				options.push(value)
+			}
+
+			return options
+				.sort((a, b) => a.localeCompare(b, getLocale().replace('_', '-'), { sensitivity: 'base' }))
 		},
 	},
 	methods: {
