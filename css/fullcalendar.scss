@@ -199,3 +199,14 @@
 .fc-content {
 	background-color: inherit;
 }
+
+.fc-popover.fc-more-popover {
+	border-color: var(--color-border-dark) !important;
+
+	> .fc-header.fc-widget-header,
+	> .fc-body.fc-widget-content {
+		background-color: var(--color-main-background);
+	}
+}
+
+
