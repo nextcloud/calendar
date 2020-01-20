@@ -21,6 +21,15 @@ Please provide instructions how to test your changes
 2. Step B
 3. Step C
 
+### UI Changes
+
+In case you changed, added or removed UI elements, please provide a set of before / after screenshots:
+
+| Before | After |
+|:---------:|:------:|
+|xxxxxxx|xxxxx|
+
+
 ### Checklist:
 
 - [ ] My code follows the style guidelines of this project
