@@ -307,7 +307,7 @@ export default {
 
 			const rootURL = generateRemoteUrl('dav')
 			const token = this.calendar.publishURL.split('/').slice(-1)[0]
-			const url = new URL(generateUrl('apps/calendar') + '/e/' + token, rootURL)
+			const url = new URL(generateUrl('apps/calendar') + '/embed/' + token, rootURL)
 
 			const code = '<iframe width="400" height="215" src="' + url + '"></iframe>'
 
