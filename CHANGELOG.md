@@ -1,3 +1,20 @@
+## 2.0.1 - 2020-01-20
+### Fixed
+- Sort categories alphabetically
+  [#1827](https://github.com/nextcloud/calendar/issues/1827)
+- Missing styles of "more events" popover
+  [#1865](https://github.com/nextcloud/calendar/pull/1865)
+- Resolving timezone aliases not working
+  [#1841](https://github.com/nextcloud/calendar/issues/1841)
+- Generated embed code for public calendar contains wrong link
+  [#1861](https://github.com/nextcloud/calendar/issues/1861)
+- Add sanity check for route name in case migration didn't run
+  [#1831](https://github.com/nextcloud/calendar/issues/1831)
+- Positioning of new-event popover in day and week view
+  [#1818](https://github.com/nextcloud/calendar/issues/1818)
+- Display self-added categories in list, making it easier to remove them again
+  [#1819](https://github.com/nextcloud/calendar/issues/1819)
+
 ## 2.0.0 - 2020-01-17
 ### Fixed
 - Do not include index.php in the url of sharing links if url rewrite is enabled
