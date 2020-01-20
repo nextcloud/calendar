@@ -39,6 +39,11 @@ export default function({ event, el }) {
 		}
 		el.firstChild.appendChild(notificationIcon)
 	}
-	el.dataset.objectId = event.extendedProps.objectId
-	el.dataset.recurrenceId = event.extendedProps.recurrenceId
+
+	if (event.source === null) {
+		el.dataset.isNew = 'yes'
+	} else {
+		el.dataset.objectId = event.extendedProps.objectId
+		el.dataset.recurrenceId = event.extendedProps.recurrenceId
+	}
 }

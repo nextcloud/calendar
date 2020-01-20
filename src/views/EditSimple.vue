@@ -204,6 +204,10 @@ export default {
 			if (isNew) {
 				matchingDomObject = document.querySelector('.fc-highlight')
 				this.placement = 'auto'
+
+				if (!matchingDomObject) {
+					matchingDomObject = document.querySelector(`.fc-event[data-is-new="yes"]`)
+				}
 			} else {
 				const objectId = route.params.object
 				const recurrenceId = route.params.recurrenceId

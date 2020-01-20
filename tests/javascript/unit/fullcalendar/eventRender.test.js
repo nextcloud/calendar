@@ -23,9 +23,10 @@ import eventRender from "../../../../src/fullcalendar/eventRender.js";
 
 describe('fullcalendar/eventRender test suite', () => {
 
-	it('should add extended properties from the event to the dataset of the dom element', () => {
+	it('should add extended properties from the event to the dataset of the dom element - existing event', () => {
 		const el = document.createElement('div')
 		const event = {
+			source: {},
 			extendedProps: {
 				objectId: 'object123',
 				recurrenceId: 'recurrence456',
@@ -34,8 +35,23 @@ describe('fullcalendar/eventRender test suite', () => {
 
 		eventRender({ event, el })
 
+		expect(el.dataset.isNew).toEqual(undefined)
 		expect(el.dataset.objectId).toEqual('object123')
 		expect(el.dataset.recurrenceId).toEqual('recurrence456')
+	})
+
+	it('should add extended properties from the event to the dataset of the dom element - new event', () => {
+		const el = document.createElement('div')
+		const event = {
+			source: null,
+			extendedProps: {},
+		}
+
+		eventRender({ event, el })
+
+		expect(el.dataset.isNew).toEqual('yes')
+		expect(el.dataset.objectId).toEqual(undefined)
+		expect(el.dataset.recurrenceId).toEqual(undefined)
 	})
 
 })
