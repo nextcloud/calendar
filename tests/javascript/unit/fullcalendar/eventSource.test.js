@@ -222,6 +222,76 @@ describe('fullcalendar/eventSource test suite', () => {
 		expect(failureCallback).toHaveBeenCalledTimes(0)
 	})
 
+	it('should provide an eventSource function to provide events - existing timerange - unknown timezone', async () => {
+		const store = {
+			dispatch: jest.fn()
+				.mockReturnValueOnce(42),
+			getters: {
+				getTimeRangeForCalendarCoveringRange: jest.fn()
+					.mockReturnValueOnce({
+						id: 42
+					}),
+				getCalendarObjectsByTimeRangeId: jest.fn()
+					.mockReturnValueOnce([{ calendarObjectId: 1 }, { calendarObjectId: 2 }])
+			}
+		}
+
+		const calendar = {
+			id: 'calendar-id-123',
+			color: '#ff00ff',
+			isReadOnly: true
+		}
+
+		const getTimezoneForId = jest.fn()
+			.mockReturnValueOnce(null)
+			.mockReturnValueOnce({ calendarJsTimezone: true, tzid: 'UTC' })
+		getTimezoneManager
+			.mockReturnValue({
+				getTimezoneForId
+			})
+
+		getUnixTimestampFromDate
+			.mockReturnValueOnce(1234)
+			.mockReturnValueOnce(5678)
+
+		generateTextColorForHex
+			.mockReturnValue('#00ff00')
+
+		eventSourceFunction
+			.mockReturnValueOnce([{ fcEventId: 1 },  { fcEventId: 2 }])
+
+		const start = new Date(Date.UTC(2019, 0, 1, 0, 0, 0, 0))
+		const end = new Date(Date.UTC(2019, 0, 31, 59, 59, 59, 999))
+		const timeZone = 'America/New_York'
+
+		const successCallback = jest.fn()
+		const failureCallback = jest.fn()
+
+		const eventSourceFn = eventSource(store)
+		const { events } = eventSourceFn(calendar)
+		await events({ start, end, timeZone }, successCallback, failureCallback)
+
+		expect(getTimezoneForId).toHaveBeenCalledTimes(2)
+		expect(getTimezoneForId).toHaveBeenNthCalledWith(1, 'America/New_York')
+		expect(getTimezoneForId).toHaveBeenNthCalledWith(2, 'UTC')
+
+		expect(store.getters.getTimeRangeForCalendarCoveringRange).toHaveBeenCalledTimes(1)
+		expect(store.getters.getTimeRangeForCalendarCoveringRange).toHaveBeenNthCalledWith(1, 'calendar-id-123', 1234, 5678)
+
+		expect(store.dispatch).toHaveBeenCalledTimes(0)
+
+		expect(store.getters.getCalendarObjectsByTimeRangeId).toHaveBeenCalledTimes(1)
+		expect(store.getters.getCalendarObjectsByTimeRangeId).toHaveBeenNthCalledWith(1, 42)
+
+		expect(eventSourceFunction).toHaveBeenCalledTimes(1)
+		expect(eventSourceFunction).toHaveBeenNthCalledWith(1, [{ calendarObjectId: 1 }, { calendarObjectId: 2 }], calendar, start, end, { calendarJsTimezone: true, tzid: 'UTC' })
+
+		expect(successCallback).toHaveBeenCalledTimes(1)
+		expect(successCallback).toHaveBeenNthCalledWith(1, [{ fcEventId: 1 },  { fcEventId: 2 }])
+
+		expect(failureCallback).toHaveBeenCalledTimes(0)
+	})
+
 	it('should provide an eventSource function that catches errors while fetching', async () => {
 		const store = {
 			dispatch: jest.fn()

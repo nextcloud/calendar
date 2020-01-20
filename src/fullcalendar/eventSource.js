@@ -25,6 +25,7 @@ import {
 import getTimezoneManager from '../services/timezoneDataProviderService'
 import { getUnixTimestampFromDate } from '../utils/date.js'
 import { eventSourceFunction } from './eventSourceFunction.js'
+import logger from '../utils/logger.js'
 
 /**
  * Returns a function to generate a FullCalendar event-source based on the Vuex calendar model
@@ -42,7 +43,12 @@ export default function(store) {
 			textColor: generateTextColorForHex(calendar.color),
 			// html foo
 			events: async({ start, end, timeZone }, successCallback, failureCallback) => {
-				const timezoneObject = getTimezoneManager().getTimezoneForId(timeZone)
+				let timezoneObject = getTimezoneManager().getTimezoneForId(timeZone)
+				if (!timezoneObject) {
+					timezoneObject = getTimezoneManager().getTimezoneForId('UTC')
+					logger.error(`EventSource: Timezone ${timeZone} not found, falling back to UTC.`)
+				}
+
 				const timeRange = store.getters.getTimeRangeForCalendarCoveringRange(calendar.id, getUnixTimestampFromDate(start), getUnixTimestampFromDate(end))
 				if (!timeRange) {
 					let timeRangeId

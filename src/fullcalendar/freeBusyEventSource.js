@@ -24,6 +24,7 @@ import { createFreeBusyRequest } from 'calendar-js'
 import DateTimeValue from 'calendar-js/src/values/dateTimeValue.js'
 import client from '../services/caldavService.js'
 import freeBusyEventSourceFunction from './freeBusyEventSourceFunction.js'
+import logger from '../utils/logger.js'
 // import AttendeeProperty from 'calendar-js/src/properties/attendeeProperty.js'
 
 /**
@@ -44,7 +45,11 @@ export default function(id, organizer, attendees) {
 		events: async({ start, end, timeZone }, successCallback, failureCallback) => {
 			console.debug(start, end, timeZone)
 
-			const timezoneObject = getTimezoneManager().getTimezoneForId(timeZone)
+			let timezoneObject = getTimezoneManager().getTimezoneForId(timeZone)
+			if (!timezoneObject) {
+				timezoneObject = getTimezoneManager().getTimezoneForId('UTC')
+				logger.error(`FreeBusyEventSource: Timezone ${timeZone} not found, falling back to UTC.`)
+			}
 
 			const startDateTime = DateTimeValue.fromJSDate(start, true)
 			const endDateTime = DateTimeValue.fromJSDate(end, true)

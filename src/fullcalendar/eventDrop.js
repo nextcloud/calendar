@@ -21,6 +21,7 @@
  */
 import { getDurationValueFromFullCalendarDuration } from '../fullcalendar/duration'
 import getTimezoneManager from '../services/timezoneDataProviderService'
+import logger from '../utils/logger.js'
 
 /**
  * Returns a function to drop an event at a different position
@@ -35,7 +36,11 @@ export default function(store, fcAPI) {
 		const defaultAllDayDuration = getDurationValueFromFullCalendarDuration(fcAPI.getOption('defaultAllDayEventDuration'))
 		const defaultTimedDuration = getDurationValueFromFullCalendarDuration(fcAPI.getOption('defaultTimedEventDuration'))
 		const timezoneId = fcAPI.getOption('timeZone')
-		const timezone = getTimezoneManager().getTimezoneForId(timezoneId)
+		let timezone = getTimezoneManager().getTimezoneForId(timezoneId)
+		if (!timezone) {
+			timezone = getTimezoneManager().getTimezoneForId('UTC')
+			logger.error(`EventDrop: Timezone ${timezoneId} not found, falling back to UTC.`)
+		}
 
 		if (!deltaDuration || !defaultAllDayDuration || !defaultTimedDuration) {
 			revert()
