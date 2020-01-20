@@ -108,6 +108,86 @@ describe('fullcalendar/eventDrop test suite', () => {
 		expect(revert).toHaveBeenCalledTimes(0)
 	})
 
+	it('should properly drop a non-recurring event - unknown timezone', async () => {
+		const store = {
+			dispatch: jest.fn()
+		}
+		const fcAPI = {
+			getOption: jest.fn()
+				.mockReturnValueOnce({ days: 1 })
+				.mockReturnValueOnce({ hours: 2 })
+				.mockReturnValueOnce('America/New_York'),
+		}
+
+		const event = {
+			allDay: false,
+			extendedProps: {
+				objectId: 'object123',
+				recurrenceId: '1573554842'
+			}
+		}
+		const delta = {
+			hours: 5
+		}
+		const revert = jest.fn()
+
+		getDurationValueFromFullCalendarDuration
+			.mockReturnValueOnce({ calendarJsDurationValue: true, hours: 5 })
+			.mockReturnValueOnce({ calendarJsDurationValue: true, days: 1 })
+			.mockReturnValueOnce({ calendarJsDurationValue: true, hours: 2 })
+
+		const getTimezoneForId = jest.fn()
+			.mockReturnValueOnce(null)
+			.mockReturnValueOnce({ calendarJsTimezone: true, tzid: 'UTC' })
+		getTimezoneManager
+			.mockReturnValue({
+				getTimezoneForId
+			})
+
+		const eventComponent = {
+			shiftByDuration: jest.fn(),
+			canCreateRecurrenceExceptions: jest.fn().mockReturnValue(false),
+			createRecurrenceException: jest.fn(),
+		}
+		const calendarObject = {
+			getObjectAtRecurrenceId: jest.fn().mockReturnValueOnce(eventComponent),
+			resetToDav: jest.fn()
+		}
+
+		store.dispatch.mockResolvedValueOnce(calendarObject) // getEventByObjectId
+		store.dispatch.mockResolvedValueOnce() // updateCalendarObject
+
+		const eventDropFunction = eventDrop(store, fcAPI)
+		await eventDropFunction({ event, delta, revert })
+
+		expect(getTimezoneForId).toHaveBeenCalledTimes(2)
+		expect(getTimezoneForId).toHaveBeenNthCalledWith(1, 'America/New_York')
+		expect(getTimezoneForId).toHaveBeenNthCalledWith(2, 'UTC')
+
+		expect(fcAPI.getOption).toHaveBeenCalledTimes(3)
+		expect(fcAPI.getOption).toHaveBeenNthCalledWith(1, 'defaultAllDayEventDuration')
+		expect(fcAPI.getOption).toHaveBeenNthCalledWith(2, 'defaultTimedEventDuration')
+		expect(fcAPI.getOption).toHaveBeenNthCalledWith(3, 'timeZone')
+
+		expect(getDurationValueFromFullCalendarDuration).toHaveBeenCalledTimes(3)
+		expect(getDurationValueFromFullCalendarDuration).toHaveBeenNthCalledWith(1, delta)
+		expect(getDurationValueFromFullCalendarDuration).toHaveBeenNthCalledWith(2, { days: 1})
+		expect(getDurationValueFromFullCalendarDuration).toHaveBeenNthCalledWith(3, { hours: 2 })
+
+		expect(store.dispatch).toHaveBeenCalledTimes(2)
+		expect(store.dispatch).toHaveBeenNthCalledWith(1, 'getEventByObjectId', { objectId: 'object123' })
+		expect(store.dispatch).toHaveBeenNthCalledWith(2, 'updateCalendarObject', { calendarObject })
+
+		expect(eventComponent.shiftByDuration).toHaveBeenCalledTimes(1)
+		expect(eventComponent.shiftByDuration).toHaveBeenNthCalledWith(1, { calendarJsDurationValue: true, hours: 5 }, false, { calendarJsTimezone: true, tzid: 'UTC' }, { calendarJsDurationValue: true, days: 1 }, { calendarJsDurationValue: true, hours: 2 })
+
+		expect(eventComponent.canCreateRecurrenceExceptions).toHaveBeenCalledTimes(1)
+		expect(eventComponent.createRecurrenceException).toHaveBeenCalledTimes(0)
+
+		expect(calendarObject.resetToDav).toHaveBeenCalledTimes(0)
+		expect(revert).toHaveBeenCalledTimes(0)
+	})
+
 	it('should properly drop a recurring event', async () => {
 		const store = {
 			dispatch: jest.fn()

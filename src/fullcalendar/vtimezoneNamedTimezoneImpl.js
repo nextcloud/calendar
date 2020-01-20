@@ -24,6 +24,7 @@ import {
 	createPlugin,
 } from '@fullcalendar/core'
 import getTimezoneManager from '../services/timezoneDataProviderService'
+import logger from '../utils/logger.js'
 
 /**
  * Our own FullCalendar Timezone implementation based on the VTimezones we ship
@@ -37,7 +38,11 @@ class VTimezoneNamedTimezone extends NamedTimeZoneImpl {
 	 * @returns {Number} offset in minutes
 	 */
 	offsetForArray([year, month, day, hour, minute, second]) {
-		const timezone = getTimezoneManager().getTimezoneForId(this.timeZoneName)
+		let timezone = getTimezoneManager().getTimezoneForId(this.timeZoneName)
+		if (!timezone) {
+			timezone = getTimezoneManager().getTimezoneForId('UTC')
+			logger.error(`VTimezoneNamedTimezoneImpl: Timezone ${this.timeZoneName} not found, falling back to UTC.`)
+		}
 		// calendar-js works with natural month numbers,
 		// not the javascript 0-based ones
 		month += 1
@@ -52,8 +57,13 @@ class VTimezoneNamedTimezone extends NamedTimeZoneImpl {
 	 * @returns {Number[]}
 	 */
 	timestampToArray(ms) {
-		const timezone = getTimezoneManager().getTimezoneForId(this.timeZoneName)
+		let timezone = getTimezoneManager().getTimezoneForId(this.timeZoneName)
+		if (!timezone) {
+			timezone = getTimezoneManager().getTimezoneForId('UTC')
+			logger.error(`VTimezoneNamedTimezoneImpl: Timezone ${this.timeZoneName} not found, falling back to UTC.`)
+		}
 		const timestampArray = timezone.timestampToArray(ms)
+
 		// calendar-js works with natural month numbers,
 		// not the javascript 0-based ones
 		timestampArray[1]--

@@ -58,5 +58,11 @@ function initialize() {
 		}
 	}
 
+	for (const tzid in tzData.aliases) {
+		if (Object.prototype.hasOwnProperty.call(tzData.aliases, [tzid])) {
+			timezoneManager.registerAlias(tzid, tzData.aliases[tzid].aliasTo)
+		}
+	}
+
 	initialized = true
 }

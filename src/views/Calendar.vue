@@ -116,6 +116,7 @@ import VTimezoneNamedTimezone from '../fullcalendar/vtimezoneNamedTimezoneImpl'
 import AppNavigationHeader from '../components/AppNavigation/AppNavigationHeader.vue'
 import CalendarList from '../components/AppNavigation/CalendarList.vue'
 import Settings from '../components/AppNavigation/Settings.vue'
+import getTimezoneManager from '../services/timezoneDataProviderService'
 import {
 	mapGetters,
 	mapState,
@@ -344,6 +345,12 @@ export default {
 		if (this.timezone === 'automatic' && this.timezoneId === 'UTC') {
 			const { toastElement }
 				= this.$toast.warning(this.$t('calendar', 'The automatic timezone detection determined your timezone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your timezone manually in the calendar settings.'), { timeout: 60 })
+
+			toastElement.classList.add('toast-calendar-multiline')
+		}
+		if (getTimezoneManager().getTimezoneForId(this.timezoneId) === null) {
+			const { toastElement }
+				= this.$toast.warning(this.$t('calendar', 'Your configured timezone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your timezone in the settings and report this issue.', { timezoneId: this.timezoneId }), { timeout: 60 })
 
 			toastElement.classList.add('toast-calendar-multiline')
 		}
