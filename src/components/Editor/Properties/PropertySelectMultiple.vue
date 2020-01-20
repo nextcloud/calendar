@@ -72,6 +72,7 @@ import PropertyMixin from '../../../mixins/PropertyMixin'
 import { Multiselect } from '@nextcloud/vue/dist/Components/Multiselect'
 import PropertySelectMultipleColoredTag from './PropertySelectMultipleColoredTag.vue'
 import PropertySelectMultipleColoredOption from './PropertySelectMultipleColoredOption.vue'
+import { getLocale } from '@nextcloud/l10n'
 
 export default {
 	name: 'PropertySelectMultiple',
@@ -94,7 +95,7 @@ export default {
 			return !(this.isReadOnly && this.value.length === 0)
 		},
 		options() {
-			return this.propModel.options
+			return this.propModel.options.slice().sort((a, b) => a.localeCompare(b, getLocale().replace('_', '-'), { sensitivity: 'base' }))
 		},
 	},
 	methods: {
