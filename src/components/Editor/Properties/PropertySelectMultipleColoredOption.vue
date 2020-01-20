@@ -23,7 +23,7 @@
 <template>
 	<span class="property-select-multiple-colored-tag">
 		<div class="property-select-multiple-colored-tag__color-indicator" :style="{ 'background-color': color}" />
-		<span class="property-select-multiple-colored-tag__label">{{ option }}</span>
+		<span class="property-select-multiple-colored-tag__label">{{ label }}</span>
 	</span>
 </template>
 
@@ -34,13 +34,20 @@ export default {
 	name: 'PropertySelectMultipleColoredOption',
 	props: {
 		option: {
-			type: String,
+			type: [String, Object],
 			required: true,
 		},
 	},
 	computed: {
+		label() {
+			if (typeof this.option === 'string') {
+				return this.option
+			}
+
+			return this.option.label
+		},
 		colorObject() {
-			return uidToColor(this.option)
+			return uidToColor(this.label)
 		},
 		color() {
 			const color = this.colorObject
