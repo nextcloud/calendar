@@ -34,6 +34,12 @@ matrix:
       env: "TEST_SUITE=LINT-PHP"
     - php: 7.4snapshot
       env: "TEST_SUITE=TEST-JS"
+    - php: 7.4snapshot
+      env: "CORE_BRANCH=stable18"
+    - php: 7.3
+      env: "CORE_BRANCH=stable18"
+    - php: 7.2
+      env: "CORE_BRANCH=stable18"
     - php: 7.3
       env: "CORE_BRANCH=stable17"
     - php: 7.2
