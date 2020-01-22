@@ -200,6 +200,7 @@ OC.L10N.register(
     "Type to search timezone" : "Wpisz, aby wyszukać strefę czasową",
     "Personal" : "Osobiste",
     "The automatic timezone detection determined your timezone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your timezone manually in the calendar settings." : "Automatyczne wykrywanie strefy czasowej określiło Twoją strefę czasową jako UTC.\nNajprawdopodobniej wynika to ze środków bezpieczeństwa przeglądarki internetowej.\nUstaw strefę czasową ręcznie w ustawieniach kalendarza.",
+    "Your configured timezone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your timezone in the settings and report this issue." : "Skonfigurowana strefa czasowa ({timezoneId}) nie została znaleziona. Powrót do UTC.\nZmień strefę czasową w ustawieniach i zgłoś ten problem.",
     "Delete this occurrence" : "Usuń to wydarzenie",
     "Delete this and all future" : "Usuń to i wszystkie przyszłe",
     "Details" : "Szczegóły",

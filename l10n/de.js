@@ -200,6 +200,7 @@ OC.L10N.register(
     "Type to search timezone" : "Zum Suchen der Zeitzone tippen",
     "Personal" : "Persönlich",
     "The automatic timezone detection determined your timezone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your timezone manually in the calendar settings." : "Die automatische Erkennung der Zeitzone hat als Ergebnis UTC ermittelt.\nDies ist meist das Ergebnis von Sicherheitsmaßnahmen Ihres Webbrowsers.\nBitte stelle Deine Zeitzone manuell in den Kalendereinstellungen ein.",
+    "Your configured timezone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your timezone in the settings and report this issue." : "Die konfigurierte Zeitzone ({timezoneId}) wurde nicht gefunden. Rückfall auf UTC.\nBitte die Zeitzone in den Einstellungen ändern und melden dieses Problem melden.",
     "Delete this occurrence" : "Dieses Vorkommen löschen",
     "Delete this and all future" : "Dieses und alle Künftigen löschen",
     "Details" : "Details",

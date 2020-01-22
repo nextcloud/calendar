@@ -198,6 +198,7 @@
     "Type to search timezone" : "Escriba para buscar o fuso horario",
     "Personal" : "Persoal",
     "The automatic timezone detection determined your timezone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your timezone manually in the calendar settings." : "A detección automática do fuso horario determinou que a súa franxa horaria é UTC.\nEste é probablemente o resultado das medidas de seguridade do seu navegador web.\nEstabeleza a súa zona horaria manualmente nos axustes do calendario.",
+    "Your configured timezone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your timezone in the settings and report this issue." : "Non se atopou o fuso horario ({timezoneId}) configurado. Retornase a UTC.\nCambie o fuso horario nos axustes e informe deste problema.",
     "Delete this occurrence" : "Eliminar esta recorrencia",
     "Delete this and all future" : "Eliminar esta e todas as futuras",
     "Details" : "Detalles",

@@ -198,6 +198,7 @@
     "Type to search timezone" : "Type om de tijdzonde te zoeken",
     "Personal" : "Persoonlijk",
     "The automatic timezone detection determined your timezone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your timezone manually in the calendar settings." : "De automatisch gedetecteerde tijdzone is UTC. Dit komt waarschijnlijk door beveiligingsmaatregelen van de web browser. Stel de tijdzone handmatig in bij de agenda instellingen.",
+    "Your configured timezone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your timezone in the settings and report this issue." : "Je ingestelde tijdzone ({timezoneId}) werd niet gevonden. Er wordt teruggevallen op UTC.\nWijzig je tijdzone in instellingen en meld het incident.",
     "Delete this occurrence" : "Verwijder deze afspraak",
     "Delete this and all future" : "Verwijder deze en toekomstige",
     "Details" : "Details",

@@ -198,6 +198,7 @@
     "Type to search timezone" : "Saat dilimini aramak için yazın",
     "Personal" : "Kişisel",
     "The automatic timezone detection determined your timezone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your timezone manually in the calendar settings." : "Otomatik saat dilimi algılaması saat diliminizi UTC olarak belirledi.\nBu durum genellikle web tarayıcınızın sağladığı bir güvenlik önleminden kaynaklanır.\nLütfen takvim ayarları bölümünden saat diliminizi el ile ayarlayın.",
+    "Your configured timezone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your timezone in the settings and report this issue." : "Yapılandırılmış saat diliminiz {{timezoneId}} bulunamadı. UTC dilimine dönülüyor.\nLütfen ayarlardan saat diliminizi değiştirin ve bu sorunu bildirin.",
     "Delete this occurrence" : "Bu etkinliği sil",
     "Delete this and all future" : "Bu ve sonraki etkinlikleri sil",
     "Details" : "Ayrıntılar",

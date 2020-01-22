@@ -200,6 +200,7 @@ OC.L10N.register(
     "Type to search timezone" : "Psaním vyhledejte časovou zónu",
     "Personal" : "Osobní",
     "The automatic timezone detection determined your timezone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your timezone manually in the calendar settings." : "Automatické zjišťování časové zóny určilo, že vaše zóna je UTC.\nTo je nejspíš kvůli bezpečnostním opatřením vámi používaného webového prohlížeče.\nV nastavení kalendáře zadejte časovou zónu ručně.",
+    "Your configured timezone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your timezone in the settings and report this issue." : "Vámi nastavená časová zóna ({timezoneId}) nenalezena. Náhradně použit UTC čas.\nZměňte svou časovou zónu v nastaveních a nahlaste tento problém vývojářům, děkujeme.",
     "Delete this occurrence" : "Smazat tento výskyt",
     "Delete this and all future" : "Smazat toto a všechny budoucí",
     "Details" : "Podrobnosti",

@@ -245,6 +245,7 @@ OC.L10N.register(
     "Pizza" : "Pica",
     "Lecture" : "Paskaita",
     "Seminar" : "Seminaras",
+    "Skateboard" : "Riedlentė",
     "Golf" : "Golfas",
     "Dinner" : "Pietūs",
     "Global" : "Visuotinis"
