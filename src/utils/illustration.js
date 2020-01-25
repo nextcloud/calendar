@@ -369,6 +369,7 @@ const data = [{
 		'Exercise',
 		'Work out',
 		'Working out',
+		'Gym',
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		t('calendar', 'Training'),
 		// TRANSLATORS This string is used for matching the event title to an illustration
@@ -381,6 +382,8 @@ const data = [{
 		t('calendar', 'Work out'),
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		t('calendar', 'Working out'),
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Gym'),
 	],
 	illustrationNames: [
 		'personal_trainer',
