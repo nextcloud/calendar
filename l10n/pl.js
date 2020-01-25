@@ -90,7 +90,7 @@ OC.L10N.register(
     "New setting was not saved successfully." : "Nowe ustawienie nie zostało pomyślnie zapisane.",
     "Enable birthday calendar" : "Włącz kalendarz urodzinowy",
     "Enable simplified editor" : "Włącz uproszczony edytor",
-    "Show weekends" : "Pokazuj dwudzionki",
+    "Show weekends" : "Pokaż weekendy",
     "Show week numbers" : "Pokaż numery tygodni",
     "Copy primary CalDAV address" : "Kopiuj główny adres CalDAV",
     "Copy iOS/macOS CalDAV address" : "Kopiuj adres CalDAV dla iOS/macOS",
