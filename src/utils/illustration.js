@@ -56,7 +56,8 @@ function findIllustrationForString(str) {
 		for (const illustrationString of illustration.strings) {
 			const regex = new RegExp('\\b' + illustrationString.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&') + '\\b', 'gi')
 			if (str.match(regex) !== null) {
-				return imagePath('calendar', 'illustrations/' + illustration.illustrationNames[0])
+				return imagePath('calendar', 'illustrations/'
+								+ illustration.illustrationNames[str.charCodeAt(str.length - 1) % illustration.illustrationNames.length])
 			}
 		}
 	}
