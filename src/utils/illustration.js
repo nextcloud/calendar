@@ -54,8 +54,8 @@ export const getIllustrationForTitle = (title, categories = []) => {
 function findIllustrationForString(str) {
 	for (const illustration of data) {
 		for (const illustrationString of illustration.strings) {
-			if (str.toLowerCase().includes(illustrationString.toLowerCase())) {
-				// TODO: vary if there are multiple illustrationNames
+			const regex = new RegExp('\\b' + illustrationString.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&') + '\\b', 'gi')
+			if (str.match(regex) !== null) {
 				return imagePath('calendar', 'illustrations/' + illustration.illustrationNames[0])
 			}
 		}
