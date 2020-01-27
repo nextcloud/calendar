@@ -203,7 +203,7 @@ OC.L10N.register(
     "Your configured timezone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your timezone in the settings and report this issue." : "找不到您配置的时区（{timezoneId}）。 将退回到世界标准时间（UTC）。\n请在设置中更改您的时区并报告此问题。",
     "Delete this occurrence" : "删除此重复事件",
     "Delete this and all future" : "删除此项及以后的项目",
-    "Details" : "细节",
+    "Details" : "详情",
     "Attendees" : "参加者",
     "Reminders" : "提醒",
     "Activity" : "动态",
