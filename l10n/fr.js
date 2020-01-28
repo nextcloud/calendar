@@ -330,6 +330,7 @@ OC.L10N.register(
     "Exercise" : "Sport",
     "Work out" : "Sport",
     "Working out" : "Gymnastique",
+    "Gym" : "Gym",
     "Barber" : "Barbier",
     "Haircut" : "Coiffeur",
     "Exam" : "Examen",
