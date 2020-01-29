@@ -226,6 +226,8 @@ import { AppSidebarTab } from '@nextcloud/vue/dist/Components/AppSidebarTab'
 import { ActionLink } from '@nextcloud/vue/dist/Components/ActionLink'
 import { ActionButton } from '@nextcloud/vue/dist/Components/ActionButton'
 
+import { mapState } from 'vuex'
+
 import AlarmList from '../components/Editor/Alarm/AlarmList'
 
 import InviteesList from '../components/Editor/Invitees/InviteesList'
@@ -266,14 +268,15 @@ export default {
 		EditorMixin,
 	],
 	computed: {
+		...mapState({
+			locale: (state) => state.settings.momentLocale,
+		}),
 		subTitle() {
 			if (!this.calendarObjectInstance) {
 				return ''
 			}
 
-			// This is hardcoded for now till https://github.com/ChristophWurst/nextcloud-moment/issues/31 is fixed
-			moment.locale('en')
-			return moment(this.calendarObjectInstance.startDate).fromNow()
+			return moment(this.calendarObjectInstance.startDate).locale(this.locale).fromNow()
 		},
 		accessClass() {
 			if (!this.calendarObjectInstance) {
