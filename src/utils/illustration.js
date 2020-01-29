@@ -160,10 +160,22 @@ const data = [{
 	strings: [
 		'Meeting',
 		'Meet',
+		'Planning',
+		'Pointing',
+		'Retrospective', 'Retro',
+		'Review',
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		t('calendar', 'Meeting'),
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		t('calendar', 'Meet'),
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Planning'),
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Pointing'),
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Retrospective'),
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Review'),
 	],
 	illustrationNames: [
 		'meeting',
@@ -514,8 +526,11 @@ const data = [{
 }, {
 	strings: [
 		'Collaborate',
+		'Pair',
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		t('calendar', 'Collaborate'),
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Pair'),
 	],
 	illustrationNames: [
 		'collab',
@@ -524,17 +539,20 @@ const data = [{
 	strings: [
 		'Lecture',
 		'Seminar',
+		'Conference',
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		t('calendar', 'Lecture'),
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		t('calendar', 'Seminar'),
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Conference'),
 	],
 	illustrationNames: [
 		'professor',
 	],
 }, {
 	strings: [
-		'Photograph',
+		'Photograph', 'Photo',
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		t('calendar', 'Photograph'),
 	],
@@ -600,8 +618,11 @@ const data = [{
 }, {
 	strings: [
 		'Dinner',
+		'Lunch',
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		t('calendar', 'Dinner'),
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Lunch'),
 	],
 	illustrationNames: [
 		'dinner',
