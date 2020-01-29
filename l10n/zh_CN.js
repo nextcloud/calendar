@@ -330,6 +330,7 @@ OC.L10N.register(
     "Exercise" : "练习",
     "Work out" : "锻炼",
     "Working out" : "锻炼中",
+    "Gym" : "健身房",
     "Barber" : "理发师",
     "Haircut" : "剪发",
     "Exam" : "考试",
