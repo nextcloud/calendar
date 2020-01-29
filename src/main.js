@@ -34,6 +34,7 @@ import { translate, translatePlural } from '@nextcloud/l10n'
 import ClickOutside from 'vue-click-outside'
 import VueClipboard from 'vue-clipboard2'
 import VTooltip from 'v-tooltip'
+import windowTitleService from './services/windowTitleService.js'
 
 // register global components
 Vue.directive('ClickOutside', ClickOutside)
@@ -60,6 +61,8 @@ Vue.prototype.$toast = OCP.Toast // eslint-disable-line no-undef
 // The nextcloud-vue package does currently rely on t and n
 Vue.prototype.t = translate
 Vue.prototype.n = translatePlural
+
+windowTitleService(router, store)
 
 export default new Vue({
 	el: '#content',

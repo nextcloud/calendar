@@ -26,7 +26,6 @@ import { getRootUrl, generateUrl } from '@nextcloud/router'
 import Calendar from './views/Calendar'
 import EditSimple from './views/EditSimple'
 import EditSidebar from './views/EditSidebar'
-import windowTitleService from './services/windowTitleService.js'
 import { getInitialView } from './utils/router.js'
 
 Vue.use(Router)
@@ -142,7 +141,5 @@ const router = new Router({
 		},
 	],
 })
-
-windowTitleService(router)
 
 export default router
