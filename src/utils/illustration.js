@@ -164,7 +164,6 @@ const data = [{
 		'Pointing',
 		'Retrospective', 'Retro',
 		'Review',
-		'Stand-up', 'Standup',
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		t('calendar', 'Meeting'),
 		// TRANSLATORS This string is used for matching the event title to an illustration
@@ -177,8 +176,6 @@ const data = [{
 		t('calendar', 'Retrospective'),
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		t('calendar', 'Review'),
-		// TRANSLATORS This string is used for matching the event title to an illustration
-		t('calendar', 'Stand-up'),
 	],
 	illustrationNames: [
 		'meeting',
