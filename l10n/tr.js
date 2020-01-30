@@ -295,6 +295,7 @@ OC.L10N.register(
     "Brainstorm" : "Beyin Fırtınası",
     "Baseball" : "Beyzbol",
     "Meet" : "Toplan",
+    "Review" : "Gözden Geçirme",
     "Office" : "Ofis",
     "Contributor week" : "Katılımcı haftası",
     "Party" : "Parti",

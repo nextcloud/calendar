@@ -224,6 +224,7 @@ OC.L10N.register(
     "Graduation" : "Štátnice",
     "Brainstorm" : "Porada",
     "Meet" : "Stretnutie",
+    "Review" : "Preskúmať",
     "Party" : "Párty",
     "Celebration" : "Oslava",
     "Mail" : "Pošta",

@@ -85,6 +85,7 @@ OC.L10N.register(
     "Add this as a new category" : "Hozzáadás új kategóriaként",
     "Presentation" : "Bemutató",
     "Cinema" : "Mozi",
+    "Review" : "Visszajelzés",
     "Mail" : "Levél",
     "Play" : "Lejátszás",
     "Dentist" : "Fogorvos",

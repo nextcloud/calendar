@@ -58,6 +58,7 @@ OC.L10N.register(
     "Cancelled" : "Cancelado",
     "Categories" : "Categorias",
     "Presentation" : "Apresentação",
+    "Review" : "Rever",
     "Office" : "Escritório",
     "Mail" : "Correio",
     "Play" : "Reproduzir",

@@ -242,6 +242,7 @@ OC.L10N.register(
     "Presentation" : "Presentation",
     "Movie" : "Film",
     "Cinema" : "Bio",
+    "Review" : "Granska",
     "Office" : "Kontor",
     "Mail" : "E-post",
     "Play" : "Spela",

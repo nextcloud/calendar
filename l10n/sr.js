@@ -69,6 +69,7 @@ OC.L10N.register(
     "Add this as a new category" : "Додај ово као нову категорију",
     "Movie" : "Филм",
     "Cinema" : "Биоскоп",
+    "Review" : "Претпреглед",
     "Mail" : "поштом",
     "Play" : "Пусти",
     "Dentist" : "Стоматолог",

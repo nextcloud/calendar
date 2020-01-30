@@ -261,6 +261,7 @@ OC.L10N.register(
     "Brainstorm" : "Мозговой штурм",
     "Baseball" : "Бейсбол",
     "Meet" : "Встреча",
+    "Review" : "Обзор",
     "Office" : "Офис",
     "Party" : "Вечеринка",
     "Celebration" : "Празднование",

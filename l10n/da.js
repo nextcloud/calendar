@@ -63,6 +63,7 @@ OC.L10N.register(
     "Cancelled" : "Annulléret",
     "Categories" : "Kategorier",
     "Presentation" : "Præsentation",
+    "Review" : "Gennemse",
     "Office" : "Kontor",
     "Mail" : "Mail",
     "Play" : "Afspil",

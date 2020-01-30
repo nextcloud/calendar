@@ -295,6 +295,7 @@ OC.L10N.register(
     "Brainstorm" : "Ideenfindung",
     "Baseball" : "Baseball",
     "Meet" : "Treffen",
+    "Review" : "Überprüfen",
     "Office" : "Büro",
     "Contributor week" : "Woche der Mitwirkenden",
     "Party" : "Party",

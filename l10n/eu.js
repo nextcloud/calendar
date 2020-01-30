@@ -224,6 +224,7 @@ OC.L10N.register(
     "Brainstorm" : "Ideia-jasa",
     "Baseball" : "Beisbola",
     "Meet" : "Topaketa",
+    "Review" : "Berrikusi",
     "Office" : "Bulegoa",
     "Party" : "Jaia",
     "Celebration" : "Ospakizuna",

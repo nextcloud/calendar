@@ -43,6 +43,7 @@ OC.L10N.register(
     "Description" : "Deskrisi",
     "Cancelled" : "Dibatalkan",
     "Categories" : "Kategori",
+    "Review" : "Tinjauan",
     "Mail" : "Email",
     "Play" : "Putar"
 },

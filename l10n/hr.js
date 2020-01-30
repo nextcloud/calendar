@@ -284,6 +284,7 @@ OC.L10N.register(
     "Brainstorm" : "Razmišljanje",
     "Baseball" : "Bejzbol",
     "Meet" : "Sastanak",
+    "Review" : "Pregled",
     "Office" : "Ured",
     "Contributor week" : "Tjedan suradnika",
     "Party" : "Tulum",

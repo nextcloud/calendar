@@ -295,6 +295,7 @@ OC.L10N.register(
     "Brainstorm" : "头脑风暴",
     "Baseball" : "棒球",
     "Meet" : "见面",
+    "Review" : "预览",
     "Office" : "办公",
     "Contributor week" : "贡献者周",
     "Party" : "派对",

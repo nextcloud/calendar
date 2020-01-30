@@ -133,6 +133,7 @@ OC.L10N.register(
     "Add this as a new category" : "Lisää tämä uutena luokkana",
     "Presentation" : "Esitys",
     "Cinema" : "Elokuvateatteri",
+    "Review" : "Esikatsele",
     "Office" : "Toimisto",
     "Mail" : "Sähköposti",
     "Play" : "Toista",

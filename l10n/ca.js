@@ -89,6 +89,7 @@ OC.L10N.register(
     "Presentation" : "Presentació",
     "Movie" : "Pel·lícula",
     "Cinema" : "Sala de cinema",
+    "Review" : "Revisa",
     "Mail" : "Correu electrònic",
     "Play" : "Reprodueix",
     "Dentist" : "Dentista",

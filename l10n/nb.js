@@ -182,6 +182,7 @@ OC.L10N.register(
     "Add this as a new category" : "Legg til som ny kategori",
     "Custom color" : "Tilpasset farge",
     "Presentation" : "Presentasjon",
+    "Review" : "Anmeldelse",
     "Office" : "Office",
     "Mail" : "E-post",
     "Play" : "Spill",

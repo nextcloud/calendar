@@ -221,6 +221,7 @@ OC.L10N.register(
     "Brainstorm" : "Hugarflug",
     "Baseball" : "Hornabolti",
     "Meet" : "Hittast",
+    "Review" : "Yfirfara",
     "Office" : "Skrifstofa",
     "Party" : "Partý",
     "Celebration" : "Hátíðahöld",
