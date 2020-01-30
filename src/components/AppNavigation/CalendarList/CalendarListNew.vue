@@ -66,7 +66,7 @@
 				v-if="showCreateSubscriptionLabel"
 				icon="icon-public"
 				@click.prevent.stop="openCreateSubscriptionInput">
-				{{ $t('calendar', 'New subscription from link') }}
+				{{ $t('calendar', 'New subscription from link (read-only)') }}
 			</ActionButton>
 			<ActionInput
 				v-if="showCreateSubscriptionInput"
