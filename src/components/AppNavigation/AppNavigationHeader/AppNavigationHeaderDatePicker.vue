@@ -134,11 +134,18 @@ export default {
 				break
 
 			case 'dayGridMonth':
-			default:
-				newDate = modifyDate(this.selectedDate, {
+			default: {
+				// modifyDate is just adding one month, so we have to manually
+				// set the date of month to 1. Otherwise if your date is set to
+				// January 30th and you add one month, February 30th doesn't exist
+				// and it automatically changes to March 1st. Same happens on March 31st.
+				const firstDayOfCurrentMonth = new Date(this.selectedDate.getTime())
+				firstDayOfCurrentMonth.setDate(1)
+				newDate = modifyDate(firstDayOfCurrentMonth, {
 					month: factor,
 				})
 				break
+			}
 			}
 
 			this.navigateToDate(newDate)
