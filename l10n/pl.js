@@ -73,7 +73,6 @@ OC.L10N.register(
     "New calendar" : "Nowy kalendarz",
     "Creating calendar …" : "Tworzenie kalendarza...",
     "New calendar with task list" : "Nowy kalendarz z listą zadań",
-    "New subscription from link" : "Nowa subskrypcja z linku",
     "Creating subscription …" : "Tworzenie subskrypcji...",
     "An error occurred, unable to create the calendar." : "Wystąpił błąd, nie można utworzyć kalendarza.",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "Wprowadź poprawny link (zaczynający się od http://, https://, webcal://, lub webcals://)",
@@ -295,6 +294,9 @@ OC.L10N.register(
     "Brainstorm" : "Burza mózgów",
     "Baseball" : "Baseball",
     "Meet" : "Spotkanie",
+    "Planning" : "Planowanie",
+    "Pointing" : "Wskazywanie",
+    "Retrospective" : "Z mocą wsteczną",
     "Review" : "Przegląd",
     "Office" : "Biuro",
     "Contributor week" : "Tydzień współpracownika",
@@ -350,6 +352,7 @@ OC.L10N.register(
     "Travelling" : "Wyjazd",
     "Journey" : "Podróż",
     "Collaborate" : "Współpraca",
+    "Pair" : "Para",
     "Lecture" : "Wykład",
     "Seminar" : "Seminarium",
     "Photograph" : "Fotografowanie",
@@ -360,6 +363,7 @@ OC.L10N.register(
     "Wine tasting" : "Degustacja wina",
     "Golf" : "Golf",
     "Dinner" : "Obiad",
+    "Lunch" : "Lunch",
     "Global" : "Ogólnie"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

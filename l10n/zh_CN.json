@@ -71,7 +71,6 @@
     "New calendar" : "新建日历",
     "Creating calendar …" : "正在创建日历 …",
     "New calendar with task list" : "带任务列表的新日历",
-    "New subscription from link" : "来自链接的新订阅",
     "Creating subscription …" : "正在创建订阅 …",
     "An error occurred, unable to create the calendar." : "发生了错误，无法创建日历。",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "请输入合法的链接（以http://、https://、webcal://、或者webcals://开头）",

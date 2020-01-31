@@ -71,7 +71,6 @@
     "New calendar" : "Takvim ekle",
     "Creating calendar …" : "Takvim oluşturuluyor …",
     "New calendar with task list" : "Görev listesi ile yeni takvim",
-    "New subscription from link" : "Bağlantıdan yeni abonelik",
     "Creating subscription …" : "Abonelik oluşturuluyor …",
     "An error occurred, unable to create the calendar." : "Bir sorun çıktı. Takvim eklenemedi.",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "Lütfen geçerli bir bağlantı yazın (http://, https://, webcal:// ya da webcals:// ile başlayan)",
@@ -293,7 +292,10 @@
     "Brainstorm" : "Beyin Fırtınası",
     "Baseball" : "Beyzbol",
     "Meet" : "Toplan",
-    "Review" : "Gözden Geçirme",
+    "Planning" : "Planlama",
+    "Pointing" : "İşaret Etme",
+    "Retrospective" : "Geçmişe Yönelik",
+    "Review" : "Gözden Geçir",
     "Office" : "Ofis",
     "Contributor week" : "Katılımcı haftası",
     "Party" : "Parti",
@@ -348,6 +350,7 @@
     "Travelling" : "Gezi",
     "Journey" : "Yolculuk",
     "Collaborate" : "İşbirliği",
+    "Pair" : "Eşleştir",
     "Lecture" : "Ders",
     "Seminar" : "Seminer",
     "Photograph" : "Fotoğraf",
@@ -358,6 +361,7 @@
     "Wine tasting" : "Şarap Tadımı",
     "Golf" : "Golf",
     "Dinner" : "Akşam Yemeği",
+    "Lunch" : "Öğle Yemeği",
     "Global" : "Genel"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

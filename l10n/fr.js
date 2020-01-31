@@ -73,7 +73,6 @@ OC.L10N.register(
     "New calendar" : "Nouvel agenda",
     "Creating calendar …" : "Création de l'agenda …",
     "New calendar with task list" : "Nouvel agenda avec liste de tâches",
-    "New subscription from link" : "Nouvel abonnement par lien",
     "Creating subscription …" : "Création de l'abonnement en cours ...",
     "An error occurred, unable to create the calendar." : "Une erreur est survenue, impossible de créer l'agenda.",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "Veuillez saisir un lien valide (débutant par http://, https://, webcal:// ou webcals://)",
@@ -295,6 +294,7 @@ OC.L10N.register(
     "Brainstorm" : "Réunion",
     "Baseball" : "Baseball",
     "Meet" : "Rencontre",
+    "Retrospective" : "Rétrospective",
     "Review" : "Revoir",
     "Office" : "Bureau",
     "Contributor week" : "Semaine des contributeurs",
@@ -360,6 +360,7 @@ OC.L10N.register(
     "Wine tasting" : "Dégustation de vin",
     "Golf" : "Golf",
     "Dinner" : "Diner",
+    "Lunch" : "Repas",
     "Global" : "Général"
 },
 "nplurals=2; plural=(n > 1);");

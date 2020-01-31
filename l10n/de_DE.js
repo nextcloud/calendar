@@ -73,7 +73,6 @@ OC.L10N.register(
     "New calendar" : "Neuer Kalender",
     "Creating calendar …" : "Erstelle Kalender …",
     "New calendar with task list" : "Neuer Kalender mit Aufgabenliste",
-    "New subscription from link" : "Neues Abonnement aus Link",
     "Creating subscription …" : "Erstelle Abonnement …",
     "An error occurred, unable to create the calendar." : "Es ist ein Fehler aufgetreten, der Kalender konnte nicht erstellt werden.",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "Bitte geben Sie einen gültigen Link ein ( beginnend mit http://, https://, webcal://, oder webcals://)",
@@ -295,6 +294,9 @@ OC.L10N.register(
     "Brainstorm" : "Ideenfindung",
     "Baseball" : "Baseball",
     "Meet" : "Treffen",
+    "Planning" : "Planung",
+    "Pointing" : "Hinweis",
+    "Retrospective" : "Rückblick",
     "Review" : "Überprüfen",
     "Office" : "Büro",
     "Contributor week" : "Woche der Mitwirkenden",
@@ -350,6 +352,7 @@ OC.L10N.register(
     "Travelling" : "Reise",
     "Journey" : "Reise",
     "Collaborate" : "Zusammenarbeiten",
+    "Pair" : "Paar",
     "Lecture" : "Vorlesung",
     "Seminar" : "Seminar",
     "Photograph" : "Fotografie",
@@ -360,6 +363,7 @@ OC.L10N.register(
     "Wine tasting" : "Weinprobe",
     "Golf" : "Golf",
     "Dinner" : "Abendessen",
+    "Lunch" : "Mittagessen",
     "Global" : "Weltweit"
 },
 "nplurals=2; plural=(n != 1);");

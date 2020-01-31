@@ -72,7 +72,6 @@ OC.L10N.register(
     "New calendar" : "Egutegi berria",
     "Creating calendar …" : "Egutegia sortzen …",
     "New calendar with task list" : "Egutegi berria ataza zerrendarekin",
-    "New subscription from link" : "Harpidetza berria estekatik",
     "Creating subscription …" : "Harpidetza sortzen ...",
     "An error occurred, unable to create the calendar." : "Errore bat gertatu da, ezin da egutegia sortu.",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "Sartu baliozko esteka bat (hauetako batekin hasi behar du: http://, https://, webcal:// edo webcals://)",

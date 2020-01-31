@@ -72,7 +72,6 @@ OC.L10N.register(
     "New calendar" : "Novi kalendar",
     "Creating calendar …" : "Stvaranje kalendara ...",
     "New calendar with task list" : "Novi kalendar s popisom zadataka",
-    "New subscription from link" : "Nova pretplata putem poveznice",
     "Creating subscription …" : "Stvaranje pretplate ...",
     "An error occurred, unable to create the calendar." : "Došlo je do pogreške, nije moguće stvoriti kalendar.",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "Unesite valjanu poveznicu (mora početi s http://, https://, webcal:// ili webcals://)",

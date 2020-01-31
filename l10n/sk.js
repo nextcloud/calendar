@@ -72,7 +72,6 @@ OC.L10N.register(
     "New calendar" : "Nový kalendár",
     "Creating calendar …" : "Vytváranie kalendára …",
     "New calendar with task list" : "Nový kalendár so zoznamom úloh",
-    "New subscription from link" : "Nový odber z odkazu",
     "Creating subscription …" : "Vytváranie odoberania …",
     "An error occurred, unable to create the calendar." : "Vyskytla sa chyba, nie je možné vytvoriť kalendár.",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "Vkladajte platné odkazy (musia sa začínať http://, https://, webcal:// alebo webcals://)",

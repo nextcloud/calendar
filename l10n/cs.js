@@ -73,7 +73,6 @@ OC.L10N.register(
     "New calendar" : "Nový kalendář",
     "Creating calendar …" : "Vytváření kalendáře…",
     "New calendar with task list" : "Nový kalendář s úkolníkem",
-    "New subscription from link" : "Nové předplatné z odkazu",
     "Creating subscription …" : "Vytváření předplatného…",
     "An error occurred, unable to create the calendar." : "Došlo k chybě, kalendář se nepodařilo vytvořit.",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "Vložte odkay (včetně http://, https://, webcal://, nebo webcals://)",
@@ -295,6 +294,9 @@ OC.L10N.register(
     "Brainstorm" : "Brainstorming",
     "Baseball" : "Baseball",
     "Meet" : "Schůzka",
+    "Planning" : "Plánování",
+    "Pointing" : "Ukazování",
+    "Retrospective" : "Retrospektiva",
     "Review" : "Revize",
     "Office" : "Kancelář",
     "Contributor week" : "Týden přispěvatelů",
@@ -350,6 +352,7 @@ OC.L10N.register(
     "Travelling" : "Cestování",
     "Journey" : "Cestování",
     "Collaborate" : "Spolupracovat",
+    "Pair" : "Dvojice",
     "Lecture" : "Přednáška",
     "Seminar" : "Seminář",
     "Photograph" : "Fotograf",
@@ -360,6 +363,7 @@ OC.L10N.register(
     "Wine tasting" : "Ochutnávka vína",
     "Golf" : "Golf",
     "Dinner" : "Večeře",
+    "Lunch" : "Oběd",
     "Global" : "Globální"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

@@ -73,7 +73,6 @@ OC.L10N.register(
     "New calendar" : "Νέο ημερολόγιο",
     "Creating calendar …" : "Δημιουργία ημερολογίου '...'",
     "New calendar with task list" : "Νέο ημερολόγιο με λίστα εργασιών",
-    "New subscription from link" : "Νέα συνδρομή από τον σύνδεσμο",
     "Creating subscription …" : "Δημιουργία συνδρομής ...",
     "An error occurred, unable to create the calendar." : "Παρουσιάστηε σφάλμα, δεν μπορεί να δημιουργηθεί το ημερολόγιο.",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "Παρακαλώ εισάγετε έγκυρο σύνδεσμο (ξεκινούν με http://, https://, webcal://, ή webcals://)",

@@ -73,7 +73,6 @@ OC.L10N.register(
     "New calendar" : "Новий календар",
     "Creating calendar …" : "Створюю календар ...",
     "New calendar with task list" : "Новий календар зі списком завдань",
-    "New subscription from link" : "Нова підписка з посилання",
     "Creating subscription …" : "Створюю підписку ...",
     "An error occurred, unable to create the calendar." : "Сталася помилка, неможливо створити календар.",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "Будь-ласка, введіть корректне посилання (повинно починатися на http://, https://, webcal:// або webcals://)",

@@ -71,7 +71,6 @@
     "New calendar" : "Nieuwe agenda",
     "Creating calendar …" : "Creëren agenda ...",
     "New calendar with task list" : "Nieuwe agenda met taak lijst",
-    "New subscription from link" : "Nieuw abonnement via link",
     "Creating subscription …" : "Creëren abonnement ...",
     "An error occurred, unable to create the calendar." : "Er is een fout opgetreden waardoor het niet mogelijk is om de agenda te creëren.",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "Geef geldige urls op - die moeten starten met http://, https://, webcal:// of webcals://",

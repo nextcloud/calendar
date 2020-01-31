@@ -70,7 +70,6 @@
     "New calendar" : "新しいカレンダー",
     "Creating calendar …" : "カレンダーを作成中 …",
     "New calendar with task list" : "タスクリスト付きの新しいカレンダー",
-    "New subscription from link" : "リンクから新たに購読",
     "Creating subscription …" : "購読を作成中 …",
     "An error occurred, unable to create the calendar." : "エラーが発生したため、カレンダーを作成できません。",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "有効なリンクを入力してください（http:// や https:// 、webcal:// または webcals:// のいずれかで始まる必要があります）",

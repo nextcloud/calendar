@@ -71,7 +71,6 @@
     "New calendar" : "Nuovo calendario",
     "Creating calendar …" : "Creazione calendario...",
     "New calendar with task list" : "Nuovo calendario con elenco delle attività",
-    "New subscription from link" : "Nuova sottoscrizione da collegamento",
     "Creating subscription …" : "Crea sottoscrizione...",
     "An error occurred, unable to create the calendar." : "Si è verificato un errore, impossibile creare il calendario.",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "Inserisci un collegamento valido (inizia con http://, https://, webcal://, o webcals://)",
@@ -293,7 +292,10 @@
     "Brainstorm" : "Brainstorm",
     "Baseball" : "Baseball",
     "Meet" : "Incontrare",
-    "Review" : "Rivedi",
+    "Planning" : "Pianificazione",
+    "Pointing" : "Indicazione",
+    "Retrospective" : "Retrospettiva",
+    "Review" : "Recensione",
     "Office" : "Ufficio",
     "Contributor week" : "Settimana del collaboratore",
     "Party" : "Festa",
@@ -348,6 +350,7 @@
     "Travelling" : "Viaggiare",
     "Journey" : "Viaggio",
     "Collaborate" : "Collaborare",
+    "Pair" : "Coppia",
     "Lecture" : "Lezione",
     "Seminar" : "Seminario",
     "Photograph" : "Fotografia",
@@ -358,6 +361,7 @@
     "Wine tasting" : "Degustazione di vini",
     "Golf" : "Golf",
     "Dinner" : "Cena",
+    "Lunch" : "Pranzo",
     "Global" : "Globale"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
