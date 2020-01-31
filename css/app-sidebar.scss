@@ -233,6 +233,10 @@
 
 			.mx-datepicker {
 				width: 49%;
+
+				.mx-input-append {
+					background-color: transparent !important;
+				}
 			}
 
 			&--readonly {
