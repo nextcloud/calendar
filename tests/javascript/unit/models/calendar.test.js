@@ -604,4 +604,44 @@ describe('models/calendar test suite', () => {
 		})
 	})
 
+	it('should handle undefined displayname properly', () => {
+		const cdavObject = {
+			url: '/remote.php/dav/calendars/admin/personal/',
+			displayname: undefined,
+			color: '#FF00FF',
+			components: ['VEVENT'],
+			owner: '/remote.php/dav/principals/users/admin/',
+			isWriteable: () => true,
+			isShareable: () => true,
+			isPublishable: () => true,
+			order: undefined,
+			publishURL: undefined,
+			timezone: 'BEGIN:VCALENDAR...END:VCALENDAR',
+			enabled: false
+		}
+
+		expect(mapDavCollectionToCalendar(cdavObject, {
+			url: '/remote.php/dav/principals/users/admin/'
+		})).toEqual({
+			canBePublished: true,
+			canBeShared: true,
+			color: '#FF00FF',
+			dav: cdavObject,
+			displayName: 'personal',
+			enabled: false,
+			id: 'L3JlbW90ZS5waHAvZGF2L2NhbGVuZGFycy9hZG1pbi9wZXJzb25hbC8=',
+			order: 0,
+			owner: '/remote.php/dav/principals/users/admin/',
+			publishURL: null,
+			readOnly: false,
+			shares: [],
+			supportsEvents: true,
+			supportsJournals: false,
+			supportsTasks: false,
+			isSharedWithMe: false,
+			timezone: 'BEGIN:VCALENDAR...END:VCALENDAR',
+			url: '/remote.php/dav/calendars/admin/personal/'
+		})
+	})
+
 })
