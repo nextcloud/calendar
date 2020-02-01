@@ -73,6 +73,7 @@ OC.L10N.register(
     "New calendar" : "Neuer Kalender",
     "Creating calendar …" : "Erstelle Kalender …",
     "New calendar with task list" : "Neuer Kalender mit Aufgabenliste",
+    "New subscription from link (read-only)" : "Neues Abonnement aus Link (schreibgeschützt)",
     "Creating subscription …" : "Erstelle Abonnement …",
     "An error occurred, unable to create the calendar." : "Es ist ein Fehler aufgetreten, der Kalender konnte nicht erstellt werden.",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "Bitte einen gültigen Link eingeben ( beginnend mit http://, https://, webcal://, oder webcals://)",

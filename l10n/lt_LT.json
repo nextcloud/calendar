@@ -69,6 +69,7 @@
     "New calendar" : "Naujas kalendorius",
     "Creating calendar …" : "Kuriamas kalendorius…",
     "New calendar with task list" : "Naujas kalendorius su užduočių sąrašu",
+    "New subscription from link (read-only)" : "Nauja prenumerata iš nuorodos (tik skaitymui)",
     "Creating subscription …" : "Kuriama prenumerata…",
     "An error occurred, unable to create the calendar." : "Įvyko klaida, nepavyko sukurti kalendoriaus.",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "Įveskite teisingą nuorodą (prasidedančią http://, https://, webcal:// ar webcals://)",

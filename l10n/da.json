@@ -1,6 +1,9 @@
 { "translations": {
     "Calendar" : "Kalender",
+    "User-Session unexpectedly expired" : "Bruger-Sessionen udløb uventet",
+    "Provided email-address is not valid" : "Leveret e-mailadresse er ikke gyldig ",
     "%s has published the calendar »%s«" : "%s har oprettet en begivenhed i kalenderen »%s«",
+    "Unexpected error sending email. Please contact your administrator." : "Uventet fejl ved afsendelse, venligst kontakt din administrator",
     "Hello," : "Hej,",
     "We wanted to inform you that %s has published the calendar »%s«." : "Vi ønkser at informerer dig om at %s har oprettet en begivenhed i kalenderen »%s«.",
     "Open »%s«" : "Åbn »%s«",

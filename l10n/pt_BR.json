@@ -71,6 +71,7 @@
     "New calendar" : "Novo calendário",
     "Creating calendar …" : "Criando calendário...",
     "New calendar with task list" : "Novo calendário com lista de tarefas",
+    "New subscription from link (read-only)" : "Nova subscrição do link (somente leitura)",
     "Creating subscription …" : "Criando assinatura...",
     "An error occurred, unable to create the calendar." : "Erro ao criar o calendário.",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "Digite um link válido (começando com http://, https://, webcal://, ou webcals://)",

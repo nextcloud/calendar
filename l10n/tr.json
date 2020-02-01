@@ -71,6 +71,7 @@
     "New calendar" : "Takvim ekle",
     "Creating calendar …" : "Takvim oluşturuluyor …",
     "New calendar with task list" : "Görev listesi ile yeni takvim",
+    "New subscription from link (read-only)" : "Bağlantıdan yeni abonelik (salt okunur)",
     "Creating subscription …" : "Abonelik oluşturuluyor …",
     "An error occurred, unable to create the calendar." : "Bir sorun çıktı. Takvim eklenemedi.",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "Lütfen geçerli bir bağlantı yazın (http://, https://, webcal:// ya da webcals:// ile başlayan)",
