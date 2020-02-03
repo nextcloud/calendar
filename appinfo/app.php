@@ -22,5 +22,5 @@ declare(strict_types=1);
  */
 namespace OCA\Calendar\AppInfo;
 
-$app = new Application();
+$app = \OC::$server->query(Application::class);
 $app->registerNavigation();
