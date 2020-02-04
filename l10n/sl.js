@@ -53,6 +53,7 @@ OC.L10N.register(
     "+ New calendar" : "+ Nov koledar",
     "New calendar" : "Nov koledar",
     "Creating calendar …" : "Poteka ustvarjanje koledarja ...",
+    "New calendar with task list" : "Nov koledar s seznamom nalog",
     "Import calendars" : "Uvozi koledarje",
     "Filename" : "Ime datoteke",
     "Cancel" : "Prekliči",
