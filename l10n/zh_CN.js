@@ -73,6 +73,7 @@ OC.L10N.register(
     "New calendar" : "新建日历",
     "Creating calendar …" : "正在创建日历 …",
     "New calendar with task list" : "带任务列表的新日历",
+    "New subscription from link (read-only)" : "来自链接的新订阅（只读）",
     "Creating subscription …" : "正在创建订阅 …",
     "An error occurred, unable to create the calendar." : "发生了错误，无法创建日历。",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "请输入合法的链接（以http://、https://、webcal://、或者webcals://开头）",
@@ -294,6 +295,9 @@ OC.L10N.register(
     "Brainstorm" : "头脑风暴",
     "Baseball" : "棒球",
     "Meet" : "见面",
+    "Planning" : "规划",
+    "Pointing" : "指点",
+    "Retrospective" : "怀旧",
     "Review" : "预览",
     "Office" : "办公",
     "Contributor week" : "贡献者周",
@@ -349,6 +353,7 @@ OC.L10N.register(
     "Travelling" : "旅行中",
     "Journey" : "旅行",
     "Collaborate" : "协作",
+    "Pair" : "配对",
     "Lecture" : "讲座",
     "Seminar" : "研讨会",
     "Photograph" : "照片",
@@ -359,6 +364,7 @@ OC.L10N.register(
     "Wine tasting" : "品酒",
     "Golf" : "高尔夫",
     "Dinner" : "晚餐",
+    "Lunch" : "午餐",
     "Global" : "全球"
 },
 "nplurals=1; plural=0;");
