@@ -4,7 +4,7 @@ language: php
 php:
   - 7.2
   - 7.3
-  - 7.4snapshot
+  - 7.4
 
 addons:
   apt:
@@ -28,13 +28,13 @@ env:
 
 matrix:
   include:
-    - php: 7.4snapshot
+    - php: 7.4
       env: "TEST_SUITE=PACKAGE"
-    - php: 7.4snapshot
+    - php: 7.4
       env: "TEST_SUITE=LINT-PHP"
-    - php: 7.4snapshot
+    - php: 7.4
       env: "TEST_SUITE=TEST-JS"
-    - php: 7.4snapshot
+    - php: 7.4
       env: "CORE_BRANCH=stable18"
     - php: 7.3
       env: "CORE_BRANCH=stable18"
