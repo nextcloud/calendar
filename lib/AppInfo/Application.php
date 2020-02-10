@@ -37,24 +37,4 @@ class Application extends App {
 	public function __construct(array $params=[]) {
 		parent::__construct('calendar', $params);
 	}
-
-	/**
-	 * register navigation entry
-	 */
-	public function registerNavigation():void {
-		$appName = $this->getContainer()->getAppName();
-		$server = $this->getContainer()->getServer();
-
-		$server->getNavigationManager()->add(static function() use ($appName, $server) {
-			return [
-				'id' => $appName,
-				'order' => 5,
-				'href' => $server->getURLGenerator()
-					->linkToRoute('calendar.view.index'),
-				'icon' => $server->getURLGenerator()
-					->imagePath($appName, 'calendar.svg'),
-				'name' => $server->getL10N($appName)->t('Calendar'),
-			];
-		});
-	}
 }

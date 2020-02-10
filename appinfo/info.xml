@@ -39,4 +39,13 @@
 			<step>OCA\Calendar\RepairSteps\CurrentViewNameRepairStep</step>
 		</post-migration>
 	</repair-steps>
+	<navigations>
+		<navigation>
+			<id>calendar</id>
+			<name>Calendar</name>
+			<route>calendar.view.index</route>
+			<icon>calendar.svg</icon>
+			<order>5</order>
+		</navigation>
+	</navigations>
 </info>
