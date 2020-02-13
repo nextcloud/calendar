@@ -295,6 +295,7 @@ OC.L10N.register(
     "Brainstorm" : "Réunion",
     "Baseball" : "Baseball",
     "Meet" : "Rencontre",
+    "Planning" : "Planning",
     "Retrospective" : "Rétrospective",
     "Review" : "Revoir",
     "Office" : "Bureau",
