@@ -1,6 +1,7 @@
 OC.L10N.register(
     "calendar",
     {
+    "loading": "wird gealden",
     "Calendar" : "Kalender",
     "User-Session unexpectedly expired" : "Sitzung unerwartet abgelaufen",
     "Provided email-address is not valid" : "Eingegebene E-Mail-Adresse ist ungültig",
