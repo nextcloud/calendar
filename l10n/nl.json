@@ -71,6 +71,7 @@
     "New calendar" : "Nieuwe agenda",
     "Creating calendar …" : "Creëren agenda ...",
     "New calendar with task list" : "Nieuwe agenda met taak lijst",
+    "New subscription from link (read-only)" : "Nieuw abonnement via link (enkel lezen)",
     "Creating subscription …" : "Creëren abonnement ...",
     "An error occurred, unable to create the calendar." : "Er is een fout opgetreden waardoor het niet mogelijk is om de agenda te creëren.",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "Geef geldige urls op - die moeten starten met http://, https://, webcal:// of webcals://",
@@ -292,6 +293,9 @@
     "Brainstorm" : "Brainstorm",
     "Baseball" : "Baseball",
     "Meet" : "Afspraak",
+    "Planning" : "Planning",
+    "Pointing" : "Wijzend naar",
+    "Retrospective" : "Terugblikkend",
     "Review" : "Voorbeeld",
     "Office" : "Kantoor",
     "Contributor week" : "Bijdrager week",
@@ -328,6 +332,7 @@
     "Exercise" : "Oefenen",
     "Work out" : "Trainen",
     "Working out" : "Trainen",
+    "Gym" : "Turnles",
     "Barber" : "Kapper",
     "Haircut" : "Kapper",
     "Exam" : "Examen",
@@ -346,6 +351,7 @@
     "Travelling" : "Reizen",
     "Journey" : "Reis",
     "Collaborate" : "Samenwerken",
+    "Pair" : "Paar",
     "Lecture" : "Lezing",
     "Seminar" : "Seminarie",
     "Photograph" : "Foto",
@@ -356,6 +362,7 @@
     "Wine tasting" : "Wijnproeverij",
     "Golf" : "Golf",
     "Dinner" : "Diner",
+    "Lunch" : "Lunch",
     "Global" : "Globaal"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

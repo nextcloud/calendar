@@ -13,6 +13,7 @@
     "Copy private link" : "Копирај приватну везу",
     "Download" : "Преузми",
     "Delete" : "Обриши",
+    "An error occurred, unable to delete the calendar." : "Догодила се грешка, не могу да обришем календар.",
     "Calendar link copied to clipboard." : "Веза календара копирана у оставу.",
     "Calendar link could not be copied to clipboard." : "Веза календара није могла да се копира у оставу.",
     "Share link" : "Дели везу",
