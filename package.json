@@ -109,7 +109,7 @@
 		"stylelint-webpack-plugin": "^1.2.3",
 		"terser-webpack-plugin": "^2.3.4",
 		"vue-jest": "^3.0.5",
-		"vue-loader": "^15.8.3",
+		"vue-loader": "^15.9.0",
 		"vue-template-compiler": "^2.6.11",
 		"webpack": "^4.41.5",
 		"webpack-cli": "^3.3.10",
