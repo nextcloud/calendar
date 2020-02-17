@@ -72,6 +72,7 @@
 		</template>
 
 		<AppSidebarTab
+			id="app-sidebar-tab-details"
 			class="app-sidebar-tab"
 			icon="icon-details"
 			:name="$t('calendar', 'Details')"
@@ -134,6 +135,7 @@
 				@saveThisAndAllFuture="saveAndLeave(true)" />
 		</AppSidebarTab>
 		<AppSidebarTab
+			id="app-sidebar-tab-attendees"
 			class="app-sidebar-tab"
 			icon="icon-group"
 			:name="$t('calendar', 'Attendees')"
@@ -159,6 +161,7 @@
 				@saveThisAndAllFuture="saveAndLeave(true)" />
 		</AppSidebarTab>
 		<AppSidebarTab
+			id="app-sidebar-tab-reminders"
 			class="app-sidebar-tab"
 			icon="icon-reminder"
 			:name="$t('calendar', 'Reminders')"
@@ -183,6 +186,7 @@
 				@saveThisAndAllFuture="saveAndLeave(true)" />
 		</AppSidebarTab>
 		<AppSidebarTab
+			id="app-sidebar-tab-repeat"
 			class="app-sidebar-tab"
 			icon="icon-repeat"
 			:name="$t('calendar', 'Repeat')"
