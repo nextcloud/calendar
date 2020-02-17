@@ -21,7 +21,6 @@
 
 <template>
 	<AppNavigationItem
-		v-click-outside="closeShareMenu"
 		:loading="calendar.loading"
 		:title="calendar.displayName || $t('calendar', 'Untitled calendar')"
 		:class="{deleted: !!deleteTimeout, disabled: !calendar.enabled, 'open-sharing': shareMenuOpen}"

@@ -32,14 +32,18 @@
 			:max-height="600"
 			:show-no-results="true"
 			:placeholder="$t('calendar', 'Share with users or groups')"
-			:class="{ 'showContent': inputGiven, 'icon-loading': isLoading }"
+			:class="{ showContent: inputGiven, 'icon-loading': isLoading }"
 			:user-select="true"
 			open-direction="bottom"
 			track-by="user"
 			label="user"
 			@search-change="findSharee"
 			@change="shareCalendar">
-			<span slot="noResult">{{ $t('calendar', 'No users or groups') }}</span>
+			<span slot="noResult">{{
+				isLoading
+					? $t('calendar', 'loading') + '...'
+					: $t('calendar', 'No users or groups')
+			}}</span>
 		</Multiselect>
 	</li>
 </template>
@@ -99,7 +103,7 @@ export default {
 		findSharee: debounce(async function(query) {
 			const hiddenPrincipalSchemes = []
 			const hiddenUrls = []
-			this.calendar.shares.forEach((share) => {
+			this.calendar.shares.forEach(share => {
 				hiddenPrincipalSchemes.push(share.uri)
 			})
 			if (this.$store.getters.getCurrentUserPrincipal) {
@@ -113,14 +117,22 @@ export default {
 			this.usersOrGroups = []
 
 			if (query.length > 0) {
-				const davPromise = this.findShareesFromDav(query, hiddenPrincipalSchemes, hiddenUrls)
-				const ocsPromise = this.findShareesFromCircles(query, hiddenPrincipalSchemes, hiddenUrls)
+				const davPromise = this.findShareesFromDav(
+					query,
+					hiddenPrincipalSchemes,
+					hiddenUrls
+				)
+				const ocsPromise = this.findShareesFromCircles(
+					query,
+					hiddenPrincipalSchemes,
+					hiddenUrls
+				)
 
-				const [davResults, ocsResults] = await Promise.all([davPromise, ocsPromise])
-				this.usersOrGroups = [
-					...davResults,
-					...ocsResults,
-				]
+				const [davResults, ocsResults] = await Promise.all([
+					davPromise,
+					ocsPromise,
+				])
+				this.usersOrGroups = [...davResults, ...ocsResults]
 
 				this.isLoading = false
 				this.inputGiven = true
@@ -181,31 +193,38 @@ export default {
 		async findShareesFromCircles(query, hiddenPrincipals, hiddenUrls) {
 			let results
 			try {
-				results = await HttpClient.get(generateOcsUrl('apps/files_sharing/api/v1') + 'sharees', {
-					params: {
-						format: 'json',
-						search: query,
-						perPage: 200,
-						itemType: 'principals',
-					},
-				})
+				results = await HttpClient.get(
+					generateOcsUrl('apps/files_sharing/api/v1') + 'sharees',
+					{
+						params: {
+							format: 'json',
+							search: query,
+							perPage: 200,
+							itemType: 'principals',
+						},
+					}
+				)
 			} catch (error) {
 				return []
 			}
 
 			const circles = results.data.ocs.data.circles
-			return circles.filter((circle) => {
-				return !hiddenPrincipals.includes('principal:principals/circles/' + circle.value.shareWith)
-			}).map(circle => ({
-				user: circle.label,
-				displayName: circle.label,
-				icon: 'icon-circle',
-				uri: 'principal:principals/circles/' + circle.value.shareWith,
-				isGroup: false,
-				isCircle: true,
-				isNoUser: true,
-				search: query,
-			}))
+			return circles
+				.filter(circle => {
+					return !hiddenPrincipals.includes(
+						'principal:principals/circles/' + circle.value.shareWith
+					)
+				})
+				.map(circle => ({
+					user: circle.label,
+					displayName: circle.label,
+					icon: 'icon-circle',
+					uri: 'principal:principals/circles/' + circle.value.shareWith,
+					isGroup: false,
+					isCircle: true,
+					isNoUser: true,
+					search: query,
+				}))
 		},
 	},
 }

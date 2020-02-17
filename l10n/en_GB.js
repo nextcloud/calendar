@@ -1,6 +1,7 @@
 OC.L10N.register(
     "calendar",
     {
+    "loading": "loading", 
     "Calendar" : "Calendar",
     "%s has published the calendar »%s«" : "%s has published the calendar »%s«",
     "Hello," : "Hello,",
