@@ -1,7 +1,6 @@
 OC.L10N.register(
     "calendar",
     {
-    "Calendar" : "Kalendář",
     "User-Session unexpectedly expired" : "Sezení bylo neočekávaně přerušeno",
     "Provided email-address is not valid" : "Zadaná e-mailová adresa není platná",
     "%s has published the calendar »%s«" : "%s zveřejnil(a) kalendář „%s“",
@@ -11,6 +10,7 @@ OC.L10N.register(
     "We wanted to inform you that %s has published the calendar »%s«." : "Chceme vás informovat, že %s právě zveřejnil/a  kalendář „%s“.",
     "Open »%s«" : "Otevřít „%s“",
     "Cheers!" : "Mějte se!",
+    "Calendar" : "Kalendář",
     "A Calendar app for Nextcloud" : "Kalendář pro Nextcloud",
     "The Calendar app is a user interface for Nextcloud's CalDAV server. Easily sync events from various devices with your Nextcloud and edit them online.\n\n* 🚀 **Integration with other Nextcloud apps!** Currently Contacts - more to come.\n* 🌐 **WebCal Support!** Want to see your favorite team’s matchdays in your calendar? No problem!\n* 🙋 **Attendees!** Invite people to your events\n* ⌚️ **Free/Busy:** See when your attendees are available to meet\n* ⏰ **Reminders!** Get alarms for events inside your browser and via email.\n* 🙈 **We’re not reinventing the wheel!** Based on the great [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries." : "Aplikace Kalendář je uživatelské rozhraní pro CalDAV server, vestavěný v Nextcloud. Jednoduše synchronizujte události z různých zařízení s vaším Nextcloud a upravujte je online.\n\n* 🚀 **Napojení na ostatní Nextcloud aplikace!** V tuto chvíli  Kontakty – a další jsou na cestě.\n* 🌐 **Podpora WebCal!** Chcete vidět shodující se dny svého oblíbeného týmu ve svém kalendáři? Žádný problém!\n* 🙋 **Účastníci!** Pozvěte lidi na své události.\n * ⌚️ **Volný/zaneprázdněný:** Zjistěte, zda jsou vámi zamýšlení účastníci schůzky k dispozici\n * ⏰ **Připomínky!** Dostávejte upozornění události v prohlížeči a e-mailem. \n* 🙈 **Nevynalézáme znovu kolo!** Založeno na skvělých softwarových knihovnách [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) a [fullcalendar](https://github.com/fullcalendar/fullcalendar).",
     "Previous day" : "Předchozí den",

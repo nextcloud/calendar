@@ -1,12 +1,12 @@
 OC.L10N.register(
     "calendar",
     {
-    "Calendar" : "Kalender",
     "%s has published the calendar »%s«" : "%s het die kalender »%s« gepubliseer",
     "Hello," : "Dag,",
     "We wanted to inform you that %s has published the calendar »%s«." : "Ons wil u graag inlig dat %s die kalender »%s« gepubliseer het.",
     "Open »%s«" : "Open »%s«",
     "Cheers!" : "Geluk!",
+    "Calendar" : "Kalender",
     "A Calendar app for Nextcloud" : "'n Kalendertoep vir Nextcloud",
     "Today" : "Vandag",
     "Day" : "Dag",

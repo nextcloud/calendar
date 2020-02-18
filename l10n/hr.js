@@ -1,7 +1,6 @@
 OC.L10N.register(
     "calendar",
     {
-    "Calendar" : "Kalendar",
     "User-Session unexpectedly expired" : "Korisnička sesija neočekivano je istekla",
     "Provided email-address is not valid" : "Unesena adresa e-pošte nije važeća",
     "%s has published the calendar »%s«" : "%s je objavio kalendar »%s«",
@@ -11,6 +10,7 @@ OC.L10N.register(
     "We wanted to inform you that %s has published the calendar »%s«." : "htjeli bismo vas obavijestiti da je %s objavio kalendar »%s«.",
     "Open »%s«" : "Otvori »%s«",
     "Cheers!" : "Bok!",
+    "Calendar" : "Kalendar",
     "A Calendar app for Nextcloud" : "Aplikacija Kalendar za Nextcloud",
     "Previous day" : "Prethodni dan",
     "Previous week" : "Prethodni tjedan",

@@ -1,12 +1,12 @@
 OC.L10N.register(
     "calendar",
     {
-    "Calendar" : "Календарь",
     "%s has published the calendar »%s«" : "%s хэрэглэгч »%s« календарийг нийтлэв",
     "Hello," : "Сайн байна уу",
     "We wanted to inform you that %s has published the calendar »%s«." : "%s хэрэглэгч нь  »%s« календарийг нийтэлснийг үүгээр мэдэгдэе.",
     "Open »%s«" : "»%s« нээх",
     "Cheers!" : "Болж байна!",
+    "Calendar" : "Календарь",
     "Today" : "Өнөөдөр",
     "Day" : "Өдөр",
     "Week" : "Долоо хоног",

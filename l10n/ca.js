@@ -1,7 +1,6 @@
 OC.L10N.register(
     "calendar",
     {
-    "Calendar" : "Calendari",
     "User-Session unexpectedly expired" : "La sessió ha caducat inesperadament",
     "Provided email-address is not valid" : "L'adreça de correu no és vàlida",
     "%s has published the calendar »%s«" : "%s ha publicat el calendari «%s»",
@@ -11,6 +10,7 @@ OC.L10N.register(
     "We wanted to inform you that %s has published the calendar »%s«." : "Us volem informar que %s ha publicat el calendari «%s».",
     "Open »%s«" : "Obre «%s»",
     "Cheers!" : "A reveure!",
+    "Calendar" : "Calendari",
     "A Calendar app for Nextcloud" : "Una aplicació de calendari per al Nextcloud",
     "Previous day" : "Dia anterior",
     "Previous week" : "Setmana anterior",

@@ -1,9 +1,9 @@
 OC.L10N.register(
     "calendar",
     {
-    "Calendar" : "Calendario",
     "Hello," : "Salute %s,",
     "Cheers!" : "Congratulationes!",
+    "Calendar" : "Calendario",
     "Today" : "Hodie",
     "Day" : "Die",
     "Week" : "Septimana",

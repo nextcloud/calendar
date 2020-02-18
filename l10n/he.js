@@ -1,10 +1,10 @@
 OC.L10N.register(
     "calendar",
     {
-    "Calendar" : "יומן",
     "Hello," : "שלום,",
     "Open »%s«" : "פתיחת „%s”",
     "Cheers!" : "ברכותינו!",
+    "Calendar" : "יומן",
     "A Calendar app for Nextcloud" : "יישומון לוח שנה ל־Nextcloud",
     "Today" : "היום",
     "Day" : "יום",

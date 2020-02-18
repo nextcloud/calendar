@@ -1,7 +1,6 @@
 OC.L10N.register(
     "calendar",
     {
-    "Calendar" : "Naptár",
     "User-Session unexpectedly expired" : "Felhasználói folyamat váratlanul lejárt",
     "Provided email-address is not valid" : "A megadott email cím nem érvényes",
     "%s has published the calendar »%s«" : "%s közzétette ezt a naptárt: »%s«",
@@ -11,6 +10,7 @@ OC.L10N.register(
     "We wanted to inform you that %s has published the calendar »%s«." : "Szeretnénk tájékoztatni, hogy %s közzétette ezt a naptárt: %s.",
     "Open »%s«" : "»%s« megnyitása",
     "Cheers!" : "Üdv!",
+    "Calendar" : "Naptár",
     "A Calendar app for Nextcloud" : "Naptár alkalmazás a Nextcloud-hoz",
     "Previous day" : "Előző nap",
     "Previous week" : "Előző hét",

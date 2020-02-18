@@ -1,12 +1,12 @@
 OC.L10N.register(
     "calendar",
     {
-    "Calendar" : "Calendário",
     "%s has published the calendar »%s«" : "%s publicou o calendário »%s«",
     "Hello," : "Olá,",
     "We wanted to inform you that %s has published the calendar »%s«." : "Queremos informar que %s publicou o calendário »%s«.",
     "Open »%s«" : "Abrir »%s«",
     "Cheers!" : "Parabéns!",
+    "Calendar" : "Calendário",
     "Today" : "Hoje",
     "Day" : "Dia",
     "Week" : "Semana",

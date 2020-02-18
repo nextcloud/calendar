@@ -1,8 +1,8 @@
 OC.L10N.register(
     "calendar",
     {
-    "Calendar" : "کیلنڈر",
     "Cheers!" : "واہ!",
+    "Calendar" : "کیلنڈر",
     "Today" : "آج",
     "Week" : "ہفتہ",
     "Month" : "ماہ",

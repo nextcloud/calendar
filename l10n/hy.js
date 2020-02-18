@@ -1,8 +1,8 @@
 OC.L10N.register(
     "calendar",
     {
-    "Calendar" : "Օրացույց",
     "Cheers!" : "Չը՛խկ",
+    "Calendar" : "Օրացույց",
     "Today" : "Այսօր",
     "Day" : "Օր",
     "Week" : "Շաբաթ",

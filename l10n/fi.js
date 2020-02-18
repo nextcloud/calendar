@@ -1,13 +1,13 @@
 OC.L10N.register(
     "calendar",
     {
-    "Calendar" : "Kalenteri",
     "Provided email-address is not valid" : "Annettu sähköpostiosoite ei ole kelvollinen",
     "%s has published the calendar »%s«" : "%s on julkaissut kalenterin  »%s«",
     "Hello," : "Hei,",
     "We wanted to inform you that %s has published the calendar »%s«." : "Halusimme ilmoittaa että %s on julkaissut kalenterin »%s«.",
     "Open »%s«" : "Avaa »%s«",
     "Cheers!" : "Kiitos!",
+    "Calendar" : "Kalenteri",
     "A Calendar app for Nextcloud" : "Kalenterisovellus Nextcloudille",
     "Previous day" : "Edellinen päivä",
     "Previous week" : "Edellinen viikko",

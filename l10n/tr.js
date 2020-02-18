@@ -1,7 +1,6 @@
 OC.L10N.register(
     "calendar",
     {
-    "Calendar" : "Takvim",
     "User-Session unexpectedly expired" : "Kullanıcı oturumu beklenmedik şekilde kapatıldı",
     "Provided email-address is not valid" : "Belirtilen e-posta adresi geçersiz",
     "%s has published the calendar »%s«" : "%s, »%s« takvimini yayınladı",
@@ -11,6 +10,7 @@ OC.L10N.register(
     "We wanted to inform you that %s has published the calendar »%s«." : "Bu ileti %s tarafından »%s« takviminin yayınlandığını bildirmek için gönderilmiştir.",
     "Open »%s«" : "»%s« Aç",
     "Cheers!" : "Görüşmek üzere",
+    "Calendar" : "Takvim",
     "A Calendar app for Nextcloud" : "Nextcloud takvim uygulaması",
     "The Calendar app is a user interface for Nextcloud's CalDAV server. Easily sync events from various devices with your Nextcloud and edit them online.\n\n* 🚀 **Integration with other Nextcloud apps!** Currently Contacts - more to come.\n* 🌐 **WebCal Support!** Want to see your favorite team’s matchdays in your calendar? No problem!\n* 🙋 **Attendees!** Invite people to your events\n* ⌚️ **Free/Busy:** See when your attendees are available to meet\n* ⏰ **Reminders!** Get alarms for events inside your browser and via email.\n* 🙈 **We’re not reinventing the wheel!** Based on the great [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries." : "Takvim uygulaması Nextcloud CalDAV sunucusunun kullanıcı arayüzüdür. Çeşitli aygıtlar üzerindeki etkinlikleri kolayca Nextcloud hesabınız ile eşitler ve çevrimiçi olarak düzenlemenizi sağlar.\n\n* 🚀 **Diğer Nextcloud uygulamaları ile bütünleşiktir!** Şu anda Kişiler, diğerleri yolda.\n* 🌐 **WebCal Desteği!** Tuttuğunuz takımın maçlarını takvimde görmek isterseniz sorun değil!\n* 🙋 **Katılımcılar!** Etkinliklerinize kişileri çağırabilirsiniz.\n* ⌚️ **Serbest/Meşgul:** Katılımcılarınız ile ne zaman görüşebileceğinize bakabilirsiniz\n* ⏰ **Anımsatıcılar!** Etkinlik bildirimlerini web tarayıcınızdan ve e-posta olarak alın.\n* 🙈 **Tekerleği yeniden keşfetmiyoruz!** Harika [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) ve [fullcalendar](https://github.com/fullcalendar/fullcalendar) kitaplıklarını kullanıyoruz.",
     "Previous day" : "Önceki gün",

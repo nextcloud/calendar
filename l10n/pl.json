@@ -1,5 +1,4 @@
 { "translations": {
-    "Calendar" : "Kalendarz",
     "User-Session unexpectedly expired" : "Sesja użytkownika nieoczekiwanie wygasła",
     "Provided email-address is not valid" : "Podany adres e-mail jest nieprawidłowy",
     "%s has published the calendar »%s«" : "%s opublikował kalendarz »%s«",
@@ -9,6 +8,7 @@
     "We wanted to inform you that %s has published the calendar »%s«." : "Chcieliśmy poinformować, że %s opublikował kalendarz %s.",
     "Open »%s«" : "Otwórz »%s«",
     "Cheers!" : "Zdrówko!",
+    "Calendar" : "Kalendarz",
     "A Calendar app for Nextcloud" : "Aplikacja Kalendarz dla Nextcloud",
     "The Calendar app is a user interface for Nextcloud's CalDAV server. Easily sync events from various devices with your Nextcloud and edit them online.\n\n* 🚀 **Integration with other Nextcloud apps!** Currently Contacts - more to come.\n* 🌐 **WebCal Support!** Want to see your favorite team’s matchdays in your calendar? No problem!\n* 🙋 **Attendees!** Invite people to your events\n* ⌚️ **Free/Busy:** See when your attendees are available to meet\n* ⏰ **Reminders!** Get alarms for events inside your browser and via email.\n* 🙈 **We’re not reinventing the wheel!** Based on the great [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries." : "Aplikacja Kalendarz to interfejs użytkownika dla serwera CalDAV Nextcloud. Łatwo synchronizuj wydarzenia z różnych urządzeń z urządzeniem Nextcloud i edytuj je online.\n\n* 🚀 ** Integracja z innymi aplikacjami Nextcloud! ** Obecnie kontakty - jeszcze przed nami.\n* 🌐 ** Wsparcie WebCal! ** Chcesz zobaczyć swoje ulubione mecze w kalendarzu? Nie ma problemu!\n* 🙋 ** Uczestnicy! ** Zaproś ludzi do swoich wydarzeń.\n* 🙈 ** Nie odkrywamy koła! ** Na podstawie świetnego [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) i [fullcalendar] (https://github.com/fullcalendar/fullcalendar) bibliotek.",
     "Previous day" : "Poprzedni dzień",

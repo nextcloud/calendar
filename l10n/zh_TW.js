@@ -1,12 +1,12 @@
 OC.L10N.register(
     "calendar",
     {
-    "Calendar" : "日曆",
     "%s has published the calendar »%s«" : "%s 發佈了日曆 »%s«",
     "Hello," : "嗨，",
     "We wanted to inform you that %s has published the calendar »%s«." : "通知你 %s 發佈了日曆 »%s«.",
     "Open »%s«" : "開啟 »%s«",
     "Cheers!" : "太棒了！",
+    "Calendar" : "日曆",
     "A Calendar app for Nextcloud" : "Nextcloud 的日曆應用程式",
     "Previous day" : "前一日",
     "Previous week" : "前週",

@@ -1,7 +1,6 @@
 OC.L10N.register(
     "calendar",
     {
-    "Calendar" : "Kalender",
     "User-Session unexpectedly expired" : "Gebruikerssessie onverwacht vervallen",
     "Provided email-address is not valid" : "Het opgegeven e-mailadres is niet geldig",
     "%s has published the calendar »%s«" : "%s heeft de kalender gepubliceerd »%s«",
@@ -11,6 +10,7 @@ OC.L10N.register(
     "We wanted to inform you that %s has published the calendar »%s«." : "We willen je laten weten dat %s de kalender heeft gepubliceerd »%s«.",
     "Open »%s«" : "Open »%s«",
     "Cheers!" : "Proficiat!",
+    "Calendar" : "Kalender",
     "A Calendar app for Nextcloud" : "Een agenda app voor Nextcloud",
     "The Calendar app is a user interface for Nextcloud's CalDAV server. Easily sync events from various devices with your Nextcloud and edit them online.\n\n* 🚀 **Integration with other Nextcloud apps!** Currently Contacts - more to come.\n* 🌐 **WebCal Support!** Want to see your favorite team’s matchdays in your calendar? No problem!\n* 🙋 **Attendees!** Invite people to your events\n* ⌚️ **Free/Busy:** See when your attendees are available to meet\n* ⏰ **Reminders!** Get alarms for events inside your browser and via email.\n* 🙈 **We’re not reinventing the wheel!** Based on the great [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries." : "De Agenda app is een gebruikersinterface voor de Nextcloud's CalDAV server. Eenvoudig synchroniseren van afspraken vanuit verschillende apparaten met jouw Nextcloud en online bewerken ervan.\n\n* 🚀 **Integratie met andere Nextcloud apps!** Momenteel Contactpersonen - meer volgt later.\n* 🌐 **WebCal Ondersteuning!** Wil je van de favoriete team de wedstrijddagen in je agenda? Geen probleem!\n* 🙋 **Genodigden!** Nodig mensen uit voor je afspraken.\n* ⌚️ **Vrij/Bezig:** Vind uit welke deelnemers tijd hebben voor een ontmoeting\n* ⏰ **Herinneringen!** Wordt in je browser en via e-mail gewaarschuwd voor afspraken.\n* 🙈 **We vinden het wiel niet opnieuw uit!** Gebaseerd op de fraaie [c-dav library](https://github.com/nextcloudevert/cdav-librarydavclient.js), [ical.js](https://github.com/mozilla-comm/ical.js) en [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries.",
     "Previous day" : "Vorige dag",

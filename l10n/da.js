@@ -1,7 +1,6 @@
 OC.L10N.register(
     "calendar",
     {
-    "Calendar" : "Kalender",
     "User-Session unexpectedly expired" : "Bruger-Sessionen udløb uventet",
     "Provided email-address is not valid" : "Leveret e-mailadresse er ikke gyldig ",
     "%s has published the calendar »%s«" : "%s har oprettet en begivenhed i kalenderen »%s«",
@@ -11,6 +10,7 @@ OC.L10N.register(
     "We wanted to inform you that %s has published the calendar »%s«." : "Vi ønkser at informerer dig om at %s har oprettet en begivenhed i kalenderen »%s«.",
     "Open »%s«" : "Åbn »%s«",
     "Cheers!" : "Hav en fortsat god dag.",
+    "Calendar" : "Kalender",
     "A Calendar app for Nextcloud" : "En kalender-app til Nextcloud",
     "Previous day" : "Forrige dag",
     "Previous week" : "Forrige uge",

@@ -1,7 +1,6 @@
 OC.L10N.register(
     "calendar",
     {
-    "Calendar" : "Kalender",
     "User-Session unexpectedly expired" : "Sitzung unerwartet abgelaufen",
     "Provided email-address is not valid" : "Eingegebene E-Mail-Adresse ist ungültig",
     "%s has published the calendar »%s«" : "%s hat den Kalender »%s« veröffentlicht",
@@ -11,6 +10,7 @@ OC.L10N.register(
     "We wanted to inform you that %s has published the calendar »%s«." : "Wir wollen Sie informieren, dass %s den Kalender %s veröffentlicht hat.",
     "Open »%s«" : "»%s« öffnen",
     "Cheers!" : "Noch einen schönen Tag!",
+    "Calendar" : "Kalender",
     "A Calendar app for Nextcloud" : "Eine Kalender-App für Nextcloud",
     "The Calendar app is a user interface for Nextcloud's CalDAV server. Easily sync events from various devices with your Nextcloud and edit them online.\n\n* 🚀 **Integration with other Nextcloud apps!** Currently Contacts - more to come.\n* 🌐 **WebCal Support!** Want to see your favorite team’s matchdays in your calendar? No problem!\n* 🙋 **Attendees!** Invite people to your events\n* ⌚️ **Free/Busy:** See when your attendees are available to meet\n* ⏰ **Reminders!** Get alarms for events inside your browser and via email.\n* 🙈 **We’re not reinventing the wheel!** Based on the great [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries." : "Die Calendar App ist die Oberfläche für Nextcloud's CalDAV Server. Termine können auf einfache Weise über verschiedene Geräte hinweg mit Nextcloud synchronisiert und online bearbeitet werden.\n\n* 🚀 ** Integration mit anderen Nextcloud Apps!** Aktuell Contacts - weitere folgen.\n* 🌐 **WebCal Unterstützung!** Möchten Sie die Spieltage Ihres Lieblingsteams in Ihrem  Kalender verfolgen? Kein Problem!\n* 🙋 **Teilnehmer!** Laden Sie Teilnehmer zu Ihren Terminen ein.\n* ⌚️ **Frei/Besetzt:** Sehen Sie, wann Ihre Teilnehmer für ein Treffen verfügbar sind\n* ⏰ **Erinnerungen!** Erhalten Sie Alarme für Termine innerhalb Ihres Browsers und per E-Mail.\n* 🙈 **Wir erfinden das Rad nicht neu!** Die App basiert auf den großartigen [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) und [fullcalendar](https://github.com/fullcalendar/fullcalendar) Bibliotheken.",
     "Previous day" : "Vorheriger Tag",

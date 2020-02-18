@@ -1,8 +1,8 @@
 OC.L10N.register(
     "calendar",
     {
-    "Calendar" : "ปฏิทิน",
     "Cheers!" : "ไชโย!",
+    "Calendar" : "ปฏิทิน",
     "Today" : "วันนี้",
     "Day" : "วัน",
     "Week" : "สัปดาห์",

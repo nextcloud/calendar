@@ -1,12 +1,12 @@
 OC.L10N.register(
     "calendar",
     {
-    "Calendar" : "Lịch",
     "%s has published the calendar »%s«" : "%s vừa đăng tải thông tin vào lịch »%s«",
     "Hello," : "Xin chào,",
     "We wanted to inform you that %s has published the calendar »%s«." : "Chúng tôi muốn thông báo với bạn rằng %s vừa đăng tải thông tin vào lịch calendar »%s«.",
     "Open »%s«" : "Mở »%s«",
     "Cheers!" : "Xin chúc mừng!",
+    "Calendar" : "Lịch",
     "A Calendar app for Nextcloud" : "Một ứng dụng Lịch nhắc nhở cho Hệ thống",
     "Today" : "Hôm nay",
     "Day" : "Ngày",

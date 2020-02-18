@@ -1,5 +1,4 @@
 { "translations": {
-    "Calendar" : "Kalender",
     "User-Session unexpectedly expired" : "Sitzung unerwartet abgelaufen",
     "Provided email-address is not valid" : "Eingegebene E-Mail-Adresse ist ungültig",
     "%s has published the calendar »%s«" : "%s hat den Kalender »%s« veröffentlicht",
@@ -9,6 +8,7 @@
     "We wanted to inform you that %s has published the calendar »%s«." : "Wir möchten Dich informieren, dass %s den Kalender »%s« veröffentlicht hat.",
     "Open »%s«" : "»%s« öffnen",
     "Cheers!" : "Noch einen schönen Tag!",
+    "Calendar" : "Kalender",
     "A Calendar app for Nextcloud" : "Eine Kalender-App für Nextcloud",
     "The Calendar app is a user interface for Nextcloud's CalDAV server. Easily sync events from various devices with your Nextcloud and edit them online.\n\n* 🚀 **Integration with other Nextcloud apps!** Currently Contacts - more to come.\n* 🌐 **WebCal Support!** Want to see your favorite team’s matchdays in your calendar? No problem!\n* 🙋 **Attendees!** Invite people to your events\n* ⌚️ **Free/Busy:** See when your attendees are available to meet\n* ⏰ **Reminders!** Get alarms for events inside your browser and via email.\n* 🙈 **We’re not reinventing the wheel!** Based on the great [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries." : "Die Kalender-App ist eine Benutzeroberfläche für den CalDAV-Server von Nextcloud. Synchronisiere Termine von verschiedenen Geräten mit Nextcloud und bearbeite sie online.\n\n🚀 **Integration mit anderen Nextcloud-Anwendungen!** Derzeit Kontakte — weitere sind in Planung.\n🌐 **WebCal-Unterstützung!** Möchten Du die Spieltage Deiner Lieblingsmannschaft im Kalender angezeigt bekommen? Kein Problem!\n* 🙋 **Teilnehmer!** Lade Leute zu Deinen Veranstaltungen ein.\n* ⌚️ **Frei/Besetzt:** Sehe, wann Deine Teilnehmer für ein Treffen verfügbar sind\n* ⏰ **Erinnerungen!** Erhalte Alarme für Termine innerhalb des Browsers und per E-Mail.\n* 🙈 **Wir erfinden das Rad nicht neu!** Basierend auf den großartigen Bibliotheken [c-dav library.js](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) und [fullcalendar](https://github.com/fullcalendar/fullcalendar).",
     "Previous day" : "Vorheriger Tag",

@@ -1,7 +1,6 @@
 OC.L10N.register(
     "calendar",
     {
-    "Calendar" : "Kalendár",
     "User-Session unexpectedly expired" : "Používateľská relácia sa neočakávane prerušila",
     "Provided email-address is not valid" : "Zadaná adresa e-mailu nie je platná",
     "%s has published the calendar »%s«" : "Používateľ %s zverejnil kalendár %s",
@@ -11,6 +10,7 @@ OC.L10N.register(
     "We wanted to inform you that %s has published the calendar »%s«." : "Chceme vás upozorniť, že používateľ %s zverejnil kalendár %s",
     "Open »%s«" : "Otvoriť »%s«",
     "Cheers!" : "Pekný deň!",
+    "Calendar" : "Kalendár",
     "A Calendar app for Nextcloud" : "Aplikácia Kalendár pre Nextcloud",
     "Previous day" : "Predchádzajúci deň",
     "Previous week" : "Predchádzajúci týždeň",

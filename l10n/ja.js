@@ -1,7 +1,6 @@
 OC.L10N.register(
     "calendar",
     {
-    "Calendar" : "カレンダー",
     "User-Session unexpectedly expired" : "ユーザーセッションが予期せず期限切れになりました",
     "Provided email-address is not valid" : "メールアドレスが有効ではありません",
     "%s has published the calendar »%s«" : "%sをカレンダー »%s«に登録しました",
@@ -11,6 +10,7 @@ OC.L10N.register(
     "We wanted to inform you that %s has published the calendar »%s«." : "%sがカレンダー»%s«に登録されましたのでお知らせします。",
     "Open »%s«" : "»%s«を開く",
     "Cheers!" : "それでは！",
+    "Calendar" : "カレンダー",
     "A Calendar app for Nextcloud" : "NextCloudのカレンダーアプリ",
     "Previous day" : "前日",
     "Previous week" : "前週",

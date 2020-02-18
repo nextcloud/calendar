@@ -1,8 +1,8 @@
 OC.L10N.register(
     "calendar",
     {
-    "Calendar" : "Kalenner",
     "Cheers!" : "Prost!",
+    "Calendar" : "Kalenner",
     "Today" : "Haut",
     "Day" : "Dag",
     "Week" : "Woch",

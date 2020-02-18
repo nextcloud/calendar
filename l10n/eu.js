@@ -1,7 +1,6 @@
 OC.L10N.register(
     "calendar",
     {
-    "Calendar" : "Egutegia",
     "User-Session unexpectedly expired" : "Erabiltzaile-saioa ustekabean iraungi da",
     "Provided email-address is not valid" : "Emandako helbide elektronikoa ez da baliozkoa",
     "%s has published the calendar »%s«" : "%s erabiltzaileak »%s« egutegia argitaratu du",
@@ -11,6 +10,7 @@ OC.L10N.register(
     "We wanted to inform you that %s has published the calendar »%s«." : "Jakinarazi nahi dizugu %s erabiltzaileak »%s« egutegia argitaratu duela",
     "Open »%s«" : " Ireki »%s«",
     "Cheers!" : "Topa!",
+    "Calendar" : "Egutegia",
     "A Calendar app for Nextcloud" : "Nextclouderako egutegi app-a",
     "Previous day" : "Aurreko eguna",
     "Previous week" : "Aurreko astea",

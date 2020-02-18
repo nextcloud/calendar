@@ -1,7 +1,6 @@
 OC.L10N.register(
     "calendar",
     {
-    "Calendar" : "Kalendorius",
     "User-Session unexpectedly expired" : "Netikėtai pasibaigė naudotojo seanso galiojimas",
     "Provided email-address is not valid" : "Pateiktas el. pašto adresas nėra teisingas",
     "%s has published the calendar »%s«" : "%s paskelbė kalendorių \"%s\"",
@@ -11,6 +10,7 @@ OC.L10N.register(
     "We wanted to inform you that %s has published the calendar »%s«." : "Norėtume informuoti, kad %s paskelbė kalendorių \"%s\"",
     "Open »%s«" : "Atverti \"%s\"",
     "Cheers!" : "Sveikinimai!",
+    "Calendar" : "Kalendorius",
     "A Calendar app for Nextcloud" : "Kalendoriaus programėlė, skirta Nextcloud",
     "The Calendar app is a user interface for Nextcloud's CalDAV server. Easily sync events from various devices with your Nextcloud and edit them online.\n\n* 🚀 **Integration with other Nextcloud apps!** Currently Contacts - more to come.\n* 🌐 **WebCal Support!** Want to see your favorite team’s matchdays in your calendar? No problem!\n* 🙋 **Attendees!** Invite people to your events\n* ⌚️ **Free/Busy:** See when your attendees are available to meet\n* ⏰ **Reminders!** Get alarms for events inside your browser and via email.\n* 🙈 **We’re not reinventing the wheel!** Based on the great [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries." : "Kalendoriaus programėlė yra Nextcloud CalDAV serverio naudotojo sąsaja. Lengvai sinchronizuokite įvykius iš įvairių įrenginių, naudodami Nextcloud ir redaguokite juos internete.\n\n* 🚀 **Integracija su kitomis Nextcloud programėlėmis!** Šiuo metu tik su Adresatais - greitu laiku ir su kitomis.\n* 🌐 **WebCal palaikymas!** Norite savo kalendoriuje matyti mėgstamos komandos rungtynių dienas? Jokių problemų!\n* 🙋 *Kviestiniai!** Pakvieskite žmones prisijungti prie savo įvykių.\n* ⌚️ **Laisva/Užimta:** Matykite, kada jūsų kviestiniai gali susitikti\n* ⏰ **Priminimai!** Gaukite įvykių signalus savo naršyklėje ar el. paštu.\n* 🙈 **Mes neišradinėjame dviračio!** Pagrįsta puikiomis [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) ir [fullcalendar](https://github.com/fullcalendar/fullcalendar) bibliotekomis.",
     "Previous day" : "Ankstesnė diena",

@@ -1,7 +1,6 @@
 OC.L10N.register(
     "calendar",
     {
-    "Calendar" : "Koledar",
     "User-Session unexpectedly expired" : "Uporabniška seja se je nepričakovano končala",
     "Provided email-address is not valid" : "Podan elektronski naslov ni veljaven naslov",
     "%s has published the calendar »%s«" : "%s objavi koledar » %s «",
@@ -11,6 +10,7 @@ OC.L10N.register(
     "We wanted to inform you that %s has published the calendar »%s«." : "obveščamo vas, da je uporabnik %s objavil koledar »%s«.",
     "Open »%s«" : "Odpri »%s«",
     "Cheers!" : "Lep pozdrav!",
+    "Calendar" : "Koledar",
     "A Calendar app for Nextcloud" : "Program za urejanje koledarja Nextcloud",
     "The Calendar app is a user interface for Nextcloud's CalDAV server. Easily sync events from various devices with your Nextcloud and edit them online.\n\n* 🚀 **Integration with other Nextcloud apps!** Currently Contacts - more to come.\n* 🌐 **WebCal Support!** Want to see your favorite team’s matchdays in your calendar? No problem!\n* 🙋 **Attendees!** Invite people to your events\n* ⌚️ **Free/Busy:** See when your attendees are available to meet\n* ⏰ **Reminders!** Get alarms for events inside your browser and via email.\n* 🙈 **We’re not reinventing the wheel!** Based on the great [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries." : "Program Koledar je uporabniški vmesnik v okolju Nextcloud za strežnik CalDAV. Omogoča enostavno usklajevanje dogodkov z različnih naprav in urejanje na spletu.\n\n* **Podpira druge programe Nextcloud!** Trenutno Stike, drugi bodo na voljo kmalu.\n* **Omogočena je podpora za WebCal!** Ali želite spremljati tekme priljubljenega moštva iz svojega koledarja? Ni problema!\n* **Povabila udeležencem!** Pošljite vabila na dogodke drugim.\n* **Zasedeno/Prosto!** Sproti preverite ali so potencialni udeleženci prosti za sestanke.\n* **Opomniki!** Prejmite alarme in obvestila v brskalniku in po elektronski pošti.\n* **Ne odkrivamo po nepotrebnem spet kolesa!** Zasnovano na odličnih knjižnicah [c-dav](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) in [fullcalendar](https://github.com/fullcalendar/fullcalendar).",
     "Previous day" : "Predhodni dan",

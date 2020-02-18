@@ -1,7 +1,6 @@
 OC.L10N.register(
     "calendar",
     {
-    "Calendar" : "달력",
     "User-Session unexpectedly expired" : "사용자 세션이 예끼치 않게 만료되었습니다.",
     "Provided email-address is not valid" : "지정한 파일이 사진이 아님",
     "%s has published the calendar »%s«" : "%s 님이 달력 \"%s\"을(를) 공개했습니다",
@@ -11,6 +10,7 @@ OC.L10N.register(
     "We wanted to inform you that %s has published the calendar »%s«." : "%s 님이 달력 \"%s\"을(를) 공개했음을 알려 드립니다.",
     "Open »%s«" : "%s 열기",
     "Cheers!" : "감사합니다!",
+    "Calendar" : "달력",
     "A Calendar app for Nextcloud" : "Nextcloud 달력 앱",
     "Previous day" : "이전날",
     "Previous week" : "이전주",

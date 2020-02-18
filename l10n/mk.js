@@ -1,7 +1,6 @@
 OC.L10N.register(
     "calendar",
     {
-    "Calendar" : "Календар",
     "Provided email-address is not valid" : "Адресата на е-пошта не е правилно внесена",
     "%s has published the calendar »%s«" : "%s Објави календар »%s«",
     "Unexpected error sending email. Please contact your administrator." : "Неочекувана грешка при испраќање на е-пошта. Контактирајте го администраторот.",
@@ -10,6 +9,7 @@ OC.L10N.register(
     "We wanted to inform you that %s has published the calendar »%s«." : "Сакаме да те информираме дека %s објави календар »%s«.",
     "Open »%s«" : "Отвори »%s«",
     "Cheers!" : "Поздрав!",
+    "Calendar" : "Календар",
     "A Calendar app for Nextcloud" : "Календар апликација за Nextcloud",
     "Previous day" : "Предходен ден",
     "Previous week" : "Предходна недела",

@@ -1,7 +1,6 @@
 OC.L10N.register(
     "calendar",
     {
-    "Calendar" : "Календар",
     "User-Session unexpectedly expired" : "Термін дії сесії користувача несподівано завершився",
     "Provided email-address is not valid" : "Надано некоректну адресу електронної пошти ",
     "%s has published the calendar »%s«" : "%s опублікував календар »%s«",
@@ -11,6 +10,7 @@ OC.L10N.register(
     "We wanted to inform you that %s has published the calendar »%s«." : "We wanted to inform you that %s has published the calendar »%s.",
     "Open »%s«" : "Відкритт 1%s",
     "Cheers!" : "На все добре!",
+    "Calendar" : "Календар",
     "A Calendar app for Nextcloud" : "Звстосунок \"Календар\" ддя Nextcloud",
     "The Calendar app is a user interface for Nextcloud's CalDAV server. Easily sync events from various devices with your Nextcloud and edit them online.\n\n* 🚀 **Integration with other Nextcloud apps!** Currently Contacts - more to come.\n* 🌐 **WebCal Support!** Want to see your favorite team’s matchdays in your calendar? No problem!\n* 🙋 **Attendees!** Invite people to your events\n* ⌚️ **Free/Busy:** See when your attendees are available to meet\n* ⏰ **Reminders!** Get alarms for events inside your browser and via email.\n* 🙈 **We’re not reinventing the wheel!** Based on the great [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries." : "Застосунок Календар - це інтерфейс користувача до сервера Nextcloud CalDAV. З легкістю синхронізуйте події між вашими пристроями і вашим Nextcloud і редагуйте їх онлайн.\n\n* 🚀 **Інтеграція з іншими застосунками Nextcloud!** В даний час - Контакти. Інші - скоро.\n* 🌐 **Підтримка WebCal!** Бажаєте бачити у своєму календарі дати матчів вашої улюбленої команди? Без проблем!\n* 🙋 **Учасники!** Запросіть інших людей до участі у вашіх подіях\n* ⌚️ **Зайнято/Вільно:** Побачте коли ваші учасники доступні для зустрічі\n* ⏰ **Нагадувалки!** Отримайте сигнал-нагадування про подію у вашому браузері і за допомогою електронної пошти.\n* 🙈 **Ми не винаходжуємо велосипеда знову!** Базується на чудовій [бібліотеці c-dav](https://github.com/nextcloud/cdav-library), а також бібліотеках [ical.js](https://github.com/mozilla-comm/ical.js) і [fullcalendar](https://github.com/fullcalendar/fullcalendar).",
     "Previous day" : "Попередій день",

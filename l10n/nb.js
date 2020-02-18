@@ -1,7 +1,6 @@
 OC.L10N.register(
     "calendar",
     {
-    "Calendar" : "Kalender",
     "Provided email-address is not valid" : "Oppgitt e-postadresse er ikke gyldig",
     "%s has published the calendar »%s«" : "%s har publisert kalenderen \"%s\"",
     "Successfully sent email to " : "E-post er sendt til",
@@ -9,6 +8,7 @@ OC.L10N.register(
     "We wanted to inform you that %s has published the calendar »%s«." : "Vi ønsker å informere deg om at %s har publisert kalenderen \"%s\".",
     "Open »%s«" : "Åpne \"%s\"",
     "Cheers!" : "Ha det!",
+    "Calendar" : "Kalender",
     "A Calendar app for Nextcloud" : "En kalender til Nextcloud",
     "Previous day" : "Forrige dag",
     "Previous week" : "Forrige uke",

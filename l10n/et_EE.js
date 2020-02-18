@@ -1,12 +1,12 @@
 OC.L10N.register(
     "calendar",
     {
-    "Calendar" : "Kalender",
     "%s has published the calendar »%s«" : "%s avaldas kalendri »%s«",
     "Hello," : "Tere,",
     "We wanted to inform you that %s has published the calendar »%s«." : "Tahtsime Sind informeerida, et %s on avaldanud kalendri»%s«.",
     "Open »%s«" : "Ava »%s«",
     "Cheers!" : "Tervist!",
+    "Calendar" : "Kalender",
     "Today" : "Täna",
     "Day" : "Päev",
     "Week" : "Nädal",

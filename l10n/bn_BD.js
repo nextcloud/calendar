@@ -1,8 +1,8 @@
 OC.L10N.register(
     "calendar",
     {
-    "Calendar" : "দিনপঞ্জী",
     "Cheers!" : "শুভেচ্ছা!",
+    "Calendar" : "দিনপঞ্জী",
     "Today" : "আজ",
     "Day" : "দিবস",
     "Week" : "সপ্তাহ",
