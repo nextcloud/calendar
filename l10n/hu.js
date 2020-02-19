@@ -84,6 +84,7 @@ OC.L10N.register(
     "Categories" : "Kategóriák",
     "Add this as a new category" : "Hozzáadás új kategóriaként",
     "Presentation" : "Bemutató",
+    "Movie" : "Film",
     "Cinema" : "Mozi",
     "Review" : "Visszajelzés",
     "Mail" : "Levél",
