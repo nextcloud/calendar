@@ -209,6 +209,11 @@ export default {
 			locale: (state) => state.settings.momentLocale,
 		}),
 		canEdit() {
+			// Always allow editing if this alarm has an absolute trigger
+			if (this.isAbsoluteAlarm()) {
+				return true
+			}
+
 			// We don't allow editing when the alarm is
 			// related to the event's end
 			if (!this.alarm.relativeIsRelatedToStart) {
