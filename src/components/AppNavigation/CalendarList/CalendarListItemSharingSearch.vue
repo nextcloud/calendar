@@ -81,6 +81,8 @@ export default {
 		 * @param {Boolean} data.isCircle is this a circle-group ?
 		 */
 		shareCalendar({ user, displayName, uri, isGroup, isCircle }) {
+			uri = decodeURI(uri)
+			user = decodeURI(user)
 			this.$store.dispatch('shareCalendar', {
 				calendar: this.calendar,
 				user,
@@ -145,7 +147,7 @@ export default {
 			}
 
 			return results.reduce((list, result) => {
-				if (hiddenPrincipals.includes(result.principalScheme)) {
+				if (hiddenPrincipals.includes(decodeURI(result.principalScheme))) {
 					return list
 				}
 				if (hiddenUrls.includes(result.url)) {
