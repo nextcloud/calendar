@@ -64,6 +64,7 @@ OC.L10N.register(
     "Tentative" : "測試的",
     "Cancelled" : "已取消",
     "Categories" : "分類",
+    "Movie" : "電影",
     "Cinema" : "電影院",
     "Review" : "檢視",
     "Mail" : "電子郵件",
