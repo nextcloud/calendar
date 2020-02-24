@@ -59,6 +59,7 @@
 				:locale="fullCalendarLocale"
 				:first-day="firstDay"
 				:selectable="isSelectable"
+				:time-grid-event-min-height="16"
 				:select-mirror="true"
 				:lazy-fetching="false"
 				:nav-links="true"
