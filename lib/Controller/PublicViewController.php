@@ -106,6 +106,7 @@ class PublicViewController extends Controller {
 	 */
 	private function publicIndex(string $token,
 								 string $renderAs):TemplateResponse {
+		$defaultEventLimit = $this->config->getAppValue($this->appName, 'eventLimit', 'yes');
 		$defaultInitialView = $this->config->getAppValue($this->appName, 'currentView', 'dayGridMonth');
 		$defaultShowWeekends = $this->config->getAppValue($this->appName, 'showWeekends', 'yes');
 		$defaultWeekNumbers = $this->config->getAppValue($this->appName, 'showWeekNr', 'no');
@@ -115,6 +116,7 @@ class PublicViewController extends Controller {
 		$appVersion = $this->config->getAppValue($this->appName, 'installed_version');
 
 		$this->initialStateService->provideInitialState($this->appName, 'app_version', $appVersion);
+		$this->initialStateService->provideInitialState($this->appName, 'event_limit', ($defaultEventLimit === 'yes'));
 		$this->initialStateService->provideInitialState($this->appName, 'first_run', false);
 		$this->initialStateService->provideInitialState($this->appName, 'initial_view', $defaultInitialView);
 		$this->initialStateService->provideInitialState($this->appName, 'show_weekends', ($defaultShowWeekends === 'yes'));

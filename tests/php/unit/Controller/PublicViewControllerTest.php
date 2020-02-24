@@ -63,26 +63,30 @@ class PublicViewControllerTest extends TestCase {
 	public function testPublicIndexWithBranding():void {
 		$this->config->expects($this->at(0))
 			->method('getAppValue')
+			->with('calendar', 'eventLimit', 'yes')
+			->willReturn('no');
+		$this->config->expects($this->at(1))
+			->method('getAppValue')
 			->with('calendar', 'currentView', 'dayGridMonth')
 			->willReturn('defaultCurrentView');
-		$this->config->expects($this->at(1))
+		$this->config->expects($this->at(2))
 			->method('getAppValue')
 			->with('calendar', 'showWeekends', 'yes')
 			->willReturn('no');
-		$this->config->expects($this->at(2))
+		$this->config->expects($this->at(3))
 			->method('getAppValue')
 			->with('calendar', 'showWeekNr', 'no')
 			->willReturn('yes');
-		$this->config->expects($this->at(3))
+		$this->config->expects($this->at(4))
 			->method('getAppValue')
 			->with('calendar', 'skipPopover', 'yes')
 			->willReturn('yes');
-		$this->config->expects($this->at(4))
+		$this->config->expects($this->at(5))
 			->method('getAppValue')
 			->with('calendar', 'timezone', 'automatic')
 			->willReturn('defaultTimezone');
 
-		$this->config->expects($this->at(5))
+		$this->config->expects($this->at(6))
 			->method('getAppValue')
 			->with('calendar', 'installed_version')
 			->willReturn('1.0.0');
@@ -114,23 +118,26 @@ class PublicViewControllerTest extends TestCase {
 			->with('calendar', 'app_version', '1.0.0');
 		$this->initialStateService->expects($this->at(1))
 			->method('provideInitialState')
-			->with('calendar', 'first_run', false);
+			->with('calendar', 'event_limit', false);
 		$this->initialStateService->expects($this->at(2))
 			->method('provideInitialState')
-			->with('calendar', 'initial_view', 'defaultCurrentView');
+			->with('calendar', 'first_run', false);
 		$this->initialStateService->expects($this->at(3))
 			->method('provideInitialState')
-			->with('calendar', 'show_weekends', false);
+			->with('calendar', 'initial_view', 'defaultCurrentView');
 		$this->initialStateService->expects($this->at(4))
 			->method('provideInitialState')
-			->with('calendar', 'show_week_numbers', true);
+			->with('calendar', 'show_weekends', false);
 		$this->initialStateService->expects($this->at(5))
 			->method('provideInitialState')
-			->with('calendar', 'skip_popover', true);
+			->with('calendar', 'show_week_numbers', true);
 		$this->initialStateService->expects($this->at(6))
 			->method('provideInitialState')
-			->with('calendar', 'talk_enabled', false);
+			->with('calendar', 'skip_popover', true);
 		$this->initialStateService->expects($this->at(7))
+			->method('provideInitialState')
+			->with('calendar', 'talk_enabled', false);
+		$this->initialStateService->expects($this->at(8))
 			->method('provideInitialState')
 			->with('calendar', 'timezone', 'defaultTimezone');
 
@@ -148,26 +155,30 @@ class PublicViewControllerTest extends TestCase {
 	public function testPublicIndexForEmbedding():void {
 		$this->config->expects($this->at(0))
 			->method('getAppValue')
+			->with('calendar', 'eventLimit', 'yes')
+			->willReturn('yes');
+		$this->config->expects($this->at(1))
+			->method('getAppValue')
 			->with('calendar', 'currentView', 'dayGridMonth')
 			->willReturn('defaultCurrentView');
-		$this->config->expects($this->at(1))
+		$this->config->expects($this->at(2))
 			->method('getAppValue')
 			->with('calendar', 'showWeekends', 'yes')
 			->willReturn('no');
-		$this->config->expects($this->at(2))
+		$this->config->expects($this->at(3))
 			->method('getAppValue')
 			->with('calendar', 'showWeekNr', 'no')
 			->willReturn('yes');
-		$this->config->expects($this->at(3))
+		$this->config->expects($this->at(4))
 			->method('getAppValue')
 			->with('calendar', 'skipPopover', 'yes')
 			->willReturn('yes');
-		$this->config->expects($this->at(4))
+		$this->config->expects($this->at(5))
 			->method('getAppValue')
 			->with('calendar', 'timezone', 'automatic')
 			->willReturn('defaultTimezone');
 
-		$this->config->expects($this->at(5))
+		$this->config->expects($this->at(6))
 			->method('getAppValue')
 			->with('calendar', 'installed_version')
 			->willReturn('1.0.0');
@@ -199,23 +210,26 @@ class PublicViewControllerTest extends TestCase {
 			->with('calendar', 'app_version', '1.0.0');
 		$this->initialStateService->expects($this->at(1))
 			->method('provideInitialState')
-			->with('calendar', 'first_run', false);
+			->with('calendar', 'event_limit', true);
 		$this->initialStateService->expects($this->at(2))
 			->method('provideInitialState')
-			->with('calendar', 'initial_view', 'defaultCurrentView');
+			->with('calendar', 'first_run', false);
 		$this->initialStateService->expects($this->at(3))
 			->method('provideInitialState')
-			->with('calendar', 'show_weekends', false);
+			->with('calendar', 'initial_view', 'defaultCurrentView');
 		$this->initialStateService->expects($this->at(4))
 			->method('provideInitialState')
-			->with('calendar', 'show_week_numbers', true);
+			->with('calendar', 'show_weekends', false);
 		$this->initialStateService->expects($this->at(5))
 			->method('provideInitialState')
-			->with('calendar', 'skip_popover', true);
+			->with('calendar', 'show_week_numbers', true);
 		$this->initialStateService->expects($this->at(6))
 			->method('provideInitialState')
-			->with('calendar', 'talk_enabled', false);
+			->with('calendar', 'skip_popover', true);
 		$this->initialStateService->expects($this->at(7))
+			->method('provideInitialState')
+			->with('calendar', 'talk_enabled', false);
+		$this->initialStateService->expects($this->at(8))
 			->method('provideInitialState')
 			->with('calendar', 'timezone', 'defaultTimezone');
 

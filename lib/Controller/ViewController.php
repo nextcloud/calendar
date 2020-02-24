@@ -86,6 +86,7 @@ class ViewController extends Controller {
 	 * @return TemplateResponse
 	 */
 	public function index():TemplateResponse {
+		$defaultEventLimit = $this->config->getAppValue($this->appName, 'eventLimit', 'yes');
 		$defaultInitialView = $this->config->getAppValue($this->appName, 'currentView', 'dayGridMonth');
 		$defaultShowWeekends = $this->config->getAppValue($this->appName, 'showWeekends', 'yes');
 		$defaultWeekNumbers = $this->config->getAppValue($this->appName, 'showWeekNr', 'no');
@@ -93,6 +94,7 @@ class ViewController extends Controller {
 		$defaultTimezone = $this->config->getAppValue($this->appName, 'timezone', 'automatic');
 
 		$appVersion = $this->config->getAppValue($this->appName, 'installed_version');
+		$eventLimit = $this->config->getUserValue($this->userId, $this->appName, 'eventLimit', $defaultEventLimit) === 'yes';
 		$firstRun = $this->config->getUserValue($this->userId, $this->appName, 'firstRun', 'yes') === 'yes';
 		$initialView = $this->getView($this->config->getUserValue($this->userId, $this->appName, 'currentView', $defaultInitialView));
 		$showWeekends = $this->config->getUserValue($this->userId, $this->appName, 'showWeekends', $defaultShowWeekends) === 'yes';
@@ -102,6 +104,7 @@ class ViewController extends Controller {
 		$timezone = $this->config->getUserValue($this->userId, $this->appName, 'timezone', $defaultTimezone);
 
 		$this->initialStateService->provideInitialState($this->appName, 'app_version', $appVersion);
+		$this->initialStateService->provideInitialState($this->appName, 'event_limit', $eventLimit);
 		$this->initialStateService->provideInitialState($this->appName, 'first_run', $firstRun);
 		$this->initialStateService->provideInitialState($this->appName, 'initial_view', $initialView);
 		$this->initialStateService->provideInitialState($this->appName, 'show_weekends', $showWeekends);

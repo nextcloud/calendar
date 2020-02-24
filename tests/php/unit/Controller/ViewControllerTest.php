@@ -67,50 +67,58 @@ class ViewControllerTest extends TestCase {
 	public function testIndex():void {
 		$this->config->expects($this->at(0))
 			->method('getAppValue')
+			->with('calendar', 'eventLimit', 'yes')
+			->willReturn('defaultEventLimit');
+		$this->config->expects($this->at(1))
+			->method('getAppValue')
 			->with('calendar', 'currentView', 'dayGridMonth')
 			->willReturn('defaultCurrentView');
-		$this->config->expects($this->at(1))
+		$this->config->expects($this->at(2))
 			->method('getAppValue')
 			->with('calendar', 'showWeekends', 'yes')
 			->willReturn('defaultShowWeekends');
-		$this->config->expects($this->at(2))
+		$this->config->expects($this->at(3))
 			->method('getAppValue')
 			->with('calendar', 'showWeekNr', 'no')
 			->willReturn('defaultShowWeekNr');
-		$this->config->expects($this->at(3))
+		$this->config->expects($this->at(4))
 			->method('getAppValue')
 			->with('calendar', 'skipPopover', 'no')
 			->willReturn('defaultSkipPopover');
-		$this->config->expects($this->at(4))
+		$this->config->expects($this->at(5))
 			->method('getAppValue')
 			->with('calendar', 'timezone', 'automatic')
 			->willReturn('defaultTimezone');
 
-		$this->config->expects($this->at(5))
+		$this->config->expects($this->at(6))
 			->method('getAppValue')
 			->with('calendar', 'installed_version')
 			->willReturn('1.0.0');
-		$this->config->expects($this->at(6))
+		$this->config->expects($this->at(7))
+			->method('getUserValue')
+			->with('user123', 'calendar', 'eventLimit', 'defaultEventLimit')
+			->willReturn('yes');
+		$this->config->expects($this->at(8))
 			->method('getUserValue')
 			->with('user123', 'calendar', 'firstRun', 'yes')
 			->willReturn('yes');
-		$this->config->expects($this->at(7))
+		$this->config->expects($this->at(9))
 			->method('getUserValue')
 			->with('user123', 'calendar', 'currentView', 'defaultCurrentView')
 			->willReturn('timeGridWeek');
-		$this->config->expects($this->at(8))
+		$this->config->expects($this->at(10))
 			->method('getUserValue')
 			->with('user123', 'calendar', 'showWeekends', 'defaultShowWeekends')
 			->willReturn('yes');
-		$this->config->expects($this->at(9))
+		$this->config->expects($this->at(11))
 			->method('getUserValue')
 			->with('user123', 'calendar', 'showWeekNr', 'defaultShowWeekNr')
 			->willReturn('yes');
-		$this->config->expects($this->at(10))
+		$this->config->expects($this->at(12))
 			->method('getUserValue')
 			->with('user123', 'calendar', 'skipPopover', 'defaultSkipPopover')
 			->willReturn('yes');
-		$this->config->expects($this->at(11))
+		$this->config->expects($this->at(13))
 			->method('getUserValue')
 			->with('user123', 'calendar', 'timezone', 'defaultTimezone')
 			->willReturn('Europe/Berlin');
@@ -124,23 +132,26 @@ class ViewControllerTest extends TestCase {
 			->with('calendar', 'app_version', '1.0.0');
 		$this->initialStateService->expects($this->at(1))
 			->method('provideInitialState')
-			->with('calendar', 'first_run', true);
+			->with('calendar', 'event_limit', true);
 		$this->initialStateService->expects($this->at(2))
 			->method('provideInitialState')
-			->with('calendar', 'initial_view', 'timeGridWeek');
+			->with('calendar', 'first_run', true);
 		$this->initialStateService->expects($this->at(3))
 			->method('provideInitialState')
-			->with('calendar', 'show_weekends', true);
+			->with('calendar', 'initial_view', 'timeGridWeek');
 		$this->initialStateService->expects($this->at(4))
 			->method('provideInitialState')
-			->with('calendar', 'show_week_numbers', true);
+			->with('calendar', 'show_weekends', true);
 		$this->initialStateService->expects($this->at(5))
 			->method('provideInitialState')
-			->with('calendar', 'skip_popover', true);
+			->with('calendar', 'show_week_numbers', true);
 		$this->initialStateService->expects($this->at(6))
 			->method('provideInitialState')
-			->with('calendar', 'talk_enabled', true);
+			->with('calendar', 'skip_popover', true);
 		$this->initialStateService->expects($this->at(7))
+			->method('provideInitialState')
+			->with('calendar', 'talk_enabled', true);
+		$this->initialStateService->expects($this->at(8))
 			->method('provideInitialState')
 			->with('calendar', 'timezone', 'Europe/Berlin');
 
@@ -161,50 +172,58 @@ class ViewControllerTest extends TestCase {
 	public function testIndexViewFix(string $savedView, string $expectedView):void {
 		$this->config->expects($this->at(0))
 			->method('getAppValue')
+			->with('calendar', 'eventLimit', 'yes')
+			->willReturn('defaultEventLimit');
+		$this->config->expects($this->at(1))
+			->method('getAppValue')
 			->with('calendar', 'currentView', 'dayGridMonth')
 			->willReturn('defaultCurrentView');
-		$this->config->expects($this->at(1))
+		$this->config->expects($this->at(2))
 			->method('getAppValue')
 			->with('calendar', 'showWeekends', 'yes')
 			->willReturn('defaultShowWeekends');
-		$this->config->expects($this->at(2))
+		$this->config->expects($this->at(3))
 			->method('getAppValue')
 			->with('calendar', 'showWeekNr', 'no')
 			->willReturn('defaultShowWeekNr');
-		$this->config->expects($this->at(3))
+		$this->config->expects($this->at(4))
 			->method('getAppValue')
 			->with('calendar', 'skipPopover', 'no')
 			->willReturn('defaultSkipPopover');
-		$this->config->expects($this->at(4))
+		$this->config->expects($this->at(5))
 			->method('getAppValue')
 			->with('calendar', 'timezone', 'automatic')
 			->willReturn('defaultTimezone');
 
-		$this->config->expects($this->at(5))
+		$this->config->expects($this->at(6))
 			->method('getAppValue')
 			->with('calendar', 'installed_version')
 			->willReturn('1.0.0');
-		$this->config->expects($this->at(6))
+		$this->config->expects($this->at(7))
+			->method('getUserValue')
+			->with('user123', 'calendar', 'eventLimit', 'defaultEventLimit')
+			->willReturn('yes');
+		$this->config->expects($this->at(8))
 			->method('getUserValue')
 			->with('user123', 'calendar', 'firstRun', 'yes')
 			->willReturn('yes');
-		$this->config->expects($this->at(7))
+		$this->config->expects($this->at(9))
 			->method('getUserValue')
 			->with('user123', 'calendar', 'currentView', 'defaultCurrentView')
 			->willReturn($savedView);
-		$this->config->expects($this->at(8))
+		$this->config->expects($this->at(10))
 			->method('getUserValue')
 			->with('user123', 'calendar', 'showWeekends', 'defaultShowWeekends')
 			->willReturn('yes');
-		$this->config->expects($this->at(9))
+		$this->config->expects($this->at(11))
 			->method('getUserValue')
 			->with('user123', 'calendar', 'showWeekNr', 'defaultShowWeekNr')
 			->willReturn('yes');
-		$this->config->expects($this->at(10))
+		$this->config->expects($this->at(12))
 			->method('getUserValue')
 			->with('user123', 'calendar', 'skipPopover', 'defaultSkipPopover')
 			->willReturn('yes');
-		$this->config->expects($this->at(11))
+		$this->config->expects($this->at(13))
 			->method('getUserValue')
 			->with('user123', 'calendar', 'timezone', 'defaultTimezone')
 			->willReturn('Europe/Berlin');
@@ -218,23 +237,26 @@ class ViewControllerTest extends TestCase {
 			->with('calendar', 'app_version', '1.0.0');
 		$this->initialStateService->expects($this->at(1))
 			->method('provideInitialState')
-			->with('calendar', 'first_run', true);
+			->with('calendar', 'event_limit', true);
 		$this->initialStateService->expects($this->at(2))
 			->method('provideInitialState')
-			->with('calendar', 'initial_view', $expectedView);
+			->with('calendar', 'first_run', true);
 		$this->initialStateService->expects($this->at(3))
 			->method('provideInitialState')
-			->with('calendar', 'show_weekends', true);
+			->with('calendar', 'initial_view', $expectedView);
 		$this->initialStateService->expects($this->at(4))
 			->method('provideInitialState')
-			->with('calendar', 'show_week_numbers', true);
+			->with('calendar', 'show_weekends', true);
 		$this->initialStateService->expects($this->at(5))
 			->method('provideInitialState')
-			->with('calendar', 'skip_popover', true);
+			->with('calendar', 'show_week_numbers', true);
 		$this->initialStateService->expects($this->at(6))
 			->method('provideInitialState')
-			->with('calendar', 'talk_enabled', true);
+			->with('calendar', 'skip_popover', true);
 		$this->initialStateService->expects($this->at(7))
+			->method('provideInitialState')
+			->with('calendar', 'talk_enabled', true);
+		$this->initialStateService->expects($this->at(8))
 			->method('provideInitialState')
 			->with('calendar', 'timezone', 'Europe/Berlin');
 
