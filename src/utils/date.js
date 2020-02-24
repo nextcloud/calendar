@@ -62,7 +62,13 @@ export function getDateFromFirstdayParam(firstDayParam) {
 		return dateFactory()
 	}
 
-	return new Date(firstDayParam)
+	const [year, month, date] = firstDayParam.split('-')
+		.map((str) => parseInt(str, 10))
+	const dateObject = dateFactory()
+	dateObject.setFullYear(year, month - 1, date)
+	dateObject.setHours(0, 0, 0, 0)
+
+	return dateObject
 }
 
 /**

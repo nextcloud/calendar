@@ -51,12 +51,25 @@ describe('utils/alarms test suite', () => {
 		const date1 = getDateFromFirstdayParam('2019-01-01')
 		const date2 = getDateFromFirstdayParam('2019-12-31')
 
+		const expectedTimezoneOffset = new Date().getTimezoneOffset()
+
 		expect(date1.getFullYear()).toEqual(2019)
 		expect(date1.getMonth()).toEqual(0)
 		expect(date1.getDate()).toEqual(1)
+		expect(date1.getHours()).toEqual(0)
+		expect(date1.getMinutes()).toEqual(0)
+		expect(date1.getSeconds()).toEqual(0)
+		expect(date1.getMilliseconds()).toEqual(0)
+		expect(date1.getTimezoneOffset()).toEqual(expectedTimezoneOffset)
+
 		expect(date2.getFullYear()).toEqual(2019)
 		expect(date2.getMonth()).toEqual(11)
 		expect(date2.getDate()).toEqual(31)
+		expect(date2.getHours()).toEqual(0)
+		expect(date2.getMinutes()).toEqual(0)
+		expect(date2.getSeconds()).toEqual(0)
+		expect(date2.getMilliseconds()).toEqual(0)
+		expect(date2.getTimezoneOffset()).toEqual(expectedTimezoneOffset)
 	})
 
 	it('shoud get YYYYMMDD from a given first day-param', () => {
