@@ -24,6 +24,7 @@ namespace OCA\Calendar\Controller;
 
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
+use OCP\IInitialStateService;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use ChristophWurst\Nextcloud\Testing\TestCase;
@@ -39,6 +40,9 @@ class PublicViewControllerTest extends TestCase {
 	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	private $config;
 
+	/** @var IInitialStateService|\PHPUnit_Framework_MockObject_MockObject */
+	private $initialStateService;
+
 	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
 	private $urlGenerator;
 
@@ -49,10 +53,11 @@ class PublicViewControllerTest extends TestCase {
 		$this->appName = 'calendar';
 		$this->request = $this->createMock(IRequest::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->initialStateService = $this->createMock(IInitialStateService::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 
 		$this->controller = new PublicViewController($this->appName, $this->request,
-			$this->config, $this->urlGenerator);
+			$this->config, $this->initialStateService, $this->urlGenerator);
 	}
 
 	public function testPublicIndexWithBranding():void {
@@ -104,18 +109,35 @@ class PublicViewControllerTest extends TestCase {
 			->with('imagePath456')
 			->willReturn('absoluteImagePath456');
 
+		$this->initialStateService->expects($this->at(0))
+			->method('provideInitialState')
+			->with('calendar', 'app_version', '1.0.0');
+		$this->initialStateService->expects($this->at(1))
+			->method('provideInitialState')
+			->with('calendar', 'first_run', false);
+		$this->initialStateService->expects($this->at(2))
+			->method('provideInitialState')
+			->with('calendar', 'initial_view', 'defaultCurrentView');
+		$this->initialStateService->expects($this->at(3))
+			->method('provideInitialState')
+			->with('calendar', 'show_weekends', false);
+		$this->initialStateService->expects($this->at(4))
+			->method('provideInitialState')
+			->with('calendar', 'show_week_numbers', true);
+		$this->initialStateService->expects($this->at(5))
+			->method('provideInitialState')
+			->with('calendar', 'skip_popover', true);
+		$this->initialStateService->expects($this->at(6))
+			->method('provideInitialState')
+			->with('calendar', 'talk_enabled', false);
+		$this->initialStateService->expects($this->at(7))
+			->method('provideInitialState')
+			->with('calendar', 'timezone', 'defaultTimezone');
+
 		$response = $this->controller->publicIndexWithBranding('');
 
 		$this->assertInstanceOf(TemplateResponse::class, $response);
 		$this->assertEquals([
-			'app_version' => '1.0.0',
-			'first_run' => false,
-			'initial_view' => 'defaultCurrentView',
-			'show_weekends' => false,
-			'show_week_numbers' => true,
-			'skip_popover' => true,
-			'talk_enabled' => false,
-			'timezone' => 'defaultTimezone',
 			'share_url' => 'protocol://host123/456',
 			'preview_image' => 'absoluteImagePath456'
 		], $response->getParams());
@@ -172,18 +194,35 @@ class PublicViewControllerTest extends TestCase {
 			->with('imagePath456')
 			->willReturn('absoluteImagePath456');
 
+		$this->initialStateService->expects($this->at(0))
+			->method('provideInitialState')
+			->with('calendar', 'app_version', '1.0.0');
+		$this->initialStateService->expects($this->at(1))
+			->method('provideInitialState')
+			->with('calendar', 'first_run', false);
+		$this->initialStateService->expects($this->at(2))
+			->method('provideInitialState')
+			->with('calendar', 'initial_view', 'defaultCurrentView');
+		$this->initialStateService->expects($this->at(3))
+			->method('provideInitialState')
+			->with('calendar', 'show_weekends', false);
+		$this->initialStateService->expects($this->at(4))
+			->method('provideInitialState')
+			->with('calendar', 'show_week_numbers', true);
+		$this->initialStateService->expects($this->at(5))
+			->method('provideInitialState')
+			->with('calendar', 'skip_popover', true);
+		$this->initialStateService->expects($this->at(6))
+			->method('provideInitialState')
+			->with('calendar', 'talk_enabled', false);
+		$this->initialStateService->expects($this->at(7))
+			->method('provideInitialState')
+			->with('calendar', 'timezone', 'defaultTimezone');
+
 		$response = $this->controller->publicIndexForEmbedding('');
 
 		$this->assertInstanceOf(TemplateResponse::class, $response);
 		$this->assertEquals([
-			'app_version' => '1.0.0',
-			'first_run' => false,
-			'initial_view' => 'defaultCurrentView',
-			'show_weekends' => false,
-			'show_week_numbers' => true,
-			'skip_popover' => true,
-			'talk_enabled' => false,
-			'timezone' => 'defaultTimezone',
 			'share_url' => 'protocol://host123/456',
 			'preview_image' => 'absoluteImagePath456'
 		], $response->getParams());

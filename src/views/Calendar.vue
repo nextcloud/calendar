@@ -98,7 +98,6 @@ import { Content } from '@nextcloud/vue/dist/Components/Content'
 import debounce from 'debounce'
 import { uidToHexColor } from '../utils/color.js'
 import client from '../services/caldavService.js'
-import { getConfigValueFromHiddenInput } from '../utils/settings.js'
 import {
 	dateFactory,
 	getUnixTimestampFromDate,
@@ -130,6 +129,7 @@ import loadMomentLocalization from '../utils/moment.js'
 import eventLimitText from '../fullcalendar/eventLimitText.js'
 import windowResize from '../fullcalendar/windowResize.js'
 import dayRender from '../fullcalendar/dayRender.js'
+import { loadState } from '@nextcloud/initial-state'
 
 export default {
 	name: 'Calendar',
@@ -291,13 +291,13 @@ export default {
 	},
 	async beforeMount() {
 		this.$store.commit('loadSettingsFromServer', {
-			appVersion: getConfigValueFromHiddenInput('app-version'),
-			firstRun: getConfigValueFromHiddenInput('first-run') === 'true',
-			showWeekends: getConfigValueFromHiddenInput('show-weekends') === 'true',
-			showWeekNumbers: getConfigValueFromHiddenInput('show-week-numbers') === 'true',
-			skipPopover: getConfigValueFromHiddenInput('skip-popover') === 'true',
-			talkEnabled: getConfigValueFromHiddenInput('talk-enabled') === 'true',
-			timezone: getConfigValueFromHiddenInput('timezone'),
+			appVersion: loadState('calendar', 'app_version'),
+			firstRun: loadState('calendar', 'first_run'),
+			showWeekends: loadState('calendar', 'show_weekends'),
+			showWeekNumbers: loadState('calendar', 'show_week_numbers'),
+			skipPopover: loadState('calendar', 'skip_popover'),
+			talkEnabled: loadState('calendar', 'talk_enabled'),
+			timezone: loadState('calendar', 'timezone'),
 		})
 		this.$store.dispatch('initializeCalendarJsConfig')
 

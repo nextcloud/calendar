@@ -1,5 +1,5 @@
 /**
- * @copyright Copyright (c) 2019 Georg Ehrke
+ * @copyright Copyright (c) 2020 Georg Ehrke
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
  * @license GNU AGPL version 3 or any later version
@@ -18,8 +18,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-import { getConfigValueFromHiddenInput } from './settings.js'
+import { loadState } from '@nextcloud/initial-state'
 
 /**
  * Gets the initial view
@@ -27,7 +26,11 @@ import { getConfigValueFromHiddenInput } from './settings.js'
  * @returns {String}
  */
 export function getInitialView() {
-	return getConfigValueFromHiddenInput('initial-view') || 'dayGridMonth'
+	try {
+		return loadState('calendar', 'initial_view')
+	} catch (error) {
+		return 'dayGridMonth'
+	}
 }
 
 /**

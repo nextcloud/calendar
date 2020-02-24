@@ -26,6 +26,7 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
+use OCP\IInitialStateService;
 use OCP\IRequest;
 
 /**
@@ -46,6 +47,11 @@ class ViewController extends Controller {
 	private $userId;
 
 	/**
+	 * @var IInitialStateService
+	 */
+	private $initialStateService;
+
+	/**
 	 * @var IAppManager
 	 */
 	private $appManager;
@@ -53,18 +59,21 @@ class ViewController extends Controller {
 	/**
 	 * @param string $appName
 	 * @param IRequest $request an instance of the request
-	 * @param IAppManager $appManager
 	 * @param IConfig $config
+	 * @param IInitialStateService $initialStateService
+	 * @param IAppManager $appManager
 	 * @param string $userId
 	 */
 	public function __construct(string $appName,
 								IRequest $request,
 								IConfig $config,
+								IInitialStateService $initialStateService,
 								IAppManager $appManager,
 								?string $userId) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->userId = $userId;
+		$this->initialStateService = $initialStateService;
 		$this->appManager = $appManager;
 	}
 
@@ -83,16 +92,25 @@ class ViewController extends Controller {
 		$defaultSkipPopover = $this->config->getAppValue($this->appName, 'skipPopover', 'no');
 		$defaultTimezone = $this->config->getAppValue($this->appName, 'timezone', 'automatic');
 
-		return new TemplateResponse($this->appName, 'main', [
-			'app_version' => $this->config->getAppValue($this->appName, 'installed_version'),
-			'first_run' => $this->config->getUserValue($this->userId, $this->appName, 'firstRun', 'yes') === 'yes',
-			'initial_view' => $this->getView($this->config->getUserValue($this->userId, $this->appName, 'currentView', $defaultInitialView)),
-			'show_weekends' => $this->config->getUserValue($this->userId, $this->appName, 'showWeekends', $defaultShowWeekends) === 'yes',
-			'show_week_numbers' => $this->config->getUserValue($this->userId, $this->appName, 'showWeekNr', $defaultWeekNumbers) === 'yes',
-			'skip_popover' => $this->config->getUserValue($this->userId, $this->appName, 'skipPopover', $defaultSkipPopover) === 'yes',
-			'talk_enabled' => $this->appManager->isEnabledForUser('spreed'),
-			'timezone' => $this->config->getUserValue($this->userId, $this->appName, 'timezone', $defaultTimezone),
-		]);
+		$appVersion = $this->config->getAppValue($this->appName, 'installed_version');
+		$firstRun = $this->config->getUserValue($this->userId, $this->appName, 'firstRun', 'yes') === 'yes';
+		$initialView = $this->getView($this->config->getUserValue($this->userId, $this->appName, 'currentView', $defaultInitialView));
+		$showWeekends = $this->config->getUserValue($this->userId, $this->appName, 'showWeekends', $defaultShowWeekends) === 'yes';
+		$showWeekNumbers = $this->config->getUserValue($this->userId, $this->appName, 'showWeekNr', $defaultWeekNumbers) === 'yes';
+		$skipPopover = $this->config->getUserValue($this->userId, $this->appName, 'skipPopover', $defaultSkipPopover) === 'yes';
+		$talkEnabled = $this->appManager->isEnabledForUser('spreed');
+		$timezone = $this->config->getUserValue($this->userId, $this->appName, 'timezone', $defaultTimezone);
+
+		$this->initialStateService->provideInitialState($this->appName, 'app_version', $appVersion);
+		$this->initialStateService->provideInitialState($this->appName, 'first_run', $firstRun);
+		$this->initialStateService->provideInitialState($this->appName, 'initial_view', $initialView);
+		$this->initialStateService->provideInitialState($this->appName, 'show_weekends', $showWeekends);
+		$this->initialStateService->provideInitialState($this->appName, 'show_week_numbers', $showWeekNumbers);
+		$this->initialStateService->provideInitialState($this->appName, 'skip_popover', $skipPopover);
+		$this->initialStateService->provideInitialState($this->appName, 'talk_enabled', $talkEnabled);
+		$this->initialStateService->provideInitialState($this->appName, 'timezone', $timezone);
+
+		return new TemplateResponse($this->appName, 'main');
 	}
 
 	/**
