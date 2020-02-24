@@ -90,8 +90,7 @@
 	opacity: .5;
 }
 
-.fc td.fc-day.fc-sat,
-.fc td.fc-day.fc-sun {
+.fc td.fc-day.nc-calendar-fc-day-of-weekend {
 	background-color: var(--color-background-dark);
 }
 
@@ -141,32 +140,22 @@
 	}
 }
 
-.fc-today.fc-sat:not(.fc-day-header),
-.fc-today.fc-sun:not(.fc-day-header) {
+.fc-today.nc-calendar-fc-day-of-weekend:not(.fc-day-header) {
 	background-color: var(--color-background-dark) !important;
 }
 
-.fc-today.fc-mon:not(.fc-day-header),
-.fc-today.fc-tue:not(.fc-day-header),
-.fc-today.fc-wed:not(.fc-day-header),
-.fc-today.fc-thu:not(.fc-day-header),
-.fc-today.fc-fri:not(.fc-day-header) {
+.fc-today.nc-calendar-fc-day-of-workweek:not(.fc-day-header) {
 	background-color: var(--color-main-background) !important;
 }
 
-.fc-sat,
-.fc-sun {
+.nc-calendar-fc-day-of-weekend {
 	.fc-week-number {
 		background-color: var(--color-background-darker) !important;
 		color: var(--color-text-maxcontrast) !important;
 	}
 }
 
-.fc-mon,
-.fc-tue,
-.fc-wed,
-.fc-thu,
-.fc-fri {
+.nc-calendar-fc-day-of-workweek {
 	.fc-week-number {
 		background-color: var(--color-background-dark) !important;
 		color: var(--color-text-maxcontrast) !important;
