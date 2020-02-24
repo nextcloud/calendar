@@ -33,6 +33,17 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 		translate
 			.mockImplementation((app, str) => str)
 
+		const event11Start = new Date(2020, 1, 1, 10, 0, 0, 0);
+		const event11End = new Date(2020, 1, 1, 15, 0, 0, 0);
+		const event12Start = new Date(2020, 1, 2, 10, 0, 0, 0);
+		const event12End = new Date(2020, 1, 2, 15, 0, 0, 0);
+		const event13Start = new Date(2020, 1, 3, 10, 0, 0, 0);
+		const event13End = new Date(2020, 1, 3, 15, 0, 0, 0);
+		const event21Start = new Date(2020, 5, 5, 0, 0, 0, 0);
+		const event21End = new Date(2020, 5, 6, 0, 0, 0, 0);
+		const event31Start = new Date(2020, 6, 10, 10, 0, 0, 0);
+		const event31End = new Date(2020, 6, 10, 10, 0, 0, 0);
+
 		const eventComponentSet1 = [{
 			id: '1-1',
 			// To title on purpose
@@ -41,12 +52,12 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 			canModifyAllDay: jest.fn().mockReturnValue(false),
 			startDate: {
 				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: 'js-date-1-1-start'
+					jsDate: event11Start
 				})
 			},
 			endDate: {
 				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: 'js-date-1-1-end'
+					jsDate: event11End
 				})
 			},
 			hasComponent: jest.fn().mockReturnValue(false),
@@ -58,12 +69,12 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 			canModifyAllDay: jest.fn().mockReturnValue(false),
 			startDate: {
 				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: 'js-date-1-2-start'
+					jsDate: event12Start
 				})
 			},
 			endDate: {
 				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: 'js-date-1-2-end'
+					jsDate: event12End
 				})
 			},
 			hasComponent: jest.fn().mockReturnValue(false),
@@ -75,12 +86,12 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 			canModifyAllDay: jest.fn().mockReturnValue(false),
 			startDate: {
 				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: 'js-date-1-3-start'
+					jsDate: event13Start
 				})
 			},
 			endDate: {
 				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: 'js-date-1-3-end'
+					jsDate: event13End
 				})
 			},
 			hasComponent: jest.fn().mockReturnValue(true),
@@ -93,12 +104,12 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 			canModifyAllDay: jest.fn().mockReturnValue(true),
 			startDate: {
 				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: 'js-date-2-1-start'
+					jsDate: event21Start
 				})
 			},
 			endDate: {
 				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: 'js-date-2-1-end'
+					jsDate: event21End
 				})
 			},
 			hasComponent: jest.fn().mockReturnValue(false),
@@ -111,12 +122,12 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 			canModifyAllDay: jest.fn().mockReturnValue(true),
 			startDate: {
 				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: 'js-date-3-1-start'
+					jsDate: event31Start
 				})
 			},
 			endDate: {
 				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: 'js-date-3-1-end'
+					jsDate: event31End
 				})
 			},
 			hasComponent: jest.fn().mockReturnValue(false),
@@ -146,7 +157,7 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 				.mockReturnValueOnce(eventComponentSet4),
 		}]
 		const start = new Date(Date.UTC(2019, 0, 1, 0, 0, 0, 0))
-		const end = new Date(Date.UTC(2019, 0, 31, 59, 59, 59, 999))
+		const end = new Date(Date.UTC(2020, 0, 31, 59, 59, 59, 999))
 		const timezone = { calendarJsTimezone: true, tzid: 'America/New_York' }
 		const result = eventSourceFunction(calendarObjects, {
 			order: 1337,
@@ -159,8 +170,8 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 				id: '1###1-1',
 				title: 'Untitled event',
 				allDay: false,
-				start: 'js-date-1-1-start',
-				end: 'js-date-1-1-end',
+				start: event11Start,
+				end: event11End,
 				classNames: [],
 				extendedProps: {
 					objectId: '1',
@@ -176,8 +187,8 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 				id: '1###1-2',
 				title: 'Untitled event',
 				allDay: false,
-				start: 'js-date-1-2-start',
-				end: 'js-date-1-2-end',
+				start: event12Start,
+				end: event12End,
 				classNames: [ 'fc-event-nc-cancelled' ],
 				extendedProps: {
 					objectId: '1',
@@ -193,8 +204,8 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 				id: '1###1-3',
 				title: 'Untitled event',
 				allDay: false,
-				start: 'js-date-1-3-start',
-				end: 'js-date-1-3-end',
+				start: event13Start,
+				end: event13End,
 				classNames: [ 'fc-event-nc-tentative', 'fc-event-nc-alarms' ],
 				extendedProps: {
 					objectId: '1',
@@ -210,8 +221,8 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 				id: '2###2-1',
 				title: 'Untitled event',
 				allDay: true,
-				start: 'js-date-2-1-start',
-				end: 'js-date-2-1-end',
+				start: event21Start,
+				end: event21End,
 				classNames: [],
 				extendedProps: {
 					objectId: '2',
@@ -227,8 +238,8 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 				id: '4###3-1',
 				title: 'Untitled event',
 				allDay: false,
-				start: 'js-date-3-1-start',
-				end: 'js-date-3-1-end',
+				start: event31Start,
+				end: event31End,
 				classNames: [],
 				extendedProps: {
 					objectId: '4',
@@ -273,6 +284,78 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 		expect(translate).toHaveBeenNthCalledWith(3, 'calendar', 'Untitled event')
 		expect(translate).toHaveBeenNthCalledWith(4, 'calendar', 'Untitled event')
 		expect(translate).toHaveBeenNthCalledWith(5, 'calendar', 'Untitled event')
+
+		// Make sure the following dates have not been touched
+		expect(event11Start.getFullYear()).toEqual(2020)
+		expect(event11Start.getMonth()).toEqual(1)
+		expect(event11Start.getDate()).toEqual(1)
+		expect(event11Start.getHours()).toEqual(10)
+		expect(event11Start.getMinutes()).toEqual(0)
+		expect(event11Start.getSeconds()).toEqual(0)
+
+		expect(event11End.getFullYear()).toEqual(2020)
+		expect(event11End.getMonth()).toEqual(1)
+		expect(event11End.getDate()).toEqual(1)
+		expect(event11End.getHours()).toEqual(15)
+		expect(event11End.getMinutes()).toEqual(0)
+		expect(event11End.getSeconds()).toEqual(0)
+
+		expect(event12Start.getFullYear()).toEqual(2020)
+		expect(event12Start.getMonth()).toEqual(1)
+		expect(event12Start.getDate()).toEqual(2)
+		expect(event12Start.getHours()).toEqual(10)
+		expect(event12Start.getMinutes()).toEqual(0)
+		expect(event12Start.getSeconds()).toEqual(0)
+
+		expect(event12End.getFullYear()).toEqual(2020)
+		expect(event12End.getMonth()).toEqual(1)
+		expect(event12End.getDate()).toEqual(2)
+		expect(event12End.getHours()).toEqual(15)
+		expect(event12End.getMinutes()).toEqual(0)
+		expect(event12End.getSeconds()).toEqual(0)
+
+		expect(event13Start.getFullYear()).toEqual(2020)
+		expect(event13Start.getMonth()).toEqual(1)
+		expect(event13Start.getDate()).toEqual(3)
+		expect(event13Start.getHours()).toEqual(10)
+		expect(event13Start.getMinutes()).toEqual(0)
+		expect(event13Start.getSeconds()).toEqual(0)
+
+		expect(event13End.getFullYear()).toEqual(2020)
+		expect(event13End.getMonth()).toEqual(1)
+		expect(event13End.getDate()).toEqual(3)
+		expect(event13End.getHours()).toEqual(15)
+		expect(event13End.getMinutes()).toEqual(0)
+		expect(event13End.getSeconds()).toEqual(0)
+
+		expect(event21Start.getFullYear()).toEqual(2020)
+		expect(event21Start.getMonth()).toEqual(5)
+		expect(event21Start.getDate()).toEqual(5)
+		expect(event21Start.getHours()).toEqual(0)
+		expect(event21Start.getMinutes()).toEqual(0)
+		expect(event21Start.getSeconds()).toEqual(0)
+
+		expect(event21End.getFullYear()).toEqual(2020)
+		expect(event21End.getMonth()).toEqual(5)
+		expect(event21End.getDate()).toEqual(6)
+		expect(event21End.getHours()).toEqual(0)
+		expect(event21End.getMinutes()).toEqual(0)
+		expect(event21End.getSeconds()).toEqual(0)
+
+		// Make sure the DTEND of the following has been modified by 1 second
+		expect(event31Start.getFullYear()).toEqual(2020)
+		expect(event31Start.getMonth()).toEqual(6)
+		expect(event31Start.getDate()).toEqual(10)
+		expect(event31Start.getHours()).toEqual(10)
+		expect(event31Start.getMinutes()).toEqual(0)
+		expect(event31Start.getSeconds()).toEqual(0)
+
+		expect(event31End.getFullYear()).toEqual(2020)
+		expect(event31End.getMonth()).toEqual(6)
+		expect(event31End.getDate()).toEqual(10)
+		expect(event31End.getHours()).toEqual(10)
+		expect(event31End.getMinutes()).toEqual(0)
+		expect(event31End.getSeconds()).toEqual(1)
 	})
 
 })

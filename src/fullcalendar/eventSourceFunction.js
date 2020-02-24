@@ -60,12 +60,24 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 				classNames.push('fc-event-nc-alarms')
 			}
 
+			const jsStart = object.startDate.getInTimezone(timezone).jsDate
+			const jsEnd = object.endDate.getInTimezone(timezone).jsDate
+			// Technically, an event's end is not allowed to be equal to it's start,
+			// because the event's end is exclusive. Most calendar applications
+			// (including all big ones) allow creating such events anyway (we do too).
+			// If the event's start is equal to it's end, fullcalendar is giving
+			// the event a default length of one hour. We are preventing that by
+			// adding one second to the end in that case.
+			if (jsStart.getTime() === jsEnd.getTime()) {
+				jsEnd.setSeconds(jsEnd.getSeconds() + 1)
+			}
+
 			const fcEvent = {
 				id: [calendarObject.id, object.id].join('###'),
 				title: object.title || t('calendar', 'Untitled event'),
 				allDay: object.isAllDay(),
-				start: object.startDate.getInTimezone(timezone).jsDate,
-				end: object.endDate.getInTimezone(timezone).jsDate,
+				start: jsStart,
+				end: jsEnd,
 				classNames,
 				extendedProps: {
 					objectId: calendarObject.id,
