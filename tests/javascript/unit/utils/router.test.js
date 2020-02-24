@@ -23,23 +23,23 @@ import {
 	getInitialView,
 	getPrefixedRoute
 } from '../../../../src/utils/router.js'
-import * as settingsUtil from '../../../../src/utils/settings.js'
+import { loadState } from '@nextcloud/initial-state'
 
-jest.mock('../../../../src/utils/settings.js')
+jest.mock('@nextcloud/initial-state')
 
 describe('utils/router test suite', () => {
 
 	it('should get the initial view', () => {
-		settingsUtil.getConfigValueFromHiddenInput
+		loadState
 			.mockReturnValueOnce('dayGridView')
-			.mockReturnValueOnce(null)
+			.mockImplementationOnce(() => { throw new Error() })
 
 		expect(getInitialView()).toEqual('dayGridView')
 		expect(getInitialView()).toEqual('dayGridMonth')
 
-		expect(settingsUtil.getConfigValueFromHiddenInput.mock.calls.length).toEqual(2)
-		expect(settingsUtil.getConfigValueFromHiddenInput.mock.calls[0]).toEqual(['initial-view'])
-		expect(settingsUtil.getConfigValueFromHiddenInput.mock.calls[1]).toEqual(['initial-view'])
+		expect(loadState).toHaveBeenCalledTimes(2)
+		expect(loadState).toHaveBeenNthCalledWith(1, 'calendar', 'initial_view')
+		expect(loadState).toHaveBeenNthCalledWith(2, 'calendar', 'initial_view')
 	})
 
 	it('should provide the prefixed route name to navigate to', () => {

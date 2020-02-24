@@ -25,6 +25,7 @@ namespace OCA\Calendar\Controller;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
+use OCP\IInitialStateService;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 
@@ -41,6 +42,11 @@ class PublicViewController extends Controller {
 	private $config;
 
 	/**
+	 * @var IInitialStateService
+	 */
+	private $initialStateService;
+
+	/**
 	 * @var IURLGenerator
 	 */
 	private $urlGenerator;
@@ -49,14 +55,17 @@ class PublicViewController extends Controller {
 	 * @param string $appName
 	 * @param IRequest $request an instance of the request
 	 * @param IConfig $config
+	 * @param IInitialStateService $initialStateService
 	 * @param IURLGenerator $urlGenerator
 	 */
 	public function __construct(string $appName,
 								IRequest $request,
 								IConfig $config,
+								IInitialStateService $initialStateService,
 								IURLGenerator $urlGenerator) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
+		$this->initialStateService = $initialStateService;
 		$this->urlGenerator = $urlGenerator;
 	}
 
@@ -97,21 +106,26 @@ class PublicViewController extends Controller {
 	 */
 	private function publicIndex(string $token,
 								 string $renderAs):TemplateResponse {
+		$defaultEventLimit = $this->config->getAppValue($this->appName, 'eventLimit', 'yes');
 		$defaultInitialView = $this->config->getAppValue($this->appName, 'currentView', 'dayGridMonth');
 		$defaultShowWeekends = $this->config->getAppValue($this->appName, 'showWeekends', 'yes');
 		$defaultWeekNumbers = $this->config->getAppValue($this->appName, 'showWeekNr', 'no');
 		$defaultSkipPopover = $this->config->getAppValue($this->appName, 'skipPopover', 'yes');
 		$defaultTimezone = $this->config->getAppValue($this->appName, 'timezone', 'automatic');
 
+		$appVersion = $this->config->getAppValue($this->appName, 'installed_version');
+
+		$this->initialStateService->provideInitialState($this->appName, 'app_version', $appVersion);
+		$this->initialStateService->provideInitialState($this->appName, 'event_limit', ($defaultEventLimit === 'yes'));
+		$this->initialStateService->provideInitialState($this->appName, 'first_run', false);
+		$this->initialStateService->provideInitialState($this->appName, 'initial_view', $defaultInitialView);
+		$this->initialStateService->provideInitialState($this->appName, 'show_weekends', ($defaultShowWeekends === 'yes'));
+		$this->initialStateService->provideInitialState($this->appName, 'show_week_numbers', ($defaultWeekNumbers === 'yes'));
+		$this->initialStateService->provideInitialState($this->appName, 'skip_popover', ($defaultSkipPopover === 'yes'));
+		$this->initialStateService->provideInitialState($this->appName, 'talk_enabled', false);
+		$this->initialStateService->provideInitialState($this->appName, 'timezone', $defaultTimezone);
+
 		return new TemplateResponse($this->appName, 'main', [
-			'app_version' => $this->config->getAppValue($this->appName, 'installed_version'),
-			'first_run' => false,
-			'initial_view' => $defaultInitialView,
-			'show_weekends' => ($defaultShowWeekends === 'yes'),
-			'show_week_numbers' => ($defaultWeekNumbers === 'yes'),
-			'skip_popover' => ($defaultSkipPopover === 'yes'),
-			'talk_enabled' => false,
-			'timezone' => $defaultTimezone,
 			'share_url' => $this->getShareURL(),
 			'preview_image' => $this->getPreviewImage(),
 		], $renderAs);

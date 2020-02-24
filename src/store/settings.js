@@ -28,6 +28,7 @@ import { setConfig } from 'calendar-js'
 
 const state = {
 	appVersion: null,
+	eventLimit: null,
 	firstRun: null,
 	momentLocale: 'en',
 	showWeekends: null,
@@ -38,6 +39,15 @@ const state = {
 }
 
 const mutations = {
+
+	/**
+	 * Updates the user's setting for event limit
+	 *
+	 * @param {Object} state The Vuex state
+	 */
+	toggleEventLimitEnabled(state) {
+		state.eventLimit = !state.eventLimit
+	},
 
 	/**
 	 * Updates the user's setting for visibility of event popover
@@ -87,6 +97,7 @@ const mutations = {
 		console.debug('Initial settings:', settings)
 
 		state.appVersion = settings.appVersion
+		state.eventLimit = settings.eventLimit
 		state.firstRun = settings.firstRun
 		state.showWeekNumbers = settings.showWeekNumbers
 		state.showWeekends = settings.showWeekends
@@ -150,6 +161,20 @@ const actions = {
 			const calendar = mapDavCollectionToCalendar(davCalendar)
 			context.commit('addCalendar', { calendar })
 		}
+	},
+
+	/**
+	 * Updates the user's setting for event limit
+	 *
+	 * @param {Object} context The Vuex context
+	 * @returns {Promise<void>}
+	 */
+	async toggleEventLimitEnabled(context) {
+		const newState = !context.state.eventLimit
+		const value = newState ? 'yes' : 'no'
+
+		await HttpClient.post(getLinkToConfig('eventLimit'), { value })
+		context.commit('toggleEventLimitEnabled')
 	},
 
 	/**

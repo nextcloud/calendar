@@ -21,13 +21,3 @@
  */
 script('calendar', 'calendar');
 style('calendar', 'calendar');
-?>
-
-<input type="hidden" id="config-app-version" value="<?php p($_['app_version']); ?>">
-<input type="hidden" id="config-first-run" value="<?php p($_['first_run'] ? 'true' : 'false'); ?>">
-<input type="hidden" id="config-initial-view" value="<?php p($_['initial_view']); ?>">
-<input type="hidden" id="config-show-weekends" value="<?php p($_['show_weekends'] ? 'true' : 'false'); ?>">
-<input type="hidden" id="config-show-week-numbers" value="<?php p($_['show_week_numbers'] ? 'true' : 'false'); ?>">
-<input type="hidden" id="config-skip-popover" value="<?php p($_['skip_popover'] ? 'true' : 'false'); ?>">
-<input type="hidden" id="config-talk-enabled" value="<?php p($_['talk_enabled'] ? 'true' : 'false'); ?>">
-<input type="hidden" id="config-timezone" value="<?php p($_['timezone']); ?>">

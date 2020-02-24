@@ -22,17 +22,6 @@
 import { linkTo } from '@nextcloud/router'
 
 /**
- * Reads config value from hidden input field
- *
- * @param {string} key Key to query for
- * @returns {String|null}
- */
-export function getConfigValueFromHiddenInput(key) {
-	const elem = document.getElementById('config-' + key)
-	return elem ? elem.value : null
-}
-
-/**
  * Get URL to modify config-key
  *
  * @param {String} key URL of config-key to modify

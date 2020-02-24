@@ -279,6 +279,48 @@ class SettingsControllerTest extends TestCase {
 		$this->assertEquals(500, $actual->getStatus());
 	}
 
+	/**
+	 * @param string $value
+	 * @param int $expectedStatusCode
+	 *
+	 * @dataProvider setEventLimitWithAllowedValueDataProvider
+	 */
+	public function testSetEventLimitWithAllowedValue(string $value,
+														   int $expectedStatusCode):void {
+		if ($expectedStatusCode === 200) {
+			$this->config->expects($this->once())
+				->method('setUserValue')
+				->with('user123', $this->appName, 'eventLimit', $value);
+		}
+
+		$actual = $this->controller->setConfig('eventLimit', $value);
+
+		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertEquals([], $actual->getData());
+		$this->assertEquals($expectedStatusCode, $actual->getStatus());
+	}
+
+	public function setEventLimitWithAllowedValueDataProvider():array {
+		return [
+			['yes', 200],
+			['no', 200],
+			['maybe', 422]
+		];
+	}
+
+	public function testSetEventLimitWithException():void {
+		$this->config->expects($this->once())
+			->method('setUserValue')
+			->with('user123', $this->appName, 'eventLimit', 'no')
+			->will($this->throwException(new \Exception));
+
+		$actual = $this->controller->setConfig('eventLimit', 'no');
+
+		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertEquals([], $actual->getData());
+		$this->assertEquals(500, $actual->getStatus());
+	}
+
 	public function testSetNotExistingConfig():void {
 		$actual = $this->controller->setConfig('foo', 'bar');
 
