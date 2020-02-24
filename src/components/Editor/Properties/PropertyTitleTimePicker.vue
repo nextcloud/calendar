@@ -1,5 +1,5 @@
 <!--
-  - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
+  - @copyright Copyright (c) 2020 Georg Ehrke <oc.list@georgehrke.com>
   - @copyright Copyright (c) 2019 Jakob Röhrl <jakob.roehrl@web.de>
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
@@ -92,6 +92,7 @@
 <script>
 import moment from '@nextcloud/moment'
 import DatePicker from '../../Shared/DatePicker.vue'
+import { mapState } from 'vuex'
 
 export default {
 	name: 'PropertyTitleTimePicker',
@@ -165,6 +166,9 @@ export default {
 		}
 	},
 	computed: {
+		...mapState({
+			locale: (state) => state.settings.momentLocale,
+		}),
 		/**
 		 * Tooltip for the All-day checkbox.
 		 * If the all-day checkbox is disabled, this tooltip gives an explanation to the user
@@ -183,84 +187,20 @@ export default {
 			return this.$t('calendar', 'Can not modify all-day setting for events that are part of a recurrence-set.')
 		},
 		/**
-		 * Format of start date
-		 *
-		 * @returns {string}
-		 */
-		startDateFormat() {
-			const parts = [
-				'[',
-				this.$t('calendar', 'from'),
-				'] ',
-				moment.localeData().longDateFormat('L'),
-			]
-
-			if (this.isAllDay) {
-				return parts.join('')
-			}
-
-			parts.push(
-				' [',
-				this.$t('calendar', 'at'),
-				'] ',
-				moment.localeData().longDateFormat('LT')
-			)
-
-			return parts.join('')
-		},
-		/**
-		 * Format of end date
-		 *
-		 * @returns {string}
-		 */
-		endDateFormat() {
-			const parts = [
-				'[',
-				this.$t('calendar', 'to'),
-				'] ',
-				moment.localeData().longDateFormat('L'),
-			]
-
-			if (this.isAllDay) {
-				return parts.join('')
-			}
-
-			parts.push(
-				' [',
-				this.$t('calendar', 'at'),
-				'] ',
-				moment.localeData().longDateFormat('LT')
-			)
-
-			return parts.join('')
-		},
-		/**
-		 * Type of date-picker to open
-		 *
-		 * @returns {string}
-		 */
-		timeType() {
-			if (this.isAllDay) {
-				return 'date'
-			}
-
-			return 'datetime'
-		},
-		/**
 		 *
 		 * @returns {String}
 		 */
 		formattedStart() {
 			if (this.isAllDay) {
 				return this.$t('calendar', 'from {startDate}', {
-					startDate: moment(this.startDate).format('L'),
-					endDate: moment(this.endDate).format('L'),
+					startDate: moment(this.startDate).locale(this.locale).format('L'),
+					endDate: moment(this.endDate).locale(this.locale).format('L'),
 				})
 			}
 
 			return this.$t('calendar', 'from {startDate} at {startTime}', {
-				startDate: moment(this.startDate).format('L'),
-				startTime: moment(this.startDate).format('LT'),
+				startDate: moment(this.startDate).locale(this.locale).format('L'),
+				startTime: moment(this.startDate).locale(this.locale).format('LT'),
 			})
 		},
 		/**
@@ -270,13 +210,13 @@ export default {
 		formattedEnd() {
 			if (this.isAllDay) {
 				return this.$t('calendar', 'to {endDate}', {
-					endDate: moment(this.endDate).format('L'),
+					endDate: moment(this.endDate).locale(this.locale).format('L'),
 				})
 			}
 
 			return this.$t('calendar', 'to {endDate} at {endTime}', {
-				endDate: moment(this.endDate).format('L'),
-				endTime: moment(this.endDate).format('LT'),
+				endDate: moment(this.endDate).locale(this.locale).format('L'),
+				endTime: moment(this.endDate).locale(this.locale).format('LT'),
 			})
 		},
 		/**
@@ -315,14 +255,6 @@ export default {
 			this.$emit('updateStartTimezone', value)
 		},
 		/**
-		 * Opens the dialog to pick the timezone for the start date
-		 */
-		showTimezonePickerForStartDate() {
-			this.showStartTimezone = true
-
-			// TODO - autofocus the timezone-picker
-		},
-		/**
 		 * Update the end date
 		 *
 		 * @param {Date} value The new end date
@@ -342,14 +274,6 @@ export default {
 			}
 
 			this.$emit('updateEndTimezone', value)
-		},
-		/**
-		 * Opens the dialog to pick the timezone for the end date
-		 */
-		showTimezonePickerForEndDate() {
-			this.showEndTimezone = true
-
-			// TODO - autofocus the timezone-picker
 		},
 		/**
 		 * Toggles the all-day state of an event
