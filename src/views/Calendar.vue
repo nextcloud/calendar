@@ -50,6 +50,7 @@
 				:event-order="eventOrder"
 				:plugins="plugins"
 				:time-zone="timezoneId"
+				:day-render="dayRender"
 				:event-allow="eventAllow"
 				:event-limit="true"
 				:event-limit-text="eventLimitText"
@@ -128,6 +129,7 @@ import { getLocale } from '@nextcloud/l10n'
 import loadMomentLocalization from '../utils/moment.js'
 import eventLimitText from '../fullcalendar/eventLimitText.js'
 import windowResize from '../fullcalendar/windowResize.js'
+import dayRender from '../fullcalendar/dayRender.js'
 
 export default {
 	name: 'Calendar',
@@ -364,6 +366,9 @@ export default {
 				this.$store.dispatch('setInitialView', { initialView })
 			}
 		}, 5000),
+		dayRender(...args) {
+			return dayRender(...args)
+		},
 		eventClick(...args) {
 			return eventClick(this.$store, this.$router, this.$route, window)(...args)
 		},
