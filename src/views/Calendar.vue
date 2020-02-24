@@ -52,7 +52,7 @@
 				:time-zone="timezoneId"
 				:day-render="dayRender"
 				:event-allow="eventAllow"
-				:event-limit="true"
+				:event-limit="eventLimit"
 				:event-limit-text="eventLimitText"
 				:default-date="defaultDate"
 				:locales="locales"
@@ -161,6 +161,7 @@ export default {
 			timezoneId: 'getResolvedTimezone',
 		}),
 		...mapState({
+			eventLimit: state => state.settings.eventLimit,
 			skipPopover: state => state.settings.skipPopover,
 			showWeekends: state => state.settings.showWeekends,
 			showWeekNumbers: state => state.settings.showWeekNumbers,
@@ -292,6 +293,7 @@ export default {
 	async beforeMount() {
 		this.$store.commit('loadSettingsFromServer', {
 			appVersion: loadState('calendar', 'app_version'),
+			eventLimit: loadState('calendar', 'event_limit'),
 			firstRun: loadState('calendar', 'first_run'),
 			showWeekends: loadState('calendar', 'show_weekends'),
 			showWeekNumbers: loadState('calendar', 'show_week_numbers'),

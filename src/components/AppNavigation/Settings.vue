@@ -39,6 +39,13 @@
 			</ActionCheckbox>
 			<ActionCheckbox
 				class="settings-fieldset-interior-item"
+				:checked="eventLimit"
+				:disabled="savingEventLimit"
+				@update:checked="toggleEventLimitEnabled">
+				{{ $t('calendar', 'Limit visible events per view') }}
+			</ActionCheckbox>
+			<ActionCheckbox
+				class="settings-fieldset-interior-item"
 				:checked="showWeekends"
 				:disabled="savingWeekend"
 				@update:checked="toggleWeekendsEnabled">
@@ -97,6 +104,7 @@ export default {
 	data: function() {
 		return {
 			savingBirthdayCalendar: false,
+			savingEventLimit: false,
 			savingPopover: false,
 			savingWeekend: false,
 			savingWeekNumber: false,
@@ -107,6 +115,7 @@ export default {
 			birthdayCalendar: 'hasBirthdayCalendar',
 		}),
 		...mapState({
+			eventLimit: state => state.settings.eventLimit,
 			showPopover: state => !state.settings.skipPopover,
 			showWeekends: state => state.settings.showWeekends,
 			showWeekNumbers: state => state.settings.showWeekNumbers,
@@ -142,6 +151,18 @@ export default {
 				console.error(error)
 				this.$toast.error(this.$t('calendar', 'New setting was not saved successfully.'))
 				this.savingBirthdayCalendar = false
+			}
+		},
+		async toggleEventLimitEnabled() {
+			// change to loading status
+			this.savingEventLimit = true
+			try {
+				await this.$store.dispatch('toggleEventLimitEnabled')
+				this.savingEventLimit = false
+			} catch (error) {
+				console.error(error)
+				this.$toast.error(this.$t('calendar', 'New setting was not saved successfully.'))
+				this.savingEventLimit = false
 			}
 		},
 		async togglePopoverEnabled() {
