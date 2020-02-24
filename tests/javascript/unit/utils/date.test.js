@@ -28,8 +28,15 @@ import {
 	getDateFromDateTimeValue,
 	modifyDate
 } from '../../../../src/utils/date.js'
+import logger from '../../../../src/utils/logger.js'
+jest.mock('../../../../src/utils/logger.js')
 
 describe('utils/alarms test suite', () => {
+
+	beforeEach(() => {
+		logger.error.mockClear()
+	})
+
 
 	it('should return a date', () => {
 		expect(dateFactory()).toBeInstanceOf(Date)
@@ -70,6 +77,23 @@ describe('utils/alarms test suite', () => {
 		expect(date2.getSeconds()).toEqual(0)
 		expect(date2.getMilliseconds()).toEqual(0)
 		expect(date2.getTimezoneOffset()).toEqual(expectedTimezoneOffset)
+	})
+
+	it('should log an error when providing a non-numerical first-day-parameter', () => {
+		const date1 = getDateFromFirstdayParam('ab-05-05')
+		const date2 = getDateFromFirstdayParam('2020-ab-06')
+		const date3 = getDateFromFirstdayParam('2020-06-ab')
+
+		// It should return a Date anyway
+		expect(date1).toBeInstanceOf(Date)
+		expect(date2).toBeInstanceOf(Date)
+		expect(date3).toBeInstanceOf(Date)
+
+		// but also log an error message
+		expect(logger.error).toHaveBeenCalledTimes(3)
+		expect(logger.error).toHaveBeenNthCalledWith(1, 'First day parameter contains non-numerical components, falling back to today')
+		expect(logger.error).toHaveBeenNthCalledWith(2, 'First day parameter contains non-numerical components, falling back to today')
+		expect(logger.error).toHaveBeenNthCalledWith(3, 'First day parameter contains non-numerical components, falling back to today')
 	})
 
 	it('shoud get YYYYMMDD from a given first day-param', () => {
