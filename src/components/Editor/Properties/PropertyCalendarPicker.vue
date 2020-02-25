@@ -76,6 +76,12 @@ export default {
 		},
 	},
 	methods: {
+		/**
+		 * Emits the select calendar event
+		 *
+		 * // TODO: this should emit the calendar id instead
+		 * @param {Object} value The calendar Object
+		 */
 		selectCalendar(value) {
 			this.$emit('selectCalendar', value)
 		},

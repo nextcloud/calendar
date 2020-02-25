@@ -24,7 +24,7 @@ import {
 	hexToRGB,
 	isLight,
 	generateTextColorForHex,
-	getHexForColorName
+	getHexForColorName,
 } from '../utils/color.js'
 import logger from '../utils/logger.js'
 
@@ -94,7 +94,6 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 
 			if (object.color) {
 				const customColor = getHexForColorName(object.color)
-				console.debug(customColor)
 				if (customColor) {
 					fcEvent.backgroundColor = customColor
 					fcEvent.borderColor = customColor

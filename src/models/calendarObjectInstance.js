@@ -23,6 +23,7 @@ import { getDateFromDateTimeValue } from '../utils/date.js'
 import DurationValue from 'calendar-js/src/values/durationValue.js'
 import { getWeekDayFromDate } from '../utils/recurrence.js'
 import { getAmountAndUnitForTimedEvents, getAmountHoursMinutesAndUnitForAllDayEvents } from '../utils/alarms.js'
+import { getHexForColorName } from '../utils/color.js'
 
 /**
  * Creates a complete calendar-object-instance-object based on given props
@@ -128,6 +129,13 @@ export const mapEventComponentToCalendarObjectInstanceObject = (eventComponent) 
 		= Array.from(eventComponent.getPropertyIterator('RRULE')).length > 1
 	calendarObjectInstanceObject.attendees = getAttendeesFromEventComponent(eventComponent)
 	calendarObjectInstanceObject.alarms = getAlarmsFromEventComponent(eventComponent)
+
+	if (eventComponent.hasProperty('COLOR')) {
+		const hexColor = getHexForColorName(eventComponent.getFirstPropertyFirstValue('COLOR'))
+		if (hexColor !== null) {
+			calendarObjectInstanceObject.customColor = hexColor
+		}
+	}
 
 	return calendarObjectInstanceObject
 }

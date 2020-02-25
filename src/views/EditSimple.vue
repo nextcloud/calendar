@@ -50,7 +50,7 @@
 
 		<IllustrationHeader
 			v-if="!isLoading"
-			:color="selectedCalendarColor"
+			:color="illustrationColor"
 			:illustration-url="backgroundImage" />
 
 		<PropertyTitle

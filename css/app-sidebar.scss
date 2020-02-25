@@ -467,6 +467,7 @@
 
 	.property-text,
 	.property-select,
+	.property-color,
 	.property-select-multiple,
 	.property-title {
 		display: flex;
@@ -521,6 +522,18 @@
 					padding: 8px 7px;
 				}
 			}
+		}
+	}
+
+	.property-color {
+		&__color-preview {
+			border-radius: var(--border-radius);
+			height: 34px !important;
+			width: 34px !important;
+		}
+
+		&__info {
+			margin-top: 0;
 		}
 	}
 

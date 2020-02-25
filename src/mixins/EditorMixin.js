@@ -178,6 +178,14 @@ export default {
 			return getIllustrationForTitle(this.title)
 		},
 		/**
+		 * Returns the color the illustration should be colored in
+		 *
+		 * @returns {String}
+		 */
+		illustrationColor() {
+			return this.color || this.selectedCalendarColor
+		},
+		/**
 		 * Returns the color of the calendar selected by the user
 		 * This is used to color illustration
 		 *
@@ -194,6 +202,18 @@ export default {
 			}
 
 			return this.selectedCalendar.color
+		},
+		/**
+		 * Returns the custom color of this event
+		 *
+		 * @returns {null|String}
+		 */
+		color() {
+			if (!this.calendarObjectInstance) {
+				return null
+			}
+
+			return this.calendarObjectInstance.customColor
 		},
 		/**
 		 * Returns whether or not to display event details
