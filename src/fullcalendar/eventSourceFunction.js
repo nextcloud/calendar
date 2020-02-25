@@ -92,10 +92,12 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 				},
 			}
 
-			if (calendarObject.color) {
-				const customColor = getHexForColorName(calendarObject.color)
+			if (object.color) {
+				const customColor = getHexForColorName(object.color)
+				console.debug(customColor)
 				if (customColor) {
 					fcEvent.backgroundColor = customColor
+					fcEvent.borderColor = customColor
 					fcEvent.textColor = generateTextColorForHex(customColor)
 				}
 			}

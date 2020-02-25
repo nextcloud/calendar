@@ -111,7 +111,7 @@ export function detectColor(color) {
  * Gets the HEX code for a css3 color name
  *
  * @param {string} colorName The name of the css3 color
- * @returns {string|null} string of HEX if valid color, null if not
+ * @returns {String|null} string of HEX if valid color, null if not
  */
 export function getHexForColorName(colorName) {
 	return css3Colors[colorName] || null
