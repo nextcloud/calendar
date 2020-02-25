@@ -119,8 +119,6 @@ OC.L10N.register(
     "(organizer)" : "(skipuleggjandi)",
     "Event title" : "Titill atburðar",
     "All day" : "Heilsdagsviðburður",
-    "from" : "frá",
-    "to" : "til",
     "Select to end repeat" : "Veldu til að hætta endurtekningu",
     "never" : "aldrei",
     "on date" : "þann",

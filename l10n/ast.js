@@ -25,8 +25,6 @@ OC.L10N.register(
     "Email" : "email",
     "Unknown" : "Desconozse",
     "All day" : "Tol día",
-    "from" : "Dende",
-    "to" : "hasta",
     "never" : "enxamás",
     "after" : "dempués",
     "Repeat" : "Repitir",

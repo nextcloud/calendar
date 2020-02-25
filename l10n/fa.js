@@ -148,8 +148,6 @@ OC.L10N.register(
     "Event title" : "عنوان رویداد",
     "All day" : "تمام روز",
     "Can not modify all-day setting for events that are part of a recurrence-set." : "نمی توانید تنظیمات همه روزه را برای رویدادهایی که بخشی از مجموعه بازگشتی هستند تغییر دهید.",
-    "from" : "از",
-    "to" : "به",
     "from {startDate}" : "از {startDate}",
     "from {startDate} at {startTime}" : "از {startDate} در {startTime}",
     "to {endDate}" : "به {endDate}",

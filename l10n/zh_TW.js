@@ -33,8 +33,6 @@ OC.L10N.register(
     "Busy" : "忙碌中",
     "Unknown" : "不明",
     "All day" : "全天",
-    "from" : "從",
-    "to" : "至",
     "never" : "永不",
     "after" : "之後",
     "Repeat" : "重覆",

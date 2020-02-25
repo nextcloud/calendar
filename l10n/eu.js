@@ -134,8 +134,6 @@ OC.L10N.register(
     "To send out invitations and handle responses,  [linkopen]add your email address in personal settings[linkclose]." : "Gonbidapenak bidali eta erantzunak kudeatzeko,  [linkopen]gehitu zure helbide elektronikoa ezarpen pertsonaletan[linkclose].",
     "Event title" : "Gertaeraren izenburua",
     "All day" : "Egun osoa",
-    "from" : "Noiztik",
-    "to" : "Noiz arte",
     "End repeat" : "Amaitu errepikapena",
     "Select to end repeat" : "Hautatu errepikapena amaitzeko",
     "never" : "inoiz ez",

@@ -19,8 +19,6 @@ OC.L10N.register(
     "Cancel" : "Avbryt",
     "Email" : "E-post",
     "Unknown" : "Ukjend",
-    "from" : "frå",
-    "to" : "til",
     "never" : "aldri",
     "after" : "etter",
     "Repeat" : "Gjenta",

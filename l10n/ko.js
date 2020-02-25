@@ -56,8 +56,6 @@ OC.L10N.register(
     "Busy" : "바쁨",
     "Unknown" : "알 수 없음",
     "All day" : "하루 종일",
-    "from" : "시작",
-    "to" : "끝",
     "never" : "없음",
     "after" : "이후",
     "Repeat" : "반복",

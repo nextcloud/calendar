@@ -52,8 +52,6 @@ OC.L10N.register(
     "Busy" : "Ocupat",
     "Unknown" : "Desconegut",
     "All day" : "Tot el dia",
-    "from" : "de",
-    "to" : "a",
     "never" : "mai",
     "after" : "després de",
     "Repeat" : "Repeteix",

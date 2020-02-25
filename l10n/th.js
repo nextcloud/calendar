@@ -17,8 +17,6 @@ OC.L10N.register(
     "Automatic" : "อัตโนมัติ",
     "Email" : "อีเมล",
     "Unknown" : "ไม่ทราบ",
-    "from" : "จาก",
-    "to" : "ถึง",
     "never" : "ไม่ต้องเลย",
     "after" : "หลัง",
     "Repeat" : "ทำซ้ำ",

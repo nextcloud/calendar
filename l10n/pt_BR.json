@@ -146,8 +146,6 @@
     "Event title" : "Título do evento",
     "All day" : "Todos os dias",
     "Can not modify all-day setting for events that are part of a recurrence-set." : "Não é possível modificar a configuração \"todo dia\" para eventos que fazem parte de um conjunto de recorrências.",
-    "from" : "de",
-    "to" : "para",
     "from {startDate}" : "de {startDate}",
     "from {startDate} at {startTime}" : "de {startDate} às {startTime}",
     "to {endDate}" : "até {endDate}",

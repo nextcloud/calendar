@@ -16,8 +16,6 @@ OC.L10N.register(
     "Email" : "E-pošta",
     "Busy" : "Zauzet",
     "Unknown" : "Nepoznato",
-    "from" : "od",
-    "to" : "do",
     "never" : "nikad",
     "Repeat" : "Ponovi",
     "Monday" : "Ponedjeljak",

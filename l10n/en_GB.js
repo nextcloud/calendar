@@ -27,8 +27,6 @@ OC.L10N.register(
     "Email" : "Email",
     "Unknown" : "Unknown",
     "All day" : "All day",
-    "from" : "from",
-    "to" : "to",
     "never" : "never",
     "after" : "after",
     "Repeat" : "Repeat",

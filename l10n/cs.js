@@ -148,8 +148,6 @@ OC.L10N.register(
     "Event title" : "Název události",
     "All day" : "Celý den",
     "Can not modify all-day setting for events that are part of a recurrence-set." : "U opakovaných událostí nelze měnit některá nastavení.",
-    "from" : "od",
-    "to" : "do",
     "from {startDate}" : "od {startDate}",
     "from {startDate} at {startTime}" : "od {startDate} v {startTime}",
     "to {endDate}" : "do {endDate}",

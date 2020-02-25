@@ -27,8 +27,6 @@ OC.L10N.register(
     "Email" : "E-pos",
     "Unknown" : "Onbekend",
     "All day" : "Heeldag",
-    "from" : "van",
-    "to" : "aan",
     "never" : "nooit",
     "after" : "na",
     "Repeat" : "Herhaal",

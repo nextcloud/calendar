@@ -32,8 +32,6 @@ OC.L10N.register(
     "Busy" : "Okupita",
     "Unknown" : "Nekonata",
     "All day" : "Tuttage",
-    "from" : "de",
-    "to" : "ĝis",
     "never" : "neniam",
     "after" : "post",
     "Repeat" : "Ripeti",

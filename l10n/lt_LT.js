@@ -138,8 +138,6 @@ OC.L10N.register(
     "Event title" : "Įvykio pavadinimas",
     "All day" : "Visą dieną",
     "Can not modify all-day setting for events that are part of a recurrence-set." : "Negalima modifikuoti \"Visos dienos\" nustatymą įvykiams, kurie yra pasikartojimo rinkinyje.",
-    "from" : "nuo",
-    "to" : "iki",
     "from {startDate}" : "nuo {startDate}",
     "from {startDate} at {startTime}" : "nuo {startDate}, {startTime}",
     "to {endDate}" : "iki {endDate}",

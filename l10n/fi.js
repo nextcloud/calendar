@@ -91,8 +91,6 @@ OC.L10N.register(
     "No match found" : "Ei tuloksia",
     "(organizer)" : "(järjestäjä)",
     "All day" : "Koko päivä",
-    "from" : "alkaen",
-    "to" : "päättyen",
     "never" : "ei koskaan",
     "after" : "jälkeen",
     "Repeat" : "Kertaa",

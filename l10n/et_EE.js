@@ -25,8 +25,6 @@ OC.L10N.register(
     "Email" : "Epost",
     "Unknown" : "Teadmata",
     "All day" : "Kogu päev",
-    "from" : "alates",
-    "to" : "kuni",
     "never" : "mitte kunagi",
     "after" : "pärast",
     "Repeat" : "Korda",

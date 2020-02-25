@@ -26,8 +26,6 @@ OC.L10N.register(
     "Email" : "Emaili",
     "Unknown" : "I/E panjohur",
     "All day" : "Gjithë ditën",
-    "from" : "nga",
-    "to" : "për",
     "never" : "kurrë",
     "after" : "pas",
     "Repeat" : "Përsërite",

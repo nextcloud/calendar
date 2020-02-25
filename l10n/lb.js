@@ -17,8 +17,6 @@ OC.L10N.register(
     "Automatic" : "Automatesch",
     "Email" : "Email",
     "Unknown" : "Onbekannt",
-    "from" : "vun",
-    "to" : "bis",
     "never" : "Ni",
     "after" : "No",
     "Repeat" : "Widderhuelen",

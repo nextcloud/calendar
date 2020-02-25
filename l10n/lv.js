@@ -29,8 +29,6 @@ OC.L10N.register(
     "Busy" : "Aizņemts",
     "Unknown" : "Nezināms",
     "All day" : "Visas dienas",
-    "from" : "no",
-    "to" : "līdz",
     "never" : "nekad",
     "after" : "pēc",
     "Repeat" : "Atkārtot",

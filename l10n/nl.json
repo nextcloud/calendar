@@ -146,8 +146,6 @@
     "Event title" : "Afspraak titel",
     "All day" : "Hele dag",
     "Can not modify all-day setting for events that are part of a recurrence-set." : "Het lukt niet om de gehele-dag instelling aan te passen voor afspraken die onderdeel zijn van een herhaalde-set.",
-    "from" : "van",
-    "to" : "naar",
     "from {startDate}" : "vanaf {startDate}",
     "from {startDate} at {startTime}" : "vanaf {startDate} om {startTime}",
     "to {endDate}" : "tot {endDate}",

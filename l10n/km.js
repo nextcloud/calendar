@@ -13,8 +13,6 @@ OC.L10N.register(
     "New calendar" : "ប្រតិទិន​ថ្មី",
     "Cancel" : "បោះបង់",
     "Email" : "អ៊ីមែល",
-    "from" : "ពី",
-    "to" : "ទៅ",
     "never" : "មិនដែរ",
     "Repeat" : "ធ្វើម្ដងទៀត",
     "Monday" : "ថ្ងៃចន្ទ",

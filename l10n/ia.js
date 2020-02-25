@@ -20,8 +20,6 @@ OC.L10N.register(
     "Settings & import" : "Configurationes e importation",
     "Email" : "E-posta",
     "Unknown" : "Incognite",
-    "from" : "ex",
-    "to" : "a",
     "never" : "nunquam",
     "after" : "post",
     "Repeat" : "Repeter",

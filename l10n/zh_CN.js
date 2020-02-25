@@ -148,8 +148,6 @@ OC.L10N.register(
     "Event title" : "事件标题",
     "All day" : "全天",
     "Can not modify all-day setting for events that are part of a recurrence-set." : "如果事件是循环事件集的一部分，则无法修改此事件的全天设置",
-    "from" : "从",
-    "to" : "到",
     "from {startDate}" : "始于{startDate}",
     "from {startDate} at {startTime}" : "始于{startDate}的{startTime}",
     "to {endDate}" : "到{endDate}",

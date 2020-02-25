@@ -148,8 +148,6 @@ OC.L10N.register(
     "Event title" : "Titel des Termins",
     "All day" : "Ganztägig",
     "Can not modify all-day setting for events that are part of a recurrence-set." : "Die ganztägige Einstellung kann nicht für Termine geändert werden, die Teil einer Menge von Wiederholungen sind.",
-    "from" : "von",
-    "to" : "an",
     "from {startDate}" : "von {startDate}",
     "from {startDate} at {startTime}" : "von {startDate} um {startTime}",
     "to {endDate}" : "bis {endDate}",

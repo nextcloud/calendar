@@ -128,8 +128,6 @@ OC.L10N.register(
     "To send out invitations and handle responses,  [linkopen]add your email address in personal settings[linkclose]." : "Za pošiljanje vabil in urejanje odzivov mora biti [linkopen]vaš elektronski naslov vpisan med osebnimi nastavitvami[linkclose].",
     "Event title" : "Naslov dogodka",
     "All day" : "Ves dan",
-    "from" : "od",
-    "to" : "do",
     "from {startDate}" : "od {startDate}",
     "from {startDate} at {startTime}" : "od {startDate} ob {startTime}",
     "to {endDate}" : "do {endDate}",

@@ -24,8 +24,6 @@ OC.L10N.register(
     "Settings & import" : "Gosodiadau a mewnforio",
     "Email" : "E-bost",
     "Unknown" : "Anhysbys",
-    "from" : "oddi wrth",
-    "to" : "at",
     "never" : "byth",
     "after" : "wedi",
     "Repeat" : "Ailadrodd",

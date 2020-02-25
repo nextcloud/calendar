@@ -29,8 +29,6 @@ OC.L10N.register(
     "Email" : "דוא״ל",
     "Unknown" : "לא ידוע",
     "All day" : "כל היום",
-    "from" : "מאת",
-    "to" : "אל",
     "never" : "לעולם לא",
     "after" : "לאחר",
     "Repeat" : "חזרה",

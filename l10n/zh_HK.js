@@ -16,8 +16,6 @@ OC.L10N.register(
     "Automatic" : "自動",
     "Email" : "電郵",
     "Unknown" : "未知",
-    "from" : "由",
-    "to" : "至",
     "never" : "永不",
     "Repeat" : "重複",
     "Monday" : "星期一",

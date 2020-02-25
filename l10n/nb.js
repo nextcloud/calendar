@@ -103,8 +103,6 @@ OC.L10N.register(
     "(organizer)" : "(organisator)",
     "Event title" : "Tittel på hendelsen",
     "All day" : "Hele dagen",
-    "from" : "fra",
-    "to" : "til",
     "from {startDate}" : "fra {startDate}",
     "from {startDate} at {startTime}" : "fra {startDate}, {startTime}",
     "to {endDate}" : "til {endDate}",

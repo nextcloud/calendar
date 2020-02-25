@@ -26,8 +26,6 @@ OC.L10N.register(
     "Settings & import" : "Setări și import",
     "Email" : "Email",
     "Unknown" : "Necunoscut",
-    "from" : "de la",
-    "to" : "către",
     "never" : "niciodată",
     "after" : "după",
     "Repeat" : "Repetă",

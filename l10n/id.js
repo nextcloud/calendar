@@ -22,8 +22,6 @@ OC.L10N.register(
     "Automatic" : "Otomatis",
     "Email" : "Surel",
     "Unknown" : "Tidak diketahui",
-    "from" : "dari",
-    "to" : "untuk",
     "never" : "tidak pernah",
     "Repeat" : "Ulangi",
     "Monday" : "Senin",

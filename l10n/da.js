@@ -89,8 +89,6 @@ OC.L10N.register(
     "Send e-mail" : "Send e-mail",
     "Event title" : "Titel",
     "All day" : "Hele dagen",
-    "from" : "fra",
-    "to" : "til",
     "from {startDate}" : "fra {startDate}",
     "from {startDate} at {startTime}" : "fra {startDate} kl {startTime}",
     "to {endDate}" : "til {endDate}",

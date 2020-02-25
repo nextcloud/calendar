@@ -148,8 +148,6 @@ OC.L10N.register(
     "Event title" : "Etkinlik başlığı",
     "All day" : "Tüm gün",
     "Can not modify all-day setting for events that are part of a recurrence-set." : "Bir yinelenme kümesinin ögesi olan etkinlikler tüm gün olarak ayarlanamaz.",
-    "from" : "başlangıç",
-    "to" : "bitiş",
     "from {startDate}" : "{startDate} tarihinden",
     "from {startDate} at {startTime}" : "{startDate} - {startTime} saatinden",
     "to {endDate}" : "{endDate} tarihine",

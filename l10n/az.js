@@ -15,8 +15,6 @@ OC.L10N.register(
     "Cancel" : "Dayandır",
     "Automatic" : "Avtomatik",
     "Email" : "Email",
-    "from" : "ondan",
-    "to" : "doğru",
     "never" : "heç vaxt",
     "Repeat" : "Təkrar",
     "Monday" : "Bazar ertəsi",

@@ -146,8 +146,6 @@
     "Event title" : "Τίτλος γεγονότος",
     "All day" : "Ολοήμερο",
     "Can not modify all-day setting for events that are part of a recurrence-set." : "Δεν είναι δυνατή η τροποποίηση της ρύθμισης ολοήμερου συμβάντος που αποτελεί μέρος σετ-επανάληψης.",
-    "from" : "από",
-    "to" : "προς",
     "from {startDate}" : "από {startDate}",
     "from {startDate} at {startTime}" : "από {startDate} στις {startTime}",
     "to {endDate}" : "έως {endDate}",

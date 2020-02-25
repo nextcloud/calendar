@@ -144,8 +144,6 @@
     "Event title" : "Naslov događaja",
     "All day" : "Cijeli dan",
     "Can not modify all-day setting for events that are part of a recurrence-set." : "Nije moguće mijenjati cjelodnevne postavke za događaje koji su dio skupa ponavljanja.",
-    "from" : "od",
-    "to" : "do",
     "from {startDate}" : "od {startDate}",
     "from {startDate} at {startTime}" : "od {startDate} u {startTime}",
     "to {endDate}" : "do {endDate}",

@@ -13,8 +13,6 @@ OC.L10N.register(
     "New calendar" : "Kalendar baru",
     "Cancel" : "Batal",
     "Email" : "Email",
-    "from" : "dari",
-    "to" : "kepada",
     "never" : "jangan",
     "Repeat" : "Ulang",
     "Monday" : "Isnin",

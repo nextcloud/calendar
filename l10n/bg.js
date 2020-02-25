@@ -65,8 +65,6 @@ OC.L10N.register(
     "Unknown" : "Непознат",
     "Send e-mail" : "Изпрати имейл",
     "All day" : "Цял ден",
-    "from" : "от",
-    "to" : "до",
     "never" : "никога",
     "after" : "след",
     "first" : "първи",

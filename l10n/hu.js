@@ -51,8 +51,6 @@ OC.L10N.register(
     "Busy" : "Foglalt",
     "Unknown" : "Ismeretlen",
     "All day" : "Egész napos",
-    "from" : "feladó",
-    "to" : "címzett",
     "never" : "soha",
     "after" : "után",
     "Repeat" : "Ismétlés",

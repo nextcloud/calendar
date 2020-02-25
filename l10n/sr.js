@@ -34,8 +34,6 @@ OC.L10N.register(
     "Busy" : "Заузет",
     "Unknown" : "Непознато",
     "All day" : "Цео дан",
-    "from" : "од",
-    "to" : "за",
     "never" : "никада",
     "after" : "након",
     "Repeat" : "Понављај",

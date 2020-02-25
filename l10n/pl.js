@@ -148,8 +148,6 @@ OC.L10N.register(
     "Event title" : "Tytuł wydarzenia",
     "All day" : "Cały dzień",
     "Can not modify all-day setting for events that are part of a recurrence-set." : "Nie można modyfikować ustawienia całodziennego dla wydarzeń, które są częścią zestawu cyklicznego.",
-    "from" : "od",
-    "to" : "do",
     "from {startDate}" : "od {startDate}",
     "from {startDate} at {startTime}" : "od {startDate} o {startTime}",
     "to {endDate}" : "do {endDate}",

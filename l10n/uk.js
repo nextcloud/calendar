@@ -148,8 +148,6 @@ OC.L10N.register(
     "Event title" : "Назва події",
     "All day" : "Цілий день",
     "Can not modify all-day setting for events that are part of a recurrence-set." : "Неможливо змінити налаштування зайнятості цилого дня для подій, що повторюються.",
-    "from" : "з",
-    "to" : "до",
     "from {startDate}" : "з {startDate}",
     "from {startDate} at {startTime}" : "до {startDate} о {startTime}",
     "to {endDate}" : "до {endDate}",

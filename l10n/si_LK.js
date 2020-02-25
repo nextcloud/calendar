@@ -13,7 +13,6 @@ OC.L10N.register(
     "Cancel" : "එපා",
     "Email" : "විද්‍යුත් තැපෑල",
     "Unknown" : "නොදනී",
-    "from" : "වෙතින්",
     "never" : "කවදාවත්",
     "Repeat" : "පුනරාවර්ථන",
     "Monday" : "සඳුදා",

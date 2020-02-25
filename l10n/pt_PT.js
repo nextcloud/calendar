@@ -27,8 +27,6 @@ OC.L10N.register(
     "Email" : "E-mail",
     "Busy" : "Ocupado",
     "Unknown" : "Desconhecido",
-    "from" : "de",
-    "to" : "para",
     "never" : "nunca",
     "after" : "depois",
     "Repeat" : "Repetir",
