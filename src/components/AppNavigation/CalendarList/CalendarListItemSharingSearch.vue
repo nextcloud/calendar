@@ -195,6 +195,13 @@ export default {
 				return []
 			}
 
+			if (results.data.ocs.meta.status === 'failure') {
+				return []
+			}
+			if (!Array.isArray(results.data.ocs.data.circles)) {
+				return []
+			}
+
 			const circles = results.data.ocs.data.circles
 			return circles.filter((circle) => {
 				return !hiddenPrincipals.includes('principal:principals/circles/' + circle.value.shareWith)
