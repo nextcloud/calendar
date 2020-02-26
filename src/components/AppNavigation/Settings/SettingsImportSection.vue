@@ -34,6 +34,7 @@
 			:id="inputUid"
 			class="hidden"
 			type="file"
+			ref="importInput"
 			:accept="supportedFileTypes"
 			:disabled="disableImport"
 			multiple
@@ -239,6 +240,8 @@ export default {
 
 			// Once we are done importing, reload the calendar view
 			this.$store.commit('incrementModificationCount')
+
+			this.resetInput()
 		},
 		/**
 		 * Resets the import sate
@@ -246,7 +249,15 @@ export default {
 		cancelImport() {
 			this.$store.commit('removeAllFiles')
 			this.$store.commit('resetState')
+			this.resetInput()
 		},
+		/**
+		 * Manually reset the file-input, because when you try to upload
+		 * the exact same files again, it won't trigger the change event
+		 */
+		resetInput() {
+			this.$refs.importInput.value = ''
+		}
 	},
 }
 </script>
