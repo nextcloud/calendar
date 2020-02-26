@@ -143,7 +143,6 @@ export default {
 		 * @param {Event} event The change-event of the input-field
 		 */
 		async processFiles(event) {
-			console.debug('user changed files')
 			this.$store.commit('changeStage', 'processing')
 			let addedFiles = false
 
@@ -152,11 +151,32 @@ export default {
 				const lastModified = file.lastModified
 				const name = file.name
 				const size = file.size
-				const type = file.type
+				let type = file.type
+
+				// Handle cases where we are running inside a browser on Windows
+				//
+				// https://developer.mozilla.org/en-US/docs/Web/API/File/type
+				// "Uncommon" file-extensions will result in an empty type
+				// and apparently Microsoft considers calendar files to be "uncommon"
+				if (type === '') {
+					// If it's an xml file, our best guess is xCal: https://tools.ietf.org/html/rfc6321
+					// If it's a json file, our best guess is jCal: https://tools.ietf.org/html/rfc7265
+					// In every other case, our best guess is just plain old iCalendar: https://tools.ietf.org/html/rfc5545
+					if (name.endsWith('.xml')) {
+						type = 'application/calendar+xml'
+					} else if (name.endsWith('.json')) {
+						type = 'application/calendar+json'
+					} else {
+						type = 'text/calendar'
+					}
+				}
 
 				// Make sure the user didn't select
 				// files of a different file-type
 				if (!this.supportedFileTypes.includes(type)) {
+					this.$toast.error(this.$t('calendar', '{filename} is an unsupported file-type', {
+						filename: name
+					}))
 					continue
 				}
 
@@ -168,7 +188,16 @@ export default {
 					includeTimezones: true,
 					removeRSVPForAttendees: true,
 				})
-				parser.parse(contents)
+
+				try {
+					parser.parse(contents)
+				} catch (error) {
+					console.error(error)
+					this.$toast.error(this.$t('calendar', '{filename} could not be parsed', {
+						filename: name
+					}))
+					continue
+				}
 
 				this.$store.commit('addFile', {
 					contents,
@@ -182,6 +211,7 @@ export default {
 			}
 
 			if (!addedFiles) {
+				this.$toast.error(this.$t('calendar', 'No valid files found, aborting import'))
 				this.$store.commit('removeAllFiles')
 				this.$store.commit('resetState')
 				return
