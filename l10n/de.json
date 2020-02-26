@@ -88,6 +88,7 @@
     "New setting was not saved successfully." : "Neue Einstellung konnte nicht gespeichert werden.",
     "Enable birthday calendar" : "Geburtstagskalender aktivieren",
     "Enable simplified editor" : "Einfachen Editor aktivieren",
+    "Limit visible events per view" : "Sichtbare Ereignisse pro Ansicht begrenzen",
     "Show weekends" : "Wochenenden anzeigen",
     "Show week numbers" : "Kalenderwochen anzeigen",
     "Copy primary CalDAV address" : "Primäre CalDAV-Adresse kopieren",

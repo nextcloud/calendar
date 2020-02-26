@@ -90,6 +90,7 @@ OC.L10N.register(
     "New setting was not saved successfully." : "El nuevo ajuste no ha podido ser guardado correctamente.",
     "Enable birthday calendar" : "Permitir calendario de cumpleaños",
     "Enable simplified editor" : "Activar editor simplificado",
+    "Limit visible events per view" : "Limite los eventos visibles por vista",
     "Show weekends" : "Mostrar fines de semana",
     "Show week numbers" : "Mostrar numero de semana",
     "Copy primary CalDAV address" : "Copiar dirección primaria de CalDAV",

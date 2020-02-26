@@ -90,6 +90,7 @@ OC.L10N.register(
     "New setting was not saved successfully." : "Nová nastavení se nepodařilo uložit.",
     "Enable birthday calendar" : "Zobrazovat kalendář s narozeninami",
     "Enable simplified editor" : "Zapnout zjednodušený editor",
+    "Limit visible events per view" : "Omezit viditelné události v jednotlivých pohledech",
     "Show weekends" : "Zobrazit víkendy",
     "Show week numbers" : "Zobrazovat čísla týdnů",
     "Copy primary CalDAV address" : "Zkopírovat hlavní CalDAV adresu",
