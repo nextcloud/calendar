@@ -49,7 +49,7 @@ export default {
 				return
 			}
 
-			if (!newCalendar.enabled) {
+			if (this.showCalendarOnSelect && !newCalendar.enabled) {
 				this.$store.dispatch('toggleCalendarEnabled', {
 					calendar: newCalendar,
 				})
