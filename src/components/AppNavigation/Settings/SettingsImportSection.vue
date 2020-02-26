@@ -236,6 +236,9 @@ export default {
 			}
 			this.$store.commit('removeAllFiles')
 			this.$store.commit('resetState')
+
+			// Once we are done importing, reload the calendar view
+			this.$store.commit('incrementModificationCount')
 		},
 		/**
 		 * Resets the import sate
