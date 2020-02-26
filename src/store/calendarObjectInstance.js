@@ -1460,17 +1460,22 @@ const actions = {
 	async saveCalendarObjectInstance({ state, dispatch, commit }, { thisAndAllFuture, calendarId }) {
 		const eventComponent = state.calendarObjectInstance.eventComponent
 		const calendarObject = state.calendarObject
-		const isNewEvent = calendarObject.id === 'new'
 
 		if (eventComponent.isDirty()) {
-			let original, fork
-			if (eventComponent.canCreateRecurrenceExceptions() && !isNewEvent) {
+			const isForkedItem = eventComponent.primaryItem !== null
+			let original = null
+			let fork = null
+
+			// We check if two things apply:
+			// - primaryItem !== null -> Is this a fork or not?
+			// - eventComponent.canCreateRecurrenceExceptions() - Can we create a recurrence-exception for this item
+			if (isForkedItem && eventComponent.canCreateRecurrenceExceptions()) {
 				[original, fork] = eventComponent.createRecurrenceException(thisAndAllFuture)
 			}
 
 			await dispatch('updateCalendarObject', { calendarObject })
 
-			if (!isNewEvent && thisAndAllFuture && original.root !== fork.root) {
+			if (original !== null && fork !== null && original.root !== fork.root) {
 				await dispatch('createCalendarObjectFromFork', {
 					eventComponent: fork,
 					calendarId: calendarId,
