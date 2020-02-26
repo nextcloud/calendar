@@ -230,7 +230,7 @@ const mutations = {
 	 */
 	changeEndTimezone(state, { calendarObjectInstance, endTimezone }) {
 		const timezone = getTimezoneManager().getTimezoneForId(endTimezone)
-		calendarObjectInstance.eventComponent.startDate.replaceTimezone(timezone)
+		calendarObjectInstance.eventComponent.endDate.replaceTimezone(timezone)
 		calendarObjectInstance.endTimezoneId = endTimezone
 
 		// Either both are floating or both have a timezone, but it can't be mixed
