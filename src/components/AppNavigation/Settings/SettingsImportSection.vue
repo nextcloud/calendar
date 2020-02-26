@@ -167,6 +167,8 @@ export default {
 						type = 'application/calendar+xml'
 					} else if (name.endsWith('.json')) {
 						type = 'application/calendar+json'
+					} else if (name.endsWith('.csv')) {
+						type = 'text/csv'
 					} else {
 						type = 'text/calendar'
 					}
