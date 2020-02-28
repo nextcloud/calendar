@@ -166,6 +166,7 @@ export default {
 			skipPopover: state => state.settings.skipPopover,
 			showWeekends: state => state.settings.showWeekends,
 			showWeekNumbers: state => state.settings.showWeekNumbers,
+			slotDuration: state => state.settings.slotDuration,
 			timezone: state => state.settings.timezone,
 			modificationCount: state => state.calendarObjects.modificationCount,
 		}),
@@ -177,9 +178,6 @@ export default {
 		},
 		eventSources() {
 			return this.$store.getters.enabledCalendars.map(eventSource(this.$store))
-		},
-		slotDuration() {
-			return '00:15:00'
 		},
 		plugins() {
 			return [
@@ -299,6 +297,7 @@ export default {
 			showWeekends: loadState('calendar', 'show_weekends'),
 			showWeekNumbers: loadState('calendar', 'show_week_numbers'),
 			skipPopover: loadState('calendar', 'skip_popover'),
+			slotDuration: loadState('calendar', 'slot_duration'),
 			talkEnabled: loadState('calendar', 'talk_enabled'),
 			timezone: loadState('calendar', 'timezone'),
 		})

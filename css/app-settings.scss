@@ -53,5 +53,14 @@
 			text-align: center;
 			background-position-x: 8px;
 		}
+
+		&--slotDuration,
+		&--timezone {
+			width: 100%;
+
+			.multiselect {
+				width: 100%;
+			}
+		}
 	}
 }

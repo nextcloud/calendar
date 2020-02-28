@@ -58,6 +58,16 @@
 				@update:checked="toggleWeekNumberEnabled">
 				{{ $t('calendar', 'Show week numbers') }}
 			</ActionCheckbox>
+			<li class="settings-fieldset-interior-item settings-fieldset-interior-item--slotDuration">
+				<Multiselect
+					:allow-empty="false"
+					:options="slotDurationOptions"
+					:value="selectedDurationOption"
+					:disabled="savingSlotDuration"
+					track-by="value"
+					label="label"
+					@select="changeSlotDuration" />
+			</li>
 			<SettingsTimezoneSelect :is-disabled="loadingCalendars" />
 			<ActionButton class="settings-fieldset-interior-item" icon="icon-clippy" @click.prevent.stop="copyPrimaryCalDAV">
 				{{ $t('calendar', 'Copy primary CalDAV address') }}
@@ -73,6 +83,7 @@
 import { ActionButton } from '@nextcloud/vue/dist/Components/ActionButton'
 import { ActionCheckbox } from '@nextcloud/vue/dist/Components/ActionCheckbox'
 import { AppNavigationSettings } from '@nextcloud/vue/dist/Components/AppNavigationSettings'
+import { Multiselect } from '@nextcloud/vue/dist/Components/Multiselect'
 import {
 	generateRemoteUrl,
 } from '@nextcloud/router'
@@ -80,6 +91,7 @@ import {
 	mapGetters,
 	mapState,
 } from 'vuex'
+import moment from '@nextcloud/moment'
 
 import SettingsImportSection from './Settings/SettingsImportSection.vue'
 import SettingsTimezoneSelect from './Settings/SettingsTimezoneSelect.vue'
@@ -92,6 +104,7 @@ export default {
 		ActionButton,
 		ActionCheckbox,
 		AppNavigationSettings,
+		Multiselect,
 		SettingsImportSection,
 		SettingsTimezoneSelect,
 	},
@@ -106,6 +119,7 @@ export default {
 			savingBirthdayCalendar: false,
 			savingEventLimit: false,
 			savingPopover: false,
+			savingSlotDuration: false,
 			savingWeekend: false,
 			savingWeekNumber: false,
 		}
@@ -119,7 +133,9 @@ export default {
 			showPopover: state => !state.settings.skipPopover,
 			showWeekends: state => state.settings.showWeekends,
 			showWeekNumbers: state => state.settings.showWeekNumbers,
+			slotDuration: state => state.settings.slotDuration,
 			timezone: state => state.settings.timezone,
+			locale: (state) => state.settings.momentLocale,
 		}),
 		isBirthdayCalendarDisabled() {
 			return this.savingBirthdayCalendar || this.loadingCalendars
@@ -138,6 +154,30 @@ export default {
 		},
 		settingsTitle() {
 			return this.$t('calendar', 'Settings & import').replace(/&amp;/g, '&')
+		},
+		slotDurationOptions() {
+			return [{
+				label: moment.duration(5 * 60 * 1000).locale(this.locale).humanize(),
+				value: '00:05:00',
+			}, {
+				label: moment.duration(10 * 60 * 1000).locale(this.locale).humanize(),
+				value: '00:10:00',
+			}, {
+				label: moment.duration(15 * 60 * 1000).locale(this.locale).humanize(),
+				value: '00:15:00',
+			}, {
+				label: moment.duration(20 * 60 * 1000).locale(this.locale).humanize(),
+				value: '00:20:00',
+			}, {
+				label: moment.duration(30 * 60 * 1000).locale(this.locale).humanize(),
+				value: '00:30:00',
+			}, {
+				label: moment.duration(60 * 60 * 1000).locale(this.locale).humanize(),
+				value: '01:00:00',
+			}]
+		},
+		selectedDurationOption() {
+			return this.slotDurationOptions.find(o => o.value === this.slotDuration)
 		},
 	},
 	methods: {
@@ -202,6 +242,30 @@ export default {
 				console.error(error)
 				this.$toast.error(this.$t('calendar', 'New setting was not saved successfully.'))
 				this.savingWeekNumber = false
+			}
+		},
+		/**
+		 * Updates the setting for slot duration
+		 *
+		 * @param {Object} option The new selected value
+		 */
+		async changeSlotDuration(option) {
+			if (!option) {
+				return
+			}
+
+			// change to loading status
+			this.savingSlotDuration = true
+
+			try {
+				await this.$store.dispatch('setSlotDuration', {
+					slotDuration: option.value,
+				})
+				this.savingSlotDuration = false
+			} catch (error) {
+				console.error(error)
+				this.$toast.error(this.$t('calendar', 'New setting was not saved successfully.'))
+				this.savingSlotDuration = false
 			}
 		},
 		/**
