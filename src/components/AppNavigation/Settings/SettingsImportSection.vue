@@ -32,9 +32,9 @@
 		</label>
 		<input
 			:id="inputUid"
+			ref="importInput"
 			class="hidden"
 			type="file"
-			ref="importInput"
 			:accept="supportedFileTypes"
 			:disabled="disableImport"
 			multiple
@@ -178,7 +178,7 @@ export default {
 				// files of a different file-type
 				if (!this.supportedFileTypes.includes(type)) {
 					this.$toast.error(this.$t('calendar', '{filename} is an unsupported file-type', {
-						filename: name
+						filename: name,
 					}))
 					continue
 				}
@@ -197,7 +197,7 @@ export default {
 				} catch (error) {
 					console.error(error)
 					this.$toast.error(this.$t('calendar', '{filename} could not be parsed', {
-						filename: name
+						filename: name,
 					}))
 					continue
 				}
@@ -259,7 +259,7 @@ export default {
 		 */
 		resetInput() {
 			this.$refs.importInput.value = ''
-		}
+		},
 	},
 }
 </script>
