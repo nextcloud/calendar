@@ -34,6 +34,7 @@ const state = {
 	showWeekends: null,
 	showWeekNumbers: null,
 	skipPopover: null,
+	slotDuration: null,
 	talkEnabled: false,
 	timezone: null,
 }
@@ -77,6 +78,17 @@ const mutations = {
 	},
 
 	/**
+	 * Updates the user's preferred slotDuration
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {String} data.slotDuration The new slot duration
+	 */
+	setSlotDuration(state, { slotDuration }) {
+		state.slotDuration = slotDuration
+	},
+
+	/**
 	 * Updates the user's timezone
 	 *
 	 * @param {Object} state The Vuex state
@@ -102,6 +114,7 @@ const mutations = {
 		state.showWeekNumbers = settings.showWeekNumbers
 		state.showWeekends = settings.showWeekends
 		state.skipPopover = settings.skipPopover
+		state.slotDuration = settings.slotDuration
 		state.talkEnabled = settings.talkEnabled
 		state.timezone = settings.timezone
 	},
@@ -232,6 +245,24 @@ const actions = {
 		await HttpClient.post(getLinkToConfig('view'), {
 			value: initialView,
 		})
+	},
+
+	/**
+	 * Updates the user's preferred slotDuration
+	 *
+	 * @param {Object} context The Vuex context
+	 * @param {Object} data The destructuring object
+	 * @param {String} data.slotDuration The new slot duration
+	 */
+	async setSlotDuration(context, { slotDuration }) {
+		if (context.state.slotDuration === slotDuration) {
+			return
+		}
+
+		await HttpClient.post(getLinkToConfig('slotDuration'), {
+			value: slotDuration,
+		})
+		context.commit('setSlotDuration', { slotDuration })
 	},
 
 	/**

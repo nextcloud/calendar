@@ -92,6 +92,7 @@ class ViewController extends Controller {
 		$defaultWeekNumbers = $this->config->getAppValue($this->appName, 'showWeekNr', 'no');
 		$defaultSkipPopover = $this->config->getAppValue($this->appName, 'skipPopover', 'no');
 		$defaultTimezone = $this->config->getAppValue($this->appName, 'timezone', 'automatic');
+		$defaultSlotDuration = $this->config->getAppValue($this->appName, 'slotDuration', '00:30:00');
 
 		$appVersion = $this->config->getAppValue($this->appName, 'installed_version');
 		$eventLimit = $this->config->getUserValue($this->userId, $this->appName, 'eventLimit', $defaultEventLimit) === 'yes';
@@ -102,6 +103,7 @@ class ViewController extends Controller {
 		$skipPopover = $this->config->getUserValue($this->userId, $this->appName, 'skipPopover', $defaultSkipPopover) === 'yes';
 		$talkEnabled = $this->appManager->isEnabledForUser('spreed');
 		$timezone = $this->config->getUserValue($this->userId, $this->appName, 'timezone', $defaultTimezone);
+		$slotDuration = $this->config->getUserValue($this->userId, $this->appName, 'slotDuration', $defaultSlotDuration);
 
 		$this->initialStateService->provideInitialState($this->appName, 'app_version', $appVersion);
 		$this->initialStateService->provideInitialState($this->appName, 'event_limit', $eventLimit);
@@ -112,6 +114,7 @@ class ViewController extends Controller {
 		$this->initialStateService->provideInitialState($this->appName, 'skip_popover', $skipPopover);
 		$this->initialStateService->provideInitialState($this->appName, 'talk_enabled', $talkEnabled);
 		$this->initialStateService->provideInitialState($this->appName, 'timezone', $timezone);
+		$this->initialStateService->provideInitialState($this->appName, 'slot_duration', $slotDuration);
 
 		return new TemplateResponse($this->appName, 'main');
 	}
