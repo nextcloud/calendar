@@ -1,0 +1,49 @@
+name: Lint
+on: pull_request
+
+jobs:
+  xml-linters:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Download schema
+        run: wget https://apps.nextcloud.com/schema/apps/info.xsd
+      - name: Lint info.xml
+        uses: ChristophWurst/xmllint-action@v1
+        with:
+          xml-file: ./appinfo/info.xml
+          xml-schema-file: ./info.xsd
+
+  php-linters:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-versions: ['7.1', '7.2', '7.3', '7.4']
+    name: php${{ matrix.php-versions }} lint
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Set up php${{ matrix.php-versions }}
+        uses: shivammathur/setup-php@master
+        with:
+          php-version: ${{ matrix.php-versions }}
+          coverage: none
+      - name: Lint
+        run: composer run lint
+
+  node-linters:
+    runs-on: ubuntu-latest
+    name: ESLint
+    steps:
+      - uses: actions/checkout@master
+      - name: Set up Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - name: npm install
+        run: npm ci
+      - name: eslint
+        run: npm run lint
+    env:
+      CI: true
