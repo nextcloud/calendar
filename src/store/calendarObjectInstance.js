@@ -1526,6 +1526,28 @@ const actions = {
 	},
 
 	/**
+	 *
+	 * @param {Object} data The destructuring object for Vuex
+	 * @param {Function} data.commit The Vuex commit function
+	 * @param {Object} data2 The destructuring object for data
+	 * @param {Object} data2.calendarObjectInstance The calendarObjectInstance object
+	 * @param {Date} data2.startDate The new start-date
+	 */
+	changeStartDate({ commit }, { calendarObjectInstance, startDate }) {
+		const difference = startDate.getTime() - calendarObjectInstance.startDate.getTime()
+		const endDate = new Date(calendarObjectInstance.endDate.getTime() + difference)
+
+		commit('changeStartDate', {
+			calendarObjectInstance,
+			startDate,
+		})
+		commit('changeEndDate', {
+			calendarObjectInstance,
+			endDate,
+		})
+	},
+
+	/**
 	 * Change the timezone of the event's start
 	 *
 	 * @param {Object} data The destructuring object for Vuex
