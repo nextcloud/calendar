@@ -321,6 +321,53 @@ class SettingsControllerTest extends TestCase {
 		$this->assertEquals(500, $actual->getStatus());
 	}
 
+	/**
+	 * @param string $value
+	 * @param int $expectedStatusCode
+	 *
+	 * @dataProvider setSlotDurationWithAllowedValueDataProvider
+	 */
+	public function testSetSlotDurationWithAllowedValue(string $value,
+													  int $expectedStatusCode):void {
+		if ($expectedStatusCode === 200) {
+			$this->config->expects($this->once())
+				->method('setUserValue')
+				->with('user123', $this->appName, 'slotDuration', $value);
+		}
+
+		$actual = $this->controller->setConfig('slotDuration', $value);
+
+		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertEquals([], $actual->getData());
+		$this->assertEquals($expectedStatusCode, $actual->getStatus());
+	}
+
+	public function setSlotDurationWithAllowedValueDataProvider():array {
+		return [
+			['00:05:00', 200],
+			['00:10:00', 200],
+			['00:15:00', 200],
+			['00:20:00', 200],
+			['00:30:00', 200],
+			['01:00:00', 200],
+			['00:13:00', 422],
+			['01:13:00', 422]
+		];
+	}
+
+	public function testSetSlotDurationWithException():void {
+		$this->config->expects($this->once())
+			->method('setUserValue')
+			->with('user123', $this->appName, 'slotDuration', '00:30:00')
+			->will($this->throwException(new \Exception));
+
+		$actual = $this->controller->setConfig('slotDuration', '00:30:00');
+
+		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertEquals([], $actual->getData());
+		$this->assertEquals(500, $actual->getStatus());
+	}
+
 	public function testSetNotExistingConfig():void {
 		$actual = $this->controller->setConfig('foo', 'bar');
 

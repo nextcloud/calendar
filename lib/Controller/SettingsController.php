@@ -84,6 +84,8 @@ class SettingsController extends Controller {
 				return $this->setTimezone($value);
 			case 'eventLimit':
 				return $this->setEventLimit($value);
+			case 'slotDuration':
+				return $this->setSlotDuration($value);
 			default:
 				return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		}
@@ -247,6 +249,31 @@ class SettingsController extends Controller {
 				$this->userId,
 				$this->appName,
 				'eventLimit',
+				$value
+			);
+		} catch(\Exception $e) {
+			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+
+		return new JSONResponse();
+	}
+
+	/**
+	 * sets slotDuration for user
+	 *
+	 * @param string $value User-selected option for slot-duration in agenda view
+	 * @return JSONResponse
+	 */
+	private function setSlotDuration(string $value):JSONResponse {
+		if (!\in_array($value, ['00:05:00', '00:10:00', '00:15:00', '00:20:00', '00:30:00', '01:00:00'])) {
+			return new JSONResponse([], Http::STATUS_UNPROCESSABLE_ENTITY);
+		}
+
+		try {
+			$this->config->setUserValue(
+				$this->userId,
+				$this->appName,
+				'slotDuration',
 				$value
 			);
 		} catch(\Exception $e) {

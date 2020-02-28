@@ -112,6 +112,7 @@ class PublicViewController extends Controller {
 		$defaultWeekNumbers = $this->config->getAppValue($this->appName, 'showWeekNr', 'no');
 		$defaultSkipPopover = $this->config->getAppValue($this->appName, 'skipPopover', 'yes');
 		$defaultTimezone = $this->config->getAppValue($this->appName, 'timezone', 'automatic');
+		$defaultSlotDuration = $this->config->getAppValue($this->appName, 'slotDuration', '00:30:00');
 
 		$appVersion = $this->config->getAppValue($this->appName, 'installed_version');
 
@@ -124,6 +125,7 @@ class PublicViewController extends Controller {
 		$this->initialStateService->provideInitialState($this->appName, 'skip_popover', ($defaultSkipPopover === 'yes'));
 		$this->initialStateService->provideInitialState($this->appName, 'talk_enabled', false);
 		$this->initialStateService->provideInitialState($this->appName, 'timezone', $defaultTimezone);
+		$this->initialStateService->provideInitialState($this->appName, 'slot_duration', $defaultSlotDuration);
 
 		return new TemplateResponse($this->appName, 'main', [
 			'share_url' => $this->getShareURL(),

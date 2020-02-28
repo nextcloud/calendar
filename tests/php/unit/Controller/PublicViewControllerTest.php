@@ -85,8 +85,12 @@ class PublicViewControllerTest extends TestCase {
 			->method('getAppValue')
 			->with('calendar', 'timezone', 'automatic')
 			->willReturn('defaultTimezone');
-
 		$this->config->expects($this->at(6))
+			->method('getAppValue')
+			->with('calendar', 'slotDuration', '00:30:00')
+			->willReturn('defaultSlotDuration');
+
+		$this->config->expects($this->at(7))
 			->method('getAppValue')
 			->with('calendar', 'installed_version')
 			->willReturn('1.0.0');
@@ -140,6 +144,9 @@ class PublicViewControllerTest extends TestCase {
 		$this->initialStateService->expects($this->at(8))
 			->method('provideInitialState')
 			->with('calendar', 'timezone', 'defaultTimezone');
+		$this->initialStateService->expects($this->at(9))
+			->method('provideInitialState')
+			->with('calendar', 'slot_duration', 'defaultSlotDuration');
 
 		$response = $this->controller->publicIndexWithBranding('');
 
@@ -177,8 +184,12 @@ class PublicViewControllerTest extends TestCase {
 			->method('getAppValue')
 			->with('calendar', 'timezone', 'automatic')
 			->willReturn('defaultTimezone');
-
 		$this->config->expects($this->at(6))
+			->method('getAppValue')
+			->with('calendar', 'slotDuration', '00:30:00')
+			->willReturn('defaultSlotDuration');
+
+		$this->config->expects($this->at(7))
 			->method('getAppValue')
 			->with('calendar', 'installed_version')
 			->willReturn('1.0.0');
@@ -232,6 +243,9 @@ class PublicViewControllerTest extends TestCase {
 		$this->initialStateService->expects($this->at(8))
 			->method('provideInitialState')
 			->with('calendar', 'timezone', 'defaultTimezone');
+		$this->initialStateService->expects($this->at(9))
+			->method('provideInitialState')
+			->with('calendar', 'slot_duration', 'defaultSlotDuration');
 
 		$response = $this->controller->publicIndexForEmbedding('');
 
