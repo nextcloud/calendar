@@ -1,3 +1,64 @@
+# 2.0.2 - 2020-03-02
+### Added
+- Recognize Gym as event title for illustrations
+  [#1888](https://github.com/nextcloud/calendar/issues/1888)
+- Improve illustration matching for less false positives
+  [#1916](https://github.com/nextcloud/calendar/issues/1916)
+- Add illustrations keywords related to agile development
+  [#1873](https://github.com/nextcloud/calendar/pull/1873)
+- Add hint to new calendar dropdown that subscriptions are read-only
+  [#1938](https://github.com/nextcloud/calendar/pull/1938)
+- Move navigation to appinfo
+  [#1979](https://github.com/nextcloud/calendar/pull/1979)
+- Use InitialState API
+  [#1759](https://github.com/nextcloud/calendar/issues/1759)
+- Monthly-mode: scroll-bar instead of "more"
+  [#1889](https://github.com/nextcloud/calendar/issues/1889)
+- Adds a minimum height for fullcalendar-events
+  [#2020](https://github.com/nextcloud/calendar/pull/2020)
+- Better feedback for import failures
+  [#1920](https://github.com/nextcloud/calendar/issues/1920)
+- Custom color per event
+  [#71](https://github.com/nextcloud/calendar/issues/71)
+- Allow to configure slotDuration
+  [#2042](https://github.com/nextcloud/calendar/pull/2042)
+
+### Fixed
+- Undefined color variable
+  [#1905](https://github.com/nextcloud/calendar/issues/1905)
+- Localization of sub-title in AppSidebar
+  [#1912](https://github.com/nextcloud/calendar/issues/1912)
+- Localization of tab-title
+  [#1871](https://github.com/nextcloud/calendar/issues/1871)
+- Next month button skips one month the first time
+  [#1936](https://github.com/nextcloud/calendar/issues/1936)
+- Issue with background-color for icon in datepicker
+  [#1939](https://github.com/nextcloud/calendar/pull/1939)
+- Calendar color generator doesn't handle undefined calendar displayname
+  [#1941](https://github.com/nextcloud/calendar/issues/1941)
+- Sharing with users and groups with spaces
+  [#1985](https://github.com/nextcloud/calendar/pull/1985)
+- Birthday calender entries in wrong date format (in sidebar)
+  [#1923](https://github.com/nextcloud/calendar/issues/1923)
+- Stop hardcoding saturday and sunday as weekend, change it based on locale
+  [#2016](https://github.com/nextcloud/calendar/issues/2016)
+- Duration display issue with entries having a duration of a minute or less
+  [#1963](https://github.com/nextcloud/calendar/issues/1963)
+- Navigation and Display issue in day view
+  [#1944](https://github.com/nextcloud/calendar/issues/1944)
+- Handle files_sharing app being disabled
+  [#1967](https://github.com/nextcloud/calendar/issues/1967)
+- No calendar import (in Firefox and Edge on Windows)
+  [#1898](https://github.com/nextcloud/calendar/issues/1898)
+- Issue setting the end-timezone of an event
+  [#1914](https://github.com/nextcloud/calendar/issues/1914)
+- Calendar app cannot add repeats to an event after the event is created
+  [#2013](https://github.com/nextcloud/calendar/issues/2013)
+- Preserve duration when editing start time
+  [#1929](https://github.com/nextcloud/calendar/issues/1929)
+- Changes inside subcomponents not properly tracked
+  [#1891](https://github.com/nextcloud/calendar/issues/1891)
+
 ## 2.0.1 - 2020-01-20
 ### Fixed
 - Sort categories alphabetically
