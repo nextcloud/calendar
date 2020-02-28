@@ -83,6 +83,7 @@ OC.L10N.register(
     "Calendar to import into" : "Agenda dans lequel importer",
     "Cancel" : "Annuler",
     "_Import calendar_::_Import calendars_" : ["Importer un agenda","Importer des agendas"],
+    "{filename} is an unsupported file-type" : "Le fichier {filename} est dans un format non pris en charge",
     "Import partially failed. Imported {accepted} out of {total}." : "Échec partiel de l’importation. Import {accepted} sur {total}.",
     "_Successfully imported %n event_::_Successfully imported %n events._" : ["Import avec succès de {imported} événement","Import avec succès de {imported} événements"],
     "Automatic" : "Automatique",
