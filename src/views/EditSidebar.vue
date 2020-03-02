@@ -51,7 +51,7 @@
 		</template>
 
 		<template v-slot:header>
-			<IllustrationHeader :color="selectedCalendarColor" :illustration-url="backgroundImage" />
+			<IllustrationHeader :color="illustrationColor" :illustration-url="backgroundImage" />
 		</template>
 
 		<template v-slot:secondary-actions>
@@ -124,6 +124,13 @@
 					:value="categories"
 					@addSingleValue="addCategory"
 					@removeSingleValue="removeCategory" />
+
+				<PropertyColor
+					:calendar-color="selectedCalendarColor"
+					:is-read-only="isReadOnly"
+					:prop-model="rfcProps.color"
+					:value="color"
+					@update:value="updateColor" />
 			</div>
 			<SaveButtons
 				v-if="!isLoading && !isReadOnly"
@@ -248,10 +255,12 @@ import PropertyTitleTimePickerLoadingPlaceholder
 	from '../components/Editor/Properties/PropertyTitleTimePickerLoadingPlaceholder.vue'
 import SaveButtons from '../components/Editor/SaveButtons.vue'
 import PropertySelectMultiple from '../components/Editor/Properties/PropertySelectMultiple.vue'
+import PropertyColor from '../components/Editor/Properties/PropertyColor.vue'
 
 export default {
 	name: 'EditSidebar',
 	components: {
+		PropertyColor,
 		PropertySelectMultiple,
 		SaveButtons,
 		PropertyTitleTimePickerLoadingPlaceholder,
@@ -365,6 +374,17 @@ export default {
 			this.$store.commit('removeCategory', {
 				calendarObjectInstance: this.calendarObjectInstance,
 				category,
+			})
+		},
+		/**
+		 * Updates the color of the event
+		 *
+		 * @param {String} customColor The new color
+		 */
+		updateColor(customColor) {
+			this.$store.commit('changeCustomColor', {
+				calendarObjectInstance: this.calendarObjectInstance,
+				customColor,
 			})
 		},
 	},

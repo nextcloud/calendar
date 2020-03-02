@@ -39,6 +39,10 @@ import {
 	getAmountHoursMinutesAndUnitForAllDayEvents,
 	getTotalSecondsFromAmountAndUnitForTimedEvents, getTotalSecondsFromAmountHourMinutesAndUnitForAllDayEvents,
 } from '../utils/alarms.js'
+import {
+	getClosestCSS3ColorNameForHex,
+	getHexForColorName,
+} from '../utils/color.js'
 
 const state = {
 	isNew: null,
@@ -355,11 +359,29 @@ const mutations = {
 	 * @param {Object} state The Vuex state
 	 * @param {Object} data The destructuring object
 	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {String} data.customColor New color to set
+	 * @param {String|null} data.customColor New color to set
 	 */
 	changeCustomColor(state, { calendarObjectInstance, customColor }) {
-		calendarObjectInstance.eventComponent.customColor = customColor
-		calendarObjectInstance.customColor = customColor
+		if (customColor === null) {
+			calendarObjectInstance.eventComponent.deleteAllProperties('COLOR')
+			Vue.set(calendarObjectInstance, 'customColor', null)
+			return
+		}
+
+		const cssColorName = getClosestCSS3ColorNameForHex(customColor)
+		const hexColorOfCssName = getHexForColorName(cssColorName)
+
+		// Abort if either is undefined
+		if (!cssColorName || !hexColorOfCssName) {
+			console.error('Setting custom color failed')
+			console.error('customColor: ', customColor)
+			console.error('cssColorName: ', cssColorName)
+			console.error('hexColorOfCssName: ', hexColorOfCssName)
+			return
+		}
+
+		calendarObjectInstance.eventComponent.color = cssColorName
+		Vue.set(calendarObjectInstance, 'customColor', hexColorOfCssName)
 	},
 
 	/**

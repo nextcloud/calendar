@@ -20,18 +20,33 @@
  *
  */
 import { eventSourceFunction } from '../../../../src/fullcalendar/eventSourceFunction.js'
+import {
+	hexToRGB,
+	isLight,
+	generateTextColorForHex,
+	getHexForColorName,
+} from '../../../../src/utils/color.js'
 import { translate } from '@nextcloud/l10n'
 jest.mock('@nextcloud/l10n')
+jest.mock('../../../../src/utils/color.js')
 
 describe('fullcalendar/eventSourceFunction test suite', () => {
 
 	beforeEach(() => {
 		translate.mockClear()
+		getHexForColorName.mockClear()
+		generateTextColorForHex.mockClear()
 	})
 
 	it('should provide fc-events', () => {
 		translate
 			.mockImplementation((app, str) => str)
+		getHexForColorName
+			.mockImplementation(() => '#ff0000')
+		generateTextColorForHex
+			.mockImplementation(() => '#eeeeee')
+		isLight
+			.mockImplementation(() => false)
 
 		const event11Start = new Date(2020, 1, 1, 10, 0, 0, 0);
 		const event11End = new Date(2020, 1, 1, 15, 0, 0, 0);
@@ -131,6 +146,7 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 				})
 			},
 			hasComponent: jest.fn().mockReturnValue(false),
+			color: 'red',
 		}]
 
 		const calendarObjects = [{
@@ -249,7 +265,10 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 					calendarName: 'Calendar displayname',
 					calendarOrder: 1337,
 					darkText: false,
-				}
+				},
+				backgroundColor: '#ff0000',
+				borderColor: '#ff0000',
+				textColor: '#eeeeee',
 			}
 		])
 
@@ -284,6 +303,12 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 		expect(translate).toHaveBeenNthCalledWith(3, 'calendar', 'Untitled event')
 		expect(translate).toHaveBeenNthCalledWith(4, 'calendar', 'Untitled event')
 		expect(translate).toHaveBeenNthCalledWith(5, 'calendar', 'Untitled event')
+
+		expect(getHexForColorName).toHaveBeenCalledTimes(1)
+		expect(getHexForColorName).toHaveBeenNthCalledWith(1, 'red')
+
+		expect(generateTextColorForHex).toHaveBeenCalledTimes(1)
+		expect(generateTextColorForHex).toHaveBeenNthCalledWith(1, '#ff0000')
 
 		// Make sure the following dates have not been touched
 		expect(event11Start.getFullYear()).toEqual(2020)

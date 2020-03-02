@@ -21,6 +21,8 @@
  */
 import convert from 'color-convert'
 import { uidToColor } from './uidToColor.js'
+import css3Colors from 'css-color-names'
+import closestColor from 'closest-css-color'
 
 /**
  * Detect if a color is light or dark
@@ -103,4 +105,24 @@ export function detectColor(color) {
 
 	return false
 
+}
+
+/**
+ * Gets the HEX code for a css3 color name
+ *
+ * @param {string} colorName The name of the css3 color
+ * @returns {String|null} string of HEX if valid color, null if not
+ */
+export function getHexForColorName(colorName) {
+	return css3Colors[colorName] || null
+}
+
+/**
+ * Gets the closest css3 color name for a given HEX code
+ *
+ * @param {string} hex The HEX code to get a css3 color name for
+ * @returns {string}
+ */
+export function getClosestCSS3ColorNameForHex(hex) {
+	return closestColor(hex)
 }
