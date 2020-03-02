@@ -526,14 +526,15 @@
 	}
 
 	.property-color {
+
+		&__input {
+			display: flex;
+		}
+
 		&__color-preview {
 			border-radius: var(--border-radius);
 			height: 34px !important;
 			width: 34px !important;
-		}
-
-		&__info {
-			margin-top: 0;
 		}
 	}
 

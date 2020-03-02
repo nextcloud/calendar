@@ -45,14 +45,10 @@
 				<button class="property-color__color-preview"
 					:style="{'background-color': selectedColor }" />
 			</ColorPicker>
-		</div>
-
-		<div
-			v-if="!isReadOnly"
-			class="property-color__info">
-			<Actions>
+			<Actions
+				v-if="showColorRevertButton">
 				<ActionButton
-					icon="icon-close"
+					icon="icon-history"
 					@click.prevent.stop="deleteColor">
 					{{ $t('calendar', 'Remove color') }}
 				</ActionButton>
@@ -102,6 +98,18 @@ export default {
 		 */
 		selectedColor() {
 			return this.value || this.calendarColor
+		},
+		/**
+		 * Whether or not to show the delete color button
+		 *
+		 * @returns {Boolean}
+		 */
+		showColorRevertButton() {
+			if (this.isReadOnly) {
+				return false
+			}
+
+			return !!this.value
 		},
 	},
 	methods: {
