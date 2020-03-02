@@ -70,7 +70,7 @@
 		"vuex-router-sync": "^5.0.0"
 	},
 	"browserslist": [
-		"extends browserslist-config-nextcloud"
+		"extends @nextcloud/browserslist-config"
 	],
 	"engines": {
 		"node": ">=10.0.0"
@@ -79,20 +79,20 @@
 		"@babel/core": "^7.8.6",
 		"@babel/plugin-syntax-dynamic-import": "^7.8.3",
 		"@babel/preset-env": "^7.8.6",
+		"@nextcloud/browserslist-config": "^1.0.0",
+		"@nextcloud/eslint-config": "^1.1.0",
+		"@nextcloud/eslint-plugin": "^1.1.0",
 		"@vue/test-utils": "^1.0.0-beta.31",
 		"babel-core": "^7.0.0-bridge.0",
 		"babel-eslint": "^10.0.3",
 		"babel-jest": "^25.1.0",
 		"babel-loader": "^8.0.6",
-		"browserslist-config-nextcloud": "0.1.0",
 		"css-loader": "^3.4.2",
 		"eslint": "^5.16.0",
-		"eslint-config-nextcloud": "0.1.1",
 		"eslint-config-standard": "^12.0.0",
 		"eslint-friendly-formatter": "^4.0.1",
 		"eslint-loader": "^3.0.3",
 		"eslint-plugin-import": "^2.20.1",
-		"eslint-plugin-nextcloud": "^0.3.0",
 		"eslint-plugin-node": "^11.0.0",
 		"eslint-plugin-promise": "^4.2.1",
 		"eslint-plugin-standard": "^4.0.1",
