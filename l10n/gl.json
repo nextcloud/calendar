@@ -147,6 +147,7 @@
     "No attendees yet" : "Aínda non hai participantes",
     "(organizer)" : "(organizador)",
     "To send out invitations and handle responses,  [linkopen]add your email address in personal settings[linkclose]." : "Para enviar convites e xestionar respostas, [linkopen]engada o seu enderezo de correo electrónico na configuración persoal[linkclose].",
+    "Remove color" : "Retirar a cor",
     "Event title" : "Título do evento",
     "All day" : "Todo o día",
     "Can not modify all-day setting for events that are part of a recurrence-set." : "Non é posíbel modificar a configuración de todo o día para os eventos que forman parte dun conxunto de recorrencias.",

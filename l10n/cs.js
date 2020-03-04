@@ -149,6 +149,7 @@ OC.L10N.register(
     "No attendees yet" : "Zatím žádní účastníci",
     "(organizer)" : "(organizátor(ka))",
     "To send out invitations and handle responses,  [linkopen]add your email address in personal settings[linkclose]." : "Pro rozesílání pozvánek a práci s odpověďmi na ně [linkopen]přidejte svoji  e-mailovou adresu[linkclose] do osobních nastavení.",
+    "Remove color" : "Odebrat barvu",
     "Event title" : "Název události",
     "All day" : "Celý den",
     "Can not modify all-day setting for events that are part of a recurrence-set." : "U opakovaných událostí nelze měnit některá nastavení.",
