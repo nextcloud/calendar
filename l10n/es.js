@@ -149,6 +149,7 @@ OC.L10N.register(
     "No attendees yet" : "Aún no hay asistentes",
     "(organizer)" : "(organizer)",
     "To send out invitations and handle responses,  [linkopen]add your email address in personal settings[linkclose]." : "Para enviar invitaciones y gestionar las respuestas,  [linkopen]añade tu dirección email en los ajustes personales[linkclose].",
+    "Remove color" : "Quitar color",
     "Event title" : "Título del evento",
     "All day" : "Todo el día",
     "Can not modify all-day setting for events that are part of a recurrence-set." : "No se puede modificar la configuración de todo el día para los eventos que forman parte de un conjunto de recurrencias.",
