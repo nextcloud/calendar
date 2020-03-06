@@ -133,6 +133,7 @@ OC.L10N.register(
     "No attendees yet" : "Partaiderik ez oraindik",
     "(organizer)" : "(antolatzailea)",
     "To send out invitations and handle responses,  [linkopen]add your email address in personal settings[linkclose]." : "Gonbidapenak bidali eta erantzunak kudeatzeko,  [linkopen]gehitu zure helbide elektronikoa ezarpen pertsonaletan[linkclose].",
+    "Remove color" : "Kendu kolorea",
     "Event title" : "Gertaeraren izenburua",
     "All day" : "Egun osoa",
     "End repeat" : "Amaitu errepikapena",
@@ -163,6 +164,8 @@ OC.L10N.register(
     "Public calendar does not exist" : "Egutegi publikoa ez da existitzen",
     "Please select a timezone:" : "Mesedez aukeratu ordu-zona bat:",
     "Select Date" : "Hautatu data",
+    "Please enter a valid date" : "Sartu baliozko data",
+    "Please enter a valid date and time" : "Sartu baliozko data eta ordua",
     "Type to search timezone" : "Idatzi ordu-zona bat bilatzeko",
     "Personal" : "Pertsonala",
     "Delete this occurrence" : "Ezabatu gertaera hau",
@@ -306,6 +309,7 @@ OC.L10N.register(
     "Wine tasting" : "Ardo dastaketa",
     "Golf" : "Golfa",
     "Dinner" : "Afaria",
+    "Lunch" : "Bazkaria",
     "Global" : "Orokorra"
 },
 "nplurals=2; plural=(n != 1);");
