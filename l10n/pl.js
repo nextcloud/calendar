@@ -39,7 +39,7 @@ OC.L10N.register(
     "Calendar link could not be copied to clipboard." : "Nie można skopiować linku kalendarza do schowka.",
     "An error occurred, unable to rename the calendar." : "Wystąpił błąd, nie można zmienić nazwy kalendarza.",
     "An error occurred, unable to change the calendar's color." : "Wystąpił błąd, nie można zmienić koloru kalendarza.",
-    "_Unsharing the calendar in {countdown} second_::_Unsharing the calendar in {countdown} seconds_" : ["Udostępnienie kalendarza za {countdown} sekundę","Udostępnienie kalendarza za {countdown} sekundy","Udostępnienie kalendarza za {countdown} sekund","Udostępnienie kalendarza za {countdown} sekund"],
+    "_Unsharing the calendar in {countdown} second_::_Unsharing the calendar in {countdown} seconds_" : ["Zatrzymanie udostępnienia kalendarza za {countdown} sekundę","Zatrzymanie udostępnienia kalendarza za {countdown} sekundy","Zatrzymanie udostępnienia kalendarza za {countdown} sekund","Zatrzymanie udostępnienia kalendarza za {countdown} sekund"],
     "_Deleting the calendar in {countdown} second_::_Deleting the calendar in {countdown} seconds_" : ["Usunięcie kalendarza za {countdown} sekundę","Usunięcie kalendarza za {countdown} sekundy","Usunięcie kalendarza za {countdown} sekund","Usunięcie kalendarza za {countdown} sekund"],
     "Share link" : "Udostępnij link",
     "Publish calendar" : "Opublikuj kalendarz",
