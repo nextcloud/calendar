@@ -31,9 +31,14 @@
 		:minute-step="5"
 		:not-before="minimumDate"
 		:not-after="maximumDate"
+		:show-second="false"
+		:show-week-number="showWeekNumbers"
+		:use12h="showAmPm"
+		v-bind="$attrs"
+		v-on="$listeners"
 		@change="change">
 		<template
-			slot="calendar-icon">
+			slot="icon-calendar">
 			<button
 				class="datetime-picker-inline-icon icon"
 				:class="{'icon-timezone': !isAllDay, 'icon-new-calendar': isAllDay, 'datetime-picker-inline-icon--highlighted': highlightTimezone}"
@@ -126,6 +131,7 @@ export default {
 	computed: {
 		...mapState({
 			locale: (state) => state.settings.momentLocale,
+			showWeekNumbers: (state) => state.settings.showWeekNumbers,
 		}),
 		/**
 		 * Whether or not to highlight the timezone-icon.
@@ -169,6 +175,17 @@ export default {
 		 */
 		maximumDate() {
 			return this.max || new Date(this.$store.state.davRestrictions.maximumDate)
+		},
+		/**
+		 * Whether or not to offer am/pm in the timepicker
+		 *
+		 * @returns {Boolean}
+		 */
+		showAmPm() {
+			const localeData = moment().locale(this.locale).localeData()
+			const timeFormat = localeData.longDateFormat('LT').toLowerCase()
+
+			return timeFormat.indexOf('a') !== -1
 		},
 	},
 	methods: {

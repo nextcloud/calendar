@@ -22,13 +22,15 @@
 
 <template>
 	<DatetimePicker
-		:lang="lang"
+		:clearable="false"
 		:first-day-of-week="firstDay"
 		:format="format"
-		:value="date"
-		type="time"
-		:clearable="false"
+		:lang="lang"
 		:minute-step="5"
+		:show-second="false"
+		type="time"
+		:use12h="showAmPm"
+		:value="date"
 		@change="change" />
 </template>
 
@@ -69,6 +71,17 @@ export default {
 		...mapState({
 			locale: (state) => state.settings.momentLocale,
 		}),
+		/**
+		 * Whether or not to offer am/pm in the timepicker
+		 *
+		 * @returns {Boolean}
+		 */
+		showAmPm() {
+			const localeData = moment().locale(this.locale).localeData()
+			const timeFormat = localeData.longDateFormat('LT').toLowerCase()
+
+			return timeFormat.indexOf('a') !== -1
+		},
 	},
 	methods: {
 		/**
