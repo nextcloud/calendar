@@ -32,6 +32,7 @@
 		:not-before="minimumDate"
 		:not-after="maximumDate"
 		:show-second="false"
+		:show-time-panel="showTimePanel"
 		:show-week-number="showWeekNumbers"
 		:use12h="showAmPm"
 		v-bind="$attrs"
@@ -57,6 +58,22 @@
 					:value="timezoneId"
 					@change="changeTimezone" />
 			</Popover>
+		</template>
+		<template
+			v-if="!isAllDay"
+			slot="footer">
+			<button
+				v-if="!showTimePanel"
+				class="mx-btn mx-btn-text"
+				@click="toggleTimePanel">
+				{{ $t('calendar', 'Pick a time') }}
+			</button>
+			<button
+				v-else
+				class="mx-btn mx-btn-text"
+				@click="toggleTimePanel">
+				{{ $t('calendar', 'Pick a date') }}
+			</button>
 		</template>
 	</DatetimePicker>
 </template>
@@ -126,6 +143,7 @@ export default {
 				stringify: this.stringify,
 				parse: this.parse,
 			},
+			showTimePanel: false,
 		}
 	},
 	computed: {
@@ -214,6 +232,12 @@ export default {
 			}
 
 			this.showTimezonePopover = !this.showTimezonePopover
+		},
+		/**
+		 * Toggles the time-picker
+		 */
+		toggleTimePanel() {
+			this.showTimePanel = !this.showTimePanel
 		},
 		/**
 		 * Formats the date string
