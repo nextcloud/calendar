@@ -37,6 +37,7 @@
 		:use12h="showAmPm"
 		v-bind="$attrs"
 		v-on="$listeners"
+		@close="close"
 		@change="change">
 		<template
 			slot="icon-calendar">
@@ -232,6 +233,13 @@ export default {
 			}
 
 			this.showTimezonePopover = !this.showTimezonePopover
+		},
+		/**
+		 * Reset to date-panel on close of datepicker
+		 */
+		close() {
+			this.showTimePanel = false
+			this.$emit('close')
 		},
 		/**
 		 * Toggles the time-picker

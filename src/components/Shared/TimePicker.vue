@@ -31,6 +31,8 @@
 		type="time"
 		:use12h="showAmPm"
 		:value="date"
+		v-bind="$attrs"
+		v-on="$listeners"
 		@change="change" />
 </template>
 
