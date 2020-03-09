@@ -40,7 +40,11 @@
 import { DatetimePicker } from '@nextcloud/vue/dist/Components/DatetimePicker'
 import moment from '@nextcloud/moment'
 import { mapState } from 'vuex'
-import { getDayNamesShort, getFirstDay, getMonthNamesShort } from '@nextcloud/l10n'
+import {
+	getDayNamesMin,
+	getFirstDay,
+	getMonthNamesShort,
+} from '@nextcloud/l10n'
 
 export default {
 	name: 'TimePicker',
@@ -56,7 +60,7 @@ export default {
 	data() {
 		return {
 			lang: {
-				days: getDayNamesShort(),
+				days: getDayNamesMin(),
 				months: getMonthNamesShort(),
 				placeholder: {
 					date: this.$t('calendar', 'Select Date'),

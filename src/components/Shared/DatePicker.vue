@@ -82,7 +82,11 @@
 <script>
 import { DatetimePicker } from '@nextcloud/vue/dist/Components/DatetimePicker'
 import { Popover } from '@nextcloud/vue/dist/Components/Popover'
-import { getDayNamesShort, getMonthNamesShort, getFirstDay } from '@nextcloud/l10n'
+import {
+	getDayNamesMin,
+	getMonthNamesShort,
+	getFirstDay,
+} from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
 import { mapState } from 'vuex'
 
@@ -132,7 +136,7 @@ export default {
 	data() {
 		return {
 			lang: {
-				days: getDayNamesShort(),
+				days: getDayNamesMin(),
 				months: getMonthNamesShort(),
 				placeholder: {
 					date: this.$t('calendar', 'Select Date'),
