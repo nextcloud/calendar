@@ -40,6 +40,25 @@ export default function({ event, el }) {
 		el.firstChild.appendChild(notificationIcon)
 	}
 
+	if (el.classList.contains('fc-event-nc-task')) {
+		const taskIcon = document.createElement('span')
+		taskIcon.type = 'checkbox'
+		taskIcon.classList.add('icon-event-task')
+		if (event.extendedProps.darkText) {
+			taskIcon.classList.add('icon-event-task--dark')
+		} else {
+			taskIcon.classList.add('icon-event-task--light')
+		}
+		if (event.extendedProps.percent && event.extendedProps.percent === 100) {
+			if (event.extendedProps.darkText) {
+				taskIcon.classList.add('icon-event-task--checked--dark')
+			} else {
+				taskIcon.classList.add('icon-event-task--checked--light')
+			}
+		}
+		el.firstChild.insertBefore(taskIcon, el.firstChild.firstChild)
+	}
+
 	if (event.source === null) {
 		el.dataset.isNew = 'yes'
 	} else {

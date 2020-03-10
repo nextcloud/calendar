@@ -185,6 +185,33 @@
 	}
 }
 
+// Task icon on events which are VTODO
+.fc-event-nc-task {
+	.icon-event-task {
+		display: inline-block;
+		vertical-align: bottom;
+		border: 1px solid black;
+		border-radius: 1px;
+		margin: 2px 3px 2px 1px;
+		min-width: 9px;
+		min-height: 9px;
+		&--light {
+			border-color: #ffffff;
+		}
+		&--checked--light {
+			background-size: 9px;
+			@include icon-color('checkmark', 'actions', '#ffffff', 1, true);
+		}
+		&--dark {
+			border-color: #000000;
+		}
+		&--checked--dark {
+			background-size: 9px;
+			@include icon-color('checkmark', 'actions', '#000000', 1, true);
+		}
+	}
+}
+
 .fc-content {
 	background-color: inherit;
 	text-overflow: ellipsis;

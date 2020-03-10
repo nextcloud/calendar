@@ -300,6 +300,7 @@ export default {
 			slotDuration: loadState('calendar', 'slot_duration'),
 			talkEnabled: loadState('calendar', 'talk_enabled'),
 			timezone: loadState('calendar', 'timezone'),
+			showTasks: loadState('calendar', 'show_tasks')
 		})
 		this.$store.dispatch('initializeCalendarJsConfig')
 

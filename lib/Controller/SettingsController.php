@@ -75,6 +75,8 @@ class SettingsController extends Controller {
 				return $this->setView($value);
 			case 'skipPopover':
 				return $this->setSkipPopover($value);
+			case 'showTasks':
+				return $this->showTasks($value);
 			case 'showWeekends':
 				return $this->showWeekends($value);
 			case 'showWeekNr':
@@ -137,6 +139,31 @@ class SettingsController extends Controller {
 				$value
 			);
 		} catch (\Exception $e) {
+			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+
+		return new JSONResponse();
+	}
+
+	/**
+	 * set config value for showing tasks
+	 *
+	 * @param $value User-selected option whether or not to show tasks
+	 * @return JSONResponse
+	 */
+	private function showTasks(string $value):JSONResponse {
+		if (!\in_array($value, ['yes', 'no'])) {
+			return new JSONResponse([], Http::STATUS_UNPROCESSABLE_ENTITY);
+		}
+
+		try {
+			$this->config->setUserValue(
+				$this->userId,
+				$this->appName,
+				'showTasks',
+				$value
+			);
+		} catch(\Exception $e) {
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 

@@ -75,6 +75,13 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 				jsEnd.setSeconds(jsEnd.getSeconds() + 1)
 			}
 
+			if (object.name === 'VTODO') {
+				classNames.push('fc-event-nc-task')
+				if (object.percent === 100) {
+					classNames.push('fc-event-nc-cancelled')
+				}
+			}
+
 			const fcEvent = {
 				id: [calendarObject.id, object.id].join('###'),
 				title: object.title ? object.title.replace(/\n/g, ' ') : t('calendar', 'Untitled event'),
@@ -90,6 +97,8 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 					calendarName: calendar.displayName,
 					calendarId: calendar.id,
 					darkText: isLight(hexToRGB(calendar.color)),
+					objectType: object.name,
+					percent: object.percent,
 				},
 			}
 
