@@ -94,42 +94,49 @@ class ViewControllerTest extends TestCase {
 			->method('getAppValue')
 			->with('calendar', 'slotDuration', '00:30:00')
 			->willReturn('defaultSlotDuration');
-
 		$this->config->expects($this->at(7))
+			->method('getAppValue')
+			->with('calendar', 'showTasks', 'yes')
+			->willReturn('defaultShowTasks');
+		$this->config->expects($this->at(8))
 			->method('getAppValue')
 			->with('calendar', 'installed_version')
 			->willReturn('1.0.0');
-		$this->config->expects($this->at(8))
+		$this->config->expects($this->at(9))
 			->method('getUserValue')
 			->with('user123', 'calendar', 'eventLimit', 'defaultEventLimit')
 			->willReturn('yes');
-		$this->config->expects($this->at(9))
+		$this->config->expects($this->at(10))
 			->method('getUserValue')
 			->with('user123', 'calendar', 'firstRun', 'yes')
 			->willReturn('yes');
-		$this->config->expects($this->at(10))
+		$this->config->expects($this->at(11))
 			->method('getUserValue')
 			->with('user123', 'calendar', 'currentView', 'defaultCurrentView')
 			->willReturn('timeGridWeek');
-		$this->config->expects($this->at(11))
+		$this->config->expects($this->at(12))
 			->method('getUserValue')
 			->with('user123', 'calendar', 'showWeekends', 'defaultShowWeekends')
 			->willReturn('yes');
-		$this->config->expects($this->at(12))
+		$this->config->expects($this->at(13))
 			->method('getUserValue')
 			->with('user123', 'calendar', 'showWeekNr', 'defaultShowWeekNr')
 			->willReturn('yes');
-		$this->config->expects($this->at(13))
+		$this->config->expects($this->at(14))
 			->method('getUserValue')
 			->with('user123', 'calendar', 'skipPopover', 'defaultSkipPopover')
 			->willReturn('yes');
-		$this->config->expects($this->at(14))
+		$this->config->expects($this->at(15))
 			->method('getUserValue')
 			->with('user123', 'calendar', 'timezone', 'defaultTimezone')
 			->willReturn('Europe/Berlin');
-		$this->config->expects($this->at(15))
+		$this->config->expects($this->at(16))
 			->method('getUserValue')
 			->with('user123', 'calendar', 'slotDuration', 'defaultSlotDuration')
+			->willReturn('00:15:00');
+		$this->config->expects($this->at(17))
+			->method('getUserValue')
+			->with('user123', 'calendar', 'showTasks', 'defaultShowTasks')
 			->willReturn('00:15:00');
 		$this->appManager->expects($this->at(0))
 			->method('isEnabledForUser')
@@ -166,6 +173,9 @@ class ViewControllerTest extends TestCase {
 		$this->initialStateService->expects($this->at(9))
 			->method('provideInitialState')
 			->with('calendar', 'slot_duration', '00:15:00');
+		$this->initialStateService->expects($this->at(10))
+			->method('provideInitialState')
+			->with('calendar', 'show_tasks', false);
 
 		$response = $this->controller->index();
 
@@ -210,42 +220,49 @@ class ViewControllerTest extends TestCase {
 			->method('getAppValue')
 			->with('calendar', 'slotDuration', '00:30:00')
 			->willReturn('defaultSlotDuration');
-
 		$this->config->expects($this->at(7))
+			->method('getAppValue')
+			->with('calendar', 'showTasks', 'yes')
+			->willReturn('defaultShowTasks');
+		$this->config->expects($this->at(8))
 			->method('getAppValue')
 			->with('calendar', 'installed_version')
 			->willReturn('1.0.0');
-		$this->config->expects($this->at(8))
+		$this->config->expects($this->at(9))
 			->method('getUserValue')
 			->with('user123', 'calendar', 'eventLimit', 'defaultEventLimit')
 			->willReturn('yes');
-		$this->config->expects($this->at(9))
+		$this->config->expects($this->at(10))
 			->method('getUserValue')
 			->with('user123', 'calendar', 'firstRun', 'yes')
 			->willReturn('yes');
-		$this->config->expects($this->at(10))
+		$this->config->expects($this->at(11))
 			->method('getUserValue')
 			->with('user123', 'calendar', 'currentView', 'defaultCurrentView')
 			->willReturn($savedView);
-		$this->config->expects($this->at(11))
+		$this->config->expects($this->at(12))
 			->method('getUserValue')
 			->with('user123', 'calendar', 'showWeekends', 'defaultShowWeekends')
 			->willReturn('yes');
-		$this->config->expects($this->at(12))
+		$this->config->expects($this->at(13))
 			->method('getUserValue')
 			->with('user123', 'calendar', 'showWeekNr', 'defaultShowWeekNr')
 			->willReturn('yes');
-		$this->config->expects($this->at(13))
+		$this->config->expects($this->at(14))
 			->method('getUserValue')
 			->with('user123', 'calendar', 'skipPopover', 'defaultSkipPopover')
 			->willReturn('yes');
-		$this->config->expects($this->at(14))
+		$this->config->expects($this->at(15))
 			->method('getUserValue')
 			->with('user123', 'calendar', 'timezone', 'defaultTimezone')
 			->willReturn('Europe/Berlin');
-		$this->config->expects($this->at(15))
+		$this->config->expects($this->at(16))
 			->method('getUserValue')
 			->with('user123', 'calendar', 'slotDuration', 'defaultSlotDuration')
+			->willReturn('00:15:00');
+		$this->config->expects($this->at(17))
+			->method('getUserValue')
+			->with('user123', 'calendar', 'showTasks', 'defaultShowTasks')
 			->willReturn('00:15:00');
 		$this->appManager->expects($this->at(0))
 			->method('isEnabledForUser')
@@ -282,6 +299,9 @@ class ViewControllerTest extends TestCase {
 		$this->initialStateService->expects($this->at(9))
 			->method('provideInitialState')
 			->with('calendar', 'slot_duration', '00:15:00');
+		$this->initialStateService->expects($this->at(10))
+			->method('provideInitialState')
+			->with('calendar', 'show_tasks', false);
 
 		$response = $this->controller->index();
 

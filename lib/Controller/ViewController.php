@@ -94,7 +94,7 @@ class ViewController extends Controller {
 		$defaultSkipPopover = $this->config->getAppValue($this->appName, 'skipPopover', 'no');
 		$defaultTimezone = $this->config->getAppValue($this->appName, 'timezone', 'automatic');
 		$defaultSlotDuration = $this->config->getAppValue($this->appName, 'slotDuration', '00:30:00');
-		$defaultShowTasks =  $this->config->getAppValue($this->appName, 'showTasks', 'yes');
+		$defaultShowTasks = $this->config->getAppValue($this->appName, 'showTasks', 'yes');
 
 		$appVersion = $this->config->getAppValue($this->appName, 'installed_version');
 		$eventLimit = $this->config->getUserValue($this->userId, $this->appName, 'eventLimit', $defaultEventLimit) === 'yes';
@@ -103,10 +103,11 @@ class ViewController extends Controller {
 		$showWeekends = $this->config->getUserValue($this->userId, $this->appName, 'showWeekends', $defaultShowWeekends) === 'yes';
 		$showWeekNumbers = $this->config->getUserValue($this->userId, $this->appName, 'showWeekNr', $defaultWeekNumbers) === 'yes';
 		$skipPopover = $this->config->getUserValue($this->userId, $this->appName, 'skipPopover', $defaultSkipPopover) === 'yes';
-		$talkEnabled = $this->appManager->isEnabledForUser('spreed');
 		$timezone = $this->config->getUserValue($this->userId, $this->appName, 'timezone', $defaultTimezone);
 		$slotDuration = $this->config->getUserValue($this->userId, $this->appName, 'slotDuration', $defaultSlotDuration);
 		$showTasks = $this->config->getUserValue($this->userId, $this->appName, 'showTasks', $defaultShowTasks) === 'yes';
+
+		$talkEnabled = $this->appManager->isEnabledForUser('spreed');
 
 		$this->initialStateService->provideInitialState($this->appName, 'app_version', $appVersion);
 		$this->initialStateService->provideInitialState($this->appName, 'event_limit', $eventLimit);

@@ -120,7 +120,7 @@ class PublicViewController extends Controller {
 		$defaultSkipPopover = $this->config->getAppValue($this->appName, 'skipPopover', 'yes');
 		$defaultTimezone = $this->config->getAppValue($this->appName, 'timezone', 'automatic');
 		$defaultSlotDuration = $this->config->getAppValue($this->appName, 'slotDuration', '00:30:00');
-		$defaultShowTasks =  $this->config->getAppValue($this->appName, 'showTasks', 'yes');
+		$defaultShowTasks = $this->config->getAppValue($this->appName, 'showTasks', 'yes');
 
 		$appVersion = $this->config->getAppValue($this->appName, 'installed_version');
 
