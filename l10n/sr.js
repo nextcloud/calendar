@@ -23,6 +23,7 @@ OC.L10N.register(
     "Share with users or groups" : "Дели са корисницима или групама",
     "No users or groups" : "Нема корисника или група",
     "can edit" : "може да мења",
+    "Unshare with {displayName}" : "Уклони дељење са {displayName}",
     "New calendar" : "Нови календар",
     "Filename" : "Име фајла",
     "Cancel" : "Одустани",
