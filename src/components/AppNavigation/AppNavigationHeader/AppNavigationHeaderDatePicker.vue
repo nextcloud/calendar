@@ -40,6 +40,7 @@
 			class="datepicker-button-section__datepicker"
 			:date="selectedDate"
 			:is-all-day="true"
+			:open.sync="isDatepickerOpen"
 			@change="navigateToDate" />
 		<button
 			:aria-label="nextLabel"
@@ -163,12 +164,8 @@ export default {
 
 			this.$router.push({ name, params })
 		},
-		toggleDatepicker(event) {
-			// This is not exactly the recommended approach,
-			// but Datepicker does not expose the open property yet.
-			// Version 3 will
-			this.$refs.datepicker.$children[0].$children[0].popupVisible
-				= !this.$refs.datepicker.$children[0].$children[0].popupVisible
+		toggleDatepicker() {
+			this.isDatepickerOpen = !this.isDatepickerOpen
 		},
 		doNothing() {
 			// This function does nothing in itself,

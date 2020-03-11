@@ -22,13 +22,17 @@
 
 <template>
 	<DatetimePicker
-		:lang="lang"
+		:clearable="false"
 		:first-day-of-week="firstDay"
 		:format="format"
-		:value="date"
-		type="time"
-		:clearable="false"
+		:lang="lang"
 		:minute-step="5"
+		:show-second="false"
+		type="time"
+		:use12h="showAmPm"
+		:value="date"
+		v-bind="$attrs"
+		v-on="$listeners"
 		@change="change" />
 </template>
 
@@ -36,7 +40,11 @@
 import { DatetimePicker } from '@nextcloud/vue/dist/Components/DatetimePicker'
 import moment from '@nextcloud/moment'
 import { mapState } from 'vuex'
-import { getDayNamesShort, getFirstDay, getMonthNamesShort } from '@nextcloud/l10n'
+import {
+	getDayNamesMin,
+	getFirstDay,
+	getMonthNamesShort,
+} from '@nextcloud/l10n'
 
 export default {
 	name: 'TimePicker',
@@ -52,7 +60,7 @@ export default {
 	data() {
 		return {
 			lang: {
-				days: getDayNamesShort(),
+				days: getDayNamesMin(),
 				months: getMonthNamesShort(),
 				placeholder: {
 					date: this.$t('calendar', 'Select Date'),
@@ -69,6 +77,17 @@ export default {
 		...mapState({
 			locale: (state) => state.settings.momentLocale,
 		}),
+		/**
+		 * Whether or not to offer am/pm in the timepicker
+		 *
+		 * @returns {Boolean}
+		 */
+		showAmPm() {
+			const localeData = moment().locale(this.locale).localeData()
+			const timeFormat = localeData.longDateFormat('LT').toLowerCase()
+
+			return timeFormat.indexOf('a') !== -1
+		},
 	},
 	methods: {
 		/**
