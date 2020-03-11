@@ -167,7 +167,8 @@ export function mapDavCollectionToCalendar(calendar, currentUserPrincipal) {
  * @returns {Object}
  */
 export function mapDavShareeToSharee(sharee) {
-	const id = btoa(sharee.href)
+	// sharee.href might contain non-latin characters, so let's uri encode it first
+	const id = btoa(encodeURI(sharee.href))
 
 	let displayName
 	if (sharee['common-name']) {
