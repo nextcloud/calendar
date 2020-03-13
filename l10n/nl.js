@@ -190,6 +190,8 @@ OC.L10N.register(
     "Public calendar does not exist" : "Publieke agenda bestaat niet",
     "Maybe the share was deleted or has expired?" : "Mogelijk is het gedeelde item verwijderd of verlopen?",
     "Please select a timezone:" : "Selecteer een tijdzone:",
+    "Pick a time" : "Kies een tijd",
+    "Pick a date" : "Kies een datum",
     "Select Date" : "Selecteer datum",
     "from {formattedDate}" : "van {formattedDate}",
     "to {formattedDate}" : "naar {formattedDate}",

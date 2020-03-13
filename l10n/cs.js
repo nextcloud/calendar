@@ -190,6 +190,8 @@ OC.L10N.register(
     "Public calendar does not exist" : "Veřejný kalendář neexistuje",
     "Maybe the share was deleted or has expired?" : "Sdílení byl nejspíš smazáno nebo skončila jeho platnost?",
     "Please select a timezone:" : "Vyberte časovou zónu:",
+    "Pick a time" : "Vyberte čas",
+    "Pick a date" : "Vyberte datum",
     "Select Date" : "Vybrat datum",
     "from {formattedDate}" : "od {formattedDate}",
     "to {formattedDate}" : "do {formattedDate}",

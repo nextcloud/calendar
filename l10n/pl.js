@@ -190,6 +190,8 @@ OC.L10N.register(
     "Public calendar does not exist" : "Kalendarz publiczny nie istnieje",
     "Maybe the share was deleted or has expired?" : "Może udostępnienie zostało usunięte lub wygasło?",
     "Please select a timezone:" : "Wybierz strefę czasową:",
+    "Pick a time" : "Wybierz czas",
+    "Pick a date" : "Wybierz datę",
     "Select Date" : "Wybierz datę",
     "from {formattedDate}" : "od {formattedDate}",
     "to {formattedDate}" : "do {formattedDate}",

@@ -188,6 +188,8 @@
     "Public calendar does not exist" : "Il calendario pubblico non esiste",
     "Maybe the share was deleted or has expired?" : "Forse la condivisione è stata eliminata o è scaduta?",
     "Please select a timezone:" : "Seleziona un fuso orario:",
+    "Pick a time" : "Scegli un orario",
+    "Pick a date" : "Scegli una data",
     "Select Date" : "Seleziona data",
     "from {formattedDate}" : "dal {formattedDate}",
     "to {formattedDate}" : "al {formattedDate}",
