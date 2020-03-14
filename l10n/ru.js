@@ -190,6 +190,8 @@ OC.L10N.register(
     "Public calendar does not exist" : "Общедоступный календарь не существует",
     "Maybe the share was deleted or has expired?" : "Возможно общий ресурс был удалён или истёк срок действия доступа.",
     "Please select a timezone:" : "Выберите часовой пояс:",
+    "Pick a time" : "Выберите время",
+    "Pick a date" : "Выберите дату",
     "Select Date" : "Выберите дату",
     "from {formattedDate}" : "с {formattedDate}",
     "to {formattedDate}" : "по {formattedDate}",

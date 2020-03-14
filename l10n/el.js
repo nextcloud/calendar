@@ -190,6 +190,8 @@ OC.L10N.register(
     "Public calendar does not exist" : "Το κοινόχρηστο ημερολόγιο δεν υπάρχει",
     "Maybe the share was deleted or has expired?" : "Ίσως το κοινόχρηστο διαγράφηκε ή δεν υπάρχει;",
     "Please select a timezone:" : "Παρακαλώ επιλέξτε χρονική ζώνη:",
+    "Pick a time" : "Επιλογή χρόνου",
+    "Pick a date" : "Επιλογή ημερομηνίας",
     "Select Date" : "Επιλογή ημερομηνίας",
     "from {formattedDate}" : "από {formattedDate}",
     "to {formattedDate}" : "έως {formattedDate}",

@@ -190,6 +190,8 @@ OC.L10N.register(
     "Public calendar does not exist" : "Herkese açık takvim bulunamadı",
     "Maybe the share was deleted or has expired?" : "Paylaşım silinmiş ya da süresi geçmiş olabilir mi?",
     "Please select a timezone:" : "Lütfen bir saat dilimi seçin:",
+    "Pick a time" : "Zaman seçin",
+    "Pick a date" : "Tarih seçin",
     "Select Date" : "Tarih Seçin",
     "from {formattedDate}" : "{formattedDate} tarihinden",
     "to {formattedDate}" : "{formattedDate} tarihine",
