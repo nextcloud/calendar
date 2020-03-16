@@ -292,7 +292,7 @@ const actions = {
 	 */
 	initializeCalendarJsConfig({ state }) {
 		setConfig('PRODID', `-//IDN nextcloud.com//Calendar app ${state.appVersion}//EN`)
-		setConfig('component-list-significant-change', [
+		setConfig('property-list-significant-change', [
 			'SUMMARY',
 			'LOCATION',
 			'DESCRIPTION',
