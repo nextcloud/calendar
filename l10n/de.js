@@ -140,7 +140,7 @@ OC.L10N.register(
     "Error creating Talk room" : "Fehler beim Erstellen des Besprechungsraumes",
     "Send e-mail" : "E-Mail senden",
     "Chairperson" : "Vorsitz",
-    "Required participant" : "Benöigter Teilnehmer",
+    "Required participant" : "Benötigter Teilnehmer",
     "Optional participant" : "Optionaler Teilnehmer",
     "Non-participant" : "Nicht-Teilnehmer",
     "Remove attendee" : "Teilnehmer entfernen",
