@@ -169,7 +169,7 @@ OC.L10N.register(
     "fourth" : "quarto",
     "fifth" : "quinto",
     "second to last" : "penultimo",
-    "last" : "ulimo",
+    "last" : "ultimo",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Le modifiche alla regola di ricorrenza saranno applicate a questa e a tutte le future occorrenze.",
     "Repeat" : "Ripeti",
     "Repeat every" : "Ripeti ogni",
