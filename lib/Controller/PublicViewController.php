@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace OCA\Calendar\Controller;
 
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\IInitialStateService;
@@ -95,6 +96,10 @@ class PublicViewController extends Controller {
 	public function publicIndexForEmbedding(string $token):TemplateResponse {
 		$response = $this->publicIndex($token, 'base');
 		$response->addHeader('X-Frame-Options', 'ALLOW');
+
+		$csp = new ContentSecurityPolicy();
+		$csp->addAllowedFrameAncestorDomain('*');
+		$response->setContentSecurityPolicy($csp);
 
 		return $response;
 	}
