@@ -88,6 +88,7 @@ class PublicViewController extends Controller {
 	 *
 	 * @PublicPage
 	 * @NoCSRFRequired
+	 * @NoSameSiteCookieRequired
 	 *
 	 * @param string $token
 	 * @return TemplateResponse
