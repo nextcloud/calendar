@@ -34,6 +34,7 @@
     "An error occurred, unable to rename the calendar." : "Hiba lépett fel, a naptárat nem lehet átnevezni.",
     "An error occurred, unable to change the calendar's color." : "Hiba lépett fel, a naptár színét nem lehet megváltoztatni.",
     "Share link" : "Megosztás hivatkozással",
+    "Copy public link" : "Nyilvános hivatkozás másolása",
     "Delete share link" : "Megosztási hivatkozás törlése",
     "Share with users or groups" : "Megosztás felhasználókkal vagy csoportokkal",
     "No users or groups" : "Nincsenek felhasználók vagy csoportok.",
