@@ -71,6 +71,7 @@ OC.L10N.register(
     "Week {number} of {year}" : "{year} év {number}. hete",
     "Daily" : "Naponta",
     "Weekly" : "Hetente",
+    "Untitled event" : "Névtelen esemény",
     "When shared show full event" : "Megosztáskor mutassa a teljes eseményt.",
     "When shared show only busy" : "Megosztáskor csak a foglaltságot mutassa",
     "When shared hide this event" : "Megosztáskor rejtse el ezt az eseményt",
