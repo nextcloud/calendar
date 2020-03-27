@@ -9,7 +9,7 @@
     },
     "require-dev": {
         "christophwurst/nextcloud": "v18.0.2",
-        "christophwurst/nextcloud_testing": "0.9.1",
+        "christophwurst/nextcloud_testing": "0.10.0",
         "phan/phan": "^2.0"
     },
     "scripts": {
