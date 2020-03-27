@@ -41,6 +41,7 @@ OC.L10N.register(
     "Share with users or groups" : "Megosztás felhasználókkal vagy csoportokkal",
     "No users or groups" : "Nincsenek felhasználók vagy csoportok.",
     "can edit" : "szerkesztheti",
+    "+ New calendar" : "+ Új naptár",
     "New calendar" : "Új naptár",
     "Filename" : "Fájlnév",
     "Cancel" : "Mégsem",
