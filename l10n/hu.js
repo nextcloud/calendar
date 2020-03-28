@@ -50,6 +50,7 @@ OC.L10N.register(
     "Settings & import" : "Beállítások és Importálás",
     "Notification" : "Értesítés",
     "Email" : "E-mail",
+    "+ Add reminder" : "+ Emlékeztető hozzáadása",
     "Busy" : "Foglalt",
     "Unknown" : "Ismeretlen",
     "All day" : "Egész napos",
