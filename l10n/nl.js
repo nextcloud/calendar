@@ -94,7 +94,7 @@ OC.L10N.register(
     "Enable birthday calendar" : "Verjaardagskalender inschakelen",
     "Enable simplified editor" : "Eenvoudige editor inschakelen",
     "Limit visible events per view" : "Beperk aantal zichtbare afspraken per overzicht",
-    "Show weekends" : "Toon weekenden",
+    "Show weekends" : "Toon weekends",
     "Show week numbers" : "Tonen weeknummers",
     "Copy primary CalDAV address" : "Kopieer primair CalDAV adres",
     "Copy iOS/macOS CalDAV address" : "Kopieer iOS/macOS CalDAV adres",
