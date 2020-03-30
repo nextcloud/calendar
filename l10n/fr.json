@@ -39,7 +39,7 @@
     "An error occurred, unable to change the calendar's color." : "Une erreur est survenue, impossible de modifier la couleur de l'agenda.",
     "_Unsharing the calendar in {countdown} second_::_Unsharing the calendar in {countdown} seconds_" : ["Suppression du partage de l'agenda dans {countdown} seconde","Suppression du partage de l'agenda dans {countdown} secondes"],
     "_Deleting the calendar in {countdown} second_::_Deleting the calendar in {countdown} seconds_" : ["Suppression de l'agenda dans {countdown} seconde","Suppression de l'agenda dans {countdown} secondes"],
-    "Share link" : "Partager un lien",
+    "Share link" : "Lien de partage",
     "Publish calendar" : "Publier l'agenda",
     "Publishing calendar" : "Publication de l'agenda en cours",
     "Copy public link" : "Copier le lien public",
