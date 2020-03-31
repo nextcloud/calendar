@@ -38,3 +38,10 @@ jobs:
     - name: Run tests
       working-directory: nextcloud/apps/calendar
       run: composer run test
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v1
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        file: ./nextcloud/apps/calendar/tests/php/clover.unit.xml
+        flags: php
+        fail_ci_if_error: true
