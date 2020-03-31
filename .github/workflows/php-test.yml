@@ -38,3 +38,6 @@ jobs:
     - name: Run tests
       working-directory: nextcloud/apps/calendar
       run: composer run test
+    - name: Upload coverage to Codecov
+      working-directory: nextcloud/apps/calendar
+      run: curl -s https://codecov.io/bash | bash -s - -t ${{ secrets.CODECOV_TOKEN }} -F php -f clover.unit.xml -Z
