@@ -15,6 +15,6 @@
     "scripts": {
         "lint": "find . -name \\*.php -not -path './vendor/*' -exec php -l \"{}\" \\;",
         "phan": "phan --allow-polyfill-parser -k .phan/config.php",
-        "test": "phpunit --configuration tests/php/phpunit.unit.xml --fail-on-warning"
+        "test": "phpunit --configuration phpunit.unit.xml --fail-on-warning"
     }
 }

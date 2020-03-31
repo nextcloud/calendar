@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<phpunit bootstrap="unit/bootstrap.php"
+<phpunit bootstrap="tests/php/unit/bootstrap.php"
          verbose="true"
          timeoutForSmallTests="900"
          timeoutForMediumTests="900"
          timeoutForLargeTests="900"
 >
     <testsuite name='Calendar app tests'>
-        <directory suffix='test.php'>unit</directory>
-        <directory suffix='Test.php'>unit</directory>
+        <directory suffix='test.php'>./tests/php/unit</directory>
+        <directory suffix='Test.php'>./tests/php/unit</directory>
     </testsuite>
     <!-- filters for code coverage -->
     <filter>
         <whitelist>
-            <directory suffix=".php">../../</directory>
+            <directory suffix=".php">./</directory>
             <exclude>
-                <directory suffix=".php">../calendar/appinfo</directory>
-                <directory suffix=".php">../calendar/l10n</directory>
-                <directory suffix=".php">../calendar/templates</directory>
-                <directory suffix=".php">../calendar/tests</directory>
+                <directory suffix=".php">./appinfo</directory>
+                <directory suffix=".php">./l10n</directory>
+                <directory suffix=".php">./templates</directory>
+                <directory suffix=".php">./tests</directory>
             </exclude>
         </whitelist>
     </filter>
