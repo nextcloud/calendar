@@ -2,8 +2,6 @@ sudo: required
 dist: trusty
 language: php
 php:
-  - 7.2
-  - 7.3
   - 7.4snapshot
 
 addons:
@@ -17,34 +15,13 @@ addons:
 branches:
   only:
     - master
-    - vue
 
 env:
   global:
     - DB=mysql
     - CORE_BRANCH=master
     - PHP_COVERAGE=FALSE
-    - TEST_SUITE=TEST-PHP
-
-matrix:
-  include:
-    - php: 7.4snapshot
-      env: "TEST_SUITE=PACKAGE"
-    - php: 7.4snapshot
-      env: "TEST_SUITE=LINT-PHP"
-    - php: 7.4snapshot
-      env: "TEST_SUITE=TEST-JS"
-    - php: 7.4snapshot
-      env: "CORE_BRANCH=stable18"
-    - php: 7.3
-      env: "CORE_BRANCH=stable18"
-    - php: 7.2
-      env: "CORE_BRANCH=stable18"
-    - php: 7.3
-      env: "CORE_BRANCH=stable17"
-    - php: 7.2
-      env: "CORE_BRANCH=stable17"
-  fast_finish: true
+    - TEST_SUITE=LINT-PHP
 
 cache:
   directories:
@@ -59,21 +36,12 @@ before_install:
   - if [[ "$DB" == 'mysql' ]]; then mysql -u root -e "grant all on oc_autotest.* to 'oc_autotest'@'localhost';"; fi
   # set up nextcloud
   - composer self-update
-  - sh -c "if [ '$TEST_SUITE' = 'TEST-PHP' ]; then make composer-init; fi"
   - cd ..
   - git clone https://github.com/nextcloud/server.git --recursive --depth 1 -b $CORE_BRANCH core
   - mv calendar core/apps/
 
 before_script:
-  - sh -c "if [ '$TEST_SUITE' = 'TEST-PHP' ]; then php -f core/occ maintenance:install --database-name oc_autotest --database-user oc_autotest --admin-user admin --admin-pass admin --database $DB --database-pass=''; fi"
-
-  # Set up app
-  - sh -c "if [ '$TEST_SUITE' = 'TEST-PHP' ]; then php -f core/occ app:enable calendar; fi"
-  # Enable app twice to check occ errors of registered commands
-  - sh -c "if [ '$TEST_SUITE' = 'TEST-PHP' ]; then php -f core/occ app:enable calendar; fi"
   - cd core/apps/calendar
-  - sh -c "if [ '$TEST_SUITE' = 'TEST-JS' ]; then npm install -g npm@latest; fi"
-  - sh -c "if [ '$TEST_SUITE' = 'TEST-JS' ]; then make dev-setup; fi"
 
   # XDebug is only needed if we report coverage -> speeds up other builds
   - if [[ "$PHP_COVERAGE" = "FALSE" ]]; then phpenv config-rm xdebug.ini || true; fi
@@ -82,11 +50,7 @@ script:
   # Run server's app code checker
   - sh -c "if [ '$TEST_SUITE' = 'LINT-PHP' ]; then php ../../occ app:check-code calendar; fi"
 
-  # Run JS tests
-  - sh -c "if [ '$TEST_SUITE' = 'TEST-JS' ]; then npm test --passWithNoTests; fi"
-
   # Run PHP tests
-  - sh -c "if [ '$TEST_SUITE' = 'TEST-PHP' ]; then composer run test; fi"
   - if [[ "$PHP_COVERAGE" = "TRUE" ]]; then wget https://scrutinizer-ci.com/ocular.phar;
     fi
   - if [[ "$PHP_COVERAGE" = "TRUE" ]]; then php ocular.phar code-coverage:upload --format=php-clover
