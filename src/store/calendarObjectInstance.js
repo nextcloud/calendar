@@ -1177,6 +1177,9 @@ const mutations = {
 	changeAlarmFromRelativeToAbsolute(state, { calendarObjectInstance, alarm }) {
 		if (alarm.alarmComponent) {
 			const triggerDateTime = calendarObjectInstance.eventComponent.startDate.clone()
+			// The trigger of an alarm must be DATE-TIME, startDate can be either.
+			triggerDateTime.isDate = false
+
 			triggerDateTime.addDuration(alarm.alarmComponent.trigger.value)
 
 			alarm.alarmComponent.setTriggerFromAbsolute(triggerDateTime)
