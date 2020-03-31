@@ -79,22 +79,11 @@ before_script:
   - if [[ "$PHP_COVERAGE" = "FALSE" ]]; then phpenv config-rm xdebug.ini || true; fi
 
 script:
-  # Check info.xml schema validity
-  - wget https://apps.nextcloud.com/schema/apps/info.xsd
-  - xmllint appinfo/info.xml --schema info.xsd --noout
-  - rm info.xsd
-
-  # Check PHP syntax errors
-  - sh -c "if [ '$TEST_SUITE' = 'LINT-PHP' ]; then composer run lint; fi"
-
   # Run server's app code checker
   - sh -c "if [ '$TEST_SUITE' = 'LINT-PHP' ]; then php ../../occ app:check-code calendar; fi"
 
   # Run JS tests
   - sh -c "if [ '$TEST_SUITE' = 'TEST-JS' ]; then npm test --passWithNoTests; fi"
-
-  # Run JS lint
-  - sh -c "if [ '$TEST_SUITE' = 'TEST-JS' ]; then npm run lint; fi"
 
   # Run PHP tests
   - sh -c "if [ '$TEST_SUITE' = 'TEST-PHP' ]; then composer run test; fi"
