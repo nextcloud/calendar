@@ -1,0 +1,40 @@
+name: PHP Tests
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-versions: ['7.2', '7.3', '7.4']
+        nextcloud-versions: ['master', 'stable17', 'stable18']
+        exclude:
+          - php-versions: '7.4'
+            nextcloud-versions: 'stable17'
+    name: php${{ matrix.php-versions }} on ${{ matrix.nextcloud-versions }} unit tests
+    steps:
+    - name: Set up php${{ matrix.php-versions }}
+      uses: shivammathur/setup-php@master
+      with:
+        php-version: ${{ matrix.php-versions }}
+        extension-csv: ctype,curl,dom,gd,iconv,intl,json,mbstring,openssl,posix,sqlite,xml,zip
+        coverage: xdebug
+    - name: Checkout Nextcloud
+      run: git clone https://github.com/nextcloud/server.git --recursive --depth 1 -b ${{ matrix.nextcloud-versions }} nextcloud
+    - name: Run tests
+      run: php -f nextcloud/occ maintenance:install --database-name oc_autotest --database-user oc_autotest --admin-user admin --admin-pass admin --database sqlite --database-pass=''
+    - name: Checkout
+      uses: actions/checkout@master
+      with:
+        path: nextcloud/apps/calendar
+    - name: Install dependencies
+      working-directory: nextcloud/apps/calendar
+      run: composer install
+    - name: Run tests
+      working-directory: nextcloud/apps/calendar
+      run: composer run test
