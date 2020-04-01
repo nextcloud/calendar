@@ -300,7 +300,7 @@ export default {
 				return false
 			}
 
-			return this.calendarObject.existsOnServer()
+			return this.calendarObject.existsOnServer
 		},
 		/**
 		 * Returns whether or not the user is allowed to create recurrence exceptions for this event
@@ -336,7 +336,7 @@ export default {
 				return false
 			}
 
-			return this.calendarObject.existsOnServer()
+			return this.calendarObject.existsOnServer
 		},
 		/**
 		 * Returns the download url as a string or null if event is loading or does not exist on the server (yet)
@@ -385,7 +385,7 @@ export default {
 			// override the internally stored calendarId. If we did not do this,
 			// it would create the event in the default calendar first and move it
 			// to the desired calendar as a second step.
-			if (this.calendarObject && !this.calendarObject.existsOnServer()) {
+			if (this.calendarObject && !this.calendarObject.existsOnServer) {
 				this.calendarObject.calendarId = selectedCalendar.id
 			}
 		},
@@ -423,7 +423,10 @@ export default {
 				return
 			}
 
-			await this.$store.dispatch('resetCalendarObjectInstance')
+			this.$store.commit('resetCalendarObjectToDav', {
+				calendarObject: this.calendarObject,
+			})
+
 			this.requiresActionOnRouteLeave = false
 			this.closeEditor()
 		},

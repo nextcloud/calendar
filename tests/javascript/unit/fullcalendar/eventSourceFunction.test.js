@@ -27,8 +27,10 @@ import {
 	getHexForColorName,
 } from '../../../../src/utils/color.js'
 import { translate } from '@nextcloud/l10n'
+import {getAllObjectsInTimeRange} from "../../../../src/utils/calendarObject.js";
 jest.mock('@nextcloud/l10n')
 jest.mock('../../../../src/utils/color.js')
+jest.mock("../../../../src/utils/calendarObject.js")
 
 describe('fullcalendar/eventSourceFunction test suite', () => {
 
@@ -36,6 +38,7 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 		translate.mockClear()
 		getHexForColorName.mockClear()
 		generateTextColorForHex.mockClear()
+		getAllObjectsInTimeRange.mockClear()
 	})
 
 	it('should provide fc-events', () => {
@@ -149,28 +152,26 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 			color: 'red',
 		}]
 
+		getAllObjectsInTimeRange
+			.mockReturnValueOnce(eventComponentSet1)
+			.mockReturnValueOnce(eventComponentSet2)
+			.mockImplementationOnce(() => {
+				throw new Error('Error while getting all objects in time-range')
+			})
+			.mockReturnValueOnce(eventComponentSet4)
+
 		const calendarObjects = [{
 			calendarObject: true,
 			id: '1',
-			getAllObjectsInTimeRange: jest.fn()
-				.mockReturnValueOnce(eventComponentSet1),
 		}, {
 			calendarObject: true,
 			id: '2',
-			getAllObjectsInTimeRange: jest.fn()
-				.mockReturnValueOnce(eventComponentSet2),
 		}, {
 			calendarObject: true,
 			id: '3',
-			getAllObjectsInTimeRange: jest.fn()
-				.mockImplementationOnce(() => {
-					throw new Error('Error while getting all objects in time-range')
-				}),
 		}, {
 			calendarObject: true,
 			id: '4',
-			getAllObjectsInTimeRange: jest.fn()
-				.mockReturnValueOnce(eventComponentSet4),
 		}]
 		const start = new Date(Date.UTC(2019, 0, 1, 0, 0, 0, 0))
 		const end = new Date(Date.UTC(2020, 0, 31, 59, 59, 59, 999))
@@ -303,6 +304,12 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 		expect(translate).toHaveBeenNthCalledWith(3, 'calendar', 'Untitled event')
 		expect(translate).toHaveBeenNthCalledWith(4, 'calendar', 'Untitled event')
 		expect(translate).toHaveBeenNthCalledWith(5, 'calendar', 'Untitled event')
+
+		expect(getAllObjectsInTimeRange).toHaveBeenCalledTimes(4)
+		expect(getAllObjectsInTimeRange).toHaveBeenNthCalledWith(1, calendarObjects[0], start, end)
+		expect(getAllObjectsInTimeRange).toHaveBeenNthCalledWith(2, calendarObjects[1], start, end)
+		expect(getAllObjectsInTimeRange).toHaveBeenNthCalledWith(3, calendarObjects[2], start, end)
+		expect(getAllObjectsInTimeRange).toHaveBeenNthCalledWith(4, calendarObjects[3], start, end)
 
 		expect(getHexForColorName).toHaveBeenCalledTimes(1)
 		expect(getHexForColorName).toHaveBeenNthCalledWith(1, 'red')

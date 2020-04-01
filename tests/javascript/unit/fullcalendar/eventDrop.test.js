@@ -22,15 +22,18 @@
 import eventDrop from "../../../../src/fullcalendar/eventDrop.js";
 import { getDurationValueFromFullCalendarDuration} from "../../../../src/fullcalendar/duration.js";
 import getTimezoneManager from '../../../../src/services/timezoneDataProviderService.js'
+import {getObjectAtRecurrenceId} from "../../../../src/utils/calendarObject.js";
 
 jest.mock("../../../../src/fullcalendar/duration.js")
 jest.mock('../../../../src/services/timezoneDataProviderService.js')
+jest.mock("../../../../src/utils/calendarObject.js")
 
 describe('fullcalendar/eventDrop test suite', () => {
 
 	beforeEach(() => {
 		getDurationValueFromFullCalendarDuration.mockClear()
 		getTimezoneManager.mockClear()
+		getObjectAtRecurrenceId.mockClear()
 	})
 
 	it('should properly drop a non-recurring event', async () => {
@@ -74,12 +77,14 @@ describe('fullcalendar/eventDrop test suite', () => {
 			createRecurrenceException: jest.fn(),
 		}
 		const calendarObject = {
-			getObjectAtRecurrenceId: jest.fn().mockReturnValueOnce(eventComponent),
-			resetToDav: jest.fn()
+			_isCalendarObject: true,
 		}
+		getObjectAtRecurrenceId
+			.mockReturnValue(eventComponent)
 
-		store.dispatch.mockResolvedValueOnce(calendarObject) // getEventByObjectId
-		store.dispatch.mockResolvedValueOnce() // updateCalendarObject
+		store.dispatch
+			.mockResolvedValueOnce(calendarObject) // getEventByObjectId
+			.mockResolvedValueOnce() // updateCalendarObject
 
 		const eventDropFunction = eventDrop(store, fcAPI)
 		await eventDropFunction({ event, delta, revert })
@@ -104,7 +109,6 @@ describe('fullcalendar/eventDrop test suite', () => {
 		expect(eventComponent.canCreateRecurrenceExceptions).toHaveBeenCalledTimes(1)
 		expect(eventComponent.createRecurrenceException).toHaveBeenCalledTimes(0)
 
-		expect(calendarObject.resetToDav).toHaveBeenCalledTimes(0)
 		expect(revert).toHaveBeenCalledTimes(0)
 	})
 
@@ -149,13 +153,15 @@ describe('fullcalendar/eventDrop test suite', () => {
 			canCreateRecurrenceExceptions: jest.fn().mockReturnValue(false),
 			createRecurrenceException: jest.fn(),
 		}
+
 		const calendarObject = {
-			getObjectAtRecurrenceId: jest.fn().mockReturnValueOnce(eventComponent),
-			resetToDav: jest.fn()
+			_isCalendarObject: true,
 		}
+		getObjectAtRecurrenceId
+			.mockReturnValue(eventComponent)
 
 		store.dispatch.mockResolvedValueOnce(calendarObject) // getEventByObjectId
-		store.dispatch.mockResolvedValueOnce() // updateCalendarObject
+			.mockResolvedValueOnce() // updateCalendarObject
 
 		const eventDropFunction = eventDrop(store, fcAPI)
 		await eventDropFunction({ event, delta, revert })
@@ -184,7 +190,6 @@ describe('fullcalendar/eventDrop test suite', () => {
 		expect(eventComponent.canCreateRecurrenceExceptions).toHaveBeenCalledTimes(1)
 		expect(eventComponent.createRecurrenceException).toHaveBeenCalledTimes(0)
 
-		expect(calendarObject.resetToDav).toHaveBeenCalledTimes(0)
 		expect(revert).toHaveBeenCalledTimes(0)
 	})
 
@@ -229,9 +234,10 @@ describe('fullcalendar/eventDrop test suite', () => {
 			createRecurrenceException: jest.fn(),
 		}
 		const calendarObject = {
-			getObjectAtRecurrenceId: jest.fn().mockReturnValueOnce(eventComponent),
-			resetToDav: jest.fn()
+			_isCalendarObject: true,
 		}
+		getObjectAtRecurrenceId
+			.mockReturnValue(eventComponent)
 
 		store.dispatch.mockResolvedValueOnce(calendarObject) // getEventByObjectId
 		store.dispatch.mockResolvedValueOnce() // updateCalendarObject
@@ -260,7 +266,6 @@ describe('fullcalendar/eventDrop test suite', () => {
 		expect(eventComponent.createRecurrenceException).toHaveBeenCalledTimes(1)
 		expect(eventComponent.createRecurrenceException).toHaveBeenNthCalledWith(1)
 
-		expect(calendarObject.resetToDav).toHaveBeenCalledTimes(0)
 		expect(revert).toHaveBeenCalledTimes(0)
 	})
 
@@ -305,9 +310,10 @@ describe('fullcalendar/eventDrop test suite', () => {
 			createRecurrenceException: jest.fn(),
 		}
 		const calendarObject = {
-			getObjectAtRecurrenceId: jest.fn().mockReturnValueOnce(eventComponent),
-			resetToDav: jest.fn()
+			_isCalendarObject: true,
 		}
+		getObjectAtRecurrenceId
+			.mockReturnValue(eventComponent)
 
 		store.dispatch.mockResolvedValueOnce(calendarObject) // getEventByObjectId
 		store.dispatch.mockResolvedValueOnce() // updateCalendarObject
@@ -331,7 +337,6 @@ describe('fullcalendar/eventDrop test suite', () => {
 		expect(eventComponent.canCreateRecurrenceExceptions).toHaveBeenCalledTimes(0)
 		expect(eventComponent.createRecurrenceException).toHaveBeenCalledTimes(0)
 
-		expect(calendarObject.resetToDav).toHaveBeenCalledTimes(0)
 		expect(revert).toHaveBeenCalledTimes(1)
 	})
 
@@ -376,9 +381,10 @@ describe('fullcalendar/eventDrop test suite', () => {
 			createRecurrenceException: jest.fn(),
 		}
 		const calendarObject = {
-			getObjectAtRecurrenceId: jest.fn().mockReturnValueOnce(eventComponent),
-			resetToDav: jest.fn()
+			_isCalendarObject: true,
 		}
+		getObjectAtRecurrenceId
+			.mockReturnValue(eventComponent)
 
 		store.dispatch.mockResolvedValueOnce(calendarObject) // getEventByObjectId
 		store.dispatch.mockResolvedValueOnce() // updateCalendarObject
@@ -402,7 +408,6 @@ describe('fullcalendar/eventDrop test suite', () => {
 		expect(eventComponent.canCreateRecurrenceExceptions).toHaveBeenCalledTimes(0)
 		expect(eventComponent.createRecurrenceException).toHaveBeenCalledTimes(0)
 
-		expect(calendarObject.resetToDav).toHaveBeenCalledTimes(0)
 		expect(revert).toHaveBeenCalledTimes(1)
 	})
 
@@ -447,9 +452,10 @@ describe('fullcalendar/eventDrop test suite', () => {
 			createRecurrenceException: jest.fn(),
 		}
 		const calendarObject = {
-			getObjectAtRecurrenceId: jest.fn().mockReturnValueOnce(eventComponent),
-			resetToDav: jest.fn()
+			_isCalendarObject: true,
 		}
+		getObjectAtRecurrenceId
+			.mockReturnValue(eventComponent)
 
 		store.dispatch.mockResolvedValueOnce(calendarObject) // getEventByObjectId
 		store.dispatch.mockResolvedValueOnce() // updateCalendarObject
@@ -473,7 +479,6 @@ describe('fullcalendar/eventDrop test suite', () => {
 		expect(eventComponent.canCreateRecurrenceExceptions).toHaveBeenCalledTimes(0)
 		expect(eventComponent.createRecurrenceException).toHaveBeenCalledTimes(0)
 
-		expect(calendarObject.resetToDav).toHaveBeenCalledTimes(0)
 		expect(revert).toHaveBeenCalledTimes(1)
 	})
 
@@ -518,9 +523,10 @@ describe('fullcalendar/eventDrop test suite', () => {
 			createRecurrenceException: jest.fn(),
 		}
 		const calendarObject = {
-			getObjectAtRecurrenceId: jest.fn().mockReturnValueOnce(eventComponent),
-			resetToDav: jest.fn()
+			_isCalendarObject: true,
 		}
+		getObjectAtRecurrenceId
+			.mockReturnValue(eventComponent)
 
 		store.dispatch.mockRejectedValueOnce({ message: 'error message' }) // getEventByObjectId
 
@@ -544,7 +550,6 @@ describe('fullcalendar/eventDrop test suite', () => {
 		expect(eventComponent.canCreateRecurrenceExceptions).toHaveBeenCalledTimes(0)
 		expect(eventComponent.createRecurrenceException).toHaveBeenCalledTimes(0)
 
-		expect(calendarObject.resetToDav).toHaveBeenCalledTimes(0)
 		expect(revert).toHaveBeenCalledTimes(1)
 	})
 
@@ -584,9 +589,10 @@ describe('fullcalendar/eventDrop test suite', () => {
 			})
 
 		const calendarObject = {
-			getObjectAtRecurrenceId: jest.fn().mockReturnValueOnce(null),
-			resetToDav: jest.fn()
+			_isCalendarObject: true,
 		}
+		getObjectAtRecurrenceId
+			.mockReturnValue(null)
 
 		store.dispatch.mockResolvedValueOnce(calendarObject) // getEventByObjectId
 		store.dispatch.mockResolvedValueOnce() // updateCalendarObject
@@ -607,7 +613,6 @@ describe('fullcalendar/eventDrop test suite', () => {
 		expect(store.dispatch).toHaveBeenCalledTimes(1)
 		expect(store.dispatch).toHaveBeenNthCalledWith(1, 'getEventByObjectId', { objectId: 'object123' })
 
-		expect(calendarObject.resetToDav).toHaveBeenCalledTimes(0)
 		expect(revert).toHaveBeenCalledTimes(1)
 	})
 
@@ -654,12 +659,15 @@ describe('fullcalendar/eventDrop test suite', () => {
 			createRecurrenceException: jest.fn(),
 		}
 		const calendarObject = {
-			getObjectAtRecurrenceId: jest.fn().mockReturnValueOnce(eventComponent),
-			resetToDav: jest.fn()
+			_isCalendarObject: true,
 		}
+		getObjectAtRecurrenceId
+			.mockReturnValue(eventComponent)
 
 		store.dispatch.mockResolvedValueOnce(calendarObject) // getEventByObjectId
 		store.dispatch.mockResolvedValueOnce() // updateCalendarObject
+
+		store.commit = jest.fn()
 
 		const eventDropFunction = eventDrop(store, fcAPI)
 		await eventDropFunction({ event, delta, revert })
@@ -677,13 +685,15 @@ describe('fullcalendar/eventDrop test suite', () => {
 		expect(store.dispatch).toHaveBeenCalledTimes(1)
 		expect(store.dispatch).toHaveBeenNthCalledWith(1, 'getEventByObjectId', { objectId: 'object123' })
 
+		expect(store.commit).toHaveBeenCalledTimes(1)
+		expect(store.commit).toHaveBeenNthCalledWith(1, 'resetCalendarObjectToDav', { calendarObject: calendarObject })
+
 		expect(eventComponent.shiftByDuration).toHaveBeenCalledTimes(1)
 		expect(eventComponent.shiftByDuration).toHaveBeenNthCalledWith(1, { calendarJsDurationValue: true, hours: 5 }, false, { calendarJsTimezone: true, tzid: 'America/New_York' }, { calendarJsDurationValue: true, days: 1 }, { calendarJsDurationValue: true, hours: 2 })
 
 		expect(eventComponent.canCreateRecurrenceExceptions).toHaveBeenCalledTimes(0)
 		expect(eventComponent.createRecurrenceException).toHaveBeenCalledTimes(0)
 
-		expect(calendarObject.resetToDav).toHaveBeenCalledTimes(1)
 		expect(revert).toHaveBeenCalledTimes(1)
 	})
 
@@ -728,14 +738,17 @@ describe('fullcalendar/eventDrop test suite', () => {
 			createRecurrenceException: jest.fn(),
 		}
 		const calendarObject = {
-			getObjectAtRecurrenceId: jest.fn().mockReturnValueOnce(eventComponent),
-			resetToDav: jest.fn()
+			_isCalendarObject: true,
 		}
+		getObjectAtRecurrenceId
+			.mockReturnValue(eventComponent)
 
 		store.dispatch.mockResolvedValueOnce(calendarObject) // getEventByObjectId
 		store.dispatch.mockImplementationOnce(() => {
 			throw new Error()
 		}) // updateCalendarObject
+
+		store.commit = jest.fn()
 
 		const eventDropFunction = eventDrop(store, fcAPI)
 		await eventDropFunction({ event, delta, revert })
@@ -754,13 +767,15 @@ describe('fullcalendar/eventDrop test suite', () => {
 		expect(store.dispatch).toHaveBeenNthCalledWith(1, 'getEventByObjectId', { objectId: 'object123' })
 		expect(store.dispatch).toHaveBeenNthCalledWith(2, 'updateCalendarObject', { calendarObject })
 
+		expect(store.commit).toHaveBeenCalledTimes(1)
+		expect(store.commit).toHaveBeenNthCalledWith(1, 'resetCalendarObjectToDav', { calendarObject: calendarObject })
+
 		expect(eventComponent.shiftByDuration).toHaveBeenCalledTimes(1)
 		expect(eventComponent.shiftByDuration).toHaveBeenNthCalledWith(1, { calendarJsDurationValue: true, hours: 5 }, false, { calendarJsTimezone: true, tzid: 'America/New_York' }, { calendarJsDurationValue: true, days: 1 }, { calendarJsDurationValue: true, hours: 2 })
 
 		expect(eventComponent.canCreateRecurrenceExceptions).toHaveBeenCalledTimes(1)
 		expect(eventComponent.createRecurrenceException).toHaveBeenCalledTimes(0)
 
-		expect(calendarObject.resetToDav).toHaveBeenCalledTimes(1)
 		expect(revert).toHaveBeenCalledTimes(1)
 	})
 })

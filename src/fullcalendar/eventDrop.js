@@ -22,6 +22,7 @@
 import { getDurationValueFromFullCalendarDuration } from '../fullcalendar/duration'
 import getTimezoneManager from '../services/timezoneDataProviderService'
 import logger from '../utils/logger.js'
+import { getObjectAtRecurrenceId } from '../utils/calendarObject.js'
 
 /**
  * Returns a function to drop an event at a different position
@@ -60,7 +61,7 @@ export default function(store, fcAPI) {
 			return
 		}
 
-		const eventComponent = calendarObject.getObjectAtRecurrenceId(recurrenceIdDate)
+		const eventComponent = getObjectAtRecurrenceId(calendarObject, recurrenceIdDate)
 		if (!eventComponent) {
 			console.debug('Recurrence-id not found')
 			revert()
@@ -71,7 +72,9 @@ export default function(store, fcAPI) {
 			// shiftByDuration may throw exceptions in certain cases
 			eventComponent.shiftByDuration(deltaDuration, event.allDay, timezone, defaultAllDayDuration, defaultTimedDuration)
 		} catch (error) {
-			calendarObject.resetToDav()
+			store.commit('resetCalendarObjectToDav', {
+				calendarObject,
+			})
 			console.debug(error)
 			revert()
 			return
@@ -86,7 +89,9 @@ export default function(store, fcAPI) {
 				calendarObject,
 			})
 		} catch (error) {
-			calendarObject.resetToDav()
+			store.commit('resetCalendarObjectToDav', {
+				calendarObject,
+			})
 			console.debug(error)
 			revert()
 		}

@@ -22,10 +22,14 @@
  *
  */
 import Vue from 'vue'
-import CalendarObject from '../models/calendarObject'
+import { mapCalendarJsToCalendarObject } from '../models/calendarObject'
 import logger from '../utils/logger.js'
 import DateTimeValue from 'calendar-js/src/values/dateTimeValue'
-import { createEvent, getTimezoneManager } from 'calendar-js'
+import {
+	createEvent,
+	getParserManager,
+	getTimezoneManager,
+} from 'calendar-js'
 
 const state = {
 	calendarObjects: {},
@@ -43,12 +47,8 @@ const mutations = {
 	 */
 	appendCalendarObjects(state, { calendarObjects = [] }) {
 		for (const calendarObject of calendarObjects) {
-			if (!state.calendarObjects[calendarObject.getId()]) {
-				if (calendarObject instanceof CalendarObject) {
-					Vue.set(state.calendarObjects, calendarObject.getId(), calendarObject)
-				} else {
-					logger.error('Invalid calendarObject object')
-				}
+			if (!state.calendarObjects[calendarObject.id]) {
+				Vue.set(state.calendarObjects, calendarObject.id, calendarObject)
 			}
 		}
 	},
@@ -61,12 +61,49 @@ const mutations = {
 	 * @param {Object} data.calendarObject Calendar-object to add
 	 */
 	appendCalendarObject(state, { calendarObject }) {
-		if (!state.calendarObjects[calendarObject.getId()]) {
-			if (calendarObject instanceof CalendarObject) {
-				Vue.set(state.calendarObjects, calendarObject.getId(), calendarObject)
-			} else {
-				logger.error('Invalid calendarObject object')
-			}
+		if (!state.calendarObjects[calendarObject.id]) {
+			Vue.set(state.calendarObjects, calendarObject.id, calendarObject)
+		}
+	},
+
+	/**
+	 * Updates a calendar-object id
+	 *
+	 * @param {Object} state The store data
+	 * @param {Object} data The destructuring object
+	 * @param {Object} data.calendarObject Calendar-object to update
+	 */
+	updateCalendarObjectId(state, { calendarObject }) {
+		if (calendarObject.dav === null) {
+			calendarObject.id = null
+		} else {
+			calendarObject.id = btoa(calendarObject.dav.url)
+		}
+	},
+
+	/**
+	 * Resets a calendar-object to it's original server state
+	 *
+	 * @param {Object} state The store data
+	 * @param {Object} data The destructuring object
+	 * @param {Object} data.calendarObject Calendar-object to reset
+	 */
+	resetCalendarObjectToDav(state, { calendarObject }) {
+		calendarObject = state.calendarObjects[calendarObject.id]
+
+		// If this object does not exist on the server yet, there is nothing to do
+		if (!calendarObject || !calendarObject.existsOnServer) {
+			return
+		}
+
+		const parserManager = getParserManager()
+		const parser = parserManager.getParserForFileType('text/calendar')
+		parser.parse(calendarObject.dav.data)
+
+		const itemIterator = parser.getItemIterator()
+		const firstVCalendar = itemIterator.next().value
+		if (firstVCalendar) {
+			calendarObject.calendarComponent = firstVCalendar
 		}
 	},
 
@@ -78,7 +115,7 @@ const mutations = {
 	 * @param {Object} data.calendarObject Calendar-object to delete
 	 */
 	deleteCalendarObject(state, { calendarObject }) {
-		Vue.delete(state.calendarObjects, calendarObject.getId())
+		Vue.delete(state.calendarObjects, calendarObject.id)
 	},
 
 	/**
@@ -114,7 +151,7 @@ const actions = {
 	 * @returns {Promise<void>}
 	 */
 	async moveCalendarObject(context, { calendarObject, newCalendarId }) {
-		if (!calendarObject.existsOnServer()) {
+		if (!calendarObject.existsOnServer) {
 			return
 		}
 
@@ -172,8 +209,8 @@ const actions = {
 	 * @returns {Promise<void>}
 	 */
 	async updateCalendarObject(context, { calendarObject }) {
-		if (calendarObject.existsOnServer()) {
-			calendarObject.dav.data = calendarObject.vcalendar.toICS()
+		if (calendarObject.existsOnServer) {
+			calendarObject.dav.data = calendarObject.calendarComponent.toICS()
 			await calendarObject.dav.update()
 
 			context.commit('addCalendarObjectIdToAllTimeRangesOfCalendar', {
@@ -188,7 +225,9 @@ const actions = {
 		}
 
 		const calendar = context.getters.getCalendarById(calendarObject.calendarId)
-		calendarObject.dav = await calendar.dav.createVObject(calendarObject.vcalendar.toICS())
+		calendarObject.dav = await calendar.dav.createVObject(calendarObject.calendarComponent.toICS())
+		calendarObject.existsOnServer = true
+		context.commit('updateCalendarObjectId', { calendarObject })
 
 		context.commit('appendCalendarObject', { calendarObject })
 		context.commit('addCalendarObjectToCalendar', {
@@ -215,8 +254,10 @@ const actions = {
 	 */
 	async createCalendarObjectFromFork(context, { eventComponent, calendarId }) {
 		const calendar = context.getters.getCalendarById(calendarId)
-		const calendarObject = new CalendarObject(eventComponent.root, calendar.id)
-		calendarObject.dav = await calendar.dav.createVObject(calendarObject.vcalendar.toICS())
+		const calendarObject = mapCalendarJsToCalendarObject(eventComponent.root, calendar.id)
+		calendarObject.dav = await calendar.dav.createVObject(calendarObject.calendarComponent.toICS())
+		calendarObject.existsOnServer = true
+		context.commit('updateCalendarObjectId', { calendarObject })
 
 		context.commit('appendCalendarObject', { calendarObject })
 		context.commit('addCalendarObjectToCalendar', {
@@ -243,7 +284,7 @@ const actions = {
 	async deleteCalendarObject(context, { calendarObject }) {
 		// If this calendar-object was not created on the server yet,
 		// no need to send requests to the server
-		if (calendarObject.existsOnServer()) {
+		if (calendarObject.existsOnServer) {
 			await calendarObject.dav.delete()
 		}
 
@@ -296,7 +337,7 @@ const actions = {
 		}
 
 		const firstCalendar = context.getters.sortedCalendars[0].id
-		return Promise.resolve(new CalendarObject(calendar, firstCalendar))
+		return Promise.resolve(mapCalendarJsToCalendarObject(calendar, firstCalendar))
 	},
 
 	/**

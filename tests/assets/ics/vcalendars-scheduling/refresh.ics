@@ -1,0 +1,14 @@
+BEGIN:VCALENDAR
+PRODID:-//Example/ExampleCalendarClient//EN
+METHOD:REFRESH
+VERSION:2.0
+BEGIN:VEVENT
+ORGANIZER:mailto:a@example.com
+ATTENDEE;ROLE=CHAIR;PARTSTAT=ACCEPTED:mailto:a@example.com
+ATTENDEE:mailto:b@example.com
+ATTENDEE:mailto:c@example.com
+ATTENDEE:mailto:d@example.com
+UID:guid-1-12345@example.com
+DTSTAMP:19970603T094000
+END:VEVENT
+END:VCALENDAR

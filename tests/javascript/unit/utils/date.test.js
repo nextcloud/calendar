@@ -58,8 +58,6 @@ describe('utils/alarms test suite', () => {
 		const date1 = getDateFromFirstdayParam('2019-01-01')
 		const date2 = getDateFromFirstdayParam('2019-12-31')
 
-		const expectedTimezoneOffset = new Date().getTimezoneOffset()
-
 		expect(date1.getFullYear()).toEqual(2019)
 		expect(date1.getMonth()).toEqual(0)
 		expect(date1.getDate()).toEqual(1)
@@ -67,7 +65,7 @@ describe('utils/alarms test suite', () => {
 		expect(date1.getMinutes()).toEqual(0)
 		expect(date1.getSeconds()).toEqual(0)
 		expect(date1.getMilliseconds()).toEqual(0)
-		expect(date1.getTimezoneOffset()).toEqual(expectedTimezoneOffset)
+		expect(date1.getTimezoneOffset()).toEqual(new Date(2019, 0, 1).getTimezoneOffset())
 
 		expect(date2.getFullYear()).toEqual(2019)
 		expect(date2.getMonth()).toEqual(11)
@@ -76,7 +74,7 @@ describe('utils/alarms test suite', () => {
 		expect(date2.getMinutes()).toEqual(0)
 		expect(date2.getSeconds()).toEqual(0)
 		expect(date2.getMilliseconds()).toEqual(0)
-		expect(date2.getTimezoneOffset()).toEqual(expectedTimezoneOffset)
+		expect(date2.getTimezoneOffset()).toEqual(new Date(2019, 11, 31).getTimezoneOffset())
 	})
 
 	it('should log an error when providing a non-numerical first-day-parameter', () => {

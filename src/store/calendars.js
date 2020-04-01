@@ -25,7 +25,7 @@
  */
 import Vue from 'vue'
 import client from '../services/caldavService.js'
-import CalendarObject from '../models/calendarObject'
+import { mapCDavObjectToCalendarObject } from '../models/calendarObject'
 import { dateFactory, getUnixTimestampFromDate } from '../utils/date.js'
 import { getDefaultCalendarObject, mapDavCollectionToCalendar } from '../models/calendar'
 import pLimit from 'p-limit'
@@ -706,7 +706,7 @@ const actions = {
 		const calendarObjects = []
 		const calendarObjectIds = []
 		for (const r of response) {
-			const calendarObject = new CalendarObject(r.data, calendar.id, r)
+			const calendarObject = mapCDavObjectToCalendarObject(r, calendar.id)
 			calendarObjects.push(calendarObject)
 			calendarObjectIds.push(calendarObject.id)
 		}
@@ -751,7 +751,7 @@ const actions = {
 
 		const calendar = context.state.calendarsById[calendarId]
 		const vObject = await calendar.dav.find(objectFileName)
-		const calendarObject = new CalendarObject(vObject.data, calendar.id, vObject)
+		const calendarObject = mapCDavObjectToCalendarObject(vObject, calendar.id)
 		context.commit('appendCalendarObject', { calendarObject })
 		context.commit('addCalendarObjectToCalendar', {
 			calendar: {
@@ -831,7 +831,7 @@ const actions = {
 						return
 					}
 
-					const calendarObject = new CalendarObject(davObject.data, calendarId, davObject)
+					const calendarObject = mapCDavObjectToCalendarObject(davObject, calendarId)
 					context.commit('appendCalendarObject', { calendarObject })
 					context.commit('addCalendarObjectToCalendar', {
 						calendar,

@@ -21,11 +21,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-/* eslint-disable import/first */
 import Vue from 'vue'
-Vue.config.devtools = true
-
 import Vuex from 'vuex'
+
 import calendarObjectInstance from './calendarObjectInstance'
 import calendarObjects from './calendarObjects'
 import calendars from './calendars.js'

@@ -1,0 +1,23 @@
+BEGIN:VCALENDAR
+METHOD:COUNTER
+PRODID:-//Example/ExampleCalendarClient//EN
+VERSION:2.0
+BEGIN:VEVENT
+UID:guid-1@example.com
+RECURRENCE-ID:19970715T210000Z
+SEQUENCE:4
+ORGANIZER:mailto:a@example.com
+ATTENDEE;ROLE=CHAIR;RSVP=TRUE:mailto:a@example.com
+ATTENDEE;RSVP=TRUE:mailto:b@example.com
+ATTENDEE;RSVP=TRUE:mailto:c@example.com
+ATTENDEE;RSVP=TRUE:mailto:d@example.com
+DESCRIPTION:IETF-C&S Conference Call
+CLASS:PUBLIC
+SUMMARY:IETF Calendaring Working Group Meeting
+DTSTART:19970715T220000Z
+DTEND:19970715T230000Z
+LOCATION:Conference Call
+COMMENT:May we bump this by an hour? I have a conflict
+DTSTAMP:19970629T094000Z
+END:VEVENT
+END:VCALENDAR

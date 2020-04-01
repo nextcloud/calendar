@@ -152,7 +152,8 @@
 			"/node_modules/(?!calendar-js).+\\.js$"
 		],
 		"setupFilesAfterEnv": [
-			"./tests/javascript/jest.setup.js"
+			"./tests/javascript/jest.setup.js",
+			"./tests/assets/loadAsset.js"
 		]
 	}
 }

@@ -27,6 +27,7 @@ import {
 	getHexForColorName,
 } from '../utils/color.js'
 import logger from '../utils/logger.js'
+import { getAllObjectsInTimeRange } from '../utils/calendarObject.js'
 
 /**
  * convert an array of calendar-objects to events
@@ -43,7 +44,7 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 	for (const calendarObject of calendarObjects) {
 		let allObjectsInTimeRange
 		try {
-			allObjectsInTimeRange = calendarObject.getAllObjectsInTimeRange(start, end)
+			allObjectsInTimeRange = getAllObjectsInTimeRange(calendarObject, start, end)
 		} catch (error) {
 			logger.error(error.message)
 			continue
