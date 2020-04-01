@@ -675,7 +675,7 @@ export default {
 		// If we are in the New Event dialog, we want to update the selected time
 		if (to.name === 'NewSidebarView' || to.name === 'NewPopoverView') {
 			// If allDay, dtstart and dtend are the same there is no need to update.
-			// This is usally the case when navigating through the calendar while the editor is open
+			// This is usually the case when navigating through the calendar while the editor is open
 			if (to.params.allDay === from.params.allDay
 				&& to.params.dtstart === from.params.dtstart
 				&& to.params.dtend === from.params.dtend) {
@@ -692,7 +692,7 @@ export default {
 			next()
 		} else {
 			// If both the objectId and recurrenceId remained the same
-			// there is no need to update. This is usally the case when navigating
+			// there is no need to update. This is usually the case when navigating
 			// through the calendar while the editor is open
 			if (to.params.object === from.params.object
 				&& to.params.recurrenceId === from.params.recurrenceId) {

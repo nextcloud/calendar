@@ -107,7 +107,7 @@ const actions = {
 	 * @returns {Promise<void>}
 	 */
 	async fetchPrincipalByUrl(context, { url }) {
-		// Don't refetch principals we already have
+		// Don't re-fetch principals we already have
 		if (context.getters.getPrincipalByUrl(url)) {
 			return
 		}
