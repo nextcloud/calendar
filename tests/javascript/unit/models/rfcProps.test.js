@@ -25,7 +25,7 @@ import { getDefaultCategories } from '../../../../src/defaults/defaultCategories
 jest.mock('@nextcloud/l10n')
 jest.mock('../../../../src/defaults/defaultCategories.js')
 
-describe('models/rfcProps test suite', () => {
+describe('Test suite: RFC properties (models/rfcProps.js)', () => {
 
 	beforeEach(() => {
 		translate.mockClear()

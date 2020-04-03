@@ -20,6 +20,7 @@
  *
  */
 import { getDurationValueFromFullCalendarDuration } from './duration'
+import { getObjectAtRecurrenceId } from '../utils/calendarObject.js'
 
 /**
  * Returns a function to resize an event
@@ -50,7 +51,7 @@ export default function(store) {
 			return
 		}
 
-		const eventComponent = calendarObject.getObjectAtRecurrenceId(recurrenceIdDate)
+		const eventComponent = getObjectAtRecurrenceId(calendarObject, recurrenceIdDate)
 		if (!eventComponent) {
 			console.debug('Recurrence-id not found')
 			revert()
@@ -73,7 +74,9 @@ export default function(store) {
 				calendarObject,
 			})
 		} catch (error) {
-			calendarObject.resetToDav()
+			store.commit('resetCalendarObjectToDav', {
+				calendarObject,
+			})
 			console.debug(error)
 			revert()
 		}

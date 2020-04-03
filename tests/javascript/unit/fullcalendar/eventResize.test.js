@@ -22,12 +22,15 @@
 import eventResize from "../../../../src/fullcalendar/eventResize.js";
 
 import { getDurationValueFromFullCalendarDuration} from '../../../../src/fullcalendar/duration.js'
+import {getObjectAtRecurrenceId} from "../../../../src/utils/calendarObject.js";
 jest.mock('../../../../src/fullcalendar/duration.js')
+jest.mock("../../../../src/utils/calendarObject.js")
 
 describe('fullcalendar/eventResize test suite', () => {
 
 	beforeEach(() => {
 		getDurationValueFromFullCalendarDuration.mockClear()
+		getObjectAtRecurrenceId.mockClear()
 	})
 
 	it('should properly resize a non-recurring event', async () => {
@@ -57,9 +60,10 @@ describe('fullcalendar/eventResize test suite', () => {
 			createRecurrenceException: jest.fn(),
 		}
 		const calendarObject = {
-			getObjectAtRecurrenceId: jest.fn().mockReturnValueOnce(eventComponent),
-			resetToDav: jest.fn()
+			_isCalendarObject: true,
 		}
+		getObjectAtRecurrenceId
+			.mockReturnValue(eventComponent)
 
 		store.dispatch
 			.mockResolvedValueOnce(calendarObject) // getEventByObjectId
@@ -84,7 +88,6 @@ describe('fullcalendar/eventResize test suite', () => {
 		expect(eventComponent.canCreateRecurrenceExceptions).toHaveBeenCalledTimes(1)
 		expect(eventComponent.createRecurrenceException).toHaveBeenCalledTimes(0)
 
-		expect(calendarObject.resetToDav).toHaveBeenCalledTimes(0)
 		expect(revert).toHaveBeenCalledTimes(0)
 	})
 
@@ -115,9 +118,10 @@ describe('fullcalendar/eventResize test suite', () => {
 			createRecurrenceException: jest.fn(),
 		}
 		const calendarObject = {
-			getObjectAtRecurrenceId: jest.fn().mockReturnValueOnce(eventComponent),
-			resetToDav: jest.fn()
+			_isCalendarObject: true,
 		}
+		getObjectAtRecurrenceId
+			.mockReturnValue(eventComponent)
 
 		store.dispatch
 			.mockResolvedValueOnce(calendarObject) // getEventByObjectId
@@ -142,7 +146,6 @@ describe('fullcalendar/eventResize test suite', () => {
 		expect(eventComponent.canCreateRecurrenceExceptions).toHaveBeenCalledTimes(1)
 		expect(eventComponent.createRecurrenceException).toHaveBeenCalledTimes(1)
 
-		expect(calendarObject.resetToDav).toHaveBeenCalledTimes(0)
 		expect(revert).toHaveBeenCalledTimes(0)
 	})
 
@@ -171,9 +174,10 @@ describe('fullcalendar/eventResize test suite', () => {
 			createRecurrenceException: jest.fn(),
 		}
 		const calendarObject = {
-			getObjectAtRecurrenceId: jest.fn().mockReturnValueOnce(eventComponent),
-			resetToDav: jest.fn()
+			_isCalendarObject: true,
 		}
+		getObjectAtRecurrenceId
+			.mockReturnValue(eventComponent)
 
 		store.dispatch
 			.mockResolvedValueOnce(calendarObject) // getEventByObjectId
@@ -194,7 +198,6 @@ describe('fullcalendar/eventResize test suite', () => {
 		expect(eventComponent.canCreateRecurrenceExceptions).toHaveBeenCalledTimes(0)
 		expect(eventComponent.createRecurrenceException).toHaveBeenCalledTimes(0)
 
-		expect(calendarObject.resetToDav).toHaveBeenCalledTimes(0)
 		expect(revert).toHaveBeenCalledTimes(1)
 	})
 
@@ -225,9 +228,10 @@ describe('fullcalendar/eventResize test suite', () => {
 			createRecurrenceException: jest.fn(),
 		}
 		const calendarObject = {
-			getObjectAtRecurrenceId: jest.fn().mockReturnValueOnce(eventComponent),
-			resetToDav: jest.fn()
+			_isCalendarObject: true,
 		}
+		getObjectAtRecurrenceId
+			.mockReturnValue(eventComponent)
 
 		store.dispatch
 			.mockImplementationOnce(() => {
@@ -251,7 +255,6 @@ describe('fullcalendar/eventResize test suite', () => {
 		expect(eventComponent.canCreateRecurrenceExceptions).toHaveBeenCalledTimes(0)
 		expect(eventComponent.createRecurrenceException).toHaveBeenCalledTimes(0)
 
-		expect(calendarObject.resetToDav).toHaveBeenCalledTimes(0)
 		expect(revert).toHaveBeenCalledTimes(1)
 	})
 
@@ -282,9 +285,10 @@ describe('fullcalendar/eventResize test suite', () => {
 			createRecurrenceException: jest.fn(),
 		}
 		const calendarObject = {
-			getObjectAtRecurrenceId: jest.fn().mockReturnValueOnce(null),
-			resetToDav: jest.fn()
+			_isCalendarObject: true,
 		}
+		getObjectAtRecurrenceId
+			.mockReturnValue(null)
 
 		store.dispatch
 			.mockResolvedValueOnce(calendarObject) // getEventByObjectId
@@ -306,7 +310,6 @@ describe('fullcalendar/eventResize test suite', () => {
 		expect(eventComponent.canCreateRecurrenceExceptions).toHaveBeenCalledTimes(0)
 		expect(eventComponent.createRecurrenceException).toHaveBeenCalledTimes(0)
 
-		expect(calendarObject.resetToDav).toHaveBeenCalledTimes(0)
 		expect(revert).toHaveBeenCalledTimes(1)
 	})
 
@@ -337,15 +340,18 @@ describe('fullcalendar/eventResize test suite', () => {
 			createRecurrenceException: jest.fn(),
 		}
 		const calendarObject = {
-			getObjectAtRecurrenceId: jest.fn().mockReturnValueOnce(eventComponent),
-			resetToDav: jest.fn()
+			_isCalendarObject: true,
 		}
+		getObjectAtRecurrenceId
+			.mockReturnValue(eventComponent)
 
 		store.dispatch
 			.mockResolvedValueOnce(calendarObject) // getEventByObjectId
 			.mockImplementationOnce(() => {
 				throw new Error()
 			}) // updateCalendarObject
+
+		store.commit = jest.fn()
 
 		const eventResizeFunction = eventResize(store)
 		await eventResizeFunction({ event, startDelta, endDelta, revert })
@@ -358,6 +364,9 @@ describe('fullcalendar/eventResize test suite', () => {
 		expect(store.dispatch).toHaveBeenNthCalledWith(1, 'getEventByObjectId', { objectId: 'object123' })
 		expect(store.dispatch).toHaveBeenNthCalledWith(2, 'updateCalendarObject', { calendarObject })
 
+		expect(store.commit).toHaveBeenCalledTimes(1)
+		expect(store.commit).toHaveBeenNthCalledWith(1, 'resetCalendarObjectToDav', { calendarObject: calendarObject })
+
 		expect(eventComponent.addDurationToStart).toHaveBeenCalledTimes(1)
 		expect(eventComponent.addDurationToStart).toHaveBeenNthCalledWith(1, { calendarJsDurationValue: true, hours: 5 })
 
@@ -366,7 +375,6 @@ describe('fullcalendar/eventResize test suite', () => {
 		expect(eventComponent.canCreateRecurrenceExceptions).toHaveBeenCalledTimes(1)
 		expect(eventComponent.createRecurrenceException).toHaveBeenCalledTimes(0)
 
-		expect(calendarObject.resetToDav).toHaveBeenCalledTimes(1)
 		expect(revert).toHaveBeenCalledTimes(1)
 	})
 

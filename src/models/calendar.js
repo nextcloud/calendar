@@ -20,6 +20,7 @@
  *
  */
 import { detectColor, uidToHexColor } from '../utils/color.js'
+import { mapDavShareeToCalendarShareObject } from './calendarShare.js'
 
 /**
  * Creates a complete calendar-object based on given props
@@ -27,7 +28,7 @@ import { detectColor, uidToHexColor } from '../utils/color.js'
  * @param {Object} props Calendar-props already provided
  * @returns {Object}
  */
-export const getDefaultCalendarObject = (props = {}) => Object.assign({}, {
+const getDefaultCalendarObject = (props = {}) => Object.assign({}, {
 	// Id of the calendar
 	id: '',
 	// Visible display name
@@ -79,7 +80,7 @@ export const getDefaultCalendarObject = (props = {}) => Object.assign({}, {
  * @param {Object=} currentUserPrincipal The principal model of the current user principal
  * @returns {Object}
  */
-export function mapDavCollectionToCalendar(calendar, currentUserPrincipal) {
+const mapDavCollectionToCalendar = (calendar, currentUserPrincipal) => {
 	const id = btoa(calendar.url)
 	const displayName = calendar.displayname || getCalendarUriFromUrl(calendar.url)
 
@@ -134,11 +135,11 @@ export function mapDavCollectionToCalendar(calendar, currentUserPrincipal) {
 				continue
 			}
 
-			shares.push(mapDavShareeToSharee(share))
+			shares.push(mapDavShareeToCalendarShareObject(share))
 		}
 	}
 
-	return {
+	return getDefaultCalendarObject({
 		id,
 		displayName,
 		color,
@@ -157,43 +158,7 @@ export function mapDavCollectionToCalendar(calendar, currentUserPrincipal) {
 		shares,
 		timezone,
 		dav: calendar,
-	}
-}
-
-/**
- * Map a dav collection to our calendar object model
- *
- * @param {Object} sharee The sharee object from the cdav library shares
- * @returns {Object}
- */
-export function mapDavShareeToSharee(sharee) {
-	// sharee.href might contain non-latin characters, so let's uri encode it first
-	const id = btoa(encodeURI(sharee.href))
-
-	let displayName
-	if (sharee['common-name']) {
-		displayName = sharee['common-name']
-	} else if (sharee.href.startsWith('principal:principals/groups/')) {
-		displayName = sharee.href.substr(28)
-	} else if (sharee.href.startsWith('principal:principals/users/')) {
-		displayName = sharee.href.substr(27)
-	} else {
-		displayName = sharee.href
-	}
-
-	const writeable = sharee.access[0].endsWith('read-write')
-	const isGroup = sharee.href.indexOf('principal:principals/groups/') === 0
-	const isCircle = sharee.href.indexOf('principal:principals/circles/') === 0
-	const uri = sharee.href
-
-	return {
-		id,
-		displayName,
-		writeable,
-		isGroup,
-		isCircle,
-		uri,
-	}
+	})
 }
 
 /**
@@ -208,4 +173,9 @@ function getCalendarUriFromUrl(url) {
 	}
 
 	return url.substring(url.lastIndexOf('/') + 1)
+}
+
+export {
+	getDefaultCalendarObject,
+	mapDavCollectionToCalendar,
 }

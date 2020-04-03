@@ -1,0 +1,13 @@
+BEGIN:VCALENDAR
+PRODID:-//Example/ExampleCalendarClient//EN
+METHOD:DECLINECOUNTER
+VERSION:2.0
+BEGIN:VEVENT
+ORGANIZER:mailto:a@example.com
+ATTENDEE;RSVP=TRUE;CUTYPE=INDIVIDUAL:mailto:b@example.com
+COMMENT:Sorry, I cannot change this meeting time
+UID:calsrv.example.com-873970198738777@example.com
+SEQUENCE:0
+DTSTAMP:19970614T190000Z
+END:VEVENT
+END:VCALENDAR

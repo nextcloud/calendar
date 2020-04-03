@@ -22,10 +22,15 @@
 import {
 	getDefaultCalendarObject,
 	mapDavCollectionToCalendar,
-	mapDavShareeToSharee
 } from '../../../../src/models/calendar.js'
+import { mapDavShareeToCalendarShareObject } from "../../../../src/models/calendarShare.js";
+jest.mock("../../../../src/models/calendarShare.js")
 
-describe('models/calendar test suite', () => {
+describe('Test suite: Calendar model (models/calendar.js)', () => {
+
+	beforeEach(() => {
+		mapDavShareeToCalendarShareObject.mockClear()
+	})
 
 	it('should provide an empty skeleton for calendar', () => {
 		expect(getDefaultCalendarObject()).toEqual({
@@ -119,8 +124,13 @@ describe('models/calendar test suite', () => {
 			supportsTasks: false,
 			isSharedWithMe: false,
 			timezone: 'BEGIN:VCALENDAR...END:VCALENDAR',
-			url: '/foo/bar'
+			url: '/foo/bar',
+			calendarObjects: [],
+			fetchedTimeRanges: [],
+			loading: false,
 		})
+
+		expect(mapDavShareeToCalendarShareObject).toHaveBeenCalledTimes(0)
 	})
 
 	it('should map a cdav-js calendar object to a calendar model - disabled calendar', () => {
@@ -159,8 +169,13 @@ describe('models/calendar test suite', () => {
 			supportsTasks: false,
 			isSharedWithMe: false,
 			timezone: 'BEGIN:VCALENDAR...END:VCALENDAR',
-			url: '/foo/bar'
+			url: '/foo/bar',
+			calendarObjects: [],
+			fetchedTimeRanges: [],
+			loading: false,
 		})
+
+		expect(mapDavShareeToCalendarShareObject).toHaveBeenCalledTimes(0)
 	})
 
 	it('should map a cdav-js calendar object to a calendar model - no enabled - own calendar', () => {
@@ -198,8 +213,13 @@ describe('models/calendar test suite', () => {
 			supportsTasks: false,
 			isSharedWithMe: false,
 			timezone: null,
-			url: '/foo/bar'
+			url: '/foo/bar',
+			calendarObjects: [],
+			fetchedTimeRanges: [],
+			loading: false,
 		})
+
+		expect(mapDavShareeToCalendarShareObject).toHaveBeenCalledTimes(0)
 	})
 
 	it('should map a cdav-js calendar object to a calendar model - no enabled - shared with me', () => {
@@ -237,8 +257,13 @@ describe('models/calendar test suite', () => {
 			supportsTasks: false,
 			isSharedWithMe: true,
 			timezone: null,
-			url: '/foo/bar'
+			url: '/foo/bar',
+			calendarObjects: [],
+			fetchedTimeRanges: [],
+			loading: false,
 		})
+
+		expect(mapDavShareeToCalendarShareObject).toHaveBeenCalledTimes(0)
 	})
 
 	it('should map a cdav-js calendar object to a calendar model - color without hash', () => {
@@ -276,8 +301,13 @@ describe('models/calendar test suite', () => {
 			supportsTasks: false,
 			isSharedWithMe: false,
 			timezone: null,
-			url: '/foo/bar'
+			url: '/foo/bar',
+			calendarObjects: [],
+			fetchedTimeRanges: [],
+			loading: false,
 		})
+
+		expect(mapDavShareeToCalendarShareObject).toHaveBeenCalledTimes(0)
 	})
 
 	it('should map a cdav-js calendar object to a calendar model - rgba color', () => {
@@ -315,8 +345,13 @@ describe('models/calendar test suite', () => {
 			supportsTasks: false,
 			isSharedWithMe: false,
 			timezone: null,
-			url: '/foo/bar'
+			url: '/foo/bar',
+			calendarObjects: [],
+			fetchedTimeRanges: [],
+			loading: false,
 		})
+
+		expect(mapDavShareeToCalendarShareObject).toHaveBeenCalledTimes(0)
 	})
 
 	it('should map a cdav-js calendar object to a calendar model - rgba color without hash', () => {
@@ -354,8 +389,13 @@ describe('models/calendar test suite', () => {
 			supportsTasks: false,
 			isSharedWithMe: false,
 			timezone: null,
-			url: '/foo/bar'
+			url: '/foo/bar',
+			calendarObjects: [],
+			fetchedTimeRanges: [],
+			loading: false,
 		})
+
+		expect(mapDavShareeToCalendarShareObject).toHaveBeenCalledTimes(0)
 	})
 
 	it('should map a cdav-js calendar object to a calendar model - unknown color', () => {
@@ -393,11 +433,24 @@ describe('models/calendar test suite', () => {
 			supportsTasks: false,
 			isSharedWithMe: false,
 			timezone: null,
-			url: '/foo/bar'
+			url: '/foo/bar',
+			calendarObjects: [],
+			fetchedTimeRanges: [],
+			loading: false,
 		})
+
+		expect(mapDavShareeToCalendarShareObject).toHaveBeenCalledTimes(0)
 	})
 
 	it('should properly parse sharees of a calendar', () => {
+		mapDavShareeToCalendarShareObject
+			.mockReturnValueOnce({ id: 'share1' })
+			.mockReturnValueOnce({ id: 'share2' })
+			.mockReturnValueOnce({ id: 'share3' })
+			.mockReturnValueOnce({ id: 'share4' })
+			.mockReturnValueOnce({ id: 'share5' })
+			.mockReturnValue(null)
+
 		const cdavObject = {
 			url: '/foo/bar',
 			displayname: 'Displayname of calendar 123',
@@ -469,41 +522,55 @@ describe('models/calendar test suite', () => {
 			owner: '/remote.php/dav/principals/users/admin/',
 			publishURL: null,
 			readOnly: false,
-			shares: [{
-				'displayName': 'Marcus Beehler',
-				'id': 'cHJpbmNpcGFsOnByaW5jaXBhbHMvdXNlcnMvdXNlcjQ=',
-				'isCircle': false,
-				'isGroup': false,
-				'uri': 'principal:principals/users/user4',
-				'writeable': false,
-			}, {
-				'displayName': 'My personal circle',
-				'id': 'cHJpbmNpcGFsOnByaW5jaXBhbHMvY2lyY2xlcy9jNDc5YzE0YmQ4MjQxNQ==',
-				'isCircle': true,
-				'isGroup': false,
-				'uri': 'principal:principals/circles/c479c14bd82415',
-				'writeable': false,
-			}, {
-				'displayName': 'Whitney Anders',
-				'id': 'cHJpbmNpcGFsOnByaW5jaXBhbHMvdXNlcnMvdXNlcjM=',
-				'isCircle': false,
-				'isGroup': false,
-				'uri': 'principal:principals/users/user3',
-				'writeable': true,
-			}, {
-				'displayName': 'admin',
-				'id': 'cHJpbmNpcGFsOnByaW5jaXBhbHMvZ3JvdXBzL2FkbWlu',
-				'isCircle': false,
-				'isGroup': true,
-				'uri': 'principal:principals/groups/admin',
-				'writeable': false,
-			}],
+			shares: [
+				{ id: 'share1' },
+				{ id: 'share2' },
+				{ id: 'share3' },
+				{ id: 'share4' },
+			],
 			supportsEvents: true,
 			supportsJournals: false,
 			supportsTasks: false,
 			isSharedWithMe: false,
 			timezone: null,
-			url: '/foo/bar'
+			url: '/foo/bar',
+			calendarObjects: [],
+			fetchedTimeRanges: [],
+			loading: false,
+		})
+
+		expect(mapDavShareeToCalendarShareObject).toHaveBeenCalledTimes(4)
+		expect(mapDavShareeToCalendarShareObject).toHaveBeenNthCalledWith(1, {
+			'href': 'principal:principals/users/user4',
+			'common-name': 'Marcus Beehler',
+			'invite-accepted': true,
+			'access': [
+				'{http://owncloud.org/ns}read'
+			]
+		})
+		expect(mapDavShareeToCalendarShareObject).toHaveBeenNthCalledWith(2, {
+			'href': 'principal:principals/circles/c479c14bd82415',
+			'common-name': 'My personal circle',
+			'invite-accepted': true,
+			'access': [
+				'{http://owncloud.org/ns}read'
+			]
+		})
+		expect(mapDavShareeToCalendarShareObject).toHaveBeenNthCalledWith(3, {
+			'href': 'principal:principals/users/user3',
+			'common-name': 'Whitney Anders',
+			'invite-accepted': true,
+			'access': [
+				'{http://owncloud.org/ns}read-write'
+			]
+		})
+		expect(mapDavShareeToCalendarShareObject).toHaveBeenNthCalledWith(4, {
+			'href': 'principal:principals/groups/admin',
+			'common-name': '',
+			'invite-accepted': true,
+			'access': [
+				'{http://owncloud.org/ns}read'
+			]
 		})
 	})
 
@@ -582,26 +649,13 @@ describe('models/calendar test suite', () => {
 			supportsTasks: false,
 			isSharedWithMe: true,
 			timezone: null,
-			url: '/foo/bar'
+			url: '/foo/bar',
+			calendarObjects: [],
+			fetchedTimeRanges: [],
+			loading: false,
 		})
-	})
 
-	it('should properly parse individual sharees', () => {
-		expect(mapDavShareeToSharee({
-			'href': 'principal:principals/circles/c479c14bd82415',
-			'common-name': 'My personal circle',
-			'invite-accepted': true,
-			'access': [
-				'{http://owncloud.org/ns}read'
-			]
-		})).toEqual({
-			'displayName': 'My personal circle',
-			'id': 'cHJpbmNpcGFsOnByaW5jaXBhbHMvY2lyY2xlcy9jNDc5YzE0YmQ4MjQxNQ==',
-			'isCircle': true,
-			'isGroup': false,
-			'uri': 'principal:principals/circles/c479c14bd82415',
-			'writeable': false
-		})
+		expect(mapDavShareeToCalendarShareObject).toHaveBeenCalledTimes(0)
 	})
 
 	it('should handle undefined displayname properly', () => {
@@ -640,7 +694,10 @@ describe('models/calendar test suite', () => {
 			supportsTasks: false,
 			isSharedWithMe: false,
 			timezone: 'BEGIN:VCALENDAR...END:VCALENDAR',
-			url: '/remote.php/dav/calendars/admin/personal/'
+			url: '/remote.php/dav/calendars/admin/personal/',
+			calendarObjects: [],
+			fetchedTimeRanges: [],
+			loading: false,
 		})
 	})
 

@@ -27,7 +27,7 @@ import { getDefaultCategories } from '../defaults/defaultCategories.js'
  *
  * @returns {{color: {readableName: *, icon: string, multiple: boolean, info: *}, timeTransparency: {readableName: *, defaultValue: string, icon: string, multiple: boolean, options: *[], info: *}, description: {readableName: *, icon: string, placeholder: *, defaultNumberOfRows: number}, location: {readableName: *, icon: string, placeholder: *}, categories: {readableName: *, icon: string, multiple: boolean, options: *, tagPlaceholder: *, placeholder: *, info: *}, accessClass: {readableName: *, defaultValue: string, icon: string, options: *[], multiple: boolean, info: *}, status: {readableName: *, defaultValue: string, icon: string, options: *[], multiple: boolean, info: *}}}
  */
-export function getRFCProperties() {
+const getRFCProperties = () => {
 	return {
 		/**
 		 * https://tools.ietf.org/html/rfc5545#section-3.8.1.3
@@ -114,4 +114,6 @@ export function getRFCProperties() {
 	}
 }
 
-export default getRFCProperties
+export {
+	getRFCProperties,
+}

@@ -31,9 +31,9 @@ import RecurValue from 'calendar-js/src/values/recurValue.js'
 import Property from 'calendar-js/src/properties/property.js'
 import { getBySetPositionAndBySetFromDate, getWeekDayFromDate } from '../utils/recurrence.js'
 import {
-	getAlarmFromAlarmComponent,
-	getDefaultCalendarObjectInstanceObject, mapEventComponentToCalendarObjectInstanceObject,
-} from '../models/calendarObjectInstance.js'
+	getDefaultEventObject,
+	mapEventComponentToEventObject,
+} from '../models/event.js'
 import {
 	getAmountAndUnitForTimedEvents,
 	getAmountHoursMinutesAndUnitForAllDayEvents,
@@ -43,6 +43,8 @@ import {
 	getClosestCSS3ColorNameForHex,
 	getHexForColorName,
 } from '../utils/color.js'
+import { mapAlarmComponentToAlarmObject } from '../models/alarm.js'
+import { getObjectAtRecurrenceId } from '../utils/calendarObject.js'
 
 const state = {
 	isNew: null,
@@ -970,7 +972,7 @@ const mutations = {
 	removeRecurrenceRuleFromCalendarObjectInstance(state, { calendarObjectInstance, recurrenceRule }) {
 		if (recurrenceRule.recurrenceRuleValue) {
 			calendarObjectInstance.eventComponent.deleteAllProperties('RRULE')
-			Vue.set(calendarObjectInstance, 'recurrenceRule', getDefaultCalendarObjectInstanceObject().recurrenceRule)
+			Vue.set(calendarObjectInstance, 'recurrenceRule', getDefaultEventObject().recurrenceRule)
 
 			console.debug(calendarObjectInstance)
 			console.debug(recurrenceRule)
@@ -1300,7 +1302,7 @@ const mutations = {
 			const duration = DurationValue.fromSeconds(totalSeconds)
 			const alarmComponent = eventComponent.addRelativeAlarm(type, duration)
 
-			const alarmObject = getAlarmFromAlarmComponent(alarmComponent)
+			const alarmObject = mapAlarmComponentToAlarmObject(alarmComponent)
 
 			calendarObjectInstance.alarms.push(alarmObject)
 
@@ -1349,9 +1351,15 @@ const actions = {
 	 */
 	async resolveClosestRecurrenceIdForCalendarObject({ state, dispatch, commit }, { objectId, closeToDate }) {
 		const calendarObject = await dispatch('getEventByObjectId', { objectId })
-		const eventComponent = calendarObject.getClosestRecurrence(closeToDate)
+		const iterator = calendarObject.calendarComponent.getVObjectIterator()
+		const firstVObject = iterator.next().value
 
-		return eventComponent.getReferenceRecurrenceId().unixTime
+		const d = DateTimeValue.fromJSDate(closeToDate, true)
+		return firstVObject
+			.recurrenceManager
+			.getClosestOccurrence(d)
+			.getReferenceRecurrenceId()
+			.unixTime
 	},
 
 	/**
@@ -1380,12 +1388,12 @@ const actions = {
 
 		const recurrenceIdDate = new Date(recurrenceId * 1000)
 		const calendarObject = await dispatch('getEventByObjectId', { objectId })
-		const eventComponent = calendarObject.getObjectAtRecurrenceId(recurrenceIdDate)
+		const eventComponent = getObjectAtRecurrenceId(calendarObject, recurrenceIdDate)
 		if (eventComponent === null) {
 			throw new Error('Not a valid recurrence-id')
 		}
 
-		const calendarObjectInstance = mapEventComponentToCalendarObjectInstanceObject(eventComponent)
+		const calendarObjectInstance = mapEventComponentToEventObject(eventComponent)
 		commit('setCalendarObjectInstanceForExistingEvent', {
 			calendarObject,
 			calendarObjectInstance,
@@ -1423,8 +1431,8 @@ const actions = {
 
 		const calendarObject = await dispatch('createNewEvent', { start, end, isAllDay, timezoneId })
 		const startDate = new Date(start * 1000)
-		const eventComponent = calendarObject.getObjectAtRecurrenceId(startDate)
-		const calendarObjectInstance = mapEventComponentToCalendarObjectInstanceObject(eventComponent)
+		const eventComponent = getObjectAtRecurrenceId(calendarObject, startDate)
+		const calendarObjectInstance = mapEventComponentToEventObject(eventComponent)
 
 		commit('setCalendarObjectInstanceForNewEvent', {
 			calendarObject,
@@ -1536,22 +1544,6 @@ const actions = {
 			await dispatch('deleteCalendarObject', { calendarObject })
 		} else {
 			await dispatch('updateCalendarObject', { calendarObject })
-		}
-	},
-
-	/**
-	 * Resets a calendar-object-instance to it's original data and
-	 * removes all data from the calendar-object-instance store
-	 *
-	 * @param {Object} vuex The vuex destructuring object
-	 * @param {Object} vuex.state The Vuex state
-	 * @param {Function} vuex.dispatch The Vuex dispatch function
-	 * @param {Function} vuex.commit The Vuex commit function
-	 * @returns {Promise<void>}
-	 */
-	async resetCalendarObjectInstance({ state, commit }) {
-		if (state.calendarObject) {
-			state.calendarObject.resetToDav()
 		}
 	},
 

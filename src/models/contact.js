@@ -26,9 +26,9 @@
  * @param {Object} props Contacts-props already provided
  * @returns {Object}
  */
-export const getDefaultContactsObject = (props = {}) => Object.assign({}, {
+const getDefaultContactsObject = (props = {}) => Object.assign({}, {
 	// The name of the contact
-	name: '',
+	name: null,
 	// Calendar-user-type of the contact
 	calendarUserType: 'INDIVIDUAL',
 	// Whether or not this is a user
@@ -51,3 +51,7 @@ export const getDefaultContactsObject = (props = {}) => Object.assign({}, {
 	// Timezone of the user
 	timezoneId: null,
 }, props)
+
+export {
+	getDefaultContactsObject,
+}

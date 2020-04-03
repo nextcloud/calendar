@@ -20,10 +20,44 @@
  *
  */
 
-describe('models/contact test suite', () => {
+import {getDefaultContactsObject} from "../../../../src/models/contact.js";
 
-	it('should be true', () => {
-		expect(true).toEqual(true)
+describe('Test suite: Contact model (models/contact.js)', () => {
+
+	it('should return a default contacts object', () => {
+		expect(getDefaultContactsObject()).toEqual({
+			name: null,
+			calendarUserType: 'INDIVIDUAL',
+			isUser: false,
+			userId: null,
+			hasPhoto: false,
+			photoUrl: null,
+			hasIcon: false,
+			iconClass: null,
+			emails: [],
+			language: null,
+			timezoneId: null,
+		})
+	})
+
+	it('should fill up an object with default values', () => {
+		expect(getDefaultContactsObject({
+			name: 'Contact name',
+			otherProp: 'foo',
+		})).toEqual({
+			name: 'Contact name',
+			calendarUserType: 'INDIVIDUAL',
+			isUser: false,
+			userId: null,
+			hasPhoto: false,
+			photoUrl: null,
+			hasIcon: false,
+			iconClass: null,
+			emails: [],
+			language: null,
+			timezoneId: null,
+			otherProp: 'foo',
+		})
 	})
 
 })
