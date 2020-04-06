@@ -25,7 +25,7 @@
 		:open="isOpen"
 		:auto-hide="false"
 		:placement="placement"
-		boundaries-element="#app-content"
+		:boundaries-element="boundaryElement"
 		open-class="event-popover"
 		trigger="manual">
 		<PopoverLoadingIndicator
@@ -144,6 +144,7 @@ export default {
 			isOpen: false,
 			hasLocation: false,
 			hasDescription: false,
+			boundaryElement: document.querySelector('#app-content > .fc'),
 		}
 	},
 	watch: {
