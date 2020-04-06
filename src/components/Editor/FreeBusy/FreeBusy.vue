@@ -71,7 +71,7 @@ import {
 	mapState,
 } from 'vuex'
 import { getLocale } from '@nextcloud/l10n'
-import { Modal } from '@nextcloud/vue/dist/Components/Modal'
+import Modal from '@nextcloud/vue/dist/Components/Modal'
 import VTimezoneNamedTimezone from '../../../fullcalendar/vtimezoneNamedTimezoneImpl.js'
 import freeBusyEventSource from '../../../fullcalendar/freeBusyEventSource.js'
 import { getColorForFBType } from '../../../utils/freebusy.js'

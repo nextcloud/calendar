@@ -59,9 +59,9 @@
 
 <script>
 import PropertyMixin from '../../../mixins/PropertyMixin'
-import { Actions } from '@nextcloud/vue/dist/Components/Actions'
-import { ActionButton } from '@nextcloud/vue/dist/Components/ActionButton'
-import { ColorPicker } from '@nextcloud/vue/dist/Components/ColorPicker'
+import Actions from '@nextcloud/vue/dist/Components/Actions'
+import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
+import ColorPicker from '@nextcloud/vue/dist/Components/ColorPicker'
 import debounce from 'debounce'
 
 export default {

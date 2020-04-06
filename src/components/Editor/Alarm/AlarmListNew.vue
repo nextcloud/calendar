@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { Multiselect } from '@nextcloud/vue'
+import Multiselect from '@nextcloud/vue'
 import { mapState } from 'vuex'
 import { getDefaultAlarms } from '../../../defaults/defaultAlarmProvider.js'
 import {
