@@ -1202,21 +1202,13 @@ const mutations = {
 	 */
 	changeAlarmFromAbsoluteToRelative(state, { calendarObjectInstance, alarm }) {
 		if (alarm.alarmComponent) {
-
-			console.debug(calendarObjectInstance.eventComponent.startDate)
-			console.debug(alarm.alarmComponent.trigger.value)
-
-			const duration = calendarObjectInstance.eventComponent.startDate
-				.subtractDateWithTimezone(alarm.alarmComponent.trigger.value)
+			const duration = alarm.alarmComponent.trigger.value
+				.subtractDateWithTimezone(calendarObjectInstance.eventComponent.startDate)
 
 			alarm.alarmComponent.setTriggerFromRelative(duration)
-
 			alarm.relativeIsBefore = alarm.alarmComponent.trigger.value.isNegative
 			alarm.relativeIsRelatedToStart = true
-
 			alarm.relativeTrigger = duration.totalSeconds
-
-			console.debug(alarm.alarmComponent.toICALJs().toString())
 		}
 	},
 
