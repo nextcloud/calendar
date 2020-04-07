@@ -20,7 +20,8 @@
   -->
 
 <template>
-	<AppNavigationSettings :title="settingsTitle">
+	<AppNavigationSettings exclude-click-outside-classes="import-modal"
+		:title="settingsTitle">
 		<ul class="settings-fieldset-interior">
 			<SettingsImportSection :is-disabled="loadingCalendars" />
 			<ActionCheckbox class="settings-fieldset-interior-item"
