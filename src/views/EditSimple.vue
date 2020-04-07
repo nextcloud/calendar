@@ -22,7 +22,7 @@
 <template>
 	<Popover
 		ref="popover"
-		:open="isOpen"
+		:open="isVisible"
 		:auto-hide="false"
 		:placement="placement"
 		:boundaries-element="boundaryElement"
@@ -84,12 +84,14 @@
 
 		<PropertyText
 			v-if="!isLoading && hasLocation"
+			:autosize="isExpanded"
 			:is-read-only="isReadOnly"
 			:prop-model="rfcProps.location"
 			:value="location"
 			@update:value="updateLocation" />
 		<PropertyText
 			v-if="!isLoading && hasDescription"
+			:autosize="isExpanded"
 			:is-read-only="isReadOnly"
 			:prop-model="rfcProps.description"
 			:value="description"
@@ -141,7 +143,6 @@ export default {
 	data() {
 		return {
 			placement: 'auto',
-			isOpen: false,
 			hasLocation: false,
 			hasDescription: false,
 			boundaryElement: document.querySelector('#app-content > .fc'),
@@ -181,7 +182,7 @@ export default {
 			this.$refs.popover
 				.$children[0]
 				.$refs.trigger = this.getDomElementForPopover(isNew, this.$route)
-			this.isOpen = true
+			this.isVisible = true
 		})
 	},
 	methods: {

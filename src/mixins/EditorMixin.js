@@ -38,6 +38,10 @@ export default {
 		return {
 			// Indicator whether or not the event is currently loading
 			isLoading: true,
+			// Indicator whether the editor is visible
+			isVisible: false,
+			// Indicator whether sidebar has been fully expanded
+			isExpanded: false,
 			// Stores error if any occurred
 			error: false,
 			// The calendar-id of the selected calendar
@@ -221,7 +225,13 @@ export default {
 		 * @returns {boolean}
 		 */
 		displayDetails() {
-			return !this.isLoading && !this.error
+			return this.isLoading === false
+				&& this.error === false
+				&& this.isVisible === true
+		},
+		showSaveButtons() {
+			return this.displayDetails === true
+				&& this.isReadOnly === false
 		},
 		/**
 		 * Returns whether or not to allow editing the event
@@ -370,6 +380,23 @@ export default {
 
 			return false
 		},
+	},
+	mounted() {
+		this.$nextTick(() => {
+			// The animation does not work with v-if only.
+			// So we mount it with display:none (aka v-show=false)
+			// and set it to display:block once it's mounted
+			this.isVisible = true
+
+			// Certain elements in the sidebar like autosize textareas
+			// require to the sidebar to be fully opened the calculate
+			// their height. The workaround of setting an absolute width
+			// on the textareas does not work, because the sidebar itself
+			// does not have an absolute width.
+			window.setTimeout(() => {
+				this.isExpanded = true
+			}, 500)
+		})
 	},
 	methods: {
 		/**

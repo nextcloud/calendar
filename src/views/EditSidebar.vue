@@ -24,6 +24,7 @@
 
 <template>
 	<AppSidebar
+		v-show="isVisible"
 		:title="title"
 		:title-editable="!isReadOnly && !isLoading"
 		:title-placeholder="$t('calendar', 'Event title')"
@@ -77,12 +78,12 @@
 			icon="icon-details"
 			:name="$t('calendar', 'Details')"
 			:order="0">
-			<div v-if="isLoading" class="app-sidebar-tab__loading">
+			<div v-if="!displayDetails" class="app-sidebar-tab__loading">
 				<div class="app-sidebar-tab-loading-indicator">
 					<div class="icon icon-loading app-sidebar-tab-loading-indicator__icon" />
 				</div>
 			</div>
-			<div v-if="!isLoading" class="app-sidebar-tab__content">
+			<div v-if="displayDetails" class="app-sidebar-tab__content">
 				<PropertyCalendarPicker
 					v-if="showCalendarPicker"
 					:calendars="calendars"
@@ -91,11 +92,13 @@
 					@selectCalendar="changeCalendar" />
 
 				<PropertyText
+					:autosize="isExpanded"
 					:is-read-only="isReadOnly"
 					:prop-model="rfcProps.location"
 					:value="location"
 					@update:value="updateLocation" />
 				<PropertyText
+					:autosize="isExpanded"
 					:is-read-only="isReadOnly"
 					:prop-model="rfcProps.description"
 					:value="description"
@@ -133,7 +136,7 @@
 					@update:value="updateColor" />
 			</div>
 			<SaveButtons
-				v-if="!isLoading && !isReadOnly"
+				v-if="showSaveButtons"
 				class="app-sidebar-tab__buttons"
 				:can-create-recurrence-exception="canCreateRecurrenceException"
 				:is-new="isNew"
@@ -147,19 +150,19 @@
 			icon="icon-group"
 			:name="$t('calendar', 'Attendees')"
 			:order="1">
-			<div v-if="isLoading" class="app-sidebar-tab__loading">
+			<div v-if="!displayDetails" class="app-sidebar-tab__loading">
 				<div class="app-sidebar-tab-loading-indicator">
 					<div class="icon icon-loading app-sidebar-tab-loading-indicator__icon" />
 				</div>
 			</div>
-			<div v-if="!isLoading" class="app-sidebar-tab__content">
+			<div v-if="displayDetails" class="app-sidebar-tab__content">
 				<InviteesList
 					v-if="!isLoading"
 					:calendar-object-instance="calendarObjectInstance"
 					:is-read-only="isReadOnly" />
 			</div>
 			<SaveButtons
-				v-if="!isLoading && !isReadOnly"
+				v-if="showSaveButtons"
 				class="app-sidebar-tab__buttons"
 				:can-create-recurrence-exception="canCreateRecurrenceException"
 				:is-new="isNew"
@@ -173,18 +176,18 @@
 			icon="icon-reminder"
 			:name="$t('calendar', 'Reminders')"
 			:order="2">
-			<div v-if="isLoading" class="app-sidebar-tab__loading">
+			<div v-if="!displayDetails" class="app-sidebar-tab__loading">
 				<div class="app-sidebar-tab-loading-indicator">
 					<div class="icon icon-loading app-sidebar-tab-loading-indicator__icon" />
 				</div>
 			</div>
-			<div v-if="!isLoading" class="app-sidebar-tab__content">
+			<div v-if="displayDetails" class="app-sidebar-tab__content">
 				<AlarmList
 					:calendar-object-instance="calendarObjectInstance"
 					:is-read-only="isReadOnly" />
 			</div>
 			<SaveButtons
-				v-if="!isLoading && !isReadOnly"
+				v-if="showSaveButtons"
 				class="app-sidebar-tab__buttons"
 				:can-create-recurrence-exception="canCreateRecurrenceException"
 				:is-new="isNew"
@@ -198,12 +201,12 @@
 			icon="icon-repeat"
 			:name="$t('calendar', 'Repeat')"
 			:order="3">
-			<div v-if="isLoading" class="app-sidebar-tab__loading">
+			<div v-if="!displayDetails" class="app-sidebar-tab__loading">
 				<div class="app-sidebar-tab-loading-indicator">
 					<div class="icon icon-loading app-sidebar-tab-loading-indicator__icon" />
 				</div>
 			</div>
-			<div v-if="!isLoading" class="app-sidebar-tab__content">
+			<div v-if="displayDetails" class="app-sidebar-tab__content">
 				<!-- TODO: If not editing the master item, force updating this and all future   -->
 				<!-- TODO: You can't edit recurrence-rule of no-range recurrence-exception -->
 				<Repeat
@@ -215,7 +218,7 @@
 					@forceThisAndAllFuture="forceModifyingFuture" />
 			</div>
 			<SaveButtons
-				v-if="!isLoading && !isReadOnly"
+				v-if="showSaveButtons"
 				class="app-sidebar-tab__buttons"
 				:can-create-recurrence-exception="canCreateRecurrenceException"
 				:is-new="isNew"
