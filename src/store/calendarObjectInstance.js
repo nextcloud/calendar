@@ -479,7 +479,7 @@ const mutations = {
 	},
 
 	/**
-	 * Changes an attendees' RVSP
+	 * Changes an attendees' RSVP
 	 *
 	 * @param {Object} state The Vuex state
 	 * @param {Object} data The destructuring object
