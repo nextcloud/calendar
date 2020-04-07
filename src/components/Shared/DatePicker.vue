@@ -80,8 +80,8 @@
 </template>
 
 <script>
-import { DatetimePicker } from '@nextcloud/vue/dist/Components/DatetimePicker'
-import { Popover } from '@nextcloud/vue/dist/Components/Popover'
+import DatetimePicker from '@nextcloud/vue/dist/Components/DatetimePicker'
+import Popover from '@nextcloud/vue/dist/Components/Popover'
 import {
 	getDayNamesMin,
 	getMonthNamesShort,
