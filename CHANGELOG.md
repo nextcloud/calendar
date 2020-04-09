@@ -1,3 +1,39 @@
+# 2.0.3 - 2020-04-09
+### Added
+- Show week number in Datepicker
+  [#2060](https://github.com/nextcloud/calendar/pull/2060)
+- Support am/pm in Datepicker
+  [#2060](https://github.com/nextcloud/calendar/pull/2060)
+- Allow to jump to timepicker, without reselecting the date
+  [#2060](https://github.com/nextcloud/calendar/pull/2060)
+
+### Fixed
+- Calendar list has trouble loading when shared from account or group with non-latin characters.
+  [#1894](https://github.com/nextcloud/calendar/issues/1894)
+- CSP Issue when embedding calendar
+  [#13627](https://github.com/nextcloud/server/issues/13627)
+  [#169](https://github.com/nextcloud/calendar/issues/169)
+- Alarm trigger was a date in all-day event
+  [#2128](https://github.com/nextcloud/calendar/issues/2128)
+- Blank screen when create new date by opened editor
+  [#2051](https://github.com/nextcloud/calendar/issues/2051)
+- Popover outside viewport when double-clicking event
+  [#1925](https://github.com/nextcloud/calendar/issues/1925)
+- Popover outside viewport when event is hidden behind "More"
+  [#1934](https://github.com/nextcloud/calendar/issues/1934)
+- Popover outside viewport in day-view
+  [#2109](https://github.com/nextcloud/calendar/issues/2109)
+- Optimized view icons
+  [#2154](https://github.com/nextcloud/calendar/pull/2154)
+- Always allow editing an alarm when it is absolute
+  [#2001](https://github.com/nextcloud/calendar/issues/2001)
+- Fix opening animation of sidebar editor
+  [#2089](https://github.com/nextcloud/calendar/pull/2089)
+- Long repeating events not correctly shown on web-calender under certain conditions
+  [#2048](https://github.com/nextcloud/calendar/issues/2048)
+- Repeating events not displayed on first day of monthly calendar 
+  [#1913](https://github.com/nextcloud/calendar/issues/1913)
+
 # 2.0.2 - 2020-03-02
 ### Added
 - Recognize Gym as event title for illustrations
