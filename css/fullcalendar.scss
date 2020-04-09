@@ -187,6 +187,7 @@
 
 .fc-content {
 	background-color: inherit;
+	text-overflow: ellipsis;
 }
 
 .fc-popover.fc-more-popover {
@@ -197,5 +198,3 @@
 		background-color: var(--color-main-background);
 	}
 }
-
-

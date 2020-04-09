@@ -96,6 +96,7 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 				})
 			},
 			hasComponent: jest.fn().mockReturnValue(false),
+			title: 'Untitled\nmultiline\nevent',
 		}, {
 			id: '1-3',
 			status: 'TENTATIVE',
@@ -202,7 +203,7 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 			},
 			{
 				id: '1###1-2',
-				title: 'Untitled event',
+				title: 'Untitled multiline event',
 				allDay: false,
 				start: event12Start,
 				end: event12End,
@@ -298,12 +299,11 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 		expect(eventComponentSet4[0].endDate.getInTimezone).toHaveBeenCalledTimes(1)
 		expect(eventComponentSet4[0].endDate.getInTimezone).toHaveBeenNthCalledWith(1, timezone)
 
-		expect(translate).toHaveBeenCalledTimes(5)
+		expect(translate).toHaveBeenCalledTimes(4)
 		expect(translate).toHaveBeenNthCalledWith(1, 'calendar', 'Untitled event')
 		expect(translate).toHaveBeenNthCalledWith(2, 'calendar', 'Untitled event')
 		expect(translate).toHaveBeenNthCalledWith(3, 'calendar', 'Untitled event')
 		expect(translate).toHaveBeenNthCalledWith(4, 'calendar', 'Untitled event')
-		expect(translate).toHaveBeenNthCalledWith(5, 'calendar', 'Untitled event')
 
 		expect(getAllObjectsInTimeRange).toHaveBeenCalledTimes(4)
 		expect(getAllObjectsInTimeRange).toHaveBeenNthCalledWith(1, calendarObjects[0], start, end)

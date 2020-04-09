@@ -77,7 +77,7 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 
 			const fcEvent = {
 				id: [calendarObject.id, object.id].join('###'),
-				title: object.title || t('calendar', 'Untitled event'),
+				title: object.title ? object.title.replace(/\n/g, ' ') : t('calendar', 'Untitled event'),
 				allDay: object.isAllDay(),
 				start: jsStart,
 				end: jsEnd,
