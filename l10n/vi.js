@@ -16,6 +16,7 @@ OC.L10N.register(
     "Delete" : "Xóa",
     "Share link" : "Liên kết chia sẽ",
     "Share with users or groups" : "Chia sẽ với người dùng hoặc nhóm",
+    "No users or groups" : "Không có người dùng hay nhóm",
     "can edit" : "có thể chỉnh sửa",
     "New calendar" : "Lịch mới",
     "Filename" : "Tên tập tin",
