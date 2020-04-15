@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * @author Thomas Citharel
@@ -126,7 +127,7 @@ class EmailController extends Controller {
 
 		try {
 			$this->mailer->send($message);
-		} catch(\Exception $ex) {
+		} catch (\Exception $ex) {
 			return new JSONResponse([
 				'message' => $this->l10n->t('Unexpected error sending email. Please contact your administrator.'),
 			], Http::STATUS_INTERNAL_SERVER_ERROR);

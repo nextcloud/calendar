@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * Calendar App
@@ -65,7 +66,7 @@ class CurrentViewNameRepairStep implements IRepairStep {
 	 * @param IOutput $output
 	 */
 	public function run(IOutput $output):void {
-		$this->userManager->callForSeenUsers(function(IUser $user) {
+		$this->userManager->callForSeenUsers(function (IUser $user) {
 			$userId = $user->getUID();
 			$savedView = $this->config->getUserValue($userId, 'calendar', 'currentView', null);
 

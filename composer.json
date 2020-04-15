@@ -5,7 +5,8 @@
         }
     },
     "require": {
-        "php": ">=7.2"
+        "php": ">=7.2",
+        "nextcloud/coding-standard": "^0.3.0"
     },
     "require-dev": {
         "christophwurst/nextcloud": "v18.0.2",
@@ -13,6 +14,8 @@
         "phan/phan": "^2.0"
     },
     "scripts": {
+        "cs:fix": "php-cs-fixer fix",
+        "cs:check": "php-cs-fixer fix --dry-run",
         "lint": "find . -name \\*.php -not -path './vendor/*' -exec php -l \"{}\" \\;",
         "phan": "phan --allow-polyfill-parser -k .phan/config.php",
         "test": "phpunit --configuration phpunit.unit.xml --fail-on-warning"

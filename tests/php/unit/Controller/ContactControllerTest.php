@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * Calendar App
@@ -80,8 +81,8 @@ class ContactControllerTest extends TestCase {
 				[
 					'FN' => 'Person 1',
 					'ADR' => [
-							'33 42nd Street;Random Town;Some State;;United States',
-							';;5 Random Ave;12782 Some big city;Yet another state;United States',
+						'33 42nd Street;Random Town;Some State;;United States',
+						';;5 Random Ave;12782 Some big city;Yet another state;United States',
 					],
 					'EMAIL' => [
 						'foo1@example.com',

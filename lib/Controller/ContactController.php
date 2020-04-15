@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * Calendar App
@@ -198,7 +199,7 @@ class ContactController extends Controller {
 			}
 
 			$match = false;
-			foreach($r['EMAIL'] as $email) {
+			foreach ($r['EMAIL'] as $email) {
 				if ($email === $search) {
 					$match = true;
 				}
