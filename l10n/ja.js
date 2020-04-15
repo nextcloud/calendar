@@ -156,6 +156,8 @@ OC.L10N.register(
     "Save" : "保存",
     "Update" : "アップデート",
     "Please select a timezone:" : "タイムゾーンを選択してください：",
+    "Pick a time" : "時間を指定",
+    "Pick a date" : "日付を指定",
     "Select Date" : "日付を選択",
     "from {formattedDate}" : "{formattedDate}から",
     "to {formattedDate}" : "{formattedDate}まで",
