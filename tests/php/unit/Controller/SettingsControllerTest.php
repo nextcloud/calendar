@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * Calendar App
@@ -62,7 +63,7 @@ class SettingsControllerTest extends TestCase {
 	 * @dataProvider setViewWithAllowedViewDataProvider
 	 */
 	public function testSetViewWithAllowedView(string $view,
-											   int $expectedStatusCode):void  {
+											   int $expectedStatusCode):void {
 		if ($expectedStatusCode === 200) {
 			$this->config->expects($this->once())
 				->method('setUserValue')
@@ -202,7 +203,7 @@ class SettingsControllerTest extends TestCase {
 	 * @dataProvider setShowWeekendsWithAllowedValueDataProvider
 	 */
 	public function testSetShowWeekendsWithAllowedValue(string $value,
-												   		int $expectedStatusCode):void {
+														int $expectedStatusCode):void {
 		if ($expectedStatusCode === 200) {
 			$this->config->expects($this->once())
 				->method('setUserValue')

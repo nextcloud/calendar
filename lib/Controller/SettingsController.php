@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * Calendar App
@@ -110,7 +111,7 @@ class SettingsController extends Controller {
 				'currentView',
 				$view
 			);
-		} catch(\Exception $e) {
+		} catch (\Exception $e) {
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 
@@ -135,7 +136,7 @@ class SettingsController extends Controller {
 				'skipPopover',
 				$value
 			);
-		} catch(\Exception $e) {
+		} catch (\Exception $e) {
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 
@@ -160,7 +161,7 @@ class SettingsController extends Controller {
 				'showWeekends',
 				$value
 			);
-		} catch(\Exception $e) {
+		} catch (\Exception $e) {
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 
@@ -185,7 +186,7 @@ class SettingsController extends Controller {
 				'showWeekNr',
 				$value
 			);
-		} catch(\Exception $e) {
+		} catch (\Exception $e) {
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 
@@ -205,7 +206,7 @@ class SettingsController extends Controller {
 				'firstRun',
 				'no'
 			);
-		} catch(\Exception $e) {
+		} catch (\Exception $e) {
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 
@@ -226,7 +227,7 @@ class SettingsController extends Controller {
 				'timezone',
 				$value
 			);
-		} catch(\Exception $e) {
+		} catch (\Exception $e) {
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 
@@ -251,7 +252,7 @@ class SettingsController extends Controller {
 				'eventLimit',
 				$value
 			);
-		} catch(\Exception $e) {
+		} catch (\Exception $e) {
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 
@@ -276,7 +277,7 @@ class SettingsController extends Controller {
 				'slotDuration',
 				$value
 			);
-		} catch(\Exception $e) {
+		} catch (\Exception $e) {
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 

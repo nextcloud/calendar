@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * Calendar App
@@ -84,7 +85,7 @@ class EmailControllerTest extends TestCase {
 
 		$this->l10n->expects($this->any())
 			->method('t')
-			->willReturnCallback(function($string, $args) {
+			->willReturnCallback(function ($string, $args) {
 				return 'TRANSLATED: ' . vsprintf($string, $args);
 			});
 
@@ -347,5 +348,4 @@ class EmailControllerTest extends TestCase {
 		], $response->getData());
 		$this->assertEquals(200, $response->getStatus());
 	}
-
 }

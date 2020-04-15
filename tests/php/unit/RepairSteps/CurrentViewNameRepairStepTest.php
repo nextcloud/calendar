@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * Calendar App
@@ -56,7 +57,7 @@ class CurrentViewNameRepairStepTest extends TestCase {
 	public function testRun():void {
 		$this->userManager->expects($this->once())
 			->method('callForSeenUsers')
-			->with($this->callback(function($fn) {
+			->with($this->callback(function ($fn) {
 				$user1 = $this->createMock(IUser::class);
 				$user1->method('getUID')->willReturn('user1');
 
