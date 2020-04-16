@@ -135,6 +135,7 @@ class PublicViewController extends Controller {
 		$this->initialStateService->provideInitialState($this->appName, 'timezone', $defaultTimezone);
 		$this->initialStateService->provideInitialState($this->appName, 'slot_duration', $defaultSlotDuration);
 		$this->initialStateService->provideInitialState($this->appName, 'show_tasks', $defaultShowTasks === 'yes');
+		$this->initialStateService->provideInitialState($this->appName, 'tasks_enabled', false);
 
 		return new TemplateResponse($this->appName, 'main', [
 			'share_url' => $this->getShareURL(),

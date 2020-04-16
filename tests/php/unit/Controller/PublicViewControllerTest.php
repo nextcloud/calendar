@@ -154,6 +154,9 @@ class PublicViewControllerTest extends TestCase {
 		$this->initialStateService->expects($this->at(10))
 			->method('provideInitialState')
 			->with('calendar', 'show_tasks', true);
+		$this->initialStateService->expects($this->at(11))
+			->method('provideInitialState')
+			->with('calendar', 'tasks_enabled', false);
 
 		$response = $this->controller->publicIndexWithBranding('');
 
@@ -259,6 +262,9 @@ class PublicViewControllerTest extends TestCase {
 		$this->initialStateService->expects($this->at(10))
 			->method('provideInitialState')
 			->with('calendar', 'show_tasks', false);
+		$this->initialStateService->expects($this->at(11))
+			->method('provideInitialState')
+			->with('calendar', 'tasks_enabled', false);
 
 		$response = $this->controller->publicIndexForEmbedding('');
 

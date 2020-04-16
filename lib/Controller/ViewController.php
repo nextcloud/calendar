@@ -108,6 +108,7 @@ class ViewController extends Controller {
 		$showTasks = $this->config->getUserValue($this->userId, $this->appName, 'showTasks', $defaultShowTasks) === 'yes';
 
 		$talkEnabled = $this->appManager->isEnabledForUser('spreed');
+		$tasksEnabled = $this->appManager->isEnabledForUser('tasks');
 
 		$this->initialStateService->provideInitialState($this->appName, 'app_version', $appVersion);
 		$this->initialStateService->provideInitialState($this->appName, 'event_limit', $eventLimit);
@@ -120,6 +121,7 @@ class ViewController extends Controller {
 		$this->initialStateService->provideInitialState($this->appName, 'timezone', $timezone);
 		$this->initialStateService->provideInitialState($this->appName, 'slot_duration', $slotDuration);
 		$this->initialStateService->provideInitialState($this->appName, 'show_tasks', $showTasks);
+		$this->initialStateService->provideInitialState($this->appName, 'tasks_enabled', $tasksEnabled);
 
 		return new TemplateResponse($this->appName, 'main');
 	}

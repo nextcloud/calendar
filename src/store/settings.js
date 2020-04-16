@@ -37,6 +37,7 @@ const state = {
 	skipPopover: null,
 	slotDuration: null,
 	talkEnabled: false,
+	tasksEnabled: false,
 	timezone: null,
 }
 
@@ -127,6 +128,7 @@ const mutations = {
 		state.skipPopover = settings.skipPopover
 		state.slotDuration = settings.slotDuration
 		state.talkEnabled = settings.talkEnabled
+		state.tasksEnabled = settings.tasksEnabled
 		state.timezone = settings.timezone
 	},
 

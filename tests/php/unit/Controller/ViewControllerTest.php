@@ -142,6 +142,10 @@ class ViewControllerTest extends TestCase {
 			->method('isEnabledForUser')
 			->with('spreed')
 			->willReturn(true);
+		$this->appManager->expects($this->at(1))
+			->method('isEnabledForUser')
+			->with('tasks')
+			->willReturn(true);
 
 		$this->initialStateService->expects($this->at(0))
 			->method('provideInitialState')
@@ -176,6 +180,9 @@ class ViewControllerTest extends TestCase {
 		$this->initialStateService->expects($this->at(10))
 			->method('provideInitialState')
 			->with('calendar', 'show_tasks', false);
+		$this->initialStateService->expects($this->at(11))
+			->method('provideInitialState')
+			->with('calendar', 'tasks_enabled', true);
 
 		$response = $this->controller->index();
 
@@ -268,6 +275,10 @@ class ViewControllerTest extends TestCase {
 			->method('isEnabledForUser')
 			->with('spreed')
 			->willReturn(true);
+		$this->appManager->expects($this->at(1))
+			->method('isEnabledForUser')
+			->with('tasks')
+			->willReturn(false);
 
 		$this->initialStateService->expects($this->at(0))
 			->method('provideInitialState')
@@ -302,6 +313,9 @@ class ViewControllerTest extends TestCase {
 		$this->initialStateService->expects($this->at(10))
 			->method('provideInitialState')
 			->with('calendar', 'show_tasks', false);
+		$this->initialStateService->expects($this->at(11))
+			->method('provideInitialState')
+			->with('calendar', 'tasks_enabled', false);
 
 		$response = $this->controller->index();
 
