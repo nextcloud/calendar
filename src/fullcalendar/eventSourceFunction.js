@@ -136,6 +136,7 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 					darkText: isLight(hexToRGB(calendar.color)),
 					objectType: object.name,
 					percent: object.percent,
+					davUrl: calendarObject.dav.url,
 				},
 			}
 

@@ -35,15 +35,14 @@ import { generateUrl } from '@nextcloud/router'
 export default function(store, router, route, window) {
 	return function({ event }) {
 		if (event.extendedProps.objectType === 'VTODO') {
-			store.dispatch('getCalendarObjectInstanceByObjectIdAndRecurrenceId', { objectId: event.extendedProps.objectId, recurrenceId: String(event.extendedProps.recurrenceId) }).then((objectInstance) => {
-				const davUrl = objectInstance.calendarObject.dav.url.split('/')
-				const taskId = davUrl.pop()
-				const calendarId = davUrl.pop()
-				const url = `apps/tasks/#/calendars/${calendarId}/tasks/${taskId}`
-				window.location = window.location.protocol + '//' + window.location.host + generateUrl(url)
-			})
+			const davUrlParts = event.extendedProps.davUrl.split('/')
+			const taskId = davUrlParts.pop()
+			const calendarId = davUrlParts.pop()
+			const url = `apps/tasks/#/calendars/${calendarId}/tasks/${taskId}`
+			window.location = window.location.protocol + '//' + window.location.host + generateUrl(url)
 			return
 		}
+
 		let desiredRoute = store.state.settings.skipPopover
 			? 'EditSidebarView'
 			: 'EditPopoverView'
