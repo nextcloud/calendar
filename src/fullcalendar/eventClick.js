@@ -21,6 +21,8 @@
  */
 import { getPrefixedRoute } from '../utils/router'
 import { generateUrl } from '@nextcloud/router'
+import { translate as t } from '@nextcloud/l10n'
+import { showInfo } from '@nextcloud/dialogs'
 
 /**
  * Returns a function for click action on event. This will open the editor.
@@ -34,36 +36,69 @@ import { generateUrl } from '@nextcloud/router'
  */
 export default function(store, router, route, window) {
 	return function({ event }) {
-		if (event.extendedProps.objectType === 'VTODO') {
-			const davUrlParts = event.extendedProps.davUrl.split('/')
-			const taskId = davUrlParts.pop()
-			const calendarId = davUrlParts.pop()
-			const url = `apps/tasks/#/calendars/${calendarId}/tasks/${taskId}`
-			window.location = window.location.protocol + '//' + window.location.host + generateUrl(url)
-			return
+		switch (event.extendedProps.objectType) {
+		case 'VEVENT':
+			handleEventClick(event, store, router, route, window)
+			break
+
+		case 'VTODO':
+			handleToDoClick(event, store, window)
+			break
 		}
-
-		let desiredRoute = store.state.settings.skipPopover
-			? 'EditSidebarView'
-			: 'EditPopoverView'
-
-		if (window.innerWidth <= 768 && desiredRoute === 'EditPopoverView') {
-			desiredRoute = 'EditSidebarView'
-		}
-
-		const name = getPrefixedRoute(route.name, desiredRoute)
-		const params = Object.assign({}, route.params, {
-			object: event.extendedProps.objectId,
-			recurrenceId: String(event.extendedProps.recurrenceId),
-		})
-
-		// Don't push new route when day didn't change
-		if ((getPrefixedRoute(route.name, 'EditPopoverView') === route.name || getPrefixedRoute(route.name, 'EditSidebarView') === route.name)
-			&& params.object === route.params.object
-			&& params.recurrenceId === route.params.recurrenceId) {
-			return
-		}
-
-		router.push({ name, params })
 	}
+}
+
+/**
+ * Handle eventClick for VEVENT
+ *
+ * @param {EventDef} event FullCalendar event
+ * @param {Object} store The Vuex store
+ * @param {Object} router The Vue router
+ * @param {Object} route The current Vue route
+ * @param {Window} window The window object
+ */
+function handleEventClick(event, store, router, route, window) {
+	let desiredRoute = store.state.settings.skipPopover
+		? 'EditSidebarView'
+		: 'EditPopoverView'
+
+	if (window.innerWidth <= 768 && desiredRoute === 'EditPopoverView') {
+		desiredRoute = 'EditSidebarView'
+	}
+
+	const name = getPrefixedRoute(route.name, desiredRoute)
+	const params = Object.assign({}, route.params, {
+		object: event.extendedProps.objectId,
+		recurrenceId: String(event.extendedProps.recurrenceId),
+	})
+
+	// Don't push new route when day didn't change
+	if ((getPrefixedRoute(route.name, 'EditPopoverView') === route.name || getPrefixedRoute(route.name, 'EditSidebarView') === route.name)
+		&& params.object === route.params.object
+		&& params.recurrenceId === route.params.recurrenceId) {
+		return
+	}
+
+	router.push({ name, params })
+}
+
+/**
+ * Handle eventClick for VTODO
+ *
+ * @param {EventDef} event FullCalendar event
+ * @param {Object} store The Vuex store
+ * @param {Window} window The window object
+ */
+function handleToDoClick(event, store, window) {
+	if (!store.state.settings.tasksEnabled) {
+		showInfo(t('calendar', 'Please ask your administrator to enable the Tasks App.'))
+		return
+	}
+
+	const davUrlParts = event.extendedProps.davUrl.split('/')
+	const taskId = davUrlParts.pop()
+	const calendarId = davUrlParts.pop()
+	const url = `apps/tasks/#/calendars/${calendarId}/tasks/${taskId}`
+
+	window.location = window.location.protocol + '//' + window.location.host + generateUrl(url)
 }
