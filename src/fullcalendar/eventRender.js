@@ -49,7 +49,7 @@ export default function({ event, el }) {
 		} else {
 			taskIcon.classList.add('icon-event-task--light')
 		}
-		if (event.extendedProps.percent && event.extendedProps.percent === 100) {
+		if (event.extendedProps.percent === 100) {
 			if (event.extendedProps.darkText) {
 				taskIcon.classList.add('icon-event-task--checked--dark')
 			} else {

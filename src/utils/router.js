@@ -51,3 +51,13 @@ export function getPrefixedRoute(currentRouteName, toRouteName) {
 
 	return toRouteName
 }
+
+/**
+ * Checks whether a routeName represents a public / embedded route
+ *
+ * @param {String} routeName Name of the route
+ * @returns {Boolean}
+ */
+export function isPublicOrEmbeddedRoute(routeName) {
+	return routeName.startsWith('Embed') || routeName.startsWith('Public')
+}

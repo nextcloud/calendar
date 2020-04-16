@@ -64,7 +64,7 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 			}
 
 			// For now, we only display
-			if (object.name === 'VTODO' && object.dueTime === null) {
+			if (object.name === 'VTODO' && object.endDate === null) {
 				continue
 			}
 
@@ -135,7 +135,7 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 					calendarId: calendar.id,
 					darkText: isLight(hexToRGB(calendar.color)),
 					objectType: object.name,
-					percent: object.percent,
+					percent: object.percent || null,
 					davUrl: calendarObject.dav.url,
 				},
 			}

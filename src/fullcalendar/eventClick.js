@@ -19,7 +19,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { getPrefixedRoute } from '../utils/router'
+import {
+	getPrefixedRoute,
+	isPublicOrEmbeddedRoute,
+} from '../utils/router'
 import { generateUrl } from '@nextcloud/router'
 import { translate as t } from '@nextcloud/l10n'
 import { showInfo } from '@nextcloud/dialogs'
@@ -42,7 +45,7 @@ export default function(store, router, route, window) {
 			break
 
 		case 'VTODO':
-			handleToDoClick(event, store, window)
+			handleToDoClick(event, store, route, window)
 			break
 		}
 	}
@@ -87,11 +90,14 @@ function handleEventClick(event, store, router, route, window) {
  *
  * @param {EventDef} event FullCalendar event
  * @param {Object} store The Vuex store
+ * @param {Object} route The current Vue route
  * @param {Window} window The window object
  */
-function handleToDoClick(event, store, window) {
+function handleToDoClick(event, store, route, window) {
 	if (!store.state.settings.tasksEnabled) {
-		showInfo(t('calendar', 'Please ask your administrator to enable the Tasks App.'))
+		if (!isPublicOrEmbeddedRoute(route.name)) {
+			showInfo(t('calendar', 'Please ask your administrator to enable the Tasks App.'))
+		}
 		return
 	}
 
