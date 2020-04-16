@@ -35,7 +35,7 @@
 				:checked="showTasks"
 				:disabled="savingTasks"
 				@update:checked="toggleTasksEnabled">
-				{{ $t('calendar', 'Enable tasks in calendar') }}
+				{{ $t('calendar', 'Show tasks in calendar') }}
 			</ActionCheckbox>
 			<ActionCheckbox
 				class="settings-fieldset-interior-item"
