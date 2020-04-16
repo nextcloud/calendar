@@ -78,7 +78,7 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 			if (object.name === 'VTODO') {
 				classNames.push('fc-event-nc-task')
 				if (object.percent === 100) {
-					classNames.push('fc-event-nc-cancelled')
+					classNames.push('fc-event-nc-task-completed')
 				}
 			}
 
