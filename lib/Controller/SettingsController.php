@@ -163,7 +163,7 @@ class SettingsController extends Controller {
 				'showTasks',
 				$value
 			);
-		} catch(\Exception $e) {
+		} catch (\Exception $e) {
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 
