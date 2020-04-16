@@ -63,8 +63,26 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 				classNames.push('fc-event-nc-alarms')
 			}
 
-			const jsStart = object.startDate.getInTimezone(timezone).jsDate
-			const jsEnd = object.endDate.getInTimezone(timezone).jsDate
+			// For now, we only display
+			if (object.name === 'VTODO' && object.dueTime === null) {
+				continue
+			}
+
+			let jsStart, jsEnd
+			if (object.name === 'VEVENT') {
+				jsStart = object.startDate.getInTimezone(timezone).jsDate
+				jsEnd = object.endDate.getInTimezone(timezone).jsDate
+			} else if (object.name === 'VTODO') {
+				// For tasks, we only want to display when it is due,
+				// not for how long it has been in progress already
+				jsStart = object.endDate.getInTimezone(timezone).jsDate
+				jsEnd = object.endDate.getInTimezone(timezone).jsDate
+			} else {
+				// We do not want to display anything that's neither
+				// an event nor a task
+				continue
+			}
+
 			// Technically, an event's end is not allowed to be equal to it's start,
 			// because the event's end is exclusive. Most calendar applications
 			// (including all big ones) allow creating such events anyway (we do too).
@@ -82,9 +100,28 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 				}
 			}
 
+			let title
+			if (object.name === 'VEVENT') {
+				if (object.title) {
+					title = object.title.replace(/\n/g, ' ')
+				} else {
+					title = t('calendar', 'Untitled event')
+				}
+			} else {
+				if (object.title) {
+					title = object.title.replace(/\n/g, ' ')
+				} else {
+					title = t('calendar', 'Untitled task')
+				}
+
+				if (object.percent !== null) {
+					title += ` (${object.percent}%)`
+				}
+			}
+
 			const fcEvent = {
 				id: [calendarObject.id, object.id].join('###'),
-				title: object.title ? object.title.replace(/\n/g, ' ') : t('calendar', 'Untitled event'),
+				title,
 				allDay: object.isAllDay(),
 				start: jsStart,
 				end: jsEnd,
