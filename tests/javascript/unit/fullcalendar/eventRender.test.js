@@ -19,7 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import eventRender from "../../../../src/fullcalendar/eventRender.js";
+import eventRender from "../../../../src/fullcalendar/rendering/eventContent.js";
 
 describe('fullcalendar/eventRender test suite', () => {
 

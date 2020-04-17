@@ -19,7 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import eventClick from "../../../../src/fullcalendar/eventClick.js";
+import eventClick from "../../../../src/fullcalendar/interaction/eventClick.js";
 import {
 	getPrefixedRoute,
 	isPublicOrEmbeddedRoute,

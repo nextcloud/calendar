@@ -19,7 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import eventOrder from "../../../../src/fullcalendar/eventOrder.js";
+import eventOrder from "../../../../src/fullcalendar/rendering/eventOrder.js";
 
 describe('fullcalendar/eventOrder test suite', () => {
 

@@ -19,7 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import navLinkDayClick from '../../../../src/fullcalendar/navLinkDayClick.js'
+import navLinkDayClick from '../../../../src/fullcalendar/interaction/navLinkDayClick.js'
 import { getYYYYMMDDFromDate } from '../../../../src/utils/date.js'
 jest.mock('../../../../src/utils/date.js')
 

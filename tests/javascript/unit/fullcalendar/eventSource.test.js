@@ -19,12 +19,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import eventSource from "../../../../src/fullcalendar/eventSource.js";
+import eventSource from "../../../../src/fullcalendar/eventSources/eventSource.js";
 
 import { generateTextColorForHex } from '../../../../src/utils/color.js'
 import getTimezoneManager from '../../../../src/services/timezoneDataProviderService'
 import { getUnixTimestampFromDate } from '../../../../src/utils/date.js'
-import { eventSourceFunction } from '../../../../src/fullcalendar/eventSourceFunction.js'
+import { eventSourceFunction } from '../../../../src/fullcalendar/eventSources/eventSourceFunction.js'
 
 jest.mock('../../../../src/utils/color.js')
 jest.mock('../../../../src/services/timezoneDataProviderService')

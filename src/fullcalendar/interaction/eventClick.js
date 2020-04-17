@@ -22,7 +22,7 @@
 import {
 	getPrefixedRoute,
 	isPublicOrEmbeddedRoute,
-} from '../utils/router'
+} from '../../utils/router.js'
 import { generateUrl } from '@nextcloud/router'
 import { translate as t } from '@nextcloud/l10n'
 import { showInfo } from '@nextcloud/dialogs'

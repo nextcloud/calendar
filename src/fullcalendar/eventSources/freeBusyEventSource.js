@@ -19,12 +19,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import getTimezoneManager from '../services/timezoneDataProviderService.js'
+import getTimezoneManager from '../../services/timezoneDataProviderService.js'
 import { createFreeBusyRequest } from 'calendar-js'
 import DateTimeValue from 'calendar-js/src/values/dateTimeValue.js'
-import { findSchedulingOutbox } from '../services/caldavService.js'
+import { findSchedulingOutbox } from '../../services/caldavService.js'
 import freeBusyEventSourceFunction from './freeBusyEventSourceFunction.js'
-import logger from '../utils/logger.js'
+import logger from '../../utils/logger.js'
 // import AttendeeProperty from 'calendar-js/src/properties/attendeeProperty.js'
 
 /**

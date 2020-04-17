@@ -71,10 +71,10 @@ import {
 	mapState,
 } from 'vuex'
 import Modal from '@nextcloud/vue/dist/Components/Modal'
-import VTimezoneNamedTimezone from '../../../fullcalendar/vtimezoneNamedTimezoneImpl.js'
-import freeBusyEventSource from '../../../fullcalendar/freeBusyEventSource.js'
+import VTimezoneNamedTimezone from '../../../fullcalendar/timezones/vtimezoneNamedTimezoneImpl.js'
+import freeBusyEventSource from '../../../fullcalendar/eventSources/freeBusyEventSource.js'
 import { getColorForFBType } from '../../../utils/freebusy.js'
-import freeBusyFakeBlockingEventSource from '../../../fullcalendar/freeBusyFakeBlockingEventSource.js'
+import freeBusyFakeBlockingEventSource from '../../../fullcalendar/eventSources/freeBusyFakeBlockingEventSource.js'
 
 export default {
 	name: 'FreeBusy',

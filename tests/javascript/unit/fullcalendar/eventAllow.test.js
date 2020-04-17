@@ -19,7 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import eventAllow from "../../../../src/fullcalendar/eventAllow.js";
+import eventAllow from "../../../../src/fullcalendar/interaction/eventAllow.js";
 
 describe('fullcalendar/eventAllow test suite', () => {
 

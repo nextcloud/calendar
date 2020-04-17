@@ -1,7 +1,7 @@
 /**
  * Calendar App
  *
- * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
+ * @copyright 2020 Georg Ehrke <oc.list@georgehrke.com>
  *
  * @author Georg Ehrke
  *
@@ -20,15 +20,15 @@
  *
  */
 
-.fc-event-nc-task-completed,
-.fc-event-nc-tentative,
-.fc-event-nc-cancelled {
-	opacity: .5;
+/** Override some FullCalendar CSS vars: */
+:root {
+	--fc-theme-standard-border-color: var(--color-border) !important;
+	--fc-theme-standard-muted-bg-color: var(--color-background-dark) !important;
 }
 
-.fc-event-nc-task-completed,
-.fc-event-nc-cancelled {
-	text-decoration: line-through !important;
+/** Do not allow selecting text inside calendar-grid */
+.fc {
+	user-select: none;
 }
 
 .fc-view.fc-timeGridDay-view {
@@ -126,79 +126,91 @@
 	background: var(--color-border) !important;
 	border-color: var(--color-border) !important;
 }
+/** Custom styles for today */
+.fc-day-today {
+	background: var(--color-main-background) !important;
 
-.fc-day-number {
-	padding-top: 0 !important;
-}
+	.fc-daygrid-day-number {
+		background: var(--color-primary);
+		color: var(--color-primary-text);
+		border-radius: 50%;
+		margin: 3px 3px 0 0;
+		width: 24px;
+		height: 24px;
+		text-align: center;
+		font-weight: bold !important;
+		box-sizing: border-box !important;
+	}
 
-.fc-today > .fc-day-number {
-	background: var(--color-primary);
-	color: var(--color-primary-text);
-	border-radius: 50%;
-	margin: 3px 3px 0 0;
-	width: 24px;
-	height: 24px;
-	text-align: center;
-	font-weight: bold !important;
-	box-sizing: border-box !important;
-}
-
-.fc-day-header.fc-today {
-	> a, span {
+	.fc-col-header-cell-cushion {
 		background-color: var(--color-primary);
 		border-radius: var(--border-radius-pill);
 		padding: 2px 6px;
 		color: var(--color-primary-text);
 		font-weight: bold;
 	}
-}
 
-.fc-today.nc-calendar-fc-day-of-weekend:not(.fc-day-header) {
-	background-color: var(--color-background-dark) !important;
-}
-
-.fc-today.nc-calendar-fc-day-of-workweek:not(.fc-day-header) {
-	background-color: var(--color-main-background) !important;
-}
-
-.nc-calendar-fc-day-of-weekend {
-	.fc-week-number {
-		background-color: var(--color-background-darker) !important;
-		color: var(--color-text-maxcontrast) !important;
+	&.nc-calendar-fc-day-of-weekend:not(.fc-day-header) {
+		background-color: var(--color-background-hover) !important;
 	}
 }
 
-.nc-calendar-fc-day-of-workweek {
-	.fc-week-number {
+/** Weekend styles */
+.fc td.fc-day.nc-calendar-fc-day-of-weekend {
+	background-color: var(--color-background-hover);
+}
+
+/** Week numbers in day grid view */
+.fc-daygrid-week-number {
+	background-color: var(--color-background-dark) !important;
+	color: var(--color-text-maxcontrast) !important;
+}
+
+.nc-calendar-fc-day-of-weekend {
+	.fc-daygrid-week-number {
 		background-color: var(--color-background-dark) !important;
 		color: var(--color-text-maxcontrast) !important;
 	}
 }
 
-// The server is setting border-box on everything
-// inside content and that messes up fullcalendar
-.fc * {
-	box-sizing: content-box !important;
-}
+/** More events popover */
+.fc-popover.fc-more-popover {
+	border-color: var(--color-border-dark) !important;
 
-// Reminder icon on events with alarms set
-.fc-event-nc-alarms {
-	.icon-event-reminder {
-		background-color: inherit;
-		background-position: right;
-		position: absolute;
-		top: 0;
-		right: 0;
-		&--light {
-			@include icon-color('reminder', 'calendar', '#fffffe', 1);
-		}
-		&--dark {
-			@include icon-color('reminder', 'calendar', '#000001', 1);
-		}
+	.fc-popover-header {
+		background-color: var(--color-background-dark) !important;
+	}
+
+	.fc-popover-body {
+		background-color: var(--color-main-background) !important;
 	}
 }
 
-// Task icon on events which are VTODO
+/** Remove grey border around entire calendar-grid */
+.fc-theme-standard .fc-scrollgrid {
+	border: none !important;
+}
+
+/** Fix text-color for timed events in day-grid views */
+.fc-daygrid-dot-event {
+	color: var(--color-main-text) !important;
+}
+
+/** Style for tentative and cancelled events + completed tasks */
+.fc-event-nc-task-completed,
+.fc-event-nc-tentative,
+.fc-event-nc-cancelled {
+	opacity: .5;
+}
+
+.fc-event-nc-task-completed,
+.fc-event-nc-cancelled {
+	.fc-event-title {
+		text-decoration: line-through !important;
+	}
+}
+
+/** Styles for tasks */
 .fc-event-nc-task {
 	.icon-event-task {
 		display: inline-block;
@@ -225,16 +237,43 @@
 	}
 }
 
-.fc-content {
-	background-color: inherit;
+/** Nextcloud has standard hover styles for tables, disable them for FullCalendar */
+.fc-state-highlight.fc-day-number,
+.fc tbody tr,
+.fc tbody tr:hover,
+.fc tbody tr:focus {
+	background: transparent !important;
+}
+
+/** Make certain headers, day-numbers, week-numbers and time smaller */
+.fc th,
+.fc-event-time,
+.fc-timegrid-axis-cushion,
+.fc-timegrid-slot-label-cushion {
+	opacity: .8;
+	font-size: 80%;
+	font-weight: normal;
+}
+
+/** Custom styling for events */
+.fc-event {
+	font-size: 13px;
+	line-height: initial;
+	padding-left: 3px;
+	min-height: 16px;
+}
+
+/** Remove top padding from day-number in day-grid view, it's wasting a lot of space */
+.fc-daygrid-day-number {
+	padding-top: 0 !important;
+}
+
+/** Add text-overflow ellipsis for very long event titles */
+.fc-daygrid-block-event .fc-event-main {
 	text-overflow: ellipsis;
 }
 
-.fc-popover.fc-more-popover {
-	border-color: var(--color-border-dark) !important;
-
-	> .fc-header.fc-widget-header,
-	> .fc-body.fc-widget-content {
-		background-color: var(--color-main-background);
-	}
+/** Make text in day-grid dot events less bold */
+.fc-daygrid-dot-event .fc-event-title {
+	font-weight: 500 !important;
 }

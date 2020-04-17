@@ -27,7 +27,7 @@ import getTimezoneManager from '../../../../src/services/timezoneDataProviderSer
 jest.mock('../../../../src/services/timezoneDataProviderService.js')
 jest.mock('@fullcalendar/core')
 
-import '../../../../src/fullcalendar/vtimezoneNamedTimezoneImpl.js'
+import '../../../../src/fullcalendar/timezones/vtimezoneNamedTimezoneImpl.js'
 
 describe('fullcalendar/vtimezoneNamedTimezoneImpl test suite', () => {
 

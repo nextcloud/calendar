@@ -19,7 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import eventDrop from "../../../../src/fullcalendar/eventDrop.js";
+import eventDrop from "../../../../src/fullcalendar/interaction/eventDrop.js";
 import { getDurationValueFromFullCalendarDuration} from "../../../../src/fullcalendar/duration.js";
 import getTimezoneManager from '../../../../src/services/timezoneDataProviderService.js'
 import {getObjectAtRecurrenceId} from "../../../../src/utils/calendarObject.js";

@@ -19,7 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import select from "../../../../src/fullcalendar/select.js";
+import select from "../../../../src/fullcalendar/interaction/select.js";
 
 describe('fullcalendar/select test suite', () => {
 

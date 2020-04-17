@@ -20,25 +20,22 @@
  *
  */
 import { getLocale } from '@nextcloud/l10n'
-import { getWeekendDaysForLocale } from './localeWeekendProvider.js'
+import { getWeekendDaysForLocale } from '../localeWeekendProvider.js'
 
 /**
  * Adds weekend classes to the day cell
  *
  * @param {Object} data The destructuring object
- * @param {Element} el The DOM element of the day cell
+ * @param {Date} data.date The date object representing the dayCell
+ * @returns {String[]} Array of classnames
  */
-export default function({ el }) {
+export default function({ date }) {
 	const locale = getLocale()
-	const fcClasses = getWeekendDaysForLocale(locale)
-		.map((dayOfWeekend) => 'fc-' + dayOfWeekend)
+	const daysOfWeekend = getWeekendDaysForLocale(locale)
 
-	for (const fcClass of fcClasses) {
-		if (el.classList.contains(fcClass)) {
-			el.classList.add('nc-calendar-fc-day-of-weekend')
-			return
-		}
+	if (daysOfWeekend.includes(date.getDay())) {
+		return ['nc-calendar-fc-day-of-weekend']
+	} else {
+		return ['nc-calendar-fc-day-of-workweek']
 	}
-
-	el.classList.add('nc-calendar-fc-day-of-workweek')
 }

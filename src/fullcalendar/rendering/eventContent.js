@@ -29,6 +29,8 @@
  * @param {Node} el The HTML element
  */
 export default function({ event, el }) {
+	console.debug(event, el)
+
 	if (el.classList.contains('fc-event-nc-alarms')) {
 		const notificationIcon = document.createElement('span')
 		notificationIcon.classList.add('icon-event-reminder')

@@ -21,7 +21,7 @@
  */
 import { getWeekendDaysForLocale } from '../../../../src/fullcalendar/localeWeekendProvider.js'
 import { getLocale } from '@nextcloud/l10n'
-import dayRender from '../../../../src/fullcalendar/dayRender.js'
+import dayRender from '../../../../src/fullcalendar/rendering/dayCellClassNames.js'
 jest.mock('../../../../src/fullcalendar/localeWeekendProvider.js')
 jest.mock('@nextcloud/l10n')
 

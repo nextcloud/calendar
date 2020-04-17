@@ -24,15 +24,15 @@
  * Returns weekend days for a locale
  *
  * @param {String} locale The locale to get weekend days for
- * @returns {[string, string]}
+ * @returns {Number[]}
  */
 export const getWeekendDaysForLocale = (locale) => {
 	switch (locale) {
 	case 'he':
 	case 'he_IL':
-		return ['fri', 'sat']
+		return [5, 6]
 
 	default:
-		return ['sat', 'sun']
+		return [0, 6]
 	}
 }

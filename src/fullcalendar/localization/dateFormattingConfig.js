@@ -20,29 +20,30 @@
  *
  */
 
-import windowResize from "../../../../src/fullcalendar/rendering/windowResize.js";
+/**
+ * Returns the date-formatting config for FullCalendar
+ *
+ * @returns {Object}
+ */
+const getDateFormattingConfig = () => {
+	return {
+		// Date formatting:
+		eventTimeFormat: 'LT',
+		views: {
+			dayGridMonth: {
+				dayHeaderFormat: 'ddd',
+				titleFormat: 'll',
+			},
+			timeGridDay: {
+				dayHeaderFormat: 'ddd l',
+				titleFormat: 'll',
+			},
+			timeGridWeek: {
+				dayHeaderFormat: 'ddd l',
+				titleFormat: 'll',
+			},
+		},
+	}
+}
 
-describe('fullcalendar/windowResize test suite', () => {
-
-	it('should provide the correct height with header bar', () => {
-		const window = {
-			innerHeight: 1337
-		}
-		const header = {
-			offsetHeight: 42
-		}
-		const view = {}
-
-		expect(windowResize(window, header)(view)).toEqual(1295)
-	})
-
-	it('should provide the correct height without header bar', () => {
-		const window = {
-			innerHeight: 1337
-		}
-		const header = null
-		const view = {}
-
-		expect(windowResize(window, header)(view)).toEqual(1337)
-	})
-})
+export { getDateFormattingConfig }

@@ -19,8 +19,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { getDurationValueFromFullCalendarDuration } from './duration'
-import { getObjectAtRecurrenceId } from '../utils/calendarObject.js'
+import { getDurationValueFromFullCalendarDuration } from '../duration.js'
+import { getObjectAtRecurrenceId } from '../../utils/calendarObject.js'
 
 /**
  * Returns a function to resize an event

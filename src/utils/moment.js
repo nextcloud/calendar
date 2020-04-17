@@ -86,3 +86,23 @@ async function getLocaleFor(locale) {
 
 	return 'en'
 }
+
+/**
+ * Get's the first day of a week based on a moment locale
+ *
+ * @param {String} momentLocale Id of moment locale
+ * @returns {number}
+ */
+export function getFirstDayOfWeekFromMomentLocale(momentLocale) {
+	return moment.localeData(momentLocale).firstDayOfWeek()
+}
+
+/**
+ * Get's the first day of a year based on a moment locale
+ *
+ * @param {String} momentLocale Id of moment locale
+ * @returns {number}
+ */
+export function getFirstDayOfYearFromMomentLocale(momentLocale) {
+	return moment.localeData(momentLocale).firstDayOfYear()
+}

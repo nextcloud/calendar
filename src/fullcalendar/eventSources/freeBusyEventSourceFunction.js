@@ -20,7 +20,7 @@
  *
  */
 
-import { getColorForFBType } from '../utils/freebusy.js'
+import { getColorForFBType } from '../../utils/freebusy.js'
 import { getParserManager } from 'calendar-js'
 
 /**

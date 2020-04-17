@@ -19,10 +19,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { getDurationValueFromFullCalendarDuration } from '../fullcalendar/duration'
-import getTimezoneManager from '../services/timezoneDataProviderService'
-import logger from '../utils/logger.js'
-import { getObjectAtRecurrenceId } from '../utils/calendarObject.js'
+import { getDurationValueFromFullCalendarDuration } from '../duration.js'
+import getTimezoneManager from '../../services/timezoneDataProviderService.js'
+import logger from '../../utils/logger.js'
+import { getObjectAtRecurrenceId } from '../../utils/calendarObject.js'
 
 /**
  * Returns a function to drop an event at a different position

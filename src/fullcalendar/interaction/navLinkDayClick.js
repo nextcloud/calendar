@@ -19,10 +19,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { getYYYYMMDDFromDate } from '../utils/date.js'
+import { getYYYYMMDDFromDate } from '../../utils/date.js'
 
 /**
- * Handles a click on a week-number in the calendar-grid
+ * Handles a click on a day-number in the calendar-grid
  *
  * @param {Object} router The Vue router
  * @param {Object} route The current Vue route
@@ -33,7 +33,7 @@ export default function(router, route) {
 		const name = route.name
 		const params = Object.assign({}, route.params, {
 			firstDay: getYYYYMMDDFromDate(date),
-			view: 'timeGridWeek',
+			view: 'timeGridDay',
 		})
 
 		// Don't push new route when day and view didn't change

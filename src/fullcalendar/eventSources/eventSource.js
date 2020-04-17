@@ -21,11 +21,11 @@
  */
 import {
 	generateTextColorForHex,
-} from '../utils/color.js'
-import getTimezoneManager from '../services/timezoneDataProviderService'
-import { getUnixTimestampFromDate } from '../utils/date.js'
+} from '../../utils/color.js'
+import getTimezoneManager from '../../services/timezoneDataProviderService.js'
+import { getUnixTimestampFromDate } from '../../utils/date.js'
 import { eventSourceFunction } from './eventSourceFunction.js'
-import logger from '../utils/logger.js'
+import logger from '../../utils/logger.js'
 
 /**
  * Returns a function to generate a FullCalendar event-source based on the Vuex calendar model
@@ -64,15 +64,17 @@ export default function(store) {
 					}
 
 					const calendarObjects = store.getters.getCalendarObjectsByTimeRangeId(timeRangeId)
+					console.debug(eventSourceFunction(calendarObjects, calendar, start, end, timezoneObject))
 					successCallback(eventSourceFunction(calendarObjects, calendar, start, end, timezoneObject))
 				} else {
 					const calendarObjects = store.getters.getCalendarObjectsByTimeRangeId(timeRange.id)
+					console.debug(eventSourceFunction(calendarObjects, calendar, start, end, timezoneObject))
 					successCallback(eventSourceFunction(calendarObjects, calendar, start, end, timezoneObject))
 				}
 			},
 		}
 
-		if (calendar.isReadOnly) {
+		if (calendar.readOnly) {
 			source.editable = false
 		}
 
