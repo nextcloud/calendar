@@ -22,10 +22,12 @@
 
 <template>
 	<button
+		v-shortkey="['t']"
 		:aria-label="title"
 		class="button today"
 		:title="title"
-		@click="today()">
+		@shortkey="today"
+		@click="today">
 		{{ $t('calendar', 'Today') }}
 	</button>
 </template>
