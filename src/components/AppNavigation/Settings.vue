@@ -82,6 +82,15 @@
 			<ActionButton class="settings-fieldset-interior-item" icon="icon-clippy" @click.prevent.stop="copyAppleCalDAV">
 				{{ $t('calendar', 'Copy iOS/macOS CalDAV address') }}
 			</ActionButton>
+			<ActionButton
+				v-shortkey.propagate="['h']"
+				class="settings-fieldset-interior-item"
+				icon="icon-info"
+				@click.prevent.stop="showKeyboardShortcuts"
+				@shortkey.native="showKeyboardShortcuts">
+				{{ $t('calendar', 'Show keyboard shortcuts') }}
+			</ActionButton>
+			<ShortcutOverview v-if="displayKeyboardShortcuts" @close="hideKeyboardShortcuts" />
 		</ul>
 	</AppNavigationSettings>
 </template>
@@ -104,10 +113,12 @@ import SettingsImportSection from './Settings/SettingsImportSection.vue'
 import SettingsTimezoneSelect from './Settings/SettingsTimezoneSelect.vue'
 
 import client from '../../services/caldavService.js'
+import ShortcutOverview from './Settings/ShortcutOverview.vue'
 
 export default {
 	name: 'Settings',
 	components: {
+		ShortcutOverview,
 		ActionButton,
 		ActionCheckbox,
 		AppNavigationSettings,
@@ -130,6 +141,7 @@ export default {
 			savingSlotDuration: false,
 			savingWeekend: false,
 			savingWeekNumber: false,
+			displayKeyboardShortcuts: false,
 		}
 	},
 	computed: {
@@ -318,6 +330,18 @@ export default {
 				this.$toast.error(this.$t('calendar', 'CalDAV link could not be copied to clipboard.'))
 			}
 		},
+		/**
+		 * Show the keyboard shortcuts
+		 */
+		showKeyboardShortcuts() {
+			this.displayKeyboardShortcuts = true
+		},
+		/**
+		 * Hide the keyboard shortcuts
+		 */
+		hideKeyboardShortcuts() {
+			this.displayKeyboardShortcuts = false
+		}
 	},
 }
 </script>

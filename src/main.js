@@ -41,7 +41,7 @@ import windowTitleService from './services/windowTitleService.js'
 Vue.directive('ClickOutside', ClickOutside)
 Vue.use(VTooltip)
 Vue.use(VueClipboard)
-Vue.use(VueShortKey)
+Vue.use(VueShortKey, { prevent: ['input', 'textarea'] })
 
 // CSP config for webpack dynamic chunk loading
 // eslint-disable-next-line
