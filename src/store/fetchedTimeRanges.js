@@ -190,6 +190,17 @@ const mutations = {
 			}
 		}
 	},
+
+	/**
+	 * clear FetchedTimeRanges Store
+	 *
+	 * @param {Object} state The vuex state
+	 */
+	clearFetchedTimeRanges(state) {
+		state.lastTimeRangeInsertId = -1
+		state.fetchedTimeRanges = []
+		state.fetchedTimeRangesById = {}
+	},
 }
 
 const getters = {

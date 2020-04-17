@@ -305,11 +305,13 @@ const getters = {
 	 * List of sorted calendars and subscriptions
 	 *
 	 * @param {Object} state the store data
+	 * @param {Object} store the store
+	 * @param {Object} rootState the rootState
 	 * @returns {Array}
 	 */
-	sortedCalendarsSubscriptions(state) {
+	sortedCalendarsSubscriptions(state, store, rootState) {
 		return state.calendars
-			.filter(calendar => calendar.supportsEvents)
+			.filter(calendar => calendar.supportsEvents || (rootState.settings.showTasks && calendar.supportsTasks))
 			.sort((a, b) => a.order - b.order)
 	},
 
@@ -343,11 +345,13 @@ const getters = {
 	 * List of enabled calendars and subscriptions
 	 *
 	 * @param {Object} state the store data
+	 * @param {Object} store the store
+	 * @param {Object} rootState the rootState
 	 * @returns {Array}
 	 */
-	enabledCalendars(state) {
+	enabledCalendars(state, store, rootState) {
 		return state.calendars
-			.filter(calendar => calendar.supportsEvents)
+			.filter(calendar => calendar.supportsEvents || (rootState.settings.showTasks && calendar.supportsTasks))
 			.filter(calendar => calendar.enabled)
 	},
 
@@ -688,8 +692,11 @@ const actions = {
 	 */
 	async getEventsFromCalendarInTimeRange(context, { calendar, from, to }) {
 		context.commit('markCalendarAsLoading', { calendar })
-
 		const response = await calendar.dav.findByTypeInTimeRange('VEVENT', from, to)
+		let responseTodo = []
+		if (context.rootState.settings.showTasks) {
+			responseTodo = await calendar.dav.findByTypeInTimeRange('VTODO', from, to)
+		}
 		context.commit('addTimeRange', {
 			calendarId: calendar.id,
 			from: getUnixTimestampFromDate(from),
@@ -705,7 +712,7 @@ const actions = {
 
 		const calendarObjects = []
 		const calendarObjectIds = []
-		for (const r of response) {
+		for (const r of response.concat(responseTodo)) {
 			const calendarObject = mapCDavObjectToCalendarObject(r, calendar.id)
 			calendarObjects.push(calendarObject)
 			calendarObjectIds.push(calendarObject.id)

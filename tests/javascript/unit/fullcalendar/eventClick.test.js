@@ -20,13 +20,27 @@
  *
  */
 import eventClick from "../../../../src/fullcalendar/eventClick.js";
-import { getPrefixedRoute } from "../../../../src/utils/router.js";
+import {
+	getPrefixedRoute,
+	isPublicOrEmbeddedRoute,
+} from '../../../../src/utils/router.js'
+import { generateUrl } from '@nextcloud/router'
+import { translate } from '@nextcloud/l10n'
+import { showInfo } from '@nextcloud/dialogs'
+
 jest.mock("../../../../src/utils/router.js");
+jest.mock("@nextcloud/router");
+jest.mock("@nextcloud/l10n");
+jest.mock("@nextcloud/dialogs");
 
 describe('fullcalendar/eventClick test suite', () => {
 
 	beforeEach(() => {
 		getPrefixedRoute.mockClear()
+		isPublicOrEmbeddedRoute.mockClear()
+		generateUrl.mockClear()
+		translate.mockClear()
+		showInfo.mockClear()
 	})
 
 	it('should open the Popover on big screens', () => {
@@ -45,6 +59,7 @@ describe('fullcalendar/eventClick test suite', () => {
 			extendedProps: {
 				objectId: 'object123',
 				recurrenceId: 'recurrence456',
+				objectType: 'VEVENT',
 			}
 		}})
 
@@ -79,6 +94,7 @@ describe('fullcalendar/eventClick test suite', () => {
 			extendedProps: {
 				objectId: 'object123',
 				recurrenceId: 'recurrence456',
+				objectType: 'VEVENT',
 			}
 		}})
 
@@ -113,6 +129,7 @@ describe('fullcalendar/eventClick test suite', () => {
 			extendedProps: {
 				objectId: 'object123',
 				recurrenceId: 'recurrence456',
+				objectType: 'VEVENT',
 			}
 		}})
 
@@ -147,6 +164,7 @@ describe('fullcalendar/eventClick test suite', () => {
 				extendedProps: {
 					objectId: 'object123',
 					recurrenceId: 'recurrence456',
+					objectType: 'VEVENT',
 				}
 			}})
 
@@ -181,6 +199,7 @@ describe('fullcalendar/eventClick test suite', () => {
 				extendedProps: {
 					objectId: 'object123',
 					recurrenceId: 'recurrence456',
+					objectType: 'VEVENT',
 				}
 			}})
 
@@ -222,6 +241,7 @@ describe('fullcalendar/eventClick test suite', () => {
 				extendedProps: {
 					objectId: 'object123',
 					recurrenceId: 'recurrence456',
+					objectType: 'VEVENT',
 				}
 			}})
 
@@ -255,6 +275,7 @@ describe('fullcalendar/eventClick test suite', () => {
 				extendedProps: {
 					objectId: 'object123',
 					recurrenceId: 'recurrence456',
+					objectType: 'VEVENT',
 				}
 			}})
 
@@ -263,6 +284,132 @@ describe('fullcalendar/eventClick test suite', () => {
 		expect(getPrefixedRoute).toHaveBeenNthCalledWith(3, 'EditSidebarView', 'EditSidebarView')
 
 		expect(router.push.mock.calls.length).toEqual(0)
+	})
+
+	it('should forward to the task app if enabled', () => {
+		const store = { state: { settings: { tasksEnabled: true } } }
+		const router = { push: jest.fn() }
+		const route = {
+			name: 'EditSidebarView',
+			params: {
+				object: 'object123',
+				otherParam: '456',
+				recurrenceId: 'recurrence456',
+			}
+		}
+		const window = {
+			innerWidth: 1920,
+			location: {
+				protocol: 'http:',
+				host: 'nextcloud.testing',
+			}
+		}
+
+		generateUrl
+			.mockReturnValueOnce('/generated-url')
+
+		const eventClickFunction = eventClick(store, router, route, window)
+		eventClickFunction({ event: {
+				extendedProps: {
+					davUrl: '/remote.php/dav/calendars/admin/reminders/EAFB112A-4556-404A-B807-B1E040D0F7A0.ics',
+					object: 'object123',
+					recurrenceId: 'recurrence456',
+					objectType: 'VTODO',
+				}
+			}})
+
+		expect(generateUrl).toHaveBeenCalledTimes(1)
+		expect(generateUrl).toHaveBeenNthCalledWith(1, 'apps/tasks/#/calendars/reminders/tasks/EAFB112A-4556-404A-B807-B1E040D0F7A0.ics')
+
+		expect(window.location).toEqual('http://nextcloud.testing/generated-url')
+	})
+
+	it('should do nothing when tasks is disabled and route is public', () => {
+		const store = { state: { settings: { tasksEnabled: false } } }
+		const router = { push: jest.fn() }
+		const route = {
+			name: 'EditSidebarView',
+			params: {
+				object: 'object123',
+				otherParam: '456',
+				recurrenceId: 'recurrence456',
+			}
+		}
+		const window = {
+			innerWidth: 1920,
+			location: {
+				protocol: 'http:',
+				host: 'nextcloud.testing',
+			}
+		}
+		const oldLocation = window.location
+
+		isPublicOrEmbeddedRoute
+			.mockReturnValueOnce(true)
+
+		const eventClickFunction = eventClick(store, router, route, window)
+		eventClickFunction({ event: {
+				extendedProps: {
+					davUrl: '/remote.php/dav/calendars/admin/reminders/EAFB112A-4556-404A-B807-B1E040D0F7A0.ics',
+					object: 'object123',
+					recurrenceId: 'recurrence456',
+					objectType: 'VTODO',
+				}
+			}})
+
+		expect(isPublicOrEmbeddedRoute).toHaveBeenCalledTimes(1)
+		expect(isPublicOrEmbeddedRoute).toHaveBeenNthCalledWith(1, 'EditSidebarView')
+
+		expect(generateUrl).toHaveBeenCalledTimes(0)
+		expect(window.location).toEqual(oldLocation)
+	})
+
+	it('should show a hint to enable tasks app, when disabled but not public', () => {
+		const store = { state: { settings: { tasksEnabled: false } } }
+		const router = { push: jest.fn() }
+		const route = {
+			name: 'EditSidebarView',
+			params: {
+				object: 'object123',
+				otherParam: '456',
+				recurrenceId: 'recurrence456',
+			}
+		}
+		const window = {
+			innerWidth: 1920,
+			location: {
+				protocol: 'http:',
+				host: 'nextcloud.testing',
+			}
+		}
+		const oldLocation = window.location
+
+		isPublicOrEmbeddedRoute
+			.mockReturnValueOnce(false)
+		translate
+			.mockReturnValue('translated hint')
+
+		const eventClickFunction = eventClick(store, router, route, window)
+		eventClickFunction({ event: {
+				extendedProps: {
+					davUrl: '/remote.php/dav/calendars/admin/reminders/EAFB112A-4556-404A-B807-B1E040D0F7A0.ics',
+					object: 'object123',
+					recurrenceId: 'recurrence456',
+					objectType: 'VTODO',
+				}
+			}})
+
+		expect(translate).toHaveBeenCalledTimes(1)
+		expect(translate).toHaveBeenNthCalledWith(1, 'calendar', 'Please ask your administrator to enable the Tasks App.')
+
+		expect(showInfo).toHaveBeenCalledTimes(1)
+		expect(showInfo).toHaveBeenNthCalledWith(1, 'translated hint')
+
+		expect(isPublicOrEmbeddedRoute).toHaveBeenCalledTimes(1)
+		expect(isPublicOrEmbeddedRoute).toHaveBeenNthCalledWith(1, 'EditSidebarView')
+
+		expect(generateUrl).toHaveBeenCalledTimes(0)
+		expect(window.location).toEqual(oldLocation)
 	})
 
 })

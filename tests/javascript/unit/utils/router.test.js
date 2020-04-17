@@ -21,7 +21,7 @@
  */
 import {
 	getInitialView,
-	getPrefixedRoute
+	getPrefixedRoute, isPublicOrEmbeddedRoute
 } from '../../../../src/utils/router.js'
 import { loadState } from '@nextcloud/initial-state'
 
@@ -51,5 +51,16 @@ describe('utils/router test suite', () => {
 
 		expect(getPrefixedRoute('CalendarView', 'EditPopoverView')).toEqual('EditPopoverView')
 		expect(getPrefixedRoute('EditPopoverView', 'CalendarView')).toEqual('CalendarView')
+	})
+
+	it('should check whether a route is public or embedded', () => {
+		expect(isPublicOrEmbeddedRoute('PublicCalendarView')).toEqual(true)
+		expect(isPublicOrEmbeddedRoute('PublicEditPopoverView')).toEqual(true)
+
+		expect(isPublicOrEmbeddedRoute('EmbedCalendarView')).toEqual(true)
+		expect(isPublicOrEmbeddedRoute('EmbedEditPopoverView')).toEqual(true)
+
+		expect(isPublicOrEmbeddedRoute('CalendarView')).toEqual(false)
+		expect(isPublicOrEmbeddedRoute('EditPopoverView')).toEqual(false)
 	})
 })

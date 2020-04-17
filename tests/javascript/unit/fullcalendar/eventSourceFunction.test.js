@@ -63,6 +63,7 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 		const event31End = new Date(2020, 6, 10, 10, 0, 0, 0);
 
 		const eventComponentSet1 = [{
+			name: 'VEVENT',
 			id: '1-1',
 			// To title on purpose
 			isAllDay: jest.fn().mockReturnValue(false),
@@ -80,6 +81,7 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 			},
 			hasComponent: jest.fn().mockReturnValue(false),
 		}, {
+			name: 'VEVENT',
 			id: '1-2',
 			status: 'CANCELLED',
 			isAllDay: jest.fn().mockReturnValue(false),
@@ -98,6 +100,7 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 			hasComponent: jest.fn().mockReturnValue(false),
 			title: 'Untitled\nmultiline\nevent',
 		}, {
+			name: 'VEVENT',
 			id: '1-3',
 			status: 'TENTATIVE',
 			isAllDay: jest.fn().mockReturnValue(false),
@@ -116,6 +119,7 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 			hasComponent: jest.fn().mockReturnValue(true),
 		}]
 		const eventComponentSet2 = [{
+			name: 'VEVENT',
 			id: '2-1',
 			status: 'CONFIRMED',
 			isAllDay: jest.fn().mockReturnValue(true),
@@ -134,6 +138,7 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 			hasComponent: jest.fn().mockReturnValue(false),
 		}]
 		const eventComponentSet4 = [{
+			name: 'VEVENT',
 			id: '3-1',
 			status: 'CONFIRMED',
 			isAllDay: jest.fn().mockReturnValue(false),
@@ -163,15 +168,27 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 
 		const calendarObjects = [{
 			calendarObject: true,
+			dav: {
+				url: 'url1',
+			},
 			id: '1',
 		}, {
 			calendarObject: true,
+			dav: {
+				url: 'url2',
+			},
 			id: '2',
 		}, {
 			calendarObject: true,
+			dav: {
+				url: 'url3',
+			},
 			id: '3',
 		}, {
 			calendarObject: true,
+			dav: {
+				url: 'url4',
+			},
 			id: '4',
 		}]
 		const start = new Date(Date.UTC(2019, 0, 1, 0, 0, 0, 0))
@@ -199,6 +216,9 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 					calendarName: 'Calendar displayname',
 					calendarOrder: 1337,
 					darkText: false,
+					davUrl: 'url1',
+					objectType: 'VEVENT',
+					percent: null,
 				}
 			},
 			{
@@ -216,6 +236,9 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 					calendarName: 'Calendar displayname',
 					calendarOrder: 1337,
 					darkText: false,
+					davUrl: 'url1',
+					objectType: 'VEVENT',
+					percent: null,
 				}
 			},
 			{
@@ -233,6 +256,9 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 					calendarName: 'Calendar displayname',
 					calendarOrder: 1337,
 					darkText: false,
+					davUrl: 'url1',
+					objectType: 'VEVENT',
+					percent: null,
 				}
 			},
 			{
@@ -250,6 +276,9 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 					calendarName: 'Calendar displayname',
 					calendarOrder: 1337,
 					darkText: false,
+					davUrl: 'url2',
+					objectType: 'VEVENT',
+					percent: null,
 				}
 			},
 			{
@@ -267,6 +296,9 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 					calendarName: 'Calendar displayname',
 					calendarOrder: 1337,
 					darkText: false,
+					davUrl: 'url4',
+					objectType: 'VEVENT',
+					percent: null,
 				},
 				backgroundColor: '#ff0000',
 				borderColor: '#ff0000',
@@ -388,6 +420,297 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 		expect(event31End.getHours()).toEqual(10)
 		expect(event31End.getMinutes()).toEqual(0)
 		expect(event31End.getSeconds()).toEqual(1)
+	})
+
+	it('should provide fc-events for tasks', () => {
+		translate
+			.mockImplementation((app, str) => str)
+		getHexForColorName
+			.mockImplementation(() => '#ff0000')
+		generateTextColorForHex
+			.mockImplementation(() => '#eeeeee')
+		isLight
+			.mockImplementation(() => false)
+
+		const event1Start = new Date(2020, 1, 1, 10, 0, 0, 0);
+		const event1End = new Date(2020, 1, 1, 15, 0, 0, 0);
+		const event2Start = new Date(2020, 1, 2, 10, 0, 0, 0);
+		const event2End = new Date(2020, 1, 2, 15, 0, 0, 0);
+		const event3Start = new Date(2020, 1, 3, 10, 0, 0, 0);
+		const event3End = new Date(2020, 1, 3, 15, 0, 0, 0);
+		const event4Start = new Date(2020, 5, 5, 0, 0, 0, 0);
+		const event4End = new Date(2020, 5, 6, 0, 0, 0, 0);
+		const event5Start = new Date(2020, 6, 10, 10, 0, 0, 0);
+		const event5End = new Date(2020, 6, 10, 10, 0, 0, 0);
+
+		const eventComponentSet = [{
+			name: 'VTODO',
+			id: '1',
+			// To title on purpose
+			isAllDay: jest.fn().mockReturnValue(false),
+			getReferenceRecurrenceId: jest.fn().mockReturnValue({ unixTime: 123 }),
+			canModifyAllDay: jest.fn().mockReturnValue(false),
+			startDate: {
+				getInTimezone: jest.fn().mockReturnValue({
+					jsDate: event1Start
+				})
+			},
+			endDate: {
+				getInTimezone: jest.fn().mockReturnValue({
+					jsDate: event1End
+				})
+			},
+			hasComponent: jest.fn().mockReturnValue(false),
+			percent: null,
+		}, {
+			name: 'VTODO',
+			id: '2',
+			// To title on purpose
+			isAllDay: jest.fn().mockReturnValue(false),
+			getReferenceRecurrenceId: jest.fn().mockReturnValue({ unixTime: 123 }),
+			canModifyAllDay: jest.fn().mockReturnValue(false),
+			startDate: {
+				getInTimezone: jest.fn().mockReturnValue({
+					jsDate: event2Start
+				})
+			},
+			endDate: {
+				getInTimezone: jest.fn().mockReturnValue({
+					jsDate: event2End
+				})
+			},
+			hasComponent: jest.fn().mockReturnValue(false),
+			percent: null,
+		}, {
+			name: 'VTODO',
+			id: '3',
+			// To title on purpose
+			isAllDay: jest.fn().mockReturnValue(false),
+			getReferenceRecurrenceId: jest.fn().mockReturnValue({ unixTime: 123 }),
+			canModifyAllDay: jest.fn().mockReturnValue(false),
+			startDate: {
+				getInTimezone: jest.fn().mockReturnValue({
+					jsDate: event3Start
+				})
+			},
+			endDate: {
+				getInTimezone: jest.fn().mockReturnValue({
+					jsDate: event3End
+				})
+			},
+			hasComponent: jest.fn().mockReturnValue(false),
+			percent: 99,
+		}, {
+			name: 'VTODO',
+			id: '4',
+			// To title on purpose
+			isAllDay: jest.fn().mockReturnValue(false),
+			getReferenceRecurrenceId: jest.fn().mockReturnValue({ unixTime: 123 }),
+			canModifyAllDay: jest.fn().mockReturnValue(false),
+			startDate: {
+				getInTimezone: jest.fn().mockReturnValue({
+					jsDate: event4Start
+				})
+			},
+			endDate: {
+				getInTimezone: jest.fn().mockReturnValue({
+					jsDate: event4End
+				})
+			},
+			hasComponent: jest.fn().mockReturnValue(false),
+			title: 'This task has a title',
+			percent: null,
+		}, {
+			name: 'VTODO',
+			id: '5',
+			// To title on purpose
+			isAllDay: jest.fn().mockReturnValue(false),
+			getReferenceRecurrenceId: jest.fn().mockReturnValue({ unixTime: 123 }),
+			canModifyAllDay: jest.fn().mockReturnValue(false),
+			startDate: {
+				getInTimezone: jest.fn().mockReturnValue({
+					jsDate: event5Start
+				})
+			},
+			endDate: {
+				getInTimezone: jest.fn().mockReturnValue({
+					jsDate: event5End
+				})
+			},
+			hasComponent: jest.fn().mockReturnValue(false),
+			title: 'This task has a title and percent',
+			percent: 99,
+		}, {
+			name: 'VTODO',
+			id: '6',
+			// To title on purpose
+			isAllDay: jest.fn().mockReturnValue(false),
+			getReferenceRecurrenceId: jest.fn().mockReturnValue({ unixTime: 123 }),
+			canModifyAllDay: jest.fn().mockReturnValue(false),
+			hasComponent: jest.fn().mockReturnValue(false),
+			title: 'Task without Due',
+			startDate: null,
+			endDate: null,
+			percent: null,
+		}]
+
+		getAllObjectsInTimeRange
+			.mockReturnValueOnce(eventComponentSet)
+
+		const calendarObjects = [{
+			calendarObject: true,
+			dav: {
+				url: 'url1',
+			},
+			id: '1',
+		}]
+		const start = new Date(Date.UTC(2019, 0, 1, 0, 0, 0, 0))
+		const end = new Date(Date.UTC(2020, 0, 31, 59, 59, 59, 999))
+		const timezone = { calendarJsTimezone: true, tzid: 'America/New_York' }
+		const result = eventSourceFunction(calendarObjects, {
+			order: 1337,
+			displayName: 'Calendar displayname',
+			id: 'Calendar id 456',
+		}, start, end, timezone)
+
+		expect(result).toEqual([{
+			allDay: false,
+			classNames: [
+				'fc-event-nc-task',
+			],
+			end: event1End,
+			extendedProps: {
+				calendarId: 'Calendar id 456',
+				calendarName: 'Calendar displayname',
+				calendarOrder: 1337,
+				canModifyAllDay: false,
+				darkText: false,
+				davUrl: 'url1',
+				objectId: '1',
+				objectType: 'VTODO',
+				percent: null,
+				recurrenceId: 123,
+			},
+			id: '1###1',
+			start: event1End,
+			title: 'Untitled task',
+		}, {
+			allDay: false,
+			classNames: [
+				'fc-event-nc-task',
+			],
+			end: event2End,
+			extendedProps: {
+				calendarId: 'Calendar id 456',
+				calendarName: 'Calendar displayname',
+				calendarOrder: 1337,
+				canModifyAllDay: false,
+				darkText: false,
+				davUrl: 'url1',
+				objectId: '1',
+				objectType: 'VTODO',
+				percent: null,
+				recurrenceId: 123,
+			},
+			id: '1###2',
+			start: event2End,
+			title: 'Untitled task',
+		}, {
+			allDay: false,
+			classNames: [
+				'fc-event-nc-task',
+			],
+			end: event3End,
+			extendedProps: {
+				calendarId: 'Calendar id 456',
+				calendarName: 'Calendar displayname',
+				calendarOrder: 1337,
+				canModifyAllDay: false,
+				darkText: false,
+				davUrl: 'url1',
+				objectId: '1',
+				objectType: 'VTODO',
+				percent: 99,
+				recurrenceId: 123,
+			},
+			id: '1###3',
+			start: event3End,
+			title: 'Untitled task (99%)',
+		}, {
+			allDay: false,
+			classNames: [
+				'fc-event-nc-task',
+			],
+			end: event4End,
+			extendedProps: {
+				calendarId: 'Calendar id 456',
+				calendarName: 'Calendar displayname',
+				calendarOrder: 1337,
+				canModifyAllDay: false,
+				darkText: false,
+				davUrl: 'url1',
+				objectId: '1',
+				objectType: 'VTODO',
+				percent: null,
+				recurrenceId: 123,
+			},
+			id: '1###4',
+			start: event4End,
+			title: 'This task has a title',
+		}, {
+			allDay: false,
+			classNames: [
+				'fc-event-nc-task',
+			],
+			end: event5End,
+			extendedProps: {
+				calendarId: 'Calendar id 456',
+				calendarName: 'Calendar displayname',
+				calendarOrder: 1337,
+				canModifyAllDay: false,
+				darkText: false,
+				davUrl: 'url1',
+				objectId: '1',
+				objectType: 'VTODO',
+				percent: 99,
+				recurrenceId: 123,
+			},
+			id: '1###5',
+			start: event5End,
+			title: 'This task has a title and percent (99%)',
+		}])
+
+		expect(eventComponentSet[0].startDate.getInTimezone).toHaveBeenCalledTimes(0)
+		expect(eventComponentSet[0].endDate.getInTimezone).toHaveBeenCalledTimes(2)
+		expect(eventComponentSet[0].endDate.getInTimezone).toHaveBeenNthCalledWith(1, timezone)
+		expect(eventComponentSet[0].endDate.getInTimezone).toHaveBeenNthCalledWith(2, timezone)
+		expect(eventComponentSet[1].startDate.getInTimezone).toHaveBeenCalledTimes(0)
+		expect(eventComponentSet[1].endDate.getInTimezone).toHaveBeenCalledTimes(2)
+		expect(eventComponentSet[1].endDate.getInTimezone).toHaveBeenNthCalledWith(1, timezone)
+		expect(eventComponentSet[1].endDate.getInTimezone).toHaveBeenNthCalledWith(2, timezone)
+		expect(eventComponentSet[2].startDate.getInTimezone).toHaveBeenCalledTimes(0)
+		expect(eventComponentSet[2].endDate.getInTimezone).toHaveBeenCalledTimes(2)
+		expect(eventComponentSet[2].endDate.getInTimezone).toHaveBeenNthCalledWith(1, timezone)
+		expect(eventComponentSet[2].endDate.getInTimezone).toHaveBeenNthCalledWith(2, timezone)
+		expect(eventComponentSet[3].startDate.getInTimezone).toHaveBeenCalledTimes(0)
+		expect(eventComponentSet[3].endDate.getInTimezone).toHaveBeenCalledTimes(2)
+		expect(eventComponentSet[3].endDate.getInTimezone).toHaveBeenNthCalledWith(1, timezone)
+		expect(eventComponentSet[3].endDate.getInTimezone).toHaveBeenNthCalledWith(2, timezone)
+		expect(eventComponentSet[4].startDate.getInTimezone).toHaveBeenCalledTimes(0)
+		expect(eventComponentSet[4].endDate.getInTimezone).toHaveBeenCalledTimes(2)
+		expect(eventComponentSet[4].endDate.getInTimezone).toHaveBeenNthCalledWith(1, timezone)
+		expect(eventComponentSet[4].endDate.getInTimezone).toHaveBeenNthCalledWith(2, timezone)
+
+		expect(translate).toHaveBeenCalledTimes(3)
+		expect(translate).toHaveBeenNthCalledWith(1, 'calendar', 'Untitled task')
+		expect(translate).toHaveBeenNthCalledWith(2, 'calendar', 'Untitled task')
+		expect(translate).toHaveBeenNthCalledWith(3, 'calendar', 'Untitled task')
+
+		expect(getAllObjectsInTimeRange).toHaveBeenCalledTimes(1)
+		expect(getAllObjectsInTimeRange).toHaveBeenNthCalledWith(1, calendarObjects[0], start, end)
+
+		expect(getHexForColorName).toHaveBeenCalledTimes(0)
+		expect(generateTextColorForHex).toHaveBeenCalledTimes(0)
 	})
 
 })

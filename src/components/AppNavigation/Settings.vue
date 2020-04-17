@@ -32,6 +32,13 @@
 			</ActionCheckbox>
 			<ActionCheckbox
 				class="settings-fieldset-interior-item"
+				:checked="showTasks"
+				:disabled="savingTasks"
+				@update:checked="toggleTasksEnabled">
+				{{ $t('calendar', 'Show tasks in calendar') }}
+			</ActionCheckbox>
+			<ActionCheckbox
+				class="settings-fieldset-interior-item"
 				:checked="showPopover"
 				:disabled="savingPopover"
 				@update:checked="togglePopoverEnabled">
@@ -118,6 +125,7 @@ export default {
 		return {
 			savingBirthdayCalendar: false,
 			savingEventLimit: false,
+			savingTasks: false,
 			savingPopover: false,
 			savingSlotDuration: false,
 			savingWeekend: false,
@@ -131,6 +139,7 @@ export default {
 		...mapState({
 			eventLimit: state => state.settings.eventLimit,
 			showPopover: state => !state.settings.skipPopover,
+			showTasks: state => state.settings.showTasks,
 			showWeekends: state => state.settings.showWeekends,
 			showWeekNumbers: state => state.settings.showWeekNumbers,
 			slotDuration: state => state.settings.slotDuration,
@@ -203,6 +212,18 @@ export default {
 				console.error(error)
 				this.$toast.error(this.$t('calendar', 'New setting was not saved successfully.'))
 				this.savingEventLimit = false
+			}
+		},
+		async toggleTasksEnabled() {
+			// change to loading status
+			this.savingTasks = true
+			try {
+				await this.$store.dispatch('toggleTasksEnabled')
+				this.savingTasks = false
+			} catch (error) {
+				console.error(error)
+				this.$toast.error(this.$t('calendar', 'New setting was not saved successfully.'))
+				this.savingTasks = false
 			}
 		},
 		async togglePopoverEnabled() {

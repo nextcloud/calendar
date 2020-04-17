@@ -31,11 +31,13 @@ const state = {
 	eventLimit: null,
 	firstRun: null,
 	momentLocale: 'en',
+	showTasks: null,
 	showWeekends: null,
 	showWeekNumbers: null,
 	skipPopover: null,
 	slotDuration: null,
 	talkEnabled: false,
+	tasksEnabled: false,
 	timezone: null,
 }
 
@@ -57,6 +59,15 @@ const mutations = {
 	 */
 	togglePopoverEnabled(state) {
 		state.skipPopover = !state.skipPopover
+	},
+
+	/**
+	 * Updates the user's setting for visibility of weekends
+	 *
+	 * @param {Object} state The Vuex state
+	 */
+	toggleTasksEnabled(state) {
+		state.showTasks = !state.showTasks
 	},
 
 	/**
@@ -112,10 +123,12 @@ const mutations = {
 		state.eventLimit = settings.eventLimit
 		state.firstRun = settings.firstRun
 		state.showWeekNumbers = settings.showWeekNumbers
+		state.showTasks = settings.showTasks
 		state.showWeekends = settings.showWeekends
 		state.skipPopover = settings.skipPopover
 		state.slotDuration = settings.slotDuration
 		state.talkEnabled = settings.talkEnabled
+		state.tasksEnabled = settings.tasksEnabled
 		state.timezone = settings.timezone
 	},
 
@@ -216,6 +229,22 @@ const actions = {
 
 		await HttpClient.post(getLinkToConfig('showWeekends'), { value })
 		context.commit('toggleWeekendsEnabled')
+	},
+
+	/**
+	 * Updates the user's setting for visibility of tasks
+	 *
+	 * @param {Object} context The Vuex context
+	 * @returns {Promise<void>}
+	 */
+	async toggleTasksEnabled(context) {
+		const newState = !context.state.showTasks
+		const value = newState ? 'yes' : 'no'
+
+		await HttpClient.post(getLinkToConfig('showTasks'), { value })
+		context.commit('toggleTasksEnabled')
+		context.commit('clearFetchedTimeRanges')
+		context.commit('incrementModificationCount')
 	},
 
 	/**

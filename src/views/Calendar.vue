@@ -167,6 +167,7 @@ export default {
 			showWeekends: state => state.settings.showWeekends,
 			showWeekNumbers: state => state.settings.showWeekNumbers,
 			slotDuration: state => state.settings.slotDuration,
+			showTasks: state => state.settings.showTasks,
 			timezone: state => state.settings.timezone,
 			modificationCount: state => state.calendarObjects.modificationCount,
 		}),
@@ -299,7 +300,9 @@ export default {
 			skipPopover: loadState('calendar', 'skip_popover'),
 			slotDuration: loadState('calendar', 'slot_duration'),
 			talkEnabled: loadState('calendar', 'talk_enabled'),
+			tasksEnabled: loadState('calendar', 'tasks_enabled'),
 			timezone: loadState('calendar', 'timezone'),
+			showTasks: loadState('calendar', 'show_tasks'),
 		})
 		this.$store.dispatch('initializeCalendarJsConfig')
 
