@@ -70,7 +70,6 @@ import {
 	mapGetters,
 	mapState,
 } from 'vuex'
-import { getLocale } from '@nextcloud/l10n'
 import Modal from '@nextcloud/vue/dist/Components/Modal'
 import VTimezoneNamedTimezone from '../../../fullcalendar/vtimezoneNamedTimezoneImpl.js'
 import freeBusyEventSource from '../../../fullcalendar/freeBusyEventSource.js'
@@ -168,37 +167,7 @@ export default {
 			}]
 		},
 	},
-	async mounted() {
-		this.loadFullCalendarLocale()
-	},
 	methods: {
-		/**
-		 * Loads the locale data for full-calendar
-		 *
-		 * @returns {Promise<void>}
-		 */
-		async loadFullCalendarLocale() {
-			let locale = getLocale().replace('_', '-').toLowerCase()
-			try {
-				// try to load the default locale first
-				const fcLocale = await import('@fullcalendar/core/locales/' + locale)
-				this.locales.push(fcLocale)
-				// We have to update firstDay manually till https://github.com/fullcalendar/fullcalendar-vue/issues/36 is fixed
-				this.firstDay = fcLocale.week.dow
-				this.fullCalendarLocale = locale
-			} catch (e) {
-				try {
-					locale = locale.split('-')[0]
-					const fcLocale = await import('@fullcalendar/core/locales/' + locale)
-					this.locales.push(fcLocale)
-					// We have to update firstDay manually till https://github.com/fullcalendar/fullcalendar-vue/issues/36 is fixed
-					this.firstDay = fcLocale.week.dow
-					this.fullCalendarLocale = locale
-				} catch (e) {
-					console.debug('falling back to english locale')
-				}
-			}
-		},
 		loading(isLoading) {
 			this.loadingIndicator = isLoading
 		},
@@ -207,10 +176,6 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-@import '~@fullcalendar/core/main.css';
-@import '~@fullcalendar/timeline/main.css';
-@import '~@fullcalendar/resource-timeline/main.css';
-
 .modal__content {
 	padding: 50px;
 }

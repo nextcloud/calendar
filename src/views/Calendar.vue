@@ -46,42 +46,7 @@
 			<!-- Full calendar -->
 			<FullCalendar
 				ref="fullCalendar"
-				:default-view="defaultView"
-				:editable="isEditable"
-				:force-event-duration="true"
-				:header="showHeader"
-				:height="windowResize"
-				:slot-duration="slotDuration"
-				:week-numbers="showWeekNumbers"
-				:weekends="showWeekends"
-				:event-sources="eventSources"
-				:event-order="eventOrder"
-				:plugins="plugins"
-				:time-zone="timezoneId"
-				:day-render="dayRender"
-				:event-allow="eventAllow"
-				:event-limit="eventLimit"
-				:event-limit-text="eventLimitText"
-				:default-date="defaultDate"
-				:locales="locales"
-				:locale="fullCalendarLocale"
-				:first-day="firstDay"
-				:selectable="isSelectable"
-				:time-grid-event-min-height="16"
-				:select-mirror="true"
-				:lazy-fetching="false"
-				:nav-links="true"
-				:nav-link-day-click="navLinkDayClick"
-				:nav-link-week-click="navLinkWeekClick"
-				:now-indicator="true"
-				:progressive-event-rendering="true"
-				:unselect-auto="false"
-				:week-numbers-within-days="true"
-				:event-render="eventRender"
-				@eventClick="eventClick"
-				@eventDrop="eventDrop"
-				@eventResize="eventResize"
-				@select="select" />
+				:options="fullCalendarOptions" />
 
 			<EmptyCalendar
 				v-if="showEmptyCalendarScreen" />
@@ -93,14 +58,10 @@
 
 <script>
 import FullCalendar from '@fullcalendar/vue'
-import '@fullcalendar/core/main.css'
 import dayGridPlugin from '@fullcalendar/daygrid'
-import '@fullcalendar/daygrid/main.css'
 import interactionPlugin from '@fullcalendar/interaction'
 import listPlugin from '@fullcalendar/list'
-import '@fullcalendar/list/main.css'
 import timeGridPlugin from '@fullcalendar/timegrid'
-import '@fullcalendar/timegrid/main.css'
 import AppNavigation from '@nextcloud/vue/dist/Components/AppNavigation'
 import AppNavigationSpacer from '@nextcloud/vue/dist/Components/AppNavigationSpacer'
 import AppContent from '@nextcloud/vue/dist/Components/AppContent'
@@ -190,6 +151,44 @@ export default {
 			timezone: state => state.settings.timezone,
 			modificationCount: state => state.calendarObjects.modificationCount,
 		}),
+		fullCalendarOptions() {
+			return {
+				initialView: this.defaultView,
+				editable: this.isEditable,
+				forceEventDuration: false,
+				headerToolbar: this.showHeader,
+				height: '100%', // Does this actually work for resize?
+				slotDuration: this.slotDuration,
+				weekNumbers: this.showWeekNumbers,
+				weekends: this.showWeekends,
+				eventSources: this.eventSources,
+				eventOrder: this.eventOrder,
+				plugins: this.plugins,
+				timeZone: this.timezoneId,
+				// dayRender: this.dayRender, // TODO - fix me
+				eventAllow: this.eventAllow,
+				dayMaxEventRows: this.eventLimit,
+				moreLinkContent: this.eventLimitText,
+				initialDate: this.defaultDate,
+				locales: this.locales,
+				locale: this.fullCalendarLocale,
+				firstDay: this.firstDay,
+				selectable: this.isSelectable,
+				selectMirror: true,
+				lazyFetching: false,
+				navLinks: true,
+				navLinkDayClick: this.navLinkDayClick,
+				navLinkWeekClick: this.navLinkWeekClick,
+				nowIndicator: true,
+				progressiveEventRendering: true,
+				unselectAuto: true,
+				// eventRender: this.eventRender // REPLACE with eventContent or eventDidMount
+				eventClick: this.eventClick,
+				eventDrop: this.eventDrop,
+				eventResize: this.eventResize,
+				select: this.select,
+			}
+		},
 		defaultDate() {
 			return getYYYYMMDDFromFirstdayParam(this.$route.params.firstDay)
 		},

@@ -24,9 +24,11 @@ import { translatePlural as n } from '@nextcloud/l10n'
 /**
  * Provide the string when the event limit is hit
  *
- * @param {Number} count Number of omitted event
+ * @param {Object} data Data destructuring object
+ * @param {Number} data.num Number of omitted event
  * @returns {string}
  */
-export default function(count) {
-	return n('calendar', '+%n more', '+%n more', count)
+export default function({ num }) {
+	// TODO: this is broken, because singular and plural are equal
+	return n('calendar', '+%n more', '+%n more', num)
 }
