@@ -107,6 +107,7 @@ OC.L10N.register(
     "Attendees" : "Résztvevők",
     "Reminders" : "Emlékeztetők",
     "Activity" : "Tevékenység",
+    "Projects" : "Projektek",
     "Close" : "Bezárás",
     "Anniversary" : "Évforduló",
     "Week {number} of {year}" : "{year} év {number}. hete",
