@@ -87,7 +87,7 @@
 				class="settings-fieldset-interior-item"
 				icon="icon-info"
 				@click.prevent.stop="showKeyboardShortcuts"
-				@shortkey.native="showKeyboardShortcuts">
+				@shortkey.native="toggleKeyboardShortcuts">
 				{{ $t('calendar', 'Show keyboard shortcuts') }}
 			</ActionButton>
 			<ShortcutOverview v-if="displayKeyboardShortcuts" @close="hideKeyboardShortcuts" />
@@ -331,16 +331,22 @@ export default {
 			}
 		},
 		/**
-		 * Show the keyboard shortcuts
+		 * Show the keyboard shortcuts overview
 		 */
 		showKeyboardShortcuts() {
 			this.displayKeyboardShortcuts = true
 		},
 		/**
-		 * Hide the keyboard shortcuts
+		 * Hide the keyboard shortcuts overview
 		 */
 		hideKeyboardShortcuts() {
 			this.displayKeyboardShortcuts = false
+		},
+		/**
+		 * Toggles the keyboard shortcuts overview
+		 */
+		toggleKeyboardShortcuts() {
+			this.displayKeyboardShortcuts = !this.displayKeyboardShortcuts
 		}
 	},
 }
