@@ -261,6 +261,7 @@ OC.L10N.register(
     "Confirmed" : "Elfogadva",
     "Tentative" : "Valószínűleg",
     "Cancelled" : "Megszakítva",
+    "Free" : "Szabad",
     "Categories" : "Kategóriák",
     "Add this as a new category" : "Hozzáadás új kategóriaként",
     "Presentation" : "Bemutató",
