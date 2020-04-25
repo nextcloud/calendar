@@ -46,7 +46,7 @@ OC.L10N.register(
     "Publishing calendar" : "Publicando o calendario",
     "Copy public link" : "Copiar a ligazón pública",
     "Send link to calendar via email" : "Enviar a ligazón ao calendario por correo",
-    "Enter one address" : "Insira un enderezo",
+    "Enter one address" : "Introduza un enderezo",
     "Sending email …" : "Enviando correo …",
     "Copy subscription link" : "Copiar a ligazón de subscrición",
     "Copying link …" : "Copiando a ligazón …",
