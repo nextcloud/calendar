@@ -58,6 +58,7 @@ OC.L10N.register(
     "Attendees" : "משתתפים",
     "Reminders" : "תזכורות",
     "Activity" : "פעילות",
+    "Projects" : "מיזמים",
     "Close" : "סגירה",
     "Anniversary" : "יום השנה",
     "Week {number} of {year}" : "שבוע {number} ב־{year}",
