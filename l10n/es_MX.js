@@ -15,6 +15,7 @@ OC.L10N.register(
     "Download" : "Descargar",
     "Delete" : "Borrar",
     "Share link" : "Compartir liga",
+    "Copy public link" : "Copiar enlace público",
     "Share with users or groups" : "Compartir con otros usuarios o grupos",
     "can edit" : "puede editar",
     "New calendar" : "Nuevo calendario",
