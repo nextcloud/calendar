@@ -20,7 +20,11 @@
   -->
 
 <template>
-	<Actions :default-icon="defaultIcon" menu-align="right">
+	<Actions
+		v-shortkey="shortKeyConf"
+		:default-icon="defaultIcon"
+		menu-align="right"
+		@shortkey.native="selectViewFromShortcut">
 		<ActionButton
 			v-for="view in views"
 			:key="view.id"
@@ -57,6 +61,16 @@ export default {
 				label: this.$t('calendar', 'Month'),
 			}]
 		},
+		shortKeyConf() {
+			return {
+				timeGridDay: ['d'],
+				timeGridDay_Num: [1],
+				timeGridWeek: ['w'],
+				timeGridWeek_Num: [2],
+				dayGridMonth: ['m'],
+				dayGridMonth_Num: [3],
+			}
+		},
 		defaultIcon() {
 			for (const view of this.views) {
 				if (view.id === this.$route.params.view) {
@@ -80,6 +94,9 @@ export default {
 			}
 
 			this.$router.push({ name, params })
+		},
+		selectViewFromShortcut(event) {
+			this.selectView(event.srcKey.split('_')[0])
 		},
 	},
 }

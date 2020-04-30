@@ -64,3 +64,49 @@
 		}
 	}
 }
+
+.shortcut-overview-modal {
+	.modal-container {
+		min-width: 600px;
+		display: flex !important;
+		flex-wrap: wrap;
+		padding: 0 12px 12px 12px !important;
+
+		* {
+			box-sizing: border-box;
+		}
+
+		.shortcut-section {
+			width: 50%;
+			flex-grow: 0;
+			flex-shrink: 0;
+			padding: 10px;
+
+			.shortcut-section-item {
+				width: 100%;
+				display: grid;
+				grid-template-columns: 33% 67%;
+				column-gap: 10px;
+
+				&:not(:first-child) {
+					margin-top: 10px;
+				}
+
+				&__keys {
+					display: block;
+					text-align: right;
+				}
+
+				&__label {
+					display: block;
+					text-align: left;
+					padding-top: 5px;
+				}
+
+				&__spacer {
+					margin: 0 3px;
+				}
+			}
+		}
+	}
+}

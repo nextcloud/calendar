@@ -23,11 +23,13 @@
 <template>
 	<div class="datepicker-button-section">
 		<button
+			v-shortkey="previousShortKeyConf"
 			:aria-label="previousLabel"
 			class="datepicker-button-section__previous button icon icon-leftarrow"
 			:title="previousLabel"
 			type="button"
-			@click="navigateToPreviousTimeRange" />
+			@click="navigateToPreviousTimeRange"
+			@shortkey="navigateToPreviousTimeRange" />
 		<button
 			class="datepicker-button-section__datepicker-label button datepicker-label"
 			@click.stop.prevent="toggleDatepicker"
@@ -43,11 +45,13 @@
 			:open.sync="isDatepickerOpen"
 			@change="navigateToDate" />
 		<button
+			v-shortkey="nextShortKeyConf"
 			:aria-label="nextLabel"
 			class="datepicker-button-section__next button icon icon-rightarrow"
 			:title="nextLabel"
 			type="button"
-			@click="navigateToNextTimeRange" />
+			@click="navigateToNextTimeRange"
+			@shortkey="navigateToNextTimeRange" />
 	</div>
 </template>
 
@@ -81,6 +85,12 @@ export default {
 		selectedDate() {
 			return getDateFromFirstdayParam(this.$route.params.firstDay)
 		},
+		previousShortKeyConf() {
+			return {
+				previous_p: ['p'],
+				previous_k: ['k'],
+			}
+		},
 		previousLabel() {
 			switch (this.view) {
 			case 'timeGridDay':
@@ -92,6 +102,12 @@ export default {
 			case 'dayGridMonth':
 			default:
 				return this.$t('calendar', 'Previous month')
+			}
+		},
+		nextShortKeyConf() {
+			return {
+				next_j: ['j'],
+				next_n: ['n'],
 			}
 		},
 		nextLabel() {
