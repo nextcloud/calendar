@@ -17,6 +17,7 @@ OC.L10N.register(
     "can edit" : "kan endra",
     "New calendar" : "Ny kalender",
     "Cancel" : "Avbryt",
+    "Actions" : "Handlingar",
     "Email" : "E-post",
     "Unknown" : "Ukjend",
     "never" : "aldri",

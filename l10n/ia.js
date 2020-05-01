@@ -16,6 +16,7 @@ OC.L10N.register(
     "New calendar" : "Nove calendario",
     "Cancel" : "Cancellar",
     "Automatic" : "Automatic",
+    "Actions" : "Actiones",
     "Show week numbers" : "Monstrar le numero del septimanas",
     "Settings & import" : "Configurationes e importation",
     "Email" : "E-posta",

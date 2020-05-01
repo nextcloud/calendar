@@ -28,6 +28,8 @@ OC.L10N.register(
     "Filename" : "Име фајла",
     "Cancel" : "Одустани",
     "Automatic" : "Аутоматски",
+    "or" : "или",
+    "Actions" : "Радње",
     "Show week numbers" : "Прикажи број седмице",
     "Settings & import" : "Поставке & увоз",
     "Notification" : "Обавештење",

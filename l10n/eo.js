@@ -26,6 +26,7 @@ OC.L10N.register(
     "Filename" : "Dosiernomo",
     "Cancel" : "Nuligi",
     "Automatic" : "Aŭtomata",
+    "Actions" : "Agoj",
     "Show week numbers" : "Montri numerojn de semajno",
     "Settings & import" : "Agordoj kaj enporto",
     "Email" : "Retpoŝto",

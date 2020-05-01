@@ -84,6 +84,7 @@
     "Automatic" : "自動",
     "Automatic ({detected})" : "自動 ({detected})",
     "New setting was not saved successfully." : "新しい設定は正常に保存されませんでした。",
+    "Actions" : "アクション",
     "Enable birthday calendar" : "誕生日カレンダーを有効にする",
     "Enable simplified editor" : "簡易エディターを有効にする",
     "Show weekends" : "週末を表示",

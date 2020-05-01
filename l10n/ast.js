@@ -19,6 +19,7 @@ OC.L10N.register(
     "Filename" : "Nome de ficheru",
     "Cancel" : "Encaboxar",
     "Automatic" : "Automáticu",
+    "Actions" : "Aiciones",
     "Show week numbers" : "Amosar númberos de la selmana",
     "Settings & import" : "Axustes ya importación",
     "Notification" : "Avisu",

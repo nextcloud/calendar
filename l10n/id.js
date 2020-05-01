@@ -20,6 +20,7 @@ OC.L10N.register(
     "Filename" : "Nama berkas",
     "Cancel" : "Batal",
     "Automatic" : "Otomatis",
+    "Actions" : "Tindakan",
     "Email" : "Surel",
     "Unknown" : "Tidak diketahui",
     "never" : "tidak pernah",

@@ -91,6 +91,8 @@ OC.L10N.register(
     "Automatic" : "Otomatik",
     "Automatic ({detected})" : "Otomatik ({detected})",
     "New setting was not saved successfully." : "Yeni ayarlar kaydedilemedi.",
+    "or" : "ya da",
+    "Actions" : "İşlemler",
     "Enable birthday calendar" : "Doğum günü takvimi kullanılsın",
     "Show tasks in calendar" : "Görevler takvimde görüntülensin",
     "Enable simplified editor" : "Basitleştirilmiş düzenleyici kullanılsın",

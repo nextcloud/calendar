@@ -91,6 +91,7 @@ OC.L10N.register(
     "Automatic" : "Automatikoa",
     "Automatic ({detected})" : "Automatikoa ({detected})",
     "New setting was not saved successfully." : "Ezarpen berria ez da behar bezala gorde.",
+    "Actions" : "Ekintzak",
     "Enable birthday calendar" : "Gaitu urtebetetzeen egutegia",
     "Show tasks in calendar" : "Erakutsi zereginak egutegian",
     "Enable simplified editor" : "Gaitu editore sinplifikatua",

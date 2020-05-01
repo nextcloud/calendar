@@ -49,6 +49,7 @@ OC.L10N.register(
     "Filename" : "파일 이름",
     "Cancel" : "취소",
     "Automatic" : "자동",
+    "Actions" : "동작",
     "Show week numbers" : "주 번호 보이기",
     "Settings & import" : "설정 및 가져오기",
     "Notification" : "알림",

@@ -61,6 +61,8 @@ OC.L10N.register(
     "_Import calendar_::_Import calendars_" : ["Importer kalender","Importer kalendere"],
     "Automatic" : "Automatisk",
     "Automatic ({detected})" : "Automatisk ({detected})",
+    "or" : "eller",
+    "Actions" : "Handlinger",
     "Enable birthday calendar" : "Aktiver fødselsdagkalender",
     "Enable simplified editor" : "Aktiver forenklet redigering",
     "Show weekends" : "Vis helger",

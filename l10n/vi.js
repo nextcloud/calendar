@@ -91,6 +91,7 @@ OC.L10N.register(
     "Automatic" : "Tự động",
     "Automatic ({detected})" : " ({detected}) tự động",
     "New setting was not saved successfully." : "Thiết lập mới không được lưu thành công",
+    "Actions" : "Hành động",
     "Enable birthday calendar" : "Bật lịch sinh nhật",
     "Show tasks in calendar" : "Cho thấy nhiệm vụ trong lịch",
     "Enable simplified editor" : "Bật chỉnh sửa đơn giản",

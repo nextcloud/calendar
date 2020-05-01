@@ -89,6 +89,7 @@ OC.L10N.register(
     "Automatic" : "Samodejno",
     "Automatic ({detected})" : "Samodejno ({detected})",
     "New setting was not saved successfully." : "Novih nastavitev ni bilo mogoče shraniti.",
+    "Actions" : "Dejanja",
     "Enable birthday calendar" : "Omogoči koledar rojstnih dni",
     "Enable simplified editor" : "Omogoči poenostavljen urejevalnik",
     "Limit visible events per view" : "Omeji prikaz dogodkov v pogledu",

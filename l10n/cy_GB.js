@@ -20,6 +20,7 @@ OC.L10N.register(
     "can edit" : "yn gallu golygu",
     "New calendar" : "Calendr newydd",
     "Cancel" : "Diddymu",
+    "Actions" : "Gweithredoedd",
     "Show week numbers" : "Dangos rhifau wythnosau",
     "Settings & import" : "Gosodiadau a mewnforio",
     "Email" : "E-bost",

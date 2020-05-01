@@ -91,6 +91,7 @@ OC.L10N.register(
     "Automatic" : "自动",
     "Automatic ({detected})" : "自动（{detected}）",
     "New setting was not saved successfully." : "新的设置没有成功保存。",
+    "Actions" : "操作",
     "Enable birthday calendar" : "启用生日日历",
     "Enable simplified editor" : "启用简化的编辑器",
     "Limit visible events per view" : "限制每个视图的可见事件",

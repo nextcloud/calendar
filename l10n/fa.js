@@ -88,6 +88,7 @@ OC.L10N.register(
     "Automatic" : "خودکار",
     "Automatic ({detected})" : "خودکار ({شناسایی})",
     "New setting was not saved successfully." : "تنظیم جدید با موفقیت ذخیره نشد.",
+    "Actions" : "فعالیت ها",
     "Enable birthday calendar" : "تقویم تولد را فعال کنید",
     "Enable simplified editor" : "ویرایشگر ساده شده را فعال کنید",
     "Show weekends" : "آخر هفته ها را نشان دهید",

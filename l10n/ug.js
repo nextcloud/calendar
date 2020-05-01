@@ -10,6 +10,7 @@ OC.L10N.register(
     "Share link" : "Share link",
     "New calendar" : "يېڭى يىلنامە",
     "Cancel" : "ۋاز كەچ",
+    "Actions" : "مەشغۇلاتلار",
     "Email" : "تورخەت",
     "never" : "ھەرگىز",
     "Repeat" : "قايتىلا",

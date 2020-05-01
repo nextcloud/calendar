@@ -70,6 +70,8 @@ OC.L10N.register(
     "Cancel" : "Annullér",
     "_Import calendar_::_Import calendars_" : ["Importer kalender","Importer kalendere"],
     "Automatic" : "Automatisk",
+    "or" : "eller",
+    "Actions" : "Handlinger",
     "Enable birthday calendar" : "Slå fødselsdagskalender til",
     "Enable simplified editor" : "Slå simpel editor til",
     "Show weekends" : "Vis weekender",

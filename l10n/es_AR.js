@@ -32,6 +32,7 @@ OC.L10N.register(
     "Filename" : "Nombre de archivo",
     "Cancel" : "Cancelar",
     "Automatic" : "Automático",
+    "Actions" : "Acciones",
     "Show week numbers" : "Mostrar número de semana",
     "Settings & import" : "Configuraciones & importar",
     "Notification" : "Notificación",

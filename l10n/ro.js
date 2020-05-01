@@ -45,6 +45,7 @@ OC.L10N.register(
     "Filename" : "Nume fișier",
     "Cancel" : "Anulează",
     "Automatic" : "Automat",
+    "Actions" : "Acțiuni",
     "Show week numbers" : "Afișați numerele săptămânilor",
     "Settings & import" : "Setări și import",
     "Email" : "Email",

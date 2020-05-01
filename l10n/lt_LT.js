@@ -89,6 +89,7 @@ OC.L10N.register(
     "Automatic" : "Automatinė",
     "Automatic ({detected})" : "Automatinė ({detected})",
     "New setting was not saved successfully." : "Naujas nustatymas nebuvo sėkmingai įrašytas.",
+    "Actions" : "Veiksmai",
     "Enable birthday calendar" : "Įjungti gimtadienių kalendorių",
     "Enable simplified editor" : "Įjungti supaprastintą redaktorių",
     "Limit visible events per view" : "Riboti matomus įvykius pagal rodinį",

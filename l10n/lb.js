@@ -15,6 +15,7 @@ OC.L10N.register(
     "New calendar" : "Neie Kalenner",
     "Cancel" : "Ofbriechen",
     "Automatic" : "Automatesch",
+    "Actions" : "Aktiounen",
     "Email" : "Email",
     "Unknown" : "Onbekannt",
     "never" : "Ni",

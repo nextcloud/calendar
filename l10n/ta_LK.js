@@ -11,6 +11,7 @@ OC.L10N.register(
     "can edit" : "தொகுக்க முடியும்",
     "New calendar" : "புதிய நாட்காட்டி",
     "Cancel" : "இரத்து செய்க",
+    "Actions" : "செயல்கள்",
     "Email" : "மின்னஞ்சல்",
     "Unknown" : "தெரியாத",
     "never" : "ஒருபோதும்",

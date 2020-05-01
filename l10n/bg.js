@@ -46,6 +46,7 @@ OC.L10N.register(
     "Cancel" : "Отказ",
     "_Import calendar_::_Import calendars_" : ["Импортиране на календар","Импортиране на календари"],
     "Automatic" : "Автоматично",
+    "Actions" : "Действия",
     "Show weekends" : "Покажи събота и неделя",
     "Show week numbers" : "Показвай номерата на седмиците",
     "Settings & import" : "Настройки и внасяне",

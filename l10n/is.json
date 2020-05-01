@@ -75,6 +75,8 @@
     "Automatic" : "Sjálfvirkt",
     "Automatic ({detected})" : "Sjálfvirkt ({detected})",
     "New setting was not saved successfully." : "Ekki tókst að vista nýju stillinguna.",
+    "or" : "eða",
+    "Actions" : "Aðgerðir",
     "Enable birthday calendar" : "Virkja fæðingardagatal",
     "Enable simplified editor" : "Virkja einfaldaðan ritil",
     "Show weekends" : "Sýna helgar",

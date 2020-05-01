@@ -91,6 +91,8 @@ OC.L10N.register(
     "Automatic" : "Automatikus",
     "Automatic ({detected})" : "Automatikus ({detected})",
     "New setting was not saved successfully." : "Az új beállítások nem lettek elmentve.",
+    "or" : "vagy",
+    "Actions" : "Műveletek",
     "Enable birthday calendar" : "Születésnapokat tartalamzó naptár engedélyezése",
     "Show tasks in calendar" : "Feladatok mutatása a naptárban",
     "Enable simplified editor" : "Egyszerűsített szerkesztő engedélyezése",

@@ -89,6 +89,8 @@
     "Automatic" : "Automático",
     "Automatic ({detected})" : "Automático ({detected})",
     "New setting was not saved successfully." : "A nova configuração não foi salva.",
+    "or" : "ou",
+    "Actions" : "Ações",
     "Enable birthday calendar" : "Ativar calendário de aniversários",
     "Show tasks in calendar" : "Mostrar tarefas no calendário",
     "Enable simplified editor" : "Ativar o editor simplificado",

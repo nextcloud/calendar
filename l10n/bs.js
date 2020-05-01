@@ -13,6 +13,7 @@ OC.L10N.register(
     "can edit" : "mogu mijenjati",
     "New calendar" : "Novi kalendar",
     "Cancel" : "Odustani",
+    "Actions" : "Radnje",
     "Email" : "E-pošta",
     "Busy" : "Zauzet",
     "Unknown" : "Nepoznato",

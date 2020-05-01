@@ -22,6 +22,7 @@ OC.L10N.register(
     "Filename" : "Lêernaam",
     "Cancel" : "Kanselleer",
     "Automatic" : "Outomaties",
+    "Actions" : "Aksies",
     "Show week numbers" : "Toon weeknommers",
     "Notification" : "Kennisgewing",
     "Email" : "E-pos",

@@ -20,6 +20,7 @@ OC.L10N.register(
     "Filename" : "Emri i skedarit",
     "Cancel" : "Anuloje",
     "Automatic" : "Automatike",
+    "Actions" : "Veprimet",
     "Show week numbers" : "Shfaq numra javësh",
     "Settings & import" : "Konfigurimet dhe importi",
     "Notification" : "Njoftim",

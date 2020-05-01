@@ -16,6 +16,7 @@ OC.L10N.register(
     "Filename" : "اسم الملف",
     "Cancel" : "إلغاء",
     "Automatic" : "تلقائي",
+    "Actions" : "الإجراءات",
     "Show week numbers" : "إظهار رقم الأسابيع",
     "Settings & import" : "الإعدادات و الإستيراد",
     "Email" : "البريد الإلكتروني",

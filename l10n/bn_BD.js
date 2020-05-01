@@ -14,6 +14,7 @@ OC.L10N.register(
     "New calendar" : "নতুন দিনপঞ্জী",
     "Cancel" : "বাতিল",
     "Automatic" : "স্বয়ংক্রিয়",
+    "Actions" : "পদক্ষেপসমূহ",
     "Email" : "ইমেইল",
     "Unknown" : "অজানা",
     "never" : "কখনোই নয়",

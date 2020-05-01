@@ -20,6 +20,8 @@ OC.L10N.register(
     "Filename" : "ფაილის სახელი",
     "Cancel" : "უარყოფა",
     "Automatic" : "ავტომატური",
+    "or" : "ან",
+    "Actions" : "მოქმედებები",
     "Show week numbers" : "კვირის ნომრების ჩვენება",
     "Settings & import" : "პარამეტრები და იმპორტი",
     "Notification" : "შეტყობინება",

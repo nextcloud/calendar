@@ -91,6 +91,8 @@ OC.L10N.register(
     "Automatic" : "Automatisch",
     "Automatic ({detected})" : "Automatisch ({detected})",
     "New setting was not saved successfully." : "Neue Einstellung konnte nicht gespeichert werden.",
+    "or" : "oder",
+    "Actions" : "Aktionen",
     "Enable birthday calendar" : "Geburtstagskalender aktivieren",
     "Show tasks in calendar" : "Aufgaben im Kalender anzeigen",
     "Enable simplified editor" : "Einfachen Editor aktivieren",

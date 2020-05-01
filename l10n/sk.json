@@ -89,6 +89,8 @@
     "Automatic" : "Automaticky",
     "Automatic ({detected})" : "Automaticky ({detected})",
     "New setting was not saved successfully." : "Nové nastavenie nebolo možné uložiť.",
+    "or" : "alebo",
+    "Actions" : "Akcie",
     "Enable birthday calendar" : "Povoliť narodeninový kalendár",
     "Show tasks in calendar" : "Zobraziť úlohy v kalendári",
     "Enable simplified editor" : "Povoliť zjednodušený editor",
