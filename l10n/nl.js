@@ -91,6 +91,8 @@ OC.L10N.register(
     "Automatic" : "Automatisch",
     "Automatic ({detected})" : "Automatisch ({detected})",
     "New setting was not saved successfully." : "De nieuwe instelling is niet goed opgeslagen.",
+    "or" : "of",
+    "Actions" : "Acties",
     "Enable birthday calendar" : "Verjaardagskalender inschakelen",
     "Show tasks in calendar" : "Toon taken in agenda",
     "Enable simplified editor" : "Eenvoudige editor inschakelen",

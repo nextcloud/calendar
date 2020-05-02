@@ -91,6 +91,8 @@ OC.L10N.register(
     "Automatic" : "Automàtic",
     "Automatic ({detected})" : "Automàtica ({detected})",
     "New setting was not saved successfully." : "No s'ha desat correctament la nova configuració.",
+    "or" : "o",
+    "Actions" : "Accions",
     "Enable birthday calendar" : "Habilitar calendari d'aniversaris",
     "Show tasks in calendar" : "Mostrar tasques al calendari",
     "Enable simplified editor" : "Habilitar l'editor simplificat",

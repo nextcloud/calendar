@@ -22,6 +22,7 @@ OC.L10N.register(
     "Filename" : "Datnes nosaukums",
     "Cancel" : "Atcelt",
     "Automatic" : "Automātisks",
+    "Actions" : "Darbības",
     "Show week numbers" : "Rādīt nedēļu numurus",
     "Settings & import" : "Iestatījumi un imports",
     "Notification" : "Paziņojums",

@@ -39,6 +39,7 @@ OC.L10N.register(
     "Filename" : "Faili nimi",
     "Cancel" : "Loobu",
     "Automatic" : "Automaatne",
+    "Actions" : "Tegevused",
     "Show week numbers" : "Näita nädalanumberid",
     "Settings & import" : "Sätted & importimine",
     "Email" : "Epost",

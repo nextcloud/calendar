@@ -91,6 +91,7 @@ OC.L10N.register(
     "Automatic" : "Automatisk",
     "Automatic ({detected})" : "Automatisk ({detected})",
     "New setting was not saved successfully." : "Den nya inställningen kunde inte sparas.",
+    "Actions" : "Åtgärder",
     "Enable birthday calendar" : "Aktivera födelsedagskalender",
     "Enable simplified editor" : "Aktivera förenklad redigerare",
     "Limit visible events per view" : "Begränsa synliga händelser per vy",

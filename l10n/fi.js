@@ -87,6 +87,8 @@ OC.L10N.register(
     "Automatic" : "Automaattinen",
     "Automatic ({detected})" : "Automaattinen ({detected})",
     "New setting was not saved successfully." : "Uutta asetusta ei tallennettu onnistuneesti.",
+    "or" : "tai",
+    "Actions" : "Toiminnot",
     "Enable birthday calendar" : "Käytä syntymäpäiväkalenteria",
     "Enable simplified editor" : "Käytä yksinkertaistettua muokkainta",
     "Limit visible events per view" : "Rajoita näytettäviä tapahtumia näkymää kohden",

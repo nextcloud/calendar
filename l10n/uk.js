@@ -88,6 +88,7 @@ OC.L10N.register(
     "Automatic" : "Автоматично",
     "Automatic ({detected})" : "Автоматично ({detected})",
     "New setting was not saved successfully." : "Нові налаштування не було збережено.",
+    "Actions" : "Дії",
     "Enable birthday calendar" : "Увімкнути календар днів народження",
     "Enable simplified editor" : "Увімкнути спрощений редактор",
     "Show weekends" : "Показувати вихідні дні",

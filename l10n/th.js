@@ -15,6 +15,7 @@ OC.L10N.register(
     "New calendar" : "สร้างปฏิทินใหม่",
     "Cancel" : "ยกเลิก",
     "Automatic" : "อัตโนมัติ",
+    "Actions" : "การกระทำ",
     "Email" : "อีเมล",
     "Unknown" : "ไม่ทราบ",
     "never" : "ไม่ต้องเลย",

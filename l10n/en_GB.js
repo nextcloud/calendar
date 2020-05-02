@@ -21,6 +21,8 @@ OC.L10N.register(
     "Filename" : "Filename",
     "Cancel" : "Cancel",
     "Automatic" : "Automatic",
+    "or" : "or",
+    "Actions" : "Actions",
     "Show week numbers" : "Show week numbers",
     "Settings & import" : "Settings & import",
     "Notification" : "Notification",

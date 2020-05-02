@@ -14,6 +14,7 @@ OC.L10N.register(
     "New calendar" : "Yeni təqvim",
     "Cancel" : "Dayandır",
     "Automatic" : "Avtomatik",
+    "Actions" : "İşlər",
     "Email" : "Email",
     "never" : "heç vaxt",
     "Repeat" : "Təkrar",

@@ -14,6 +14,7 @@ OC.L10N.register(
     "New calendar" : "Calendièr novèl",
     "Cancel" : "Anullar",
     "Automatic" : "Automatic",
+    "Actions" : "Accions",
     "Email" : "Adreça corrièl",
     "Unknown" : "Desconegut",
     "never" : "pas jamai",

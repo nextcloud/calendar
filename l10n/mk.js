@@ -80,6 +80,7 @@ OC.L10N.register(
     "_Successfully imported %n event_::_Successfully imported %n events._" : ["Успешно увезен %n настан","Успешно увезени %n настани."],
     "Automatic" : "Автоматски",
     "Automatic ({detected})" : "Автоматски ({detected})",
+    "Actions" : "Акции",
     "Enable birthday calendar" : "Овозможи календар со родендени",
     "Enable simplified editor" : "Овозможи поедноставен уредувач",
     "Show weekends" : "Прикажи викенди",

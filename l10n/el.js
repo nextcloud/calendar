@@ -91,6 +91,8 @@ OC.L10N.register(
     "Automatic" : "Αυτόματο",
     "Automatic ({detected})" : "Αυτόματα ({detected})",
     "New setting was not saved successfully." : "Οι νέες ρυθμίσεις δεν αποθηκεύτηκαν επιτυχώς.",
+    "or" : "ή",
+    "Actions" : "Ενέργειες",
     "Enable birthday calendar" : "Ενεργοποίηση ημερολογίου γενεθλίων",
     "Show tasks in calendar" : "Εμφάνιση εργασιών στο ημερολόγιο",
     "Enable simplified editor" : "Ενεργοποίηση απλοποιημένου προγράμματος επεξεργασίας",

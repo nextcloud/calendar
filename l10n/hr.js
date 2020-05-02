@@ -91,6 +91,7 @@ OC.L10N.register(
     "Automatic" : "Automatsko",
     "Automatic ({detected})" : "Automatsko ({detected})",
     "New setting was not saved successfully." : "Nova postavka nije uspješno spremljena.",
+    "Actions" : "Radnje",
     "Enable birthday calendar" : "Omogući kalendar rođendana",
     "Show tasks in calendar" : "Prikaži zadatke u kalendaru",
     "Enable simplified editor" : "Omogući jednostavan uređivač",

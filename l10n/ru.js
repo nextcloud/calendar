@@ -91,6 +91,8 @@ OC.L10N.register(
     "Automatic" : "Автоматически",
     "Automatic ({detected})" : "Автоматически ({detected})",
     "New setting was not saved successfully." : "Не удалось сохранить параметры.",
+    "or" : "или",
+    "Actions" : "Действия",
     "Enable birthday calendar" : "Включить календарь дней рождения",
     "Show tasks in calendar" : "Показывать задачи в календаре",
     "Enable simplified editor" : "Использовать упрощённый редактор",

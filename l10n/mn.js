@@ -19,6 +19,7 @@ OC.L10N.register(
     "New calendar" : "Шинэ цагийн хуваарь",
     "Filename" : "Файлын нэр",
     "Cancel" : "Цуцлах",
+    "Actions" : "Үйл ажиллагаа",
     "Show week numbers" : "7 хоногийн дугаарыг харуулах",
     "Settings & import" : "Тохиргоо, импорт",
     "Notification" : "Мэдэгдэл",

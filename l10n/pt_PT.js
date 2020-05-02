@@ -41,6 +41,7 @@ OC.L10N.register(
     "Filename" : "Nome do ficheiro",
     "Cancel" : "Cancelar",
     "Automatic" : "Automático",
+    "Actions" : "Ações",
     "Enable birthday calendar" : "Ativar calendário de aniversários",
     "Show week numbers" : "Mostrar o número das semanas",
     "Settings & import" : "Definições & importar",

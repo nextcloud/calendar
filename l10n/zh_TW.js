@@ -53,6 +53,8 @@ OC.L10N.register(
     "Filename" : "檔案名稱",
     "Cancel" : "取消",
     "Automatic" : "自動",
+    "or" : "或者",
+    "Actions" : "動作",
     "Show week numbers" : "顯示週數",
     "Settings & import" : "設定及匯入",
     "Notification" : "通知",
