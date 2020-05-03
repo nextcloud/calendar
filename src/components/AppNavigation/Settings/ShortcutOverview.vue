@@ -58,7 +58,6 @@
 				</span>
 				<span class="shortcut-section-item__label">{{ shortcut.label }}</span>
 			</div>
-
 		</section>
 	</Modal>
 </template>
@@ -69,7 +68,7 @@ import Modal from '@nextcloud/vue/dist/Components/Modal'
 
 export default {
 	components: {
-		Modal
+		Modal,
 	},
 	computed: {
 		shortcuts() {
@@ -85,7 +84,7 @@ export default {
 				}, {
 					keys: [['t']],
 					label: t('calendar', 'Today'),
-				}]
+				}],
 			}, {
 				categoryId: 'views',
 				categoryLabel: t('calendar', 'Views'),
@@ -98,7 +97,7 @@ export default {
 				}, {
 					keys: [['3'], ['m']],
 					label: t('calendar', 'Month view'),
-				}]
+				}],
 			}, {
 				categoryId: 'actions',
 				categoryLabel: t('calendar', 'Actions'),
@@ -107,7 +106,7 @@ export default {
 					label: t('calendar', 'Create event'),
 				}, {
 					keys: [['h']],
-					label: t('calendar', 'Show shortcuts')
+					label: t('calendar', 'Show shortcuts'),
 				}],
 			}]
 		},

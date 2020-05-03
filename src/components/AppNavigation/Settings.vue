@@ -347,7 +347,7 @@ export default {
 		 */
 		toggleKeyboardShortcuts() {
 			this.displayKeyboardShortcuts = !this.displayKeyboardShortcuts
-		}
+		},
 	},
 }
 </script>
