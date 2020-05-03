@@ -198,11 +198,19 @@ export default {
 			if (results.data.ocs.meta.status === 'failure') {
 				return []
 			}
-			if (!Array.isArray(results.data.ocs.data.circles)) {
+
+			let circles = []
+			if (Array.isArray(results.data.ocs.data.circles)) {
+				circles = circles.concat(results.data.ocs.data.circles)
+			}
+			if (Array.isArray(results.data.ocs.data.exact.circles)) {
+				circles = circles.concat(results.data.ocs.data.exact.circles)
+			}
+
+			if (circles.length === 0) {
 				return []
 			}
 
-			const circles = results.data.ocs.data.circles
 			return circles.filter((circle) => {
 				return !hiddenPrincipals.includes('principal:principals/circles/' + circle.value.shareWith)
 			}).map(circle => ({
