@@ -9,7 +9,7 @@
         "nextcloud/coding-standard": "^0.3.0"
     },
     "require-dev": {
-        "christophwurst/nextcloud": "v18.0.2",
+        "christophwurst/nextcloud": "v18.0.4",
         "christophwurst/nextcloud_testing": "0.10.0",
         "phan/phan": "^2.0"
     },
