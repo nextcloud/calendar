@@ -463,6 +463,37 @@ const data = [{
 	],
 }, {
 	strings: [
+		'Video-conference',
+		'Video conference',
+		'Videoconference',
+		'Conference-call',
+		'Conference call',
+		'Conferencecall',
+		'Video-call',
+		'Video call',
+		'Videocall',
+		'Video-chat',
+		'Video chat',
+		'Videochat',
+		'Video-meeting',
+		'Video meeting',
+		'Videomeeting',
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Video-conference'),
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Conference-call'),
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Video-call'),
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Video-chat'),
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Video-meeting'),
+	],
+	illustrationNames: [
+		'conference_call',
+	]
+}, {
+	strings: [
 		'Call',
 		'Calling',
 		// TRANSLATORS This string is used for matching the event title to an illustration
