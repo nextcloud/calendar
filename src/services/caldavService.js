@@ -27,6 +27,7 @@ function xhrProvider() {
 	const headers = {
 		'X-Requested-With': 'XMLHttpRequest',
 		'requesttoken': getRequestToken(),
+		'X-NC-CalDAV-Webcal-Caching': 'On',
 	}
 	const xhr = new XMLHttpRequest()
 	const oldOpen = xhr.open
