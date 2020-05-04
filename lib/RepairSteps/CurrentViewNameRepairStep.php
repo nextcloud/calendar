@@ -73,7 +73,7 @@ class CurrentViewNameRepairStep implements IRepairStep {
 			if ($savedView === null) {
 				return;
 			}
-			if (\in_array($savedView, ['timeGridDay', 'timeGridWeek', 'dayGridMonth'], true)) {
+			if (\in_array($savedView, ['timeGridDay', 'timeGridWeek', 'dayGridMonth', 'extendedListMonth'], true)) {
 				return;
 			}
 

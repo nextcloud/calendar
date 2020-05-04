@@ -89,8 +89,10 @@ import '@fullcalendar/core/main.css'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import '@fullcalendar/daygrid/main.css'
 import interactionPlugin from '@fullcalendar/interaction'
-import listPlugin from '@fullcalendar/list'
-import '@fullcalendar/list/main.css'
+// import listPlugin from '@fullcalendar/list'
+// import '@fullcalendar/list/main.css'
+import extendedListPlugin from '../fullcalendar/extended-list.js'
+import '../fullcalendar/extended-list.css'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import '@fullcalendar/timegrid/main.css'
 import AppNavigation from '@nextcloud/vue/dist/Components/AppNavigation'
@@ -184,7 +186,7 @@ export default {
 			return [
 				dayGridPlugin,
 				interactionPlugin,
-				listPlugin,
+				extendedListPlugin,
 				timeGridPlugin,
 				VTimezoneNamedTimezone,
 			]
