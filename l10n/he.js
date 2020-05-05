@@ -16,6 +16,7 @@ OC.L10N.register(
     "Calendar link copied to clipboard." : "הקישור ללוח השנה הועתק ללוח הגזירים.",
     "Calendar link could not be copied to clipboard." : "לא ניתן להעתיק את הקישור ללוח השנה אל לוח הגזירים.",
     "Share link" : "שיתוף קישור",
+    "Copy public link" : "העתקת הקישור הציבורי",
     "Copied link" : "הועתק קישור",
     "Could not copy link" : "לא ניתן להעתיק קישור",
     "Copy embedding code" : "העתקת קוד הטמעה",
