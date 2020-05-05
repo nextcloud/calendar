@@ -649,14 +649,20 @@ const data = [{
 }, {
 	strings: [
 		'Dinner',
-		'Lunch',
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		t('calendar', 'Dinner'),
+	],
+	illustrationNames: [
+		'dinner',
+	],
+}, {
+	strings: [
+		'Lunch',
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		t('calendar', 'Lunch'),
 	],
 	illustrationNames: [
-		'dinner',
+		'eating_together',
 	],
 }]
 
