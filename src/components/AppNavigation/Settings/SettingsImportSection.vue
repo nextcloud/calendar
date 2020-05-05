@@ -55,6 +55,11 @@ import {
 import { getParserManager } from 'calendar-js'
 import ImportScreen from './ImportScreen.vue'
 import { readFileAsText } from '../../../services/readFileAsTextService.js'
+import {
+	showSuccess,
+	showWarning,
+	showError,
+} from '@nextcloud/dialogs'
 
 export default {
 	name: 'SettingsImportSection',
@@ -177,7 +182,7 @@ export default {
 				// Make sure the user didn't select
 				// files of a different file-type
 				if (!this.supportedFileTypes.includes(type)) {
-					this.$toast.error(this.$t('calendar', '{filename} is an unsupported file-type', {
+					showError(this.$t('calendar', '{filename} is an unsupported file-type', {
 						filename: name,
 					}))
 					continue
@@ -196,7 +201,7 @@ export default {
 					parser.parse(contents)
 				} catch (error) {
 					console.error(error)
-					this.$toast.error(this.$t('calendar', '{filename} could not be parsed', {
+					showError(this.$t('calendar', '{filename} could not be parsed', {
 						filename: name,
 					}))
 					continue
@@ -214,7 +219,7 @@ export default {
 			}
 
 			if (!addedFiles) {
-				this.$toast.error(this.$t('calendar', 'No valid files found, aborting import'))
+				showError(this.$t('calendar', 'No valid files found, aborting import'))
 				this.$store.commit('removeAllFiles')
 				this.$store.commit('resetState')
 				return
@@ -230,9 +235,9 @@ export default {
 			await this.$store.dispatch('importEventsIntoCalendar')
 
 			if (this.total === this.accepted) {
-				this.$toast.success(this.$n('calendar', 'Successfully imported %n event', 'Successfully imported %n events.', this.total))
+				showSuccess(this.$n('calendar', 'Successfully imported %n event', 'Successfully imported %n events.', this.total))
 			} else {
-				this.$toast.warning(this.$t('calendar', 'Import partially failed. Imported {accepted} out of {total}.', {
+				showWarning(this.$t('calendar', 'Import partially failed. Imported {accepted} out of {total}.', {
 					accepted: this.accepted,
 					total: this.total,
 				}))

@@ -491,7 +491,7 @@ const data = [{
 	],
 	illustrationNames: [
 		'conference_call',
-	]
+	],
 }, {
 	strings: [
 		'Call',

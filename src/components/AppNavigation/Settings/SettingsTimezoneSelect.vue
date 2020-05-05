@@ -35,6 +35,9 @@ import {
 
 import TimezoneSelect from '../../Shared/TimezoneSelect.vue'
 import detectTimezone from '../../../services/timezoneDetectionService.js'
+import {
+	showInfo,
+} from '@nextcloud/dialogs'
 
 export default {
 	name: 'SettingsTimezoneSelect',
@@ -76,7 +79,7 @@ export default {
 			this.$store.dispatch('setTimezone', { timezoneId })
 				.catch((error) => {
 					console.error(error)
-					this.$toast(this.$t('calendar', 'New setting was not saved successfully.'))
+					showInfo(this.$t('calendar', 'New setting was not saved successfully.'))
 				})
 		},
 	},

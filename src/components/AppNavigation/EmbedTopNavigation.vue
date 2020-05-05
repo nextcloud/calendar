@@ -40,6 +40,10 @@ import {
 	mapGetters,
 } from 'vuex'
 import { generateRemoteUrl } from '@nextcloud/router'
+import {
+	showSuccess,
+	showError,
+} from '@nextcloud/dialogs'
 
 import AppNavigationHeaderDatePicker from './AppNavigationHeader/AppNavigationHeaderDatePicker.vue'
 import AppNavigationHeaderTodayButton from './EmbedHeader/EmbedHeaderTodayButton.vue'
@@ -75,10 +79,10 @@ export default {
 			// copy link for calendar to clipboard
 			try {
 				await this.$copyText(url)
-				this.$toast.success(this.$t('calendar', 'Calendar link copied to clipboard.'))
+				showSuccess(this.$t('calendar', 'Calendar link copied to clipboard.'))
 			} catch (error) {
 				console.debug(error)
-				this.$toast.error(this.$t('calendar', 'Calendar link could not be copied to clipboard.'))
+				showError(this.$t('calendar', 'Calendar link could not be copied to clipboard.'))
 			}
 		},
 	},

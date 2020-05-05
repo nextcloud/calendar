@@ -53,6 +53,9 @@ import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import ActionCheckbox from '@nextcloud/vue/dist/Components/ActionCheckbox'
 import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
 import Avatar from '@nextcloud/vue/dist/Components/Avatar'
+import {
+	showInfo,
+} from '@nextcloud/dialogs'
 
 export default {
 	name: 'CalendarListItemSharingShareItem',
@@ -98,7 +101,7 @@ export default {
 				this.updatingSharee = false
 			} catch (error) {
 				console.error(error)
-				this.$toast(this.$t('calendar', 'An error occurred, unable to change the unshare the calendar.'))
+				showInfo(this.$t('calendar', 'An error occurred, unable to change the unshare the calendar.'))
 
 				this.updatingSharee = false
 			}
@@ -118,7 +121,7 @@ export default {
 				this.updatingSharee = false
 			} catch (error) {
 				console.error(error)
-				this.$toast(this.$t('calendar', 'An error occurred, unable to change the permission of the share.'))
+				showInfo(this.$t('calendar', 'An error occurred, unable to change the permission of the share.'))
 
 				this.updatingSharee = false
 			}

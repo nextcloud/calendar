@@ -145,6 +145,10 @@ import {
 	generateUrl,
 	linkTo,
 } from '@nextcloud/router'
+import {
+	showSuccess,
+	showError,
+} from '@nextcloud/dialogs'
 import HttpClient from '@nextcloud/axios'
 
 export default {
@@ -205,7 +209,7 @@ export default {
 				await this.$store.dispatch('publishCalendar', { calendar: this.calendar })
 			} catch (error) {
 				console.debug(error)
-				this.$toast.error(this.$t('calendar', 'An error occurred, unable to publish calendar.'))
+				showError(this.$t('calendar', 'An error occurred, unable to publish calendar.'))
 			} finally {
 				this.publishingCalendar = false
 			}
@@ -233,7 +237,7 @@ export default {
 				})
 			} catch (error) {
 				console.error(error)
-				this.$toast.error(this.$t('calendar', 'An error occurred, unable to send email.'))
+				showError(this.$t('calendar', 'An error occurred, unable to send email.'))
 			} finally {
 				this.showEMailLabel = true
 				this.showEMailInput = false
@@ -251,10 +255,10 @@ export default {
 			// copy link for calendar to clipboard
 			try {
 				await this.$copyText(url)
-				this.$toast.success(this.$t('calendar', 'Calendar link copied to clipboard.'))
+				showSuccess(this.$t('calendar', 'Calendar link copied to clipboard.'))
 			} catch (error) {
 				console.debug(error)
-				this.$toast.error(this.$t('calendar', 'Calendar link could not be copied to clipboard.'))
+				showError(this.$t('calendar', 'Calendar link could not be copied to clipboard.'))
 			} finally {
 				this.showCopyPublicLinkLabel = true
 				this.showCopyPublicLinkSpinner = false
@@ -279,7 +283,7 @@ export default {
 				this.showCopySubscriptionLinkSuccess = true
 				this.showCopySubscriptionLinkError = false
 
-				this.$toast.success(this.$t('calendar', 'Calendar link copied to clipboard.'))
+				showSuccess(this.$t('calendar', 'Calendar link copied to clipboard.'))
 			} catch (error) {
 				console.debug(error)
 				this.menuOpen = true
@@ -288,7 +292,7 @@ export default {
 				this.showCopySubscriptionLinkSuccess = false
 				this.showCopySubscriptionLinkError = true
 
-				this.$toast.error(this.$t('calendar', 'Calendar link could not be copied to clipboard.'))
+				showError(this.$t('calendar', 'Calendar link could not be copied to clipboard.'))
 			} finally {
 				setTimeout(() => {
 					this.showCopySubscriptionLinkLabel = true
@@ -320,7 +324,7 @@ export default {
 				this.showCopyEmbedCodeLinkSuccess = true
 				this.showCopyEmbedCodeLinkError = false
 
-				this.$toast.success(this.$t('calendar', 'Embed code copied to clipboard.'))
+				showSuccess(this.$t('calendar', 'Embed code copied to clipboard.'))
 			} catch (error) {
 				console.debug(error)
 				this.menuOpen = true
@@ -329,7 +333,7 @@ export default {
 				this.showCopyEmbedCodeLinkSuccess = false
 				this.showCopyEmbedCodeLinkError = true
 
-				this.$toast.error(this.$t('calendar', 'Embed code could not be copied to clipboard.'))
+				showError(this.$t('calendar', 'Embed code could not be copied to clipboard.'))
 			} finally {
 				setTimeout(() => {
 					this.showCopyEmbedCodeLinkLabel = true
@@ -349,7 +353,7 @@ export default {
 			} catch (error) {
 				console.debug(error)
 				this.unpublishingCalendar = false
-				this.$toast.error(this.$t('calendar', 'Unpublishing calendar failed'))
+				showError(this.$t('calendar', 'Unpublishing calendar failed'))
 			}
 		},
 
