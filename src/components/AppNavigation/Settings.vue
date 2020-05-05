@@ -108,6 +108,10 @@ import {
 	mapState,
 } from 'vuex'
 import moment from '@nextcloud/moment'
+import {
+	showSuccess,
+	showError,
+} from '@nextcloud/dialogs'
 
 import SettingsImportSection from './Settings/SettingsImportSection.vue'
 import SettingsTimezoneSelect from './Settings/SettingsTimezoneSelect.vue'
@@ -210,7 +214,7 @@ export default {
 				this.savingBirthdayCalendar = false
 			} catch (error) {
 				console.error(error)
-				this.$toast.error(this.$t('calendar', 'New setting was not saved successfully.'))
+				showError(this.$t('calendar', 'New setting was not saved successfully.'))
 				this.savingBirthdayCalendar = false
 			}
 		},
@@ -222,7 +226,7 @@ export default {
 				this.savingEventLimit = false
 			} catch (error) {
 				console.error(error)
-				this.$toast.error(this.$t('calendar', 'New setting was not saved successfully.'))
+				showError(this.$t('calendar', 'New setting was not saved successfully.'))
 				this.savingEventLimit = false
 			}
 		},
@@ -234,7 +238,7 @@ export default {
 				this.savingTasks = false
 			} catch (error) {
 				console.error(error)
-				this.$toast.error(this.$t('calendar', 'New setting was not saved successfully.'))
+				showError(this.$t('calendar', 'New setting was not saved successfully.'))
 				this.savingTasks = false
 			}
 		},
@@ -246,7 +250,7 @@ export default {
 				this.savingPopover = false
 			} catch (error) {
 				console.error(error)
-				this.$toast.error(this.$t('calendar', 'New setting was not saved successfully.'))
+				showError(this.$t('calendar', 'New setting was not saved successfully.'))
 				this.savingPopover = false
 			}
 		},
@@ -258,7 +262,7 @@ export default {
 				this.savingWeekend = false
 			} catch (error) {
 				console.error(error)
-				this.$toast.error(this.$t('calendar', 'New setting was not saved successfully.'))
+				showError(this.$t('calendar', 'New setting was not saved successfully.'))
 				this.savingWeekend = false
 			}
 		},
@@ -273,7 +277,7 @@ export default {
 				this.savingWeekNumber = false
 			} catch (error) {
 				console.error(error)
-				this.$toast.error(this.$t('calendar', 'New setting was not saved successfully.'))
+				showError(this.$t('calendar', 'New setting was not saved successfully.'))
 				this.savingWeekNumber = false
 			}
 		},
@@ -297,7 +301,7 @@ export default {
 				this.savingSlotDuration = false
 			} catch (error) {
 				console.error(error)
-				this.$toast.error(this.$t('calendar', 'New setting was not saved successfully.'))
+				showError(this.$t('calendar', 'New setting was not saved successfully.'))
 				this.savingSlotDuration = false
 			}
 		},
@@ -307,10 +311,10 @@ export default {
 		async copyPrimaryCalDAV() {
 			try {
 				await this.$copyText(generateRemoteUrl('dav'))
-				this.$toast.success(this.$t('calendar', 'CalDAV link copied to clipboard.'))
+				showSuccess(this.$t('calendar', 'CalDAV link copied to clipboard.'))
 			} catch (error) {
 				console.debug(error)
-				this.$toast.error(this.$t('calendar', 'CalDAV link could not be copied to clipboard.'))
+				showError(this.$t('calendar', 'CalDAV link could not be copied to clipboard.'))
 			}
 
 		},
@@ -324,10 +328,10 @@ export default {
 
 			try {
 				await this.$copyText(url)
-				this.$toast.success(this.$t('calendar', 'CalDAV link copied to clipboard.'))
+				showSuccess(this.$t('calendar', 'CalDAV link copied to clipboard.'))
 			} catch (error) {
 				console.debug(error)
-				this.$toast.error(this.$t('calendar', 'CalDAV link could not be copied to clipboard.'))
+				showError(this.$t('calendar', 'CalDAV link could not be copied to clipboard.'))
 			}
 		},
 		/**

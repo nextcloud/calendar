@@ -89,6 +89,9 @@ import {
 } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
 import { mapState } from 'vuex'
+import {
+	showError,
+} from '@nextcloud/dialogs'
 
 import TimezoneSelect from './TimezoneSelect'
 
@@ -329,7 +332,7 @@ export default {
 				const matches = value.match(regex)
 
 				if (!matches) {
-					this.$toast.error(this.$t('calendar', 'Please enter a valid date'))
+					showError(this.$t('calendar', 'Please enter a valid date'))
 					// Just return the previous date
 					return this.date
 				}
@@ -373,7 +376,7 @@ export default {
 				const timeMatches = value.match(timeRegex)
 
 				if (!dateMatches || !timeMatches) {
-					this.$toast.error(this.$t('calendar', 'Please enter a valid date and time'))
+					showError(this.$t('calendar', 'Please enter a valid date and time'))
 					// Just return the previous date
 					return this.date
 				}

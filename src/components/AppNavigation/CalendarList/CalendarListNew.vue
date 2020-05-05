@@ -87,6 +87,9 @@ import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import ActionInput from '@nextcloud/vue/dist/Components/ActionInput'
 import ActionText from '@nextcloud/vue/dist/Components/ActionText'
 import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
+import {
+	showError,
+} from '@nextcloud/dialogs'
 
 import { uidToHexColor } from '../../../utils/color.js'
 
@@ -192,7 +195,7 @@ export default {
 				})
 			} catch (error) {
 				console.debug(error)
-				this.$toast.error(this.$t('calendar', 'An error occurred, unable to create the calendar.'))
+				showError(this.$t('calendar', 'An error occurred, unable to create the calendar.'))
 			} finally {
 				this.showCreateCalendarSaving = false
 				this.showCreateCalendarLabel = true
@@ -219,7 +222,7 @@ export default {
 				})
 			} catch (error) {
 				console.debug(error)
-				this.$toast.error(this.$t('calendar', 'An error occurred, unable to create the calendar.'))
+				showError(this.$t('calendar', 'An error occurred, unable to create the calendar.'))
 			} finally {
 				this.showCreateCalendarTaskListSaving = false
 				this.showCreateCalendarTaskListLabel = true
@@ -244,7 +247,7 @@ export default {
 				hostname = url.hostname
 			} catch (error) {
 				console.error(error)
-				this.$toast.error(this.$t('calendar', 'Please enter a valid link (starting with http://, https://, webcal://, or webcals://)'))
+				showError(this.$t('calendar', 'Please enter a valid link (starting with http://, https://, webcal://, or webcals://)'))
 				return
 			}
 
@@ -256,7 +259,7 @@ export default {
 				})
 			} catch (error) {
 				console.debug(error)
-				this.$toast.error(this.$t('calendar', 'An error occurred, unable to create the calendar.'))
+				showError(this.$t('calendar', 'An error occurred, unable to create the calendar.'))
 			} finally {
 				this.showCreateSubscriptionSaving = false
 				this.showCreateSubscriptionLabel = true

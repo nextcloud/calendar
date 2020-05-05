@@ -131,6 +131,10 @@ import eventLimitText from '../fullcalendar/eventLimitText.js'
 import windowResize from '../fullcalendar/windowResize.js'
 import dayRender from '../fullcalendar/dayRender.js'
 import { loadState } from '@nextcloud/initial-state'
+import {
+	showWarning,
+} from '@nextcloud/dialogs'
+import '@nextcloud/dialogs/styles/toast.scss'
 
 export default {
 	name: 'Calendar',
@@ -351,13 +355,13 @@ export default {
 	async mounted() {
 		if (this.timezone === 'automatic' && this.timezoneId === 'UTC') {
 			const { toastElement }
-				= this.$toast.warning(this.$t('calendar', 'The automatic timezone detection determined your timezone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your timezone manually in the calendar settings.'), { timeout: 60 })
+				= showWarning(this.$t('calendar', 'The automatic timezone detection determined your timezone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your timezone manually in the calendar settings.'), { timeout: 60 })
 
 			toastElement.classList.add('toast-calendar-multiline')
 		}
 		if (getTimezoneManager().getTimezoneForId(this.timezoneId) === null) {
 			const { toastElement }
-				= this.$toast.warning(this.$t('calendar', 'Your configured timezone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your timezone in the settings and report this issue.', { timezoneId: this.timezoneId }), { timeout: 60 })
+				= showWarning(this.$t('calendar', 'Your configured timezone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your timezone in the settings and report this issue.', { timezoneId: this.timezoneId }), { timeout: 60 })
 
 			toastElement.classList.add('toast-calendar-multiline')
 		}

@@ -75,6 +75,10 @@ import NoInviteesView from './NoInviteesView.vue'
 import OrganizerNoEmailError from './OrganizerNoEmailError.vue'
 import { createTalkRoom, doesDescriptionContainTalkLink } from '../../../services/talkService.js'
 import FreeBusy from '../FreeBusy/FreeBusy.vue'
+import {
+	showSuccess,
+	showError,
+} from '@nextcloud/dialogs'
 
 export default {
 	name: 'InviteesList',
@@ -232,9 +236,9 @@ export default {
 					description: newDescription,
 				})
 
-				this.$toast.success(this.$t('calendar', 'Successfully appended link to talk room to description.'))
+				showSuccess(this.$t('calendar', 'Successfully appended link to talk room to description.'))
 			} catch (error) {
-				this.$toast.error(this.$t('calendar', 'Error creating Talk room'))
+				showError(this.$t('calendar', 'Error creating Talk room'))
 			} finally {
 				this.creatingTalkRoom = false
 			}
