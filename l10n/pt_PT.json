@@ -1,10 +1,12 @@
 { "translations": {
     "%s has published the calendar »%s«" : "%s publicou o calendário »%s«",
+    "Successfully sent email to " : "Email enviado com sucesso",
     "Hello," : "Olá,",
     "We wanted to inform you that %s has published the calendar »%s«." : "Queremos informar que %s publicou o calendário »%s«.",
     "Open »%s«" : "Abrir »%s«",
     "Cheers!" : "Parabéns!",
     "Calendar" : "Calendário",
+    "A Calendar app for Nextcloud" : "Uma aplicação de calendário para o Nextcloud",
     "Previous day" : "Dia anterior",
     "Previous week" : "Semana anterior",
     "Previous month" : "Mês anterior",

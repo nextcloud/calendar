@@ -369,6 +369,7 @@ OC.L10N.register(
     "Video-conference" : "Visioconférence",
     "Conference-call" : "Conférence téléphonique",
     "Video-call" : "Appel vidéo",
+    "Video-chat" : "Conversation vidéo",
     "Video-meeting" : "Rendez-vous en visioconférence",
     "Call" : "Appel",
     "Calling" : "Appeler",
