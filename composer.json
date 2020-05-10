@@ -11,7 +11,7 @@
     "require-dev": {
         "christophwurst/nextcloud": "v18.0.4",
         "christophwurst/nextcloud_testing": "0.10.0",
-        "phan/phan": "^2.0"
+        "phan/phan": "^3.0"
     },
     "scripts": {
         "cs:fix": "php-cs-fixer fix",
