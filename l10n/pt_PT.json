@@ -84,5 +84,21 @@
     "Mail" : "Correio",
     "Play" : "Reproduzir",
     "Global" : "Global"
+    "All day" : "Todo o dia",
+    "Add a location" : "Adicione uma localização",
+    "Add a description" : "Adicione uma descrição",
+    "Event title" : "Titulo do evento",
+    "Search or add categories" : "Procure ou adicione categorias",
+    "Appointment" : "Compromisso",
+    "Business" : "Negocios",
+    "Holiday" : "Feriado",
+    "Education" : "Educação",
+    "Meeting" : "Reunião",
+    "Free" : "Livre",
+    "Phone call" : "Telefonena",
+    "Special ocasion" : "Ocasião especial",
+    "Miscellaneous" : "Diversos",
+    "Vacation" : "Férias",
+    "Travel" : "Viagem",
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
