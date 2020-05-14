@@ -16,7 +16,7 @@
     "scripts": {
         "cs:fix": "php-cs-fixer fix",
         "cs:check": "php-cs-fixer fix --dry-run --diff",
-        "lint": "find . -name \\*.php -not -path './vendor/*' -exec php -l \"{}\" \\;",
+        "lint": "find . -name \\*.php -not -path './vendor/*' -print0 | xargs -0 -n1 php -l",
         "phan": "phan --allow-polyfill-parser -k .phan/config.php",
         "test": "phpunit --configuration phpunit.unit.xml --fail-on-warning"
     }
