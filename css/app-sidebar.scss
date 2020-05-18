@@ -513,6 +513,14 @@
 					color: var(--color-main-text);
 					outline: none;
 				}
+
+				a.linkified {
+					text-decoration: underline;
+
+					&::after {
+						content: ' ↗';
+					}
+				}
 			}
 
 			&--readonly-calendar-picker {

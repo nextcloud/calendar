@@ -28,7 +28,7 @@ import linkifyStr from 'linkifyjs/string'
  * @param {Node} el The element the directive is bound to
  * @param {Object} binding  An object containing various properties
  */
-const linkify = (el, binding) =>  {
+const linkify = (el, binding) => {
 	el.innerHTML = linkifyStr(binding.value, {
 		defaultProtocol: 'https',
 	})
