@@ -46,20 +46,6 @@ import {
 import { mapAlarmComponentToAlarmObject } from '../models/alarm.js'
 import { getObjectAtRecurrenceId } from '../utils/calendarObject.js'
 
-/**
- * @param {Array} entries Object entries
- *
- * @returns {Object}
- */
-function objectFromEntries(entries) {
-	const obj = {}
-	entries.forEach(([k, v]) => {
-		obj[k] = v
-	})
-
-	return obj
-}
-
 const state = {
 	isNew: null,
 	calendarObject: null,
@@ -1438,12 +1424,16 @@ const actions = {
 		const calendarObject = await dispatch('createNewEvent', { start, end, isAllDay, timezoneId })
 		const startDate = new Date(start * 1000)
 		const eventComponent = getObjectAtRecurrenceId(calendarObject, startDate)
-		const eventProps = objectFromEntries(Object.entries({ title, description }).filter(([k, v]) => v != null))
-		const calendarObjectInstance = Object.assign(
-			{},
-			mapEventComponentToEventObject(eventComponent),
-			eventProps
-		)
+
+		if (title != null) {
+			eventComponent.title = title
+		}
+
+		if (description != null) {
+			eventComponent.description = description
+		}
+
+		const calendarObjectInstance = mapEventComponentToEventObject(eventComponent)
 
 		commit('setCalendarObjectInstanceForNewEvent', {
 			calendarObject,
