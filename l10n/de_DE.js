@@ -135,7 +135,7 @@ OC.L10N.register(
     "_week_::_weeks_" : ["Woche","Wochen"],
     "No reminders yet" : "Keine Erinnerungen bislang",
     "Availability of attendees, resources and rooms" : "Verfügbarkeit von Teilnehmern, Resourcen und Räumen",
-    "Attendees, Resources and Rooms" : "Teilnehmer, Resourcen und Räumen",
+    "Attendees, Resources and Rooms" : "Teilnehmer, Resourcen und Räume",
     "Busy (tentative)" : "Beschäftigt (vorläufig)",
     "Busy" : "Beschäftigt",
     "Out of office" : "Nicht im Büro",
