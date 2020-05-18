@@ -38,7 +38,8 @@
 		v-bind="$attrs"
 		v-on="$listeners"
 		@close="close"
-		@change="change">
+		@change="change"
+		@pick="pickDate">
 		<template
 			slot="icon-calendar">
 			<button
@@ -222,6 +223,18 @@ export default {
 		 */
 		change(date) {
 			this.$emit('change', date)
+		},
+		/**
+		 * Changes the view to time-picker,
+		 * when user picked a date and date-time-picker is not all-day
+		 *
+		 * @param {Date} date The selected Date object
+		 * @param {String} type The type of selected date (Date, Time, ...)
+		 */
+		pickDate(date, type) {
+			if (!this.isAllDay && type === 'date') {
+				this.showTimePanel = true
+			}
 		},
 		/**
 		 * Emits a change event for the Timezone
