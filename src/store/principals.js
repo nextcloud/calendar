@@ -20,9 +20,15 @@
  *
  */
 import Vue from 'vue'
-import client from '../services/caldavService.js'
+import {
+	findPrincipalByUrl,
+	getCurrentUserPrincipal,
+} from '../services/caldavService.js'
 import logger from '../utils/logger.js'
-import { getDefaultPrincipalObject, mapDavToPrincipal } from '../models/principal'
+import {
+	getDefaultPrincipalObject,
+	mapDavToPrincipal,
+} from '../models/principal'
 
 const state = {
 	principals: [],
@@ -112,7 +118,7 @@ const actions = {
 			return
 		}
 
-		const principal = await client.findPrincipal(url)
+		const principal = await findPrincipalByUrl(url)
 		if (!principal) {
 			// TODO - handle error
 			return
@@ -130,7 +136,7 @@ const actions = {
 	 * @returns {Promise<void>}
 	 */
 	async fetchCurrentUserPrincipal(context) {
-		const currentUserPrincipal = client.currentUserPrincipal
+		const currentUserPrincipal = getCurrentUserPrincipal()
 		if (!currentUserPrincipal) {
 			// TODO - handle error
 			return

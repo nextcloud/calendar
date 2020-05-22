@@ -77,7 +77,7 @@ export default function(router, store) {
 
 		const date = getDateFromFirstdayParam(router.currentRoute.params.firstDay)
 		const view = router.currentRoute.params.view
-		const locale = mutation.payload
+		const { locale } = mutation.payload
 
 		updateTitle(date, view, locale)
 	})

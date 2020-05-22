@@ -165,7 +165,7 @@ describe('services/windowTitleService', () => {
 
 		store.subscribe.mock.calls[0][0]({
 			type: 'setMomentLocale',
-			payload: 'momentLocaleFromPayload'
+			payload: { locale: 'momentLocaleFromPayload' }
 		})
 
 		expect(document.title).toEqual('formatted date range - Standard Nextcloud title')

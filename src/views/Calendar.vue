@@ -98,7 +98,10 @@ import AppContent from '@nextcloud/vue/dist/Components/AppContent'
 import Content from '@nextcloud/vue/dist/Components/Content'
 import debounce from 'debounce'
 import { uidToHexColor } from '../utils/color.js'
-import client from '../services/caldavService.js'
+import {
+	initializeClientForPublicView,
+	initializeClientForUserView,
+} from '../services/caldavService.js'
 import {
 	dateFactory,
 	getUnixTimestampFromDate,
@@ -311,7 +314,7 @@ export default {
 		this.$store.dispatch('initializeCalendarJsConfig')
 
 		if (this.$route.name.startsWith('Public') || this.$route.name.startsWith('Embed')) {
-			client._createPublicCalendarHome()
+			await initializeClientForPublicView()
 			const tokens = this.$route.params.tokens.split('-')
 			const calendars = await this.$store.dispatch('getPublicCalendars', { tokens })
 			this.loadingCalendars = false
@@ -320,7 +323,7 @@ export default {
 				this.showEmptyCalendarScreen = true
 			}
 		} else {
-			await client.connect({ enableCalDAV: true })
+			await initializeClientForUserView()
 			await this.$store.dispatch('fetchCurrentUserPrincipal')
 			const calendars = await this.$store.dispatch('getCalendars')
 			const owners = []
@@ -438,8 +441,8 @@ export default {
 		 * @returns {Promise<void>}
 		 */
 		async loadMomentLocale() {
-			const momentLocale = await loadMomentLocalization()
-			this.$store.commit('setMomentLocale', momentLocale)
+			const locale = await loadMomentLocalization()
+			this.$store.commit('setMomentLocale', { locale })
 		},
 	},
 }

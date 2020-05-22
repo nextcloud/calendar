@@ -116,8 +116,13 @@ import {
 import SettingsImportSection from './Settings/SettingsImportSection.vue'
 import SettingsTimezoneSelect from './Settings/SettingsTimezoneSelect.vue'
 
-import client from '../../services/caldavService.js'
+import { getCurrentUserPrincipal } from '../../services/caldavService.js'
 import ShortcutOverview from './Settings/ShortcutOverview.vue'
+import {
+	IMPORT_STAGE_DEFAULT,
+	IMPORT_STAGE_IMPORTING,
+	IMPORT_STAGE_PROCESSING,
+} from '../../models/consts.js'
 
 export default {
 	name: 'Settings',
@@ -169,13 +174,13 @@ export default {
 			return this.$store.state.importFiles.importFiles
 		},
 		showUploadButton() {
-			return this.$store.state.importState.importState.stage === 'default'
+			return this.$store.state.importState.importState.stage === IMPORT_STAGE_DEFAULT
 		},
 		showImportModal() {
-			return this.$store.state.importState.importState.stage === 'processing'
+			return this.$store.state.importState.importState.stage === IMPORT_STAGE_PROCESSING
 		},
 		showProgressBar() {
-			return this.$store.state.importState.importState.stage === 'importing'
+			return this.$store.state.importState.importState.stage === IMPORT_STAGE_IMPORTING
 		},
 		settingsTitle() {
 			return this.$t('calendar', 'Settings & import').replace(/&amp;/g, '&')
@@ -324,7 +329,7 @@ export default {
 		 */
 		async copyAppleCalDAV() {
 			const rootURL = generateRemoteUrl('dav')
-			const url = new URL(client.currentUserPrincipal.principalUrl, rootURL)
+			const url = new URL(getCurrentUserPrincipal().principalUrl, rootURL)
 
 			try {
 				await this.$copyText(url)

@@ -22,7 +22,7 @@
 import getTimezoneManager from '../services/timezoneDataProviderService.js'
 import { createFreeBusyRequest } from 'calendar-js'
 import DateTimeValue from 'calendar-js/src/values/dateTimeValue.js'
-import client from '../services/caldavService.js'
+import { findSchedulingOutbox } from '../services/caldavService.js'
 import freeBusyEventSourceFunction from './freeBusyEventSourceFunction.js'
 import logger from '../utils/logger.js'
 // import AttendeeProperty from 'calendar-js/src/properties/attendeeProperty.js'
@@ -60,8 +60,7 @@ export default function(id, organizer, attendees) {
 
 			let outbox
 			try {
-				const outboxes = await client.calendarHomes[0].findAllScheduleOutboxes()
-				outbox = outboxes[0]
+				outbox = await findSchedulingOutbox()
 			} catch (error) {
 				failureCallback(error)
 				return

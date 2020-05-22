@@ -11,7 +11,7 @@
  * License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY without even the implied warranty of
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
  *
@@ -19,29 +19,19 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-const state = {
-	minimumDate: '1970-01-01T00:00:00Z',
-	maximumDate: '2037-12-31T23:59:59Z',
+import HttpClient from '@nextcloud/axios'
+import { getLinkToConfig } from '../utils/settings.js'
+
+/**
+ *
+ * @param {String} key Config-key to set
+ * @param {String|Number|Boolean} value Config-value to set
+ * @returns {Promise<void>}
+ */
+const setConfig = async(key, value) => {
+	await HttpClient.post(getLinkToConfig(key), { value })
 }
 
-const mutations = {
-
-	/**
-	 * Initialize restrictions imposed by CalDAV server
-	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {String} data.minimumDate The minimum-date allowed by the CalDAV server
-	 * @param {String} data.maximumDate The maximum-date allowed by the CalDAV server
-	 */
-	loadDavRestrictionsFromServer(state, { minimumDate, maximumDate }) {
-		state.minimumDate = minimumDate
-		state.maximumDate = maximumDate
-	},
+export {
+	setConfig,
 }
-
-const getters = {}
-
-const actions = {}
-
-export default { state, mutations, getters, actions }
