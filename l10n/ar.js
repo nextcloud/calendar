@@ -51,6 +51,7 @@ OC.L10N.register(
     "Tentative" : "مبدئي",
     "Cancelled" : "ملغى",
     "Categories" : "الفئات",
+    "Movie" : "فلم",
     "Cinema" : "سينما",
     "Mail" : "البريد",
     "Play" : "تشغيل",
