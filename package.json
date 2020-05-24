@@ -104,7 +104,7 @@
 		"jest": "^26.0.1",
 		"jest-serializer-vue": "^2.0.2",
 		"node-sass": "^4.14.1",
-		"prettier-eslint": "^9.0.1",
+		"prettier-eslint": "^10.1.1",
 		"regenerator-runtime": "^0.13.5",
 		"sass-loader": "^8.0.2",
 		"stylelint": "^13.3.3",
