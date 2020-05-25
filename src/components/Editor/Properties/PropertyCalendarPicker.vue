@@ -23,10 +23,6 @@
 <template>
 	<div v-if="display" class="property-select">
 		<div
-			class="property-select__icon icon-calendar-dark"
-			:title="$t('calendar', 'Calendar')" />
-
-		<div
 			class="property-select__input"
 			:class="{ 'property-select__input--readonly-calendar-picker': isReadOnly }">
 			<CalendarPicker

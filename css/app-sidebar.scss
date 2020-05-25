@@ -30,6 +30,11 @@
 	.app-sidebar-header__action {
 		margin-top: 0 !important;
 		max-height: none !important;
+		flex-wrap: wrap;
+
+		div {
+			flex-shrink: 0;
+		}
 	}
 
 	.editor-invitee-list-empty-message,

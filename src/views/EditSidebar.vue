@@ -31,7 +31,14 @@
 		:subtitle="subTitle"
 		@close="cancel"
 		@update:title="updateTitle">
-		<template v-slot:primary-actions style="max-height: none !important">
+		<template v-slot:primary-actions>
+			<PropertyCalendarPicker
+				v-if="showCalendarPicker"
+				:calendars="calendars"
+				:calendar="selectedCalendar"
+				:is-read-only="isReadOnly"
+				@selectCalendar="changeCalendar" />
+
 			<PropertyTitleTimePicker
 				v-if="!isLoading"
 				:start-date="startDate"
@@ -84,13 +91,6 @@
 				</div>
 			</div>
 			<div v-if="displayDetails" class="app-sidebar-tab__content">
-				<PropertyCalendarPicker
-					v-if="showCalendarPicker"
-					:calendars="calendars"
-					:calendar="selectedCalendar"
-					:is-read-only="isReadOnly"
-					@selectCalendar="changeCalendar" />
-
 				<PropertyText
 					:autosize="isExpanded"
 					:is-read-only="isReadOnly"
