@@ -59,6 +59,13 @@
 			:is-read-only="isReadOnly"
 			@update:value="updateTitle" />
 
+		<PropertyCalendarPicker
+			v-if="!isLoading && showCalendarPicker"
+			:calendars="calendars"
+			:calendar="selectedCalendar"
+			:is-read-only="isReadOnly"
+			@selectCalendar="changeCalendar" />
+
 		<PropertyTitleTimePicker
 			v-if="!isLoading"
 			:start-date="startDate"
@@ -74,13 +81,6 @@
 			@updateEndDate="updateEndDate"
 			@updateEndTimezone="updateEndTimezone"
 			@toggleAllDay="toggleAllDay" />
-
-		<PropertyCalendarPicker
-			v-if="!isLoading && showCalendarPicker"
-			:calendars="calendars"
-			:calendar="selectedCalendar"
-			:is-read-only="isReadOnly"
-			@selectCalendar="changeCalendar" />
 
 		<PropertyText
 			v-if="!isLoading && hasLocation"
