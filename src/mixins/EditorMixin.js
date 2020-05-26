@@ -381,23 +381,6 @@ export default {
 			return false
 		},
 	},
-	mounted() {
-		this.$nextTick(() => {
-			// The animation does not work with v-if only.
-			// So we mount it with display:none (aka v-show=false)
-			// and set it to display:block once it's mounted
-			this.isVisible = true
-
-			// Certain elements in the sidebar like autosize textareas
-			// require to the sidebar to be fully opened the calculate
-			// their height. The workaround of setting an absolute width
-			// on the textareas does not work, because the sidebar itself
-			// does not have an absolute width.
-			window.setTimeout(() => {
-				this.isExpanded = true
-			}, 500)
-		})
-	},
 	methods: {
 		/**
 		 * Changes the selected calendar
@@ -686,6 +669,23 @@ export default {
 				} finally {
 					vm.isLoading = false
 				}
+
+				vm.$nextTick(() => {
+					// The animation does not work with v-if only.
+					// So we mount it with display:none (aka v-show=false)
+					// and set it to display:block once it's mounted
+					vm.isVisible = true
+					vm.isExpanded = false
+
+					// Certain elements in the sidebar like autosize textareas
+					// require to the sidebar to be fully opened the calculate
+					// their height. The workaround of setting an absolute width
+					// on the textareas does not work, because the sidebar itself
+					// does not have an absolute width.
+					window.setTimeout(() => {
+						vm.isExpanded = true
+					}, 350)
+				})
 			})
 		}
 	},

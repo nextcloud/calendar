@@ -52,8 +52,12 @@ const bind = (el, binding, vnode) => {
  * @param {VNode} vnode Virtual node
  */
 const update = (el, binding, vnode) => {
+	if (el.tagName !== 'TEXTAREA') {
+		return
+	}
+
 	if (binding.value === true && binding.oldValue === false) {
-		bind(el, binding, vnode)
+		autosize(el)
 	}
 	if (binding.value === false && binding.oldValue === true) {
 		unbind(el)
