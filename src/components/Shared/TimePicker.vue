@@ -41,10 +41,9 @@ import DatetimePicker from '@nextcloud/vue/dist/Components/DatetimePicker'
 import moment from '@nextcloud/moment'
 import { mapState } from 'vuex'
 import {
-	getDayNamesMin,
 	getFirstDay,
-	getMonthNamesShort,
 } from '@nextcloud/l10n'
+import { getLangConfigForVue2DatePicker } from '../../utils/localization.js'
 
 export default {
 	name: 'TimePicker',
@@ -59,13 +58,6 @@ export default {
 	},
 	data() {
 		return {
-			lang: {
-				days: getDayNamesMin(),
-				months: getMonthNamesShort(),
-				placeholder: {
-					date: this.$t('calendar', 'Select Date'),
-				},
-			},
 			firstDay: getFirstDay() === 0 ? 7 : getFirstDay(),
 			format: {
 				stringify: this.stringify,
@@ -77,6 +69,14 @@ export default {
 		...mapState({
 			locale: (state) => state.settings.momentLocale,
 		}),
+		/**
+		 * Returns the lang config for vue2-datepicker
+		 *
+		 * @returns {Object}
+		 */
+		lang() {
+			return getLangConfigForVue2DatePicker(this.locale)
+		},
 		/**
 		 * Whether or not to offer am/pm in the timepicker
 		 *

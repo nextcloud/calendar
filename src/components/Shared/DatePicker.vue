@@ -84,8 +84,6 @@
 import DatetimePicker from '@nextcloud/vue/dist/Components/DatetimePicker'
 import Popover from '@nextcloud/vue/dist/Components/Popover'
 import {
-	getDayNamesMin,
-	getMonthNamesShort,
 	getFirstDay,
 } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
@@ -95,6 +93,7 @@ import {
 } from '@nextcloud/dialogs'
 
 import TimezoneSelect from './TimezoneSelect'
+import { getLangConfigForVue2DatePicker } from '../../utils/localization.js'
 
 export default {
 	name: 'DatePicker',
@@ -139,13 +138,6 @@ export default {
 	},
 	data() {
 		return {
-			lang: {
-				days: getDayNamesMin(),
-				months: getMonthNamesShort(),
-				placeholder: {
-					date: this.$t('calendar', 'Select Date'),
-				},
-			},
 			firstDay: getFirstDay() === 0 ? 7 : getFirstDay(),
 			showTimezonePopover: false,
 			format: {
@@ -160,6 +152,14 @@ export default {
 			locale: (state) => state.settings.momentLocale,
 			showWeekNumbers: (state) => state.settings.showWeekNumbers,
 		}),
+		/**
+		 * Returns the lang config for vue2-datepicker
+		 *
+		 * @returns {Object}
+		 */
+		lang() {
+			return getLangConfigForVue2DatePicker(this.locale)
+		},
 		/**
 		 * Whether or not to highlight the timezone-icon.
 		 * The icon is highlighted when the selected timezone
