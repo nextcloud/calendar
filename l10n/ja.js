@@ -168,6 +168,8 @@ OC.L10N.register(
     "_time_::_times_" : ["回数"],
     "Repeat" : "繰り返し",
     "Monday" : "月曜日",
+    "weekday" : "平日",
+    "weekend day" : "週末",
     "Summary" : "要約",
     "More" : "もっと見る",
     "Save" : "保存",

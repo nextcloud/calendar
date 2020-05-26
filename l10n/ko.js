@@ -18,6 +18,7 @@ OC.L10N.register(
     "Next day" : "다음날",
     "Next week" : "다음주",
     "Next month" : "다음달",
+    "+ New event" : "+ 새 이벤트",
     "Today" : "오늘",
     "Day" : "일",
     "Week" : "주",
