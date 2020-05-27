@@ -25,7 +25,6 @@
 <template>
 	<li class="app-navigation-entry__multiselect">
 		<Multiselect
-			id="users-groups-search"
 			:options="usersOrGroups"
 			:searchable="true"
 			:internal-search="false"
