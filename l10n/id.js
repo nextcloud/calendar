@@ -14,6 +14,7 @@ OC.L10N.register(
     "Download" : "Unduh",
     "Delete" : "Hapus",
     "Share link" : "Bagikan tautan",
+    "Delete share link" : "Hapus tautan berbagi",
     "Share with users or groups" : "Bagi dengan pengguna atau grup",
     "can edit" : "dapat disunting",
     "New calendar" : "Kalender baru",
