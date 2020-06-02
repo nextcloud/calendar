@@ -37,6 +37,15 @@
 		}
 	}
 
+	/** Hide the submit button for the title, because it does not trigger a save */
+	.app-sidebar-header__desc {
+		.rename-form {
+			button {
+				display: none;
+			}
+		}
+	}
+
 	.editor-invitee-list-empty-message,
 	.editor-reminders-list-empty-message,
 	.editor-invitee-list-no-email-configured-message,
