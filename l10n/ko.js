@@ -68,7 +68,6 @@ OC.L10N.register(
     "More" : "더 보기",
     "Save" : "저장",
     "Update" : "업데이트",
-    "Select Date" : "날짜 선택",
     "Type to search timezone" : "시간대를 찾기 위해 입력하세요.",
     "Personal" : "개인",
     "Details" : "자세한 정보",

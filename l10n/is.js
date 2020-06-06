@@ -173,7 +173,6 @@ OC.L10N.register(
     "Please select a timezone:" : "Veldu tímabelti:",
     "Pick a time" : "Veldu tíma",
     "Pick a date" : "Veldu dagsetningu",
-    "Select Date" : "Veldu dag",
     "Please enter a valid date" : "Settu inn gilda dagsetningu",
     "Please enter a valid date and time" : "Settu inn gilda dags- og tímasetningu",
     "Type to search timezone" : "Skrifaðu hér til að leita að tímabelti",

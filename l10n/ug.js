@@ -25,4 +25,4 @@ OC.L10N.register(
     "Description" : "چۈشەندۈرۈش",
     "Play" : "چال"
 },
-"nplurals=1; plural=0;");
+"nplurals=2; plural=(n != 1);");

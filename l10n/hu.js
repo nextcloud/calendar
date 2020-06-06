@@ -202,7 +202,6 @@ OC.L10N.register(
     "Please select a timezone:" : "Kérjük, válassza ki az időzónát:",
     "Pick a time" : "Válasszon egy időt",
     "Pick a date" : "Válassz egy dátumot",
-    "Select Date" : "Dátum kiválasztása",
     "from {formattedDate}" : "{formattedDate}-tól",
     "to {formattedDate}" : "{formattedDate}-ig",
     "on {formattedDate}" : "{formattedDate}-on",

@@ -206,7 +206,6 @@ OC.L10N.register(
     "Please select a timezone:" : "Mesedez aukeratu ordu-zona bat:",
     "Pick a time" : "Aukeratu ordua",
     "Pick a date" : "Aukeratu eguna",
-    "Select Date" : "Hautatu data",
     "from {formattedDate}" : "{formattedDate}(e)tik ",
     "to {formattedDate}" : "{formattedDate} arte ",
     "on {formattedDate}" : "{formattedDate}(e)an",

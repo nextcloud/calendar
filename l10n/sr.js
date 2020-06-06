@@ -45,7 +45,6 @@ OC.L10N.register(
     "More" : "Остало",
     "Save" : "Сачувај",
     "Update" : "Ажурирај",
-    "Select Date" : "Одаберите датум",
     "Personal" : "Лично",
     "Details" : "Детаљи",
     "Attendees" : "Присутни",

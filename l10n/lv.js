@@ -38,7 +38,6 @@ OC.L10N.register(
     "More" : "Vairāk",
     "Save" : "Saglabāt",
     "Update" : "Atjaunināt",
-    "Select Date" : "Izvēlieties datumu",
     "Personal" : "Personīgs",
     "Details" : "Detaļas",
     "Attendees" : "Apmeklētāji",

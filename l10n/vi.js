@@ -194,7 +194,6 @@ OC.L10N.register(
     "Please select a timezone:" : "Vui lòng chọn múi giờ:",
     "Pick a time" : "chọn thời gian",
     "Pick a date" : "Chọn ngày",
-    "Select Date" : "Chọn ngày",
     "from {formattedDate}" : "từ {formattedDate}",
     "to {formattedDate}" : "đến {formattedDate}",
     "on {formattedDate}" : "vào {formattedDate}",

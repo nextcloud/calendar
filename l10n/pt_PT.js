@@ -59,7 +59,6 @@ OC.L10N.register(
     "More" : "Mais",
     "Save" : "Guardar",
     "Update" : "Atualizar",
-    "Select Date" : "Escolha a data",
     "Personal" : "Pessoal",
     "Details" : "Detalhes",
     "Attendees" : "Participantes",

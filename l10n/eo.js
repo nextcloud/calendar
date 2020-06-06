@@ -41,7 +41,6 @@ OC.L10N.register(
     "More" : "Pli",
     "Save" : "Konservi",
     "Update" : "Ĝisdatigi",
-    "Select Date" : "Elekti daton",
     "Personal" : "Persona",
     "Details" : "Detaloj",
     "Attendees" : "Ĉeestontoj",

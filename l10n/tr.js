@@ -206,7 +206,6 @@ OC.L10N.register(
     "Please select a timezone:" : "Lütfen bir saat dilimi seçin:",
     "Pick a time" : "Bir saat seçin",
     "Pick a date" : "Bir tarih seçin",
-    "Select Date" : "Tarih Seçin",
     "from {formattedDate}" : "{formattedDate} tarihinden",
     "to {formattedDate}" : "{formattedDate} tarihine",
     "on {formattedDate}" : "{formattedDate} tarihinde",

@@ -134,7 +134,6 @@ OC.L10N.register(
     "Update this and all future" : "Oppdater denne og fremtidige hendelser",
     "Public calendar does not exist" : "Offentlig kalender finnes ikke",
     "Please select a timezone:" : "Velg en tidssone:",
-    "Select Date" : "Velg dato",
     "Personal" : "Personlig",
     "Delete this occurrence" : "Slett denne hendelsen",
     "Delete this and all future" : "Slett denne og fremtidige hendelser",

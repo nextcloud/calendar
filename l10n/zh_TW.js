@@ -92,7 +92,6 @@ OC.L10N.register(
     "More" : "更多",
     "Save" : "儲存",
     "Update" : "更新",
-    "Select Date" : "選擇日期",
     "from {formattedDate}" : "從 {formattedDate}",
     "to {formattedDate}" : "至 {formattedDate}",
     "Please enter a valid date" : "請輸入一個有效的日期",

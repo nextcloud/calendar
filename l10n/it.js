@@ -206,7 +206,6 @@ OC.L10N.register(
     "Please select a timezone:" : "Seleziona un fuso orario:",
     "Pick a time" : "Scegli un orario",
     "Pick a date" : "Scegli una data",
-    "Select Date" : "Seleziona data",
     "from {formattedDate}" : "dal {formattedDate}",
     "to {formattedDate}" : "al {formattedDate}",
     "on {formattedDate}" : "il {formattedDate}",

@@ -198,7 +198,6 @@ OC.L10N.register(
     "Please select a timezone:" : "Izbor časovnega pasu:",
     "Pick a time" : "Izbor časa",
     "Pick a date" : "Izbor datuma",
-    "Select Date" : "Izbor datuma",
     "from {formattedDate}" : "od {formattedDate}",
     "to {formattedDate}" : "do {formattedDate}",
     "on {formattedDate}" : "na {formattedDate}",

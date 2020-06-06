@@ -189,7 +189,6 @@ OC.L10N.register(
     "Public calendar does not exist" : "Publik kalender finns inte",
     "Maybe the share was deleted or has expired?" : "Kanske har delningen tagits bort eller har gått ut?",
     "Please select a timezone:" : "Välj en tidszon:",
-    "Select Date" : "Välj datum",
     "from {formattedDate}" : "från {formattedDate}",
     "to {formattedDate}" : "till {formattedDate}",
     "on {formattedDate}" : "på {formattedDate}",

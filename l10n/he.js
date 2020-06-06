@@ -95,7 +95,6 @@ OC.L10N.register(
     "Update" : "עדכון",
     "Update this occurrence" : "עדכון המופע הזה",
     "Update this and all future" : "עדכון של זה והעתידיים",
-    "Select Date" : "בחירת תאריך",
     "Please enter a valid date" : "נא להקליד תאריך תקני",
     "Please enter a valid date and time" : "נא להקליד שעה ותאריך תקניים",
     "Type to search timezone" : "יש להקליד כדי לחפש אזור זמן",

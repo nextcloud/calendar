@@ -206,7 +206,6 @@ OC.L10N.register(
     "Please select a timezone:" : "Будь-ласка вкажіть часовий пояс:",
     "Pick a time" : "Вибрати час",
     "Pick a date" : "Вибрати дату",
-    "Select Date" : "Вкажіть дату",
     "from {formattedDate}" : "з {formattedDate}",
     "to {formattedDate}" : "до {formattedDate}",
     "on {formattedDate}" : "{formattedDate}",

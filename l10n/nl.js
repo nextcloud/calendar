@@ -206,7 +206,6 @@ OC.L10N.register(
     "Please select a timezone:" : "Selecteer een tijdzone:",
     "Pick a time" : "Kies een tijd",
     "Pick a date" : "Kies een datum",
-    "Select Date" : "Selecteer datum",
     "from {formattedDate}" : "van {formattedDate}",
     "to {formattedDate}" : "naar {formattedDate}",
     "on {formattedDate}" : "op {formattedDate}",

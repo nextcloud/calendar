@@ -206,7 +206,6 @@ OC.L10N.register(
     "Please select a timezone:" : "Odaberite vremensku zonu:",
     "Pick a time" : "Odaberi vrijeme",
     "Pick a date" : "Odaberi datum",
-    "Select Date" : "Odaberi datum",
     "from {formattedDate}" : "od {formattedDate}",
     "to {formattedDate}" : "do {formattedDate}",
     "on {formattedDate}" : "{formattedDate}",

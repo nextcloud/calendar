@@ -160,7 +160,6 @@ OC.L10N.register(
     "Please select a timezone:" : "Изберете временска зона:",
     "Pick a time" : "Избери време",
     "Pick a date" : "Избери датум",
-    "Select Date" : "Избери датум",
     "from {formattedDate}" : "од {formattedDate}",
     "to {formattedDate}" : "до {formattedDate}",
     "on {formattedDate}" : "на {formattedDate}",

@@ -206,7 +206,6 @@ OC.L10N.register(
     "Please select a timezone:" : "请选择一个时区：",
     "Pick a time" : "选择一个时间",
     "Pick a date" : "选择一个日期",
-    "Select Date" : "选择日期",
     "from {formattedDate}" : "从 {formattedDate}",
     "to {formattedDate}" : "到 {formattedDate}",
     "on {formattedDate}" : "在 {formattedDate}",

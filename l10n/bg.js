@@ -83,7 +83,6 @@ OC.L10N.register(
     "More" : "Още",
     "Save" : "Запазване",
     "Update" : "Обновяване",
-    "Select Date" : "Изберете дата",
     "Personal" : "Лични",
     "Details" : "Подробности",
     "Attendees" : "Участници",

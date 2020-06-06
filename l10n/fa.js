@@ -186,7 +186,6 @@ OC.L10N.register(
     "Public calendar does not exist" : "تقویم عمومی وجود ندارد",
     "Maybe the share was deleted or has expired?" : "شاید اشتراک حذف شده باشد یا منقضی شده باشد؟",
     "Please select a timezone:" : "لطفا منطقه زمانی را انتخاب کنید:",
-    "Select Date" : "تاریخ را انتخاب کنید",
     "from {formattedDate}" : "از {formattedDate}",
     "to {formattedDate}" : "به {formattedDate}",
     "on {formattedDate}" : "در {formattedDate}",

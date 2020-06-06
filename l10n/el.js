@@ -206,7 +206,6 @@ OC.L10N.register(
     "Please select a timezone:" : "Παρακαλώ επιλέξτε χρονική ζώνη:",
     "Pick a time" : "Επιλογή χρόνου",
     "Pick a date" : "Επιλογή ημερομηνίας",
-    "Select Date" : "Επιλογή ημερομηνίας",
     "from {formattedDate}" : "από {formattedDate}",
     "to {formattedDate}" : "έως {formattedDate}",
     "on {formattedDate}" : "σε {formattedDate}",

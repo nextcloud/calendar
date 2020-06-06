@@ -35,7 +35,6 @@ OC.L10N.register(
     "More" : "Më tepër",
     "Save" : "Ruaj",
     "Update" : "Përditësoje",
-    "Select Date" : "Zgjidhni Datën",
     "Personal" : "Personale",
     "Details" : "Detajet",
     "Attendees" : "Pjesëmarrës",

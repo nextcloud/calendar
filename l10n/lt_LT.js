@@ -198,7 +198,6 @@ OC.L10N.register(
     "Please select a timezone:" : "Pasirinkite laiko juostą:",
     "Pick a time" : "Pasirinkite laiką",
     "Pick a date" : "Pasirinkite datą",
-    "Select Date" : "Pasirinkti datą",
     "from {formattedDate}" : "nuo {formattedDate}",
     "to {formattedDate}" : "iki {formattedDate}",
     "on {formattedDate}" : "{formattedDate}",

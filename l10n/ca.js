@@ -195,7 +195,6 @@ OC.L10N.register(
     "Please select a timezone:" : "Escollir una zona horària:",
     "Pick a time" : "Escollir una hora",
     "Pick a date" : "Escollir una data",
-    "Select Date" : "Selecciona la data",
     "from {formattedDate}" : "de {formattedDate}",
     "to {formattedDate}" : "a {formattedDate}",
     "on {formattedDate}" : "el {formattedDate}",

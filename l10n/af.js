@@ -36,7 +36,6 @@ OC.L10N.register(
     "More" : "Nog",
     "Save" : "Stoor",
     "Update" : "Werk by",
-    "Select Date" : "Kies Datum",
     "Personal" : "Persoonlik",
     "Details" : "Details",
     "Attendees" : "Bywoners",

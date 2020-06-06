@@ -32,7 +32,6 @@ OC.L10N.register(
     "More" : "Rhagor",
     "Save" : "Cadw",
     "Update" : "Diweddaru",
-    "Select Date" : "Dewis Dyddiad",
     "Personal" : "Personol",
     "Details" : "Manylion",
     "Attendees" : "Mynychwyr",
