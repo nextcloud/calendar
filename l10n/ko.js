@@ -90,6 +90,7 @@ OC.L10N.register(
     "Cancelled" : "취소됨",
     "Categories" : "분류",
     "Presentation" : "프레젠테이션",
+    "Movie" : "영화",
     "Review" : "Review",
     "Mail" : "메일",
     "Play" : "재생",
