@@ -225,7 +225,7 @@ OC.L10N.register(
     "Attendees" : "Учасників",
     "Reminders" : "Нагадування",
     "Activity" : "Активність",
-    "Projects" : "Проекти",
+    "Projects" : "Проєкти",
     "Show more details" : "Збільшити деталізацію",
     "Close" : "Закрити",
     "Subscribe to {name}" : "Підписатися на {name}",
