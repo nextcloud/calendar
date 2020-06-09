@@ -711,10 +711,19 @@
 		border-radius: 50%;
 		border: none;
 		margin-right: 8px;
+		flex-basis: 12px;
+		flex-shrink: 0;
+	}
+
+	&__label {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		flex-grow: 1;
 	}
 
 	&__avatar {
-		margin-left: auto;
+		flex-basis: 18px;
+		flex-shrink: 0;
 	}
 }
 
