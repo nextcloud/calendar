@@ -28,7 +28,7 @@
 	</li>
 	<li v-else class="settings-fieldset-interior-item">
 		<label class="settings-fieldset-interior-item__import-button button icon icon-upload" :for="inputUid">
-			{{ $t('calendar', 'Import calendar') }}
+			{{ $n('calendar', 'Import calendar', 'Import calendars', 1) }}
 		</label>
 		<input
 			:id="inputUid"
