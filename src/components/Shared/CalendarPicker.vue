@@ -1,6 +1,6 @@
 <template>
 	<NcSelect label="id"
-		input-id="url"
+		:input-id="inputId"
 		:disabled="isDisabled"
 		:options="options"
 		:value="valueIds"
@@ -25,6 +25,7 @@
 <script>
 import { NcSelect } from '@nextcloud/vue'
 import CalendarPickerOption from './CalendarPickerOption.vue'
+import { randomId } from '../../utils/randomId.js'
 
 export default {
 	name: 'CalendarPicker',
@@ -49,12 +50,20 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+		disabled: {
+			type: Boolean,
+			default: false,
+		},
+		inputId: {
+			type: String,
+			default: () => randomId(),
+		},
 	},
 	computed: {
 		isDisabled() {
 			// for pickers where multiple can be selected (zero or more) we don't want to disable the picker
 			// for calendars where only one calendar can be selected, disable if there are < 2
-			return this.multiple ? this.calendars.length < 1 : this.calendars.length < 2
+			return this.disabled || (this.multiple ? this.calendars.length < 1 : this.calendars.length < 2)
 		},
 		valueIds() {
 			if (Array.isArray(this.value)) {
