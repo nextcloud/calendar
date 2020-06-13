@@ -20,7 +20,7 @@
   -->
 
 <template>
-	<AppNavigationSettings exclude-click-outside-classes="import-modal"
+	<AppNavigationSettings :exclude-click-outside-selectors="['.vs__dropdown-menu', '.modal-wrapper']"
 		:name="settingsTitle">
 		<ul class="settings-fieldset-interior">
 			<SettingsImportSection :is-disabled="loadingCalendars" />
@@ -70,6 +70,18 @@
 					input-id="value"
 					label="label"
 					@option:selected="changeSlotDuration" />
+			</li>
+			<!-- TODO: remove version check once Nextcloud 28 is not supported anymore -->
+			<li v-if="currentUserPrincipal && defaultCalendarOptions.length > 1 && nextcloudVersion >= 29"
+				class="settings-fieldset-interior-item settings-fieldset-interior-item--default-calendar">
+				<label :for="defaultCalendarPickerId">
+					{{ $t('calendar', 'Default calendar for invitations and new events') }}
+				</label>
+				<CalendarPicker :value="defaultCalendar"
+					:calendars="defaultCalendarOptions"
+					:disabled="savingDefaultCalendarId"
+					:input-id="defaultCalendarPickerId"
+					@select-calendar="changeDefaultCalendar" />
 			</li>
 			<li class="settings-fieldset-interior-item settings-fieldset-interior-item--defaultReminder">
 				<label for="defaultReminder">{{ $t('calendar', 'Default reminder') }}</label>
@@ -124,6 +136,8 @@ import {
 	NcAppNavigationSettings as AppNavigationSettings,
 	NcSelect,
 } from '@nextcloud/vue'
+import CalendarPicker from '../Shared/CalendarPicker.vue'
+
 import {
 	generateRemoteUrl,
 	generateUrl,
@@ -156,6 +170,9 @@ import ClipboardArrowLeftOutline from 'vue-material-design-icons/ClipboardArrowL
 import InformationVariant from 'vue-material-design-icons/InformationVariant.vue'
 import OpenInNewIcon from 'vue-material-design-icons/OpenInNew.vue'
 
+import logger from '../../utils/logger.js'
+import { randomId } from '../../utils/randomId.js'
+
 export default {
 	name: 'Settings',
 	components: {
@@ -171,6 +188,7 @@ export default {
 		ClipboardArrowLeftOutline,
 		InformationVariant,
 		OpenInNewIcon,
+		CalendarPicker,
 	},
 	props: {
 		loadingCalendars: {
@@ -186,14 +204,18 @@ export default {
 			savingPopover: false,
 			savingSlotDuration: false,
 			savingDefaultReminder: false,
+			savingDefaultCalendarId: false,
 			savingWeekend: false,
 			savingWeekNumber: false,
+			savingDefaultCalendar: false,
 			displayKeyboardShortcuts: false,
+			defaultCalendarPickerId: randomId(),
 		}
 	},
 	computed: {
 		...mapGetters({
 			birthdayCalendar: 'hasBirthdayCalendar',
+			currentUserPrincipal: 'getCurrentUserPrincipal',
 		}),
 		...mapState({
 			eventLimit: state => state.settings.eventLimit,
@@ -270,6 +292,28 @@ export default {
 		},
 		nextcloudVersion() {
 			return parseInt(OC.config.version.split('.')[0])
+		},
+		defaultCalendarOptions() {
+			return this.$store.state.calendars.calendars
+				.filter(calendar => !calendar.readOnly && !calendar.isSharedWithMe)
+		},
+		/**
+		 * The default calendar for new events and inivitations
+		 *
+		 * @return {object|undefined} The default calendar or undefined if none is available
+		 */
+		defaultCalendar() {
+			const defaultCalendarUrl = this.currentUserPrincipal.scheduleDefaultCalendarUrl
+			const calendar = this.defaultCalendarOptions
+				.find(calendar => calendar.url === defaultCalendarUrl)
+
+			// If the default calendar is not or no longer available,
+			// pick the first calendar in the list of available calendars.
+			if (!calendar) {
+				return this.defaultCalendarOptions[0]
+			}
+
+			return calendar
 		},
 	},
 	methods: {
@@ -394,6 +438,34 @@ export default {
 				console.error(error)
 				showError(this.$t('calendar', 'New setting was not saved successfully.'))
 				this.savingDefaultReminder = false
+			}
+		},
+		/**
+		 * Changes the default calendar for new events
+		 *
+		 * @param {object} selectedCalendar The new selected default calendar
+		 */
+		async changeDefaultCalendar(selectedCalendar) {
+			if (!selectedCalendar) {
+				return
+			}
+
+			this.savingDefaultCalendar = true
+
+			try {
+				await this.$store.dispatch('changePrincipalScheduleDefaultCalendarUrl', {
+					principal: this.currentUserPrincipal,
+					scheduleDefaultCalendarUrl: selectedCalendar.url,
+				})
+			} catch (error) {
+				logger.error('Error while changing default calendar', {
+					error,
+					calendarUrl: selectedCalendar.url,
+					selectedCalendar,
+				})
+				showError(this.$t('calendar', 'Failed to save default calendar'))
+			} finally {
+				this.savingDefaultCalendar = false
 			}
 		},
 		/**

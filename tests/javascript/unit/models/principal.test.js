@@ -40,6 +40,7 @@ describe('Test suite: Principal model (models/principal.js)', () => {
 			isCalendarResource: false,
 			isCalendarRoom: false,
 			principalId: null,
+			scheduleDefaultCalendarUrl: null,
 		})
 	})
 
@@ -63,6 +64,7 @@ describe('Test suite: Principal model (models/principal.js)', () => {
 			isCalendarRoom: false,
 			principalId: 'bar',
 			otherProp: 'foo',
+			scheduleDefaultCalendarUrl: null,
 		})
 	})
 

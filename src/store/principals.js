@@ -66,6 +66,22 @@ const mutations = {
 	setCurrentUserPrincipal(state, { principalId }) {
 		state.currentUserPrincipal = principalId
 	},
+
+	/**
+	 * Changes the schedule-default-calendar-URL of a principal
+	 *
+	 * @param {object} state The vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.principal The principal to modify
+	 * @param {string} data.scheduleDefaultCalendarUrl The new schedule-default-calendar-URL
+	 */
+	changePrincipalScheduleDefaultCalendarUrl(state, { principal, scheduleDefaultCalendarUrl }) {
+		Vue.set(
+			state.principalsById[principal.id],
+			'scheduleDefaultCalendarUrl',
+			scheduleDefaultCalendarUrl,
+		)
+	},
 }
 
 const getters = {
@@ -146,6 +162,25 @@ const actions = {
 		context.commit('addPrincipal', { principal })
 		context.commit('setCurrentUserPrincipal', { principalId: principal.id })
 		logger.debug(`Current user principal is ${principal.url}`)
+	},
+
+	/**
+	 * Change a principal's schedule-default-calendar-URL
+	 *
+	 * @param {object} context The vuex context
+	 * @param {object} data The destructuring object
+	 * @param {object} data.principal The principal to modify
+	 * @param {string} data.scheduleDefaultCalendarUrl The new schedule-default-calendar-URL
+	 * @return {Promise<void>}
+	 */
+	async changePrincipalScheduleDefaultCalendarUrl(context, { principal, scheduleDefaultCalendarUrl }) {
+		principal.dav.scheduleDefaultCalendarUrl = scheduleDefaultCalendarUrl
+
+		await principal.dav.update()
+		context.commit('changePrincipalScheduleDefaultCalendarUrl', {
+			principal,
+			scheduleDefaultCalendarUrl,
+		})
 	},
 }
 
