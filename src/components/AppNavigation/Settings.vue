@@ -88,7 +88,7 @@
 					<CalendarPicker
 						:calendars="defaultCalendarOptions"
 						:calendar="defaultCalendar"
-						:disabled="savingDefaultCalendar"
+						:disabled="savingDefaultCalendarId"
 						@selectCalendar="changeDefaultCalendar" />
 				</label>
 			</li>
