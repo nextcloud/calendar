@@ -82,6 +82,16 @@
 					@select="changeDefaultReminder" />
 			</li>
 			<SettingsTimezoneSelect :is-disabled="loadingCalendars" />
+			<li class="settings-fieldset-interior-item settings-fieldset-interior-item--default-calendar">
+				<label>
+					{{ $t('calendar', 'Default calendar for new events') }}
+					<CalendarPicker
+						:calendars="defaultCalendarOptions"
+						:calendar="defaultCalendar"
+						:disabled="savingDefaultCalendar"
+						@selectCalendar="changeDefaultCalendar" />
+				</label>
+			</li>
 			<ActionButton @click.prevent.stop="copyPrimaryCalDAV">
 				<template #icon>
 					<ClipboardArrowLeftOutline :size="20" decorative />
@@ -121,6 +131,8 @@ import ActionCheckbox from '@nextcloud/vue/dist/Components/ActionCheckbox'
 import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
 import AppNavigationSettings from '@nextcloud/vue/dist/Components/AppNavigationSettings'
 import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
+import CalendarPicker from '../Shared/CalendarPicker.vue'
+
 import {
 	generateRemoteUrl,
 	generateUrl,
@@ -166,6 +178,7 @@ export default {
 		ClipboardArrowLeftOutline,
 		InformationVariant,
 		OpenInNewIcon,
+		CalendarPicker,
 	},
 	props: {
 		loadingCalendars: {
@@ -181,6 +194,7 @@ export default {
 			savingPopover: false,
 			savingSlotDuration: false,
 			savingDefaultReminder: false,
+			savingDefaultCalendarId: false,
 			savingWeekend: false,
 			savingWeekNumber: false,
 			displayKeyboardShortcuts: false,
@@ -200,6 +214,7 @@ export default {
 			defaultReminder: state => state.settings.defaultReminder,
 			timezone: state => state.settings.timezone,
 			locale: (state) => state.settings.momentLocale,
+			defaultCalendarId: state => state.settings.defaultCalendarId,
 		}),
 		isBirthdayCalendarDisabled() {
 			return this.savingBirthdayCalendar || this.loadingCalendars
@@ -265,6 +280,28 @@ export default {
 		},
 		availabilitySettingsUrl() {
 			return generateUrl('/settings/user/groupware')
+		},
+		defaultCalendarOptions() {
+			return this.$store.state.calendars.calendars.filter(o => !o.readOnly)
+		},
+		defaultCalendar() {
+			var calendar = this.defaultCalendarOptions.find(o => o.id === this.defaultCalendarId)
+			// If the default calendar is not or no longer available,
+			// pick the first calendar in the list of available calendars.
+			if(calendar === undefined) {
+				calendar = this.defaultCalendarOptions[0]
+			}
+			if(calendar === undefined) {
+				// Create a dummy calendar object  so that the calendarpicker
+				// will not complain when no calendar is available.
+				calendar = {
+					color: '#000',
+					displayName: 'No calendar',
+					owner: '',
+					isSharedWithMe: false,
+				}
+			}
+			return calendar
 		},
 	},
 	methods: {
@@ -389,6 +426,27 @@ export default {
 				console.error(error)
 				showError(this.$t('calendar', 'New setting was not saved successfully.'))
 				this.savingDefaultReminder = false
+			}
+		},
+		 * Changes the default calendar for new events
+		 * @param {Object} selectedCalendar The new selected default calendar
+		 */
+		async changeDefaultCalendar(selectedCalendar) {
+			if (!selectedCalendar) {
+				return
+			}
+
+			this.savingDefaultCalendar = true
+
+			try {
+				await this.$store.dispatch('setDefaultCalendarId', {
+					calendarId: selectedCalendar.id,
+				})
+				this.savingDefaultCalendar = false
+			} catch (error) {
+				console.error(error)
+				showError(this.$t('calendar', 'New setting was not saved successfully.'))
+				this.savingDefaultCalendar = false
 			}
 		},
 		/**

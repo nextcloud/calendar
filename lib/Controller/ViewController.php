@@ -81,6 +81,7 @@ class ViewController extends Controller {
 		$defaultTimezone = $this->config->getAppValue($this->appName, 'timezone', 'automatic');
 		$defaultSlotDuration = $this->config->getAppValue($this->appName, 'slotDuration', '00:30:00');
 		$defaultDefaultReminder = $this->config->getAppValue($this->appName, 'defaultReminder', 'none');
+		$defaultCalendarIdGlobal = $this->config->getAppValue($this->appName, 'defaultCalendarId', '');
 		$defaultShowTasks = $this->config->getAppValue($this->appName, 'showTasks', 'yes');
 
 		$appVersion = $this->config->getAppValue($this->appName, 'installed_version', null);
@@ -93,6 +94,7 @@ class ViewController extends Controller {
 		$timezone = $this->config->getUserValue($this->userId, $this->appName, 'timezone', $defaultTimezone);
 		$slotDuration = $this->config->getUserValue($this->userId, $this->appName, 'slotDuration', $defaultSlotDuration);
 		$defaultReminder = $this->config->getUserValue($this->userId, $this->appName, 'defaultReminder', $defaultDefaultReminder);
+		$defaultCalendarIdUser = $this->config->getUserValue($this->userId, $this->appName, 'defaultCalendarId', $defaultCalendarId);
 		$showTasks = $this->config->getUserValue($this->userId, $this->appName, 'showTasks', $defaultShowTasks) === 'yes';
 		$hideEventExport = $this->config->getAppValue($this->appName, 'hideEventExport', 'no') === 'yes';
 		$disableAppointments = $this->config->getAppValue($this->appName, 'disableAppointments', 'no') === 'yes';
@@ -117,6 +119,7 @@ class ViewController extends Controller {
 		$this->initialStateService->provideInitialState('timezone', $timezone);
 		$this->initialStateService->provideInitialState('slot_duration', $slotDuration);
 		$this->initialStateService->provideInitialState('default_reminder', $defaultReminder);
+		$this->initialStateService->provideInitialState($this->appName, 'default_calendar_id', $defaultCalendarIdUser);
 		$this->initialStateService->provideInitialState('show_tasks', $showTasks);
 		$this->initialStateService->provideInitialState('tasks_enabled', $tasksEnabled);
 		$this->initialStateService->provideInitialState('hide_event_export', $hideEventExport);

@@ -1,7 +1,7 @@
 <template>
 	<Multiselect label="displayName"
 		track-by="url"
-		:disabled="isDisabled"
+		:disabled="isMultiselectDisabled"
 		:options="calendars"
 		:value="value"
 		:multiple="multiple"
@@ -47,10 +47,14 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+		disabled: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	computed: {
-		isDisabled() {
-			return this.calendars.length < 2
+		isMultiselectDisabled() {
+			return this.disabled || this.calendars.length < 2
 		},
 	},
 	methods: {

@@ -76,8 +76,9 @@
 				width: 50%;
 			}
 		}
-		
-		&--timezone {
+
+		&--timezone,
+		&--default-calendar {
 			width: 100%;
 		
 			.multiselect {
