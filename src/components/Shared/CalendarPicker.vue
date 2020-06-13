@@ -2,7 +2,7 @@
 	<Multiselect
 		label="displayName"
 		track-by="displayName"
-		:disabled="isDisabled"
+		:disabled="isMultiselectDisabled"
 		:options="calendars"
 		:value="calendar"
 		@select="change">
@@ -37,10 +37,14 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+		disabled: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	computed: {
-		isDisabled() {
-			return this.calendars.length < 2
+		isMultiselectDisabled() {
+			return this.disabled || this.calendars.length < 2
 		},
 	},
 	methods: {
