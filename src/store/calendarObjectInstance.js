@@ -1445,7 +1445,7 @@ const actions = {
 	 * @param {string} data.timezoneId The timezoneId of the new event
 	 * @return {Promise<{calendarObject: object, calendarObjectInstance: object}>}
 	 */
-	async getCalendarObjectInstanceForNewEvent({ state, dispatch, commit }, { isAllDay, start, end, timezoneId }) {
+	async getCalendarObjectInstanceForNewEvent({ state, dispatch, commit }, { isAllDay, start, end, timezoneId, calendarId }) {
 		if (state.isNew === true) {
 			return Promise.resolve({
 				calendarObject: state.calendarObject,
@@ -1453,7 +1453,7 @@ const actions = {
 			})
 		}
 
-		const calendarObject = await dispatch('createNewEvent', { start, end, isAllDay, timezoneId })
+		const calendarObject = await dispatch('createNewEvent', { start, end, isAllDay, timezoneId, calendarId })
 		const startDate = new Date(start * 1000)
 		const eventComponent = getObjectAtRecurrenceId(calendarObject, startDate)
 		const calendarObjectInstance = mapEventComponentToEventObject(eventComponent)

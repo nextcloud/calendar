@@ -89,6 +89,8 @@ class SettingsController extends Controller {
 				return $this->setSlotDuration($value);
 			case 'defaultReminder':
 				return $this->setDefaultReminder($value);
+			case 'defaultCalendarId':
+				return $this->setDefaultCalendarId($value);
 			case 'showTasks':
 				return $this->setShowTasks($value);
 			default:
@@ -331,6 +333,27 @@ class SettingsController extends Controller {
 				$this->userId,
 				$this->appName,
 				'defaultReminder',
+				$value
+			);
+		} catch (\Exception $e) {
+			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+
+		return new JSONResponse();
+	}
+	
+	/**
+	 * sets defaultCalendarId for user
+	 *
+	 * @param string $value User-selected option for default calendar when creating new events
+	 * @return JSONResponse
+	 */
+	private function setDefaultCalendarId(string $value):JSONResponse {
+		try {
+			$this->config->setUserValue(
+				$this->userId,
+				$this->appName,
+				'defaultCalendarId',
 				$value
 			);
 		} catch (\Exception $e) {

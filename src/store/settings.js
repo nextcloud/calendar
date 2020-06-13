@@ -47,6 +47,7 @@ const state = {
 	forceEventAlarmType: false,
 	// user-defined Nextcloud settings
 	momentLocale: 'en',
+	defaultCalendarId: null,
 }
 
 const mutations = {
@@ -130,6 +131,17 @@ const mutations = {
 	},
 
 	/**
+	 * Updates the user's default calendar
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {String} data.calendarId The new calendar id
+	 */
+	setDefaultCalendarId(state, { calendarId }) {
+		state.defaultCalendarId = calendarId
+	},
+
+	/**
 	 * Initialize settings
 	 *
 	 * @param {object} state The Vuex state
@@ -185,6 +197,7 @@ Initial settings:
 		state.hideEventExport = hideEventExport
 		state.forceEventAlarmType = forceEventAlarmType
 		state.disableAppointments = disableAppointments
+		state.defaultCalendarId = settings.defaultCalendarId
 	},
 
 	/**
@@ -384,6 +397,24 @@ const actions = {
 
 		await setConfig('defaultReminder', defaultReminder)
 		commit('setDefaultReminder', { defaultReminder })
+	},
+
+	/**
+	 * Updates the user's default calendar for new events
+	 *
+	 * @param {Object} context The Vuex context
+	 * @param {Object} data The destructuring object
+	 * @param {String} data.slotDuration The id of the new default calendar
+	 */
+	async setDefaultCalendarId(context, { calendarId }) {
+		if (context.state.defaultCalendarId === calendarId) {
+			return
+		}
+
+		await HttpClient.post(getLinkToConfig('defaultCalendarId'), {
+			value: calendarId,
+		})
+		context.commit('setDefaultCalendarId', { calendarId })
 	},
 
 	/**
