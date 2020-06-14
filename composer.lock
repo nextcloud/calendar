@@ -564,7 +564,7 @@
         },
         {
             "name": "symfony/console",
-            "version": "v4.4.9",
+            "version": "v4.4.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
@@ -1740,16 +1740,16 @@
         },
         {
             "name": "phan/phan",
-            "version": "3.0.1",
+            "version": "3.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phan/phan.git",
-                "reference": "6832c5c39593ed9856e9b025b06f646ea01a0d86"
+                "reference": "f10ce6ccc6cc12bc930937d505f3719c4ab71ab4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phan/phan/zipball/6832c5c39593ed9856e9b025b06f646ea01a0d86",
-                "reference": "6832c5c39593ed9856e9b025b06f646ea01a0d86",
+                "url": "https://api.github.com/repos/phan/phan/zipball/f10ce6ccc6cc12bc930937d505f3719c4ab71ab4",
+                "reference": "f10ce6ccc6cc12bc930937d505f3719c4ab71ab4",
                 "shasum": ""
             },
             "require": {
@@ -1809,7 +1809,7 @@
                 "php",
                 "static"
             ],
-            "time": "2020-06-05T01:15:45+00:00"
+            "time": "2020-06-07T13:56:38+00:00"
         },
         {
             "name": "phar-io/manifest",
