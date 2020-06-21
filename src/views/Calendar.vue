@@ -44,6 +44,7 @@
 				:header="showHeader"
 				:height="windowResize"
 				:slot-duration="slotDuration"
+				:default-calendar-id="defaultCalendarId"
 				:week-numbers="showWeekNumbers"
 				:weekends="showWeekends"
 				:event-sources="eventSources"
@@ -171,6 +172,7 @@ export default {
 			showWeekends: state => state.settings.showWeekends,
 			showWeekNumbers: state => state.settings.showWeekNumbers,
 			slotDuration: state => state.settings.slotDuration,
+			defaultCalendarId: state => state.settings.defaultCalendarId,
 			showTasks: state => state.settings.showTasks,
 			timezone: state => state.settings.timezone,
 			modificationCount: state => state.calendarObjects.modificationCount,
@@ -303,6 +305,7 @@ export default {
 			showWeekNumbers: loadState('calendar', 'show_week_numbers'),
 			skipPopover: loadState('calendar', 'skip_popover'),
 			slotDuration: loadState('calendar', 'slot_duration'),
+			defaultCalendarId: loadState('calendar', 'default_calendar_id'),
 			talkEnabled: loadState('calendar', 'talk_enabled'),
 			tasksEnabled: loadState('calendar', 'tasks_enabled'),
 			timezone: loadState('calendar', 'timezone'),

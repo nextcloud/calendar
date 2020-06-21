@@ -94,6 +94,7 @@ class ViewController extends Controller {
 		$defaultSkipPopover = $this->config->getAppValue($this->appName, 'skipPopover', 'no');
 		$defaultTimezone = $this->config->getAppValue($this->appName, 'timezone', 'automatic');
 		$defaultSlotDuration = $this->config->getAppValue($this->appName, 'slotDuration', '00:30:00');
+		$defaultCalendarIdGlobal = $this->config->getAppValue($this->appName, 'defaultCalendarId', '');
 		$defaultShowTasks = $this->config->getAppValue($this->appName, 'showTasks', 'yes');
 
 		$appVersion = $this->config->getAppValue($this->appName, 'installed_version');
@@ -105,6 +106,7 @@ class ViewController extends Controller {
 		$skipPopover = $this->config->getUserValue($this->userId, $this->appName, 'skipPopover', $defaultSkipPopover) === 'yes';
 		$timezone = $this->config->getUserValue($this->userId, $this->appName, 'timezone', $defaultTimezone);
 		$slotDuration = $this->config->getUserValue($this->userId, $this->appName, 'slotDuration', $defaultSlotDuration);
+		$defaultCalendarIdUser = $this->config->getUserValue($this->userId, $this->appName, 'defaultCalendarId', $defaultCalendarId);
 		$showTasks = $this->config->getUserValue($this->userId, $this->appName, 'showTasks', $defaultShowTasks) === 'yes';
 
 		$talkEnabled = $this->appManager->isEnabledForUser('spreed');
@@ -120,6 +122,7 @@ class ViewController extends Controller {
 		$this->initialStateService->provideInitialState($this->appName, 'talk_enabled', $talkEnabled);
 		$this->initialStateService->provideInitialState($this->appName, 'timezone', $timezone);
 		$this->initialStateService->provideInitialState($this->appName, 'slot_duration', $slotDuration);
+		$this->initialStateService->provideInitialState($this->appName, 'default_calendar_id', $defaultCalendarIdUser);
 		$this->initialStateService->provideInitialState($this->appName, 'show_tasks', $showTasks);
 		$this->initialStateService->provideInitialState($this->appName, 'tasks_enabled', $tasksEnabled);
 

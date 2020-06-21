@@ -39,6 +39,7 @@ const state = {
 	talkEnabled: false,
 	tasksEnabled: false,
 	timezone: null,
+	defaultCalendarId: null,
 }
 
 const mutations = {
@@ -111,6 +112,17 @@ const mutations = {
 	},
 
 	/**
+	 * Updates the user's default calendar
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {String} data.calendarId The new calendar id
+	 */
+	setDefaultCalendarId(state, { calendarId }) {
+		state.defaultCalendarId = calendarId
+	},
+
+	/**
 	 * Initialize settings
 	 *
 	 * @param {Object} state The Vuex state
@@ -130,6 +142,7 @@ const mutations = {
 		state.talkEnabled = settings.talkEnabled
 		state.tasksEnabled = settings.tasksEnabled
 		state.timezone = settings.timezone
+		state.defaultCalendarId = settings.defaultCalendarId
 	},
 
 	/**
@@ -292,6 +305,24 @@ const actions = {
 			value: slotDuration,
 		})
 		context.commit('setSlotDuration', { slotDuration })
+	},
+
+	/**
+	 * Updates the user's default calendar for new events
+	 *
+	 * @param {Object} context The Vuex context
+	 * @param {Object} data The destructuring object
+	 * @param {String} data.slotDuration The id of the new default calendar
+	 */
+	async setDefaultCalendarId(context, { calendarId }) {
+		if (context.state.defaultCalendarId === calendarId) {
+			return
+		}
+
+		await HttpClient.post(getLinkToConfig('defaultCalendarId'), {
+			value: calendarId,
+		})
+		context.commit('setDefaultCalendarId', { calendarId })
 	},
 
 	/**

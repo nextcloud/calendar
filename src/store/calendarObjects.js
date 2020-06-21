@@ -312,7 +312,7 @@ const actions = {
 	 * @param {Boolean} data.isAllDay foo
 	 * @returns {Promise<CalendarObject>}
 	 */
-	createNewEvent(context, { start, end, timezoneId, isAllDay }) {
+	createNewEvent(context, { start, end, timezoneId, isAllDay, calendarId }) {
 		const timezoneManager = getTimezoneManager()
 		const timezone = timezoneManager.getTimezoneForId(timezoneId)
 
@@ -336,8 +336,7 @@ const actions = {
 			vObject.undirtify()
 		}
 
-		const firstCalendar = context.getters.sortedCalendars[0].id
-		return Promise.resolve(mapCalendarJsToCalendarObject(calendar, firstCalendar))
+		return Promise.resolve(mapCalendarJsToCalendarObject(calendar, calendarId || context.getters.sortedCalendars[0].id))
 	},
 
 	/**
