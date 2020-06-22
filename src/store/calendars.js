@@ -24,7 +24,12 @@
  *
  */
 import Vue from 'vue'
-import client from '../services/caldavService.js'
+import {
+	createCalendar,
+	createSubscription,
+	findAllCalendars,
+	findPublicCalendarsByTokens,
+} from '../services/caldavService.js'
 import { mapCDavObjectToCalendarObject } from '../models/calendarObject'
 import { dateFactory, getUnixTimestampFromDate } from '../utils/date.js'
 import { getDefaultCalendarObject, mapDavCollectionToCalendar } from '../models/calendar'
@@ -34,6 +39,11 @@ import { translate as t } from '@nextcloud/l10n'
 import getTimezoneManager from '../services/timezoneDataProviderService.js'
 import Timezone from 'calendar-js/src/timezones/timezone.js'
 import CalendarComponent from 'calendar-js/src/components/calendarComponent.js'
+import {
+	CALDAV_BIRTHDAY_CALENDAR,
+	IMPORT_STAGE_IMPORTING,
+	IMPORT_STAGE_PROCESSING,
+} from '../models/consts.js'
 
 const state = {
 	calendars: [],
@@ -375,12 +385,23 @@ const getters = {
 			const lastSlash = url.lastIndexOf('/')
 			const uri = url.substr(lastSlash + 1)
 
-			if (uri === 'contact_birthdays') {
+			if (uri === CALDAV_BIRTHDAY_CALENDAR) {
 				return calendar
 			}
 		}
 
 		return null
+	},
+
+	/**
+	 * Whether or not a birthday calendar exists
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {Object} getters the vuex getters
+	 * @returns {boolean}
+	 */
+	hasBirthdayCalendar: (state, getters) => {
+		return !!getters.getBirthdayCalendar
 	},
 
 	/**
@@ -417,7 +438,7 @@ const actions = {
 	 * @returns {Promise<Array>} the calendars
 	 */
 	async getCalendars({ commit, state, getters }) {
-		const calendars = await client.calendarHomes[0].findAllCalendars()
+		const calendars = await findAllCalendars()
 		calendars.map((calendar) => mapDavCollectionToCalendar(calendar, getters.getCurrentUserPrincipal)).forEach(calendar => {
 			commit('addCalendar', { calendar })
 		})
@@ -436,26 +457,9 @@ const actions = {
 	 * @returns {Promise<Object[]>}
 	 */
 	async getPublicCalendars({ commit, state, getters }, { tokens }) {
-		const findPromises = []
-
-		for (const token of tokens) {
-			const promise = client.publicCalendarHome
-				.find(token)
-				.catch(() => null) // Catch outdated tokens
-
-			findPromises.push(promise)
-		}
-
-		const calendars = await Promise.all(findPromises)
-		const existingCalendars = []
-		for (const calendar of calendars) {
-			if (calendar !== null) {
-				existingCalendars.push(calendar)
-			}
-		}
-
+		const calendars = findPublicCalendarsByTokens(tokens)
 		const calendarObjects = []
-		for (const davCalendar of existingCalendars) {
+		for (const davCalendar of calendars) {
 			const calendar = mapDavCollectionToCalendar(davCalendar)
 			commit('addCalendar', { calendar })
 			calendarObjects.push(calendar)
@@ -490,7 +494,7 @@ const actions = {
 			timezoneIcs = calendar.toICS(false)
 		}
 
-		const response = await client.calendarHomes[0].createCalendarCollection(displayName, color, components, order, timezoneIcs)
+		const response = await createCalendar(displayName, color, components, order, timezoneIcs)
 		const calendar = mapDavCollectionToCalendar(response, context.getters.getCurrentUserPrincipal)
 		context.commit('addCalendar', { calendar })
 	},
@@ -507,7 +511,7 @@ const actions = {
 	 * @returns {Promise}
 	 */
 	async appendSubscription(context, { displayName, color, order, source }) {
-		const response = await client.calendarHomes[0].createSubscribedCollection(displayName, color, source, order)
+		const response = await createSubscription(displayName, color, source, order)
 		const calendar = mapDavCollectionToCalendar(response, context.getters.getCurrentUserPrincipal)
 		context.commit('addCalendar', { calendar })
 	},
@@ -747,7 +751,7 @@ const actions = {
 	 * @param {Object} context the store mutations
 	 */
 	async importEventsIntoCalendar(context) {
-		context.commit('changeStage', 'importing')
+		context.commit('changeStage', IMPORT_STAGE_IMPORTING)
 
 		// Create a copy
 		const files = context.rootState.importFiles.importFiles.slice()
@@ -774,7 +778,7 @@ const actions = {
 				}
 
 				try {
-					const response = await client.calendarHomes[0].createCalendarCollection(displayName, color, components, 0)
+					const response = await createCalendar(displayName, color, components, 0)
 					const calendar = mapDavCollectionToCalendar(response, context.getters.getCurrentUserPrincipal)
 					context.commit('addCalendar', { calendar })
 					context.commit('setCalendarForFileId', {
@@ -825,7 +829,7 @@ const actions = {
 		}
 
 		await Promise.all(requests)
-		context.commit('changeStage', 'default')
+		context.commit('changeStage', IMPORT_STAGE_PROCESSING)
 	},
 	/**
 	 *

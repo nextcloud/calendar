@@ -81,7 +81,7 @@
 <script>
 import Avatar from '@nextcloud/vue/dist/Components/Avatar'
 import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
-import client from '../../../services/caldavService.js'
+import { findPrincipalsByDisplayName } from '../../../services/caldavService.js'
 import HttpClient from '@nextcloud/axios'
 import debounce from 'debounce'
 import { linkTo } from '@nextcloud/router'
@@ -209,7 +209,7 @@ export default {
 		async findAttendeesFromDAV(query) {
 			let results
 			try {
-				results = await client.principalPropertySearchByDisplayname(query)
+				results = await findPrincipalsByDisplayName(query)
 			} catch (error) {
 				console.debug(error)
 				return []

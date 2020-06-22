@@ -1,6 +1,6 @@
 /**
  * @copyright Copyright (c) 2019 Team Popcorn <teampopcornberlin@gmail.com>
- * @copyright Copyright (c) 2019 Georg Ehrke
+ * @copyright Copyright (c) 2020 Georg Ehrke
  *
  * @author Team Popcorn <teampopcornberlin@gmail.com>
  * @author Georg Ehrke <oc.list@georgehrke.com>
@@ -57,23 +57,6 @@ const mutations = {
 
 		state.importFiles.push(file)
 		Vue.set(state.importFilesById, file.id, file)
-	},
-
-	/**
-	 * Removes one file from state
-	 *
-	 * @param {Object} state The vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Number} data.fileId Id of the file to remove
-	 */
-	removeFile(state, { fileId }) {
-		const object = state.importFilesById[fileId]
-		const index = state.importFiles.indexOf(object)
-
-		if (index !== 1) {
-			state.importFiles.slice(index, 1)
-			Vue.delete(state.importFilesById, fileId)
-		}
 	},
 
 	/**

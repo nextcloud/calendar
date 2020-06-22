@@ -34,7 +34,7 @@ import {
 } from 'vuex'
 
 import TimezoneSelect from '../../Shared/TimezoneSelect.vue'
-import detectTimezone from '../../../services/timezoneDetectionService.js'
+import { detectTimezone } from '../../../services/timezoneDetectionService.js'
 import {
 	showInfo,
 } from '@nextcloud/dialogs'

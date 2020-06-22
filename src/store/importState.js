@@ -1,6 +1,6 @@
 /**
  * @copyright Copyright (c) 2019 Team Popcorn <teampopcornberlin@gmail.com>
- * @copyright Copyright (c) 2019 Georg Ehrke
+ * @copyright Copyright (c) 2020 Georg Ehrke
  *
  * @author Team Popcorn <teampopcornberlin@gmail.com>
  * @author Georg Ehrke <oc.list@georgehrke.com>
@@ -21,12 +21,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import { IMPORT_STAGE_DEFAULT } from '../models/consts.js'
 
 const state = {
 	total: 0,
 	accepted: 0,
 	denied: 0,
-	stage: 'default',
+	stage: IMPORT_STAGE_DEFAULT,
 }
 
 const mutations = {
@@ -53,7 +54,7 @@ const mutations = {
 	 * Set the total number of calendar-objects
 	 *
 	 * @param {Object} state the store data
-	 * @param {string} total the total number of calendar-objects to import
+	 * @param {Number} total the total number of calendar-objects to import
 	 */
 	setTotal(state, total) {
 		state.total = total
@@ -63,7 +64,7 @@ const mutations = {
 	 * Change stage to the indicated one
 	 *
 	 * @param {Object} state the store data
-	 * @param {string} stage the name of the stage ('default', 'importing', 'parsing', 'done')
+	 * @param {String} stage the name of the stage, see /src/models/consts.js
 	 */
 	changeStage(state, stage) {
 		state.stage = stage
@@ -78,7 +79,7 @@ const mutations = {
 		state.total = 0
 		state.accepted = 0
 		state.denied = 0
-		state.stage = 'default'
+		state.stage = IMPORT_STAGE_DEFAULT
 	},
 }
 
