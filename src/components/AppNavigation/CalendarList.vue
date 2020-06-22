@@ -20,51 +20,50 @@
   -->
 
 <template>
-	<transition-group v-if="!isPublic"
-		id="calendars-list"
-		name="list"
-		tag="ul">
-		<AppNavigationSpacer :key="spacerKey" />
-		<CalendarListItemLoadingPlaceholder v-if="loadingCalendars" :key="loadingKeyCalendars" />
-		<CalendarListItem
-			v-for="calendar in allCalendars"
-			:key="calendar.id"
-			:calendar="calendar" />
-		<CalendarListNew
-			v-if="!loadingCalendars"
-			:key="newCalendarKey"
-			:disabled="loadingCalendars" />
-	</transition-group>
-	<transition-group v-else
-		id="calendars-list"
-		name="list"
-		tag="ul">
-		<CalendarListItemLoadingPlaceholder v-if="loadingCalendars" :key="loadingKeyCalendars" />
-		<PublicCalendarListItem
-			v-for="calendar in subscriptions"
-			:key="calendar.id"
-			:calendar="calendar" />
-	</transition-group>
+	<draggable
+		v-model="calendars"
+		:disabled="disableDragging"
+		draggable=".draggable-calendar-list-item"
+		@update="update">
+		<template v-if="!isPublic">
+			<CalendarListItem
+				v-for="calendar in calendars"
+				:key="calendar.id"
+				class="draggable-calendar-list-item"
+				:calendar="calendar" />
+		</template>
+		<template v-else>
+			<PublicCalendarListItem
+				v-for="calendar in calendars"
+				:key="calendar.id"
+				:calendar="calendar" />
+		</template>
+		<!-- The header slot must be placed here, otherwise vuedraggable adds undefined as item to the array -->
+		<CalendarListItemLoadingPlaceholder
+			v-if="loadingCalendars"
+			#footer />
+	</draggable>
 </template>
 
 <script>
-import {
-	mapGetters,
-} from 'vuex'
-import AppNavigationSpacer from '@nextcloud/vue/dist/Components/AppNavigationSpacer'
-import CalendarListNew from './CalendarList/CalendarListNew.vue'
 import CalendarListItem from './CalendarList/CalendarListItem.vue'
 import PublicCalendarListItem from './CalendarList/PublicCalendarListItem.vue'
 import CalendarListItemLoadingPlaceholder from './CalendarList/CalendarListItemLoadingPlaceholder.vue'
+import draggable from 'vuedraggable'
+import debounce from 'debounce'
+import { mapGetters } from 'vuex'
+import { showError } from '@nextcloud/dialogs'
+import pLimit from 'p-limit'
+
+const limit = pLimit(1)
 
 export default {
 	name: 'CalendarList',
 	components: {
-		AppNavigationSpacer,
-		CalendarListNew,
 		CalendarListItem,
 		CalendarListItemLoadingPlaceholder,
 		PublicCalendarListItem,
+		draggable,
 	},
 	props: {
 		isPublic: {
@@ -76,20 +75,43 @@ export default {
 			default: false,
 		},
 	},
+	data() {
+		return {
+			calendars: [],
+			disableDragging: false,
+		}
+	},
 	computed: {
 		...mapGetters({
-			allCalendars: 'sortedCalendarsSubscriptions',
-			subscriptions: 'sortedSubscriptions',
+			serverCalendars: 'sortedCalendarsSubscriptions',
 		}),
-		newCalendarKey() {
-			return this._uid + '-new-calendar'
-		},
 		loadingKeyCalendars() {
 			return this._uid + '-loading-placeholder-calendars'
 		},
-		spacerKey() {
-			return this._uid + '-spacer'
+	},
+	watch: {
+		serverCalendars(val) {
+			this.calendars = val
 		},
+	},
+	methods: {
+		update: debounce(async function() {
+			this.disableDragging = true
+			const newOrder = this.calendars.reduce((newOrderObj, currentItem, currentIndex) => {
+				newOrderObj[currentItem.id] = currentIndex
+				return newOrderObj
+			}, {})
+
+			try {
+				await limit(() => this.$store.dispatch('updateCalendarListOrder', { newOrder }))
+			} catch (err) {
+				showError(this.$t('calendar', 'Could not update calendar order.'))
+				// Reset calendar list order on error
+				this.calendars = this.serverCalendars
+			} finally {
+				this.disableDragging = false
+			}
+		}, 2500),
 	},
 }
 </script>

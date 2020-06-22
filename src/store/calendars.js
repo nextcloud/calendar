@@ -580,35 +580,6 @@ const actions = {
 	},
 
 	/**
-	 * Change a calendar's order
-	 *
-	 * @param {Object} context the store mutations Current context
-	 * @param {Object} data destructuring object
-	 * @param {Object} data.calendar the calendar to modify
-	 * @param {String} data.newOrder the new order of the calendar
-	 * @returns {Promise}
-	 */
-	async changeCalendarOrder(context, { calendar, newOrder }) {
-		calendar.dav.order = newOrder
-
-		await calendar.dav.update()
-		context.commit('changeCalendarOrder', { calendar, newOrder })
-	},
-
-	/**
-	 * Change order of multiple calendars
-	 *
-	 * @param {Object} context the store mutations Current context
-	 * @param {Array} new order of calendars
-	 */
-	async changeMultipleCalendarOrders(context, { calendars }) {
-		// TODO - implement me
-		// TODO - extract new order from order of calendars in array
-		// send proppatch to all calendars
-		// limit number of requests similar to import
-	},
-
-	/**
 	 * Share calendar with User or Group
 	 *
 	 * @param {Object} context the store mutations Current context
@@ -855,6 +826,45 @@ const actions = {
 
 		await Promise.all(requests)
 		context.commit('changeStage', 'default')
+	},
+	/**
+	 *
+	 * @param {Object} context The Vuex context destructuring object
+	 * @param {Function} context.commit The Vuex commit Function
+	 * @param {Object} data The data destructuring object
+	 * @param {Object} newOrder The object containing String => Number with the new order
+	 * @returns {Promise<void>}
+	 */
+	async updateCalendarListOrder({ state, commit }, { newOrder }) {
+		// keep a record of the original order in case we need to do a rollback
+
+		const limit = pLimit(3)
+		const requests = []
+		const calendarsToUpdate = []
+
+		for (const key in newOrder) {
+			requests.push(limit(async() => {
+				const calendar = state.calendarsById[key]
+
+				// Do not update unless necessary
+				if (calendar.dav.order === newOrder[key]) {
+					return
+				}
+
+				calendar.dav.order = newOrder[key]
+
+				await calendar.dav.update()
+
+				calendarsToUpdate.push({ calendar, newOrder: newOrder[key] })
+			}))
+		}
+
+		await Promise.all(requests)
+
+		for (const { calendar, newOrder } of calendarsToUpdate) {
+			console.debug(calendar, newOrder)
+			commit('changeCalendarOrder', { calendar, newOrder })
+		}
 	},
 }
 

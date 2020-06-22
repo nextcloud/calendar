@@ -24,10 +24,16 @@
 		<AppNavigation v-if="!isEmbedded">
 			<!-- Date Picker, View Buttons, Today Button -->
 			<AppNavigationHeader :is-public="!isAuthenticatedUser" />
-			<!-- Calendar / Subscription List -->
-			<CalendarList
-				:is-public="!isAuthenticatedUser"
-				:loading-calendars="loadingCalendars" />
+			<ul id="calendars-list">
+				<AppNavigationSpacer />
+				<!-- Calendar / Subscription List -->
+				<CalendarList
+					:is-public="!isAuthenticatedUser"
+					:loading-calendars="loadingCalendars" />
+				<CalendarListNew
+					v-if="!loadingCalendars"
+					:disabled="loadingCalendars" />
+			</ul>
 			<!-- Settings and import -->
 			<Settings
 				v-if="isAuthenticatedUser"
@@ -94,6 +100,7 @@ import '@fullcalendar/list/main.css'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import '@fullcalendar/timegrid/main.css'
 import AppNavigation from '@nextcloud/vue/dist/Components/AppNavigation'
+import AppNavigationSpacer from '@nextcloud/vue/dist/Components/AppNavigationSpacer'
 import AppContent from '@nextcloud/vue/dist/Components/AppContent'
 import Content from '@nextcloud/vue/dist/Components/Content'
 import debounce from 'debounce'
@@ -117,6 +124,7 @@ import VTimezoneNamedTimezone from '../fullcalendar/vtimezoneNamedTimezoneImpl'
 import AppNavigationHeader from '../components/AppNavigation/AppNavigationHeader.vue'
 import CalendarList from '../components/AppNavigation/CalendarList.vue'
 import Settings from '../components/AppNavigation/Settings.vue'
+import CalendarListNew from '../components/AppNavigation/CalendarList/CalendarListNew.vue'
 import getTimezoneManager from '../services/timezoneDataProviderService'
 import {
 	mapGetters,
@@ -148,6 +156,8 @@ export default {
 		AppContent,
 		AppNavigation,
 		FullCalendar,
+		AppNavigationSpacer,
+		CalendarListNew,
 	},
 	data() {
 		return {
