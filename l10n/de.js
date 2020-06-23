@@ -318,7 +318,7 @@ OC.L10N.register(
     "Planning" : "Planung",
     "Pointing" : "Hinweis",
     "Retrospective" : "Rückblick",
-    "Review" : "Benötigt keine Übersetzung. Für iOS wird nur die formelle Übersetzung verwendet (de_DE).",
+    "Review" : "Überprüfen",
     "Office" : "Büro",
     "Contributor week" : "Woche der Mitwirkenden",
     "Party" : "Party",
