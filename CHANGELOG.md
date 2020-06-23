@@ -1,3 +1,7 @@
+## 1.7.3 - 2020-06-23
+### Fixed
+- Updated Dependencies
+
 ## 1.7.2 - 2020-01-10
 ### Fixed
 - Updated Translations
