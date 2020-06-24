@@ -77,6 +77,7 @@ OC.L10N.register(
     "Creating subscription …" : "Création de l'abonnement en cours ...",
     "An error occurred, unable to create the calendar." : "Une erreur est survenue, impossible de créer l'agenda.",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "Veuillez saisir un lien valide (débutant par http://, https://, webcal:// ou webcals://)",
+    "Could not update calendar order." : "Impossible de mettre à jour l'ordre du calendrier.",
     "Import calendars" : "Importer des calendriers",
     "Please select a calendar to import into …" : "Veuillez sélectionner un agenda dans lequel importer  …",
     "Filename" : "Nom du fichier",

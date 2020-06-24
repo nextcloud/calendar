@@ -77,6 +77,7 @@ OC.L10N.register(
     "Creating subscription …" : "Abonelik oluşturuluyor …",
     "An error occurred, unable to create the calendar." : "Bir sorun çıktı. Takvim eklenemedi.",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "Lütfen geçerli bir bağlantı yazın (http://, https://, webcal:// ya da webcals:// ile başlayan)",
+    "Could not update calendar order." : "Takvim sıralaması güncellenemedi.",
     "Import calendars" : "Takvimleri içe aktar",
     "Please select a calendar to import into …" : "Lütfen içine aktarılacak bir takvim seçin …",
     "Filename" : "Dosya adı",

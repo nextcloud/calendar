@@ -77,6 +77,7 @@ OC.L10N.register(
     "Creating subscription …" : "Crea sottoscrizione...",
     "An error occurred, unable to create the calendar." : "Si è verificato un errore, impossibile creare il calendario.",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "Inserisci un collegamento valido (inizia con http://, https://, webcal://, o webcals://)",
+    "Could not update calendar order." : "Impossibile aggiornare l'ordine del calendario.",
     "Import calendars" : "Importa calendari",
     "Please select a calendar to import into …" : "Seleziona un calendario in cui importare...",
     "Filename" : "Nome file",

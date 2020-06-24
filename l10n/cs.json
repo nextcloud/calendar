@@ -75,6 +75,7 @@
     "Creating subscription …" : "Vytváření předplatného…",
     "An error occurred, unable to create the calendar." : "Došlo k chybě, kalendář se nepodařilo vytvořit.",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "Vložte platný odkaz (včetně http://, https://, webcal://, nebo webcals://)",
+    "Could not update calendar order." : "Pořadí kalendářů se nedaří aktualizovat.",
     "Import calendars" : "Importovat kalendáře",
     "Please select a calendar to import into …" : "Vyberte kalendář do kterého importovat…",
     "Filename" : "Soubor",
