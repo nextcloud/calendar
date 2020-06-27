@@ -77,6 +77,7 @@ OC.L10N.register(
     "Creating subscription …" : "Δημιουργία συνδρομής ...",
     "An error occurred, unable to create the calendar." : "Παρουσιάστηε σφάλμα, δεν μπορεί να δημιουργηθεί το ημερολόγιο.",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "Παρακαλώ εισάγετε έγκυρο σύνδεσμο (ξεκινούν με http://, https://, webcal://, ή webcals://)",
+    "Could not update calendar order." : "Δεν μπορεί να γίνει ενημέρωση εντολών ημερολογίου.",
     "Import calendars" : "Εισαγωγή ημερολογίων",
     "Please select a calendar to import into …" : "Παρακαλώ επιλέξτε ημερολόγιο για εισαγωγή σε '...'",
     "Filename" : "Όνομα αρχείου",
