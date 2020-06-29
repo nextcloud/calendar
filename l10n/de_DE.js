@@ -33,7 +33,7 @@ OC.L10N.register(
     "Download" : "Herunterladen",
     "Unshare from me" : "Nicht mehr mit mir teilen",
     "Delete" : "Löschen",
-    "An error occurred, unable to change visibility of the calendar." : "Fehler, Sichtbarkeit des Kalenders konnte nicht geändert werden.",
+    "An error occurred, unable to change visibility of the calendar." : "Fehler, die Sichtbarkeit des Kalenders konnte nicht geändert werden.",
     "An error occurred, unable to delete the calendar." : "Fehler, Kalender konnte nicht gelöscht werden.",
     "Calendar link copied to clipboard." : "Kalender-Link in die Zwischenablage kopiert.",
     "Calendar link could not be copied to clipboard." : "Kalender-Link konnte nicht in die Zwischenablage kopiert werden.",
