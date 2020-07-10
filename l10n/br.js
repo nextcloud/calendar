@@ -9,6 +9,7 @@ OC.L10N.register(
     "Delete" : "Dilemel",
     "Share link" : "Rannan liamm",
     "Delete share link" : "Lemmet al liamm rannet",
+    "Filename" : "Anv restr",
     "Cancel" : "Arrest",
     "Actions" : "Oberoù",
     "Email" : "Postel",

@@ -27,6 +27,7 @@ OC.L10N.register(
     "Settings & import" : "Settings & import",
     "Notification" : "Notification",
     "Email" : "Email",
+    "Busy" : "Busy",
     "Unknown" : "Unknown",
     "All day" : "All day",
     "never" : "never",
