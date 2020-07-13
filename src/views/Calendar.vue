@@ -24,7 +24,7 @@
 		<AppNavigation v-if="!isEmbedded">
 			<!-- Date Picker, View Buttons, Today Button -->
 			<AppNavigationHeader :is-public="!isAuthenticatedUser" />
-			<ul id="calendars-list">
+			<template #list>
 				<AppNavigationSpacer />
 				<!-- Calendar / Subscription List -->
 				<CalendarList
@@ -33,11 +33,13 @@
 				<CalendarListNew
 					v-if="!loadingCalendars"
 					:disabled="loadingCalendars" />
-			</ul>
+			</template>
 			<!-- Settings and import -->
-			<Settings
-				v-if="isAuthenticatedUser"
-				:loading-calendars="loadingCalendars" />
+			<template #footer>
+				<Settings
+					v-if="isAuthenticatedUser"
+					:loading-calendars="loadingCalendars" />
+			</template>
 		</AppNavigation>
 		<EmbedTopNavigation v-if="isEmbedded" />
 		<AppContent>
