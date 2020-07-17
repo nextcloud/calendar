@@ -75,6 +75,7 @@
     "Creating subscription …" : "Harpidetza sortzen ...",
     "An error occurred, unable to create the calendar." : "Errore bat gertatu da, ezin da egutegia sortu.",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "Sartu baliozko esteka bat (hauetako batekin hasi behar du: http://, https://, webcal:// edo webcals://)",
+    "Could not update calendar order." : "Ezin da egutegi-eskaera eguneratu.",
     "Import calendars" : "Inportatu egutegiak",
     "Please select a calendar to import into …" : "Hautatu egutegia hona inportatzeko ...",
     "Filename" : "Fitxategi-izena",
