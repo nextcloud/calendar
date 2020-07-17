@@ -68,6 +68,7 @@
 				:href="downloadURL">
 				{{ $t('calendar', 'Download') }}
 			</ActionLink>
+			<ActionButton icon="icon-file" @click="duplicateEvent()">{{ $t('calendar', 'Duplicate') }}</ActionButton>
 			<ActionButton v-if="canDelete && !canCreateRecurrenceException" icon="icon-delete" @click="deleteAndLeave(false)">
 				{{ $t('calendar', 'Delete') }}
 			</ActionButton>

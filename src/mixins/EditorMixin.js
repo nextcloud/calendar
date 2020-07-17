@@ -518,6 +518,16 @@ export default {
 		 * @param {Boolean} thisAndAllFuture Whether to delete only this or this and all future occurrences
 		 * @returns {Promise<void>}
 		 */
+		async duplicateEvent() {
+			//Grab the event details and send to the create event method to prefill a new event with matching details
+			return;
+		},
+		/**
+		 * Deletes a calendar-object and closes the editor
+		 *
+		 * @param {Boolean} thisAndAllFuture Whether to delete only this or this and all future occurrences
+		 * @returns {Promise<void>}
+		 */
 		async deleteAndLeave(thisAndAllFuture = false) {
 			await this.delete(thisAndAllFuture)
 			this.requiresActionOnRouteLeave = false
