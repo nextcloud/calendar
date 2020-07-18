@@ -62,7 +62,7 @@
 		"jstz": "^2.1.1",
 		"linkifyjs": "^2.1.9",
 		"md5": "^2.2.1",
-		"p-limit": "^3.0.1",
+		"p-limit": "^3.0.2",
 		"v-tooltip": "^2.0.3",
 		"vue": "^2.6.11",
 		"vue-click-outside": "^1.1.0",
