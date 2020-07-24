@@ -77,6 +77,7 @@ OC.L10N.register(
     "Creating subscription …" : "正在创建订阅 …",
     "An error occurred, unable to create the calendar." : "发生了错误，无法创建日历。",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "请输入合法的链接（以http://、https://、webcal://、或者webcals://开头）",
+    "Could not update calendar order." : "无法更新日历顺序",
     "Import calendars" : "导入日历",
     "Please select a calendar to import into …" : "请选择一个要导入的日历 …",
     "Filename" : "文件名",
