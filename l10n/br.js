@@ -19,7 +19,7 @@ OC.L10N.register(
     "never" : "james",
     "after" : "goude",
     "More" : "Muioc'h",
-    "Save" : "Entilañ",
+    "Save" : "Enrollañ",
     "Personal" : "Personel",
     "Details" : "Munudoù",
     "Activity" : "Oberantiz",
