@@ -53,6 +53,16 @@
 	color: var(--color-main-text);
 }
 
+// Center date in month view cell
+.fc-day-top {
+	text-align: center;
+
+	.fc-day-number {
+		float: none !important;
+		display: inline-block;
+	}
+}
+
 .fc-day-number.fc-other-month {
 	opacity: .1 !important;
 }
