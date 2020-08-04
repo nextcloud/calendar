@@ -27,6 +27,7 @@ return [
 	'routes' => [
 		// User views
 		['name' => 'view#index', 'url' => '/', 'verb' => 'GET'],
+		['name' => 'view#index', 'url' => '/edit/{objectId}', 'verb' => 'GET',  'postfix' => 'view.directedit'],
 		['name' => 'view#index', 'url' => '/{view}/{timeRange}', 'verb' => 'GET', 'requirements' => ['view' => 'timeGridDay|timeGridWeek|dayGridMonth'], 'postfix' => 'view.timerange'],
 		['name' => 'view#index', 'url' => '/{view}/{timeRange}/new/{mode}/{isAllDay}/{dtStart}/{dtEnd}', 'verb' => 'GET', 'requirements' => ['view' => 'timeGridDay|timeGridWeek|dayGridMonth'], 'postfix' => 'view.timerange.new'],
 		['name' => 'view#index', 'url' => '/{view}/{timeRange}/edit/{mode}/{objectId}/{recurrenceId}', 'verb' => 'GET', 'requirements' => ['view' => 'timeGridDay|timeGridWeek|dayGridMonth'], 'postfix' => 'view.timerange.edit'],
