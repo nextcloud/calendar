@@ -74,6 +74,7 @@
     "Creating subscription …" : "Poteka ustvarjanje naročila ...",
     "An error occurred, unable to create the calendar." : "Prišlo je do napake, koledarja ni mogoče ustvariti.",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "Vpisati je treba veljavne povezave (začeti se morajo s http://, https://, webcal://, ali webcals://)",
+    "Could not update calendar order." : "Ni mogoče posodobiti koledarja",
     "Import calendars" : "Uvozi koledarje",
     "Please select a calendar to import into …" : "Izberite koledar, v katerega naj se uvozi ...",
     "Filename" : "Ime datoteke",
