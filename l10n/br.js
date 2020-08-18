@@ -8,6 +8,7 @@ OC.L10N.register(
     "Download" : "Pellgargañ",
     "Delete" : "Dilemel",
     "Share link" : "Rannan liamm",
+    "Copy public link" : "Eilañ al liamm publik",
     "Delete share link" : "Lemmet al liamm rannet",
     "can edit" : "posuple eo embann",
     "Filename" : "Anv restr",
