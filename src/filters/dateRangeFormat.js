@@ -42,6 +42,7 @@ export default (value, view, locale) => {
 		})
 
 	case 'dayGridMonth':
+	case 'listMonth':
 	default:
 		return moment(value).locale(locale).format('MMMM YYYY')
 	}

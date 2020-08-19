@@ -73,4 +73,27 @@ export default function({ event, el }) {
 		el.dataset.objectId = event.extendedProps.objectId
 		el.dataset.recurrenceId = event.extendedProps.recurrenceId
 	}
+
+	if (event.extendedProps.location != null && el.classList.contains('fc-list-event')) {
+		const location = document.createElement('span')
+		location.appendChild(document.createTextNode(' (' + event.extendedProps.location + ')'))
+		el.lastChild.appendChild(location)
+	}
+
+	if (event.extendedProps.description != null && el.classList.contains('fc-list-event')) {
+		const description = document.createElement('p')
+		const descriptionLines = event.extendedProps.description.split('\n')
+		const nbLines = Math.min(2, descriptionLines.length)
+		for (let i = 0; i < nbLines; i++) {
+			description.appendChild(document.createTextNode(descriptionLines[i]))
+			if (i < nbLines - 1) {
+				description.appendChild(document.createElement('br'))
+			}
+		}
+		if (descriptionLines.length > 2) {
+			description.appendChild(document.createElement('br'))
+			description.appendChild(document.createTextNode('...'))
+		}
+		el.lastChild.appendChild(description)
+	}
 }

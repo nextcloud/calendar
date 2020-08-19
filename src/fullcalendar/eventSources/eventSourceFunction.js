@@ -141,6 +141,8 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 					objectType: object.name,
 					percent: object.percent || null,
 					davUrl: calendarObject.dav.url,
+					location: object.location,
+					description: object.description,
 				},
 			}
 

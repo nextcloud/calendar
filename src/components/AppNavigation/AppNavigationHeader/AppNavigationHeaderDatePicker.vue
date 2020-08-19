@@ -151,6 +151,7 @@ export default {
 				break
 
 			case 'dayGridMonth':
+			case 'listMonth':
 			default: {
 				// modifyDate is just adding one month, so we have to manually
 				// set the date of month to 1. Otherwise if your date is set to
