@@ -345,7 +345,7 @@ OC.L10N.register(
     "Pilates" : "Pilates",
     "Park" : "Park",
     "Studying" : "Studeren",
-    "Doctor" : "Arts",
+    "Doctor" : "Dokter",
     "Health" : "Gezondheid",
     "Dentist" : "Tandarts",
     "Interview" : "Interview",
