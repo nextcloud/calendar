@@ -67,7 +67,7 @@ class EmailControllerTest extends TestCase {
 
 	/** @var EmailController */
 	private $controller;
-	
+
 	protected function setUp():void {
 		parent::setUp();
 
@@ -165,7 +165,7 @@ class EmailControllerTest extends TestCase {
 
 		$this->urlGenerator->expects($this->at(0))
 			->method('linkToRouteAbsolute')
-			->with('calendar.view.public_index_with_branding', [
+			->with('calendar.publicView.public_index_with_branding', [
 				'token' => 'token123'
 			])
 			->willReturn('http://publicURL123');
@@ -271,7 +271,7 @@ class EmailControllerTest extends TestCase {
 
 		$this->urlGenerator->expects($this->at(0))
 			->method('linkToRouteAbsolute')
-			->with('calendar.view.public_index_with_branding', [
+			->with('calendar.publicView.public_index_with_branding', [
 				'token' => 'token123'
 			])
 			->willReturn('http://publicURL123');
