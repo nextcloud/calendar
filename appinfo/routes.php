@@ -27,6 +27,10 @@ return [
 	'routes' => [
 		// User views
 		['name' => 'view#index', 'url' => '/', 'verb' => 'GET'],
+		['name' => 'view#index', 'url' => '/new', 'verb' => 'GET', 'postfix' => 'direct.new'],
+		['name' => 'view#index', 'url' => '/new/{isAllDay}/{dtStart}/{dtEnd}', 'verb' => 'GET', 'postfix' => 'direct.new.timerange'],
+		['name' => 'view#index', 'url' => '/edit/{objectId}', 'verb' => 'GET', 'postfix' => 'direct.edit'],
+		['name' => 'view#index', 'url' => '/edit/{objectId}/{recurrenceId}', 'verb' => 'GET', 'postfix' => 'direct.edit.recurrenceId'],
 		['name' => 'view#index', 'url' => '/{view}/{timeRange}', 'verb' => 'GET', 'requirements' => ['view' => 'timeGridDay|timeGridWeek|dayGridMonth'], 'postfix' => 'view.timerange'],
 		['name' => 'view#index', 'url' => '/{view}/{timeRange}/new/{mode}/{isAllDay}/{dtStart}/{dtEnd}', 'verb' => 'GET', 'requirements' => ['view' => 'timeGridDay|timeGridWeek|dayGridMonth'], 'postfix' => 'view.timerange.new'],
 		['name' => 'view#index', 'url' => '/{view}/{timeRange}/edit/{mode}/{objectId}/{recurrenceId}', 'verb' => 'GET', 'requirements' => ['view' => 'timeGridDay|timeGridWeek|dayGridMonth'], 'postfix' => 'view.timerange.edit'],

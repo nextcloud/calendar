@@ -21,13 +21,19 @@
  */
 import {
 	getInitialView,
-	getPrefixedRoute, isPublicOrEmbeddedRoute
+	getPrefixedRoute,
+	isPublicOrEmbeddedRoute,
+	getPreferredEditorRoute,
 } from '../../../../src/utils/router.js'
 import { loadState } from '@nextcloud/initial-state'
 
 jest.mock('@nextcloud/initial-state')
 
 describe('utils/router test suite', () => {
+
+	beforeEach(() => {
+		loadState.mockClear()
+	})
 
 	it('should get the initial view', () => {
 		loadState
@@ -40,6 +46,42 @@ describe('utils/router test suite', () => {
 		expect(loadState).toHaveBeenCalledTimes(2)
 		expect(loadState).toHaveBeenNthCalledWith(1, 'calendar', 'initial_view')
 		expect(loadState).toHaveBeenNthCalledWith(2, 'calendar', 'initial_view')
+	})
+
+	it('should get the preferred editor view (big screens)', () => {
+		window.innerWidth = 1920
+
+		loadState
+			.mockReturnValueOnce(true)
+			.mockReturnValueOnce(false)
+			.mockImplementationOnce(() => { throw new Error() })
+
+		expect(getPreferredEditorRoute()).toEqual('sidebar')
+		expect(getPreferredEditorRoute()).toEqual('popover')
+		expect(getPreferredEditorRoute()).toEqual('popover')
+
+		expect(loadState).toHaveBeenCalledTimes(3)
+		expect(loadState).toHaveBeenNthCalledWith(1, 'calendar', 'skip_popover')
+		expect(loadState).toHaveBeenNthCalledWith(2, 'calendar', 'skip_popover')
+		expect(loadState).toHaveBeenNthCalledWith(3, 'calendar', 'skip_popover')
+	})
+
+	it('should get the preferred editor view (small screens)', () => {
+		window.innerWidth = 760
+
+		loadState
+			.mockReturnValueOnce(true)
+			.mockReturnValueOnce(false)
+			.mockImplementationOnce(() => { throw new Error() })
+
+		expect(getPreferredEditorRoute()).toEqual('sidebar')
+		expect(getPreferredEditorRoute()).toEqual('sidebar')
+		expect(getPreferredEditorRoute()).toEqual('sidebar')
+
+		expect(loadState).toHaveBeenCalledTimes(3)
+		expect(loadState).toHaveBeenNthCalledWith(1, 'calendar', 'skip_popover')
+		expect(loadState).toHaveBeenNthCalledWith(2, 'calendar', 'skip_popover')
+		expect(loadState).toHaveBeenNthCalledWith(3, 'calendar', 'skip_popover')
 	})
 
 	it('should provide the prefixed route name to navigate to', () => {
