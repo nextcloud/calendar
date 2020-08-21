@@ -209,7 +209,7 @@ class EmailController extends Controller {
 	 * @return string
 	 */
 	private function getURLFromToken(string $token):string {
-		return $this->urlGenerator->linkToRouteAbsolute('calendar.view.public_index_with_branding', [
+		return $this->urlGenerator->linkToRouteAbsolute('calendar.publicView.public_index_with_branding', [
 			'token' => $token,
 		]);
 	}
