@@ -1,3 +1,42 @@
+# 2.0.4 - 2020-08-27
+### Added
+- Center date in month view cell
+  [#2451](https://github.com/nextcloud/calendar/pull/2451)
+- Sortable calendar list
+  [#9](https://github.com/nextcloud/calendar/issues/9)
+- Display tasks with a due-date in calendar app
+  [#28](https://github.com/nextcloud/calendar/issues/28)
+- Keyboard support
+  [#157](https://github.com/nextcloud/calendar/issues/157)
+- Add illustration to videoconference
+  [#2217](https://github.com/nextcloud/calendar/issues/2217)
+- Change Illustration for Lunch
+  [#2218](https://github.com/nextcloud/calendar/issues/2218)
+- Convert URLs into links inside description
+  [#674](https://github.com/nextcloud/calendar/issues/674)
+- Picking a date in date-time-picker does not open time-picker
+  [#2198](https://github.com/nextcloud/calendar/issues/2198)
+
+### Fixed
+- Sharing Calendar public links via email sends only a link to the cloud
+  [#2471](https://github.com/nextcloud/calendar/issues/2471)
+- Also mark tasks as done when STATUS is set to COMPLETED
+  [#2339](https://github.com/nextcloud/calendar/pull/2339)
+- Long calendar names overflowing in calendar-picker
+  [#2324](https://github.com/nextcloud/calendar/issues/2324)
+- Datepicker not localized
+  [#2174](https://github.com/nextcloud/calendar/issues/2174)
+- Hide submit button in editor sidebar
+  [#2291](https://github.com/nextcloud/calendar/issues/2291)
+- Fix timezone names
+  [#2292](https://github.com/nextcloud/calendar/pull/2292)
+- Fixes warning about duplicate ids
+  [#2287](https://github.com/nextcloud/calendar/pull/2287)
+- Make calendar-picker more prominent
+  [#2007](https://github.com/nextcloud/calendar/issues/2007)
+- Circle not found when full name is given
+  [#2220](https://github.com/nextcloud/calendar/issues/2220)
+
 # 2.0.3 - 2020-04-09
 ### Added
 - Show week number in Datepicker
