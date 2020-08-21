@@ -19,6 +19,10 @@
  *
  */
 import { loadState } from '@nextcloud/initial-state'
+import {
+	dateFactory,
+	getUnixTimestampFromDate,
+} from './date.js'
 
 /**
  * Gets the initial view
@@ -31,6 +35,56 @@ export function getInitialView() {
 	} catch (error) {
 		return 'dayGridMonth'
 	}
+}
+
+/**
+ * Gets the preferred editor view
+ *
+ * @returns {string} Either popover or sidebar
+ */
+export function getPreferredEditorRoute() {
+	let skipPopover
+	try {
+		skipPopover = loadState('calendar', 'skip_popover')
+	} catch (error) {
+		skipPopover = false
+	}
+
+	if (window.innerWidth <= 768) {
+		skipPopover = true
+	}
+
+	return skipPopover
+		? 'sidebar'
+		: 'popover'
+}
+
+/**
+ * Gets the default start-date for a new event
+ *
+ * @returns {string}
+ */
+export function getDefaultStartDateForNewEvent() {
+	const start = dateFactory()
+	start.setHours(start.getHours() + Math.ceil(start.getMinutes() / 60))
+	start.setMinutes(0)
+
+	return String(getUnixTimestampFromDate(start))
+}
+
+/**
+ * Gets the default end-date for a new event
+ *
+ * @returns {string}
+ */
+export function getDefaultEndDateForNewEvent() {
+	// When we have a setting for default event duration,
+	// this needs to be taken into consideration here
+	const start = getDefaultStartDateForNewEvent()
+	const end = new Date(Number(start) * 1000)
+	end.setHours(end.getHours() + 1)
+
+	return String(getUnixTimestampFromDate(end))
 }
 
 /**
