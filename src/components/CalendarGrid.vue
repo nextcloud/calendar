@@ -148,6 +148,11 @@ export default {
 		eventSources() {
 			return this.$store.getters.enabledCalendars.map(eventSource(this.$store))
 		},
+		/**
+		 * FullCalendar Plugins
+		 *
+		 * @returns {(PluginDef)[]}
+		 */
 		plugins() {
 			return [
 				dayGridPlugin,
