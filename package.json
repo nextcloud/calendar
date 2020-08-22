@@ -64,7 +64,7 @@
 		"md5": "^2.3.0",
 		"p-limit": "^3.0.2",
 		"v-tooltip": "^2.0.3",
-		"vue": "^2.6.11",
+		"vue": "^2.6.12",
 		"vue-click-outside": "^1.1.0",
 		"vue-clipboard2": "^0.3.1",
 		"vue-router": "^3.4.3",
@@ -116,7 +116,7 @@
 		"terser-webpack-plugin": "^4.1.0",
 		"vue-jest": "^3.0.6",
 		"vue-loader": "^15.9.3",
-		"vue-template-compiler": "^2.6.11",
+		"vue-template-compiler": "^2.6.12",
 		"webpack": "^4.44.1",
 		"webpack-cli": "^3.3.12",
 		"webpack-merge": "^5.1.1"
