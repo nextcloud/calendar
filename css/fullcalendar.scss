@@ -237,3 +237,19 @@
 		background-color: var(--color-main-background);
 	}
 }
+
+.fc-event-title-container {
+	display: flex;
+	align-content: center;
+
+	.fc-event-title-checkbox {
+		margin: 0 4px;
+		line-height: 1;
+		padding-top: 4px;
+	}
+}
+
+.fc-daygrid-event-checkbox {
+	margin: 0 4px;
+	line-height: 1;
+}

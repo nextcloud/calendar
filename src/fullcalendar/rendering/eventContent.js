@@ -41,22 +41,30 @@ export default function({ event, el }) {
 	}
 
 	if (el.classList.contains('fc-event-nc-task')) {
-		const taskIcon = document.createElement('span')
-		taskIcon.type = 'checkbox'
-		taskIcon.classList.add('icon-event-task')
-		if (event.extendedProps.darkText) {
-			taskIcon.classList.add('icon-event-task--dark')
-		} else {
-			taskIcon.classList.add('icon-event-task--light')
-		}
-		if (event.extendedProps.percent === 100) {
-			if (event.extendedProps.darkText) {
-				taskIcon.classList.add('icon-event-task--checked--dark')
+		// Is this a dot event in day-grid view
+		if (el.classList.contains('fc-daygrid-dot-event')) {
+			const dotElement = el.querySelector('.fc-daygrid-event-dot')
+			dotElement.classList.remove('fc-daygrid-event-dot')
+			dotElement.classList.add('fc-daygrid-event-checkbox')
+			dotElement.style.color = dotElement.style.borderColor
+
+			if (event.extendedProps.percent === 100) {
+				dotElement.classList.add('calendar-grid-checkbox-checked')
 			} else {
-				taskIcon.classList.add('icon-event-task--checked--light')
+				dotElement.classList.add('calendar-grid-checkbox')
 			}
+		} else {
+			const titleContainer = el.querySelector('.fc-event-title-container')
+			const checkboxElement = document.createElement('div')
+			checkboxElement.classList.add('fc-event-title-checkbox')
+			if (event.extendedProps.percent === 100) {
+				checkboxElement.classList.add('calendar-grid-checkbox-checked')
+			} else {
+				checkboxElement.classList.add('calendar-grid-checkbox')
+			}
+
+			titleContainer.prepend(checkboxElement)
 		}
-		el.firstChild.insertBefore(taskIcon, el.firstChild.firstChild)
 	}
 
 	if (event.source === null) {
