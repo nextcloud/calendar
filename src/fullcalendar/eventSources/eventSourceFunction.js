@@ -125,6 +125,8 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 				allDay: object.isAllDay(),
 				start: jsStart,
 				end: jsEnd,
+				// start: formatLocal(jsStart, object.isAllDay()),
+				// end: formatLocal(jsEnd, object.isAllDay()),
 				classNames,
 				extendedProps: {
 					objectId: calendarObject.id,
