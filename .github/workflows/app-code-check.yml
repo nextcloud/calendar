@@ -12,7 +12,7 @@ jobs:
     strategy:
       matrix:
         php-versions: ['7.4']
-        nextcloud-versions: ['master']
+        nextcloud-versions: ['stable18']
     name: AppCode check
     steps:
       - name: Set up php${{ matrix.php-versions }}
