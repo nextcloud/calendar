@@ -69,7 +69,7 @@
 		"vue-clipboard2": "^0.3.1",
 		"vue-router": "^3.4.3",
 		"vue-shortkey": "^3.1.7",
-		"vuedraggable": "^2.24.0",
+		"vuedraggable": "^2.24.1",
 		"vuex": "^3.5.1",
 		"vuex-router-sync": "^5.0.0"
 	},
