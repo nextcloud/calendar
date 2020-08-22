@@ -34,8 +34,8 @@ describe('fullcalendar/eventSourceFunction test suite', () => {
 	})
 
 	it('should provide a string for event-limit', () => {
-		expect(eventLimitText(1)).toEqual('+%n more')
-		expect(eventLimitText(42)).toEqual('+%n more')
+		expect(eventLimitText({ num: 1 })).toEqual('+%n more')
+		expect(eventLimitText({ num: 42 })).toEqual('+%n more')
 
 		expect(translatePlural).toHaveBeenCalledTimes(2)
 		expect(translatePlural).toHaveBeenNthCalledWith(1, 'calendar', '+%n more', '+%n more', 1)

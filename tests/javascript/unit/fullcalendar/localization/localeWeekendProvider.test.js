@@ -25,12 +25,12 @@ import {getWeekendDaysForLocale} from "../../../../../src/fullcalendar/localizat
 describe('fullcalendar/localeWeekendProvider test suite', () => {
 
 	it('should provide the correct weekend days for the us', () => {
-		expect(getWeekendDaysForLocale('en')).toEqual(['sat', 'sun'])
-		expect(getWeekendDaysForLocale('en_US')).toEqual(['sat', 'sun'])
+		expect(getWeekendDaysForLocale('en')).toEqual([0, 6])
+		expect(getWeekendDaysForLocale('en_US')).toEqual([0, 6])
 	})
 
 	it('should provide the correct weekend days for hebrew locale', () => {
-		expect(getWeekendDaysForLocale('he')).toEqual(['fri', 'sat'])
-		expect(getWeekendDaysForLocale('he_IL')).toEqual(['fri', 'sat'])
+		expect(getWeekendDaysForLocale('he')).toEqual([5, 6])
+		expect(getWeekendDaysForLocale('he_IL')).toEqual([5, 6])
 	})
 })

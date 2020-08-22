@@ -29,8 +29,8 @@ import {
 import { translate } from '@nextcloud/l10n'
 import {getAllObjectsInTimeRange} from "../../../../../src/utils/calendarObject.js";
 jest.mock('@nextcloud/l10n')
-jest.mock('../../../../src/utils/color.js')
-jest.mock("../../../../src/utils/calendarObject.js")
+jest.mock('../../../../../src/utils/color.js')
+jest.mock("../../../../../src/utils/calendarObject.js")
 
 describe('fullcalendar/eventSourceFunction test suite', () => {
 

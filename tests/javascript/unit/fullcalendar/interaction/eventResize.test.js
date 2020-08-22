@@ -23,8 +23,8 @@ import eventResize from "../../../../../src/fullcalendar/interaction/eventResize
 
 import { getDurationValueFromFullCalendarDuration} from '../../../../../src/fullcalendar/duration.js'
 import {getObjectAtRecurrenceId} from "../../../../../src/utils/calendarObject.js";
-jest.mock('../../../../src/fullcalendar/duration.js')
-jest.mock("../../../../src/utils/calendarObject.js")
+jest.mock('../../../../../src/fullcalendar/duration.js')
+jest.mock("../../../../../src/utils/calendarObject.js")
 
 describe('fullcalendar/eventResize test suite', () => {
 

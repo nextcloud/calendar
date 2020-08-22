@@ -21,7 +21,7 @@
  */
 import navLinkDayClick from '../../../../../src/fullcalendar/interaction/navLinkDayClick.js'
 import { getYYYYMMDDFromDate } from '../../../../../src/utils/date.js'
-jest.mock('../../../../src/utils/date.js')
+jest.mock('../../../../../src/utils/date.js')
 
 describe('fullcalendar/eventClick test suite', () => {
 

@@ -28,7 +28,7 @@ import { generateUrl } from '@nextcloud/router'
 import { translate } from '@nextcloud/l10n'
 import { showInfo } from '@nextcloud/dialogs'
 
-jest.mock("../../../../src/utils/router.js");
+jest.mock("../../../../../src/utils/router.js");
 jest.mock("@nextcloud/router");
 jest.mock("@nextcloud/l10n");
 jest.mock("@nextcloud/dialogs");

@@ -24,9 +24,9 @@ import { getDurationValueFromFullCalendarDuration} from "../../../../../src/full
 import getTimezoneManager from '../../../../../src/services/timezoneDataProviderService.js'
 import {getObjectAtRecurrenceId} from "../../../../../src/utils/calendarObject.js";
 
-jest.mock("../../../../src/fullcalendar/duration.js")
-jest.mock('../../../../src/services/timezoneDataProviderService.js')
-jest.mock("../../../../src/utils/calendarObject.js")
+jest.mock("../../../../../src/fullcalendar/duration.js")
+jest.mock('../../../../../src/services/timezoneDataProviderService.js')
+jest.mock("../../../../../src/utils/calendarObject.js")
 
 describe('fullcalendar/eventDrop test suite', () => {
 

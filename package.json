@@ -153,7 +153,7 @@
 			"clover"
 		],
 		"transformIgnorePatterns": [
-			"/node_modules/(?!calendar-js).+\\.js$"
+			"/node_modules/(?!(calendar-js)|(@fullcalendar)).+\\.js$"
 		],
 		"setupFilesAfterEnv": [
 			"./tests/javascript/jest.setup.js",

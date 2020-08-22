@@ -26,10 +26,10 @@ import getTimezoneManager from '../../../../../src/services/timezoneDataProvider
 import { getUnixTimestampFromDate } from '../../../../../src/utils/date.js'
 import { eventSourceFunction } from '../../../../../src/fullcalendar/eventSources/eventSourceFunction.js'
 
-jest.mock('../../../../src/utils/color.js')
-jest.mock('../../../../src/services/timezoneDataProviderService')
-jest.mock('../../../../src/utils/date.js')
-jest.mock('../../../../src/fullcalendar/eventSourceFunction.js')
+jest.mock('../../../../../src/utils/color.js')
+jest.mock('../../../../../src/services/timezoneDataProviderService')
+jest.mock('../../../../../src/utils/date.js')
+jest.mock('../../../../../src/fullcalendar/eventSources/eventSourceFunction.js')
 
 describe('fullcalendar/eventSource test suite', () => {
 
