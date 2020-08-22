@@ -43,46 +43,8 @@
 		</AppNavigation>
 		<EmbedTopNavigation v-if="isEmbedded" />
 		<AppContent>
-			<!-- Full calendar -->
-			<FullCalendar
-				ref="fullCalendar"
-				:default-view="defaultView"
-				:editable="isEditable"
-				:force-event-duration="true"
-				:header="showHeader"
-				:height="windowResize"
-				:slot-duration="slotDuration"
-				:week-numbers="showWeekNumbers"
-				:weekends="showWeekends"
-				:event-sources="eventSources"
-				:event-order="eventOrder"
-				:plugins="plugins"
-				:time-zone="timezoneId"
-				:day-render="dayRender"
-				:event-allow="eventAllow"
-				:event-limit="eventLimit"
-				:event-limit-text="eventLimitText"
-				:default-date="defaultDate"
-				:locales="locales"
-				:locale="fullCalendarLocale"
-				:first-day="firstDay"
-				:selectable="isSelectable"
-				:time-grid-event-min-height="16"
-				:select-mirror="true"
-				:lazy-fetching="false"
-				:nav-links="true"
-				:nav-link-day-click="navLinkDayClick"
-				:nav-link-week-click="navLinkWeekClick"
-				:now-indicator="true"
-				:progressive-event-rendering="true"
-				:unselect-auto="false"
-				:week-numbers-within-days="true"
-				:event-render="eventRender"
-				@eventClick="eventClick"
-				@eventDrop="eventDrop"
-				@eventResize="eventResize"
-				@select="select" />
-
+			<CalendarGrid
+				:is-authenticated-user="isAuthenticatedUser" />
 			<EmptyCalendar
 				v-if="showEmptyCalendarScreen" />
 		</AppContent>
@@ -92,57 +54,38 @@
 </template>
 
 <script>
-import FullCalendar from '@fullcalendar/vue'
-import '@fullcalendar/core/main.css'
-import dayGridPlugin from '@fullcalendar/daygrid'
-import '@fullcalendar/daygrid/main.css'
-import interactionPlugin from '@fullcalendar/interaction'
-import listPlugin from '@fullcalendar/list'
-import '@fullcalendar/list/main.css'
-import timeGridPlugin from '@fullcalendar/timegrid'
-import '@fullcalendar/timegrid/main.css'
+// Import vue components
 import AppNavigation from '@nextcloud/vue/dist/Components/AppNavigation'
 import AppNavigationSpacer from '@nextcloud/vue/dist/Components/AppNavigationSpacer'
 import AppContent from '@nextcloud/vue/dist/Components/AppContent'
 import Content from '@nextcloud/vue/dist/Components/Content'
-import debounce from 'debounce'
-import { uidToHexColor } from '../utils/color.js'
+import AppNavigationHeader from '../components/AppNavigation/AppNavigationHeader.vue'
+import CalendarList from '../components/AppNavigation/CalendarList.vue'
+import Settings from '../components/AppNavigation/Settings.vue'
+import CalendarListNew from '../components/AppNavigation/CalendarList/CalendarListNew.vue'
+import EmbedTopNavigation from '../components/AppNavigation/EmbedTopNavigation.vue'
+import EmptyCalendar from '../components/EmptyCalendar.vue'
+import CalendarGrid from '../components/CalendarGrid.vue'
+
+// Import CalDAV related methods
 import {
 	initializeClientForPublicView,
 	initializeClientForUserView,
 } from '../services/caldavService.js'
+
+// Import others
+import { uidToHexColor } from '../utils/color.js'
 import {
 	dateFactory,
 	getUnixTimestampFromDate,
 	getYYYYMMDDFromFirstdayParam,
 } from '../utils/date.js'
-import eventAllow from '../fullcalendar/eventAllow'
-import eventClick from '../fullcalendar/eventClick'
-import eventDrop from '../fullcalendar/eventDrop'
-import eventOrder from '../fullcalendar/eventOrder'
-import eventResize from '../fullcalendar/eventResize'
-import eventSource from '../fullcalendar/eventSource'
-import navLinkDayClick from '../fullcalendar/navLinkDayClick.js'
-import navLinkWeekClick from '../fullcalendar/navLinkWeekClick'
-import select from '../fullcalendar/select'
-import VTimezoneNamedTimezone from '../fullcalendar/vtimezoneNamedTimezoneImpl'
-import AppNavigationHeader from '../components/AppNavigation/AppNavigationHeader.vue'
-import CalendarList from '../components/AppNavigation/CalendarList.vue'
-import Settings from '../components/AppNavigation/Settings.vue'
-import CalendarListNew from '../components/AppNavigation/CalendarList/CalendarListNew.vue'
 import getTimezoneManager from '../services/timezoneDataProviderService'
 import {
 	mapGetters,
 	mapState,
 } from 'vuex'
-import eventRender from '../fullcalendar/eventRender.js'
-import EmbedTopNavigation from '../components/AppNavigation/EmbedTopNavigation.vue'
-import EmptyCalendar from '../components/EmptyCalendar.vue'
-import { getLocale } from '@nextcloud/l10n'
 import loadMomentLocalization from '../utils/moment.js'
-import eventLimitText from '../fullcalendar/eventLimitText.js'
-import windowResize from '../fullcalendar/windowResize.js'
-import dayRender from '../fullcalendar/dayRender.js'
 import { loadState } from '@nextcloud/initial-state'
 import {
 	showWarning,
@@ -152,6 +95,7 @@ import '@nextcloud/dialogs/styles/toast.scss'
 export default {
 	name: 'Calendar',
 	components: {
+		CalendarGrid,
 		EmptyCalendar,
 		EmbedTopNavigation,
 		Settings,
@@ -160,7 +104,6 @@ export default {
 		Content,
 		AppContent,
 		AppNavigation,
-		FullCalendar,
 		AppNavigationSpacer,
 		CalendarListNew,
 	},
@@ -171,9 +114,6 @@ export default {
 			updateTodayJob: null,
 			updateTodayJobPreviousDate: null,
 			showEmptyCalendarScreen: false,
-			fullCalendarLocale: 'en',
-			locales: [],
-			firstDay: 0,
 		}
 	},
 	computed: {
@@ -192,24 +132,6 @@ export default {
 		}),
 		defaultDate() {
 			return getYYYYMMDDFromFirstdayParam(this.$route.params.firstDay)
-		},
-		defaultView() {
-			return this.$route.params.view
-		},
-		eventSources() {
-			return this.$store.getters.enabledCalendars.map(eventSource(this.$store))
-		},
-		plugins() {
-			return [
-				dayGridPlugin,
-				interactionPlugin,
-				listPlugin,
-				timeGridPlugin,
-				VTimezoneNamedTimezone,
-			]
-		},
-		eventAllow() {
-			return eventAllow
 		},
 		isEditable() {
 			// We do not allow drag and drop when the editor is open.
@@ -243,37 +165,6 @@ export default {
 
 			return null
 		},
-		eventOrder() {
-			return ['start', '-duration', 'allDay', eventOrder]
-		},
-	},
-	beforeRouteUpdate(to, from, next) {
-		if (to.params.firstDay !== from.params.firstDay) {
-			const calendarApi = this.$refs.fullCalendar.getApi()
-			calendarApi.gotoDate(getYYYYMMDDFromFirstdayParam(to.params.firstDay))
-		}
-		if (to.params.view !== from.params.view) {
-			const calendarApi = this.$refs.fullCalendar.getApi()
-			calendarApi.changeView(to.params.view)
-			this.saveNewView(to.params.view)
-		}
-
-		if ((from.name === 'NewPopoverView' || from.name === 'NewSidebarView')
-			&& to.name !== 'NewPopoverView'
-			&& to.name !== 'NewSidebarView') {
-			const calendarApi = this.$refs.fullCalendar.getApi()
-			calendarApi.unselect()
-		}
-
-		next()
-
-		next()
-	},
-	watch: {
-		modificationCount: debounce(function() {
-			const calendarApi = this.$refs.fullCalendar.getApi()
-			calendarApi.refetchEvents()
-		}, 50),
 	},
 	created() {
 		this.timeFrameCacheExpiryJob = setInterval(() => {
@@ -292,22 +183,6 @@ export default {
 				})
 			}
 		}, 1000 * 60)
-
-		this.updateTodayJob = setInterval(() => {
-			const newDate = getYYYYMMDDFromFirstdayParam('now')
-
-			if (this.updateTodayJobPreviousDate === null) {
-				this.updateTodayJobPreviousDate = newDate
-				return
-			}
-
-			if (this.updateTodayJobPreviousDate !== newDate) {
-				this.updateTodayJobPreviousDate = newDate
-
-				const calendarApi = this.$refs.fullCalendar.getApi()
-				calendarApi.render()
-			}
-		}, 1000)
 	},
 	async beforeMount() {
 		this.$store.commit('loadSettingsFromServer', {
@@ -381,72 +256,9 @@ export default {
 			toastElement.classList.add('toast-calendar-multiline')
 		}
 
-		this.loadFullCalendarLocale()
-		this.loadMomentLocale()
+		await this.loadMomentLocale()
 	},
 	methods: {
-		saveNewView: debounce(function(initialView) {
-			if (this.isAuthenticatedUser) {
-				this.$store.dispatch('setInitialView', { initialView })
-			}
-		}, 5000),
-		dayRender(...args) {
-			return dayRender(...args)
-		},
-		eventClick(...args) {
-			return eventClick(this.$store, this.$router, this.$route, window)(...args)
-		},
-		eventDrop(...args) {
-			return eventDrop(this.$store, this.$refs.fullCalendar.getApi())(...args)
-		},
-		eventResize(...args) {
-			return eventResize(this.$store)(...args)
-		},
-		select(...args) {
-			return select(this.$store, this.$router, this.$route, window)(...args)
-		},
-		eventRender(...args) {
-			return eventRender(...args)
-		},
-		navLinkDayClick(...args) {
-			return navLinkDayClick(this.$router, this.$route)(...args)
-		},
-		navLinkWeekClick(...args) {
-			return navLinkWeekClick(this.$router, this.$route)(...args)
-		},
-		eventLimitText(...args) {
-			return eventLimitText(...args)
-		},
-		windowResize(...args) {
-			return windowResize(window, document.querySelector('#header'))(...args)
-		},
-		/**
-		 * Loads the locale data for full-calendar
-		 *
-		 * @returns {Promise<void>}
-		 */
-		async loadFullCalendarLocale() {
-			let locale = getLocale().replace('_', '-').toLowerCase()
-			try {
-				// try to load the default locale first
-				const fcLocale = await import('@fullcalendar/core/locales/' + locale)
-				this.locales.push(fcLocale)
-				// We have to update firstDay manually till https://github.com/fullcalendar/fullcalendar-vue/issues/36 is fixed
-				this.firstDay = fcLocale.week.dow
-				this.fullCalendarLocale = locale
-			} catch (e) {
-				try {
-					locale = locale.split('-')[0]
-					const fcLocale = await import('@fullcalendar/core/locales/' + locale)
-					this.locales.push(fcLocale)
-					// We have to update firstDay manually till https://github.com/fullcalendar/fullcalendar-vue/issues/36 is fixed
-					this.firstDay = fcLocale.week.dow
-					this.fullCalendarLocale = locale
-				} catch (e) {
-					console.debug('falling back to english locale')
-				}
-			}
-		},
 		/**
 		 * Loads the locale data for moment.js
 		 *
