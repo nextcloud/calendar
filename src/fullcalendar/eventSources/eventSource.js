@@ -21,11 +21,11 @@
  */
 import {
 	generateTextColorForHex,
-} from '../utils/color.js'
-import getTimezoneManager from '../services/timezoneDataProviderService'
-import { getUnixTimestampFromDate } from '../utils/date.js'
+} from '../../utils/color.js'
+import getTimezoneManager from '../../services/timezoneDataProviderService'
+import { getUnixTimestampFromDate } from '../../utils/date.js'
 import { eventSourceFunction } from './eventSourceFunction.js'
-import logger from '../utils/logger.js'
+import logger from '../../utils/logger.js'
 
 /**
  * Returns a function to generate a FullCalendar event-source based on the Vuex calendar model

@@ -1,5 +1,5 @@
 /**
- * @copyright Copyright (c) 2019 Georg Ehrke
+ * @copyright Copyright (c) 2020 Georg Ehrke
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
@@ -19,28 +19,26 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { getYYYYMMDDFromDate } from '../utils/date.js'
+import { getLocale } from '@nextcloud/l10n'
+import { getWeekendDaysForLocale } from '../localization/localeWeekendProvider.js'
 
 /**
- * Handles a click on a day-number in the calendar-grid
+ * Adds weekend classes to the day cell
  *
- * @param {Object} router The Vue router
- * @param {Object} route The current Vue route
- * @returns {function(Date): void}
+ * @param {Object} data The destructuring object
+ * @param {Element} el The DOM element of the day cell
  */
-export default function(router, route) {
-	return function(date) {
-		const name = route.name
-		const params = Object.assign({}, route.params, {
-			firstDay: getYYYYMMDDFromDate(date),
-			view: 'timeGridDay',
-		})
+export default function({ el }) {
+	const locale = getLocale()
+	const fcClasses = getWeekendDaysForLocale(locale)
+		.map((dayOfWeekend) => 'fc-' + dayOfWeekend)
 
-		// Don't push new route when day and view didn't change
-		if (route.params.firstDay === params.firstDay && route.params.view === params.view) {
+	for (const fcClass of fcClasses) {
+		if (el.classList.contains(fcClass)) {
+			el.classList.add('nc-calendar-fc-day-of-weekend')
 			return
 		}
-
-		router.push({ name, params })
 	}
+
+	el.classList.add('nc-calendar-fc-day-of-workweek')
 }

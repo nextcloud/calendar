@@ -1,5 +1,5 @@
 /**
- * @copyright Copyright (c) 2020 Georg Ehrke
+ * @copyright Copyright (c) 2019 Georg Ehrke
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
@@ -19,18 +19,28 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import { getYYYYMMDDFromDate } from '../../utils/date.js'
 
-import {getWeekendDaysForLocale} from "../../../../src/fullcalendar/localeWeekendProvider.js";
+/**
+ * Handles a click on a day-number in the calendar-grid
+ *
+ * @param {Object} router The Vue router
+ * @param {Object} route The current Vue route
+ * @returns {function(Date): void}
+ */
+export default function(router, route) {
+	return function(date) {
+		const name = route.name
+		const params = Object.assign({}, route.params, {
+			firstDay: getYYYYMMDDFromDate(date),
+			view: 'timeGridDay',
+		})
 
-describe('fullcalendar/localeWeekendProvider test suite', () => {
+		// Don't push new route when day and view didn't change
+		if (route.params.firstDay === params.firstDay && route.params.view === params.view) {
+			return
+		}
 
-	it('should provide the correct weekend days for the us', () => {
-		expect(getWeekendDaysForLocale('en')).toEqual(['sat', 'sun'])
-		expect(getWeekendDaysForLocale('en_US')).toEqual(['sat', 'sun'])
-	})
-
-	it('should provide the correct weekend days for hebrew locale', () => {
-		expect(getWeekendDaysForLocale('he')).toEqual(['fri', 'sat'])
-		expect(getWeekendDaysForLocale('he_IL')).toEqual(['fri', 'sat'])
-	})
-})
+		router.push({ name, params })
+	}
+}

@@ -21,7 +21,7 @@
  */
 
 import { translatePlural } from '@nextcloud/l10n'
-import eventLimitText from "../../../../src/fullcalendar/eventLimitText.js";
+import eventLimitText from "../../../../../src/fullcalendar/rendering/eventLimitText.js";
 jest.mock('@nextcloud/l10n')
 
 describe('fullcalendar/eventSourceFunction test suite', () => {

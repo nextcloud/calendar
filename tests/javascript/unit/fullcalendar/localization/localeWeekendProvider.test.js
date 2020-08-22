@@ -19,26 +19,18 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { getLocale } from '@nextcloud/l10n'
-import { getWeekendDaysForLocale } from './localeWeekendProvider.js'
 
-/**
- * Adds weekend classes to the day cell
- *
- * @param {Object} data The destructuring object
- * @param {Element} el The DOM element of the day cell
- */
-export default function({ el }) {
-	const locale = getLocale()
-	const fcClasses = getWeekendDaysForLocale(locale)
-		.map((dayOfWeekend) => 'fc-' + dayOfWeekend)
+import {getWeekendDaysForLocale} from "../../../../../src/fullcalendar/localization/localeWeekendProvider.js";
 
-	for (const fcClass of fcClasses) {
-		if (el.classList.contains(fcClass)) {
-			el.classList.add('nc-calendar-fc-day-of-weekend')
-			return
-		}
-	}
+describe('fullcalendar/localeWeekendProvider test suite', () => {
 
-	el.classList.add('nc-calendar-fc-day-of-workweek')
-}
+	it('should provide the correct weekend days for the us', () => {
+		expect(getWeekendDaysForLocale('en')).toEqual(['sat', 'sun'])
+		expect(getWeekendDaysForLocale('en_US')).toEqual(['sat', 'sun'])
+	})
+
+	it('should provide the correct weekend days for hebrew locale', () => {
+		expect(getWeekendDaysForLocale('he')).toEqual(['fri', 'sat'])
+		expect(getWeekendDaysForLocale('he_IL')).toEqual(['fri', 'sat'])
+	})
+})

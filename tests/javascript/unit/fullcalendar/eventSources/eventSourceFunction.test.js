@@ -19,15 +19,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { eventSourceFunction } from '../../../../src/fullcalendar/eventSourceFunction.js'
+import { eventSourceFunction } from '../../../../../src/fullcalendar/eventSources/eventSourceFunction.js'
 import {
 	hexToRGB,
 	isLight,
 	generateTextColorForHex,
 	getHexForColorName,
-} from '../../../../src/utils/color.js'
+} from '../../../../../src/utils/color.js'
 import { translate } from '@nextcloud/l10n'
-import {getAllObjectsInTimeRange} from "../../../../src/utils/calendarObject.js";
+import {getAllObjectsInTimeRange} from "../../../../../src/utils/calendarObject.js";
 jest.mock('@nextcloud/l10n')
 jest.mock('../../../../src/utils/color.js')
 jest.mock("../../../../src/utils/calendarObject.js")

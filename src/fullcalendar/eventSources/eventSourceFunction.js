@@ -25,9 +25,9 @@ import {
 	isLight,
 	generateTextColorForHex,
 	getHexForColorName,
-} from '../utils/color.js'
-import logger from '../utils/logger.js'
-import { getAllObjectsInTimeRange } from '../utils/calendarObject.js'
+} from '../../utils/color.js'
+import logger from '../../utils/logger.js'
+import { getAllObjectsInTimeRange } from '../../utils/calendarObject.js'
 
 /**
  * convert an array of calendar-objects to events

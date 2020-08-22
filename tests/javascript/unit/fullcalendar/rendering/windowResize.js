@@ -20,7 +20,7 @@
  *
  */
 
-import windowResize from "../../../../src/fullcalendar/windowResize.js";
+import windowResize from "../../../../../src/fullcalendar/rendering/windowResize.js";
 
 describe('fullcalendar/windowResize test suite', () => {
 

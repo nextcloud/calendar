@@ -23,7 +23,7 @@
 import {
 	createPlugin,
 } from '@fullcalendar/core'
-import getTimezoneManager from '../../../../src/services/timezoneDataProviderService.js'
+import getTimezoneManager from '../../../../../src/services/timezoneDataProviderService.js'
 jest.mock('../../../../src/services/timezoneDataProviderService.js')
 jest.mock('@fullcalendar/core')
 

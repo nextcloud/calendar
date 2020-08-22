@@ -19,31 +19,21 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { getDurationValueFromFullCalendarDuration } from '../fullcalendar/duration'
-import getTimezoneManager from '../services/timezoneDataProviderService'
-import logger from '../utils/logger.js'
-import { getObjectAtRecurrenceId } from '../utils/calendarObject.js'
+import { getDurationValueFromFullCalendarDuration } from '../duration'
+import { getObjectAtRecurrenceId } from '../../utils/calendarObject.js'
 
 /**
- * Returns a function to drop an event at a different position
+ * Returns a function to resize an event
  *
- * @param {Object} store The Vuex store
- * @param {Object} fcAPI The fullcalendar api
+ * @param {Object} store The Vuex Store
  * @returns {Function}
  */
-export default function(store, fcAPI) {
-	return async function({ event, delta, revert }) {
-		const deltaDuration = getDurationValueFromFullCalendarDuration(delta)
-		const defaultAllDayDuration = getDurationValueFromFullCalendarDuration(fcAPI.getOption('defaultAllDayEventDuration'))
-		const defaultTimedDuration = getDurationValueFromFullCalendarDuration(fcAPI.getOption('defaultTimedEventDuration'))
-		const timezoneId = fcAPI.getOption('timeZone')
-		let timezone = getTimezoneManager().getTimezoneForId(timezoneId)
-		if (!timezone) {
-			timezone = getTimezoneManager().getTimezoneForId('UTC')
-			logger.error(`EventDrop: Timezone ${timezoneId} not found, falling back to UTC.`)
-		}
+export default function(store) {
+	return async function({ event, startDelta, endDelta, revert }) {
+		const startDeltaDuration = getDurationValueFromFullCalendarDuration(startDelta)
+		const endDeltaDuration = getDurationValueFromFullCalendarDuration(endDelta)
 
-		if (!deltaDuration || !defaultAllDayDuration || !defaultTimedDuration) {
+		if (!startDeltaDuration && !endDeltaDuration) {
 			revert()
 			return
 		}
@@ -68,16 +58,11 @@ export default function(store, fcAPI) {
 			return
 		}
 
-		try {
-			// shiftByDuration may throw exceptions in certain cases
-			eventComponent.shiftByDuration(deltaDuration, event.allDay, timezone, defaultAllDayDuration, defaultTimedDuration)
-		} catch (error) {
-			store.commit('resetCalendarObjectToDav', {
-				calendarObject,
-			})
-			console.debug(error)
-			revert()
-			return
+		if (startDeltaDuration) {
+			eventComponent.addDurationToStart(startDeltaDuration)
+		}
+		if (endDeltaDuration) {
+			eventComponent.addDurationToEnd(endDeltaDuration)
 		}
 
 		if (eventComponent.canCreateRecurrenceExceptions()) {

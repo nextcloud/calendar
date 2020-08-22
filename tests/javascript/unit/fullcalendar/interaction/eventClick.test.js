@@ -19,11 +19,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import eventClick from "../../../../src/fullcalendar/eventClick.js";
+import eventClick from "../../../../../src/fullcalendar/interaction/eventClick.js";
 import {
 	getPrefixedRoute,
 	isPublicOrEmbeddedRoute,
-} from '../../../../src/utils/router.js'
+} from '../../../../../src/utils/router.js'
 import { generateUrl } from '@nextcloud/router'
 import { translate } from '@nextcloud/l10n'
 import { showInfo } from '@nextcloud/dialogs'

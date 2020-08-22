@@ -19,9 +19,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { getWeekendDaysForLocale } from '../../../../src/fullcalendar/localeWeekendProvider.js'
+import { getWeekendDaysForLocale } from '../../../../../src/fullcalendar/localization/localeWeekendProvider.js'
 import { getLocale } from '@nextcloud/l10n'
-import dayRender from '../../../../src/fullcalendar/dayRender.js'
+import dayRender from '../../../../../src/fullcalendar/rendering/dayRender.js'
 jest.mock('../../../../src/fullcalendar/localeWeekendProvider.js')
 jest.mock('@nextcloud/l10n')
 
