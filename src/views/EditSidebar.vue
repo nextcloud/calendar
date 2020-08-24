@@ -24,7 +24,6 @@
 
 <template>
 	<AppSidebar
-		v-show="isVisible"
 		:title="title"
 		:title-editable="!isReadOnly && !isLoading"
 		:title-placeholder="$t('calendar', 'Event title')"
