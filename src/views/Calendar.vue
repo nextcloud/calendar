@@ -31,7 +31,7 @@
 					:is-public="!isAuthenticatedUser"
 					:loading-calendars="loadingCalendars" />
 				<CalendarListNew
-					v-if="!loadingCalendars"
+					v-if="!loadingCalendars && isAuthenticatedUser"
 					:disabled="loadingCalendars" />
 			</template>
 			<!-- Settings and import -->

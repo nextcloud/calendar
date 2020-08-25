@@ -457,7 +457,7 @@ const actions = {
 	 * @returns {Promise<Object[]>}
 	 */
 	async getPublicCalendars({ commit, state, getters }, { tokens }) {
-		const calendars = findPublicCalendarsByTokens(tokens)
+		const calendars = await findPublicCalendarsByTokens(tokens)
 		const calendarObjects = []
 		for (const davCalendar of calendars) {
 			const calendar = mapDavCollectionToCalendar(davCalendar)
