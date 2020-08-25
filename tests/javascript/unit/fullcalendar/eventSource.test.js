@@ -45,7 +45,7 @@ describe('fullcalendar/eventSource test suite', () => {
 		const calendar = {
 			id: 'calendar-id-123',
 			color: '#ff00ff',
-			isReadOnly: false
+			readOnly: false
 		}
 
 		generateTextColorForHex
@@ -69,7 +69,7 @@ describe('fullcalendar/eventSource test suite', () => {
 		const calendar = {
 			id: 'calendar-id-123',
 			color: '#ff00ff',
-			isReadOnly: true
+			readOnly: true
 		}
 
 		generateTextColorForHex
@@ -104,7 +104,7 @@ describe('fullcalendar/eventSource test suite', () => {
 		const calendar = {
 			id: 'calendar-id-123',
 			color: '#ff00ff',
-			isReadOnly: true
+			readOnly: true
 		}
 
 		const getTimezoneForId = jest.fn()
@@ -174,7 +174,7 @@ describe('fullcalendar/eventSource test suite', () => {
 		const calendar = {
 			id: 'calendar-id-123',
 			color: '#ff00ff',
-			isReadOnly: true
+			readOnly: true
 		}
 
 		const getTimezoneForId = jest.fn()
@@ -239,7 +239,7 @@ describe('fullcalendar/eventSource test suite', () => {
 		const calendar = {
 			id: 'calendar-id-123',
 			color: '#ff00ff',
-			isReadOnly: true
+			readOnly: true
 		}
 
 		const getTimezoneForId = jest.fn()
@@ -309,7 +309,7 @@ describe('fullcalendar/eventSource test suite', () => {
 		const calendar = {
 			id: 'calendar-id-123',
 			color: '#ff00ff',
-			isReadOnly: true
+			readOnly: true
 		}
 
 		const getTimezoneForId = jest.fn()

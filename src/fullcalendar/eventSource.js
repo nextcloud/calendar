@@ -72,7 +72,7 @@ export default function(store) {
 			},
 		}
 
-		if (calendar.isReadOnly) {
+		if (calendar.readOnly) {
 			source.editable = false
 		}
 
