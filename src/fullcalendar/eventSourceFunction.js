@@ -128,7 +128,9 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 				classNames,
 				extendedProps: {
 					objectId: calendarObject.id,
-					recurrenceId: object.getReferenceRecurrenceId().unixTime,
+					recurrenceId: object.getReferenceRecurrenceId()
+						? object.getReferenceRecurrenceId().unixTime
+						: null,
 					canModifyAllDay: object.canModifyAllDay(),
 					calendarOrder: calendar.order,
 					calendarName: calendar.displayName,
