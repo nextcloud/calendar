@@ -73,7 +73,7 @@ describe('Test suite: RFC properties (models/rfcProps.js)', () => {
 		expect(rfcProps.status.options).toEqual([
 			{ value: 'CONFIRMED', label: 'Confirmed' },
 			{ value: 'TENTATIVE', label: 'Tentative' },
-			{ value: 'CANCELLED', label: 'Cancelled' },
+			{ value: 'CANCELLED', label: 'Canceled' },
 		])
 
 		expect(rfcProps.timeTransparency).toEqual(expect.any(Object))
@@ -118,7 +118,7 @@ describe('Test suite: RFC properties (models/rfcProps.js)', () => {
 		expect(translate).toHaveBeenNthCalledWith(10, 'calendar', 'Status')
 		expect(translate).toHaveBeenNthCalledWith(11, 'calendar', 'Confirmed')
 		expect(translate).toHaveBeenNthCalledWith(12, 'calendar', 'Tentative')
-		expect(translate).toHaveBeenNthCalledWith(13, 'calendar', 'Cancelled')
+		expect(translate).toHaveBeenNthCalledWith(13, 'calendar', 'Canceled')
 		expect(translate).toHaveBeenNthCalledWith(14, 'calendar', 'Confirmation about the overall status of the event.')
 
 		expect(translate).toHaveBeenNthCalledWith(15, 'calendar', 'Show as')

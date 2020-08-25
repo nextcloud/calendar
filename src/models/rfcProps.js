@@ -70,7 +70,7 @@ const getRFCProperties = () => {
 			options: [
 				{ value: 'CONFIRMED', label: t('calendar', 'Confirmed') },
 				{ value: 'TENTATIVE', label: t('calendar', 'Tentative') },
-				{ value: 'CANCELLED', label: t('calendar', 'Cancelled') },
+				{ value: 'CANCELLED', label: t('calendar', 'Canceled') },
 			],
 			multiple: false,
 			info: t('calendar', 'Confirmation about the overall status of the event.'),
