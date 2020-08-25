@@ -77,6 +77,7 @@ OC.L10N.register(
     "Creating subscription …" : "Creant la subscripció …",
     "An error occurred, unable to create the calendar." : "Ha succeït un error i no s'ha pogut crear el calendari.",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "Escriviu un enllaç vàlid (que comenci amb http://, https://, webcal://, o webcals://)",
+    "Could not update calendar order." : "No s'ha pogut actualitzar l'ordre del calendari",
     "Import calendars" : "Importar calendaris",
     "Please select a calendar to import into …" : "Escolliu un calendari per ser importat …",
     "Filename" : "Nom del fitxer",
