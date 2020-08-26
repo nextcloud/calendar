@@ -233,7 +233,7 @@
     "Status" : "ステータス",
     "Confirmed" : "確認済み",
     "Tentative" : "暫定的",
-    "Cancelled" : "キャンセル済",
+    "Canceled" : "キャンセル済み",
     "Categories" : "カテゴリ",
     "Search or add categories" : "カテゴリを検索または追加",
     "Add this as a new category" : "これを新しいカテゴリーとして追加",

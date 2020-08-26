@@ -57,7 +57,6 @@ OC.L10N.register(
     "Status" : "Status",
     "Confirmed" : "Apstiprināts",
     "Tentative" : "Mēģinājums",
-    "Cancelled" : "Atcelts",
     "Categories" : "Kategorijas",
     "Presentation" : "Prezentācija",
     "Mail" : "E-pasts",

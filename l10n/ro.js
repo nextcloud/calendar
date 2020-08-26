@@ -75,7 +75,6 @@ OC.L10N.register(
     "Status" : "Stare",
     "Confirmed" : "Confirmat",
     "Tentative" : "Tentativă",
-    "Cancelled" : "Anulat",
     "Mail" : "Mail",
     "Play" : "Redă",
     "Global" : "Global"

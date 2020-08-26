@@ -278,7 +278,7 @@ OC.L10N.register(
     "Status" : "Állapot",
     "Confirmed" : "Elfogadva",
     "Tentative" : "Valószínűleg",
-    "Cancelled" : "Megszakítva",
+    "Canceled" : "Megszakítva",
     "Show as" : "Mutasd mint",
     "Free" : "Szabad",
     "Categories" : "Kategóriák",

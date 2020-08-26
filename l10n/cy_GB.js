@@ -47,7 +47,6 @@ OC.L10N.register(
     "Description" : "Disgrifiad",
     "Confirmed" : "Cadarnhawyd",
     "Tentative" : "I'w gadarnhau",
-    "Cancelled" : "Diddymwyd",
     "Mail" : "E-bost",
     "Play" : "Chwarae",
     "Global" : "Eang"

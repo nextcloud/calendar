@@ -53,7 +53,6 @@ OC.L10N.register(
     "Status" : "Status",
     "Confirmed" : "E konfirmuar",
     "Tentative" : "Tentativë",
-    "Cancelled" : "U anulua",
     "Categories" : "Kategoritë",
     "Presentation" : "Paraqitje",
     "Office" : "Zyrë",

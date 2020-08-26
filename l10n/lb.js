@@ -39,7 +39,6 @@ OC.L10N.register(
     "When shared hide this event" : "Wann et gedeelt gouf, dann verstopp dëst Evenement",
     "Location" : "Uert",
     "Description" : "Beschreiwung",
-    "Cancelled" : "Ofgebrach",
     "Mail" : "Mail",
     "Play" : "Ofspillen",
     "Global" : "Global"

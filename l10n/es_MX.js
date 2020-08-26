@@ -56,7 +56,7 @@ OC.L10N.register(
     "Status" : "Estatus",
     "Confirmed" : "Confirmado",
     "Tentative" : "Tentativo",
-    "Cancelled" : "Cancelado",
+    "Canceled" : "Cancelada",
     "Categories" : "Categorías",
     "Presentation" : "Presentación",
     "Office" : "Office",

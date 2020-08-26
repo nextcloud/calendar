@@ -178,7 +178,7 @@ OC.L10N.register(
     "Status" : "מצב",
     "Confirmed" : "מאושר",
     "Tentative" : "טנטטיבית",
-    "Cancelled" : "בוטל",
+    "Canceled" : "מבוטלת",
     "Show as" : "הצג כ-",
     "Free" : "פנוי",
     "Categories" : "קטגוריות",

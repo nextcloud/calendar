@@ -289,7 +289,7 @@ OC.L10N.register(
     "Status" : "Status",
     "Confirmed" : "Potvrđeno",
     "Tentative" : "Uvjetno",
-    "Cancelled" : "Otkazano",
+    "Canceled" : "Otkazano",
     "Confirmation about the overall status of the event." : "Potvrda cjelokupnog statusa događaja.",
     "Show as" : "Prikaži kao",
     "Take this event into account when calculating free-busy information." : "Uzmite ovaj događaj u obzir pri izračunu informacija o dostupnosti i zauzeću.",

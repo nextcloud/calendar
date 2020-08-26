@@ -133,7 +133,6 @@ OC.L10N.register(
     "Status" : "Status",
     "Confirmed" : "Bekræftet",
     "Tentative" : "Foreløbig",
-    "Cancelled" : "Annulléret",
     "Categories" : "Kategorier",
     "Presentation" : "Præsentation",
     "Movie" : "Film",

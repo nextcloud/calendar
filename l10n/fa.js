@@ -267,7 +267,6 @@ OC.L10N.register(
     "Status" : "وضعیت",
     "Confirmed" : "تایید شده",
     "Tentative" : "آزمایشی",
-    "Cancelled" : "لغو شده",
     "Confirmation about the overall status of the event." : "تأیید درباره وضعیت کلی این رویداد.",
     "Show as" : "نمایش به عنوان",
     "Take this event into account when calculating free-busy information." : "هنگام محاسبه اطلاعات شلوغ رایگان ، این رویداد را در نظر بگیرید.",

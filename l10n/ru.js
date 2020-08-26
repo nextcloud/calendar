@@ -290,7 +290,7 @@ OC.L10N.register(
     "Status" : "Состояние",
     "Confirmed" : "Подтверждено",
     "Tentative" : "Под вопросом",
-    "Cancelled" : "Отменено",
+    "Canceled" : "Отменена",
     "Confirmation about the overall status of the event." : "Подтверждение об общем статусе события.",
     "Show as" : "Показать как",
     "Take this event into account when calculating free-busy information." : "Учитывать это событие при учёте свободного времени.",

@@ -290,7 +290,7 @@ OC.L10N.register(
     "Status" : "Status",
     "Confirmed" : "Bevestigd",
     "Tentative" : "Voorlopig",
-    "Cancelled" : "Geannuleerd",
+    "Canceled" : "Geannuleerd",
     "Confirmation about the overall status of the event." : "Bevestiging over de globale status van de afspraak.",
     "Show as" : "Toon als",
     "Take this event into account when calculating free-busy information." : "Houd rekening met deze afspraak bij het berekenen van vrij-bezetinformatie.",

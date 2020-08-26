@@ -77,7 +77,6 @@ OC.L10N.register(
     "Status" : "Staatus",
     "Confirmed" : "Kinnitatud",
     "Tentative" : "Esialgne",
-    "Cancelled" : "Tühistatud",
     "Categories" : "Kategooriad",
     "Presentation" : "Esitlus",
     "Camping" : "Telkimine",

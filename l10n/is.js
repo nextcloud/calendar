@@ -236,7 +236,7 @@ OC.L10N.register(
     "Status" : "Staða",
     "Confirmed" : "Staðfest",
     "Tentative" : "Með fyrirvara",
-    "Cancelled" : "Hætt við",
+    "Canceled" : "Hætt við",
     "Confirmation about the overall status of the event." : "Staðfesting á almennri stöðu atburðarins.",
     "Show as" : "Birta sem",
     "Take this event into account when calculating free-busy information." : "Taka þennan atburð með í reikninga á laus/upptekinn upplýsingum.",

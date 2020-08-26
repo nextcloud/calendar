@@ -54,7 +54,6 @@ OC.L10N.register(
     "Status" : "სტატუსი",
     "Confirmed" : "დადასტურებლია",
     "Tentative" : "საცდელი",
-    "Cancelled" : "უარყოფილია",
     "Categories" : "კატეგორიები",
     "Mail" : "ფოსტა",
     "Play" : "დაკვრა",

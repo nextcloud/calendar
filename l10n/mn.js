@@ -50,7 +50,6 @@ OC.L10N.register(
     "Status" : "төлөв",
     "Confirmed" : "Баталгаажсан",
     "Tentative" : "Урьдчилсан тов",
-    "Cancelled" : "Цуцлагдсан",
     "Categories" : "төрөл",
     "Mail" : "Цахим шуудан",
     "Play" : "Тоглуулах",

@@ -288,7 +288,7 @@
     "Status" : "Estado",
     "Confirmed" : "Confirmado",
     "Tentative" : "Pendiente",
-    "Cancelled" : "Cancelado",
+    "Canceled" : "Cancelado",
     "Confirmation about the overall status of the event." : "Confirmación acerca del estado general del evento.",
     "Show as" : "Mostrar como",
     "Take this event into account when calculating free-busy information." : "Tome este evento en consideración cuando calcule la información acerca de libre-ocupado.",

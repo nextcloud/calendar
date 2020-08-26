@@ -290,7 +290,7 @@ OC.L10N.register(
     "Status" : "状态",
     "Confirmed" : "已确认",
     "Tentative" : "暂定",
-    "Cancelled" : "已取消",
+    "Canceled" : "已取消",
     "Confirmation about the overall status of the event." : "对事项总体状态的确认。",
     "Show as" : "显示为",
     "Take this event into account when calculating free-busy information." : "在计算闲忙信息时将此事项考虑在内。",

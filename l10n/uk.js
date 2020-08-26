@@ -289,7 +289,7 @@ OC.L10N.register(
     "Status" : "Статус",
     "Confirmed" : "Підтверджено",
     "Tentative" : "Попередній",
-    "Cancelled" : "Скасовано",
+    "Canceled" : "Скасовано",
     "Confirmation about the overall status of the event." : "Підтвердження загального статусу події.",
     "Show as" : "Показати як",
     "Take this event into account when calculating free-busy information." : "Брати до уваги цю подію при розрахунку інформації про вильний/зайнятий час.",

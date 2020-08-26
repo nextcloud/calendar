@@ -42,7 +42,6 @@ OC.L10N.register(
     "Description" : "รายละเอียด",
     "Confirmed" : "ได้รับการยืนยันแล้ว",
     "Tentative" : "ชั่วคราว",
-    "Cancelled" : "ยกเลิกแล้ว",
     "Presentation" : "งานนำเสนอ",
     "Office" : "สำนักงาน",
     "Mail" : "จดหมาย",

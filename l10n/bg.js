@@ -106,7 +106,6 @@ OC.L10N.register(
     "Status" : "Състояние",
     "Confirmed" : "Потвърдено",
     "Tentative" : "Несигурно",
-    "Cancelled" : "Отказано",
     "Categories" : "Категории",
     "Add this as a new category" : "Добави като нова категория",
     "Presentation" : "Презентация",

@@ -290,7 +290,7 @@ OC.L10N.register(
     "Status" : "Κατάσταση",
     "Confirmed" : "Επιβεβαιώθηκε",
     "Tentative" : "Δοκιμαστικό",
-    "Cancelled" : "Ακυρώθηκε",
+    "Canceled" : "Ακυρώθηκε",
     "Confirmation about the overall status of the event." : "Επιβεβαίωση της συνολικής κατάστασης του γεγονότος.",
     "Show as" : "Εμφάνιση ως",
     "Take this event into account when calculating free-busy information." : "Κατά τον υπολογισμό των πληροφοριών που είναι εργασίας-ρεπό υπολόγισε και αυτό το γεγονός.",

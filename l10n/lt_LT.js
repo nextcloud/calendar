@@ -277,7 +277,7 @@ OC.L10N.register(
     "Status" : "Būsena",
     "Confirmed" : "Patvirtintas",
     "Tentative" : "Preliminarus",
-    "Cancelled" : "Atsisakytas",
+    "Canceled" : "Atsisakyta",
     "Confirmation about the overall status of the event." : "Patvirtinimas apie bendrą įvykio būseną.",
     "Show as" : "Rodyti kaip",
     "Take this event into account when calculating free-busy information." : "Atsižvelgti į šį įvykį apskaičiuojant laisvo ir užimto laiko informaciją.",

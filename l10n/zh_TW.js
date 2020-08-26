@@ -125,7 +125,6 @@ OC.L10N.register(
     "Status" : "狀態",
     "Confirmed" : "已確認",
     "Tentative" : "測試的",
-    "Cancelled" : "已取消",
     "Categories" : "分類",
     "Movie" : "電影",
     "Cinema" : "電影院",

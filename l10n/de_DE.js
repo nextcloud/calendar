@@ -290,7 +290,7 @@ OC.L10N.register(
     "Status" : "Status",
     "Confirmed" : "Bestätigt",
     "Tentative" : "Vorläufig",
-    "Cancelled" : "Abgesagt",
+    "Canceled" : "Abgesagt",
     "Confirmation about the overall status of the event." : "Bestätigung über den Gesamtstatus des Termins.",
     "Show as" : "Anzeigen als",
     "Take this event into account when calculating free-busy information." : "Diesen Termin bei der Berechnung der Frei- / Gebucht-Informationen berücksichtigen.",

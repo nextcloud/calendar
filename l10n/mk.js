@@ -231,7 +231,6 @@ OC.L10N.register(
     "Status" : "Статус",
     "Confirmed" : "Потврдено",
     "Tentative" : "Прелиминарен",
-    "Cancelled" : "Откажано",
     "Confirmation about the overall status of the event." : "Потврда за целокупниот статус на настанот.",
     "Show as" : "Крикажи како",
     "Take this event into account when calculating free-busy information." : "Го има во предвид овој настан при пресметување на информации за слободен-зафатен.",

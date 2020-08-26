@@ -249,7 +249,6 @@
     "Status" : "Status",
     "Confirmed" : "Terkonfirmasi",
     "Tentative" : "Tentatif",
-    "Cancelled" : "Dibatalkan",
     "Confirmation about the overall status of the event." : "Konfirmasi tentang status keseluruhan acara.",
     "Show as" : "Tampilkan sebagai",
     "Take this event into account when calculating free-busy information." : "Pertimbangkan acara ini saat perhitungan waktu luang dan sibuk.",

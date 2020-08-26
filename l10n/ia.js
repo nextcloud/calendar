@@ -46,7 +46,6 @@ OC.L10N.register(
     "Description" : "Description",
     "Confirmed" : "Confirmate",
     "Tentative" : "Tentative",
-    "Cancelled" : "Cancellate",
     "Presentation" : "Presentation",
     "Mail" : "Posta",
     "Play" : "Reproducer",

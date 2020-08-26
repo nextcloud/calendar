@@ -88,7 +88,7 @@ OC.L10N.register(
     "Status" : "상태",
     "Confirmed" : "확인됨",
     "Tentative" : "예정됨",
-    "Cancelled" : "취소됨",
+    "Canceled" : "취소됨",
     "Categories" : "분류",
     "Presentation" : "프레젠테이션",
     "Movie" : "영화",

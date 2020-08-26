@@ -263,7 +263,7 @@ OC.L10N.register(
     "Status" : "Tila",
     "Confirmed" : "Vahvistettu",
     "Tentative" : "Alustava",
-    "Cancelled" : "Peruttu",
+    "Canceled" : "Peruttu",
     "Show as" : "Näytä muodossa",
     "Take this event into account when calculating free-busy information." : "Huomioi tämä tapahtuma laskettaessa vapaita ja varattuja ajankohtia.",
     "Free" : "Vapaa",

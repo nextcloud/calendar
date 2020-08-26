@@ -255,7 +255,7 @@ OC.L10N.register(
     "Status" : "Status",
     "Confirmed" : "Bekräftad",
     "Tentative" : "Preliminärt",
-    "Cancelled" : "Avbokad",
+    "Canceled" : "Avbruten",
     "Confirmation about the overall status of the event." : "Bekräftelse av händelsens övergripande status.",
     "Show as" : "Visa som",
     "Free" : "Ledig",

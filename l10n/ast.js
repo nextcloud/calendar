@@ -52,7 +52,6 @@ OC.L10N.register(
     "Status" : "Estáu",
     "Confirmed" : "Confirmáu",
     "Tentative" : "Tentativa",
-    "Cancelled" : "Encaboxáu",
     "Categories" : "Estayes",
     "Presentation" : "Presentación",
     "Office" : "Oficina",

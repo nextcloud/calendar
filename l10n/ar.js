@@ -49,7 +49,6 @@ OC.L10N.register(
     "Status" : "الحالة",
     "Confirmed" : "مؤكَّد",
     "Tentative" : "مبدئي",
-    "Cancelled" : "ملغى",
     "Categories" : "الفئات",
     "Movie" : "فلم",
     "Cinema" : "سينما",

@@ -22,7 +22,6 @@ OC.L10N.register(
     "Daily" : "дневно",
     "Weekly" : "недељно",
     "Description" : "Opis",
-    "Cancelled" : "Otkazano",
     "Movie" : "Film",
     "Mail" : "Pošta"
 },

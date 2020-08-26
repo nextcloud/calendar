@@ -290,7 +290,7 @@ OC.L10N.register(
     "Status" : "Durum",
     "Confirmed" : "Kabul Edildi",
     "Tentative" : "Belirsiz",
-    "Cancelled" : "İptal Edildi",
+    "Canceled" : "İptal Edildiğinde",
     "Confirmation about the overall status of the event." : "Etkinliğin genel kabul edilme durumu.",
     "Show as" : "Şu şekilde görüntülensin",
     "Take this event into account when calculating free-busy information." : "Serbest, meşgul zamanlar hesaplanırken bu etkinlik hesaba katılsın.",

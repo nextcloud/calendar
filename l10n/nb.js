@@ -246,7 +246,7 @@ OC.L10N.register(
     "Status" : "Status",
     "Confirmed" : "Bekreftet",
     "Tentative" : "Foreløpig",
-    "Cancelled" : "Avbrutt",
+    "Canceled" : "Avbrutt",
     "Show as" : "Vis som",
     "Free" : "Ledig",
     "Categories" : "Kategorier",

@@ -290,7 +290,7 @@ OC.L10N.register(
     "Status" : "Egoera",
     "Confirmed" : "Berretsita",
     "Tentative" : "Behin behinekoa",
-    "Cancelled" : "Ezeztatua",
+    "Canceled" : "Utzita",
     "Confirmation about the overall status of the event." : "Baieztapena gertaeraren egoera orokorrari buruz.",
     "Show as" : "Erakutsi honela",
     "Take this event into account when calculating free-busy information." : "Kontuan izan gertaera hau libre-lanpetuta informazio kalkuluetan.",

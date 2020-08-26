@@ -60,7 +60,7 @@ OC.L10N.register(
     "Status" : "Stato",
     "Confirmed" : "Konfirmita",
     "Tentative" : "Nekonfirmita",
-    "Cancelled" : "Nuligita",
+    "Canceled" : "Nuligita",
     "Categories" : "Kategorioj",
     "Add this as a new category" : "Aldoni tion kiel novan kategorion",
     "Mail" : "Retpoŝtilo",

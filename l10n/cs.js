@@ -290,7 +290,7 @@ OC.L10N.register(
     "Status" : "Stav",
     "Confirmed" : "Potvrzeno",
     "Tentative" : "Nezávazně",
-    "Cancelled" : "Zrušeno",
+    "Canceled" : "Zrušeno",
     "Confirmation about the overall status of the event." : "Potvrzení o celkovém stavu události.",
     "Show as" : "Zobrazit jako",
     "Take this event into account when calculating free-busy information." : "Zohlednit tuto událost při určování zaneprázdněných/volných hodin.",

@@ -277,7 +277,6 @@ OC.L10N.register(
     "Status" : "Trạng thái",
     "Confirmed" : "Đã xác nhận",
     "Tentative" : "Chưa chắc chắn",
-    "Cancelled" : "Đã hủy",
     "Confirmation about the overall status of the event." : "Sự xác nhận về tình trạng tổng thể của sự kiện.",
     "Show as" : "Cho thấy với",
     "Take this event into account when calculating free-busy information." : "Lưu ý sự kiện này vào tài khoản khi tính toán về thông tin bận-rãnh",

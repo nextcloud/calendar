@@ -30,7 +30,6 @@ OC.L10N.register(
     "Location" : "Տեղակայություն",
     "Description" : "Նկարագրություն",
     "Confirmed" : "Հաստատված",
-    "Cancelled" : "Չեղարկված",
     "Mail" : "Փոստ",
     "Play" : "Նվագարկել",
     "Global" : "Ընդհանուր"

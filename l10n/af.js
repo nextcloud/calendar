@@ -50,7 +50,6 @@ OC.L10N.register(
     "Description" : "Beskrywing",
     "Confirmed" : "Bevestig",
     "Tentative" : "Tentatief",
-    "Cancelled" : "Gekanselleer",
     "Categories" : "Kategorieë",
     "Mail" : "Pos",
     "Play" : "Speel Af",

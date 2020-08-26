@@ -44,7 +44,6 @@ OC.L10N.register(
     "Status" : "Status",
     "Confirmed" : "Stadfesta",
     "Tentative" : "Førebels",
-    "Cancelled" : "Avlyst",
     "Mail" : "Post",
     "Play" : "Spel",
     "Global" : "Global"
