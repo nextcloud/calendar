@@ -175,7 +175,15 @@
 	}
 
 	.app-navigation-entry__multiselect {
-		padding-left: 8px;
+		padding: 0 8px;
+
+		.multiselect {
+			width: 100%;
+
+			&__content-wrapper {
+				z-index: 200 !important;
+			}
+		}
 	}
 
 	.app-navigation-entry__icon-bullet-disabled {
