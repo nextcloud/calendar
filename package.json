@@ -52,7 +52,7 @@
 		"@nextcloud/router": "^1.1.0",
 		"@nextcloud/vue": "^2.3.0",
 		"autosize": "^4.0.2",
-		"calendar-js": "git+https://github.com/georgehrke/calendar-js.git",
+		"calendar-js": "git+https://github.com/nextcloud/calendar-js.git",
 		"cdav-library": "github:nextcloud/cdav-library",
 		"closest-css-color": "^0.1.1",
 		"color-convert": "^2.0.1",
