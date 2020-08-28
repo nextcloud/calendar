@@ -39,6 +39,23 @@ export function isLight({ red, green, blue }) {
 }
 
 /**
+ * Returns the rgba representation of a hexColor and an alpha value
+ *
+ * @param {String} hexColor The hex color to get a text color for
+ * @param {Number} alpha The alpha-value of the rgba
+ * @returns {String} The rgba value
+ */
+export function generateAlphaColor(hexColor, alpha) {
+	const {
+		red,
+		green,
+		blue,
+	} = hexToRGB(hexColor)
+
+	return `rgba(${red}, ${green}, ${blue}, ${alpha})`
+}
+
+/**
  * Get a text-color that's readable on a given background color
  *
  * @param {String} hexColor The hex color to get a text color for

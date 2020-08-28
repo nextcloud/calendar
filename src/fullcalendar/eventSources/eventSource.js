@@ -20,7 +20,7 @@
  *
  */
 import {
-	generateTextColorForHex,
+	generateAlphaColor,
 } from '../../utils/color.js'
 import getTimezoneManager from '../../services/timezoneDataProviderService'
 import { getUnixTimestampFromDate } from '../../utils/date.js'
@@ -38,9 +38,9 @@ export default function(store) {
 		const source = {
 			id: calendar.id,
 			// coloring
-			backgroundColor: calendar.color,
+			backgroundColor: generateAlphaColor(calendar.color, 0.1),
 			borderColor: calendar.color,
-			textColor: generateTextColorForHex(calendar.color),
+			textColor: calendar.color,
 			// html foo
 			events: async({ start, end, timeZone }, successCallback, failureCallback) => {
 				let timezoneObject = getTimezoneManager().getTimezoneForId(timeZone)
