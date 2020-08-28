@@ -288,7 +288,7 @@
     "Status" : "Durum",
     "Confirmed" : "Kabul Edildi",
     "Tentative" : "Belirsiz",
-    "Canceled" : "İptal Edildiğinde",
+    "Canceled" : "İptal Edildi",
     "Confirmation about the overall status of the event." : "Etkinliğin genel kabul edilme durumu.",
     "Show as" : "Şu şekilde görüntülensin",
     "Take this event into account when calculating free-busy information." : "Serbest, meşgul zamanlar hesaplanırken bu etkinlik hesaba katılsın.",
