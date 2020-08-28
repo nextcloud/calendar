@@ -31,23 +31,7 @@
 			</div>
 			<FullCalendar
 				ref="freeBusyFullCalendar"
-				default-view="resourceTimelineDay"
-				:editable="false"
-				:selectable="false"
-				height="auto"
-				:plugins="plugins"
-				:event-sources="eventSources"
-				:time-zone="timezoneId"
-				:default-date="startDate"
-				:locales="locales"
-				:resources="resources"
-				:locale="fullCalendarLocale"
-				:first-day="firstDay"
-				scroll-time="06:00:00"
-				:force-event-duration="false"
-				:resource-label-text="$t('calendar', 'Attendees, Resources and Rooms')"
-				scheduler-license-key="GPL-My-Project-Is-Open-Source"
-				@loading="loading" />
+				:options="options" />
 			<div class="freebusy-caption">
 				<div class="freebusy-caption__calendar-user-types" />
 				<div class="freebusy-caption__colors">
@@ -64,18 +48,30 @@
 </template>
 
 <script>
+// Import FullCalendar itself
 import FullCalendar from '@fullcalendar/vue'
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline'
+
+// Import event sources
+import freeBusyEventSource from '../../../fullcalendar/eventSources/freeBusyEventSource.js'
+import freeBusyFakeBlockingEventSource from '../../../fullcalendar/eventSources/freeBusyFakeBlockingEventSource.js'
+
+// Import localization plugins
+import { getDateFormattingConfig } from '../../../fullcalendar/localization/dateFormattingConfig.js'
+import { getFullCalendarLocale } from '../../../fullcalendar/localization/localeProvider.js'
+import MomentPlugin from '../../../fullcalendar/localization/momentPlugin.js'
+
+// Import timezone plugins
+import VTimezoneNamedTimezone from '../../../fullcalendar/timezones/vtimezoneNamedTimezoneImpl.js'
+
 import {
 	mapGetters,
 	mapState,
 } from 'vuex'
-import { getLocale } from '@nextcloud/l10n'
 import Modal from '@nextcloud/vue/dist/Components/Modal'
-import VTimezoneNamedTimezone from '../../../fullcalendar/vtimezoneNamedTimezoneImpl.js'
-import freeBusyEventSource from '../../../fullcalendar/freeBusyEventSource.js'
 import { getColorForFBType } from '../../../utils/freebusy.js'
-import freeBusyFakeBlockingEventSource from '../../../fullcalendar/freeBusyFakeBlockingEventSource.js'
+import { getLocale } from '@nextcloud/l10n'
+import { getFirstDayOfWeekFromMomentLocale } from '../../../utils/moment.js'
 
 export default {
 	name: 'FreeBusy',
@@ -84,18 +80,32 @@ export default {
 		Modal,
 	},
 	props: {
+		/**
+		 * The organizer object.
+		 * See /src/models/attendee.js for details
+		 */
 		organizer: {
 			type: Object,
 			required: true,
 		},
+		/**
+		 * The attendee objects.
+		 * See /src/models/attendee.js for details
+		 */
 		attendees: {
 			type: Array,
 			required: true,
 		},
+		/**
+		 * The start-date to query free-busy information from
+		 */
 		startDate: {
 			type: Date,
 			required: true,
 		},
+		/**
+		 * The end-date to query free-busy information from
+		 */
 		endDate: {
 			type: Date,
 			required: true,
@@ -103,9 +113,6 @@ export default {
 	},
 	data() {
 		return {
-			fullCalendarLocale: 'en',
-			locales: [],
-			firstDay: 0,
 			loadingIndicator: true,
 		}
 	},
@@ -118,9 +125,15 @@ export default {
 			showWeekNumbers: state => state.settings.showWeekNumbers,
 			timezone: state => state.settings.timezone,
 		}),
+		/**
+		 * FullCalendar Plugins
+		 *
+		 * @returns {(PluginDef)[]}
+		 */
 		plugins() {
 			return [
 				resourceTimelinePlugin,
+				MomentPlugin,
 				VTimezoneNamedTimezone,
 			]
 		},
@@ -152,6 +165,12 @@ export default {
 
 			return resources
 		},
+		/**
+		 * List of possible Free-Busy values.
+		 * This is used as legend.
+		 *
+		 * @returns {({color: string, label: string})[]}
+		 */
 		colorCaption() {
 			return [{
 				label: this.$t('calendar', 'Busy (tentative)'),
@@ -167,38 +186,39 @@ export default {
 				color: getColorForFBType('UNKNOWN'),
 			}]
 		},
-	},
-	async mounted() {
-		this.loadFullCalendarLocale()
-	},
-	methods: {
 		/**
-		 * Loads the locale data for full-calendar
+		 * Configuration options for FullCalendar
+		 * Please see https://fullcalendar.io/docs#toc for details
 		 *
-		 * @returns {Promise<void>}
+		 * @returns {Object}
 		 */
-		async loadFullCalendarLocale() {
-			let locale = getLocale().replace('_', '-').toLowerCase()
-			try {
-				// try to load the default locale first
-				const fcLocale = await import('@fullcalendar/core/locales/' + locale)
-				this.locales.push(fcLocale)
-				// We have to update firstDay manually till https://github.com/fullcalendar/fullcalendar-vue/issues/36 is fixed
-				this.firstDay = fcLocale.week.dow
-				this.fullCalendarLocale = locale
-			} catch (e) {
-				try {
-					locale = locale.split('-')[0]
-					const fcLocale = await import('@fullcalendar/core/locales/' + locale)
-					this.locales.push(fcLocale)
-					// We have to update firstDay manually till https://github.com/fullcalendar/fullcalendar-vue/issues/36 is fixed
-					this.firstDay = fcLocale.week.dow
-					this.fullCalendarLocale = locale
-				} catch (e) {
-					console.debug('falling back to english locale')
-				}
+		options() {
+			return {
+				// Initialization:
+				initialView: 'resourceTimelineDay',
+				initialDate: this.startDate,
+				schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
+				// Data
+				eventSources: this.eventSources,
+				resources: this.resources,
+				// Plugins
+				plugins: this.plugins,
+				// Interaction:
+				editable: false,
+				selectable: false,
+				// Localization:
+				...getDateFormattingConfig(),
+				locale: getFullCalendarLocale(getLocale(), this.locale),
+				firstDay: getFirstDayOfWeekFromMomentLocale(this.locale),
+				// Rendering
+				height: 'auto',
+				loading: this.loading,
+				// Timezones:
+				timeZone: this.timezoneId,
 			}
 		},
+	},
+	methods: {
 		loading(isLoading) {
 			this.loadingIndicator = isLoading
 		},
@@ -207,10 +227,6 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-@import '~@fullcalendar/core/main.css';
-@import '~@fullcalendar/timeline/main.css';
-@import '~@fullcalendar/resource-timeline/main.css';
-
 .modal__content {
 	padding: 50px;
 }

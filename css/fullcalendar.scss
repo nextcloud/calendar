@@ -1,7 +1,7 @@
 /**
  * Calendar App
  *
- * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
+ * @copyright 2020 Georg Ehrke <oc.list@georgehrke.com>
  *
  * @author Georg Ehrke
  *
@@ -20,136 +20,84 @@
  *
  */
 
-.fc-event-nc-task-completed,
-.fc-event-nc-tentative,
-.fc-event-nc-cancelled {
-	opacity: .5;
+/** Override some FullCalendar CSS vars: */
+:root {
+	--fc-small-font-size: 0.875em;
+	--fc-page-bg-color: var(--color-main-background) !important;
+	--fc-neutral-bg-color: var(--color-background-dark) !important;
+	--fc-neutral-text-color: var(--color-text-lighter) !important;
+	--fc-border-color: var(--color-border) !important;
+
+	--fc-event-bg-color: var(--color-primary);
+	--fc-event-border-color: var(--color-primary-text);
+	--fc-event-text-color: var(--color-primary-text);
+	--fc-event-selected-overlay-color: var(--color-box-shadow);
+
+	--fc-event-resizer-thickness: 8px;
+	--fc-event-resizer-dot-total-width: 8px;
+	--fc-event-resizer-dot-border-width: 1px;
+
+	--fc-non-business-color: var(--color-background-dark);
+	--fc-bg-event-color: var(--color-primary);
+	--fc-bg-event-opacity: 0.3;
+	--fc-highlight-color: rgba(188, 232, 241, 0.3); // TODO - use some color css var from us?
+	--fc-today-bg-color: var(--color-main-background) !important;
+	--fc-now-indicator-color: red;
 }
 
-.fc-event-nc-task-completed,
-.fc-event-nc-cancelled {
-	text-decoration: line-through !important;
+.fc {
+	font-family: var(--font-face) !important;
 }
 
-.fc-view.fc-timeGridDay-view {
-	.fc-today {
-		background: var(--color-main-background) !important;
-	}
+// ### FullCalendar Grid adjustments
+// Make the labels lighter
+.fc-timegrid-axis-frame,
+.fc-timegrid-slot-label,
+.fc-col-header-cell a {
+	color: var(--color-text-lighter) !important;
 }
 
-.fc th,
-.fc .fc-axis,
-.fc-day-grid-event .fc-time,
-.fc-ltr .fc-basic-view .fc-day-number,
-.fc-ltr .fc-basic-view .fc-week-number,
-.fc-time-grid-event .fc-time {
-	opacity: .8;
-	font-size: 80%;
-	font-weight: normal;
+// Center the date in month view
+.fc-daygrid-day-top {
+	justify-content: center;
 }
 
-.fc-basic-view .fc-day-top .fc-week-number {
-	background-color: var(--color-border);
-	color: var(--color-main-text);
-}
-
-// Center date in month view cell
-.fc-day-top {
-	text-align: center;
-
-	.fc-day-number {
-		float: none !important;
-		display: inline-block;
-	}
-}
-
-.fc-day-number.fc-other-month {
-	opacity: .1 !important;
-}
-
-.fc td.fc-widget-header {
-	border-top: none;
-}
-
-.fc th,
-.fc td {
-	border-left: none;
-	border-bottom: none;
-}
-
-/* border styles for grid, highlight full-hour horizontal lines */
-
-.fc-unthemed tr th,
-.fc-unthemed tr td {
-	border-color: var(--color-border);
-	//border-top-color: var(--color-border-dark);
-}
-
-.fc-unthemed tr:nth-child(even) td {
-	border-top-color: var(--color-border-dark);
-}
-
-/* properly size events */
-.fc-event {
-	font-size: 13px;
-	line-height: initial;
-	padding-left: 3px;
-}
-
-.fc-axis,
-.fc-day-header {
-	font-size: 100%;
-	opacity: .5;
-}
-
-.fc td.fc-day.nc-calendar-fc-day-of-weekend {
-	background-color: var(--color-background-dark);
-}
-
-.fc table {
-	white-space: inherit !important;
-}
-
-.fc .fc-today {
-	opacity: 1;
-}
-
+// Override Nextcloud styles which highlight table rows on hover
 .fc-state-highlight.fc-day-number,
 .fc tbody tr,
 .fc tbody tr:hover,
 .fc tbody tr:focus {
-	background: transparent !important;
+	background: inherit !important;
 }
 
-.fc .fc-divider {
-	background: var(--color-border) !important;
-	border-color: var(--color-border) !important;
-}
-
-.fc-day-number {
-	padding-top: 0 !important;
-}
-
-.fc-today > .fc-day-number {
-	background: var(--color-primary);
-	color: var(--color-primary-text);
-	border-radius: 50%;
-	margin: 3px 3px 0 0;
-	width: 24px;
-	height: 24px;
-	text-align: center;
-	font-weight: bold !important;
-	box-sizing: border-box !important;
-}
-
-.fc-day-header.fc-today {
-	> a, span {
-		background-color: var(--color-primary);
-		border-radius: var(--border-radius-pill);
-		padding: 2px 6px;
-		color: var(--color-primary-text);
-		font-weight: bold;
+// Today highlighting
+.fc-day-today {
+	&.fc-col-header-cell {
+		a, span {
+			background-color: var(--color-primary);
+			color: var(--color-primary-text) !important;
+			border-radius: var(--border-radius-pill);
+			padding: 2px 6px;
+			font-weight: bold;
+		}
 	}
+
+	.fc-daygrid-day-number {
+		background: var(--color-primary);
+		color: var(--color-primary-text);
+		border-radius: 50%;
+		margin: 3px 3px 0 0;
+		width: 24px;
+		height: 24px;
+		text-align: center;
+		font-weight: bold !important;
+		padding: 1px 0 !important;
+	}
+}
+
+// Weekend highlighting
+.fc td.fc-day.nc-calendar-fc-day-of-weekend {
+	background-color: var(--color-background-dark) !important;
 }
 
 .fc-today.nc-calendar-fc-day-of-weekend:not(.fc-day-header) {
@@ -160,80 +108,57 @@
 	background-color: var(--color-main-background) !important;
 }
 
-.nc-calendar-fc-day-of-weekend {
-	.fc-week-number {
-		background-color: var(--color-background-darker) !important;
-		color: var(--color-text-maxcontrast) !important;
+// ### FullCalendar Event adjustments
+.fc-event {
+	padding-left: 3px;
+
+	&.fc-event-nc-task-completed,
+	&.fc-event-nc-tentative,
+	&.fc-event-nc-cancelled {
+		opacity: .5;
 	}
-}
 
-.nc-calendar-fc-day-of-workweek {
-	.fc-week-number {
-		background-color: var(--color-background-dark) !important;
-		color: var(--color-text-maxcontrast) !important;
-	}
-}
-
-// The server is setting border-box on everything
-// inside content and that messes up fullcalendar
-.fc * {
-	box-sizing: content-box !important;
-}
-
-// Reminder icon on events with alarms set
-.fc-event-nc-alarms {
-	.icon-event-reminder {
-		background-color: inherit;
-		background-position: right;
-		position: absolute;
-		top: 0;
-		right: 0;
-		&--light {
-			@include icon-color('reminder', 'calendar', '#fffffe', 1);
-		}
-		&--dark {
-			@include icon-color('reminder', 'calendar', '#000001', 1);
+	&.fc-event-nc-task-completed,
+	&.fc-event-nc-cancelled {
+		.fc-event-title {
+			text-decoration: line-through !important;
 		}
 	}
-}
 
-// Task icon on events which are VTODO
-.fc-event-nc-task {
-	.icon-event-task {
-		display: inline-block;
-		vertical-align: bottom;
-		border: 1px solid black;
-		border-radius: 1px;
-		margin: 2px 3px 2px 1px;
-		min-width: 9px;
-		min-height: 9px;
-		&--light {
-			border-color: #ffffff;
-		}
-		&--checked--light {
-			background-size: 9px;
-			@include icon-color('checkmark', 'actions', '#ffffff', 1, true);
-		}
-		&--dark {
-			border-color: #000000;
-		}
-		&--checked--dark {
-			background-size: 9px;
-			@include icon-color('checkmark', 'actions', '#000000', 1, true);
+	.fc-event-title {
+		text-overflow: ellipsis;
+	}
+
+	// Reminder icon on events with alarms set
+	.fc-event-nc-alarms {
+		.icon-event-reminder {
+			background-color: inherit;
+			background-position: right;
+			position: absolute;
+			top: 0;
+			right: 0;
+			&--light {
+				@include icon-color('reminder', 'calendar', '#fffffe', 1);
+			}
+			&--dark {
+				@include icon-color('reminder', 'calendar', '#000001', 1);
+			}
 		}
 	}
-}
 
-.fc-content {
-	background-color: inherit;
-	text-overflow: ellipsis;
-}
+	// Checkboxes for Tasks
+	.fc-event-title-container {
+		display: flex;
+		align-content: center;
 
-.fc-popover.fc-more-popover {
-	border-color: var(--color-border-dark) !important;
+		.fc-event-title-checkbox {
+			margin: 6px 4px 0 0;
+			line-height: 1;
+		}
+	}
 
-	> .fc-header.fc-widget-header,
-	> .fc-body.fc-widget-content {
-		background-color: var(--color-main-background);
+	.fc-daygrid-event-checkbox {
+		margin: 2px 4px 0 4px;
+		line-height: 1;
 	}
 }
