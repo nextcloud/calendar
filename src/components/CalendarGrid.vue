@@ -52,7 +52,6 @@ import { getFullCalendarLocale } from '../fullcalendar/localization/localeProvid
 import MomentPlugin from '../fullcalendar/localization/momentPlugin.js'
 
 // Import rendering handlers
-import dayCellClassNames from '../fullcalendar/rendering/dayCellClassNames.js'
 import eventContent from '../fullcalendar/rendering/eventContent.js'
 import eventOrder from '../fullcalendar/rendering/eventOrder.js'
 
@@ -126,7 +125,6 @@ export default {
 				locale: getFullCalendarLocale(getLocale(), this.locale),
 				firstDay: getFirstDayOfWeekFromMomentLocale(this.locale),
 				// Rendering
-				dayCellClassNames,
 				eventDidMount: eventContent,
 				eventOrder: ['start', '-duration', 'allDay', eventOrder],
 				forceEventDuration: false,
