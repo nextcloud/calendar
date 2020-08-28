@@ -627,12 +627,11 @@
 }
 
 .event-popover {
-	padding: 5px 8px;
-
 	.popover__inner {
 		text-align: left;
 		max-width: 450px;
 		width: 450px;
+		padding: 5px 8px;
 
 		.illustration-header {
 			height: 100px;

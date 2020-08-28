@@ -176,6 +176,29 @@ export default {
 			calendarApi.refetchEvents()
 		}, 50),
 	},
+	/**
+	 * FullCalendar 5 is using calculated px values for the width
+	 * of its views.
+	 * Hence a simple `width: 100%` won't assure that the calendar-grid
+	 * is always using the full available width.
+	 *
+	 * Toggling the AppNavigation or AppSidebar will change the amount
+	 * of available space, but it will not be covered by the window
+	 * resize event, because the actual window size did not change.
+	 *
+	 * To make sure, that the calendar-grid is always using all space,
+	 * we have to register a resize-observer here, that will automatically
+	 * update the fullCalendar size, when the available space changes.
+	 */
+	mounted() {
+		const resizeObserver = new ResizeObserver(debounce(() => {
+			this.$refs.fullCalendar
+				.getApi()
+				.updateSize()
+		}, 100))
+
+		resizeObserver.observe(this.$refs.fullCalendar.$el)
+	},
 	created() {
 		this.updateTodayJob = setInterval(() => {
 			const newDate = getYYYYMMDDFromFirstdayParam('now')
@@ -223,7 +246,7 @@ export default {
 		 * When a user changes the view, remember it and
 		 * use it the next time they open the calendar app
 		 */
-		saveNewView: debounce(function(initialView) {
+		saveNewView: debounce((initialView) => {
 			if (this.isAuthenticatedUser) {
 				this.$store.dispatch('setInitialView', { initialView })
 			}
