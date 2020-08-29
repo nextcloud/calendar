@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "783c1647281b35ce0d7ecc7c3ae331a9",
+    "content-hash": "c7ec9bf7ab99ba8e5d260a61861fa09d",
     "packages": [
         {
             "name": "composer/semver",
@@ -1654,25 +1654,25 @@
     "packages-dev": [
         {
             "name": "christophwurst/nextcloud",
-            "version": "v18.0.4",
+            "version": "v19.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ChristophWurst/nextcloud_composer.git",
-                "reference": "075e5ad6e2c112247bca5cc4c69d0a7f9034dc6e"
+                "reference": "1329e82c5aaf79ce546d9c86ebb057ebe6f857e4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ChristophWurst/nextcloud_composer/zipball/075e5ad6e2c112247bca5cc4c69d0a7f9034dc6e",
-                "reference": "075e5ad6e2c112247bca5cc4c69d0a7f9034dc6e",
+                "url": "https://api.github.com/repos/ChristophWurst/nextcloud_composer/zipball/1329e82c5aaf79ce546d9c86ebb057ebe6f857e4",
+                "reference": "1329e82c5aaf79ce546d9c86ebb057ebe6f857e4",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1"
+                "php": "^7.2"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "18.0.0-dev"
+                    "dev-master": "19.0.0-dev"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1686,7 +1686,7 @@
                 }
             ],
             "description": "Composer package containing Nextcloud's public API (classes, interfaces)",
-            "time": "2020-04-27T12:42:11+00:00"
+            "time": "2020-08-24T12:38:49+00:00"
         },
         {
             "name": "christophwurst/nextcloud_testing",
@@ -2658,6 +2658,7 @@
             "keywords": [
                 "tokenizer"
             ],
+            "abandoned": true,
             "time": "2019-09-17T06:23:10+00:00"
         },
         {
