@@ -24,6 +24,7 @@ OC.L10N.register(
     "Details" : "விவரங்கள்",
     "Attendees" : "பங்கேற்பாளர்கள்",
     "Close" : "மூடுக",
+    "today" : "இன்று",
     "Location" : "இடம்",
     "Description" : "விவரிப்பு",
     "Play" : "Play"

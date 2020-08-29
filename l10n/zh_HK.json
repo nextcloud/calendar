@@ -28,6 +28,7 @@
     "Week {number} of {year}" : "{year} 年的第 {number} 週",
     "Daily" : "每日",
     "Weekly" : "每星期",
+    "today" : "今日",
     "Location" : "位置",
     "Description" : "描述",
     "Mail" : "郵件",

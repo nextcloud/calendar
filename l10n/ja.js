@@ -225,6 +225,8 @@ OC.L10N.register(
     "_Every %n year_::_Every %n years_" : ["%n年ごと"],
     "_%n time_::_%n times_" : ["%n回"],
     "Untitled event" : "無題のイベント",
+    "next year" : "来年",
+    "today" : "今日",
     "When shared show full event" : "共有時にすべてのイベントを表示",
     "When shared show only busy" : "共有時に実行中のみを表示",
     "When shared hide this event" : "共有時にこのイベントを隠す",

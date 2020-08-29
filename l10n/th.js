@@ -35,6 +35,7 @@ OC.L10N.register(
     "Week {number} of {year}" : "สัปดาห์ที่ {number} ของปี {year}",
     "Daily" : "รุ่นรายวัน",
     "Weekly" : "รายสัปดาห์",
+    "today" : "วันนี้",
     "When shared show full event" : "เมื่อแชร์จะแสดงกิจกรรมทั้งหมด",
     "When shared show only busy" : "เมื่อแชร์จะแสดงเฉพาะไม่ว่าง",
     "When shared hide this event" : "เมื่อแชร์จะซ่อนกิจกรรมนี้",

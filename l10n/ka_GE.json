@@ -44,6 +44,8 @@
     "Week {number} of {year}" : "კვირა {number} {year}-დან",
     "Daily" : "ყოველდღიური",
     "Weekly" : "ყოველკვირეული",
+    "next year" : "შემდეგი წელი",
+    "today" : "დღეს",
     "When shared show full event" : "როდესაც გაზიარებულია გამოჩნდეს სრული მოვლენა",
     "When shared show only busy" : "როდესაც გაზიარებულია გამოჩნდეს მხოლოდ დაკავებული",
     "When shared hide this event" : "როდესაც გაზიარებულია არ გამოჩნდეს ეს მოვლენა",

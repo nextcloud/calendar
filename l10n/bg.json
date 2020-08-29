@@ -95,6 +95,8 @@
     "Monthly" : "Месечно",
     "Yearly" : "Годишно",
     "_Every %n day_::_Every %n days_" : ["Всеки %n ден","Всеки %n дни"],
+    "next year" : "следващата година",
+    "today" : "днес",
     "When shared show full event" : "При споделяне, показвай цялото събитие",
     "When shared show only busy" : "При споделяне, показвай само статус \"зает\"",
     "When shared hide this event" : "При споделяне, скривай това събитие",

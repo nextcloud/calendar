@@ -58,6 +58,8 @@ OC.L10N.register(
     "Weekly" : "недељно",
     "Untitled event" : "Неименовани догађај",
     "Untitled task" : "Неименовани задатак",
+    "next year" : "следеће године",
+    "today" : "данас",
     "When shared show full event" : "Прикажи цео догађај када је догађај дељен",
     "When shared show only busy" : "Прикажи само да сте заузети када је догађај дељен",
     "When shared hide this event" : "Сакриј догађај када је догађај дељен",

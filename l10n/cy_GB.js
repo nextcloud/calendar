@@ -40,6 +40,7 @@ OC.L10N.register(
     "Close" : "Cau",
     "Anniversary" : "Dathliad",
     "Week {number} of {year}" : "Wythnos {number} o {year}",
+    "today" : "heddiw",
     "When shared show full event" : "Pan wedi ei rannu, yn dangos y digwyddiad llawn",
     "When shared show only busy" : "Pan wedi ei rannu, yn dangos dim ond prysur",
     "When shared hide this event" : "Pan wedi ei rannu, yn cuddio'r digwyddiad hwn",

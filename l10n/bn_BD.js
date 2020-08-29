@@ -30,6 +30,7 @@ OC.L10N.register(
     "Close" : "বন্ধ",
     "Daily" : "দৈনিক",
     "Weekly" : "সাপ্তাহিক",
+    "today" : "আজ",
     "Location" : "অবস্থান",
     "Description" : "বিবরণ",
     "Mail" : "মেইল",

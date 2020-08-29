@@ -41,6 +41,8 @@ OC.L10N.register(
     "Week {number} of {year}" : "الأسبوع {number} من {year}",
     "Daily" : "يومي",
     "Weekly" : "أسبوعي",
+    "next year" : "العام القادم",
+    "today" : "اليوم",
     "When shared show full event" : "عرض الحدث كاملاً عند مشاركته",
     "When shared show only busy" : "عرض مشغول عند مشاركة الحدث",
     "When shared hide this event" : "إخفاء الحدث عند مشاركته",

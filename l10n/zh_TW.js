@@ -117,6 +117,8 @@ OC.L10N.register(
     "Week {number} of {year}" : "{year} 的第 {number} 週",
     "Daily" : "每日",
     "Weekly" : "每週",
+    "next year" : "明年",
+    "today" : "今天",
     "When shared show full event" : "分享的時候顯示完整活動",
     "When shared show only busy" : "分享的時候顯示忙碌中",
     "When shared hide this event" : "分享的時候隱藏這個活動",

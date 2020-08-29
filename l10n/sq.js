@@ -45,6 +45,7 @@ OC.L10N.register(
     "Week {number} of {year}" : "Java e {number} e {year}",
     "Daily" : "Përditë",
     "Weekly" : "Çdo javë",
+    "today" : "sot",
     "When shared show full event" : "Kur ndahet shfaqje e veprimtarisë së plotë",
     "When shared show only busy" : "Kur ndahet shfaqje vetëm i zënë",
     "When shared hide this event" : "Kur ndahet fshihe këtë veprimtari",

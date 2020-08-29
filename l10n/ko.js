@@ -80,6 +80,8 @@ OC.L10N.register(
     "Week {number} of {year}" : "{year}년 제 {number}주",
     "Daily" : "매일",
     "Weekly" : "매주",
+    "next year" : "내년",
+    "today" : "오늘",
     "When shared show full event" : "전체 일정 공유",
     "When shared show only busy" : "바쁨/한가함만 공유",
     "When shared hide this event" : "일정 공유하지 않음",

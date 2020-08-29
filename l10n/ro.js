@@ -67,6 +67,8 @@ OC.L10N.register(
     "Week {number} of {year}" : "Săptămâna {number} din {year}",
     "Daily" : "Zilnic",
     "Weekly" : "Săptămânal",
+    "next year" : "anul viitor",
+    "today" : "astăzi",
     "When shared show full event" : "Arată tot evenimentul la partajare",
     "When shared show only busy" : "Arată doar ocupat la partajare",
     "When shared hide this event" : "Ascunde evenimentul la partajare",

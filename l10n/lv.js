@@ -49,6 +49,7 @@ OC.L10N.register(
     "Week {number} of {year}" : "{number} nedēļa no {year}",
     "Daily" : "Katru dienu",
     "Weekly" : "Katru nedēļu",
+    "today" : "šodien",
     "When shared show full event" : "Ja koplietots, tad rādīt pilnu notikumu",
     "When shared show only busy" : "Ja koplietots, tad rādīt tikai aizņemts",
     "When shared hide this event" : "Ja koplietots, tad paslēpt notikumu",

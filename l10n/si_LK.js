@@ -25,6 +25,7 @@ OC.L10N.register(
     "Close" : "වසන්න",
     "Daily" : "දිනපතා",
     "Weekly" : "සතිපතා",
+    "today" : "අද",
     "Location" : "ස්ථානය",
     "Description" : "විස්තරය",
     "Mail" : "තැපෑල",

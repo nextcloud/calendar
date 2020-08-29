@@ -36,6 +36,7 @@ OC.L10N.register(
     "Close" : "Lukk",
     "Daily" : "Kvar dag",
     "Weekly" : "Kvar veke",
+    "today" : "i dag",
     "When shared show full event" : "Når delt, vis heile hendinga",
     "When shared show only busy" : "Når delt, vis berre oppteken",
     "When shared hide this event" : "Når delt, gøym denne hendinga",

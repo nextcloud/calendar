@@ -46,6 +46,8 @@ OC.L10N.register(
     "Week {number} of {year}" : "Semana {number} de {year}",
     "Daily" : "Diariamente",
     "Weekly" : "Semanalmente",
+    "next year" : "próximo año",
+    "today" : "hoy",
     "When shared show full event" : "Al compartir, mostrar el evento completo",
     "When shared show only busy" : "Al compartir, mostrar sólo como ocupado ",
     "When shared hide this event" : "Al compartir, ocultar este evento ",
