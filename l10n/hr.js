@@ -275,6 +275,8 @@ OC.L10N.register(
     "Untitled event" : "Događaj bez naslova",
     "Untitled task" : "Zadatak bez naslova",
     "Please ask your administrator to enable the Tasks App." : "Zatražite od administratora da omogući aplikaciju Tasks.",
+    "next year" : "sljedeće godine",
+    "today" : "danas",
     "_+%n more_::_+%n more_" : ["+%n više","+%n više","+%n više"],
     "When shared show" : "Kada se dijeli, prikaži",
     "When shared show full event" : "Kada se dijeli, prikaži cijeli događaj",
