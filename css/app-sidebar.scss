@@ -104,9 +104,9 @@
 		}
 	}
 
-	.app-sidebar-tab-loading-indicator {
+	.app-sidebar__loading-indicator {
 		width: 100%;
-		margin-top: 20px;
+		margin-top: 20vh;
 
 		&__icon {
 			margin: 0 auto;
@@ -632,6 +632,11 @@
 		max-width: 450px;
 		width: 450px;
 		padding: 5px 8px;
+
+		.empty-content {
+			margin-top: 0 !important;
+			padding: 50px 0;
+		}
 
 		.illustration-header {
 			height: 100px;

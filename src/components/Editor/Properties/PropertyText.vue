@@ -32,7 +32,7 @@
 			:class="{ 'property-text__input--readonly': isReadOnly }">
 			<textarea
 				v-if="!isReadOnly"
-				v-autosize="autosize"
+				v-autosize="true"
 				:placeholder="placeholder"
 				:rows="rows"
 				:title="readableName"
@@ -65,12 +65,6 @@ export default {
 	mixins: [
 		PropertyMixin,
 	],
-	props: {
-		autosize: {
-			type: Boolean,
-			required: true,
-		},
-	},
 	computed: {
 		display() {
 			if (this.isReadOnly) {

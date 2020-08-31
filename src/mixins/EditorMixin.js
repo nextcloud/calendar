@@ -25,7 +25,11 @@ import { getIllustrationForTitle } from '../utils/illustration.js'
 import { getPrefixedRoute } from '../utils/router.js'
 import { dateFactory } from '../utils/date.js'
 import { uidToHexColor } from '../utils/color.js'
-import { mapState } from 'vuex'
+import {
+	mapGetters,
+	mapState,
+} from 'vuex'
+import { translate as t } from '@nextcloud/l10n'
 
 /**
  * This is a mixin for the editor. It contains common Vue stuff, that is
@@ -38,12 +42,10 @@ export default {
 		return {
 			// Indicator whether or not the event is currently loading
 			isLoading: true,
-			// Indicator whether the editor is visible
-			isVisible: false,
-			// Indicator whether sidebar has been fully expanded
-			isExpanded: false,
-			// Stores error if any occurred
-			error: false,
+			// Indicator whether or not loading the event failed
+			isError: false,
+			// Error message in case there was an error
+			error: null,
 			// The calendar-id of the selected calendar
 			calendarId: null,
 			// Whether or not an action is required on leave
@@ -58,12 +60,16 @@ export default {
 		}
 	},
 	computed: {
+		...mapGetters({
+			currentUserTimezone: 'getResolvedTimezone',
+		}),
 		...mapState({
-			calendarObject: (state) => state.calendarObjectInstance.calendarObject || null,
-			calendarObjectInstance: (state) => state.calendarObjectInstance.calendarObjectInstance || null,
+			initialCalendarsLoaded: (state) => state.calendars.initialCalendarsLoaded,
+			calendarObject: (state) => state.calendarObjectInstance.calendarObject,
+			calendarObjectInstance: (state) => state.calendarObjectInstance.calendarObjectInstance,
 		}),
 		eventComponent() {
-			return this.calendarObjectInstance ? this.calendarObjectInstance.eventComponent : null
+			return this.calendarObjectInstance?.eventComponent
 		},
 		/**
 		 * Returns the events title or an empty string if the event is still loading
@@ -71,11 +77,7 @@ export default {
 		 * @returns {string}
 		 */
 		title() {
-			if (!this.eventComponent) {
-				return ''
-			}
-
-			return this.calendarObjectInstance.title || ''
+			return this.calendarObjectInstance?.title || ''
 		},
 		/**
 		 * Returns the location or null if the event is still loading
@@ -83,11 +85,7 @@ export default {
 		 * @returns {string|null}
 		 */
 		location() {
-			if (!this.calendarObjectInstance) {
-				return null
-			}
-
-			return this.calendarObjectInstance.location
+			return this.calendarObjectInstance?.location || null
 		},
 		/**
 		 * Returns the description or null if the event is still loading
@@ -95,11 +93,7 @@ export default {
 		 * @returns {string|null}
 		 */
 		description() {
-			if (!this.calendarObjectInstance) {
-				return null
-			}
-
-			return this.calendarObjectInstance.description
+			return this.calendarObjectInstance?.description || null
 		},
 		/**
 		 * Returns the start-date (without timezone) or null if the event is still loading
@@ -107,11 +101,7 @@ export default {
 		 * @returns {Date|null}
 		 */
 		startDate() {
-			if (!this.calendarObjectInstance) {
-				return null
-			}
-
-			return this.calendarObjectInstance.startDate
+			return this.calendarObjectInstance?.startDate || null
 		},
 		/**
 		 * Returns the timezone of the event's start-date or null if the event is still loading
@@ -119,11 +109,7 @@ export default {
 		 * @returns {string|null}
 		 */
 		startTimezone() {
-			if (!this.calendarObjectInstance) {
-				return null
-			}
-
-			return this.calendarObjectInstance.startTimezoneId
+			return this.calendarObjectInstance?.startTimezoneId || null
 		},
 		/**
 		 * Returns the end-date (without timezone) or null if the event is still loading
@@ -131,11 +117,7 @@ export default {
 		 * @returns {Date|null}
 		 */
 		endDate() {
-			if (!this.calendarObjectInstance) {
-				return null
-			}
-
-			return this.calendarObjectInstance.endDate
+			return this.calendarObjectInstance?.endDate || null
 		},
 		/**
 		 * Returns the timezone of the event's end-date or null if the event is still loading
@@ -143,23 +125,15 @@ export default {
 		 * @returns {string|null}
 		 */
 		endTimezone() {
-			if (!this.calendarObjectInstance) {
-				return null
-			}
-
-			return this.calendarObjectInstance.endTimezoneId
+			return this.calendarObjectInstance?.endTimezoneId || null
 		},
 		/**
 		 * Returns whether or not the event is all-day or null if the event is still loading
 		 *
-		 * @returns {boolean|null}
+		 * @returns {boolean}
 		 */
 		isAllDay() {
-			if (!this.calendarObjectInstance) {
-				return null
-			}
-
-			return this.calendarObjectInstance.isAllDay
+			return this.calendarObjectInstance?.isAllDay || false
 		},
 		/**
 		 * Returns whether or not the user is allowed to modify the all-day setting
@@ -167,11 +141,7 @@ export default {
 		 * @returns {boolean}
 		 */
 		canModifyAllDay() {
-			if (!this.calendarObjectInstance) {
-				return false
-			}
-
-			return this.calendarObjectInstance.canModifyAllDay
+			return this.calendarObjectInstance?.canModifyAllDay || null
 		},
 		/**
 		 * Returns an illustration matching this event's title
@@ -213,25 +183,15 @@ export default {
 		 * @returns {null|String}
 		 */
 		color() {
-			if (!this.calendarObjectInstance) {
-				return null
-			}
-
-			return this.calendarObjectInstance.customColor
+			return this.calendarObjectInstance?.customColor || null
 		},
 		/**
-		 * Returns whether or not to display event details
+		 * Returns whether or not to display save buttons
 		 *
 		 * @returns {boolean}
 		 */
-		displayDetails() {
-			return this.isLoading === false
-				&& this.error === false
-				&& this.isVisible === true
-		},
 		showSaveButtons() {
-			return this.displayDetails === true
-				&& this.isReadOnly === false
+			return this.isReadOnly === false
 		},
 		/**
 		 * Returns whether or not to allow editing the event
@@ -284,15 +244,6 @@ export default {
 			}
 
 			return this.$store.getters.sortedCalendars.length > 1
-		},
-		/**
-		 * Returns the preferred timezone of the user.
-		 * If the timezone is set to automatic, it returns the detected one
-		 *
-		 * @returns {string}
-		 */
-		currentUserTimezone() {
-			return this.$store.getters.getResolvedTimezone
 		},
 		/**
 		 * Returns whether or not the user is allowed to delete this event
@@ -381,23 +332,6 @@ export default {
 			return false
 		},
 	},
-	mounted() {
-		this.$nextTick(() => {
-			// The animation does not work with v-if only.
-			// So we mount it with display:none (aka v-show=false)
-			// and set it to display:block once it's mounted
-			this.isVisible = true
-
-			// Certain elements in the sidebar like autosize textareas
-			// require to the sidebar to be fully opened the calculate
-			// their height. The workaround of setting an absolute width
-			// on the textareas does not work, because the sidebar itself
-			// does not have an absolute width.
-			window.setTimeout(() => {
-				this.isExpanded = true
-			}, 500)
-		})
-	},
 	methods: {
 		/**
 		 * Changes the selected calendar
@@ -417,7 +351,7 @@ export default {
 			}
 		},
 		/**
-		 * This will forge the user to update this and all future occurrences when saving
+		 * This will force the user to update this and all future occurrences when saving
 		 */
 		forceModifyingFuture() {
 			this.forceThisAndAllFuture = true
@@ -625,12 +559,31 @@ export default {
 		 */
 		resetState() {
 			this.isLoading = true
-			this.error = false
+			this.isError = false
+			this.error = null
 			this.calendarId = null
 			this.requiresActionOnRouteLeave = true
 			this.forceThisAndAllFuture = false
 			this.isEditingMasterItem = false
 			this.isRecurrenceException = false
+		},
+		/**
+		 * This function returns a promise that resolves
+		 * once the calendars were fetched from the server
+		 *
+		 * @returns {Promise<void>}
+		 */
+		loadingCalendars() {
+			if (this.initialCalendarsLoaded) {
+				return Promise.resolve()
+			}
+
+			return new Promise((resolve) => {
+				const watcher = this.$watch('initialCalendarsLoaded', () => {
+					resolve()
+					watcher()
+				})
+			})
 		},
 	},
 	/**
@@ -651,11 +604,13 @@ export default {
 				const timezoneId = vm.$store.getters.getResolvedTimezone
 
 				try {
+					await vm.loadingCalendars()
 					await vm.$store.dispatch('getCalendarObjectInstanceForNewEvent', { isAllDay, start, end, timezoneId })
 					vm.calendarId = vm.calendarObject.calendarId
 				} catch (error) {
 					console.debug(error)
-					vm.error = true
+					vm.isError = true
+					vm.error = t('calendar', 'It might have been deleted, or there was a typo in a link')
 				} finally {
 					vm.isLoading = false
 				}
@@ -676,13 +631,15 @@ export default {
 				}
 
 				try {
+					await vm.loadingCalendars()
 					await vm.$store.dispatch('getCalendarObjectInstanceByObjectIdAndRecurrenceId', { objectId, recurrenceId })
 					vm.calendarId = vm.calendarObject.calendarId
 					vm.isEditingMasterItem = vm.eventComponent.isMasterItem()
 					vm.isRecurrenceException = vm.eventComponent.isRecurrenceException()
 				} catch (error) {
 					console.debug(error)
-					vm.error = true
+					vm.isError = true
+					vm.error = t('calendar', 'It might have been deleted, or there was a typo in a link')
 				} finally {
 					vm.isLoading = false
 				}
@@ -715,6 +672,7 @@ export default {
 			const end = to.params.dtend
 			const timezoneId = this.$store.getters.getResolvedTimezone
 
+			await this.loadingCalendars()
 			await this.$store.dispatch('updateCalendarObjectInstanceForNewEvent', { isAllDay, start, end, timezoneId })
 			next()
 		} else {
@@ -742,6 +700,7 @@ export default {
 			const recurrenceId = to.params.recurrenceId
 			if (recurrenceId === 'next') {
 				const closeToDate = dateFactory()
+				await this.loadingCalendars()
 				const recurrenceId = await this.$store.dispatch('resolveClosestRecurrenceIdForCalendarObject', { objectId, closeToDate })
 				const params = Object.assign({}, this.$route.params, { recurrenceId })
 				next({ name: this.$route.name, params })
@@ -749,13 +708,15 @@ export default {
 			}
 
 			try {
+				await this.loadingCalendars()
 				await this.$store.dispatch('getCalendarObjectInstanceByObjectIdAndRecurrenceId', { objectId, recurrenceId })
 				this.calendarId = this.calendarObject.calendarId
 				this.isEditingMasterItem = this.eventComponent.isMasterItem()
 				this.isRecurrenceException = this.eventComponent.isRecurrenceException()
 			} catch (error) {
 				console.debug(error)
-				this.error = true
+				this.isError = true
+				this.error = t('calendar', 'It might have been deleted, or there was a typo in the link')
 			} finally {
 				this.isLoading = false
 				next()
