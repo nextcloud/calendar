@@ -20,6 +20,13 @@
  *
  */
 import autosize from 'autosize'
+import debounce from 'debounce'
+
+const resizeObserver = new ResizeObserver(debounce(entries => {
+	for (const entry of entries) {
+		autosize.update(entry.target)
+	}
+}), 20)
 
 /**
  * Adds autosize to textarea on bind
@@ -42,6 +49,8 @@ const bind = (el, binding, vnode) => {
 	vnode.context.$nextTick(() => {
 		autosize(el)
 	})
+
+	resizeObserver.observe(el)
 }
 
 /**
@@ -70,6 +79,7 @@ const update = (el, binding, vnode) => {
  */
 const unbind = (el) => {
 	autosize.destroy(el)
+	resizeObserver.unobserve(el)
 }
 
 export default {
