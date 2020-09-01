@@ -36,6 +36,8 @@ class BeforeTemplateRenderedEventTest extends TestCase {
 	 * @param bool $public
 	 * @param bool $embedded
 	 * @param string|null $tokens
+	 *
+	 * @dataProvider gettersDataProvider
 	 */
 	public function testGetters(bool $public, bool $embedded, ?string $tokens): void {
 		$event = new BeforeTemplateRenderedEvent($public, $embedded, $tokens);
