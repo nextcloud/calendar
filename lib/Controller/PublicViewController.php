@@ -23,9 +23,11 @@ declare(strict_types=1);
  */
 namespace OCA\Calendar\Controller;
 
+use OCA\Calendar\Event\BeforeTemplateRenderedEvent;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IInitialStateService;
 use OCP\IRequest;
@@ -49,6 +51,11 @@ class PublicViewController extends Controller {
 	private $initialStateService;
 
 	/**
+	 * @var IEventDispatcher
+	 */
+	private $dispatcher;
+
+	/**
 	 * @var IURLGenerator
 	 */
 	private $urlGenerator;
@@ -58,16 +65,19 @@ class PublicViewController extends Controller {
 	 * @param IRequest $request an instance of the request
 	 * @param IConfig $config
 	 * @param IInitialStateService $initialStateService
+	 * @param IEventDispatcher $dispatcher
 	 * @param IURLGenerator $urlGenerator
 	 */
 	public function __construct(string $appName,
 								IRequest $request,
 								IConfig $config,
 								IInitialStateService $initialStateService,
+								IEventDispatcher $dispatcher,
 								IURLGenerator $urlGenerator) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->initialStateService = $initialStateService;
+		$this->dispatcher = $dispatcher;
 		$this->urlGenerator = $urlGenerator;
 	}
 
@@ -82,6 +92,8 @@ class PublicViewController extends Controller {
 	 * @return TemplateResponse
 	 */
 	public function publicIndexWithBranding(string $token):TemplateResponse {
+		$this->dispatcher->dispatchTyped(new BeforeTemplateRenderedEvent(true, false, $token));
+
 		return $this->publicIndex($token, 'public');
 	}
 
@@ -96,6 +108,8 @@ class PublicViewController extends Controller {
 	 * @return TemplateResponse
 	 */
 	public function publicIndexForEmbedding(string $token):TemplateResponse {
+		$this->dispatcher->dispatchTyped(new BeforeTemplateRenderedEvent(true, true, $token));
+
 		$response = $this->publicIndex($token, 'base');
 		$response->addHeader('X-Frame-Options', 'ALLOW');
 

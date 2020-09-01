@@ -23,8 +23,10 @@ declare(strict_types=1);
  */
 namespace OCA\Calendar\Controller;
 
+use OCA\Calendar\Event\BeforeTemplateRenderedEvent;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IInitialStateService;
 use OCP\IRequest;
@@ -47,6 +49,9 @@ class ViewControllerTest extends TestCase {
 	/** @var IInitialStateService|\PHPUnit_Framework_MockObject_MockObject */
 	private $initialStateService;
 
+	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
+	private $dispatcher;
+
 	/** @var string */
 	private $userId;
 
@@ -59,10 +64,11 @@ class ViewControllerTest extends TestCase {
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->initialStateService = $this->createMock(IInitialStateService::class);
+		$this->dispatcher = $this->createMock(IEventDispatcher::class);
 		$this->userId = 'user123';
 
 		$this->controller = new ViewController($this->appName, $this->request,
-			$this->config, $this->initialStateService, $this->appManager, $this->userId);
+			$this->config, $this->initialStateService, $this->dispatcher, $this->appManager, $this->userId);
 	}
 
 	public function testIndex():void {
@@ -183,6 +189,18 @@ class ViewControllerTest extends TestCase {
 		$this->initialStateService->expects($this->at(11))
 			->method('provideInitialState')
 			->with('calendar', 'tasks_enabled', true);
+
+		$this->dispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->with($this->callback(static function ($event) {
+				if (!($event instanceof BeforeTemplateRenderedEvent)) {
+					return false;
+				}
+
+				return $event->isPublic() === false
+					&& $event->isEmbedded() === false
+					&& $event->getTokens() === null;
+			}));
 
 		$response = $this->controller->index();
 
@@ -316,6 +334,18 @@ class ViewControllerTest extends TestCase {
 		$this->initialStateService->expects($this->at(11))
 			->method('provideInitialState')
 			->with('calendar', 'tasks_enabled', false);
+
+		$this->dispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->with($this->callback(static function ($event) {
+				if (!($event instanceof BeforeTemplateRenderedEvent)) {
+					return false;
+				}
+
+				return $event->isPublic() === false
+					&& $event->isEmbedded() === false
+					&& $event->getTokens() === null;
+			}));
 
 		$response = $this->controller->index();
 
