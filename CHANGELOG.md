@@ -1,3 +1,26 @@
+# 2.1.0 - 2020-09-02
+### Added
+- Dashboard integration
+  [#2414](https://github.com/nextcloud/calendar/pull/2414)
+- Better routes to link to calendar from outside
+  [#2483](https://github.com/nextcloud/calendar/pull/2483)
+- Different style for all-day / timed events
+  [#30](https://github.com/nextcloud/calendar/issues/30)
+- List view
+  [#402](https://github.com/nextcloud/calendar/issues/402)
+- Search
+  [#8](https://github.com/nextcloud/calendar/issues/8)
+
+### Fixed
+- Better localization of calendar-grid
+  [#1844](https://github.com/nextcloud/calendar/issues/1844)
+- Remove double scrollbars in Firefox
+  [#1815](https://github.com/nextcloud/calendar/issues/1815)
+- Better error handling for missing events
+  [#2459](https://github.com/nextcloud/calendar/issues/2459)
+- Long description box
+  [#2187](https://github.com/nextcloud/calendar/issues/2187)
+
 # 2.0.4 - 2020-08-27
 ### Added
 - Center date in month view cell
