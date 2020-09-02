@@ -49,7 +49,7 @@
 				v-if="showEmptyCalendarScreen" />
 		</AppContent>
 		<!-- Edit modal -->
-		<router-view v-if="!loadingCalendars" />
+		<router-view />
 	</Content>
 </template>
 
