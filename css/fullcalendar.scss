@@ -95,19 +95,6 @@
 	}
 }
 
-// Weekend highlighting
-.fc td.fc-day.nc-calendar-fc-day-of-weekend {
-	background-color: var(--color-background-dark) !important;
-}
-
-.fc-today.nc-calendar-fc-day-of-weekend:not(.fc-day-header) {
-	background-color: var(--color-background-dark) !important;
-}
-
-.fc-today.nc-calendar-fc-day-of-workweek:not(.fc-day-header) {
-	background-color: var(--color-main-background) !important;
-}
-
 // ### FullCalendar Event adjustments
 .fc-event {
 	padding-left: 3px;
