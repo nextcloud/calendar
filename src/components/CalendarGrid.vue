@@ -246,7 +246,7 @@ export default {
 		 * When a user changes the view, remember it and
 		 * use it the next time they open the calendar app
 		 */
-		saveNewView: debounce((initialView) => {
+		saveNewView: debounce(function(initialView) {
 			if (this.isAuthenticatedUser) {
 				this.$store.dispatch('setInitialView', { initialView })
 			}
