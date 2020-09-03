@@ -19,15 +19,25 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import Vue from 'vue'
+import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
+import { translate as t } from '@nextcloud/l10n'
 
 /**
- * Adjusts the colSpan attribute of day-headers in the list view
+ * Adds our standardized emptyContent component if list view is empty
  *
  * @param {Object} data The destructuring object
  * @param {Node} el The HTML element
  */
 export default function({ el }) {
-	if (el.classList.contains('fc-list-day')) {
-		el.firstChild.colSpan = 5
-	}
+	const EmptyContentClass = Vue.extend(EmptyContent)
+	const instance = new EmptyContentClass({
+		propsData: {
+			icon: 'icon-calendar-dark',
+		},
+	})
+	instance.$slots.default = [t('calendar', 'No events')]
+	instance.$slots.desc = [t('calendar', 'Create a new event or change the visible time-range')]
+	instance.$mount()
+	el.appendChild(instance.$el)
 }

@@ -173,3 +173,13 @@
 		}
 	}
 }
+
+.fc-list-empty {
+	.fc-list-empty-cushion {
+		display: none;
+	}
+
+	.empty-content {
+		margin-top: 0 !important;
+	}
+}
