@@ -52,7 +52,8 @@ import { getFullCalendarLocale } from '../fullcalendar/localization/localeProvid
 import MomentPlugin from '../fullcalendar/localization/momentPlugin.js'
 
 // Import rendering handlers
-import eventContent from '../fullcalendar/rendering/eventContent.js'
+import dayHeaderDidMount from '../fullcalendar/rendering/dayHeaderDidMount.js'
+import eventDidMount from '../fullcalendar/rendering/eventDidMount.js'
 import eventOrder from '../fullcalendar/rendering/eventOrder.js'
 
 // Import timezone plugins
@@ -125,7 +126,7 @@ export default {
 				locale: getFullCalendarLocale(getLocale(), this.locale),
 				firstDay: getFirstDayOfWeekFromMomentLocale(this.locale),
 				// Rendering
-				eventDidMount: eventContent,
+				eventDidMount,
 				eventOrder: ['start', '-duration', 'allDay', eventOrder],
 				forceEventDuration: false,
 				headerToolbar: false,
@@ -141,6 +142,7 @@ export default {
 				unselectAuto: true,
 				// Timezones:
 				timeZone: this.timezoneId,
+				dayHeaderDidMount,
 			}
 		},
 		eventSources() {

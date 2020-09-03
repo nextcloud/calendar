@@ -107,7 +107,8 @@
 
 	&.fc-event-nc-task-completed,
 	&.fc-event-nc-cancelled {
-		.fc-event-title {
+		.fc-event-title,
+		.fc-list-event-title {
 			text-decoration: line-through !important;
 		}
 	}
@@ -144,8 +145,31 @@
 		}
 	}
 
+	.fc-list-event-checkbox {
+		margin: 2px 4px 0 -2px;
+		line-height: 1;
+	}
+
 	.fc-daygrid-event-checkbox {
 		margin: 2px 4px 0 4px;
 		line-height: 1;
+	}
+
+	.fc-list-event-location span,
+	.fc-list-event-description span {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 3;
+		-webkit-box-orient: vertical;
+		white-space: pre-wrap;
+		max-width: 25vw;
+	}
+
+	@media only screen and (max-width: 767px) {
+		.fc-list-event-location,
+		.fc-list-event-description {
+			display: none;
+		}
 	}
 }
