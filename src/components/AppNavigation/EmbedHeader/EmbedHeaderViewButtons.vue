@@ -31,6 +31,9 @@
 		<button :class="{primary: isMonthViewSelected}" class="button" @click="view('dayGridMonth')">
 			{{ $t('calendar', 'Month') }}
 		</button>
+		<button :class="{primary: isMonthListViewSelected}" class="button" @click="view('listMonth')">
+			{{ $t('calendar', 'List') }}
+		</button>
 	</div>
 </template>
 
@@ -46,6 +49,9 @@ export default {
 		},
 		isMonthViewSelected() {
 			return this.selectedView === 'dayGridMonth'
+		},
+		isMonthListViewSelected() {
+			return this.selectedView === 'listMonth'
 		},
 		selectedView() {
 			return this.$route.params.view

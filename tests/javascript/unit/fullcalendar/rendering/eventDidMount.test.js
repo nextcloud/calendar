@@ -19,9 +19,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import eventRender from "../../../../../src/fullcalendar/rendering/eventContent.js";
+import eventRender from "../../../../../src/fullcalendar/rendering/eventDidMount.js";
 
-describe('fullcalendar/eventContent test suite', () => {
+describe('fullcalendar/eventDidMount test suite', () => {
 
 	it('should add extended properties from the event to the dataset of the dom element - existing event', () => {
 		const el = document.createElement('div')
