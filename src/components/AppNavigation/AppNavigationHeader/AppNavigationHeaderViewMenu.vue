@@ -61,8 +61,8 @@ export default {
 				label: this.$t('calendar', 'Month'),
 			}, {
 				id: 'listMonth',
-				icon: 'icon-view-module',
-				label: this.$t('calendar', 'Month (list)'),
+				icon: 'icon-view-list',
+				label: this.$t('calendar', 'List'),
 			}]
 		},
 		shortKeyConf() {

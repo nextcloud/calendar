@@ -32,7 +32,7 @@
 			{{ $t('calendar', 'Month') }}
 		</button>
 		<button :class="{primary: isMonthListViewSelected}" class="button" @click="view('listMonth')">
-			{{ $t('calendar', 'Month (list)') }}
+			{{ $t('calendar', 'List') }}
 		</button>
 	</div>
 </template>
