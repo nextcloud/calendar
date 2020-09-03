@@ -21,7 +21,6 @@ OC.L10N.register(
     "Update" : "යාවත්කාල කිරීම",
     "Personal" : "පෞද්ගලික",
     "Attendees" : "කැටුව යන්නන්",
-    "Activity" : "ක්‍රියාකාරකම",
     "Close" : "වසන්න",
     "Daily" : "දිනපතා",
     "Weekly" : "සතිපතා",

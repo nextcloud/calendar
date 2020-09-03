@@ -48,7 +48,6 @@ OC.L10N.register(
     "Details" : "Detaloj",
     "Attendees" : "Ĉeestontoj",
     "Reminders" : "Memorigoj",
-    "Activity" : "Aktivaĵoj",
     "Close" : "Fermi",
     "Anniversary" : "Datreveno",
     "Week {number} of {year}" : "Semajno {number} en {year}",

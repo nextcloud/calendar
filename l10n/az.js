@@ -25,7 +25,6 @@ OC.L10N.register(
     "Personal" : "Şəxsi",
     "Details" : "Detallar",
     "Attendees" : "İştirakçılar",
-    "Activity" : "Fəallıq",
     "Close" : "Bağla",
     "Daily" : "Günlük",
     "Weekly" : "Həftəlik",

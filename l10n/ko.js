@@ -73,8 +73,6 @@ OC.L10N.register(
     "Details" : "자세한 정보",
     "Attendees" : "참석자",
     "Reminders" : "알림",
-    "Activity" : "활동",
-    "Projects" : "프로젝트",
     "Close" : "닫기",
     "Anniversary" : "기념일",
     "Week {number} of {year}" : "{year}년 제 {number}주",

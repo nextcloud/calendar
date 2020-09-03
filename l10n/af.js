@@ -40,7 +40,6 @@ OC.L10N.register(
     "Details" : "Details",
     "Attendees" : "Bywoners",
     "Reminders" : "Herinneringe",
-    "Activity" : "Aktiwiteit",
     "Close" : "Sluit",
     "Anniversary" : "Herdenking",
     "Week {number} of {year}" : "Week {number} van {year}",

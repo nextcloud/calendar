@@ -32,7 +32,6 @@ OC.L10N.register(
     "Details" : "Detaljar",
     "Attendees" : "Deltakarar",
     "Reminders" : "Påminningar",
-    "Activity" : "Aktivitet",
     "Close" : "Lukk",
     "Daily" : "Kvar dag",
     "Weekly" : "Kvar veke",

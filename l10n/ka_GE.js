@@ -40,7 +40,6 @@ OC.L10N.register(
     "Details" : "დეტლაები",
     "Attendees" : "დამსწრეები",
     "Reminders" : "შემახსენებლები",
-    "Activity" : "აქტივობა",
     "Close" : "დახურვა",
     "Anniversary" : "დაბადების დღე",
     "Week {number} of {year}" : "კვირა {number} {year}-დან",

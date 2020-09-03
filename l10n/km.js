@@ -22,7 +22,6 @@ OC.L10N.register(
     "Personal" : "ផ្ទាល់​ខ្លួន",
     "Details" : "ព័ត៌មាន​លម្អិត",
     "Attendees" : "អ្នក​ចូលរួម",
-    "Activity" : "សកម្មភាព",
     "Close" : "បិទ",
     "Daily" : "រាល់ថ្ងៃ",
     "Weekly" : "រាល់​សប្ដាហ៍",

@@ -42,8 +42,6 @@ OC.L10N.register(
     "Details" : "Detaļas",
     "Attendees" : "Apmeklētāji",
     "Reminders" : "Atgādinājumi",
-    "Activity" : "Darbības",
-    "Projects" : "Projekti",
     "Close" : "Aizvērt",
     "Anniversary" : "Gadadiena",
     "Week {number} of {year}" : "{number} nedēļa no {year}",

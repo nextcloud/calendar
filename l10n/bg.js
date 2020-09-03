@@ -90,7 +90,6 @@ OC.L10N.register(
     "Details" : "Подробности",
     "Attendees" : "Участници",
     "Reminders" : "Напомняне",
-    "Activity" : "Активност",
     "Close" : "Затвори",
     "Anniversary" : "Годишнина",
     "Week {number} of {year}" : "Седмица {number} от {year}",

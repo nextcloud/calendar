@@ -61,7 +61,6 @@ OC.L10N.register(
     "Details" : "Detalii",
     "Attendees" : "Participanți",
     "Reminders" : "Mementouri",
-    "Activity" : "Activitate",
     "Close" : "Închide",
     "Anniversary" : "Aniversare",
     "Week {number} of {year}" : "Săptămâna {number} din {year}",

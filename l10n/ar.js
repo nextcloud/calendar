@@ -34,8 +34,6 @@ OC.L10N.register(
     "Details" : "التفاصيل",
     "Attendees" : "المشاركون",
     "Reminders" : "تذكيرات",
-    "Activity" : "نشاط",
-    "Projects" : "المشاريع",
     "Close" : "إغلاق",
     "Anniversary" : "ذكرى سنوية",
     "Week {number} of {year}" : "الأسبوع {number} من {year}",

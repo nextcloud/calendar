@@ -42,7 +42,6 @@ OC.L10N.register(
     "Details" : "Details",
     "Attendees" : "Attendees",
     "Reminders" : "Reminders",
-    "Activity" : "Activity",
     "Close" : "Close",
     "Anniversary" : "Anniversary",
     "Week {number} of {year}" : "Week {number} of {year}",

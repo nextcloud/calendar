@@ -29,7 +29,6 @@ OC.L10N.register(
     "Details" : "รายละเอียด",
     "Attendees" : "ผู้เข้าร่วมกิจกรรม",
     "Reminders" : "การแจ้งเตือน",
-    "Activity" : "กิจกรรม",
     "Close" : "ปิด",
     "Anniversary" : "วันครบรอบ",
     "Week {number} of {year}" : "สัปดาห์ที่ {number} ของปี {year}",

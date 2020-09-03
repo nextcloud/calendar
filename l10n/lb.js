@@ -29,7 +29,6 @@ OC.L10N.register(
     "Details" : "Detailer",
     "Attendees" : "Participanten",
     "Reminders" : "Erennërungen",
-    "Activity" : "Aktivitéit",
     "Close" : "Zoumaachen",
     "Week {number} of {year}" : "Woch {Nummer} vum {Joer}",
     "Daily" : "All Dag",

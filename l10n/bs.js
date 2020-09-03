@@ -25,7 +25,6 @@ OC.L10N.register(
     "Update" : "Ažuriraj",
     "Personal" : "Osobno",
     "Attendees" : "Sudionici",
-    "Activity" : "Aktivnost",
     "Close" : "Zatvori",
     "Daily" : "Dnevno",
     "Weekly" : "Sedmično",

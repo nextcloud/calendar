@@ -117,8 +117,6 @@ OC.L10N.register(
     "Details" : "Detaljer",
     "Attendees" : "Deltagere",
     "Reminders" : "Påmindelser",
-    "Activity" : "Aktivitet",
-    "Projects" : "Projekter",
     "Close" : "Luk",
     "Anniversary" : "Årsdag",
     "Week {number} of {year}" : "Uge {number} i {year}",

@@ -37,7 +37,6 @@ OC.L10N.register(
     "Details" : "Дэлгэрэнгүй",
     "Attendees" : "Оролцогчид",
     "Reminders" : "Сануулагууд",
-    "Activity" : "Үйлдлүүд",
     "Close" : "Хаах",
     "Week {number} of {year}" : "{year} оны {number}-р долоо хоног ",
     "Daily" : "Өдөр бүр",

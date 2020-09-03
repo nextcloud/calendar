@@ -196,8 +196,6 @@ OC.L10N.register(
     "Details" : "詳細",
     "Attendees" : "参加者",
     "Reminders" : "リマインダー",
-    "Activity" : "アクティビティ",
-    "Projects" : "プロジェクト",
     "Close" : "閉じる",
     "Anniversary" : "記念日",
     "Appointment" : "アポイントメント",

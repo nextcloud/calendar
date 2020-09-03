@@ -17,7 +17,6 @@ OC.L10N.register(
     "Save" : "Save",
     "Update" : "Ažuriraj",
     "Details" : "Detalji",
-    "Activity" : "Активност",
     "Close" : "Zatvori",
     "Daily" : "дневно",
     "Weekly" : "недељно",

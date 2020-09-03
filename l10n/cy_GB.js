@@ -36,7 +36,6 @@ OC.L10N.register(
     "Details" : "Manylion",
     "Attendees" : "Mynychwyr",
     "Reminders" : "Nodau atgoffa",
-    "Activity" : "Gweithred",
     "Close" : "Cau",
     "Anniversary" : "Dathliad",
     "Week {number} of {year}" : "Wythnos {number} o {year}",

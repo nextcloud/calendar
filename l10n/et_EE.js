@@ -58,7 +58,6 @@ OC.L10N.register(
     "Details" : "Üksikasjad",
     "Attendees" : "Osalejad",
     "Reminders" : "Meelespead",
-    "Activity" : "Tegevus",
     "Close" : "Sulge",
     "Anniversary" : "Aastapäev",
     "Appointment" : "Kohtumine",

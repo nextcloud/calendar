@@ -52,8 +52,6 @@ OC.L10N.register(
     "Details" : "Детаљи",
     "Attendees" : "Присутни",
     "Reminders" : "Подсетници",
-    "Activity" : "Активност",
-    "Projects" : "Пројекти",
     "Close" : "Затвори",
     "Anniversary" : "Годишњица",
     "Week {number} of {year}" : "Недеља {number} у {year}",

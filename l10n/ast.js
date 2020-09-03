@@ -38,7 +38,6 @@ OC.L10N.register(
     "Details" : "Detalles",
     "Attendees" : "Asistentes",
     "Reminders" : "Recordatorios",
-    "Activity" : "Actividá",
     "Close" : "Zarrar",
     "Anniversary" : "Aniversariu",
     "Week {number} of {year}" : "Selmana {number} del {year}",

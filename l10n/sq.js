@@ -39,7 +39,6 @@ OC.L10N.register(
     "Details" : "Detajet",
     "Attendees" : "Pjesëmarrës",
     "Reminders" : "Kujtues",
-    "Activity" : "Aktiviteti",
     "Close" : "Mbylle",
     "Anniversary" : "Përvjetor",
     "Week {number} of {year}" : "Java e {number} e {year}",

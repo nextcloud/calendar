@@ -100,8 +100,6 @@ OC.L10N.register(
     "Update" : "Adnevesaat",
     "Personal" : "Personel",
     "Details" : "Munudoù",
-    "Activity" : "Oberantiz",
-    "Projects" : "Raktres",
     "Close" : "Serriñ",
     "Daily" : "Bemdeiz",
     "Weekly" : "Pep sizhun",
