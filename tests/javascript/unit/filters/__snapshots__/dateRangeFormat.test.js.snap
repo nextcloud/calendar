@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`format/dateRangeFormat test suite should provide a format for day view 1`] = `"1. Jan. 2019"`;
+
+exports[`format/dateRangeFormat test suite should provide a format for month view 1`] = `"Januar 2019"`;
+
+exports[`format/dateRangeFormat test suite should provide a format for week view 1`] = `"Week {number} of {year}"`;
+
+exports[`format/dateRangeFormat test suite should provide month as fallback for unknown view 1`] = `"Januar 2019"`;
