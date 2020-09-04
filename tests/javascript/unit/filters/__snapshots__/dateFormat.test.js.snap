@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`format/dateFormat test suite should format a timed date 1`] = `"1. Jan. 2019 00:00"`;
+
+exports[`format/dateFormat test suite should format an all-day date 1`] = `"1. Jan. 2019"`;

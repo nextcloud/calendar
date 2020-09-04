@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`format/recurrenceRuleFormat test suite should format a recurrence-rule that is non-recurring 1`] = `"Does not repeat"`;
+
+exports[`format/recurrenceRuleFormat test suite should format a recurrence-rule that is recurring every day exactly 10 times 1`] = `"Daily %n times"`;
+
+exports[`format/recurrenceRuleFormat test suite should format a recurrence-rule that is recurring every day until a certain date 1`] = `"Daily until {untilDate}"`;
+
+exports[`format/recurrenceRuleFormat test suite should format a recurrence-rule that is recurring infinitely every day 1`] = `"Daily"`;
+
+exports[`format/recurrenceRuleFormat test suite should format a recurrence-rule that is recurring infinitely every month on 15th, 16th, 17th, 18th 1`] = `"Monthly on days {dayOfMonthList}"`;
+
+exports[`format/recurrenceRuleFormat test suite should format a recurrence-rule that is recurring infinitely every month on last weekday 1`] = `"Monthly on the {ordinalNumber} {byDaySet}"`;
+
+exports[`format/recurrenceRuleFormat test suite should format a recurrence-rule that is recurring infinitely every month second Wednesday 1`] = `"Monthly on the {ordinalNumber} {byDaySet}"`;
+
+exports[`format/recurrenceRuleFormat test suite should format a recurrence-rule that is recurring infinitely every other month on 15th 1`] = `"Every %n months on days {dayOfMonthList}"`;
+
+exports[`format/recurrenceRuleFormat test suite should format a recurrence-rule that is recurring infinitely every third week on Tuesday and Thursday 1`] = `"Every %n weeks on {weekdays}"`;
+
+exports[`format/recurrenceRuleFormat test suite should format a recurrence-rule that is recurring infinitely every week on Tuesday 1`] = `"Weekly on {weekdays}"`;
+
+exports[`format/recurrenceRuleFormat test suite should format a recurrence-rule that is recurring infinitely every year in May 1`] = `"Yearly in {monthNames}"`;
+
+exports[`format/recurrenceRuleFormat test suite should format a recurrence-rule that is recurring infinitely every year in May, July, October 1`] = `"Yearly in {monthNames}"`;
+
+exports[`format/recurrenceRuleFormat test suite should format a recurrence-rule that is recurring infinitely every year in May, July, October on third Thursday 1`] = `"Yearly in {monthNames} on the {ordinalNumber} {byDaySet}"`;

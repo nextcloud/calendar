@@ -20,54 +20,17 @@
  *
  */
 import dateFormat from "../../../../src/filters/dateFormat.js";
-import moment from '@nextcloud/moment'
-
-jest.mock('@nextcloud/moment')
 
 describe('format/dateFormat test suite', () => {
 
-	beforeEach(() => {
-		moment.mockClear()
-	})
-
 	it('should format an all-day date', () => {
-		const date = new Date(Date.UTC(2019, 0, 1, 0, 0, 0, 0))
-
-		const format = jest.fn()
-			.mockReturnValue('formatted-allday-date')
-		const locale = jest.fn()
-			.mockReturnValue({ format })
-		moment
-			.mockReturnValue({ locale })
-
-		expect(dateFormat(date, true, 'de')).toEqual('formatted-allday-date')
-
-		expect(moment).toHaveBeenCalledTimes(1)
-		expect(moment).toHaveBeenNthCalledWith(1, date)
-		expect(locale).toHaveBeenCalledTimes(1)
-		expect(locale).toHaveBeenNthCalledWith(1, 'de')
-		expect(format).toHaveBeenCalledTimes(1)
-		expect(format).toHaveBeenNthCalledWith(1, 'll')
+		const date = new Date(2019, 0, 1, 0, 0, 0, 0)
+		expect(dateFormat(date, true, 'de')).toMatchSnapshot()
 	})
 
 	it('should format a timed date', () => {
-		const date = new Date(Date.UTC(2019, 0, 1, 0, 0, 0, 0))
-
-		const format = jest.fn()
-			.mockReturnValue('formatted-allday-date')
-		const locale = jest.fn()
-			.mockReturnValue({ format })
-		moment
-			.mockReturnValue({ locale })
-
-		expect(dateFormat(date, false, 'de')).toEqual('formatted-allday-date')
-
-		expect(moment).toHaveBeenCalledTimes(1)
-		expect(moment).toHaveBeenNthCalledWith(1, date)
-		expect(locale).toHaveBeenCalledTimes(1)
-		expect(locale).toHaveBeenNthCalledWith(1, 'de')
-		expect(format).toHaveBeenCalledTimes(1)
-		expect(format).toHaveBeenNthCalledWith(1, 'lll')
+		const date = new Date(2019, 0, 1, 0, 0, 0, 0)
+		expect(dateFormat(date, false, 'de')).toMatchSnapshot()
 	})
 
 })
