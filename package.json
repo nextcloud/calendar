@@ -111,7 +111,7 @@
 		"regenerator-runtime": "^0.13.7",
 		"resolve-url-loader": "^3.1.1",
 		"sass-loader": "^10.0.1",
-		"stylelint": "^13.6.1",
+		"stylelint": "^13.7.0",
 		"stylelint-bare-webpack-plugin": "^2.0.2",
 		"stylelint-config-recommended-scss": "^4.2.0",
 		"stylelint-scss": "^3.18.0",
