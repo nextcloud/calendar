@@ -24,6 +24,7 @@ OC.L10N.register(
     "Day" : "Dzień",
     "Week" : "Tydzień",
     "Month" : "Miesiąc",
+    "List" : "Lista",
     "Untitled calendar" : "Kalendarz bez tytułu",
     "Edit name" : "Edytuj nazwę",
     "Saving name …" : "Zapisywanie nazwy...",

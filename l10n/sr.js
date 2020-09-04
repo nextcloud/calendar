@@ -12,6 +12,7 @@ OC.L10N.register(
     "Day" : "Дан",
     "Week" : "Недеља",
     "Month" : "Месец",
+    "List" : "Излистај",
     "Copy private link" : "Копирај приватну везу",
     "Download" : "Преузми",
     "Delete" : "Обриши",

@@ -20,6 +20,7 @@ OC.L10N.register(
     "Day" : "Ден",
     "Week" : "Седмица",
     "Month" : "Месец",
+    "List" : "Списък",
     "Untitled calendar" : "Нов календар",
     "Edit name" : "Редактирай името",
     "Saving name …" : "Запазване...",

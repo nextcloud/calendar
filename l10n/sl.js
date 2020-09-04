@@ -24,6 +24,7 @@ OC.L10N.register(
     "Day" : "Dan",
     "Week" : "Teden",
     "Month" : "Mesec",
+    "List" : "Seznam",
     "Untitled calendar" : "Neimenovan koledar",
     "Edit name" : "Uredi ime",
     "Saving name …" : "Shranjevanje imena ...",

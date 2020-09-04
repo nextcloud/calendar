@@ -12,6 +12,7 @@ OC.L10N.register(
     "Day" : "Day",
     "Week" : "Week",
     "Month" : "Month",
+    "List" : "List",
     "Download" : "Download",
     "Delete" : "Delete",
     "Share link" : "Share link",

@@ -25,6 +25,7 @@ OC.L10N.register(
     "Day" : "Gün",
     "Week" : "Hafta",
     "Month" : "Ay",
+    "List" : "Listele",
     "Untitled calendar" : "Başlıksız takvim",
     "Edit name" : "Adı düzenle",
     "Saving name …" : "Ad kaydediliyor …",

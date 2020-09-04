@@ -21,6 +21,7 @@ OC.L10N.register(
     "Day" : "Dag",
     "Week" : "Uke",
     "Month" : "Måned",
+    "List" : "Liste",
     "Untitled calendar" : "Kalender uten tittel",
     "Edit name" : "Rediger navn",
     "Saving name …" : "Lagrer navn ...",

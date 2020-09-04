@@ -24,6 +24,7 @@ OC.L10N.register(
     "Day" : "Dan",
     "Week" : "Tjedan",
     "Month" : "Mjesec",
+    "List" : "Popis",
     "Untitled calendar" : "Kalendar bez naslova",
     "Edit name" : "Uredi naziv",
     "Saving name …" : "Spremanje naziva...",

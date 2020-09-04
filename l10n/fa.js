@@ -24,6 +24,7 @@ OC.L10N.register(
     "Day" : "روز",
     "Week" : "هفته",
     "Month" : "ماه",
+    "List" : "لیست",
     "Untitled calendar" : "تقویم بدون عنوان",
     "Edit name" : "ویرایش نام",
     "Saving name …" : "ذخیره نام",

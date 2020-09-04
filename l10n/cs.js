@@ -25,6 +25,7 @@ OC.L10N.register(
     "Day" : "Den",
     "Week" : "Týden",
     "Month" : "Měsíc",
+    "List" : "Seznam",
     "Untitled calendar" : "Nepojmenovaný kalendář",
     "Edit name" : "Upravit název",
     "Saving name …" : "Ukládání názvu…",

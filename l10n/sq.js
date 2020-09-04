@@ -11,6 +11,7 @@ OC.L10N.register(
     "Day" : "Ditë",
     "Week" : "Javë",
     "Month" : "Muaj",
+    "List" : "List",
     "Download" : "Shkarkoje",
     "Delete" : "Fshije",
     "Share link" : "Ndani lidhjen",

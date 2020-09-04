@@ -23,6 +23,7 @@ OC.L10N.register(
     "Day" : "Dagur",
     "Week" : "Vika",
     "Month" : "Mánuður",
+    "List" : "Listi",
     "Untitled calendar" : "Ónefnt dagatal",
     "Edit name" : "Breyta heiti",
     "Saving name …" : "Vista heiti …",

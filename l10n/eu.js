@@ -24,6 +24,7 @@ OC.L10N.register(
     "Day" : "Eguna",
     "Week" : "Astea",
     "Month" : "Hilabetea",
+    "List" : "Zerrenda",
     "Untitled calendar" : "Izenik gabeko egutegia",
     "Edit name" : "Editatu izena",
     "Saving name …" : "Izena gordetzen …",

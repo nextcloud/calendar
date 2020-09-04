@@ -23,6 +23,7 @@ OC.L10N.register(
     "Day" : "日",
     "Week" : "週",
     "Month" : "月",
+    "List" : "リスト",
     "Untitled calendar" : "無題のカレンダー",
     "Edit name" : "名前を編集",
     "Saving name …" : "名前を保存しています …",

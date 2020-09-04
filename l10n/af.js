@@ -12,6 +12,7 @@ OC.L10N.register(
     "Day" : "Dag",
     "Week" : "Week",
     "Month" : "Maand",
+    "List" : "Lys",
     "Download" : "Laai af",
     "Delete" : "Skrap",
     "Share link" : "Deel skakel",

@@ -11,6 +11,7 @@ OC.L10N.register(
     "Day" : "დღე",
     "Week" : "კვირა",
     "Month" : "თვე",
+    "List" : "ჩამონათვალი",
     "Download" : "ჩამოტვირთვა",
     "Delete" : "წაშლა",
     "Share link" : "ბმულის გაზიარება",

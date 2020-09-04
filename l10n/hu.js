@@ -24,6 +24,7 @@ OC.L10N.register(
     "Day" : "Nap",
     "Week" : "Hét",
     "Month" : "Hónap",
+    "List" : "Lista",
     "Untitled calendar" : "Cím nélküli naptár",
     "Edit name" : "Név szerkesztése",
     "Saving name …" : "Név mentése …",

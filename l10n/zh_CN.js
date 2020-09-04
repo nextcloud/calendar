@@ -24,6 +24,7 @@ OC.L10N.register(
     "Day" : "日",
     "Week" : "星期",
     "Month" : "月",
+    "List" : "列表",
     "Untitled calendar" : "未命名的日历",
     "Edit name" : "编辑名称",
     "Saving name …" : "正在保存名称 …",

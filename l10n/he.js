@@ -18,6 +18,7 @@ OC.L10N.register(
     "Day" : "יום",
     "Week" : "שבוע",
     "Month" : "חודש",
+    "List" : "רשימה",
     "Edit name" : "ערוך שם",
     "Saving name …" : "שמירת השם ...",
     "Edit color" : "ערוך צבע",

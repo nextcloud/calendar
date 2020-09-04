@@ -24,6 +24,7 @@ OC.L10N.register(
     "Day" : "День",
     "Week" : "Тиждень",
     "Month" : "Місяць",
+    "List" : "Список",
     "Untitled calendar" : "Календар без назви",
     "Edit name" : "Редагувати назву",
     "Saving name …" : "Збереження назви ...",

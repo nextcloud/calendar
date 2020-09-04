@@ -24,6 +24,7 @@ OC.L10N.register(
     "Day" : "Dag",
     "Week" : "Vecka",
     "Month" : "Månad",
+    "List" : "Lista",
     "Untitled calendar" : "Namnlös kalender",
     "Edit name" : "Ändra namn",
     "Saving name …" : "Sparar namn …",
