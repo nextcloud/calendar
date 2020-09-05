@@ -293,6 +293,8 @@
     "%n more" : "%n altri",
     "No events to display" : "Nessun evento da visualizzare",
     "_+%n more_::_+%n more_" : ["+%n altro","+%n altri"],
+    "No events" : "Nessun evento",
+    "Create a new event or change the visible time-range" : "Crea un nuovo evento o cambia l'intervallo di tempo visibile",
     "It might have been deleted, or there was a typo in a link" : "Potrebbe essere stato eliminato o c'era un errore di digitazione in un collegamento",
     "It might have been deleted, or there was a typo in the link" : "Potrebbe essere stato eliminato o c'era un errore di digitazione nel collegamento",
     "When shared show" : "Se condiviso, mostra",

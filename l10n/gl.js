@@ -295,6 +295,8 @@ OC.L10N.register(
     "%n more" : "%n máis",
     "No events to display" : "Non hai eventos para amosar",
     "_+%n more_::_+%n more_" : ["+%n máis","+%n máis"],
+    "No events" : "Non hai eventos",
+    "Create a new event or change the visible time-range" : "Crear un novo evento ou cambiar o intervalo de tempo visíbel",
     "It might have been deleted, or there was a typo in a link" : "Pode que fose eliminado ou houbese un erro de dixitación nunha ligazón",
     "It might have been deleted, or there was a typo in the link" : "Pode que fose eliminado ou houbese un erro de dixitación na ligazón",
     "When shared show" : "Amosar ao compartir",
