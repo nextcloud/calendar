@@ -228,6 +228,7 @@ OC.L10N.register(
     "until {untilDate}" : "до {untilDate}",
     "_%n time_::_%n times_" : ["уште еднаш","%n пати"],
     "Untitled event" : "Неименуван настан",
+    "Untitled task" : "Неименувана задача",
     "prev" : "предходна",
     "next" : "следна",
     "prev year" : "предходна година",
