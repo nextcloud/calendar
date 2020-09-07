@@ -8,8 +8,6 @@ updates:
     time: "03:00"
     timezone: Europe/Paris
   open-pull-requests-limit: 10
-  reviewers:
-  - georgehrke
   labels:
   - 3 - to review
 - package-ecosystem: npm
@@ -20,8 +18,6 @@ updates:
     time: "03:00"
     timezone: Europe/Paris
   open-pull-requests-limit: 10
-  reviewers:
-  - georgehrke
   labels:
   - 3 - to review
   ignore:
