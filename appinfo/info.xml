@@ -9,8 +9,10 @@
 * 🚀 **Integration with other Nextcloud apps!** Currently Contacts - more to come.
 * 🌐 **WebCal Support!** Want to see your favorite team’s matchdays in your calendar? No problem!
 * 🙋 **Attendees!** Invite people to your events
-* ⌚️ **Free/Busy:** See when your attendees are available to meet
-* ⏰ **Reminders!** Get alarms for events inside your browser and via email.
+* ⌚️ **Free/Busy!** See when your attendees are available to meet
+* ⏰ **Reminders!** Get alarms for events inside your browser and via email
+* 🔍 Search! Find your events at ease
+* ☑️ Tasks! See tasks with a due date directly in the calendar
 * 🙈 **We’re not reinventing the wheel!** Based on the great [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries.
 	]]></description>
 	<version>2.1.0</version>
