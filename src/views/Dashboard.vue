@@ -283,11 +283,13 @@ export default {
 
 #calendar_panel {
 	.vtodo-checkbox {
+		flex-shrink: 0;
 		border-color: transparent;
 		@include iconfont('checkbox');
 	}
 
 	.calendar-dot {
+		flex-shrink: 0;
 		height: 1rem;
 		width: 1rem;
 		margin-top: 0.2rem;
