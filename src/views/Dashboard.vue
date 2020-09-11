@@ -141,7 +141,7 @@ export default {
 
 			await this.initializeEnvironment()
 			const expandedEvents = await this.fetchExpandedEvents(start, end)
-			this.events = await this.formatEvents(expandedEvents)
+			this.events = await this.formatEvents(expandedEvents, start)
 			this.loading = false
 		},
 		/**
@@ -209,12 +209,14 @@ export default {
 		},
 		/**
 		 * @param {Object[]} expandedEvents Array of fullcalendar events
+		 * @param {Date} filterBefore filter events that start before date
 		 * @returns {Object[]}
 		 */
-		formatEvents(expandedEvents) {
+		formatEvents(expandedEvents, filterBefore) {
 			return expandedEvents
 				.sort((a, b) => a.start.getTime() - b.start.getTime())
 				.filter(event => !event.classNames.includes('fc-event-nc-task-completed'))
+				.filter(event => filterBefore.getTime() < event.start.getTime())
 				.slice(0, 7)
 				.map((event) => ({
 					isEmptyItem: false,
