@@ -1,3 +1,14 @@
+# 2.1.1 - 2020-09-11
+### Fixed
+- Dashboard fixes
+  [#2574](https://github.com/nextcloud/calendar/pull/2574)
+  [#2575](https://github.com/nextcloud/calendar/pull/2575)
+  [#2579](https://github.com/nextcloud/calendar/pull/2579)
+- Fix opening an event from search
+  [#2578](https://github.com/nextcloud/calendar/pull/2578)
+- Updated dependencies
+- Updated translations
+
 # 2.1.0 - 2020-09-02
 ### Added
 - Dashboard integration
