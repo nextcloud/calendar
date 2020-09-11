@@ -139,9 +139,11 @@ export default {
 			const end = dateFactory()
 			end.setDate(end.getDate() + 14)
 
+			const startOfToday = moment(start).startOf('day').toDate()
+
 			await this.initializeEnvironment()
 			const expandedEvents = await this.fetchExpandedEvents(start, end)
-			this.events = await this.formatEvents(expandedEvents, start)
+			this.events = await this.formatEvents(expandedEvents, startOfToday)
 			this.loading = false
 		},
 		/**
@@ -216,7 +218,7 @@ export default {
 			return expandedEvents
 				.sort((a, b) => a.start.getTime() - b.start.getTime())
 				.filter(event => !event.classNames.includes('fc-event-nc-task-completed'))
-				.filter(event => filterBefore.getTime() < event.start.getTime())
+				.filter(event => filterBefore.getTime() <= event.start.getTime())
 				.slice(0, 7)
 				.map((event) => ({
 					isEmptyItem: false,
