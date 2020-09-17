@@ -118,7 +118,7 @@ OC.L10N.register(
     "CalDAV link could not be copied to clipboard." : "Ezin izan da CalDAV helbidea arbelera kopiatu.",
     "before at" : "lehenago hemen",
     "Notification" : "Jakinarazpena",
-    "Email" : "Helbide elektronikoa",
+    "Email" : "Mezu elektronikoa",
     "Audio notification" : "Audio jakinarazpena",
     "Other notification" : "Bestelako jakinarazpena",
     "Relative to event" : "Gertaerarekiko",
