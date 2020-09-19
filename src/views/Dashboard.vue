@@ -34,7 +34,10 @@
 					{{ t('calendar', 'No more events today') }}
 				</template>
 			</EmptyContent>
-			<DashboardWidgetItem v-else :item="item">
+			<DashboardWidgetItem v-else
+				:main-text="item.mainText"
+				:sub-text="item.subText"
+				:target-url="item.targetUrl">
 				<template #avatar>
 					<div
 						v-if="item.componentName === 'VEVENT'"
