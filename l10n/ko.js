@@ -55,6 +55,7 @@ OC.L10N.register(
     "Automatic" : "자동",
     "Actions" : "동작",
     "Show week numbers" : "주 번호 보이기",
+    "Show keyboard shortcuts" : "키보드 단축키 표시",
     "Settings & import" : "설정 및 가져오기",
     "Notification" : "알림",
     "Email" : "이메일",
