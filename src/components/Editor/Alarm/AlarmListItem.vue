@@ -135,7 +135,7 @@
 				<ActionButton
 					v-if="canEdit && !isEditing"
 					icon="icon-edit"
-					@click="toggleEditAlarm">
+					@click.stop="toggleEditAlarm">
 					{{ $t('calendar', 'Edit time') }}
 				</ActionButton>
 				<ActionButton
