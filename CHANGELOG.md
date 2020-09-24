@@ -1,3 +1,10 @@
+# 2.1.2 - 2020-09-24
+### Added
+- 21 compatibility
+- Fixed reminder editing
+  [#2605](https://github.com/nextcloud/calendar/pull/2605)
+  [#2606](https://github.com/nextcloud/calendar/pull/2606)
+
 # 2.1.1 - 2020-09-11
 ### Fixed
 - Dashboard fixes
