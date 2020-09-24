@@ -52,20 +52,18 @@
 		<div
 			v-if="isEditing && isRelativeAlarm && isAllDay"
 			class="property-alarm-item__edit property-alarm-item__edit--all-day">
-			<div>
-				<input
-					type="number"
-					min="0"
-					max="3600"
-					:value="alarm.relativeAmountAllDay"
-					@input="changeRelativeAmountAllDay">
-				<AlarmTimeUnitSelect
-					:is-all-day="isAllDay"
-					:count="alarm.relativeAmountAllDay"
-					:unit="alarm.relativeUnitAllDay"
-					:disabled="false"
-					@change="changeRelativeUnitAllDay" />
-			</div>
+			<input
+				type="number"
+				min="0"
+				max="3600"
+				:value="alarm.relativeAmountAllDay"
+				@input="changeRelativeAmountAllDay">
+			<AlarmTimeUnitSelect
+				:is-all-day="isAllDay"
+				:count="alarm.relativeAmountAllDay"
+				:unit="alarm.relativeUnitAllDay"
+				:disabled="false"
+				@change="changeRelativeUnitAllDay" />
 			<span>
 				{{ $t('calendar', 'before at') }}
 			</span>
