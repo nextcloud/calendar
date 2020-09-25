@@ -10,6 +10,7 @@ OC.L10N.register(
     "Download" : "تنزيل",
     "Delete" : "حذف ",
     "Share link" : "رابط المشاركة",
+    "Delete share link" : "حذف ارتباط المشاركة",
     "Share with users or groups" : "شارك مع مستخدمين او مجموعات",
     "can edit" : "يمكن التحرير",
     "New calendar" : "مفكرة جديدة",
