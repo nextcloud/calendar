@@ -20,6 +20,7 @@ OC.L10N.register(
     "Actions" : "الإجراءات",
     "Show week numbers" : "إظهار رقم الأسابيع",
     "Settings & import" : "الإعدادات و الإستيراد",
+    "Notification" : "إشعار",
     "Email" : "البريد الإلكتروني",
     "Busy" : "مشغول",
     "Unknown" : "مجهول",
