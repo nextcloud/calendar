@@ -54,6 +54,7 @@ OC.L10N.register(
     "Categories" : "الفئات",
     "Movie" : "فلم",
     "Cinema" : "سينما",
+    "Review" : "مراجعة",
     "Mail" : "البريد",
     "Play" : "تشغيل",
     "Dentist" : "طبيب أسنان",
