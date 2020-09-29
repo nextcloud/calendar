@@ -75,6 +75,7 @@
     "Creating subscription …" : "Stvaranje pretplate...",
     "An error occurred, unable to create the calendar." : "Došlo je do pogreške, nije moguće stvoriti kalendar.",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "Unesite valjanu poveznicu (mora početi s http://, https://, webcal:// ili webcals://)",
+    "Could not update calendar order." : "Ažuriranje redoslijeda kalendara nije uspjelo.",
     "Import calendars" : "Uvezi kalendare",
     "Please select a calendar to import into …" : "Odaberite kalendar za uvoz...",
     "Filename" : "Naziv datoteke",
