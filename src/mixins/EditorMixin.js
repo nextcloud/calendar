@@ -481,6 +481,19 @@ export default {
 			this.closeEditor()
 		},
 		/**
+		 * Duplicates a calendar-object, saves it and closes the editor
+		 *
+		 * @param {Boolean} thisAndAllFuture Whether to delete only this or this and all future occurrences
+		 * @returns {Promise<void>}
+		 */
+		async duplicateEvent() {
+			await this.$store.dispatch('duplicateCalendarObjectInstance', {
+				calendarId: this.calendarId,
+			})
+			await this.saveAndLeave()
+		},
+
+		/**
 		 * Deletes a calendar-object
 		 *
 		 * @param {boolean} thisAndAllFuture Whether to delete only this or this and all future occurrences

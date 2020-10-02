@@ -23,12 +23,14 @@
 import { getDateFromDateTimeValue } from '../utils/date.js'
 import { DurationValue } from '@nextcloud/calendar-js'
 import { getHexForColorName } from '../utils/color.js'
+import { getHexForColorName, getClosestCSS3ColorNameForHex } from '../utils/color.js'
 import { mapAlarmComponentToAlarmObject } from './alarm.js'
 import { mapAttendeePropertyToAttendeeObject } from './attendee.js'
 import {
 	getDefaultRecurrenceRuleObject,
 	mapRecurrenceRuleValueToRecurrenceRuleObject,
 } from './recurrenceRule.js'
+import DateTimeValue from 'calendar-js/src/values/dateTimeValue.js'
 
 /**
  * Creates a complete calendar-object-instance-object based on given props
@@ -179,7 +181,52 @@ const mapEventComponentToEventObject = (eventComponent) => {
 	return eventObject
 }
 
+/**
+ *
+ * @param {Object} eventObject The calendarObjectInstance object
+ * @param {EventComponent} eventComponent The calendar-js eventComponent
+ */
+const mapEventObjectToEventComponent = (eventObject, eventComponent) => {
+	eventComponent.title = eventObject.title
+	eventComponent.location = eventObject.location
+	eventComponent.description = eventObject.description
+	eventComponent.accessClass = eventObject.accessClass
+	eventComponent.status = eventObject.status
+	eventComponent.timeTransparency = eventObject.timeTransparency
+
+	for (const category of eventObject.categories) {
+		eventComponent.addCategory(category)
+	}
+
+	if (eventObject.organizer) {
+		eventComponent.setOrganizerFromNameAndEMail(eventObject.organizer.commonName, eventObject.organizer.uri)
+	}
+
+	for (const alarm of eventObject.alarms) {
+		if (alarm.isRelative) {
+			const duration = DurationValue.fromSeconds(alarm.relativeTrigger)
+			eventComponent.addRelativeAlarm(alarm.type, duration, alarm.relativeIsRelatedToStart)
+		} else {
+			const date = DateTimeValue.fromJSDate(alarm.absoluteDate)
+			eventComponent.addAbsoluteAlarm(alarm.type, date)
+		}
+	}
+
+	for (const attendee of eventObject.attendees) {
+		eventComponent.addProperty(attendee.attendeeProperty)
+	}
+
+	for (const rule of eventObject.eventComponent.getPropertyIterator('RRULE')) {
+		eventComponent.addProperty(rule)
+	}
+
+	if (eventObject.customColor) {
+		eventComponent.color = getClosestCSS3ColorNameForHex(eventObject.customColor)
+	}
+}
+
 export {
 	getDefaultEventObject,
 	mapEventComponentToEventObject,
+	mapEventObjectToEventComponent,
 }
