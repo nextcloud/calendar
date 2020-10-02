@@ -1,6 +1,8 @@
 OC.L10N.register(
     "calendar",
     {
+    "User-Session unexpectedly expired" : "La sesión de usuario ha expirado inesperadamente",
+    "Provided email-address is not valid" : "El email provisto no es valido",
     "%s has published the calendar »%s«" : "%s ha publicado el calendario »%s«",
     "Hello," : "Hola,",
     "We wanted to inform you that %s has published the calendar »%s«." : "Queremos informarte que %s ha publicado el calendario »%s«.",
@@ -14,7 +16,7 @@ OC.L10N.register(
     "List" : "Lista",
     "Download" : "Descargar",
     "Delete" : "Borrar",
-    "Share link" : "Compartir liga",
+    "Share link" : "Compartir enlace",
     "Share with users or groups" : "Compartir con otros usuarios o grupos",
     "can edit" : "puede editar",
     "New calendar" : "Nuevo calendario",
