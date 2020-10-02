@@ -93,6 +93,9 @@
 			<ActionButton v-if="canDelete && canCreateRecurrenceException" icon="icon-delete" @click="deleteAndLeave(true)">
 				{{ $t('calendar', 'Delete this and all future') }}
 			</ActionButton>
+			<ActionButton v-if="!isNew" icon="icon-file" @click="duplicateEvent()">
+				{{ $t('calendar', 'Duplicate') }}
+			</ActionButton>
 		</template>
 
 		<AppSidebarTab

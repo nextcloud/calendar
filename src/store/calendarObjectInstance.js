@@ -33,6 +33,7 @@ import { getBySetPositionAndBySetFromDate, getWeekDayFromDate } from '../utils/r
 import {
 	getDefaultEventObject,
 	mapEventComponentToEventObject,
+	mapEventObjectToEventComponent,
 } from '../models/event.js'
 import {
 	getAmountAndUnitForTimedEvents,
@@ -1514,6 +1515,33 @@ const actions = {
 				newCalendarId: calendarId,
 			})
 		}
+	},
+
+	/**
+	 * Duplicate calendar-object-instance
+	 *
+	 * @param {Object} vuex The vuex destructuring object
+	 * @param {Object} vuex.state The Vuex state
+	 * @param {Function} vuex.dispatch The Vuex dispatch function
+	 * @param {Function} vuex.commit The Vuex commit function
+	 * @returns {Promise<void>}
+	 */
+	async duplicateCalendarObjectInstance({ state, dispatch, commit }) {
+		const oldCalendarObjectInstance = state.calendarObjectInstance
+		const oldEventComponent = oldCalendarObjectInstance.eventComponent
+		const startDate = oldEventComponent.startDate.getInUTC()
+		const endDate = oldEventComponent.endDate.getInUTC()
+		const calendarObject = await dispatch('createNewEvent', {
+			start: startDate.unixTime,
+			end: endDate.unixTime,
+			timezoneId: oldEventComponent.startDate.timezoneId,
+			isAllDay: oldEventComponent.isAllDay(),
+		})
+		const eventComponent = getObjectAtRecurrenceId(calendarObject, startDate.jsDate)
+		mapEventObjectToEventComponent(oldCalendarObjectInstance, eventComponent)
+		const calendarObjectInstance = mapEventComponentToEventObject(eventComponent)
+
+		await commit('setCalendarObjectInstanceForNewEvent', { calendarObject, calendarObjectInstance })
 	},
 
 	/**
