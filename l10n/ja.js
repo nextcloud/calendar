@@ -249,6 +249,7 @@ OC.L10N.register(
     "_Every %n year_::_Every %n years_" : ["%n年ごと"],
     "_%n time_::_%n times_" : ["%n回"],
     "Untitled event" : "無題のイベント",
+    "Untitled task" : "タイトルなしタスク",
     "prev" : "前へ",
     "next" : "次へ",
     "prev year" : "前の年へ",
