@@ -186,7 +186,7 @@
     "last" : "dernier",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Les modifications apportées à la règle de récurrence ne s’appliqueront qu’à cet événement et à tous les événements futurs.",
     "Repeat" : "Répéter",
-    "Repeat every" : "Répéter chaque",
+    "Repeat every" : "Répéter tous les",
     "By day of the month" : "Par jour du mois",
     "On the" : "Le",
     "_month_::_months_" : ["mois","mois"],
