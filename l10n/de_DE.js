@@ -351,7 +351,7 @@ OC.L10N.register(
     "Gaming" : "Gaming",
     "Play" : "Spielen",
     "Game" : "Spiel",
-    "Drive" : "Fahren",
+    "Drive" : "Laufwerk",
     "Bicycle" : "Fahrrad",
     "Cycle" : "Radfahren",
     "Biking" : "Fahrradfahren",

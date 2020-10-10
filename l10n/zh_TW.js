@@ -125,7 +125,7 @@ OC.L10N.register(
     "Description" : "描述",
     "Status" : "狀態",
     "Confirmed" : "已確認",
-    "Tentative" : "測試的",
+    "Tentative" : "暫定的",
     "Categories" : "分類",
     "Movie" : "電影",
     "Cinema" : "電影院",
