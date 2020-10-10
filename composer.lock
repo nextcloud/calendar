@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c7ec9bf7ab99ba8e5d260a61861fa09d",
+    "content-hash": "2f9bafafc2f363aaf7827e93bc8c0a97",
     "packages": [
         {
             "name": "composer/semver",
@@ -1654,16 +1654,16 @@
     "packages-dev": [
         {
             "name": "christophwurst/nextcloud",
-            "version": "v19.0.0",
+            "version": "v20.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ChristophWurst/nextcloud_composer.git",
-                "reference": "1329e82c5aaf79ce546d9c86ebb057ebe6f857e4"
+                "reference": "898b3b7feda1d8a761dffeaeda6fccace44eb649"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ChristophWurst/nextcloud_composer/zipball/1329e82c5aaf79ce546d9c86ebb057ebe6f857e4",
-                "reference": "1329e82c5aaf79ce546d9c86ebb057ebe6f857e4",
+                "url": "https://api.github.com/repos/ChristophWurst/nextcloud_composer/zipball/898b3b7feda1d8a761dffeaeda6fccace44eb649",
+                "reference": "898b3b7feda1d8a761dffeaeda6fccace44eb649",
                 "shasum": ""
             },
             "require": {
@@ -1672,7 +1672,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0.0-dev"
+                    "dev-master": "20.0.0-dev"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1686,7 +1686,7 @@
                 }
             ],
             "description": "Composer package containing Nextcloud's public API (classes, interfaces)",
-            "time": "2020-08-24T12:38:49+00:00"
+            "time": "2020-10-05T12:40:45+00:00"
         },
         {
             "name": "christophwurst/nextcloud_testing",
