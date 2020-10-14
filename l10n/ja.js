@@ -158,7 +158,6 @@ OC.L10N.register(
     "No match found" : "一致するものが見つかりません",
     "No attendees yet" : "出席者はまだいません",
     "(organizer)" : "（主催者）",
-    "To send out invitations and handle responses,  [linkopen]add your email address in personal settings[linkclose]." : "招待を送信して返信を受け取るには、[linkopen]個人設定にメールアドレスを追加[linkclose]してください。",
     "Remove color" : "色を削除",
     "Event title" : "イベントタイトル",
     "All day" : "終日",

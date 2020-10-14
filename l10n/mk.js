@@ -129,7 +129,6 @@ OC.L10N.register(
     "No match found" : "Нема совпаѓања",
     "No attendees yet" : "Сè уште нема присутни",
     "(organizer)" : "(organizer)",
-    "To send out invitations and handle responses,  [linkopen]add your email address in personal settings[linkclose]." : "За да испратите покана и да можете да добивате одговори,  [linkopen]додадете ја вашата е-пошта адреса во личните податоци на сметката[linkclose].",
     "Remove color" : "Отстрани боја",
     "Event title" : "Наслов на настанот",
     "All day" : "Сите денови",

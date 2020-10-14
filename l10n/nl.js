@@ -164,7 +164,6 @@ OC.L10N.register(
     "No match found" : "Geen overeenkomst gevonden",
     "No attendees yet" : "Nog geen deelnemers",
     "(organizer)" : "(organisator)",
-    "To send out invitations and handle responses,  [linkopen]add your email address in personal settings[linkclose]." : "Om uitnodigingen te versturen en antwoorden te behandelen,  [linkopen]voeg je e-mailadres toe in persoonlijke instellingen[linkclose].",
     "Remove color" : "Verwijderen kleur",
     "Event title" : "Afspraak titel",
     "All day" : "Hele dag",

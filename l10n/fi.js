@@ -159,7 +159,6 @@ OC.L10N.register(
     "No match found" : "Ei tuloksia",
     "No attendees yet" : "Ei vielä osallistujia",
     "(organizer)" : "(järjestäjä)",
-    "To send out invitations and handle responses,  [linkopen]add your email address in personal settings[linkclose]." : "Lähettääksesi kutsuja ja vastaanottaaksesi vastauksia,  [linkopen]lisää sähköpostiosoitteesi henkilökohtaisten asetusten kautta[linkclose].",
     "Remove color" : "Poista väri",
     "Event title" : "Tapahtuman otsikko",
     "All day" : "Koko päivä",

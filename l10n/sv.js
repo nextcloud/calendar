@@ -163,7 +163,6 @@ OC.L10N.register(
     "No match found" : "Ingen träff",
     "No attendees yet" : "Inga deltagare ännu",
     "(organizer)" : "(arrangör)",
-    "To send out invitations and handle responses,  [linkopen]add your email address in personal settings[linkclose]." : "För att skicka ut inbjudningar och hantera svar,  [linkopen]lägg till din e-postadress i personliga inställningar[linkclose].",
     "Remove color" : "Ta bort färg",
     "Event title" : "Händelsens titel",
     "All day" : "Heldag",

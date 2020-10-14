@@ -164,7 +164,6 @@ OC.L10N.register(
     "No match found" : "Nessuna corrispondenza trovata",
     "No attendees yet" : "Ancora nessun partecipante",
     "(organizer)" : "(organizzatore)",
-    "To send out invitations and handle responses,  [linkopen]add your email address in personal settings[linkclose]." : "Per inviare inviti e gestire risposte, [linkopen]aggiungi il tuo indirizzo email nelle impostazioni personali[linkclose].",
     "Remove color" : "Rimuovi colore",
     "Event title" : "Titolo dell'evento",
     "All day" : "Tutto il giorno",

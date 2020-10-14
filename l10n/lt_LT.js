@@ -158,7 +158,6 @@ OC.L10N.register(
     "No match found" : "Nerasta jokio atitikmens",
     "No attendees yet" : "Kol kas kviestinių nėra",
     "(organizer)" : "(organizatorius)",
-    "To send out invitations and handle responses,  [linkopen]add your email address in personal settings[linkclose]." : "Norėdami siųsti pakvietimus ir apdoroti atsakymus,  [linkopen]pridėkite į asmeninius nustatymus savo el. pašto adresą[linkclose].",
     "Remove color" : "Šalinti spalvą",
     "Event title" : "Įvykio pavadinimas",
     "All day" : "Visą dieną",

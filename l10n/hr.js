@@ -162,7 +162,6 @@ OC.L10N.register(
     "No match found" : "Nema podudaranja",
     "No attendees yet" : "Još nema sudionika",
     "(organizer)" : "(organizator)",
-    "To send out invitations and handle responses,  [linkopen]add your email address in personal settings[linkclose]." : "[linkopen]Dodajte svoju adresu e-pošte u osobne postavke[linkclose] za slanje poziva i upravljanje odgovorima.",
     "Remove color" : "Ukloni boju",
     "Event title" : "Naslov događaja",
     "All day" : "Cijeli dan",

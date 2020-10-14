@@ -161,7 +161,6 @@ OC.L10N.register(
     "No match found" : "Жодного не знайдено",
     "No attendees yet" : "Поки жодного учасника",
     "(organizer)" : "(організатор)",
-    "To send out invitations and handle responses,  [linkopen]add your email address in personal settings[linkclose]." : "Для відправки запрошень і отримання відповідей, [linkopen]вкажіть адресу вашої електронної пошти[linkclose].",
     "Remove color" : "Вилучити колір",
     "Event title" : "Назва події",
     "All day" : "Цілий день",

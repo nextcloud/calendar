@@ -148,7 +148,6 @@ OC.L10N.register(
     "No match found" : "Không có khớp lệnh nào được tìm thấy",
     "No attendees yet" : "Chưa có giờ tham gia",
     "(organizer)" : "(organizer)",
-    "To send out invitations and handle responses,  [linkopen]add your email address in personal settings[linkclose]." : "Để gửi đi các lời mời và thu xếp các phản hồi, [linkopen] thêm email của bạn vào thiết lập cá nhân [linkclose].",
     "Remove color" : "Gỡ màu",
     "Event title" : "Tiêu đề sự kiện",
     "All day" : "Cả ngày",

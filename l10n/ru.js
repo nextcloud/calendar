@@ -164,7 +164,6 @@ OC.L10N.register(
     "No match found" : "Соответствий не найдено",
     "No attendees yet" : "Ещё нет участников",
     "(organizer)" : "(организатор)",
-    "To send out invitations and handle responses,  [linkopen]add your email address in personal settings[linkclose]." : "Для отправления приглашений и обработки ответов необходимо [linkopen]указать свой адрес электронной почты в разделе личных параметров[linkclose].",
     "Remove color" : "Убрать отметку цветом",
     "Event title" : "Название события",
     "All day" : "Весь день",

@@ -160,7 +160,6 @@ OC.L10N.register(
     "No match found" : "Ni najdenih zadetkov",
     "No attendees yet" : "Ni še vpisanih udeležencev",
     "(organizer)" : " (sklic dogodka)",
-    "To send out invitations and handle responses,  [linkopen]add your email address in personal settings[linkclose]." : "Za pošiljanje vabil in urejanje odzivov mora biti [linkopen]vaš elektronski naslov vpisan med osebnimi nastavitvami[linkclose].",
     "Remove color" : "Odstrani barvo",
     "Event title" : "Naslov dogodka",
     "All day" : "Ves dan",

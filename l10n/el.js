@@ -164,7 +164,6 @@ OC.L10N.register(
     "No match found" : "Δεν βρέθηκε αποτέλεσμα.",
     "No attendees yet" : "Δεν υπάρχουν ακόμη συμμετέχοντες",
     "(organizer)" : "(organizer)",
-    "To send out invitations and handle responses,  [linkopen]add your email address in personal settings[linkclose]." : "Για να στείλετε προσκλήσεις και να χειριστείτε τις απαντήσεις, [linkopen]προσθέστε τη διεύθυνση ηλεκτρονικού ταχυδρομείου σας στις προσωπικές ρυθμίσεις [linkclose].",
     "Remove color" : "Αφαίρεση χρώματος",
     "Event title" : "Τίτλος γεγονότος",
     "All day" : "Ολοήμερο",
