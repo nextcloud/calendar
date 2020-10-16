@@ -162,6 +162,7 @@
     "No match found" : "Herhangi bir sonuç bulunamadı",
     "No attendees yet" : "Henüz bir katılımcı yok",
     "(organizer)" : "(düzenleyen)",
+    "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "Çağrı göndermek ve yanıtları işlemek için, [linkopen]kişisel ayarlar bölümünden e-posta adresinizi ekleyin[linkclose].",
     "Remove color" : "Rengi kaldır",
     "Event title" : "Etkinlik başlığı",
     "All day" : "Tüm gün",
