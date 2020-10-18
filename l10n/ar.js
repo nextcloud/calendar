@@ -2,6 +2,7 @@ OC.L10N.register(
     "calendar",
     {
     "Hello," : "مرحبا %s،",
+    "Upcoming events" : "الفعاليات القادمة",
     "Calendar" : "المفكرة",
     "Today" : "اليوم",
     "Day" : "يوم",
@@ -33,6 +34,7 @@ OC.L10N.register(
     "Save" : "حفظ",
     "Update" : "حدث",
     "Personal" : "شخصي",
+    "No upcoming events" : "ليس هناك فعاليات قادمة",
     "Details" : "التفاصيل",
     "Attendees" : "المشاركون",
     "Reminders" : "تذكيرات",

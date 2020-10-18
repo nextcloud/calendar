@@ -1,5 +1,6 @@
 { "translations": {
     "Hello," : "مرحبا %s،",
+    "Upcoming events" : "الفعاليات القادمة",
     "Calendar" : "المفكرة",
     "Today" : "اليوم",
     "Day" : "يوم",
@@ -31,6 +32,7 @@
     "Save" : "حفظ",
     "Update" : "حدث",
     "Personal" : "شخصي",
+    "No upcoming events" : "ليس هناك فعاليات قادمة",
     "Details" : "التفاصيل",
     "Attendees" : "المشاركون",
     "Reminders" : "تذكيرات",
