@@ -230,7 +230,7 @@ OC.L10N.register(
     "Show more details" : "Erakutsi xehetasun gehiago",
     "Subscribe to {name}" : "Harpidetu {name}",
     "Download {name}" : "Deskargatu {name}",
-    "Anniversary" : "Urteurrena",
+    "Anniversary" : "Urtebetetzea / urteurrena",
     "Appointment" : "Hitzordua",
     "Business" : "Lana",
     "Education" : "Hezkuntza",
