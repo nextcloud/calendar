@@ -2,7 +2,7 @@ OC.L10N.register(
     "calendar",
     {
     "User-Session unexpectedly expired" : "Sitzung unerwartet abgelaufen",
-    "Provided email-address is not valid" : "Eingegebene E-Mail-Adresse ist ungültig",
+    "Provided email-address is not valid" : "Angegebene E-Mail-Adresse ist ungültig",
     "%s has published the calendar »%s«" : "%s hat den Kalender »%s« veröffentlicht",
     "Unexpected error sending email. Please contact your administrator." : "Unerwarteter Fehler beim Senden der E-Mail. Bitte kontaktieren Sie den Administrator.",
     "Successfully sent email to " : "E-Mail erfolgreich versandt an",
@@ -222,7 +222,7 @@ OC.L10N.register(
     "The automatic timezone detection determined your timezone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your timezone manually in the calendar settings." : "Die automatische Erkennung der Zeitzone hat als Ergebnis UTC ermittelt.\nDies ist meist das Ergebnis von Sicherheitsmaßnahmen Ihres Webbrowsers.\nBitte stellen Sie Ihre Zeitzone manuell in den Kalendereinstellungen ein.",
     "Your configured timezone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your timezone in the settings and report this issue." : "Die konfigurierte Zeitzone ({timezoneId}) wurde nicht gefunden. Rückfall auf UTC.\nBitte die Zeitzone in den Einstellungen ändern und melden dieses Problem melden.",
     "No more events today" : "Heute keine weiteren Termine",
-    "No upcoming events" : "Keine zukünftigen Termine",
+    "No upcoming events" : "Keine anstehenden Termine",
     "Create a new event" : "Neuen Termin erstellen",
     "[Today]" : "[Heute]",
     "[Tomorrow]" : "[Morgen]",
