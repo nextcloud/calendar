@@ -225,7 +225,7 @@ OC.L10N.register(
     "Attendees" : "Присутни",
     "Reminders" : "Потсетници",
     "Close" : "Затвори",
-    "Show more details" : "Прикажи повече детали",
+    "Show more details" : "Прикажи повеќе детали",
     "Subscribe to {name}" : "Претплатете се на {name}",
     "Download {name}" : "Преземи {name}",
     "Anniversary" : "Годишнина",
