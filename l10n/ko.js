@@ -1,7 +1,7 @@
 OC.L10N.register(
     "calendar",
     {
-    "User-Session unexpectedly expired" : "사용자 세션이 예끼치 않게 만료되었습니다.",
+    "User-Session unexpectedly expired" : "사용자 세션이 예기치 않게 만료되었습니다.",
     "Provided email-address is not valid" : "지정한 파일이 사진이 아님",
     "%s has published the calendar »%s«" : "%s 님이 달력 \"%s\"을(를) 공개했습니다",
     "Unexpected error sending email. Please contact your administrator." : "재설정 메일을 보낼 수 없습니다. 관리자에게 문의하십시오.",
