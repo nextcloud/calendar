@@ -7,7 +7,7 @@ OC.L10N.register(
     "Unexpected error sending email. Please contact your administrator." : "Unerwarteter Fehler beim Senden der E-Mail. Bitte kontaktieren Sie den Administrator.",
     "Successfully sent email to " : "E-Mail erfolgreich versandt an",
     "Hello," : "Hallo,",
-    "We wanted to inform you that %s has published the calendar »%s«." : "Wir wollen Sie informieren, dass %s den Kalender %s veröffentlicht hat.",
+    "We wanted to inform you that %s has published the calendar »%s«." : "Information: %s hat den Kalender %s veröffentlicht.",
     "Open »%s«" : "»%s« öffnen",
     "Cheers!" : "Noch einen schönen Tag!",
     "Upcoming events" : "Anstehende Termine",

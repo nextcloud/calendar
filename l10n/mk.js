@@ -238,7 +238,7 @@ OC.L10N.register(
     "Non-working hours" : "Неработни часови",
     "Not in office" : "Не во канцеларија",
     "Phone call" : "Телефонски повик",
-    "Sick day" : "Болен ден",
+    "Sick day" : "Боледување",
     "Special occasion" : "Посебна пригода",
     "Travel" : "Патување",
     "Vacation" : "Одмор",

@@ -281,6 +281,7 @@ OC.L10N.register(
     "prev year" : "edellinen vuosi",
     "next year" : "ensi vuonna",
     "today" : "tänään",
+    "list" : "Lista",
     "W" : "Vko",
     "all-day" : "koko päivä",
     "%n more" : "%n lisää",
