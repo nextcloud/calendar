@@ -65,6 +65,13 @@
 				@update:checked="toggleWeekNumberEnabled">
 				{{ $t('calendar', 'Show week numbers') }}
 			</ActionCheckbox>
+			<ActionCheckbox
+				class="settings-fieldset-interior-item"
+				:checked="showIllustrations"
+				:disabled="savingShowIllustrations"
+				@update:checked="toggleShowIllustrationsEnabled">
+				{{ $t('calendar', 'Show illustrations in calendar events') }}
+			</ActionCheckbox>
 			<li class="settings-fieldset-interior-item settings-fieldset-interior-item--slotDuration">
 				<Multiselect
 					:allow-empty="false"
@@ -150,6 +157,7 @@ export default {
 			savingSlotDuration: false,
 			savingWeekend: false,
 			savingWeekNumber: false,
+			savingShowIllustrations: false,
 			displayKeyboardShortcuts: false,
 		}
 	},
@@ -269,6 +277,21 @@ export default {
 				console.error(error)
 				showError(this.$t('calendar', 'New setting was not saved successfully.'))
 				this.savingWeekend = false
+			}
+		},
+		/**
+		 * Toggles the setting for "Show Illustrations"
+		 */
+		async toggleShowIllustrationsEnabled() {
+			// change to loading status
+			this.savingShowIllustrations = true
+			try {
+				await this.$store.dispatch('toggleShowIllustrationsEnabled')
+				this.savingShowIllustrations = false
+			} catch (error) {
+				console.error(error)
+				showError(this.$t('calendar', 'New setting was not saved successfully.'))
+				this.savingShowIllustrations = false
 			}
 		},
 		/**

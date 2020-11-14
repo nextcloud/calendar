@@ -92,6 +92,7 @@ class ViewController extends Controller {
 		$defaultShowWeekends = $this->config->getAppValue($this->appName, 'showWeekends', 'yes');
 		$defaultWeekNumbers = $this->config->getAppValue($this->appName, 'showWeekNr', 'no');
 		$defaultSkipPopover = $this->config->getAppValue($this->appName, 'skipPopover', 'no');
+		$defaultShowIllustrations = $this->config->getAppValue($this->appName, 'showIllustrations', 'yes');
 		$defaultTimezone = $this->config->getAppValue($this->appName, 'timezone', 'automatic');
 		$defaultSlotDuration = $this->config->getAppValue($this->appName, 'slotDuration', '00:30:00');
 		$defaultShowTasks = $this->config->getAppValue($this->appName, 'showTasks', 'yes');
@@ -103,6 +104,7 @@ class ViewController extends Controller {
 		$showWeekends = $this->config->getUserValue($this->userId, $this->appName, 'showWeekends', $defaultShowWeekends) === 'yes';
 		$showWeekNumbers = $this->config->getUserValue($this->userId, $this->appName, 'showWeekNr', $defaultWeekNumbers) === 'yes';
 		$skipPopover = $this->config->getUserValue($this->userId, $this->appName, 'skipPopover', $defaultSkipPopover) === 'yes';
+		$showIllustrations = $this->config->getUserValue($this->userId, $this->appName, 'showIllustrations', $defaultShowIllustrations) === 'yes';
 		$timezone = $this->config->getUserValue($this->userId, $this->appName, 'timezone', $defaultTimezone);
 		$slotDuration = $this->config->getUserValue($this->userId, $this->appName, 'slotDuration', $defaultSlotDuration);
 		$showTasks = $this->config->getUserValue($this->userId, $this->appName, 'showTasks', $defaultShowTasks) === 'yes';
@@ -118,6 +120,7 @@ class ViewController extends Controller {
 		$this->initialStateService->provideInitialState($this->appName, 'show_week_numbers', $showWeekNumbers);
 		$this->initialStateService->provideInitialState($this->appName, 'skip_popover', $skipPopover);
 		$this->initialStateService->provideInitialState($this->appName, 'talk_enabled', $talkEnabled);
+		$this->initialStateService->provideInitialState($this->appName, 'show_illustrations', $showIllustrations);
 		$this->initialStateService->provideInitialState($this->appName, 'timezone', $timezone);
 		$this->initialStateService->provideInitialState($this->appName, 'slot_duration', $slotDuration);
 		$this->initialStateService->provideInitialState($this->appName, 'show_tasks', $showTasks);

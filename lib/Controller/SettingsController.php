@@ -89,6 +89,8 @@ class SettingsController extends Controller {
 				return $this->setSlotDuration($value);
 			case 'showTasks':
 				return $this->setShowTasks($value);
+			case 'showIllustrations':
+				return $this->setHideIllustrations($value);
 			default:
 				return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		}
@@ -302,6 +304,31 @@ class SettingsController extends Controller {
 				$this->userId,
 				$this->appName,
 				'slotDuration',
+				$value
+			);
+		} catch (\Exception $e) {
+			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+
+		return new JSONResponse();
+	}
+
+	/**
+	 * sets showIllustrations for user
+	 *
+	 * @param string $value User-selected option for the header illustrations.
+	 * @return JSONResponse
+	 */
+	private function setShowIllustrations(string $value):JSONResponse {
+		if (!\in_array($value, ['yes', 'no'])) {
+			return new JSONResponse([], Http::STATUS_UNPROCESSABLE_ENTITY);
+		}
+
+		try {
+			$this->config->setUserValue(
+				$this->userId,
+				$this->appName,
+				'showIllustrations',
 				$value
 			);
 		} catch (\Exception $e) {

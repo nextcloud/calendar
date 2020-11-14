@@ -39,6 +39,7 @@ const state = {
 	skipPopover: null,
 	slotDuration: null,
 	tasksEnabled: false,
+	showIllustrations: false,
 	timezone: 'automatic',
 	// user-defined Nextcloud settings
 	momentLocale: 'en',
@@ -103,6 +104,15 @@ const mutations = {
 	},
 
 	/**
+	 * Updates the user's setting for visibility of week numbers
+	 *
+	 * @param {Object} state The Vuex state
+	 */
+	toggleShowIllustrations(state) {
+		state.showIllustrations = !state.showIllustrations
+	},
+
+	/**
 	 * Updates the user's timezone
 	 *
 	 * @param {Object} state The Vuex state
@@ -130,7 +140,7 @@ const mutations = {
 	 * @param {Boolean} data.tasksEnabled Whether ot not the tasks app is enabled
 	 * @param {String} data.timezone The timezone to view the calendar in. Either an Olsen timezone or "automatic"
 	 */
-	loadSettingsFromServer(state, { appVersion, eventLimit, firstRun, showWeekNumbers, showTasks, showWeekends, skipPopover, slotDuration, talkEnabled, tasksEnabled, timezone }) {
+	loadSettingsFromServer(state, { appVersion, eventLimit, firstRun, showWeekNumbers, showTasks, showWeekends, skipPopover, slotDuration, talkEnabled, tasksEnabled, showIllustrations, timezone }) {
 		logInfo(`
 Initial settings:
 	- AppVersion: ${appVersion}
@@ -143,6 +153,7 @@ Initial settings:
 	- SlotDuration: ${slotDuration}
 	- TalkEnabled: ${talkEnabled}
 	- TasksEnabled: ${tasksEnabled}
+      - ShowIllustrations: ${showIllustrations}
 	- Timezone: ${timezone}
 `)
 
@@ -156,6 +167,7 @@ Initial settings:
 		state.slotDuration = slotDuration
 		state.talkEnabled = talkEnabled
 		state.tasksEnabled = tasksEnabled
+		state.showIllustrations = showIllustrations
 		state.timezone = timezone
 	},
 
@@ -317,6 +329,20 @@ const actions = {
 
 		await setConfig('slotDuration', slotDuration)
 		commit('setSlotDuration', { slotDuration })
+	},
+
+	/**
+	 * Updates the user's setting for visibility of illustrations
+	 *
+	 * @param {Object} context The Vuex context
+	 * @returns {Promise<void>}
+	 */
+	async toggleShowIllustrations({ state, commit }) {
+		const newState = !state.showIllustrations
+		const value = newState ? 'yes' : 'no'
+
+		await setConfig('showIllustrations', value)
+		commit('toggleShowIllustrations')
 	},
 
 	/**

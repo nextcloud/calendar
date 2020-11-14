@@ -127,6 +127,7 @@ export default {
 			showWeekNumbers: state => state.settings.showWeekNumbers,
 			slotDuration: state => state.settings.slotDuration,
 			showTasks: state => state.settings.showTasks,
+			showIllustrations: state => state.settings.showIllustrations,
 			timezone: state => state.settings.timezone,
 			modificationCount: state => state.calendarObjects.modificationCount,
 		}),
@@ -195,6 +196,7 @@ export default {
 			slotDuration: loadState('calendar', 'slot_duration'),
 			talkEnabled: loadState('calendar', 'talk_enabled'),
 			tasksEnabled: loadState('calendar', 'tasks_enabled'),
+			showIllustrations: loadState('calendar', 'show_illustrations'),
 			timezone: loadState('calendar', 'timezone'),
 			showTasks: loadState('calendar', 'show_tasks'),
 		})

@@ -70,6 +70,7 @@
 			</div>
 
 			<IllustrationHeader
+                              :v-if="!showIllustrations"
 				:color="illustrationColor"
 				:illustration-url="backgroundImage" />
 

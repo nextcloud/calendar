@@ -121,6 +121,7 @@ class PublicViewController extends Controller {
 		$defaultTimezone = $this->config->getAppValue($this->appName, 'timezone', 'automatic');
 		$defaultSlotDuration = $this->config->getAppValue($this->appName, 'slotDuration', '00:30:00');
 		$defaultShowTasks = $this->config->getAppValue($this->appName, 'showTasks', 'yes');
+		$defaultShowIllustrations = $this->config->getAppValue($this->appName, 'showIllustrations', 'yes');
 
 		$appVersion = $this->config->getAppValue($this->appName, 'installed_version');
 
@@ -130,6 +131,7 @@ class PublicViewController extends Controller {
 		$this->initialStateService->provideInitialState($this->appName, 'initial_view', $defaultInitialView);
 		$this->initialStateService->provideInitialState($this->appName, 'show_weekends', ($defaultShowWeekends === 'yes'));
 		$this->initialStateService->provideInitialState($this->appName, 'show_week_numbers', ($defaultWeekNumbers === 'yes'));
+		$this->initialStateService->provideInitialState($this->appName, 'show_illustrations', ($defaultShowIllustrations === 'yes'));
 		$this->initialStateService->provideInitialState($this->appName, 'skip_popover', ($defaultSkipPopover === 'yes'));
 		$this->initialStateService->provideInitialState($this->appName, 'talk_enabled', false);
 		$this->initialStateService->provideInitialState($this->appName, 'timezone', $defaultTimezone);
