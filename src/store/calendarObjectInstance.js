@@ -605,8 +605,12 @@ const mutations = {
 	 */
 	changeRecurrenceUntil(state, { calendarObjectInstance, recurrenceRule, until }) {
 		if (recurrenceRule.recurrenceRuleValue) {
-
-			recurrenceRule.recurrenceRuleValue.until = DateTimeValue.fromJSDate(until)
+			// RFC 5545, setion 3.3.10: until must be in UTC if the start time is timezone-aware
+			if (calendarObjectInstance.startTimezoneId !== 'floating') {
+				recurrenceRule.recurrenceRuleValue.until = DateTimeValue.fromJSDate(until, { zone: 'utc' })
+			} else {
+				recurrenceRule.recurrenceRuleValue.until = DateTimeValue.fromJSDate(until)
+			}
 			recurrenceRule.until = until
 			recurrenceRule.count = null
 
