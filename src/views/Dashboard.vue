@@ -53,16 +53,10 @@
 				id="calendar-widget-empty-content"
 				icon="icon-calendar-dark">
 				<template #desc>
-					<p class="empty-label">
-						{{ t('calendar', 'No upcoming events') }}
-					</p>
-					<p>
-						<a
-							class="button"
-							:href="clickStartNew">
-							{{ t('calendar', 'Create a new event') }}
-						</a>
-					</p>
+					{{ t('calendar', 'No upcoming events') }}
+						<div class="empty-label">
+						<a class="button" :href="clickStartNew"> {{ t('calendar', 'Create a new event') }} </a>
+						</div>
 				</template>
 			</EmptyContent>
 		</template>
@@ -311,7 +305,8 @@ export default {
 		}
 
 		.empty-label {
-			margin-bottom: 20px;
+			margin-top: 5vh;
+			margin-right: 5px;
 		}
 	}
 }
