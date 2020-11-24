@@ -193,13 +193,15 @@ export default {
 	 * update the fullCalendar size, when the available space changes.
 	 */
 	mounted() {
-		const resizeObserver = new ResizeObserver(debounce(() => {
-			this.$refs.fullCalendar
-				.getApi()
-				.updateSize()
-		}, 100))
+		if (window.ResizeObserver) {
+			const resizeObserver = new ResizeObserver(debounce(() => {
+				this.$refs.fullCalendar
+					.getApi()
+					.updateSize()
+			}, 100))
 
-		resizeObserver.observe(this.$refs.fullCalendar.$el)
+			resizeObserver.observe(this.$refs.fullCalendar.$el)
+		}
 	},
 	created() {
 		this.updateTodayJob = setInterval(() => {
