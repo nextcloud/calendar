@@ -104,7 +104,7 @@ OC.L10N.register(
     "Enable birthday calendar" : "Születésnapokat tartalamzó naptár engedélyezése",
     "Show tasks in calendar" : "Feladatok mutatása a naptárban",
     "Enable simplified editor" : "Egyszerűsített szerkesztő engedélyezése",
-    "Limit visible events per view" : "Látható események számának limitálása nézetenként",
+    "Limit visible events per view" : "Látható események számának korlátozása nézetenként",
     "Show weekends" : "Hétvégék mutatása",
     "Show week numbers" : "Hetek számának megjelenítése",
     "Copy primary CalDAV address" : "Elsődleges CalDAV cím másolása",
