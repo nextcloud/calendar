@@ -227,6 +227,7 @@ OC.L10N.register(
     "[Today]" : "[今天]",
     "[Tomorrow]" : "[明天]",
     "[Yesterday]" : "[昨天]",
+    "[Last] dddd" : "[上一个] 工作日",
     "Event does not exist" : "事件不存在",
     "Delete this occurrence" : "删除此重复事件",
     "Delete this and all future" : "删除此项及以后的项目",
