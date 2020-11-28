@@ -292,7 +292,7 @@
     "all-day" : "Ganztägig",
     "%n more" : "%n weitere",
     "No events to display" : "Keine Ereignisse zum Anzeigen",
-    "_+%n more_::_+%n more_" : ["+%n mehr","+%n weitere"],
+    "_+%n more_::_+%n more_" : ["+%n weitere","+%n weitere"],
     "No events" : "Keine Termine",
     "Create a new event or change the visible time-range" : "Neuen Termin erstellen oder den sichtbaren Zeitbereich ändern",
     "It might have been deleted, or there was a typo in a link" : "Möglicherweise wurde dies gelöscht oder es gab einen Tippfehler in einem Link",
