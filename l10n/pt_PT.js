@@ -1,7 +1,9 @@
 OC.L10N.register(
     "calendar",
     {
+    "Provided email-address is not valid" : "O endereço de email providenciado não é válido",
     "%s has published the calendar »%s«" : "%s publicou o calendário »%s«",
+    "Unexpected error sending email. Please contact your administrator." : "Ocorreu um erro inesperado ao enviar o email. Por favor contacte o seu administrador",
     "Successfully sent email to " : "Email enviado com sucesso",
     "Hello," : "Olá,",
     "We wanted to inform you that %s has published the calendar »%s«." : "Queremos informar que %s publicou o calendário »%s«.",
@@ -25,6 +27,7 @@ OC.L10N.register(
     "Edit color" : "Editar a cor",
     "Download" : "Transferir",
     "Delete" : "Eliminar",
+    "An error occurred, unable to delete the calendar." : "Ocorreu um erro que impede que o calendário seja apagado",
     "Share link" : "Partilhar hiperligação",
     "Publish calendar" : "Publicar calendário",
     "Publishing calendar" : "A publicar o calendário",
