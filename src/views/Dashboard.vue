@@ -54,9 +54,9 @@
 				icon="icon-calendar-dark">
 				<template #desc>
 					{{ t('calendar', 'No upcoming events') }}
-						<div class="empty-label">
+					<div class="empty-label">
 						<a class="button" :href="clickStartNew"> {{ t('calendar', 'Create a new event') }} </a>
-						</div>
+					</div>
 				</template>
 			</EmptyContent>
 		</template>
