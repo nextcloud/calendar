@@ -185,7 +185,7 @@ OC.L10N.register(
     "fourth" : "四日",
     "fifth" : "五日",
     "second to last" : "倒数第二",
-    "last" : "上一个",
+    "last" : "最后的",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "对循环规则的更改将只应用于本次和所有未来事件。",
     "Repeat" : "重复",
     "Repeat every" : "重复每",

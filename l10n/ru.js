@@ -185,7 +185,7 @@ OC.L10N.register(
     "fourth" : "четвёртый",
     "fifth" : "пятый",
     "second to last" : "предпоследний",
-    "last" : "прошедшие",
+    "last" : "последний",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Изменение правила повторения повлияет только на это и все будущие повторения события.",
     "Repeat" : "Повтор",
     "Repeat every" : "Повторять каждые",
