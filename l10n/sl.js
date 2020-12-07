@@ -283,7 +283,7 @@ OC.L10N.register(
     "_%n time_::_%n times_" : ["%n-krat","%n-krat","%n-krat","%n-krat"],
     "Untitled event" : "Neimenovan dogodek",
     "Untitled task" : "Neimenovana naloga",
-    "Please ask your administrator to enable the Tasks App." : "Obvestite skrbnika, da je treba namestiti manjkajoč program Tasks.",
+    "Please ask your administrator to enable the Tasks App." : "Obvestite skrbnika, da je treba omogočiti program Tasks.",
     "prev" : "pred.",
     "next" : "nasl.",
     "prev year" : "predhodno leto",

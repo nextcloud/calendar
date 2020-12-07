@@ -177,7 +177,7 @@ OC.L10N.register(
     "on date" : "päivänä",
     "after" : "jälkeen",
     "_time_::_times_" : ["kerran","kertaa"],
-    "This event is the recurrence-exception of a recurrence-set. You can not add a recurrence-rule to it." : "Tämän tapahtuman toistuvuus poikkeaa koko sarjan toistuvuudesta. Et voi lisätä toistuvuusasetusta siihen.",
+    "This event is the recurrence-exception of a recurrence-set. You can not add a recurrence-rule to it." : "Koska tämä tapahtuma poikkeaa tapahtumasarjan toistuvuudesta, et voi muokata lisätä tai muokata toistuvuutta.",
     "first" : "ensimmäinen",
     "third" : "kolmas",
     "fourth" : "neljäs",
