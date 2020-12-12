@@ -121,6 +121,7 @@ OC.L10N.register(
     "Email" : "Е-пошта",
     "Audio notification" : "Аудио известување",
     "Other notification" : "Друго и звестување",
+    "Relative to event" : "Релативно на настан",
     "On date" : "На датум",
     "Edit time" : "Удери време",
     "Save time" : "Зачувај време",
