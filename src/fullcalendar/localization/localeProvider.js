@@ -33,7 +33,7 @@ import {
  */
 const getFullCalendarLocale = (userLocale, momentLocale) => {
 	return {
-		code: userLocale.replace('_', '-').toLowerCase(),
+		code: userLocale.replaceAll('_', '-').toLowerCase(),
 		week: {
 			dow: getFirstDayOfWeekFromMomentLocale(momentLocale),
 			doy: getFirstDayOfYearFromMomentLocale(momentLocale),
