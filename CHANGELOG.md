@@ -1,11 +1,13 @@
-# 2.1.2 - 2020-09-24
+# Changelog
+
+## 2.1.2 - 2020-09-24
 ### Added
 - 21 compatibility
 - Fixed reminder editing
   [#2605](https://github.com/nextcloud/calendar/pull/2605)
   [#2606](https://github.com/nextcloud/calendar/pull/2606)
 
-# 2.1.1 - 2020-09-11
+## 2.1.1 - 2020-09-11
 ### Fixed
 - Dashboard fixes
   [#2574](https://github.com/nextcloud/calendar/pull/2574)
@@ -16,7 +18,7 @@
 - Updated dependencies
 - Updated translations
 
-# 2.1.0 - 2020-09-02
+## 2.1.0 - 2020-09-02
 ### Added
 - Dashboard integration
   [#2414](https://github.com/nextcloud/calendar/pull/2414)
@@ -39,7 +41,7 @@
 - Long description box
   [#2187](https://github.com/nextcloud/calendar/issues/2187)
 
-# 2.0.4 - 2020-08-27
+## 2.0.4 - 2020-08-27
 ### Added
 - Center date in month view cell
   [#2451](https://github.com/nextcloud/calendar/pull/2451)
@@ -78,7 +80,7 @@
 - Circle not found when full name is given
   [#2220](https://github.com/nextcloud/calendar/issues/2220)
 
-# 2.0.3 - 2020-04-09
+## 2.0.3 - 2020-04-09
 ### Added
 - Show week number in Datepicker
   [#2060](https://github.com/nextcloud/calendar/pull/2060)
@@ -114,7 +116,7 @@
 - Repeating events not displayed on first day of monthly calendar 
   [#1913](https://github.com/nextcloud/calendar/issues/1913)
 
-# 2.0.2 - 2020-03-02
+## 2.0.2 - 2020-03-02
 ### Added
 - Recognize Gym as event title for illustrations
   [#1888](https://github.com/nextcloud/calendar/issues/1888)
@@ -436,11 +438,11 @@ Even though all features present on the 1.x calendar app versions have been reim
 - Update link to documentation [#1409](https://github.com/nextcloud/calendar/pull/1409)
 - Don’t ship special build for IE anymore [#1447](https://github.com/nextcloud/calendar/pull/1447)
 
-
 ## 1.7.0 - 2019-03-25
 ### Added
 - Share calendars with circles
   [#602](https://github.com/nextcloud/calendar/pull/602)
+
 ### Fixed
 - compatibility with Nextcloud 16
 - Buttons not visible in dark theme
@@ -472,7 +474,6 @@ Even though all features present on the 1.x calendar app versions have been reim
 ### Fixed
 - compatibility with Nextcloud 14
 - updated translations
-
 
 ## 1.6.1 - 2018-03-06
 ### Fixed
@@ -562,7 +563,6 @@ Even though all features present on the 1.x calendar app versions have been reim
   [#417](https://github.com/nextcloud/calendar/pull/417)
 - color weekends slightly darker
   [#430](https://github.com/nextcloud/calendar/pull/430)
-
 
 ### Fixed
 - fix visual deletion of user shares
