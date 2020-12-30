@@ -115,7 +115,7 @@
 		"stylelint-bare-webpack-plugin": "^2.0.2",
 		"stylelint-config-recommended-scss": "^4.2.0",
 		"stylelint-scss": "^3.18.0",
-		"stylelint-webpack-plugin": "^2.1.0",
+		"stylelint-webpack-plugin": "^2.1.1",
 		"terser-webpack-plugin": "^4.2.3",
 		"url-loader": "^4.1.0",
 		"vue-jest": "^3.0.7",
