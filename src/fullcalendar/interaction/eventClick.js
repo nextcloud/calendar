@@ -26,6 +26,7 @@ import {
 import { generateUrl } from '@nextcloud/router'
 import { translate as t } from '@nextcloud/l10n'
 import { showInfo } from '@nextcloud/dialogs'
+import { emit } from '@nextcloud/event-bus'
 
 /**
  * Returns a function for click action on event. This will open the editor.
@@ -94,17 +95,21 @@ function handleEventClick(event, store, router, route, window) {
  * @param {Window} window The window object
  */
 function handleToDoClick(event, store, route, window) {
-	if (!store.state.settings.tasksEnabled) {
-		if (!isPublicOrEmbeddedRoute(route.name)) {
-			showInfo(t('calendar', 'Please ask your administrator to enable the Tasks App.'))
-		}
+
+	if (isPublicOrEmbeddedRoute(route.name)) {
 		return
 	}
 
 	const davUrlParts = event.extendedProps.davUrl.split('/')
 	const taskId = davUrlParts.pop()
 	const calendarId = davUrlParts.pop()
-	const url = `apps/tasks/#/calendars/${calendarId}/tasks/${taskId}`
 
+	emit('calendar:handle-todo-click', { calendarId, taskId })
+
+	if (!store.state.settings.tasksEnabled) {
+		showInfo(t('calendar', 'Please ask your administrator to enable the Tasks App.'))
+		return
+	}
+	const url = `apps/tasks/#/calendars/${calendarId}/tasks/${taskId}`
 	window.location = window.location.protocol + '//' + window.location.host + generateUrl(url)
 }
