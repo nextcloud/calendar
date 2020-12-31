@@ -68,7 +68,7 @@ OC.L10N.register(
     "Share with users or groups" : "Udostępnij użytkownikom lub grupom",
     "No users or groups" : "Brak użytkowników lub grup",
     "can edit" : "może edytować",
-    "Unshare with {displayName}" : "Nie współdziel z {displayName}",
+    "Unshare with {displayName}" : "Cofnij udostępnianie z {displayName}",
     "An error occurred, unable to change the unshare the calendar." : "Wystąpił błąd, nie można zmienić cofnięcia udostępniania kalendarza.",
     "An error occurred, unable to change the permission of the share." : "Wystąpił błąd, nie można zmienić uprawnień do udostępniania.",
     "+ New calendar" : "+ Nowy kalendarz",
