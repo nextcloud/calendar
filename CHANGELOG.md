@@ -1,5 +1,17 @@
 # Changelog
 
+## 2.1.3 - 2021-01-04
+### Fixed
+- Let apps handle clicks on todo entries #2478
+- Fix calendar rendering with complex locale #2741
+- Fix encoded display of names that contain a special character #2726
+- Fix blank page on browsers without support for ResizeObserver #2620
+- Fix broken link #2715
+- RRULE UNTIL must be in UTC if DTSTART is timezone-aware #2709
+- Add some margin for organizer hint in attendee list #2683
+- Updated translations
+- Updated dependencies
+
 ## 2.1.2 - 2020-09-24
 ### Added
 - 21 compatibility
