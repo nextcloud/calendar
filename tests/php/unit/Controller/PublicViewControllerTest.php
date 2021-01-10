@@ -23,7 +23,9 @@ declare(strict_types=1);
  */
 namespace OCA\Calendar\Controller;
 
+use OCA\Calendar\Event\BeforeTemplateRenderedEvent;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IInitialStateService;
 use OCP\IRequest;
@@ -44,6 +46,9 @@ class PublicViewControllerTest extends TestCase {
 	/** @var IInitialStateService|\PHPUnit_Framework_MockObject_MockObject */
 	private $initialStateService;
 
+	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
+	private $dispatcher;
+
 	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
 	private $urlGenerator;
 
@@ -55,10 +60,11 @@ class PublicViewControllerTest extends TestCase {
 		$this->request = $this->createMock(IRequest::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->initialStateService = $this->createMock(IInitialStateService::class);
+		$this->dispatcher = $this->createMock(IEventDispatcher::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 
 		$this->controller = new PublicViewController($this->appName, $this->request,
-			$this->config, $this->initialStateService, $this->urlGenerator);
+			$this->config, $this->initialStateService, $this->dispatcher, $this->urlGenerator);
 	}
 
 	public function testPublicIndexWithBranding():void {
@@ -158,7 +164,19 @@ class PublicViewControllerTest extends TestCase {
 			->method('provideInitialState')
 			->with('calendar', 'tasks_enabled', false);
 
-		$response = $this->controller->publicIndexWithBranding('');
+		$this->dispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->with($this->callback(static function ($event) {
+				if (!($event instanceof BeforeTemplateRenderedEvent)) {
+					return false;
+				}
+
+				return $event->isPublic() === true
+					&& $event->isEmbedded() === false
+					&& $event->getTokens() === 'token123';
+			}));
+
+		$response = $this->controller->publicIndexWithBranding('token123');
 
 		$this->assertInstanceOf(TemplateResponse::class, $response);
 		$this->assertEquals([
@@ -266,7 +284,19 @@ class PublicViewControllerTest extends TestCase {
 			->method('provideInitialState')
 			->with('calendar', 'tasks_enabled', false);
 
-		$response = $this->controller->publicIndexForEmbedding('');
+		$this->dispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->with($this->callback(static function ($event) {
+				if (!($event instanceof BeforeTemplateRenderedEvent)) {
+					return false;
+				}
+
+				return $event->isPublic() === true
+					&& $event->isEmbedded() === true
+					&& $event->getTokens() === 'token123';
+			}));
+
+		$response = $this->controller->publicIndexForEmbedding('token123');
 
 		$this->assertInstanceOf(TemplateResponse::class, $response);
 		$this->assertEquals([

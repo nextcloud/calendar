@@ -23,9 +23,11 @@ declare(strict_types=1);
  */
 namespace OCA\Calendar\Controller;
 
+use OCA\Calendar\Event\BeforeTemplateRenderedEvent;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IInitialStateService;
 use OCP\IRequest;
@@ -53,6 +55,11 @@ class ViewController extends Controller {
 	private $initialStateService;
 
 	/**
+	 * @var IEventDispatcher
+	 */
+	private $dispatcher;
+
+	/**
 	 * @var IAppManager
 	 */
 	private $appManager;
@@ -62,19 +69,22 @@ class ViewController extends Controller {
 	 * @param IRequest $request an instance of the request
 	 * @param IConfig $config
 	 * @param IInitialStateService $initialStateService
+	 * @param IEventDispatcher $dispatcher
 	 * @param IAppManager $appManager
-	 * @param string $userId
+	 * @param string|null $userId
 	 */
 	public function __construct(string $appName,
 								IRequest $request,
 								IConfig $config,
 								IInitialStateService $initialStateService,
+								IEventDispatcher $dispatcher,
 								IAppManager $appManager,
 								?string $userId) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->userId = $userId;
 		$this->initialStateService = $initialStateService;
+		$this->dispatcher = $dispatcher;
 		$this->appManager = $appManager;
 	}
 
@@ -122,6 +132,8 @@ class ViewController extends Controller {
 		$this->initialStateService->provideInitialState($this->appName, 'slot_duration', $slotDuration);
 		$this->initialStateService->provideInitialState($this->appName, 'show_tasks', $showTasks);
 		$this->initialStateService->provideInitialState($this->appName, 'tasks_enabled', $tasksEnabled);
+
+		$this->dispatcher->dispatchTyped(new BeforeTemplateRenderedEvent(false, false, null));
 
 		return new TemplateResponse($this->appName, 'main');
 	}
