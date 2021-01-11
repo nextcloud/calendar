@@ -10,14 +10,12 @@
     },
     "require-dev": {
         "christophwurst/nextcloud": "v20.0.4",
-        "christophwurst/nextcloud_testing": "0.10.0",
-        "phan/phan": "^4.0"
+        "christophwurst/nextcloud_testing": "0.10.0"
     },
     "scripts": {
         "cs:fix": "php-cs-fixer fix",
         "cs:check": "php-cs-fixer fix --dry-run --diff",
         "lint": "find . -name \\*.php -not -path './vendor/*' -print0 | xargs -0 -n1 php -l",
-        "phan": "phan --allow-polyfill-parser -k .phan/config.php",
         "test": "phpunit --configuration phpunit.unit.xml --fail-on-warning"
     }
 }
