@@ -72,7 +72,7 @@
 		"vue-router": "^3.4.9",
 		"vue-shortkey": "^3.1.7",
 		"vuedraggable": "^2.24.3",
-		"vuex": "^3.5.1",
+		"vuex": "^3.6.0",
 		"vuex-router-sync": "^5.0.0"
 	},
 	"browserslist": [
@@ -87,7 +87,7 @@
 		"@babel/preset-env": "^7.11.5",
 		"@nextcloud/browserslist-config": "^1.0.0",
 		"@nextcloud/eslint-config": "^1.2.0",
-		"@nextcloud/eslint-plugin": "^1.4.0",
+		"@nextcloud/eslint-plugin": "^1.5.0",
 		"@vue/test-utils": "^1.1.2",
 		"babel-core": "^7.0.0-bridge.0",
 		"babel-eslint": "^10.0.3",
