@@ -1,9 +1,4 @@
 {
-    "config": {
-        "platform": {
-            "php": "7.2"
-        }
-    },
     "require": {
         "php": ">=7.2",
         "nextcloud/coding-standard": "^0.3.0"
