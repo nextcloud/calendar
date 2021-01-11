@@ -46,5 +46,4 @@ document.addEventListener('DOMContentLoaded', function() {
 			propsData: {},
 		}).$mount(el)
 	})
-
 })
