@@ -42,7 +42,7 @@ class Application extends App implements IBootstrap {
 	/**
 	 * @param array $params
 	 */
-	public function __construct(array $params=[]) {
+	public function __construct(array $params = []) {
 		parent::__construct(self::APP_ID, $params);
 	}
 
