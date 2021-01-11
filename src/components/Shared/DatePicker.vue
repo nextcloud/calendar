@@ -24,7 +24,7 @@
 	<DatetimePicker
 		:lang="lang"
 		:first-day-of-week="firstDay"
-		:format="format"
+		:formatter="formatter"
 		:value="date"
 		:type="type"
 		:clearable="false"
@@ -140,7 +140,7 @@ export default {
 		return {
 			firstDay: getFirstDay() === 0 ? 7 : getFirstDay(),
 			showTimezonePopover: false,
-			format: {
+			formatter: {
 				stringify: this.stringify,
 				parse: this.parse,
 			},
