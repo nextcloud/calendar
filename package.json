@@ -43,7 +43,7 @@
 		"@fullcalendar/timegrid": "^5.3.1",
 		"@fullcalendar/vue": "^5.3.1",
 		"@nextcloud/auth": "^1.3.0",
-		"@nextcloud/axios": "^1.4.0",
+		"@nextcloud/axios": "^1.6.0",
 		"@nextcloud/dialogs": "^3.1.1",
 		"@nextcloud/event-bus": "^1.2.0",
 		"@nextcloud/initial-state": "^1.2.0",
