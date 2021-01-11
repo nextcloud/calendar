@@ -51,7 +51,7 @@
 		"@nextcloud/logger": "^1.1.2",
 		"@nextcloud/moment": "^1.1.1",
 		"@nextcloud/router": "^1.2.0",
-		"@nextcloud/vue": "^2.6.5",
+		"@nextcloud/vue": "^2.9.0",
 		"@nextcloud/vue-dashboard": "^0.1.8",
 		"autosize": "^4.0.2",
 		"calendar-js": "git+https://github.com/nextcloud/calendar-js.git",
