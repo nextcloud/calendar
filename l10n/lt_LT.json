@@ -188,7 +188,7 @@
     "weekday" : "savaitės darbo dienos",
     "weekend day" : "savaitgalio diena",
     "Summary" : "Santrauka",
-    "The recurrence definition of this event is not fully supported by Nextcloud. If you edit the recurrence-options, certain recurrences may be lost." : "Nextcloud pilnai nepalaiko šio įvykio pasikartojimo apibrėžimo. Jei taisysite pasikartojimo parinktis, tam tikri pasikartojimai gali būti prarasti.",
+    "The recurrence definition of this event is not fully supported by Nextcloud. If you edit the recurrence-options, certain recurrences may be lost." : "Nextcloud nepalaiko pilnai šio įvykio pasikartojimo apibrėžimo. Jei taisysite pasikartojimo parinktis, tam tikri pasikartojimai gali būti prarasti.",
     "More" : "Daugiau",
     "Save" : "Įrašyti",
     "Update" : "Atnaujinti",
