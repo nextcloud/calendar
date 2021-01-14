@@ -71,28 +71,3 @@
 		//min-height: unset !important;
 	}
 }
-
-.empty-calendar-screen {
-	background: rgba($color-main-background, .75);
-	position: absolute;
-	top: 0;
-	height: 100%;
-	width: 100%;
-	z-index: 5000;
-	padding-top: 10%;
-
-	&__icon {
-		.icon {
-			height: 64px;
-			margin: 0 auto;
-			width: 64px;
-			background-size: 64px;
-			opacity: 0.55;
-		}
-	}
-
-	&__message {
-		text-align: center;
-		margin-top: 25px;
-	}
-}

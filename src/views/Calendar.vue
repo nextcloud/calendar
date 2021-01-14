@@ -21,7 +21,7 @@
 
 <template>
 	<Content app-name="calendar" :class="classNames">
-		<AppNavigation v-if="!isEmbedded">
+		<AppNavigation v-if="!isEmbedded && !showEmptyCalendarScreen">
 			<!-- Date Picker, View Buttons, Today Button -->
 			<AppNavigationHeader :is-public="!isAuthenticatedUser" />
 			<template #list>
@@ -44,9 +44,9 @@
 		<EmbedTopNavigation v-if="isEmbedded" />
 		<AppContent>
 			<CalendarGrid
+				v-if="!showEmptyCalendarScreen"
 				:is-authenticated-user="isAuthenticatedUser" />
-			<EmptyCalendar
-				v-if="showEmptyCalendarScreen" />
+			<EmptyCalendar v-else />
 		</AppContent>
 		<!-- Edit modal -->
 		<router-view />
