@@ -221,6 +221,7 @@ export default {
 			return expandedEvents
 				.sort((a, b) => a.start.getTime() - b.start.getTime())
 				.filter(event => !event.classNames.includes('fc-event-nc-task-completed'))
+				.filter(event => !event.classNames.includes('fc-event-nc-cancelled'))
 				.filter(event => filterBefore.getTime() <= event.start.getTime())
 				.slice(0, 7)
 				.map((event) => ({
