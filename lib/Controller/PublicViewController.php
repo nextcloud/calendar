@@ -122,7 +122,7 @@ class PublicViewController extends Controller {
 		$defaultSlotDuration = $this->config->getAppValue($this->appName, 'slotDuration', '00:30:00');
 		$defaultShowTasks = $this->config->getAppValue($this->appName, 'showTasks', 'yes');
 
-		$appVersion = $this->config->getAppValue($this->appName, 'installed_version');
+		$appVersion = $this->config->getAppValue($this->appName, 'installed_version', null);
 
 		$this->initialStateService->provideInitialState($this->appName, 'app_version', $appVersion);
 		$this->initialStateService->provideInitialState($this->appName, 'event_limit', ($defaultEventLimit === 'yes'));

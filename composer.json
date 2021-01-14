@@ -1,11 +1,10 @@
 {
     "require": {
-        "php": ">=7.2",
+        "php": "^7.2|^8.0",
         "nextcloud/coding-standard": "^0.5.0"
     },
     "require-dev": {
-        "christophwurst/nextcloud": "v20.0.4",
-        "christophwurst/nextcloud_testing": "0.10.0"
+        "christophwurst/nextcloud_testing": "0.12.1"
     },
     "scripts": {
         "cs:fix": "php-cs-fixer fix",

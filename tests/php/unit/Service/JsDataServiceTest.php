@@ -27,13 +27,14 @@ use ChristophWurst\Nextcloud\Testing\TestCase;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserSession;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class JsDataServiceTest extends TestCase {
 
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IConfig|MockObject */
 	private $config;
 
-	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserSession|MockObject */
 	private $userSession;
 
 	/** @var JSDataService */
@@ -55,22 +56,18 @@ class JsDataServiceTest extends TestCase {
 			->method('getUser')
 			->willReturn($user);
 
-		$this->config->expects($this->at(0))
+		$this->config
 			->method('getAppValue')
-			->with('calendar', 'timezone', 'automatic')
-			->willReturn('default-app-value-timezone');
-		$this->config->expects($this->at(1))
-			->method('getAppValue')
-			->with('calendar', 'showTasks', 'yes')
-			->willReturn('default-app-value-showTasks');
-		$this->config->expects($this->at(2))
+			->willReturnMap([
+				['calendar', 'timezone', 'automatic', 'default-app-value-timezone'],
+				['calendar', 'showTasks', 'yes', 'default-app-value-showTasks']
+			]);
+		$this->config
 			->method('getUserValue')
-			->with('john.doe', 'calendar', 'timezone', 'default-app-value-timezone')
-			->willReturn('timezone-config-value');
-		$this->config->expects($this->at(3))
-			->method('getUserValue')
-			->with('john.doe', 'calendar', 'showTasks', 'default-app-value-showTasks')
-			->willReturn('yes');
+			->willReturnMap([
+				['john.doe', 'calendar', 'timezone', 'default-app-value-timezone', 'timezone-config-value'],
+				['john.doe', 'calendar', 'showTasks', 'default-app-value-showTasks', 'yes']
+			]);
 
 		$this->assertEquals([
 			'timezone' => 'timezone-config-value',
