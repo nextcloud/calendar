@@ -94,7 +94,9 @@ module.exports = {
 			}
 		}),
 		new VueLoaderPlugin(),
-		new StyleLintPlugin(),
+		new StyleLintPlugin({
+			files: ['css', 'src']
+		}),
 		new webpack.IgnorePlugin(/^\.\/locale(s)?$/, /(moment)$/),
 		new webpack.DefinePlugin({
 			appVersion: JSON.stringify(require('./package.json').version)
