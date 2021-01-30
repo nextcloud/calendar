@@ -322,7 +322,7 @@ OC.L10N.register(
     "Add this as a new category" : "Dies als neue Kategorie hinzufügen",
     "Custom color" : "Benutzerdefinierte Farbe",
     "Special color of this event. Overrides the calendar-color." : "Sonderfarbe dieses Termins. Überschreibt die Kalenderfarbe.",
-    "Chat room for event" : "Chatroom für Termin",
+    "Chat room for event" : "Chat-Raum für Termin",
     "Imported {filename}" : "Importiert {filename}",
     "Meditation" : "Meditation",
     "Relaxing" : "Entspannen",
