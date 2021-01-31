@@ -239,7 +239,7 @@ OC.L10N.register(
     "Subscribe to {name}" : "訂閱 {name}",
     "Download {name}" : "下載 {name}",
     "Anniversary" : "週年",
-    "Appointment" : "預約",
+    "Appointment" : "約會",
     "Business" : "商業",
     "Education" : "教育",
     "Holiday" : "假日",
