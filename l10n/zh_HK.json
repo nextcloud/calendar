@@ -289,7 +289,7 @@
     "today" : "今天",
     "list" : "列表",
     "W" : "週",
-    "all-day" : "全天",
+    "all-day" : "整天",
     "%n more" : "其餘 %n 項",
     "No events to display" : "無可顯示的活動",
     "_+%n more_::_+%n more_" : ["* 和其他 %n 個"],
