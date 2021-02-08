@@ -12,10 +12,12 @@ jobs:
     strategy:
       matrix:
         php-versions: ['7.3', '7.4']
-        nextcloud-versions: ['stable20', 'master']
+        nextcloud-versions: ['stable20', 'stable21', 'master']
         include:
           - php-versions: '7.2'
             nextcloud-versions: 'stable20'
+          - php-versions: '8.0'
+            nextcloud-versions: 'stable21'
           - php-versions: '8.0'
             nextcloud-versions: 'master'
     name: php${{ matrix.php-versions }} on ${{ matrix.nextcloud-versions }} unit tests
@@ -27,7 +29,7 @@ jobs:
       uses: shivammathur/setup-php@master
       with:
         php-version: ${{ matrix.php-versions }}
-        extension-csv: ctype,curl,dom,gd,iconv,intl,json,mbstring,openssl,posix,sqlite,xml,zip
+        extensions: ctype, curl, dom, gd, gmp, iconv, intl, json, mbstring, openssl, pdo_sqlite, posix, sqlite, xml, zip
         coverage: xdebug
     - name: Checkout Nextcloud
       run: git clone https://github.com/nextcloud/server.git --recursive --depth 1 -b ${{ matrix.nextcloud-versions }} nextcloud
