@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   release-tarball:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     name: Build release tarball
     steps:
       - name: Checkout
@@ -18,7 +18,7 @@ jobs:
         with:
           php-version: 7.4
           tools: composer:v1
-          extensions: ctype,curl,dom,gd,iconv,intl,json,mbstring,openssl,posix,sqlite,xml,zip
+          extensions: ctype,curl,dom,gd,iconv,intl,json,mbstring,openssl,posix,sqlite,xml,zip,gmp
           coverage: none
       - name: Install Krankerl
         run: |
