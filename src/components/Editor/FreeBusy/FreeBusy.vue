@@ -215,6 +215,15 @@ export default {
 				loading: this.loading,
 				// Timezones:
 				timeZone: this.timezoneId,
+				// Formatting of the title
+				// will produce something like "Tuesday, September 18, 2018"
+				// ref https://fullcalendar.io/docs/date-formatting
+				titleFormat: {
+				  month: 'long',
+				  year: 'numeric',
+				  day: 'numeric',
+				  weekday: 'long',
+				},
 			}
 		},
 	},
