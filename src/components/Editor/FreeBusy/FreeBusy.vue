@@ -44,6 +44,10 @@
 				</div>
 			</div>
 		</div>
+		<DatePicker ref="datePicker"
+			:date="currentDate"
+			:is-all-day="true"
+			@change="setCurrentDate" />
 	</Modal>
 </template>
 
@@ -70,6 +74,7 @@ import {
 	mapState,
 } from 'vuex'
 import Modal from '@nextcloud/vue/dist/Components/Modal'
+import DatePicker from '../../Shared/DatePicker'
 import { getColorForFBType } from '../../../utils/freebusy.js'
 import { getLocale } from '@nextcloud/l10n'
 import { getFirstDayOfWeekFromMomentLocale } from '../../../utils/moment.js'
@@ -78,6 +83,7 @@ export default {
 	name: 'FreeBusy',
 	components: {
 		FullCalendar,
+		DatePicker,
 		Modal,
 	},
 	props: {
@@ -115,6 +121,7 @@ export default {
 	data() {
 		return {
 			loadingIndicator: true,
+			currentDate: this.startDate,
 		}
 	},
 	computed: {
@@ -211,6 +218,11 @@ export default {
 				// Data
 				eventSources: this.eventSources,
 				resources: this.resources,
+				// Events
+				datesSet: function({ start }) {
+				  // Keep the current date in sync
+					this.setCurrentDate(start, true)
+				}.bind(this),
 				// Plugins
 				plugins: this.plugins,
 				// Interaction:
@@ -237,9 +249,27 @@ export default {
 			}
 		},
 	},
+	mounted() {
+	  // Move file picker into the right header menu
+		// TODO: make this a slot once fullcalendar support it
+		//       ref https://github.com/fullcalendar/fullcalendar-vue/issues/14
+		//       ref https://github.com/fullcalendar/fullcalendar-vue/issues/126
+		const picker = this.$refs.datePicker
+		// Remove from original position
+		picker.$el.parentNode.removeChild(picker.$el)
+		// Insert into calendar
+		this.$el.querySelector('.fc-toolbar-chunk:last-child').appendChild(picker.$el)
+	},
 	methods: {
 		loading(isLoading) {
 			this.loadingIndicator = isLoading
+		},
+		setCurrentDate(date, updatedViaCalendar) {
+		  this.currentDate = date
+			if (!updatedViaCalendar) {
+				const calendar = this.$refs.freeBusyFullCalendar.getApi()
+				calendar.gotoDate(date)
+			}
 		},
 	},
 }
@@ -248,6 +278,15 @@ export default {
 <style lang='scss' scoped>
 .modal__content {
 	padding: 50px;
+  //when the calendar is open, it's cut at the bottom, adding a margin fixes it
+  margin-bottom: 95px;
+}
+
+::v-deep .mx-input{height: 38px !important;
+}
+
+::v-deep .icon-new-calendar {background-color: var(--color-main-background); border: none; padding: 6px; margin-top: 17px;
+  cursor: default;
 }
 </style>
 
