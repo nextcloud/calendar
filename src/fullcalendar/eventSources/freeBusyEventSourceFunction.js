@@ -41,7 +41,7 @@ export default function(uri, calendarData, success, start, end, timezone) {
 			start: start.getInTimezone(timezone).jsDate.toISOString(),
 			end: end.getInTimezone(timezone).jsDate.toISOString(),
 			resourceId: uri,
-			rendering: 'background',
+			display: 'background',
 			allDay: false,
 			backgroundColor: getColorForFBType('UNKNOWN'),
 			borderColor: getColorForFBType('UNKNOWN'),
@@ -67,7 +67,7 @@ export default function(uri, calendarData, success, start, end, timezone) {
 			start: freeBusyProperty.getFirstValue().start.getInTimezone(timezone).jsDate.toISOString(),
 			end: freeBusyProperty.getFirstValue().end.getInTimezone(timezone).jsDate.toISOString(),
 			resourceId: uri,
-			rendering: 'background',
+			display: 'background',
 			backgroundColor: getColorForFBType(freeBusyProperty.type),
 		})
 	}

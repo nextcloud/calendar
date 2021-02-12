@@ -45,7 +45,7 @@ export default function(id, resources, eventStart, eventEnd) {
 					start: eventStart.toISOString(),
 					end: eventEnd.toISOString(),
 					allDay: false,
-					rendering: 'background',
+					display: 'background',
 					classNames: [
 						'blocking-event-free-busy',
 						'blocking-event-free-busy--first-row',
@@ -59,7 +59,7 @@ export default function(id, resources, eventStart, eventEnd) {
 					start: eventStart.toISOString(),
 					end: eventEnd.toISOString(),
 					allDay: false,
-					rendering: 'background',
+					display: 'background',
 					classNames: [
 						'blocking-event-free-busy',
 						'blocking-event-free-busy--first-row',
@@ -70,7 +70,7 @@ export default function(id, resources, eventStart, eventEnd) {
 					start: eventStart.toISOString(),
 					end: eventEnd.toISOString(),
 					allDay: false,
-					rendering: 'background',
+					display: 'background',
 					classNames: [
 						'blocking-event-free-busy',
 						'blocking-event-free-busy--last-row',
@@ -83,7 +83,7 @@ export default function(id, resources, eventStart, eventEnd) {
 					start: eventStart.toISOString(),
 					end: eventEnd.toISOString(),
 					allDay: false,
-					rendering: 'background',
+					display: 'background',
 					classNames: [
 						'blocking-event-free-busy',
 						'blocking-event-free-busy--first-row',
@@ -94,7 +94,7 @@ export default function(id, resources, eventStart, eventEnd) {
 					start: eventStart.toISOString(),
 					end: eventEnd.toISOString(),
 					allDay: false,
-					rendering: 'background',
+					display: 'background',
 					classNames: [
 						'blocking-event-free-busy',
 					],
@@ -104,7 +104,7 @@ export default function(id, resources, eventStart, eventEnd) {
 					start: eventStart.toISOString(),
 					end: eventEnd.toISOString(),
 					allDay: false,
-					rendering: 'background',
+					display: 'background',
 					classNames: [
 						'blocking-event-free-busy',
 						'blocking-event-free-busy--last-row',
