@@ -193,7 +193,7 @@ OC.L10N.register(
     "On the" : "在",
     "_month_::_months_" : ["月"],
     "_year_::_years_" : ["年"],
-    "Monday" : "週一",
+    "Monday" : "星期一",
     "weekday" : "週間",
     "weekend day" : "週末",
     "Summary" : "摘要",
