@@ -340,7 +340,7 @@ OC.L10N.register(
     "Planning" : "計劃中",
     "Pointing" : "指向",
     "Retrospective" : "回顧",
-    "Review" : "檢閱",
+    "Review" : "檢視",
     "Office" : "辦公室",
     "Contributor week" : "貢獻週",
     "Party" : "派對",
