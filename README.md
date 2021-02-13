@@ -9,17 +9,17 @@
 
 ## :blue_heart: :tada: Why is this so awesome?
 
-* :rocket: **Integration with other Nextcloud apps!** Currently Contacts and Circles – more to come.
+* :rocket: **Integration with other Nextcloud apps!** Like Contacts, Talk, Tasks, Deck and Circles
 * :globe_with_meridians: **WebCal Support!** Want to see your favorite team's matchdays in your calendar? No problem!
 * :raising_hand: **Attendees!** Invite people to your events
 * :watch: **Free/Busy!** See when your attendees are available to meet
 * :alarm_clock: **Reminders!** Get alarms for events inside your browser and via email
 * :mag: **Search!** Find your events at ease
-* :ballot_box_with_check: **Tasks!** See tasks with a due date directly in the calendar
+* :ballot_box_with_check: **Tasks!** See tasks or Deck cards with a due date directly in the calendar
+* :speaker: **Talk rooms!** Create an associated Talk room when booking a meeting with just one click
+* :calendar: **Appointment booking** Send people a link so they can book an appointment with you [using this app](https://apps.nextcloud.com/apps/appointments)
 * :see_no_evil: **We’re not reinventing the wheel!** Based on the great [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries.
 
-And in the works for the [coming versions](https://github.com/nextcloud/calendar/milestones/):
-* :paperclip: Attachments for events ([#298](https://github.com/nextcloud/calendar/issues/298))
 
 ## :hammer_and_wrench: Installation
 
