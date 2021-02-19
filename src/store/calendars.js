@@ -688,9 +688,13 @@ const actions = {
 		const calendarObjects = []
 		const calendarObjectIds = []
 		for (const r of response.concat(responseTodo)) {
-			const calendarObject = mapCDavObjectToCalendarObject(r, calendar.id)
-			calendarObjects.push(calendarObject)
-			calendarObjectIds.push(calendarObject.id)
+			try {
+				const calendarObject = mapCDavObjectToCalendarObject(r, calendar.id)
+				calendarObjects.push(calendarObject)
+				calendarObjectIds.push(calendarObject.id)
+			} catch (e) {
+				console.error('could not convert calendar object', e)
+			}
 		}
 
 		context.commit('appendCalendarObjects', { calendarObjects })
