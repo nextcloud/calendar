@@ -26,12 +26,16 @@
     "Download" : "බාගන්න",
     "Filename" : "ගොනු නාමය",
     "Cancel" : "අවලංගු කරන්න",
+    "Actions" : "ක්‍රියාමාර්ග",
+    "Email" : "විද්‍යුත් තැපෑල",
+    "Busy" : "කාර්යබහුලයි",
     "Unknown" : "නොදන්නා",
     "Summary" : "සාරාංශය",
     "Save" : "සුරකින්න",
     "Personal" : "පුද්ගලික",
     "Details" : "විස්තර",
     "Close" : "වසන්න",
+    "Anniversary" : "සංවත්සරය",
     "Location" : "ස්ථානය",
     "Description" : "විස්තරය"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

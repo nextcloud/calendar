@@ -20,6 +20,7 @@ OC.L10N.register(
     "Save" : "සුරකින්න",
     "Update" : "යාවත්කාල කිරීම",
     "Personal" : "පෞද්ගලික",
+    "Details" : "විස්තර",
     "Attendees" : "කැටුව යන්නන්",
     "Close" : "වසන්න",
     "Daily" : "දිනපතා",
