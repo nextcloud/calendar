@@ -142,7 +142,8 @@ export default {
 				freeBusyEventSource(
 					this._uid,
 					this.organizer.attendeeProperty,
-					this.attendees.map((a) => a.attendeeProperty)
+					this.attendees.map((a) => a.attendeeProperty),
+					this.resources.map((resource) => resource.id)
 				),
 				freeBusyFakeBlockingEventSource(
 					this._uid,

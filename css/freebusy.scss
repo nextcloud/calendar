@@ -27,6 +27,11 @@
 		opacity: .8;
 	}
 
+	.blocking-slot-free-busy {
+		background: repeating-linear-gradient( 45deg, #606dbc, #606dbc 10px, #465298 10px, #465298 20px );
+		z-index: 2;
+	}
+
 	.blocking-event-free-busy {
 		border-color: red;
 		border-style: solid;

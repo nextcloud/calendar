@@ -22,6 +22,7 @@
 
 import { getColorForFBType } from '../../utils/freebusy.js'
 import { getParserManager } from 'calendar-js'
+import logger from '../../utils/logger'
 
 /**
  * Converts the response
@@ -32,10 +33,12 @@ import { getParserManager } from 'calendar-js'
  * @param {DateTimeValue} start The start of the fetched time-range
  * @param {DateTimeValue} end The end of the fetched time-range
  * @param {Timezone} timezone Timezone of user viewing data
+ * @param {string[]} resourceIds all resource IDs for the current free/busy data
  * @returns {Object[]}
  */
-export default function(uri, calendarData, success, start, end, timezone) {
+export default function(uri, calendarData, success, start, end, timezone, resourceIds) {
 	if (!success) {
+		logger.info('no free/busy info for URI ' + uri + ', falling back to unknown state')
 		return [{
 			id: Math.random().toString(36).substring(7),
 			start: start.getInTimezone(timezone).jsDate.toISOString(),
@@ -56,6 +59,7 @@ export default function(uri, calendarData, success, start, end, timezone) {
 	const calendarComponent = parser._calendarComponent
 	const freeBusyComponent = calendarComponent.getFirstComponent('VFREEBUSY')
 	if (!freeBusyComponent) {
+		logger.warn('no VFREEBUSY component found for URI ' + uri)
 		return []
 	}
 
@@ -68,7 +72,20 @@ export default function(uri, calendarData, success, start, end, timezone) {
 			end: freeBusyProperty.getFirstValue().end.getInTimezone(timezone).jsDate.toISOString(),
 			resourceId: uri,
 			display: 'background',
-			backgroundColor: getColorForFBType(freeBusyProperty.type),
+			// backgroundColor: getColorForFBType(freeBusyProperty.type),
+		})
+
+		// Add an overlay for blocked slots
+		events.push({
+			groupId: 'blocked-for-all',
+			start: freeBusyProperty.getFirstValue().start.getInTimezone(timezone).jsDate.toISOString(),
+			end: freeBusyProperty.getFirstValue().end.getInTimezone(timezone).jsDate.toISOString(),
+			resourceIds,
+			display: 'background',
+			classNames: [
+				'blocking-slot-free-busy'
+			]
+			// backgroundColor: getColorForFBType('BUSY'),
 		})
 	}
 

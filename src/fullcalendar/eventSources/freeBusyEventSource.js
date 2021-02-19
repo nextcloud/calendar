@@ -33,9 +33,10 @@ import logger from '../../utils/logger.js'
  * @param {String} id Identification for this source
  * @param {AttendeeProperty} organizer The organizer of the event
  * @param {AttendeeProperty[]} attendees Array of the event's attendees
+ * @param {string[]} resourceIds all resource IDs for the current free/busy data
  * @returns {{startEditable: boolean, resourceEditable: boolean, editable: boolean, id: string, durationEditable: boolean, events: events}}
  */
-export default function(id, organizer, attendees) {
+export default function(id, organizer, attendees, resourceIds) {
 	return {
 		id: 'free-busy-event-source-' + id,
 		editable: false,
@@ -75,7 +76,7 @@ export default function(id, organizer, attendees) {
 			}
 			const events = []
 			for (const [uri, data] of Object.entries(freeBusyData)) {
-				events.push(...freeBusyEventSourceFunction(uri, data.calendarData, data.success, startDateTime, endDateTime, timezoneObject))
+				events.push(...freeBusyEventSourceFunction(uri, data.calendarData, data.success, startDateTime, endDateTime, timezoneObject, resourceIds))
 			}
 
 			console.debug(events)
