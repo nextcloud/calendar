@@ -33,6 +33,7 @@ OC.L10N.register(
     "Busy" : "කාර්යබහුලයි",
     "Unknown" : "නොදන්නා",
     "Summary" : "සාරාංශය",
+    "More" : "තව",
     "Save" : "සුරකින්න",
     "Personal" : "පුද්ගලික",
     "Details" : "විස්තර",
