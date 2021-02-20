@@ -4,7 +4,7 @@
         "nextcloud/coding-standard": "^0.5.0"
     },
     "require-dev": {
-        "christophwurst/nextcloud_testing": "0.12.3"
+        "christophwurst/nextcloud_testing": "0.12.4"
     },
     "scripts": {
         "cs:fix": "php-cs-fixer fix",
