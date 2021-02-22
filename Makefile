@@ -4,10 +4,10 @@
 all: dev-setup lint build-js-production test test-php
 
 # Dev env management
-dev-setup: clean clean-dev npm-init
+dev-setup: clean npm-init
 
 npm-init:
-	npm install
+	npm ci
 
 composer-init:
 	composer install --prefer-dist
@@ -61,9 +61,6 @@ stylelint-fix:
 # Cleaning
 clean:
 	rm -rf js
-
-clean-dev:
-	rm -rf node_modules
 
 # Builds the source package for the app store, ignores php and js tests
 appstore:
