@@ -45,7 +45,7 @@
 
 <script>
 import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
-import { findPrincipalsByDisplayName } from '../../../services/caldavService.js'
+import { principalPropertySearchByDisplaynameOrEmail } from '../../../services/caldavService.js'
 import HttpClient from '@nextcloud/axios'
 import debounce from 'debounce'
 import { generateOcsUrl } from '@nextcloud/router'
@@ -140,7 +140,7 @@ export default {
 		async findShareesFromDav(query, hiddenPrincipals, hiddenUrls) {
 			let results
 			try {
-				results = await findPrincipalsByDisplayName(query)
+				results = await principalPropertySearchByDisplaynameOrEmail(query)
 			} catch (error) {
 				return []
 			}

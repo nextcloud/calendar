@@ -198,11 +198,11 @@ const getCurrentUserPrincipal = () => {
 /**
  * Finds calendar principals by displayname
  *
- * @param {String} query The search-term
+ * @param {String} term The search-term
  * @returns {Promise<void>}
  */
-const findPrincipalsByDisplayName = async(query) => {
-	return getClient().principalPropertySearchByDisplayname(query)
+const principalPropertySearchByDisplaynameOrEmail = async(term) => {
+	return getClient().principalPropertySearchByDisplaynameOrEmail(term)
 }
 
 /**
@@ -227,6 +227,6 @@ export {
 	enableBirthdayCalendar,
 	getBirthdayCalendar,
 	getCurrentUserPrincipal,
-	findPrincipalsByDisplayName,
+	principalPropertySearchByDisplaynameOrEmail,
 	findPrincipalByUrl,
 }
