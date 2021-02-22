@@ -58,7 +58,7 @@
 		"cdav-library": "github:nextcloud/cdav-library",
 		"closest-css-color": "^0.1.1",
 		"color-convert": "^2.0.1",
-		"core-js": "^3.8.3",
+		"core-js": "^3.9.0",
 		"css-color-names": "^1.0.1",
 		"debounce": "^1.2.0",
 		"jstz": "^2.1.1",
