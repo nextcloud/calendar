@@ -1,3 +1,9 @@
+# 2.0.5 – 2021-02-23
+### Fixed
+- Render issues with invalid calendar objects
+- Principal autocompletion of email sharees
+- Some package updates
+
 # 2.0.4 - 2020-08-27
 ### Added
 - Center date in month view cell
