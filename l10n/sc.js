@@ -102,6 +102,10 @@ OC.L10N.register(
     "to {endDate}" : "a {dieFine}",
     "never" : "mai",
     "Save" : "Sarva",
-    "Close" : "Serra"
+    "Close" : "Serra",
+    "Description" : "Descritzione",
+    "Status" : "Istadu",
+    "Confirmed" : "Cunfirmadu",
+    "Canceled" : "Cantzelladu"
 },
 "nplurals=2; plural=(n != 1);");
