@@ -102,6 +102,7 @@ OC.L10N.register(
     "to {endDate}" : "a {dieFine}",
     "never" : "mai",
     "Save" : "Sarva",
+    "Details" : "Detàllios",
     "Close" : "Serra",
     "Description" : "Descritzione",
     "Status" : "Istadu",
