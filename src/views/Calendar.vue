@@ -111,8 +111,6 @@ export default {
 		return {
 			loadingCalendars: true,
 			timeFrameCacheExpiryJob: null,
-			updateTodayJob: null,
-			updateTodayJobPreviousDate: null,
 			showEmptyCalendarScreen: false,
 		}
 	},
