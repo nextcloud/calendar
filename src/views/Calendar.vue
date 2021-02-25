@@ -114,6 +114,7 @@ export default {
 			updateTodayJob: null,
 			updateTodayJobPreviousDate: null,
 			showEmptyCalendarScreen: false,
+			checkForUpdatesJob: null,
 		}
 	},
 	computed: {
@@ -183,6 +184,15 @@ export default {
 				})
 			}
 		}, 1000 * 60)
+		this.checkForUpdatesJob = setInterval(async() => {
+			const tokens = this.$route.params.tokens.split('-')
+			await this.$store.dispatch('syncCalendars', { tokens })
+		}, 1000 * 20)
+
+	},
+	destroy() {
+		clearInterval(this.timeFrameCacheExpiryJob)
+		clearInterval(this.checkForUpdatesJob)
 	},
 	async beforeMount() {
 		this.$store.commit('loadSettingsFromServer', {
