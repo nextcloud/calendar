@@ -1,7 +1,6 @@
 const path = require('path')
 const webpack = require('webpack')
 const { VueLoaderPlugin } = require('vue-loader')
-const StyleLintPlugin = require('stylelint-webpack-plugin')
 
 const IconfontPlugin = require('iconfont-plugin-webpack')
 
@@ -53,11 +52,6 @@ module.exports = {
 				],
 			},
 			{
-				test: /src\/.*\.(js|vue)$/,
-				use: 'eslint-loader',
-				enforce: 'pre'
-			},
-			{
 				test: /\.vue$/,
 				loader: 'vue-loader'
 			},
@@ -94,9 +88,6 @@ module.exports = {
 			}
 		}),
 		new VueLoaderPlugin(),
-		new StyleLintPlugin({
-			files: ['css', 'src']
-		}),
 		new webpack.IgnorePlugin(/^\.\/locale(s)?$/, /(moment)$/),
 		new webpack.DefinePlugin({
 			appVersion: JSON.stringify(require('./package.json').version)
