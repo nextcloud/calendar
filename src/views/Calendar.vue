@@ -185,8 +185,12 @@ export default {
 			}
 		}, 1000 * 60)
 		this.checkForUpdatesJob = setInterval(async() => {
-			const tokens = this.$route.params.tokens.split('-')
-			await this.$store.dispatch('syncCalendars', { tokens })
+			if (this.$route.name.startsWith('Public') || this.$route.name.startsWith('Embed')) {
+				const tokens = this.$route.params.tokens.split('-')
+				await this.$store.dispatch('syncPublicCalendars', { tokens })
+			} else {
+				await this.$store.dispatch('syncCalendars')
+			}
 		}, 1000 * 20)
 
 	},
