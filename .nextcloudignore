@@ -13,6 +13,7 @@
 .tx
 babel.config.js
 build
+codecov.yml
 composer.json
 composer.lock
 coverage
