@@ -32,7 +32,8 @@
 		border-style: solid;
 		border-left-width: 1px;
 		border-right-width: 1px;
-		background-color: transparent;
+		background-color: transparent !important;
+		opacity: 1.0 !important;
 		z-index: 2;
 	}
 
