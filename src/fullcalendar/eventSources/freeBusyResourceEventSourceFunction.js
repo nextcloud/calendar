@@ -68,6 +68,10 @@ export default function(uri, calendarData, success, start, end, timezone) {
 			end: freeBusyProperty.getFirstValue().end.getInTimezone(timezone).jsDate.toISOString(),
 			resourceId: uri,
 			display: 'background',
+			classNames: [
+				'free-busy-block',
+				'free-busy-' + freeBusyProperty.type.toLowerCase(),
+			],
 			backgroundColor: getColorForFBType(freeBusyProperty.type),
 		})
 	}
