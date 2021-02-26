@@ -162,6 +162,10 @@ export default {
 					title: attendee.commonName || attendee.uri.substr(7),
 				})
 			}
+			// Sort the resources by ID, just like fullcalendar does. This ensures that
+			// the fake blocking event can know the first and last resource reliably
+			// ref https://fullcalendar.io/docs/resourceOrder
+			resources.sort((a, b) => (a.id > b.id) - (a.id < b.id))
 
 			return resources
 		},
