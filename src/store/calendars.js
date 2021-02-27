@@ -62,8 +62,7 @@ const mutations = {
 	 */
 	addCalendar(state, { calendar }) {
 		const object = getDefaultCalendarObject(calendar)
-
-		state.calendars.push(object)
+		state.calendars.splice(object.dav.order, 0, object)
 		Vue.set(state.calendarsById, object.id, object)
 	},
 
