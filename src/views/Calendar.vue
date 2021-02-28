@@ -184,15 +184,6 @@ export default {
 				})
 			}
 		}, 1000 * 60)
-		this.checkForUpdatesJob = setInterval(async() => {
-			if (this.$route.name.startsWith('Public') || this.$route.name.startsWith('Embed')) {
-				const tokens = this.$route.params.tokens.split('-')
-				await this.$store.dispatch('syncPublicCalendars', { tokens })
-			} else {
-				await this.$store.dispatch('syncCalendars')
-			}
-		}, 1000 * 20)
-
 	},
 	destroy() {
 		clearInterval(this.timeFrameCacheExpiryJob)
@@ -211,6 +202,7 @@ export default {
 			tasksEnabled: loadState('calendar', 'tasks_enabled'),
 			timezone: loadState('calendar', 'timezone'),
 			showTasks: loadState('calendar', 'show_tasks'),
+			syncTimeout: loadState('calendar', 'sync_timeout'),
 		})
 		this.$store.dispatch('initializeCalendarJsConfig')
 
@@ -254,6 +246,16 @@ export default {
 			}
 
 			this.loadingCalendars = false
+		}
+		if (this.$store.getters.getSyncTimeout > 1000) {
+			this.checkForUpdatesJob = setInterval(async() => {
+				if (this.$route.name.startsWith('Public') || this.$route.name.startsWith('Embed')) {
+					const tokens = this.$route.params.tokens.split('-')
+					await this.$store.dispatch('syncPublicCalendars', { tokens })
+				} else {
+					await this.$store.dispatch('syncCalendars')
+				}
+			}, this.$store.getters.getSyncTimeout)
 		}
 	},
 	async mounted() {
