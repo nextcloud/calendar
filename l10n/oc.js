@@ -70,7 +70,7 @@ OC.L10N.register(
     "fifth" : "cinquen",
     "last" : "darrièr",
     "Repeat" : "Repetir",
-    "Monday" : "Diluns",
+    "Monday" : "diluns",
     "More" : "Mai",
     "Save" : "Salvar",
     "Update" : "Metre a jorn",
