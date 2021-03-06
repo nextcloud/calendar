@@ -392,6 +392,7 @@ OC.L10N.register(
     "Travelling" : "Патување",
     "Journey" : "Патување",
     "Collaborate" : "Соработка",
+    "Pair" : "Спари",
     "Lecture" : "Читање",
     "Seminar" : "Семинар",
     "Photograph" : "Фотографија",
