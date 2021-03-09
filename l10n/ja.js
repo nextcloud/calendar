@@ -256,7 +256,7 @@ OC.L10N.register(
     "today" : "今日",
     "list" : "リスト",
     "W" : "W",
-    "all-day" : "一日中",
+    "all-day" : "終日",
     "No events to display" : "表示するイベントはありません",
     "No events" : "イベントはありません",
     "When shared show full event" : "共有時にすべてのイベントを表示",
