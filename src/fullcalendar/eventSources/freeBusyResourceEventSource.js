@@ -23,7 +23,7 @@ import getTimezoneManager from '../../services/timezoneDataProviderService.js'
 import { createFreeBusyRequest } from 'calendar-js'
 import DateTimeValue from 'calendar-js/src/values/dateTimeValue.js'
 import { findSchedulingOutbox } from '../../services/caldavService.js'
-import freeBusyEventSourceFunction from './freeBusyEventSourceFunction.js'
+import freeBusyResourceEventSourceFunction from './freeBusyResourceEventSourceFunction.js'
 import logger from '../../utils/logger.js'
 // import AttendeeProperty from 'calendar-js/src/properties/attendeeProperty.js'
 
@@ -75,7 +75,7 @@ export default function(id, organizer, attendees) {
 			}
 			const events = []
 			for (const [uri, data] of Object.entries(freeBusyData)) {
-				events.push(...freeBusyEventSourceFunction(uri, data.calendarData, data.success, startDateTime, endDateTime, timezoneObject))
+				events.push(...freeBusyResourceEventSourceFunction(uri, data.calendarData, data.success, startDateTime, endDateTime, timezoneObject))
 			}
 
 			console.debug(events)

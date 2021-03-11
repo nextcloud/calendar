@@ -30,19 +30,19 @@
 	.blocking-event-free-busy {
 		border-color: red;
 		border-style: solid;
-		border-left-width: 1px;
-		border-right-width: 1px;
+		border-left-width: 2px;
+		border-right-width: 2px;
 		background-color: transparent !important;
-		opacity: 1.0 !important;
+		opacity: 0.7 !important;
 		z-index: 2;
 	}
 
 	.blocking-event-free-busy.blocking-event-free-busy--first-row {
-		border-top-width: 1px;
+		border-top-width: 2px;
 	}
 
 	.blocking-event-free-busy.blocking-event-free-busy--last-row {
-		border-bottom-width: 1px;
+		border-bottom-width: 2px;
 	}
 
 	.loading-indicator {

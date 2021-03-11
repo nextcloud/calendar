@@ -32,7 +32,7 @@ jest.mock('@nextcloud/l10n')
 jest.mock('../../../../../src/utils/color.js')
 jest.mock("../../../../../src/utils/calendarObject.js")
 
-describe('fullcalendar/eventSourceFunction test suite', () => {
+describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 
 	beforeEach(() => {
 		translate.mockClear()

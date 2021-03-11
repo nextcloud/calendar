@@ -53,8 +53,9 @@ import FullCalendar from '@fullcalendar/vue'
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline'
 
 // Import event sources
-import freeBusyEventSource from '../../../fullcalendar/eventSources/freeBusyEventSource.js'
+import freeBusyBlockedForAllEventSource from '../../../fullcalendar/eventSources/freeBusyBlockedForAllEventSource.js'
 import freeBusyFakeBlockingEventSource from '../../../fullcalendar/eventSources/freeBusyFakeBlockingEventSource.js'
+import freeBusyResourceEventSource from '../../../fullcalendar/eventSources/freeBusyResourceEventSource.js'
 
 // Import localization plugins
 import { getDateFormattingConfig } from '../../../fullcalendar/localization/dateFormattingConfig.js'
@@ -139,7 +140,7 @@ export default {
 		},
 		eventSources() {
 			return [
-				freeBusyEventSource(
+				freeBusyResourceEventSource(
 					this._uid,
 					this.organizer.attendeeProperty,
 					this.attendees.map((a) => a.attendeeProperty)
@@ -149,6 +150,11 @@ export default {
 					this.resources,
 					this.startDate,
 					this.endDate
+				),
+				freeBusyBlockedForAllEventSource(
+					this.organizer.attendeeProperty,
+					this.attendees.map((a) => a.attendeeProperty),
+					this.resources
 				),
 			]
 		},
@@ -242,5 +248,15 @@ export default {
 <style lang='scss' scoped>
 .modal__content {
 	padding: 50px;
+}
+</style>
+
+<style lang="scss">
+.blocking-event-free-busy {
+  // Show the blocking event above any other blocks, especially the *blocked for all* one
+  z-index: 3 !important;
+}
+.free-busy-block {
+  opacity: 0.7 !important;
 }
 </style>
