@@ -60,7 +60,7 @@
 		"color-convert": "^2.0.1",
 		"core-js": "^3.9.1",
 		"css-color-names": "^1.0.1",
-		"debounce": "^1.2.0",
+		"debounce": "^1.2.1",
 		"jstz": "^2.1.1",
 		"linkifyjs": "^2.1.9",
 		"md5": "^2.3.0",
