@@ -155,7 +155,6 @@ const data = [{
 	],
 	illustrationNames: [
 		'home_run',
-		'greek_freak',
 	],
 }, {
 	strings: [
@@ -284,6 +283,7 @@ const data = [{
 	],
 	illustrationNames: [
 		'basketball',
+		'greek_freak',
 	],
 }, {
 	strings: [
