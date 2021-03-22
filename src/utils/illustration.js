@@ -237,7 +237,7 @@ const data = [{
 		'Bicycle',
 		'Cycle',
 		'Biking',
-		'Bike'
+		'Bike',
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		t('calendar', 'Bicycle'),
 		// TRANSLATORS This string is used for matching the event title to an illustration
