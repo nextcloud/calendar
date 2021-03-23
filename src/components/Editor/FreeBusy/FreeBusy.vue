@@ -278,24 +278,27 @@ export default {
 <style lang='scss' scoped>
 .modal__content {
 	padding: 50px;
-  //when the calendar is open, it's cut at the bottom, adding a margin fixes it
-  margin-bottom: 95px;
+	//when the calendar is open, it's cut at the bottom, adding a margin fixes it
+	margin-bottom: 95px;
 }
 
-::v-deep .mx-input{height: 38px !important;
+::v-deep .mx-input{
+	height: 38px !important;
 }
 
-::v-deep .icon-new-calendar {background-color: var(--color-main-background); border: none; padding: 6px; margin-top: 17px;
-  cursor: default;
+::v-deep .icon-new-calendar {
+	background-color: var(--color-main-background); border: none; padding: 6px; margin-top: 17px;
+	cursor: default;
 }
 </style>
 
 <style lang="scss">
 .blocking-event-free-busy {
-  // Show the blocking event above any other blocks, especially the *blocked for all* one
-  z-index: 3 !important;
+	// Show the blocking event above any other blocks, especially the *blocked for all* one
+	z-index: 3 !important;
 }
+
 .free-busy-block {
-  opacity: 0.7 !important;
+	opacity: 0.7 !important;
 }
 </style>
