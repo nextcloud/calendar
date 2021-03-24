@@ -1,5 +1,25 @@
 # Changelog
 
+## 2.2.0 – 2021-03-24
+### Added
+- Datepicker in free/busy view
+- Grey background for all attendees in free/busy when at least one person is busy
+- Free/busy view shows day of the week
+- Nextcloud 22 (dev) support
+### Changed
+- Improved dashboard widget styling
+- Updated translations
+- Updated dependencies
+- Vary event illustrations when multiple illustrations match
+### Fixed
+- Hide cancelled events on dashboard
+- Styling of free/busy slots
+- Browser compatibility issues
+- Search DAV principal as display name or email
+- Handling of invalid calendar objects when rending a calendar
+- Sorting of free/busy resources
+- Hover background in list view with Nextcloud's dark theme
+
 ## 2.1.3 - 2021-01-04
 ### Fixed
 - Let apps handle clicks on todo entries #2478
