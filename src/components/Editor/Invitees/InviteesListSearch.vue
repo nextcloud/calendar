@@ -186,7 +186,7 @@ export default {
 						name = email
 					}
 
-					if (this.alreadyInvitedEmails.includes(email)) {
+					if (this.alreadyInvitedEmails.includes(email) && email) {
 						return
 					}
 
@@ -220,7 +220,7 @@ export default {
 					return false
 				}
 
-				if (this.alreadyInvitedEmails.includes(principal.email) && email) {
+				if (this.alreadyInvitedEmails.includes(principal.email) && principal.email) {
 					return
 				}
 
