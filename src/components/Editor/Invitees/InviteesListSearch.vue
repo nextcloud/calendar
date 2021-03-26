@@ -220,7 +220,7 @@ export default {
 					return false
 				}
 
-				if (this.alreadyInvitedEmails.includes(principal.email) && principal.email) {
+				if (this.alreadyInvitedEmails.includes(principal.email)) {
 					return
 				}
 
