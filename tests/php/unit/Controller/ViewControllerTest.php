@@ -78,6 +78,7 @@ class ViewControllerTest extends TestCase {
 				['calendar', 'skipPopover', 'no', 'defaultSkipPopover'],
 				['calendar', 'timezone', 'automatic', 'defaultTimezone'],
 				['calendar', 'slotDuration', '00:30:00', 'defaultSlotDuration'],
+				['calendar', 'defaultReminder', 'none', 'defaultDefaultReminder'],
 				['calendar', 'showTasks', 'yes', 'defaultShowTasks'],
 				['calendar', 'installed_version', null, '1.0.0'],
 			]);
@@ -92,6 +93,7 @@ class ViewControllerTest extends TestCase {
 				['user123', 'calendar', 'skipPopover', 'defaultSkipPopover', 'yes'],
 				['user123', 'calendar', 'timezone', 'defaultTimezone', 'Europe/Berlin'],
 				['user123', 'calendar', 'slotDuration', 'defaultSlotDuration', '00:15:00'],
+				['user123', 'calendar', 'defaultReminder', 'defaultDefaultReminder', '00:10:00'],
 				['user123', 'calendar', 'showTasks', 'defaultShowTasks', '00:15:00'],
 			]);
 		$this->appManager
@@ -114,6 +116,7 @@ class ViewControllerTest extends TestCase {
 				['calendar', 'talk_enabled', true],
 				['calendar', 'timezone', 'Europe/Berlin'],
 				['calendar', 'slot_duration', '00:15:00'],
+				['calendar', 'default_reminder', '00:10:00'],
 				['calendar', 'show_tasks', false],
 				['calendar', 'tasks_enabled', true]
 			);
@@ -143,6 +146,7 @@ class ViewControllerTest extends TestCase {
 				['calendar', 'skipPopover', 'no', 'defaultSkipPopover'],
 				['calendar', 'timezone', 'automatic', 'defaultTimezone'],
 				['calendar', 'slotDuration', '00:30:00', 'defaultSlotDuration'],
+				['calendar', 'defaultReminder', 'none', 'defaultDefaultReminder'],
 				['calendar', 'showTasks', 'yes', 'defaultShowTasks'],
 				['calendar', 'installed_version', null, '1.0.0'],
 			]);
@@ -157,6 +161,7 @@ class ViewControllerTest extends TestCase {
 				['user123', 'calendar', 'skipPopover', 'defaultSkipPopover', 'yes'],
 				['user123', 'calendar', 'timezone', 'defaultTimezone', 'Europe/Berlin'],
 				['user123', 'calendar', 'slotDuration', 'defaultSlotDuration', '00:15:00'],
+				['user123', 'calendar', 'defaultReminder', 'defaultDefaultReminder', '00:10:00'],
 				['user123', 'calendar', 'showTasks', 'defaultShowTasks', '00:15:00'],
 			]);
 		$this->appManager
@@ -179,6 +184,7 @@ class ViewControllerTest extends TestCase {
 				['calendar', 'talk_enabled', true],
 				['calendar', 'timezone', 'Europe/Berlin'],
 				['calendar', 'slot_duration', '00:15:00'],
+				['calendar', 'default_reminder', '00:10:00'],
 				['calendar', 'show_tasks', false],
 				['calendar', 'tasks_enabled', false]
 			);

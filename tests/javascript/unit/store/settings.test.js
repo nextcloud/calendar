@@ -56,6 +56,7 @@ describe('store/settings test suite', () => {
 			showWeekNumbers: null,
 			skipPopover: null,
 			slotDuration: null,
+			defaultReminder: null,
 			tasksEnabled: false,
 			timezone: 'automatic',
 			momentLocale: 'en',
@@ -131,6 +132,15 @@ describe('store/settings test suite', () => {
 		expect(state.slotDuration).toEqual('00:30:00')
 	})
 
+	it('should provide a mutation to set the default reminder duration setting', () => {
+		const state = {
+			defaultReminder: 'previousValue',
+		}
+
+		settingsStore.mutations.setDefaultReminder(state, { defaultReminder: '-300' })
+		expect(state.defaultReminder).toEqual('-300')
+	})
+
 	it('should provide a mutation to set the timezone setting', () => {
 		const state = {
 			timezone: 'previousValue',
@@ -151,6 +161,7 @@ describe('store/settings test suite', () => {
 			showWeekNumbers: null,
 			skipPopover: null,
 			slotDuration: null,
+			defaultReminder: null,
 			tasksEnabled: false,
 			timezone: 'automatic',
 			momentLocale: 'en',
@@ -166,6 +177,7 @@ describe('store/settings test suite', () => {
 			showWeekends: true,
 			skipPopover: true,
 			slotDuration: '00:30:00',
+			defaultReminder: '-600',
 			talkEnabled: false,
 			tasksEnabled: true,
 			timezone: 'Europe/Berlin',
@@ -185,6 +197,7 @@ Initial settings:
 	- ShowWeekends: true
 	- SkipPopover: true
 	- SlotDuration: 00:30:00
+	- DefaultReminder: -600
 	- TalkEnabled: false
 	- TasksEnabled: true
 	- Timezone: Europe/Berlin
@@ -198,6 +211,7 @@ Initial settings:
 			showWeekends: true,
 			skipPopover: true,
 			slotDuration: '00:30:00',
+			defaultReminder: '-600',
 			talkEnabled: false,
 			tasksEnabled: true,
 			timezone: 'Europe/Berlin',
@@ -533,6 +547,38 @@ Initial settings:
 		expect(setConfig).toHaveBeenNthCalledWith(1, 'slotDuration', '00:30:00')
 		expect(commit).toHaveBeenCalledTimes(1)
 		expect(commit).toHaveBeenNthCalledWith(1, 'setSlotDuration', { slotDuration: '00:30:00' })
+	})
+
+	it('should provide an action to set the default reminder setting - same value', async () => {
+		expect.assertions(2)
+
+		const state = {
+			defaultReminder: 'none'
+		}
+		const commit = jest.fn()
+
+		await settingsStore.actions.setDefaultReminder({ state, commit }, { defaultReminder: 'none' })
+
+		expect(setConfig).toHaveBeenCalledTimes(0)
+		expect(commit).toHaveBeenCalledTimes(0)
+	})
+
+	it('should provide an action to set the default reminder setting - different value', async () => {
+		expect.assertions(4)
+
+		const state = {
+			defaultReminder: 'none'
+		}
+		const commit = jest.fn()
+
+		setConfig.mockResolvedValueOnce()
+
+		await settingsStore.actions.setDefaultReminder({ state, commit }, { defaultReminder: '00:10:00' })
+
+		expect(setConfig).toHaveBeenCalledTimes(1)
+		expect(setConfig).toHaveBeenNthCalledWith(1, 'defaultReminder', '00:10:00')
+		expect(commit).toHaveBeenCalledTimes(1)
+		expect(commit).toHaveBeenNthCalledWith(1, 'setDefaultReminder', { defaultReminder: '00:10:00' })
 	})
 
 	it('should provide an action to set the timezone setting - same value', async () => {

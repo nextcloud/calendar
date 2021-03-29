@@ -54,7 +54,8 @@
 			background-position-x: 8px;
 		}
 
-		&--slotDuration {
+		&--slotDuration,
+		&--defaultReminder {
 			display: table;
 
 			label {

@@ -38,6 +38,7 @@ const state = {
 	showWeekNumbers: null,
 	skipPopover: null,
 	slotDuration: null,
+	defaultReminder: null,
 	tasksEnabled: false,
 	timezone: 'automatic',
 	// user-defined Nextcloud settings
@@ -103,6 +104,17 @@ const mutations = {
 	},
 
 	/**
+	 * Updates the user's preferred defaultReminder
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {Object} data The destructuring object
+	 * @param {String} data.defaultReminder The new default reminder length
+	 */
+	 setDefaultReminder(state, { defaultReminder }) {
+		state.defaultReminder = defaultReminder
+	},
+
+	/**
 	 * Updates the user's timezone
 	 *
 	 * @param {Object} state The Vuex state
@@ -126,11 +138,12 @@ const mutations = {
 	 * @param {Boolean} data.showWeekends Whether or not to display weekends
 	 * @param {Boolean} data.skipPopover Whether or not to skip the simple event popover
 	 * @param {String} data.slotDuration The duration of one slot in the agendaView
+	 * @param {String} data.defaultReminder The default reminder to set on newly created events
 	 * @param {Boolean} data.talkEnabled Whether or not the talk app is enabled
 	 * @param {Boolean} data.tasksEnabled Whether ot not the tasks app is enabled
 	 * @param {String} data.timezone The timezone to view the calendar in. Either an Olsen timezone or "automatic"
 	 */
-	loadSettingsFromServer(state, { appVersion, eventLimit, firstRun, showWeekNumbers, showTasks, showWeekends, skipPopover, slotDuration, talkEnabled, tasksEnabled, timezone }) {
+	loadSettingsFromServer(state, { appVersion, eventLimit, firstRun, showWeekNumbers, showTasks, showWeekends, skipPopover, slotDuration, defaultReminder, talkEnabled, tasksEnabled, timezone }) {
 		logInfo(`
 Initial settings:
 	- AppVersion: ${appVersion}
@@ -141,6 +154,7 @@ Initial settings:
 	- ShowWeekends: ${showWeekends}
 	- SkipPopover: ${skipPopover}
 	- SlotDuration: ${slotDuration}
+	- DefaultReminder: ${defaultReminder}
 	- TalkEnabled: ${talkEnabled}
 	- TasksEnabled: ${tasksEnabled}
 	- Timezone: ${timezone}
@@ -154,6 +168,7 @@ Initial settings:
 		state.showWeekends = showWeekends
 		state.skipPopover = skipPopover
 		state.slotDuration = slotDuration
+		state.defaultReminder = defaultReminder
 		state.talkEnabled = talkEnabled
 		state.tasksEnabled = tasksEnabled
 		state.timezone = timezone
@@ -317,6 +332,24 @@ const actions = {
 
 		await setConfig('slotDuration', slotDuration)
 		commit('setSlotDuration', { slotDuration })
+	},
+
+	/**
+	 * Updates the user's preferred defaultReminder
+	 *
+	 * @param {Object} vuex The Vuex destructuring object
+	 * @param {Object} vuex.state The Vuex state
+	 * @param {Function} vuex.commit The Vuex commit Function
+	 * @param {Object} data The destructuring object
+	 * @param {String} data.defaultReminder The new default reminder
+	 */
+	async setDefaultReminder({ state, commit }, { defaultReminder }) {
+		if (state.defaultReminder === defaultReminder) {
+			return
+		}
+
+		await setConfig('defaultReminder', defaultReminder)
+		commit('setDefaultReminder', { defaultReminder })
 	},
 
 	/**
