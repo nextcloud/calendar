@@ -66,7 +66,9 @@
 				{{ $t('calendar', 'Show week numbers') }}
 			</ActionCheckbox>
 			<li class="settings-fieldset-interior-item settings-fieldset-interior-item--slotDuration">
+				<label for="slotDuration">{{ $t('calendar', 'Time increments') }}</label>
 				<Multiselect
+					:id="slotDuration"
 					:allow-empty="false"
 					:options="slotDurationOptions"
 					:value="selectedDurationOption"
