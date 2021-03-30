@@ -68,7 +68,6 @@ OC.L10N.register(
     "Categories" : "Kategorioj",
     "Add this as a new category" : "Aldoni tion kiel novan kategorion",
     "Mail" : "Retpoŝtilo",
-    "Play" : "Ludi",
     "Global" : "Monda"
 },
 "nplurals=2; plural=(n != 1);");

@@ -31,7 +31,6 @@ OC.L10N.register(
     "today" : "Bu gün",
     "Location" : "Yerləşdiyiniz ünvan",
     "Description" : "Açıqlanma",
-    "Mail" : "Məktub",
-    "Play" : "Oxu"
+    "Mail" : "Məktub"
 },
 "nplurals=2; plural=(n != 1);");

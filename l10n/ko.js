@@ -143,7 +143,6 @@ OC.L10N.register(
     "Movie" : "영화",
     "Review" : "Review",
     "Mail" : "메일",
-    "Play" : "재생",
     "Video-call" : "영상 통화",
     "Shopping" : "쇼핑",
     "Golf" : "골프",

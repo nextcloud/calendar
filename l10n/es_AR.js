@@ -73,7 +73,6 @@ OC.L10N.register(
     "Categories" : "Categoría",
     "Movie" : "Película",
     "Mail" : "Correo Electrónico",
-    "Play" : "Reproducir",
     "Global" : "Global"
 },
 "nplurals=2; plural=(n != 1);");

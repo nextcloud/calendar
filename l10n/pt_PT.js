@@ -133,7 +133,6 @@ OC.L10N.register(
     "Review" : "Rever",
     "Office" : "Escritório",
     "Mail" : "Correio",
-    "Play" : "Reproduzir",
     "Global" : "Global"
 },
 "nplurals=2; plural=(n != 1);");

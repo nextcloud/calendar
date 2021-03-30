@@ -47,7 +47,6 @@ OC.L10N.register(
     "Tentative" : "Tentative",
     "Presentation" : "Presentation",
     "Mail" : "Posta",
-    "Play" : "Reproducer",
     "Global" : "Global"
 },
 "nplurals=2; plural=(n != 1);");

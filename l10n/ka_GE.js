@@ -58,7 +58,6 @@ OC.L10N.register(
     "Tentative" : "საცდელი",
     "Categories" : "კატეგორიები",
     "Mail" : "ფოსტა",
-    "Play" : "დაკვრა",
     "Global" : "გლობალური"
 },
 "nplurals=2; plural=(n!=1);");

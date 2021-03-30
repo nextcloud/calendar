@@ -52,7 +52,6 @@ OC.L10N.register(
     "Tentative" : "Урьдчилсан тов",
     "Categories" : "төрөл",
     "Mail" : "Цахим шуудан",
-    "Play" : "Тоглуулах",
     "Global" : "Нийтийн"
 },
 "nplurals=2; plural=(n != 1);");

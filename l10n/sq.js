@@ -58,7 +58,6 @@ OC.L10N.register(
     "Presentation" : "Paraqitje",
     "Office" : "Zyrë",
     "Mail" : "Posta",
-    "Play" : "Luaj",
     "Global" : "Globale"
 },
 "nplurals=2; plural=(n != 1);");

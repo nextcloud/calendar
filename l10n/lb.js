@@ -40,7 +40,6 @@ OC.L10N.register(
     "Location" : "Uert",
     "Description" : "Beschreiwung",
     "Mail" : "Mail",
-    "Play" : "Ofspillen",
     "Global" : "Global"
 },
 "nplurals=2; plural=(n != 1);");

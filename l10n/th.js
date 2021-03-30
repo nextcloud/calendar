@@ -45,7 +45,6 @@ OC.L10N.register(
     "Presentation" : "งานนำเสนอ",
     "Office" : "สำนักงาน",
     "Mail" : "จดหมาย",
-    "Play" : "เล่น",
     "Global" : "ทั่วไป"
 },
 "nplurals=1; plural=0;");

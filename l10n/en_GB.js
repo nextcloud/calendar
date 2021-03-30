@@ -63,7 +63,6 @@ OC.L10N.register(
     "Review" : "Review",
     "Office" : "Office",
     "Mail" : "Mail",
-    "Play" : "Play",
     "Global" : "Global"
 },
 "nplurals=2; plural=(n != 1);");

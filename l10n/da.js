@@ -139,7 +139,6 @@ OC.L10N.register(
     "Review" : "Gennemse",
     "Office" : "Kontor",
     "Mail" : "Mail",
-    "Play" : "Afspil",
     "Global" : "Global"
 },
 "nplurals=2; plural=(n != 1);");

@@ -130,11 +130,8 @@
     "Presentation" : "Presentacion",
     "Movie" : "Film",
     "Cinema" : "Cinèma",
-    "Party" : "Fèsta",
     "Mail" : "Mail",
     "Gaming" : "Vidèo-jòc",
-    "Play" : "Aviar",
-    "Game" : "Jòc",
     "Bicycle" : "Bicicleta",
     "Fishing" : "Pesca",
     "Hiking" : "Escalada",
@@ -150,6 +147,7 @@
     "Conference" : "Conferéncia",
     "Pizza" : "Pizza",
     "Travelling" : "Viatge",
+    "Party" : "Fèsta",
     "Shopping" : "Crompas",
     "Global" : "Global"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"

@@ -32,7 +32,6 @@ OC.L10N.register(
     "Description" : "Նկարագրություն",
     "Confirmed" : "Հաստատված",
     "Mail" : "Փոստ",
-    "Play" : "Նվագարկել",
     "Global" : "Ընդհանուր"
 },
 "nplurals=2; plural=(n != 1);");

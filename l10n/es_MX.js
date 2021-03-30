@@ -63,7 +63,6 @@ OC.L10N.register(
     "Presentation" : "Presentación",
     "Office" : "Office",
     "Mail" : "Correo",
-    "Play" : "Reproducir",
     "Global" : "Global"
 },
 "nplurals=2; plural=(n != 1);");

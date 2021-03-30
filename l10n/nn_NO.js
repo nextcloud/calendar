@@ -45,7 +45,6 @@ OC.L10N.register(
     "Confirmed" : "Stadfesta",
     "Tentative" : "Førebels",
     "Mail" : "Post",
-    "Play" : "Spel",
     "Global" : "Global"
 },
 "nplurals=2; plural=(n != 1);");

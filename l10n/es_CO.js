@@ -60,7 +60,6 @@ OC.L10N.register(
     "Tentative" : "Tentativo",
     "Categories" : "Categorías",
     "Mail" : "Correo",
-    "Play" : "Reproducir",
     "Global" : "Global"
 },
 "nplurals=2; plural=(n != 1);");
