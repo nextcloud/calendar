@@ -73,6 +73,8 @@ export default {
 				timeGridWeek_Num: [2],
 				dayGridMonth: ['m'],
 				dayGridMonth_Num: [3],
+				listMonth: ['l'],
+				listMonth_Num: [4],
 			}
 		},
 		defaultIcon() {
