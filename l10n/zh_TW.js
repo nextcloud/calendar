@@ -351,6 +351,7 @@ OC.L10N.register(
     "Bicycle" : "單車",
     "Cycle" : "腳踏車",
     "Biking" : "自行車",
+    "Bike" : "腳踏車",
     "Podcast" : "Podcast",
     "Basketball" : "籃球",
     "Fishing" : "釣魚",
