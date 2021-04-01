@@ -351,6 +351,7 @@ OC.L10N.register(
     "Bicycle" : "Bicicleta",
     "Cycle" : "Bicicleta",
     "Biking" : "Ciclismo",
+    "Bike" : "Bicicleta ",
     "Podcast" : "Podcast",
     "Basketball" : "Basquete",
     "Fishing" : "Pesca",
