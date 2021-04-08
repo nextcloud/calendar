@@ -36,7 +36,7 @@
 	},
 	"dependencies": {
 		"@fullcalendar/core": "5.6.0",
-		"@fullcalendar/daygrid": "5.5.0",
+		"@fullcalendar/daygrid": "5.6.0",
 		"@fullcalendar/interaction": "5.5.0",
 		"@fullcalendar/list": "5.5.0",
 		"@fullcalendar/resource-timeline": "5.5.0",
