@@ -97,6 +97,9 @@ export default {
 				}, {
 					keys: [['3'], ['m']],
 					label: t('calendar', 'Month view'),
+				}, {
+					keys: [['4'], ['l']],
+					label: t('calendar', 'List view'),
 				}],
 			}, {
 				categoryId: 'actions',
