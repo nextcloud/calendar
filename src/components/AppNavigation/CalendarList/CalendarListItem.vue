@@ -488,3 +488,11 @@ export default {
 	},
 }
 </script>
+<style lang="scss" scoped>
+::v-deep .action-input {
+  margin-top: 0 !important;
+}
+::v-deep .action-button {
+  width: 217px !important;
+}
+</style>
