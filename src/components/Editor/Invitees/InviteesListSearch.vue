@@ -107,7 +107,7 @@ export default {
 	},
 	computed: {
 		placeholder() {
-			return this.$t('calendar', 'Search for e-mails, users, contacts, resources or rooms')
+			return this.$t('calendar', 'Search for emails, users, contacts, resources or rooms')
 		},
 		noResult() {
 			return this.$t('calendar', 'No match found')
