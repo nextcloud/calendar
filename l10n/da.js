@@ -88,7 +88,6 @@ OC.L10N.register(
     "Busy" : "Optaget",
     "Unknown" : "Ukendt",
     "Create Talk room for this event" : "Opret Snak rum for denne begivenhed",
-    "Send e-mail" : "Send e-mail",
     "Event title" : "Titel",
     "All day" : "Hele dagen",
     "from {startDate}" : "fra {startDate}",

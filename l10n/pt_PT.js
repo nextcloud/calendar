@@ -86,7 +86,6 @@ OC.L10N.register(
     "Unknown" : "Desconhecido",
     "{name} accepted your invitation." : "{name} aceitou o seu convite.",
     "{name} accepted {organizerName}'s invitation." : "{name} aceitou o convite de {organizerName}.",
-    "Send e-mail" : "Enviar e-mail",
     "All day" : "Todo o dia",
     "never" : "nunca",
     "after" : "depois",

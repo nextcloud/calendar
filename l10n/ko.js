@@ -85,7 +85,6 @@ OC.L10N.register(
     "Busy" : "바쁨",
     "Unknown" : "알 수 없음",
     "Create Talk room for this event" : "이 이벤트에 대한 대화방 만들기",
-    "Search for e-mails, users, contacts, resources or rooms" : "이메일, 사용자, 주소록, 파일, 대화방 검색",
     "No attendees yet" : "아직 참석자가 없습니다",
     "Event title" : "이벤트 제목",
     "All day" : "하루 종일",
