@@ -184,7 +184,7 @@ export default {
 				return null
 			}
 
-			return this.$t('calendar', 'Can not modify all-day setting for events that are part of a recurrence-set.')
+			return this.$t('calendar', 'Cannot modify all-day setting for events that are part of a recurrence-set.')
 		},
 		/**
 		 *
