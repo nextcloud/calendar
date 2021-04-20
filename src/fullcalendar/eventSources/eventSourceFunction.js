@@ -73,10 +73,12 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 				jsStart = object.startDate.getInTimezone(timezone).jsDate
 				jsEnd = object.endDate.getInTimezone(timezone).jsDate
 			} else if (object.name === 'VTODO') {
-				// For tasks, we only want to display when it is due,
-				// not for how long it has been in progress already
-				jsStart = object.endDate.getInTimezone(timezone).jsDate
-				jsEnd = object.endDate.getInTimezone(timezone).jsDate
+				jsStart = jsEnd = object.endDate.getInTimezone(timezone).jsDate
+				
+				// If available, set task start to allow visualization
+				if (object.startDate){
+					jsStart = object.startDate.getInTimezone(timezone).jsDate
+				}
 			} else {
 				// We do not want to display anything that's neither
 				// an event nor a task
