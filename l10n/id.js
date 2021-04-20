@@ -152,7 +152,6 @@ OC.L10N.register(
     "Remove color" : "Hapus warna",
     "Event title" : "Judul acara",
     "All day" : "Sepanjang hari",
-    "Can not modify all-day setting for events that are part of a recurrence-set." : "Tidak dapat mengubah setelan sepanjang hari, dari rangkaian acara berulang.",
     "End repeat" : "Akhiri perulangan",
     "Select to end repeat" : "Pilih untuk mengakhiri perulangan",
     "never" : "tidak pernah",

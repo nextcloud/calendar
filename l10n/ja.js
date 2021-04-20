@@ -160,7 +160,6 @@ OC.L10N.register(
     "Remove color" : "色を削除",
     "Event title" : "イベントタイトル",
     "All day" : "終日",
-    "Can not modify all-day setting for events that are part of a recurrence-set." : "繰り返しの一部であるイベントの終日設定を変更することはできません。",
     "from {startDate}" : "{startDate}から",
     "from {startDate} at {startTime}" : "{startDate}の{startTime}から",
     "to {endDate}" : "{endDate}まで",
