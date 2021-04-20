@@ -213,6 +213,22 @@
 		}
 	}
 
+	.fc-task-checkbox {
+		border-style: solid;
+		border-width: 2px;
+		border-radius: 4px;
+		height: 16px;
+		width: 16px;
+	}
+
+	.fc-task-checkbox--checked {
+		border-style: solid;
+		border-width: 8px;
+		border-radius: 4px;
+		height: 16px;
+		width: 16px;
+	}
+
 	.fc-list-event-checkbox {
 		margin: 2px 4px 0 -2px;
 		line-height: 1;
