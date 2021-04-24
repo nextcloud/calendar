@@ -74,9 +74,9 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 				jsEnd = object.endDate.getInTimezone(timezone).jsDate
 			} else if (object.name === 'VTODO') {
 				jsStart = jsEnd = object.endDate.getInTimezone(timezone).jsDate
-				
+
 				// If available, set task start to allow visualization
-				if (object.startDate){
+				if (object.startDate) {
 					jsStart = object.startDate.getInTimezone(timezone).jsDate
 				}
 			} else {
