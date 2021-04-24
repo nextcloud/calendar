@@ -367,7 +367,7 @@ OC.L10N.register(
     "Doctor" : "Arzt",
     "Health" : "Gesundheit",
     "Dentist" : "Zahnarzt",
-    "Interview" : "Interview",
+    "Interview" : "Vorstellungsgespräch",
     "Training" : "Training",
     "Practice" : "Übung",
     "Sports" : "Sport",
