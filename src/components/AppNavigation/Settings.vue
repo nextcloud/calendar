@@ -20,79 +20,92 @@
   -->
 
 <template>
-	<AppNavigationSettings :title="settingsTitle">
+	<!--  <AppNavigationSettings icon="icon-settings"
+                         :close-after-click="true"
+                         @click="showCalendarSettings"
+                         @shortkey="toggleCalendarSettings">
+    {{ t('calendar', 'Settings and Imports') }}
+  </AppNavigationSettings>-->
+	<AppSettingsDialog :open.sync="showSettings"
+		:show-navigation="true">
 		<ul class="settings-fieldset-interior">
-			<SettingsImportSection :is-disabled="loadingCalendars" />
-			<ActionCheckbox
-				class="settings-fieldset-interior-item"
-				:checked="birthdayCalendar"
-				:disabled="isBirthdayCalendarDisabled"
-				@update:checked="toggleBirthdayEnabled">
-				{{ $t('calendar', 'Enable birthday calendar') }}
-			</ActionCheckbox>
-			<ActionCheckbox
-				class="settings-fieldset-interior-item"
-				:checked="showTasks"
-				:disabled="savingTasks"
-				@update:checked="toggleTasksEnabled">
-				{{ $t('calendar', 'Show tasks in calendar') }}
-			</ActionCheckbox>
-			<ActionCheckbox
-				class="settings-fieldset-interior-item"
-				:checked="showPopover"
-				:disabled="savingPopover"
-				@update:checked="togglePopoverEnabled">
-				{{ $t('calendar', 'Enable simplified editor') }}
-			</ActionCheckbox>
-			<ActionCheckbox
-				class="settings-fieldset-interior-item"
-				:checked="eventLimit"
-				:disabled="savingEventLimit"
-				@update:checked="toggleEventLimitEnabled">
-				{{ $t('calendar', 'Limit visible events per view') }}
-			</ActionCheckbox>
-			<ActionCheckbox
-				class="settings-fieldset-interior-item"
-				:checked="showWeekends"
-				:disabled="savingWeekend"
-				@update:checked="toggleWeekendsEnabled">
-				{{ $t('calendar', 'Show weekends') }}
-			</ActionCheckbox>
-			<ActionCheckbox
-				class="settings-fieldset-interior-item"
-				:checked="showWeekNumbers"
-				:disabled="savingWeekNumber"
-				@update:checked="toggleWeekNumberEnabled">
-				{{ $t('calendar', 'Show week numbers') }}
-			</ActionCheckbox>
-			<li class="settings-fieldset-interior-item settings-fieldset-interior-item--slotDuration">
-				<Multiselect
-					:allow-empty="false"
-					:options="slotDurationOptions"
-					:value="selectedDurationOption"
-					:disabled="savingSlotDuration"
-					track-by="value"
-					label="label"
-					@select="changeSlotDuration" />
-			</li>
-			<SettingsTimezoneSelect :is-disabled="loadingCalendars" />
-			<ActionButton class="settings-fieldset-interior-item" icon="icon-clippy" @click.prevent.stop="copyPrimaryCalDAV">
-				{{ $t('calendar', 'Copy primary CalDAV address') }}
-			</ActionButton>
-			<ActionButton class="settings-fieldset-interior-item" icon="icon-clippy" @click.prevent.stop="copyAppleCalDAV">
-				{{ $t('calendar', 'Copy iOS/macOS CalDAV address') }}
-			</ActionButton>
-			<ActionButton
-				v-shortkey.propagate="['h']"
-				class="settings-fieldset-interior-item"
-				icon="icon-info"
-				@click.prevent.stop="showKeyboardShortcuts"
-				@shortkey.native="toggleKeyboardShortcuts">
-				{{ $t('calendar', 'Show keyboard shortcuts') }}
-			</ActionButton>
-			<ShortcutOverview v-if="displayKeyboardShortcuts" @close="hideKeyboardShortcuts" />
+			<AppSettingsSection :title="t('calendar', 'Import')">
+				<SettingsImportSection :is-disabled="loadingCalendars" />
+			</AppSettingsSection>
+			<AppSettingsSection :title="'Birthday Calendar'">
+				<ActionCheckbox
+					class="settings-fieldset-interior-item"
+					:checked="birthdayCalendar"
+					:disabled="isBirthdayCalendarDisabled"
+					@update:checked="toggleBirthdayEnabled">
+					{{ $t('calendar', 'Enable birthday calendar') }}
+				</ActionCheckbox>
+				<ActionCheckbox
+					class="settings-fieldset-interior-item"
+					:checked="showTasks"
+					:disabled="savingTasks"
+					@update:checked="toggleTasksEnabled">
+					{{ $t('calendar', 'Show tasks in calendar') }}
+				</ActionCheckbox>
+				<ActionCheckbox
+					class="settings-fieldset-interior-item"
+					:checked="showPopover"
+					:disabled="savingPopover"
+					@update:checked="togglePopoverEnabled">
+					{{ $t('calendar', 'Enable simplified editor') }}
+				</ActionCheckbox>
+				<ActionCheckbox
+					class="settings-fieldset-interior-item"
+					:checked="eventLimit"
+					:disabled="savingEventLimit"
+					@update:checked="toggleEventLimitEnabled">
+					{{ $t('calendar', 'Limit visible events per view') }}
+				</ActionCheckbox>
+				<ActionCheckbox
+					class="settings-fieldset-interior-item"
+					:checked="showWeekends"
+					:disabled="savingWeekend"
+					@update:checked="toggleWeekendsEnabled">
+					{{ $t('calendar', 'Show weekends') }}
+				</ActionCheckbox>
+				<ActionCheckbox
+					class="settings-fieldset-interior-item"
+					:checked="showWeekNumbers"
+					:disabled="savingWeekNumber"
+					@update:checked="toggleWeekNumberEnabled">
+					{{ $t('calendar', 'Show week numbers') }}
+				</ActionCheckbox>
+			</AppSettingsSection>
+			<AppSettingsSection :title="'Others'">
+				<li class="settings-fieldset-interior-item settings-fieldset-interior-item--slotDuration">
+					<Multiselect
+						:allow-empty="false"
+						:options="slotDurationOptions"
+						:value="selectedDurationOption"
+						:disabled="savingSlotDuration"
+						track-by="value"
+						label="label"
+						@select="changeSlotDuration" />
+				</li>
+				<SettingsTimezoneSelect :is-disabled="loadingCalendars" />
+				<ActionButton class="settings-fieldset-interior-item" icon="icon-clippy" @click.prevent.stop="copyPrimaryCalDAV">
+					{{ $t('calendar', 'Copy primary CalDAV address') }}
+				</ActionButton>
+				<ActionButton class="settings-fieldset-interior-item" icon="icon-clippy" @click.prevent.stop="copyAppleCalDAV">
+					{{ $t('calendar', 'Copy iOS/macOS CalDAV address') }}
+				</ActionButton>
+				<ActionButton
+					v-shortkey.propagate="['h']"
+					class="settings-fieldset-interior-item"
+					icon="icon-info"
+					@click.prevent.stop="showKeyboardShortcuts"
+					@shortkey.native="toggleKeyboardShortcuts">
+					{{ $t('calendar', 'Show keyboard shortcuts') }}
+				</ActionButton>
+				<ShortcutOverview v-if="displayKeyboardShortcuts" @close="hideKeyboardShortcuts" />
+			</AppSettingsSection>
 		</ul>
-	</AppNavigationSettings>
+	</AppSettingsDialog>
 </template>
 
 <script>
@@ -123,7 +136,8 @@ import {
 	IMPORT_STAGE_IMPORTING,
 	IMPORT_STAGE_PROCESSING,
 } from '../../models/consts.js'
-
+import AppSettingsDialog from '@nextcloud/vue/dist/Components/AppSettingsDialog'
+import AppSettingsSection from '@nextcloud/vue/dist/Components/AppSettingsSection'
 export default {
 	name: 'Settings',
 	components: {
@@ -134,6 +148,8 @@ export default {
 		Multiselect,
 		SettingsImportSection,
 		SettingsTimezoneSelect,
+		AppSettingsDialog,
+		AppSettingsSection,
 	},
 	props: {
 		loadingCalendars: {
@@ -143,6 +159,7 @@ export default {
 	},
 	data: function() {
 		return {
+			showSettings: false,
 			savingBirthdayCalendar: false,
 			savingEventLimit: false,
 			savingTasks: false,
@@ -356,6 +373,12 @@ export default {
 		 */
 		toggleKeyboardShortcuts() {
 			this.displayKeyboardShortcuts = !this.displayKeyboardShortcuts
+		},
+		showCalendarSettings() {
+			this.showSettings = true
+		},
+		toggleCalendarSettings() {
+			this.displayAccountSettings = !this.displayAccountSettings
 		},
 	},
 }
