@@ -20,8 +20,14 @@ updates:
   open-pull-requests-limit: 10
   labels:
   - 3 - to review
-  ignore:
-  - dependency-name: css-loader
-    versions:
-    - ">= 4.a"
-    - "< 5"
+- package-ecosystem: npm
+  directory: "/"
+  target_branch: "stable2.2"
+  schedule:
+    interval: weekly
+    day: saturday
+    time: "03:00"
+    timezone: Europe/Paris
+  open-pull-requests-limit: 10
+  labels:
+  - 3 - to review
