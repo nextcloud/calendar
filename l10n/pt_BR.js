@@ -231,7 +231,7 @@ OC.L10N.register(
     "[Last] dddd" : "[Último] dddd",
     "Event does not exist" : "O evento não existe",
     "Delete this occurrence" : "Excluir esta ocorrência",
-    "Delete this and all future" : "Excluir isso e todo os futuros",
+    "Delete this and all future" : "Excluir esta e todas as futuras",
     "Details" : "Detalhes",
     "Attendees" : "Participantes",
     "Reminders" : "Lembretes",
