@@ -15,7 +15,7 @@
 * ☑️ Tasks! See tasks with a due date directly in the calendar
 * 🙈 **We’re not reinventing the wheel!** Based on the great [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries.
 	]]></description>
-	<version>2.2.0</version>
+	<version>2.2.1</version>
 	<licence>agpl</licence>
 	<author homepage="https://georg.coffee">Georg Ehrke</author>
 	<author homepage="https://tcit.fr">Thomas Citharel</author>
