@@ -111,7 +111,7 @@ OC.L10N.register(
     "Show tasks in calendar" : "Toon taken in agenda",
     "Enable simplified editor" : "Eenvoudige editor inschakelen",
     "Limit visible events per view" : "Beperk aantal zichtbare afspraken per overzicht",
-    "Show weekends" : "Toon weekends",
+    "Show weekends" : "Toon weekenden",
     "Show week numbers" : "Tonen weeknummers",
     "Copy primary CalDAV address" : "Kopieer primair CalDAV adres",
     "Copy iOS/macOS CalDAV address" : "Kopieer iOS/macOS CalDAV adres",
