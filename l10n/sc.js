@@ -51,7 +51,7 @@ OC.L10N.register(
     "Delete share link" : "Cantzella ligòngiu de cumpartzidura",
     "Deleting share link …" : "Cantzellende su ligòngiu de cumpartzidura …",
     "An error occurred, unable to publish calendar." : "Ddoe at àpidu un'errore, no at fatu a publicare su calendàriu.",
-    "An error occurred, unable to send email." : "Ddoe at àpidu un'errore, no at fatu a imbiare su messàgiu de posta.",
+    "An error occurred, unable to send email." : "B'at àpidu un'errore, no at fatu a imbiare su messàgiu de posta.",
     "Share with users or groups" : "Cumpartzi cun utentes o grupos",
     "No users or groups" : "Peruna utèntzia o grupu",
     "can edit" : "podet modificare",
