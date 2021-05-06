@@ -62,8 +62,7 @@ const mutations = {
 	 */
 	addCalendar(state, { calendar }) {
 		const object = getDefaultCalendarObject(calendar)
-
-		state.calendars.push(object)
+		state.calendars.splice(object.dav.order, 0, object)
 		Vue.set(state.calendarsById, object.id, object)
 	},
 
@@ -427,6 +426,17 @@ const getters = {
 			return true
 		})
 	},
+
+	/**
+	 * Gets all calendarObjects for a given calendar.
+	 *
+	 * @param {Object} state the store data
+	 * @param {String} calendarId the id of the calendar
+	 * @returns {function({String}): {Object}}
+	 */
+	getAllCalendarObjectsForCalendar: (state) => (calendarId) =>
+		state.calendarsById[calendarId].calendarObjects
+	,
 }
 
 const actions = {
@@ -447,7 +457,32 @@ const actions = {
 		return state.calendars
 	},
 
+	async syncCalendars({ getters, dispatch }) {
+		const calendars = await dispatch('getNewAndUpdatedCalendars')
+		calendars.forEach(calendar => dispatch('updateCalendar', { calendar }))
+	},
+
 	/**
+	 * Fetch calendars from the server and return the new ones and
+	 * those that have changed compared to those currently in state.
+	 *
+	 * @param {Object} context the store mutations
+	 * @returns {Promise<Array>} the calendars
+	 */
+	async getNewAndUpdatedCalendars({ commit, state, getters }) {
+		const calendars = await findAllCalendars()
+		const principal = getters.getCurrentUserPrincipal
+		return calendars
+			.map((calendar) => mapDavCollectionToCalendar(calendar, principal))
+			.filter(retrieved => {
+				const stored = getters.getCalendarById(retrieved.id)
+				const updated = stored && (stored.dav.syncToken !== retrieved.dav.syncToken)
+				return !stored || updated
+			})
+	},
+
+	/**
+	 * Retrieve and commit public calendars by token
 	 *
 	 * @param {Object} vuex The destructuring object for vuex
 	 * @param {Function} vuex.commit The Vuex commit function
@@ -467,6 +502,30 @@ const actions = {
 
 		commit('initialCalendarsLoaded')
 		return calendarObjects
+	},
+
+	async syncPublicCalendars({ getters, dispatch }, { tokens }) {
+		const updated = await dispatch('getUpdatedPublicCalendars', { tokens })
+		updated.forEach(calendar => dispatch('updateCalendar', { calendar }))
+	},
+
+	/**
+	 * Fetch all public calendars from the server and return those
+	 * that have changed compared to those currently in state.
+	 *
+	 * @param {Object} vuex The destructuring object for vuex
+	 * @param {Object} vuex.getters The Vuex getters Object
+	 * @param {Object} data The data destructuring object
+	 * @param {String[]} data.tokens The tokens to load
+	 * @returns {Promise<Object[]>}
+	 */
+	async getUpdatedPublicCalendars({ getters }, { tokens }) {
+		const calendars = await findPublicCalendarsByTokens(tokens)
+		return calendars.map(mapDavCollectionToCalendar)
+			.filter(retrieved => {
+				const stored = getters.getCalendarById(retrieved.id)
+				return (stored.dav.syncToken !== retrieved.dav.syncToken)
+			})
 	},
 
 	/**
@@ -565,6 +624,53 @@ const actions = {
 
 		await calendar.dav.update()
 		context.commit('renameCalendar', { calendar, newName })
+	},
+
+	/**
+	 * Update a calendar to a new state as fetched from the server
+	 *
+	 * This will primarily update the syncToken of the calendar
+	 * and clear all cached data so that the calendar effectively
+	 * reloads.
+	 *
+	 * @param {Object} vuex The destructuring object for vuex
+	 * @param {Function} vuex.commit The Vuex commit function
+	 * @param {Object} vuex.dispatch The Vuex dispatch
+	 * @param {Object} data destructuring object
+	 * @param {Object} data.calendar the calendar to delete
+	 */
+	updateCalendar({ commit, dispatch }, { calendar }) {
+		dispatch('cleanupCalendar', calendar)
+		commit('addCalendar', { calendar })
+	},
+
+	/**
+	 * Cleanup a calendar if it exists
+	 *
+	 * Remove the calendar from the current state including
+	 * all cached data (TimeRanges and calendarObjects).
+	 *
+	 * @param {Object} vuex The destructuring object for vuex
+	 * @param {Function} vuex.commit The Vuex commit function
+	 * @param {Object} vuex.dispatch The Vuex dispatch
+	 * @param {Object} calendar destructuring object
+	 * @param {Object} calendar.id the id of the calendar to delete
+	 */
+	cleanupCalendar({ commit, getters }, { id }) {
+		const calendar = getters.getCalendarById(id)
+		if (calendar) {
+			commit('markCalendarAsLoading', { calendar })
+			getters.getAllTimeRangesForCalendar(calendar.id)
+				.forEach(timeRange => {
+					commit('removeTimeRange', { timeRangeId: timeRange.id })
+				})
+			getters.getAllCalendarObjectsForCalendar(calendar.id)
+				.forEach(id => {
+					const calendarObject = { id }
+					commit('deleteCalendarObject', { calendarObject })
+				})
+			commit('deleteCalendar', { calendar })
+		}
 	},
 
 	/**

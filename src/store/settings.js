@@ -25,6 +25,7 @@ import { detectTimezone } from '../services/timezoneDetectionService'
 import { setConfig as setCalendarJsConfig } from 'calendar-js'
 import { setConfig } from '../services/settings.js'
 import { logInfo } from '../utils/logger.js'
+import moment from '@nextcloud/moment'
 
 const state = {
 	// env
@@ -38,6 +39,7 @@ const state = {
 	showWeekNumbers: null,
 	skipPopover: null,
 	slotDuration: null,
+	syncTimeout: null,
 	tasksEnabled: false,
 	timezone: 'automatic',
 	// user-defined Nextcloud settings
@@ -126,11 +128,12 @@ const mutations = {
 	 * @param {Boolean} data.showWeekends Whether or not to display weekends
 	 * @param {Boolean} data.skipPopover Whether or not to skip the simple event popover
 	 * @param {String} data.slotDuration The duration of one slot in the agendaView
+	 * @param {String} data.syncTimeout The timeout between fetching updates from the server
 	 * @param {Boolean} data.talkEnabled Whether or not the talk app is enabled
 	 * @param {Boolean} data.tasksEnabled Whether ot not the tasks app is enabled
 	 * @param {String} data.timezone The timezone to view the calendar in. Either an Olsen timezone or "automatic"
 	 */
-	loadSettingsFromServer(state, { appVersion, eventLimit, firstRun, showWeekNumbers, showTasks, showWeekends, skipPopover, slotDuration, talkEnabled, tasksEnabled, timezone }) {
+	loadSettingsFromServer(state, { appVersion, eventLimit, firstRun, showWeekNumbers, showTasks, showWeekends, skipPopover, slotDuration, syncTimeout, talkEnabled, tasksEnabled, timezone }) {
 		logInfo(`
 Initial settings:
 	- AppVersion: ${appVersion}
@@ -141,6 +144,7 @@ Initial settings:
 	- ShowWeekends: ${showWeekends}
 	- SkipPopover: ${skipPopover}
 	- SlotDuration: ${slotDuration}
+	- SyncTimeout: ${syncTimeout}
 	- TalkEnabled: ${talkEnabled}
 	- TasksEnabled: ${tasksEnabled}
 	- Timezone: ${timezone}
@@ -154,6 +158,7 @@ Initial settings:
 		state.showWeekends = showWeekends
 		state.skipPopover = skipPopover
 		state.slotDuration = slotDuration
+		state.syncTimeout = syncTimeout
 		state.talkEnabled = talkEnabled
 		state.tasksEnabled = tasksEnabled
 		state.timezone = timezone
@@ -186,6 +191,14 @@ const getters = {
 	getResolvedTimezone: (state) => state.timezone === 'automatic'
 		? detectTimezone()
 		: state.timezone,
+
+	/**
+	 * Gets the sync timeout in milliseconds.
+	 *
+	 * @param {Object} state The Vuex state
+	 * @returns {Integer}
+	 */
+	getSyncTimeout: (state) => moment.duration(state.syncTimeout).asMilliseconds(),
 }
 
 const actions = {

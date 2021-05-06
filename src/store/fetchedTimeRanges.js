@@ -151,7 +151,7 @@ const mutations = {
 	},
 
 	/**
-	 * Adds a calendar-object-id to all time-ranges of a given caloendar
+	 * Adds a calendar-object-id to all time-ranges of a given calendar
 	 *
 	 * @param {Object} state The vuex state
 	 * @param {Object} data The destructuring object
@@ -171,7 +171,7 @@ const mutations = {
 	},
 
 	/**
-	 * Removes a calendar-object-id to all time-ranges of a given caloendar
+	 * Removes a calendar-object-id from all time-ranges of a given calendar
 	 *
 	 * @param {Object} state The vuex state
 	 * @param {Object} data The destructuring object

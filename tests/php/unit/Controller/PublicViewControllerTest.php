@@ -63,7 +63,7 @@ class PublicViewControllerTest extends TestCase {
 	}
 
 	public function testPublicIndexWithBranding():void {
-		$this->config->expects(self::exactly(9))
+		$this->config->expects(self::exactly(10))
 			->method('getAppValue')
 			->willReturnMap([
 				['calendar', 'eventLimit', 'yes', 'no'],
@@ -74,6 +74,7 @@ class PublicViewControllerTest extends TestCase {
 				['calendar', 'timezone', 'automatic', 'defaultTimezone'],
 				['calendar', 'slotDuration', '00:30:00', 'defaultSlotDuration'],
 				['calendar', 'showTasks', 'yes', 'yes'],
+				['calendar', 'syncTimeout', 'PT1M', 'defaultSyncTimeout'],
 				['calendar', 'installed_version', null, '1.0.0']
 			]);
 
@@ -99,7 +100,7 @@ class PublicViewControllerTest extends TestCase {
 			->with('imagePath456')
 			->willReturn('absoluteImagePath456');
 
-		$this->initialStateService->expects(self::exactly(12))
+		$this->initialStateService->expects(self::exactly(13))
 			->method('provideInitialState')
 			->withConsecutive(
 				['calendar', 'app_version', '1.0.0'],
@@ -113,6 +114,7 @@ class PublicViewControllerTest extends TestCase {
 				['calendar', 'timezone', 'defaultTimezone'],
 				['calendar', 'slot_duration', 'defaultSlotDuration'],
 				['calendar', 'show_tasks', true],
+				['calendar', 'sync_timeout', 'defaultSyncTimeout'],
 				['calendar', 'tasks_enabled', false]
 			);
 
@@ -139,6 +141,7 @@ class PublicViewControllerTest extends TestCase {
 				['calendar', 'timezone', 'automatic', 'defaultTimezone'],
 				['calendar', 'slotDuration', '00:30:00', 'defaultSlotDuration'],
 				['calendar', 'showTasks', 'yes', 'defaultShowTasks'],
+				['calendar', 'syncTimeout', 'PT1M', 'defaultSyncTimeout'],
 				['calendar', 'installed_version', null, '1.0.0']
 			]);
 		$this->request->expects(self::once())
@@ -163,7 +166,7 @@ class PublicViewControllerTest extends TestCase {
 			->with('imagePath456')
 			->willReturn('absoluteImagePath456');
 
-		$this->initialStateService->expects(self::exactly(12))
+		$this->initialStateService->expects(self::exactly(13))
 			->method('provideInitialState')
 			->withConsecutive(
 				['calendar', 'app_version', '1.0.0'],
@@ -177,6 +180,7 @@ class PublicViewControllerTest extends TestCase {
 				['calendar', 'timezone', 'defaultTimezone'],
 				['calendar', 'slot_duration', 'defaultSlotDuration'],
 				['calendar', 'show_tasks', false],
+				['calendar', 'sync_timeout', 'defaultSyncTimeout'],
 				['calendar', 'tasks_enabled', false]
 			);
 

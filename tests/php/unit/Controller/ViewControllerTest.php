@@ -79,6 +79,7 @@ class ViewControllerTest extends TestCase {
 				['calendar', 'timezone', 'automatic', 'defaultTimezone'],
 				['calendar', 'slotDuration', '00:30:00', 'defaultSlotDuration'],
 				['calendar', 'showTasks', 'yes', 'defaultShowTasks'],
+				['calendar', 'syncTimeout', 'PT1M', 'PT1M'],
 				['calendar', 'installed_version', null, '1.0.0'],
 			]);
 		$this->config
@@ -115,6 +116,7 @@ class ViewControllerTest extends TestCase {
 				['calendar', 'timezone', 'Europe/Berlin'],
 				['calendar', 'slot_duration', '00:15:00'],
 				['calendar', 'show_tasks', false],
+				['calendar', 'sync_timeout', 'PT1M'],
 				['calendar', 'tasks_enabled', true]
 			);
 
@@ -144,6 +146,7 @@ class ViewControllerTest extends TestCase {
 				['calendar', 'timezone', 'automatic', 'defaultTimezone'],
 				['calendar', 'slotDuration', '00:30:00', 'defaultSlotDuration'],
 				['calendar', 'showTasks', 'yes', 'defaultShowTasks'],
+				['calendar', 'syncTimeout', 'PT1M', 'PT1M'],
 				['calendar', 'installed_version', null, '1.0.0'],
 			]);
 		$this->config
@@ -180,6 +183,7 @@ class ViewControllerTest extends TestCase {
 				['calendar', 'timezone', 'Europe/Berlin'],
 				['calendar', 'slot_duration', '00:15:00'],
 				['calendar', 'show_tasks', false],
+				['calendar', 'sync_timeout', 'PT1M'],
 				['calendar', 'tasks_enabled', false]
 			);
 

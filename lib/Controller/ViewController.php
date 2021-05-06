@@ -106,6 +106,7 @@ class ViewController extends Controller {
 		$timezone = $this->config->getUserValue($this->userId, $this->appName, 'timezone', $defaultTimezone);
 		$slotDuration = $this->config->getUserValue($this->userId, $this->appName, 'slotDuration', $defaultSlotDuration);
 		$showTasks = $this->config->getUserValue($this->userId, $this->appName, 'showTasks', $defaultShowTasks) === 'yes';
+		$syncTimeout = $this->config->getAppValue($this->appName, 'syncTimeout', 'PT1M');
 
 		$talkEnabled = $this->appManager->isEnabledForUser('spreed');
 		$tasksEnabled = $this->appManager->isEnabledForUser('tasks');
@@ -121,6 +122,7 @@ class ViewController extends Controller {
 		$this->initialStateService->provideInitialState($this->appName, 'timezone', $timezone);
 		$this->initialStateService->provideInitialState($this->appName, 'slot_duration', $slotDuration);
 		$this->initialStateService->provideInitialState($this->appName, 'show_tasks', $showTasks);
+		$this->initialStateService->provideInitialState($this->appName, 'sync_timeout', $syncTimeout);
 		$this->initialStateService->provideInitialState($this->appName, 'tasks_enabled', $tasksEnabled);
 
 		return new TemplateResponse($this->appName, 'main');
