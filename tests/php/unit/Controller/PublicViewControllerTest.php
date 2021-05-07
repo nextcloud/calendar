@@ -63,7 +63,7 @@ class PublicViewControllerTest extends TestCase {
 	}
 
 	public function testPublicIndexWithBranding():void {
-		$this->config->expects(self::exactly(9))
+		$this->config->expects(self::exactly(10))
 			->method('getAppValue')
 			->willReturnMap([
 				['calendar', 'eventLimit', 'yes', 'no'],
@@ -73,6 +73,7 @@ class PublicViewControllerTest extends TestCase {
 				['calendar', 'skipPopover', 'yes', 'yes'],
 				['calendar', 'timezone', 'automatic', 'defaultTimezone'],
 				['calendar', 'slotDuration', '00:30:00', 'defaultSlotDuration'],
+				['calendar', 'defaultReminder', 'none', 'defaultDefaultReminder'],
 				['calendar', 'showTasks', 'yes', 'yes'],
 				['calendar', 'installed_version', null, '1.0.0']
 			]);
@@ -99,7 +100,7 @@ class PublicViewControllerTest extends TestCase {
 			->with('imagePath456')
 			->willReturn('absoluteImagePath456');
 
-		$this->initialStateService->expects(self::exactly(12))
+		$this->initialStateService->expects(self::exactly(13))
 			->method('provideInitialState')
 			->withConsecutive(
 				['calendar', 'app_version', '1.0.0'],
@@ -112,6 +113,7 @@ class PublicViewControllerTest extends TestCase {
 				['calendar', 'talk_enabled', false],
 				['calendar', 'timezone', 'defaultTimezone'],
 				['calendar', 'slot_duration', 'defaultSlotDuration'],
+				['calendar', 'default_reminder', 'defaultDefaultReminder'],
 				['calendar', 'show_tasks', true],
 				['calendar', 'tasks_enabled', false]
 			);
@@ -138,6 +140,7 @@ class PublicViewControllerTest extends TestCase {
 				['calendar', 'skipPopover', 'yes', 'yes'],
 				['calendar', 'timezone', 'automatic', 'defaultTimezone'],
 				['calendar', 'slotDuration', '00:30:00', 'defaultSlotDuration'],
+				['calendar', 'defaultReminder', 'none', 'defaultDefaultReminder'],
 				['calendar', 'showTasks', 'yes', 'defaultShowTasks'],
 				['calendar', 'installed_version', null, '1.0.0']
 			]);
@@ -163,7 +166,7 @@ class PublicViewControllerTest extends TestCase {
 			->with('imagePath456')
 			->willReturn('absoluteImagePath456');
 
-		$this->initialStateService->expects(self::exactly(12))
+		$this->initialStateService->expects(self::exactly(13))
 			->method('provideInitialState')
 			->withConsecutive(
 				['calendar', 'app_version', '1.0.0'],
@@ -176,6 +179,7 @@ class PublicViewControllerTest extends TestCase {
 				['calendar', 'talk_enabled', false],
 				['calendar', 'timezone', 'defaultTimezone'],
 				['calendar', 'slot_duration', 'defaultSlotDuration'],
+				['calendar', 'default_reminder', 'defaultDefaultReminder'],
 				['calendar', 'show_tasks', false],
 				['calendar', 'tasks_enabled', false]
 			);

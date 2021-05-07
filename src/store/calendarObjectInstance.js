@@ -45,6 +45,8 @@ import {
 } from '../utils/color.js'
 import { mapAlarmComponentToAlarmObject } from '../models/alarm.js'
 import { getObjectAtRecurrenceId } from '../utils/calendarObject.js'
+import logger from '../utils/logger.js'
+import settings from './settings.js'
 
 const state = {
 	isNew: null,
@@ -1429,6 +1431,18 @@ const actions = {
 		const startDate = new Date(start * 1000)
 		const eventComponent = getObjectAtRecurrenceId(calendarObject, startDate)
 		const calendarObjectInstance = mapEventComponentToEventObject(eventComponent)
+
+		// Add an alarm if the user set a default one in the settings. If
+		// not, defaultReminder will not be a number (rather the string "none").
+		const defaultReminder = parseInt(settings.state.defaultReminder)
+		if (!isNaN(defaultReminder)) {
+			commit('addAlarmToCalendarObjectInstance', {
+				calendarObjectInstance: calendarObjectInstance,
+				type: 'DISPLAY',
+				totalSeconds: defaultReminder,
+			})
+			logger.debug(`Added defaultReminder (${defaultReminder}s) to newly created event`)
+		}
 
 		commit('setCalendarObjectInstanceForNewEvent', {
 			calendarObject,

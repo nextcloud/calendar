@@ -66,7 +66,9 @@
 				{{ $t('calendar', 'Show week numbers') }}
 			</ActionCheckbox>
 			<li class="settings-fieldset-interior-item settings-fieldset-interior-item--slotDuration">
+				<label for="slotDuration">{{ $t('calendar', 'Time increments') }}</label>
 				<Multiselect
+					:id="slotDuration"
 					:allow-empty="false"
 					:options="slotDurationOptions"
 					:value="selectedDurationOption"
@@ -74,6 +76,18 @@
 					track-by="value"
 					label="label"
 					@select="changeSlotDuration" />
+			</li>
+			<li class="settings-fieldset-interior-item settings-fieldset-interior-item--defaultReminder">
+				<label for="defaultReminder">{{ $t('calendar', 'Default reminder') }}</label>
+				<Multiselect
+					:id="defaultReminder"
+					:allow-empty="false"
+					:options="defaultReminderOptions"
+					:value="selectedDefaultReminderOption"
+					:disabled="savingDefaultReminder"
+					track-by="value"
+					label="label"
+					@select="changeDefaultReminder" />
 			</li>
 			<SettingsTimezoneSelect :is-disabled="loadingCalendars" />
 			<ActionButton class="settings-fieldset-interior-item" icon="icon-clippy" @click.prevent.stop="copyPrimaryCalDAV">
@@ -124,6 +138,8 @@ import {
 	IMPORT_STAGE_PROCESSING,
 } from '../../models/consts.js'
 
+import { getDefaultAlarms } from '../../defaults/defaultAlarmProvider.js'
+
 export default {
 	name: 'Settings',
 	components: {
@@ -148,6 +164,7 @@ export default {
 			savingTasks: false,
 			savingPopover: false,
 			savingSlotDuration: false,
+			savingDefaultReminder: false,
 			savingWeekend: false,
 			savingWeekNumber: false,
 			displayKeyboardShortcuts: false,
@@ -164,6 +181,7 @@ export default {
 			showWeekends: state => state.settings.showWeekends,
 			showWeekNumbers: state => state.settings.showWeekNumbers,
 			slotDuration: state => state.settings.slotDuration,
+			defaultReminder: state => state.settings.defaultReminder,
 			timezone: state => state.settings.timezone,
 			locale: (state) => state.settings.momentLocale,
 		}),
@@ -208,6 +226,22 @@ export default {
 		},
 		selectedDurationOption() {
 			return this.slotDurationOptions.find(o => o.value === this.slotDuration)
+		},
+		defaultReminderOptions() {
+			const defaultAlarms = getDefaultAlarms().map(seconds => {
+				return {
+					label: moment.duration(Math.abs(seconds) * 1000).locale(this.locale).humanize(),
+					value: seconds.toString(),
+				}
+			})
+
+			return [{
+				label: this.$t('calendar', 'No reminder'),
+				value: 'none',
+			}].concat(defaultAlarms)
+		},
+		selectedDefaultReminderOption() {
+			return this.defaultReminderOptions.find(o => o.value === this.defaultReminder)
 		},
 	},
 	methods: {
@@ -308,6 +342,30 @@ export default {
 				console.error(error)
 				showError(this.$t('calendar', 'New setting was not saved successfully.'))
 				this.savingSlotDuration = false
+			}
+		},
+		/**
+		 * Updates the setting for the default reminder
+		 *
+		 * @param {Object} option The new selected value
+		 */
+		async changeDefaultReminder(option) {
+			if (!option) {
+				return
+			}
+
+			// change to loading status
+			this.savingDefaultReminder = true
+
+			try {
+				await this.$store.dispatch('setDefaultReminder', {
+					defaultReminder: option.value,
+				})
+				this.savingDefaultReminder = false
+			} catch (error) {
+				console.error(error)
+				showError(this.$t('calendar', 'New setting was not saved successfully.'))
+				this.savingDefaultReminder = false
 			}
 		},
 		/**

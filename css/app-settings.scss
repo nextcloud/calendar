@@ -55,9 +55,24 @@
 		}
 
 		&--slotDuration,
+		&--defaultReminder {
+			display: table;
+
+			label {
+				display: table-cell;
+				min-width: 50%;
+				vertical-align: middle;
+			}
+
+			.multiselect {
+				display: table-cell;
+				width: 50%;
+			}
+		}
+		
 		&--timezone {
 			width: 100%;
-
+		
 			.multiselect {
 				width: 100%;
 			}
