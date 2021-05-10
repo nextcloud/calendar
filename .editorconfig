@@ -6,7 +6,7 @@ charset = utf-8
 end_of_line = lf
 insert_final_newline = true
 
-[*.{js,php}]
+[*.{js,php,vue}]
 indent_style = tab
 insert_final_newline = true
 
