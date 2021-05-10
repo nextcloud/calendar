@@ -114,7 +114,7 @@ OC.L10N.register(
     "Show weekends" : "Pokaż weekendy",
     "Show week numbers" : "Pokaż numery tygodni",
     "Time increments" : "Przyrosty czasu",
-    "Default reminder" : "Domyślne przypomnienie",
+    "Default reminder" : "Przypomnienie domyślne",
     "Copy primary CalDAV address" : "Kopiuj główny adres CalDAV",
     "Copy iOS/macOS CalDAV address" : "Kopiuj adres CalDAV dla iOS/macOS",
     "Show keyboard shortcuts" : "Pokaż skróty klawiaturowe",
