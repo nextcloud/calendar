@@ -12,7 +12,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14]
+        node-version: [14, 15, 16]
 
     name: node${{ matrix.node-version }}
     steps:
