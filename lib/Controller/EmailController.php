@@ -134,7 +134,7 @@ class EmailController extends Controller {
 		}
 
 		return new JSONResponse([
-			'message' => $this->l10n->t('Successfully sent email to ' . $recipient),
+			'message' => $this->l10n->t('Successfully sent email to %1$s', [$recipient]),
 		]);
 	}
 
