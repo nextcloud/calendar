@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "User-Session unexpectedly expired" : "පරිශීලක-සැසිය අනපේක්ෂිත ලෙස කල් ඉකුත් විය",
     "Provided email-address is not valid" : "සපයා ඇති විද්‍යුත් තැපැල් ලිපිනය වලංගු නොවේ",
-    "Successfully sent email to " : "වෙත සාර්ථකව විද්‍යුත් තැපෑල යවන ලදි",
     "Hello," : "ආයුබෝවන්,",
     "Cheers!" : "ජයවේවා!",
     "Calendar" : "දින දර්ශනය",

@@ -5,7 +5,6 @@ OC.L10N.register(
     "Provided email-address is not valid" : "提供的電郵地址無效",
     "%s has published the calendar »%s«" : "%s 發佈了日曆 »%s«",
     "Unexpected error sending email. Please contact your administrator." : "傳送電子郵件出現意外的錯誤。請聯絡系統管理員。",
-    "Successfully sent email to " : "成功傳送電子郵件給",
     "Hello," : "嗨，",
     "We wanted to inform you that %s has published the calendar »%s«." : "通知您，%s 發佈了日曆 »%s«。",
     "Open »%s«" : "開啟 »%s«",

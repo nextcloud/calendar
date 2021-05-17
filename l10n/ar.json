@@ -3,7 +3,6 @@
     "Provided email-address is not valid" : "البريد المدخل غير صحيح",
     "%s has published the calendar »%s«" : "%s نشر التقويم »%s«",
     "Unexpected error sending email. Please contact your administrator." : "حدث خطأ اثناء إرسال البريد، تحقق من اعدادات البريد او تواصل مع مسؤول النظام.",
-    "Successfully sent email to " : "تم ارسال البريد بنجاح",
     "Hello," : "مرحبا %s،",
     "We wanted to inform you that %s has published the calendar »%s«." : "المستخدم %s قام بنشر تقويم »%s«.",
     "Open »%s«" : "فتح »%s«",

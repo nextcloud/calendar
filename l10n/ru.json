@@ -3,7 +3,6 @@
     "Provided email-address is not valid" : "Указанный адрес электронной почты недействителен",
     "%s has published the calendar »%s«" : "%s опубликовал календарь «%s»",
     "Unexpected error sending email. Please contact your administrator." : "Неожиданная ошибка отправки электронной почты. Сообщите об этом  администратору.",
-    "Successfully sent email to " : "Письмо успешно отправлено по адресу",
     "Hello," : "Здравствуйте,",
     "We wanted to inform you that %s has published the calendar »%s«." : "Хотим сообщить, что %s опубликовал(а) календарь «%s».",
     "Open »%s«" : "Открыть «%s»",

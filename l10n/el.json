@@ -3,7 +3,6 @@
     "Provided email-address is not valid" : "Η διεύθυνση email δεν είναι έγκυρη",
     "%s has published the calendar »%s«" : "Ο %s έχει δημοσιεύσει το ημερολόγιο »%s«",
     "Unexpected error sending email. Please contact your administrator." : "Απροσδόκητο σφάλμα στην αποστολή email. Παρακαλώ επικοινωνήστε με τον διαχειριστή.",
-    "Successfully sent email to " : "Επιτυχής αποστολή email σε",
     "Hello," : "Γεια σας,",
     "We wanted to inform you that %s has published the calendar »%s«." : "Θα θέλαμε να σας πληροφορήσουμε ότι  ο χρήστης %s δημοσίευσε το ημερολόγιο »%s«.",
     "Open »%s«" : "Άνοιγμα »%s«",

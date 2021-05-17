@@ -5,7 +5,6 @@ OC.L10N.register(
     "Provided email-address is not valid" : "Unesena adresa e-pošte nije važeća",
     "%s has published the calendar »%s«" : "%s je objavio kalendar »%s«",
     "Unexpected error sending email. Please contact your administrator." : "Došlo je do pogreške pri slanju poruke e-pošte. Obratite se svom administratoru.",
-    "Successfully sent email to " : "Poruka e-pošte uspješno poslana ",
     "Hello," : "Pozdrav,",
     "We wanted to inform you that %s has published the calendar »%s«." : "htjeli bismo vas obavijestiti da je %s objavio kalendar »%s«.",
     "Open »%s«" : "Otvori »%s«",

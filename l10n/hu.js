@@ -5,7 +5,6 @@ OC.L10N.register(
     "Provided email-address is not valid" : "A megadott email cím nem érvényes",
     "%s has published the calendar »%s«" : "%s közzétette ezt a naptárt: »%s«",
     "Unexpected error sending email. Please contact your administrator." : "Váratlan hiba üzenet küldés közben. Kérem lépjen kapcsolatba a rendszergazdával.",
-    "Successfully sent email to " : "Üzenet sikeresen elküldve, ennek:",
     "Hello," : "Szia!",
     "We wanted to inform you that %s has published the calendar »%s«." : "Szeretnénk tájékoztatni, hogy %s közzétette ezt a naptárt: %s.",
     "Open »%s«" : "»%s« megnyitása",

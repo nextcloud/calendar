@@ -3,7 +3,6 @@
     "Provided email-address is not valid" : "Belirtilen e-posta adresi geçersiz",
     "%s has published the calendar »%s«" : "%s, »%s« takvimini yayınladı",
     "Unexpected error sending email. Please contact your administrator." : "E-posta gönderilirken beklenmeyen bir sorun çıktı. Lütfen BT yöneticiniz ile görüşün.",
-    "Successfully sent email to " : "E-posta şu adrese gönderildi",
     "Hello," : "Merhaba,",
     "We wanted to inform you that %s has published the calendar »%s«." : "Bu ileti %s tarafından »%s« takviminin yayınlandığını bildirmek için gönderilmiştir.",
     "Open »%s«" : "»%s« Aç",

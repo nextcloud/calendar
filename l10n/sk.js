@@ -5,7 +5,6 @@ OC.L10N.register(
     "Provided email-address is not valid" : "Zadaná adresa e-mailu nie je platná",
     "%s has published the calendar »%s«" : "Používateľ %s zverejnil kalendár %s",
     "Unexpected error sending email. Please contact your administrator." : "Neočakávaná chyba počas odosielania e-mailu. Obráťte sa na správcu",
-    "Successfully sent email to " : "E-mail bol úspešne odoslaný na",
     "Hello," : "Ahoj,",
     "We wanted to inform you that %s has published the calendar »%s«." : "Chceme vás upozorniť, že používateľ %s zverejnil kalendár %s",
     "Open »%s«" : "Otvoriť »%s«",

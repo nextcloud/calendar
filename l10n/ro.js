@@ -4,7 +4,6 @@ OC.L10N.register(
     "Provided email-address is not valid" : "Adresa de email furnizată este invalidă",
     "%s has published the calendar »%s«" : "%sa publicat calendarul »%s«",
     "Unexpected error sending email. Please contact your administrator." : "Eroare neașteptată la trimiterea emailului. Vă rog contactați-vă administratorul.",
-    "Successfully sent email to " : "Email trimis cu succes la ",
     "Hello," : "Salut,",
     "We wanted to inform you that %s has published the calendar »%s«." : "Vă informăm că %sa publicat calendarul »%s«.",
     "Open »%s«" : "Accesează »%s«",

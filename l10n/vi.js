@@ -5,7 +5,6 @@ OC.L10N.register(
     "Provided email-address is not valid" : "Thư điện tử được cung cấp không khả dụng",
     "%s has published the calendar »%s«" : "%s vừa đăng tải thông tin vào lịch »%s«",
     "Unexpected error sending email. Please contact your administrator." : "Một lỗi không mong đợi khi đang gửi thư điện tử. Vui lòng liên hệ quản trị viên của bạn",
-    "Successfully sent email to " : "Đã hoàn thành việc gửi thư điện tử đến",
     "Hello," : "Xin chào,",
     "We wanted to inform you that %s has published the calendar »%s«." : "Chúng tôi muốn thông báo với bạn rằng %s vừa đăng tải thông tin vào lịch »%s«.",
     "Open »%s«" : "Mở »%s«",

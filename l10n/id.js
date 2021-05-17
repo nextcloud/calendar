@@ -4,7 +4,6 @@ OC.L10N.register(
     "Provided email-address is not valid" : "Alamat surel tidak valid",
     "%s has published the calendar »%s«" : "%s telah mempublikasikan kalender »%s«",
     "Unexpected error sending email. Please contact your administrator." : "Galat saat mengirim surel. Silakan hubungi administrator Anda.",
-    "Successfully sent email to " : "Berhasil mengirim surel ke",
     "Hello," : "Halo,",
     "We wanted to inform you that %s has published the calendar »%s«." : "Kami ingin menginformasikan anda bahwa %s telah mempublikasikan kalender »%s«.",
     "Open »%s«" : "Buka »%s«",

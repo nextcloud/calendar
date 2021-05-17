@@ -5,7 +5,6 @@ OC.L10N.register(
     "Provided email-address is not valid" : "Предоставеният е-мейл адрес е невалиден",
     "%s has published the calendar »%s«" : "%s е публикувал календар »%s«",
     "Unexpected error sending email. Please contact your administrator." : "Неочаквана грешка при изпращането на имейл. Моля, свържете се с вашия администратор.",
-    "Successfully sent email to " : "Успешно изпратен имейл до",
     "Hello," : "Здравейте, ",
     "We wanted to inform you that %s has published the calendar »%s«." : "Информираме ви, че%s е публикувал календарът »%s«.",
     "Open »%s«" : "Отвори »%s«",

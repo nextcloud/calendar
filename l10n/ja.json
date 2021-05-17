@@ -3,7 +3,6 @@
     "Provided email-address is not valid" : "メールアドレスが有効ではありません",
     "%s has published the calendar »%s«" : "%sをカレンダー »%s«に登録しました",
     "Unexpected error sending email. Please contact your administrator." : "メール送信時の予期せぬエラー。管理者に連絡してください。",
-    "Successfully sent email to " : "メールを次の宛先へ送信しました：",
     "Hello," : "こんにちは。",
     "We wanted to inform you that %s has published the calendar »%s«." : "%sがカレンダー»%s«に登録されましたのでお知らせします。",
     "Open »%s«" : "»%s«を開く",

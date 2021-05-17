@@ -5,7 +5,6 @@ OC.L10N.register(
     "Provided email-address is not valid" : "Uppgefið tölvupóstfang er ekki gilt",
     "%s has published the calendar »%s«" : "%s gaf út dagatalið »%s«",
     "Unexpected error sending email. Please contact your administrator." : "Óvænt vandamál kom upp við að senda tölvupóst. Hafðu samband við kerfisstjóra.",
-    "Successfully sent email to " : "Tókst að senda tölvupóst til",
     "Hello," : "Halló,",
     "We wanted to inform you that %s has published the calendar »%s«." : "Við vildum láta þig vita að %s gaf út dagatalið »%s«.",
     "Open »%s«" : "Opna »%s«",

@@ -5,7 +5,6 @@ OC.L10N.register(
     "Provided email-address is not valid" : "Direizh eo ar chomlec'h postel",
     "%s has published the calendar »%s«" : "%s en deus embannet un deiziataer »%s«",
     "Unexpected error sending email. Please contact your administrator." : "C'hoarvezet ez eus ur fazi dic'hortoz en ur gas ar postel. Kit e darempred gant ho merour.",
-    "Successfully sent email to " : "Kaset eo bet ar postel ervat da",
     "Hello," : "Demat deoc'h,",
     "We wanted to inform you that %s has published the calendar »%s«." : "Kemenn a reomp deoc'h ez eus bet %s embannet un deiziataer » gant %s«",
     "Open »%s«" : "Digeriñ  »%s«",

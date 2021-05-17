@@ -3,7 +3,6 @@
     "Provided email-address is not valid" : "Надано некоректну адресу електронної пошти ",
     "%s has published the calendar »%s«" : "%s опублікував календар »%s«",
     "Unexpected error sending email. Please contact your administrator." : "Виникла несподівана помилка під час надсилання електронного повідомлення. Будь-ласка повідомте Вашого адміністратора.",
-    "Successfully sent email to " : "Успішно надіслано електроннний лист",
     "Hello," : "Вітаємо,",
     "We wanted to inform you that %s has published the calendar »%s«." : "We wanted to inform you that %s has published the calendar »%s.",
     "Open »%s«" : "Відкрити 1%s",

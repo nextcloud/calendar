@@ -2,7 +2,6 @@ OC.L10N.register(
     "calendar",
     {
     "Provided email-address is not valid" : "La dirección de E Mail proporcionada no es valida",
-    "Successfully sent email to " : "E Mail enviado satisfactoriamente a",
     "Hello," : "Hola,",
     "Open »%s«" : "Abrir »%s«",
     "Cheers!" : "¡Saludos!",

@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Provided email-address is not valid" : "Oppgitt e-postadresse er ikke gyldig",
     "%s has published the calendar »%s«" : "%s har publisert kalenderen \"%s\"",
-    "Successfully sent email to " : "E-post er sendt til",
     "Hello," : "Hei,",
     "We wanted to inform you that %s has published the calendar »%s«." : "Vi ønsker å informere deg om at %s har publisert kalenderen \"%s\".",
     "Open »%s«" : "Åpne \"%s\"",

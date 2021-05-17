@@ -3,7 +3,6 @@
     "Provided email-address is not valid" : "Den angivna e-postadressen är inte giltig",
     "%s has published the calendar »%s«" : "%s har publicerat kalender »%s«",
     "Unexpected error sending email. Please contact your administrator." : "Oväntat fel vid skickande av e-post. Kontakta din administratör.",
-    "Successfully sent email to " : "Skickade e-post till",
     "Hello," : "Hej,",
     "We wanted to inform you that %s has published the calendar »%s«." : "Vi vill informera dig att %s har publicerat kalendern »%s«.",
     "Open »%s«" : "Öppna »%s«",

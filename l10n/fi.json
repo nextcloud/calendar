@@ -3,7 +3,6 @@
     "Provided email-address is not valid" : "Sähköpostiosoite on virheellinen",
     "%s has published the calendar »%s«" : "%s on julkaissut kalenterin  »%s«",
     "Unexpected error sending email. Please contact your administrator." : "Odottamaton virhe sähköpostia lähettäessä. Ole yhteydessä ylläpitoon.",
-    "Successfully sent email to " : "Sähköposti lähetettiin onnistuneesti",
     "Hello," : "Hei",
     "We wanted to inform you that %s has published the calendar »%s«." : "Halusimme ilmoittaa, että %s on julkaissut kalenterin »%s«.",
     "Open »%s«" : "Avaa »%s«",

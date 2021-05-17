@@ -5,7 +5,6 @@ OC.L10N.register(
     "Provided email-address is not valid" : "지정한 파일이 사진이 아님",
     "%s has published the calendar »%s«" : "%s 님이 달력 \"%s\"을(를) 공개했습니다",
     "Unexpected error sending email. Please contact your administrator." : "재설정 메일을 보낼 수 없습니다. 관리자에게 문의하십시오.",
-    "Successfully sent email to " : "성공적으로 이메일을 보냈습니다. ",
     "Hello," : "안녕하세요,",
     "We wanted to inform you that %s has published the calendar »%s«." : "%s 님이 달력 \"%s\"을(를) 공개했음을 알려 드립니다.",
     "Open »%s«" : "%s 열기",

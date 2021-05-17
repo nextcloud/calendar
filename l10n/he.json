@@ -3,7 +3,6 @@
     "Provided email-address is not valid" : "כתובת הדוא\"ל שצוינה אינה חוקית",
     "%s has published the calendar »%s«" : "%sפרסם את לוח השנה»%s«",
     "Unexpected error sending email. Please contact your administrator." : "שגיאה לא צפויה בשליחת דוא\"ל. אנא פנה למנהל המערכת שלך.",
-    "Successfully sent email to " : "דוא\"ל נשלח בהצלחה אל",
     "Hello," : "שלום,",
     "We wanted to inform you that %s has published the calendar »%s«." : "רצינו להודיע לך ש-%s פירסם את לוח השנה. »%s«.",
     "Open »%s«" : "פתיחת „%s”",
