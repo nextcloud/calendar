@@ -112,7 +112,7 @@
 		"resolve-url-loader": "^4.0.0",
 		"sass": "^1.32.12",
 		"sass-loader": "^10.1.1",
-		"stylelint": "^13.13.0",
+		"stylelint": "^13.13.1",
 		"stylelint-bare-webpack-plugin": "^2.1.0",
 		"stylelint-config-recommended-scss": "^4.2.0",
 		"stylelint-scss": "^3.19.0",
