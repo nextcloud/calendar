@@ -5,6 +5,7 @@ OC.L10N.register(
     "Provided email-address is not valid" : "提供的电子邮件地址无效",
     "%s has published the calendar »%s«" : "%s 已经发布了日历 »%s«",
     "Unexpected error sending email. Please contact your administrator." : "发送电子邮件时出现意外错误。请联系您的管理员。",
+    "Successfully sent email to %1$s" : "成功将电子邮件发送到 %1$s",
     "Hello," : "你好，",
     "We wanted to inform you that %s has published the calendar »%s«." : "我们想通知您，%s 已发布日历 »%s«。",
     "Open »%s«" : "打开 »%s«",

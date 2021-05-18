@@ -112,6 +112,7 @@ OC.L10N.register(
     "Limit visible events per view" : "Riboti matomus įvykius pagal rodinį",
     "Show weekends" : "Rodyti savaitgalius",
     "Show week numbers" : "Rodyti savaičių numerius",
+    "Default reminder" : "Numatytasis priminimas",
     "Copy primary CalDAV address" : "Kopijuoti pirminį CalDAV adresą",
     "Copy iOS/macOS CalDAV address" : "Kopijuoti iOS/macOS CalDAV adresą",
     "Show keyboard shortcuts" : "Rodyti klaviatūros kombinacijas",
