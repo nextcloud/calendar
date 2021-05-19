@@ -3,6 +3,7 @@
     "Provided email-address is not valid" : "Angegebene E-Mail-Adresse ist ungültig",
     "%s has published the calendar »%s«" : "%s hat den Kalender »%s« veröffentlicht",
     "Unexpected error sending email. Please contact your administrator." : "Unerwarteter Fehler beim Senden der E-Mail. Bitte kontaktiere den Administrator.",
+    "Successfully sent email to %1$s" : "E-Mail erfolgreich an %1$sgesendet",
     "Hello," : "Hallo,",
     "We wanted to inform you that %s has published the calendar »%s«." : "Information: %s hat den Kalender »%s« veröffentlicht.",
     "Open »%s«" : "»%s« öffnen",
