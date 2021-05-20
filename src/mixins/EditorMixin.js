@@ -603,7 +603,15 @@ export default {
 				const end = parseInt(to.params.dtend, 10)
 				const timezoneId = vm.$store.getters.getResolvedTimezone
 
-				const component = { isAllDay, start, end, timezoneId, title: to.query.title, description: to.query.description }
+				const component = {
+					isAllDay,
+					start,
+					end,
+					timezoneId,
+					title: to.query.title,
+					description: to.query.description,
+					alarms: to.query.alarms == null ? null : JSON.parse(to.query.alarms),
+				}
 
 				try {
 					await vm.loadingCalendars()
