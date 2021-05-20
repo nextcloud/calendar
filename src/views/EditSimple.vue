@@ -22,96 +22,114 @@
 <template>
 	<Popover
 		ref="popover"
-		:open="isVisible"
+		:open="true"
 		:auto-hide="false"
 		:placement="placement"
 		:boundaries-element="boundaryElement"
 		open-class="event-popover"
 		trigger="manual">
-		<PopoverLoadingIndicator
-			v-if="isLoading" />
+		<template v-if="isLoading">
+			<PopoverLoadingIndicator />
+		</template>
 
-		<div class="event-popover__top-right-actions">
-			<Actions v-if="!isLoading && isReadOnly">
-				<ActionButton
-					icon="icon-fullscreen"
-					@click="showMore">
-					{{ $t('calendar', 'Show more details') }}
-				</ActionButton>
-			</Actions>
-			<Actions v-if="!isLoading">
-				<ActionButton
-					icon="icon-close"
-					@click="cancel">
-					{{ $t('calendar', 'Close') }}
-				</ActionButton>
-			</Actions>
-		</div>
+		<template v-else-if="isError">
+			<div class="event-popover__top-right-actions">
+				<Actions>
+					<ActionButton
+						icon="icon-close"
+						@click="cancel">
+						{{ $t('calendar', 'Close') }}
+					</ActionButton>
+				</Actions>
+			</div>
 
-		<IllustrationHeader
-			v-if="!isLoading"
-			:color="illustrationColor"
-			:illustration-url="backgroundImage" />
+			<EmptyContent icon="icon-calendar-dark">
+				{{ $t('calendar', 'Event does not exist') }}
+				<template #desc>
+					{{ error }}
+				</template>
+			</EmptyContent>
+		</template>
 
-		<PropertyTitle
-			v-if="!isLoading"
-			:value="title"
-			:is-read-only="isReadOnly"
-			@update:value="updateTitle" />
+		<template v-else>
+			<div class="event-popover__top-right-actions">
+				<Actions v-if="isReadOnly">
+					<ActionButton
+						icon="icon-fullscreen"
+						@click="showMore">
+						{{ $t('calendar', 'Show more details') }}
+					</ActionButton>
+				</Actions>
+				<Actions>
+					<ActionButton
+						icon="icon-close"
+						@click="cancel">
+						{{ $t('calendar', 'Close') }}
+					</ActionButton>
+				</Actions>
+			</div>
 
-		<PropertyTitleTimePicker
-			v-if="!isLoading"
-			:start-date="startDate"
-			:start-timezone="startTimezone"
-			:end-date="endDate"
-			:end-timezone="endTimezone"
-			:is-all-day="isAllDay"
-			:is-read-only="isReadOnly"
-			:can-modify-all-day="canModifyAllDay"
-			:user-timezone="currentUserTimezone"
-			@updateStartDate="updateStartDate"
-			@updateStartTimezone="updateStartTimezone"
-			@updateEndDate="updateEndDate"
-			@updateEndTimezone="updateEndTimezone"
-			@toggleAllDay="toggleAllDay" />
+			<IllustrationHeader
+				:color="illustrationColor"
+				:illustration-url="backgroundImage" />
 
-		<PropertyCalendarPicker
-			v-if="!isLoading && showCalendarPicker"
-			:calendars="calendars"
-			:calendar="selectedCalendar"
-			:is-read-only="isReadOnly"
-			@selectCalendar="changeCalendar" />
+			<PropertyTitle
+				:value="title"
+				:is-read-only="isReadOnly"
+				@update:value="updateTitle" />
 
-		<PropertyText
-			v-if="!isLoading && hasLocation"
-			:autosize="isExpanded"
-			:is-read-only="isReadOnly"
-			:prop-model="rfcProps.location"
-			:value="location"
-			@update:value="updateLocation" />
-		<PropertyText
-			v-if="!isLoading && hasDescription"
-			:autosize="isExpanded"
-			:is-read-only="isReadOnly"
-			:prop-model="rfcProps.description"
-			:value="description"
-			@update:value="updateDescription" />
+			<PropertyCalendarPicker
+				v-if="showCalendarPicker"
+				:calendars="calendars"
+				:calendar="selectedCalendar"
+				:is-read-only="isReadOnly"
+				@selectCalendar="changeCalendar" />
 
-		<SaveButtons
-			v-if="!isLoading && !isReadOnly"
-			class="event-popover__buttons"
-			:can-create-recurrence-exception="canCreateRecurrenceException"
-			:is-new="isNew"
-			:force-this-and-all-future="forceThisAndAllFuture"
-			:show-more-button="true"
-			@saveThisOnly="saveAndLeave(false)"
-			@saveThisAndAllFuture="saveAndLeave(true)"
-			@showMore="showMore" />
+			<PropertyTitleTimePicker
+				:start-date="startDate"
+				:start-timezone="startTimezone"
+				:end-date="endDate"
+				:end-timezone="endTimezone"
+				:is-all-day="isAllDay"
+				:is-read-only="isReadOnly"
+				:can-modify-all-day="canModifyAllDay"
+				:user-timezone="currentUserTimezone"
+				@updateStartDate="updateStartDate"
+				@updateStartTimezone="updateStartTimezone"
+				@updateEndDate="updateEndDate"
+				@updateEndTimezone="updateEndTimezone"
+				@toggleAllDay="toggleAllDay" />
+
+			<PropertyText
+				v-if="hasLocation"
+				:is-read-only="isReadOnly"
+				:prop-model="rfcProps.location"
+				:value="location"
+				@update:value="updateLocation" />
+			<PropertyText
+				v-if="hasDescription"
+				:is-read-only="isReadOnly"
+				:prop-model="rfcProps.description"
+				:value="description"
+				@update:value="updateDescription" />
+
+			<SaveButtons
+				v-if="!isReadOnly"
+				class="event-popover__buttons"
+				:can-create-recurrence-exception="canCreateRecurrenceException"
+				:is-new="isNew"
+				:force-this-and-all-future="forceThisAndAllFuture"
+				:show-more-button="true"
+				@saveThisOnly="saveAndLeave(false)"
+				@saveThisAndAllFuture="saveAndLeave(true)"
+				@showMore="showMore" />
+		</template>
 	</Popover>
 </template>
 <script>
 import Actions from '@nextcloud/vue/dist/Components/Actions'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
+import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
 import Popover from '@nextcloud/vue/dist/Components/Popover'
 import EditorMixin from '../mixins/EditorMixin'
 import IllustrationHeader from '../components/Editor/IllustrationHeader.vue'
@@ -136,6 +154,7 @@ export default {
 		Popover,
 		Actions,
 		ActionButton,
+		EmptyContent,
 	},
 	mixins: [
 		EditorMixin,

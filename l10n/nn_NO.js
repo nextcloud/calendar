@@ -32,10 +32,10 @@ OC.L10N.register(
     "Details" : "Detaljar",
     "Attendees" : "Deltakarar",
     "Reminders" : "Påminningar",
-    "Activity" : "Aktivitet",
     "Close" : "Lukk",
     "Daily" : "Kvar dag",
     "Weekly" : "Kvar veke",
+    "today" : "i dag",
     "When shared show full event" : "Når delt, vis heile hendinga",
     "When shared show only busy" : "Når delt, vis berre oppteken",
     "When shared hide this event" : "Når delt, gøym denne hendinga",
@@ -44,9 +44,7 @@ OC.L10N.register(
     "Status" : "Status",
     "Confirmed" : "Stadfesta",
     "Tentative" : "Førebels",
-    "Cancelled" : "Avlyst",
     "Mail" : "Post",
-    "Play" : "Spel",
     "Global" : "Global"
 },
 "nplurals=2; plural=(n != 1);");

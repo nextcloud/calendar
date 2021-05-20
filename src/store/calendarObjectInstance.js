@@ -45,6 +45,8 @@ import {
 } from '../utils/color.js'
 import { mapAlarmComponentToAlarmObject } from '../models/alarm.js'
 import { getObjectAtRecurrenceId } from '../utils/calendarObject.js'
+import logger from '../utils/logger.js'
+import settings from './settings.js'
 
 const state = {
 	isNew: null,
@@ -605,8 +607,12 @@ const mutations = {
 	 */
 	changeRecurrenceUntil(state, { calendarObjectInstance, recurrenceRule, until }) {
 		if (recurrenceRule.recurrenceRuleValue) {
-
-			recurrenceRule.recurrenceRuleValue.until = DateTimeValue.fromJSDate(until)
+			// RFC 5545, setion 3.3.10: until must be in UTC if the start time is timezone-aware
+			if (calendarObjectInstance.startTimezoneId !== 'floating') {
+				recurrenceRule.recurrenceRuleValue.until = DateTimeValue.fromJSDate(until, { zone: 'utc' })
+			} else {
+				recurrenceRule.recurrenceRuleValue.until = DateTimeValue.fromJSDate(until)
+			}
 			recurrenceRule.until = until
 			recurrenceRule.count = null
 
@@ -1434,6 +1440,18 @@ const actions = {
 		}
 
 		const calendarObjectInstance = mapEventComponentToEventObject(eventComponent)
+
+		// Add an alarm if the user set a default one in the settings. If
+		// not, defaultReminder will not be a number (rather the string "none").
+		const defaultReminder = parseInt(settings.state.defaultReminder)
+		if (!isNaN(defaultReminder)) {
+			commit('addAlarmToCalendarObjectInstance', {
+				calendarObjectInstance: calendarObjectInstance,
+				type: 'DISPLAY',
+				totalSeconds: defaultReminder,
+			})
+			logger.debug(`Added defaultReminder (${defaultReminder}s) to newly created event`)
+		}
 
 		commit('setCalendarObjectInstanceForNewEvent', {
 			calendarObject,

@@ -29,18 +29,18 @@
 export function getColorForFBType(type = 'BUSY') {
 	switch (type) {
 	case 'FREE':
-		return '#55B85F'
+		return 'rgb(110,166,143)'
 
 	case 'BUSY-TENTATIVE':
-		return '#4C81FF'
+		return 'rgb(221,203,85)'
 
 	case 'BUSY':
-		return '#273A7F'
+		return 'rgb(201,136,121)'
 
 	case 'BUSY-UNAVAILABLE':
-		return '#50347F'
+		return 'rgb(182,70,157)'
 
 	default:
-		return '#DA9CBD'
+		return 'rgb(0,130,201)'
 	}
 }

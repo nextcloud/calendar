@@ -27,16 +27,17 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\Contacts\IManager;
 use OCP\IRequest;
 use ChristophWurst\Nextcloud\Testing\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class ContactControllerTest extends TestCase {
 
 	/** @var string */
 	protected $appName;
 
-	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|MockObject */
 	protected $request;
 
-	/** @var IManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IManager|MockObject */
 	protected $manager;
 
 	/** @var ContactController */
@@ -69,12 +70,12 @@ class ContactControllerTest extends TestCase {
 	}
 
 	public function testSearchLocation():void {
-		$this->manager->expects($this->at(0))
+		$this->manager->expects(self::once())
 			->method('isEnabled')
 			->with()
 			->willReturn(true);
 
-		$this->manager->expects($this->at(1))
+		$this->manager->expects(self::once())
 			->method('search')
 			->with('search 123', ['FN', 'ADR'])
 			->willReturn([
@@ -161,12 +162,12 @@ class ContactControllerTest extends TestCase {
 	}
 
 	public function testSearchAttendee():void {
-		$this->manager->expects($this->at(0))
+		$this->manager->expects(self::once())
 			->method('isEnabled')
 			->with()
 			->willReturn(true);
 
-		$this->manager->expects($this->at(1))
+		$this->manager->expects(self::once())
 			->method('search')
 			->with('search 123', ['FN', 'EMAIL'])
 			->willReturn([
@@ -257,12 +258,12 @@ class ContactControllerTest extends TestCase {
 	}
 
 	public function testSearchPhoto():void {
-		$this->manager->expects($this->at(0))
+		$this->manager->expects(self::once())
 			->method('isEnabled')
 			->with()
 			->willReturn(true);
 
-		$this->manager->expects($this->at(1))
+		$this->manager->expects(self::once())
 			->method('search')
 			->with('foo3@example.com', ['EMAIL'])
 			->willReturn([

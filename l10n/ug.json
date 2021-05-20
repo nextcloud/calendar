@@ -19,8 +19,8 @@
     "Personal" : "شەخسىي",
     "Attendees" : "قاتناشقۇچىلار",
     "Close" : "ياپ",
+    "today" : "بۈگۈن",
     "Location" : "ئورنى",
-    "Description" : "چۈشەندۈرۈش",
-    "Play" : "چال"
-},"pluralForm" :"nplurals=1; plural=0;"
+    "Description" : "چۈشەندۈرۈش"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

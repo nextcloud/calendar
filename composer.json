@@ -1,23 +1,15 @@
 {
-    "config": {
-        "platform": {
-            "php": "7.2"
-        }
-    },
     "require": {
-        "php": ">=7.2",
-        "nextcloud/coding-standard": "^0.3.0"
+        "php": "^7.2|^8.0",
+        "nextcloud/coding-standard": "^0.5.0"
     },
     "require-dev": {
-        "christophwurst/nextcloud": "v18.0.4",
-        "christophwurst/nextcloud_testing": "0.10.0",
-        "phan/phan": "^2.0"
+        "christophwurst/nextcloud_testing": "0.12.4"
     },
     "scripts": {
         "cs:fix": "php-cs-fixer fix",
         "cs:check": "php-cs-fixer fix --dry-run --diff",
-        "lint": "find . -name \\*.php -not -path './vendor/*' -exec php -l \"{}\" \\;",
-        "phan": "phan --allow-polyfill-parser -k .phan/config.php",
+        "lint": "find . -name \\*.php -not -path './vendor/*' -print0 | xargs -0 -n1 php -l",
         "test": "phpunit --configuration phpunit.unit.xml --fail-on-warning"
     }
 }

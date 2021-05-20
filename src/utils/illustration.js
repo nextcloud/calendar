@@ -56,7 +56,8 @@ function findIllustrationForString(str) {
 		for (const illustrationString of illustration.strings) {
 			const regex = new RegExp('\\b' + illustrationString.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&') + '\\b', 'gi')
 			if (str.match(regex) !== null) {
-				return imagePath('calendar', 'illustrations/' + illustration.illustrationNames[0])
+				return imagePath('calendar', 'illustrations/'
+								+ illustration.illustrationNames[str.charCodeAt(str.length - 1) % illustration.illustrationNames.length])
 			}
 		}
 	}
@@ -154,7 +155,6 @@ const data = [{
 	],
 	illustrationNames: [
 		'home_run',
-		'greek_freak',
 	],
 }, {
 	strings: [
@@ -194,18 +194,6 @@ const data = [{
 	],
 }, {
 	strings: [
-		'Party',
-		'Celebration',
-		// TRANSLATORS This string is used for matching the event title to an illustration
-		t('calendar', 'Party'),
-		// TRANSLATORS This string is used for matching the event title to an illustration
-		t('calendar', 'Celebration'),
-	],
-	illustrationNames: [
-		'celebration',
-	],
-}, {
-	strings: [
 		'Mail',
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		t('calendar', 'Mail'),
@@ -228,14 +216,8 @@ const data = [{
 }, {
 	strings: [
 		'Gaming',
-		'Play',
-		'Game',
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		t('calendar', 'Gaming'),
-		// TRANSLATORS This string is used for matching the event title to an illustration
-		t('calendar', 'Play'),
-		// TRANSLATORS This string is used for matching the event title to an illustration
-		t('calendar', 'Game'),
 	],
 	illustrationNames: [
 		'gaming',
@@ -255,12 +237,15 @@ const data = [{
 		'Bicycle',
 		'Cycle',
 		'Biking',
+		'Bike',
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		t('calendar', 'Bicycle'),
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		t('calendar', 'Cycle'),
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		t('calendar', 'Biking'),
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Bike'),
 	],
 	illustrationNames: [
 		'bicycle',
@@ -283,6 +268,7 @@ const data = [{
 	],
 	illustrationNames: [
 		'basketball',
+		'greek_freak',
 	],
 }, {
 	strings: [
@@ -463,6 +449,37 @@ const data = [{
 	],
 }, {
 	strings: [
+		'Video-conference',
+		'Video conference',
+		'Videoconference',
+		'Conference-call',
+		'Conference call',
+		'Conferencecall',
+		'Video-call',
+		'Video call',
+		'Videocall',
+		'Video-chat',
+		'Video chat',
+		'Videochat',
+		'Video-meeting',
+		'Video meeting',
+		'Videomeeting',
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Video-conference'),
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Conference-call'),
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Video-call'),
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Video-chat'),
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Video-meeting'),
+	],
+	illustrationNames: [
+		'conference_call',
+	],
+}, {
+	strings: [
 		'Call',
 		'Calling',
 		// TRANSLATORS This string is used for matching the event title to an illustration
@@ -574,6 +591,7 @@ const data = [{
 	],
 	illustrationNames: [
 		'party',
+		'celebration',
 	],
 }, {
 	strings: [
@@ -618,14 +636,20 @@ const data = [{
 }, {
 	strings: [
 		'Dinner',
-		'Lunch',
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		t('calendar', 'Dinner'),
+	],
+	illustrationNames: [
+		'dinner',
+	],
+}, {
+	strings: [
+		'Lunch',
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		t('calendar', 'Lunch'),
 	],
 	illustrationNames: [
-		'dinner',
+		'eating_together',
 	],
 }]
 

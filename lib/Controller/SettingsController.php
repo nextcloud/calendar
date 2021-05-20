@@ -87,6 +87,8 @@ class SettingsController extends Controller {
 				return $this->setEventLimit($value);
 			case 'slotDuration':
 				return $this->setSlotDuration($value);
+			case 'defaultReminder':
+				return $this->setDefaultReminder($value);
 			case 'showTasks':
 				return $this->setShowTasks($value);
 			default:
@@ -102,7 +104,7 @@ class SettingsController extends Controller {
 	 * @return JSONResponse
 	 */
 	private function setView(string $view):JSONResponse {
-		if (!\in_array($view, ['timeGridDay', 'timeGridWeek', 'dayGridMonth'])) {
+		if (!\in_array($view, ['timeGridDay', 'timeGridWeek', 'dayGridMonth', 'listMonth'])) {
 			return new JSONResponse([], Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
 
@@ -302,6 +304,33 @@ class SettingsController extends Controller {
 				$this->userId,
 				$this->appName,
 				'slotDuration',
+				$value
+			);
+		} catch (\Exception $e) {
+			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+
+		return new JSONResponse();
+	}
+
+	/**
+	 * sets defaultReminder for user
+	 *
+	 * @param string $value User-selected option for default_reminder in agenda view
+	 * @return JSONResponse
+	 */
+	private function setDefaultReminder(string $value):JSONResponse {
+		if ($value !== 'none' &&
+			filter_var($value, FILTER_VALIDATE_INT,
+				['options' => ['max_range' => 0]]) === false) {
+			return new JSONResponse([], Http::STATUS_UNPROCESSABLE_ENTITY);
+		}
+
+		try {
+			$this->config->setUserValue(
+				$this->userId,
+				$this->appName,
+				'defaultReminder',
 				$value
 			);
 		} catch (\Exception $e) {

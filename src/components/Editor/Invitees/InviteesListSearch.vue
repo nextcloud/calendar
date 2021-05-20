@@ -81,7 +81,7 @@
 <script>
 import Avatar from '@nextcloud/vue/dist/Components/Avatar'
 import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
-import client from '../../../services/caldavService.js'
+import { principalPropertySearchByDisplaynameOrEmail } from '../../../services/caldavService.js'
 import HttpClient from '@nextcloud/axios'
 import debounce from 'debounce'
 import { linkTo } from '@nextcloud/router'
@@ -107,7 +107,7 @@ export default {
 	},
 	computed: {
 		placeholder() {
-			return this.$t('calendar', 'Search for e-mails, users, contacts, resources or rooms')
+			return this.$t('calendar', 'Search for emails, users, contacts, resources or rooms')
 		},
 		noResult() {
 			return this.$t('calendar', 'No match found')
@@ -209,7 +209,7 @@ export default {
 		async findAttendeesFromDAV(query) {
 			let results
 			try {
-				results = await client.principalPropertySearchByDisplayname(query)
+				results = await principalPropertySearchByDisplaynameOrEmail(query)
 			} catch (error) {
 				console.debug(error)
 				return []

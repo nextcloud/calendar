@@ -21,8 +21,8 @@ OC.L10N.register(
     "Personal" : "شەخسىي",
     "Attendees" : "قاتناشقۇچىلار",
     "Close" : "ياپ",
+    "today" : "بۈگۈن",
     "Location" : "ئورنى",
-    "Description" : "چۈشەندۈرۈش",
-    "Play" : "چال"
+    "Description" : "چۈشەندۈرۈش"
 },
-"nplurals=1; plural=0;");
+"nplurals=2; plural=(n != 1);");

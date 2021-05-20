@@ -36,12 +36,12 @@
     "Details" : "Detalles",
     "Attendees" : "Asistentes",
     "Reminders" : "Recordatorios",
-    "Activity" : "Actividá",
     "Close" : "Zarrar",
     "Anniversary" : "Aniversariu",
     "Week {number} of {year}" : "Selmana {number} del {year}",
     "Daily" : "Caldía",
     "Weekly" : "Selmanalmente",
+    "today" : "güei",
     "When shared show full event" : "Amosar l'eventu completu al compartir",
     "When shared show only busy" : "Amosar namás ocupáu al compartir",
     "When shared hide this event" : "Anubrir l'eventu al compartir",
@@ -50,12 +50,10 @@
     "Status" : "Estáu",
     "Confirmed" : "Confirmáu",
     "Tentative" : "Tentativa",
-    "Cancelled" : "Encaboxáu",
     "Categories" : "Estayes",
     "Presentation" : "Presentación",
     "Office" : "Oficina",
     "Mail" : "Corréu",
-    "Play" : "Reproducir",
     "Global" : "Global"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

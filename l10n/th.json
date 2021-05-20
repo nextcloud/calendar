@@ -27,12 +27,12 @@
     "Details" : "รายละเอียด",
     "Attendees" : "ผู้เข้าร่วมกิจกรรม",
     "Reminders" : "การแจ้งเตือน",
-    "Activity" : "กิจกรรม",
     "Close" : "ปิด",
     "Anniversary" : "วันครบรอบ",
     "Week {number} of {year}" : "สัปดาห์ที่ {number} ของปี {year}",
     "Daily" : "รุ่นรายวัน",
     "Weekly" : "รายสัปดาห์",
+    "today" : "วันนี้",
     "When shared show full event" : "เมื่อแชร์จะแสดงกิจกรรมทั้งหมด",
     "When shared show only busy" : "เมื่อแชร์จะแสดงเฉพาะไม่ว่าง",
     "When shared hide this event" : "เมื่อแชร์จะซ่อนกิจกรรมนี้",
@@ -40,11 +40,9 @@
     "Description" : "รายละเอียด",
     "Confirmed" : "ได้รับการยืนยันแล้ว",
     "Tentative" : "ชั่วคราว",
-    "Cancelled" : "ยกเลิกแล้ว",
     "Presentation" : "งานนำเสนอ",
     "Office" : "สำนักงาน",
     "Mail" : "จดหมาย",
-    "Play" : "เล่น",
     "Global" : "ทั่วไป"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

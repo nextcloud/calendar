@@ -21,13 +21,11 @@ OC.L10N.register(
     "Update" : "Kemaskini",
     "Personal" : "Peribadi",
     "Attendees" : "Jemputan",
-    "Activity" : "Aktiviti",
     "Close" : "Tutup",
     "Daily" : "Setiap hari",
     "Weekly" : "Setiap minggu",
     "Location" : "Lokasi",
     "Description" : "Keterangan",
-    "Mail" : "Mel",
-    "Play" : "Main"
+    "Mail" : "Mel"
 },
 "nplurals=1; plural=0;");

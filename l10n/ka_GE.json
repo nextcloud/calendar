@@ -9,6 +9,7 @@
     "Day" : "დღე",
     "Week" : "კვირა",
     "Month" : "თვე",
+    "List" : "ჩამონათვალი",
     "Download" : "ჩამოტვირთვა",
     "Delete" : "წაშლა",
     "Share link" : "ბმულის გაზიარება",
@@ -38,12 +39,13 @@
     "Details" : "დეტლაები",
     "Attendees" : "დამსწრეები",
     "Reminders" : "შემახსენებლები",
-    "Activity" : "აქტივობა",
     "Close" : "დახურვა",
     "Anniversary" : "დაბადების დღე",
     "Week {number} of {year}" : "კვირა {number} {year}-დან",
     "Daily" : "ყოველდღიური",
     "Weekly" : "ყოველკვირეული",
+    "next year" : "შემდეგი წელი",
+    "today" : "დღეს",
     "When shared show full event" : "როდესაც გაზიარებულია გამოჩნდეს სრული მოვლენა",
     "When shared show only busy" : "როდესაც გაზიარებულია გამოჩნდეს მხოლოდ დაკავებული",
     "When shared hide this event" : "როდესაც გაზიარებულია არ გამოჩნდეს ეს მოვლენა",
@@ -52,10 +54,8 @@
     "Status" : "სტატუსი",
     "Confirmed" : "დადასტურებლია",
     "Tentative" : "საცდელი",
-    "Cancelled" : "უარყოფილია",
     "Categories" : "კატეგორიები",
     "Mail" : "ფოსტა",
-    "Play" : "დაკვრა",
     "Global" : "გლობალური"
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

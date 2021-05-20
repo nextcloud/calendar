@@ -32,14 +32,16 @@
 			:class="{ 'property-text__input--readonly': isReadOnly }">
 			<textarea
 				v-if="!isReadOnly"
-				v-autosize="autosize"
+				v-autosize="true"
 				:placeholder="placeholder"
 				:rows="rows"
 				:title="readableName"
 				:value="value"
 				@input.prevent.stop="changeValue" />
 			<!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
-			<div v-else>{{ value }}</div>
+			<div
+				v-else
+				v-linkify="value" />
 		</div>
 
 		<div
@@ -52,21 +54,17 @@
 <script>
 import autosize from '../../../directives/autosize.js'
 import PropertyMixin from '../../../mixins/PropertyMixin'
+import { linkify } from '../../../directives/linkify.js'
 
 export default {
 	name: 'PropertyText',
 	directives: {
 		autosize,
+		linkify,
 	},
 	mixins: [
 		PropertyMixin,
 	],
-	props: {
-		autosize: {
-			type: Boolean,
-			required: true,
-		},
-	},
 	computed: {
 		display() {
 			if (this.isReadOnly) {

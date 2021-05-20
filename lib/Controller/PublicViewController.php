@@ -120,9 +120,10 @@ class PublicViewController extends Controller {
 		$defaultSkipPopover = $this->config->getAppValue($this->appName, 'skipPopover', 'yes');
 		$defaultTimezone = $this->config->getAppValue($this->appName, 'timezone', 'automatic');
 		$defaultSlotDuration = $this->config->getAppValue($this->appName, 'slotDuration', '00:30:00');
+		$defaultDefaultReminder = $this->config->getAppValue($this->appName, 'defaultReminder', 'none');
 		$defaultShowTasks = $this->config->getAppValue($this->appName, 'showTasks', 'yes');
 
-		$appVersion = $this->config->getAppValue($this->appName, 'installed_version');
+		$appVersion = $this->config->getAppValue($this->appName, 'installed_version', null);
 
 		$this->initialStateService->provideInitialState($this->appName, 'app_version', $appVersion);
 		$this->initialStateService->provideInitialState($this->appName, 'event_limit', ($defaultEventLimit === 'yes'));
@@ -134,6 +135,7 @@ class PublicViewController extends Controller {
 		$this->initialStateService->provideInitialState($this->appName, 'talk_enabled', false);
 		$this->initialStateService->provideInitialState($this->appName, 'timezone', $defaultTimezone);
 		$this->initialStateService->provideInitialState($this->appName, 'slot_duration', $defaultSlotDuration);
+		$this->initialStateService->provideInitialState($this->appName, 'default_reminder', $defaultDefaultReminder);
 		$this->initialStateService->provideInitialState($this->appName, 'show_tasks', $defaultShowTasks === 'yes');
 		$this->initialStateService->provideInitialState($this->appName, 'tasks_enabled', false);
 

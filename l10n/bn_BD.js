@@ -26,13 +26,12 @@ OC.L10N.register(
     "Personal" : "ব্যক্তিগত",
     "Details" : "বিসতারিত",
     "Attendees" : "অংশগ্রহণকারীবৃন্দ",
-    "Activity" : "সক্রিয়তা",
     "Close" : "বন্ধ",
     "Daily" : "দৈনিক",
     "Weekly" : "সাপ্তাহিক",
+    "today" : "আজ",
     "Location" : "অবস্থান",
     "Description" : "বিবরণ",
-    "Mail" : "মেইল",
-    "Play" : "বাজাও"
+    "Mail" : "মেইল"
 },
 "nplurals=2; plural=(n != 1);");

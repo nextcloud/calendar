@@ -37,7 +37,7 @@
 				<ActionCheckbox
 					:checked="attendee.rsvp"
 					@change="toggleRSVP">
-					{{ $t('calendar', 'Send e-mail') }}
+					{{ $t('calendar', 'Send email') }}
 				</ActionCheckbox>
 
 				<ActionRadio

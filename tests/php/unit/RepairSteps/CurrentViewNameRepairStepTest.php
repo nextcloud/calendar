@@ -94,57 +94,26 @@ class CurrentViewNameRepairStepTest extends TestCase {
 				return true;
 			}));
 
-		$this->config->expects($this->at(0))
+		$this->config
 			->method('getUserValue')
-			->with('user1', 'calendar', 'currentView', null)
-			->willReturn('agendaDay');
-		$this->config->expects($this->at(1))
+			->willReturnMap([
+				['user1', 'calendar', 'currentView', null, 'agendaDay'],
+				['user2', 'calendar', 'currentView', null, 'agendaWeek'],
+				['user3', 'calendar', 'currentView', null, 'month'],
+				['user4', 'calendar', 'currentView', null, 'otherView'],
+				['user5', 'calendar', 'currentView', null, null],
+				['user7', 'calendar', 'currentView', null, 'timeGridWeek'],
+			]);
+		$this->config
 			->method('setUserValue')
-			->with('user1', 'calendar', 'currentView', 'timeGridDay');
-
-		$this->config->expects($this->at(2))
-			->method('getUserValue')
-			->with('user2', 'calendar', 'currentView', null)
-			->willReturn('agendaWeek');
-		$this->config->expects($this->at(3))
-			->method('setUserValue')
-			->with('user2', 'calendar', 'currentView', 'timeGridWeek');
-
-		$this->config->expects($this->at(4))
-			->method('getUserValue')
-			->with('user3', 'calendar', 'currentView', null)
-			->willReturn('month');
-		$this->config->expects($this->at(5))
-			->method('setUserValue')
-			->with('user3', 'calendar', 'currentView', 'dayGridMonth');
-
-		$this->config->expects($this->at(6))
-			->method('getUserValue')
-			->with('user4', 'calendar', 'currentView', null)
-			->willReturn('otherView');
-		$this->config->expects($this->at(7))
-			->method('setUserValue')
-			->with('user4', 'calendar', 'currentView', 'dayGridMonth');
-
-		$this->config->expects($this->at(8))
-			->method('getUserValue')
-			->with('user5', 'calendar', 'currentView', null)
-			->willReturn(null);
-
-		$this->config->expects($this->at(9))
-			->method('getUserValue')
-			->with('user6', 'calendar', 'currentView', null)
-			->willReturn('timeGridDay');
-
-		$this->config->expects($this->at(10))
-			->method('getUserValue')
-			->with('user7', 'calendar', 'currentView', null)
-			->willReturn('timeGridWeek');
-
-		$this->config->expects($this->at(11))
-			->method('getUserValue')
-			->with('user8', 'calendar', 'currentView', null)
-			->willReturn('dayGridMonth');
+			->withConsecutive(
+				['user1', 'calendar', 'currentView', 'timeGridDay'],
+				['user2', 'calendar', 'currentView', 'timeGridWeek'],
+				['user3', 'calendar', 'currentView', 'dayGridMonth'],
+				['user4', 'calendar', 'currentView', 'dayGridMonth'],
+				['user6', 'calendar', 'currentView', null],
+				['user8', 'calendar', 'currentView', null, 'dayGridMonth']
+			);
 
 		$output = $this->createMock(IOutput::class);
 		$output->expects($this->never())

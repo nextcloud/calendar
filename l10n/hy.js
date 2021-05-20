@@ -27,12 +27,11 @@ OC.L10N.register(
     "Attendees" : "Մասնակիցներ",
     "Reminders" : "Հիշեցումներ",
     "Close" : "Փակել",
+    "today" : "այսօր",
     "Location" : "Տեղակայություն",
     "Description" : "Նկարագրություն",
     "Confirmed" : "Հաստատված",
-    "Cancelled" : "Չեղարկված",
     "Mail" : "Փոստ",
-    "Play" : "Նվագարկել",
     "Global" : "Ընդհանուր"
 },
 "nplurals=2; plural=(n != 1);");

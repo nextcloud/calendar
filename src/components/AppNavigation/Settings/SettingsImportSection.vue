@@ -28,7 +28,7 @@
 	</li>
 	<li v-else class="settings-fieldset-interior-item">
 		<label class="settings-fieldset-interior-item__import-button button icon icon-upload" :for="inputUid">
-			{{ $t('calendar', 'Import calendar') }}
+			{{ $n('calendar', 'Import calendar', 'Import calendars', 1) }}
 		</label>
 		<input
 			:id="inputUid"
@@ -55,6 +55,17 @@ import {
 import { getParserManager } from 'calendar-js'
 import ImportScreen from './ImportScreen.vue'
 import { readFileAsText } from '../../../services/readFileAsTextService.js'
+import {
+	showSuccess,
+	showWarning,
+	showError,
+} from '@nextcloud/dialogs'
+import {
+	IMPORT_STAGE_AWAITING_USER_SELECT,
+	IMPORT_STAGE_DEFAULT,
+	IMPORT_STAGE_IMPORTING,
+	IMPORT_STAGE_PROCESSING,
+} from '../../../models/consts.js'
 
 export default {
 	name: 'SettingsImportSection',
@@ -89,7 +100,7 @@ export default {
 		 * @returns {Boolean}
 		 */
 		allowUploadOfFiles() {
-			return this.stage === 'default'
+			return this.stage === IMPORT_STAGE_DEFAULT
 		},
 		/**
 		 * Whether or not to display the import modal
@@ -97,7 +108,7 @@ export default {
 		 * @returns {Boolean}
 		 */
 		showImportModal() {
-			return this.stage === 'awaitingUserSelect'
+			return this.stage === IMPORT_STAGE_AWAITING_USER_SELECT
 		},
 		/**
 		 * Whether or not to display progress bar
@@ -105,7 +116,7 @@ export default {
 		 * @returns {Boolean}
 		 */
 		showProgressBar() {
-			return this.stage === 'importing'
+			return this.stage === IMPORT_STAGE_IMPORTING
 		},
 		/**
 		 * Unique identifier for the input field.
@@ -144,7 +155,7 @@ export default {
 		 * @param {Event} event The change-event of the input-field
 		 */
 		async processFiles(event) {
-			this.$store.commit('changeStage', 'processing')
+			this.$store.commit('changeStage', IMPORT_STAGE_PROCESSING)
 			let addedFiles = false
 
 			for (const file of event.target.files) {
@@ -177,7 +188,7 @@ export default {
 				// Make sure the user didn't select
 				// files of a different file-type
 				if (!this.supportedFileTypes.includes(type)) {
-					this.$toast.error(this.$t('calendar', '{filename} is an unsupported file-type', {
+					showError(this.$t('calendar', '{filename} is an unsupported file-type', {
 						filename: name,
 					}))
 					continue
@@ -196,7 +207,7 @@ export default {
 					parser.parse(contents)
 				} catch (error) {
 					console.error(error)
-					this.$toast.error(this.$t('calendar', '{filename} could not be parsed', {
+					showError(this.$t('calendar', '{filename} could not be parsed', {
 						filename: name,
 					}))
 					continue
@@ -214,13 +225,13 @@ export default {
 			}
 
 			if (!addedFiles) {
-				this.$toast.error(this.$t('calendar', 'No valid files found, aborting import'))
+				showError(this.$t('calendar', 'No valid files found, aborting import'))
 				this.$store.commit('removeAllFiles')
 				this.$store.commit('resetState')
 				return
 			}
 
-			this.$store.commit('changeStage', 'awaitingUserSelect')
+			this.$store.commit('changeStage', IMPORT_STAGE_AWAITING_USER_SELECT)
 		},
 		/**
 		 * Import all events into the calendars
@@ -230,9 +241,9 @@ export default {
 			await this.$store.dispatch('importEventsIntoCalendar')
 
 			if (this.total === this.accepted) {
-				this.$toast.success(this.$n('calendar', 'Successfully imported %n event', 'Successfully imported %n events.', this.total))
+				showSuccess(this.$n('calendar', 'Successfully imported %n event', 'Successfully imported %n events.', this.total))
 			} else {
-				this.$toast.warning(this.$t('calendar', 'Import partially failed. Imported {accepted} out of {total}.', {
+				showWarning(this.$t('calendar', 'Import partially failed. Imported {accepted} out of {total}.', {
 					accepted: this.accepted,
 					total: this.total,
 				}))

@@ -25,7 +25,6 @@
 <template>
 	<li class="app-navigation-entry__multiselect">
 		<Multiselect
-			id="users-groups-search"
 			:options="usersOrGroups"
 			:searchable="true"
 			:internal-search="false"
@@ -46,7 +45,7 @@
 
 <script>
 import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
-import client from '../../../services/caldavService.js'
+import { principalPropertySearchByDisplaynameOrEmail } from '../../../services/caldavService.js'
 import HttpClient from '@nextcloud/axios'
 import debounce from 'debounce'
 import { generateOcsUrl } from '@nextcloud/router'
@@ -141,7 +140,7 @@ export default {
 		async findShareesFromDav(query, hiddenPrincipals, hiddenUrls) {
 			let results
 			try {
-				results = await client.principalPropertySearchByDisplayname(query)
+				results = await principalPropertySearchByDisplaynameOrEmail(query)
 			} catch (error) {
 				return []
 			}

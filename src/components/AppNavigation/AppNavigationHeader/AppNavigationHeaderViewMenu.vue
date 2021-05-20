@@ -59,6 +59,10 @@ export default {
 				id: 'dayGridMonth',
 				icon: 'icon-view-module',
 				label: this.$t('calendar', 'Month'),
+			}, {
+				id: 'listMonth',
+				icon: 'icon-view-list',
+				label: this.$t('calendar', 'List'),
 			}]
 		},
 		shortKeyConf() {
@@ -69,6 +73,8 @@ export default {
 				timeGridWeek_Num: [2],
 				dayGridMonth: ['m'],
 				dayGridMonth_Num: [3],
+				listMonth: ['l'],
+				listMonth_Num: [4],
 			}
 		},
 		defaultIcon() {

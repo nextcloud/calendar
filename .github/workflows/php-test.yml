@@ -11,27 +11,42 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-versions: ['7.2', '7.3', '7.4']
-        nextcloud-versions: ['master', 'stable17', 'stable18']
-        exclude:
-          - php-versions: '7.4'
-            nextcloud-versions: 'stable17'
+        php-versions: ['7.3', '7.4']
+        nextcloud-versions: ['stable20', 'stable21', 'master']
+        include:
+          - php-versions: '7.2'
+            nextcloud-versions: 'stable20'
+          - php-versions: '8.0'
+            nextcloud-versions: 'stable21'
+          - php-versions: '8.0'
+            nextcloud-versions: 'master'
     name: php${{ matrix.php-versions }} on ${{ matrix.nextcloud-versions }} unit tests
+    env:
+      CI: true
+      XDEBUG_MODE: coverage
     steps:
     - name: Set up php${{ matrix.php-versions }}
       uses: shivammathur/setup-php@master
       with:
         php-version: ${{ matrix.php-versions }}
-        extension-csv: ctype,curl,dom,gd,iconv,intl,json,mbstring,openssl,posix,sqlite,xml,zip
+        extensions: ctype, curl, dom, gd, gmp, iconv, intl, json, mbstring, openssl, pdo_sqlite, posix, sqlite, xml, zip
         coverage: xdebug
     - name: Checkout Nextcloud
       run: git clone https://github.com/nextcloud/server.git --recursive --depth 1 -b ${{ matrix.nextcloud-versions }} nextcloud
-    - name: Run tests
+    - name: Install Nextcloud
       run: php -f nextcloud/occ maintenance:install --database-name oc_autotest --database-user oc_autotest --admin-user admin --admin-pass admin --database sqlite --database-pass=''
-    - name: Checkout
+    - name: Checkout the app
       uses: actions/checkout@master
       with:
         path: nextcloud/apps/calendar
+    - name: Fix php-parser on stable20 incompatibility with phpunit 9.3+
+      if: ${{ matrix.nextcloud-versions == 'stable20' }}
+      working-directory: nextcloud/3rdparty
+      run: composer require nikic/php-parser:4.10
+    - name: Downgrade phpunit for php7.2
+      if: ${{ matrix.php-versions == '7.2' }}
+      working-directory: nextcloud/apps/calendar
+      run: composer update christophwurst/nextcloud_testing -W
     - name: Install dependencies
       working-directory: nextcloud/apps/calendar
       run: composer install
@@ -39,5 +54,9 @@ jobs:
       working-directory: nextcloud/apps/calendar
       run: composer run test
     - name: Upload coverage to Codecov
-      working-directory: nextcloud/apps/calendar
-      run: curl -s https://codecov.io/bash | bash -s - -t ${{ secrets.CODECOV_TOKEN }} -F php -f clover.unit.xml -Z
+      if: ${{ matrix.nextcloud-versions == 'master' }}
+      uses: codecov/codecov-action@v1
+      with:
+        file: nextcloud/apps/calendar/clover.unit.xml
+        flags: php
+        fail_ci_if_error: true

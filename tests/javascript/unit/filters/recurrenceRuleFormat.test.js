@@ -20,17 +20,13 @@
  *
  */
 import recurrenceRuleFormat from '../../../../src/filters/recurrenceRuleFormat.js'
-
-import moment from '@nextcloud/moment'
 import { translate, translatePlural, getDayNames, getMonthNames } from '@nextcloud/l10n'
 
-jest.mock('@nextcloud/moment')
 jest.mock('@nextcloud/l10n')
 
 describe('format/recurrenceRuleFormat test suite', () => {
 
 	beforeEach(() => {
-		moment.mockClear()
 		translate.mockClear()
 		translatePlural.mockClear()
 
@@ -56,11 +52,7 @@ describe('format/recurrenceRuleFormat test suite', () => {
 				bySetPosition: null,
 				isUnsupported: false,
 				recurrenceRuleValue: null,
-		}, 'de')).toEqual('Does not repeat')
-
-		expect(moment).toHaveBeenCalledTimes(0)
-		expect(translate).toHaveBeenCalledTimes(1)
-		expect(translate).toHaveBeenNthCalledWith(1, 'calendar', 'Does not repeat')
+		}, 'de')).toMatchSnapshot()
 	})
 
 	it('should format a recurrence-rule that is recurring infinitely every day', () => {
@@ -75,11 +67,7 @@ describe('format/recurrenceRuleFormat test suite', () => {
 			bySetPosition: null,
 			isUnsupported: false,
 			recurrenceRuleValue: null,
-		}, 'de')).toEqual('Daily')
-
-		expect(moment).toHaveBeenCalledTimes(0)
-		expect(translate).toHaveBeenCalledTimes(1)
-		expect(translate).toHaveBeenNthCalledWith(1, 'calendar', 'Daily')
+		}, 'de')).toMatchSnapshot()
 	})
 
 	it('should format a recurrence-rule that is recurring infinitely every week on Tuesday', () => {
@@ -94,16 +82,7 @@ describe('format/recurrenceRuleFormat test suite', () => {
 			bySetPosition: null,
 			isUnsupported: false,
 			recurrenceRuleValue: null,
-		}, 'de')).toEqual('Weekly on {weekdays}')
-
-		expect(moment).toHaveBeenCalledTimes(0)
-		expect(translate).toHaveBeenCalledTimes(1)
-		expect(translate).toHaveBeenNthCalledWith(1, 'calendar', 'Weekly')
-		expect(translatePlural).toHaveBeenCalledTimes(1)
-		expect(translatePlural).toHaveBeenNthCalledWith(1, 'calendar', 'on {weekday}', 'on {weekdays}', 1, {
-			weekday: 'Tuesday',
-			weekdays: 'Tuesday',
-		})
+		}, 'de')).toMatchSnapshot()
 	})
 
 	it('should format a recurrence-rule that is recurring infinitely every third week on Tuesday and Thursday', () => {
@@ -118,16 +97,7 @@ describe('format/recurrenceRuleFormat test suite', () => {
 			bySetPosition: null,
 			isUnsupported: false,
 			recurrenceRuleValue: null,
-		}, 'de')).toEqual('Every %n weeks on {weekdays}')
-
-		expect(moment).toHaveBeenCalledTimes(0)
-		expect(translate).toHaveBeenCalledTimes(0)
-		expect(translatePlural).toHaveBeenCalledTimes(2)
-		expect(translatePlural).toHaveBeenNthCalledWith(1, 'calendar', 'Every %n week', 'Every %n weeks', 3)
-		expect(translatePlural).toHaveBeenNthCalledWith(2, 'calendar', 'on {weekday}', 'on {weekdays}', 2, {
-			weekday: 'Tuesday, Thursday',
-			weekdays: 'Tuesday, Thursday',
-		})
+		}, 'de')).toMatchSnapshot()
 	})
 
 	it('should format a recurrence-rule that is recurring infinitely every other month on 15th', () => {
@@ -142,15 +112,7 @@ describe('format/recurrenceRuleFormat test suite', () => {
 			bySetPosition: null,
 			isUnsupported: false,
 			recurrenceRuleValue: null,
-		}, 'de')).toEqual('Every %n months on days {dayOfMonthList}')
-
-		expect(moment).toHaveBeenCalledTimes(0)
-		expect(translate).toHaveBeenCalledTimes(0)
-		expect(translatePlural).toHaveBeenCalledTimes(2)
-		expect(translatePlural).toHaveBeenNthCalledWith(1, 'calendar', 'Every %n month', 'Every %n months', 2)
-		expect(translatePlural).toHaveBeenNthCalledWith(2, 'calendar', 'on day {dayOfMonthList}', 'on days {dayOfMonthList}', 1, {
-			dayOfMonthList: '15',
-		})
+		}, 'de')).toMatchSnapshot()
 	})
 
 	it('should format a recurrence-rule that is recurring infinitely every month on 15th, 16th, 17th, 18th', () => {
@@ -165,15 +127,7 @@ describe('format/recurrenceRuleFormat test suite', () => {
 			bySetPosition: null,
 			isUnsupported: false,
 			recurrenceRuleValue: null,
-		}, 'de')).toEqual('Monthly on days {dayOfMonthList}')
-
-		expect(moment).toHaveBeenCalledTimes(0)
-		expect(translate).toHaveBeenCalledTimes(1)
-		expect(translate).toHaveBeenNthCalledWith(1, 'calendar', 'Monthly')
-		expect(translatePlural).toHaveBeenCalledTimes(1)
-		expect(translatePlural).toHaveBeenNthCalledWith(1, 'calendar', 'on day {dayOfMonthList}', 'on days {dayOfMonthList}', 4, {
-			dayOfMonthList: '15, 16, 17, 18',
-		})
+		}, 'de')).toMatchSnapshot()
 	})
 
 	it('should format a recurrence-rule that is recurring infinitely every month on last weekday', () => {
@@ -188,16 +142,7 @@ describe('format/recurrenceRuleFormat test suite', () => {
 			bySetPosition: -1,
 			isUnsupported: false,
 			recurrenceRuleValue: null,
-		}, 'de')).toEqual('Monthly on the {ordinalNumber} {byDaySet}')
-
-		expect(moment).toHaveBeenCalledTimes(0)
-		expect(translate).toHaveBeenCalledTimes(3)
-		expect(translate).toHaveBeenNthCalledWith(1, 'calendar', 'Monthly')
-		expect(translate).toHaveBeenNthCalledWith(2, 'calendar', 'last')
-		expect(translate).toHaveBeenNthCalledWith(3, 'calendar', 'on the {ordinalNumber} {byDaySet}', {
-			ordinalNumber: 'last',
-			byDaySet: 'Monday, Tuesday, Wednesday, Thursday, Friday',
-		})
+		}, 'de')).toMatchSnapshot()
 	})
 
 	it('should format a recurrence-rule that is recurring infinitely every month second Wednesday', () => {
@@ -212,16 +157,7 @@ describe('format/recurrenceRuleFormat test suite', () => {
 			bySetPosition: 2,
 			isUnsupported: false,
 			recurrenceRuleValue: null,
-		}, 'de')).toEqual('Monthly on the {ordinalNumber} {byDaySet}')
-
-		expect(moment).toHaveBeenCalledTimes(0)
-		expect(translate).toHaveBeenCalledTimes(3)
-		expect(translate).toHaveBeenNthCalledWith(1, 'calendar', 'Monthly')
-		expect(translate).toHaveBeenNthCalledWith(2, 'calendar', 'second')
-		expect(translate).toHaveBeenNthCalledWith(3, 'calendar', 'on the {ordinalNumber} {byDaySet}', {
-			ordinalNumber: 'second',
-			byDaySet: 'Wednesday',
-		})
+		}, 'de')).toMatchSnapshot()
 	})
 
 	it('should format a recurrence-rule that is recurring infinitely every year in May', () => {
@@ -236,14 +172,7 @@ describe('format/recurrenceRuleFormat test suite', () => {
 			bySetPosition: null,
 			isUnsupported: false,
 			recurrenceRuleValue: null,
-		}, 'de')).toEqual('Yearly in {monthNames}')
-
-		expect(moment).toHaveBeenCalledTimes(0)
-		expect(translate).toHaveBeenCalledTimes(2)
-		expect(translate).toHaveBeenNthCalledWith(1, 'calendar', 'Yearly')
-		expect(translate).toHaveBeenNthCalledWith(2, 'calendar', 'in {monthNames}', {
-			monthNames: 'May'
-		})
+		}, 'de')).toMatchSnapshot()
 	})
 
 	it('should format a recurrence-rule that is recurring infinitely every year in May, July, October', () => {
@@ -258,14 +187,7 @@ describe('format/recurrenceRuleFormat test suite', () => {
 			bySetPosition: null,
 			isUnsupported: false,
 			recurrenceRuleValue: null,
-		}, 'de')).toEqual('Yearly in {monthNames}')
-
-		expect(moment).toHaveBeenCalledTimes(0)
-		expect(translate).toHaveBeenCalledTimes(2)
-		expect(translate).toHaveBeenNthCalledWith(1, 'calendar', 'Yearly')
-		expect(translate).toHaveBeenNthCalledWith(2, 'calendar', 'in {monthNames}', {
-			monthNames: 'May, July, October'
-		})
+		}, 'de')).toMatchSnapshot()
 	})
 
 	it('should format a recurrence-rule that is recurring infinitely every year in May, July, October on third Thursday', () => {
@@ -280,29 +202,11 @@ describe('format/recurrenceRuleFormat test suite', () => {
 			bySetPosition: 3,
 			isUnsupported: false,
 			recurrenceRuleValue: null,
-		}, 'de')).toEqual('Yearly in {monthNames} on the {ordinalNumber} {byDaySet}')
-
-		expect(moment).toHaveBeenCalledTimes(0)
-		expect(moment).toHaveBeenCalledTimes(0)
-		expect(translate).toHaveBeenCalledTimes(3)
-		expect(translate).toHaveBeenNthCalledWith(1, 'calendar', 'Yearly')
-		expect(translate).toHaveBeenNthCalledWith(2, 'calendar', 'third')
-		expect(translate).toHaveBeenNthCalledWith(3, 'calendar', 'in {monthNames} on the {ordinalNumber} {byDaySet}', {
-			monthNames: 'May, July, October',
-			ordinalNumber: 'third',
-			byDaySet: 'Thursday'
-		})
+		}, 'de')).toMatchSnapshot()
 	})
 
 	it('should format a recurrence-rule that is recurring every day until a certain date', () => {
-		const date = new Date(Date.UTC(2019, 0, 1, 0, 0, 0, 0))
-
-		const format = jest.fn()
-			.mockReturnValue('formatted-allday-date')
-		const locale = jest.fn()
-			.mockReturnValue({ format })
-		moment
-			.mockReturnValue({ locale })
+		const date = new Date(2019, 0, 1, 0, 0, 0, 0)
 
 		expect(recurrenceRuleFormat({
 			frequency: 'DAILY',
@@ -315,19 +219,7 @@ describe('format/recurrenceRuleFormat test suite', () => {
 			bySetPosition: null,
 			isUnsupported: false,
 			recurrenceRuleValue: null,
-		}, 'de')).toEqual('Daily until {untilDate}')
-
-		expect(moment).toHaveBeenCalledTimes(1)
-		expect(moment).toHaveBeenNthCalledWith(1, date)
-		expect(locale).toHaveBeenCalledTimes(1)
-		expect(locale).toHaveBeenNthCalledWith(1, 'de')
-		expect(format).toHaveBeenCalledTimes(1)
-		expect(format).toHaveBeenNthCalledWith(1, 'L')
-		expect(translate).toHaveBeenCalledTimes(2)
-		expect(translate).toHaveBeenNthCalledWith(1, 'calendar', 'Daily')
-		expect(translate).toHaveBeenNthCalledWith(2, 'calendar', 'until {untilDate}', {
-			untilDate: 'formatted-allday-date'
-		})
+		}, 'de')).toMatchSnapshot()
 	})
 
 	it('should format a recurrence-rule that is recurring every day exactly 10 times', () => {
@@ -342,12 +234,6 @@ describe('format/recurrenceRuleFormat test suite', () => {
 			bySetPosition: null,
 			isUnsupported: false,
 			recurrenceRuleValue: null,
-		}, 'de')).toEqual('Daily %n times')
-
-		expect(moment).toHaveBeenCalledTimes(0)
-		expect(translate).toHaveBeenCalledTimes(1)
-		expect(translate).toHaveBeenNthCalledWith(1, 'calendar', 'Daily')
-		expect(translatePlural).toHaveBeenCalledTimes(1)
-		expect(translatePlural).toHaveBeenNthCalledWith(1, 'calendar', '%n time', '%n times', 42)
+		}, 'de')).toMatchSnapshot()
 	})
 })

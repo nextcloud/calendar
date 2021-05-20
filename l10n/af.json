@@ -10,6 +10,7 @@
     "Day" : "Dag",
     "Week" : "Week",
     "Month" : "Maand",
+    "List" : "Lys",
     "Download" : "Laai af",
     "Delete" : "Skrap",
     "Share link" : "Deel skakel",
@@ -34,12 +35,10 @@
     "More" : "Nog",
     "Save" : "Stoor",
     "Update" : "Werk by",
-    "Select Date" : "Kies Datum",
     "Personal" : "Persoonlik",
     "Details" : "Details",
     "Attendees" : "Bywoners",
     "Reminders" : "Herinneringe",
-    "Activity" : "Aktiwiteit",
     "Close" : "Sluit",
     "Anniversary" : "Herdenking",
     "Week {number} of {year}" : "Week {number} van {year}",
@@ -49,10 +48,8 @@
     "Description" : "Beskrywing",
     "Confirmed" : "Bevestig",
     "Tentative" : "Tentatief",
-    "Cancelled" : "Gekanselleer",
     "Categories" : "Kategorieë",
     "Mail" : "Pos",
-    "Play" : "Speel Af",
     "Global" : "Globaal"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -145,6 +145,11 @@ import AppNavigationIconBullet from '@nextcloud/vue/dist/Components/AppNavigatio
 import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
 import ClickOutside from 'vue-click-outside'
 import {
+	showInfo,
+	showSuccess,
+	showError,
+} from '@nextcloud/dialogs'
+import {
 	generateRemoteUrl,
 } from '@nextcloud/router'
 
@@ -313,7 +318,7 @@ export default {
 		toggleEnabled() {
 			this.$store.dispatch('toggleCalendarEnabled', { calendar: this.calendar })
 				.catch((error) => {
-					this.$toast.error(this.$t('calendar', 'An error occurred, unable to change visibility of the calendar.'))
+					showError(this.$t('calendar', 'An error occurred, unable to change visibility of the calendar.'))
 					console.error(error)
 				})
 		},
@@ -332,7 +337,7 @@ export default {
 				try {
 					await this.$store.dispatch('deleteCalendar', { calendar: this.calendar })
 				} catch (error) {
-					this.$toast.error(this.$t('calendar', 'An error occurred, unable to delete the calendar.'))
+					showError(this.$t('calendar', 'An error occurred, unable to delete the calendar.'))
 					console.error(error)
 				} finally {
 					clearInterval(this.deleteInterval)
@@ -394,10 +399,10 @@ export default {
 
 			try {
 				await this.$copyText(url)
-				this.$toast.success(this.$t('calendar', 'Calendar link copied to clipboard.'))
+				showSuccess(this.$t('calendar', 'Calendar link copied to clipboard.'))
 			} catch (error) {
 				console.debug(error)
-				this.$toast.error(this.$t('calendar', 'Calendar link could not be copied to clipboard.'))
+				showError(this.$t('calendar', 'Calendar link could not be copied to clipboard.'))
 			}
 		},
 		/**
@@ -432,7 +437,7 @@ export default {
 				this.showRenameInput = false
 				this.showRenameSaving = false
 			} catch (error) {
-				this.$toast(this.$t('calendar', 'An error occurred, unable to rename the calendar.'))
+				showInfo(this.$t('calendar', 'An error occurred, unable to rename the calendar.'))
 				console.error(error)
 
 				this.showRenameLabel = false
@@ -472,7 +477,7 @@ export default {
 				this.showColorInput = false
 				this.showColorSaving = false
 			} catch (error) {
-				this.$toast(this.$t('calendar', 'An error occurred, unable to change the calendar\'s color.'))
+				showInfo(this.$t('calendar', 'An error occurred, unable to change the calendar\'s color.'))
 				console.error(error)
 
 				this.showColorLabel = false

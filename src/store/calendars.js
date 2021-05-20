@@ -24,7 +24,12 @@
  *
  */
 import Vue from 'vue'
-import client from '../services/caldavService.js'
+import {
+	createCalendar,
+	createSubscription,
+	findAllCalendars,
+	findPublicCalendarsByTokens,
+} from '../services/caldavService.js'
 import { mapCDavObjectToCalendarObject } from '../models/calendarObject'
 import { dateFactory, getUnixTimestampFromDate } from '../utils/date.js'
 import { getDefaultCalendarObject, mapDavCollectionToCalendar } from '../models/calendar'
@@ -34,6 +39,11 @@ import { translate as t } from '@nextcloud/l10n'
 import getTimezoneManager from '../services/timezoneDataProviderService.js'
 import Timezone from 'calendar-js/src/timezones/timezone.js'
 import CalendarComponent from 'calendar-js/src/components/calendarComponent.js'
+import {
+	CALDAV_BIRTHDAY_CALENDAR,
+	IMPORT_STAGE_IMPORTING,
+	IMPORT_STAGE_PROCESSING,
+} from '../models/consts.js'
 
 const state = {
 	calendars: [],
@@ -375,12 +385,23 @@ const getters = {
 			const lastSlash = url.lastIndexOf('/')
 			const uri = url.substr(lastSlash + 1)
 
-			if (uri === 'contact_birthdays') {
+			if (uri === CALDAV_BIRTHDAY_CALENDAR) {
 				return calendar
 			}
 		}
 
 		return null
+	},
+
+	/**
+	 * Whether or not a birthday calendar exists
+	 *
+	 * @param {Object} state The Vuex state
+	 * @param {Object} getters the vuex getters
+	 * @returns {boolean}
+	 */
+	hasBirthdayCalendar: (state, getters) => {
+		return !!getters.getBirthdayCalendar
 	},
 
 	/**
@@ -417,7 +438,7 @@ const actions = {
 	 * @returns {Promise<Array>} the calendars
 	 */
 	async getCalendars({ commit, state, getters }) {
-		const calendars = await client.calendarHomes[0].findAllCalendars()
+		const calendars = await findAllCalendars()
 		calendars.map((calendar) => mapDavCollectionToCalendar(calendar, getters.getCurrentUserPrincipal)).forEach(calendar => {
 			commit('addCalendar', { calendar })
 		})
@@ -436,26 +457,9 @@ const actions = {
 	 * @returns {Promise<Object[]>}
 	 */
 	async getPublicCalendars({ commit, state, getters }, { tokens }) {
-		const findPromises = []
-
-		for (const token of tokens) {
-			const promise = client.publicCalendarHome
-				.find(token)
-				.catch(() => null) // Catch outdated tokens
-
-			findPromises.push(promise)
-		}
-
-		const calendars = await Promise.all(findPromises)
-		const existingCalendars = []
-		for (const calendar of calendars) {
-			if (calendar !== null) {
-				existingCalendars.push(calendar)
-			}
-		}
-
+		const calendars = await findPublicCalendarsByTokens(tokens)
 		const calendarObjects = []
-		for (const davCalendar of existingCalendars) {
+		for (const davCalendar of calendars) {
 			const calendar = mapDavCollectionToCalendar(davCalendar)
 			commit('addCalendar', { calendar })
 			calendarObjects.push(calendar)
@@ -490,7 +494,7 @@ const actions = {
 			timezoneIcs = calendar.toICS(false)
 		}
 
-		const response = await client.calendarHomes[0].createCalendarCollection(displayName, color, components, order, timezoneIcs)
+		const response = await createCalendar(displayName, color, components, order, timezoneIcs)
 		const calendar = mapDavCollectionToCalendar(response, context.getters.getCurrentUserPrincipal)
 		context.commit('addCalendar', { calendar })
 	},
@@ -507,7 +511,7 @@ const actions = {
 	 * @returns {Promise}
 	 */
 	async appendSubscription(context, { displayName, color, order, source }) {
-		const response = await client.calendarHomes[0].createSubscribedCollection(displayName, color, source, order)
+		const response = await createSubscription(displayName, color, source, order)
 		const calendar = mapDavCollectionToCalendar(response, context.getters.getCurrentUserPrincipal)
 		context.commit('addCalendar', { calendar })
 	},
@@ -577,35 +581,6 @@ const actions = {
 
 		await calendar.dav.update()
 		context.commit('changeCalendarColor', { calendar, newColor })
-	},
-
-	/**
-	 * Change a calendar's order
-	 *
-	 * @param {Object} context the store mutations Current context
-	 * @param {Object} data destructuring object
-	 * @param {Object} data.calendar the calendar to modify
-	 * @param {String} data.newOrder the new order of the calendar
-	 * @returns {Promise}
-	 */
-	async changeCalendarOrder(context, { calendar, newOrder }) {
-		calendar.dav.order = newOrder
-
-		await calendar.dav.update()
-		context.commit('changeCalendarOrder', { calendar, newOrder })
-	},
-
-	/**
-	 * Change order of multiple calendars
-	 *
-	 * @param {Object} context the store mutations Current context
-	 * @param {Array} new order of calendars
-	 */
-	async changeMultipleCalendarOrders(context, { calendars }) {
-		// TODO - implement me
-		// TODO - extract new order from order of calendars in array
-		// send proppatch to all calendars
-		// limit number of requests similar to import
 	},
 
 	/**
@@ -713,9 +688,13 @@ const actions = {
 		const calendarObjects = []
 		const calendarObjectIds = []
 		for (const r of response.concat(responseTodo)) {
-			const calendarObject = mapCDavObjectToCalendarObject(r, calendar.id)
-			calendarObjects.push(calendarObject)
-			calendarObjectIds.push(calendarObject.id)
+			try {
+				const calendarObject = mapCDavObjectToCalendarObject(r, calendar.id)
+				calendarObjects.push(calendarObject)
+				calendarObjectIds.push(calendarObject.id)
+			} catch (e) {
+				console.error('could not convert calendar object', e)
+			}
 		}
 
 		context.commit('appendCalendarObjects', { calendarObjects })
@@ -776,7 +755,7 @@ const actions = {
 	 * @param {Object} context the store mutations
 	 */
 	async importEventsIntoCalendar(context) {
-		context.commit('changeStage', 'importing')
+		context.commit('changeStage', IMPORT_STAGE_IMPORTING)
 
 		// Create a copy
 		const files = context.rootState.importFiles.importFiles.slice()
@@ -803,7 +782,7 @@ const actions = {
 				}
 
 				try {
-					const response = await client.calendarHomes[0].createCalendarCollection(displayName, color, components, 0)
+					const response = await createCalendar(displayName, color, components, 0)
 					const calendar = mapDavCollectionToCalendar(response, context.getters.getCurrentUserPrincipal)
 					context.commit('addCalendar', { calendar })
 					context.commit('setCalendarForFileId', {
@@ -854,7 +833,46 @@ const actions = {
 		}
 
 		await Promise.all(requests)
-		context.commit('changeStage', 'default')
+		context.commit('changeStage', IMPORT_STAGE_PROCESSING)
+	},
+	/**
+	 *
+	 * @param {Object} context The Vuex context destructuring object
+	 * @param {Function} context.commit The Vuex commit Function
+	 * @param {Object} data The data destructuring object
+	 * @param {Object} newOrder The object containing String => Number with the new order
+	 * @returns {Promise<void>}
+	 */
+	async updateCalendarListOrder({ state, commit }, { newOrder }) {
+		// keep a record of the original order in case we need to do a rollback
+
+		const limit = pLimit(3)
+		const requests = []
+		const calendarsToUpdate = []
+
+		for (const key in newOrder) {
+			requests.push(limit(async() => {
+				const calendar = state.calendarsById[key]
+
+				// Do not update unless necessary
+				if (calendar.dav.order === newOrder[key]) {
+					return
+				}
+
+				calendar.dav.order = newOrder[key]
+
+				await calendar.dav.update()
+
+				calendarsToUpdate.push({ calendar, newOrder: newOrder[key] })
+			}))
+		}
+
+		await Promise.all(requests)
+
+		for (const { calendar, newOrder } of calendarsToUpdate) {
+			console.debug(calendar, newOrder)
+			commit('changeCalendarOrder', { calendar, newOrder })
+		}
 	},
 }
 

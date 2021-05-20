@@ -35,39 +35,40 @@ use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Mail\IMessage;
 use ChristophWurst\Nextcloud\Testing\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class EmailControllerTest extends TestCase {
 
 	/** @var string */
 	private $appName;
 
-	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|MockObject */
 	private $request;
 
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|MockObject */
 	private $config;
 
-	/** @var Defaults|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Defaults|MockObject */
 	private $defaults;
 
-	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IL10N|MockObject */
 	private $l10n;
 
-	/** @var IMailer|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IMailer|MockObject */
 	private $mailer;
 
-	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserSession|MockObject */
 	private $userSession;
 
-	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IURLGenerator|MockObject */
 	private $urlGenerator;
 
-	/** @var IUser|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUser|MockObject */
 	private $user;
 
 	/** @var EmailController */
 	private $controller;
-	
+
 	protected function setUp():void {
 		parent::setUp();
 
@@ -96,7 +97,7 @@ class EmailControllerTest extends TestCase {
 	}
 
 	public function testSendUserSessionExpired():void {
-		$this->userSession->expects($this->at(0))
+		$this->userSession->expects(self::once(0))
 			->method('getUser')
 			->with()
 			->willReturn(null);
@@ -116,12 +117,12 @@ class EmailControllerTest extends TestCase {
 	}
 
 	public function testSendInvalidEmailAddress():void {
-		$this->userSession->expects($this->at(0))
+		$this->userSession->expects(self::once())
 			->method('getUser')
 			->with()
 			->willReturn($this->user);
 
-		$this->mailer->expects($this->at(0))
+		$this->mailer->expects(self::once())
 			->method('validateMailAddress')
 			->with('foo@bar.com')
 			->willReturn(false);
@@ -139,86 +140,79 @@ class EmailControllerTest extends TestCase {
 	}
 
 	public function testSendWithMailerError() {
-		$this->userSession->expects($this->at(0))
+		$this->userSession->expects(self::once())
 			->method('getUser')
-			->with()
 			->willReturn($this->user);
 
-		$this->mailer->expects($this->at(0))
+		$this->mailer->expects(self::once())
 			->method('validateMailAddress')
 			->with('foo@bar.com')
 			->willReturn(true);
 
-		$this->config->expects($this->at(0))
+		$this->config->expects(self::exactly(2))
 			->method('getSystemValue')
-			->with('mail_domain', 'domain.org')
-			->willReturn('testdomain.org');
-		$this->config->expects($this->at(1))
-			->method('getSystemValue')
-			->with('mail_from_address', 'nextcloud')
-			->willReturn('nextcloud123');
+			->willReturnMap([
+				['mail_domain', 'domain.org', 'testdomain.org'],
+				['mail_from_address', 'nextcloud', 'nextcloud123'],
+			]);
 
-		$this->defaults->expects($this->at(0))
+		$this->defaults->expects(self::once())
 			->method('getName')
 			->with()
 			->willReturn('Example Cloud Inc.');
 
-		$this->urlGenerator->expects($this->at(0))
+		$this->urlGenerator->expects(self::once())
 			->method('linkToRouteAbsolute')
-			->with('calendar.view.public_index_with_branding', [
+			->with('calendar.publicView.public_index_with_branding', [
 				'token' => 'token123'
 			])
 			->willReturn('http://publicURL123');
 
 		$template = $this->createMock(IEMailTemplate::class);
-		$template->expects($this->at(0))
+		$template->expects(self::once())
 			->method('setSubject')
 			->with('TRANSLATED: User Displayname 123 has published the calendar »calendar name 456«')
 			->willReturn($template);
-		$template->expects($this->at(1))
+		$template->expects(self::once())
 			->method('addHeader')
 			->with()
 			->willReturn($template);
-		$template->expects($this->at(2))
+		$template->expects(self::once())
 			->method('addHeading')
 			->with('TRANSLATED: User Displayname 123 has published the calendar »calendar name 456«')
 			->willReturn($template);
-		$template->expects($this->at(3))
+		$template->expects(self::exactly(3))
 			->method('addBodyText')
-			->with('TRANSLATED: Hello,')
-			->willReturn($template);
-		$template->expects($this->at(4))
-			->method('addBodyText')
-			->with('TRANSLATED: We wanted to inform you that User Displayname 123 has published the calendar »calendar name 456«.')
-			->willReturn($template);
-		$template->expects($this->at(5))
+			->withConsecutive(
+				['TRANSLATED: Hello,'],
+				['TRANSLATED: We wanted to inform you that User Displayname 123 has published the calendar »calendar name 456«.'],
+				['TRANSLATED: Cheers!']
+			)
+			->willReturnSelf();
+		$template->expects(self::once())
 			->method('addBodyButton')
 			->with('TRANSLATED: Open »calendar name 456«', 'http://publicURL123')
-			->willReturn($template);
-		$template->expects($this->at(6))
-			->method('addBodyText')
-			->with('TRANSLATED: Cheers!')
-			->willReturn($template);
-		$template->expects($this->at(7))
+			->willReturnSelf();
+		$template->expects(self::once())
 			->method('addFooter')
 			->with()
-			->willReturn($template);
+			->willReturnSelf();
 
 		$message = $this->createMock(IMessage::class);
-		$message->expects($this->at(0))
+		$message->expects(self::once())
 			->method('setFrom')
 			->with(['nextcloud123@testdomain.org' => 'Example Cloud Inc.'])
 			->willReturn($message);
-		$message->expects($this->at(1))
+		$message->expects(self::once())
 			->method('setTo')
 			->with(['foo@bar.com' => 'foo@bar.com'])
 			->willReturn($message);
-		$message->expects($this->at(2))
+		$message->expects(self::once())
 			->method('useTemplate')
 			->with($template)
 			->willReturn($message);
 
-		$this->mailer->expects($this->at(1))
+		$this->mailer->expects(self::once())
 			->method('createEMailTemplate')
 			->with('calendar.PublicShareNotification', [
 				'displayname' => 'User Displayname 123',
@@ -226,11 +220,11 @@ class EmailControllerTest extends TestCase {
 				'calendar_url' => 'http://publicURL123',
 			])
 			->willReturn($template);
-		$this->mailer->expects($this->at(2))
+		$this->mailer->expects(self::once())
 			->method('createMessage')
 			->with()
 			->willReturn($message);
-		$this->mailer->expects($this->at(3))
+		$this->mailer->expects(self::once())
 			->method('send')
 			->with($message)
 			->willThrowException(new \Exception('123'));
@@ -245,86 +239,80 @@ class EmailControllerTest extends TestCase {
 	}
 
 	public function testSendMailerSuccess() {
-		$this->userSession->expects($this->at(0))
+		$this->userSession->expects(self::once())
 			->method('getUser')
 			->with()
 			->willReturn($this->user);
 
-		$this->mailer->expects($this->at(0))
+		$this->mailer->expects(self::once())
 			->method('validateMailAddress')
 			->with('foo@bar.com')
 			->willReturn(true);
 
-		$this->config->expects($this->at(0))
+		$this->config->expects(self::exactly(2))
 			->method('getSystemValue')
-			->with('mail_domain', 'domain.org')
-			->willReturn('testdomain.org');
-		$this->config->expects($this->at(1))
-			->method('getSystemValue')
-			->with('mail_from_address', 'nextcloud')
-			->willReturn('nextcloud123');
+			->willReturnMap([
+				['mail_domain', 'domain.org', 'testdomain.org'],
+				['mail_from_address', 'nextcloud', 'nextcloud123'],
+			]);
 
-		$this->defaults->expects($this->at(0))
+		$this->defaults->expects(self::once())
 			->method('getName')
 			->with()
 			->willReturn('Example Cloud Inc.');
 
-		$this->urlGenerator->expects($this->at(0))
+		$this->urlGenerator->expects(self::once())
 			->method('linkToRouteAbsolute')
-			->with('calendar.view.public_index_with_branding', [
+			->with('calendar.publicView.public_index_with_branding', [
 				'token' => 'token123'
 			])
 			->willReturn('http://publicURL123');
 
 		$template = $this->createMock(IEMailTemplate::class);
-		$template->expects($this->at(0))
+		$template->expects(self::once())
 			->method('setSubject')
 			->with('TRANSLATED: User Displayname 123 has published the calendar »calendar name 456«')
 			->willReturn($template);
-		$template->expects($this->at(1))
+		$template->expects(self::once())
 			->method('addHeader')
 			->with()
 			->willReturn($template);
-		$template->expects($this->at(2))
+		$template->expects(self::once())
 			->method('addHeading')
 			->with('TRANSLATED: User Displayname 123 has published the calendar »calendar name 456«')
 			->willReturn($template);
-		$template->expects($this->at(3))
+		$template->expects(self::exactly(3))
 			->method('addBodyText')
-			->with('TRANSLATED: Hello,')
-			->willReturn($template);
-		$template->expects($this->at(4))
-			->method('addBodyText')
-			->with('TRANSLATED: We wanted to inform you that User Displayname 123 has published the calendar »calendar name 456«.')
-			->willReturn($template);
-		$template->expects($this->at(5))
+			->withConsecutive(
+				['TRANSLATED: Hello,'],
+				['TRANSLATED: We wanted to inform you that User Displayname 123 has published the calendar »calendar name 456«.'],
+				['TRANSLATED: Cheers!']
+			)
+			->willReturnSelf();
+		$template->expects(self::once())
 			->method('addBodyButton')
 			->with('TRANSLATED: Open »calendar name 456«', 'http://publicURL123')
 			->willReturn($template);
-		$template->expects($this->at(6))
-			->method('addBodyText')
-			->with('TRANSLATED: Cheers!')
-			->willReturn($template);
-		$template->expects($this->at(7))
+		$template->expects(self::once())
 			->method('addFooter')
 			->with()
 			->willReturn($template);
 
 		$message = $this->createMock(IMessage::class);
-		$message->expects($this->at(0))
+		$message->expects(self::once())
 			->method('setFrom')
 			->with(['nextcloud123@testdomain.org' => 'Example Cloud Inc.'])
 			->willReturn($message);
-		$message->expects($this->at(1))
+		$message->expects(self::once())
 			->method('setTo')
 			->with(['foo@bar.com' => 'foo@bar.com'])
 			->willReturn($message);
-		$message->expects($this->at(2))
+		$message->expects(self::once())
 			->method('useTemplate')
 			->with($template)
 			->willReturn($message);
 
-		$this->mailer->expects($this->at(1))
+		$this->mailer->expects(self::once())
 			->method('createEMailTemplate')
 			->with('calendar.PublicShareNotification', [
 				'displayname' => 'User Displayname 123',
@@ -332,11 +320,11 @@ class EmailControllerTest extends TestCase {
 				'calendar_url' => 'http://publicURL123',
 			])
 			->willReturn($template);
-		$this->mailer->expects($this->at(2))
+		$this->mailer->expects(self::once())
 			->method('createMessage')
 			->with()
 			->willReturn($message);
-		$this->mailer->expects($this->at(3))
+		$this->mailer->expects(self::once())
 			->method('send')
 			->with($message);
 

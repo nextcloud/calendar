@@ -25,14 +25,12 @@ OC.L10N.register(
     "Update" : "Ažuriraj",
     "Personal" : "Osobno",
     "Attendees" : "Sudionici",
-    "Activity" : "Aktivnost",
     "Close" : "Zatvori",
     "Daily" : "Dnevno",
     "Weekly" : "Sedmično",
     "Location" : "Lokacija",
     "Description" : "Opis",
     "Status" : "Status",
-    "Mail" : "E-Pošta",
-    "Play" : "Play"
+    "Mail" : "E-Pošta"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

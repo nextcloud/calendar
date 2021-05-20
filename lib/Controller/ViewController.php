@@ -94,9 +94,10 @@ class ViewController extends Controller {
 		$defaultSkipPopover = $this->config->getAppValue($this->appName, 'skipPopover', 'no');
 		$defaultTimezone = $this->config->getAppValue($this->appName, 'timezone', 'automatic');
 		$defaultSlotDuration = $this->config->getAppValue($this->appName, 'slotDuration', '00:30:00');
+		$defaultDefaultReminder = $this->config->getAppValue($this->appName, 'defaultReminder', 'none');
 		$defaultShowTasks = $this->config->getAppValue($this->appName, 'showTasks', 'yes');
 
-		$appVersion = $this->config->getAppValue($this->appName, 'installed_version');
+		$appVersion = $this->config->getAppValue($this->appName, 'installed_version', null);
 		$eventLimit = $this->config->getUserValue($this->userId, $this->appName, 'eventLimit', $defaultEventLimit) === 'yes';
 		$firstRun = $this->config->getUserValue($this->userId, $this->appName, 'firstRun', 'yes') === 'yes';
 		$initialView = $this->getView($this->config->getUserValue($this->userId, $this->appName, 'currentView', $defaultInitialView));
@@ -105,6 +106,7 @@ class ViewController extends Controller {
 		$skipPopover = $this->config->getUserValue($this->userId, $this->appName, 'skipPopover', $defaultSkipPopover) === 'yes';
 		$timezone = $this->config->getUserValue($this->userId, $this->appName, 'timezone', $defaultTimezone);
 		$slotDuration = $this->config->getUserValue($this->userId, $this->appName, 'slotDuration', $defaultSlotDuration);
+		$defaultReminder = $this->config->getUserValue($this->userId, $this->appName, 'defaultReminder', $defaultDefaultReminder);
 		$showTasks = $this->config->getUserValue($this->userId, $this->appName, 'showTasks', $defaultShowTasks) === 'yes';
 
 		$talkEnabled = $this->appManager->isEnabledForUser('spreed');
@@ -120,6 +122,7 @@ class ViewController extends Controller {
 		$this->initialStateService->provideInitialState($this->appName, 'talk_enabled', $talkEnabled);
 		$this->initialStateService->provideInitialState($this->appName, 'timezone', $timezone);
 		$this->initialStateService->provideInitialState($this->appName, 'slot_duration', $slotDuration);
+		$this->initialStateService->provideInitialState($this->appName, 'default_reminder', $defaultReminder);
 		$this->initialStateService->provideInitialState($this->appName, 'show_tasks', $showTasks);
 		$this->initialStateService->provideInitialState($this->appName, 'tasks_enabled', $tasksEnabled);
 

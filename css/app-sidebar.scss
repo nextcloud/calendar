@@ -20,9 +20,8 @@
  *
  */
 
-#app-sidebar,
-.event-popover .popover-inner {
-
+.app-sidebar,
+.event-popover .popover__inner {
 	.app-sidebar-header__figure {
 		height: unset !important;
 	}
@@ -30,6 +29,20 @@
 	.app-sidebar-header__action {
 		margin-top: 0 !important;
 		max-height: none !important;
+		flex-wrap: wrap;
+
+		div {
+			flex-shrink: 0;
+		}
+	}
+
+	/** Hide the submit button for the title, because it does not trigger a save */
+	.app-sidebar-header__desc {
+		.rename-form {
+			button {
+				display: none;
+			}
+		}
 	}
 
 	.editor-invitee-list-empty-message,
@@ -91,9 +104,9 @@
 		}
 	}
 
-	.app-sidebar-tab-loading-indicator {
+	.app-sidebar__loading-indicator {
 		width: 100%;
-		margin-top: 20px;
+		margin-top: 20vh;
 
 		&__icon {
 			margin: 0 auto;
@@ -428,6 +441,7 @@
 		&__organizer-hint {
 			color: var(--color-text-maxcontrast);
 			font-weight: 300;
+			margin-left: 5px;
 		}
 	}
 
@@ -513,6 +527,14 @@
 					color: var(--color-main-text);
 					outline: none;
 				}
+
+				a.linkified {
+					text-decoration: underline;
+
+					&::after {
+						content: ' ↗';
+					}
+				}
 			}
 
 			&--readonly-calendar-picker {
@@ -592,7 +614,7 @@
 }
 
 .timezone-popover-wrapper {
-	.tooltip-inner.popover-inner {
+	.popover__inner {
 		padding: 20px;
 	}
 
@@ -606,10 +628,16 @@
 }
 
 .event-popover {
-	.popover-inner {
+	.popover__inner {
 		text-align: left;
 		max-width: 450px;
 		width: 450px;
+		padding: 5px 8px;
+
+		.empty-content {
+			margin-top: 0 !important;
+			padding: 50px 0;
+		}
 
 		.illustration-header {
 			height: 100px;
@@ -624,7 +652,7 @@
 			border-top-right-radius: var(--border-radius);
 		}
 
-		.popover-inner {
+		.popover__inner {
 			max-width: unset !important;
 		}
 
@@ -672,8 +700,8 @@
 	}
 }
 
-.event-popover.tooltip[x-placement^='bottom'] {
-	.popover-arrow {
+.event-popover[x-placement^='bottom'] {
+	.popover__arrow {
 		border-bottom-color: var(--color-background-dark);
 	}
 }
@@ -689,10 +717,19 @@
 		border-radius: 50%;
 		border: none;
 		margin-right: 8px;
+		flex-basis: 12px;
+		flex-shrink: 0;
+	}
+
+	&__label {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		flex-grow: 1;
 	}
 
 	&__avatar {
-		margin-left: auto;
+		flex-basis: 18px;
+		flex-shrink: 0;
 	}
 }
 

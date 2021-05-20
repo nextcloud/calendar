@@ -83,6 +83,10 @@ import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
 import {
 	generateRemoteUrl,
 } from '@nextcloud/router'
+import {
+	showSuccess,
+	showError,
+} from '@nextcloud/dialogs'
 
 export default {
 	name: 'PublicCalendarListItem',
@@ -167,7 +171,7 @@ export default {
 				this.showCopySubscriptionLinkSuccess = true
 				this.showCopySubscriptionLinkError = false
 
-				this.$toast.success(this.$t('calendar', 'Calendar link copied to clipboard.'))
+				showSuccess(this.$t('calendar', 'Calendar link copied to clipboard.'))
 			} catch (error) {
 				console.debug(error)
 				this.menuOpen = true
@@ -176,7 +180,7 @@ export default {
 				this.showCopySubscriptionLinkSuccess = false
 				this.showCopySubscriptionLinkError = true
 
-				this.$toast.error(this.$t('calendar', 'Calendar link could not be copied to clipboard.'))
+				showError(this.$t('calendar', 'Calendar link could not be copied to clipboard.'))
 			} finally {
 				setTimeout(() => {
 					this.showCopySubscriptionLinkLabel = true

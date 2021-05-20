@@ -2,7 +2,6 @@
     "Provided email-address is not valid" : "Adresa de email furnizată este invalidă",
     "%s has published the calendar »%s«" : "%sa publicat calendarul »%s«",
     "Unexpected error sending email. Please contact your administrator." : "Eroare neașteptată la trimiterea emailului. Vă rog contactați-vă administratorul.",
-    "Successfully sent email to " : "Email trimis cu succes la ",
     "Hello," : "Salut,",
     "We wanted to inform you that %s has published the calendar »%s«." : "Vă informăm că %sa publicat calendarul »%s«.",
     "Open »%s«" : "Accesează »%s«",
@@ -59,12 +58,13 @@
     "Details" : "Detalii",
     "Attendees" : "Participanți",
     "Reminders" : "Mementouri",
-    "Activity" : "Activitate",
     "Close" : "Închide",
     "Anniversary" : "Aniversare",
     "Week {number} of {year}" : "Săptămâna {number} din {year}",
     "Daily" : "Zilnic",
     "Weekly" : "Săptămânal",
+    "next year" : "anul viitor",
+    "today" : "astăzi",
     "When shared show full event" : "Arată tot evenimentul la partajare",
     "When shared show only busy" : "Arată doar ocupat la partajare",
     "When shared hide this event" : "Ascunde evenimentul la partajare",
@@ -73,9 +73,7 @@
     "Status" : "Stare",
     "Confirmed" : "Confirmat",
     "Tentative" : "Tentativă",
-    "Cancelled" : "Anulat",
     "Mail" : "Mail",
-    "Play" : "Redă",
     "Global" : "Global"
 },"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
 }

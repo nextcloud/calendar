@@ -115,9 +115,10 @@ describe('utils/timezone test suite', () => {
 		expect(translate).toHaveBeenNthCalledWith(3, 'calendar', 'Global')
 	})
 
-	it ('should get a readable timezone name', () => {
+	it('should get a readable timezone name', () => {
 		expect(getReadableTimezoneName('Europe/Berlin')).toEqual('Europe - Berlin')
 		expect(getReadableTimezoneName('America/New_York')).toEqual('America - New York')
 		expect(getReadableTimezoneName('America/St_Johns')).toEqual('America - St. Johns')
+		expect(getReadableTimezoneName('America/Argentina/Buenos_Aires')).toEqual('America - Argentina - Buenos Aires')
 	})
 })

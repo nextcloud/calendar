@@ -24,13 +24,13 @@
 	<DatetimePicker
 		:lang="lang"
 		:first-day-of-week="firstDay"
-		:format="format"
+		:format="'YYYY-MM-DD HH:mm'"
+		:formatter="formatter"
 		:value="date"
 		:type="type"
 		:clearable="false"
 		:minute-step="5"
-		:not-before="minimumDate"
-		:not-after="maximumDate"
+		:disabled-date="disabledDate"
 		:show-second="false"
 		:show-time-panel="showTimePanel"
 		:show-week-number="showWeekNumbers"
@@ -38,7 +38,8 @@
 		v-bind="$attrs"
 		v-on="$listeners"
 		@close="close"
-		@change="change">
+		@change="change"
+		@pick="pickDate">
 		<template
 			slot="icon-calendar">
 			<button
@@ -83,14 +84,16 @@
 import DatetimePicker from '@nextcloud/vue/dist/Components/DatetimePicker'
 import Popover from '@nextcloud/vue/dist/Components/Popover'
 import {
-	getDayNamesMin,
-	getMonthNamesShort,
 	getFirstDay,
 } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
 import { mapState } from 'vuex'
+import {
+	showError,
+} from '@nextcloud/dialogs'
 
 import TimezoneSelect from './TimezoneSelect'
+import { getLangConfigForVue2DatePicker } from '../../utils/localization.js'
 
 export default {
 	name: 'DatePicker',
@@ -135,16 +138,9 @@ export default {
 	},
 	data() {
 		return {
-			lang: {
-				days: getDayNamesMin(),
-				months: getMonthNamesShort(),
-				placeholder: {
-					date: this.$t('calendar', 'Select Date'),
-				},
-			},
 			firstDay: getFirstDay() === 0 ? 7 : getFirstDay(),
 			showTimezonePopover: false,
-			format: {
+			formatter: {
 				stringify: this.stringify,
 				parse: this.parse,
 			},
@@ -156,6 +152,14 @@ export default {
 			locale: (state) => state.settings.momentLocale,
 			showWeekNumbers: (state) => state.settings.showWeekNumbers,
 		}),
+		/**
+		 * Returns the lang config for vue2-datepicker
+		 *
+		 * @returns {Object}
+		 */
+		lang() {
+			return getLangConfigForVue2DatePicker(this.locale)
+		},
 		/**
 		 * Whether or not to highlight the timezone-icon.
 		 * The icon is highlighted when the selected timezone
@@ -219,6 +223,18 @@ export default {
 		 */
 		change(date) {
 			this.$emit('change', date)
+		},
+		/**
+		 * Changes the view to time-picker,
+		 * when user picked a date and date-time-picker is not all-day
+		 *
+		 * @param {Date} date The selected Date object
+		 * @param {String} type The type of selected date (Date, Time, ...)
+		 */
+		pickDate(date, type) {
+			if (!this.isAllDay && type === 'date') {
+				this.showTimePanel = true
+			}
 		},
 		/**
 		 * Emits a change event for the Timezone
@@ -329,7 +345,7 @@ export default {
 				const matches = value.match(regex)
 
 				if (!matches) {
-					this.$toast.error(this.$t('calendar', 'Please enter a valid date'))
+					showError(this.$t('calendar', 'Please enter a valid date'))
 					// Just return the previous date
 					return this.date
 				}
@@ -373,13 +389,22 @@ export default {
 				const timeMatches = value.match(timeRegex)
 
 				if (!dateMatches || !timeMatches) {
-					this.$toast.error(this.$t('calendar', 'Please enter a valid date and time'))
+					showError(this.$t('calendar', 'Please enter a valid date and time'))
 					// Just return the previous date
 					return this.date
 				}
 
 				return moment(dateMatches[1] + ' ' + timeMatches[1], 'L LT', this.locale).toDate()
 			}
+		},
+		/**
+		 * Whether or not the date is acceptable
+		 *
+		 * @param {Date} date The date to compare to
+		 * @returns {Boolean}
+		 */
+		disabledDate(date) {
+			return date < this.minimumDate || date > this.maximumDate
 		},
 	},
 }

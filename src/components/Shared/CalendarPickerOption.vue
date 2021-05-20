@@ -26,7 +26,8 @@
 			class="calendar-picker-option__color-indicator"
 			:style="{ backgroundColor: color }" />
 
-		<span>
+		<span
+			class="calendar-picker-option__label">
 			{{ displayName }}
 		</span>
 

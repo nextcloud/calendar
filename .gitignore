@@ -74,6 +74,7 @@ vendor/
 build/
 js/
 node_modules/
+src/fonts
 *.clover
 
 # just sane ignores
@@ -93,8 +94,10 @@ RCS/*
 
 /.project
 .php_cs.cache
+.phpunit.result.cache
 
 coverage/
 
 js/public
 css/public
+

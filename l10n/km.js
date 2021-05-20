@@ -22,13 +22,12 @@ OC.L10N.register(
     "Personal" : "ផ្ទាល់​ខ្លួន",
     "Details" : "ព័ត៌មាន​លម្អិត",
     "Attendees" : "អ្នក​ចូលរួម",
-    "Activity" : "សកម្មភាព",
     "Close" : "បិទ",
     "Daily" : "រាល់ថ្ងៃ",
     "Weekly" : "រាល់​សប្ដាហ៍",
+    "today" : "ថ្ងៃនេះ",
     "Location" : "ទីតាំង",
     "Description" : "ការ​អធិប្បាយ",
-    "Mail" : "សំបុត្រ",
-    "Play" : "លេង"
+    "Mail" : "សំបុត្រ"
 },
 "nplurals=1; plural=0;");

@@ -32,7 +32,8 @@ export function getSortedTimezoneList(timezoneList = [], additionalTimezones = [
 	const sortedList = []
 
 	for (const timezoneId of timezoneList) {
-		let [continent, name] = timezoneId.split('/', 2)
+		const components = timezoneId.split('/')
+		let [continent, name] = [components.shift(), components.join('/')]
 		if (!name) {
 			name = continent
 			// TRANSLATORS This refers to global timezones in the timezone picker

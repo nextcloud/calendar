@@ -37,11 +37,11 @@ OC.L10N.register(
     "Details" : "Дэлгэрэнгүй",
     "Attendees" : "Оролцогчид",
     "Reminders" : "Сануулагууд",
-    "Activity" : "Үйлдлүүд",
     "Close" : "Хаах",
     "Week {number} of {year}" : "{year} оны {number}-р долоо хоног ",
     "Daily" : "Өдөр бүр",
     "Weekly" : "Долоо хоног бүр",
+    "today" : "өнөөдөр",
     "When shared show full event" : "Түгээсэн тохиолдолд үйл явдлыг бүтнээр нь харуул",
     "When shared show only busy" : "Түгээсэн тохиолдолд зөвхөн завгүй гэж харуул",
     "When shared hide this event" : "Түгээсэн тохиолдолд энэ үйл явдлыг нуу",
@@ -50,10 +50,8 @@ OC.L10N.register(
     "Status" : "төлөв",
     "Confirmed" : "Баталгаажсан",
     "Tentative" : "Урьдчилсан тов",
-    "Cancelled" : "Цуцлагдсан",
     "Categories" : "төрөл",
     "Mail" : "Цахим шуудан",
-    "Play" : "Тоглуулах",
     "Global" : "Нийтийн"
 },
 "nplurals=2; plural=(n != 1);");

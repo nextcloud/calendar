@@ -1,5 +1,5 @@
 /**
- * @copyright Copyright (c) 2019 Georg Ehrke
+ * @copyright Copyright (c) 2020 Georg Ehrke
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
@@ -21,7 +21,7 @@
  */
 const state = {
 	minimumDate: '1970-01-01T00:00:00Z',
-	maximumDate: '2036-12-31T23:59:59Z',
+	maximumDate: '2037-12-31T23:59:59Z',
 }
 
 const mutations = {
@@ -30,11 +30,13 @@ const mutations = {
 	 * Initialize restrictions imposed by CalDAV server
 	 *
 	 * @param {Object} state The Vuex state
-	 * @param {Object} davRestrictions The full settings object
+	 * @param {Object} data The destructuring object
+	 * @param {String} data.minimumDate The minimum-date allowed by the CalDAV server
+	 * @param {String} data.maximumDate The maximum-date allowed by the CalDAV server
 	 */
-	loadDavRestrictionsFromServer(state, davRestrictions) {
-		state.minimumDate = davRestrictions.minimumDate
-		state.maximumDate = davRestrictions.maximumDate
+	loadDavRestrictionsFromServer(state, { minimumDate, maximumDate }) {
+		state.minimumDate = minimumDate
+		state.maximumDate = maximumDate
 	},
 }
 

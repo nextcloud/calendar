@@ -29,22 +29,23 @@ use OCP\IInitialStateService;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use ChristophWurst\Nextcloud\Testing\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class PublicViewControllerTest extends TestCase {
 
 	/** @var string */
 	private $appName;
 
-	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|MockObject */
 	private $request;
 
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|MockObject */
 	private $config;
 
-	/** @var IInitialStateService|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IInitialStateService|MockObject */
 	private $initialStateService;
 
-	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IURLGenerator|MockObject */
 	private $urlGenerator;
 
 	/** @var ViewController */
@@ -62,101 +63,60 @@ class PublicViewControllerTest extends TestCase {
 	}
 
 	public function testPublicIndexWithBranding():void {
-		$this->config->expects($this->at(0))
+		$this->config->expects(self::exactly(10))
 			->method('getAppValue')
-			->with('calendar', 'eventLimit', 'yes')
-			->willReturn('no');
-		$this->config->expects($this->at(1))
-			->method('getAppValue')
-			->with('calendar', 'currentView', 'dayGridMonth')
-			->willReturn('defaultCurrentView');
-		$this->config->expects($this->at(2))
-			->method('getAppValue')
-			->with('calendar', 'showWeekends', 'yes')
-			->willReturn('no');
-		$this->config->expects($this->at(3))
-			->method('getAppValue')
-			->with('calendar', 'showWeekNr', 'no')
-			->willReturn('yes');
-		$this->config->expects($this->at(4))
-			->method('getAppValue')
-			->with('calendar', 'skipPopover', 'yes')
-			->willReturn('yes');
-		$this->config->expects($this->at(5))
-			->method('getAppValue')
-			->with('calendar', 'timezone', 'automatic')
-			->willReturn('defaultTimezone');
-		$this->config->expects($this->at(6))
-			->method('getAppValue')
-			->with('calendar', 'slotDuration', '00:30:00')
-			->willReturn('defaultSlotDuration');
-		$this->config->expects($this->at(7))
-			->method('getAppValue')
-			->with('calendar', 'showTasks')
-			->willReturn('yes');
-		$this->config->expects($this->at(8))
-			->method('getAppValue')
-			->with('calendar', 'installed_version')
-			->willReturn('1.0.0');
+			->willReturnMap([
+				['calendar', 'eventLimit', 'yes', 'no'],
+				['calendar', 'currentView', 'dayGridMonth', 'defaultCurrentView'],
+				['calendar', 'showWeekends', 'yes', 'no'],
+				['calendar', 'showWeekNr', 'no', 'yes'],
+				['calendar', 'skipPopover', 'yes', 'yes'],
+				['calendar', 'timezone', 'automatic', 'defaultTimezone'],
+				['calendar', 'slotDuration', '00:30:00', 'defaultSlotDuration'],
+				['calendar', 'defaultReminder', 'none', 'defaultDefaultReminder'],
+				['calendar', 'showTasks', 'yes', 'yes'],
+				['calendar', 'installed_version', null, '1.0.0']
+			]);
 
-		$this->request->expects($this->at(0))
+		$this->request->expects(self::once())
 			->method('getServerProtocol')
 			->with()
 			->willReturn('protocol');
-		$this->request->expects($this->at(1))
+		$this->request->expects(self::once())
 			->method('getServerHost')
 			->with()
 			->willReturn('host123');
-		$this->request->expects($this->at(2))
+		$this->request->expects(self::once())
 			->method('getRequestUri')
 			->with()
 			->willReturn('/456');
 
-		$this->urlGenerator->expects($this->at(0))
+		$this->urlGenerator->expects(self::once())
 			->method('imagePath')
 			->with('core', 'favicon-touch.png')
 			->willReturn('imagePath456');
-		$this->urlGenerator->expects($this->at(1))
+		$this->urlGenerator->expects(self::once())
 			->method('getAbsoluteURL')
 			->with('imagePath456')
 			->willReturn('absoluteImagePath456');
 
-		$this->initialStateService->expects($this->at(0))
+		$this->initialStateService->expects(self::exactly(13))
 			->method('provideInitialState')
-			->with('calendar', 'app_version', '1.0.0');
-		$this->initialStateService->expects($this->at(1))
-			->method('provideInitialState')
-			->with('calendar', 'event_limit', false);
-		$this->initialStateService->expects($this->at(2))
-			->method('provideInitialState')
-			->with('calendar', 'first_run', false);
-		$this->initialStateService->expects($this->at(3))
-			->method('provideInitialState')
-			->with('calendar', 'initial_view', 'defaultCurrentView');
-		$this->initialStateService->expects($this->at(4))
-			->method('provideInitialState')
-			->with('calendar', 'show_weekends', false);
-		$this->initialStateService->expects($this->at(5))
-			->method('provideInitialState')
-			->with('calendar', 'show_week_numbers', true);
-		$this->initialStateService->expects($this->at(6))
-			->method('provideInitialState')
-			->with('calendar', 'skip_popover', true);
-		$this->initialStateService->expects($this->at(7))
-			->method('provideInitialState')
-			->with('calendar', 'talk_enabled', false);
-		$this->initialStateService->expects($this->at(8))
-			->method('provideInitialState')
-			->with('calendar', 'timezone', 'defaultTimezone');
-		$this->initialStateService->expects($this->at(9))
-			->method('provideInitialState')
-			->with('calendar', 'slot_duration', 'defaultSlotDuration');
-		$this->initialStateService->expects($this->at(10))
-			->method('provideInitialState')
-			->with('calendar', 'show_tasks', true);
-		$this->initialStateService->expects($this->at(11))
-			->method('provideInitialState')
-			->with('calendar', 'tasks_enabled', false);
+			->withConsecutive(
+				['calendar', 'app_version', '1.0.0'],
+				['calendar', 'event_limit', false],
+				['calendar', 'first_run', false],
+				['calendar', 'initial_view', 'defaultCurrentView'],
+				['calendar', 'show_weekends', false],
+				['calendar', 'show_week_numbers', true],
+				['calendar', 'skip_popover', true],
+				['calendar', 'talk_enabled', false],
+				['calendar', 'timezone', 'defaultTimezone'],
+				['calendar', 'slot_duration', 'defaultSlotDuration'],
+				['calendar', 'default_reminder', 'defaultDefaultReminder'],
+				['calendar', 'show_tasks', true],
+				['calendar', 'tasks_enabled', false]
+			);
 
 		$response = $this->controller->publicIndexWithBranding('');
 
@@ -170,101 +130,59 @@ class PublicViewControllerTest extends TestCase {
 	}
 
 	public function testPublicIndexForEmbedding():void {
-		$this->config->expects($this->at(0))
+		$this->config->expects(self::any())
 			->method('getAppValue')
-			->with('calendar', 'eventLimit', 'yes')
-			->willReturn('yes');
-		$this->config->expects($this->at(1))
-			->method('getAppValue')
-			->with('calendar', 'currentView', 'dayGridMonth')
-			->willReturn('defaultCurrentView');
-		$this->config->expects($this->at(2))
-			->method('getAppValue')
-			->with('calendar', 'showWeekends', 'yes')
-			->willReturn('no');
-		$this->config->expects($this->at(3))
-			->method('getAppValue')
-			->with('calendar', 'showWeekNr', 'no')
-			->willReturn('yes');
-		$this->config->expects($this->at(4))
-			->method('getAppValue')
-			->with('calendar', 'skipPopover', 'yes')
-			->willReturn('yes');
-		$this->config->expects($this->at(5))
-			->method('getAppValue')
-			->with('calendar', 'timezone', 'automatic')
-			->willReturn('defaultTimezone');
-		$this->config->expects($this->at(6))
-			->method('getAppValue')
-			->with('calendar', 'slotDuration', '00:30:00')
-			->willReturn('defaultSlotDuration');
-		$this->config->expects($this->at(7))
-			->method('getAppValue')
-			->with('calendar', 'showTasks', 'yes')
-			->willReturn('defaultShowTasks');
-		$this->config->expects($this->at(8))
-			->method('getAppValue')
-			->with('calendar', 'installed_version')
-			->willReturn('1.0.0');
-
-		$this->request->expects($this->at(0))
+			->willReturnMap([
+				['calendar', 'eventLimit', 'yes', 'yes'],
+				['calendar', 'currentView', 'dayGridMonth', 'defaultCurrentView'],
+				['calendar', 'showWeekends', 'yes', 'no'],
+				['calendar', 'showWeekNr', 'no', 'yes'],
+				['calendar', 'skipPopover', 'yes', 'yes'],
+				['calendar', 'timezone', 'automatic', 'defaultTimezone'],
+				['calendar', 'slotDuration', '00:30:00', 'defaultSlotDuration'],
+				['calendar', 'defaultReminder', 'none', 'defaultDefaultReminder'],
+				['calendar', 'showTasks', 'yes', 'defaultShowTasks'],
+				['calendar', 'installed_version', null, '1.0.0']
+			]);
+		$this->request->expects(self::once())
 			->method('getServerProtocol')
 			->with()
 			->willReturn('protocol');
-		$this->request->expects($this->at(1))
+		$this->request->expects(self::once())
 			->method('getServerHost')
 			->with()
 			->willReturn('host123');
-		$this->request->expects($this->at(2))
+		$this->request->expects(self::once())
 			->method('getRequestUri')
 			->with()
 			->willReturn('/456');
 
-		$this->urlGenerator->expects($this->at(0))
+		$this->urlGenerator->expects(self::once())
 			->method('imagePath')
 			->with('core', 'favicon-touch.png')
 			->willReturn('imagePath456');
-		$this->urlGenerator->expects($this->at(1))
+		$this->urlGenerator->expects(self::once())
 			->method('getAbsoluteURL')
 			->with('imagePath456')
 			->willReturn('absoluteImagePath456');
 
-		$this->initialStateService->expects($this->at(0))
+		$this->initialStateService->expects(self::exactly(13))
 			->method('provideInitialState')
-			->with('calendar', 'app_version', '1.0.0');
-		$this->initialStateService->expects($this->at(1))
-			->method('provideInitialState')
-			->with('calendar', 'event_limit', true);
-		$this->initialStateService->expects($this->at(2))
-			->method('provideInitialState')
-			->with('calendar', 'first_run', false);
-		$this->initialStateService->expects($this->at(3))
-			->method('provideInitialState')
-			->with('calendar', 'initial_view', 'defaultCurrentView');
-		$this->initialStateService->expects($this->at(4))
-			->method('provideInitialState')
-			->with('calendar', 'show_weekends', false);
-		$this->initialStateService->expects($this->at(5))
-			->method('provideInitialState')
-			->with('calendar', 'show_week_numbers', true);
-		$this->initialStateService->expects($this->at(6))
-			->method('provideInitialState')
-			->with('calendar', 'skip_popover', true);
-		$this->initialStateService->expects($this->at(7))
-			->method('provideInitialState')
-			->with('calendar', 'talk_enabled', false);
-		$this->initialStateService->expects($this->at(8))
-			->method('provideInitialState')
-			->with('calendar', 'timezone', 'defaultTimezone');
-		$this->initialStateService->expects($this->at(9))
-			->method('provideInitialState')
-			->with('calendar', 'slot_duration', 'defaultSlotDuration');
-		$this->initialStateService->expects($this->at(10))
-			->method('provideInitialState')
-			->with('calendar', 'show_tasks', false);
-		$this->initialStateService->expects($this->at(11))
-			->method('provideInitialState')
-			->with('calendar', 'tasks_enabled', false);
+			->withConsecutive(
+				['calendar', 'app_version', '1.0.0'],
+				['calendar', 'event_limit', true],
+				['calendar', 'first_run', false],
+				['calendar', 'initial_view', 'defaultCurrentView'],
+				['calendar', 'show_weekends', false],
+				['calendar', 'show_week_numbers', true],
+				['calendar', 'skip_popover', true],
+				['calendar', 'talk_enabled', false],
+				['calendar', 'timezone', 'defaultTimezone'],
+				['calendar', 'slot_duration', 'defaultSlotDuration'],
+				['calendar', 'default_reminder', 'defaultDefaultReminder'],
+				['calendar', 'show_tasks', false],
+				['calendar', 'tasks_enabled', false]
+			);
 
 		$response = $this->controller->publicIndexForEmbedding('');
 

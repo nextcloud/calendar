@@ -1,4 +1,118 @@
-# 2.0.3 - 2020-04-09
+# Changelog
+
+## 2.2.0 – 2021-03-24
+### Added
+- Datepicker in free/busy view
+- Grey background for all attendees in free/busy when at least one person is busy
+- Free/busy view shows day of the week
+- Nextcloud 22 (dev) support
+### Changed
+- Improved dashboard widget styling
+- Updated translations
+- Updated dependencies
+- Vary event illustrations when multiple illustrations match
+### Fixed
+- Hide cancelled events on dashboard
+- Styling of free/busy slots
+- Browser compatibility issues
+- Search DAV principal as display name or email
+- Handling of invalid calendar objects when rending a calendar
+- Sorting of free/busy resources
+- Hover background in list view with Nextcloud's dark theme
+
+## 2.1.3 - 2021-01-04
+### Fixed
+- Let apps handle clicks on todo entries #2478
+- Fix calendar rendering with complex locale #2741
+- Fix encoded display of names that contain a special character #2726
+- Fix blank page on browsers without support for ResizeObserver #2620
+- Fix broken link #2715
+- RRULE UNTIL must be in UTC if DTSTART is timezone-aware #2709
+- Add some margin for organizer hint in attendee list #2683
+- Updated translations
+- Updated dependencies
+
+## 2.1.2 - 2020-09-24
+### Added
+- 21 compatibility
+- Fixed reminder editing
+  [#2605](https://github.com/nextcloud/calendar/pull/2605)
+  [#2606](https://github.com/nextcloud/calendar/pull/2606)
+
+## 2.1.1 - 2020-09-11
+### Fixed
+- Dashboard fixes
+  [#2574](https://github.com/nextcloud/calendar/pull/2574)
+  [#2575](https://github.com/nextcloud/calendar/pull/2575)
+  [#2579](https://github.com/nextcloud/calendar/pull/2579)
+- Fix opening an event from search
+  [#2578](https://github.com/nextcloud/calendar/pull/2578)
+- Updated dependencies
+- Updated translations
+
+## 2.1.0 - 2020-09-02
+### Added
+- Dashboard integration
+  [#2414](https://github.com/nextcloud/calendar/pull/2414)
+- Better routes to link to calendar from outside
+  [#2483](https://github.com/nextcloud/calendar/pull/2483)
+- Different style for all-day / timed events
+  [#30](https://github.com/nextcloud/calendar/issues/30)
+- List view
+  [#402](https://github.com/nextcloud/calendar/issues/402)
+- Search
+  [#8](https://github.com/nextcloud/calendar/issues/8)
+
+### Fixed
+- Better localization of calendar-grid
+  [#1844](https://github.com/nextcloud/calendar/issues/1844)
+- Remove double scrollbars in Firefox
+  [#1815](https://github.com/nextcloud/calendar/issues/1815)
+- Better error handling for missing events
+  [#2459](https://github.com/nextcloud/calendar/issues/2459)
+- Long description box
+  [#2187](https://github.com/nextcloud/calendar/issues/2187)
+
+## 2.0.4 - 2020-08-27
+### Added
+- Center date in month view cell
+  [#2451](https://github.com/nextcloud/calendar/pull/2451)
+- Sortable calendar list
+  [#9](https://github.com/nextcloud/calendar/issues/9)
+- Display tasks with a due-date in calendar app
+  [#28](https://github.com/nextcloud/calendar/issues/28)
+- Keyboard support
+  [#157](https://github.com/nextcloud/calendar/issues/157)
+- Add illustration to videoconference
+  [#2217](https://github.com/nextcloud/calendar/issues/2217)
+- Change Illustration for Lunch
+  [#2218](https://github.com/nextcloud/calendar/issues/2218)
+- Convert URLs into links inside description
+  [#674](https://github.com/nextcloud/calendar/issues/674)
+- Picking a date in date-time-picker does not open time-picker
+  [#2198](https://github.com/nextcloud/calendar/issues/2198)
+
+### Fixed
+- Sharing Calendar public links via email sends only a link to the cloud
+  [#2471](https://github.com/nextcloud/calendar/issues/2471)
+- Also mark tasks as done when STATUS is set to COMPLETED
+  [#2339](https://github.com/nextcloud/calendar/pull/2339)
+- Long calendar names overflowing in calendar-picker
+  [#2324](https://github.com/nextcloud/calendar/issues/2324)
+- Datepicker not localized
+  [#2174](https://github.com/nextcloud/calendar/issues/2174)
+- Hide submit button in editor sidebar
+  [#2291](https://github.com/nextcloud/calendar/issues/2291)
+- Fix timezone names
+  [#2292](https://github.com/nextcloud/calendar/pull/2292)
+- Fixes warning about duplicate ids
+  [#2287](https://github.com/nextcloud/calendar/pull/2287)
+- Make calendar-picker more prominent
+  [#2007](https://github.com/nextcloud/calendar/issues/2007)
+- Circle not found when full name is given
+  [#2220](https://github.com/nextcloud/calendar/issues/2220)
+
+## 2.0.3 - 2020-04-09
 ### Added
 - Show week number in Datepicker
   [#2060](https://github.com/nextcloud/calendar/pull/2060)
@@ -34,7 +148,7 @@
 - Repeating events not displayed on first day of monthly calendar 
   [#1913](https://github.com/nextcloud/calendar/issues/1913)
 
-# 2.0.2 - 2020-03-02
+## 2.0.2 - 2020-03-02
 ### Added
 - Recognize Gym as event title for illustrations
   [#1888](https://github.com/nextcloud/calendar/issues/1888)
@@ -356,11 +470,11 @@ Even though all features present on the 1.x calendar app versions have been reim
 - Update link to documentation [#1409](https://github.com/nextcloud/calendar/pull/1409)
 - Don’t ship special build for IE anymore [#1447](https://github.com/nextcloud/calendar/pull/1447)
 
-
 ## 1.7.0 - 2019-03-25
 ### Added
 - Share calendars with circles
   [#602](https://github.com/nextcloud/calendar/pull/602)
+
 ### Fixed
 - compatibility with Nextcloud 16
 - Buttons not visible in dark theme
@@ -392,7 +506,6 @@ Even though all features present on the 1.x calendar app versions have been reim
 ### Fixed
 - compatibility with Nextcloud 14
 - updated translations
-
 
 ## 1.6.1 - 2018-03-06
 ### Fixed
@@ -482,7 +595,6 @@ Even though all features present on the 1.x calendar app versions have been reim
   [#417](https://github.com/nextcloud/calendar/pull/417)
 - color weekends slightly darker
   [#430](https://github.com/nextcloud/calendar/pull/430)
-
 
 ### Fixed
 - fix visual deletion of user shares

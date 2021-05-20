@@ -30,15 +30,14 @@
     "More" : "Rhagor",
     "Save" : "Cadw",
     "Update" : "Diweddaru",
-    "Select Date" : "Dewis Dyddiad",
     "Personal" : "Personol",
     "Details" : "Manylion",
     "Attendees" : "Mynychwyr",
     "Reminders" : "Nodau atgoffa",
-    "Activity" : "Gweithred",
     "Close" : "Cau",
     "Anniversary" : "Dathliad",
     "Week {number} of {year}" : "Wythnos {number} o {year}",
+    "today" : "heddiw",
     "When shared show full event" : "Pan wedi ei rannu, yn dangos y digwyddiad llawn",
     "When shared show only busy" : "Pan wedi ei rannu, yn dangos dim ond prysur",
     "When shared hide this event" : "Pan wedi ei rannu, yn cuddio'r digwyddiad hwn",
@@ -46,9 +45,7 @@
     "Description" : "Disgrifiad",
     "Confirmed" : "Cadarnhawyd",
     "Tentative" : "I'w gadarnhau",
-    "Cancelled" : "Diddymwyd",
     "Mail" : "E-bost",
-    "Play" : "Chwarae",
     "Global" : "Eang"
 },"pluralForm" :"nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3;"
 }

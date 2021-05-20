@@ -33,7 +33,6 @@ OC.L10N.register(
     "Details" : "Detalios",
     "Attendees" : "Participantes",
     "Reminders" : "Memento",
-    "Activity" : "Activitate",
     "Close" : "Clauder",
     "Anniversary" : "Anniversario de evento",
     "Week {number} of {year}" : "Septimana {number} de {year}",
@@ -46,10 +45,8 @@ OC.L10N.register(
     "Description" : "Description",
     "Confirmed" : "Confirmate",
     "Tentative" : "Tentative",
-    "Cancelled" : "Cancellate",
     "Presentation" : "Presentation",
     "Mail" : "Posta",
-    "Play" : "Reproducer",
     "Global" : "Global"
 },
 "nplurals=2; plural=(n != 1);");
