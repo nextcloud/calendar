@@ -132,10 +132,10 @@ export default {
 					}
 				}
 
-				// Generate a unique id for every result to make the avatar components reactive
-				for (const match of matches) {
-					match.uid = randomId()
-				}
+				matches.forEach(contact => {
+		  		contact.uid = randomId()
+					this.$store.commit('appendContact', { contact })
+				})
 
 				this.isLoading = false
 				this.inputGiven = true
@@ -231,7 +231,8 @@ export default {
 					email: principal.email,
 					language: principal.language,
 					isUser: principal.calendarUserType === 'INDIVIDUAL',
-					avatar: principal.userId,
+					// UserID may have special characters encoded since it comes from the URI
+					avatar: decodeURIComponent(principal.userId),
 					hasMultipleEMails: false,
 					dropdownName: principal.displayname || principal.email,
 				}
