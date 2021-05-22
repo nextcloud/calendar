@@ -5,6 +5,7 @@ OC.L10N.register(
     "Provided email-address is not valid" : "Emandako helbide elektronikoa ez da baliozkoa",
     "%s has published the calendar »%s«" : "%s erabiltzaileak »%s« egutegia argitaratu du",
     "Unexpected error sending email. Please contact your administrator." : "Ustekabeko errorea posta elektronikoa bidaltzean. Jarri harremanetan zure administratzailearekin.",
+    "Successfully sent email to %1$s" : "Posta elektronikoa ondo bidali zaio %1$s(r)i",
     "Hello," : "Kaixo,",
     "We wanted to inform you that %s has published the calendar »%s«." : "Jakinarazi nahi dizugu %s erabiltzaileak »%s« egutegia argitaratu duela",
     "Open »%s«" : " Ireki »%s«",
