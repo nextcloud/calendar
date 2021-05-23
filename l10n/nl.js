@@ -5,6 +5,7 @@ OC.L10N.register(
     "Provided email-address is not valid" : "Het opgegeven e-mailadres is niet geldig",
     "%s has published the calendar »%s«" : "%s heeft de kalender gepubliceerd \"%s\"",
     "Unexpected error sending email. Please contact your administrator." : "Kon e-mail niet versturen. Neem contact op met je beheerder.",
+    "Successfully sent email to %1$s" : "E-mail is succesvol verzonden naar %1$s",
     "Hello," : "Hallo,",
     "We wanted to inform you that %s has published the calendar »%s«." : "We willen je laten weten dat %s de agenda %s heeft gepubliceerd.",
     "Open »%s«" : "Open \"%s\"",
