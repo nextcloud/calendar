@@ -118,7 +118,7 @@ OC.L10N.register(
     "Copy primary CalDAV address" : "Copiar endereço CalDAV primário",
     "Copy iOS/macOS CalDAV address" : "Copiar endereço iOS/macOS CalDAV",
     "Show keyboard shortcuts" : "Mostrar atalhos de teclado",
-    "Settings & import" : "Configurações & Importação",
+    "Settings & import" : "Configurações e importação",
     "No reminder" : "Nenhum lembrete",
     "CalDAV link copied to clipboard." : "Link CalDAV copiado para a área de transferência.",
     "CalDAV link could not be copied to clipboard." : "Link CalDAV não copiado para a área de transferência.",

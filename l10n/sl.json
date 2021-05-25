@@ -3,6 +3,7 @@
     "Provided email-address is not valid" : "Podan elektronski naslov ni veljaven naslov",
     "%s has published the calendar »%s«" : "%s objavi koledar » %s «",
     "Unexpected error sending email. Please contact your administrator." : "Prišlo je do napake med pošiljanjem elektronskega sporočila. Stopite v stik s skrbnikom sistema.",
+    "Successfully sent email to %1$s" : "Sporočilo je uspešno poslano na %1$s",
     "Hello," : "Pozdravljeni,",
     "We wanted to inform you that %s has published the calendar »%s«." : "obveščamo vas, da je uporabnik %s objavil koledar »%s«.",
     "Open »%s«" : "Odpri »%s«",
