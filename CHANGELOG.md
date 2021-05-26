@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.2.2 – 2021-05-26
+### Fixed
+- Unable to pick date in monthly view
+
+## 2.2.1 – 2021-04-27
+### Changed
+- Updated dependencies
+
 ## 2.2.0 – 2021-03-24
 ### Added
 - Datepicker in free/busy view
