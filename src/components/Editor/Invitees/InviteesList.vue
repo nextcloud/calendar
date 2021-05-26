@@ -172,11 +172,7 @@ export default {
 				return true
 			}
 
-			if (doesDescriptionContainTalkLink(this.calendarObjectInstance.description)) {
-				return true
-			}
-
-			return false
+			return doesDescriptionContainTalkLink(this.calendarObjectInstance.description)
 		},
 	},
 	methods: {

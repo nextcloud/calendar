@@ -24,7 +24,9 @@
 	<div v-tooltip="tooltip" class="avatar-participation-status">
 		<Avatar
 			:disable-tooltip="true"
-			:user="avatarLink" />
+			:user="avatarUser"
+			:url="avatarLink"
+			:show-user-status="isUser" />
 		<div class="avatar-participation-status__indicator" :class="className" />
 	</div>
 </template>
@@ -40,7 +42,17 @@ export default {
 	props: {
 		avatarLink: {
 			type: String,
+			required: false,
+			default: undefined,
+		},
+		avatarUser: {
+			type: String,
 			required: true,
+		},
+		isUser: {
+			type: Boolean,
+			required: false,
+			default: true,
 		},
 		participationStatus: {
 			type: String,

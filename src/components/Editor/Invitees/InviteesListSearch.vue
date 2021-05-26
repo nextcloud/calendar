@@ -148,6 +148,11 @@ export default {
 					}
 				}
 
+				matches.forEach(contact => {
+					console.log(contact)
+					this.$store.commit('appendContact', { contact })
+				})
+
 				this.isLoading = false
 				this.inputGiven = true
 			} else {
@@ -237,7 +242,8 @@ export default {
 					email: principal.email,
 					lang: null,
 					isUser: principal.calendarUserType === 'INDIVIDUAL',
-					avatar: principal.userId,
+					// UserID may have special characters encoded since it comes from the URI
+					avatar: decodeURIComponent(principal.userId),
 					hasMultipleEMails: false,
 					dropdownName: principal.displayname || principal.email,
 				}
