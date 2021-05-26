@@ -24,13 +24,13 @@
 	<DatetimePicker
 		:lang="lang"
 		:first-day-of-week="firstDay"
+		:format="'YYYY-MM-DD HH:mm'"
 		:formatter="formatter"
 		:value="date"
 		:type="type"
 		:clearable="false"
 		:minute-step="5"
-		:not-before="minimumDate"
-		:not-after="maximumDate"
+		:disabled-date="disabledDate"
 		:show-second="false"
 		:show-time-panel="showTimePanel"
 		:show-week-number="showWeekNumbers"
@@ -396,6 +396,15 @@ export default {
 
 				return moment(dateMatches[1] + ' ' + timeMatches[1], 'L LT', this.locale).toDate()
 			}
+		},
+		/**
+		 * Whether or not the date is acceptable
+		 *
+		 * @param {Date} date The date to compare to
+		 * @returns {Boolean}
+		 */
+		disabledDate(date) {
+			return date < this.minimumDate || date > this.maximumDate
 		},
 	},
 }
