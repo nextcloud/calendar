@@ -83,7 +83,7 @@ export default {
 			locale: (state) => state.settings.momentLocale,
 		}),
 		selectedDate() {
-			return getDateFromFirstdayParam(this.$route.params.firstDay)
+			return getDateFromFirstdayParam(this.$route.params?.firstDay ?? 'now')
 		},
 		previousShortKeyConf() {
 			return {

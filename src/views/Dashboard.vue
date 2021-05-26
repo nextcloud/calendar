@@ -152,7 +152,7 @@ export default {
 		async initializeEnvironment() {
 			await initializeClientForUserView()
 			await this.$store.dispatch('fetchCurrentUserPrincipal')
-			await this.$store.dispatch('getCalendars')
+			await this.$store.dispatch('loadCollections')
 
 			const {
 				show_tasks: showTasks,
