@@ -116,7 +116,7 @@ OC.L10N.register(
     "Default reminder" : "Promemòria predefinidu",
     "Copy primary CalDAV address" : "Còpia s'indiritzu CalDAV printzipale",
     "Copy iOS/macOS CalDAV address" : "Còpia s'indiritzu CalDAV iOS/macOS",
-    "Show keyboard shortcuts" : "Mustra incurtziadòrgios de tecladu",
+    "Show keyboard shortcuts" : "Mustra curtziadòrgios de tecladu",
     "Settings & import" : "Impostatzione e importatzione",
     "No reminder" : "Perunu promemòria",
     "CalDAV link copied to clipboard." : "Ligòngiu CalDAV copiadu in punta de billete.",
