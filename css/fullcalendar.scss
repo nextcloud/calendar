@@ -184,3 +184,11 @@
 		margin-top: 0 !important;
 	}
 }
+
+.fc-v-event {
+        min-height: 4em;
+}
+
+.fc-v-event.fc-timegrid-event-condensed {
+        min-height: 2em;
+}
