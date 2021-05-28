@@ -260,7 +260,7 @@ OC.L10N.register(
     "on {time} ({timezoneId})" : "klockan {time} ({timezoneId})",
     "Week {number} of {year}" : "Vecka {number} år {year}",
     "Does not repeat" : "Upprepar inte",
-    "Daily" : "Dagligen",
+    "Daily" : "Varje dag",
     "Weekly" : "Varje vecka",
     "Monthly" : "Varje månad",
     "Yearly" : "Årligen",
