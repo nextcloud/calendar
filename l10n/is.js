@@ -234,8 +234,6 @@ OC.L10N.register(
     "Untitled event" : "Ónefndur atburður",
     "Untitled task" : "Ónefnt verkefni",
     "Please ask your administrator to enable the Tasks App." : "Biddu kerfisstjórann þinn um að virkja verkefnasorritið (Tasks).",
-    "next year" : "á næsta ári",
-    "today" : "í dag",
     "_+%n more_::_+%n more_" : ["+%n til viðbótar","+%n til viðbótar"],
     "When shared show" : "Þegar er deilt, birta ",
     "When shared show full event" : "Þegar er deilt, birta allan atburð",

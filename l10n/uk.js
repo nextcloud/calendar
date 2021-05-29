@@ -267,8 +267,6 @@ OC.L10N.register(
     "Untitled event" : "Подія без назви",
     "Untitled task" : "Завдання без назви",
     "Please ask your administrator to enable the Tasks App." : "Зверніться до вашого адміністратора щодо увімкнення застосунку Завдання",
-    "next year" : "наступного року",
-    "today" : "сьогодні",
     "_+%n more_::_+%n more_" : ["+%n раз ще","+%n разів ще","+%n разів ще","+%n рази ще"],
     "When shared show" : "Показувати при поширенні",
     "When shared show full event" : "При поширенні показувати подію повністю",

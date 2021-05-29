@@ -28,7 +28,6 @@ OC.L10N.register(
     "Close" : "Bağla",
     "Daily" : "Günlük",
     "Weekly" : "Həftəlik",
-    "today" : "Bu gün",
     "Location" : "Yerləşdiyiniz ünvan",
     "Description" : "Açıqlanma",
     "Mail" : "Məktub"

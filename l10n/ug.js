@@ -21,7 +21,6 @@ OC.L10N.register(
     "Personal" : "شەخسىي",
     "Attendees" : "قاتناشقۇچىلار",
     "Close" : "ياپ",
-    "today" : "بۈگۈن",
     "Location" : "ئورنى",
     "Description" : "چۈشەندۈرۈش"
 },

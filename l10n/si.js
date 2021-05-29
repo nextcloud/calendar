@@ -40,7 +40,6 @@ OC.L10N.register(
     "Details" : "විස්තර",
     "Close" : "වසන්න",
     "Anniversary" : "සංවත්සරය",
-    "today" : "අද",
     "Location" : "ස්ථානය",
     "Description" : "විස්තරය"
 },

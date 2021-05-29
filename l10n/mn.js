@@ -41,7 +41,6 @@ OC.L10N.register(
     "Week {number} of {year}" : "{year} оны {number}-р долоо хоног ",
     "Daily" : "Өдөр бүр",
     "Weekly" : "Долоо хоног бүр",
-    "today" : "өнөөдөр",
     "When shared show full event" : "Түгээсэн тохиолдолд үйл явдлыг бүтнээр нь харуул",
     "When shared show only busy" : "Түгээсэн тохиолдолд зөвхөн завгүй гэж харуул",
     "When shared hide this event" : "Түгээсэн тохиолдолд энэ үйл явдлыг нуу",

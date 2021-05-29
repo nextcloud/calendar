@@ -33,7 +33,6 @@ OC.L10N.register(
     "Week {number} of {year}" : "Woch {Nummer} vum {Joer}",
     "Daily" : "All Dag",
     "Weekly" : "All Woch",
-    "today" : "haut",
     "When shared show full event" : "Wann et gedeelt gouf, dann de ganzen Evenement uweisen",
     "When shared show only busy" : "Wann et gedeelt gouf, dann nëmmen als beschäftegt uweisen",
     "When shared hide this event" : "Wann et gedeelt gouf, dann verstopp dëst Evenement",

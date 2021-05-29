@@ -20,7 +20,6 @@ OC.L10N.register(
     "Save" : "حفظ",
     "Personal" : "شخصی",
     "Close" : "بند ",
-    "today" : "آج",
     "Location" : "مقام",
     "Description" : "تصریح"
 },

@@ -27,7 +27,6 @@ OC.L10N.register(
     "Attendees" : "Մասնակիցներ",
     "Reminders" : "Հիշեցումներ",
     "Close" : "Փակել",
-    "today" : "այսօր",
     "Location" : "Տեղակայություն",
     "Description" : "Նկարագրություն",
     "Confirmed" : "Հաստատված",

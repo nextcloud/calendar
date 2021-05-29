@@ -25,7 +25,6 @@ OC.L10N.register(
     "Close" : "បិទ",
     "Daily" : "រាល់ថ្ងៃ",
     "Weekly" : "រាល់​សប្ដាហ៍",
-    "today" : "ថ្ងៃនេះ",
     "Location" : "ទីតាំង",
     "Description" : "ការ​អធិប្បាយ",
     "Mail" : "សំបុត្រ"

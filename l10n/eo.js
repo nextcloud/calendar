@@ -54,8 +54,6 @@ OC.L10N.register(
     "Daily" : "Ĉiutage",
     "Weekly" : "Ĉiusemajne",
     "Untitled event" : "Sentitola okazaĵo",
-    "next year" : "venontjare",
-    "today" : "hodiaŭ",
     "When shared show full event" : "Kiam kunhavigita, montri plenajn detalojn",
     "When shared show only busy" : "Kiam kunhavigita, montri nur kiel okupita",
     "When shared hide this event" : "Kiam kunhavigita, kaŝi tiun okazaĵon",

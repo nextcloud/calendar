@@ -245,8 +245,6 @@ OC.L10N.register(
     "until {untilDate}" : "تا زمان {untilDate}",
     "_%n time_::_%n times_" : ["%n بار","%n بارها"],
     "Untitled event" : "رویداد بدون عنوان",
-    "next year" : "سال آینده",
-    "today" : "امروز",
     "_+%n more_::_+%n more_" : ["+%n بیشتر","+%n بیشتر"],
     "When shared show" : "هنگام نمایش مشترک",
     "When shared show full event" : "هنگام اشتراک گذاری ، رویداد کامل را نشان می دهد",
