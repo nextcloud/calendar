@@ -50,6 +50,9 @@
 							</td>
 						</tr>
 					</table>
+					<p class="footer">
+						{{ n('calendar', 'Elements in the trash bin are deleted after {numDays} day', 'Elements in the trash bin are deleted after {numDays} days', retentionDuration, { numDays: retentionDuration }) }}
+					</p>
 				</div>
 			</Modal>
 		</template>
@@ -115,6 +118,11 @@ export default {
 
 			return formattedCalendars.concat(formattedCalendarObjects)
 		},
+		retentionDuration() {
+			return Math.ceil(
+				this.trashBin._props['{http://nextcloud.com/ns}trash-bin-retention-duration'] / (60 * 60 * 24)
+			)
+		},
 	},
 	methods: {
 		async onShow() {
@@ -176,5 +184,11 @@ th {
 }
 .deletedAt {
 	text-align: right;
+}
+.footer {
+	color: var(--color-text-lighter);
+	text-align: center;
+	font-size: small;
+	margin-top: 16px;
 }
 </style>
