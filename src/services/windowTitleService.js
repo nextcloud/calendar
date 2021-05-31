@@ -74,6 +74,9 @@ export default function(router, store) {
 		if (mutation.type !== 'setMomentLocale') {
 			return
 		}
+		if (!router.currentRoute.params?.firstDay) {
+			return
+		}
 
 		const date = getDateFromFirstdayParam(router.currentRoute.params.firstDay)
 		const view = router.currentRoute.params.view

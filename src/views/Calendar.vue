@@ -33,6 +33,7 @@
 				<CalendarListNew
 					v-if="!loadingCalendars && isAuthenticatedUser"
 					:disabled="loadingCalendars" />
+				<Trashbin v-if="hasTrashBin" />
 			</template>
 			<!-- Settings and import -->
 			<template #footer>
@@ -81,6 +82,7 @@ import {
 	getYYYYMMDDFromFirstdayParam,
 } from '../utils/date.js'
 import getTimezoneManager from '../services/timezoneDataProviderService'
+import logger from '../utils/logger'
 import {
 	mapGetters,
 	mapState,
@@ -91,6 +93,7 @@ import {
 	showWarning,
 } from '@nextcloud/dialogs'
 import '@nextcloud/dialogs/styles/toast.scss'
+import Trashbin from '../components/AppNavigation/CalendarList/Trashbin'
 
 export default {
 	name: 'Calendar',
@@ -106,6 +109,7 @@ export default {
 		AppNavigation,
 		AppNavigationSpacer,
 		CalendarListNew,
+		Trashbin,
 	},
 	data() {
 		return {
@@ -117,7 +121,9 @@ export default {
 	computed: {
 		...mapGetters({
 			timezoneId: 'getResolvedTimezone',
-		}),
+			'hasTrashBin': 'hasTrashBin',
+		},
+		),
 		...mapState({
 			eventLimit: state => state.settings.eventLimit,
 			skipPopover: state => state.settings.skipPopover,
@@ -130,7 +136,7 @@ export default {
 			modificationCount: state => state.calendarObjects.modificationCount,
 		}),
 		defaultDate() {
-			return getYYYYMMDDFromFirstdayParam(this.$route.params.firstDay)
+			return getYYYYMMDDFromFirstdayParam(this.$route.params?.firstDay ?? 'now')
 		},
 		isEditable() {
 			// We do not allow drag and drop when the editor is open.
@@ -212,7 +218,8 @@ export default {
 		} else {
 			await initializeClientForUserView()
 			await this.$store.dispatch('fetchCurrentUserPrincipal')
-			const calendars = await this.$store.dispatch('getCalendars')
+			const { calendars, trashBin } = await this.$store.dispatch('loadCollections')
+			logger.debug('calendars and trash bin loaded', { calendars, trashBin })
 			const owners = []
 			calendars.forEach((calendar) => {
 				if (owners.indexOf(calendar.owner) === -1) {
@@ -231,6 +238,7 @@ export default {
 
 			// No writeable calendars? Create a new one!
 			if (writeableCalendarIndex === -1) {
+				logger.info('User has no writable calendar, a new personal calendar will be created')
 				this.loadingCalendars = true
 				await this.$store.dispatch('appendCalendar', {
 					displayName: this.$t('calendars', 'Personal'),

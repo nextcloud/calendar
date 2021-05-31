@@ -27,7 +27,8 @@ import Vue from 'vue'
 import {
 	createCalendar,
 	createSubscription,
-	findAllCalendars,
+	findAll,
+	findAllDeletedCalendars,
 	findPublicCalendarsByTokens,
 } from '../services/caldavService.js'
 import { mapCDavObjectToCalendarObject } from '../models/calendarObject'
@@ -47,6 +48,9 @@ import {
 
 const state = {
 	calendars: [],
+	trashBin: undefined,
+	deletedCalendars: [],
+	deletedCalendarObjects: [],
 	calendarsById: {},
 	initialCalendarsLoaded: false,
 }
@@ -63,8 +67,66 @@ const mutations = {
 	addCalendar(state, { calendar }) {
 		const object = getDefaultCalendarObject(calendar)
 
-		state.calendars.push(object)
+		if (!state.calendars.some(existing => existing.id === object.id)) {
+			state.calendars.push(object)
+		}
 		Vue.set(state.calendarsById, object.id, object)
+	},
+
+	addTrashBin(state, { trashBin }) {
+		state.trashBin = trashBin
+	},
+
+	/**
+	 * Adds deleted calendar into state
+	 *
+	 * @param {Object} state the store data
+	 * @param {Object} data destructuring object
+	 * @param {Object} data.calendar calendar the calendar to add
+	 */
+	addDeletedCalendar(state, { calendar }) {
+		if (state.deletedCalendars.some(c => c.url === calendar.url)) {
+			// This calendar is already known
+			return
+		}
+		state.deletedCalendars.push(calendar)
+	},
+
+	/**
+	 * Removes a deleted calendar
+	 *
+	 * @param {Object} state the store data
+	 * @param {Object} data destructuring object
+	 * @param {Object} data.calendar the deleted calendar to remove
+	 */
+	removeDeletedCalendar(state, { calendar }) {
+		state.deletedCalendars = state.deletedCalendars.filter(c => c !== calendar)
+	},
+
+	/**
+	 * Removes a deleted calendar object
+	 *
+	 * @param {Object} state the store data
+	 * @param {Object} data destructuring object
+	 * @param {Object} data.vobject the deleted calendar object to remove
+	 */
+	removeDeletedCalendarObject(state, { vobject }) {
+		state.deletedCalendarObjects = state.deletedCalendarObjects.filter(vo => vo.id !== vobject.id)
+	},
+
+	/**
+	 * Adds a deleted vobject into state
+	 *
+	 * @param {Object} state the store data
+	 * @param {Object} data destructuring object
+	 * @param {Object} data.vobject the calendar vobject to add
+	 */
+	addDeletedCalendarObject(state, { vobject }) {
+		if (state.deletedCalendarObjects.some(c => c.uri === vobject.uri)) {
+			// This vobject is already known
+			return
+		}
+		state.deletedCalendarObjects.push(vobject)
 	},
 
 	/**
@@ -338,6 +400,45 @@ const getters = {
 			.sort((a, b) => a.order - b.order)
 	},
 
+	hasTrashBin(state) {
+		return state.trashBin !== undefined
+	},
+
+	trashBin(state) {
+		return state.trashBin
+	},
+
+	/**
+	 * List of deleted sorted calendars
+	 *
+	 * @param {Object} state the store data
+	 * @returns {Array}
+	 */
+	sortedDeletedCalendars(state) {
+		return state.deletedCalendars
+			.sort((a, b) => a.deletedAt - b.deletedAt)
+	},
+
+	/**
+	 * List of deleted calendars objects
+	 *
+	 * @param {Object} state the store data
+	 * @returns {Array}
+	 */
+	deletedCalendarObjects(state) {
+		const calendarUriMap = {}
+		state.calendars.forEach(calendar => {
+			const withoutTrail = calendar.url.replace(/\/$/, '')
+			const uri = withoutTrail.substr(withoutTrail.lastIndexOf('/') + 1)
+			calendarUriMap[uri] = calendar
+		})
+
+		return state.deletedCalendarObjects.map(obj => ({
+			calendar: calendarUriMap[obj.dav._props['{http://nextcloud.com/ns}calendar-uri']],
+			...obj,
+		}))
+	},
+
 	/**
 	 * List of sorted subscriptions
 	 *
@@ -432,19 +533,55 @@ const getters = {
 const actions = {
 
 	/**
-	 * Retrieve and commit calendars
+	 * Retrieve and commit calendars and other collections
+	 *
+	 * @param {Object} context the store mutations
+	 * @returns {Promise<Object>} the results
+	 */
+	async loadCollections({ commit, state, getters }) {
+		const { calendars, trashBins } = await findAll()
+		console.info('calendar home scanned', calendars, trashBins)
+		calendars.map((calendar) => mapDavCollectionToCalendar(calendar, getters.getCurrentUserPrincipal)).forEach(calendar => {
+			commit('addCalendar', { calendar })
+		})
+		if (trashBins.length) {
+			commit('addTrashBin', { trashBin: trashBins[0] })
+		}
+
+		commit('initialCalendarsLoaded')
+		return {
+			calendars: state.calendars,
+			trashBin: state.trashBin,
+		}
+	},
+
+	/**
+	 * Retrieve and commit deleted calendars
 	 *
 	 * @param {Object} context the store mutations
 	 * @returns {Promise<Array>} the calendars
 	 */
-	async getCalendars({ commit, state, getters }) {
-		const calendars = await findAllCalendars()
-		calendars.map((calendar) => mapDavCollectionToCalendar(calendar, getters.getCurrentUserPrincipal)).forEach(calendar => {
-			commit('addCalendar', { calendar })
-		})
+	async loadDeletedCalendars({ commit }) {
+		const calendars = await findAllDeletedCalendars()
 
-		commit('initialCalendarsLoaded')
-		return state.calendars
+		calendars.forEach(calendar => commit('addDeletedCalendar', { calendar }))
+	},
+
+	/**
+	 * Retrieve and commit deleted calendar objects
+	 */
+	async loadDeletedCalendarObjects({ commit, state }) {
+		const vobjects = await state.trashBin.findDeletedObjects()
+		console.info('vobjects loaded', { vobjects })
+
+		vobjects.forEach(vobject => {
+			try {
+				const calendarObject = mapCDavObjectToCalendarObject(vobject, undefined)
+				commit('addDeletedCalendarObject', { vobject: calendarObject })
+			} catch (error) {
+				console.error('could not convert calendar object', vobject, error)
+			}
+		})
 	},
 
 	/**
@@ -527,6 +664,22 @@ const actions = {
 	async deleteCalendar(context, { calendar }) {
 		await calendar.dav.delete()
 		context.commit('deleteCalendar', { calendar })
+	},
+
+	async restoreCalendar({ commit, state }, { calendar }) {
+		await state.trashBin.restore(calendar.url)
+
+		commit('removeDeletedCalendar', { calendar })
+	},
+
+	async restoreCalendarObject({ commit, state, dispatch }, { vobject }) {
+		await state.trashBin.restore(vobject.uri)
+
+		// Clean up the data locally
+		commit('removeDeletedCalendarObject', { vobject })
+
+		// Make sure the affected calendar is refreshed
+		commit('incrementModificationCount')
 	},
 
 	/**
