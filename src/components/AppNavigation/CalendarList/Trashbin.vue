@@ -20,7 +20,7 @@
   -->
 
 <template>
-	<AppNavigationItem :title="t('calendar', 'Trashbin')"
+	<AppNavigationItem :title="t('calendar', 'Trash bin')"
 		:pinned="true"
 		icon="icon-delete"
 		@click.prevent="onShow">
@@ -28,7 +28,7 @@
 			<Modal v-if="showModal"
 				@close="showModal = false">
 				<div class="modal__content">
-					<h2>{{ t('calendar', 'Trashbin') }}</h2>
+					<h2>{{ t('calendar', 'Trash bin') }}</h2>
 					<span v-if="!items.length">{{ t('calendar', 'You do not have any deleted calendars or events') }}</span>
 					<table v-else>
 						<tr>
@@ -45,9 +45,16 @@
 							</td>
 							<td>
 								<button @click="restore(item)">
-									restore
+									{{ t('calendar','Restore') }}
 								</button>
 							</td>
+							<Actions :force-menu="true">
+								<ActionButton
+										icon="icon-delete"
+										@click="onDelete">
+									{{ t('calendar','Delete permanently') }}
+								</ActionButton>
+							</Actions>
 						</tr>
 					</table>
 				</div>
@@ -58,6 +65,8 @@
 
 <script>
 import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
+import Actions from '@nextcloud/vue/dist/Components/Actions'
+import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import Modal from '@nextcloud/vue/dist/Components/Modal'
 import logger from '../../../utils/logger'
 import { showError } from '@nextcloud/dialogs'
@@ -70,6 +79,8 @@ export default {
 		AppNavigationItem,
 		Modal,
 		Moment,
+		Actions,
+		ActionButton,
 	},
 	data() {
 		return {
