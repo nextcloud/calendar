@@ -168,8 +168,7 @@ export default {
 		resources() {
 			const resources = []
 
-			// for (const attendee of [this.organizer, ...this.attendees]) {
-			for (const attendee of this.attendees) {
+			for (const attendee of [this.organizer, ...this.attendees]) {
 				resources.push({
 					id: attendee.attendeeProperty.email,
 					title: attendee.commonName || attendee.uri.substr(7),
