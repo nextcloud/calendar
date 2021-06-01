@@ -26,6 +26,7 @@
 			:attendee-is-organizer="true"
 			:avatar-link="avatarLink"
 			:is-viewed-by-organizer="isViewedByOrganizer"
+			:is-resource="isResource"
 			:common-name="commonName"
 			:organizer-display-name="commonName"
 			participation-status="ACCEPTED" />
@@ -74,6 +75,10 @@ export default {
 		},
 		isViewedByOrganizer() {
 			return true
+		},
+		isResource() {
+			// The organizer does not have a tooltip
+			return false
 		},
 	},
 }
