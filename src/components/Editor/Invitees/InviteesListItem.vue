@@ -25,6 +25,7 @@
 		<AvatarParticipationStatus
 			:attendee-is-organizer="false"
 			:is-viewed-by-organizer="isViewedByOrganizer"
+			:is-resource="isResource"
 			:avatar-link="avatarLink"
 			:participation-status="attendee.participationStatus"
 			:organizer-display-name="organizerDisplayName"
@@ -139,6 +140,10 @@ export default {
 		isViewedByOrganizer() {
 			// TODO: check if also viewed by organizer
 			return !this.isReadOnly
+		},
+		isResource() {
+			return this.attendee.calendarUserType === 'RESOURCE'
+					|| this.attendee.calendarUserType === 'ROOM'
 		},
 	},
 	methods: {
