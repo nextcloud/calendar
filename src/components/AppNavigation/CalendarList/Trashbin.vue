@@ -47,10 +47,11 @@
 								<button @click="restore(item)">
 									{{ t('calendar','Restore') }}
 								</button>
+
 								<Actions :force-menu="true">
 									<ActionButton
 											icon="icon-delete"
-											@click="onDelete">
+											@click="onDeletePermanently(item)">
 										{{ t('calendar','Delete permanently') }}
 									</ActionButton>
 								</Actions>
@@ -147,6 +148,23 @@ export default {
 				})
 
 				showError(t('calendar', 'Could not load deleted calendars and objects'))
+			}
+		},
+		async onDeletePermanently(item) {
+			logger.debug('deleting ' + item.url + ' permanently', item)
+			try {
+				switch (item.type) {
+				case 'calendar':
+					await this.$store.dispatch('deleteCalendarPermanently', { calendar: item.calendar })
+					break
+				case 'object':
+					await this.$store.dispatch('deleteCalendarObjectPermanently', { vobject: item.vobject })
+					break
+				}
+			} catch (error) {
+				logger.error('could not restore ' + item.url, { error })
+
+				showError(t('calendar', 'Could not restore calendar or event'))
 			}
 		},
 		async restore(item) {
