@@ -25,7 +25,7 @@ import DateTimeValue from 'calendar-js/src/values/dateTimeValue.js'
 import { findSchedulingOutbox } from '../../services/caldavService.js'
 import freeBusyResourceEventSourceFunction from './freeBusyResourceEventSourceFunction.js'
 import logger from '../../utils/logger.js'
-// import AttendeeProperty from 'calendar-js/src/properties/attendeeProperty.js'
+import AttendeeProperty from 'calendar-js/src/properties/attendeeProperty.js'
 
 /**
  * Returns an event source for free-busy
@@ -54,8 +54,8 @@ export default function(id, organizer, attendees) {
 			const startDateTime = DateTimeValue.fromJSDate(start, true)
 			const endDateTime = DateTimeValue.fromJSDate(end, true)
 
-			// const organizerAsAttendee = new AttendeeProperty('ATTENDEE', organizer.email)
-			const freeBusyComponent = createFreeBusyRequest(startDateTime, endDateTime, organizer, attendees)
+			const organizerAsAttendee = new AttendeeProperty('ATTENDEE', organizer.email)
+			const freeBusyComponent = createFreeBusyRequest(startDateTime, endDateTime, organizer, [organizerAsAttendee, ...attendees])
 			const freeBusyICS = freeBusyComponent.toICS()
 
 			let outbox
