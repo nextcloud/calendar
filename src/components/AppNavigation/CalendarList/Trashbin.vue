@@ -47,14 +47,14 @@
 								<button @click="restore(item)">
 									{{ t('calendar','Restore') }}
 								</button>
+								<Actions :force-menu="true">
+									<ActionButton
+											icon="icon-delete"
+											@click="onDelete">
+										{{ t('calendar','Delete permanently') }}
+									</ActionButton>
+								</Actions>
 							</td>
-							<Actions :force-menu="true">
-								<ActionButton
-										icon="icon-delete"
-										@click="onDelete">
-									{{ t('calendar','Delete permanently') }}
-								</ActionButton>
-							</Actions>
 						</tr>
 					</table>
 				</div>
