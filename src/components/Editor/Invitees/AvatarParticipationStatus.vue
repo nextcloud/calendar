@@ -54,6 +54,10 @@ export default {
 			type: Boolean,
 			required: true,
 		},
+		isResource: {
+			type: Boolean,
+			required: true,
+		},
 		attendeeIsOrganizer: {
 			type: Boolean,
 			required: true,
@@ -67,6 +71,17 @@ export default {
 		tooltip() {
 			if (this.isViewedByOrganizer && this.attendeeIsOrganizer) {
 				return null
+			}
+
+			if (this.isResource && this.participationStatus === 'ACCEPTED') {
+				return this.$t('calendar', '{name} is available.', {
+					name: this.commonName,
+				})
+			}
+			if (this.isResource && this.participationStatus === 'DECLINED') {
+				return this.$t('calendar', '{name} is not available.', {
+					name: this.commonName,
+				})
 			}
 
 			if (this.participationStatus === 'ACCEPTED' && this.isViewedByOrganizer) {
