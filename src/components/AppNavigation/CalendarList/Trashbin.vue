@@ -34,7 +34,7 @@
 						<tr>
 							<th>{{ t('calendar', 'Name') }}</th>
 							<th class="deletedAt">
-								{{ t('calendar', 'Deleted on') }}
+								{{ t('calendar', 'Deleted') }}
 							</th>
 							<th>&nbsp;</th>
 						</tr>
