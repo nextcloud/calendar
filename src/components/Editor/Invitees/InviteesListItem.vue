@@ -175,3 +175,12 @@ export default {
 	},
 }
 </script>
+
+<style lang="scss" scoped>
+.invitees-list-item__displayname {
+	margin-bottom: 17px;
+}
+.avatar-participation-status {
+	margin-top: 5px;
+}
+</style>

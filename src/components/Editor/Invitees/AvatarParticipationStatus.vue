@@ -21,11 +21,14 @@
   -->
 
 <template>
-	<div v-tooltip="tooltip" class="avatar-participation-status">
+	<div class="avatar-participation-status">
 		<Avatar
 			:disable-tooltip="true"
 			:user="avatarLink" />
-		<div class="avatar-participation-status__indicator" :class="className" />
+		<div class="avatar-participation-status__indicator" :class="className.class" />
+		<div class="avatar-participation-status__text">
+			{{ className.label }}
+		</div>
 	</div>
 </template>
 
@@ -68,91 +71,93 @@ export default {
 		},
 	},
 	computed: {
-		tooltip() {
-			if (this.isViewedByOrganizer && this.attendeeIsOrganizer) {
-				return null
-			}
+		className() {
 
 			if (this.isResource && this.participationStatus === 'ACCEPTED') {
-				return this.$t('calendar', '{name} is available.', {
-					name: this.commonName,
-				})
+				return {
+					class: ['accepted', 'icon', 'icon-checkmark-white'],
+					label: t('calendar', 'Available.'),
+				}
 			}
 			if (this.isResource && this.participationStatus === 'DECLINED') {
-				return this.$t('calendar', '{name} is not available.', {
-					name: this.commonName,
-				})
+				return {
+					class: ['declined', 'icon', 'icon-close-white'],
+					label: t('calendar', 'Not available.'),
+				}
 			}
 
 			if (this.participationStatus === 'ACCEPTED' && this.isViewedByOrganizer) {
-				return this.$t('calendar', '{name} accepted your invitation.', {
-					name: this.commonName,
-				})
+				return {
+					class: ['accepted', 'icon', 'icon-checkmark-white'],
+					label: t('calendar', 'Invitation accepted.'),
+				}
 			}
 			if (this.participationStatus === 'ACCEPTED' && !this.isViewedByOrganizer) {
-				return this.$t('calendar', '{name} accepted {organizerName}\'s invitation.', {
-					name: this.commonName,
-					organizerName: this.organizerDisplayName,
-				})
+				return {
+					class: ['accepted', 'icon', 'icon-checkmark-white'],
+					label: t('calendar', 'Accepted {organizerName}\'s invitation.', {
+						organizerName: this.organizerDisplayName,
+					}),
+				}
 			}
 
 			if (this.participationStatus === 'DECLINED' && this.isViewedByOrganizer) {
-				return this.$t('calendar', '{name} declined your invitation.', {
-					name: this.commonName,
-				})
+				return {
+					class: ['declined', 'icon', 'icon-close-white'],
+					label: t('calendar', 'Invitation declined.'),
+				}
 			}
 			if (this.participationStatus === 'DECLINED' && !this.isViewedByOrganizer) {
-				return this.$t('calendar', '{name} declined {organizerName}\'s invitation.', {
-					name: this.commonName,
-					organizerName: this.organizerDisplayName,
-				})
+				return {
+					class: ['declined', 'icon', 'icon-close-white'],
+					label: t('calendar', 'Declined {organizerName}\'s invitation.', {
+						organizerName: this.organizerDisplayName,
+					}),
+				}
 			}
 
 			if (this.participationStatus === 'DELEGATED') {
-				return this.$t('calendar', '{name} has delegated their invitation.', {
-					name: this.commonName,
-				})
+				return this.$t('calendar', 'Invitation is delegated.')
 			}
 			if (this.participationStatus === 'TENTATIVE') {
-				return this.$t('calendar', '{name} marked their participation as tentative.', {
-					name: this.commonName,
-				})
+				return {
+					class: ['tentative', 'icon', 'icon-checkmark-white'],
+					label: t('calendar', 'Participation marked as tentative.'),
+				}
 			}
 
 			if (this.isViewedByOrganizer) {
-				return this.$t('calendar', '{name} did not respond to your invitation yet.', {
-					name: this.commonName,
-				})
+				return {
+					class: ['no-response', 'icon', 'icon-invitees-no-response-white'],
+					label: t('calendar', 'Invitation sent'),
+				}
 			} else {
-				return this.$t('calendar', '{name} did not respond to {organizerName}\'s invitation yet.', {
-					name: this.commonName,
-					organizerName: this.organizerDisplayName,
-				})
+				return {
+					class: ['no-response', 'icon', 'icon-invitees-no-response-white'],
+					label: t('calendar', 'Has not responded to {organizerName}\'s invitation yet.', {
+						organizerName: this.organizerDisplayName,
+					}),
+				}
 			}
-		},
-		className() {
-			if (this.participationStatus === 'ACCEPTED') {
-				return ['accepted', 'icon', 'icon-checkmark-white']
-			}
-			if (this.participationStatus === 'DECLINED') {
-				return ['declined', 'icon', 'icon-close-white']
-			}
-			if (this.participationStatus === 'TENTATIVE') {
-				return ['tentative', 'icon', 'icon-checkmark-white']
-			}
-			if (this.participationStatus === 'DELEGATED') {
-				return ['delegated', 'icon', 'icon-confirm-white']
-			}
-
-			return ['no-response', 'icon', 'icon-invitees-no-response-white']
 		},
 	},
 }
 </script>
 <style lang="scss" scoped>
 ::v-deep .avatar-participation-status__indicator {
-	top: 30px;
-	left: 45px;
+	bottom: 15px;
+	left: 47px;
 	opacity: .45;
+	position: relative;
+}
+.avatar-participation-status__text {
+	opacity: .45;
+	left: 69px;
+	bottom: 35px;
+	white-space: nowrap;
+	position: relative;
+	min-width: 220px;
+	text-overflow: ellipsis;
+	overflow: hidden;
 }
 </style>
