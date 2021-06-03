@@ -153,6 +153,8 @@ OC.L10N.register(
     "Busy" : "Beschäftigt",
     "Out of office" : "Nicht im Büro",
     "Unknown" : "Unbekannt",
+    "{name} is available." : "{name} ist verfügbar.",
+    "{name} is not available." : "{name} ist nicht verfügbar.",
     "{name} accepted your invitation." : "{name} hat Ihre Einladung akzeptiert.",
     "{name} accepted {organizerName}'s invitation." : "{name} hat die Einladung von {organizerName} akzeptiert.",
     "{name} declined your invitation." : "{name} hat Ihre Einladung abgelehnt.",

@@ -153,6 +153,8 @@ OC.L10N.register(
     "Busy" : "忙碌",
     "Out of office" : "不在办公室",
     "Unknown" : "未知",
+    "{name} is available." : "{name} 可用",
+    "{name} is not available." : "{name} 不可用",
     "{name} accepted your invitation." : "{name}接受了您的邀请。",
     "{name} accepted {organizerName}'s invitation." : "{name}接受了{organizerName}的邀请。",
     "{name} declined your invitation." : "{name}拒绝了您的邀请。",

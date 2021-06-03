@@ -151,6 +151,8 @@
     "Busy" : "Meşgul",
     "Out of office" : "İş yeri dışında",
     "Unknown" : "Bilinmiyor",
+    "{name} is available." : "{name} uygun.",
+    "{name} is not available." : "{name} uygun değil.",
     "{name} accepted your invitation." : "{name} çağrınızı kabul etti.",
     "{name} accepted {organizerName}'s invitation." : "{name}, {organizerName} kişinin çağrısını kabul etti.",
     "{name} declined your invitation." : "{name} çağrınızı reddetti.",
