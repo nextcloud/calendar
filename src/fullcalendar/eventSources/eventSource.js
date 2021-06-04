@@ -49,6 +49,10 @@ export default function(store) {
 					logger.error(`EventSource: Timezone ${timeZone} not found, falling back to UTC.`)
 				}
 
+				// This code assumes that once a time range has been fetched it won't be changed
+				// outside of the vuex store. Triggering a refetch will just update all known
+				// calendar objects inside this time range. New events that were added to a cached
+				// time range externally will not be fetched and have to be added manually.
 				const timeRange = store.getters.getTimeRangeForCalendarCoveringRange(calendar.id, getUnixTimestampFromDate(start), getUnixTimestampFromDate(end))
 				if (!timeRange) {
 					let timeRangeId
