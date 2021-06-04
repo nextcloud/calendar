@@ -132,7 +132,7 @@ export default {
 		},
 		retentionDuration() {
 			return Math.ceil(
-				this.trashBin._props['{http://nextcloud.com/ns}trash-bin-retention-duration'] / (60 * 60 * 24)
+				this.trashBin.retentionDuration / (60 * 60 * 24)
 			)
 		},
 	},

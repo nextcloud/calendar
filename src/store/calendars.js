@@ -401,7 +401,7 @@ const getters = {
 	},
 
 	hasTrashBin(state) {
-		return state.trashBin !== undefined
+		return state.trashBin !== undefined && state.trashBin.retentionDuration !== 0
 	},
 
 	trashBin(state) {
