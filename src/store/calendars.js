@@ -688,13 +688,31 @@ const actions = {
 		commit('removeDeletedCalendar', { calendar })
 	},
 
-	async restoreCalendarObject({ commit, state, dispatch }, { vobject }) {
+	async restoreCalendarObject({ commit, state, getters }, { vobject }) {
 		await state.trashBin.restore(vobject.uri)
 
 		// Clean up the data locally
 		commit('removeDeletedCalendarObject', { vobject })
 
-		// Make sure the affected calendar is refreshed
+		// Delete cached time range that includes the restored event
+		const calendarObject = mapCDavObjectToCalendarObject(vobject.dav, undefined)
+		const component = calendarObject.calendarComponent.getFirstComponent(vobject.objectType)
+		const timeRange = getters.getTimeRangeForCalendarCoveringRange(
+			vobject.calendar.id,
+			component.startDate.unixTime,
+			component.endDate.unixTime,
+		)
+		if (timeRange) {
+			commit('deleteFetchedTimeRangeFromCalendar', {
+				calendar: vobject.calendar,
+				fetchedTimeRangeId: timeRange.id,
+			})
+			commit('removeTimeRange', {
+				timeRangeId: timeRange.id,
+			})
+		}
+
+		// Trigger calendar refresh
 		commit('incrementModificationCount')
 	},
 
