@@ -666,6 +666,22 @@ const actions = {
 		context.commit('deleteCalendar', { calendar })
 	},
 
+	/**
+	 * Delete a calendar in the trash bin
+	 *
+	 * @param {Object} context the store mutations Current context
+	 * @param {Object} data destructuring object
+	 * @param {Object} data.calendar the calendar to delete
+	 * @returns {Promise}
+	 */
+	async deleteCalendarPermanently(context, { calendar }) {
+		await calendar.delete({
+			'X-NC-CalDAV-No-Trashbin': 1,
+		})
+
+		context.commit('removeDeletedCalendar', { calendar })
+	},
+
 	async restoreCalendar({ commit, state }, { calendar }) {
 		await state.trashBin.restore(calendar.url)
 
@@ -680,6 +696,22 @@ const actions = {
 
 		// Make sure the affected calendar is refreshed
 		commit('incrementModificationCount')
+	},
+
+	/**
+	 * Deletes a calendar-object permanently
+	 *
+	 * @param {Object} context the store mutations
+	 * @param {Object} data destructuring object
+	 * @param {vobject} data.vobject Calendar-object to delete
+	 * @returns {Promise<void>}
+	 */
+	async deleteCalendarObjectPermanently(context, { vobject }) {
+		await vobject.dav.delete({
+			'X-NC-CalDAV-No-Trashbin': 1,
+		})
+
+		context.commit('removeDeletedCalendarObject', { vobject })
 	},
 
 	/**

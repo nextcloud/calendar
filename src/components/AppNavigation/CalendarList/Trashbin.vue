@@ -20,7 +20,7 @@
   -->
 
 <template>
-	<AppNavigationItem :title="t('calendar', 'Trashbin')"
+	<AppNavigationItem :title="t('calendar', 'Trash bin')"
 		:pinned="true"
 		icon="icon-delete"
 		@click.prevent="onShow">
@@ -28,7 +28,7 @@
 			<Modal v-if="showModal"
 				@close="showModal = false">
 				<div class="modal__content">
-					<h2>{{ t('calendar', 'Trashbin') }}</h2>
+					<h2>{{ t('calendar', 'Trash bin') }}</h2>
 					<span v-if="!items.length">{{ t('calendar', 'You do not have any deleted calendars or events') }}</span>
 					<table v-else>
 						<tr>
@@ -45,8 +45,16 @@
 							</td>
 							<td>
 								<button @click="restore(item)">
-									restore
+									{{ t('calendar','Restore') }}
 								</button>
+
+								<Actions :force-menu="true">
+									<ActionButton
+										icon="icon-delete"
+										@click="onDeletePermanently(item)">
+										{{ t('calendar','Delete permanently') }}
+									</ActionButton>
+								</Actions>
 							</td>
 						</tr>
 					</table>
@@ -61,6 +69,8 @@
 
 <script>
 import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
+import Actions from '@nextcloud/vue/dist/Components/Actions'
+import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import Modal from '@nextcloud/vue/dist/Components/Modal'
 import logger from '../../../utils/logger'
 import { showError } from '@nextcloud/dialogs'
@@ -73,6 +83,8 @@ export default {
 		AppNavigationItem,
 		Modal,
 		Moment,
+		Actions,
+		ActionButton,
 	},
 	data() {
 		return {
@@ -144,6 +156,23 @@ export default {
 				})
 
 				showError(t('calendar', 'Could not load deleted calendars and objects'))
+			}
+		},
+		async onDeletePermanently(item) {
+			logger.debug('deleting ' + item.url + ' permanently', item)
+			try {
+				switch (item.type) {
+				case 'calendar':
+					await this.$store.dispatch('deleteCalendarPermanently', { calendar: item.calendar })
+					break
+				case 'object':
+					await this.$store.dispatch('deleteCalendarObjectPermanently', { vobject: item.vobject })
+					break
+				}
+			} catch (error) {
+				logger.error('could not restore ' + item.url, { error })
+
+				showError(t('calendar', 'Could not restore calendar or event'))
 			}
 		},
 		async restore(item) {
