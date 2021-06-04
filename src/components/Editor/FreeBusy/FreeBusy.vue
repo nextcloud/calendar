@@ -169,9 +169,16 @@ export default {
 			const resources = []
 
 			for (const attendee of [this.organizer, ...this.attendees]) {
+				let title = attendee.commonName || attendee.uri.substr(7)
+				if (attendee === this.organizer) {
+					title = this.$t('calendar', '{organizer} (organizer)', {
+						organizer: title
+					})
+				}
+
 				resources.push({
 					id: attendee.attendeeProperty.email,
-					title: attendee.commonName || attendee.uri.substr(7),
+					title,
 				})
 			}
 			// Sort the resources by ID, just like fullcalendar does. This ensures that
