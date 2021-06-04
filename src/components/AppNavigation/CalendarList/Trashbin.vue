@@ -50,7 +50,7 @@
 							</td>
 						</tr>
 					</table>
-					<p class="footer">
+					<p v-if="retentionDuration" class="footer">
 						{{ n('calendar', 'Elements in the trash bin are deleted after {numDays} day', 'Elements in the trash bin are deleted after {numDays} days', retentionDuration, { numDays: retentionDuration }) }}
 					</p>
 				</div>
