@@ -196,6 +196,10 @@ export default {
 		 */
 		colorCaption() {
 			return [{
+				// TRANSLATORS: free as in available
+				label: this.$t('calendar', 'Free'),
+				color: getColorForFBType('FREE'),
+			}, {
 				label: this.$t('calendar', 'Busy (tentative)'),
 				color: getColorForFBType('BUSY-TENTATIVE'),
 			}, {
