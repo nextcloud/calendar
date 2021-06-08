@@ -29,7 +29,7 @@
 export function getColorForFBType(type = 'BUSY') {
 	switch (type) {
 	case 'FREE':
-		return 'rgb(110,166,143)'
+		return 'rgba(255,255,255,0)'
 
 	case 'BUSY-TENTATIVE':
 		return 'rgb(221,203,85)'
