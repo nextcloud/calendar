@@ -119,12 +119,15 @@ export default function(organizer, attendees, resources) {
 			const slotsWithoutOverlap = []
 			if (slots.length) {
 				let currentSlotStart = slots[0].start
-				slots.forEach(() => {
-					const combined = findNextCombinedSlot(slots, currentSlotStart)
-					if (combined) {
-						slotsWithoutOverlap.push(combined)
-						currentSlotStart = combined.end
+				slots.forEach(slot => {
+					const combined = findNextCombinedSlot(slots, currentSlotStart) ?? slot
+					if (combined.start < currentSlotStart) {
+						// This slot has already been combined with a former slot
+						return
 					}
+
+					slotsWithoutOverlap.push(combined)
+					currentSlotStart = combined.end
 				})
 			}
 			console.debug('deduplicated slots', slots, slotsWithoutOverlap)
@@ -149,9 +152,16 @@ export default function(organizer, attendees, resources) {
 	}
 }
 
+/***
+ * Try to combine slots after the given starting date
+ *
+ * @param {{start: Date, end: Date}[]} slots The slots to combine
+ * @param {Date} start Combine slots after this date
+ * @returns {undefined|{start: Date, end: Date}} The combined date or undefined if no overlaps were found
+ */
 function findNextCombinedSlot(slots, start) {
 	const slot = slots
-		.filter(slot => slot.start > start)
+		.filter(slot => slot.start >= start)
 		.reduce((combined, slot) => {
 			if (slot.start < combined.start) {
 				// This slot starts too early
@@ -160,6 +170,11 @@ function findNextCombinedSlot(slots, start) {
 
 			if (slot.end <= combined.end) {
 				// This slots starts and ends within the combined one
+				return combined
+			}
+
+			if (slot.start > combined.end) {
+				// This slots starts after the the combined one
 				return combined
 			}
 
