@@ -6,10 +6,10 @@
 		:options="calendars"
 		:value="calendar"
 		@select="change">
-		<template slot="singleLabel" slot-scope="scope">
+		<template v-slot:singleLabel="scope">
 			<CalendarPickerOption v-bind="scope.option" />
 		</template>
-		<template slot="option" slot-scope="scope">
+		<template v-slot:option="scope">
 			<CalendarPickerOption v-bind="scope.option" />
 		</template>
 	</Multiselect>
@@ -64,3 +64,9 @@ export default {
 	},
 }
 </script>
+
+<style lang="scss" scoped>
+::v-deep .multiselect__tags {
+	margin: 3px 0;
+}
+</style>

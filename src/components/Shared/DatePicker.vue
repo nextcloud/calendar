@@ -40,8 +40,7 @@
 		@close="close"
 		@change="change"
 		@pick="pickDate">
-		<template
-			slot="icon-calendar">
+		<template v-slot:icon-calendar>
 			<button
 				class="datetime-picker-inline-icon icon"
 				:class="{'icon-timezone': !isAllDay, 'icon-new-calendar': isAllDay, 'datetime-picker-inline-icon--highlighted': highlightTimezone}"
@@ -63,7 +62,7 @@
 		</template>
 		<template
 			v-if="!isAllDay"
-			slot="footer">
+			v-slot:footer>
 			<button
 				v-if="!showTimePanel"
 				class="mx-btn mx-btn-text"
