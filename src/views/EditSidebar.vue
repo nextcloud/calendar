@@ -46,32 +46,6 @@
 			</EmptyContent>
 		</template>
 
-		<template
-			v-if="!isLoading && !isError"
-			v-slot:primary-actions>
-			<PropertyCalendarPicker
-				v-if="showCalendarPicker"
-				:calendars="calendars"
-				:calendar="selectedCalendar"
-				:is-read-only="isReadOnly"
-				@selectCalendar="changeCalendar" />
-
-			<PropertyTitleTimePicker
-				:start-date="startDate"
-				:start-timezone="startTimezone"
-				:end-date="endDate"
-				:end-timezone="endTimezone"
-				:is-all-day="isAllDay"
-				:is-read-only="isReadOnly"
-				:can-modify-all-day="canModifyAllDay"
-				:user-timezone="currentUserTimezone"
-				@updateStartDate="updateStartDate"
-				@updateStartTimezone="updateStartTimezone"
-				@updateEndDate="updateEndDate"
-				@updateEndTimezone="updateEndTimezone"
-				@toggleAllDay="toggleAllDay" />
-		</template>
-
 		<template v-slot:header>
 			<IllustrationHeader :color="illustrationColor" :illustration-url="backgroundImage" />
 		</template>
@@ -93,6 +67,32 @@
 			<ActionButton v-if="canDelete && canCreateRecurrenceException" icon="icon-delete" @click="deleteAndLeave(true)">
 				{{ $t('calendar', 'Delete this and all future') }}
 			</ActionButton>
+		</template>
+
+		<template
+			v-if="!isLoading && !isError"
+			v-slot:description>
+			<PropertyCalendarPicker
+				v-if="showCalendarPicker"
+				:calendars="calendars"
+				:calendar="selectedCalendar"
+				:is-read-only="isReadOnly"
+				@selectCalendar="changeCalendar" />
+
+			<PropertyTitleTimePicker
+				:start-date="startDate"
+				:start-timezone="startTimezone"
+				:end-date="endDate"
+				:end-timezone="endTimezone"
+				:is-all-day="isAllDay"
+				:is-read-only="isReadOnly"
+				:can-modify-all-day="canModifyAllDay"
+				:user-timezone="currentUserTimezone"
+				@updateStartDate="updateStartDate"
+				@updateStartTimezone="updateStartTimezone"
+				@updateEndDate="updateEndDate"
+				@updateEndTimezone="updateEndTimezone"
+				@toggleAllDay="toggleAllDay" />
 		</template>
 
 		<AppSidebarTab
@@ -368,3 +368,9 @@ export default {
 	},
 }
 </script>
+
+<style lang="scss" scoped>
+::v-deep .app-sidebar-header__description {
+	flex-direction: column;
+}
+</style>
