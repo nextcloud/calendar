@@ -42,9 +42,19 @@
 						</tr>
 						<tr v-for="item in items" :key="item.url">
 							<td>
-								<div>{{ item.name }}</div>
-								<div v-if="item.subline" class="item-subline">
-									{{ item.subline }}
+								<div class="item">
+									<div>
+										<div
+											class="color-dot"
+											:style="{ 'background-color': item.color }" />
+									</div>
+
+									<div>
+										<div>{{ item.name }}</div>
+										<div v-if="item.subline" class="item-subline">
+											{{ item.subline }}
+										</div>
+									</div>
 								</div>
 							</td>
 							<td class="deletedAt">
@@ -84,6 +94,7 @@ import logger from '../../../utils/logger'
 import { showError } from '@nextcloud/dialogs'
 import { mapGetters } from 'vuex'
 import Moment from './Moment'
+import { uidToHexColor } from '../../../utils/color'
 
 export default {
 	name: 'Trashbin',
@@ -117,6 +128,7 @@ export default {
 				name: calendar.displayname,
 				url: calendar._url,
 				deletedAt: calendar._props['{http://nextcloud.com/ns}deleted-at'],
+				color: calendar.color ?? uidToHexColor(calendar.displayname),
 			}))
 			const formattedCalendarObjects = this.objects.map(vobject => {
 				let eventSummary = t('calendar', 'Untitled event')
@@ -135,6 +147,9 @@ export default {
 						subline += ' · ' + moment(event?.startDate.jsDate).format('LLL')
 					}
 				}
+				const color = vobject.calendarComponent.getComponentIterator().next().value?.color
+						?? vobject.calendar.color
+						?? uidToHexColor(vobject.calendar.displayName)
 				return {
 					vobject,
 					type: 'object',
@@ -143,6 +158,7 @@ export default {
 					subline,
 					url: vobject.uri,
 					deletedAt: vobject.dav._props['{http://nextcloud.com/ns}deleted-at'],
+					color,
 				}
 			})
 
@@ -233,8 +249,12 @@ th {
 	// Take remaining width to prevent whitespace on the right side
 	width: 100vw;
 }
-.item-subline {
-	color: var(--color-text-maxcontrast)
+.item {
+	display: flex;
+
+	.item-subline {
+		color: var(--color-text-maxcontrast)
+	}
 }
 .deletedAt {
 	text-align: right;
@@ -244,5 +264,14 @@ th {
 	text-align: center;
 	font-size: small;
 	margin-top: 16px;
+}
+.color-dot {
+	display: inline-block;
+	vertical-align: middle;
+	width: 14px;
+	height: 14px;
+	margin-right: 14px;
+	border: none;
+	border-radius: 50%;
 }
 </style>

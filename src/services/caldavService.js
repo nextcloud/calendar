@@ -93,12 +93,8 @@ const findAll = () => {
  *
  * @returns {Promise<Calendar[]>}
  */
-const findAllDeletedCalendars = async() => {
-	const collections = await getClient()
-		.calendarHomes[0]
-		.findAll()
-	return collections
-		.filter(coll => coll._props['{DAV:}resourcetype'].includes('{http://nextcloud.com/ns}deleted-calendar'))
+const findAllDeletedCalendars = () => {
+	return getCalendarHome().findAllDeletedCalendars()
 }
 
 /**
