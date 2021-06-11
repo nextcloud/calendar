@@ -96,6 +96,12 @@
 	}
 }
 
+// Fix right border on today not being visible in month and week view when using Firefox
+.fc .fc-daygrid-day.fc-day-today,
+.fc .fc-timegrid-col.fc-day-today {
+	background-color: unset !important;
+}
+
 // ### FullCalendar Event adjustments
 .fc-event {
 	padding-left: 3px;
