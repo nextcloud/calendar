@@ -245,7 +245,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			color: '#FF00FF',
 			dav: cdavObject,
 			displayName: 'Displayname of calendar 123',
-			enabled: false,
+			enabled: true,
 			id: 'L2Zvby9iYXI=',
 			order: 0,
 			owner: '/remote.php/dav/principals/users/admin/',
