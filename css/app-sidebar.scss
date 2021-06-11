@@ -38,7 +38,7 @@
 
 	/** Hide the submit button for the title, because it does not trigger a save */
 	.app-sidebar-header__desc {
-		.rename-form {
+		.app-sidebar-header__maintitle-form {
 			button {
 				display: none;
 			}
