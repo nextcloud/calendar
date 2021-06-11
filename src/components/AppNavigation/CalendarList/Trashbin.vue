@@ -41,7 +41,12 @@
 							<th>&nbsp;</th>
 						</tr>
 						<tr v-for="item in items" :key="item.url">
-							<td>{{ item.name }}</td>
+							<td>
+								<div>{{ item.name }}</div>
+								<div v-if="item.subline" class="item-subline">
+									{{ item.subline }}
+								</div>
+							</td>
 							<td class="deletedAt">
 								<Moment class="timestamp" :timestamp="item.deletedAt" />
 							</td>
@@ -74,6 +79,7 @@ import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
 import Actions from '@nextcloud/vue/dist/Components/Actions'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import Modal from '@nextcloud/vue/dist/Components/Modal'
+import moment from '@nextcloud/moment'
 import logger from '../../../utils/logger'
 import { showError } from '@nextcloud/dialogs'
 import { mapGetters } from 'vuex'
@@ -120,11 +126,21 @@ export default {
 				} catch (e) {
 					// ignore
 				}
+				let subline = vobject.calendar.displayName
+				if (vobject.isEvent) {
+					const event = vobject?.calendarComponent.getFirstComponent('VEVENT')
+					if (event?.startDate.jsDate && event?.isAllDay()) {
+						subline += ' · ' + moment(event.startDate.jsDate).format('LL')
+					} else if (event?.startDate.jsDate) {
+						subline += ' · ' + moment(event?.startDate.jsDate).format('LLL')
+					}
+				}
 				return {
 					vobject,
 					type: 'object',
 					key: vobject.id,
-					name: `${eventSummary} (${vobject.calendar.displayName})`,
+					name: eventSummary,
+					subline,
 					url: vobject.uri,
 					deletedAt: vobject.dav._props['{http://nextcloud.com/ns}deleted-at'],
 				}
@@ -148,7 +164,7 @@ export default {
 					this.$store.dispatch('loadDeletedCalendarObjects'),
 				])
 
-				logger.debug('deleted calendars loaded', {
+				logger.debug('deleted calendars and objects loaded', {
 					calendars: this.calendars,
 					objects: this.objects,
 				})
@@ -216,6 +232,9 @@ th {
 .name {
 	// Take remaining width to prevent whitespace on the right side
 	width: 100vw;
+}
+.item-subline {
+	color: var(--color-text-maxcontrast)
 }
 .deletedAt {
 	text-align: right;
