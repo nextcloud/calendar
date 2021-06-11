@@ -211,7 +211,7 @@ th, td {
 	padding: 4px;
 }
 th {
-	font-weight: bold;
+	color: var(--color-text-maxcontrast)
 }
 .name {
 	// Take remaining width to prevent whitespace on the right side
