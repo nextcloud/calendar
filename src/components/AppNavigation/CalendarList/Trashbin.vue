@@ -32,7 +32,9 @@
 					<span v-if="!items.length">{{ t('calendar', 'You do not have any deleted calendars or events') }}</span>
 					<table v-else>
 						<tr>
-							<th>{{ t('calendar', 'Name') }}</th>
+							<th class="name">
+								{{ t('calendar', 'Name') }}
+							</th>
 							<th class="deletedAt">
 								{{ t('calendar', 'Deleted') }}
 							</th>
@@ -199,7 +201,7 @@ export default {
 
 <style lang="scss" scoped>
 .modal__content {
-	width: 40vw;
+	max-width: 40vw;
 	margin: 2vw;
 }
 table {
@@ -210,6 +212,10 @@ th, td {
 }
 th {
 	font-weight: bold;
+}
+.name {
+	// Take remaining width to prevent whitespace on the right side
+	width: 100vw;
 }
 .deletedAt {
 	text-align: right;
