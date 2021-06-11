@@ -209,7 +209,7 @@ th, td {
 	padding: 4px;
 }
 th {
-	font-weight: bold;
+	color: var(--color-text-maxcontrast)
 }
 .deletedAt {
 	text-align: right;
