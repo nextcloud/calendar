@@ -123,9 +123,9 @@ const mapDavCollectionToCalendar = (calendar, currentUserPrincipal) => {
 		enabled = calendar.enabled
 	} else {
 		// If there is no calendar-enabled,
-		// we will display the calendar by default if it's owned by the user
-		// or hide it by default it it's just shared with them
-		enabled = !isSharedWithMe
+		// we will display the calendar by default and set enabled
+		enabled = true
+		calendar.enabled = true
 	}
 
 	const shares = []
