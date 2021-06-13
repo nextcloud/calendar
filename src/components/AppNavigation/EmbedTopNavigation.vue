@@ -69,12 +69,7 @@ export default {
 			const rootURL = generateRemoteUrl('dav')
 			const url = new URL(calendar.url + '?export', rootURL)
 
-			if (url.protocol === 'http:') {
-				url.protocol = 'webcal:'
-			}
-			if (url.protocol === 'https:') {
-				url.protocol = 'webcals:'
-			}
+			url.protocol = 'webcal:'
 
 			// copy link for calendar to clipboard
 			try {
