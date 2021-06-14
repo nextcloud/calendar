@@ -984,17 +984,13 @@ const actions = {
 					components.push('VTODO')
 				}
 
-				try {
-					const response = await createCalendar(displayName, color, components, 0)
-					const calendar = mapDavCollectionToCalendar(response, context.getters.getCurrentUserPrincipal)
-					context.commit('addCalendar', { calendar })
-					context.commit('setCalendarForFileId', {
-						fileId: file.id,
-						calendarId: calendar.id,
-					})
-				} catch (error) {
-					throw error
-				}
+				const response = await createCalendar(displayName, color, components, 0)
+				const calendar = mapDavCollectionToCalendar(response, context.getters.getCurrentUserPrincipal)
+				context.commit('addCalendar', { calendar })
+				context.commit('setCalendarForFileId', {
+					fileId: file.id,
+					calendarId: calendar.id,
+				})
 			}
 		}
 

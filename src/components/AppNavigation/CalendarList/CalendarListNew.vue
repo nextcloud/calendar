@@ -101,7 +101,7 @@ export default {
 		ActionText,
 		AppNavigationItem,
 	},
-	data: function() {
+	data() {
 		return {
 			// Open state
 			isOpen: false,

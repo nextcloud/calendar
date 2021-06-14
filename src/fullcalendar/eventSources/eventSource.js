@@ -58,7 +58,7 @@ export default function(store) {
 					let timeRangeId
 					try {
 						timeRangeId = await store.dispatch('getEventsFromCalendarInTimeRange', {
-							calendar: calendar,
+							calendar,
 							from: start,
 							to: end,
 						})

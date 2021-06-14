@@ -193,7 +193,7 @@ export default {
 					arr.push({
 						calendarUserType: 'INDIVIDUAL',
 						commonName: result.name,
-						email: email,
+						email,
 						isUser: false,
 						avatar: result.photo,
 						language: result.lang,
@@ -221,7 +221,7 @@ export default {
 				}
 
 				if (this.alreadyInvitedEmails.includes(principal.email)) {
-					return
+					return false
 				}
 
 				// We do not support GROUPS for now

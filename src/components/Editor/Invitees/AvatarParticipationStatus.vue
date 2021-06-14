@@ -150,6 +150,7 @@ export default {
 	opacity: .45;
 	position: relative;
 }
+
 .avatar-participation-status__text {
 	opacity: .45;
 	left: 69px;

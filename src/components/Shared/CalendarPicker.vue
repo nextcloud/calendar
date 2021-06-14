@@ -6,10 +6,10 @@
 		:options="calendars"
 		:value="calendar"
 		@select="change">
-		<template v-slot:singleLabel="scope">
+		<template #singleLabel="scope">
 			<CalendarPickerOption v-bind="scope.option" />
 		</template>
-		<template v-slot:option="scope">
+		<template #option="scope">
 			<CalendarPickerOption v-bind="scope.option" />
 		</template>
 	</Multiselect>

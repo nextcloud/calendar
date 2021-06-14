@@ -39,9 +39,9 @@
 				:calendar="calendar" />
 		</template>
 		<!-- The header slot must be placed here, otherwise vuedraggable adds undefined as item to the array -->
-		<CalendarListItemLoadingPlaceholder
-			v-if="loadingCalendars"
-			#footer />
+		<template #footer>
+			<CalendarListItemLoadingPlaceholder v-if="loadingCalendars" />
+		</template>
 	</draggable>
 </template>
 

@@ -61,7 +61,7 @@ export function getSortedTimezoneList(timezoneList = [], additionalTimezones = [
 		}
 
 		sortedByContinent[continent].regions.push({
-			label: label,
+			label,
 			cities: [],
 			timezoneId,
 		})

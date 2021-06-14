@@ -236,19 +236,24 @@ export default {
 	max-width: 40vw;
 	margin: 2vw;
 }
+
 table {
 	width: 100%;
 }
+
 th, td {
 	padding: 4px;
 }
+
 th {
 	color: var(--color-text-maxcontrast)
 }
+
 .name {
 	// Take remaining width to prevent whitespace on the right side
 	width: 100vw;
 }
+
 .item {
 	display: flex;
 
@@ -256,15 +261,18 @@ th {
 		color: var(--color-text-maxcontrast)
 	}
 }
+
 .deletedAt {
 	text-align: right;
 }
+
 .footer {
 	color: var(--color-text-lighter);
 	text-align: center;
 	font-size: small;
 	margin-top: 16px;
 }
+
 .color-dot {
 	display: inline-block;
 	vertical-align: middle;
