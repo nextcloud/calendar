@@ -101,7 +101,7 @@ class CalendarWidget implements IWidget {
 	 * @inheritDoc
 	 */
 	public function load(): void {
-		\OCP\Util::addScript('calendar', 'dashboard');
+		\OCP\Util::addScript('calendar', 'calendar-dashboard');
 
 		$this->initialStateService->provideLazyInitialState(Application::APP_ID, 'dashboard_data', function () {
 			return $this->dataService;

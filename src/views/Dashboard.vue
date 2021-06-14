@@ -281,7 +281,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../fonts/scss/iconfont-calendar-app';
+@import '../fonts/scss/iconfont-calendar-app.scss';
 
 #calendar_panel {
 	.vtodo-checkbox {
