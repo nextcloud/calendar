@@ -83,3 +83,11 @@ export default {
 	},
 }
 </script>
+<style lang="scss" scoped>
+.invitees-list-item__displayname {
+	margin-bottom: 13px;
+}
+.invitees-list-item__organizer-hint {
+	margin-bottom: 14px;
+}
+</style>
