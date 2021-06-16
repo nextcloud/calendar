@@ -129,7 +129,7 @@ export default {
 			if (this.isViewedByOrganizer) {
 				return {
 					class: ['no-response', 'icon', 'icon-invitees-no-response-white'],
-					label: t('calendar', 'Invitation sent'),
+					label: t('calendar', 'Invitation sent.'),
 				}
 			} else {
 				return {
