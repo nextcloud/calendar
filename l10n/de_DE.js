@@ -166,6 +166,7 @@ OC.L10N.register(
     "Declined {organizerName}'s invitation." : "Hat die Einladung von {organizerName} abgelehnt.",
     "Invitation is delegated." : "Einladung wird weitergeleitet.",
     "Participation marked as tentative." : "Teilnahme ist als vorläufig gekennzeichnet.",
+    "Invitation sent." : "Einladung versandt.",
     "Has not responded to {organizerName}'s invitation yet." : "Hat bislang nicht auf die Einladung von {organizerName} reagiert.",
     "Create Talk room for this event" : "Besprechungsraum für diesen Termin erstellen",
     "Show busy times" : "Belegte Zeiten anzeigen",

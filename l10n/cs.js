@@ -166,6 +166,7 @@ OC.L10N.register(
     "Declined {organizerName}'s invitation." : "Odmítnuta pozvánka od {organizerName}.",
     "Invitation is delegated." : "Pozvání postoupeno dalšímu.",
     "Participation marked as tentative." : "Účast označena jako povinná.",
+    "Invitation sent." : "Pozvánka odeslána.",
     "Has not responded to {organizerName}'s invitation yet." : "Doposud neodpovězeno na pozvánku od {organizerName}.",
     "Create Talk room for this event" : "Vytvořit pro tuto událost místnost v Talk",
     "Show busy times" : "Zobrazit, kdy zaneprázněno",

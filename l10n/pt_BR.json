@@ -164,6 +164,7 @@
     "Declined {organizerName}'s invitation." : "Recusou o convite de {organizerName}. ",
     "Invitation is delegated." : "O convite está delegado. ",
     "Participation marked as tentative." : "Participação marcada como provisória. ",
+    "Invitation sent." : "Convite enviado. ",
     "Has not responded to {organizerName}'s invitation yet." : "Ainda não respondeu ao convite de {organizerName}. ",
     "Create Talk room for this event" : "Criar sala no Talk para este evento",
     "Show busy times" : "Mostrar horários ocupados",

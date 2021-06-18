@@ -166,6 +166,7 @@ OC.L10N.register(
     "Declined {organizerName}'s invitation." : "已婉拒 {organizerName} 的邀請。",
     "Invitation is delegated." : "邀請已委派。",
     "Participation marked as tentative." : "參與標記為暫定。",
+    "Invitation sent." : "邀請已傳送。",
     "Has not responded to {organizerName}'s invitation yet." : "尚未回覆 {organizerName} 的邀請。",
     "Create Talk room for this event" : "建立此活動的線上會議室",
     "Show busy times" : "顯示忙碌時段",
