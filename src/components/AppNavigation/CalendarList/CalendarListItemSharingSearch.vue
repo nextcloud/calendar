@@ -35,7 +35,7 @@
 			:user-select="true"
 			open-direction="bottom"
 			track-by="user"
-			label="user"
+			label="displayName"
 			@search-change="findSharee"
 			@change="shareCalendar">
 			<span slot="noResult">{{ $t('calendar', 'No users or groups') }}</span>
@@ -49,6 +49,7 @@ import { principalPropertySearchByDisplaynameOrEmail } from '../../../services/c
 import HttpClient from '@nextcloud/axios'
 import debounce from 'debounce'
 import { generateOcsUrl } from '@nextcloud/router'
+import { urldecode } from '../../../utils/url'
 
 export default {
 	name: 'CalendarListItemSharingSearch',
@@ -80,8 +81,6 @@ export default {
 		 * @param {Boolean} data.isCircle is this a circle-group ?
 		 */
 		shareCalendar({ user, displayName, uri, isGroup, isCircle }) {
-			uri = decodeURI(uri)
-			user = decodeURI(user)
 			this.$store.dispatch('shareCalendar', {
 				calendar: this.calendar,
 				user,
@@ -146,7 +145,13 @@ export default {
 			}
 
 			return results.reduce((list, result) => {
-				if (hiddenPrincipals.includes(decodeURI(result.principalScheme))) {
+				const isGroup = result.calendarUserType === 'GROUP'
+
+				// TODO: Why do we have to decode those two values?
+				const user = urldecode(result[isGroup ? 'groupId' : 'userId'])
+				const decodedPrincipalScheme = urldecode(result.principalScheme)
+
+				if (hiddenPrincipals.includes(decodedPrincipalScheme)) {
 					return list
 				}
 				if (hiddenUrls.includes(result.url)) {
@@ -158,12 +163,11 @@ export default {
 					return list
 				}
 
-				const isGroup = result.calendarUserType === 'GROUP'
 				list.push({
-					user: result[isGroup ? 'groupId' : 'userId'],
+					user,
 					displayName: result.displayname,
 					icon: isGroup ? 'icon-group' : 'icon-user',
-					uri: result.principalScheme,
+					uri: decodedPrincipalScheme,
 					isGroup,
 					isCircle: false,
 					isNoUser: isGroup,
