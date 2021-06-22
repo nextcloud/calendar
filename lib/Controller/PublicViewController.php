@@ -25,6 +25,8 @@ namespace OCA\Calendar\Controller;
 
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
+use OCP\AppFramework\Http\RedirectResponse;
+use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\IInitialStateService;
@@ -79,9 +81,13 @@ class PublicViewController extends Controller {
 	 * @NoCSRFRequired
 	 *
 	 * @param string $token
-	 * @return TemplateResponse
+	 * @return Response
 	 */
-	public function publicIndexWithBranding(string $token):TemplateResponse {
+	public function publicIndexWithBranding(string $token):Response {
+		$acceptHeader = $this->request->getHeader('Accept');
+		if (strpos($acceptHeader, 'text/calendar') !== false) {
+			return new RedirectResponse($this->urlGenerator->linkTo('', 'remote.php') . '/dav/public-calendars/' . $token . '/?export');
+		}
 		return $this->publicIndex($token, 'public');
 	}
 
