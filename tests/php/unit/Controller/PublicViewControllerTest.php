@@ -23,6 +23,7 @@ declare(strict_types=1);
  */
 namespace OCA\Calendar\Controller;
 
+use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\IInitialStateService;
@@ -127,6 +128,16 @@ class PublicViewControllerTest extends TestCase {
 		], $response->getParams());
 		$this->assertEquals('public', $response->getRenderAs());
 		$this->assertEquals('main', $response->getTemplateName());
+	}
+
+	public function testRedirectionIfRequestedWithAcceptCalendarHeader(): void {
+		$endpoint = 'https://somewhere.net/remote.php';
+
+		$this->request->expects(self::once())->method('getHeader')->with('Accept')->willReturn('text/calendar');
+		$this->urlGenerator->expects(self::once())->method('linkTo')->with('', 'remote.php')->willReturn($endpoint);
+		$response = $this->controller->publicIndexWithBranding('some-token');
+		self::assertInstanceOf(RedirectResponse::class, $response);
+		self::assertEquals($endpoint . '/dav/public-calendars/some-token/?export', $response->getRedirectURL());
 	}
 
 	public function testPublicIndexForEmbedding():void {
