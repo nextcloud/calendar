@@ -10,7 +10,14 @@ const IconfontPlugin = require('iconfont-plugin-webpack')
 const appVersion = JSON.stringify(process.env.npm_package_version)
 
 // Add dashboard entry
-webpackConfig.entry.dashboard = path.join(__dirname, 'src', 'dashboard.js')
+// webpackConfig.entry.dashboard = path.join(__dirname, 'src', 'dashboard.js')
+// webpackConfig.entry.talk = path.join(__dirname, 'src', 'talk.js'),
+
+webpackConfig.entry = {
+	...webpackConfig.entry,
+	dashboard: path.join(__dirname, 'src', 'dashboard.js'),
+	talk: path.join(__dirname, 'src', 'talk.js'),
+}
 
 // Edit JS rule
 webpackRules.RULE_JS.test = /\.m?js$/
