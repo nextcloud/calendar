@@ -69,7 +69,7 @@
 		"vue": "^2.6.12",
 		"vue-click-outside": "^1.1.0",
 		"vue-clipboard2": "^0.3.1",
-		"vue-router": "^3.5.1",
+		"vue-router": "^3.5.2",
 		"vue-shortkey": "^3.1.7",
 		"vuedraggable": "^2.24.3",
 		"vuex": "^3.6.2",
