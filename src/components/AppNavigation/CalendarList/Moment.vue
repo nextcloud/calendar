@@ -9,7 +9,7 @@ export default {
 	name: 'Moment',
 	props: {
 		timestamp: {
-			type: Number,
+			type: [Date, Number],
 			required: true,
 		},
 		format: {
@@ -19,10 +19,16 @@ export default {
 	},
 	computed: {
 		title() {
-			return moment.unix(this.timestamp).format(this.format)
+			return moment.unix(this.numericTimestamp).format(this.format)
 		},
 		formatted() {
-			return moment.unix(this.timestamp).fromNow()
+			return moment.unix(this.numericTimestamp).fromNow()
+		},
+		numericTimestamp() {
+			if (this.timestamp instanceof Date) {
+				return this.timestamp.getTime() / 1000
+			}
+			return this.timestamp
 		},
 	},
 }
