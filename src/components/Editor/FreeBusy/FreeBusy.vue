@@ -172,7 +172,7 @@ export default {
 				let title = attendee.commonName || attendee.uri.substr(7)
 				if (attendee === this.organizer) {
 					title = this.$t('calendar', '{organizer} (organizer)', {
-						organizer: title
+						organizer: title,
 					})
 				}
 

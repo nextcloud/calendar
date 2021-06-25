@@ -14,6 +14,7 @@ module.exports = {
 	entry: {
 		calendar: path.join(__dirname, 'src', 'main.js'),
 		dashboard: path.join(__dirname, 'src', 'dashboard.js'),
+		talk: path.join(__dirname, 'src', 'talk.js'),
 	},
 	output: {
 		path: path.resolve(__dirname, './js'),
