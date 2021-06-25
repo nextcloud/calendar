@@ -73,7 +73,7 @@ export default {
 	filters: {
 		formatDateRage,
 	},
-	data: function() {
+	data() {
 		return {
 			isDatepickerOpen: false,
 		}

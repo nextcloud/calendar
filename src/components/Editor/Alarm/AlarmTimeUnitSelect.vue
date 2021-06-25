@@ -71,29 +71,29 @@ export default {
 
 			if (this.unit === 'seconds') {
 				options.push({
-					'label': this.$n('calendar', 'second', 'seconds', this.count),
-					'unit': 'seconds',
+					label: this.$n('calendar', 'second', 'seconds', this.count),
+					unit: 'seconds',
 				})
 			}
 
 			if (!this.isAllDay || ['minutes', 'hours'].indexOf(this.unit) !== -1) {
 				options.push({
-					'label': this.$n('calendar', 'minute', 'minutes', this.count),
-					'unit': 'minutes',
+					label: this.$n('calendar', 'minute', 'minutes', this.count),
+					unit: 'minutes',
 				})
 				options.push({
-					'label': this.$n('calendar', 'hour', 'hours', this.count),
-					'unit': 'hours',
+					label: this.$n('calendar', 'hour', 'hours', this.count),
+					unit: 'hours',
 				})
 			}
 
 			options.push({
-				'label': this.$n('calendar', 'day', 'days', this.count),
-				'unit': 'days',
+				label: this.$n('calendar', 'day', 'days', this.count),
+				unit: 'days',
 			})
 			options.push({
-				'label': this.$n('calendar', 'week', 'weeks', this.count),
-				'unit': 'weeks',
+				label: this.$n('calendar', 'week', 'weeks', this.count),
+				unit: 'weeks',
 			})
 
 			return options

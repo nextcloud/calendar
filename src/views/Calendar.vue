@@ -121,7 +121,7 @@ export default {
 	computed: {
 		...mapGetters({
 			timezoneId: 'getResolvedTimezone',
-			'hasTrashBin': 'hasTrashBin',
+			hasTrashBin: 'hasTrashBin',
 		},
 		),
 		...mapState({

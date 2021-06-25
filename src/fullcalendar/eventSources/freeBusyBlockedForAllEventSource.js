@@ -137,7 +137,7 @@ export default function(organizer, attendees, resources) {
 					groupId: 'free-busy-blocked-for-all',
 					start: slot.start.toISOString(),
 					end: slot.end.toISOString(),
-					resourceIds: resourceIds,
+					resourceIds,
 					display: 'background',
 					allDay: false,
 					backgroundColor: 'var(--color-text-maxcontrast)',

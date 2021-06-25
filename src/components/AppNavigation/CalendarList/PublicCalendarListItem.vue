@@ -104,7 +104,7 @@ export default {
 			required: true,
 		},
 	},
-	data: function() {
+	data() {
 		return {
 			// copy subscription link:
 			showCopySubscriptionLinkLabel: true,

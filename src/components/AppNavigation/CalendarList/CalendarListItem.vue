@@ -183,7 +183,7 @@ export default {
 			required: true,
 		},
 	},
-	data: function() {
+	data() {
 		return {
 			// Rename action
 			showRenameLabel: true,

@@ -157,7 +157,7 @@ export default {
 			default: false,
 		},
 	},
-	data: function() {
+	data() {
 		return {
 			savingBirthdayCalendar: false,
 			savingEventLimit: false,

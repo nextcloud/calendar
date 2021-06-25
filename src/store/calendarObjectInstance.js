@@ -1437,7 +1437,7 @@ const actions = {
 		const defaultReminder = parseInt(settings.state.defaultReminder)
 		if (!isNaN(defaultReminder)) {
 			commit('addAlarmToCalendarObjectInstance', {
-				calendarObjectInstance: calendarObjectInstance,
+				calendarObjectInstance,
 				type: 'DISPLAY',
 				totalSeconds: defaultReminder,
 			})
@@ -1521,7 +1521,7 @@ const actions = {
 			if (original !== null && fork !== null && original.root !== fork.root) {
 				await dispatch('createCalendarObjectFromFork', {
 					eventComponent: fork,
-					calendarId: calendarId,
+					calendarId,
 				})
 			}
 		}

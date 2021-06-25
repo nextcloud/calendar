@@ -260,7 +260,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../fonts/scss/iconfont-calendar-app';
+@import '../fonts/scss/iconfont-calendar-app.scss';
 
 .calendar-grid-checkbox {
 	border-color: transparent;

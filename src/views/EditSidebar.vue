@@ -46,13 +46,13 @@
 			</EmptyContent>
 		</template>
 
-		<template v-slot:header>
+		<template #header>
 			<IllustrationHeader :color="illustrationColor" :illustration-url="backgroundImage" />
 		</template>
 
 		<template
 			v-if="!isLoading && !isError"
-			v-slot:secondary-actions>
+			#secondary-actions>
 			<ActionLink v-if="hasDownloadURL"
 				icon="icon-download"
 				:href="downloadURL">
@@ -71,7 +71,7 @@
 
 		<template
 			v-if="!isLoading && !isError"
-			v-slot:description>
+			#description>
 			<PropertyCalendarPicker
 				v-if="showCalendarPicker"
 				:calendars="calendars"

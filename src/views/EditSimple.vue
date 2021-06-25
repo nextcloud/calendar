@@ -159,6 +159,17 @@ export default {
 	mixins: [
 		EditorMixin,
 	],
+	beforeRouteUpdate(to, from, next) {
+		const isNew = to.name === 'NewPopoverView'
+		this.$refs.popover
+			.$children[0]
+			.$refs.trigger = this.getDomElementForPopover(isNew, to)
+		this.$refs.popover
+			.$children[0]
+			.$_restartPopper()
+
+		next()
+	},
 	data() {
 		return {
 			placement: 'auto',
@@ -227,7 +238,7 @@ export default {
 				this.placement = 'auto'
 
 				if (!matchingDomObject) {
-					matchingDomObject = document.querySelector(`.fc-event[data-is-new="yes"]`)
+					matchingDomObject = document.querySelector('.fc-event[data-is-new="yes"]')
 				}
 			} else {
 				const objectId = route.params.object
@@ -249,17 +260,6 @@ export default {
 
 			return matchingDomObject
 		},
-	},
-	beforeRouteUpdate(to, from, next) {
-		const isNew = to.name === 'NewPopoverView'
-		this.$refs.popover
-			.$children[0]
-			.$refs.trigger = this.getDomElementForPopover(isNew, to)
-		this.$refs.popover
-			.$children[0]
-			.$_restartPopper()
-
-		next()
 	},
 }
 </script>

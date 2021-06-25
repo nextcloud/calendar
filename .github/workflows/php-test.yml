@@ -36,7 +36,7 @@ jobs:
     - name: Install Nextcloud
       run: php -f nextcloud/occ maintenance:install --database-name oc_autotest --database-user oc_autotest --admin-user admin --admin-pass admin --database sqlite --database-pass=''
     - name: Checkout the app
-      uses: actions/checkout@master
+      uses: actions/checkout@v2
       with:
         path: nextcloud/apps/calendar
     - name: Fix php-parser on stable20 incompatibility with phpunit 9.3+

@@ -35,7 +35,7 @@ const getClient = () => {
 	}, () => {
 		const headers = {
 			'X-Requested-With': 'XMLHttpRequest',
-			'requesttoken': getRequestToken(),
+			requesttoken: getRequestToken(),
 			'X-NC-CalDAV-Webcal-Caching': 'On',
 		}
 		const xhr = new XMLHttpRequest()
