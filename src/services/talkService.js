@@ -33,7 +33,7 @@ import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 export async function createTalkRoom(eventTitle = null) {
 	let response
 	try {
-		response = await HTTPClient.post(generateOcsUrl('apps/spreed/api/v1', 2) + `room`, {
+		response = await HTTPClient.post(generateOcsUrl('apps/spreed/api/v1/', 2) + `room`, {
 			roomType: 3,
 			roomName: eventTitle || t('calendar', 'Chat room for event'),
 		})
@@ -44,6 +44,7 @@ export async function createTalkRoom(eventTitle = null) {
 		return generateURLForToken(token)
 	} catch (error) {
 		console.debug(error)
+		throw error
 	}
 }
 
