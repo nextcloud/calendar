@@ -34,7 +34,7 @@
 	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/sidebar_attendees.png</screenshot>
 	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/sidebar_reminders.png</screenshot>
 	<dependencies>
-		<nextcloud min-version="20" max-version="22" />
+		<nextcloud min-version="20" max-version="23" />
 	</dependencies>
 	<repair-steps>
 		<post-migration>
