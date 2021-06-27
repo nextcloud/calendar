@@ -164,6 +164,7 @@
     "Declined {organizerName}'s invitation." : "{organizerName} tarafından yapılan çağrı reddedildi.",
     "Invitation is delegated." : "Çağrı iletildi.",
     "Participation marked as tentative." : "Katılım belirsiz olarak işaretlendi.",
+    "Invitation sent." : "Çağrı gönderildi.",
     "Has not responded to {organizerName}'s invitation yet." : "{organizerName} tarafından yapılan çağrıyı yanıtlamadı.",
     "Create Talk room for this event" : "Bu etkinlik için Talk odası oluştur",
     "Show busy times" : "Meşgul zamanlar görüntülensin",
