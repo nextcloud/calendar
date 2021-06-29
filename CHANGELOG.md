@@ -1,5 +1,23 @@
 # Changelog
 
+## 2.3.0 – 2021-06-29
+### Added
+- Trash bin for calendars and their events
+- Default reminder setting
+### Changed
+- Event now have a minimum display height
+- Rendering of attendees and their state
+- Show organizer in free-busy view
+- Illustrations
+- Show shared calendars by default
+- Dropped webcals support
+- Dependencies
+- Translations
+### Fixed
+- Missing right border in month and week view
+- Missing date picker
+- Principal encoding for sharing with groups with spaces in their name
+
 ## 2.2.2 – 2021-05-26
 ### Fixed
 - Unable to pick date in monthly view
