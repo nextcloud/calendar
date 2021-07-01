@@ -128,7 +128,7 @@
 
 				.multiselect {
 					width: 100%;
-					min-width: 75px !important; // Set a lower min-width
+					min-width: 100px !important; // Set a lower min-width
 				}
 			}
 
@@ -173,7 +173,7 @@
 
 			.multiselect,
 			input[type=number] {
-				min-width: 75px;
+				min-width: 100px;
 				width: 25%;
 			}
 		}
