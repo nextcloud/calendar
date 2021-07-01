@@ -25,6 +25,7 @@
 		class="property-alarm-new"
 		track-by="value"
 		label="label"
+		open-direction="bottom"
 		:placeholder="$t('calendar', '+ Add reminder')"
 		:options="options"
 		:searchable="false"
