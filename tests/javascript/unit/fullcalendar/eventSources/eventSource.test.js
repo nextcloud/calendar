@@ -21,7 +21,7 @@
  */
 import eventSource from "../../../../../src/fullcalendar/eventSources/eventSource.js";
 
-import { generateTextColorForHex } from '../../../../../src/utils/color.js'
+import { generateAlphaColor } from '../../../../../src/utils/color.js'
 import getTimezoneManager from '../../../../../src/services/timezoneDataProviderService'
 import { getUnixTimestampFromDate } from '../../../../../src/utils/date.js'
 import { eventSourceFunction } from '../../../../../src/fullcalendar/eventSources/eventSourceFunction.js'
@@ -34,7 +34,7 @@ jest.mock('../../../../../src/fullcalendar/eventSources/eventSourceFunction.js')
 describe('fullcalendar/eventSource test suite', () => {
 
 	beforeEach(() => {
-		generateTextColorForHex.mockClear()
+		generateAlphaColor.mockClear()
 		getTimezoneManager.mockClear()
 		getUnixTimestampFromDate.mockClear()
 		eventSourceFunction.mockClear()
@@ -48,20 +48,20 @@ describe('fullcalendar/eventSource test suite', () => {
 			readOnly: false
 		}
 
-		generateTextColorForHex
-			.mockReturnValue('#00ff00')
+		generateAlphaColor
+			.mockReturnValue('rgba(255, 0, 255, 0.1)')
 
 		const eventSourceFunction = eventSource(store)
 		expect(eventSourceFunction(calendar)).toEqual({
 			id: 'calendar-id-123',
-			backgroundColor: '#ff00ff',
+			backgroundColor: 'rgba(255, 0, 255, 0.1)',
 			borderColor: '#ff00ff',
-			textColor: '#00ff00',
+			textColor: '#ff00ff',
 			events: expect.any(Function)
 		})
 
-		expect(generateTextColorForHex).toHaveBeenCalledTimes(1)
-		expect(generateTextColorForHex).toHaveBeenNthCalledWith(1, '#ff00ff')
+		expect(generateAlphaColor).toHaveBeenCalledTimes(1)
+		expect(generateAlphaColor).toHaveBeenNthCalledWith(1, '#ff00ff', 0.1)
 	})
 
 	it('should provide an eventSource for a given read-only calendar', () => {
@@ -72,21 +72,21 @@ describe('fullcalendar/eventSource test suite', () => {
 			readOnly: true
 		}
 
-		generateTextColorForHex
-			.mockReturnValue('#00ff00')
+		generateAlphaColor
+			.mockReturnValue('rgba(255, 0, 255, 0.1)')
 
 		const eventSourceFunction = eventSource(store)
 		expect(eventSourceFunction(calendar)).toEqual({
 			id: 'calendar-id-123',
-			backgroundColor: '#ff00ff',
+			backgroundColor: 'rgba(255, 0, 255, 0.1)',
 			borderColor: '#ff00ff',
-			textColor: '#00ff00',
+			textColor: '#ff00ff',
 			events: expect.any(Function),
 			editable: false
 		})
 
-		expect(generateTextColorForHex).toHaveBeenCalledTimes(1)
-		expect(generateTextColorForHex).toHaveBeenNthCalledWith(1, '#ff00ff')
+		expect(generateAlphaColor).toHaveBeenCalledTimes(1)
+		expect(generateAlphaColor).toHaveBeenNthCalledWith(1, '#ff00ff', 0.1)
 	})
 
 	it('should provide an eventSource function to provide events - fetch new timerange', async () => {
@@ -118,8 +118,8 @@ describe('fullcalendar/eventSource test suite', () => {
 			.mockReturnValueOnce(1234)
 			.mockReturnValueOnce(5678)
 
-		generateTextColorForHex
-			.mockReturnValue('#00ff00')
+		generateAlphaColor
+			.mockReturnValue('rgba(255, 0, 255, 0.1)')
 
 		eventSourceFunction
 			.mockReturnValueOnce([{ fcEventId: 1 },  { fcEventId: 2 }])
@@ -188,8 +188,8 @@ describe('fullcalendar/eventSource test suite', () => {
 			.mockReturnValueOnce(1234)
 			.mockReturnValueOnce(5678)
 
-		generateTextColorForHex
-			.mockReturnValue('#00ff00')
+		generateAlphaColor
+			.mockReturnValue('rgba(255, 0, 255, 0.1)')
 
 		eventSourceFunction
 			.mockReturnValueOnce([{ fcEventId: 1 },  { fcEventId: 2 }])
@@ -254,8 +254,8 @@ describe('fullcalendar/eventSource test suite', () => {
 			.mockReturnValueOnce(1234)
 			.mockReturnValueOnce(5678)
 
-		generateTextColorForHex
-			.mockReturnValue('#00ff00')
+		generateAlphaColor
+			.mockReturnValue('rgba(255, 0, 255, 0.1)')
 
 		eventSourceFunction
 			.mockReturnValueOnce([{ fcEventId: 1 },  { fcEventId: 2 }])
@@ -323,8 +323,8 @@ describe('fullcalendar/eventSource test suite', () => {
 			.mockReturnValueOnce(1234)
 			.mockReturnValueOnce(5678)
 
-		generateTextColorForHex
-			.mockReturnValue('#00ff00')
+		generateAlphaColor
+			.mockReturnValue('rgba(255, 0, 255, 0.1)')
 
 		eventSourceFunction
 			.mockReturnValueOnce([{ fcEventId: 1 },  { fcEventId: 2 }])
