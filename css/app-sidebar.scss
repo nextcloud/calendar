@@ -397,9 +397,11 @@
 		}
 	}
 
+	.resource-search,
 	.invitees-search {
 		width: 100%;
 
+		.resource-search-list-item,
 		.invitees-search-list-item {
 			display: flex;
 			align-items: center;
@@ -425,6 +427,7 @@
 		}
 	}
 
+	.resource-list-item,
 	.invitees-list-item {
 		display: flex;
 		align-items: center;
@@ -747,6 +750,7 @@
 	}
 }
 
+.resource-list-button-group,
 .invitees-list-button-group {
 	width: 100%;
 	display: flex;

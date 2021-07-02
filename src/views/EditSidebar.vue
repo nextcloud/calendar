@@ -4,6 +4,7 @@
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
   - @author Jakob Röhrl <jakob.roehrl@web.de>
+  - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
   - @license GNU AGPL version 3 or any later version
   -
@@ -178,11 +179,33 @@
 		</AppSidebarTab>
 		<AppSidebarTab
 			v-if="!isLoading && !isError"
+			id="app-sidebar-tab-resources"
+			class="app-sidebar-tab"
+			icon="icon-address"
+			:name="$t('calendar', 'Resources')"
+			:order="2">
+			<div class="app-sidebar-tab__content">
+				<ResourceList
+					v-if="!isLoading"
+					:calendar-object-instance="calendarObjectInstance"
+					:is-read-only="isReadOnly" />
+			</div>
+			<SaveButtons
+				v-if="showSaveButtons"
+				class="app-sidebar-tab__buttons"
+				:can-create-recurrence-exception="canCreateRecurrenceException"
+				:is-new="isNew"
+				:force-this-and-all-future="forceThisAndAllFuture"
+				@saveThisOnly="saveAndLeave(false)"
+				@saveThisAndAllFuture="saveAndLeave(true)" />
+		</AppSidebarTab>
+		<AppSidebarTab
+			v-if="!isLoading && !isError"
 			id="app-sidebar-tab-reminders"
 			class="app-sidebar-tab"
 			icon="icon-reminder"
 			:name="$t('calendar', 'Reminders')"
-			:order="2">
+			:order="3">
 			<div class="app-sidebar-tab__content">
 				<AlarmList
 					:calendar-object-instance="calendarObjectInstance"
@@ -203,7 +226,7 @@
 			class="app-sidebar-tab"
 			icon="icon-repeat"
 			:name="$t('calendar', 'Repeat')"
-			:order="3">
+			:order="4">
 			<div class="app-sidebar-tab__content">
 				<!-- TODO: If not editing the master item, force updating this and all future   -->
 				<!-- TODO: You can't edit recurrence-rule of no-range recurrence-exception -->
@@ -250,10 +273,12 @@ import moment from '@nextcloud/moment'
 import SaveButtons from '../components/Editor/SaveButtons.vue'
 import PropertySelectMultiple from '../components/Editor/Properties/PropertySelectMultiple.vue'
 import PropertyColor from '../components/Editor/Properties/PropertyColor.vue'
+import ResourceList from '../components/Editor/Resources/ResourceList'
 
 export default {
 	name: 'EditSidebar',
 	components: {
+		ResourceList,
 		PropertyColor,
 		PropertySelectMultiple,
 		SaveButtons,

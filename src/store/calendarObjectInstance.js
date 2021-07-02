@@ -389,7 +389,7 @@ const mutations = {
 	},
 
 	/**
-	 * Adds an attendee to the event
+	 * Adds an attendee to the event and sets the organizer if not present already
 	 *
 	 * @param {Object} state The Vuex state
 	 * @param {Object} data The destructuring object
@@ -402,8 +402,9 @@ const mutations = {
 	 * @param {Boolean} data.rsvp Whether or not to request a response from the attendee
 	 * @param {String=} data.language Preferred language of the attendee
 	 * @param {String=} data.timezoneId Preferred timezone of the attendee
+	 * @param {Object=} data.organizer Principal of the organizer to be set if not present
 	 */
-	addAttendee(state, { calendarObjectInstance, commonName, uri, calendarUserType = null, participationStatus = null, role = null, rsvp = null, language = null, timezoneId = null }) {
+	addAttendee(state, { calendarObjectInstance, commonName, uri, calendarUserType = null, participationStatus = null, role = null, rsvp = null, language = null, timezoneId = null, organizer = null }) {
 		const attendee = AttendeeProperty.fromNameAndEMail(commonName, uri)
 
 		if (calendarUserType !== null) {
@@ -435,6 +436,14 @@ const mutations = {
 			uri,
 			attendeeProperty: attendee,
 		})
+
+		if (!calendarObjectInstance.organizer && organizer) {
+			this.commit('setOrganizer', {
+				calendarObjectInstance,
+				commonName: organizer.displayname,
+				email: organizer.emailAddress,
+			})
+		}
 	},
 
 	/**

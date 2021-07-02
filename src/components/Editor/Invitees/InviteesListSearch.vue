@@ -2,6 +2,7 @@
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
+  - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
   - @license GNU AGPL version 3 or any later version
   -
@@ -82,7 +83,7 @@ export default {
 	},
 	computed: {
 		placeholder() {
-			return this.$t('calendar', 'Search for emails, users, contacts, resources or rooms')
+			return this.$t('calendar', 'Search for emails, users or contacts')
 		},
 		noResult() {
 			return this.$t('calendar', 'No match found')
@@ -201,6 +202,11 @@ export default {
 
 				// We do not support GROUPS for now
 				if (principal.calendarUserType === 'GROUP') {
+					return false
+				}
+
+				// Do not include resources and rooms
+				if (['ROOM', 'RESOURCE'].includes(principal.calendarUserType)) {
 					return false
 				}
 

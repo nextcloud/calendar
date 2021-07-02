@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import AvatarParticipationStatus from './AvatarParticipationStatus'
+import AvatarParticipationStatus from '../AvatarParticipationStatus'
 
 export default {
 	name: 'OrganizerListItem',
