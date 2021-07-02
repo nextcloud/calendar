@@ -25,6 +25,7 @@
 		:allow-empty="false"
 		:options="options"
 		:value="selected"
+		open-direction="bottom"
 		track-by="freq"
 		label="label"
 		@select="select" />
