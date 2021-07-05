@@ -23,6 +23,8 @@
  */
 import 'core-js/stable'
 
+import '../css/calendar.scss'
+
 import Vue from 'vue'
 import App from './App'
 import router from './router'

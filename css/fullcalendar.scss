@@ -135,10 +135,10 @@
 			top: 0;
 			right: 0;
 			&--light {
-				@include icon-color('reminder', 'calendar', '#fffffe', 1);
+				background-image: var(--icon-calendar-reminder-fffffe)
 			}
 			&--dark {
-				@include icon-color('reminder', 'calendar', '#000001', 1);
+				background-image: var(--icon-calendar-reminder-000001)
 			}
 		}
 	}
