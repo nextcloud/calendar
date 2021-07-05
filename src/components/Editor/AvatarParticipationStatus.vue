@@ -24,7 +24,8 @@
 	<div class="avatar-participation-status">
 		<Avatar
 			:disable-tooltip="true"
-			:user="avatarLink" />
+			:user="avatarLink"
+			:is-no-user="isResource" />
 		<div class="avatar-participation-status__indicator" :class="className.class" />
 		<div class="avatar-participation-status__text">
 			{{ className.label }}
@@ -83,6 +84,12 @@ export default {
 				return {
 					class: ['declined', 'icon', 'icon-close-white'],
 					label: t('calendar', 'Not available.'),
+				}
+			}
+			if (this.isResource) {
+				return {
+					class: ['no-response', 'icon', 'icon-invitees-no-response-white'],
+					label: t('calendar', 'Checking availability.'),
 				}
 			}
 

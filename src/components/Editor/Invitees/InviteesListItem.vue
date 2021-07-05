@@ -25,7 +25,7 @@
 		<AvatarParticipationStatus
 			:attendee-is-organizer="false"
 			:is-viewed-by-organizer="isViewedByOrganizer"
-			:is-resource="isResource"
+			:is-resource="false"
 			:avatar-link="avatarLink"
 			:participation-status="attendee.participationStatus"
 			:organizer-display-name="organizerDisplayName"
@@ -77,11 +77,12 @@
 </template>
 
 <script>
-import AvatarParticipationStatus from './AvatarParticipationStatus'
+import AvatarParticipationStatus from '../AvatarParticipationStatus'
 import Actions from '@nextcloud/vue/dist/Components/Actions'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import ActionRadio from '@nextcloud/vue/dist/Components/ActionRadio'
 import ActionCheckbox from '@nextcloud/vue/dist/Components/ActionCheckbox'
+import { removeMailtoPrefix } from '../../../utils/attendee'
 
 export default {
 	name: 'InviteesListItem',
@@ -116,8 +117,8 @@ export default {
 				return this.attendee.commonName
 			}
 
-			if (this.attendee.uri && this.attendee.uri.startsWith('mailto:')) {
-				return this.attendee.uri.substr(7)
+			if (this.attendee.uri) {
+				return removeMailtoPrefix(this.attendee.uri)
 			}
 
 			return this.attendee.uri
@@ -140,10 +141,6 @@ export default {
 		isViewedByOrganizer() {
 			// TODO: check if also viewed by organizer
 			return !this.isReadOnly
-		},
-		isResource() {
-			return this.attendee.calendarUserType === 'RESOURCE'
-					|| this.attendee.calendarUserType === 'ROOM'
 		},
 	},
 	methods: {

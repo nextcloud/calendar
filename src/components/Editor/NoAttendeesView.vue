@@ -2,6 +2,7 @@
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
+  - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
   - @license GNU AGPL version 3 or any later version
   -
@@ -24,13 +25,19 @@
 	<div class="editor-reminders-list-empty-message">
 		<div class="icon icon-group editor-reminders-list-empty-message__icon" />
 		<div class="editor-reminders-list-empty-message__caption">
-			{{ $t('calendar', 'No attendees yet') }}
+			{{ message }}
 		</div>
 	</div>
 </template>
 
 <script>
 export default {
-	name: 'NoInviteesView',
+	name: 'NoAttendeesView',
+	props: {
+		message: {
+			type: String,
+			required: true,
+		},
+	},
 }
 </script>

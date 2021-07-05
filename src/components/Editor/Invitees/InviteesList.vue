@@ -2,6 +2,7 @@
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
+  - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
   - @license GNU AGPL version 3 or any later version
   -
@@ -37,10 +38,12 @@
 			:is-read-only="isReadOnly"
 			:organizer-display-name="organizerDisplayName"
 			@removeAttendee="removeAttendee" />
-		<NoInviteesView
-			v-if="isReadOnly && isListEmpty" />
-		<NoInviteesView
-			v-if="!isReadOnly && isListEmpty && hasUserEmailAddress" />
+		<NoAttendeesView
+			v-if="isReadOnly && isListEmpty"
+			:message="noInviteesMessage" />
+		<NoAttendeesView
+			v-if="!isReadOnly && isListEmpty && hasUserEmailAddress"
+			:message="noInviteesMessage" />
 		<OrganizerNoEmailError
 			v-if="!isReadOnly && isListEmpty && !hasUserEmailAddress" />
 
@@ -71,21 +74,22 @@ import { mapState } from 'vuex'
 import InviteesListSearch from './InviteesListSearch'
 import InviteesListItem from './InviteesListItem'
 import OrganizerListItem from './OrganizerListItem'
-import NoInviteesView from './NoInviteesView.vue'
-import OrganizerNoEmailError from './OrganizerNoEmailError.vue'
+import NoAttendeesView from '../NoAttendeesView'
+import OrganizerNoEmailError from '../OrganizerNoEmailError.vue'
 import { createTalkRoom, doesDescriptionContainTalkLink } from '../../../services/talkService.js'
 import FreeBusy from '../FreeBusy/FreeBusy.vue'
 import {
 	showSuccess,
 	showError,
 } from '@nextcloud/dialogs'
+import { organizerDisplayName, removeMailtoPrefix } from '../../../utils/attendee'
 
 export default {
 	name: 'InviteesList',
 	components: {
 		FreeBusy,
 		OrganizerNoEmailError,
-		NoInviteesView,
+		NoAttendeesView,
 		InviteesListItem,
 		InviteesListSearch,
 		OrganizerListItem,
@@ -110,44 +114,33 @@ export default {
 		...mapState({
 			talkEnabled: state => state.settings.talkEnabled,
 		}),
+		noInviteesMessage() {
+			return this.$t('calendar', 'No attendees yet')
+		},
+		invitees() {
+			return this.calendarObjectInstance.attendees.filter(attendee => {
+				return !['RESOURCE', 'ROOM'].includes(attendee.attendeeProperty.userType)
+			})
+		},
 		inviteesWithoutOrganizer() {
 			if (!this.calendarObjectInstance.organizer) {
-				return this.calendarObjectInstance.attendees
+				return this.invitees
 			}
 
-			return this.calendarObjectInstance.attendees
+			return this.invitees
 				.filter(attendee => attendee.uri !== this.calendarObjectInstance.organizer.uri)
 		},
 		hasOrganizer() {
 			return this.calendarObjectInstance.organizer !== null
 		},
 		organizerDisplayName() {
-			if (!this.calendarObjectInstance.organizer) {
-				return ''
-			}
-
-			if (this.calendarObjectInstance.organizer.commonName) {
-				return this.calendarObjectInstance.organizer.commonName
-			}
-
-			if (this.calendarObjectInstance.organizer.uri.startsWith('mailto:')) {
-				return this.calendarObjectInstance.organizer.uri.substr(7)
-			}
-
-			return this.calendarObjectInstance.organizer.uri
+			return organizerDisplayName(this.calendarObjectInstance.organizer)
 		},
 		isListEmpty() {
-			return this.calendarObjectInstance.organizer === null
-				&& this.calendarObjectInstance.attendees.length === 0
+			return !this.calendarObjectInstance.organizer && this.invitees.length === 0
 		},
 		alreadyInvitedEmails() {
-			const emails = this.calendarObjectInstance.attendees.map(attendee => {
-				if (attendee.uri.startsWith('mailto:')) {
-					return attendee.uri.substr(7)
-				}
-
-				return attendee.uri
-			})
+			const emails = this.invitees.map(attendee => removeMailtoPrefix(attendee.uri))
 
 			const principal = this.$store.getters.getCurrentUserPrincipal
 			if (principal) {
@@ -191,20 +184,8 @@ export default {
 				rsvp: true,
 				language,
 				timezoneId,
+				organizer: this.$store.getters.getCurrentUserPrincipal,
 			})
-
-			if (!this.hasOrganizer) {
-				const principal = this.$store.getters.getCurrentUserPrincipal
-				if (!principal) {
-					return
-				}
-
-				this.$store.commit('setOrganizer', {
-					calendarObjectInstance: this.calendarObjectInstance,
-					commonName: principal.displayname,
-					email: principal.emailAddress,
-				})
-			}
 		},
 		removeAttendee(attendee) {
 			this.$store.commit('removeAttendee', {
