@@ -84,6 +84,9 @@
 				:href="downloadURL">
 				{{ $t('calendar', 'Download') }}
 			</ActionLink>
+			<ActionButton v-if="!isNew" icon="icon-category-office" @click="duplicateEvent()">
+				{{ $t('calendar', 'Duplicate') }}
+			</ActionButton>
 			<ActionButton v-if="canDelete && !canCreateRecurrenceException" icon="icon-delete" @click="deleteAndLeave(false)">
 				{{ $t('calendar', 'Delete') }}
 			</ActionButton>
@@ -92,9 +95,6 @@
 			</ActionButton>
 			<ActionButton v-if="canDelete && canCreateRecurrenceException" icon="icon-delete" @click="deleteAndLeave(true)">
 				{{ $t('calendar', 'Delete this and all future') }}
-			</ActionButton>
-			<ActionButton v-if="!isNew" icon="icon-file" @click="duplicateEvent()">
-				{{ $t('calendar', 'Duplicate') }}
 			</ActionButton>
 		</template>
 
