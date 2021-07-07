@@ -29,7 +29,6 @@
 			class="property-title-time-picker__time-pickers">
 			<DatePicker
 				:date="startDate"
-				:has-timezone="true"
 				:timezone-id="startTimezone"
 				prefix="from"
 				:is-all-day="isAllDay"
@@ -39,7 +38,6 @@
 
 			<DatePicker
 				:date="endDate"
-				:has-timezone="true"
 				:timezone-id="endTimezone"
 				prefix="to"
 				:is-all-day="isAllDay"

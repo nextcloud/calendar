@@ -106,10 +106,6 @@ export default {
 			type: Date,
 			required: true,
 		},
-		hasTimezone: {
-			type: Boolean,
-			default: false,
-		},
 		timezoneId: {
 			type: String,
 			default: 'floating',
