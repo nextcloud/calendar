@@ -139,6 +139,7 @@ class PublicViewController extends Controller {
 		$this->initialStateService->provideInitialState($this->appName, 'show_week_numbers', ($defaultWeekNumbers === 'yes'));
 		$this->initialStateService->provideInitialState($this->appName, 'skip_popover', ($defaultSkipPopover === 'yes'));
 		$this->initialStateService->provideInitialState($this->appName, 'talk_enabled', false);
+		$this->initialStateService->provideInitialState($this->appName, 'talk_api_version', 'v1');
 		$this->initialStateService->provideInitialState($this->appName, 'timezone', $defaultTimezone);
 		$this->initialStateService->provideInitialState($this->appName, 'slot_duration', $defaultSlotDuration);
 		$this->initialStateService->provideInitialState($this->appName, 'default_reminder', $defaultDefaultReminder);
