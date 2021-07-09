@@ -77,7 +77,7 @@ export default {
 		 * @returns {string}
 		 */
 		title() {
-			return this.calendarObjectInstance?.title || ''
+			return this.calendarObjectInstance?.title ?? ''
 		},
 		/**
 		 * Returns the location or null if the event is still loading
@@ -85,7 +85,7 @@ export default {
 		 * @returns {string|null}
 		 */
 		location() {
-			return this.calendarObjectInstance?.location || null
+			return this.calendarObjectInstance?.location ?? null
 		},
 		/**
 		 * Returns the description or null if the event is still loading
@@ -93,7 +93,7 @@ export default {
 		 * @returns {string|null}
 		 */
 		description() {
-			return this.calendarObjectInstance?.description || null
+			return this.calendarObjectInstance?.description ?? null
 		},
 		/**
 		 * Returns the start-date (without timezone) or null if the event is still loading
@@ -101,7 +101,7 @@ export default {
 		 * @returns {Date|null}
 		 */
 		startDate() {
-			return this.calendarObjectInstance?.startDate || null
+			return this.calendarObjectInstance?.startDate ?? null
 		},
 		/**
 		 * Returns the timezone of the event's start-date or null if the event is still loading
@@ -109,7 +109,7 @@ export default {
 		 * @returns {string|null}
 		 */
 		startTimezone() {
-			return this.calendarObjectInstance?.startTimezoneId || null
+			return this.calendarObjectInstance?.startTimezoneId ?? null
 		},
 		/**
 		 * Returns the end-date (without timezone) or null if the event is still loading
@@ -117,7 +117,7 @@ export default {
 		 * @returns {Date|null}
 		 */
 		endDate() {
-			return this.calendarObjectInstance?.endDate || null
+			return this.calendarObjectInstance?.endDate ?? null
 		},
 		/**
 		 * Returns the timezone of the event's end-date or null if the event is still loading
@@ -125,7 +125,7 @@ export default {
 		 * @returns {string|null}
 		 */
 		endTimezone() {
-			return this.calendarObjectInstance?.endTimezoneId || null
+			return this.calendarObjectInstance?.endTimezoneId ?? null
 		},
 		/**
 		 * Returns whether or not the event is all-day or null if the event is still loading
@@ -133,7 +133,7 @@ export default {
 		 * @returns {boolean}
 		 */
 		isAllDay() {
-			return this.calendarObjectInstance?.isAllDay || false
+			return this.calendarObjectInstance?.isAllDay ?? false
 		},
 		/**
 		 * Returns whether or not the user is allowed to modify the all-day setting
@@ -141,7 +141,7 @@ export default {
 		 * @returns {boolean}
 		 */
 		canModifyAllDay() {
-			return this.calendarObjectInstance?.canModifyAllDay || null
+			return this.calendarObjectInstance?.canModifyAllDay ?? false
 		},
 		/**
 		 * Returns an illustration matching this event's title
@@ -183,7 +183,7 @@ export default {
 		 * @returns {null|String}
 		 */
 		color() {
-			return this.calendarObjectInstance?.customColor || null
+			return this.calendarObjectInstance?.customColor ?? null
 		},
 		/**
 		 * Returns whether or not to display save buttons
