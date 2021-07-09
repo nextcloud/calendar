@@ -110,6 +110,7 @@ class ViewController extends Controller {
 		$showTasks = $this->config->getUserValue($this->userId, $this->appName, 'showTasks', $defaultShowTasks) === 'yes';
 
 		$talkEnabled = $this->appManager->isEnabledForUser('spreed');
+		$talkApiVersion = version_compare($this->appManager->getAppVersion('spreed'), '12.0.0', '>=') ? 'v4' : 'v1';
 		$tasksEnabled = $this->appManager->isEnabledForUser('tasks');
 
 		$this->initialStateService->provideInitialState($this->appName, 'app_version', $appVersion);
@@ -120,6 +121,7 @@ class ViewController extends Controller {
 		$this->initialStateService->provideInitialState($this->appName, 'show_week_numbers', $showWeekNumbers);
 		$this->initialStateService->provideInitialState($this->appName, 'skip_popover', $skipPopover);
 		$this->initialStateService->provideInitialState($this->appName, 'talk_enabled', $talkEnabled);
+		$this->initialStateService->provideInitialState($this->appName, 'talk_api_version', $talkApiVersion);
 		$this->initialStateService->provideInitialState($this->appName, 'timezone', $timezone);
 		$this->initialStateService->provideInitialState($this->appName, 'slot_duration', $slotDuration);
 		$this->initialStateService->provideInitialState($this->appName, 'default_reminder', $defaultReminder);
