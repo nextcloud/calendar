@@ -135,7 +135,7 @@ OC.L10N.register(
     "_day_::_days_" : ["日"],
     "_week_::_weeks_" : ["週"],
     "No reminders yet" : "まだリマインダーはありません",
-    "Free" : "無料",
+    "Free" : "空き",
     "Busy (tentative)" : "ビジー (暫定)",
     "Busy" : "ビジー",
     "Out of office" : "オフィス外",
