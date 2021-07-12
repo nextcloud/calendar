@@ -145,6 +145,10 @@ export default {
 			}
 
 			return results.reduce((list, result) => {
+				if (['ROOM', 'RESOURCE'].includes(result.calendarUserType)) {
+					return list
+				}
+
 				const isGroup = result.calendarUserType === 'GROUP'
 
 				// TODO: Why do we have to decode those two values?
