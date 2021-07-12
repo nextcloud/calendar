@@ -102,6 +102,11 @@ class ViewControllerTest extends TestCase {
 				['spreed', null, true],
 				['tasks', null, true]
 			]);
+		$this->appManager
+			->method('getAppVersion')
+			->willReturnMap([
+				['spreed', true, '12.0.0'],
+			]);
 
 		$this->initialStateService
 			->method('provideInitialState')
@@ -114,6 +119,7 @@ class ViewControllerTest extends TestCase {
 				['calendar', 'show_week_numbers', true],
 				['calendar', 'skip_popover', true],
 				['calendar', 'talk_enabled', true],
+				['calendar', 'talk_api_version', 'v4'],
 				['calendar', 'timezone', 'Europe/Berlin'],
 				['calendar', 'slot_duration', '00:15:00'],
 				['calendar', 'default_reminder', '00:10:00'],
@@ -167,8 +173,13 @@ class ViewControllerTest extends TestCase {
 		$this->appManager
 			->method('isEnabledForUser')
 			->willReturnMap([
-				['spreed', null, true],
+				['spreed', null, false],
 				['tasks', null, false]
+			]);
+		$this->appManager
+			->method('getAppVersion')
+			->willReturnMap([
+				['spreed', true, '11.3.0'],
 			]);
 
 		$this->initialStateService
@@ -181,7 +192,8 @@ class ViewControllerTest extends TestCase {
 				['calendar', 'show_weekends', true],
 				['calendar', 'show_week_numbers', true],
 				['calendar', 'skip_popover', true],
-				['calendar', 'talk_enabled', true],
+				['calendar', 'talk_enabled', false],
+				['calendar', 'talk_api_version', 'v1'],
 				['calendar', 'timezone', 'Europe/Berlin'],
 				['calendar', 'slot_duration', '00:15:00'],
 				['calendar', 'default_reminder', '00:10:00'],
