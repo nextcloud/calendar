@@ -55,10 +55,10 @@
 						{{ $t('calendar', 'Please select a time zone:') }}
 					</strong>
 				</div>
-				<TimezoneSelect
+				<TimezonePicker
 					class="timezone-popover-wrapper__timezone-select"
 					:value="timezoneId"
-					@change="changeTimezone" />
+					@input="changeTimezone" />
 			</Popover>
 		</template>
 		<template
@@ -92,7 +92,7 @@ import {
 	showError,
 } from '@nextcloud/dialogs'
 
-import TimezoneSelect from './TimezoneSelect'
+import TimezonePicker from '@nextcloud/vue/dist/Components/TimezonePicker'
 import { getLangConfigForVue2DatePicker } from '../../utils/localization.js'
 
 export default {
@@ -100,7 +100,7 @@ export default {
 	components: {
 		DatetimePicker,
 		Popover,
-		TimezoneSelect,
+		TimezonePicker,
 	},
 	props: {
 		date: {
