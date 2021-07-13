@@ -21,10 +21,10 @@
 
 <template>
 	<li class="settings-fieldset-interior-item settings-fieldset-interior-item--timezone">
-		<TimezoneSelect
+		<TimezonePicker
 			:additional-timezones="additionalTimezones"
 			:value="timezone"
-			@change="setTimezoneValue" />
+			@input="setTimezoneValue" />
 	</li>
 </template>
 
@@ -33,7 +33,7 @@ import {
 	mapState,
 } from 'vuex'
 
-import TimezoneSelect from '../../Shared/TimezoneSelect.vue'
+import TimezonePicker from '@nextcloud/vue/dist/Components/TimezonePicker'
 import { detectTimezone } from '../../../services/timezoneDetectionService.js'
 import {
 	showInfo,
@@ -42,7 +42,7 @@ import {
 export default {
 	name: 'SettingsTimezoneSelect',
 	components: {
-		TimezoneSelect,
+		TimezonePicker,
 	},
 	props: {
 		isDisabled: {
