@@ -259,7 +259,7 @@ export default {
 		}
 		if (getTimezoneManager().getTimezoneForId(this.timezoneId) === null) {
 			const { toastElement }
-				= showWarning(this.$t('calendar', 'Your configured timezone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your timezone in the settings and report this issue.', { timezoneId: this.timezoneId }), { timeout: 60000 })
+				= showWarning(this.$t('calendar', 'Your configured time zone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your time zone in the settings and report this issue.', { timezoneId: this.timezoneId }), { timeout: 60000 })
 
 			toastElement.classList.add('toast-calendar-multiline')
 		}
