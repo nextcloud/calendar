@@ -253,13 +253,13 @@ export default {
 	async mounted() {
 		if (this.timezone === 'automatic' && this.timezoneId === 'UTC') {
 			const { toastElement }
-				= showWarning(this.$t('calendar', 'The automatic timezone detection determined your timezone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your timezone manually in the calendar settings.'), { timeout: 60000 })
+				= showWarning(this.$t('calendar', 'The automatic time zone detection determined your time zone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your time zone manually in the calendar settings.'), { timeout: 60000 })
 
 			toastElement.classList.add('toast-calendar-multiline')
 		}
 		if (getTimezoneManager().getTimezoneForId(this.timezoneId) === null) {
 			const { toastElement }
-				= showWarning(this.$t('calendar', 'Your configured timezone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your timezone in the settings and report this issue.', { timezoneId: this.timezoneId }), { timeout: 60000 })
+				= showWarning(this.$t('calendar', 'Your configured time zone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your time zone in the settings and report this issue.', { timezoneId: this.timezoneId }), { timeout: 60000 })
 
 			toastElement.classList.add('toast-calendar-multiline')
 		}
