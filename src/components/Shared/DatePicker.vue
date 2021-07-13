@@ -51,7 +51,7 @@
 				open-class="timezone-popover-wrapper">
 				<div class="timezone-popover-wrapper__title">
 					<strong>
-						{{ $t('calendar', 'Please select a timezone:') }}
+						{{ $t('calendar', 'Please select a time zone:') }}
 					</strong>
 				</div>
 				<TimezoneSelect
