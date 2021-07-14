@@ -91,4 +91,7 @@ export default {
 .invitees-list-item__organizer-hint {
 	margin-bottom: 14px;
 }
+.avatar-participation-status {
+		margin-top: 10px;
+}
 </style>

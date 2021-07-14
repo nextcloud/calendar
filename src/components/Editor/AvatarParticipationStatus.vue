@@ -152,16 +152,15 @@ export default {
 </script>
 <style lang="scss" scoped>
 ::v-deep .avatar-participation-status__indicator {
-	bottom: 15px;
-	left: 47px;
-	opacity: .45;
+	bottom: 20px;
+	left: 43px;
 	position: relative;
 }
 
 .avatar-participation-status__text {
 	opacity: .45;
-	left: 69px;
-	bottom: 35px;
+	left: 63px;
+	bottom: 40px;
 	white-space: nowrap;
 	position: relative;
 	min-width: 220px;
