@@ -104,7 +104,7 @@ OC.L10N.register(
     "Automatic" : "Automatycznie",
     "Automatic ({detected})" : "Automatycznie ({detected})",
     "New setting was not saved successfully." : "Nowe ustawienie nie zostało pomyślnie zapisane.",
-    "Shortcut overview" : "Przegląd skrótów",
+    "Shortcut overview" : "Przegląd skrótu",
     "or" : "lub",
     "Navigation" : "Nawigacja",
     "Previous period" : "Poprzedni okres",
@@ -227,7 +227,6 @@ OC.L10N.register(
     "Update this and all future" : "Zaktualizuj to i wszystkie przyszłe",
     "Public calendar does not exist" : "Kalendarz publiczny nie istnieje",
     "Maybe the share was deleted or has expired?" : "Może udostępnienie zostało usunięte lub wygasło?",
-    "Please select a timezone:" : "Wybierz strefę czasową:",
     "Pick a time" : "Wybierz czas",
     "Pick a date" : "Wybierz datę",
     "from {formattedDate}" : "od {formattedDate}",
@@ -239,10 +238,7 @@ OC.L10N.register(
     "{formattedDate} at {formattedTime}" : "{formattedDate} o {formattedTime}",
     "Please enter a valid date" : "Podaj prawidłową datę",
     "Please enter a valid date and time" : "Podaj prawidłową datę i godzinę",
-    "Type to search timezone" : "Wpisz, aby wyszukać strefę czasową",
     "Personal" : "Osobiste",
-    "The automatic timezone detection determined your timezone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your timezone manually in the calendar settings." : "Automatyczne wykrywanie strefy czasowej określiło Twoją strefę czasową jako UTC.\nNajprawdopodobniej wynika to ze środków bezpieczeństwa przeglądarki internetowej.\nUstaw strefę czasową ręcznie w ustawieniach kalendarza.",
-    "Your configured timezone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your timezone in the settings and report this issue." : "Skonfigurowana strefa czasowa ({timezoneId}) nie została znaleziona. Powrót do UTC.\nZmień strefę czasową w ustawieniach i zgłoś ten problem.",
     "No more events today" : "Nie ma więcej wydarzeń na dzisiaj",
     "No upcoming events" : "Brak nadchodzących wydarzeń",
     "Create a new event" : "Utwórz nowe wydarzenie",
@@ -430,6 +426,6 @@ OC.L10N.register(
     "Golf" : "Golf",
     "Dinner" : "Obiad",
     "Lunch" : "Lunch",
-    "Global" : "Ogólnie"
+    "Global" : "Globalnie"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

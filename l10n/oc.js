@@ -83,7 +83,6 @@ OC.L10N.register(
     "More" : "Mai",
     "Save" : "Salvar",
     "Update" : "Metre a jorn",
-    "Please select a timezone:" : "Causissètz una zòna orària :",
     "Pick a time" : "Causir una ora",
     "Pick a date" : "Causir una data",
     "from {formattedDate}" : "a partir de {formattedDate}",
