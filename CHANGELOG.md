@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.3.1 – 2021-07-14
+### Fixed
+* Create Talk room for event
+* Searching for sharees when resources exist on the back-end
+* Removing recurrence rule
+* 'Add reminder' dropdown position
+* Event repeat multiselect and position on low resolutions
+* Timestamps in trash bin view
+* Vue prop validation error
+
 ## 2.3.0 – 2021-06-29
 ### Added
 - Trash bin for calendars and their events
