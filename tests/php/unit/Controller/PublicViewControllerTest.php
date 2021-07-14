@@ -101,7 +101,7 @@ class PublicViewControllerTest extends TestCase {
 			->with('imagePath456')
 			->willReturn('absoluteImagePath456');
 
-		$this->initialStateService->expects(self::exactly(13))
+		$this->initialStateService
 			->method('provideInitialState')
 			->withConsecutive(
 				['calendar', 'app_version', '1.0.0'],
@@ -112,6 +112,7 @@ class PublicViewControllerTest extends TestCase {
 				['calendar', 'show_week_numbers', true],
 				['calendar', 'skip_popover', true],
 				['calendar', 'talk_enabled', false],
+				['calendar', 'talk_api_version', 'v1'],
 				['calendar', 'timezone', 'defaultTimezone'],
 				['calendar', 'slot_duration', 'defaultSlotDuration'],
 				['calendar', 'default_reminder', 'defaultDefaultReminder'],
@@ -177,7 +178,7 @@ class PublicViewControllerTest extends TestCase {
 			->with('imagePath456')
 			->willReturn('absoluteImagePath456');
 
-		$this->initialStateService->expects(self::exactly(13))
+		$this->initialStateService
 			->method('provideInitialState')
 			->withConsecutive(
 				['calendar', 'app_version', '1.0.0'],
@@ -188,6 +189,7 @@ class PublicViewControllerTest extends TestCase {
 				['calendar', 'show_week_numbers', true],
 				['calendar', 'skip_popover', true],
 				['calendar', 'talk_enabled', false],
+				['calendar', 'talk_api_version', 'v1'],
 				['calendar', 'timezone', 'defaultTimezone'],
 				['calendar', 'slot_duration', 'defaultSlotDuration'],
 				['calendar', 'default_reminder', 'defaultDefaultReminder'],

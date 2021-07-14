@@ -23,6 +23,7 @@
 import HTTPClient from '@nextcloud/axios'
 import { translate as t } from '@nextcloud/l10n'
 import { generateUrl, generateOcsUrl } from '@nextcloud/router'
+import { loadState } from '@nextcloud/initial-state'
 
 /**
  * Creates a new public talk room
@@ -31,9 +32,10 @@ import { generateUrl, generateOcsUrl } from '@nextcloud/router'
  * @returns {Promise<String>}
  */
 export async function createTalkRoom(eventTitle = null) {
+	const apiVersion = loadState('calendar', 'talk_api_version')
 	let response
 	try {
-		response = await HTTPClient.post(generateOcsUrl('apps/spreed/api/v1/', 2) + `room`, {
+		response = await HTTPClient.post(generateOcsUrl('apps/spreed/api/' + apiVersion + '/', 2) + 'room', {
 			roomType: 3,
 			roomName: eventTitle || t('calendar', 'Chat room for event'),
 		})
