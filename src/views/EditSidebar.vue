@@ -398,4 +398,8 @@ export default {
 ::v-deep .app-sidebar-header__description {
 	flex-direction: column;
 }
+
+::v-deep .app-sidebar-header__title-container {
+    margin-top: 7px;
+}
 </style>
