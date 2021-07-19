@@ -86,6 +86,14 @@
 
 		&__buttons {
 			padding-top: 14px;
+			position: absolute;
+			bottom: 0px;
+			z-index: 2;
+			width: 97%;
+			left: 0px;
+			background-color: var(--color-main-background);
+			padding-left: 22px;
+			padding-right: 22px;
 
 			button {
 				width: 100%;
