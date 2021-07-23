@@ -1,8 +1,6 @@
 /**
  * @copyright Copyright (c) 2019 Georg Ehrke
- *
  * @author Georg Ehrke <oc.list@georgehrke.com>
- *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,7 +15,6 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 import dateRangeFormat from '../filters/dateRangeFormat.js'
 import { getDateFromFirstdayParam } from '../utils/date.js'
@@ -36,8 +33,8 @@ export default function(router, store) {
 	 * Updates the title of the window
 	 *
 	 * @param {Date} date viewed Date
-	 * @param {String} view Name of the current view
-	 * @param {String} locale Locale to be used for formatting
+	 * @param {string} view Name of the current view
+	 * @param {string} locale Locale to be used for formatting
 	 */
 	function updateTitle(date, view, locale) {
 		const title = dateRangeFormat(date, view, locale)

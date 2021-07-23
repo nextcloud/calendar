@@ -72,7 +72,7 @@ export default {
 		/**
 		 * Adds another of the default alarms to the event
 		 *
-		 * @param {Number} totalSeconds Amount of seconds for the alarm
+		 * @param {number} totalSeconds Amount of seconds for the alarm
 		 */
 		addAlarm(totalSeconds) {
 			this.$store.commit('addAlarmToCalendarObjectInstance', {
@@ -84,7 +84,7 @@ export default {
 		/**
 		 * Removes an alarm from this event
 		 *
-		 * @param {Object} alarm The alarm object
+		 * @param {object} alarm The alarm object
 		 */
 		removeAlarm(alarm) {
 			this.$store.commit('removeAlarmFromCalendarObjectInstance', {

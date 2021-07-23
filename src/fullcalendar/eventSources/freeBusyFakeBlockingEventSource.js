@@ -1,8 +1,6 @@
 /**
  * @copyright Copyright (c) 2019 Georg Ehrke
- *
  * @author Georg Ehrke <oc.list@georgehrke.com>
- *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,17 +15,16 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
 /**
  * Returns an event source for free-busy
  *
- * @param {String} id Identification for this source
- * @param {String[]} resources List of resources
+ * @param {string} id Identification for this source
+ * @param {string[]} resources List of resources
  * @param {Date} eventStart Start of the event being edited / created
  * @param {Date} eventEnd End of the event being edited / created
- * @returns {{startEditable: boolean, resourceEditable: boolean, editable: boolean, id: string, durationEditable: boolean, events: events}}
+ * @return {{startEditable: boolean, resourceEditable: boolean, editable: boolean, id: string, durationEditable: boolean, events: events}}
  */
 export default function(id, resources, eventStart, eventEnd) {
 	const resourceIds = resources.map((resource) => resource.id)
@@ -38,7 +35,7 @@ export default function(id, resources, eventStart, eventEnd) {
 		startEditable: false,
 		durationEditable: false,
 		resourceEditable: false,
-		events: async({ start, end, timeZone }, successCallback, failureCallback) => {
+		events: async ({ start, end, timeZone }, successCallback, failureCallback) => {
 			if (resources.length === 1) {
 				successCallback([{
 					id: Math.random().toString(36).substring(7),

@@ -89,7 +89,7 @@ export default {
 		/**
 		 * Unshares the calendar from the given sharee
 		 *
-		 * @returns {Promise<void>}
+		 * @return {Promise<void>}
 		 */
 		async unshare() {
 			this.updatingSharee = true
@@ -109,7 +109,7 @@ export default {
 		/**
 		 * Toggles the write-permission of the share
 		 *
-		 * @returns {Promise<void>}
+		 * @return {Promise<void>}
 		 */
 		async updatePermission() {
 			this.updatingSharee = true

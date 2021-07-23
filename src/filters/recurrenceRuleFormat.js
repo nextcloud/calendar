@@ -1,8 +1,6 @@
 /**
  * @copyright Copyright (c) 2019 Georg Ehrke
- *
  * @author Georg Ehrke <oc.list@georgehrke.com>
- *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,7 +15,6 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 import { translate as t, translatePlural as n, getDayNames, getMonthNames } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
@@ -25,9 +22,9 @@ import moment from '@nextcloud/moment'
 /**
  * Formats a recurrence-rule
  *
- * @param {Object} recurrenceRule The recurrence-rule to format
- * @param {String} locale The locale to format it into
- * @returns {String}
+ * @param {object} recurrenceRule The recurrence-rule to format
+ * @param {string} locale The locale to format it into
+ * @return {string}
  */
 export default (recurrenceRule, locale) => {
 	if (recurrenceRule.frequency === 'NONE') {
@@ -138,7 +135,7 @@ export default (recurrenceRule, locale) => {
  * Gets the byDay list as formatted list of translated weekdays
  *
  * @param {string[]} byDayList The by-day-list to get formatted
- * @returns {string}
+ * @return {string}
  */
 function getTranslatedByDaySet(byDayList) {
 	const byDayNames = []
@@ -180,7 +177,7 @@ function getTranslatedByDaySet(byDayList) {
  *
  *
  * @param {string[]} byMonthList The by-month list to get formatted
- * @returns {string}
+ * @return {string}
  */
 function getTranslatedMonths(byMonthList) {
 	const sortedByMonth = byMonthList.slice().map((n) => parseInt(n, 10))
@@ -199,8 +196,8 @@ function getTranslatedMonths(byMonthList) {
 /**
  * Gets the translated ordinal number for by-set-position
  *
- * @param {Number} bySetPositionNum The by-set-position number to get the translation of
- * @returns {string}
+ * @param {number} bySetPositionNum The by-set-position number to get the translation of
+ * @return {string}
  */
 function getTranslatedOrdinalNumber(bySetPositionNum) {
 	switch (bySetPositionNum) {

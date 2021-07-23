@@ -99,7 +99,7 @@ export default {
 	},
 	computed: {
 		/**
-		 * @returns {Object[]}
+		 * @return {object[]}
 		 */
 		byMonthDayOptions() {
 			const options = []
@@ -115,13 +115,13 @@ export default {
 			return options
 		},
 		/**
-		 * @returns {Boolean}
+		 * @return {boolean}
 		 */
 		byMonthDayEnabled() {
 			return this.byMonthDay.length > 0
 		},
 		/**
-		 * @returns {String}
+		 * @return {string}
 		 */
 		radioInputId() {
 			return this._uid + '-radio-select'
@@ -130,7 +130,7 @@ export default {
 	methods: {
 		/**
 		 *
-		 * @param {String} byMonthDay The month-day to toggle
+		 * @param {string} byMonthDay The month-day to toggle
 		 */
 		toggleByMonthDay(byMonthDay) {
 			if (this.byMonthDay.indexOf(byMonthDay) === -1) {

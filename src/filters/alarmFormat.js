@@ -1,8 +1,6 @@
 /**
  * @copyright Copyright (c) 2019 Georg Ehrke
- *
  * @author Georg Ehrke <oc.list@georgehrke.com>
- *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,7 +15,6 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
 import { translate as t, translatePlural as n } from '@nextcloud/l10n'
@@ -26,11 +23,11 @@ import moment from '@nextcloud/moment'
 /**
  * Formats an alarm
  *
- * @param {Object} alarm The alarm object to format
- * @param {Boolean} isAllDay Whether or not the event is all-day
- * @param {String} currentUserTimezone The current timezone of the user
- * @param {String} locale The locale to format it in
- * @returns {String}
+ * @param {object} alarm The alarm object to format
+ * @param {boolean} isAllDay Whether or not the event is all-day
+ * @param {string} currentUserTimezone The current timezone of the user
+ * @param {string} locale The locale to format it in
+ * @return {string}
  */
 export default (alarm, isAllDay, currentUserTimezone, locale) => {
 	if (alarm.relativeTrigger !== null) {

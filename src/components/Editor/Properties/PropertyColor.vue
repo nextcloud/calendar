@@ -94,7 +94,7 @@ export default {
 		 * The selected color is either custom or
 		 * defaults to the color of the calendar
 		 *
-		 * @returns {String}
+		 * @return {string}
 		 */
 		selectedColor() {
 			return this.value || this.calendarColor
@@ -102,7 +102,7 @@ export default {
 		/**
 		 * Whether or not to show the delete color button
 		 *
-		 * @returns {Boolean}
+		 * @return {boolean}
 		 */
 		showColorRevertButton() {
 			if (this.isReadOnly) {
@@ -129,7 +129,7 @@ export default {
 		 * user stopped moving the color-picker and not
 		 * immediately.
 		 *
-		 * @param {String} newColor The new Color as HEX
+		 * @param {string} newColor The new Color as HEX
 		 */
 		changeColor: debounce(function(newColor) {
 			this.$emit('update:value', newColor)

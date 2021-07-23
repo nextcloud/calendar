@@ -1,8 +1,6 @@
 /**
  * @copyright Copyright (c) 2020 Georg Ehrke
- *
  * @author Georg Ehrke <oc.list@georgehrke.com>
- *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,7 +15,6 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 import autosize from 'autosize'
 import debounce from 'debounce'
@@ -36,7 +33,7 @@ if (window.ResizeObserver) {
  * Adds autosize to textarea on bind
  *
  * @param {Element} el The DOM element
- * @param {Object} binding The binding's object
+ * @param {object} binding The binding's object
  * @param {VNode} vnode Virtual node
  */
 const bind = (el, binding, vnode) => {
@@ -63,7 +60,7 @@ const bind = (el, binding, vnode) => {
  * Updates the size of the textarea when updated
  *
  * @param {Element} el The DOM element
- * @param {Object} binding The binding's object
+ * @param {object} binding The binding's object
  * @param {VNode} vnode Virtual node
  */
 const update = (el, binding, vnode) => {

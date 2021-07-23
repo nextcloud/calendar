@@ -1,8 +1,6 @@
 /**
  * @copyright Copyright (c) 2019 Georg Ehrke
- *
  * @author Georg Ehrke <oc.list@georgehrke.com>
- *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,16 +15,17 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
 /**
  * Adds data to the html element representing the event in the fullcalendar grid.
  * This is used to later on position the popover
  *
- * @param {Object} data The destructuring object
+ * @param {object} data The destructuring object
+ * @param data.event
  * @param {EventApi} event The fullcalendar event object
  * @param {Node} el The HTML element
+ * @param data.el
  */
 export default function({ event, el }) {
 	if (el.classList.contains('fc-event-nc-alarms')) {

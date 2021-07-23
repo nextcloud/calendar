@@ -1,7 +1,6 @@
 /**
  * @copyright Copyright (c) 2020 Georg Ehrke
  * @author Georg Ehrke <oc.list@georgehrke.com>
- *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,7 +15,6 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 import { loadState } from '@nextcloud/initial-state'
 import {
@@ -27,7 +25,7 @@ import {
 /**
  * Gets the initial view
  *
- * @returns {String}
+ * @return {string}
  */
 export function getInitialView() {
 	try {
@@ -40,7 +38,7 @@ export function getInitialView() {
 /**
  * Gets the preferred editor view
  *
- * @returns {string} Either popover or sidebar
+ * @return {string} Either popover or sidebar
  */
 export function getPreferredEditorRoute() {
 	let skipPopover
@@ -62,7 +60,7 @@ export function getPreferredEditorRoute() {
 /**
  * Gets the default start-date for a new event
  *
- * @returns {string}
+ * @return {string}
  */
 export function getDefaultStartDateForNewEvent() {
 	const start = dateFactory()
@@ -75,7 +73,7 @@ export function getDefaultStartDateForNewEvent() {
 /**
  * Gets the default end-date for a new event
  *
- * @returns {string}
+ * @return {string}
  */
 export function getDefaultEndDateForNewEvent() {
 	// When we have a setting for default event duration,
@@ -90,9 +88,9 @@ export function getDefaultEndDateForNewEvent() {
 /**
  * Prefixes a desired route name based on the current route
  *
- * @param {String} currentRouteName The name of the current route
- * @param {String} toRouteName The name of the desired route
- * @returns {String}
+ * @param {string} currentRouteName The name of the current route
+ * @param {string} toRouteName The name of the desired route
+ * @return {string}
  */
 export function getPrefixedRoute(currentRouteName, toRouteName) {
 	if (currentRouteName.startsWith('Embed')) {
@@ -109,8 +107,8 @@ export function getPrefixedRoute(currentRouteName, toRouteName) {
 /**
  * Checks whether a routeName represents a public / embedded route
  *
- * @param {String} routeName Name of the route
- * @returns {Boolean}
+ * @param {string} routeName Name of the route
+ * @return {boolean}
  */
 export function isPublicOrEmbeddedRoute(routeName) {
 	return routeName.startsWith('Embed') || routeName.startsWith('Public')

@@ -153,7 +153,7 @@ export default {
 		/**
 		 * FullCalendar Plugins
 		 *
-		 * @returns {(PluginDef)[]}
+		 * @return {(PluginDef)[]}
 		 */
 		plugins() {
 			return [

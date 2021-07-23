@@ -1,8 +1,6 @@
 /**
  * @copyright Copyright (c) 2019 Georg Ehrke
- *
  * @author Georg Ehrke <oc.list@georgehrke.com>
- *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,7 +15,6 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 import { translate as t } from '@nextcloud/l10n'
 import { getDefaultCategories } from '../defaults/defaultCategories.js'
@@ -25,7 +22,7 @@ import { getDefaultCategories } from '../defaults/defaultCategories.js'
 /**
  * Gets all supported RFC properties
  *
- * @returns {{color: {readableName: *, icon: string, multiple: boolean, info: *}, timeTransparency: {readableName: *, defaultValue: string, icon: string, multiple: boolean, options: *[], info: *}, description: {readableName: *, icon: string, placeholder: *, defaultNumberOfRows: number}, location: {readableName: *, icon: string, placeholder: *}, categories: {readableName: *, icon: string, multiple: boolean, options: *, tagPlaceholder: *, placeholder: *, info: *}, accessClass: {readableName: *, defaultValue: string, icon: string, options: *[], multiple: boolean, info: *}, status: {readableName: *, defaultValue: string, icon: string, options: *[], multiple: boolean, info: *}}}
+ * @return {{color: {readableName: *, icon: string, multiple: boolean, info: *}, timeTransparency: {readableName: *, defaultValue: string, icon: string, multiple: boolean, options: *[], info: *}, description: {readableName: *, icon: string, placeholder: *, defaultNumberOfRows: number}, location: {readableName: *, icon: string, placeholder: *}, categories: {readableName: *, icon: string, multiple: boolean, options: *, tagPlaceholder: *, placeholder: *, info: *}, accessClass: {readableName: *, defaultValue: string, icon: string, options: *[], multiple: boolean, info: *}, status: {readableName: *, defaultValue: string, icon: string, options: *[], multiple: boolean, info: *}}}
  */
 const getRFCProperties = () => {
 	return {

@@ -1,9 +1,7 @@
 /**
  * @copyright Copyright (c) 2019 Georg Ehrke
- *
  * @author Team Popcorn <teampopcornberlin@gmail.com>
  * @author Georg Ehrke <oc.list@georgehrke.com>
- *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -18,7 +16,6 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 import HTTPClient from '@nextcloud/axios'
 import { translate as t } from '@nextcloud/l10n'
@@ -28,8 +25,8 @@ import { loadState } from '@nextcloud/initial-state'
 /**
  * Creates a new public talk room
  *
- * @param {String?} eventTitle Title of the event
- * @returns {Promise<String>}
+ * @param {?string} eventTitle Title of the event
+ * @return {Promise<string>}
  */
 export async function createTalkRoom(eventTitle = null) {
 	const apiVersion = loadState('calendar', 'talk_api_version')
@@ -53,8 +50,8 @@ export async function createTalkRoom(eventTitle = null) {
 /**
  * Checks whether the description already contains a talk link
  *
- * @param {String?} description Description of event
- * @returns {boolean}
+ * @param {?string} description Description of event
+ * @return {boolean}
  */
 export function doesDescriptionContainTalkLink(description) {
 	if (!description) {
@@ -70,8 +67,8 @@ export function doesDescriptionContainTalkLink(description) {
 /**
  * Generates an absolute URL to the talk room based on the token
  *
- * @param {String} token The token to the call room
- * @returns {string}
+ * @param {string} token The token to the call room
+ * @return {string}
  */
 function generateURLForToken(token = '') {
 	return window.location.protocol + '//' + window.location.host + generateUrl('/call/' + token)

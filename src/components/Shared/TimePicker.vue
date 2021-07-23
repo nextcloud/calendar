@@ -72,7 +72,7 @@ export default {
 		/**
 		 * Returns the lang config for vue2-datepicker
 		 *
-		 * @returns {Object}
+		 * @return {object}
 		 */
 		lang() {
 			return getLangConfigForVue2DatePicker(this.locale)
@@ -80,7 +80,7 @@ export default {
 		/**
 		 * Whether or not to offer am/pm in the timepicker
 		 *
-		 * @returns {Boolean}
+		 * @return {boolean}
 		 */
 		showAmPm() {
 			const localeData = moment().locale(this.locale).localeData()
@@ -102,7 +102,7 @@ export default {
 		 * Formats the date string
 		 *
 		 * @param {Date} date The date for format
-		 * @returns {String}
+		 * @return {string}
 		 */
 		stringify(date) {
 			return moment(date).locale(this.locale).format('LT')
@@ -110,8 +110,8 @@ export default {
 		/**
 		 * Parses the user input from the input field
 		 *
-		 * @param {String} value The user-input to be parsed
-		 * @returns {Date}
+		 * @param {string} value The user-input to be parsed
+		 * @return {Date}
 		 */
 		parse(value) {
 			return moment(value, 'LT', this.locale).toDate()

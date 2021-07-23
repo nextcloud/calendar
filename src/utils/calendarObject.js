@@ -1,8 +1,6 @@
 /**
  * @copyright Copyright (c) 2020 Georg Ehrke
- *
  * @author Georg Ehrke <oc.list@georgehrke.com>
- *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,17 +15,16 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 import DateTimeValue from 'calendar-js/src/values/dateTimeValue.js'
 
 /**
  * Get all recurrence-items in given range
  *
- * @param {Object} calendarObject Calendar-object model
+ * @param {object} calendarObject Calendar-object model
  * @param {Date} start Begin of time-range
  * @param {Date} end End of time-range
- * @returns {Array}
+ * @return {Array}
  */
 const getAllObjectsInTimeRange = (calendarObject, start, end) => {
 	const iterator = calendarObject.calendarComponent.getVObjectIterator()
@@ -44,9 +41,9 @@ const getAllObjectsInTimeRange = (calendarObject, start, end) => {
 /**
  * Get recurrence-item at exactly a given recurrence-Id
  *
- * @param {Object} calendarObject Calendar-object model
+ * @param {object} calendarObject Calendar-object model
  * @param {Date} recurrenceId RecurrenceId to retrieve
- * @returns {AbstractRecurringComponent|null}
+ * @return {AbstractRecurringComponent|null}
  */
 const getObjectAtRecurrenceId = (calendarObject, recurrenceId) => {
 	const iterator = calendarObject.calendarComponent.getVObjectIterator()

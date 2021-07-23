@@ -89,7 +89,7 @@ export default {
 		/**
 		 * Total amount of processed calendar-objects, either accepted or failed
 		 *
-		 * @returns {Number}
+		 * @return {number}
 		 */
 		imported() {
 			return this.accepted + this.denied
@@ -97,7 +97,7 @@ export default {
 		/**
 		 * Whether or not to display the upload button
 		 *
-		 * @returns {Boolean}
+		 * @return {boolean}
 		 */
 		allowUploadOfFiles() {
 			return this.stage === IMPORT_STAGE_DEFAULT
@@ -105,7 +105,7 @@ export default {
 		/**
 		 * Whether or not to display the import modal
 		 *
-		 * @returns {Boolean}
+		 * @return {boolean}
 		 */
 		showImportModal() {
 			return this.stage === IMPORT_STAGE_AWAITING_USER_SELECT
@@ -113,7 +113,7 @@ export default {
 		/**
 		 * Whether or not to display progress bar
 		 *
-		 * @returns {Boolean}
+		 * @return {boolean}
 		 */
 		showProgressBar() {
 			return this.stage === IMPORT_STAGE_IMPORTING
@@ -122,7 +122,7 @@ export default {
 		 * Unique identifier for the input field.
 		 * Needed for the label
 		 *
-		 * @returns {String}
+		 * @return {string}
 		 */
 		inputUid() {
 			return this._uid + '-import-input'
@@ -134,7 +134,7 @@ export default {
 		 * So in case we add new supported file-types there,
 		 * we don't have to change anything here
 		 *
-		 * @returns {String[]}
+		 * @return {string[]}
 		 */
 		supportedFileTypes() {
 			return getParserManager().getAllSupportedFileTypes()
@@ -142,7 +142,7 @@ export default {
 		/**
 		 * Whether or not the import button is disabled
 		 *
-		 * @returns {Boolean}
+		 * @return {boolean}
 		 */
 		disableImport() {
 			return this.isDisabled || !this.allowUploadOfFiles

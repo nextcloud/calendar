@@ -319,7 +319,7 @@ export default {
 		/**
 		 * Changes the type of the reminder
 		 *
-		 * @param {String} type The new type of the notification
+		 * @param {string} type The new type of the notification
 		 */
 		changeType(type) {
 			this.$store.commit('changeAlarmType', {
@@ -381,7 +381,7 @@ export default {
 		/**
 		 * changes the relative unit entered in timed mode
 		 *
-		 * @param {String} unit The new unit
+		 * @param {string} unit The new unit
 		 */
 		changeRelativeUnitTimed(unit) {
 			this.$store.dispatch('changeAlarmUnitTimed', {
@@ -411,7 +411,7 @@ export default {
 		/**
 		 * changes the relative unit entered in all-day mode
 		 *
-		 * @param {String} unit The new unit
+		 * @param {string} unit The new unit
 		 */
 		changeRelativeUnitAllDay(unit) {
 			this.$store.dispatch('changeAlarmUnitAllDay', {

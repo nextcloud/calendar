@@ -327,7 +327,7 @@ export default {
 		/**
 		 * Updates the access-class of this event
 		 *
-		 * @param {String} accessClass The new access class
+		 * @param {string} accessClass The new access class
 		 */
 		updateAccessClass(accessClass) {
 			this.$store.commit('changeAccessClass', {
@@ -338,7 +338,7 @@ export default {
 		/**
 		 * Updates the status of the event
 		 *
-		 * @param {String} status The new status
+		 * @param {string} status The new status
 		 */
 		updateStatus(status) {
 			this.$store.commit('changeStatus', {
@@ -349,7 +349,7 @@ export default {
 		/**
 		 * Updates the time-transparency of the event
 		 *
-		 * @param {String} timeTransparency The new time-transparency
+		 * @param {string} timeTransparency The new time-transparency
 		 */
 		updateTimeTransparency(timeTransparency) {
 			this.$store.commit('changeTimeTransparency', {
@@ -360,7 +360,7 @@ export default {
 		/**
 		 * Adds a category to the event
 		 *
-		 * @param {String} category Category to add
+		 * @param {string} category Category to add
 		 */
 		addCategory(category) {
 			this.$store.commit('addCategory', {
@@ -371,7 +371,7 @@ export default {
 		/**
 		 * Removes a category from the event
 		 *
-		 * @param {String} category Category to remove
+		 * @param {string} category Category to remove
 		 */
 		removeCategory(category) {
 			this.$store.commit('removeCategory', {
@@ -382,7 +382,7 @@ export default {
 		/**
 		 * Updates the color of the event
 		 *
-		 * @param {String} customColor The new color
+		 * @param {string} customColor The new color
 		 */
 		updateColor(customColor) {
 			this.$store.commit('changeCustomColor', {

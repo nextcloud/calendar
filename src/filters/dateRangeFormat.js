@@ -1,8 +1,6 @@
 /**
  * @copyright Copyright (c) 2019 Georg Ehrke
- *
  * @author Georg Ehrke <oc.list@georgehrke.com>
- *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,7 +15,6 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 import moment from '@nextcloud/moment'
 import { translate as t } from '@nextcloud/l10n'
@@ -25,10 +22,10 @@ import { translate as t } from '@nextcloud/l10n'
 /**
  * Formats a date-range depending on the user's current view
  *
- * @param {String|Date} value The date to format
- * @param {String} view The current view of the user
- * @param {String} locale Which locale to format it in
- * @returns {string}
+ * @param {string | Date} value The date to format
+ * @param {string} view The current view of the user
+ * @param {string} locale Which locale to format it in
+ * @return {string}
  */
 export default (value, view, locale) => {
 	switch (view) {

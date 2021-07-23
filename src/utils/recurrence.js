@@ -1,8 +1,6 @@
 /**
  * @copyright Copyright (c) 2019 Georg Ehrke
- *
  * @author Georg Ehrke <oc.list@georgehrke.com>
- *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,14 +15,13 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
 /**
  * Gets the ByDay and BySetPosition
  *
  * @param {Date} jsDate The date to get the weekday of
- * @returns {Object}
+ * @return {object}
  */
 export function getBySetPositionAndBySetFromDate(jsDate) {
 	const byDay = getWeekDayFromDate(jsDate)
@@ -44,7 +41,7 @@ export function getBySetPositionAndBySetFromDate(jsDate) {
  * Gets the string-representation of the weekday of a given date
  *
  * @param {Date} jsDate The date to get the weekday of
- * @returns {string}
+ * @return {string}
  */
 export function getWeekDayFromDate(jsDate) {
 	switch (jsDate.getDay()) {

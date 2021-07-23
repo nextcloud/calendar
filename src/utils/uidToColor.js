@@ -1,8 +1,6 @@
 /**
  * @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
- *
  * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,7 +15,6 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 import md5 from 'md5'
 
@@ -40,6 +37,10 @@ export const uidToColor = (uid) => {
 	const finalPalette = GenColors(steps)
 
 	// Convert a string to an integer evenly
+	/**
+	 * @param hash
+	 * @param maximum
+	 */
 	function hashToInt(hash, maximum) {
 		let finalInt = 0
 		const result = []
@@ -62,12 +63,21 @@ export const uidToColor = (uid) => {
 	return finalPalette[hashToInt(hash, steps * 3)]
 }
 
+/**
+ * @param r
+ * @param g
+ * @param b
+ */
 function Color(r, g, b) {
 	this.r = r
 	this.g = g
 	this.b = b
 }
 
+/**
+ * @param steps
+ * @param ends
+ */
 function stepCalc(steps, ends) {
 	const step = new Array(3)
 	step[0] = (ends[1].r - ends[0].r) / steps
@@ -76,6 +86,11 @@ function stepCalc(steps, ends) {
 	return step
 }
 
+/**
+ * @param steps
+ * @param color1
+ * @param color2
+ */
 function mixPalette(steps, color1, color2) {
 	const palette = []
 	palette.push(color1)
@@ -96,7 +111,7 @@ function mixPalette(steps, color1, color2) {
  * 3 colors * 6 will result in 18 generated colors
  *
  * @param {number} [steps=6] Number of steps to go from a color to another
- * @returns {Object[]}
+ * @return {object[]}
  */
 function GenColors(steps) {
 	if (!steps) {

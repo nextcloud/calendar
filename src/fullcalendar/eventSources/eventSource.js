@@ -1,8 +1,6 @@
 /**
  * @copyright Copyright (c) 2019 Georg Ehrke
- *
  * @author Georg Ehrke <oc.list@georgehrke.com>
- *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,7 +15,6 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 import {
 	generateTextColorForHex,
@@ -30,8 +27,8 @@ import logger from '../../utils/logger.js'
 /**
  * Returns a function to generate a FullCalendar event-source based on the Vuex calendar model
  *
- * @param {Object} store The Vuex store
- * @returns {function(*=): {backgroundColor: *, borderColor: *, className: *, id: *, textColor: *, events: events}}
+ * @param {object} store The Vuex store
+ * @return {function(*=): {backgroundColor: *, borderColor: *, className: *, id: *, textColor: *, events: events}}
  */
 export default function(store) {
 	return function(calendar) {
@@ -42,7 +39,7 @@ export default function(store) {
 			borderColor: calendar.color,
 			textColor: generateTextColorForHex(calendar.color),
 			// html foo
-			events: async({ start, end, timeZone }, successCallback, failureCallback) => {
+			events: async ({ start, end, timeZone }, successCallback, failureCallback) => {
 				let timezoneObject = getTimezoneManager().getTimezoneForId(timeZone)
 				if (!timezoneObject) {
 					timezoneObject = getTimezoneManager().getTimezoneForId('UTC')

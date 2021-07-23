@@ -1,8 +1,6 @@
 /**
  * @copyright Copyright (c) 2019 Georg Ehrke
- *
  * @author Georg Ehrke <oc.list@georgehrke.com>
- *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,7 +15,6 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 import {
 	NamedTimeZoneImpl,
@@ -34,8 +31,8 @@ class VTimezoneNamedTimezone extends NamedTimeZoneImpl {
 	/**
 	 * gets UTC offset for given date of this timezone
 	 *
-	 * @param {Number[]} date an array that mirrors the parameters from new Date()
-	 * @returns {Number} offset in minutes
+	 * @param {number[]} date an array that mirrors the parameters from new Date()
+	 * @return {number} offset in minutes
 	 */
 	offsetForArray([year, month, day, hour, minute, second]) {
 		let timezone = getTimezoneManager().getTimezoneForId(this.timeZoneName)
@@ -53,8 +50,8 @@ class VTimezoneNamedTimezone extends NamedTimeZoneImpl {
 	/**
 	 * returns parameters for Date object in this timezone based on given timestamp
 	 *
-	 * @param {Number} ms Timestamp in milliseconds
-	 * @returns {Number[]}
+	 * @param {number} ms Timestamp in milliseconds
+	 * @return {number[]}
 	 */
 	timestampToArray(ms) {
 		let timezone = getTimezoneManager().getTimezoneForId(this.timeZoneName)

@@ -119,7 +119,7 @@ export default {
 		/**
 		 * Download url of the calendar
 		 *
-		 * @returns {String}
+		 * @return {string}
 		 */
 		downloadUrl() {
 			return this.calendar.url + '?export'
@@ -127,7 +127,7 @@ export default {
 		/**
 		 * TODO: this should use principals and principal.userId
 		 *
-		 * @returns {String}
+		 * @return {string}
 		 */
 		owner() {
 			const lastIndex = this.calendar.owner.lastIndexOf('dav/principals/users/')

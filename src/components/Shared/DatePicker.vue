@@ -150,7 +150,7 @@ export default {
 		/**
 		 * Returns the lang config for vue2-datepicker
 		 *
-		 * @returns {Object}
+		 * @return {object}
 		 */
 		lang() {
 			return getLangConfigForVue2DatePicker(this.locale)
@@ -160,7 +160,7 @@ export default {
 		 * The icon is highlighted when the selected timezone
 		 * does not equal the current user's timezone
 		 *
-		 * @returns {Boolean}
+		 * @return {boolean}
 		 */
 		highlightTimezone() {
 			if (this.isAllDay) {
@@ -173,7 +173,7 @@ export default {
 		 * Type of the DatePicker.
 		 * Ether date if allDay or datetime
 		 *
-		 * @returns {String}
+		 * @return {string}
 		 */
 		type() {
 			if (this.isAllDay) {
@@ -185,7 +185,7 @@ export default {
 		/**
 		 * The earliest date a user is allowed to pick in the timezone
 		 *
-		 * @returns {Date}
+		 * @return {Date}
 		 */
 		minimumDate() {
 			return this.min || new Date(this.$store.state.davRestrictions.minimumDate)
@@ -193,7 +193,7 @@ export default {
 		/**
 		 * The latest date a user is allowed to pick in the timezone
 		 *
-		 * @returns {Date}
+		 * @return {Date}
 		 */
 		maximumDate() {
 			return this.max || new Date(this.$store.state.davRestrictions.maximumDate)
@@ -201,7 +201,7 @@ export default {
 		/**
 		 * Whether or not to offer am/pm in the timepicker
 		 *
-		 * @returns {Boolean}
+		 * @return {boolean}
 		 */
 		showAmPm() {
 			const localeData = moment().locale(this.locale).localeData()
@@ -224,7 +224,7 @@ export default {
 		 * when user picked a date and date-time-picker is not all-day
 		 *
 		 * @param {Date} date The selected Date object
-		 * @param {String} type The type of selected date (Date, Time, ...)
+		 * @param {string} type The type of selected date (Date, Time, ...)
 		 */
 		pickDate(date, type) {
 			if (!this.isAllDay && type === 'date') {
@@ -234,7 +234,7 @@ export default {
 		/**
 		 * Emits a change event for the Timezone
 		 *
-		 * @param {String} timezoneId The new timezoneId
+		 * @param {string} timezoneId The new timezoneId
 		 */
 		changeTimezone(timezoneId) {
 			this.$emit('changeTimezone', timezoneId)
@@ -266,7 +266,7 @@ export default {
 		 * Formats the date string
 		 *
 		 * @param {Date} date The date for format
-		 * @returns {String}
+		 * @return {string}
 		 */
 		stringify(date) {
 			const formattedDate = moment(date).locale(this.locale).format('L')
@@ -305,8 +305,8 @@ export default {
 		/**
 		 * Parses the user input from the input field
 		 *
-		 * @param {String} value The user-input to be parsed
-		 * @returns {Date}
+		 * @param {string} value The user-input to be parsed
+		 * @return {Date}
 		 */
 		parse(value) {
 			if (this.isAllDay) {
@@ -396,7 +396,7 @@ export default {
 		 * Whether or not the date is acceptable
 		 *
 		 * @param {Date} date The date to compare to
-		 * @returns {Boolean}
+		 * @return {boolean}
 		 */
 		disabledDate(date) {
 			return date < this.minimumDate || date > this.maximumDate

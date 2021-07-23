@@ -1,8 +1,6 @@
 /**
  * @copyright Copyright (c) 2020 Georg Ehrke
- *
  * @author Georg Ehrke <oc.list@georgehrke.com>
- *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,7 +15,6 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 import { translate as t } from '@nextcloud/l10n'
 import {
@@ -27,9 +24,9 @@ import {
 
 /**
  *
- * @param {String} userLocale The user-selected locale
- * @param {String} momentLocale Our merged locale-language based moment locale
- * @returns {Object}
+ * @param {string} userLocale The user-selected locale
+ * @param {string} momentLocale Our merged locale-language based moment locale
+ * @return {object}
  */
 const getFullCalendarLocale = (userLocale, momentLocale) => {
 	return {

@@ -1,8 +1,6 @@
 /**
  * @copyright Copyright (c) 2019 Georg Ehrke
- *
  * @author Georg Ehrke <oc.list@georgehrke.com>
- *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,7 +15,6 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 import Vue from 'vue'
 import getTimezoneManager from '../services/timezoneDataProviderService'
@@ -63,11 +60,11 @@ const mutations = {
 	/**
 	 * Set a calendar-object-instance that will be opened in the editor (existing event)
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObject The calendar-object currently being edited
-	 * @param {Object} data.calendarObjectInstance The calendar-object-instance currently being edited
-	 * @param {String} data.objectId The objectId of the calendar-object
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObject The calendar-object currently being edited
+	 * @param {object} data.calendarObjectInstance The calendar-object-instance currently being edited
+	 * @param {string} data.objectId The objectId of the calendar-object
 	 * @param {number} data.recurrenceId The recurrence-id of the calendar-object-instance
 	 */
 	setCalendarObjectInstanceForExistingEvent(state, { calendarObject, calendarObjectInstance, objectId, recurrenceId }) {
@@ -81,10 +78,10 @@ const mutations = {
 	/**
 	 * Set a calendar-object-instance that will be opened in the editor (new event)
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObject The calendar-object currently being created
-	 * @param {Object} data.calendarObjectInstance The calendar-object-instance currently being crated
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObject The calendar-object currently being created
+	 * @param {object} data.calendarObjectInstance The calendar-object-instance currently being crated
 	 */
 	setCalendarObjectInstanceForNewEvent(state, { calendarObject, calendarObjectInstance }) {
 		state.isNew = true
@@ -96,7 +93,7 @@ const mutations = {
 
 	/**
 	 *
-	 * @param {Object} state The Vuex state
+	 * @param {object} state The Vuex state
 	 */
 	resetCalendarObjectInstanceObjectIdAndRecurrenceId(state) {
 		state.isNew = false
@@ -109,10 +106,10 @@ const mutations = {
 	/**
 	 * Change the title of the event
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {String} data.title The new Title
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {string} data.title The new Title
 	 */
 	changeTitle(state, { calendarObjectInstance, title }) {
 		calendarObjectInstance.eventComponent.title = title
@@ -122,9 +119,9 @@ const mutations = {
 	/**
 	 * Change the event's start
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 	 * @param {Date} data.startDate New start date to set
 	 */
 	changeStartDate(state, { calendarObjectInstance, startDate }) {
@@ -164,10 +161,10 @@ const mutations = {
 	/**
 	 * Change the timezone of the event's start
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {String} data.startTimezone New timezone to set for start
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {string} data.startTimezone New timezone to set for start
 	 */
 	changeStartTimezone(state, { calendarObjectInstance, startTimezone }) {
 		const timezone = getTimezoneManager().getTimezoneForId(startTimezone)
@@ -184,9 +181,9 @@ const mutations = {
 	/**
 	 * Change the event's end
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 	 * @param {Date} data.endDate New end date to set
 	 */
 	changeEndDate(state, { calendarObjectInstance, endDate }) {
@@ -231,10 +228,10 @@ const mutations = {
 	/**
 	 * Change the timezone of the event's end
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {String} data.endTimezone New timezone to set for end
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {string} data.endTimezone New timezone to set for end
 	 */
 	changeEndTimezone(state, { calendarObjectInstance, endTimezone }) {
 		const timezone = getTimezoneManager().getTimezoneForId(endTimezone)
@@ -251,9 +248,9 @@ const mutations = {
 	/**
 	 * Switch from a timed event to allday or vice versa
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 	 */
 	toggleAllDay(state, { calendarObjectInstance }) {
 		if (!calendarObjectInstance.eventComponent.canModifyAllDay()) {
@@ -276,9 +273,9 @@ const mutations = {
 	/**
 	 * Changes the time of a timed event to the default values
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 	 */
 	changeTimeToDefaultForTimedEvents(state, { calendarObjectInstance }) {
 		const startDate = calendarObjectInstance.eventComponent.startDate
@@ -295,10 +292,10 @@ const mutations = {
 	/**
 	 * Change the location of an event
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {String} data.location New location to set
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {string} data.location New location to set
 	 */
 	changeLocation(state, { calendarObjectInstance, location }) {
 		calendarObjectInstance.eventComponent.location = location
@@ -308,10 +305,10 @@ const mutations = {
 	/**
 	 * Change the description of an event
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {String} data.description New description to set
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {string} data.description New description to set
 	 */
 	changeDescription(state, { calendarObjectInstance, description }) {
 		calendarObjectInstance.eventComponent.description = description
@@ -321,10 +318,10 @@ const mutations = {
 	/**
 	 * Change the access class of an event
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {String} data.accessClass New access class to set
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {string} data.accessClass New access class to set
 	 */
 	changeAccessClass(state, { calendarObjectInstance, accessClass }) {
 		calendarObjectInstance.eventComponent.accessClass = accessClass
@@ -334,10 +331,10 @@ const mutations = {
 	/**
 	 * Change the status of an event
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {String} data.status New status to set
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {string} data.status New status to set
 	 */
 	changeStatus(state, { calendarObjectInstance, status }) {
 		calendarObjectInstance.eventComponent.status = status
@@ -347,10 +344,10 @@ const mutations = {
 	/**
 	 * Change the time-transparency of an event
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {String} data.timeTransparency New time-transparency to set
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {string} data.timeTransparency New time-transparency to set
 	 */
 	changeTimeTransparency(state, { calendarObjectInstance, timeTransparency }) {
 		calendarObjectInstance.eventComponent.timeTransparency = timeTransparency
@@ -360,10 +357,10 @@ const mutations = {
 	/**
 	 * Change the customized color of an event
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {String|null} data.customColor New color to set
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {string | null} data.customColor New color to set
 	 */
 	changeCustomColor(state, { calendarObjectInstance, customColor }) {
 		if (customColor === null) {
@@ -391,18 +388,18 @@ const mutations = {
 	/**
 	 * Adds an attendee to the event and sets the organizer if not present already
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {String} data.commonName Displayname of attendee
-	 * @param {String} data.uri Email address of attendee
-	 * @param {String} data.calendarUserType Calendar-user-type of attendee (INDIVIDUAL, GROUP, RESOURCE, ROOM)
-	 * @param {String} data.participationStatus Participation Status of attendee
-	 * @param {String} data.role Role of Attendee
-	 * @param {Boolean} data.rsvp Whether or not to request a response from the attendee
-	 * @param {String=} data.language Preferred language of the attendee
-	 * @param {String=} data.timezoneId Preferred timezone of the attendee
-	 * @param {Object=} data.organizer Principal of the organizer to be set if not present
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {string} data.commonName Displayname of attendee
+	 * @param {string} data.uri Email address of attendee
+	 * @param {string} data.calendarUserType Calendar-user-type of attendee (INDIVIDUAL, GROUP, RESOURCE, ROOM)
+	 * @param {string} data.participationStatus Participation Status of attendee
+	 * @param {string} data.role Role of Attendee
+	 * @param {boolean} data.rsvp Whether or not to request a response from the attendee
+	 * @param {string=} data.language Preferred language of the attendee
+	 * @param {string=} data.timezoneId Preferred timezone of the attendee
+	 * @param {object=} data.organizer Principal of the organizer to be set if not present
 	 */
 	addAttendee(state, { calendarObjectInstance, commonName, uri, calendarUserType = null, participationStatus = null, role = null, rsvp = null, language = null, timezoneId = null, organizer = null }) {
 		const attendee = AttendeeProperty.fromNameAndEMail(commonName, uri)
@@ -449,10 +446,10 @@ const mutations = {
 	/**
 	 * Removes an attendee from the event
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {Object} data.attendee The attendee object to remove
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} data.attendee The attendee object to remove
 	 */
 	removeAttendee(state, { calendarObjectInstance, attendee }) {
 		calendarObjectInstance.eventComponent.removeAttendee(attendee.attendeeProperty)
@@ -466,10 +463,10 @@ const mutations = {
 	/**
 	 * Changes an attendees' participation status
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.attendee The attendee object
-	 * @param {String} data.participationStatus New Participation Status of attendee
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.attendee The attendee object
+	 * @param {string} data.participationStatus New Participation Status of attendee
 	 */
 	changeAttendeesParticipationStatus(state, { attendee, participationStatus }) {
 		attendee.attendeeProperty.participationStatus = participationStatus
@@ -479,10 +476,10 @@ const mutations = {
 	/**
 	 * Changes an attendees' role
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.attendee The attendee object
-	 * @param {String} data.role New role of attendee
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.attendee The attendee object
+	 * @param {string} data.role New role of attendee
 	 */
 	changeAttendeesRole(state, { attendee, role }) {
 		attendee.attendeeProperty.role = role
@@ -492,10 +489,10 @@ const mutations = {
 	/**
 	 * Changes an attendees' RVSP
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.attendee The attendee object
-	 * @param {Boolean} data.rsvp New RSVP value
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.attendee The attendee object
+	 * @param {boolean} data.rsvp New RSVP value
 	 */
 	toggleAttendeeRSVP(state, { attendee }) {
 		const oldRSVP = attendee.attendeeProperty.rsvp
@@ -506,11 +503,11 @@ const mutations = {
 	/**
 	 * Set the event's organizer
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {String=} data.commonName Displayname of organizer
-	 * @param {String} data.email Email-address of organizer
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {string=} data.commonName Displayname of organizer
+	 * @param {string} data.email Email-address of organizer
 	 */
 	setOrganizer(state, { calendarObjectInstance, commonName = null, email }) {
 		calendarObjectInstance.eventComponent.setOrganizerFromNameAndEMail(commonName, email)
@@ -523,10 +520,10 @@ const mutations = {
 	/**
 	 * Adds a category to the event
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {String} data.category Category to add
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {string} data.category Category to add
 	 */
 	addCategory(state, { calendarObjectInstance, category }) {
 		calendarObjectInstance.eventComponent.addCategory(category)
@@ -536,10 +533,10 @@ const mutations = {
 	/**
 	 * Removes a category from the event
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {String} data.category Category to remove
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {string} data.category Category to remove
 	 */
 	removeCategory(state, { calendarObjectInstance, category }) {
 		calendarObjectInstance.eventComponent.removeCategory(category)
@@ -553,11 +550,11 @@ const mutations = {
 	/**
 	 * Change the interval of the recurrence-rule
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {Object} data.recurrenceRule The recurrenceRule object to modify
-	 * @param {String} data.interval The new interval to set
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} data.recurrenceRule The recurrenceRule object to modify
+	 * @param {string} data.interval The new interval to set
 	 */
 	changeRecurrenceInterval(state, { calendarObjectInstance, recurrenceRule, interval }) {
 		if (recurrenceRule.recurrenceRuleValue) {
@@ -571,11 +568,11 @@ const mutations = {
 	/**
 	 * Change the frequency of the recurrence-rule
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {Object} data.recurrenceRule The recurrenceRule object to modify
-	 * @param {String} data.frequency The new frequency to set
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} data.recurrenceRule The recurrenceRule object to modify
+	 * @param {string} data.frequency The new frequency to set
 	 */
 	changeRecurrenceFrequency(state, { calendarObjectInstance, recurrenceRule, frequency }) {
 		if (recurrenceRule.recurrenceRuleValue) {
@@ -589,11 +586,11 @@ const mutations = {
 	/**
 	 * Change the count limit of the recurrence-rule
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {Object} data.recurrenceRule The recurrenceRule object to modify
-	 * @param {String} data.count The new count to set
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} data.recurrenceRule The recurrenceRule object to modify
+	 * @param {string} data.count The new count to set
 	 */
 	changeRecurrenceCount(state, { calendarObjectInstance, recurrenceRule, count }) {
 		if (recurrenceRule.recurrenceRuleValue) {
@@ -608,10 +605,10 @@ const mutations = {
 	/**
 	 * Change the until limit of the recurrence-rule
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {Object} data.recurrenceRule The recurrenceRule object to modify
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} data.recurrenceRule The recurrenceRule object to modify
 	 * @param {Date} data.until The new until to set
 	 */
 	changeRecurrenceUntil(state, { calendarObjectInstance, recurrenceRule, until }) {
@@ -632,10 +629,10 @@ const mutations = {
 	/**
 	 * Changes the recurrence-rule to never end
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {Object} data.recurrenceRule The recurrenceRule object to modify
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} data.recurrenceRule The recurrenceRule object to modify
 	 */
 	changeRecurrenceToInfinite(state, { calendarObjectInstance, recurrenceRule }) {
 		if (recurrenceRule.recurrenceRuleValue) {
@@ -650,10 +647,10 @@ const mutations = {
 	/**
 	 * Reset the By-parts of the recurrence rule
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {Object} data.recurrenceRule The recurrenceRule object to modify
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} data.recurrenceRule The recurrenceRule object to modify
 	 */
 	resetRecurrenceByParts(state, { calendarObjectInstance, recurrenceRule }) {
 		if (recurrenceRule.recurrenceRuleValue) {
@@ -685,10 +682,10 @@ const mutations = {
 	/**
 	 * Reset the By-parts of the recurrence rule
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {Object} data.recurrenceRule The recurrenceRule object to modify
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} data.recurrenceRule The recurrenceRule object to modify
 	 */
 	setDefaultRecurrenceByPartsForWeekly(state, { calendarObjectInstance, recurrenceRule }) {
 		if (recurrenceRule.recurrenceRuleValue) {
@@ -703,10 +700,10 @@ const mutations = {
 	/**
 	 * Reset the By-parts of the recurrence rule
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {Object} data.recurrenceRule The recurrenceRule object to modify
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} data.recurrenceRule The recurrenceRule object to modify
 	 */
 	setDefaultRecurrenceByPartsForMonthly(state, { calendarObjectInstance, recurrenceRule }) {
 		if (recurrenceRule.recurrenceRuleValue) {
@@ -720,10 +717,10 @@ const mutations = {
 
 	/**
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {Object} data.recurrenceRule The recurrenceRule object to modify
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} data.recurrenceRule The recurrenceRule object to modify
 	 */
 	setDefaultRecurrenceByPartsForMonthlyBySetPosition(state, { calendarObjectInstance, recurrenceRule }) {
 		if (recurrenceRule.recurrenceRuleValue) {
@@ -744,10 +741,10 @@ const mutations = {
 	/**
 	 * Reset the By-parts of the recurrence rule
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {Object} data.recurrenceRule The recurrenceRule object to modify
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} data.recurrenceRule The recurrenceRule object to modify
 	 */
 	setDefaultRecurrenceByPartsForYearly(state, { calendarObjectInstance, recurrenceRule }) {
 		if (recurrenceRule.recurrenceRuleValue) {
@@ -762,11 +759,11 @@ const mutations = {
 	/**
 	 * Change the until limit of the recurrence-rule
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {Object} data.recurrenceRule The recurrenceRule object to modify
-	 * @param {String} data.byDay The new until to set
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} data.recurrenceRule The recurrenceRule object to modify
+	 * @param {string} data.byDay The new until to set
 	 */
 	addByDayToRecurrenceRule(state, { calendarObjectInstance, recurrenceRule, byDay }) {
 		if (recurrenceRule.recurrenceRuleValue) {
@@ -789,11 +786,11 @@ const mutations = {
 	/**
 	 * Change the until limit of the recurrence-rule
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {Object} data.recurrenceRule The recurrenceRule object to modify
-	 * @param {String} data.byDay The new until to set
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} data.recurrenceRule The recurrenceRule object to modify
+	 * @param {string} data.byDay The new until to set
 	 */
 	removeByDayFromRecurrenceRule(state, { calendarObjectInstance, recurrenceRule, byDay }) {
 		if (recurrenceRule.recurrenceRuleValue) {
@@ -816,11 +813,11 @@ const mutations = {
 	/**
 	 * Change the until limit of the recurrence-rule
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {Object} data.recurrenceRule The recurrenceRule object to modify
-	 * @param {String} data.byMonthDay The new until to set
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} data.recurrenceRule The recurrenceRule object to modify
+	 * @param {string} data.byMonthDay The new until to set
 	 */
 	addByMonthDayToRecurrenceRule(state, { calendarObjectInstance, recurrenceRule, byMonthDay }) {
 		if (recurrenceRule.recurrenceRuleValue) {
@@ -843,11 +840,11 @@ const mutations = {
 	/**
 	 * Change the until limit of the recurrence-rule
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {Object} data.recurrenceRule The recurrenceRule object to modify
-	 * @param {String} data.byMonthDay The new until to set
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} data.recurrenceRule The recurrenceRule object to modify
+	 * @param {string} data.byMonthDay The new until to set
 	 */
 	removeByMonthDayFromRecurrenceRule(state, { calendarObjectInstance, recurrenceRule, byMonthDay }) {
 		if (recurrenceRule.recurrenceRuleValue) {
@@ -870,11 +867,11 @@ const mutations = {
 	/**
 	 * Change the until limit of the recurrence-rule
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {Object} data.recurrenceRule The recurrenceRule object to modify
-	 * @param {String} data.byMonth The new until to set
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} data.recurrenceRule The recurrenceRule object to modify
+	 * @param {string} data.byMonth The new until to set
 	 */
 	addByMonthToRecurrenceRule(state, { calendarObjectInstance, recurrenceRule, byMonth }) {
 		if (recurrenceRule.recurrenceRuleValue) {
@@ -899,11 +896,11 @@ const mutations = {
 	/**
 	 * Change the until limit of the recurrence-rule
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {Object} data.recurrenceRule The recurrenceRule object to modify
-	 * @param {String} data.byMonth The new until to set
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} data.recurrenceRule The recurrenceRule object to modify
+	 * @param {string} data.byMonth The new until to set
 	 */
 	removeByMonthFromRecurrenceRule(state, { calendarObjectInstance, recurrenceRule, byMonth }) {
 		if (recurrenceRule.recurrenceRuleValue) {
@@ -927,11 +924,11 @@ const mutations = {
 
 	/**
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {Object} data.recurrenceRule The recurrenceRule object to modify
-	 * @param {String[]} data.byDay The new until to set
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} data.recurrenceRule The recurrenceRule object to modify
+	 * @param {string[]} data.byDay The new until to set
 	 */
 	changeRecurrenceByDay(state, { calendarObjectInstance, recurrenceRule, byDay }) {
 		if (recurrenceRule.recurrenceRuleValue) {
@@ -945,11 +942,11 @@ const mutations = {
 	/**
 	 * Change the until limit of the recurrence-rule
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {Object} data.recurrenceRule The recurrenceRule object to modify
-	 * @param {String} data.bySetPosition The new until to set
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} data.recurrenceRule The recurrenceRule object to modify
+	 * @param {string} data.bySetPosition The new until to set
 	 */
 	changeRecurrenceBySetPosition(state, { calendarObjectInstance, recurrenceRule, bySetPosition }) {
 		if (recurrenceRule.recurrenceRuleValue) {
@@ -962,10 +959,10 @@ const mutations = {
 
 	/**
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {Object} data.recurrenceRule The recurrenceRule object to modify
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} data.recurrenceRule The recurrenceRule object to modify
 	 */
 	unsetRecurrenceBySetPosition(state, { calendarObjectInstance, recurrenceRule }) {
 		if (recurrenceRule.recurrenceRuleValue) {
@@ -979,10 +976,10 @@ const mutations = {
 	/**
 	 * Remove the recurrence-rule from the calendarObjectInstance
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {Object} data.recurrenceRule The recurrenceRule object to modify
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} data.recurrenceRule The recurrenceRule object to modify
 	 */
 	removeRecurrenceRuleFromCalendarObjectInstance(state, { calendarObjectInstance, recurrenceRule }) {
 		if (recurrenceRule.recurrenceRuleValue) {
@@ -997,9 +994,9 @@ const mutations = {
 	/**
 	 * Add a new recurrence-rule to the calendarObjectInstance
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 	 */
 	addRecurrenceRuleFromCalendarObjectInstance(state, { calendarObjectInstance }) {
 		const recurrenceValue = RecurValue.fromData({})
@@ -1010,10 +1007,10 @@ const mutations = {
 
 	/**
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {Object} data.recurrenceRule The recurrenceRule object to modify
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} data.recurrenceRule The recurrenceRule object to modify
 	 */
 	markRecurrenceRuleAsSupported(state, { calendarObjectInstance, recurrenceRule }) {
 		recurrenceRule.isUnsupported = false
@@ -1021,11 +1018,11 @@ const mutations = {
 
 	/**
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {Object} data.alarm The alarm object
-	 * @param {String} data.type New type of alarm
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} data.alarm The alarm object
+	 * @param {string} data.type New type of alarm
 	 */
 	changeAlarmType(state, { calendarObjectInstance, alarm, type }) {
 		if (alarm.alarmComponent) {
@@ -1038,11 +1035,11 @@ const mutations = {
 
 	/**
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {Object} data.alarm The alarm object
-	 * @param {Number} data.amount New amount of timed event
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} data.alarm The alarm object
+	 * @param {number} data.amount New amount of timed event
 	 */
 	changeAlarmAmountTimed(state, { calendarObjectInstance, alarm, amount }) {
 		if (alarm.alarmComponent) {
@@ -1059,11 +1056,11 @@ const mutations = {
 
 	/**
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {Object} data.alarm The alarm object
-	 * @param {String} data.unit New unit of timed event
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} data.alarm The alarm object
+	 * @param {string} data.unit New unit of timed event
 	 */
 	changeAlarmUnitTimed(state, { calendarObjectInstance, alarm, unit }) {
 		if (alarm.alarmComponent) {
@@ -1079,11 +1076,11 @@ const mutations = {
 
 	/**
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {Object} data.alarm The alarm object
-	 * @param {Number} data.amount New amount of all-day event
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} data.alarm The alarm object
+	 * @param {number} data.amount New amount of all-day event
 	 */
 	changeAlarmAmountAllDay(state, { calendarObjectInstance, alarm, amount }) {
 		if (alarm.alarmComponent) {
@@ -1100,11 +1097,11 @@ const mutations = {
 
 	/**
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {Object} data.alarm The alarm object
-	 * @param {String} data.unit New Unit of all-day event
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} data.alarm The alarm object
+	 * @param {string} data.unit New Unit of all-day event
 	 */
 	changeAlarmUnitAllDay(state, { calendarObjectInstance, alarm, unit }) {
 		if (alarm.alarmComponent) {
@@ -1121,12 +1118,12 @@ const mutations = {
 
 	/**
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {Object} data.alarm The alarm object
-	 * @param {Number} data.hours New Hour
-	 * @param {Number} data.minutes New Minutes
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} data.alarm The alarm object
+	 * @param {number} data.hours New Hour
+	 * @param {number} data.minutes New Minutes
 	 */
 	changeAlarmHoursMinutesAllDay(state, { calendarObjectInstance, alarm, hours, minutes }) {
 		if (alarm.alarmComponent) {
@@ -1144,10 +1141,10 @@ const mutations = {
 
 	/**
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {Object} data.alarm The alarm object
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} data.alarm The alarm object
 	 * @param {Date} data.date New date object
 	 */
 	changeAlarmAbsoluteDate(state, { calendarObjectInstance, alarm, date }) {
@@ -1167,11 +1164,11 @@ const mutations = {
 
 	/**
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {Object} data.alarm The alarm object
-	 * @param {String} data.timezoneId New timezoneId
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} data.alarm The alarm object
+	 * @param {string} data.timezoneId New timezoneId
 	 */
 	changeAlarmAbsoluteTimezoneId(state, { calendarObjectInstance, alarm, timezoneId }) {
 		if (alarm.alarmComponent) {
@@ -1186,10 +1183,10 @@ const mutations = {
 
 	/**
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {Object} data.alarm The alarm object
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} data.alarm The alarm object
 	 */
 	changeAlarmFromRelativeToAbsolute(state, { calendarObjectInstance, alarm }) {
 		if (alarm.alarmComponent) {
@@ -1210,10 +1207,10 @@ const mutations = {
 
 	/**
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {Object} data.alarm The alarm object
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} data.alarm The alarm object
 	 */
 	changeAlarmFromAbsoluteToRelative(state, { calendarObjectInstance, alarm }) {
 		if (alarm.alarmComponent) {
@@ -1229,9 +1226,9 @@ const mutations = {
 
 	/**
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.alarm The alarm object
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.alarm The alarm object
 	 */
 	resetAlarmRelativeParts(state, { alarm }) {
 		alarm.relativeIsBefore = null
@@ -1247,9 +1244,9 @@ const mutations = {
 
 	/**
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.alarm The alarm object
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.alarm The alarm object
 	 */
 	resetAlarmAbsoluteParts(state, { alarm }) {
 		alarm.absoluteDate = null
@@ -1258,10 +1255,10 @@ const mutations = {
 
 	/**
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {Object} data.alarm The alarm object
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} data.alarm The alarm object
 	 */
 	updateAlarmAllDayParts(state, { calendarObjectInstance, alarm }) {
 		if (alarm.alarmComponent) {
@@ -1277,10 +1274,10 @@ const mutations = {
 
 	/**
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {Object} data.alarm The alarm object
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} data.alarm The alarm object
 	 */
 	updateAlarmTimedParts(state, { calendarObjectInstance, alarm }) {
 		if (alarm.alarmComponent) {
@@ -1296,11 +1293,11 @@ const mutations = {
 
 	/**
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {String} data.type Type of alarm
-	 * @param {Number} data.totalSeconds Total amount of seconds for new alarm
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {string} data.type Type of alarm
+	 * @param {number} data.totalSeconds Total amount of seconds for new alarm
 	 */
 	addAlarmToCalendarObjectInstance(state, { calendarObjectInstance, type, totalSeconds }) {
 		if (calendarObjectInstance.eventComponent) {
@@ -1319,10 +1316,10 @@ const mutations = {
 
 	/**
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.calendarObjectInstance The calendarObjectInstance object
-	 * @param {Object} data.alarm The alarm object
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} data.alarm The alarm object
 	 */
 	removeAlarmFromCalendarObjectInstance(state, { calendarObjectInstance, alarm }) {
 		if (alarm.alarmComponent) {
@@ -1347,14 +1344,14 @@ const actions = {
 	 * in case there are no more future occurrences the closest
 	 * occurrence in the past
 	 *
-	 * @param {Object} vuex The vuex destructuring object
-	 * @param {Object} vuex.state The Vuex state
+	 * @param {object} vuex The vuex destructuring object
+	 * @param {object} vuex.state The Vuex state
 	 * @param {Function} vuex.dispatch The Vuex dispatch function
 	 * @param {Function} vuex.commit The Vuex commit function
-	 * @param {Object} data The destructuring object
-	 * @param {String} data.objectId The objectId of the calendar-object to edit
+	 * @param {object} data The destructuring object
+	 * @param {string} data.objectId The objectId of the calendar-object to edit
 	 * @param {Date} data.closeToDate The date to get a close occurrence to
-	 * @returns {Promise<Number>}
+	 * @return {Promise<number>}
 	 */
 	async resolveClosestRecurrenceIdForCalendarObject({ state, dispatch, commit }, { objectId, closeToDate }) {
 		const calendarObject = await dispatch('getEventByObjectId', { objectId })
@@ -1376,14 +1373,14 @@ const actions = {
 	 * If the recurrenceId does not represent a valid instance,
 	 * an error will be thrown.
 	 *
-	 * @param {Object} vuex The vuex destructuring object
-	 * @param {Object} vuex.state The Vuex state
+	 * @param {object} vuex The vuex destructuring object
+	 * @param {object} vuex.state The Vuex state
 	 * @param {Function} vuex.dispatch The Vuex dispatch function
 	 * @param {Function} vuex.commit The Vuex commit function
-	 * @param {Object} data The destructuring object
-	 * @param {String} data.objectId The objectId of the calendar-object to edit
-	 * @param {Number} data.recurrenceId The recurrence-id to edit
-	 * @returns {Promise<{calendarObject: Object, calendarObjectInstance: Object}>}
+	 * @param {object} data The destructuring object
+	 * @param {string} data.objectId The objectId of the calendar-object to edit
+	 * @param {number} data.recurrenceId The recurrence-id to edit
+	 * @return {Promise<{calendarObject: object, calendarObjectInstance: object}>}
 	 */
 	async getCalendarObjectInstanceByObjectIdAndRecurrenceId({ state, dispatch, commit }, { objectId, recurrenceId }) {
 		if (state.existingEvent.objectId === objectId && state.existingEvent.recurrenceId === recurrenceId) {
@@ -1417,16 +1414,16 @@ const actions = {
 	/**
 	 * Gets the new calendar-object-instance.
 	 *
-	 * @param {Object} vuex The vuex destructuring object
-	 * @param {Object} vuex.state The Vuex state
+	 * @param {object} vuex The vuex destructuring object
+	 * @param {object} vuex.state The Vuex state
 	 * @param {Function} vuex.dispatch The Vuex dispatch function
 	 * @param {Function} vuex.commit The Vuex commit function
-	 * @param {Object} data The destructuring object
-	 * @param {Boolean} data.isAllDay Whether or not the new event is supposed to be all-day
-	 * @param {Number} data.start The start of the new event (unixtime)
-	 * @param {Number} data.end The end of the new event (unixtime)
-	 * @param {String} data.timezoneId The timezoneId of the new event
-	 * @returns {Promise<{calendarObject: Object, calendarObjectInstance: Object}>}
+	 * @param {object} data The destructuring object
+	 * @param {boolean} data.isAllDay Whether or not the new event is supposed to be all-day
+	 * @param {number} data.start The start of the new event (unixtime)
+	 * @param {number} data.end The end of the new event (unixtime)
+	 * @param {string} data.timezoneId The timezoneId of the new event
+	 * @return {Promise<{calendarObject: object, calendarObjectInstance: object}>}
 	 */
 	async getCalendarObjectInstanceForNewEvent({ state, dispatch, commit }, { isAllDay, start, end, timezoneId }) {
 		if (state.isNew === true) {
@@ -1467,16 +1464,16 @@ const actions = {
 	/**
 	 * Updates the existing calendar-object-instance.
 	 *
-	 * @param {Object} vuex The vuex destructuring object
-	 * @param {Object} vuex.state The Vuex state
+	 * @param {object} vuex The vuex destructuring object
+	 * @param {object} vuex.state The Vuex state
 	 * @param {Function} vuex.dispatch The Vuex dispatch function
 	 * @param {Function} vuex.commit The Vuex commit function
-	 * @param {Object} data The destructuring object
-	 * @param {Boolean} data.isAllDay Whether or not the new event is supposed to be all-day
-	 * @param {Number} data.start The start of the new event (unixtime)
-	 * @param {Number} data.end The end of the new event (unixtime)
-	 * @param {String} data.timezoneId The timezoneId of the new event
-	 * @returns {Promise<{calendarObject: Object, calendarObjectInstance: Object}>}
+	 * @param {object} data The destructuring object
+	 * @param {boolean} data.isAllDay Whether or not the new event is supposed to be all-day
+	 * @param {number} data.start The start of the new event (unixtime)
+	 * @param {number} data.end The end of the new event (unixtime)
+	 * @param {string} data.timezoneId The timezoneId of the new event
+	 * @return {Promise<{calendarObject: object, calendarObjectInstance: object}>}
 	 */
 	async updateCalendarObjectInstanceForNewEvent({ state, dispatch, commit }, { isAllDay, start, end, timezoneId }) {
 		await dispatch('updateTimeOfNewEvent', {
@@ -1500,14 +1497,14 @@ const actions = {
 	/**
 	 * Saves changes made to a single calendar-object-instance
 	 *
-	 * @param {Object} vuex The vuex destructuring object
-	 * @param {Object} vuex.state The Vuex state
+	 * @param {object} vuex The vuex destructuring object
+	 * @param {object} vuex.state The Vuex state
 	 * @param {Function} vuex.dispatch The Vuex dispatch function
 	 * @param {Function} vuex.commit The Vuex commit function
-	 * @param {Object} data The destructuring object
-	 * @param {Boolean} data.thisAndAllFuture Whether or not to save changes for all future occurrences or just this one
-	 * @param {String} data.calendarId The new calendar-id to store it in
-	 * @returns {Promise<void>}
+	 * @param {object} data The destructuring object
+	 * @param {boolean} data.thisAndAllFuture Whether or not to save changes for all future occurrences or just this one
+	 * @param {string} data.calendarId The new calendar-id to store it in
+	 * @return {Promise<void>}
 	 */
 	async saveCalendarObjectInstance({ state, dispatch, commit }, { thisAndAllFuture, calendarId }) {
 		const eventComponent = state.calendarObjectInstance.eventComponent
@@ -1546,13 +1543,13 @@ const actions = {
 	/**
 	 * Deletes a calendar-object-instance
 	 *
-	 * @param {Object} vuex The vuex destructuring object
-	 * @param {Object} vuex.state The Vuex state
+	 * @param {object} vuex The vuex destructuring object
+	 * @param {object} vuex.state The Vuex state
 	 * @param {Function} vuex.dispatch The Vuex dispatch function
 	 * @param {Function} vuex.commit The Vuex commit function
-	 * @param {Object} data The destructuring object
-	 * @param {Boolean} data.thisAndAllFuture Whether or not to delete all future occurrences or just this one
-	 * @returns {Promise<void>}
+	 * @param {object} data The destructuring object
+	 * @param {boolean} data.thisAndAllFuture Whether or not to delete all future occurrences or just this one
+	 * @return {Promise<void>}
 	 */
 	async deleteCalendarObjectInstance({ state, dispatch, commit }, { thisAndAllFuture }) {
 		const eventComponent = state.calendarObjectInstance.eventComponent
@@ -1568,10 +1565,10 @@ const actions = {
 
 	/**
 	 *
-	 * @param {Object} data The destructuring object for Vuex
+	 * @param {object} data The destructuring object for Vuex
 	 * @param {Function} data.commit The Vuex commit function
-	 * @param {Object} data2 The destructuring object for data
-	 * @param {Object} data2.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} data2 The destructuring object for data
+	 * @param {object} data2.calendarObjectInstance The calendarObjectInstance object
 	 * @param {Date} data2.startDate The new start-date
 	 */
 	changeStartDate({ commit }, { calendarObjectInstance, startDate }) {
@@ -1591,11 +1588,11 @@ const actions = {
 	/**
 	 * Change the timezone of the event's start
 	 *
-	 * @param {Object} data The destructuring object for Vuex
+	 * @param {object} data The destructuring object for Vuex
 	 * @param {Function} data.commit The Vuex commit function
-	 * @param {Object} data2 The destructuring object for data
-	 * @param {Object} data2.calendarObjectInstance The calendarObjectInstance object
-	 * @param {String} data2.startTimezone New timezone to set for start
+	 * @param {object} data2 The destructuring object for data
+	 * @param {object} data2.calendarObjectInstance The calendarObjectInstance object
+	 * @param {string} data2.startTimezone New timezone to set for start
 	 */
 	changeStartTimezone({ commit }, { calendarObjectInstance, startTimezone }) {
 		commit('changeStartTimezone', { calendarObjectInstance, startTimezone })
@@ -1611,11 +1608,11 @@ const actions = {
 	/**
 	 * Change the timezone of the event's end
 	 *
-	 * @param {Object} data The destructuring object for Vuex
+	 * @param {object} data The destructuring object for Vuex
 	 * @param {Function} data.commit The Vuex commit function
-	 * @param {Object} data2 The destructuring object for data
-	 * @param {Object} data2.calendarObjectInstance The calendarObjectInstance object
-	 * @param {String} data2.endTimezone New timezone to set for end
+	 * @param {object} data2 The destructuring object for data
+	 * @param {object} data2.calendarObjectInstance The calendarObjectInstance object
+	 * @param {string} data2.endTimezone New timezone to set for end
 	 */
 	changeEndTimezone({ commit }, { calendarObjectInstance, endTimezone }) {
 		commit('changeEndTimezone', { calendarObjectInstance, endTimezone })
@@ -1630,13 +1627,13 @@ const actions = {
 
 	/**
 	 *
-	 * @param {Object} data The destructuring object for Vuex
+	 * @param {object} data The destructuring object for Vuex
 	 * @param {Function} data.commit The Vuex commit function
 	 * @param {Function} data.dispatch The Vuex dispatch function
-	 * @param {Object} data2 The destructuring object for data
-	 * @param {Object} data2.calendarObjectInstance The calendarObjectInstance object
-	 * @param {Object} data2.recurrenceRule The recurrenceRule object to modify
-	 * @param {String} data2.frequency The new frequency to set
+	 * @param {object} data2 The destructuring object for data
+	 * @param {object} data2.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} data2.recurrenceRule The recurrenceRule object to modify
+	 * @param {string} data2.frequency The new frequency to set
 	 */
 	changeRecurrenceFrequency({ commit, dispatch }, { calendarObjectInstance, recurrenceRule, frequency }) {
 
@@ -1683,12 +1680,12 @@ const actions = {
 
 	/**
 	 *
-	 * @param {Object} data The destructuring object for Vuex
+	 * @param {object} data The destructuring object for Vuex
 	 * @param {Function} data.commit The Vuex commit function
-	 * @param {Object} data2 The destructuring object for data
-	 * @param {Object} data2.calendarObjectInstance The calendarObjectInstance object
-	 * @param {Object} data2.recurrenceRule The recurrenceRule object to modify
-	 * @param {String} data2.frequency The new frequency to set
+	 * @param {object} data2 The destructuring object for data
+	 * @param {object} data2.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} data2.recurrenceRule The recurrenceRule object to modify
+	 * @param {string} data2.frequency The new frequency to set
 	 */
 	setDefaultRecurrenceByParts({ commit }, { calendarObjectInstance, recurrenceRule, frequency }) {
 		switch (frequency) {
@@ -1708,11 +1705,11 @@ const actions = {
 
 	/**
 	 *
-	 * @param {Object} data The destructuring object for Vuex
+	 * @param {object} data The destructuring object for Vuex
 	 * @param {Function} data.commit The Vuex commit function
-	 * @param {Object} data2 The destructuring object for data
-	 * @param {Object} data2.calendarObjectInstance The calendarObjectInstance object
-	 * @param {Object} data2.recurrenceRule The recurrenceRule object to modify
+	 * @param {object} data2 The destructuring object for data
+	 * @param {object} data2.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} data2.recurrenceRule The recurrenceRule object to modify
 	 */
 	setRecurrenceToInfinite({ commit }, { calendarObjectInstance, recurrenceRule }) {
 		commit('changeRecurrenceToInfinite', {
@@ -1723,11 +1720,11 @@ const actions = {
 
 	/**
 	 *
-	 * @param {Object} data The destructuring object for Vuex
+	 * @param {object} data The destructuring object for Vuex
 	 * @param {Function} data.commit The Vuex commit function
-	 * @param {Object} data2 The destructuring object for data
-	 * @param {Object} data2.calendarObjectInstance The calendarObjectInstance object
-	 * @param {Object} data2.recurrenceRule The recurrenceRule object to modify
+	 * @param {object} data2 The destructuring object for data
+	 * @param {object} data2.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} data2.recurrenceRule The recurrenceRule object to modify
 	 */
 	changeMonthlyRecurrenceFromByDayToBySetPosition({ commit }, { calendarObjectInstance, recurrenceRule }) {
 		console.debug('changeMonthlyRecurrenceFromByDayToBySetPosition')
@@ -1737,11 +1734,11 @@ const actions = {
 
 	/**
 	 *
-	 * @param {Object} data The destructuring object for Vuex
+	 * @param {object} data The destructuring object for Vuex
 	 * @param {Function} data.commit The Vuex commit function
-	 * @param {Object} data2 The destructuring object for data
-	 * @param {Object} data2.calendarObjectInstance The calendarObjectInstance object
-	 * @param {Object} data2.recurrenceRule The recurrenceRule object to modify
+	 * @param {object} data2 The destructuring object for data
+	 * @param {object} data2.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} data2.recurrenceRule The recurrenceRule object to modify
 	 */
 	changeMonthlyRecurrenceFromBySetPositionToByDay({ commit }, { calendarObjectInstance, recurrenceRule }) {
 		console.debug('changeMonthlyRecurrenceFromBySetPositionToByDay')
@@ -1751,11 +1748,11 @@ const actions = {
 
 	/**
 	 *
-	 * @param {Object} data The destructuring object for Vuex
+	 * @param {object} data The destructuring object for Vuex
 	 * @param {Function} data.commit The Vuex commit function
-	 * @param {Object} data2 The destructuring object for data
-	 * @param {Object} data2.calendarObjectInstance The calendarObjectInstance object
-	 * @param {Object} data2.recurrenceRule The recurrenceRule object to modify
+	 * @param {object} data2 The destructuring object for data
+	 * @param {object} data2.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} data2.recurrenceRule The recurrenceRule object to modify
 	 */
 	enableYearlyRecurrenceBySetPosition({ commit }, { calendarObjectInstance, recurrenceRule }) {
 		commit('setDefaultRecurrenceByPartsForMonthlyBySetPosition', {
@@ -1766,11 +1763,11 @@ const actions = {
 
 	/**
 	 *
-	 * @param {Object} data The destructuring object for Vuex
+	 * @param {object} data The destructuring object for Vuex
 	 * @param {Function} data.commit The Vuex commit function
-	 * @param {Object} data2 The destructuring object for data
-	 * @param {Object} data2.calendarObjectInstance The calendarObjectInstance object
-	 * @param {Object} data2.recurrenceRule The recurrenceRule object to modify
+	 * @param {object} data2 The destructuring object for data
+	 * @param {object} data2.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} data2.recurrenceRule The recurrenceRule object to modify
 	 */
 	disableYearlyRecurrenceBySetPosition({ commit }, { calendarObjectInstance, recurrenceRule }) {
 		commit('changeRecurrenceByDay', {
@@ -1786,11 +1783,11 @@ const actions = {
 
 	/**
 	 *
-	 * @param {Object} data The destructuring object for Vuex
+	 * @param {object} data The destructuring object for Vuex
 	 * @param {Function} data.commit The Vuex commit function
-	 * @param {Object} data2 The destructuring object for data
-	 * @param {Object} data2.calendarObjectInstance The calendarObjectInstance object
-	 * @param {Object} data2.recurrenceRule The recurrenceRule object to modify
+	 * @param {object} data2 The destructuring object for data
+	 * @param {object} data2.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} data2.recurrenceRule The recurrenceRule object to modify
 	 */
 	enableRecurrenceLimitByUntil({ commit }, { calendarObjectInstance, recurrenceRule }) {
 		let until
@@ -1841,11 +1838,11 @@ const actions = {
 
 	/**
 	 *
-	 * @param {Object} data The destructuring object for Vuex
+	 * @param {object} data The destructuring object for Vuex
 	 * @param {Function} data.commit The Vuex commit function
-	 * @param {Object} data2 The destructuring object for data
-	 * @param {Object} data2.calendarObjectInstance The calendarObjectInstance object
-	 * @param {Object} data2.recurrenceRule The recurrenceRule object to modify
+	 * @param {object} data2 The destructuring object for data
+	 * @param {object} data2.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} data2.recurrenceRule The recurrenceRule object to modify
 	 */
 	enableRecurrenceLimitByCount({ commit }, { calendarObjectInstance, recurrenceRule }) {
 		commit('changeRecurrenceToInfinite', { calendarObjectInstance, recurrenceRule })

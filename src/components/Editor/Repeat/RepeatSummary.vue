@@ -55,7 +55,7 @@ export default {
 		 * Returns whether or not to display the summary.
 		 * We do not want to show it if it doesn't repeat
 		 *
-		 * @returns {boolean}
+		 * @return {boolean}
 		 */
 		display() {
 			return this.recurrenceRule.frequency !== 'NONE'

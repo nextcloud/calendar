@@ -2,7 +2,6 @@
  * Calendar App
  *
  * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
- *
  * @author Georg Ehrke
  *
  * This library is free software; you can redistribute it and/or
@@ -17,10 +16,12 @@
  *
  * You should have received a copy of the GNU Affero General Public
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
  */
 import { translate as t } from '@nextcloud/l10n'
 
+/**
+ *
+ */
 export function getDefaultCategories() {
 	// This list was taken from https://tools.ietf.org/html/rfc5545#section-5
 	return [

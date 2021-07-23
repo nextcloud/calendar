@@ -1,8 +1,6 @@
 /**
  * @copyright Copyright (c) 2019 Georg Ehrke
- *
  * @author Georg Ehrke <oc.list@georgehrke.com>
- *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,15 +15,14 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 import { translate as t } from '@nextcloud/l10n'
 
 /**
  *
- * @param {String[]} timezoneList List of Olsen timezones
+ * @param {string[]} timezoneList List of Olsen timezones
  * @param {Array} additionalTimezones List of additional timezones
- * @returns {[]}
+ * @return {[]}
  */
 export function getSortedTimezoneList(timezoneList = [], additionalTimezones = []) {
 	const sortedByContinent = {}
@@ -97,8 +94,8 @@ export function getSortedTimezoneList(timezoneList = [], additionalTimezones = [
 /**
  * Get human-readable name for timezoneId
  *
- * @param {String} timezoneId TimezoneId to turn human-readable
- * @returns {String}
+ * @param {string} timezoneId TimezoneId to turn human-readable
+ * @return {string}
  */
 export function getReadableTimezoneName(timezoneId) {
 	return timezoneId

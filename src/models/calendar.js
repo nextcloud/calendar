@@ -1,8 +1,6 @@
 /**
  * @copyright Copyright (c) 2019 Georg Ehrke
- *
  * @author Georg Ehrke <oc.list@georgehrke.com>
- *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,7 +15,6 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 import { detectColor, uidToHexColor } from '../utils/color.js'
 import { mapDavShareeToCalendarShareObject } from './calendarShare.js'
@@ -25,8 +22,8 @@ import { mapDavShareeToCalendarShareObject } from './calendarShare.js'
 /**
  * Creates a complete calendar-object based on given props
  *
- * @param {Object} props Calendar-props already provided
- * @returns {Object}
+ * @param {object} props Calendar-props already provided
+ * @return {object}
  */
 const getDefaultCalendarObject = (props = {}) => Object.assign({}, {
 	// Id of the calendar
@@ -76,9 +73,9 @@ const getDefaultCalendarObject = (props = {}) => Object.assign({}, {
 /**
  * Map a dav collection to our calendar object model
  *
- * @param {Object} calendar The calendar object from the cdav library
- * @param {Object=} currentUserPrincipal The principal model of the current user principal
- * @returns {Object}
+ * @param {object} calendar The calendar object from the cdav library
+ * @param {object=} currentUserPrincipal The principal model of the current user principal
+ * @return {object}
  */
 const mapDavCollectionToCalendar = (calendar, currentUserPrincipal) => {
 	const id = btoa(calendar.url)
@@ -164,8 +161,8 @@ const mapDavCollectionToCalendar = (calendar, currentUserPrincipal) => {
 /**
  * Gets the calendar uri from the url
  *
- * @param {String} url The url to get calendar uri from
- * @returns {string}
+ * @param {string} url The url to get calendar uri from
+ * @return {string}
  */
 function getCalendarUriFromUrl(url) {
 	if (url.endsWith('/')) {

@@ -1,9 +1,7 @@
 /**
  * @copyright Copyright (c) 2019 Georg Ehrke
- *
  * @author Team Popcorn <teampopcornberlin@gmail.com>
  * @author Georg Ehrke <oc.list@georgehrke.com>
- *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -18,14 +16,13 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
 /**
  * Read a file object as text
  *
  * @param {File} file The file object to get contents from
- * @returns {Promise<String>}
+ * @return {Promise<string>}
  */
 export const readFileAsText = (file) => {
 	const fileReader = new FileReader()

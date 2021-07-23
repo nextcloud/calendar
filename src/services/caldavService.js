@@ -1,8 +1,6 @@
 /**
  * @copyright Copyright (c) 2020 Georg Ehrke
- *
  * @author Georg Ehrke <oc.list@georgehrke.com>
- *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,7 +15,6 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 import DavClient from 'cdav-library'
 import { generateRemoteUrl } from '@nextcloud/router'
@@ -61,28 +58,28 @@ const getClient = () => {
 /**
  * Initializes the client for use in the user-view
  */
-const initializeClientForUserView = async() => {
+const initializeClientForUserView = async () => {
 	await getClient().connect({ enableCalDAV: true })
 }
 
 /**
  * Initializes the client for use in the public/embed-view
  */
-const initializeClientForPublicView = async() => {
+const initializeClientForPublicView = async () => {
 	await getClient()._createPublicCalendarHome()
 }
 
 /**
  * Fetch all calendars from the server
  *
- * @returns {Promise<CalendarHome>}
+ * @return {Promise<CalendarHome>}
  */
 const getCalendarHome = () => getClient().calendarHomes[0]
 
 /**
  * Fetch all collections in the calendar home from the server
  *
- * @returns {Promise<Collection[]>}
+ * @return {Promise<Collection[]>}
  */
 const findAll = () => {
 	return getCalendarHome().findAllCalDAVCollectionsGrouped()
@@ -91,7 +88,7 @@ const findAll = () => {
 /**
  * Fetch all deleted calendars from the server
  *
- * @returns {Promise<Calendar[]>}
+ * @return {Promise<Calendar[]>}
  */
 const findAllDeletedCalendars = () => {
 	return getCalendarHome().findAllDeletedCalendars()
@@ -100,10 +97,10 @@ const findAllDeletedCalendars = () => {
 /**
  * Fetch public calendars by their token
  *
- * @param {String[]} tokens List of tokens
- * @returns {Promise<Calendar[]>}
+ * @param {string[]} tokens List of tokens
+ * @return {Promise<Calendar[]>}
  */
-const findPublicCalendarsByTokens = async(tokens) => {
+const findPublicCalendarsByTokens = async (tokens) => {
 	const findPromises = []
 
 	for (const token of tokens) {
@@ -129,9 +126,9 @@ const findPublicCalendarsByTokens = async(tokens) => {
  *
  * https://tools.ietf.org/html/rfc6638#section-2.2.1
  *
- * @returns {Promise<ScheduleInbox[]>}
+ * @return {Promise<ScheduleInbox[]>}
  */
-const findSchedulingInbox = async() => {
+const findSchedulingInbox = async () => {
 	const inboxes = await getCalendarHome().findAllScheduleInboxes()
 	return inboxes[0]
 }
@@ -147,9 +144,9 @@ const findSchedulingInbox = async() => {
  *
  * https://tools.ietf.org/html/rfc6638#section-2.1.1
  *
- * @returns {Promise<ScheduleOutbox>}
+ * @return {Promise<ScheduleOutbox>}
  */
-const findSchedulingOutbox = async() => {
+const findSchedulingOutbox = async () => {
 	const outboxes = await getCalendarHome().findAllScheduleOutboxes()
 	return outboxes[0]
 }
@@ -157,14 +154,14 @@ const findSchedulingOutbox = async() => {
 /**
  * Creates a calendar
  *
- * @param {String} displayName Visible name
- * @param {String} color Color
- * @param {String[]} components Supported component set
- * @param {Number} order Order of calendar in list
- * @param {String} timezoneIcs ICS representation of timezone
- * @returns {Promise<Calendar>}
+ * @param {string} displayName Visible name
+ * @param {string} color Color
+ * @param {string[]} components Supported component set
+ * @param {number} order Order of calendar in list
+ * @param {string} timezoneIcs ICS representation of timezone
+ * @return {Promise<Calendar>}
  */
-const createCalendar = async(displayName, color, components, order, timezoneIcs) => {
+const createCalendar = async (displayName, color, components, order, timezoneIcs) => {
 	return getCalendarHome().createCalendarCollection(displayName, color, components, order, timezoneIcs)
 }
 
@@ -173,22 +170,22 @@ const createCalendar = async(displayName, color, components, order, timezoneIcs)
  *
  * This function does not return a subscription, but a cached calendar
  *
- * @param {String} displayName Visible name
- * @param {String} color Color
- * @param {String} source Link to WebCAL Source
- * @param {Number} order Order of calendar in list
- * @returns {Promise<Calendar>}
+ * @param {string} displayName Visible name
+ * @param {string} color Color
+ * @param {string} source Link to WebCAL Source
+ * @param {number} order Order of calendar in list
+ * @return {Promise<Calendar>}
  */
-const createSubscription = async(displayName, color, source, order) => {
+const createSubscription = async (displayName, color, source, order) => {
 	return getCalendarHome().createSubscribedCollection(displayName, color, source, order)
 }
 
 /**
  * Enables the birthday calendar
  *
- * @returns {Promise<Calendar>}
+ * @return {Promise<Calendar>}
  */
-const enableBirthdayCalendar = async() => {
+const enableBirthdayCalendar = async () => {
 	await getCalendarHome().enableBirthdayCalendar()
 	return getBirthdayCalendar()
 }
@@ -196,16 +193,16 @@ const enableBirthdayCalendar = async() => {
 /**
  * Gets the birthday calendar
  *
- * @returns {Promise<Calendar>}
+ * @return {Promise<Calendar>}
  */
-const getBirthdayCalendar = async() => {
+const getBirthdayCalendar = async () => {
 	return getCalendarHome().find(CALDAV_BIRTHDAY_CALENDAR)
 }
 
 /**
  * Returns the Current User Principal
  *
- * @returns {Principal}
+ * @return {Principal}
  */
 const getCurrentUserPrincipal = () => {
 	return getClient().currentUserPrincipal
@@ -214,20 +211,20 @@ const getCurrentUserPrincipal = () => {
 /**
  * Finds calendar principals by displayname
  *
- * @param {String} term The search-term
- * @returns {Promise<void>}
+ * @param {string} term The search-term
+ * @return {Promise<void>}
  */
-const principalPropertySearchByDisplaynameOrEmail = async(term) => {
+const principalPropertySearchByDisplaynameOrEmail = async (term) => {
 	return getClient().principalPropertySearchByDisplaynameOrEmail(term)
 }
 
 /**
  * Finds one principal by it's URL
  *
- * @param {String} url The principal-url
- * @returns {Promise<Principal>}
+ * @param {string} url The principal-url
+ * @return {Promise<Principal>}
  */
-const findPrincipalByUrl = async(url) => {
+const findPrincipalByUrl = async (url) => {
 	return getClient().findPrincipal(url)
 }
 

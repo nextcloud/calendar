@@ -64,7 +64,7 @@ export default {
 		 *
 		 * In All-day mode, we only offer days and weeks.
 		 *
-		 * @returns {Object[]}
+		 * @return {object[]}
 		 */
 		options() {
 			const options = []
@@ -101,7 +101,7 @@ export default {
 		/**
 		 * This is the selected option
 		 *
-		 * @returns {Object}
+		 * @return {object}
 		 */
 		selected() {
 			return this.options.find(o => o.unit === this.unit)
@@ -111,7 +111,7 @@ export default {
 		/**
 		 * This triggers the change event when the user selected a new unit
 		 *
-		 * @param {Object} value The selected option
+		 * @param {object} value The selected option
 		 */
 		select(value) {
 			if (!value) {

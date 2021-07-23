@@ -1,8 +1,6 @@
 /**
  * @copyright Copyright (c) 2019 Georg Ehrke
- *
  * @author Georg Ehrke <oc.list@georgehrke.com>
- *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,7 +15,6 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 import moment from '@nextcloud/moment'
 
@@ -25,9 +22,9 @@ import moment from '@nextcloud/moment'
  * Formats a date object
  *
  * @param {Date} value The date object to format
- * @param {Boolean} isAllDay Whether or not to display only the date part
- * @param {String} locale The locale to format it in
- * @returns {string}
+ * @param {boolean} isAllDay Whether or not to display only the date part
+ * @param {string} locale The locale to format it in
+ * @return {string}
  */
 export default (value, isAllDay, locale) => {
 	if (isAllDay) {
