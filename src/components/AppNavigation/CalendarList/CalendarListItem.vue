@@ -205,7 +205,7 @@ export default {
 		/**
 		 * Download url of the calendar
 		 *
-		 * @returns {String}
+		 * @return {string}
 		 */
 		downloadUrl() {
 			return this.calendar.url + '?export'
@@ -214,7 +214,7 @@ export default {
 		 * Whether or not to display the sharing icon.
 		 * It will only be displayed when the calendar is either sharable or publishable
 		 *
-		 * @returns {Boolean}
+		 * @return {boolean}
 		 */
 		showSharingIcon() {
 			return this.calendar.canBeShared || this.calendar.canBePublished
@@ -227,7 +227,7 @@ export default {
 		 * The sharing icon with high opacity when the calendar is shared
 		 * The sharing icon with low opacity when the calendar is neither shared nor published
 		 *
-		 * @returns {String}
+		 * @return {string}
 		 */
 		sharingIconClass() {
 			if (this.isPublished) {
@@ -244,7 +244,7 @@ export default {
 		 * Whether or not the calendar is either shared or published
 		 * This is used to figure out whether or not to display the Shared label
 		 *
-		 * @returns {Boolean}
+		 * @return {boolean}
 		 */
 		isSharedOrPublished() {
 			return this.isShared || this.isPublished
@@ -252,7 +252,7 @@ export default {
 		/**
 		 * Is the calendar shared?
 		 *
-		 * @returns {Boolean}
+		 * @return {boolean}
 		 */
 		isShared() {
 			return !!this.calendar.shares.length
@@ -260,7 +260,7 @@ export default {
 		/**
 		 * Is the calendar shared with me?
 		 *
-		 * @returns {Boolean}
+		 * @return {boolean}
 		 */
 		isSharedWithMe() {
 			return this.calendar.isSharedWithMe
@@ -268,7 +268,7 @@ export default {
 		/**
 		 * Is the calendar published
 		 *
-		 * @returns {Boolean}
+		 * @return {boolean}
 		 */
 		isPublished() {
 			return !!this.calendar.publishURL
@@ -276,7 +276,7 @@ export default {
 		/**
 		 * TODO: this should use principals and principal.userId
 		 *
-		 * @returns {String}
+		 * @return {string}
 		 */
 		owner() {
 			if (this.calendar.owner.indexOf('principal:principals/users/') === '0') {
@@ -289,7 +289,7 @@ export default {
 		/**
 		 * Whether or not the information about the owner principal was loaded
 		 *
-		 * @returns {Boolean}
+		 * @return {boolean}
 		 */
 		loadedOwnerPrincipal() {
 			return this.$store.getters.getPrincipalByUrl(this.calendar.owner) !== undefined
@@ -333,7 +333,7 @@ export default {
 					this.countdown = 0
 				}
 			}, 1000)
-			this.deleteTimeout = setTimeout(async() => {
+			this.deleteTimeout = setTimeout(async () => {
 				try {
 					await this.$store.dispatch('deleteCalendar', { calendar: this.calendar })
 				} catch (error) {

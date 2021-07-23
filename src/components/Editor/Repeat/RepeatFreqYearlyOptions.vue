@@ -149,7 +149,7 @@ export default {
 		/**
 		 *
 		 *
-		 * @returns {Boolean}
+		 * @return {boolean}
 		 */
 		isBySetPositionEnabled() {
 			return this.bySetPosition !== null
@@ -159,7 +159,7 @@ export default {
 
 		/**
 		 *
-		 * @param {String} byMonth The month to toggle
+		 * @param {string} byMonth The month to toggle
 		 */
 		toggleByMonth(byMonth) {
 			if (this.byMonth.indexOf(byMonth) === -1) {

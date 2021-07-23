@@ -1,8 +1,6 @@
 /**
  * @copyright Copyright (c) 2019 Georg Ehrke
- *
  * @author Georg Ehrke <oc.list@georgehrke.com>
- *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,15 +15,14 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 import DurationValue from 'calendar-js/src/values/durationValue'
 
 /**
  * Gets a calendar-js DurationValue from a FullCalendar Duration object
  *
- * @param {Object|String|Number} fcDuration Duration object provided by FullCalendar
- * @returns {DurationValue|null}
+ * @param {object | string | number} fcDuration Duration object provided by FullCalendar
+ * @return {DurationValue|null}
  */
 export function getDurationValueFromFullCalendarDuration(fcDuration) {
 	switch (typeof fcDuration) {
@@ -47,7 +44,7 @@ export function getDurationValueFromFullCalendarDuration(fcDuration) {
  * Gets a FullCalendar Duration object from a calendar-js DurationValue object
  *
  * @param {DurationValue} durationValue calendar-js object
- * @returns {{seconds: {Number}}}
+ * @return {{seconds: {Number}}}
  */
 export function getFullCalendarDurationFromDurationValue(durationValue) {
 	return {
@@ -58,8 +55,8 @@ export function getFullCalendarDurationFromDurationValue(durationValue) {
 /**
  * Gets a calendar-js DurationValue from a FullCalendar Duration object
  *
- * @param {Object} fcDuration The FullCalendar duration encoded as String
- * @returns {DurationValue}
+ * @param {object} fcDuration The FullCalendar duration encoded as String
+ * @return {DurationValue}
  */
 function getDurationValueFromFullCalendarDurationEncodedAsObject(fcDuration) {
 	if (fcDuration.year || fcDuration.years || fcDuration.month || fcDuration.months) {
@@ -124,8 +121,8 @@ function getDurationValueFromFullCalendarDurationEncodedAsObject(fcDuration) {
 /**
  * Gets a calendar-js DurationValue from a FullCalendar Duration string
  *
- * @param {String} fcDuration The FullCalendar duration encoded as String
- * @returns {DurationValue}
+ * @param {string} fcDuration The FullCalendar duration encoded as String
+ * @return {DurationValue}
  */
 function getDurationValueFromFullCalendarDurationEncodedAsString(fcDuration) {
 	const match1 = fcDuration.match(/(\d{2}):(\d{2}):(\d{2})\.(\d{3})/)
@@ -166,8 +163,8 @@ function getDurationValueFromFullCalendarDurationEncodedAsString(fcDuration) {
 /**
  * Gets a calendar-js DurationValue from a FullCalendar Duration number
  *
- * @param {Number} fcDuration The FullCalendar duration encoded as Number
- * @returns {DurationValue}
+ * @param {number} fcDuration The FullCalendar duration encoded as Number
+ * @return {DurationValue}
  */
 function getDurationValueFromFullCalendarDurationEncodedAsNumber(fcDuration) {
 	return DurationValue.fromSeconds(Math.floor(fcDuration / 1000))

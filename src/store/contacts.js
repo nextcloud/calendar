@@ -1,8 +1,6 @@
 /**
  * @copyright Copyright (c) 2019 Georg Ehrke
- *
  * @author Georg Ehrke <oc.list@georgehrke.com>
- *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,7 +15,6 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 import Vue from 'vue'
 
@@ -31,9 +28,9 @@ const mutations = {
 	/**
 	 * Append a single contact to the store
 	 *
-	 * @param {Object} state The store data
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.contact The contact to append to the store
+	 * @param {object} state The store data
+	 * @param {object} data The destructuring object
+	 * @param {object} data.contact The contact to append to the store
 	 */
 	appendContact(state, { contact }) {
 		if (state.contacts.indexOf(contact) === -1) {
@@ -53,9 +50,9 @@ const mutations = {
 	/**
 	 * Removes a single contact from the store
 	 *
-	 * @param {Object} state The store data
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.contact The contact to remove from the store
+	 * @param {object} state The store data
+	 * @param {object} data The destructuring object
+	 * @param {object} data.contact The contact to remove from the store
 	 */
 	removeContact(state, { contact }) {
 		for (const email of contact.emails) {

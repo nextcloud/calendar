@@ -1,8 +1,6 @@
 /**
  * @copyright Copyright (c) 2019 Georg Ehrke
- *
  * @author Georg Ehrke <oc.list@georgehrke.com>
- *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,7 +15,6 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 import {
 	getPrefixedRoute,
@@ -32,11 +29,11 @@ import { emit } from '@nextcloud/event-bus'
  * Returns a function for click action on event. This will open the editor.
  * Either the popover or the sidebar, based on the user's preference.
  *
- * @param {Object} store The Vuex store
- * @param {Object} router The Vue router
- * @param {Object} route The current Vue route
+ * @param {object} store The Vuex store
+ * @param {object} router The Vue router
+ * @param {object} route The current Vue route
  * @param {Window} window The window object
- * @returns {Function}
+ * @return {Function}
  */
 export default function(store, router, route, window) {
 	return function({ event }) {
@@ -56,9 +53,9 @@ export default function(store, router, route, window) {
  * Handle eventClick for VEVENT
  *
  * @param {EventDef} event FullCalendar event
- * @param {Object} store The Vuex store
- * @param {Object} router The Vue router
- * @param {Object} route The current Vue route
+ * @param {object} store The Vuex store
+ * @param {object} router The Vue router
+ * @param {object} route The current Vue route
  * @param {Window} window The window object
  */
 function handleEventClick(event, store, router, route, window) {
@@ -90,8 +87,8 @@ function handleEventClick(event, store, router, route, window) {
  * Handle eventClick for VTODO
  *
  * @param {EventDef} event FullCalendar event
- * @param {Object} store The Vuex store
- * @param {Object} route The current Vue route
+ * @param {object} store The Vuex store
+ * @param {object} route The current Vue route
  * @param {Window} window The window object
  */
 function handleToDoClick(event, store, route, window) {

@@ -72,7 +72,7 @@ export default {
 		/**
 		 * Get the principal object of the calendar's owner
 		 *
-		 * @returns {null|Object}
+		 * @return {null | object}
 		 */
 		principal() {
 			return this.$store.getters.getPrincipalByUrl(this.owner)
@@ -80,7 +80,7 @@ export default {
 		/**
 		 * Gets the user-id of the calendar's owner
 		 *
-		 * @returns {null|String}
+		 * @return {null | string}
 		 */
 		userId() {
 			if (this.principal) {
@@ -92,7 +92,7 @@ export default {
 		/**
 		 * Gets the displayname of the calendar's owner
 		 *
-		 * @returns {null|String}
+		 * @return {null | string}
 		 */
 		userDisplayName() {
 			if (this.principal) {

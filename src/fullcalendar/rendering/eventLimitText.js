@@ -1,8 +1,6 @@
 /**
  * @copyright Copyright (c) 2020 Georg Ehrke
- *
  * @author Georg Ehrke <oc.list@georgehrke.com>
- *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,16 +15,15 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 import { translatePlural as n } from '@nextcloud/l10n'
 
 /**
  * Provide the string when the event limit is hit
  *
- * @param {Object} data Data destructuring object
- * @param {Number} data.num Number of omitted event
- * @returns {string}
+ * @param {object} data Data destructuring object
+ * @param {number} data.num Number of omitted event
+ * @return {string}
  */
 export default function({ num }) {
 	// TODO: this is broken, because singular and plural are equal

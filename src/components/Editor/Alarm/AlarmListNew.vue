@@ -74,14 +74,17 @@ export default {
 	methods: {
 		/**
 		 * This emits the add alarm event
+		 *
+		 * @param root0
+		 * @param root0.value
 		 */
 		addReminderFromSelect({ value }) {
 			this.$emit('addAlarm', value)
 		},
 		/**
 		 *
-		 * @param {Number} time Total amount of seconds for the trigger
-		 * @returns {Object} The alarm object
+		 * @param {number} time Total amount of seconds for the trigger
+		 * @return {object} The alarm object
 		 */
 		getAlarmObjectFromTriggerTime(time) {
 			const timedData = getAmountAndUnitForTimedEvents(time)

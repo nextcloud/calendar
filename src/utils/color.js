@@ -1,8 +1,6 @@
 /**
  * @copyright Copyright (c) 2019 Georg Ehrke
- *
  * @author Georg Ehrke <oc.list@georgehrke.com>
- *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,7 +15,6 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 import convert from 'color-convert'
 import { uidToColor } from './uidToColor.js'
@@ -27,11 +24,11 @@ import closestColor from 'closest-css-color'
 /**
  * Detect if a color is light or dark
  *
- * @param {Object} data The destructuring object
+ * @param {object} data The destructuring object
  * @param {number} data.red Red part of the RGB
  * @param {number} data.green Green part of the RGB
  * @param {number} data.blue Blue part of the RGB
- * @returns {boolean} true if color is light, false if color is dark
+ * @return {boolean} true if color is light, false if color is dark
  */
 export function isLight({ red, green, blue }) {
 	const brightness = (((red * 299) + (green * 587) + (blue * 114)) / 1000)
@@ -41,8 +38,8 @@ export function isLight({ red, green, blue }) {
 /**
  * Get a text-color that's readable on a given background color
  *
- * @param {String} hexColor The hex color to get a text color for
- * @returns {String} the matching text color
+ * @param {string} hexColor The hex color to get a text color for
+ * @return {string} the matching text color
  */
 export function generateTextColorForHex(hexColor) {
 	return generateTextColorForRGB(hexToRGB(hexColor))
@@ -51,11 +48,11 @@ export function generateTextColorForHex(hexColor) {
 /**
  * Get a text-color that's readable on a given background color
  *
- * @param {Object} data The destructuring object
+ * @param {object} data The destructuring object
  * @param {number} data.red Red part of the RGB
  * @param {number} data.green Green part of the RGB
  * @param {number} data.blue Blue part of the RGB
- * @returns {string}
+ * @return {string}
  */
 export function generateTextColorForRGB({ red, green, blue }) {
 	return isLight({ red, green, blue }) ? '#000000' : '#FAFAFA'
@@ -64,8 +61,8 @@ export function generateTextColorForRGB({ red, green, blue }) {
 /**
  * Convert hex string to RGB
  *
- * @param {String} hexColor The hex color to convert
- * @returns {String} the RGB result
+ * @param {string} hexColor The hex color to convert
+ * @return {string} the RGB result
  */
 export function hexToRGB(hexColor) {
 	if (hexColor == null) {
@@ -78,8 +75,8 @@ export function hexToRGB(hexColor) {
 /**
  * Generates a hex color based on RGB string
  *
- * @param {String} uid The string to generate a color from
- * @returns {string} The hex color
+ * @param {string} uid The string to generate a color from
+ * @return {string} The hex color
  */
 export function uidToHexColor(uid) {
 	const color = uidToColor(uid)
@@ -89,8 +86,8 @@ export function uidToHexColor(uid) {
 /**
  * Detects a color from a given string
  *
- * @param {String} color The color to get the real RGB hex string from
- * @returns {string|boolean|*} String if color detected, boolean if not
+ * @param {string} color The color to get the real RGB hex string from
+ * @return {string|boolean|*} String if color detected, boolean if not
  */
 export function detectColor(color) {
 	if (/^(#)((?:[A-Fa-f0-9]{3}){1,2})$/.test(color)) { // #ff00ff and #f0f
@@ -111,7 +108,7 @@ export function detectColor(color) {
  * Gets the HEX code for a css3 color name
  *
  * @param {string} colorName The name of the css3 color
- * @returns {String|null} string of HEX if valid color, null if not
+ * @return {string | null} string of HEX if valid color, null if not
  */
 export function getHexForColorName(colorName) {
 	return css3Colors[colorName] || null
@@ -121,7 +118,7 @@ export function getHexForColorName(colorName) {
  * Gets the closest css3 color name for a given HEX code
  *
  * @param {string} hex The HEX code to get a css3 color name for
- * @returns {string}
+ * @return {string}
  */
 export function getClosestCSS3ColorNameForHex(hex) {
 	return closestColor(hex)

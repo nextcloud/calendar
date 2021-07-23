@@ -1,10 +1,8 @@
 /**
  * @copyright Copyright (c) 2019 Georg Ehrke
  * @copyright Copyright (c) 2018 John Molakvoæ
- *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -19,14 +17,13 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 import { getLanguage, getLocale } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
 
 /**
  *
- * @returns {Promise<string>}
+ * @return {Promise<string>}
  */
 export default async function loadMomentLocalization() {
 	const locale = getLocale().replace('_', '-').toLowerCase()
@@ -64,8 +61,8 @@ export default async function loadMomentLocalization() {
 /**
  * Dynamically loads the requested locale and returns the actually loaded locale
  *
- * @param {String} locale Name of locale to load
- * @returns {Promise<string>}
+ * @param {string} locale Name of locale to load
+ * @return {Promise<string>}
  */
 async function getLocaleFor(locale) {
 	try {
@@ -90,8 +87,8 @@ async function getLocaleFor(locale) {
 /**
  * Get's the first day of a week based on a moment locale
  *
- * @param {String} momentLocale Id of moment locale
- * @returns {number}
+ * @param {string} momentLocale Id of moment locale
+ * @return {number}
  */
 export function getFirstDayOfWeekFromMomentLocale(momentLocale) {
 	return moment.localeData(momentLocale).firstDayOfWeek()
@@ -100,8 +97,8 @@ export function getFirstDayOfWeekFromMomentLocale(momentLocale) {
 /**
  * Get's the first day of a year based on a moment locale
  *
- * @param {String} momentLocale Id of moment locale
- * @returns {number}
+ * @param {string} momentLocale Id of moment locale
+ * @return {number}
  */
 export function getFirstDayOfYearFromMomentLocale(momentLocale) {
 	return moment.localeData(momentLocale).firstDayOfYear()

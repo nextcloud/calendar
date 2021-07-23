@@ -1,8 +1,6 @@
 /**
  * @copyright Copyright (c) 2019 Georg Ehrke
- *
  * @author Georg Ehrke <oc.list@georgehrke.com>
- *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,7 +15,6 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
 /**
@@ -58,7 +55,7 @@ export default {
 		 * Returns the icon stored in the property-model
 		 * If there is no icon set, it returns an empty string
 		 *
-		 * @returns {string}
+		 * @return {string}
 		 */
 		icon() {
 			return this.propModel.icon || ''
@@ -67,7 +64,7 @@ export default {
 		 * Returns the placeholder text stored in the property-model
 		 * If there is no placeholder text set, it returns an empty string
 		 *
-		 * @returns {string}
+		 * @return {string}
 		 */
 		placeholder() {
 			return this.propModel.placeholder || ''
@@ -76,7 +73,7 @@ export default {
 		 * Returns the placeholder text for tags stored in the property-model
 		 * If there is no placeholder text for tags set, it returns an empty string
 		 *
-		 * @returns {string}
+		 * @return {string}
 		 */
 		tagPlaceholder() {
 			return this.propModel.tagPlaceholder || ''
@@ -85,7 +82,7 @@ export default {
 		 * Returns the info text stored in the property-model
 		 * If there is no info text set, it returns an empty string
 		 *
-		 * @returns {string}
+		 * @return {string}
 		 */
 		info() {
 			return this.propModel.info || ''
@@ -94,7 +91,7 @@ export default {
 		 * Returns the property's readable name stored in the property-model
 		 * If there is no readable name set, it returns an empty string
 		 *
-		 * @returns {string}
+		 * @return {string}
 		 */
 		readableName() {
 			return this.propModel.readableName || ''
@@ -105,7 +102,7 @@ export default {
 		 * is actually an info set and if the event is viewed
 		 * with edit permission.
 		 *
-		 * @returns {boolean}
+		 * @return {boolean}
 		 */
 		hasInfo() {
 			return this.propModel.info !== undefined && !this.isReadOnly

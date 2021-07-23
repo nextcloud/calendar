@@ -16,7 +16,6 @@
  *
  * You should have received a copy of the GNU Affero General Public
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
  */
 import linkifyStr from 'linkifyjs/string'
 
@@ -26,7 +25,7 @@ import linkifyStr from 'linkifyjs/string'
  * (This is the shorthand directive syntax for bind and update)
  *
  * @param {Node} el The element the directive is bound to
- * @param {Object} binding  An object containing various properties
+ * @param {object} binding  An object containing various properties
  */
 const linkify = (el, binding) => {
 	el.innerHTML = linkifyStr(binding.value, {

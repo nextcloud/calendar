@@ -1,8 +1,6 @@
 /**
  * @copyright Copyright (c) 2019 Georg Ehrke
- *
  * @author Georg Ehrke <oc.list@georgehrke.com>
- *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,7 +15,6 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 import { getLoggerBuilder } from '@nextcloud/logger'
 
@@ -29,8 +26,8 @@ const logger = getLoggerBuilder()
 /**
  * Logs a debug message
  *
- * @param {String} message The message to log
- * @param {Object=} context Additional context if needed
+ * @param {string} message The message to log
+ * @param {object=} context Additional context if needed
  */
 const logDebug = (message, context = {}) => {
 	logger.debug(message, context)
@@ -39,8 +36,8 @@ const logDebug = (message, context = {}) => {
 /**
  * Logs an error message
  *
- * @param {String} message The message to log
- * @param {Object=} context Additional context if needed
+ * @param {string} message The message to log
+ * @param {object=} context Additional context if needed
  */
 const logError = (message, context = {}) => {
 	logger.error(message, context)
@@ -49,8 +46,8 @@ const logError = (message, context = {}) => {
 /**
  * Logs a fatal message
  *
- * @param {String} message The message to log
- * @param {Object=} context Additional context if needed
+ * @param {string} message The message to log
+ * @param {object=} context Additional context if needed
  */
 const logFatal = (message, context = {}) => {
 	logger.fatal(message, context)
@@ -59,8 +56,8 @@ const logFatal = (message, context = {}) => {
 /**
  * Logs an info message
  *
- * @param {String} message The message to log
- * @param {Object=} context Additional context if needed
+ * @param {string} message The message to log
+ * @param {object=} context Additional context if needed
  */
 const logInfo = (message, context = {}) => {
 	logger.info(message, context)
@@ -69,8 +66,8 @@ const logInfo = (message, context = {}) => {
 /**
  * Logs a warn message
  *
- * @param {String} message The message to log
- * @param {Object=} context Additional context if needed
+ * @param {string} message The message to log
+ * @param {object=} context Additional context if needed
  */
 const logWarn = (message, context = {}) => {
 	logger.warn(message, context)

@@ -1,8 +1,6 @@
 /**
  * @copyright Copyright (c) 2020 Georg Ehrke
- *
  * @author Georg Ehrke <oc.list@georgehrke.com>
- *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,7 +15,6 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
 import { getDateFromDateTimeValue } from '../utils/date.js'
@@ -33,8 +30,8 @@ import {
 /**
  * Creates a complete calendar-object-instance-object based on given props
  *
- * @param {Object} props The props already provided
- * @returns {Object}
+ * @param {object} props The props already provided
+ * @return {object}
  */
 const getDefaultEventObject = (props = {}) => Object.assign({}, {
 	// The real event-component coming from calendar-js
@@ -90,7 +87,7 @@ const getDefaultEventObject = (props = {}) => Object.assign({}, {
 /**
  *
  * @param {EventComponent} eventComponent The calendar-js eventComponent
- * @returns {Object}
+ * @return {object}
  */
 const mapEventComponentToEventObject = (eventComponent) => {
 	const eventObject = getDefaultEventObject({

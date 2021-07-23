@@ -30,8 +30,8 @@ import AttendeeProperty from 'calendar-js/src/properties/attendeeProperty.js'
  *
  * @param {AttendeeProperty} organizer The organizer of the event
  * @param {AttendeeProperty[]} attendees Array of the event's attendees
- * @param {String[]} resources List of resources
- * @returns {{startEditable: boolean, resourceEditable: boolean, editable: boolean, id: string, durationEditable: boolean, events: events}}
+ * @param {string[]} resources List of resources
+ * @return {{startEditable: boolean, resourceEditable: boolean, editable: boolean, id: string, durationEditable: boolean, events: events}}
  */
 export default function(organizer, attendees, resources) {
 	const resourceIds = resources.map((resource) => resource.id)
@@ -42,7 +42,7 @@ export default function(organizer, attendees, resources) {
 		startEditable: false,
 		durationEditable: false,
 		resourceEditable: false,
-		events: async({
+		events: async ({
 						   start,
 						   end,
 						   timeZone,
@@ -152,12 +152,9 @@ export default function(organizer, attendees, resources) {
 	}
 }
 
-/***
- * Try to combine slots after the given starting date
- *
- * @param {{start: Date, end: Date}[]} slots The slots to combine
- * @param {Date} start Combine slots after this date
- * @returns {undefined|{start: Date, end: Date}} The combined date or undefined if no overlaps were found
+/**
+ * @param slots
+ * @param start
  */
 function findNextCombinedSlot(slots, start) {
 	const slot = slots

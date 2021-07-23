@@ -57,7 +57,7 @@ export default {
 		/**
 		 * Offer "Automatic" as an additional timezone
 		 *
-		 * @returns {Object[]}
+		 * @return {object[]}
 		 */
 		additionalTimezones() {
 			return [{
@@ -73,7 +73,7 @@ export default {
 		/**
 		 * Updates the timezone set by the user
 		 *
-		 * @param {String} timezoneId New timezoneId to save
+		 * @param {string} timezoneId New timezoneId to save
 		 */
 		setTimezoneValue(timezoneId) {
 			this.$store.dispatch('setTimezone', { timezoneId })

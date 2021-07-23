@@ -146,7 +146,7 @@ export default {
 		/**
 		 * Whether or not this event is recurring
 		 *
-		 * @returns {Boolean}
+		 * @return {boolean}
 		 */
 		isRepeating() {
 			return this.recurrenceRule.frequency !== 'NONE'
@@ -154,7 +154,7 @@ export default {
 		/**
 		 * Whether or not this event is recurring weekly
 		 *
-		 * @returns {Boolean}
+		 * @return {boolean}
 		 */
 		isFreqWeekly() {
 			return this.recurrenceRule.frequency === 'WEEKLY'
@@ -162,7 +162,7 @@ export default {
 		/**
 		 * Whether or not this event is recurring monthly
 		 *
-		 * @returns {Boolean}
+		 * @return {boolean}
 		 */
 		isFreqMonthly() {
 			return this.recurrenceRule.frequency === 'MONTHLY'
@@ -170,7 +170,7 @@ export default {
 		/**
 		 * Whether or not this event is recurring yearly
 		 *
-		 * @returns {Boolean}
+		 * @return {boolean}
 		 */
 		isFreqYearly() {
 			return this.recurrenceRule.frequency === 'YEARLY'
@@ -180,7 +180,7 @@ export default {
 		/**
 		 * Changes the interval of recurrence
 		 *
-		 * @param {Number} interval Any positive integer
+		 * @param {number} interval Any positive integer
 		 */
 		changeInterval(interval) {
 			this.$store.commit('changeRecurrenceInterval', {
@@ -193,7 +193,7 @@ export default {
 		/**
 		 * Changes the frequency of recurrence
 		 *
-		 * @param {String} frequency Allowed values: NONE, DAILY, WEEKLY, MONTHLY, YEARLY
+		 * @param {string} frequency Allowed values: NONE, DAILY, WEEKLY, MONTHLY, YEARLY
 		 */
 		changeFrequency(frequency) {
 			this.$store.dispatch('changeRecurrenceFrequency', {
@@ -206,7 +206,7 @@ export default {
 		/**
 		 * Adds a day to the ByDay part of the recurrence-rule
 		 *
-		 * @param {String} byDay Day to add
+		 * @param {string} byDay Day to add
 		 */
 		addByDay(byDay) {
 			this.$store.commit('addByDayToRecurrenceRule', {
@@ -219,7 +219,7 @@ export default {
 		/**
 		 * Removes a day from the ByDay part of the recurrence-rule
 		 *
-		 * @param {String} byDay Day to remove
+		 * @param {string} byDay Day to remove
 		 */
 		removeByDay(byDay) {
 			this.$store.commit('removeByDayFromRecurrenceRule', {
@@ -232,7 +232,7 @@ export default {
 		/**
 		 * Adds a month-day to the ByMonthDay part of the recurrence-rule
 		 *
-		 * @param {String} byMonthDay Month-day to add
+		 * @param {string} byMonthDay Month-day to add
 		 */
 		addByMonthDay(byMonthDay) {
 			this.$store.commit('addByMonthDayToRecurrenceRule', {
@@ -245,7 +245,7 @@ export default {
 		/**
 		 * Removes a month-day from the ByMonthDay part of the recurrence-rule
 		 *
-		 * @param {String} byMonthDay Month-day to remove
+		 * @param {string} byMonthDay Month-day to remove
 		 */
 		removeByMonthDay(byMonthDay) {
 			this.$store.commit('removeByMonthDayFromRecurrenceRule', {
@@ -258,7 +258,7 @@ export default {
 		/**
 		 * Adds a month to the ByMonth part of the recurrence-rule
 		 *
-		 * @param {String} byMonth Month to add
+		 * @param {string} byMonth Month to add
 		 */
 		addByMonth(byMonth) {
 			this.$store.commit('addByMonthToRecurrenceRule', {
@@ -271,7 +271,7 @@ export default {
 		/**
 		 * Removes a month-day from the ByMonth part of the recurrence-rule
 		 *
-		 * @param {String} byMonth Month to remove
+		 * @param {string} byMonth Month to remove
 		 */
 		removeByMonth(byMonth) {
 			this.$store.commit('removeByMonthFromRecurrenceRule', {
@@ -284,7 +284,7 @@ export default {
 		/**
 		 * Overrides the entire byDay-list of the recurrence-rule
 		 *
-		 * @param {String[]} byDay The new by-day-list to use
+		 * @param {string[]} byDay The new by-day-list to use
 		 */
 		setByDay(byDay) {
 			this.$store.commit('changeRecurrenceByDay', {
@@ -299,7 +299,7 @@ export default {
 		 * RFC5545 technically allows a list of set-position,
 		 * we only allow one value at most
 		 *
-		 * @param {Number} bySetPosition The new By-set-position part to set
+		 * @param {number} bySetPosition The new By-set-position part to set
 		 */
 		setBySetPosition(bySetPosition) {
 			this.$store.commit('changeRecurrenceBySetPosition', {
@@ -399,7 +399,7 @@ export default {
 		/**
 		 * Sets the recurrence-set to end on a specific date
 		 *
-		 * @param {Number} count New number of recurrences to set
+		 * @param {number} count New number of recurrences to set
 		 */
 		setCount(count) {
 			this.$store.commit('changeRecurrenceCount', {

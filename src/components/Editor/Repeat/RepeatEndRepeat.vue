@@ -87,7 +87,7 @@ export default {
 		/**
 		 * The minimum date the user can select in the until date-picker
 		 *
-		 * @returns {Date}
+		 * @return {Date}
 		 */
 		minimumDate() {
 			return this.calendarObjectInstance.startDate
@@ -95,7 +95,7 @@ export default {
 		/**
 		 * The maximum date the user can select in the until date-picker
 		 *
-		 * @returns {Date}
+		 * @return {Date}
 		 */
 		maximumDate() {
 			return new Date(this.$store.state.davRestrictions.maximumDate)
@@ -103,7 +103,7 @@ export default {
 		/**
 		 * Whether or not this event is recurring until a given date
 		 *
-		 * @returns {Boolean}
+		 * @return {boolean}
 		 */
 		isUntil() {
 			return this.count === null && this.until !== null
@@ -111,7 +111,7 @@ export default {
 		/**
 		 * Whether or not this event is recurring after a given amount of occurrences
 		 *
-		 * @returns {Boolean}
+		 * @return {boolean}
 		 */
 		isCount() {
 			return this.count !== null && this.until === null
@@ -119,7 +119,7 @@ export default {
 		/**
 		 * Label for time/times
 		 *
-		 * @returns {string}
+		 * @return {string}
 		 */
 		occurrencesLabel() {
 			return this.$n('calendar', 'time', 'times', this.count)
@@ -127,7 +127,7 @@ export default {
 		/**
 		 * Options for recurrence-end
 		 *
-		 * @returns {Object[]}
+		 * @return {object[]}
 		 */
 		options() {
 			return [{
@@ -144,7 +144,7 @@ export default {
 		/**
 		 * The selected option for the recurrence-end
 		 *
-		 * @returns {Object}
+		 * @return {object}
 		 */
 		selectedOption() {
 			if (this.count !== null) {
@@ -161,7 +161,7 @@ export default {
 		 * Changes the type of recurrence-end
 		 * Whether it ends never, on a given date or after an amount of occurrences
 		 *
-		 * @param {Object} value The new type of recurrence-end to select
+		 * @param {object} value The new type of recurrence-end to select
 		 */
 		changeEndType(value) {
 			console.debug(value)

@@ -155,7 +155,7 @@ export default {
 		/**
 		 * Updates the role of the attendee
 		 *
-		 * @param {String} role The new role of the attendee
+		 * @param {string} role The new role of the attendee
 		 */
 		changeRole(role) {
 			this.$store.commit('changeAttendeesRole', {

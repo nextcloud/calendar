@@ -1,8 +1,6 @@
 /**
  * @copyright Copyright (c) 2020 Georg Ehrke
- *
  * @author Georg Ehrke <oc.list@georgehrke.com>
- *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,7 +15,6 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 import {
 	PRINCIPAL_PREFIX_CIRCLE,
@@ -28,8 +25,8 @@ import {
 /**
  * Creates a complete calendar-share-object based on given props
  *
- * @param {Object} props Calendar-share-props already provided
- * @returns {Object}
+ * @param {object} props Calendar-share-props already provided
+ * @return {object}
  */
 const getDefaultCalendarShareObject = (props = {}) => Object.assign({}, {
 	// Unique identifier
@@ -51,8 +48,8 @@ const getDefaultCalendarShareObject = (props = {}) => Object.assign({}, {
 /**
  * Map a dav collection to our calendar object model
  *
- * @param {Object} sharee The sharee object from the cdav library shares
- * @returns {Object}
+ * @param {object} sharee The sharee object from the cdav library shares
+ * @return {object}
  */
 const mapDavShareeToCalendarShareObject = (sharee) => {
 	// sharee.href might contain non-latin characters, so let's uri encode it first

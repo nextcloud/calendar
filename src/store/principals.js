@@ -1,8 +1,6 @@
 /**
  * @copyright Copyright (c) 2019 Georg Ehrke
- *
  * @author Georg Ehrke <oc.list@georgehrke.com>
- *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,7 +15,6 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 import Vue from 'vue'
 import {
@@ -41,9 +38,9 @@ const mutations = {
 	/**
 	 * Adds a principal to the state
 	 *
-	 * @param {Object} state The vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Object} data.principal The principal to add
+	 * @param {object} state The vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.principal The principal to add
 	 */
 	addPrincipal(state, { principal }) {
 		const object = getDefaultPrincipalObject(principal)
@@ -59,9 +56,9 @@ const mutations = {
 	/**
 	 * Adds the current user principal to the state
 	 *
-	 * @param {Object} state The vuex state
-	 * @param {Object} data destructuring object
-	 * @param {String} data.principalId principalId of the current-user-principal
+	 * @param {object} state The vuex state
+	 * @param {object} data destructuring object
+	 * @param {string} data.principalId principalId of the current-user-principal
 	 */
 	setCurrentUserPrincipal(state, { principalId }) {
 		state.currentUserPrincipal = principalId
@@ -73,32 +70,32 @@ const getters = {
 	/**
 	 * Gets a principal object by its url
 	 *
-	 * @param {Object} state the store data
-	 * @returns {function({String}): {Object}}
+	 * @param {object} state the store data
+	 * @return {function({String}): {Object}}
 	 */
 	getPrincipalByUrl: (state) => (url) => state.principals.find((principal) => principal.url === url),
 
 	/**
 	 * Gets a principal object by its id
 	 *
-	 * @param {Object} state the store data
-	 * @returns {function({String}): {Object}}
+	 * @param {object} state the store data
+	 * @return {function({String}): {Object}}
 	 */
 	getPrincipalById: (state) => (id) => state.principalsById[id],
 
 	/**
 	 * Gets the principal object of the current-user-principal
 	 *
-	 * @param {Object} state the store data
-	 * @returns {{Object}}
+	 * @param {object} state the store data
+	 * @return {{Object}}
 	 */
 	getCurrentUserPrincipal: (state) => state.principalsById[state.currentUserPrincipal],
 
 	/**
 	 * Gets the email-address of the current-user-principal
 	 *
-	 * @param {Object} state the store data
-	 * @returns {String}
+	 * @param {object} state the store data
+	 * @return {string}
 	 */
 	getCurrentUserPrincipalEmail: (state) => state.principalsById[state.currentUserPrincipal].emailAddress,
 }
@@ -108,9 +105,9 @@ const actions = {
 	/**
 	 * Fetches a principal from the DAV server and commits it to the state
 	 *
-	 * @param {Object} context The vuex context
-	 * @param {String} url The URL of the principal
-	 * @returns {Promise<void>}
+	 * @param {object} context The vuex context
+	 * @param {string} url The URL of the principal
+	 * @return {Promise<void>}
 	 */
 	async fetchPrincipalByUrl(context, { url }) {
 		// Don't refetch principals we already have
@@ -132,8 +129,8 @@ const actions = {
 	/**
 	 * Fetches the current-user-principal
 	 *
-	 * @param {Object} context The vuex context
-	 * @returns {Promise<void>}
+	 * @param {object} context The vuex context
+	 * @return {Promise<void>}
 	 */
 	async fetchCurrentUserPrincipal(context) {
 		const currentUserPrincipal = getCurrentUserPrincipal()

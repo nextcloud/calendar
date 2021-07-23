@@ -172,7 +172,7 @@ export default {
 		 * If the all-day checkbox is disabled, this tooltip gives an explanation to the user
 		 * why it is disabled
 		 *
-		 * @returns {string|null}
+		 * @return {string|null}
 		 */
 		allDayTooltip() {
 			if (this.canModifyAllDay) {
@@ -186,7 +186,7 @@ export default {
 		},
 		/**
 		 *
-		 * @returns {String}
+		 * @return {string}
 		 */
 		formattedStart() {
 			if (this.isAllDay) {
@@ -203,7 +203,7 @@ export default {
 		},
 		/**
 		 *
-		 * @returns {String}
+		 * @return {string}
 		 */
 		formattedEnd() {
 			if (this.isAllDay) {
@@ -218,13 +218,13 @@ export default {
 			})
 		},
 		/**
-		 * @returns {Boolean}
+		 * @return {boolean}
 		 */
 		highlightStartTimezone() {
 			return this.startTimezone !== this.userTimezone
 		},
 		/**
-		 * @returns {Boolean}
+		 * @return {boolean}
 		 */
 		highlightEndTimezone() {
 			return this.endTimezone !== this.userTimezone
@@ -242,7 +242,7 @@ export default {
 		/**
 		 * Updates the timezone of the start date
 		 *
-		 * @param {String} value The new start timezone
+		 * @param {string} value The new start timezone
 		 */
 		changeStartTimezone(value) {
 			// If the value didn't change, value is null
@@ -263,7 +263,7 @@ export default {
 		/**
 		 * Updates the timezone of the end date
 		 *
-		 * @param {String} value The new end timezone
+		 * @param {string} value The new end timezone
 		 */
 		changeEndTimezone(value) {
 			// If the value didn't change, value is null

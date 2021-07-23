@@ -1,8 +1,6 @@
 /**
  * @copyright Copyright (c) 2019 Georg Ehrke
- *
  * @author Georg Ehrke <oc.list@georgehrke.com>
- *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,7 +15,6 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 import { getRFCProperties } from '../models/rfcProps'
 import logger from '../utils/logger.js'
@@ -74,7 +71,7 @@ export default {
 		/**
 		 * Returns the events title or an empty string if the event is still loading
 		 *
-		 * @returns {string}
+		 * @return {string}
 		 */
 		title() {
 			return this.calendarObjectInstance?.title ?? ''
@@ -82,7 +79,7 @@ export default {
 		/**
 		 * Returns the location or null if the event is still loading
 		 *
-		 * @returns {string|null}
+		 * @return {string|null}
 		 */
 		location() {
 			return this.calendarObjectInstance?.location ?? null
@@ -90,7 +87,7 @@ export default {
 		/**
 		 * Returns the description or null if the event is still loading
 		 *
-		 * @returns {string|null}
+		 * @return {string|null}
 		 */
 		description() {
 			return this.calendarObjectInstance?.description ?? null
@@ -98,7 +95,7 @@ export default {
 		/**
 		 * Returns the start-date (without timezone) or null if the event is still loading
 		 *
-		 * @returns {Date|null}
+		 * @return {Date|null}
 		 */
 		startDate() {
 			return this.calendarObjectInstance?.startDate ?? null
@@ -106,7 +103,7 @@ export default {
 		/**
 		 * Returns the timezone of the event's start-date or null if the event is still loading
 		 *
-		 * @returns {string|null}
+		 * @return {string|null}
 		 */
 		startTimezone() {
 			return this.calendarObjectInstance?.startTimezoneId ?? null
@@ -114,7 +111,7 @@ export default {
 		/**
 		 * Returns the end-date (without timezone) or null if the event is still loading
 		 *
-		 * @returns {Date|null}
+		 * @return {Date|null}
 		 */
 		endDate() {
 			return this.calendarObjectInstance?.endDate ?? null
@@ -122,7 +119,7 @@ export default {
 		/**
 		 * Returns the timezone of the event's end-date or null if the event is still loading
 		 *
-		 * @returns {string|null}
+		 * @return {string|null}
 		 */
 		endTimezone() {
 			return this.calendarObjectInstance?.endTimezoneId ?? null
@@ -130,7 +127,7 @@ export default {
 		/**
 		 * Returns whether or not the event is all-day or null if the event is still loading
 		 *
-		 * @returns {boolean}
+		 * @return {boolean}
 		 */
 		isAllDay() {
 			return this.calendarObjectInstance?.isAllDay ?? false
@@ -138,7 +135,7 @@ export default {
 		/**
 		 * Returns whether or not the user is allowed to modify the all-day setting
 		 *
-		 * @returns {boolean}
+		 * @return {boolean}
 		 */
 		canModifyAllDay() {
 			return this.calendarObjectInstance?.canModifyAllDay ?? false
@@ -146,7 +143,7 @@ export default {
 		/**
 		 * Returns an illustration matching this event's title
 		 *
-		 * @returns {string}
+		 * @return {string}
 		 */
 		backgroundImage() {
 			return getIllustrationForTitle(this.title)
@@ -154,7 +151,7 @@ export default {
 		/**
 		 * Returns the color the illustration should be colored in
 		 *
-		 * @returns {String}
+		 * @return {string}
 		 */
 		illustrationColor() {
 			return this.color || this.selectedCalendarColor
@@ -163,7 +160,7 @@ export default {
 		 * Returns the color of the calendar selected by the user
 		 * This is used to color illustration
 		 *
-		 * @returns {string|*}
+		 * @return {string|*}
 		 */
 		selectedCalendarColor() {
 			if (!this.selectedCalendar) {
@@ -180,7 +177,7 @@ export default {
 		/**
 		 * Returns the custom color of this event
 		 *
-		 * @returns {null|String}
+		 * @return {null | string}
 		 */
 		color() {
 			return this.calendarObjectInstance?.customColor ?? null
@@ -188,7 +185,7 @@ export default {
 		/**
 		 * Returns whether or not to display save buttons
 		 *
-		 * @returns {boolean}
+		 * @return {boolean}
 		 */
 		showSaveButtons() {
 			return this.isReadOnly === false
@@ -196,7 +193,7 @@ export default {
 		/**
 		 * Returns whether or not to allow editing the event
 		 *
-		 * @returns {boolean}
+		 * @return {boolean}
 		 */
 		isReadOnly() {
 			if (!this.calendarObject) {
@@ -213,7 +210,7 @@ export default {
 		/**
 		 * Returns all calendars selectable by the user
 		 *
-		 * @returns {Object[]}
+		 * @return {object[]}
 		 */
 		calendars() {
 			if (this.isReadOnly && this.calendarObject) {
@@ -227,7 +224,7 @@ export default {
 		/**
 		 * Returns the object of the selected calendar
 		 *
-		 * @returns {Object}
+		 * @return {object}
 		 */
 		selectedCalendar() {
 			return this.$store.getters.getCalendarById(this.calendarId)
@@ -235,7 +232,7 @@ export default {
 		/**
 		 * Returns whether or not to display the calendar-picker
 		 *
-		 * @returns {boolean}
+		 * @return {boolean}
 		 */
 		showCalendarPicker() {
 			// Always show the calendar's name when we are in a read-only calendar
@@ -248,7 +245,7 @@ export default {
 		/**
 		 * Returns whether or not the user is allowed to delete this event
 		 *
-		 * @returns {boolean}
+		 * @return {boolean}
 		 */
 		canDelete() {
 			if (!this.calendarObject) {
@@ -266,7 +263,7 @@ export default {
 		/**
 		 * Returns whether or not the user is allowed to create recurrence exceptions for this event
 		 *
-		 * @returns {boolean}
+		 * @return {boolean}
 		 */
 		canCreateRecurrenceException() {
 			if (!this.eventComponent) {
@@ -279,7 +276,7 @@ export default {
 		 * Returns a an object with properties from RFCs including
 		 * their displayName, a description, options, etc.
 		 *
-		 * @returns {{geo, color, timeTransparency, description, resources, location, categories, accessClass, priority, status}}
+		 * @return {{geo, color, timeTransparency, description, resources, location, categories, accessClass, priority, status}}
 		 */
 		rfcProps() {
 			return getRFCProperties()
@@ -287,7 +284,7 @@ export default {
 		/**
 		 * Returns whether or not this event can be downloaded from the server
 		 *
-		 * @returns {boolean}
+		 * @return {boolean}
 		 */
 		hasDownloadURL() {
 			if (!this.calendarObject) {
@@ -302,7 +299,7 @@ export default {
 		/**
 		 * Returns the download url as a string or null if event is loading or does not exist on the server (yet)
 		 *
-		 * @returns {string|null}
+		 * @return {string|null}
 		 */
 		downloadURL() {
 			if (!this.calendarObject) {
@@ -318,7 +315,7 @@ export default {
 		/**
 		 * Returns whether or not this is a new event
 		 *
-		 * @returns {boolean}
+		 * @return {boolean}
 		 */
 		isNew() {
 			if (!this.calendarObject) {
@@ -337,7 +334,7 @@ export default {
 		 * Changes the selected calendar
 		 * Does not move the calendar-object yet, that's done in save
 		 *
-		 * @param {Object} selectedCalendar The new calendar selected by the user
+		 * @param {object} selectedCalendar The new calendar selected by the user
 		 */
 		changeCalendar(selectedCalendar) {
 			this.calendarId = selectedCalendar.id
@@ -394,8 +391,8 @@ export default {
 		/**
 		 * Saves a calendar-object
 		 *
-		 * @param {Boolean} thisAndAllFuture Whether to modify only this or this and all future occurrences
-		 * @returns {Promise<void>}
+		 * @param {boolean} thisAndAllFuture Whether to modify only this or this and all future occurrences
+		 * @return {Promise<void>}
 		 */
 		async save(thisAndAllFuture = false) {
 			if (!this.calendarObject) {
@@ -419,8 +416,8 @@ export default {
 		/**
 		 * Saves a calendar-object and closes the editor
 		 *
-		 * @param {Boolean} thisAndAllFuture Whether to modify only this or this and all future occurrences
-		 * @returns {Promise<void>}
+		 * @param {boolean} thisAndAllFuture Whether to modify only this or this and all future occurrences
+		 * @return {Promise<void>}
 		 */
 		async saveAndLeave(thisAndAllFuture = false) {
 			await this.save(thisAndAllFuture)
@@ -430,8 +427,8 @@ export default {
 		/**
 		 * Deletes a calendar-object
 		 *
-		 * @param {Boolean} thisAndAllFuture Whether to delete only this or this and all future occurrences
-		 * @returns {Promise<void>}
+		 * @param {boolean} thisAndAllFuture Whether to delete only this or this and all future occurrences
+		 * @return {Promise<void>}
 		 */
 		async delete(thisAndAllFuture = false) {
 			if (!this.calendarObject) {
@@ -449,8 +446,8 @@ export default {
 		/**
 		 * Deletes a calendar-object and closes the editor
 		 *
-		 * @param {Boolean} thisAndAllFuture Whether to delete only this or this and all future occurrences
-		 * @returns {Promise<void>}
+		 * @param {boolean} thisAndAllFuture Whether to delete only this or this and all future occurrences
+		 * @return {Promise<void>}
 		 */
 		async deleteAndLeave(thisAndAllFuture = false) {
 			await this.delete(thisAndAllFuture)
@@ -460,7 +457,7 @@ export default {
 		/**
 		 * Updates the title of this event
 		 *
-		 * @param {String} title New title
+		 * @param {string} title New title
 		 */
 		updateTitle(title) {
 			if (title.trim() === '') {
@@ -475,7 +472,7 @@ export default {
 		/**
 		 * Updates the description of this event
 		 *
-		 * @param {String} description New description
+		 * @param {string} description New description
 		 */
 		updateDescription(description) {
 			this.$store.commit('changeDescription', {
@@ -486,7 +483,7 @@ export default {
 		/**
 		 * Updates the location of this event
 		 *
-		 * @param {String} location New location
+		 * @param {string} location New location
 		 */
 		updateLocation(location) {
 			this.$store.commit('changeLocation', {
@@ -508,7 +505,7 @@ export default {
 		/**
 		 * Updates the timezone of this event's start date
 		 *
-		 * @param {String} startTimezone New start timezone
+		 * @param {string} startTimezone New start timezone
 		 */
 		updateStartTimezone(startTimezone) {
 			if (!startTimezone) {
@@ -534,7 +531,7 @@ export default {
 		/**
 		 * Updates the timezone of this event's end date
 		 *
-		 * @param {String} endTimezone New end timezone
+		 * @param {string} endTimezone New end timezone
 		 */
 		updateEndTimezone(endTimezone) {
 			if (!endTimezone) {
@@ -571,7 +568,7 @@ export default {
 		 * This function returns a promise that resolves
 		 * once the calendars were fetched from the server
 		 *
-		 * @returns {Promise<void>}
+		 * @return {Promise<void>}
 		 */
 		loadingCalendars() {
 			if (this.initialCalendarsLoaded) {
@@ -589,8 +586,8 @@ export default {
 	/**
 	 * This is executed before entering the Editor routes
 	 *
-	 * @param {Object} to The route to navigate to
-	 * @param {Object} from The route coming from
+	 * @param {object} to The route to navigate to
+	 * @param {object} from The route coming from
 	 * @param {Function} next Function to be called when ready to load the next view
 	 */
 	async beforeRouteEnter(to, from, next) {
@@ -652,8 +649,8 @@ export default {
 	 * - Change of selected time-range when creating new event
 	 * - Navigating through the calendar-view
 	 *
-	 * @param {Object} to The route to navigate to
-	 * @param {Object} from The route coming from
+	 * @param {object} to The route to navigate to
+	 * @param {object} from The route coming from
 	 * @param {Function} next Function to be called when ready to load the next view
 	 */
 	async beforeRouteUpdate(to, from, next) {
@@ -727,8 +724,8 @@ export default {
 	/**
 	 * This route is called when the user leaves the editor
 	 *
-	 * @param {Object} to The route to navigate to
-	 * @param {Object} from The route coming from
+	 * @param {object} to The route to navigate to
+	 * @param {object} from The route coming from
 	 * @param {Function} next Function to be called when ready to load the next view
 	 */
 	async beforeRouteLeave(to, from, next) {

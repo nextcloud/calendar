@@ -99,7 +99,7 @@ export default {
 		/**
 		 * Format loaded events
 		 *
-		 * @returns {Array}
+		 * @return {Array}
 		 */
 		items() {
 			if (!Array.isArray(this.events) || this.events.length === 0) {
@@ -118,7 +118,8 @@ export default {
 		},
 		/**
 		 * Redirects to the new event route
-		 * @returns {String}
+		 *
+		 * @return {string}
 		 */
 		clickStartNew() {
 			return generateUrl('apps/calendar') + '/new'
@@ -147,7 +148,7 @@ export default {
 		 * Initialize everything necessary,
 		 * before we can fetch events
 		 *
-		 * @returns {Promise<void>}
+		 * @return {Promise<void>}
 		 */
 		async initializeEnvironment() {
 			await initializeClientForUserView()
@@ -173,8 +174,7 @@ export default {
 		 *
 		 * @param {Date} from Start of time-range
 		 * @param {Date} to End of time-range
-		 *
-		 * @returns {Promise<Object[]>}
+		 * @return {Promise<object[]>}
 		 */
 		async fetchExpandedEvents(from, to) {
 			const timeZone = this.$store.getters.getResolvedTimezone
@@ -186,7 +186,7 @@ export default {
 			const limit = pLimit(10)
 			const fetchEventPromises = []
 			for (const calendar of this.$store.getters.enabledCalendars) {
-				fetchEventPromises.push(limit(async() => {
+				fetchEventPromises.push(limit(async () => {
 					let timeRangeId
 					try {
 						timeRangeId = await this.$store.dispatch('getEventsFromCalendarInTimeRange', {
@@ -207,9 +207,9 @@ export default {
 			return expandedEvents.flat()
 		},
 		/**
-		 * @param {Object[]} expandedEvents Array of fullcalendar events
+		 * @param {object[]} expandedEvents Array of fullcalendar events
 		 * @param {Date} filterBefore filter events that start before date
-		 * @returns {Object[]}
+		 * @return {object[]}
 		 */
 		formatEvents(expandedEvents, filterBefore) {
 			return expandedEvents
@@ -232,8 +232,8 @@ export default {
 				}))
 		},
 		/**
-		 * @param {Object} event The full-calendar formatted event
-		 * @returns {String}
+		 * @param {object} event The full-calendar formatted event
+		 * @return {string}
 		 */
 		formatSubtext(event) {
 			const locale = this.$store.state.settings.momentLocale
@@ -258,17 +258,17 @@ export default {
 			}
 		},
 		/**
-		 * @param {Object} data The data destructuring object
-		 * @param {Object} data.extendedProps Extended Properties of the FC object
-		 * @returns {string}
+		 * @param {object} data The data destructuring object
+		 * @param {object} data.extendedProps Extended Properties of the FC object
+		 * @return {string}
 		 */
 		getCalendarAppUrl({ extendedProps }) {
 			return generateUrl('apps/calendar') + '/edit/' + extendedProps.objectId + '/' + extendedProps.recurrenceId
 		},
 		/**
-		 * @param {Object} data The data destructuring object
-		 * @param {Object} data.extendedProps Extended Properties of the FC object
-		 * @returns {string}
+		 * @param {object} data The data destructuring object
+		 * @param {object} data.extendedProps Extended Properties of the FC object
+		 * @return {string}
 		 */
 		getTasksAppUrl({ extendedProps }) {
 			const davUrlParts = extendedProps.davUrl.split('/')

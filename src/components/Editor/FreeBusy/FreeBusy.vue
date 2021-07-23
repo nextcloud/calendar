@@ -136,7 +136,7 @@ export default {
 		/**
 		 * FullCalendar Plugins
 		 *
-		 * @returns {(PluginDef)[]}
+		 * @return {(PluginDef)[]}
 		 */
 		plugins() {
 			return [
@@ -192,7 +192,7 @@ export default {
 		 * List of possible Free-Busy values.
 		 * This is used as legend.
 		 *
-		 * @returns {({color: string, label: string})[]}
+		 * @return {({color: string, label: string})[]}
 		 */
 		colorCaption() {
 			return [{
@@ -217,7 +217,7 @@ export default {
 		 * Configuration options for FullCalendar
 		 * Please see https://fullcalendar.io/docs#toc for details
 		 *
-		 * @returns {Object}
+		 * @return {object}
 		 */
 		options() {
 			return {

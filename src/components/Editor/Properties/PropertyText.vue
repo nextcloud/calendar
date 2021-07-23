@@ -82,7 +82,7 @@ export default {
 		 * Returns the default number of rows for a textarea.
 		 * This is used to give the description field an automatic size 2 rows
 		 *
-		 * @returns {number}
+		 * @return {number}
 		 */
 		rows() {
 			return this.propModel.defaultNumberOfRows || 1

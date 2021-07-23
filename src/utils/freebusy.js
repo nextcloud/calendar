@@ -1,8 +1,6 @@
 /**
  * @copyright Copyright (c) 2019 Georg Ehrke
- *
  * @author Georg Ehrke <oc.list@georgehrke.com>
- *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,14 +15,13 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
 /**
  * Gets the corresponding color for a given Free/Busy type
  *
- * @param {String} type The type of the FreeBusy property
- * @returns {string}
+ * @param {string} type The type of the FreeBusy property
+ * @return {string}
  */
 export function getColorForFBType(type = 'BUSY') {
 	switch (type) {

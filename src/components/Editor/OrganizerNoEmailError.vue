@@ -43,7 +43,7 @@ export default {
 		/**
 		 * This returns the caption of the warning message, including a link to the personal settings
 		 *
-		 * @returns {string}
+		 * @return {string}
 		 */
 		htmlCaption() {
 			return this.$t('calendar', 'To send out invitations and handle responses,  [linkopen]add your email address in personal settings[linkclose].')

@@ -270,7 +270,7 @@ export default {
 		/**
 		 * Loads the locale data for moment.js
 		 *
-		 * @returns {Promise<void>}
+		 * @return {Promise<void>}
 		 */
 		async loadMomentLocale() {
 			const locale = await loadMomentLocalization()

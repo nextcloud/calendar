@@ -323,7 +323,7 @@ export default {
 		/**
 		 * Updates the setting for slot duration
 		 *
-		 * @param {Object} option The new selected value
+		 * @param {object} option The new selected value
 		 */
 		async changeSlotDuration(option) {
 			if (!option) {
@@ -347,7 +347,7 @@ export default {
 		/**
 		 * Updates the setting for the default reminder
 		 *
-		 * @param {Object} option The new selected value
+		 * @param {object} option The new selected value
 		 */
 		async changeDefaultReminder(option) {
 			if (!option) {
