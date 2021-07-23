@@ -1,6 +1,7 @@
 /**
  * @copyright Copyright (c) 2019 Georg Ehrke
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,11 +24,18 @@
  * This mostly enforces the policy that all events of a recurrence-set
  * must be of the same date-type
  *
+ * Forbids to move elements of a recurrence set
+ *
  * @param {object} dropInfo Info about location where event will be dropped
  * @param {EventApi} draggedEvent The fullcalendar event object
  * @return {boolean}
  */
 export default function(dropInfo, draggedEvent) {
+	// TODO: Implement a modal with save buttons (update this occurrence, all future etc.)
+	if (draggedEvent.extendedProps.isPartOfRecurrenceSet) {
+		return false
+	}
+
 	if (draggedEvent.extendedProps.canModifyAllDay) {
 		return true
 	}
