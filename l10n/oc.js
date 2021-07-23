@@ -87,6 +87,7 @@ OC.L10N.register(
     "Pick a date" : "Causir una data",
     "from {formattedDate}" : "a partir de {formattedDate}",
     "to {formattedDate}" : "cap a {formattedDate}",
+    "Type to search time zone" : "Picar per cercar un fus orari",
     "Personal" : "Personal",
     "[Today]" : "[Uèi]",
     "[Tomorrow]" : "[Deman]",
