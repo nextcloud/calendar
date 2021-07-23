@@ -30,6 +30,12 @@ const IMPORT_STAGE_IMPORTING = 'importing'
 const IMPORT_STAGE_AWAITING_USER_SELECT = 'awaitingUserSelect'
 const IMPORT_STAGE_PROCESSING = 'processing'
 
+const DragRecurrenceDialogResult = Object.freeze({
+	Cancel: 'cancel',
+	SaveThisOnly: 'this-only',
+	SaveThisAndAllFuture: 'this-and-all-future',
+})
+
 export {
 	CALDAV_BIRTHDAY_CALENDAR,
 	CALDAV_PERSONAL_CALENDAR,
@@ -54,4 +60,5 @@ export {
 	PRINCIPAL_PREFIX_GROUP,
 	PRINCIPAL_PREFIX_REMOTE_USER,
 	PRINCIPAL_PREFIX_USER,
+	DragRecurrenceDialogResult,
 }

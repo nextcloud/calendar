@@ -1464,10 +1464,23 @@ export default defineStore('calendarObjectInstance', {
 			thisAndAllFuture,
 			calendarId,
 		}) {
-			const calendarObjectsStore = useCalendarObjectsStore()
-
 			const eventComponent = this.calendarObjectInstance.eventComponent
 			const calendarObject = this.calendarObject
+			await this.saveCalendarObject({
+				thisAndAllFuture,
+				calendarId,
+				calendarObject,
+				eventComponent,
+			})
+		},
+
+		async saveCalendarObject({
+			thisAndAllFuture,
+			calendarId,
+			calendarObject,
+			eventComponent,
+		}) {
+			const calendarObjectsStore = useCalendarObjectsStore()
 
 			updateAlarms(eventComponent)
 			await updateTalkParticipants(eventComponent)
