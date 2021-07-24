@@ -522,13 +522,16 @@
 
 			&--readonly {
 				div {
-					width: 100%;
+					width: calc(100% - 8px); /* for typical (thin) scrollbar size */
 					white-space: pre-line;
 					margin: 3px 3px 3px 0;
 					padding: 8px 7px;
 					background-color: var(--color-main-background);
 					color: var(--color-main-text);
 					outline: none;
+					overflow-y: scroll;
+					word-break: break-word; /* allows breaking on long URLs */
+					max-height: 30vh;
 				}
 
 				a.linkified {
