@@ -236,6 +236,10 @@ export default {
 	max-width: 40vw;
 	margin: 2vw;
 }
+::v-deep .modal-wrapper .modal-container {
+	overflow-y: auto;
+	overflow-x: auto;
+}
 table {
 	width: 100%;
 }
