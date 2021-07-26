@@ -706,8 +706,8 @@ const actions = {
 		const component = calendarObject.calendarComponent.getFirstComponent(vobject.objectType)
 		const timeRange = getters.getTimeRangeForCalendarCoveringRange(
 			vobject.calendar.id,
-			component.startDate.unixTime,
-			component.endDate.unixTime,
+			component.startDate?.unixTime,
+			component.endDate?.unixTime,
 		)
 		if (timeRange) {
 			commit('deleteFetchedTimeRangeFromCalendar', {
