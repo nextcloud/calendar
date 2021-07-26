@@ -30,6 +30,7 @@
 		:title-placeholder="$t('calendar', 'Event title')"
 		:subtitle="subTitle"
 		:empty="isLoading || isError"
+		class="calendar-app-sidebar"
 		@close="cancel"
 		@update:title="updateTitle">
 		<template v-if="isLoading">
@@ -397,5 +398,9 @@ export default {
 <style lang="scss" scoped>
 ::v-deep .app-sidebar-header__description {
 	flex-direction: column;
+}
+
+.calendar-app-sidebar {
+	height: unset;
 }
 </style>
