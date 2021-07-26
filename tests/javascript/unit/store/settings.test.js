@@ -23,14 +23,14 @@ import settingsStore from '../../../../src/store/settings.js'
 import { enableBirthdayCalendar } from '../../../../src/services/caldavService.js'
 import { mapDavCollectionToCalendar } from '../../../../src/models/calendar.js'
 import { detectTimezone } from '../../../../src/services/timezoneDetectionService.js'
-import { setConfig as setCalendarJsConfig } from 'calendar-js'
+import { setConfig as setCalendarJsConfig } from '@nextcloud/calendar-js'
 import { setConfig } from '../../../../src/services/settings.js'
 import { logInfo } from '../../../../src/utils/logger.js'
 
 jest.mock('../../../../src/services/caldavService.js')
 jest.mock('../../../../src/models/calendar.js')
 jest.mock('../../../../src/services/timezoneDetectionService.js')
-jest.mock('calendar-js')
+jest.mock('@nextcloud/calendar-js')
 jest.mock('../../../../src/services/settings.js')
 jest.mock('../../../../src/utils/logger.js')
 

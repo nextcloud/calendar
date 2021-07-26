@@ -18,7 +18,7 @@
  */
 
 import { getColorForFBType } from '../../utils/freebusy.js'
-import { getParserManager } from 'calendar-js'
+import { getParserManager } from '@nextcloud/calendar-js'
 
 /**
  * Converts the response

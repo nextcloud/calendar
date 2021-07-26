@@ -24,9 +24,9 @@ import {
 	mapCalendarJsToCalendarObject,
 	mapCDavObjectToCalendarObject
 } from "../../../../src/models/calendarObject.js";
-import CalendarComponent from 'calendar-js/src/components/calendarComponent.js'
-import FreeBusyComponent from 'calendar-js/src/components/root/freeBusyComponent.js'
-import {getParserManager} from "calendar-js";
+import CalendarComponent from '@nextcloud/calendar-js/src/components/calendarComponent.js'
+import FreeBusyComponent from '@nextcloud/calendar-js/src/components/root/freeBusyComponent.js'
+import {getParserManager} from "@nextcloud/calendar-js";
 
 describe('Test suite: Calendar object model (models/calendarObject.js)', () => {
 

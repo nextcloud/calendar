@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-import { getParserManager } from 'calendar-js'
+import { getParserManager } from '@nextcloud/calendar-js'
 import { getDateFromDateTimeValue } from '../utils/date.js'
 import {
 	ITIP_MESSAGE_ADD,

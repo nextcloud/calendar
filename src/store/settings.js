@@ -19,7 +19,7 @@
 import { enableBirthdayCalendar } from '../services/caldavService.js'
 import { mapDavCollectionToCalendar } from '../models/calendar'
 import { detectTimezone } from '../services/timezoneDetectionService'
-import { setConfig as setCalendarJsConfig } from 'calendar-js'
+import { setConfig as setCalendarJsConfig } from '@nextcloud/calendar-js'
 import { setConfig } from '../services/settings.js'
 import { logInfo } from '../utils/logger.js'
 

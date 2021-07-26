@@ -52,7 +52,7 @@
 import {
 	mapState,
 } from 'vuex'
-import { getParserManager } from 'calendar-js'
+import { getParserManager } from '@nextcloud/calendar-js'
 import ImportScreen from './ImportScreen.vue'
 import { readFileAsText } from '../../../services/readFileAsTextService.js'
 import {

@@ -19,11 +19,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 import getTimezoneManager from '../../services/timezoneDataProviderService.js'
-import { createFreeBusyRequest, getParserManager } from 'calendar-js'
-import DateTimeValue from 'calendar-js/src/values/dateTimeValue.js'
+import { createFreeBusyRequest, getParserManager } from '@nextcloud/calendar-js'
+import DateTimeValue from '@nextcloud/calendar-js/src/values/dateTimeValue.js'
 import { findSchedulingOutbox } from '../../services/caldavService.js'
 import logger from '../../utils/logger.js'
-import AttendeeProperty from 'calendar-js/src/properties/attendeeProperty.js'
+import AttendeeProperty from '@nextcloud/calendar-js/src/properties/attendeeProperty.js'
 
 /**
  * Returns an event source for free-busy

@@ -20,10 +20,10 @@
  *
  */
 import ICAL from 'ical.js'
-import AlarmComponent from 'calendar-js/src/components/nested/alarmComponent.js'
-import AttendeeProperty from "calendar-js/src/properties/attendeeProperty.js";
-import RecurValue from "calendar-js/src/values/recurValue.js";
-import {getParserManager} from "calendar-js";
+import AlarmComponent from '@nextcloud/calendar-js/src/components/nested/alarmComponent.js'
+import AttendeeProperty from "@nextcloud/calendar-js/src/properties/attendeeProperty.js";
+import RecurValue from "@nextcloud/calendar-js/src/values/recurValue.js";
+import {getParserManager} from "@nextcloud/calendar-js";
 
 const fs = require('fs')
 

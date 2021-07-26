@@ -17,7 +17,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 import tzData from '../../timezones/zones.json'
-import { getTimezoneManager } from 'calendar-js'
+import { getTimezoneManager } from '@nextcloud/calendar-js'
 import logger from '../utils/logger.js'
 
 const timezoneManager = getTimezoneManager()
