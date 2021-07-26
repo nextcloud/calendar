@@ -77,7 +77,7 @@
 				v-if="showCalendarPicker"
 				:calendars="calendars"
 				:calendar="selectedCalendar"
-				:is-read-only="isReadOnly"
+				:is-read-only="isReadOnly || !canModifyCalendar"
 				@selectCalendar="changeCalendar" />
 
 			<PropertyTitleTimePicker
@@ -321,6 +321,17 @@ export default {
 			}
 
 			return moment(this.calendarObjectInstance.startDate).locale(this.locale).fromNow()
+		},
+		/**
+		 * @returns {boolean}
+		 */
+		canModifyCalendar() {
+			const eventComponent = this.calendarObjectInstance.eventComponent
+			if (!eventComponent) {
+				return true
+			}
+
+			return !eventComponent.isPartOfRecurrenceSet() || eventComponent.isExactForkOfPrimary
 		},
 	},
 	methods: {
