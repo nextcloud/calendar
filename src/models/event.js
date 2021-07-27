@@ -18,7 +18,7 @@
  */
 
 import { getDateFromDateTimeValue } from '../utils/date.js'
-import DurationValue from 'calendar-js/src/values/durationValue.js'
+import DurationValue from '@nextcloud/calendar-js/src/values/durationValue.js'
 import { getHexForColorName } from '../utils/color.js'
 import { mapAlarmComponentToAlarmObject } from './alarm.js'
 import { mapAttendeePropertyToAttendeeObject } from './attendee.js'

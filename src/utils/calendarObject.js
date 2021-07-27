@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-import DateTimeValue from 'calendar-js/src/values/dateTimeValue.js'
+import DateTimeValue from '@nextcloud/calendar-js/src/values/dateTimeValue.js'
 
 /**
  * Get all recurrence-items in given range

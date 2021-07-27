@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-import DurationValue from 'calendar-js/src/values/durationValue'
+import DurationValue from '@nextcloud/calendar-js/src/values/durationValue'
 
 /**
  * Gets a calendar-js DurationValue from a FullCalendar Duration object

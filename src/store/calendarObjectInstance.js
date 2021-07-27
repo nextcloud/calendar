@@ -21,11 +21,11 @@ import getTimezoneManager from '../services/timezoneDataProviderService'
 import {
 	getDateFromDateTimeValue,
 } from '../utils/date.js'
-import DurationValue from 'calendar-js/src/values/durationValue.js'
-import AttendeeProperty from 'calendar-js/src/properties/attendeeProperty.js'
-import DateTimeValue from 'calendar-js/src/values/dateTimeValue.js'
-import RecurValue from 'calendar-js/src/values/recurValue.js'
-import Property from 'calendar-js/src/properties/property.js'
+import DurationValue from '@nextcloud/calendar-js/src/values/durationValue.js'
+import AttendeeProperty from '@nextcloud/calendar-js/src/properties/attendeeProperty.js'
+import DateTimeValue from '@nextcloud/calendar-js/src/values/dateTimeValue.js'
+import RecurValue from '@nextcloud/calendar-js/src/values/recurValue.js'
+import Property from '@nextcloud/calendar-js/src/properties/property.js'
 import { getBySetPositionAndBySetFromDate, getWeekDayFromDate } from '../utils/recurrence.js'
 import {
 	getDefaultEventObject,
