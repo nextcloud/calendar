@@ -199,6 +199,16 @@
 	}
 }
 
+// Fix week view
+.fc-col-header-cell {
+	word-break: break-word;
+	white-space: normal;
+}
+.fc-timeGridWeek-view .fc-daygrid-more-link {
+	word-break: break-all;
+	white-space: normal;
+}
+
 .fc-v-event {
         min-height: 4em;
 }
