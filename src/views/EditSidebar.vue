@@ -323,7 +323,7 @@ export default {
 			return moment(this.calendarObjectInstance.startDate).locale(this.locale).fromNow()
 		},
 		/**
-		 * @returns {boolean}
+		 * @return {boolean}
 		 */
 		canModifyCalendar() {
 			const eventComponent = this.calendarObjectInstance.eventComponent
