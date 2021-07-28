@@ -83,6 +83,7 @@
     "Deleted" : "Silinmiş",
     "Restore" : "Geri yükle",
     "Delete permanently" : "Kalıcı olarak sil",
+    "Untitled element" : "Başlıksız öge",
     "Could not load deleted calendars and objects" : "Silinmiş takvim ve nesneler yüklenemedi",
     "Could not restore calendar or event" : "Takvim ya da etkinlik geri yüklenemedi",
     "_Elements in the trash bin are deleted after {numDays} day_::_Elements in the trash bin are deleted after {numDays} days_" : ["Çöp kutusundaki ögeler {numDays} gün sonra silinir","Çöp kutusundaki ögeler {numDays} gün sonra silinir"],

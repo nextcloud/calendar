@@ -85,6 +85,7 @@ OC.L10N.register(
     "Deleted" : "Smazáno",
     "Restore" : "Obnovit",
     "Delete permanently" : "Trvale odstranit",
+    "Untitled element" : "Prvek bez názvu",
     "Could not load deleted calendars and objects" : "Nedaří se načíst smazané kalendáře a objekty",
     "Could not restore calendar or event" : "Kalendář nebo událost se nepodařilo obnovit",
     "_Elements in the trash bin are deleted after {numDays} day_::_Elements in the trash bin are deleted after {numDays} days_" : ["Prvky v koši jsou smazány po uplynutí {numDays} dne","Prvky v koši jsou smazány po uplynutí {numDays} dnů","Prvky v koši jsou smazány po uplynutí {numDays} dnů","Prvky v koši jsou smazány po uplynutí {numDays} dnů"],

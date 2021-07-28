@@ -83,6 +83,7 @@
     "Deleted" : "已删除",
     "Restore" : "还原",
     "Delete permanently" : "永久删除",
+    "Untitled element" : "无标题元素",
     "Could not load deleted calendars and objects" : "无法加载已删除的日历和物体",
     "Could not restore calendar or event" : "无法还原日历或事件",
     "_Elements in the trash bin are deleted after {numDays} day_::_Elements in the trash bin are deleted after {numDays} days_" : ["垃圾箱内元素将在 {numDays} 天后被删除"],

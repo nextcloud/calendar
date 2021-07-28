@@ -85,6 +85,7 @@ OC.L10N.register(
     "Deleted" : "Usunięto",
     "Restore" : "Przywróć",
     "Delete permanently" : "Usuń trwale",
+    "Untitled element" : "Element bez tytułu",
     "Could not load deleted calendars and objects" : "Nie udało się wczytać usuniętych kalendarzy i obiektów",
     "Could not restore calendar or event" : "Nie udało się przywrócić kalendarza lub wydarzenia",
     "_Elements in the trash bin are deleted after {numDays} day_::_Elements in the trash bin are deleted after {numDays} days_" : ["Elementy w koszu są usuwane po {numDays} dniu","Elementy w koszu są usuwane po {numDays} dniach","Elementy w koszu są usuwane po {numDays} dniach","Elementy w koszu są usuwane po {numDays} dniach"],

@@ -83,6 +83,7 @@
     "Deleted" : "Verwijderd",
     "Restore" : "Herstellen",
     "Delete permanently" : "Definitief verwijderen",
+    "Untitled element" : "Element zonder titel",
     "Could not load deleted calendars and objects" : "Kon de verwijderde agenda en objecten niet herstellen",
     "Could not restore calendar or event" : "Kon de agenda en objecten niet herstellen",
     "_Elements in the trash bin are deleted after {numDays} day_::_Elements in the trash bin are deleted after {numDays} days_" : ["Objecten in de prullenbak worden na {numDays} dag verwijderd","Objecten in de prullenbak worden na {numDays} dagen verwijderd"],
