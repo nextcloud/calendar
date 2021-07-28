@@ -98,6 +98,12 @@
 	}
 }
 
+// Fix list table
+.fc-list-table td {
+	white-space: normal;
+	word-break: break-word;
+}
+
 // Fix right border on today not being visible in month and week view when using Firefox
 .fc .fc-daygrid-day.fc-day-today,
 .fc .fc-timegrid-col.fc-day-today {
