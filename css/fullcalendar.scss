@@ -200,3 +200,18 @@
 .fc-v-event.fc-timegrid-event-short {
         min-height: 2em;
 }
+
+// Fix Month view
+.fc-dayGridMonth-view {
+	.fc-daygrid-more-link {
+		word-break: break-word;
+		white-space: normal;
+	}
+	.fc-daygrid-day-frame {
+		min-height: 150px !important;
+	}
+}
+.fc-daygrid-day-events {
+	position:relative !important;
+}
+
