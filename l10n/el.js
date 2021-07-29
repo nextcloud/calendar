@@ -204,6 +204,7 @@ OC.L10N.register(
     "{formattedDate} at {formattedTime}" : "{formattedDate} στις {formattedTime}",
     "Please enter a valid date" : "Παρακαλώ εισάγετε έγκυρη ημερομηνία",
     "Please enter a valid date and time" : "Παρακαλώ εισάγετε έγκυρη ημερομηνία και ώρα",
+    "Global" : "Καθολικό",
     "Personal" : "Προσωπικά",
     "No more events today" : "Δεν υπάρχουν άλλα γεγονότα για σήμερα",
     "No upcoming events" : "Κανένα προσεχές γεγονός",
@@ -385,7 +386,6 @@ OC.L10N.register(
     "Wine tasting" : "Γευσιγνωσία κρασιού",
     "Golf" : "Γκόλφ",
     "Dinner" : "Δείπνο",
-    "Lunch" : "Γεύμα",
-    "Global" : "Καθολικό"
+    "Lunch" : "Γεύμα"
 },
 "nplurals=2; plural=(n != 1);");

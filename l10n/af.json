@@ -35,6 +35,7 @@
     "More" : "Nog",
     "Save" : "Stoor",
     "Update" : "Werk by",
+    "Global" : "Globaal",
     "Personal" : "Persoonlik",
     "Details" : "Details",
     "Attendees" : "Bywoners",
@@ -49,7 +50,6 @@
     "Confirmed" : "Bevestig",
     "Tentative" : "Tentatief",
     "Categories" : "Kategorieë",
-    "Mail" : "Pos",
-    "Global" : "Globaal"
+    "Mail" : "Pos"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

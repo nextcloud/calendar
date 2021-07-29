@@ -214,6 +214,7 @@ OC.L10N.register(
     "{formattedDate} at {formattedTime}" : "{formattedDate} klo {formattedTime}",
     "Please enter a valid date" : "Kirjoita kelvollinen päivä",
     "Please enter a valid date and time" : "Kirjoita kelvollinen päivä ja aika",
+    "Global" : "Julkinen",
     "Personal" : "Henkilökohtainen",
     "No more events today" : "Ei enempää tapahtumia tänään",
     "No upcoming events" : "Ei tulevia tapahtumia",
@@ -399,7 +400,6 @@ OC.L10N.register(
     "Wine tasting" : "Viininmaistelu",
     "Golf" : "Golf",
     "Dinner" : "Illallinen",
-    "Lunch" : "Lounas",
-    "Global" : "Julkinen"
+    "Lunch" : "Lounas"
 },
 "nplurals=2; plural=(n != 1);");

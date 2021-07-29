@@ -240,6 +240,7 @@ OC.L10N.register(
     "Please enter a valid date" : "請輸入有效的日期",
     "Please enter a valid date and time" : "請輸入有效的日期和時間",
     "Type to search time zone" : "輸入以搜尋時區",
+    "Global" : "全球",
     "Personal" : "個人",
     "The automatic time zone detection determined your time zone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your time zone manually in the calendar settings." : "自動時區檢測確定您的時區為 UTC。\n這很可能是您的網絡瀏覽器的安全措施的結果。\n請在日曆設置中手動設置您的時區。",
     "Your configured time zone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your time zone in the settings and report this issue." : "找不到您選擇的時區 {timezoneId} ，先以 UTC 替代。\n請至設定改變您的時區並舉報此問題。",
@@ -430,7 +431,6 @@ OC.L10N.register(
     "Wine tasting" : "品酒",
     "Golf" : "高爾夫球",
     "Dinner" : "晚餐",
-    "Lunch" : "午餐",
-    "Global" : "全球"
+    "Lunch" : "午餐"
 },
 "nplurals=1; plural=0;");

@@ -27,6 +27,7 @@
     "More" : "Plus",
     "Save" : "Salveguardar",
     "Update" : "Actualisar",
+    "Global" : "Global",
     "Personal" : "Personal",
     "Details" : "Detalios",
     "Attendees" : "Participantes",
@@ -44,7 +45,6 @@
     "Confirmed" : "Confirmate",
     "Tentative" : "Tentative",
     "Presentation" : "Presentation",
-    "Mail" : "Posta",
-    "Global" : "Global"
+    "Mail" : "Posta"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

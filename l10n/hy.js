@@ -22,6 +22,7 @@ OC.L10N.register(
     "More" : "Ավելի",
     "Save" : "Պահպանել",
     "Update" : "Թարմացնել",
+    "Global" : "Ընդհանուր",
     "Personal" : "Անձնական",
     "Details" : "Մանրամասներ",
     "Attendees" : "Մասնակիցներ",
@@ -30,7 +31,6 @@ OC.L10N.register(
     "Location" : "Տեղակայություն",
     "Description" : "Նկարագրություն",
     "Confirmed" : "Հաստատված",
-    "Mail" : "Փոստ",
-    "Global" : "Ընդհանուր"
+    "Mail" : "Փոստ"
 },
 "nplurals=2; plural=(n != 1);");

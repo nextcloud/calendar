@@ -240,6 +240,7 @@ OC.L10N.register(
     "Please enter a valid date" : "Bitte ein gültiges Datum angeben",
     "Please enter a valid date and time" : "Bitte gültiges Datum und Uhrzeit angeben",
     "Type to search time zone" : "Zum Suchen der Zeitzone tippen",
+    "Global" : "Weltweit",
     "Personal" : "Persönlich",
     "The automatic time zone detection determined your time zone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your time zone manually in the calendar settings." : "Die automatische Erkennung der Zeitzone hat als Ergebnis UTC ermittelt.\nDies ist meist das Ergebnis von Sicherheitsmaßnahmen Ihres Webbrowsers.\nBitte stellen Sie Ihre Zeitzone manuell in den Kalendereinstellungen ein.",
     "Your configured time zone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your time zone in the settings and report this issue." : "Die konfigurierte Zeitzone ({timezoneId}) wurde nicht gefunden. Rückfall auf UTC.\nBitte die Zeitzone in den Einstellungen ändern und melden dieses Problem.",
@@ -430,7 +431,6 @@ OC.L10N.register(
     "Wine tasting" : "Weinprobe",
     "Golf" : "Golf",
     "Dinner" : "Abendessen",
-    "Lunch" : "Mittagessen",
-    "Global" : "Weltweit"
+    "Lunch" : "Mittagessen"
 },
 "nplurals=2; plural=(n != 1);");

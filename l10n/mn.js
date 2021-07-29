@@ -33,6 +33,7 @@ OC.L10N.register(
     "More" : "Дэлгэрэнгүй",
     "Save" : "Хадгалах",
     "Update" : "Шинэчлэх",
+    "Global" : "Нийтийн",
     "Personal" : "Хувийн",
     "Details" : "Дэлгэрэнгүй",
     "Attendees" : "Оролцогчид",
@@ -50,7 +51,6 @@ OC.L10N.register(
     "Confirmed" : "Баталгаажсан",
     "Tentative" : "Урьдчилсан тов",
     "Categories" : "төрөл",
-    "Mail" : "Цахим шуудан",
-    "Global" : "Нийтийн"
+    "Mail" : "Цахим шуудан"
 },
 "nplurals=2; plural=(n != 1);");

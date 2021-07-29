@@ -85,6 +85,7 @@ OC.L10N.register(
     "Deleted" : "Ezabatuta",
     "Restore" : "Berrezarri",
     "Delete permanently" : "Ezabatu betirako",
+    "Untitled element" : "Izen gabeko elementua",
     "Could not load deleted calendars and objects" : "Ezin izan dira ezabatutako egutegi eta elementuak kargatu",
     "Could not restore calendar or event" : "Ezin izan da egutegia edo gertaera berezarri",
     "_Elements in the trash bin are deleted after {numDays} day_::_Elements in the trash bin are deleted after {numDays} days_" : ["Zakarrontziko elementuak {numDays} egun igaro ondoren ezabatzen dira","Zakarrontziko elementuak {numDays} egun igaro ondoren ezabatzen dira"],
@@ -239,6 +240,7 @@ OC.L10N.register(
     "Please enter a valid date" : "Sartu baliozko data",
     "Please enter a valid date and time" : "Sartu baliozko data eta ordua",
     "Type to search time zone" : "Idatzi ordu-zona bilatzeko",
+    "Global" : "Orokorra",
     "Personal" : "Pertsonala",
     "The automatic time zone detection determined your time zone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your time zone manually in the calendar settings." : "Ordu-eremu detekzio automatikoak zehaztu du zure ordu-eremua UTC dela. \nHau seguru aski zure nabigatzailearen segurtasun neurrien ondorio da.\nZehaztu ezazu zure ordu-eremua eskuz egutegiaren ezarpenetan.",
     "Your configured time zone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your time zone in the settings and report this issue." : "Ezarrita daukazun ordu-eremua ({timezoneId}) ez da aurkitu. UTC-ra itzultzen.\nMesedez, aldatu zure ordu-eremua ezarpenetan eta eman arazoaren berri.",
@@ -429,7 +431,6 @@ OC.L10N.register(
     "Wine tasting" : "Ardo dastaketa",
     "Golf" : "Golfa",
     "Dinner" : "Afaria",
-    "Lunch" : "Bazkaria",
-    "Global" : "Orokorra"
+    "Lunch" : "Bazkaria"
 },
 "nplurals=2; plural=(n != 1);");

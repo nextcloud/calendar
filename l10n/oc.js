@@ -87,6 +87,7 @@ OC.L10N.register(
     "from {formattedDate}" : "a partir de {formattedDate}",
     "to {formattedDate}" : "cap a {formattedDate}",
     "Type to search time zone" : "Picar per cercar un fus orari",
+    "Global" : "Global",
     "Personal" : "Personal",
     "[Today]" : "[Uèi]",
     "[Tomorrow]" : "[Deman]",
@@ -147,7 +148,6 @@ OC.L10N.register(
     "Pizza" : "Pizza",
     "Travelling" : "Viatge",
     "Party" : "Fèsta",
-    "Shopping" : "Crompas",
-    "Global" : "Global"
+    "Shopping" : "Crompas"
 },
 "nplurals=2; plural=(n > 1);");

@@ -189,6 +189,7 @@ OC.L10N.register(
     "{formattedDate} at {formattedTime}" : "{formattedDate} في {formattedTime}",
     "Please enter a valid date" : "اختر تاريخ صحيح",
     "Please enter a valid date and time" : "اختر تاريخ ووقت صحيح",
+    "Global" : "عالمي",
     "Personal" : "شخصي",
     "No more events today" : "لا يوجد المزيد من الفعاليات اليوم",
     "No upcoming events" : "ليس هناك فعاليات قادمة",
@@ -359,7 +360,6 @@ OC.L10N.register(
     "Wine tasting" : "تذوق",
     "Golf" : "الجولف",
     "Dinner" : "عشاء",
-    "Lunch" : "غداء",
-    "Global" : "عالمي"
+    "Lunch" : "غداء"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

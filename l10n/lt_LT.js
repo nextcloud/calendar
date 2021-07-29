@@ -139,6 +139,7 @@ OC.L10N.register(
     "at" : ",",
     "+ Add reminder" : "+ Pridėti priminimą",
     "No reminders yet" : "Kol kas priminimų nėra",
+    "Checking availability." : "Tikrinamas prieinamumas.",
     "Availability of attendees, resources and rooms" : "Kviestinių, išteklių ir kambarių prieinamumas",
     "Free" : "Laisvas laikas",
     "Busy (tentative)" : "Užimtas laikas (preliminariai)",
@@ -194,6 +195,7 @@ OC.L10N.register(
     "Update this and all future" : "Atnaujinti šį ir visus būsimus",
     "Public calendar does not exist" : "Viešojo kalendoriaus nėra",
     "Maybe the share was deleted or has expired?" : "Galbūt, viešinys buvo ištrintas arba nebegalioja?",
+    "Please select a time zone:" : "Pasirinkite laiko juostą:",
     "Pick a time" : "Pasirinkite laiką",
     "Pick a date" : "Pasirinkite datą",
     "from {formattedDate}" : "nuo {formattedDate}",
@@ -205,6 +207,7 @@ OC.L10N.register(
     "{formattedDate} at {formattedTime}" : "{formattedDate}, {formattedTime}",
     "Please enter a valid date" : "Įveskite teisingą datą",
     "Please enter a valid date and time" : "Įveskite teisingą datą ir laiką",
+    "Global" : "Visuotinis",
     "Personal" : "Asmeniniai",
     "No more events today" : "Šiandien daugiau įvykių nėra",
     "No upcoming events" : "Artėjančių įvykių nėra",
@@ -384,7 +387,6 @@ OC.L10N.register(
     "Wine tasting" : "Vyno degustacija",
     "Golf" : "Golfas",
     "Dinner" : "Pietūs",
-    "Lunch" : "Priešpiečiai",
-    "Global" : "Visuotinis"
+    "Lunch" : "Priešpiečiai"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

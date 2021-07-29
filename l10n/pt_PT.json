@@ -112,6 +112,7 @@
     "More" : "Mais",
     "Save" : "Guardar",
     "Update" : "Atualizar",
+    "Global" : "Global",
     "Personal" : "Pessoal",
     "Details" : "Detalhes",
     "Attendees" : "Participantes",
@@ -133,7 +134,6 @@
     "Presentation" : "Apresentação",
     "Review" : "Rever",
     "Office" : "Escritório",
-    "Mail" : "Correio",
-    "Global" : "Global"
+    "Mail" : "Correio"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

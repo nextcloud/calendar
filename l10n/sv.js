@@ -232,6 +232,7 @@ OC.L10N.register(
     "{formattedDate} at {formattedTime}" : "{formattedDate} kl {formattedTime}",
     "Please enter a valid date" : "Ange ett giltigt datum",
     "Please enter a valid date and time" : "Ange giltigt datum och tid",
+    "Global" : "Global",
     "Personal" : "Privat",
     "No more events today" : "Inga fler händelser idag",
     "No upcoming events" : "Inga kommande händelser",
@@ -419,7 +420,6 @@ OC.L10N.register(
     "Wine tasting" : "Vinprovning",
     "Golf" : "Golf",
     "Dinner" : "Middag",
-    "Lunch" : "Lunch",
-    "Global" : "Global"
+    "Lunch" : "Lunch"
 },
 "nplurals=2; plural=(n != 1);");

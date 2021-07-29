@@ -41,6 +41,7 @@ OC.L10N.register(
     "More" : "More",
     "Save" : "Save",
     "Update" : "Update",
+    "Global" : "Global",
     "Personal" : "Personal",
     "Details" : "Details",
     "Attendees" : "Attendees",
@@ -63,7 +64,6 @@ OC.L10N.register(
     "Presentation" : "Presentation",
     "Review" : "Review",
     "Office" : "Office",
-    "Mail" : "Mail",
-    "Global" : "Global"
+    "Mail" : "Mail"
 },
 "nplurals=2; plural=(n != 1);");

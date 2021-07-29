@@ -31,6 +31,7 @@
     "More" : "Дэлгэрэнгүй",
     "Save" : "Хадгалах",
     "Update" : "Шинэчлэх",
+    "Global" : "Нийтийн",
     "Personal" : "Хувийн",
     "Details" : "Дэлгэрэнгүй",
     "Attendees" : "Оролцогчид",
@@ -48,7 +49,6 @@
     "Confirmed" : "Баталгаажсан",
     "Tentative" : "Урьдчилсан тов",
     "Categories" : "төрөл",
-    "Mail" : "Цахим шуудан",
-    "Global" : "Нийтийн"
+    "Mail" : "Цахим шуудан"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

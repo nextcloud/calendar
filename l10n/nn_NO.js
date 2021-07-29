@@ -28,6 +28,7 @@ OC.L10N.register(
     "More" : "Meir",
     "Save" : "Lagre",
     "Update" : "Oppdater",
+    "Global" : "Global",
     "Personal" : "Personleg",
     "Details" : "Detaljar",
     "Attendees" : "Deltakarar",
@@ -43,7 +44,6 @@ OC.L10N.register(
     "Status" : "Status",
     "Confirmed" : "Stadfesta",
     "Tentative" : "Førebels",
-    "Mail" : "Post",
-    "Global" : "Global"
+    "Mail" : "Post"
 },
 "nplurals=2; plural=(n != 1);");

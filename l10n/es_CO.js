@@ -39,6 +39,7 @@ OC.L10N.register(
     "More" : "Más",
     "Save" : "Guardar",
     "Update" : "Actualizar",
+    "Global" : "Global",
     "Personal" : "Personal",
     "Details" : "Detalles",
     "Attendees" : "Asistentes",
@@ -57,7 +58,6 @@ OC.L10N.register(
     "Confirmed" : "Confirmado",
     "Tentative" : "Tentativo",
     "Categories" : "Categorías",
-    "Mail" : "Correo",
-    "Global" : "Global"
+    "Mail" : "Correo"
 },
 "nplurals=2; plural=(n != 1);");

@@ -37,6 +37,7 @@
     "More" : "Más",
     "Save" : "Guardar",
     "Update" : "Actualizar",
+    "Global" : "Global",
     "Personal" : "Personal",
     "Details" : "Detalles",
     "Attendees" : "Asistentes",
@@ -58,7 +59,6 @@
     "Categories" : "Categorías",
     "Presentation" : "Presentación",
     "Office" : "Office",
-    "Mail" : "Correo",
-    "Global" : "Global"
+    "Mail" : "Correo"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

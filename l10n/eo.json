@@ -39,6 +39,7 @@
     "More" : "Pli",
     "Save" : "Konservi",
     "Update" : "Ĝisdatigi",
+    "Global" : "Monda",
     "Personal" : "Persona",
     "[Today]" : "[Hodiaŭ]",
     "[Tomorrow]" : "[Morgaŭ]",
@@ -63,7 +64,6 @@
     "Canceled" : "Nuligita",
     "Categories" : "Kategorioj",
     "Add this as a new category" : "Aldoni tion kiel novan kategorion",
-    "Mail" : "Retpoŝtilo",
-    "Global" : "Monda"
+    "Mail" : "Retpoŝtilo"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

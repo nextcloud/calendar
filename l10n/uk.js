@@ -200,6 +200,7 @@ OC.L10N.register(
     "{formattedDate} at {formattedTime}" : "{formattedDate} о {formattedTime}",
     "Please enter a valid date" : "Будь-ласка вкажіть коректну дату",
     "Please enter a valid date and time" : "Будь-ласка вкажіть коректну дату і час",
+    "Global" : "Загальний",
     "Personal" : "Особисте",
     "Delete this occurrence" : "Вилучити повторення",
     "Delete this and all future" : "Вилучити це й наступні повторення",
@@ -366,7 +367,6 @@ OC.L10N.register(
     "Wine tasting" : "Дегустація",
     "Golf" : "Гольф",
     "Dinner" : "Вечеря",
-    "Lunch" : "Обід",
-    "Global" : "Загальний"
+    "Lunch" : "Обід"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

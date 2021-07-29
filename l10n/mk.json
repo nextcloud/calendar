@@ -221,6 +221,7 @@
     "Please enter a valid date" : "Внесете валиден датум",
     "Please enter a valid date and time" : "Внесете валиден датум и време",
     "Type to search time zone" : "Пребарај временски зони",
+    "Global" : "Глобално",
     "Personal" : "Лично",
     "The automatic time zone detection determined your time zone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your time zone manually in the calendar settings." : "Автоматското откривање на временската зона утврди дека вашата временска зона е UTC.\nОва е најверојатно резултат на безбедносните мерки на вашиот веб прелистувач\nПоставете ја вашата временска зона во подесувањата за календарот.",
     "Your configured time zone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your time zone in the settings and report this issue." : "Вашата временска зона ({timezoneId}) не е пронајдена. Поставена е  (Координирано универзално време) UTC.\nПоставете ја вашата временска зона во подесувањата за календарот или пријавете го овој проблем.",
@@ -407,7 +408,6 @@
     "Wine tasting" : "Дегустација на вино",
     "Golf" : "Голф",
     "Dinner" : "Вечера",
-    "Lunch" : "Ручек",
-    "Global" : "Глобално"
+    "Lunch" : "Ручек"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

@@ -203,6 +203,7 @@ OC.L10N.register(
     "{formattedDate} at {formattedTime}" : "{formattedDate} vào lúc {formattedTime}",
     "Please enter a valid date" : "Vui lòng điền vào 1 ngày khả dụng",
     "Please enter a valid date and time" : "Vui lòng điền vào 1 ngày và thời gian khả dụng",
+    "Global" : "Chung",
     "Personal" : "Cá nhân",
     "No more events today" : "Không có thêm sự kiện nào hôm nay",
     "No upcoming events" : "Không có sự kiện sắp diễn ra ",
@@ -383,7 +384,6 @@ OC.L10N.register(
     "Wine tasting" : "Thử rựu",
     "Golf" : "Đánh gôn",
     "Dinner" : "Dùng bữa tối",
-    "Lunch" : "Ăn trưa",
-    "Global" : "Chung"
+    "Lunch" : "Ăn trưa"
 },
 "nplurals=1; plural=0;");

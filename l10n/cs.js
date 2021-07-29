@@ -240,6 +240,7 @@ OC.L10N.register(
     "Please enter a valid date" : "Zadejte platné datum",
     "Please enter a valid date and time" : "Zadejte platný datum a čas",
     "Type to search time zone" : "Psaním vyhledejte časovou zónu",
+    "Global" : "Globální",
     "Personal" : "Osobní",
     "The automatic time zone detection determined your time zone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your time zone manually in the calendar settings." : "Automatickým zjištěním časové zóny bylo určeno, že vaše zóna je UTC.\nTo je nejspíš kvůli bezpečnostním opatřením vámi používaného webového prohlížeče.\nV nastavení kalendáře zadejte časovou zónu ručně.",
     "Your configured time zone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your time zone in the settings and report this issue." : "Vámi nastavená časová zóna ({timezoneId}) nenalezena. Náhradou bude použit UTC čas.\nZměňte svou časovou zónu v nastaveních a nahlaste tento problém vývojářům, děkujeme.",
@@ -430,7 +431,6 @@ OC.L10N.register(
     "Wine tasting" : "Ochutnávka vína",
     "Golf" : "Golf",
     "Dinner" : "Večeře",
-    "Lunch" : "Oběd",
-    "Global" : "Globální"
+    "Lunch" : "Oběd"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

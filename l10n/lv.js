@@ -41,6 +41,7 @@ OC.L10N.register(
     "More" : "Vairāk",
     "Save" : "Saglabāt",
     "Update" : "Atjaunināt",
+    "Global" : "Globāls",
     "Personal" : "Personīgs",
     "Details" : "Detaļas",
     "Attendees" : "Apmeklētāji",
@@ -60,7 +61,6 @@ OC.L10N.register(
     "Tentative" : "Mēģinājums",
     "Categories" : "Kategorijas",
     "Presentation" : "Prezentācija",
-    "Mail" : "E-pasts",
-    "Global" : "Globāls"
+    "Mail" : "E-pasts"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

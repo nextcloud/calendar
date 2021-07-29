@@ -56,6 +56,7 @@ OC.L10N.register(
     "More" : "Mai mult",
     "Save" : "Salvează",
     "Update" : "Actualizare",
+    "Global" : "Global",
     "Personal" : "Personal",
     "Details" : "Detalii",
     "Attendees" : "Participanți",
@@ -73,7 +74,6 @@ OC.L10N.register(
     "Status" : "Stare",
     "Confirmed" : "Confirmat",
     "Tentative" : "Tentativă",
-    "Mail" : "Mail",
-    "Global" : "Global"
+    "Mail" : "Mail"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

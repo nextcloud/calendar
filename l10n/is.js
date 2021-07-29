@@ -186,6 +186,7 @@ OC.L10N.register(
     "on {formattedDate}" : "þann {formattedDate}",
     "Please enter a valid date" : "Settu inn gilda dagsetningu",
     "Please enter a valid date and time" : "Settu inn gilda dags- og tímasetningu",
+    "Global" : "Víðvært",
     "Personal" : "Persónulegt",
     "[Today]" : "[Í dag]",
     "[Tomorrow]" : "[Á morgun]",
@@ -335,7 +336,6 @@ OC.L10N.register(
     "Wine tasting" : "Vínsmökkun",
     "Golf" : "Golf",
     "Dinner" : "Kvöldverður",
-    "Lunch" : "Hádegisverður",
-    "Global" : "Víðvært"
+    "Lunch" : "Hádegisverður"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

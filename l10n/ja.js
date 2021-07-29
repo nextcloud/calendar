@@ -191,6 +191,7 @@ OC.L10N.register(
     "{formattedDate} at {formattedTime}" : "{formattedDate} {formattedTime}",
     "Please enter a valid date" : "有効な日付を入力してください",
     "Please enter a valid date and time" : "有効な日付と時刻を入力してください",
+    "Global" : "グローバル",
     "Personal" : "個人",
     "No more events today" : "今日はこれ以上イベントがありません",
     "No upcoming events" : "今後のイベントはありません",
@@ -340,7 +341,6 @@ OC.L10N.register(
     "Wine tasting" : "ワイン",
     "Golf" : "ゴルフ",
     "Dinner" : "ディナー",
-    "Lunch" : "ランチ",
-    "Global" : "グローバル"
+    "Lunch" : "ランチ"
 },
 "nplurals=1; plural=0;");

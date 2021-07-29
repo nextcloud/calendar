@@ -34,6 +34,7 @@ OC.L10N.register(
     "More" : "Más",
     "Save" : "Guardar",
     "Update" : "Anovar",
+    "Global" : "Global",
     "Personal" : "Personal",
     "Details" : "Detalles",
     "Attendees" : "Asistentes",
@@ -54,7 +55,6 @@ OC.L10N.register(
     "Categories" : "Estayes",
     "Presentation" : "Presentación",
     "Office" : "Oficina",
-    "Mail" : "Corréu",
-    "Global" : "Global"
+    "Mail" : "Corréu"
 },
 "nplurals=2; plural=(n != 1);");

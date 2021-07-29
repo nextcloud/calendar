@@ -25,6 +25,7 @@ OC.L10N.register(
     "More" : "เพิ่มเติม",
     "Save" : "บันทึก",
     "Update" : "อัพเดท",
+    "Global" : "ทั่วไป",
     "Personal" : "ส่วนตัว",
     "Details" : "รายละเอียด",
     "Attendees" : "ผู้เข้าร่วมกิจกรรม",
@@ -43,7 +44,6 @@ OC.L10N.register(
     "Tentative" : "ชั่วคราว",
     "Presentation" : "งานนำเสนอ",
     "Office" : "สำนักงาน",
-    "Mail" : "จดหมาย",
-    "Global" : "ทั่วไป"
+    "Mail" : "จดหมาย"
 },
 "nplurals=1; plural=0;");

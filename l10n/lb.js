@@ -25,6 +25,7 @@ OC.L10N.register(
     "More" : "Méi",
     "Save" : "Späicheren",
     "Update" : "Update",
+    "Global" : "Global",
     "Personal" : "Perséinlech",
     "Details" : "Detailer",
     "Attendees" : "Participanten",
@@ -38,7 +39,6 @@ OC.L10N.register(
     "When shared hide this event" : "Wann et gedeelt gouf, dann verstopp dëst Evenement",
     "Location" : "Uert",
     "Description" : "Beschreiwung",
-    "Mail" : "Mail",
-    "Global" : "Global"
+    "Mail" : "Mail"
 },
 "nplurals=2; plural=(n != 1);");

@@ -55,6 +55,7 @@ OC.L10N.register(
     "More" : "Rohkem",
     "Save" : "Salvesta",
     "Update" : "Uuenda",
+    "Global" : "Üldine",
     "Personal" : "Isiklik",
     "Details" : "Üksikasjad",
     "Attendees" : "Osalejad",
@@ -136,7 +137,6 @@ OC.L10N.register(
     "Skateboard" : "Rula",
     "Wine tasting" : "Veini degusteerimine",
     "Golf" : "Golf",
-    "Dinner" : "Õhtusöök",
-    "Global" : "Üldine"
+    "Dinner" : "Õhtusöök"
 },
 "nplurals=2; plural=(n != 1);");

@@ -208,6 +208,7 @@ OC.L10N.register(
     "{formattedDate} at {formattedTime}" : "{formattedDate} в {formattedTime}",
     "Please enter a valid date" : "Введите верную дату",
     "Please enter a valid date and time" : "Введите верную дату и время",
+    "Global" : "Общие",
     "Personal" : "Личный",
     "No more events today" : "На сегодня больше нет событий",
     "No upcoming events" : "Приближающиеся события отсуствуют",
@@ -390,7 +391,6 @@ OC.L10N.register(
     "Wine tasting" : "Дегустация вина",
     "Golf" : "Гольф",
     "Dinner" : "Ужин",
-    "Lunch" : "Обед",
-    "Global" : "Общие"
+    "Lunch" : "Обед"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

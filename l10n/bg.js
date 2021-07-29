@@ -206,6 +206,7 @@ OC.L10N.register(
     "{formattedDate} at {formattedTime}" : " {formattedDate} в {formattedTime}",
     "Please enter a valid date" : "Моля да въведете валидна дата",
     "Please enter a valid date and time" : "Моля да въведете валидна дата и час",
+    "Global" : "Глобални",
     "Personal" : "Лични",
     "No more events today" : " Няма повече събития за днес",
     "No upcoming events" : "Няма предстоящи събития",
@@ -388,7 +389,6 @@ OC.L10N.register(
     "Wine tasting" : "Дегустация на вино",
     "Golf" : "Голф",
     "Dinner" : "Вечеря",
-    "Lunch" : "Обяд",
-    "Global" : "Глобални"
+    "Lunch" : "Обяд"
 },
 "nplurals=2; plural=(n != 1);");

@@ -206,6 +206,7 @@ OC.L10N.register(
     "{formattedDate} at {formattedTime}" : "{formattedDate} ás {formattedTime}",
     "Please enter a valid date" : "Introduza unha data válida",
     "Please enter a valid date and time" : "Introduza unha data e hora válidas",
+    "Global" : "Global",
     "Personal" : "Persoal",
     "No more events today" : "Hoxe non hai máis eventos",
     "No upcoming events" : "Non hai eventos próximos",
@@ -388,7 +389,6 @@ OC.L10N.register(
     "Wine tasting" : "Cata de viños",
     "Golf" : "Golf",
     "Dinner" : "Cea",
-    "Lunch" : "Xantar",
-    "Global" : "Global"
+    "Lunch" : "Xantar"
 },
 "nplurals=2; plural=(n != 1);");

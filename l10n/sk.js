@@ -237,6 +237,7 @@ OC.L10N.register(
     "Please enter a valid date" : "Zadajte platný dátum",
     "Please enter a valid date and time" : "Zadajte platný dátum a čas",
     "Type to search time zone" : "Písaním nájdete časovú zónu",
+    "Global" : "Globálne",
     "Personal" : "Osobné",
     "No more events today" : "Dnes žiadne ďalšie udalosti",
     "No upcoming events" : "Žiadne nadchádzajúce udalosti",
@@ -425,7 +426,6 @@ OC.L10N.register(
     "Wine tasting" : "Ochutnávka vína",
     "Golf" : "Golf",
     "Dinner" : "Večera",
-    "Lunch" : "Obed",
-    "Global" : "Globálne"
+    "Lunch" : "Obed"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

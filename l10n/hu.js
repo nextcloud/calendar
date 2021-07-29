@@ -206,6 +206,7 @@ OC.L10N.register(
     "{formattedDate} at {formattedTime}" : "{formattedDate} {formattedTime}-kor",
     "Please enter a valid date" : "Kérjük, adjon meg egy érvényes dátumot",
     "Please enter a valid date and time" : "Adjon meg egy érvényes dátumot és időt",
+    "Global" : "Globális",
     "Personal" : "Személyes",
     "No more events today" : "Ma nincs több esemény",
     "No upcoming events" : "Nincsenek közelgő események",
@@ -388,7 +389,6 @@ OC.L10N.register(
     "Wine tasting" : "Borkóstolás",
     "Golf" : "Golf",
     "Dinner" : "Vacsora",
-    "Lunch" : "Ebéd",
-    "Global" : "Globális"
+    "Lunch" : "Ebéd"
 },
 "nplurals=2; plural=(n != 1);");

@@ -32,6 +32,7 @@ OC.L10N.register(
     "More" : "Rhagor",
     "Save" : "Cadw",
     "Update" : "Diweddaru",
+    "Global" : "Eang",
     "Personal" : "Personol",
     "Details" : "Manylion",
     "Attendees" : "Mynychwyr",
@@ -46,7 +47,6 @@ OC.L10N.register(
     "Description" : "Disgrifiad",
     "Confirmed" : "Cadarnhawyd",
     "Tentative" : "I'w gadarnhau",
-    "Mail" : "E-bost",
-    "Global" : "Eang"
+    "Mail" : "E-bost"
 },
 "nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3;");

@@ -215,6 +215,7 @@ OC.L10N.register(
     "{formattedDate} at {formattedTime}" : "{formattedDate} ob {formattedTime}",
     "Please enter a valid date" : "Vpisati je treba veljaven datum",
     "Please enter a valid date and time" : "Vpisati je treba veljaven datum in čas",
+    "Global" : "Splošno",
     "Personal" : "Osebno",
     "No more events today" : "Danes ni več načrtovanih dogodkov",
     "No upcoming events" : "Ni prihajajočih dogodkov",
@@ -397,7 +398,6 @@ OC.L10N.register(
     "Wine tasting" : "Vino",
     "Golf" : "Golf",
     "Dinner" : "Večerja",
-    "Lunch" : "Kosilo",
-    "Global" : "Splošno"
+    "Lunch" : "Kosilo"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

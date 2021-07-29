@@ -51,6 +51,7 @@ OC.L10N.register(
     "More" : "Más",
     "Save" : "Guardar",
     "Update" : "Actualizar",
+    "Global" : "Global",
     "Personal" : "Personal",
     "Details" : "Detalles",
     "Attendees" : "Asistentes",
@@ -70,7 +71,6 @@ OC.L10N.register(
     "Tentative" : "Tentativo",
     "Categories" : "Categoría",
     "Movie" : "Película",
-    "Mail" : "Correo Electrónico",
-    "Global" : "Global"
+    "Mail" : "Correo Electrónico"
 },
 "nplurals=2; plural=(n != 1);");

@@ -53,6 +53,7 @@
     "More" : "Rohkem",
     "Save" : "Salvesta",
     "Update" : "Uuenda",
+    "Global" : "Üldine",
     "Personal" : "Isiklik",
     "Details" : "Üksikasjad",
     "Attendees" : "Osalejad",
@@ -134,7 +135,6 @@
     "Skateboard" : "Rula",
     "Wine tasting" : "Veini degusteerimine",
     "Golf" : "Golf",
-    "Dinner" : "Õhtusöök",
-    "Global" : "Üldine"
+    "Dinner" : "Õhtusöök"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

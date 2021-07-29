@@ -109,6 +109,7 @@
     "More" : "Mere",
     "Save" : "Gem",
     "Update" : "Opdatér",
+    "Global" : "Global",
     "Personal" : "Personlig",
     "Details" : "Detaljer",
     "Attendees" : "Deltagere",
@@ -132,7 +133,6 @@
     "Movie" : "Film",
     "Review" : "Gennemse",
     "Office" : "Kontor",
-    "Mail" : "Mail",
-    "Global" : "Global"
+    "Mail" : "Mail"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

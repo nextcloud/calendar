@@ -41,6 +41,7 @@ OC.L10N.register(
     "More" : "Pli",
     "Save" : "Konservi",
     "Update" : "Ĝisdatigi",
+    "Global" : "Monda",
     "Personal" : "Persona",
     "[Today]" : "[Hodiaŭ]",
     "[Tomorrow]" : "[Morgaŭ]",
@@ -65,7 +66,6 @@ OC.L10N.register(
     "Canceled" : "Nuligita",
     "Categories" : "Kategorioj",
     "Add this as a new category" : "Aldoni tion kiel novan kategorion",
-    "Mail" : "Retpoŝtilo",
-    "Global" : "Monda"
+    "Mail" : "Retpoŝtilo"
 },
 "nplurals=2; plural=(n != 1);");

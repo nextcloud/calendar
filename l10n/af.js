@@ -37,6 +37,7 @@ OC.L10N.register(
     "More" : "Nog",
     "Save" : "Stoor",
     "Update" : "Werk by",
+    "Global" : "Globaal",
     "Personal" : "Persoonlik",
     "Details" : "Details",
     "Attendees" : "Bywoners",
@@ -51,7 +52,6 @@ OC.L10N.register(
     "Confirmed" : "Bevestig",
     "Tentative" : "Tentatief",
     "Categories" : "Kategorieë",
-    "Mail" : "Pos",
-    "Global" : "Globaal"
+    "Mail" : "Pos"
 },
 "nplurals=2; plural=(n != 1);");

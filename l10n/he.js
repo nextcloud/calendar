@@ -204,6 +204,7 @@ OC.L10N.register(
     "{formattedDate} at {formattedTime}" : "{formattedDate} בשעה {formattedTime}",
     "Please enter a valid date" : "נא להקליד תאריך תקני",
     "Please enter a valid date and time" : "נא להקליד שעה ותאריך תקניים",
+    "Global" : "גלובלי",
     "Personal" : "אישי",
     "No more events today" : "אין עוד אירועים היום",
     "No upcoming events" : "אין אירועים בזמן הקרוב",
@@ -385,7 +386,6 @@ OC.L10N.register(
     "Wine tasting" : "טעימות יין",
     "Golf" : "גוֹלף",
     "Dinner" : "ארוחת ערב",
-    "Lunch" : "ארוחת צהריים",
-    "Global" : "גלובלי"
+    "Lunch" : "ארוחת צהריים"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

@@ -180,6 +180,7 @@ OC.L10N.register(
     "{formattedDate} at {formattedTime}" : "{formattedDate} در {formattedTime}",
     "Please enter a valid date" : "لطفا یک تاریخ معتبر وارد کنید",
     "Please enter a valid date and time" : "لطفاً یک تاریخ و زمان معتبر وارد کنید",
+    "Global" : "عمومی",
     "Personal" : "شخصی",
     "Delete this occurrence" : "این رخداد را حذف کنید",
     "Delete this and all future" : "این و همه آینده را حذف کنید",
@@ -338,7 +339,6 @@ OC.L10N.register(
     "Wine tasting" : "مزه کردن شراب",
     "Golf" : "گلف",
     "Dinner" : "شام",
-    "Lunch" : "ناهار",
-    "Global" : "عمومی"
+    "Lunch" : "ناهار"
 },
 "nplurals=2; plural=(n > 1);");

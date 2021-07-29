@@ -39,6 +39,7 @@
     "More" : "More",
     "Save" : "Save",
     "Update" : "Update",
+    "Global" : "Global",
     "Personal" : "Personal",
     "Details" : "Details",
     "Attendees" : "Attendees",
@@ -61,7 +62,6 @@
     "Presentation" : "Presentation",
     "Review" : "Review",
     "Office" : "Office",
-    "Mail" : "Mail",
-    "Global" : "Global"
+    "Mail" : "Mail"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

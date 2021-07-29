@@ -238,6 +238,7 @@
     "Please enter a valid date" : "请输入一个有效的日期",
     "Please enter a valid date and time" : "请输入有效的日期和时间",
     "Type to search time zone" : "输入以搜索时区 ",
+    "Global" : "全球",
     "Personal" : "个人",
     "The automatic time zone detection determined your time zone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your time zone manually in the calendar settings." : "自动时区检测确定您的时区为世界标准时间（UTC）。\n可能性最大的原因是 web 浏览器的安全措施的结果。\n请在日历设置中手动设置时区。",
     "Your configured time zone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your time zone in the settings and report this issue." : "找不到您配置的时区 ({timezoneId})。将退回到世界标准时间（UTC）。\n请在设置中更改您的时区并报告此问题。",
@@ -428,7 +429,6 @@
     "Wine tasting" : "品酒",
     "Golf" : "高尔夫",
     "Dinner" : "晚餐",
-    "Lunch" : "午餐",
-    "Global" : "全球"
+    "Lunch" : "午餐"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

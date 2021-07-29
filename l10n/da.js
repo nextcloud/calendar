@@ -111,6 +111,7 @@ OC.L10N.register(
     "More" : "Mere",
     "Save" : "Gem",
     "Update" : "Opdatér",
+    "Global" : "Global",
     "Personal" : "Personlig",
     "Details" : "Detaljer",
     "Attendees" : "Deltagere",
@@ -134,7 +135,6 @@ OC.L10N.register(
     "Movie" : "Film",
     "Review" : "Gennemse",
     "Office" : "Kontor",
-    "Mail" : "Mail",
-    "Global" : "Global"
+    "Mail" : "Mail"
 },
 "nplurals=2; plural=(n != 1);");

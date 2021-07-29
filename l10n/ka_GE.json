@@ -35,6 +35,7 @@
     "More" : "უფრო მეტი",
     "Save" : "შენახვა",
     "Update" : "განახლება",
+    "Global" : "გლობალური",
     "Personal" : "პირადი",
     "Details" : "დეტლაები",
     "Attendees" : "დამსწრეები",
@@ -53,7 +54,6 @@
     "Confirmed" : "დადასტურებლია",
     "Tentative" : "საცდელი",
     "Categories" : "კატეგორიები",
-    "Mail" : "ფოსტა",
-    "Global" : "გლობალური"
+    "Mail" : "ფოსტა"
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

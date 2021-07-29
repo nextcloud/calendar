@@ -227,6 +227,7 @@ OC.L10N.register(
     "{formattedDate} at {formattedTime}" : "{formattedDate} à {formattedTime}",
     "Please enter a valid date" : "Veuillez saisir une date valide",
     "Please enter a valid date and time" : "Veuillez saisir une date et une heure valides",
+    "Global" : "Général",
     "Personal" : "Personnel",
     "No more events today" : "Aucun autre événement aujourd'hui",
     "No upcoming events" : "Aucun événement à venir",
@@ -414,7 +415,6 @@ OC.L10N.register(
     "Wine tasting" : "Dégustation de vin",
     "Golf" : "Golf",
     "Dinner" : "Diner",
-    "Lunch" : "Repas",
-    "Global" : "Général"
+    "Lunch" : "Repas"
 },
 "nplurals=2; plural=(n > 1);");

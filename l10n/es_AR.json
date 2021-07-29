@@ -49,6 +49,7 @@
     "More" : "Más",
     "Save" : "Guardar",
     "Update" : "Actualizar",
+    "Global" : "Global",
     "Personal" : "Personal",
     "Details" : "Detalles",
     "Attendees" : "Asistentes",
@@ -68,7 +69,6 @@
     "Tentative" : "Tentativo",
     "Categories" : "Categoría",
     "Movie" : "Película",
-    "Mail" : "Correo Electrónico",
-    "Global" : "Global"
+    "Mail" : "Correo Electrónico"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

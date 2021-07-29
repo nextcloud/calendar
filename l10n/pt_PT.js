@@ -114,6 +114,7 @@ OC.L10N.register(
     "More" : "Mais",
     "Save" : "Guardar",
     "Update" : "Atualizar",
+    "Global" : "Global",
     "Personal" : "Pessoal",
     "Details" : "Detalhes",
     "Attendees" : "Participantes",
@@ -135,7 +136,6 @@ OC.L10N.register(
     "Presentation" : "Apresentação",
     "Review" : "Rever",
     "Office" : "Escritório",
-    "Mail" : "Correio",
-    "Global" : "Global"
+    "Mail" : "Correio"
 },
 "nplurals=2; plural=(n != 1);");

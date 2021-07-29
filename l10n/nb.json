@@ -193,6 +193,7 @@
     "{formattedDate} at {formattedTime}" : "{formattedDate} på {formattedTime}",
     "Please enter a valid date" : "Vennligst tast inn en gyldig dato",
     "Please enter a valid date and time" : "Vennligst tast inn en gyldig dato og tidspunkt",
+    "Global" : "Global",
     "Personal" : "Personlig",
     "No more events today" : "Ingen flere hendelser i dag",
     "Event does not exist" : "Avtalen finnes ikke",
@@ -319,7 +320,6 @@
     "Wine tasting" : "Vinsmaking",
     "Golf" : "Golf",
     "Dinner" : "Middag",
-    "Lunch" : "Lunsj",
-    "Global" : "Global"
+    "Lunch" : "Lunsj"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

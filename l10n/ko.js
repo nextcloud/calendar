@@ -125,6 +125,7 @@ OC.L10N.register(
     "Pick a date" : "날짜 선택",
     "from {formattedDate}" : "{formattedDate} 부터",
     "to {formattedDate}" : "{formattedDate} 까지",
+    "Global" : "국제",
     "Personal" : "개인",
     "Create a new event" : "새로운 이벤트 만들기",
     "[Today]" : "[오늘]",
@@ -163,7 +164,6 @@ OC.L10N.register(
     "Mail" : "메일",
     "Video-call" : "영상 통화",
     "Shopping" : "쇼핑",
-    "Golf" : "골프",
-    "Global" : "국제"
+    "Golf" : "골프"
 },
 "nplurals=1; plural=0;");

@@ -37,6 +37,7 @@ OC.L10N.register(
     "More" : "უფრო მეტი",
     "Save" : "შენახვა",
     "Update" : "განახლება",
+    "Global" : "გლობალური",
     "Personal" : "პირადი",
     "Details" : "დეტლაები",
     "Attendees" : "დამსწრეები",
@@ -55,7 +56,6 @@ OC.L10N.register(
     "Confirmed" : "დადასტურებლია",
     "Tentative" : "საცდელი",
     "Categories" : "კატეგორიები",
-    "Mail" : "ფოსტა",
-    "Global" : "გლობალური"
+    "Mail" : "ფოსტა"
 },
 "nplurals=2; plural=(n!=1);");

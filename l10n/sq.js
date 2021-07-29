@@ -36,6 +36,7 @@ OC.L10N.register(
     "More" : "Më tepër",
     "Save" : "Ruaj",
     "Update" : "Përditësoje",
+    "Global" : "Globale",
     "Personal" : "Personale",
     "Details" : "Detajet",
     "Attendees" : "Pjesëmarrës",
@@ -56,7 +57,6 @@ OC.L10N.register(
     "Categories" : "Kategoritë",
     "Presentation" : "Paraqitje",
     "Office" : "Zyrë",
-    "Mail" : "Posta",
-    "Global" : "Globale"
+    "Mail" : "Posta"
 },
 "nplurals=2; plural=(n != 1);");
