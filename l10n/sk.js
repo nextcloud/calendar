@@ -85,6 +85,7 @@ OC.L10N.register(
     "Deleted" : "Zmazané",
     "Restore" : "Obnoviť",
     "Delete permanently" : "Zmazať  natrvalo",
+    "Untitled element" : "Prvok bez názvu",
     "Could not load deleted calendars and objects" : "Nie je možné načítať zmazané kalendáre a objekty",
     "Could not restore calendar or event" : "Nie je možné obnoviť kalendár alebo udalosť",
     "Could not update calendar order." : "Poradie kalendára sa nepodarilo aktualizovať.",
