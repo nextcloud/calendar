@@ -1,4 +1,10 @@
 { "translations": {
+    "Provided email-address is not valid" : "ผู้ให้บริการอีเมลไม่ถูกต้อง",
+    "%s has published the calendar »%s«" : "%s ได้เผยแพร่ปฏิทิน %s",
+    "Unexpected error sending email. Please contact your administrator." : "เกิดข้อผิดพลาดไม่คาดคิดขณะส่งอีเมล โปรดติดต่อผู้ดูแล",
+    "Successfully sent email to %1$s" : "ส่งอีเมลถึง %1$s สำเร็จ",
+    "Hello," : "สวัสดี",
+    "Open »%s«" : "เปิด »%s«",
     "Cheers!" : "ไชโย!",
     "Calendar" : "ปฏิทิน",
     "Today" : "วันนี้",

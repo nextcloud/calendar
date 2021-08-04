@@ -291,7 +291,7 @@ OC.L10N.register(
     "Status" : "Istadu",
     "Confirmed" : "Cunfirmadu",
     "Tentative" : "Intentu",
-    "Canceled" : "Cantzelladu",
+    "Canceled" : "Annulladu",
     "Confirmation about the overall status of the event." : "Cunfirma subra s'istadu generale de s'eventu.",
     "Show as" : "Mustra comente",
     "Take this event into account when calculating free-busy information." : "Cunsìdera custu eventu cando si càrculant is informatziones lìberu-ocupadu.",
