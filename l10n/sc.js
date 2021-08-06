@@ -84,7 +84,7 @@ OC.L10N.register(
     "Deleted" : "Cantzelladu",
     "Restore" : "Riprìstina",
     "Delete permanently" : "Cantzella in manera permanente",
-    "Could not load deleted calendars and objects" : "No at fati a carrigare is calendàrios e is ogetos cantzellados",
+    "Could not load deleted calendars and objects" : "No at fatu a carrigare is calendàrios e is ogetos cantzellados",
     "Could not update calendar order." : "No at fatu a agiornare s'òrdne de su calendàriu.",
     "Import calendars" : "Importa calendàrios",
     "Please select a calendar to import into …" : "Seletziona unu calendàriu de importare in …",

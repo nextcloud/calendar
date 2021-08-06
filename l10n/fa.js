@@ -40,7 +40,7 @@ OC.L10N.register(
     "An error occurred, unable to change the calendar's color." : "خطایی روی داد ، قادر به تغییر رنگ تقویم نیست.",
     "_Unsharing the calendar in {countdown} second_::_Unsharing the calendar in {countdown} seconds_" : ["اشتراک‌گذاری تقویم در {شمارش معکوس}. ثانیه","اشتراک‌گذاری تقویم در {شمارش معکوس}. ثانیه ها"],
     "_Deleting the calendar in {countdown} second_::_Deleting the calendar in {countdown} seconds_" : ["حذف تقویم در {شمارش معکوس} ثانیه ها","حذف تقویم در {شمارش معکوس} ثانیه ها"],
-    "Share link" : "Share link",
+    "Share link" : "لینک را به اشتراک بگذارید",
     "Publish calendar" : "تقویم را منتشر کنید",
     "Publishing calendar" : "در حال انتشار تقویم ",
     "Copy public link" : "پیوند عمومی را کپی کنید",
