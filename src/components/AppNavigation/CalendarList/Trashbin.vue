@@ -161,7 +161,7 @@ export default {
 				}
 			})
 
-			return formattedCalendars.concat(formattedCalendarObjects)
+			return formattedCalendars.concat(formattedCalendarObjects).sort((item1, item2) => item2.deletedAt - item1.deletedAt)
 		},
 		retentionDuration() {
 			return Math.ceil(
