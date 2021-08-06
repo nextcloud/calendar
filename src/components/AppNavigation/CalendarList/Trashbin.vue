@@ -131,10 +131,9 @@ export default {
 				color: calendar.color ?? uidToHexColor(calendar.displayname),
 			}))
 			const formattedCalendarObjects = this.objects.map(vobject => {
-				let eventSummary = t('calendar', 'Untitled event')
+				let eventSummary = t('calendar', 'Untitled element')
 				try {
-					// TODO: there _has to be_ a less error prone way …
-					eventSummary = vobject.calendarComponent?._components?.get('VEVENT')[0]?._properties?.get('SUMMARY')[0]?.value
+					eventSummary = vobject?.calendarComponent.getComponentIterator().next().value?.title
 				} catch (e) {
 					// ignore
 				}
