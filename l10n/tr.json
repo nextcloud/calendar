@@ -78,7 +78,6 @@
     "An error occurred, unable to create the calendar." : "Bir sorun çıktı. Takvim eklenemedi.",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "Lütfen geçerli bir bağlantı yazın (http://, https://, webcal:// ya da webcals:// ile başlayan)",
     "Trash bin" : "Çöp kutusu",
-    "You do not have any deleted calendars or events" : "Silinmiş herhangi bir takvim ya da etkinlik yok",
     "Name" : "Ad",
     "Deleted" : "Silinmiş",
     "Restore" : "Geri yükle",

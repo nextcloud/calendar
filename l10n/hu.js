@@ -80,7 +80,6 @@ OC.L10N.register(
     "An error occurred, unable to create the calendar." : "Hiba történt, a naptárat nem lehet létrehozni.",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "Érvényes hivatkozást adjon meg (ezek egyikével kezdődjön: http://, https://, webcal://, vagy webcals://)",
     "Trash bin" : "Kuka",
-    "You do not have any deleted calendars or events" : "Nincs törölt naptár vagy esemény",
     "Name" : "Név",
     "Deleted" : "Törölt",
     "Restore" : "Helyreállítás",

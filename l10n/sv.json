@@ -78,7 +78,6 @@
     "An error occurred, unable to create the calendar." : "Ett fel inträffade, kunde inte skapa kalender.",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "Ange en giltig länk (startar med http://, https://, webcal://, eller webcals://)",
     "Trash bin" : "Papperskorg",
-    "You do not have any deleted calendars or events" : "Du har inga borttagna kalendrar eller händelser",
     "Name" : "Namn",
     "Deleted" : "Borttagen",
     "Restore" : "Återställ",

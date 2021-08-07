@@ -80,7 +80,6 @@ OC.L10N.register(
     "An error occurred, unable to create the calendar." : "Es ist ein Fehler aufgetreten, der Kalender konnte nicht erstellt werden.",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "Bitte einen gültigen Link eingeben (beginnend mit http://, https://, webcal://, oder webcals://)",
     "Trash bin" : "Papierkorb",
-    "You do not have any deleted calendars or events" : "Du hast keine gelöschten Kalender oder Ereignisse",
     "Name" : "Name",
     "Deleted" : "Gelöscht",
     "Restore" : "Wiederherstellen",

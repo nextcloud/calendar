@@ -78,7 +78,6 @@
     "An error occurred, unable to create the calendar." : "Se ha producido un error, no fue posible crear el calendario.",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "Por favor escriba un enlace válido (comenzando con http://, https://, webcal://, o webcals://)",
     "Trash bin" : "Papelera",
-    "You do not have any deleted calendars or events" : "Usted no tiene ningún calendario o evento eliminado",
     "Name" : "Nombre",
     "Deleted" : "Eliminado",
     "Restore" : "Restaurar",

@@ -80,7 +80,6 @@ OC.L10N.register(
     "An error occurred, unable to create the calendar." : "Er is een fout opgetreden waardoor het niet mogelijk is om de agenda te creëren.",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "Geef geldige urls op - die moeten starten met http://, https://, webcal:// of webcals://",
     "Trash bin" : "Prullenbak",
-    "You do not have any deleted calendars or events" : "Je hebt geen agenda of afspraken verwijderd",
     "Name" : "Naam",
     "Deleted" : "Verwijderd",
     "Restore" : "Herstellen",

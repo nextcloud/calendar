@@ -80,7 +80,6 @@ OC.L10N.register(
     "An error occurred, unable to create the calendar." : "Errore bat gertatu da, ezin da egutegia sortu.",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "Sartu baliozko esteka bat (hauetako batekin hasi behar du: http://, https://, webcal:// edo webcals://)",
     "Trash bin" : "Zakarrontzia",
-    "You do not have any deleted calendars or events" : "Ez duzu ezabatutako egutegi edo gertaerarik",
     "Name" : "Izena",
     "Deleted" : "Ezabatuta",
     "Restore" : "Berrezarri",

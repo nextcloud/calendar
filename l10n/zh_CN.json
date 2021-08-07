@@ -78,7 +78,6 @@
     "An error occurred, unable to create the calendar." : "发生了错误，无法创建日历。",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "请输入合法的链接（以http://、https://、webcal://、或者webcals://开头）",
     "Trash bin" : "垃圾箱",
-    "You do not have any deleted calendars or events" : "你没有已删除的日历或事件",
     "Name" : "名称",
     "Deleted" : "已删除",
     "Restore" : "还原",

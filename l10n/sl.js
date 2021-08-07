@@ -79,7 +79,6 @@ OC.L10N.register(
     "Creating subscription …" : "Poteka ustvarjanje naročnine ...",
     "An error occurred, unable to create the calendar." : "Prišlo je do napake, koledarja ni mogoče ustvariti.",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "Vpisati je treba veljavne povezave (začeti se morajo s http://, https://, webcal://, ali webcals://)",
-    "You do not have any deleted calendars or events" : "Nimate nobenih izbrisanih koledarjev ali dogodkov",
     "_Elements in the trash bin are deleted after {numDays} day_::_Elements in the trash bin are deleted after {numDays} days_" : ["Elementi v smetnjaku so pobrisani po {numDays} dnevu","Elementi v smetnjaku so pobrisani po {numDays} dnevih","Elementi v smetnjaku so pobrisani po {numDays} dnevih","Elementi v smetnjaku so pobrisani po {numDays} dnevih"],
     "Could not update calendar order." : "Ni mogoče posodobiti koledarja",
     "Import calendars" : "Uvozi koledarje",

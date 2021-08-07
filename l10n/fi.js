@@ -79,7 +79,6 @@ OC.L10N.register(
     "An error occurred, unable to create the calendar." : "Tapahtui virhe, kalenteria ei voitu luoda.",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "Anna kelvollinen linkki (alkaen http://, https://, webcal:// tai webcals://)",
     "Trash bin" : "Roskakori",
-    "You do not have any deleted calendars or events" : "Sinulla ei ole poistettuja kalentereita tai tapahtumia",
     "Name" : "Nimi",
     "Deleted" : "Poistettu",
     "Restore" : "Palauta",

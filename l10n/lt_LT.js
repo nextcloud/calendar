@@ -80,7 +80,6 @@ OC.L10N.register(
     "An error occurred, unable to create the calendar." : "Įvyko klaida, nepavyko sukurti kalendoriaus.",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "Įveskite teisingą nuorodą (prasidedančią http://, https://, webcal:// ar webcals://)",
     "Trash bin" : "Šiukšlinė",
-    "You do not have any deleted calendars or events" : "Jūs neturite jokių ištrintų kalendorių ar įvykių",
     "Restore" : "Atkurti",
     "Could not load deleted calendars and objects" : "Nepavyko įkelti ištrintų kalendorių ir objektų",
     "Could not restore calendar or event" : "Nepavyko atkurti kalendoriaus ar įvykio",

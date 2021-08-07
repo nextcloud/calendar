@@ -80,7 +80,6 @@ OC.L10N.register(
     "An error occurred, unable to create the calendar." : "Došlo k chybě, kalendář se nepodařilo vytvořit.",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "Vložte platný odkaz (včetně http://, https://, webcal://, nebo webcals:// na začátku)",
     "Trash bin" : "Koš",
-    "You do not have any deleted calendars or events" : "Nemáte žádné smazané kalendáře nebo události",
     "Name" : "Název",
     "Deleted" : "Smazáno",
     "Restore" : "Obnovit",
