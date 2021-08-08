@@ -80,6 +80,8 @@ OC.L10N.register(
     "An error occurred, unable to create the calendar." : "發生錯誤，無法建立日曆",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "請輸入有效的連結（以 http：// ， https：// ， webcal：// ， 或 webcals：// 開頭）",
     "Trash bin" : "回收桶",
+    "Loading deleted elements." : "正加載已删除的元素。",
+    "You do not have any deleted elements." : "你没有已删除的元素。",
     "Name" : "姓名",
     "Deleted" : "已刪除",
     "Restore" : "復原",
