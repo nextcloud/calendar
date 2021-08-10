@@ -78,6 +78,8 @@
     "An error occurred, unable to create the calendar." : "Errore bat gertatu da, ezin da egutegia sortu.",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "Sartu baliozko esteka bat (hauetako batekin hasi behar du: http://, https://, webcal:// edo webcals://)",
     "Trash bin" : "Zakarrontzia",
+    "Loading deleted elements." : "Kargatu ezabatutako elementuak.",
+    "You do not have any deleted elements." : "Ez duzu ezabatutako elementurik.",
     "Name" : "Izena",
     "Deleted" : "Ezabatuta",
     "Restore" : "Berrezarri",
