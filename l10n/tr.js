@@ -80,6 +80,8 @@ OC.L10N.register(
     "An error occurred, unable to create the calendar." : "Bir sorun çıktı. Takvim eklenemedi.",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "Lütfen geçerli bir bağlantı yazın (http://, https://, webcal:// ya da webcals:// ile başlayan)",
     "Trash bin" : "Çöp kutusu",
+    "Loading deleted elements." : "Silinmiş bileşenler yükleniyor.",
+    "You do not have any deleted elements." : "Silinmiş herhangi bir bileşen yok.",
     "Name" : "Ad",
     "Deleted" : "Silinmiş",
     "Restore" : "Geri yükle",
