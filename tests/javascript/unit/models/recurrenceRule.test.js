@@ -25,7 +25,7 @@ import {
 	mapRecurrenceRuleValueToRecurrenceRuleObject
 } from "../../../../src/models/recurrenceRule.js";
 import { getDateFromDateTimeValue } from '../../../../src/utils/date.js'
-import DateTimeValue from "@nextcloud/calendar-js/src/values/dateTimeValue.js";
+import { DateTimeValue } from "@nextcloud/calendar-js";
 
 jest.mock('../../../../src/utils/date.js')
 

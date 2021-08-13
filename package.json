@@ -44,7 +44,7 @@
 		"@fullcalendar/vue": "5.9.0",
 		"@nextcloud/auth": "^1.3.0",
 		"@nextcloud/axios": "^1.6.0",
-		"@nextcloud/calendar-js": "^1.1.1",
+		"@nextcloud/calendar-js": "^2.0.0",
 		"@nextcloud/dialogs": "^3.1.2",
 		"@nextcloud/event-bus": "^2.0.0",
 		"@nextcloud/initial-state": "^1.2.0",
@@ -109,7 +109,8 @@
 			"vue"
 		],
 		"moduleNameMapper": {
-			"^@/(.*)$": "<rootDir>/src/$1"
+			"^@/(.*)$": "<rootDir>/src/$1",
+			"^ical.js": "<rootDir>/node_modules/ical.js"
 		},
 		"transform": {
 			".*\\.js$": "<rootDir>/node_modules/babel-jest",
@@ -132,7 +133,7 @@
 			"clover"
 		],
 		"transformIgnorePatterns": [
-			"/node_modules/(?!(@nextcloud/calendar-js)|(@fullcalendar)).+\\.js$"
+			"/node_modules/(?!(@fullcalendar)).+\\.js$"
 		],
 		"setupFilesAfterEnv": [
 			"./tests/javascript/jest.setup.js",

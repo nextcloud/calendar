@@ -26,7 +26,7 @@ import { getHexForColorName } from '../../../../src/utils/color.js'
 import { mapAlarmComponentToAlarmObject } from '../../../../src/models/alarm.js'
 import { mapAttendeePropertyToAttendeeObject } from '../../../../src/models/attendee.js'
 import { getDefaultRecurrenceRuleObject, mapRecurrenceRuleValueToRecurrenceRuleObject } from '../../../../src/models/recurrenceRule.js'
-import DateTimeValue from "@nextcloud/calendar-js/src/values/dateTimeValue.js";
+import { DateTimeValue } from "@nextcloud/calendar-js";
 
 jest.mock('../../../../src/utils/date.js')
 jest.mock('../../../../src/utils/color.js')
