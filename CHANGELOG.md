@@ -1,5 +1,22 @@
 # Changelog
 
+## 2.3.2 – 2021-08-18
+### Changed
+- Details of editor design
+- Make save buttons sticky
+- Sort objects in trash bin by newest first
+- Size of text fields in event pop-up
+### Fixed
+- Settings design regressions
+- Scrolling for trash bin
+- Unusable sidebar on mobile
+- List table issues
+- Month view issues
+- Week view issues
+- Rendering of vobject in trash bin
+- Missing loading view for trash bin
+- Task restoring error handling
+
 ## 2.3.1 – 2021-07-14
 ### Fixed
 * Create Talk room for event
