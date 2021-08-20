@@ -36,41 +36,16 @@
 		label="dropdownName"
 		@search-change="findAttendees"
 		@select="addAttendee">
-		<!--<template slot="singleLabel" slot-scope="props"><img class="option__image" :src="props.option.img" alt="No Man’s Sky"><span class="option__desc"><span class="option__title">{{ props.option.title }}</span></span></template>-->
-		<template slot="singleLabel" slot-scope="props">
+		<template #option="{ option }">
 			<div class="invitees-search-list-item">
-				<Avatar v-if="props.option.isUser" :user="props.option.avatar" :display-name="props.option.dropdownName" />
-				<Avatar v-if="!props.option.isUser" :url="props.option.avatar" :display-name="props.option.dropdownName" />
-				<div v-if="props.option.hasMultipleEMails" class="invitees-search-list-item__label invitees-search-list-item__label--with-displayname">
+				<Avatar v-if="option.isUser" :user="option.avatar" :display-name="option.dropdownName" />
+				<Avatar v-if="!option.isUser" :url="option.avatar" :display-name="option.dropdownName" />
+				<div class="invitees-search-list-item__label invitees-search-list-item__label--with-multiple-email">
 					<div>
-						{{ props.option.commonName }}
+						{{ option.dropdownName }}
 					</div>
-					<div>
-						{{ props.option.email }}
-					</div>
-				</div>
-				<div v-else class="invitees-search-list-item__label invitees-search-list-item__label--single-email">
-					<div>
-						{{ props.option.dropdownName }}
-					</div>
-				</div>
-			</div>
-		</template>
-		<template slot="option" slot-scope="props">
-			<div class="invitees-search-list-item">
-				<Avatar v-if="props.option.isUser" :user="props.option.avatar" :display-name="props.option.dropdownName" />
-				<Avatar v-if="!props.option.isUser" :url="props.option.avatar" :display-name="props.option.dropdownName" />
-				<div v-if="props.option.hasMultipleEMails" class="invitees-search-list-item__label invitees-search-list-item__label--with-multiple-email">
-					<div>
-						{{ props.option.commonName }}
-					</div>
-					<div>
-						{{ props.option.email }}
-					</div>
-				</div>
-				<div v-else class="invitees-search-list-item__label invitees-search-list-item__label--single-email">
-					<div>
-						{{ props.option.dropdownName }}
+					<div v-if="option.email !== option.dropdownName">
+						{{ option.email }}
 					</div>
 				</div>
 			</div>
