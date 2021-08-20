@@ -199,6 +199,7 @@ OC.L10N.register(
     "[Today]" : "[今日]",
     "[Tomorrow]" : "[明日]",
     "[Yesterday]" : "[昨日]",
+    "[Last] dddd" : "[Last]dddd",
     "Event does not exist" : "イベントは存在しません",
     "Delete this occurrence" : "この出来事を削除",
     "Details" : "詳細",
