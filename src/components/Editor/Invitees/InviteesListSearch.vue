@@ -216,7 +216,7 @@ export default {
 					commonName: principal.displayname,
 					calendarUserType: principal.calendarUserType,
 					email: principal.email,
-					lang: null,
+					language: principal.language,
 					isUser: principal.calendarUserType === 'INDIVIDUAL',
 					avatar: principal.userId,
 					hasMultipleEMails: false,
