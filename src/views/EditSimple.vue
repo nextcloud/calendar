@@ -1,6 +1,7 @@
 <!--
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
   - @author Georg Ehrke <oc.list@georgehrke.com>
+  - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
   - @license GNU AGPL version 3 or any later version
   -
@@ -22,7 +23,7 @@
 <template>
 	<Popover
 		ref="popover"
-		:open="true"
+		:open="isVisible"
 		:auto-hide="false"
 		:placement="placement"
 		:boundaries-element="boundaryElement"
@@ -159,34 +160,26 @@ export default {
 	mixins: [
 		EditorMixin,
 	],
-	beforeRouteUpdate(to, from, next) {
-		const isNew = to.name === 'NewPopoverView'
-		this.$refs.popover
-			.$children[0]
-			.$refs.trigger = this.getDomElementForPopover(isNew, to)
-		this.$refs.popover
-			.$children[0]
-			.$_restartPopper()
-
-		next()
-	},
 	data() {
 		return {
 			placement: 'auto',
 			hasLocation: false,
 			hasDescription: false,
 			boundaryElement: document.querySelector('#app-content > .fc'),
+			isVisible: true,
 		}
 	},
 	watch: {
-		eventComponent() {
-			const isNew = this.$route.name === 'NewPopoverView'
-			this.$refs.popover
-				.$children[0]
-				.$refs.trigger = this.getDomElementForPopover(isNew, this.$route)
-			this.$refs.popover
-				.$children[0]
-				.$_restartPopper()
+		$route(to, from) {
+			// Update the popover position by updating its reference element.
+			const isNew = to.name === 'NewPopoverView'
+			const popover = this.$refs.popover.$children[0]
+			popover.$_updatePopper(() => {
+				popover.popperInstance.reference = this.getDomElementForPopover(isNew, to)
+			})
+
+			// Hide popover when changing the view until the user selects a slot again
+			this.isVisible = to.params.view === from.params.view
 		},
 		calendarObjectInstance() {
 			this.hasLocation = false
@@ -204,15 +197,12 @@ export default {
 		this.$nextTick(() => {
 			const isNew = this.$route.name === 'NewPopoverView'
 
-			// TODO: test beforeRouteUpdate
-
 			// V3 of V-Tooltip will have a prop to define the reference element for popper.js
 			// For now we have to stick to this ugly hack
 			// https://github.com/Akryum/v-tooltip/issues/60
 			this.$refs.popover
 				.$children[0]
 				.$refs.trigger = this.getDomElementForPopover(isNew, this.$route)
-			this.isVisible = true
 		})
 	},
 	methods: {
