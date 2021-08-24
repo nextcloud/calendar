@@ -31,7 +31,7 @@ OC.L10N.register(
     "Saving name …" : "Ad kaydediliyor …",
     "Edit color" : "Rengi düzenle",
     "Saving color …" : "Renk kaydediliyor …",
-    "Copy private link" : "Bana özel bağlantıyı kopyala",
+    "Copy private link" : "Kişisel bağlantıyı kopyala",
     "Download" : "İndir",
     "Unshare from me" : "Benimle paylaşımı kaldır",
     "Delete" : "Sil",
