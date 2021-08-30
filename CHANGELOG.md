@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.3.3 – 2021-08-30
+### Fixed
+- Development dependencies shipped with production build
+- Missing email address in attendee search
+
 ## 2.2.2 – 2021-05-26
 ### Fixed
 - Unable to pick date in monthly view
