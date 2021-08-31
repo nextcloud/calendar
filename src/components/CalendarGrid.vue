@@ -142,7 +142,7 @@ export default {
 				lazyFetching: false,
 				nowIndicator: true,
 				progressiveEventRendering: true,
-				unselectAuto: true,
+				unselectAuto: false,
 				// Timezones:
 				timeZone: this.timezoneId,
 			}
@@ -203,7 +203,7 @@ export default {
 			resizeObserver.observe(this.$refs.fullCalendar.$el)
 		}
 	},
-	created() {
+	async created() {
 		this.updateTodayJob = setInterval(() => {
 			const newDate = getYYYYMMDDFromFirstdayParam('now')
 
@@ -244,6 +244,22 @@ export default {
 
 			next()
 		})
+
+		// Trigger the select event programmatically on initial page load to show the new event
+		// in the grid. Wait for the next tick because the ref isn't available right away.
+		await this.$nextTick()
+		if (['NewPopoverView', 'NewSidebarView'].includes(this.$route.name)) {
+			const start = new Date(parseInt(this.$route.params.dtstart) * 1000)
+			const end = new Date(parseInt(this.$route.params.dtend) * 1000)
+			if (!isNaN(start.getTime()) && !isNaN(end.getTime())) {
+				const calendarApi = this.$refs.fullCalendar.getApi()
+				calendarApi.select({
+					start,
+					end,
+					allDay: this.$route.params.allDay === '1',
+				})
+			}
+		}
 	},
 	methods: {
 		/**
