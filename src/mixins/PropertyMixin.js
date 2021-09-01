@@ -26,7 +26,25 @@
  *
  * See inline for more documentation
  */
+
+import Briefcase from 'vue-material-design-icons/Briefcase.vue'
+import Check from 'vue-material-design-icons/Check.vue'
+import Eye from 'vue-material-design-icons/Eye.vue'
+import EyedropperVariant from 'vue-material-design-icons/EyedropperVariant.vue'
+import MapMarker from 'vue-material-design-icons/MapMarker.vue'
+import Tag from 'vue-material-design-icons/Tag.vue'
+import TextBoxOutline from 'vue-material-design-icons/TextBoxOutline.vue'
+
 export default {
+	components: {
+		Briefcase,
+		Check,
+		Eye,
+		EyedropperVariant,
+		MapMarker,
+		Tag,
+		TextBoxOutline,
+	},
 	props: {
 		/**
 		 * The prop-model object containing information about the

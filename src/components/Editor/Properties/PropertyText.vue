@@ -22,10 +22,11 @@
 
 <template>
 	<div v-if="display" class="property-text">
-		<div
-			class="property-text__icon"
-			:class="icon"
-			:title="readableName" />
+		<component
+			:is="icon"
+			:size="20"
+			:title="readableName"
+			class="property-text__icon" />
 
 		<div
 			class="property-text__input"
@@ -47,7 +48,11 @@
 		<div
 			v-if="hasInfo"
 			v-tooltip="info"
-			class="property-text__info icon-details" />
+			class="property-select__info">
+			<InformationVariant
+				:size="20"
+				decorative />
+		</div>
 	</div>
 </template>
 
@@ -56,11 +61,14 @@ import autosize from '../../../directives/autosize.js'
 import PropertyMixin from '../../../mixins/PropertyMixin'
 import { linkify } from '../../../directives/linkify.js'
 
+import InformationVariant from 'vue-material-design-icons/InformationVariant.vue'
+
 export default {
 	name: 'PropertyText',
 	directives: {
 		autosize,
 		linkify,
+		InformationVariant,
 	},
 	mixins: [
 		PropertyMixin,

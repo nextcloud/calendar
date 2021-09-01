@@ -22,10 +22,11 @@
 
 <template>
 	<div v-if="display" class="property-select">
-		<div
-			class="property-select__icon"
-			:class="icon"
-			:title="readableName" />
+		<component
+			:is="icon"
+			:size="20"
+			:title="readableName"
+			class="property-select__icon" />
 
 		<div
 			class="property-select__input"
@@ -47,7 +48,11 @@
 		<div
 			v-if="hasInfo"
 			v-tooltip="info"
-			class="property-select__info icon-details" />
+			class="property-select__info">
+			<InformationVariant
+				:size="20"
+				decorative />
+		</div>
 	</div>
 </template>
 
@@ -55,10 +60,13 @@
 import PropertyMixin from '../../../mixins/PropertyMixin'
 import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
 
+import InformationVariant from 'vue-material-design-icons/InformationVariant.vue'
+
 export default {
 	name: 'PropertySelect',
 	components: {
 		Multiselect,
+		InformationVariant,
 	},
 	mixins: [
 		PropertyMixin,

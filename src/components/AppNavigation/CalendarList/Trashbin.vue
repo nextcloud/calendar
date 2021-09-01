@@ -22,8 +22,10 @@
 <template>
 	<AppNavigationItem :title="t('calendar', 'Trash bin')"
 		:pinned="true"
-		icon="icon-delete"
 		@click.prevent="onShow">
+		<template #icon>
+			<Delete :size="20" decorative />
+		</template>
 		<template #extra>
 			<Modal v-if="showModal"
 				@close="showModal = false">
@@ -39,8 +41,10 @@
 					</EmptyContent>
 					<EmptyContent
 						v-else-if="!items.length"
-						class="modal__content__empty"
-						icon="icon-delete">
+						class="modal__content__empty">
+						<template #icon>
+							<Delete :size="20" decorative />
+						</template>
 						<template #desc>
 							{{ t('calendar', 'You do not have any deleted elements.') }}
 						</template>
@@ -83,8 +87,10 @@
 
 									<Actions :force-menu="true">
 										<ActionButton
-											icon="icon-delete"
 											@click="onDeletePermanently(item)">
+											<template #icon>
+												<Delete :size="20" decorative />
+											</template>
 											{{ t('calendar','Delete permanently') }}
 										</ActionButton>
 									</Actions>
@@ -114,6 +120,8 @@ import { mapGetters } from 'vuex'
 import Moment from './Moment'
 import { uidToHexColor } from '../../../utils/color'
 
+import Delete from 'vue-material-design-icons/Delete.vue'
+
 export default {
 	name: 'Trashbin',
 	components: {
@@ -123,6 +131,7 @@ export default {
 		Moment,
 		Actions,
 		ActionButton,
+		Delete,
 	},
 	data() {
 		return {

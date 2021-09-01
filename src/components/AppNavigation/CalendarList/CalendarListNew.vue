@@ -27,17 +27,25 @@
 		:menu-open.sync="isOpen"
 		menu-icon="icon-add"
 		@click.prevent.stop="toggleDialog">
+		<template #menu-icon>
+			<Plus :size="20" decorative />
+		</template>
 		<template slot="actions">
 			<ActionButton
 				v-if="showCreateCalendarLabel"
-				icon="icon-new-calendar"
 				@click.prevent.stop="openCreateCalendarInput">
+				<template #icon>
+					<CalendarBlank :size="20" decorative />
+				</template>
 				{{ $t('calendar', 'New calendar') }}
 			</ActionButton>
 			<ActionInput
 				v-if="showCreateCalendarInput"
-				icon="icon-new-calendar"
-				@submit.prevent.stop="createNewCalendar" />
+				@submit.prevent.stop="createNewCalendar">
+				<template #icon>
+					<CalendarBlank :size="20" decorative />
+				</template>
+			</ActionInput>
 			<ActionText
 				v-if="showCreateCalendarSaving"
 				icon="icon-loading-small">
@@ -47,14 +55,19 @@
 
 			<ActionButton
 				v-if="showCreateCalendarTaskListLabel"
-				icon="icon-new-calendar-with-task-list"
 				@click.prevent.stop="openCreateCalendarTaskListInput">
+				<template #icon>
+					<CalendarCheck :size="20" decorative />
+				</template>
 				{{ $t('calendar', 'New calendar with task list') }}
 			</ActionButton>
 			<ActionInput
 				v-if="showCreateCalendarTaskListInput"
-				icon="icon-new-calendar-with-task-list"
-				@submit.prevent.stop="createNewCalendarTaskList" />
+				@submit.prevent.stop="createNewCalendarTaskList">
+				<template #icon>
+					<CalendarCheck :size="20" decorative />
+				</template>
+			</ActionInput>
 			<ActionText
 				v-if="showCreateCalendarTaskListSaving"
 				icon="icon-loading-small">
@@ -64,14 +77,19 @@
 
 			<ActionButton
 				v-if="showCreateSubscriptionLabel"
-				icon="icon-public"
 				@click.prevent.stop="openCreateSubscriptionInput">
+				<template #icon>
+					<LinkVariant :size="20" decorative />
+				</template>
 				{{ $t('calendar', 'New subscription from link (read-only)') }}
 			</ActionButton>
 			<ActionInput
 				v-if="showCreateSubscriptionInput"
-				icon="icon-public"
-				@submit.prevent.stop="createNewSubscription" />
+				@submit.prevent.stop="createNewSubscription">
+				<template #icon>
+					<LinkVariant :size="20" decorative />
+				</template>
+			</ActionInput>
 			<ActionText
 				v-if="showCreateSubscriptionSaving"
 				icon="icon-loading-small">
@@ -93,6 +111,11 @@ import {
 
 import { uidToHexColor } from '../../../utils/color.js'
 
+import CalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
+import CalendarCheck from 'vue-material-design-icons/CalendarCheck.vue'
+import LinkVariant from 'vue-material-design-icons/LinkVariant.vue'
+import Plus from 'vue-material-design-icons/Plus.vue'
+
 export default {
 	name: 'CalendarListNew',
 	components: {
@@ -100,6 +123,10 @@ export default {
 		ActionInput,
 		ActionText,
 		AppNavigationItem,
+		CalendarBlank,
+		CalendarCheck,
+		LinkVariant,
+		Plus,
 	},
 	data() {
 		return {

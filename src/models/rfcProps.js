@@ -34,7 +34,7 @@ const getRFCProperties = () => {
 		 */
 		accessClass: {
 			readableName: t('calendar', 'When shared show'),
-			icon: 'icon-eye',
+			icon: 'Eye',
 			options: [
 				{ value: 'PUBLIC', label: t('calendar', 'When shared show full event') },
 				{ value: 'CONFIDENTIAL', label: t('calendar', 'When shared show only busy') },
@@ -50,7 +50,7 @@ const getRFCProperties = () => {
 		location: {
 			readableName: t('calendar', 'Location'),
 			placeholder: t('calendar', 'Add a location'),
-			icon: 'icon-address',
+			icon: 'MapMarker',
 		},
 		/**
 		 * https://tools.ietf.org/html/rfc5545#section-3.8.1.5
@@ -58,7 +58,7 @@ const getRFCProperties = () => {
 		description: {
 			readableName: t('calendar', 'Description'),
 			placeholder: t('calendar', 'Add a description'),
-			icon: 'icon-menu',
+			icon: 'TextBoxOutline',
 			defaultNumberOfRows: 2,
 		},
 		/**
@@ -66,7 +66,7 @@ const getRFCProperties = () => {
 		 */
 		status: {
 			readableName: t('calendar', 'Status'),
-			icon: 'icon-checkmark',
+			icon: 'Check',
 			options: [
 				{ value: 'CONFIRMED', label: t('calendar', 'Confirmed') },
 				{ value: 'TENTATIVE', label: t('calendar', 'Tentative') },
@@ -81,7 +81,7 @@ const getRFCProperties = () => {
 		 */
 		timeTransparency: {
 			readableName: t('calendar', 'Show as'),
-			icon: 'icon-briefcase',
+			icon: 'Briefcase',
 			multiple: false,
 			info: t('calendar', 'Take this event into account when calculating free-busy information.'),
 			options: [
@@ -95,7 +95,7 @@ const getRFCProperties = () => {
 		 */
 		categories: {
 			readableName: t('calendar', 'Categories'),
-			icon: 'icon-tag',
+			icon: 'Tag',
 			multiple: true,
 			info: t('calendar', 'Categories help you to structure and organize your events.'),
 			placeholder: t('calendar', 'Search or add categories'),
@@ -107,7 +107,7 @@ const getRFCProperties = () => {
 		 */
 		color: {
 			readableName: t('calendar', 'Custom color'),
-			icon: 'icon-color-picker',
+			icon: 'EyedropperVariant',
 			multiple: false,
 			info: t('calendar', 'Special color of this event. Overrides the calendar-color.'),
 		},

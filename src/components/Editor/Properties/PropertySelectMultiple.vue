@@ -22,10 +22,11 @@
 
 <template>
 	<div v-if="display" class="property-select-multiple">
-		<div
-			class="property-select-multiple__icon"
-			:class="icon"
-			:title="readableName" />
+		<component
+			:is="icon"
+			:size="20"
+			:title="readableName"
+			class="property-select-multiple__icon" />
 
 		<div
 			class="property-select-multiple__input"
@@ -63,7 +64,11 @@
 		<div
 			v-if="hasInfo"
 			v-tooltip="info"
-			class="property-select-multiple__info icon-details" />
+			class="property-select__info">
+			<InformationVariant
+				:size="20"
+				decorative />
+		</div>
 	</div>
 </template>
 
@@ -74,12 +79,15 @@ import PropertySelectMultipleColoredTag from './PropertySelectMultipleColoredTag
 import PropertySelectMultipleColoredOption from './PropertySelectMultipleColoredOption.vue'
 import { getLocale } from '@nextcloud/l10n'
 
+import InformationVariant from 'vue-material-design-icons/InformationVariant.vue'
+
 export default {
 	name: 'PropertySelectMultiple',
 	components: {
 		PropertySelectMultipleColoredOption,
 		PropertySelectMultipleColoredTag,
 		Multiselect,
+		InformationVariant,
 	},
 	mixins: [
 		PropertyMixin,

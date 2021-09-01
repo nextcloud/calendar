@@ -27,7 +27,8 @@
 			:max="total" />
 	</li>
 	<li v-else class="settings-fieldset-interior-item">
-		<label class="settings-fieldset-interior-item__import-button button icon icon-upload" :for="inputUid">
+		<label class="settings-fieldset-interior-item__import-button button icon" :for="inputUid">
+			<Upload :size="20" decorative />
 			{{ $n('calendar', 'Import calendar', 'Import calendars', 1) }}
 		</label>
 		<input
@@ -67,10 +68,13 @@ import {
 	IMPORT_STAGE_PROCESSING,
 } from '../../../models/consts.js'
 
+import Upload from 'vue-material-design-icons/Upload.vue'
+
 export default {
 	name: 'SettingsImportSection',
 	components: {
 		ImportScreen,
+		Upload,
 	},
 	props: {
 		isDisabled: {

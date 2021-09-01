@@ -533,10 +533,11 @@
 		&__info {
 			height: 34px;
 			width: 34px;
-			margin-top: 5px;
 		}
 
 		&__info {
+			display: flex;
+			justify-content: center;
 			opacity: .5;
 		}
 

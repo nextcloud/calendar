@@ -38,10 +38,18 @@
 
 		<NoAttendeesView
 			v-if="isReadOnly && isListEmpty"
-			:message="noResourcesMessage" />
+			:message="noResourcesMessage">
+			<template #icon>
+				<MapMarker :size="50" decorative />
+			</template>
+		</NoAttendeesView>
 		<NoAttendeesView
 			v-if="!isReadOnly && isListEmpty && hasUserEmailAddress"
-			:message="noResourcesMessage" />
+			:message="noResourcesMessage">
+			<template #icon>
+				<MapMarker :size="50" decorative />
+			</template>
+		</NoAttendeesView>
 		<OrganizerNoEmailError
 			v-if="!isReadOnly && isListEmpty && !hasUserEmailAddress" />
 	</div>
@@ -54,6 +62,8 @@ import ResourceListItem from './ResourceListItem'
 import OrganizerNoEmailError from '../OrganizerNoEmailError'
 import { organizerDisplayName, removeMailtoPrefix } from '../../../utils/attendee'
 
+import MapMarker from 'vue-material-design-icons/MapMarker.vue'
+
 export default {
 	name: 'ResourceList',
 	components: {
@@ -61,6 +71,7 @@ export default {
 		NoAttendeesView,
 		ResourceListSearch,
 		OrganizerNoEmailError,
+		MapMarker,
 	},
 	props: {
 		isReadOnly: {

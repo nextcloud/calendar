@@ -39,8 +39,11 @@
 		</template>
 
 		<template v-else-if="isError">
-			<EmptyContent icon="icon-calendar-dark">
+			<EmptyContent>
 				{{ $t('calendar', 'Event does not exist') }}
+				<template #icon>
+					<CalendarBlank :size="20" decorative />
+				</template>
 				<template #desc>
 					{{ error }}
 				</template>
@@ -55,17 +58,28 @@
 			v-if="!isLoading && !isError"
 			#secondary-actions>
 			<ActionLink v-if="hasDownloadURL"
-				icon="icon-download"
 				:href="downloadURL">
+				<template #icon>
+					<Download :size="20" decorative />
+				</template>
 				{{ $t('calendar', 'Download') }}
 			</ActionLink>
-			<ActionButton v-if="canDelete && !canCreateRecurrenceException" icon="icon-delete" @click="deleteAndLeave(false)">
+			<ActionButton v-if="canDelete && !canCreateRecurrenceException" @click="deleteAndLeave(false)">
+				<template #icon>
+					<Delete :size="20" decorative />
+				</template>
 				{{ $t('calendar', 'Delete') }}
 			</ActionButton>
-			<ActionButton v-if="canDelete && canCreateRecurrenceException" icon="icon-delete" @click="deleteAndLeave(false)">
+			<ActionButton v-if="canDelete && canCreateRecurrenceException" @click="deleteAndLeave(false)">
+				<template #icon>
+					<Delete :size="20" decorative />
+				</template>
 				{{ $t('calendar', 'Delete this occurrence') }}
 			</ActionButton>
-			<ActionButton v-if="canDelete && canCreateRecurrenceException" icon="icon-delete" @click="deleteAndLeave(true)">
+			<ActionButton v-if="canDelete && canCreateRecurrenceException" @click="deleteAndLeave(true)">
+				<template #icon>
+					<Delete :size="20" decorative />
+				</template>
 				{{ $t('calendar', 'Delete this and all future') }}
 			</ActionButton>
 		</template>
@@ -101,9 +115,11 @@
 			v-if="!isLoading && !isError"
 			id="app-sidebar-tab-details"
 			class="app-sidebar-tab"
-			icon="icon-details"
 			:name="$t('calendar', 'Details')"
 			:order="0">
+			<template #icon>
+				<InformationOutline :size="20" decorative />
+			</template>
 			<div class="app-sidebar-tab__content">
 				<PropertyText
 					:is-read-only="isReadOnly"
@@ -160,9 +176,11 @@
 			v-if="!isLoading && !isError"
 			id="app-sidebar-tab-attendees"
 			class="app-sidebar-tab"
-			icon="icon-group"
 			:name="$t('calendar', 'Attendees')"
 			:order="1">
+			<template #icon>
+				<AccountMultiple :size="20" decorative />
+			</template>
 			<div class="app-sidebar-tab__content">
 				<InviteesList
 					v-if="!isLoading"
@@ -185,6 +203,9 @@
 			icon="icon-address"
 			:name="$t('calendar', 'Resources')"
 			:order="2">
+			<template #icon>
+				<MapMarker :size="20" decorative />
+			</template>
 			<div class="app-sidebar-tab__content">
 				<ResourceList
 					v-if="!isLoading"
@@ -204,9 +225,11 @@
 			v-if="!isLoading && !isError"
 			id="app-sidebar-tab-reminders"
 			class="app-sidebar-tab"
-			icon="icon-reminder"
 			:name="$t('calendar', 'Reminders')"
 			:order="3">
+			<template #icon>
+				<Bell :size="20" decorative />
+			</template>
 			<div class="app-sidebar-tab__content">
 				<AlarmList
 					:calendar-object-instance="calendarObjectInstance"
@@ -225,9 +248,11 @@
 			v-if="!isLoading && !isError"
 			id="app-sidebar-tab-repeat"
 			class="app-sidebar-tab"
-			icon="icon-repeat"
 			:name="$t('calendar', 'Repeat')"
 			:order="4">
+			<template #icon>
+				<RepeatIcon :size="20" decorative />
+			</template>
 			<div class="app-sidebar-tab__content">
 				<!-- TODO: If not editing the master item, force updating this and all future   -->
 				<!-- TODO: You can't edit recurrence-rule of no-range recurrence-exception -->
@@ -276,6 +301,15 @@ import PropertySelectMultiple from '../components/Editor/Properties/PropertySele
 import PropertyColor from '../components/Editor/Properties/PropertyColor.vue'
 import ResourceList from '../components/Editor/Resources/ResourceList'
 
+import AccountMultiple from 'vue-material-design-icons/AccountMultiple.vue'
+import Bell from 'vue-material-design-icons/Bell.vue'
+import CalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
+import Delete from 'vue-material-design-icons/Delete.vue'
+import Download from 'vue-material-design-icons/Download.vue'
+import InformationOutline from 'vue-material-design-icons/InformationOutline.vue'
+import MapMarker from 'vue-material-design-icons/MapMarker.vue'
+import RepeatIcon from 'vue-material-design-icons/Repeat.vue'
+
 export default {
 	name: 'EditSidebar',
 	components: {
@@ -296,6 +330,14 @@ export default {
 		PropertyText,
 		PropertyTitleTimePicker,
 		Repeat,
+		AccountMultiple,
+		Bell,
+		CalendarBlank,
+		Delete,
+		Download,
+		InformationOutline,
+		MapMarker,
+		RepeatIcon,
 	},
 	mixins: [
 		EditorMixin,
