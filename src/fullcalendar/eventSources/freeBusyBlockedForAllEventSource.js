@@ -1,8 +1,6 @@
 /**
  * @copyright 2021 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
  * @author 2021 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
