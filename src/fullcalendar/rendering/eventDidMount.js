@@ -22,10 +22,8 @@
  * This is used to later on position the popover
  *
  * @param {object} data The destructuring object
- * @param data.event
- * @param {EventApi} event The fullcalendar event object
- * @param {Node} el The HTML element
- * @param data.el
+ * @param {EventApi} data.event The fullcalendar event object
+ * @param {Node} data.el The HTML element
  */
 export default function({ event, el }) {
 	if (el.classList.contains('fc-event-nc-alarms')) {

@@ -75,8 +75,8 @@ export default {
 		/**
 		 * This emits the add alarm event
 		 *
-		 * @param root0
-		 * @param root0.value
+		 * @param {object} data the destructuring object
+		 * @param {object} data.value the alarm value
 		 */
 		addReminderFromSelect({ value }) {
 			this.$emit('addAlarm', value)

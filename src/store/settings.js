@@ -242,8 +242,8 @@ const actions = {
 	 * Updates the user's setting for visibility of event popover
 	 *
 	 * @param {object} context The Vuex context
-	 * @param context.state
-	 * @param context.commit
+	 * @param {object} context.state The store state
+	 * @param {object} context.commit The store mutations
 	 * @return {Promise<void>}
 	 */
 	async togglePopoverEnabled({ state, commit }) {
@@ -258,8 +258,8 @@ const actions = {
 	 * Updates the user's setting for visibility of weekends
 	 *
 	 * @param {object} context The Vuex context
-	 * @param context.state
-	 * @param context.commit
+	 * @param {object} context.state The store state
+	 * @param {object} context.commit The store mutations
 	 * @return {Promise<void>}
 	 */
 	async toggleWeekendsEnabled({ state, commit }) {

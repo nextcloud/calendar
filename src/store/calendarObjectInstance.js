@@ -492,7 +492,6 @@ const mutations = {
 	 * @param {object} state The Vuex state
 	 * @param {object} data The destructuring object
 	 * @param {object} data.attendee The attendee object
-	 * @param {boolean} data.rsvp New RSVP value
 	 */
 	toggleAttendeeRSVP(state, { attendee }) {
 		const oldRSVP = attendee.attendeeProperty.rsvp

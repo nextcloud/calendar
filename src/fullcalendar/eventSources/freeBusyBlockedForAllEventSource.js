@@ -151,8 +151,8 @@ export default function(organizer, attendees, resources) {
 }
 
 /**
- * @param slots
- * @param start
+ * @param {object} slots the slots
+ * @param {Date} start the start
  */
 function findNextCombinedSlot(slots, start) {
 	const slot = slots

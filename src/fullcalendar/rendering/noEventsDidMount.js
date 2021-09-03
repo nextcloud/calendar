@@ -24,8 +24,7 @@ import { translate as t } from '@nextcloud/l10n'
  * Adds our standardized emptyContent component if list view is empty
  *
  * @param {object} data The destructuring object
- * @param data.el
- * @param {Node} el The HTML element
+ * @param {Node} data.el The HTML element
  */
 export default function({ el }) {
 	const EmptyContentClass = Vue.extend(EmptyContent)
