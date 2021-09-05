@@ -30,7 +30,7 @@
 				:calendar="calendar"
 				:calendars="calendars"
 				:show-calendar-on-select="true"
-				@selectCalendar="selectCalendar" />
+				@select-calendar="selectCalendar" />
 
 			<CalendarPickerOption
 				v-else
@@ -80,7 +80,7 @@ export default {
 		 * @param {object} value The calendar Object
 		 */
 		selectCalendar(value) {
-			this.$emit('selectCalendar', value)
+			this.$emit('select-calendar', value)
 		},
 	},
 }

@@ -73,7 +73,7 @@ export default {
 	},
 	methods: {
 		changeFrequency(value) {
-			this.$emit('changeFrequency', value)
+			this.$emit('change-frequency', value)
 		},
 		/**
 		 *
@@ -85,7 +85,7 @@ export default {
 			const selectedValue = parseInt(event.target.value, 10)
 
 			if (selectedValue >= minimumValue && selectedValue <= maximumValue) {
-				this.$emit('changeInterval', selectedValue)
+				this.$emit('change-interval', selectedValue)
 			}
 		},
 	},

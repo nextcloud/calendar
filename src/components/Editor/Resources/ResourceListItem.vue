@@ -94,7 +94,7 @@ export default {
 		 * Removes a resource from the event
 		 */
 		removeResource() {
-			this.$emit('removeResource', this.resource)
+			this.$emit('remove-resource', this.resource)
 		},
 	},
 }

@@ -358,7 +358,7 @@ export default {
 		 * This method emits the removeAlarm event
 		 */
 		removeAlarm() {
-			this.$emit('removeAlarm', this.alarm)
+			this.$emit('remove-alarm', this.alarm)
 		},
 		/**
 		 * changes the relative amount entered in timed mode

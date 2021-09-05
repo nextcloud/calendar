@@ -25,7 +25,7 @@
 		<ResourceListSearch
 			v-if="!isReadOnly && hasUserEmailAddress"
 			:already-invited-emails="alreadyInvitedEmails"
-			@addResource="addResource" />
+			@add-resource="addResource" />
 
 		<ResourceListItem
 			v-for="resource in resources"
@@ -33,7 +33,7 @@
 			:resource="resource"
 			:is-read-only="isReadOnly"
 			:organizer-display-name="organizerDisplayName"
-			@removeResource="removeResource" />
+			@remove-resource="removeResource" />
 
 		<NoAttendeesView
 			v-if="isReadOnly && isListEmpty"

@@ -102,7 +102,7 @@ export default {
 			this.matches = matches
 		}, 500),
 		addResource(selectedValue) {
-			this.$emit('addResource', selectedValue)
+			this.$emit('add-resource', selectedValue)
 		},
 		async findResourcesFromDAV(query) {
 			let results

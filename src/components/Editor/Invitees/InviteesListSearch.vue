@@ -134,7 +134,7 @@ export default {
 			this.matches = matches
 		}, 500),
 		addAttendee(selectedValue) {
-			this.$emit('addAttendee', selectedValue)
+			this.$emit('add-attendee', selectedValue)
 		},
 		async findAttendeesFromContactsAPI(query) {
 			let response

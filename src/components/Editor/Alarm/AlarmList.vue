@@ -28,11 +28,11 @@
 			:alarm="alarm"
 			:calendar-object-instance="calendarObjectInstance"
 			:is-read-only="isReadOnly"
-			@removeAlarm="removeAlarm" />
+			@remove-alarm="removeAlarm" />
 		<AlarmListNew
 			v-if="!isReadOnly"
 			:is-all-day="calendarObjectInstance.isAllDay"
-			@addAlarm="addAlarm" />
+			@add-alarm="addAlarm" />
 		<NoAlarmView
 			v-if="isListEmpty" />
 	</div>
