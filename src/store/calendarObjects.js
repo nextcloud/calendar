@@ -21,11 +21,11 @@
 import Vue from 'vue'
 import { mapCalendarJsToCalendarObject } from '../models/calendarObject'
 import logger from '../utils/logger.js'
-import DateTimeValue from '@nextcloud/calendar-js/src/values/dateTimeValue'
 import {
 	createEvent,
 	getParserManager,
 	getTimezoneManager,
+	DateTimeValue,
 } from '@nextcloud/calendar-js'
 
 const state = {
