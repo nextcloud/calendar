@@ -2,7 +2,9 @@
  * Nextcloud - Tasks
  *
  * @author Raimund Schlüßler
+ *
  * @copyright 2019 Raimund Schlüßler <raimund.schluessler@mailbox.org>
+ *
  * @license AGPL-3.0-or-later
  *
  * This library is free software; you can redistribute it and/or
@@ -17,6 +19,7 @@
  *
  * You should have received a copy of the GNU Affero General Public
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 import linkifyStr from 'linkifyjs/string'
 
