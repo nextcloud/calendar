@@ -79,7 +79,7 @@ export default {
 		 * @param {object} data.value the alarm value
 		 */
 		addReminderFromSelect({ value }) {
-			this.$emit('addAlarm', value)
+			this.$emit('add-alarm', value)
 		},
 		/**
 		 *

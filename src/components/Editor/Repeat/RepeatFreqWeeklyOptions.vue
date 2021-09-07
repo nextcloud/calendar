@@ -87,10 +87,10 @@ export default {
 	methods: {
 		toggleByDay(day) {
 			if (this.byDay.indexOf(day) === -1) {
-				this.$emit('addByDay', day)
+				this.$emit('add-by-day', day)
 			} else {
 				if (this.byDay.length > 1) {
-					this.$emit('removeByDay', day)
+					this.$emit('remove-by-day', day)
 				}
 			}
 		},

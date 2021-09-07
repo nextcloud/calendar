@@ -91,13 +91,13 @@ export default {
 	},
 	methods: {
 		saveThisOnly() {
-			this.$emit('saveThisOnly')
+			this.$emit('save-this-only')
 		},
 		saveThisAndAllFuture() {
-			this.$emit('saveThisAndAllFuture')
+			this.$emit('save-this-and-all-future')
 		},
 		showMore() {
-			this.$emit('showMore')
+			this.$emit('show-more')
 		},
 	},
 }

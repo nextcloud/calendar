@@ -78,7 +78,7 @@
 				:calendars="calendars"
 				:calendar="selectedCalendar"
 				:is-read-only="isReadOnly || !canModifyCalendar"
-				@selectCalendar="changeCalendar" />
+				@select-calendar="changeCalendar" />
 
 			<PropertyTitleTimePicker
 				:start-date="startDate"
@@ -89,11 +89,11 @@
 				:is-read-only="isReadOnly"
 				:can-modify-all-day="canModifyAllDay"
 				:user-timezone="currentUserTimezone"
-				@updateStartDate="updateStartDate"
-				@updateStartTimezone="updateStartTimezone"
-				@updateEndDate="updateEndDate"
-				@updateEndTimezone="updateEndTimezone"
-				@toggleAllDay="toggleAllDay" />
+				@update-start-date="updateStartDate"
+				@update-start-timezone="updateStartTimezone"
+				@update-end-date="updateEndDate"
+				@update-end-timezone="updateEndTimezone"
+				@toggle-all-day="toggleAllDay" />
 		</template>
 
 		<AppSidebarTab
@@ -136,8 +136,8 @@
 					:is-read-only="isReadOnly"
 					:prop-model="rfcProps.categories"
 					:value="categories"
-					@addSingleValue="addCategory"
-					@removeSingleValue="removeCategory" />
+					@add-single-value="addCategory"
+					@remove-single-value="removeCategory" />
 
 				<PropertyColor
 					:calendar-color="selectedCalendarColor"
@@ -152,8 +152,8 @@
 				:can-create-recurrence-exception="canCreateRecurrenceException"
 				:is-new="isNew"
 				:force-this-and-all-future="forceThisAndAllFuture"
-				@saveThisOnly="saveAndLeave(false)"
-				@saveThisAndAllFuture="saveAndLeave(true)" />
+				@save-this-only="saveAndLeave(false)"
+				@save-this-and-all-future="saveAndLeave(true)" />
 		</AppSidebarTab>
 		<AppSidebarTab
 			v-if="!isLoading && !isError"
@@ -174,8 +174,8 @@
 				:can-create-recurrence-exception="canCreateRecurrenceException"
 				:is-new="isNew"
 				:force-this-and-all-future="forceThisAndAllFuture"
-				@saveThisOnly="saveAndLeave(false)"
-				@saveThisAndAllFuture="saveAndLeave(true)" />
+				@save-this-only="saveAndLeave(false)"
+				@save-this-and-all-future="saveAndLeave(true)" />
 		</AppSidebarTab>
 		<AppSidebarTab
 			v-if="!isLoading && !isError"
@@ -196,8 +196,8 @@
 				:can-create-recurrence-exception="canCreateRecurrenceException"
 				:is-new="isNew"
 				:force-this-and-all-future="forceThisAndAllFuture"
-				@saveThisOnly="saveAndLeave(false)"
-				@saveThisAndAllFuture="saveAndLeave(true)" />
+				@save-this-only="saveAndLeave(false)"
+				@save-this-and-all-future="saveAndLeave(true)" />
 		</AppSidebarTab>
 		<AppSidebarTab
 			v-if="!isLoading && !isError"
@@ -217,8 +217,8 @@
 				:can-create-recurrence-exception="canCreateRecurrenceException"
 				:is-new="isNew"
 				:force-this-and-all-future="forceThisAndAllFuture"
-				@saveThisOnly="saveAndLeave(false)"
-				@saveThisAndAllFuture="saveAndLeave(true)" />
+				@save-this-only="saveAndLeave(false)"
+				@save-this-and-all-future="saveAndLeave(true)" />
 		</AppSidebarTab>
 		<AppSidebarTab
 			v-if="!isLoading && !isError"
@@ -236,7 +236,7 @@
 					:is-read-only="isReadOnly"
 					:is-editing-master-item="isEditingMasterItem"
 					:is-recurrence-exception="isRecurrenceException"
-					@forceThisAndAllFuture="forceModifyingFuture" />
+					@force-this-and-all-future="forceModifyingFuture" />
 			</div>
 			<SaveButtons
 				v-if="showSaveButtons"
@@ -244,8 +244,8 @@
 				:can-create-recurrence-exception="canCreateRecurrenceException"
 				:is-new="isNew"
 				:force-this-and-all-future="forceThisAndAllFuture"
-				@saveThisOnly="saveAndLeave(false)"
-				@saveThisAndAllFuture="saveAndLeave(true)" />
+				@save-this-only="saveAndLeave(false)"
+				@save-this-and-all-future="saveAndLeave(true)" />
 		</AppSidebarTab>
 	</AppSidebar>
 </template>

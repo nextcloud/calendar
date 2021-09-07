@@ -167,7 +167,7 @@ export default {
 		 * Removes an attendee from the event
 		 */
 		removeAttendee() {
-			this.$emit('removeAttendee', this.attendee)
+			this.$emit('remove-attendee', this.attendee)
 		},
 	},
 }

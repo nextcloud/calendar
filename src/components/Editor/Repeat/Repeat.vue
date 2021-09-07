@@ -26,45 +26,45 @@
 			v-if="!isRecurrenceException && !isReadOnly"
 			:frequency="recurrenceRule.frequency"
 			:interval="recurrenceRule.interval"
-			@changeInterval="changeInterval"
-			@changeFrequency="changeFrequency" />
+			@change-interval="changeInterval"
+			@change-frequency="changeFrequency" />
 		<RepeatFreqWeeklyOptions
 			v-if="isFreqWeekly && !isRecurrenceException && !isReadOnly"
 			:by-day="recurrenceRule.byDay"
-			@addByDay="addByDay"
-			@removeByDay="removeByDay" />
+			@add-by-day="addByDay"
+			@remove-by-day="removeByDay" />
 		<RepeatFreqMonthlyOptions
 			v-if="isFreqMonthly && !isRecurrenceException && !isReadOnly"
 			:by-day="recurrenceRule.byDay"
 			:by-month-day="recurrenceRule.byMonthDay"
 			:by-set-position="recurrenceRule.bySetPosition"
-			@addByMonthDay="addByMonthDay"
-			@removeByMonthDay="removeByMonthDay"
-			@changeByDay="setByDay"
-			@changeBySetPosition="setBySetPosition"
-			@changeToBySetPosition="changeToBySetPositionMonthly"
-			@changeToByDay="changeToByDayMonthly" />
+			@add-by-month-day="addByMonthDay"
+			@remove-by-month-day="removeByMonthDay"
+			@change-by-day="setByDay"
+			@change-by-set-position="setBySetPosition"
+			@change-to-by-set-position="changeToBySetPositionMonthly"
+			@change-to-by-day="changeToByDayMonthly" />
 		<RepeatFreqYearlyOptions
 			v-if="isFreqYearly && !isRecurrenceException && !isReadOnly"
 			:by-day="recurrenceRule.byDay"
 			:by-month="recurrenceRule.byMonth"
 			:by-set-position="recurrenceRule.bySetPosition"
-			@changeByDay="setByDay"
-			@changeBySetPosition="setBySetPosition"
-			@addByMonth="addByMonth"
-			@removeByMonth="removeByMonth"
-			@enableBySetPosition="enableBySetPositionYearly"
-			@disableBySetPosition="disableBySetPositionYearly" />
+			@change-by-day="setByDay"
+			@change-by-set-position="setBySetPosition"
+			@add-by-month="addByMonth"
+			@remove-by-month="removeByMonth"
+			@enable-by-set-position="enableBySetPositionYearly"
+			@disable-by-set-position="disableBySetPositionYearly" />
 		<RepeatEndRepeat
 			v-if="isRepeating && !isRecurrenceException && !isReadOnly"
 			:calendar-object-instance="calendarObjectInstance"
 			:until="recurrenceRule.until"
 			:count="recurrenceRule.count"
-			@setInfinite="setInfinite"
-			@setUntil="setUntil"
-			@setCount="setCount"
-			@changeToCount="changeToCount"
-			@changeToUntil="changeToUntil" />
+			@set-infinite="setInfinite"
+			@set-until="setUntil"
+			@set-count="setCount"
+			@change-to-count="changeToCount"
+			@change-to-until="changeToUntil" />
 		<RepeatSummary
 			v-if="!isReadOnly"
 			:recurrence-rule="recurrenceRule" />
@@ -421,7 +421,7 @@ export default {
 			}
 
 			if (!this.isEditingMasterItem) {
-				this.$emit('forceThisAndAllFuture')
+				this.$emit('force-this-and-all-future')
 			}
 		},
 	},

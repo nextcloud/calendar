@@ -163,10 +163,10 @@ export default {
 		 */
 		toggleByMonth(byMonth) {
 			if (this.byMonth.indexOf(byMonth) === -1) {
-				this.$emit('addByMonth', byMonth)
+				this.$emit('add-by-month', byMonth)
 			} else {
 				if (this.byMonth.length > 1) {
-					this.$emit('removeByMonth', byMonth)
+					this.$emit('remove-by-month', byMonth)
 				}
 			}
 		},
@@ -175,16 +175,16 @@ export default {
 		 */
 		toggleBySetPosition() {
 			if (this.isBySetPositionEnabled) {
-				this.$emit('disableBySetPosition')
+				this.$emit('disable-by-set-position')
 			} else {
-				this.$emit('enableBySetPosition')
+				this.$emit('enable-by-set-position')
 			}
 		},
 		changeByDay(value) {
-			this.$emit('changeByDay', value)
+			this.$emit('change-by-day', value)
 		},
 		changeBySetPosition(value) {
-			this.$emit('changeBySetPosition', value)
+			this.$emit('change-by-set-position', value)
 		},
 	},
 }

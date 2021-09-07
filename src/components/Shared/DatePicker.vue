@@ -237,7 +237,7 @@ export default {
 		 * @param {string} timezoneId The new timezoneId
 		 */
 		changeTimezone(timezoneId) {
-			this.$emit('changeTimezone', timezoneId)
+			this.$emit('change-timezone', timezoneId)
 		},
 		/**
 		 * Toggles the visibility of the timezone popover

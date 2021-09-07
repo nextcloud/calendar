@@ -26,7 +26,7 @@
 		<InviteesListSearch
 			v-if="!isReadOnly && hasUserEmailAddress"
 			:already-invited-emails="alreadyInvitedEmails"
-			@addAttendee="addAttendee" />
+			@add-attendee="addAttendee" />
 		<OrganizerListItem
 			v-if="hasOrganizer"
 			:is-read-only="isReadOnly"
@@ -37,7 +37,7 @@
 			:attendee="invitee"
 			:is-read-only="isReadOnly"
 			:organizer-display-name="organizerDisplayName"
-			@removeAttendee="removeAttendee" />
+			@remove-attendee="removeAttendee" />
 		<NoAttendeesView
 			v-if="isReadOnly && isListEmpty"
 			:message="noInviteesMessage" />

@@ -60,7 +60,7 @@ export default {
 				})
 			}
 
-			this.$emit('selectCalendar', newCalendar)
+			this.$emit('select-calendar', newCalendar)
 		},
 	},
 }

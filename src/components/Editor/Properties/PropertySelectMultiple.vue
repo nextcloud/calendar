@@ -114,14 +114,14 @@ export default {
 				return
 			}
 
-			this.$emit('addSingleValue', value)
+			this.$emit('add-single-value', value)
 		},
 		unselectValue(value) {
 			if (!value) {
 				return
 			}
 
-			this.$emit('removeSingleValue', value)
+			this.$emit('remove-single-value', value)
 		},
 	},
 }

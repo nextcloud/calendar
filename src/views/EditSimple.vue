@@ -84,7 +84,7 @@
 				:calendars="calendars"
 				:calendar="selectedCalendar"
 				:is-read-only="isReadOnly"
-				@selectCalendar="changeCalendar" />
+				@select-calendar="changeCalendar" />
 
 			<PropertyTitleTimePicker
 				:start-date="startDate"
@@ -95,11 +95,11 @@
 				:is-read-only="isReadOnly"
 				:can-modify-all-day="canModifyAllDay"
 				:user-timezone="currentUserTimezone"
-				@updateStartDate="updateStartDate"
-				@updateStartTimezone="updateStartTimezone"
-				@updateEndDate="updateEndDate"
-				@updateEndTimezone="updateEndTimezone"
-				@toggleAllDay="toggleAllDay" />
+				@update-start-date="updateStartDate"
+				@update-start-timezone="updateStartTimezone"
+				@update-end-date="updateEndDate"
+				@update-end-timezone="updateEndTimezone"
+				@toggle-all-day="toggleAllDay" />
 
 			<PropertyText
 				v-if="hasLocation"
@@ -121,9 +121,9 @@
 				:is-new="isNew"
 				:force-this-and-all-future="forceThisAndAllFuture"
 				:show-more-button="true"
-				@saveThisOnly="saveAndLeave(false)"
-				@saveThisAndAllFuture="saveAndLeave(true)"
-				@showMore="showMore" />
+				@save-this-only="saveAndLeave(false)"
+				@save-this-and-all-future="saveAndLeave(true)"
+				@show-more="showMore" />
 		</template>
 	</Popover>
 </template>

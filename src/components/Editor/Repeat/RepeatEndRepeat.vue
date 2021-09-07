@@ -171,16 +171,16 @@ export default {
 
 			switch (value.value) {
 			case 'until':
-				this.$emit('changeToUntil')
+				this.$emit('change-to-until')
 				break
 
 			case 'count':
-				this.$emit('changeToCount')
+				this.$emit('change-to-count')
 				break
 
 			case 'never':
 			default:
-				this.$emit('setInfinite')
+				this.$emit('set-infinite')
 			}
 		},
 		/**
@@ -189,7 +189,7 @@ export default {
 		 * @param {Date} date The new date to set as end
 		 */
 		changeUntil(date) {
-			this.$emit('setUntil', date)
+			this.$emit('set-until', date)
 		},
 		/**
 		 * Changes the number of occurrences in this recurrence-set
@@ -202,7 +202,7 @@ export default {
 			const selectedValue = parseInt(event.target.value, 10)
 
 			if (selectedValue >= minimumValue && selectedValue <= maximumValue) {
-				this.$emit('setCount', selectedValue)
+				this.$emit('set-count', selectedValue)
 			}
 		},
 	},
