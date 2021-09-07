@@ -23,7 +23,7 @@
 
 <template>
 	<Multiselect
-		class="invitees-search"
+		class="invitees-search__multiselect"
 		:options="matches"
 		:searchable="true"
 		:internal-search="false"
@@ -41,7 +41,7 @@
 			<div class="invitees-search-list-item">
 				<Avatar v-if="option.isUser" :user="option.avatar" :display-name="option.dropdownName" />
 				<Avatar v-if="!option.isUser" :url="option.avatar" :display-name="option.dropdownName" />
-				<div class="invitees-search-list-item__label invitees-search-list-item__label--with-multiple-email">
+				<div class="invitees-search-list-item__label">
 					<div>
 						{{ option.dropdownName }}
 					</div>

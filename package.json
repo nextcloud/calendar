@@ -55,7 +55,7 @@
 		"@nextcloud/vue": "^4.1.0",
 		"@nextcloud/vue-dashboard": "^2.0.1",
 		"autosize": "^5.0.1",
-		"cdav-library": "github:nextcloud/cdav-library#e188e3e1ae56d1103d35b9db3ac6a1934522a82e",
+		"cdav-library": "github:nextcloud/cdav-library#84375800890d756d45eae9f55fe1103d67fde943",
 		"closest-css-color": "^1.0.0",
 		"color-convert": "^2.0.1",
 		"core-js": "^3.17.2",

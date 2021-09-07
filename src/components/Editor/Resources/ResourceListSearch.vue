@@ -62,6 +62,12 @@
 					<div class="resource-search-list-item__label resource-search-list-item__label--single-email">
 						<div>
 							{{ option.displayName }}
+							<span class="resource-search-list-item__label__availability">
+								({{ option.availability }})
+							</span>
+						</div>
+						<div :title="option.subLine">
+							{{ option.subLine }}
 						</div>
 					</div>
 				</div>
@@ -75,10 +81,15 @@ import Avatar from '@nextcloud/vue/dist/Components/Avatar'
 import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
 import debounce from 'debounce'
 import logger from '../../../utils/logger'
-import { principalPropertySearchByDisplaynameAndCapacityAndFeatures } from '../../../services/caldavService'
+import {
+	principalPropertySearchByDisplaynameAndCapacityAndFeatures,
+} from '../../../services/caldavService'
 import Actions from '@nextcloud/vue/dist/Components/Actions'
 import ActionCheckbox from '@nextcloud/vue/dist/Components/ActionCheckbox'
 import ResourceSeatingCapacity from './ResourceSeatingCapacity'
+import { addMailtoPrefix, removeMailtoPrefix } from '../../../utils/attendee'
+import { doFreeBusyRequest } from '../../../utils/freebusy'
+import { AttendeeProperty } from '@nextcloud/calendar-js'
 
 export default {
 	name: 'ResourceListSearch',
@@ -92,6 +103,10 @@ export default {
 	props: {
 		alreadyInvitedEmails: {
 			type: Array,
+			required: true,
+		},
+		calendarObjectInstance: {
+			type: Object,
 			required: true,
 		},
 	},
@@ -164,7 +179,8 @@ export default {
 				return []
 			}
 
-			return results
+			// Build options
+			const options = results
 				.filter(principal => {
 					if (!principal.email) {
 						return false
@@ -182,13 +198,56 @@ export default {
 					return true
 				})
 				.map(principal => {
+					const subLineData = []
+					if (principal.roomSeatingCapacity) {
+						subLineData.push(this.$n('mail', '{seatingCapacity} seat', '{seatingCapacity} seats', principal.roomSeatingCapacity, {
+							seatingCapacity: principal.roomSeatingCapacity,
+						}))
+					}
+					if (principal.roomAddress) {
+						subLineData.push(principal.roomAddress)
+					}
+
 					return {
 						commonName: principal.displayname,
 						email: principal.email,
 						calendarUserType: principal.calendarUserType,
 						displayName: principal.displayname ?? principal.email,
+						subLine: subLineData.join(' - '),
+						// TRANSLATORS room or resource is available due to not being booked yet
+						availability: this.$t('calendar', 'available'),
 					}
 				})
+
+			// Skip availability query if there are no results
+			if (options.length === 0) {
+				return options
+			}
+
+			// Check resource availabilities using a free busy request
+			const organizer = new AttendeeProperty(
+				'ORGANIZER',
+				addMailtoPrefix(this.$store.getters.getCurrentUserPrincipalEmail),
+			)
+			const start = this.calendarObjectInstance.eventComponent.startDate
+			const end = this.calendarObjectInstance.eventComponent.endDate
+			const attendees = []
+			for (const option of options) {
+				attendees.push(new AttendeeProperty('ATTENDEE', addMailtoPrefix(option.email)))
+			}
+
+			for await (const [attendeeProperty] of doFreeBusyRequest(start, end, organizer, attendees)) {
+				const attendeeEmail = removeMailtoPrefix(attendeeProperty.email)
+				for (const option of options) {
+					if (removeMailtoPrefix(option.email) === attendeeEmail) {
+						// TRANSLATORS room or resource is unavailable due to it being already booked
+						option.availability = this.$t('calendar', 'unavailable')
+						break
+					}
+				}
+			}
+
+			return options
 		},
 	},
 }
