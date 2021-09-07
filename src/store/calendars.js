@@ -5,7 +5,7 @@
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Thomas Citharel <tcit@tcit.fr>
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -58,7 +58,7 @@ const mutations = {
 	 *
 	 * @param {object} state the store data
 	 * @param {object} data destructuring object
-	 * @param {object} data.calendar calendar the calendar to add
+	 * @param {object} data.calendar the calendar to add
 	 */
 	addCalendar(state, { calendar }) {
 		const object = getDefaultCalendarObject(calendar)
@@ -268,8 +268,8 @@ const mutations = {
 	 * @param {string} data.user the userId
 	 * @param {string} data.displayName the displayName
 	 * @param {string} data.uri the sharing principalScheme uri
-	 * @param {boolean} data.isGroup is this a group ?
-	 * @param data.isCircle
+	 * @param {boolean} data.isGroup is this a group?
+	 * @param {boolean} data.isCircle is this a circle?
 	 */
 	shareCalendar(state, { calendar, user, displayName, uri, isGroup, isCircle }) {
 		const newSharee = {
@@ -532,10 +532,10 @@ const actions = {
 	/**
 	 * Retrieve and commit calendars and other collections
 	 *
-	 * @param {object} context the store mutations
-	 * @param context.commit
-	 * @param context.state
-	 * @param context.getters
+	 * @param {object} context the store object
+	 * @param {object} context.commit the store mutations
+	 * @param {object} context.state the store state
+	 * @param {object} context.getters the store getters
 	 * @return {Promise<object>} the results
 	 */
 	async loadCollections({ commit, state, getters }) {
@@ -558,8 +558,8 @@ const actions = {
 	/**
 	 * Retrieve and commit deleted calendars
 	 *
-	 * @param {object} context the store mutations
-	 * @param context.commit
+	 * @param {object} context the store object
+	 * @param {object} context.commit the store mutations
 	 * @return {Promise<Array>} the calendars
 	 */
 	async loadDeletedCalendars({ commit }) {
@@ -571,9 +571,9 @@ const actions = {
 	/**
 	 * Retrieve and commit deleted calendar objects
 	 *
-	 * @param root0
-	 * @param root0.commit
-	 * @param root0.state
+	 * @param {object} context the store object
+	 * @param {object} context.commit the store mutations
+	 * @param {object} context.state the store state
 	 */
 	async loadDeletedCalendarObjects({ commit, state }) {
 		const vobjects = await state.trashBin.findDeletedObjects()
@@ -591,15 +591,13 @@ const actions = {
 
 	/**
 	 *
-	 * @param {object} vuex The destructuring object for vuex
-	 * @param {Function} vuex.commit The Vuex commit function
-	 * @param {object} vuex.state The Vuex state Object
+	 * @param {object} context the store object
+	 * @param {object} context.commit the store mutations
 	 * @param {object} data The data destructuring object
 	 * @param {string[]} data.tokens The tokens to load
-	 * @param vuex.getters
 	 * @return {Promise<object[]>}
 	 */
-	async getPublicCalendars({ commit, state, getters }, { tokens }) {
+	async getPublicCalendars({ commit }, { tokens }) {
 		const calendars = await findPublicCalendarsByTokens(tokens)
 		const calendarObjects = []
 		for (const davCalendar of calendars) {
@@ -620,7 +618,7 @@ const actions = {
 	 * @param {object} data.displayName The name of the new calendar
 	 * @param {object} data.color The color of the new calendar
 	 * @param {object} data.order The order of the new calendar
-	 * @param {String[]=} data.components The supported components of the calendar
+	 * @param {string[]} data.components The supported components of the calendar
 	 * @param {string=} data.timezone The timezoneId
 	 * @return {Promise}
 	 */
@@ -801,8 +799,8 @@ const actions = {
 	 * @param {string} data.user the userId
 	 * @param {string} data.displayName the displayName
 	 * @param {string} data.uri the sharing principalScheme uri
-	 * @param {boolean} data.isGroup is this a group ?
-	 * @param data.isCircle
+	 * @param {boolean} data.isGroup is this a group?
+	 * @param {boolean} data.isCircle is this a circle?
 	 */
 	async shareCalendar(context, { calendar, user, displayName, uri, isGroup, isCircle }) {
 		// Share calendar with entered group or user
@@ -1043,12 +1041,11 @@ const actions = {
 	},
 	/**
 	 *
-	 * @param {object} context The Vuex context destructuring object
-	 * @param {Function} context.commit The Vuex commit Function
+	 * @param {object} context the store object
+	 * @param {object} context.commit the store mutations
+	 * @param {object} context.state the store state
 	 * @param {object} data The data destructuring object
-	 * @param context.state
-	 * @param {object} newOrder The object containing String => Number with the new order
-	 * @param data.newOrder
+	 * @param {object} data.newOrder The object containing String => Number with the new order
 	 * @return {Promise<void>}
 	 */
 	async updateCalendarListOrder({ state, commit }, { newOrder }) {

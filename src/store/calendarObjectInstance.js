@@ -1,7 +1,7 @@
 /**
  * @copyright Copyright (c) 2019 Georg Ehrke
  * @author Georg Ehrke <oc.list@georgehrke.com>
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -488,7 +488,6 @@ const mutations = {
 	 * @param {object} state The Vuex state
 	 * @param {object} data The destructuring object
 	 * @param {object} data.attendee The attendee object
-	 * @param {boolean} data.rsvp New RSVP value
 	 */
 	toggleAttendeeRSVP(state, { attendee }) {
 		const oldRSVP = attendee.attendeeProperty.rsvp

@@ -1,7 +1,7 @@
 /**
  * @copyright Copyright (c) 2019 Georg Ehrke
  * @author Georg Ehrke <oc.list@georgehrke.com>
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -35,8 +35,7 @@ const mutations = {
 	 * @param {number} data.from timestamp of start
 	 * @param {number} data.to timestamp of end
 	 * @param {number} data.lastFetched timestamp of last-fetched
-	 * @param {string[]} calendarObjectIds array of
-	 * @param data.calendarObjectIds
+	 * @param {string[]} data.calendarObjectIds array of calendarObjectIds
 	 */
 	addTimeRange(state, { calendarId, from, to, lastFetched, calendarObjectIds }) {
 		const fetchedTimeRange = {
@@ -142,8 +141,7 @@ const mutations = {
 	 * @param {object} state The vuex state
 	 * @param {object} data The destructuring object
 	 * @param {number} data.timeRangeId The id of the timerange
-	 * @param {number} lastFetched Timestamp of last-fetched
-	 * @param data.lastFetched
+	 * @param {number} data.lastFetched Timestamp of last-fetched
 	 */
 	updateTimestampOfLastFetched(state, { timeRangeId, lastFetched }) {
 		state.fetchedTimeRangesById[timeRangeId].lastFetched = lastFetched
