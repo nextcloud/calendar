@@ -20,9 +20,9 @@
  *
  */
 import getTimezoneManager from '../../services/timezoneDataProviderService.js'
-import { createFreeBusyRequest, getParserManager, AttendeeProperty, DateTimeValue } from '@nextcloud/calendar-js'
-import { findSchedulingOutbox } from '../../services/caldavService.js'
+import { AttendeeProperty, DateTimeValue } from '@nextcloud/calendar-js'
 import logger from '../../utils/logger.js'
+import { doFreeBusyRequest } from '../../utils/freebusy'
 
 /**
  * Returns an event source for free-busy
@@ -58,53 +58,19 @@ export default function(organizer, attendees, resources) {
 			const endDateTime = DateTimeValue.fromJSDate(end, true)
 
 			const organizerAsAttendee = new AttendeeProperty('ATTENDEE', organizer.email)
-			const freeBusyComponent = createFreeBusyRequest(startDateTime, endDateTime, organizer, [organizerAsAttendee, ...attendees])
-			const freeBusyICS = freeBusyComponent.toICS()
-
-			let outbox
-			try {
-				outbox = await findSchedulingOutbox()
-			} catch (error) {
-				failureCallback(error)
-				return
-			}
-
-			let freeBusyData
-			try {
-				freeBusyData = await outbox.freeBusyRequest(freeBusyICS)
-			} catch (error) {
-				failureCallback(error)
-				return
-			}
+			const freeBusyIterator = await doFreeBusyRequest(
+				startDateTime,
+				endDateTime,
+				organizer,
+				[organizerAsAttendee, ...attendees],
+			)
 
 			const slots = []
-			for (const [, data] of Object.entries(freeBusyData)) {
-				if (!data.success) {
-					continue
-				}
-
-				const parserManager = getParserManager()
-				const parser = parserManager.getParserForFileType('text/calendar')
-				parser.parse(data.calendarData)
-
-				// TODO: fix me upstream, parser only exports VEVENT, VJOURNAL and VTODO at the moment
-				const calendarComponent = parser._calendarComponent
-				const freeBusyComponent = calendarComponent.getFirstComponent('VFREEBUSY')
-				if (!freeBusyComponent) {
-					continue
-				}
-
-				for (const freeBusyProperty of freeBusyComponent.getPropertyIterator('FREEBUSY')) {
-					if (freeBusyProperty.type === 'FREE') {
-						// We care about anything BUT free slots
-						continue
-					}
-
-					slots.push({
-						start: freeBusyProperty.getFirstValue().start.getInTimezone(timezoneObject).jsDate,
-						end: freeBusyProperty.getFirstValue().end.getInTimezone(timezoneObject).jsDate,
-					})
-				}
+			for (const [, freeBusyProperty] of freeBusyIterator) {
+				slots.push({
+					start: freeBusyProperty.getFirstValue().start.getInTimezone(timezoneObject).jsDate,
+					end: freeBusyProperty.getFirstValue().end.getInTimezone(timezoneObject).jsDate,
+				})
 			}
 
 			// Now that we have all the busy slots we try to combine them to iron

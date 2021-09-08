@@ -35,6 +35,20 @@ export function removeMailtoPrefix(uri) {
 }
 
 /**
+ * Add the mailto prefix to a URI if it doesn't have one yet and return it
+ *
+ * @param {string} uri URI to add the prefix to
+ * @return {string} URI with a mailto prefix
+ */
+export function addMailtoPrefix(uri) {
+	if (uri.startsWith('mailto:')) {
+		return uri
+	}
+
+	return `mailto:${uri}`
+}
+
+/**
  * Get the display name of an organizer
  *
  * @param {?object} organizer Organizer object to extract a display name from

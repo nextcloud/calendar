@@ -4,6 +4,7 @@
  * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
  *
  * @author Georg Ehrke
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -414,30 +415,39 @@
 	}
 
 	.resource-search__multiselect,
-	.invitees-search {
+	.invitees-search__multiselect {
 		width: 100%;
 
 		.resource-search-list-item,
 		.invitees-search-list-item {
 			display: flex;
 			align-items: center;
+			width: 100%;
+
+			// Account for avatar width (because it is position: relative)
+			padding-right: 32px;
 
 			&__label {
 				width: 100%;
 				padding: 0 8px;
 
-				&--with-multiple-email,
-				&--single-email {
-					div:nth-child(1) {
-						color: var(--color-main-text)
-					}
+				&__availability {
+					color: var(--color-text-maxcontrast);
 				}
 
-				&--with-multiple-email {
-					div:nth-child(2) {
-						color: var(--color-text-lighter);
-						line-height: 1;
-					}
+				div {
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+				}
+
+				div:nth-child(1) {
+					color: var(--color-main-text)
+				}
+
+				div:nth-child(2) {
+					color: var(--color-text-lighter);
+					line-height: 1;
 				}
 			}
 		}

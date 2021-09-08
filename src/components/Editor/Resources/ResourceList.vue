@@ -25,6 +25,7 @@
 		<ResourceListSearch
 			v-if="!isReadOnly && hasUserEmailAddress"
 			:already-invited-emails="alreadyInvitedEmails"
+			:calendar-object-instance="calendarObjectInstance"
 			@add-resource="addResource" />
 
 		<ResourceListItem
