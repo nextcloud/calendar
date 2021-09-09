@@ -200,7 +200,7 @@ export default {
 				.map(principal => {
 					const subLineData = []
 					if (principal.roomSeatingCapacity) {
-						subLineData.push(this.$n('mail', '{seatingCapacity} seat', '{seatingCapacity} seats', principal.roomSeatingCapacity, {
+						subLineData.push(this.$n('calendar', '{seatingCapacity} seat', '{seatingCapacity} seats', principal.roomSeatingCapacity, {
 							seatingCapacity: principal.roomSeatingCapacity,
 						}))
 					}
