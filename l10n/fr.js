@@ -221,6 +221,8 @@ OC.L10N.register(
     "Whiteboard" : "Tableau blanc",
     "Wheelchair accessible" : "Accessible en fauteuil roulant",
     "Search for resources or rooms" : "Rechercher une ressource ou un lieu",
+    "available" : "disponible",
+    "unavailable" : "indisponible",
     "Minimum seating capacity" : "Nombre minimum de places assises",
     "More" : "Plus",
     "Save" : "Enregistrer",

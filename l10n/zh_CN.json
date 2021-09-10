@@ -1,5 +1,5 @@
 { "translations": {
-    "User-Session unexpectedly expired" : "用户会话已意外过期",
+    "User-Session unexpectedly expired" : "用户会话意外过期",
     "Provided email-address is not valid" : "提供的电子邮件地址无效",
     "%s has published the calendar »%s«" : "%s 已经发布了日历 »%s«",
     "Unexpected error sending email. Please contact your administrator." : "发送电子邮件时出现意外错误。请联系您的管理员。",
@@ -222,6 +222,9 @@
     "Whiteboard" : "白板",
     "Wheelchair accessible" : "残疾人专用",
     "Search for resources or rooms" : "搜索资源或房间",
+    "available" : "可用",
+    "unavailable" : "不可用",
+    "_{seatingCapacity} seat_::_{seatingCapacity} seats_" : ["{seatingCapacity} 座位"],
     "Minimum seating capacity" : "最低的座位容量",
     "More" : "更多",
     "Save" : "保存",
