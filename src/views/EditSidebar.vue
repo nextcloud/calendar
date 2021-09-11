@@ -89,6 +89,7 @@
 				:is-read-only="isReadOnly"
 				:can-modify-all-day="canModifyAllDay"
 				:user-timezone="currentUserTimezone"
+				:append-to-body="true"
 				@update-start-date="updateStartDate"
 				@update-start-timezone="updateStartTimezone"
 				@update-end-date="updateEndDate"
