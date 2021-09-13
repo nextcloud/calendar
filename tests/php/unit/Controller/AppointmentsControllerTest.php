@@ -54,7 +54,7 @@ class AppointmentsControllerTest extends TestCase {
 	/** @var IUser|MockObject  */
 	protected $user;
 
-	/** @var AppointmentsService|ServiceMockObject */
+	/** @var AppointmentsService|MockObject */
 	protected $service;
 
 	/** @var AppointmentsController */
