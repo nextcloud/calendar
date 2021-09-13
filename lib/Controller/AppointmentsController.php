@@ -4,8 +4,9 @@ declare(strict_types=1);
 /**
  * Calendar App
  *
- * @author Georg Ehrke
- * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
+ * @copyright 2021 Anna Larch <anna.larch@gmx.net>
+ *
+ * @author Anna Larch <anna.larch@gmx.net>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -23,7 +24,6 @@ declare(strict_types=1);
  */
 namespace OCA\Calendar\Controller;
 
-use OC\DatabaseException;
 use OCA\Calendar\Exception\ServiceException;
 use OCA\Calendar\Http\JsonResponse;
 use OCA\Calendar\Service\AppointmentsService;
