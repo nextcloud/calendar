@@ -209,7 +209,7 @@ class AppointmentsServiceTest extends TestCase {
 
 		// use one day in the future
 		$startDate = strtotime('+1 day');
-		$endDate = time() + 31*60*60; // 7 hour timespan
+		$endDate = strtotime('+31 hours');
 
 		$this->mapper->expects($this->once())
 			->method('findById')
@@ -227,7 +227,7 @@ class AppointmentsServiceTest extends TestCase {
 		$appointment->setIncrement(0);
 
 		$startDate = strtotime('+1 day');
-		$endDate = time() + 31*60*60; // 7 hour timespan
+		$endDate = strtotime('+31 hours');// 7 hour timespan
 
 		$this->mapper->expects($this->once())
 			->method('findById')
