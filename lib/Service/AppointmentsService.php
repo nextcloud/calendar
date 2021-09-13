@@ -30,52 +30,23 @@ use OCA\Calendar\Db\Appointment;
 use OCA\Calendar\Db\AppointmentMapper;
 use OCA\Calendar\Exception\ServiceException;
 use OCA\Calendar\Http\JsonResponse;
+use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\DB\Exception;
 use OCP\IConfig;
 use OCP\IUserSession;
 use PHPUnit\Util\Json;
 
-class AppointmentsService implements \JsonSerializable {
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var IUserSession */
-	private $userSession;
+class AppointmentsService {
 
 	/** @var AppointmentMapper */
 	private $mapper;
 
 	/**
-	 * JSDataService constructor.
-	 *
-	 * @param IConfig $config
-	 * @param IUserSession $userSession
+	 * @param AppointmentMapper $mapper
 	 */
-	public function __construct(IConfig $config,
-								IUserSession $userSession,
-								AppointmentMapper $mapper) {
-		$this->config = $config;
-		$this->userSession = $userSession;
+	public function __construct(AppointmentMapper $mapper) {
 		$this->mapper = $mapper;
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function jsonSerialize() {
-		$user = $this->userSession->getUser();
-
-		if ($user === null) {
-			return [];
-		}
-
-		$defaultTimezone = $this->config->getAppValue(Application::APP_ID, 'timezone', 'automatic');
-		$timezone = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'timezone', $defaultTimezone);
-
-		return [
-			'timezone' => $timezone,
-		];
 	}
 
 	/**
@@ -96,7 +67,7 @@ class AppointmentsService implements \JsonSerializable {
 	 */
 	public function delete(int $id): void {
 		try {
-			$this->mapper->delete($id);
+			$this->mapper->deleteById($id);
 		} catch(Exception $e) {
 			throw new ServiceException('Could not delete appointment', 400, $e);
 		}
@@ -123,7 +94,7 @@ class AppointmentsService implements \JsonSerializable {
 	public function findById(int $id): Appointment {
 		try {
 			return $this->mapper->findById($id);
-		}catch (Exception $e) {
+		}catch (Exception|DoesNotExistException|MultipleObjectsReturnedException $e) {
 			throw new ServiceException('Could not find a record for id', 400, $e);
 		}
 	}
@@ -136,7 +107,7 @@ class AppointmentsService implements \JsonSerializable {
 	 */
 	public function create(array $data): Appointment {
 		try {
-			return $this->mapper->insert($data);
+			return $this->mapper->insertFromData($data);
 		}catch (Exception $e){
 			throw new ServiceException('Could not create new appointment', 400, $e);
 		}
@@ -150,20 +121,40 @@ class AppointmentsService implements \JsonSerializable {
 	 * @throws ServiceException
 	 */
 	public function getSlots(int $id, int $unixStartDateTime, int $unixEndDateTime, string $outboxUri): array {
-		$appointment = $this->findById($id);
+		if(time() > $unixStartDateTime || time() > $unixEndDateTime) {
+			throw  new ServiceException('Booking time must be in the future', 403);
+		}
+
+		try {
+			$appointment = $this->mapper->findById($id);
+		}catch(Exception|DoesNotExistException|MultipleObjectsReturnedException $e) {
+			throw new ServiceException('Appointment not found', 404, $e);
+		}
+
+		$totalLength = $appointment->getTotalLength()*60;
+		if($totalLength === 0){
+			throw new ServiceException('Appointment not bookable');
+		}
+
+		$bookedSlots = $this->findBookedSlotsAmount($id, $unixStartDateTime, $unixEndDateTime);
+
+		$dailyMax = $appointment->getDailyMax();
+		/** @var int $bookable - set an absurdly high number so we never run out */
+		$bookable = 99999;
+
+		// in case the daily max is set
+		if($dailyMax !==  null) {
+			$bookable = $dailyMax - $bookedSlots;
+		}
+
+		// no more slots available
+		if($bookable <= 0) {
+			return [];
+		}
 
 		$slots = [];
 		$i = 0;
 		$time = $unixStartDateTime;
-		$totalLength = ($appointment->getLength() + (int)$appointment->getFollowupDuration() + (int)$appointment->getPreparationDuration())*60;
-		$bookedSlots = $this->findBookedSlotsAmount($id, $unixStartDateTime, $unixEndDateTime);
-		$dailyMax = $appointment->getDailyMax();
-		$bookable = $dailyMax - $bookedSlots;
-
-		// no more slots available
-		if($bookable <= 0) {
-			return $slots;
-		}
 		while(($time + $totalLength) <= $unixEndDateTime ) {
 			// check here for:
 			// - slot conflicting with existing appointment

@@ -61,46 +61,46 @@ use OCP\AppFramework\Db\Entity;
 class Appointment extends Entity implements JsonSerializable {
 
 	/** @var string */
-	private $name = '';
+	protected $name = '';
 
 	/** @var string|null */
-	private $description;
+	protected $description;
 
 	/** @var string|null */
-	private $location;
+	protected $location;
 
 	/** @var string */
-	private $visibility;
+	protected $visibility;
 
 	/** @var string */
-	private $userId;
+	protected $userId;
 
 	/** @var string */
-	private $calendar_uri;
+	protected $calendar_uri;
 
 	/** @var string[] */
-	private $calendarFreebusyUris;
+	protected $calendarFreebusyUris;
 
 	/** @var string */
-	private $availability;
+	protected $availability;
 
 	/** @var int */
-	private $length;
+	protected $length;
 
 	/** @var int */
-	private $increment;
+	protected $increment;
 
 	/** @var int|null */
-	private $preparationDuration;
+	protected $preparationDuration;
 
 	/** @var int|null */
-	private $followupDuration;
+	protected $followupDuration;
 
 	/** @var int|null */
-	private $buffer;
+	protected $buffer;
 
 	/** @var int|null */
-	private $dailyMax;
+	protected $dailyMax;
 
 	/** @var string */
 	public const VISIBILITY_PUBLIC = 'PUBLIC';
@@ -109,19 +109,31 @@ class Appointment extends Entity implements JsonSerializable {
 	public const VISIBILITY_PRIVATE = 'PRIVATE';
 
 	/**
-	 * Set the visibility
-	 * Create a private appointment calendar as default
-	 *
-	 * @return void
+	 * @return int
 	 */
-	public function setVisibility(string $visibility = self::VISIBILITY_PRIVATE): void {
-		if ($visibility !== self::VISIBILITY_PUBLIC) {
-			$visibility = self::VISIBILITY_PRIVATE;
-		}
-		$this->visibility = $visibility;
+	public function getTotalLength(): int {
+		return $this->getLength() + (int)$this->getPreparationDuration() + (int)$this->getFollowupDuration();
 	}
 
+
 	public function jsonSerialize() {
-		// TODO: Implement jsonSerialize() method.
+		return [
+			'id' => $this->id,
+			'name' => $this->getName(),
+			'description' => $this->getDescription(),
+			'location' => $this->getLocation(),
+			'visibility' => $this->getVisibility(),
+			'userId' => $this->getUserId(),
+			'calendarUri' => $this->getCalendarUri(),
+			'calendarFreeBusyUris' => $this->getCalendarFreebusyUris(),
+			'availability' => $this->getAvailability(),
+			'length' => $this->getLength(),
+			'increment' => $this->getIncrement(),
+			'preparationDuration' => $this->getPreparationDuration(),
+			'followUpDuration' => $this->getFollowupDuration(),
+			'totalLength' => $this->getTotalLength(),
+			'buffer' => $this->getBuffer(),
+			'dailyMax' => $this->getDailyMax()
+		];
 	}
 }

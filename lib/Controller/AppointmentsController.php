@@ -42,20 +42,8 @@ use OCP\IUser;
  */
 class AppointmentsController extends Controller {
 
-	/**
-	 * @var IConfig
-	 */
-	private $config;
-
-	/**
-	 * @var IInitialStateService
-	 */
+	/** @var IInitialStateService */
 	private $initialStateService;
-
-	/**
-	 * @var IURLGenerator
-	 */
-	private $urlGenerator;
 
 	/** @var IUser */
 	private $user;
@@ -66,21 +54,17 @@ class AppointmentsController extends Controller {
 	/**
 	 * @param string $appName
 	 * @param IRequest $request an instance of the request
-	 * @param IConfig $config
 	 * @param IInitialStateService $initialStateService
-	 * @param IURLGenerator $urlGenerator
+	 * @param IUser $user
+	 * @param AppointmentsService $appointmentsService
 	 */
 	public function __construct(string $appName,
 								IRequest $request,
-								IConfig $config,
 								IInitialStateService $initialStateService,
-								IURLGenerator $urlGenerator,
 								IUser $user,
 								AppointmentsService $appointmentsService) {
 		parent::__construct($appName, $request);
-		$this->config = $config;
 		$this->initialStateService = $initialStateService;
-		$this->urlGenerator = $urlGenerator;
 		$this->user = $user;
 		$this->appointmentsService = $appointmentsService;
 	}
@@ -97,6 +81,7 @@ class AppointmentsController extends Controller {
 		}catch (ServiceException $e) {
 			// do nothing and don't show any appointments
 		}
+
 		$this->initialStateService->provideInitialState($this->appName, 'appointments', $appointments);
 
 		// show all?

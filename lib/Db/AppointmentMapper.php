@@ -69,6 +69,17 @@ class AppointmentMapper extends QBMapper {
 	 * @throws Exception
 	 * @throws InvalidArgumentException
 	 */
+	public function insertFromData($data): Appointment {
+		$appointment = $this->mapRowToEntity($data);
+		return $this->insert($appointment);
+	}
+
+	/**
+	 * @param $data
+	 * @return Appointment
+	 * @throws Exception
+	 * @throws InvalidArgumentException
+	 */
 	public function updateFromData($data): Appointment {
 		$appointment = $this->mapRowToEntity($data);
 		return $this->update($appointment);
@@ -100,4 +111,5 @@ class AppointmentMapper extends QBMapper {
 			);
 		$qb->executeStatement();
 	}
+
 }

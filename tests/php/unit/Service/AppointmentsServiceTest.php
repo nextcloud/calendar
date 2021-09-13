@@ -165,4 +165,98 @@ class AppointmentsServiceTest extends TestCase {
 		$this->expectException(ServiceException::class);
 		$this->service->findById($id);
 	}
+
+	public function testCreate(): void {
+		$data = [];
+
+		$this->mapper->expects($this->once())
+			->method('insertFromData')
+			->with($data)
+			->willReturn(new Appointment());
+
+		$this->service->create($data);
+	}
+
+	public function testCreateException(): void {
+		$data = [];
+
+		$this->mapper->expects($this->once())
+			->method('insertFromData')
+			->with($data)
+			->willThrowException(new Exception());
+
+		$this->expectException(ServiceException::class);
+		$this->service->create($data);
+	}
+
+	public function testIsNotInFuture() : void {
+		$id = 1;
+		$startDate = strtotime('-1 day');
+		$endDate = time();
+
+		$this->mapper->expects($this->never())
+			->method('findById');
+
+		$this->expectException(ServiceException::class);
+		$this->service->getSlots($id, $startDate, $endDate, '');
+	}
+
+	public function testIdDoesNotExist():void {
+		$id = 1;
+		$appointment = new Appointment();
+		$appointment->setLength(0);
+		$appointment->setIncrement(0);
+
+		// use one day in the future
+		$startDate = strtotime('+1 day');
+		$endDate = time() + 31*60*60; // 7 hour timespan
+
+		$this->mapper->expects($this->once())
+			->method('findById')
+			->with($id)
+			->willThrowException(new ServiceException());
+
+		$this->expectException(ServiceException::class);
+		$this->service->getSlots($id, $startDate, $endDate, '');
+	}
+
+	public function testGetSlotsNoLength():void {
+		$id = 1;
+		$appointment = new Appointment();
+		$appointment->setLength(0);
+		$appointment->setIncrement(0);
+
+		$startDate = strtotime('+1 day');
+		$endDate = time() + 31*60*60; // 7 hour timespan
+
+		$this->mapper->expects($this->once())
+			->method('findById')
+			->with($id)
+			->willReturn($appointment);
+
+		$this->expectException(ServiceException::class);
+		$this->service->getSlots($id, $startDate, $endDate, '');
+	}
+
+//	public function testGetSlots():void {
+//		$appointment = new Appointment();
+//		/** every 15 minutes */
+//		$appointment->setIncrement(15);
+//		/** 60 minutes long */
+//		$appointment->setLength(60);
+//
+//		/** @var int $startDate - 20210913 9am*/
+//		$startDate = 1631516400;
+//
+//		/** @var int $endDate - 20210913 - 5pm */
+//		$endDate = 1631545200;
+//	}
+
+//	public function testCheckCalendarConflicts():void {
+//
+//	}
+//
+//	public function testFindBookedSlotsAmount():void {
+//
+//	}
 }
