@@ -1,0 +1,168 @@
+<?php
+
+declare(strict_types=1);
+/**
+ * Calendar App
+ *
+ * @copyright 2021 Anna Larch <anna.larch@gmx.net>
+ *
+ * @author Anna Larch <anna.larch@gmx.net>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+namespace OCA\Calendar\Service;
+
+use ChristophWurst\Nextcloud\Testing\TestCase;
+use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Db\MultipleObjectsReturnedException;
+use OCP\DB\Exception;
+use OCA\Calendar\Db\Appointment;
+use OCA\Calendar\Db\AppointmentMapper;
+use OCA\Calendar\Exception\ServiceException;
+use OCP\IConfig;
+use OCP\IUser;
+use OCP\IUserSession;
+use PHPUnit\Framework\MockObject\MockObject;
+
+class AppointmentsServiceTest extends TestCase {
+
+	/** @var AppointmentMapper|MockObject  */
+	private $mapper;
+	/** @var AppointmentsService */
+	private $service;
+
+	protected function setUp(): void {
+		parent::setUp();
+		$this->mapper = $this->createMock(AppointmentMapper::class);
+		$this->service = new AppointmentsService(
+			$this->mapper
+		);
+	}
+
+	public function testGetAllConfigurations(){
+		$user = 'testuser';
+
+		$this->mapper->expects($this->once())
+			->method('findAllForUser')
+			->with($user)
+			->willReturn([new Appointment()]);
+
+		$this->service->getAllAppointmentConfigurations($user);
+	}
+
+	public function testGetAllConfigurationsException(){
+		$user = 'testuser';
+
+		$this->mapper->expects($this->once())
+			->method('findAllForUser')
+			->with($user)
+			->willThrowException(new Exception());
+
+		$this->expectException(ServiceException::class);
+		$this->service->getAllAppointmentConfigurations($user);
+	}
+
+	public function testDelete(): void {
+		$id = 1;
+
+		$this->mapper->expects($this->once())
+			->method('deleteById')
+			->with($id);
+
+		$this->service->delete($id);
+	}
+
+	public function testDeleteException(): void {
+		$id = 1;
+
+		$this->mapper->expects($this->once())
+			->method('deleteById')
+			->with($id)
+			->willThrowException(new Exception());
+
+		$this->expectException(ServiceException::class);
+		$this->service->delete($id);
+	}
+
+	public function testUpdate(): void {
+		$data = [];
+
+		$this->mapper->expects($this->once())
+			->method('updateFromData')
+			->with($data)
+			->willReturn(new Appointment());
+
+		$this->service->update($data);
+	}
+
+	public function testUpdateException(): void {
+		$data = [];
+
+		$this->mapper->expects($this->once())
+			->method('updateFromData')
+			->with($data)
+			->willThrowException(new Exception());
+
+		$this->expectException(ServiceException::class);
+		$this->service->update($data);
+	}
+
+	public function testFindById(): void {
+		$id = 1;
+
+		$this->mapper->expects($this->once())
+			->method('findById')
+			->with($id)
+			->willReturn(new Appointment());
+
+		$this->service->findById($id);
+	}
+
+	public function testFindByIdException(): void {
+		$id = 1;
+
+		$this->mapper->expects($this->once())
+			->method('findById')
+			->with($id)
+			->willThrowException(new Exception());
+
+		$this->expectException(ServiceException::class);
+		$this->service->findById($id);
+	}
+
+	public function testFindByIdDoesNotExistException(): void {
+		$id = 1;
+
+		$this->mapper->expects($this->once())
+			->method('findById')
+			->with($id)
+			->willThrowException(new DoesNotExistException(''));
+
+		$this->expectException(ServiceException::class);
+		$this->service->findById($id);
+	}
+
+	public function testFindByIdMultipleObjectsReturnedException(): void {
+		$id = 1;
+
+		$this->mapper->expects($this->once())
+			->method('findById')
+			->with($id)
+			->willThrowException(new MultipleObjectsReturnedException(''));
+
+		$this->expectException(ServiceException::class);
+		$this->service->findById($id);
+	}
+}

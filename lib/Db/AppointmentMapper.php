@@ -86,4 +86,18 @@ class AppointmentMapper extends QBMapper {
 			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($user, IQueryBuilder::PARAM_STR), IQueryBuilder::PARAM_STR));
 		return $this->findEntities($qb);
 	}
+
+	/**
+	 * @param int $id
+	 * @throws Exception
+	 */
+	public function deleteById(int $id): void {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->delete($this->tableName)
+			->where(
+				$qb->expr()->eq('id', $qb->createNamedParameter($id), IQueryBuilder::PARAM_INT)
+			);
+		$qb->executeStatement();
+	}
 }

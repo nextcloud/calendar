@@ -80,7 +80,7 @@ class AppointmentsControllerTest extends TestCase {
 		);
 	}
 
-	public function testIndex() {
+	public function testIndex(): void {
 		$appointments = [new Appointment()];
 		$this->service->expects($this->once())
 			->method('getAllAppointmentConfigurations')
@@ -98,7 +98,7 @@ class AppointmentsControllerTest extends TestCase {
 		$this->controller->index('user');
 	}
 
-	public function testIndexException() {
+	public function testIndexException(): void {
 		$this->service->expects($this->once())
 			->method('getAllAppointmentConfigurations')
 			->with($this->user->getUID())
