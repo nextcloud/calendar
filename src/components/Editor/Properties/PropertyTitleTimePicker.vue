@@ -32,6 +32,7 @@
 				:timezone-id="startTimezone"
 				prefix="from"
 				:is-all-day="isAllDay"
+				:append-to-body="appendToBody"
 				:user-timezone-id="userTimezone"
 				@change="changeStart"
 				@change-timezone="changeStartTimezone" />
@@ -41,6 +42,7 @@
 				:timezone-id="endTimezone"
 				prefix="to"
 				:is-all-day="isAllDay"
+				:append-to-body="appendToBody"
 				:user-timezone-id="userTimezone"
 				@change="changeEnd"
 				@change-timezone="changeEndTimezone" />
@@ -155,6 +157,15 @@ export default {
 		userTimezone: {
 			type: String,
 			required: true,
+		},
+		/**
+		 * Whether to append the datepickers to body or not.
+		 * Necessary in the AppSidebar, otherwise it will be cut off be the
+		 * AppSidebar edges.
+		 */
+		appendToBody: {
+			type: Boolean,
+			default: false,
 		},
 	},
 	data() {
