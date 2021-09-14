@@ -35,6 +35,7 @@
 		:show-time-panel="showTimePanel"
 		:show-week-number="showWeekNumbers"
 		:use12h="showAmPm"
+		:append-to-body="appendToBody"
 		v-bind="$attrs"
 		v-on="$listeners"
 		@close="close"
@@ -133,6 +134,10 @@ export default {
 		max: {
 			type: Date,
 			default: null,
+		},
+		appendToBody: {
+			type: Boolean,
+			default: false,
 		},
 	},
 	data() {
