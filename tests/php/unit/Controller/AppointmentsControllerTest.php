@@ -27,7 +27,7 @@ namespace OCA\Calendar\Controller;
 use ChristophWurst\Nextcloud\Testing\ServiceMockObject;
 use OCA\Calendar\Db\Appointment;
 use OCA\Calendar\Exception\ServiceException;
-use OCA\Calendar\Service\AppointmentsService;
+use OCA\Calendar\Service\AppointmentService;
 use OCA\Calendar\Http\JsonResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Contacts\IManager;
@@ -54,7 +54,7 @@ class AppointmentsControllerTest extends TestCase {
 	/** @var IUser|MockObject  */
 	protected $user;
 
-	/** @var AppointmentsService|MockObject */
+	/** @var AppointmentService|MockObject */
 	protected $service;
 
 	/** @var AppointmentsController */
@@ -70,7 +70,7 @@ class AppointmentsControllerTest extends TestCase {
 			'getUID' => 'testuser'
 		]);
 		$this->initialState = $this->createMock(IInitialStateService::class);
-		$this->service = $this->createMock(AppointmentsService::class);
+		$this->service = $this->createMock(AppointmentService::class);
 		$this->controller = new AppointmentsController(
 			$this->appName,
 			$this->request,

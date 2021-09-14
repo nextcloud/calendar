@@ -36,7 +36,8 @@ class Version2040Date20210908101001 extends SimpleMigrationStep {
 			// Appointment
 			$table->addColumn('name', Types::STRING, [
 				'notnull' => true,
-				'length' => 128
+				'length' => 128,
+				'default' => ''
 			]);
 			$table->addColumn('description', Types::TEXT, [
 				'notnull' => false,
@@ -55,27 +56,31 @@ class Version2040Date20210908101001 extends SimpleMigrationStep {
 			$table->addColumn('user_id', 'string', [
 				'notnull' => true,
 				'length' => 64,
+				'default' => ''
 			]);
 			// Calendar settings
 			$table->addColumn('calendar_uri', Types::STRING, [
 				'notnull' => true,
-				'length' => 265
+				'length' => 265,
+				'default' => ''
 			]);
 			//Calendar(s) for conflict handling [string array]
 			$table->addColumn('calendar_freebusy_uris', Types::TEXT, [
 				'notnull' => false,
 				'length' => null
 			]);
-			//Slot availabilities [RRULE]
+			//Slot availabilities [RRULE] - false for notnull bc db doesn't allow default values for blob types
 			$table->addColumn('availability', Types::TEXT, [
-				'notnull' => true,
+				'notnull' => false,
 				'length' => null,
 			]);
 			$table->addColumn('length', Types::INTEGER, [
-				'notnull' => true
+				'notnull' => true,
+				'default' => 0
 			]);
 			$table->addColumn('increment', Types::INTEGER, [
-				'notnull' => true
+				'notnull' => true,
+				'default' => 0
 			]);
 			$table->addColumn('preparation_duration', Types::INTEGER, [
 				'notnull' => false,

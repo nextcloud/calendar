@@ -36,17 +36,17 @@ use OCP\IUser;
 use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
 
-class AppointmentsServiceTest extends TestCase {
+class AppointmentServiceTest extends TestCase {
 
 	/** @var AppointmentMapper|MockObject  */
 	private $mapper;
-	/** @var AppointmentsService */
+	/** @var AppointmentService */
 	private $service;
 
 	protected function setUp(): void {
 		parent::setUp();
 		$this->mapper = $this->createMock(AppointmentMapper::class);
-		$this->service = new AppointmentsService(
+		$this->service = new AppointmentService(
 			$this->mapper
 		);
 	}
@@ -238,25 +238,17 @@ class AppointmentsServiceTest extends TestCase {
 		$this->service->getSlots($id, $startDate, $endDate, '');
 	}
 
-//	public function testGetSlots():void {
-//		$appointment = new Appointment();
-//		/** every 15 minutes */
-//		$appointment->setIncrement(15);
-//		/** 60 minutes long */
-//		$appointment->setLength(60);
-//
-//		/** @var int $startDate - 20210913 9am*/
-//		$startDate = 1631516400;
-//
-//		/** @var int $endDate - 20210913 - 5pm */
-//		$endDate = 1631545200;
-//	}
+	public function testGetSlots():void {
+		$appointment = new Appointment();
+		/** every 15 minutes */
+		$appointment->setIncrement(15);
+		/** 60 minutes long */
+		$appointment->setLength(60);
 
-//	public function testCheckCalendarConflicts():void {
-//
-//	}
-//
-//	public function testFindBookedSlotsAmount():void {
-//
-//	}
+		$startDate = strtotime('+1 day');
+		$endDate = strtotime('+31 hours');// 7 hour timespan
+
+
+	}
+
 }

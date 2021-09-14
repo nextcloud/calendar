@@ -24,6 +24,8 @@ declare(strict_types=1);
  */
 namespace OCA\Calendar\Service;
 
+use BadFunctionCallException;
+use InvalidArgumentException;
 use OC\DatabaseException;
 use OCA\Calendar\AppInfo\Application;
 use OCA\Calendar\Db\Appointment;
@@ -37,7 +39,7 @@ use OCP\IConfig;
 use OCP\IUserSession;
 use PHPUnit\Util\Json;
 
-class AppointmentsService {
+class AppointmentService {
 
 	/** @var AppointmentMapper */
 	private $mapper;
@@ -81,7 +83,7 @@ class AppointmentsService {
 	public function update(array $data): Appointment {
 		try {
 			return $this->mapper->updateFromData($data);
-		} catch(Exception $e) {
+		}catch (Exception|InvalidArgumentException|BadFunctionCallException $e){
 			throw new ServiceException('Could not update Appointment', 400, $e);
 		}
 	}
@@ -108,20 +110,20 @@ class AppointmentsService {
 	public function create(array $data): Appointment {
 		try {
 			return $this->mapper->insertFromData($data);
-		}catch (Exception $e){
+		}catch (Exception|InvalidArgumentException|BadFunctionCallException $e){
 			throw new ServiceException('Could not create new appointment', 400, $e);
 		}
 	}
 
 	/**
 	 * @param int $id
-	 * @param int $unixStartDateTime
-	 * @param int $unixEndDateTime
+	 * @param int $unixStartTime
+	 * @param int $unixEndTime
 	 * @return array
 	 * @throws ServiceException
 	 */
-	public function getSlots(int $id, int $unixStartDateTime, int $unixEndDateTime, string $outboxUri): array {
-		if(time() > $unixStartDateTime || time() > $unixEndDateTime) {
+	public function getSlots(int $id, int $unixStartTime, int $unixEndTime, string $outboxUri): array {
+		if(time() > $unixStartTime || time() > $unixEndTime) {
 			throw  new ServiceException('Booking time must be in the future', 403);
 		}
 
@@ -136,48 +138,60 @@ class AppointmentsService {
 			throw new ServiceException('Appointment not bookable');
 		}
 
-		$bookedSlots = $this->findBookedSlotsAmount($id, $unixStartDateTime, $unixEndDateTime);
+		$bookedSlots = $this->findBookedSlotsAmount($id, $unixStartTime, $unixEndTime);
 
-		$dailyMax = $appointment->getDailyMax();
-		/** @var int $bookable - set an absurdly high number so we never run out */
-		$bookable = 99999;
+		// negotiate avaliable slots
+		$bookableSlots = ($appointment->getDailyMax() !==  null) ? $appointment->getDailyMax() - $bookedSlots : 99999;
 
-		// in case the daily max is set
-		if($dailyMax !==  null) {
-			$bookable = $dailyMax - $bookedSlots;
-		}
-
-		// no more slots available
-		if($bookable <= 0) {
-			return [];
+		if($bookableSlots <= 0) {
+			throw new ServiceException('No more bookable slots');
 		}
 
 		$slots = [];
-		$i = 0;
-		$time = $unixStartDateTime;
-		while(($time + $totalLength) <= $unixEndDateTime ) {
-			// check here for:
-			// - slot conflicting with existing appointment
-			$this->checkCalendarConflicts($time, $outboxUri, $appointment->getCalendarFreebusyUris());
-			// - slot max number having been reached via existing bookings
-			$slots[] = ['start' => $time];
-			$time += $appointment->getIncrement()*60;
-			$i++;
-			// check the max amount of appointments still available
-			if($i >= $bookable) {
-				break;
+		$timeblocks = $this->getCalendarFreeTimeblocks($unixStartTime, $unixEndTime, $outboxUri, $appointment->getCalendarFreebusyUris());
+		// @TODO - refactor this to functions
+		foreach($timeblocks as $calendarTimeblock){
+			$time = $calendarTimeblock['start'];
+			// we only render slots that fit into the time frame given
+			while(($time + $totalLength) <= $calendarTimeblock['end'] ) {
+				$slots[] = ['start' => $time];
+				// add the increment
+				$time += $appointment->getIncrement()*60;
+				// reduce the amount of available slots
+				$bookableSlots--;
+				if($bookableSlots <= 0) {
+					// no more slots, let's break the outer loop, too
+					break 2;
+				}
 			}
 		}
 		return $slots;
 	}
 
-	private function checkCalendarConflicts(int $time, string $outboxUri, array $freeBusyUris) {
-		// is conflicting?
-		return false;
+	/**
+	 * @param int $time
+	 * @param string $outboxUri
+	 * @param array $freeBusyUris
+	 * @return [][]
+	 *
+	 * Check if slot is conflicting with existing appointments
+	 * should return the end time of the conflicting appointment
+	 * we will use this time as our new time and go from there
+	 */
+	public function getCalendarFreeTimeblocks(int $startTime, int $endTime, string $outboxUri, array $freeBusyUris): array {
+		// get all blocks of time that are still free
+		// so if there is an appointment from 10 to 11am, we would return the
+		// slot from 9am to 10am and the slot from 11am to 5pm
+		return [
+			['start' => $startTime, 'end' => $endTime]
+		];
 	}
 
-	private function findBookedSlotsAmount(int $id, int $unixStartDateTime, int $unixEndDateTime): int {
+	public function findBookedSlotsAmount(int $id, int $unixStartDateTime, int $unixEndDateTime): int {
 		// return amount of booked slot
 		return 0;
+	}
+
+	private function resolveSlots(array $timeSlot) {
 	}
 }

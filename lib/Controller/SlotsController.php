@@ -27,7 +27,7 @@ namespace OCA\Calendar\Controller;
 use OC\DatabaseException;
 use OCA\Calendar\Exception\ServiceException;
 use OCA\Calendar\Http\JsonResponse;
-use OCA\Calendar\Service\AppointmentsService;
+use OCA\Calendar\Service\AppointmentService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
@@ -61,8 +61,8 @@ class SlotsController extends Controller {
 	/** @var IUser */
 	private $user;
 
-	/** @var AppointmentsService */
-	private $appointmentsService;
+	/** @var AppointmentService */
+	private $appointmentService;
 
 	/**
 	 * @param string $appName
@@ -71,19 +71,19 @@ class SlotsController extends Controller {
 	 * @param IInitialStateService $initialStateService
 	 * @param IURLGenerator $urlGenerator
 	 */
-	public function __construct(string $appName,
-								IRequest $request,
-								IConfig $config,
+	public function __construct(string               $appName,
+								IRequest             $request,
+								IConfig              $config,
 								IInitialStateService $initialStateService,
-								IURLGenerator $urlGenerator,
-								IUser $user,
-								AppointmentsService $appointmentsService) {
+								IURLGenerator        $urlGenerator,
+								IUser                $user,
+								AppointmentService   $appointmentService) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->initialStateService = $initialStateService;
 		$this->urlGenerator = $urlGenerator;
 		$this->user = $user;
-		$this->appointmentsService = $appointmentsService;
+		$this->appointmentService = $appointmentService;
 	}
 
 	/**
@@ -92,7 +92,7 @@ class SlotsController extends Controller {
 	 */
 	public function getSlotsForTimespan(int $appointmentId, int $unixStartDate, int $unixEndDate) {
 		try {
-			$data = $this->appointmentsService->getSlots($appointmentId,$unixStartDate,$unixEndDate);
+			$data = $this->appointmentService->getSlots($appointmentId,$unixStartDate,$unixEndDate);
 		}catch (ServiceException $e) {
 			return JsonResponse::errorFromThrowable($e);
 		}

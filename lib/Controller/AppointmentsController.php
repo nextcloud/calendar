@@ -26,7 +26,7 @@ namespace OCA\Calendar\Controller;
 
 use OCA\Calendar\Exception\ServiceException;
 use OCA\Calendar\Http\JsonResponse;
-use OCA\Calendar\Service\AppointmentsService;
+use OCA\Calendar\Service\AppointmentService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
@@ -48,25 +48,25 @@ class AppointmentsController extends Controller {
 	/** @var IUser */
 	private $user;
 
-	/** @var AppointmentsService */
-	private $appointmentsService;
+	/** @var AppointmentService */
+	private $appointmentService;
 
 	/**
 	 * @param string $appName
 	 * @param IRequest $request an instance of the request
 	 * @param IInitialStateService $initialStateService
 	 * @param IUser $user
-	 * @param AppointmentsService $appointmentsService
+	 * @param AppointmentService $appointmentService
 	 */
-	public function __construct(string $appName,
-								IRequest $request,
+	public function __construct(string               $appName,
+								IRequest             $request,
 								IInitialStateService $initialStateService,
-								IUser $user,
-								AppointmentsService $appointmentsService) {
+								IUser                $user,
+								AppointmentService   $appointmentService) {
 		parent::__construct($appName, $request);
 		$this->initialStateService = $initialStateService;
 		$this->user = $user;
-		$this->appointmentsService = $appointmentsService;
+		$this->appointmentService = $appointmentService;
 	}
 
 	/**
@@ -77,7 +77,7 @@ class AppointmentsController extends Controller {
 							):TemplateResponse {
 		$appointments = [];
 		try {
-			$appointments =  $this->appointmentsService->getAllAppointmentConfigurations($this->user->getUID());
+			$appointments =  $this->appointmentService->getAllAppointmentConfigurations($this->user->getUID());
 		}catch (ServiceException $e) {
 			// do nothing and don't show any appointments
 		}
@@ -95,7 +95,7 @@ class AppointmentsController extends Controller {
 	 */
 	public function create(array $data): JsonResponse {
 		try {
-			$appointment = $this->appointmentsService->create($data);
+			$appointment = $this->appointmentService->create($data);
 			return JsonResponse::success($appointment);
 		} catch (ServiceException $e){
 			return JsonResponse::errorFromThrowable($e);
@@ -109,7 +109,7 @@ class AppointmentsController extends Controller {
 	 */
 	public function show(int $id): JsonResponse {
 		try {
-			$appointment = $this->appointmentsService->findById($id);
+			$appointment = $this->appointmentService->findById($id);
 			return JsonResponse::success($appointment);
 		} catch (ServiceException $e){
 			return JsonResponse::errorFromThrowable($e);
@@ -122,7 +122,7 @@ class AppointmentsController extends Controller {
 	 */
 	public function update(array $data): JsonResponse {
 		try {
-			$appointment = $this->appointmentsService->update($data);
+			$appointment = $this->appointmentService->update($data);
 			return JsonResponse::success($appointment);
 		} catch (ServiceException $e){
 			return JsonResponse::errorFromThrowable($e);
@@ -135,7 +135,7 @@ class AppointmentsController extends Controller {
 	 */
 	public function delete(int $id): JsonResponse {
 		try {
-			$this->appointmentsService->delete($id);
+			$this->appointmentService->delete($id);
 			return JsonResponse::success();
 		} catch (ServiceException $e){
 			return JsonResponse::errorFromThrowable($e, 403);

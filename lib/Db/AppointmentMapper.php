@@ -25,6 +25,7 @@ declare(strict_types=1);
 
 namespace OCA\Calendar\Db;
 
+use BadFunctionCallException;
 use InvalidArgumentException;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
@@ -33,19 +34,15 @@ use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IL10N;
+use Punic\Exception\BadArgumentType;
 
 /**
  * @template-extends QBMapper<Appointment>
  */
 class AppointmentMapper extends QBMapper {
 
-	/** @var IL10N */
-	private $l10n;
-
-	public function __construct(IDBConnection $db,
-								IL10N $l10n) {
+	public function __construct(IDBConnection $db) {
 		parent::__construct($db, 'calendar_appointments');
-		$this->l10n = $l10n;
 	}
 
 	/**
@@ -67,7 +64,7 @@ class AppointmentMapper extends QBMapper {
 	 * @param $data
 	 * @return Appointment
 	 * @throws Exception
-	 * @throws InvalidArgumentException
+	 * @throws BadFunctionCallException
 	 */
 	public function insertFromData($data): Appointment {
 		$appointment = $this->mapRowToEntity($data);
@@ -79,9 +76,20 @@ class AppointmentMapper extends QBMapper {
 	 * @return Appointment
 	 * @throws Exception
 	 * @throws InvalidArgumentException
+	 * @throws DoesNotExistException
 	 */
 	public function updateFromData($data): Appointment {
-		$appointment = $this->mapRowToEntity($data);
+		if(empty($data['id'])) {
+			throw new InvalidArgumentException('No id set');
+		}
+
+		try {
+			$appointment = $this->findById($data['id']);
+		} catch (DoesNotExistException|MultipleObjectsReturnedException|Exception $e) {
+			throw new DoesNotExistException('Appointment does not exist');
+		}
+
+		$appointment->set($data);
 		return $this->update($appointment);
 	}
 
@@ -102,14 +110,14 @@ class AppointmentMapper extends QBMapper {
 	 * @param int $id
 	 * @throws Exception
 	 */
-	public function deleteById(int $id): void {
+	public function deleteById(int $id): int {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->delete($this->tableName)
 			->where(
 				$qb->expr()->eq('id', $qb->createNamedParameter($id), IQueryBuilder::PARAM_INT)
 			);
-		$qb->executeStatement();
+		return $qb->executeStatement();
 	}
 
 }

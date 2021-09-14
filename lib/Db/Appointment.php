@@ -36,14 +36,15 @@ use OCP\AppFramework\Db\Entity;
  * @method string getDescription()
  * @method void setDescription(string $name)
  * @method string getLocation()
- * @method void setLocation(string $name)
+ * @method void setLocation(?string $name)
  * @method string getVisibility()
+ * @method void setVisibility(string $visibility)
  * @method string getUserId()
  * @method void setUserId(string $userId)
  * @method string getCalendarUri()
  * @method void setCalendarUri(string $calendarUri)
- * @method string[] getCalendarFreebusyUris()
- * @method void setCalendarFreebusyUris(array $freebusyUris)
+ * @method string[]|null getCalendarFreebusyUris()
+ * @method void setCalendarFreebusyUris(?array $freebusyUris)
  * @method string getAvailability()
  * @method int getLength()
  * @method void setLength(int $length)
@@ -76,9 +77,9 @@ class Appointment extends Entity implements JsonSerializable {
 	protected $userId;
 
 	/** @var string */
-	protected $calendar_uri;
+	protected $calendarUri;
 
-	/** @var string[] */
+	/** @var string[]|null */
 	protected $calendarFreebusyUris;
 
 	/** @var string */
@@ -135,5 +136,11 @@ class Appointment extends Entity implements JsonSerializable {
 			'buffer' => $this->getBuffer(),
 			'dailyMax' => $this->getDailyMax()
 		];
+	}
+
+	public function set(array $data): void {
+		foreach ($data as $key => $value) {
+			$this->setter($key, [$value]);
+		}
 	}
 }
