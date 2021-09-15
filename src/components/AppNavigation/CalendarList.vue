@@ -23,6 +23,7 @@
 	<draggable
 		v-model="calendars"
 		:disabled="disableDragging"
+		v-bind="{swapThreshold: 0.30, delay: 500, delayOnTouchOnly: true, touchStartThreshold: 3}"
 		draggable=".draggable-calendar-list-item"
 		@update="update">
 		<template v-if="!isPublic">
