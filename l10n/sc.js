@@ -95,7 +95,7 @@ OC.L10N.register(
     "Please select a calendar to import into …" : "Seletziona unu calendàriu de importare in …",
     "Filename" : "Nùmene de s'archìviu",
     "Calendar to import into" : "Calendàriu de importare in",
-    "Cancel" : "Cantzella",
+    "Cancel" : "Annulla",
     "_Import calendar_::_Import calendars_" : ["Importa calendàriu","Importa calendàrios"],
     "{filename} is an unsupported file-type" : "{filename} est una genia de archìviu non suportada",
     "{filename} could not be parsed" : "No at fatu a analizare {filename} ",
