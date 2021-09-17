@@ -475,7 +475,7 @@
 	}
 
 	.resource-search {
-		&__filter {
+		&__capacity {
 			display: flex;
 			align-items: center;
 
@@ -524,7 +524,8 @@
 	.property-color,
 	.property-select-multiple,
 	.property-title,
-	.resource-capacity {
+	.resource-capacity,
+	.resource-room-type {
 		display: flex;
 		width: 100%;
 		align-items: flex-start;
@@ -643,6 +644,10 @@
 		&__input input {
 			font-size: 20px;
 		}
+	}
+
+	.resource-room-type {
+		margin-bottom: 5px;
 	}
 
 	.illustration-header {

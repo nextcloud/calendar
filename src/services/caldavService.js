@@ -222,16 +222,17 @@ const principalPropertySearchByDisplaynameOrEmail = async (term) => {
 }
 
 /**
- * Performs a principal property search based on display name, capacity and features
+ * Performs a principal property search based on multiple advanced filters
  *
  * @param {object} query The destructuring query object
  * @param {string=} query.displayName The display name to search for
  * @param {number=} query.capacity The minimum required seating capacity
- * @param {Array<string>=} query.features The required features
+ * @param {string[]=} query.features The features to filter by
+ * @param {string=} query.roomType The room type to filter by
  * @return {Promise<Principal[]>}
  */
-const principalPropertySearchByDisplaynameAndCapacityAndFeatures = async (query) => {
-	return getClient().principalPropertySearchByDisplaynameAndCapacityAndFeatures(query)
+const advancedPrincipalPropertySearch = async (query) => {
+	return getClient().advancedPrincipalPropertySearch(query)
 }
 
 /**
@@ -258,6 +259,6 @@ export {
 	getBirthdayCalendar,
 	getCurrentUserPrincipal,
 	principalPropertySearchByDisplaynameOrEmail,
-	principalPropertySearchByDisplaynameAndCapacityAndFeatures,
+	advancedPrincipalPropertySearch,
 	findPrincipalByUrl,
 }
