@@ -22,7 +22,9 @@
 
 <template>
 	<div class="editor-invitee-list-empty-message">
-		<div class="icon icon-reminder editor-invitee-list-empty-message__icon" />
+		<div class="icon editor-invitee-list-empty-message__icon">
+			<Bell :size="50" decorative />
+		</div>
 		<div class="editor-invitee-list-empty-message__caption">
 			{{ $t('calendar', 'No reminders yet') }}
 		</div>
@@ -30,7 +32,12 @@
 </template>
 
 <script>
+import Bell from 'vue-material-design-icons/Bell.vue'
+
 export default {
 	name: 'NoAlarmView',
+	components: {
+		Bell,
+	},
 }
 </script>

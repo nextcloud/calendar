@@ -37,15 +37,20 @@
 			<div class="event-popover__top-right-actions">
 				<Actions>
 					<ActionButton
-						icon="icon-close"
 						@click="cancel">
+						<template #icon>
+							<Close :size="20" decorative />
+						</template>
 						{{ $t('calendar', 'Close') }}
 					</ActionButton>
 				</Actions>
 			</div>
 
-			<EmptyContent icon="icon-calendar-dark">
+			<EmptyContent>
 				{{ $t('calendar', 'Event does not exist') }}
+				<template #icon>
+					<CalendarBlank :size="20" decorative />
+				</template>
 				<template #desc>
 					{{ error }}
 				</template>
@@ -56,15 +61,19 @@
 			<div class="event-popover__top-right-actions">
 				<Actions v-if="isReadOnly">
 					<ActionButton
-						icon="icon-fullscreen"
 						@click="showMore">
+						<template #icon>
+							<ArrowExpand :size="20" decorative />
+						</template>
 						{{ $t('calendar', 'Show more details') }}
 					</ActionButton>
 				</Actions>
 				<Actions>
 					<ActionButton
-						icon="icon-close"
 						@click="cancel">
+						<template #icon>
+							<Close :size="20" decorative />
+						</template>
 						{{ $t('calendar', 'Close') }}
 					</ActionButton>
 				</Actions>
@@ -142,6 +151,10 @@ import SaveButtons from '../components/Editor/SaveButtons.vue'
 import PopoverLoadingIndicator from '../components/Popover/PopoverLoadingIndicator.vue'
 import { getPrefixedRoute } from '../utils/router.js'
 
+import ArrowExpand from 'vue-material-design-icons/ArrowExpand.vue'
+import CalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
+import Close from 'vue-material-design-icons/Close.vue'
+
 export default {
 	name: 'EditSimple',
 	components: {
@@ -156,6 +169,9 @@ export default {
 		Actions,
 		ActionButton,
 		EmptyContent,
+		ArrowExpand,
+		CalendarBlank,
+		Close,
 	},
 	mixins: [
 		EditorMixin,

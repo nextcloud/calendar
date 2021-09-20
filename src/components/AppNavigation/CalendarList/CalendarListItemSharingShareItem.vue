@@ -23,7 +23,11 @@
 	<AppNavigationItem
 		:title="sharee.displayName">
 		<template slot="icon">
-			<div v-if="sharee.isGroup" class="avatar icon-group" />
+			<AccountMultiple
+				v-if="sharee.isGroup"
+				:size="18"
+				decorative
+				class="avatar" />
 			<div v-else-if="sharee.isCircle" class="avatar icon-circle" />
 			<Avatar v-else :user="sharee.id" :display-name="sharee.displayName" />
 		</template>
@@ -39,9 +43,11 @@
 
 		<template slot="actions">
 			<ActionButton
-				icon="icon-delete"
 				:disabled="updatingSharee"
 				@click.prevent.stop="unshare">
+				<template #icon>
+					<Delete :size="20" decorative />
+				</template>
 				{{ $t('calendar', 'Unshare with {displayName}', { displayName: sharee.displayName }) }}
 			</ActionButton>
 		</template>
@@ -57,6 +63,9 @@ import {
 	showInfo,
 } from '@nextcloud/dialogs'
 
+import AccountMultiple from 'vue-material-design-icons/AccountMultiple.vue'
+import Delete from 'vue-material-design-icons/Delete.vue'
+
 export default {
 	name: 'CalendarListItemSharingShareItem',
 	components: {
@@ -64,6 +73,8 @@ export default {
 		ActionCheckbox,
 		AppNavigationItem,
 		Avatar,
+		AccountMultiple,
+		Delete,
 	},
 	props: {
 		calendar: {

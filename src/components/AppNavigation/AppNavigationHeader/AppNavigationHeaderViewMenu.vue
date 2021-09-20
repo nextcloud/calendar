@@ -22,14 +22,19 @@
 <template>
 	<Actions
 		v-shortkey="shortKeyConf"
-		:default-icon="defaultIcon"
 		menu-align="right"
 		@shortkey.native="selectViewFromShortcut">
+		<template #icon>
+			<component :is="defaultIcon" :size="20" decorative />
+		</template>
 		<ActionButton
 			v-for="view in views"
 			:key="view.id"
 			:icon="view.icon"
 			@click="selectView(view.id)">
+			<template #icon>
+				<component :is="view.icon" :size="20" decorative />
+			</template>
 			{{ view.label }}
 		</ActionButton>
 	</Actions>
@@ -39,29 +44,40 @@
 import Actions from '@nextcloud/vue/dist/Components/Actions'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 
+import ViewDay from 'vue-material-design-icons/ViewDay.vue'
+import ViewGrid from 'vue-material-design-icons/ViewGrid.vue'
+import ViewList from 'vue-material-design-icons/ViewList.vue'
+import ViewModule from 'vue-material-design-icons/ViewModule.vue'
+import ViewWeek from 'vue-material-design-icons/ViewWeek.vue'
+
 export default {
 	name: 'AppNavigationHeaderViewMenu',
 	components: {
 		Actions,
 		ActionButton,
+		ViewDay,
+		ViewGrid,
+		ViewList,
+		ViewModule,
+		ViewWeek,
 	},
 	computed: {
 		views() {
 			return [{
 				id: 'timeGridDay',
-				icon: 'icon-view-day',
+				icon: 'ViewDay',
 				label: this.$t('calendar', 'Day'),
 			}, {
 				id: 'timeGridWeek',
-				icon: 'icon-view-week',
+				icon: 'ViewWeek',
 				label: this.$t('calendar', 'Week'),
 			}, {
 				id: 'dayGridMonth',
-				icon: 'icon-view-module',
+				icon: 'ViewModule',
 				label: this.$t('calendar', 'Month'),
 			}, {
 				id: 'listMonth',
-				icon: 'icon-view-list',
+				icon: 'ViewList',
 				label: this.$t('calendar', 'List'),
 			}]
 		},
@@ -84,7 +100,7 @@ export default {
 				}
 			}
 
-			return 'icon-toggle-pictures'
+			return 'ViewGrid'
 		},
 	},
 	methods: {

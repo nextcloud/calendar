@@ -42,7 +42,7 @@ describe('Test suite: RFC properties (models/rfcProps.js)', () => {
 
 		expect(rfcProps.accessClass).toEqual(expect.any(Object))
 		expect(rfcProps.accessClass.readableName).toEqual('When shared show')
-		expect(rfcProps.accessClass.icon).toEqual('icon-eye')
+		expect(rfcProps.accessClass.icon).toEqual('Eye')
 		expect(rfcProps.accessClass.multiple).toEqual(false)
 		expect(rfcProps.accessClass.info).toEqual('The visibility of this event in shared calendars.')
 		expect(rfcProps.accessClass.defaultValue).toEqual('PUBLIC')
@@ -55,18 +55,18 @@ describe('Test suite: RFC properties (models/rfcProps.js)', () => {
 		expect(rfcProps.location).toEqual(expect.any(Object))
 		expect(rfcProps.location.readableName).toEqual('Location')
 		expect(rfcProps.location.placeholder).toEqual('Add a location')
-		expect(rfcProps.location.icon).toEqual('icon-address')
+		expect(rfcProps.location.icon).toEqual('MapMarker')
 		expect(rfcProps.location.defaultNumberOfRows).toEqual(undefined)
 
 		expect(rfcProps.description).toEqual(expect.any(Object))
 		expect(rfcProps.description.readableName).toEqual('Description')
 		expect(rfcProps.description.placeholder).toEqual('Add a description')
-		expect(rfcProps.description.icon).toEqual('icon-menu')
+		expect(rfcProps.description.icon).toEqual('TextBoxOutline')
 		expect(rfcProps.description.defaultNumberOfRows).toEqual(2)
 
 		expect(rfcProps.status).toEqual(expect.any(Object))
 		expect(rfcProps.status.readableName).toEqual('Status')
-		expect(rfcProps.status.icon).toEqual('icon-checkmark')
+		expect(rfcProps.status.icon).toEqual('Check')
 		expect(rfcProps.status.multiple).toEqual(false)
 		expect(rfcProps.status.info).toEqual('Confirmation about the overall status of the event.')
 		expect(rfcProps.status.defaultValue).toEqual('CONFIRMED')
@@ -78,7 +78,7 @@ describe('Test suite: RFC properties (models/rfcProps.js)', () => {
 
 		expect(rfcProps.timeTransparency).toEqual(expect.any(Object))
 		expect(rfcProps.timeTransparency.readableName).toEqual('Show as')
-		expect(rfcProps.timeTransparency.icon).toEqual('icon-briefcase')
+		expect(rfcProps.timeTransparency.icon).toEqual('Briefcase')
 		expect(rfcProps.timeTransparency.multiple).toEqual(false)
 		expect(rfcProps.timeTransparency.info).toEqual('Take this event into account when calculating free-busy information.')
 		expect(rfcProps.timeTransparency.defaultValue).toEqual('TRANSPARENT')
@@ -89,7 +89,7 @@ describe('Test suite: RFC properties (models/rfcProps.js)', () => {
 
 		expect(rfcProps.categories).toEqual(expect.any(Object))
 		expect(rfcProps.categories.readableName).toEqual('Categories')
-		expect(rfcProps.categories.icon).toEqual('icon-tag')
+		expect(rfcProps.categories.icon).toEqual('Tag')
 		expect(rfcProps.categories.multiple).toEqual(true)
 		expect(rfcProps.categories.info).toEqual('Categories help you to structure and organize your events.')
 		expect(rfcProps.categories.placeholder).toEqual('Search or add categories')
@@ -99,7 +99,7 @@ describe('Test suite: RFC properties (models/rfcProps.js)', () => {
 		expect(rfcProps.color).toEqual(expect.any(Object))
 		expect(rfcProps.color.readableName).toEqual('Custom color')
 		expect(rfcProps.color.multiple).toEqual(false)
-		expect(rfcProps.color.icon).toEqual('icon-color-picker')
+		expect(rfcProps.color.icon).toEqual('EyedropperVariant')
 		expect(rfcProps.color.info).toEqual('Special color of this event. Overrides the calendar-color.')
 
 		// expect(translate).toHaveBeenCalledTimes(10)

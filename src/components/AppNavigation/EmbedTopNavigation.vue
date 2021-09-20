@@ -9,22 +9,32 @@
 		</div>
 		<!-- TODO have one button per calendar -->
 		<div class="embed-header__share-section">
-			<Actions default-icon="icon-download">
+			<Actions>
+				<template #icon>
+					<Download :size="20" decorative />
+				</template>
 				<ActionLink
 					v-for="calendar in subscriptions"
 					:key="calendar.id"
-					icon="icon-download"
 					target="_blank"
 					:href="calendar.url + '?export'">
+					<template #icon>
+						<Download :size="20" decorative />
+					</template>
 					{{ $t('calendar', 'Download {name}', { name: calendar.displayName || $t('calendar', 'Untitled calendar') }) }}
 				</ActionLink>
 			</Actions>
-			<Actions default-icon="icon-calendar-dark">
+			<Actions>
+				<template #icon>
+					<CalendarBlank :size="20" decorative />
+				</template>
 				<ActionButton
 					v-for="calendar in subscriptions"
 					:key="calendar.id"
-					icon="icon-calendar-dark"
 					@click.prevent.stop="copySubscriptionLink(calendar)">
+					<template #icon>
+						<CalendarBlank :size="20" decorative />
+					</template>
 					{{ $t('calendar', 'Subscribe to {name}', { name: calendar.displayName || $t('calendar', 'Untitled calendar') }) }}
 				</ActionButton>
 			</Actions>
@@ -49,6 +59,9 @@ import AppNavigationHeaderDatePicker from './AppNavigationHeader/AppNavigationHe
 import AppNavigationHeaderTodayButton from './EmbedHeader/EmbedHeaderTodayButton.vue'
 import AppNavigationHeaderViewButtons from './EmbedHeader/EmbedHeaderViewButtons.vue'
 
+import CalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
+import Download from 'vue-material-design-icons/Download.vue'
+
 export default {
 	name: 'EmbedTopNavigation',
 	components: {
@@ -58,6 +71,8 @@ export default {
 		Actions,
 		ActionButton,
 		ActionLink,
+		CalendarBlank,
+		Download,
 	},
 	computed: {
 		...mapGetters({

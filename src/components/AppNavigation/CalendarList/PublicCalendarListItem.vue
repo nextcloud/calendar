@@ -42,8 +42,10 @@
 		<template slot="actions">
 			<ActionButton
 				v-if="showCopySubscriptionLinkLabel"
-				icon="icon-calendar-dark"
 				@click.prevent.stop="copySubscriptionLink">
+				<template #icon>
+					<LinkVariant :size="20" decorative />
+				</template>
 				{{ $t('calendar', 'Copy subscription link') }}
 			</ActionButton>
 			<ActionText
@@ -53,20 +55,26 @@
 				{{ $t('calendar', 'Copying link …') }}
 			</ActionText>
 			<ActionText
-				v-if="showCopySubscriptionLinkSuccess"
-				icon="icon-calendar-dark">
+				v-if="showCopySubscriptionLinkSuccess">
+				<template #icon>
+					<LinkVariant :size="20" decorative />
+				</template>
 				{{ $t('calendar', 'Copied link') }}
 			</ActionText>
 			<ActionText
-				v-if="showCopySubscriptionLinkError"
-				icon="icon-calendar-dark">
+				v-if="showCopySubscriptionLinkError">
+				<template #icon>
+					<LinkVariant :size="20" decorative />
+				</template>
 				{{ $t('calendar', 'Could not copy link') }}
 			</ActionText>
 
 			<ActionLink
-				icon="icon-download"
 				target="_blank"
 				:href="downloadUrl">
+				<template #icon>
+					<Download :size="20" decorative />
+				</template>
 				{{ $t('calendar', 'Download') }}
 			</ActionLink>
 		</template>
@@ -88,6 +96,9 @@ import {
 	showError,
 } from '@nextcloud/dialogs'
 
+import Download from 'vue-material-design-icons/Download.vue'
+import LinkVariant from 'vue-material-design-icons/LinkVariant.vue'
+
 export default {
 	name: 'PublicCalendarListItem',
 	components: {
@@ -97,6 +108,8 @@ export default {
 		ActionText,
 		AppNavigationIconBullet,
 		AppNavigationItem,
+		Download,
+		LinkVariant,
 	},
 	props: {
 		calendar: {

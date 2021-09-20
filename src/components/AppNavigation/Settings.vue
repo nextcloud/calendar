@@ -90,18 +90,25 @@
 					@select="changeDefaultReminder" />
 			</li>
 			<SettingsTimezoneSelect :is-disabled="loadingCalendars" />
-			<ActionButton class="settings-fieldset-interior-item" icon="icon-clippy" @click.prevent.stop="copyPrimaryCalDAV">
+			<ActionButton @click.prevent.stop="copyPrimaryCalDAV">
+				<template #icon>
+					<ClipboardArrowLeftOutline :size="20" decorative />
+				</template>
 				{{ $t('calendar', 'Copy primary CalDAV address') }}
 			</ActionButton>
-			<ActionButton class="settings-fieldset-interior-item" icon="icon-clippy" @click.prevent.stop="copyAppleCalDAV">
+			<ActionButton @click.prevent.stop="copyAppleCalDAV">
+				<template #icon>
+					<ClipboardArrowLeftOutline :size="20" decorative />
+				</template>
 				{{ $t('calendar', 'Copy iOS/macOS CalDAV address') }}
 			</ActionButton>
 			<ActionButton
 				v-shortkey.propagate="['h']"
-				class="settings-fieldset-interior-item"
-				icon="icon-info"
 				@click.prevent.stop="showKeyboardShortcuts"
 				@shortkey.native="toggleKeyboardShortcuts">
+				<template #icon>
+					<InformationVariant :size="20" decorative />
+				</template>
 				{{ $t('calendar', 'Show keyboard shortcuts') }}
 			</ActionButton>
 			<ShortcutOverview v-if="displayKeyboardShortcuts" @close="hideKeyboardShortcuts" />
@@ -140,6 +147,9 @@ import {
 
 import { getDefaultAlarms } from '../../defaults/defaultAlarmProvider.js'
 
+import ClipboardArrowLeftOutline from 'vue-material-design-icons/ClipboardArrowLeftOutline.vue'
+import InformationVariant from 'vue-material-design-icons/InformationVariant.vue'
+
 export default {
 	name: 'Settings',
 	components: {
@@ -150,6 +160,8 @@ export default {
 		Multiselect,
 		SettingsImportSection,
 		SettingsTimezoneSelect,
+		ClipboardArrowLeftOutline,
+		InformationVariant,
 	},
 	props: {
 		loadingCalendars: {

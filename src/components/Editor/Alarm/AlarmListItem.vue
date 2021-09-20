@@ -26,7 +26,7 @@
 		v-click-outside="closeAlarmEditor"
 		class="property-alarm-item">
 		<div class="property-alarm-item__icon">
-			<div class="icon" :class="icon" />
+			<component :is="icon" :size="18" class="icon" />
 		</div>
 		<div
 			v-if="!isEditing"
@@ -111,7 +111,7 @@
 					{{ $t('calendar', 'Other notification') }}
 				</ActionRadio>
 
-				<ActionSeparator />
+				<ActionSeparator v-if="!isRecurring" />
 
 				<ActionRadio
 					v-if="!isRecurring"
@@ -132,20 +132,26 @@
 
 				<ActionButton
 					v-if="canEdit && !isEditing"
-					icon="icon-edit"
 					@click.stop="toggleEditAlarm">
+					<template #icon>
+						<Pencil :size="20" decorative />
+					</template>
 					{{ $t('calendar', 'Edit time') }}
 				</ActionButton>
 				<ActionButton
 					v-if="canEdit && isEditing"
-					icon="icon-checkmark"
 					@click="toggleEditAlarm">
+					<template #icon>
+						<Check :size="20" decorative />
+					</template>
 					{{ $t('calendar', 'Save time') }}
 				</ActionButton>
 
 				<ActionButton
-					icon="icon-delete"
 					@click="removeAlarm">
+					<template #icon>
+						<Delete :size="20" decorative />
+					</template>
 					{{ $t('calendar', 'Remove reminder') }}
 				</ActionButton>
 			</Actions>
@@ -166,6 +172,14 @@ import moment from '@nextcloud/moment'
 import TimePicker from '../../Shared/TimePicker.vue'
 import DatePicker from '../../Shared/DatePicker.vue'
 
+import Bell from 'vue-material-design-icons/Bell.vue'
+import Check from 'vue-material-design-icons/Check.vue'
+import Cog from 'vue-material-design-icons/Cog.vue'
+import Delete from 'vue-material-design-icons/Delete.vue'
+import Email from 'vue-material-design-icons/Email.vue'
+import Pencil from 'vue-material-design-icons/Pencil.vue'
+import VolumeHigh from 'vue-material-design-icons/VolumeHigh.vue'
+
 export default {
 	name: 'AlarmListItem',
 	components: {
@@ -176,6 +190,13 @@ export default {
 		ActionButton,
 		ActionRadio,
 		ActionSeparator,
+		Bell,
+		Check,
+		Cog,
+		Delete,
+		Email,
+		Pencil,
+		VolumeHigh,
 	},
 	directives: {
 		ClickOutside,
@@ -259,16 +280,16 @@ export default {
 		icon() {
 			switch (this.alarm.type) {
 			case 'AUDIO':
-				return 'icon-reminder-audio'
+				return 'VolumeHigh'
 
 			case 'DISPLAY':
-				return 'icon-reminder'
+				return 'Bell'
 
 			case 'EMAIL':
-				return 'icon-reminder-mail'
+				return 'Email'
 
 			default:
-				return 'icon-settings-dark'
+				return 'Cog'
 			}
 		},
 		currentUserTimezone() {

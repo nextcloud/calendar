@@ -22,10 +22,12 @@
 
 <template>
 	<div class="property-color">
-		<div
+		<component
+			:is="icon"
+			:size="20"
 			class="property-color__icon"
-			:class="icon"
-			:title="readableName" />
+			:title="readableName"
+			decorative />
 
 		<div
 			v-if="isReadOnly"
@@ -48,8 +50,10 @@
 			<Actions
 				v-if="showColorRevertButton">
 				<ActionButton
-					icon="icon-history"
 					@click.prevent.stop="deleteColor">
+					<template #icon>
+						<Undo :size="20" decorative />
+					</template>
 					{{ $t('calendar', 'Remove color') }}
 				</ActionButton>
 			</Actions>
@@ -64,12 +68,15 @@ import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import ColorPicker from '@nextcloud/vue/dist/Components/ColorPicker'
 import debounce from 'debounce'
 
+import Undo from 'vue-material-design-icons/Undo.vue'
+
 export default {
 	name: 'PropertyColor',
 	components: {
 		Actions,
 		ActionButton,
 		ColorPicker,
+		Undo,
 	},
 	mixins: [
 		PropertyMixin,
