@@ -47,6 +47,7 @@ import { mapAlarmComponentToAlarmObject } from '../models/alarm.js'
 import { getObjectAtRecurrenceId } from '../utils/calendarObject.js'
 import logger from '../utils/logger.js'
 import settings from './settings.js'
+import { getRFCProperties } from '../models/rfcProps'
 
 const state = {
 	isNew: null,
@@ -1443,6 +1444,14 @@ const actions = {
 			})
 			logger.debug(`Added defaultReminder (${defaultReminder}s) to newly created event`)
 		}
+
+		// Add default status
+		const rfcProps = getRFCProperties()
+		const status = rfcProps.status.defaultValue
+		commit('changeStatus', {
+			calendarObjectInstance,
+			status,
+		})
 
 		commit('setCalendarObjectInstanceForNewEvent', {
 			calendarObject,
