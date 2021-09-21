@@ -22,22 +22,29 @@
 
 <template>
 	<div class="resource-search">
-		<div
-			v-if="hasAdvancedFilters"
-			class="resource-search__filter">
-			<ResourceSeatingCapacity :value.sync="capacity" />
-			<Actions class="resource-search__filter__actions">
-				<ActionCheckbox :checked.sync="hasProjector">
-					{{ $t('calendar', 'Projector') }}
-				</ActionCheckbox>
-				<ActionCheckbox :checked.sync="hasWhiteboard">
-					{{ $t('calendar', 'Whiteboard') }}
-				</ActionCheckbox>
-				<ActionCheckbox :checked.sync="isAccessible">
-					{{ $t('calendar', 'Wheelchair accessible') }}
-				</ActionCheckbox>
-			</Actions>
-		</div>
+		<template v-if="hasAdvancedFilters">
+			<div class="resource-search__capacity">
+				<ResourceSeatingCapacity :value.sync="capacity" />
+				<Actions
+					v-if="hasAdvancedFilters"
+					class="resource-search__capacity__actions">
+					<ActionCheckbox :checked.sync="isAvailable">
+						<!-- Translators room or resource is not yet booked -->
+						{{ $t('calendar', 'Available') }}
+					</ActionCheckbox>
+					<ActionCheckbox :checked.sync="hasProjector">
+						{{ $t('calendar', 'Projector') }}
+					</ActionCheckbox>
+					<ActionCheckbox :checked.sync="hasWhiteboard">
+						{{ $t('calendar', 'Whiteboard') }}
+					</ActionCheckbox>
+					<ActionCheckbox :checked.sync="isAccessible">
+						{{ $t('calendar', 'Wheelchair accessible') }}
+					</ActionCheckbox>
+				</Actions>
+			</div>
+			<ResourceRoomType :value.sync="roomType" />
+		</template>
 
 		<Multiselect
 			class="resource-search__multiselect"
@@ -62,8 +69,10 @@
 					<div class="resource-search-list-item__label resource-search-list-item__label--single-email">
 						<div>
 							{{ option.displayName }}
-							<span class="resource-search-list-item__label__availability">
-								({{ option.availability }})
+							<span
+								v-if="!isAvailable"
+								class="resource-search-list-item__label__availability">
+								({{ formatAvailability(option.isAvailable) }})
 							</span>
 						</div>
 						<div :title="option.subLine">
@@ -81,15 +90,14 @@ import Avatar from '@nextcloud/vue/dist/Components/Avatar'
 import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
 import debounce from 'debounce'
 import logger from '../../../utils/logger'
-import {
-	principalPropertySearchByDisplaynameAndCapacityAndFeatures,
-} from '../../../services/caldavService'
+import { advancedPrincipalPropertySearch } from '../../../services/caldavService'
 import Actions from '@nextcloud/vue/dist/Components/Actions'
 import ActionCheckbox from '@nextcloud/vue/dist/Components/ActionCheckbox'
 import ResourceSeatingCapacity from './ResourceSeatingCapacity'
 import { addMailtoPrefix, removeMailtoPrefix } from '../../../utils/attendee'
 import { doFreeBusyRequest } from '../../../utils/freebusy'
 import { AttendeeProperty } from '@nextcloud/calendar-js'
+import ResourceRoomType from './ResourceRoomType'
 
 export default {
 	name: 'ResourceListSearch',
@@ -99,6 +107,7 @@ export default {
 		ResourceSeatingCapacity,
 		Actions,
 		ActionCheckbox,
+		ResourceRoomType,
 	},
 	props: {
 		alreadyInvitedEmails: {
@@ -116,6 +125,8 @@ export default {
 			inputGiven: false,
 			matches: [],
 			capacity: NaN,
+			roomType: '',
+			isAvailable: true,
 			isAccessible: false,
 			hasProjector: false,
 			hasWhiteboard: false,
@@ -172,15 +183,16 @@ export default {
 				if (this.hasAdvancedFilters) {
 					query.capacity = this.capacity
 					query.features = this.features
+					query.roomType = this.roomType
 				}
-				results = await principalPropertySearchByDisplaynameAndCapacityAndFeatures(query)
+				results = await advancedPrincipalPropertySearch(query)
 			} catch (error) {
 				logger.debug('Could not find resources', { error })
 				return []
 			}
 
 			// Build options
-			const options = results
+			let options = results
 				.filter(principal => {
 					if (!principal.email) {
 						return false
@@ -214,8 +226,7 @@ export default {
 						calendarUserType: principal.calendarUserType,
 						displayName: principal.displayname ?? principal.email,
 						subLine: subLineData.join(' - '),
-						// TRANSLATORS room or resource is available due to not being booked yet
-						availability: this.$t('calendar', 'available'),
+						isAvailable: true,
 					}
 				})
 
@@ -240,14 +251,33 @@ export default {
 				const attendeeEmail = removeMailtoPrefix(attendeeProperty.email)
 				for (const option of options) {
 					if (removeMailtoPrefix(option.email) === attendeeEmail) {
-						// TRANSLATORS room or resource is unavailable due to it being already booked
-						option.availability = this.$t('calendar', 'unavailable')
+						option.isAvailable = false
 						break
 					}
 				}
 			}
 
+			// Filter by availability
+			if (this.isAvailable) {
+				options = options.filter(option => option.isAvailable)
+			}
+
 			return options
+		},
+		/**
+		 * Format availability of a search result
+		 *
+		 * @param {boolean} isAvailable The availability state
+		 * @return {string} Human readable and localized availability
+		 */
+		formatAvailability(isAvailable) {
+			if (isAvailable) {
+				// TRANSLATORS room or resource is available due to not being booked yet
+				return this.$t('calendar', 'available')
+			}
+
+			// TRANSLATORS room or resource is unavailable due to it being already booked
+			return this.$t('calendar', 'unavailable')
 		},
 	},
 }
