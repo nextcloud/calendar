@@ -2,6 +2,7 @@
  * Nextcloud - Tasks
  *
  * @author Raimund Schlüßler
+ * @author Richard Steinmetz
  *
  * @copyright 2019 Raimund Schlüßler <raimund.schluessler@mailbox.org>
  *
@@ -21,7 +22,7 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import linkifyStr from 'linkifyjs/string'
+import linkifyStr from 'linkify-string'
 
 /**
  * Linkify the content of text node
@@ -34,6 +35,8 @@ import linkifyStr from 'linkifyjs/string'
 const linkify = (el, binding) => {
 	el.innerHTML = linkifyStr(binding.value, {
 		defaultProtocol: 'https',
+		className: 'linkified',
+		target: (href, type) => type === 'url' && '_blank',
 	})
 }
 
