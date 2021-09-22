@@ -218,6 +218,7 @@ OC.L10N.register(
     "The recurrence definition of this event is not fully supported by Nextcloud. If you edit the recurrence-options, certain recurrences may be lost." : "De herhaal instelling van deze afspraak wordt niet volledig ondersteund door Nextcloud. Als je de herhaal instellingen wijzigt, gaan bepaalde herhalingen mogelijk verloren.",
     "No rooms or resources yet" : "Nog geen kamers of bronnen",
     "Remove resource" : "Verwijder bron",
+    "Wheelchair accessible" : "Rolstoel toegangelijk",
     "Search for resources or rooms" : "Zoeken naar bronnen of kamers",
     "More" : "Meer",
     "Save" : "Opslaan",
