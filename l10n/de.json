@@ -227,6 +227,7 @@
     "unavailable" : "Nicht verfügbar",
     "_{seatingCapacity} seat_::_{seatingCapacity} seats_" : ["{seatingCapacity} Platz","{seatingCapacity} Plätze"],
     "Room type" : "Raum-Typ",
+    "Any" : "Irgendein",
     "Minimum seating capacity" : "Mindestsitzplatzkapazität",
     "More" : "Mehr",
     "Save" : "Speichern",
