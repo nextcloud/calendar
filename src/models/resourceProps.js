@@ -35,3 +35,14 @@ export function getAllRoomTypes() {
 		{ value: 'other', label: t('calendar', 'Other') },
 	]
 }
+
+/**
+ * Format room type as a human readable and localized string
+ *
+ * @param {string} value Raw room type
+ * @return {string|null} Human readable and localized room type or null if given raw value is invalid
+ */
+export function formatRoomType(value) {
+	const option = getAllRoomTypes().find(option => option.value === value)
+	return option?.label ?? null
+}

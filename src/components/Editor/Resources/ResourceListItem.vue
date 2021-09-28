@@ -40,7 +40,23 @@
 					@click="removeResource">
 					{{ $t('calendar', 'Remove resource') }}
 				</ActionButton>
-			</Actions>
+				<ActionSeparator />
+				<ActionCaption
+					v-if="seatingCapacity"
+					:title="seatingCapacity" />
+				<ActionCaption
+					v-if="roomType"
+					:title="roomType" />
+				<ActionCaption
+					v-if="hasProjector"
+					:title="$t('calendar', 'Has a projector')" />
+				<ActionCaption
+					v-if="hasWhiteboard"
+					:title="$t('calendar', 'Has a whiteboard')" />
+				<ActionCaption
+					v-if="isAccessible"
+					:title="$t('calendar', 'Wheelchair accessible')" />
+			</actions>
 		</div>
 	</div>
 </template>
@@ -48,14 +64,21 @@
 <script>
 import Actions from '@nextcloud/vue/dist/Components/Actions'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
+import ActionCaption from '@nextcloud/vue/dist/Components/ActionCaption'
+import ActionSeparator from '@nextcloud/vue/dist/Components/ActionSeparator'
 import AvatarParticipationStatus from '../AvatarParticipationStatus'
 import { removeMailtoPrefix } from '../../../utils/attendee'
+import logger from '../../../utils/logger'
+import { principalPropertySearchByDisplaynameOrEmail } from '../../../services/caldavService'
+import { formatRoomType } from '../../../models/resourceProps'
 
 export default {
 	name: 'ResourceListItem',
 	components: {
 		AvatarParticipationStatus,
 		ActionButton,
+		ActionCaption,
+		ActionSeparator,
 		Actions,
 	},
 	props: {
@@ -71,6 +94,11 @@ export default {
 			type: Boolean,
 			required: true,
 		},
+	},
+	data() {
+		return {
+			principal: null,
+		}
 	},
 	computed: {
 		commonName() {
@@ -88,6 +116,41 @@ export default {
 			// TODO: check if also viewed by organizer
 			return !this.isReadOnly
 		},
+		isAccessible() {
+			return this.hasFeature('WHEELCHAIR-ACCESSIBLE')
+		},
+		hasProjector() {
+			return this.hasFeature('PROJECTOR')
+		},
+		hasWhiteboard() {
+			return this.hasFeature('WHITEBOARD')
+		},
+		seatingCapacity() {
+			const seatingCapacity = this.principal?.roomSeatingCapacity
+			if (!seatingCapacity) {
+				return null
+			}
+
+			return this.$n(
+				'calendar',
+				'{seatingCapacity} seat',
+				'{seatingCapacity} seats',
+				seatingCapacity, {
+					seatingCapacity,
+				})
+		},
+		roomType() {
+			const roomType = this.principal?.roomType
+			return formatRoomType(roomType) ?? roomType
+		},
+	},
+	watch: {
+		async resource() {
+			await this.fetchPrincipal()
+		},
+	},
+	async mounted() {
+		await this.fetchPrincipal()
 	},
 	methods: {
 		/**
@@ -95,6 +158,38 @@ export default {
 		 */
 		removeResource() {
 			this.$emit('remove-resource', this.resource)
+		},
+		/**
+		 * Check if this resource has a feature
+		 *
+		 * @param {string} feature The name of the feature
+		 * @return {boolean} True if this resource has the given feature
+		 */
+		hasFeature(feature) {
+			const features = this.principal?.roomFeatures?.split(',') ?? []
+			return !!features.find(featureToCheck => featureToCheck === feature)
+		},
+		/**
+		 * Try to fetch the principal belonging to this resource
+		 */
+		async fetchPrincipal() {
+			const uri = removeMailtoPrefix(this.resource.uri)
+			let principals = await principalPropertySearchByDisplaynameOrEmail(uri)
+			principals = principals.filter(principal => removeMailtoPrefix(principal.email) === uri)
+			if (principals.length === 0) {
+				logger.debug('No principal for resource found', {
+					uri: this.resource.uri,
+				})
+				this.principal = null
+				return
+			} else if (principals.length > 1) {
+				logger.debug('More than one principal for resource found', {
+					uri: this.resource.uri,
+					principals,
+				})
+			}
+
+			this.principal = principals[0]
 		},
 	},
 }
