@@ -68,6 +68,33 @@
 						{{ $t('calendar', 'Show more details') }}
 					</ActionButton>
 				</Actions>
+				<Actions v-if="!isLoading && !isError">
+					<ActionLink v-if="hasDownloadURL"
+						:href="downloadURL">
+						<template #icon>
+							<Download :size="20" decorative />
+						</template>
+						{{ $t('calendar', 'Download') }}
+					</ActionLink>
+					<ActionButton v-if="canDelete && !canCreateRecurrenceException" @click="deleteAndLeave(false)">
+						<template #icon>
+							<Delete :size="20" decorative />
+						</template>
+						{{ $t('calendar', 'Delete') }}
+					</ActionButton>
+					<ActionButton v-if="canDelete && canCreateRecurrenceException" @click="deleteAndLeave(false)">
+						<template #icon>
+							<Delete :size="20" decorative />
+						</template>
+						{{ $t('calendar', 'Delete this occurrence') }}
+					</ActionButton>
+					<ActionButton v-if="canDelete && canCreateRecurrenceException" @click="deleteAndLeave(true)">
+						<template #icon>
+							<Delete :size="20" decorative />
+						</template>
+						{{ $t('calendar', 'Delete this and all future') }}
+					</ActionButton>
+				</Actions>
 				<Actions>
 					<ActionButton
 						@click="cancel">
@@ -111,13 +138,11 @@
 				@toggle-all-day="toggleAllDay" />
 
 			<PropertyText
-				v-if="hasLocation"
 				:is-read-only="isReadOnly"
 				:prop-model="rfcProps.location"
 				:value="location"
 				@update:value="updateLocation" />
 			<PropertyText
-				v-if="hasDescription"
 				:is-read-only="isReadOnly"
 				:prop-model="rfcProps.description"
 				:value="description"
@@ -139,6 +164,7 @@
 <script>
 import Actions from '@nextcloud/vue/dist/Components/Actions'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
+import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
 import Popover from '@nextcloud/vue/dist/Components/Popover'
 import EditorMixin from '../mixins/EditorMixin'
@@ -154,6 +180,8 @@ import { getPrefixedRoute } from '../utils/router.js'
 import ArrowExpand from 'vue-material-design-icons/ArrowExpand.vue'
 import CalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
 import Close from 'vue-material-design-icons/Close.vue'
+import Delete from 'vue-material-design-icons/Delete.vue'
+import Download from 'vue-material-design-icons/Download.vue'
 
 export default {
 	name: 'EditSimple',
@@ -168,10 +196,13 @@ export default {
 		Popover,
 		Actions,
 		ActionButton,
+		ActionLink,
 		EmptyContent,
 		ArrowExpand,
 		CalendarBlank,
 		Close,
+		Download,
+		Delete
 	},
 	mixins: [
 		EditorMixin,
