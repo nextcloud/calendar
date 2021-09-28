@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.3.4 – 2021-09-28
+### Fixed
+- Event height in weekly view
+- Events disappearing from grid
+- Movnig calendars on Android
+- Missing default status
+- Simple editor size
+- Sidebar datepicker rendering
+
 ## 2.3.3 – 2021-08-30
 ### Fixed
 - Development dependencies shipped with production build
