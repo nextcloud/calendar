@@ -557,7 +557,11 @@
 			textarea,
 			input,
 			div.multiselect {
-				width: 100%
+				width: 100%;
+			}
+
+			textarea {
+				max-height: calc(100vh - 600px);
 			}
 
 			&--readonly {
