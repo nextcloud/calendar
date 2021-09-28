@@ -61,6 +61,22 @@
 						{{ $t('calendar', 'Show more details') }}
 					</ActionButton>
 				</Actions>
+				<Actions v-if="!isLoading && !isError">
+					<ActionLink v-if="hasDownloadURL"
+						icon="icon-download"
+						:href="downloadURL">
+						{{ $t('calendar', 'Download') }}
+					</ActionLink>
+					<ActionButton v-if="canDelete && !canCreateRecurrenceException" icon="icon-delete" @click="deleteAndLeave(false)">
+						{{ $t('calendar', 'Delete') }}
+					</ActionButton>
+					<ActionButton v-if="canDelete && canCreateRecurrenceException" icon="icon-delete" @click="deleteAndLeave(false)">
+						{{ $t('calendar', 'Delete this occurrence') }}
+					</ActionButton>
+					<ActionButton v-if="canDelete && canCreateRecurrenceException" icon="icon-delete" @click="deleteAndLeave(true)">
+						{{ $t('calendar', 'Delete this and all future') }}
+					</ActionButton>
+				</Actions>
 				<Actions>
 					<ActionButton
 						icon="icon-close"
@@ -102,13 +118,11 @@
 				@toggleAllDay="toggleAllDay" />
 
 			<PropertyText
-				v-if="hasLocation"
 				:is-read-only="isReadOnly"
 				:prop-model="rfcProps.location"
 				:value="location"
 				@update:value="updateLocation" />
 			<PropertyText
-				v-if="hasDescription"
 				:is-read-only="isReadOnly"
 				:prop-model="rfcProps.description"
 				:value="description"
@@ -130,6 +144,7 @@
 <script>
 import Actions from '@nextcloud/vue/dist/Components/Actions'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
+import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
 import Popover from '@nextcloud/vue/dist/Components/Popover'
 import EditorMixin from '../mixins/EditorMixin'
@@ -155,6 +170,7 @@ export default {
 		Popover,
 		Actions,
 		ActionButton,
+		ActionLink,
 		EmptyContent,
 	},
 	mixins: [
