@@ -200,7 +200,6 @@
 			v-if="!isLoading && !isError"
 			id="app-sidebar-tab-resources"
 			class="app-sidebar-tab"
-			icon="icon-address"
 			:name="$t('calendar', 'Resources')"
 			:order="2">
 			<template #icon>
