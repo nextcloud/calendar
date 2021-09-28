@@ -335,6 +335,7 @@ OC.L10N.register(
     "Meeting room" : "Besprechungsraum",
     "Lecture hall" : "Hörsaal",
     "Seminar room" : "Seminarraum",
+    "Other" : "Sonstiges",
     "When shared show" : "Wenn geteilt, zeige",
     "When shared show full event" : "Wenn geteilt, zeige den vollständigen Termin an",
     "When shared show only busy" : "Wenn geteilt, zeige nur den Status 'beschäftigt' an",
