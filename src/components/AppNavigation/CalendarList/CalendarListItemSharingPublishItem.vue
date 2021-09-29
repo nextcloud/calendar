@@ -117,7 +117,6 @@
 
 			<ActionButton
 				v-if="showCopyEmbedCodeLinkLabel"
-				icon="icon-embed"
 				@click.prevent.stop="copyEmbedCode">
 				<template #icon>
 					<CodeBrackets :size="20" decorative />
@@ -131,8 +130,10 @@
 				{{ $t('calendar', 'Copying code …') }}
 			</ActionText>
 			<ActionText
-				v-if="showCopyEmbedCodeLinkSuccess"
-				icon="icon-embed">
+				v-if="showCopyEmbedCodeLinkSuccess">
+				<template #icon>
+					<CodeBrackets :size="20" decorative />
+				</template>
 				{{ $t('calendar', 'Copied code') }}
 			</ActionText>
 			<ActionText

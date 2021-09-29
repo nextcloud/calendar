@@ -36,8 +36,10 @@
 		<div class="resource-list-item__actions">
 			<Actions v-if="isViewedByOrganizer">
 				<ActionButton
-					icon="icon-delete"
 					@click="removeResource">
+					<template #icon>
+						<Delete :size="20" decorative />
+					</template>
 					{{ $t('calendar', 'Remove resource') }}
 				</ActionButton>
 				<ActionSeparator />
@@ -72,6 +74,8 @@ import logger from '../../../utils/logger'
 import { principalPropertySearchByDisplaynameOrEmail } from '../../../services/caldavService'
 import { formatRoomType } from '../../../models/resourceProps'
 
+import Delete from 'vue-material-design-icons/Delete.vue'
+
 export default {
 	name: 'ResourceListItem',
 	components: {
@@ -80,6 +84,7 @@ export default {
 		ActionCaption,
 		ActionSeparator,
 		Actions,
+		Delete,
 	},
 	props: {
 		resource: {
