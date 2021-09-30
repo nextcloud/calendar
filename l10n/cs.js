@@ -220,6 +220,8 @@ OC.L10N.register(
     "The recurrence definition of this event is not fully supported by Nextcloud. If you edit the recurrence-options, certain recurrences may be lost." : "Definice opakování této události není v Nextcloud zcela podporována. Pokud upravíte volby opakování, některá opakování mohou být ztracena.",
     "No rooms or resources yet" : "Zatím žádné místnosti nebo prostředky",
     "Remove resource" : "Odebrat prostředek",
+    "Has a projector" : "Má projektor",
+    "Has a whiteboard" : "Má tabuli",
     "Wheelchair accessible" : "Kolečkové křeslo pro invalidy",
     "_{seatingCapacity} seat_::_{seatingCapacity} seats_" : ["{seatingCapacity} židle","{seatingCapacity} židle","{seatingCapacity} židlí","{seatingCapacity} židle"],
     "Available" : "K dispozici",

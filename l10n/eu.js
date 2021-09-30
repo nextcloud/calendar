@@ -220,6 +220,8 @@ OC.L10N.register(
     "The recurrence definition of this event is not fully supported by Nextcloud. If you edit the recurrence-options, certain recurrences may be lost." : "Gertaera honen errepikapen definizioa ez du guztiz onartzen Nextcloud-ek. Errepikapen aukerak editatzen badituzu, errepikapen batzuk galdu litezke.",
     "No rooms or resources yet" : "Oraindik ez dago gelarik edo baliabiderik",
     "Remove resource" : "Kendu baliabidea",
+    "Has a projector" : "Proiektore bat dauka",
+    "Has a whiteboard" : "Arbel zuria dauka",
     "Wheelchair accessible" : "Gurpil-aulkientzako sarbidea",
     "_{seatingCapacity} seat_::_{seatingCapacity} seats_" : ["{seatingCapacity} eserleku ","{seatingCapacity}  eserleku "],
     "Available" : "Erabilgarri",

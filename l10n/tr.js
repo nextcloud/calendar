@@ -220,6 +220,8 @@ OC.L10N.register(
     "The recurrence definition of this event is not fully supported by Nextcloud. If you edit the recurrence-options, certain recurrences may be lost." : "Bu etkinliğin yinelenme ayarları Nextcloud tarafından tam olarak desteklenmiyor. Yinelenme ayarlarını düzenlerseniz yinelenen bazı etkinlikler kaybolabilir.",
     "No rooms or resources yet" : "Henüz bir oda ya da kaynak yok",
     "Remove resource" : "Kaynağı sil",
+    "Has a projector" : "Projeksiyon var",
+    "Has a whiteboard" : "Beyaz tahta var",
     "Wheelchair accessible" : "Tekerlekli sandalyeye uygun",
     "_{seatingCapacity} seat_::_{seatingCapacity} seats_" : ["{seatingCapacity} koltuk","{seatingCapacity} koltuk"],
     "Available" : "Uygun",

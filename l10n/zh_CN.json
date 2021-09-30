@@ -218,6 +218,8 @@
     "The recurrence definition of this event is not fully supported by Nextcloud. If you edit the recurrence-options, certain recurrences may be lost." : "此事件的循环定义不能被Nextcloud完全支持。如果您编辑循环选项，某些循环可能会丢失。",
     "No rooms or resources yet" : "尚无房间或资源",
     "Remove resource" : "删除资源",
+    "Has a projector" : "有计划者",
+    "Has a whiteboard" : "有白板",
     "Wheelchair accessible" : "残疾人专用",
     "_{seatingCapacity} seat_::_{seatingCapacity} seats_" : ["{seatingCapacity} 座位"],
     "Available" : "可用",
