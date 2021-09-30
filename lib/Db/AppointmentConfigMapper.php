@@ -30,29 +30,46 @@ use InvalidArgumentException;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Db\QBMapper;
-use OCP\DB\Exception;
+use OCP\DB\Exception as DbException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use Punic\Exception\BadArgumentType;
 
 /**
- * @template-extends QBMapper<Appointment>
+ * @template-extends QBMapper<AppointmentConfig>
  */
-class AppointmentMapper extends QBMapper {
+class AppointmentConfigMapper extends QBMapper {
 
 	public function __construct(IDBConnection $db) {
-		parent::__construct($db, 'calendar_appointments');
+		parent::__construct($db, 'calendar_appt_configs');
 	}
 
 	/**
 	 * @param int $id
-	 * @return Appointment
+	 * @param string $userId
+	 * @return AppointmentConfig
+	 * @throws DbException
 	 * @throws DoesNotExistException
 	 * @throws MultipleObjectsReturnedException
-	 * @throws Exception
 	 */
-	public function findById(int $id) : Appointment {
+	public function findByIdForUser(int $id, string $userId) : AppointmentConfig {
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('*')
+			->from($this->getTableName())
+			->where($qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT))
+			->andWhere($qb->expr()->eq('user_id', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR), IQueryBuilder::PARAM_STR));
+		return $this->findEntity($qb);
+	}
+
+	/**
+	 * @param int $id
+	 * @return AppointmentConfig
+	 * @throws DbException
+	 * @throws DoesNotExistException
+	 * @throws MultipleObjectsReturnedException
+	 */
+	public function findById(int $id) : AppointmentConfig {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('*')
 			->from($this->getTableName())
@@ -61,62 +78,31 @@ class AppointmentMapper extends QBMapper {
 	}
 
 	/**
-	 * @param $data
-	 * @return Appointment
-	 * @throws Exception
-	 * @throws BadFunctionCallException
+	 * @param string $userId
+	 * @return AppointmentConfig[]
+	 * @throws DbException
 	 */
-	public function insertFromData($data): Appointment {
-		$appointment = $this->mapRowToEntity($data);
-		return $this->insert($appointment);
-	}
-
-	/**
-	 * @param $data
-	 * @return Appointment
-	 * @throws Exception
-	 * @throws InvalidArgumentException
-	 * @throws DoesNotExistException
-	 */
-	public function updateFromData($data): Appointment {
-		if(empty($data['id'])) {
-			throw new InvalidArgumentException('No id set');
-		}
-
-		try {
-			$appointment = $this->findById($data['id']);
-		} catch (DoesNotExistException|MultipleObjectsReturnedException|Exception $e) {
-			throw new DoesNotExistException('Appointment does not exist');
-		}
-
-		$appointment->set($data);
-		return $this->update($appointment);
-	}
-
-	/**
-	 * @param string $user
-	 * @return Appointment[]
-	 * @throws Exception
-	 */
-	public function findAllForUser(string $user): array {
+	public function findAllForUser(string $userId): array {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('*')
 			->from($this->getTableName())
-			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($user, IQueryBuilder::PARAM_STR), IQueryBuilder::PARAM_STR));
+			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR), IQueryBuilder::PARAM_STR));
 		return $this->findEntities($qb);
 	}
 
 	/**
 	 * @param int $id
-	 * @throws Exception
+	 * @param string $userId
+	 * @return int
+	 * @throws DbException
 	 */
-	public function deleteById(int $id): int {
+	public function deleteById(int $id, string $userId): int {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->delete($this->tableName)
-			->where(
-				$qb->expr()->eq('id', $qb->createNamedParameter($id), IQueryBuilder::PARAM_INT)
-			);
+			->where($qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT))
+			->andWhere($qb->expr()->eq('user_id', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR), IQueryBuilder::PARAM_STR));
+
 		return $qb->executeStatement();
 	}
 

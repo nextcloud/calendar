@@ -23,14 +23,18 @@ declare(strict_types=1);
  *
  */
 
+// @TODO rename and adjust types from migration
+
 namespace OCA\Calendar\Db;
 
 use JsonSerializable;
 use OCP\AppFramework\Db\Entity;
 
 /**
- * @method string getId()
+ * @method int getId()
  * @method void setId(int $id)
+ * @method string getToken()
+ * @method void setToken(string $token)
  * @method string getName()
  * @method void setName(string $name)
  * @method string getDescription()
@@ -41,25 +45,26 @@ use OCP\AppFramework\Db\Entity;
  * @method void setVisibility(string $visibility)
  * @method string getUserId()
  * @method void setUserId(string $userId)
- * @method string getCalendarUri()
- * @method void setCalendarUri(string $calendarUri)
- * @method string[]|null getCalendarFreebusyUris()
- * @method void setCalendarFreebusyUris(?array $freebusyUris)
+ * @method string getTargetCalendarUri()
+ * @method void setTargetCalendarUri(string $calendarUri)
+ * @method string|null getCalendarFreebusyUris()
+ * @method void setCalendarFreebusyUris(?string $freebusyUris)
  * @method string getAvailability()
+ * @method void setAvailability(string $availability)
  * @method int getLength()
  * @method void setLength(int $length)
  * @method int getIncrement()
  * @method void setIncrement(int $increment)
- * @method int|null getPreparationDuration()
- * @method void setPreparationDuration(?int $prepDuration)
- * @method int|null getFollowupDuration()
- * @method void setFollowupDuration(?int $followup)
- * @method int|null getBuffer()
- * @method void setBuffer(?int $buffer)
+ * @method int getPreparationDuration()
+ * @method void setPreparationDuration(int $prepDuration)
+ * @method int getFollowupDuration()
+ * @method void setFollowupDuration(int $followup)
+ * @method int getBuffer()
+ * @method void setBuffer(int $buffer)
  * @method int|null getDailyMax()
  * @method void setDailyMax(?int $max)
  */
-class Appointment extends Entity implements JsonSerializable {
+class AppointmentConfig extends Entity implements JsonSerializable {
 
 	/** @var string */
 	protected $name = '';
@@ -77,9 +82,9 @@ class Appointment extends Entity implements JsonSerializable {
 	protected $userId;
 
 	/** @var string */
-	protected $calendarUri;
+	protected $targetCalendarUri;
 
-	/** @var string[]|null */
+	/** @var string|null */
 	protected $calendarFreebusyUris;
 
 	/** @var string */
@@ -91,13 +96,13 @@ class Appointment extends Entity implements JsonSerializable {
 	/** @var int */
 	protected $increment;
 
-	/** @var int|null */
+	/** @var int */
 	protected $preparationDuration;
 
-	/** @var int|null */
+	/** @var int */
 	protected $followupDuration;
 
-	/** @var int|null */
+	/** @var int */
 	protected $buffer;
 
 	/** @var int|null */
@@ -110,12 +115,14 @@ class Appointment extends Entity implements JsonSerializable {
 	public const VISIBILITY_PRIVATE = 'PRIVATE';
 
 	/**
-	 * @return int
+	 * Total length of one slot of the appointment config
+	 * in minutes
+	 *
+	 * @return int  Minutes of Appointment slot length
 	 */
 	public function getTotalLength(): int {
-		return $this->getLength() + (int)$this->getPreparationDuration() + (int)$this->getFollowupDuration();
+		return $this->getLength() + $this->getPreparationDuration() + $this->getFollowupDuration();
 	}
-
 
 	public function jsonSerialize() {
 		return [
@@ -125,7 +132,7 @@ class Appointment extends Entity implements JsonSerializable {
 			'location' => $this->getLocation(),
 			'visibility' => $this->getVisibility(),
 			'userId' => $this->getUserId(),
-			'calendarUri' => $this->getCalendarUri(),
+			'calendarUri' => $this->getTargetCalendarUri(),
 			'calendarFreeBusyUris' => $this->getCalendarFreebusyUris(),
 			'availability' => $this->getAvailability(),
 			'length' => $this->getLength(),
@@ -138,9 +145,4 @@ class Appointment extends Entity implements JsonSerializable {
 		];
 	}
 
-	public function set(array $data): void {
-		foreach ($data as $key => $value) {
-			$this->setter($key, [$value]);
-		}
-	}
 }

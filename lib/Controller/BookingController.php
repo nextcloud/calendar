@@ -25,11 +25,15 @@ declare(strict_types=1);
 namespace OCA\Calendar\Controller;
 
 use OC\DatabaseException;
+use OCA\Calendar\Appointments\AppointmentConfigService;
+use OCA\Calendar\Appointments\Booking;
+use OCA\Calendar\Appointments\BookingService;
 use OCA\Calendar\Exception\ServiceException;
 use OCA\Calendar\Http\JsonResponse;
-use OCA\Calendar\Service\AppointmentService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Calendar\IManager;
 use OCP\IConfig;
 use OCP\IInitialStateService;
 use OCP\IRequest;
@@ -41,28 +45,19 @@ use OCP\IUser;
  *
  * @package OCA\Calendar\Controller
  */
-class SlotsController extends Controller {
+class BookingController extends Controller {
 
-	/**
-	 * @var IConfig
-	 */
-	private $config;
+	/** @var BookingService */
+	private $bookingService;
 
-	/**
-	 * @var IInitialStateService
-	 */
-	private $initialStateService;
+	/** @var ITimeFactory */
+	private $timeFactory;
 
-	/**
-	 * @var IURLGenerator
-	 */
-	private $urlGenerator;
+	/** @var AppointmentConfigService */
+	private $appointmentConfigService;
 
-	/** @var IUser */
-	private $user;
-
-	/** @var AppointmentService */
-	private $appointmentService;
+	/** @var IManager */
+	private $manager;
 
 	/**
 	 * @param string $appName
@@ -71,28 +66,41 @@ class SlotsController extends Controller {
 	 * @param IInitialStateService $initialStateService
 	 * @param IURLGenerator $urlGenerator
 	 */
-	public function __construct(string               $appName,
-								IRequest             $request,
-								IConfig              $config,
-								IInitialStateService $initialStateService,
-								IURLGenerator        $urlGenerator,
-								IUser                $user,
-								AppointmentService   $appointmentService) {
+	public function __construct(string                   $appName,
+								IRequest                 $request,
+								ITimeFactory             $timeFactory,
+								BookingService           $bookingService,
+								AppointmentConfigService $appointmentConfigService,
+								IManager                 $manager) {
 		parent::__construct($appName, $request);
-		$this->config = $config;
-		$this->initialStateService = $initialStateService;
-		$this->urlGenerator = $urlGenerator;
-		$this->user = $user;
-		$this->appointmentService = $appointmentService;
+
+		$this->bookingService = $bookingService;
+		$this->timeFactory = $timeFactory;
+		$this->appointmentConfigService = $appointmentConfigService;
+		$this->manager = $manager;
 	}
 
 	/**
 	 * @throws ServiceException
 	 * @throws \JsonException
 	 */
-	public function getSlotsForTimespan(int $appointmentId, int $unixStartDate, int $unixEndDate) {
+	public function getBookableSlots(int $appointmentConfigId, int $unixStartTime, int $unixEndTime) {
+		// rate limit this to only allow ranges between 0 to 7 days
+		if(ceil(($unixEndTime-$unixStartTime)/86400) > 7) {
+			return JsonResponse::error('Date Range too large.', 403);
+		}
+
+		if($this->timeFactory->getTime() > $unixStartTime || $this->timeFactory->getTime() > $unixEndTime) {
+			throw  new ServiceException('Booking time must be in the future', 403);
+		}
+
+		$appointmentConfig = $this->appointmentConfigService->findById($appointmentConfigId);
+		$booking = new Booking();
+		$booking->setAppointmentConfig($appointmentConfig);
+		$booking->setStartTime($unixStartTime);
+		$booking->setEndTime($unixEndTime);
 		try {
-			$data = $this->appointmentService->getSlots($appointmentId,$unixStartDate,$unixEndDate);
+			$data = $this->bookingService->getSlots($booking);
 		}catch (ServiceException $e) {
 			return JsonResponse::errorFromThrowable($e);
 		}
