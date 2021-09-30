@@ -27,7 +27,6 @@
 			:class="{ 'property-title__input--readonly': isReadOnly }">
 			<input
 				v-if="!isReadOnly"
-				v-focus
 				type="text"
 				:placeholder="t('calendar', 'Event title')"
 				:value="value"
@@ -39,13 +38,9 @@
 </template>
 
 <script>
-import focus from '../../../directives/focus.js'
 
 export default {
 	name: 'PropertyTitle',
-	directives: {
-		focus,
-	},
 	props: {
 		isReadOnly: {
 			type: Boolean,

@@ -112,6 +112,7 @@
 
 			<PropertyTitle
 				:value="title"
+				v-focus
 				:is-read-only="isReadOnly"
 				@update:value="updateTitle" />
 
@@ -168,6 +169,7 @@ import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
 import Popover from '@nextcloud/vue/dist/Components/Popover'
 import EditorMixin from '../mixins/EditorMixin'
+import focus from '../../../directives/focus.js'
 import IllustrationHeader from '../components/Editor/IllustrationHeader.vue'
 import PropertyTitle from '../components/Editor/Properties/PropertyTitle.vue'
 import PropertyTitleTimePicker from '../components/Editor/Properties/PropertyTitleTimePicker.vue'
@@ -203,6 +205,9 @@ export default {
 		Close,
 		Download,
 		Delete
+	},
+	directives: {
+		focus,
 	},
 	mixins: [
 		EditorMixin,
