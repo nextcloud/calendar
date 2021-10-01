@@ -98,11 +98,9 @@ export default {
 <style lang="scss" scoped>
 
 .property-select {
-	margin-bottom: 4px;
 	&__input {
 		// 34px left and right need to be subtracted. See https://github.com/nextcloud/calendar/pull/3361
 		width: calc(100% - 34px - 34px);
-		padding-bottom: 5px;
 	}
 }
 
