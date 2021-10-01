@@ -2,6 +2,7 @@
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
+  - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
   - @license GNU AGPL version 3 or any later version
   -
@@ -21,12 +22,12 @@
   -->
 
 <template>
-	<div v-if="display" class="repeat-option-set repeat-option-set--summary">
-		<span class="repeat-option-set-summary__label">{{ $t('calendar', 'Summary') }}:</span>
-		<span class="repeat-option-set-summary__summary">
-			{{ recurrenceRule | formatRecurrenceRule(locale) }}
-		</span>
-	</div>
+	<span v-if="display">
+		{{ recurrenceRule | formatRecurrenceRule(locale) }}
+	</span>
+	<span v-else>
+		{{ $t('calendar', 'No recurrence') }}
+	</span>
 </template>
 
 <script>

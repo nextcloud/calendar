@@ -2,6 +2,7 @@
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
+  - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
   - @license GNU AGPL version 3 or any later version
   -
@@ -25,8 +26,13 @@
 	<div
 		v-click-outside="closeAlarmEditor"
 		class="property-alarm-item">
-		<div class="property-alarm-item__icon">
-			<component :is="icon" :size="18" class="icon" />
+		<div
+			class="property-alarm-item__icon"
+			:class="{ 'property-alarm-item__icon--hidden': !showIcon }">
+			<Bell
+				:size="20"
+				:title="t('calendar', 'Reminder')"
+				class="icon" />
 		</div>
 		<div
 			v-if="!isEditing"
@@ -52,24 +58,29 @@
 		<div
 			v-if="isEditing && isRelativeAlarm && isAllDay"
 			class="property-alarm-item__edit property-alarm-item__edit--all-day">
-			<input
-				type="number"
-				min="0"
-				max="3600"
-				:value="alarm.relativeAmountAllDay"
-				@input="changeRelativeAmountAllDay">
-			<AlarmTimeUnitSelect
-				:is-all-day="isAllDay"
-				:count="alarm.relativeAmountAllDay"
-				:unit="alarm.relativeUnitAllDay"
-				:disabled="false"
-				@change="changeRelativeUnitAllDay" />
-			<span>
-				{{ $t('calendar', 'before at') }}
-			</span>
-			<TimePicker
-				:date="relativeAllDayDate"
-				@change="changeRelativeHourMinuteAllDay" />
+			<div class="property-alarm-item__edit--all-day__distance">
+				<input
+					type="number"
+					min="0"
+					max="3600"
+					:value="alarm.relativeAmountAllDay"
+					@input="changeRelativeAmountAllDay">
+				<AlarmTimeUnitSelect
+					:is-all-day="isAllDay"
+					:count="alarm.relativeAmountAllDay"
+					:unit="alarm.relativeUnitAllDay"
+					:disabled="false"
+					class="time-unit-select"
+					@change="changeRelativeUnitAllDay" />
+			</div>
+			<div class="property-alarm-item__edit--all-day__time">
+				<span class="property-alarm-item__edit--all-day__time__before-at-label">
+					{{ $t('calendar', 'before at') }}
+				</span>
+				<TimePicker
+					:date="relativeAllDayDate"
+					@change="changeRelativeHourMinuteAllDay" />
+			</div>
 		</div>
 		<div
 			v-if="isEditing && isAbsoluteAlarm"
@@ -171,14 +182,10 @@ import AlarmTimeUnitSelect from './AlarmTimeUnitSelect.vue'
 import moment from '@nextcloud/moment'
 import TimePicker from '../../Shared/TimePicker.vue'
 import DatePicker from '../../Shared/DatePicker.vue'
-
 import Bell from 'vue-material-design-icons/Bell.vue'
 import Check from 'vue-material-design-icons/Check.vue'
-import Cog from 'vue-material-design-icons/Cog.vue'
 import Delete from 'vue-material-design-icons/Delete.vue'
-import Email from 'vue-material-design-icons/Email.vue'
 import Pencil from 'vue-material-design-icons/Pencil.vue'
-import VolumeHigh from 'vue-material-design-icons/VolumeHigh.vue'
 
 export default {
 	name: 'AlarmListItem',
@@ -192,11 +199,8 @@ export default {
 		ActionSeparator,
 		Bell,
 		Check,
-		Cog,
 		Delete,
-		Email,
 		Pencil,
-		VolumeHigh,
 	},
 	directives: {
 		ClickOutside,
@@ -214,6 +218,10 @@ export default {
 			required: true,
 		},
 		isReadOnly: {
+			type: Boolean,
+			required: true,
+		},
+		showIcon: {
 			type: Boolean,
 			required: true,
 		},
@@ -276,21 +284,6 @@ export default {
 		},
 		isAbsoluteAlarm() {
 			return !this.isRelativeAlarm
-		},
-		icon() {
-			switch (this.alarm.type) {
-			case 'AUDIO':
-				return 'VolumeHigh'
-
-			case 'DISPLAY':
-				return 'Bell'
-
-			case 'EMAIL':
-				return 'Email'
-
-			default:
-				return 'Cog'
-			}
 		},
 		currentUserTimezone() {
 			return this.$store.getters.getResolvedTimezone

@@ -3,6 +3,8 @@
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
+ *
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -34,6 +36,7 @@ import EyedropperVariant from 'vue-material-design-icons/EyedropperVariant.vue'
 import MapMarker from 'vue-material-design-icons/MapMarker.vue'
 import Tag from 'vue-material-design-icons/Tag.vue'
 import TextBoxOutline from 'vue-material-design-icons/TextBoxOutline.vue'
+import Bell from 'vue-material-design-icons/Bell.vue'
 
 export default {
 	components: {
@@ -44,6 +47,7 @@ export default {
 		MapMarker,
 		Tag,
 		TextBoxOutline,
+		Bell,
 	},
 	props: {
 		/**
@@ -69,6 +73,14 @@ export default {
 		 */
 		value: {
 			required: true,
+		},
+		/**
+		 * Show the icon left of the input.
+		 * Will be shown by default.
+		 */
+		showIcon: {
+			type: Boolean,
+			default: true,
 		},
 	},
 	computed: {

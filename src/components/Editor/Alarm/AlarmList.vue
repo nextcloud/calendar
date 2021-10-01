@@ -2,6 +2,7 @@
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
+  - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
   - @license GNU AGPL version 3 or any later version
   -
@@ -22,31 +23,30 @@
 
 <template>
 	<div class="property-alarm-list">
+		<!-- TODO: probably not use index here for the key -->
 		<AlarmListItem
 			v-for="(alarm, index) in alarms"
 			:key="index"
 			:alarm="alarm"
 			:calendar-object-instance="calendarObjectInstance"
 			:is-read-only="isReadOnly"
+			:show-icon="index === 0"
 			@remove-alarm="removeAlarm" />
 		<AlarmListNew
 			v-if="!isReadOnly"
 			:is-all-day="calendarObjectInstance.isAllDay"
+			:show-icon="alarms.length === 0"
 			@add-alarm="addAlarm" />
-		<NoAlarmView
-			v-if="isListEmpty" />
 	</div>
 </template>
 
 <script>
 import AlarmListNew from './AlarmListNew'
 import AlarmListItem from './AlarmListItem'
-import NoAlarmView from './NoAlarmView.vue'
 
 export default {
 	name: 'AlarmList',
 	components: {
-		NoAlarmView,
 		AlarmListItem,
 		AlarmListNew,
 	},
@@ -63,9 +63,6 @@ export default {
 	computed: {
 		alarms() {
 			return this.calendarObjectInstance.alarms
-		},
-		isListEmpty() {
-			return this.alarms.length === 0
 		},
 	},
 	methods: {

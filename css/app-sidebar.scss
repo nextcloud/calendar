@@ -48,8 +48,7 @@
 
 	.editor-invitee-list-empty-message,
 	.editor-reminders-list-empty-message,
-	.editor-invitee-list-no-email-configured-message,
-	.repeat-option-set-summary-read-only {
+	.editor-invitee-list-no-email-configured-message {
 		margin-top: 20px;
 
 		&__icon {
@@ -220,33 +219,13 @@
 			}
 		}
 
-		&--summary {
-			display: flex;
-			justify-content: space-between;
-			line-height: 34px;
-		}
-
 		&__label {
 			margin-right: auto;
 		}
 	}
 
 	.repeat-option-warning {
-		display: flex;
-		align-items: center;
-		margin-top: 20px;
-
-		&__icon {
-			height: 32px;
-			width: 32px;
-			min-width: 32px;
-			min-height: 32px;
-			background-size: 32px;
-		}
-
-		&__info {
-			text-align: center;
-		}
+		text-align: center;
 	}
 
 	.property-title-time-picker {
@@ -336,7 +315,7 @@
 		}
 	}
 
-	.property-alarm-new {
+	.property-alarm-list {
 		width: 100%;
 	}
 
@@ -346,16 +325,19 @@
 		min-height: 44px;
 
 		&__icon {
-			width: 32px;
-			height: 32px;
-			background-color: var(--color-border-dark);
-			border-radius: 50%;
+			align-self: flex-start;
+
+			&--hidden {
+				visibility: hidden;
+			}
 
 			.icon {
-				opacity: .7;
-				height: 32px;
-				width: 32px;
-				background-size: 20px;
+				width: 34px;
+				height: 44px;
+				margin-left: -5px;
+				margin-right: 5px;
+				// TODO: enable me again if the other icons on the details tab have an opacity too
+				// opacity: .7;
 			}
 		}
 
@@ -364,6 +346,7 @@
 			overflow: hidden;
 			white-space: nowrap;
 			text-overflow: ellipsis;
+			align-self: center;
 		}
 
 		&__options {
@@ -374,43 +357,93 @@
 		}
 
 		&__edit {
-			padding: 0 8px;
 			display: flex;
 			align-items: center;
 			width: 100%;
+			min-width: 0;
+			padding-right: 8px;
 
 			input[type=number] {
-				width: 4em;
+				width: 3em;
+			}
+
+			.multiselect {
+				flex: 1 auto;
+				height: 34px;
+				min-width: 0;
+			}
+
+			.mx-datepicker {
+				flex: 1 auto;
 			}
 
 			&--timed {
-				.multiselect {
-					width: 100%;
-				}
 			}
 
 			&--all-day {
-				justify-content: space-between;
+				flex-wrap: wrap;
+				margin-bottom: 5px;
+				gap: 0 5px;
 
-				.multiselect {
-					width: unset !important; // TODO - remove
-					min-width: 8em !important;
+				&__distance,
+				&__time {
+					display: flex;
+					flex: 1;
+					align-items: center;
 				}
 
-				.before-at-label {
-					margin: 0 auto;
+				&__distance {
+					.multiselect {
+						width: 6em;
+					}
 				}
 
-				.mx-datepicker {
-					width: 8em !important;
+				&__time {
+					&__before-at-label {
+						flex: 0 0 auto;
+						margin-right: 5px;
+					}
+
+					.mx-datepicker {
+						width: 7em;
+					}
 				}
 			}
 
 			&--absolute {
 				.mx-datepicker {
-					width: 100% !important;
+					width: unset;
 				}
 			}
+		}
+	}
+
+	.property-repeat {
+		width: 100%;
+
+		&__summary {
+			display: flex;
+			align-items: center;
+			margin-bottom: 5px;
+
+			&__icon {
+				width: 34px;
+				height: 34px;
+				margin-left: -5px;
+				margin-right: 5px;
+			}
+
+			&__content {
+				flex: 1 auto;
+				padding: 0 7px;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+		}
+
+		&__options {
+			margin-bottom: 5px;
 		}
 	}
 
@@ -535,6 +568,12 @@
 		&__info {
 			height: 34px;
 			width: 34px;
+		}
+
+		&__icon {
+			&--hidden {
+				visibility: hidden;
+			}
 		}
 
 		&__info {
