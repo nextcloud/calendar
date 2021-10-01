@@ -360,7 +360,7 @@
 		}
 
 		&__label {
-			padding: 0 8px;
+			padding: 0 7px;
 			overflow: hidden;
 			white-space: nowrap;
 			text-overflow: ellipsis;
@@ -529,6 +529,7 @@
 		display: flex;
 		width: 100%;
 		align-items: flex-start;
+		margin-bottom: 5px;
 
 		&__icon,
 		&__info {
@@ -562,6 +563,8 @@
 
 			textarea {
 				max-height: calc(100vh - 600px);
+				vertical-align: top;
+				margin: 0;
 			}
 
 			&--readonly {
@@ -607,6 +610,7 @@
 			border-radius: var(--border-radius);
 			height: 34px !important;
 			width: 34px !important;
+			margin: 0;
 		}
 	}
 
