@@ -52,7 +52,7 @@
 		"@nextcloud/logger": "^2.1.0",
 		"@nextcloud/moment": "^1.1.1",
 		"@nextcloud/router": "^2.0.0",
-		"@nextcloud/vue": "^4.1.1",
+		"@nextcloud/vue": "^4.2.0",
 		"@nextcloud/vue-dashboard": "^2.0.1",
 		"autosize": "^5.0.1",
 		"cdav-library": "github:nextcloud/cdav-library#3c5cd3691aaf863459085e43850227a4a53e1a27",
