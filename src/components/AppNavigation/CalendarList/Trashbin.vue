@@ -97,9 +97,14 @@
 								</td>
 							</tr>
 						</table>
-						<p v-if="retentionDuration" class="footer">
-							{{ n('calendar', 'Elements in the trash bin are deleted after {numDays} day', 'Elements in the trash bin are deleted after {numDays} days', retentionDuration, { numDays: retentionDuration }) }}
-						</p>
+						<div class="footer">
+							<p v-if="retentionDuration">
+								{{ n('calendar', 'Elements in the trash bin are deleted after {numDays} day', 'Elements in the trash bin are deleted after {numDays} days', retentionDuration, { numDays: retentionDuration }) }}
+							</p>
+							<button @click="onEmptyTrashBin()">
+								{{ t('calendar','Empty trash bin') }}
+							</button>
+						</div>
 					</template>
 				</div>
 			</Modal>
@@ -257,6 +262,23 @@ export default {
 				showError(t('calendar', 'Could not restore calendar or event'))
 			}
 		},
+		onEmptyTrashBin() {
+			OC.dialogs.confirm(
+				t('calendar', 'Do you really want to empty the trash bin?'),
+				t('calendar', 'Empty trash bin'),
+				this.emptyTrashBin,
+				true
+			)
+		},
+
+		emptyTrashBin(confirm) {
+			if (!confirm) {
+				return
+			}
+			this.items.forEach((item) => {
+				this.onDeletePermanently(item)
+			})
+		},
 	},
 }
 </script>
@@ -311,6 +333,9 @@ th {
 	text-align: center;
 	font-size: small;
 	margin-top: 16px;
+	& > p {
+		margin-bottom: 12px;
+	}
 }
 
 .color-dot {
