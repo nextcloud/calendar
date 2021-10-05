@@ -320,7 +320,7 @@ OC.L10N.register(
     "_%n time_::_%n times_" : ["%n mal","%n mal"],
     "Untitled event" : "Unbenannter Termin",
     "Untitled task" : "Unbenannte Aufgabe",
-    "Please ask your administrator to enable the Tasks App." : "Bitte Deine Administrator die Aufgaben-App (Tasks) zu aktivieren.",
+    "Please ask your administrator to enable the Tasks App." : "Bitte Deinen Administrator die Aufgaben-App (Tasks) zu aktivieren.",
     "Prev" : "Voriges ",
     "Next" : "Nächstes",
     "Prev year" : "Voriges Jahr",
