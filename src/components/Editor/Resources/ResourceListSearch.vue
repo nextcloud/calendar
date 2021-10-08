@@ -227,6 +227,7 @@ export default {
 						displayName: principal.displayname ?? principal.email,
 						subLine: subLineData.join(' - '),
 						isAvailable: true,
+						roomAddress: principal.roomAddress,
 					}
 				})
 

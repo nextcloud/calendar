@@ -107,7 +107,7 @@ export default {
 		},
 	},
 	methods: {
-		addResource({ commonName, email, calendarUserType, language, timezoneId }) {
+		addResource({ commonName, email, calendarUserType, language, timezoneId, roomAddress }) {
 			this.$store.commit('addAttendee', {
 				calendarObjectInstance: this.calendarObjectInstance,
 				commonName,
@@ -120,11 +120,32 @@ export default {
 				timezoneId,
 				organizer: this.$store.getters.getCurrentUserPrincipal,
 			})
+			this.updateLocation(roomAddress)
 		},
 		removeResource(resource) {
 			this.$store.commit('removeAttendee', {
 				calendarObjectInstance: this.calendarObjectInstance,
 				attendee: resource,
+			})
+		},
+		/**
+		 * Apply the location of the first resource to the event.
+		 * Has no effect if the location is already set or there are multiple resource.
+		 *
+		 * @param {string} location The location to apply
+		 */
+		updateLocation(location) {
+			if (this.calendarObjectInstance.location || this.calendarObjectInstance.eventComponent.location) {
+				return
+			}
+
+			if (this.resources.length !== 1) {
+				return
+			}
+
+			this.$store.commit('changeLocation', {
+				calendarObjectInstance: this.calendarObjectInstance,
+				location,
 			})
 		},
 	},
