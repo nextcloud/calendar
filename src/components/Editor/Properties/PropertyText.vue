@@ -42,7 +42,7 @@
 			<!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
 			<div
 				v-else
-				v-linkify="value" />
+				v-linkify="{ text: value, linkify: true }" />
 		</div>
 
 		<div
@@ -59,7 +59,7 @@
 <script>
 import autosize from '../../../directives/autosize.js'
 import PropertyMixin from '../../../mixins/PropertyMixin'
-import { linkify } from '../../../directives/linkify.js'
+import linkify from '@nextcloud/vue/dist/Directives/Linkify'
 
 import InformationVariant from 'vue-material-design-icons/InformationVariant.vue'
 
