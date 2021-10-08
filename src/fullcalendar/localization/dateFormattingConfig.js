@@ -3,6 +3,8 @@
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
+ *
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,19 +30,32 @@
 const getDateFormattingConfig = () => {
 	return {
 		// Date formatting:
-		eventTimeFormat: 'LT',
+		eventTimeFormat: {
+			hour: '2-digit',
+			minute: '2-digit',
+		},
 		views: {
 			dayGridMonth: {
-				dayHeaderFormat: 'ddd',
-				titleFormat: 'll',
+				dayHeaderFormat: { weekday: 'short' },
+				titleFormat: { day: 'numeric' },
 			},
 			timeGridDay: {
-				dayHeaderFormat: 'ddd l',
-				titleFormat: 'll',
+				dayHeaderFormat: {
+					weekday: 'short',
+					year: 'numeric',
+					month: '2-digit',
+					day: '2-digit',
+					omitCommas: true,
+				},
 			},
 			timeGridWeek: {
-				dayHeaderFormat: 'ddd l',
-				titleFormat: 'll',
+				dayHeaderFormat: {
+					weekday: 'short',
+					year: 'numeric',
+					month: '2-digit',
+					day: '2-digit',
+					omitCommas: true,
+				},
 			},
 		},
 	}
