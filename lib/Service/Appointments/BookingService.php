@@ -22,7 +22,7 @@ declare(strict_types=1);
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCA\Calendar\Appointments;
+namespace OCA\Calendar\Service\Appointments;
 
 use OC\Calendar\CalendarQuery;
 use OC\Calendar\Manager;
@@ -62,22 +62,18 @@ class BookingService {
 		$bookedSlots = $this->findBookedSlotsAmount($booking);
 
 		// negotiate available slots
-		$bookableSlots = $booking->getAvailableSlots($bookedSlots);
-
-		if($bookableSlots <= 0) {
+		if($booking->getAvailableSlotsAmount($bookedSlots) <= 0) {
 			return [];
 		}
 
-		// get slots irrespective of conflicts
-		/** @var Slot[] $slots */
+     	// Remove unavailable slots via comparing with RRule
 		$booking->generateSlots();
 
-		// Remove unavailable slots via comparing with RRule
-		$booking->parseRRule();
 
 		// remove conflicting slots via calendar free busy
 		$booking = $this->getCalendarFreeTimeblocks($booking);
 
+		$slots = [new Slot(1,1)];
 		return $slots; // make a DTO out of this
 	}
 
@@ -90,38 +86,42 @@ class BookingService {
 	 * Check if slot is conflicting with existing appointments
 	 */
 	public function getCalendarFreeTimeblocks(Booking $booking): Booking {
-		$query = $this->manager->newQuery();
+		$query = $this->manager->newQuery($booking->getAppointmentConfig()->getPrincipalUri());
 		$query->setSearchCalendar($booking->getAppointmentConfig()->getTargetCalendarUri());
+
 		if(!empty($booking->getAppointmentConfig()->getCalendarFreebusyUris())) {
 			foreach ($booking->getAppointmentConfig()->getCalendarFreebusyUris() as $uri) {
 				$query->setSearchCalendar($uri);
 			}
 		}
-		$query->setTimerangeStart(DateTime::createFromFormat('U',$booking->getStartTime()));
-		$query->setTimerangeEnd(DateTime::createFromFormat('U',$booking->getEndTime()));
-		$events = $this->manager->searchForPrincipal($query);
 
-		// if event is within $slot timerange
-		// remove the slot
+		/** @var Slot $slot */
+		$slots = $booking->getSlots();
+		foreach($slots as $k => $slot) {
+			$query->setTimerangeStart($slot->getStartTimeDTObj());
+			$query->setTimerangeEnd($slot->getEndTimeDTObj());
+			// cache the query maybe? or maybe run everything at once?
+			$events = $this->manager->searchForPrincipal($query);
+			if(!empty($events)) {
+				unset($slots[$k]);
+			}
+		}
+		$booking->setSlots($slots);
 
-		//return all leftover slots
-		$booking->setSlots([new Slot(1,1)]);
 		return $booking;
 	}
 
 	public function findBookedSlotsAmount(Booking $booking): int {
 		/** @var CalendarQuery $query */
-		$query = $this->manager->newQuery();
+		$query = $this->manager->newQuery($booking->getAppointmentConfig()->getPrincipalUri());
 		$query->setSearchCalendar($booking->getAppointmentConfig()->getTargetCalendarUri());
 		$query->searchAppointments();
 		$query->setSearchPattern($booking->getAppointmentConfig()->getToken());
-		$query->setTimerangeStart(DateTime::createFromFormat('U',$booking->getStartTime()));
-		$query->setTimerangeEnd(DateTime::createFromFormat('U',$booking->getEndTime()));
+		$query->setTimerangeStart($booking->getStartTimeDTObj());
+		$query->setTimerangeEnd($booking->getEndTimeDTObj());
 		$events = $this->manager->searchForPrincipal($query);
 		return count($events);
 	}
-
-
 
 	// Update
 	public function updateBooking(){

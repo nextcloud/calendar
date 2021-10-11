@@ -22,7 +22,7 @@ declare(strict_types=1);
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCA\Calendar\Appointments;
+namespace OCA\Calendar\Service\Appointments;
 
 
 use BadFunctionCallException;
@@ -116,7 +116,6 @@ class AppointmentConfigService {
 			throw new ServiceException('Could not find a record for id', $e->getCode(), $e);
 		}
 	}
-
 
 	/**
 	 * @param AppointmentConfig $appointmentConfig

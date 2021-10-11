@@ -22,7 +22,9 @@ declare(strict_types=1);
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCA\Calendar\Appointments;
+namespace OCA\Calendar\Service\Appointments;
+
+use DateTime;
 
 class Slot {
 
@@ -34,19 +36,27 @@ class Slot {
 		$this->end = $end;
 	}
 
-	public function getStart(): int {
+	public function getStartTime(): int {
 		return $this->start;
 	}
 
-	public function setStart(int $start): void {
+	public function setStartTime(int $start): void {
 		$this->start = $start;
 	}
 
-	public function getEnd(): int {
+	public function getEndTime(): int {
 		return $this->end;
 	}
 
-	public function setEnd(int $end): void {
+	public function getStartTimeDTObj() : DateTime {
+		return (new DateTime())->setTimestamp($this->start);
+	}
+
+	public function getEndTimeDTObj() : DateTime {
+		return (new DateTime())->setTimestamp($this->end);
+	}
+
+	public function setEndTime(int $end): void {
 		$this->end = $end;
 	}
 

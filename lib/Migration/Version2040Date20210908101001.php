@@ -59,6 +59,10 @@ class Version2040Date20210908101001 extends SimpleMigrationStep {
 			'length' => 64
 		]);
 		// Calendar settings
+		$table->addColumn('principal_uri', Types::STRING, [
+			'notnull' => true,
+			'length' => 255
+		]);
 		$table->addColumn('target_calendar_uri', Types::STRING, [
 			'notnull' => true,
 			'length' => 255

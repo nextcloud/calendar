@@ -29,8 +29,8 @@ use BadFunctionCallException;
 use ChristophWurst\Nextcloud\Testing\DatabaseTransaction;
 use ChristophWurst\Nextcloud\Testing\TestCase;
 use InvalidArgumentException;
-use OCA\Calendar\Db\Appointment;
-use OCA\Calendar\Db\AppointmentMapper;
+use OCA\Calendar\Db\AppointmentConfig;
+use OCA\Calendar\Db\AppointmentConfigMapper;
 use OCA\Mail\Account;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -45,14 +45,14 @@ class AppointmentMapperTest extends TestCase {
 	/** @var IDBConnection */
 	private $db;
 
-	/** @var AppointmentMapper */
+	/** @var AppointmentConfigMapper */
 	private $mapper;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->db = \OC::$server->getDatabaseConnection();
-		$this->mapper = new AppointmentMapper(
+		$this->mapper = new AppointmentConfigMapper(
 			$this->db
 		);
 
@@ -64,25 +64,25 @@ class AppointmentMapperTest extends TestCase {
 
 	public function testFindByIdNoData() {
 		$this->expectException(DoesNotExistException::class);
-		$this->mapper->findById(1);
+		$this->mapper->findByIdForUser(1);
 	}
 
 	/**
 	 * @depends testFindByIdNoData
 	 */
 	public function testFindById() {
-		$appointment = new Appointment();
+		$appointment = new AppointmentConfig();
 		$appointment->setName('Test 2');
 		$appointment->setDescription('Test Description');
 		$appointment->setIncrement(15);
 		$appointment->setLength(60);
 		$appointment->setCalendarUri('testuri');
-		$appointment->setVisibility(Appointment::VISIBILITY_PUBLIC);
+		$appointment->setVisibility(AppointmentConfig::VISIBILITY_PUBLIC);
 		$appointment->setUserId('testuser');
 
 		$appointment = $this->mapper->insert($appointment);
 		$id = $appointment->getId();
-		$appointment = $this->mapper->findById($id);
+		$appointment = $this->mapper->findByIdForUser($id);
 
 		$this->assertObjectHasAttribute('name', $appointment);
 		$this->assertEquals('Test 2', $appointment->getName());
@@ -95,7 +95,7 @@ class AppointmentMapperTest extends TestCase {
 		$this->assertObjectHasAttribute('calendarUri', $appointment);
 		$this->assertEquals('testuri', $appointment->getCalendarUri());
 		$this->assertObjectHasAttribute('visibility', $appointment);
-		$this->assertEquals(Appointment::VISIBILITY_PUBLIC, $appointment->getVisibility());
+		$this->assertEquals(AppointmentConfig::VISIBILITY_PUBLIC, $appointment->getVisibility());
 		$this->assertObjectHasAttribute('userId', $appointment);
 		$this->assertEquals('testuser', $appointment->getUserId());
 	}
@@ -110,7 +110,7 @@ class AppointmentMapperTest extends TestCase {
 			'increment' => 15,
 			'length' => 60,
 			'calendarUri' => 'testuri',
-			'visibility' => Appointment::VISIBILITY_PUBLIC,
+			'visibility' => AppointmentConfig::VISIBILITY_PUBLIC,
 			'userId' => 'testuser'
 		];
 
@@ -127,7 +127,7 @@ class AppointmentMapperTest extends TestCase {
 		$this->assertObjectHasAttribute('calendarUri', $appointment);
 		$this->assertEquals('testuri', $appointment->getCalendarUri());
 		$this->assertObjectHasAttribute('visibility', $appointment);
-		$this->assertEquals(Appointment::VISIBILITY_PUBLIC, $appointment->getVisibility());
+		$this->assertEquals(AppointmentConfig::VISIBILITY_PUBLIC, $appointment->getVisibility());
 		$this->assertObjectHasAttribute('userId', $appointment);
 		$this->assertEquals('testuser', $appointment->getUserId());
 	}
@@ -147,13 +147,13 @@ class AppointmentMapperTest extends TestCase {
 	 * @depends testFindByIdNoData
 	 */
 	public function testUpdateFromData() {
-		$appointment = new Appointment();
+		$appointment = new AppointmentConfig();
 		$appointment->setName('Test 3');
 		$appointment->setDescription('Test Description');
 		$appointment->setIncrement(15);
 		$appointment->setLength(60);
 		$appointment->setCalendarUri('testuri');
-		$appointment->setVisibility(Appointment::VISIBILITY_PUBLIC);
+		$appointment->setVisibility(AppointmentConfig::VISIBILITY_PUBLIC);
 		$appointment->setUserId('testuser');
 		$appointment = $this->mapper->insert($appointment);
 		$id = $appointment->getId();
@@ -164,7 +164,7 @@ class AppointmentMapperTest extends TestCase {
 			'increment' => 15,
 			'length' => 60,
 			'calendarUri' => 'testuri',
-			'visibility' => Appointment::VISIBILITY_PUBLIC,
+			'visibility' => AppointmentConfig::VISIBILITY_PUBLIC,
 			'userId' => 'testuser',
 			'followupDuration' => 100
 		];
@@ -184,7 +184,7 @@ class AppointmentMapperTest extends TestCase {
 		$this->assertObjectHasAttribute('calendarUri', $appointment);
 		$this->assertEquals('testuri', $appointment->getCalendarUri());
 		$this->assertObjectHasAttribute('visibility', $appointment);
-		$this->assertEquals(Appointment::VISIBILITY_PUBLIC, $appointment->getVisibility());
+		$this->assertEquals(AppointmentConfig::VISIBILITY_PUBLIC, $appointment->getVisibility());
 		$this->assertObjectHasAttribute('userId', $appointment);
 		$this->assertEquals('testuser', $appointment->getUserId());
 		$this->assertObjectHasAttribute('followupDuration', $appointment);
@@ -201,7 +201,7 @@ class AppointmentMapperTest extends TestCase {
 			'increment' => 15,
 			'length' => 60,
 			'calendarUri' => 'testuri',
-			'visibility' => Appointment::VISIBILITY_PUBLIC,
+			'visibility' => AppointmentConfig::VISIBILITY_PUBLIC,
 			'userId' => 'testuser',
 			'followupDuration' => 100
 		];
@@ -211,13 +211,13 @@ class AppointmentMapperTest extends TestCase {
 	}
 
 	public function testFindAllForUser():void {
-		$appointment = new Appointment();
+		$appointment = new AppointmentConfig();
 		$appointment->setName('Test 2');
 		$appointment->setDescription('Test Description');
 		$appointment->setIncrement(15);
 		$appointment->setLength(60);
 		$appointment->setCalendarUri('testuri');
-		$appointment->setVisibility(Appointment::VISIBILITY_PUBLIC);
+		$appointment->setVisibility(AppointmentConfig::VISIBILITY_PUBLIC);
 		$appointment->setUserId('testuser');
 
 		$this->mapper->insert($appointment);
@@ -232,13 +232,13 @@ class AppointmentMapperTest extends TestCase {
 	}
 
 	public function testDeleteById():void {
-		$appointment = new Appointment();
+		$appointment = new AppointmentConfig();
 		$appointment->setName('Test 2');
 		$appointment->setDescription('Test Description');
 		$appointment->setIncrement(15);
 		$appointment->setLength(60);
 		$appointment->setCalendarUri('testuri');
-		$appointment->setVisibility(Appointment::VISIBILITY_PUBLIC);
+		$appointment->setVisibility(AppointmentConfig::VISIBILITY_PUBLIC);
 		$appointment->setUserId('testuser');
 
 		$appointment = $this->mapper->insert($appointment);
@@ -248,7 +248,7 @@ class AppointmentMapperTest extends TestCase {
 		$this->assertEquals(1, $row);
 
 		$this->expectException(DoesNotExistException::class);
-		$this->mapper->findById($appointment->getId());
+		$this->mapper->findByIdForUser($appointment->getId());
 	}
 
 	public function testDeleteByIdException():void {

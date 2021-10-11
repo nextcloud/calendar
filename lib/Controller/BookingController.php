@@ -25,11 +25,11 @@ declare(strict_types=1);
 namespace OCA\Calendar\Controller;
 
 use OC\DatabaseException;
-use OCA\Calendar\Appointments\AppointmentConfigService;
-use OCA\Calendar\Appointments\Booking;
-use OCA\Calendar\Appointments\BookingService;
 use OCA\Calendar\Exception\ServiceException;
 use OCA\Calendar\Http\JsonResponse;
+use OCA\Calendar\Service\Appointments\AppointmentConfigService;
+use OCA\Calendar\Service\Appointments\Booking;
+use OCA\Calendar\Service\Appointments\BookingService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -95,15 +95,8 @@ class BookingController extends Controller {
 		}
 
 		$appointmentConfig = $this->appointmentConfigService->findById($appointmentConfigId);
-		$booking = new Booking();
-		$booking->setAppointmentConfig($appointmentConfig);
-		$booking->setStartTime($unixStartTime);
-		$booking->setEndTime($unixEndTime);
-		try {
-			$data = $this->bookingService->getSlots($booking);
-		}catch (ServiceException $e) {
-			return JsonResponse::errorFromThrowable($e);
-		}
+		$booking = new Booking($appointmentConfig, $unixStartTime, $unixEndTime);
+		$data = $this->bookingService->getSlots($booking);
 		return JsonResponse::success($data);
 	}
 

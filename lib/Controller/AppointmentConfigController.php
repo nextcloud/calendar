@@ -28,7 +28,7 @@ use OC\OCS\Exception;
 use OCA\Calendar\Db\AppointmentConfig;
 use OCA\Calendar\Exception\ServiceException;
 use OCA\Calendar\Http\JsonResponse;
-use OCA\Calendar\Appointments\AppointmentConfigService;
+use OCA\Calendar\Service\Appointments\AppointmentConfigService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
@@ -111,6 +111,7 @@ class AppointmentConfigController extends Controller {
 		string $description,
 		string $location,
 		string $visibility,
+		string $principalUri,
 		string $targetCalendarUri,
 		string $availability,
 	   	int $length,
@@ -127,6 +128,7 @@ class AppointmentConfigController extends Controller {
 		$appointmentConfig->setLocation($location);
 		$appointmentConfig->setVisibility($visibility);
 		$appointmentConfig->setUserId($this->user->getUID());
+		$appointmentConfig->setPrincipalUri($principalUri);
 		$appointmentConfig->setTargetCalendarUri($targetCalendarUri);
 		$appointmentConfig->setAvailability($availability);
 		$appointmentConfig->setLength($length);

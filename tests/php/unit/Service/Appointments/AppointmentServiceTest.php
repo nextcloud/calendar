@@ -22,9 +22,10 @@ declare(strict_types=1);
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCA\Calendar\Service;
+namespace OCA\Calendar\Service\Appointments;
 
 use ChristophWurst\Nextcloud\Testing\TestCase;
+use OCA\Calendar\Service\Appointments\AppointmentConfigService;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\DB\Exception;
@@ -40,6 +41,7 @@ class AppointmentServiceTest extends TestCase {
 
 	/** @var AppointmentConfigMapper|MockObject  */
 	private $mapper;
+
 	/** @var AppointmentConfigService */
 	private $service;
 

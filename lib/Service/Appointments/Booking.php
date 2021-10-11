@@ -24,9 +24,22 @@ declare(strict_types=1);
  *
  */
 
-namespace OCA\Calendar\Appointments;
+namespace OCA\Calendar\Service\Appointments;
 
+use DateTime;
+use DateTimeImmutable;
 use OCA\Calendar\Db\AppointmentConfig;
+use Recurr\Exception\InvalidRRule;
+use Recurr\Exception\InvalidWeekday;
+use Recurr\Recurrence;
+use Recurr\Rule;
+use Recurr\Transformer\ArrayTransformer;
+use Recurr\Transformer\ArrayTransformerConfig;
+use Recurr\Transformer\Constraint\AfterConstraint;
+use Recurr\Transformer\Constraint\BeforeConstraint;
+use Recurr\Transformer\Constraint\BetweenConstraint;
+use Sabre\VObject\Property\ICalendar\Date;
+use Sabre\VObject\Recur\RRuleIterator;
 
 class Booking {
 
@@ -42,11 +55,25 @@ class Booking {
 	/** @var Slot[] */
 	private $slots;
 
+	public function __construct(AppointmentConfig $appointmentConfig, int $startTime, int $endTime, array $slots = []) {
+		$this->appointmentConfig = $appointmentConfig;
+		$this->startTime = $startTime;
+		$this->endTime = $endTime;
+		$this->slots = $slots;
+	}
 	/**
 	 * @return int
 	 */
 	public function getStartTime(): int {
 		return $this->startTime;
+	}
+
+	public function getStartTimeDTObj() : DateTime {
+		return (new DateTime())->setTimestamp($this->startTime);
+	}
+
+	public function getEndTimeDTObj() : DateTime {
+		return (new DateTime())->setTimestamp($this->endTime);
 	}
 
 	/**
@@ -98,32 +125,54 @@ class Booking {
 		$this->appointmentConfig = $appointmentConfig;
 	}
 
-
-	public function generateSlots(): array {
-		$slots = [];
-		$unixStartTime = $this->getStartTime();
-		while(($unixStartTime + $this->getAppointmentConfig()->getTotalLength()*60) <= $this->getEndTime() ) {
-			$slots[] = new Slot($unixStartTime, $unixStartTime+$this->getAppointmentConfig()->getTotalLength()*60);
-			$unixStartTime += $this->getAppointmentConfig()->getIncrement();
-		}
-		$this->slots = $slots;
-		return $slots;
-	}
-
-	/**
-	 * @return Slot[]
-	 */
-	public function parseRRule(): array {
-		$rrule = $this->appointmentConfig->getAvailability();
-		// if a slot is not in the timerange, unset that slot from this->slots
-		return [new Slot(1,1)]; // stub
-	}
-
 	/**
 	 * @param int $booked
 	 * @return int
 	 */
-	public function getAvailableSlots(int $booked): int {
+	public function getAvailableSlotsAmount(int $booked): int {
 		return ($this->appointmentConfig->getDailyMax() !==  null) ? $this->appointmentConfig->getDailyMax() - $booked : 99999;
+	}
+
+	/**
+	 * @return self;
+	 */
+	public function generateSlots(): self {
+
+		try {
+			$startDT = $this->getStartTimeDTObj();
+			$endDT = $this->getEndTimeDTObj();
+			// force UTC
+			$startDT->setTimezone(new \DateTimeZone('UTC'));
+			$endDT->setTimezone(new \DateTimeZone('UTC'));
+			$rule = new Rule($this->appointmentConfig->getAvailability(), $startDT, $endDT);
+		} catch (InvalidRRule $e) {
+			$this->slots = [];
+			return $this;
+		}
+
+		$config = new ArrayTransformerConfig();
+		$config->enableLastDayOfMonthFix();
+
+		$transformer = new ArrayTransformer();
+		$transformer->setConfig($config);
+
+		$constraint = new BeforeConstraint($endDT, true);
+
+		try {
+			$collection = $transformer->transform($rule, $constraint);
+		} catch (InvalidWeekday $e) {
+			// throw an error here?
+			$this->slots = [];
+			return $this;
+		}
+
+		$this->slots = $collection->map(function(Recurrence $slot) {
+			$start = $slot->getStart()->getTimestamp();
+			$end = $start + ($this->appointmentConfig->getTotalLength() * 60);
+			return new Slot($start, $end);
+		})->toArray();
+
+		return $this;
+
 	}
 }
