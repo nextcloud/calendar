@@ -231,12 +231,29 @@ export default {
 					}
 				})
 
-			// Skip availability query if there are no results
-			if (options.length === 0) {
-				return options
+			// Check resource availability
+			if (this.hasAdvancedFilters) {
+				await this.checkAvailability(options)
 			}
 
-			// Check resource availabilities using a free busy request
+			// Filter by availability
+			if (this.hasAdvancedFilters && this.isAvailable) {
+				options = options.filter(option => option.isAvailable)
+			}
+
+			return options
+		},
+		/**
+		 * Check resource availability using a free busy request
+		 * and amend the status to the option object (option.isAvailable)
+		 *
+		 * @param {object[]} options The search results to amend with an availability
+		 */
+		async checkAvailability(options) {
+			if (options.length === 0) {
+				return
+			}
+
 			const organizer = new AttendeeProperty(
 				'ORGANIZER',
 				addMailtoPrefix(this.$store.getters.getCurrentUserPrincipalEmail),
@@ -257,13 +274,6 @@ export default {
 					}
 				}
 			}
-
-			// Filter by availability
-			if (this.isAvailable) {
-				options = options.filter(option => option.isAvailable)
-			}
-
-			return options
 		},
 		/**
 		 * Format availability of a search result
