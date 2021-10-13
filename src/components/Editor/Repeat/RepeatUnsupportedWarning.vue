@@ -2,6 +2,7 @@
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
+  - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
   - @license GNU AGPL version 3 or any later version
   -
@@ -22,8 +23,7 @@
 
 <template>
 	<div class="repeat-option-warning">
-		<div class="repeat-option-warning__icon icon icon-info" />
-		<strong class="repeat-option-warning__info">
+		<strong>
 			{{ $t('calendar', 'The recurrence definition of this event is not fully supported by Nextcloud. If you edit the recurrence-options, certain recurrences may be lost.') }}
 		</strong>
 	</div>

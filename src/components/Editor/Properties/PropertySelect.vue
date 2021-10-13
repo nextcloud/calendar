@@ -2,6 +2,7 @@
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
+  - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
   - @license GNU AGPL version 3 or any later version
   -
@@ -26,7 +27,8 @@
 			:is="icon"
 			:size="20"
 			:title="readableName"
-			class="property-select__icon" />
+			class="property-select__icon"
+			:class="{ 'property-select__icon--hidden': !showIcon }" />
 
 		<div
 			class="property-select__input"
@@ -38,6 +40,7 @@
 				:allow-empty="false"
 				:title="readableName"
 				:value="selectedValue"
+				:placeholder="placeholder"
 				track-by="value"
 				label="label"
 				@select="changeValue" />

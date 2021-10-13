@@ -2,6 +2,7 @@
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
+  - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
   - @license GNU AGPL version 3 or any later version
   -
@@ -21,7 +22,9 @@
   -->
 
 <template>
-	<span :key="option" class="multiselect__tag" :style="{ 'background-color': color, 'border-color': borderColor, color: textColor }">
+	<span
+		class="multiselect__tag"
+		:style="{ 'background-color': color, 'border-color': borderColor, color: textColor }">
 		<span>{{ option }}</span>
 	</span>
 </template>

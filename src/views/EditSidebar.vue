@@ -162,6 +162,20 @@
 					:prop-model="rfcProps.color"
 					:value="color"
 					@update:value="updateColor" />
+
+				<AlarmList
+					:calendar-object-instance="calendarObjectInstance"
+					:is-read-only="isReadOnly" />
+
+				<!-- TODO: If not editing the master item, force updating this and all future   -->
+				<!-- TODO: You can't edit recurrence-rule of no-range recurrence-exception -->
+				<Repeat
+					:calendar-object-instance="calendarObjectInstance"
+					:recurrence-rule="calendarObjectInstance.recurrenceRule"
+					:is-read-only="isReadOnly"
+					:is-editing-master-item="isEditingMasterItem"
+					:is-recurrence-exception="isRecurrenceException"
+					@force-this-and-all-future="forceModifyingFuture" />
 			</div>
 			<SaveButtons
 				v-if="showSaveButtons"
@@ -220,58 +234,6 @@
 				@save-this-only="saveAndLeave(false)"
 				@save-this-and-all-future="saveAndLeave(true)" />
 		</AppSidebarTab>
-		<AppSidebarTab
-			v-if="!isLoading && !isError"
-			id="app-sidebar-tab-reminders"
-			class="app-sidebar-tab"
-			:name="$t('calendar', 'Reminders')"
-			:order="3">
-			<template #icon>
-				<Bell :size="20" decorative />
-			</template>
-			<div class="app-sidebar-tab__content">
-				<AlarmList
-					:calendar-object-instance="calendarObjectInstance"
-					:is-read-only="isReadOnly" />
-			</div>
-			<SaveButtons
-				v-if="showSaveButtons"
-				class="app-sidebar-tab__buttons"
-				:can-create-recurrence-exception="canCreateRecurrenceException"
-				:is-new="isNew"
-				:force-this-and-all-future="forceThisAndAllFuture"
-				@save-this-only="saveAndLeave(false)"
-				@save-this-and-all-future="saveAndLeave(true)" />
-		</AppSidebarTab>
-		<AppSidebarTab
-			v-if="!isLoading && !isError"
-			id="app-sidebar-tab-repeat"
-			class="app-sidebar-tab"
-			:name="$t('calendar', 'Repeat')"
-			:order="4">
-			<template #icon>
-				<RepeatIcon :size="20" decorative />
-			</template>
-			<div class="app-sidebar-tab__content">
-				<!-- TODO: If not editing the master item, force updating this and all future   -->
-				<!-- TODO: You can't edit recurrence-rule of no-range recurrence-exception -->
-				<Repeat
-					:calendar-object-instance="calendarObjectInstance"
-					:recurrence-rule="calendarObjectInstance.recurrenceRule"
-					:is-read-only="isReadOnly"
-					:is-editing-master-item="isEditingMasterItem"
-					:is-recurrence-exception="isRecurrenceException"
-					@force-this-and-all-future="forceModifyingFuture" />
-			</div>
-			<SaveButtons
-				v-if="showSaveButtons"
-				class="app-sidebar-tab__buttons"
-				:can-create-recurrence-exception="canCreateRecurrenceException"
-				:is-new="isNew"
-				:force-this-and-all-future="forceThisAndAllFuture"
-				@save-this-only="saveAndLeave(false)"
-				@save-this-and-all-future="saveAndLeave(true)" />
-		</AppSidebarTab>
 	</AppSidebar>
 </template>
 <script>
@@ -301,13 +263,11 @@ import PropertyColor from '../components/Editor/Properties/PropertyColor.vue'
 import ResourceList from '../components/Editor/Resources/ResourceList'
 
 import AccountMultiple from 'vue-material-design-icons/AccountMultiple.vue'
-import Bell from 'vue-material-design-icons/Bell.vue'
 import CalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
 import Delete from 'vue-material-design-icons/Delete.vue'
 import Download from 'vue-material-design-icons/Download.vue'
 import InformationOutline from 'vue-material-design-icons/InformationOutline.vue'
 import MapMarker from 'vue-material-design-icons/MapMarker.vue'
-import RepeatIcon from 'vue-material-design-icons/Repeat.vue'
 
 export default {
 	name: 'EditSidebar',
@@ -330,13 +290,11 @@ export default {
 		PropertyTitleTimePicker,
 		Repeat,
 		AccountMultiple,
-		Bell,
 		CalendarBlank,
 		Delete,
 		Download,
 		InformationOutline,
 		MapMarker,
-		RepeatIcon,
 	},
 	mixins: [
 		EditorMixin,

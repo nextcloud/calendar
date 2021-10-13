@@ -2,6 +2,7 @@
   - @copyright Copyright (c) 2020 Georg Ehrke <oc.list@georgehrke.com>
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
+  - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
   - @license GNU AGPL version 3 or any later version
   -
@@ -25,8 +26,9 @@
 		<component
 			:is="icon"
 			:size="20"
-			class="property-color__icon"
 			:title="readableName"
+			class="property-color__icon"
+			:class="{ 'property-color__icon--hidden': !showIcon }"
 			decorative />
 
 		<div
