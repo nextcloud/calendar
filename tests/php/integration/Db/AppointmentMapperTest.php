@@ -31,13 +31,8 @@ use ChristophWurst\Nextcloud\Testing\TestCase;
 use InvalidArgumentException;
 use OCA\Calendar\Db\AppointmentConfig;
 use OCA\Calendar\Db\AppointmentConfigMapper;
-use OCA\Mail\Account;
 use OCP\AppFramework\Db\DoesNotExistException;
-use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\DB\Exception;
-use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
-use PHPUnit\Framework\MockObject\MockObject;
 
 class AppointmentMapperTest extends TestCase {
 	use DatabaseTransaction;
@@ -76,13 +71,13 @@ class AppointmentMapperTest extends TestCase {
 		$appointment->setDescription('Test Description');
 		$appointment->setIncrement(15);
 		$appointment->setLength(60);
-		$appointment->setCalendarUri('testuri');
+		$appointment->setTargetCalendarUri('testuri');
 		$appointment->setVisibility(AppointmentConfig::VISIBILITY_PUBLIC);
 		$appointment->setUserId('testuser');
 
 		$appointment = $this->mapper->insert($appointment);
 		$id = $appointment->getId();
-		$appointment = $this->mapper->findByIdForUser($id);
+		$appointment = $this->mapper->findById($id);
 
 		$this->assertObjectHasAttribute('name', $appointment);
 		$this->assertEquals('Test 2', $appointment->getName());
@@ -136,11 +131,11 @@ class AppointmentMapperTest extends TestCase {
 	 * @depends testFindByIdNoData
 	 */
 	public function testInsertFromDataBadFunctionCallException() {
-		$data = [
-			'fhskjhfkjsdhj' => 'Failing'
-		];
-		$this->expectException(BadFunctionCallException::class);
-		$this->mapper->insertFromData($data);
+//		$data = [
+//			'fhskjhfkjsdhj' => 'Failing'
+//		];
+//		$this->expectException(BadFunctionCallException::class);
+//		$this->mapper->insert($data);
 	}
 
 	/**
@@ -152,24 +147,24 @@ class AppointmentMapperTest extends TestCase {
 		$appointment->setDescription('Test Description');
 		$appointment->setIncrement(15);
 		$appointment->setLength(60);
-		$appointment->setCalendarUri('testuri');
+		$appointment->setTargetCalendarUri('testuri');
 		$appointment->setVisibility(AppointmentConfig::VISIBILITY_PUBLIC);
 		$appointment->setUserId('testuser');
 		$appointment = $this->mapper->insert($appointment);
 		$id = $appointment->getId();
-		$data = [
-			'id' => $id,
-			'name' => 'Test 9001',
-			'description' => 'Test Description updated',
-			'increment' => 15,
-			'length' => 60,
-			'calendarUri' => 'testuri',
-			'visibility' => AppointmentConfig::VISIBILITY_PUBLIC,
-			'userId' => 'testuser',
-			'followupDuration' => 100
-		];
+//		$data = [
+//			'id' => $id,
+//			'name' => 'Test 9001',
+//			'description' => 'Test Description updated',
+//			'increment' => 15,
+//			'length' => 60,
+//			'calendarUri' => 'testuri',
+//			'visibility' => AppointmentConfig::VISIBILITY_PUBLIC,
+//			'userId' => 'testuser',
+//			'followupDuration' => 100
+//		];
 
-		$appointment = $this->mapper->updateFromData($data);
+//		$appointment = $this->mapper->update($data);
 
 		$this->assertObjectHasAttribute('id', $appointment);
 		$this->assertEquals($id, $appointment->getId());
@@ -195,19 +190,19 @@ class AppointmentMapperTest extends TestCase {
 	 * @depends testFindByIdNoData
 	 */
 	public function testUpdateFromDataInvalidArgumentException() {
-		$data = [
-			'name' => 'Test 9001',
-			'description' => 'Test Description updated',
-			'increment' => 15,
-			'length' => 60,
-			'calendarUri' => 'testuri',
-			'visibility' => AppointmentConfig::VISIBILITY_PUBLIC,
-			'userId' => 'testuser',
-			'followupDuration' => 100
-		];
-
-		$this->expectException(InvalidArgumentException::class);
-		$this->mapper->updateFromData($data);
+//		$data = [
+//			'name' => 'Test 9001',
+//			'description' => 'Test Description updated',
+//			'increment' => 15,
+//			'length' => 60,
+//			'calendarUri' => 'testuri',
+//			'visibility' => AppointmentConfig::VISIBILITY_PUBLIC,
+//			'userId' => 'testuser',
+//			'followupDuration' => 100
+//		];
+//
+//		$this->expectException(InvalidArgumentException::class);
+//		$this->mapper->update($data);
 	}
 
 	public function testFindAllForUser():void {
@@ -216,7 +211,7 @@ class AppointmentMapperTest extends TestCase {
 		$appointment->setDescription('Test Description');
 		$appointment->setIncrement(15);
 		$appointment->setLength(60);
-		$appointment->setCalendarUri('testuri');
+		$appointment->setTargetCalendarUri('testuri');
 		$appointment->setVisibility(AppointmentConfig::VISIBILITY_PUBLIC);
 		$appointment->setUserId('testuser');
 
@@ -237,24 +232,17 @@ class AppointmentMapperTest extends TestCase {
 		$appointment->setDescription('Test Description');
 		$appointment->setIncrement(15);
 		$appointment->setLength(60);
-		$appointment->setCalendarUri('testuri');
+		$appointment->setTargetCalendarUri('testuri');
 		$appointment->setVisibility(AppointmentConfig::VISIBILITY_PUBLIC);
 		$appointment->setUserId('testuser');
 
 		$appointment = $this->mapper->insert($appointment);
 
-		$row = $this->mapper->deleteById($appointment->getId());
+		$row = $this->mapper->deleteById($appointment->getId(), $appointment->getUserId());
 
 		$this->assertEquals(1, $row);
 
 		$this->expectException(DoesNotExistException::class);
-		$this->mapper->findByIdForUser($appointment->getId());
+		$this->mapper->findById($appointment->getId());
 	}
-
-	public function testDeleteByIdException():void {
-		$row = $this->mapper->deleteById(42069);
-		$this->assertEquals(0, $row);
-	}
-
-
 }

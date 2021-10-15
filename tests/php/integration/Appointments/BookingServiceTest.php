@@ -25,26 +25,18 @@ declare(strict_types=1);
 namespace OCA\Calendar\Service\Appointments;
 
 use ChristophWurst\Nextcloud\Testing\TestCase;
-use OC\Calendar\CalendarQuery;
+use OC\AppFramework\Bootstrap\Coordinator;
+use OC\AppFramework\Bootstrap\RegistrationContext;
+use OC\AppFramework\Bootstrap\ServiceRegistration;
 use OC\Calendar\Manager;
-use OC\Config;
-use OCA\Calendar\Service\Appointments\AppointmentConfigService;
-use OCA\Calendar\Service\Appointments\Booking;
-use OCA\Calendar\Service\Appointments\BookingService;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\CalendarProvider;
-use OCP\AppFramework\Db\DoesNotExistException;
-use OCP\AppFramework\Db\MultipleObjectsReturnedException;
-use OCP\Calendar\ICalendarProvider;
-use OCP\DB\Exception;
 use OCA\Calendar\Db\AppointmentConfig;
 use OCA\Calendar\Db\AppointmentConfigMapper;
-use OCA\Calendar\Exception\ServiceException;
 use OCP\IConfig;
 use OCP\IL10N;
-use OCP\IUser;
-use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 
 class BookingServiceTest extends TestCase {
 
@@ -59,12 +51,17 @@ class BookingServiceTest extends TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-//		$this->manager = $this->createMock(Manager::class);
 		$backend = \OC::$server->get(CalDavBackend::class);
-		$l10n =  $this->createMock(IL10N::class);
+		$container = \OC::$server->get(\Psr\Container\ContainerInterface::class);
+		$l10n = $this->createMock(IL10N::class);
 		$conf = $this->createMock(IConfig::class);
-		$calendarProvider = new CalendarProvider($backend, $l10n, $conf);
-		$this->manager = new Manager($calendarProvider);
+		$logger = $this->createMock(LoggerInterface::class);
+		$coordinator = $this->createConfiguredMock(Coordinator::class, [
+			'getRegistrationContext' => $this->createConfiguredMock(RegistrationContext::class, [
+				'getCalendarProviders' => [ new ServiceRegistration('calendar', CalendarProvider::class) ]
+			])
+		]);
+		$this->manager = new Manager($coordinator, $container, $logger);
 		$this->mapper = $this->createMock(AppointmentConfigMapper::class);
 		$this->service = new BookingService(
 			$this->manager,
@@ -72,7 +69,7 @@ class BookingServiceTest extends TestCase {
 		);
 	}
 
-	public function testGetCalendarFreeTimeblocks(){
+	public function testGetCalendarFreeTimeblocks() {
 		$appointmentConfig = new AppointmentConfig();
 		$appointmentConfig->setPrincipalUri('principals/users/test');
 		$appointmentConfig->setTargetCalendarUri('personal');
@@ -82,14 +79,13 @@ class BookingServiceTest extends TestCase {
 		$appointmentConfig ->setFollowupDuration(15);
 		$appointmentConfig ->setAvailability("RRULE:FREQ=MINUTELY;INTERVAL=15;WKST=MO;BYDAY=MO;BYHOUR=8,9,10,11");
 		$booking = new Booking($appointmentConfig, time(), (time() + 84600));
-		$booking->generateSlots();
-		$calendarQuery = new CalendarQuery($appointmentConfig->getPrincipalUri());
+		$booking->parseRRule();
 		$this->service->getCalendarFreeTimeblocks($booking);
 	}
 
-	public function testGetCalendarCount(){
+	public function testGetCalendarCount() {
 		$appointmentConfig = new AppointmentConfig();
-		$appointmentConfig->setPrincipalUri('principals/users/test');
+		$appointmentConfig->setPrincipalUri('principals/users/admin');
 		$appointmentConfig->setTargetCalendarUri('personal');
 		$appointmentConfig->setToken('1');
 		$appointmentConfig ->setLength(30);
@@ -100,6 +96,4 @@ class BookingServiceTest extends TestCase {
 		$booking = new Booking($appointmentConfig, time(), (time() + 84600));
 		$count = $this->service->findBookedSlotsAmount($booking);
 	}
-
-
 }

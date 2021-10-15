@@ -25,22 +25,17 @@ declare(strict_types=1);
 
 namespace OCA\Calendar\Db;
 
-use BadFunctionCallException;
-use InvalidArgumentException;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\Exception as DbException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
-use OCP\IL10N;
-use Punic\Exception\BadArgumentType;
 
 /**
  * @template-extends QBMapper<AppointmentConfig>
  */
 class AppointmentConfigMapper extends QBMapper {
-
 	public function __construct(IDBConnection $db) {
 		parent::__construct($db, 'calendar_appt_configs');
 	}
@@ -78,6 +73,21 @@ class AppointmentConfigMapper extends QBMapper {
 	}
 
 	/**
+	 * @param string $token
+	 * @return AppointmentConfig
+	 * @throws DbException
+	 * @throws DoesNotExistException
+	 * @throws MultipleObjectsReturnedException
+	 */
+	public function findByToken(string $token) : AppointmentConfig {
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('*')
+			->from($this->getTableName())
+			->where($qb->expr()->eq('token', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR), IQueryBuilder::PARAM_STR));
+		return $this->findEntity($qb);
+	}
+
+	/**
 	 * @param string $userId
 	 * @return AppointmentConfig[]
 	 * @throws DbException
@@ -105,5 +115,4 @@ class AppointmentConfigMapper extends QBMapper {
 
 		return $qb->executeStatement();
 	}
-
 }

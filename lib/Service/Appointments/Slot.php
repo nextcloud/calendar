@@ -24,10 +24,9 @@ declare(strict_types=1);
  */
 namespace OCA\Calendar\Service\Appointments;
 
-use DateTime;
+use DateTimeImmutable;
 
 class Slot {
-
 	private $start;
 	private $end;
 
@@ -48,16 +47,16 @@ class Slot {
 		return $this->end;
 	}
 
-	public function getStartTimeDTObj() : DateTime {
-		return (new DateTime())->setTimestamp($this->start);
-	}
-
-	public function getEndTimeDTObj() : DateTime {
-		return (new DateTime())->setTimestamp($this->end);
-	}
-
 	public function setEndTime(int $end): void {
 		$this->end = $end;
+	}
+
+	public function getStartTimeDTObj() : DateTimeImmutable {
+		return (new DateTimeImmutable())->setTimestamp($this->start);
+	}
+
+	public function getEndTimeDTObj() : DateTimeImmutable {
+		return (new DateTimeImmutable())->setTimestamp($this->end);
 	}
 
 	public function isViable(int $start, int $end): bool {

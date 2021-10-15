@@ -10,9 +10,6 @@ use OCP\DB\Types;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
-/**
- * Auto-generated migration step: Please modify to your needs!
- */
 class Version2040Date20210908101001 extends SimpleMigrationStep {
 
 	/**
@@ -57,11 +54,6 @@ class Version2040Date20210908101001 extends SimpleMigrationStep {
 		$table->addColumn('user_id', 'string', [
 			'notnull' => true,
 			'length' => 64
-		]);
-		// Calendar settings
-		$table->addColumn('principal_uri', Types::STRING, [
-			'notnull' => true,
-			'length' => 255
 		]);
 		$table->addColumn('target_calendar_uri', Types::STRING, [
 			'notnull' => true,

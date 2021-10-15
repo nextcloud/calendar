@@ -25,8 +25,6 @@ declare(strict_types=1);
 namespace OCA\Calendar\Service\Appointments;
 
 use ChristophWurst\Nextcloud\Testing\TestCase;
-use DateTime;
-use DateTimeImmutable;
 use OCA\Calendar\Db\AppointmentConfig;
 use Recurr\Exception\InvalidRRule;
 use Recurr\Exception\InvalidWeekday;
@@ -34,8 +32,6 @@ use Recurr\Recurrence;
 use Recurr\Rule;
 use Recurr\Transformer\ArrayTransformer;
 use Recurr\Transformer\ArrayTransformerConfig;
-use Sabre\VObject\Property\VCard\Date;
-use function foo\func;
 
 class BookingTest extends TestCase {
 
@@ -61,43 +57,4 @@ class BookingTest extends TestCase {
 		$this->assertEquals($this->booking->getAppointmentConfig(), $this->appointmentConfig);
 	}
 
-	public function testIntersectRRule(){
-		$time = strtotime('midnight');
-		$this->appointmentConfig->setLength(30);
-		$this->appointmentConfig->setIncrement(15);
-		$this->appointmentConfig->setPreparationDuration(15);
-		$this->appointmentConfig->setFollowupDuration(15);
-		$this->appointmentConfig->setAvailability("RRULE:FREQ=MINUTELY;INTERVAL=15;WKST=MO;BYDAY=MO;BYHOUR=8,9,10,11");
-
-		try {
-			$startDT = new \DateTime();
-			$startDT->setTimestamp($this->booking->getStartTime());
-
-			// force UTC
-			$startDT->setTimezone(new \DateTimeZone('UTC'));
-			$rule = new Rule($this->appointmentConfig->getAvailability(), $startDT);
-		} catch (InvalidRRule $e) {
-			return [];
-		}
-
-		$config = new ArrayTransformerConfig();
-		$config->enableLastDayOfMonthFix();
-
-		$transformer = new ArrayTransformer();
-		$transformer->setConfig($config);
-
-		try {
-			$collection = $transformer->transform($rule);
-		} catch (InvalidWeekday $e) {
-			return [];
-		}
-
-		$slots = $collection->map(function(Recurrence $slot) {
-			$start = $slot->getStart()->getTimestamp();
-			$end = $start + ($this->appointmentConfig->getTotalLength() * 60);
-			return new Slot($start, $end);
-		})->toArray();
-
-		$test = [];
-	}
 }

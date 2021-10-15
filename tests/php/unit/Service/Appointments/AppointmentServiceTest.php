@@ -25,16 +25,12 @@ declare(strict_types=1);
 namespace OCA\Calendar\Service\Appointments;
 
 use ChristophWurst\Nextcloud\Testing\TestCase;
-use OCA\Calendar\Service\Appointments\AppointmentConfigService;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\DB\Exception;
 use OCA\Calendar\Db\AppointmentConfig;
 use OCA\Calendar\Db\AppointmentConfigMapper;
 use OCA\Calendar\Exception\ServiceException;
-use OCP\IConfig;
-use OCP\IUser;
-use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class AppointmentServiceTest extends TestCase {
@@ -252,5 +248,4 @@ class AppointmentServiceTest extends TestCase {
 //
 //
 //	}
-
 }

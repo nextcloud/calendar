@@ -45,8 +45,6 @@ use OCP\AppFramework\Db\Entity;
  * @method void setVisibility(string $visibility)
  * @method string getUserId()
  * @method void setUserId(string $userId)
- * @method string getPrincipalUri()
- * @method void setPrincipalUri(string $principalUri)
  * @method string getTargetCalendarUri()
  * @method void setTargetCalendarUri(string $calendarUri)
  * @method string|null getCalendarFreebusyUris()
@@ -85,9 +83,6 @@ class AppointmentConfig extends Entity implements JsonSerializable {
 
 	/** @var string */
 	protected $userId;
-
-	/** @var string */
-	protected $principalUri;
 
 	/** @var string */
 	protected $targetCalendarUri;
@@ -132,6 +127,15 @@ class AppointmentConfig extends Entity implements JsonSerializable {
 		return $this->getLength() + $this->getPreparationDuration() + $this->getFollowupDuration();
 	}
 
+	/**
+	 * Principals always have the same format
+	 *
+	 * @return string
+	 */
+	public function getPrincipalUri() : string {
+		return 'principals/users/' . $this->userId;
+	}
+
 	public function jsonSerialize() {
 		return [
 			'id' => $this->id,
@@ -141,7 +145,6 @@ class AppointmentConfig extends Entity implements JsonSerializable {
 			'location' => $this->getLocation(),
 			'visibility' => $this->getVisibility(),
 			'userId' => $this->getUserId(),
-			'principalUri' => $this->getPrincipalUri(),
 			'calendarUri' => $this->getTargetCalendarUri(),
 			'calendarFreeBusyUris' => $this->getCalendarFreebusyUris(),
 			'availability' => $this->getAvailability(),

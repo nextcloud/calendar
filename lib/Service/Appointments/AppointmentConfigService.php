@@ -24,21 +24,12 @@ declare(strict_types=1);
  */
 namespace OCA\Calendar\Service\Appointments;
 
-
-use BadFunctionCallException;
-use InvalidArgumentException;
-use OC\DatabaseException;
-use OCA\Calendar\AppInfo\Application;
 use OCA\Calendar\Db\AppointmentConfig;
 use OCA\Calendar\Db\AppointmentConfigMapper;
 use OCA\Calendar\Exception\ServiceException;
-use OCA\Calendar\Http\JsonResponse;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\DB\Exception as DbException;
-use OCP\IConfig;
-use OCP\IUserSession;
-use PHPUnit\Util\Json;
 
 class AppointmentConfigService {
 
@@ -60,7 +51,7 @@ class AppointmentConfigService {
 	public function getAllAppointmentConfigurations(string $user): array {
 		try {
 			return $this->mapper->findAllForUser($user);
-		}catch(DbException $e){
+		} catch (DbException $e) {
 			throw new ServiceException('Error fetching configs', $e->getCode(), $e);
 		}
 	}
@@ -73,7 +64,7 @@ class AppointmentConfigService {
 	public function delete(int $id, string $userId): void {
 		try {
 			$this->mapper->deleteById($id, $userId);
-		} catch(DbException $e) {
+		} catch (DbException $e) {
 			throw new ServiceException('Could not delete appointment', $e->getCode(), $e);
 		}
 	}
@@ -86,7 +77,7 @@ class AppointmentConfigService {
 	public function update(AppointmentConfig $appointmentConfig): AppointmentConfig {
 		try {
 			return $this->mapper->update($appointmentConfig);
-		}catch (DbException $e){
+		} catch (DbException $e) {
 			throw new ServiceException('Could not update Appointment', $e->getCode(), $e);
 		}
 	}
@@ -99,7 +90,7 @@ class AppointmentConfigService {
 	public function findById(int $id): AppointmentConfig {
 		try {
 			return $this->mapper->findById($id);
-		}catch (DbException |DoesNotExistException|MultipleObjectsReturnedException $e) {
+		} catch (DbException |DoesNotExistException|MultipleObjectsReturnedException $e) {
 			throw new ServiceException('Could not find a record for id', $e->getCode(), $e);
 		}
 	}
@@ -112,7 +103,7 @@ class AppointmentConfigService {
 	public function findByIdAndUser(int $id, string $userId): AppointmentConfig {
 		try {
 			return $this->mapper->findByIdForUser($id, $userId);
-		}catch (DbException |DoesNotExistException|MultipleObjectsReturnedException $e) {
+		} catch (DbException |DoesNotExistException|MultipleObjectsReturnedException $e) {
 			throw new ServiceException('Could not find a record for id', $e->getCode(), $e);
 		}
 	}
@@ -125,7 +116,7 @@ class AppointmentConfigService {
 	public function create(AppointmentConfig $appointmentConfig): AppointmentConfig {
 		try {
 			return $this->mapper->insert($appointmentConfig);
-		}catch (DbException $e){
+		} catch (DbException $e) {
 			throw new ServiceException('Could not create new appointment', $e->getCode(), $e);
 		}
 	}
@@ -142,14 +133,14 @@ class AppointmentConfigService {
 
 		// move this to controller
 		//ITimeFactory
-		if(time() > $unixStartTime || time() > $unixEndTime) {
+		if (time() > $unixStartTime || time() > $unixEndTime) {
 			throw  new ServiceException('Booking time must be in the future', 403);
 		}
 
 		// move this to controller
 		try {
 			$appointment = $this->mapper->findByIdForUser($id);
-		}catch(DbException |DoesNotExistException|MultipleObjectsReturnedException $e) {
+		} catch (DbException |DoesNotExistException|MultipleObjectsReturnedException $e) {
 			throw new ServiceException('Appointment not found', 404, $e);
 		}
 
@@ -157,7 +148,7 @@ class AppointmentConfigService {
 		$availability = $this->parseRRule($appointment->getAvailability());
 
 		// move this to create
-		$totalLength = $appointment->getTotalLength()*60;
+		$totalLength = $appointment->getTotalLength() * 60;
 //		if($totalLength === 0){
 //			throw new ServiceException('Appointment not bookable');
 //		}
@@ -165,9 +156,9 @@ class AppointmentConfigService {
 		$bookedSlots = $this->findBookedSlotsAmount($id, $unixStartTime, $unixEndTime);
 
 		// negotiate avaliable slots
-		$bookableSlots = ($appointment->getDailyMax() !==  null) ? $appointment->getDailyMax() - $bookedSlots : 99999;
+		$bookableSlots = ($appointment->getDailyMax() !== null) ? $appointment->getDailyMax() - $bookedSlots : 99999;
 
-		if($bookableSlots <= 0) {
+		if ($bookableSlots <= 0) {
 			return [];
 		}
 
@@ -232,5 +223,4 @@ class AppointmentConfigService {
 	private function parseRRule($rrule) {
 		return ['start' => '', 'end', ''];
 	}
-
 }

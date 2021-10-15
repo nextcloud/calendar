@@ -24,17 +24,14 @@ declare(strict_types=1);
  */
 namespace OCA\Calendar\Controller;
 
-use OC\OCS\Exception;
 use OCA\Calendar\Db\AppointmentConfig;
 use OCA\Calendar\Exception\ServiceException;
 use OCA\Calendar\Http\JsonResponse;
 use OCA\Calendar\Service\Appointments\AppointmentConfigService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\IConfig;
 use OCP\IInitialStateService;
 use OCP\IRequest;
-use OCP\IURLGenerator;
 use OCP\IUser;
 
 /**
@@ -79,8 +76,8 @@ class AppointmentConfigController extends Controller {
 							):TemplateResponse {
 		$appointmentConfigs = [];
 		try {
-			$appointmentConfigs =  $this->appointmentConfigService->getAllAppointmentConfigurations($this->user->getUID());
-		}catch (ServiceException $e) {
+			$appointmentConfigs = $this->appointmentConfigService->getAllAppointmentConfigurations($this->user->getUID());
+		} catch (ServiceException $e) {
 			// do nothing and don't show any appointments
 		}
 
@@ -111,24 +108,21 @@ class AppointmentConfigController extends Controller {
 		string $description,
 		string $location,
 		string $visibility,
-		string $principalUri,
 		string $targetCalendarUri,
 		string $availability,
-	   	int $length,
+		int $length,
 		int $increment,
 		int $preparationDuration = 0,
 		int $followupDuration = 0,
 		int $buffer = 0,
 		?int $dailyMax = null,
 		?string $freebusyUris = null): JsonResponse {
-
 		$appointmentConfig = new AppointmentConfig();
 		$appointmentConfig->setName($name);
 		$appointmentConfig->setDescription($description);
 		$appointmentConfig->setLocation($location);
 		$appointmentConfig->setVisibility($visibility);
 		$appointmentConfig->setUserId($this->user->getUID());
-		$appointmentConfig->setPrincipalUri($principalUri);
 		$appointmentConfig->setTargetCalendarUri($targetCalendarUri);
 		$appointmentConfig->setAvailability($availability);
 		$appointmentConfig->setLength($length);
@@ -142,10 +136,9 @@ class AppointmentConfigController extends Controller {
 		try {
 			$appointmentConfig = $this->appointmentConfigService->create($appointmentConfig);
 			return JsonResponse::success($appointmentConfig);
-		} catch (ServiceException $e){
+		} catch (ServiceException $e) {
 			return JsonResponse::errorFromThrowable($e);
 		}
-
 	}
 
 	/**
@@ -156,7 +149,7 @@ class AppointmentConfigController extends Controller {
 		try {
 			$appointmentConfig = $this->appointmentConfigService->findByIdAndUser($id, $this->user->getUID());
 			return JsonResponse::success($appointmentConfig);
-		} catch (ServiceException $e){
+		} catch (ServiceException $e) {
 			return JsonResponse::errorFromThrowable($e);
 		}
 	}
@@ -193,7 +186,6 @@ class AppointmentConfigController extends Controller {
 		int $buffer = 0,
 		?int $dailyMax = null,
 		?string $freebusyUris = null): JsonResponse {
-
 		try {
 			$appointmentConfig = $this->appointmentConfigService->findByIdAndUser($id, $this->user->getUID());
 		} catch (ServiceException $e) {
@@ -218,7 +210,7 @@ class AppointmentConfigController extends Controller {
 		try {
 			$appointmentConfig = $this->appointmentConfigService->update($appointmentConfig);
 			return JsonResponse::success($appointmentConfig);
-		} catch (ServiceException $e){
+		} catch (ServiceException $e) {
 			return JsonResponse::errorFromThrowable($e, 403);
 		}
 	}
@@ -231,9 +223,8 @@ class AppointmentConfigController extends Controller {
 		try {
 			$this->appointmentConfigService->delete($id, $this->user->getUID());
 			return JsonResponse::success();
-		} catch (ServiceException $e){
+		} catch (ServiceException $e) {
 			return JsonResponse::errorFromThrowable($e, 403);
 		}
 	}
-
 }

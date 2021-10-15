@@ -27,20 +27,10 @@ namespace OCA\Calendar\Service\Appointments;
 use ChristophWurst\Nextcloud\Testing\TestCase;
 use OC\Calendar\CalendarQuery;
 use OC\Calendar\Manager;
-use OCA\Calendar\Service\Appointments\AppointmentConfigService;
-use OCA\Calendar\Service\Appointments\Booking;
-use OCA\Calendar\Service\Appointments\BookingService;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\CalendarProvider;
-use OCP\AppFramework\Db\DoesNotExistException;
-use OCP\AppFramework\Db\MultipleObjectsReturnedException;
-use OCP\DB\Exception;
 use OCA\Calendar\Db\AppointmentConfig;
 use OCA\Calendar\Db\AppointmentConfigMapper;
-use OCA\Calendar\Exception\ServiceException;
-use OCP\IConfig;
-use OCP\IUser;
-use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class BookingServiceTest extends TestCase {
@@ -56,7 +46,6 @@ class BookingServiceTest extends TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-//		$this->manager = $this->createMock(Manager::class);
 		$backend = \OC::$server->get(CalDavBackend::class);
 		$calendarProvider = new CalendarProvider($backend);
 		$this->manager = \OC::$server->get(Manager::class);
@@ -67,13 +56,11 @@ class BookingServiceTest extends TestCase {
 		);
 	}
 
-	public function testGetCalendarFreeTimeblocks(){
-		$booking = new Booking();
-		$booking->setStartTime(time());
-		$booking->setEndTime((time() + 3600));
+	public function testGetCalendarFreeTimeblocks() {
 		$appointmentConfig = new AppointmentConfig();
-		$appointmentConfig->setPrincipalUri('principals/users/admin/');
+		$appointmentConfig->setUserId('admin'); // or something else
 		$appointmentConfig->setTargetCalendarUri('calendars/admin/personal/');
+		$booking = new Booking($appointmentConfig, time(), (time()+3600) );
 		$calendarQuery = new CalendarQuery($appointmentConfig->getPrincipalUri());
 		$booking->setAppointmentConfig($appointmentConfig);
 		$this->manager->expects($this->once())
@@ -86,6 +73,4 @@ class BookingServiceTest extends TestCase {
 			->willReturn(null);
 		$this->service->getCalendarFreeTimeblocks($booking);
 	}
-
-
 }

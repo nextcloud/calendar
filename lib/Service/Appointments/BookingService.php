@@ -25,15 +25,8 @@ declare(strict_types=1);
 namespace OCA\Calendar\Service\Appointments;
 
 use OC\Calendar\CalendarQuery;
-use OC\Calendar\Manager;
-use OCA\Calendar\Db\AppointmentConfig;
 use OCA\Calendar\Db\AppointmentConfigMapper;
-use OCA\Calendar\Exception\ServiceException;
-use OCP\AppFramework\Db\DoesNotExistException;
-use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\Calendar\IManager;
-use OCP\DB\Exception as DbException;
-use Safe\DateTime;
 
 class BookingService {
 
@@ -50,72 +43,73 @@ class BookingService {
 	}
 
 	// CREATE
-	public function book() {
-		// stub
+	public function book(string $calendarData) {
+		// use new ICreateFromString::create method
 	}
 
-	public function getBookingInformation(){
-
+	public function getBookingInformation(string $token) {
+		// unmarshal token for ID would be an option too
+		// this also returns all bookings for this token
+		// needs a unique identifier - X-NC-USERID or something?
+		$config = $this->mapper->findByToken($token);
+		$query = $this->manager->newQuery($config->getPrincipalUri());
+		$query->addSearchCalendar($config->getTargetCalendarUri());
+		return $this->manager->searchForPrincipal($query);
 	}
 
 	public function getSlots(Booking $booking): array {
 		$bookedSlots = $this->findBookedSlotsAmount($booking);
 
 		// negotiate available slots
-		if($booking->getAvailableSlotsAmount($bookedSlots) <= 0) {
+		if ($booking->getAvailableSlotsAmount($bookedSlots) <= 0) {
 			return [];
 		}
 
-     	// Remove unavailable slots via comparing with RRule
-		$booking->generateSlots();
-
+		// decide if we want to use the complete 24 hour period to intersect via:
+		// $booking->generateSlots();
+		// Remove unavailable slots via comparing with RRule
+		$booking->parseRRule();
 
 		// remove conflicting slots via calendar free busy
 		$booking = $this->getCalendarFreeTimeblocks($booking);
-
-		$slots = [new Slot(1,1)];
-		return $slots; // make a DTO out of this
+		return $booking->getSlots();
 	}
 
 	/**
-	 * @param int $time
-	 * @param string $outboxUri
-	 * @param array $freeBusyUris
-	 * @return [][]
+	 * @param Booking $booking
+	 * @return Booking
 	 *
 	 * Check if slot is conflicting with existing appointments
 	 */
 	public function getCalendarFreeTimeblocks(Booking $booking): Booking {
 		$query = $this->manager->newQuery($booking->getAppointmentConfig()->getPrincipalUri());
-		$query->setSearchCalendar($booking->getAppointmentConfig()->getTargetCalendarUri());
+		$query->addSearchCalendar($booking->getAppointmentConfig()->getTargetCalendarUri());
 
-		if(!empty($booking->getAppointmentConfig()->getCalendarFreebusyUris())) {
+		if (!empty($booking->getAppointmentConfig()->getCalendarFreebusyUris())) {
 			foreach ($booking->getAppointmentConfig()->getCalendarFreebusyUris() as $uri) {
-				$query->setSearchCalendar($uri);
+				$query->addSearchCalendar($uri);
 			}
 		}
 
-		/** @var Slot $slot */
 		$slots = $booking->getSlots();
-		foreach($slots as $k => $slot) {
+		foreach ($slots as $k => $slot) {
 			$query->setTimerangeStart($slot->getStartTimeDTObj());
 			$query->setTimerangeEnd($slot->getEndTimeDTObj());
 			// cache the query maybe? or maybe run everything at once?
 			$events = $this->manager->searchForPrincipal($query);
-			if(!empty($events)) {
+			if (!empty($events)) {
 				unset($slots[$k]);
 			}
 		}
 		$booking->setSlots($slots);
-
 		return $booking;
 	}
 
 	public function findBookedSlotsAmount(Booking $booking): int {
 		/** @var CalendarQuery $query */
 		$query = $this->manager->newQuery($booking->getAppointmentConfig()->getPrincipalUri());
-		$query->setSearchCalendar($booking->getAppointmentConfig()->getTargetCalendarUri());
-		$query->searchAppointments();
+		$query->addSearchCalendar($booking->getAppointmentConfig()->getTargetCalendarUri());
+		$query->addSearchProperty('X-NC-APPOINTMENT');
 		$query->setSearchPattern($booking->getAppointmentConfig()->getToken());
 		$query->setTimerangeStart($booking->getStartTimeDTObj());
 		$query->setTimerangeEnd($booking->getEndTimeDTObj());
@@ -124,17 +118,12 @@ class BookingService {
 	}
 
 	// Update
-	public function updateBooking(){
-
+	public function updateBooking() {
+		// noop for now? we don't support a public update method at the moment
 	}
 
 	// Delete
-	public function delete(){
-
+	public function delete() {
+		// this would be a cancel request to ICreateFromString::create()
 	}
-
-
-
-
-
 }

@@ -24,21 +24,18 @@ declare(strict_types=1);
  */
 namespace OCA\Calendar\Controller;
 
-use OC\DatabaseException;
 use OCA\Calendar\Exception\ServiceException;
 use OCA\Calendar\Http\JsonResponse;
 use OCA\Calendar\Service\Appointments\AppointmentConfigService;
 use OCA\Calendar\Service\Appointments\Booking;
 use OCA\Calendar\Service\Appointments\BookingService;
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Calendar\IManager;
 use OCP\IConfig;
 use OCP\IInitialStateService;
 use OCP\IRequest;
 use OCP\IURLGenerator;
-use OCP\IUser;
 
 /**
  * Class PublicViewController
@@ -77,7 +74,6 @@ class BookingController extends Controller {
 		$this->bookingService = $bookingService;
 		$this->timeFactory = $timeFactory;
 		$this->appointmentConfigService = $appointmentConfigService;
-		$this->manager = $manager;
 	}
 
 	/**
@@ -86,11 +82,11 @@ class BookingController extends Controller {
 	 */
 	public function getBookableSlots(int $appointmentConfigId, int $unixStartTime, int $unixEndTime) {
 		// rate limit this to only allow ranges between 0 to 7 days
-		if(ceil(($unixEndTime-$unixStartTime)/86400) > 7) {
+		if (ceil(($unixEndTime - $unixStartTime) / 86400) > 7) {
 			return JsonResponse::error('Date Range too large.', 403);
 		}
 
-		if($this->timeFactory->getTime() > $unixStartTime || $this->timeFactory->getTime() > $unixEndTime) {
+		if ($this->timeFactory->getTime() > $unixStartTime || $this->timeFactory->getTime() > $unixEndTime) {
 			throw  new ServiceException('Booking time must be in the future', 403);
 		}
 
@@ -100,8 +96,11 @@ class BookingController extends Controller {
 		return JsonResponse::success($data);
 	}
 
-	public function bookSlot($data) {
-
+	/**
+	 * @param string $calendarData
+	 */
+	public function bookSlot(string $calendarData) {
+		$this->bookingService->book($calendarData);
+		return JsonResponse::success();
 	}
-
 }

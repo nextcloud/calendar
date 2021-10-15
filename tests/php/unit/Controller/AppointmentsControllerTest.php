@@ -24,12 +24,9 @@ declare(strict_types=1);
  */
 namespace OCA\Calendar\Controller;
 
-use ChristophWurst\Nextcloud\Testing\ServiceMockObject;
 use OCA\Calendar\Db\AppointmentConfig;
 use OCA\Calendar\Exception\ServiceException;
 use OCA\Calendar\Service\AppointmentConfigService;
-use OCA\Calendar\Http\JsonResponse;
-use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Contacts\IManager;
 use OCP\IInitialStateService;
 use OCP\IRequest;

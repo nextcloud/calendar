@@ -26,7 +26,6 @@ declare(strict_types=1);
 namespace OCA\Calendar\Http;
 
 use JsonSerializable;
-use OCA\Mail\Exception\ClientException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse as Base;
 use Throwable;
