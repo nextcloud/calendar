@@ -32,14 +32,24 @@
 		:placeholder="placeholder"
 		:class="{ 'showContent': inputGiven, 'icon-loading': isLoading }"
 		open-direction="bottom"
-		track-by="email"
+		track-by="uid"
 		label="dropdownName"
 		@search-change="findAttendees"
 		@select="addAttendee">
 		<template #option="{ option }">
 			<div class="invitees-search-list-item">
-				<Avatar v-if="option.isUser" :user="option.avatar" :display-name="option.dropdownName" />
-				<Avatar v-if="!option.isUser" :url="option.avatar" :display-name="option.dropdownName" />
+				<!-- We need to specify a unique key here for the avatar to be reactive. -->
+				<Avatar
+					v-if="option.isUser"
+					:key="option.uid"
+					:user="option.avatar"
+					:display-name="option.dropdownName" />
+				<Avatar
+					v-else
+					:key="option.uid"
+					:url="option.avatar"
+					:display-name="option.dropdownName" />
+
 				<div class="invitees-search-list-item__label invitees-search-list-item__label--with-multiple-email">
 					<div>
 						{{ option.dropdownName }}
@@ -121,6 +131,11 @@ export default {
 							dropdownName: query,
 						})
 					}
+				}
+
+				// Generate a unique id for every result to make the avatar components reactive
+				for (const match of matches) {
+					match.uid = Math.random().toString(16).slice(2)
 				}
 
 				this.isLoading = false
