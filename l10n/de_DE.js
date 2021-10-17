@@ -135,7 +135,7 @@ OC.L10N.register(
     "No reminder" : "Keine Erinnerung",
     "CalDAV link copied to clipboard." : "CalDAV-Link in die Zwischenablage kopiert.",
     "CalDAV link could not be copied to clipboard." : "CalDAV-Link konnte nicht in die Zwischenablage kopiert werden.",
-    "Reminder" : "Erinnerungen",
+    "Reminder" : "Erinnerung",
     "before at" : "vorher um",
     "Notification" : "Benachrichtigung",
     "Email" : "E-Mail",
