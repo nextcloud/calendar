@@ -406,7 +406,9 @@ const data = [{
 		'Oral test',
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		t('calendar', 'Exam'),
+		// TRANSLATORS This string is used for matching the event title to an illustration
 		t('calendar', 'Written test'),
+		// TRANSLATORS This string is used for matching the event title to an illustration
 		t('calendar', 'Oral test'),
 	],
 	illustrationNames: [
