@@ -402,8 +402,12 @@ const data = [{
 }, {
 	strings: [
 		'Exam',
+		'Written test',
+		'Oral test',
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		t('calendar', 'Exam'),
+		t('calendar', 'Written test'),
+		t('calendar', 'Oral test'),
 	],
 	illustrationNames: [
 		'exams',
