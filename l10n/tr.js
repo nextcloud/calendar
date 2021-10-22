@@ -418,6 +418,8 @@ OC.L10N.register(
     "Barber" : "Berber",
     "Haircut" : "Saç kesimi",
     "Exam" : "Sınav",
+    "Written test" : "Yazılı sınav",
+    "Oral test" : "Sözlü sınav",
     "Working" : "İş",
     "New Years Eve" : "Yılbaşı gecesi",
     "NYE" : "Yılbaşı",

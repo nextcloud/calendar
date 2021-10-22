@@ -418,6 +418,8 @@ OC.L10N.register(
     "Barber" : "Rasur",
     "Haircut" : "Friseur",
     "Exam" : "Prüfung",
+    "Written test" : "Schreibtest",
+    "Oral test" : "Sprachtest",
     "Working" : "Arbeiten",
     "New Years Eve" : "Silvesterabend",
     "NYE" : "NYE",

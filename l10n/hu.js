@@ -418,6 +418,8 @@ OC.L10N.register(
     "Barber" : "Borbély",
     "Haircut" : "Fodrász",
     "Exam" : "Vizsga",
+    "Written test" : "Írott teszt",
+    "Oral test" : "Szóbeli teszt",
     "Working" : "Munka",
     "New Years Eve" : "Szilveszter",
     "NYE" : "Újév",

@@ -418,6 +418,8 @@ OC.L10N.register(
     "Barber" : "理发师",
     "Haircut" : "剪发",
     "Exam" : "考试",
+    "Written test" : "笔试",
+    "Oral test" : "口试",
     "Working" : "工作中",
     "New Years Eve" : "除夕",
     "NYE" : "除夕",
