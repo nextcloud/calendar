@@ -418,6 +418,8 @@ OC.L10N.register(
     "Barber" : "Holič",
     "Haircut" : "Účes",
     "Exam" : "Zkouška",
+    "Written test" : "Písemná zkouška",
+    "Oral test" : "Ústní zkouška",
     "Working" : "Práce",
     "New Years Eve" : "Štědrý den",
     "NYE" : "Silvestr",
