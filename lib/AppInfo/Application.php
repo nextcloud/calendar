@@ -24,10 +24,12 @@ declare(strict_types=1);
 namespace OCA\Calendar\AppInfo;
 
 use OCA\Calendar\Dashboard\CalendarWidget;
+use OCA\Calendar\Profile\AppointmentsAction;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use function method_exists;
 
 /**
  * Class Application
@@ -51,6 +53,11 @@ class Application extends App implements IBootstrap {
 	 */
 	public function register(IRegistrationContext $context): void {
 		$context->registerDashboardWidget(CalendarWidget::class);
+
+		// TODO: drop conditional code when the app is 23+
+		if (method_exists($context, 'registerProfileLinkAction')) {
+			$context->registerProfileLinkAction(AppointmentsAction::class);
+		}
 	}
 
 	/**

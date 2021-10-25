@@ -44,13 +44,14 @@ class AppointmentConfigService {
 	}
 
 	/**
-	 * @param string $user
+	 * @param string $userId
+	 *
 	 * @return AppointmentConfig[]
 	 * @throws ServiceException
 	 */
-	public function getAllAppointmentConfigurations(string $user): array {
+	public function getAllAppointmentConfigurations(string $userId): array {
 		try {
-			return $this->mapper->findAllForUser($user);
+			return $this->mapper->findAllForUser($userId);
 		} catch (DbException $e) {
 			throw new ServiceException('Error fetching configs', $e->getCode(), $e);
 		}
