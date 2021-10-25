@@ -419,6 +419,7 @@ OC.L10N.register(
     "Haircut" : "Ilea moztu",
     "Exam" : "Azterketa",
     "Written test" : "Idatzizko azterketa",
+    "Oral test" : "Ahozko azterketa",
     "Working" : "Lanean",
     "New Years Eve" : "Urtezaharra",
     "NYE" : "Urte Zaharra",
