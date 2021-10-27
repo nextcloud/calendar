@@ -29,6 +29,7 @@ namespace OCA\Calendar\Db;
 
 use JsonSerializable;
 use OCP\AppFramework\Db\Entity;
+use function json_decode;
 
 /**
  * @method int getId()
@@ -50,7 +51,7 @@ use OCP\AppFramework\Db\Entity;
  * @method string|null getCalendarFreebusyUris()
  * @method void setCalendarFreebusyUris(?string $freebusyUris)
  * @method string getAvailability()
- * @method void setAvailability(string $availability)
+ * @method void setAvailability(?string $availability)
  * @method int getLength()
  * @method void setLength(int $length)
  * @method int getIncrement()
@@ -90,7 +91,7 @@ class AppointmentConfig extends Entity implements JsonSerializable {
 	/** @var string|null */
 	protected $calendarFreebusyUris;
 
-	/** @var string */
+	/** @var string|null */
 	protected $availability;
 
 	/** @var int */
@@ -132,8 +133,12 @@ class AppointmentConfig extends Entity implements JsonSerializable {
 	 *
 	 * @return string
 	 */
-	public function getPrincipalUri() : string {
+	public function getPrincipalUri(): string {
 		return 'principals/users/' . $this->userId;
+	}
+
+	public function getCalendarFreebusyUrisAsArray(): array {
+		return json_decode($this->getCalendarFreebusyUris(), true, 512, JSON_THROW_ON_ERROR);
 	}
 
 	public function jsonSerialize() {

@@ -33,9 +33,9 @@
 		<div class="config-info">
 			<a v-for="config in configs"
 				:key="config.id"
-				target="#"
+				:href="linkToConfig(config)"
 				class="config-name">
-				<p> <strong>{{ config.name }} </strong> </p>
+				<strong>{{ config.name }}</strong>
 				<span class="icon-arrow-right" />
 			</a>
 		</div>
@@ -49,6 +49,7 @@
 <script>
 import Avatar from '@nextcloud/vue/dist/Components/Avatar'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
+import { generateUrl } from '@nextcloud/router'
 
 export default {
 	name: 'Overview',
@@ -64,6 +65,13 @@ export default {
 		userInfo: {
 			required: true,
 			type: Object,
+		},
+	},
+	methods: {
+		linkToConfig(config) {
+			return generateUrl('/apps/calendar/appointment/{token}', {
+				token: config.token,
+			})
 		},
 	},
 }

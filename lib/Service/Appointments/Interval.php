@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * Calendar App
  *
@@ -22,12 +23,21 @@ declare(strict_types=1);
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\Calendar\Service\Appointments;
 
 use DateTimeImmutable;
+use JsonSerializable;
 
-class Slot {
+/**
+ * @psalm-immutable
+ */
+class Interval implements JsonSerializable {
+
+	/** @var int */
 	private $start;
+
+	/** @var int */
 	private $end;
 
 	public function __construct(int $start, int $end) {
@@ -35,31 +45,26 @@ class Slot {
 		$this->end = $end;
 	}
 
-	public function getStartTime(): int {
+	public function getStart(): int {
 		return $this->start;
 	}
 
-	public function setStartTime(int $start): void {
-		$this->start = $start;
-	}
-
-	public function getEndTime(): int {
+	public function getEnd(): int {
 		return $this->end;
 	}
 
-	public function setEndTime(int $end): void {
-		$this->end = $end;
-	}
-
-	public function getStartTimeDTObj() : DateTimeImmutable {
+	public function getStartAsObject(): DateTimeImmutable {
 		return (new DateTimeImmutable())->setTimestamp($this->start);
 	}
 
-	public function getEndTimeDTObj() : DateTimeImmutable {
+	public function getEndAsObject(): DateTimeImmutable {
 		return (new DateTimeImmutable())->setTimestamp($this->end);
 	}
 
-	public function isViable(int $start, int $end): bool {
-		return !($this->start > $start || $this->end < $end);
+	public function jsonSerialize(): array {
+		return [
+			'start' => $this->start,
+			'end' => $this->end,
+		];
 	}
 }

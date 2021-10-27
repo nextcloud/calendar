@@ -24,24 +24,17 @@ declare(strict_types=1);
  */
 namespace OCA\Calendar\Controller;
 
+use DateTimeImmutable;
+use DateTimeZone;
 use OCA\Calendar\Exception\ServiceException;
 use OCA\Calendar\Http\JsonResponse;
 use OCA\Calendar\Service\Appointments\AppointmentConfigService;
-use OCA\Calendar\Service\Appointments\Booking;
 use OCA\Calendar\Service\Appointments\BookingService;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\Calendar\IManager;
-use OCP\IConfig;
-use OCP\IInitialStateService;
 use OCP\IRequest;
-use OCP\IURLGenerator;
 
-/**
- * Class PublicViewController
- *
- * @package OCA\Calendar\Controller
- */
 class BookingController extends Controller {
 
 	/** @var BookingService */
@@ -53,22 +46,11 @@ class BookingController extends Controller {
 	/** @var AppointmentConfigService */
 	private $appointmentConfigService;
 
-	/** @var IManager */
-	private $manager;
-
-	/**
-	 * @param string $appName
-	 * @param IRequest $request an instance of the request
-	 * @param IConfig $config
-	 * @param IInitialStateService $initialStateService
-	 * @param IURLGenerator $urlGenerator
-	 */
 	public function __construct(string                   $appName,
 								IRequest                 $request,
 								ITimeFactory             $timeFactory,
 								BookingService           $bookingService,
-								AppointmentConfigService $appointmentConfigService,
-								IManager                 $manager) {
+								AppointmentConfigService $appointmentConfigService) {
 		parent::__construct($appName, $request);
 
 		$this->bookingService = $bookingService;
@@ -77,30 +59,63 @@ class BookingController extends Controller {
 	}
 
 	/**
-	 * @throws ServiceException
-	 * @throws \JsonException
+	 * @NoAdminRequired
+	 * @PublicPage
+	 *
+	 * @param int $appointmentConfigId
+	 * @param int $startTime UNIX time stamp for the start time in UTC
+	 * @param int $endTime UNIX time stamp for the start time in UTC
+	 * @param string $timeZone
+	 *
+	 * @return JsonResponse
 	 */
-	public function getBookableSlots(int $appointmentConfigId, int $unixStartTime, int $unixEndTime) {
+	public function getBookableSlots(int $appointmentConfigId,
+									 int $startTime,
+									 int $endTime,
+									 string $timeZone): JsonResponse {
+		// Convert the timestamps to the beginning and end of the respective day in the specified timezone
+		$tz = new DateTimeZone($timeZone);
+		$startTimeInTz = (new DateTimeImmutable())
+			->setTimestamp($startTime)
+			->setTimezone($tz)
+			->setTime(0, 0)
+			->getTimestamp();
+		$endTimeInTz = (new DateTimeImmutable())
+			->setTimestamp($endTime)
+			->setTimezone($tz)
+			->setTime(23, 59, 59)
+			->getTimestamp();
+
+		if ($startTimeInTz > $endTimeInTz) {
+			return JsonResponse::fail('Invalid time range', Http::STATUS_UNPROCESSABLE_ENTITY);
+		}
 		// rate limit this to only allow ranges between 0 to 7 days
-		if (ceil(($unixEndTime - $unixStartTime) / 86400) > 7) {
-			return JsonResponse::error('Date Range too large.', 403);
+		if (ceil(($endTimeInTz - $startTimeInTz) / 86400) > 7) {
+			return JsonResponse::fail('Date Range too large.', Http::STATUS_UNPROCESSABLE_ENTITY);
+		}
+		$now = $this->timeFactory->getTime();
+		if ($now > $endTimeInTz) {
+			return JsonResponse::fail('Slot time range must be in the future', Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
 
-		if ($this->timeFactory->getTime() > $unixStartTime || $this->timeFactory->getTime() > $unixEndTime) {
-			throw  new ServiceException('Booking time must be in the future', 403);
+		try {
+			$config = $this->appointmentConfigService->findById($appointmentConfigId);
+		} catch (ServiceException $e) {
+			return JsonResponse::fail(null, Http::STATUS_NOT_FOUND);
 		}
-
-		$appointmentConfig = $this->appointmentConfigService->findById($appointmentConfigId);
-		$booking = new Booking($appointmentConfig, $unixStartTime, $unixEndTime);
-		$data = $this->bookingService->getSlots($booking);
-		return JsonResponse::success($data);
+		return JsonResponse::success(
+			$this->bookingService->getAvailableSlots($config, $startTimeInTz, $endTimeInTz)
+		);
 	}
 
-	/**
-	 * @param string $calendarData
-	 */
-	public function bookSlot(string $calendarData) {
-		$this->bookingService->book($calendarData);
+	public function bookSlot(int $appointmentConfigId,
+							 int $start,
+							 string $name,
+							 string $email,
+							 string $description): JsonResponse {
+		return JsonResponse::success();
+
+		//$this->bookingService->book($calendarData);
 		return JsonResponse::success();
 	}
 }
