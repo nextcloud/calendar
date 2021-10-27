@@ -42,7 +42,7 @@
 					</template>
 					{{ $t('calendar', 'Remove resource') }}
 				</ActionButton>
-				<ActionSeparator />
+				<ActionSeparator v-if="seatingCapacity || roomType || hasProjector || hasWhiteboard || isAccessible" />
 				<ActionCaption
 					v-if="seatingCapacity"
 					:title="seatingCapacity" />
