@@ -12,6 +12,9 @@ const appVersion = JSON.stringify(process.env.npm_package_version)
 // Add dashboard entry
 webpackConfig.entry.dashboard = path.join(__dirname, 'src', 'dashboard.js')
 
+// Add appointments entries
+webpackConfig.entry['appointments-overview'] = path.join(__dirname, 'src', 'appointments/main-overview.js')
+
 // Edit JS rule
 webpackRules.RULE_JS.test = /\.m?js$/
 webpackRules.RULE_JS.exclude = BabelLoaderExcludeNodeModulesExcept([
