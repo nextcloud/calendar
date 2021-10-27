@@ -27,13 +27,17 @@ namespace OCA\Calendar\Controller;
 
 use OCA\Calendar\AppInfo\Application;
 use OCA\Calendar\Db\AppointmentConfig;
+use OCA\Calendar\Exception\ClientException;
+use OCA\Calendar\Exception\ServiceException;
 use OCA\Calendar\Service\Appointments\AppointmentConfigService;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\IRequest;
 use OCP\IUserManager;
+use RuntimeException;
 use function array_filter;
 
 class AppointmentController extends Controller {
@@ -93,6 +97,51 @@ class AppointmentController extends Controller {
 		return new TemplateResponse(
 			Application::APP_ID,
 			'appointments/index',
+			[],
+			TemplateResponse::RENDER_AS_PUBLIC
+		);
+	}
+
+	/**
+	 * @PublicPage
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 *
+	 * @return Response
+	 */
+	public function show(string $token): Response {
+		try {
+			$config = $this->configService->findByToken($token);
+		} catch (ClientException $e) {
+			if ($e->getHttpCode() === Http::STATUS_NOT_FOUND) {
+				return new TemplateResponse(
+					Application::APP_ID,
+					'appointments/404-booking',
+					[],
+					TemplateResponse::RENDER_AS_GUEST
+				);
+			}
+		}
+
+		$user = $this->userManager->get($config->getUserId());
+		if ($user === null) {
+			throw new ServiceException("Appointment config $token does not belong to a valid user");
+		}
+		$this->initialState->provideInitialState(
+			'userInfo',
+			[
+				'uid' => $user->getUID(),
+				'displayName' => $user->getDisplayName(),
+			],
+		);
+		$this->initialState->provideInitialState(
+			'config',
+			$config
+		);
+
+		return new TemplateResponse(
+			Application::APP_ID,
+			'appointments/booking',
 			[],
 			TemplateResponse::RENDER_AS_PUBLIC
 		);

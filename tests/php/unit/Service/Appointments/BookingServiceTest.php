@@ -35,42 +35,42 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 class BookingServiceTest extends TestCase {
 
-	/** @var AppointmentConfigMapper|MockObject  */
-	private $mapper;
+	/** @var AvailabilityGenerator|MockObject */
+	private $availabilityGenerator;
+
+	/** @var SlotExtrapolator|MockObject */
+	private $extrapolator;
+
+	/** @var DailyLimitFilter|MockObject */
+	private $dailyLimitFilter;
+
+	/** @var EventConflictFilter|MockObject */
+	private $eventConflictFilter;
 
 	/** @var BookingService */
 	private $service;
 
-	/** @var mixed|Manager|MockObject */
-	private $manager;
-
 	protected function setUp(): void {
 		parent::setUp();
-		$backend = \OC::$server->get(CalDavBackend::class);
-		$calendarProvider = new CalendarProvider($backend);
-		$this->manager = \OC::$server->get(Manager::class);
-		$this->mapper = $this->createMock(AppointmentConfigMapper::class);
+
+		$this->availabilityGenerator = $this->createMock(AvailabilityGenerator::class);
+		$this->extrapolator = $this->createMock(SlotExtrapolator::class);
+		$this->dailyLimitFilter = $this->createMock(DailyLimitFilter::class);
+		$this->eventConflictFilter = $this->createMock(EventConflictFilter::class);
+
 		$this->service = new BookingService(
-			$this->manager,
-			$this->mapper
+			$this->availabilityGenerator,
+			$this->extrapolator,
+			$this->dailyLimitFilter,
+			$this->eventConflictFilter,
 		);
 	}
 
-	public function testGetCalendarFreeTimeblocks() {
-		$appointmentConfig = new AppointmentConfig();
-		$appointmentConfig->setUserId('admin'); // or something else
-		$appointmentConfig->setTargetCalendarUri('calendars/admin/personal/');
-		$booking = new Booking($appointmentConfig, time(), (time()+3600) );
-		$calendarQuery = new CalendarQuery($appointmentConfig->getPrincipalUri());
-		$booking->setAppointmentConfig($appointmentConfig);
-		$this->manager->expects($this->once())
-			->method('newQuery')
-			->with($appointmentConfig->getPrincipalUri())
-			->willReturn($calendarQuery);
-		$this->manager->expects($this->once())
-			->method('searchForPrincipal')
-			->with($calendarQuery)
-			->willReturn(null);
-		$this->service->getCalendarFreeTimeblocks($booking);
+	public function testGetAvailableSlots(): void {
+		$config = new AppointmentConfig();
+
+		$slots = $this->service->getAvailableSlots($config, 0, 100);
+
+		self::assertEmpty($slots);
 	}
 }

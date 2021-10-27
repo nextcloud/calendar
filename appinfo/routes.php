@@ -36,6 +36,9 @@ return [
 		['name' => 'view#index', 'url' => '/{view}/{timeRange}/edit/{mode}/{objectId}/{recurrenceId}', 'verb' => 'GET', 'requirements' => ['view' => 'timeGridDay|timeGridWeek|dayGridMonth|listMonth'], 'postfix' => 'view.timerange.edit'],
 		// Appointments
 		['name' => 'appointment#index', 'url' => '/appointments/{userId}', 'verb' => 'GET'],
+		['name' => 'appointment#show', 'url' => '/appointment/{token}', 'verb' => 'GET'],
+		['name' => 'booking#getBookableSlots', 'url' => '/appointment/{appointmentConfigId}/slots', 'verb' => 'GET'],
+		['name' => 'booking#bookSlot', 'url' => '/appointment/{appointmentConfigId}/book', 'verb' => 'POST'],
 		// Public views
 		['name' => 'publicView#public_index_with_branding', 'url' => '/p/{token}', 'verb' => 'GET'],
 		['name' => 'publicView#public_index_with_branding', 'url' => '/p/{token}/{view}/{timeRange}', 'verb' => 'GET', 'postfix' => 'publicview.timerange'],

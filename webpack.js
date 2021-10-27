@@ -13,6 +13,7 @@ const appVersion = JSON.stringify(process.env.npm_package_version)
 webpackConfig.entry.dashboard = path.join(__dirname, 'src', 'dashboard.js')
 
 // Add appointments entries
+webpackConfig.entry['appointments-booking'] = path.join(__dirname, 'src', 'appointments/main-booking.js')
 webpackConfig.entry['appointments-overview'] = path.join(__dirname, 'src', 'appointments/main-overview.js')
 
 // Edit JS rule

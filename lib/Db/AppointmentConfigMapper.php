@@ -75,9 +75,7 @@ class AppointmentConfigMapper extends QBMapper {
 	/**
 	 * @param string $token
 	 * @return AppointmentConfig
-	 * @throws DbException
 	 * @throws DoesNotExistException
-	 * @throws MultipleObjectsReturnedException
 	 */
 	public function findByToken(string $token) : AppointmentConfig {
 		$qb = $this->db->getQueryBuilder();

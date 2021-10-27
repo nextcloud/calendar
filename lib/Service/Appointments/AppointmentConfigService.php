@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * Calendar App
  *
@@ -22,13 +23,16 @@ declare(strict_types=1);
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\Calendar\Service\Appointments;
 
 use OCA\Calendar\Db\AppointmentConfig;
 use OCA\Calendar\Db\AppointmentConfigMapper;
+use OCA\Calendar\Exception\ClientException;
 use OCA\Calendar\Exception\ServiceException;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
+use OCP\AppFramework\Http;
 use OCP\DB\Exception as DbException;
 
 class AppointmentConfigService {
@@ -60,6 +64,7 @@ class AppointmentConfigService {
 	/**
 	 * @param int $id
 	 * @param string $userId
+	 *
 	 * @throws ServiceException
 	 */
 	public function delete(int $id, string $userId): void {
@@ -72,6 +77,7 @@ class AppointmentConfigService {
 
 	/**
 	 * @param AppointmentConfig $appointmentConfig
+	 *
 	 * @return AppointmentConfig
 	 * @throws ServiceException
 	 */
@@ -85,32 +91,53 @@ class AppointmentConfigService {
 
 	/**
 	 * @param int $id
+	 *
 	 * @return AppointmentConfig
 	 * @throws ServiceException
 	 */
 	public function findById(int $id): AppointmentConfig {
 		try {
 			return $this->mapper->findById($id);
-		} catch (DbException |DoesNotExistException|MultipleObjectsReturnedException $e) {
-			throw new ServiceException('Could not find a record for id', $e->getCode(), $e);
+		} catch (DbException | DoesNotExistException | MultipleObjectsReturnedException $e) {
+			throw new ClientException(
+				'Could not find a record for id',
+				$e->getCode(),
+				$e,
+				Http::STATUS_NOT_FOUND
+			);
+		}
+	}
+
+	public function findByToken(string $token): AppointmentConfig {
+		try {
+			return $this->mapper->findByToken($token);
+		} catch (DoesNotExistException $e) {
+			throw new ClientException(
+				"Appointment config $token does not exist",
+				0,
+				$e,
+				Http::STATUS_NOT_FOUND
+			);
 		}
 	}
 
 	/**
 	 * @param int $id
+	 *
 	 * @return AppointmentConfig
 	 * @throws ServiceException
 	 */
 	public function findByIdAndUser(int $id, string $userId): AppointmentConfig {
 		try {
 			return $this->mapper->findByIdForUser($id, $userId);
-		} catch (DbException |DoesNotExistException|MultipleObjectsReturnedException $e) {
+		} catch (DbException | DoesNotExistException | MultipleObjectsReturnedException $e) {
 			throw new ServiceException('Could not find a record for id', $e->getCode(), $e);
 		}
 	}
 
 	/**
 	 * @param AppointmentConfig $appointmentConfig
+	 *
 	 * @return AppointmentConfig
 	 * @throws ServiceException
 	 */
@@ -126,6 +153,7 @@ class AppointmentConfigService {
 	 * @param int $id ?? maybe pass the appointment
 	 * @param int $unixStartTime
 	 * @param int $unixEndTime
+	 *
 	 * @return array
 	 * @throws ServiceException
 	 */
@@ -141,7 +169,7 @@ class AppointmentConfigService {
 		// move this to controller
 		try {
 			$appointment = $this->mapper->findByIdForUser($id);
-		} catch (DbException |DoesNotExistException|MultipleObjectsReturnedException $e) {
+		} catch (DbException | DoesNotExistException | MultipleObjectsReturnedException $e) {
 			throw new ServiceException('Appointment not found', 404, $e);
 		}
 
@@ -194,6 +222,7 @@ class AppointmentConfigService {
 	 * @param int $time
 	 * @param string $outboxUri
 	 * @param array $freeBusyUris
+	 *
 	 * @return [][]
 	 *
 	 * Check if slot is conflicting with existing appointments
