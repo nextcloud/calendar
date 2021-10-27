@@ -22,30 +22,6 @@
 
 <template>
 	<div class="resource-search">
-		<template v-if="hasAdvancedFilters">
-			<div class="resource-search__capacity">
-				<ResourceSeatingCapacity :value.sync="capacity" />
-				<Actions
-					v-if="hasAdvancedFilters"
-					class="resource-search__capacity__actions">
-					<ActionCheckbox :checked.sync="isAvailable">
-						<!-- Translators room or resource is not yet booked -->
-						{{ $t('calendar', 'Available') }}
-					</ActionCheckbox>
-					<ActionCheckbox :checked.sync="hasProjector">
-						{{ $t('calendar', 'Projector') }}
-					</ActionCheckbox>
-					<ActionCheckbox :checked.sync="hasWhiteboard">
-						{{ $t('calendar', 'Whiteboard') }}
-					</ActionCheckbox>
-					<ActionCheckbox :checked.sync="isAccessible">
-						{{ $t('calendar', 'Wheelchair accessible') }}
-					</ActionCheckbox>
-				</Actions>
-			</div>
-			<ResourceRoomType :value.sync="roomType" />
-		</template>
-
 		<Multiselect
 			class="resource-search__multiselect"
 			:options="matches"
@@ -82,6 +58,30 @@
 				</div>
 			</template>
 		</Multiselect>
+
+		<template v-if="hasAdvancedFilters">
+			<div class="resource-search__capacity">
+				<ResourceSeatingCapacity :value.sync="capacity" />
+				<Actions
+					v-if="hasAdvancedFilters"
+					class="resource-search__capacity__actions">
+					<ActionCheckbox :checked.sync="isAvailable">
+						<!-- Translators room or resource is not yet booked -->
+						{{ $t('calendar', 'Available') }}
+					</ActionCheckbox>
+					<ActionCheckbox :checked.sync="hasProjector">
+						{{ $t('calendar', 'Projector') }}
+					</ActionCheckbox>
+					<ActionCheckbox :checked.sync="hasWhiteboard">
+						{{ $t('calendar', 'Whiteboard') }}
+					</ActionCheckbox>
+					<ActionCheckbox :checked.sync="isAccessible">
+						{{ $t('calendar', 'Wheelchair accessible') }}
+					</ActionCheckbox>
+				</Actions>
+			</div>
+			<ResourceRoomType :value.sync="roomType" />
+		</template>
 	</div>
 </template>
 
@@ -293,3 +293,9 @@ export default {
 	},
 }
 </script>
+
+<style lang="scss" scoped>
+.resource-search__multiselect {
+	padding-bottom: 5px !important;
+}
+</style>
