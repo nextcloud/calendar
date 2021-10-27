@@ -202,7 +202,7 @@ export default {
 		CalendarBlank,
 		Close,
 		Download,
-		Delete
+		Delete,
 	},
 	mixins: [
 		EditorMixin,
