@@ -41,6 +41,10 @@ Vue.prototype.$n = translatePlural
 
 const config = loadState('calendar', 'config')
 const userInfo = loadState('calendar', 'userInfo')
+const visitorInfo = loadState('calendar', 'visitorInfo', {
+	displayName: '',
+	email: '',
+})
 
 export default new Vue({
 	el: '#appointment-booking',
@@ -48,6 +52,7 @@ export default new Vue({
 		props: {
 			config,
 			userInfo,
+			visitorInfo,
 		},
 	}),
 })

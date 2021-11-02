@@ -63,6 +63,7 @@
 				:user-info="userInfo"
 				:config="config"
 				:time-slot="selectedSlot"
+				:visitor-info="visitorInfo"
 				@save="onSave"
 				@close="selectedSlot = undefined" />
 		</div>
@@ -94,6 +95,10 @@ export default {
 			type: Object,
 		},
 		userInfo: {
+			required: true,
+			type: Object,
+		},
+		visitorInfo: {
 			required: true,
 			type: Object,
 		},

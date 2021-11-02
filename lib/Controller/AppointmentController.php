@@ -51,15 +51,20 @@ class AppointmentController extends Controller {
 	/** @var IInitialState */
 	private $initialState;
 
+	/** @var string|null */
+	private $userId;
+
 	public function __construct(IRequest $request,
 								IUserManager $userManager,
 								AppointmentConfigService $configService,
-								IInitialState $initialState) {
+								IInitialState $initialState,
+								?string $userId) {
 		parent::__construct(Application::APP_ID, $request);
 
 		$this->userManager = $userManager;
 		$this->configService = $configService;
 		$this->initialState = $initialState;
+		$this->userId = $userId;
 	}
 
 	/**
@@ -123,21 +128,36 @@ class AppointmentController extends Controller {
 			}
 		}
 
-		$user = $this->userManager->get($config->getUserId());
-		if ($user === null) {
-			throw new ServiceException("Appointment config $token does not belong to a valid user");
+		$configOwner = $this->userManager->get($config->getUserId());
+		if ($configOwner === null) {
+			throw new ServiceException("Appointment config $token does not belong to a valid configOwner");
 		}
 		$this->initialState->provideInitialState(
 			'userInfo',
 			[
-				'uid' => $user->getUID(),
-				'displayName' => $user->getDisplayName(),
+				'uid' => $configOwner->getUID(),
+				'displayName' => $configOwner->getDisplayName(),
 			],
 		);
 		$this->initialState->provideInitialState(
 			'config',
 			$config
 		);
+
+		if ($this->userId !== null) {
+			$currentUser = $this->userManager->get($this->userId);
+			if ($currentUser === null) {
+				// This should never happen
+				throw new RuntimeException('User ' . $this->userId . ' could not be found');
+			}
+			$this->initialState->provideInitialState(
+				'visitorInfo',
+				[
+					'displayName' => $currentUser->getDisplayName(),
+					'email' => $currentUser->getEMailAddress(),
+				],
+			);
+		}
 
 		return new TemplateResponse(
 			Application::APP_ID,

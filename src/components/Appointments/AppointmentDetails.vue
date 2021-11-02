@@ -83,12 +83,16 @@ export default {
 			required: true,
 			type: Object,
 		},
+		visitorInfo: {
+			required: true,
+			type: Object,
+		},
 	},
 	data() {
 		return {
 			description: '',
-			email: '',
-			name: '',
+			email: this.visitorInfo.email,
+			name: this.visitorInfo.displayName,
 		}
 	},
 	computed: {
