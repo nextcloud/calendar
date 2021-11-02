@@ -56,5 +56,8 @@ return [
 		['name' => 'settings#setConfig', 'url' => '/v1/config/{key}', 'verb' => 'POST'],
 		// Tools
 		['name' => 'email#sendEmailPublicLink', 'url' => '/v1/public/sendmail', 'verb' => 'POST'],
+	],
+	'resources' => [
+		'appointmentConfig' => ['url' => 'v1/appointment_configs']
 	]
 ];
