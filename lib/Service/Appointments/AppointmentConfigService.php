@@ -143,8 +143,9 @@ class AppointmentConfigService {
 	 * @param string $description
 	 * @param string $location
 	 * @param string $visibility
+	 * @param string $userId
 	 * @param string $targetCalendarUri
-	 * @param string $availability
+	 * @param string|null $availability
 	 * @param int $length
 	 * @param int $increment
 	 * @param int $preparationDuration
@@ -152,7 +153,8 @@ class AppointmentConfigService {
 	 * @param int $buffer
 	 * @param int|null $dailyMax
 	 * @param string[] $freebusyUris
-	 *
+	 * @param int|null $start
+	 * @param int|null $end
 	 * @return AppointmentConfig
 	 * @throws ServiceException
 	 */
@@ -169,7 +171,9 @@ class AppointmentConfigService {
 						   int $followupDuration,
 						   int $buffer,
 						   ?int $dailyMax,
-						   ?array $freebusyUris = []): AppointmentConfig {
+						   ?array $freebusyUris = [],
+						   ?int $start = null,
+	                       ?int $end = null): AppointmentConfig {
 		try {
 			$appointmentConfig = new AppointmentConfig();
 			$appointmentConfig->setToken($this->random->generate(12, ISecureRandom::CHAR_HUMAN_READABLE));
@@ -184,9 +188,11 @@ class AppointmentConfigService {
 			$appointmentConfig->setIncrement($increment);
 			$appointmentConfig->setPreparationDuration($preparationDuration);
 			$appointmentConfig->setFollowupDuration($followupDuration);
-			$appointmentConfig->setBuffer($buffer);
+			$appointmentConfig->setTimeBeforeNextSlot($buffer);
 			$appointmentConfig->setDailyMax($dailyMax);
 			$appointmentConfig->setCalendarFreeBusyUrisAsArray($freebusyUris);
+			$appointmentConfig->setStart($start);
+			$appointmentConfig->setEnd($end);
 
 			return $this->mapper->insert($appointmentConfig);
 		} catch (DbException $e) {

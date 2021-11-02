@@ -93,31 +93,35 @@ class AppointmentConfigController extends Controller {
 	 * @param string $location
 	 * @param string $visibility
 	 * @param string $targetCalendarUri
-	 * @param string $availability
+	 * @param string|null $availability
 	 * @param int $length
 	 * @param int $increment
 	 * @param int $preparationDuration
 	 * @param int $followupDuration
-	 * @param int $buffer
+	 * @param int $timeToNextSlot
 	 * @param int|null $dailyMax
 	 * @param string[] $freebusyUris
-	 *
+	 * @param int|null $start
+	 * @param int|null $end
 	 * @return JsonResponse
 	 */
 	public function create(
-		string $name,
-		string $description,
-		string $location,
-		string $visibility,
-		string $targetCalendarUri,
+		string  $name,
+		string  $description,
+		string  $location,
+		string  $visibility,
+		string  $targetCalendarUri,
 		?string $availability,
 		int $length,
 		int $increment,
-		int $preparationDuration,
-		int $followupDuration,
-		int $buffer,
-		?int $dailyMax,
-		array $freebusyUris): JsonResponse {
+		int $preparationDuration = 0,
+		int $followupDuration = 0,
+		int $timeToNextSlot = 0,
+		?int $dailyMax = null,
+		array $freebusyUris = null,
+		?int $start = null,
+		?int $end = null): JsonResponse {
+
 		if ($this->userId === null) {
 			return JsonResponse::fail();
 		}
@@ -135,9 +139,11 @@ class AppointmentConfigController extends Controller {
 				$increment,
 				$preparationDuration,
 				$followupDuration,
-				$buffer,
+				$timeToNextSlot,
 				$dailyMax,
 				$freebusyUris,
+				$start,
+				$end
 			);
 			return JsonResponse::success($appointmentConfig);
 		} catch (ServiceException $e) {
@@ -162,7 +168,8 @@ class AppointmentConfigController extends Controller {
 	 * @param int $buffer
 	 * @param int|null $dailyMax
 	 * @param string|null $freebusyUris
-	 *
+	 * @param int|null $start
+	 * @param int|null $end
 	 * @return JsonResponse
 	 */
 	public function update(
@@ -179,7 +186,9 @@ class AppointmentConfigController extends Controller {
 		int $followupDuration = 0,
 		int $buffer = 0,
 		?int $dailyMax = null,
-		?string $freebusyUris = null): JsonResponse {
+		?string $freebusyUris = null,
+		?int $start = null,
+		?int $end = null): JsonResponse {
 		if ($this->userId === null) {
 			return JsonResponse::fail(null, Http::STATUS_NOT_FOUND);
 		}
@@ -201,9 +210,11 @@ class AppointmentConfigController extends Controller {
 		$appointmentConfig->setIncrement($increment);
 		$appointmentConfig->setPreparationDuration($preparationDuration);
 		$appointmentConfig->setFollowupDuration($followupDuration);
-		$appointmentConfig->setBuffer($buffer);
+		$appointmentConfig->setTimeBeforeNextSlot($buffer);
 		$appointmentConfig->setDailyMax($dailyMax);
 		$appointmentConfig->setCalendarFreebusyUris($freebusyUris);
+		$appointmentConfig->setStart($start);
+		$appointmentConfig->setEnd($end);
 
 		try {
 			$appointmentConfig = $this->appointmentConfigService->update($appointmentConfig);
