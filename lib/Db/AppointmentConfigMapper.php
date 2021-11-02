@@ -44,9 +44,7 @@ class AppointmentConfigMapper extends QBMapper {
 	 * @param int $id
 	 * @param string $userId
 	 * @return AppointmentConfig
-	 * @throws DbException
 	 * @throws DoesNotExistException
-	 * @throws MultipleObjectsReturnedException
 	 */
 	public function findByIdForUser(int $id, string $userId) : AppointmentConfig {
 		$qb = $this->db->getQueryBuilder();

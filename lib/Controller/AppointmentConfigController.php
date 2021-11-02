@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * Calendar App
  *
@@ -22,72 +23,71 @@ declare(strict_types=1);
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\Calendar\Controller;
 
 use OCA\Calendar\Db\AppointmentConfig;
+use OCA\Calendar\Exception\ClientException;
 use OCA\Calendar\Exception\ServiceException;
 use OCA\Calendar\Http\JsonResponse;
 use OCA\Calendar\Service\Appointments\AppointmentConfigService;
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http\TemplateResponse;
-use OCP\IInitialStateService;
+use OCP\AppFramework\Http;
 use OCP\IRequest;
-use OCP\IUser;
 
-/**
- * Class PublicViewController
- *
- * @package OCA\Calendar\Controller
- */
 class AppointmentConfigController extends Controller {
-
-	/** @var IInitialStateService */
-	private $initialStateService;
-
-	/** @var IUser */
-	private $user;
 
 	/** @var AppointmentConfigService */
 	private $appointmentConfigService;
 
-	/**
-	 * @param string $appName
-	 * @param IRequest $request an instance of the request
-	 * @param IInitialStateService $initialStateService
-	 * @param IUser $user
-	 * @param AppointmentConfigService $appointmentService
-	 */
-	public function __construct(string                   $appName,
-								IRequest                 $request,
-								IInitialStateService     $initialStateService,
-								IUser                    $user,
-								AppointmentConfigService $appointmentService) {
+	/** @var string|null */
+	private $userId;
+
+	public function __construct(string $appName,
+								IRequest $request,
+								AppointmentConfigService $appointmentService,
+								?string $userId) {
 		parent::__construct($appName, $request);
-		$this->initialStateService = $initialStateService;
-		$this->user = $user;
 		$this->appointmentConfigService = $appointmentService;
+		$this->userId = $userId;
 	}
 
 	/**
-	 * @param string $renderAs
-	 * @return TemplateResponse
+	 * @NoAdminRequired
 	 */
-	public function index(string $renderAs
-							):TemplateResponse {
-		$appointmentConfigs = [];
-		try {
-			$appointmentConfigs = $this->appointmentConfigService->getAllAppointmentConfigurations($this->user->getUID());
-		} catch (ServiceException $e) {
-			// do nothing and don't show any appointments
+	public function index(): JsonResponse {
+		if ($this->userId === null) {
+			return JsonResponse::fail(null, Http::STATUS_NOT_FOUND);
 		}
 
-		$this->initialStateService->provideInitialState($this->appName, 'appointmentConfigurations', $appointmentConfigs);
-
-		return new TemplateResponse($this->appName, 'main', [
-		], $renderAs);
+		return JsonResponse::success(
+			$this->appointmentConfigService->getAllAppointmentConfigurations($this->userId)
+		);
 	}
 
 	/**
+	 * @param int $id
+	 *
+	 * @return JsonResponse
+	 */
+	public function show(int $id): JsonResponse {
+		if ($this->userId === null) {
+			return JsonResponse::fail();
+		}
+
+		try {
+			$appointmentConfig = $this->appointmentConfigService->findByIdAndUser($id, $this->userId);
+			return JsonResponse::success($appointmentConfig);
+		} catch (ClientException $e) {
+			return JsonResponse::fail([], $e->getHttpCode() ?? Http::STATUS_BAD_REQUEST);
+		} catch (ServiceException $e) {
+			return JsonResponse::errorFromThrowable($e);
+		}
+	}
+
+	/**
+	 * @NoAdminRequired
+	 *
 	 * @param string $name
 	 * @param string $description
 	 * @param string $location
@@ -100,7 +100,8 @@ class AppointmentConfigController extends Controller {
 	 * @param int $followupDuration
 	 * @param int $buffer
 	 * @param int|null $dailyMax
-	 * @param string|null $freebusyUris
+	 * @param string[] $freebusyUris
+	 *
 	 * @return JsonResponse
 	 */
 	public function create(
@@ -109,32 +110,35 @@ class AppointmentConfigController extends Controller {
 		string $location,
 		string $visibility,
 		string $targetCalendarUri,
-		string $availability,
+		?string $availability,
 		int $length,
 		int $increment,
-		int $preparationDuration = 0,
-		int $followupDuration = 0,
-		int $buffer = 0,
-		?int $dailyMax = null,
-		?string $freebusyUris = null): JsonResponse {
-		$appointmentConfig = new AppointmentConfig();
-		$appointmentConfig->setName($name);
-		$appointmentConfig->setDescription($description);
-		$appointmentConfig->setLocation($location);
-		$appointmentConfig->setVisibility($visibility);
-		$appointmentConfig->setUserId($this->user->getUID());
-		$appointmentConfig->setTargetCalendarUri($targetCalendarUri);
-		$appointmentConfig->setAvailability($availability);
-		$appointmentConfig->setLength($length);
-		$appointmentConfig->setIncrement($increment);
-		$appointmentConfig->setPreparationDuration($preparationDuration);
-		$appointmentConfig->setFollowupDuration($followupDuration);
-		$appointmentConfig->setBuffer($buffer);
-		$appointmentConfig->setDailyMax($dailyMax);
-		$appointmentConfig->setCalendarFreebusyUris($freebusyUris);
+		int $preparationDuration,
+		int $followupDuration,
+		int $buffer,
+		?int $dailyMax,
+		array $freebusyUris): JsonResponse {
+		if ($this->userId === null) {
+			return JsonResponse::fail();
+		}
 
 		try {
-			$appointmentConfig = $this->appointmentConfigService->create($appointmentConfig);
+			$appointmentConfig = $this->appointmentConfigService->create(
+				$name,
+				$description,
+				$location,
+				$visibility,
+				$this->userId,
+				$targetCalendarUri,
+				$availability,
+				$length,
+				$increment,
+				$preparationDuration,
+				$followupDuration,
+				$buffer,
+				$dailyMax,
+				$freebusyUris,
+			);
 			return JsonResponse::success($appointmentConfig);
 		} catch (ServiceException $e) {
 			return JsonResponse::errorFromThrowable($e);
@@ -142,19 +146,8 @@ class AppointmentConfigController extends Controller {
 	}
 
 	/**
-	 * @param int $id
-	 * @return JsonResponse
-	 */
-	public function show(int $id): JsonResponse {
-		try {
-			$appointmentConfig = $this->appointmentConfigService->findByIdAndUser($id, $this->user->getUID());
-			return JsonResponse::success($appointmentConfig);
-		} catch (ServiceException $e) {
-			return JsonResponse::errorFromThrowable($e);
-		}
-	}
-
-	/**
+	 * @NoAdminRequired
+	 *
 	 * @param int $id
 	 * @param string $name
 	 * @param string $description
@@ -169,6 +162,7 @@ class AppointmentConfigController extends Controller {
 	 * @param int $buffer
 	 * @param int|null $dailyMax
 	 * @param string|null $freebusyUris
+	 *
 	 * @return JsonResponse
 	 */
 	public function update(
@@ -186,8 +180,12 @@ class AppointmentConfigController extends Controller {
 		int $buffer = 0,
 		?int $dailyMax = null,
 		?string $freebusyUris = null): JsonResponse {
+		if ($this->userId === null) {
+			return JsonResponse::fail(null, Http::STATUS_NOT_FOUND);
+		}
+
 		try {
-			$appointmentConfig = $this->appointmentConfigService->findByIdAndUser($id, $this->user->getUID());
+			$appointmentConfig = $this->appointmentConfigService->findByIdAndUser($id, $this->userId);
 		} catch (ServiceException $e) {
 			return JsonResponse::errorFromThrowable($e);
 		}
@@ -196,7 +194,7 @@ class AppointmentConfigController extends Controller {
 		$appointmentConfig->setDescription($description);
 		$appointmentConfig->setLocation($location);
 		$appointmentConfig->setVisibility($visibility);
-		$appointmentConfig->setUserId($this->user->getUID());
+		$appointmentConfig->setUserId($this->userId);
 		$appointmentConfig->setTargetCalendarUri($targetCalendarUri);
 		$appointmentConfig->setAvailability($availability);
 		$appointmentConfig->setLength($length);
@@ -216,12 +214,15 @@ class AppointmentConfigController extends Controller {
 	}
 
 	/**
-	 * @param int $id
-	 * @return JsonResponse
+	 * @NoAdminRequired
 	 */
-	public function delete(int $id): JsonResponse {
+	public function destroy(int $id): JsonResponse {
+		if ($this->userId === null) {
+			return JsonResponse::fail(null, Http::STATUS_NOT_FOUND);
+		}
+
 		try {
-			$this->appointmentConfigService->delete($id, $this->user->getUID());
+			$this->appointmentConfigService->delete($id, $this->userId);
 			return JsonResponse::success();
 		} catch (ServiceException $e) {
 			return JsonResponse::errorFromThrowable($e, 403);
