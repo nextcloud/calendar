@@ -68,32 +68,4 @@ class BookingServiceTest extends TestCase {
 			$this->mapper
 		);
 	}
-
-	public function testGetCalendarFreeTimeblocks() {
-		$appointmentConfig = new AppointmentConfig();
-		$appointmentConfig->setPrincipalUri('principals/users/test');
-		$appointmentConfig->setTargetCalendarUri('personal');
-		$appointmentConfig ->setLength(30);
-		$appointmentConfig ->setIncrement(15);
-		$appointmentConfig ->setPreparationDuration(15);
-		$appointmentConfig ->setFollowupDuration(15);
-		$appointmentConfig ->setAvailability("RRULE:FREQ=MINUTELY;INTERVAL=15;WKST=MO;BYDAY=MO;BYHOUR=8,9,10,11");
-		$booking = new Booking($appointmentConfig, time(), (time() + 84600));
-		$booking->parseRRule();
-		$this->service->getCalendarFreeTimeblocks($booking);
-	}
-
-	public function testGetCalendarCount() {
-		$appointmentConfig = new AppointmentConfig();
-		$appointmentConfig->setPrincipalUri('principals/users/admin');
-		$appointmentConfig->setTargetCalendarUri('personal');
-		$appointmentConfig->setToken('1');
-		$appointmentConfig ->setLength(30);
-		$appointmentConfig ->setIncrement(15);
-		$appointmentConfig ->setPreparationDuration(15);
-		$appointmentConfig ->setFollowupDuration(15);
-		$appointmentConfig ->setAvailability("RRULE:FREQ=MINUTELY;INTERVAL=15;WKST=MO;BYDAY=MO;BYHOUR=8,9,10,11");
-		$booking = new Booking($appointmentConfig, time(), (time() + 84600));
-		$count = $this->service->findBookedSlotsAmount($booking);
-	}
 }

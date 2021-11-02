@@ -52,7 +52,7 @@
 							v-if="index2 !== (shortcut.keys.length - 1)"
 							:key="`${category.categoryId}-${index}-${index2}`"
 							class="shortcut-section-item__spacer">
-							{{ t('calendar', 'or') }}
+							{{ $t('calendar', 'or') }}
 						</span>
 					</template>
 				</span>

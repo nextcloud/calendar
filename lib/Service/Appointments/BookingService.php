@@ -22,24 +22,36 @@ declare(strict_types=1);
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\Calendar\Service\Appointments;
 
 use OC\Calendar\CalendarQuery;
+use OCA\Calendar\Db\AppointmentConfig;
 use OCA\Calendar\Db\AppointmentConfigMapper;
 use OCP\Calendar\IManager;
 
 class BookingService {
 
-	/** @var IManager */
-	private $manager;
+	/** @var AvailabilityGenerator */
+	private $availabilityGenerator;
 
-	/** @var AppointmentConfigMapper */
-	private $mapper;
+	/** @var SlotExtrapolator */
+	private $extrapolator;
 
-	public function __construct(IManager $manager,
-	AppointmentConfigMapper $mapper) {
-		$this->manager = $manager;
-		$this->mapper = $mapper;
+	/** @var DailyLimitFilter */
+	private $dailyLimitFilter;
+
+	/** @var EventConflictFilter */
+	private $eventConflictFilter;
+
+	public function __construct(AvailabilityGenerator $availabilityGenerator,
+								SlotExtrapolator $extrapolator,
+								DailyLimitFilter $dailyLimitFilter,
+								EventConflictFilter $eventConflictFilter) {
+		$this->availabilityGenerator = $availabilityGenerator;
+		$this->extrapolator = $extrapolator;
+		$this->dailyLimitFilter = $dailyLimitFilter;
+		$this->eventConflictFilter = $eventConflictFilter;
 	}
 
 	// CREATE
@@ -47,74 +59,20 @@ class BookingService {
 		// use new ICreateFromString::create method
 	}
 
-	public function getBookingInformation(string $token) {
-		// unmarshal token for ID would be an option too
-		// this also returns all bookings for this token
-		// needs a unique identifier - X-NC-USERID or something?
-		$config = $this->mapper->findByToken($token);
-		$query = $this->manager->newQuery($config->getPrincipalUri());
-		$query->addSearchCalendar($config->getTargetCalendarUri());
-		return $this->manager->searchForPrincipal($query);
-	}
-
-	public function getSlots(Booking $booking): array {
-		$bookedSlots = $this->findBookedSlotsAmount($booking);
-
-		// negotiate available slots
-		if ($booking->getAvailableSlotsAmount($bookedSlots) <= 0) {
-			return [];
-		}
-
-		// decide if we want to use the complete 24 hour period to intersect via:
-		// $booking->generateSlots();
-		// Remove unavailable slots via comparing with RRule
-		$booking->parseRRule();
-
-		// remove conflicting slots via calendar free busy
-		$booking = $this->getCalendarFreeTimeblocks($booking);
-		return $booking->getSlots();
-	}
-
 	/**
-	 * @param Booking $booking
-	 * @return Booking
-	 *
-	 * Check if slot is conflicting with existing appointments
+	 * @return Interval[]
 	 */
-	public function getCalendarFreeTimeblocks(Booking $booking): Booking {
-		$query = $this->manager->newQuery($booking->getAppointmentConfig()->getPrincipalUri());
-		$query->addSearchCalendar($booking->getAppointmentConfig()->getTargetCalendarUri());
+	public function getAvailableSlots(AppointmentConfig $config, int $startTime, int $endTime): array {
+		// 1. Build intervals at which slots may be booked
+		$availabilityIntervals = $this->availabilityGenerator->generate($config, $startTime, $endTime);
+		// 2. Generate all possible slots
+		$allPossibleSlots = $this->extrapolator->extrapolate($config, $availabilityIntervals);
+		// 3. Filter out the daily limits
+		$filteredByDailyLimit = $this->dailyLimitFilter->filter($config, $allPossibleSlots);
+		// 4. Filter out booking conflicts
+		$filteredByConflict = $this->eventConflictFilter->filter($config, $filteredByDailyLimit);
 
-		if (!empty($booking->getAppointmentConfig()->getCalendarFreebusyUris())) {
-			foreach ($booking->getAppointmentConfig()->getCalendarFreebusyUris() as $uri) {
-				$query->addSearchCalendar($uri);
-			}
-		}
-
-		$slots = $booking->getSlots();
-		foreach ($slots as $k => $slot) {
-			$query->setTimerangeStart($slot->getStartTimeDTObj());
-			$query->setTimerangeEnd($slot->getEndTimeDTObj());
-			// cache the query maybe? or maybe run everything at once?
-			$events = $this->manager->searchForPrincipal($query);
-			if (!empty($events)) {
-				unset($slots[$k]);
-			}
-		}
-		$booking->setSlots($slots);
-		return $booking;
-	}
-
-	public function findBookedSlotsAmount(Booking $booking): int {
-		/** @var CalendarQuery $query */
-		$query = $this->manager->newQuery($booking->getAppointmentConfig()->getPrincipalUri());
-		$query->addSearchCalendar($booking->getAppointmentConfig()->getTargetCalendarUri());
-		$query->addSearchProperty('X-NC-APPOINTMENT');
-		$query->setSearchPattern($booking->getAppointmentConfig()->getToken());
-		$query->setTimerangeStart($booking->getStartTimeDTObj());
-		$query->setTimerangeEnd($booking->getEndTimeDTObj());
-		$events = $this->manager->searchForPrincipal($query);
-		return count($events);
+		return $filteredByConflict;
 	}
 
 	// Update
