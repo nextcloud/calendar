@@ -23,8 +23,6 @@ declare(strict_types=1);
  *
  */
 
-// @TODO rename and adjust types from migration
-
 namespace OCA\Calendar\Db;
 
 use JsonSerializable;
@@ -53,6 +51,10 @@ use function json_encode;
  * @method void setCalendarFreebusyUris(?string $freebusyUris)
  * @method string getAvailability()
  * @method void setAvailability(?string $availability)
+ * @method int|null getStart()
+ * @method void setStart(?int $start)
+ * @method int|null getEnd()
+ * @method void setEnd(?int $end)
  * @method int getLength()
  * @method void setLength(int $length)
  * @method int getIncrement()
@@ -61,8 +63,8 @@ use function json_encode;
  * @method void setPreparationDuration(int $prepDuration)
  * @method int getFollowupDuration()
  * @method void setFollowupDuration(int $followup)
- * @method int getBuffer()
- * @method void setBuffer(int $buffer)
+ * @method int getTimeBeforeNextSlot()
+ * @method void setTimeBeforeNextSlot(int $buffer)
  * @method int|null getDailyMax()
  * @method void setDailyMax(?int $max)
  */
@@ -163,12 +165,14 @@ class AppointmentConfig extends Entity implements JsonSerializable {
 			'calendarUri' => $this->getTargetCalendarUri(),
 			'calendarFreeBusyUris' => $this->getCalendarFreebusyUris(),
 			'availability' => $this->getAvailability(),
+			'start' => $this->getStart(),
+			'end' => $this->getEnd(),
 			'length' => $this->getLength(),
 			'increment' => $this->getIncrement(),
 			'preparationDuration' => $this->getPreparationDuration(),
 			'followUpDuration' => $this->getFollowupDuration(),
 			'totalLength' => $this->getTotalLength(),
-			'buffer' => $this->getBuffer(),
+			'timeBeforeNextSlot' => $this->getTimeBeforeNextSlot(),
 			'dailyMax' => $this->getDailyMax()
 		];
 	}
