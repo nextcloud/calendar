@@ -58,6 +58,6 @@ return [
 		['name' => 'email#sendEmailPublicLink', 'url' => '/v1/public/sendmail', 'verb' => 'POST'],
 	],
 	'resources' => [
-		'appointmentConfig' => ['url' => 'v1/appointment_configs']
+		'appointmentConfig' => ['url' => '/v1/appointment_configs']
 	]
 ];

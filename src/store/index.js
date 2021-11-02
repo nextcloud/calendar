@@ -36,11 +36,13 @@ import importFiles from './importFiles'
 import importState from './importState'
 import principals from './principals.js'
 import settings from './settings.js'
+import appointmentConfigs from './appointmentConfigs'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
 	modules: {
+		appointmentConfigs,
 		calendarObjectInstance,
 		calendarObjects,
 		calendars,

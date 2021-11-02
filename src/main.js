@@ -34,7 +34,9 @@ import store from './store'
 import { sync } from 'vuex-router-sync'
 import { getRequestToken } from '@nextcloud/auth'
 import { linkTo } from '@nextcloud/router'
+import { loadState } from '@nextcloud/initial-state'
 import { translate, translatePlural } from '@nextcloud/l10n'
+import AppointmentConfig from './models/appointmentConfig'
 import ClickOutside from 'vue-click-outside'
 import VueClipboard from 'vue-clipboard2'
 import VTooltip from 'v-tooltip'
@@ -68,6 +70,11 @@ Vue.prototype.t = translate
 Vue.prototype.n = translatePlural
 
 windowTitleService(router, store)
+
+store.commit(
+	'addInitialConfigs',
+	loadState('calendar', 'appointmentConfigs', []).map(config => new AppointmentConfig(config))
+)
 
 export default new Vue({
 	el: '#content',
