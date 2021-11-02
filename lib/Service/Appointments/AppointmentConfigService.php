@@ -34,17 +34,20 @@ use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Http;
 use OCP\DB\Exception as DbException;
+use OCP\Security\ISecureRandom;
 
 class AppointmentConfigService {
 
 	/** @var AppointmentConfigMapper */
 	private $mapper;
 
-	/**
-	 * @param AppointmentConfigMapper $mapper
-	 */
-	public function __construct(AppointmentConfigMapper $mapper) {
+	/** @var ISecureRandom */
+	private $random;
+
+	public function __construct(AppointmentConfigMapper $mapper,
+								ISecureRandom $random) {
 		$this->mapper = $mapper;
+		$this->random = $random;
 	}
 
 	/**
@@ -130,19 +133,61 @@ class AppointmentConfigService {
 	public function findByIdAndUser(int $id, string $userId): AppointmentConfig {
 		try {
 			return $this->mapper->findByIdForUser($id, $userId);
-		} catch (DbException | DoesNotExistException | MultipleObjectsReturnedException $e) {
-			throw new ServiceException('Could not find a record for id', $e->getCode(), $e);
+		} catch (DoesNotExistException $e) {
+			throw new ClientException('Could not find a record for id', $e->getCode(), $e, Http::STATUS_NOT_FOUND);
 		}
 	}
 
 	/**
-	 * @param AppointmentConfig $appointmentConfig
+	 * @param string $name
+	 * @param string $description
+	 * @param string $location
+	 * @param string $visibility
+	 * @param string $targetCalendarUri
+	 * @param string $availability
+	 * @param int $length
+	 * @param int $increment
+	 * @param int $preparationDuration
+	 * @param int $followupDuration
+	 * @param int $buffer
+	 * @param int|null $dailyMax
+	 * @param string[] $freebusyUris
 	 *
 	 * @return AppointmentConfig
 	 * @throws ServiceException
 	 */
-	public function create(AppointmentConfig $appointmentConfig): AppointmentConfig {
+	public function create(string $name,
+						   string $description,
+						   string $location,
+						   string $visibility,
+						   string $userId,
+						   string $targetCalendarUri,
+						   ?string $availability,
+						   int $length,
+						   int $increment,
+						   int $preparationDuration,
+						   int $followupDuration,
+						   int $buffer,
+						   ?int $dailyMax,
+						   ?array $freebusyUris = []): AppointmentConfig {
 		try {
+			$appointmentConfig = new AppointmentConfig();
+			$appointmentConfig->setToken($this->random->generate(12, ISecureRandom::CHAR_HUMAN_READABLE));
+			$appointmentConfig->setName($name);
+			$appointmentConfig->setDescription($description);
+			$appointmentConfig->setLocation($location);
+			$appointmentConfig->setVisibility($visibility);
+			$appointmentConfig->setUserId($userId);
+			$appointmentConfig->setTargetCalendarUri($targetCalendarUri);
+			$appointmentConfig->setAvailability($availability);
+			$appointmentConfig->setLength($length);
+			$appointmentConfig->setIncrement($increment);
+			$appointmentConfig->setPreparationDuration($preparationDuration);
+			$appointmentConfig->setFollowupDuration($followupDuration);
+			$appointmentConfig->setBuffer($buffer);
+			$appointmentConfig->setDailyMax($dailyMax);
+			$appointmentConfig->setCalendarFreeBusyUrisAsArray($freebusyUris);
+
 			return $this->mapper->insert($appointmentConfig);
 		} catch (DbException $e) {
 			throw new ServiceException('Could not create new appointment', $e->getCode(), $e);
