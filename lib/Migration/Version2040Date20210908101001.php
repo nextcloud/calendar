@@ -49,7 +49,7 @@ class Version2040Date20210908101001 extends SimpleMigrationStep {
 		//Visibility [enum] - PUBLIC (shown somewhere on the user's profile), PRIVATE (only shareable by link) - possibly other variations?
 		$table->addColumn('visibility', Types::STRING, [
 			'notnull' => true,
-			'length' => 7
+			'length' => 10
 		]);
 		$table->addColumn('user_id', 'string', [
 			'notnull' => true,
@@ -64,10 +64,16 @@ class Version2040Date20210908101001 extends SimpleMigrationStep {
 			'notnull' => false,
 			'length' => null
 		]);
-		//Slot availabilities [RRULE] - false for notnull bc db doesn't allow default values for blob types
+		//Slot availabilities [RRULE]
 		$table->addColumn('availability', Types::TEXT, [
 			'notnull' => false,
 			'length' => null,
+		]);
+		$table->addColumn('start', Types::INTEGER, [
+			'notnull' => false,
+		]);
+		$table->addColumn('end', Types::INTEGER, [
+			'notnull' => false,
 		]);
 		$table->addColumn('length', Types::INTEGER, [
 			'notnull' => true
@@ -83,9 +89,9 @@ class Version2040Date20210908101001 extends SimpleMigrationStep {
 			'notnull' => true,
 			'default' => 0
 		]);
-		$table->addColumn('buffer', Types::INTEGER, [
-			'notnull' => true,
-			'default' => 0
+		// Minimum time before next appointment slot can be booked
+		$table->addColumn('time_before_next_slot', Types::INTEGER, [
+			'notnull' => false
 		]);
 		//Maximum slots per day - if 0, fit as many as possible
 		$table->addColumn('daily_max', Types::INTEGER, [
@@ -94,6 +100,7 @@ class Version2040Date20210908101001 extends SimpleMigrationStep {
 		]);
 
 		$table->setPrimaryKey(['id']);
+		$table->addUniqueIndex(['token'], 'cal_appt_token_uniq_idx');
 
 		return $schema;
 	}
