@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * Calendar App
  *
@@ -24,10 +25,12 @@ declare(strict_types=1);
 
 namespace OCA\Calendar\Controller;
 
+use OCA\Calendar\Db\AppointmentConfig;
+use OCA\Calendar\Service\Appointments\AppointmentConfigService;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\IConfig;
-use OCP\IInitialStateService;
 use OCP\IRequest;
 use ChristophWurst\Nextcloud\Testing\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -46,7 +49,10 @@ class ViewControllerTest extends TestCase {
 	/** @var IConfig|MockObject */
 	private $config;
 
-	/** @var IInitialStateService|MockObject */
+	/** @var AppointmentConfigService|MockObject */
+	private $appointmentContfigService;
+
+	/** @var IInitialState|MockObject */
 	private $initialStateService;
 
 	/** @var string */
@@ -60,11 +66,19 @@ class ViewControllerTest extends TestCase {
 		$this->request = $this->createMock(IRequest::class);
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->config = $this->createMock(IConfig::class);
-		$this->initialStateService = $this->createMock(IInitialStateService::class);
+		$this->appointmentContfigService = $this->createMock(AppointmentConfigService::class);
+		$this->initialStateService = $this->createMock(IInitialState::class);
 		$this->userId = 'user123';
 
-		$this->controller = new ViewController($this->appName, $this->request,
-			$this->config, $this->initialStateService, $this->appManager, $this->userId);
+		$this->controller = new ViewController(
+			$this->appName,
+			$this->request,
+			$this->config,
+			$this->appointmentContfigService,
+			$this->initialStateService,
+			$this->appManager,
+			$this->userId,
+		);
 	}
 
 	public function testIndex(): void {
@@ -107,24 +121,29 @@ class ViewControllerTest extends TestCase {
 			->willReturnMap([
 				['spreed', true, '12.0.0'],
 			]);
+		$this->appointmentContfigService->expects(self::once())
+			->method('getAllAppointmentConfigurations')
+			->with($this->userId)
+			->willReturn([new AppointmentConfig()]);
 
 		$this->initialStateService
 			->method('provideInitialState')
 			->withConsecutive(
-				['calendar', 'app_version', '1.0.0'],
-				['calendar', 'event_limit', true],
-				['calendar', 'first_run', true],
-				['calendar', 'initial_view', 'timeGridWeek'],
-				['calendar', 'show_weekends', true],
-				['calendar', 'show_week_numbers', true],
-				['calendar', 'skip_popover', true],
-				['calendar', 'talk_enabled', true],
-				['calendar', 'talk_api_version', 'v4'],
-				['calendar', 'timezone', 'Europe/Berlin'],
-				['calendar', 'slot_duration', '00:15:00'],
-				['calendar', 'default_reminder', '00:10:00'],
-				['calendar', 'show_tasks', false],
-				['calendar', 'tasks_enabled', true]
+				['app_version', '1.0.0'],
+				['event_limit', true],
+				['first_run', true],
+				['initial_view', 'timeGridWeek'],
+				['show_weekends', true],
+				['show_week_numbers', true],
+				['skip_popover', true],
+				['talk_enabled', true],
+				['talk_api_version', 'v4'],
+				['timezone', 'Europe/Berlin'],
+				['slot_duration', '00:15:00'],
+				['default_reminder', '00:10:00'],
+				['show_tasks', false],
+				['tasks_enabled', true],
+				['appointmentConfigs', [new AppointmentConfig()]],
 			);
 
 		$response = $this->controller->index();
@@ -185,20 +204,20 @@ class ViewControllerTest extends TestCase {
 		$this->initialStateService
 			->method('provideInitialState')
 			->withConsecutive(
-				['calendar', 'app_version', '1.0.0'],
-				['calendar', 'event_limit', true],
-				['calendar', 'first_run', true],
-				['calendar', 'initial_view', $expectedView],
-				['calendar', 'show_weekends', true],
-				['calendar', 'show_week_numbers', true],
-				['calendar', 'skip_popover', true],
-				['calendar', 'talk_enabled', false],
-				['calendar', 'talk_api_version', 'v1'],
-				['calendar', 'timezone', 'Europe/Berlin'],
-				['calendar', 'slot_duration', '00:15:00'],
-				['calendar', 'default_reminder', '00:10:00'],
-				['calendar', 'show_tasks', false],
-				['calendar', 'tasks_enabled', false]
+				['app_version', '1.0.0'],
+				['event_limit', true],
+				['first_run', true],
+				['initial_view', $expectedView],
+				['show_weekends', true],
+				['show_week_numbers', true],
+				['skip_popover', true],
+				['talk_enabled', false],
+				['talk_api_version', 'v1'],
+				['timezone', 'Europe/Berlin'],
+				['slot_duration', '00:15:00'],
+				['default_reminder', '00:10:00'],
+				['show_tasks', false],
+				['tasks_enabled', false]
 			);
 
 		$response = $this->controller->index();

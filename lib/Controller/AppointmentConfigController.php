@@ -99,17 +99,17 @@ class AppointmentConfigController extends Controller {
 	 * @param int $followupDuration
 	 * @param int $timeToNextSlot
 	 * @param int|null $dailyMax
-	 * @param string[] $freebusyUris
+	 * @param string[]|null $freebusyUris
 	 * @param int|null $start
 	 * @param int|null $end
 	 * @return JsonResponse
 	 */
 	public function create(
-		string  $name,
-		string  $description,
-		string  $location,
-		string  $visibility,
-		string  $targetCalendarUri,
+		string $name,
+		string $description,
+		string $location,
+		string $visibility,
+		string $targetCalendarUri,
 		?string $availability,
 		int $length,
 		int $increment,
@@ -117,7 +117,7 @@ class AppointmentConfigController extends Controller {
 		int $followupDuration = 0,
 		int $timeToNextSlot = 0,
 		?int $dailyMax = null,
-		array $freebusyUris = null,
+		?array $freebusyUris = null,
 		?int $start = null,
 		?int $end = null): JsonResponse {
 		if ($this->userId === null) {
@@ -158,14 +158,14 @@ class AppointmentConfigController extends Controller {
 	 * @param string $location
 	 * @param string $visibility
 	 * @param string $targetCalendarUri
-	 * @param string $availability
+	 * @param string|null $availability
 	 * @param int $length
 	 * @param int $increment
 	 * @param int $preparationDuration
 	 * @param int $followupDuration
-	 * @param int $buffer
+	 * @param int $timeToNextSlot
 	 * @param int|null $dailyMax
-	 * @param string|null $freebusyUris
+	 * @param string[] $freebusyUris
 	 * @param int|null $start
 	 * @param int|null $end
 	 * @return JsonResponse
@@ -177,14 +177,14 @@ class AppointmentConfigController extends Controller {
 		string $location,
 		string $visibility,
 		string $targetCalendarUri,
-		string $availability,
+		?string $availability,
 		int $length,
 		int $increment,
 		int $preparationDuration = 0,
 		int $followupDuration = 0,
-		int $buffer = 0,
+		int $timeToNextSlot = 0,
 		?int $dailyMax = null,
-		?string $freebusyUris = null,
+		?array $freebusyUris = null,
 		?int $start = null,
 		?int $end = null): JsonResponse {
 		if ($this->userId === null) {
@@ -208,9 +208,9 @@ class AppointmentConfigController extends Controller {
 		$appointmentConfig->setIncrement($increment);
 		$appointmentConfig->setPreparationDuration($preparationDuration);
 		$appointmentConfig->setFollowupDuration($followupDuration);
-		$appointmentConfig->setTimeBeforeNextSlot($buffer);
+		$appointmentConfig->setTimeBeforeNextSlot($timeToNextSlot);
 		$appointmentConfig->setDailyMax($dailyMax);
-		$appointmentConfig->setCalendarFreebusyUris($freebusyUris);
+		$appointmentConfig->setCalendarFreeBusyUrisAsArray($freebusyUris ?? []);
 		$appointmentConfig->setStart($start);
 		$appointmentConfig->setEnd($end);
 
