@@ -131,15 +131,11 @@ export default {
 			this.loadingSlots = true
 
 			const startOfDay = new Date(this.selectedDate.getTime())
-			startOfDay.setUTCHours(0, 0, 0, 0)
-			const endOfDay = new Date(this.selectedDate.getTime())
-			endOfDay.setUTCHours(23, 59, 59, 999)
 
 			try {
 				this.slots = await findSlots(
 					this.config,
 					Math.round(startOfDay.getTime() / 1000),
-					Math.round(endOfDay.getTime() / 1000),
 					this.timeZone,
 				)
 			} catch (e) {
