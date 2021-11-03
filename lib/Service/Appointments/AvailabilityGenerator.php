@@ -53,5 +53,4 @@ class AvailabilityGenerator {
 			new Interval($start, $end),
 		];
 	}
-
 }

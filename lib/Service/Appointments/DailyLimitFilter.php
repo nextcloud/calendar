@@ -80,7 +80,7 @@ class DailyLimitFilter {
 		}
 
 		// 3. Filter out the slots that are on an unavailable day
-		return array_values(array_filter($slots, function(Interval $slot) use ($available): bool {
+		return array_values(array_filter($slots, function (Interval $slot) use ($available): bool {
 			$startOfDay = $slot->getStartAsObject()->setTime(0, 0, 0, 0);
 			$ts = $startOfDay->getTimestamp();
 			return $available[$ts];
