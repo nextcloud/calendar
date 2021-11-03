@@ -26,5 +26,6 @@ declare(strict_types=1);
 /** @var \OCP\IL10N $l */
 
 ?>
-
-<?php p($l->t('User not found')); ?>
+<div class="update">
+	<?php p($l->t('User not found')); ?>
+</div>
