@@ -97,6 +97,12 @@ class AppointmentConfig extends Entity implements JsonSerializable {
 	/** @var string|null */
 	protected $availability;
 
+	/** @var int|null */
+	protected $start;
+
+	/** @var int|null */
+	protected $end;
+
 	/** @var int */
 	protected $length;
 
@@ -110,7 +116,7 @@ class AppointmentConfig extends Entity implements JsonSerializable {
 	protected $followupDuration;
 
 	/** @var int */
-	protected $buffer;
+	protected $timeBeforeNextSlot;
 
 	/** @var int|null */
 	protected $dailyMax;
